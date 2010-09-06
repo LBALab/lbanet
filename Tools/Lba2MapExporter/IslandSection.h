@@ -27,7 +27,7 @@ struct OBLMinMaxBox
 
 struct CutGroup
 {
-	CutGroup(const std::string&, unsigned char, unsigned char, unsigned char, unsigned char);
+	CutGroup(const std::string&, unsigned char, unsigned char, unsigned char, unsigned char, bool transparent);
 	std::string					materialName;
 	//Ogre::SubMesh				*subMesh;
 	std::vector<unsigned short>	indices;
@@ -40,10 +40,12 @@ struct CutGroup
 	osg::DrawElementsUInt*		myprimitive;
 	osg::Vec4Array*				colors;
 	osg::Vec2Array*				myTexts;
+	std::vector<int>			myprimitivenumpoints;
 
 	int							currentIndex;
 
 	bool						usetexture;
+	bool						istransparent;
 
 };
 

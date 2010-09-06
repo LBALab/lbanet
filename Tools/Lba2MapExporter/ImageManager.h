@@ -40,7 +40,7 @@ public:
 
 	const colorrgba	&getColour(unsigned char ID);
 
-	void createTexture(int OffsetX, int OffsetY, int Width, int Height, 
+	bool createTexture(int OffsetX, int OffsetY, int Width, int Height, 
 						unsigned char *Data, const std::string &filename, bool AddWhite = false);
 
 

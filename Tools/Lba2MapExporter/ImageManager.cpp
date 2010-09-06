@@ -62,9 +62,11 @@ const colorrgba	&ImageManager::getColour(unsigned char ID)
 	return mPalette[ID];
 }
 
-void ImageManager::createTexture(int OffsetX, int OffsetY, int Width, int Height, 
+//return true if part of texture is transparent
+bool ImageManager::createTexture(int OffsetX, int OffsetY, int Width, int Height, 
 									unsigned char *Data, const std::string &filename, bool AddWhite)
 {
+	bool res = false;
 	int OffsetWidth = Width + ((AddWhite) ? 256 : 0);
 
 	//Create Texture
@@ -100,6 +102,9 @@ void ImageManager::createTexture(int OffsetX, int OffsetY, int Width, int Height
             pData[(iY * OffsetWidth + iX) * 4 + 1] = mRawPalette[palettePos * 3 + 1];
             pData[(iY * OffsetWidth + iX) * 4 + 2] = mRawPalette[palettePos * 3 + 2];
             pData[(iY * OffsetWidth + iX) * 4 + 3] = (palettePos) ? 255 : 0;
+
+			if(!palettePos)
+				res = true;
 		}
 	}
 	
@@ -113,7 +118,7 @@ void ImageManager::createTexture(int OffsetX, int OffsetY, int Width, int Height
 	ilDeleteImages(1, &imn);
 
 
-
+	return res;
 	//return Texture;
 }
 
