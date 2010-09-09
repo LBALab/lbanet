@@ -242,9 +242,11 @@ class LBA_LAYOUT
     public:
     int number_objects;
     vector<LBA_OBJECT> object;
+	int number_bricks;
 
 
     LBA_LAYOUT(VIRTUAL_FILE_READ_ONLY &pack,int n, bool LBA2)
+		: number_bricks(0)
     {
 		bool usespecialroof = false;
 		if(!LBA2)
@@ -269,6 +271,8 @@ class LBA_LAYOUT
 
             for(int j=0;j<obj.taille_X*obj.taille_Y*obj.taille_Z;j++)
             {
+				++number_bricks;
+
                 LBA_INFO_BRICK info;
                 info.object=i;
                 info.shape=entry->data[index_data++];
