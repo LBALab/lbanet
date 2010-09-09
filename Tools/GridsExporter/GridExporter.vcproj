@@ -40,6 +40,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/D _CRT_SECURE_NO_WARNINGS"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\dependencies\DevIL\include;..\..\dependencies\OSG\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
@@ -115,8 +116,10 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/D _CRT_SECURE_NO_WARNINGS"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
+				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories="..\..\dependencies\DevIL\include;..\..\dependencies\OSG\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
@@ -140,6 +143,7 @@
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\dependencies\DevIL\lib;..\..\dependencies\OSG\lib"
 				GenerateDebugInformation="true"
+				AssemblyDebug="0"
 				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"

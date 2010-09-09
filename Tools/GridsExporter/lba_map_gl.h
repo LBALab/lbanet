@@ -21,7 +21,6 @@ public :
     LBA_ENTRY(VIRTUAL_FILE_READ_ONLY &pack,int entry)
     {
         int i;
-        long file_offset;
         long compressed_size;
         int compression_type;
         int pack_offset=0;
@@ -254,23 +253,21 @@ class LBA_LAYOUT
 				usespecialroof = true;
 		}
 
-        int i,j;
         int index_data=0;
         LBA_ENTRY *entry=new LBA_ENTRY(pack,n);
-        number_objects=(entry->data[0]+entry->data[1]*256.+entry->data[2]*65536.+entry->data[3]*16777216.)/4;
+        number_objects=(entry->data[0]+entry->data[1]*256+entry->data[2]*65536+entry->data[3]*16777216)/4;
 
         object.reserve(number_objects);
-        for(i=0;i<number_objects;i++)//
+        for(int i=0;i<number_objects;i++)//
         {
+            index_data=(entry->data[i*4]+entry->data[i*4+1]*256+entry->data[i*4+2]*65536+entry->data[i*4+3]*16777216);
 
-            index_data=(entry->data[i*4]+entry->data[i*4+1]*256.+entry->data[i*4+2]*65536.+entry->data[i*4+3]*16777216.);
+            LBA_OBJECT obj(entry->data[index_data],entry->data[index_data+1],entry->data[index_data+2]);
 
-            LBA_OBJECT obj(entry->data[index_data++],entry->data[index_data++],entry->data[index_data++]);
-
-
+			index_data+=3;	
 
 
-            for(j=0;j<obj.taille_X*obj.taille_Y*obj.taille_Z;j++)
+            for(int j=0;j<obj.taille_X*obj.taille_Y*obj.taille_Z;j++)
             {
                 LBA_INFO_BRICK info;
                 info.object=i;
@@ -286,9 +283,7 @@ class LBA_LAYOUT
 						if(info.object == 186)
 						{
 							if(j==5 || j==7 || j == 9)
-							{
 								info.shape=5;
-							}
 
 							if(j==5)
 								info.index_brick = 1429;
@@ -307,9 +302,7 @@ class LBA_LAYOUT
 						if(info.object == 187)
 						{
 							if(j==5 || j==7 || j == 9)
-							{
 								info.shape=5;
-							}
 
 							if(j==5)
 								info.index_brick = 1435;
@@ -329,10 +322,7 @@ class LBA_LAYOUT
 						if(info.object == 188)
 						{
 							if(j==5 || j==7 || j == 9)
-							{
-								//std::cout<<j<<" "<<info.index_brick<<std::endl;
 								info.shape=5;
-							}
 
 							if(j==5)
 								info.index_brick = 1425;
@@ -419,10 +409,6 @@ class LBA_GRID
 
     LBA_GRID(VIRTUAL_FILE_READ_ONLY &pack_grid,VIRTUAL_FILE_READ_ONLY &pack_layout,int n,int LBA2)
     {
-
-
-        int i,j,k,l;
-
         int index_data=0;
         unsigned char flag,number_sub_colomn;
         int height_subcolumn,offset_column;
@@ -433,106 +419,122 @@ class LBA_GRID
 
 
         layout=new LBA_LAYOUT(pack_layout,n, LBA2 == 1);
+        info_brick=new LBA_INFO_BRICK **[64];
 
-/*
-        for(i=0;i<64;i++)
-        for(j=0;j<64;j++)
-        {*/
-            info_brick=new LBA_INFO_BRICK **[64];
-            for(i=0;i<64;i++)
-            info_brick[i]=new LBA_INFO_BRICK *[64];
-            for(i=0;i<64;i++)
-            for(j=0;j<64;j++)
-            info_brick[i][j]=new LBA_INFO_BRICK [25];
-            for(i=0;i<64;i++)
-            for(j=0;j<64;j++)
-            for(k=0;k<25;k++)
-            {
-                info_brick[i][j][k].index_brick=-1;
-                info_brick[i][j][k].material=0xF0;
-                info_brick[i][j][k].shape=0;
-            }
-      //  }
+        for(int i=0;i<64;i++)
+			info_brick[i]=new LBA_INFO_BRICK *[64];
 
+        for(int i=0;i<64;i++)
+		{
+			for(int j=0;j<64;j++)
+				info_brick[i][j]=new LBA_INFO_BRICK [25];
+		}
 
-        for(j=0;j<64;j++)
-        for(i=0;i<64;i++)
-        {
-            if(LBA2)index_data=entry->data[2*(j*64+i)+34]+entry->data[2*(j*64+i)+1+34]*256+34;///////////////LBA2 +34 +34 +34
-            else index_data=entry->data[2*(j*64+i)]+entry->data[2*(j*64+i)+1]*256;
-            number_sub_colomn=entry->data[index_data++];
+        for(int i=0;i<64;i++)
+		{
+			for(int j=0;j<64;j++)
+			{
+				for(int k=0;k<25;k++)
+				{
+					info_brick[i][j][k].index_brick=-1;
+					info_brick[i][j][k].material=0xF0;
+					info_brick[i][j][k].shape=0;
+				}
+			}
+		}
 
 
 
-            offset_column=0;
-            for(k=0;k<number_sub_colomn;k++)
-            {
-                flag=entry->data[index_data]>>6;
-                height_subcolumn=entry->data[index_data]%0x20+1;
-                index_data++;
+        for(int j=0;j<64;j++)
+		{
+			for(int i=0;i<64;i++)
+			{
+				if(LBA2)
+					index_data=entry->data[2*(j*64+i)+34]+entry->data[2*(j*64+i)+1+34]*256+34;///////////////LBA2 +34 +34 +34
+				else 
+					index_data=entry->data[2*(j*64+i)]+entry->data[2*(j*64+i)+1]*256;
 
-                if(flag==0)
-                {
-                    offset_column+=height_subcolumn;
+				number_sub_colomn=entry->data[index_data++];
 
-                }
-                if(flag==1)
-                {
-                    for(l=0;l<height_subcolumn;l++)
-                    {
-                        if(entry->data[index_data]==0)
-                        {
-                            info_brick[i][j][offset_column].index_brick=-1;
-                            info_brick[i][j][offset_column].material=0xF0;
-                            info_brick[i][j][offset_column].shape=0;
-                        }
-                        else
-                        {
-                            info_brick[i][j][offset_column]=layout->object[entry->data[index_data]-1].info_brick[entry->data[index_data+1]];
-                        }
 
-                        offset_column++;
-                        index_data+=2;
-                    }
-                }
-                if(flag==2)
-                {
-                    for(l=0;l<height_subcolumn;l++)
-                    {
-                        if(entry->data[index_data]==0)
-                        {
-                            info_brick[i][j][offset_column].index_brick=-1;
-                            info_brick[i][j][offset_column].material=0xF0;
-                            info_brick[i][j][offset_column].shape=0;
-                        }
-                        else
-                        {
-                            info_brick[i][j][offset_column]=layout->object[entry->data[index_data]-1].info_brick[entry->data[index_data+1]];
-                        }
-                        offset_column++;
-                    }
-                    index_data+=2;
-                }
-            }
-        }
+
+				offset_column=0;
+				for(int k=0;k<number_sub_colomn;k++)
+				{
+					flag=entry->data[index_data]>>6;
+					height_subcolumn=entry->data[index_data]%0x20+1;
+					index_data++;
+
+					if(flag==0)
+					{
+						offset_column+=height_subcolumn;
+					}
+
+					if(flag==1)
+					{
+						for(int l=0;l<height_subcolumn;l++)
+						{
+							if(entry->data[index_data]==0)
+							{
+								info_brick[i][j][offset_column].index_brick=-1;
+								info_brick[i][j][offset_column].material=0xF0;
+								info_brick[i][j][offset_column].shape=0;
+							}
+							else
+							{
+								int index1 = entry->data[index_data]-1;
+								int index2 = entry->data[index_data+1];
+								info_brick[i][j][offset_column]=layout->object[index1].info_brick[index2];
+							}
+
+							offset_column++;
+							index_data+=2;
+						}
+					}
+
+					if(flag==2)
+					{
+						for(int l=0;l<height_subcolumn;l++)
+						{
+							if(entry->data[index_data]==0)
+							{
+								info_brick[i][j][offset_column].index_brick=-1;
+								info_brick[i][j][offset_column].material=0xF0;
+								info_brick[i][j][offset_column].shape=0;
+							}
+							else
+							{
+								info_brick[i][j][offset_column]=layout->object[entry->data[index_data]-1].info_brick[entry->data[index_data+1]];
+							}
+							offset_column++;
+						}
+						index_data+=2;
+					}
+
+				}
+			}
+		}
 
 
 
         delete entry;
 
     }
+
     ~LBA_GRID()
     {
-            int i,j,k;
-            for(i=0;i<64;i++)
-            for(j=0;j<64;j++)
-            delete info_brick[i][j];
-            for(i=0;i<64;i++)
-            delete [] info_brick[i];
+            for(int i=0;i<64;i++)
+				for(int j=0;j<64;j++)
+					delete info_brick[i][j];
+
+            for(int i=0;i<64;i++)
+				delete [] info_brick[i];
+
             delete [] info_brick;
             delete layout;
     }
 };
+
 
 class LBA_MAP
 {
@@ -571,7 +573,7 @@ else{
         grid=new LBA_GRID(*pack_grid,*pack_layout,n,LBA2);
 
 
-        printf(">%d ",number_brick);
+        printf(" >%d ",number_brick);
 
         for(i=0;i<64;i++)
         for(j=0;j<64;j++)
@@ -624,16 +626,12 @@ else{
     }
     ~LBA_MAP()
     {
-        int i;
         delete palet;
         delete grid;
- /*       for(i=0;i<number_brick;i++)
-        delete brick[i];
-        delete brick;*/
     }
 };
 
-typedef struct LBA_SHARED_BRICK
+struct LBA_SHARED_BRICK
 {
     int id;
     int dx;
@@ -641,7 +639,7 @@ typedef struct LBA_SHARED_BRICK
 };
 
 
-typedef struct LBA_FACE
+struct LBA_FACE
 {
     double v[9];
     double vt[6];
@@ -669,6 +667,10 @@ class LBA_MAP_GL
     vector<int> nb_faces;
 
 	void ExportMapOSG();
+	int GetNumberBricks()
+	{
+		return lba_map->number_brick;
+	}
 
     ~LBA_MAP_GL()
     {

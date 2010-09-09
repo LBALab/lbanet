@@ -86,218 +86,183 @@ void LBA_MAP_GL::face(double X,double Y,double Z,double texture_x,double texture
     g[0]=(vertex[a][0]+vertex[b][0]+vertex[c][0])/3.;
     g[1]=(vertex[a][1]+vertex[b][1]+vertex[c][1])/3.;
     g[2]=(vertex[a][2]+vertex[b][2]+vertex[c][2])/3.;
-double f=0.5;
+	
+	double f=0.5;
 
+	LBA_FACE face;
+	face.v[0]=vertex[a][0];
+	face.v[1]=vertex[a][1];
+	face.v[2]=vertex[a][2];
+	face.v[3]=vertex[b][0];
+	face.v[4]=vertex[b][1];
+	face.v[5]=vertex[b][2];
+	face.v[6]=vertex[c][0];
+	face.v[7]=vertex[c][1];
+	face.v[8]=vertex[c][2];
+	
+	if(hidden)
+	{
+		face.vt[0]=0.;
+		face.vt[1]=0.;
+		face.vt[2]=0.;
+		face.vt[3]=0.;
+		face.vt[4]=0.;
+		face.vt[5]=0.;
+	}
+	else
+	{
+		face.vt[0]=(texture_x+uv[a][0])/2048.;
+		face.vt[1]=(texture_y+uv[a][1])/2048.;
+		face.vt[2]=(texture_x+uv[b][0])/2048.;
+		face.vt[3]=(texture_y+uv[b][1])/2048.;
+		face.vt[4]=(texture_x+uv[c][0])/2048.;
+		face.vt[5]=(texture_y+uv[c][1])/2048.;
+	}
 
-LBA_FACE face;
-face.v[0]=vertex[a][0];
-face.v[1]=vertex[a][1];
-face.v[2]=vertex[a][2];
-face.v[3]=vertex[b][0];
-face.v[4]=vertex[b][1];
-face.v[5]=vertex[b][2];
-face.v[6]=vertex[c][0];
-face.v[7]=vertex[c][1];
-face.v[8]=vertex[c][2];
-if(hidden)
-{
-face.vt[0]=0.;
-face.vt[1]=0.;
-face.vt[2]=0.;
-face.vt[3]=0.;
-face.vt[4]=0.;
-face.vt[5]=0.;
-
-}
-else
-{
-face.vt[0]=(texture_x+uv[a][0])/2048.;
-face.vt[1]=(texture_y+uv[a][1])/2048.;
-face.vt[2]=(texture_x+uv[b][0])/2048.;
-face.vt[3]=(texture_y+uv[b][1])/2048.;
-face.vt[4]=(texture_x+uv[c][0])/2048.;
-face.vt[5]=(texture_y+uv[c][1])/2048.;
-}
-face.vn[0]=n[0]/l;
-face.vn[1]=n[1]/l;
-face.vn[2]=n[2]/l;
-lba_face.push_back(face);
-
-//glNormal3d(face.vn[0],face.vn[1],face.vn[2]);
-//glTexCoord2d(face.vt[0],face.vt[1]);
-//glVertex3d(face.v[0],face.v[1],face.v[2]);
-//
-//glNormal3d(face.vn[0],face.vn[1],face.vn[2]);
-//glTexCoord2d(face.vt[2],face.vt[3]);
-//glVertex3d(face.v[3],face.v[4],face.v[5]);
-//
-//glNormal3d(face.vn[0],face.vn[1],face.vn[2]);
-//glTexCoord2d(face.vt[4],face.vt[5]);
-//glVertex3d(face.v[6],face.v[7],face.v[8]);
-
+	face.vn[0]=n[0]/l;
+	face.vn[1]=n[1]/l;
+	face.vn[2]=n[2]/l;
+	lba_face.push_back(face);
 }
 
 
 
 LBA_MAP_GL::LBA_MAP_GL(int NUM_MAP,int LBA2)
-    {
-		nb_faces.clear();
-
-		mapnumber = NUM_MAP;
-		islba2 = LBA2;
-
-        int i,j,k;
-        int offset_x,offset_y;
-        lba_map=new LBA_MAP(NUM_MAP,LBA2);
-        texture_map=new unsigned char[2048*2048*4];
-        LBA_SHARED_BRICK *shared_brick1= new LBA_SHARED_BRICK[lba_map->number_brick];
-        LBA_SHARED_BRICK *shared_brick2= new LBA_SHARED_BRICK[lba_map->number_brick];
-
-//        shared_brick1.reserve(17903);
- //       shared_brick2.reserve(17903);
-        for(int i=0;i<lba_map->number_brick;i++)
-          shared_brick1[i].id=-1,shared_brick1[i].dx=0,shared_brick1[i].dz=0;
-        for(int i=0;i<lba_map->number_brick;i++)
-          shared_brick2[i].id=-1,shared_brick2[i].dx=0,shared_brick2[i].dz=0;
-
-
-
-for(int Z=0;Z<64;Z++)
-for(int X=0;X<64;X++)
-for(int Y=0;Y<25;Y++)
-if(lba_map->brick_list[lba_map->grid->info_brick[X][Z][Y].index_brick]!=126)//LBA2 temple of bu 2nd scene : some inivsible walls have same brick index (127) than a shaped brick (layout 183 object 52 brick 1)
 {
-//    if(lba_map->grid->info_brick[X][Z][Y].shape==3)printf("%d %d %d %d\n",X,Y,Z,lba_map->brick_list[lba_map->grid->info_brick[X][Z][Y].index_brick]);
-    if(lba_map->grid->info_brick[X][Z][Y].index_brick!=-1)
+	nb_faces.clear();
+
+	mapnumber = NUM_MAP;
+	islba2 = LBA2;
+
+    int i,j,k;
+    int offset_x,offset_y;
+    lba_map=new LBA_MAP(NUM_MAP,LBA2);
+    texture_map=new unsigned char[2048*2048*4];
+    LBA_SHARED_BRICK *shared_brick1= new LBA_SHARED_BRICK[lba_map->number_brick];
+    LBA_SHARED_BRICK *shared_brick2= new LBA_SHARED_BRICK[lba_map->number_brick];
+
+
+    for(int i=0;i<lba_map->number_brick;i++)
+      shared_brick1[i].id=-1,shared_brick1[i].dx=0,shared_brick1[i].dz=0;
+    for(int i=0;i<lba_map->number_brick;i++)
+      shared_brick2[i].id=-1,shared_brick2[i].dx=0,shared_brick2[i].dz=0;
+
+
+
+	for(int Z=0;Z<64;Z++)
+	for(int X=0;X<64;X++)
+	for(int Y=0;Y<25;Y++)
+	if(lba_map->brick_list[lba_map->grid->info_brick[X][Z][Y].index_brick]!=126)//LBA2 temple of bu 2nd scene : some inivsible walls have same brick index (127) than a shaped brick (layout 183 object 52 brick 1)
+	{
+	//    if(lba_map->grid->info_brick[X][Z][Y].shape==3)printf("%d %d %d %d\n",X,Y,Z,lba_map->brick_list[lba_map->grid->info_brick[X][Z][Y].index_brick]);
+		if(lba_map->grid->info_brick[X][Z][Y].index_brick!=-1)
+		{
+			if(
+			X<63&&
+			lba_map->grid->info_brick[X+1][Z][Y].shape!=1&&
+			lba_map->grid->info_brick[X+1][Z][Y].index_brick!=-1&&
+			(lba_map->grid->info_brick[X][Z][Y].shape==4||
+			 lba_map->grid->info_brick[X][Z][Y].shape==9||
+			 lba_map->grid->info_brick[X][Z][Y].shape==12||
+			 lba_map->grid->info_brick[X][Z][Y].shape==3)&&
+			lba_map->grid->info_brick[X][Z][Y].object==lba_map->grid->info_brick[X+1][Z][Y].object)
+			{
+				shared_brick1[lba_map->grid->info_brick[X][Z][Y].index_brick].id=lba_map->grid->info_brick[X+1][Z][Y].index_brick;
+				shared_brick1[lba_map->grid->info_brick[X][Z][Y].index_brick].dx=1;
+				shared_brick1[lba_map->grid->info_brick[X][Z][Y].index_brick].dz=0;
+			}
+		   if(
+			  Z<63&&
+			   lba_map->grid->info_brick[X][Z+1][Y].shape!=1&&
+			   lba_map->grid->info_brick[X][Z+1][Y].index_brick!=-1&&
+			  (lba_map->grid->info_brick[X][Z][Y].shape==5||
+			   lba_map->grid->info_brick[X][Z][Y].shape==7||
+			   lba_map->grid->info_brick[X][Z][Y].shape==2||
+			   lba_map->grid->info_brick[X][Z][Y].shape==13||
+			   lba_map->grid->info_brick[X][Z][Y].shape==10)&&//&&lba_map->grid->info_brick[X][Z][Y].object==lba_map->grid->info_brick[X][Z+1][Y].object)
+			  lba_map->grid->info_brick[X][Z][Y].object==lba_map->grid->info_brick[X][Z+1][Y].object)
+			{
+				shared_brick1[lba_map->grid->info_brick[X][Z][Y].index_brick].id=lba_map->grid->info_brick[X][Z+1][Y].index_brick;
+				shared_brick1[lba_map->grid->info_brick[X][Z][Y].index_brick].dx=0;
+				shared_brick1[lba_map->grid->info_brick[X][Z][Y].index_brick].dz=1;
+			}
+			if(
+			X<63&&
+			lba_map->grid->info_brick[X+1][Z][Y].shape!=1&&
+			lba_map->grid->info_brick[X+1][Z][Y].index_brick!=-1&&
+		   (lba_map->grid->info_brick[X][Z][Y].shape==7||
+			lba_map->grid->info_brick[X][Z][Y].shape==10)&&
+		   lba_map->grid->info_brick[X][Z][Y].object==lba_map->grid->info_brick[X+1][Z][Y].object)
+			{
+				shared_brick2[lba_map->grid->info_brick[X][Z][Y].index_brick].id=lba_map->grid->info_brick[X+1][Z][Y].index_brick;
+				shared_brick2[lba_map->grid->info_brick[X][Z][Y].index_brick].dx=1;
+				shared_brick2[lba_map->grid->info_brick[X][Z][Y].index_brick].dz=0;
+			}
+
+
+
+		}
+	}
+
+
+
+    for(i=0;i<lba_map->number_brick;i++)
     {
-        if(
-        X<63&&
-        lba_map->grid->info_brick[X+1][Z][Y].shape!=1&&
-        lba_map->grid->info_brick[X+1][Z][Y].index_brick!=-1&&
-        (lba_map->grid->info_brick[X][Z][Y].shape==4||
-         lba_map->grid->info_brick[X][Z][Y].shape==9||
-         lba_map->grid->info_brick[X][Z][Y].shape==12||
-         lba_map->grid->info_brick[X][Z][Y].shape==3)&&
-        lba_map->grid->info_brick[X][Z][Y].object==lba_map->grid->info_brick[X+1][Z][Y].object)
+        offset_x=(i%42);offset_x*=48;
+        offset_y=(i/42);offset_y*=38;
+        for(j=0;j<38;j++)
+        for(k=0;k<48;k++)
         {
-            shared_brick1[lba_map->grid->info_brick[X][Z][Y].index_brick].id=lba_map->grid->info_brick[X+1][Z][Y].index_brick;
-            shared_brick1[lba_map->grid->info_brick[X][Z][Y].index_brick].dx=1;
-            shared_brick1[lba_map->grid->info_brick[X][Z][Y].index_brick].dz=0;
-        }
-       if(
-          Z<63&&
-           lba_map->grid->info_brick[X][Z+1][Y].shape!=1&&
-           lba_map->grid->info_brick[X][Z+1][Y].index_brick!=-1&&
-          (lba_map->grid->info_brick[X][Z][Y].shape==5||
-           lba_map->grid->info_brick[X][Z][Y].shape==7||
-           lba_map->grid->info_brick[X][Z][Y].shape==2||
-           lba_map->grid->info_brick[X][Z][Y].shape==13||
-           lba_map->grid->info_brick[X][Z][Y].shape==10)&&//&&lba_map->grid->info_brick[X][Z][Y].object==lba_map->grid->info_brick[X][Z+1][Y].object)
-          lba_map->grid->info_brick[X][Z][Y].object==lba_map->grid->info_brick[X][Z+1][Y].object)
-        {
-            shared_brick1[lba_map->grid->info_brick[X][Z][Y].index_brick].id=lba_map->grid->info_brick[X][Z+1][Y].index_brick;
-            shared_brick1[lba_map->grid->info_brick[X][Z][Y].index_brick].dx=0;
-            shared_brick1[lba_map->grid->info_brick[X][Z][Y].index_brick].dz=1;
-        }
-        if(
-        X<63&&
-        lba_map->grid->info_brick[X+1][Z][Y].shape!=1&&
-        lba_map->grid->info_brick[X+1][Z][Y].index_brick!=-1&&
-       (lba_map->grid->info_brick[X][Z][Y].shape==7||
-        lba_map->grid->info_brick[X][Z][Y].shape==10)&&
-       lba_map->grid->info_brick[X][Z][Y].object==lba_map->grid->info_brick[X+1][Z][Y].object)
-        {
-            shared_brick2[lba_map->grid->info_brick[X][Z][Y].index_brick].id=lba_map->grid->info_brick[X+1][Z][Y].index_brick;
-            shared_brick2[lba_map->grid->info_brick[X][Z][Y].index_brick].dx=1;
-            shared_brick2[lba_map->grid->info_brick[X][Z][Y].index_brick].dz=0;
+          texture_map[((offset_y+j)*2048+offset_x+k)*4+0]=lba_map->palet->couleur[lba_map->brick[i].pixel[j][k]][0];
+          texture_map[((offset_y+j)*2048+offset_x+k)*4+1]=lba_map->palet->couleur[lba_map->brick[i].pixel[j][k]][1];
+          texture_map[((offset_y+j)*2048+offset_x+k)*4+2]=lba_map->palet->couleur[lba_map->brick[i].pixel[j][k]][2];
+          if(lba_map->brick[i].pixel[j][k]==0)
+          texture_map[((offset_y+j)*2048+offset_x+k)*4+3]=0;
+          else
+          texture_map[((offset_y+j)*2048+offset_x+k)*4+3]=255;
         }
 
-
-
-    }
-}
-
-
-
-        for(i=0;i<lba_map->number_brick;i++)
+        if(shared_brick1[i].id!=-1)
         {
-            offset_x=(i%42);offset_x*=48;
-            offset_y=(i/42);offset_y*=38;
             for(j=0;j<38;j++)
             for(k=0;k<48;k++)
             {
-              texture_map[((offset_y+j)*2048+offset_x+k)*4+0]=lba_map->palet->couleur[lba_map->brick[i].pixel[j][k]][0];
-              texture_map[((offset_y+j)*2048+offset_x+k)*4+1]=lba_map->palet->couleur[lba_map->brick[i].pixel[j][k]][1];
-              texture_map[((offset_y+j)*2048+offset_x+k)*4+2]=lba_map->palet->couleur[lba_map->brick[i].pixel[j][k]][2];
-              if(lba_map->brick[i].pixel[j][k]==0)
-              texture_map[((offset_y+j)*2048+offset_x+k)*4+3]=0;
-              else
-              texture_map[((offset_y+j)*2048+offset_x+k)*4+3]=255;
-            }
-
-            if(shared_brick1[i].id!=-1)
-            {
-                for(j=0;j<38;j++)
-                for(k=0;k<48;k++)
+                int k2=k-(shared_brick1[i].dx-shared_brick1[i].dz)*24;
+                int j2=j-(shared_brick1[i].dx+shared_brick1[i].dz)*12;
+                if(j2>=0&&j2<38&&k2>=0&&k2<48&&lba_map->brick[shared_brick1[i].id].pixel[j2][k2]!=0)
                 {
-                    int k2=k-(shared_brick1[i].dx-shared_brick1[i].dz)*24;
-                    int j2=j-(shared_brick1[i].dx+shared_brick1[i].dz)*12;
-                    if(j2>=0&&j2<38&&k2>=0&&k2<48&&lba_map->brick[shared_brick1[i].id].pixel[j2][k2]!=0)
-                    {
 
-                        texture_map[((offset_y+j)*2048+offset_x+k)*4+0]=lba_map->palet->couleur[lba_map->brick[shared_brick1[i].id].pixel[j2][k2]][0];
-                        texture_map[((offset_y+j)*2048+offset_x+k)*4+1]=lba_map->palet->couleur[lba_map->brick[shared_brick1[i].id].pixel[j2][k2]][1];
-                        texture_map[((offset_y+j)*2048+offset_x+k)*4+2]=lba_map->palet->couleur[lba_map->brick[shared_brick1[i].id].pixel[j2][k2]][2];
-                        texture_map[((offset_y+j)*2048+offset_x+k)*4+3]=255;
-                    }
-                }
-            }
-            if(shared_brick2[i].id!=-1)
-            {
-                for(j=0;j<38;j++)
-                for(k=0;k<48;k++)
-                {
-                    int k2=k-(shared_brick2[i].dx-shared_brick2[i].dz)*24;
-                    int j2=j-(shared_brick2[i].dx+shared_brick2[i].dz)*12;
-                    if(j2>=0&&j2<38&&k2>=0&&k2<48&&lba_map->brick[shared_brick2[i].id].pixel[j2][k2]!=0)
-                    {
-
-                        texture_map[((offset_y+j)*2048+offset_x+k)*4+0]=lba_map->palet->couleur[lba_map->brick[shared_brick2[i].id].pixel[j2][k2]][0];
-                        texture_map[((offset_y+j)*2048+offset_x+k)*4+1]=lba_map->palet->couleur[lba_map->brick[shared_brick2[i].id].pixel[j2][k2]][1];
-                        texture_map[((offset_y+j)*2048+offset_x+k)*4+2]=lba_map->palet->couleur[lba_map->brick[shared_brick2[i].id].pixel[j2][k2]][2];
-                        texture_map[((offset_y+j)*2048+offset_x+k)*4+3]=255;
-                    }
+                    texture_map[((offset_y+j)*2048+offset_x+k)*4+0]=lba_map->palet->couleur[lba_map->brick[shared_brick1[i].id].pixel[j2][k2]][0];
+                    texture_map[((offset_y+j)*2048+offset_x+k)*4+1]=lba_map->palet->couleur[lba_map->brick[shared_brick1[i].id].pixel[j2][k2]][1];
+                    texture_map[((offset_y+j)*2048+offset_x+k)*4+2]=lba_map->palet->couleur[lba_map->brick[shared_brick1[i].id].pixel[j2][k2]][2];
+                    texture_map[((offset_y+j)*2048+offset_x+k)*4+3]=255;
                 }
             }
         }
+        if(shared_brick2[i].id!=-1)
+        {
+            for(j=0;j<38;j++)
+            for(k=0;k<48;k++)
+            {
+                int k2=k-(shared_brick2[i].dx-shared_brick2[i].dz)*24;
+                int j2=j-(shared_brick2[i].dx+shared_brick2[i].dz)*12;
+                if(j2>=0&&j2<38&&k2>=0&&k2<48&&lba_map->brick[shared_brick2[i].id].pixel[j2][k2]!=0)
+                {
+
+                    texture_map[((offset_y+j)*2048+offset_x+k)*4+0]=lba_map->palet->couleur[lba_map->brick[shared_brick2[i].id].pixel[j2][k2]][0];
+                    texture_map[((offset_y+j)*2048+offset_x+k)*4+1]=lba_map->palet->couleur[lba_map->brick[shared_brick2[i].id].pixel[j2][k2]][1];
+                    texture_map[((offset_y+j)*2048+offset_x+k)*4+2]=lba_map->palet->couleur[lba_map->brick[shared_brick2[i].id].pixel[j2][k2]][2];
+                    texture_map[((offset_y+j)*2048+offset_x+k)*4+3]=255;
+                }
+            }
+        }
+    }
 
 
-
-
-
-
-       //glGenTextures(1, &texture_name);
-
-       //glEnable(GL_TEXTURE_2D);
-       //glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-       //    glColor3f(1,1,1);
-       // glBindTexture(GL_TEXTURE_2D, texture_name);
-
-       //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-       //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-       //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
-       //                GL_NEAREST);
-       //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-       //                GL_NEAREST);
-       //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-       //                GL_NEAREST);
-       texture_map[0]=0;
-       texture_map[1]=0;
-       texture_map[2]=0;
-       texture_map[3]=255;
-       //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 2048,
-       //             2048, 0, GL_RGBA, GL_UNSIGNED_BYTE,
-       //             texture_map);
+   texture_map[0]=0;
+   texture_map[1]=0;
+   texture_map[2]=0;
+   texture_map[3]=255;
 
 
 	std::stringstream filename;
@@ -323,7 +288,6 @@ if(lba_map->brick_list[lba_map->grid->info_brick[X][Z][Y].index_brick]!=126)//LB
 
     int texture_x,texture_y;
 int X,Y,Z;
-int x,y;
 
       double h=0.5;
 
@@ -483,7 +447,7 @@ if(lba_map->grid->info_brick[X][Z][Y].index_brick!=-1)
 
 	//glEndList();
 
-    printf("total briques lba_map : %d",cmpt);
+    printf(" total briques lba_map : %d \n",cmpt);
 
     }
 
@@ -591,11 +555,11 @@ void LBA_MAP_GL::ExportMapOSG()
 	// Assign the texture to the image we read from file: 
 	KLN89FaceTexture->setImage(klnFace);
 
-	KLN89FaceTexture->setWrap(osg::Texture::WrapParameter::WRAP_S, osg::Texture::WrapMode::CLAMP_TO_EDGE);
-	KLN89FaceTexture->setWrap(osg::Texture::WrapParameter::WRAP_T, osg::Texture::WrapMode::CLAMP_TO_EDGE);
+	KLN89FaceTexture->setWrap(osg::Texture::WRAP_S, osg::Texture::CLAMP_TO_EDGE);
+	KLN89FaceTexture->setWrap(osg::Texture::WRAP_T, osg::Texture::CLAMP_TO_EDGE);
 
-	KLN89FaceTexture->setFilter(osg::Texture::FilterParameter::MIN_FILTER, osg::Texture::FilterMode::LINEAR);
-	KLN89FaceTexture->setFilter(osg::Texture::FilterParameter::MAG_FILTER, osg::Texture::FilterMode::LINEAR);
+	KLN89FaceTexture->setFilter(osg::Texture::MIN_FILTER, osg::Texture::LINEAR);
+	KLN89FaceTexture->setFilter(osg::Texture::MAG_FILTER, osg::Texture::LINEAR);
 	KLN89FaceTexture->setUseHardwareMipMapGeneration(false);
 	KLN89FaceTexture->setResizeNonPowerOfTwoHint(false);
 
