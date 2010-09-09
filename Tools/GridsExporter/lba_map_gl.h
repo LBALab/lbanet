@@ -245,8 +245,14 @@ class LBA_LAYOUT
     vector<LBA_OBJECT> object;
 
 
-    LBA_LAYOUT(VIRTUAL_FILE_READ_ONLY &pack,int n)
+    LBA_LAYOUT(VIRTUAL_FILE_READ_ONLY &pack,int n, bool LBA2)
     {
+		bool usespecialroof = false;
+		if(!LBA2)
+		{
+			if(n == 12 || n == 42 || n == 44)
+				usespecialroof = true;
+		}
 
         int i,j;
         int index_data=0;
@@ -271,8 +277,126 @@ class LBA_LAYOUT
                 info.shape=entry->data[index_data++];
                 info.material=entry->data[index_data++];
                 info.index_brick=entry->data[index_data]+(entry->data[index_data+1])*256-1;
+
+
+				// solve the issue in proxima city with the roof not being slope shapes
+				if(usespecialroof)
+				{
+					{
+						if(info.object == 186)
+						{
+							if(j==5 || j==7 || j == 9)
+							{
+								info.shape=5;
+							}
+
+							if(j==5)
+								info.index_brick = 1429;
+							if(j==7)
+								info.index_brick = 1427;
+							if(j==9)
+								info.index_brick = 1426;
+
+							if(j==0 || j==1 || j==2 || j==3 || j==4 || j == 6)
+								info.shape=1;
+
+							if(j==8 || j==10 || j==11)
+								info.shape=0;
+						}
+
+						if(info.object == 187)
+						{
+							if(j==5 || j==7 || j == 9)
+							{
+								info.shape=5;
+							}
+
+							if(j==5)
+								info.index_brick = 1435;
+							if(j==7)
+								info.index_brick = 1433;
+							if(j==9)
+								info.index_brick = 1431;
+
+
+							if(j==0 || j==1 || j==2 || j==3 || j==4 || j == 6)
+								info.shape=1;
+
+							if(j==8 || j==10 || j==11)
+								info.shape=0;
+						}
+
+						if(info.object == 188)
+						{
+							if(j==5 || j==7 || j == 9)
+							{
+								//std::cout<<j<<" "<<info.index_brick<<std::endl;
+								info.shape=5;
+							}
+
+							if(j==5)
+								info.index_brick = 1425;
+							if(j==7)
+								info.index_brick = 1423;
+							if(j==9)
+								info.index_brick = 1422;
+
+							if(j==0 || j==1 || j==2 || j==3 || j==4 || j == 6)
+								info.shape=1;
+
+							if(j==8 || j==10 || j==11)
+								info.shape=0;
+						}
+
+
+
+						if(info.object == 189)
+						{
+							if(j==3 || j==7 || j == 11)
+								info.shape=2;
+
+							if(j==3)
+								info.index_brick = 3663;
+							if(j==7)
+								info.index_brick = 1439;
+							if(j==11)
+								info.index_brick = 1437;
+
+							if(j==0 || j==1 || j==2 || j==4 || j==5 || j == 8)
+								info.shape=1;
+
+							if(j==6 || j==9 || j==10)
+								info.shape=0;
+						}
+						if(info.object == 190)
+						{
+							if(j==0 || j==4 || j == 8)
+								info.shape=2;
+
+							if(j==0)
+								info.index_brick = 1442;
+							if(j==4)
+								info.index_brick = 1441;
+							if(j==8)
+								info.index_brick = 1440;
+
+
+							if(/*j==0 || */j==1 || j==2 || /*j==4 || */j==5 /*|| j == 8*/)
+								info.shape=1;
+
+							if(j==6 || j==9 || j==10 || j==3 || j==7 || j==11)
+								info.shape=0;
+						}
+					}
+				}
+
+
+
                 obj.info_brick.push_back(info);
                 index_data+=2;
+
+
+
             }
             object.push_back(obj);
         }
@@ -304,8 +428,11 @@ class LBA_GRID
         int height_subcolumn,offset_column;
         LBA_ENTRY *entry=new LBA_ENTRY(pack_grid,n);
 
-        if(LBA2)n=entry->data[0]+180-1;
-        layout=new LBA_LAYOUT(pack_layout,n);
+        if(LBA2)
+			n=entry->data[0]+180-1;
+
+
+        layout=new LBA_LAYOUT(pack_layout,n, LBA2 == 1);
 
 /*
         for(i=0;i<64;i++)
