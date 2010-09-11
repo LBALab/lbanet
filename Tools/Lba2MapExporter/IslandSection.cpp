@@ -32,20 +32,22 @@ IslandSection::IslandSection(const std::string& islandName, HQRReader *ILE, HQRR
 	//...
 }
 
-osg::ref_ptr<osg::Geode>	IslandSection::load(std::set<std::pair<unsigned short, unsigned short> > & texturesinfos)
+osg::ref_ptr<osg::Geode>	IslandSection::load(std::set<std::pair<unsigned short, unsigned short> > & texturesinfos,
+									PhysicalInfo & physinfo)
 {
 	//Adjust node into island position relative to the entire island
 	//mNode->setPosition(((mXpos - 7) * 64) / 32.0f, 0, (((16 - mYpos) - 7) * 64) / 32.0f);
 	//mNode->setPosition(mXpos * 2.0f, 0, -mYpos * 2.0f);
 	
 	//Heightmapped terrain
-	return loadGround(texturesinfos);	
+	return loadGround(texturesinfos, physinfo);	
 
 	//Object Loading
 	//loadObjects();
 }
 
-osg::ref_ptr<osg::Geode>	IslandSection::loadGround(std::set<std::pair<unsigned short, unsigned short> > & texturesinfos)
+osg::ref_ptr<osg::Geode>	IslandSection::loadGround(std::set<std::pair<unsigned short, unsigned short> > & texturesinfos,
+															PhysicalInfo & physinfo)
 {
 	osg::Vec3Array* myVerticesPoly = new osg::Vec3Array;
 	osg::DrawElementsUInt* myprimitive = new osg::DrawElementsUInt(osg::PrimitiveSet::TRIANGLES, 0);
@@ -69,6 +71,15 @@ osg::ref_ptr<osg::Geode>	IslandSection::loadGround(std::set<std::pair<unsigned s
 	std::vector<float> vertices;
 	vertices.reserve(9 * 64 * 64 * 4 * 2);
 
+
+	for(int cc=0; cc<65; ++cc)
+	{
+		for(int cc2=0; cc2<65; ++cc2)
+		{
+			physinfo.physmap[(mXpos*65)+cc][(mYpos*65)+cc2] = heightmap[cc][cc2];
+		}
+	}
+
 	/* Preparing texture info array */
 	GroundTextureInfo *textureInfo;
 	mILE->LoadEntry(3 + mIndex * 6 + 4);
@@ -86,6 +97,87 @@ osg::ref_ptr<osg::Geode>	IslandSection::loadGround(std::set<std::pair<unsigned s
 	unsigned char intensity[65][65];
 	mILE->LoadEntry(3 + mIndex * 6 + 6);
 	mILE->Read(intensity, 65 * 65);
+
+	/* getting material */
+	unsigned char material[65][65];
+	mILE->LoadEntry(3 + mIndex * 6 + 3);
+	mILE->Read(material, 65 * 65);
+
+	for(int cc=0; cc<65; ++cc)
+	{
+		for(int cc2=0; cc2<65; ++cc2)
+		{
+			int mat = (material[cc][cc2] >> 4);
+			int mat2 = material[cc][cc2] & unsigned char(15);
+
+			int sound = 0;
+			switch(mat2)
+			{
+				case 0:
+					sound =0;
+				break;
+				case 1:
+					sound =1;
+				break;
+				case 2:
+					sound =1;
+				break;
+				case 3:
+					sound =3;
+				break;
+				case 4:
+					sound =4;
+				break;
+				case 5:
+					sound =5;
+				break;
+				case 6:
+					sound =6;
+				break;
+				case 7:
+					sound =7;
+				break;
+				case 8:
+					sound =8;
+				break;
+				case 9:
+					sound =9;
+				break;
+				case 10:
+					sound =10;
+				break;
+				case 11:
+					sound =11;
+				break;
+				case 12:
+					sound =6;
+				break;
+				case 13:
+					sound =13;
+				break;
+				case 14:
+					sound =1;
+				break;
+			}
+
+			if(mat == 1 || mat == 15)
+			{
+				sound = 17;
+			}
+			if(mat == 9 || mat == 13)
+			{
+				sound = 19;
+			}
+			if( mat == 11 || mat == 14)
+			{
+				sound = 18;
+			}
+
+			physinfo.materialmap[(mXpos*65)+cc][(mYpos*65)+cc2] = sound;
+		}
+
+	}
+
 
 	/* Preparing index array */
 	GroundSquare squares[64][64];

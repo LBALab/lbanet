@@ -1,4 +1,5 @@
 #include	<sstream>
+#include	<fstream>
 #include	"SceneExterior.h"
 
 
@@ -165,6 +166,28 @@ void	SceneExterior::loadSections()
 
 	std::set<std::pair<unsigned short, unsigned short> > textureinfos;
 
+	PhysicalInfo *physinfo = new PhysicalInfo();
+
+	int startPointX=20, startPointY=20, EndPointX=0, EndPointY=0;
+
+    for (int i = 0; i < 256; ++i)
+		if (mLayout[i])
+		{
+			int x = i / 16;
+			int y = i % 16;
+			if(x < startPointX)
+				startPointX = x;
+
+			if(y < startPointY)
+				startPointY = y;
+
+			if(x > EndPointX)
+				EndPointX = x;
+
+			if(y > EndPointY)
+				EndPointY = y;
+		}
+
 	//256 Section Chunks
     for (int i = 0; i < 256; ++i)
 		//If there is a section in this chunk...
@@ -191,10 +214,12 @@ void	SceneExterior::loadSections()
 				)
 			);
 
-			osg::ref_ptr<osg::Geode> geode = mSections.back()->load(textureinfos);
+			osg::ref_ptr<osg::Geode> geode = mSections.back()->load(textureinfos, *physinfo);
 			rootmap->addChild(geode);
 			rootobject->addChild(mSections.back()->loadObjects(mObjLibrary));
 		}
+
+
 
 
 
@@ -274,9 +299,30 @@ void	SceneExterior::loadSections()
 
 
 
+	// save the heightmap to phys file
+	std::ofstream filephys((mName + ".hmap").c_str());
+	filephys<<1040<<" "<<1040<<std::endl;
+	for(int cc=(startPointX*65); cc<((EndPointX+1)*65); ++cc)
+	{
+		for(int cc2=(startPointY*65); cc2<((EndPointY+1)*65); ++cc2)
+		{
+			filephys<<((float)physinfo->physmap[cc][cc2])/125<<" ";
+		}
+		filephys<<std::endl;
+	}
+	filephys<<std::endl;
+	for(int cc=(startPointX*65); cc<((EndPointX+1)*65); ++cc)
+	{
+		for(int cc2=(startPointY*65); cc2<((EndPointY+1)*65); ++cc2)
+		{
+			filephys<<physinfo->materialmap[cc][cc2]<<" ";
+		}
+		filephys<<std::endl;
+	}
+	delete physinfo;
 
 
 	osgUtil::Optimizer optOSGFile;
 	optOSGFile.optimize (root.get());
-	osgDB::writeNodeFile(*root.get(), "0_" + mName + ".osgb", new osgDB::Options("WriteImageHint=IncludeData Compressor=zlib"));
+	osgDB::writeNodeFile(*root.get(), "0_" + mName + ".osgb", new osgDB::Options("Compressor=zlib"));
 }
