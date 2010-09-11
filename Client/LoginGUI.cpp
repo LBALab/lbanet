@@ -50,7 +50,7 @@ LoginGUI::~LoginGUI()
 /***********************************************************
 init function
 ***********************************************************/
-void LoginGUI::Initialize(const std::string &clientversion)
+void LoginGUI::Initialize()
 {
 	try
 	{
@@ -124,8 +124,6 @@ void LoginGUI::Initialize(const std::string &clientversion)
 			CEGUI::WindowManager::getSingleton().getWindow("DisplayLoginErrorFrame"));
 		frw->subscribeEvent (CEGUI::FrameWindow::EventCloseClicked,
 			CEGUI::Event::Subscriber (&LoginGUI::HandleCloseTextClicked, this));
-
-		CEGUI::WindowManager::getSingleton().getWindow("ClientVersionText")->setText(clientversion);
 
 
 		CEGUI::WindowManager::getSingleton().getWindow("PasswordText")->subscribeEvent(CEGUI::Window::EventKeyDown,
@@ -237,6 +235,15 @@ bool LoginGUI::Handlecminus (const CEGUI::EventArgs& e)
 	return true;
 }
 
+
+
+/***********************************************************
+set the client version text
+***********************************************************/
+void LoginGUI::SetClientVersion(const std::string &clientversion)
+{
+	CEGUI::WindowManager::getSingleton().getWindow("ClientVersionText")->setText(clientversion);
+}
 
 /***********************************************************
 set if the server is on or not

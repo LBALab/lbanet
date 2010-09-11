@@ -52,10 +52,10 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 		}
 
 		// notify OSG of the screen being resized
-		case(osgGA::GUIEventAdapter::RESIZE):
-		{
-			OsgHandler::getInstance()->NotifyResized();
-		}
+		//case(osgGA::GUIEventAdapter::RESIZE):
+		//{
+		//	OsgHandler::getInstance()->NotifyResized();
+		//}
 
 		default:
 			return false;

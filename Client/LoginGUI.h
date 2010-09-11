@@ -51,7 +51,7 @@ public:
    ~LoginGUI();
 
    //! init function
-   void Initialize(const std::string &clientversion);
+   void Initialize();
 
 	//! handle connect button event
 	bool HandleConnect(const CEGUI::EventArgs& e);
@@ -76,6 +76,9 @@ public:
 
 	//! called to infrom the gui that it is displayed
 	void Displayed();
+
+	//! set the client version text
+	void SetClientVersion(const std::string &clientversion);
 
 	//! set if the server is on or not
 	void SetServrOn(bool ServerOn);

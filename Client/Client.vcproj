@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib CEGUIBase_d.lib CEGUIOpenGLRenderer_d.lib osgd.lib osgutild.lib osgGAd.lib osgViewerd.lib osgDBd.lib osgShadowd.lib libconfig++d.lib PhysXLoader.lib PhysXCooking.lib iced.lib iceutild.lib fmodex_vc.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib CEGUIBase_d.lib CEGUIOpenGLRenderer_d.lib osgd.lib osgutild.lib osgGAd.lib osgViewerd.lib osgDBd.lib osgShadowd.lib libconfig++d.lib PhysXLoader.lib PhysXCooking.lib NxCharacter.lib iced.lib iceutild.lib fmodex_vc.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\dependencies\OSG\lib;..\dependencies\CEGUI\lib;..\dependencies\3rdParty\lib;..\dependencies\libconfig\lib;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\lib\Win32&quot;;&quot;$(ICE_HOME)\lib&quot;;..\dependencies\fmod\lib"
 				GenerateDebugInformation="true"
@@ -140,7 +140,7 @@
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\dependencies\OSG\lib;..\dependencies\CEGUI\lib;..\dependencies\3rdParty\lib;..\dependencies\libconfig\lib;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\lib\Win32&quot;;&quot;$(ICE_HOME)\lib&quot;;..\dependencies\fmod\lib"
 				GenerateDebugInformation="true"
-				SubSystem="1"
+				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				TargetMachine="1"
@@ -176,6 +176,10 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath=".\ActorUserData.cpp"
+				>
+			</File>
 			<File
 				RelativePath=".\CEGUIDrawable.cpp"
 				>
@@ -309,11 +313,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\PhysXEngine.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ShopBox.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\ShortcutBox.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Stream.cpp"
 				>
 			</File>
 			<File
@@ -324,12 +336,20 @@
 				RelativePath=".\TeleportBox.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\UserAllocator.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\ActorUserData.h"
+				>
+			</File>
 			<File
 				RelativePath=".\CEGUIDrawable.h"
 				>
@@ -479,11 +499,31 @@
 				>
 			</File>
 			<File
+				RelativePath=".\PhysicCallbackBase.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PhysXEngine.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PhysXErrorStream.h"
+				>
+			</File>
+			<File
+				RelativePath=".\resource.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ShopBox.h"
 				>
 			</File>
 			<File
 				RelativePath=".\ShortcutBox.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Stream.h"
 				>
 			</File>
 			<File
@@ -494,12 +534,24 @@
 				RelativePath=".\TeleportBox.h"
 				>
 			</File>
+			<File
+				RelativePath=".\UserAllocator.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+			<File
+				RelativePath=".\LBA-net.ico"
+				>
+			</File>
+			<File
+				RelativePath=".\LBANet.rc"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

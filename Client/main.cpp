@@ -17,14 +17,28 @@
 #include <osg/MatrixTransform>
 #include "GuiHandler.h"
 
+
+#ifdef NDEBUG
+#include "resource.h"
+
+int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+#else
 int main( int argc, char **argv )
+#endif
 {
+
+
 	boost::shared_ptr<GuiHandler> ghptr (new GuiHandler());
 
-	OsgHandler::getInstance()->Initialize("Lbanet", "./Data", ghptr);
+
+	OsgHandler::getInstance()->Initialize("LBANet", "./Data", ghptr);
 
 
-	//gH.Initialize(resX, resY, false, "v0.999");
+	// set windows icon in release mode
+	#ifdef NDEBUG
+	SendMessage((HWND)OsgHandler::getInstance()->GetWindowsHandle(), 
+		WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(hInstance,  MAKEINTRESOURCE(IDI_ICON1)));
+	#endif
 
 
 	OsgHandler::getInstance()->AddActorNode(OsgHandler::getInstance()->LoadOSGFile("map0.osgb"));

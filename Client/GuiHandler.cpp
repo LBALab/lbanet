@@ -71,8 +71,7 @@ GuiHandler::~GuiHandler()
 /***********************************************************
 initialize function
 ***********************************************************/
-void GuiHandler::Initialize(int screen_size_X, int screen_size_Y, bool ServerOn,
-							const std::string &clientversion)
+void GuiHandler::Initialize(int screen_size_X, int screen_size_Y)
 {
 	try
 	{
@@ -300,8 +299,8 @@ void GuiHandler::Initialize(int screen_size_X, int screen_size_Y, bool ServerOn,
 
 	//initialize the login gui
 	_login_gui = new LoginGUI();
-	_login_gui->Initialize(clientversion);
-	_login_gui->SetServrOn(ServerOn);
+	_login_gui->Initialize();
+
 	_guis.push_back(_login_gui);
 
 	//initialize the choose world gui
@@ -499,6 +498,24 @@ void GuiHandler::RefreshOption()
 }
 
 
+
+/***********************************************************
+set the client version text
+***********************************************************/
+void GuiHandler::SetClientVersion(const std::string &clientversion)
+{
+	if(_login_gui)
+		_login_gui->SetClientVersion(clientversion);
+}
+
+/***********************************************************
+set if the server is on or not
+***********************************************************/
+void GuiHandler::SetServrOn(bool ServerOn)
+{
+	if(_login_gui)
+		_login_gui->SetServrOn(ServerOn);
+}
 
 
 /***********************************************************

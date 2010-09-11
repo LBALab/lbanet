@@ -48,7 +48,7 @@ namespace osg
 namespace osgViewer
 {
 	class Viewer;
-	class GraphicsWindowEmbedded;
+	class GraphicsWindow;
 }
 
 namespace osgShadow
@@ -87,8 +87,6 @@ public:
 	//! change screen resolution
 	void Resize(int resX, int resY, bool fullscreen);
 
-	//! notify that screen has been resized
-	void NotifyResized();
 
 	//! toggle fullscreen or windowed mode
 	void ToggleFullScreen();
@@ -158,7 +156,8 @@ public:
 															float colorR, float colorG, float colorB, float colorA,
 															boost::shared_ptr<DisplayTransformation> Tr);
 
-
+	//! get windows handle (win32 only)
+	void* GetWindowsHandle();
 
 protected:
 	//! constructor
@@ -177,10 +176,9 @@ private:
 	// singleton
 	static OsgHandler * _singletonInstance;
 
-	// pointer to the SDL screen surface
-	//osg::ref_ptr<osgViewer::GraphicsWindowEmbedded>		_gw;
-	//boost::shared_ptr<EventHandler>						_evH;
-	//GuiHandler *										_GuiH;
+	// pointer to the screen surface
+	osgViewer::GraphicsWindow*		_gw;
+
 
 	// screen info
 	bool	_isFullscreen;

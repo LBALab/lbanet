@@ -388,20 +388,28 @@ struct CEGUIEventCallback : public osgGA::GUIEventHandler
 	}
 };
 
-
+/***********************************************************
+constructor
+***********************************************************/
+CEGUIDrawable::CEGUIDrawable()
+{
+	setSupportsDisplayList(false);
+	setEventCallback(new CEGUIEventCallback());
+	_activeContextID = 0;
+}
 
 
 /***********************************************************
 constructor
 ***********************************************************/
-CEGUIDrawable::CEGUIDrawable(/*boost::shared_ptr<GuiHandler> GuiH*/)
+CEGUIDrawable::CEGUIDrawable(int resX, int resY, boost::shared_ptr<GuiHandler> GuiH)
 {
 	try
 	{
 		setSupportsDisplayList(false);
 		setEventCallback(new CEGUIEventCallback());
 
-
+		GuiH->Initialize(resX, resY);
 
 	 //   CEGUI::OpenGLRenderer& gui_renderer = CEGUI::OpenGLRenderer::create();
 		//gui_renderer.enableExtraStateSettings(true);

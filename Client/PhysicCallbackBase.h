@@ -21,49 +21,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 -----------------------------------------------------------------------------
 */
-#ifndef _LBANET_CEGUI_DRAWABLE_H_
-#define _LBANET_CEGUI_DRAWABLE_H_
 
-#include <osg/Drawable>
-#include <boost/shared_ptr.hpp>
-
-
-class GuiHandler;
+#ifndef __LBA_NET_PHYSIC_CALLBACK_BASE_H__
+#define __LBA_NET_PHYSIC_CALLBACK_BASE_H__
 
 
 
 
 //*************************************************************************************************
-//*                               class CEGUIDrawable
+//*                                      class PhysicCallbackBase
 //*************************************************************************************************
-/**
-* @brief Mix CEGUI with OSG
-*
-*/
-class CEGUIDrawable : public osg::Drawable
+
+class PhysicCallbackBase
 {
 public:
-	//! constructor
-    CEGUIDrawable();
 
 	//! constructor
-    CEGUIDrawable(int resX, int resY, boost::shared_ptr<GuiHandler> GuiH);
+	PhysicCallbackBase(){}
 
-    /** Copy constructor using CopyOp to manage deep vs shallow copy.*/
-    CEGUIDrawable(const CEGUIDrawable& drawable,const osg::CopyOp& copyop=osg::CopyOp::SHALLOW_COPY)
-					: Drawable(drawable,copyop) {}
-    
-    META_Object(osg,CEGUIDrawable);
-    
-
-    void drawImplementation(osg::RenderInfo& renderInfo) const;
-
-protected:    
 	//! destructor
-    virtual ~CEGUIDrawable();
+	virtual ~PhysicCallbackBase(){}
 
-    unsigned int _activeContextID;
+	//! callback function
+	virtual void CallbackOnContact(int TouchedActorType, long TouchedActorIdx) = 0;
 };
-
 
 #endif

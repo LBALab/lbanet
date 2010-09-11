@@ -64,8 +64,7 @@ public:
 	~GuiHandler();
 
 	//! initialize function
-	void Initialize(int screen_size_X, int screen_size_Y, bool ServerOn,
-						const std::string &clientversion);
+	void Initialize(int screen_size_X, int screen_size_Y);
 
 	// process function
 	void process(void);
@@ -95,6 +94,12 @@ public:
 
 	// refresh options
 	void RefreshOption();
+
+	//! set the client version text
+	void SetClientVersion(const std::string &clientversion);
+
+	//! set if the server is on or not
+	void SetServrOn(bool ServerOn);
 
 
 	//! refresh gui with info from server

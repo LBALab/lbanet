@@ -47,6 +47,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <osgShadow/StandardShadowMap>
 #include <osgShadow/ShadowMap>
 
+// win32 only
+#include <osgViewer/api/Win32/GraphicsWindowWin32>
 
 
 
@@ -109,12 +111,6 @@ initialize
 void OsgHandler::Initialize(const std::string &WindowName, const std::string &DataPath,
 							boost::shared_ptr<GuiHandler> GuiH)
 {
-	//set event handler
-	//_evH = evH;
-
-	//set GUI
-	//_GuiH = GuiH;
-
 	osgDB::setDataFilePathList(DataPath);
 
 
@@ -163,10 +159,9 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 	traits->windowName = WindowName;
 	traits->useCursor = false;
     osg::ref_ptr<osg::GraphicsContext> gc = osg::GraphicsContext::createGraphicsContext(traits.get());
-    osgViewer::GraphicsWindow* gw = dynamic_cast<osgViewer::GraphicsWindow*>(gc.get());
-    if (!gw)
+    _gw = dynamic_cast<osgViewer::GraphicsWindow*>(gc.get());
+    if (!_gw)
         return;
-
 
     _viewer->getCamera()->setGraphicsContext(gc.get());
 	_viewer->getCamera()->setClearColor(osg::Vec4(0, 0, 0, 1));
@@ -220,10 +215,10 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 	_HUDcam->addChild(_rootNodeGui.get());
 
 
-	GuiH->Initialize(_resX, _resY, false, "");
 
 
-	osg::ref_ptr<CEGUIDrawable> cd = new CEGUIDrawable();
+
+	osg::ref_ptr<CEGUIDrawable> cd = new CEGUIDrawable(_resX, _resY, GuiH);
 	_root->addChild(_rootNode3d.get());
 	_root->addChild(_HUDcam.get());
 
@@ -261,6 +256,20 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 
 	// put everything in the right place
 	LogHandler::getInstance()->LogToFile("Initializing of graphics window done.");
+
+
+}
+
+/***********************************************************
+get windows handle (win32 only)
+***********************************************************/
+void* OsgHandler::GetWindowsHandle()
+{
+	osgViewer::GraphicsWindowWin32* gw32 =  dynamic_cast<osgViewer::GraphicsWindowWin32*>(_gw);
+	if(gw32)
+		return (void*)gw32->getHWND();
+		
+	return NULL;
 }
 
 
@@ -331,13 +340,6 @@ void OsgHandler::ResetScreen()
 	LogHandler::getInstance()->LogToFile("Resetting screen resolution...");
 
 
-	//if(_viewer)
-	//{
-	//	_viewer->setSceneData(NULL);
-	//	_viewer->releaseGLObjects();
-	//	_viewer->setSceneData(_rootNode);
-	//}
-
 	// iterate over all windows
 	osgViewer::Viewer::Windows windows;
     _viewer->getWindows(windows);
@@ -383,20 +385,6 @@ void OsgHandler::ResetScreen()
 }
 
 
-/***********************************************************
-notify that screen has been resized
-***********************************************************/
-void OsgHandler::NotifyResized()
-{
-	// get windows state
-	osgViewer::Viewer::Windows windows;
-    _viewer->getWindows(windows);
-    for(osgViewer::Viewer::Windows::iterator itr = windows.begin();  itr != windows.end(); ++itr)
-    {
-		osgViewer::GraphicsWindow *window = *itr;
-		window->getWindowRectangle(_posX, _posY, _resX, _resY);
-    }
-}
 
 
 
