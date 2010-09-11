@@ -78,14 +78,15 @@ public:
 	//! create actors
 	// type: 1=static, 2=kinematic, 3=dynamic
 	NxActor* CreateBox(const NxVec3 & StartPosition, float dimX, float dimY, float dimZ, 
-						float density, int Type, ActorUserData * adata, bool collidable = true,
-						bool movable = false);
+						float density, int Type, ActorUserData * adata, bool collidable = true);
+
 	NxActor* CreateSphere(const NxVec3 & StartPosition, float radius, float density, 
 							int Type, ActorUserData * adata,
 							float staticFriction, float dynamicFriction, float restitution, 
-							bool magicball= false);
+							bool collidable = true);
+
 	NxActor* CreateCapsule(const NxVec3 & StartPosition, float radius, float height, 
-							float density, int Type, ActorUserData * adata);
+							float density, int Type, ActorUserData * adata, bool collidable = true);
 
 
 	NxController* CreateCharacter(const NxVec3 & StartPosition, float radius, float height,
@@ -96,10 +97,10 @@ public:
 
 	NxActor* CreateTriangleMesh(const NxVec3 & StartPosition, float *Vertexes, 
 										size_t VertexesSize, unsigned int *Indices, size_t IndicesSize,
-										ActorUserData * adata, bool collidablemesh=true);
+										ActorUserData * adata, bool collidable=true);
 
 	NxActor* LoadTriangleMeshFile(const NxVec3 & StartPosition, const std::string Filename,
-												ActorUserData * userdata);
+												ActorUserData * userdata, bool collidable);
 
 	void DestroyActor(NxActor* actor);
 	void DestroyCharacter(NxController* character);
@@ -121,8 +122,6 @@ public:
 	bool IsInitialized()
 	{return _isInitialized;}
 
-	//! check if actor is under roof
-	int CheckForRoof(float PositionX, float PositionY, float PositionZ);
 
 	//! Get Closest Floor
 	int GetClosestFloor(float PositionX, float PositionY, float PositionZ);
@@ -145,7 +144,6 @@ private:
 	NxControllerManager*		gManager;
 	NxUserAllocator*			gAllocator;
 
-	std::set<NxActor*>			_roofactors;
 	NxActor*					_flooractor;
 
 	bool						_isInitialized;

@@ -297,6 +297,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ObjectsDescription.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\OptionsGUI.cpp"
 				>
 			</File>
@@ -317,11 +321,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\PhysXObjectHandlers.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ShopBox.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\ShortcutBox.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\StaticObject.cpp"
 				>
 			</File>
 			<File
@@ -338,6 +350,10 @@
 			</File>
 			<File
 				RelativePath=".\UserAllocator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\WorldToDisplayObjectSynchronizer.cpp"
 				>
 			</File>
 		</Filter>
@@ -404,6 +420,10 @@
 			</File>
 			<File
 				RelativePath="..\shared\DisplayObjectHandlerBase.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DynamicObject.h"
 				>
 			</File>
 			<File
@@ -511,6 +531,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\PhysXObjectHandlers.h"
+				>
+			</File>
+			<File
 				RelativePath=".\resource.h"
 				>
 			</File>
@@ -520,6 +544,10 @@
 			</File>
 			<File
 				RelativePath=".\ShortcutBox.h"
+				>
+			</File>
+			<File
+				RelativePath=".\StaticObject.h"
 				>
 			</File>
 			<File
@@ -536,6 +564,10 @@
 			</File>
 			<File
 				RelativePath=".\UserAllocator.h"
+				>
+			</File>
+			<File
+				RelativePath=".\WorldToDisplayObjectSynchronizer.h"
 				>
 			</File>
 		</Filter>

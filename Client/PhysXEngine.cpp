@@ -69,8 +69,8 @@ class MyContactReport : public NxUserContactReport
 				ActorUserData * acd2 = (ActorUserData *) n2->userData;
 				if(acd1 && acd2)
 				{
-					acd1->CallbackOnContact(acd2->GetActorType(), acd2->GetActorId());
-					acd2->CallbackOnContact(acd1->GetActorType(), acd1->GetActorId());
+					acd1->AddActorHitted(acd2->GetActorId(), acd2->GetActorType());
+					acd2->AddActorHitted(acd1->GetActorId(), acd1->GetActorType());
 				}
 			}
 		} 
@@ -434,8 +434,7 @@ NxActor* PhysXEngine::CreatePlane(const NxVec3 & StartPosition, const NxVec3 & P
 	create box actor
 ***********************************************************/
 NxActor* PhysXEngine::CreateBox(const NxVec3 & StartPosition, float dimX, float dimY, float dimZ, 
-								float density, int Type, ActorUserData * adata, bool collidable,
-								bool movable)
+								float density, int Type, ActorUserData * adata, bool collidable)
 {
 
 	// Add a single-shape actor to the scene
@@ -458,7 +457,7 @@ NxActor* PhysXEngine::CreateBox(const NxVec3 & StartPosition, float dimX, float 
 		actorDesc.body	= &bodyDesc;
 		actorDesc.density = density;
 
-		if(movable)
+		if(Type == 3)
 			boxDesc.group = GROUP_COLLIDABLE_PUSHABLE;
 		else
 			boxDesc.group = GROUP_COLLIDABLE_NON_PUSHABLE;
@@ -487,7 +486,7 @@ NxActor* PhysXEngine::CreateBox(const NxVec3 & StartPosition, float dimX, float 
 NxActor* PhysXEngine::CreateSphere(const NxVec3 & StartPosition, float radius, float density, 
 									int Type,  ActorUserData * adata,
 									float staticFriction, float dynamicFriction, float restitution, 
-									bool magicball)
+									bool collidable)
 {
 	// Add a single-shape actor to the scene
 	NxActorDesc actorDesc;
@@ -518,17 +517,17 @@ NxActor* PhysXEngine::CreateSphere(const NxVec3 & StartPosition, float radius, f
 		actorDesc.body	= &bodyDesc;
 		actorDesc.density		= density;
 		
-
 		if(Type == 3)
 			sphereDesc.group = GROUP_COLLIDABLE_PUSHABLE;
 		else
 			sphereDesc.group = GROUP_COLLIDABLE_NON_PUSHABLE;
-
-		if(magicball)
-			sphereDesc.group = GROUP_COLLIDABLE_NON_PUSHABLE;
 	}
 	else
 		sphereDesc.group = GROUP_COLLIDABLE_NON_PUSHABLE;
+
+
+	if(!collidable)
+		sphereDesc.group = GROUP_NON_COLLIDABLE;
 
 	actorDesc.shapes.pushBack(&sphereDesc);
 	actorDesc.globalPose.t	= StartPosition;	
@@ -541,7 +540,7 @@ NxActor* PhysXEngine::CreateSphere(const NxVec3 & StartPosition, float radius, f
 	create capsule actor
 ***********************************************************/
 NxActor* PhysXEngine::CreateCapsule(const NxVec3 & StartPosition, float radius, float height, float density, 
-										int Type, ActorUserData * adata)
+										int Type, ActorUserData * adata, bool collidable)
 {
 	// Add a single-shape actor to the scene
 	NxActorDesc actorDesc;
@@ -568,6 +567,9 @@ NxActor* PhysXEngine::CreateCapsule(const NxVec3 & StartPosition, float radius, 
 	}
 	else
 		capsuleDesc.group = GROUP_COLLIDABLE_NON_PUSHABLE;
+
+	if(!collidable)
+		capsuleDesc.group = GROUP_NON_COLLIDABLE;
 
 	actorDesc.shapes.pushBack(&capsuleDesc);
 	actorDesc.globalPose.t	= StartPosition;
@@ -633,7 +635,7 @@ NxController* PhysXEngine::CreateCharacterBox(const NxVec3 & StartPosition, cons
 ***********************************************************/
 NxActor* PhysXEngine::CreateTriangleMesh(const NxVec3 & StartPosition, float *Vertexes, size_t VertexesSize, 
 											unsigned int *Indices, size_t IndicesSize,
-											ActorUserData * adata, bool collidablemesh)
+											ActorUserData * adata, bool collidable)
 {
 	// Create descriptor for triangle mesh
 	NxTriangleMeshDesc triangleMeshDesc;
@@ -669,7 +671,7 @@ NxActor* PhysXEngine::CreateTriangleMesh(const NxVec3 & StartPosition, float *Ve
 	tmsd.localPose.t		= NxVec3(0, 0, 0);
 	tmsd.meshPagingMode 	= NX_MESH_PAGING_AUTO;
 
-	if(collidablemesh)
+	if(collidable)
 		tmsd.group = GROUP_COLLIDABLE_NON_PUSHABLE;
 	else
 		tmsd.group = GROUP_NON_COLLIDABLE;
@@ -703,7 +705,7 @@ NxActor* PhysXEngine::CreateTriangleMesh(const NxVec3 & StartPosition, float *Ve
 //! Load triangle mesh shape to the engine
 ***********************************************************/
 NxActor* PhysXEngine::LoadTriangleMeshFile(const NxVec3 & StartPosition, const std::string Filename,
-												ActorUserData * userdata)
+												ActorUserData * userdata, bool collidable)
 {
 	// load data from binary file and set it into a triangle mesh
 	std::ifstream file(Filename.c_str(), std::ifstream::binary);
@@ -715,14 +717,12 @@ NxActor* PhysXEngine::LoadTriangleMeshFile(const NxVec3 & StartPosition, const s
 	unsigned int sizevertex;
 	unsigned int sizeindices;
 	unsigned int sizematerials;
-	unsigned int sizevertexroof;
-	unsigned int sizeindicesroof;
+
 
 	file.read((char*)&sizevertex, sizeof(unsigned int));
 	file.read((char*)&sizeindices, sizeof(unsigned int));
 	file.read((char*)&sizematerials, sizeof(unsigned int));
-	file.read((char*)&sizevertexroof, sizeof(unsigned int));
-	file.read((char*)&sizeindicesroof, sizeof(unsigned int));
+
 
 	float *buffervertex = new float[sizevertex];
 	unsigned int *bufferindices = new unsigned int[sizeindices];
@@ -737,45 +737,10 @@ NxActor* PhysXEngine::LoadTriangleMeshFile(const NxVec3 & StartPosition, const s
 	userdata->SetMaterials(buffermaterials);
 
 	_flooractor = CreateTriangleMesh(StartPosition, buffervertex, sizevertex, bufferindices, sizeindices, 
-											userdata);
+											userdata, collidable);
 	//NxActor* act = NULL;
 	delete[] buffervertex;
 	delete[] bufferindices;
-
-
-	// create shape for roof if necessary
-	//_sizebuff = sizeindicesroof;
-	if(sizevertexroof > 0)
-	{
-		float *buffervertexroof = NULL;
-		unsigned int *bufferindicesroof = NULL;
-
-		buffervertexroof = new float[sizevertexroof];
-		bufferindicesroof = new unsigned int[sizeindicesroof];
-		file.read((char*)buffervertexroof, sizevertexroof*sizeof(float));
-		file.read((char*)bufferindicesroof, sizeindicesroof*sizeof(unsigned int));
-
-		//_buffervertexroof = new float[sizevertexroof];
-		//memcpy(_buffervertexroof, buffervertexroof, sizevertexroof*sizeof(float));
-		//_bufferindiceroof = new unsigned int[sizeindicesroof];
-		//memcpy(_bufferindiceroof, bufferindicesroof, sizeindicesroof*sizeof(unsigned int));
-
-
-		NxActor* roofact = CreateTriangleMesh(StartPosition, buffervertexroof, sizevertexroof, 
-												bufferindicesroof, sizeindicesroof, NULL, false);
-
-		roofact->raiseActorFlag(NX_AF_DISABLE_COLLISION);
-
-		_roofactors.insert(roofact);
-		userdata->SetInternalActor(roofact);
-
-		if(buffervertexroof)
-			delete buffervertexroof;
-
-		if(bufferindicesroof)
-			delete bufferindicesroof;
-	}
-
 
 
 	return _flooractor;
@@ -834,16 +799,6 @@ void PhysXEngine::DestroyActor(NxActor* actor)
 	ActorUserData * udata = (ActorUserData *)actor->userData;
 	if(udata && !udata->Getreleased())
 	{
-		NxActor * internala = udata->GetInternalActor();
-		if(internala)
-		{
-			std::set<NxActor*>::iterator it = _roofactors.find(internala);
-			if(it != _roofactors.end())
-				_roofactors.erase(it);
-
-			DestroyActor(internala);
-		}
-
 		udata->Setreleased(true);
 	}
 
@@ -860,16 +815,6 @@ void PhysXEngine::DestroyCharacter(NxController* character)
 	ActorUserData * udata = (ActorUserData *)character->getActor()->userData;
 	if(udata && !udata->Getreleased())
 	{
-		NxActor * internala = udata->GetInternalActor();
-		if(internala)
-		{
-			std::set<NxActor*>::iterator it = _roofactors.find(internala);
-			if(it != _roofactors.end())
-				_roofactors.erase(it);
-
-			DestroyActor(internala);
-		}
-
 		udata->Setreleased(true);
 	}
 
@@ -903,34 +848,6 @@ void PhysXEngine::HideShowCharacter(NxController* character, bool Show)
 
 
 
-/***********************************************************
-//! check if there is a roof up the 3d position in parameter
-//! if there is a roof, return the roof position along the y axis
-//! else return -1
-***********************************************************/
-int PhysXEngine::CheckForRoof(float PositionX, float PositionY, float PositionZ)
-{
-	std::set<NxActor*>::iterator it = _roofactors.begin();
-	std::set<NxActor*>::iterator end = _roofactors.end();
-	for(;it != end; ++it)
-	{
-		if((*it)->getNbShapes() > 0)
-		{
-			NxTriangleMeshShape* _currmap = (*(*it)->getShapes())->isTriangleMesh();
-
-			NxRaycastHit hitinfo;
-			NxVec3 vec(0, 1, 0);
-			NxVec3 Position(PositionX, PositionY+1, PositionZ);
-
-			if(_currmap && _currmap->raycast(NxRay(Position, vec), 100.0f, NX_RAYCAST_DISTANCE, hitinfo, false))
-			{
-				return (int)(Position.y + hitinfo.distance + 0.5);
-			}
-		}
-	}
-
-	return -1;
-}	
 
 /***********************************************************
 //! Get Closest Floor

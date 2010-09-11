@@ -36,6 +36,9 @@ namespace IceUtil
 	class RecMutex;
 }
 
+#include <vector>
+
+
 //*************************************************************************************************
 //*                               class Camera
 //*************************************************************************************************
@@ -47,14 +50,14 @@ class ActorUserData
 {
 public:
 	//! constructor
-	ActorUserData(short ActType, long index, PhysicCallbackBase * callback);
+	ActorUserData(int ActType, long index);
 
 	//! destructor
 	~ActorUserData();
 
 	//! accessor thread safe
-	short				GetActorType();
-	void				SetActorType(short newv);
+	int					GetActorType();
+	void				SetActorType(int newv);
 
 
 	long				GetActorId(); 
@@ -66,10 +69,6 @@ public:
 
 	short				GetMaterials(unsigned int id);
 	void				SetMaterials(short * newv);  
-
-	NxActor *			GetInternalActor();
-	void				SetInternalActor(NxActor * newv);  
-
 
 	short				GetHittedFloorMaterial();
 	void				SetHittedFloorMaterial(short newv);  
@@ -106,26 +105,26 @@ public:
 	float				GetCurrentMoveZ();
 	void				SetCurrentMoveZ(float newv);  
 
-	void				SetCallback(PhysicCallbackBase * newv);
-	void CallbackOnContact(int TouchedActorType, long TouchedActorIdx);
-
 	bool				GetAllowFreeMove();
 	void				SetAllowFreeMove(bool newv);
+
+	void				AddActorHitted(long ActorId, int ActorType);
+	void				GetHittedActors(std::vector<std::pair<long, int> > & vec);
 
 private:
 	IceUtil::RecMutex *	m_mutex;
 
 	// Actor type
-	// 1 = actor
-	// 2 = terrain
-	// 3 = player
-	// 4 = other
-	short				ActorType;
+	// 1 = static
+	// 2 = kinematic
+	// 3 = dynamic
+	// 4 = controller
+	int					ActorType;
 	long				ActorId; 
 
 	size_t				MaterialsSize;
 	short *				Materials; 
-	NxActor *			InternalActor;
+
 
 	short				HittedFloorMaterial;
 
@@ -145,8 +144,7 @@ private:
 
 	bool				AllowFreeMove;
 
-
-	PhysicCallbackBase * Callback;
+	std::vector<std::pair<long, int> >	HittedActors;
 };
 
 

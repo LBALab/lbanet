@@ -30,11 +30,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /***********************************************************
 constructor
 ***********************************************************/
-ActorUserData::ActorUserData(short ActType, long index, PhysicCallbackBase * callback)
+ActorUserData::ActorUserData(int ActType, long index)
 	: ActorType(ActType), Materials(NULL), 
-		MaterialsSize(0),
-		HittedFloorMaterial(0), InternalActor(NULL),
-		released(false), Callback(callback), ActorId(index), MovingObject(false),
+		MaterialsSize(0), HittedFloorMaterial(0), 
+		released(false), ActorId(index), MovingObject(false),
 		AllowedMovingX(false), AllowedMovingZ(false), ShouldUpdate(false),
 		CurrentMoveX(0), CurrentMoveY(0), CurrentMoveZ(0), AllowFreeMove(false)
 {
@@ -56,7 +55,7 @@ ActorUserData::~ActorUserData()
 /***********************************************************
 accessor thread safe
 ***********************************************************/
-short				ActorUserData::GetActorType()
+int					ActorUserData::GetActorType()
 {
 	IceUtil::RecMutex::Lock lock(*m_mutex);
 	return ActorType;
@@ -65,7 +64,7 @@ short				ActorUserData::GetActorType()
 /***********************************************************
 accessor thread safe
 ***********************************************************/
-void				ActorUserData::SetActorType(short newv)
+void				ActorUserData::SetActorType(int newv)
 {
 	IceUtil::RecMutex::Lock lock(*m_mutex);
 	ActorType = newv;
@@ -128,25 +127,6 @@ void				ActorUserData::SetMaterials(short * newv)
 {
 	IceUtil::RecMutex::Lock lock(*m_mutex);
 	Materials = newv;
-}
-  
-
-/***********************************************************
-accessor thread safe
-***********************************************************/
-NxActor *			ActorUserData::GetInternalActor()
-{
-	IceUtil::RecMutex::Lock lock(*m_mutex);
-	return InternalActor;
-}
-
-/***********************************************************
-accessor thread safe
-***********************************************************/
-void				ActorUserData::SetInternalActor(NxActor * newv)
-{
-	IceUtil::RecMutex::Lock lock(*m_mutex);
-	InternalActor = newv;
 }
   
 
@@ -375,22 +355,21 @@ void				ActorUserData::SetAllowFreeMove(bool newv)
 }
 
 
-
 /***********************************************************
 accessor thread safe
 ***********************************************************/
-void ActorUserData::SetCallback(PhysicCallbackBase * newv)
+void ActorUserData::AddActorHitted(long ActorId, int ActorType)
 {
 	IceUtil::RecMutex::Lock lock(*m_mutex);
-	Callback = newv;
+	HittedActors.push_back(std::make_pair<long, int>(ActorId, ActorType));
 }
 
+
 /***********************************************************
 accessor thread safe
 ***********************************************************/
-void ActorUserData::CallbackOnContact(int TouchedActorType, long TouchedActorIdx)
+void ActorUserData::GetHittedActors(std::vector<std::pair<long, int> > & vec)
 {
 	IceUtil::RecMutex::Lock lock(*m_mutex);
-	if(!released && Callback && (ActorType >= 0))
-		Callback->CallbackOnContact(TouchedActorType, TouchedActorIdx);
+	HittedActors.swap(vec);
 }
