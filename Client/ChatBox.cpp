@@ -1064,6 +1064,26 @@ void ChatBox::Update(const LbaNet::GuiUpdatesSeq &Updates)
 
 			AddWhisperChanel(castedptr->_Name);
 		}
+
+
+		// ChatWorldNameUpdate
+		if(info == typeid(ChatWorldNameUpdate))
+		{
+			ChatWorldNameUpdate * castedptr = 
+				dynamic_cast<ChatWorldNameUpdate *>(ptr);
+
+			SetCurrentMap(castedptr->_name, "");
+		}
+
+		// ChatMapNameUpdate
+		if(info == typeid(ChatMapNameUpdate))
+		{
+			ChatMapNameUpdate * castedptr = 
+				dynamic_cast<ChatMapNameUpdate *>(ptr);
+
+			SetCurrentMap(_currentWorld, castedptr->_name);
+		}
+		
 	}
 }
 

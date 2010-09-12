@@ -151,4 +151,47 @@ public:
 	int _shortcutid;
 };
 
+
+
+/*
+************************************************************************************************************************
+*                                                  class ChatWorldNameUpdate
+*
+*	inform chat when world name has changed
+************************************************************************************************************************
+*/
+class ChatWorldNameUpdate : public LbaNet::GuiUpdateBase
+{
+public:
+	//! constructor
+	ChatWorldNameUpdate(const std::string &name)
+		: _name(name)
+	{
+	}
+
+	std::string _name;
+};
+
+
+
+/*
+************************************************************************************************************************
+*                                                  class ChatMapNameUpdate
+*
+*	inform chat when map name has changed
+************************************************************************************************************************
+*/
+class ChatMapNameUpdate : public LbaNet::GuiUpdateBase
+{
+public:
+	//! constructor
+	ChatMapNameUpdate(const std::string &name)
+		: _name(name)
+	{
+	}
+
+	std::string _name;
+};
+
+
 #endif

@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "MenuGUI.h"
 #include "OptionsGUI.h"
 #include "ConfigurationManager.h"
-
+#include "SynchronizedTimeHandler.h"
 
 #include <CEGUI.h>
 #include <RendererModules/OpenGL/CEGUIOpenGLRenderer.h>
@@ -353,19 +353,19 @@ inject time to the GUI
 ***********************************************************/
 void GuiHandler::inject_time_pulse()
 {
-	///* get current "run-time" in seconds */
-	//double t = 0.001*SDL_GetTicks();
-	///* inject the time that passed since the last call */
-	//CEGUI::System::getSingleton().injectTimePulse( float(t-m_last_time_pulse) );
-	///* store the new time as the last time */
-	//m_last_time_pulse = t;
+	/* get current "run-time" in seconds */
+	double t = 0.001*SynchronizedTimeHandler::GetCurrentTimeDouble();
+	/* inject the time that passed since the last call */
+	CEGUI::System::getSingleton().injectTimePulse( float(t-m_last_time_pulse) );
+	/* store the new time as the last time */
+	m_last_time_pulse = t;
 }
 
 
 /***********************************************************
 process function
 ***********************************************************/
-void GuiHandler::process(void)
+void GuiHandler::Process(void)
 {
    inject_time_pulse();
 

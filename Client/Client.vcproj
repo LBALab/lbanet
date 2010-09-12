@@ -181,7 +181,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CameraController.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CEGUIDrawable.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CharacterControllerLBA.cpp"
 				>
 			</File>
 			<File
@@ -254,6 +262,14 @@
 			</File>
 			<File
 				RelativePath=".\JournalBox.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\LbaNetEngine.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\LbaNetModel.cpp"
 				>
 			</File>
 			<File
@@ -367,7 +383,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CameraController.h"
+				>
+			</File>
+			<File
 				RelativePath=".\CEGUIDrawable.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CharacterControllerLBA.h"
 				>
 			</File>
 			<File
@@ -460,6 +484,14 @@
 			</File>
 			<File
 				RelativePath=".\JournalBox.h"
+				>
+			</File>
+			<File
+				RelativePath=".\LbaNetEngine.h"
+				>
+			</File>
+			<File
+				RelativePath=".\LbaNetModel.h"
 				>
 			</File>
 			<File

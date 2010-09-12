@@ -67,7 +67,7 @@ public:
 	void Initialize(int screen_size_X, int screen_size_Y);
 
 	// process function
-	void process(void);
+	void Process(void);
 
 	//! switch from current gui to another one
 	void SwitchGUI(int GuiNumber);
