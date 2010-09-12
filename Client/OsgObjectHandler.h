@@ -56,6 +56,8 @@ public:
 	//! set object rotation on X axis
 	virtual void SetRotation(const LbaQuaternion& Q);
 
+	//! show or hide the object
+	virtual void ShowOrHide(bool Show);
 
 protected:
 	// update matrix
@@ -67,6 +69,7 @@ private:
 	float								_posY; 
 	float								_posZ;
 	LbaQuaternion						_Q;
+	bool								_displayed;
 };
 
 

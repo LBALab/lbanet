@@ -70,7 +70,7 @@ class MyContactReport : public NxUserContactReport
 				if(acd1 && acd2)
 				{
 					acd1->AddActorHitted(acd2->GetActorId(), acd2->GetActorType());
-					acd2->AddActorHitted(acd1->GetActorId(), acd1->GetActorType());
+					//acd2->AddActorHitted(acd1->GetActorId(), acd1->GetActorType());
 				}
 			}
 		} 
@@ -88,83 +88,37 @@ public:
 	{
 		if(1 && hit.shape)
 		{
+			NxActor& actor = hit.shape->getActor();
+			ActorUserData * characterdata = (ActorUserData *)hit.controller->getActor()->userData;
+			ActorUserData * mstorage = (ActorUserData *)actor.userData;
+			if(characterdata && mstorage)
+			{
+				characterdata->AddActorHitted(mstorage->GetActorId(), mstorage->GetActorType());
+			}
+
+
 			// i need to know which triangle of the mesh the controller has hit
 			// i did not find any other way yet...
 			NxTriangleMeshShape* tmesh = hit.shape->isTriangleMesh();
 			if(tmesh)
 			{
-				NxActor& actor = hit.shape->getActor();
-				if(actor.userData)
+				if(mstorage)
 				{
-					ActorUserData * mstorage = (ActorUserData *)actor.userData;
-					if(mstorage)
-					{
-						NxRaycastHit hitinfo;
-						NxVec3 pos((float)hit.worldPos.x,(float)hit.worldPos.y+0.01f,(float)hit.worldPos.z);
-						NxVec3 vec(0, -1,0);
+					NxRaycastHit hitinfo;
+					NxVec3 pos((float)hit.worldPos.x,(float)hit.worldPos.y+0.01f,(float)hit.worldPos.z);
+					NxVec3 vec(0, -1,0);
 
-						if(tmesh->raycast(NxRay(pos, vec), 0.02f, 
-													NX_RAYCAST_FACE_INDEX, hitinfo, false))
+					if(tmesh->raycast(NxRay(pos, vec), 0.02f, 
+												NX_RAYCAST_FACE_INDEX, hitinfo, false))
+					{
+						if(hitinfo.faceID < mstorage->GetMaterialsSize())
 						{
-							if(hitinfo.faceID < mstorage->GetMaterialsSize())
-							{
-								ActorUserData * characterdata = (ActorUserData *)hit.controller->getActor()->userData;
-								if(characterdata)
-									characterdata->SetHittedFloorMaterial(mstorage->GetMaterials(hitinfo.faceID));
-							}
+							if(characterdata)
+								characterdata->SetHittedFloorMaterial(mstorage->GetMaterials(hitinfo.faceID));
 						}
 					}
 				}
 			}
-
-
-			//NxCollisionGroup group = hit.shape->getGroup();
-			//if(group==GROUP_COLLIDABLE_PUSHABLE)
-			//{
-			//	NxActor& actor = hit.shape->getActor();
-			//	if(actor.isDynamic())
-			//	{
-			//		// We only allow horizontal pushes. Vertical pushes when we stand on dynamic objects creates
-			//		// useless stress on the solver. It would be possible to enable/disable vertical pushes on
-			//		// particular objects, if the gameplay requires it.
-			//		if(hit.dir.y==0.0f)
-			//		{
-			//			ActorUserData * characterdata = (ActorUserData *)hit.controller->getActor()->userData;
-			//			if(characterdata)
-			//			{
-			//				if(characterdata->GetAllowedMovingX() || characterdata->GetAllowedMovingZ())
-			//				{
-			//					if(actor.readBodyFlag(NX_BF_KINEMATIC))
-			//					{
-			//						actor.moveGlobalPosition(actor.getGlobalPosition() + (hit.length * hit.dir));
-			//					}
-			//					else
-			//					{
-			//						//return NX_ACTION_PUSH;
-			//						NxF32 coeff = actor.getMass() * hit.length * 10.0f;
-			//						actor.addForceAtLocalPos(hit.dir*coeff, NxVec3(0,0,0), NX_IMPULSE);
-			//					}
-			//				}
-
-			//				characterdata->SetMovingObject(true);
-			//				if(abs(hit.worldNormal.x) > abs(hit.worldNormal.z))
-			//				{
-			//					if(hit.worldNormal.x > 0)
-			//						characterdata->SetMovingDirection(2);
-			//					else
-			//						characterdata->SetMovingDirection(1);
-			//				}
-			//				else
-			//				{
-			//					if(hit.worldNormal.z > 0)
-			//						characterdata->SetMovingDirection(4);
-			//					else
-			//						characterdata->SetMovingDirection(3);
-			//				}
-			//			}
-			//		}
-			//	}
-			//}
 		}
 
 		return NX_ACTION_NONE;
@@ -174,6 +128,12 @@ public:
 	{
 		NxController* cont = hit.controller;
 		ActorUserData * characterdatamain = (ActorUserData *)cont->getActor()->userData;
+		ActorUserData * characterdata = (ActorUserData *)hit.other->getActor()->userData;
+		if(characterdatamain && characterdata)
+		{
+			characterdatamain->AddActorHitted(characterdata->GetActorId(), characterdata->GetActorType());
+		}
+
 		if(characterdatamain)
 		{
 			if(characterdatamain->GetAllowedMovingX() || characterdatamain->GetAllowedMovingZ())
@@ -184,7 +144,6 @@ public:
 
 				PhysXEngine::getInstance()->MoveCharacter(hit.other, vecmove, true);
 
-				ActorUserData * characterdata = (ActorUserData *)hit.other->getActor()->userData;
 				if(characterdata)
 					characterdata->SetShouldUpdate(true);
 
@@ -196,12 +155,7 @@ public:
 				NxExtendedVec3 vecother = hit.other->getPosition();
 				NxVec3 diff = (vecother - vecmain);
 
-				//dont move on object corner
-				//if(abs(diff.x - diff.z) < 0.1)
-				//	return NX_ACTION_NONE;
-
 				characterdatamain->SetMovingObject(true);
-				ActorUserData * characterdata = (ActorUserData *)hit.other->getActor()->userData;
 				if(characterdata)
 					characterdatamain->SetAllowFreeMove(characterdata->GetAllowFreeMove());
 				if(abs(diff.x) > abs(diff.z))
@@ -252,7 +206,7 @@ PhysXEngine * PhysXEngine::getInstance()
 	Constructor
 ***********************************************************/
 PhysXEngine::PhysXEngine()
-: gAllocator(NULL), _flooractor(NULL)
+: gAllocator(NULL)
 {
 	gAllocator = new UserAllocator();
 }
@@ -717,11 +671,13 @@ NxActor* PhysXEngine::LoadTriangleMeshFile(const NxVec3 & StartPosition, const s
 	unsigned int sizevertex;
 	unsigned int sizeindices;
 	unsigned int sizematerials;
-
+	//unsigned int tmp;
 
 	file.read((char*)&sizevertex, sizeof(unsigned int));
 	file.read((char*)&sizeindices, sizeof(unsigned int));
 	file.read((char*)&sizematerials, sizeof(unsigned int));
+	//file.read((char*)&tmp, sizeof(unsigned int));
+	//file.read((char*)&tmp, sizeof(unsigned int));
 
 
 	float *buffervertex = new float[sizevertex];
@@ -736,14 +692,14 @@ NxActor* PhysXEngine::LoadTriangleMeshFile(const NxVec3 & StartPosition, const s
 	userdata->SetMaterialsSize(sizematerials);
 	userdata->SetMaterials(buffermaterials);
 
-	_flooractor = CreateTriangleMesh(StartPosition, buffervertex, sizevertex, bufferindices, sizeindices, 
+	NxActor* actor = CreateTriangleMesh(StartPosition, buffervertex, sizevertex, bufferindices, sizeindices, 
 											userdata, collidable);
 	//NxActor* act = NULL;
 	delete[] buffervertex;
 	delete[] bufferindices;
 
 
-	return _flooractor;
+	return actor;
 }
 
 
@@ -792,8 +748,6 @@ void PhysXEngine::DestroyActor(NxActor* actor)
 	if(!_isInitialized)
 		return;
 
-	if(actor == _flooractor)
-		_flooractor = NULL;
 
 	//destroy internal actor if there is one
 	ActorUserData * udata = (ActorUserData *)actor->userData;
@@ -838,13 +792,23 @@ void PhysXEngine::GetCharacterPosition(NxController* character, float &posX, flo
 
 
 /***********************************************************
-GetCharacterPosition
+HideShowCharacter
 ***********************************************************/
 void PhysXEngine::HideShowCharacter(NxController* character, bool Show)
 {
 	character->setCollision(Show);
 }
 
+/***********************************************************
+HideShowActor
+***********************************************************/
+void PhysXEngine::HideShowActor(NxActor* actor, bool Show)
+{
+	if(Show)
+		actor->clearActorFlag(NX_AF_DISABLE_COLLISION);
+	else
+		actor->raiseActorFlag(NX_AF_DISABLE_COLLISION);
+}
 
 
 
@@ -854,22 +818,32 @@ void PhysXEngine::HideShowCharacter(NxController* character, bool Show)
 ***********************************************************/
 int PhysXEngine::GetClosestFloor(float PositionX, float PositionY, float PositionZ)
 {
-	if(_flooractor)
-	{
-		if(_flooractor->getNbShapes() > 0)
-		{
-			NxTriangleMeshShape* _currmap = (*_flooractor->getShapes())->isTriangleMesh();
+	NxRaycastHit hitinfo;
+	NxVec3 vec(0, -1, 0);
+	NxVec3 Position(PositionX, PositionY+1, PositionZ);
 
-			NxRaycastHit hitinfo;
-			NxVec3 vec(0, -1, 0);
-			NxVec3 Position(PositionX, PositionY+1, PositionZ);
+	// only test against static shape as dynamic are not suposed to be floor
+	 if(gScene->raycastClosestShape(NxRay(Position, vec), NX_STATIC_SHAPES, hitinfo, -1, 10000, NX_RAYCAST_DISTANCE))
+	 {
+		return (int)(Position.y - hitinfo.distance + 0.5);
+	 }
 
-			if(_currmap && _currmap->raycast(NxRay(Position, vec), 100.0f, NX_RAYCAST_DISTANCE, hitinfo, false))
-			{
-				return (int)(Position.y - hitinfo.distance + 0.5);
-			}
-		}
-	}
+	//if(_flooractor)
+	//{
+	//	if(_flooractor->getNbShapes() > 0)
+	//	{
+	//		NxTriangleMeshShape* _currmap = (*_flooractor->getShapes())->isTriangleMesh();
+
+	//		NxRaycastHit hitinfo;
+	//		NxVec3 vec(0, -1, 0);
+	//		NxVec3 Position(PositionX, PositionY+1, PositionZ);
+
+	//		if(_currmap && _currmap->raycast(NxRay(Position, vec), 100.0f, NX_RAYCAST_DISTANCE, hitinfo, false))
+	//		{
+	//			return (int)(Position.y - hitinfo.distance + 0.5);
+	//		}
+	//	}
+	//}
 
 	return -1;
 }

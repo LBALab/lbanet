@@ -98,6 +98,8 @@ public:
 	//! rotate object in the world
 	virtual void RotateTo(const LbaQuaternion& Q);
 
+	//! show or hide the object
+	virtual void ShowOrHide(bool Show);
 
 protected:
 	NxActor*	_Actor;
@@ -146,6 +148,8 @@ public:
 	//! rotate object in the world
 	virtual void RotateTo(const LbaQuaternion& Q);
 
+	//! show or hide the object
+	virtual void ShowOrHide(bool Show);
 
 protected:
 	NxController*								_Controller;

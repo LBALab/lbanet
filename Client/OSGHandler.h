@@ -124,6 +124,9 @@ public:
 	//! add a actor to the display list - return handler to actor position
 	osg::ref_ptr<osg::MatrixTransform> AddActorNode(osg::ref_ptr<osg::Node> node);
 
+	//! readd a removed actor to the display list
+	void ReAddActorNode(osg::ref_ptr<osg::Node> node);
+
 	//! remove actor from the graph
 	void RemoveActorNode(osg::ref_ptr<osg::Node> node);
 

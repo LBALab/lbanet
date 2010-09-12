@@ -373,19 +373,19 @@ ObjectInfo::~ObjectInfo()
 /***********************************************************
 build description into dynamic object
 ***********************************************************/
-boost::shared_ptr<DynamicObject> ObjectInfo::BuildSelf(long id, DisplayHandlerBase * disH) const
+boost::shared_ptr<DynamicObject> ObjectInfo::BuildSelf(DisplayHandlerBase * disH) const
 {
 	boost::shared_ptr<PhysicalObjectHandlerBase> phH;
 	boost::shared_ptr<DisplayObjectHandlerBase> disoH;
 	if(PhysInfo)
-		phH = PhysInfo->BuildSelf(id);
+		phH = PhysInfo->BuildSelf(Id);
 	if(DisInfo)
 		disoH = DisInfo->BuildSelf(disH);
 
 	if(!IsStatic && phH && disH)
-		return boost::shared_ptr<DynamicObject>(new WorldToDisplayObjectSynchronizer(phH, disoH, id));
+		return boost::shared_ptr<DynamicObject>(new WorldToDisplayObjectSynchronizer(phH, disoH, Id));
 	else
-		return boost::shared_ptr<DynamicObject>(new StaticObject(phH, disoH, id));
+		return boost::shared_ptr<DynamicObject>(new StaticObject(phH, disoH, Id));
 }
 
 

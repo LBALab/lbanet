@@ -16,7 +16,9 @@
 #include <osg/Node>
 #include <osg/MatrixTransform>
 #include "GuiHandler.h"
-
+#include "ObjectsDescription.h"
+#include "PhysXEngine.h"
+#include "DynamicObject.h"
 
 #ifdef NDEBUG
 #include "resource.h"
@@ -33,6 +35,8 @@ int main( int argc, char **argv )
 
 	OsgHandler::getInstance()->Initialize("LBANet", "./Data", ghptr);
 
+	PhysXEngine::getInstance()->Init(-2);
+
 
 	// set windows icon in release mode
 	#ifdef NDEBUG
@@ -41,11 +45,21 @@ int main( int argc, char **argv )
 	#endif
 
 
-	OsgHandler::getInstance()->AddActorNode(OsgHandler::getInstance()->LoadOSGFile("map0.osgb"));
+	boost::shared_ptr<DisplayInfo> DInfo(new DisplayInfo(boost::shared_ptr<DisplayTransformation>(),
+		boost::shared_ptr<DisplayObjectDescriptionBase>(new OsgSimpleObjectDescription("Worlds/Lba1/Grids/map0.osgb"))));
+
+	boost::shared_ptr<PhysicalDescriptionBase> PInfo(new PhysicalDescriptionTriangleMesh(0, 0, 0,
+																				"Worlds/Lba1/Grids/map0.phy",
+																				true));
+	ObjectInfo objinfo(1, DInfo, PInfo,	true);
+	boost::shared_ptr<DynamicObject> ground = objinfo.BuildSelf(OsgHandler::getInstance());
+
+	//OsgHandler::getInstance()->AddActorNode(OsgHandler::getInstance()->LoadOSGFile("Worlds/Lba1/Grids/map0.osgb"));
+
+	ghptr->SwitchGUI(2);
 
 	while(!OsgHandler::getInstance()->Update())
 	{
-
 	}
 
 	OsgHandler::getInstance()->Finalize();

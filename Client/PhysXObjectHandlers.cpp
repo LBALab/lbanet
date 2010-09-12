@@ -164,6 +164,14 @@ void PhysXActorsHandler::RotateTo(const LbaQuaternion& Q)
 }
 
 
+/***********************************************************
+show or hide the object
+***********************************************************/
+void PhysXActorsHandler::ShowOrHide(bool Show)
+{
+	PhysXEngine::getInstance()->HideShowActor(_Actor, Show);
+}
+
 
 
 
@@ -285,6 +293,16 @@ rotate object in the world
 void PhysXControllerHandler::RotateTo(const LbaQuaternion& Q)
 {
 	_rotH->RotateTo(Q);
+}
+
+
+
+/***********************************************************
+show or hide the object
+***********************************************************/
+void PhysXControllerHandler::ShowOrHide(bool Show)
+{
+	PhysXEngine::getInstance()->HideShowCharacter(_Controller, Show);
 }
 
 

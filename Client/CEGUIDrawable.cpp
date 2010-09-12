@@ -268,8 +268,13 @@
 
 struct CEGUIEventCallback : public osgGA::GUIEventHandler
 {
+	int lastwidth;
+	int lastheight;
+
     CEGUIEventCallback() 
 	{
+		lastwidth = -1;
+		lastheight = -1;
 	}
     
 	bool CEGUIEventCallback::handle(const osgGA::GUIEventAdapter& ea,osgGA::GUIActionAdapter& aa, osg::Object* obj, osg::NodeVisitor* nv)
@@ -286,10 +291,17 @@ struct CEGUIEventCallback : public osgGA::GUIEventHandler
 
 		case(osgGA::GUIEventAdapter::RESIZE):
 			{
-				//CEGUI::OpenGLRenderer *glRenderer=static_cast<CEGUI::OpenGLRenderer *>(CEGUI::System::getSingleton().getRenderer());
-				//glRenderer->grabTextures();
-				CEGUI::System::getSingleton().notifyDisplaySizeChanged(CEGUI::Size((float)ea.getWindowWidth(),(float)ea.getWindowHeight()));
-				//glRenderer->restoreTextures(); 
+				int width = ea.getWindowWidth();
+				int height = ea.getWindowHeight();
+				if((width != lastwidth) || (height != lastheight))
+				{
+					lastwidth = width;
+					lastheight = height;
+					//CEGUI::OpenGLRenderer *glRenderer=static_cast<CEGUI::OpenGLRenderer *>(CEGUI::System::getSingleton().getRenderer());
+					//glRenderer->grabTextures();
+					CEGUI::System::getSingleton().notifyDisplaySizeChanged(CEGUI::Size((float)width,(float)height));
+					//glRenderer->restoreTextures(); 
+				}
 				break;
 			}
 

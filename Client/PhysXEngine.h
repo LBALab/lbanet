@@ -112,6 +112,8 @@ public:
 	void SetCharacterPos(NxController* character, const NxVec3& posVector);
 	void GetCharacterPosition(NxController* character, float &posX, float &posY, float &posZ);
 	void HideShowCharacter(NxController* character, bool Show);
+	void HideShowActor(NxActor* actor, bool Show);
+
 
 	//! render actors
 	void RenderActors();
@@ -143,8 +145,6 @@ private:
 	NxScene*					gScene;
 	NxControllerManager*		gManager;
 	NxUserAllocator*			gAllocator;
-
-	NxActor*					_flooractor;
 
 	bool						_isInitialized;
 	double						_lasttime;

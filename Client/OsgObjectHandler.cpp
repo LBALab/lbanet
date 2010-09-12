@@ -39,7 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 Constructor
 ***********************************************************/
 OsgObjectHandler::OsgObjectHandler(osg::ref_ptr<osg::MatrixTransform> OsgObject)
-: _OsgObject(OsgObject), _posX(0), _posY(0), _posZ(0)
+: _OsgObject(OsgObject), _posX(0), _posY(0), _posZ(0), _displayed(true)
 {
 	#ifdef _DEBUG
 		LogHandler::getInstance()->LogToFile("Created new Osg object.");
@@ -57,7 +57,8 @@ OsgObjectHandler::~OsgObjectHandler()
 		LogHandler::getInstance()->LogToFile("Destroyed Osg object.");
 	#endif
 
-	OsgHandler::getInstance()->RemoveActorNode(_OsgObject);
+	if(_displayed && _OsgObject)
+		OsgHandler::getInstance()->RemoveActorNode(_OsgObject);
 }
 
 
@@ -95,5 +96,27 @@ void OsgObjectHandler::UpdateMatrix()
 		Rotation.makeRotate(osg::Quat(_Q.X, _Q.Y, _Q.Z, _Q.W));
 
 		_OsgObject->setMatrix(Rotation * Trans);
+	}
+}
+
+
+/***********************************************************
+show or hide the object
+***********************************************************/
+void OsgObjectHandler::ShowOrHide(bool Show)
+{
+	if(_OsgObject)
+	{
+		if(!Show && _displayed)
+		{
+			_displayed = false;
+			OsgHandler::getInstance()->RemoveActorNode(_OsgObject);
+		}
+
+		if(Show && !_displayed)
+		{
+			_displayed = true;
+			OsgHandler::getInstance()->ReAddActorNode(_OsgObject);
+		}
 	}
 }

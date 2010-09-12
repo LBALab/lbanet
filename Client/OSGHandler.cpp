@@ -699,6 +699,20 @@ osg::ref_ptr<osg::MatrixTransform> OsgHandler::AddActorNode(osg::ref_ptr<osg::No
 
 
 /***********************************************************
+readd a removed actor to the display list
+***********************************************************/
+void OsgHandler::ReAddActorNode(osg::ref_ptr<osg::Node> node)
+{
+	#ifdef _DEBUG
+		LogHandler::getInstance()->LogToFile("ReAdded Node to display engine");
+	#endif
+
+	if(_sceneRootNode)
+		_sceneRootNode->addChild(node);
+}
+
+
+/***********************************************************
 remove actor from the graph
 ***********************************************************/
 void OsgHandler::RemoveActorNode(osg::ref_ptr<osg::Node> node)
