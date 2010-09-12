@@ -59,29 +59,24 @@ public:
 	//! get object rotation on a single angle
 	virtual float GetRotationSingleAngle() = 0;
 
-	//! inform engine an action has tkane place back in time 
-	virtual void RevertBack(unsigned int time) = 0;
-
 	//! set object position in the world
-	virtual void SetPosition(unsigned int time, float X, float Y, float Z) = 0;
+	virtual void SetPosition(float X, float Y, float Z) = 0;
 
 	//! set object rotation on all axis
-	virtual void SetRotation(unsigned int time, const LbaQuaternion& Q) = 0;
+	virtual void SetRotation(const LbaQuaternion& Q) = 0;
 
 	//! move object in the world
-	virtual void Move(unsigned int time, float deltaX, float deltaY, float deltaZ, bool DirectApply=false) = 0;
+	virtual void Move(float deltaX, float deltaY, float deltaZ) = 0;
 
 	//! move object to a position in the world
-	virtual void MoveTo(unsigned int time, float X, float Y, float Z, bool DirectApply=false) = 0;
+	virtual void MoveTo(float X, float Y, float Z) = 0;
 
 	//! rotate object in the world
-	virtual void RotateYAxis(unsigned int time, float Speed, bool DirectApply=false) = 0;
+	virtual void RotateYAxis(float deltaY) = 0;
 
 	//! rotate object in the world
-	virtual void RotateTo(unsigned int time, const LbaQuaternion& Q) = 0;
+	virtual void RotateTo(const LbaQuaternion& Q) = 0;
 
-	//! move object in the world
-	virtual void MoveInDirection(unsigned int time, float MoveSpeed, bool AddGravity, bool DirectApply=false) = 0;
 	
 	//! get user data
 	virtual boost::shared_ptr<ActorUserData> GetUserData() = 0;
@@ -95,6 +90,10 @@ public:
 		_resetted = false;
 		return res;
 	}
+
+	//! show or hide the object
+	virtual void ShowOrHide(bool Show) = 0;
+
 
 protected:
 	bool _resetted;
@@ -145,9 +144,9 @@ public:
 	}
 
 	//! rotate object in the world
-	void RotateYAxis(float Speed)
+	void RotateYAxis(float deltaY)
 	{
-		_Q.AddRotation(Speed, LbaVec3(0,1,0));
+		_Q.AddRotation(deltaY, LbaVec3(0,1,0));
 	}
 
 
@@ -184,9 +183,6 @@ public:
 	virtual ~SimplePhysicalObjectHandler(){}
 
 
-	//! inform engine an action has tkane place back in time 
-	virtual void RevertBack(unsigned int time){}
-
 	//! get object position in the world
 	virtual void GetPosition(float &X, float &Y, float &Z)
 	{
@@ -197,7 +193,7 @@ public:
 
 
 	//! set object position in the world
-	virtual void SetPosition(unsigned int time, float X, float Y, float Z)
+	virtual void SetPosition(float X, float Y, float Z)
 	{
 		_PosX = X;
 		_PosY = Y;
@@ -207,7 +203,7 @@ public:
 
 
 	//! move object in the world
-	virtual void Move(unsigned int time, float deltaX, float deltaY, float deltaZ, bool DirectApply=false)
+	virtual void Move(float deltaX, float deltaY, float deltaZ)
 	{
 		_PosX += deltaX;
 		_PosY += deltaY;
@@ -228,14 +224,14 @@ public:
 	}
 
 	//! set object rotation on all axis
-	virtual void SetRotation(unsigned int time, const LbaQuaternion& Q)
+	virtual void SetRotation(const LbaQuaternion& Q)
 	{
 		_rotH.SetRotation(Q);
 		_resetted = true;
 	}
 
 	//! move object to a position in the world
-	virtual void MoveTo(unsigned int time, float X, float Y, float Z, bool DirectApply=false)
+	virtual void MoveTo(float X, float Y, float Z)
 	{
 		_PosX = X;
 		_PosY = Y;
@@ -244,26 +240,18 @@ public:
 
 
 	//! rotate object in the world
-	virtual void RotateTo(unsigned int time, const LbaQuaternion& Q)
+	virtual void RotateTo(const LbaQuaternion& Q)
 	{
 		_rotH.RotateTo(Q);
 	}
 
 
 	//! rotate object in the world
-	virtual void RotateYAxis(unsigned int time, float Speed, bool DirectApply=false)
+	virtual void RotateYAxis(float Speed)
 	{
 		_rotH.RotateYAxis(Speed);
 	}
 
-	//! move object in the world
-	virtual void MoveInDirection(unsigned int time, float MoveSpeed, bool AddGravity, bool DirectApply=false)
-	{
-		LbaQuaternion rot;
-		GetRotation(rot);
-		LbaVec3 current_direction = rot.GetDirection(LbaVec3(0, 0, 1));
-		Move(time, current_direction.x*MoveSpeed, 0, current_direction.z*MoveSpeed);
-	}
 
 
 	//! destroy function - clear the object content
@@ -272,6 +260,11 @@ public:
 	//! get user data
 	virtual boost::shared_ptr<ActorUserData> GetUserData()
 	{return boost::shared_ptr<ActorUserData>();}
+
+
+	//! show or hide the object
+	virtual void ShowOrHide(bool Show){}
+
 
 private:
 	float _PosX;

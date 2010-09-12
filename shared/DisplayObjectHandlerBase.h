@@ -51,6 +51,9 @@ public:
 
 	//! set object rotation on X axis
 	virtual void SetRotation(const LbaQuaternion& Q) = 0;
+
+	//! show or hide the object
+	virtual void ShowOrHide(bool Show) = 0;
 };
 
 

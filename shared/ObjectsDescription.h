@@ -233,7 +233,7 @@ public:
 	virtual ~PhysicalDescriptionBase();
 
 	//! build description into a reald physic object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(boost::shared_ptr<PhysXEngine> _PEngine) const = 0;
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id) const = 0;
 
 	//! serialize to network object
 	virtual void Serialize(SerializerBase * stream) const;
@@ -273,7 +273,7 @@ public:
 	virtual ~PhysicalDescriptionNoShape();
 
 	//! build description into a reald physic object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(boost::shared_ptr<PhysXEngine> _PEngine) const;
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id) const;
 
 	//! get object type
 	virtual short GetType()
@@ -296,7 +296,8 @@ public:
 	//! constructor
 	PhysicalDescriptionWithShape(float posX, float posY, float posZ,
 									int Otype, float Odensity,
-									const LbaQuaternion &rot);
+									const LbaQuaternion &rot,
+									bool Collidable);
 
 	//! constructor from stream
 	PhysicalDescriptionWithShape(SerializerBase * stream);
@@ -328,7 +329,8 @@ public:
 	// density of the object
 	float density;
 
-
+	// flag if object is collidable or not
+	bool collidable;
 };
 
 
@@ -343,7 +345,8 @@ public:
 	PhysicalDescriptionBox(float posX, float posY, float posZ,
 									int Otype, float Odensity,
 									const LbaQuaternion &rot,
-									float sX, float sY, float sZ);
+									float sX, float sY, float sZ,
+									bool Collidable);
 
 	//! constructor from stream
 	PhysicalDescriptionBox(SerializerBase * stream);
@@ -353,7 +356,7 @@ public:
 
 
 	//! build description into a reald physic object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(boost::shared_ptr<PhysXEngine> _PEngine) const;
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id) const;
 
 	//! serialize to network object
 	virtual void Serialize(SerializerBase * stream) const;
@@ -381,7 +384,8 @@ public:
 	PhysicalDescriptionCapsule(float posX, float posY, float posZ,
 									int Otype, float Odensity,
 									const LbaQuaternion &rot,
-									float rad, float ht);
+									float rad, float ht,
+									bool Collidable);
 
 	//! constructor from stream
 	PhysicalDescriptionCapsule(SerializerBase * stream);
@@ -391,7 +395,7 @@ public:
 
 
 	//! build description into a reald physic object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(boost::shared_ptr<PhysXEngine> _PEngine) const;
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id) const;
 
 	//! serialize to network object
 	virtual void Serialize(SerializerBase * stream) const;
@@ -420,7 +424,11 @@ public:
 	PhysicalDescriptionSphere(float posX, float posY, float posZ,
 									int Otype, float Odensity,
 									const LbaQuaternion &rot,
-									float rad);
+									float rad,
+									float StaticFriction, 
+									float DynamicFriction, 
+									float Restitution,
+									bool Collidable);
 
 	//! constructor from stream
 	PhysicalDescriptionSphere(SerializerBase * stream);
@@ -430,7 +438,7 @@ public:
 
 
 	//! build description into a reald physic object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(boost::shared_ptr<PhysXEngine> _PEngine) const;
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id) const;
 
 	//! serialize to network object
 	virtual void Serialize(SerializerBase * stream) const;
@@ -442,6 +450,11 @@ public:
 public:
 	// radius of the sphere from capsule sphere
 	float radius;
+
+	// used primarly for projectiles
+	float staticFriction; 
+	float dynamicFriction; 
+	float restitution;
 };
 
 
@@ -455,7 +468,8 @@ class PhysicalDescriptionTriangleMesh : public PhysicalDescriptionWithShape
 public:
 	//! constructor
 	PhysicalDescriptionTriangleMesh(float posX, float posY, float posZ,
-										const std::string &FileName);
+										const std::string &FileName,
+										bool Collidable);
 
 	//! constructor from stream
 	PhysicalDescriptionTriangleMesh(SerializerBase * stream);
@@ -465,7 +479,7 @@ public:
 
 
 	//! build description into a reald physic object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(boost::shared_ptr<PhysXEngine> _PEngine) const;
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id) const;
 
 	//! serialize to network object
 	virtual void Serialize(SerializerBase * stream) const;
@@ -494,7 +508,7 @@ public:
 	//! constructor
 	ObjectInfo(long oid, boost::shared_ptr<DisplayInfo> DInfo,
 				boost::shared_ptr<PhysicalDescriptionBase> PInfo,
-				bool Static, bool NoSmoothing=false);
+				bool Static);
 
 	//! constructor from stream
 	ObjectInfo(SerializerBase * stream);
@@ -503,13 +517,9 @@ public:
 	virtual ~ObjectInfo();
 
 	//! build description into dynamic object
-	boost::shared_ptr<DynamicObject> BuildSelf(boost::shared_ptr<PhysXEngine> _PEngine, int id,
-												DisplayHandlerBase * disH) const;
+	boost::shared_ptr<DynamicObject> BuildSelf(DisplayHandlerBase * disH) const;
 
-	//! build description into dynamic object
-	boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelfServer(boost::shared_ptr<PhysXEngine> _PEngine) const;
-
-	//! serialize to network object
+		//! serialize to network object
 	void Serialize(SerializerBase * stream) const;
 
 	//get object id
@@ -518,7 +528,6 @@ public:
 public:
 	boost::shared_ptr<DisplayInfo>				DisInfo;
 	boost::shared_ptr<PhysicalDescriptionBase>	PhysInfo;
-	bool										ForceNoSmoothing;
 	bool										IsStatic;
 	long										Id;
 };
