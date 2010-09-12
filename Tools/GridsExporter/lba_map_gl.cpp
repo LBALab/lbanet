@@ -138,6 +138,8 @@ LBA_MAP_GL::LBA_MAP_GL(int NUM_MAP,int LBA2)
     int offset_x,offset_y;
     lba_map=new LBA_MAP(NUM_MAP,LBA2);
     texture_map=new unsigned char[2048*2048*4];
+	memset(texture_map, 0, 2048*2048*4*sizeof(unsigned char));
+
     LBA_SHARED_BRICK *shared_brick1= new LBA_SHARED_BRICK[lba_map->number_brick];
     LBA_SHARED_BRICK *shared_brick2= new LBA_SHARED_BRICK[lba_map->number_brick];
 
@@ -267,9 +269,9 @@ LBA_MAP_GL::LBA_MAP_GL(int NUM_MAP,int LBA2)
 
 	std::stringstream filename;
 	if(islba2)
-		filename<<"Data/Lba2/Maps/map";
+		filename<<"Data/Lba2/Grids/map";
 	else
-		filename<<"Data/Lba1/Maps/map";
+		filename<<"Data/Lba1/Grids/map";
 
 	filename<<mapnumber<<".png";
 
@@ -475,17 +477,17 @@ void LBA_MAP_GL::ExportMapOSG()
 
 	std::stringstream filename;
 	if(islba2)
-		filename<<"Data/Lba2/Maps/map";
+		filename<<"Data/Lba2/Grids/map";
 	else
-		filename<<"Data/Lba1/Maps/map";
+		filename<<"Data/Lba1/Grids/map";
 
 	filename<<mapnumber<<".osgb";
 
 	std::stringstream filename2;
 	if(islba2)
-		filename2<<"Lba2/Maps/map";
+		filename2<<"Lba2/Grids/map";
 	else
-		filename2<<"Lba1/Maps/map";
+		filename2<<"Lba1/Grids/map";
 
 	filename2<<mapnumber<<".png";
 

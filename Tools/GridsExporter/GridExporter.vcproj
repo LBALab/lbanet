@@ -185,7 +185,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\lba_mapphys.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\main.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\PhysicHandler.cpp"
 				>
 			</File>
 			<File
@@ -211,7 +219,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\lba_mapphys.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PhysicHandler.h"
+				>
+			</File>
+			<File
 				RelativePath=".\string_append.h"
+				>
+			</File>
+			<File
+				RelativePath=".\vector.h"
 				>
 			</File>
 			<File

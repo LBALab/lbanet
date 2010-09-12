@@ -1,0 +1,78 @@
+lbanet floor type:
+ 00: no shape
+ 01: solid
+ 02: stairs: top left edge at the ground (example: brick 1075)
+ 03: stairs: top right edge at the ground (example: brick 1345)
+ 04: stairs: bottom left edge at the ground (example: brick 166)
+ 05: staris: bottom right edge at the ground (example: brick 167)
+ 06: double-sided stairs 1 (corner at the ground, two egdes at the ceiling): top corner at the ground (example: brick 3815)
+ 07: double-sided stairs 1: bottom corner at the ground (example: brick 3169)
+ 08: double-sided stairs 1: left corner at the ground (example: brick 3814)
+ 09: double-sided stairs 1: right corner at the ground (example: brick 3813)
+ 10: double-sided stairs 2 (two edges at the ground, cornet at the ceiling): top corner at the ground (example: bricks 1347, 3238)
+ 11: double-sided stairs 2: bottom corner at the ground (example: brick 579)
+ 12: double-sided stairs 2: left cornet at the ground (example: brick 1349)
+ 13: double-sided stairs 2: right corner at the ground (example: brick 1348)
+ 15: water
+ 16: lava
+ 17: gas
+
+
+
+
+lbanet floor sound:
+
+ 0: no sound
+ 1: floor
+ 2: snow
+ 3: wood
+ 4: sand
+ 5: rock
+ 6: metal
+ 7: rock (different than 5, used for some blocks in caves)
+ 8: carpet
+ 9: flowers
+ 10: wood (different than 3)
+ 11: wet floor
+ 12: grass
+ 13: rock (different than 5 and 7, used for the labyrinth under the Dome of the Slate)
+ 14: very wet floor (used for sewer floors and for the pot of soup in the Rabbibunny village)
+ 15: similar to 5, but muffled (used in all caves and the for dwimming pool (Fortress Island))
+ 16: rumbling sound (used for some moving platforms in caves and for the rubber pontoon in the museum)
+
+
+
+lba1 sound conversion:
+ 0 -> 1
+ 1 -> 8
+ 2 -> 6
+ 3 -> 3
+ 4 -> 2
+ 5 -> 5
+ 6 -> 4
+ 7 -> 11
+ 8 -> 12
+ 9 -> 9
+ 10 -> 15
+ 11 -> 16
+ 12 -> 14
+ else -> 0
+
+
+lba2 sound conversion:
+ 0 -> 0
+ 1 -> 1
+ 2 -> 1
+ 3 -> 3
+ 4 -> 4
+ 5 -> 5
+ 6 -> 6
+ 7 -> 7
+ 8 -> 8
+ 9 -> 9
+ 10 -> 10
+ 11 -> 11
+ 12 -> 6
+ 13 -> 13
+ 14 -> 1
+ else -> 0
