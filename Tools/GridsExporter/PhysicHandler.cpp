@@ -3217,8 +3217,8 @@ void PhysicHandler::SavePlanes(const std::string & filename)
 	filebit.write((char*)&sizevertex, sizeof(unsigned int));
 	filebit.write((char*)&sizeindices, sizeof(unsigned int));
 	filebit.write((char*)&sizematerials, sizeof(unsigned int));
-	filebit.write((char*)&sizevertexroof, sizeof(unsigned int));
-	filebit.write((char*)&sizeindicesroof, sizeof(unsigned int));
+	//filebit.write((char*)&sizevertexroof, sizeof(unsigned int));
+	//filebit.write((char*)&sizeindicesroof, sizeof(unsigned int));
 
 	filebit.write((char*)&vertexes[0], sizevertex*sizeof(float));
 	filebit.write((char*)&indices[0], sizeindices*sizeof(unsigned int));
@@ -3226,11 +3226,11 @@ void PhysicHandler::SavePlanes(const std::string & filename)
 	if(sizematerials > 0)
 		filebit.write((char*)&materials[0], sizematerials*sizeof(short));
 
-	if(sizevertexroof > 0)
-	{
-		filebit.write((char*)&vertexesroof[0], sizevertexroof*sizeof(float));
-		filebit.write((char*)&indicesroof[0], sizeindicesroof*sizeof(unsigned int));
-	}
+	//if(sizevertexroof > 0)
+	//{
+	//	filebit.write((char*)&vertexesroof[0], sizevertexroof*sizeof(float));
+	//	filebit.write((char*)&indicesroof[0], sizeindicesroof*sizeof(unsigned int));
+	//}
 }
 
 
