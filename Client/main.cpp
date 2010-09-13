@@ -9,38 +9,89 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 
-//#include <iostream>
-//#include <time.h>
-//#include <osg/Node>
-//#include <osg/MatrixTransform>
-#include "GuiHandler.h"
-//#include "ObjectsDescription.h"
-//#include "PhysXEngine.h"
-//#include "DynamicObject.h"
+
 
 #include "LbaNetEngine.h"
-
-#ifdef NDEBUG
+#include <Ice/Application.h>
 #include "resource.h"
 #include "OSGHandler.h"
+#include "LogHandler.h"
 
+#include <windows.h>
+#include <tchar.h>
+
+
+#ifdef NDEBUG
+HINSTANCE globalInstance;
+#endif
+
+
+class IceClient : public Ice::Application
+{
+public:
+
+    virtual int run(int argc, char* argv[])
+    {
+		shutdownOnInterrupt();
+
+		LogHandler::getInstance()->LogToFile("Reading properties...");
+		Ice::PropertiesPtr prop = communicator()->getProperties();
+		std::string clientV = prop->getPropertyWithDefault("LbanetClientVersion", "v0");
+
+		LogHandler::getInstance()->LogToFile("Initializing the game engine...");
+		// create engine
+		LbaNetEngine engine(communicator(), clientV);
+
+
+
+		// set windows icon in release mode
+		#ifdef NDEBUG
+		SendMessage((HWND)OsgHandler::getInstance()->GetWindowsHandle(), 
+			WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(globalInstance,  MAKEINTRESOURCE(IDI_ICON1)));
+		#endif
+
+
+
+
+		LogHandler::getInstance()->LogToFile("Starting the game engine...");
+		engine.run();
+
+
+		communicator()->shutdown();
+		communicator()->waitForShutdown();
+		return EXIT_SUCCESS;
+	}
+};
+
+
+
+
+
+
+#ifdef NDEBUG
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+{
+	globalInstance = hInstance;
+
+	// convert to argc/argv
+    char cmdline[4096];
+    char* argv[4096];
+    int argc = 0 ;
+    strcpy( cmdline, GetCommandLineA() ) ;
+    argv[argc] = strtok( cmdline, " \t" ) ;
+    while( argv[argc] != 0 )
+    {
+        argc++ ;
+        argv[argc] = strtok( 0, " \t" ) ;
+    }
 #else
 int main( int argc, char **argv )
-#endif
 {
-	// create engine
-	LbaNetEngine engine;
+#endif
 
-	// set windows icon in release mode
-	#ifdef NDEBUG
-	SendMessage((HWND)OsgHandler::getInstance()->GetWindowsHandle(), 
-		WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(hInstance,  MAKEINTRESOURCE(IDI_ICON1)));
-	#endif
-
-	// start run loop
-	engine.run();
-
-	return 0;
+	LogHandler::getInstance()->LogToFile("Entering main program...");
+    IceClient app;
+    return app.main(argc, argv, "config.client");
 }
+
 

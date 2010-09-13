@@ -163,47 +163,6 @@ public:
 
 /*
 ************************************************************************************************************************
-*                                                  class AddChatChannelEvent
-*
-*	used when client add a channel to the chat
-************************************************************************************************************************
-*/
-class AddChatChannelEvent : public LbaNet::ClientServerEventBase
-{
-public:
-	//! constructor
-	AddChatChannelEvent(const std::string & channelname)
-		: _channelname(channelname)
-	{
-	}
-
-	std::string _channelname;
-};
-
-
-/*
-************************************************************************************************************************
-*                                                  class RemoveChatChannelEvent
-*
-*	used when client remove a channel to the chat
-************************************************************************************************************************
-*/
-class RemoveChatChannelEvent : public LbaNet::ClientServerEventBase
-{
-public:
-	//! constructor
-	RemoveChatChannelEvent(const std::string & channelname)
-		: _channelname(channelname)
-	{
-	}
-
-	std::string _channelname;
-};
-
-
-
-/*
-************************************************************************************************************************
 *                                                  class NewFontSizeEvent
 *
 *	used when client change font size
@@ -241,6 +200,53 @@ public:
 	int _G;
 	int _B;
 };
+
+
+
+
+/*
+************************************************************************************************************************
+*                                                  class SendChatTextEvent
+*
+*	used by chatbox to inform engine to send chat text
+************************************************************************************************************************
+*/
+class SendChatTextEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	SendChatTextEvent(const std::string & text)
+		: _text(text)
+	{
+	}
+
+	std::string _text;
+};
+
+
+
+/*
+************************************************************************************************************************
+*                                                  class PlayerStatusUpdateEvent
+*
+*	used when a player update its status
+************************************************************************************************************************
+*/
+class PlayerStatusUpdateEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	PlayerStatusUpdateEvent(const std::string & name, const std::string & status, 
+															const std::string & color)
+		: _name(name), _status(status), _color(color)
+	{
+	}
+
+	std::string _name;
+	std::string _status;
+	std::string _color;
+};
+
 
 
 

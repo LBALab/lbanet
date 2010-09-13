@@ -401,15 +401,7 @@ void ChatBox::AddTab(const std::string & tabName)
 	txt->setProperty("ForceVertScrollbar", "True");
 	fWnd->addChildWindow(txt);
 
-	//CEGUI::MultiLineEditbox* txt = static_cast<CEGUI::MultiLineEditbox *>(CEGUI::WindowManager::getSingleton().createWindow( "TaharezLook/MultiLineEditbox", "Chat/Tab_"+tabName+"/editMulti" ));
-	//txt->setProperty("MaxTextLength", "1073741823");
-	//txt->setProperty("UnifiedMaxSize", "{{1,0},{1,0}}");
-	//txt->setProperty("UnifiedAreaRect", "{{0,0},{0,0},{1,0},{1,0}}");
-	//txt->setReadOnly(true);
-	//fWnd->addChildWindow(txt);
 	tc->addTab (fWnd);
-
-   //txt->subscribeEvent(CEGUI::Editbox::EventKeyDown, CEGUI::Event::Subscriber (&ChatBox::HandleEnterKey, this));
 }
 
 /***********************************************************
@@ -486,15 +478,9 @@ void ChatBox::SendText(const std::string & channel, const std::string & Text)
 	if(Text == "")
 		return;
 
-	//if(channel == "IRC")
-	//{
-	//	if(_IRC)
-	//		_IRC->sendMessage(Text);
-	//}
-	//else
 	{
 		if(Text[0] == '/')
-			EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ChatTextEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), "", Text));
+			EventsQueue::getReceiverQueue()->AddEvent(new SendChatTextEvent(Text));
 		else
 		{
 			if(channel.size() > 2 && channel[0] == 'w' && channel[1] == ':') // in case of whisper
@@ -503,7 +489,7 @@ void ChatBox::SendText(const std::string & channel, const std::string & Text)
 				tosend += channel.substr(2);
 				tosend += " ";
 				tosend += Text;
-				EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ChatTextEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), "", tosend));
+				EventsQueue::getReceiverQueue()->AddEvent(new SendChatTextEvent(tosend));
 			}
 			else
 			{
@@ -516,7 +502,7 @@ void ChatBox::SendText(const std::string & channel, const std::string & Text)
 				tosend += " ";
 				tosend += Text;
 
-				EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ChatTextEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), "", tosend));
+				EventsQueue::getReceiverQueue()->AddEvent(new SendChatTextEvent(tosend));
 			}
 		}
 	}
@@ -799,7 +785,11 @@ void ChatBox::AddChannel(const std::string & channel)
 
 
 	// inform engine to add a channel
-	EventsQueue::getReceiverQueue()->AddEvent(new AddChatChannelEvent(channel));
+	{
+		std::string tosend("/join ");
+		tosend +=channel;
+		EventsQueue::getReceiverQueue()->AddEvent(new SendChatTextEvent(tosend));
+	}
 }
 
 

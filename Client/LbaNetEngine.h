@@ -29,12 +29,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 
 #include <boost/shared_ptr.hpp>
-
+#include <Ice/Application.h>
+#include "ConnectionHandlerBase.h"
 
 class PhysXEngine;
 class GuiHandler;
 class LbaNetModel;
-
+class ChatServerHandler;
 
 /***********************************************************************
  * Module:  LbaNetEngine.h
@@ -46,7 +47,7 @@ class LbaNetEngine
 {
 public:
 	//!constructor
-	LbaNetEngine();
+	LbaNetEngine(Ice::CommunicatorPtr communicator, const std::string & clientV);
 
 	//!destructor
    ~LbaNetEngine();
@@ -65,7 +66,7 @@ protected:
 	void HandleGameEvents();
 
 	//! try to login to the server
-	void TryLogin(const std::string &Name, const std::string &Passwordl);
+	void TryLogin(const std::string &Name, const std::string &Passwordl, bool uselocalserver);
 
 	//! switch gui helpers
 	void SwitchGuiToLogin();
@@ -91,11 +92,13 @@ protected:
 
 
 private:
-	boost::shared_ptr<GuiHandler>	m_gui_handler;		// pointer on gui class
-	boost::shared_ptr<LbaNetModel>	m_lbaNetModel;		// game model
+	boost::shared_ptr<GuiHandler>	m_gui_handler;				// pointer on gui class
+	boost::shared_ptr<LbaNetModel>	m_lbaNetModel;				// game model
+	boost::shared_ptr<ConnectionHandlerBase>	m_serverConH;	// connection to server
+	boost::shared_ptr<ChatServerHandler>	m_chatH;			// connection to chat server
 
-	std::string						m_userlogin;
-	std::string						m_userpass;
+	Ice::CommunicatorPtr			m_communicator;
+	std::string						m_clientV;
 
 	// game states
 	enum EngineState {ELogin=0, EChoosingWorld, EGaming, EMenu, EOption };

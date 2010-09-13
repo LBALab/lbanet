@@ -34,6 +34,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ClientExtendedEvents.h"
 #include "ClientExtendedTypes.h"
 #include "LbaNetModel.h"
+#include "RemoteConnectionHandler.h"
+#include "LocalConnectionHandler.h"
+#include "ChatServerHandler.h"
+
+
 #include <IceUtil/Thread.h>
 
 #define TIME_PER_FRAME 17
@@ -41,8 +46,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /***********************************************************
 	Constructor
 ***********************************************************/
-LbaNetEngine::LbaNetEngine()
-: m_currentstate(EGaming), m_oldstate(ELogin)
+LbaNetEngine::LbaNetEngine(Ice::CommunicatorPtr communicator, const std::string & clientV)
+: m_currentstate(EGaming), m_oldstate(ELogin), m_clientV(clientV),
+	m_communicator(communicator)
 {
 	Initialize();
 	SwitchGuiToLogin();
@@ -80,6 +86,7 @@ void LbaNetEngine::Initialize(void)
 	// init gui
 	m_gui_handler = boost::shared_ptr<GuiHandler>(new GuiHandler());
 
+
 	//int model
 	m_lbaNetModel = boost::shared_ptr<LbaNetModel>(new LbaNetModel());
 
@@ -104,6 +111,12 @@ void LbaNetEngine::Initialize(void)
 
 
 
+	//check if server is online
+	LogHandler::getInstance()->LogToFile("Test connection with server...");
+	bool serveronline = RemoteConnectionHandler::IsServerOn(m_communicator);
+	m_gui_handler->SetServrOn(serveronline);
+	m_gui_handler->SetClientVersion(m_clientV);
+
 	LogHandler::getInstance()->LogToFile("Initializing Completed.");
 }
 
@@ -114,20 +127,18 @@ entry point of the engine
 void LbaNetEngine::run(void)
 {
 	//TODO - for test - to remove
-	boost::shared_ptr<DisplayInfo> DInfo(new DisplayInfo(boost::shared_ptr<DisplayTransformation>(),
-		boost::shared_ptr<DisplayObjectDescriptionBase>(new OsgSimpleObjectDescription("Worlds/Lba1/Grids/map0.osgb"))));
+	//boost::shared_ptr<DisplayInfo> DInfo(new DisplayInfo(boost::shared_ptr<DisplayTransformation>(),
+	//	boost::shared_ptr<DisplayObjectDescriptionBase>(new OsgSimpleObjectDescription("Worlds/Lba1/Grids/map0.osgb"))));
 
-	boost::shared_ptr<PhysicalDescriptionBase> PInfo(new PhysicalDescriptionTriangleMesh(0, 0, 0,
-																				"Worlds/Lba1/Grids/map0.phy",
-																				true));
-	ObjectInfo objinfo(1, DInfo, PInfo,	true);
-	boost::shared_ptr<DynamicObject> ground = objinfo.BuildSelf(OsgHandler::getInstance());
+	//boost::shared_ptr<PhysicalDescriptionBase> PInfo(new PhysicalDescriptionTriangleMesh(0, 0, 0,
+	//																			"Worlds/Lba1/Grids/map0.phy",
+	//																			true));
+	//ObjectInfo objinfo(1, DInfo, PInfo,	true);
+	//boost::shared_ptr<DynamicObject> ground = objinfo.BuildSelf(OsgHandler::getInstance());
 
-	m_lbaNetModel->AddObject(objinfo, false);
+	//m_lbaNetModel->AddObject(objinfo, false);
 
-	SwitchGuiToGame();
-
-
+	//SwitchGuiToGame();
 
 
 	try
@@ -155,10 +166,6 @@ void LbaNetEngine::run(void)
 				IceUtil::ThreadControl::sleep(IceUtil::Time::milliSeconds(TIME_PER_FRAME-timelong));
 
 
-			//if(wdiff < TIME_PER_FRAME)
-				//ZoidCom::Sleep(TIME_PER_FRAME-wdiff);
-
-
 			// mesure the time used to do one cycle
 			waittime = SynchronizedTimeHandler::GetCurrentTimeDouble();
 
@@ -176,6 +183,11 @@ void LbaNetEngine::run(void)
 	}
 
 	LogHandler::getInstance()->LogToFile("Quitting the game.");
+
+
+	//disconnect from server
+	if(m_serverConH)
+		m_serverConH->Disconnect();
 }
 
 
@@ -540,10 +552,32 @@ void LbaNetEngine::SwitchGuiToOption()
 /***********************************************************
 try to login to the server
 ***********************************************************/
-void LbaNetEngine::TryLogin(const std::string &Name, const std::string &Password)
+void LbaNetEngine::TryLogin(const std::string &Name, const std::string &Password, bool uselocalserver)
 {
-	m_userlogin = Name;
-	m_userpass = Password;
+	if(uselocalserver)
+	{
+		m_serverConH = boost::shared_ptr<ConnectionHandlerBase>(new LocalConnectionHandler());
+	}
+	else
+	{
+		m_chatH = boost::shared_ptr<ChatServerHandler>(new ChatServerHandler());
+		m_serverConH = boost::shared_ptr<ConnectionHandlerBase>(new RemoteConnectionHandler(m_communicator, m_chatH));
+	}
+
+	std::string reason;
+	int res = m_serverConH->Connect(Name, Password, reason);
+	// check if connection to server failed
+	if(res < 1)
+	{
+		if(res == 0)
+			m_gui_handler->SetServrOn(false);
+
+		m_gui_handler->InformNotLoggedIn(res, reason);
+		return;
+	}
+
+	m_gui_handler->SetServrOn(true);
+	m_gui_handler->RefreshOption();
 
 }
 

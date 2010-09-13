@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib CEGUIBase_d.lib CEGUIOpenGLRenderer_d.lib osgd.lib osgutild.lib osgGAd.lib osgViewerd.lib osgDBd.lib osgShadowd.lib libconfig++d.lib PhysXLoader.lib PhysXCooking.lib NxCharacter.lib iced.lib iceutild.lib fmodex_vc.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib CEGUIBase_d.lib CEGUIOpenGLRenderer_d.lib osgd.lib osgutild.lib osgGAd.lib osgViewerd.lib osgDBd.lib osgShadowd.lib libconfig++d.lib PhysXLoader.lib PhysXCooking.lib NxCharacter.lib iced.lib iceutild.lib glacier2d.lib fmodex_vc.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\dependencies\OSG\lib;..\dependencies\CEGUI\lib;..\dependencies\3rdParty\lib;..\dependencies\libconfig\lib;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\lib\Win32&quot;;&quot;$(ICE_HOME)\lib&quot;;..\dependencies\fmod\lib"
 				GenerateDebugInformation="true"
@@ -136,7 +136,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib CEGUIBase.lib CEGUIOpenGLRenderer.lib osg.lib osgutil.lib osgGA.lib osgViewer.lib osgDB.lib osgShadow.lib libconfig++.lib PhysXLoader.lib PhysXCooking.lib NxCharacter.lib ice.lib iceutil.lib fmodex_vc.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib CEGUIBase.lib CEGUIOpenGLRenderer.lib osg.lib osgutil.lib osgGA.lib osgViewer.lib osgDB.lib osgShadow.lib libconfig++.lib PhysXLoader.lib PhysXCooking.lib NxCharacter.lib ice.lib iceutil.lib glacier2.lib fmodex_vc.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\dependencies\OSG\lib;..\dependencies\CEGUI\lib;..\dependencies\3rdParty\lib;..\dependencies\libconfig\lib;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\lib\Win32&quot;;&quot;$(ICE_HOME)\lib&quot;;..\dependencies\fmod\lib"
 				GenerateDebugInformation="true"
@@ -201,6 +201,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ChatReceiverServant.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ChatServerHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ChooseNumberBox.cpp"
 				>
 			</File>
@@ -209,7 +217,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\infrastructure\cpp\ClientInterface.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\infrastructure\cpp\ClientServerEvents.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\infrastructure\cpp\ClientSession.cpp"
 				>
 			</File>
 			<File
@@ -257,6 +273,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\InfosReceiverServant.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\InventoryBox.cpp"
 				>
 			</File>
@@ -282,6 +302,10 @@
 			</File>
 			<File
 				RelativePath=".\LetterViewerBox.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\LocalConnectionHandler.cpp"
 				>
 			</File>
 			<File
@@ -338,6 +362,10 @@
 			</File>
 			<File
 				RelativePath=".\PhysXObjectHandlers.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\RemoteConnectionHandler.cpp"
 				>
 			</File>
 			<File
@@ -399,6 +427,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ChatReceiverServant.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ChatServerHandler.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ChooseNumberBox.h"
 				>
 			</File>
@@ -424,6 +460,10 @@
 			</File>
 			<File
 				RelativePath=".\ConfigurationManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ConnectionHandlerBase.h"
 				>
 			</File>
 			<File
@@ -479,6 +519,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\InfosReceiverServant.h"
+				>
+			</File>
+			<File
 				RelativePath=".\InventoryBox.h"
 				>
 			</File>
@@ -500,6 +544,10 @@
 			</File>
 			<File
 				RelativePath=".\LetterViewerBox.h"
+				>
+			</File>
+			<File
+				RelativePath=".\LocalConnectionHandler.h"
 				>
 			</File>
 			<File
@@ -564,6 +612,10 @@
 			</File>
 			<File
 				RelativePath=".\PhysXObjectHandlers.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RemoteConnectionHandler.h"
 				>
 			</File>
 			<File
