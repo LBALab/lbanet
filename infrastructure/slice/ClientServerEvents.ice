@@ -16,14 +16,6 @@ module LbaNet
 	
 	
 	
-	// event sent by client when user send chat text
-	class ChatTextEvent extends ClientServerEventBase 
-	{
-		string			Sender;
-	    	string			Text;
-	};
-	
-	
 	// server send list of available worlds to client
 	class AvailableWorldsEvent extends ClientServerEventBase
 	{

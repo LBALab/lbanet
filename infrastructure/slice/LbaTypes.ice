@@ -388,6 +388,17 @@ module LbaNet
 		long			ItemId;
 	};	
 	
+	
+	
+	// text received by client from server
+	class ChatTextUpdate extends GuiUpdateBase 
+	{
+		string			Channel;
+		string			Sender;
+	    	string			Text;
+	};
+		
+	
 };	
 
 #endif
