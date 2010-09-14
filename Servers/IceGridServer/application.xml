@@ -1,0 +1,281 @@
+<icegrid>
+	<application name="LbaNetServer">
+	
+		<!--
+		**********************************************************************
+		Definition of the icestorm server
+		
+		-->	
+		<service-template id="IceStorm">
+
+		<parameter name="instance-name" default="${application}.IceStorm"/>
+		<parameter name="index" default=""/>
+		<parameter name="topic-manager-endpoints" default="default"/>
+		<parameter name="publish-endpoints" default="default"/>
+		<parameter name="flush-timeout" default="1000"/>
+
+		<service name="IceStorm${index}" entry="IceStormService,33:createIceStorm">
+
+		<dbenv name="${service}"/>
+
+		<adapter name="${service}.TopicManager"
+			 id="${instance-name}.TopicManager" 
+			 endpoints="${topic-manager-endpoints}">
+		  <object identity="${instance-name}/TopicManager" type="::IceStorm::TopicManager"/>
+		</adapter>
+
+		<adapter name="${service}.Publish" 
+			 id="${instance-name}.Publish" 
+			 endpoints="${publish-endpoints}"/>
+
+		<properties>
+		   <property name="${service}.InstanceName" value="${instance-name}"/>
+		   <property name="${service}.Flush.Timeout" value="${flush-timeout}"/>	   	   
+		</properties>
+		</service>
+
+		</service-template>
+
+
+		<server-template id="IceStorm">
+			<parameter name="IceStorm"	default="${application}.IceStorm"/>
+			<parameter name="topic-manager-endpoints" default="default"/>
+			<parameter name="publish-endpoints" default="default"/>
+			<parameter name="flush-timeout" default="1000"/>
+			<parameter name="index" default="0"/>
+
+
+			<icebox id="${IceStorm}" exe="icebox" activation="always">
+			<service-instance template="IceStorm"
+					  instance-name="${IceStorm}" 
+					  topic-manager-endpoints="${topic-manager-endpoints}"
+					  publish-endpoints="${publish-endpoints}"
+					  flush-timeout="${flush-timeout}"/>
+					  
+				  
+			</icebox>
+
+		</server-template>
+	
+		
+	
+		<!--
+		**********************************************************************
+		Configuration of LBANet Server
+		-->
+		<server-template id="LBANetServer">
+			<parameter name="index"/>
+			<parameter name="exepath"
+			default="../bin/lbaserver"/>				
+			<parameter name="RoomManager"/>
+			<parameter name="ConnectedTracker"/>
+			<parameter name="MapManager"/>
+			<parameter name="ServVersion"/>			
+			
+			<server id="LBANetServer-${index}" 
+			exe="${exepath}"
+			activation="on-demand">
+				<adapter name="LBANetServer${index}-Adapter" register-process="true"
+				endpoints="tcp">
+					<object identity="LBANetServer${index}-SessionManager" type="::Glacier2::SessionManager"/>
+				</adapter>
+
+				<property name="IdentityAdapter" value="LBANetServer${index}-Adapter"/>
+				<property name="SessionMServantName" value="LBANetServer${index}-SessionManager"/>	
+				<property name="RoomManager" value="${RoomManager}"/>	
+				<property name="ConnectedTracker" value="${ConnectedTracker}"/>
+				<property name="MapManager" value="${MapManager}"/>				
+				<property name="Ice.MessageSizeMax" value="4096"/>
+				<property name="Ice.ThreadPool.Client.Size" value="2"/>
+				<property name="Ice.ThreadPool.Server.Size" value="2"/>	
+				<property name="Ice.ThreadPool.Client.SizeMax" value="10"/>
+				<property name="Ice.ThreadPool.Server.SizeMax" value="10"/>	
+				<property name="LbanetVersion" value="${ServVersion}"/>
+				
+				<property name="dbname" value="joomlalbanet"/>
+				<property name="dbserver" value="localhost"/>	
+				<property name="dbuser" value="lbanetuser"/>
+				<property name="dbpassword" value="lapichonmelba"/>					
+			</server>
+		</server-template>
+		
+		
+			
+		<!--
+		**********************************************************************
+		Configuration of Polling Chat Server
+		-->
+		<server-template id="PollingChatServer">
+			<parameter name="index"/>
+			<parameter name="exepath"
+			default="../bin/pollingchatserver"/>				
+			<parameter name="RoomManager"/>
+			<parameter name="ConnectedTracker"/>	
+			<parameter name="ReaperTimeout"/>	
+
+			<server id="PollingChatServer-${index}" 
+			exe="${exepath}"
+			activation="on-demand">
+				<adapter name="PollingChatServer${index}-Adapter" register-process="true"
+				endpoints="tcp">
+					<object identity="PollingChatServer${index}-ChatSessionFactory" type="::LbaNet::PollingChatSessionFactory"/>				
+				</adapter>
+
+				<property name="IdentityAdapter" value="PollingChatServer${index}-Adapter"/>
+				<property name="SessionServantName" value="PollingChatServer${index}-ChatSessionFactory"/>				
+				<property name="RoomManager" value="${RoomManager}"/>	
+				<property name="ConnectedTracker" value="${ConnectedTracker}"/>	
+				<property name="Ice.MessageSizeMax" value="4096"/>
+				<property name="Ice.ThreadPool.Client.Size" value="2"/>
+				<property name="Ice.ThreadPool.Server.Size" value="2"/>	
+				<property name="Ice.ThreadPool.Client.SizeMax" value="50"/>
+				<property name="Ice.ThreadPool.Server.SizeMax" value="50"/>	
+				<property name="ReaperTimeout" value="${ReaperTimeout}"/>			
+			</server>
+		</server-template>
+		
+		
+		<!--
+		**********************************************************************
+		Configuration of RoomManager Server
+		-->
+		<server-template id="RoomManager">
+			<parameter name="index"/>
+			<parameter name="exepath"
+			default="../bin/roommanager"/>		
+			<parameter name="IceStorm"/>
+			
+			<server id="RoomManagerServer-${index}" 
+			exe="${exepath}"
+	
+			activation="on-demand">
+				<adapter name="RoomManagerServer${index}-Adapter" register-process="true"
+				endpoints="tcp">
+					<object identity="LBANetServer${index}-RoomManager" type="LbaNet::RoomManager"/>
+				</adapter>
+
+				<property name="IdentityAdapter" value="RoomManagerServer${index}-Adapter"/>
+				<property name="RoomServantName" value="LBANetServer${index}-RoomManager"/>				
+				<property name="TopicManagerProxy" value="${IceStorm}/TopicManager"/>	
+				<property name="Ice.MessageSizeMax" value="4096"/>
+				<property name="Ice.ThreadPool.Client.Size" value="2"/>
+				<property name="Ice.ThreadPool.Server.Size" value="2"/>	
+				<property name="Ice.ThreadPool.Client.SizeMax" value="10"/>
+				<property name="Ice.ThreadPool.Server.SizeMax" value="10"/>				
+			</server>
+		</server-template>	
+			
+		
+		<!--
+		**********************************************************************
+		Configuration of ConnectedTracker Server
+		-->
+		<server-template id="ConnectedTracker">
+			<parameter name="index"/>
+			<parameter name="exepath"
+			default="../bin/connectedtraker"/>			
+			
+			<server id="ConnectedTrackerServer-${index}" 
+			exe="${exepath}"
+	
+			activation="on-demand">
+				<adapter name="ConnectedTrackerServer${index}-Adapter" register-process="true"
+				endpoints="tcp">
+					<object identity="LBANetServer${index}-ConnectedTracker" type="LbaNet::RoomManager"/>
+					<object identity="LBANetServer${index}-Verifier" type="::Glacier2::PermissionsVerifier"/>			
+				</adapter>
+
+				<property name="IdentityAdapter" value="ConnectedTrackerServer${index}-Adapter"/>
+				<property name="ConnectedServantName" value="LBANetServer${index}-ConnectedTracker"/>	
+				<property name="VerifierServantName" value="LBANetServer${index}-Verifier"/>				
+				<property name="Ice.MessageSizeMax" value="4096"/>
+				<property name="Ice.ThreadPool.Client.Size" value="2"/>
+				<property name="Ice.ThreadPool.Server.Size" value="2"/>	
+				<property name="Ice.ThreadPool.Client.SizeMax" value="10"/>
+				<property name="Ice.ThreadPool.Server.SizeMax" value="10"/>
+				
+				<property name="dbname" value="joomlalbanet"/>
+				<property name="dbserver" value="localhost"/>	
+				<property name="dbuser" value="lbanetuser"/>
+				<property name="dbpassword" value="lapichonmelba"/>				
+			</server>
+		</server-template>			
+		
+		
+		
+		<!--
+		**********************************************************************
+		Configuration of MapManager Server
+		-->
+		<server-template id="MapManager">
+			<parameter name="index"/>
+			<parameter name="exepath"
+			default="../bin/mapmanager"/>		
+			<parameter name="IceStorm"/>
+			
+			<server id="MapManagerServer-${index}" 
+			exe="${exepath}"
+	
+			activation="on-demand">
+				<adapter name="MapManagerServer${index}-Adapter" register-process="true"
+				endpoints="tcp">
+					<object identity="LBANetServer${index}-MapManager" type="LbaNet::MapManager"/>
+				</adapter>
+
+				<property name="IdentityAdapter" value="MapManagerServer${index}-Adapter"/>
+				<property name="MapManagerServantName" value="LBANetServer${index}-MapManager"/>				
+				<property name="TopicManagerProxy" value="${IceStorm}/TopicManager"/>	
+				<property name="Ice.MessageSizeMax" value="4096"/>
+				<property name="Ice.ThreadPool.Client.Size" value="2"/>
+				<property name="Ice.ThreadPool.Server.Size" value="2"/>	
+				<property name="Ice.ThreadPool.Client.SizeMax" value="10"/>
+				<property name="Ice.ThreadPool.Server.SizeMax" value="10"/>				
+			</server>
+		</server-template>		
+	
+	
+	
+		<!--
+		**********************************************************************
+		Configuration of Glacier Server
+		-->			
+		<server-template id="Glacier2">
+
+			<parameter name="instance-name" default="${application}.Glacier2"/>
+			<parameter name="client-endpoints" default="tcp -p 4063"/>   
+			<parameter name="server-endpoints" default="tcp -h 127.0.0.1"/>
+			<parameter name="session-timeout" default="120"/>
+			<parameter name="session-manager"/>   
+			<parameter name="permissions-verifier"/>			
+
+			<server id="${instance-name}" exe="glacier2router">
+				<properties>
+					<property name="Glacier2.InstanceName" value="${instance-name}"/>
+					<property name="Glacier2.SessionTimeout" value="${session-timeout}"/>	
+					<property name="Glacier2.Client.Endpoints" value="${client-endpoints}"/>
+					<property name="Glacier2.Server.Endpoints" value="${server-endpoints}"/>
+					<property name="Glacier2.SessionManager" value="${session-manager}"/>
+					<property name="Glacier2.PermissionsVerifier" value="${permissions-verifier}"/>
+					<property name="Glacier2.Client.Buffered" value="0"/>
+					<property name="Glacier2.Server.Buffered" value="1"/>					
+				</properties>
+			</server>
+
+		</server-template>	
+			
+	
+	
+	
+		<node name="LbaNetMainNode">
+			<server-instance template="Glacier2" instance-name="LBANetGlacier2" session-manager="LBANetServer1-SessionManager" permissions-verifier="LBANetServer1-Verifier"/>		
+			<server-instance template="IceStorm" index="1" IceStorm="IceStormLbaNet" />
+			<server-instance template="LBANetServer" index="1" ServVersion="ver. 0.91" RoomManager="LBANetServer1-RoomManager" ConnectedTracker="LBANetServer1-ConnectedTracker" MapManager="LBANetServer1-MapManager"/>		
+			<server-instance template="RoomManager" index="1" IceStorm="IceStormLbaNet" />	
+			<server-instance template="ConnectedTracker" index="1" />	
+			<server-instance template="MapManager" index="1" IceStorm="IceStormLbaNet"/>	
+			<server-instance template="PollingChatServer" index="1" RoomManager="LBANetServer1-RoomManager" ConnectedTracker="LBANetServer1-ConnectedTracker" ReaperTimeout="10"/>			
+		</node>	
+	</application>
+</icegrid>	
+
+

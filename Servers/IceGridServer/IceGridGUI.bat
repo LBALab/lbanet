@@ -1,0 +1,1 @@
+start %ICE_HOME%\bin\IceGridGUI.jar
