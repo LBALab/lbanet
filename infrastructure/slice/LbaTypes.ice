@@ -115,6 +115,26 @@ module LbaNet
 	
 
 
+	// player status information
+	struct PlayerInfo
+	{
+		long 			Id;
+		string 			Status;
+		string 			NameColor;
+	};
+
+
+	// list of connected players
+	dictionary<string, PlayerInfo> ConnectedL;
+	
+
+
+
+
+
+
+
+
 	// base class used to give client GUI parameters on how to display
 	class GuiParameterBase
 	{
