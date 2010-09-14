@@ -1,4 +1,4 @@
-TARGET=roommanager
+TARGET=chatroommanager
 OBJ=RoomManagerServant.o main.o
 
 CC=g++
