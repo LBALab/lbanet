@@ -61,41 +61,36 @@
 	
 		<!--
 		**********************************************************************
-		Configuration of LBANet Server
+		Configuration of Login Server
 		-->
-		<server-template id="LBANetServer">
+		<server-template id="LoginServer">
 			<parameter name="index"/>
 			<parameter name="exepath"
-			default="../bin/lbaserver"/>				
+			default="../bin/loginserver"/>				
 			<parameter name="RoomManager"/>
 			<parameter name="ConnectedTracker"/>
-			<parameter name="MapManager"/>
 			<parameter name="ServVersion"/>			
 			
-			<server id="LBANetServer-${index}" 
+			<server id="LoginServer-${index}" 
 			exe="${exepath}"
 			activation="on-demand">
-				<adapter name="LBANetServer${index}-Adapter" register-process="true"
+				<adapter name="LoginServer${index}-Adapter" register-process="true"
 				endpoints="tcp">
-					<object identity="LBANetServer${index}-SessionManager" type="::Glacier2::SessionManager"/>
+					<object identity="LoginServer${index}-SessionManager" type="::Glacier2::SessionManager"/>
+					<object identity="LoginServer${index}-WorldRegister" type="WorldRegister"/>			
 				</adapter>
 
-				<property name="IdentityAdapter" value="LBANetServer${index}-Adapter"/>
-				<property name="SessionMServantName" value="LBANetServer${index}-SessionManager"/>	
-				<property name="RoomManager" value="${RoomManager}"/>	
+				<property name="IdentityAdapter" value="LoginServer${index}-Adapter"/>
+				<property name="SessionMServantName" value="LoginServer${index}-SessionManager"/>	
+				<property name="WorldRegServantName" value="LoginServer${index}-WorldRegister"/>	
+				<property name="RoomManager" value="${RoomManager}"/>
 				<property name="ConnectedTracker" value="${ConnectedTracker}"/>
-				<property name="MapManager" value="${MapManager}"/>				
 				<property name="Ice.MessageSizeMax" value="4096"/>
 				<property name="Ice.ThreadPool.Client.Size" value="2"/>
-				<property name="Ice.ThreadPool.Server.Size" value="2"/>	
+				<property name="Ice.ThreadPool.Server.Size" value="2"/>
 				<property name="Ice.ThreadPool.Client.SizeMax" value="10"/>
-				<property name="Ice.ThreadPool.Server.SizeMax" value="10"/>	
+				<property name="Ice.ThreadPool.Server.SizeMax" value="10"/>
 				<property name="LbanetVersion" value="${ServVersion}"/>
-				
-				<property name="dbname" value="joomlalbanet"/>
-				<property name="dbserver" value="localhost"/>	
-				<property name="dbuser" value="lbanetuser"/>
-				<property name="dbpassword" value="lapichonmelba"/>					
 			</server>
 		</server-template>
 		
@@ -269,7 +264,7 @@
 		<node name="LbaNetMainNode">
 			<server-instance template="Glacier2" instance-name="LBANetGlacier2" session-manager="LBANetServer1-SessionManager" permissions-verifier="LBANetServer1-Verifier"/>		
 			<server-instance template="IceStorm" index="1" IceStorm="IceStormLbaNet" />
-			<server-instance template="LBANetServer" index="1" ServVersion="ver. 0.91" RoomManager="LBANetServer1-RoomManager" ConnectedTracker="LBANetServer1-ConnectedTracker" MapManager="LBANetServer1-MapManager"/>		
+			<server-instance template="LBANetServer" index="1" ServVersion="ver. 0.91" RoomManager="LBANetServer1-RoomManager" ConnectedTracker="LBANetServer1-ConnectedTracker"/>		
 			<server-instance template="RoomManager" index="1" IceStorm="IceStormLbaNet" />	
 			<server-instance template="ConnectedTracker" index="1" />	
 			<server-instance template="MapManager" index="1" IceStorm="IceStormLbaNet"/>	
