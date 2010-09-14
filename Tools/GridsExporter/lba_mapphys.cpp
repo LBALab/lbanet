@@ -321,7 +321,8 @@ LBA_LAYOUT_PHYS::~LBA_LAYOUT_PHYS()
 /***********************************************************
 constructor
 ***********************************************************/
-LBA_GRID_PHYS::LBA_GRID_PHYS(LBA_PACK_PHYS *pack_grid,LBA_PACK_PHYS *pack_layout,int n,bool LBA2)
+LBA_GRID_PHYS::LBA_GRID_PHYS(LBA_PACK_PHYS *pack_grid,LBA_PACK_PHYS *pack_layout,int n,
+							 bool LBA2, bool forcelayout)
 {
     int i=0,j=0,k=0,l=0;
     LBA_LAYOUT_PHYS *layout;
@@ -332,7 +333,7 @@ LBA_GRID_PHYS::LBA_GRID_PHYS(LBA_PACK_PHYS *pack_grid,LBA_PACK_PHYS *pack_layout
 	//std::cout<<"LBA_GRID_PHYS"<<std::endl;
     LBA_ENTRY_PHYS *entry=new LBA_ENTRY_PHYS(pack_grid,n);
 
-    if(LBA2)
+    if(LBA2 && !forcelayout)
 		n=entry->data[0]+180-1;
 
     layout=new LBA_LAYOUT_PHYS(pack_layout,n);
@@ -660,7 +661,10 @@ LBA_MAP_PHYS::LBA_MAP_PHYS(int n,bool LBA2)
 
 	// build phys file
 	std::stringstream file2;
-	file2<<"Data/Lba1/Grids/map"<<n<<".phy";
+	if(LBA2)
+		file2<<"Data/Lba2/Grids/map"<<n<<".phy";
+	else
+		file2<<"Data/Lba1/Grids/map"<<n<<".phy";
 
 	physH.SearchFloors();
 	physH.SearchWallX();
@@ -676,6 +680,237 @@ LBA_MAP_PHYS::LBA_MAP_PHYS(int n,bool LBA2)
     delete pack_layout;
     delete pack_ress;
 }
+
+
+
+
+
+
+
+/***********************************************************
+constructor with grid file
+***********************************************************/
+LBA_MAP_PHYS::LBA_MAP_PHYS(bool LBA2, const std::string &grfile, int layoutused, bool forcelayout)
+{
+
+    int i=0,j=0,k=0,l=0;
+	std::vector<int> brick_list;
+    number_brick=0;
+
+	LBA_PACK_PHYS *pack_brick;
+	LBA_PACK_PHYS *pack_grid;
+	LBA_PACK_PHYS *pack_ress;
+	LBA_PACK_PHYS *pack_layout;
+
+	if(LBA2)
+	{
+		pack_brick=new LBA_PACK_PHYS("data//map//lba2//LBA_BKG.HQR");
+		pack_ress=new LBA_PACK_PHYS("data//map//lba2//RESS2.HQR");
+		pack_layout=new LBA_PACK_PHYS("data//map//lba2//LBA_BKG.HQR");}
+	else
+	{
+		pack_brick=new LBA_PACK_PHYS("data//map//lba1//LBA_BRK.HQR");
+		pack_ress=new LBA_PACK_PHYS("data//map//lba1//RESS.HQR");
+		pack_layout=new LBA_PACK_PHYS("data//map//lba1//LBA_BLL.HQR");
+	}
+
+	// use file for pack grid
+	pack_grid=new LBA_PACK_PHYS(grfile);
+
+
+
+    palet=new LBA_PALET_PHYS(pack_ress);
+    grid=new LBA_GRID_PHYS(pack_grid, pack_layout, layoutused, LBA2, forcelayout);
+
+
+    printf("%d ",number_brick);
+
+
+	for(i=0;i<64;i++)
+    for(j=0;j<64;j++)
+    for(k=0;k<25;k++)
+    {
+		grid->info_brick[i][j][k].sound = 0;
+		if(grid->info_brick[i][j][k].index_brick != 0)
+		{
+			if(!LBA2)
+			{
+				int mat = (grid->info_brick[i][j][k].material >> 4);
+				int mat2 = grid->info_brick[i][j][k].material & unsigned char(15);
+
+				if(mat == 15 && mat2 == 1)
+				{
+					//grid->info_brick[i][j][k].shape = 15;
+					grid->info_brick[i][j][k].sound = 17;
+				}
+
+				switch(mat)
+				{
+					case 0:
+						grid->info_brick[i][j][k].sound =1;
+					break;
+					case 1:
+						grid->info_brick[i][j][k].sound =8;
+					break;
+					case 2:
+						grid->info_brick[i][j][k].sound =6;
+					break;
+					case 3:
+						grid->info_brick[i][j][k].sound =3;
+					break;
+					case 4:
+						grid->info_brick[i][j][k].sound =2;
+					break;
+					case 5:
+						grid->info_brick[i][j][k].sound =5;
+					break;
+					case 6:
+						grid->info_brick[i][j][k].sound =4;
+					break;
+					case 7:
+						grid->info_brick[i][j][k].sound =11;
+					break;
+					case 8:
+						grid->info_brick[i][j][k].sound =12;
+					break;
+					case 9:
+						grid->info_brick[i][j][k].sound =9;
+					break;
+					case 10:
+						grid->info_brick[i][j][k].sound =15;
+					break;
+					case 11:
+						grid->info_brick[i][j][k].sound =16;
+					break;
+					case 12:
+						grid->info_brick[i][j][k].sound =14;
+					break;
+				}
+
+			}
+			else
+			{
+				int mat = (grid->info_brick[i][j][k].material >> 4);
+				int mat2 = grid->info_brick[i][j][k].material & unsigned char(15);
+
+				switch(mat2)
+				{
+					case 0:
+						grid->info_brick[i][j][k].sound =0;
+					break;
+					case 1:
+						grid->info_brick[i][j][k].sound =1;
+					break;
+					case 2:
+						grid->info_brick[i][j][k].sound =1;
+					break;
+					case 3:
+						grid->info_brick[i][j][k].sound =3;
+					break;
+					case 4:
+						grid->info_brick[i][j][k].sound =4;
+					break;
+					case 5:
+						grid->info_brick[i][j][k].sound =5;
+					break;
+					case 6:
+						grid->info_brick[i][j][k].sound =6;
+					break;
+					case 7:
+						grid->info_brick[i][j][k].sound =7;
+					break;
+					case 8:
+						grid->info_brick[i][j][k].sound =8;
+					break;
+					case 9:
+						grid->info_brick[i][j][k].sound =9;
+					break;
+					case 10:
+						grid->info_brick[i][j][k].sound =10;
+					break;
+					case 11:
+						grid->info_brick[i][j][k].sound =11;
+					break;
+					case 12:
+						grid->info_brick[i][j][k].sound =6;
+					break;
+					case 13:
+						grid->info_brick[i][j][k].sound =13;
+					break;
+					case 14:
+						grid->info_brick[i][j][k].sound =1;
+					break;
+				}
+
+				if(mat == 1 || mat == 15)
+				{
+					//grid->info_brick[i][j][k].shape = 15; // water
+					grid->info_brick[i][j][k].sound = 17;
+				}
+				if(mat == 9 || mat == 13)
+				{
+					//grid->info_brick[i][j][k].shape = 16; // lava
+					grid->info_brick[i][j][k].sound = 19;
+				}
+				if( mat == 11 || mat == 14)
+				{
+					//grid->info_brick[i][j][k].shape = 17; // gas
+					grid->info_brick[i][j][k].sound = 18;
+				}
+			}
+		}
+	}
+
+
+	PhysicHandler physH;
+	physH.Allocate(64, 25, 64);
+	short * shapptr = physH.GetBufferPtr();
+	short * materptr = physH.GetMaterialBufferPtr();
+
+	// replace global brick indexes by local file indexes
+    for(k=0;k<25;k++)
+    {
+		// put physic info
+	    for(i=0;i<64;i++)
+		{
+			for(j=0;j<64;j++)
+			{
+				*shapptr = (short)grid->info_brick[i][j][k].shape;
+				++shapptr;
+			}
+		}
+
+		// put material info
+	    for(i=0;i<64;i++)
+		{
+			for(j=0;j<64;j++)
+			{
+				*materptr = grid->info_brick[i][j][k].sound;
+				++materptr;
+			}
+		}
+	}
+
+
+	// build phys file
+	std::string tmpfile = grfile;
+	tmpfile.replace(tmpfile.size() - 3, 3, "phy");
+
+	physH.SearchFloors();
+	physH.SearchWallX();
+	physH.SearchWallZ();
+	physH.SearchStairs();
+	physH.MakeSurroundingPlanes();
+	physH.SavePlanes(tmpfile);
+
+
+
+    delete pack_brick;
+    delete pack_grid;
+    delete pack_layout;
+    delete pack_ress;
+}
+
 
 
 

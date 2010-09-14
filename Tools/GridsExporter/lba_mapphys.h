@@ -125,7 +125,7 @@ class LBA_GRID_PHYS
 {
 public:
 	// constructor
-    LBA_GRID_PHYS(LBA_PACK_PHYS *pack_grid,LBA_PACK_PHYS *pack_layout,int n,bool LBA2);
+    LBA_GRID_PHYS(LBA_PACK_PHYS *pack_grid,LBA_PACK_PHYS *pack_layout,int n,bool LBA2, bool forcelayout = false);
 
 	// destructor
     ~LBA_GRID_PHYS();
@@ -144,8 +144,12 @@ public:
 class LBA_MAP_PHYS
 {
 public:
-	// constructor
+	// constructor with grid number
     LBA_MAP_PHYS(int n, bool LBA2);
+
+	// constructor with grid file
+	LBA_MAP_PHYS(bool LBA2, const std::string &grfile, int layoutused, bool forcelayout = false);
+
 
 	// destructor
     ~LBA_MAP_PHYS();

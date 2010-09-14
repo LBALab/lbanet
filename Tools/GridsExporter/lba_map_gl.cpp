@@ -126,17 +126,14 @@ void LBA_MAP_GL::face(double X,double Y,double Z,double texture_x,double texture
 }
 
 
-
-LBA_MAP_GL::LBA_MAP_GL(int NUM_MAP,int LBA2)
+// initialize LBA_MAP_GL
+void LBA_MAP_GL::Initialize(int LBA2)
 {
 	nb_faces.clear();
-
-	mapnumber = NUM_MAP;
 	islba2 = LBA2;
 
     int i,j,k;
     int offset_x,offset_y;
-    lba_map=new LBA_MAP(NUM_MAP,LBA2);
     texture_map=new unsigned char[2048*2048*4];
 	memset(texture_map, 0, 2048*2048*4*sizeof(unsigned char));
 
@@ -267,191 +264,202 @@ LBA_MAP_GL::LBA_MAP_GL(int NUM_MAP,int LBA2)
    texture_map[3]=255;
 
 
-	std::stringstream filename;
-	if(islba2)
-		filename<<"Data/Lba2/Grids/map";
-	else
-		filename<<"Data/Lba1/Grids/map";
 
-	filename<<mapnumber<<".png";
 
 	ILuint imn;
 	ilGenImages(1, &imn);
 	ilBindImage(imn);
 	ilTexImage( 2048, 2048, 1, 4, IL_RGBA, IL_UNSIGNED_BYTE, texture_map);
-	ilSaveImage(filename.str().c_str());
+	ilSaveImage(texture_filename.c_str());
 	ilDeleteImages(1, &imn);
 
 
-
-
-
-
-
     int texture_x,texture_y;
-int X,Y,Z;
-
-      double h=0.5;
-
+	int X,Y,Z;
+	double h=0.5;
 
 
+	int cmpt=0;
+	brick_number=cmpt;
+
+	for(Z=0;Z<64;Z++)
+	{
+		for(X=0;X<64;X++)
+		{
+			for(Y=0;Y<25;Y++)
+			{
+				if(lba_map->grid->info_brick[X][Z][Y].index_brick!=-1)
+				{
+					  cmpt++;
+					  texture_x=(lba_map->grid->info_brick[X][Z][Y].index_brick)%42;
+					  texture_x*=48;
+					  texture_y=(lba_map->grid->info_brick[X][Z][Y].index_brick)/42;
+					  texture_y*=38;
+
+					switch(lba_map->grid->info_brick[X][Z][Y].shape)
+					{
+						case 1:
+							face(X,Y,Z,texture_x,texture_y,h,3,11,18,false);
+							face(X,Y,Z,texture_x,texture_y,h,18,14,3,false);
+							face(X,Y,Z,texture_x,texture_y,h,15,19,17,false);
+							face(X,Y,Z,texture_x,texture_y,h,17,9,15,false);
+							face(X,Y,Z,texture_x,texture_y,h,0,2,12,false);
+							face(X,Y,Z,texture_x,texture_y,h,13,8,1,false);
+							nb_faces.push_back(6);
+							break;
+						case 2:
+							face(X,Y,Z,texture_x,texture_y,h,11,18,14,false);
+							face(X,Y,Z,texture_x,texture_y,h,11,13,8,false);
+							face(X,Y,Z,texture_x,texture_y,h,8,6,11,false);
+							face(X,Y,Z,texture_x,texture_y,h,19,17,9,false);
+							face(X,Y,Z,texture_x,texture_y,h,9,15,19,false);
+							face(X,Y,Z,texture_x,texture_y,h,9,16,5,false);
+							nb_faces.push_back(6);
+							break;
+						case 3:
+							face(X,Y,Z,texture_x,texture_y,h,15,19,17,false);
+							face(X,Y,Z,texture_x,texture_y,h,2,12,17,false);
+							face(X,Y,Z,texture_x,texture_y,h,17,7,2,false);
+							face(X,Y,Z,texture_x,texture_y,h,11,18,14,false);
+							face(X,Y,Z,texture_x,texture_y,h,14,3,10,false);
+							face(X,Y,Z,texture_x,texture_y,h,2,4,10,false);
+							nb_faces.push_back(6);
+							break;
+						case 4:
+							face(X,Y,Z,texture_x,texture_y,h,11,18,8,false);
+							face(X,Y,Z,texture_x,texture_y,h,8,1,11,false);
+							face(X,Y,Z,texture_x,texture_y,h,19,17,9,false);
+							face(X,Y,Z,texture_x,texture_y,h,1,8,16,false);
+							face(X,Y,Z,texture_x,texture_y,h,16,5,1,false);
+							face(X,Y,Z,texture_x,texture_y,h,0,4,10,false);
+							nb_faces.push_back(6);
+							break;
+						case 5:
+							face(X,Y,Z,texture_x,texture_y,h,19,17,0,false);
+							face(X,Y,Z,texture_x,texture_y,h,0,2,19,false);
+							face(X,Y,Z,texture_x,texture_y,h,3,11,18,false);
+							face(X,Y,Z,texture_x,texture_y,h,1,16,5,false);
+							face(X,Y,Z,texture_x,texture_y,h,2,0,4,false);
+							face(X,Y,Z,texture_x,texture_y,h,4,10,3,false);
+							nb_faces.push_back(6);
+							break;
+						case 6:
+							face(X,Y,Z,texture_x,texture_y,h,4,2,12,false);
+							face(X,Y,Z,texture_x,texture_y,h,13,8,5,false);
+							face(X,Y,Z,texture_x,texture_y,h,3,11,18,false);
+							face(X,Y,Z,texture_x,texture_y,h,18,14,3,false);
+							face(X,Y,Z,texture_x,texture_y,h,19,17,9,false);
+							face(X,Y,Z,texture_x,texture_y,h,9,15,19,false);
+							face(X,Y,Z,texture_x,texture_y,h,5,9,16,false);
+							face(X,Y,Z,texture_x,texture_y,h,4,3,10,false);
+							nb_faces.push_back(8);
+							break;
+						case 7:
+							face(X,Y,Z,texture_x,texture_y,h,19,8,1,false);
+							face(X,Y,Z,texture_x,texture_y,h,0,2,18,false);
+							face(X,Y,Z,texture_x,texture_y,h,3,11,18,false);
+							face(X,Y,Z,texture_x,texture_y,h,19,17,9,false);
+							face(X,Y,Z,texture_x,texture_y,h,1,8,16,false);
+							face(X,Y,Z,texture_x,texture_y,h,16,5,1,false);
+							face(X,Y,Z,texture_x,texture_y,h,10,2,0,false);
+							face(X,Y,Z,texture_x,texture_y,h,0,4,10,false);
+							nb_faces.push_back(8);
+							break;
+						case 8:
+							face(X,Y,Z,texture_x,texture_y,h,0,4,10,false);
+							face(X,Y,Z,texture_x,texture_y,h,10,13,8,false);
+							face(X,Y,Z,texture_x,texture_y,h,8,1,10,false);
+							face(X,Y,Z,texture_x,texture_y,h,11,18,14,false);
+							face(X,Y,Z,texture_x,texture_y,h,15,19,17,false);
+							face(X,Y,Z,texture_x,texture_y,h,17,9,15,false);
+							face(X,Y,Z,texture_x,texture_y,h,1,8,16,false);
+							face(X,Y,Z,texture_x,texture_y,h,16,5,1,false);
+							nb_faces.push_back(8);
+							break;
+						case 9:
+							face(X,Y,Z,texture_x,texture_y,h,16,0,2,false);
+							face(X,Y,Z,texture_x,texture_y,h,2,12,16,false);
+							face(X,Y,Z,texture_x,texture_y,h,3,11,18,false);
+							face(X,Y,Z,texture_x,texture_y,h,18,14,3,false);
+							face(X,Y,Z,texture_x,texture_y,h,15,19,17,false);
+							face(X,Y,Z,texture_x,texture_y,h,16,5,1,false);
+							face(X,Y,Z,texture_x,texture_y,h,10,2,0,false);
+							face(X,Y,Z,texture_x,texture_y,h,0,4,10,false);
+							nb_faces.push_back(8);
+							break;
+						case 10:
+							face(X,Y,Z,texture_x,texture_y,h,6,11,12,false);
+							face(X,Y,Z,texture_x,texture_y,h,13,17,7,false);
+							face(X,Y,Z,texture_x,texture_y,h,11,18,14,false);
+							face(X,Y,Z,texture_x,texture_y,h,15,19,17,false);
+							nb_faces.push_back(4);
+							break;
+						case 11:
+							face(X,Y,Z,texture_x,texture_y,h,0,11,18,false);
+							face(X,Y,Z,texture_x,texture_y,h,19,17,1,false);
+							face(X,Y,Z,texture_x,texture_y,h,0,4,10,false);
+							face(X,Y,Z,texture_x,texture_y,h,1,5,16,false);
+							nb_faces.push_back(4);
+							break;
+						case 12:
+							face(X,Y,Z,texture_x,texture_y,h,11,18,9,false);
+							face(X,Y,Z,texture_x,texture_y,h,8,4,10,false);
+							face(X,Y,Z,texture_x,texture_y,h,19,17,9,false);
+							face(X,Y,Z,texture_x,texture_y,h,8,16,5,false);
+							nb_faces.push_back(4);
+							break;
+						case 13:
+							face(X,Y,Z,texture_x,texture_y,h,3,19,17,false);
+							face(X,Y,Z,texture_x,texture_y,h,16,5,2,false);
+							face(X,Y,Z,texture_x,texture_y,h,2,4,10,false);
+							face(X,Y,Z,texture_x,texture_y,h,3,18,11,false);
+							nb_faces.push_back(4);
+							break;
+					}
+				}
+			}
+		}
+	}
+
+	printf(" total briques lba_map : %d \n",cmpt);
+}
 
 
-
-int cmpt=0;
-brick_number=cmpt;
-//list_name=glGenLists(1);
-printf("liste %d",list_name);
-
-//glNewList(list_name, GL_COMPILE);
-
-   // glBegin(GL_TRIANGLES);
-for(Z=0;Z<64;Z++)
-for(X=0;X<64;X++)
-for(Y=0;Y<25;Y++)
-
+//constructor with gr file
+LBA_MAP_GL::LBA_MAP_GL(int LBA2, const std::string &grfile, int layoutused, bool forcelayout)
 {
+	// set filenames
+	texture_filename = grfile;
+	texture_filename.replace(texture_filename.size() - 3, 3, "png");
+	map_filename = grfile;
+	map_filename.replace(map_filename.size() - 3, 3, "ogb");
+	map_filename += "b";
 
-if(lba_map->grid->info_brick[X][Z][Y].index_brick!=-1)
+	// init map
+    lba_map=new LBA_MAP(LBA2, grfile, layoutused, forcelayout);
+	Initialize(LBA2);
+}
+
+
+// constructor with map number
+LBA_MAP_GL::LBA_MAP_GL(int NUM_MAP,int LBA2)
 {
-      cmpt++;
-      texture_x=(lba_map->grid->info_brick[X][Z][Y].index_brick)%42;
-      texture_x*=48;
-      texture_y=(lba_map->grid->info_brick[X][Z][Y].index_brick)/42;
-      texture_y*=38;
+	// set filenames
+	std::stringstream filename;
+	if(islba2)
+		filename<<"Data/Lba2/Grids/map";
+	else
+		filename<<"Data/Lba1/Grids/map";
+	filename<<NUM_MAP;
 
-    switch(lba_map->grid->info_brick[X][Z][Y].shape)
-    {
-        case 1:
-            face(X,Y,Z,texture_x,texture_y,h,3,11,18,false);
-            face(X,Y,Z,texture_x,texture_y,h,18,14,3,false);
-            face(X,Y,Z,texture_x,texture_y,h,15,19,17,false);
-            face(X,Y,Z,texture_x,texture_y,h,17,9,15,false);
-            face(X,Y,Z,texture_x,texture_y,h,0,2,12,false);
-            face(X,Y,Z,texture_x,texture_y,h,13,8,1,false);
-			nb_faces.push_back(6);
-            break;
-        case 2:
-            face(X,Y,Z,texture_x,texture_y,h,11,18,14,false);
-            face(X,Y,Z,texture_x,texture_y,h,11,13,8,false);
-            face(X,Y,Z,texture_x,texture_y,h,8,6,11,false);
-            face(X,Y,Z,texture_x,texture_y,h,19,17,9,false);
-            face(X,Y,Z,texture_x,texture_y,h,9,15,19,false);
-            face(X,Y,Z,texture_x,texture_y,h,9,16,5,false);
-			nb_faces.push_back(6);
-            break;
-        case 3:
-            face(X,Y,Z,texture_x,texture_y,h,15,19,17,false);
-            face(X,Y,Z,texture_x,texture_y,h,2,12,17,false);
-            face(X,Y,Z,texture_x,texture_y,h,17,7,2,false);
-            face(X,Y,Z,texture_x,texture_y,h,11,18,14,false);
-            face(X,Y,Z,texture_x,texture_y,h,14,3,10,false);
-            face(X,Y,Z,texture_x,texture_y,h,2,4,10,false);
-			nb_faces.push_back(6);
-            break;
-        case 4:
-            face(X,Y,Z,texture_x,texture_y,h,11,18,8,false);
-            face(X,Y,Z,texture_x,texture_y,h,8,1,11,false);
-            face(X,Y,Z,texture_x,texture_y,h,19,17,9,false);
-            face(X,Y,Z,texture_x,texture_y,h,1,8,16,false);
-            face(X,Y,Z,texture_x,texture_y,h,16,5,1,false);
-            face(X,Y,Z,texture_x,texture_y,h,0,4,10,false);
-			nb_faces.push_back(6);
-            break;
-        case 5:
-            face(X,Y,Z,texture_x,texture_y,h,19,17,0,false);
-            face(X,Y,Z,texture_x,texture_y,h,0,2,19,false);
-            face(X,Y,Z,texture_x,texture_y,h,3,11,18,false);
-            face(X,Y,Z,texture_x,texture_y,h,1,16,5,false);
-            face(X,Y,Z,texture_x,texture_y,h,2,0,4,false);
-            face(X,Y,Z,texture_x,texture_y,h,4,10,3,false);
-			nb_faces.push_back(6);
-            break;
-        case 6:
-            face(X,Y,Z,texture_x,texture_y,h,4,2,12,false);
-            face(X,Y,Z,texture_x,texture_y,h,13,8,5,false);
-            face(X,Y,Z,texture_x,texture_y,h,3,11,18,false);
-            face(X,Y,Z,texture_x,texture_y,h,18,14,3,false);
-            face(X,Y,Z,texture_x,texture_y,h,19,17,9,false);
-            face(X,Y,Z,texture_x,texture_y,h,9,15,19,false);
-            face(X,Y,Z,texture_x,texture_y,h,5,9,16,false);
-            face(X,Y,Z,texture_x,texture_y,h,4,3,10,false);
-			nb_faces.push_back(8);
-            break;
-        case 7:
-            face(X,Y,Z,texture_x,texture_y,h,19,8,1,false);
-            face(X,Y,Z,texture_x,texture_y,h,0,2,18,false);
-            face(X,Y,Z,texture_x,texture_y,h,3,11,18,false);
-            face(X,Y,Z,texture_x,texture_y,h,19,17,9,false);
-            face(X,Y,Z,texture_x,texture_y,h,1,8,16,false);
-            face(X,Y,Z,texture_x,texture_y,h,16,5,1,false);
-            face(X,Y,Z,texture_x,texture_y,h,10,2,0,false);
-            face(X,Y,Z,texture_x,texture_y,h,0,4,10,false);
-			nb_faces.push_back(8);
-            break;
-        case 8:
-            face(X,Y,Z,texture_x,texture_y,h,0,4,10,false);
-            face(X,Y,Z,texture_x,texture_y,h,10,13,8,false);
-            face(X,Y,Z,texture_x,texture_y,h,8,1,10,false);
-            face(X,Y,Z,texture_x,texture_y,h,11,18,14,false);
-            face(X,Y,Z,texture_x,texture_y,h,15,19,17,false);
-            face(X,Y,Z,texture_x,texture_y,h,17,9,15,false);
-            face(X,Y,Z,texture_x,texture_y,h,1,8,16,false);
-            face(X,Y,Z,texture_x,texture_y,h,16,5,1,false);
-			nb_faces.push_back(8);
-            break;
-        case 9:
-            face(X,Y,Z,texture_x,texture_y,h,16,0,2,false);
-            face(X,Y,Z,texture_x,texture_y,h,2,12,16,false);
-            face(X,Y,Z,texture_x,texture_y,h,3,11,18,false);
-            face(X,Y,Z,texture_x,texture_y,h,18,14,3,false);
-            face(X,Y,Z,texture_x,texture_y,h,15,19,17,false);
-            face(X,Y,Z,texture_x,texture_y,h,16,5,1,false);
-            face(X,Y,Z,texture_x,texture_y,h,10,2,0,false);
-            face(X,Y,Z,texture_x,texture_y,h,0,4,10,false);
-			nb_faces.push_back(8);
-            break;
-        case 10:
-            face(X,Y,Z,texture_x,texture_y,h,6,11,12,false);
-            face(X,Y,Z,texture_x,texture_y,h,13,17,7,false);
-            face(X,Y,Z,texture_x,texture_y,h,11,18,14,false);
-            face(X,Y,Z,texture_x,texture_y,h,15,19,17,false);
-			nb_faces.push_back(4);
-            break;
-        case 11:
-            face(X,Y,Z,texture_x,texture_y,h,0,11,18,false);
-            face(X,Y,Z,texture_x,texture_y,h,19,17,1,false);
-            face(X,Y,Z,texture_x,texture_y,h,0,4,10,false);
-            face(X,Y,Z,texture_x,texture_y,h,1,5,16,false);
-			nb_faces.push_back(4);
-            break;
-        case 12:
-            face(X,Y,Z,texture_x,texture_y,h,11,18,9,false);
-            face(X,Y,Z,texture_x,texture_y,h,8,4,10,false);
-            face(X,Y,Z,texture_x,texture_y,h,19,17,9,false);
-            face(X,Y,Z,texture_x,texture_y,h,8,16,5,false);
-			nb_faces.push_back(4);
-            break;
-        case 13:
-            face(X,Y,Z,texture_x,texture_y,h,3,19,17,false);
-            face(X,Y,Z,texture_x,texture_y,h,16,5,2,false);
-            face(X,Y,Z,texture_x,texture_y,h,2,4,10,false);
-            face(X,Y,Z,texture_x,texture_y,h,3,18,11,false);
-			nb_faces.push_back(4);
-            break;
+	texture_filename = filename.str() + ".png";
+	map_filename = filename.str() + ".osgb";
 
 
-    }
-
-
-    }
-   }   // glEnd();
-
-	//glEndList();
-
-    printf(" total briques lba_map : %d \n",cmpt);
-
-    }
+	// init map
+    lba_map=new LBA_MAP(NUM_MAP,LBA2);
+	Initialize(LBA2);
+}
 
 
 
@@ -474,22 +482,6 @@ unsigned int findvertexinmap(std::map<osg::Vec2, unsigned int> & map, unsigned i
 void LBA_MAP_GL::ExportMapOSG()
 {
 	osgDB::setDataFilePathList("./Data");
-
-	std::stringstream filename;
-	if(islba2)
-		filename<<"Data/Lba2/Grids/map";
-	else
-		filename<<"Data/Lba1/Grids/map";
-
-	filename<<mapnumber<<".osgb";
-
-	std::stringstream filename2;
-	if(islba2)
-		filename2<<"Lba2/Grids/map";
-	else
-		filename2<<"Lba1/Grids/map";
-
-	filename2<<mapnumber<<".png";
 
 
 	osg::ref_ptr<osg::Group> root = new osg::Group();
@@ -552,7 +544,7 @@ void LBA_MAP_GL::ExportMapOSG()
 	KLN89FaceTexture->setDataVariance(osg::Object::DYNAMIC); 
 
 	// load an image by reading a file: 
-	osg::Image* klnFace = osgDB::readImageFile(filename2.str());
+	osg::Image* klnFace = osgDB::readImageFile(texture_filename);
 
 	// Assign the texture to the image we read from file: 
 	KLN89FaceTexture->setImage(klnFace);
@@ -573,6 +565,6 @@ void LBA_MAP_GL::ExportMapOSG()
 	osgUtil::Optimizer optOSGFile;
 	optOSGFile.optimize (root.get());
 
-	osgDB::writeNodeFile(*root.get(), filename.str(), new osgDB::Options("Compressor=zlib"));
+	osgDB::writeNodeFile(*root.get(), map_filename, new osgDB::Options("Compressor=zlib"));
 }
 

@@ -411,14 +411,15 @@ class LBA_GRID
 	LBA_INFO_BRICK *** GetBricks()
 	{ return info_brick; }
 
-    LBA_GRID(VIRTUAL_FILE_READ_ONLY &pack_grid,VIRTUAL_FILE_READ_ONLY &pack_layout,int n,int LBA2)
+    LBA_GRID(VIRTUAL_FILE_READ_ONLY &pack_grid,VIRTUAL_FILE_READ_ONLY &pack_layout,int n,
+				int LBA2, bool forcedlayout = false)
     {
         int index_data=0;
         unsigned char flag,number_sub_colomn;
         int height_subcolumn,offset_column;
         LBA_ENTRY *entry=new LBA_ENTRY(pack_grid,n);
 
-        if(LBA2)
+        if(LBA2 && !forcedlayout)
 			n=entry->data[0]+180-1;
 
 
@@ -542,40 +543,11 @@ class LBA_GRID
 
 class LBA_MAP
 {
-    public:
-    LBA_PALET *palet;
-    LBA_GRID *grid;
-    vector<LBA_BRICK> brick;
-    int number_brick;
-    vector<int> nb_faces;
-
-
-    int brick_list[10000];
-    LBA_MAP(int n,int LBA2)
-    {
+private:
+	void Initialize(int LBA2, VIRTUAL_FILE_READ_ONLY *pack_brick)
+	{
         int i,j,k,l;
         number_brick=0;
-
-VIRTUAL_FILE_READ_ONLY *pack_brick;
-VIRTUAL_FILE_READ_ONLY *pack_grid;
-VIRTUAL_FILE_READ_ONLY *pack_ress;
-VIRTUAL_FILE_READ_ONLY *pack_layout;
-if(LBA2){
-         pack_brick=new VIRTUAL_FILE_READ_ONLY("data//map//lba2//LBA_BKG.HQR");
-         pack_grid=new VIRTUAL_FILE_READ_ONLY("data//map//lba2//LBA_BKG.HQR");
-         pack_ress=new VIRTUAL_FILE_READ_ONLY("data//map//lba2//RESS2.HQR");
-         pack_layout=new VIRTUAL_FILE_READ_ONLY("data//map//lba2//LBA_BKG.HQR");
-
-}
-else{
-         pack_brick=new VIRTUAL_FILE_READ_ONLY("data//map//lba1//LBA_BRK.HQR");
-         pack_grid=new VIRTUAL_FILE_READ_ONLY("data//map//lba1//LBA_GRI.HQR");
-         pack_ress=new VIRTUAL_FILE_READ_ONLY("data//map//lba1//RESS.HQR");
-         pack_layout=new VIRTUAL_FILE_READ_ONLY("data//map//lba1//LBA_BLL.HQR");
-    }
-        palet=new LBA_PALET(*pack_ress);
-        grid=new LBA_GRID(*pack_grid,*pack_layout,n,LBA2);
-
 
         printf(" >%d ",number_brick);
 
@@ -597,8 +569,6 @@ else{
         }
 
 
-
-
         //changement d´indices : on passe de 8000 briques à 600-700 briques
         //attention brique 0
         for(i=0;i<64;i++)
@@ -613,21 +583,98 @@ else{
             }
         }
 
-        //getchar();
         brick.reserve(number_brick);
-        //getchar();
         for(i=0;i<number_brick;i++)
         {
-        //        printf("%d ",brick_list[i]);
-        if(LBA2)brick.push_back(LBA_BRICK(*pack_brick,brick_list[i]-1+198-1+1));//////////////LBA2 +198-1
-        else brick.push_back(LBA_BRICK(*pack_brick,brick_list[i]-1+1));
+			if(LBA2)
+				brick.push_back(LBA_BRICK(*pack_brick,brick_list[i]-1+198-1+1));//////////////LBA2 +198-1
+			else 
+				brick.push_back(LBA_BRICK(*pack_brick,brick_list[i]-1+1));
         }
+
+
+	}
+
+
+public:
+    LBA_PALET *palet;
+    LBA_GRID *grid;
+    vector<LBA_BRICK> brick;
+    int number_brick;
+    vector<int> nb_faces;
+    int brick_list[10000];
+
+
+
+
+	// constructor with grid file
+	LBA_MAP(int LBA2, const std::string &grfile, int layoutused, bool forcelayout = false)
+	{
+		VIRTUAL_FILE_READ_ONLY *pack_brick;
+		VIRTUAL_FILE_READ_ONLY *pack_grid;
+		VIRTUAL_FILE_READ_ONLY *pack_ress;
+		VIRTUAL_FILE_READ_ONLY *pack_layout;
+		if(LBA2)
+		{
+			 pack_brick=new VIRTUAL_FILE_READ_ONLY("data//map//lba2//LBA_BKG.HQR");
+			 pack_ress=new VIRTUAL_FILE_READ_ONLY("data//map//lba2//RESS2.HQR");
+			 pack_layout=new VIRTUAL_FILE_READ_ONLY("data//map//lba2//LBA_BKG.HQR");
+		}
+		else
+		{
+			 pack_brick=new VIRTUAL_FILE_READ_ONLY("data//map//lba1//LBA_BRK.HQR");
+			 pack_ress=new VIRTUAL_FILE_READ_ONLY("data//map//lba1//RESS.HQR");
+			 pack_layout=new VIRTUAL_FILE_READ_ONLY("data//map//lba1//LBA_BLL.HQR");
+		}
+
+		// use file for pack grid
+		pack_grid=new VIRTUAL_FILE_READ_ONLY(grfile);
+        palet=new LBA_PALET(*pack_ress);
+        grid=new LBA_GRID(*pack_grid, *pack_layout, layoutused, LBA2, forcelayout);
+
+		Initialize(LBA2, pack_brick);
+
+        delete pack_brick;
+        delete pack_grid;
+        delete pack_layout;
+        delete pack_ress;
+	}
+
+
+
+	// constructor with grid number
+    LBA_MAP(int n,int LBA2)
+    {
+		VIRTUAL_FILE_READ_ONLY *pack_brick;
+		VIRTUAL_FILE_READ_ONLY *pack_grid;
+		VIRTUAL_FILE_READ_ONLY *pack_ress;
+		VIRTUAL_FILE_READ_ONLY *pack_layout;
+		if(LBA2)
+		{
+			 pack_brick=new VIRTUAL_FILE_READ_ONLY("data//map//lba2//LBA_BKG.HQR");
+			 pack_grid=new VIRTUAL_FILE_READ_ONLY("data//map//lba2//LBA_BKG.HQR");
+			 pack_ress=new VIRTUAL_FILE_READ_ONLY("data//map//lba2//RESS2.HQR");
+			 pack_layout=new VIRTUAL_FILE_READ_ONLY("data//map//lba2//LBA_BKG.HQR");
+		}
+		else
+		{
+			 pack_brick=new VIRTUAL_FILE_READ_ONLY("data//map//lba1//LBA_BRK.HQR");
+			 pack_grid=new VIRTUAL_FILE_READ_ONLY("data//map//lba1//LBA_GRI.HQR");
+			 pack_ress=new VIRTUAL_FILE_READ_ONLY("data//map//lba1//RESS.HQR");
+			 pack_layout=new VIRTUAL_FILE_READ_ONLY("data//map//lba1//LBA_BLL.HQR");
+		}
+        palet=new LBA_PALET(*pack_ress);
+        grid=new LBA_GRID(*pack_grid,*pack_layout,n,LBA2);
+
+		Initialize(LBA2, pack_brick);
 
         delete pack_brick;
         delete pack_grid;
         delete pack_layout;
         delete pack_ress;
     }
+
+	//destructor
     ~LBA_MAP()
     {
         delete palet;
@@ -656,32 +703,49 @@ struct LBA_FACE
 
 class LBA_MAP_GL
 {
-    public:
+private:
     LBA_MAP *lba_map;
     unsigned int list_name;
     unsigned int texture_name;
     int brick_number;
-	int mapnumber;
 	int islba2;
-
-    LBA_MAP_GL(int NUM_MAP,int LBA2);
-    void face(double X,double Y,double Z,double texture_x,double texture_y,double h,int a,int b,int c,bool hidden);
     unsigned char *texture_map;
     vector<LBA_FACE> lba_face;
     vector<int> nb_faces;
+	std::string texture_filename;
+	std::string map_filename;
 
+protected:
+	void Initialize(int LBA2);
+
+public:
+	// constructor with map number
+    LBA_MAP_GL(int NUM_MAP,int LBA2);
+
+	//constructor with gr file
+	LBA_MAP_GL(int LBA2, const std::string &grfile, int layoutused, bool forcelayout = false);
+
+
+    void face(double X,double Y,double Z,double texture_x,double texture_y,
+									double h,int a,int b,int c,bool hidden);
+
+
+
+	// export map to osg format
 	void ExportMapOSG();
+
+
 	int GetNumberBricks()
 	{
 		return lba_map->number_brick;
 	}
 
+
+	// destructor
     ~LBA_MAP_GL()
     {
         delete texture_map;
         delete lba_map;
-        //glDeleteTextures(1,&texture_name);
-        //glDeleteLists(list_name,1);
     }
 };
 
