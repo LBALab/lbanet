@@ -142,7 +142,7 @@
 		<server-template id="RoomManager">
 			<parameter name="index"/>
 			<parameter name="exepath"
-			default="../bin/roommanager"/>		
+			default="../bin/chatroommanager"/>		
 			<parameter name="IceStorm"/>
 			
 			<server id="RoomManagerServer-${index}" 
