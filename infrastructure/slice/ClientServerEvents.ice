@@ -15,6 +15,12 @@ module LbaNet
 	sequence<ClientServerEventBase> EventsSeq;	
 	
 	
+	// server send his id to the client
+	class ClientIdEvent extends ClientServerEventBase
+	{
+		long			Id;
+	};
+	
 	
 	// server send list of available worlds to client
 	class AvailableWorldsEvent extends ClientServerEventBase

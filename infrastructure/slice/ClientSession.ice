@@ -20,6 +20,10 @@ module LbaNet
 	 	void ClientEvents(EventsSeq evts);
 	 	
 	 	
+	 	// client ask server to change world
+	 	void ChangeWorld(string WorldName);
+	 	
+	 	
 	 	
 	 	// chat management
 	 	ChatRoomParticipant* JoinChatChannel(string room, ChatRoomObserver* view);
