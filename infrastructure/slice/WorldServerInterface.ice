@@ -1,5 +1,5 @@
-#ifndef CLIENT_SESSION_ICE
-#define CLIENT_SESSION_ICE
+#ifndef WORLD_SERVER_ICE
+#define WORLD_SERVER_ICE
 
 #include <ClientInterface.ice>
 

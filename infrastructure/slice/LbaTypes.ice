@@ -9,7 +9,6 @@ module LbaNet
 		string WorldName;
 		string Description;
 		string News;
-		string DataDirPath;
 	};
 	
 	sequence<WorldDesc>	WorldsSeq;

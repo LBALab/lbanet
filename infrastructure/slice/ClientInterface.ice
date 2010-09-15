@@ -1,5 +1,5 @@
-#ifndef LBANET_ACTOR_HANDLER
-#define LBANET_ACTOR_HANDLER
+#ifndef CLIENT_INTERFACE
+#define CLIENT_INTERFACE
 
 
 #include <ClientServerEvents.ice>
