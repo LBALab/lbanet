@@ -200,26 +200,32 @@
 		
 		<!--
 		**********************************************************************
-		Configuration of MapManager Server
+		Configuration of World Server
 		-->
-		<server-template id="MapManager">
-			<parameter name="index"/>
+		<server-template id="WorldServer">
 			<parameter name="exepath"
-			default="../bin/mapmanager"/>		
+			default="../bin/worldserver"/>		
 			<parameter name="IceStorm"/>
+			<parameter name="LoginServer"/>
+			<parameter name="WorldName"/>			
 			
-			<server id="MapManagerServer-${index}" 
+			
+			<server id="WorldServer-${index}" 
 			exe="${exepath}"
 	
 			activation="on-demand">
-				<adapter name="MapManagerServer${index}-Adapter" register-process="true"
+				<adapter name="WorldServer${WorldName}-Adapter" register-process="true"
 				endpoints="tcp">
-					<object identity="LBANetServer${index}-MapManager" type="LbaNet::MapManager"/>
+					<object identity="WorldServer${WorldName}-ServerInterface" type="LbaNet::WorldServerInterface"/>
+					<object identity="WorldServer${WorldName}-MaintenanceInterface" type="LbaNet::MaintenanceInterface"/>					
 				</adapter>
 
-				<property name="IdentityAdapter" value="MapManagerServer${index}-Adapter"/>
-				<property name="MapManagerServantName" value="LBANetServer${index}-MapManager"/>				
+				<property name="IdentityAdapter" value="WorldServer${WorldName}-Adapter"/>
+				<property name="WorldIServantName" value="WorldServer${WorldName}-ServerInterface"/>	
+				<property name="MaintenanceIServantName" value="WorldServer${WorldName}-MaintenanceInterface"/>
 				<property name="TopicManagerProxy" value="${IceStorm}/TopicManager"/>	
+				<property name="LoginServer" value="${LoginServer}"/>	
+				<property name="WorldName" value="${WorldName}"/>					
 				<property name="Ice.MessageSizeMax" value="4096"/>
 				<property name="Ice.ThreadPool.Client.Size" value="2"/>
 				<property name="Ice.ThreadPool.Server.Size" value="2"/>	
@@ -264,11 +270,11 @@
 		<node name="LbaNetMainNode">
 			<server-instance template="Glacier2" instance-name="LBANetGlacier2" session-manager="LBANetServer1-SessionManager" permissions-verifier="LBANetServer1-Verifier"/>		
 			<server-instance template="IceStorm" index="1" IceStorm="IceStormLbaNet" />
-			<server-instance template="LBANetServer" index="1" ServVersion="ver. 0.91" RoomManager="LBANetServer1-RoomManager" ConnectedTracker="LBANetServer1-ConnectedTracker"/>		
 			<server-instance template="RoomManager" index="1" IceStorm="IceStormLbaNet" />	
-			<server-instance template="ConnectedTracker" index="1" />	
-			<server-instance template="MapManager" index="1" IceStorm="IceStormLbaNet"/>	
-			<server-instance template="PollingChatServer" index="1" RoomManager="LBANetServer1-RoomManager" ConnectedTracker="LBANetServer1-ConnectedTracker" ReaperTimeout="10"/>			
+			<server-instance template="ConnectedTracker" index="1" />			
+			<server-instance template="PollingChatServer" index="1" RoomManager="LBANetServer1-RoomManager" ConnectedTracker="LBANetServer1-ConnectedTracker" ReaperTimeout="10"/>
+			<server-instance template="LoginServer" index="1" ServVersion="ver. 0.91" RoomManager="LBANetServer1-RoomManager" ConnectedTracker="LBANetServer1-ConnectedTracker"/>
+			<server-instance template="WorldServer" WorldName="Lba1" IceStorm="IceStormLbaNet" LoginServer="LoginServer1-WorldRegister"/>	
 		</node>	
 	</application>
 </icegrid>	
