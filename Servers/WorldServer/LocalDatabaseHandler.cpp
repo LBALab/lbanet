@@ -56,11 +56,6 @@ LbaNet::SavedWorldInfo LocalDatabaseHandler::ChangeWorld(const std::string& NewW
 {
 	long worldid = -1;
 	LbaNet::SavedWorldInfo resP;
-	resP.ppos.MapName = "";
-	resP.CurrentLife = -1;
-	resP.CurrentMana = -1;
-	resP.MaxLife = -1;
-	resP.MaxMana = -1;
 
 	Lock sync(*this);
 	if(!_db)
@@ -111,10 +106,10 @@ LbaNet::SavedWorldInfo LocalDatabaseHandler::ChangeWorld(const std::string& NewW
 			for(size_t i=0; i<tokens.size(); ++i)
 				resP.inventory.UsedShorcuts.push_back(atoi(tokens[i].c_str()));
 
-			resP.CurrentLife = (float)atof(pazResult[nbcollumn+8]);
-			resP.CurrentMana = (float)atof(pazResult[nbcollumn+9]);
-			resP.MaxLife = (float)atof(pazResult[nbcollumn+0]);
-			resP.MaxMana = (float)atof(pazResult[nbcollumn+11]);
+			resP.lifemana.CurrentLife = (float)atof(pazResult[nbcollumn+8]);
+			resP.lifemana.CurrentMana = (float)atof(pazResult[nbcollumn+9]);
+			resP.lifemana.MaxLife = (float)atof(pazResult[nbcollumn+0]);
+			resP.lifemana.MaxMana = (float)atof(pazResult[nbcollumn+11]);
 
 			worldid = atol(pazResult[nbcollumn+12]);
 
@@ -256,10 +251,42 @@ void LocalDatabaseHandler::UpdatePositionInWorld(const LbaNet::PlayerPosition& P
 
 
 /***********************************************************
+update player life information
+***********************************************************/
+void LocalDatabaseHandler::UpdateLife(const LbaNet::LifeManaInfo & lifeinfo, 
+								const std::string& WorldName,long PlayerId)
+{
+	Lock sync(*this);
+	if(!_db)
+		return;
+
+	// quit previous world
+	if(WorldName != "")
+	{
+		std::stringstream query;
+		query << "UPDATE lba_usertoworld SET LifePoint = '"<<lifeinfo.CurrentLife<<"'";
+		query << ", ManaPoint = '"<<lifeinfo.CurrentMana<<"'";
+		query << ", MaxLife = '"<<lifeinfo.MaxLife<<"'";
+		query << ", MaxMana = '"<<lifeinfo.MaxMana<<"'";
+		query << " WHERE userid = '"<<PlayerId<<"'";
+		query << " AND worldid = (SELECT id FROM lba_worlds WHERE name = '"<<WorldName<<"')";
+
+		char *zErrMsg = 0;
+		int dbres = dbres = sqlite3_exec(_db, query.str().c_str(), 0, 0, &zErrMsg);
+		if(dbres != SQLITE_OK)
+		{
+			// record error
+			std::cerr<<IceUtil::Time::now()<<": LBA_Server - Update life failed for user id "<<PlayerId<<" : "<<zErrMsg<<std::endl;
+			sqlite3_free(zErrMsg);
+		}
+	}
+}
+
+
+/***********************************************************
 quit current world
 ***********************************************************/
-void LocalDatabaseHandler::QuitWorld(const std::string& LastWorldName,long PlayerId,
-								float currentlife, float currentmana, float maxlife, float maxmana)
+void LocalDatabaseHandler::QuitWorld(const std::string& LastWorldName,long PlayerId)
 {
 	Lock sync(*this);
 	if(!_db)
@@ -270,10 +297,6 @@ void LocalDatabaseHandler::QuitWorld(const std::string& LastWorldName,long Playe
 	{
 		std::stringstream query;
 		query << "UPDATE lba_usertoworld SET timeplayedmin = timeplayedmin + TIMESTAMPDIFF(MINUTE, lastvisited, UTC_TIMESTAMP())";
-		query << ", LifePoint = '"<<currentlife<<"'";
-		query << ", ManaPoint = '"<<currentmana<<"'";
-		query << ", MaxLife = '"<<maxlife<<"'";
-		query << ", MaxMana = '"<<maxmana<<"'";
 		query << " WHERE userid = '"<<PlayerId<<"'";
 		query << " AND worldid = (SELECT id FROM lba_worlds WHERE name = '"<<LastWorldName<<"')";
 

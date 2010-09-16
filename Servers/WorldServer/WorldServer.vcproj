@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/D _LBANET_SERVER_SIDE_"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ICE_HOME)\include&quot;;..\..\infrastructure\include;..\..\shared;&quot;..\..\dependencies\MySQL++\include&quot;;..\..\dependencies\mysql\include"
+				AdditionalIncludeDirectories="&quot;$(ICE_HOME)\include&quot;;..\..\infrastructure\include;..\..\shared;&quot;..\..\dependencies\MySQL++\include&quot;;..\..\dependencies\mysql\include;..\..\dependencies\sqlite;..\..\dependencies\3rdParty\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;TIXML_USE_STL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,7 +64,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="iced.lib iceutild.lib icestormd.lib glacier2d.lib iceboxd.lib mysqlpp_d.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(ICE_HOME)\lib&quot;;&quot;..\..\dependencies\MySQL++\lib&quot;;..\..\dependencies\tinyxml\lib"
+				AdditionalLibraryDirectories="&quot;$(ICE_HOME)\lib&quot;;&quot;..\..\dependencies\MySQL++\lib&quot;;..\..\dependencies\tinyxml\lib;..\..\dependencies\3rdParty\lib"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -119,7 +119,7 @@
 				AdditionalOptions="/D _LBANET_SERVER_SIDE_"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(ICE_HOME)\include&quot;;..\..\infrastructure\include;..\..\shared;&quot;..\..\dependencies\MySQL++\include&quot;;..\..\dependencies\mysql\include;..\..\dependencies\sqlite"
+				AdditionalIncludeDirectories="&quot;$(ICE_HOME)\include&quot;;..\..\infrastructure\include;..\..\shared;&quot;..\..\dependencies\MySQL++\include&quot;;..\..\dependencies\mysql\include;..\..\dependencies\sqlite;..\..\dependencies\3rdParty\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;TIXML_USE_STL"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -141,7 +141,7 @@
 				AdditionalDependencies="ice.lib iceutil.lib icestorm.lib glacier2.lib icebox.lib mysqlpp.lib"
 				OutputFile="$(OutDir)\worldserver.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(ICE_HOME)\lib&quot;;&quot;..\..\dependencies\MySQL++\lib&quot;;..\..\dependencies\tinyxml\lib"
+				AdditionalLibraryDirectories="&quot;$(ICE_HOME)\lib&quot;;&quot;..\..\dependencies\MySQL++\lib&quot;;..\..\dependencies\tinyxml\lib;..\..\dependencies\3rdParty\lib"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -213,6 +213,22 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MapHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\PlayerHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SharedDataHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\SynchronizedTimeHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\WorldChatHandler.cpp"
 				>
 			</File>
@@ -244,6 +260,22 @@
 			</File>
 			<File
 				RelativePath=".\MaintenanceInterfaceServant.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MapHandler.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PlayerHandler.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SharedDataHandler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\SynchronizedTimeHandler.h"
 				>
 			</File>
 			<File

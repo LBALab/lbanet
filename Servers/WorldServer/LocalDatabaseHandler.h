@@ -57,9 +57,12 @@ public:
 	void UpdatePositionInWorld(const LbaNet::PlayerPosition& Position, 
 								const std::string& WorldName,long PlayerId);
 
+	// update player life information
+	void UpdateLife(const LbaNet::LifeManaInfo & lifeinfo, 
+								const std::string& WorldName,long PlayerId);
+
 	// quit current world
-	void QuitWorld(const std::string& LastWorldName,long PlayerId,
-					float currentlife, float currentmana, float maxlife, float maxmana);
+	void QuitWorld(const std::string& LastWorldName,long PlayerId);
 
 	// update player inventory structure
 	void UpdateInventory(const LbaNet::InventoryInfo &Inventory, const std::string& WorldName,long PlayerId);

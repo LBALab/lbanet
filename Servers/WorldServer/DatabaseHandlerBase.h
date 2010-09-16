@@ -58,13 +58,17 @@ public:
 	virtual void UpdatePositionInWorld(const LbaNet::PlayerPosition& Position, 
 										const std::string& WorldName,long PlayerId) = 0;
 
-	// quit current world
-	virtual void QuitWorld(const std::string& LastWorldName,long PlayerId,
-							float currentlife, float currentmana, float maxlife, float maxmana) = 0;
-
 	// update player inventory structure
 	virtual void UpdateInventory(const LbaNet::InventoryInfo &Inventory, 
 								const std::string& WorldName,long PlayerId) = 0;
+	
+	// update player life information
+	virtual void UpdateLife(const LbaNet::LifeManaInfo & lifeinfo, 
+								const std::string& WorldName,long PlayerId) = 0;
+	
+	// quit current world
+	virtual void QuitWorld(const std::string& LastWorldName,long PlayerId) = 0;
+
 
 
     // add friend function
