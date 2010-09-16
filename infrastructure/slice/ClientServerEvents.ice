@@ -58,6 +58,19 @@ module LbaNet
 	{
 		int			NewStanceId;
 	};
+	
+	// player enter in a map
+	class PlayerEnterEvent extends ClientServerEventBase
+	{
+		long			PlayerId;
+	};
+	
+	
+	// player leave a map
+	class PlayerLeaveEvent extends ClientServerEventBase
+	{
+		long			PlayerId;
+	};	
 };	
 
 #endif

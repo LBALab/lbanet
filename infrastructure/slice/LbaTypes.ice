@@ -6,73 +6,141 @@ module LbaNet
 	// give information about a world
 	struct WorldDesc
 	{
-		string WorldName;
-		string Description;
-		string News;
+		string 			WorldName;
+		string 			Description;
+		string 			News;
 	};
 	
-	sequence<WorldDesc>	WorldsSeq;
+	sequence<WorldDesc>		WorldsSeq;
+	
+	
+	
+
+	// teleport information
+	struct TeleportInfo
+	{
+		string 			Name;
+		string 			MapName;
+		string 			SpawningName;
+	};
+
+	dictionary<string, TeleportInfo> ServerTeleportsSeq;
+	sequence<string> 		TeleportsSeq;
+	sequence<string> 		FilesSeq;
+
+
+	// spawning information
+	struct SpawningInfo
+	{
+		string 			Name;
+		float 			PosX;
+		float 			PosY;
+		float 			PosZ;
+		bool			ForceRotation;
+		float 			Rotation;	
+	};
+	
+	dictionary<string, SpawningInfo> SpawningsSeq;
+	
+	
+	// map information
+	struct MapInfo
+	{
+		string 			Name;
+		string 			Description;
+		string			Type;
+		string 			ObjectFile;
+		string			MusicFile;
+		int			RepatMusic;
+		
+		SpawningsSeq 		Spawnings;
+
+	};	
+	dictionary<string, MapInfo> 	MapsSeq;
+
+
+	struct PlayerStartingInfo
+	{
+		int			InventorySize;
+		float			StartingLife;
+		float			StartingMana;
+		string			StartingMap;
+		string			Spawning;
+	};
+
+
+	// give full information about a world
+	struct WorldInformation
+	{
+		WorldDesc 		Description;
+		ServerTeleportsSeq 	TeleportInfo;
+		FilesSeq		FileUsedInfo;
+		MapsSeq			Maps;
+		
+		PlayerStartingInfo	StartingInfo;
+	};	
+	
+	
+	
+	
 	
 	
 	// give information about a friend of a player
 	struct FriendInfo
 	{
-		long Id;
-		bool Pending;
-		bool ToAccept;
-		string Name;
-		bool Removed;
+		long 			Id;
+		bool 			Pending;
+		bool 			ToAccept;
+		string 			Name;
+		bool 			Removed;
 	};
 	
-	sequence<FriendInfo> FriendsSeq;
+	sequence<FriendInfo> 		FriendsSeq;
 	
 	// give information about a private message received by player
 	struct PMInfo
 	{
-		long PMId;
-		long ReplyId;
-		string FromName;
-		string ToName;
-		string Text;
-		bool Opened;
-		string Date;
+		long 			PMId;
+		long 			ReplyId;
+		string 			FromName;
+		string 			ToName;
+		string 			Text;
+		bool 			Opened;
+		string 			Date;
 	};
 	
-	sequence<PMInfo> PMsSeq;
+	sequence<PMInfo> 		PMsSeq;
 	
 	
 	// give information about an item
 	struct ItemInfo
 	{
-		long Id;
-		string IconName;
-		long DescriptionId;
-		int Count;
-		int Max;
-		int Price;
-		string DescriptionTextExtra;
-		int Position;
+		long 			Id;
+		string 			IconName;
+		long 			DescriptionId;
+		int 			Count;
+		int 			Max;
+		int 			Price;
+		string 			DescriptionTextExtra;
+		int 			Position;
 	};
 		
 	// map an item with a position in display grid
-	dictionary<long, ItemInfo> ItemsMap;
+	dictionary<long, ItemInfo> 	ItemsMap;
 	
-	dictionary<long, int> ItemList;
+	dictionary<long, int> 		ItemList;
 	
 	
 	// give information about a player status
 	struct PlayerOnline
 	{
-		bool Joined;
-		string Nickname;
-		string Status;
-		string Color;
+		bool 			Joined;
+		string 			Nickname;
+		string 			Status;
+		string 			Color;
 	};
 	
-	sequence<PlayerOnline> PlayerOnlinesSeq;
-
-
-	sequence<string> TeleportsSeq;
+	sequence<PlayerOnline> 		PlayerOnlinesSeq;
 
 
 
@@ -91,14 +159,14 @@ module LbaNet
 	
 	struct InventoryItem
 	{
-		int Number;
-		int PlaceInInventory;
+		int 			Number;
+		int 			PlaceInInventory;
 	};
 		
 	dictionary<long, InventoryItem> InventoryMap;
 	
 	
-	sequence<long> ShortcutsSeq;
+	sequence<long> 			ShortcutsSeq;
 
 	
 	struct InventoryInfo
@@ -108,6 +176,14 @@ module LbaNet
 		ShortcutsSeq 		UsedShorcuts;
 	};
 	
+	struct LifeManaInfo
+	{
+		float			CurrentLife;
+		float			MaxLife;
+		float			CurrentMana;
+		float			MaxMana;
+	};	
+	
 	
 	struct SavedWorldInfo
 	{
@@ -115,10 +191,7 @@ module LbaNet
 		InventoryInfo 		inventory;
 		
 		// life/mana info
-		float			CurrentLife;
-		float			MaxLife;
-		float			CurrentMana;
-		float			MaxMana;
+		LifeManaInfo		lifemana;
 	};	
 		
 	
@@ -128,31 +201,31 @@ module LbaNet
 	// give information about a letter written by a player	
 	struct LetterInfo
 	{
-		long 		LetterId;
-		string 		Date;
-		string 		From;
-		string 		Subject;
-		string 		Message;
+		long 			LetterId;
+		string 			Date;
+		string 			From;
+		string 			Subject;
+		string 			Message;
 	};
 	
 		
 	// give information about a quest
 	struct QuestInfo
 	{
-		long		Id;
-		long 		ChapterTextId;		
-		long 		QuestAreaTextId;	
-		long	 	TittleTextId;
-		long 		DescriptionTextId;
+		long			Id;
+		long 			ChapterTextId;		
+		long 			QuestAreaTextId;	
+		long	 		TittleTextId;
+		long 			DescriptionTextId;
 		
-		bool		Visible;
+		bool			Visible;
 	};
 	
-	dictionary<long, QuestInfo> QuestsMap;	
+	dictionary<long, QuestInfo> 	QuestsMap;	
 	
 	
 	// dialog part info
-	sequence<long> PlayerChoicesSeq;	
+	sequence<long> 			PlayerChoicesSeq;	
 	struct DialogPartInfo
 	{
 		long			NpcTextId;
