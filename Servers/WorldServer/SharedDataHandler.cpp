@@ -52,6 +52,13 @@ client send events to server
 void SharedDataHandler::ClientEvents(Ice::Long clientid, const EventsSeq &evts)
 {
 	Lock sync(*this);
+
+	//get player current map
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
+	if(it != _currentplayers.end())
+	{
+		AddEvents(it->second->GetCurrentMap(), clientid, evts);
+	}
 }
 
 
@@ -82,11 +89,13 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const std::string &cl
 		savedinfo.lifemana.MaxLife = _worldinfo.StartingInfo.StartingLife;
 		savedinfo.lifemana.CurrentMana = _worldinfo.StartingInfo.StartingMana;
 		savedinfo.lifemana.MaxMana = _worldinfo.StartingInfo.StartingMana;
+		savedinfo.inventory.InventoryStructure = _worldinfo.StartingInfo.StartingInventory;
 	}
 
 	// create player object
 	boost::shared_ptr<PlayerHandler> player(new PlayerHandler((long)clientid, clientname, proxy, 
-											_dbH, _worldinfo.Description.WorldName, savedinfo));
+											_dbH, _worldinfo.Description.WorldName, savedinfo, 
+											_worldinfo.StartingInfo.StartingModel));
 	_currentplayers[clientid] = player;
 
 
@@ -101,9 +110,14 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const std::string &cl
 	if(it == _currentmaps.end())
 	{
 		//if it is the case then launch a map handler
-		boost::shared_ptr<MapHandler> mapH(new MapHandler());
-		mapH->Run();
+		boost::shared_ptr<MapHandler> mapH(new MapHandler(_worldinfo.Maps[newmapname]));
+		mapH->StartThread();
 		_currentmaps[newmapname] = mapH;
+	}
+	else
+	{
+		//start run thread if not started already
+		it->second->StartThread();
 	}
 
 
@@ -204,4 +218,30 @@ void SharedDataHandler::PlayerLeaveMap(const std::string &MapName, Ice::Long cli
 	// add player enter event
 	AddEvent(MapName, clientid, 
 		new PlayerLeaveEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), clientid));
+}
+
+
+
+/***********************************************************
+clean up
+***********************************************************/
+void SharedDataHandler::CleanUp()
+{
+	_proxiespermaps.clear();
+	_currentmaps.clear();
+	_currentplayers.clear();
+	_eventspermaps.clear();
+
+	_dbH = boost::shared_ptr<DatabaseHandlerBase>();
+}
+
+
+
+/***********************************************************
+get all events for a specific map
+***********************************************************/
+void SharedDataHandler::GetEvents(const std::string &MapName, std::map<Ice::Long, EventsSeq> & evts)
+{
+	Lock sync(*this);
+	_eventspermaps[MapName].swap(evts);
 }

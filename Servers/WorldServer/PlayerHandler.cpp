@@ -8,9 +8,11 @@ PlayerHandler::PlayerHandler(long clientid, const std::string &clientname,
 						const ClientInterfacePrx &proxy,
 						boost::shared_ptr<DatabaseHandlerBase> dbH,
 						const std::string &worldname,
-						const SavedWorldInfo & savedinfo)
+						const SavedWorldInfo & savedinfo,
+						const ModelInfo & modelinfo)
 	: _clientid(clientid), _clientname(clientname), _proxy(proxy), 
-		_dbH(dbH), _currentinfo(savedinfo), _worldname(worldname)
+		_dbH(dbH), _currentinfo(savedinfo), _worldname(worldname),
+		_currentmodelinfo(modelinfo)
 {
 
 	// get quest information

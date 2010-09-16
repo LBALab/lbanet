@@ -45,7 +45,8 @@ public:
 							const ClientInterfacePrx &proxy,
 							boost::shared_ptr<DatabaseHandlerBase> dbH,
 							const std::string &worldname,
-							const SavedWorldInfo & savedinfo);
+							const SavedWorldInfo & savedinfo,
+							const ModelInfo & modelinfo);
 	
 	//! destructor
 	~PlayerHandler(void);
@@ -59,6 +60,10 @@ public:
 
 	//! accessor on proxy
 	ClientInterfacePrx GetProxy() {return _proxy;}
+
+	//! accessor on model
+	ModelInfo GetModelInfo() {return _currentmodelinfo;}
+
 
 	//! get player current map
 	std::string GetCurrentMap();
@@ -91,6 +96,7 @@ private:
 
 		std::string									_worldname;
 		SavedWorldInfo								_currentinfo;
+		ModelInfo									_currentmodelinfo;
 
 		std::vector<long>							_questStarted;
 		std::vector<long>							_questFinished;

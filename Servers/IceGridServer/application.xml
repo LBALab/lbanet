@@ -230,7 +230,12 @@
 				<property name="Ice.ThreadPool.Client.Size" value="2"/>
 				<property name="Ice.ThreadPool.Server.Size" value="2"/>	
 				<property name="Ice.ThreadPool.Client.SizeMax" value="10"/>
-				<property name="Ice.ThreadPool.Server.SizeMax" value="10"/>				
+				<property name="Ice.ThreadPool.Server.SizeMax" value="10"/>
+				
+				<property name="dbname" value="joomlalbanet"/>
+				<property name="dbserver" value="localhost"/>	
+				<property name="dbuser" value="lbanetuser"/>
+				<property name="dbpassword" value="lapichonmelba"/>				
 			</server>
 		</server-template>		
 	

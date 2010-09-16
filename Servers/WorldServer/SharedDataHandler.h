@@ -57,15 +57,22 @@ public:
 	//! set database manager
 	void SetDbManager(boost::shared_ptr<DatabaseHandlerBase> dbH);
 
- 	//client send events to server
- 	void ClientEvents(Ice::Long clientid, const EventsSeq &evts);
- 	
- 	// used when a client connect to a world
+	//client send events to server
+	void ClientEvents(Ice::Long clientid, const EventsSeq &evts);
+
+	// used when a client connect to a world
 	void RegisterClient(Ice::Long clientid, const std::string &clientname, 
-							const ClientInterfacePrx &proxy);
- 	
- 	// used when a client disconnect from a world
-	 void UnregisterClient(Ice::Long clientid); 
+						const ClientInterfacePrx &proxy);
+
+	// used when a client disconnect from a world
+	void UnregisterClient(Ice::Long clientid); 
+
+	// clean up
+	void CleanUp();
+
+
+	// get all events for a specific map
+	void GetEvents(const std::string &MapName, std::map<Ice::Long, EventsSeq> & evts);
 
 
 protected:

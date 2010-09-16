@@ -28,6 +28,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "WorldServerInterfaceServant.h"
 #include "MaintenanceInterfaceServant.h"
 #include "WorldChatHandler.h"
+#include "SharedDataHandler.h"
+#include "DatabaseHandler.h"
+#include "XmlReader.h"
+
 #include <WorldRegistration.h>
 
 class WorldServer : public Ice::Application
@@ -39,7 +43,20 @@ public:
 		Ice::PropertiesPtr prop = communicator()->getProperties();
 		std::string wname = prop->getProperty("WorldName");
 
+		// init classes
+		WorldInformation worldinfo;
+		if(!XmlReader::LoadWorldInfo("Data/Worlds/"+wname+"/WorldDescription.xml", worldinfo))
+		{
+			std::cout<<"Could not read world configuration file "<<"Data/Worlds/"+wname+"/WorldDescription.xml"<<std::endl;
+			return EXIT_FAILURE;
+		}
+
 		WorldChatHandler wch(communicator());
+		boost::shared_ptr<DatabaseHandlerBase> dbH(new DatabaseHandler(
+							prop->getProperty("dbname"), prop->getProperty("dbserver"),
+							prop->getProperty("dbuser"), prop->getProperty("dbpassword")));
+		SharedDataHandler::getInstance()->SetDbManager(dbH);
+		SharedDataHandler::getInstance()->SetWorldDefaultInformation(worldinfo);
 
 		//first register interfaces
 		_adapter = communicator()->createObjectAdapter(prop->getProperty("IdentityAdapter"));
@@ -58,13 +75,7 @@ public:
 																			communicator()->getProperties()->getProperty("LoginServer")));
 
 			if(loginserv)
-			{
-				// todo read world information from somewhere
-				WorldDesc winfo;
-				winfo.WorldName = wname;
-				loginserv->RegisterWorld(winfo, WorldServerInterfacePrx::uncheckedCast(worldi));
-			}
-
+				loginserv->RegisterWorld(worldinfo.Description, WorldServerInterfacePrx::uncheckedCast(worldi));
 		}
 		catch(const IceUtil::Exception& ex)
 		{
@@ -98,6 +109,9 @@ public:
 		}
 
 
+
+		// clean up
+		SharedDataHandler::getInstance()->CleanUp();
 
 
 

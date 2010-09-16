@@ -24,14 +24,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "WorldServerInterfaceServant.h"
-
+#include "SharedDataHandler.h"
 
 /***********************************************************
 client send events to server
 ***********************************************************/
 void WorldServerInterfaceServant::ClientEvents(Ice::Long clientid, const EventsSeq &evts, const Ice::Current&)
 {
-
+	SharedDataHandler::getInstance()->ClientEvents(clientid, evts);
 }
 
 /***********************************************************
@@ -40,7 +40,7 @@ used when a client connect to a world
 void WorldServerInterfaceServant::RegisterClient(Ice::Long clientid, const std::string &clientname, 
 													const ClientInterfacePrx &proxy, const Ice::Current&)
 {
-
+	SharedDataHandler::getInstance()->RegisterClient(clientid, clientname, proxy);
 }
 
 
@@ -49,7 +49,7 @@ used when a client disconnect from a world
 ***********************************************************/
  void WorldServerInterfaceServant::UnregisterClient(Ice::Long clientid, const Ice::Current&)
 {
-
+	SharedDataHandler::getInstance()->UnregisterClient(clientid);
 }
 
 

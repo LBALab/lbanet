@@ -244,6 +244,10 @@
 				RelativePath=".\WorldServerInterfaceServant.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\..\shared\XmlReader.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -284,6 +288,10 @@
 			</File>
 			<File
 				RelativePath=".\WorldServerInterfaceServant.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\XmlReader.h"
 				>
 			</File>
 		</Filter>
