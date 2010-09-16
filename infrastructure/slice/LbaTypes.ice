@@ -73,9 +73,57 @@ module LbaNet
 
 
 	sequence<string> TeleportsSeq;
+
+
+
+	struct PlayerPosition
+	{
+		// actor name
+		string			MapName;
+
+		// actor coordinates
+		float			X;
+		float			Y;
+		float			Z;
+		float			Rotation;
+	};
 	
-	sequence<ItemInfo> ShortcutsSeq;		
+	
+	struct InventoryItem
+	{
+		int Number;
+		int PlaceInInventory;
+	};
 		
+	dictionary<long, InventoryItem> InventoryMap;
+	
+	
+	sequence<long> ShortcutsSeq;
+
+	
+	struct InventoryInfo
+	{
+		int 			InventorySize;
+		InventoryMap 		InventoryStructure;
+		ShortcutsSeq 		UsedShorcuts;
+	};
+	
+	
+	struct SavedWorldInfo
+	{
+		PlayerPosition 		ppos;
+		InventoryInfo 		inventory;
+		
+		// life/mana info
+		float			CurrentLife;
+		float			MaxLife;
+		float			CurrentMana;
+		float			MaxMana;
+	};	
+		
+	
+	
+	
 	
 	// give information about a letter written by a player	
 	struct LetterInfo
