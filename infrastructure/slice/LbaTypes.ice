@@ -26,7 +26,7 @@ module LbaNet
 
 	dictionary<string, TeleportInfo> ServerTeleportsSeq;
 	sequence<string> 		TeleportsSeq;
-	sequence<string> 		FilesSeq;
+	dictionary<string, string> 	FilesSeq;
 
 
 	// spawning information
@@ -57,7 +57,25 @@ module LbaNet
 
 	};	
 	dictionary<string, MapInfo> 	MapsSeq;
-
+	
+	
+	
+	struct InventoryItem
+	{
+		int 			Number;
+		int 			PlaceInInventory;
+	};
+		
+	dictionary<long, InventoryItem> InventoryMap;
+	
+	
+	struct ModelInfo
+	{
+		string			ModelName;
+		string			Outfit;	
+		string			Weapon;
+		string			Mode;
+	};
 
 	struct PlayerStartingInfo
 	{
@@ -66,9 +84,14 @@ module LbaNet
 		float			StartingMana;
 		string			StartingMap;
 		string			Spawning;
+		ModelInfo		StartingModel;
+		
+		InventoryMap		StartingInventory;
 	};
 
 
+	
+	
 	// give full information about a world
 	struct WorldInformation
 	{
@@ -155,15 +178,7 @@ module LbaNet
 		float			Z;
 		float			Rotation;
 	};
-	
-	
-	struct InventoryItem
-	{
-		int 			Number;
-		int 			PlaceInInventory;
-	};
-		
-	dictionary<long, InventoryItem> InventoryMap;
+
 	
 	
 	sequence<long> 			ShortcutsSeq;
