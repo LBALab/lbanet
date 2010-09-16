@@ -53,42 +53,6 @@ EventsQueue * EventsQueue::getReceiverQueue()
 
 
 
-/***********************************************************
-singleton pattern
-***********************************************************/
-EventsQueue * EventsQueue::getServerSenderQueue()
-{
-    if(!_receiverInstance)
-    {
-        _receiverInstance = new EventsQueue();
-		return _receiverInstance;
-    }
-    else
-    {
-		return _receiverInstance;
-    }
-}
-
-
-/***********************************************************
-singleton pattern
-***********************************************************/
-EventsQueue * EventsQueue::getServerReceiverQueue()
-{
-    if(!_senderInstance)
-    {
-        _senderInstance = new EventsQueue();
-		return _senderInstance;
-    }
-    else
-    {
-		return _senderInstance;
-    }
-}
-
-
-
-
 
 
 

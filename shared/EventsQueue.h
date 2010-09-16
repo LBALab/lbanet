@@ -42,11 +42,6 @@ public:
 	static EventsQueue * getSenderQueue();
 	static EventsQueue * getReceiverQueue();
 
-	// same for server
-	static EventsQueue * getServerSenderQueue();
-	static EventsQueue * getServerReceiverQueue();
-
-
 	//! destructor
 	~EventsQueue(void);
 
