@@ -210,7 +210,7 @@
 			<parameter name="WorldName"/>			
 			
 			
-			<server id="WorldServer-${index}" 
+			<server id="WorldServer-${WorldName}" 
 			exe="${exepath}"
 	
 			activation="on-demand">
@@ -273,7 +273,7 @@
 	
 	
 		<node name="LbaNetMainNode">
-			<server-instance template="Glacier2" instance-name="LBANetGlacier2" session-manager="LBANetServer1-SessionManager" permissions-verifier="LBANetServer1-Verifier"/>		
+			<server-instance template="Glacier2" instance-name="LBANetGlacier2" session-manager="LoginServer1-SessionManager" permissions-verifier="LBANetServer1-Verifier"/>		
 			<server-instance template="IceStorm" index="1" IceStorm="IceStormLbaNet" />
 			<server-instance template="RoomManager" index="1" IceStorm="IceStormLbaNet" />	
 			<server-instance template="ConnectedTracker" index="1" />			

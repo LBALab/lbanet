@@ -63,7 +63,7 @@ LbaNet::SavedWorldInfo LocalDatabaseHandler::ChangeWorld(const std::string& NewW
 
 	// build sql statement
 	std::stringstream query;
-	query << "SELECT uw.id, uw.lastmap, uw.lastposx, uw.lastposy, uw.lastposz, uw.lastrotation, uw.InventorySize, uw.Shortcuts, uw.LifePoint, uw.ManaPoint, uw.MaxLife, uw.MaxMana, w.id";
+	query << "SELECT uw.id, uw.lastmap, uw.lastposx, uw.lastposy, uw.lastposz, uw.lastrotation, uw.InventorySize, uw.Shortcuts, uw.LifePoint, uw.ManaPoint, uw.MaxLife, uw.MaxMana, w.id, uw.ModelName, uw.ModelOutfit, uw.ModelWeapon, uw.ModelMode";
 	query << " FROM lba_usertoworld uw, lba_worlds w";
 	query << " WHERE uw.userid = '"<<PlayerId<<"'";
 	query << " AND w.name = '"<<NewWorldName<<"'";
@@ -104,12 +104,22 @@ LbaNet::SavedWorldInfo LocalDatabaseHandler::ChangeWorld(const std::string& NewW
 			std::string shortcutstr = pazResult[nbcollumn+7];
 			StringHelper::Tokenize(shortcutstr, tokens, "#");
 			for(size_t i=0; i<tokens.size(); ++i)
-				resP.inventory.UsedShorcuts.push_back(atoi(tokens[i].c_str()));
+			{
+				LbaNet::ItemInfo itm;
+				itm.Id = atol(tokens[i].c_str());
+				resP.inventory.UsedShorcuts.push_back(itm);
+			}
 
 			resP.lifemana.CurrentLife = (float)atof(pazResult[nbcollumn+8]);
 			resP.lifemana.CurrentMana = (float)atof(pazResult[nbcollumn+9]);
 			resP.lifemana.MaxLife = (float)atof(pazResult[nbcollumn+0]);
 			resP.lifemana.MaxMana = (float)atof(pazResult[nbcollumn+11]);
+
+
+			resP.model.ModelName = pazResult[nbcollumn+13];
+			resP.model.Outfit = pazResult[nbcollumn+14];
+			resP.model.Weapon = pazResult[nbcollumn+15];
+			resP.model.Mode = pazResult[nbcollumn+16];
 
 			worldid = atol(pazResult[nbcollumn+12]);
 
@@ -194,7 +204,11 @@ LbaNet::SavedWorldInfo LocalDatabaseHandler::ChangeWorld(const std::string& NewW
 
 			resP.inventory.InventorySize = defaultinventorysize;
 			for(int i=0; i<10; ++i)
-				resP.inventory.UsedShorcuts.push_back(-1);
+			{
+				LbaNet::ItemInfo itm;
+				itm.Id = -1;
+				resP.inventory.UsedShorcuts.push_back(itm);
+			}
 		}
 
 
@@ -283,6 +297,43 @@ void LocalDatabaseHandler::UpdateLife(const LbaNet::LifeManaInfo & lifeinfo,
 }
 
 
+
+
+/***********************************************************
+update player life information
+***********************************************************/
+void LocalDatabaseHandler::UpdateModel(const LbaNet::ModelInfo & modelinfo, 
+							const std::string& WorldName,long PlayerId)
+{
+	Lock sync(*this);
+	if(!_db)
+		return;
+
+	// quit previous world
+	if(WorldName != "")
+	{
+		std::stringstream query;
+		query << "UPDATE lba_usertoworld SET ModelName = '"<<modelinfo.ModelName<<"'";
+		query << ", ModelOutfit = '"<<modelinfo.Outfit<<"'";
+		query << ", ModelWeapon = '"<<modelinfo.Weapon<<"'";
+		query << ", ModelMode = '"<<modelinfo.Mode<<"'";
+		query << " WHERE userid = '"<<PlayerId<<"'";
+		query << " AND worldid = (SELECT id FROM lba_worlds WHERE name = '"<<WorldName<<"')";
+
+		char *zErrMsg = 0;
+		int dbres = dbres = sqlite3_exec(_db, query.str().c_str(), 0, 0, &zErrMsg);
+		if(dbres != SQLITE_OK)
+		{
+			// record error
+			std::cerr<<IceUtil::Time::now()<<": LBA_Server - Update model failed for user id "<<PlayerId<<" : "<<zErrMsg<<std::endl;
+			sqlite3_free(zErrMsg);
+		}
+	}
+}
+
+
+
+
 /***********************************************************
 quit current world
 ***********************************************************/
@@ -333,11 +384,11 @@ void LocalDatabaseHandler::UpdateInventory(const LbaNet::InventoryInfo &Inventor
 	LbaNet::ShortcutsSeq::const_iterator end = Inventory.UsedShorcuts.end();
 	if(it != end)
 	{
-		shortcutstring<<*it;
+		shortcutstring<<it->Id;
 		++it;
 	}
 	for(;it != end; ++it)
-		shortcutstring<<"#"<<*it;
+		shortcutstring<<"#"<<it->Id;
 
 
 	std::stringstream query;

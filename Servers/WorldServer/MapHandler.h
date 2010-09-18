@@ -26,14 +26,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define _MAP_HANDLER_H__
 
 
-#include <IceUtil/Thread.h>
 #include <ClientInterface.h>
+
+#include "RunnableThread.h"
 
 
 using namespace LbaNet;
 
 //! take care of a map of the world
-class MapHandler : public IceUtil::Thread
+class MapHandler : public Runnable
 {
 public:
 	//! constructor
@@ -45,9 +46,6 @@ public:
 	//! start run function
 	void StartThread();
 
-	//! stop run function
-	void StopThread();
-
 	// running function of the thread
 	virtual void run();
 
@@ -58,9 +56,9 @@ protected:
 private:
 	// threading and mutex stuff
 	IceUtil::Monitor<IceUtil::Mutex>						_monitor;
-	bool													_running;
+	bool													_Trunning;
 	IceUtil::ThreadControl									_threadcontrol;
-
+	IceUtil::ThreadPtr										_thread;
 
 	MapInfo													_mapinfo;
 };

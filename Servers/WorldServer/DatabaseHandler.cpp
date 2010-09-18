@@ -99,7 +99,7 @@ LbaNet::SavedWorldInfo DatabaseHandler::ChangeWorld(const std::string& NewWorldN
 	}
 
 	mysqlpp::Query query(_mysqlH, false);
-	query << "SELECT uw.id, uw.lastmap, uw.lastposx, uw.lastposy, uw.lastposz, uw.lastrotation, uw.InventorySize, uw.Shortcuts, uw.LifePoint, uw.ManaPoint, uw.MaxLife, uw.MaxMana, w.id";
+	query << "SELECT uw.id, uw.lastmap, uw.lastposx, uw.lastposy, uw.lastposz, uw.lastrotation, uw.InventorySize, uw.Shortcuts, uw.LifePoint, uw.ManaPoint, uw.MaxLife, uw.MaxMana, w.id, uw.ModelName, uw.ModelOutfit, uw.ModelWeapon, uw.ModelMode";
 	query << " FROM lba_usertoworld uw, lba_worlds w";
 	query << " WHERE uw.userid = '"<<PlayerId<<"'";
 	query << " AND w.name = '"<<NewWorldName<<"'";
@@ -128,12 +128,23 @@ LbaNet::SavedWorldInfo DatabaseHandler::ChangeWorld(const std::string& NewWorldN
 			std::string shortcutstr = res[0][7].c_str();
 			StringHelper::Tokenize(shortcutstr, tokens, "#");
 			for(size_t i=0; i<tokens.size(); ++i)
-				resP.inventory.UsedShorcuts.push_back(atoi(tokens[i].c_str()));
+			{
+				LbaNet::ItemInfo itm;
+				itm.Id = atol(tokens[i].c_str());
+				resP.inventory.UsedShorcuts.push_back(itm);
+			}
 
 			resP.lifemana.CurrentLife = res[0][8];
 			resP.lifemana.CurrentMana = res[0][9];
 			resP.lifemana.MaxLife = res[0][10];
 			resP.lifemana.MaxMana = res[0][11];
+
+			resP.model.ModelName = res[0][13];
+			resP.model.Outfit = res[0][14];	
+			resP.model.Weapon = res[0][15];
+			resP.model.Mode = res[0][16];
+
+
 
 			worldid = res[0][12];
 
@@ -174,7 +185,11 @@ LbaNet::SavedWorldInfo DatabaseHandler::ChangeWorld(const std::string& NewWorldN
 
 			resP.inventory.InventorySize = defaultinventorysize;
 			for(int i=0; i<10; ++i)
-				resP.inventory.UsedShorcuts.push_back(-1);
+			{
+				LbaNet::ItemInfo itm;
+				itm.Id = -1;
+				resP.inventory.UsedShorcuts.push_back(itm);
+			}
 		}
 
 		//insert world name into user
@@ -267,6 +282,41 @@ void DatabaseHandler::UpdateLife(const LbaNet::LifeManaInfo & lifeinfo,
 }
 
 
+/***********************************************************
+update player life information
+***********************************************************/
+void DatabaseHandler::UpdateModel(const LbaNet::ModelInfo & modelinfo, 
+							const std::string& WorldName,long PlayerId)
+{
+	Lock sync(*this);
+	if(!_mysqlH || !_mysqlH->connected())
+	{
+		Connect();
+		if(!_mysqlH->connected())
+		{
+			Clear();
+			return;
+		}
+	}
+
+
+	// quit previous world
+	if(WorldName != "")
+	{
+		mysqlpp::Query query(_mysqlH, false);
+		query << "UPDATE lba_usertoworld SET ModelName = '"<<modelinfo.ModelName<<"'";
+		query << ", ModelOutfit = '"<<modelinfo.Outfit<<"'";
+		query << ", ModelWeapon = '"<<modelinfo.Weapon<<"'";
+		query << ", ModelMode = '"<<modelinfo.Mode<<"'";
+		query << " WHERE userid = '"<<PlayerId<<"'";
+		query << " AND worldid = (SELECT id FROM lba_worlds WHERE name = '"<<WorldName<<"')";
+		if(!query.exec())
+		{
+			std::cerr<<IceUtil::Time::now()<<": LBA_Server - Update model info failed for user id "<<PlayerId<<" : "<<query.error()<<std::endl;
+			Clear();
+		}
+	}
+}
 
 /***********************************************************
 quit current world
@@ -326,11 +376,11 @@ void DatabaseHandler::UpdateInventory(const LbaNet::InventoryInfo &Inventory, co
 	LbaNet::ShortcutsSeq::const_iterator end = Inventory.UsedShorcuts.end();
 	if(it != end)
 	{
-		shortcutstring<<*it;
+		shortcutstring<<it->Id;
 		++it;
 	}
 	for(;it != end; ++it)
-		shortcutstring<<"#"<<*it;
+		shortcutstring<<"#"<<it->Id;
 
 
 	mysqlpp::Query query(_mysqlH, false);

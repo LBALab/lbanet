@@ -126,6 +126,6 @@ private:
 int main(int argc, char** argv)
 {
     WorldServer app;
-    return app.main(argc, argv/*, "config"*/);
+    return app.main(argc, argv, "config");
 }
 

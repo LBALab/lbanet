@@ -60,6 +60,10 @@ public:
 	// update player life information
 	void UpdateLife(const LbaNet::LifeManaInfo & lifeinfo, 
 								const std::string& WorldName,long PlayerId);
+	
+	// update player life information
+	void UpdateModel(const LbaNet::ModelInfo & modelinfo, 
+								const std::string& WorldName,long PlayerId);
 
 	// quit current world
 	void QuitWorld(const std::string& LastWorldName,long PlayerId);

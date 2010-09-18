@@ -66,6 +66,11 @@ public:
 	virtual void UpdateLife(const LbaNet::LifeManaInfo & lifeinfo, 
 								const std::string& WorldName,long PlayerId) = 0;
 	
+	// update player life information
+	virtual void UpdateModel(const LbaNet::ModelInfo & modelinfo, 
+								const std::string& WorldName,long PlayerId) = 0;
+
+	
 	// quit current world
 	virtual void QuitWorld(const std::string& LastWorldName,long PlayerId) = 0;
 

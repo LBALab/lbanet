@@ -66,7 +66,7 @@ WorldChatHandler::WorldChatHandler(Ice::CommunicatorPtr communicator)
 
 	try
 	{
-		_channelpublisher = LbaNet::ChatRoomObserverPrx::checkedCast(pub);
+		_channelpublisher = LbaNet::ChatRoomObserverPrx::uncheckedCast(pub);
 	}
 	catch(const IceUtil::Exception& ex)
 	{
