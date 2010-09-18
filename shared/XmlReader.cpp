@@ -48,41 +48,41 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
 	}
 
 	// get map description
-    res.Description.WorldName = pt.get<std::string>("name" );
-    res.Description.Description = pt.get<std::string>("description" );
-    res.Description.News = pt.get<std::string>("news" );
+    res.Description.WorldName = pt.get<std::string>("World.name");
+    res.Description.Description = pt.get<std::string>("World.description");
+    res.Description.News = pt.get<std::string>("World.news");
 
 	// get teleport info
-    BOOST_FOREACH(ptree::value_type &v, pt.get_child("teleports"))
+    BOOST_FOREACH(ptree::value_type &v, pt.get_child("World.teleports"))
 	{
 		TeleportInfo tpi;
-		tpi.Name = v.second.get<std::string>("xmlattr.name");
-		tpi.MapName = v.second.get<std::string>("xmlattr.map");
-		tpi.SpawningName = v.second.get<std::string>("xmlattr.sparea");
+		tpi.Name = v.second.get<std::string>("<xmlattr>.name");
+		tpi.MapName = v.second.get<std::string>("<xmlattr>.map");
+		tpi.SpawningName = v.second.get<std::string>("<xmlattr>.sparea");
 		res.TeleportInfo[tpi.Name] = tpi;
 	}
 
 	// get the files info
-    BOOST_FOREACH(ptree::value_type &v, pt.get_child("files"))
+    BOOST_FOREACH(ptree::value_type &v, pt.get_child("World.files"))
 	{
-		res.FileUsedInfo[v.second.get<std::string>("xmlattr.name")] 
-								=  v.second.get<std::string>("xmlattr.path");
+		res.FileUsedInfo[v.second.get<std::string>("<xmlattr>.name")] 
+								=  v.second.get<std::string>("<xmlattr>.path");
 	}
 
 
 
 	// get the starting info
-	res.StartingInfo.InventorySize = pt.get<int>("PlayerStartingInfo.InventorySize");
-	res.StartingInfo.StartingLife = pt.get<float>("PlayerStartingInfo.StartingLife");
-	res.StartingInfo.StartingMana = pt.get<float>("PlayerStartingInfo.StartingMana");	
-	res.StartingInfo.StartingMap = pt.get<std::string>("PlayerStartingInfo.StartingMap");
-	res.StartingInfo.Spawning = pt.get<std::string>("PlayerStartingInfo.Spawning");
-	res.StartingInfo.StartingModel.ModelName = pt.get<std::string>("PlayerStartingInfo.StartingModel.ModelName");
-	res.StartingInfo.StartingModel.Outfit = pt.get<std::string>("PlayerStartingInfo.StartingModel.Outfit");
-	res.StartingInfo.StartingModel.Weapon = pt.get<std::string>("PlayerStartingInfo.StartingModel.Weapon");
-	res.StartingInfo.StartingModel.Mode = pt.get<std::string>("PlayerStartingInfo.StartingModel.Mode");
+	res.StartingInfo.InventorySize = pt.get<int>("World.PlayerStartingInfo.InventorySize");
+	res.StartingInfo.StartingLife = pt.get<float>("World.PlayerStartingInfo.StartingLife");
+	res.StartingInfo.StartingMana = pt.get<float>("World.PlayerStartingInfo.StartingMana");	
+	res.StartingInfo.StartingMap = pt.get<std::string>("World.PlayerStartingInfo.StartingMap");
+	res.StartingInfo.Spawning = pt.get<std::string>("World.PlayerStartingInfo.Spawning");
+	res.StartingInfo.StartingModel.ModelName = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.ModelName");
+	res.StartingInfo.StartingModel.Outfit = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.Outfit");
+	res.StartingInfo.StartingModel.Weapon = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.Weapon");
+	res.StartingInfo.StartingModel.Mode = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.Mode");
 	
-    BOOST_FOREACH(ptree::value_type &v, pt.get_child("PlayerStartingInfo.StartingInventory"))
+    BOOST_FOREACH(ptree::value_type &v, pt.get_child("World.PlayerStartingInfo.StartingInventory"))
 	{
 		InventoryItem itm;
 		itm.Number = v.second.get<int>("Number");
@@ -92,30 +92,33 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
 
 	
 	// get the maps
-    BOOST_FOREACH(ptree::value_type &v, pt.get_child("maps"))
+    BOOST_FOREACH(ptree::value_type &v, pt.get_child("World.maps"))
 	{
-		MapInfo mapi;
-		mapi.Name = v.second.get<std::string>("xmlattr.name");
-		mapi.Description = v.second.get<std::string>("description", "");
-		mapi.Type = v.second.get<std::string>("xmlattr.type");
-		mapi.ObjectFile = v.second.get<std::string>("ObjectFile", "");
-		mapi.MusicFile = v.second.get<std::string>("xmlattr.music");
-		mapi.RepatMusic = v.second.get<int>("xmlattr.repeatmusic", 0);
-
-		BOOST_FOREACH(ptree::value_type &v2, v.second.get_child("spareas"))
+		if(v.first != "<xmlcomment>")
 		{
-			SpawningInfo spwi;
-			spwi.Name = v2.second.get<std::string>("xmlattr.name");
-			spwi.PosX = v2.second.get<float>("xmlattr.posX");
-			spwi.PosY = v2.second.get<float>("xmlattr.posY");
-			spwi.PosZ = v2.second.get<float>("xmlattr.posZ");
-			spwi.ForceRotation = v2.second.get<bool>("xmlattr.ForceRotation", false);
-			spwi.Rotation = v2.second.get<float>("xmlattr.RotationAtArrival", 0);
+			MapInfo mapi;
+			mapi.Name = v.second.get<std::string>("<xmlattr>.name");
+			mapi.Type = v.second.get<std::string>("<xmlattr>.type");
+			mapi.MusicFile = v.second.get<std::string>("<xmlattr>.music");
+			mapi.RepatMusic = v.second.get<int>("<xmlattr>.repeatmusic", 0);
+			mapi.ObjectFile = v.second.get<std::string>("ObjectFile", "");
+			mapi.Description = v.second.get<std::string>("description", "");
 
-			mapi.Spawnings[spwi.Name] = spwi;
+			BOOST_FOREACH(ptree::value_type &v2, v.second.get_child("spareas"))
+			{
+				SpawningInfo spwi;
+				spwi.Name = v2.second.get<std::string>("<xmlattr>.name");
+				spwi.PosX = v2.second.get<float>("<xmlattr>.posX");
+				spwi.PosY = v2.second.get<float>("<xmlattr>.posY");
+				spwi.PosZ = v2.second.get<float>("<xmlattr>.posZ");
+				spwi.ForceRotation = v2.second.get<bool>("<xmlattr>.ForceRotation", false);
+				spwi.Rotation = v2.second.get<float>("<xmlattr>.RotationAtArrival", 0);
+
+				mapi.Spawnings[spwi.Name] = spwi;
+			}
+
+			res.Maps[mapi.Name] = mapi;
 		}
-
-		res.Maps[mapi.Name] = mapi;
 	}
 
 
