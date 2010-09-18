@@ -41,13 +41,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 constructor
 ***********************************************************/
 ChatServerHandler::ChatServerHandler()
-: _running(false)
+: _Trunning(false)
 {
 
 }
 
 
-
+/***********************************************************
+destructor
+***********************************************************/
+ChatServerHandler::~ChatServerHandler()
+{
+	if(_thread)
+	{
+		_threadcontrol.join();
+		_thread = NULL;
+	}
+}
 
 /***********************************************************
 initialize
@@ -86,10 +96,9 @@ void ChatServerHandler::Initialize(const std::string PlayerName,
 	// join world chat channel automatically
 	JoinChatChannel("World");
 
-
-	// start thread for sending message to server
-	_running = true;
-	_threadcontrol = start();
+	// create thread
+	_thread = new RunThread(this);
+	_threadcontrol = _thread->start();
 }
 
 
@@ -99,17 +108,11 @@ disconnect from server
 ***********************************************************/
 void ChatServerHandler::Disconnect()
 {
-	_adapter = NULL;
-	_session = NULL;
-	_main_name = "";
-
 	// stop thread
-	{
-		IceUtil::Monitor<IceUtil::Mutex>::Lock lock(_monitor);
-		_running = false;
-		_monitor.notifyAll();
-	}
-	_threadcontrol.join();
+	IceUtil::Monitor<IceUtil::Mutex>::Lock lock(_monitor);
+	_Trunning = false;
+	_main_name = "";
+	_monitor.notifyAll();
 }
 
 
@@ -415,6 +418,29 @@ void ChatServerHandler::ChangeStatus(const std::string & NewStatus)
     }
 }
 
+
+
+/***********************************************************
+change name color
+***********************************************************/
+void ChatServerHandler::ChangeNameColor(const std::string & Color)
+{
+	try
+	{
+		_session->ChangeNameColor(Color);
+	}
+    catch(const IceUtil::Exception& ex)
+    {
+		LogHandler::getInstance()->LogToFile(std::string("Exception on ChangeNameColor: ") + ex.what());
+    }
+    catch(...)
+    {
+		LogHandler::getInstance()->LogToFile(std::string("Unknown exception on ChangeNameColor"));
+    }
+}
+
+
+
 /***********************************************************
 whisper to a player
 ***********************************************************/
@@ -454,20 +480,14 @@ running function of the thread
 ***********************************************************/
 void ChatServerHandler::run()
 {
-	while(true)
+	// start thread for sending message to server
+	IceUtil::Monitor<IceUtil::Mutex>::Lock lock(_monitor);
+	_Trunning = true;
+
+	while(_Trunning)
 	{
 		std::vector<std::string> texts;
-
-		// locked section
-		{
-			IceUtil::Monitor<IceUtil::Mutex>::Lock lock(_monitor);
-
-			// stop thread if running is false
-			if(!_running)
-				return;
-
-			texts.swap(_texttoprocess);
-		}
+		texts.swap(_texttoprocess);
 
 		// process texts
 		for(size_t i = 0; i < texts.size(); ++i)
@@ -475,10 +495,7 @@ void ChatServerHandler::run()
 
 
 		// wait for a few milliseconds
-		{
-			IceUtil::Monitor<IceUtil::Mutex>::Lock lock(_monitor);
-			IceUtil::Time t = IceUtil::Time::milliSeconds(_CHAT_THREAD_WAIT_TIME_);
-			_monitor.timedWait(t);
-		}
+		IceUtil::Time t = IceUtil::Time::milliSeconds(_CHAT_THREAD_WAIT_TIME_);
+		_monitor.timedWait(t);
 	}
 }	

@@ -35,9 +35,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	Constructor
 ***********************************************************/
 RemoteConnectionHandler::RemoteConnectionHandler(Ice::CommunicatorPtr communicator,
-												boost::shared_ptr<ChatServerHandler> chatH)
+													boost::shared_ptr<ChatServerHandler> chatH)
 : _communicator(communicator), _adapter(NULL), _session(NULL), 
-	_router(NULL), _chatH(), _running(false)
+	_router(NULL), _chatH(chatH), _Trunning(false)
 {
 
 }
@@ -49,7 +49,35 @@ RemoteConnectionHandler::RemoteConnectionHandler(Ice::CommunicatorPtr communicat
 ***********************************************************/
 RemoteConnectionHandler::~RemoteConnectionHandler()
 {
-	Disconnect();
+	try
+	{
+		if(_router)
+			_router->destroySession();
+	}
+	catch(const Ice::Exception& ex)
+	{
+		LogHandler::getInstance()->LogToFile(std::string("Error destroying the session: ") + ex.what());
+	}
+
+
+	// clean up
+	try
+	{
+		if(_adapter)
+		{
+			_adapter->deactivate();
+			_adapter->destroy();
+		}
+	}
+	catch(const Ice::Exception& ex)
+	{
+		LogHandler::getInstance()->LogToFile(std::string("Error destroying the adapter: ") + ex.what());
+	}
+
+	_session = NULL;
+	_router = NULL;
+	_adapter = NULL;
+	_interface = NULL;
 }
 
 
@@ -61,8 +89,6 @@ connect to the server
 int RemoteConnectionHandler::Connect(const std::string &user, const std::string &password, 
 										std::string & reason)
 {
-	Disconnect();
-
 	Ice::RouterPrx defaultRouter = _communicator->getDefaultRouter();
 	if(!defaultRouter)
 	{
@@ -103,6 +129,11 @@ int RemoteConnectionHandler::Connect(const std::string &user, const std::string 
 		LogHandler::getInstance()->InformUser("Permission denied.");
 		reason = ex.reason;
 		return -1;
+	}
+	catch(const Ice::Exception& ex)
+	{
+		LogHandler::getInstance()->LogToFile(std::string("Error getting glacier session: ") + ex.what());
+		return 0;
 	}
 
 	try
@@ -164,9 +195,8 @@ int RemoteConnectionHandler::Connect(const std::string &user, const std::string 
     }
 
 
-	// start thread to send events to server
-	_running = true;
-	_threadcontrol = start();
+	// create thread
+	StartThread();
 
 	return 1;
 }
@@ -179,45 +209,15 @@ void RemoteConnectionHandler::Disconnect()
 {
 	//disconnect chat
 	if(_chatH)
+	{
 		_chatH->Disconnect();
-
+		_chatH = boost::shared_ptr<ChatServerHandler>();
+	}
 
 	// stop thread
-	{
-		IceUtil::Monitor<IceUtil::Mutex>::Lock lock(_monitor);
-		_running = false;
-		_monitor.notifyAll();
-	}
-	_threadcontrol.join();
-
-
-	// clean up
-	try
-	{
-		if(_adapter)
-		{
-			_adapter->deactivate();
-			_adapter->destroy();
-		}
-	}
-	catch(const Ice::Exception& ex)
-	{
-		LogHandler::getInstance()->LogToFile(std::string("Error destroying the adapter: ") + ex.what());
-	}
-
-	try
-	{
-		if(_router)
-			_router->destroySession();
-	}
-	catch(const Ice::Exception& ex)
-	{
-		LogHandler::getInstance()->LogToFile(std::string("Error destroying the session: ") + ex.what());
-	}
-
-	_router = NULL;
-	_session = NULL;
-	_adapter = NULL;
+	IceUtil::Monitor<IceUtil::Mutex>::Lock lock(_monitor);
+	_Trunning = false;
+	_monitor.notifyAll();
 }
 
 
@@ -255,23 +255,39 @@ bool RemoteConnectionHandler::IsServerOn(Ice::CommunicatorPtr communicator)
 	return false;
 }
 
-
+/***********************************************************
+ask server to change world
+***********************************************************/
+void RemoteConnectionHandler::ChangeWorld(const std::string & NewWorld)
+{
+	try
+	{
+		if(_session)
+			_session->ChangeWorld(NewWorld);
+	}
+    catch(const IceUtil::Exception& ex)
+    {
+		LogHandler::getInstance()->LogToFile(std::string("Exception on ChangeWorld: ") + ex.what());
+    }
+    catch(...)
+    {
+		LogHandler::getInstance()->LogToFile(std::string("Unknown exception on ChangeWorld"));
+    }
+}
 
 /***********************************************************
 running function of the thread
 ***********************************************************/
 void RemoteConnectionHandler::run()
 {
-	while(true)
+	// start thread to send events to server
+	IceUtil::Monitor<IceUtil::Mutex>::Lock lock(_monitor);
+	_Trunning = true;
+	
+	// stop thread if running is false
+	while(_Trunning)
 	{
-		// stop thread if running is false
-		{
-			IceUtil::Monitor<IceUtil::Mutex>::Lock lock(_monitor);
-			if(!_running)
-				return;
-		}
-
-
+		// TODO - turn afk after a while with no events
 		// process events
 		try
 		{
@@ -290,10 +306,7 @@ void RemoteConnectionHandler::run()
 
 
 		// wait for a few milliseconds
-		{
-			IceUtil::Monitor<IceUtil::Mutex>::Lock lock(_monitor);
-			IceUtil::Time t = IceUtil::Time::milliSeconds(_REMOTE_THREAD_WAIT_TIME_);
-			_monitor.timedWait(t);
-		}
+		IceUtil::Time t = IceUtil::Time::milliSeconds(_REMOTE_THREAD_WAIT_TIME_);
+		_monitor.timedWait(t);
 	}
 }	

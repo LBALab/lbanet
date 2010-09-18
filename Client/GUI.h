@@ -48,11 +48,6 @@ public:
 	//! return the current gui root
 	CEGUI::Window * GetRoot(void);
 
-	//! process function
-	virtual void Process(){}
-
-	//! refresh the gui
-	void Refresh();
 
 	//! called to infrom the gui that it is displayed
 	virtual void Displayed() = 0;

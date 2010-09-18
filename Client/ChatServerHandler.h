@@ -26,17 +26,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _LBANET_CHAT_SERVER_HANDLER_
 #define _LBANET_CHAT_SERVER_HANDLER_
 
-#include <IceUtil/Thread.h>
+
 #include <ChatInfo.h>
 #include <fstream>
 #include <ClientSession.h>
 
 
-class ChatServerHandler : public IceUtil::Thread
+#include "RunnableThread.h"
+
+class ChatServerHandler : public Runnable
 {
 public:
 	// constructor
 	ChatServerHandler();
+
+	// destructor
+	~ChatServerHandler();
 
 
 	//! initialize
@@ -64,6 +69,11 @@ public:
 	// running function of the thread
 	virtual void run();
 
+	// change status
+	void ChangeStatus(const std::string & NewStatus);
+
+	// change name color
+	void ChangeNameColor(const std::string & Color);
 
 protected:
 	// find a chat room if we already joined
@@ -75,8 +85,6 @@ protected:
 	// send chat to room
 	void SendChat(LbaNet::ChatRoomParticipantPrx room, const std::string & Text);
 
-	// change status
-	void ChangeStatus(const std::string & NewStatus);
 
 	// whisper to a player
 	bool Whisper(const std::string & playername, const std::string & message);
@@ -84,9 +92,11 @@ protected:
 
 private:
 	// threading and mutex stuff
+	IceUtil::ThreadControl									_threadcontrol;		
+	IceUtil::ThreadPtr										_thread;
+
 	IceUtil::Monitor<IceUtil::Mutex>						_monitor;
-	bool													_running;
-	IceUtil::ThreadControl									_threadcontrol;
+	bool													_Trunning;
 	std::vector<std::string>								_texttoprocess;
 
     Ice::ObjectAdapterPtr									_adapter;	// ice adapter

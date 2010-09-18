@@ -63,6 +63,9 @@ protected:
     virtual ~CEGUIDrawable();
 
     unsigned int _activeContextID;
+
+private:
+	boost::shared_ptr<GuiHandler>	_GuiH;
 };
 
 

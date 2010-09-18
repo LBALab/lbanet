@@ -50,14 +50,3 @@ CEGUI::Window * GUI::GetRoot(void)
    return _root;
 }
 
-
-/***********************************************************
-refresh the gui
-***********************************************************/
-void GUI::Refresh()
-{
-	_root->hide();
-	_root->show();
-}
-
-

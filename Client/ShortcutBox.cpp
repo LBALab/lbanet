@@ -561,8 +561,6 @@ void ShortcutBox::Refresh(const LbaNet::GuiParamsSeq &Parameters)
 				SetShorcut(_inv_boxes[i+4], _shortcutinfo[i]);
 		}
 	}
-
-
 }
 
 

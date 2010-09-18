@@ -30,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <Glacier2/Router.h>
 #include <ClientSession.h>
 #include <boost/shared_ptr.hpp>
-#include <IceUtil/Thread.h>
+
 
 
 #include "ConnectionHandlerBase.h"
@@ -43,7 +43,7 @@ class ChatServerHandler;
  * Purpose: Class used to take care of ice connection to the server
  ***********************************************************************/
 
-class RemoteConnectionHandler : public ConnectionHandlerBase, public IceUtil::Thread
+class RemoteConnectionHandler : public ConnectionHandlerBase
 {
 public:
 	//! constructor
@@ -59,6 +59,9 @@ public:
 	//! disconnect from the server
 	virtual void Disconnect();
 
+	//! ask server to change world
+	virtual void ChangeWorld(const std::string & NewWorld);
+
 	//! query the serrver to see if it is on
 	static bool IsServerOn(Ice::CommunicatorPtr communicator);
 
@@ -68,8 +71,8 @@ public:
 private:
 	// threading and mutex stuff
 	IceUtil::Monitor<IceUtil::Mutex>						_monitor;
-	bool													_running;
-	IceUtil::ThreadControl									_threadcontrol;
+	bool													_Trunning;
+	IceUtil::ThreadControl									_chatthreadcontrol;
 
 	// pointer to the ice communicator
 	Ice::CommunicatorPtr									_communicator;

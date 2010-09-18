@@ -96,18 +96,8 @@ public:
 	//! handle send button event
 	bool HandleJournalClicked (const CEGUI::EventArgs& e);
 
-
-
-	// process what is needed in the game GUI
-	virtual void Process();
-
 	//! called to infrom the gui that it is displayed
 	virtual void Displayed(){}
-
-
-	//! refresh the gui
-	void Refresh();
-
 
 
 	//! refresh gui with info from server
@@ -127,55 +117,6 @@ public:
 
 	//! focus GUI
 	void FocusGUI(const std::string & guiid, bool focus);
-
-
-
-
-
-
-	//! set the list of teleport places
-	//void SetTeleportList(const std::map<std::string, TPInfo> &_lists);
-
-
-	////! set the current map of the game
-	//void SetCurrentMap(const std::string & WorldName, const std::string & MapName)
-	//{
-	//	_cb.SetCurrentMap(WorldName, MapName);
-	//	//if(_editb)
-	//	//	_editb->ChangeMap(WorldName, MapName);
-	//}
-
-	//// focus the chatbox
-	//void FocusChatbox(bool focus);
-
-	////! get friend list
-	//std::vector<std::string> GetFriendList();
-
-
-
-
-
-	//! set irc thread
-	//void SetIrcThread(IrcThread * IT);
-
-
-
-	//! set actors
-	//void SetActors(std::map<long, Actor *> * Lactors, std::map<long, Actor *> * Eactors)
-	//{if(_editb) _editb->SetActors(Lactors, Eactors);}
-
-	// display inventory
-	//void ShowInventory();
-
-	// show dialog with NPC
-	//void ShowDialog(long ActorId, const std::string &ActorName, DialogHandlerPtr Dialog, 
-	//					bool Show, const std::map<long, TraderItem> &inventory);
-
-	//! display the chatbox on screen
-	//void ShowMails(const std::vector<LbaNet::PMInfo> &pms);
-
-	//! add mail window
-	//void HideMails();
 
 
 protected:

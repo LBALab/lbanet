@@ -270,11 +270,13 @@ struct CEGUIEventCallback : public osgGA::GUIEventHandler
 {
 	int lastwidth;
 	int lastheight;
+	boost::shared_ptr<GuiHandler>	_GuiH;
 
-    CEGUIEventCallback() 
+    CEGUIEventCallback(boost::shared_ptr<GuiHandler> GuiH) 
 	{
 		lastwidth = -1;
 		lastheight = -1;
+		_GuiH = GuiH;
 	}
     
 	bool CEGUIEventCallback::handle(const osgGA::GUIEventAdapter& ea,osgGA::GUIActionAdapter& aa, osg::Object* obj, osg::NodeVisitor* nv)
@@ -295,12 +297,11 @@ struct CEGUIEventCallback : public osgGA::GUIEventHandler
 				int height = ea.getWindowHeight();
 				if((width != lastwidth) || (height != lastheight))
 				{
+					if(_GuiH)
+						_GuiH->Resize(width, height, lastwidth, lastheight);
+
 					lastwidth = width;
 					lastheight = height;
-					//CEGUI::OpenGLRenderer *glRenderer=static_cast<CEGUI::OpenGLRenderer *>(CEGUI::System::getSingleton().getRenderer());
-					//glRenderer->grabTextures();
-					CEGUI::System::getSingleton().notifyDisplaySizeChanged(CEGUI::Size((float)width,(float)height));
-					//glRenderer->restoreTextures(); 
 				}
 				break;
 			}
@@ -406,7 +407,7 @@ constructor
 CEGUIDrawable::CEGUIDrawable()
 {
 	setSupportsDisplayList(false);
-	setEventCallback(new CEGUIEventCallback());
+	setEventCallback(new CEGUIEventCallback(boost::shared_ptr<GuiHandler>()));
 	_activeContextID = 0;
 }
 
@@ -415,13 +416,15 @@ CEGUIDrawable::CEGUIDrawable()
 constructor
 ***********************************************************/
 CEGUIDrawable::CEGUIDrawable(int resX, int resY, boost::shared_ptr<GuiHandler> GuiH)
+: _GuiH(GuiH)
 {
 	try
 	{
 		setSupportsDisplayList(false);
-		setEventCallback(new CEGUIEventCallback());
+		setEventCallback(new CEGUIEventCallback(_GuiH));
 
-		GuiH->Initialize(resX, resY);
+		if(_GuiH)
+			_GuiH->Initialize(resX, resY);
 
 	 //   CEGUI::OpenGLRenderer& gui_renderer = CEGUI::OpenGLRenderer::create();
 		//gui_renderer.enableExtraStateSettings(true);

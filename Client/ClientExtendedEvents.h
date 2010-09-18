@@ -96,13 +96,12 @@ class ChangeWorldEvent : public LbaNet::ClientServerEventBase
 {
 public:
 	//! constructor
-	ChangeWorldEvent(const std::string & NewWorldName, const std::string & NewWorldDataPath)
-		: _NewWorldName(NewWorldName), _NewWorldDataPath(NewWorldDataPath)
+	ChangeWorldEvent(const std::string & NewWorldName)
+		: _NewWorldName(NewWorldName)
 	{
 	}
 
 	std::string _NewWorldName;
-	std::string _NewWorldDataPath;
 };
 
 
@@ -123,24 +122,6 @@ public:
 };
 
 
-/*
-************************************************************************************************************************
-*                                                  class WhisperChannelEvent
-*
-*	used to add a whisper channel in chatbox
-************************************************************************************************************************
-*/
-class WhisperChannelEvent : public LbaNet::ClientServerEventBase
-{
-public:
-	//! constructor
-	WhisperChannelEvent(const std::string & ChannelName)
-		: _ChannelName(ChannelName)
-	{
-	}
-
-	std::string _ChannelName;
-};
 
 /*
 ************************************************************************************************************************
@@ -191,14 +172,12 @@ class PlayerNameColorChangedEvent : public LbaNet::ClientServerEventBase
 {
 public:
 	//! constructor
-	PlayerNameColorChangedEvent(int R, int G, int B)
-		: _R(R), _G(G), _B(B)
+	PlayerNameColorChangedEvent(const std::string &color)
+		: _color(color)
 	{
 	}
 
-	int _R;
-	int _G;
-	int _B;
+	std::string _color;
 };
 
 

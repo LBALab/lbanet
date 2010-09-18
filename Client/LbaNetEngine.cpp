@@ -48,7 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ***********************************************************/
 LbaNetEngine::LbaNetEngine(Ice::CommunicatorPtr communicator, const std::string & clientV)
 : m_currentstate(EGaming), m_oldstate(ELogin), m_clientV(clientV),
-	m_communicator(communicator)
+	m_communicator(communicator), m_shouldexit(false)
 {
 	Initialize();
 	SwitchGuiToLogin();
@@ -148,7 +148,7 @@ void LbaNetEngine::run(void)
 		double waittime = lasttime;
 
 		// Loop until a quit event is found
-		while(!OsgHandler::getInstance()->Update())
+		while(!m_shouldexit && !OsgHandler::getInstance()->Update())
 		{
 			//get physic results
 			PhysXEngine::getInstance()->GetPhysicsResults();
@@ -186,8 +186,7 @@ void LbaNetEngine::run(void)
 
 
 	//disconnect from server
-	if(m_serverConH)
-		m_serverConH->Disconnect();
+	Disconnect();
 }
 
 
@@ -218,242 +217,183 @@ called to check for game events and handle them
 ***********************************************************/
 void LbaNetEngine::HandleGameEvents()
 {
-	//std::vector<GameEvent *> events;
-	//InternalWorkpile::getInstance()->GetPendingEvents(events);
-	//std::vector<GameEvent *>::iterator it = events.begin();
-	//std::vector<GameEvent *>::iterator end = events.end();
-	//for(;it != end; ++it)
-	//{
-	//	switch((*it)->GetType())
-	//	{
-	//		case 1: // login event
-	//			if(m_currentstate == ELogin)
-	//			{
-	//				//SaveCharToFile();
-	//				LoginEvent * ev = static_cast<LoginEvent *> (*it);
-	//				TryLogin(ev->_Name, ev->_Password);
-	//				m_gui_handler.SetPlayerName(ev->_Name);
-	//			}
-	//		break;
+	// fetch all pending events
+	LbaNet::EventsSeq events;
+	EventsQueue::getReceiverQueue()->GetEvents(events);
+	LbaNet::EventsSeq::iterator it = events.begin();
+	LbaNet::EventsSeq::iterator end = events.end();
+	for(;it != end; ++it)
+	{
+		LbaNet::ClientServerEventBasePtr ptr = *it;
+		LbaNet::ClientServerEventBase & obj = *ptr;
+		const std::type_info& info = typeid(obj);
 
-	//		case 2: // gui exit event
-	//			ExitGui();
-	//		break;
+		// server send his id to the client
+		if(info == typeid(LbaNet::ClientIdEvent))
+		{
+			LbaNet::ClientIdEvent * castedptr = 
+				dynamic_cast<LbaNet::ClientIdEvent *>(&obj);
 
-	//		case 3: // change world event
-	//			{
-	//				ChangeWorldEvent * evcw = static_cast<ChangeWorldEvent *> (*it);
-	//				ChangeWorld(evcw->_NewWorld);
-	//			}
-	//		break;
+			m_lbaNetModel->SetPlayerId((long)castedptr->Id);
+		}
 
-	//		case 4: // display gui event
-	//			{
-	//				DisplayGUIEvent * evdg = static_cast<DisplayGUIEvent *> (*it);
-	//				DisplayGUI(evdg->_GuiNumber);
-	//			}
-	//		break;
+		
+		
+		// server send list of available worlds to client
+		if(info == typeid(LbaNet::AvailableWorldsEvent))
+		{
+			LbaNet::AvailableWorldsEvent * castedptr = 
+				dynamic_cast<LbaNet::AvailableWorldsEvent *>(&obj);
 
-	//		case 5: // GameServerAddressEvent
-	//			{
-	//				GameServerAddressEvent * evdg = static_cast<GameServerAddressEvent *> (*it);
-	//				ConnectToGameServer(evdg->_ServerName, evdg->_ServerAddress);
-	//			}
-	//		break;
+			m_gui_handler->SetWorldList(castedptr->Worlds);
+		}
+		
+		
+		
+		// server ask client to refresh a certain GUI in game
+		if(info == typeid(LbaNet::RefreshGameGUIEvent))
+		{
+			LbaNet::RefreshGameGUIEvent * castedptr = 
+				dynamic_cast<LbaNet::RefreshGameGUIEvent *>(&obj);
 
-	//		case 6: // GameServerUnreachableEvent
-	//			{
-	//				GameErrorMessageEvent * evdg = static_cast<GameErrorMessageEvent *> (*it);
-	//				GameErrorMessage(evdg->_Message);
-	//			}
-	//		break;
+			m_gui_handler->RefreshGameGUI(castedptr->GUIId, castedptr->Parameters, 
+											castedptr->Show, castedptr->Hide);
+		}
+		
 
-	//		case 7: // NewMapEvent
-	//			{
-	//				NewMapEvent * evdg = static_cast<NewMapEvent *> (*it);
-	//				m_lbaNetModel.NewMapEvent(evdg->_MapName, evdg->_MapType);
-	//				m_gui_handler.SetCurrentMap(evdg->_MapName);
-	//			}
-	//		break;
+		// client/server update something in part of the GUI
+		if(info == typeid(LbaNet::UpdateGameGUIEvent))
+		{
+			LbaNet::UpdateGameGUIEvent * castedptr = 
+				dynamic_cast<LbaNet::UpdateGameGUIEvent *>(&obj);
+
+			m_gui_handler->UpdateGameGUI(castedptr->GUIId, castedptr->Updates);
+		}
 
 
+		// LoginEvent
+		if(info == typeid(LoginEvent))
+		{
+			LoginEvent * castedptr = 
+				dynamic_cast<LoginEvent *>(&obj);
 
-	//		case 8: // new font size event
-	//			{
-	//				m_gui_handler.ReloadFontSize();
-	//			}
-	//		break;
-
-	//		//case 9: // teleport event
-	//		//	{
-	//		//		TeleportEvent * evcbe = static_cast<TeleportEvent *> (*it);
-	//		//		m_lbaNetModel.ChangeMap(evcbe->_NewMap, evcbe->_Spawning);
-	//		//	}
-	//		//break;
-
-	//		//case 10: // teleport event
-	//		//	{
-	//		//		ChangeMainBodyColorEvent * evcbe = static_cast<ChangeMainBodyColorEvent *> (*it);
-	//		//		if(evcbe->_plus)
-	//		//			m_lbaNetModel.IncreasePlayerBodyColor();
-	//		//		else
-	//		//			m_lbaNetModel.DecreasePlayerBodyColor();
-	//		//	}
-	//		//break;
-
-	//		case 11: // display text event
-	//			{
-	//				if(m_currentstate == EGaming)
-	//				{
-	//					DisplayGameTextEvent * evcbe = static_cast<DisplayGameTextEvent *> (*it);
-	//					m_gui_handler.DisplayGameText(evcbe->_textid);
-	//				}
-	//			}
-	//		break;
-
-	//		//case 12: // player scripted event
-	//		//	{
-	//		//		if(m_currentstate == EGaming)
-	//		//		{
-	//		//			MainPlayerScriptedEvent * evcbe = static_cast<MainPlayerScriptedEvent *> (*it);
-	//		//			m_lbaNetModel.DoPlayerScriptedEvent(evcbe->_script);
-	//		//		}
-	//		//	}
-	//		//break;
-
-	//		//case 13: // game signal event
-	//		//	{
-	//		//		if(m_currentstate == EGaming)
-	//		//		{
-	//		//			GameSignalvent * evcbe = static_cast<GameSignalvent *> (*it);
-	//		//			m_lbaNetModel.SignalEvent(evcbe->_signal, evcbe->_targets);
-	//		//		}
-	//		//	}
-	//		//break;
-
-	//		//case 14: // teleport anywere event
-	//		//	{
-	//		//		if(m_currentstate == EGaming)
-	//		//		{
-	//		//			TeleportAnyEvent * evcbe = static_cast<TeleportAnyEvent *> (*it);
-	//		//			m_lbaNetModel.ChangeMap(evcbe->_NewMap, evcbe->_X, evcbe->_Y, evcbe->_Z, 0);
-	//		//		}
-	//		//	}
-	//		//break;
-
-	//		//case 15: // change perspective event
-	//		//	{
-	//		//		ChangePerspectiveEvent * evcs = static_cast<ChangePerspectiveEvent *> (*it);
-	//		//		m_lbaNetModel.ChangePespective(evcs->_perspective);
-	//		//	}
-	//		//break;
-
-	//		//case 16: // display exits event
-	//		//	{
-	//		//		DisplayExitsEvent * evcs = static_cast<DisplayExitsEvent *> (*it);
-	//		//		m_lbaNetModel.DisplayExits(evcs->_display);
-	//		//	}
-	//		//break;
-
-	//		//case 17: // playerhurt
-	//		//	{
-	//		//		PlayerHurtEvent * evcs = static_cast<PlayerHurtEvent *> (*it);
-	//		//		m_lbaNetModel.PlayerHurt(evcs->_fromactorid);
-	//		//	}
-	//		//break;
-
-	//		//case 18: // do full check
-	//		//	{
-	//		//		m_lbaNetModel.DoFullCheckEvent();
-	//		//	}
-	//		//break;
-
-	//		//case 19: // player life changed
-	//		//	{
-	//		//		PlayerLifeChangedEvent * evcs = static_cast<PlayerLifeChangedEvent *> (*it);
-	//		//		m_lbaNetModel.PlayerLifeChanged(evcs->_CurLife, evcs->_MaxLife, 
-	//		//											evcs->_CurMana, evcs->_MaxMana);
-
-	//		//		_MaxLife = evcs->_MaxLife;
-	//		//		_MaxMana = evcs->_MaxMana;
-	//		//		_CurrentLife = evcs->_CurLife;
-	//		//		if(_CurrentLife < 0)
-	//		//			_CurrentLife = 0;
-	//		//		_CurrentMana = evcs->_CurMana;
-	//		//		if(_CurrentMana < 0)
-	//		//			_CurrentMana = 0;
-	//		//	}
-	//		//break;
-
-	//		//case 20: // player name color changed
-	//		//	{
-	//		//		PlayerNameColorChangedEvent * evcs = 
-	//		//			static_cast<PlayerNameColorChangedEvent *> (*it);
-	//		//		m_lbaNetModel.SetPlayerNameColor(evcs->_R, evcs->_G, evcs->_B);
-	//		//	}
-	//		//break;
-
-	//		//case 21: // change stance event
-	//		//	{
-	//		//		ChangeStanceEvent * evcs = 
-	//		//			static_cast<ChangeStanceEvent *> (*it);
-	//		//		PlayerChangeStance(evcs->_stance);
-	//		//	}
-	//		//break;
-
-	//		//case 22: // inventory used event
-	//		//	{
-	//		//		InventoryObjectUsedEvent * evcs = 
-	//		//			static_cast<InventoryObjectUsedEvent *> (*it);
-	//		//		m_lbaNetModel.InventoryUsed(evcs->_ObjectId, _CurrentLife==_MaxLife, _CurrentMana==_MaxMana);
-	//		//	}
-	//		//break;
-
-	//		case 23: // focus chatbox event
-	//			FocusChatbox(true);
-	//		break;
-
-	//		//case 24: // display NPC dialog
-	//		//	{
-	//		//		DisplayDialogEvent * evcs = 
-	//		//			static_cast<DisplayDialogEvent *> (*it);
-	//		//		m_guiHandler.ShowDialog(evcs->_ActorId, evcs->_ActorName, evcs->_Dialog,
-	//		//									evcs->_Show, evcs->_inventory);
-	//		//	}
-	//		//break;
+			TryLogin(castedptr->_Name, castedptr->_Password, castedptr->_Local);
+		}
 
 
-	//		//case 25: // object update event
-	//		//	{
-	//		//		ObjectUpdateEvent * evcs = 
-	//		//			static_cast<ObjectUpdateEvent *> (*it);
+		// GuiExitEvent
+		if(info == typeid(GuiExitEvent))
+		{
+			ExitGui();
+		}
 
-	//		//		if(!evcs->_Received)
-	//		//		{
-	//		//			std::stringstream strs;
-	//		//			strs<<"You used "<<evcs->_Number<<" [colour='FFFFFFFF'][image='set:"<<ImageSetHandler::GetInstance()->GetInventoryMiniImage(evcs->_ObjectId)<<"   image:full_image']"; 
-	//		//			ThreadSafeWorkpile::ChatTextData cdata;
-	//		//			cdata.Channel = "All";
-	//		//			cdata.Sender = "info";
-	//		//			cdata.Text = strs.str();
-	//		//			ThreadSafeWorkpile::getInstance()->AddChatData(cdata);
-	//		//		}
-	//		//		else
-	//		//		{
-	//		//			std::stringstream strs;
-	//		//			strs<<"You received "<<evcs->_Number<<" [colour='FFFFFFFF'][image='set:"<<ImageSetHandler::GetInstance()->GetInventoryMiniImage(evcs->_ObjectId)<<"   image:full_image']"; 
-	//		//			ThreadSafeWorkpile::ChatTextData cdata;
-	//		//			cdata.Channel = "All";
-	//		//			cdata.Sender = "info";
-	//		//			cdata.Text = strs.str();
-	//		//			ThreadSafeWorkpile::getInstance()->AddChatData(cdata);
-	//		//		}
-	//		//	}
-	//		//break;
-	//	}
+		// QuitGameEvent
+		if(info == typeid(QuitGameEvent))
+		{
+			m_shouldexit = true;
+		}
 
-	//	delete *it;
-	//}
+
+		// ChangeWorldEvent
+		if(info == typeid(ChangeWorldEvent))
+		{
+			ChangeWorldEvent * castedptr = 
+				dynamic_cast<ChangeWorldEvent *>(&obj);
+
+			// update 
+			ChangeWorld(castedptr->_NewWorldName);
+		}
+
+
+		// FocusChatEvent
+		if(info == typeid(FocusChatEvent))
+		{
+			m_gui_handler->FocusGameGUI("ChatBox", true);
+		}
+
+
+		// WhisperChannelEvent
+		if(info == typeid(DisplayGUIEvent))
+		{
+			DisplayGUIEvent * castedptr = 
+				dynamic_cast<DisplayGUIEvent *>(&obj);
+
+			DisplayGUI(castedptr->_GuiNumber);
+		}
+
+
+		// NewFontSizeEvent
+		if(info == typeid(NewFontSizeEvent))
+		{
+			m_gui_handler->ReloadFontSize();
+		}
+
+
+		// PlayerNameColorChangedEvent
+		if(info == typeid(PlayerNameColorChangedEvent))
+		{
+			PlayerNameColorChangedEvent * castedptr = 
+				dynamic_cast<PlayerNameColorChangedEvent *>(&obj);
+
+			// inform server
+			if(m_chatH)
+				m_chatH->ChangeNameColor(castedptr->_color);
+		}
+
+
+		// SendChatTextEvent
+		if(info == typeid(SendChatTextEvent))
+		{
+			SendChatTextEvent * castedptr = 
+				dynamic_cast<SendChatTextEvent *>(&obj);
+
+			// inform server
+			if(m_chatH)
+				m_chatH->SendChatText(castedptr->_text);
+		}
+
+
+		// PlayerStatusUpdateEvent
+		if(info == typeid(PlayerStatusUpdateEvent))
+		{
+			PlayerStatusUpdateEvent * castedptr = 
+				dynamic_cast<PlayerStatusUpdateEvent *>(&obj);
+
+			// update chat
+			{
+				LbaNet::GuiUpdatesSeq updseq;
+				NameColorChangedUpdate * upd = 
+					new NameColorChangedUpdate(castedptr->_name, castedptr->_color);
+				updseq.push_back(upd);
+				m_gui_handler->UpdateGameGUI("ChatBox", updseq);
+			}
+
+			// update community box
+			{
+				LbaNet::PlayerOnline NewInfo;
+				NewInfo.Joined = true;
+				NewInfo.Nickname = castedptr->_name;
+				NewInfo.Status = castedptr->_status;
+				NewInfo.Color = castedptr->_color;
+				LbaNet::GuiUpdatesSeq updseq;
+				LbaNet::PlayerStatusChanged * upd = new LbaNet::PlayerStatusChanged(NewInfo);
+				updseq.push_back(upd);
+				m_gui_handler->UpdateGameGUI("CommunityBox", updseq);
+			}
+		}
+	}
+}
+
+/***********************************************************
+disconnect from server
+***********************************************************/
+void LbaNetEngine::Disconnect()
+{
+	if(m_serverConH)
+		m_serverConH->Disconnect();
+
+	m_chatH = boost::shared_ptr<ChatServerHandler>();
+	m_serverConH = boost::shared_ptr<ConnectionHandlerBase>();
 }
 
 
@@ -466,7 +406,7 @@ void LbaNetEngine::SwitchGuiToLogin()
 		return;
 
 	// disconnect from servers
-
+	Disconnect();
 
 	// clean up the world on disconnect
 	m_lbaNetModel->CleanupWorld();
@@ -576,9 +516,12 @@ void LbaNetEngine::TryLogin(const std::string &Name, const std::string &Password
 		return;
 	}
 
+
 	m_gui_handler->SetServrOn(true);
 	m_gui_handler->RefreshOption();
 
+	// change gui to change world
+	DisplayGUI(1);
 }
 
 
@@ -619,6 +562,10 @@ void LbaNetEngine::ChangeWorld(const std::string & NewWorld)
 
 	//change gui to game gui
 	SwitchGuiToGame();
+
+	// inform server
+	if(m_serverConH)
+		m_serverConH->ChangeWorld(NewWorld);
 }
 
 /***********************************************************

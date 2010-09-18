@@ -69,3 +69,21 @@ void LocalConnectionHandler::Disconnect()
 }
 
 
+/***********************************************************
+ask server to change world
+***********************************************************/
+void LocalConnectionHandler::ChangeWorld(const std::string & NewWorld)
+{
+
+}
+
+
+/***********************************************************
+running function of the thread
+***********************************************************/
+void LocalConnectionHandler::run()
+{
+
+}
+
+

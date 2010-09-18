@@ -57,6 +57,18 @@ LbaNetModel::~LbaNetModel()
 {
 }
 
+
+/***********************************************************
+set player id
+***********************************************************/
+void LbaNetModel::SetPlayerId(long Id)
+{
+	m_playerObjectId = Id;
+}
+
+
+
+
 /***********************************************************
 change the world
 ***********************************************************/
@@ -113,12 +125,11 @@ void LbaNetModel::Process()
 add object to the scene
 ***********************************************************/
 boost::shared_ptr<PhysicalObjectHandlerBase> 
-	LbaNetModel::AddObject(const ObjectInfo &desc, bool IsMainPlayer)
+	LbaNetModel::AddObject(const ObjectInfo &desc)
 {
 	//special treatment if main object
-	if(IsMainPlayer)
+	if(m_playerObjectId == desc.Id)
 	{
-		m_playerObjectId = desc.Id;
 		m_playerObject = desc.BuildSelf(OsgHandler::getInstance());
 
 		if(m_controllerChar)

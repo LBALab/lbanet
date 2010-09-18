@@ -53,29 +53,6 @@ public:
 
 /*
 ************************************************************************************************************************
-*                                                  class ChatTextReceivedUpdate
-*
-*	class used when server send chat text
-************************************************************************************************************************
-*/
-class ChatTextReceivedUpdate : public LbaNet::GuiUpdateBase
-{
-public:
-	//! constructor
-	ChatTextReceivedUpdate(const std::string &Channel, const std::string &Sender, 
-															const std::string &Text)
-		: _Channel(Channel), _Sender(Sender), _Text(Text)
-	{
-	}
-
-	std::string _Channel;
-	std::string _Sender;
-	std::string _Text;
-};
-
-
-/*
-************************************************************************************************************************
 *                                                  class AddWhisperChanelUpdate
 *
 *	class used when chatbox need to add a whisper channel

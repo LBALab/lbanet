@@ -90,23 +90,26 @@ protected:
 	// called when need to connect to game server
 	void ConnectToGameServer(const std::string &ServerName, const std::string &ServerAddress);
 
+	//! disconnect from server
+	void Disconnect();
 
 private:
-	boost::shared_ptr<GuiHandler>	m_gui_handler;				// pointer on gui class
-	boost::shared_ptr<LbaNetModel>	m_lbaNetModel;				// game model
-	boost::shared_ptr<ConnectionHandlerBase>	m_serverConH;	// connection to server
-	boost::shared_ptr<ChatServerHandler>	m_chatH;			// connection to chat server
+	boost::shared_ptr<GuiHandler>					m_gui_handler;				// pointer on gui class
+	boost::shared_ptr<LbaNetModel>					m_lbaNetModel;				// game model
+	boost::shared_ptr<ConnectionHandlerBase>		m_serverConH;				// connection to server
+	boost::shared_ptr<ChatServerHandler>			m_chatH;					// connection to chat server
 
-	Ice::CommunicatorPtr			m_communicator;
-	std::string						m_clientV;
+	Ice::CommunicatorPtr							m_communicator;
+	std::string										m_clientV;
+	bool											m_shouldexit;
 
 	// game states
 	enum EngineState {ELogin=0, EChoosingWorld, EGaming, EMenu, EOption };
-	EngineState							m_currentstate;
-	EngineState							m_oldstate;
+	EngineState										m_currentstate;
+	EngineState										m_oldstate;
 
 	// last music played
-	std::string							m_lastmusic;
+	std::string										m_lastmusic;
 };
 
 #endif

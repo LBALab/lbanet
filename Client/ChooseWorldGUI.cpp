@@ -113,7 +113,7 @@ bool ChooseWorldGUI::HandleConnect(const CEGUI::EventArgs& e)
 	{
 		std::string samples = "Data/Samples/lba2launcherblob.wav";
 		MusicHandler::getInstance()->PlaySample(samples, 0);
-		EventsQueue::getReceiverQueue()->AddEvent(new ChangeWorldEvent(_selectedworld, _selectedworldFile));
+		EventsQueue::getReceiverQueue()->AddEvent(new ChangeWorldEvent(_selectedworld));
 	}
 
 	return true;
@@ -143,6 +143,8 @@ void ChooseWorldGUI::SetWorldList(const std::vector<LbaNet::WorldDesc> &list)
 				CEGUI::WindowManager::getSingleton().getWindow("ChooseWorldList"));
 		if(lb)
 		{
+			lb->resetList();
+
 			std::vector<LbaNet::WorldDesc>::const_iterator it = _wlist.begin();
 			std::vector<LbaNet::WorldDesc>::const_iterator end = _wlist.end();
 			for(int cc=0; it != end; ++it, ++cc)
@@ -184,7 +186,6 @@ bool ChooseWorldGUI::HandleWorldSelected (const CEGUI::EventArgs& e)
 				}
 
 				_selectedworld = _wlist[idx].WorldName;
-				_selectedworldFile = _wlist[idx].DataDirPath;
 			}
 		}
 	}

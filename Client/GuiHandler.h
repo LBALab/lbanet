@@ -66,8 +66,6 @@ public:
 	//! initialize function
 	void Initialize(int screen_size_X, int screen_size_Y);
 
-	// process function
-	void Process(void);
 
 	//! switch from current gui to another one
 	void SwitchGUI(int GuiNumber);
@@ -76,9 +74,7 @@ public:
 	void Redraw(void);
 
 	//! called when the windows is resized
-	void Resize(int screen_size_X, int screen_size_Y);
-	void grabTextures();
-	void restoreTextures();
+	void Resize(int screen_size_X, int screen_size_Y, int oldscreenX, int oldscreenY);
 
 	//! called when font size changed
 	void ReloadFontSize();
@@ -119,6 +115,9 @@ public:
 
 	//! focus GUI
 	void FocusGameGUI(const std::string & guiid, bool focus);
+
+	//! process GUI
+	void Process(void);
 
 protected:
 	//! inject time to the GUI

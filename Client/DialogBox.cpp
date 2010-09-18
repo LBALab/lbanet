@@ -273,56 +273,58 @@ void NPCDialogBox::BuildDialog(const LbaNet::DialogPartInfo &DialogPart)
 {
 	CEGUI::Listbox * lb = static_cast<CEGUI::Listbox *> (
 		CEGUI::WindowManager::getSingleton().getWindow("DialogFrame/listbox"));
-	lb->resetList();
-
-	// display NPC dialog text
+	
+	if(lb)
 	{
-		CEGUI::Window* txs = CEGUI::WindowManager::getSingleton().getWindow("DialogFrame/multiline");
-		std::string str = DataLoader::getInstance()->GetText((long)DialogPart.NpcTextId);
-		int idxs = 0;
-		bool firsttime=true;
-		while((idxs = str.find(" @ ")) != std::string::npos)
-		{
-			std::string tmp = str.substr(0, idxs);
-			if(tmp == "")
-				tmp = "\n";
+		lb->resetList();
 
+		// display NPC dialog text
+		{
+			CEGUI::Window* txs = CEGUI::WindowManager::getSingleton().getWindow("DialogFrame/multiline");
+			std::string str = DataLoader::getInstance()->GetText((long)DialogPart.NpcTextId);
+			int idxs = 0;
+			bool firsttime=true;
+			while((idxs = str.find(" @ ")) != std::string::npos)
+			{
+				std::string tmp = str.substr(0, idxs);
+				if(tmp == "")
+					tmp = "\n";
+
+				if(firsttime)
+				{
+					firsttime = false;
+					txs->setText((const unsigned char *)tmp.c_str());
+				}
+				else
+					txs->appendText((const unsigned char *)tmp.c_str());
+
+				while(((idxs+4) < (int)str.size()) && (str[idxs+3] == '@') && (str[idxs+4] == ' '))
+				{
+					txs->appendText("\n");
+					idxs+= 2;
+				}
+
+				str = str.substr(idxs+3);
+			}
+
+			// set left over text
 			if(firsttime)
 			{
 				firsttime = false;
-				txs->setText((const unsigned char *)tmp.c_str());
+				txs->setText((const unsigned char *)str.c_str());
 			}
 			else
-				txs->appendText((const unsigned char *)tmp.c_str());
-
-			while(((idxs+4) < (int)str.size()) && (str[idxs+3] == '@') && (str[idxs+4] == ' '))
-			{
-				txs->appendText("\n");
-				idxs+= 2;
-			}
-
-			str = str.substr(idxs+3);
+				txs->appendText((const unsigned char *)str.c_str());
 		}
 
-		// set left over text
-		if(firsttime)
+
+		for(size_t i=0; i<DialogPart.PlayerTextsId.size(); ++i)
 		{
-			firsttime = false;
-			txs->setText((const unsigned char *)str.c_str());
+			std::string str = DataLoader::getInstance()->GetText((long)DialogPart.PlayerTextsId[i]);	
+			CEGUI::ListboxItem *it = new MyDialogItem((const unsigned char *)str.c_str(), i);
+			lb->addItem(it);		
 		}
-		else
-			txs->appendText((const unsigned char *)str.c_str());
 	}
-
-
-	for(size_t i=0; i<DialogPart.PlayerTextsId.size(); ++i)
-	{
-		std::string str = DataLoader::getInstance()->GetText((long)DialogPart.PlayerTextsId[i]);	
-		CEGUI::ListboxItem *it = new MyDialogItem((const unsigned char *)str.c_str(), i);
-		lb->addItem(it);		
-	}
-
-
 }
 
 

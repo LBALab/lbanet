@@ -67,25 +67,7 @@ void LoginGUI::Initialize()
 			CEGUI::PushButton::EventClicked,
 			CEGUI::Event::Subscriber (&LoginGUI::HandleCancel, this));
 
-		static_cast<CEGUI::PushButton *> (
-			CEGUI::WindowManager::getSingleton().getWindow("LoginWindowPlayerFrame/plus"))->subscribeEvent (
-			CEGUI::PushButton::EventClicked,
-			CEGUI::Event::Subscriber (&LoginGUI::Handlebplus, this));
 
-		static_cast<CEGUI::PushButton *> (
-			CEGUI::WindowManager::getSingleton().getWindow("LoginWindowPlayerFrame/minus"))->subscribeEvent (
-			CEGUI::PushButton::EventClicked,
-			CEGUI::Event::Subscriber (&LoginGUI::Handlebminus, this));
-
-		static_cast<CEGUI::PushButton *> (
-			CEGUI::WindowManager::getSingleton().getWindow("LoginWindowPlayerFrame/cplus"))->subscribeEvent (
-			CEGUI::PushButton::EventClicked,
-			CEGUI::Event::Subscriber (&LoginGUI::Handlecplus, this));
-
-		static_cast<CEGUI::PushButton *> (
-			CEGUI::WindowManager::getSingleton().getWindow("LoginWindowPlayerFrame/cminus"))->subscribeEvent (
-			CEGUI::PushButton::EventClicked,
-			CEGUI::Event::Subscriber (&LoginGUI::Handlecminus, this));
 
 		CEGUI::WindowManager::getSingleton().getWindow("LBaNetLogo")->disable();
 		CEGUI::WindowManager::getSingleton().getWindow("LBaNetLogoCenter")->disable();
@@ -103,11 +85,6 @@ void LoginGUI::Initialize()
 
 		CEGUI::WindowManager::getSingleton().getWindow("DisplayLoginErrorFrame")->hide();
 
-		static_cast<CEGUI::FrameWindow *>(
-			CEGUI::WindowManager::getSingleton().getWindow("LoginWindowPlayerFrame"))->setDragMovingEnabled(false);
-
-		static_cast<CEGUI::FrameWindow *>(
-			CEGUI::WindowManager::getSingleton().getWindow("LoginWindowPlayerFrame"))->setRollupEnabled(false);
 
 		static_cast<CEGUI::FrameWindow *>(
 			CEGUI::WindowManager::getSingleton().getWindow("LoginWIndowFrame"))->setDragMovingEnabled(false);
@@ -191,50 +168,6 @@ bool LoginGUI::HandleCancel (const CEGUI::EventArgs& e)
 	EventsQueue::getReceiverQueue()->AddEvent(new QuitGameEvent());
 	return true;
 }
-
-
-
-/***********************************************************
-handle cancel button event
-***********************************************************/
-bool LoginGUI::Handlebplus(const CEGUI::EventArgs& e)
-{
-	//ThreadSafeWorkpile::getInstance()->AddEvent(new ChangeMainBodyEvent(true));
-	return true;
-}
-
-
-/***********************************************************
-handle cancel button event
-***********************************************************/
-bool LoginGUI::Handlebminus (const CEGUI::EventArgs& e)
-{
-	//ThreadSafeWorkpile::getInstance()->AddEvent(new ChangeMainBodyEvent(false));
-	return true;
-}
-
-
-
-
-/***********************************************************
-handle cancel button event
-***********************************************************/
-bool LoginGUI::Handlecplus(const CEGUI::EventArgs& e)
-{
-	//ThreadSafeWorkpile::getInstance()->AddEvent(new ChangeMainBodyColorEvent(true));
-	return true;
-}
-
-
-/***********************************************************
-handle cancel button event
-***********************************************************/
-bool LoginGUI::Handlecminus (const CEGUI::EventArgs& e)
-{
-	//ThreadSafeWorkpile::getInstance()->AddEvent(new ChangeMainBodyColorEvent(false));
-	return true;
-}
-
 
 
 /***********************************************************

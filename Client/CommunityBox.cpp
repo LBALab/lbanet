@@ -32,6 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "EventsQueue.h"
 #include "SynchronizedTimeHandler.h"
 #include "ClientExtendedEvents.h"
+#include "ClientExtendedTypes.h"
 #include <typeinfo>
 
 // Sample sub-class for ListboxTextItem that auto-sets the selection brush
@@ -543,7 +544,13 @@ bool CommunityBox::HandleListdblClick (const CEGUI::EventArgs& e)
 		std::map<std::string, CEGUI::ListboxItem *>::iterator iton = _onlines.find(name);
 		if(iton != _onlines.end())
 		{
-			EventsQueue::getReceiverQueue()->AddEvent(new WhisperChannelEvent(name));
+			LbaNet::GuiUpdatesSeq updseq;
+			AddWhisperChanelUpdate * upd = 
+				new AddWhisperChanelUpdate(name);
+			updseq.push_back(upd);
+			EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
+				SynchronizedTimeHandler::GetCurrentTimeDouble(), "ChatBox", updseq));
+
 			EventsQueue::getReceiverQueue()->AddEvent(new FocusChatEvent());
 		}
 	}
@@ -568,7 +575,13 @@ bool CommunityBox::HandleConnecteddblClick (const CEGUI::EventArgs& e)
 		name = name.substr(name.find("]")+1);
 		name = name.substr(0, name.find_last_of("(")-1);
 
-		EventsQueue::getReceiverQueue()->AddEvent(new WhisperChannelEvent(name));
+		LbaNet::GuiUpdatesSeq updseq;
+		AddWhisperChanelUpdate * upd = 
+			new AddWhisperChanelUpdate(name);
+		updseq.push_back(upd);
+		EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
+			SynchronizedTimeHandler::GetCurrentTimeDouble(), "ChatBox", updseq));
+
 		EventsQueue::getReceiverQueue()->AddEvent(new FocusChatEvent());
 	}
 

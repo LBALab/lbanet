@@ -50,6 +50,12 @@ public:
 	//! disconnect from the server
 	virtual void Disconnect();
 
+	//! ask server to change world
+	virtual void ChangeWorld(const std::string & NewWorld);
+
+	// running function of the thread
+	virtual void run();
+
 private:
 
 };

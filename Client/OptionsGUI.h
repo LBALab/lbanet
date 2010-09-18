@@ -84,9 +84,6 @@ protected:
 
 private:
 	// general part
-	int				_textR;
-	int				_textG;
-	int				_textB;
 	int				_nameR;
 	int				_nameG;
 	int				_nameB;
@@ -97,9 +94,7 @@ private:
 	int				_currScreenX;
 	int				_currScreenY;
 	bool			_currFullscreen;
-	bool			_currDisplayFPS;
 	bool			_currPerspective;
-	bool			_currDisplayExit;
 
 	// sound part
 	int				_currGenVolume;

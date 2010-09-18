@@ -311,13 +311,17 @@ change screen resolution
 ***********************************************************/
 void OsgHandler::Resize(int resX, int resY, bool fullscreen)
 {
-	if(resX != _resX || resY != _resY)
+	if(resX != _resX || resY != _resY || fullscreen != _isFullscreen)
 	{
 		_resX = resX;
 		_resY = resY;
 		_isFullscreen = fullscreen;
 
 		ResetScreen();
+
+		ConfigurationManager::GetInstance()->SetInt("Display.Screen.ScreenResolutionX", _resX);
+		ConfigurationManager::GetInstance()->SetInt("Display.Screen.ScreenResolutionY", _resY);
+		ConfigurationManager::GetInstance()->SetBool("Display.Screen.Fullscreen", _isFullscreen);
 	}
 }
 
@@ -455,6 +459,8 @@ void OsgHandler::TogglePerspectiveView(bool Perspective)
 	{
 		_isPerspective = Perspective;
 		ResetCameraProjectiomMatrix();
+
+		ConfigurationManager::GetInstance()->SetBool("Display.Camera.Perspective", _isPerspective);
 	}
 }
 

@@ -59,18 +59,6 @@ public:
 	//! handle cancel button event
 	bool HandleCancel (const CEGUI::EventArgs& e);
 
-	//! handle connect button event
-	bool Handlebplus(const CEGUI::EventArgs& e);
-
-	//! handle cancel button event
-	bool Handlebminus (const CEGUI::EventArgs& e);
-
-	//! handle connect button event
-	bool Handlecplus(const CEGUI::EventArgs& e);
-
-	//! handle cancel button event
-	bool Handlecminus (const CEGUI::EventArgs& e);
-
 	//! handle cancel button event
 	bool HandleCloseTextClicked (const CEGUI::EventArgs& e);
 

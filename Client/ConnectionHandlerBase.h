@@ -28,6 +28,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #include <string>
+#include "RunnableThread.h"
+
 
 /***********************************************************************
  * Module:  ConnectionHandlerBase.h
@@ -35,23 +37,45 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * Purpose: Base class to hanlde connection with server
  ***********************************************************************/
 
-class ConnectionHandlerBase
+class ConnectionHandlerBase : public Runnable
 {
 public:
 	//! constructor
 	ConnectionHandlerBase(){}
 
-   //! destructor
-	virtual ~ConnectionHandlerBase(){}
+	//! destructor
+	virtual ~ConnectionHandlerBase()
+	{
+		if(_thread)
+		{
+			_threadcontrol.join();
+			_thread = NULL;
+		}
+	}
 
-   //! connect to the server
-   //! return 1 in case of success
+
+	//! start running the thread
+	void StartThread()
+	{
+		_thread = new RunThread(this);
+		_threadcontrol = _thread->start();
+	}
+
+	//! connect to the server
+	//! return 1 in case of success
 	//! else set the string reason
-   virtual int Connect(const std::string &user, const std::string &password, std::string & reason) = 0;
+	virtual int Connect(const std::string &user, const std::string &password, std::string & reason) = 0;
 
 	//! disconnect from the server
 	virtual void Disconnect() = 0;
 
+	//! ask server to change world
+	virtual void ChangeWorld(const std::string & NewWorld) = 0;
+
+protected:
+	// threading and mutex stuff
+	IceUtil::ThreadControl									_threadcontrol;		
+	IceUtil::ThreadPtr										_thread;
 };
 
 #endif

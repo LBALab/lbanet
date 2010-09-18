@@ -56,6 +56,10 @@ public:
 	~LbaNetModel();
 
 
+	//! set player id
+	void SetPlayerId(long Id);
+
+
 	// change the world
 	void ChangeWorld(const std::string & NewWorld);
 
@@ -65,8 +69,7 @@ public:
 
 	//! add object to the scene
 	//! if IsMainPlayer then treat this object as the player object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> 
-		AddObject(const ObjectInfo &desc, bool IsMainPlayer);
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> AddObject(const ObjectInfo &desc);
 
 
 	//! remove object from the scene

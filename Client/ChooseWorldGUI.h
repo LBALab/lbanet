@@ -75,7 +75,6 @@ public:
 private:
 	std::vector<LbaNet::WorldDesc>	_wlist;
 	std::string				_selectedworld;
-	std::string				_selectedworldFile;
 };
 
 #endif

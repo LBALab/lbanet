@@ -34,6 +34,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "SynchronizedTimeHandler.h"
 #include "ClientExtendedEvents.h"
 #include "ClientExtendedTypes.h"
+#include "OSGHandler.h"
+
 
 // Sample sub-class for ListboxTextItem that auto-sets the selection brush
 // image.  This saves doing it manually every time in the code.
@@ -176,15 +178,15 @@ ChatBox::~ChatBox()
 		CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
 			CEGUI::WindowManager::getSingleton().getWindow("ChatFrame"));
 
+		int resX, resY; 
+		bool fullscreen;
+		OsgHandler::getInstance()->GetScreenAttributes(resX, resY, fullscreen);
+
 		CEGUI::UVector2 vec = frw->getPosition();
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Chatbox.PosX", vec.d_x.d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Chatbox.PosY", vec.d_y.d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Chatbox.SizeX", frw->getWidth().d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Chatbox.SizeY", frw->getHeight().d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Chatbox.OffsetPosX", vec.d_x.d_offset);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Chatbox.OffsetPosY", vec.d_y.d_offset);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Chatbox.OffsetSizeX", frw->getWidth().d_offset);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Chatbox.OffsetSizeY", frw->getHeight().d_offset);
+		ConfigurationManager::GetInstance()->SetFloat("Gui.Chatbox.PosX", vec.d_x.asRelative(resX));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.Chatbox.PosY", vec.d_y.asRelative(resY));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.Chatbox.SizeX", frw->getWidth().asRelative(resX));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.Chatbox.SizeY", frw->getHeight().asRelative(resY));
 		ConfigurationManager::GetInstance()->SetBool("Gui.Chatbox.Visible", frw->isVisible());
 	}
 	catch(CEGUI::Exception &ex)
@@ -208,7 +210,6 @@ void ChatBox::Initialize(CEGUI::Window* Root)
 		AddTab("All");
 		AddTab("World");
 		AddTab("Map");
-		AddTab("IRC");
 
 		static_cast<CEGUI::PushButton *> (
 			CEGUI::WindowManager::getSingleton().getWindow("Chat/bChannel"))->subscribeEvent (
@@ -295,20 +296,16 @@ void ChatBox::Initialize(CEGUI::Window* Root)
 		frw->subscribeEvent (CEGUI::FrameWindow::EventCloseClicked,
 			CEGUI::Event::Subscriber (&ChatBox::HandleCloseChatbox, this));
 
-		float PosX, PosY, SizeX, SizeY, OPosX, OPosY, OSizeX, OSizeY;
+		float PosX, PosY, SizeX, SizeY;
 		bool Visible;
 		ConfigurationManager::GetInstance()->GetFloat("Gui.Chatbox.PosX", PosX);
 		ConfigurationManager::GetInstance()->GetFloat("Gui.Chatbox.PosY", PosY);
 		ConfigurationManager::GetInstance()->GetFloat("Gui.Chatbox.SizeX", SizeX);
 		ConfigurationManager::GetInstance()->GetFloat("Gui.Chatbox.SizeY", SizeY);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Chatbox.OffsetPosX", OPosX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Chatbox.OffsetPosY", OPosY);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Chatbox.OffsetSizeX", OSizeX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Chatbox.OffsetSizeY", OSizeY);
 		ConfigurationManager::GetInstance()->GetBool("Gui.Chatbox.Visible", Visible);
-		frw->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, OPosX), CEGUI::UDim(PosY, OPosY)));
-		frw->setWidth(CEGUI::UDim(SizeX, OSizeX));
-		frw->setHeight(CEGUI::UDim(SizeY, OSizeY));
+		frw->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));
+		frw->setWidth(CEGUI::UDim(SizeX, 0));
+		frw->setHeight(CEGUI::UDim(SizeY, 0));
 
 		if(Visible)
 			frw->show();
@@ -1037,12 +1034,12 @@ void ChatBox::Update(const LbaNet::GuiUpdatesSeq &Updates)
 		}
 
 		// ChatTextReceivedUpdate
-		if(info == typeid(ChatTextReceivedUpdate))
+		if(info == typeid(LbaNet::ChatTextUpdate))
 		{
-			ChatTextReceivedUpdate * castedptr = 
-				dynamic_cast<ChatTextReceivedUpdate *>(ptr);
+			LbaNet::ChatTextUpdate * castedptr = 
+				dynamic_cast<LbaNet::ChatTextUpdate *>(ptr);
 
-			AddText(castedptr->_Channel, castedptr->_Sender, castedptr->_Text);
+			AddText(castedptr->Channel, castedptr->Sender, castedptr->Text);
 		}
 
 

@@ -265,8 +265,6 @@ void OptionsGUI::Apply()
 						changeRes = true;
 						_currScreenX = xs;
 						_currScreenY = ys;
-						ConfigurationManager::GetInstance()->SetInt("Options.Video.ScreenResolutionX", _currScreenX);
-						ConfigurationManager::GetInstance()->SetInt("Options.Video.ScreenResolutionY", _currScreenY);
 					}
 				}
 			}
@@ -282,8 +280,12 @@ void OptionsGUI::Apply()
 				{
 					changeRes = true;
 					_currFullscreen = selectedb;
-					ConfigurationManager::GetInstance()->SetBool("Options.Video.Fullscreen", _currFullscreen);
 				}
+			}
+
+			if(changeRes)
+			{
+				OsgHandler::getInstance()->Resize(_currScreenX, _currScreenY, _currFullscreen);
 			}
 
 
@@ -297,14 +299,7 @@ void OptionsGUI::Apply()
 				{
 					_currPerspective = selectedb;
 					OsgHandler::getInstance()->TogglePerspectiveView(_currPerspective);
-					ConfigurationManager::GetInstance()->SetBool("Camera.Perspective", _currPerspective);
 				}
-			}
-
-
-			if(changeRes)
-			{
-				OsgHandler::getInstance()->Resize(_currScreenX, _currScreenY, _currFullscreen);
 			}
 		}
 
@@ -498,20 +493,14 @@ void OptionsGUI::Quit()
 void OptionsGUI::Displayed()
 {
 	//init the values from file
-	ConfigurationManager::GetInstance()->GetInt("Options.General.TextR", _textR);
-	ConfigurationManager::GetInstance()->GetInt("Options.General.TextG", _textG);
-	ConfigurationManager::GetInstance()->GetInt("Options.General.TextB", _textB);
-
 	ConfigurationManager::GetInstance()->GetInt("Options.General.NameR", _nameR);
 	ConfigurationManager::GetInstance()->GetInt("Options.General.NameG", _nameG);
 	ConfigurationManager::GetInstance()->GetInt("Options.General.NameB", _nameB);
 
-	ConfigurationManager::GetInstance()->GetInt("Options.Video.ScreenResolutionX", _currScreenX);
-	ConfigurationManager::GetInstance()->GetInt("Options.Video.ScreenResolutionY", _currScreenY);
-	ConfigurationManager::GetInstance()->GetBool("Options.Video.Fullscreen", _currFullscreen);
-	ConfigurationManager::GetInstance()->GetBool("Options.Video.DisplayFPS", _currDisplayFPS);
-	ConfigurationManager::GetInstance()->GetBool("Camera.Perspective", _currPerspective);
-	ConfigurationManager::GetInstance()->GetBool("Options.Video.DisplayExits", _currDisplayExit);
+	ConfigurationManager::GetInstance()->GetInt("Display.Screen.ScreenResolutionX", _currScreenX);
+	ConfigurationManager::GetInstance()->GetInt("Display.Screen.ScreenResolutionY", _currScreenY);
+	ConfigurationManager::GetInstance()->GetBool("Display.Screen.Fullscreen", _currFullscreen);
+	ConfigurationManager::GetInstance()->GetBool("Display.Camera.Perspective", _currPerspective);
 
 	ConfigurationManager::GetInstance()->GetInt("Options.Sound.GeneralVolume", _currGenVolume);
 	ConfigurationManager::GetInstance()->GetInt("Options.Sound.MusicVolume", _currMusicVolume);
@@ -527,12 +516,11 @@ send name color
 ***********************************************************/
 void OptionsGUI::SendNameColor()
 {
-	//std::stringstream colorstr;
-	//colorstr << "FF" ;
-	//colorstr <<((_nameR < 16)?"0":"") << std::uppercase <<std::hex << _nameR; 
-	//colorstr <<((_nameG < 16)?"0":"") << std::uppercase << std::hex << _nameG;
-	//colorstr <<((_nameB < 16)?"0":"") << std::uppercase << std::hex << _nameB;
+	std::stringstream colorstr;
+	colorstr << "FF" ;
+	colorstr <<((_nameR < 16)?"0":"") << std::uppercase <<std::hex << _nameR; 
+	colorstr <<((_nameG < 16)?"0":"") << std::uppercase << std::hex << _nameG;
+	colorstr <<((_nameB < 16)?"0":"") << std::uppercase << std::hex << _nameB;
 
-	EventsQueue::getReceiverQueue()->AddEvent(new PlayerNameColorChangedEvent(_nameR,
-														_nameG, _nameB));
+	EventsQueue::getReceiverQueue()->AddEvent(new PlayerNameColorChangedEvent(colorstr.str()));
 }

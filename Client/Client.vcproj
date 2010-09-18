@@ -623,6 +623,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\RunnableThread.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ShopBox.h"
 				>
 			</File>

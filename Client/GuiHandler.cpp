@@ -369,10 +369,10 @@ void GuiHandler::Process(void)
 {
    inject_time_pulse();
 
-	std::vector<GUI *>::iterator it = _guis.begin();
-	std::vector<GUI *>::iterator end = _guis.end();
-	for(; it != end; ++it)
-		(*it)->Process();
+	//std::vector<GUI *>::iterator it = _guis.begin();
+	//std::vector<GUI *>::iterator end = _guis.end();
+	//for(; it != end; ++it)
+	//	(*it)->Process();
 }
 
 
@@ -415,31 +415,24 @@ void GuiHandler::Redraw(void)
 /***********************************************************
 called when the windows is resized
 ***********************************************************/
-void GuiHandler::Resize(int screen_size_X, int screen_size_Y)
+void GuiHandler::Resize(int screen_size_X, int screen_size_Y, int oldscreenX, int oldscreenY)
 {
+	if(oldscreenX > 0 && oldscreenY > 0)
+	{
+		if(_game_gui)
+			_game_gui->SaveGUISizes(oldscreenX, oldscreenY);
+	}
+
     CEGUI::System::getSingleton().
         notifyDisplaySizeChanged(CEGUI::Size((float)screen_size_X,(float)screen_size_Y));
 
-	if(_game_gui)
-		_game_gui->Refresh();
-}
 
-/***********************************************************
-called when the windows is resized
-***********************************************************/
-void GuiHandler::grabTextures()
-{
-	_gui_renderer->grabTextures();
+	if(oldscreenX > 0 && oldscreenY > 0)
+	{
+		if(_game_gui)
+			_game_gui->RestoreGUISizes();
+	}
 }
-
-/***********************************************************
-called when the windows is resized
-***********************************************************/
-void GuiHandler::restoreTextures()
-{
-	_gui_renderer->restoreTextures();
-}
-
 
 
 
