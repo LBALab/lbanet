@@ -181,7 +181,7 @@ module LbaNet
 
 	
 	
-	sequence<long> 			ShortcutsSeq;
+	sequence<ItemInfo> 		ShortcutsSeq;
 
 	
 	struct InventoryInfo
@@ -204,6 +204,7 @@ module LbaNet
 	{
 		PlayerPosition 		ppos;
 		InventoryInfo 		inventory;
+		ModelInfo		model;
 		
 		// life/mana info
 		LifeManaInfo		lifemana;
