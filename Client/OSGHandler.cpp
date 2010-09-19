@@ -749,18 +749,6 @@ void OsgHandler::SetClipPlane(float layer)
 }
 
 
-/***********************************************************
-set screen attributes
-***********************************************************/
-void OsgHandler::SetScreenAttributes(int resX, int resY, bool fullscreen)
-{
-	_isFullscreen = fullscreen;
-	_resX = resX;
-	_resY = resY;
-	ResetScreen();
-}
-
-
 
 /***********************************************************
 set screen attributes

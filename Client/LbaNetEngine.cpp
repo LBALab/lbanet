@@ -142,6 +142,13 @@ void LbaNetEngine::run(void)
 	//SwitchGuiToGame();
 
 
+	// done in order to solve bug at startup with GUI mouse
+	int resX, resY;
+	bool fullscreen;
+	OsgHandler::getInstance()->GetScreenAttributes(resX, resY, fullscreen);
+	OsgHandler::getInstance()->Resize(resX+1, resY+1, fullscreen);
+	OsgHandler::getInstance()->Resize(resX, resY, fullscreen);
+
 	try
 	{
 		// init time

@@ -25,6 +25,19 @@
 HINSTANCE globalInstance;
 #endif
 
+#include "crashrpt.h"
+#pragma comment(lib, "crashrpt.lib")
+
+
+BOOL WINAPI CrashCallback(LPVOID lpvState)
+{
+	LogHandler::getInstance()->CloseFile();
+	AddFile(lpvState, LogHandler::getInstance()->GetFilename().c_str(), "Lbanet general log");
+	//AddFile(lpvState, LogHandler::getInstance()->GetGUIFilename().c_str(), "GUI log");
+	return TRUE;
+}
+
+
 
 class IceClient : public Ice::Application
 {
@@ -89,9 +102,24 @@ int main( int argc, char **argv )
 {
 #endif
 
-	LogHandler::getInstance()->LogToFile("Entering main program...");
-    IceClient app;
-    return app.main(argc, argv, "config.client");
+	// init crash reporter
+	LPVOID chandler = Install(CrashCallback, NULL, NULL);
+
+	try
+	{
+		LogHandler::getInstance()->LogToFile("Entering main program...");
+		IceClient app;
+		return app.main(argc, argv, "config.client");
+	}
+	catch(std::exception & ex)
+	{
+		LogHandler::getInstance()->LogToFile(std::string("Unhandled exception catched:") + ex.what());
+	}
+	catch(...)
+	{
+		LogHandler::getInstance()->LogToFile(std::string("Unknown exception catched"));
+	}
+	return -1;
 }
 
 

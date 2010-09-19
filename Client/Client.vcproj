@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\dependencies\OSG\include;..\dependencies\CEGUI\cegui\include;..\dependencies\3rdParty\include;..\dependencies\libconfig\include;..\shared;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Foundation/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Physics/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Cooking/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/PhysXLoader/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/NxCharacter/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot;;..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\dependencies\fmod\include"
+				AdditionalIncludeDirectories="..\dependencies\OSG\include;..\dependencies\CEGUI\cegui\include;..\dependencies\3rdParty\include;..\dependencies\libconfig\include;..\shared;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Foundation/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Physics/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Cooking/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/PhysXLoader/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/NxCharacter/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot;;..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\dependencies\fmod\include;..\dependencies\CrashReport\crashrpt\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -63,7 +63,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="opengl32.lib glu32.lib CEGUIBase_d.lib CEGUIOpenGLRenderer_d.lib osgd.lib osgutild.lib osgGAd.lib osgViewerd.lib osgDBd.lib osgShadowd.lib libconfig++d.lib PhysXLoader.lib PhysXCooking.lib NxCharacter.lib iced.lib iceutild.lib glacier2d.lib fmodex_vc.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\dependencies\OSG\lib;..\dependencies\CEGUI\lib;..\dependencies\3rdParty\lib;..\dependencies\libconfig\lib;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\lib\Win32&quot;;&quot;$(ICE_HOME)\lib&quot;;..\dependencies\fmod\lib"
+				AdditionalLibraryDirectories="..\dependencies\OSG\lib;..\dependencies\CEGUI\lib;..\dependencies\3rdParty\lib;..\dependencies\libconfig\lib;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\lib\Win32&quot;;&quot;$(ICE_HOME)\lib&quot;;..\dependencies\fmod\lib;..\dependencies\CrashReport\crashrpt\lib"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -117,7 +117,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="..\dependencies\OSG\include;..\dependencies\CEGUI\cegui\include;..\dependencies\3rdParty\include;..\dependencies\libconfig\include;..\shared;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Foundation/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Physics/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Cooking/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/PhysXLoader/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/NxCharacter/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot;;..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\dependencies\fmod\include"
+				AdditionalIncludeDirectories="..\dependencies\OSG\include;..\dependencies\CEGUI\cegui\include;..\dependencies\3rdParty\include;..\dependencies\libconfig\include;..\shared;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Foundation/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Physics/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Cooking/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/PhysXLoader/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/NxCharacter/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot;;..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\dependencies\fmod\include;..\dependencies\CrashReport\crashrpt\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -136,9 +136,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				PerUserRedirection="false"
 				AdditionalDependencies="opengl32.lib glu32.lib CEGUIBase.lib CEGUIOpenGLRenderer.lib osg.lib osgutil.lib osgGA.lib osgViewer.lib osgDB.lib osgShadow.lib libconfig++.lib PhysXLoader.lib PhysXCooking.lib NxCharacter.lib ice.lib iceutil.lib glacier2.lib fmodex_vc.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\dependencies\OSG\lib;..\dependencies\CEGUI\lib;..\dependencies\3rdParty\lib;..\dependencies\libconfig\lib;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\lib\Win32&quot;;&quot;$(ICE_HOME)\lib&quot;;..\dependencies\fmod\lib"
+				AdditionalLibraryDirectories="..\dependencies\OSG\lib;..\dependencies\CEGUI\lib;..\dependencies\3rdParty\lib;..\dependencies\libconfig\lib;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\lib\Win32&quot;;&quot;$(ICE_HOME)\lib&quot;;..\dependencies\fmod\lib;..\dependencies\CrashReport\crashrpt\lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"

@@ -137,8 +137,6 @@ public:
 	//! set clip plane cut layer
 	void SetClipPlane(float layer);
 
-	//! set screen attributes
-	void SetScreenAttributes(int resX, int resY, bool fullscreen);
 
 	//! set screen attributes
 	void GetScreenAttributes(int &resX, int &resY, bool &fullscreen);
