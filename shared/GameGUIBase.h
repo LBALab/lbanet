@@ -73,6 +73,20 @@ public:
 
 	//! focus GUI
 	virtual void Focus(bool focus) = 0;
+
+
+	//! save size of windows to be restored after resize of the application
+	virtual void SaveGUISizes(int oldscreenX, int oldscreenY) = 0;
+
+	//! restore the correct size of the windows
+	virtual void RestoreGUISizes() = 0;
+
+protected:
+	float	_savedPosX;
+	float	_savedPosY;
+	float	_savedSizeX;
+	float	_savedSizeY;
+
 };
 
 
