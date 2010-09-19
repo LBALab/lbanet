@@ -27,56 +27,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "LogHandler.h"
 #include "ConfigurationManager.h"
 #include "DataLoader.h"
+#include "OSGHandler.h"
+#include "StringHelperFuncs.h"
 
 #include <iostream>
 #include <algorithm>
 #include <CEGUI.h>
 
 
-
-// string helper function
-static void Trim(std::string& str)
-{
-	std::string::size_type pos = str.find_last_not_of(' ');
-	if(pos != std::string::npos)
-	{
-		str.erase(pos + 1);
-		pos = str.find_first_not_of(' ');
-
-		if(pos != std::string::npos)
-			str.erase(0, pos);
-	}
-	else
-		str.clear();
-
-}
-
-// string helper function
-static void StringTokenize(const std::string& str,
-						std::vector<std::string>& tokens,
-						const std::string& delimiters)
-{
-	// Skip delimiters at beginning.
-	std::string::size_type lastPos = str.find_first_not_of(delimiters, 0);
-	// Find first "non-delimiter".
-	std::string::size_type pos     = str.find_first_of(delimiters, lastPos);
-
-
-
-	while (std::string::npos != pos || std::string::npos != lastPos)
-	{
-		// Found a token, add it to the vector.
-		std::string tmp = str.substr(lastPos, pos - lastPos);
-		Trim(tmp);
-		tokens.push_back(tmp);
-
-		// Skip delimiters.  Note the "not_of"
-		lastPos = str.find_first_not_of(delimiters, pos);
-
-		// Find next "non-delimiter"
-		pos = str.find_first_of(delimiters, lastPos);
-	}
-}
 
 
 // Sample sub-class for ListboxTextItem that auto-sets the selection brush
@@ -118,15 +76,15 @@ JournalBox::~JournalBox()
 		CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
 			CEGUI::WindowManager::getSingleton().getWindow("JournalFrame"));
 
+		int resX, resY; 
+		bool fullscreen;
+		OsgHandler::getInstance()->GetScreenAttributes(resX, resY, fullscreen);
+
 		CEGUI::UVector2 vec = frw->getPosition();
-		ConfigurationManager::GetInstance()->SetFloat("Gui.JournalBox.PosX", vec.d_x.d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.JournalBox.PosY", vec.d_y.d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.JournalBox.SizeX", frw->getWidth().d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.JournalBox.SizeY", frw->getHeight().d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.JournalBox.OffsetPosX", vec.d_x.d_offset);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.JournalBox.OffsetPosY", vec.d_y.d_offset);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.JournalBox.OffsetSizeX", frw->getWidth().d_offset);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.JournalBox.OffsetSizeY", frw->getHeight().d_offset);
+		ConfigurationManager::GetInstance()->SetFloat("Gui.JournalBox.PosX", vec.d_x.asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.JournalBox.PosY", vec.d_y.asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.JournalBox.SizeX", frw->getWidth().asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.JournalBox.SizeY", frw->getHeight().asRelative((float)resY));
 		ConfigurationManager::GetInstance()->SetBool("Gui.JournalBox.Visible", frw->isVisible());
 
 		{
@@ -217,20 +175,16 @@ void JournalBox::Initialize(CEGUI::Window* Root)
 							CEGUI::Event::Subscriber (&JournalBox::HandleQuestDoneTreeSelected, this));
 
 
-		float PosX, PosY, SizeX, SizeY, OPosX, OPosY, OSizeX, OSizeY;
+		float PosX, PosY, SizeX, SizeY;
 		bool Visible;
 		ConfigurationManager::GetInstance()->GetFloat("Gui.JournalBox.PosX", PosX);
 		ConfigurationManager::GetInstance()->GetFloat("Gui.JournalBox.PosY", PosY);
 		ConfigurationManager::GetInstance()->GetFloat("Gui.JournalBox.SizeX", SizeX);
 		ConfigurationManager::GetInstance()->GetFloat("Gui.JournalBox.SizeY", SizeY);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.JournalBox.OffsetPosX", OPosX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.JournalBox.OffsetPosY", OPosY);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.JournalBox.OffsetSizeX", OSizeX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.JournalBox.OffsetSizeY", OSizeY);
 		ConfigurationManager::GetInstance()->GetBool("Gui.JournalBox.Visible", Visible);
-		frw->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, OPosX), CEGUI::UDim(PosY, OPosY)));
-		frw->setWidth(CEGUI::UDim(SizeX, OSizeX));
-		frw->setHeight(CEGUI::UDim(SizeY, OSizeY));
+		frw->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));
+		frw->setWidth(CEGUI::UDim(SizeX, 0));
+		frw->setHeight(CEGUI::UDim(SizeY, 0));
 
 		if(Visible)
 			frw->show();
@@ -246,8 +200,8 @@ void JournalBox::Initialize(CEGUI::Window* Root)
 		ConfigurationManager::GetInstance()->GetString("Gui.JournalBox.QuestTreeSelected", _selected_tree_quests);
 		ConfigurationManager::GetInstance()->GetString("Gui.JournalBox.QuestDoneTreeSelected", _selected_tree_done_quests);
 
-		StringTokenize(treeqopen, _open_tree_quests, "##");
-		StringTokenize(treedqopen, _open_tree_done_quests, "##");
+		StringHelper::Tokenize(treeqopen, _open_tree_quests, "##");
+		StringHelper::Tokenize(treedqopen, _open_tree_done_quests, "##");
 
 
 		static_cast<CEGUI::TabControl *> (
@@ -724,4 +678,34 @@ focus GUI
 void JournalBox::Focus(bool focus)
 {
 
+}
+
+
+/***********************************************************
+save size of windows to be restored after resize of the application
+***********************************************************/
+void JournalBox::SaveGUISizes(int oldscreenX, int oldscreenY)
+{
+	CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
+		CEGUI::WindowManager::getSingleton().getWindow("JournalFrame"));
+
+	CEGUI::UVector2 vec = frw->getPosition();
+	_savedPosX = vec.d_x.asRelative((float)oldscreenX);
+	_savedPosY = vec.d_y.asRelative((float)oldscreenY);
+	_savedSizeX = frw->getWidth().asRelative((float)oldscreenX);
+	_savedSizeY = frw->getHeight().asRelative((float)oldscreenY);
+}
+
+
+/***********************************************************
+restore the correct size of the windows
+***********************************************************/
+void JournalBox::RestoreGUISizes()
+{
+	CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
+		CEGUI::WindowManager::getSingleton().getWindow("JournalFrame"));
+
+	frw->setPosition(CEGUI::UVector2(CEGUI::UDim(_savedPosX, 0), CEGUI::UDim(_savedPosY, 0)));
+	frw->setWidth(CEGUI::UDim(_savedSizeX, 0));
+	frw->setHeight(CEGUI::UDim(_savedSizeY, 0));
 }

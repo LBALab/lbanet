@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "EventsQueue.h"
 #include "SynchronizedTimeHandler.h"
 #include "ClientExtendedTypes.h"
+#include "OSGHandler.h"
 
 #include <iostream>
 #include <algorithm>
@@ -56,15 +57,16 @@ LetterViewerBox::~LetterViewerBox()
 		CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
 			CEGUI::WindowManager::getSingleton().getWindow("LetterViewerWIndowFrame"));
 
+		int resX, resY; 
+		bool fullscreen;
+		OsgHandler::getInstance()->GetScreenAttributes(resX, resY, fullscreen);
+
 		CEGUI::UVector2 vec = frw->getPosition();
-		ConfigurationManager::GetInstance()->SetFloat("Gui.LetterViewerFrame.PosX", vec.d_x.d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.LetterViewerFrame.PosY", vec.d_y.d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.LetterViewerFrame.SizeX", frw->getWidth().d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.LetterViewerFrame.SizeY", frw->getHeight().d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.LetterViewerFrame.OffsetPosX", vec.d_x.d_offset);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.LetterViewerFrame.OffsetPosY", vec.d_y.d_offset);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.LetterViewerFrame.OffsetSizeX", frw->getWidth().d_offset);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.LetterViewerFrame.OffsetSizeY", frw->getHeight().d_offset);
+		ConfigurationManager::GetInstance()->SetFloat("Gui.LetterViewerFrame.PosX", vec.d_x.asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.LetterViewerFrame.PosY", vec.d_y.asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.LetterViewerFrame.SizeX", frw->getWidth().asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.LetterViewerFrame.SizeY", frw->getHeight().asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetBool("Gui.LetterViewerFrame.Visible", frw->isVisible());
 	}
 }
 
@@ -98,18 +100,14 @@ void LetterViewerBox::Initialize(CEGUI::Window* Root)
 		_myBox->hide();
 
 
-		float PosX, PosY, SizeX, SizeY, OPosX, OPosY, OSizeX, OSizeY;
+		float PosX, PosY, SizeX, SizeY;
 		ConfigurationManager::GetInstance()->GetFloat("Gui.LetterViewerFrame.PosX", PosX);
 		ConfigurationManager::GetInstance()->GetFloat("Gui.LetterViewerFrame.PosY", PosY);
 		ConfigurationManager::GetInstance()->GetFloat("Gui.LetterViewerFrame.SizeX", SizeX);
 		ConfigurationManager::GetInstance()->GetFloat("Gui.LetterViewerFrame.SizeY", SizeY);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.LetterViewerFrame.OffsetPosX", OPosX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.LetterViewerFrame.OffsetPosY", OPosY);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.LetterViewerFrame.OffsetSizeX", OSizeX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.LetterViewerFrame.OffsetSizeY", OSizeY);
-		frw->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, OPosX), CEGUI::UDim(PosY, OPosY)));
-		frw->setWidth(CEGUI::UDim(SizeX, OSizeX));
-		frw->setHeight(CEGUI::UDim(SizeY, OSizeY));
+		frw->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));
+		frw->setWidth(CEGUI::UDim(SizeX, 0));
+		frw->setHeight(CEGUI::UDim(SizeY, 0));
 	}
 	catch(CEGUI::Exception &ex)
 	{
@@ -265,3 +263,33 @@ void LetterViewerBox::Focus(bool focus)
 
 }
 
+
+
+/***********************************************************
+save size of windows to be restored after resize of the application
+***********************************************************/
+void LetterViewerBox::SaveGUISizes(int oldscreenX, int oldscreenY)
+{
+	CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
+		CEGUI::WindowManager::getSingleton().getWindow("LetterViewerWIndowFrame"));
+
+	CEGUI::UVector2 vec = frw->getPosition();
+	_savedPosX = vec.d_x.asRelative((float)oldscreenX);
+	_savedPosY = vec.d_y.asRelative((float)oldscreenY);
+	_savedSizeX = frw->getWidth().asRelative((float)oldscreenX);
+	_savedSizeY = frw->getHeight().asRelative((float)oldscreenY);
+}
+
+
+/***********************************************************
+restore the correct size of the windows
+***********************************************************/
+void LetterViewerBox::RestoreGUISizes()
+{
+	CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
+		CEGUI::WindowManager::getSingleton().getWindow("LetterViewerWIndowFrame"));
+
+	frw->setPosition(CEGUI::UVector2(CEGUI::UDim(_savedPosX, 0), CEGUI::UDim(_savedPosY, 0)));
+	frw->setWidth(CEGUI::UDim(_savedSizeX, 0));
+	frw->setHeight(CEGUI::UDim(_savedSizeY, 0));
+}

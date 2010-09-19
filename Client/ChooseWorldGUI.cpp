@@ -185,6 +185,13 @@ bool ChooseWorldGUI::HandleWorldSelected (const CEGUI::EventArgs& e)
 					eb->setText(_wlist[idx].Description);
 				}
 
+				 eb = static_cast<CEGUI::MultiLineEditbox *> (
+					CEGUI::WindowManager::getSingleton().getWindow("ChooseWorldNews"));
+				if(eb)
+				{
+					eb->setText(_wlist[idx].News);
+				}
+
 				_selectedworld = _wlist[idx].WorldName;
 			}
 		}

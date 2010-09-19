@@ -368,11 +368,6 @@ process function
 void GuiHandler::Process(void)
 {
    inject_time_pulse();
-
-	//std::vector<GUI *>::iterator it = _guis.begin();
-	//std::vector<GUI *>::iterator end = _guis.end();
-	//for(; it != end; ++it)
-	//	(*it)->Process();
 }
 
 
@@ -401,14 +396,6 @@ void GuiHandler::SwitchGUI(int GuiNumber)
 	_currentGUI = GuiNumber;
 }
 
-
-/***********************************************************
-redraw the scene on screen
-***********************************************************/
-void GuiHandler::Redraw(void)
-{
-	CEGUI::System::getSingleton().renderGUI();
-}
 
 
 

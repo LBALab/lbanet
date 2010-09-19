@@ -363,9 +363,8 @@ void GameGUI::UpdateGUI(const std::string & guiid,const LbaNet::GuiUpdatesSeq &U
 }
 
 /***********************************************************
-refresh gui with info from server
+show GUI
 ***********************************************************/
-//! show GUI
 void GameGUI::ShowGUI(const std::string & guiid)
 {
 	std::map<std::string, boost::shared_ptr<GameGUIBase> >::iterator it = _gameguis.find(guiid);
@@ -524,3 +523,25 @@ void GameGUI::SetPlayerName(const std::string & name)
 }
 
 
+
+/***********************************************************
+save size of windows to be restored after resize of the application
+***********************************************************/
+void GameGUI::SaveGUISizes(int oldscreenX, int oldscreenY)
+{
+	std::map<std::string, boost::shared_ptr<GameGUIBase> >::iterator it = _gameguis.begin();
+	std::map<std::string, boost::shared_ptr<GameGUIBase> >::iterator end = _gameguis.end();
+	for(; it != end; ++it)
+		it->second->SaveGUISizes(oldscreenX, oldscreenY);
+}
+
+/***********************************************************
+restore the correct size of the windows
+***********************************************************/
+void GameGUI::RestoreGUISizes()
+{
+	std::map<std::string, boost::shared_ptr<GameGUIBase> >::iterator it = _gameguis.begin();
+	std::map<std::string, boost::shared_ptr<GameGUIBase> >::iterator end = _gameguis.end();
+	for(; it != end; ++it)
+		it->second->RestoreGUISizes();
+}

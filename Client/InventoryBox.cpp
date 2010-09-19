@@ -30,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "EventsQueue.h"
 #include "SynchronizedTimeHandler.h"
 #include "DataLoader.h"
-
+#include "OSGHandler.h"
 
 #include <iostream>
 #include <algorithm>
@@ -59,15 +59,15 @@ InventoryBox::~InventoryBox()
 		CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
 			CEGUI::WindowManager::getSingleton().getWindow("InventoryFrame"));
 
+		int resX, resY; 
+		bool fullscreen;
+		OsgHandler::getInstance()->GetScreenAttributes(resX, resY, fullscreen);
+
 		CEGUI::UVector2 vec = frw->getPosition();
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Inventorybox.PosX", vec.d_x.d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Inventorybox.PosY", vec.d_y.d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Inventorybox.SizeX", frw->getWidth().d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Inventorybox.SizeY", frw->getHeight().d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Inventorybox.OffsetPosX", vec.d_x.d_offset);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Inventorybox.OffsetPosY", vec.d_y.d_offset);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Inventorybox.OffsetSizeX", frw->getWidth().d_offset);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Inventorybox.OffsetSizeY", frw->getHeight().d_offset);
+		ConfigurationManager::GetInstance()->SetFloat("Gui.Inventorybox.PosX", vec.d_x.asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.Inventorybox.PosY", vec.d_y.asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.Inventorybox.SizeX", frw->getWidth().asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.Inventorybox.SizeY", frw->getHeight().asRelative((float)resY));
 		ConfigurationManager::GetInstance()->SetBool("Gui.Inventorybox.Visible", frw->isVisible());
 	}
 	catch(CEGUI::Exception &ex)
@@ -99,20 +99,16 @@ void InventoryBox::Initialize(CEGUI::Window* Root)
 			CEGUI::Event::Subscriber (&InventoryBox::HandleResize, this));
 
 
-		float PosX, PosY, SizeX, SizeY, OPosX, OPosY, OSizeX, OSizeY;
+		float PosX, PosY, SizeX, SizeY;
 		bool Visible;
 		ConfigurationManager::GetInstance()->GetFloat("Gui.Inventorybox.PosX", PosX);
 		ConfigurationManager::GetInstance()->GetFloat("Gui.Inventorybox.PosY", PosY);
 		ConfigurationManager::GetInstance()->GetFloat("Gui.Inventorybox.SizeX", SizeX);
 		ConfigurationManager::GetInstance()->GetFloat("Gui.Inventorybox.SizeY", SizeY);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Inventorybox.OffsetPosX", OPosX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Inventorybox.OffsetPosY", OPosY);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Inventorybox.OffsetSizeX", OSizeX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Inventorybox.OffsetSizeY", OSizeY);
 		ConfigurationManager::GetInstance()->GetBool("Gui.Inventorybox.Visible", Visible);
-		frw->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, OPosX), CEGUI::UDim(PosY, OPosY)));
-		frw->setWidth(CEGUI::UDim(SizeX, OSizeX));
-		frw->setHeight(CEGUI::UDim(SizeY, OSizeY));
+		frw->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));
+		frw->setWidth(CEGUI::UDim(SizeX, 0));
+		frw->setHeight(CEGUI::UDim(SizeY, 0));
 
 		if(Visible)
 			frw->show();
@@ -641,4 +637,36 @@ LbaNet::ItemInfo InventoryBox::GetItemInfo(Ice::Long itemid)
 		res.Id = -1;
 		return res;
 	}
+}
+
+
+
+
+/***********************************************************
+save size of windows to be restored after resize of the application
+***********************************************************/
+void InventoryBox::SaveGUISizes(int oldscreenX, int oldscreenY)
+{
+	CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
+		CEGUI::WindowManager::getSingleton().getWindow("InventoryFrame"));
+
+	CEGUI::UVector2 vec = frw->getPosition();
+	_savedPosX = vec.d_x.asRelative((float)oldscreenX);
+	_savedPosY = vec.d_y.asRelative((float)oldscreenY);
+	_savedSizeX = frw->getWidth().asRelative((float)oldscreenX);
+	_savedSizeY = frw->getHeight().asRelative((float)oldscreenY);
+}
+
+
+/***********************************************************
+restore the correct size of the windows
+***********************************************************/
+void InventoryBox::RestoreGUISizes()
+{
+	CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
+		CEGUI::WindowManager::getSingleton().getWindow("InventoryFrame"));
+
+	frw->setPosition(CEGUI::UVector2(CEGUI::UDim(_savedPosX, 0), CEGUI::UDim(_savedPosY, 0)));
+	frw->setWidth(CEGUI::UDim(_savedSizeX, 0));
+	frw->setHeight(CEGUI::UDim(_savedSizeY, 0));
 }

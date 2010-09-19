@@ -35,7 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ChooseNumberBox.h"
 #include "EventsQueue.h"
 #include "DataLoader.h"
-
+#include "OSGHandler.h"
 
 #define _NB_BOX_CONTAINER_ 12
 
@@ -60,6 +60,16 @@ ContainerBox::~ContainerBox()
 	{
 		CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
 			CEGUI::WindowManager::getSingleton().getWindow("ContainerFrame"));
+
+		int resX, resY; 
+		bool fullscreen;
+		OsgHandler::getInstance()->GetScreenAttributes(resX, resY, fullscreen);
+
+		CEGUI::UVector2 vec = frw->getPosition();
+		ConfigurationManager::GetInstance()->SetFloat("Gui.ContainerBox.PosX", vec.d_x.asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.ContainerBox.PosY", vec.d_y.asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.ContainerBox.SizeX", frw->getWidth().asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.ContainerBox.SizeY", frw->getHeight().asRelative((float)resY));
 	}
 	catch(CEGUI::Exception &ex)
 	{
@@ -122,6 +132,16 @@ void ContainerBox::Initialize(CEGUI::Window* Root)
 			_cont_boxes.push_back(tmpwindow);
 		}
 
+		{
+			float PosX, PosY, SizeX, SizeY;
+			ConfigurationManager::GetInstance()->GetFloat("Gui.ContainerBox.PosX", PosX);
+			ConfigurationManager::GetInstance()->GetFloat("Gui.ContainerBox.PosY", PosY);
+			ConfigurationManager::GetInstance()->GetFloat("Gui.ContainerBox.SizeX", SizeX);
+			ConfigurationManager::GetInstance()->GetFloat("Gui.ContainerBox.SizeY", SizeY);
+			frw->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));
+			frw->setWidth(CEGUI::UDim(SizeX, 0));
+			frw->setHeight(CEGUI::UDim(SizeY, 0));
+		}
 
 
 		frw->show();
@@ -940,4 +960,34 @@ focus GUI
 void ContainerBox::Focus(bool focus)
 {
 
+}
+
+
+/***********************************************************
+save size of windows to be restored after resize of the application
+***********************************************************/
+void ContainerBox::SaveGUISizes(int oldscreenX, int oldscreenY)
+{
+	CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
+		CEGUI::WindowManager::getSingleton().getWindow("ContainerFrame"));
+
+	CEGUI::UVector2 vec = frw->getPosition();
+	_savedPosX = vec.d_x.asRelative((float)oldscreenX);
+	_savedPosY = vec.d_y.asRelative((float)oldscreenY);
+	_savedSizeX = frw->getWidth().asRelative((float)oldscreenX);
+	_savedSizeY = frw->getHeight().asRelative((float)oldscreenY);
+}
+
+
+/***********************************************************
+restore the correct size of the windows
+***********************************************************/
+void ContainerBox::RestoreGUISizes()
+{
+	CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
+		CEGUI::WindowManager::getSingleton().getWindow("ContainerFrame"));
+
+	frw->setPosition(CEGUI::UVector2(CEGUI::UDim(_savedPosX, 0), CEGUI::UDim(_savedPosY, 0)));
+	frw->setWidth(CEGUI::UDim(_savedSizeX, 0));
+	frw->setHeight(CEGUI::UDim(_savedSizeY, 0));
 }

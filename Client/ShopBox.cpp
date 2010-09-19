@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "EventsQueue.h"
 #include "SynchronizedTimeHandler.h"
 #include "DataLoader.h"
+#include "OSGHandler.h"
 
 #include <iostream>
 #include <algorithm>
@@ -57,7 +58,25 @@ destructor
 ***********************************************************/
 NPCShopBox::~NPCShopBox()
 {
+	try
+	{
+		CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
+			CEGUI::WindowManager::getSingleton().getWindow("DialogTraderFrame"));
 
+		int resX, resY; 
+		bool fullscreen;
+		OsgHandler::getInstance()->GetScreenAttributes(resX, resY, fullscreen);
+
+		CEGUI::UVector2 vec = frw->getPosition();
+		ConfigurationManager::GetInstance()->SetFloat("Gui.ShopBox.PosX", vec.d_x.asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.ShopBox.PosY", vec.d_y.asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.ShopBox.SizeX", frw->getWidth().asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.ShopBox.SizeY", frw->getHeight().asRelative((float)resY));
+	}
+	catch(CEGUI::Exception &ex)
+	{
+		LogHandler::getInstance()->LogToFile(std::string("Exception destructor chatbox: ") + ex.getMessage().c_str());
+	}
 }
 
 
@@ -81,6 +100,20 @@ void NPCShopBox::Initialize(CEGUI::Window* Root)
 		frw2->subscribeEvent(
 			CEGUI::FrameWindow::EventSized,
 			CEGUI::Event::Subscriber (&NPCShopBox::HandleResize, this));	
+
+
+		{
+			float PosX, PosY, SizeX, SizeY;
+			ConfigurationManager::GetInstance()->GetFloat("Gui.ShopBox.PosX", PosX);
+			ConfigurationManager::GetInstance()->GetFloat("Gui.ShopBox.PosY", PosY);
+			ConfigurationManager::GetInstance()->GetFloat("Gui.ShopBox.SizeX", SizeX);
+			ConfigurationManager::GetInstance()->GetFloat("Gui.ShopBox.SizeY", SizeY);
+			frw2->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));
+			frw2->setWidth(CEGUI::UDim(SizeX, 0));
+			frw2->setHeight(CEGUI::UDim(SizeY, 0));
+		}
+
+
 
 
 		CEGUI::Window*	pane = CEGUI::WindowManager::getSingleton().getWindow("DialogTraderFrame/boxpart");
@@ -393,3 +426,32 @@ void NPCShopBox::Focus(bool focus)
 
 }
 
+
+/***********************************************************
+save size of windows to be restored after resize of the application
+***********************************************************/
+void NPCShopBox::SaveGUISizes(int oldscreenX, int oldscreenY)
+{
+	CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
+		CEGUI::WindowManager::getSingleton().getWindow("DialogTraderFrame"));
+
+	CEGUI::UVector2 vec = frw->getPosition();
+	_savedPosX = vec.d_x.asRelative((float)oldscreenX);
+	_savedPosY = vec.d_y.asRelative((float)oldscreenY);
+	_savedSizeX = frw->getWidth().asRelative((float)oldscreenX);
+	_savedSizeY = frw->getHeight().asRelative((float)oldscreenY);
+}
+
+
+/***********************************************************
+restore the correct size of the windows
+***********************************************************/
+void NPCShopBox::RestoreGUISizes()
+{
+	CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
+		CEGUI::WindowManager::getSingleton().getWindow("DialogTraderFrame"));
+
+	frw->setPosition(CEGUI::UVector2(CEGUI::UDim(_savedPosX, 0), CEGUI::UDim(_savedPosY, 0)));
+	frw->setWidth(CEGUI::UDim(_savedSizeX, 0));
+	frw->setHeight(CEGUI::UDim(_savedSizeY, 0));
+}

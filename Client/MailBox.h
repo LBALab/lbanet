@@ -111,6 +111,12 @@ class MailBox : public GameGUIBase
 	virtual void Focus(bool focus);
 
 
+	//! save size of windows to be restored after resize of the application
+	virtual void SaveGUISizes(int oldscreenX, int oldscreenY);
+
+	//! restore the correct size of the windows
+	virtual void RestoreGUISizes();
+
 protected:
 	//! hide mails
 	void HideMails();
@@ -141,6 +147,24 @@ private:
 
 	Ice::Long						_replyto;
 	bool							_hidemailbox;
+
+	float							_sizecollumn0;
+	float							_sizecollumn1;
+	float							_sizecollumn2;
+	float							_sizecollumn3;
+	float							_sizecollumn4;
+
+	float							_savePosXRead;
+	float							_savePosYRead;
+	float							_saveSizeXRead;
+	float							_saveSizeYRead;
+
+	float							_savePosXWrite;
+	float							_savePosYWrite;
+	float							_saveSizeXWrite;
+	float							_saveSizeYWrite;
+
+
 };
 
 #endif

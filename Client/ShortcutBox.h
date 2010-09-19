@@ -117,6 +117,11 @@ class ShortcutBox : public GameGUIBase
 	//! focus GUI
 	virtual void Focus(bool focus);
 
+	//! save size of windows to be restored after resize of the application
+	virtual void SaveGUISizes(int oldscreenX, int oldscreenY);
+
+	//! restore the correct size of the windows
+	virtual void RestoreGUISizes();
 
 protected:
 	void SetShorcut(CEGUI::Window* box, const LbaNet::ItemInfo &iteminfo);
@@ -141,6 +146,9 @@ private:
 	bool							_moving_stances;
 
 	int								_currentvisibility;
+
+	float							_savestancePosX;
+	float							_savestancePosY;
 
 
 };

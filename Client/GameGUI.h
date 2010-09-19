@@ -118,6 +118,11 @@ public:
 	//! focus GUI
 	void FocusGUI(const std::string & guiid, bool focus);
 
+	//! save size of windows to be restored after resize of the application
+	void SaveGUISizes(int oldscreenX, int oldscreenY);
+
+	//! restore the correct size of the windows
+	void RestoreGUISizes();
 
 protected:
 	//! refresh sound button

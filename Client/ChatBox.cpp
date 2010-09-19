@@ -183,10 +183,10 @@ ChatBox::~ChatBox()
 		OsgHandler::getInstance()->GetScreenAttributes(resX, resY, fullscreen);
 
 		CEGUI::UVector2 vec = frw->getPosition();
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Chatbox.PosX", vec.d_x.asRelative(resX));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Chatbox.PosY", vec.d_y.asRelative(resY));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Chatbox.SizeX", frw->getWidth().asRelative(resX));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Chatbox.SizeY", frw->getHeight().asRelative(resY));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.Chatbox.PosX", vec.d_x.asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.Chatbox.PosY", vec.d_y.asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.Chatbox.SizeX", frw->getWidth().asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.Chatbox.SizeY", frw->getHeight().asRelative((float)resY));
 		ConfigurationManager::GetInstance()->SetBool("Gui.Chatbox.Visible", frw->isVisible());
 	}
 	catch(CEGUI::Exception &ex)
@@ -1124,4 +1124,35 @@ void ChatBox::Focus(bool focus)
 	{
 		LogHandler::getInstance()->LogToFile(std::string("Exception Focus chatbox: ") + ex.getMessage().c_str());
 	}
+}
+
+
+
+/***********************************************************
+save size of windows to be restored after resize of the application
+***********************************************************/
+void ChatBox::SaveGUISizes(int oldscreenX, int oldscreenY)
+{
+	CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
+		CEGUI::WindowManager::getSingleton().getWindow("ChatFrame"));
+
+	CEGUI::UVector2 vec = frw->getPosition();
+	_savedPosX = vec.d_x.asRelative((float)oldscreenX);
+	_savedPosY = vec.d_y.asRelative((float)oldscreenY);
+	_savedSizeX = frw->getWidth().asRelative((float)oldscreenX);
+	_savedSizeY = frw->getHeight().asRelative((float)oldscreenY);
+}
+
+
+/***********************************************************
+restore the correct size of the windows
+***********************************************************/
+void ChatBox::RestoreGUISizes()
+{
+	CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
+		CEGUI::WindowManager::getSingleton().getWindow("ChatFrame"));
+
+	frw->setPosition(CEGUI::UVector2(CEGUI::UDim(_savedPosX, 0), CEGUI::UDim(_savedPosY, 0)));
+	frw->setWidth(CEGUI::UDim(_savedSizeX, 0));
+	frw->setHeight(CEGUI::UDim(_savedSizeY, 0));
 }

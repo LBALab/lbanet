@@ -70,9 +70,6 @@ public:
 	//! switch from current gui to another one
 	void SwitchGUI(int GuiNumber);
 
-	//! redraw the scene on screen
-	void Redraw(void);
-
 	//! called when the windows is resized
 	void Resize(int screen_size_X, int screen_size_Y, int oldscreenX, int oldscreenY);
 

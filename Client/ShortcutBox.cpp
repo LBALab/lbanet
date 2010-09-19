@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ClientExtendedTypes.h"
 #include "InventoryBox.h"
 #include "DataLoader.h"
+#include "OSGHandler.h"
 
 #include <iostream>
 #include <algorithm>
@@ -61,17 +62,17 @@ ShortcutBox::~ShortcutBox()
 	{
 		ConfigurationManager::GetInstance()->SetInt("Gui.Shortcutbox.Visible", _currentvisibility);
 
+		int resX, resY; 
+		bool fullscreen;
+		OsgHandler::getInstance()->GetScreenAttributes(resX, resY, fullscreen);
+
 		CEGUI::UVector2 vec = _myBox->getPosition();
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Shortcutbox.PosX", vec.d_x.d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Shortcutbox.PosY", vec.d_y.d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Shortcutbox.OffsetPosX", vec.d_x.d_offset);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Shortcutbox.OffsetPosY", vec.d_y.d_offset);
+		ConfigurationManager::GetInstance()->SetFloat("Gui.Shortcutbox.PosX", vec.d_x.asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.Shortcutbox.PosY", vec.d_y.asRelative((float)resY));
 
 		vec = _myStances->getPosition();
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Stancesbox.PosX", vec.d_x.d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Stancesbox.PosY", vec.d_y.d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Stancesbox.OffsetPosX", vec.d_x.d_offset);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Stancesbox.OffsetPosY", vec.d_y.d_offset);
+		ConfigurationManager::GetInstance()->SetFloat("Gui.Stancesbox.PosX", vec.d_x.asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.Stancesbox.PosY", vec.d_y.asRelative((float)resY));
 	}
 	catch(CEGUI::Exception &ex)
 	{
@@ -201,18 +202,14 @@ void ShortcutBox::Initialize(CEGUI::Window* Root)
 		}
 
 
-		float PosX, PosY, OPosX, OPosY;
+		float PosX, PosY;
 		ConfigurationManager::GetInstance()->GetFloat("Gui.Shortcutbox.PosX", PosX);
 		ConfigurationManager::GetInstance()->GetFloat("Gui.Shortcutbox.PosY", PosY);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Shortcutbox.OffsetPosX", OPosX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Shortcutbox.OffsetPosY", OPosY);
-		_myBox->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, OPosX), CEGUI::UDim(PosY, OPosY)));
+		_myBox->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));
 
 		ConfigurationManager::GetInstance()->GetFloat("Gui.Stancesbox.PosX", PosX);
 		ConfigurationManager::GetInstance()->GetFloat("Gui.Stancesbox.PosY", PosY);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Stancesbox.OffsetPosX", OPosX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Stancesbox.OffsetPosY", OPosY);
-		_myStances->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, OPosX), CEGUI::UDim(PosY, OPosY)));
+		_myStances->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));
 
 
 		ConfigurationManager::GetInstance()->GetInt("Gui.Shortcutbox.Visible", _currentvisibility);
@@ -635,3 +632,27 @@ void ShortcutBox::Focus(bool focus)
 
 }
 
+
+/***********************************************************
+save size of windows to be restored after resize of the application
+***********************************************************/
+void ShortcutBox::SaveGUISizes(int oldscreenX, int oldscreenY)
+{
+	CEGUI::UVector2 vec = _myBox->getPosition();
+	_savedPosX = vec.d_x.asRelative((float)oldscreenX);
+	_savedPosY = vec.d_y.asRelative((float)oldscreenY);
+
+	vec = _myStances->getPosition();
+	_savestancePosX = vec.d_x.asRelative((float)oldscreenX);
+	_savestancePosY = vec.d_y.asRelative((float)oldscreenY);
+}
+
+
+/***********************************************************
+restore the correct size of the windows
+***********************************************************/
+void ShortcutBox::RestoreGUISizes()
+{
+	_myBox->setPosition(CEGUI::UVector2(CEGUI::UDim(_savedPosX, 0), CEGUI::UDim(_savedPosY, 0)));
+	_myStances->setPosition(CEGUI::UVector2(CEGUI::UDim(_savestancePosX, 0), CEGUI::UDim(_savestancePosY, 0)));
+}

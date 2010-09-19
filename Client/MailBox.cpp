@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "SynchronizedTimeHandler.h"
 #include "ClientExtendedTypes.h"
 #include "CommunityBox.h"
+#include "OSGHandler.h"
 
 #include <iostream>
 #include <algorithm>
@@ -85,42 +86,40 @@ destructor
 ***********************************************************/
 MailBox::~MailBox()
 {
+	int resX, resY; 
+	bool fullscreen;
+	OsgHandler::getInstance()->GetScreenAttributes(resX, resY, fullscreen);
+
+
 	{
 		CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
 			CEGUI::WindowManager::getSingleton().getWindow("Mailbox"));
 
 		CEGUI::UVector2 vec = frw->getPosition();
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.PosX", vec.d_x.d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.PosY", vec.d_y.d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.SizeX", frw->getWidth().d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.SizeY", frw->getHeight().d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.OffsetPosX", vec.d_x.d_offset);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.OffsetPosY", vec.d_y.d_offset);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.OffsetSizeX", frw->getWidth().d_offset);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.OffsetSizeY", frw->getHeight().d_offset);
+		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.PosX", vec.d_x.asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.PosY", vec.d_y.asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.SizeX", frw->getWidth().asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.SizeY", frw->getHeight().asRelative((float)resY));
+
 
 		CEGUI::MultiColumnList * mlist = static_cast<CEGUI::MultiColumnList *> (
 			CEGUI::WindowManager::getSingleton().getWindow("Mailbox/list"));
 
 		CEGUI::UDim dimcol0 = mlist->getColumnHeaderWidth(0);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.column0Size", dimcol0.d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.column0Offset", dimcol0.d_offset);
+		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.column0Size", dimcol0.asRelative((float)resX));
 
 		CEGUI::UDim dimcol1 = mlist->getColumnHeaderWidth(1);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.column1Size", dimcol1.d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.column1Offset", dimcol1.d_offset);
+		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.column1Size", dimcol1.asRelative((float)resX));
 
 		CEGUI::UDim dimcol2 = mlist->getColumnHeaderWidth(2);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.column2Size", dimcol2.d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.column2Offset", dimcol2.d_offset);
+		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.column2Size", dimcol2.asRelative((float)resX));
 
 		CEGUI::UDim dimcol3 = mlist->getColumnHeaderWidth(3);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.column3Size", dimcol3.d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.column3Offset", dimcol3.d_offset);
+		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.column3Size", dimcol3.asRelative((float)resX));
 
 		CEGUI::UDim dimcol4 = mlist->getColumnHeaderWidth(4);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.column4Size", dimcol4.d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.column4Offset", dimcol4.d_offset);
+		ConfigurationManager::GetInstance()->SetFloat("Gui.Mailbox.column4Size", dimcol4.asRelative((float)resX));
+
 
 		ConfigurationManager::GetInstance()->SetInt("Gui.Mailbox.SortColumn", mlist->getSortColumn());
 		ConfigurationManager::GetInstance()->SetInt("Gui.Mailbox.SortDirection", mlist->getSortDirection());
@@ -131,14 +130,10 @@ MailBox::~MailBox()
 			CEGUI::WindowManager::getSingleton().getWindow("ReadMailFrame"));
 
 		CEGUI::UVector2 vec = frw->getPosition();
-		ConfigurationManager::GetInstance()->SetFloat("Gui.ReadMailFrame.PosX", vec.d_x.d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.ReadMailFrame.PosY", vec.d_y.d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.ReadMailFrame.SizeX", frw->getWidth().d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.ReadMailFrame.SizeY", frw->getHeight().d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.ReadMailFrame.OffsetPosX", vec.d_x.d_offset);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.ReadMailFrame.OffsetPosY", vec.d_y.d_offset);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.ReadMailFrame.OffsetSizeX", frw->getWidth().d_offset);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.ReadMailFrame.OffsetSizeY", frw->getHeight().d_offset);
+		ConfigurationManager::GetInstance()->SetFloat("Gui.ReadMailFrame.PosX", vec.d_x.asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.ReadMailFrame.PosY", vec.d_y.asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.ReadMailFrame.SizeX", frw->getWidth().asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.ReadMailFrame.SizeY", frw->getHeight().asRelative((float)resY));
 	}
 
 	{
@@ -146,14 +141,10 @@ MailBox::~MailBox()
 			CEGUI::WindowManager::getSingleton().getWindow("WriteMailFrame"));
 
 		CEGUI::UVector2 vec = frw->getPosition();
-		ConfigurationManager::GetInstance()->SetFloat("Gui.WriteMailFrame.PosX", vec.d_x.d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.WriteMailFrame.PosY", vec.d_y.d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.WriteMailFrame.SizeX", frw->getWidth().d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.WriteMailFrame.SizeY", frw->getHeight().d_scale);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.WriteMailFrame.OffsetPosX", vec.d_x.d_offset);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.WriteMailFrame.OffsetPosY", vec.d_y.d_offset);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.WriteMailFrame.OffsetSizeX", frw->getWidth().d_offset);
-		ConfigurationManager::GetInstance()->SetFloat("Gui.WriteMailFrame.OffsetSizeY", frw->getHeight().d_offset);
+		ConfigurationManager::GetInstance()->SetFloat("Gui.WriteMailFrame.PosX", vec.d_x.asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.WriteMailFrame.PosY", vec.d_y.asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.WriteMailFrame.SizeX", frw->getWidth().asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.WriteMailFrame.SizeY", frw->getHeight().asRelative((float)resY));
 	}
 }
 
@@ -191,31 +182,27 @@ void MailBox::Initialize(CEGUI::Window* Root)
 		mlist->subscribeEvent(CEGUI::MultiColumnList::EventSelectionChanged,
 									CEGUI::Event::Subscriber (&MailBox::Handlelistselected, this));
 
-		float PosX, PosY, SizeX, SizeY, OPosX, OPosY, OSizeX, OSizeY;
+		float PosX, PosY, SizeX, SizeY;
 		ConfigurationManager::GetInstance()->GetFloat("Gui.Mailbox.PosX", PosX);
 		ConfigurationManager::GetInstance()->GetFloat("Gui.Mailbox.PosY", PosY);
 		ConfigurationManager::GetInstance()->GetFloat("Gui.Mailbox.SizeX", SizeX);
 		ConfigurationManager::GetInstance()->GetFloat("Gui.Mailbox.SizeY", SizeY);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Mailbox.OffsetPosX", OPosX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Mailbox.OffsetPosY", OPosY);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Mailbox.OffsetSizeX", OSizeX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Mailbox.OffsetSizeY", OSizeY);
-		frw->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, OPosX), CEGUI::UDim(PosY, OPosY)));
-		frw->setWidth(CEGUI::UDim(SizeX, OSizeX));
-		frw->setHeight(CEGUI::UDim(SizeY, OSizeY));
+		frw->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));
+		frw->setWidth(CEGUI::UDim(SizeX, 0));
+		frw->setHeight(CEGUI::UDim(SizeY, 0));
 
 
 		CEGUI::UDim dimcol0, dimcol1, dimcol2, dimcol3, dimcol4;
 		ConfigurationManager::GetInstance()->GetFloat("Gui.Mailbox.column0Size", dimcol0.d_scale);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Mailbox.column0Offset", dimcol0.d_offset);
+		dimcol0.d_offset = 0;
 		ConfigurationManager::GetInstance()->GetFloat("Gui.Mailbox.column1Size", dimcol1.d_scale);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Mailbox.column1Offset", dimcol1.d_offset);
+		dimcol1.d_offset = 0;
 		ConfigurationManager::GetInstance()->GetFloat("Gui.Mailbox.column2Size", dimcol2.d_scale);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Mailbox.column2Offset", dimcol2.d_offset);
+		dimcol2.d_offset = 0;
 		ConfigurationManager::GetInstance()->GetFloat("Gui.Mailbox.column3Size", dimcol3.d_scale);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Mailbox.column3Offset", dimcol3.d_offset);
+		dimcol3.d_offset = 0;
 		ConfigurationManager::GetInstance()->GetFloat("Gui.Mailbox.column4Size", dimcol4.d_scale);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Mailbox.column4Offset", dimcol4.d_offset);
+		dimcol4.d_offset = 0;
 
 		mlist->setColumnHeaderWidth(0, dimcol0);
 		mlist->setColumnHeaderWidth(1, dimcol1);
@@ -262,18 +249,14 @@ void MailBox::Initialize(CEGUI::Window* Root)
 			CEGUI::PushButton::EventClicked,
 			CEGUI::Event::Subscriber (&MailBox::HandleCloseRead, this));	
 
-		float PosX, PosY, SizeX, SizeY, OPosX, OPosY, OSizeX, OSizeY;
+		float PosX, PosY, SizeX, SizeY;
 		ConfigurationManager::GetInstance()->GetFloat("Gui.ReadMailFrame.PosX", PosX);
 		ConfigurationManager::GetInstance()->GetFloat("Gui.ReadMailFrame.PosY", PosY);
 		ConfigurationManager::GetInstance()->GetFloat("Gui.ReadMailFrame.SizeX", SizeX);
 		ConfigurationManager::GetInstance()->GetFloat("Gui.ReadMailFrame.SizeY", SizeY);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.ReadMailFrame.OffsetPosX", OPosX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.ReadMailFrame.OffsetPosY", OPosY);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.ReadMailFrame.OffsetSizeX", OSizeX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.ReadMailFrame.OffsetSizeY", OSizeY);
-		frw->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, OPosX), CEGUI::UDim(PosY, OPosY)));
-		frw->setWidth(CEGUI::UDim(SizeX, OSizeX));
-		frw->setHeight(CEGUI::UDim(SizeY, OSizeY));
+		frw->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));
+		frw->setWidth(CEGUI::UDim(SizeX, 0));
+		frw->setHeight(CEGUI::UDim(SizeY, 0));
 	}
 	catch(CEGUI::Exception &ex)
 	{
@@ -308,18 +291,14 @@ void MailBox::Initialize(CEGUI::Window* Root)
 		(CEGUI::Combobox::EventListSelectionAccepted,
 			CEGUI::Event::Subscriber (&MailBox::Handlecontactselected, this));
 
-		float PosX, PosY, SizeX, SizeY, OPosX, OPosY, OSizeX, OSizeY;
+		float PosX, PosY, SizeX, SizeY;
 		ConfigurationManager::GetInstance()->GetFloat("Gui.WriteMailFrame.PosX", PosX);
 		ConfigurationManager::GetInstance()->GetFloat("Gui.WriteMailFrame.PosY", PosY);
 		ConfigurationManager::GetInstance()->GetFloat("Gui.WriteMailFrame.SizeX", SizeX);
 		ConfigurationManager::GetInstance()->GetFloat("Gui.WriteMailFrame.SizeY", SizeY);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.WriteMailFrame.OffsetPosX", OPosX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.WriteMailFrame.OffsetPosY", OPosY);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.WriteMailFrame.OffsetSizeX", OSizeX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.WriteMailFrame.OffsetSizeY", OSizeY);
-		frw->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, OPosX), CEGUI::UDim(PosY, OPosY)));
-		frw->setWidth(CEGUI::UDim(SizeX, OSizeX));
-		frw->setHeight(CEGUI::UDim(SizeY, OSizeY));
+		frw->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));
+		frw->setWidth(CEGUI::UDim(SizeX, 0));
+		frw->setHeight(CEGUI::UDim(SizeY, 0));
 	}
 	catch(CEGUI::Exception &ex)
 	{
@@ -771,4 +750,100 @@ focus GUI
 void MailBox::Focus(bool focus)
 {
 
+}
+
+
+/***********************************************************
+save size of windows to be restored after resize of the application
+***********************************************************/
+void MailBox::SaveGUISizes(int oldscreenX, int oldscreenY)
+{
+	CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
+		CEGUI::WindowManager::getSingleton().getWindow("Mailbox"));
+
+	CEGUI::UVector2 vec = frw->getPosition();
+	_savedPosX = vec.d_x.asRelative((float)oldscreenX);
+	_savedPosY = vec.d_y.asRelative((float)oldscreenY);
+	_savedSizeX = frw->getWidth().asRelative((float)oldscreenX);
+	_savedSizeY = frw->getHeight().asRelative((float)oldscreenY);
+
+
+	CEGUI::MultiColumnList * mlist = static_cast<CEGUI::MultiColumnList *> (
+		CEGUI::WindowManager::getSingleton().getWindow("Mailbox/list"));
+
+	CEGUI::UDim dimcol0 = mlist->getColumnHeaderWidth(0);
+	_sizecollumn0 = dimcol0.asRelative((float)oldscreenX);
+
+	CEGUI::UDim dimcol1 = mlist->getColumnHeaderWidth(1);
+	_sizecollumn1 = dimcol1.asRelative((float)oldscreenX);
+
+	CEGUI::UDim dimcol2 = mlist->getColumnHeaderWidth(2);
+	_sizecollumn2 = dimcol2.asRelative((float)oldscreenX);
+
+	CEGUI::UDim dimcol3 = mlist->getColumnHeaderWidth(3);
+	_sizecollumn3 = dimcol3.asRelative((float)oldscreenX);
+
+	CEGUI::UDim dimcol4 = mlist->getColumnHeaderWidth(4);
+	_sizecollumn4 = dimcol4.asRelative((float)oldscreenX);
+
+
+
+	CEGUI::FrameWindow * frw2 = static_cast<CEGUI::FrameWindow *> (
+		CEGUI::WindowManager::getSingleton().getWindow("ReadMailFrame"));
+
+	vec = frw2->getPosition();
+	_savePosXRead = vec.d_x.asRelative((float)oldscreenX);
+	_savePosYRead = vec.d_y.asRelative((float)oldscreenY);
+	_saveSizeXRead = frw2->getWidth().asRelative((float)oldscreenX);
+	_saveSizeYRead = frw2->getHeight().asRelative((float)oldscreenY);
+
+
+	CEGUI::FrameWindow * frw3 = static_cast<CEGUI::FrameWindow *> (
+	CEGUI::WindowManager::getSingleton().getWindow("WriteMailFrame"));
+
+	vec = frw3->getPosition();
+	_savePosXWrite = vec.d_x.asRelative((float)oldscreenX);
+	_savePosYWrite = vec.d_y.asRelative((float)oldscreenY);
+	_saveSizeXWrite = frw3->getWidth().asRelative((float)oldscreenX);
+	_saveSizeYWrite = frw3->getHeight().asRelative((float)oldscreenY);	
+}
+
+
+/***********************************************************
+restore the correct size of the windows
+***********************************************************/
+void MailBox::RestoreGUISizes()
+{
+	CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
+		CEGUI::WindowManager::getSingleton().getWindow("Mailbox"));
+
+	frw->setPosition(CEGUI::UVector2(CEGUI::UDim(_savedPosX, 0), CEGUI::UDim(_savedPosY, 0)));
+	frw->setWidth(CEGUI::UDim(_savedSizeX, 0));
+	frw->setHeight(CEGUI::UDim(_savedSizeY, 0));
+
+	CEGUI::MultiColumnList * mlist = static_cast<CEGUI::MultiColumnList *> (
+		CEGUI::WindowManager::getSingleton().getWindow("Mailbox/list"));
+
+	mlist->setColumnHeaderWidth(0, CEGUI::UDim(_sizecollumn0, 0));
+	mlist->setColumnHeaderWidth(1, CEGUI::UDim(_sizecollumn1, 0));
+	mlist->setColumnHeaderWidth(2, CEGUI::UDim(_sizecollumn2, 0));
+	mlist->setColumnHeaderWidth(3, CEGUI::UDim(_sizecollumn3, 0));
+	mlist->setColumnHeaderWidth(4, CEGUI::UDim(_sizecollumn4, 0));
+
+
+	CEGUI::FrameWindow * frw2 = static_cast<CEGUI::FrameWindow *> (
+		CEGUI::WindowManager::getSingleton().getWindow("ReadMailFrame"));
+
+	frw2->setPosition(CEGUI::UVector2(CEGUI::UDim(_savePosXRead, 0), CEGUI::UDim(_savePosYRead, 0)));
+	frw2->setWidth(CEGUI::UDim(_saveSizeXRead, 0));
+	frw2->setHeight(CEGUI::UDim(_saveSizeYRead, 0));
+
+
+
+	CEGUI::FrameWindow * frw3 = static_cast<CEGUI::FrameWindow *> (
+		CEGUI::WindowManager::getSingleton().getWindow("WriteMailFrame"));
+
+	frw3->setPosition(CEGUI::UVector2(CEGUI::UDim(_savePosXWrite, 0), CEGUI::UDim(_savePosYWrite, 0)));
+	frw3->setWidth(CEGUI::UDim(_saveSizeXWrite, 0));
+	frw3->setHeight(CEGUI::UDim(_saveSizeYWrite, 0));
 }

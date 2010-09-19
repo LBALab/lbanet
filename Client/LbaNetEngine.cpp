@@ -61,7 +61,8 @@ LbaNetEngine::LbaNetEngine(Ice::CommunicatorPtr communicator, const std::string 
 LbaNetEngine::~LbaNetEngine()
 {	
 	LogHandler::getInstance()->LogToFile("Finalizing Game...");
-
+	m_gui_handler = boost::shared_ptr<GuiHandler>();
+	m_lbaNetModel = boost::shared_ptr<LbaNetModel>();
 
 	// finalize music handler
 	LogHandler::getInstance()->LogToFile("Finalizing sound engine...");

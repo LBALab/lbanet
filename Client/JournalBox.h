@@ -92,6 +92,12 @@ class JournalBox : public GameGUIBase
 	virtual void Focus(bool focus);
 
 
+	//! save size of windows to be restored after resize of the application
+	virtual void SaveGUISizes(int oldscreenX, int oldscreenY);
+
+	//! restore the correct size of the windows
+	virtual void RestoreGUISizes();
+
 
 protected:
 	//! call to regenerate the quest book display

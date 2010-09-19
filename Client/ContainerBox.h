@@ -109,6 +109,12 @@ class ContainerBox : public GuiCallbackableBase, public GameGUIBase
 	virtual void Focus(bool focus);
 
 
+	//! save size of windows to be restored after resize of the application
+	virtual void SaveGUISizes(int oldscreenX, int oldscreenY);
+
+	//! restore the correct size of the windows
+	virtual void RestoreGUISizes();
+
 protected:
 
 	//! close box and send update to server

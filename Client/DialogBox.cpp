@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "EventsQueue.h"
 #include "SynchronizedTimeHandler.h"
 #include "DataLoader.h"
+#include "OSGHandler.h"
 
 #include <iostream>
 #include <algorithm>
@@ -121,7 +122,25 @@ destructor
 ***********************************************************/
 NPCDialogBox::~NPCDialogBox()
 {
+	try
+	{
+		CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
+			CEGUI::WindowManager::getSingleton().getWindow("DialogFrame"));
 
+		int resX, resY; 
+		bool fullscreen;
+		OsgHandler::getInstance()->GetScreenAttributes(resX, resY, fullscreen);
+
+		CEGUI::UVector2 vec = frw->getPosition();
+		ConfigurationManager::GetInstance()->SetFloat("Gui.DialogBox.PosX", vec.d_x.asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.DialogBox.PosY", vec.d_y.asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.DialogBox.SizeX", frw->getWidth().asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetFloat("Gui.DialogBox.SizeY", frw->getHeight().asRelative((float)resY));
+	}
+	catch(CEGUI::Exception &ex)
+	{
+		LogHandler::getInstance()->LogToFile(std::string("Exception destructor chatbox: ") + ex.getMessage().c_str());
+	}
 }
 
 
@@ -153,6 +172,17 @@ void NPCDialogBox::Initialize(CEGUI::Window* Root)
 		lb->subscribeEvent(CEGUI::Listbox::EventMouseMove,
 			CEGUI::Event::Subscriber (&NPCDialogBox::HandleMouseEnter, this));
 
+
+		{
+			float PosX, PosY, SizeX, SizeY;
+			ConfigurationManager::GetInstance()->GetFloat("Gui.DialogBox.PosX", PosX);
+			ConfigurationManager::GetInstance()->GetFloat("Gui.DialogBox.PosY", PosY);
+			ConfigurationManager::GetInstance()->GetFloat("Gui.DialogBox.SizeX", SizeX);
+			ConfigurationManager::GetInstance()->GetFloat("Gui.DialogBox.SizeY", SizeY);
+			frw->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));
+			frw->setWidth(CEGUI::UDim(SizeX, 0));
+			frw->setHeight(CEGUI::UDim(SizeY, 0));
+		}
 
 		_myBox->hide();
 	}
@@ -424,4 +454,34 @@ focus GUI
 void NPCDialogBox::Focus(bool focus)
 {
 
+}
+
+
+/***********************************************************
+save size of windows to be restored after resize of the application
+***********************************************************/
+void NPCDialogBox::SaveGUISizes(int oldscreenX, int oldscreenY)
+{
+	CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
+		CEGUI::WindowManager::getSingleton().getWindow("DialogFrame"));
+
+	CEGUI::UVector2 vec = frw->getPosition();
+	_savedPosX = vec.d_x.asRelative((float)oldscreenX);
+	_savedPosY = vec.d_y.asRelative((float)oldscreenY);
+	_savedSizeX = frw->getWidth().asRelative((float)oldscreenX);
+	_savedSizeY = frw->getHeight().asRelative((float)oldscreenY);
+}
+
+
+/***********************************************************
+restore the correct size of the windows
+***********************************************************/
+void NPCDialogBox::RestoreGUISizes()
+{
+	CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
+		CEGUI::WindowManager::getSingleton().getWindow("DialogFrame"));
+
+	frw->setPosition(CEGUI::UVector2(CEGUI::UDim(_savedPosX, 0), CEGUI::UDim(_savedPosY, 0)));
+	frw->setWidth(CEGUI::UDim(_savedSizeX, 0));
+	frw->setHeight(CEGUI::UDim(_savedSizeY, 0));
 }

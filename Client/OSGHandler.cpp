@@ -302,6 +302,10 @@ void OsgHandler::Finalize()
 	_root = NULL;
 	_viewer = NULL;
 	_translNode =NULL;
+	_HUDcam =NULL;
+	_rootNodeGui =NULL;
+	_lightNode =NULL;
+	_clipNode =NULL;
 }
 
 
@@ -654,23 +658,10 @@ bool OsgHandler::Update()
 		// draw the new frame
 		_viewer->frame();
 
-
-		//draw the GUI
-		//_GuiH->Redraw();
-
 		return false;
 	}
 
 	return true;
-
-
-	//if(!_viewer->done())
-	//{
-	//	_viewer->frame();
-	//	return false;
-	//}
-
-	//return true;
 }
 
 
@@ -823,26 +814,9 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCapsuleObject(floa
 	osg::ref_ptr<osg::Geode> capsuleGeode(new osg::Geode());
 	osg::ref_ptr<osg::Capsule> caps(new osg::Capsule(osg::Vec3(0,0,0),radius,height));
 	osg::ref_ptr<osg::ShapeDrawable> capsdraw = new osg::ShapeDrawable(caps);
-	//capsdraw->setColor(osg::Vec4(colorR, colorG, colorB, colorA));
+	capsdraw->setColor(osg::Vec4(colorR, colorG, colorB, colorA));
 	capsuleGeode->addDrawable(capsdraw);
 	resnode->addChild(capsuleGeode);
-
-
-	// create orientation line
-	//osg::Geode* lineGeode = new osg::Geode();
-	//osg::Geometry* lineGeometry = new osg::Geometry();
-	//lineGeode->addDrawable(lineGeometry); 
-
-	//osg::Vec3Array* lineVertices = new osg::Vec3Array();
-	//lineVertices->push_back( osg::Vec3( 0, 0, 0) );
-	//lineVertices->push_back( osg::Vec3(0, 5, 0) );
-	//lineGeometry->setVertexArray( lineVertices ); 
-
-	//osg::DrawElementsUInt* dunit = new osg::DrawElementsUInt(osg::PrimitiveSet::LINES, 0);
-	//dunit->push_back(0);
-	//dunit->push_back(1);
-	//lineGeometry->addPrimitiveSet(dunit); 
-	//resnode->addChild(lineGeode);
 
 
 	if(Tr)

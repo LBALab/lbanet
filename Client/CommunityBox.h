@@ -111,16 +111,11 @@ class CommunityBox : public GameGUIBase
 	virtual void Focus(bool focus);
 
 
+	//! save size of windows to be restored after resize of the application
+	virtual void SaveGUISizes(int oldscreenX, int oldscreenY);
 
-
-	//! initalize the box
-	//void Initialize(CEGUI::Window* Root);
-
-	//! display the chatbox on screen
-	//void Show();
-
-	//! used to process text to add
-	//void Process();
+	//! restore the correct size of the windows
+	virtual void RestoreGUISizes();
 
 
 protected:

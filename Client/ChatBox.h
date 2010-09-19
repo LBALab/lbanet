@@ -113,6 +113,13 @@ class ChatBox : public GameGUIBase
 	virtual void Focus(bool focus);
 
 
+	//! save size of windows to be restored after resize of the application
+	virtual void SaveGUISizes(int oldscreenX, int oldscreenY);
+
+	//! restore the correct size of the windows
+	virtual void RestoreGUISizes();
+
+
 protected:
 	//! set the current map of the game
 	void SetCurrentMap(const std::string & WorldName, const std::string & MapName);
