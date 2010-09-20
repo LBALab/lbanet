@@ -228,8 +228,8 @@ void LbaNetEngine::HandleGameEvents()
 	// fetch all pending events
 	LbaNet::EventsSeq events;
 	EventsQueue::getReceiverQueue()->GetEvents(events);
-	LbaNet::EventsSeq::iterator it = events.begin();
-	LbaNet::EventsSeq::iterator end = events.end();
+	LbaNet::EventsSeq::const_iterator it = events.begin();
+	LbaNet::EventsSeq::const_iterator end = events.end();
 	for(;it != end; ++it)
 	{
 		LbaNet::ClientServerEventBasePtr ptr = *it;
