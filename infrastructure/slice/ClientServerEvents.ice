@@ -70,6 +70,47 @@ module LbaNet
 	class PlayerLeaveEvent extends ClientServerEventBase
 	{
 		long			PlayerId;
+	};
+	
+	
+	// server tell client to add object
+	class AddObjectEvent extends ClientServerEventBase
+	{
+		// 1 -> static object
+		// 2 -> cpu controlled
+		// 3 -> movable by player
+		// 4 -> player object
+		// 5 -> ghost object
+		int			Type;
+		long			ObjectId;
+		ModelInfo		DisplayDesc;
+		ObjectPhysicDesc	PhysicDesc;		
+	};
+	
+	
+	// server tell client to remove object
+	class RemoveObjectEvent extends ClientServerEventBase
+	{
+		int			Type;
+		long			ObjectId;
+	};
+	
+	
+	// server tell client to update object
+	class UpdateObjectDisplayEvent extends ClientServerEventBase
+	{
+		int			Type;
+		long			ObjectId;
+		ModelInfo		DisplayDesc;
+	};
+	
+	
+	// server tell client to update object
+	class UpdateObjectPhysicEvent extends ClientServerEventBase
+	{
+		int			Type;
+		long			ObjectId;
+		ObjectPhysicDesc	PhysicDesc;
 	};	
 };	
 

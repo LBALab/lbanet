@@ -71,10 +71,12 @@ module LbaNet
 	
 	struct ModelInfo
 	{
-		string			ModelName;
-		string			Outfit;	
-		string			Weapon;
-		string			Mode;
+		int			RendererType;	// 0 -> osg model ** 1 -> sprite ** 2 -> LBA1 model ** 3-> LBA2 model
+		int			ModelId;	// id for lockup object description in file
+		string			ModelName;	// depends of rendertype - if empty then use ModelId
+		string			Outfit;		// only for animated models
+		string			Weapon;		// only for animated models
+		string			Mode;		// only for animated models
 	};
 
 	struct PlayerStartingInfo
@@ -263,9 +265,50 @@ module LbaNet
 	// list of connected players
 	dictionary<string, PlayerInfo> ConnectedL;
 	
+	
+	
+	struct PositionInfo
+	{
+		float			X;
+		float			Y;
+		float			Z;
+		float			Rotation;
+	};
 
 
 
+
+	// physical object description
+	struct ObjectPhysicDesc
+	{
+		PositionInfo		Pos;
+		
+		// 0= no shape
+		// 1= static
+		// 2= kynematic
+		// 3= dynamic
+		// 4= character controller
+		int 			Type;
+
+		// density of the object
+		float 			Density;
+
+		// flag if object is collidable or not
+		bool 			Collidable;
+		
+		
+		// used for boxes
+		float 			SizeX;
+		float 			SizeY;
+		float 			SizeZ;
+		
+		// used for capsule and sphere
+		float 			Radius;
+		float 			Height;
+		
+		// used for traingle mesh
+		string			Filename;
+	};
 
 
 
