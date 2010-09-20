@@ -92,6 +92,7 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const std::string &cl
 		savedinfo.inventory.InventoryStructure = _worldinfo.StartingInfo.StartingInventory;
 	}
 
+
 	// create player object
 	boost::shared_ptr<PlayerHandler> player(new PlayerHandler((long)clientid, clientname, proxy, 
 											_dbH, _worldinfo.Description.WorldName, savedinfo, 
@@ -102,8 +103,6 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const std::string &cl
 	// take care of map part
 	std::string newmapname = savedinfo.ppos.MapName;
 
-	// add proxies to the map
-	_proxiespermaps[newmapname][clientid] = proxy;
 
 	//check if map handler for the map is already present
 	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator it = _currentmaps.find(newmapname);
@@ -119,6 +118,10 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const std::string &cl
 		//start run thread if not started already
 		it->second->StartThread();
 	}
+
+
+	// add proxies to the map
+	_currentmaps[newmapname]->AddProxy(clientid, proxy);
 
 
 	// add player enter event
@@ -185,9 +188,7 @@ add events
 ***********************************************************/
 void SharedDataHandler::AddEvents(const std::string &MapName, Ice::Long clientid, const EventsSeq &evts)
 {
-	EventsSeq &curevets = _eventspermaps[MapName][clientid];
-	for(size_t i=0; i<evts.size(); ++i)
-		curevets.push_back(evts[i]);
+	_currentmaps[MapName]->AddEvents(clientid, evts);
 }
 
 
@@ -197,8 +198,7 @@ add 1 event
 void SharedDataHandler::AddEvent(const std::string &MapName,Ice::Long clientid, 
 									ClientServerEventBasePtr evt)
 {
-	EventsSeq &curevets = _eventspermaps[MapName][clientid];
-	curevets.push_back(evt);
+	_currentmaps[MapName]->AddEvent(clientid, evt);
 }
 
 
@@ -208,12 +208,7 @@ player leave map
 ***********************************************************/
 void SharedDataHandler::PlayerLeaveMap(const std::string &MapName, Ice::Long clientid)
 {
-	// remove player proxy
-	std::map<Ice::Long, ClientInterfacePrx> & map = _proxiespermaps[MapName];
-	std::map<Ice::Long, ClientInterfacePrx>::iterator it =	map.find(clientid);	
-	if(it != map.end())
-		map.erase(it);
-
+	_currentmaps[MapName]->RemoveProxy(clientid);
 
 	// add player enter event
 	AddEvent(MapName, clientid, 
@@ -227,21 +222,55 @@ clean up
 ***********************************************************/
 void SharedDataHandler::CleanUp()
 {
-	_proxiespermaps.clear();
 	_currentmaps.clear();
 	_currentplayers.clear();
-	_eventspermaps.clear();
 
 	_dbH = boost::shared_ptr<DatabaseHandlerBase>();
 }
 
 
 
+
 /***********************************************************
-get all events for a specific map
+return inventory size
 ***********************************************************/
-void SharedDataHandler::GetEvents(const std::string &MapName, std::map<Ice::Long, EventsSeq> & evts)
+int SharedDataHandler::GetInventorySize(Ice::Long clientid)
 {
 	Lock sync(*this);
-	_eventspermaps[MapName].swap(evts);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
+	if(it != _currentplayers.end())
+		return it->second->GetInventorySize();
+	else
+		return 1;
+}
+
+/***********************************************************
+return inventory content
+***********************************************************/
+ItemsMap SharedDataHandler::GetInventory(Ice::Long clientid)
+{
+	Lock sync(*this);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
+	if(it != _currentplayers.end())
+		return it->second->GetInventory();
+	else
+		return ItemsMap();
+}
+
+
+
+/***********************************************************
+return shortcuts
+***********************************************************/
+ShortcutsSeq SharedDataHandler::GetShorcuts(Ice::Long clientid)
+{
+	Lock sync(*this);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
+	if(it != _currentplayers.end())
+		return it->second->GetShorcuts();
+	else
+		return ShortcutsSeq();
 }

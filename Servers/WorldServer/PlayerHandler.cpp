@@ -18,6 +18,40 @@ PlayerHandler::PlayerHandler(long clientid, const std::string &clientname,
 	// get quest information
 	if(_dbH) 
 		_dbH->GetQuestInfo(_worldname, _clientid, _questStarted, _questFinished);
+
+
+	//complete item information
+	{
+		//TODO
+		//{
+		//	InventoryMap::iterator it = savedinfo.inventory.InventoryStructure.begin();
+		//	InventoryMap::iterator end = savedinfo.inventory.InventoryStructure.end();
+		//	for(; it != end; ++it)
+		//	{
+		//		if(it->Id >= 10000000) // custom item
+		//		{
+		//			it->first.
+		//		}
+		//	}
+		//}
+
+		// complete shortcut info
+		//{
+		//	ShortcutsSeq::iterator it = savedinfo.inventory.UsedShorcuts.begin();
+		//	ShortcutsSeq::iterator end = savedinfo.inventory.UsedShorcuts.end();
+		//	for(; it != end; ++it)
+		//	{
+		//		if(it->Id >= 0)
+		//		{
+		//			InventoryMap::iterator itm = savedinfo.inventory.InventoryStructure.find(it->Id)
+		//			if(itm != savedinfo.inventory.InventoryStructure.end())
+		//				*it = itm->second;
+		//			else
+		//				it->Id = -1;
+		//		}
+		//	}
+		//}
+	}
 }
 
 
@@ -35,8 +69,13 @@ PlayerHandler::~PlayerHandler(void)
 }
 
 
-
-
+/***********************************************************
+get current size of inventory
+***********************************************************/
+int PlayerHandler::GetInventorySize()
+{
+	return _currentinfo.inventory.InventorySize;
+}
 
 /***********************************************************
 update player life and mana
@@ -44,15 +83,6 @@ update player life and mana
 void PlayerHandler::UpdateLifeMana(const LbaNet::LifeManaInfo & lifeinfo)
 {
 	_currentinfo.lifemana = lifeinfo;
-}
-
-
-/***********************************************************
-update player inventory
-***********************************************************/
-void PlayerHandler::UpdateInventory(const LbaNet::InventoryInfo &Inventory)
-{
-	_currentinfo.inventory = Inventory;
 }
 
 
@@ -100,6 +130,7 @@ void PlayerHandler::SaveCurrentInfo()
 		_dbH->UpdatePositionInWorld(_currentinfo.ppos, _worldname, _clientid);
 
 		// update player inventory structure
+		//TODO convert inventory back first from map
 		_dbH->UpdateInventory(_currentinfo.inventory, _worldname, _clientid);
 
 		// update player life

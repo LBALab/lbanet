@@ -99,7 +99,7 @@ LbaNet::SavedWorldInfo DatabaseHandler::ChangeWorld(const std::string& NewWorldN
 	}
 
 	mysqlpp::Query query(_mysqlH, false);
-	query << "SELECT uw.id, uw.lastmap, uw.lastposx, uw.lastposy, uw.lastposz, uw.lastrotation, uw.InventorySize, uw.Shortcuts, uw.LifePoint, uw.ManaPoint, uw.MaxLife, uw.MaxMana, w.id, uw.ModelName, uw.ModelOutfit, uw.ModelWeapon, uw.ModelMode";
+	query << "SELECT uw.id, uw.lastmap, uw.lastposx, uw.lastposy, uw.lastposz, uw.lastrotation, uw.InventorySize, uw.Shortcuts, uw.LifePoint, uw.ManaPoint, uw.MaxLife, uw.MaxMana, w.id, uw.ModelName, uw.ModelOutfit, uw.ModelWeapon, uw.ModelMode, uw.RendererType";
 	query << " FROM lba_usertoworld uw, lba_worlds w";
 	query << " WHERE uw.userid = '"<<PlayerId<<"'";
 	query << " AND w.name = '"<<NewWorldName<<"'";
@@ -139,6 +139,7 @@ LbaNet::SavedWorldInfo DatabaseHandler::ChangeWorld(const std::string& NewWorldN
 			resP.lifemana.MaxLife = res[0][10];
 			resP.lifemana.MaxMana = res[0][11];
 
+			resP.model.RendererType = res[0][17];
 			resP.model.ModelName = res[0][13];
 			resP.model.Outfit = res[0][14];	
 			resP.model.Weapon = res[0][15];
@@ -308,6 +309,7 @@ void DatabaseHandler::UpdateModel(const LbaNet::ModelInfo & modelinfo,
 		query << ", ModelOutfit = '"<<modelinfo.Outfit<<"'";
 		query << ", ModelWeapon = '"<<modelinfo.Weapon<<"'";
 		query << ", ModelMode = '"<<modelinfo.Mode<<"'";
+		query << ", RendererType = '"<<modelinfo.RendererType<<"'";
 		query << " WHERE userid = '"<<PlayerId<<"'";
 		query << " AND worldid = (SELECT id FROM lba_worlds WHERE name = '"<<WorldName<<"')";
 		if(!query.exec())

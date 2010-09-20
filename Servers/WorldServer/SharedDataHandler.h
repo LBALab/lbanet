@@ -71,8 +71,14 @@ public:
 	void CleanUp();
 
 
-	// get all events for a specific map
-	void GetEvents(const std::string &MapName, std::map<Ice::Long, EventsSeq> & evts);
+	// return inventory size
+	int GetInventorySize(Ice::Long clientid);
+
+	// return inventory content
+	ItemsMap GetInventory(Ice::Long clientid);
+
+	// return shortcuts
+	ShortcutsSeq GetShorcuts(Ice::Long clientid);
 
 
 protected:
@@ -99,11 +105,8 @@ private:
 	boost::shared_ptr<DatabaseHandlerBase>								_dbH;
 	WorldInformation													_worldinfo;
 
-
-	std::map<std::string, std::map<Ice::Long, ClientInterfacePrx> >		_proxiespermaps;
 	std::map<std::string, boost::shared_ptr<MapHandler> >				_currentmaps;
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >				_currentplayers;
-	std::map<std::string, std::map<Ice::Long, EventsSeq> >				_eventspermaps;
 };
 
 #endif

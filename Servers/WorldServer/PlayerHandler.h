@@ -64,6 +64,18 @@ public:
 	//! accessor on model
 	ModelInfo GetModelInfo() {return _currentmodelinfo;}
 
+	//! get inventory
+	ItemsMap GetInventory() {return _currentinventory;}
+
+	// get shortcuts
+	ShortcutsSeq GetShorcuts() {return _currentshortcuts;}
+
+	// player update on of the shorcut - TODO
+	void UpdateShortcut(int Position, long ItemId);
+
+	// get current size of inventory
+	int GetInventorySize();
+
 
 	//! get player current map
 	std::string GetCurrentMap();
@@ -71,9 +83,6 @@ public:
 
 	//! update player life and mana
 	void UpdateLifeMana(const LbaNet::LifeManaInfo & lifeinfo);
-
-	//! update player inventory
-	void UpdateInventory(const LbaNet::InventoryInfo &Inventory);
 
 	// update current position in the world
 	void UpdatePositionInWorld(const LbaNet::PlayerPosition& Position);
@@ -84,9 +93,11 @@ public:
 	// finish a quest
 	void FinishQuest(long questid);
 
-
 	//! save current info in database
 	void SaveCurrentInfo();
+
+
+
 
 private:
 		long										_clientid;
@@ -97,9 +108,14 @@ private:
 		std::string									_worldname;
 		SavedWorldInfo								_currentinfo;
 		ModelInfo									_currentmodelinfo;
+		ItemsMap									_currentinventory;
+		ShortcutsSeq								_currentshortcuts;
+
 
 		std::vector<long>							_questStarted;
 		std::vector<long>							_questFinished;
+
+
 };
 
 #endif
