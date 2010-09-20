@@ -77,6 +77,7 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
 	res.StartingInfo.StartingMana = pt.get<float>("World.PlayerStartingInfo.StartingMana");	
 	res.StartingInfo.StartingMap = pt.get<std::string>("World.PlayerStartingInfo.StartingMap");
 	res.StartingInfo.Spawning = pt.get<std::string>("World.PlayerStartingInfo.Spawning");
+	res.StartingInfo.StartingModel.RendererType = pt.get<int>("World.PlayerStartingInfo.StartingModel.RendererType");
 	res.StartingInfo.StartingModel.ModelName = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.ModelName");
 	res.StartingInfo.StartingModel.Outfit = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.Outfit");
 	res.StartingInfo.StartingModel.Weapon = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.Weapon");
