@@ -305,9 +305,30 @@ void MapHandler::PlayerEntered(Ice::Long id, EventsSeq &tosendevts)
 
 
 	//current objects in map
+	//TODO
+	{
+	ModelInfo		DisplayDesc;
+	DisplayDesc.RendererType = 0;
+	DisplayDesc.ModelName = "Worlds/Lba1/Grids/map0.osgb";
 
+	ObjectPhysicDesc	PhysicDesc;
+	PhysicDesc.Pos.X = 0;
+	PhysicDesc.Pos.Y = 0;
+	PhysicDesc.Pos.Z = 0;
+	PhysicDesc.Pos.Rotation = 0;
+	PhysicDesc.Type = 4;	
+	PhysicDesc.Collidable = true;
+	PhysicDesc.Filename = "Worlds/Lba1/Grids/map0.phy";
+
+	toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+												1, 1, DisplayDesc, PhysicDesc));
+	}
+
+	
+	
 
 	// current players in map
+	//TODO
 
 	// player inventory
 	{
@@ -334,6 +355,22 @@ void MapHandler::PlayerEntered(Ice::Long id, EventsSeq &tosendevts)
 
 
 	// then inform all players that player entered
+	//TODO
+	{
+		SavedWorldInfo pinfo = SharedDataHandler::getInstance()->GetInfo(id);
+
+		ObjectPhysicDesc	PhysicDesc;
+		PhysicDesc.Pos = pinfo.ppos;
+		PhysicDesc.Type = 2;	
+		PhysicDesc.ShapeType = 2;
+		PhysicDesc.Collidable = false;
+		PhysicDesc.Density = 1;
+		PhysicDesc.Radius = 0.5;
+		PhysicDesc.Height = 5;
+
+		tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+													4, id, pinfo.model, PhysicDesc));
+	}
 }
 
 /***********************************************************
@@ -342,4 +379,6 @@ player left map
 void MapHandler::PlayerLeft(Ice::Long id, EventsSeq &tosendevts)
 {
 	// inform all players that player left
+	tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+												4, id));		
 }

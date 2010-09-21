@@ -96,24 +96,25 @@ public:
 	//! save current info in database
 	void SaveCurrentInfo();
 
-
+	//! get player info
+	SavedWorldInfo GetInfo(){ return _currentinfo;}
 
 
 private:
-		long										_clientid;
-		std::string									_clientname; 
-		ClientInterfacePrx							_proxy;
-		boost::shared_ptr<DatabaseHandlerBase>		_dbH;
+	long										_clientid;
+	std::string									_clientname; 
+	ClientInterfacePrx							_proxy;
+	boost::shared_ptr<DatabaseHandlerBase>		_dbH;
 
-		std::string									_worldname;
-		SavedWorldInfo								_currentinfo;
-		ModelInfo									_currentmodelinfo;
-		ItemsMap									_currentinventory;
-		ShortcutsSeq								_currentshortcuts;
+	std::string									_worldname;
+	SavedWorldInfo								_currentinfo;
+	ModelInfo									_currentmodelinfo;
+	ItemsMap									_currentinventory;
+	ShortcutsSeq								_currentshortcuts;
 
 
-		std::vector<long>							_questStarted;
-		std::vector<long>							_questFinished;
+	std::vector<long>							_questStarted;
+	std::vector<long>							_questFinished;
 
 
 };

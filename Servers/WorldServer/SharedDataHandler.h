@@ -80,6 +80,9 @@ public:
 	// return shortcuts
 	ShortcutsSeq GetShorcuts(Ice::Long clientid);
 
+	//! get player info
+	SavedWorldInfo GetInfo(Ice::Long clientid);
+
 
 protected:
 	//! constructor

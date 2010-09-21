@@ -90,13 +90,14 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const std::string &cl
 		savedinfo.lifemana.CurrentMana = _worldinfo.StartingInfo.StartingMana;
 		savedinfo.lifemana.MaxMana = _worldinfo.StartingInfo.StartingMana;
 		savedinfo.inventory.InventoryStructure = _worldinfo.StartingInfo.StartingInventory;
+		savedinfo.model = _worldinfo.StartingInfo.StartingModel;
 	}
 
 
 	// create player object
 	boost::shared_ptr<PlayerHandler> player(new PlayerHandler((long)clientid, clientname, proxy, 
 											_dbH, _worldinfo.Description.WorldName, savedinfo, 
-											_worldinfo.StartingInfo.StartingModel));
+											savedinfo.model));
 	_currentplayers[clientid] = player;
 
 
@@ -144,7 +145,8 @@ used when a client disconnect from a world
 		// make player leave map
 		PlayerLeaveMap(it->second->GetCurrentMap(), clientid);
 
-		// remove player
+		// save db and remove player
+		it->second->SaveCurrentInfo();
 		_currentplayers.erase(it);
 	}
 } 
@@ -273,4 +275,19 @@ ShortcutsSeq SharedDataHandler::GetShorcuts(Ice::Long clientid)
 		return it->second->GetShorcuts();
 	else
 		return ShortcutsSeq();
+}
+
+
+/***********************************************************
+get player info
+***********************************************************/
+SavedWorldInfo SharedDataHandler::GetInfo(Ice::Long clientid)
+{
+	Lock sync(*this);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
+	if(it != _currentplayers.end())
+		return it->second->GetInfo();
+	else
+		return SavedWorldInfo();
 }
