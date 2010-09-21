@@ -267,28 +267,25 @@ module LbaNet
 	
 	
 	
-	struct PositionInfo
-	{
-		float			X;
-		float			Y;
-		float			Z;
-		float			Rotation;
-	};
-
-
 
 
 	// physical object description
 	struct ObjectPhysicDesc
 	{
-		PositionInfo		Pos;
+		PlayerPosition		Pos;
 		
-		// 0= no shape
+		// 0 = no shape
+		// 1 = Box
+		// 2 = Capsule
+		// 3 = Sphere
+		// 4 = triangle mesh
+		int 			Type;	
+		
 		// 1= static
 		// 2= kynematic
 		// 3= dynamic
 		// 4= character controller
-		int 			Type;
+		int 			ShapeType;
 
 		// density of the object
 		float 			Density;
@@ -306,7 +303,7 @@ module LbaNet
 		float 			Radius;
 		float 			Height;
 		
-		// used for traingle mesh
+		// used for triangle mesh
 		string			Filename;
 	};
 
