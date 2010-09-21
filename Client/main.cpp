@@ -19,7 +19,8 @@
 
 #include <windows.h>
 #include <tchar.h>
-
+#include <Dwmapi.h>
+#pragma comment(lib, "Dwmapi.lib")
 
 #ifdef NDEBUG
 HINSTANCE globalInstance;
@@ -101,6 +102,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 int main( int argc, char **argv )
 {
 #endif
+
+	//disable areo
+	DwmEnableComposition(DWM_EC_DISABLECOMPOSITION);
+
 
 	// init crash reporter
 	LPVOID chandler = Install(CrashCallback, NULL, NULL);

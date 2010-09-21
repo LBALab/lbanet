@@ -389,6 +389,45 @@ void LbaNetEngine::HandleGameEvents()
 				m_gui_handler->UpdateGameGUI("CommunityBox", updseq);
 			}
 		}
+
+
+
+		// AddObjectEvent
+		if(info == typeid(LbaNet::AddObjectEvent))
+		{
+			LbaNet::AddObjectEvent * castedptr = 
+				dynamic_cast<LbaNet::AddObjectEvent *>(&obj);
+
+			m_lbaNetModel->AddObject(castedptr->Type, castedptr->ObjectId, 
+									castedptr->DisplayDesc, castedptr->PhysicDesc);
+		}
+
+		// RemoveObjectEvent
+		if(info == typeid(LbaNet::RemoveObjectEvent))
+		{
+			LbaNet::RemoveObjectEvent * castedptr = 
+				dynamic_cast<LbaNet::RemoveObjectEvent *>(&obj);
+
+			m_lbaNetModel->RemoveObject(castedptr->Type, castedptr->ObjectId);
+		}
+
+		// UpdateObjectDisplayEvent
+		if(info == typeid(LbaNet::UpdateObjectDisplayEvent))
+		{
+			LbaNet::UpdateObjectDisplayEvent * castedptr = 
+				dynamic_cast<LbaNet::UpdateObjectDisplayEvent *>(&obj);
+
+			m_lbaNetModel->UpdateObjectDisplay(castedptr->Type, castedptr->ObjectId, castedptr->DisplayDesc);
+		}
+
+		// UpdateObjectPhysicEvent
+		if(info == typeid(LbaNet::UpdateObjectPhysicEvent))
+		{
+			LbaNet::UpdateObjectPhysicEvent * castedptr = 
+				dynamic_cast<LbaNet::UpdateObjectPhysicEvent *>(&obj);
+
+			m_lbaNetModel->UpdateObjectPhysic(castedptr->Type, castedptr->ObjectId, castedptr->PhysicDesc);
+		}
 	}
 }
 

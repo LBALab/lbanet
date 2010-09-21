@@ -242,13 +242,16 @@ void NPCShopBox::ResizeBox()
 	float width = rect.getSize().d_width;
 	int nbboxhori = (int)width / (_boxsize+2);
 
-	for(int i=0; i<(int)_inv_boxes.size(); ++i)
+	if(nbboxhori > 0)
 	{
-		int x = i / nbboxhori;
-		int y = i % nbboxhori;
+		for(int i=0; i<(int)_inv_boxes.size(); ++i)
+		{
+			int x = i / nbboxhori;
+			int y = i % nbboxhori;
 
-		_inv_boxes[i]->setPosition(CEGUI::UVector2(CEGUI::UDim(0,((float)_boxsize+2.0f)*y), 
-													CEGUI::UDim(0,((float)_boxsize+2.0f)*x)));
+			_inv_boxes[i]->setPosition(CEGUI::UVector2(CEGUI::UDim(0,((float)_boxsize+2.0f)*y), 
+														CEGUI::UDim(0,((float)_boxsize+2.0f)*x)));
+		}
 	}
 }
 

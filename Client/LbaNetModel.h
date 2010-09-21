@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommonTypes.h"
 
 #include <boost/shared_ptr.hpp>
+#include <ClientServerEvents.h>
 
 class PhysXEngine;
 class CharacterController;
@@ -66,20 +67,6 @@ public:
 	//! do all check to be done when idle
 	void Process();
 
-
-	//! add object to the scene
-	//! if IsMainPlayer then treat this object as the player object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> AddObject(const ObjectInfo &desc);
-
-
-	//! remove object from the scene
-	virtual void RemObject(long id);
-
-
-	//! get object from the scene
-	boost::shared_ptr<DynamicObject> GetObject(long id);
-
-
 	//! clean up everything
 	void CleanupWorld();
 
@@ -89,7 +76,31 @@ public:
 	//! resume the game
 	void Resume(bool reinit);
 
-
+	//! add object from server
+	//! type:
+	// 1 -> static object
+	// 2 -> server controlled
+	// 3 -> movable by player
+	// 4 -> player object
+	// 5 -> ghost object
+	void AddObject(int Type, Ice::Long ObjectId, 
+						const LbaNet::ModelInfo &DisplayDesc, 
+						const LbaNet::ObjectPhysicDesc &PhysicDesc);
+	
+	//! remove object from server	
+	//! type:
+	// 1 -> static object
+	// 2 -> server controlled
+	// 3 -> movable by player
+	// 4 -> player object
+	// 5 -> ghost object
+	void RemoveObject(int Type, Ice::Long ObjectId);
+	
+	//! update object from server
+	void UpdateObjectDisplay(int Type, Ice::Long ObjectId, const LbaNet::ModelInfo &DisplayDesc);
+	
+	//! update object from server
+	void UpdateObjectPhysic(int Type, Ice::Long ObjectId, const LbaNet::ObjectPhysicDesc &PhysicDesc);
 
 protected:
 
@@ -101,17 +112,42 @@ protected:
 	void ResetPlayerObject();
 
 
+
+	//! add object to the scene
+	//! if IsMainPlayer then treat this object as the player object
+	//! type:
+	// 1 -> static object
+	// 2 -> server controlled
+	// 3 -> movable by player
+	// 4 -> player object
+	// 5 -> ghost object
+	void AddObject(int type, const ObjectInfo &desc);
+
+
+	//! remove object from the scene
+	//! type:
+	// 1 -> static object
+	// 2 -> server controlled
+	// 3 -> movable by player
+	// 4 -> player object
+	// 5 -> ghost object
+	virtual void RemObject(int type, long id);
+
+
+
 private:
-
-	//TODO change this to 5 types of objects:
-	// static object - do not move, do not need to process
-	// player objects - will move randomly - get info from server
-	// actors objects - will move from script
-	// movable objects - moved by player - create a ghost in the other side
-	// ghosts objects - replication of other movable objects
-
+	
 	// list of object populating the scene
-	std::map<long, boost::shared_ptr<DynamicObject> >	_dynamicObjects;
+	// static object - do not move, do not need to process
+	// server objects - will move from script
+	// movable objects - moved by player - create a ghost in the other side
+	// player objects - will move randomly - get info from server
+	// ghosts objects - replication of other movable objects
+	std::map<long, boost::shared_ptr<DynamicObject> >	_staticObjects;
+	std::map<long, boost::shared_ptr<DynamicObject> >	_serverObjects;
+	std::map<long, boost::shared_ptr<DynamicObject> >	_movableObjects;
+	std::map<long, boost::shared_ptr<DynamicObject> >	_playerObjects;
+	std::map<long, boost::shared_ptr<DynamicObject> >	_ghostObjects;
 
 
 	// last cycle time

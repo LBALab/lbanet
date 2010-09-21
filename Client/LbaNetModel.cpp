@@ -92,11 +92,38 @@ void LbaNetModel::Process()
 
 	double ctime = SynchronizedTimeHandler::GetCurrentTimeDouble();
 
-	// process all dynamic objects
-	std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _dynamicObjects.begin();
-	std::map<long, boost::shared_ptr<DynamicObject> >::iterator end = _dynamicObjects.end();
+	// process all _serverObjects
+	{
+	std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _serverObjects.begin();
+	std::map<long, boost::shared_ptr<DynamicObject> >::iterator end = _serverObjects.end();
 	for(; it != end; ++it)
 		it->second->Process();
+	}
+
+	// process all _movableObjects
+	{
+	std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _movableObjects.begin();
+	std::map<long, boost::shared_ptr<DynamicObject> >::iterator end = _movableObjects.end();
+	for(; it != end; ++it)
+		it->second->Process();
+	}
+
+	// process all _playerObjects
+	{
+	std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _playerObjects.begin();
+	std::map<long, boost::shared_ptr<DynamicObject> >::iterator end = _playerObjects.end();
+	for(; it != end; ++it)
+		it->second->Process();
+	}
+
+	// process all _ghostObjects
+	{
+	std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _ghostObjects.begin();
+	std::map<long, boost::shared_ptr<DynamicObject> >::iterator end = _ghostObjects.end();
+	for(; it != end; ++it)
+		it->second->Process();
+	}
+
 
 	//process player object
 	if(m_playerObject)
@@ -124,27 +151,64 @@ void LbaNetModel::Process()
 /***********************************************************
 add object to the scene
 ***********************************************************/
-boost::shared_ptr<PhysicalObjectHandlerBase> 
-	LbaNetModel::AddObject(const ObjectInfo &desc)
+void LbaNetModel::AddObject(int type, const ObjectInfo &desc)
 {
-	//special treatment if main object
-	if(m_playerObjectId == desc.Id)
+	switch(type)
 	{
-		m_playerObject = desc.BuildSelf(OsgHandler::getInstance());
+		// 1 -> static object
+		case 1:
+			{
+			boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
+			_staticObjects[desc.Id] = tmpobj;
+			}
+		break;
 
-		if(m_controllerChar)
-			m_controllerChar->SetPhysicalCharacter(m_playerObject->GetPhysicalObject());
-		if(m_controllerCam)
-			m_controllerCam->SetCharacter(m_playerObject);
+		// 2 -> server controlled
+		case 2:
+			{
+			boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
+			_serverObjects[desc.Id] = tmpobj;
+			}
+		break;
 
-		return m_playerObject->GetPhysicalObject();
-	}
-	else
-	{
-		boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
-		_dynamicObjects[desc.Id] = tmpobj;
+		// 3 -> movable by player
+		case 3:
+			{
+			boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
+			_movableObjects[desc.Id] = tmpobj;
+			}
+		break;
 
-		return tmpobj->GetPhysicalObject();
+		// 4 -> player object
+		case 4:
+			//special treatment if main player
+			if(m_playerObjectId == desc.Id)
+			{
+				// change to character controller
+				ObjectInfo tmp(desc);
+				static_cast<PhysicalDescriptionWithShape *>(tmp.PhysInfo.get())->type = 4;
+
+				m_playerObject = tmp.BuildSelf(OsgHandler::getInstance());
+
+				if(m_controllerChar)
+					m_controllerChar->SetPhysicalCharacter(m_playerObject->GetPhysicalObject());
+				if(m_controllerCam)
+					m_controllerCam->SetCharacter(m_playerObject);
+			}
+			else
+			{
+				boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
+				_playerObjects[desc.Id] = tmpobj;
+			}
+		break;
+
+		// 5 -> ghost object
+		case 5:
+			{
+			boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
+			_ghostObjects[desc.Id] = tmpobj;
+			}
+		break;
 	}
 }
 
@@ -152,34 +216,61 @@ boost::shared_ptr<PhysicalObjectHandlerBase>
 /***********************************************************
 remove object from the scene
 ***********************************************************/
-void LbaNetModel::RemObject(long id)
+void LbaNetModel::RemObject(int type, long id)
 {
-	//special treatment if main object
-	if(id == m_playerObjectId)
+	switch(type)
 	{
-		ResetPlayerObject();
-	}
-	else
-	{
-		std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _dynamicObjects.find(id);
-		if(it != _dynamicObjects.end())
-			_dynamicObjects.erase(it);
-	}
-}
+		// 1 -> static object
+		case 1:
+			{
+			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _staticObjects.find(id);
+			if(it != _staticObjects.end())
+				_staticObjects.erase(it);
+			}
+		break;
 
+		// 2 -> server controlled
+		case 2:
+			{
+			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _serverObjects.find(id);
+			if(it != _serverObjects.end())
+				_serverObjects.erase(it);
+			}
+		break;
 
-/***********************************************************
-remove object from the scene
-***********************************************************/
-boost::shared_ptr<DynamicObject> LbaNetModel::GetObject(long id)
-{
-	std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _dynamicObjects.find(id);
-	if(it != _dynamicObjects.end())
-	{
-		return it->second;
+		// 3 -> movable by player
+		case 3:
+			{
+			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _movableObjects.find(id);
+			if(it != _movableObjects.end())
+				_movableObjects.erase(it);
+			}
+		break;
+
+		// 4 -> player object
+		case 4:
+			//special treatment if main player
+			if(m_playerObjectId == id)
+			{
+				ResetPlayerObject();
+			}
+			else
+			{
+				std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _playerObjects.find(id);
+				if(it != _playerObjects.end())
+					_playerObjects.erase(it);
+			}
+		break;
+
+		// 5 -> ghost object
+		case 5:
+			{
+			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _ghostObjects.find(id);
+			if(it != _ghostObjects.end())
+				_ghostObjects.erase(it);
+			}
+		break;
 	}
-
-	return boost::shared_ptr<DynamicObject>();
 }
 
 /***********************************************************
@@ -188,7 +279,11 @@ clean up map
 void LbaNetModel::CleanupMap()
 {
 	//clear dynamic object of the current scene
-	_dynamicObjects.clear();
+	_staticObjects.clear();
+	_serverObjects.clear();
+	_movableObjects.clear();
+	_playerObjects.clear();
+	_ghostObjects.clear();
 
 	//clean up player
 	ResetPlayerObject();
@@ -230,8 +325,6 @@ reset player object
 ***********************************************************/
 void LbaNetModel::ResetPlayerObject()
 {
-	m_playerObjectId = 0;
-
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo(new SimplePhysicalObjectHandler(0, 0, 0, LbaQuaternion()));
 	m_playerObject = boost::shared_ptr<DynamicObject>(new StaticObject(physo, boost::shared_ptr<DisplayObjectHandlerBase>(), m_playerObjectId));
 
@@ -242,3 +335,175 @@ void LbaNetModel::ResetPlayerObject()
 }
 
 
+
+
+
+/***********************************************************
+ add object from server
+ type:
+1 -> static object
+2 -> server controlled
+3 -> movable by player
+4 -> player object
+5 -> ghost object
+***********************************************************/
+void LbaNetModel::AddObject(int Type, Ice::Long ObjectId, 
+					const LbaNet::ModelInfo &DisplayDesc, 
+					const LbaNet::ObjectPhysicDesc &PhysicDesc)
+{
+	boost::shared_ptr<DisplayInfo> DInfo;
+
+	// create display object
+	switch(DisplayDesc.RendererType)
+	{
+		//0 -> osg model 
+		case 0:
+		{
+			if(DisplayDesc.ModelName != "")
+			{
+				boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
+					(new OsgSimpleObjectDescription(DisplayDesc.ModelName));
+
+				boost::shared_ptr<DisplayTransformation> tr;
+				DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
+			}
+			else
+			{
+				//TODO
+			}
+		}
+		break;
+
+		//1 -> sprite 
+		case 1:
+		{
+			//TODO
+		}
+		break;
+
+		//2 -> LBA1 model 
+		case 2:
+		{
+			//TODO
+			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
+				(new OsgOrientedCapsuleDescription(5, 0.5, 1, 0, 0, 1));
+
+			boost::shared_ptr<DisplayTransformation> Tr(new DisplayTransformation());
+			Tr->translationY = 4;
+			Tr->rotation = LbaQuaternion(90, LbaVec3(1, 0, 0));
+			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(Tr, dispobdesc));
+		}
+		break;
+
+		//3-> LBA2 model
+		case 3:
+		{
+			//TODO
+		}
+		break;
+
+	}
+
+	// create physic object
+	boost::shared_ptr<PhysicalDescriptionBase> PInfo;
+	switch(PhysicDesc.Type)
+	{
+		// 0= no shape
+		case 0:
+		{
+			PInfo = boost::shared_ptr<PhysicalDescriptionBase>(new 
+					PhysicalDescriptionNoShape(PhysicDesc.Pos.X, PhysicDesc.Pos.Y, PhysicDesc.Pos.Z, 
+										LbaQuaternion(PhysicDesc.Pos.Rotation, LbaVec3(0, 1, 0))));
+
+		}
+		break;
+
+		
+		// 1 = Box
+		case 1:
+		{
+				PInfo = boost::shared_ptr<PhysicalDescriptionBase>(new 
+					PhysicalDescriptionBox(PhysicDesc.Pos.X, PhysicDesc.Pos.Y, PhysicDesc.Pos.Z, 
+										PhysicDesc.ShapeType, PhysicDesc.Density,
+										LbaQuaternion(PhysicDesc.Pos.Rotation, LbaVec3(0, 1, 0)),
+										PhysicDesc.SizeX, PhysicDesc.SizeY, PhysicDesc.SizeZ,
+										PhysicDesc.Collidable));
+		}
+		break;
+
+		// 2 = Capsule
+		case 2:
+		{
+				PInfo = boost::shared_ptr<PhysicalDescriptionBase>(new 
+					PhysicalDescriptionCapsule(PhysicDesc.Pos.X, PhysicDesc.Pos.Y, PhysicDesc.Pos.Z, 
+										PhysicDesc.ShapeType, PhysicDesc.Density,
+										LbaQuaternion(PhysicDesc.Pos.Rotation, LbaVec3(0, 1, 0)),
+										PhysicDesc.Radius, PhysicDesc.Height,
+										PhysicDesc.Collidable));
+		}
+		break;
+
+		// 3 = Sphere
+		case 3:
+		{
+				// TODO
+				//PInfo = boost::shared_ptr<PhysicalDescriptionBase>(new 
+				//	PhysicalDescriptionCapsule(PhysicDesc.Pos.X, PhysicDesc.Pos.Y, PhysicDesc.Pos.Z, 
+				//						PhysicDesc.ShapeType, PhysicDesc.Density,
+				//						LbaQuaternion(PhysicDesc.Pos.Rotation, LbaVec3(0, 1, 0)),
+				//						PhysicDesc.Radius, 
+				//						PhysicDesc.Collidable));
+		}
+		break;
+
+		// 4 = triangle mesh
+		case 4:
+		{
+				PInfo = boost::shared_ptr<PhysicalDescriptionBase>(new 
+					PhysicalDescriptionTriangleMesh(PhysicDesc.Pos.X, PhysicDesc.Pos.Y, PhysicDesc.Pos.Z, 
+										PhysicDesc.Filename,
+										PhysicDesc.Collidable));
+		}
+		break;
+
+	}
+
+	ObjectInfo obj((long)ObjectId, DInfo, PInfo, (Type == 1));
+	AddObject(Type, obj);
+}
+
+
+
+/***********************************************************
+ remove object from server	
+ type:
+1 -> static object
+2 -> server controlled
+3 -> movable by player
+4 -> player object
+5 -> ghost object
+***********************************************************/
+void LbaNetModel::RemoveObject(int Type, Ice::Long ObjectId)
+{
+	RemObject(Type, (long)ObjectId);
+}
+
+
+/***********************************************************
+update object from server
+***********************************************************/
+void LbaNetModel::UpdateObjectDisplay(int Type, Ice::Long ObjectId, 
+									  const LbaNet::ModelInfo &DisplayDesc)
+{
+	//TODO
+}
+
+
+/***********************************************************
+ update object from server
+***********************************************************/
+void LbaNetModel::UpdateObjectPhysic(int Type, Ice::Long ObjectId, 
+									 const LbaNet::ObjectPhysicDesc &PhysicDesc)
+{
+	//TODO
+}

@@ -802,7 +802,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCapsuleObject(floa
 	osg::ref_ptr<osg::Geode> capsuleGeode(new osg::Geode());
 	osg::ref_ptr<osg::Capsule> caps(new osg::Capsule(osg::Vec3(0,0,0),radius,height));
 	osg::ref_ptr<osg::ShapeDrawable> capsdraw = new osg::ShapeDrawable(caps);
-	capsdraw->setColor(osg::Vec4(colorR, colorG, colorB, colorA));
+	//capsdraw->setColor(osg::Vec4(colorR, colorG, colorB, colorA));
 	capsuleGeode->addDrawable(capsdraw);
 	resnode->addChild(capsuleGeode);
 
