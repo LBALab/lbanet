@@ -316,7 +316,10 @@ void LbaNetEngine::HandleGameEvents()
 		// FocusChatEvent
 		if(info == typeid(FocusChatEvent))
 		{
-			m_gui_handler->FocusGameGUI("ChatBox", true);
+			FocusChatEvent * castedptr = 
+				dynamic_cast<FocusChatEvent *>(&obj);
+
+			m_gui_handler->FocusGameGUI("ChatBox", castedptr->_focus);
 		}
 
 
@@ -427,6 +430,24 @@ void LbaNetEngine::HandleGameEvents()
 				dynamic_cast<LbaNet::UpdateObjectPhysicEvent *>(&obj);
 
 			m_lbaNetModel->UpdateObjectPhysic(castedptr->Type, castedptr->ObjectId, castedptr->PhysicDesc);
+		}
+
+		// PlayerKeyPressedEvent
+		if(info == typeid(PlayerKeyPressedEvent))
+		{
+			PlayerKeyPressedEvent* castedptr = 
+				dynamic_cast<PlayerKeyPressedEvent *>(&obj);
+
+			m_lbaNetModel->KeyPressed(castedptr->_keyid);
+		}
+
+		// PlayerKeyReleasedEvent
+		if(info == typeid(PlayerKeyReleasedEvent))
+		{
+			PlayerKeyReleasedEvent* castedptr = 
+				dynamic_cast<PlayerKeyReleasedEvent *>(&obj);
+
+			m_lbaNetModel->KeyReleased(castedptr->_keyid);
 		}
 	}
 }

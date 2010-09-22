@@ -32,6 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectsDescription.h"
 #include "DynamicObject.h"
 #include "CommonTypes.h"
+#include "ClientExtendedEvents.h"
 
 #include <boost/shared_ptr.hpp>
 #include <ClientServerEvents.h>
@@ -101,6 +102,15 @@ public:
 	
 	//! update object from server
 	void UpdateObjectPhysic(int Type, Ice::Long ObjectId, const LbaNet::ObjectPhysicDesc &PhysicDesc);
+
+
+	//! key pressed
+	void KeyPressed(LbanetKey keyid);
+
+	//! key released
+	void KeyReleased(LbanetKey keyid);
+
+
 
 protected:
 

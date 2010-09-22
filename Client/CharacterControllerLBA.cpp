@@ -56,3 +56,19 @@ void CharacterController::SetPhysicalCharacter(boost::shared_ptr<PhysicalObjectH
 	_isGhost = AsGhost;
 }
 
+
+/***********************************************************
+key pressed
+***********************************************************/
+void CharacterController::KeyPressed(LbanetKey keyid)
+{
+
+}
+
+/***********************************************************
+key released
+***********************************************************/
+void CharacterController::KeyReleased(LbanetKey keyid)
+{
+
+}

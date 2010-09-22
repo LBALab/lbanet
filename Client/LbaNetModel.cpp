@@ -507,3 +507,22 @@ void LbaNetModel::UpdateObjectPhysic(int Type, Ice::Long ObjectId,
 {
 	//TODO
 }
+
+
+/***********************************************************
+key pressed
+***********************************************************/
+void LbaNetModel::KeyPressed(LbanetKey keyid)
+{
+	if(m_controllerChar)
+		m_controllerChar->KeyPressed(keyid);
+}
+
+/***********************************************************
+key released
+***********************************************************/
+void LbaNetModel::KeyReleased(LbanetKey keyid)
+{
+	if(m_controllerChar)
+		m_controllerChar->KeyReleased(keyid);
+}

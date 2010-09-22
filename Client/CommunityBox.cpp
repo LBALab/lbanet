@@ -549,7 +549,7 @@ bool CommunityBox::HandleListdblClick (const CEGUI::EventArgs& e)
 			EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
 				SynchronizedTimeHandler::GetCurrentTimeDouble(), "ChatBox", updseq));
 
-			EventsQueue::getReceiverQueue()->AddEvent(new FocusChatEvent());
+			EventsQueue::getReceiverQueue()->AddEvent(new FocusChatEvent(true));
 		}
 	}
 
@@ -580,7 +580,7 @@ bool CommunityBox::HandleConnecteddblClick (const CEGUI::EventArgs& e)
 		EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
 			SynchronizedTimeHandler::GetCurrentTimeDouble(), "ChatBox", updseq));
 
-		EventsQueue::getReceiverQueue()->AddEvent(new FocusChatEvent());
+		EventsQueue::getReceiverQueue()->AddEvent(new FocusChatEvent(true));
 	}
 
 	return true;

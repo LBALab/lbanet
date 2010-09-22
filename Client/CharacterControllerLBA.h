@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <boost/shared_ptr.hpp>
 #include "CommonTypes.h"
+#include "ClientExtendedEvents.h"
 
 #include <map>
 
@@ -50,6 +51,13 @@ public:
 
 	// set physcial character
 	void SetPhysicalCharacter(boost::shared_ptr<PhysicalObjectHandlerBase> charac, bool AsGhost=false);
+
+
+	//! key pressed
+	void KeyPressed(LbanetKey keyid);
+
+	//! key released
+	void KeyReleased(LbanetKey keyid);
 
 
 private:

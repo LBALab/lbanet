@@ -27,6 +27,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define __LBA_NET_OSG8EVENT_HANDLER_H__
 
 #include <osgGA/GUIEventHandler>
+#include "ClientExtendedEvents.h"
+
 
 
 //*************************************************************************************************
@@ -54,6 +56,9 @@ public:
 private:
 	bool	_right_button_pressed;
 	int		_mouse_Y;
+
+	// map lbanet key to osg key
+	std::map<LbanetKey, int>		_keymap;
 };
 
 

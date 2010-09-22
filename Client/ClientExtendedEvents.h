@@ -30,6 +30,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
+enum LbanetKey
+{
+	LbanetKey_Forward = 0,
+	LbanetKey_Backward,
+	LbanetKey_Left,
+	LbanetKey_Right,
+	LbanetKey_StrafeL,
+	LbanetKey_StrafeR,
+	LbanetKey_Up,
+	LbanetKey_Down,
+	LbanetKey_Action,
+	LbanetKey_NAction,
+	LbanetKey_Weapon,
+	LbanetKey_Stance1,
+	LbanetKey_Stance2,
+	LbanetKey_Stance3,
+	LbanetKey_Stance4,
+};
+
 /*
 ************************************************************************************************************************
 *                                                  class LoginEvent
@@ -116,9 +135,12 @@ class FocusChatEvent : public LbaNet::ClientServerEventBase
 {
 public:
 	//! constructor
-	FocusChatEvent()
+	FocusChatEvent(bool focus)
+		: _focus(focus)
 	{
 	}
+
+	bool _focus;
 };
 
 
@@ -228,5 +250,45 @@ public:
 
 
 
+/*
+************************************************************************************************************************
+*                                                  class PlayerKeyPressedEvent
+*
+*	used when a player press key
+************************************************************************************************************************
+*/
+class PlayerKeyPressedEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	PlayerKeyPressedEvent(LbanetKey keyid)
+		: _keyid(keyid)
+	{
+	}
+
+	LbanetKey _keyid;
+};
+
+
+
+
+/*
+************************************************************************************************************************
+*                                                  class PlayerKeyReleasedEvent
+*
+*	used when a player release key
+************************************************************************************************************************
+*/
+class PlayerKeyReleasedEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	PlayerKeyReleasedEvent(LbanetKey keyid)
+		: _keyid(keyid)
+	{
+	}
+
+	LbanetKey _keyid;
+};
 
 #endif
