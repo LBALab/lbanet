@@ -66,7 +66,7 @@ public:
 	virtual void SetRotation(const LbaQuaternion& Q) = 0;
 
 	//! move object in the world
-	virtual void Move(float deltaX, float deltaY, float deltaZ) = 0;
+	virtual void Move(float deltaX, float deltaY, float deltaZ, bool checkcollision = true) = 0;
 
 	//! move object to a position in the world
 	virtual void MoveTo(float X, float Y, float Z) = 0;
@@ -203,7 +203,7 @@ public:
 
 
 	//! move object in the world
-	virtual void Move(float deltaX, float deltaY, float deltaZ)
+	virtual void Move(float deltaX, float deltaY, float deltaZ, bool checkcollision = true)
 	{
 		_PosX += deltaX;
 		_PosY += deltaY;
