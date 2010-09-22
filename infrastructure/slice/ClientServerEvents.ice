@@ -111,7 +111,22 @@ module LbaNet
 		int			Type;
 		long			ObjectId;
 		ObjectPhysicDesc	PhysicDesc;
-	};	
+	};
+	
+	
+	// client tell server that he pressed action key
+	class PressedActionKeyEvent extends ClientServerEventBase
+	{
+		bool			ForcedNormalAction;
+	};
+	
+	
+	// client tell server that he pressed weapon key
+	class PressedWeaponKeyEvent extends ClientServerEventBase
+	{
+	};
+	
+
 };	
 
 #endif
