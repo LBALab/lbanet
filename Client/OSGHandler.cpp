@@ -236,10 +236,28 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 	_translNode->addChild(_clipNode);
 
 
-
+	_eventH = new OsgEventHandler();
+	//TODO remove static and make it configurable
+	std::map<LbanetKey, int> kmap;
+	kmap[LbanetKey_Forward] = osgGA::GUIEventAdapter::KEY_Up;
+	kmap[LbanetKey_Backward] = osgGA::GUIEventAdapter::KEY_Down;
+	kmap[LbanetKey_Left] = osgGA::GUIEventAdapter::KEY_Left;
+	kmap[LbanetKey_Right] = osgGA::GUIEventAdapter::KEY_Right;
+	kmap[LbanetKey_StrafeL] = 'l';
+	kmap[LbanetKey_StrafeR] = 'm';
+	kmap[LbanetKey_Up] = osgGA::GUIEventAdapter::KEY_Page_Up;
+	kmap[LbanetKey_Down] = osgGA::GUIEventAdapter::KEY_Page_Down;
+	kmap[LbanetKey_Action] = osgGA::GUIEventAdapter::KEY_Space;
+	kmap[LbanetKey_NAction] = 'w';
+	kmap[LbanetKey_Weapon] = osgGA::GUIEventAdapter::KEY_Alt_L;
+	kmap[LbanetKey_Stance1] = osgGA::GUIEventAdapter::KEY_F1;
+	kmap[LbanetKey_Stance2] = osgGA::GUIEventAdapter::KEY_F2;
+	kmap[LbanetKey_Stance3] = osgGA::GUIEventAdapter::KEY_F3;
+	kmap[LbanetKey_Stance4] = osgGA::GUIEventAdapter::KEY_F4;
+	_eventH->SetKeyMap(kmap);
 
 	// add the stats handler
-	_viewer->addEventHandler( new OsgEventHandler() );
+	_viewer->addEventHandler(_eventH );
 
 	 osgViewer::StatsHandler *sth = new osgViewer::StatsHandler;
 	 sth->setKeyEventTogglesOnScreenStats(osgGA::GUIEventAdapter::KEY_F11);
@@ -806,6 +824,21 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCapsuleObject(floa
 	capsuleGeode->addDrawable(capsdraw);
 	resnode->addChild(capsuleGeode);
 
+	// create orientation line
+	osg::Geode* lineGeode = new osg::Geode();
+	osg::Geometry* lineGeometry = new osg::Geometry();
+	lineGeode->addDrawable(lineGeometry); 
+
+	osg::Vec3Array* lineVertices = new osg::Vec3Array();
+	lineVertices->push_back( osg::Vec3( 0, 0, 0) );
+	lineVertices->push_back( osg::Vec3(0, 5, 0) );
+	lineGeometry->setVertexArray( lineVertices ); 
+
+	osg::DrawElementsUInt* dunit = new osg::DrawElementsUInt(osg::PrimitiveSet::LINES, 0);
+	dunit->push_back(0);
+	dunit->push_back(1);
+	lineGeometry->addPrimitiveSet(dunit); 
+	resnode->addChild(lineGeode);
 
 	if(Tr)
 	{

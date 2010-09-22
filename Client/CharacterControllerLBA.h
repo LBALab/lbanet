@@ -59,10 +59,22 @@ public:
 	//! key released
 	void KeyReleased(LbanetKey keyid);
 
+	//! process function
+	void Process();
+
+
 
 private:
 	boost::shared_ptr<PhysicalObjectHandlerBase> _character;
 	bool										_isGhost;
+
+	bool										_keyforward;
+	bool										_keybackward;
+	bool										_keyleft;
+	bool										_keyright;
+	bool										_keyup;
+	bool										_keydown;
+
 };
 
 #endif

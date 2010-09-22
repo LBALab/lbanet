@@ -46,11 +46,6 @@ public:
 	//! destructor
 	virtual ~ConnectionHandlerBase()
 	{
-		if(_thread)
-		{
-			_threadcontrol.join();
-			_thread = NULL;
-		}
 	}
 
 
@@ -59,6 +54,15 @@ public:
 	{
 		_thread = new RunThread(this);
 		_threadcontrol = _thread->start();
+	}
+
+	void JoinThread()
+	{
+		if(_thread)
+		{
+			_threadcontrol.join();
+			_thread = NULL;
+		}
 	}
 
 	//! connect to the server

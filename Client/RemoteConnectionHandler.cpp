@@ -49,6 +49,9 @@ RemoteConnectionHandler::RemoteConnectionHandler(Ice::CommunicatorPtr communicat
 ***********************************************************/
 RemoteConnectionHandler::~RemoteConnectionHandler()
 {
+	// first make sure that the thread is finished
+	JoinThread();
+
 	try
 	{
 		if(_router)

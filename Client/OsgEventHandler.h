@@ -53,6 +53,10 @@ public:
 	//! handle inputs
     bool handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa);
 
+
+	void SetKeyMap(const std::map<LbanetKey, int> & kmap)
+	{_keymap = kmap;}
+
 private:
 	bool	_right_button_pressed;
 	int		_mouse_Y;

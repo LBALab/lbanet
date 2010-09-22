@@ -57,7 +57,7 @@ namespace osgShadow
 }
 
 class GuiHandler;
-
+class OsgEventHandler;
 
 //*************************************************************************************************
 //*                               class OsgHandler
@@ -179,6 +179,8 @@ private:
 
 	// pointer to the screen surface
 	osgViewer::GraphicsWindow*		_gw;
+
+	OsgEventHandler *				_eventH;
 
 
 	// screen info

@@ -126,6 +126,8 @@ void LbaNetModel::Process()
 
 
 	//process player object
+	if(m_controllerChar)
+		m_controllerChar->Process();
 	if(m_playerObject)
 		m_playerObject->Process();
 
@@ -187,6 +189,7 @@ void LbaNetModel::AddObject(int type, const ObjectInfo &desc)
 				// change to character controller
 				ObjectInfo tmp(desc);
 				static_cast<PhysicalDescriptionWithShape *>(tmp.PhysInfo.get())->type = 4;
+				static_cast<PhysicalDescriptionWithShape *>(tmp.PhysInfo.get())->positionY += 3;
 
 				m_playerObject = tmp.BuildSelf(OsgHandler::getInstance());
 
@@ -389,7 +392,7 @@ void LbaNetModel::AddObject(int Type, Ice::Long ObjectId,
 				(new OsgOrientedCapsuleDescription(5, 0.5, 1, 0, 0, 1));
 
 			boost::shared_ptr<DisplayTransformation> Tr(new DisplayTransformation());
-			Tr->translationY = 4;
+			Tr->translationY = 0.5;
 			Tr->rotation = LbaQuaternion(90, LbaVec3(1, 0, 0));
 			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(Tr, dispobdesc));
 		}

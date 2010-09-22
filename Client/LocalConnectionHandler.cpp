@@ -42,7 +42,8 @@ LocalConnectionHandler::LocalConnectionHandler()
 ***********************************************************/
 LocalConnectionHandler::~LocalConnectionHandler()
 {
-	Disconnect();
+	// first make sure that the thread is finished
+	JoinThread();
 }
 
 

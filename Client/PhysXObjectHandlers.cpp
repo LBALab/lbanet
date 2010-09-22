@@ -128,7 +128,7 @@ void PhysXActorsHandler::SetRotation(const LbaQuaternion& Q)
 /***********************************************************
 move object in the world
 ***********************************************************/
-void PhysXActorsHandler::Move(float deltaX, float deltaY, float deltaZ)
+void PhysXActorsHandler::Move(float deltaX, float deltaY, float deltaZ, bool checkcollision)
 {
 	float currPosX, currPosY, currPosZ;
 	GetPosition(currPosX, currPosY, currPosZ);
@@ -268,9 +268,9 @@ void PhysXControllerHandler::RotateYAxis(float deltaY)
 /***********************************************************
 move object in the world
 ***********************************************************/
-void PhysXControllerHandler::Move(float deltaX, float deltaY, float deltaZ)
+void PhysXControllerHandler::Move(float deltaX, float deltaY, float deltaZ, bool checkcollision)
 {
-	PhysXEngine::getInstance()->MoveCharacter(_Controller, NxVec3(deltaX, deltaY, deltaZ), true);
+	PhysXEngine::getInstance()->MoveCharacter(_Controller, NxVec3(deltaX, deltaY, deltaZ), checkcollision);
 }
 
 /***********************************************************
@@ -488,8 +488,6 @@ PhysicalDescriptionTriangleMesh::~PhysicalDescriptionTriangleMesh()
 ***********************************************************/
 boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionTriangleMesh::BuildSelf(long id) const
 {
-
-
 	boost::shared_ptr<ActorUserData> udata = boost::shared_ptr<ActorUserData>(new ActorUserData(type, id));
 
 	NxActor* actor = PhysXEngine::getInstance()->LoadTriangleMeshFile(NxVec3(positionX, positionY, positionZ), 
