@@ -47,10 +47,16 @@ PhysXObjectHandlerBase::PhysXObjectHandlerBase(boost::shared_ptr<ActorUserData> 
 	Constructor
 ***********************************************************/
 PhysXActorsHandler::PhysXActorsHandler(boost::shared_ptr<ActorUserData> UserData,
-													NxActor* Actor, const LbaQuaternion& rotation)
-		: PhysXObjectHandlerBase(UserData), _Actor(Actor)
+													NxActor* Actor, const LbaQuaternion& rotation,
+													float sizeY)
+		: PhysXObjectHandlerBase(UserData), _Actor(Actor), _sizeY(sizeY)
 {
 	_Actor->setGlobalOrientationQuat(NxQuat(NxVec3(rotation.X, rotation.Y, rotation.Z), rotation.W));
+
+	// offset the actor position to take sizey into consideration
+	NxVec3 vec = _Actor->getGlobalPosition();
+	vec.y += _sizeY/2;
+	_Actor->setGlobalPosition(vec);
 
 
 	#ifdef _DEBUG
@@ -80,7 +86,7 @@ void PhysXActorsHandler::GetPosition(float &X, float &Y, float &Z)
 
 	NxVec3 vec = _Actor->getGlobalPosition();
 	X = vec.x;
-	Y = vec.y;
+	Y = vec.y-(_sizeY/2);
 	Z = vec.z;
 }
 
@@ -112,7 +118,7 @@ set object position in the world
 ***********************************************************/
 void PhysXActorsHandler::SetPosition(float X, float Y, float Z)
 {
-	_Actor->setGlobalPosition(NxVec3(X, Y, Z));
+	_Actor->setGlobalPosition(NxVec3(X, Y+(_sizeY/2), Z));
 	_resetted = true;
 }
 
@@ -140,7 +146,7 @@ move object to a position in the world
 ***********************************************************/
 void PhysXActorsHandler::MoveTo(float X, float Y, float Z)
 {
-	_Actor->moveGlobalPosition(NxVec3(X, Y, Z));
+	_Actor->moveGlobalPosition(NxVec3(X, Y+(_sizeY/2), Z));
 }
 
 
@@ -184,9 +190,20 @@ void PhysXActorsHandler::ShowOrHide(bool Show)
 ***********************************************************/
 PhysXControllerHandler::PhysXControllerHandler(boost::shared_ptr<ActorUserData> UserData,
 												NxController* Controller,
-												boost::shared_ptr<SimpleRotationHandler> rotH)
-		: PhysXObjectHandlerBase(UserData), _Controller(Controller), _rotH(rotH)
+												boost::shared_ptr<SimpleRotationHandler> rotH,
+												float sizeY)
+		: PhysXObjectHandlerBase(UserData), _Controller(Controller), _rotH(rotH),
+			_sizeY(sizeY)
 {
+
+	// offset the actor position to take sizey into consideration
+	if(_Controller)
+	{
+		NxExtendedVec3 vec = _Controller->getPosition();
+		vec.y += _sizeY/2;
+		PhysXEngine::getInstance()->SetCharacterPos(_Controller, NxVec3((float)vec.x, (float)vec.y, (float)vec.z));
+	}
+
 
 	#ifdef _DEBUG
 		LogHandler::getInstance()->LogToFile("Created new PhysXController.");
@@ -217,7 +234,7 @@ void PhysXControllerHandler::GetPosition(float &X, float &Y, float &Z)
 
 	NxExtendedVec3 vec = _Controller->getPosition();
 	X = (float)vec.x;
-	Y = (float)vec.y;
+	Y = (float)vec.y-(_sizeY/2);
 	Z = (float)vec.z;
 }
 
@@ -244,7 +261,7 @@ void PhysXControllerHandler::SetPosition(float X, float Y, float Z)
 {	
 	if(!_Controller) return;
 
-	PhysXEngine::getInstance()->SetCharacterPos(_Controller, NxVec3(X, Y, Z));
+	PhysXEngine::getInstance()->SetCharacterPos(_Controller, NxVec3(X, Y+(_sizeY/2), Z));
 	_resetted = true;
 }
 
@@ -283,7 +300,7 @@ void PhysXControllerHandler::MoveTo(float X, float Y, float Z)
 
 	NxExtendedVec3 vec = _Controller->getPosition();
 	PhysXEngine::getInstance()->MoveCharacter(_Controller, 
-									NxVec3(X - (float)vec.x, Y - (float)vec.y, Z - (float)vec.z), 
+									NxVec3(X - (float)vec.x, (Y+(_sizeY/2)) - (float)vec.y, Z - (float)vec.z), 
 									false);
 }
 
@@ -348,7 +365,7 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionBox::BuildSelf(l
 													sizeX, sizeY, sizeZ, 
 													density, type, udata.get(), collidable);
 		
-		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, act, rotation));
+		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, act, rotation, sizeY));
 	}
 	else
 	{
@@ -356,7 +373,7 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionBox::BuildSelf(l
 															NxVec3(sizeX, sizeY, sizeZ), udata.get());
 
 		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXControllerHandler(udata, controller, 
-								boost::shared_ptr<SimpleRotationHandler>(new SimpleRotationHandler(rotation))));
+								boost::shared_ptr<SimpleRotationHandler>(new SimpleRotationHandler(rotation)), sizeY));
 	}
 }
 
@@ -366,10 +383,10 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionBox::BuildSelf(l
 PhysicalDescriptionCapsule::PhysicalDescriptionCapsule(float posX, float posY, float posZ,
 														int Otype, float Odensity,
 														const LbaQuaternion &rot,
-														float rad, float ht,
+														float sX, float sY,
 														bool Collidable)
 	:PhysicalDescriptionWithShape(posX, posY, posZ, Otype, Odensity, rot, Collidable),
-		radius(rad), height(ht)
+		radius(sX/2), height(sY-sX), sizeY(sY)
 {
 
 }
@@ -396,7 +413,7 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionCapsule::BuildSe
 													radius, height,
 													density, type, udata.get(), collidable);
 		
-		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, act, rotation));
+		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, act, rotation, sizeY));
 	}
 	else
 	{
@@ -404,7 +421,7 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionCapsule::BuildSe
 															radius, height, udata.get());
 
 		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXControllerHandler(udata, controller, 
-								boost::shared_ptr<SimpleRotationHandler>(new SimpleRotationHandler(rotation))));
+								boost::shared_ptr<SimpleRotationHandler>(new SimpleRotationHandler(rotation)), sizeY));
 	}
 }
 
@@ -414,14 +431,14 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionCapsule::BuildSe
 PhysicalDescriptionSphere::PhysicalDescriptionSphere(float posX, float posY, float posZ,
 														int Otype, float Odensity,
 														const LbaQuaternion &rot,
-														float rad,
+														float sY,
 														float StaticFriction, 
 														float DynamicFriction, 
 														float Restitution,
 														bool Collidable)
 	:PhysicalDescriptionWithShape(posX, posY, posZ, Otype, Odensity, rot, Collidable),
-		radius(rad), staticFriction(StaticFriction), 
-		dynamicFriction(DynamicFriction), restitution(Restitution)
+		radius(sY/2), staticFriction(StaticFriction), 
+		dynamicFriction(DynamicFriction), restitution(Restitution), sizeY(sY)
 {
 
 }
@@ -449,7 +466,7 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionSphere::BuildSel
 													staticFriction, dynamicFriction,
 													restitution, collidable);
 
-		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, act, rotation));
+		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, act, rotation, sizeY));
 	}
 	else
 	{
@@ -457,7 +474,7 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionSphere::BuildSel
 															radius, 0, udata.get());
 
 		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXControllerHandler(udata, controller, 
-								boost::shared_ptr<SimpleRotationHandler>(new SimpleRotationHandler(rotation))));
+								boost::shared_ptr<SimpleRotationHandler>(new SimpleRotationHandler(rotation)), sizeY));
 	}
 }
 
@@ -493,5 +510,5 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionTriangleMesh::Bu
 	NxActor* actor = PhysXEngine::getInstance()->LoadTriangleMeshFile(NxVec3(positionX, positionY, positionZ), 
 														"Data/"+MeshInfoDataFileName, udata.get(), collidable);
 
-	return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, actor, rotation));
+	return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, actor, rotation, 0));
 }

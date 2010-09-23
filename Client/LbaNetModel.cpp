@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "SynchronizedTimeHandler.h"
 #include "StaticObject.h"
 #include "CharacterControllerLBA.h"
-
+#include "SynchronizedTimeHandler.h"
 
 
 /***********************************************************
@@ -89,8 +89,12 @@ void LbaNetModel::Process()
 	if(m_paused)
 		return;
 
+	// calculate time
+	double currtime = SynchronizedTimeHandler::GetCurrentTimeDouble();
+	float diff = (float)(currtime-m_lasttime);
+	m_lasttime = currtime;
 
-	double ctime = SynchronizedTimeHandler::GetCurrentTimeDouble();
+
 
 	// process all _serverObjects
 	{
@@ -127,7 +131,7 @@ void LbaNetModel::Process()
 
 	//process player object
 	if(m_controllerChar)
-		m_controllerChar->Process();
+		m_controllerChar->Process(currtime, diff);
 	if(m_playerObject)
 		m_playerObject->Process();
 
@@ -135,14 +139,6 @@ void LbaNetModel::Process()
 		m_controllerCam->Process();
 
 
-
-	//double currtime = ctime*0.001;
-	//float diff = (float)(currtime-m_lasttime);
-	//m_lasttime = currtime;
-
-	// process controllers
-	//if(m_controllerChar)
-	//	m_controllerChar->Process(ctime, diff);
 
 }
 
@@ -189,7 +185,6 @@ void LbaNetModel::AddObject(int type, const ObjectInfo &desc)
 				// change to character controller
 				ObjectInfo tmp(desc);
 				static_cast<PhysicalDescriptionWithShape *>(tmp.PhysInfo.get())->type = 4;
-				static_cast<PhysicalDescriptionWithShape *>(tmp.PhysInfo.get())->positionY += 3;
 
 				m_playerObject = tmp.BuildSelf(OsgHandler::getInstance());
 
@@ -389,10 +384,10 @@ void LbaNetModel::AddObject(int Type, Ice::Long ObjectId,
 		{
 			//TODO
 			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
-				(new OsgOrientedCapsuleDescription(5, 0.5, 1, 0, 0, 1));
+				(new OsgOrientedCapsuleDescription(4, 0.5, 1, 0, 0, 1));
 
 			boost::shared_ptr<DisplayTransformation> Tr(new DisplayTransformation());
-			Tr->translationY = 0.5;
+			Tr->translationY = 2.5;
 			Tr->rotation = LbaQuaternion(90, LbaVec3(1, 0, 0));
 			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(Tr, dispobdesc));
 		}
@@ -441,7 +436,7 @@ void LbaNetModel::AddObject(int Type, Ice::Long ObjectId,
 					PhysicalDescriptionCapsule(PhysicDesc.Pos.X, PhysicDesc.Pos.Y, PhysicDesc.Pos.Z, 
 										PhysicDesc.ShapeType, PhysicDesc.Density,
 										LbaQuaternion(PhysicDesc.Pos.Rotation, LbaVec3(0, 1, 0)),
-										PhysicDesc.Radius, PhysicDesc.Height,
+										PhysicDesc.SizeX, PhysicDesc.SizeY,
 										PhysicDesc.Collidable));
 		}
 		break;
@@ -454,7 +449,7 @@ void LbaNetModel::AddObject(int Type, Ice::Long ObjectId,
 				//	PhysicalDescriptionCapsule(PhysicDesc.Pos.X, PhysicDesc.Pos.Y, PhysicDesc.Pos.Z, 
 				//						PhysicDesc.ShapeType, PhysicDesc.Density,
 				//						LbaQuaternion(PhysicDesc.Pos.Rotation, LbaVec3(0, 1, 0)),
-				//						PhysicDesc.Radius, 
+				//						PhysicDesc.SizeY, 
 				//						PhysicDesc.Collidable));
 		}
 		break;

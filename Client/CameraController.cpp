@@ -88,12 +88,10 @@ void CameraController::Process()
 
 
 	// start to move camera only when actor moves a certain distance
-	if(fabs(actX - _targetx) > 3 || fabs(actY - _targety) > 3 || fabs(actZ - _targetz) > 3)
-	{
+	if(abs(actX - _targetx) > 3 || abs(actY - _targety) > 3 || abs(actZ - _targetz) > 3)
 		_movecamera = true;
-	}
 
-	if(fabs(actX - _targetx) > 8 || fabs(actY - _targety) > 8 || fabs(actZ - _targetz) > 8)
+	if(abs(actX - _targetx) > 6 || abs(actY - _targety) > 6 || abs(actZ - _targetz) > 6)
 	{
 		OsgHandler::getInstance()->SetCameraTarget(actX, actY, actZ);
 		_movecamera = false;
@@ -106,38 +104,29 @@ void CameraController::Process()
 		double speedX = (actX - _lastactX);
 		double speedY = (actY - _lastactY);
 		double speedZ = (actZ - _lastactZ);
-		OsgHandler::getInstance()->SetCameraTarget(_targetx+speedX, _targety+speedY, _targetz+speedZ);
+		_targetx+=speedX;
+		_targety+=speedY;
+		_targetz+=speedZ;
 
 		double deltaX = (actX - _targetx);
 		double deltaY = (actY - _targety);
 		double deltaZ = (actZ - _targetz);
 
-		bool changed = false;
-		if(fabs(deltaX) > 0.1)
-		{
-			changed = true;
+		if(abs(deltaX) > 0.1)
 			_targetx+=deltaX/100;
-		}
-
-		if(fabs(deltaY) > 0.1)
-		{
-			changed = true;
+		if(abs(deltaY) > 0.1)
 			_targety+=deltaY/100;
-		}
-		if(fabs(deltaZ) > 0.1)
-		{
-			changed = true;
+		if(abs(deltaZ) > 0.1)
 			_targetz+=deltaZ/100;
-		}
 
-		if(changed)
-			OsgHandler::getInstance()->SetCameraTarget(_targetx, _targety, _targetz);
+		OsgHandler::getInstance()->SetCameraTarget(_targetx, _targety, _targetz);
 
 
 		if(actX == _lastactX && actY == _lastactY && actZ == _lastactZ)
 		{
 			_movecamera = false;		
 		}
+
 	}
 
 	_lastactX = actX;

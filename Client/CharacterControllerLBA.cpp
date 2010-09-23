@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "CharacterControllerLBA.h"
 #include "PhysicalObjectHandlerBase.h"
-
+#include "EventsQueue.h"
 
 #include <iostream>
 #include <math.h>
@@ -38,7 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	Constructor
 ***********************************************************/
 CharacterController::CharacterController()
-: _isGhost(false)
+: _isGhost(false), _lastupdatetime(0)
 {
 	_keyforward = false;
 	_keybackward = false;
@@ -65,6 +65,11 @@ void CharacterController::SetPhysicalCharacter(boost::shared_ptr<PhysicalObjectH
 {
 	_character = charac;
 	_isGhost = AsGhost;
+
+	// update last position
+	_character->GetPosition(_lastupdate.CurrentPosX, 
+							_lastupdate.CurrentPosY, 
+							_lastupdate.CurrentPosZ);
 }
 
 
@@ -164,7 +169,7 @@ void CharacterController::KeyReleased(LbanetKey keyid)
 /***********************************************************
 process function
 ***********************************************************/
-void CharacterController::Process()
+void CharacterController::Process(double tnow, float tdiff)
 {
 	if(_isGhost)
 	{
@@ -189,14 +194,14 @@ void CharacterController::Process()
 		else if(_keydown)
 			speedY = -1.0f;
 
-		_character->Move(speedX, speedY, speedZ, false);
+		_character->Move(speedX*tdiff, speedY*tdiff, speedZ*tdiff, false);
 	}
 	else
 	{
 		if(_keyleft)
-			_character->RotateYAxis(1.0f);
+			_character->RotateYAxis(1.0f*tdiff);
 		else if(_keyright)
-			_character->RotateYAxis(-1.0f);
+			_character->RotateYAxis(-1.0f*tdiff);
 
 		float speed = 0;
 		if(_keyforward)
@@ -204,13 +209,112 @@ void CharacterController::Process()
 		else if(_keybackward)
 			speed = -0.1f;
 
-		//if(_keyforward || _keybackward)
-		//{
-			LbaQuaternion Q;
-			_character->GetRotation(Q);
-			LbaVec3 current_direction(Q.GetDirection(LbaVec3(0, 0, 1)));
-			 _character->Move(current_direction.x*speed, -1, current_direction.z*speed);
-		//}
+		LbaQuaternion Q;
+		_character->GetRotation(Q);
+		LbaVec3 current_direction(Q.GetDirection(LbaVec3(0, 0, 1)));
+		 _character->Move(current_direction.x*speed*tdiff, -1*tdiff, current_direction.z*speed*tdiff);
+	}
+
+
+	// update server if needed
+	UpdateServer(tnow, tdiff);
+}
+
+
+
+/***********************************************************
+check if we need to send update to server
+***********************************************************/
+void CharacterController::UpdateServer(double tnow, float tdiff)
+{
+	// do nothing if ghost
+	if(_isGhost)
+	{
+		_oldtdiff = tdiff;
+		return;
+	}
+
+
+	// get current position
+	_character->GetPosition(_currentupdate.CurrentPosX, 
+							_currentupdate.CurrentPosY, 
+							_currentupdate.CurrentPosZ);
+
+	// get current rotation
+	_currentupdate.CurrentRotation = _character->GetRotationSingleAngle();
+
+	// set speed
+	_currentupdate.CurrentSpeedX = (_currentupdate.CurrentPosX-_lastupdate.CurrentPosX) / _oldtdiff;
+	_currentupdate.CurrentSpeedY = (_currentupdate.CurrentPosY-_lastupdate.CurrentPosY) / _oldtdiff;
+	_currentupdate.CurrentSpeedZ = (_currentupdate.CurrentPosZ-_lastupdate.CurrentPosZ) / _oldtdiff;
+
+	_oldtdiff = tdiff;
+
+
+	// TODO - set animation
+
+
+
+	// check if we should force the update
+	_currentupdate.ForcedChange = ShouldforceUpdate();
+
+
+	//else send regular update every seconds
+	bool updatebytime = false;
+	if(!_currentupdate.ForcedChange)
+	{
+		if((tnow - _lastupdatetime) > 1000) // if more than 1 second
+			updatebytime = true;
+	}
+
+
+	//send to server if needed
+	if(_currentupdate.ForcedChange || updatebytime)
+	{
+		EventsQueue::getSenderQueue()->AddEvent(new LbaNet::PlayerMovedEvent(tnow, 0, _currentupdate));
+
+		_lastupdatetime = tnow;
+		_lastupdate = _currentupdate;
 	}
 }
 
+
+
+/***********************************************************
+check if we should force the update
+***********************************************************/
+bool CharacterController::ShouldforceUpdate()
+{
+	if(_lastupdate.AnimationIdx != _currentupdate.AnimationIdx)
+		return true;
+
+
+
+	if(abs(_lastupdate.CurrentSpeedX - _currentupdate.CurrentSpeedX) > 0.001f)
+		return true;
+
+	if(abs(_lastupdate.CurrentSpeedY - _currentupdate.CurrentSpeedY) > 0.001f)
+		return true;
+
+	if(abs(_lastupdate.CurrentSpeedZ - _currentupdate.CurrentSpeedZ) > 0.001f)
+		return true;
+
+	if(abs(_lastupdate.CurrentSpeedRotation - _currentupdate.CurrentSpeedRotation) > 0.1f)
+		return true;
+
+
+
+	float diffpos = abs(_lastupdate.CurrentPosX - _currentupdate.CurrentPosX) 
+					+ abs(_lastupdate.CurrentPosY - _currentupdate.CurrentPosY) 
+					+  abs(_lastupdate.CurrentPosZ - _currentupdate.CurrentPosZ);
+	if(diffpos > 10)
+		return true;
+
+
+	double diffrot = abs(_lastupdate.CurrentRotation - _currentupdate.CurrentRotation);
+	if(diffrot > 10)
+		return true;
+
+
+	return false;
+}

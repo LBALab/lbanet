@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <boost/shared_ptr.hpp>
 #include "CommonTypes.h"
 #include "ClientExtendedEvents.h"
+#include <ClientServerEvents.h>
 
 #include <map>
 
@@ -60,9 +61,16 @@ public:
 	void KeyReleased(LbanetKey keyid);
 
 	//! process function
-	void Process();
+	void Process(double tnow, float tdiff);
 
 
+protected:
+
+	//! check if we need to send update to server
+	void UpdateServer(double tnow, float tdiff);
+
+	//! check if we should force the update
+	bool ShouldforceUpdate();
 
 private:
 	boost::shared_ptr<PhysicalObjectHandlerBase> _character;
@@ -75,6 +83,10 @@ private:
 	bool										_keyup;
 	bool										_keydown;
 
+	LbaNet::PlayerMoveInfo						_lastupdate;
+	LbaNet::PlayerMoveInfo						_currentupdate;
+	double										_lastupdatetime;
+	float										_oldtdiff;
 };
 
 #endif
