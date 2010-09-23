@@ -133,6 +133,7 @@ private:
 	IceUtil::ThreadPtr										_thread;
 
 	MapInfo													_mapinfo;
+	std::vector<Ice::Long>									_currentplayers;
 
 
 	 std::map<Ice::Long, ClientInterfacePrx>				_playerproxies;

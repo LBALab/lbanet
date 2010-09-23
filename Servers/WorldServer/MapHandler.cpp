@@ -213,6 +213,33 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts,
 			{
 				PlayerLeft(it->first, tosendevts);
 			}
+
+			// player updated position
+			if(info == typeid(LbaNet::PlayerMovedEvent))
+			{
+				LbaNet::PlayerMovedEvent* castedptr = 
+					dynamic_cast<LbaNet::PlayerMovedEvent *>(&obj);
+
+				//TODO first check if the info is correct
+
+				//TODO then do a interpolation and check for triggers
+
+				if(castedptr->info.ForcedChange)
+				{
+					// update player position
+					PlayerPosition pos;
+					pos.MapName = _mapinfo.Name;
+					pos.X = castedptr->info.CurrentPosX;
+					pos.Y = castedptr->info.CurrentPosY;
+					pos.Z = castedptr->info.CurrentPosZ;
+					pos.Rotation = castedptr->info.CurrentRotation;
+					SharedDataHandler::getInstance()->UpdatePlayerPosition(it->first, pos);
+
+					// inform all of player move
+					tosendevts.push_back(new LbaNet::PlayerMovedEvent(castedptr->Time, it->first, castedptr->info));
+				}
+			}
+
 		}
 	}
 }
@@ -309,7 +336,7 @@ void MapHandler::PlayerEntered(Ice::Long id, EventsSeq &tosendevts)
 	{
 	ModelInfo		DisplayDesc;
 	DisplayDesc.RendererType = 0;
-	DisplayDesc.ModelName = "Worlds/Lba1/Grids/map0.osgb";
+	DisplayDesc.ModelName = "Worlds/Lba1Original/Grids/map0.osgb";
 
 	ObjectPhysicDesc	PhysicDesc;
 	PhysicDesc.Pos.X = 0;
@@ -318,7 +345,7 @@ void MapHandler::PlayerEntered(Ice::Long id, EventsSeq &tosendevts)
 	PhysicDesc.Pos.Rotation = 0;
 	PhysicDesc.Type = 4;	
 	PhysicDesc.Collidable = true;
-	PhysicDesc.Filename = "Worlds/Lba1/Grids/map0.phy";
+	PhysicDesc.Filename = "Worlds/Lba1Original/Grids/map0.phy";
 
 	toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 												1, 1, DisplayDesc, PhysicDesc));
@@ -329,6 +356,22 @@ void MapHandler::PlayerEntered(Ice::Long id, EventsSeq &tosendevts)
 
 	// current players in map
 	//TODO
+	for(size_t cc=0; cc<_currentplayers.size(); ++cc)
+	{
+		SavedWorldInfo pinfo = SharedDataHandler::getInstance()->GetInfo(_currentplayers[cc]);
+
+		ObjectPhysicDesc	PhysicDesc;
+		PhysicDesc.Pos = pinfo.ppos;
+		PhysicDesc.Type = 2;	
+		PhysicDesc.ShapeType = 2;
+		PhysicDesc.Collidable = false;
+		PhysicDesc.Density = 1;
+		PhysicDesc.SizeX = 0.5;
+		PhysicDesc.SizeY = 5;
+
+		toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+													4, id, pinfo.model, PhysicDesc));
+	}
 
 	// player inventory
 	{
@@ -365,12 +408,16 @@ void MapHandler::PlayerEntered(Ice::Long id, EventsSeq &tosendevts)
 		PhysicDesc.ShapeType = 2;
 		PhysicDesc.Collidable = false;
 		PhysicDesc.Density = 1;
-		PhysicDesc.Radius = 0.5;
-		PhysicDesc.Height = 5;
+		PhysicDesc.SizeX = 0.5;
+		PhysicDesc.SizeY = 5;
 
 		tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 													4, id, pinfo.model, PhysicDesc));
 	}
+
+
+	// add player to list
+	_currentplayers.push_back(id);
 }
 
 /***********************************************************
@@ -380,5 +427,11 @@ void MapHandler::PlayerLeft(Ice::Long id, EventsSeq &tosendevts)
 {
 	// inform all players that player left
 	tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-												4, id));		
+												4, id));
+	
+	// remove player from list
+	std::vector<Ice::Long>::iterator it = std::find(_currentplayers.begin(), _currentplayers.end(), id);
+	if(it != _currentplayers.end())
+		_currentplayers.erase(it);
+	
 }

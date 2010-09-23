@@ -291,3 +291,32 @@ SavedWorldInfo SharedDataHandler::GetInfo(Ice::Long clientid)
 	else
 		return SavedWorldInfo();
 }
+
+
+
+/***********************************************************
+update player position
+***********************************************************/
+void SharedDataHandler::UpdatePlayerPosition(Ice::Long clientid, const PlayerPosition & pos)
+{
+	Lock sync(*this);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
+	if(it != _currentplayers.end())
+		it->second->UpdatePositionInWorld(pos);
+}
+
+/***********************************************************
+get player position
+***********************************************************/
+PlayerPosition SharedDataHandler::GetPlayerPosition(Ice::Long clientid)
+{
+	Lock sync(*this);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
+	if(it != _currentplayers.end())
+		return it->second->GetPlayerPosition();
+
+
+	return PlayerPosition();
+}

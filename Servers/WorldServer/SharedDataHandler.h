@@ -84,6 +84,14 @@ public:
 	SavedWorldInfo GetInfo(Ice::Long clientid);
 
 
+	//!  update player position
+	void UpdatePlayerPosition(Ice::Long clientid, const PlayerPosition & pos);
+
+	//!  get player position
+	PlayerPosition GetPlayerPosition(Ice::Long clientid);
+
+
+
 protected:
 	//! constructor
 	SharedDataHandler(void){}

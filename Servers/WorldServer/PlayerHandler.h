@@ -99,6 +99,9 @@ public:
 	//! get player info
 	SavedWorldInfo GetInfo(){ return _currentinfo;}
 
+	//!  get player position
+	PlayerPosition GetPlayerPosition();
+
 
 private:
 	long										_clientid;

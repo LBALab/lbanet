@@ -170,6 +170,7 @@ void SessionServant::SetClientInterface(const ClientInterfacePrx& winterface, co
 
 		//send list of connected players
 		GuiParamsSeq params;
+		GuiUpdatesSeq upds;
 		PlayerOnlinesSeq onlineps;
 		{
 			ConnectedL connectedlist = _ctracker->GetConnected();
@@ -183,11 +184,18 @@ void SessionServant::SetClientInterface(const ClientInterfacePrx& winterface, co
 				po.Color = it->second.NameColor;
 				po.Status = it->second.Status;
 				onlineps.push_back(po);
+
+				upds.push_back(new LbaNet::NameColorChangedUpdate(it->first, it->second.NameColor));
 			}
 		}
 		params.push_back(new PlayerOnlineListGuiParameter(onlineps));
 		seq.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 										"CommunityBox", params, false, false));
+
+		seq.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+										"ChatBox", upds));
+
+		
 
 		_client->ServerEvents(seq);
 	}

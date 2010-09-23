@@ -138,6 +138,9 @@ void PlayerHandler::SaveCurrentInfo()
 
 		// set quest information
 		_dbH->SetQuestInfo(_worldname, _clientid, _questStarted, _questFinished);
+
+		//set player model
+		_dbH->UpdateModel(_currentinfo.model, _worldname, _clientid);
 	}
 }
 
@@ -149,4 +152,13 @@ get player current map
 std::string PlayerHandler::GetCurrentMap()
 {
 	return _currentinfo.ppos.MapName;
+}
+
+
+/***********************************************************
+get player position
+***********************************************************/
+PlayerPosition PlayerHandler::GetPlayerPosition()
+{
+	return _currentinfo.ppos;
 }
