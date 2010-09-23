@@ -333,7 +333,7 @@ public:
 	PhysicalDescriptionCapsule(float posX, float posY, float posZ,
 									int Otype, float Odensity,
 									const LbaQuaternion &rot,
-									float rad, float ht,
+									float sX, float sY,
 									bool Collidable);
 
 	//! destructor
@@ -353,6 +353,9 @@ public:
 
 	// height of the capsule
 	float height;
+
+	// keep sizeY
+	float sizeY;
 };
 
 
@@ -367,7 +370,7 @@ public:
 	PhysicalDescriptionSphere(float posX, float posY, float posZ,
 									int Otype, float Odensity,
 									const LbaQuaternion &rot,
-									float rad,
+									float sY,
 									float StaticFriction, 
 									float DynamicFriction, 
 									float Restitution,
@@ -392,6 +395,9 @@ public:
 	float staticFriction; 
 	float dynamicFriction; 
 	float restitution;
+
+	// keep sizeY
+	float sizeY;
 };
 
 
