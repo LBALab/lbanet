@@ -447,9 +447,9 @@ LBA_MAP_GL::LBA_MAP_GL(int NUM_MAP,int LBA2)
 	// set filenames
 	std::stringstream filename;
 	if(islba2)
-		filename<<"Data/Lba2/Grids/map";
+		filename<<"Data/Lba2Original/Grids/map";
 	else
-		filename<<"Data/Lba1/Grids/map";
+		filename<<"Data/Lba1Original/Grids/map";
 	filename<<NUM_MAP;
 
 	texture_filename = filename.str() + ".png";

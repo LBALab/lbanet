@@ -662,9 +662,9 @@ LBA_MAP_PHYS::LBA_MAP_PHYS(int n,bool LBA2)
 	// build phys file
 	std::stringstream file2;
 	if(LBA2)
-		file2<<"Data/Lba2/Grids/map"<<n<<".phy";
+		file2<<"Data/Lba2Original/Grids/map"<<n<<".phy";
 	else
-		file2<<"Data/Lba1/Grids/map"<<n<<".phy";
+		file2<<"Data/Lba1Original/Grids/map"<<n<<".phy";
 
 	physH.SearchFloors();
 	physH.SearchWallX();
