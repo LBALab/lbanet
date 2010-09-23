@@ -1024,12 +1024,12 @@ void ChatBox::Update(const LbaNet::GuiUpdatesSeq &Updates)
 		const std::type_info& info = typeid(*ptr);
 
 		// NameColorChangedUpdate
-		if(info == typeid(NameColorChangedUpdate))
+		if(info == typeid(LbaNet::NameColorChangedUpdate))
 		{
-			NameColorChangedUpdate * castedptr = 
-				dynamic_cast<NameColorChangedUpdate *>(ptr);
+			LbaNet::NameColorChangedUpdate * castedptr = 
+				dynamic_cast<LbaNet::NameColorChangedUpdate *>(ptr);
 
-			_name_colors[castedptr->_Name] = castedptr->_Color;
+			_name_colors[castedptr->Name] = castedptr->Color;
 
 		}
 

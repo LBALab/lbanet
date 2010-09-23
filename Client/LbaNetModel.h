@@ -40,6 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class PhysXEngine;
 class CharacterController;
 class CameraController;
+class ExternalPlayer;
 
 
 /***********************************************************************
@@ -111,6 +112,10 @@ public:
 	void KeyReleased(LbanetKey keyid);
 
 
+	//! when update player position
+	void PlayerMovedUpdate(Ice::Long PlayerId, double updatetime, 
+									const LbaNet::PlayerMoveInfo &info);
+
 
 protected:
 
@@ -156,7 +161,7 @@ private:
 	std::map<long, boost::shared_ptr<DynamicObject> >	_staticObjects;
 	std::map<long, boost::shared_ptr<DynamicObject> >	_serverObjects;
 	std::map<long, boost::shared_ptr<DynamicObject> >	_movableObjects;
-	std::map<long, boost::shared_ptr<DynamicObject> >	_playerObjects;
+	std::map<long, boost::shared_ptr<ExternalPlayer> >	_playerObjects;
 	std::map<long, boost::shared_ptr<DynamicObject> >	_ghostObjects;
 
 

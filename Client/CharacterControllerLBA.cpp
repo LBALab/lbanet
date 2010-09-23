@@ -179,35 +179,35 @@ void CharacterController::Process(double tnow, float tdiff)
 
 		//if right key pressed
 		if(_keyleft)
-			speedX = -1.0f;
+			speedX = -0.01f;
 		else if(_keyright)
-			speedX = 1.0f;
+			speedX = 0.01f;
 
 		//if up key pressed
 		if(_keyforward)
-			speedZ = -1.0f;
+			speedZ = -0.01f;
 		else if(_keybackward)
-			speedZ = 1.0f;
+			speedZ = 0.001f;
 
 		if(_keyup)
-			speedY = 1.0f;
+			speedY = 0.01f;
 		else if(_keydown)
-			speedY = -1.0f;
+			speedY = -0.01f;
 
 		_character->Move(speedX*tdiff, speedY*tdiff, speedZ*tdiff, false);
 	}
 	else
 	{
 		if(_keyleft)
-			_character->RotateYAxis(1.0f*tdiff);
+			_character->RotateYAxis(0.1f*tdiff);
 		else if(_keyright)
-			_character->RotateYAxis(-1.0f*tdiff);
+			_character->RotateYAxis(-0.1f*tdiff);
 
 		float speed = 0;
 		if(_keyforward)
-			speed = 0.1f;
+			speed = 0.01f;
 		else if(_keybackward)
-			speed = -0.1f;
+			speed = -0.01f;
 
 		LbaQuaternion Q;
 		_character->GetRotation(Q);
@@ -247,6 +247,7 @@ void CharacterController::UpdateServer(double tnow, float tdiff)
 	_currentupdate.CurrentSpeedX = (_currentupdate.CurrentPosX-_lastupdate.CurrentPosX) / _oldtdiff;
 	_currentupdate.CurrentSpeedY = (_currentupdate.CurrentPosY-_lastupdate.CurrentPosY) / _oldtdiff;
 	_currentupdate.CurrentSpeedZ = (_currentupdate.CurrentPosZ-_lastupdate.CurrentPosZ) / _oldtdiff;
+	_currentupdate.CurrentSpeedRotation = (_currentupdate.CurrentRotation-_lastupdate.CurrentRotation) / _oldtdiff;
 
 	_oldtdiff = tdiff;
 
@@ -299,7 +300,7 @@ bool CharacterController::ShouldforceUpdate()
 	if(abs(_lastupdate.CurrentSpeedZ - _currentupdate.CurrentSpeedZ) > 0.001f)
 		return true;
 
-	if(abs(_lastupdate.CurrentSpeedRotation - _currentupdate.CurrentSpeedRotation) > 0.1f)
+	if(abs(_lastupdate.CurrentSpeedRotation - _currentupdate.CurrentSpeedRotation) > 0.001f)
 		return true;
 
 
@@ -312,7 +313,7 @@ bool CharacterController::ShouldforceUpdate()
 
 
 	double diffrot = abs(_lastupdate.CurrentRotation - _currentupdate.CurrentRotation);
-	if(diffrot > 10)
+	if(diffrot > 1)
 		return true;
 
 

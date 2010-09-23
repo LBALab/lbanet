@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "StaticObject.h"
 #include "CharacterControllerLBA.h"
 #include "SynchronizedTimeHandler.h"
-
+#include "ExternalPlayer.h"
 
 /***********************************************************
 	Constructor
@@ -114,10 +114,10 @@ void LbaNetModel::Process()
 
 	// process all _playerObjects
 	{
-	std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _playerObjects.begin();
-	std::map<long, boost::shared_ptr<DynamicObject> >::iterator end = _playerObjects.end();
+	std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _playerObjects.begin();
+	std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator end = _playerObjects.end();
 	for(; it != end; ++it)
-		it->second->Process();
+		it->second->Process(currtime, diff);
 	}
 
 	// process all _ghostObjects
@@ -196,7 +196,7 @@ void LbaNetModel::AddObject(int type, const ObjectInfo &desc)
 			else
 			{
 				boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
-				_playerObjects[desc.Id] = tmpobj;
+				_playerObjects[desc.Id] = boost::shared_ptr<ExternalPlayer>(new ExternalPlayer(tmpobj));
 			}
 		break;
 
@@ -254,7 +254,7 @@ void LbaNetModel::RemObject(int type, long id)
 			}
 			else
 			{
-				std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _playerObjects.find(id);
+				std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _playerObjects.find(id);
 				if(it != _playerObjects.end())
 					_playerObjects.erase(it);
 			}
@@ -523,4 +523,18 @@ void LbaNetModel::KeyReleased(LbanetKey keyid)
 {
 	if(m_controllerChar)
 		m_controllerChar->KeyReleased(keyid);
+}
+
+
+/***********************************************************
+when update player position
+***********************************************************/
+void LbaNetModel::PlayerMovedUpdate(Ice::Long PlayerId, double updatetime, 
+									const LbaNet::PlayerMoveInfo &info)
+{
+	std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _playerObjects.find((long)PlayerId);
+	if(it != _playerObjects.end())
+	{
+		it->second->UpdateMove(updatetime, info);
+	}
 }

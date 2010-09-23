@@ -129,10 +129,10 @@ void LbaNetEngine::run(void)
 {
 	//TODO - for test - to remove
 	//boost::shared_ptr<DisplayInfo> DInfo(new DisplayInfo(boost::shared_ptr<DisplayTransformation>(),
-	//	boost::shared_ptr<DisplayObjectDescriptionBase>(new OsgSimpleObjectDescription("Worlds/Lba1/Grids/map0.osgb"))));
+	//	boost::shared_ptr<DisplayObjectDescriptionBase>(new OsgSimpleObjectDescription("Worlds/Lba1Original/Grids/map0.osgb"))));
 
 	//boost::shared_ptr<PhysicalDescriptionBase> PInfo(new PhysicalDescriptionTriangleMesh(0, 0, 0,
-	//																			"Worlds/Lba1/Grids/map0.phy",
+	//																			"Worlds/Lba1Original/Grids/map0.phy",
 	//																			true));
 	//ObjectInfo objinfo(1, DInfo, PInfo,	true);
 	//boost::shared_ptr<DynamicObject> ground = objinfo.BuildSelf(OsgHandler::getInstance());
@@ -373,8 +373,8 @@ void LbaNetEngine::HandleGameEvents()
 			// update chat
 			{
 				LbaNet::GuiUpdatesSeq updseq;
-				NameColorChangedUpdate * upd = 
-					new NameColorChangedUpdate(castedptr->_name, castedptr->_color);
+				LbaNet::NameColorChangedUpdate * upd = 
+					new LbaNet::NameColorChangedUpdate(castedptr->_name, castedptr->_color);
 				updseq.push_back(upd);
 				m_gui_handler->UpdateGameGUI("ChatBox", updseq);
 			}
@@ -449,6 +449,16 @@ void LbaNetEngine::HandleGameEvents()
 
 			m_lbaNetModel->KeyReleased(castedptr->_keyid);
 		}
+
+		// PlayerKeyReleasedEvent
+		if(info == typeid(LbaNet::PlayerMovedEvent))
+		{
+			LbaNet::PlayerMovedEvent* castedptr = 
+				dynamic_cast<LbaNet::PlayerMovedEvent *>(&obj);
+
+			m_lbaNetModel->PlayerMovedUpdate(castedptr->PlayerId, castedptr->Time, castedptr->info);
+		}
+
 	}
 }
 
@@ -675,7 +685,7 @@ called to play the assigned music when menu
 ***********************************************************/
 void LbaNetEngine::PlayMenuMusic()
 {
-	std::string mmusic = "Data/Lba1/Music/LBA1-Track9.mp3";
+	std::string mmusic = "Data/Lba1Original/Music/LBA1-Track9.mp3";
 
 	std::string tmp = MusicHandler::getInstance()->GetCurrentMusic();
 	if(tmp != mmusic)

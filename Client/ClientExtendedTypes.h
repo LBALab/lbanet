@@ -30,26 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
-/*
-************************************************************************************************************************
-*                                                  class NameColorChangedUpdate
-*
-*	class used when a player as changed name color
-************************************************************************************************************************
-*/
-class NameColorChangedUpdate : public LbaNet::GuiUpdateBase
-{
-public:
-	//! constructor
-	NameColorChangedUpdate(const std::string &Name, const std::string &Color)
-		: _Name(Name), _Color(Color)
-	{
-	}
-
-	std::string _Name;
-	std::string _Color;
-};
-
 
 /*
 ************************************************************************************************************************
