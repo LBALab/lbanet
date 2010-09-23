@@ -126,6 +126,15 @@ module LbaNet
 	{
 	};
 	
+	
+	// client/server inform other that a player moved
+	class PlayerMovedEvent extends ClientServerEventBase
+	{
+		long			PlayerId;
+		PlayerMoveInfo		info;
+	};	
+	
+	
 
 };	
 

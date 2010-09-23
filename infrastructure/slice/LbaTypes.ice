@@ -295,18 +295,32 @@ module LbaNet
 		
 		
 		// used for boxes
-		float 			SizeX;
-		float 			SizeY;
+		float 			SizeX;	// for capsule radius = SizeX/2
+		float 			SizeY;	// for sphere radius = SizeY/2
 		float 			SizeZ;
-		
-		// used for capsule and sphere
-		float 			Radius;
-		float 			Height;
 		
 		// used for triangle mesh
 		string			Filename;
 	};
 
+
+
+	struct PlayerMoveInfo
+	{
+		bool			ForcedChange;	// used when something changed (e.g. speed, animation)
+		
+		float			CurrentPosX;
+		float			CurrentPosY;		
+		float			CurrentPosZ;
+		float			CurrentRotation;		
+		
+		float			CurrentSpeedX;
+		float			CurrentSpeedY;		
+		float			CurrentSpeedZ;	
+		float			CurrentSpeedRotation;			
+		
+		int			AnimationIdx;
+	};
 
 
 
