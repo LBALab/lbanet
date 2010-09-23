@@ -607,8 +607,14 @@ module LbaNet
 		string			Sender;
 	    	string			Text;
 	};
-		
 	
+	//class used when a player as changed name color	
+	class NameColorChangedUpdate extends GuiUpdateBase 
+	{
+		string 			Name;
+		string 			Color;
+	};
+	 
 };	
 
 #endif
