@@ -41,7 +41,8 @@ public:
 	// load a world information into memory
 	static  bool LoadWorldInfo(const std::string &Filename, WorldInformation &res);
 
-
+	// load a world description into memory
+	static  bool LoadWorldDesc(const std::string &Filename, WorldDesc &res);
 };
 
 

@@ -125,3 +125,31 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
 
 	return true;
 }
+
+
+
+
+// load a world description into memory
+ bool XmlReader::LoadWorldDesc(const std::string &Filename, WorldDesc &res)
+{
+	// Create an empty property tree object
+	using boost::property_tree::ptree;
+	ptree pt;
+
+	// Load the XML file into the property tree
+	try
+	{
+		read_xml(Filename, pt);
+	}
+	catch(...)
+	{
+		return false;
+	}
+
+	// get map description
+    res.WorldName = pt.get<std::string>("World.name");
+    res.Description = pt.get<std::string>("World.description");
+    res.News = pt.get<std::string>("World.news");
+
+	return true;
+}
