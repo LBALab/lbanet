@@ -64,18 +64,18 @@ void ExternalPlayer::UpdateMove(double updatetime, const LbaNet::PlayerMoveInfo 
 		_velocityR = info.CurrentSpeedRotation;
 
 		if(_velocityX == 0 && _velocityY == 0 && _velocityZ == 0)
-			physo->MoveTo(info.CurrentPosX,  info.CurrentPosY, info.CurrentPosZ);
+			physo->MoveTo(info.CurrentPos.X,  info.CurrentPos.Y, info.CurrentPos.Z);
 
 		if(_velocityR == 0)
 		{
 			LbaQuaternion Q;
-			Q.AddRotation(info.CurrentRotation, LbaVec3(0,1,0));
+			Q.AddRotation(info.CurrentPos.Rotation, LbaVec3(0,1,0));
 			physo->RotateTo(Q);
 		}
 
 		// update dead reckon for the rest
 		_dr.Set(updatetime,
-					info.CurrentPosX,  info.CurrentPosY, info.CurrentPosZ, info.CurrentRotation,
+					info.CurrentPos.X,  info.CurrentPos.Y, info.CurrentPos.Z, info.CurrentPos.Rotation,
 					info.CurrentSpeedX, info.CurrentSpeedY, info.CurrentSpeedZ, info.CurrentSpeedRotation);
 	}
 }

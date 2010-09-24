@@ -278,6 +278,28 @@ void RemoteConnectionHandler::ChangeWorld(const std::string & NewWorld)
     }
 }
 
+
+/***********************************************************
+get the list of world to connect to
+***********************************************************/
+void RemoteConnectionHandler::RefreshWorldList()
+{
+	try
+	{
+		if(_session)
+			_session->GetWorldList();
+	}
+    catch(const IceUtil::Exception& ex)
+    {
+		LogHandler::getInstance()->LogToFile(std::string("Exception on RefreshWorldList: ") + ex.what());
+    }
+    catch(...)
+    {
+		LogHandler::getInstance()->LogToFile(std::string("Unknown exception on RefreshWorldList"));
+    }
+}
+
+
 /***********************************************************
 running function of the thread
 ***********************************************************/

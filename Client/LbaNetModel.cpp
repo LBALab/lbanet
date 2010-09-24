@@ -538,3 +538,17 @@ void LbaNetModel::PlayerMovedUpdate(Ice::Long PlayerId, double updatetime,
 		it->second->UpdateMove(updatetime, info);
 	}
 }
+
+
+/***********************************************************
+called when we enter a new map
+***********************************************************/
+void LbaNetModel::NewMap(const std::string & NewMap, const std::string & Script)
+{
+	// clean old map
+	CleanupMap();
+
+	m_current_map_name = NewMap;
+
+	//TODO script part
+}

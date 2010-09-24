@@ -32,6 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ClientExtendedEvents.h"
 #include "ClientExtendedTypes.h"
 #include "DataLoader.h"
+#include "SynchronizedTimeHandler.h"
 
 #include "InventoryBox.h"
 #include "ShortcutBox.h"
@@ -278,6 +279,16 @@ bool GameGUI::HandleCloseTextClicked (const CEGUI::EventArgs& e)
 		_root = NULL;
 	}
 
+
+	// inform server that gui is closed
+	LbaNet::GuiUpdatesSeq updseq;
+	LbaNet::GuiClosedUpdate * upd = 
+		new LbaNet::GuiClosedUpdate();
+	updseq.push_back(upd);
+	
+	EventsQueue::getSenderQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
+		SynchronizedTimeHandler::GetCurrentTimeDouble(), "TextBox", updseq));
+
 	return true;
 }
 
@@ -292,16 +303,38 @@ refresh gui with info from server
 ***********************************************************/
 void GameGUI::RefreshGUI(const std::string & guiid, const LbaNet::GuiParamsSeq &Parameters, bool Show, bool Hide)
 {
-	std::map<std::string, boost::shared_ptr<GameGUIBase> >::iterator it = _gameguis.find(guiid);
-	if(it != _gameguis.end())
+	// case if this concern textbox directly
+	if(guiid == "TextBox")
 	{
-		it->second->Refresh(Parameters);
+		for(size_t i=0; i<Parameters.size(); ++i)
+		{
+			LbaNet::GuiParameterBase * ptr = Parameters[i].get();
+			const std::type_info& info = typeid(*ptr);
 
-		if(Show)
-			it->second->Display();
 
-		if(Hide)
-			it->second->Hide();
+			// DisplayGameText
+			if(info == typeid(LbaNet::DisplayGameText))
+			{
+				LbaNet::DisplayGameText * castedptr = 
+					dynamic_cast<LbaNet::DisplayGameText *>(ptr);
+
+				DisplayGameText((long)castedptr->Textid, Show);
+			}
+		}
+	}
+	else
+	{
+		std::map<std::string, boost::shared_ptr<GameGUIBase> >::iterator it = _gameguis.find(guiid);
+		if(it != _gameguis.end())
+		{
+			it->second->Refresh(Parameters);
+
+			if(Show)
+				it->second->Display();
+
+			if(Hide)
+				it->second->Hide();
+		}
 	}
 }
 
@@ -324,15 +357,6 @@ void GameGUI::UpdateGUI(const std::string & guiid,const LbaNet::GuiUpdatesSeq &U
 			{
 				RefreshSOundButton();
 
-			}
-
-			// DisplayGameText
-			if(info == typeid(LbaNet::DisplayGameText))
-			{
-				LbaNet::DisplayGameText * castedptr = 
-					dynamic_cast<LbaNet::DisplayGameText *>(ptr);
-
-				DisplayGameText((long)castedptr->Textid, castedptr->Show);
 			}
 
 			// SetPlayerNameUpdate

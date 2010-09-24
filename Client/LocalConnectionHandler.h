@@ -27,7 +27,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define __LbaNetModel_1_LocalConnectionHandler_h
 
 #include "ConnectionHandlerBase.h"
-
+#include <IceUtil/Monitor.h>
+#include <Ice/Application.h>
+#include <ClientInterface.h>
 
 /***********************************************************************
  * Module:  LocalConnectionHandler.h
@@ -39,7 +41,7 @@ class LocalConnectionHandler : public ConnectionHandlerBase
 {
 public:
 	//! constructor
-	LocalConnectionHandler();
+	LocalConnectionHandler(Ice::CommunicatorPtr communicator);
 
 	//! destructor
 	virtual ~LocalConnectionHandler();
@@ -56,8 +58,22 @@ public:
 	// running function of the thread
 	virtual void run();
 
-private:
+	//! get the list of world to connect to
+	virtual void RefreshWorldList();
 
+private:
+	std::string												_username;
+
+	// threading and mutex stuff
+	IceUtil::Monitor<IceUtil::Mutex>						_monitor;
+	bool													_Trunning;
+
+
+	// pointer to the ice communicator
+	Ice::CommunicatorPtr									_communicator;
+
+	Ice::ObjectAdapterPtr									_adapter;
+	LbaNet::ClientInterfacePrx								_interface;
 };
 
 #endif

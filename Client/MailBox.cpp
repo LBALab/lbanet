@@ -413,6 +413,17 @@ handle close button event
 bool MailBox::HandleQuit(const CEGUI::EventArgs& e)
 {
 	_myBox->hide();
+
+
+	// inform server that gui is closed
+	LbaNet::GuiUpdatesSeq updseq;
+	LbaNet::GuiClosedUpdate * upd = 
+		new LbaNet::GuiClosedUpdate();
+	updseq.push_back(upd);
+	
+	EventsQueue::getSenderQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
+		SynchronizedTimeHandler::GetCurrentTimeDouble(), "MailBox", updseq));
+
 	return true;
 }
 

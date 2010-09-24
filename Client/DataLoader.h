@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <vector>
 #include <map>
-
+#include <LbaTypes.h>
 
 /***********************************************************************
  * Module:  DataLoader.h
@@ -65,6 +65,10 @@ public:
 	//! get language
 	std::string GetLanguage()
 	{return _lang;}
+
+
+	//! get list of available worlds
+	void GetAvailableWorlds(std::vector<LbaNet::WorldDesc> & list);
 
 
 protected:

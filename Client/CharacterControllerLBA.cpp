@@ -67,9 +67,9 @@ void CharacterController::SetPhysicalCharacter(boost::shared_ptr<PhysicalObjectH
 	_isGhost = AsGhost;
 
 	// update last position
-	_character->GetPosition(_lastupdate.CurrentPosX, 
-							_lastupdate.CurrentPosY, 
-							_lastupdate.CurrentPosZ);
+	_character->GetPosition(_lastupdate.CurrentPos.X, 
+							_lastupdate.CurrentPos.Y, 
+							_lastupdate.CurrentPos.Z);
 }
 
 
@@ -236,18 +236,18 @@ void CharacterController::UpdateServer(double tnow, float tdiff)
 
 
 	// get current position
-	_character->GetPosition(_currentupdate.CurrentPosX, 
-							_currentupdate.CurrentPosY, 
-							_currentupdate.CurrentPosZ);
+	_character->GetPosition(_currentupdate.CurrentPos.X, 
+							_currentupdate.CurrentPos.Y, 
+							_currentupdate.CurrentPos.Z);
 
 	// get current rotation
-	_currentupdate.CurrentRotation = _character->GetRotationSingleAngle();
+	_currentupdate.CurrentPos.Rotation = _character->GetRotationSingleAngle();
 
 	// set speed
-	_currentupdate.CurrentSpeedX = (_currentupdate.CurrentPosX-_lastupdate.CurrentPosX) / _oldtdiff;
-	_currentupdate.CurrentSpeedY = (_currentupdate.CurrentPosY-_lastupdate.CurrentPosY) / _oldtdiff;
-	_currentupdate.CurrentSpeedZ = (_currentupdate.CurrentPosZ-_lastupdate.CurrentPosZ) / _oldtdiff;
-	_currentupdate.CurrentSpeedRotation = (_currentupdate.CurrentRotation-_lastupdate.CurrentRotation) / _oldtdiff;
+	_currentupdate.CurrentSpeedX = (_currentupdate.CurrentPos.X-_lastupdate.CurrentPos.X) / _oldtdiff;
+	_currentupdate.CurrentSpeedY = (_currentupdate.CurrentPos.Y-_lastupdate.CurrentPos.Y) / _oldtdiff;
+	_currentupdate.CurrentSpeedZ = (_currentupdate.CurrentPos.Z-_lastupdate.CurrentPos.Z) / _oldtdiff;
+	_currentupdate.CurrentSpeedRotation = (_currentupdate.CurrentPos.Rotation-_lastupdate.CurrentPos.Rotation) / _oldtdiff;
 
 	_oldtdiff = tdiff;
 
@@ -305,14 +305,14 @@ bool CharacterController::ShouldforceUpdate()
 
 
 
-	float diffpos = abs(_lastupdate.CurrentPosX - _currentupdate.CurrentPosX) 
-					+ abs(_lastupdate.CurrentPosY - _currentupdate.CurrentPosY) 
-					+  abs(_lastupdate.CurrentPosZ - _currentupdate.CurrentPosZ);
+	float diffpos = abs(_lastupdate.CurrentPos.X - _currentupdate.CurrentPos.X) 
+					+ abs(_lastupdate.CurrentPos.Y - _currentupdate.CurrentPos.Y) 
+					+  abs(_lastupdate.CurrentPos.Z - _currentupdate.CurrentPos.Z);
 	if(diffpos > 10)
 		return true;
 
 
-	double diffrot = abs(_lastupdate.CurrentRotation - _currentupdate.CurrentRotation);
+	double diffrot = abs(_lastupdate.CurrentPos.Rotation - _currentupdate.CurrentPos.Rotation);
 	if(diffrot > 1)
 		return true;
 

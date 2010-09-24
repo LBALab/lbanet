@@ -68,6 +68,9 @@ public:
 	// running function of the thread
 	virtual void run();
 
+	//! get the list of world to connect to
+	virtual void RefreshWorldList();
+
 private:
 	// threading and mutex stuff
 	IceUtil::Monitor<IceUtil::Mutex>						_monitor;

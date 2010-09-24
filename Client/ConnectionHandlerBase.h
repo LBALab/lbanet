@@ -44,26 +44,7 @@ public:
 	ConnectionHandlerBase(){}
 
 	//! destructor
-	virtual ~ConnectionHandlerBase()
-	{
-	}
-
-
-	//! start running the thread
-	void StartThread()
-	{
-		_thread = new RunThread(this);
-		_threadcontrol = _thread->start();
-	}
-
-	void JoinThread()
-	{
-		if(_thread)
-		{
-			_threadcontrol.join();
-			_thread = NULL;
-		}
-	}
+	virtual ~ConnectionHandlerBase(){}
 
 	//! connect to the server
 	//! return 1 in case of success
@@ -75,6 +56,28 @@ public:
 
 	//! ask server to change world
 	virtual void ChangeWorld(const std::string & NewWorld) = 0;
+
+	//! get the list of world to connect to
+	virtual void RefreshWorldList() = 0;
+
+protected:
+	
+	//! start running the thread
+	void StartThread()
+	{
+		_thread = new RunThread(this);
+		_threadcontrol = _thread->start();
+	}
+
+	//! join started thread
+	void JoinThread()
+	{
+		if(_thread)
+		{
+			_threadcontrol.join();
+			_thread = NULL;
+		}
+	}
 
 protected:
 	// threading and mutex stuff

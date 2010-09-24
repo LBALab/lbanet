@@ -127,21 +127,6 @@ entry point of the engine
 ***********************************************************/
 void LbaNetEngine::run(void)
 {
-	//TODO - for test - to remove
-	//boost::shared_ptr<DisplayInfo> DInfo(new DisplayInfo(boost::shared_ptr<DisplayTransformation>(),
-	//	boost::shared_ptr<DisplayObjectDescriptionBase>(new OsgSimpleObjectDescription("Worlds/Lba1Original/Grids/map0.osgb"))));
-
-	//boost::shared_ptr<PhysicalDescriptionBase> PInfo(new PhysicalDescriptionTriangleMesh(0, 0, 0,
-	//																			"Worlds/Lba1Original/Grids/map0.phy",
-	//																			true));
-	//ObjectInfo objinfo(1, DInfo, PInfo,	true);
-	//boost::shared_ptr<DynamicObject> ground = objinfo.BuildSelf(OsgHandler::getInstance());
-
-	//m_lbaNetModel->AddObject(objinfo, false);
-
-	//SwitchGuiToGame();
-
-
 	// done in order to solve bug at startup with GUI mouse
 	int resX, resY;
 	bool fullscreen;
@@ -394,6 +379,21 @@ void LbaNetEngine::HandleGameEvents()
 		}
 
 
+		// NewMapEvent
+		if(info == typeid(LbaNet::NewMapEvent))
+		{
+			LbaNet::NewMapEvent * castedptr = 
+				dynamic_cast<LbaNet::NewMapEvent *>(&obj);
+
+			// update model
+			m_lbaNetModel->NewMap(castedptr->MapName, castedptr->InitializationScript);
+
+			//set chat map name
+			LbaNet::GuiUpdatesSeq upd;
+			upd.push_back(new ChatMapNameUpdate(castedptr->MapName));
+			m_gui_handler->UpdateGameGUI("ChatBox", upd);
+		}
+
 
 		// AddObjectEvent
 		if(info == typeid(LbaNet::AddObjectEvent))
@@ -510,6 +510,11 @@ void LbaNetEngine::SwitchGuiToChooseWorld()
 	m_gui_handler->SwitchGUI(1);
 	m_oldstate = m_currentstate;
 	m_currentstate = EChoosingWorld;
+
+
+	// ask server for the list of worlds
+	if(m_serverConH)
+		m_serverConH->RefreshWorldList();
 }
 
 /***********************************************************
@@ -574,7 +579,7 @@ void LbaNetEngine::TryLogin(const std::string &Name, const std::string &Password
 {
 	if(uselocalserver)
 	{
-		m_serverConH = boost::shared_ptr<ConnectionHandlerBase>(new LocalConnectionHandler());
+		m_serverConH = boost::shared_ptr<ConnectionHandlerBase>(new LocalConnectionHandler(m_communicator));
 	}
 	else
 	{

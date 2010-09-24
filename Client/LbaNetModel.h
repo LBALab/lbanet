@@ -117,6 +117,9 @@ public:
 									const LbaNet::PlayerMoveInfo &info);
 
 
+	//! called when we enter a new map
+	void NewMap(const std::string & NewMap, const std::string & Script);
+
 protected:
 
 	//! clean up map
@@ -178,6 +181,9 @@ private:
 	// player object
 	long												m_playerObjectId;
 	boost::shared_ptr<DynamicObject>					m_playerObject;
+
+
+	std::string											m_current_map_name;
 };
 
 #endif

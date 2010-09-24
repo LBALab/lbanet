@@ -24,7 +24,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "DataLoader.h"
 #include "LogHandler.h"
+#include "XmlReader.h"
 
+#include <boost/filesystem/path.hpp>
+#include <boost/filesystem/operations.hpp>
+namespace fs = boost::filesystem;
 
 
 DataLoader* DataLoader::_singletonInstance = NULL;
@@ -75,7 +79,7 @@ void DataLoader::SetWorldName(std::string WorldName)
 	{
 		_currentworldname = WorldName;
 
-		// process reading all necessary data
+		// TODO - process reading all necessary data
 
 		RefreshTexts();
 	}
@@ -136,5 +140,46 @@ refresh text files
 ***********************************************************/
 void DataLoader::RefreshTexts()
 {
-
+	//TODO
 }
+
+
+
+/***********************************************************
+get the list of available worlds
+***********************************************************/
+void DataLoader::GetAvailableWorlds(std::vector<LbaNet::WorldDesc> & list)
+{
+	// get all xml file of the directory
+	std::vector<std::string> files;
+	{
+		fs::path full_path( fs::system_complete( "./Data/Worlds" ) );
+
+		if ( !fs::exists( full_path ) )
+		{
+			LogHandler::getInstance()->LogToFile(std::string("\nData/Worlds directory Not found: ") + full_path.file_string());
+			return;
+		}
+
+		if ( fs::is_directory( full_path ) )
+		{
+			fs::directory_iterator end_iter;
+			for ( fs::directory_iterator dir_itr( full_path ); dir_itr != end_iter;	++dir_itr )
+			{
+				if ( fs::is_directory( dir_itr->status() ) )
+				{
+					files.push_back(dir_itr->path().string() + "WorldDescription.xml");
+				}
+			}
+		}
+	}
+
+	// for each file add an entry
+	for(size_t i=0; i< files.size(); ++i)
+	{
+		WorldDesc desc;
+		if(XmlReader::LoadWorldDesc(files[i], desc))
+			list.push_back(desc);
+	}
+}
+
