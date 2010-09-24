@@ -91,6 +91,13 @@ public:
 	PlayerPosition GetPlayerPosition(Ice::Long clientid);
 
 
+	//! get database
+	boost::shared_ptr<DatabaseHandlerBase> GetDatabase();
+
+
+	//!  get player proxy
+	ClientInterfacePrx GetProxy(Ice::Long clientid);
+
 
 protected:
 	//! constructor

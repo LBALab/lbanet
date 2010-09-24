@@ -164,10 +164,6 @@ void SessionServant::SetClientInterface(const ClientInterfacePrx& winterface, co
 		//send player id
 		seq.push_back(new ClientIdEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), _userNumber));
 
-		//send list of available worlds
-		WorldsSeq ws = AvailableWorldsHandler::getInstance()->GetWorldList();
-		seq.push_back(new AvailableWorldsEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), ws));
-
 		//send list of connected players
 		GuiParamsSeq params;
 		GuiUpdatesSeq upds;
@@ -495,3 +491,31 @@ bool SessionServant::Whisper(const std::string& To, const std::string& Message, 
 }
 
 
+
+/***********************************************************
+client ask to get the list of world available
+***********************************************************/
+void SessionServant::GetWorldList(const ::Ice::Current&)
+{
+    Lock sync(*this);
+
+	try
+	{
+		// send infos to clients
+		EventsSeq seq;
+
+		//send list of available worlds
+		WorldsSeq ws = AvailableWorldsHandler::getInstance()->GetWorldList();
+		seq.push_back(new AvailableWorldsEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), ws));
+
+		_client->ServerEvents(seq);
+	}
+    catch(const IceUtil::Exception& ex)
+    {
+		std::cout<<"SessionServant - Exception during GetWorldList: "<< ex.what()<<std::endl;
+    }
+    catch(...)
+    {
+		std::cout<<"SessionServant - Unknown exception during GetWorldList"<<std::endl;
+    }
+}

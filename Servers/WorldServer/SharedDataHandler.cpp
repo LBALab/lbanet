@@ -45,6 +45,14 @@ void SharedDataHandler::SetDbManager(boost::shared_ptr<DatabaseHandlerBase> dbH)
 }
 
 
+/***********************************************************
+get database
+***********************************************************/
+boost::shared_ptr<DatabaseHandlerBase> SharedDataHandler::GetDatabase()
+{
+	return _dbH;
+}
+
 
 /***********************************************************
 client send events to server
@@ -212,7 +220,7 @@ void SharedDataHandler::PlayerLeaveMap(const std::string &MapName, Ice::Long cli
 {
 	_currentmaps[MapName]->RemoveProxy(clientid);
 
-	// add player enter event
+	// add player leave event
 	AddEvent(MapName, clientid, 
 		new PlayerLeaveEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), clientid));
 }
@@ -319,4 +327,21 @@ PlayerPosition SharedDataHandler::GetPlayerPosition(Ice::Long clientid)
 
 
 	return PlayerPosition();
+}
+
+
+
+/***********************************************************
+get player proxy
+***********************************************************/
+ClientInterfacePrx SharedDataHandler::GetProxy(Ice::Long clientid)
+{
+	Lock sync(*this);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
+	if(it != _currentplayers.end())
+		return it->second->GetProxy();
+
+
+	return NULL;
 }

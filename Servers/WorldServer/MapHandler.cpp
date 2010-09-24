@@ -1,6 +1,14 @@
 #include "MapHandler.h"
 #include "SynchronizedTimeHandler.h"
 #include "SharedDataHandler.h"
+#include "TextBoxHandler.h"
+#include "ContainerBoxHandler.h"
+#include "DialogBoxHandler.h"
+#include "ShopBoxHandler.h"
+#include "ShortcutBoxHandler.h"
+#include "CommunityBoxHandler.h"
+#include "InventoryBoxHandler.h"
+#include "MailBoxHandler.h"
 
 #define _THREAD_WAIT_TIME_	17
 
@@ -85,6 +93,19 @@ constructor
 MapHandler::MapHandler(const MapInfo & mapinfo)
 : _Trunning(false), _mapinfo(mapinfo)
 {
+
+	// initialize the gui handlers
+	_guihandlers["CommunityBox"] = boost::shared_ptr<ServerGUIBase>(new CommunityBoxHandler());
+	_guihandlers["ShortcutBox"] = boost::shared_ptr<ServerGUIBase>(new ShortcutBoxHandler());
+	_guihandlers["MailBox"] = boost::shared_ptr<ServerGUIBase>(new MailBoxHandler());
+
+	_guihandlers["TextBox"] = boost::shared_ptr<ServerGUIBase>(new TextBoxHandler());
+	_guihandlers["ContainerBox"] = boost::shared_ptr<ServerGUIBase>(new ContainerBoxHandler());
+	_guihandlers["DialogBox"] = boost::shared_ptr<ServerGUIBase>(new DialogBoxHandler());
+	_guihandlers["ShopBox"] = boost::shared_ptr<ServerGUIBase>(new ShopBoxHandler());
+	_guihandlers["InventoryBox"] = boost::shared_ptr<ServerGUIBase>(new InventoryBoxHandler());
+
+
 }
 
 /***********************************************************
@@ -220,24 +241,55 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts,
 				LbaNet::PlayerMovedEvent* castedptr = 
 					dynamic_cast<LbaNet::PlayerMovedEvent *>(&obj);
 
-				//TODO first check if the info is correct
+				PlayerMoved(it->first, castedptr->Time, castedptr->info, tosendevts);
+			}
 
-				//TODO then do a interpolation and check for triggers
 
-				if(castedptr->info.ForcedChange)
-				{
-					// update player position
-					PlayerPosition pos;
-					pos.MapName = _mapinfo.Name;
-					pos.X = castedptr->info.CurrentPosX;
-					pos.Y = castedptr->info.CurrentPosY;
-					pos.Z = castedptr->info.CurrentPosZ;
-					pos.Rotation = castedptr->info.CurrentRotation;
-					SharedDataHandler::getInstance()->UpdatePlayerPosition(it->first, pos);
+			// UpdateGameGUIEvent
+			if(info == typeid(LbaNet::UpdateGameGUIEvent))
+			{
+				LbaNet::UpdateGameGUIEvent* castedptr = 
+					dynamic_cast<LbaNet::UpdateGameGUIEvent *>(&obj);
+	
+				GuiUpdate(it->first, castedptr->GUIId, castedptr->Updates);
+			}
 
-					// inform all of player move
-					tosendevts.push_back(new LbaNet::PlayerMovedEvent(castedptr->Time, it->first, castedptr->info));
-				}
+			// TeleportEvent
+			if(info == typeid(LbaNet::TeleportEvent))
+			{
+				LbaNet::TeleportEvent* castedptr = 
+					dynamic_cast<LbaNet::TeleportEvent *>(&obj);
+				
+				//TODO
+					//string			TeleportId;
+			}
+
+			// ChangeStanceEvent
+			if(info == typeid(LbaNet::ChangeStanceEvent))
+			{
+				LbaNet::ChangeStanceEvent* castedptr = 
+					dynamic_cast<LbaNet::ChangeStanceEvent *>(&obj);
+				
+				//TODO
+					//int			NewStanceId;
+			}
+
+
+			// PressedActionKeyEvent
+			if(info == typeid(LbaNet::PressedActionKeyEvent))
+			{
+				LbaNet::PressedActionKeyEvent* castedptr = 
+					dynamic_cast<LbaNet::PressedActionKeyEvent *>(&obj);
+				
+				//TODO
+					//bool			ForcedNormalAction;
+			}
+
+	
+			// PressedWeaponKeyEvent
+			if(info == typeid(LbaNet::PressedWeaponKeyEvent))
+			{
+				//TODO
 			}
 
 		}
@@ -331,6 +383,11 @@ void MapHandler::PlayerEntered(Ice::Long id, EventsSeq &tosendevts)
 	EventsSeq toplayer;
 
 
+	// inform client he enter a new map
+	toplayer.push_back(new NewMapEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+												_mapinfo.Name, "")); //TODO put script here
+	
+
 	//current objects in map
 	//TODO
 	{
@@ -355,7 +412,7 @@ void MapHandler::PlayerEntered(Ice::Long id, EventsSeq &tosendevts)
 	
 
 	// current players in map
-	//TODO
+	//TODO - change size
 	for(size_t cc=0; cc<_currentplayers.size(); ++cc)
 	{
 		SavedWorldInfo pinfo = SharedDataHandler::getInstance()->GetInfo(_currentplayers[cc]);
@@ -398,7 +455,7 @@ void MapHandler::PlayerEntered(Ice::Long id, EventsSeq &tosendevts)
 
 
 	// then inform all players that player entered
-	//TODO
+	//TODO - change size
 	{
 		SavedWorldInfo pinfo = SharedDataHandler::getInstance()->GetInfo(id);
 
@@ -434,4 +491,56 @@ void MapHandler::PlayerLeft(Ice::Long id, EventsSeq &tosendevts)
 	if(it != _currentplayers.end())
 		_currentplayers.erase(it);
 	
+
+	// inform guis
+	std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator itg = _guihandlers.begin();
+	std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator endg = _guihandlers.end();
+	for(; itg != endg; ++itg)
+		itg->second->PlayerLeftMap(id);
+}
+
+
+/***********************************************************
+gui update from a client
+***********************************************************/
+void MapHandler::GuiUpdate(Ice::Long id, const std::string guidi, GuiUpdatesSeq	Updates)
+{
+	std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator it = _guihandlers.find(guidi);
+	if(it != _guihandlers.end())
+	{
+		for(size_t i=0; i<Updates.size(); ++i)
+			it->second->Update(id, Updates[i]);
+	}
+}
+
+
+/***********************************************************
+called when a player moved
+***********************************************************/
+void MapHandler::PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMoveInfo &info, 
+							 EventsSeq &tosendevts)
+{
+	//TODO first check if the info is correct
+
+	//TODO then do a interpolation and check for triggers
+
+
+
+	if(info.ForcedChange)
+	{
+		// update player position
+		PlayerPosition pos(info.CurrentPos);
+		pos.MapName = _mapinfo.Name;
+		SharedDataHandler::getInstance()->UpdatePlayerPosition(id, pos);
+
+		// inform all of player move
+		tosendevts.push_back(new LbaNet::PlayerMovedEvent(time, id, info));
+	}
+
+
+	// inform guis that player moved
+	std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator itg = _guihandlers.begin();
+	std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator endg = _guihandlers.end();
+	for(; itg != endg; ++itg)
+		itg->second->PlayerMoved(id, info.CurrentPos);
 }

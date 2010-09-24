@@ -28,9 +28,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <ClientInterface.h>
 #include <IceUtil/Mutex.h>
+#include <boost/shared_ptr.hpp>
 
 #include "RunnableThread.h"
-
+#include "ServerGuiBase.h"
 
 using namespace LbaNet;
 
@@ -122,22 +123,33 @@ protected:
 	void PlayerLeft(Ice::Long id, EventsSeq &tosendevts);
 
 
+	// gui update from a client
+	void GuiUpdate(Ice::Long id, const std::string guidi, GuiUpdatesSeq	Updates);
+
+
+	//! called when a player moved
+	void PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMoveInfo &info, 
+						EventsSeq &tosendevts);
+
+
 private:
 	// threading and mutex stuff
-	IceUtil::Monitor<IceUtil::Mutex>						_monitor;
-	IceUtil::Mutex											_mutex_events;
-	IceUtil::Mutex											_mutex_proxies;
+	IceUtil::Monitor<IceUtil::Mutex>							_monitor;
+	IceUtil::Mutex												_mutex_events;
+	IceUtil::Mutex												_mutex_proxies;
 
-	bool													_Trunning;
-	IceUtil::ThreadControl									_threadcontrol;
-	IceUtil::ThreadPtr										_thread;
+	bool														_Trunning;
+	IceUtil::ThreadControl										_threadcontrol;
+	IceUtil::ThreadPtr											_thread;
 
-	MapInfo													_mapinfo;
-	std::vector<Ice::Long>									_currentplayers;
+	MapInfo														_mapinfo;
+	std::vector<Ice::Long>										_currentplayers;
 
 
-	 std::map<Ice::Long, ClientInterfacePrx>				_playerproxies;
-	 std::map<Ice::Long, EventsSeq>							_events;
+	 std::map<Ice::Long, ClientInterfacePrx>					_playerproxies;
+	 std::map<Ice::Long, EventsSeq>								_events;
+
+	 std::map<std::string, boost::shared_ptr<ServerGUIBase> >	_guihandlers;
 };
 
 

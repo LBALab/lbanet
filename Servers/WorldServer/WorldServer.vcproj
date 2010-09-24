@@ -193,11 +193,31 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CommunityBoxHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ContainerBoxHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\DatabaseHandler.cpp"
 				>
 			</File>
 			<File
+				RelativePath=".\DialogBoxHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\InventoryBoxHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\infrastructure\cpp\LbaTypes.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MailBoxHandler.cpp"
 				>
 			</File>
 			<File
@@ -221,11 +241,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ServerGUIBase.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\SharedDataHandler.cpp"
 				>
 			</File>
 			<File
+				RelativePath=".\ShopBoxHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ShortcutBoxHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\shared\SynchronizedTimeHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\TextBoxHandler.cpp"
 				>
 			</File>
 			<File
@@ -255,11 +291,31 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\CommunityBoxHandler.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ContainerBoxHandler.h"
+				>
+			</File>
+			<File
 				RelativePath=".\DatabaseHandler.h"
 				>
 			</File>
 			<File
 				RelativePath=".\DatabaseHandlerBase.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DialogBoxHandler.h"
+				>
+			</File>
+			<File
+				RelativePath=".\InventoryBoxHandler.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MailBoxHandler.h"
 				>
 			</File>
 			<File
@@ -275,11 +331,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ServerGUIBase.h"
+				>
+			</File>
+			<File
 				RelativePath=".\SharedDataHandler.h"
 				>
 			</File>
 			<File
+				RelativePath=".\ShopBoxHandler.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ShortcutBoxHandler.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\shared\SynchronizedTimeHandler.h"
+				>
+			</File>
+			<File
+				RelativePath=".\TextBoxHandler.h"
 				>
 			</File>
 			<File

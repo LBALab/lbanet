@@ -86,7 +86,8 @@ public:
     virtual bool Whisper(const std::string& To, const std::string& Message, const ::Ice::Current&);
 
 
-
+ 	// client ask to get the list of world available
+ 	virtual void GetWorldList(const ::Ice::Current&); 	
 
 
 	// change player status
