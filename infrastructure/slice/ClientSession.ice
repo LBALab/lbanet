@@ -23,6 +23,9 @@ module LbaNet
 	 	// client ask server to change world
 	 	void ChangeWorld(string WorldName);
 	 	
+	 	// client ask to get the list of world available
+	 	void GetWorldList();
+	 	
 	 	
 	 	
 	 	// chat management

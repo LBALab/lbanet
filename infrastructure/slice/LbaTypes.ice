@@ -309,10 +309,8 @@ module LbaNet
 	{
 		bool			ForcedChange;	// used when something changed (e.g. speed, animation)
 		
-		float			CurrentPosX;
-		float			CurrentPosY;		
-		float			CurrentPosZ;
-		float			CurrentRotation;		
+		
+		PlayerPosition		CurrentPos;
 		
 		float			CurrentSpeedX;
 		float			CurrentSpeedY;		
@@ -412,7 +410,12 @@ module LbaNet
 	};
 
 
-
+	
+	// server tell client gui to display text
+	class DisplayGameText extends GuiParameterBase
+	{
+		long 			Textid;
+	};
 
 
 
@@ -490,13 +493,6 @@ module LbaNet
 		PlayerOnline		NewInfo;
 	};
 	
-	
-	// server tell client gui to display text
-	class DisplayGameText extends GuiUpdateBase
-	{
-		long 			Textid;
-		bool			Show;
-	};	
 	
 	// client tell server to update container content
 	class UpdateInvContainer extends GuiUpdateBase

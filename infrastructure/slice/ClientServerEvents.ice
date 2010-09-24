@@ -59,14 +59,14 @@ module LbaNet
 		int			NewStanceId;
 	};
 	
-	// player enter in a map
+	// server send - player enter in a map
 	class PlayerEnterEvent extends ClientServerEventBase
 	{
 		long			PlayerId;
 	};
 	
 	
-	// player leave a map
+	// server send - player leave a map
 	class PlayerLeaveEvent extends ClientServerEventBase
 	{
 		long			PlayerId;
@@ -132,8 +132,15 @@ module LbaNet
 	{
 		long			PlayerId;
 		PlayerMoveInfo		info;
-	};	
+	};
 	
+	
+	// server inform client that a enters a new map
+	class NewMapEvent extends ClientServerEventBase
+	{
+		string			MapName;
+		string			InitializationScript;
+	};	
 	
 
 };	
