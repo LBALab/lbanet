@@ -330,6 +330,13 @@ module LbaNet
 	
 	sequence<GuiParameterBase> GuiParamsSeq;
 	
+	
+	// server send inventory content to clien	
+	class DisplayGameText extends GuiParameterBase
+	{
+		long 			Textid;	
+	};
+	
 	// server send inventory content to clien	
 	class InventoryGuiParameter extends GuiParameterBase
 	{
@@ -410,12 +417,7 @@ module LbaNet
 	};
 
 
-	
-	// server tell client gui to display text
-	class DisplayGameText extends GuiParameterBase
-	{
-		long 			Textid;
-	};
+
 
 
 
