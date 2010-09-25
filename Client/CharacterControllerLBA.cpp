@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "CharacterControllerLBA.h"
 #include "PhysicalObjectHandlerBase.h"
 #include "EventsQueue.h"
+#include "SynchronizedTimeHandler.h"
 
 #include <iostream>
 #include <math.h>
@@ -70,6 +71,8 @@ void CharacterController::SetPhysicalCharacter(boost::shared_ptr<PhysicalObjectH
 	_character->GetPosition(_lastupdate.CurrentPos.X, 
 							_lastupdate.CurrentPos.Y, 
 							_lastupdate.CurrentPos.Z);
+
+	_lastupdate.CurrentPos.Rotation = _character->GetRotationYAxis();
 }
 
 
@@ -187,7 +190,7 @@ void CharacterController::Process(double tnow, float tdiff)
 		if(_keyforward)
 			speedZ = -0.01f;
 		else if(_keybackward)
-			speedZ = 0.001f;
+			speedZ = 0.01f;
 
 		if(_keyup)
 			speedY = 0.01f;
@@ -199,9 +202,9 @@ void CharacterController::Process(double tnow, float tdiff)
 	else
 	{
 		if(_keyleft)
-			_character->RotateYAxis(0.1f*tdiff);
+			_character->RotateYAxis(0.15f*tdiff);
 		else if(_keyright)
-			_character->RotateYAxis(-0.1f*tdiff);
+			_character->RotateYAxis(-0.15f*tdiff);
 
 		float speed = 0;
 		if(_keyforward)
@@ -212,7 +215,7 @@ void CharacterController::Process(double tnow, float tdiff)
 		LbaQuaternion Q;
 		_character->GetRotation(Q);
 		LbaVec3 current_direction(Q.GetDirection(LbaVec3(0, 0, 1)));
-		 _character->Move(current_direction.x*speed*tdiff, -1*tdiff, current_direction.z*speed*tdiff);
+		 _character->Move(current_direction.x*speed*tdiff, -0.1f*tdiff, current_direction.z*speed*tdiff);
 	}
 
 
@@ -234,20 +237,31 @@ void CharacterController::UpdateServer(double tnow, float tdiff)
 		return;
 	}
 
-
 	// get current position
 	_character->GetPosition(_currentupdate.CurrentPos.X, 
 							_currentupdate.CurrentPos.Y, 
 							_currentupdate.CurrentPos.Z);
 
 	// get current rotation
-	_currentupdate.CurrentPos.Rotation = _character->GetRotationSingleAngle();
+	_currentupdate.CurrentPos.Rotation = _character->GetRotationYAxis();
+
 
 	// set speed
 	_currentupdate.CurrentSpeedX = (_currentupdate.CurrentPos.X-_lastupdate.CurrentPos.X) / _oldtdiff;
 	_currentupdate.CurrentSpeedY = (_currentupdate.CurrentPos.Y-_lastupdate.CurrentPos.Y) / _oldtdiff;
 	_currentupdate.CurrentSpeedZ = (_currentupdate.CurrentPos.Z-_lastupdate.CurrentPos.Z) / _oldtdiff;
-	_currentupdate.CurrentSpeedRotation = (_currentupdate.CurrentPos.Rotation-_lastupdate.CurrentPos.Rotation) / _oldtdiff;
+
+	//calculate angle speed
+	_currentupdate.CurrentSpeedRotation = (_currentupdate.CurrentPos.Rotation-
+													_lastupdate.CurrentPos.Rotation);
+	while(_currentupdate.CurrentSpeedRotation < -180) 
+		_currentupdate.CurrentSpeedRotation += 360;
+	while(_currentupdate.CurrentSpeedRotation > 180) 
+		_currentupdate.CurrentSpeedRotation -= 360;
+
+
+	_currentupdate.CurrentSpeedRotation /= tdiff;
+	
 
 	_oldtdiff = tdiff;
 
@@ -273,10 +287,10 @@ void CharacterController::UpdateServer(double tnow, float tdiff)
 	if(_currentupdate.ForcedChange || updatebytime)
 	{
 		EventsQueue::getSenderQueue()->AddEvent(new LbaNet::PlayerMovedEvent(tnow, 0, _currentupdate));
-
 		_lastupdatetime = tnow;
-		_lastupdate = _currentupdate;
 	}
+
+	_lastupdate = _currentupdate;
 }
 
 
@@ -300,7 +314,7 @@ bool CharacterController::ShouldforceUpdate()
 	if(abs(_lastupdate.CurrentSpeedZ - _currentupdate.CurrentSpeedZ) > 0.001f)
 		return true;
 
-	if(abs(_lastupdate.CurrentSpeedRotation - _currentupdate.CurrentSpeedRotation) > 0.001f)
+	if(abs(_lastupdate.CurrentSpeedRotation - _currentupdate.CurrentSpeedRotation) > 0.1f)
 		return true;
 
 
@@ -313,7 +327,7 @@ bool CharacterController::ShouldforceUpdate()
 
 
 	double diffrot = abs(_lastupdate.CurrentPos.Rotation - _currentupdate.CurrentPos.Rotation);
-	if(diffrot > 1)
+	if(diffrot > 10)
 		return true;
 
 

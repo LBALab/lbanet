@@ -68,8 +68,7 @@ void ExternalPlayer::UpdateMove(double updatetime, const LbaNet::PlayerMoveInfo 
 
 		if(_velocityR == 0)
 		{
-			LbaQuaternion Q;
-			Q.AddRotation(info.CurrentPos.Rotation, LbaVec3(0,1,0));
+			LbaQuaternion Q(info.CurrentPos.Rotation, LbaVec3(0,1,0));
 			physo->RotateTo(Q);
 		}
 
@@ -97,7 +96,7 @@ void ExternalPlayer::Process(double tnow, float tdiff)
 	predicted_posZ += (_velocityZ*tdiff);
 
 
-	float predicted_rotation = physo->GetRotationSingleAngle() + (_velocityR*tdiff);
+	float predicted_rotation = physo->GetRotationYAxis() + (_velocityR*tdiff);
 
 	// calculate dead reckon
 	_dr.Update(tnow);
@@ -136,7 +135,7 @@ void ExternalPlayer::Process(double tnow, float tdiff)
 	//// do interpolation rotation
 	{
 		float diffR = (_dr._predicted_rotation - predicted_rotation);
-		if(fabs(diffR) > 1)
+		if(fabs(diffR) > 10)
 			predicted_rotation = _dr._predicted_rotation;
 		else
 			predicted_rotation += diffR / 5;
@@ -144,8 +143,7 @@ void ExternalPlayer::Process(double tnow, float tdiff)
 
 
 	physo->MoveTo(predicted_posX,  predicted_posY, predicted_posZ);
-	LbaQuaternion Q;
-	Q.AddRotation(predicted_rotation, LbaVec3(0,1,0));
+	LbaQuaternion Q(predicted_rotation, LbaVec3(0,1,0));
 	physo->RotateTo(Q);
 
 	_obje->Process();

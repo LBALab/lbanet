@@ -281,16 +281,12 @@ void PhysXEngine::Init(float gravity)
 	defaultMaterial->setRestitutionCombineMode(NX_CM_MAX);
 
 
-	// init time
-	_lasttime = SynchronizedTimeHandler::GetCurrentTimeDouble();
-
-
 	// init character controllers
 	gManager = NxCreateControllerManager(gAllocator);
 
 
 	//float TimeStep = 1.0f / 60.0f;
-	gScene->setTiming();
+	gScene->setTiming(0.017f);
 
 	//gScene->setGroupCollisionFlag(GROUP_COLLIDABLE_PUSHABLE, GROUP_NON_COLLIDABLE, false);
 
@@ -298,7 +294,7 @@ void PhysXEngine::Init(float gravity)
 
 	// Start the first frame of the simulation
 	if (gScene)  
-		StartPhysics();
+		StartPhysics(17); // start with a fixed timestep
 
 	_isInitialized = true;
 }
@@ -334,17 +330,11 @@ void PhysXEngine::Quit()
 /***********************************************************
 	call to start physic calculation after having updated state from inputs
 ***********************************************************/
-void PhysXEngine::StartPhysics()
+void PhysXEngine::StartPhysics(float tdiff)
 {
-	// Update the time step
-	double currentime = SynchronizedTimeHandler::GetCurrentTimeDouble();
-	float tdiff = (float)(currentime - _lasttime);
-
 	// Start collision and dynamics for delta time since the last frame
     gScene->simulate(tdiff);
 	gScene->flushStream();
-
-	_lasttime = currentime;
 }
 
 

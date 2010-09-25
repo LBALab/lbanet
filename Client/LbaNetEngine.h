@@ -57,7 +57,7 @@ public:
 
 protected:
 	//! process function
-	void Process(void);
+	void Process(double tnow, float tdiff);
 
 	//! initialize the class
 	void Initialize(void);

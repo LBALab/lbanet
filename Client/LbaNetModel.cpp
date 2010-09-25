@@ -31,8 +31,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "SynchronizedTimeHandler.h"
 #include "StaticObject.h"
 #include "CharacterControllerLBA.h"
-#include "SynchronizedTimeHandler.h"
 #include "ExternalPlayer.h"
+#include "EventsQueue.h"
 
 /***********************************************************
 	Constructor
@@ -41,7 +41,6 @@ LbaNetModel::LbaNetModel()
 : m_playerObjectId(0), m_paused(false)
 {
 	LogHandler::getInstance()->LogToFile("Initializing model class...");
-	m_lasttime = SynchronizedTimeHandler::GetCurrentTimeDouble();
 
 	//initialize controllers
 	m_controllerChar = boost::shared_ptr<CharacterController>(new CharacterController());
@@ -84,17 +83,10 @@ void LbaNetModel::ChangeWorld(const std::string & NewWorld)
 /***********************************************************
 do all check to be done when idle
 ***********************************************************/
-void LbaNetModel::Process()
+void LbaNetModel::Process(double tnow, float tdiff)
 {
 	if(m_paused)
 		return;
-
-	// calculate time
-	double currtime = SynchronizedTimeHandler::GetCurrentTimeDouble();
-	float diff = (float)(currtime-m_lasttime);
-	m_lasttime = currtime;
-
-
 
 	// process all _serverObjects
 	{
@@ -117,7 +109,7 @@ void LbaNetModel::Process()
 	std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _playerObjects.begin();
 	std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator end = _playerObjects.end();
 	for(; it != end; ++it)
-		it->second->Process(currtime, diff);
+		it->second->Process(tnow, tdiff);
 	}
 
 	// process all _ghostObjects
@@ -131,7 +123,7 @@ void LbaNetModel::Process()
 
 	//process player object
 	if(m_controllerChar)
-		m_controllerChar->Process(currtime, diff);
+		m_controllerChar->Process(tnow, tdiff);
 	if(m_playerObject)
 		m_playerObject->Process();
 
@@ -302,7 +294,6 @@ pause the game
 ***********************************************************/
 void LbaNetModel::Pause()
 {
-	m_lasttime = SynchronizedTimeHandler::GetCurrentTimeDouble();
 	m_paused = true;
 }
 
@@ -312,7 +303,6 @@ resume the game
 ***********************************************************/
 void LbaNetModel::Resume(bool reinit)
 {
-	m_lasttime = SynchronizedTimeHandler::GetCurrentTimeDouble();
 	m_paused = false;
 }
 
@@ -551,4 +541,12 @@ void LbaNetModel::NewMap(const std::string & NewMap, const std::string & Script)
 	m_current_map_name = NewMap;
 
 	//TODO script part
+
+
+
+	// ask server to get a refresh of all objects
+	EventsQueue::getSenderQueue()->AddEvent(new LbaNet::RefreshObjectRequestEvent(
+										SynchronizedTimeHandler::GetCurrentTimeDouble()));
+
+	
 }

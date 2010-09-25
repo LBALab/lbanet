@@ -67,7 +67,7 @@ public:
 	void ChangeWorld(const std::string & NewWorld);
 
 	//! do all check to be done when idle
-	void Process();
+	void Process(double tnow, float tdiff);
 
 	//! clean up everything
 	void CleanupWorld();
@@ -169,7 +169,6 @@ private:
 
 
 	// last cycle time
-	double												m_lasttime;
 	bool												m_paused;
 
 

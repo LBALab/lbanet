@@ -127,6 +127,21 @@ entry point of the engine
 ***********************************************************/
 void LbaNetEngine::run(void)
 {
+	//TODO - for test - to remove
+	//boost::shared_ptr<DisplayInfo> DInfo(new DisplayInfo(boost::shared_ptr<DisplayTransformation>(),
+	//	boost::shared_ptr<DisplayObjectDescriptionBase>(new OsgSimpleObjectDescription("Worlds/Lba1Original/Grids/map0.osgb"))));
+
+	//boost::shared_ptr<PhysicalDescriptionBase> PInfo(new PhysicalDescriptionTriangleMesh(0, 0, 0,
+	//																			"Worlds/Lba1Original/Grids/map0.phy",
+	//																			true));
+	//ObjectInfo objinfo(1, DInfo, PInfo,	true);
+	//boost::shared_ptr<DynamicObject> ground = objinfo.BuildSelf(OsgHandler::getInstance());
+
+	//m_lbaNetModel->AddObject(1, objinfo);
+
+	//SwitchGuiToGame();
+
+
 	// done in order to solve bug at startup with GUI mouse
 	int resX, resY;
 	bool fullscreen;
@@ -137,8 +152,9 @@ void LbaNetEngine::run(void)
 	try
 	{
 		// init time
-		double lasttime = SynchronizedTimeHandler::GetCurrentTimeDouble();
-		double waittime = lasttime;
+		long waittime = SynchronizedTimeHandler::GetCurrentTimeInt();
+		double timetodiff = SynchronizedTimeHandler::GetCurrentTimeDouble();
+		float tdiff = 17;
 
 		// Loop until a quit event is found
 		while(!m_shouldexit && !OsgHandler::getInstance()->Update())
@@ -147,23 +163,26 @@ void LbaNetEngine::run(void)
 			PhysXEngine::getInstance()->GetPhysicsResults();
 
 
+			std::cout<<timetodiff<<std::endl;
 			// process stuff between frame
-			Process();
+			Process(timetodiff, tdiff);
 
 
 			// pause the program for a few milliseconds
-			double currwtime = SynchronizedTimeHandler::GetCurrentTimeDouble();
-			double wdiff = (currwtime-waittime);
-			long timelong = (long)(wdiff);
-			if(timelong < TIME_PER_FRAME)
-				IceUtil::ThreadControl::sleep(IceUtil::Time::milliSeconds(TIME_PER_FRAME-timelong));
+			long currwtime = SynchronizedTimeHandler::GetCurrentTimeInt();
+			long wdiff = (currwtime-waittime);
+			if(wdiff < TIME_PER_FRAME)
+				IceUtil::ThreadControl::sleep(IceUtil::Time::milliSeconds(TIME_PER_FRAME-wdiff));
 
 
 			// mesure the time used to do one cycle
-			waittime = SynchronizedTimeHandler::GetCurrentTimeDouble();
+			waittime = SynchronizedTimeHandler::GetCurrentTimeInt();
+			double tdouble = SynchronizedTimeHandler::GetCurrentTimeDouble();
+			float tdiff = (float)(tdouble-timetodiff);
+			timetodiff = tdouble;
 
 			//start physic calculation
-			PhysXEngine::getInstance()->StartPhysics();
+			PhysXEngine::getInstance()->StartPhysics(tdiff);
 		}
 	}
 	catch(std::exception & ex)
@@ -187,13 +206,13 @@ void LbaNetEngine::run(void)
 /***********************************************************
 process function
 ***********************************************************/
-void LbaNetEngine::Process(void)
+void LbaNetEngine::Process(double tnow, float tdiff)
 {
 	//handle game events
 	HandleGameEvents();
 
 	// process model (update display stuff)
-	m_lbaNetModel->Process();
+	m_lbaNetModel->Process(tnow, tdiff);
 
 	// process GUI
 	m_gui_handler->Process();

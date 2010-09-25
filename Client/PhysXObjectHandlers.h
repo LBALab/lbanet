@@ -79,7 +79,7 @@ public:
 	virtual void GetRotation(LbaQuaternion& Q);
 
 	//! get object rotation on a single angle
-	virtual float GetRotationSingleAngle();
+	virtual float GetRotationYAxis();
 
 	//! set object position in the world
 	virtual void SetPosition(float X, float Y, float Z);
@@ -131,7 +131,7 @@ public:
 	virtual void GetRotation(LbaQuaternion& Q);
 
 	//! get object rotation on a single angle
-	virtual float GetRotationSingleAngle();
+	virtual float GetRotationYAxis();
 
 	//! set object position in the world
 	virtual void SetPosition(float X, float Y, float Z);

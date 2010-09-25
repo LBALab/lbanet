@@ -67,7 +67,7 @@ public:
 	void Quit();
 
 	//! call to start physic calculation after having updated state from inputs
-	void StartPhysics();
+	void StartPhysics(float tdiff);
 
 	//! call after render to get results of calculation
 	void GetPhysicsResults();
@@ -147,7 +147,6 @@ private:
 	NxUserAllocator*			gAllocator;
 
 	bool						_isInitialized;
-	double						_lasttime;
 };
 
 #endif

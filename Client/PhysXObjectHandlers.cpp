@@ -107,10 +107,12 @@ void PhysXActorsHandler::GetRotation(LbaQuaternion& Q)
 /***********************************************************
 get object rotation on all axis
 ***********************************************************/
-float PhysXActorsHandler::GetRotationSingleAngle()
+float PhysXActorsHandler::GetRotationYAxis()
 {
 	NxQuat quat = _Actor->getGlobalOrientationQuat();
-	return quat.getAngle();
+	float Yangle;
+	quat.getAngleAxis(Yangle, NxVec3(0, 1, 0));
+	return Yangle;
 }
 
 /***********************************************************
@@ -155,10 +157,20 @@ rotate object in the world
 ***********************************************************/
 void PhysXActorsHandler::RotateYAxis(float deltaY)
 {
-	NxQuat q(deltaY, NxVec3(0, 1, 0));
-	NxQuat targetRot = _Actor->getGlobalOrientationQuat();
-	targetRot = q * targetRot;
-	_Actor->moveGlobalOrientationQuat(targetRot);
+	// get current Y
+	NxQuat quat = _Actor->getGlobalOrientationQuat();
+	float Yangle;
+	quat.getAngleAxis(Yangle, NxVec3(0, 1, 0));
+
+	// calculate new angle
+	float todo = Yangle + deltaY;
+	if(todo < 0)
+		todo += 360;
+	if(todo > 360)
+		todo -= 360;
+
+	// move to new angle
+	_Actor->moveGlobalOrientationQuat(NxQuat(todo, NxVec3(0, 1, 0)));
 }
 
 /***********************************************************
@@ -249,9 +261,9 @@ void PhysXControllerHandler::GetRotation(LbaQuaternion& Q)
 /***********************************************************
 get object rotation on all axis
 ***********************************************************/
-float PhysXControllerHandler::GetRotationSingleAngle()
+float PhysXControllerHandler::GetRotationYAxis()
 {
-	return _rotH->GetRotationSingleAngle();
+	return _rotH->GetRotationYAxis();
 }
 
 /***********************************************************
