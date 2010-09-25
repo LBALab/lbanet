@@ -132,6 +132,10 @@ protected:
 						EventsSeq &tosendevts);
 
 
+	//! refresh player objects
+	void RefreshPlayerObjects(Ice::Long id);
+
+
 private:
 	// threading and mutex stuff
 	IceUtil::Monitor<IceUtil::Mutex>							_monitor;

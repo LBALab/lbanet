@@ -292,6 +292,14 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts,
 				//TODO
 			}
 
+
+			// RefreshObjectRequestEvent
+			if(info == typeid(LbaNet::RefreshObjectRequestEvent))
+			{
+				RefreshPlayerObjects(it->first);
+			}
+
+			
 		}
 	}
 }
@@ -388,48 +396,6 @@ void MapHandler::PlayerEntered(Ice::Long id, EventsSeq &tosendevts)
 												_mapinfo.Name, "")); //TODO put script here
 	
 
-	//current objects in map
-	//TODO
-	{
-	ModelInfo		DisplayDesc;
-	DisplayDesc.RendererType = 0;
-	DisplayDesc.ModelName = "Worlds/Lba1Original/Grids/map0.osgb";
-
-	ObjectPhysicDesc	PhysicDesc;
-	PhysicDesc.Pos.X = 0;
-	PhysicDesc.Pos.Y = 0;
-	PhysicDesc.Pos.Z = 0;
-	PhysicDesc.Pos.Rotation = 0;
-	PhysicDesc.Type = 4;	
-	PhysicDesc.Collidable = true;
-	PhysicDesc.Filename = "Worlds/Lba1Original/Grids/map0.phy";
-
-	toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-												1, 1, DisplayDesc, PhysicDesc));
-	}
-
-	
-	
-
-	// current players in map
-	//TODO - change size
-	for(size_t cc=0; cc<_currentplayers.size(); ++cc)
-	{
-		SavedWorldInfo pinfo = SharedDataHandler::getInstance()->GetInfo(_currentplayers[cc]);
-
-		ObjectPhysicDesc	PhysicDesc;
-		PhysicDesc.Pos = pinfo.ppos;
-		PhysicDesc.Type = 2;	
-		PhysicDesc.ShapeType = 2;
-		PhysicDesc.Collidable = false;
-		PhysicDesc.Density = 1;
-		PhysicDesc.SizeX = 0.5;
-		PhysicDesc.SizeY = 5;
-
-		toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-													4, id, pinfo.model, PhysicDesc));
-	}
-
 	// player inventory
 	{
 	GuiParamsSeq seq;
@@ -449,9 +415,9 @@ void MapHandler::PlayerEntered(Ice::Long id, EventsSeq &tosendevts)
 
 
 
-
 	IceUtil::ThreadPtr t = new EventsSender(toplayer, GetProxy(id));
 	t->start();	
+
 
 
 	// then inform all players that player entered
@@ -543,4 +509,59 @@ void MapHandler::PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMove
 	std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator endg = _guihandlers.end();
 	for(; itg != endg; ++itg)
 		itg->second->PlayerMoved(id, info.CurrentPos);
+}
+
+
+/***********************************************************
+refresh player objects
+***********************************************************/
+void MapHandler::RefreshPlayerObjects(Ice::Long id)
+{
+	// first give info to the player about current map state
+	EventsSeq toplayer;
+
+
+	//current objects in map
+	//TODO
+	{
+	ModelInfo		DisplayDesc;
+	DisplayDesc.RendererType = 0;
+	DisplayDesc.ModelName = "Worlds/Lba1Original/Grids/map0.osgb";
+
+	ObjectPhysicDesc	PhysicDesc;
+	PhysicDesc.Pos.X = 0;
+	PhysicDesc.Pos.Y = 0;
+	PhysicDesc.Pos.Z = 0;
+	PhysicDesc.Pos.Rotation = 0;
+	PhysicDesc.Type = 4;	
+	PhysicDesc.Collidable = true;
+	PhysicDesc.Filename = "Worlds/Lba1Original/Grids/map0.phy";
+
+	toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+												1, 1, DisplayDesc, PhysicDesc));
+	}
+
+	
+	// current players in map
+	//TODO - change size
+	for(size_t cc=0; cc<_currentplayers.size(); ++cc)
+	{
+		SavedWorldInfo pinfo = SharedDataHandler::getInstance()->GetInfo(_currentplayers[cc]);
+
+		ObjectPhysicDesc	PhysicDesc;
+		PhysicDesc.Pos = pinfo.ppos;
+		PhysicDesc.Type = 2;	
+		PhysicDesc.ShapeType = 2;
+		PhysicDesc.Collidable = false;
+		PhysicDesc.Density = 1;
+		PhysicDesc.SizeX = 0.5;
+		PhysicDesc.SizeY = 5;
+
+		toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+													4, id, pinfo.model, PhysicDesc));
+	}
+
+
+	IceUtil::ThreadPtr t = new EventsSender(toplayer, GetProxy(id));
+	t->start();	
 }
