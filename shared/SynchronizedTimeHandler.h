@@ -44,6 +44,9 @@ public:
 	//! get synchronized current time
 	static double GetCurrentTimeDouble();
 
+	//! get synchronized current time
+	static long GetCurrentTimeInt();
+
 	//! get current time in string format 
 	static std::string GetTimeString();
 };

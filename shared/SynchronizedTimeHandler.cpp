@@ -31,6 +31,12 @@ double SynchronizedTimeHandler::GetCurrentTimeDouble()
 	return (IceUtil::Time::now().toMilliSecondsDouble());
 }
 
+//! get synchronized current time
+long SynchronizedTimeHandler::GetCurrentTimeInt()
+{
+	return (long)(IceUtil::Time::now().toMilliSeconds());
+}
+
 
 //! get current time in string format 
 std::string SynchronizedTimeHandler::GetTimeString()

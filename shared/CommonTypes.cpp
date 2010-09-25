@@ -54,16 +54,17 @@ add rotation to quaternion
 ***********************************************************/
 void LbaQuaternion::AddRotation(float angle, LbaVec3 vec)
 {
-	NxQuat q(angle, NxVec3(vec.x, vec.y, vec.z));
-	NxQuat current;
-	current.setXYZW(X, Y, Z, W);
+	float todo = GetRotationSingleAngle(vec) + angle;
+	if(todo < 0)
+		todo += 360;
+	if(todo > 360)
+		todo -= 360;
 
-	current = q * current;
-
-	X = current.x;
-	Y = current.y;
-	Z = current.z;
-	W = current.w;
+	NxQuat q(todo, NxVec3(vec.x, vec.y, vec.z));
+	X = q.x;
+	Y = q.y;
+	Z = q.z;
+	W = q.w;
 }
 
 
@@ -85,9 +86,13 @@ LbaVec3 LbaQuaternion::GetDirection(const LbaVec3 &vec)
 /***********************************************************
 get object rotation on a single angle
 ***********************************************************/
-float LbaQuaternion::GetRotationSingleAngle()
+float LbaQuaternion::GetRotationSingleAngle(const LbaVec3 &vec)
 {
 	NxQuat current;
 	current.setXYZW(X, Y, Z, W);
-	return current.getAngle();
+	NxVec3 nvec(vec.x, vec.y, vec.z);
+
+	float Yangle;
+	current.getAngleAxis(Yangle, nvec);
+	return Yangle;
 }

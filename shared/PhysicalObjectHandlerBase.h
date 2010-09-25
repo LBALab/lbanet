@@ -57,7 +57,7 @@ public:
 	virtual void GetRotation(LbaQuaternion &Q) = 0;
 
 	//! get object rotation on a single angle
-	virtual float GetRotationSingleAngle() = 0;
+	virtual float GetRotationYAxis() = 0;
 
 	//! set object position in the world
 	virtual void SetPosition(float X, float Y, float Z) = 0;
@@ -126,9 +126,9 @@ public:
 	}
 
 	//! get object rotation on a single angle
-	float GetRotationSingleAngle()
+	float GetRotationYAxis()
 	{
-		return _Q.GetRotationSingleAngle();
+		return _Q.GetRotationSingleAngle(LbaVec3(0,1,0));
 	}
 
 	//! set object rotation on all axis
@@ -218,9 +218,9 @@ public:
 	}
 
 	//! get object rotation on a single angle
-	virtual float GetRotationSingleAngle()
+	virtual float GetRotationYAxis()
 	{
-		return _rotH.GetRotationSingleAngle();
+		return _rotH.GetRotationYAxis();
 	}
 
 	//! set object rotation on all axis

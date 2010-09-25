@@ -65,18 +65,18 @@ public:
 		: X(x), Y(y), Z(z), W(w){}
 
 
-	//!constructor with angle in degree and axis vec
+	//!constructor with angle in degree and axis vec - degree
 	LbaQuaternion(float angle, LbaVec3 vec);
 
 
-	//! add rotation to quaternion
+	//! add rotation to quaternion - degree
 	void AddRotation(float angle, LbaVec3 vec);
 
 	//! get direction vector
 	LbaVec3 GetDirection(const LbaVec3 &vec);
 
-	//! get object rotation on a single angle
-	float GetRotationSingleAngle();
+	//! get object rotation on a single angle - degree
+	float GetRotationSingleAngle(const LbaVec3 &vec);
 
 	float X;
 	float Y;
