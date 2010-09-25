@@ -140,8 +140,13 @@ module LbaNet
 	{
 		string			MapName;
 		string			InitializationScript;
-	};	
+	};
 	
+	
+	// client ask server to get a refresh of all object on the maps
+	class RefreshObjectRequestEvent extends ClientServerEventBase
+	{
+	};	
 
 };	
 
