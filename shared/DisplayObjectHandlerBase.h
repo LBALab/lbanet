@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define _LBANET_DISPLAY_OBJECT_HANDLER_BASE_H_
 
 #include "CommonTypes.h"
+#include <LbaTypes.h>
 
 //*************************************************************************************************
 //*                               class DisplayObjectHandlerBase
@@ -54,6 +55,28 @@ public:
 
 	//! show or hide the object
 	virtual void ShowOrHide(bool Show) = 0;
+
+	//! update display with current frame - used for animation
+	virtual void Process(double time, float tdiff) = 0;
+
+	//! update display
+	virtual void Update(LbaNet::DisplayObjectUpdateBasePtr update) = 0;
+
+	//! only for animated model
+	// get current animation Id
+	virtual int GetCurrentAnimation() {return 0;}
+
+	//! only for animated model
+	// get current associated speed
+	virtual float GetCurrentAssociatedSpeedX() {return 0;}
+
+	//! only for animated model
+	// get current associated speed
+	virtual float GetCurrentAssociatedSpeedY() {return 0;}
+
+	//! only for animated model
+	// get current associated speed
+	virtual float GetCurrentAssociatedSpeedZ() {return 0;}
 };
 
 
