@@ -96,24 +96,7 @@ module LbaNet
 	};
 	
 	
-	// server tell client to update object
-	class UpdateObjectDisplayEvent extends ClientServerEventBase
-	{
-		int			Type;
-		long			ObjectId;
-		ModelInfo		DisplayDesc;
-	};
-	
-	
-	// server tell client to update object
-	class UpdateObjectPhysicEvent extends ClientServerEventBase
-	{
-		int			Type;
-		long			ObjectId;
-		ObjectPhysicDesc	PhysicDesc;
-	};
-	
-	
+
 	// client tell server that he pressed action key
 	class PressedActionKeyEvent extends ClientServerEventBase
 	{
@@ -146,6 +129,20 @@ module LbaNet
 	// client ask server to get a refresh of all object on the maps
 	class RefreshObjectRequestEvent extends ClientServerEventBase
 	{
+	};
+	
+	// server tell client that map is fully refreshed
+	class RefreshEndEvent extends ClientServerEventBase
+	{
+	};
+	
+	
+	// server tell client to update the display of 1 object
+	class UpdateDisplayObjectEvent extends ClientServerEventBase
+	{
+		int				Type;
+		long				ObjectId;
+		DisplayObjectUpdateBase		Update;
 	};	
 
 };	

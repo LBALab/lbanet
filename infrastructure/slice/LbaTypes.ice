@@ -612,7 +612,31 @@ module LbaNet
 		string 			Name;
 		string 			Color;
 	};
-	 
+	
+	
+	
+	// base class used to exchange updates between client and server concerning object to display on screen
+	class DisplayObjectUpdateBase
+	{
+	};
+	
+	// update the model of on object
+	class ModelUpdate extends DisplayObjectUpdateBase
+	{
+		ModelInfo		Info;
+	};
+	
+	// update the object animation using animation string
+	class AnimationStringUpdate extends DisplayObjectUpdateBase
+	{
+		string			Animation;
+	};
+	
+	// update the object animation using animation id	
+	class AnimationIdUpdate extends DisplayObjectUpdateBase
+	{
+		int			AnimationId;
+	};	
 };	
 
 #endif
