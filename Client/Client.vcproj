@@ -40,6 +40,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/D  _CRT_SECURE_NO_WARNINGS"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\dependencies\OSG\include;..\dependencies\CEGUI\cegui\include;..\dependencies\3rdParty\include;..\dependencies\libconfig\include;..\shared;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Foundation/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Physics/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Cooking/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/PhysXLoader/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/NxCharacter/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot;;..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\dependencies\fmod\include;..\dependencies\CrashReport\crashrpt\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
@@ -115,6 +116,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/D  _CRT_SECURE_NO_WARNINGS"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="..\dependencies\OSG\include;..\dependencies\CEGUI\cegui\include;..\dependencies\3rdParty\include;..\dependencies\libconfig\include;..\shared;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Foundation/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Physics/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Cooking/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/PhysXLoader/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/NxCharacter/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot;;..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\dependencies\fmod\include;..\dependencies\CrashReport\crashrpt\include"
@@ -179,6 +181,10 @@
 			>
 			<File
 				RelativePath=".\ActorUserData.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\AnimatedObjectHandlerBase.cpp"
 				>
 			</File>
 			<File
@@ -254,6 +260,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\shared\Entities.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\shared\EventsQueue.cpp"
 				>
 			</File>
@@ -274,6 +284,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\shared\HQRHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\shared\HQRlib.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ImageSetHandler.cpp"
 				>
 			</File>
@@ -287,6 +305,14 @@
 			</File>
 			<File
 				RelativePath=".\JournalBox.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\LBA1ModelClass.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Lba1ModelHandler.cpp"
 				>
 			</File>
 			<File
@@ -390,6 +416,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\shared\StreamReader.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\shared\SynchronizedTimeHandler.cpp"
 				>
 			</File>
@@ -417,6 +447,10 @@
 			>
 			<File
 				RelativePath=".\ActorUserData.h"
+				>
+			</File>
+			<File
+				RelativePath=".\AnimatedObjectHandlerBase.h"
 				>
 			</File>
 			<File
@@ -500,6 +534,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\shared\Entities.h"
+				>
+			</File>
+			<File
 				RelativePath="..\shared\EventsQueue.h"
 				>
 			</File>
@@ -528,6 +566,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\shared\HQRHandler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\shared\HQRlib.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ImageSetHandler.h"
 				>
 			</File>
@@ -541,6 +587,14 @@
 			</File>
 			<File
 				RelativePath=".\JournalBox.h"
+				>
+			</File>
+			<File
+				RelativePath=".\LBA1ModelClass.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Lba1ModelHandler.h"
 				>
 			</File>
 			<File
@@ -653,6 +707,10 @@
 			</File>
 			<File
 				RelativePath=".\Stream.h"
+				>
+			</File>
+			<File
+				RelativePath="..\shared\StreamReader.h"
 				>
 			</File>
 			<File

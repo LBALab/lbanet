@@ -33,8 +33,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	Constructor
 ***********************************************************/
 ExternalPlayer::ExternalPlayer(boost::shared_ptr<DynamicObject> obje)
-: _last_update(0), _obje(obje)
+: _last_update(0), _obje(obje), _shouldupdate(false)
 {
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _obje->GetPhysicalObject();
+	float X, Y, Z;
+	physo->GetPosition(X, Y, Z);
+
+	_velocityX=0;
+	_velocityY=0;
+	_velocityZ=0;
+	_velocityR=0;
+	_dr.Set(X, Y, Z, physo->GetRotationYAxis(), 0, 0, 0, 0);
 }
 
 /***********************************************************
@@ -55,6 +64,8 @@ void ExternalPlayer::UpdateMove(double updatetime, const LbaNet::PlayerMoveInfo 
 		// update imediatly modifiable states
 		_last_update = updatetime;
 
+		_shouldupdate = true;
+
 		boost::shared_ptr<PhysicalObjectHandlerBase> physo = _obje->GetPhysicalObject();
 
 
@@ -63,18 +74,28 @@ void ExternalPlayer::UpdateMove(double updatetime, const LbaNet::PlayerMoveInfo 
 		_velocityZ = info.CurrentSpeedZ;
 		_velocityR = info.CurrentSpeedRotation;
 
-		if(_velocityX == 0 && _velocityY == 0 && _velocityZ == 0)
-			physo->MoveTo(info.CurrentPos.X,  info.CurrentPos.Y, info.CurrentPos.Z);
 
-		if(_velocityR == 0)
+		bool finishedmove = false;
+		if(abs(_velocityX) < 0.000001f && abs(_velocityY) < 0.000001f && abs(_velocityZ) < 0.000001f)
+		{
+			finishedmove = true;
+			physo->MoveTo(info.CurrentPos.X,  info.CurrentPos.Y, info.CurrentPos.Z);
+		}
+
+		if(abs(_velocityR) < 0.001f)
 		{
 			LbaQuaternion Q(info.CurrentPos.Rotation, LbaVec3(0,1,0));
 			physo->RotateTo(Q);
+
+			// do not need to update if no rotation and no rotation
+			if(finishedmove)
+			{
+				_shouldupdate = false;
+			}
 		}
 
 		// update dead reckon for the rest
-		_dr.Set(updatetime,
-					info.CurrentPos.X,  info.CurrentPos.Y, info.CurrentPos.Z, info.CurrentPos.Rotation,
+		_dr.Set(info.CurrentPos.X,  info.CurrentPos.Y, info.CurrentPos.Z, info.CurrentPos.Rotation,
 					info.CurrentSpeedX, info.CurrentSpeedY, info.CurrentSpeedZ, info.CurrentSpeedRotation);
 	}
 }
@@ -86,65 +107,67 @@ do all check to be done when idle
 ***********************************************************/
 void ExternalPlayer::Process(double tnow, float tdiff)
 {
-	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _obje->GetPhysicalObject();
-
-	// calculate prediction
-	float predicted_posX, predicted_posY, predicted_posZ;
-	physo->GetPosition(predicted_posX, predicted_posY, predicted_posZ);
-	predicted_posX += (_velocityX*tdiff);
-	predicted_posY += (_velocityY*tdiff);
-	predicted_posZ += (_velocityZ*tdiff);
-
-
-	float predicted_rotation = physo->GetRotationYAxis() + (_velocityR*tdiff);
-
-	// calculate dead reckon
-	_dr.Update(tnow);
-
-
-	//// do interpolation X
+	if(_shouldupdate)
 	{
-		float diffX = (_dr._predicted_posX - predicted_posX);
-		if(fabs(diffX) > 8)
-			predicted_posX = _dr._predicted_posX;
-		else
-			predicted_posX += diffX / 40;
+		boost::shared_ptr<PhysicalObjectHandlerBase> physo = _obje->GetPhysicalObject();
+
+		// calculate prediction
+		float predicted_posX, predicted_posY, predicted_posZ;
+		physo->GetPosition(predicted_posX, predicted_posY, predicted_posZ);
+		predicted_posX += (_velocityX*tdiff);
+		predicted_posY += (_velocityY*tdiff);
+		predicted_posZ += (_velocityZ*tdiff);
+
+
+		float predicted_rotation = physo->GetRotationYAxis() + (_velocityR*tdiff);
+
+		// calculate dead reckon
+		_dr.Update(tnow, tdiff);
+
+
+		//// do interpolation X
+		{
+			float diffX = (_dr._predicted_posX - predicted_posX);
+			if(fabs(diffX) > 8)
+				predicted_posX = _dr._predicted_posX;
+			else
+				predicted_posX += diffX / 40;
+		}
+
+
+		//// do interpolation Y
+		{
+			float diffY = (_dr._predicted_posY - predicted_posY);
+			if(fabs(diffY) > 8)
+				predicted_posY = _dr._predicted_posY;
+			else
+				predicted_posY += diffY / 40;
+		}
+
+
+		//// do interpolation Z
+		{
+			float diffZ = (_dr._predicted_posZ - predicted_posZ);
+			if(fabs(diffZ) > 8)
+				predicted_posZ = _dr._predicted_posZ;
+			else
+				predicted_posZ += diffZ / 40;
+		}
+
+
+		//// do interpolation rotation
+		{
+			float diffR = (_dr._predicted_rotation - predicted_rotation);
+			if(fabs(diffR) > 20)
+				predicted_rotation = _dr._predicted_rotation;
+			else
+				predicted_rotation += diffR / 5;
+		}
+
+		physo->MoveTo(predicted_posX,  predicted_posY, predicted_posZ);
+		LbaQuaternion Q(predicted_rotation, LbaVec3(0,1,0));
+		physo->RotateTo(Q);
 	}
 
-
-	//// do interpolation Y
-	{
-		float diffY = (_dr._predicted_posY - predicted_posY);
-		if(fabs(diffY) > 8)
-			predicted_posY = _dr._predicted_posY;
-		else
-			predicted_posY += diffY / 40;
-	}
-
-
-	//// do interpolation Z
-	{
-		float diffZ = (_dr._predicted_posZ - predicted_posZ);
-		if(fabs(diffZ) > 8)
-			predicted_posZ = _dr._predicted_posZ;
-		else
-			predicted_posZ += diffZ / 40;
-	}
-
-
-	//// do interpolation rotation
-	{
-		float diffR = (_dr._predicted_rotation - predicted_rotation);
-		if(fabs(diffR) > 10)
-			predicted_rotation = _dr._predicted_rotation;
-		else
-			predicted_rotation += diffR / 5;
-	}
-
-
-	physo->MoveTo(predicted_posX,  predicted_posY, predicted_posZ);
-	LbaQuaternion Q(predicted_rotation, LbaVec3(0,1,0));
-	physo->RotateTo(Q);
-
-	_obje->Process();
+	_obje->Process(tnow, tdiff);
 }

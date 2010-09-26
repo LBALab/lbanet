@@ -76,7 +76,7 @@ public:
 	void Pause();
 
 	//! resume the game
-	void Resume(bool reinit);
+	void Resume();
 
 	//! add object from server
 	//! type:
@@ -97,13 +97,10 @@ public:
 	// 4 -> player object
 	// 5 -> ghost object
 	void RemoveObject(int Type, Ice::Long ObjectId);
-	
-	//! update object from server
-	void UpdateObjectDisplay(int Type, Ice::Long ObjectId, const LbaNet::ModelInfo &DisplayDesc);
-	
-	//! update object from server
-	void UpdateObjectPhysic(int Type, Ice::Long ObjectId, const LbaNet::ObjectPhysicDesc &PhysicDesc);
 
+	//! update object display
+	void UpdateObjectDisplay(int Type, Ice::Long ObjectId, 
+									  LbaNet::DisplayObjectUpdateBasePtr update);
 
 	//! key pressed
 	void KeyPressed(LbanetKey keyid);
@@ -119,6 +116,10 @@ public:
 
 	//! called when we enter a new map
 	void NewMap(const std::string & NewMap, const std::string & Script);
+
+
+	//! map is fully refreshed
+	void RefreshEnd();
 
 protected:
 
@@ -179,7 +180,6 @@ private:
 
 	// player object
 	long												m_playerObjectId;
-	boost::shared_ptr<DynamicObject>					m_playerObject;
 
 
 	std::string											m_current_map_name;

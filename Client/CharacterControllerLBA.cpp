@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "PhysicalObjectHandlerBase.h"
 #include "EventsQueue.h"
 #include "SynchronizedTimeHandler.h"
+#include "DynamicObject.h"
 
 #include <iostream>
 #include <math.h>
@@ -62,17 +63,17 @@ CharacterController::~CharacterController()
 /***********************************************************
 	Set character to control
 ***********************************************************/
-void CharacterController::SetPhysicalCharacter(boost::shared_ptr<PhysicalObjectHandlerBase> charac, bool AsGhost)
+void CharacterController::SetPhysicalCharacter(boost::shared_ptr<DynamicObject> charac, bool AsGhost)
 {
 	_character = charac;
 	_isGhost = AsGhost;
 
 	// update last position
-	_character->GetPosition(_lastupdate.CurrentPos.X, 
+	_character->GetPhysicalObject()->GetPosition(_lastupdate.CurrentPos.X, 
 							_lastupdate.CurrentPos.Y, 
 							_lastupdate.CurrentPos.Z);
 
-	_lastupdate.CurrentPos.Rotation = _character->GetRotationYAxis();
+	_lastupdate.CurrentPos.Rotation = _character->GetPhysicalObject()->GetRotationYAxis();
 }
 
 
@@ -174,6 +175,8 @@ process function
 ***********************************************************/
 void CharacterController::Process(double tnow, float tdiff)
 {
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+
 	if(_isGhost)
 	{
 		float speedX = 0.0f;
@@ -197,14 +200,14 @@ void CharacterController::Process(double tnow, float tdiff)
 		else if(_keydown)
 			speedY = -0.01f;
 
-		_character->Move(speedX*tdiff, speedY*tdiff, speedZ*tdiff, false);
+		physo->Move(speedX*tdiff, speedY*tdiff, speedZ*tdiff, false);
 	}
 	else
 	{
 		if(_keyleft)
-			_character->RotateYAxis(0.15f*tdiff);
+			physo->RotateYAxis(0.15f*tdiff);
 		else if(_keyright)
-			_character->RotateYAxis(-0.15f*tdiff);
+			physo->RotateYAxis(-0.15f*tdiff);
 
 		float speed = 0;
 		if(_keyforward)
@@ -213,11 +216,13 @@ void CharacterController::Process(double tnow, float tdiff)
 			speed = -0.01f;
 
 		LbaQuaternion Q;
-		_character->GetRotation(Q);
+		physo->GetRotation(Q);
 		LbaVec3 current_direction(Q.GetDirection(LbaVec3(0, 0, 1)));
-		 _character->Move(current_direction.x*speed*tdiff, -0.1f*tdiff, current_direction.z*speed*tdiff);
+		 physo->Move(current_direction.x*speed*tdiff, -0.1f*tdiff, current_direction.z*speed*tdiff);
 	}
 
+	//update display
+	_character->Process(tnow, tdiff);
 
 	// update server if needed
 	UpdateServer(tnow, tdiff);
@@ -237,13 +242,15 @@ void CharacterController::UpdateServer(double tnow, float tdiff)
 		return;
 	}
 
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+
 	// get current position
-	_character->GetPosition(_currentupdate.CurrentPos.X, 
+	physo->GetPosition(_currentupdate.CurrentPos.X, 
 							_currentupdate.CurrentPos.Y, 
 							_currentupdate.CurrentPos.Z);
 
 	// get current rotation
-	_currentupdate.CurrentPos.Rotation = _character->GetRotationYAxis();
+	_currentupdate.CurrentPos.Rotation = physo->GetRotationYAxis();
 
 
 	// set speed
@@ -266,7 +273,8 @@ void CharacterController::UpdateServer(double tnow, float tdiff)
 	_oldtdiff = tdiff;
 
 
-	// TODO - set animation
+	// set animation
+	_currentupdate.AnimationIdx = _character->GetDisplayObject()->GetCurrentAnimation();
 
 
 
@@ -305,13 +313,13 @@ bool CharacterController::ShouldforceUpdate()
 
 
 
-	if(abs(_lastupdate.CurrentSpeedX - _currentupdate.CurrentSpeedX) > 0.001f)
+	if(abs(_lastupdate.CurrentSpeedX - _currentupdate.CurrentSpeedX) > 0.00001f)
 		return true;
 
-	if(abs(_lastupdate.CurrentSpeedY - _currentupdate.CurrentSpeedY) > 0.001f)
+	if(abs(_lastupdate.CurrentSpeedY - _currentupdate.CurrentSpeedY) > 0.00001f)
 		return true;
 
-	if(abs(_lastupdate.CurrentSpeedZ - _currentupdate.CurrentSpeedZ) > 0.001f)
+	if(abs(_lastupdate.CurrentSpeedZ - _currentupdate.CurrentSpeedZ) > 0.00001f)
 		return true;
 
 	if(abs(_lastupdate.CurrentSpeedRotation - _currentupdate.CurrentSpeedRotation) > 0.1f)
@@ -332,4 +340,16 @@ bool CharacterController::ShouldforceUpdate()
 
 
 	return false;
+}
+
+
+/***********************************************************
+update player display
+***********************************************************/
+void CharacterController::UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr update)
+{
+	//TODO get the stance and mode information
+
+
+	_character->GetDisplayObject()->Update(update);
 }

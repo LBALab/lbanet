@@ -43,14 +43,20 @@ namespace osg
 class OsgObjectHandler : public DisplayObjectHandlerBase
 {
 public:
+	//! default constructor
+	OsgObjectHandler();
+
 	//! constructor
 	OsgObjectHandler(osg::ref_ptr<osg::MatrixTransform> OsgObject);
 
 	//! destructor
-	~OsgObjectHandler();
+	virtual ~OsgObjectHandler();
+
+	//! set object
+	void SetObject(osg::ref_ptr<osg::MatrixTransform> OsgObject);
 
 
-	//! set object position in the world
+	//!set object position in the world
 	virtual void SetPosition(float X, float Y, float Z);
 
 	//! set object rotation on X axis
@@ -59,11 +65,19 @@ public:
 	//! show or hide the object
 	virtual void ShowOrHide(bool Show);
 
+
+	//! update display with current frame - used for animation
+	virtual void Process(double time, float tdiff);
+
+	//! update display
+	virtual void Update(LbaNet::DisplayObjectUpdateBasePtr update);
+
+
 protected:
 	// update matrix
 	void UpdateMatrix();
 
-private:
+protected:
 	osg::ref_ptr<osg::MatrixTransform>	_OsgObject;
 	float								_posX;
 	float								_posY; 

@@ -22,142 +22,113 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------------------------------------------------------------------
 */
 
-#include "OsgObjectHandler.h"
-#include "ObjectsDescription.h"
-#include "OSGHandler.h"
-#include "LogHandler.h"
-
-#include <osg/Geode>
-#include <osg/Geometry>
-#include <osg/Shape>
-#include <osg/ShapeDrawable>
-#include <osg/MatrixTransform>
-#include <osg/PositionAttitudeTransform>
-
-
-
-/***********************************************************
-default constructor
-***********************************************************/
-OsgObjectHandler::OsgObjectHandler()
-:  _posX(0), _posY(0), _posZ(0), _displayed(true)
-{
-}
+#include "Lba1ModelHandler.h"
+#include "LBA1ModelClass.h"
 
 
 /***********************************************************
 Constructor
 ***********************************************************/
-OsgObjectHandler::OsgObjectHandler(osg::ref_ptr<osg::MatrixTransform> OsgObject)
-: _OsgObject(OsgObject), _posX(0), _posY(0), _posZ(0), _displayed(true)
+Lba1ModelHandler::Lba1ModelHandler(const LbaNet::ModelInfo & info, float animationspeed)
+: _model(NULL), _animationspeed(animationspeed)
 {
-	#ifdef _DEBUG
-		LogHandler::getInstance()->LogToFile("Created new Osg object.");
-	#endif
-
-	UpdateMatrix();
+	UpdateModel(info);
 }
 
 /***********************************************************
 destructor
 ***********************************************************/
-OsgObjectHandler::~OsgObjectHandler()
+Lba1ModelHandler::~Lba1ModelHandler()
 {
-	#ifdef _DEBUG
-		LogHandler::getInstance()->LogToFile("Destroyed Osg object.");
-	#endif
-
-	if(_displayed && _OsgObject)
-		OsgHandler::getInstance()->RemoveActorNode(_OsgObject);
 }
-
-
-/***********************************************************
-set object
-***********************************************************/
-void OsgObjectHandler::SetObject(osg::ref_ptr<osg::MatrixTransform> OsgObject)
-{
-	#ifdef _DEBUG
-		LogHandler::getInstance()->LogToFile("Added new Osg object.");
-	#endif
-
-	_OsgObject = OsgObject;
-	UpdateMatrix();
-}
-
-
-/***********************************************************
-set object position in the world
-***********************************************************/
-void OsgObjectHandler::SetPosition(float X, float Y, float Z)
-{
-	_posX = X;
-	_posY = Y; 
-	_posZ = Z;
-	UpdateMatrix();
-}
-
-/***********************************************************
-set object rotation on X axis
-***********************************************************/
-void OsgObjectHandler::SetRotation(const LbaQuaternion& Q)
-{
-	_Q = Q;
-	UpdateMatrix();
-}
-
-/***********************************************************
-update matrix
-***********************************************************/
-void OsgObjectHandler::UpdateMatrix()
-{
-	if(_OsgObject)
-	{
-		osg::Matrixd Trans;
-		osg::Matrixd Rotation;
-
-		Trans.makeTranslate(_posX, _posY, _posZ);
-		Rotation.makeRotate(osg::Quat(_Q.X, _Q.Y, _Q.Z, _Q.W));
-
-		_OsgObject->setMatrix(Rotation * Trans);
-	}
-}
-
-
-/***********************************************************
-show or hide the object
-***********************************************************/
-void OsgObjectHandler::ShowOrHide(bool Show)
-{
-	if(_OsgObject)
-	{
-		if(!Show && _displayed)
-		{
-			_displayed = false;
-			OsgHandler::getInstance()->RemoveActorNode(_OsgObject);
-		}
-
-		if(Show && !_displayed)
-		{
-			_displayed = true;
-			OsgHandler::getInstance()->ReAddActorNode(_OsgObject);
-		}
-	}
-}
-
 
 /***********************************************************
 update display with current frame - used for animation
 ***********************************************************/
-void OsgObjectHandler::Process(double time, float tdiff)
+void Lba1ModelHandler::Process(double time, float tdiff)
 {
 
 }
 
 /***********************************************************
-update display
+get current animation Id
 ***********************************************************/
-void OsgObjectHandler::Update(LbaNet::DisplayObjectUpdateBasePtr update)
+int Lba1ModelHandler::GetCurrentAnimation()
+{
+	if(_model)
+		return _model->GetCurrentSpeedX();
+
+	return 0;
+}
+
+/***********************************************************
+get current associated speed
+***********************************************************/
+float Lba1ModelHandler::GetCurrentAssociatedSpeedX()
+{
+	if(_model)
+		return _model->GetCurrentSpeedX();
+
+	return 0;
+}
+
+/***********************************************************
+get current associated speed
+***********************************************************/
+float Lba1ModelHandler::GetCurrentAssociatedSpeedY()
+{
+	if(_model)
+		return _model->GetCurrentSpeedY();
+
+	return 0;
+}
+
+
+/***********************************************************
+get current associated speed
+***********************************************************/
+float Lba1ModelHandler::GetCurrentAssociatedSpeedZ()
+{
+	if(_model)
+		return _model->GetCurrentSpeedZ();
+
+	return 0;
+}
+
+/***********************************************************
+update model
+***********************************************************/
+void Lba1ModelHandler::UpdateModel(const LbaNet::ModelInfo & info)
+{
+	if(_model)
+		delete _model;
+
+	//_model = new LBA1ModelClass(_estruct, "BODY.HQR", "ANIM.HQR", _currmodel,
+	//									_estruct->entitiesTable[_currmodel].bodyList[_currbody].body);
+
+
+
+	//_model->SetAnimationSpeedFactor(_animationspeed);
+
+	//_model->LoadAnim(_estruct,
+	//	_estruct->entitiesTable[_currmodel].animList[_curranim].index);
+
+	//osg::ref_ptr<osg::Node> node = _model->ExportOSGModel();
+}
+
+
+/***********************************************************
+update animation
+***********************************************************/
+void Lba1ModelHandler::UpdateAnimation(const std::string & AnimString)
+{
+
+}
+
+/***********************************************************
+update animation
+***********************************************************/
+void Lba1ModelHandler::UpdateAnimation(int AnimIdx)
 {
 
 }

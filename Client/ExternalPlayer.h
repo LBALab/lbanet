@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <boost/shared_ptr.hpp>
 #include <map>
 #include <ClientServerEvents.h>
+#include <fstream>
 
 #include "DynamicObject.h"
 
@@ -54,16 +55,22 @@ public:
 	float			_predicted_rotation;
 
 	// set reckon value
-	void Set(const double & time, float posX, float posY, float posZ,
+	void Set(float posX, float posY, float posZ,
 				float rotation, float velocityX, float velocityY,
 				float velocityZ, float velocityR)
 	{
-		_time = time;
-
+		// keep last update
 		_posX = posX;
 		_posY = posY;
 		_posZ = posZ;
 		_rotation = rotation;
+
+
+		_predicted_posX = posX;
+		_predicted_posY = posY;
+		_predicted_posZ = posZ;
+		_predicted_rotation = rotation;
+
 
 		_velocityX = velocityX;
 		_velocityY = velocityY;
@@ -73,19 +80,17 @@ public:
 
 
 	// calculate reackon prediction on each tick
-	void Update(const double & currtime)
+	void Update(double tnow, float tdiff)
 	{
-		float tdiff = (float)(currtime - _time);
+		_predicted_posX += (_velocityX*tdiff);
+		_predicted_posY += (_velocityY*tdiff);
+		_predicted_posZ += (_velocityZ*tdiff);
+		_predicted_rotation += (_velocityR*tdiff);
 
-		_predicted_posX = _posX + (_velocityX*tdiff);
-		_predicted_posY = _posY + (_velocityY*tdiff);
-		_predicted_posZ = _posZ + (_velocityZ*tdiff);
-		_predicted_rotation = _rotation + (_velocityR*tdiff);
-
-		if(_predicted_rotation > 360)
-			_predicted_rotation = _predicted_rotation - 360;
-		if(_predicted_rotation < 0)
-			_predicted_rotation = 360 + _predicted_rotation;
+		while(_predicted_rotation > 360)
+			_predicted_rotation -= 360;
+		while(_predicted_rotation < 0)
+			_predicted_rotation += 360;
 	}
 
 };
@@ -112,6 +117,15 @@ public:
 	void UpdateMove(double updatetime, const LbaNet::PlayerMoveInfo &info);
 
 
+	//! get physic object
+	boost::shared_ptr<PhysicalObjectHandlerBase> GetPhysicalObject()
+	{ return _obje->GetPhysicalObject();}
+
+	//! get display object
+	boost::shared_ptr<DisplayObjectHandlerBase> GetDisplayObject()
+	{ return _obje->GetDisplayObject();}
+
+
 private:
 	double									_last_update;
 
@@ -123,6 +137,7 @@ private:
 	float 									_velocityR;
 
 	ExternalReckon							_dr;
+	bool									_shouldupdate;
 };
 
 

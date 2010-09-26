@@ -50,7 +50,7 @@ public:
    virtual ~DynamicObject(){}
 
 	//! process function - will be called at each frame
-	virtual void Process(void) = 0;
+	virtual void Process(double time, float tdiff) = 0;
 
 
 	//! get physical object

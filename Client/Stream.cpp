@@ -4,7 +4,6 @@
 //
 //						    Written by Bob Schade, 5-1-06
 // ===============================================================================
-#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include "NxPhysics.h"
 #include "Stream.h"

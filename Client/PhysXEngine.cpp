@@ -286,7 +286,7 @@ void PhysXEngine::Init(float gravity)
 
 
 	//float TimeStep = 1.0f / 60.0f;
-	gScene->setTiming(0.017f);
+	gScene->setTiming(0.017f/*, 8, NX_TIMESTEP_VARIABLE*/);
 
 	//gScene->setGroupCollisionFlag(GROUP_COLLIDABLE_PUSHABLE, GROUP_NON_COLLIDABLE, false);
 

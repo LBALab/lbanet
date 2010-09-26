@@ -22,57 +22,58 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------------------------------------------------------------------
 */
 
-#include "StaticObject.h"
-#include "LogHandler.h"
-
-#include <sstream>
+#include "AnimatedObjectHandlerBase.h"
 
 /***********************************************************
-constructor
+Constructor
 ***********************************************************/
-StaticObject::StaticObject(boost::shared_ptr<PhysicalObjectHandlerBase> phH,
-							boost::shared_ptr<DisplayObjectHandlerBase> disH,
-							long id)
-	: DynamicObject(phH, disH, id)
+AnimatedObjectHandlerBase::AnimatedObjectHandlerBase()
 {
-	#ifdef _DEBUG
-		std::stringstream strs;
-		strs<<"Created new StaticObject of id "<<id;
-		LogHandler::getInstance()->LogToFile(strs.str());   
-	#endif
-
-	if(_phH && _disH)
-	{
-		float posX, posY, posZ;
-		LbaQuaternion Q;
-
-		// get value from physic object
-		_phH->GetPosition(posX, posY, posZ);
-		_phH->GetRotation(Q);
-
-		// set it to display object
-		_disH->SetPosition(posX, posY, posZ);
-		_disH->SetRotation(Q);
-	}
 }
 
 /***********************************************************
 destructor
 ***********************************************************/
-StaticObject::~StaticObject()
+AnimatedObjectHandlerBase::~AnimatedObjectHandlerBase()
 {
-	#ifdef _DEBUG
-		std::stringstream strs;
-		strs<<"Destroyed new StaticObject of id "<<_id;
-		LogHandler::getInstance()->LogToFile(strs.str());   
-	#endif
 }
 
-
 /***********************************************************
-synchronization function - will typically be called on every frames
+update display
 ***********************************************************/
-void StaticObject::Process(double time, float tdiff)
+void AnimatedObjectHandlerBase::Update(LbaNet::DisplayObjectUpdateBasePtr update)
 {
-	_disH->Process(time, tdiff);
+	const std::type_info& info = typeid(*update);
+
+	// ModelUpdate
+	if(info == typeid(LbaNet::ModelUpdate))
+	{
+		LbaNet::ModelUpdate * castedptr = 
+			dynamic_cast<LbaNet::ModelUpdate *>(update.get());
+
+		UpdateModel(castedptr->Info);
+		return;
+	}
+
+	// AnimationStringUpdate
+	if(info == typeid(LbaNet::AnimationStringUpdate))
+	{
+		LbaNet::AnimationStringUpdate * castedptr = 
+			dynamic_cast<LbaNet::AnimationStringUpdate *>(update.get());
+
+		UpdateAnimation(castedptr->Animation);
+		return;
+	}
+
+	// AnimationIdUpdate
+	if(info == typeid(LbaNet::AnimationIdUpdate))
+	{
+		LbaNet::AnimationIdUpdate * castedptr = 
+			dynamic_cast<LbaNet::AnimationIdUpdate *>(update.get());
+
+		UpdateAnimation(castedptr->AnimationId);
+		return;
+	}
+
+	OsgObjectHandler::Update(update);
 }

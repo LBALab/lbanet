@@ -854,3 +854,4 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCapsuleObject(floa
 	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode);
 	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat));
 }
+

@@ -93,7 +93,7 @@ void LbaNetModel::Process(double tnow, float tdiff)
 	std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _serverObjects.begin();
 	std::map<long, boost::shared_ptr<DynamicObject> >::iterator end = _serverObjects.end();
 	for(; it != end; ++it)
-		it->second->Process();
+		it->second->Process(tnow, tdiff);
 	}
 
 	// process all _movableObjects
@@ -101,7 +101,7 @@ void LbaNetModel::Process(double tnow, float tdiff)
 	std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _movableObjects.begin();
 	std::map<long, boost::shared_ptr<DynamicObject> >::iterator end = _movableObjects.end();
 	for(; it != end; ++it)
-		it->second->Process();
+		it->second->Process(tnow, tdiff);
 	}
 
 	// process all _playerObjects
@@ -117,15 +117,13 @@ void LbaNetModel::Process(double tnow, float tdiff)
 	std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _ghostObjects.begin();
 	std::map<long, boost::shared_ptr<DynamicObject> >::iterator end = _ghostObjects.end();
 	for(; it != end; ++it)
-		it->second->Process();
+		it->second->Process(tnow, tdiff);
 	}
 
 
 	//process player object
 	if(m_controllerChar)
 		m_controllerChar->Process(tnow, tdiff);
-	if(m_playerObject)
-		m_playerObject->Process();
 
 	if(m_controllerCam)
 		m_controllerCam->Process();
@@ -178,12 +176,12 @@ void LbaNetModel::AddObject(int type, const ObjectInfo &desc)
 				ObjectInfo tmp(desc);
 				static_cast<PhysicalDescriptionWithShape *>(tmp.PhysInfo.get())->type = 4;
 
-				m_playerObject = tmp.BuildSelf(OsgHandler::getInstance());
+				boost::shared_ptr<DynamicObject> playerObject = tmp.BuildSelf(OsgHandler::getInstance());
 
 				if(m_controllerChar)
-					m_controllerChar->SetPhysicalCharacter(m_playerObject->GetPhysicalObject());
+					m_controllerChar->SetPhysicalCharacter(playerObject);
 				if(m_controllerCam)
-					m_controllerCam->SetCharacter(m_playerObject);
+					m_controllerCam->SetCharacter(playerObject);
 			}
 			else
 			{
@@ -301,7 +299,7 @@ void LbaNetModel::Pause()
 /***********************************************************
 resume the game
 ***********************************************************/
-void LbaNetModel::Resume(bool reinit)
+void LbaNetModel::Resume()
 {
 	m_paused = false;
 }
@@ -314,12 +312,12 @@ reset player object
 void LbaNetModel::ResetPlayerObject()
 {
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo(new SimplePhysicalObjectHandler(0, 0, 0, LbaQuaternion()));
-	m_playerObject = boost::shared_ptr<DynamicObject>(new StaticObject(physo, boost::shared_ptr<DisplayObjectHandlerBase>(), m_playerObjectId));
+	boost::shared_ptr<DynamicObject> playerObject = boost::shared_ptr<DynamicObject>(new StaticObject(physo, boost::shared_ptr<DisplayObjectHandlerBase>(), m_playerObjectId));
 
 	if(m_controllerChar)
-		m_controllerChar->SetPhysicalCharacter(m_playerObject->GetPhysicalObject(), true);
+		m_controllerChar->SetPhysicalCharacter(playerObject, true);
 	if(m_controllerCam)
-		m_controllerCam->SetCharacter(m_playerObject, true);
+		m_controllerCam->SetCharacter(playerObject, true);
 }
 
 
@@ -481,20 +479,63 @@ void LbaNetModel::RemoveObject(int Type, Ice::Long ObjectId)
 update object from server
 ***********************************************************/
 void LbaNetModel::UpdateObjectDisplay(int Type, Ice::Long ObjectId, 
-									  const LbaNet::ModelInfo &DisplayDesc)
+									  LbaNet::DisplayObjectUpdateBasePtr update)
 {
-	//TODO
+	switch(Type)
+	{
+		// 1 -> static object
+		case 1:
+			{
+			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _staticObjects.find((long)ObjectId);
+			if(it != _staticObjects.end())
+				it->second->GetDisplayObject()->Update(update);
+			}
+		break;
+
+		// 2 -> server controlled
+		case 2:
+			{
+			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _serverObjects.find((long)ObjectId);
+			if(it != _serverObjects.end())
+				it->second->GetDisplayObject()->Update(update);
+			}
+		break;
+
+		// 3 -> movable by player
+		case 3:
+			{
+			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _movableObjects.find((long)ObjectId);
+			if(it != _movableObjects.end())
+				it->second->GetDisplayObject()->Update(update);
+			}
+		break;
+
+		// 4 -> player object
+		case 4:
+			//special treatment if main player
+			if(m_playerObjectId == (long)ObjectId)
+			{
+				m_controllerChar->UpdateDisplay(update);
+			}
+			else
+			{
+				std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _playerObjects.find((long)ObjectId);
+				if(it != _playerObjects.end())
+					it->second->GetDisplayObject()->Update(update);
+			}
+		break;
+
+		// 5 -> ghost object
+		case 5:
+			{
+			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _ghostObjects.find((long)ObjectId);
+			if(it != _ghostObjects.end())
+				it->second->GetDisplayObject()->Update(update);
+			}
+		break;
+	}
 }
 
-
-/***********************************************************
- update object from server
-***********************************************************/
-void LbaNetModel::UpdateObjectPhysic(int Type, Ice::Long ObjectId, 
-									 const LbaNet::ObjectPhysicDesc &PhysicDesc)
-{
-	//TODO
-}
 
 
 /***********************************************************
@@ -535,6 +576,8 @@ called when we enter a new map
 ***********************************************************/
 void LbaNetModel::NewMap(const std::string & NewMap, const std::string & Script)
 {
+	Pause();
+
 	// clean old map
 	CleanupMap();
 
@@ -549,4 +592,13 @@ void LbaNetModel::NewMap(const std::string & NewMap, const std::string & Script)
 										SynchronizedTimeHandler::GetCurrentTimeDouble()));
 
 	
+}
+
+
+/***********************************************************
+map is fully refreshed
+***********************************************************/
+void LbaNetModel::RefreshEnd()
+{
+	Resume();
 }

@@ -26,17 +26,17 @@
 HINSTANCE globalInstance;
 #endif
 
-//#include "crashrpt.h"
-//#pragma comment(lib, "crashrpt.lib")
+#include "crashrpt.h"
+#pragma comment(lib, "crashrpt.lib")
 
 
-//BOOL WINAPI CrashCallback(LPVOID lpvState)
-//{
-//	LogHandler::getInstance()->CloseFile();
-//	AddFile(lpvState, LogHandler::getInstance()->GetFilename().c_str(), "Lbanet general log");
-//	//AddFile(lpvState, LogHandler::getInstance()->GetGUIFilename().c_str(), "GUI log");
-//	return TRUE;
-//}
+BOOL WINAPI CrashCallback(LPVOID lpvState)
+{
+	LogHandler::getInstance()->CloseFile();
+	AddFile(lpvState, LogHandler::getInstance()->GetFilename().c_str(), "Lbanet general log");
+	//AddFile(lpvState, LogHandler::getInstance()->GetGUIFilename().c_str(), "GUI log");
+	return TRUE;
+}
 
 
 
@@ -103,12 +103,12 @@ int main( int argc, char **argv )
 {
 #endif
 
-	//disable areo
+	// disable areo
 	DwmEnableComposition(DWM_EC_DISABLECOMPOSITION);
 
 
 	// init crash reporter
-	//LPVOID chandler = Install(CrashCallback, NULL, NULL);
+	LPVOID chandler = Install(CrashCallback, NULL, NULL);
 
 	try
 	{

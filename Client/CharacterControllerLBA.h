@@ -34,7 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <fstream>
 
 class PhysicalObjectHandlerBase;
-
+class DynamicObject;
 
 /***********************************************************************
  * Module:  CharacterController.h
@@ -52,7 +52,7 @@ public:
 	~CharacterController();
 
 	// set physcial character
-	void SetPhysicalCharacter(boost::shared_ptr<PhysicalObjectHandlerBase> charac, bool AsGhost=false);
+	void SetPhysicalCharacter(boost::shared_ptr<DynamicObject> charac, bool AsGhost=false);
 
 
 	//! key pressed
@@ -64,6 +64,8 @@ public:
 	//! process function
 	void Process(double tnow, float tdiff);
 
+	//! update player display
+	void UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr update);
 
 protected:
 
@@ -74,7 +76,7 @@ protected:
 	bool ShouldforceUpdate();
 
 private:
-	boost::shared_ptr<PhysicalObjectHandlerBase> _character;
+	boost::shared_ptr<DynamicObject>			_character;
 	bool										_isGhost;
 
 	bool										_keyforward;

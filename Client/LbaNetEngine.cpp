@@ -163,7 +163,6 @@ void LbaNetEngine::run(void)
 			PhysXEngine::getInstance()->GetPhysicsResults();
 
 
-			std::cout<<timetodiff<<std::endl;
 			// process stuff between frame
 			Process(timetodiff, tdiff);
 
@@ -178,7 +177,7 @@ void LbaNetEngine::run(void)
 			// mesure the time used to do one cycle
 			waittime = SynchronizedTimeHandler::GetCurrentTimeInt();
 			double tdouble = SynchronizedTimeHandler::GetCurrentTimeDouble();
-			float tdiff = (float)(tdouble-timetodiff);
+			tdiff = (float)(tdouble-timetodiff);
 			timetodiff = tdouble;
 
 			//start physic calculation
@@ -247,6 +246,7 @@ void LbaNetEngine::HandleGameEvents()
 				dynamic_cast<LbaNet::ClientIdEvent *>(&obj);
 
 			m_lbaNetModel->SetPlayerId((long)castedptr->Id);
+			continue;
 		}
 
 		
@@ -258,6 +258,7 @@ void LbaNetEngine::HandleGameEvents()
 				dynamic_cast<LbaNet::AvailableWorldsEvent *>(&obj);
 
 			m_gui_handler->SetWorldList(castedptr->Worlds);
+			continue;
 		}
 		
 		
@@ -270,6 +271,7 @@ void LbaNetEngine::HandleGameEvents()
 
 			m_gui_handler->RefreshGameGUI(castedptr->GUIId, castedptr->Parameters, 
 											castedptr->Show, castedptr->Hide);
+			continue;
 		}
 		
 
@@ -280,6 +282,7 @@ void LbaNetEngine::HandleGameEvents()
 				dynamic_cast<LbaNet::UpdateGameGUIEvent *>(&obj);
 
 			m_gui_handler->UpdateGameGUI(castedptr->GUIId, castedptr->Updates);
+			continue;
 		}
 
 
@@ -290,6 +293,7 @@ void LbaNetEngine::HandleGameEvents()
 				dynamic_cast<LoginEvent *>(&obj);
 
 			TryLogin(castedptr->_Name, castedptr->_Password, castedptr->_Local);
+			continue;
 		}
 
 
@@ -297,12 +301,14 @@ void LbaNetEngine::HandleGameEvents()
 		if(info == typeid(GuiExitEvent))
 		{
 			ExitGui();
+			continue;
 		}
 
 		// QuitGameEvent
 		if(info == typeid(QuitGameEvent))
 		{
 			m_shouldexit = true;
+			continue;
 		}
 
 
@@ -314,6 +320,7 @@ void LbaNetEngine::HandleGameEvents()
 
 			// update 
 			ChangeWorld(castedptr->_NewWorldName);
+			continue;
 		}
 
 
@@ -324,6 +331,7 @@ void LbaNetEngine::HandleGameEvents()
 				dynamic_cast<FocusChatEvent *>(&obj);
 
 			m_gui_handler->FocusGameGUI("ChatBox", castedptr->_focus);
+			continue;
 		}
 
 
@@ -334,6 +342,7 @@ void LbaNetEngine::HandleGameEvents()
 				dynamic_cast<DisplayGUIEvent *>(&obj);
 
 			DisplayGUI(castedptr->_GuiNumber);
+			continue;
 		}
 
 
@@ -341,6 +350,7 @@ void LbaNetEngine::HandleGameEvents()
 		if(info == typeid(NewFontSizeEvent))
 		{
 			m_gui_handler->ReloadFontSize();
+			continue;
 		}
 
 
@@ -353,6 +363,8 @@ void LbaNetEngine::HandleGameEvents()
 			// inform server
 			if(m_chatH)
 				m_chatH->ChangeNameColor(castedptr->_color);
+
+			continue;
 		}
 
 
@@ -365,6 +377,8 @@ void LbaNetEngine::HandleGameEvents()
 			// inform server
 			if(m_chatH)
 				m_chatH->SendChatText(castedptr->_text);
+
+			continue;
 		}
 
 
@@ -395,6 +409,8 @@ void LbaNetEngine::HandleGameEvents()
 				updseq.push_back(upd);
 				m_gui_handler->UpdateGameGUI("CommunityBox", updseq);
 			}
+
+			continue;
 		}
 
 
@@ -411,6 +427,8 @@ void LbaNetEngine::HandleGameEvents()
 			LbaNet::GuiUpdatesSeq upd;
 			upd.push_back(new ChatMapNameUpdate(castedptr->MapName));
 			m_gui_handler->UpdateGameGUI("ChatBox", upd);
+
+			continue;
 		}
 
 
@@ -422,6 +440,8 @@ void LbaNetEngine::HandleGameEvents()
 
 			m_lbaNetModel->AddObject(castedptr->Type, castedptr->ObjectId, 
 									castedptr->DisplayDesc, castedptr->PhysicDesc);
+
+			continue;
 		}
 
 		// RemoveObjectEvent
@@ -431,25 +451,21 @@ void LbaNetEngine::HandleGameEvents()
 				dynamic_cast<LbaNet::RemoveObjectEvent *>(&obj);
 
 			m_lbaNetModel->RemoveObject(castedptr->Type, castedptr->ObjectId);
+
+			continue;
 		}
 
 		// UpdateObjectDisplayEvent
-		if(info == typeid(LbaNet::UpdateObjectDisplayEvent))
+		if(info == typeid(LbaNet::UpdateDisplayObjectEvent))
 		{
-			LbaNet::UpdateObjectDisplayEvent * castedptr = 
-				dynamic_cast<LbaNet::UpdateObjectDisplayEvent *>(&obj);
+			LbaNet::UpdateDisplayObjectEvent * castedptr = 
+				dynamic_cast<LbaNet::UpdateDisplayObjectEvent *>(&obj);
 
-			m_lbaNetModel->UpdateObjectDisplay(castedptr->Type, castedptr->ObjectId, castedptr->DisplayDesc);
+			m_lbaNetModel->UpdateObjectDisplay(castedptr->Type, castedptr->ObjectId, castedptr->Update);
+
+			continue;
 		}
 
-		// UpdateObjectPhysicEvent
-		if(info == typeid(LbaNet::UpdateObjectPhysicEvent))
-		{
-			LbaNet::UpdateObjectPhysicEvent * castedptr = 
-				dynamic_cast<LbaNet::UpdateObjectPhysicEvent *>(&obj);
-
-			m_lbaNetModel->UpdateObjectPhysic(castedptr->Type, castedptr->ObjectId, castedptr->PhysicDesc);
-		}
 
 		// PlayerKeyPressedEvent
 		if(info == typeid(PlayerKeyPressedEvent))
@@ -458,6 +474,8 @@ void LbaNetEngine::HandleGameEvents()
 				dynamic_cast<PlayerKeyPressedEvent *>(&obj);
 
 			m_lbaNetModel->KeyPressed(castedptr->_keyid);
+
+			continue;
 		}
 
 		// PlayerKeyReleasedEvent
@@ -467,6 +485,8 @@ void LbaNetEngine::HandleGameEvents()
 				dynamic_cast<PlayerKeyReleasedEvent *>(&obj);
 
 			m_lbaNetModel->KeyReleased(castedptr->_keyid);
+
+			continue;
 		}
 
 		// PlayerKeyReleasedEvent
@@ -476,6 +496,15 @@ void LbaNetEngine::HandleGameEvents()
 				dynamic_cast<LbaNet::PlayerMovedEvent *>(&obj);
 
 			m_lbaNetModel->PlayerMovedUpdate(castedptr->PlayerId, castedptr->Time, castedptr->info);
+
+			continue;
+		}
+
+		// RefreshEndEvent
+		if(info == typeid(LbaNet::RefreshEndEvent))
+		{
+			m_lbaNetModel->RefreshEnd();
+			continue;
 		}
 
 	}
@@ -547,7 +576,7 @@ void LbaNetEngine::SwitchGuiToGame()
 	if(m_lastmusic != "")
 		MusicHandler::getInstance()->PlayMusic(m_lastmusic, 0);
 
-	m_lbaNetModel->Resume(false);
+	m_lbaNetModel->Resume();
 	m_gui_handler->SwitchGUI(2);
 	m_gui_handler->RefreshOption();
 
