@@ -163,7 +163,8 @@ void MapHandler::run()
 	_Trunning = true;
 
 	// init time
-	double waittime = SynchronizedTimeHandler::GetCurrentTimeDouble();
+	long waittime = SynchronizedTimeHandler::GetCurrentTimeInt();
+	long tdiff = 17;
 
 	// stop thread if running is false
 	while(_Trunning)
@@ -187,18 +188,17 @@ void MapHandler::run()
 
 		// wait for a few milliseconds
 		{
-			double currwtime = SynchronizedTimeHandler::GetCurrentTimeDouble();
-			double wdiff = (currwtime-waittime);
-			long timelong = (long)(wdiff);
+			long currwtime = SynchronizedTimeHandler::GetCurrentTimeInt();
+			tdiff = (currwtime-waittime);
 
-			if(timelong < _THREAD_WAIT_TIME_)
+			if(tdiff < _THREAD_WAIT_TIME_)
 			{
-				IceUtil::Time t = IceUtil::Time::milliSeconds(_THREAD_WAIT_TIME_-timelong);
+				IceUtil::Time t = IceUtil::Time::milliSeconds(_THREAD_WAIT_TIME_-tdiff);
 				_monitor.timedWait(t);
 			}
 
 			// mesure the time used to do one cycle
-			waittime = SynchronizedTimeHandler::GetCurrentTimeDouble();
+			waittime = SynchronizedTimeHandler::GetCurrentTimeInt();
 		}
 	}
 }
@@ -227,12 +227,14 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts,
 			if(info == typeid(LbaNet::PlayerEnterEvent))
 			{
 				PlayerEntered(it->first, tosendevts);
+				continue;
 			}
 
 			// client left
 			if(info == typeid(LbaNet::PlayerLeaveEvent))
 			{
 				PlayerLeft(it->first, tosendevts);
+				continue;
 			}
 
 			// player updated position
@@ -242,6 +244,7 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts,
 					dynamic_cast<LbaNet::PlayerMovedEvent *>(&obj);
 
 				PlayerMoved(it->first, castedptr->Time, castedptr->info, tosendevts);
+				continue;
 			}
 
 
@@ -252,6 +255,7 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts,
 					dynamic_cast<LbaNet::UpdateGameGUIEvent *>(&obj);
 	
 				GuiUpdate(it->first, castedptr->GUIId, castedptr->Updates);
+				continue;
 			}
 
 			// TeleportEvent
@@ -262,6 +266,7 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts,
 				
 				//TODO
 					//string			TeleportId;
+				continue;
 			}
 
 			// ChangeStanceEvent
@@ -272,6 +277,7 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts,
 				
 				//TODO
 					//int			NewStanceId;
+				continue;
 			}
 
 
@@ -283,6 +289,7 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts,
 				
 				//TODO
 					//bool			ForcedNormalAction;
+				continue;
 			}
 
 	
@@ -290,6 +297,7 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts,
 			if(info == typeid(LbaNet::PressedWeaponKeyEvent))
 			{
 				//TODO
+				continue;
 			}
 
 
@@ -297,6 +305,7 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts,
 			if(info == typeid(LbaNet::RefreshObjectRequestEvent))
 			{
 				RefreshPlayerObjects(it->first);
+				continue;
 			}
 
 			
@@ -387,6 +396,10 @@ player entered map
 ***********************************************************/
 void MapHandler::PlayerEntered(Ice::Long id, EventsSeq &tosendevts)
 {
+	// add player to list
+	_currentplayers.push_back(id);
+
+
 	// first give info to the player about current map state
 	EventsSeq toplayer;
 
@@ -437,10 +450,6 @@ void MapHandler::PlayerEntered(Ice::Long id, EventsSeq &tosendevts)
 		tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 													4, id, pinfo.model, PhysicDesc));
 	}
-
-
-	// add player to list
-	_currentplayers.push_back(id);
 }
 
 /***********************************************************
@@ -558,10 +567,11 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 		PhysicDesc.SizeY = 5;
 
 		toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-													4, id, pinfo.model, PhysicDesc));
+													4, _currentplayers[cc], pinfo.model, PhysicDesc));
 	}
 
 
+	toplayer.push_back(new RefreshEndEvent(SynchronizedTimeHandler::GetCurrentTimeDouble()));
 	IceUtil::ThreadPtr t = new EventsSender(toplayer, GetProxy(id));
 	t->start();	
 }

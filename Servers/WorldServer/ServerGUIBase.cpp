@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ServerGUIBase.h"
 #include <math.h>
 
-#define	_MAX_DISTANCE_PLAYER_OBJECT_	6
+#define	_MAX_DISTANCE_PLAYER_OBJECT_SQUARE_	36
 
 
 
@@ -53,10 +53,10 @@ void ServerGUIBase::PlayerMoved(Ice::Long clientid, const LbaNet::PlayerPosition
 		float distanceX = (it->second.X - curPosition.X);
 		float distanceY = (it->second.Y - curPosition.Y);
 		float distanceZ = (it->second.Z - curPosition.Z);
-		float distance = sqrt((distanceX*distanceX) + (distanceY*distanceY) + (distanceZ*distanceZ));
+		float distance = (distanceX*distanceX) + (distanceY*distanceY) + (distanceZ*distanceZ);
 		
-		// check distance between plaer and object
-		if(distance > _MAX_DISTANCE_PLAYER_OBJECT_)
+		// check distance between player and object
+		if(distance > _MAX_DISTANCE_PLAYER_OBJECT_SQUARE_)
 			HideGUI(clientid);
 	}
 }
