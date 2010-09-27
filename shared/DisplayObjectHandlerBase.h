@@ -57,14 +57,16 @@ public:
 	virtual void ShowOrHide(bool Show) = 0;
 
 	//! update display with current frame - used for animation
-	virtual void Process(double time, float tdiff) = 0;
+	//! the return value depends of the derived class type
+	virtual int Process(double time, float tdiff) = 0;
 
 	//! update display
-	virtual void Update(LbaNet::DisplayObjectUpdateBasePtr update) = 0;
+	//! the return value depends of the derived class type
+	virtual int Update(LbaNet::DisplayObjectUpdateBasePtr update) = 0;
 
 	//! only for animated model
 	// get current animation Id
-	virtual int GetCurrentAnimation() {return 0;}
+	virtual std::string GetCurrentAnimation() {return 0;}
 
 	//! only for animated model
 	// get current associated speed

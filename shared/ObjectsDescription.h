@@ -81,8 +81,6 @@ public:
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> BuildSelf(boost::shared_ptr<DisplayTransformation> Tr,
 																	DisplayHandlerBase * disH) const = 0;
 
-	//! get object type
-	virtual short GetType() = 0;
 };
 
 
@@ -108,9 +106,6 @@ public:
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> BuildSelf(boost::shared_ptr<DisplayTransformation> Tr, 
 																			DisplayHandlerBase * disH) const;
 
-	//! get object type
-	virtual short GetType()
-	{return 1;}
 
 private:
 	std::string _filename;
@@ -142,11 +137,6 @@ public:
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> BuildSelf(boost::shared_ptr<DisplayTransformation> Tr, 
 																				DisplayHandlerBase * disH) const;
 
-
-	//! get object type
-	virtual short GetType()
-	{return 2;}
-
 private:
 	float _height;
 	float _radius;
@@ -157,6 +147,33 @@ private:
 	float _colorA;
 };
 
+
+
+
+
+/***********************************************************************
+This is the base class describing a Lba1 model
+See definition in OsgObjectHandler.cpp
+ ***********************************************************************/
+class Lba1ModelObjectDescription : public DisplayObjectDescriptionBase
+{
+public:
+	//! constructor
+	Lba1ModelObjectDescription(const LbaNet::ModelInfo & info, float animationspeed)
+		: _info(info), _animationspeed(animationspeed)
+	{}
+
+	//! destructor
+	virtual ~Lba1ModelObjectDescription(){}
+
+	//! build description into dynamic object
+	virtual boost::shared_ptr<DisplayObjectHandlerBase> BuildSelf(boost::shared_ptr<DisplayTransformation> Tr, 
+																			DisplayHandlerBase * disH) const;
+
+private:
+	LbaNet::ModelInfo	_info;
+	float				_animationspeed;
+};
 
 
 

@@ -54,13 +54,13 @@ add rotation to quaternion
 ***********************************************************/
 void LbaQuaternion::AddRotation(float angle, LbaVec3 vec)
 {
-	float todo = GetRotationSingleAngle(vec) + angle;
-	if(todo < 0)
-		todo += 360;
-	if(todo > 360)
-		todo -= 360;
+	float tochange = GetRotationSingleAngle(vec) + angle;
+	if(tochange < 0)
+		tochange += 360;
+	if(tochange > 360)
+		tochange -= 360;
 
-	NxQuat q(todo, NxVec3(vec.x, vec.y, vec.z));
+	NxQuat q(tochange, NxVec3(vec.x, vec.y, vec.z));
 	X = q.x;
 	Y = q.y;
 	Z = q.z;
