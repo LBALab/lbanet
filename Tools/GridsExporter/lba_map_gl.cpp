@@ -444,6 +444,8 @@ LBA_MAP_GL::LBA_MAP_GL(int LBA2, const std::string &grfile, int layoutused, bool
 // constructor with map number
 LBA_MAP_GL::LBA_MAP_GL(int NUM_MAP,int LBA2)
 {
+	islba2 = LBA2;
+
 	// set filenames
 	std::stringstream filename;
 	if(islba2)
@@ -501,6 +503,9 @@ void LBA_MAP_GL::ExportMapOSG()
 		osg::Vec3Array* myVertices = new osg::Vec3Array;
 		osg::Vec3Array* myNormals = new osg::Vec3Array;
 		osg::Vec2Array* myTexts = new osg::Vec2Array;
+		osg::Vec4Array* myColors = new osg::Vec4Array;
+		myColors->push_back(osg::Vec4(1, 1, 1, 1));
+
 		osg::DrawElementsUInt* myprimitive = new osg::DrawElementsUInt(osg::PrimitiveSet::TRIANGLES, 0);
 
 		std::map<osg::Vec2, unsigned int> mapvert;
@@ -509,15 +514,15 @@ void LBA_MAP_GL::ExportMapOSG()
 		for(int i=0; i<*itnbfaces; ++i, ++cc)
 		{
 			myprimitive->push_back(findvertexinmap(mapvert, curridx, myVertices, 
-								osg::Vec3(lba_face[cc].v[0], lba_face[cc].v[1]*2, lba_face[cc].v[2]),
+								osg::Vec3(lba_face[cc].v[0], (lba_face[cc].v[1]*2)-1, lba_face[cc].v[2]),
 								myTexts, osg::Vec2( lba_face[cc].vt[0], lba_face[cc].vt[1])));
 
 			myprimitive->push_back(findvertexinmap(mapvert, curridx, myVertices, 
-								osg::Vec3(lba_face[cc].v[3], lba_face[cc].v[4]*2, lba_face[cc].v[5]),
+								osg::Vec3(lba_face[cc].v[3], (lba_face[cc].v[4]*2)-1, lba_face[cc].v[5]),
 								myTexts, osg::Vec2( lba_face[cc].vt[2], lba_face[cc].vt[3])));
 
 			myprimitive->push_back(findvertexinmap(mapvert, curridx, myVertices, 
-								osg::Vec3(lba_face[cc].v[6], lba_face[cc].v[7]*2, lba_face[cc].v[8]),
+								osg::Vec3(lba_face[cc].v[6], (lba_face[cc].v[7]*2)-1, lba_face[cc].v[8]),
 								myTexts, osg::Vec2( lba_face[cc].vt[4], lba_face[cc].vt[5])));
 
 			myNormals->push_back( osg::Vec3( lba_face[cc].vn[0], lba_face[cc].vn[1], lba_face[cc].vn[2]) );
@@ -528,7 +533,11 @@ void LBA_MAP_GL::ExportMapOSG()
 		myGeometry->setNormalArray( myNormals );
 		myGeometry->setNormalBinding(osg::Geometry::BIND_PER_PRIMITIVE);
 		myGeometry->setTexCoordArray( 0, myTexts);
+
+		myGeometry->setColorArray(myColors);
+		myGeometry->setColorBinding(osg::Geometry::BIND_OVERALL);
 	}
+
 
 
 	osg::StateSet* stateSet = root->getOrCreateStateSet();
