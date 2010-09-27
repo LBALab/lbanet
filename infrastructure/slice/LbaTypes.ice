@@ -317,7 +317,7 @@ module LbaNet
 		float			CurrentSpeedZ;	
 		float			CurrentSpeedRotation;			
 		
-		int			AnimationIdx;
+		string			AnimationIdx;
 	};
 
 
