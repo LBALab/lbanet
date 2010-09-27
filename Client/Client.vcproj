@@ -316,6 +316,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\shared\Lba1ModelMapHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\LbaNetEngine.cpp"
 				>
 			</File>
@@ -595,6 +599,10 @@
 			</File>
 			<File
 				RelativePath=".\Lba1ModelHandler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\shared\Lba1ModelMapHandler.h"
 				>
 			</File>
 			<File

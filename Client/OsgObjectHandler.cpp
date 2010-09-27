@@ -39,9 +39,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /***********************************************************
 default constructor
 ***********************************************************/
-OsgObjectHandler::OsgObjectHandler()
+OsgObjectHandler::OsgObjectHandler(boost::shared_ptr<DisplayTransformation> Tr)
 :  _posX(0), _posY(0), _posZ(0), _displayed(true)
 {
+	#ifdef _DEBUG
+		LogHandler::getInstance()->LogToFile("Created empty Osg object.");
+	#endif
+
+	_OsgObject = OsgHandler::getInstance()->AddEmptyActorNode();
+
+	if(Tr)
+	{
+		_osgpat = OsgHandler::getInstance()->CreatePAT(Tr);
+		_OsgObject->addChild(_osgpat);
+	}
+
+	UpdateMatrix();
 }
 
 
@@ -149,15 +162,26 @@ void OsgObjectHandler::ShowOrHide(bool Show)
 /***********************************************************
 update display with current frame - used for animation
 ***********************************************************/
-void OsgObjectHandler::Process(double time, float tdiff)
+int OsgObjectHandler::Process(double time, float tdiff)
 {
-
+	return 0;
 }
 
 /***********************************************************
 update display
 ***********************************************************/
-void OsgObjectHandler::Update(LbaNet::DisplayObjectUpdateBasePtr update)
+int OsgObjectHandler::Update(LbaNet::DisplayObjectUpdateBasePtr update)
 {
+	return 0;
+}
 
+/***********************************************************
+return root object
+***********************************************************/
+osg::ref_ptr<osg::Group> OsgObjectHandler::GetRoot()
+{
+	if(_osgpat)
+		return _osgpat;
+	else
+		return _OsgObject;
 }

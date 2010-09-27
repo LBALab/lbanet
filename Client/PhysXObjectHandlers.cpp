@@ -163,14 +163,14 @@ void PhysXActorsHandler::RotateYAxis(float deltaY)
 	quat.getAngleAxis(Yangle, NxVec3(0, 1, 0));
 
 	// calculate new angle
-	float todo = Yangle + deltaY;
-	if(todo < 0)
-		todo += 360;
-	if(todo > 360)
-		todo -= 360;
+	float tochange = Yangle + deltaY;
+	if(tochange < 0)
+		tochange += 360;
+	if(tochange > 360)
+		tochange -= 360;
 
 	// move to new angle
-	_Actor->moveGlobalOrientationQuat(NxQuat(todo, NxVec3(0, 1, 0)));
+	_Actor->moveGlobalOrientationQuat(NxQuat(tochange, NxVec3(0, 1, 0)));
 }
 
 /***********************************************************

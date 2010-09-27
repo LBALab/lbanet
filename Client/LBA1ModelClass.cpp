@@ -36,7 +36,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "LBA1ModelClass.h"
 #include "RotationTable.h"
 #include "HQRlib.h"
-//#include "LogHandler.h"
+#include "LogHandler.h"
+#include "Lba1ModelMapHandler.h"
+
 
 #include <windows.h>    // Header File For Windows
 #include <GL/gl.h>      // Header File For The OpenGL32 Library
@@ -46,7 +48,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <cstring>
 
 #include "HQRHandler.h"
-//#include "DataFileHandler.h"
+
 
 #include <iostream>
 
@@ -59,6 +61,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <osg/ShapeDrawable>
 #include<osg/LineWidth>
 #include <osgUtil/SmoothingVisitor>
+
+
+static float factormul_lba1_toosg = 32;
 
 
 
@@ -101,7 +106,7 @@ LBA1ModelClass::LBA1ModelClass(entitiesTableStruct* entitiesData, const std::str
 	m_animationspeed(1), cumutime(0)
 {
 
-	HQRHandler HQH("RESS.HQR");//DataFileHandler::GetPath("RESS"));
+	HQRHandler HQH(Lba1ModelDataPath+"RESS.HQR");
 	unsigned int paletteSize;
 	m_paletteRGB = HQH.Load_HQR(0, paletteSize);
 
@@ -120,7 +125,6 @@ LBA1ModelClass::LBA1ModelClass(entitiesTableStruct* entitiesData, const std::str
 	Points=NULL;
 	Elements=NULL;
 	entitiesTableEntry* localEntry;
-        //unsigned char *localPtr;
 
 	speed=15;
 	angle=0;
@@ -137,7 +141,7 @@ LBA1ModelClass::LBA1ModelClass(entitiesTableStruct* entitiesData, const std::str
 
 	if(!entitiesData) // no entities data, can't load model...
 	{
-		//LogHandler::getInstance()->LogToFile("No entity data, can not load the model...");
+		LogHandler::getInstance()->LogToFile("No entity data, can not load the model...");
 		return;
 	}
 
@@ -2109,9 +2113,9 @@ bool LBA1ModelClass::AnimateModel(float tdiff)
 
 			for(int i=0;i<Points->NumberOfPoints;i++)
 			{
-				*(tempPtrX++)=(((float)tempPoint->X)/16384)*100;
-				*(tempPtrY++)=(((float)tempPoint->Y)/16384)*100;
-				*(tempPtrZ++)=(((float)tempPoint->Z)/16384)*100;
+				*(tempPtrX++)=(((float)tempPoint->X)/16384)*factormul_lba1_toosg;
+				*(tempPtrY++)=((((float)tempPoint->Y)/16384)*factormul_lba1_toosg);
+				*(tempPtrZ++)=(((float)tempPoint->Z)/16384)*factormul_lba1_toosg;
 
 				tempPoint++;
 			}
@@ -2508,9 +2512,9 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel()
 
 	for(int i=0;i<Points->NumberOfPoints;i++)
 	{
-	    *(tempPtrX++)=(((float)tempPoint->X)/16384)*100;
-		*(tempPtrY++)=(((float)tempPoint->Y)/16384)*100;
-		*(tempPtrZ++)=(((float)tempPoint->Z)/16384)*100;
+	    *(tempPtrX++)=(((float)tempPoint->X)/16384)*factormul_lba1_toosg;
+		*(tempPtrY++)=((((float)tempPoint->Y)/16384)*factormul_lba1_toosg);
+		*(tempPtrZ++)=(((float)tempPoint->Z)/16384)*factormul_lba1_toosg;
 
 		tempPoint++;
     }
@@ -2656,15 +2660,6 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel()
 		m_myGeometry->setColorArray(colors);
 		m_myGeometry->setColorBinding(osg::Geometry::BIND_PER_PRIMITIVE_SET);
 
-
-  //      osg::StateSet* stateSet = m_myGeometry->getOrCreateStateSet();
-		//osg::PolygonMode * polygonMode = new osg::PolygonMode;
-		//polygonMode->setMode( osg::PolygonMode::FRONT, osg::PolygonMode::LINE );
-		//stateSet->setAttributeAndModes( polygonMode, osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON );
-
-		//m_myGeometry->setNormalArray(normals);
-		//m_myGeometry->setNormalBinding(osg::Geometry::BIND_PER_PRIMITIVE);	
-
 	}
 
 
@@ -2741,7 +2736,7 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel()
 		unsigned char* ptr;
 		ptr=(unsigned char*)m_paletteRGB+(((Spheres->SpheresData[i].Color)&0xFF00)>>8)*3;
 
-		osg::ref_ptr<osg::Sphere> unitSphere = new osg::Sphere(osg::Vec3(0,0,0), ((float)Spheres->SpheresData[i].Size)/163.84f);
+		osg::ref_ptr<osg::Sphere> unitSphere = new osg::Sphere(osg::Vec3(0,0,0), ((float)Spheres->SpheresData[i].Size)*factormul_lba1_toosg/16384.0f);
 		osg::ShapeDrawable* unitSphereDrawable = new osg::ShapeDrawable(unitSphere, hints_low.get());
 		unitSphereDrawable->setColor(osg::Vec4((*ptr)/255.0f,(*(ptr+1))/255.0f,(*(ptr+2))/255.0f, 1.0f));
 		Geodesphere->addDrawable(unitSphereDrawable);
@@ -2750,47 +2745,5 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel()
 		m_Spheres.push_back(PAT);
 	}
 
-
-	// draw normals
-	//{
-	//	m_myGeometrynorms = new osg::Geometry();
-	//	myGeode->addDrawable(m_myGeometrynorms.get());
-
-	//	osg::Vec4Array* colors = new osg::Vec4Array;
-	//	osg::Vec3Array* myVerticesnormas = new osg::Vec3Array;
-
-	//	osg::Vec3Array* norms = (osg::Vec3Array*) m_myGeometry->getNormalArray();
-	//	osg::Vec3Array* points = (osg::Vec3Array*) m_myGeometry->getVertexArray();
-	//	osg::DrawElementsUInt* myprimitive = new osg::DrawElementsUInt(osg::PrimitiveSet::LINES, 0);
-
-	//	for( size_t ccc=0; ccc<points->size(); ++ccc)
-	//	{
-	//		colors->push_back(osg::Vec4(1.0f,0.0f,0.0f, 1.0f));
-	//		myVerticesnormas->push_back((*points)[ccc]);
-	//		myprimitive->push_back(ccc*2);
-
-	//		colors->push_back(osg::Vec4(0.0f,1.0f,0.0f, 1.0f));
-	//		myVerticesnormas->push_back((*points)[ccc] + (*norms)[ccc]);
-	//		myprimitive->push_back((ccc*2) + 1);
-
-	//	}
-	//	
-	//	m_myGeometrynorms->setVertexArray( myVerticesnormas ); 
-	//	m_myGeometrynorms->setUseDisplayList( false );
-	//	m_myGeometrynorms->setDataVariance(osg::Object::DYNAMIC);
-	//	m_myGeometrynorms->setColorArray(colors);
-	//	m_myGeometrynorms->setColorBinding(osg::Geometry::BIND_PER_VERTEX);
-	//	m_myGeometrynorms->addPrimitiveSet(myprimitive);
-
- //       osg::StateSet* stateset = new osg::StateSet;
- //       osg::LineWidth* linewidth = new osg::LineWidth();
-
- //       linewidth->setWidth(2.0f);
- //       stateset->setAttributeAndModes(linewidth,osg::StateAttribute::ON);
- //       m_myGeometrynorms->setStateSet(stateset);
-	//	m_myGeometrynorms->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-	//}
-
-	//root->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 	return root;
 }

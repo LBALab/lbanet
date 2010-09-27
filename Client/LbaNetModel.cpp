@@ -34,6 +34,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ExternalPlayer.h"
 #include "EventsQueue.h"
 
+
+
+#define	_LBA1_MODEL_ANIMATION_SPEED_	1.8f
+
 /***********************************************************
 	Constructor
 ***********************************************************/
@@ -370,13 +374,12 @@ void LbaNetModel::AddObject(int Type, Ice::Long ObjectId,
 		//2 -> LBA1 model 
 		case 2:
 		{
-			//TODO
+			//TODO animation speed
 			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
-				(new OsgOrientedCapsuleDescription(4, 0.5, 1, 0, 0, 1));
+				(new Lba1ModelObjectDescription(DisplayDesc, _LBA1_MODEL_ANIMATION_SPEED_));
 
 			boost::shared_ptr<DisplayTransformation> Tr(new DisplayTransformation());
-			Tr->translationY = 2.5;
-			Tr->rotation = LbaQuaternion(90, LbaVec3(1, 0, 0));
+			Tr->scaleY = 2;
 			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(Tr, dispobdesc));
 		}
 		break;

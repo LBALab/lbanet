@@ -37,20 +37,21 @@ class AnimatedObjectHandlerBase : public OsgObjectHandler
 {
 public:
 	//! constructor
-	AnimatedObjectHandlerBase();
+	AnimatedObjectHandlerBase(boost::shared_ptr<DisplayTransformation> Tr);
 
 	//! destructor
 	virtual ~AnimatedObjectHandlerBase();
 
 
 	//! update display with current frame - used for animation
-	virtual void Process(double time, float tdiff) = 0;
+	//! return 1 if current animation finishes - 0 else
+	virtual int Process(double time, float tdiff) = 0;
 
 	//! update display
-	virtual void Update(LbaNet::DisplayObjectUpdateBasePtr update);
+	virtual int Update(LbaNet::DisplayObjectUpdateBasePtr update);
 
 	// get current animation Id
-	virtual int GetCurrentAnimation() = 0;
+	virtual std::string GetCurrentAnimation() = 0;
 
 	// get current associated speed
 	virtual float GetCurrentAssociatedSpeedX() = 0;
@@ -62,14 +63,10 @@ public:
 	virtual float GetCurrentAssociatedSpeedZ() = 0;
 
 	// update model
-	virtual void UpdateModel(const LbaNet::ModelInfo & info) = 0;
+	virtual int UpdateModel(const LbaNet::ModelInfo & info) = 0;
 
 	// update animation
-	virtual void UpdateAnimation(const std::string & AnimString) = 0;
-
-	// update animation
-	virtual void UpdateAnimation(int AnimIdx) = 0;
-
+	virtual int UpdateAnimation(const std::string & AnimString) = 0;
 };
 
 

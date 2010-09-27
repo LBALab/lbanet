@@ -27,7 +27,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /***********************************************************
 Constructor
 ***********************************************************/
-AnimatedObjectHandlerBase::AnimatedObjectHandlerBase()
+AnimatedObjectHandlerBase::AnimatedObjectHandlerBase(boost::shared_ptr<DisplayTransformation> Tr)
+: OsgObjectHandler(Tr)
 {
 }
 
@@ -41,7 +42,7 @@ AnimatedObjectHandlerBase::~AnimatedObjectHandlerBase()
 /***********************************************************
 update display
 ***********************************************************/
-void AnimatedObjectHandlerBase::Update(LbaNet::DisplayObjectUpdateBasePtr update)
+int AnimatedObjectHandlerBase::Update(LbaNet::DisplayObjectUpdateBasePtr update)
 {
 	const std::type_info& info = typeid(*update);
 
@@ -51,8 +52,7 @@ void AnimatedObjectHandlerBase::Update(LbaNet::DisplayObjectUpdateBasePtr update
 		LbaNet::ModelUpdate * castedptr = 
 			dynamic_cast<LbaNet::ModelUpdate *>(update.get());
 
-		UpdateModel(castedptr->Info);
-		return;
+		return UpdateModel(castedptr->Info);
 	}
 
 	// AnimationStringUpdate
@@ -61,19 +61,8 @@ void AnimatedObjectHandlerBase::Update(LbaNet::DisplayObjectUpdateBasePtr update
 		LbaNet::AnimationStringUpdate * castedptr = 
 			dynamic_cast<LbaNet::AnimationStringUpdate *>(update.get());
 
-		UpdateAnimation(castedptr->Animation);
-		return;
+		return UpdateAnimation(castedptr->Animation);
 	}
 
-	// AnimationIdUpdate
-	if(info == typeid(LbaNet::AnimationIdUpdate))
-	{
-		LbaNet::AnimationIdUpdate * castedptr = 
-			dynamic_cast<LbaNet::AnimationIdUpdate *>(update.get());
-
-		UpdateAnimation(castedptr->AnimationId);
-		return;
-	}
-
-	OsgObjectHandler::Update(update);
+	return OsgObjectHandler::Update(update);
 }

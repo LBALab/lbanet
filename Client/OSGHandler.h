@@ -124,6 +124,10 @@ public:
 	//! add a actor to the display list - return handler to actor position
 	osg::ref_ptr<osg::MatrixTransform> AddActorNode(osg::ref_ptr<osg::Node> node);
 
+
+	//! add an empty actor to the display list - return handler to actor position
+	osg::ref_ptr<osg::MatrixTransform> AddEmptyActorNode();
+
 	//! readd a removed actor to the display list
 	void ReAddActorNode(osg::ref_ptr<osg::Node> node);
 
@@ -156,6 +160,10 @@ public:
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateCapsuleObject(float radius, float height, 
 															float colorR, float colorG, float colorB, float colorA,
 															boost::shared_ptr<DisplayTransformation> Tr);
+
+	//! create PAT
+	osg::ref_ptr<osg::PositionAttitudeTransform> CreatePAT(boost::shared_ptr<DisplayTransformation> Tr);
+
 
 	//! get windows handle (win32 only)
 	void* GetWindowsHandle();

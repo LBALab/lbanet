@@ -74,5 +74,6 @@ synchronization function - will typically be called on every frames
 ***********************************************************/
 void StaticObject::Process(double time, float tdiff)
 {
-	_disH->Process(time, tdiff);
+	if(_disH)
+		_disH->Process(time, tdiff);
 }

@@ -28,11 +28,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "DisplayObjectHandlerBase.h"
 #include <osg/ref_ptr>
+#include <boost/shared_ptr.hpp>
 
 namespace osg
 {
 	class MatrixTransform;
+	class PositionAttitudeTransform;
+	class Group;
 }
+
+class DisplayTransformation;
 
 /***********************************************************************
  * Module:  OsgObjectHandler.h
@@ -44,7 +49,7 @@ class OsgObjectHandler : public DisplayObjectHandlerBase
 {
 public:
 	//! default constructor
-	OsgObjectHandler();
+	OsgObjectHandler(boost::shared_ptr<DisplayTransformation> Tr);
 
 	//! constructor
 	OsgObjectHandler(osg::ref_ptr<osg::MatrixTransform> OsgObject);
@@ -67,23 +72,29 @@ public:
 
 
 	//! update display with current frame - used for animation
-	virtual void Process(double time, float tdiff);
+	virtual int Process(double time, float tdiff);
 
 	//! update display
-	virtual void Update(LbaNet::DisplayObjectUpdateBasePtr update);
+	virtual int Update(LbaNet::DisplayObjectUpdateBasePtr update);
 
-
+	
 protected:
 	// update matrix
 	void UpdateMatrix();
 
+	// return root object
+	osg::ref_ptr<osg::Group> GetRoot();
+
 protected:
-	osg::ref_ptr<osg::MatrixTransform>	_OsgObject;
 	float								_posX;
 	float								_posY; 
 	float								_posZ;
 	LbaQuaternion						_Q;
 	bool								_displayed;
+
+private:
+	osg::ref_ptr<osg::MatrixTransform>				_OsgObject;
+	osg::ref_ptr<osg::PositionAttitudeTransform>	_osgpat;
 };
 
 

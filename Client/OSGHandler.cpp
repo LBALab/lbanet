@@ -714,6 +714,23 @@ osg::ref_ptr<osg::MatrixTransform> OsgHandler::AddActorNode(osg::ref_ptr<osg::No
 
 
 /***********************************************************
+add an empty actor to the display list - return handler to actor position
+***********************************************************/
+osg::ref_ptr<osg::MatrixTransform> OsgHandler::AddEmptyActorNode()
+{
+	#ifdef _DEBUG
+		LogHandler::getInstance()->LogToFile("Added empty Node to display engine");
+	#endif
+
+	osg::ref_ptr<osg::MatrixTransform> transform = new osg::MatrixTransform();
+	if(_sceneRootNode)
+		_sceneRootNode->addChild(transform);
+
+	return transform;
+}
+
+
+/***********************************************************
 readd a removed actor to the display list
 ***********************************************************/
 void OsgHandler::ReAddActorNode(osg::ref_ptr<osg::Node> node)
@@ -855,3 +872,21 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCapsuleObject(floa
 	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat));
 }
 
+
+/***********************************************************
+create PAT
+***********************************************************/
+osg::ref_ptr<osg::PositionAttitudeTransform> OsgHandler::CreatePAT(boost::shared_ptr<DisplayTransformation> Tr)
+{
+	if(Tr)
+	{
+		osg::ref_ptr<osg::PositionAttitudeTransform> transform = new osg::PositionAttitudeTransform();
+		transform->setPosition(osg::Vec3d(Tr->translationX, Tr->translationY, Tr->translationZ));
+		transform->setAttitude(osg::Quat(Tr->rotation.X, Tr->rotation.Y, Tr->rotation.Z, Tr->rotation.W));
+		transform->setScale(osg::Vec3d(Tr->scaleX, Tr->scaleY, Tr->scaleZ));
+
+		return transform;
+	}
+
+	return osg::ref_ptr<osg::PositionAttitudeTransform>();
+}

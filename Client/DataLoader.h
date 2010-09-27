@@ -31,6 +31,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <map>
 #include <LbaTypes.h>
 
+struct entitiesTableStruct;
+
 /***********************************************************************
  * Module:  DataLoader.h
  * Author:  vivien
@@ -71,6 +73,9 @@ public:
 	void GetAvailableWorlds(std::vector<LbaNet::WorldDesc> & list);
 
 
+	//! used to get the character entities info
+	entitiesTableStruct* GetEntitiesInfo();
+
 protected:
 	//! constructor
    DataLoader();
@@ -89,6 +94,8 @@ private:
 	std::map<long, std::string>		_name_texts;
 
 	std::string						_lang;
+
+	entitiesTableStruct*	_estruct;
 
 };
 

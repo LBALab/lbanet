@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "PhysXObjectHandlers.h"
 #include "WorldToDisplayObjectSynchronizer.h"
 #include "StaticObject.h"
-
+#include "Lba1ModelHandler.h"
 
 
 /***********************************************************
@@ -240,3 +240,20 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgOrientedCapsuleDescription::Build
 
 	return boost::shared_ptr<DisplayObjectHandlerBase> ();
 }
+
+
+
+/***********************************************************
+build description into dynamic object
+***********************************************************/
+boost::shared_ptr<DisplayObjectHandlerBase> Lba1ModelObjectDescription::BuildSelf(
+															boost::shared_ptr<DisplayTransformation> Tr,
+															DisplayHandlerBase * disH) const
+{
+	if(disH)
+		return boost::shared_ptr<DisplayObjectHandlerBase> (
+					new Lba1ModelHandler( Tr, _info, _animationspeed));
+
+	return boost::shared_ptr<DisplayObjectHandlerBase> ();
+}
+

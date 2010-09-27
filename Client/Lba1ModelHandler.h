@@ -28,8 +28,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "AnimatedObjectHandlerBase.h"
 
-class LBA1ModelClass;
 
+class LBA1ModelClass;
+namespace osg
+{
+	class Node;
+}
 
 /***********************************************************************
  * Module:  Lba1ModelHandler.h
@@ -39,17 +43,19 @@ class Lba1ModelHandler : public AnimatedObjectHandlerBase
 {
 public:
 	//! constructor
-	Lba1ModelHandler(const LbaNet::ModelInfo & info, float animationspeed);
+	Lba1ModelHandler(boost::shared_ptr<DisplayTransformation> Tr,
+						const LbaNet::ModelInfo & info, float animationspeed);
 
 	//! destructor
 	virtual ~Lba1ModelHandler();
 
 
 	//! update display with current frame - used for animation
-	virtual void Process(double time, float tdiff);
+	//! return 1 if current animation finishes - 0 else
+	virtual int Process(double time, float tdiff);
 
 	// get current animation Id
-	virtual int GetCurrentAnimation();
+	virtual std::string GetCurrentAnimation();
 
 	// get current associated speed
 	virtual float GetCurrentAssociatedSpeedX();
@@ -61,20 +67,28 @@ public:
 	virtual float GetCurrentAssociatedSpeedZ();
 
 	// update model
-	virtual void UpdateModel(const LbaNet::ModelInfo & info);
+	virtual int UpdateModel(const LbaNet::ModelInfo & info);
 
 	// update animation
-	virtual void UpdateAnimation(const std::string & AnimString);
+	virtual int UpdateAnimation(const std::string & AnimString);
 
-	// update animation
-	virtual void UpdateAnimation(int AnimIdx);
-
+protected:
+	// refresh model
+	int RefreshModel();
 
 private:
-	LBA1ModelClass*			_model;
+	LBA1ModelClass*									_model;
+	osg::ref_ptr<osg::Node>							_osgnode;
 
-	float					_animationspeed;
 
+	float											_animationspeed;
+
+	LbaNet::ModelInfo								_currentmodelinfo;
+	std::string										_currentanimationstring;
+
+	int												_currModel;
+	int												_currBody;
+	int												_currAnimation;
 };
 
 

@@ -25,6 +25,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DataLoader.h"
 #include "LogHandler.h"
 #include "XmlReader.h"
+#include "Entities.h"
+#include "Lba1ModelMapHandler.h"
 
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
@@ -42,6 +44,7 @@ DataLoader::DataLoader()
 :  _lang("en")
 {
 	LogHandler::getInstance()->LogToFile("Initializing data handler class...");
+	_estruct = parseEntities(Lba1ModelDataPath+"FILE3D.HQR");
 }
 
 
@@ -183,3 +186,11 @@ void DataLoader::GetAvailableWorlds(std::vector<LbaNet::WorldDesc> & list)
 	}
 }
 
+
+/***********************************************************
+used to get the character entities info
+***********************************************************/
+entitiesTableStruct* DataLoader::GetEntitiesInfo()
+{
+	return _estruct;
+}
