@@ -542,6 +542,7 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 	ModelInfo		DisplayDesc;
 	DisplayDesc.RendererType = 0;
 	DisplayDesc.ModelName = "Worlds/Lba1Original/Grids/map0.osgb";
+	DisplayDesc.State = LbaNet::NoState;
 
 	ObjectPhysicDesc	PhysicDesc;
 	PhysicDesc.Pos.X = 0;

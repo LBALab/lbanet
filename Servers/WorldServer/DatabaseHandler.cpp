@@ -144,6 +144,7 @@ LbaNet::SavedWorldInfo DatabaseHandler::ChangeWorld(const std::string& NewWorldN
 			resP.model.Outfit = res[0][14];	
 			resP.model.Weapon = res[0][15];
 			resP.model.Mode = res[0][16];
+			resP.model.State = LbaNet::StNormal;
 
 
 

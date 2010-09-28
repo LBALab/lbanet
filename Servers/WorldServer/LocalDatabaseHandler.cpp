@@ -120,6 +120,7 @@ LbaNet::SavedWorldInfo LocalDatabaseHandler::ChangeWorld(const std::string& NewW
 			resP.model.Outfit = pazResult[nbcollumn+14];
 			resP.model.Weapon = pazResult[nbcollumn+15];
 			resP.model.Mode = pazResult[nbcollumn+16];
+			resP.model.State = LbaNet::StNormal;
 
 			worldid = atol(pazResult[nbcollumn+12]);
 
@@ -199,6 +200,10 @@ LbaNet::SavedWorldInfo LocalDatabaseHandler::ChangeWorld(const std::string& NewW
 						std::cerr<<IceUtil::Time::now()<<": LBA_Server - INSERT lba_usertoworld failed for user id "<<PlayerId<<" : "<<zErrMsg<<std::endl;
 						sqlite3_free(zErrMsg);
 					}
+				}
+				else
+				{
+					//TODO - add new world name to DB
 				}
 			}
 
