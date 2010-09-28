@@ -309,6 +309,12 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts,
 			}
 
 			
+			//TODO - on state change from client
+			//check if state is legal
+			// if so check if already on this state
+			// if not update state and send state update to everybody
+
+
 		}
 	}
 }
