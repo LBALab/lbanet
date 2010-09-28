@@ -70,8 +70,8 @@ module LbaNet
 	
 	
 	
-	enum ModelState { StNormal, StDying, StDrowning, StDrowningGas, StBurning, 
-				StSmallHurt, StMediumHurt, StBigHurt, StHurtFall, StFalling, 
+	enum ModelState { NoState, StNormal, StDying, StDrowning, StDrowningGas, StBurning, 
+				StSmallHurt, StMediumHurt, StBigHurt, StHurtFall, StFinishedFall, StFalling, 
 				StJumping, StMovingObject, StUseWeapon, StImmune, StHidden, StScripted,
 				StProtectedHurt, StRestrictedMovingObject };	
 	
@@ -637,12 +637,6 @@ module LbaNet
 	class AnimationStringUpdate extends DisplayObjectUpdateBase
 	{
 		string			Animation;
-	};
-	
-	// update the object animation using animation id	
-	class AnimationIdUpdate extends DisplayObjectUpdateBase
-	{
-		int			AnimationId;
 	};	
 };	
 
