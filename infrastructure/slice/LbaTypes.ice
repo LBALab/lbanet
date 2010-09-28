@@ -69,6 +69,12 @@ module LbaNet
 	dictionary<long, InventoryItem> InventoryMap;
 	
 	
+	
+	enum ModelState { StNormal, StDying, StDrowning, StDrowningGas, StBurning, 
+				StSmallHurt, StMediumHurt, StBigHurt, StHurtFall, StFalling, 
+				StJumping, StMovingObject, StUseWeapon, StImmune, StHidden, StScripted,
+				StProtectedHurt, StRestrictedMovingObject };	
+	
 	struct ModelInfo
 	{
 		int			RendererType;	// 0 -> osg model ** 1 -> sprite ** 2 -> LBA1 model ** 3-> LBA2 model
@@ -77,6 +83,7 @@ module LbaNet
 		string			Outfit;		// only for animated models
 		string			Weapon;		// only for animated models
 		string			Mode;		// only for animated models
+		ModelState		State;
 	};
 
 	struct PlayerStartingInfo

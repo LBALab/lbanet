@@ -144,7 +144,13 @@ module LbaNet
 		long				ObjectId;
 		DisplayObjectUpdateBase		Update;
 	};	
-
+	
+	// client tell server that player state should be updated
+	class UpdateStateEvent extends ClientServerEventBase
+	{
+		ModelState			NewState;
+		float				FallingSize;
+	};
 };	
 
 #endif
