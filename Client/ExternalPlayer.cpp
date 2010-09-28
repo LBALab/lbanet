@@ -53,6 +53,9 @@ ExternalPlayer::~ExternalPlayer()
 {
 }
 
+//TODO
+// get state and display player accordingly
+// also use animation update
 
 /***********************************************************
  update with external info

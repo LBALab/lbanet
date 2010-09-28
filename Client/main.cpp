@@ -17,6 +17,8 @@
 #include "OSGHandler.h"
 #include "LogHandler.h"
 
+
+#ifdef WIN32
 #include <windows.h>
 #include <tchar.h>
 #include <Dwmapi.h>
@@ -26,18 +28,18 @@
 HINSTANCE globalInstance;
 #endif
 
-#include "crashrpt.h"
-#pragma comment(lib, "crashrpt.lib")
+//#include "crashrpt.h"
+//#pragma comment(lib, "crashrpt.lib")
 
 
-BOOL WINAPI CrashCallback(LPVOID lpvState)
-{
-	LogHandler::getInstance()->CloseFile();
-	AddFile(lpvState, LogHandler::getInstance()->GetFilename().c_str(), "Lbanet general log");
-	//AddFile(lpvState, LogHandler::getInstance()->GetGUIFilename().c_str(), "GUI log");
-	return TRUE;
-}
-
+//BOOL WINAPI CrashCallback(LPVOID lpvState)
+//{
+//	LogHandler::getInstance()->CloseFile();
+//	AddFile(lpvState, LogHandler::getInstance()->GetFilename().c_str(), "Lbanet general log");
+//	//AddFile(lpvState, LogHandler::getInstance()->GetGUIFilename().c_str(), "GUI log");
+//	return TRUE;
+//}
+#endif
 
 
 class IceClient : public Ice::Application
@@ -59,7 +61,7 @@ public:
 
 
 		// set windows icon in release mode
-		#ifdef NDEBUG
+		#if (defined(NDEBUG) && defined(WIN32))
 		SendMessage((HWND)OsgHandler::getInstance()->GetWindowsHandle(), 
 			WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(globalInstance,  MAKEINTRESOURCE(IDI_ICON1)));
 		#endif
@@ -81,8 +83,7 @@ public:
 
 
 
-
-#ifdef NDEBUG
+#if (defined(NDEBUG) && defined(WIN32))
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	globalInstance = hInstance;
@@ -103,12 +104,19 @@ int main( int argc, char **argv )
 {
 #endif
 
-	// disable areo
-	DwmEnableComposition(DWM_EC_DISABLECOMPOSITION);
 
+#ifdef WIN32
+	// disable areo on vista+ operating system
+    OSVERSIONINFO osvi;
+    ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
+    osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+    GetVersionEx(&osvi);
+	if(osvi.dwMajorVersion > 5)
+		DwmEnableComposition(DWM_EC_DISABLECOMPOSITION);
 
 	// init crash reporter
-	LPVOID chandler = Install(CrashCallback, NULL, NULL);
+	//LPVOID chandler = Install(CrashCallback, NULL, NULL);
+#endif
 
 	try
 	{

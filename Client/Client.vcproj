@@ -200,6 +200,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CharacterModes.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CharacterStates.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ChatBox.cpp"
 				>
 			</File>
@@ -467,6 +475,14 @@
 			</File>
 			<File
 				RelativePath=".\CharacterControllerLBA.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CharacterModes.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CharacterStates.h"
 				>
 			</File>
 			<File

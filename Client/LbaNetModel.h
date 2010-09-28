@@ -140,7 +140,8 @@ protected:
 	// 3 -> movable by player
 	// 4 -> player object
 	// 5 -> ghost object
-	void AddObject(int type, const ObjectInfo &desc);
+	void AddObject(int type, const ObjectInfo &desc,
+					const LbaNet::ModelInfo &DisplayDesc);
 
 
 	//! remove object from the scene

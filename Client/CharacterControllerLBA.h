@@ -28,6 +28,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <boost/shared_ptr.hpp>
 #include "CommonTypes.h"
 #include "ClientExtendedEvents.h"
+#include "CharacterStates.h"
+#include "CharacterModes.h"
+
 #include <ClientServerEvents.h>
 
 #include <map>
@@ -52,7 +55,9 @@ public:
 	~CharacterController();
 
 	// set physcial character
-	void SetPhysicalCharacter(boost::shared_ptr<DynamicObject> charac, bool AsGhost=false);
+	void SetPhysicalCharacter(boost::shared_ptr<DynamicObject> charac, 
+								const LbaNet::ModelInfo &Info,
+								bool AsGhost=false);
 
 
 	//! key pressed
@@ -75,8 +80,19 @@ protected:
 	//! check if we should force the update
 	bool ShouldforceUpdate();
 
+	//! internaly update mode and state
+	void UpdateModeAndState(const std::string &newmode,
+								LbaNet::ModelState newstate,
+								double tnow,
+								float FallingSize = 0);
+
 private:
 	boost::shared_ptr<DynamicObject>			_character;
+	boost::shared_ptr<CharacterModeBase>		_currentmode;
+	boost::shared_ptr<CharacterStateBase>		_currentstate;
+	std::string									_currentmodestr;
+	LbaNet::ModelState 							_currentstatestr;
+
 	bool										_isGhost;
 
 	bool										_keyforward;

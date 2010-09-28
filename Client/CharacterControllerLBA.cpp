@@ -63,7 +63,9 @@ CharacterController::~CharacterController()
 /***********************************************************
 	Set character to control
 ***********************************************************/
-void CharacterController::SetPhysicalCharacter(boost::shared_ptr<DynamicObject> charac, bool AsGhost)
+void CharacterController::SetPhysicalCharacter(boost::shared_ptr<DynamicObject> charac, 
+												const LbaNet::ModelInfo &Info,
+												bool AsGhost)
 {
 	_character = charac;
 	_isGhost = AsGhost;
@@ -74,6 +76,10 @@ void CharacterController::SetPhysicalCharacter(boost::shared_ptr<DynamicObject> 
 							_lastupdate.CurrentPos.Z);
 
 	_lastupdate.CurrentPos.Rotation = _character->GetPhysicalObject()->GetRotationYAxis();
+
+	// update mode if needed
+	if(!_isGhost)
+		UpdateModeAndState(Info.Mode, Info.State, SynchronizedTimeHandler::GetCurrentTimeDouble(), 0);
 }
 
 
@@ -204,6 +210,7 @@ void CharacterController::Process(double tnow, float tdiff)
 	}
 	else
 	{
+		//TODO
 		if(_keyleft)
 			physo->RotateYAxis(0.15f*tdiff);
 		else if(_keyright)
@@ -348,8 +355,151 @@ update player display
 ***********************************************************/
 void CharacterController::UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr update)
 {
-	//TODO get the stance and mode information
+	const std::type_info& info = typeid(*update);
 
+	// ModelUpdate
+	if(info == typeid(LbaNet::ModelUpdate))
+	{
+		LbaNet::ModelUpdate * castedptr = 
+			dynamic_cast<LbaNet::ModelUpdate *>(update.get());
+
+		UpdateModeAndState(castedptr->Info.Mode, castedptr->Info.State, 
+							SynchronizedTimeHandler::GetCurrentTimeDouble(), 0);
+	}
 
 	_character->GetDisplayObject()->Update(update);
+}
+
+
+
+/***********************************************************
+internaly update mode and state
+***********************************************************/
+void CharacterController::UpdateModeAndState(const std::string &newmode,
+												LbaNet::ModelState newstate,
+												double tnow,
+												float FallingSize)
+{
+	// only update if different
+	if(newmode != _currentmodestr)
+	{
+		_currentmodestr = newmode;
+
+		//TODO
+	}
+
+	// only update if different
+	if(newstate != _currentstatestr)
+	{
+		_currentstatestr = newstate;
+		switch(_currentstatestr)
+		{
+			case LbaNet::StNormal:
+			{
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StNormal());
+			}
+			break;
+			case LbaNet::StDying:
+			{
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StDying());			
+			}
+			break; 
+			case LbaNet::StDrowning:
+			{
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StDrowning());			
+			}
+			break; 
+			case LbaNet::StDrowningGas:
+			{
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StDrowningGas());		
+			}
+			break; 
+			case LbaNet::StBurning:
+			{
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StBurning());						
+			}
+			break; 
+			case LbaNet::StSmallHurt:
+			{
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StSmallHurt());						
+			}
+			break; 
+			case LbaNet::StMediumHurt:
+			{
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StMediumHurt());						
+			}
+			break; 
+			case LbaNet::StBigHurt:
+			{
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StBigHurt());						
+			}
+			break; 
+			case LbaNet::StHurtFall:
+			{
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StHurtFall());						
+			}
+			break; 
+			case LbaNet::StFalling:
+			{
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StFalling());					
+			}
+			break; 
+			case LbaNet::StJumping:
+			{
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StJumping());						
+			}
+			break; 
+			case LbaNet::StMovingObject:
+			{
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StMovingObject());						
+			}
+			break; 
+			case LbaNet::StRestrictedMovingObject:
+			{
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StRestrictedMovingObject());						
+			}
+			break; 
+			case LbaNet::StUseWeapon:
+			{
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StUseWeapon());						
+			}
+			break; 
+			case LbaNet::StImmune:
+			{
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StImmune());						
+			}
+			break; 
+			case LbaNet::StProtectedHurt:
+			{
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StProtectedHurt());						
+			}
+			break; 
+			case LbaNet::StHidden:
+			{
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StHidden());						
+			}
+			break; 
+			case LbaNet::StScripted:
+			{
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StScripted());						
+			}
+			break;
+		}
+
+		if(_currentstate)
+		{
+			std::string animstring;
+			if(_currentstate->PlayAnimationAtStart(animstring))
+			{
+				//TODO update animation
+			}
+		}
+
+		// inform mode that state changed
+		if(_currentmode)
+			_currentmode->CharacterChangedState();
+
+		//inform server that state is updated
+		EventsQueue::getSenderQueue()->AddEvent(new LbaNet::UpdateStateEvent(tnow, newstate, FallingSize));
+	}
 }

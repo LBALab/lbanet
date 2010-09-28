@@ -143,7 +143,8 @@ void LbaNetModel::Process(double tnow, float tdiff)
 /***********************************************************
 add object to the scene
 ***********************************************************/
-void LbaNetModel::AddObject(int type, const ObjectInfo &desc)
+void LbaNetModel::AddObject(int type, const ObjectInfo &desc, 
+							const LbaNet::ModelInfo &DisplayDesc)
 {
 	switch(type)
 	{
@@ -183,7 +184,7 @@ void LbaNetModel::AddObject(int type, const ObjectInfo &desc)
 				boost::shared_ptr<DynamicObject> playerObject = tmp.BuildSelf(OsgHandler::getInstance());
 
 				if(m_controllerChar)
-					m_controllerChar->SetPhysicalCharacter(playerObject);
+					m_controllerChar->SetPhysicalCharacter(playerObject, DisplayDesc);
 				if(m_controllerCam)
 					m_controllerCam->SetCharacter(playerObject);
 			}
@@ -319,7 +320,7 @@ void LbaNetModel::ResetPlayerObject()
 	boost::shared_ptr<DynamicObject> playerObject = boost::shared_ptr<DynamicObject>(new StaticObject(physo, boost::shared_ptr<DisplayObjectHandlerBase>(), m_playerObjectId));
 
 	if(m_controllerChar)
-		m_controllerChar->SetPhysicalCharacter(playerObject, true);
+		m_controllerChar->SetPhysicalCharacter(playerObject, LbaNet::ModelInfo(), true);
 	if(m_controllerCam)
 		m_controllerCam->SetCharacter(playerObject, true);
 }
@@ -458,7 +459,7 @@ void LbaNetModel::AddObject(int Type, Ice::Long ObjectId,
 	}
 
 	ObjectInfo obj((long)ObjectId, DInfo, PInfo, (Type == 1));
-	AddObject(Type, obj);
+	AddObject(Type, obj, DisplayDesc);
 }
 
 
