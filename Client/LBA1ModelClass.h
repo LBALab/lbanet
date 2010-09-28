@@ -286,6 +286,8 @@ private:
 	osg::ref_ptr<osg::Geometry> m_myGeometrylines;
 	osg::ref_ptr<osg::Geometry> m_myGeometrynorms;
 
+	bool m_usesoftshadow;
+
 public:
 
 	short int processActorVar5;
@@ -419,7 +421,7 @@ public:
 	{m_animationspeed = animationspeed;}
 
 
-	osg::ref_ptr<osg::Node> ExportOSGModel();
+	osg::ref_ptr<osg::Node> ExportOSGModel(bool usesoftshadow);
 };
 
 #endif

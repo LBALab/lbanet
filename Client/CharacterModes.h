@@ -152,6 +152,19 @@ public:
 	virtual void CharacterChangedState();
 };
 
+//*************************************************************************************************
+//*                               class HorseCharacterMode
+//*************************************************************************************************
+/**
+* @brief Base class representing a certain mode of a character
+*
+*/
+class HorseCharacterMode : public CharacterModeBase
+{
+public:
+	HorseCharacterMode(void){}
+	virtual ~HorseCharacterMode(void){}
+};
 
 //*************************************************************************************************
 //*                               class DinoflyCharacterMode

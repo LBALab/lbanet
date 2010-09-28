@@ -122,7 +122,8 @@ public:
 	osg::ref_ptr<osg::Node> LoadOSGFile(const std::string & filename);
 
 	//! add a actor to the display list - return handler to actor position
-	osg::ref_ptr<osg::MatrixTransform> AddActorNode(osg::ref_ptr<osg::Node> node);
+	osg::ref_ptr<osg::MatrixTransform> AddActorNode(osg::ref_ptr<osg::Node> node,
+											bool CastShadow);
 
 
 	//! add an empty actor to the display list - return handler to actor position
@@ -153,7 +154,8 @@ public:
 
 	//! create simple display object
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateSimpleObject(const std::string & filename,
-															boost::shared_ptr<DisplayTransformation> Tr);
+															boost::shared_ptr<DisplayTransformation> Tr,
+															bool CastShadow);
 
 
 	//! create capsule object

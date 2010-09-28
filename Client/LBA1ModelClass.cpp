@@ -64,6 +64,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 
 static float factormul_lba1_toosg = 32;
+static float factortransY_lba1_toosg = -0.1;
 
 
 
@@ -2114,7 +2115,7 @@ bool LBA1ModelClass::AnimateModel(float tdiff)
 			for(int i=0;i<Points->NumberOfPoints;i++)
 			{
 				*(tempPtrX++)=(((float)tempPoint->X)/16384)*factormul_lba1_toosg;
-				*(tempPtrY++)=((((float)tempPoint->Y)/16384)*factormul_lba1_toosg);
+				*(tempPtrY++)=((((float)tempPoint->Y)/16384)*factormul_lba1_toosg) + factortransY_lba1_toosg;
 				*(tempPtrZ++)=(((float)tempPoint->Z)/16384)*factormul_lba1_toosg;
 
 				tempPoint++;
@@ -2480,8 +2481,11 @@ void LBA1ModelClass::setLoopKeyframe(short int value)
 //---------------------------------------------------------------------------
 
 
-osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel()
+osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow)
 {
+	m_usesoftshadow = usesoftshadow;
+	
+
 	memset(matrixList,0,sizeof(TMatrix)*100);
 
 	baseModelPosition[0]=0;
@@ -2503,6 +2507,88 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel()
 		elementPtr++;
 	}
 
+	// calculate shade data
+	{
+		char* ptr = Shades->ShadesData;
+		TMatrix lightMatrix;
+		int k=0;
+
+		for(int i=0;i<Elements->NumberOfElements;i++)
+		{
+			if(Elements->ElementsData[i].NumberOfShades)
+			{
+				double* lightDataPtr=lightMatrix.data;
+				double* matrixPtr=matrixList[i].data;
+				int* lightPositionPtr=lightPosition;
+
+				int lightX=(*lightPositionPtr++);
+				int lightY=(*lightPositionPtr++);
+				int lightZ=(*lightPositionPtr++);
+
+				for(int j=0; j < 3; j++)
+					*(lightDataPtr++)=*(matrixPtr++)*lightX;
+
+				for(int j=0; j < 3; j++)
+					*(lightDataPtr++)=*(matrixPtr++)*lightY;
+
+				for(int j=0; j < 3; j++)
+    				*(lightDataPtr++)=*(matrixPtr++)*lightZ;
+
+				for(int j=0;j<Elements->ElementsData[i].NumberOfShades;j++)
+				{
+					int color;
+
+					short int col1;
+					short int col2;
+					short int col3;
+
+					col1=*(short int*)ptr;
+					ptr+=2;
+					col2=*(short int*)ptr;
+					ptr+=2;
+					col3=*(short int*)ptr;
+					ptr+=2;
+
+					double* lightPtr=lightMatrix.data;
+					int var0=(int)*(lightPtr++);
+					int var1=(int)*(lightPtr++);
+					int var2=(int)*(lightPtr++);
+
+					color=var0*col1+var1*col2+var2*col3;
+
+					var0=(int)*(lightPtr++);
+					var1=(int)*(lightPtr++);
+					var2=(int)*(lightPtr++);
+
+					color+=var0*col1+var1*col2+var2*col3;
+
+					var0=(int)*(lightPtr++);
+					var1=(int)*(lightPtr++);
+					var2=(int)*(lightPtr++);
+
+					color+=var0*col1+var1*col2+var2*col3;
+
+					if(color>0)
+					{
+						color>>=14;
+						color/=*(short int*)(ptr);
+
+						shadeTable[k]=(short int)color;
+					}
+					else
+					{
+						shadeTable[k]=0;
+					}
+
+					k++;
+					ptr+=2;
+
+				}
+			}
+		}
+	}
+
+
     // POINTS CALCULATIONS -----------
 	float* tempPtrX=dividedPointsX;
 	float* tempPtrY=dividedPointsY;
@@ -2513,7 +2599,7 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel()
 	for(int i=0;i<Points->NumberOfPoints;i++)
 	{
 	    *(tempPtrX++)=(((float)tempPoint->X)/16384)*factormul_lba1_toosg;
-		*(tempPtrY++)=((((float)tempPoint->Y)/16384)*factormul_lba1_toosg);
+		*(tempPtrY++)=((((float)tempPoint->Y)/16384)*factormul_lba1_toosg) + factortransY_lba1_toosg;
 		*(tempPtrZ++)=(((float)tempPoint->Z)/16384)*factormul_lba1_toosg;
 
 		tempPoint++;
@@ -2553,15 +2639,35 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel()
 		osg::Vec3Array* normals = new osg::Vec3Array;
 
 
+		int shade=0;
+		if(polyPtr->RenderType==7 || polyPtr->RenderType==8)
+			shade=1;
+
+
 		// build primitives
 		std::map<int, std::pair<std::vector<int>, std::vector<int> > > primitives;
 		std::map<int, std::vector<std::vector<int> > > primitivespoly;
 		for(int i=0;i<Polygons->NumberOfPolygons;i++)
-		{
+		{	
 			vertexPtr=polyPtr->VertexsData;
-			unsigned char* ptr=(unsigned char*)m_paletteRGB+(((polyPtr->ColorIdx)&0xFF))*3;
+			int coloridx = ((polyPtr->ColorIdx)&0xFF);
 
-			std::pair<std::vector<int>, std::vector<int> >& tmp = primitives[polyPtr->ColorIdx];
+			//if(shade)
+			//{
+			//	if(m_softShade && usesoftshadow && vertexPtr->Shade > 0)
+			//		coloridx = ((polyPtr->ColorIdx)&0xFF)+shadeTable[vertexPtr->Shade];
+			//}
+			//else
+			//{
+				if(polyPtr->Shade!=-1)
+				{
+					if(m_softShade && usesoftshadow)
+						coloridx = ((polyPtr->ColorIdx)&0xFF)+shadeTable[polyPtr->Shade];
+				}
+			//}
+
+
+			std::pair<std::vector<int>, std::vector<int> >& tmp = primitives[coloridx];
 			if(polyPtr->NumberOfVertexs == 4)
 			{
 				for(int j=0;j<polyPtr->NumberOfVertexs;j++)
@@ -2587,7 +2693,7 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel()
 					vertexPtr++;
 				}
 
-				primitivespoly[polyPtr->ColorIdx].push_back(tmppoly);
+				primitivespoly[coloridx].push_back(tmppoly);
 			}
 			polyPtr++;
 		}
@@ -2602,7 +2708,7 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel()
 				if(tmp.first.size() > 0)
 				{
 					osg::DrawElementsUInt* myprimitive = new osg::DrawElementsUInt(osg::PrimitiveSet::TRIANGLES, 0);
-					unsigned char* ptr=(unsigned char*)m_paletteRGB+(((it->first)&0xFF))*3;
+					unsigned char* ptr=(unsigned char*)m_paletteRGB+(it->first)*3;
 					colors->push_back(osg::Vec4((*ptr)/255.0f,(*(ptr+1))/255.0f,(*(ptr+2))/255.0f, 1.0f));
 
 					for(size_t cc=0; cc<tmp.first.size(); ++cc)
@@ -2615,7 +2721,7 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel()
 				if(tmp.second.size() > 0)
 				{
 					osg::DrawElementsUInt* myprimitive = new osg::DrawElementsUInt(osg::PrimitiveSet::QUADS, 0);
-					unsigned char* ptr=(unsigned char*)m_paletteRGB+(((it->first)&0xFF))*3;
+					unsigned char* ptr=(unsigned char*)m_paletteRGB+(it->first)*3;
 					colors->push_back(osg::Vec4((*ptr)/255.0f,(*(ptr+1))/255.0f,(*(ptr+2))/255.0f, 1.0f));
 
 					for(size_t cc=0; cc<tmp.second.size(); ++cc)
@@ -2638,7 +2744,7 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel()
 				for(size_t cc=0; cc<tmp.size(); ++cc)
 				{
 					osg::DrawElementsUInt* myprimitive = new osg::DrawElementsUInt(osg::PrimitiveSet::POLYGON, 0);
-					unsigned char* ptr=(unsigned char*)m_paletteRGB+(((it->first)&0xFF))*3;
+					unsigned char* ptr=(unsigned char*)m_paletteRGB+(it->first)*3;
 					colors->push_back(osg::Vec4((*ptr)/255.0f,(*(ptr+1))/255.0f,(*(ptr+2))/255.0f, 1.0f));
 
 					std::vector<int> & polydraw = tmp[cc];
@@ -2667,7 +2773,7 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel()
 		m_myGeometrylines = new osg::Geometry();
 		myGeode->addDrawable(m_myGeometrylines.get());
 
-		osg::Vec4Array* colors = new osg::Vec4Array;
+		osg::Vec4Array* colorslines = new osg::Vec4Array;
 
 		// MODEL LINES ----
 		std::map<int, std::vector<int> > lines;
@@ -2691,7 +2797,7 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel()
 				osg::DrawElementsUInt* myprimitive = new osg::DrawElementsUInt(osg::PrimitiveSet::LINES, 0);
 				unsigned char* ptr;
 				ptr=(unsigned char*)m_paletteRGB+(((itli->first)&0xFF00)>>8)*3;
-				colors->push_back(osg::Vec4((*ptr)/255.0f,(*(ptr+1))/255.0f,(*(ptr+2))/255.0f, 1.0f));
+				colorslines->push_back(osg::Vec4((*ptr)/255.0f,(*(ptr+1))/255.0f,(*(ptr+2))/255.0f, 1.0f));
 
 				std::vector<int> & tmp = itli->second;
 				std::vector<int>::iterator ittmp = tmp.begin();
@@ -2706,7 +2812,7 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel()
 		m_myGeometrylines->setVertexArray( myVerticesPoints ); 
 		m_myGeometrylines->setUseDisplayList( false );
 		m_myGeometrylines->setDataVariance(osg::Object::DYNAMIC);
-		m_myGeometrylines->setColorArray(colors);
+		m_myGeometrylines->setColorArray(colorslines);
 		m_myGeometrylines->setColorBinding(osg::Geometry::BIND_PER_PRIMITIVE_SET);
 
 

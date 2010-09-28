@@ -210,17 +210,79 @@ void CharacterController::Process(double tnow, float tdiff)
 	}
 	else
 	{
-		//TODO
-		if(_keyleft)
-			physo->RotateYAxis(0.15f*tdiff);
-		else if(_keyright)
-			physo->RotateYAxis(-0.15f*tdiff);
+		bool moving = false;
+		bool IsIdle = true;
+		bool allowedmoving = false;
+		bool allowedrotating = false;
+		bool standoniddle = false;
 
-		float speed = 0;
-		if(_keyforward)
-			speed = 0.01f;
-		else if(_keybackward)
-			speed = -0.01f;
+		if(_currentstate)
+		{
+			allowedmoving = _currentstate->AllowedMoving();
+			allowedrotating = _currentstate->AllowedRotating();
+			standoniddle = _currentstate->StandOnIddle();
+		}
+
+		if(allowedmoving)
+		{	
+			if(_keyforward)
+			{
+				//update animation
+				int resupd = _character->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate("MoveForward"));
+				if(resupd == 0)
+				{
+					IsIdle = false;
+					moving = true;
+				}			
+			}
+			else if(_keybackward)
+			{
+				//update animation
+				int resupd = _character->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate("MoveBackward"));
+				if(resupd == 0)
+				{
+					IsIdle = false;
+					moving = true;
+				}	
+			}
+		}
+
+		if(allowedrotating)
+		{
+			if(_keyleft)
+			{
+				if(!moving)
+				{
+					//update animation
+					_character->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate("TurnLeft"));
+					IsIdle = false;
+				}
+
+				physo->RotateYAxis(0.15f*tdiff);
+			}
+			else if(_keyright)
+			{
+				if(!moving)
+				{
+					//update animation
+					_character->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate("TurnRight"));
+					IsIdle = false;
+				}
+
+				physo->RotateYAxis(-0.15f*tdiff);
+			}
+		}
+
+		// update to standing pose if needed
+		if(IsIdle && standoniddle)
+		{
+			//update animation
+			_character->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate("Stand"));
+		}
+
+
+		// get speed
+		float speed = _character->GetDisplayObject()->GetCurrentAssociatedSpeedX();
 
 		LbaQuaternion Q;
 		physo->GetRotation(Q);
@@ -385,7 +447,40 @@ void CharacterController::UpdateModeAndState(const std::string &newmode,
 	{
 		_currentmodestr = newmode;
 
-		//TODO
+		if(_currentmodestr == "Normal")
+		{
+			_currentmode = boost::shared_ptr<CharacterModeBase>(new NormalCharacterMode());
+		}
+
+		if(_currentmodestr == "Sport")
+		{
+			_currentmode = boost::shared_ptr<CharacterModeBase>(new SportyCharacterMode());
+		}
+
+		if(_currentmodestr == "Angry")
+		{
+			_currentmode = boost::shared_ptr<CharacterModeBase>(new AggresiveCharacterMode());
+		}
+
+		if(_currentmodestr == "Discrete")
+		{
+			_currentmode = boost::shared_ptr<CharacterModeBase>(new DiscreteCharacterMode());
+		}		
+
+		if(_currentmodestr == "Protopack")
+		{
+			_currentmode = boost::shared_ptr<CharacterModeBase>(new ProtopackCharacterMode());
+		}
+
+		if(_currentmodestr == "Horse")
+		{
+			_currentmode = boost::shared_ptr<CharacterModeBase>(new HorseCharacterMode());
+		}
+
+		if(_currentmodestr == "Dinofly")
+		{
+			_currentmode = boost::shared_ptr<CharacterModeBase>(new DinoflyCharacterMode());
+		}		
 	}
 
 	// only update if different
@@ -439,6 +534,11 @@ void CharacterController::UpdateModeAndState(const std::string &newmode,
 				_currentstate = boost::shared_ptr<CharacterStateBase>(new StHurtFall());						
 			}
 			break; 
+			case LbaNet::StFinishedFall:
+			{
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StFinishedFall());						
+			}
+			break;	
 			case LbaNet::StFalling:
 			{
 				_currentstate = boost::shared_ptr<CharacterStateBase>(new StFalling());					
@@ -491,7 +591,8 @@ void CharacterController::UpdateModeAndState(const std::string &newmode,
 			std::string animstring;
 			if(_currentstate->PlayAnimationAtStart(animstring))
 			{
-				//TODO update animation
+				//update animation
+				_character->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate(animstring));
 			}
 		}
 

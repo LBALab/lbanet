@@ -135,8 +135,13 @@ update animation
 ***********************************************************/
 int Lba1ModelHandler::UpdateAnimation(const std::string & AnimString)
 {
-	_currentanimationstring = AnimString;
-	return RefreshModel();
+	if(_currentanimationstring != AnimString)
+	{
+		_currentanimationstring = AnimString;
+		return RefreshModel();
+	}
+
+	return 0;
 }
 
 
@@ -198,7 +203,7 @@ int Lba1ModelHandler::RefreshModel()
 		_model->LoadAnim(	tmpstrcut,
 							tmpstrcut->entitiesTable[_currModel].animList[_currAnimation].index);
 
-		_osgnode = _model->ExportOSGModel();
+		_osgnode = _model->ExportOSGModel(true);
 		if(root)
 			root->addChild(_osgnode);
 	}

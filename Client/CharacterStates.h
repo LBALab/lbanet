@@ -56,6 +56,10 @@ public:
 	//! return true if animation should be paused
 	virtual bool AnimationFinished(){return false;}
 
+	//! tell if we should play stand anim when iddle on this mode
+	virtual bool StandOnIddle(){return false;}
+	
+
 	//! tell state that player is moving
 	virtual void InformMoving(){}
 
@@ -109,6 +113,9 @@ public:
 	//! ask if we are allowed to rotate in this mode
 	virtual bool AllowedRotating(){return true;}
 
+	//! tell if we should play stand anim when iddle on this mode
+	virtual bool StandOnIddle(){return true;}
+
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
 	{
@@ -143,7 +150,7 @@ public:
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
 	{
-		animstring = "Push"; //todo
+		animstring = "PushContainer";
 		return true;
 	}
 };
@@ -176,7 +183,7 @@ public:
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
 	{
-		animstring = "Push"; //todo
+		animstring = "PushContainer";
 		return true;
 	}
 };
@@ -220,6 +227,10 @@ public:
 	//! ask if we can should make the character blinking on screen
 	virtual bool ShouldBlinkOnScreen(){return true;}
 
+	//! tell if we should play stand anim when iddle on this mode
+	virtual bool StandOnIddle(){return true;}
+
+
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
 	{
@@ -259,6 +270,9 @@ public:
 
 	//! check if in this state we are immune to hurt
 	virtual bool IsImmuneHurt(){return true;}
+
+	//! tell if we should play stand anim when iddle on this mode
+	virtual bool StandOnIddle(){return true;}
 };
 
 
@@ -305,7 +319,7 @@ public:
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
 	{
-		animstring = "Action"; //todo
+		animstring = "DoAction";
 		return true;
 	}
 
@@ -352,7 +366,7 @@ public:
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
 	{
-		animstring = "Die"; //todo
+		animstring = "Die";
 		return true;
 	}
 };
@@ -378,7 +392,7 @@ public:
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
 	{
-		animstring = "Drown"; //todo
+		animstring = "Drown";
 		return true;
 	}
 };
@@ -402,7 +416,7 @@ public:
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
 	{
-		animstring = "DrownGas"; //todo
+		animstring = "DrownGaz";
 		return true;
 	}
 };
@@ -426,7 +440,7 @@ public:
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
 	{
-		animstring = "Burn"; //todo
+		animstring = "DrownFire";
 		return true;
 	}
 };
@@ -473,7 +487,7 @@ public:
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
 	{
-		animstring = "SmallHurt"; //todo
+		animstring = "HurtSmall";
 		return true;
 	}
 
@@ -501,7 +515,7 @@ public:
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
 	{
-		animstring = "MediumHurt"; //todo
+		animstring = "HurtMedium";
 		return true;
 	}
 };
@@ -525,7 +539,31 @@ public:
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
 	{
-		animstring = "BigHurt"; //todo
+		animstring = "HurtBig";
+		return true;
+	}
+};
+
+//*************************************************************************************************
+//*                               class StFinishedFall
+//*************************************************************************************************
+/**
+* @brief Base class representing a certain state of a character
+*
+*/
+class StFinishedFall : public StSmallHurt
+{
+public:
+	//! constructor
+	StFinishedFall(void){}
+
+	//! destructor
+	virtual ~StFinishedFall(void){}
+
+	//! ask state if we need to play animation at start
+	virtual bool PlayAnimationAtStart(std::string & animstring)
+	{
+		animstring = "StopFall";
 		return true;
 	}
 };
@@ -549,7 +587,7 @@ public:
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
 	{
-		animstring = "HurtFall"; //todo
+		animstring = "StopFallHurt";
 		return true;
 	}
 };
@@ -579,7 +617,7 @@ public:
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
 	{
-		animstring = "Fall"; //todo
+		animstring = "Fall";
 		return true;
 	}
 };
@@ -628,7 +666,7 @@ public:
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
 	{
-		animstring = "Jump"; //todo
+		animstring = "DoAction";
 		return true;
 	}
 
@@ -677,7 +715,7 @@ public:
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
 	{
-		animstring = "UseWeapon"; //todo
+		animstring = "UseWeapon";
 		return true;
 	}
 

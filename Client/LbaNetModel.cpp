@@ -353,7 +353,7 @@ void LbaNetModel::AddObject(int Type, Ice::Long ObjectId,
 			if(DisplayDesc.ModelName != "")
 			{
 				boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
-					(new OsgSimpleObjectDescription(DisplayDesc.ModelName));
+					(new OsgSimpleObjectDescription(DisplayDesc.ModelName, false)); //TODO make it configurable
 
 				boost::shared_ptr<DisplayTransformation> tr;
 				DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
@@ -589,6 +589,10 @@ void LbaNetModel::NewMap(const std::string & NewMap, const std::string & Script)
 
 	//TODO script part
 
+	// to remove that
+	OsgHandler::getInstance()->ResetDisplayTree();
+	LbaMainLightInfo lightinfo(0, 100, 50);
+	OsgHandler::getInstance()->SetLight(lightinfo);
 
 
 	// ask server to get a refresh of all objects

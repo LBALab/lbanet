@@ -45,6 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <osgShadow/ShadowedScene>
 #include <osgShadow/StandardShadowMap>
+#include <osgShadow/MinimalShadowMap>
 #include <osgShadow/ShadowMap>
 
 // win32 only
@@ -428,8 +429,11 @@ void OsgHandler::ResetCameraProjectiomMatrix()
 	}
 	else
 	{
-		_viewer->getCamera()->setProjectionMatrixAsOrtho(-0.12*_distance, 0.12*_distance,
-															-0.12*_distance, 0.12*_distance,
+		float factorX = _viewportX * 0.0001;
+		float factorY = _viewportY * 0.0001;
+
+		_viewer->getCamera()->setProjectionMatrixAsOrtho(-factorX*_distance, factorX*_distance,
+															-factorY*_distance, factorY*_distance,
 															-2000, 2000);
 	}
 
@@ -535,6 +539,7 @@ void OsgHandler::SetCameraZenit(double zenit)
 	if(_zenit != zenit)
 	{
 		_zenit = zenit;
+
 
 		if(_zenit < 10)
 			_zenit = 10;
@@ -647,6 +652,7 @@ void OsgHandler::ResetDisplayTree()
 		shadowscene->setCastsShadowTraversalMask(CastsShadowTraversalMask);
 
 		osg::ref_ptr<osgShadow::StandardShadowMap> shmap = new osgShadow::StandardShadowMap();
+		//osg::ref_ptr<osgShadow::MinimalShadowMap> shmap = new osgShadow::MinimalShadowMap();
 		shadowscene->setShadowTechnique(shmap.get());
 		_sceneRootNode = shadowscene;
 	}
@@ -696,13 +702,22 @@ osg::ref_ptr<osg::Node> OsgHandler::LoadOSGFile(const std::string & filename)
 /***********************************************************
 add a actor to the display list - return handler to actor position
 ***********************************************************/
-osg::ref_ptr<osg::MatrixTransform> OsgHandler::AddActorNode(osg::ref_ptr<osg::Node> node)
+osg::ref_ptr<osg::MatrixTransform> OsgHandler::AddActorNode(osg::ref_ptr<osg::Node> node,
+														bool CastShadow)
 {
 	#ifdef _DEBUG
 		LogHandler::getInstance()->LogToFile("Added Node to display engine");
 	#endif
 
-	node->setNodeMask(ReceivesShadowTraversalMask | CastsShadowTraversalMask);
+	if(CastShadow)
+	{
+		node->setNodeMask(ReceivesShadowTraversalMask | CastsShadowTraversalMask);
+	}
+	else
+	{
+		node->setNodeMask(ReceivesShadowTraversalMask);
+	}
+
 	osg::ref_ptr<osg::MatrixTransform> transform = new osg::MatrixTransform();
 	transform->addChild(node);
 
@@ -803,7 +818,8 @@ void OsgHandler::GetScreenAttributes(int &resX, int &resY, bool &fullscreen)
 create simple display object
 ***********************************************************/
 boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSimpleObject(const std::string & filename,
-														boost::shared_ptr<DisplayTransformation> Tr)
+														boost::shared_ptr<DisplayTransformation> Tr,
+														bool CastShadow)
 {
 	osg::ref_ptr<osg::Node> resnode = LoadOSGFile(filename);
 
@@ -818,7 +834,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSimpleObject(const
 		resnode = transform;
 	}
 	
-	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode);
+	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, CastShadow);
 	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat));
 }
 
@@ -868,7 +884,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCapsuleObject(floa
 		resnode = transform;
 	}
 	
-	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode);
+	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, true);
 	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat));
 }
 
