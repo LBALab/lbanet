@@ -98,6 +98,24 @@ public:
 		: UseLight(false)
 	{}
 
+	//! constructor
+	LbaMainLightInfo(float PosX, float PosY, float PosZ)
+		: UseLight(true), DirectionalLight(false), 
+			UseAttenuation(false), UseExtendedSpotInfo(false),
+			LOnPosX(PosX), LOnPosY(PosY), LOnPosZ(PosZ)
+	{
+		LOnAmbientR = 0.5f;
+		LOnAmbientG = 0.5f;
+		LOnAmbientB = 0.5f;
+
+		LOnDiffuseR = 0.8f;
+		LOnDiffuseG = 0.8f;
+		LOnDiffuseB = 0.8f;
+
+		LOnSpecularR = 1.0f;
+		LOnSpecularG = 1.0f;
+		LOnSpecularB = 1.0f;
+	}
 
 	//! members
 	bool UseLight;

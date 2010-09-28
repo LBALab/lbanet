@@ -95,8 +95,8 @@ class OsgSimpleObjectDescription : public DisplayObjectDescriptionBase
 {
 public:
 	//! constructor
-	OsgSimpleObjectDescription(const std::string & filename)
-		: _filename(filename)
+	OsgSimpleObjectDescription(const std::string & filename, bool CastShadow)
+		: _filename(filename), _CastShadow(CastShadow)
 	{}
 
 	//! destructor
@@ -108,7 +108,8 @@ public:
 
 
 private:
-	std::string _filename;
+	std::string		_filename;
+	bool			_CastShadow;
 };
 
 
