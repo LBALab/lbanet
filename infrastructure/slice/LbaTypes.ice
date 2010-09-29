@@ -3,6 +3,24 @@
 
 module LbaNet
 {
+	enum ModelStance { StanceNormal, StanceSporty, StanceAggresive, StanceDiscrete };		
+	
+	
+	enum ModelState { NoState, StNormal, StDying, StDrowning, StDrowningGas, StBurning, 
+				StSmallHurt, StMediumHurt, StBigHurt, StHurtFall, StFinishedFall, StFalling, 
+				StJumping, StMovingObject, StUseWeapon, StImmune, StHidden, StScripted,
+				StProtectedHurt, StRestrictedMovingObject };	
+				
+				
+	enum ObjectTypeEnum { StaticObject, CpuObject, MovableObject, PlayerObject, GhostObject };	
+	
+	enum RenderTypeEnum { RenderOsgModel, RenderSprite, RenderLba1M, RenderLba2M };	
+	
+	enum PhysicalShapeEnum { NoShape, BoxShape, CapsuleShape, SphereShape, TriangleMeshShape };	
+	
+	enum PhysicalActorType { StaticAType, KynematicAType, DynamicAType, CharControlAType };	
+
+
 	// give information about a world
 	struct WorldDesc
 	{
@@ -68,16 +86,11 @@ module LbaNet
 		
 	dictionary<long, InventoryItem> InventoryMap;
 	
-	
-	
-	enum ModelState { NoState, StNormal, StDying, StDrowning, StDrowningGas, StBurning, 
-				StSmallHurt, StMediumHurt, StBigHurt, StHurtFall, StFinishedFall, StFalling, 
-				StJumping, StMovingObject, StUseWeapon, StImmune, StHidden, StScripted,
-				StProtectedHurt, StRestrictedMovingObject };	
+			
 	
 	struct ModelInfo
 	{
-		int			RendererType;	// 0 -> osg model ** 1 -> sprite ** 2 -> LBA1 model ** 3-> LBA2 model
+		RenderTypeEnum		TypeRenderer;
 		int			ModelId;	// id for lockup object description in file
 		string			ModelName;	// depends of rendertype - if empty then use ModelId
 		string			Outfit;		// only for animated models
@@ -286,13 +299,13 @@ module LbaNet
 		// 2 = Capsule
 		// 3 = Sphere
 		// 4 = triangle mesh
-		int 			Type;	
+		PhysicalShapeEnum 	TypeShape;	
 		
 		// 1= static
 		// 2= kynematic
 		// 3= dynamic
 		// 4= character controller
-		int 			ShapeType;
+		PhysicalActorType 	TypePhysO;
 
 		// density of the object
 		float 			Density;
@@ -637,6 +650,11 @@ module LbaNet
 	class AnimationStringUpdate extends DisplayObjectUpdateBase
 	{
 		string			Animation;
+	};
+	
+	// pause the object animation
+	class PauseAnimationUpdate extends DisplayObjectUpdateBase
+	{
 	};	
 };	
 

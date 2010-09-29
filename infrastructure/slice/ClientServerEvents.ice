@@ -56,7 +56,7 @@ module LbaNet
 	// client/server tell the other to change stance
 	class ChangeStanceEvent extends ClientServerEventBase
 	{
-		int			NewStanceId;
+		ModelStance		NewStance;
 	};
 	
 	// server send - player enter in a map
@@ -76,12 +76,7 @@ module LbaNet
 	// server tell client to add object
 	class AddObjectEvent extends ClientServerEventBase
 	{
-		// 1 -> static object
-		// 2 -> cpu controlled
-		// 3 -> movable by player
-		// 4 -> player object
-		// 5 -> ghost object
-		int			Type;
+		ObjectTypeEnum		TypeO;
 		long			ObjectId;
 		ModelInfo		DisplayDesc;
 		ObjectPhysicDesc	PhysicDesc;		
@@ -91,7 +86,7 @@ module LbaNet
 	// server tell client to remove object
 	class RemoveObjectEvent extends ClientServerEventBase
 	{
-		int			Type;
+		ObjectTypeEnum		TypeO;
 		long			ObjectId;
 	};
 	
@@ -140,7 +135,7 @@ module LbaNet
 	// server tell client to update the display of 1 object
 	class UpdateDisplayObjectEvent extends ClientServerEventBase
 	{
-		int				Type;
+		ObjectTypeEnum			TypeO;
 		long				ObjectId;
 		DisplayObjectUpdateBase		Update;
 	};	
