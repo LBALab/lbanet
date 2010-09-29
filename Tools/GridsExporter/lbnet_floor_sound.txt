@@ -13,9 +13,7 @@ lbanet floor type:
  11: double-sided stairs 2: bottom corner at the ground (example: brick 579)
  12: double-sided stairs 2: left cornet at the ground (example: brick 1349)
  13: double-sided stairs 2: right corner at the ground (example: brick 1348)
- 15: water
- 16: lava
- 17: gas
+
 
 
 
@@ -39,7 +37,9 @@ lbanet floor sound:
  14: very wet floor (used for sewer floors and for the pot of soup in the Rabbibunny village)
  15: similar to 5, but muffled (used in all caves and the for dwimming pool (Fortress Island))
  16: rumbling sound (used for some moving platforms in caves and for the rubber pontoon in the museum)
-
+ 17: water
+ 18: lava
+ 19: gas
 
 
 lba1 sound conversion:
