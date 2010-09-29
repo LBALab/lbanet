@@ -144,6 +144,9 @@ protected:
 	void ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, float FallingSize, 
 														EventsSeq &tosendevts);
 
+	//! a player is raised from dead
+	void RaiseFromDeadEvent(Ice::Long id);
+
 private:
 	// threading and mutex stuff
 	IceUtil::Monitor<IceUtil::Mutex>							_monitor;

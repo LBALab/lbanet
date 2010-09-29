@@ -345,3 +345,37 @@ ClientInterfacePrx SharedDataHandler::GetProxy(Ice::Long clientid)
 
 	return NULL;
 }
+
+
+/***********************************************************
+//!  update player stance
+//! return true if state has been updated
+***********************************************************/
+bool SharedDataHandler::UpdatePlayerStance(Ice::Long clientid, LbaNet::ModelStance NewStance,
+												ModelInfo & returnmodel )
+{
+	Lock sync(*this);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
+	if(it != _currentplayers.end())
+		return it->second->UpdatePlayerStance(NewStance, returnmodel);
+
+	return false;
+}
+
+
+/***********************************************************
+//!  update player state
+//! return true if state has been updated
+***********************************************************/
+bool SharedDataHandler::UpdatePlayerState(Ice::Long clientid, LbaNet::ModelState NewState,
+												ModelInfo & returnmodel )
+{
+	Lock sync(*this);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
+	if(it != _currentplayers.end())
+		return it->second->UpdatePlayerState(NewState, returnmodel);
+
+	return false;
+}

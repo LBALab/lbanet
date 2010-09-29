@@ -99,6 +99,17 @@ public:
 	ClientInterfacePrx GetProxy(Ice::Long clientid);
 
 
+	//!  update player stance
+	//! return true if state has been updated
+	bool UpdatePlayerStance(Ice::Long clientid, LbaNet::ModelStance NewStance,
+									ModelInfo & returnmodel );
+
+
+	//!  update player state
+	//! return true if state has been updated
+	bool UpdatePlayerState(Ice::Long clientid, LbaNet::ModelState NewState,
+									ModelInfo & returnmodel );
+
 protected:
 	//! constructor
 	SharedDataHandler(void){}

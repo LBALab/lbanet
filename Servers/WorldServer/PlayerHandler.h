@@ -30,9 +30,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <ClientInterface.h>
 
 #include "DatabaseHandlerBase.h"
-
-
-using namespace LbaNet;
+#include "CharacterStates.h"
+#include "CharacterModes.h"
 
 
 
@@ -42,11 +41,11 @@ class PlayerHandler
 public:
 	//! constructor
 	PlayerHandler(long clientid, const std::string &clientname, 
-							const ClientInterfacePrx &proxy,
+							const LbaNet::ClientInterfacePrx &proxy,
 							boost::shared_ptr<DatabaseHandlerBase> dbH,
 							const std::string &worldname,
-							const SavedWorldInfo & savedinfo,
-							const ModelInfo & modelinfo);
+							const LbaNet::SavedWorldInfo & savedinfo,
+							const LbaNet::ModelInfo & modelinfo);
 	
 	//! destructor
 	~PlayerHandler(void);
@@ -59,16 +58,16 @@ public:
 	std::string GetName() {return _clientname;}
 
 	//! accessor on proxy
-	ClientInterfacePrx GetProxy() {return _proxy;}
+	LbaNet::ClientInterfacePrx GetProxy() {return _proxy;}
 
 	//! accessor on model
-	ModelInfo GetModelInfo() {return _currentmodelinfo;}
+	LbaNet::ModelInfo GetModelInfo() {return _currentmodelinfo;}
 
 	//! get inventory
-	ItemsMap GetInventory() {return _currentinventory;}
+	LbaNet::ItemsMap GetInventory() {return _currentinventory;}
 
 	// get shortcuts
-	ShortcutsSeq GetShorcuts() {return _currentshortcuts;}
+	LbaNet::ShortcutsSeq GetShorcuts() {return _currentshortcuts;}
 
 	// player update on of the shorcut - TODO
 	void UpdateShortcut(int Position, long ItemId);
@@ -97,29 +96,45 @@ public:
 	void SaveCurrentInfo();
 
 	//! get player info
-	SavedWorldInfo GetInfo(){ return _currentinfo;}
+	LbaNet::SavedWorldInfo GetInfo(){ return _currentinfo;}
 
 	//!  get player position
-	PlayerPosition GetPlayerPosition();
+	LbaNet::PlayerPosition GetPlayerPosition();
 
+
+	//!  update player stance
+	//! return true if state has been updated
+	bool UpdatePlayerStance(LbaNet::ModelStance NewStance, LbaNet::ModelInfo & returnmodel);
+
+
+	//!  update player state
+	//! return true if state has been updated
+	bool UpdatePlayerState(LbaNet::ModelState NewState,LbaNet::ModelInfo & returnmodel);
+
+
+protected:
+	// update state and mode class from modelinfo
+	void UpdateStateModeClass();
 
 private:
 	long										_clientid;
 	std::string									_clientname; 
-	ClientInterfacePrx							_proxy;
+	LbaNet::ClientInterfacePrx					_proxy;
 	boost::shared_ptr<DatabaseHandlerBase>		_dbH;
 
 	std::string									_worldname;
-	SavedWorldInfo								_currentinfo;
-	ModelInfo									_currentmodelinfo;
-	ItemsMap									_currentinventory;
-	ShortcutsSeq								_currentshortcuts;
+	LbaNet::SavedWorldInfo						_currentinfo;
+	LbaNet::ModelInfo							_currentmodelinfo;
+	LbaNet::ItemsMap							_currentinventory;
+	LbaNet::ShortcutsSeq						_currentshortcuts;
 
 
 	std::vector<long>							_questStarted;
 	std::vector<long>							_questFinished;
 
 
+	boost::shared_ptr<CharacterModeBase>		_currentmode;
+	boost::shared_ptr<CharacterStateBase>		_currentstate;
 };
 
 #endif

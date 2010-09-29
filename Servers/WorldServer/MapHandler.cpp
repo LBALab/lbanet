@@ -316,7 +316,15 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts,
 
 				ChangePlayerState(it->first, castedptr->NewState, castedptr->FallingSize, tosendevts);
 				continue;
-			}		
+			}
+
+			// RaiseFromDeadEvent
+			if(info == typeid(LbaNet::RaiseFromDeadEvent))
+			{
+				RaiseFromDeadEvent(it->first);
+				continue;
+			}
+
 		}
 	}
 }
@@ -595,11 +603,10 @@ change player stance
 void MapHandler::ChangeStance(Ice::Long id, LbaNet::ModelStance NewStance, 
 														EventsSeq &tosendevts)
 {
-	//TODO - check if stance change is legal
-
-	// check if stance is already there
-
-	// if ok then change and inform everybody
+	ModelInfo returnmodel;
+	if(SharedDataHandler::getInstance()->UpdatePlayerStance(id, NewStance, returnmodel))
+		tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+					PlayerObject, id, new ModelUpdate(returnmodel)));
 }
 
 
@@ -609,8 +616,20 @@ change player state
 void MapHandler::ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, float FallingSize, 
 																			 EventsSeq &tosendevts)
 {
-	//TODO - on state change from client
-	//check if state is legal
-	// if so check if already on this state
-	// if not update state and send state update to everybody
+	ModelInfo returnmodel;
+	if(SharedDataHandler::getInstance()->UpdatePlayerState(id, NewState, returnmodel))
+		tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+					PlayerObject, id, new ModelUpdate(returnmodel)));
+
+	//TODO - hurt by falling
+}
+
+
+/***********************************************************
+a player is raised from dead
+***********************************************************/
+void MapHandler::RaiseFromDeadEvent(Ice::Long id)
+{
+	//TODO - check if player was dead
+	// if so change state and teleport to raising area
 }
