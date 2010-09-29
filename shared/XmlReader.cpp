@@ -77,12 +77,35 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
 	res.StartingInfo.StartingMana = pt.get<float>("World.PlayerStartingInfo.StartingMana");	
 	res.StartingInfo.StartingMap = pt.get<std::string>("World.PlayerStartingInfo.StartingMap");
 	res.StartingInfo.Spawning = pt.get<std::string>("World.PlayerStartingInfo.Spawning");
-	res.StartingInfo.StartingModel.RendererType = pt.get<int>("World.PlayerStartingInfo.StartingModel.RendererType");
 	res.StartingInfo.StartingModel.ModelName = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.ModelName");
 	res.StartingInfo.StartingModel.Outfit = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.Outfit");
 	res.StartingInfo.StartingModel.Weapon = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.Weapon");
 	res.StartingInfo.StartingModel.Mode = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.Mode");
 	res.StartingInfo.StartingModel.State = LbaNet::StNormal;
+
+	int renderT = pt.get<int>("World.PlayerStartingInfo.StartingModel.RendererType");
+	switch(renderT)
+	{
+		case 0: // -> osg model
+			res.StartingInfo.StartingModel.TypeRenderer = LbaNet::RenderOsgModel;
+		break;
+
+		case 1: // 1 -> sprite
+			res.StartingInfo.StartingModel.TypeRenderer = LbaNet::RenderSprite;
+		break;
+
+		case 2: // -> LBA1 model
+			res.StartingInfo.StartingModel.TypeRenderer = LbaNet::RenderLba1M;
+		break;
+
+		case 3: // -> LBA2 model
+			res.StartingInfo.StartingModel.TypeRenderer = LbaNet::RenderLba2M;
+		break;
+
+	}
+
+
+
 
     BOOST_FOREACH(ptree::value_type &v, pt.get_child("World.PlayerStartingInfo.StartingInventory"))
 	{

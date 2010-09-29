@@ -222,12 +222,6 @@ public:
 	//! build description into a reald physic object
 	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id) const = 0;
 
-	//! get object type
-	virtual short GetType() = 0;
-
-	//! set object as non controllable by player
-	virtual void SetNonControllable() = 0;
-
 
 public:
 	//position of the object in the world
@@ -255,13 +249,6 @@ public:
 	//! build description into a reald physic object
 	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id) const;
 
-	//! get object type
-	virtual short GetType()
-	{return 1;}
-
-
-	//! set object as non controllable by player
-	virtual void SetNonControllable(){}
 
 	//nothing more to do here, the only thing we need is a position
 };
@@ -275,20 +262,13 @@ class PhysicalDescriptionWithShape : public PhysicalDescriptionBase
 public:
 	//! constructor
 	PhysicalDescriptionWithShape(float posX, float posY, float posZ,
-									int Otype, float Odensity,
+									LbaNet::PhysicalActorType Otype, float Odensity,
 									const LbaQuaternion &rot,
 									bool Collidable);
 
 	//! destructor
 	virtual ~PhysicalDescriptionWithShape();
 
-	//! set object as non controllable by player
-	virtual void SetNonControllable()
-	{
-		//change from CC to kynematic actor
-		if(type == 4)
-			type = 2;
-	}
 
 public:
 
@@ -297,7 +277,7 @@ public:
 	// 2= kynematic
 	// 3= dynamic
 	// 4= character controller
-	int type;
+	LbaNet::PhysicalActorType ActorType;
 
 	// density of the object
 	float density;
@@ -316,7 +296,7 @@ class PhysicalDescriptionBox : public PhysicalDescriptionWithShape
 public:
 	//! constructor
 	PhysicalDescriptionBox(float posX, float posY, float posZ,
-									int Otype, float Odensity,
+									LbaNet::PhysicalActorType Otype, float Odensity,
 									const LbaQuaternion &rot,
 									float sX, float sY, float sZ,
 									bool Collidable);
@@ -326,11 +306,6 @@ public:
 
 	//! build description into a reald physic object
 	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id) const;
-
-
-	//! get object type
-	virtual short GetType()
-	{return 2;}
 
 public:
 	// size of the box from the box center
@@ -349,7 +324,7 @@ class PhysicalDescriptionCapsule : public PhysicalDescriptionWithShape
 public:
 	//! constructor
 	PhysicalDescriptionCapsule(float posX, float posY, float posZ,
-									int Otype, float Odensity,
+									LbaNet::PhysicalActorType Otype, float Odensity,
 									const LbaQuaternion &rot,
 									float sX, float sY,
 									bool Collidable);
@@ -360,10 +335,6 @@ public:
 
 	//! build description into a reald physic object
 	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id) const;
-
-	//! get object type
-	virtual short GetType()
-	{return 3;}
 
 public:
 	// radius of the capsule from capsule center
@@ -386,7 +357,7 @@ class PhysicalDescriptionSphere : public PhysicalDescriptionWithShape
 public:
 	//! constructor
 	PhysicalDescriptionSphere(float posX, float posY, float posZ,
-									int Otype, float Odensity,
+									LbaNet::PhysicalActorType Otype, float Odensity,
 									const LbaQuaternion &rot,
 									float sY,
 									float StaticFriction, 
@@ -400,10 +371,6 @@ public:
 
 	//! build description into a reald physic object
 	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id) const;
-
-	//! get object type
-	virtual short GetType()
-	{return 4;}
 
 public:
 	// radius of the sphere from capsule sphere
@@ -437,10 +404,6 @@ public:
 
 	//! build description into a reald physic object
 	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id) const;
-
-	//! get object type
-	virtual short GetType()
-	{return 5;}
 
 public:
 	// path of the file describing the mesh
