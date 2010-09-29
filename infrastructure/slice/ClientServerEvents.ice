@@ -146,6 +146,11 @@ module LbaNet
 		ModelState			NewState;
 		float				FallingSize;
 	};
+	
+	// client tell server that player should be raised from dead
+	class RaiseFromDeadEvent extends ClientServerEventBase
+	{
+	};	
 };	
 
 #endif

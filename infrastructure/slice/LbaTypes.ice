@@ -9,7 +9,7 @@ module LbaNet
 	enum ModelState { NoState, StNormal, StDying, StDrowning, StDrowningGas, StBurning, 
 				StSmallHurt, StMediumHurt, StBigHurt, StHurtFall, StFinishedFall, StFalling, 
 				StJumping, StMovingObject, StUseWeapon, StImmune, StHidden, StScripted,
-				StProtectedHurt, StRestrictedMovingObject };	
+				StProtectedHurt, StRestrictedMovingObject, StFighting };	
 				
 				
 	enum ObjectTypeEnum { StaticObject, CpuObject, MovableObject, PlayerObject, GhostObject };	
