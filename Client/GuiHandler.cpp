@@ -404,7 +404,7 @@ called when the windows is resized
 ***********************************************************/
 void GuiHandler::Resize(int screen_size_X, int screen_size_Y, int oldscreenX, int oldscreenY)
 {
-	if(oldscreenX > 0 && oldscreenY > 0)
+	if(oldscreenX > 1 && oldscreenY > 1)
 	{
 		if(_game_gui)
 			_game_gui->SaveGUISizes(oldscreenX, oldscreenY);

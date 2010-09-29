@@ -141,9 +141,7 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 				// action key
 				if(kkk == _keymap[LbanetKey_Action])
 				{
-					EventsQueue::getSenderQueue()->AddEvent(new LbaNet::PressedActionKeyEvent(
-						SynchronizedTimeHandler::GetCurrentTimeDouble(), false));
-					
+					EventsQueue::getReceiverQueue()->AddEvent(new PlayerKeyPressedEvent(LbanetKey_Action));				
 					return true;	
 				}
 
@@ -275,6 +273,16 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 					EventsQueue::getReceiverQueue()->AddEvent(new PlayerKeyReleasedEvent(LbanetKey_Down));
 					return true;	
 				}
+
+
+				// action key
+				if(kkk == _keymap[LbanetKey_Action])
+				{
+					EventsQueue::getReceiverQueue()->AddEvent(new PlayerKeyReleasedEvent(LbanetKey_Action));
+					
+					return true;	
+				}
+
 			}
 		}
 	}

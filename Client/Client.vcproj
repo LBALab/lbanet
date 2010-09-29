@@ -200,11 +200,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CharacterModes.cpp"
+				RelativePath="..\shared\CharacterModes.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\CharacterStates.cpp"
+				RelativePath="..\shared\CharacterStates.cpp"
 				>
 			</File>
 			<File
@@ -474,15 +474,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CharacterControllerLBA.h"
+				RelativePath="..\shared\CharacterModes.h"
 				>
 			</File>
 			<File
-				RelativePath=".\CharacterModes.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CharacterStates.h"
+				RelativePath="..\shared\CharacterStates.h"
 				>
 			</File>
 			<File

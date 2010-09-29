@@ -50,6 +50,7 @@ CharacterController::CharacterController()
 	_keyright = false;
 	_keyup = false;
 	_keydown = false;
+	_keyaction = false;
 }
 
 
@@ -127,6 +128,22 @@ void CharacterController::KeyPressed(LbanetKey keyid)
 			_keydown = true;
 		}
 		break;
+
+		case LbanetKey_Action:
+		{
+			if(!_keyaction)
+			{
+				double tnow = SynchronizedTimeHandler::GetCurrentTimeDouble();
+				_keyaction = true;
+
+				EventsQueue::getSenderQueue()->AddEvent(new LbaNet::PressedActionKeyEvent(tnow, false));
+
+				LbaNet::ModelState newstate;
+				if(_currentmode && _currentmode->ChangeStateOnPressAction(newstate))
+					UpdateModeAndState(_currentmodestr, newstate, tnow);
+			}
+		}
+		break;
 	}
 }
 
@@ -173,7 +190,19 @@ void CharacterController::KeyReleased(LbanetKey keyid)
 		}
 		break;
 
+		case LbanetKey_Action:
+		{
+			if(_keyaction)
+			{
+				double tnow = SynchronizedTimeHandler::GetCurrentTimeDouble();
+				_keyaction = false;
 
+				LbaNet::ModelState newstate;
+				if(_currentmode && _currentmode->ChangeStateOnReleaseAction(newstate))
+					UpdateModeAndState(_currentmodestr, newstate, tnow);
+			}
+		}
+		break;
 	}
 }
 
@@ -772,6 +801,12 @@ void CharacterController::UpdateModeAndState(const std::string &newmode,
 				_currentstate = boost::shared_ptr<CharacterStateBase>(new StScripted());						
 			}
 			break;
+			case LbaNet::StFighting:
+			{
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StFighting());						
+			}
+			break;
+
 		}
 
 		if(_currentstate)

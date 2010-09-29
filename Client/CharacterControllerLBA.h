@@ -101,6 +101,7 @@ private:
 	bool										_keyright;
 	bool										_keyup;
 	bool										_keydown;
+	bool										_keyaction;
 
 	LbaNet::PlayerMoveInfo						_lastupdate;
 	LbaNet::PlayerMoveInfo						_currentupdate;
