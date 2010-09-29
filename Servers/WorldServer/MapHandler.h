@@ -136,6 +136,14 @@ protected:
 	void RefreshPlayerObjects(Ice::Long id);
 
 
+	//! change player stance
+	void ChangeStance(Ice::Long id, LbaNet::ModelStance NewStanceId, 
+														EventsSeq &tosendevts);
+
+	//! change player state
+	void ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, float FallingSize, 
+														EventsSeq &tosendevts);
+
 private:
 	// threading and mutex stuff
 	IceUtil::Monitor<IceUtil::Mutex>							_monitor;

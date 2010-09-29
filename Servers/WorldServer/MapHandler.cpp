@@ -275,8 +275,7 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts,
 				LbaNet::ChangeStanceEvent* castedptr = 
 					dynamic_cast<LbaNet::ChangeStanceEvent *>(&obj);
 				
-				//TODO
-					//int			NewStanceId;
+				ChangeStance(it->first, castedptr->NewStance, tosendevts);
 				continue;
 			}
 
@@ -308,13 +307,16 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts,
 				continue;
 			}
 
-			
-			//TODO - on state change from client
-			//check if state is legal
-			// if so check if already on this state
-			// if not update state and send state update to everybody
 
+			// UpdateStateEvent
+			if(info == typeid(LbaNet::UpdateStateEvent))
+			{
+				LbaNet::UpdateStateEvent* castedptr = 
+					dynamic_cast<LbaNet::UpdateStateEvent *>(&obj);
 
+				ChangePlayerState(it->first, castedptr->NewState, castedptr->FallingSize, tosendevts);
+				continue;
+			}		
 		}
 	}
 }
@@ -446,15 +448,15 @@ void MapHandler::PlayerEntered(Ice::Long id, EventsSeq &tosendevts)
 
 		ObjectPhysicDesc	PhysicDesc;
 		PhysicDesc.Pos = pinfo.ppos;
-		PhysicDesc.Type = 2;	
-		PhysicDesc.ShapeType = 2;
+		PhysicDesc.TypePhysO = KynematicAType;	
+		PhysicDesc.TypeShape = CapsuleShape;
 		PhysicDesc.Collidable = false;
 		PhysicDesc.Density = 1;
 		PhysicDesc.SizeX = 0.5;
 		PhysicDesc.SizeY = 5;
 
 		tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-													4, id, pinfo.model, PhysicDesc));
+													PlayerObject, id, pinfo.model, PhysicDesc));
 	}
 }
 
@@ -465,7 +467,7 @@ void MapHandler::PlayerLeft(Ice::Long id, EventsSeq &tosendevts)
 {
 	// inform all players that player left
 	tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-												4, id));
+												PlayerObject, id));
 	
 	// remove player from list
 	std::vector<Ice::Long>::iterator it = std::find(_currentplayers.begin(), _currentplayers.end(), id);
@@ -540,7 +542,7 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 	//TODO
 	{
 	ModelInfo		DisplayDesc;
-	DisplayDesc.RendererType = 0;
+	DisplayDesc.TypeRenderer = RenderOsgModel;
 	DisplayDesc.ModelName = "Worlds/Lba1Original/Grids/map0.osgb";
 	DisplayDesc.State = LbaNet::NoState;
 
@@ -549,12 +551,14 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 	PhysicDesc.Pos.Y = 0;
 	PhysicDesc.Pos.Z = 0;
 	PhysicDesc.Pos.Rotation = 0;
-	PhysicDesc.Type = 4;	
+	PhysicDesc.TypePhysO = StaticAType;	
+	PhysicDesc.TypeShape = TriangleMeshShape;
+
 	PhysicDesc.Collidable = true;
 	PhysicDesc.Filename = "Worlds/Lba1Original/Grids/map0.phy";
 
 	toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-												1, 1, DisplayDesc, PhysicDesc));
+												StaticObject, 1, DisplayDesc, PhysicDesc));
 	}
 
 	
@@ -566,19 +570,47 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 
 		ObjectPhysicDesc	PhysicDesc;
 		PhysicDesc.Pos = pinfo.ppos;
-		PhysicDesc.Type = 2;	
-		PhysicDesc.ShapeType = 2;
+		PhysicDesc.TypePhysO = KynematicAType;	
+		PhysicDesc.TypeShape = CapsuleShape;
 		PhysicDesc.Collidable = false;
 		PhysicDesc.Density = 1;
 		PhysicDesc.SizeX = 0.5;
 		PhysicDesc.SizeY = 5;
 
 		toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-													4, _currentplayers[cc], pinfo.model, PhysicDesc));
+													PlayerObject, _currentplayers[cc], pinfo.model, PhysicDesc));
 	}
 
 
 	toplayer.push_back(new RefreshEndEvent(SynchronizedTimeHandler::GetCurrentTimeDouble()));
 	IceUtil::ThreadPtr t = new EventsSender(toplayer, GetProxy(id));
 	t->start();	
+}
+
+
+
+/***********************************************************
+change player stance
+***********************************************************/
+void MapHandler::ChangeStance(Ice::Long id, LbaNet::ModelStance NewStance, 
+														EventsSeq &tosendevts)
+{
+	//TODO - check if stance change is legal
+
+	// check if stance is already there
+
+	// if ok then change and inform everybody
+}
+
+
+/***********************************************************
+change player state
+***********************************************************/
+void MapHandler::ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, float FallingSize, 
+																			 EventsSeq &tosendevts)
+{
+	//TODO - on state change from client
+	//check if state is legal
+	// if so check if already on this state
+	// if not update state and send state update to everybody
 }

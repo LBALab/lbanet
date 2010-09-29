@@ -115,12 +115,33 @@ LbaNet::SavedWorldInfo LocalDatabaseHandler::ChangeWorld(const std::string& NewW
 			resP.lifemana.MaxLife = (float)atof(pazResult[nbcollumn+0]);
 			resP.lifemana.MaxMana = (float)atof(pazResult[nbcollumn+11]);
 
-			resP.model.RendererType = atoi(pazResult[nbcollumn+17]);
 			resP.model.ModelName = pazResult[nbcollumn+13];
 			resP.model.Outfit = pazResult[nbcollumn+14];
 			resP.model.Weapon = pazResult[nbcollumn+15];
 			resP.model.Mode = pazResult[nbcollumn+16];
 			resP.model.State = LbaNet::StNormal;
+
+			int renderT = atoi(pazResult[nbcollumn+17]);
+			switch(renderT)
+			{
+				case 0: // -> osg model
+					resP.model.TypeRenderer = LbaNet::RenderOsgModel;
+				break;
+
+				case 1: // 1 -> sprite
+					resP.model.TypeRenderer = LbaNet::RenderSprite;
+				break;
+
+				case 2: // -> LBA1 model
+					resP.model.TypeRenderer = LbaNet::RenderLba1M;
+				break;
+
+				case 3: // -> LBA2 model
+					resP.model.TypeRenderer = LbaNet::RenderLba2M;
+				break;
+			}
+
+
 
 			worldid = atol(pazResult[nbcollumn+12]);
 
@@ -322,7 +343,29 @@ void LocalDatabaseHandler::UpdateModel(const LbaNet::ModelInfo & modelinfo,
 		query << ", ModelOutfit = '"<<modelinfo.Outfit<<"'";
 		query << ", ModelWeapon = '"<<modelinfo.Weapon<<"'";
 		query << ", ModelMode = '"<<modelinfo.Mode<<"'";
-		query << ", RendererType = '"<<modelinfo.RendererType<<"'";
+
+
+		int rtype = 0;
+		switch(modelinfo.TypeRenderer)
+		{
+			case LbaNet::RenderOsgModel:
+				rtype = 0;
+			break;
+
+			case LbaNet::RenderSprite:
+				rtype = 1;
+			break;
+
+			case LbaNet::RenderLba1M:
+				rtype = 2;
+			break;
+
+			case LbaNet::RenderLba2M:
+				rtype = 3;
+			break;
+		}
+
+		query << ", RendererType = '"<<rtype<<"'";
 		query << " WHERE userid = '"<<PlayerId<<"'";
 		query << " AND worldid = (SELECT id FROM lba_worlds WHERE name = '"<<WorldName<<"')";
 
