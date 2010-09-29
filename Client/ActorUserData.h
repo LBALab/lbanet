@@ -37,7 +37,7 @@ namespace IceUtil
 }
 
 #include <vector>
-
+#include <LbaTypes.h>
 
 //*************************************************************************************************
 //*                               class Camera
@@ -50,14 +50,14 @@ class ActorUserData
 {
 public:
 	//! constructor
-	ActorUserData(int ActType, long index);
+	ActorUserData(LbaNet::PhysicalActorType ActType, long index);
 
 	//! destructor
 	~ActorUserData();
 
 	//! accessor thread safe
-	int					GetActorType();
-	void				SetActorType(int newv);
+	LbaNet::PhysicalActorType	GetActorType();
+	void				SetActorType(LbaNet::PhysicalActorType newv);
 
 
 	long				GetActorId(); 
@@ -111,6 +111,9 @@ public:
 	void				AddActorHitted(long ActorId, int ActorType);
 	void				GetHittedActors(std::vector<std::pair<long, int> > & vec);
 
+	bool				GetTouchingGround();
+	void				SetTouchingGround(bool newv);  
+
 private:
 	IceUtil::RecMutex *	m_mutex;
 
@@ -119,13 +122,14 @@ private:
 	// 2 = kinematic
 	// 3 = dynamic
 	// 4 = controller
-	int					ActorType;
-	long				ActorId; 
+	LbaNet::PhysicalActorType		ActorType;
+	long							ActorId; 
 
 	size_t				MaterialsSize;
 	short *				Materials; 
 
 
+	bool				TouchingGround;
 	short				HittedFloorMaterial;
 
 	bool				released;

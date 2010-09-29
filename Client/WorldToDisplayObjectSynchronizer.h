@@ -52,7 +52,7 @@ public:
 
 
 	//! synchronization function - will typically be called on every frames
-	virtual void Process(double time, float tdiff);
+	virtual int Process(double time, float tdiff);
 
 
 

@@ -30,12 +30,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /***********************************************************
 constructor
 ***********************************************************/
-ActorUserData::ActorUserData(int ActType, long index)
+ActorUserData::ActorUserData(LbaNet::PhysicalActorType ActType, long index)
 	: ActorType(ActType), Materials(NULL), 
 		MaterialsSize(0), HittedFloorMaterial(0), 
 		released(false), ActorId(index), MovingObject(false),
 		AllowedMovingX(false), AllowedMovingZ(false), ShouldUpdate(false),
-		CurrentMoveX(0), CurrentMoveY(0), CurrentMoveZ(0), AllowFreeMove(false)
+		CurrentMoveX(0), CurrentMoveY(0), CurrentMoveZ(0), AllowFreeMove(false),
+		TouchingGround(false)
 {
 	m_mutex = new IceUtil::RecMutex();
 }
@@ -55,7 +56,7 @@ ActorUserData::~ActorUserData()
 /***********************************************************
 accessor thread safe
 ***********************************************************/
-int					ActorUserData::GetActorType()
+LbaNet::PhysicalActorType ActorUserData::GetActorType()
 {
 	IceUtil::RecMutex::Lock lock(*m_mutex);
 	return ActorType;
@@ -64,7 +65,7 @@ int					ActorUserData::GetActorType()
 /***********************************************************
 accessor thread safe
 ***********************************************************/
-void				ActorUserData::SetActorType(int newv)
+void				ActorUserData::SetActorType(LbaNet::PhysicalActorType newv)
 {
 	IceUtil::RecMutex::Lock lock(*m_mutex);
 	ActorType = newv;
@@ -236,6 +237,26 @@ bool				ActorUserData::GetAllowedMovingZ()
 	IceUtil::RecMutex::Lock lock(*m_mutex);
 	return AllowedMovingZ;
 }
+
+/***********************************************************
+accessor thread safe
+***********************************************************/
+void				ActorUserData::SetTouchingGround(bool newv)
+{
+	IceUtil::RecMutex::Lock lock(*m_mutex);
+	TouchingGround = newv;
+}
+ 
+
+/***********************************************************
+accessor thread safe
+***********************************************************/
+bool				ActorUserData::GetTouchingGround()
+{
+	IceUtil::RecMutex::Lock lock(*m_mutex);
+	return TouchingGround;
+}
+
 
 /***********************************************************
 accessor thread safe

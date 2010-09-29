@@ -148,10 +148,10 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionNoShape::BuildSe
 	Constructor
 ***********************************************************/
 PhysicalDescriptionWithShape::PhysicalDescriptionWithShape(float posX, float posY, float posZ,
-															int Otype, float Odensity,
+															LbaNet::PhysicalActorType Otype, float Odensity,
 															const LbaQuaternion &rot,
 															bool Collidable)
-: PhysicalDescriptionBase(posX, posY, posZ, rot), type(Otype), 
+: PhysicalDescriptionBase(posX, posY, posZ, rot), ActorType(Otype), 
 	density(Odensity), collidable(Collidable)
 {
 

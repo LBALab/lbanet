@@ -60,10 +60,10 @@ WorldToDisplayObjectSynchronizer::~WorldToDisplayObjectSynchronizer()
 /***********************************************************
 synchronization function - will typically be called on every frames
 ***********************************************************/
-void WorldToDisplayObjectSynchronizer::Process(double time, float tdiff)
+int WorldToDisplayObjectSynchronizer::Process(double time, float tdiff)
 {
 	StraightSync();
-	_disH->Process(time, tdiff);
+	return _disH->Process(time, tdiff);
 }
 
 

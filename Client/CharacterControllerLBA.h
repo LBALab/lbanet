@@ -106,6 +106,11 @@ private:
 	LbaNet::PlayerMoveInfo						_currentupdate;
 	double										_lastupdatetime;
 	float										_oldtdiff;
+
+	// used for fall down check
+	bool										_chefkiffall;
+	float										_ycheckiffall;
+
 };
 
 #endif

@@ -274,9 +274,26 @@ bool ShortcutBox::HandleChangeStance (const CEGUI::EventArgs& e)
 
 	if(dd_args.button == CEGUI::LeftButton)
 	{
+		LbaNet::ModelStance stc = LbaNet::StanceNormal;
+		int stance = dd_args.window->getID();
+		switch(stance)
+		{
+			case 0:
+				stc = LbaNet::StanceNormal;
+			break;
+			case 1:
+				stc = LbaNet::StanceSporty;
+			break;
+			case 2:
+				stc = LbaNet::StanceAggresive;
+			break;
+			case 3:
+				stc = LbaNet::StanceDiscrete;
+			break;
+		}
 
 		EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ChangeStanceEvent(
-			SynchronizedTimeHandler::GetCurrentTimeDouble(), dd_args.window->getID()+1));
+			SynchronizedTimeHandler::GetCurrentTimeDouble(), stc));
 	}
 
 	return true;

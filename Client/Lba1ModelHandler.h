@@ -72,6 +72,9 @@ public:
 	// update animation
 	virtual int UpdateAnimation(const std::string & AnimString);
 
+	// pause current running animation
+	virtual void PauseAnimation();
+
 protected:
 	// refresh model
 	int RefreshModel();
@@ -79,6 +82,7 @@ protected:
 private:
 	LBA1ModelClass*									_model;
 	osg::ref_ptr<osg::Node>							_osgnode;
+	bool											_paused;
 
 
 	float											_animationspeed;

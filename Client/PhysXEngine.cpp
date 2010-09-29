@@ -378,7 +378,7 @@ NxActor* PhysXEngine::CreatePlane(const NxVec3 & StartPosition, const NxVec3 & P
 	create box actor
 ***********************************************************/
 NxActor* PhysXEngine::CreateBox(const NxVec3 & StartPosition, float dimX, float dimY, float dimZ, 
-								float density, int Type, ActorUserData * adata, bool collidable)
+								float density, LbaNet::PhysicalActorType Type, ActorUserData * adata, bool collidable)
 {
 
 	// Add a single-shape actor to the scene
@@ -390,18 +390,18 @@ NxActor* PhysXEngine::CreateBox(const NxVec3 & StartPosition, float dimX, float 
 	boxDesc.dimensions.set(dimX, dimY, dimZ);
 	boxDesc.localPose.t = NxVec3(0, 0, 0);
 
-	if(Type != 1)
+	if(Type != LbaNet::StaticAType)
 	{
-		if(Type == 2)
+		if(Type == LbaNet::KynematicAType)
 			bodyDesc.flags |= NX_BF_KINEMATIC;
 
-		if(Type == 3)
+		if(Type == LbaNet::DynamicAType)
 			bodyDesc.flags |= NX_BF_FROZEN_ROT ;
 
 		actorDesc.body	= &bodyDesc;
 		actorDesc.density = density;
 
-		if(Type == 3)
+		if(Type == LbaNet::DynamicAType)
 			boxDesc.group = GROUP_COLLIDABLE_PUSHABLE;
 		else
 			boxDesc.group = GROUP_COLLIDABLE_NON_PUSHABLE;
@@ -428,7 +428,7 @@ NxActor* PhysXEngine::CreateBox(const NxVec3 & StartPosition, float dimX, float 
 	create sphere actor
 ***********************************************************/
 NxActor* PhysXEngine::CreateSphere(const NxVec3 & StartPosition, float radius, float density, 
-									int Type,  ActorUserData * adata,
+									LbaNet::PhysicalActorType Type,  ActorUserData * adata,
 									float staticFriction, float dynamicFriction, float restitution, 
 									bool collidable)
 {
@@ -453,15 +453,15 @@ NxActor* PhysXEngine::CreateSphere(const NxVec3 & StartPosition, float radius, f
 	sphereDesc.materialIndex = newMaterial->getMaterialIndex();
 
 	
-	if(Type != 1)
+	if(Type != LbaNet::StaticAType)
 	{
-		if(Type == 2)
+		if(Type == LbaNet::KynematicAType)
 			bodyDesc.flags |= NX_BF_KINEMATIC;
 
 		actorDesc.body	= &bodyDesc;
 		actorDesc.density		= density;
 		
-		if(Type == 3)
+		if(Type == LbaNet::DynamicAType)
 			sphereDesc.group = GROUP_COLLIDABLE_PUSHABLE;
 		else
 			sphereDesc.group = GROUP_COLLIDABLE_NON_PUSHABLE;
@@ -484,7 +484,7 @@ NxActor* PhysXEngine::CreateSphere(const NxVec3 & StartPosition, float radius, f
 	create capsule actor
 ***********************************************************/
 NxActor* PhysXEngine::CreateCapsule(const NxVec3 & StartPosition, float radius, float height, float density, 
-										int Type, ActorUserData * adata, bool collidable)
+										LbaNet::PhysicalActorType Type, ActorUserData * adata, bool collidable)
 {
 	// Add a single-shape actor to the scene
 	NxActorDesc actorDesc;
@@ -496,15 +496,15 @@ NxActor* PhysXEngine::CreateCapsule(const NxVec3 & StartPosition, float radius, 
 	capsuleDesc.height		= height;
 	capsuleDesc.localPose.t = NxVec3(0, 0, 0);
 
-	if(Type != 1)
+	if(Type != LbaNet::StaticAType)
 	{
-		if(Type == 2)
+		if(Type == LbaNet::KynematicAType)
 			bodyDesc.flags |= NX_BF_KINEMATIC;
 
 		actorDesc.body	= &bodyDesc;
 		actorDesc.density = density;
 
-		if(Type == 3)
+		if(Type == LbaNet::DynamicAType)
 			capsuleDesc.group = GROUP_COLLIDABLE_PUSHABLE;
 		else
 			capsuleDesc.group = GROUP_COLLIDABLE_NON_PUSHABLE;

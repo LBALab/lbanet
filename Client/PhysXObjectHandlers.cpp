@@ -299,7 +299,17 @@ move object in the world
 ***********************************************************/
 void PhysXControllerHandler::Move(float deltaX, float deltaY, float deltaZ, bool checkcollision)
 {
-	PhysXEngine::getInstance()->MoveCharacter(_Controller, NxVec3(deltaX, deltaY, deltaZ), checkcollision);
+	unsigned int flags = 
+		PhysXEngine::getInstance()->MoveCharacter(_Controller, NxVec3(deltaX, deltaY, deltaZ), checkcollision);
+
+	if(_UserData)
+	{
+		if((bool)(flags & NXCC_COLLISION_DOWN))
+			_UserData->SetTouchingGround(true);
+		else
+			_UserData->SetTouchingGround(false);
+	}
+	
 }
 
 /***********************************************************
@@ -345,7 +355,7 @@ void PhysXControllerHandler::ShowOrHide(bool Show)
 	Constructor
 ***********************************************************/
 PhysicalDescriptionBox::PhysicalDescriptionBox(float posX, float posY, float posZ,
-												int Otype, float Odensity,
+												LbaNet::PhysicalActorType Otype, float Odensity,
 												const LbaQuaternion &rot,
 												float sX, float sY, float sZ,
 												bool Collidable)
@@ -369,13 +379,13 @@ PhysicalDescriptionBox::~PhysicalDescriptionBox()
 ***********************************************************/
 boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionBox::BuildSelf(long id) const
 {
-	boost::shared_ptr<ActorUserData> udata = boost::shared_ptr<ActorUserData>(new ActorUserData(type, id));
+	boost::shared_ptr<ActorUserData> udata = boost::shared_ptr<ActorUserData>(new ActorUserData(ActorType, id));
 
-	if(type != 4)
+	if(ActorType != LbaNet::CharControlAType)
 	{
 		NxActor* act = PhysXEngine::getInstance()->CreateBox(NxVec3(positionX, positionY, positionZ), 
 													sizeX, sizeY, sizeZ, 
-													density, type, udata.get(), collidable);
+													density, ActorType, udata.get(), collidable);
 		
 		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, act, rotation, sizeY));
 	}
@@ -393,7 +403,7 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionBox::BuildSelf(l
 	Constructor
 ***********************************************************/
 PhysicalDescriptionCapsule::PhysicalDescriptionCapsule(float posX, float posY, float posZ,
-														int Otype, float Odensity,
+														LbaNet::PhysicalActorType Otype, float Odensity,
 														const LbaQuaternion &rot,
 														float sX, float sY,
 														bool Collidable)
@@ -417,13 +427,13 @@ PhysicalDescriptionCapsule::~PhysicalDescriptionCapsule()
 ***********************************************************/
 boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionCapsule::BuildSelf(long id) const
 {
-	boost::shared_ptr<ActorUserData> udata = boost::shared_ptr<ActorUserData>(new ActorUserData(type, id));
+	boost::shared_ptr<ActorUserData> udata = boost::shared_ptr<ActorUserData>(new ActorUserData(ActorType, id));
 
-	if(type != 4)
+	if(ActorType != LbaNet::CharControlAType)
 	{
 		NxActor* act = PhysXEngine::getInstance()->CreateCapsule(NxVec3(positionX, positionY, positionZ), 
 													radius, height,
-													density, type, udata.get(), collidable);
+													density, ActorType, udata.get(), collidable);
 		
 		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, act, rotation, sizeY));
 	}
@@ -441,7 +451,7 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionCapsule::BuildSe
 	Constructor
 ***********************************************************/
 PhysicalDescriptionSphere::PhysicalDescriptionSphere(float posX, float posY, float posZ,
-														int Otype, float Odensity,
+														LbaNet::PhysicalActorType Otype, float Odensity,
 														const LbaQuaternion &rot,
 														float sY,
 														float StaticFriction, 
@@ -469,12 +479,12 @@ PhysicalDescriptionSphere::~PhysicalDescriptionSphere()
 ***********************************************************/
 boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionSphere::BuildSelf(long id) const
 {
-	boost::shared_ptr<ActorUserData> udata = boost::shared_ptr<ActorUserData>(new ActorUserData(type, id));
+	boost::shared_ptr<ActorUserData> udata = boost::shared_ptr<ActorUserData>(new ActorUserData(ActorType, id));
 
-	if(type != 4)
+	if(ActorType != LbaNet::CharControlAType)
 	{
 		NxActor* act = PhysXEngine::getInstance()->CreateSphere(NxVec3(positionX, positionY, positionZ), radius, 
-													density, type, udata.get(), 
+													density, ActorType, udata.get(), 
 													staticFriction, dynamicFriction,
 													restitution, collidable);
 
@@ -496,7 +506,7 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionSphere::BuildSel
 PhysicalDescriptionTriangleMesh::PhysicalDescriptionTriangleMesh(float posX, float posY, float posZ,
 																	const std::string &FileName,
 																	bool Collidable)
-	:PhysicalDescriptionWithShape(posX, posY, posZ, 1, 0, LbaQuaternion(), Collidable),
+:PhysicalDescriptionWithShape(posX, posY, posZ, LbaNet::StaticAType, 1, LbaQuaternion(), Collidable),
 		MeshInfoDataFileName(FileName)
 {
 
@@ -517,7 +527,7 @@ PhysicalDescriptionTriangleMesh::~PhysicalDescriptionTriangleMesh()
 ***********************************************************/
 boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionTriangleMesh::BuildSelf(long id) const
 {
-	boost::shared_ptr<ActorUserData> udata = boost::shared_ptr<ActorUserData>(new ActorUserData(type, id));
+	boost::shared_ptr<ActorUserData> udata = boost::shared_ptr<ActorUserData>(new ActorUserData(ActorType, id));
 
 	NxActor* actor = PhysXEngine::getInstance()->LoadTriangleMeshFile(NxVec3(positionX, positionY, positionZ), 
 														"Data/"+MeshInfoDataFileName, udata.get(), collidable);

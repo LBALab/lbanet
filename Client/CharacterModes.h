@@ -43,7 +43,6 @@ public:
 	virtual bool NeedCheckForGravity(){return true;}
 
 	// tell if in this mode we need to check for water/gaz/fire hazard
-	// only used when moving - if character stand then it will anyway drown
 	virtual bool NeedCheckForWater(){return true;}
 
 	// tell if in this mode we should display the player as semi transparent (e.g. hidden)
@@ -60,6 +59,12 @@ public:
 
 	//! tell the mode that we are changing state
 	virtual void CharacterChangedState(){}
+
+	//! tell if character should use animation speed or not
+	virtual bool UseAnimationSpeed(){return true;}
+
+	//! get the speed to add to the X axis
+	virtual float GetAddedSpeedX(){return 0;}
 
 };
 
@@ -135,11 +140,11 @@ public:
 class ProtopackCharacterMode : public CharacterModeBase
 {
 public:
-	ProtopackCharacterMode(void); //TODO sound when moving
+	ProtopackCharacterMode(void);
 	virtual ~ProtopackCharacterMode(void);
 
 	// tell if in this mode we need to check for water/gaz/fire hazard
-	virtual bool NeedCheckForWater(){return false;}
+	virtual bool NeedCheckForWater(){return !_moving;}
 
 
 	//! tell the mode that we are moving forward/bakward
@@ -150,6 +155,9 @@ public:
 
 	//! tell the mode that we are changing state
 	virtual void CharacterChangedState();
+
+private:
+	bool	_moving;
 };
 
 //*************************************************************************************************
@@ -176,7 +184,10 @@ public:
 class DinoflyCharacterMode : public CharacterModeBase
 {
 public:
-	DinoflyCharacterMode(void){}
+	//! constructor
+	DinoflyCharacterMode(void);
+
+	//! destructor
 	virtual ~DinoflyCharacterMode(void){}
 
 	// tell if in this mode we need to check for gravity
@@ -187,6 +198,22 @@ public:
 
 	// tell if in this mode the character can fly
 	virtual bool CanFly(){return true;}
+
+
+	//! tell the mode that we are moving forward/bakward
+	virtual void CharacterMoving();
+
+	//! tell the mode that we are moving forward/bakward
+	virtual void CharacterStoppedMoving();
+
+	//! tell if character should use animation speed or not
+	virtual bool UseAnimationSpeed(){return false;}
+
+	//! get the speed to add to the X axis
+	virtual float GetAddedSpeedX();
+
+private:
+	bool	_moving;
 };
 
 

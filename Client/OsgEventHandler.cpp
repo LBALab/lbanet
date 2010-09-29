@@ -172,7 +172,7 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 				if(kkk == _keymap[LbanetKey_Stance1])
 				{
 					EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ChangeStanceEvent(
-						SynchronizedTimeHandler::GetCurrentTimeDouble(), 1));
+						SynchronizedTimeHandler::GetCurrentTimeDouble(), LbaNet::StanceNormal));
 
 					return true;	
 				}
@@ -182,7 +182,7 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 				if(kkk == _keymap[LbanetKey_Stance2])
 				{
 					EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ChangeStanceEvent(
-						SynchronizedTimeHandler::GetCurrentTimeDouble(), 2));
+						SynchronizedTimeHandler::GetCurrentTimeDouble(), LbaNet::StanceSporty));
 					return true;	
 				}
 
@@ -191,7 +191,7 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 				if(kkk == _keymap[LbanetKey_Stance3])
 				{
 					EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ChangeStanceEvent(
-						SynchronizedTimeHandler::GetCurrentTimeDouble(), 3));
+						SynchronizedTimeHandler::GetCurrentTimeDouble(), LbaNet::StanceAggresive));
 					return true;	
 				}
 
@@ -200,7 +200,7 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 				if(kkk == _keymap[LbanetKey_Stance4])
 				{
 					EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ChangeStanceEvent(
-						SynchronizedTimeHandler::GetCurrentTimeDouble(), 4));
+						SynchronizedTimeHandler::GetCurrentTimeDouble(), LbaNet::StanceDiscrete));
 					return true;	
 				}
 			}

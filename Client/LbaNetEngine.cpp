@@ -438,7 +438,7 @@ void LbaNetEngine::HandleGameEvents()
 			LbaNet::AddObjectEvent * castedptr = 
 				dynamic_cast<LbaNet::AddObjectEvent *>(&obj);
 
-			m_lbaNetModel->AddObject(castedptr->Type, castedptr->ObjectId, 
+			m_lbaNetModel->AddObject(castedptr->TypeO, castedptr->ObjectId, 
 									castedptr->DisplayDesc, castedptr->PhysicDesc);
 
 			continue;
@@ -450,7 +450,7 @@ void LbaNetEngine::HandleGameEvents()
 			LbaNet::RemoveObjectEvent * castedptr = 
 				dynamic_cast<LbaNet::RemoveObjectEvent *>(&obj);
 
-			m_lbaNetModel->RemoveObject(castedptr->Type, castedptr->ObjectId);
+			m_lbaNetModel->RemoveObject(castedptr->TypeO, castedptr->ObjectId);
 
 			continue;
 		}
@@ -461,7 +461,7 @@ void LbaNetEngine::HandleGameEvents()
 			LbaNet::UpdateDisplayObjectEvent * castedptr = 
 				dynamic_cast<LbaNet::UpdateDisplayObjectEvent *>(&obj);
 
-			m_lbaNetModel->UpdateObjectDisplay(castedptr->Type, castedptr->ObjectId, castedptr->Update);
+			m_lbaNetModel->UpdateObjectDisplay(castedptr->TypeO, castedptr->ObjectId, castedptr->Update);
 
 			continue;
 		}

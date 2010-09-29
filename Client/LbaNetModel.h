@@ -85,7 +85,7 @@ public:
 	// 3 -> movable by player
 	// 4 -> player object
 	// 5 -> ghost object
-	void AddObject(int Type, Ice::Long ObjectId, 
+	void AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId, 
 						const LbaNet::ModelInfo &DisplayDesc, 
 						const LbaNet::ObjectPhysicDesc &PhysicDesc);
 	
@@ -96,10 +96,10 @@ public:
 	// 3 -> movable by player
 	// 4 -> player object
 	// 5 -> ghost object
-	void RemoveObject(int Type, Ice::Long ObjectId);
+	void RemoveObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId);
 
 	//! update object display
-	void UpdateObjectDisplay(int Type, Ice::Long ObjectId, 
+	void UpdateObjectDisplay(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId, 
 									  LbaNet::DisplayObjectUpdateBasePtr update);
 
 	//! key pressed
@@ -140,7 +140,7 @@ protected:
 	// 3 -> movable by player
 	// 4 -> player object
 	// 5 -> ghost object
-	void AddObject(int type, const ObjectInfo &desc,
+	void AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc,
 					const LbaNet::ModelInfo &DisplayDesc);
 
 
@@ -151,7 +151,7 @@ protected:
 	// 3 -> movable by player
 	// 4 -> player object
 	// 5 -> ghost object
-	virtual void RemObject(int type, long id);
+	virtual void RemObject(LbaNet::ObjectTypeEnum OType, long id);
 
 
 

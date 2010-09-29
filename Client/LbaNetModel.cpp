@@ -143,13 +143,13 @@ void LbaNetModel::Process(double tnow, float tdiff)
 /***********************************************************
 add object to the scene
 ***********************************************************/
-void LbaNetModel::AddObject(int type, const ObjectInfo &desc, 
+void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc, 
 							const LbaNet::ModelInfo &DisplayDesc)
 {
-	switch(type)
+	switch(OType)
 	{
 		// 1 -> static object
-		case 1:
+	case LbaNet::StaticObject:
 			{
 			boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
 			_staticObjects[desc.Id] = tmpobj;
@@ -157,7 +157,7 @@ void LbaNetModel::AddObject(int type, const ObjectInfo &desc,
 		break;
 
 		// 2 -> server controlled
-		case 2:
+		case LbaNet::CpuObject:
 			{
 			boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
 			_serverObjects[desc.Id] = tmpobj;
@@ -165,7 +165,7 @@ void LbaNetModel::AddObject(int type, const ObjectInfo &desc,
 		break;
 
 		// 3 -> movable by player
-		case 3:
+		case LbaNet::MovableObject:
 			{
 			boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
 			_movableObjects[desc.Id] = tmpobj;
@@ -173,13 +173,13 @@ void LbaNetModel::AddObject(int type, const ObjectInfo &desc,
 		break;
 
 		// 4 -> player object
-		case 4:
+		case LbaNet::PlayerObject:
 			//special treatment if main player
 			if(m_playerObjectId == desc.Id)
 			{
 				// change to character controller
 				ObjectInfo tmp(desc);
-				static_cast<PhysicalDescriptionWithShape *>(tmp.PhysInfo.get())->type = 4;
+				static_cast<PhysicalDescriptionWithShape *>(tmp.PhysInfo.get())->ActorType = LbaNet::CharControlAType;
 
 				boost::shared_ptr<DynamicObject> playerObject = tmp.BuildSelf(OsgHandler::getInstance());
 
@@ -196,7 +196,7 @@ void LbaNetModel::AddObject(int type, const ObjectInfo &desc,
 		break;
 
 		// 5 -> ghost object
-		case 5:
+		case LbaNet::GhostObject:
 			{
 			boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
 			_ghostObjects[desc.Id] = tmpobj;
@@ -209,12 +209,12 @@ void LbaNetModel::AddObject(int type, const ObjectInfo &desc,
 /***********************************************************
 remove object from the scene
 ***********************************************************/
-void LbaNetModel::RemObject(int type, long id)
+void LbaNetModel::RemObject(LbaNet::ObjectTypeEnum OType, long id)
 {
-	switch(type)
+	switch(OType)
 	{
 		// 1 -> static object
-		case 1:
+		case LbaNet::StaticObject:
 			{
 			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _staticObjects.find(id);
 			if(it != _staticObjects.end())
@@ -223,7 +223,7 @@ void LbaNetModel::RemObject(int type, long id)
 		break;
 
 		// 2 -> server controlled
-		case 2:
+		case LbaNet::CpuObject:
 			{
 			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _serverObjects.find(id);
 			if(it != _serverObjects.end())
@@ -232,7 +232,7 @@ void LbaNetModel::RemObject(int type, long id)
 		break;
 
 		// 3 -> movable by player
-		case 3:
+		case LbaNet::MovableObject:
 			{
 			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _movableObjects.find(id);
 			if(it != _movableObjects.end())
@@ -241,7 +241,7 @@ void LbaNetModel::RemObject(int type, long id)
 		break;
 
 		// 4 -> player object
-		case 4:
+		case LbaNet::PlayerObject:
 			//special treatment if main player
 			if(m_playerObjectId == id)
 			{
@@ -256,7 +256,7 @@ void LbaNetModel::RemObject(int type, long id)
 		break;
 
 		// 5 -> ghost object
-		case 5:
+		case LbaNet::GhostObject:
 			{
 			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _ghostObjects.find(id);
 			if(it != _ghostObjects.end())
@@ -338,17 +338,17 @@ void LbaNetModel::ResetPlayerObject()
 4 -> player object
 5 -> ghost object
 ***********************************************************/
-void LbaNetModel::AddObject(int Type, Ice::Long ObjectId, 
+void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId, 
 					const LbaNet::ModelInfo &DisplayDesc, 
 					const LbaNet::ObjectPhysicDesc &PhysicDesc)
 {
 	boost::shared_ptr<DisplayInfo> DInfo;
 
 	// create display object
-	switch(DisplayDesc.RendererType)
+	switch(DisplayDesc.TypeRenderer)
 	{
 		//0 -> osg model 
-		case 0:
+		case LbaNet::RenderOsgModel:
 		{
 			if(DisplayDesc.ModelName != "")
 			{
@@ -366,14 +366,14 @@ void LbaNetModel::AddObject(int Type, Ice::Long ObjectId,
 		break;
 
 		//1 -> sprite 
-		case 1:
+		case LbaNet::RenderSprite:
 		{
 			//TODO
 		}
 		break;
 
 		//2 -> LBA1 model 
-		case 2:
+		case LbaNet::RenderLba1M:
 		{
 			//TODO animation speed
 			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
@@ -386,7 +386,7 @@ void LbaNetModel::AddObject(int Type, Ice::Long ObjectId,
 		break;
 
 		//3-> LBA2 model
-		case 3:
+		case LbaNet::RenderLba2M:
 		{
 			//TODO
 		}
@@ -396,10 +396,10 @@ void LbaNetModel::AddObject(int Type, Ice::Long ObjectId,
 
 	// create physic object
 	boost::shared_ptr<PhysicalDescriptionBase> PInfo;
-	switch(PhysicDesc.Type)
+	switch(PhysicDesc.TypeShape)
 	{
 		// 0= no shape
-		case 0:
+		case LbaNet::NoShape:
 		{
 			PInfo = boost::shared_ptr<PhysicalDescriptionBase>(new 
 					PhysicalDescriptionNoShape(PhysicDesc.Pos.X, PhysicDesc.Pos.Y, PhysicDesc.Pos.Z, 
@@ -410,11 +410,11 @@ void LbaNetModel::AddObject(int Type, Ice::Long ObjectId,
 
 		
 		// 1 = Box
-		case 1:
+		case LbaNet::BoxShape:
 		{
 				PInfo = boost::shared_ptr<PhysicalDescriptionBase>(new 
 					PhysicalDescriptionBox(PhysicDesc.Pos.X, PhysicDesc.Pos.Y, PhysicDesc.Pos.Z, 
-										PhysicDesc.ShapeType, PhysicDesc.Density,
+										PhysicDesc.TypePhysO, PhysicDesc.Density,
 										LbaQuaternion(PhysicDesc.Pos.Rotation, LbaVec3(0, 1, 0)),
 										PhysicDesc.SizeX, PhysicDesc.SizeY, PhysicDesc.SizeZ,
 										PhysicDesc.Collidable));
@@ -422,11 +422,11 @@ void LbaNetModel::AddObject(int Type, Ice::Long ObjectId,
 		break;
 
 		// 2 = Capsule
-		case 2:
+		case LbaNet::CapsuleShape:
 		{
 				PInfo = boost::shared_ptr<PhysicalDescriptionBase>(new 
 					PhysicalDescriptionCapsule(PhysicDesc.Pos.X, PhysicDesc.Pos.Y, PhysicDesc.Pos.Z, 
-										PhysicDesc.ShapeType, PhysicDesc.Density,
+										PhysicDesc.TypePhysO, PhysicDesc.Density,
 										LbaQuaternion(PhysicDesc.Pos.Rotation, LbaVec3(0, 1, 0)),
 										PhysicDesc.SizeX, PhysicDesc.SizeY,
 										PhysicDesc.Collidable));
@@ -434,12 +434,12 @@ void LbaNetModel::AddObject(int Type, Ice::Long ObjectId,
 		break;
 
 		// 3 = Sphere
-		case 3:
+		case LbaNet::SphereShape:
 		{
 				// TODO
 				//PInfo = boost::shared_ptr<PhysicalDescriptionBase>(new 
 				//	PhysicalDescriptionCapsule(PhysicDesc.Pos.X, PhysicDesc.Pos.Y, PhysicDesc.Pos.Z, 
-				//						PhysicDesc.ShapeType, PhysicDesc.Density,
+				//						PhysicDesc.TypePhysO, PhysicDesc.Density,
 				//						LbaQuaternion(PhysicDesc.Pos.Rotation, LbaVec3(0, 1, 0)),
 				//						PhysicDesc.SizeY, 
 				//						PhysicDesc.Collidable));
@@ -447,7 +447,7 @@ void LbaNetModel::AddObject(int Type, Ice::Long ObjectId,
 		break;
 
 		// 4 = triangle mesh
-		case 4:
+		case LbaNet::TriangleMeshShape:
 		{
 				PInfo = boost::shared_ptr<PhysicalDescriptionBase>(new 
 					PhysicalDescriptionTriangleMesh(PhysicDesc.Pos.X, PhysicDesc.Pos.Y, PhysicDesc.Pos.Z, 
@@ -458,8 +458,8 @@ void LbaNetModel::AddObject(int Type, Ice::Long ObjectId,
 
 	}
 
-	ObjectInfo obj((long)ObjectId, DInfo, PInfo, (Type == 1));
-	AddObject(Type, obj, DisplayDesc);
+	ObjectInfo obj((long)ObjectId, DInfo, PInfo, (OType == LbaNet::StaticObject));
+	AddObject(OType, obj, DisplayDesc);
 }
 
 
@@ -473,22 +473,22 @@ void LbaNetModel::AddObject(int Type, Ice::Long ObjectId,
 4 -> player object
 5 -> ghost object
 ***********************************************************/
-void LbaNetModel::RemoveObject(int Type, Ice::Long ObjectId)
+void LbaNetModel::RemoveObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId)
 {
-	RemObject(Type, (long)ObjectId);
+	RemObject(OType, (long)ObjectId);
 }
 
 
 /***********************************************************
 update object from server
 ***********************************************************/
-void LbaNetModel::UpdateObjectDisplay(int Type, Ice::Long ObjectId, 
+void LbaNetModel::UpdateObjectDisplay(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId, 
 									  LbaNet::DisplayObjectUpdateBasePtr update)
 {
-	switch(Type)
+	switch(OType)
 	{
 		// 1 -> static object
-		case 1:
+		case LbaNet::StaticObject:
 			{
 			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _staticObjects.find((long)ObjectId);
 			if(it != _staticObjects.end())
@@ -497,7 +497,7 @@ void LbaNetModel::UpdateObjectDisplay(int Type, Ice::Long ObjectId,
 		break;
 
 		// 2 -> server controlled
-		case 2:
+		case LbaNet::CpuObject:
 			{
 			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _serverObjects.find((long)ObjectId);
 			if(it != _serverObjects.end())
@@ -506,7 +506,7 @@ void LbaNetModel::UpdateObjectDisplay(int Type, Ice::Long ObjectId,
 		break;
 
 		// 3 -> movable by player
-		case 3:
+		case LbaNet::MovableObject:
 			{
 			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _movableObjects.find((long)ObjectId);
 			if(it != _movableObjects.end())
@@ -515,7 +515,7 @@ void LbaNetModel::UpdateObjectDisplay(int Type, Ice::Long ObjectId,
 		break;
 
 		// 4 -> player object
-		case 4:
+		case LbaNet::PlayerObject:
 			//special treatment if main player
 			if(m_playerObjectId == (long)ObjectId)
 			{
@@ -530,7 +530,7 @@ void LbaNetModel::UpdateObjectDisplay(int Type, Ice::Long ObjectId,
 		break;
 
 		// 5 -> ghost object
-		case 5:
+		case LbaNet::GhostObject:
 			{
 			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _ghostObjects.find((long)ObjectId);
 			if(it != _ghostObjects.end())

@@ -67,6 +67,10 @@ public:
 
 	// update animation
 	virtual int UpdateAnimation(const std::string & AnimString) = 0;
+
+	// pause current running animation
+	// should resume when animation or model changes
+	virtual void PauseAnimation() = 0;
 };
 
 

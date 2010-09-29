@@ -41,7 +41,7 @@ Constructor
 Lba1ModelHandler::Lba1ModelHandler(boost::shared_ptr<DisplayTransformation> Tr,
 								   const LbaNet::ModelInfo & info, float animationspeed)
 : AnimatedObjectHandlerBase(Tr), _model(NULL), _animationspeed(animationspeed),
-	_currAnimation(-1), _currModel(-1), _currBody(-1)
+	_currAnimation(-1), _currModel(-1), _currBody(-1), _paused(false)
 {
 	UpdateModel(info);
 }
@@ -68,7 +68,7 @@ int Lba1ModelHandler::Process(double time, float tdiff)
 {
 	bool animationfinished = false;
 
-	if(_model)
+	if(!_paused && _model)
 		animationfinished = _model->AnimateModel(tdiff);
 
 	if(animationfinished)
@@ -206,6 +206,8 @@ int Lba1ModelHandler::RefreshModel()
 		_osgnode = _model->ExportOSGModel(true);
 		if(root)
 			root->addChild(_osgnode);
+
+		_paused = false;
 	}
 
 	// do nothing if same animation loaded already
@@ -214,7 +216,18 @@ int Lba1ModelHandler::RefreshModel()
 		_currAnimation = newanimations[0];
 		_model->LoadAnim(	tmpstrcut,
 							tmpstrcut->entitiesTable[_currModel].animList[_currAnimation].index);
+
+		_paused = false;
 	}
 
 	return 0;
+}
+
+
+/***********************************************************
+pause current running animation
+***********************************************************/
+void Lba1ModelHandler::PauseAnimation()
+{
+	_paused = true;
 }
