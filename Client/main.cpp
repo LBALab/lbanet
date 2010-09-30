@@ -28,17 +28,17 @@
 HINSTANCE globalInstance;
 #endif
 
-//#include "crashrpt.h"
-//#pragma comment(lib, "crashrpt.lib")
+#include "crashrpt.h"
+#pragma comment(lib, "crashrpt.lib")
 
 
-//BOOL WINAPI CrashCallback(LPVOID lpvState)
-//{
-//	LogHandler::getInstance()->CloseFile();
-//	AddFile(lpvState, LogHandler::getInstance()->GetFilename().c_str(), "Lbanet general log");
-//	//AddFile(lpvState, LogHandler::getInstance()->GetGUIFilename().c_str(), "GUI log");
-//	return TRUE;
-//}
+BOOL WINAPI CrashCallback(LPVOID lpvState)
+{
+	LogHandler::getInstance()->CloseFile();
+	AddFile(lpvState, LogHandler::getInstance()->GetFilename().c_str(), "Lbanet general log");
+	//AddFile(lpvState, LogHandler::getInstance()->GetGUIFilename().c_str(), "GUI log");
+	return TRUE;
+}
 #endif
 
 
@@ -104,7 +104,6 @@ int main( int argc, char **argv )
 {
 #endif
 
-
 #ifdef WIN32
 	// disable areo on vista+ operating system
     OSVERSIONINFO osvi;
@@ -117,7 +116,7 @@ int main( int argc, char **argv )
 		LoadMe = LoadLibraryA("Dwmapi.dll");
 		if(LoadMe)
 		{
-			typedef HRESULT (/*__stdcall*/ *EntryPointfuncPtr)(UINT uCompositionAction );  
+			typedef HRESULT (__stdcall *EntryPointfuncPtr)(UINT uCompositionAction );  
 			EntryPointfuncPtr LibMainEntryPoint;            
 			LibMainEntryPoint = (EntryPointfuncPtr)GetProcAddress(LoadMe,"DwmEnableComposition");
 			if(LibMainEntryPoint)
@@ -128,7 +127,7 @@ int main( int argc, char **argv )
 	}
 
 	// init crash reporter
-	//LPVOID chandler = Install(CrashCallback, NULL, NULL);
+	LPVOID chandler = Install(CrashCallback, NULL, NULL);
 #endif
 
 	try

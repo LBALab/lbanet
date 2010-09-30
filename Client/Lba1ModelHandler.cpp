@@ -125,7 +125,7 @@ update model
 int Lba1ModelHandler::UpdateModel(const LbaNet::ModelInfo & info)
 {
 	_currentmodelinfo = info;
-	_currentanimationstring = "Stand";
+	//_currentanimationstring = "Stand"; //TODO check the impact
 	return RefreshModel();
 }
 
