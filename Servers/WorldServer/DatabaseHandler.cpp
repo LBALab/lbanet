@@ -469,7 +469,8 @@ void DatabaseHandler::UpdateInventory(const LbaNet::InventoryInfo &Inventory, co
 /***********************************************************
 add friend function
 ***********************************************************/
-bool DatabaseHandler::AskFriend(long myId, const std::string &friendname)
+bool DatabaseHandler::AskFriend(long myId, const std::string &friendname, long & friendid,
+									std::string &myname)
 {
 	Lock sync(*this);
 	if(!_mysqlH || !_mysqlH->connected())
@@ -484,23 +485,25 @@ bool DatabaseHandler::AskFriend(long myId, const std::string &friendname)
 
 	mysqlpp::Query query(_mysqlH, false);
 
-	query << "SELECT id FROM jos_users";
-	query << " WHERE username = '"<<friendname<<"'";
+	query << "SELECT ju.id, lu.id FROM jos_users ju, lba_users lu";
+	query << " WHERE ju.id = lu.josiid AND WHERE ju.username = '"<<friendname<<"'";
 	if (mysqlpp::StoreQueryResult res = query.store())
 	{
 		if(res.size() > 0)
 		{
 			long juid = res[0][0];
+			friendid = res[0][1];
 
 			// get my jos id
 			query.clear();
-			query << "SELECT ju.id FROM jos_users ju, lba_users lu";
+			query << "SELECT ju.id, ju.username FROM jos_users ju, lba_users lu";
 			query << " WHERE ju.id = lu.josiid AND lu.id = '"<<myId<<"'";
 			if (mysqlpp::StoreQueryResult res = query.store())
 			{
 				if(res.size() > 0)
 				{
 					myId = res[0][0];
+					myname = res[0][1].c_str();
 
 					//check if there is no existing connexion - if it is the case then do nothing
 					query.clear();
@@ -540,7 +543,8 @@ bool DatabaseHandler::AskFriend(long myId, const std::string &friendname)
 /***********************************************************
 accept friend invitation
 ***********************************************************/
-bool DatabaseHandler::AcceptFriend(long myId, long friendid, std::string &friendname)
+bool DatabaseHandler::AcceptFriend(long myId, long friendid, std::string &friendname,
+									std::string &myname)
 {
 	Lock sync(*this);
 	if(!_mysqlH || !_mysqlH->connected())
@@ -566,13 +570,14 @@ bool DatabaseHandler::AcceptFriend(long myId, long friendid, std::string &friend
 
 			// get my jos id
 			query.clear();
-			query << "SELECT ju.id FROM jos_users ju, lba_users lu";
+			query << "SELECT ju.id, ju.username FROM jos_users ju, lba_users lu";
 			query << " WHERE ju.id = lu.josiid AND lu.id = '"<<myId<<"'";
 			if (mysqlpp::StoreQueryResult res = query.store())
 			{
 				if(res.size() > 0)
 				{
 					myId = res[0][0];
+					myname = res[0][1].c_str();
 
 					// check if we are in pending state
 					query.clear();
@@ -712,6 +717,7 @@ LbaNet::FriendsSeq DatabaseHandler::GetFriends(long myId)
 						ftmp.Name = res2[0][0].c_str();
 						ftmp.Pending = (pending == 1);
 						ftmp.ToAccept = (accepted == 0);
+						ftmp.Removed = false;
 						resF.push_back(ftmp);
 					}
 				}

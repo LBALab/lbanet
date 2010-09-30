@@ -136,6 +136,28 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const std::string &cl
 	// add player enter event
 	AddEvent(newmapname, clientid, 
 		new PlayerEnterEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), clientid));
+
+
+	// send friend list to client
+	if(_dbH)
+	{
+		// get list from db
+		LbaNet::FriendsSeq friends = _dbH->GetFriends((long)clientid);
+
+		// send list to player
+		if(proxy)
+		{
+			EventsSeq toplayer;
+			GuiParamsSeq paramseq;
+			paramseq.push_back(new FriendListGuiParameter(friends));
+			toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+													"CommunityBox", paramseq, false, false));
+
+			IceUtil::ThreadPtr t = new EventsSender(toplayer, proxy);
+			t->start();	
+		}
+
+	}
 }
 
 

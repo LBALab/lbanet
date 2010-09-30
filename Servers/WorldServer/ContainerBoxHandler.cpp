@@ -22,7 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------------------------------------------------------------------
 */
 #include "ContainerBoxHandler.h"
-
+#include "SharedDataHandler.h"
+#include "SynchronizedTimeHandler.h"
+#include "MapHandler.h"
 
 /***********************************************************
 update gui with info from server
@@ -52,7 +54,16 @@ update gui with info from server
 ***********************************************************/
 void ContainerBoxHandler::HideGUI(Ice::Long clientid)
 {
-	// TODO
+	ClientInterfacePrx prx = SharedDataHandler::getInstance()->GetProxy(clientid);
+	if(prx)
+	{
+		EventsSeq toplayer;
+		toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+															"ContainerBox", GuiParamsSeq(), false, true));
+
+		IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
+		t->start();	
+	}
 
 	RemoveOpenedGui(clientid);
 }

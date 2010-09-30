@@ -518,7 +518,8 @@ void LocalDatabaseHandler::UpdateInventory(const LbaNet::InventoryInfo &Inventor
 /***********************************************************
 add friend function
 ***********************************************************/
-bool LocalDatabaseHandler::AskFriend(long myId, const std::string &friendname)
+bool LocalDatabaseHandler::AskFriend(long myId, const std::string &friendname, long & friendid,
+										std::string &myname)
 {
 	// no friend system in local mode
 	return false;
@@ -527,7 +528,8 @@ bool LocalDatabaseHandler::AskFriend(long myId, const std::string &friendname)
 /***********************************************************
 accept friend invitation
 ***********************************************************/
-bool LocalDatabaseHandler::AcceptFriend(long myId, long friendid, std::string &friendname)
+bool LocalDatabaseHandler::AcceptFriend(long myId, long friendid, std::string &friendname,
+											std::string &myname)
 {
 	// no friend system in local mode
 	return false;

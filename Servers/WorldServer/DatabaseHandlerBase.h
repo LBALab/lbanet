@@ -77,10 +77,12 @@ public:
 
 
     // add friend function
-	virtual bool AskFriend(long myId, const std::string &friendname) = 0;
+	virtual bool AskFriend(long myId, const std::string &friendname, long & friendid,
+							std::string &myname) = 0;
 
 	// accept friend invitation
-    virtual bool AcceptFriend(long myId, long friendid, std::string &friendname) = 0;
+    virtual bool AcceptFriend(long myId, long friendid, std::string &friendname,
+								std::string &myname) = 0;
 
     // remove friend function
 	virtual void RemoveFriend(long myId, long friendid) = 0;

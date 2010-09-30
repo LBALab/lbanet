@@ -22,7 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------------------------------------------------------------------
 */
 #include "TextBoxHandler.h"
-
+#include "SharedDataHandler.h"
+#include "SynchronizedTimeHandler.h"
+#include "MapHandler.h"
 
 /***********************************************************
 update gui with info from server
@@ -44,7 +46,16 @@ update gui with info from server
 ***********************************************************/
 void TextBoxHandler::HideGUI(Ice::Long clientid)
 {
-	// TODO
+	ClientInterfacePrx prx = SharedDataHandler::getInstance()->GetProxy(clientid);
+	if(prx)
+	{
+		EventsSeq toplayer;
+		toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+												"MailBox", GuiParamsSeq(), false, true));
+
+		IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
+		t->start();	
+	}
 
 	RemoveOpenedGui(clientid);
 }
@@ -56,5 +67,35 @@ show the GUI for a certain player
 void TextBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition &curPosition,
 					boost::shared_ptr<ShowGuiParamBase> params)
 {
-	// TODO
+	ShowGuiParamBase * ptr = params.get();
+	const std::type_info& info = typeid(*ptr);
+
+	// TextBoxParam
+	if(info == typeid(TextBoxParam))
+	{
+		TextBoxParam * castedptr = 
+			static_cast<TextBoxParam *>(ptr);
+
+
+		ClientInterfacePrx prx = SharedDataHandler::getInstance()->GetProxy(clientid);
+		if(prx)
+		{
+			boost::shared_ptr<DatabaseHandlerBase> dbh = SharedDataHandler::getInstance()->GetDatabase();
+			if(dbh)
+			{
+				EventsSeq toplayer;
+				GuiParamsSeq seq;
+				seq.push_back(new DisplayGameText(castedptr->_textid));
+				toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+														"TextBox", seq, true, false));
+
+				IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
+				t->start();	
+
+				// add gui to the list to be removed later
+				AddOpenedGui(clientid, curPosition);
+			}
+		}
+
+	}
 }

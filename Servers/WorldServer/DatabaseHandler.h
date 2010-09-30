@@ -75,10 +75,12 @@ public:
 
 
     // add friend function
-	bool AskFriend(long myId, const std::string &friendname);
+	bool AskFriend(long myId, const std::string &friendname, long & friendid,
+							std::string &myname);
 
 	// accept friend invitation
-    bool AcceptFriend(long myId, long friendid, std::string &friendname);
+    bool AcceptFriend(long myId, long friendid, std::string &friendname,
+							std::string &myname);
 
     // remove friend function
 	void RemoveFriend(long myId, long friendid);

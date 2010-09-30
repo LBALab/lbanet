@@ -22,7 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------------------------------------------------------------------
 */
 #include "CommunityBoxHandler.h"
-
+#include "SharedDataHandler.h"
+#include "SynchronizedTimeHandler.h"
+#include "MapHandler.h"
 
 /***********************************************************
 update gui with info from server
@@ -38,8 +40,60 @@ void CommunityBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 		LbaNet::AcceptFriend * castedptr = 
 			dynamic_cast<LbaNet::AcceptFriend *>(ptr);
 
-		//TODO
-		//Ice::Long FriendId;
+		boost::shared_ptr<DatabaseHandlerBase> dbh = SharedDataHandler::getInstance()->GetDatabase();
+		if(dbh)
+		{
+			std::string friendname;
+			std::string myname;
+			if(dbh->AcceptFriend((long)clientid, (long)castedptr->FriendId, friendname, myname))
+			{
+				// inform first player that the friend request is accepted
+				{
+					ClientInterfacePrx prx = SharedDataHandler::getInstance()->GetProxy(clientid);
+					if(prx)
+					{
+						EventsSeq toplayer;
+						GuiUpdatesSeq paramseq;
+						FriendInfo finfo;
+						finfo.Id = (long)castedptr->FriendId;
+						finfo.Pending = false;
+						finfo.ToAccept = false;
+						finfo.Name = friendname;
+						finfo.Removed = false;
+
+						paramseq.push_back(new FriendChangedUpdate(finfo));
+						toplayer.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+																"CommunityBox", paramseq));
+
+						IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
+						t->start();	
+					}
+				}
+
+				// inform second player that the friend request is accepted
+				{
+					ClientInterfacePrx prx = SharedDataHandler::getInstance()->GetProxy(castedptr->FriendId);
+					if(prx)
+					{
+						EventsSeq toplayer;
+						GuiUpdatesSeq paramseq;
+						FriendInfo finfo;
+						finfo.Id = (long)clientid;
+						finfo.Pending = false;
+						finfo.ToAccept = false;
+						finfo.Name = myname;
+						finfo.Removed = false;
+
+						paramseq.push_back(new FriendChangedUpdate(finfo));
+						toplayer.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+																"CommunityBox", paramseq));
+
+						IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
+						t->start();	
+					}
+				}
+			}
+		}
 	}
 
 	// LbaNet::RemoveFriend
@@ -48,14 +102,84 @@ void CommunityBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 		LbaNet::RemoveFriend * castedptr = 
 			dynamic_cast<LbaNet::RemoveFriend *>(ptr);
 
-		//TODO
-		//Ice::Long FriendId;
+		boost::shared_ptr<DatabaseHandlerBase> dbh = SharedDataHandler::getInstance()->GetDatabase();
+		if(dbh)
+		{
+			dbh->RemoveFriend((long)clientid, (long)castedptr->FriendId);
+
+			{
+				// inform first player that the friend is removed
+				{
+					ClientInterfacePrx prx = SharedDataHandler::getInstance()->GetProxy(clientid);
+					if(prx)
+					{
+						EventsSeq toplayer;
+						GuiUpdatesSeq paramseq;
+						FriendInfo finfo;
+						finfo.Id = (long)castedptr->FriendId;
+						finfo.Pending = false;
+						finfo.ToAccept = false;
+						finfo.Removed = true;
+
+						paramseq.push_back(new FriendChangedUpdate(finfo));
+						toplayer.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+																"CommunityBox", paramseq));
+
+						IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
+						t->start();	
+					}
+				}
+
+				// inform second player that the friend is removed
+				{
+					ClientInterfacePrx prx = SharedDataHandler::getInstance()->GetProxy(castedptr->FriendId);
+					if(prx)
+					{
+						EventsSeq toplayer;
+						GuiUpdatesSeq paramseq;
+						FriendInfo finfo;
+						finfo.Id = (long)clientid;
+						finfo.Pending = false;
+						finfo.ToAccept = false;
+						finfo.Removed = true;
+
+						paramseq.push_back(new FriendChangedUpdate(finfo));
+						toplayer.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+																"CommunityBox", paramseq));
+
+						IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
+						t->start();	
+					}
+				}
+			}
+		}
+
 	}
 
 	// LbaNet::RefreshFriends
 	if(info == typeid(LbaNet::RefreshFriends))
 	{
-		//TODO
+		boost::shared_ptr<DatabaseHandlerBase> dbh = SharedDataHandler::getInstance()->GetDatabase();
+		if(dbh)
+		{
+			// et list from db
+			LbaNet::FriendsSeq friends = dbh->GetFriends((long)clientid);
+
+			// send list to player
+			ClientInterfacePrx prx = SharedDataHandler::getInstance()->GetProxy(clientid);
+			if(prx)
+			{
+				EventsSeq toplayer;
+				GuiParamsSeq paramseq;
+				paramseq.push_back(new FriendListGuiParameter(friends));
+				toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+														"CommunityBox", paramseq, false, false));
+
+				IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
+				t->start();	
+			}
+
+		}
 	}
 
 	// LbaNet::AddFriend
@@ -64,8 +188,60 @@ void CommunityBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 		LbaNet::AddFriend * castedptr = 
 			dynamic_cast<LbaNet::AddFriend *>(ptr);
 
-		//TODO
-		//std::string FriendName;
+		boost::shared_ptr<DatabaseHandlerBase> dbh = SharedDataHandler::getInstance()->GetDatabase();
+		if(dbh)
+		{
+			long friendid = -1;
+			std::string myname;
+			if(dbh->AskFriend((long)clientid, castedptr->FriendName, friendid, myname))
+			{
+				// inform first player that the friend request is processed
+				{
+					ClientInterfacePrx prx = SharedDataHandler::getInstance()->GetProxy(clientid);
+					if(prx)
+					{
+						EventsSeq toplayer;
+						GuiUpdatesSeq paramseq;
+						FriendInfo finfo;
+						finfo.Id = (long)friendid;
+						finfo.Pending = true;
+						finfo.ToAccept = false;
+						finfo.Name = castedptr->FriendName;
+						finfo.Removed = false;
+
+						paramseq.push_back(new FriendChangedUpdate(finfo));
+						toplayer.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+																"CommunityBox", paramseq));
+
+						IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
+						t->start();	
+					}
+				}
+
+				// inform second player that there is a friend request
+				{
+					ClientInterfacePrx prx = SharedDataHandler::getInstance()->GetProxy(friendid);
+					if(prx)
+					{
+						EventsSeq toplayer;
+						GuiUpdatesSeq paramseq;
+						FriendInfo finfo;
+						finfo.Id = (long)clientid;
+						finfo.Pending = false;
+						finfo.ToAccept = true;
+						finfo.Name = myname;
+						finfo.Removed = false;
+
+						paramseq.push_back(new FriendChangedUpdate(finfo));
+						toplayer.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+																"CommunityBox", paramseq));
+
+						IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
+						t->start();	
+					}
+				}
+			}
+		}
 	}
 }
 

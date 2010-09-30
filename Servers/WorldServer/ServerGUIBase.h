@@ -37,6 +37,18 @@ class ShowGuiParamBase
 
 };
 
+// class containing text param
+class TextBoxParam : public ShowGuiParamBase
+{
+public:
+	//! constructor
+	TextBoxParam(long TextId)
+		: _textid(TextId){}
+
+	long	_textid;
+};
+
+
 
 //*************************************************************************************************
 //*                               class ServerGUIBase
