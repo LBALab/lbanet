@@ -231,7 +231,15 @@ module LbaNet
 		// life/mana info
 		LifeManaInfo		lifemana;
 	};	
-		
+	
+
+	struct ObjectExtraInfo
+	{
+		string			Name;
+		float			NameColorR;
+		float			NameColorG;		
+		float			NameColorB;
+	};		
 	
 	
 	
@@ -339,6 +347,8 @@ module LbaNet
 		
 		string			AnimationIdx;
 	};
+	
+	
 
 
 
@@ -655,6 +665,21 @@ module LbaNet
 	// pause the object animation
 	class PauseAnimationUpdate extends DisplayObjectUpdateBase
 	{
+	};
+	
+	
+	
+	// server inform clients that extra info changed
+	class ObjectExtraInfoUpdate extends DisplayObjectUpdateBase
+	{
+		ObjectExtraInfo			Update;
+	};
+	
+	
+	// server inform clients that life info changed
+	class ObjectLifeInfoUpdate extends DisplayObjectUpdateBase
+	{
+		LifeManaInfo			Update;
 	};	
 };	
 

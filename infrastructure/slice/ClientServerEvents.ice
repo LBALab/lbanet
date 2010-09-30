@@ -79,7 +79,9 @@ module LbaNet
 		ObjectTypeEnum		TypeO;
 		long			ObjectId;
 		ModelInfo		DisplayDesc;
-		ObjectPhysicDesc	PhysicDesc;		
+		ObjectPhysicDesc	PhysicDesc;
+		LifeManaInfo		LifeInfo;
+		ObjectExtraInfo		ExtraInfo;
 	};
 	
 	
@@ -150,7 +152,8 @@ module LbaNet
 	// client tell server that player should be raised from dead
 	class RaiseFromDeadEvent extends ClientServerEventBase
 	{
-	};	
+	};
+	
 };	
 
 #endif
