@@ -330,7 +330,7 @@ public:
 	virtual bool AllowedMoving(){return true;}
 
 	//! ask if we are allowed to rotate in this mode
-	virtual bool AllowedRotating(){return true;}
+	virtual bool AllowedRotating(){return false;}
 
 	//! tell state that player is moving
 	virtual void InformMoving()
