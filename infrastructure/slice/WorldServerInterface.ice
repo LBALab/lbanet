@@ -11,10 +11,14 @@ module LbaNet
 	 	void ClientEvents(long clientid, EventsSeq evts);
 	 	
 	 	// used when a client connect to a world
-	 	void RegisterClient(long clientid, string clientname, ClientInterface * proxy);
+	 	void RegisterClient(long clientid, ClientInterface * proxy, ObjectExtraInfo extrainfo);
 	 	
 	 	// used when a client disconnect from a world
-		 void UnregisterClient(long clientid); 	
+		 void UnregisterClient(long clientid); 
+	 	
+	 	// used when a client update name info
+	 	void UpdateClientInfo(long clientid, ObjectExtraInfo extrainfo);		 
+		 
 	};
 
 };

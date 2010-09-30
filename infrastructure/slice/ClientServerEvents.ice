@@ -154,6 +154,11 @@ module LbaNet
 	{
 	};
 	
+	// server tell server that client updated extra info
+	class NewClientExtraInfoEvent extends ClientServerEventBase
+	{
+		ObjectExtraInfo 		ExtraInfo;
+	};	
 };	
 
 #endif
