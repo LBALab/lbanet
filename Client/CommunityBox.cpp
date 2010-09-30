@@ -378,8 +378,6 @@ add people friend
 ***********************************************************/
 void CommunityBox::UpdateFriend(const LbaNet::FriendInfo & frd)
 {
-	//RemoveFriend(frd.Name);
-
 	CEGUI::Listbox * lb = static_cast<CEGUI::Listbox *> (
 		CEGUI::WindowManager::getSingleton().getWindow("Community/friendlist"));
 
@@ -395,28 +393,56 @@ void CommunityBox::UpdateFriend(const LbaNet::FriendInfo & frd)
 
 	std::string dis = "[colour='" + color + "']";
 	if(frd.ToAccept)
-		dis += "(Request) ";
+		dis += " (Request)";
+
 
 	dis += frd.Name;
 
 	if(frd.Pending)
+	{
 		dis += " (Pending)";
+
+		// display pending message on chatbox
+		LbaNet::GuiUpdatesSeq updseq;
+		LbaNet::ChatTextUpdate * upd = new LbaNet::ChatTextUpdate("All", "Info", "You have a pending friend request from " + frd.Name);
+		updseq.push_back(upd);
+		EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
+			SynchronizedTimeHandler::GetCurrentTimeDouble(), "ChatBox", updseq));
+	}
 
 
 	//check if already exist just update the text
 	T_friendmap::iterator it = _friends.find(frd.Id);
 	if(it != _friends.end())
 	{
-		it->second.second->setText(dis);
-		lb->invalidate();
+		if(frd.Removed)
+		{
+			// display remove message on chatbox
+			LbaNet::GuiUpdatesSeq updseq;
+			LbaNet::ChatTextUpdate * upd = new LbaNet::ChatTextUpdate("All", "Info", "Friendship refused/removed with player " + it->second.first.Name);
+			updseq.push_back(upd);
+			EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
+				SynchronizedTimeHandler::GetCurrentTimeDouble(), "ChatBox", updseq));
+
+
+			lb->removeItem(it->second.second);
+			_friends.erase(it);
+		}
+		else
+		{
+			it->second.second->setText(dis);
+			lb->invalidate();
+		}
 	}
 	else
 	{
-		CEGUI::ListboxItem *item = new MyComListItem(dis);
-		item->setID((unsigned int)frd.Id);
-		lb->addItem(item);
-		_friends[frd.Id] = std::make_pair<LbaNet::FriendInfo, CEGUI::ListboxItem *>(frd, item);
-
+		if(!frd.Removed)
+		{
+			CEGUI::ListboxItem *item = new MyComListItem(dis);
+			item->setID((unsigned int)frd.Id);
+			lb->addItem(item);
+			_friends[frd.Id] = std::make_pair<LbaNet::FriendInfo, CEGUI::ListboxItem *>(frd, item);		
+		}
 	}
 }
 

@@ -31,7 +31,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <fstream>
 
 #include "DynamicObject.h"
-
+#include "CharacterStates.h"
+#include "CharacterModes.h"
 
 class ExternalReckon
 {
@@ -105,7 +106,8 @@ class ExternalPlayer
 {
 public:
 	//constructor
-	ExternalPlayer(boost::shared_ptr<DynamicObject> obje);
+	ExternalPlayer(boost::shared_ptr<DynamicObject> obje, 
+								const LbaNet::ModelInfo &Info);
 
 	//destructor
 	~ExternalPlayer();
@@ -125,6 +127,14 @@ public:
 	boost::shared_ptr<DisplayObjectHandlerBase> GetDisplayObject()
 	{ return _obje->GetDisplayObject();}
 
+	//! update player display
+	void UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr update);
+
+
+protected:
+	//! internaly update mode and state
+	void UpdateModeAndState(const std::string &newmode,
+								LbaNet::ModelState newstate);
 
 private:
 	double									_last_update;
@@ -138,6 +148,9 @@ private:
 
 	ExternalReckon							_dr;
 	bool									_shouldupdate;
+
+	boost::shared_ptr<CharacterModeBase>		_currentmode;
+	boost::shared_ptr<CharacterStateBase>		_currentstate;
 };
 
 
