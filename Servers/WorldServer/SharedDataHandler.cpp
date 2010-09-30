@@ -73,7 +73,7 @@ void SharedDataHandler::ClientEvents(Ice::Long clientid, const EventsSeq &evts)
 /***********************************************************
 used when a client connect to a world
 ***********************************************************/
-void SharedDataHandler::RegisterClient(Ice::Long clientid, const std::string &clientname, 
+void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo, 
 											const ClientInterfacePrx &proxy)
 {
 	Lock sync(*this);
@@ -103,9 +103,9 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const std::string &cl
 
 
 	// create player object
-	boost::shared_ptr<PlayerHandler> player(new PlayerHandler((long)clientid, clientname, proxy, 
+	boost::shared_ptr<PlayerHandler> player(new PlayerHandler((long)clientid, proxy, 
 											_dbH, _worldinfo.Description.WorldName, savedinfo, 
-											savedinfo.model));
+											savedinfo.model, extrainfo));
 	_currentplayers[clientid] = player;
 
 
@@ -180,6 +180,29 @@ used when a client disconnect from a world
 		_currentplayers.erase(it);
 	}
 } 
+
+
+
+
+/***********************************************************
+used when a client update name info
+***********************************************************/
+void SharedDataHandler::UpdateClientExtraInfo(Ice::Long clientid, 
+											  const LbaNet::ObjectExtraInfo& extrainfo)
+{
+	Lock sync(*this);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
+	if(it != _currentplayers.end())
+	{
+		it->second->SetExtraInfo(extrainfo);
+
+		// add event
+		AddEvent(it->second->GetCurrentMap(), clientid, 
+			new NewClientExtraInfoEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), extrainfo));
+	}
+
+}
 
 
 
@@ -349,6 +372,22 @@ PlayerPosition SharedDataHandler::GetPlayerPosition(Ice::Long clientid)
 
 
 	return PlayerPosition();
+}
+
+
+/***********************************************************
+get player extra info
+***********************************************************/
+LbaNet::ObjectExtraInfo SharedDataHandler::GetPlayerExtraInfo(Ice::Long clientid)
+{
+	Lock sync(*this);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
+	if(it != _currentplayers.end())
+		return it->second->GetExtraInfo();
+
+
+	return LbaNet::ObjectExtraInfo();
 }
 
 

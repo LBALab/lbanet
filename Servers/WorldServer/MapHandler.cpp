@@ -464,7 +464,9 @@ void MapHandler::PlayerEntered(Ice::Long id, EventsSeq &tosendevts)
 		PhysicDesc.SizeY = 5;
 
 		tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-													PlayerObject, id, pinfo.model, PhysicDesc));
+													PlayerObject, id, pinfo.model, PhysicDesc, 
+									SharedDataHandler::getInstance()->GetInfo(id).lifemana,
+									SharedDataHandler::getInstance()->GetPlayerExtraInfo(id)));
 	}
 }
 
@@ -566,7 +568,8 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 	PhysicDesc.Filename = "Worlds/Lba1Original/Grids/map0.phy";
 
 	toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-												StaticObject, 1, DisplayDesc, PhysicDesc));
+												StaticObject, 1, DisplayDesc, PhysicDesc,
+												LbaNet::LifeManaInfo() ,LbaNet::ObjectExtraInfo()));
 	}
 
 	
@@ -586,7 +589,9 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 		PhysicDesc.SizeY = 5;
 
 		toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-													PlayerObject, _currentplayers[cc], pinfo.model, PhysicDesc));
+													PlayerObject, _currentplayers[cc], pinfo.model, PhysicDesc, 
+												SharedDataHandler::getInstance()->GetInfo(_currentplayers[cc]).lifemana,
+												SharedDataHandler::getInstance()->GetPlayerExtraInfo(_currentplayers[cc])));
 	}
 
 

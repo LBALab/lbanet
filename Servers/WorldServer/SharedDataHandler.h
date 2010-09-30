@@ -61,8 +61,8 @@ public:
 	void ClientEvents(Ice::Long clientid, const EventsSeq &evts);
 
 	// used when a client connect to a world
-	void RegisterClient(Ice::Long clientid, const std::string &clientname, 
-						const ClientInterfacePrx &proxy);
+	void RegisterClient(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo, 
+							const ClientInterfacePrx &proxy);
 
 	// used when a client disconnect from a world
 	void UnregisterClient(Ice::Long clientid); 
@@ -91,6 +91,10 @@ public:
 	PlayerPosition GetPlayerPosition(Ice::Long clientid);
 
 
+	//! get player extra info
+	LbaNet::ObjectExtraInfo GetPlayerExtraInfo(Ice::Long clientid);
+
+
 	//! get database
 	boost::shared_ptr<DatabaseHandlerBase> GetDatabase();
 
@@ -109,6 +113,12 @@ public:
 	//! return true if state has been updated
 	bool UpdatePlayerState(Ice::Long clientid, LbaNet::ModelState NewState,
 									ModelInfo & returnmodel );
+ 	
+ 	// used when a client update name info
+	void UpdateClientExtraInfo(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo);
+
+
+
 
 protected:
 	//! constructor

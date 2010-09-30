@@ -47,11 +47,17 @@ public:
  	void ClientEvents(Ice::Long clientid, const EventsSeq &evts, const Ice::Current&);
  	
  	// used when a client connect to a world
-	void RegisterClient(Ice::Long clientid, const std::string &clientname, 
-						const ClientInterfacePrx &proxy, const Ice::Current&);
+	void RegisterClient(Ice::Long clientid, const ClientInterfacePrx &proxy, 
+							const LbaNet::ObjectExtraInfo& extrainfo, 
+							const Ice::Current&);
  	
  	// used when a client disconnect from a world
 	 void UnregisterClient(Ice::Long clientid, const Ice::Current&); 	
+ 	
+ 	// used when a client update name info
+	void UpdateClientInfo(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo, 
+							const Ice::Current&);
+
 
 };
 

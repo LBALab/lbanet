@@ -37,10 +37,11 @@ void WorldServerInterfaceServant::ClientEvents(Ice::Long clientid, const EventsS
 /***********************************************************
 used when a client connect to a world
 ***********************************************************/
-void WorldServerInterfaceServant::RegisterClient(Ice::Long clientid, const std::string &clientname, 
-													const ClientInterfacePrx &proxy, const Ice::Current&)
+void WorldServerInterfaceServant::RegisterClient(Ice::Long clientid, const ClientInterfacePrx &proxy, 
+													const LbaNet::ObjectExtraInfo& extrainfo,
+													const Ice::Current&)
 {
-	SharedDataHandler::getInstance()->RegisterClient(clientid, clientname, proxy);
+	SharedDataHandler::getInstance()->RegisterClient(clientid, extrainfo, proxy);
 }
 
 
@@ -52,5 +53,15 @@ used when a client disconnect from a world
 	SharedDataHandler::getInstance()->UnregisterClient(clientid);
 }
 
+ 
+/***********************************************************
+used when a client update name info
+***********************************************************/	
+void WorldServerInterfaceServant::UpdateClientInfo(Ice::Long clientid, 
+												   const LbaNet::ObjectExtraInfo& extrainfo, 
+													const Ice::Current&)
+{
+	SharedDataHandler::getInstance()->UpdateClientExtraInfo(clientid, extrainfo);
+}
 
 

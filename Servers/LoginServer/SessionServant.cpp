@@ -40,7 +40,11 @@ SessionServant::SessionServant(const std::string& userId, const RoomManagerPrx& 
 {
 	try
 	{
-		_userNumber = _ctracker->Connect(_userName);;
+		_userNumber = _ctracker->Connect(_userName);
+		_currextrainfo.Name = _userName;
+		_currextrainfo.NameColorR = 1.0;
+		_currextrainfo.NameColorG = 1.0;
+		_currextrainfo.NameColorB = 1.0;
 	}
     catch(const IceUtil::Exception& ex)
     {
@@ -276,7 +280,7 @@ void SessionServant::ChangeWorld(const std::string& WorldName, const Ice::Curren
 	{
 		if(_currentWorld)
 		{
-			_currentWorld->RegisterClient(_userNumber, _userName, _client);
+			_currentWorld->RegisterClient(_userNumber, _client, _currextrainfo);
 			_currWorldName = WorldName;
 		}
 		else
@@ -419,11 +423,34 @@ void SessionServant::ChangeNameColor(const std::string& Color, const Ice::Curren
 		_currColor = Color;
 		_ctracker->ChangeNameColor(_userName, Color);
 
+		int cR = 0;
+		std::stringstream cRss;
+		cRss << std::hex << Color.substr(0, 2);
+		cRss >> cR;
+
+		int cG = 0;
+		std::stringstream cGss;
+		cGss << std::hex << Color.substr(2, 2);
+		cGss >> cG;
+
+		int cB = 0;   
+		std::stringstream cBss;
+		cBss << std::hex << Color.substr(4, 2);
+		cBss >> cB;
+
+		_currextrainfo.NameColorR = cR / 255.0f;
+		_currextrainfo.NameColorG = cG / 255.0f;
+		_currextrainfo.NameColorB = cB / 255.0f;
+
 		std::map<std::string, ChatRoomParticipantPrx>::iterator worldit = _chat_rooms.find("World");
 		if(worldit != _chat_rooms.end())
 		{
 			worldit->second->Say("info", "#status " + _userName + " " + _currStatus + " " + Color);
 		}
+
+
+		if(_currentWorld)
+			_currentWorld->UpdateClientInfo(_userNumber, _currextrainfo);
 	}
 	catch(...)
 	{

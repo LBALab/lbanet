@@ -40,12 +40,12 @@ class PlayerHandler
 {
 public:
 	//! constructor
-	PlayerHandler(long clientid, const std::string &clientname, 
-							const LbaNet::ClientInterfacePrx &proxy,
+	PlayerHandler(long clientid, const LbaNet::ClientInterfacePrx &proxy,
 							boost::shared_ptr<DatabaseHandlerBase> dbH,
 							const std::string &worldname,
 							const LbaNet::SavedWorldInfo & savedinfo,
-							const LbaNet::ModelInfo & modelinfo);
+							const LbaNet::ModelInfo & modelinfo,
+							const LbaNet::ObjectExtraInfo& extrainfo);
 	
 	//! destructor
 	~PlayerHandler(void);
@@ -53,9 +53,6 @@ public:
 
 	//! accessor on id
 	Ice::Long GetId() {return _clientid;}
-
-	//! accessor on name
-	std::string GetName() {return _clientname;}
 
 	//! accessor on proxy
 	LbaNet::ClientInterfacePrx GetProxy() {return _proxy;}
@@ -111,6 +108,14 @@ public:
 	//! return true if state has been updated
 	bool UpdatePlayerState(LbaNet::ModelState NewState,LbaNet::ModelInfo & returnmodel);
 
+	//! set player extra info
+	void SetExtraInfo(const LbaNet::ObjectExtraInfo& extrainfo)
+	{_extrainfo = extrainfo;}
+
+	//! get player extra info
+	LbaNet::ObjectExtraInfo GetExtraInfo()
+	{ return _extrainfo;}
+
 
 protected:
 	// update state and mode class from modelinfo
@@ -118,7 +123,6 @@ protected:
 
 private:
 	long										_clientid;
-	std::string									_clientname; 
 	LbaNet::ClientInterfacePrx					_proxy;
 	boost::shared_ptr<DatabaseHandlerBase>		_dbH;
 
@@ -127,7 +131,7 @@ private:
 	LbaNet::ModelInfo							_currentmodelinfo;
 	LbaNet::ItemsMap							_currentinventory;
 	LbaNet::ShortcutsSeq						_currentshortcuts;
-
+	LbaNet::ObjectExtraInfo						_extrainfo;
 
 	std::vector<long>							_questStarted;
 	std::vector<long>							_questFinished;

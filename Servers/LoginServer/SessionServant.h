@@ -107,6 +107,7 @@ private:
 
 	std::string							_currStatus;
 	std::string							_currColor;
+	ObjectExtraInfo						_currextrainfo;
 
 	std::map<std::string, ChatRoomParticipantPrx>	_chat_rooms;
 

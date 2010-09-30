@@ -4,15 +4,15 @@
 /***********************************************************
 constructor
 ***********************************************************/
-PlayerHandler::PlayerHandler(long clientid, const std::string &clientname, 
-						const LbaNet::ClientInterfacePrx &proxy,
+PlayerHandler::PlayerHandler(long clientid, const LbaNet::ClientInterfacePrx &proxy,
 						boost::shared_ptr<DatabaseHandlerBase> dbH,
 						const std::string &worldname,
 						const LbaNet::SavedWorldInfo & savedinfo,
-						const LbaNet::ModelInfo & modelinfo)
-	: _clientid(clientid), _clientname(clientname), _proxy(proxy), 
+						const LbaNet::ModelInfo & modelinfo,
+						const LbaNet::ObjectExtraInfo& extrainfo)
+	: _clientid(clientid), _proxy(proxy), 
 		_dbH(dbH), _currentinfo(savedinfo), _worldname(worldname),
-		_currentmodelinfo(modelinfo)
+		_currentmodelinfo(modelinfo), _extrainfo(extrainfo)
 {
 
 	// get quest information
