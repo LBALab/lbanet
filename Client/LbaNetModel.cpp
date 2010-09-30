@@ -144,7 +144,9 @@ void LbaNetModel::Process(double tnow, float tdiff)
 add object to the scene
 ***********************************************************/
 void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc, 
-							const LbaNet::ModelInfo &DisplayDesc)
+								const LbaNet::ModelInfo &DisplayDesc,
+								const LbaNet::ObjectExtraInfo &extrainfo,
+								const LbaNet::LifeManaInfo &lifeinfo)
 {
 	switch(OType)
 	{
@@ -153,6 +155,8 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc
 			{
 			boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
 			_staticObjects[desc.Id] = tmpobj;
+			tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
+			tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
 			}
 		break;
 
@@ -161,6 +165,9 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc
 			{
 			boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
 			_serverObjects[desc.Id] = tmpobj;
+
+			tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
+			tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
 			}
 		break;
 
@@ -169,6 +176,9 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc
 			{
 			boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
 			_movableObjects[desc.Id] = tmpobj;
+
+			tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
+			tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
 			}
 		break;
 
@@ -187,11 +197,17 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc
 					m_controllerChar->SetPhysicalCharacter(playerObject, DisplayDesc);
 				if(m_controllerCam)
 					m_controllerCam->SetCharacter(playerObject);
+
+				m_controllerChar->UpdateDisplay(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
+				m_controllerChar->UpdateDisplay(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
 			}
 			else
 			{
 				boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
 				_playerObjects[desc.Id] = boost::shared_ptr<ExternalPlayer>(new ExternalPlayer(tmpobj, DisplayDesc));
+
+				tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
+				tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
 			}
 		break;
 
@@ -200,6 +216,9 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc
 			{
 			boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
 			_ghostObjects[desc.Id] = tmpobj;
+
+			tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
+			tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
 			}
 		break;
 	}
@@ -340,7 +359,9 @@ void LbaNetModel::ResetPlayerObject()
 ***********************************************************/
 void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId, 
 					const LbaNet::ModelInfo &DisplayDesc, 
-					const LbaNet::ObjectPhysicDesc &PhysicDesc)
+					const LbaNet::ObjectPhysicDesc &PhysicDesc,
+					const LbaNet::ObjectExtraInfo &extrainfo,
+					const LbaNet::LifeManaInfo &lifeinfo)
 {
 	boost::shared_ptr<DisplayInfo> DInfo;
 
@@ -459,7 +480,7 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 	}
 
 	ObjectInfo obj((long)ObjectId, DInfo, PInfo, (OType == LbaNet::StaticObject));
-	AddObject(OType, obj, DisplayDesc);
+	AddObject(OType, obj, DisplayDesc, extrainfo, lifeinfo);
 }
 
 
@@ -525,7 +546,7 @@ void LbaNetModel::UpdateObjectDisplay(LbaNet::ObjectTypeEnum OType, Ice::Long Ob
 			{
 				std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _playerObjects.find((long)ObjectId);
 				if(it != _playerObjects.end())
-					it->second->GetDisplayObject()->Update(update);
+					it->second->UpdateDisplay(update);
 			}
 		break;
 
@@ -610,3 +631,4 @@ void LbaNetModel::RefreshEnd()
 {
 	Resume();
 }
+

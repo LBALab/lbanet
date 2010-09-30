@@ -426,43 +426,6 @@ CEGUIDrawable::CEGUIDrawable(int resX, int resY, boost::shared_ptr<GuiHandler> G
 		if(_GuiH)
 			_GuiH->Initialize(resX, resY);
 
-	 //   CEGUI::OpenGLRenderer& gui_renderer = CEGUI::OpenGLRenderer::create();
-		//gui_renderer.enableExtraStateSettings(true);
-		//CEGUI::System::create( gui_renderer );
-	 //   
-		//// initialise the required dirs for the DefaultResourceProvider
-		//CEGUI::DefaultResourceProvider* rp = static_cast<CEGUI::DefaultResourceProvider*>
-		//	(CEGUI::System::getSingleton().getResourceProvider());
-
-		//rp->setResourceGroupDirectory("schemes", "./Data/GUI/schemes/");
-		//rp->setResourceGroupDirectory("imagesets", "./Data/GUI/imagesets/");
-		//rp->setResourceGroupDirectory("fonts", "./Data/GUI/fonts/");
-		//rp->setResourceGroupDirectory("layouts", "./Data/GUI/layouts/");
-		//rp->setResourceGroupDirectory("looknfeels", "./Data/GUI/looknfeel/");
-		//rp->setResourceGroupDirectory("lua_scripts", "./Data/GUI/lua_scripts/");
-
-		//// set the default resource groups to be used
-		//CEGUI::Imageset::setDefaultResourceGroup("imagesets");
-		//CEGUI::Font::setDefaultResourceGroup("fonts");
-		//CEGUI::Scheme::setDefaultResourceGroup("schemes");
-		//CEGUI::WidgetLookManager::setDefaultResourceGroup("looknfeels");
-		//CEGUI::WindowManager::setDefaultResourceGroup("layouts");
-		//CEGUI::ScriptModule::setDefaultResourceGroup("lua_scripts");
-
-		//// load in the scheme file, which auto-loads the TaharezLook imageset
-		//CEGUI::SchemeManager::getSingleton().create( "TaharezLook.scheme" );
-
-		////! load font file
-		//CEGUI::FontManager::getSingleton().create( "abbey_m1-9.font" );
-
-		//CEGUI::System::getSingleton().setDefaultMouseCursor( "TaharezLook", "MouseArrow" );
-		//CEGUI::System::getSingleton().setDefaultTooltip( "TaharezLook/Tooltip" );
-
-
-		//CEGUI::Window * root = CEGUI::WindowManager::getSingleton().loadWindowLayout( "chatbox.layout" );
-		//CEGUI::System::getSingleton().setGUISheet( root );
-
-
 		_activeContextID = 0;
 	}
 	catch(CEGUI::Exception &ex)
@@ -478,7 +441,6 @@ destructor
 ***********************************************************/
 CEGUIDrawable::~CEGUIDrawable()
 {
-    // delete CEGUI??
 }
 
 
@@ -500,6 +462,80 @@ void CEGUIDrawable::drawImplementation(osg::RenderInfo& renderInfo) const
     CEGUI::System::getSingleton().renderGUI();
 
     glPopAttrib();
+
+	//draw overlay
+	if(_GuiH && _GuiH->ShouldDrawOverlay())
+	{
+		int sX, sY;
+		_GuiH->GetScreenSize(sX, sY);
+
+		float life, mana;
+		_GuiH->GetLifeManaInfo(life, mana);
+		
+
+		glMatrixMode(GL_PROJECTION);
+		glPushMatrix();
+		glLoadIdentity();
+		glOrtho(0, sX, sY, 0, -1, 1);
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+
+		glDisable(GL_DEPTH_TEST);
+		glEnable(GL_BLEND);
+		glEnable(GL_TEXTURE_2D);
+
+		//glBindTexture(GL_TEXTURE_2D, m_halo_texture);
+		//glColor3f(246/255.0f,181/255.0f,24/255.0f);
+		//glBegin(GL_QUADS);
+		//	glTexCoord2f(1, 1);
+		//	glVertex2f(60,0);	
+		//	glTexCoord2f(0, 1);
+		//	glVertex2f(0,0);
+		//	glTexCoord2f(0, 0);
+		//	glVertex2f(0,84);	
+		//	glTexCoord2f(1, 0);
+		//	glVertex2f(60,84);	
+		//glEnd();
+
+
+		//glBindTexture(GL_TEXTURE_2D, m_char_texture);
+		//glColor3f(1,1,1);
+		//glBegin(GL_QUADS);
+		//	glTexCoord2f(1, 1);
+		//	glVertex2f(55,0);	
+		//	glTexCoord2f(0, 1);
+		//	glVertex2f(5,0);	
+		//	glTexCoord2f(0, 0);
+		//	glVertex2f(5,69);
+		//	glTexCoord2f(1, 0);
+		//	glVertex2f(55,69);	
+		//glEnd();
+
+		int offsetx = 67;
+		int sizex = 79;
+		glDisable(GL_TEXTURE_2D);
+		glBegin(GL_QUADS);
+			glColor3f(115/255.f, 0.f, 2/255.f);
+			glVertex2f(offsetx,11);					
+			glVertex2f(offsetx+(sizex*life),11);	
+			glColor3f(254/255.f, 0.f, 3/255.f);
+			glVertex2f(offsetx+(sizex*life),7);					
+			glVertex2f(offsetx,7);	
+
+			glColor3f(11/255.f, 11/255.f, 71/255.f);
+			glVertex2f(offsetx,20);					
+			glVertex2f(offsetx+(sizex*mana),20);	
+			glColor3f(13/255.f, 12/255.f, 150/255.f);
+			glVertex2f(offsetx+(sizex*mana),16);					
+			glVertex2f(offsetx,16);	
+		glEnd();
+
+
+		glMatrixMode(GL_PROJECTION);
+		glPopMatrix();
+		glMatrixMode(GL_MODELVIEW); 
+	}
+
     
     state->checkGLErrors("CEGUIDrawable::drawImplementation");
 }

@@ -116,6 +116,23 @@ public:
 	//! process GUI
 	void Process(void);
 
+	//! set wether to draw overlay or not
+	void SetDrawOverlay(bool draw);
+
+	//! check if should draw overlay or not
+	bool ShouldDrawOverlay()
+	{return _drawoverlay;}
+
+	//! get gui windows size
+	void GetScreenSize(int &X, int &Y);
+
+	//! update life info
+	void UpdateLifeMana(float lifePerc, float ManaPerc);
+
+	//! get life info
+	void GetLifeManaInfo(float &lifePerc, float &ManaPerc);
+
+
 protected:
 	//! inject time to the GUI
 	void inject_time_pulse();
@@ -129,6 +146,14 @@ private:
 	OptionsGUI *			_option_gui;
 	int						_currentGUI;
 	double					m_last_time_pulse;
+	
+	bool					_drawoverlay;
+
+	int						_currentX;
+	int						_currentY;
+
+	float					_lifepercent;
+	float					_manapercent;
 };
 
 #endif

@@ -170,6 +170,7 @@ public:
 	//! get windows handle (win32 only)
 	void* GetWindowsHandle();
 
+
 protected:
 	//! constructor
 	OsgHandler();

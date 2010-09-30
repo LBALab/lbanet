@@ -419,6 +419,9 @@ void GuiHandler::Resize(int screen_size_X, int screen_size_Y, int oldscreenX, in
 		if(_game_gui)
 			_game_gui->RestoreGUISizes();
 	}
+
+	_currentX = screen_size_X;
+	_currentY = screen_size_Y;
 }
 
 
@@ -551,4 +554,41 @@ void GuiHandler::FocusGameGUI(const std::string & guiid, bool focus)
 {
 	if(_game_gui)
 		_game_gui->FocusGUI(guiid, focus);
+}
+
+/***********************************************************
+activate or not the overlay
+***********************************************************/
+void GuiHandler::SetDrawOverlay(bool draw)
+{
+	_drawoverlay = draw;
+}
+
+
+/***********************************************************
+get gui windows size
+***********************************************************/
+void GuiHandler::GetScreenSize(int &X, int &Y)
+{
+	X = _currentX;
+	Y = _currentY;
+}
+
+
+/***********************************************************
+update life mana info
+***********************************************************/
+void GuiHandler::UpdateLifeMana(float lifePerc, float ManaPerc)
+{
+	_lifepercent = lifePerc;
+	_manapercent = ManaPerc;
+}
+
+/***********************************************************
+update life mana info
+***********************************************************/
+void GuiHandler::GetLifeManaInfo(float &lifePerc, float &ManaPerc)
+{
+	lifePerc = _lifepercent;
+	ManaPerc = _manapercent;
 }

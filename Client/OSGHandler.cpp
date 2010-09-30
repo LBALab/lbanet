@@ -906,3 +906,5 @@ osg::ref_ptr<osg::PositionAttitudeTransform> OsgHandler::CreatePAT(boost::shared
 
 	return osg::ref_ptr<osg::PositionAttitudeTransform>();
 }
+
+

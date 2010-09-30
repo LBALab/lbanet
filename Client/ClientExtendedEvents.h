@@ -291,4 +291,26 @@ public:
 	LbanetKey _keyid;
 };
 
+
+/*
+************************************************************************************************************************
+*                                                  class UpdateGuiLifeEvent
+*
+*	used when a player release key
+************************************************************************************************************************
+*/
+class UpdateGuiLifeEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	UpdateGuiLifeEvent(float lifepercent, float manapercent)
+		: _lifepercent(lifepercent), _manapercent(manapercent)
+	{
+	}
+
+	float _lifepercent;
+	float _manapercent;
+};
+
+
 #endif

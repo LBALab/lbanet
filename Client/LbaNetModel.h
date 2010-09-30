@@ -87,7 +87,9 @@ public:
 	// 5 -> ghost object
 	void AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId, 
 						const LbaNet::ModelInfo &DisplayDesc, 
-						const LbaNet::ObjectPhysicDesc &PhysicDesc);
+						const LbaNet::ObjectPhysicDesc &PhysicDesc,
+						const LbaNet::ObjectExtraInfo &extrainfo,
+						const LbaNet::LifeManaInfo &lifeinfo);
 	
 	//! remove object from server	
 	//! type:
@@ -121,6 +123,7 @@ public:
 	//! map is fully refreshed
 	void RefreshEnd();
 
+
 protected:
 
 	//! clean up map
@@ -141,7 +144,9 @@ protected:
 	// 4 -> player object
 	// 5 -> ghost object
 	void AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc,
-					const LbaNet::ModelInfo &DisplayDesc);
+					const LbaNet::ModelInfo &DisplayDesc,
+					const LbaNet::ObjectExtraInfo &extrainfo,
+					const LbaNet::LifeManaInfo &lifeinfo);
 
 
 	//! remove object from the scene

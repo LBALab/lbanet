@@ -439,7 +439,8 @@ void LbaNetEngine::HandleGameEvents()
 				dynamic_cast<LbaNet::AddObjectEvent *>(&obj);
 
 			m_lbaNetModel->AddObject(castedptr->TypeO, castedptr->ObjectId, 
-									castedptr->DisplayDesc, castedptr->PhysicDesc);
+									castedptr->DisplayDesc, castedptr->PhysicDesc,
+									castedptr->ExtraInfo, castedptr->LifeInfo);
 
 			continue;
 		}
@@ -507,6 +508,17 @@ void LbaNetEngine::HandleGameEvents()
 			continue;
 		}
 
+		// UpdateGuiLifeEvent
+		if(info == typeid(UpdateGuiLifeEvent))
+		{
+			UpdateGuiLifeEvent* castedptr = 
+				dynamic_cast<UpdateGuiLifeEvent *>(&obj);
+
+			if(m_gui_handler)
+				m_gui_handler->UpdateLifeMana(castedptr->_lifepercent, castedptr->_manapercent);
+
+			continue;
+		}
 	}
 }
 
@@ -542,6 +554,9 @@ void LbaNetEngine::SwitchGuiToLogin()
 	m_gui_handler->SwitchGUI(0);
 	m_oldstate = m_currentstate;
 	m_currentstate = ELogin;
+
+	if(m_gui_handler)
+		m_gui_handler->SetDrawOverlay(false);
 }
 
 /***********************************************************
@@ -563,6 +578,9 @@ void LbaNetEngine::SwitchGuiToChooseWorld()
 	// ask server for the list of worlds
 	if(m_serverConH)
 		m_serverConH->RefreshWorldList();
+
+	if(m_gui_handler)
+		m_gui_handler->SetDrawOverlay(false);
 }
 
 /***********************************************************
@@ -582,6 +600,9 @@ void LbaNetEngine::SwitchGuiToGame()
 
 	m_oldstate = m_currentstate;
 	m_currentstate = EGaming;
+
+	if(m_gui_handler)
+		m_gui_handler->SetDrawOverlay(true);
 }
 
 /***********************************************************
@@ -602,6 +623,9 @@ void LbaNetEngine::SwitchGuiToMenu()
 		m_oldstate = m_currentstate;
 		m_currentstate = EMenu;
 	}
+
+	if(m_gui_handler)
+		m_gui_handler->SetDrawOverlay(false);
 }
 
 /***********************************************************
@@ -616,6 +640,9 @@ void LbaNetEngine::SwitchGuiToOption()
 	m_gui_handler->SwitchGUI(4);
 	m_oldstate = m_currentstate;
 	m_currentstate = EOption;
+
+	if(m_gui_handler)
+		m_gui_handler->SetDrawOverlay(false);
 }
 
 

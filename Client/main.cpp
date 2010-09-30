@@ -22,7 +22,7 @@
 #include <windows.h>
 #include <tchar.h>
 #include <Dwmapi.h>
-#pragma comment(lib, "Dwmapi.lib")
+
 
 #ifdef NDEBUG
 HINSTANCE globalInstance;
@@ -112,7 +112,20 @@ int main( int argc, char **argv )
     osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
     GetVersionEx(&osvi);
 	if(osvi.dwMajorVersion > 5)
-		DwmEnableComposition(DWM_EC_DISABLECOMPOSITION);
+	{
+		HINSTANCE LoadMe;
+		LoadMe = LoadLibraryA("Dwmapi.dll");
+		if(LoadMe)
+		{
+			typedef HRESULT (/*__stdcall*/ *EntryPointfuncPtr)(UINT uCompositionAction );  
+			EntryPointfuncPtr LibMainEntryPoint;            
+			LibMainEntryPoint = (EntryPointfuncPtr)GetProcAddress(LoadMe,"DwmEnableComposition");
+			if(LibMainEntryPoint)
+				LibMainEntryPoint(DWM_EC_DISABLECOMPOSITION);
+
+			FreeLibrary(LoadMe);
+		}
+	}
 
 	// init crash reporter
 	//LPVOID chandler = Install(CrashCallback, NULL, NULL);

@@ -58,6 +58,8 @@ public:
 
     void drawImplementation(osg::RenderInfo& renderInfo) const;
 
+
+
 protected:    
 	//! destructor
     virtual ~CEGUIDrawable();
@@ -66,6 +68,7 @@ protected:
 
 private:
 	boost::shared_ptr<GuiHandler>	_GuiH;
+
 };
 
 

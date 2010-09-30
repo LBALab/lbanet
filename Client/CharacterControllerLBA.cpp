@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "SynchronizedTimeHandler.h"
 #include "DynamicObject.h"
 #include "ActorUserData.h"
-
+#include "ClientExtendedEvents.h"
 
 #include <iostream>
 #include <math.h>
@@ -644,6 +644,19 @@ void CharacterController::UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr updat
 
 		UpdateModeAndState(castedptr->Info.Mode, castedptr->Info.State, 
 							SynchronizedTimeHandler::GetCurrentTimeDouble(), 0);
+	}
+
+	// lifeUpdate
+	if(info == typeid(LbaNet::ObjectLifeInfoUpdate))
+	{
+		LbaNet::ObjectLifeInfoUpdate * castedptr = 
+			dynamic_cast<LbaNet::ObjectLifeInfoUpdate *>(update.get());
+
+		// update gui with new life info
+		EventsQueue::getReceiverQueue()->AddEvent(new UpdateGuiLifeEvent(
+			castedptr->Update.CurrentLife / castedptr->Update.MaxLife, 
+			castedptr->Update.CurrentMana / castedptr->Update.MaxMana));
+		
 	}
 
 	_character->GetDisplayObject()->Update(update);
