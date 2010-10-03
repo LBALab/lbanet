@@ -325,6 +325,16 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts,
 				continue;
 			}
 
+			//NewClientExtraInfoEvent
+			if(info == typeid(LbaNet::NewClientExtraInfoEvent))
+			{
+				LbaNet::NewClientExtraInfoEvent* castedptr = 
+					dynamic_cast<LbaNet::NewClientExtraInfoEvent *>(&obj);
+
+				tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+									PlayerObject, it->first, new ObjectExtraInfoUpdate(castedptr->ExtraInfo)));
+				continue;
+			}
 		}
 	}
 }
@@ -611,7 +621,7 @@ void MapHandler::ChangeStance(Ice::Long id, LbaNet::ModelStance NewStance,
 	ModelInfo returnmodel;
 	if(SharedDataHandler::getInstance()->UpdatePlayerStance(id, NewStance, returnmodel))
 		tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-					PlayerObject, id, new ModelUpdate(returnmodel)));
+					PlayerObject, id, new ModelUpdate(returnmodel, false)));
 }
 
 
@@ -624,7 +634,7 @@ void MapHandler::ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, fl
 	ModelInfo returnmodel;
 	if(SharedDataHandler::getInstance()->UpdatePlayerState(id, NewState, returnmodel))
 		tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-					PlayerObject, id, new ModelUpdate(returnmodel)));
+					PlayerObject, id, new ModelUpdate(returnmodel, true)));
 
 	//TODO - hurt by falling
 }

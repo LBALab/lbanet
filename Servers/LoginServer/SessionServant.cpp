@@ -425,17 +425,17 @@ void SessionServant::ChangeNameColor(const std::string& Color, const Ice::Curren
 
 		int cR = 0;
 		std::stringstream cRss;
-		cRss << std::hex << Color.substr(0, 2);
+		cRss << std::hex << Color.substr(2, 2);
 		cRss >> cR;
 
 		int cG = 0;
 		std::stringstream cGss;
-		cGss << std::hex << Color.substr(2, 2);
+		cGss << std::hex << Color.substr(4, 2);
 		cGss >> cG;
 
 		int cB = 0;   
 		std::stringstream cBss;
-		cBss << std::hex << Color.substr(4, 2);
+		cBss << std::hex << Color.substr(6, 2);
 		cBss >> cB;
 
 		_currextrainfo.NameColorR = cR / 255.0f;
