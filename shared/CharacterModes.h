@@ -28,6 +28,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <LbaTypes.h>
 
+
+// keep track of the pressed keys
+class CharKeyPressed
+{
+public:
+
+	//! constructor
+	CharKeyPressed()
+	{
+		_keyforward = false;
+		_keybackward = false;
+		_keyleft = false;
+		_keyright = false;
+		_keyup = false;
+		_keydown = false;
+		_keyaction = false;
+	}
+
+	bool										_keyforward;
+	bool										_keybackward;
+	bool										_keyleft;
+	bool										_keyright;
+	bool										_keyup;
+	bool										_keydown;
+	bool										_keyaction;
+};
+
+
 //*************************************************************************************************
 //*                               class CharacterModeBase
 //*************************************************************************************************
@@ -69,10 +97,9 @@ public:
 	virtual float GetAddedSpeedX(){return 0;}
 
 	//! check if we should change state when pressing action button on this mode
-	virtual bool ChangeStateOnPressAction(LbaNet::ModelState & newstate){return false;}
-
-	//! check if we should change state when releasing action button on this mode
-	virtual bool ChangeStateOnReleaseAction(LbaNet::ModelState & newstate){return false;}
+	virtual bool ChangeState(	LbaNet::ModelState 	currentstate,
+								const CharKeyPressed & ButonPressed,
+								LbaNet::ModelState & newstate) {return false;}
 
 };
 
@@ -104,14 +131,25 @@ public:
 	virtual ~SportyCharacterMode(void){}
 
 	//! check if we should change state when pressing action button on this mode
-	virtual bool ChangeStateOnPressAction(LbaNet::ModelState & newstate)
+	virtual bool ChangeState(	LbaNet::ModelState 	currentstate,
+								const CharKeyPressed & ButonPressed,
+								LbaNet::ModelState & newstate)
 	{
-		newstate = LbaNet::StJumping;
-		return true;
+		if(ButonPressed._keyaction && currentstate != LbaNet::StJumping)
+		{
+			newstate = LbaNet::StJumping;
+			return true;
+		}
+
+		if(ButonPressed._keybackward && currentstate == LbaNet::StJumping)
+		{
+			newstate = LbaNet::StNormal;
+			return true;
+		}
+
+		return false;
 	}
 
-	//! check if we should change state when releasing action button on this mode
-	virtual bool ChangeStateOnReleaseAction(LbaNet::ModelState & newstate){return false;}
 };
 
 
@@ -128,18 +166,30 @@ public:
 	AggresiveCharacterMode(void){}
 	virtual ~AggresiveCharacterMode(void){}
 
-	//! check if we should change state when pressing action button on this mode
-	virtual bool ChangeStateOnPressAction(LbaNet::ModelState & newstate)
-	{
-		newstate = LbaNet::StFighting;
-		return true;
-	}
 
-	//! check if we should change state when releasing action button on this mode
-	virtual bool ChangeStateOnReleaseAction(LbaNet::ModelState & newstate)
+	//! check if we should change state when pressing action button on this mode
+	virtual bool ChangeState(	LbaNet::ModelState 	currentstate,
+								const CharKeyPressed & ButonPressed,
+								LbaNet::ModelState & newstate)
 	{
-		newstate = LbaNet::StNormal;
-		return true;
+		if(ButonPressed._keyaction)
+		{
+			if(currentstate != LbaNet::StFighting)
+			{
+				newstate = LbaNet::StFighting;
+				return true;
+			}
+		}
+		else
+		{
+			if(currentstate == LbaNet::StFighting)
+			{
+				newstate = LbaNet::StNormal;
+				return true;
+			}
+		}
+
+		return false;
 	}
 };
 
@@ -160,11 +210,19 @@ public:
 	// tell if in this mode we should display the player as semi transparent (e.g. hidden)
 	virtual bool IsSemiTransparent(){return true;}
 
+
 	//! check if we should change state when pressing action button on this mode
-	virtual bool ChangeStateOnPressAction(LbaNet::ModelState & newstate)
+	virtual bool ChangeState(	LbaNet::ModelState 	currentstate,
+								const CharKeyPressed & ButonPressed,
+								LbaNet::ModelState & newstate)
 	{
-		newstate = LbaNet::StHidden;
-		return true;
+		if(ButonPressed._keyaction && currentstate != LbaNet::StHidden)
+		{
+			newstate = LbaNet::StHidden;
+			return true;
+		}
+
+		return false;
 	}
 };
 
@@ -212,11 +270,19 @@ public:
 	HorseCharacterMode(void){}
 	virtual ~HorseCharacterMode(void){}
 
+
 	//! check if we should change state when pressing action button on this mode
-	virtual bool ChangeStateOnPressAction(LbaNet::ModelState & newstate)
+	virtual bool ChangeState(	LbaNet::ModelState 	currentstate,
+								const CharKeyPressed & ButonPressed,
+								LbaNet::ModelState & newstate)
 	{
-		newstate = LbaNet::StJumping;
-		return true;
+		if(ButonPressed._keyaction && currentstate != LbaNet::StJumping)
+		{
+			newstate = LbaNet::StJumping;
+			return true;
+		}
+
+		return false;
 	}
 };
 
