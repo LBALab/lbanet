@@ -39,6 +39,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class PhysicalObjectHandlerBase;
 class DynamicObject;
 
+
+
+
 /***********************************************************************
  * Module:  CharacterController.h
  * Author:  vivien
@@ -95,13 +98,7 @@ private:
 
 	bool										_isGhost;
 
-	bool										_keyforward;
-	bool										_keybackward;
-	bool										_keyleft;
-	bool										_keyright;
-	bool										_keyup;
-	bool										_keydown;
-	bool										_keyaction;
+	CharKeyPressed								_pressedkeys;
 
 	LbaNet::PlayerMoveInfo						_lastupdate;
 	LbaNet::PlayerMoveInfo						_currentupdate;

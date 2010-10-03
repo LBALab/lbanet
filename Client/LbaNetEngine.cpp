@@ -678,6 +678,10 @@ void LbaNetEngine::TryLogin(const std::string &Name, const std::string &Password
 	m_gui_handler->SetServrOn(true);
 	m_gui_handler->RefreshOption();
 
+	LbaNet::GuiUpdatesSeq seq;
+	seq.push_back(new SetPlayerNameUpdate(Name));
+	m_gui_handler->UpdateGameGUI("main", seq);
+
 	// change gui to change world
 	DisplayGUI(1);
 }

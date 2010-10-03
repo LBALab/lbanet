@@ -142,6 +142,8 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 				if(kkk == _keymap[LbanetKey_Action])
 				{
 					EventsQueue::getReceiverQueue()->AddEvent(new PlayerKeyPressedEvent(LbanetKey_Action));				
+					EventsQueue::getSenderQueue()->AddEvent(new LbaNet::PressedActionKeyEvent(
+						SynchronizedTimeHandler::GetCurrentTimeDouble(), false));
 					return true;	
 				}
 

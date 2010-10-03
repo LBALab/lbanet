@@ -44,13 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 CharacterController::CharacterController()
 : _isGhost(false), _lastupdatetime(0)
 {
-	_keyforward = false;
-	_keybackward = false;
-	_keyleft = false;
-	_keyright = false;
-	_keyup = false;
-	_keydown = false;
-	_keyaction = false;
+
 }
 
 
@@ -95,53 +89,43 @@ void CharacterController::KeyPressed(LbanetKey keyid)
 	{
 		case LbanetKey_Forward:
 		{
-			_keyforward = true;
+			_pressedkeys._keyforward = true;
 		}
 		break;
 		
 		case LbanetKey_Backward:
 		{
-			_keybackward = true;
+			_pressedkeys._keybackward = true;
 		}
 		break;
 		
 		case LbanetKey_Left:
 		{
-			_keyleft = true;
+			_pressedkeys._keyleft = true;
 		}
 		break;
 		
 		case LbanetKey_Right:
 		{
-			_keyright = true;
+			_pressedkeys._keyright = true;
 		}
 		break;
 
 		case LbanetKey_Up:
 		{
-			_keyup = true;
+			_pressedkeys._keyup = true;
 		}
 		break;
 		
 		case LbanetKey_Down:
 		{
-			_keydown = true;
+			_pressedkeys._keydown = true;
 		}
 		break;
 
 		case LbanetKey_Action:
 		{
-			if(!_keyaction)
-			{
-				double tnow = SynchronizedTimeHandler::GetCurrentTimeDouble();
-				_keyaction = true;
-
-				EventsQueue::getSenderQueue()->AddEvent(new LbaNet::PressedActionKeyEvent(tnow, false));
-
-				LbaNet::ModelState newstate;
-				if(_currentmode && _currentmode->ChangeStateOnPressAction(newstate))
-					UpdateModeAndState(_currentmodestr, newstate, tnow);
-			}
+			_pressedkeys._keyaction = true;
 		}
 		break;
 	}
@@ -156,51 +140,43 @@ void CharacterController::KeyReleased(LbanetKey keyid)
 	{
 		case LbanetKey_Forward:
 		{
-			_keyforward = false;
+			_pressedkeys._keyforward = false;
 		}
 		break;
 		
 		case LbanetKey_Backward:
 		{
-			_keybackward = false;
+			_pressedkeys._keybackward = false;
 		}
 		break;
 		
 		case LbanetKey_Left:
 		{
-			_keyleft = false;
+			_pressedkeys._keyleft = false;
 		}
 		break;
 		
 		case LbanetKey_Right:
 		{
-			_keyright = false;
+			_pressedkeys._keyright = false;
 		}
 		break;
 
 		case LbanetKey_Up:
 		{
-			_keyup = false;
+			_pressedkeys._keyup = false;
 		}
 		break;
 		
 		case LbanetKey_Down:
 		{
-			_keydown = false;
+			_pressedkeys._keydown = false;
 		}
 		break;
 
 		case LbanetKey_Action:
 		{
-			if(_keyaction)
-			{
-				double tnow = SynchronizedTimeHandler::GetCurrentTimeDouble();
-				_keyaction = false;
-
-				LbaNet::ModelState newstate;
-				if(_currentmode && _currentmode->ChangeStateOnReleaseAction(newstate))
-					UpdateModeAndState(_currentmodestr, newstate, tnow);
-			}
+			_pressedkeys._keyaction = false;
 		}
 		break;
 	}
@@ -222,20 +198,20 @@ void CharacterController::Process(double tnow, float tdiff)
 		float speedZ = 0.0f;
 
 		//if right key pressed
-		if(_keyleft)
+		if(_pressedkeys._keyleft)
 			speedX = -0.01f;
-		else if(_keyright)
+		else if(_pressedkeys._keyright)
 			speedX = 0.01f;
 
 		//if up key pressed
-		if(_keyforward)
+		if(_pressedkeys._keyforward)
 			speedZ = -0.01f;
-		else if(_keybackward)
+		else if(_pressedkeys._keybackward)
 			speedZ = 0.01f;
 
-		if(_keyup)
+		if(_pressedkeys._keyup)
 			speedY = 0.01f;
-		else if(_keydown)
+		else if(_pressedkeys._keydown)
 			speedY = -0.01f;
 
 		physo->Move(speedX*tdiff, speedY*tdiff, speedZ*tdiff, false);
@@ -274,7 +250,7 @@ void CharacterController::Process(double tnow, float tdiff)
 		// check for moving forward/backward
 		if(allowedmoving)
 		{	
-			if(_keyforward)
+			if(_pressedkeys._keyforward)
 			{
 				//update animation
 				int resupd = diso->Update(new LbaNet::AnimationStringUpdate("MoveForward"));
@@ -284,7 +260,7 @@ void CharacterController::Process(double tnow, float tdiff)
 					moving = true;
 				}			
 			}
-			else if(_keybackward)
+			else if(_pressedkeys._keybackward)
 			{
 				//update animation
 				int resupd = diso->Update(new LbaNet::AnimationStringUpdate("MoveBackward"));
@@ -297,12 +273,12 @@ void CharacterController::Process(double tnow, float tdiff)
 
 			if(canfly)
 			{
-				if(_keyup)
+				if(_pressedkeys._keyup)
 				{
 					IsIdle = false;
 					speedY += (0.01f * tdiff);
 				}
-				else if(_keydown)
+				else if(_pressedkeys._keydown)
 				{
 					IsIdle = false;
 					speedY -= (0.01f * tdiff);
@@ -313,7 +289,7 @@ void CharacterController::Process(double tnow, float tdiff)
 		// check for rotating
 		if(allowedrotating)
 		{
-			if(_keyleft)
+			if(_pressedkeys._keyleft)
 			{
 				if(!moving)
 				{
@@ -324,7 +300,7 @@ void CharacterController::Process(double tnow, float tdiff)
 
 				physo->RotateYAxis(0.15f*tdiff);
 			}
-			else if(_keyright)
+			else if(_pressedkeys._keyright)
 			{
 				if(!moving)
 				{
@@ -501,12 +477,17 @@ void CharacterController::Process(double tnow, float tdiff)
 		}
 
 
-		// check if state should be changed
+		// check if state should be changed by state
 		LbaNet::ModelState newstate;
 		if(_currentstate->ShouldChangeState(newstate))
 			UpdateModeAndState(_currentmodestr, newstate, tnow);
 	}
 
+
+	// check if state should be changed by mode
+	LbaNet::ModelState newstate;
+	if(_currentmode && _currentmode->ChangeState(_currentstatestr, _pressedkeys, newstate))
+		UpdateModeAndState(_currentmodestr, newstate, tnow);
 
 
 	// update server if needed
@@ -642,8 +623,10 @@ void CharacterController::UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr updat
 		LbaNet::ModelUpdate * castedptr = 
 			dynamic_cast<LbaNet::ModelUpdate *>(update.get());
 
-		UpdateModeAndState(castedptr->Info.Mode, castedptr->Info.State, 
-							SynchronizedTimeHandler::GetCurrentTimeDouble(), 0);
+		// do not use update coming from the client trough the server as this could create endless loop
+		if(!castedptr->UpdateFromPlayer)
+			UpdateModeAndState(castedptr->Info.Mode, castedptr->Info.State, 
+								SynchronizedTimeHandler::GetCurrentTimeDouble(), 0);
 	}
 
 	// lifeUpdate
@@ -659,7 +642,8 @@ void CharacterController::UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr updat
 		
 	}
 
-	_character->GetDisplayObject()->Update(update);
+	if(_character && _character->GetDisplayObject())
+		_character->GetDisplayObject()->Update(update);
 }
 
 

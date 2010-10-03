@@ -70,5 +70,26 @@ int AnimatedObjectHandlerBase::Update(LbaNet::DisplayObjectUpdateBasePtr update)
 		PauseAnimation();
 	}
 
+	// ObjectExtraInfoUpdate
+	if(info == typeid(LbaNet::ObjectExtraInfoUpdate))
+	{
+		LbaNet::ObjectExtraInfoUpdate * castedptr = 
+			dynamic_cast<LbaNet::ObjectExtraInfoUpdate *>(update.get());
+
+		UpdateExtraInfo(castedptr->Update);
+	}
+
+	// ObjectLifeInfoUpdate
+	if(info == typeid(LbaNet::ObjectLifeInfoUpdate))
+	{
+		LbaNet::ObjectLifeInfoUpdate * castedptr = 
+			dynamic_cast<LbaNet::ObjectLifeInfoUpdate *>(update.get());
+
+		UpdateLifeInfo(castedptr->Update);
+	}
+
+	
+
+
 	return OsgObjectHandler::Update(update);
 }

@@ -33,6 +33,7 @@ class LBA1ModelClass;
 namespace osg
 {
 	class Node;
+	class Geode;
 }
 
 /***********************************************************************
@@ -44,7 +45,9 @@ class Lba1ModelHandler : public AnimatedObjectHandlerBase
 public:
 	//! constructor
 	Lba1ModelHandler(boost::shared_ptr<DisplayTransformation> Tr,
-						const LbaNet::ModelInfo & info, float animationspeed);
+						const LbaNet::ModelInfo & info, float animationspeed,
+						const LbaNet::ObjectExtraInfo &extrainfo,
+						const LbaNet::LifeManaInfo &lifeinfo);
 
 	//! destructor
 	virtual ~Lba1ModelHandler();
@@ -75,13 +78,23 @@ public:
 	// pause current running animation
 	virtual void PauseAnimation();
 
+	// update object extra info
+	virtual void UpdateExtraInfo(const LbaNet::ObjectExtraInfo &info);
+
+	// update object life info
+	virtual void UpdateLifeInfo(const LbaNet::LifeManaInfo &info);
+
 protected:
 	// refresh model
 	int RefreshModel();
 
+	// refresh text
+	void RefreshText();
+
 private:
 	LBA1ModelClass*									_model;
 	osg::ref_ptr<osg::Node>							_osgnode;
+	osg::ref_ptr<osg::Geode>						_textgeode;
 	bool											_paused;
 
 
@@ -89,6 +102,10 @@ private:
 
 	LbaNet::ModelInfo								_currentmodelinfo;
 	std::string										_currentanimationstring;
+
+	LbaNet::ObjectExtraInfo							_extrainfo;
+	LbaNet::LifeManaInfo							_lifeinfo;
+
 
 	int												_currModel;
 	int												_currBody;

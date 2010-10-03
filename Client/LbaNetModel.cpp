@@ -398,7 +398,8 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 		{
 			//TODO animation speed
 			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
-				(new Lba1ModelObjectDescription(DisplayDesc, _LBA1_MODEL_ANIMATION_SPEED_));
+				(new Lba1ModelObjectDescription(DisplayDesc, _LBA1_MODEL_ANIMATION_SPEED_,
+													extrainfo, lifeinfo));
 
 			boost::shared_ptr<DisplayTransformation> Tr(new DisplayTransformation());
 			Tr->scaleY = 2;

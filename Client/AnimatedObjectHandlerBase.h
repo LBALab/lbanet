@@ -71,6 +71,13 @@ public:
 	// pause current running animation
 	// should resume when animation or model changes
 	virtual void PauseAnimation() = 0;
+
+
+	// update object extra info
+	virtual void UpdateExtraInfo(const LbaNet::ObjectExtraInfo &info) = 0;
+
+	// update object life info
+	virtual void UpdateLifeInfo(const LbaNet::LifeManaInfo &info) = 0;
 };
 
 
