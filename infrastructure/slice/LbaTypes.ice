@@ -654,6 +654,9 @@ module LbaNet
 	class ModelUpdate extends DisplayObjectUpdateBase
 	{
 		ModelInfo		Info;
+		
+		// specify wether the update comes from the player or the server
+		bool			UpdateFromPlayer;
 	};
 	
 	// update the object animation using animation string
