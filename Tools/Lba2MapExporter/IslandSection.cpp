@@ -32,22 +32,13 @@ IslandSection::IslandSection(const std::string& islandName, HQRReader *ILE, HQRR
 	//...
 }
 
-osg::ref_ptr<osg::Geode>	IslandSection::load(std::set<std::pair<unsigned short, unsigned short> > & texturesinfos,
-									PhysicalInfo & physinfo)
+osg::ref_ptr<osg::Geode>	IslandSection::load(PhysicalInfo & physinfo)
 {
-	//Adjust node into island position relative to the entire island
-	//mNode->setPosition(((mXpos - 7) * 64) / 32.0f, 0, (((16 - mYpos) - 7) * 64) / 32.0f);
-	//mNode->setPosition(mXpos * 2.0f, 0, -mYpos * 2.0f);
-	
 	//Heightmapped terrain
-	return loadGround(texturesinfos, physinfo);	
-
-	//Object Loading
-	//loadObjects();
+	return loadGround(physinfo);	
 }
 
-osg::ref_ptr<osg::Geode>	IslandSection::loadGround(std::set<std::pair<unsigned short, unsigned short> > & texturesinfos,
-															PhysicalInfo & physinfo)
+osg::ref_ptr<osg::Geode>	IslandSection::loadGround(PhysicalInfo & physinfo)
 {
 	osg::Vec3Array* myVerticesPoly = new osg::Vec3Array;
 	osg::DrawElementsUInt* myprimitive = new osg::DrawElementsUInt(osg::PrimitiveSet::TRIANGLES, 0);
@@ -59,9 +50,6 @@ osg::ref_ptr<osg::Geode>	IslandSection::loadGround(std::set<std::pair<unsigned s
 
 	std::string iss = issss.str();
 	
-	/* GROUND MESH */
-	//MeshPtr msh = MeshManager::getSingleton().createManual(iss, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-	//SubMesh* sub = msh->createSubMesh();
 
 	/* Preparing vertex array */
 	short heightmap[65][65];
@@ -71,27 +59,13 @@ osg::ref_ptr<osg::Geode>	IslandSection::loadGround(std::set<std::pair<unsigned s
 	std::vector<float> vertices;
 	vertices.reserve(9 * 64 * 64 * 4 * 2);
 
-
-	for(int cc=0; cc<65; ++cc)
-	{
-		for(int cc2=0; cc2<65; ++cc2)
-		{
-			physinfo.physmap[(mXpos*65)+cc][(mYpos*65)+cc2] = heightmap[cc][cc2];
-		}
-	}
-
 	/* Preparing texture info array */
 	GroundTextureInfo *textureInfo;
 	mILE->LoadEntry(3 + mIndex * 6 + 4);
 	textureInfo = new GroundTextureInfo[mILE->getSize() / 12];
 	mILE->Read(textureInfo, mILE->getSize());
 
-	//for(int i=0; i< mILE->getSize() / 12; ++i)
-	//{
-	//	texturesinfos.insert(std::make_pair<unsigned short, unsigned short>(textureInfo[i].uv[0].u, textureInfo[i].uv[0].v));
-	//	texturesinfos.insert(std::make_pair<unsigned short, unsigned short>(textureInfo[i].uv[1].u, textureInfo[i].uv[1].v));
-	//	texturesinfos.insert(std::make_pair<unsigned short, unsigned short>(textureInfo[i].uv[2].u, textureInfo[i].uv[2].v));
-	//}
+
 
 	/* Preparing intensity array */
 	unsigned char intensity[65][65];
@@ -103,80 +77,6 @@ osg::ref_ptr<osg::Geode>	IslandSection::loadGround(std::set<std::pair<unsigned s
 	mILE->LoadEntry(3 + mIndex * 6 + 3);
 	mILE->Read(material, 65 * 65);
 
-	for(int cc=0; cc<65; ++cc)
-	{
-		for(int cc2=0; cc2<65; ++cc2)
-		{
-			int mat = (material[cc][cc2] >> 4);
-			int mat2 = material[cc][cc2] & unsigned char(15);
-
-			int sound = 0;
-			switch(mat2)
-			{
-				case 0:
-					sound =0;
-				break;
-				case 1:
-					sound =1;
-				break;
-				case 2:
-					sound =1;
-				break;
-				case 3:
-					sound =3;
-				break;
-				case 4:
-					sound =4;
-				break;
-				case 5:
-					sound =5;
-				break;
-				case 6:
-					sound =6;
-				break;
-				case 7:
-					sound =7;
-				break;
-				case 8:
-					sound =8;
-				break;
-				case 9:
-					sound =9;
-				break;
-				case 10:
-					sound =10;
-				break;
-				case 11:
-					sound =11;
-				break;
-				case 12:
-					sound =6;
-				break;
-				case 13:
-					sound =13;
-				break;
-				case 14:
-					sound =1;
-				break;
-			}
-
-			if(mat == 1 || mat == 15)
-			{
-				sound = 17;
-			}
-			if(mat == 9 || mat == 13)
-			{
-				sound = 19;
-			}
-			if( mat == 11 || mat == 14)
-			{
-				sound = 18;
-			}
-
-			physinfo.materialmap[(mXpos*65)+cc][(mYpos*65)+cc2] = sound;
-		}
-
-	}
 
 
 	/* Preparing index array */
@@ -192,6 +92,9 @@ osg::ref_ptr<osg::Geode>	IslandSection::loadGround(std::set<std::pair<unsigned s
 	unsigned short uvOrder[6] = {0, 1, 2, 2, 0, 1};
 	unsigned short idxOrder1[6] = {0, 2, 3, 0, 3, 1};
 	unsigned short idxOrder2[6] = {0, 2, 1, 1, 2, 3};
+
+
+	std::ofstream checkmat("checkmat.csv", std::ios::app);
 
 	//For Every QUAD
 	for (int x = 0; x < 64; ++x)
@@ -209,7 +112,6 @@ osg::ref_ptr<osg::Geode>	IslandSection::loadGround(std::set<std::pair<unsigned s
 				//Data Usage for this Tri
 				int mdMax = 0;
 
-
 				if (tri[t].useColor || tri[t].useTexture )
 					mdMax++;
 				//if (tri[t].useTexture)
@@ -218,6 +120,8 @@ osg::ref_ptr<osg::Geode>	IslandSection::loadGround(std::set<std::pair<unsigned s
 				//For all the data usage in this tri
 				for (int md = 0; md < mdMax; ++md)
 				{
+					checkmat<<tri[t].unk1<<","<<tri[t].unk2<<","<<tri[t].unk3<<","<<tri[t].unk4<<std::endl;		
+
 					//For each vertex, offset by triangle num in quad
 					for (int i = 3 * t; i < (3 + 3 * t); ++i)
 					{
@@ -225,9 +129,9 @@ osg::ref_ptr<osg::Geode>	IslandSection::loadGround(std::set<std::pair<unsigned s
 						int yi = y + idxOrder[i] % 2;
 
 						/* Vertex position */
-						vertices.push_back(((float)(xi) - 32) / 0x20);
-						vertices.push_back(((float)(heightmap[xi][yi])) / 0x4000);
-						vertices.push_back(((float)(64 - yi) - 32) / 0x20);
+						physinfo.vertexes.push_back(((float)(xi) - 32) / 0x20);
+						physinfo.vertexes.push_back(((float)(heightmap[xi][yi])) / 0x4000);
+						physinfo.vertexes.push_back(((float)(64 - yi) - 32) / 0x20);
 
 						myVerticesPoly->push_back(osg::Vec3(	(((float)(xi) - 32) / 0x20) + (mXpos * 2.0f),
 																(((float)(heightmap[xi][yi])) / 0x4000),
@@ -250,38 +154,18 @@ osg::ref_ptr<osg::Geode>	IslandSection::loadGround(std::set<std::pair<unsigned s
 							{
 								unsigned char color = (tri[t].textureBank * 16) + intensity[xi][yi];
 								colorrgba colorVal = ImageManager::getSingleton()->getColour(color);
-								
-								vertices.push_back(colorVal.r);
-								vertices.push_back(colorVal.g);
-								vertices.push_back(colorVal.b);
 
-								// check shader to know why intens is put as alpha
+								// check shader to understand why intens is used as alpha
 								colors->push_back(osg::Vec4(colorVal.r,colorVal.g,colorVal.b, intens));
 							}
 							else
 							{
-								vertices.push_back(intens);
-								vertices.push_back(intens);
-								vertices.push_back(intens);
-
-								// check shader to know why intens is put as alpha
+								// check shader to understand why intens is used as alpha
 								colors->push_back(osg::Vec4(intens,intens,intens, intens));
 							}
-
-
-							vertices.push_back(1.0);
-							vertices.push_back((textureInfo[tri[t].textureIndex].uv[uvOrder[i]].u / 65535.0f) * 0.5f);
-							vertices.push_back(textureInfo[tri[t].textureIndex].uv[uvOrder[i]].v / 65535.0f);
-
-							
-							//colors->push_back(osg::Vec4(1.0f,1.0f,1.0f, 1.0f));
+					
 							myTexts->push_back(osg::Vec2((textureInfo[tri[t].textureIndex].uv[uvOrder[i]].u / 65535.0f) * 0.5f, 
 															textureInfo[tri[t].textureIndex].uv[uvOrder[i]].v / 65535.0f));
-
-
-							//texturesinfos.insert(std::make_pair<unsigned short, unsigned short>
-							//	((textureInfo[tri[t].textureIndex].uv[uvOrder[i]].u / 257), 
-							//	textureInfo[tri[t].textureIndex].uv[uvOrder[i]].v / 257));
 
 
 						}
@@ -289,13 +173,6 @@ osg::ref_ptr<osg::Geode>	IslandSection::loadGround(std::set<std::pair<unsigned s
 						{
 							unsigned char color = (tri[t].textureBank * 16) + intensity[xi][yi];
 							colorrgba colorVal = ImageManager::getSingleton()->getColour(color);
-							
-							vertices.push_back(colorVal.r);
-							vertices.push_back(colorVal.g);
-							vertices.push_back(colorVal.b);
-							vertices.push_back(1.0);
-							vertices.push_back(0.75f);
-							vertices.push_back(0.5f);
 
 							colors->push_back(osg::Vec4(colorVal.r,colorVal.g,colorVal.b, 1.0f));
 							myTexts->push_back(osg::Vec2(0.75f, 0.5f));
@@ -304,9 +181,9 @@ osg::ref_ptr<osg::Geode>	IslandSection::loadGround(std::set<std::pair<unsigned s
 					}
 
 					/* Index */
-					faces.push_back(idx);
-					faces.push_back(idx + 1);
-					faces.push_back(idx + 2);
+					physinfo.indices.push_back(idx);
+					physinfo.indices.push_back(idx + 1);
+					physinfo.indices.push_back(idx + 2);
 					myprimitive->push_back(idx);
 					myprimitive->push_back(idx + 1);
 					myprimitive->push_back(idx + 2);
@@ -381,10 +258,7 @@ void	IslandSection::addPolygonSection(unsigned char *buffer, OBLPolygonHeader *h
 										 std::map<unsigned int, CutGroup>& cutGroups, 
 										 CutGroup &subColor, std::vector<float>& vertices, 
 										 int& currentIndex, OBLMinMaxBox& mMBox,
-											osg::Vec3Array* myVertices/*,
-											osg::DrawElementsUInt* myprimitive,
-											osg::Vec4Array* colors,
-											osg::Vec2Array* myTexts*/)
+											osg::Vec3Array* myVertices)
 {
 	unsigned int blockSize = (header->size - 8) / header->numPolygon;
 	IslandObjectHeader *oBLheader = (IslandObjectHeader *)buffer;
@@ -630,8 +504,8 @@ osg::ref_ptr<osg::Group>	IslandSection::loadSingleObject(IslandObjectInfo *objIn
 						// Assign the texture to the image we read from file: 
 						KLN89FaceTexture->setImage(klnFace);
 
-						KLN89FaceTexture->setFilter(osg::Texture::FilterParameter::MIN_FILTER, osg::Texture::FilterMode::/*NEAREST*/LINEAR);
-						KLN89FaceTexture->setFilter(osg::Texture::FilterParameter::MAG_FILTER, osg::Texture::FilterMode::/*NEAREST*/LINEAR);
+						KLN89FaceTexture->setFilter(osg::Texture::MIN_FILTER, osg::Texture::/*NEAREST*/LINEAR);
+						KLN89FaceTexture->setFilter(osg::Texture::MAG_FILTER, osg::Texture::/*NEAREST*/LINEAR);
 						KLN89FaceTexture->setUseHardwareMipMapGeneration(false);
 						KLN89FaceTexture->setResizeNonPowerOfTwoHint(false);
 

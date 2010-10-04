@@ -164,8 +164,6 @@ void	SceneExterior::loadSections()
 	root->addChild(rootmap);
 	root->addChild(rootobject);
 
-	std::set<std::pair<unsigned short, unsigned short> > textureinfos;
-
 	PhysicalInfo *physinfo = new PhysicalInfo();
 
 	int startPointX=20, startPointY=20, EndPointX=0, EndPointY=0;
@@ -214,7 +212,7 @@ void	SceneExterior::loadSections()
 				)
 			);
 
-			osg::ref_ptr<osg::Geode> geode = mSections.back()->load(textureinfos, *physinfo);
+			osg::ref_ptr<osg::Geode> geode = mSections.back()->load(*physinfo);
 			rootmap->addChild(geode);
 			rootobject->addChild(mSections.back()->loadObjects(mObjLibrary));
 		}
@@ -242,8 +240,8 @@ void	SceneExterior::loadSections()
 		// Assign the texture to the image we read from file: 
 		KLN89FaceTexture->setImage(klnFace);
 
-		KLN89FaceTexture->setFilter(osg::Texture::FilterParameter::MIN_FILTER, osg::Texture::FilterMode::LINEAR);
-		KLN89FaceTexture->setFilter(osg::Texture::FilterParameter::MAG_FILTER, osg::Texture::FilterMode::LINEAR);
+		KLN89FaceTexture->setFilter(osg::Texture::MIN_FILTER, osg::Texture::LINEAR);
+		KLN89FaceTexture->setFilter(osg::Texture::MAG_FILTER, osg::Texture::LINEAR);
 		KLN89FaceTexture->setUseHardwareMipMapGeneration(false);
 		KLN89FaceTexture->setResizeNonPowerOfTwoHint(false);
 
@@ -300,25 +298,19 @@ void	SceneExterior::loadSections()
 
 
 	// save the heightmap to phys file
-	std::ofstream filephys((mName + ".hmap").c_str());
-	filephys<<1040<<" "<<1040<<std::endl;
-	for(int cc=(startPointX*65); cc<((EndPointX+1)*65); ++cc)
-	{
-		for(int cc2=(startPointY*65); cc2<((EndPointY+1)*65); ++cc2)
-		{
-			filephys<<((float)physinfo->physmap[cc][cc2])/125<<" ";
-		}
-		filephys<<std::endl;
-	}
-	filephys<<std::endl;
-	for(int cc=(startPointX*65); cc<((EndPointX+1)*65); ++cc)
-	{
-		for(int cc2=(startPointY*65); cc2<((EndPointY+1)*65); ++cc2)
-		{
-			filephys<<physinfo->materialmap[cc][cc2]<<" ";
-		}
-		filephys<<std::endl;
-	}
+	std::ofstream filebit((mName + ".phy").c_str(), std::ofstream::binary);
+	unsigned int sizevertex = physinfo->vertexes.size();
+	unsigned int sizeindices = physinfo->indices.size();
+	unsigned int sizematerials = physinfo->materials.size();
+	filebit.write((char*)&sizevertex, sizeof(unsigned int));
+	filebit.write((char*)&sizeindices, sizeof(unsigned int));
+	filebit.write((char*)&sizematerials, sizeof(unsigned int));
+	filebit.write((char*)&physinfo->vertexes[0], sizevertex*sizeof(float));
+	filebit.write((char*)&physinfo->indices[0], sizeindices*sizeof(unsigned int));
+	if(sizematerials > 0)
+		filebit.write((char*)&physinfo->materials[0], sizematerials*sizeof(short));
+
+
 	delete physinfo;
 
 

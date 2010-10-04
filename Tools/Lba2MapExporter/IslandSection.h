@@ -17,19 +17,10 @@
 
 struct PhysicalInfo
 {
-	short physmap[1040][1040];
-	short materialmap[1040][1040];
+	std::vector<float> vertexes;
+	std::vector<unsigned int> indices;
+	std::vector<short> materials;
 	
-	//! constructor
-	PhysicalInfo()
-	{
-		for(int i=0; i<1040; ++i)
-		{
-			memset(&(physmap[i][0]), 0, 1040*sizeof(short));
-			memset(&(materialmap[i][0]), 0, 1040*sizeof(short));
-		}
-	}
-
 };
 
 struct OBLMinMaxBox
@@ -71,23 +62,19 @@ class IslandSection
 {
 public:
 	IslandSection(const std::string& islandName, HQRReader *ILE, HQRReader *OBL, int idx, int xpos, int ypos);
-	osg::ref_ptr<osg::Geode> load(std::set<std::pair<unsigned short, unsigned short> > & texturesinfos,
-									PhysicalInfo & physinfo);
+	osg::ref_ptr<osg::Geode> load(PhysicalInfo & physinfo);
 	osg::ref_ptr<osg::Group>	loadObjects(std::map<int, osg::ref_ptr<osg::Group> > &mObjLibrary);
 
 
 private:
-	osg::ref_ptr<osg::Geode>	loadGround(std::set<std::pair<unsigned short, unsigned short> > & texturesinfos,
-									PhysicalInfo & physinfo);
+	osg::ref_ptr<osg::Geode>	loadGround(PhysicalInfo & physinfo);
 
 	osg::ref_ptr<osg::Group>	loadSingleObject(IslandObjectInfo *objInfo,
 													std::map<int, osg::ref_ptr<osg::Group> > &mObjLibrary);
 	void	addPolygonSection(unsigned char *, OBLPolygonHeader *, std::map<unsigned int, CutGroup>&, 
 								CutGroup&, std::vector<float>&, int&, OBLMinMaxBox&,
-											osg::Vec3Array* myVertices/*,
-											osg::DrawElementsUInt* myprimitive,
-											osg::Vec4Array* colors,
-											osg::Vec2Array* myTexts*/);
+											osg::Vec3Array* myVertices);
+
 	void	loadCutGroups(unsigned char *, std::map<unsigned int, CutGroup>&);
 
 private:
