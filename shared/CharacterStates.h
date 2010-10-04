@@ -50,7 +50,10 @@ public:
 	virtual bool AllowedMoving(){return false;}
 
 	//! ask if we are allowed to rotate in this mode
-	virtual bool AllowedRotating(){return false;}
+	//! 0 -> no
+	//! 1 -> yes
+	//! 2 -> yes but no turning animation
+	virtual int AllowedRotating(){return 0;}
 
 	//! tell state that current animation has finished
 	//! return true if animation should be paused
@@ -119,7 +122,10 @@ public:
 	virtual bool AllowedMoving(){return true;}
 
 	//! ask if we are allowed to rotate in this mode
-	virtual bool AllowedRotating(){return true;}
+	//! 0 -> no
+	//! 1 -> yes
+	//! 2 -> yes but no turning animation
+	virtual int AllowedRotating(){return 1;}
 
 	//! tell if we should play stand anim when iddle on this mode
 	virtual bool StandOnIddle(){return true;}
@@ -159,7 +165,10 @@ public:
 	virtual bool AllowedMoving(){return true;}
 
 	//! ask if we are allowed to rotate in this mode
-	virtual bool AllowedRotating(){return true;}
+	//! 0 -> no
+	//! 1 -> yes
+	//! 2 -> yes but no turning animation
+	virtual int AllowedRotating(){return 1;}
 
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
@@ -195,7 +204,10 @@ public:
 	virtual bool AllowedMoving(){return true;}
 
 	//! ask if we are allowed to rotate in this mode
-	virtual bool AllowedRotating(){return false;}
+	//! 0 -> no
+	//! 1 -> yes
+	//! 2 -> yes but no turning animation
+	virtual int AllowedRotating(){return 0;}
 
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
@@ -233,7 +245,10 @@ public:
 	virtual bool AllowedMoving(){return true;}
 
 	//! ask if we are allowed to rotate in this mode
-	virtual bool AllowedRotating(){return true;}
+	//! 0 -> no
+	//! 1 -> yes
+	//! 2 -> yes but no turning animation
+	virtual int AllowedRotating(){return 1;}
 
 	//! check if in this state we can play hurt animation
 	virtual bool CanPlayHurt(){return false;}
@@ -289,7 +304,10 @@ public:
 	virtual bool AllowedMoving(){return true;}
 
 	//! ask if we are allowed to rotate in this mode
-	virtual bool AllowedRotating(){return true;}
+	//! 0 -> no
+	//! 1 -> yes
+	//! 2 -> yes but no turning animation
+	virtual int AllowedRotating(){return 1;}
 
 	//! check if in this state we can play hurt animation
 	virtual bool CanPlayHurt(){return false;}
@@ -330,7 +348,10 @@ public:
 	virtual bool AllowedMoving(){return true;}
 
 	//! ask if we are allowed to rotate in this mode
-	virtual bool AllowedRotating(){return false;}
+	//! 0 -> no
+	//! 1 -> yes
+	//! 2 -> yes but no turning animation
+	virtual int AllowedRotating(){return 2;}
 
 	//! tell state that player is moving
 	virtual void InformMoving()
@@ -838,7 +859,10 @@ public:
 	virtual ~StFighting(void){}
 
 	//! ask if we are allowed to rotate in this mode
-	virtual bool AllowedRotating(){return true;}
+	//! 0 -> no
+	//! 1 -> yes
+	//! 2 -> yes but no turning animation
+	virtual int AllowedRotating(){return 2;}
 
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
