@@ -221,7 +221,7 @@ void CharacterController::Process(double tnow, float tdiff)
 		bool moving = false;
 		bool IsIdle = true;
 		bool allowedmoving = false;
-		bool allowedrotating = false;
+		int allowedrotating = 0;
 		bool standoniddle = false;
 		bool canfly = false;
 		bool checkgravity = true;
@@ -287,11 +287,11 @@ void CharacterController::Process(double tnow, float tdiff)
 		}
 
 		// check for rotating
-		if(allowedrotating)
+		if(allowedrotating > 0)
 		{
 			if(_pressedkeys._keyleft)
 			{
-				if(!moving)
+				if(!moving && (allowedrotating == 1))
 				{
 					//update animation
 					diso->Update(new LbaNet::AnimationStringUpdate("TurnLeft"));
@@ -302,7 +302,7 @@ void CharacterController::Process(double tnow, float tdiff)
 			}
 			else if(_pressedkeys._keyright)
 			{
-				if(!moving)
+				if(!moving && (allowedrotating == 1))
 				{
 					//update animation
 					diso->Update(new LbaNet::AnimationStringUpdate("TurnRight"));

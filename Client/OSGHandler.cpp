@@ -146,6 +146,8 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 	LogHandler::getInstance()->LogToFile("Initializing screen display...");
 
     _viewer = new osgViewer::Viewer();
+	_viewer->setKeyEventSetsDone(0);
+
 
 
     // create the window to draw to.

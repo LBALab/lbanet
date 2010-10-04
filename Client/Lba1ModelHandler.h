@@ -34,6 +34,7 @@ namespace osg
 {
 	class Node;
 	class Geode;
+	class PositionAttitudeTransform;
 }
 
 /***********************************************************************
@@ -91,10 +92,15 @@ protected:
 	// refresh text
 	void RefreshText();
 
+	// refresh life/mana bars
+	void RefreshLifeManaBars();
+
+
 private:
 	LBA1ModelClass*									_model;
 	osg::ref_ptr<osg::Node>							_osgnode;
 	osg::ref_ptr<osg::Geode>						_textgeode;
+	osg::ref_ptr<osg::PositionAttitudeTransform>	_barsgroup;
 	bool											_paused;
 
 
