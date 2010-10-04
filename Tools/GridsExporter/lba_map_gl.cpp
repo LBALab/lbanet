@@ -426,17 +426,23 @@ void LBA_MAP_GL::Initialize(int LBA2)
 
 
 //constructor with gr file
-LBA_MAP_GL::LBA_MAP_GL(int LBA2, const std::string &grfile, int layoutused, bool forcelayout)
+LBA_MAP_GL::LBA_MAP_GL(int LBA2, const std::string &grfile, 
+					   	bool custombrickfile, const std::string &brkfile,
+						bool customlayoutfile, const std::string &layoutfile,
+						int layoutused, bool forcelayout)
 {
 	// set filenames
 	texture_filename = grfile;
 	texture_filename.replace(texture_filename.size() - 3, 3, "png");
 	map_filename = grfile;
-	map_filename.replace(map_filename.size() - 3, 3, "ogb");
+	map_filename.replace(map_filename.size() - 3, 3, "osg");
 	map_filename += "b";
 
 	// init map
-    lba_map=new LBA_MAP(LBA2, grfile, layoutused, forcelayout);
+    lba_map=new LBA_MAP(LBA2, grfile, 
+							custombrickfile, brkfile,
+							customlayoutfile, layoutfile,
+							layoutused, forcelayout);
 	Initialize(LBA2);
 }
 

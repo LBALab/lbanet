@@ -15,7 +15,6 @@ constructor
 ***********************************************************/
 LBA_PACK_PHYS::LBA_PACK_PHYS(const std::string & file)
 {
-	long datalenght=0;
 	FILE *f=fopen(file.c_str(),"rb");
 	fseek(f, 0, SEEK_END);
 	datalenght = ftell(f);
@@ -36,8 +35,16 @@ LBA_PACK_PHYS::~LBA_PACK_PHYS()
 }
 
 
+/***********************************************************
+constructor
+***********************************************************/
+LBA_ENTRY_PHYS::LBA_ENTRY_PHYS(unsigned char *dt, int lenght)
+{
+    data=new unsigned char[lenght];
+	datalenght = lenght;
+	memcpy(data, dt, lenght);
 
-
+}
 
 /***********************************************************
 constructor
@@ -256,14 +263,19 @@ LBA_OBJECT_PHYS::~LBA_OBJECT_PHYS()
 /***********************************************************
 constructor
 ***********************************************************/
-LBA_LAYOUT_PHYS::LBA_LAYOUT_PHYS(LBA_PACK_PHYS *pack,int n)
+LBA_LAYOUT_PHYS::LBA_LAYOUT_PHYS(LBA_PACK_PHYS *pack,int n, bool customlayout)
 {
 
     int i=0,j=0;
     long index_data=0;
 
 	//std::cout<<"LBA_LAYOUT_PHYS"<<std::endl;
-    LBA_ENTRY_PHYS *entry=new LBA_ENTRY_PHYS(pack,n);
+    LBA_ENTRY_PHYS *entry;
+	if(customlayout)
+		entry=new LBA_ENTRY_PHYS(pack->data,pack->datalenght);
+	else
+		entry=new LBA_ENTRY_PHYS(pack,n);
+
     number_objects=static_cast<int>((entry->data[0]+entry->data[1]*256+entry->data[2]*65536+entry->data[3]*16777216)/4);
 
     object=new LBA_OBJECT_PHYS*[number_objects];
@@ -322,7 +334,7 @@ LBA_LAYOUT_PHYS::~LBA_LAYOUT_PHYS()
 constructor
 ***********************************************************/
 LBA_GRID_PHYS::LBA_GRID_PHYS(LBA_PACK_PHYS *pack_grid,LBA_PACK_PHYS *pack_layout,int n,
-							 bool LBA2, bool forcelayout)
+							 bool LBA2, bool customlayout, bool forcelayout)
 {
     int i=0,j=0,k=0,l=0;
     LBA_LAYOUT_PHYS *layout;
@@ -331,12 +343,12 @@ LBA_GRID_PHYS::LBA_GRID_PHYS(LBA_PACK_PHYS *pack_grid,LBA_PACK_PHYS *pack_layout
     int height_subcolumn=0,offset_column=0;
 
 	//std::cout<<"LBA_GRID_PHYS"<<std::endl;
-    LBA_ENTRY_PHYS *entry=new LBA_ENTRY_PHYS(pack_grid,n);
+    LBA_ENTRY_PHYS *entry=new LBA_ENTRY_PHYS(pack_grid->data, pack_grid->datalenght);
 
     if(LBA2 && !forcelayout)
 		n=entry->data[0]+180-1;
 
-    layout=new LBA_LAYOUT_PHYS(pack_layout,n);
+    layout=new LBA_LAYOUT_PHYS(pack_layout,n, customlayout);
 
 
     for(i=0;i<64;i++)
@@ -487,7 +499,7 @@ LBA_MAP_PHYS::LBA_MAP_PHYS(int n,bool LBA2)
 
 
     palet=new LBA_PALET_PHYS(pack_ress);
-    grid=new LBA_GRID_PHYS(pack_grid,pack_layout,n,LBA2);
+    grid=new LBA_GRID_PHYS(pack_grid,pack_layout,n,LBA2, false);
 
 
     printf("%d ",number_brick);
@@ -690,7 +702,10 @@ LBA_MAP_PHYS::LBA_MAP_PHYS(int n,bool LBA2)
 /***********************************************************
 constructor with grid file
 ***********************************************************/
-LBA_MAP_PHYS::LBA_MAP_PHYS(bool LBA2, const std::string &grfile, int layoutused, bool forcelayout)
+LBA_MAP_PHYS::LBA_MAP_PHYS(bool LBA2, const std::string &grfile, 
+							bool custombrickfile, const std::string &brkfile,
+							bool customlayoutfile, const std::string &layoutfile,
+							int layoutused, bool forcelayout)
 {
 
     int i=0,j=0,k=0,l=0;
@@ -704,23 +719,35 @@ LBA_MAP_PHYS::LBA_MAP_PHYS(bool LBA2, const std::string &grfile, int layoutused,
 
 	if(LBA2)
 	{
-		pack_brick=new LBA_PACK_PHYS("data//map//lba2//LBA_BKG.HQR");
+		if(!custombrickfile)
+			pack_brick=new LBA_PACK_PHYS("data//map//lba2//LBA_BKG.HQR");
+
 		pack_ress=new LBA_PACK_PHYS("data//map//lba2//RESS2.HQR");
-		pack_layout=new LBA_PACK_PHYS("data//map//lba2//LBA_BKG.HQR");}
+
+		if(!customlayoutfile)
+			pack_layout=new LBA_PACK_PHYS("data//map//lba2//LBA_BKG.HQR");}
 	else
 	{
-		pack_brick=new LBA_PACK_PHYS("data//map//lba1//LBA_BRK.HQR");
+		if(!custombrickfile)
+			pack_brick=new LBA_PACK_PHYS("data//map//lba1//LBA_BRK.HQR");
+
 		pack_ress=new LBA_PACK_PHYS("data//map//lba1//RESS.HQR");
-		pack_layout=new LBA_PACK_PHYS("data//map//lba1//LBA_BLL.HQR");
+
+		if(!customlayoutfile)
+			pack_layout=new LBA_PACK_PHYS("data//map//lba1//LBA_BLL.HQR");
 	}
 
 	// use file for pack grid
 	pack_grid=new LBA_PACK_PHYS(grfile);
 
+	if(custombrickfile)
+		pack_brick=new LBA_PACK_PHYS(brkfile);
 
+	if(customlayoutfile)
+		pack_layout=new LBA_PACK_PHYS(layoutfile);
 
     palet=new LBA_PALET_PHYS(pack_ress);
-    grid=new LBA_GRID_PHYS(pack_grid, pack_layout, layoutused, LBA2, forcelayout);
+    grid=new LBA_GRID_PHYS(pack_grid, pack_layout, layoutused, LBA2, customlayoutfile, forcelayout);
 
 
     printf("%d ",number_brick);

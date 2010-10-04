@@ -86,16 +86,36 @@ int main(int argc, char** argv)
 			if(extension == "gr1")
 				lba2 = 0;
 
+			bool custombricks = false;
+			bool customlayout = false;
+			std::string brickfile;
+			std::string layoutfile;
+
+			if(tokens.size() > 7)
+			{
+				custombricks = (bool)atoi(tokens[4].c_str());
+				customlayout = (bool)atoi(tokens[5].c_str());
+				brickfile = tokens[6];
+				layoutfile = tokens[7];
+			}
+
+
 			bool forcelayout = false;
 			if(lba2 && layout >= 0)
 				forcelayout = true;
 
 			// export graphic
-			LBA_MAP_GL map(lba2, file, layout, forcelayout);
+			LBA_MAP_GL map(lba2, file, 
+								custombricks, brickfile,
+								customlayout, layoutfile,
+								layout, forcelayout);
 			map.ExportMapOSG();
 
 			//export physic
-			LBA_MAP_PHYS mapp((lba2==1), file, layout, forcelayout);
+			LBA_MAP_PHYS mapp((lba2==1), file,  
+								custombricks, brickfile,
+								customlayout, layoutfile,
+								layout, forcelayout);
 		}
 		txtfile.close();
 
@@ -130,11 +150,16 @@ int main(int argc, char** argv)
 	std::cout<<"Generating"<<std::endl;
 
 	// export graphic
-	LBA_MAP_GL map(lba2, file, layout);
+	std::string tmp;
+	LBA_MAP_GL map(lba2, file, 
+						false, tmp, false, tmp,
+						layout);
 	map.ExportMapOSG();
 
 	//export physic
-	LBA_MAP_PHYS mapp((lba2==1), file, layout);
+	LBA_MAP_PHYS mapp((lba2==1),  file, 
+						false, tmp, false, tmp,
+						layout);
 
 
 	return 0;

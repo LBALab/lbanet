@@ -18,6 +18,13 @@ public :
     vector<unsigned char> data;
 
     //ENTRY();
+	LBA_ENTRY(const std::string &buffer)
+	{
+		for(size_t i=0; i<buffer.size(); ++i)
+			data.push_back(buffer[i]);
+	}
+
+    //ENTRY();
     LBA_ENTRY(VIRTUAL_FILE_READ_ONLY &pack,int entry)
     {
         int i;
@@ -245,7 +252,7 @@ class LBA_LAYOUT
 	int number_bricks;
 
 
-    LBA_LAYOUT(VIRTUAL_FILE_READ_ONLY &pack,int n, bool LBA2)
+    LBA_LAYOUT(VIRTUAL_FILE_READ_ONLY &pack,int n, bool LBA2, bool customlayout)
 		: number_bricks(0)
     {
 		bool usespecialroof = false;
@@ -256,7 +263,11 @@ class LBA_LAYOUT
 		}
 
         int index_data=0;
-        LBA_ENTRY *entry=new LBA_ENTRY(pack,n);
+        LBA_ENTRY *entry;
+		if(customlayout)
+			entry =new LBA_ENTRY(pack.GetBuffer());
+		else
+			entry =new LBA_ENTRY(pack,n);
         number_objects=(entry->data[0]+entry->data[1]*256+entry->data[2]*65536+entry->data[3]*16777216)/4;
 
         object.reserve(number_objects);
@@ -412,18 +423,18 @@ class LBA_GRID
 	{ return info_brick; }
 
     LBA_GRID(VIRTUAL_FILE_READ_ONLY &pack_grid,VIRTUAL_FILE_READ_ONLY &pack_layout,int n,
-				int LBA2, bool forcedlayout = false)
+				int LBA2, bool customlayout, bool forcedlayout = false)
     {
         int index_data=0;
         unsigned char flag,number_sub_colomn;
         int height_subcolumn,offset_column;
-        LBA_ENTRY *entry=new LBA_ENTRY(pack_grid,n);
+		LBA_ENTRY *entry=new LBA_ENTRY(pack_grid.GetBuffer());
 
         if(LBA2 && !forcedlayout)
 			n=entry->data[0]+180-1;
 
 
-        layout=new LBA_LAYOUT(pack_layout,n, LBA2 == 1);
+        layout=new LBA_LAYOUT(pack_layout,n, LBA2 == 1, customlayout);
         info_brick=new LBA_INFO_BRICK **[64];
 
         for(int i=0;i<64;i++)
@@ -608,7 +619,10 @@ public:
 
 
 	// constructor with grid file
-	LBA_MAP(int LBA2, const std::string &grfile, int layoutused, bool forcelayout = false)
+	LBA_MAP(int LBA2, const std::string &grfile, 
+				bool custombrickfile, const std::string &brkfile,
+				bool customlayoutfile, const std::string &layoutfile,
+				int layoutused, bool forcelayout = false)
 	{
 		VIRTUAL_FILE_READ_ONLY *pack_brick;
 		VIRTUAL_FILE_READ_ONLY *pack_grid;
@@ -616,21 +630,37 @@ public:
 		VIRTUAL_FILE_READ_ONLY *pack_layout;
 		if(LBA2)
 		{
-			 pack_brick=new VIRTUAL_FILE_READ_ONLY("data//map//lba2//LBA_BKG.HQR");
+			 if(!custombrickfile)
+				pack_brick=new VIRTUAL_FILE_READ_ONLY("data//map//lba2//LBA_BKG.HQR");
+
 			 pack_ress=new VIRTUAL_FILE_READ_ONLY("data//map//lba2//RESS2.HQR");
-			 pack_layout=new VIRTUAL_FILE_READ_ONLY("data//map//lba2//LBA_BKG.HQR");
+
+			 if(!customlayoutfile)
+				 pack_layout=new VIRTUAL_FILE_READ_ONLY("data//map//lba2//LBA_BKG.HQR");
 		}
 		else
 		{
-			 pack_brick=new VIRTUAL_FILE_READ_ONLY("data//map//lba1//LBA_BRK.HQR");
+			 if(!custombrickfile)
+				pack_brick=new VIRTUAL_FILE_READ_ONLY("data//map//lba1//LBA_BRK.HQR");
+
 			 pack_ress=new VIRTUAL_FILE_READ_ONLY("data//map//lba1//RESS.HQR");
-			 pack_layout=new VIRTUAL_FILE_READ_ONLY("data//map//lba1//LBA_BLL.HQR");
+
+			 if(!customlayoutfile)
+				pack_layout=new VIRTUAL_FILE_READ_ONLY("data//map//lba1//LBA_BLL.HQR");
 		}
 
 		// use file for pack grid
 		pack_grid=new VIRTUAL_FILE_READ_ONLY(grfile);
+
+		if(custombrickfile)
+			pack_brick=new VIRTUAL_FILE_READ_ONLY(brkfile);
+
+		if(customlayoutfile)
+			pack_layout=new VIRTUAL_FILE_READ_ONLY(layoutfile);
+
+
         palet=new LBA_PALET(*pack_ress);
-        grid=new LBA_GRID(*pack_grid, *pack_layout, layoutused, LBA2, forcelayout);
+        grid=new LBA_GRID(*pack_grid, *pack_layout, layoutused, LBA2, customlayoutfile, forcelayout);
 
 		Initialize(LBA2, pack_brick);
 
@@ -664,7 +694,7 @@ public:
 			 pack_layout=new VIRTUAL_FILE_READ_ONLY("data//map//lba1//LBA_BLL.HQR");
 		}
         palet=new LBA_PALET(*pack_ress);
-        grid=new LBA_GRID(*pack_grid,*pack_layout,n,LBA2);
+        grid=new LBA_GRID(*pack_grid,*pack_layout,n,LBA2, false);
 
 		Initialize(LBA2, pack_brick);
 
@@ -723,7 +753,10 @@ public:
     LBA_MAP_GL(int NUM_MAP,int LBA2);
 
 	//constructor with gr file
-	LBA_MAP_GL(int LBA2, const std::string &grfile, int layoutused, bool forcelayout = false);
+	LBA_MAP_GL(int LBA2, const std::string &grfile, 
+						bool custombrickfile, const std::string &brkfile,
+						bool customlayoutfile, const std::string &layoutfile,
+						int layoutused, bool forcelayout = false);
 
 
     void face(double X,double Y,double Z,double texture_x,double texture_y,

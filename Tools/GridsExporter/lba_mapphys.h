@@ -16,6 +16,7 @@ public :
 
 	// class members
     unsigned char *data;
+    long datalenght;
 };
 
 
@@ -29,6 +30,8 @@ public :
 
 	// destructor
     ~LBA_ENTRY_PHYS();
+
+    LBA_ENTRY_PHYS(unsigned char *dt,int lenght);
 
 	// class members
     long datalenght;
@@ -108,7 +111,7 @@ class LBA_LAYOUT_PHYS
 public:
 
 	// constructor
-    LBA_LAYOUT_PHYS(LBA_PACK_PHYS *pack,int n);
+    LBA_LAYOUT_PHYS(LBA_PACK_PHYS *pack,int n, bool customlayout);
 
 	// destructor
 	~LBA_LAYOUT_PHYS();
@@ -125,7 +128,8 @@ class LBA_GRID_PHYS
 {
 public:
 	// constructor
-    LBA_GRID_PHYS(LBA_PACK_PHYS *pack_grid,LBA_PACK_PHYS *pack_layout,int n,bool LBA2, bool forcelayout = false);
+    LBA_GRID_PHYS(LBA_PACK_PHYS *pack_grid,LBA_PACK_PHYS *pack_layout,int n,bool LBA2, 
+					bool customlayout, bool forcelayout = false);
 
 	// destructor
     ~LBA_GRID_PHYS();
@@ -148,7 +152,10 @@ public:
     LBA_MAP_PHYS(int n, bool LBA2);
 
 	// constructor with grid file
-	LBA_MAP_PHYS(bool LBA2, const std::string &grfile, int layoutused, bool forcelayout = false);
+	LBA_MAP_PHYS(bool LBA2, const std::string &grfile, 
+		bool custombrickfile, const std::string &brkfile,
+		bool customlayoutfile, const std::string &layoutfile,
+		int layoutused, bool forcelayout = false);
 
 
 	// destructor

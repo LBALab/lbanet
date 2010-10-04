@@ -34,6 +34,10 @@ int get_size();
 void rewind_virtual();
 string read_string();
 ~VIRTUAL_FILE_READ_ONLY(){}
+
+const std::string & GetBuffer()
+{ return buffer;}
+
 private:
 string buffer;
 int cursor;
