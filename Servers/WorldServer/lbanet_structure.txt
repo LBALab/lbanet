@@ -1,0 +1,63 @@
+CREATE TABLE `lba_inventory` (
+  `worldid` bigint(20) NOT NULL,
+  `objectid` bigint(20) NOT NULL,
+  `number` int(11) NOT NULL,
+  `InventoryPlace` int(11) NOT NULL
+);
+
+
+
+CREATE TABLE `lba_quests` (
+  `worldid` bigint(20) NOT NULL,
+  `questid` bigint(20) NOT NULL,
+  `status` int(11) NOT NULL
+);
+
+
+CREATE TABLE `lba_users` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `josiid` int(11) NOT NULL,
+  `lastconnected` datetime default NULL,
+  `playedtimemin` int(11) NOT NULL default '0',
+  `connected` tinyint(1) NOT NULL default '0',
+  `currentworldid` bigint(20) default NULL
+);
+
+
+CREATE TABLE `lba_usertoworld` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `userid` bigint(20) NOT NULL,
+  `worldid` bigint(20) NOT NULL,
+  `lastvisited` datetime default NULL,
+  `timeplayedmin` int(11) NOT NULL default '0',
+  `lastmap` varchar(50) default NULL,
+  `lastposx` float NOT NULL default '0',
+  `lastposy` float NOT NULL default '0',
+  `lastposz` float NOT NULL default '0',
+  `lastrotation` float NOT NULL default '0',
+  `InventorySize` int(11) NOT NULL default '30',
+  `Shortcuts` varchar(50) NOT NULL default '-1#-1#-1#-1#-1#-1#-1#-1#-1#-1',
+  `LifePoint` float NOT NULL default '-1',
+  `ManaPoint` float NOT NULL default '-1',
+  `MaxLife` float NOT NULL default '-1',
+  `MaxMana` float NOT NULL default '-1',
+  `PvpKill` bigint(20) NOT NULL default '0',
+  `PvpDeath` bigint(20) NOT NULL default '0',
+  `MonsterDeath` bigint(20) NOT NULL default '0',
+  `FallDeath` bigint(20) NOT NULL default '0',
+  `MonsterKill` bigint(20) NOT NULL default '0',
+  `DrowningDeath` bigint(20) NOT NULL default '0',
+  `OtherDeath` bigint(20) NOT NULL default '0',
+  `RendererType` int(11) NOT NULL default '0',
+  `ModelName` varchar(50) NOT NULL,
+  `ModelOutfit` varchar(50) NOT NULL,
+  `ModelWeapon` varchar(50) NOT NULL,
+  `ModelMode` varchar(50) NOT NULL
+);
+
+CREATE TABLE `lba_worlds` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `name` varchar(50) NOT NULL,
+  `description` text NOT NULL,
+  `path` varchar(100) default NULL
+);
