@@ -38,8 +38,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /***********************************************************
 	Constructor
 ***********************************************************/
-LocalConnectionHandler::LocalConnectionHandler(Ice::CommunicatorPtr communicator)
-: _communicator(communicator), _adapter(NULL), _interface(NULL)
+LocalConnectionHandler::LocalConnectionHandler()
+: _interface(NULL)
 {
 
 }
@@ -54,22 +54,7 @@ LocalConnectionHandler::~LocalConnectionHandler()
 	// first make sure that the thread is finished
 	JoinThread();
 
-
 	// clean up
-	try
-	{
-		if(_adapter)
-		{
-			_adapter->deactivate();
-			_adapter->destroy();
-		}
-	}
-	catch(const Ice::Exception& ex)
-	{
-		LogHandler::getInstance()->LogToFile(std::string("Error destroying the adapter: ") + ex.what());
-	}
-
-	_adapter = NULL;
 	_interface = NULL;
 }
 
@@ -84,38 +69,8 @@ int LocalConnectionHandler::Connect(const std::string &user, const std::string &
 {
 	_username = user;
 
+	_interface = new InfosReceiverServant();
 
-	try
-	{
-		_adapter = _communicator->createObjectAdapter("LbaNetClient");
-		_adapter->activate();
-
-	}
-	catch(const Ice::Exception& ex)
-	{
-		LogHandler::getInstance()->LogToFile(std::string("Error creating adapter: ") + ex.what());
-		return 0;
-	}
-
-
-	try
-	{
-		//if connected then set up an interface and give it to the server
-		Ice::Identity id;
-		id.name = "ClientInterface";
-		_interface = LbaNet::ClientInterfacePrx::uncheckedCast(
-												_adapter->add(new InfosReceiverServant(), id)->ice_oneway());
-	}
-    catch(const IceUtil::Exception& ex)
-    {
-		LogHandler::getInstance()->LogToFile(std::string("Exception creating client inerface: ") + ex.what());
-		return 0;
-    }
-    catch(...)
-    {
-		LogHandler::getInstance()->LogToFile(std::string("Unknown exception creating client inerface. "));
-		return 0;
-    }
 
 	// create thread
 	StartThread();

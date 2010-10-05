@@ -654,7 +654,7 @@ void LbaNetEngine::TryLogin(const std::string &Name, const std::string &Password
 {
 	if(uselocalserver)
 	{
-		m_serverConH = boost::shared_ptr<ConnectionHandlerBase>(new LocalConnectionHandler(m_communicator));
+		m_serverConH = boost::shared_ptr<ConnectionHandlerBase>(new LocalConnectionHandler());
 	}
 	else
 	{

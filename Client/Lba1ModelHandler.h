@@ -34,7 +34,7 @@ namespace osg
 {
 	class Node;
 	class Geode;
-	class PositionAttitudeTransform;
+	class AutoTransform;
 }
 
 /***********************************************************************
@@ -100,7 +100,7 @@ private:
 	LBA1ModelClass*									_model;
 	osg::ref_ptr<osg::Node>							_osgnode;
 	osg::ref_ptr<osg::Geode>						_textgeode;
-	osg::ref_ptr<osg::PositionAttitudeTransform>	_barsgroup;
+	osg::ref_ptr<osg::AutoTransform>				_barsgroup;
 	bool											_paused;
 
 

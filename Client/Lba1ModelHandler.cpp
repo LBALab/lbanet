@@ -33,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <osg/Node>
 #include <osg/Group>
 #include <osg/Geode>
+#include <osg/AutoTransform>
 #include <osgText/Text>
 
 
@@ -302,9 +303,14 @@ void Lba1ModelHandler::RefreshLifeManaBars()
 			_barsgroup = NULL;
 		}
 
-		_barsgroup = new osg::PositionAttitudeTransform();
-		_barsgroup->setScale(osg::Vec3(0.04f, 0.04f, 0.04f));
+		_barsgroup = new osg::AutoTransform();
+		//_barsgroup->setScale(osg::Vec3(0.04f, 0.04f, 0.04f));
 		_barsgroup->setPosition(osg::Vec3(0, -1, 0));
+		_barsgroup->setAutoRotateMode(osg::AutoTransform::ROTATE_TO_SCREEN);
+		_barsgroup->setMinimumScale(0.0004);
+		_barsgroup->setMaximumScale(0.4);
+		_barsgroup->setAutoScaleToScreen(true);
+
 
 		osg::ref_ptr<osg::Geode> barsgeode = new osg::Geode();
 		float sizebar=20;

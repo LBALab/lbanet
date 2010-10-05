@@ -43,7 +43,7 @@ class LocalConnectionHandler : public ConnectionHandlerBase
 {
 public:
 	//! constructor
-	LocalConnectionHandler(Ice::CommunicatorPtr communicator);
+	LocalConnectionHandler();
 
 	//! destructor
 	virtual ~LocalConnectionHandler();
@@ -70,12 +70,7 @@ private:
 	IceUtil::Monitor<IceUtil::Mutex>						_monitor;
 	bool													_Trunning;
 
-
-	// pointer to the ice communicator
-	Ice::CommunicatorPtr									_communicator;
-
-	Ice::ObjectAdapterPtr									_adapter;
-	LbaNet::ClientInterfacePrx								_interface;
+	LbaNet::ClientInterfacePtr								_interface;
 };
 
 #endif

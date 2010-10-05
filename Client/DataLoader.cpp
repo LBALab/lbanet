@@ -171,7 +171,7 @@ void DataLoader::GetAvailableWorlds(std::vector<LbaNet::WorldDesc> & list)
 			{
 				if ( fs::is_directory( dir_itr->status() ) )
 				{
-					files.push_back(dir_itr->path().string() + "WorldDescription.xml");
+					files.push_back(dir_itr->path().string() + "/WorldDescription.xml");
 				}
 			}
 		}
@@ -191,7 +191,7 @@ get information about a specific world
 ***********************************************************/
 void DataLoader::GetWorldInformation(const std::string &Filename, LbaNet::WorldInformation &res)
 {
-	XmlReader::LoadWorldInfo(Filename, res);
+	XmlReader::LoadWorldInfo( "./Data/Worlds/" + Filename + "/WorldDescription.xml", res);
 }
 
 
