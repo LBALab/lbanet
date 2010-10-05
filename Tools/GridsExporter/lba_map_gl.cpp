@@ -18,7 +18,8 @@
 #include <osgUtil/Optimizer>
 
 
-void LBA_MAP_GL::face(double X,double Y,double Z,double texture_x,double texture_y,double h,int a,int b,int c,bool hidden)
+void LBA_MAP_GL::face(double X,double Y,double Z,double texture_x,double texture_y,
+					  double h,int a,int b,int c,bool hidden)
 {
     double vertex[20][3];
     double uv[24][2];
@@ -47,26 +48,52 @@ void LBA_MAP_GL::face(double X,double Y,double Z,double texture_x,double texture
     vertex[19][0]=X+1.;vertex[19][1]=Y*h+0.,vertex[19][2]=Z+1.;
 
 //UV shared + OFFSET 0.5 NOT MIRRORED
-    uv[0][0]=23.5;   uv[0][1]=0.5;
-    uv[1][0]=23.5;   uv[1][1]=0.5;
-    uv[2][0]=0.5;    uv[2][1]=11;
-    uv[3][0]=0.5;   uv[3][1]=13.;
-    uv[4][0]=23.5;  uv[4][1]=13.5;
-    uv[5][0]=23.5;  uv[5][1]=13.5;
-    uv[6][0]=23.5;  uv[6][1]=15.5;
-    uv[7][0]=23.5;  uv[7][1]=15.5;
-    uv[8][0]=46.5;  uv[8][1]=11;
-    uv[9][0]=46.5;  uv[9][1]=13.;
-    uv[10][0]=0.5;   uv[10][1]=24.5;
-    uv[11][0]=0.5;   uv[11][1]=26;
-    uv[12][0]=23.5; uv[12][1]=21.5;
-    uv[13][0]=23.5;  uv[13][1]=21.5;
-    uv[14][0]=22.5; uv[14][1]=24.;
-    uv[15][0]=24.5; uv[15][1]=24.;
-    uv[16][0]=46.5; uv[16][1]=24.5;
-    uv[17][0]=46.5; uv[17][1]=26;
-    uv[18][0]=22.5; uv[18][1]=36.5;
-    uv[19][0]=24.5; uv[19][1]=36.5;
+	if(hidden)
+	{
+		uv[0][0]=24.5; uv[0][1]=36.5;
+		uv[1][0]=22.5; uv[1][1]=36.5;
+		uv[2][0]=46.5; uv[2][1]=26;
+		uv[3][0]=0.5;   uv[3][1]=13.;
+		uv[4][0]=24.5; uv[4][1]=24.;
+		uv[5][0]=22.5; uv[5][1]=24.;
+		uv[6][0]=23.5;  uv[6][1]=21.5;
+		uv[7][0]=23.5; uv[7][1]=21.5;
+		uv[8][0]=0.5;   uv[8][1]=26;
+		uv[9][0]=46.5;  uv[9][1]=13.;
+		uv[10][0]=46.5;  uv[10][1]=13.;
+		uv[11][0]=46.5;  uv[11][1]=11;
+		uv[12][0]=23.5; uv[12][1]=21.5;
+		uv[13][0]=23.5;  uv[13][1]=21.5;
+		uv[14][0]=22.5; uv[14][1]=24.;
+		uv[15][0]=24.5; uv[15][1]=24.;
+		uv[16][0]=0.5;   uv[16][1]=13.;
+		uv[17][0]=0.5;    uv[17][1]=11;
+		uv[18][0]=23.5;   uv[18][1]=0.5;
+		uv[19][0]=23.5;   uv[19][1]=0.5;
+	}
+	else
+	{
+		uv[0][0]=23.5;   uv[0][1]=0.5;
+		uv[1][0]=23.5;   uv[1][1]=0.5;
+		uv[2][0]=0.5;    uv[2][1]=11;
+		uv[3][0]=0.5;   uv[3][1]=13.;
+		uv[4][0]=23.5;  uv[4][1]=13.5;
+		uv[5][0]=23.5;  uv[5][1]=13.5;
+		uv[6][0]=23.5;  uv[6][1]=15.5;
+		uv[7][0]=23.5;  uv[7][1]=15.5;
+		uv[8][0]=46.5;  uv[8][1]=11;
+		uv[9][0]=46.5;  uv[9][1]=13.;
+		uv[10][0]=0.5;   uv[10][1]=24.5;
+		uv[11][0]=0.5;   uv[11][1]=26;
+		uv[12][0]=23.5; uv[12][1]=21.5;
+		uv[13][0]=23.5;  uv[13][1]=21.5;
+		uv[14][0]=22.5; uv[14][1]=24.;
+		uv[15][0]=24.5; uv[15][1]=24.;
+		uv[16][0]=46.5; uv[16][1]=24.5;
+		uv[17][0]=46.5; uv[17][1]=26;
+		uv[18][0]=22.5; uv[18][1]=36.5;
+		uv[19][0]=24.5; uv[19][1]=36.5;
+	}
 
 
     double ab[3];
@@ -100,16 +127,6 @@ void LBA_MAP_GL::face(double X,double Y,double Z,double texture_x,double texture
 	face.v[7]=vertex[c][1];
 	face.v[8]=vertex[c][2];
 	
-	if(hidden)
-	{
-		face.vt[0]=0.;
-		face.vt[1]=0.;
-		face.vt[2]=0.;
-		face.vt[3]=0.;
-		face.vt[4]=0.;
-		face.vt[5]=0.;
-	}
-	else
 	{
 		face.vt[0]=(texture_x+uv[a][0])/2048.;
 		face.vt[1]=(texture_y+uv[a][1])/2048.;
@@ -305,7 +322,16 @@ void LBA_MAP_GL::Initialize(int LBA2)
 							face(X,Y,Z,texture_x,texture_y,h,17,9,15,false);
 							face(X,Y,Z,texture_x,texture_y,h,0,2,12,false);
 							face(X,Y,Z,texture_x,texture_y,h,13,8,1,false);
-							nb_faces.push_back(6);
+
+							face(X,Y,Z,texture_x,texture_y,h,2,0,4,true);
+							face(X,Y,Z,texture_x,texture_y,h,4,10,2,true);
+							face(X,Y,Z,texture_x,texture_y,h,1,8,16,true);
+							face(X,Y,Z,texture_x,texture_y,h,16,5,1,true);
+							face(X,Y,Z,texture_x,texture_y,h,7,17,19,true);
+							face(X,Y,Z,texture_x,texture_y,h,18,11,6,true);
+
+
+							nb_faces.push_back(12);
 							break;
 						case 2:
 							face(X,Y,Z,texture_x,texture_y,h,11,18,14,false);
@@ -472,15 +498,16 @@ LBA_MAP_GL::LBA_MAP_GL(int NUM_MAP,int LBA2)
 
 
 
-unsigned int findvertexinmap(std::map<osg::Vec2, unsigned int> & map, unsigned int & curridx, 
+unsigned int findvertexinmap(std::map<std::pair<osg::Vec3, osg::Vec2>, unsigned int> & map, unsigned int & curridx, 
 								  osg::Vec3Array* vertexes, const osg::Vec3 & vertex,
 								  osg::Vec2Array* texts, const osg::Vec2 & text)
 {
-	std::map<osg::Vec2, unsigned int>::iterator itm = map.find(text);
+	std::pair<osg::Vec3, osg::Vec2> tmpair = std::make_pair<osg::Vec3, osg::Vec2>(vertex, text);
+	std::map<std::pair<osg::Vec3, osg::Vec2>, unsigned int>::iterator itm = map.find(tmpair);
 	if(itm != map.end())
 		return itm->second;
 
-	map[text] = curridx;
+	map[tmpair] = curridx;
 	vertexes->push_back(vertex);
 	texts->push_back(text);
 	return curridx++;
@@ -514,7 +541,7 @@ void LBA_MAP_GL::ExportMapOSG()
 
 		osg::DrawElementsUInt* myprimitive = new osg::DrawElementsUInt(osg::PrimitiveSet::TRIANGLES, 0);
 
-		std::map<osg::Vec2, unsigned int> mapvert;
+		std::map<std::pair<osg::Vec3, osg::Vec2>, unsigned int> mapvert;
 		unsigned int curridx=0;
 
 		for(int i=0; i<*itnbfaces; ++i, ++cc)
