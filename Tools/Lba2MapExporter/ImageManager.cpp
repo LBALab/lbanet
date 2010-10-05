@@ -69,21 +69,6 @@ bool ImageManager::createTexture(int OffsetX, int OffsetY, int Width, int Height
 	bool res = false;
 	int OffsetWidth = Width + ((AddWhite) ? 256 : 0);
 
-	//Create Texture
-	//Ogre::TexturePtr Texture = Ogre::TextureManager::getSingleton().createManual(
-	//				Name,		
-	//				Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-	//				Ogre::TEX_TYPE_2D,
-	//				OffsetWidth, Height,
-	//				1, 5,
-	//				Ogre::PF_BYTE_RGBA,
-	//				Ogre::TU_AUTOMIPMAP | Ogre::TU_STATIC_WRITE_ONLY);
-	//
-	//Ogre::HardwarePixelBufferSharedPtr Buffer = Texture->getBuffer(0, 0);
-	//Buffer->lock(Ogre::HardwareBuffer::HBL_DISCARD);
-
-	//const Ogre::PixelBox &pixelBox = Buffer->getCurrentLock();	
-	//Ogre::uint8* pData = static_cast<Ogre::uint8*>(pixelBox.data);
 
 	unsigned char* pData = new unsigned char[OffsetWidth * Height * 4];
 
@@ -108,7 +93,6 @@ bool ImageManager::createTexture(int OffsetX, int OffsetY, int Width, int Height
 		}
 	}
 	
-	//Buffer->unlock();
 
 	ILuint imn;
 	ilGenImages(1, &imn);
@@ -119,40 +103,6 @@ bool ImageManager::createTexture(int OffsetX, int OffsetY, int Width, int Height
 
 
 	return res;
-	//return Texture;
-}
-
-
-
-void ImageManager::createBigTexture(int Width, int Height, 
-					unsigned char *Data, const std::string &filename)
-{
-	//unsigned char* pData = new unsigned char[Width * Height * 4 * 2];
-
-	//// need this for shader so that the blank area also have transparent alpha
-	//memset(pData, 0, Width * Height * 4 * 2);
-
-
-	////Fill Texture Buffer
-	//for (int iX = 0; iX < Width; ++iX)
-	//{
-	//	for (int iY = 0; iY < Height; ++iY)
-	//	{
-	//		int palettePos = Data[(iY + OffsetY) * 256 + (iX + OffsetX)];
-	//		pData[(iY * OffsetWidth + iX) * 4 + 0] = mRawPalette[palettePos * 3 + 0];
- //           pData[(iY * OffsetWidth + iX) * 4 + 1] = mRawPalette[palettePos * 3 + 1];
- //           pData[(iY * OffsetWidth + iX) * 4 + 2] = mRawPalette[palettePos * 3 + 2];
- //           pData[(iY * OffsetWidth + iX) * 4 + 3] = (palettePos) ? 255 : 0;
-	//	}
-	//}
-	//
-	//ILuint imn;
-	//ilGenImages(1, &imn);
-	//ilBindImage(imn);
-	//ilTexImage( OffsetWidth, Height, 1, 4, IL_RGBA, IL_UNSIGNED_BYTE, pData);
-	//ilSaveImage(filename.c_str());
-	//ilDeleteImages(1, &imn);
-
 }
 
 

@@ -36,8 +36,6 @@ SceneExterior::SceneExterior()
 void	SceneExterior::load(const std::string& name)
 {	
 	mName = name;
-	//mMainNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(mName);	
-	//mMainNode->setScale(100, 100, 100);
 
 	mILE = new HQRReader(/*mConfig->mPATH_HQR + */name + ".ILE");
 	mOBL = new HQRReader(/*mConfig->mPATH_HQR + */name + ".OBL");
@@ -51,34 +49,6 @@ void	SceneExterior::load(const std::string& name)
 
 void	SceneExterior::unload()
 {
-	//Clear All Loaded Meshes and destroy master scenenode
-	/*
-	Destroy Sea Material
-	Destroy Sea Texture	
-	Destroy Sea Entity
-
-	Destroy Sky Material
-	Destroy Sky Texture	
-	Destroy Sky Entity
-
-	Destroy EnvPlane Mesh
-
-	Destroy Object Textures
-	Destroy Object Materials
-
-	Destroy Ground Material
-	Destroy Ground Texture
-	
-	SECTIONS - (for each section)
-	--------
-	Destroy Ground Mesh
-	Destroy Ground Entity
-	Destroy Object Meshes
-	Destroy Object Entities
-	--------
-	*/
-
-	//mMainNode->removeAndDestroyAllChildren();
 }
 
 /*
@@ -87,40 +57,6 @@ void	SceneExterior::unload()
 
 void	SceneExterior::loadEnvironment()
 {
-	////Read the texture data
-	//HQRReader ress(mConfig->mPATH_HQR + "RESS.HQR");
-	//ress.LoadEntry(mConfig->mIslandInfo.find(mName)->second.skyIndex);
-	//ress.Read(mSeaSkyTexture, 256 * 256);
-
-	////Create textures and materials
-	//ImageManager::getSingleton().createTexture(mName + "_SEA", 0, 0, 128, 128, mSeaSkyTexture);	
-	//ImageManager::getSingleton().createMaterial(mName + "_SEA");
-	//ImageManager::getSingleton().createTexture(mName + "_SKY", 128, 0, 128, 128, mSeaSkyTexture);	
-	//ImageManager::getSingleton().createMaterial(mName + "_SKY");
-
-	////Create the environment plane mesh
-	//Ogre::Plane plane;
-	//plane.normal = Vector3::UNIT_Y;	
-	//Ogre::MeshManager::getSingleton().createPlane("ENVplane", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane, 32, 32, 1, 1, true, 1, 64, 64, Vector3::UNIT_Z);
-	//
-	////Create the Sky
-	//mSky = mSceneMgr->createEntity("Sea", "ENVplane");
-	//mSky->setMaterialName(mName + "_SEA");
-	//mSkyNode = mMainNode->createChildSceneNode("Sea");
-	//mSkyNode->setPosition(16.0, -0.001, -16.0);
-	//mSkyNode->attachObject(mSky);
-
-	////Create the Sea
-	//mSky = mSceneMgr->createEntity("Sky", "ENVplane");
-	//mSky->setMaterialName(mName + "_SKY");
-	//mSkyNode = mMainNode->createChildSceneNode("Sky");
-	//mSkyNode->setPosition(16.0, 1.45, -16.0);	
-	//mSkyNode->roll(Ogre::Radian(Ogre::Math::PI));	
-	//mSkyNode->attachObject(mSky);
-
-	////Set environment settings
-	//mSceneMgr->setFog(Ogre::FOG_LINEAR, mConfig->mIslandInfo.find(mName)->second.skyColor, 0.0, 400.0, mConfig->mIslandInfo.find(mName)->second.fogDistance);
-	//Engine::getSingleton().setBackgroundColour(mConfig->mIslandInfo.find(mName)->second.skyColor);
 }
 
 void	SceneExterior::loadSections()
@@ -138,22 +74,6 @@ void	SceneExterior::loadSections()
 	ImageManager::getSingleton()->createTexture(0, 0, 256, 256, 
 										mGroundTexture, mName + ".png", true);
 
-	//unsigned char othertexture[256 * 256];
-	//mILE->LoadEntry(3);
-	//mILE->Read(othertexture, 256 * 256);
-	//ImageManager::getSingleton()->createTexture(0, 0, 256, 256, 
-	//									othertexture, "textureother.png", true);
-
-
-	//unsigned char othertexture[256 * 256];
-	//mILE->LoadEntry(4);
-	//mILE->Read(othertexture, 256 * 256);
-	//ImageManager::getSingleton()->createTexture(0, 0, 256, 256, 
-	//									othertexture, "textureother2.png", true);
-
-
-
-	//ImageManager::getSingleton().createMaterial(mName + "_GROUND", false);
 
 	/* Loading sections */
     mNumSections = 0;
@@ -247,19 +167,6 @@ void	SceneExterior::loadSections()
 
 		KLN89FaceTexture->setWrap(osg::Texture::WRAP_S, osg::Texture::CLAMP_TO_BORDER);
 		KLN89FaceTexture->setWrap(osg::Texture::WRAP_T, osg::Texture::CLAMP_TO_BORDER);
-
-
-
-  //      osg::TexEnvCombine* tec = new osg::TexEnvCombine;
-  //      tec->setSource0_RGB(osg::TexEnvCombine::TEXTURE0);
-  //      tec->setOperand0_RGB(osg::TexEnvCombine::ONE_MINUS_SRC_ALPHA);
-
-  //      tec->setSource1_RGB(osg::TexEnvCombine::PRIMARY_COLOR);
-  //      tec->setOperand1_RGB(osg::TexEnvCombine::SRC_COLOR);
-
-
-  //      tec->setCombine_RGB(osg::TexEnvCombine::REPLACE);
-		//stateSet->setTextureAttribute(0, tec);
 
 
 

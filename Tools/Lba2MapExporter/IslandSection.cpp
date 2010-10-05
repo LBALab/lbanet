@@ -405,10 +405,6 @@ osg::ref_ptr<osg::Group>	IslandSection::loadSingleObject(IslandObjectInfo *objIn
 		/* Loading the data */
 		mOBL->LoadEntry(objInfo->index + 1);
 
-		//if(objInfo->index + 1 == 84)
-		//	std::cout<<"plpop"<<std::endl;
-		//else
-		//	return root;
 
 		const int bufSize = mOBL->getSize();
 		unsigned char *objBuffer = new unsigned char [bufSize];
@@ -695,55 +691,10 @@ osg::ref_ptr<osg::Group>	IslandSection::loadSingleObject(IslandObjectInfo *objIn
 			}
 		}
 
-
-		/* Loading the hardware vertex buffer */
-		//msh->sharedVertexData = new VertexData;
-		//msh->sharedVertexData->vertexCount = vertices.size() / 9;
-		//VertexDeclaration* decl = msh->sharedVertexData->vertexDeclaration;
-		//size_t offset = 0;
-		//decl->addElement(0, 0, VET_FLOAT3, VES_POSITION);
-		//offset += VertexElement::getTypeSize(VET_FLOAT3);
-		//decl->addElement(0, offset, VET_FLOAT4, VES_DIFFUSE);
-		//offset += VertexElement::getTypeSize(VET_FLOAT4);
-		//decl->addElement(0, offset, VET_FLOAT2, VES_TEXTURE_COORDINATES);
-		//offset += VertexElement::getTypeSize(VET_FLOAT2);
-		//HardwareVertexBufferSharedPtr vbuf = HardwareBufferManager::getSingleton().createVertexBuffer(offset, msh->sharedVertexData->vertexCount, HardwareBuffer::HBU_STATIC_WRITE_ONLY);
-		//vbuf->writeData(0, vbuf->getSizeInBytes(), &(vertices[0]), true);
-		//VertexBufferBinding* bind = msh->sharedVertexData->vertexBufferBinding; 
-		//bind->setBinding(0, vbuf);
-
-		/* Loading the hardware buffers */
-		//cutGroups.insert(std::pair<unsigned int, CutGroup>(0, colorSub));
-		//std::map<unsigned int, CutGroup>::iterator it, end;
-		//for (it = cutGroups.begin(), end = cutGroups.end(); it != end; ++it)
-		//{
-		//	if (it->second.indices.size() != 0)
-		//	{
-		//		it->second.subMesh = msh->createSubMesh();
-		//		SubMesh *sub = it->second.subMesh;
-		//		/* Loading the hardware index buffer */
-		//		HardwareIndexBufferSharedPtr ibuf = HardwareBufferManager::getSingleton().createIndexBuffer(HardwareIndexBuffer::IT_16BIT, it->second.indices.size(), HardwareBuffer::HBU_STATIC_WRITE_ONLY);
-		//		ibuf->writeData(0, ibuf->getSizeInBytes(), &(it->second.indices[0]), true);
-		//		sub->useSharedVertices = true;
-		//		sub->indexData->indexBuffer = ibuf;
-		//		sub->indexData->indexCount = it->second.indices.size();
-		//		sub->indexData->indexStart = 0;
-		//		sub->setMaterialName(it->second.materialName);
-		//	}
-		//}
-
-		///* Finalizing */
-		//msh->_setBounds(AxisAlignedBox(mMBox.mx / 16384.0f, mMBox.my / 16384.0f, mMBox.mz / 16384.0f, mMBox.Mx / 16384.0f, mMBox.My / 16384.0f, mMBox.Mz / 16384.0f));
-		//msh->_setBoundingSphereRadius(Math::Sqrt(8));
-		//msh->load();
-
 		delete [] objBuffer;
 
 
 		//root->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-
-
-
 		//osgUtil::Optimizer optOSGFile;
 		//optOSGFile.optimize (root.get());
 
@@ -767,62 +718,7 @@ osg::ref_ptr<osg::Group>	IslandSection::loadSingleObject(IslandObjectInfo *objIn
 		//osgDB::writeNodeFile(*root.get(), iss.str());
 		osgDB::writeNodeFile(*root.get(), iss.str(), new osgDB::Options("Compressor=zlib"));
 
-
-
 		return root;
-	}
-
-	/* Creating entity */
-	//Entity *ent = mSceneMgr->createEntity(name, mObjLibrary[objInfo->index + 1]);
-	//
-	//objNode->attachObject(ent);	
-
-	//osg::ref_ptr<osg::Geode> myGeode = new osg::Geode();
-	//osg::ref_ptr<osg::Geometry> m_myGeometry = new osg::Geometry();
-	//myGeode->addDrawable(m_myGeometry.get());
-	//m_myGeometry->setVertexArray( myVerticesPoly ); 
-	//m_myGeometry->addPrimitiveSet(myprimitive);
-	//m_myGeometry->setColorArray(colors);
-	//m_myGeometry->setColorBinding(osg::Geometry::BIND_PER_VERTEX);
-	//m_myGeometry->setTexCoordArray( 0, myTexts);
-
-
-
-	//osg::StateSet* stateSet = myGeode->getOrCreateStateSet();
-
-	// Enable blending, select transparent bin.
-	//stateSet->setMode( GL_BLEND, osg::StateAttribute::ON );
-	//stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-
-
-	//osg::ref_ptr<osg::Texture2D> KLN89FaceTexture = new osg::Texture2D;
-
-	//// protect from being optimized away as static state:
-	//KLN89FaceTexture->setDataVariance(osg::Object::DYNAMIC); 
-
-	//// load an image by reading a file: 
-	//osg::Image* klnFace = osgDB::readImageFile(textname);
-
-	//// Assign the texture to the image we read from file: 
-	//KLN89FaceTexture->setImage(klnFace);
-
-	//KLN89FaceTexture->setFilter(osg::Texture::FilterParameter::MIN_FILTER, osg::Texture::FilterMode::LINEAR);
-	//KLN89FaceTexture->setFilter(osg::Texture::FilterParameter::MAG_FILTER, osg::Texture::FilterMode::LINEAR);
-	//KLN89FaceTexture->setUseHardwareMipMapGeneration(true);
-	//KLN89FaceTexture->setResizeNonPowerOfTwoHint(false);
-
-	//// Assign texture unit 0 of our new StateSet to the texture 
-	//// we just created and enable the texture.
-	//stateSet->setTextureAttributeAndModes
-	//  (0,KLN89FaceTexture,osg::StateAttribute::ON);
-
-
-
-	//if(myVerticesPoly->size() == 0)
-	//	empty = true;
-
-
-	//return myGeode;
 }
 
 void	IslandSection::loadCutGroups(unsigned char *objBuffer, std::map<unsigned int, CutGroup>& cutGroups)
@@ -856,40 +752,6 @@ void	IslandSection::loadCutGroups(unsigned char *objBuffer, std::map<unsigned in
 		cutInt++;
 		
 		cutChar += 4;
-
-
-		//Create Texture
-
-	//	if (!(MaterialManager::getSingleton().resourceExists(iss.str())))
-	//	{
-	//		/* Loading texture buffer */
-	//		unsigned char texture[256 * 256];
-	//		mILE->LoadEntry(3);
-	//		mILE->Read(texture, 256 * 256);
-
-	//		//Create Texture
-	//		ImageManager::getSingleton().createTexture(iss.str(), x, y, width, height, texture);
-
-	//		//Create Material
-	//		MaterialPtr m = MaterialManager::getSingleton().getDefaultSettings()->clone(iss.str(), false);
-	//		Pass *p = m->getTechnique(0)->getPass(0);
-	//		p->setLightingEnabled(false);
-	//		p->setAlphaRejectFunction(CMPF_GREATER);
-	//		p->setAlphaRejectValue(128);
-	//		p->setVertexColourTracking(TVC_AMBIENT);
-	//		TextureUnitState *t = p->createTextureUnitState();
-	//		t->setTextureName(iss.str());
-	//		t->setColourOperationEx(LBX_MODULATE, LBS_TEXTURE, LBS_DIFFUSE);
-	//		t->setTextureFiltering(TFO_NONE);
-	//	}
-	}
-	//if (!(MaterialManager::getSingleton().resourceExists("OBLnoTexture")))
-	//{
-	//	MaterialPtr m = Ogre::MaterialManager::getSingleton().getDefaultSettings()->clone("OBLnoTexture", false);
-	//	Pass *p = m->getTechnique(0)->getPass(0);
-	//	p->setLightingEnabled(false);
-	//	p->setVertexColourTracking(Ogre::TVC_DIFFUSE);
-	//}
 }
 
 CutGroup::CutGroup(const std::string& mat, unsigned char x, unsigned char y, unsigned char width, 

@@ -43,12 +43,6 @@ public:
 	bool createTexture(int OffsetX, int OffsetY, int Width, int Height, 
 						unsigned char *Data, const std::string &filename, bool AddWhite = false);
 
-
-	void createBigTexture(int Width, int Height, 
-						unsigned char *Data, const std::string &filename);
-
-	//Ogre::MaterialPtr createMaterial(const std::string &TextureName, bool Filtering = true);
-
 private:
 
 	static ImageManager *		_singletonInstance;
