@@ -112,7 +112,7 @@ LbaNet::SavedWorldInfo LocalDatabaseHandler::ChangeWorld(const std::string& NewW
 
 			resP.lifemana.CurrentLife = (float)atof(pazResult[nbcollumn+8]);
 			resP.lifemana.CurrentMana = (float)atof(pazResult[nbcollumn+9]);
-			resP.lifemana.MaxLife = (float)atof(pazResult[nbcollumn+0]);
+			resP.lifemana.MaxLife = (float)atof(pazResult[nbcollumn+10]);
 			resP.lifemana.MaxMana = (float)atof(pazResult[nbcollumn+11]);
 
 			resP.model.ModelName = pazResult[nbcollumn+13];
@@ -152,8 +152,8 @@ LbaNet::SavedWorldInfo LocalDatabaseHandler::ChangeWorld(const std::string& NewW
 
 
 			//set the user as connected
-			query.clear();
-			query << "UPDATE lba_usertoworld SET lastvisited = UTC_TIMESTAMP() WHERE id = '"<<uworldid<<"'";
+			query.str("");
+			query << "UPDATE lba_usertoworld SET lastvisited = datetime('now') WHERE id = '"<<uworldid<<"'";
 			dbres = sqlite3_exec(_db, query.str().c_str(), 0, 0, &zErrMsg);
 			if(dbres != SQLITE_OK)
 			{
@@ -163,7 +163,7 @@ LbaNet::SavedWorldInfo LocalDatabaseHandler::ChangeWorld(const std::string& NewW
 			}
 
 
-			query.clear();
+			query.str("");
 			query << "SELECT * FROM lba_inventory";
 			query << " WHERE worldid = '"<<uworldid<<"'";
 			dbres = sqlite3_get_table(_db, query.str().c_str(), &pazResult, &nbrow, &nbcollumn, &zErrMsg);
@@ -190,7 +190,7 @@ LbaNet::SavedWorldInfo LocalDatabaseHandler::ChangeWorld(const std::string& NewW
 		}
 		else	// if world does not exist
 		{
-			query.clear();
+			query.str("");
 			query <<"SELECT id FROM lba_worlds WHERE name = '"<<NewWorldName<<"'";
 			dbres = sqlite3_get_table(_db, query.str().c_str(), &pazResult, &nbrow, &nbcollumn, &zErrMsg);
 
@@ -207,21 +207,21 @@ LbaNet::SavedWorldInfo LocalDatabaseHandler::ChangeWorld(const std::string& NewW
 				{
 					//add new world name to DB
 					{
-						query.clear();
-						query << "INSERT lba_worlds (name, description) VALUES('";
+						query.str("");
+						query << "INSERT INTO lba_worlds (name, description) VALUES('";
 						query << NewWorldName << "', '')";
 						dbres = sqlite3_exec(_db, query.str().c_str(), 0, 0, &zErrMsg);
 						if(dbres != SQLITE_OK)
 						{
 							// record error
-							std::cerr<<IceUtil::Time::now()<<": LBA_Server - INSERT lba_worlds failed for user id "<<PlayerId<<" : "<<zErrMsg<<std::endl;
+							std::cerr<<IceUtil::Time::now()<<": LBA_Server - INSERT INTO lba_worlds failed for user id "<<PlayerId<<" : "<<zErrMsg<<std::endl;
 							sqlite3_free(zErrMsg);
 						}
 					}
 
 					// redo world query
 					{
-						query.clear();
+						query.str("");
 						query <<"SELECT id FROM lba_worlds WHERE name = '"<<NewWorldName<<"'";
 						dbres = sqlite3_get_table(_db, query.str().c_str(), &pazResult, &nbrow, &nbcollumn, &zErrMsg);
 
@@ -245,9 +245,9 @@ LbaNet::SavedWorldInfo LocalDatabaseHandler::ChangeWorld(const std::string& NewW
 
 
 					// insert new data row
-					query.clear();
-					query << "INSERT lba_usertoworld (userid, worldid, lastvisited) VALUES('";
-					query << PlayerId << "', '"<<worldid<<"', UTC_TIMESTAMP())";
+					query.str("");
+					query << "INSERT INTO lba_usertoworld (userid, worldid, lastvisited, ModelName, ModelOutfit, ModelWeapon, ModelMode) VALUES('";
+					query << PlayerId << "', '"<<worldid<<"', datetime('now'), '', '', '', '')";
 					dbres = sqlite3_exec(_db, query.str().c_str(), 0, 0, &zErrMsg);
 					if(dbres != SQLITE_OK)
 					{
@@ -270,7 +270,7 @@ LbaNet::SavedWorldInfo LocalDatabaseHandler::ChangeWorld(const std::string& NewW
 
 		//insert world name into user
 		{
-			query.clear();
+			query.str("");
 			query << "UPDATE lba_users SET currentworldid = '"<<worldid<<"' WHERE id = '"<<PlayerId<<"'";
 			dbres = sqlite3_exec(_db, query.str().c_str(), 0, 0, &zErrMsg);
 			if(dbres != SQLITE_OK)
@@ -426,7 +426,7 @@ void LocalDatabaseHandler::QuitWorld(const std::string& LastWorldName,long Playe
 	if(LastWorldName != "")
 	{
 		std::stringstream query;
-		query << "UPDATE lba_usertoworld SET timeplayedmin = timeplayedmin + TIMESTAMPDIFF(MINUTE, lastvisited, UTC_TIMESTAMP())";
+		query << "UPDATE lba_usertoworld SET timeplayedmin = timeplayedmin + ((strftime('%s','now') - strftime('%s', lastvisited))/60)";
 		query << " WHERE userid = '"<<PlayerId<<"'";
 		query << " AND worldid = (SELECT id FROM lba_worlds WHERE name = '"<<LastWorldName<<"')";
 
@@ -496,7 +496,7 @@ void LocalDatabaseHandler::UpdateInventory(const LbaNet::InventoryInfo &Inventor
 			// free the results
 			sqlite3_free_table(pazResult);
 
-			query.clear();
+			query.str("");
 			query << "UPDATE lba_usertoworld SET InventorySize = '"<<Inventory.InventorySize<<"',";
 			query << "Shortcuts = '"<<shortcutstring.str()<<"' ";
 			query << " WHERE id = '"<<uworldid<<"'";
@@ -511,7 +511,7 @@ void LocalDatabaseHandler::UpdateInventory(const LbaNet::InventoryInfo &Inventor
 
 
 
-			query.clear();
+			query.str("");
 			query << "DELETE FROM lba_inventory";
 			query << " WHERE worldid = '"<<uworldid<<"'";
 
@@ -528,7 +528,7 @@ void LocalDatabaseHandler::UpdateInventory(const LbaNet::InventoryInfo &Inventor
 			LbaNet::InventoryMap::const_iterator endi = Inventory.InventoryStructure.end();
 			for(;iti != endi; ++iti)
 			{
-				query.clear();
+				query.str("");
 				query << "INSERT INTO lba_inventory (worldid, objectid, number, InventoryPlace) VALUES('";
 				query << uworldid << "', '" << iti->first << "', '" << iti->second.Number << "', '" << iti->second.PlaceInInventory << "')";
 				
@@ -649,7 +649,7 @@ void LocalDatabaseHandler::GetQuestInfo(const std::string& WorldName, long Playe
 
 
 			// do second query
-			query.clear();
+			query.str("");
 			query << "SELECT questid, status FROM lba_quests";
 			query << " WHERE worldid = '"<<uworldid<<"'";
 			dbres = sqlite3_get_table(_db, query.str().c_str(), &pazResult, &nbrow, &nbcollumn, &zErrMsg);
@@ -724,7 +724,7 @@ void LocalDatabaseHandler::SetQuestInfo(const std::string& WorldName, long Playe
 
 
 
-			query.clear();
+			query.str("");
 			query << "DELETE FROM lba_quests";
 			query << " WHERE worldid = '"<<uworldid<<"'";
 				
@@ -741,7 +741,7 @@ void LocalDatabaseHandler::SetQuestInfo(const std::string& WorldName, long Playe
 			std::vector<long>::const_iterator endi = questStarted.end();
 			for(;iti != endi; ++iti)
 			{
-				query.clear();
+				query.str("");
 				query << "INSERT INTO lba_quests (worldid, questid, status) VALUES('";
 				query << uworldid << "', '" << *iti << "', '" << 0  << "')";
 		
@@ -758,7 +758,7 @@ void LocalDatabaseHandler::SetQuestInfo(const std::string& WorldName, long Playe
 			endi = questFinished.end();
 			for(;iti != endi; ++iti)
 			{
-				query.clear();
+				query.str("");
 				query << "INSERT INTO lba_quests (worldid, questid, status) VALUES('";
 				query << uworldid << "', '" << *iti << "', '" << 1  << "')";
 		

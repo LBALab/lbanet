@@ -4,7 +4,7 @@
 /***********************************************************
 constructor
 ***********************************************************/
-PlayerHandler::PlayerHandler(long clientid, const LbaNet::ClientInterfacePrx &proxy,
+PlayerHandler::PlayerHandler(long clientid, ClientProxyBasePtr proxy,
 						boost::shared_ptr<DatabaseHandlerBase> dbH,
 						const std::string &worldname,
 						const LbaNet::SavedWorldInfo & savedinfo,

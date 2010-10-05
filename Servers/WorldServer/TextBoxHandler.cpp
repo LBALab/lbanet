@@ -46,7 +46,7 @@ update gui with info from server
 ***********************************************************/
 void TextBoxHandler::HideGUI(Ice::Long clientid)
 {
-	ClientInterfacePrx prx = SharedDataHandler::getInstance()->GetProxy(clientid);
+	ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
 	if(prx)
 	{
 		EventsSeq toplayer;
@@ -77,7 +77,7 @@ void TextBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition &c
 			static_cast<TextBoxParam *>(ptr);
 
 
-		ClientInterfacePrx prx = SharedDataHandler::getInstance()->GetProxy(clientid);
+		ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
 		if(prx)
 		{
 			boost::shared_ptr<DatabaseHandlerBase> dbh = SharedDataHandler::getInstance()->GetDatabase();

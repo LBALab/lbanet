@@ -54,7 +54,7 @@ update gui with info from server
 ***********************************************************/
 void ContainerBoxHandler::HideGUI(Ice::Long clientid)
 {
-	ClientInterfacePrx prx = SharedDataHandler::getInstance()->GetProxy(clientid);
+	ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
 	if(prx)
 	{
 		EventsSeq toplayer;

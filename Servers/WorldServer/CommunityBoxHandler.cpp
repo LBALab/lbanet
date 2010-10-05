@@ -49,7 +49,7 @@ void CommunityBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 			{
 				// inform first player that the friend request is accepted
 				{
-					ClientInterfacePrx prx = SharedDataHandler::getInstance()->GetProxy(clientid);
+					ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
 					if(prx)
 					{
 						EventsSeq toplayer;
@@ -72,7 +72,7 @@ void CommunityBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 
 				// inform second player that the friend request is accepted
 				{
-					ClientInterfacePrx prx = SharedDataHandler::getInstance()->GetProxy(castedptr->FriendId);
+					ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(castedptr->FriendId);
 					if(prx)
 					{
 						EventsSeq toplayer;
@@ -110,7 +110,7 @@ void CommunityBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 			{
 				// inform first player that the friend is removed
 				{
-					ClientInterfacePrx prx = SharedDataHandler::getInstance()->GetProxy(clientid);
+					ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
 					if(prx)
 					{
 						EventsSeq toplayer;
@@ -132,7 +132,7 @@ void CommunityBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 
 				// inform second player that the friend is removed
 				{
-					ClientInterfacePrx prx = SharedDataHandler::getInstance()->GetProxy(castedptr->FriendId);
+					ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(castedptr->FriendId);
 					if(prx)
 					{
 						EventsSeq toplayer;
@@ -166,7 +166,7 @@ void CommunityBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 			LbaNet::FriendsSeq friends = dbh->GetFriends((long)clientid);
 
 			// send list to player
-			ClientInterfacePrx prx = SharedDataHandler::getInstance()->GetProxy(clientid);
+			ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
 			if(prx)
 			{
 				EventsSeq toplayer;
@@ -197,7 +197,7 @@ void CommunityBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 			{
 				// inform first player that the friend request is processed
 				{
-					ClientInterfacePrx prx = SharedDataHandler::getInstance()->GetProxy(clientid);
+					ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
 					if(prx)
 					{
 						EventsSeq toplayer;
@@ -220,7 +220,7 @@ void CommunityBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 
 				// inform second player that there is a friend request
 				{
-					ClientInterfacePrx prx = SharedDataHandler::getInstance()->GetProxy(friendid);
+					ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(friendid);
 					if(prx)
 					{
 						EventsSeq toplayer;

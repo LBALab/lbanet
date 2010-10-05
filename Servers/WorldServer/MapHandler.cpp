@@ -18,7 +18,7 @@
 /***********************************************************
 constructor
 ***********************************************************/
-EventsSender::EventsSender(EventsSeq & events, ClientInterfacePrx proxy)
+EventsSender::EventsSender(EventsSeq & events, ClientProxyBasePtr proxy)
 : _proxy(proxy)
 {
 	_events.swap(events);
@@ -50,7 +50,7 @@ void EventsSender::run()
 /***********************************************************
 constructor
 ***********************************************************/
-EventsSenderToAll::EventsSenderToAll(EventsSeq & events, std::map<Ice::Long, ClientInterfacePrx> &proxies)
+EventsSenderToAll::EventsSenderToAll(EventsSeq & events, std::map<Ice::Long, ClientProxyBasePtr> &proxies)
 {
 	_events.swap(events);
 	_proxies.swap(proxies);
@@ -62,8 +62,8 @@ running function of the thread
 ***********************************************************/
 void EventsSenderToAll::run()
 {
-	std::map<Ice::Long, ClientInterfacePrx>::iterator it = _proxies.begin();
-	std::map<Ice::Long, ClientInterfacePrx>::iterator end = _proxies.end();
+	std::map<Ice::Long, ClientProxyBasePtr>::iterator it = _proxies.begin();
+	std::map<Ice::Long, ClientProxyBasePtr>::iterator end = _proxies.end();
 	for(; it != end; ++it)
 	{
 		try
@@ -374,7 +374,7 @@ void MapHandler::GetEvents(std::map<Ice::Long, EventsSeq> & evts)
 /***********************************************************
 add player proxy
 ***********************************************************/
-void MapHandler::AddProxy(Ice::Long clientid, ClientInterfacePrx proxy)
+void MapHandler::AddProxy(Ice::Long clientid, ClientProxyBasePtr proxy)
 {
 	IceUtil::Mutex::Lock sync(_mutex_proxies);
 	_playerproxies[clientid] = proxy;
@@ -388,7 +388,7 @@ void MapHandler::RemoveProxy(Ice::Long clientid)
 {
 	IceUtil::Mutex::Lock sync(_mutex_proxies);
 
-	std::map<Ice::Long, ClientInterfacePrx>::iterator it =	_playerproxies.find(clientid);	
+	std::map<Ice::Long, ClientProxyBasePtr>::iterator it =	_playerproxies.find(clientid);	
 	if(it != _playerproxies.end())
 		_playerproxies.erase(it);
 }
@@ -396,11 +396,11 @@ void MapHandler::RemoveProxy(Ice::Long clientid)
 /***********************************************************
 get player proxy
 ***********************************************************/
-ClientInterfacePrx MapHandler::GetProxy(Ice::Long clientid)
+ClientProxyBasePtr MapHandler::GetProxy(Ice::Long clientid)
 {
 	IceUtil::Mutex::Lock sync(_mutex_proxies);
 
-	std::map<Ice::Long, ClientInterfacePrx>::iterator it =	_playerproxies.find(clientid);	
+	std::map<Ice::Long, ClientProxyBasePtr>::iterator it =	_playerproxies.find(clientid);	
 	if(it != _playerproxies.end())
 		return it->second;
 
@@ -410,7 +410,7 @@ ClientInterfacePrx MapHandler::GetProxy(Ice::Long clientid)
 /***********************************************************
 get players proxies
 ***********************************************************/
-std::map<Ice::Long, ClientInterfacePrx> MapHandler::GetProxies()
+std::map<Ice::Long, ClientProxyBasePtr> MapHandler::GetProxies()
 {
 	IceUtil::Mutex::Lock sync(_mutex_proxies);
 	return _playerproxies;

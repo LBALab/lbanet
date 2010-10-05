@@ -29,15 +29,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <map>
 #include <string>
 #include <boost/shared_ptr.hpp>
-#include <ClientInterface.h>
 #include <IceUtil/Mutex.h>
 
 #include "DatabaseHandlerBase.h"
+#include "ClientProxyHandler.h"
 
 class MapHandler;
 class PlayerHandler;
 
 using namespace LbaNet;
+
+
+
 
 
 //! take care of shared data between process
@@ -60,9 +63,13 @@ public:
 	//client send events to server
 	void ClientEvents(Ice::Long clientid, const EventsSeq &evts);
 
-	// used when a client connect to a world
+	// used when a remote client connect to a world
 	void RegisterClient(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo, 
 							const ClientInterfacePrx &proxy);
+
+	// used when a local client connect to a world
+	void RegisterClient(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo, 
+							ClientInterfacePtr proxy);
 
 	// used when a client disconnect from a world
 	void UnregisterClient(Ice::Long clientid); 
@@ -100,7 +107,7 @@ public:
 
 
 	//!  get player proxy
-	ClientInterfacePrx GetProxy(Ice::Long clientid);
+	ClientProxyBasePtr GetProxy(Ice::Long clientid);
 
 
 	//!  update player stance
@@ -137,6 +144,12 @@ protected:
 
 	// player leave map
 	void PlayerLeaveMap(const std::string &MapName, Ice::Long clientid);
+
+
+	//! register client internal function
+	void RegisterClient(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo, 
+							ClientProxyBasePtr proxy);
+
 
 private:
 	static SharedDataHandler *											_Instance;

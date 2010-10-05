@@ -194,8 +194,8 @@ LbaNet::SavedWorldInfo DatabaseHandler::ChangeWorld(const std::string& NewWorldN
 					worldid = res[0][0];
 
 					query.clear();
-					query << "INSERT lba_usertoworld (userid, worldid, lastvisited) VALUES('";
-					query << PlayerId << "', '"<<worldid<<"', UTC_TIMESTAMP())";
+					query << "INSERT INTO lba_usertoworld (userid, worldid, lastvisited, ModelName, ModelOutfit, ModelWeapon, ModelMode) VALUES('";
+					query << PlayerId << "', '"<<worldid<<"', UTC_TIMESTAMP(), '', '', '', '')";
 					if(!query.exec())
 						std::cerr<<IceUtil::Time::now()<<": LBA_Server - INSERT lba_usertoworld failed for user id "<<PlayerId<<" : "<<query.error()<<std::endl;
 				}

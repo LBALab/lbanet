@@ -76,6 +76,27 @@ used when a client connect to a world
 void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo, 
 											const ClientInterfacePrx &proxy)
 {
+	RegisterClient(clientid, extrainfo, new RemoteClientProxy(proxy));
+}
+
+
+/***********************************************************
+used when a client connect to a world
+***********************************************************/
+void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo, 
+											ClientInterfacePtr proxy)
+{
+	RegisterClient(clientid, extrainfo, new LocalClientProxy(proxy));
+}
+
+
+
+/***********************************************************
+used when a client connect to a world
+***********************************************************/
+void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo, 
+											ClientProxyBasePtr proxy)
+{
 	Lock sync(*this);
 	LbaNet::SavedWorldInfo savedinfo;
 
@@ -159,6 +180,8 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectE
 
 	}
 }
+
+
 
 
 /***********************************************************
@@ -395,7 +418,7 @@ LbaNet::ObjectExtraInfo SharedDataHandler::GetPlayerExtraInfo(Ice::Long clientid
 /***********************************************************
 get player proxy
 ***********************************************************/
-ClientInterfacePrx SharedDataHandler::GetProxy(Ice::Long clientid)
+ClientProxyBasePtr SharedDataHandler::GetProxy(Ice::Long clientid)
 {
 	Lock sync(*this);
 

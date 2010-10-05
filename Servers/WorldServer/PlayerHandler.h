@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DatabaseHandlerBase.h"
 #include "CharacterStates.h"
 #include "CharacterModes.h"
-
+#include "ClientProxyHandler.h"
 
 
 //! take care of a specific player inside the server
@@ -40,7 +40,7 @@ class PlayerHandler
 {
 public:
 	//! constructor
-	PlayerHandler(long clientid, const LbaNet::ClientInterfacePrx &proxy,
+	PlayerHandler(long clientid, ClientProxyBasePtr proxy,
 							boost::shared_ptr<DatabaseHandlerBase> dbH,
 							const std::string &worldname,
 							const LbaNet::SavedWorldInfo & savedinfo,
@@ -55,7 +55,7 @@ public:
 	Ice::Long GetId() {return _clientid;}
 
 	//! accessor on proxy
-	LbaNet::ClientInterfacePrx GetProxy() {return _proxy;}
+	ClientProxyBasePtr GetProxy() {return _proxy;}
 
 	//! accessor on model
 	LbaNet::ModelInfo GetModelInfo() {return _currentmodelinfo;}
@@ -123,7 +123,7 @@ protected:
 
 private:
 	long										_clientid;
-	LbaNet::ClientInterfacePrx					_proxy;
+	ClientProxyBasePtr							_proxy;
 	boost::shared_ptr<DatabaseHandlerBase>		_dbH;
 
 	std::string									_worldname;

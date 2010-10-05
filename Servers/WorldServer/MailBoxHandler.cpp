@@ -79,7 +79,7 @@ update gui with info from server
 ***********************************************************/
 void MailBoxHandler::HideGUI(Ice::Long clientid)
 {
-	ClientInterfacePrx prx = SharedDataHandler::getInstance()->GetProxy(clientid);
+	ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
 	if(prx)
 	{
 		EventsSeq toplayer;
@@ -100,7 +100,7 @@ show the GUI for a certain player
 void MailBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition &curPosition,
 					boost::shared_ptr<ShowGuiParamBase> params)
 {
-	ClientInterfacePrx prx = SharedDataHandler::getInstance()->GetProxy(clientid);
+	ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
 	if(prx)
 	{
 		boost::shared_ptr<DatabaseHandlerBase> dbh = SharedDataHandler::getInstance()->GetDatabase();

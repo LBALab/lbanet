@@ -32,6 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "RunnableThread.h"
 #include "ServerGuiBase.h"
+#include "ClientProxyHandler.h"
 
 using namespace LbaNet;
 
@@ -41,14 +42,14 @@ class EventsSender : public IceUtil::Thread
 {
 public:
 	//! constructor
-	EventsSender(EventsSeq & events, ClientInterfacePrx proxy);
+	EventsSender(EventsSeq & events, ClientProxyBasePtr proxy);
 
 	// running function of the thread
 	virtual void run();
 
 private:
 	EventsSeq				_events;
-	ClientInterfacePrx		_proxy;
+	ClientProxyBasePtr		_proxy;
 };
 
 
@@ -57,14 +58,14 @@ class EventsSenderToAll : public IceUtil::Thread
 {
 public:
 	//! constructor
-	EventsSenderToAll(EventsSeq & events, std::map<Ice::Long, ClientInterfacePrx> &proxies);
+	EventsSenderToAll(EventsSeq & events, std::map<Ice::Long, ClientProxyBasePtr> &proxies);
 
 	// running function of the thread
 	virtual void run();
 
 private:
 	EventsSeq									_events;
-	std::map<Ice::Long, ClientInterfacePrx>		_proxies;
+	std::map<Ice::Long, ClientProxyBasePtr>		_proxies;
 };
 
 
@@ -99,16 +100,16 @@ public:
 	void GetEvents(std::map<Ice::Long, EventsSeq> & evts);
 
 	// add player proxy
-	void AddProxy(Ice::Long clientid, ClientInterfacePrx proxy);
+	void AddProxy(Ice::Long clientid, ClientProxyBasePtr proxy);
 
 	// remove player proxy
 	void RemoveProxy(Ice::Long clientid);
 
 	// get player proxy
-	ClientInterfacePrx GetProxy(Ice::Long clientid);
+	ClientProxyBasePtr GetProxy(Ice::Long clientid);
 
 	// get players proxies
-	std::map<Ice::Long, ClientInterfacePrx> GetProxies();
+	std::map<Ice::Long, ClientProxyBasePtr> GetProxies();
 
 
 protected:
@@ -161,7 +162,7 @@ private:
 	std::vector<Ice::Long>										_currentplayers;
 
 
-	 std::map<Ice::Long, ClientInterfacePrx>					_playerproxies;
+	 std::map<Ice::Long, ClientProxyBasePtr>					_playerproxies;
 	 std::map<Ice::Long, EventsSeq>								_events;
 
 	 std::map<std::string, boost::shared_ptr<ServerGUIBase> >	_guihandlers;
