@@ -31,6 +31,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <Ice/Application.h>
 #include <ClientInterface.h>
 
+class DatabaseHandlerBase;
+
 /***********************************************************************
  * Module:  LocalConnectionHandler.h
  * Author:  vivien

@@ -72,6 +72,9 @@ public:
 	//! get list of available worlds
 	void GetAvailableWorlds(std::vector<LbaNet::WorldDesc> & list);
 
+	//! get information about a specific world
+	void GetWorldInformation(const std::string &Filename, LbaNet::WorldInformation &res);
+
 
 	//! used to get the character entities info
 	entitiesTableStruct* GetEntitiesInfo();

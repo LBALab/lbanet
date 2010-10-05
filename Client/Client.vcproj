@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/D  _CRT_SECURE_NO_WARNINGS"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\dependencies\OSG\include;..\dependencies\CEGUI\cegui\include;..\dependencies\3rdParty\include;..\dependencies\libconfig\include;..\shared;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Foundation/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Physics/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Cooking/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/PhysXLoader/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/NxCharacter/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot;;..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\dependencies\fmod\include;..\dependencies\CrashReport\crashrpt\include"
+				AdditionalIncludeDirectories="..\dependencies\OSG\include;..\dependencies\CEGUI\cegui\include;..\dependencies\3rdParty\include;..\dependencies\libconfig\include;..\shared;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Foundation/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Physics/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Cooking/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/PhysXLoader/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/NxCharacter/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot;;..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\dependencies\fmod\include;..\dependencies\CrashReport\crashrpt\include;..\Servers\WorldServer;..\dependencies\sqlite"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -119,7 +119,7 @@
 				AdditionalOptions="/D  _CRT_SECURE_NO_WARNINGS"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="..\dependencies\OSG\include;..\dependencies\CEGUI\cegui\include;..\dependencies\3rdParty\include;..\dependencies\libconfig\include;..\shared;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Foundation/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Physics/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Cooking/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/PhysXLoader/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/NxCharacter/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot;;..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\dependencies\fmod\include;..\dependencies\CrashReport\crashrpt\include"
+				AdditionalIncludeDirectories="..\dependencies\OSG\include;..\dependencies\CEGUI\cegui\include;..\dependencies\3rdParty\include;..\dependencies\libconfig\include;..\shared;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Foundation/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Physics/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Cooking/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/PhysXLoader/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/NxCharacter/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot;;..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\dependencies\fmod\include;..\dependencies\CrashReport\crashrpt\include;..\Servers\WorldServer;..\dependencies\sqlite"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -252,6 +252,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Servers\WorldServer\CommunityBoxHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ConfigurationManager.cpp"
 				>
 			</File>
@@ -260,11 +264,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Servers\WorldServer\ContainerBoxHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\DataLoader.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\DialogBox.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Servers\WorldServer\DialogBoxHandler.cpp"
 				>
 			</File>
 			<File
@@ -312,6 +324,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Servers\WorldServer\InventoryBoxHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\JournalBox.cpp"
 				>
 			</File>
@@ -352,6 +368,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Servers\WorldServer\LocalDatabaseHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\shared\LogHandler.cpp"
 				>
 			</File>
@@ -364,7 +384,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Servers\WorldServer\MailBoxHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\main.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Servers\WorldServer\MapHandler.cpp"
 				>
 			</File>
 			<File
@@ -408,7 +436,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Servers\WorldServer\PlayerHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\RemoteConnectionHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Servers\WorldServer\ServerGUIBase.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Servers\WorldServer\SharedDataHandler.cpp"
 				>
 			</File>
 			<File
@@ -416,7 +456,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Servers\WorldServer\ShopBoxHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ShortcutBox.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Servers\WorldServer\ShortcutBoxHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dependencies\sqlite\sqlite3.c"
 				>
 			</File>
 			<File
@@ -437,6 +489,10 @@
 			</File>
 			<File
 				RelativePath=".\TeleportBox.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Servers\WorldServer\TextBoxHandler.cpp"
 				>
 			</File>
 			<File

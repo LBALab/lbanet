@@ -29,6 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "SynchronizedTimeHandler.h"
 #include "EventsQueue.h"
 #include "InfosReceiverServant.h"
+#include "SharedDataHandler.h"
+#include "LocalDatabaseHandler.h"
 
 
 #define _LOCAL_THREAD_WAIT_TIME_	10
@@ -107,13 +109,13 @@ int LocalConnectionHandler::Connect(const std::string &user, const std::string &
     catch(const IceUtil::Exception& ex)
     {
 		LogHandler::getInstance()->LogToFile(std::string("Exception creating client inerface: ") + ex.what());
+		return 0;
     }
     catch(...)
     {
 		LogHandler::getInstance()->LogToFile(std::string("Unknown exception creating client inerface. "));
+		return 0;
     }
-
-
 
 	// create thread
 	StartThread();
@@ -135,6 +137,8 @@ void LocalConnectionHandler::Disconnect()
 	IceUtil::Monitor<IceUtil::Mutex>::Lock lock(_monitor);
 	_Trunning = false;
 	_monitor.notifyAll();
+
+	SharedDataHandler::getInstance()->CleanUp();
 }
 
 
@@ -143,7 +147,26 @@ ask server to change world
 ***********************************************************/
 void LocalConnectionHandler::ChangeWorld(const std::string & NewWorld)
 {
-	//TODO 
+	// clean up old world
+	SharedDataHandler::getInstance()->CleanUp();
+
+	// register new world information
+	LbaNet::WorldInformation worldinfo;
+	DataLoader::getInstance()->GetWorldInformation(NewWorld, worldinfo);
+	SharedDataHandler::getInstance()->SetWorldDefaultInformation(worldinfo);
+
+	// register local database
+	boost::shared_ptr<DatabaseHandlerBase> dbhandler = 
+		boost::shared_ptr<DatabaseHandlerBase>(new LocalDatabaseHandler("lbanet.sav"));
+	SharedDataHandler::getInstance()->SetDbManager(dbhandler);
+
+	// register player
+	LbaNet::ObjectExtraInfo extrainfos;
+	extrainfos.Name = _username;
+	extrainfos.NameColorR = 1;
+	extrainfos.NameColorG = 1;
+	extrainfos.NameColorB = 1;
+	SharedDataHandler::getInstance()->RegisterClient(1, extrainfos, _interface);
 }
 
 
@@ -164,7 +187,7 @@ void LocalConnectionHandler::run()
 		{
 			LbaNet::EventsSeq events;
 			EventsQueue::getSenderQueue()->GetEvents(events);
-			//TODO - send
+			SharedDataHandler::getInstance()->ClientEvents(1, events);
 		}
 		catch(const IceUtil::Exception& ex)
 		{

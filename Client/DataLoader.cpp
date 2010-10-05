@@ -186,6 +186,14 @@ void DataLoader::GetAvailableWorlds(std::vector<LbaNet::WorldDesc> & list)
 	}
 }
 
+/***********************************************************
+get information about a specific world
+***********************************************************/
+void DataLoader::GetWorldInformation(const std::string &Filename, LbaNet::WorldInformation &res)
+{
+	XmlReader::LoadWorldInfo(Filename, res);
+}
+
 
 /***********************************************************
 used to get the character entities info
