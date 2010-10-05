@@ -193,6 +193,7 @@ LbaNet::SavedWorldInfo LocalDatabaseHandler::ChangeWorld(const std::string& NewW
 			query.clear();
 			query <<"SELECT id FROM lba_worlds WHERE name = '"<<NewWorldName<<"'";
 			dbres = sqlite3_get_table(_db, query.str().c_str(), &pazResult, &nbrow, &nbcollumn, &zErrMsg);
+
 			if(dbres != SQLITE_OK)
 			{
 				// record error
@@ -201,6 +202,39 @@ LbaNet::SavedWorldInfo LocalDatabaseHandler::ChangeWorld(const std::string& NewW
 			}
 			else
 			{
+				// world does not exist yet in saved file
+				if(nbrow == 0)
+				{
+					//add new world name to DB
+					{
+						query.clear();
+						query << "INSERT lba_worlds (name, description) VALUES('";
+						query << NewWorldName << "', '')";
+						dbres = sqlite3_exec(_db, query.str().c_str(), 0, 0, &zErrMsg);
+						if(dbres != SQLITE_OK)
+						{
+							// record error
+							std::cerr<<IceUtil::Time::now()<<": LBA_Server - INSERT lba_worlds failed for user id "<<PlayerId<<" : "<<zErrMsg<<std::endl;
+							sqlite3_free(zErrMsg);
+						}
+					}
+
+					// redo world query
+					{
+						query.clear();
+						query <<"SELECT id FROM lba_worlds WHERE name = '"<<NewWorldName<<"'";
+						dbres = sqlite3_get_table(_db, query.str().c_str(), &pazResult, &nbrow, &nbcollumn, &zErrMsg);
+
+						if(dbres != SQLITE_OK)
+						{
+							// record error
+							std::cerr<<IceUtil::Time::now()<<": WorldServer - get world id "<<PlayerId<<" : "<<zErrMsg<<std::endl;
+							sqlite3_free(zErrMsg);
+						}
+					}
+				}
+
+
 				if(nbrow > 0)
 				{
 					// get worldid
@@ -221,10 +255,6 @@ LbaNet::SavedWorldInfo LocalDatabaseHandler::ChangeWorld(const std::string& NewW
 						std::cerr<<IceUtil::Time::now()<<": LBA_Server - INSERT lba_usertoworld failed for user id "<<PlayerId<<" : "<<zErrMsg<<std::endl;
 						sqlite3_free(zErrMsg);
 					}
-				}
-				else
-				{
-					//TODO - add new world name to DB
 				}
 			}
 
@@ -561,8 +591,7 @@ store letter to the server and return the letter id
 long LocalDatabaseHandler::AddLetter(long myId, const std::string& title, const std::string& message)
 {
 	// no letter system in local mode
-	long resF = -1;
-	return resF;
+	return -1;
 }
 
 
