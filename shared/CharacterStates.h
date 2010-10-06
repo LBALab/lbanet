@@ -97,7 +97,8 @@ public:
 	//! check if we can change state from this state
 	virtual bool ChangeLegal(LbaNet::ModelState NewState){return false;}
 	
-
+	//! check if player is in dead state
+	virtual bool IsDead(){return false;}
 };
 
 
@@ -440,6 +441,9 @@ public:
 
 		return false;
 	}
+	
+	//! check if player is in dead state
+	virtual bool IsDead(){return true;}
 };
 
 
