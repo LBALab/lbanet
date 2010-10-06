@@ -242,11 +242,6 @@ osg::ref_ptr<osg::Group> IslandSection::loadObjects(std::map<int, osg::ref_ptr<o
 
 			PAT->addChild(tmpobject);
 			root->addChild(PAT);
-			
-			//SceneNode *node = mNode->createChildSceneNode(iss.str());
-
-			//node->setPosition(mObjectInfo[i].oz / 16384.0f - 1, mObjectInfo[i].oy / 16384.0f, -mObjectInfo[i].ox / 16384.0f + 1);
-			//node->rotate(Ogre::Vector3(0, 1, 0), Ogre::Radian(((mObjectInfo[i].angle + 4) * PI) / 8));
 		}
 		delete [] mObjectInfo;
 	}
@@ -382,15 +377,6 @@ void	IslandSection::addPolygonSection(unsigned char *buffer, OBLPolygonHeader *h
 osg::ref_ptr<osg::Group>	IslandSection::loadSingleObject(IslandObjectInfo *objInfo,
 															std::map<int, osg::ref_ptr<osg::Group> > &mObjLibrary)
 {
-
-	//osg::Vec3Array* myVerticesPoly = new osg::Vec3Array;
-	//osg::DrawElementsUInt* myprimitive = new osg::DrawElementsUInt(osg::PrimitiveSet::TRIANGLES, 0);
-	//osg::Vec4Array* colors = new osg::Vec4Array;
-	//osg::Vec2Array* myTexts = new osg::Vec2Array;
-
-	//std::string textname = name+".png";
-
-
 	//Check if we have this OBL Index Logged
 	if (mObjLibrary.find(objInfo->index + 1) != mObjLibrary.end())
 	{
@@ -412,7 +398,6 @@ osg::ref_ptr<osg::Group>	IslandSection::loadSingleObject(IslandObjectInfo *objIn
 		IslandObjectHeader *header = (IslandObjectHeader *)objBuffer;
 
 		/* Preparing the mesh */
-		//MeshPtr msh = MeshManager::getSingleton().createManual(name, "");
 		std::map<unsigned int, CutGroup> cutGroups;
 		loadCutGroups(objBuffer, /*msh, */cutGroups);
 		CutGroup colorSub("OBLnoTexture", 0, 0, 0, 0, false);
@@ -456,147 +441,62 @@ osg::ref_ptr<osg::Group>	IslandSection::loadSingleObject(IslandObjectInfo *objIn
 		{
 			if (it->second.indices.size() != 0)
 			{
-				// if part is transparent we need one geode per geometry for correct depth sorting
-				//if(!it->second.istransparent)
-				//{
-					osg::ref_ptr<osg::Geode> myGeode = new osg::Geode();
-					osg::ref_ptr<osg::Geometry> m_myGeometry = new osg::Geometry();
-					myGeode->addDrawable(m_myGeometry.get());
-					m_myGeometry->setVertexArray( it->second.myVerticesPoly ); 
-					m_myGeometry->addPrimitiveSet(it->second.myprimitive);
-					//if(!it->second.usetexture)
+				osg::ref_ptr<osg::Geode> myGeode = new osg::Geode();
+				osg::ref_ptr<osg::Geometry> m_myGeometry = new osg::Geometry();
+				myGeode->addDrawable(m_myGeometry.get());
+				m_myGeometry->setVertexArray( it->second.myVerticesPoly ); 
+				m_myGeometry->addPrimitiveSet(it->second.myprimitive);
+				{
+					m_myGeometry->setColorArray(it->second.colors);
+					m_myGeometry->setColorBinding(osg::Geometry::BIND_PER_VERTEX);
+				}
+
+				if(it->second.usetexture)
+				{
+					m_myGeometry->setTexCoordArray( 0, it->second.myTexts);
+
+					osg::StateSet* stateSet = myGeode->getOrCreateStateSet();
+
+					// Enable blending, select transparent bin.
+					if(it->second.istransparent)
 					{
-						m_myGeometry->setColorArray(it->second.colors);
-						m_myGeometry->setColorBinding(osg::Geometry::BIND_PER_VERTEX);
+						stateSet->setMode( GL_BLEND, osg::StateAttribute::ON );
+						stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+						stateSet->setRenderBinDetails(1, "DepthSortedBin");
+					}
+					else
+					{
+						stateSet->setRenderingHint( osg::StateSet::OPAQUE_BIN );
 					}
 
-					if(it->second.usetexture)
-					{
-						m_myGeometry->setTexCoordArray( 0, it->second.myTexts);
 
-						osg::StateSet* stateSet = myGeode->getOrCreateStateSet();
+					osg::ref_ptr<osg::Texture2D> KLN89FaceTexture = new osg::Texture2D;
 
-						// Enable blending, select transparent bin.
-						if(it->second.istransparent)
-						{
-							stateSet->setMode( GL_BLEND, osg::StateAttribute::ON );
-							stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-							stateSet->setRenderBinDetails(1, "DepthSortedBin");
-						}
-						else
-						{
-							stateSet->setRenderingHint( osg::StateSet::OPAQUE_BIN );
-						}
+					// protect from being optimized away as static state:
+					KLN89FaceTexture->setDataVariance(osg::Object::DYNAMIC); 
 
+					// load an image by reading a file: 
+					osg::Image* klnFace = osgDB::readImageFile(it->second.materialName);
 
-						osg::ref_ptr<osg::Texture2D> KLN89FaceTexture = new osg::Texture2D;
+					// Assign the texture to the image we read from file: 
+					KLN89FaceTexture->setImage(klnFace);
 
-						// protect from being optimized away as static state:
-						KLN89FaceTexture->setDataVariance(osg::Object::DYNAMIC); 
+					KLN89FaceTexture->setFilter(osg::Texture::MIN_FILTER, osg::Texture::/*NEAREST*/LINEAR);
+					KLN89FaceTexture->setFilter(osg::Texture::MAG_FILTER, osg::Texture::/*NEAREST*/LINEAR);
+					KLN89FaceTexture->setUseHardwareMipMapGeneration(false);
+					KLN89FaceTexture->setResizeNonPowerOfTwoHint(false);
 
-						// load an image by reading a file: 
-						osg::Image* klnFace = osgDB::readImageFile(it->second.materialName);
+					KLN89FaceTexture->setWrap(osg::Texture::WRAP_S, osg::Texture::REPEAT);
+					KLN89FaceTexture->setWrap(osg::Texture::WRAP_T, osg::Texture::REPEAT);
 
-						// Assign the texture to the image we read from file: 
-						KLN89FaceTexture->setImage(klnFace);
+					// Assign texture unit 0 of our new StateSet to the texture 
+					// we just created and enable the texture.
+					stateSet->setTextureAttributeAndModes
+					  (0,KLN89FaceTexture,osg::StateAttribute::ON);
+				}
 
-						KLN89FaceTexture->setFilter(osg::Texture::MIN_FILTER, osg::Texture::/*NEAREST*/LINEAR);
-						KLN89FaceTexture->setFilter(osg::Texture::MAG_FILTER, osg::Texture::/*NEAREST*/LINEAR);
-						KLN89FaceTexture->setUseHardwareMipMapGeneration(false);
-						KLN89FaceTexture->setResizeNonPowerOfTwoHint(false);
-
-						KLN89FaceTexture->setWrap(osg::Texture::WRAP_S, osg::Texture::REPEAT);
-						KLN89FaceTexture->setWrap(osg::Texture::WRAP_T, osg::Texture::REPEAT);
-
-						// Assign texture unit 0 of our new StateSet to the texture 
-						// we just created and enable the texture.
-						stateSet->setTextureAttributeAndModes
-						  (0,KLN89FaceTexture,osg::StateAttribute::ON);
-					}
-
-					osgUtil::SmoothingVisitor::smooth(*(m_myGeometry.get()));
-					root->addChild(myGeode);
-				//}
-				//else
-				//{
-				//	osg::ref_ptr<osg::Group> roottransparent = new osg::Group;
-
-				//	int cc=0;
-				//	for(size_t i=0; i< it->second.myprimitivenumpoints.size(); ++i)
-				//	{
-				//		osg::ref_ptr<osg::Geode> myGeode = new osg::Geode();
-				//		osg::ref_ptr<osg::Geometry> m_myGeometry = new osg::Geometry();
-				//		myGeode->addDrawable(m_myGeometry.get());
-
-				//		
-				//		osg::Vec3Array*				myVerticesPoly = new osg::Vec3Array();
-				//		osg::DrawElementsUInt*		myprimitive = new osg::DrawElementsUInt(osg::PrimitiveSet::TRIANGLES, 0);
-				//		osg::Vec4Array*				colors = new osg::Vec4Array();
-				//		osg::Vec2Array*				myTexts = new osg::Vec2Array();
-
-				//		int end = cc + it->second.myprimitivenumpoints[i];
-				//		for(; cc< end; ++cc)
-				//		{
-				//			myVerticesPoly->push_back((*it->second.myVerticesPoly)[cc]);
-				//			colors->push_back((*it->second.colors)[cc]);
-				//			myTexts->push_back((*it->second.myTexts)[cc]);
-				//		}
-				//		myprimitive->push_back(0);					
-				//		myprimitive->push_back(1);
-				//		myprimitive->push_back(2);
-				//		if(it->second.myprimitivenumpoints[i] > 3)
-				//		{
-				//			myprimitive->push_back(0);					
-				//			myprimitive->push_back(2);
-				//			myprimitive->push_back(3);
-				//		}
-
-				//		m_myGeometry->setVertexArray(myVerticesPoly); 
-				//		m_myGeometry->addPrimitiveSet(myprimitive);
-				//		m_myGeometry->setTexCoordArray( 0, myTexts);
-				//		m_myGeometry->setColorArray(colors);
-				//		m_myGeometry->setColorBinding(osg::Geometry::BIND_PER_VERTEX);
-
-				//		osgUtil::SmoothingVisitor::smooth(*(m_myGeometry.get()));
-				//		roottransparent->addChild(myGeode);
-				//	}
-
-				//	{
-				//		osg::StateSet* stateSet = roottransparent->getOrCreateStateSet();
-
-				//		// Enable blending, select transparent bin.
-				//		stateSet->setMode( GL_BLEND, osg::StateAttribute::ON );
-				//		stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-				//		stateSet->setRenderBinDetails(1, "DepthSortedBin");
-
-
-				//		osg::ref_ptr<osg::Texture2D> KLN89FaceTexture = new osg::Texture2D;
-
-				//		// protect from being optimized away as static state:
-				//		KLN89FaceTexture->setDataVariance(osg::Object::DYNAMIC); 
-
-				//		// load an image by reading a file: 
-				//		osg::Image* klnFace = osgDB::readImageFile(it->second.materialName);
-
-				//		// Assign the texture to the image we read from file: 
-				//		KLN89FaceTexture->setImage(klnFace);
-
-				//		KLN89FaceTexture->setFilter(osg::Texture::FilterParameter::MIN_FILTER, osg::Texture::FilterMode::/*NEAREST*/LINEAR);
-				//		KLN89FaceTexture->setFilter(osg::Texture::FilterParameter::MAG_FILTER, osg::Texture::FilterMode::/*NEAREST*/LINEAR);
-				//		KLN89FaceTexture->setUseHardwareMipMapGeneration(false);
-				//		KLN89FaceTexture->setResizeNonPowerOfTwoHint(false);
-
-				//		KLN89FaceTexture->setWrap(osg::Texture::WRAP_S, osg::Texture::REPEAT);
-				//		KLN89FaceTexture->setWrap(osg::Texture::WRAP_T, osg::Texture::REPEAT);
-
-				//		// Assign texture unit 0 of our new StateSet to the texture 
-				//		// we just created and enable the texture.
-				//		stateSet->setTextureAttributeAndModes
-				//		  (0,KLN89FaceTexture,osg::StateAttribute::ON);
-				//	}
-
-				//	root->addChild(roottransparent);
-				//}
+				osgUtil::SmoothingVisitor::smooth(*(m_myGeometry.get()));
+				root->addChild(myGeode);
 			}
 		}
 
@@ -643,9 +543,6 @@ osg::ref_ptr<osg::Group>	IslandSection::loadSingleObject(IslandObjectInfo *objIn
 
 
 				osg::StateSet* stateset = m_myGeometrylines->getOrCreateStateSet();
-				//osg::LineWidth* linewidth = new osg::LineWidth();
-				//linewidth->setWidth(1.0f);
-				//stateset->setAttributeAndModes(linewidth,osg::StateAttribute::ON);
 				stateset->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 
 				root->addChild(myGeodeLines);
@@ -694,11 +591,6 @@ osg::ref_ptr<osg::Group>	IslandSection::loadSingleObject(IslandObjectInfo *objIn
 		delete [] objBuffer;
 
 
-		//root->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-		//osgUtil::Optimizer optOSGFile;
-		//optOSGFile.optimize (root.get());
-
-
 		mObjLibrary[objInfo->index + 1] = root;
 
 
@@ -708,17 +600,15 @@ osg::ref_ptr<osg::Group>	IslandSection::loadSingleObject(IslandObjectInfo *objIn
 
 		osg::StateSet* statesetroot = root->getOrCreateStateSet();
 		statesetroot->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-		//statesetroot->setMode(GL_CULL_FACE, osg::StateAttribute::OFF);
-
 
 
 		osgUtil::Optimizer optOSGFile;
 		optOSGFile.optimize (root.get());
 
-		//osgDB::writeNodeFile(*root.get(), iss.str());
 		osgDB::writeNodeFile(*root.get(), iss.str(), new osgDB::Options("Compressor=zlib"));
 
 		return root;
+	}
 }
 
 void	IslandSection::loadCutGroups(unsigned char *objBuffer, std::map<unsigned int, CutGroup>& cutGroups)
@@ -752,12 +642,12 @@ void	IslandSection::loadCutGroups(unsigned char *objBuffer, std::map<unsigned in
 		cutInt++;
 		
 		cutChar += 4;
+	}
 }
 
 CutGroup::CutGroup(const std::string& mat, unsigned char x, unsigned char y, unsigned char width, 
 				   unsigned char height, bool transparent)
 	:	materialName(mat),
-		//subMesh(NULL),
 		x(x),
 		y(y),
 		width(width),
