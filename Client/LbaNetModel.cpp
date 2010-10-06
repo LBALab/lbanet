@@ -587,12 +587,20 @@ void LbaNetModel::KeyReleased(LbanetKey keyid)
 when update player position
 ***********************************************************/
 void LbaNetModel::PlayerMovedUpdate(Ice::Long PlayerId, double updatetime, 
-									const LbaNet::PlayerMoveInfo &info)
+									const LbaNet::PlayerMoveInfo &info,
+									bool teleport)
 {
 	std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _playerObjects.find((long)PlayerId);
 	if(it != _playerObjects.end())
 	{
-		it->second->UpdateMove(updatetime, info);
+		it->second->UpdateMove(updatetime, info, teleport);
+	}
+	else
+	{
+		if(teleport && (m_playerObjectId == (long)PlayerId))
+		{
+			m_controllerChar->Teleport(info);
+		}
 	}
 }
 

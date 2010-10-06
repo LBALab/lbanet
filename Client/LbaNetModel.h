@@ -113,7 +113,8 @@ public:
 
 	//! when update player position
 	void PlayerMovedUpdate(Ice::Long PlayerId, double updatetime, 
-									const LbaNet::PlayerMoveInfo &info);
+									const LbaNet::PlayerMoveInfo &info,
+									bool teleport);
 
 
 	//! called when we enter a new map

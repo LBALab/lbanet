@@ -75,6 +75,9 @@ public:
 	//! update player display
 	void UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr update);
 
+	//! server teleport player
+	void Teleport(const LbaNet::PlayerMoveInfo &info);
+
 protected:
 
 	//! check if we need to send update to server

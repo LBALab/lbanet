@@ -72,12 +72,14 @@ void CameraController::Process()
 	if(!phys)
 		return;
 
+	//float rotY = phys->GetRotationYAxis();
+	//OsgHandler::getInstance()->SetCameraAzimut(rotY);
+
 
 	float actX, actY, actZ;
 	phys->GetPosition(actX, actY, actZ);
 	double _targetx, _targety, _targetz;
 	OsgHandler::getInstance()->GetCameraTarget(_targetx, _targety, _targetz);
-
 
 	if(_isGhost)
 	{

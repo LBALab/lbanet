@@ -116,7 +116,7 @@ public:
 	void Process(double tnow, float tdiff);
 
 	// update with external info
-	void UpdateMove(double updatetime, const LbaNet::PlayerMoveInfo &info);
+	void UpdateMove(double updatetime, const LbaNet::PlayerMoveInfo &info, bool teleport);
 
 
 	//! get physic object

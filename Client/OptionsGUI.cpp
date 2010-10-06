@@ -118,6 +118,28 @@ void OptionsGUI::Initialize()
 			cbatype->setText(_lang);
 		}
 
+		CEGUI::Combobox * combocamtype = static_cast<CEGUI::Combobox *> (
+			CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/Video/cbcameratype"));
+		if(combocamtype)
+		{
+			MyOptListItem * tmp0 = new MyOptListItem("Auto");
+			tmp0->setID(0);
+			combocamtype->addItem(tmp0);
+
+			MyOptListItem * tmp1 = new MyOptListItem("Orthogonal");
+			tmp1->setID(1);
+			combocamtype->addItem(tmp1);
+
+			MyOptListItem * tmp2 = new MyOptListItem("Perspective");
+			tmp2->setID(2);
+			combocamtype->addItem(tmp2);
+
+			MyOptListItem * tmp3 = new MyOptListItem("Free 3d");
+			tmp3->setID(3);
+			combocamtype->addItem(tmp3);
+		}
+
+
 		Displayed();
 		SendNameColor();
 
@@ -290,15 +312,19 @@ void OptionsGUI::Apply()
 
 
 			//handle perpective
-			CEGUI::Checkbox * checkbpers = static_cast<CEGUI::Checkbox *> (
-				CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/Video/cbperspective"));
-			if(checkbpers)
+			CEGUI::Combobox * combocamtype = static_cast<CEGUI::Combobox *> (
+				CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/Video/cbcameratype"));
+			if(combocamtype)
 			{
-				bool selectedb = checkbpers->isSelected();
-				if(selectedb != _currPerspective)
+				CEGUI::ListboxItem* selected = combocamtype->getSelectedItem();
+				if(selected)
 				{
-					_currPerspective = selectedb;
-					OsgHandler::getInstance()->TogglePerspectiveView(_currPerspective);
+					int sid = selected->getID();
+					if(sid !=  _currCamType)
+					{
+						_currCamType = sid;
+						OsgHandler::getInstance()->ToggleCameraType(_currCamType);
+					}
 				}
 			}
 		}
@@ -432,10 +458,12 @@ void OptionsGUI::Cancel()
 
 
 			//handle perspective
-			CEGUI::Checkbox * checkbpers = static_cast<CEGUI::Checkbox *> (
-				CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/Video/cbperspective"));
-			if(checkbpers)
-				checkbpers->setSelected(_currPerspective);
+			CEGUI::Combobox * combocamtype = static_cast<CEGUI::Combobox *> (
+				CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/Video/cbcameratype"));
+			if(combocamtype)
+			{
+				combocamtype->setItemSelectState(_currCamType, true);
+			}
 		}
 
 
@@ -500,7 +528,7 @@ void OptionsGUI::Displayed()
 	ConfigurationManager::GetInstance()->GetInt("Display.Screen.ScreenResolutionX", _currScreenX);
 	ConfigurationManager::GetInstance()->GetInt("Display.Screen.ScreenResolutionY", _currScreenY);
 	ConfigurationManager::GetInstance()->GetBool("Display.Screen.Fullscreen", _currFullscreen);
-	ConfigurationManager::GetInstance()->GetBool("Display.Camera.Perspective", _currPerspective);
+	ConfigurationManager::GetInstance()->GetInt("Display.Camera.CameraType", _currCamType);
 
 	ConfigurationManager::GetInstance()->GetInt("Options.Sound.GeneralVolume", _currGenVolume);
 	ConfigurationManager::GetInstance()->GetInt("Options.Sound.MusicVolume", _currMusicVolume);

@@ -223,7 +223,8 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 		case(osgGA::GUIEventAdapter::PUSH):
 		{
 			if(ea.getButton() == osgGA::GUIEventAdapter::RIGHT_MOUSE_BUTTON)
-			{			
+			{	
+				_mouse_X = ea.getX();
 				_mouse_Y = ea.getY();
 				_right_button_pressed = true;
 
@@ -246,7 +247,9 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 		{
 			if(_right_button_pressed)
 			{
+				OsgHandler::getInstance()->DeltaUpdateCameraAzimut(_mouse_X-ea.getX());
 				OsgHandler::getInstance()->DeltaUpdateCameraZenit(_mouse_Y-ea.getY());
+				_mouse_X = ea.getX();
 				_mouse_Y = ea.getY();
 				return true;
 			}

@@ -59,7 +59,7 @@ ExternalPlayer::~ExternalPlayer()
 /***********************************************************
  update with external info
 ***********************************************************/
-void ExternalPlayer::UpdateMove(double updatetime, const LbaNet::PlayerMoveInfo &info)
+void ExternalPlayer::UpdateMove(double updatetime, const LbaNet::PlayerMoveInfo &info, bool teleport)
 {
 	if(updatetime > _last_update)
 	{
@@ -78,13 +78,13 @@ void ExternalPlayer::UpdateMove(double updatetime, const LbaNet::PlayerMoveInfo 
 
 
 		bool finishedmove = false;
-		if(abs(_velocityX) < 0.000001f && abs(_velocityY) < 0.000001f && abs(_velocityZ) < 0.000001f)
+		if(teleport || (abs(_velocityX) < 0.000001f && abs(_velocityY) < 0.000001f && abs(_velocityZ) < 0.000001f))
 		{
 			finishedmove = true;
 			physo->MoveTo(info.CurrentPos.X,  info.CurrentPos.Y, info.CurrentPos.Z);
 		}
 
-		if(abs(_velocityR) < 0.001f)
+		if(teleport || (abs(_velocityR) < 0.001f))
 		{
 			LbaQuaternion Q(info.CurrentPos.Rotation, LbaVec3(0,1,0));
 			physo->RotateTo(Q);
@@ -349,3 +349,5 @@ void ExternalPlayer::UpdateModeAndState(const std::string &newmode,
 
 	//TODO - get state and display player accordingly
 }
+
+

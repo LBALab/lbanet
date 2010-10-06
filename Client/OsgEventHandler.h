@@ -59,6 +59,7 @@ public:
 
 private:
 	bool	_right_button_pressed;
+	int		_mouse_X;
 	int		_mouse_Y;
 
 	// map lbanet key to osg key

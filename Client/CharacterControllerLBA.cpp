@@ -561,7 +561,7 @@ void CharacterController::UpdateServer(double tnow, float tdiff)
 	//send to server if needed
 	if(_currentupdate.ForcedChange || updatebytime)
 	{
-		EventsQueue::getSenderQueue()->AddEvent(new LbaNet::PlayerMovedEvent(tnow, 0, _currentupdate));
+		EventsQueue::getSenderQueue()->AddEvent(new LbaNet::PlayerMovedEvent(tnow, 0, _currentupdate, false));
 		_lastupdatetime = tnow;
 	}
 
@@ -823,4 +823,17 @@ void CharacterController::UpdateModeAndState(const std::string &newmode,
 		//inform server that state is updated
 		EventsQueue::getSenderQueue()->AddEvent(new LbaNet::UpdateStateEvent(tnow, newstate, FallingSize));
 	}
+}
+
+/***********************************************************
+server teleport player
+***********************************************************/
+void CharacterController::Teleport(const LbaNet::PlayerMoveInfo &info)
+{
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+
+	physo->SetPosition(info.CurrentPos.X, info.CurrentPos.Y, info.CurrentPos.Z);
+
+	LbaQuaternion Q(info.CurrentPos.Rotation, LbaVec3(0,1,0));
+	physo->RotateTo(Q);
 }

@@ -496,7 +496,8 @@ void LbaNetEngine::HandleGameEvents()
 			LbaNet::PlayerMovedEvent* castedptr = 
 				dynamic_cast<LbaNet::PlayerMovedEvent *>(&obj);
 
-			m_lbaNetModel->PlayerMovedUpdate(castedptr->PlayerId, castedptr->Time, castedptr->info);
+			m_lbaNetModel->PlayerMovedUpdate(castedptr->PlayerId, castedptr->Time, 
+												castedptr->info, castedptr->ServerTeleport);
 
 			continue;
 		}

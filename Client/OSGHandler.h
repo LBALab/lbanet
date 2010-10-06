@@ -92,7 +92,11 @@ public:
 	void ToggleFullScreen();
 	
 	//! set if the view is perspective or ortho
-	void TogglePerspectiveView(bool Perspective);
+	//! 0 -> auto (depends on map)
+	//! 1 -> orthogonal
+	//! 2 -> perspective
+	//! 3 -> free 3D
+	void ToggleCameraType(int cameraType);
 
 	//! set camera distance
 	void SetCameraDistance(double distance);
@@ -105,6 +109,13 @@ public:
 
 	//! delta update camera zenit
 	void DeltaUpdateCameraZenit(double delta);
+
+	//! set camera azimut
+	void SetCameraAzimut(double azimut);
+
+	//! delta update camera zenit
+	void DeltaUpdateCameraAzimut(double delta);
+
 
 	//! set camera target
 	void SetCameraTarget(double TargetX, double TargetY, double TargetZ);
@@ -147,8 +158,12 @@ public:
 	void GetScreenAttributes(int &resX, int &resY, bool &fullscreen);
 	
 	//! check if the view is perspective or ortho
-	bool IsPerspectiveView()
-	{return _isPerspective;}
+	//! 0 -> auto (depends on map)
+	//! 1 -> orthogonal
+	//! 2 -> perspective
+	//! 3 -> free 3D
+	int CameraType()
+	{return _cameraType;}
 
 
 
@@ -184,6 +199,9 @@ protected:
 	//! set or reset camera transform
 	void ResetCameraTransform();
 
+	//! set or reset camera azimut
+	void ResetCameraAzimut();
+
 private:
 	// singleton
 	static OsgHandler * _singletonInstance;
@@ -207,13 +225,15 @@ private:
 
 
 	// camera info
-	bool	_isPerspective;
+	int		_cameraType;
+	int		_autoCameraType;
 	double	_targetx;
 	double	_targety;
 	double	_targetz;
 	double	_fov;
 	double	_distance;
 	double	_zenit;
+	double	_azimut;
 	float	_current_clip_layer;
 
 

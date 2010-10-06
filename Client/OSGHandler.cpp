@@ -85,10 +85,10 @@ constructor
 ***********************************************************/
 OsgHandler::OsgHandler()
 : _isFullscreen(false), _resX(800), _resY(600),
-	_isPerspective(true), _targetx(10), _targety(10), _targetz(10),
+	_cameraType(0), _targetx(10), _targety(10), _targetz(10),
 	_viewer(NULL), _root(NULL), _rootNode3d(NULL), _sceneRootNode(NULL), _translNode(NULL),
 	_viewportX(800), _viewportY(600), _displayShadow(false), 
-	_current_clip_layer(-1)
+	_current_clip_layer(-1), _autoCameraType(1), _azimut(0)
 {
 	SetCameraDistance(30);
 	SetCameraZenit(30);
@@ -123,14 +123,14 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 	// get data from configuration file
 	{
 		LogHandler::getInstance()->LogToFile("Initializing camera...");
-		bool perspec;
+		int ctype;
 		double camdistance, camzenit;
 		ConfigurationManager::GetInstance()->GetDouble("Display.Camera.Distance", camdistance);
 		ConfigurationManager::GetInstance()->GetDouble("Display.Camera.Zenit", camzenit);
-		ConfigurationManager::GetInstance()->GetBool("Display.Camera.Perspective", perspec);
+		ConfigurationManager::GetInstance()->GetInt("Display.Camera.CameraType", ctype);
 		SetCameraDistance(camdistance);
 		SetCameraZenit(camzenit);
-		TogglePerspectiveView(perspec);
+		ToggleCameraType(ctype);
 
 		ConfigurationManager::GetInstance()->GetInt("Display.Screen.PositionX", _posX);
 		ConfigurationManager::GetInstance()->GetInt("Display.Screen.PositionY", _posY);
@@ -305,7 +305,7 @@ void OsgHandler::Finalize()
 	{
 		ConfigurationManager::GetInstance()->SetDouble("Display.Camera.Distance", _distance);
 		ConfigurationManager::GetInstance()->SetDouble("Display.Camera.Zenit", _zenit);
-		ConfigurationManager::GetInstance()->SetBool("Display.Camera.Perspective", _isPerspective);
+		ConfigurationManager::GetInstance()->SetInt("Display.Camera.CameraType", _cameraType);
 
 		ConfigurationManager::GetInstance()->SetInt("Display.Screen.PositionX", _posX);
 		ConfigurationManager::GetInstance()->SetInt("Display.Screen.PositionY", _posY);
@@ -425,7 +425,7 @@ void OsgHandler::ResetCameraProjectiomMatrix()
 	if(!_viewer)
 		return;
 
-	if(_isPerspective)
+	if(_cameraType > 1 || ((_cameraType == 0) && (_autoCameraType > 1)))
 	{
 		_viewer->getCamera()->setProjectionMatrixAsPerspective(_fov,_viewportX/(double)_viewportY, 0.01,2000);
 	}
@@ -452,7 +452,7 @@ void OsgHandler::ResetCameraTransform()
 	if(_viewer)
 	{
 		osg::Matrixd viewMatrix;
-		if(_isPerspective)
+		if(_cameraType > 1 || ((_cameraType == 0) && (_autoCameraType > 1)))
 		{
 			osg::Matrixd cameraRotation1;
 			osg::Matrixd cameraTrans;
@@ -474,21 +474,42 @@ void OsgHandler::ResetCameraTransform()
 
 		_viewer->getCamera()->setViewMatrix(viewMatrix);
 	}
+
+	ResetCameraAzimut();
 }
 
 
 
 /***********************************************************
+set or reset camera Azimut
+***********************************************************/
+void OsgHandler::ResetCameraAzimut()
+{
+	if(_rootNode3d)
+	{
+		if(_cameraType == 3 || ((_cameraType == 0) && (_autoCameraType == 3)))
+		{
+			_rootNode3d->setAttitude(osg::Quat(osg::DegreesToRadians(-45-_azimut), osg::Vec3(0,1,0)));
+		}
+		else
+		{
+			_rootNode3d->setAttitude(osg::Quat(osg::DegreesToRadians(-45.0), osg::Vec3(0,1,0)));
+		}
+	}
+}
+
+
+/***********************************************************
 set if the view is perspective or ortho
 ***********************************************************/
-void OsgHandler::TogglePerspectiveView(bool Perspective)
+void OsgHandler::ToggleCameraType(int cameraType)
 {
-	if(_isPerspective != Perspective)
+	if(_cameraType != cameraType)
 	{
-		_isPerspective = Perspective;
+		_cameraType = cameraType;
 		ResetCameraProjectiomMatrix();
 
-		ConfigurationManager::GetInstance()->SetBool("Display.Camera.Perspective", _isPerspective);
+		ConfigurationManager::GetInstance()->SetInt("Display.Camera.CameraType", _cameraType);
 	}
 }
 
@@ -510,7 +531,7 @@ void OsgHandler::SetCameraDistance(double distance)
 	{
 		_distance = distance;
 		int maxdistance = 150;
-		if(!_isPerspective)
+		if(_cameraType > 1 || ((_cameraType == 0) && (_autoCameraType > 1)))
 			maxdistance = 1000;
 
 		if(_distance < 10)
@@ -551,6 +572,31 @@ void OsgHandler::SetCameraZenit(double zenit)
 		ResetCameraTransform();
 	}
 }
+
+
+/***********************************************************
+set camera azimut
+***********************************************************/
+void OsgHandler::SetCameraAzimut(double azimut)
+{
+	if(_azimut != azimut)
+	{
+		_azimut = azimut;
+
+		ResetCameraAzimut();
+	}
+}
+
+
+/***********************************************************
+delta update camera zenit
+***********************************************************/
+void OsgHandler::DeltaUpdateCameraAzimut(double delta)
+{
+	SetCameraAzimut(_azimut+delta);
+}
+
+
 
 
 /***********************************************************

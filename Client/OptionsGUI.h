@@ -94,7 +94,7 @@ private:
 	int				_currScreenX;
 	int				_currScreenY;
 	bool			_currFullscreen;
-	bool			_currPerspective;
+	int				_currCamType;
 
 	// sound part
 	int				_currGenVolume;
