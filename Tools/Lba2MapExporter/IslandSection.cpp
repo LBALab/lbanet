@@ -72,11 +72,6 @@ osg::ref_ptr<osg::Geode>	IslandSection::loadGround(PhysicalInfo & physinfo)
 	mILE->LoadEntry(3 + mIndex * 6 + 6);
 	mILE->Read(intensity, 65 * 65);
 
-	/* getting material */
-	unsigned char material[65][65];
-	mILE->LoadEntry(3 + mIndex * 6 + 3);
-	mILE->Read(material, 65 * 65);
-
 
 
 	/* Preparing index array */
