@@ -112,6 +112,9 @@ module LbaNet
 	{
 		long			PlayerId;
 		PlayerMoveInfo		info;
+		
+		// indicate if the server teleport the player
+		bool			ServerTeleport;	
 	};
 	
 	
