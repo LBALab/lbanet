@@ -20,6 +20,10 @@ PlayerHandler::PlayerHandler(long clientid, ClientProxyBasePtr proxy,
 		_dbH->GetQuestInfo(_worldname, _clientid, _questStarted, _questFinished);
 
 
+	//TODO - remove that and replace by a raising place system
+	_spawningIno = savedinfo.ppos;
+
+
 	//complete item information
 	{
 		//TODO
@@ -378,4 +382,32 @@ void PlayerHandler::UpdateStateModeClass()
 		}
 		break;
 	}
+}
+
+
+/***********************************************************
+get the place to respawn in case of death
+***********************************************************/
+LbaNet::PlayerPosition PlayerHandler::GetSpawningPlace()
+{
+	return _spawningIno;
+}
+
+
+/***********************************************************
+	//!  raised player from dead
+	//! return true if raised
+***********************************************************/
+bool PlayerHandler::RaiseFromDead(LbaNet::ModelInfo & returnmodel)
+{
+	//TODO - check if raise is legal
+	if(_currentstate && _currentstate->IsDead())
+	{
+		_currentmodelinfo.State = LbaNet::StNormal;
+		UpdateStateModeClass();
+		returnmodel = _currentmodelinfo;
+		return true;
+	}
+
+	return false;
 }

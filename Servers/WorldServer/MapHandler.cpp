@@ -321,7 +321,7 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts,
 			// RaiseFromDeadEvent
 			if(info == typeid(LbaNet::RaiseFromDeadEvent))
 			{
-				RaiseFromDeadEvent(it->first);
+				RaiseFromDeadEvent(it->first, tosendevts);
 				continue;
 			}
 
@@ -537,7 +537,7 @@ void MapHandler::PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMove
 		SharedDataHandler::getInstance()->UpdatePlayerPosition(id, pos);
 
 		// inform all of player move
-		tosendevts.push_back(new LbaNet::PlayerMovedEvent(time, id, info));
+		tosendevts.push_back(new LbaNet::PlayerMovedEvent(time, id, info, false));
 	}
 
 
@@ -563,7 +563,7 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 	{
 	ModelInfo		DisplayDesc;
 	DisplayDesc.TypeRenderer = RenderOsgModel;
-	DisplayDesc.ModelName = "Worlds/Lba1Original/Grids/map0.osgb";
+	DisplayDesc.ModelName = "Worlds/Lba1Original/Grids/TheComplexPvpArena.osgb";
 	DisplayDesc.State = LbaNet::NoState;
 
 	ObjectPhysicDesc	PhysicDesc;
@@ -575,7 +575,7 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 	PhysicDesc.TypeShape = TriangleMeshShape;
 
 	PhysicDesc.Collidable = true;
-	PhysicDesc.Filename = "Worlds/Lba1Original/Grids/map0.phy";
+	PhysicDesc.Filename = "Worlds/Lba1Original/Grids/TheComplexPvpArena.phy";
 
 	toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 												StaticObject, 1, DisplayDesc, PhysicDesc,
@@ -643,8 +643,27 @@ void MapHandler::ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, fl
 /***********************************************************
 a player is raised from dead
 ***********************************************************/
-void MapHandler::RaiseFromDeadEvent(Ice::Long id)
+void MapHandler::RaiseFromDeadEvent(Ice::Long id, EventsSeq &tosendevts)
 {
-	//TODO - check if player was dead
-	// if so change state and teleport to raising area
+	ModelInfo returnmodel;
+
+	//check if player was dead
+	if(SharedDataHandler::getInstance()->RaiseFromDead(id, returnmodel))
+	{
+		// if so change state and teleport to raising area
+		LbaNet::PlayerPosition pos = SharedDataHandler::getInstance()->GetSpawningPlace(id);
+
+		LbaNet::PlayerMoveInfo moveinfo;
+		moveinfo.ForcedChange = true;
+		moveinfo.CurrentPos = pos;
+		moveinfo.CurrentSpeedX = 0;
+		moveinfo.CurrentSpeedY = 0;
+		moveinfo.CurrentSpeedZ = 0;
+		moveinfo.CurrentSpeedRotation = 0;
+		tosendevts.push_back(new LbaNet::PlayerMovedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+															id, moveinfo, true));
+
+		tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+					PlayerObject, id, new ModelUpdate(returnmodel, true)));
+	}
 }

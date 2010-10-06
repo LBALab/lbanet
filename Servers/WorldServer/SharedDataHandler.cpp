@@ -463,3 +463,35 @@ bool SharedDataHandler::UpdatePlayerState(Ice::Long clientid, LbaNet::ModelState
 
 	return false;
 }
+
+
+/***********************************************************
+//!  get the place to respawn in case of death
+***********************************************************/
+LbaNet::PlayerPosition SharedDataHandler::GetSpawningPlace(Ice::Long clientid)
+{
+	Lock sync(*this);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
+	if(it != _currentplayers.end())
+		return it->second->GetSpawningPlace();
+
+	return LbaNet::PlayerPosition();
+}
+
+
+
+/***********************************************************
+	//!  raised player from dead
+	//! return true if raised
+***********************************************************/
+bool SharedDataHandler::RaiseFromDead(Ice::Long clientid, ModelInfo & returnmodel)
+{
+	Lock sync(*this);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
+	if(it != _currentplayers.end())
+		return it->second->RaiseFromDead(returnmodel);
+
+	return false;
+}

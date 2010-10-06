@@ -146,7 +146,7 @@ protected:
 														EventsSeq &tosendevts);
 
 	//! a player is raised from dead
-	void RaiseFromDeadEvent(Ice::Long id);
+	void RaiseFromDeadEvent(Ice::Long id, EventsSeq &tosendevts);
 
 private:
 	// threading and mutex stuff

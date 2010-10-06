@@ -117,6 +117,13 @@ public:
 	{ return _extrainfo;}
 
 
+	//! get the place to respawn in case of death
+	LbaNet::PlayerPosition GetSpawningPlace();
+
+	//!  raised player from dead
+	//! return true if raised
+	bool RaiseFromDead(LbaNet::ModelInfo & returnmodel);
+
 protected:
 	// update state and mode class from modelinfo
 	void UpdateStateModeClass();
@@ -132,6 +139,7 @@ private:
 	LbaNet::ItemsMap							_currentinventory;
 	LbaNet::ShortcutsSeq						_currentshortcuts;
 	LbaNet::ObjectExtraInfo						_extrainfo;
+	LbaNet::PlayerPosition						_spawningIno;
 
 	std::vector<long>							_questStarted;
 	std::vector<long>							_questFinished;

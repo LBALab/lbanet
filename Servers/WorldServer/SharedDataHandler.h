@@ -125,7 +125,12 @@ public:
 	void UpdateClientExtraInfo(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo);
 
 
+	//! get the place to respawn in case of death
+	LbaNet::PlayerPosition GetSpawningPlace(Ice::Long clientid);
 
+	//!  raised player from dead
+	//! return true if raised
+	bool RaiseFromDead(Ice::Long clientid, ModelInfo & returnmodel);
 
 protected:
 	//! constructor
