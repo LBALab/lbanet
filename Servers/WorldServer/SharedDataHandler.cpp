@@ -2,6 +2,8 @@
 #include "PlayerHandler.h"
 #include "MapHandler.h"
 #include "SynchronizedTimeHandler.h"
+#include "ServerLuaHandler.h"
+#include "LogHandler.h"
 
 SharedDataHandler* SharedDataHandler::_Instance = NULL;
 
@@ -31,6 +33,25 @@ void SharedDataHandler::SetWorldDefaultInformation(WorldInformation &worldinfo)
 {
 	Lock sync(*this);
 	_worldinfo = worldinfo;
+
+	// set lua handler
+	_luaH = boost::shared_ptr<ServerLuaHandler>(new ServerLuaHandler(worldinfo.FileUsedInfo["lua"]));
+
+	// create all maps
+	LbaNet::MapsSeq::const_iterator itm = worldinfo.Maps.begin();
+	LbaNet::MapsSeq::const_iterator endm = worldinfo.Maps.end();
+	for(; itm != endm; ++itm)
+	{
+		// create map object
+		boost::shared_ptr<MapHandler> mapH(new MapHandler(itm->second));
+		_currentmaps[itm->first] = mapH;
+
+		// register map to lua
+		_luaH->RegisterMap(itm->first, mapH.get());
+
+		// init map using lua
+		_luaH->CallLua("InitMap_" + itm->first);
+	}
 }
 
 
@@ -136,17 +157,18 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectE
 
 	//check if map handler for the map is already present
 	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator it = _currentmaps.find(newmapname);
-	if(it == _currentmaps.end())
-	{
-		//if it is the case then launch a map handler
-		boost::shared_ptr<MapHandler> mapH(new MapHandler(_worldinfo.Maps[newmapname]));
-		mapH->StartThread();
-		_currentmaps[newmapname] = mapH;
-	}
-	else
+	if(it != _currentmaps.end())
 	{
 		//start run thread if not started already
 		it->second->StartThread();
+	}
+	else
+	{
+		// log the issue, we have no map of this name
+		std::stringstream strs;
+		strs<<"Player trying to go to a non existing map - player id: "<<clientid;
+		LogHandler::getInstance()->LogToFile(strs.str(), 0);
+		return;
 	}
 
 
@@ -304,6 +326,8 @@ void SharedDataHandler::CleanUp()
 	_currentplayers.clear();
 
 	_dbH = boost::shared_ptr<DatabaseHandlerBase>();
+
+	_luaH = boost::shared_ptr<ServerLuaHandler>();
 }
 
 

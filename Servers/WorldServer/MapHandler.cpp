@@ -13,6 +13,119 @@
 #define _THREAD_WAIT_TIME_	17
 
 
+/***********************************************************
+constructor
+***********************************************************/
+ActorObjectInfo::ActorObjectInfo(long id, int type)
+: ObjectId(id)
+{
+	switch(type)
+	{
+		case 1:
+			TypeO = LbaNet::StaticObject;
+		break;
+		case 2:
+			TypeO = LbaNet::CpuObject;
+		break;
+		case 3:
+			TypeO = LbaNet::MovableObject;
+		break;
+		case 4:
+			TypeO = LbaNet::PlayerObject;
+		break;
+		case 5:
+			TypeO = LbaNet::GhostObject;
+		break;
+	}
+}
+
+
+
+
+
+/***********************************************************
+	// set enum for render type as lua does not map enum
+	//1 - RenderOsgModel
+	//2 - RenderSprite
+	//3 - RenderLba1M
+	//4 - RenderLba2M
+***********************************************************/
+void ActorObjectInfo::SetRenderType(int rtype)
+{
+	switch(rtype)
+	{
+		case 1:
+			DisplayDesc.TypeRenderer = LbaNet::RenderOsgModel;
+		break;
+		case 2:
+			DisplayDesc.TypeRenderer = LbaNet::RenderSprite;
+		break;
+		case 3:
+			DisplayDesc.TypeRenderer = LbaNet::RenderLba1M;
+		break;
+		case 4:
+			DisplayDesc.TypeRenderer = LbaNet::RenderLba2M;
+		break;
+	}
+}
+
+
+/***********************************************************
+	// set enum for PhysicalShape as lua does not map enum
+	//1 - NoShape
+	//2 - BoxShape
+	//3 - CapsuleShape
+	//4 - SphereShape
+	//5 - TriangleMeshShape
+***********************************************************/
+void ActorObjectInfo::SetPhysicalShape(int shape)
+{
+	switch(shape)
+	{
+		case 1:
+			PhysicDesc.TypeShape = LbaNet::NoShape;
+		break;
+		case 2:
+			PhysicDesc.TypeShape = LbaNet::BoxShape;
+		break;
+		case 3:
+			PhysicDesc.TypeShape = LbaNet::CapsuleShape;
+		break;
+		case 4:
+			PhysicDesc.TypeShape = LbaNet::SphereShape;
+		break;
+		case 5:
+			PhysicDesc.TypeShape = LbaNet::TriangleMeshShape;
+		break;
+	}
+}
+
+	
+/***********************************************************
+	// set enum for SetPhysicalActorType as lua does not map enum
+	//1 - StaticAType
+	//2 - KynematicAType
+	//3 - DynamicAType
+	//4 - CharControlAType
+***********************************************************/
+void ActorObjectInfo::SetPhysicalActorType(int ptype)
+{
+	switch(ptype)
+	{
+		case 1:
+			PhysicDesc.TypePhysO = LbaNet::StaticAType;
+		break;
+		case 2:
+			PhysicDesc.TypePhysO = LbaNet::KynematicAType;
+		break;
+		case 3:
+			PhysicDesc.TypePhysO = LbaNet::DynamicAType;
+		break;
+		case 4:
+			PhysicDesc.TypePhysO = LbaNet::CharControlAType;
+		break;
+	}
+}
 
 
 /***********************************************************
@@ -200,6 +313,8 @@ void MapHandler::run()
 			// mesure the time used to do one cycle
 			waittime = SynchronizedTimeHandler::GetCurrentTimeInt();
 		}
+
+		//todo stop thread after a while if no player inside
 	}
 }
 
@@ -664,6 +779,16 @@ void MapHandler::RaiseFromDeadEvent(Ice::Long id, EventsSeq &tosendevts)
 															id, moveinfo, true));
 
 		tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-					PlayerObject, id, new ModelUpdate(returnmodel, true)));
+					PlayerObject, id, new ModelUpdate(returnmodel, false)));
 	}
+}
+
+
+
+/***********************************************************
+function used by LUA to add actor
+***********************************************************/
+void MapHandler::AddActorObject(const ActorObjectInfo & object)
+{
+	//TODO
 }

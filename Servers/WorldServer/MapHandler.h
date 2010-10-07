@@ -70,6 +70,55 @@ private:
 
 
 
+//! class used by lua to add objects on the map
+struct ActorObjectInfo
+{
+	//constructor
+	ActorObjectInfo(long id, int type);
+
+	// set enum for render type as lua does not map enum
+	//1 - RenderOsgModel
+	//2 - RenderSprite
+	//3 - RenderLba1M
+	//4 - RenderLba2M
+	void SetRenderType(int rtype);
+
+	// set enum for PhysicalShape as lua does not map enum
+	//1 - NoShape
+	//2 - BoxShape
+	//3 - CapsuleShape
+	//4 - SphereShape
+	//5 - TriangleMeshShape
+	void SetPhysicalShape(int shape);
+
+	// set enum for SetPhysicalActorType as lua does not map enum
+	//1 - StaticAType
+	//2 - KynematicAType
+	//3 - DynamicAType
+	//4 - CharControlAType
+	void SetPhysicalActorType(int ptype);
+
+
+
+
+	long						ObjectId;
+
+
+	//1 - StaticObject
+	//2 - CpuObject
+	//3 - MovableObject
+	//4 - PlayerObject
+	//5 - GhostObject
+	LbaNet::ObjectTypeEnum		TypeO;
+
+	LbaNet::ModelInfo			DisplayDesc;
+	LbaNet::ObjectPhysicDesc	PhysicDesc;
+	LbaNet::LifeManaInfo		LifeInfo;
+	LbaNet::ObjectExtraInfo		ExtraInfo;
+};
+
+
+
 
 
 //! take care of a map of the world
@@ -110,6 +159,11 @@ public:
 
 	// get players proxies
 	std::map<Ice::Long, ClientProxyBasePtr> GetProxies();
+
+
+	// function used by LUA to add actor
+	void AddActorObject(const ActorObjectInfo & object);
+							
 
 
 protected:
