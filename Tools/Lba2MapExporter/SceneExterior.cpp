@@ -61,7 +61,7 @@ void	SceneExterior::loadEnvironment()
 
 void	SceneExterior::loadSections()
 {
-	std::map<int, osg::ref_ptr<osg::Group> > mObjLibrary;
+	std::map<int, bool > mObjLibrary;
 
 	//Reading Section Layout
     mILE->LoadEntry(1);
@@ -106,8 +106,29 @@ void	SceneExterior::loadSections()
 				EndPointY = y;
 		}
 
+	{
+	std::ofstream luafile("serverscript.lua", std::ios::app);
+	luafile<<"function InitMap_"<<mName<<"()"<<std::endl;
+
+	luafile<<"	"<<"MapObject = ActorObjectInfo("<<1<<", 1)"<<std::endl;
+	luafile<<"	"<<"MapObject:SetRenderType(1)"<<std::endl;
+	luafile<<"	"<<"MapObject.DisplayDesc.ModelName = \"Worlds/Lba2Original/Islands/"<<mName<<".osgb\""<<std::endl;
+	luafile<<"	"<<"MapObject.DisplayDesc.UseLight = false"<<std::endl;		
+	luafile<<"	"<<"MapObject:SetModelState(1)"<<std::endl;
+	luafile<<"	"<<"MapObject.PhysicDesc.Pos.X = "<<0<<std::endl;
+	luafile<<"	"<<"MapObject.PhysicDesc.Pos.Y = "<<0<<std::endl;
+	luafile<<"	"<<"MapObject.PhysicDesc.Pos.Z = "<<0<<std::endl;
+	luafile<<"	"<<"MapObject.PhysicDesc.Pos.Rotation = "<<0<<std::endl;
+	luafile<<"	"<<"MapObject:SetPhysicalActorType(1)"<<std::endl;
+	luafile<<"	"<<"MapObject:SetPhysicalShape(5)"<<std::endl;
+	luafile<<"	"<<"MapObject.PhysicDesc.Collidable = true"<<std::endl;
+	luafile<<"	"<<"MapObject.PhysicDesc.Filename = \"Worlds/Lba2Original/Islands/"<<mName<<".phy\""<<std::endl;
+	luafile<<"	"<<"Map_"<<mName<<":AddActorObject(MapObject)"<<std::endl;
+	}
+
 	//256 Section Chunks
-    for (int i = 0; i < 256; ++i)
+	int counter = 2;
+	for (int i = 0; i < 256; ++i)
 		//If there is a section in this chunk...
         if (mLayout[i])
 		{
@@ -134,12 +155,13 @@ void	SceneExterior::loadSections()
 
 			osg::ref_ptr<osg::Geode> geode = mSections.back()->load(*physinfo);
 			rootmap->addChild(geode);
-			rootobject->addChild(mSections.back()->loadObjects(mObjLibrary));
+			/*rootobject->addChild(*/mSections.back()->loadObjects(mObjLibrary, counter)/*)*/;
 		}
 
-
-
-
+	{
+	std::ofstream luafile("serverscript.lua", std::ios::app);
+	luafile<<"end"<<std::endl;
+	}
 
 	{
 		osg::StateSet* stateSet = rootmap->getOrCreateStateSet();
@@ -223,5 +245,5 @@ void	SceneExterior::loadSections()
 
 	osgUtil::Optimizer optOSGFile;
 	optOSGFile.optimize (root.get());
-	osgDB::writeNodeFile(*root.get(), "0_" + mName + ".osgb", new osgDB::Options("Compressor=zlib"));
+	osgDB::writeNodeFile(*root.get(), mName + ".osgb", new osgDB::Options("Compressor=zlib"));
 }

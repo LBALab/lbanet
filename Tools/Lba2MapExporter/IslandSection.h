@@ -38,8 +38,6 @@ struct CutGroup
 {
 	CutGroup(const std::string&, unsigned char, unsigned char, unsigned char, unsigned char, bool transparent);
 	std::string					materialName;
-	//Ogre::SubMesh				*subMesh;
-	std::vector<unsigned short>	indices;
 	unsigned char				x;
 	unsigned char				y;
 	unsigned char				width;
@@ -63,16 +61,17 @@ class IslandSection
 public:
 	IslandSection(const std::string& islandName, HQRReader *ILE, HQRReader *OBL, int idx, int xpos, int ypos);
 	osg::ref_ptr<osg::Geode> load(PhysicalInfo & physinfo);
-	osg::ref_ptr<osg::Group>	loadObjects(std::map<int, osg::ref_ptr<osg::Group> > &mObjLibrary);
+	osg::ref_ptr<osg::Group>	loadObjects(std::map<int, bool > &mObjLibrary,
+												int & objcounter);
 
 
 private:
 	osg::ref_ptr<osg::Geode>	loadGround(PhysicalInfo & physinfo);
 
-	osg::ref_ptr<osg::Group>	loadSingleObject(IslandObjectInfo *objInfo,
-													std::map<int, osg::ref_ptr<osg::Group> > &mObjLibrary);
+	bool	loadSingleObject(IslandObjectInfo *objInfo,
+													std::map<int, bool > &mObjLibrary);
 	void	addPolygonSection(unsigned char *, OBLPolygonHeader *, std::map<unsigned int, CutGroup>&, 
-								CutGroup&, std::vector<float>&, int&, OBLMinMaxBox&,
+								CutGroup&, PhysicalInfo & physinfo, int&, OBLMinMaxBox&,
 											osg::Vec3Array* myVertices);
 
 	void	loadCutGroups(unsigned char *, std::map<unsigned int, CutGroup>&);

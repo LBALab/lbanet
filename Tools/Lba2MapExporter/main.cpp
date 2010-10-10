@@ -32,22 +32,25 @@ int main( int argc, char **argv )
 	iluInit();
 
 	std::vector<std::string> listile;
-	//listile.push_back("ASCENCE");
-	//listile.push_back("CELEBRA2");
-	//listile.push_back("CELEBRAT");
+	listile.push_back("ASCENCE");
+	listile.push_back("CELEBRA2");
+	listile.push_back("CELEBRAT");
 	listile.push_back("CITABAU");
-	//listile.push_back("CITADEL");
-	//listile.push_back("DESERT");
-	//listile.push_back("EMERAUDE");
-	//listile.push_back("ILOTCX");
-	//listile.push_back("KNARTAS");
-	//listile.push_back("MOON");
-	//listile.push_back("MOSQUIBE");
-	//listile.push_back("OTRINGAL");
-	//listile.push_back("PLATFORM");
-	//listile.push_back("SOUSCELB");
+	listile.push_back("CITADEL");
+	listile.push_back("DESERT");
+	listile.push_back("EMERAUDE");
+	listile.push_back("ILOTCX");
+	listile.push_back("KNARTAS");
+	listile.push_back("MOON");
+	listile.push_back("MOSQUIBE");
+	listile.push_back("OTRINGAL");
+	listile.push_back("PLATFORM");
+	listile.push_back("SOUSCELB");
 
-
+	{
+		// clean the file
+		std::ofstream luafile("serverscript.lua");
+	}
 
 	for(size_t i=0; i< listile.size(); ++i)
 	{

@@ -89,8 +89,6 @@ osg::ref_ptr<osg::Geode>	IslandSection::loadGround(PhysicalInfo & physinfo)
 	unsigned short idxOrder2[6] = {0, 2, 1, 1, 2, 3};
 
 
-	std::ofstream checkmat("checkmat.csv", std::ios::app);
-
 	//For Every QUAD
 	for (int x = 0; x < 64; ++x)
 	{
@@ -115,8 +113,6 @@ osg::ref_ptr<osg::Geode>	IslandSection::loadGround(PhysicalInfo & physinfo)
 				//For all the data usage in this tri
 				for (int md = 0; md < mdMax; ++md)
 				{
-					checkmat<<tri[t].unk1<<","<<tri[t].unk2<<","<<tri[t].unk3<<","<<tri[t].unk4<<std::endl;		
-
 					//For each vertex, offset by triangle num in quad
 					for (int i = 3 * t; i < (3 + 3 * t); ++i)
 					{
@@ -124,13 +120,13 @@ osg::ref_ptr<osg::Geode>	IslandSection::loadGround(PhysicalInfo & physinfo)
 						int yi = y + idxOrder[i] % 2;
 
 						/* Vertex position */
-						physinfo.vertexes.push_back(((float)(xi) - 32) / 0x20);
-						physinfo.vertexes.push_back(((float)(heightmap[xi][yi])) / 0x4000);
-						physinfo.vertexes.push_back(((float)(64 - yi) - 32) / 0x20);
+						physinfo.vertexes.push_back(	((((float)(xi) - 32)) + (mXpos * 64.0f)));
+						physinfo.vertexes.push_back(	(((float)(heightmap[xi][yi])) / 256));
+						physinfo.vertexes.push_back(1024+((((float)(64 - yi) - 32)) - (mYpos * 64.0f)));
 
-						myVerticesPoly->push_back(osg::Vec3(	(((float)(xi) - 32) / 0x20) + (mXpos * 2.0f),
-																(((float)(heightmap[xi][yi])) / 0x4000),
-																(((float)(64 - yi) - 32) / 0x20) - (mYpos * 2.0f)
+						myVerticesPoly->push_back(osg::Vec3(	((((float)(xi) - 32)) + (mXpos * 64.0f)),
+																((((float)(heightmap[xi][yi])) / 256)),
+																(1024+(((float)(64 - yi) - 32)) - (mYpos * 64.0f))
 															));
 
 
@@ -176,9 +172,9 @@ osg::ref_ptr<osg::Geode>	IslandSection::loadGround(PhysicalInfo & physinfo)
 					}
 
 					/* Index */
-					physinfo.indices.push_back(idx);
-					physinfo.indices.push_back(idx + 1);
-					physinfo.indices.push_back(idx + 2);
+					physinfo.indices.push_back(physinfo.indices.size());
+					physinfo.indices.push_back(physinfo.indices.size());
+					physinfo.indices.push_back(physinfo.indices.size());
 					myprimitive->push_back(idx);
 					myprimitive->push_back(idx + 1);
 					myprimitive->push_back(idx + 2);
@@ -209,7 +205,8 @@ osg::ref_ptr<osg::Geode>	IslandSection::loadGround(PhysicalInfo & physinfo)
 
 }
 
-osg::ref_ptr<osg::Group> IslandSection::loadObjects(std::map<int, osg::ref_ptr<osg::Group> > &mObjLibrary)
+osg::ref_ptr<osg::Group> IslandSection::loadObjects(std::map<int, bool > &mObjLibrary,
+														int & objcounter)
 {
 	osg::ref_ptr<osg::Group> root = new osg::Group();
 
@@ -220,23 +217,59 @@ osg::ref_ptr<osg::Group> IslandSection::loadObjects(std::map<int, osg::ref_ptr<o
 	
 	mNumObjects = *((unsigned int *)(objInfo + 8));
 
+	std::ofstream luafile("serverscript.lua", std::ios::app);
+
 	if (mNumObjects > 0)
 	{
 		mObjectInfo = new IslandObjectInfo [mNumObjects];
 		mILE->LoadEntry(3 + mIndex * 6 + 2);
 		mILE->Read(mObjectInfo, mILE->getSize());
-		for (unsigned int i = 0; i < mNumObjects; ++i)
+		for (unsigned int i = 0; i < mNumObjects; ++i, ++objcounter)
 		{			
-			osg::ref_ptr<osg::PositionAttitudeTransform> PAT = new osg::PositionAttitudeTransform();
-			PAT->setPosition (osg::Vec3(	(mObjectInfo[i].oz / 16384.0f - 1)  + (mXpos * 2.0f), 
-											(mObjectInfo[i].oy / 16384.0f), 
-											(-mObjectInfo[i].ox / 16384.0f + 1)  - (mYpos * 2.0f)
-										));
-			PAT->setAttitude(osg::Quat(((mObjectInfo[i].angle + 4) * PI) / 8, osg::Vec3(0, 1, 0)));
-			osg::ref_ptr<osg::Group> tmpobject = loadSingleObject(&mObjectInfo[i], mObjLibrary);
+			//osg::ref_ptr<osg::PositionAttitudeTransform> PAT = new osg::PositionAttitudeTransform();
+			//PAT->setPosition (osg::Vec3(	(mObjectInfo[i].oz / 512.0f - 32)  + (mXpos * 64.0f), 
+			//								(mObjectInfo[i].oy / 256.0f), 
+			//								1024+((-mObjectInfo[i].ox / 512.0f + 32)  - (mYpos * 64.0f))
+			//							));
+			//PAT->setAttitude(osg::Quat(((mObjectInfo[i].angle + 4) * PI) / 8, osg::Vec3(0, 1, 0)));
+			bool physicfile = loadSingleObject(&mObjectInfo[i], mObjLibrary);
 
-			PAT->addChild(tmpobject);
-			root->addChild(PAT);
+			//PAT->addChild(tmpobject);
+			//root->addChild(PAT);
+
+
+			float posX = (mObjectInfo[i].oz / 512.0f - 32)  + (mXpos * 64.0f);
+			float posY = (mObjectInfo[i].oy / 256.0f);
+			float posZ = 1024+((-mObjectInfo[i].ox / 512.0f + 32)  - (mYpos * 64.0f));
+			float rotation = (((((mObjectInfo[i].angle + 4) * PI) / 8) / PI) * 180);
+
+			std::stringstream objname;
+			objname<< mIslandName << "_OBJ_" << mObjectInfo[i].index + 1;
+			luafile<<std::endl<<std::endl;
+			luafile<<"	OBJ_"<<objcounter<<" = ActorObjectInfo("<<objcounter<<", 1)"<<std::endl;
+			luafile<<"	OBJ_"<<objcounter<<":SetRenderType(1)"<<std::endl;
+			luafile<<"	OBJ_"<<objcounter<<".DisplayDesc.ModelName = \"Worlds/Lba2Original/Islands/"<<objname.str()<<".osgb\""<<std::endl;
+			luafile<<"	OBJ_"<<objcounter<<".DisplayDesc.UseLight = false"<<std::endl;	
+			luafile<<"	OBJ_"<<objcounter<<":SetModelState(1)"<<std::endl;
+			luafile<<"	OBJ_"<<objcounter<<".PhysicDesc.Pos.X = "<<posX<<std::endl;
+			luafile<<"	OBJ_"<<objcounter<<".PhysicDesc.Pos.Y = "<<posY<<std::endl;
+			luafile<<"	OBJ_"<<objcounter<<".PhysicDesc.Pos.Z = "<<posZ<<std::endl;
+			luafile<<"	OBJ_"<<objcounter<<".PhysicDesc.Pos.Rotation = "<<rotation<<std::endl;
+			luafile<<"	OBJ_"<<objcounter<<":SetPhysicalActorType(1)"<<std::endl;
+
+			if(physicfile)
+			{
+				luafile<<"	OBJ_"<<objcounter<<":SetPhysicalShape(5)"<<std::endl;
+				luafile<<"	OBJ_"<<objcounter<<".PhysicDesc.Collidable = true"<<std::endl;
+				luafile<<"	OBJ_"<<objcounter<<".PhysicDesc.Filename = \"Worlds/Lba2Original/Islands/"<<objname.str()<<".phy\""<<std::endl;
+			}
+			else
+			{
+				luafile<<"	OBJ_"<<objcounter<<":SetPhysicalShape(1)"<<std::endl;
+				luafile<<"	OBJ_"<<objcounter<<".PhysicDesc.Collidable = false"<<std::endl;
+			}
+
+			luafile<<"	"<<"Map_"<<mIslandName<<":AddActorObject("<<"OBJ_"<<objcounter<<")"<<std::endl;
 		}
 		delete [] mObjectInfo;
 	}
@@ -246,7 +279,7 @@ osg::ref_ptr<osg::Group> IslandSection::loadObjects(std::map<int, osg::ref_ptr<o
 
 void	IslandSection::addPolygonSection(unsigned char *buffer, OBLPolygonHeader *header, 
 										 std::map<unsigned int, CutGroup>& cutGroups, 
-										 CutGroup &subColor, std::vector<float>& vertices, 
+										 CutGroup &subColor, PhysicalInfo & physinfo, 
 										 int& currentIndex, OBLMinMaxBox& mMBox,
 											osg::Vec3Array* myVertices)
 {
@@ -301,24 +334,19 @@ void	IslandSection::addPolygonSection(unsigned char *buffer, OBLPolygonHeader *h
 				if (oBLvertices[polygon->idx[j]].z > mMBox.Mz)
 					mMBox.Mz = oBLvertices[polygon->idx[j]].z;
 				/* Position */
-				vertices.push_back(oBLvertices[polygon->idx[j]].x  / 16384.0f);
-				vertices.push_back(oBLvertices[polygon->idx[j]].y  / 16384.0f);
-				vertices.push_back(oBLvertices[polygon->idx[j]].z  / 16384.0f);
+				physinfo.vertexes.push_back(oBLvertices[polygon->idx[j]].x  / 512.0f);
+				physinfo.vertexes.push_back(oBLvertices[polygon->idx[j]].y  / 256.0f);
+				physinfo.vertexes.push_back(oBLvertices[polygon->idx[j]].z  / 512.0f);
 
-				cut->myVerticesPoly->push_back(osg::Vec3(	(oBLvertices[polygon->idx[j]].x  / 16384.0f),
-															(oBLvertices[polygon->idx[j]].y  / 16384.0f),
-															(oBLvertices[polygon->idx[j]].z  / 16384.0f)
+				cut->myVerticesPoly->push_back(osg::Vec3(	(oBLvertices[polygon->idx[j]].x  / 512.0f),
+															(oBLvertices[polygon->idx[j]].y  / 512.0f),
+															((oBLvertices[polygon->idx[j]].z  / 512.0f))
 														));
 
 
 				/* Color */
 				if (/*header->id >= 7 && */cut->usetexture)
 				{
-					vertices.push_back(1);
-					vertices.push_back(1);
-					vertices.push_back(1);
-					vertices.push_back(1);
-
 					cut->colors->push_back(osg::Vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
 					cut->myTexts->push_back(osg::Vec2(	((polygon->uv[j].u * uvFactor) / 65536.0f)/* * 0.5f*/, 
@@ -329,39 +357,33 @@ void	IslandSection::addPolygonSection(unsigned char *buffer, OBLPolygonHeader *h
 				else
 				{
 					const colorrgba& color = ImageManager::getSingleton()->getColour(polygon->color + oBLintensities[polygon->idx[j]].i[1] / 32);
-					vertices.push_back(color.r);
-					vertices.push_back(color.g);
-					vertices.push_back(color.b);
-					vertices.push_back(1);
-
 					cut->colors->push_back(osg::Vec4(color.r,color.g,color.b, 1.0f));
 
 					//cut->myTexts->push_back(osg::Vec2(0.75f, 0.5f));
 				}
-				/* UVs */
-				vertices.push_back((polygon->uv[j].u * uvFactor) / 65536.0f);
-				vertices.push_back((polygon->uv[j].v * uvFactor) / 65536.0f);
 
 			}
-			cut->indices.push_back(currentIndex);
-			cut->indices.push_back(currentIndex + 1);
-			cut->indices.push_back(currentIndex + 2);
-
 			cut->myprimitive->push_back(cut->currentIndex);
 			cut->myprimitive->push_back(cut->currentIndex + 1);
 			cut->myprimitive->push_back(cut->currentIndex + 2);
 
+			physinfo.indices.push_back(currentIndex);
+			physinfo.indices.push_back(currentIndex + 1);
+			physinfo.indices.push_back(currentIndex + 2);
+
+
 			if (header->type & 0x80)
 			{
-				cut->indices.push_back(cut->currentIndex);
-				cut->indices.push_back(cut->currentIndex + 2);
-				cut->indices.push_back(cut->currentIndex + 3);
-
 				cut->myprimitive->push_back(cut->currentIndex);
 				cut->myprimitive->push_back(cut->currentIndex + 2);
 				cut->myprimitive->push_back(cut->currentIndex + 3);
+
+				physinfo.indices.push_back(currentIndex);
+				physinfo.indices.push_back(currentIndex + 2);
+				physinfo.indices.push_back(currentIndex + 3);
 			}
 			cut->currentIndex += numPoints;
+			currentIndex += numPoints;
 			cut->myprimitivenumpoints.push_back(numPoints);
 			polygon = (OBLPolygon *)(((char *)polygon) + blockSize);
 		}
@@ -369,8 +391,8 @@ void	IslandSection::addPolygonSection(unsigned char *buffer, OBLPolygonHeader *h
 
 }
 
-osg::ref_ptr<osg::Group>	IslandSection::loadSingleObject(IslandObjectInfo *objInfo,
-															std::map<int, osg::ref_ptr<osg::Group> > &mObjLibrary)
+bool	IslandSection::loadSingleObject(IslandObjectInfo *objInfo,
+															std::map<int, bool > &mObjLibrary)
 {
 	//Check if we have this OBL Index Logged
 	if (mObjLibrary.find(objInfo->index + 1) != mObjLibrary.end())
@@ -380,7 +402,10 @@ osg::ref_ptr<osg::Group>	IslandSection::loadSingleObject(IslandObjectInfo *objIn
 	}
 	else
 	{
-		osg::ref_ptr<osg::Group> root = new osg::Group;
+		osg::ref_ptr<osg::PositionAttitudeTransform> root = new osg::PositionAttitudeTransform;
+		root->setScale(osg::Vec3(1,2,1));
+
+		PhysicalInfo physinfo;
 
 
 		/* Loading the data */
@@ -398,8 +423,8 @@ osg::ref_ptr<osg::Group>	IslandSection::loadSingleObject(IslandObjectInfo *objIn
 		CutGroup colorSub("OBLnoTexture", 0, 0, 0, 0, false);
 		colorSub.usetexture = false;
 		int currentIndex = 0;
-		std::vector<float> vertices;
-		vertices.reserve(2000);
+		//std::vector<float> vertices;
+		//vertices.reserve(2000);
 
 		osg::Vec3Array *myVertices(new osg::Vec3Array);
 		{
@@ -409,9 +434,9 @@ osg::ref_ptr<osg::Group>	IslandSection::loadSingleObject(IslandObjectInfo *objIn
 			// push vertices for points and spheres
 			for(int i=0; i<oBLheader->numVerticesType1; ++i)
 			{
-				myVertices->push_back(osg::Vec3(	(oBLvertices[i].x  / 16384.0f),
-													(oBLvertices[i].y  / 16384.0f),
-													(oBLvertices[i].z  / 16384.0f)
+				myVertices->push_back(osg::Vec3(	(oBLvertices[i].x  / 512.0f),
+													(oBLvertices[i].y  / 512.0f),
+													((oBLvertices[i].z  / 512.0f))
 														));
 			}
 		}
@@ -423,7 +448,7 @@ osg::ref_ptr<osg::Group>	IslandSection::loadSingleObject(IslandObjectInfo *objIn
 		OBLPolygonHeader *polyHead = (OBLPolygonHeader *)(objBuffer + header->polygonSectionOffset);
 		while (polyHead->size > 0 && ((unsigned char*)polyHead) < (objBuffer + header->lineSectionOffset))
 		{
-			addPolygonSection(objBuffer, polyHead, cutGroups, colorSub, vertices, currentIndex, mMBox, myVertices/*, 
+			addPolygonSection(objBuffer, polyHead, cutGroups, colorSub, physinfo, currentIndex, mMBox, myVertices/*, 
 									myVerticesPoly,myprimitive,colors,myTexts*/);
 
 			polyHead = (OBLPolygonHeader *)(((unsigned char *)polyHead) + polyHead->size);
@@ -434,7 +459,7 @@ osg::ref_ptr<osg::Group>	IslandSection::loadSingleObject(IslandObjectInfo *objIn
 		std::map<unsigned int, CutGroup>::iterator it, end;
 		for (it = cutGroups.begin(), end = cutGroups.end(); it != end; ++it)
 		{
-			if (it->second.indices.size() != 0)
+			if (it->second.myprimitive->size() != 0)
 			{
 				osg::ref_ptr<osg::Geode> myGeode = new osg::Geode();
 				osg::ref_ptr<osg::Geometry> m_myGeometry = new osg::Geometry();
@@ -569,7 +594,7 @@ osg::ref_ptr<osg::Group>	IslandSection::loadSingleObject(IslandObjectInfo *objIn
 					osg::ref_ptr<osg::Geode> Geodesphere = new osg::Geode();
 
 					osg::Vec3 center((*myVertices)[localData->SpheresData[i].Center]);
-					osg::ref_ptr<osg::Sphere> unitSphere = new osg::Sphere(center, ((float)localData->SpheresData[i].Size)/16384.0f);
+					osg::ref_ptr<osg::Sphere> unitSphere = new osg::Sphere(center, ((float)localData->SpheresData[i].Size)/512.0f);
 					osg::ShapeDrawable* unitSphereDrawable = new osg::ShapeDrawable(unitSphere, hints_low.get());
 
 					const colorrgba& color = ImageManager::getSingleton()->getColour(localData->SpheresData[i].Color);
@@ -586,11 +611,8 @@ osg::ref_ptr<osg::Group>	IslandSection::loadSingleObject(IslandObjectInfo *objIn
 		delete [] objBuffer;
 
 
-		mObjLibrary[objInfo->index + 1] = root;
-
-
 		std::stringstream iss;
-		iss << mIslandName << "_OBJ_" << objInfo->index + 1 << ".osgb";
+		iss << mIslandName << "_OBJ_" << objInfo->index + 1;
 
 
 		osg::StateSet* statesetroot = root->getOrCreateStateSet();
@@ -600,9 +622,30 @@ osg::ref_ptr<osg::Group>	IslandSection::loadSingleObject(IslandObjectInfo *objIn
 		osgUtil::Optimizer optOSGFile;
 		optOSGFile.optimize (root.get());
 
-		osgDB::writeNodeFile(*root.get(), iss.str(), new osgDB::Options("Compressor=zlib"));
+		osgDB::writeNodeFile(*root.get(), iss.str() + ".osgb", new osgDB::Options("Compressor=zlib"));
 
-		return root;
+
+		if(physinfo.vertexes.size() > 0 && physinfo.indices.size() > 0)
+		{
+			std::ofstream filebit((iss.str() + ".phy").c_str(), std::ofstream::binary);
+			unsigned int sizevertex = physinfo.vertexes.size();
+			unsigned int sizeindices = physinfo.indices.size();
+			unsigned int sizematerials = physinfo.materials.size();
+			filebit.write((char*)&sizevertex, sizeof(unsigned int));
+			filebit.write((char*)&sizeindices, sizeof(unsigned int));
+			filebit.write((char*)&sizematerials, sizeof(unsigned int));
+
+			filebit.write((char*)&physinfo.vertexes[0], sizevertex*sizeof(float));
+			filebit.write((char*)&physinfo.indices[0], sizeindices*sizeof(unsigned int));
+			if(sizematerials > 0)
+				filebit.write((char*)&physinfo.materials[0], sizematerials*sizeof(short));
+
+			mObjLibrary[objInfo->index + 1] = true;
+			return true;
+		}
+
+		mObjLibrary[objInfo->index + 1] = false;
+		return false;
 	}
 }
 
@@ -654,7 +697,6 @@ CutGroup::CutGroup(const std::string& mat, unsigned char x, unsigned char y, uns
 		myTexts(new osg::Vec2Array),
 		istransparent(transparent)
 {
-	indices.reserve(1000);
 }
 
 OBLMinMaxBox::OBLMinMaxBox() :
