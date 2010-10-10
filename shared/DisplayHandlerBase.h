@@ -54,7 +54,7 @@ public:
 	//! create simple display object
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateSimpleObject(const std::string & filename,
 															boost::shared_ptr<DisplayTransformation> Tr,
-															bool CastShadow) = 0;
+															bool UseLight, bool CastShadow) = 0;
 
 
 	//! create capsule object

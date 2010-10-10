@@ -95,8 +95,8 @@ class OsgSimpleObjectDescription : public DisplayObjectDescriptionBase
 {
 public:
 	//! constructor
-	OsgSimpleObjectDescription(const std::string & filename, bool CastShadow)
-		: _filename(filename), _CastShadow(CastShadow)
+	OsgSimpleObjectDescription(const std::string & filename, bool UseLight, bool CastShadow)
+		: _filename(filename), _UseLight(UseLight), _CastShadow(CastShadow)
 	{}
 
 	//! destructor
@@ -109,7 +109,9 @@ public:
 
 private:
 	std::string		_filename;
+	bool			_UseLight;
 	bool			_CastShadow;
+
 };
 
 
@@ -401,6 +403,7 @@ class PhysicalDescriptionTriangleMesh : public PhysicalDescriptionWithShape
 public:
 	//! constructor
 	PhysicalDescriptionTriangleMesh(float posX, float posY, float posZ,
+										const LbaQuaternion &rot,
 										const std::string &FileName,
 										bool Collidable);
 	//! destructor

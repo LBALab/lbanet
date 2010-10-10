@@ -128,6 +128,7 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
 			mapi.RepatMusic = v.second.get<int>("<xmlattr>.repeatmusic", 0);
 			mapi.ObjectFile = v.second.get<std::string>("ObjectFile", "");
 			mapi.Description = v.second.get<std::string>("description", "");
+			mapi.AutoCameraType = v.second.get<int>("<xmlattr>.AutoCameraType", 1);
 
 			BOOST_FOREACH(ptree::value_type &v2, v.second.get_child("spareas"))
 			{
