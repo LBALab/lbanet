@@ -250,26 +250,30 @@ refresh text
 ***********************************************************/
 void Lba1ModelHandler::RefreshText()
 {
-	osg::ref_ptr<osg::Group> root = GetRoot();
+	osg::ref_ptr<osg::Group> root = GetRootNoLight();
 	if(root)
 	{
-		if(_textgeode)
+		if(_textgroup)
 		{
-			root->removeChild(_textgeode);
-			_textgeode = NULL;
+			root->removeChild(_textgroup);
+			_textgroup = NULL;
 		}
 
-		_textgeode = new osg::Geode();
+		_textgroup = new osg::AutoTransform();
+		_textgroup->setPosition(osg::Vec3(0, 3.1, 0));
+		_textgroup->setAutoRotateMode(osg::AutoTransform::ROTATE_TO_SCREEN);
+		_textgroup->setMinimumScale(0.01);
+		_textgroup->setMaximumScale(0.5);
+		_textgroup->setAutoScaleToScreen(true);
+
+		osg::ref_ptr<osg::Geode> _textgeode = new osg::Geode();
 		osg::ref_ptr<osgText::Text> textd = new osgText::Text();
 		textd->setText(_extrainfo.Name);
 		textd->setColor(osg::Vec4(_extrainfo.NameColorR, _extrainfo.NameColorG, _extrainfo.NameColorB, 1));
-		textd->setAxisAlignment(osgText::Text::SCREEN);
-		textd->setCharacterSize(/*0.4f*/25);
+		textd->setCharacterSize(/*0.4f*/10);
 		textd->setFont("Tahoma.ttf");
 		textd->setAlignment(osgText::Text::CENTER_CENTER);
-		textd->setPosition (osg::Vec3(0, 3.5f, 0));
-		//textd->setAutoRotateToScreen(true);
-		textd->setCharacterSizeMode(osgText::Text::SCREEN_COORDS);
+
 
 
 		textd->setBackdropColor(osg::Vec4(0, 0, 0, 1));
@@ -278,13 +282,16 @@ void Lba1ModelHandler::RefreshText()
 		textd->setBackdropOffset(0.1f);
 
 		_textgeode->addDrawable(textd);
-		root->addChild(_textgeode);
 
 		osg::StateSet* stateSet = _textgeode->getOrCreateStateSet();
 		stateSet->setMode(GL_BLEND, osg::StateAttribute::ON);
 		stateSet->setMode(GL_DEPTH_TEST,osg::StateAttribute::OFF);
+		stateSet->setMode(GL_LIGHTING,osg::StateAttribute::OFF);
 		stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-		stateSet->setRenderBinDetails( 100, "RenderBin");
+		stateSet->setRenderBinDetails( 10000, "RenderBin");
+
+		_textgroup->addChild(_textgeode);
+		root->addChild(_textgroup);
 	}
 }
 
@@ -294,7 +301,7 @@ refresh life/mana bars
 ***********************************************************/
 void Lba1ModelHandler::RefreshLifeManaBars()
 {
-	osg::ref_ptr<osg::Group> root = GetRoot();
+	osg::ref_ptr<osg::Group> root = GetRootNoLight();
 	if(root)
 	{
 		if(_barsgroup)
@@ -378,6 +385,7 @@ void Lba1ModelHandler::RefreshLifeManaBars()
 			osg::Vec4Array* myColors = new osg::Vec4Array;
 
 
+
 			myColors->push_back(osg::Vec4(0.f, 104/255.f, 107/255.f, 0.7f));
 			myVertices->push_back(osg::Vec2(-sizebar,0));
 			myColors->push_back(osg::Vec4(0.f, 104/255.f, 107/255.f, 0.7f));
@@ -428,7 +436,7 @@ void Lba1ModelHandler::RefreshLifeManaBars()
 		stateSet->setMode(GL_DEPTH_TEST,osg::StateAttribute::OFF);
 		stateSet->setMode(GL_TEXTURE_2D,osg::StateAttribute::OFF);
 		stateSet->setMode(GL_LIGHTING,osg::StateAttribute::OFF);
-		stateSet->setRenderBinDetails( 100, "RenderBin");
+		stateSet->setRenderBinDetails( 10000, "RenderBin");
 
 		_barsgroup->addChild(barsgeode);
 		root->addChild(_barsgroup);

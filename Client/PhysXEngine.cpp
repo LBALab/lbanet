@@ -41,8 +41,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #define SKINWIDTH	0.2f
-
-
+#define STEPOFFSET	0.5f
+#define LIMITANGLE	70.0f
 
 enum GameGroup
 {
@@ -209,6 +209,7 @@ PhysXEngine::PhysXEngine()
 : gAllocator(NULL)
 {
 	gAllocator = new UserAllocator();
+	gOutputStream = new PhysXErrorStream();
 }
 
 
@@ -234,7 +235,7 @@ void PhysXEngine::Init(float gravity)
 	// Create the physics SDK
 	NxPhysicsSDKDesc desc;
 	NxSDKCreateError errorCode = NXCE_NO_ERROR;
-	gPhysicsSDK = NxCreatePhysicsSDK(NX_PHYSICS_SDK_VERSION, NULL, new PhysXErrorStream(), desc, &errorCode);
+	gPhysicsSDK = NxCreatePhysicsSDK(NX_PHYSICS_SDK_VERSION, gAllocator, gOutputStream, desc, &errorCode);
     if (!gPhysicsSDK)  
 	{
 		LogHandler::getInstance()->LogToFile("Problem initializing physX - error initializing creating SDK. Make sure you have the physX drivers installed!");
@@ -296,6 +297,9 @@ void PhysXEngine::Init(float gravity)
 	if (gScene)  
 		StartPhysics(17); // start with a fixed timestep
 
+	// init cooking
+	NxInitCooking(gAllocator, gOutputStream);
+
 	_isInitialized = true;
 }
 
@@ -305,6 +309,9 @@ void PhysXEngine::Init(float gravity)
 void PhysXEngine::Quit()
 {
 	_isInitialized = false;
+
+	// close cooking
+	NxCloseCooking();
 
     if (gScene)
 	{
@@ -537,9 +544,9 @@ NxController* PhysXEngine::CreateCharacter(const NxVec3 & StartPosition, float r
 	desc.radius			= radius;
 	desc.height			= height;
 	desc.upDirection	= NX_Y;
-	desc.slopeLimit		= cosf(NxMath::degToRad(50.0f));
+	desc.slopeLimit		= cosf(NxMath::degToRad(LIMITANGLE));
 	desc.skinWidth		= SKINWIDTH;
-	desc.stepOffset		= 0.5f;
+	desc.stepOffset		= STEPOFFSET;
 	desc.callback		= &gControllerHitReport;
 
 	NxController* res = gManager->createController(gScene, desc);
@@ -562,9 +569,9 @@ NxController* PhysXEngine::CreateCharacterBox(const NxVec3 & StartPosition, cons
 	desc.position.z		= StartPosition.z;
 	desc.extents		= Extents;
 	desc.upDirection	= NX_Y;
-	desc.slopeLimit		= cosf(NxMath::degToRad(50.0f));
+	desc.slopeLimit		= cosf(NxMath::degToRad(LIMITANGLE));
 	desc.skinWidth		= SKINWIDTH;
-	desc.stepOffset		= 0.5f;
+	desc.stepOffset		= STEPOFFSET;
 	desc.callback		= &gControllerHitReport;
 
 	NxController* res = gManager->createController(gScene, desc);
@@ -593,7 +600,6 @@ NxActor* PhysXEngine::CreateTriangleMesh(const NxVec3 & StartPosition, float *Ve
 
 
 	// The actor has one shape, a triangle mesh
-	NxInitCooking();
 	MemoryWriteBuffer buf;
 
 	bool status = NxCookTriangleMesh(triangleMeshDesc, buf);
@@ -607,7 +613,7 @@ NxActor* PhysXEngine::CreateTriangleMesh(const NxVec3 & StartPosition, float *Ve
 		assert(false);
 		pMesh = NULL;
 	}
-	NxCloseCooking();
+
 
 	// Create TriangleMesh above code segment.
 	NxTriangleMeshShapeDesc tmsd;
@@ -672,15 +678,17 @@ NxActor* PhysXEngine::LoadTriangleMeshFile(const NxVec3 & StartPosition, const s
 
 	float *buffervertex = new float[sizevertex];
 	unsigned int *bufferindices = new unsigned int[sizeindices];
-	short *buffermaterials = new short[sizematerials];
-
 	file.read((char*)buffervertex, sizevertex*sizeof(float));
 	file.read((char*)bufferindices, sizeindices*sizeof(unsigned int));
-	file.read((char*)buffermaterials, sizematerials*sizeof(short));
 
+	if(sizematerials > 0)
+	{
+		short *buffermaterials = new short[sizematerials];
+		file.read((char*)buffermaterials, sizematerials*sizeof(short));
 
-	userdata->SetMaterialsSize(sizematerials);
-	userdata->SetMaterials(buffermaterials);
+		userdata->SetMaterialsSize(sizematerials);
+		userdata->SetMaterials(buffermaterials);
+	}
 
 	NxActor* actor = CreateTriangleMesh(StartPosition, buffervertex, sizevertex, bufferindices, sizeindices, 
 											userdata, collidable);

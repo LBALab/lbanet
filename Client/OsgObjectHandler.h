@@ -52,13 +52,10 @@ public:
 	OsgObjectHandler(boost::shared_ptr<DisplayTransformation> Tr);
 
 	//! constructor
-	OsgObjectHandler(osg::ref_ptr<osg::MatrixTransform> OsgObject);
+	OsgObjectHandler(osg::ref_ptr<osg::MatrixTransform> OsgObject, bool uselight);
 
 	//! destructor
 	virtual ~OsgObjectHandler();
-
-	//! set object
-	void SetObject(osg::ref_ptr<osg::MatrixTransform> OsgObject);
 
 
 	//!set object position in the world
@@ -85,6 +82,9 @@ protected:
 	// return root object
 	osg::ref_ptr<osg::Group> GetRoot();
 
+	// return root object on no light scene
+	osg::ref_ptr<osg::Group> GetRootNoLight();
+
 protected:
 	float								_posX;
 	float								_posY; 
@@ -94,7 +94,9 @@ protected:
 
 private:
 	osg::ref_ptr<osg::MatrixTransform>				_OsgObject;
+	osg::ref_ptr<osg::MatrixTransform>				_OsgObjectNoLight;
 	osg::ref_ptr<osg::PositionAttitudeTransform>	_osgpat;
+	osg::ref_ptr<osg::PositionAttitudeTransform>	_osgpatNoLight;
 };
 
 

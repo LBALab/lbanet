@@ -114,16 +114,6 @@ struct CEGUIEventCallback : public osgGA::GUIEventHandler
 				break;
 			}
 
-		case(osgGA::GUIEventAdapter::SCROLL):
-			{
-				if(ea.getScrollingMotion() == osgGA::GUIEventAdapter::SCROLL_UP)
-					injectionRetVal = (CEGUI::System::getSingleton().injectMouseWheelChange( 1 ));
-
-				if(ea.getScrollingMotion() == osgGA::GUIEventAdapter::SCROLL_DOWN)
-					injectionRetVal = (CEGUI::System::getSingleton().injectMouseWheelChange( -1 ));
-			}
-
-
 
 		default:
 			break;

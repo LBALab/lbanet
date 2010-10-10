@@ -52,6 +52,10 @@ public:
 	//! process function
 	void Process();
 
+	// center camera on player
+	void Center();
+
+
 private:
 	boost::shared_ptr<DynamicObject> _character;
 

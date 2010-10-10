@@ -504,9 +504,10 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionSphere::BuildSel
 	Constructor
 ***********************************************************/
 PhysicalDescriptionTriangleMesh::PhysicalDescriptionTriangleMesh(float posX, float posY, float posZ,
+																	const LbaQuaternion &rot,
 																	const std::string &FileName,
 																	bool Collidable)
-:PhysicalDescriptionWithShape(posX, posY, posZ, LbaNet::StaticAType, 1, LbaQuaternion(), Collidable),
+:PhysicalDescriptionWithShape(posX, posY, posZ, LbaNet::StaticAType, 1, rot, Collidable),
 		MeshInfoDataFileName(FileName)
 {
 

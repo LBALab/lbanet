@@ -46,12 +46,16 @@ OsgObjectHandler::OsgObjectHandler(boost::shared_ptr<DisplayTransformation> Tr)
 		LogHandler::getInstance()->LogToFile("Created empty Osg object.");
 	#endif
 
-	_OsgObject = OsgHandler::getInstance()->AddEmptyActorNode();
+	_OsgObject = OsgHandler::getInstance()->AddEmptyActorNode(true);
+	_OsgObjectNoLight = OsgHandler::getInstance()->AddEmptyActorNode(false);
 
 	if(Tr)
 	{
 		_osgpat = OsgHandler::getInstance()->CreatePAT(Tr);
 		_OsgObject->addChild(_osgpat);
+
+		_osgpatNoLight = OsgHandler::getInstance()->CreatePAT(Tr);
+		_OsgObjectNoLight->addChild(_osgpatNoLight);
 	}
 
 	UpdateMatrix();
@@ -61,9 +65,15 @@ OsgObjectHandler::OsgObjectHandler(boost::shared_ptr<DisplayTransformation> Tr)
 /***********************************************************
 Constructor
 ***********************************************************/
-OsgObjectHandler::OsgObjectHandler(osg::ref_ptr<osg::MatrixTransform> OsgObject)
-: _OsgObject(OsgObject), _posX(0), _posY(0), _posZ(0), _displayed(true)
+OsgObjectHandler::OsgObjectHandler(osg::ref_ptr<osg::MatrixTransform> OsgObject, bool uselight)
+: _posX(0), _posY(0), _posZ(0), _displayed(true)
 {
+	if(uselight)
+		_OsgObject = OsgObject;
+	else
+		_OsgObjectNoLight = OsgObject;
+
+
 	#ifdef _DEBUG
 		LogHandler::getInstance()->LogToFile("Created new Osg object.");
 	#endif
@@ -80,23 +90,18 @@ OsgObjectHandler::~OsgObjectHandler()
 		LogHandler::getInstance()->LogToFile("Destroyed Osg object.");
 	#endif
 
-	if(_displayed && _OsgObject)
-		OsgHandler::getInstance()->RemoveActorNode(_OsgObject);
+	if(_displayed)
+	{
+		if(_OsgObject)
+			OsgHandler::getInstance()->RemoveActorNode(_OsgObject, true);
+
+		if(_OsgObjectNoLight)
+			OsgHandler::getInstance()->RemoveActorNode(_OsgObjectNoLight, false);
+	}
+
 }
 
 
-/***********************************************************
-set object
-***********************************************************/
-void OsgObjectHandler::SetObject(osg::ref_ptr<osg::MatrixTransform> OsgObject)
-{
-	#ifdef _DEBUG
-		LogHandler::getInstance()->LogToFile("Added new Osg object.");
-	#endif
-
-	_OsgObject = OsgObject;
-	UpdateMatrix();
-}
 
 
 /***********************************************************
@@ -124,16 +129,17 @@ update matrix
 ***********************************************************/
 void OsgObjectHandler::UpdateMatrix()
 {
+	osg::Matrixd Trans;
+	osg::Matrixd Rotation;
+
+	Trans.makeTranslate(_posX, _posY, _posZ);
+	Rotation.makeRotate(osg::Quat(_Q.X, _Q.Y, _Q.Z, _Q.W));
+
 	if(_OsgObject)
-	{
-		osg::Matrixd Trans;
-		osg::Matrixd Rotation;
-
-		Trans.makeTranslate(_posX, _posY, _posZ);
-		Rotation.makeRotate(osg::Quat(_Q.X, _Q.Y, _Q.Z, _Q.W));
-
 		_OsgObject->setMatrix(Rotation * Trans);
-	}
+
+	if(_OsgObjectNoLight)
+		_OsgObjectNoLight->setMatrix(Rotation * Trans);
 }
 
 
@@ -147,13 +153,19 @@ void OsgObjectHandler::ShowOrHide(bool Show)
 		if(!Show && _displayed)
 		{
 			_displayed = false;
-			OsgHandler::getInstance()->RemoveActorNode(_OsgObject);
+			OsgHandler::getInstance()->RemoveActorNode(_OsgObject, true);
+
+			if(_OsgObjectNoLight)
+				OsgHandler::getInstance()->RemoveActorNode(_OsgObjectNoLight, false);
 		}
 
 		if(Show && !_displayed)
 		{
 			_displayed = true;
-			OsgHandler::getInstance()->ReAddActorNode(_OsgObject);
+			OsgHandler::getInstance()->ReAddActorNode(_OsgObject, true);
+
+			if(_OsgObjectNoLight)
+				OsgHandler::getInstance()->ReAddActorNode(_OsgObjectNoLight, false);
 		}
 	}
 }
@@ -184,4 +196,17 @@ osg::ref_ptr<osg::Group> OsgObjectHandler::GetRoot()
 		return _osgpat;
 	else
 		return _OsgObject;
+}
+
+
+
+/***********************************************************
+ return root object on no light scene
+***********************************************************/
+osg::ref_ptr<osg::Group> OsgObjectHandler::GetRootNoLight()
+{
+	if(_osgpatNoLight)
+		return _osgpatNoLight;
+	else
+		return _OsgObjectNoLight;
 }

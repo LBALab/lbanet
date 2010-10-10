@@ -220,7 +220,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgSimpleObjectDescription::BuildSel
 															DisplayHandlerBase * disH) const
 {
 	if(disH)
-		return disH->CreateSimpleObject(_filename, Tr, _CastShadow);
+		return disH->CreateSimpleObject(_filename, Tr, _UseLight, _CastShadow);
 
 	return boost::shared_ptr<DisplayObjectHandlerBase> ();
 }

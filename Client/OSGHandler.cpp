@@ -58,9 +58,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define M_PI    3.14159265358979323846f
 #endif
 
-static int ReceivesShadowTraversalMask = 0x1;
-static int CastsShadowTraversalMask = 0x2;
-
 
 OsgHandler* OsgHandler::_singletonInstance = NULL;
 
@@ -128,9 +125,10 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 		ConfigurationManager::GetInstance()->GetDouble("Display.Camera.Distance", camdistance);
 		ConfigurationManager::GetInstance()->GetDouble("Display.Camera.Zenit", camzenit);
 		ConfigurationManager::GetInstance()->GetInt("Display.Camera.CameraType", ctype);
+		ToggleCameraType(ctype);
 		SetCameraDistance(camdistance);
 		SetCameraZenit(camzenit);
-		ToggleCameraType(ctype);
+
 
 		ConfigurationManager::GetInstance()->GetInt("Display.Screen.PositionX", _posX);
 		ConfigurationManager::GetInstance()->GetInt("Display.Screen.PositionY", _posY);
@@ -257,14 +255,19 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 	kmap[LbanetKey_Stance2] = osgGA::GUIEventAdapter::KEY_F2;
 	kmap[LbanetKey_Stance3] = osgGA::GUIEventAdapter::KEY_F3;
 	kmap[LbanetKey_Stance4] = osgGA::GUIEventAdapter::KEY_F4;
+	kmap[LbanetKey_CenterCamera] = osgGA::GUIEventAdapter::KEY_Shift_R;
 	_eventH->SetKeyMap(kmap);
 
 	// add the stats handler
 	_viewer->addEventHandler(_eventH );
 
-	 osgViewer::StatsHandler *sth = new osgViewer::StatsHandler;
-	 sth->setKeyEventTogglesOnScreenStats(osgGA::GUIEventAdapter::KEY_F11);
-	 _viewer->addEventHandler(sth);
+	osgViewer::StatsHandler *sth = new osgViewer::StatsHandler;
+	sth->setKeyEventTogglesOnScreenStats(osgGA::GUIEventAdapter::KEY_F11);
+	_viewer->addEventHandler(sth);
+
+	osgViewer::ScreenCaptureHandler *screenshoth = new osgViewer::ScreenCaptureHandler;
+	screenshoth->setKeyEventTakeScreenShot(osgGA::GUIEventAdapter::KEY_F10);
+	_viewer->addEventHandler(screenshoth);
 
 
     _viewer->realize();
@@ -358,6 +361,8 @@ void OsgHandler::ToggleFullScreen()
 {
 	_isFullscreen = !_isFullscreen;
 	ResetScreen();
+
+	ConfigurationManager::GetInstance()->SetBool("Display.Screen.Fullscreen", _isFullscreen);
 }
 
 
@@ -489,7 +494,7 @@ void OsgHandler::ResetCameraAzimut()
 	{
 		if(_cameraType == 3 || ((_cameraType == 0) && (_autoCameraType == 3)))
 		{
-			_rootNode3d->setAttitude(osg::Quat(osg::DegreesToRadians(-45-_azimut), osg::Vec3(0,1,0)));
+			_rootNode3d->setAttitude(osg::Quat(osg::DegreesToRadians(180-_azimut), osg::Vec3(0,1,0)));
 		}
 		else
 		{
@@ -507,11 +512,27 @@ void OsgHandler::ToggleCameraType(int cameraType)
 	if(_cameraType != cameraType)
 	{
 		_cameraType = cameraType;
-		ResetCameraProjectiomMatrix();
+		ResetCameraDistances();
 
 		ConfigurationManager::GetInstance()->SetInt("Display.Camera.CameraType", _cameraType);
 	}
 }
+
+
+/***********************************************************
+set if the view is perspective or ortho
+***********************************************************/
+void OsgHandler::ToggleAutoCameraType(int cameraType)
+{
+	if(_autoCameraType != cameraType)
+	{
+		_autoCameraType = cameraType;
+		if(_cameraType == 0)
+			ResetCameraDistances();
+	}
+}	
+
+
 
 /***********************************************************
 delta update camera distance
@@ -525,17 +546,22 @@ void OsgHandler::DeltaUpdateCameraDistance(double delta)
 /***********************************************************
 set camera distance
 ***********************************************************/
-void OsgHandler::SetCameraDistance(double distance)
+void OsgHandler::SetCameraDistance(double distance, bool forced)
 {
-	if(_distance != distance)
+	if(forced || _distance != distance)
 	{
 		_distance = distance;
 		int maxdistance = 150;
-		if(_cameraType > 1 || ((_cameraType == 0) && (_autoCameraType > 1)))
+		if(_cameraType == 1 || ((_cameraType == 0) && (_autoCameraType == 1)))
 			maxdistance = 1000;
 
-		if(_distance < 10)
-			_distance = 10;
+		int mindistance = 30;
+		if(_cameraType > 1 || ((_cameraType == 0) && (_autoCameraType > 1)))
+			mindistance = 4;
+
+
+		if(_distance < mindistance)
+			_distance = mindistance;
 		if(_distance > maxdistance)
 			_distance = maxdistance;
 
@@ -557,17 +583,23 @@ void OsgHandler::DeltaUpdateCameraZenit(double delta)
 /***********************************************************
 set camera zenit
 ***********************************************************/
-void OsgHandler::SetCameraZenit(double zenit)
+void OsgHandler::SetCameraZenit(double zenit, bool forced)
 {
-	if(_zenit != zenit)
+	if(forced || _zenit != zenit)
 	{
 		_zenit = zenit;
 
+		int maxdistance = 70;
 
-		if(_zenit < 10)
-			_zenit = 10;
-		if(_zenit > 70)
-			_zenit = 70;
+		int mindistance = 10;
+		if(_cameraType > 2 || ((_cameraType == 0) && (_autoCameraType > 2)))
+			mindistance = -70;
+
+
+		if(_zenit < mindistance)
+			_zenit = mindistance;
+		if(_zenit > maxdistance)
+			_zenit = maxdistance;
 
 		ResetCameraTransform();
 	}
@@ -577,11 +609,15 @@ void OsgHandler::SetCameraZenit(double zenit)
 /***********************************************************
 set camera azimut
 ***********************************************************/
-void OsgHandler::SetCameraAzimut(double azimut)
+void OsgHandler::SetCameraAzimut(double azimut, bool forced)
 {
-	if(_azimut != azimut)
+	if(forced || _azimut != azimut)
 	{
 		_azimut = azimut;
+		if(_azimut < 0)
+			_azimut += 360;
+		if(_azimut > 360)
+			_azimut -= 360;
 
 		ResetCameraAzimut();
 	}
@@ -598,6 +634,15 @@ void OsgHandler::DeltaUpdateCameraAzimut(double delta)
 
 
 
+/***********************************************************
+reset camera distances when changeing cam type
+***********************************************************/
+void OsgHandler::ResetCameraDistances()
+{
+	SetCameraDistance(_distance, true);
+	SetCameraZenit(_zenit, true);
+	SetCameraAzimut(_azimut, true);
+}
 
 /***********************************************************
 set camera target
@@ -711,6 +756,56 @@ void OsgHandler::ResetDisplayTree()
 
 	_lightNode->addChild(_sceneRootNode);
 
+	_sceneNoLightRootNode = new osg::Group();	
+	_translNode->addChild(_sceneNoLightRootNode);
+
+	// grid to check dimensions
+	//{
+	//	osg::ref_ptr<osg::Geode> linesgeode = new osg::Geode();
+
+	//	
+	//	{
+	//		osg::ref_ptr<osg::Geometry> myGeometry = new osg::Geometry();
+	//		osg::Vec3Array* myVertices = new osg::Vec3Array;
+	//		osg::DrawElementsUInt* myprimitive = new osg::DrawElementsUInt(osg::PrimitiveSet::LINES, 0);
+
+	//		for(int i=0; i<200; ++i)
+	//		{
+	//			myVertices->push_back(osg::Vec3(0, i, 0));
+	//			myVertices->push_back(osg::Vec3(0, i, 200));
+
+	//			myVertices->push_back(osg::Vec3(0, i, 0));
+	//			myVertices->push_back(osg::Vec3(200, i, 0));
+
+	//			myVertices->push_back(osg::Vec3(0, 0, i));
+	//			myVertices->push_back(osg::Vec3(0, 200, i));
+
+	//			myVertices->push_back(osg::Vec3(i, 0, 0));
+	//			myVertices->push_back(osg::Vec3(i, 200, 0));
+	//		}
+
+	//		for(int i=0; i<1600; ++i)
+	//			myprimitive->push_back(i);
+
+
+	//		osg::Vec4Array* mycolors = new osg::Vec4Array;
+	//		mycolors->push_back(osg::Vec4(1,1,1,1));
+	//		myGeometry->setColorArray(mycolors);
+	//		myGeometry->setColorBinding(osg::Geometry::BIND_OVERALL);
+
+	//		myGeometry->addPrimitiveSet(myprimitive);
+	//		myGeometry->setVertexArray( myVertices ); 
+	//		linesgeode->addDrawable(myGeometry.get());
+	//	}
+
+	//	osg::StateSet* stateSet = linesgeode->getOrCreateStateSet();
+	//	stateSet->setMode(GL_TEXTURE_2D,osg::StateAttribute::OFF);
+	//	stateSet->setMode(GL_LIGHTING,osg::StateAttribute::OFF);
+
+	//	_sceneNoLightRootNode->addChild(linesgeode);
+	//}
+
+
 
 	//set default light
 	LbaMainLightInfo Linf;
@@ -751,7 +846,7 @@ osg::ref_ptr<osg::Node> OsgHandler::LoadOSGFile(const std::string & filename)
 add a actor to the display list - return handler to actor position
 ***********************************************************/
 osg::ref_ptr<osg::MatrixTransform> OsgHandler::AddActorNode(osg::ref_ptr<osg::Node> node,
-														bool CastShadow)
+																bool UseLight, bool CastShadow)
 {
 	#ifdef _DEBUG
 		LogHandler::getInstance()->LogToFile("Added Node to display engine");
@@ -769,8 +864,11 @@ osg::ref_ptr<osg::MatrixTransform> OsgHandler::AddActorNode(osg::ref_ptr<osg::No
 	osg::ref_ptr<osg::MatrixTransform> transform = new osg::MatrixTransform();
 	transform->addChild(node);
 
-	if(_sceneRootNode)
+	if(UseLight && _sceneRootNode)
 		_sceneRootNode->addChild(transform);
+
+	if(!UseLight && _sceneNoLightRootNode)
+		_sceneNoLightRootNode->addChild(transform);
 
 	return transform;
 }
@@ -779,15 +877,19 @@ osg::ref_ptr<osg::MatrixTransform> OsgHandler::AddActorNode(osg::ref_ptr<osg::No
 /***********************************************************
 add an empty actor to the display list - return handler to actor position
 ***********************************************************/
-osg::ref_ptr<osg::MatrixTransform> OsgHandler::AddEmptyActorNode()
+osg::ref_ptr<osg::MatrixTransform> OsgHandler::AddEmptyActorNode(bool WithLight)
 {
 	#ifdef _DEBUG
 		LogHandler::getInstance()->LogToFile("Added empty Node to display engine");
 	#endif
 
 	osg::ref_ptr<osg::MatrixTransform> transform = new osg::MatrixTransform();
-	if(_sceneRootNode)
+	if(WithLight && _sceneRootNode)
 		_sceneRootNode->addChild(transform);
+
+	if(!WithLight && _sceneNoLightRootNode)
+		_sceneNoLightRootNode->addChild(transform);
+
 
 	return transform;
 }
@@ -796,28 +898,34 @@ osg::ref_ptr<osg::MatrixTransform> OsgHandler::AddEmptyActorNode()
 /***********************************************************
 readd a removed actor to the display list
 ***********************************************************/
-void OsgHandler::ReAddActorNode(osg::ref_ptr<osg::Node> node)
+void OsgHandler::ReAddActorNode(osg::ref_ptr<osg::Node> node, bool WithLight)
 {
 	#ifdef _DEBUG
 		LogHandler::getInstance()->LogToFile("ReAdded Node to display engine");
 	#endif
 
-	if(_sceneRootNode)
+	if(WithLight && _sceneRootNode)
 		_sceneRootNode->addChild(node);
+
+	if(!WithLight && _sceneNoLightRootNode)
+		_sceneNoLightRootNode->addChild(node);
 }
 
 
 /***********************************************************
 remove actor from the graph
 ***********************************************************/
-void OsgHandler::RemoveActorNode(osg::ref_ptr<osg::Node> node)
+void OsgHandler::RemoveActorNode(osg::ref_ptr<osg::Node> node, bool WithLight)
 {
 	#ifdef _DEBUG
 		LogHandler::getInstance()->LogToFile("Removed Node from display engine");
 	#endif
 
-	if(_sceneRootNode)
+	if(WithLight && _sceneRootNode)
 		_sceneRootNode->removeChild(node);
+
+	if(!WithLight && _sceneNoLightRootNode)
+		_sceneNoLightRootNode->removeChild(node);
 }
 
 
@@ -867,7 +975,7 @@ create simple display object
 ***********************************************************/
 boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSimpleObject(const std::string & filename,
 														boost::shared_ptr<DisplayTransformation> Tr,
-														bool CastShadow)
+														bool UseLight, bool CastShadow)
 {
 	osg::ref_ptr<osg::Node> resnode = LoadOSGFile(filename);
 
@@ -882,8 +990,8 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSimpleObject(const
 		resnode = transform;
 	}
 	
-	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, CastShadow);
-	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat));
+	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, UseLight, CastShadow);
+	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat, UseLight));
 }
 
 
@@ -932,8 +1040,8 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCapsuleObject(floa
 		resnode = transform;
 	}
 	
-	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, true);
-	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat));
+	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, true, true);
+	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat, true));
 }
 
 
@@ -954,5 +1062,6 @@ osg::ref_ptr<osg::PositionAttitudeTransform> OsgHandler::CreatePAT(boost::shared
 
 	return osg::ref_ptr<osg::PositionAttitudeTransform>();
 }
+
 
 

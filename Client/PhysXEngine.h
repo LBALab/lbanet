@@ -33,6 +33,7 @@ class NxUserAllocator;
 class NxVec3;
 class NxController;
 class NxActor;
+class NxUserOutputStream;
 
 #include <vector>
 #include <set>
@@ -145,6 +146,7 @@ private:
 	NxScene*					gScene;
 	NxControllerManager*		gManager;
 	NxUserAllocator*			gAllocator;
+	NxUserOutputStream*			gOutputStream;
 
 	bool						_isInitialized;
 };

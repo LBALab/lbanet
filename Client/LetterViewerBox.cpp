@@ -66,7 +66,6 @@ LetterViewerBox::~LetterViewerBox()
 		ConfigurationManager::GetInstance()->SetFloat("Gui.LetterViewerFrame.PosY", vec.d_y.asRelative((float)resY));
 		ConfigurationManager::GetInstance()->SetFloat("Gui.LetterViewerFrame.SizeX", frw->getWidth().asRelative((float)resX));
 		ConfigurationManager::GetInstance()->SetFloat("Gui.LetterViewerFrame.SizeY", frw->getHeight().asRelative((float)resY));
-		ConfigurationManager::GetInstance()->SetBool("Gui.LetterViewerFrame.Visible", frw->isVisible());
 	}
 }
 

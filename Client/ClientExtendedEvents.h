@@ -47,6 +47,7 @@ enum LbanetKey
 	LbanetKey_Stance2,
 	LbanetKey_Stance3,
 	LbanetKey_Stance4,
+	LbanetKey_CenterCamera
 };
 
 /*
@@ -310,6 +311,23 @@ public:
 
 	float _lifepercent;
 	float _manapercent;
+};
+
+
+/*
+************************************************************************************************************************
+*                                                  class CenterCameraEvent
+*
+*	used when camera should center on player
+************************************************************************************************************************
+*/
+class CenterCameraEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	CenterCameraEvent()
+	{
+	}
 };
 
 

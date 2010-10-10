@@ -374,7 +374,8 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 			if(DisplayDesc.ModelName != "")
 			{
 				boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
-					(new OsgSimpleObjectDescription(DisplayDesc.ModelName, false)); //TODO make it configurable
+					(new OsgSimpleObjectDescription(DisplayDesc.ModelName, 
+								DisplayDesc.UseLight, DisplayDesc.CastShadow));
 
 				boost::shared_ptr<DisplayTransformation> tr;
 				DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
@@ -472,7 +473,8 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 		case LbaNet::TriangleMeshShape:
 		{
 				PInfo = boost::shared_ptr<PhysicalDescriptionBase>(new 
-					PhysicalDescriptionTriangleMesh(PhysicDesc.Pos.X, PhysicDesc.Pos.Y, PhysicDesc.Pos.Z, 
+					PhysicalDescriptionTriangleMesh(PhysicDesc.Pos.X, PhysicDesc.Pos.Y, PhysicDesc.Pos.Z,
+										LbaQuaternion(PhysicDesc.Pos.Rotation, LbaVec3(0, 1, 0)),
 										PhysicDesc.Filename,
 										PhysicDesc.Collidable));
 		}
@@ -608,7 +610,8 @@ void LbaNetModel::PlayerMovedUpdate(Ice::Long PlayerId, double updatetime,
 /***********************************************************
 called when we enter a new map
 ***********************************************************/
-void LbaNetModel::NewMap(const std::string & NewMap, const std::string & Script)
+void LbaNetModel::NewMap(const std::string & NewMap, const std::string & Script,
+							int AutoCameraType)
 {
 	Pause();
 
@@ -629,7 +632,8 @@ void LbaNetModel::NewMap(const std::string & NewMap, const std::string & Script)
 	EventsQueue::getSenderQueue()->AddEvent(new LbaNet::RefreshObjectRequestEvent(
 										SynchronizedTimeHandler::GetCurrentTimeDouble()));
 
-	
+
+	OsgHandler::getInstance()->ToggleAutoCameraType(AutoCameraType);
 }
 
 
@@ -641,3 +645,13 @@ void LbaNetModel::RefreshEnd()
 	Resume();
 }
 
+
+
+/***********************************************************
+center the camera on player
+***********************************************************/
+void LbaNetModel::CenterCamera()
+{
+	if(m_controllerCam)
+		m_controllerCam->Center();
+}

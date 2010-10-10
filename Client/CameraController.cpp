@@ -29,6 +29,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <iostream>
 #include <math.h>
 
+#define	_CAM_OFFSET_Y_	2
+
+#ifndef M_PI
+#define M_PI    3.14159265358979323846f
+#endif
+
 /***********************************************************
 	Constructor
 ***********************************************************/
@@ -73,17 +79,29 @@ void CameraController::Process()
 		return;
 
 	//float rotY = phys->GetRotationYAxis();
-	//OsgHandler::getInstance()->SetCameraAzimut(rotY);
+	//double azimut = OsgHandler::getInstance()->GetCameraAzimut();
+	//if(abs(rotY-azimut) > 1.0)
+	//{
+	//	double distance = (azimut - rotY);
+
+	//	if((distance > 0 && distance < 180) || (distance < -180))
+	//		OsgHandler::getInstance()->SetCameraAzimut(azimut - 0.3);
+	//	else
+	//		OsgHandler::getInstance()->SetCameraAzimut(azimut + 0.3);
+	//}
+
+
 
 
 	float actX, actY, actZ;
 	phys->GetPosition(actX, actY, actZ);
 	double _targetx, _targety, _targetz;
 	OsgHandler::getInstance()->GetCameraTarget(_targetx, _targety, _targetz);
+	_targety -= _CAM_OFFSET_Y_;
 
 	if(_isGhost)
 	{
-		OsgHandler::getInstance()->SetCameraTarget(actX, actY, actZ);
+		OsgHandler::getInstance()->SetCameraTarget(actX, actY+_CAM_OFFSET_Y_, actZ);
 		_movecamera = false;
 		return;
 	}
@@ -95,7 +113,7 @@ void CameraController::Process()
 
 	if(abs(actX - _targetx) > 6 || abs(actY - _targety) > 6 || abs(actZ - _targetz) > 6)
 	{
-		OsgHandler::getInstance()->SetCameraTarget(actX, actY, actZ);
+		OsgHandler::getInstance()->SetCameraTarget(actX, actY+_CAM_OFFSET_Y_, actZ);
 		_movecamera = false;
 		return;
 	}
@@ -121,7 +139,7 @@ void CameraController::Process()
 		if(abs(deltaZ) > 0.1)
 			_targetz+=deltaZ/100;
 
-		OsgHandler::getInstance()->SetCameraTarget(_targetx, _targety, _targetz);
+		OsgHandler::getInstance()->SetCameraTarget(_targetx, _targety+_CAM_OFFSET_Y_, _targetz);
 
 
 		if(actX == _lastactX && actY == _lastactY && actZ == _lastactZ)
@@ -134,4 +152,25 @@ void CameraController::Process()
 	_lastactX = actX;
 	_lastactY = actY;
 	_lastactZ = actZ;
+}
+
+
+
+/***********************************************************
+center camera on player
+***********************************************************/
+void CameraController::Center()
+{
+	boost::shared_ptr<PhysicalObjectHandlerBase> phys = _character->GetPhysicalObject();
+	if(!phys)
+		return;
+
+	float rotY = phys->GetRotationYAxis();
+	float actX, actY, actZ;
+	phys->GetPosition(actX, actY, actZ);
+
+
+	OsgHandler::getInstance()->SetCameraAzimut(rotY);
+	OsgHandler::getInstance()->SetCameraTarget(actX, actY+_CAM_OFFSET_Y_, actZ);
+	_movecamera = false;
 }

@@ -59,6 +59,10 @@ namespace osgShadow
 class GuiHandler;
 class OsgEventHandler;
 
+
+static int ReceivesShadowTraversalMask = 0x1;
+static int CastsShadowTraversalMask = 0x2;
+
 //*************************************************************************************************
 //*                               class OsgHandler
 //*************************************************************************************************
@@ -97,21 +101,31 @@ public:
 	//! 2 -> perspective
 	//! 3 -> free 3D
 	void ToggleCameraType(int cameraType);
+	
+	//! set if the view is perspective or ortho
+	//! 1 -> orthogonal
+	//! 2 -> perspective
+	//! 3 -> free 3D
+	void ToggleAutoCameraType(int cameraType);
 
 	//! set camera distance
-	void SetCameraDistance(double distance);
+	void SetCameraDistance(double distance, bool forced = false);
 
 	//! delta update camera distance
 	void DeltaUpdateCameraDistance(double delta);
 
 	//! set camera zenit
-	void SetCameraZenit(double zenit);
+	void SetCameraZenit(double zenit, bool forced = false);
 
 	//! delta update camera zenit
 	void DeltaUpdateCameraZenit(double delta);
 
 	//! set camera azimut
-	void SetCameraAzimut(double azimut);
+	void SetCameraAzimut(double azimut, bool forced = false);
+
+	//! get current azimut
+	double GetCameraAzimut()
+	{ return _azimut;}
 
 	//! delta update camera zenit
 	void DeltaUpdateCameraAzimut(double delta);
@@ -134,17 +148,17 @@ public:
 
 	//! add a actor to the display list - return handler to actor position
 	osg::ref_ptr<osg::MatrixTransform> AddActorNode(osg::ref_ptr<osg::Node> node,
-											bool CastShadow);
+														bool UseLight, bool CastShadow);
 
 
 	//! add an empty actor to the display list - return handler to actor position
-	osg::ref_ptr<osg::MatrixTransform> AddEmptyActorNode();
+	osg::ref_ptr<osg::MatrixTransform> AddEmptyActorNode(bool WithLight);
 
 	//! readd a removed actor to the display list
-	void ReAddActorNode(osg::ref_ptr<osg::Node> node);
+	void ReAddActorNode(osg::ref_ptr<osg::Node> node, bool WithLight);
 
 	//! remove actor from the graph
-	void RemoveActorNode(osg::ref_ptr<osg::Node> node);
+	void RemoveActorNode(osg::ref_ptr<osg::Node> node, bool WithLight);
 
 	//! set light
 	void SetLight(const LbaMainLightInfo &LightInfo);
@@ -170,7 +184,7 @@ public:
 	//! create simple display object
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateSimpleObject(const std::string & filename,
 															boost::shared_ptr<DisplayTransformation> Tr,
-															bool CastShadow);
+															bool UseLight, bool CastShadow);
 
 
 	//! create capsule object
@@ -201,6 +215,9 @@ protected:
 
 	//! set or reset camera azimut
 	void ResetCameraAzimut();
+
+	//! reset camera distances when changeing cam type
+	void ResetCameraDistances();
 
 private:
 	// singleton
@@ -245,6 +262,8 @@ private:
 	osg::ref_ptr<osg::PositionAttitudeTransform>	_translNode;
 	osg::ref_ptr<osg::LightSource>					_lightNode;
 	osg::ref_ptr<osg::Group>						_sceneRootNode;
+	osg::ref_ptr<osg::Group>						_sceneNoLightRootNode;
+
 	osg::ref_ptr<osg::ClipNode>						_clipNode;
 	osg::ref_ptr<osg::Camera>						_HUDcam;
 };

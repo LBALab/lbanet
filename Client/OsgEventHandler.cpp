@@ -259,10 +259,16 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 		case(osgGA::GUIEventAdapter::SCROLL):
 		{
 			if(ea.getScrollingMotion() == osgGA::GUIEventAdapter::SCROLL_DOWN)
-				OsgHandler::getInstance()->DeltaUpdateCameraDistance(5);
+			{
+				if(!(CEGUI::System::getSingleton().injectMouseWheelChange( -1 )))
+					OsgHandler::getInstance()->DeltaUpdateCameraDistance(5);
+			}
 
 			if(ea.getScrollingMotion() == osgGA::GUIEventAdapter::SCROLL_UP)
-				OsgHandler::getInstance()->DeltaUpdateCameraDistance(-5);
+			{
+				if(!(CEGUI::System::getSingleton().injectMouseWheelChange( 1 )))
+					OsgHandler::getInstance()->DeltaUpdateCameraDistance(-5);
+			}
 
 			return true;
 		}
@@ -422,6 +428,21 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 						SynchronizedTimeHandler::GetCurrentTimeDouble(), LbaNet::StanceDiscrete));
 					return true;	
 				}
+
+				// fullscreen
+				if(kkk == osgGA::GUIEventAdapter::KEY_F12)
+				{
+					OsgHandler::getInstance()->ToggleFullScreen();
+					return true;	
+				}
+
+				// CenterCameraEvent
+				if(kkk == _keymap[LbanetKey_CenterCamera])
+				{
+					EventsQueue::getReceiverQueue()->AddEvent(new CenterCameraEvent());
+					return true;	
+				}
+				
 			}
 		}
 

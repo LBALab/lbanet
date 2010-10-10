@@ -118,12 +118,15 @@ public:
 
 
 	//! called when we enter a new map
-	void NewMap(const std::string & NewMap, const std::string & Script);
+	void NewMap(const std::string & NewMap, const std::string & Script,
+					int AutoCameraType);
 
 
 	//! map is fully refreshed
 	void RefreshEnd();
 
+	//! center the camera on player
+	void CenterCamera();
 
 protected:
 

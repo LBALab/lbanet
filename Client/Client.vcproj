@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/D  _CRT_SECURE_NO_WARNINGS"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\dependencies\OSG\include;..\dependencies\CEGUI\cegui\include;..\dependencies\3rdParty\include;..\dependencies\libconfig\include;..\shared;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Foundation/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Physics/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Cooking/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/PhysXLoader/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/NxCharacter/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot;;..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\dependencies\fmod\include;..\dependencies\CrashReport\crashrpt\include;..\Servers\WorldServer;..\dependencies\sqlite"
+				AdditionalIncludeDirectories="..\dependencies\OSG\include;..\dependencies\CEGUI\cegui\include;..\dependencies\3rdParty\include;..\dependencies\libconfig\include;..\shared;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Foundation/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Physics/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Cooking/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/PhysXLoader/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/NxCharacter/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot;;..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\dependencies\fmod\include;..\dependencies\CrashReport\crashrpt\include;..\Servers\WorldServer;..\dependencies\sqlite;..\dependencies\LUA\include;..\dependencies\luabind\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -62,9 +62,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib CEGUIBase_d.lib CEGUIOpenGLRenderer_d.lib osgd.lib osgutild.lib osgGAd.lib osgViewerd.lib osgDBd.lib osgTextd.lib osgShadowd.lib libconfig++d.lib PhysXLoader.lib PhysXCooking.lib NxCharacter.lib iced.lib iceutild.lib glacier2d.lib fmodex_vc.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib CEGUIBase_d.lib CEGUIOpenGLRenderer_d.lib osgd.lib osgutild.lib osgGAd.lib osgViewerd.lib osgDBd.lib osgTextd.lib osgShadowd.lib libconfig++d.lib PhysXLoader.lib PhysXCooking.lib NxCharacter.lib iced.lib iceutild.lib glacier2d.lib fmodex_vc.lib lua51d.lib luabindd.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\dependencies\OSG\lib;..\dependencies\CEGUI\lib;..\dependencies\3rdParty\lib;..\dependencies\libconfig\lib;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\lib\Win32&quot;;&quot;$(ICE_HOME)\lib&quot;;..\dependencies\fmod\lib;..\dependencies\CrashReport\crashrpt\lib"
+				AdditionalLibraryDirectories="..\dependencies\OSG\lib;..\dependencies\CEGUI\lib;..\dependencies\3rdParty\lib;..\dependencies\libconfig\lib;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\lib\Win32&quot;;&quot;$(ICE_HOME)\lib&quot;;..\dependencies\fmod\lib;..\dependencies\CrashReport\crashrpt\lib;..\dependencies\LUA\lib;..\dependencies\luabind\lib"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -119,7 +119,7 @@
 				AdditionalOptions="/D  _CRT_SECURE_NO_WARNINGS"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="..\dependencies\OSG\include;..\dependencies\CEGUI\cegui\include;..\dependencies\3rdParty\include;..\dependencies\libconfig\include;..\shared;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Foundation/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Physics/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Cooking/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/PhysXLoader/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/NxCharacter/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot;;..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\dependencies\fmod\include;..\dependencies\CrashReport\crashrpt\include;..\Servers\WorldServer;..\dependencies\sqlite"
+				AdditionalIncludeDirectories="..\dependencies\OSG\include;..\dependencies\CEGUI\cegui\include;..\dependencies\3rdParty\include;..\dependencies\libconfig\include;..\shared;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Foundation/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Physics/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Cooking/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/PhysXLoader/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/NxCharacter/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot;;..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\dependencies\fmod\include;..\dependencies\CrashReport\crashrpt\include;..\Servers\WorldServer;..\dependencies\sqlite;..\dependencies\LUA\include;..\dependencies\luabind\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -139,9 +139,9 @@
 			<Tool
 				Name="VCLinkerTool"
 				PerUserRedirection="false"
-				AdditionalDependencies="opengl32.lib glu32.lib CEGUIBase.lib CEGUIOpenGLRenderer.lib osg.lib osgutil.lib osgGA.lib osgViewer.lib osgDB.lib osgText.lib osgShadow.lib libconfig++.lib PhysXLoader.lib PhysXCooking.lib NxCharacter.lib ice.lib iceutil.lib glacier2.lib fmodex_vc.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib CEGUIBase.lib CEGUIOpenGLRenderer.lib osg.lib osgutil.lib osgGA.lib osgViewer.lib osgDB.lib osgText.lib osgShadow.lib libconfig++.lib PhysXLoader.lib PhysXCooking.lib NxCharacter.lib ice.lib iceutil.lib glacier2.lib fmodex_vc.lib lua51.lib luabind.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\dependencies\OSG\lib;..\dependencies\CEGUI\lib;..\dependencies\3rdParty\lib;..\dependencies\libconfig\lib;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\lib\Win32&quot;;&quot;$(ICE_HOME)\lib&quot;;..\dependencies\fmod\lib;..\dependencies\CrashReport\crashrpt\lib"
+				AdditionalLibraryDirectories="..\dependencies\OSG\lib;..\dependencies\CEGUI\lib;..\dependencies\3rdParty\lib;..\dependencies\libconfig\lib;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\lib\Win32&quot;;&quot;$(ICE_HOME)\lib&quot;;..\dependencies\fmod\lib;..\dependencies\CrashReport\crashrpt\lib;..\dependencies\LUA\lib;..\dependencies\luabind\lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -179,6 +179,10 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath="..\Servers\WorldServer\ActorHandler.cpp"
+				>
+			</File>
 			<File
 				RelativePath=".\ActorUserData.cpp"
 				>
@@ -448,6 +452,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Servers\WorldServer\ServerLuaHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Servers\WorldServer\SharedDataHandler.cpp"
 				>
 			</File>
@@ -513,6 +521,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\Servers\WorldServer\ActorHandler.h"
+				>
+			</File>
 			<File
 				RelativePath=".\ActorUserData.h"
 				>
@@ -767,6 +779,10 @@
 			</File>
 			<File
 				RelativePath=".\RunnableThread.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Servers\WorldServer\ServerLuaHandler.h"
 				>
 			</File>
 			<File

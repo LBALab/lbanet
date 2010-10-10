@@ -421,7 +421,8 @@ void LbaNetEngine::HandleGameEvents()
 				dynamic_cast<LbaNet::NewMapEvent *>(&obj);
 
 			// update model
-			m_lbaNetModel->NewMap(castedptr->MapName, castedptr->InitializationScript);
+			m_lbaNetModel->NewMap(castedptr->MapName, castedptr->InitializationScript, 
+																castedptr->AutoCameraType);
 
 			//set chat map name
 			LbaNet::GuiUpdatesSeq upd;
@@ -518,6 +519,13 @@ void LbaNetEngine::HandleGameEvents()
 			if(m_gui_handler)
 				m_gui_handler->UpdateLifeMana(castedptr->_lifepercent, castedptr->_manapercent);
 
+			continue;
+		}
+
+		// CenterCameraEvent
+		if(info == typeid(CenterCameraEvent))
+		{
+			m_lbaNetModel->CenterCamera();
 			continue;
 		}
 	}
