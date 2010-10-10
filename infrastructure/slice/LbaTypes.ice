@@ -71,6 +71,11 @@ module LbaNet
 		string			MusicFile;
 		int			RepatMusic;
 		
+		// 1 - orthogonal
+		// 2 - perspective
+		// 3 - free 3d
+		int			AutoCameraType;
+		
 		SpawningsSeq 		Spawnings;
 
 	};	
@@ -97,6 +102,8 @@ module LbaNet
 		string			Weapon;		// only for animated models
 		string			Mode;		// only for animated models
 		ModelState		State;
+		bool			UseLight;
+		bool			CastShadow;
 	};
 
 	struct PlayerStartingInfo

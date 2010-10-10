@@ -123,6 +123,7 @@ module LbaNet
 	{
 		string			MapName;
 		string			InitializationScript;
+		int			AutoCameraType;
 	};
 	
 	
