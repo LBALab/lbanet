@@ -33,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "RunnableThread.h"
 #include "ServerGuiBase.h"
 #include "ClientProxyHandler.h"
+#include "ActorHandler.h"
 
 using namespace LbaNet;
 
@@ -68,54 +69,6 @@ private:
 	std::map<Ice::Long, ClientProxyBasePtr>		_proxies;
 };
 
-
-
-//! class used by lua to add objects on the map
-struct ActorObjectInfo
-{
-	//constructor
-	ActorObjectInfo(long id, int type);
-
-	// set enum for render type as lua does not map enum
-	//1 - RenderOsgModel
-	//2 - RenderSprite
-	//3 - RenderLba1M
-	//4 - RenderLba2M
-	void SetRenderType(int rtype);
-
-	// set enum for PhysicalShape as lua does not map enum
-	//1 - NoShape
-	//2 - BoxShape
-	//3 - CapsuleShape
-	//4 - SphereShape
-	//5 - TriangleMeshShape
-	void SetPhysicalShape(int shape);
-
-	// set enum for SetPhysicalActorType as lua does not map enum
-	//1 - StaticAType
-	//2 - KynematicAType
-	//3 - DynamicAType
-	//4 - CharControlAType
-	void SetPhysicalActorType(int ptype);
-
-
-
-
-	long						ObjectId;
-
-
-	//1 - StaticObject
-	//2 - CpuObject
-	//3 - MovableObject
-	//4 - PlayerObject
-	//5 - GhostObject
-	LbaNet::ObjectTypeEnum		TypeO;
-
-	LbaNet::ModelInfo			DisplayDesc;
-	LbaNet::ObjectPhysicDesc	PhysicDesc;
-	LbaNet::LifeManaInfo		LifeInfo;
-	LbaNet::ObjectExtraInfo		ExtraInfo;
-};
 
 
 
@@ -202,6 +155,7 @@ protected:
 	//! a player is raised from dead
 	void RaiseFromDeadEvent(Ice::Long id, EventsSeq &tosendevts);
 
+
 private:
 	// threading and mutex stuff
 	IceUtil::Monitor<IceUtil::Mutex>							_monitor;
@@ -220,6 +174,8 @@ private:
 	 std::map<Ice::Long, EventsSeq>								_events;
 
 	 std::map<std::string, boost::shared_ptr<ServerGUIBase> >	_guihandlers;
+
+	 std::map<Ice::Long, boost::shared_ptr<ActorHandler> >		_Actors;
 };
 
 

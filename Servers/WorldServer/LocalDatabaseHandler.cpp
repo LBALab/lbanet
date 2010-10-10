@@ -246,8 +246,8 @@ LbaNet::SavedWorldInfo LocalDatabaseHandler::ChangeWorld(const std::string& NewW
 
 					// insert new data row
 					query.str("");
-					query << "INSERT INTO lba_usertoworld (userid, worldid, lastvisited, ModelName, ModelOutfit, ModelWeapon, ModelMode) VALUES('";
-					query << PlayerId << "', '"<<worldid<<"', datetime('now'), '', '', '', '')";
+					query << "INSERT INTO lba_usertoworld (userid, worldid, lastvisited, ModelName, ModelOutfit, ModelWeapon, ModelMode, lastmap) VALUES('";
+					query << PlayerId << "', '"<<worldid<<"', datetime('now'), '', '', '', '', '')";
 					dbres = sqlite3_exec(_db, query.str().c_str(), 0, 0, &zErrMsg);
 					if(dbres != SQLITE_OK)
 					{

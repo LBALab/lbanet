@@ -35,7 +35,9 @@ ServerLuaHandler::ServerLuaHandler(const std::string & luafile)
 		.def_readwrite("Outfit", &LbaNet::ModelInfo::Outfit)
 		.def_readwrite("Weapon", &LbaNet::ModelInfo::Weapon)
 		.def_readwrite("Mode", &LbaNet::ModelInfo::Mode)
-		.def_readwrite("State", &LbaNet::ModelInfo::State),
+		.def_readwrite("State", &LbaNet::ModelInfo::State)
+		.def_readwrite("UseLight", &LbaNet::ModelInfo::UseLight)
+		.def_readwrite("CastShadow", &LbaNet::ModelInfo::CastShadow),
 
 
 		luabind::class_<LbaNet::PlayerPosition>("PlayerPosition")
@@ -81,7 +83,11 @@ ServerLuaHandler::ServerLuaHandler(const std::string & luafile)
 		.def_readwrite("DisplayDesc", &ActorObjectInfo::DisplayDesc)
 		.def_readwrite("PhysicDesc", &ActorObjectInfo::PhysicDesc)
 		.def_readwrite("LifeInfo", &ActorObjectInfo::LifeInfo)
-		.def_readwrite("ExtraInfo", &ActorObjectInfo::ExtraInfo),
+		.def_readwrite("ExtraInfo", &ActorObjectInfo::ExtraInfo)
+		.def("SetRenderType", &ActorObjectInfo::SetRenderType)
+		.def("SetPhysicalShape", &ActorObjectInfo::SetPhysicalShape)
+		.def("SetPhysicalActorType", &ActorObjectInfo::SetPhysicalActorType)
+		.def("SetModelState", &ActorObjectInfo::SetModelState),
 
 		luabind::class_<MapHandler>("MapHandler")
 		.def("AddActorObject", &MapHandler::AddActorObject)
@@ -89,7 +95,11 @@ ServerLuaHandler::ServerLuaHandler(const std::string & luafile)
 		];
 
 		// read lua file
-		luaL_dofile(m_LuaState, luafile.c_str());
+		int error = luaL_dofile(m_LuaState, ("Data/"+luafile).c_str());
+		if(error != 0)
+		{
+			LogHandler::getInstance()->LogToFile(std::string("Error loading lua file: ") + lua_tostring(m_LuaState, -1));
+		}
 	}
 	catch(const std::exception &error)
 	{
@@ -132,6 +142,6 @@ void ServerLuaHandler::CallLua(const std::string & functioname)
 	}
 	catch(const std::exception &error)
 	{
-		LogHandler::getInstance()->LogToFile(std::string("Exception calling lua function ") + functioname + std::string(" : ") + error.what(), 0);
+		LogHandler::getInstance()->LogToFile(std::string("Exception calling lua function ") + functioname + std::string(" : ") + error.what() + std::string(" : ") + lua_tostring(m_LuaState, -1), 0);
 	}
 }

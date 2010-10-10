@@ -44,7 +44,6 @@ public:
 							boost::shared_ptr<DatabaseHandlerBase> dbH,
 							const std::string &worldname,
 							const LbaNet::SavedWorldInfo & savedinfo,
-							const LbaNet::ModelInfo & modelinfo,
 							const LbaNet::ObjectExtraInfo& extrainfo);
 	
 	//! destructor
@@ -58,7 +57,7 @@ public:
 	ClientProxyBasePtr GetProxy() {return _proxy;}
 
 	//! accessor on model
-	LbaNet::ModelInfo GetModelInfo() {return _currentmodelinfo;}
+	LbaNet::ModelInfo GetModelInfo() {return _currentinfo.model;}
 
 	//! get inventory
 	LbaNet::ItemsMap GetInventory() {return _currentinventory;}
@@ -82,6 +81,9 @@ public:
 
 	// update current position in the world
 	void UpdatePositionInWorld(const LbaNet::PlayerPosition& Position);
+
+	// update current position in the world
+	void Teleport(const LbaNet::PlayerPosition& Position);
 
 	// start a quest
 	void StartQuest(long questid);
@@ -135,7 +137,6 @@ private:
 
 	std::string									_worldname;
 	LbaNet::SavedWorldInfo						_currentinfo;
-	LbaNet::ModelInfo							_currentmodelinfo;
 	LbaNet::ItemsMap							_currentinventory;
 	LbaNet::ShortcutsSeq						_currentshortcuts;
 	LbaNet::ObjectExtraInfo						_extrainfo;

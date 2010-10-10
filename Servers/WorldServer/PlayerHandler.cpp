@@ -8,13 +8,11 @@ PlayerHandler::PlayerHandler(long clientid, ClientProxyBasePtr proxy,
 						boost::shared_ptr<DatabaseHandlerBase> dbH,
 						const std::string &worldname,
 						const LbaNet::SavedWorldInfo & savedinfo,
-						const LbaNet::ModelInfo & modelinfo,
 						const LbaNet::ObjectExtraInfo& extrainfo)
 	: _clientid(clientid), _proxy(proxy), 
 		_dbH(dbH), _currentinfo(savedinfo), _worldname(worldname),
-		_currentmodelinfo(modelinfo), _extrainfo(extrainfo)
+		_extrainfo(extrainfo)
 {
-
 	// get quest information
 	if(_dbH) 
 		_dbH->GetQuestInfo(_worldname, _clientid, _questStarted, _questFinished);
@@ -99,6 +97,17 @@ update current position in the world
 void PlayerHandler::UpdatePositionInWorld(const LbaNet::PlayerPosition& Position)
 {
 	_currentinfo.ppos = Position;
+}
+
+/***********************************************************
+update current position in the world
+***********************************************************/
+void PlayerHandler::Teleport(const LbaNet::PlayerPosition& Position)
+{
+	_currentinfo.ppos = Position;
+
+	//TODO - remove that and replace by a raising place system
+	_spawningIno = Position;
 }
 
 
@@ -202,12 +211,12 @@ bool PlayerHandler::UpdatePlayerStance(LbaNet::ModelStance NewStance, LbaNet::Mo
 		}
 
 		// check if stance is already there
-		if(_currentmodelinfo.Mode != newmode)
+		if(_currentinfo.model.Mode != newmode)
 		{
-			_currentmodelinfo.Mode = newmode;
-			_currentmodelinfo.State = LbaNet::StNormal;
+			_currentinfo.model.Mode = newmode;
+			_currentinfo.model.State = LbaNet::StNormal;
 			UpdateStateModeClass();
-			returnmodel = _currentmodelinfo;
+			returnmodel = _currentinfo.model;
 			return true;
 		}
 	}
@@ -227,11 +236,11 @@ bool PlayerHandler::UpdatePlayerState(LbaNet::ModelState NewState,LbaNet::ModelI
 	if(_currentstate && _currentstate->ChangeLegal(NewState))
 	{
 		// if so check if already on this state
-		if(_currentmodelinfo.State != NewState)
+		if(_currentinfo.model.State != NewState)
 		{
-			_currentmodelinfo.State = NewState;
+			_currentinfo.model.State = NewState;
 			UpdateStateModeClass();
-			returnmodel = _currentmodelinfo;
+			returnmodel = _currentinfo.model;
 			return true;
 		}
 	}
@@ -244,42 +253,42 @@ update state and mode class from modelinfo
 ***********************************************************/
 void PlayerHandler::UpdateStateModeClass()
 {
-	if(_currentmodelinfo.Mode == "Normal")
+	if(_currentinfo.model.Mode == "Normal")
 	{
 		_currentmode = boost::shared_ptr<CharacterModeBase>(new NormalCharacterMode());
 	}
 
-	if(_currentmodelinfo.Mode == "Sport")
+	if(_currentinfo.model.Mode == "Sport")
 	{
 		_currentmode = boost::shared_ptr<CharacterModeBase>(new SportyCharacterMode());
 	}
 
-	if(_currentmodelinfo.Mode == "Angry")
+	if(_currentinfo.model.Mode == "Angry")
 	{
 		_currentmode = boost::shared_ptr<CharacterModeBase>(new AggresiveCharacterMode());
 	}
 
-	if(_currentmodelinfo.Mode == "Discrete")
+	if(_currentinfo.model.Mode == "Discrete")
 	{
 		_currentmode = boost::shared_ptr<CharacterModeBase>(new DiscreteCharacterMode());
 	}		
 
-	if(_currentmodelinfo.Mode == "Protopack")
+	if(_currentinfo.model.Mode == "Protopack")
 	{
 		_currentmode = boost::shared_ptr<CharacterModeBase>(new ProtopackCharacterMode());
 	}
 
-	if(_currentmodelinfo.Mode == "Horse")
+	if(_currentinfo.model.Mode == "Horse")
 	{
 		_currentmode = boost::shared_ptr<CharacterModeBase>(new HorseCharacterMode());
 	}
 
-	if(_currentmodelinfo.Mode == "Dinofly")
+	if(_currentinfo.model.Mode == "Dinofly")
 	{
 		_currentmode = boost::shared_ptr<CharacterModeBase>(new DinoflyCharacterMode());
 	}		
 
-	switch(_currentmodelinfo.State)
+	switch(_currentinfo.model.State)
 	{
 		case LbaNet::StNormal:
 		{
@@ -403,9 +412,9 @@ bool PlayerHandler::RaiseFromDead(LbaNet::ModelInfo & returnmodel)
 	//TODO - check if raise is legal
 	if(_currentstate && _currentstate->IsDead())
 	{
-		_currentmodelinfo.State = LbaNet::StNormal;
+		_currentinfo.model.State = LbaNet::StNormal;
 		UpdateStateModeClass();
-		returnmodel = _currentmodelinfo;
+		returnmodel = _currentinfo.model;
 		return true;
 	}
 

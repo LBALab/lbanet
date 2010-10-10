@@ -12,122 +12,6 @@
 
 #define _THREAD_WAIT_TIME_	17
 
-
-/***********************************************************
-constructor
-***********************************************************/
-ActorObjectInfo::ActorObjectInfo(long id, int type)
-: ObjectId(id)
-{
-	switch(type)
-	{
-		case 1:
-			TypeO = LbaNet::StaticObject;
-		break;
-		case 2:
-			TypeO = LbaNet::CpuObject;
-		break;
-		case 3:
-			TypeO = LbaNet::MovableObject;
-		break;
-		case 4:
-			TypeO = LbaNet::PlayerObject;
-		break;
-		case 5:
-			TypeO = LbaNet::GhostObject;
-		break;
-	}
-}
-
-
-
-
-
-/***********************************************************
-	// set enum for render type as lua does not map enum
-	//1 - RenderOsgModel
-	//2 - RenderSprite
-	//3 - RenderLba1M
-	//4 - RenderLba2M
-***********************************************************/
-void ActorObjectInfo::SetRenderType(int rtype)
-{
-	switch(rtype)
-	{
-		case 1:
-			DisplayDesc.TypeRenderer = LbaNet::RenderOsgModel;
-		break;
-		case 2:
-			DisplayDesc.TypeRenderer = LbaNet::RenderSprite;
-		break;
-		case 3:
-			DisplayDesc.TypeRenderer = LbaNet::RenderLba1M;
-		break;
-		case 4:
-			DisplayDesc.TypeRenderer = LbaNet::RenderLba2M;
-		break;
-	}
-}
-
-
-/***********************************************************
-	// set enum for PhysicalShape as lua does not map enum
-	//1 - NoShape
-	//2 - BoxShape
-	//3 - CapsuleShape
-	//4 - SphereShape
-	//5 - TriangleMeshShape
-***********************************************************/
-void ActorObjectInfo::SetPhysicalShape(int shape)
-{
-	switch(shape)
-	{
-		case 1:
-			PhysicDesc.TypeShape = LbaNet::NoShape;
-		break;
-		case 2:
-			PhysicDesc.TypeShape = LbaNet::BoxShape;
-		break;
-		case 3:
-			PhysicDesc.TypeShape = LbaNet::CapsuleShape;
-		break;
-		case 4:
-			PhysicDesc.TypeShape = LbaNet::SphereShape;
-		break;
-		case 5:
-			PhysicDesc.TypeShape = LbaNet::TriangleMeshShape;
-		break;
-	}
-}
-
-	
-/***********************************************************
-	// set enum for SetPhysicalActorType as lua does not map enum
-	//1 - StaticAType
-	//2 - KynematicAType
-	//3 - DynamicAType
-	//4 - CharControlAType
-***********************************************************/
-void ActorObjectInfo::SetPhysicalActorType(int ptype)
-{
-	switch(ptype)
-	{
-		case 1:
-			PhysicDesc.TypePhysO = LbaNet::StaticAType;
-		break;
-		case 2:
-			PhysicDesc.TypePhysO = LbaNet::KynematicAType;
-		break;
-		case 3:
-			PhysicDesc.TypePhysO = LbaNet::DynamicAType;
-		break;
-		case 4:
-			PhysicDesc.TypePhysO = LbaNet::CharControlAType;
-		break;
-	}
-}
-
-
 /***********************************************************
 constructor
 ***********************************************************/
@@ -378,9 +262,9 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts,
 			{
 				LbaNet::TeleportEvent* castedptr = 
 					dynamic_cast<LbaNet::TeleportEvent *>(&obj);
-				
-				//TODO
-					//string			TeleportId;
+
+				SharedDataHandler::getInstance()->TeleportPlayer(it->first, castedptr->TeleportId);
+
 				continue;
 			}
 
@@ -547,7 +431,7 @@ void MapHandler::PlayerEntered(Ice::Long id, EventsSeq &tosendevts)
 
 	// inform client he enter a new map
 	toplayer.push_back(new NewMapEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-												_mapinfo.Name, "")); //TODO put script here
+												_mapinfo.Name, "", _mapinfo.AutoCameraType)); //TODO put script here
 	
 
 	// player inventory
@@ -600,21 +484,23 @@ player left map
 ***********************************************************/
 void MapHandler::PlayerLeft(Ice::Long id, EventsSeq &tosendevts)
 {
-	// inform all players that player left
-	tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-												PlayerObject, id));
-	
-	// remove player from list
 	std::vector<Ice::Long>::iterator it = std::find(_currentplayers.begin(), _currentplayers.end(), id);
 	if(it != _currentplayers.end())
+	{
+		// inform all players that player left
+		tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+													PlayerObject, id));
+
+		// remove player from list
 		_currentplayers.erase(it);
 	
 
-	// inform guis
-	std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator itg = _guihandlers.begin();
-	std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator endg = _guihandlers.end();
-	for(; itg != endg; ++itg)
-		itg->second->PlayerLeftMap(id);
+		// inform guis
+		std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator itg = _guihandlers.begin();
+		std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator endg = _guihandlers.end();
+		for(; itg != endg; ++itg)
+			itg->second->PlayerLeftMap(id);
+	}
 }
 
 
@@ -674,28 +560,39 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 
 
 	//current objects in map
-	//TODO
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact = _Actors.begin();
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endact = _Actors.end();
+	for(; itact != endact; ++itact)
 	{
-	ModelInfo		DisplayDesc;
-	DisplayDesc.TypeRenderer = RenderOsgModel;
-	DisplayDesc.ModelName = "Worlds/Lba1Original/Grids/TheComplexPvpArena.osgb";
-	DisplayDesc.State = LbaNet::NoState;
+		// TODO - check if objects are visible by the player ( depends of condition)
+		const ActorObjectInfo & actinfo = itact->second->GetActorInfo();
 
-	ObjectPhysicDesc	PhysicDesc;
-	PhysicDesc.Pos.X = 0;
-	PhysicDesc.Pos.Y = 0;
-	PhysicDesc.Pos.Z = 0;
-	PhysicDesc.Pos.Rotation = 0;
-	PhysicDesc.TypePhysO = StaticAType;	
-	PhysicDesc.TypeShape = TriangleMeshShape;
-
-	PhysicDesc.Collidable = true;
-	PhysicDesc.Filename = "Worlds/Lba1Original/Grids/TheComplexPvpArena.phy";
-
-	toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-												StaticObject, 1, DisplayDesc, PhysicDesc,
-												LbaNet::LifeManaInfo() ,LbaNet::ObjectExtraInfo()));
+		toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+			actinfo.TypeO, itact->first, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo , actinfo.ExtraInfo));
 	}
+
+
+	//{
+	//ModelInfo		DisplayDesc;
+	//DisplayDesc.TypeRenderer = RenderOsgModel;
+	//DisplayDesc.ModelName = "Worlds/Lba1Original/Grids/TheComplexPvpArena.osgb";
+	//DisplayDesc.State = LbaNet::NoState;
+
+	//ObjectPhysicDesc	PhysicDesc;
+	//PhysicDesc.Pos.X = 0;
+	//PhysicDesc.Pos.Y = 0;
+	//PhysicDesc.Pos.Z = 0;
+	//PhysicDesc.Pos.Rotation = 0;
+	//PhysicDesc.TypePhysO = StaticAType;	
+	//PhysicDesc.TypeShape = TriangleMeshShape;
+
+	//PhysicDesc.Collidable = true;
+	//PhysicDesc.Filename = "Worlds/Lba1Original/Grids/TheComplexPvpArena.phy";
+
+	//toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+	//											StaticObject, 1, DisplayDesc, PhysicDesc,
+	//											LbaNet::LifeManaInfo() ,LbaNet::ObjectExtraInfo()));
+	//}
 
 	
 	// current players in map
@@ -790,5 +687,6 @@ function used by LUA to add actor
 ***********************************************************/
 void MapHandler::AddActorObject(const ActorObjectInfo & object)
 {
-	//TODO
+	_Actors[object.ObjectId] = boost::shared_ptr<ActorHandler>(new ActorHandler(object));
 }
+

@@ -134,6 +134,13 @@ public:
 	//! return true if raised
 	bool RaiseFromDead(Ice::Long clientid, ModelInfo & returnmodel);
 
+	//! teleport player
+	void TeleportPlayer(Ice::Long clientid, const std::string &TeleportId);
+
+	//! change map for player
+	void ChangeMapPlayer(Ice::Long clientid, const std::string &NewMapName, 
+										const std::string &SpawningName);
+
 protected:
 	//! constructor
 	SharedDataHandler(void){}
@@ -157,6 +164,9 @@ protected:
 	void RegisterClient(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo, 
 							ClientProxyBasePtr proxy);
 
+
+	//! internally change map for player
+	void ChangeMapPlayer(Ice::Long clientid, LbaNet::PlayerPosition &newpos);
 
 private:
 	static SharedDataHandler *											_Instance;
