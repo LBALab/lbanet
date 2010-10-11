@@ -464,6 +464,7 @@ void CharacterController::Process(double tnow, float tdiff)
 
 
 	// do last check for state
+	bool changedstate = false;
 	if(_currentstate)
 	{
 		// inform state if animation is finished
@@ -480,13 +481,16 @@ void CharacterController::Process(double tnow, float tdiff)
 		// check if state should be changed by state
 		LbaNet::ModelState newstate;
 		if(_currentstate->ShouldChangeState(newstate))
+		{
 			UpdateModeAndState(_currentmodestr, newstate, tnow);
+			changedstate = true;
+		}
 	}
 
 
 	// check if state should be changed by mode
 	LbaNet::ModelState newstate;
-	if(_currentmode && _currentmode->ChangeState(_currentstatestr, _pressedkeys, newstate))
+	if(!_chefkiffall && !changedstate && _currentmode && _currentmode->ChangeState(_currentstatestr, _pressedkeys, newstate))
 		UpdateModeAndState(_currentmodestr, newstate, tnow);
 
 

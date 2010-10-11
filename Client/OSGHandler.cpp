@@ -47,6 +47,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <osgShadow/StandardShadowMap>
 #include <osgShadow/MinimalShadowMap>
 #include <osgShadow/ShadowMap>
+#include <osgParticle/PrecipitationEffect>
 
 // win32 only
 #include <osgViewer/api/Win32/GraphicsWindowWin32>
@@ -758,6 +759,33 @@ void OsgHandler::ResetDisplayTree()
 
 	_sceneNoLightRootNode = new osg::Group();	
 	_translNode->addChild(_sceneNoLightRootNode);
+
+
+ //   osg::ref_ptr<osgParticle::PrecipitationEffect> precipitationEffect = new osgParticle::PrecipitationEffect;
+
+ //   float intensity = 1.0;
+ //  // precipitationEffect->snow(intensity);
+ //   precipitationEffect->rain(intensity);
+
+ //   precipitationEffect->setParticleSize(0.01);
+
+ //   precipitationEffect->setParticleColor(osg::Vec4(1,1,1,0.5));
+
+ //   precipitationEffect->setWind(osg::Vec3(0, -10 , 0));
+	////precipitationEffect->setParticleSpeed(0);
+	////precipitationEffect->setNearTransition(1);
+ //   //precipitationEffect->setFarTransition(1);
+	////precipitationEffect->setMaximumParticleDensity(1);
+	////precipitationEffect->setCellSize(osg::Vec3(1, 1, 1)); 
+
+
+	//precipitationEffect->getFog()->setDensity(0.1);
+ //   precipitationEffect->getFog()->setColor(osg::Vec4(1,1,1,0.5));
+	//precipitationEffect->setUseFarLineSegments(true);  
+ //   //_viewer.getCamera()->setClearColor( precipitationEffect->getFog()->getColor() );
+
+	//_sceneNoLightRootNode->addChild(precipitationEffect.get());
+	
 
 	// grid to check dimensions
 	//{
