@@ -116,7 +116,12 @@ public:
 
 	// function used by LUA to add actor
 	void AddActorObject(const ActorObjectInfo & object);
-							
+					
+
+	// teleport an object
+	void Teleport(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
+						const std::string &NewMapName, 
+						const std::string &SpawningName);
 
 
 protected:
@@ -176,6 +181,8 @@ private:
 	 std::map<std::string, boost::shared_ptr<ServerGUIBase> >	_guihandlers;
 
 	 std::map<Ice::Long, boost::shared_ptr<ActorHandler> >		_Actors;
+
+	 EventsSeq													_tosendevts;
 };
 
 

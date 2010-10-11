@@ -167,18 +167,18 @@ void MapHandler::run()
 	while(_Trunning)
 	{
 		// prepare events to send to everybody
-		EventsSeq tosend;
+		_tosendevts.clear();
 
 		// process events
 		std::map<Ice::Long, EventsSeq> evts;
 		GetEvents(evts);
-		ProcessEvents(evts, tosend);
+		ProcessEvents(evts, _tosendevts);
 
 
 		// send events to all proxies
-		if(tosend.size() > 0)
+		if(_tosendevts.size() > 0)
 		{
-			IceUtil::ThreadPtr t = new EventsSenderToAll(tosend, GetProxies());
+			IceUtil::ThreadPtr t = new EventsSenderToAll(_tosendevts, GetProxies());
 			t->start();	
 		}
 
@@ -690,3 +690,58 @@ void MapHandler::AddActorObject(const ActorObjectInfo & object)
 	_Actors[object.ObjectId] = boost::shared_ptr<ActorHandler>(new ActorHandler(object));
 }
 
+
+
+
+/***********************************************************
+teleport an object
+***********************************************************/
+void MapHandler::Teleport(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
+							const std::string &NewMapName, 
+							const std::string &SpawningName)
+{
+	// if teleport on different map
+	if(NewMapName != _mapinfo.Name)
+	{
+		// teleport player outside the map
+		if(OType == LbaNet::PlayerObject)
+			SharedDataHandler::getInstance()->ChangeMapPlayer(ObjectId, NewMapName, SpawningName);
+	}
+	else // same map
+	{
+		// get spawning info
+		LbaNet::SpawningsSeq::iterator itsp = _mapinfo.Spawnings.find(SpawningName);
+		if(itsp != _mapinfo.Spawnings.end())
+		{
+			PlayerPosition pos;
+			pos.X = itsp->second.PosX;
+			pos.Y = itsp->second.PosY;
+			pos.Z = itsp->second.PosZ;
+			if(itsp->second.ForceRotation)
+				pos.Rotation = itsp->second.Rotation;
+
+			pos.MapName = _mapinfo.Name;
+
+
+			if(OType == LbaNet::PlayerObject)
+			{
+				// update player position
+				SharedDataHandler::getInstance()->UpdatePlayerPosition(ObjectId, pos);
+
+				// inform all of player move
+				LbaNet::PlayerMoveInfo moveinfo;
+				moveinfo.ForcedChange = true;
+				moveinfo.CurrentPos = pos;
+				moveinfo.CurrentSpeedX = 0;
+				moveinfo.CurrentSpeedY = 0;
+				moveinfo.CurrentSpeedZ = 0;
+				moveinfo.CurrentSpeedRotation = 0;
+				_tosendevts.push_back(new LbaNet::PlayerMovedEvent(
+														SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+														ObjectId, moveinfo, true));	
+			}
+
+			//TODO - other actors
+		}
+	}
+}
