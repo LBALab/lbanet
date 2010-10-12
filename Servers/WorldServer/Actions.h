@@ -44,20 +44,20 @@ public:
 	//! 1 -> npc object
 	//! 2 -> player object
 	//! 3 -> movable object
-	virtual void Execute(MapHandler * owner, int ObjectType, Ice::Long ObjectId) = 0;
+	virtual void Execute(MapHandler * owner, int ObjectType, Ice::Long ObjectId){}
 
 };
 
 
 //! use to teleport the object to a new location
-class Teleport
+class TeleportAction : public ActionBase
 {
 public:
 	//! constructor
-	Teleport(const std::string & NewMap, const std::string & Spawning);
+	TeleportAction(const std::string & NewMap, const std::string & Spawning);
 	
 	//! destructor
-	virtual ~Teleport(void);
+	virtual ~TeleportAction(void);
 
 	//! execute the action
 	//! parameter return the object type and number triggering the action

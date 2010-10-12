@@ -100,6 +100,8 @@ public:
 	//!  get player position
 	LbaNet::PlayerPosition GetPlayerPosition();
 
+	//! get player mode string
+	std::string GetPlayerModeString();
 
 	//!  update player stance
 	//! return true if state has been updated

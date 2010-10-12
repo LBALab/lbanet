@@ -35,6 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ClientProxyHandler.h"
 #include "ActorHandler.h"
 #include "ServerLuaHandler.h"
+#include "Triggers.h"
 
 using namespace LbaNet;
 
@@ -129,16 +130,20 @@ public:
 						const std::string &SpawningName);
 
 
+
+	// add a trigger of moving type to the map
+	void AddTrigger(boost::shared_ptr<TriggerBase> trigger);
+
+
 protected:
 	// process events
-	void ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts, 
-						EventsSeq &tosendevts);
+	void ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts);
 
 	// player entered map
-	void PlayerEntered(Ice::Long id, EventsSeq &tosendevts);
+	void PlayerEntered(Ice::Long id);
 
 	// player left map
-	void PlayerLeft(Ice::Long id, EventsSeq &tosendevts);
+	void PlayerLeft(Ice::Long id);
 
 
 	// gui update from a client
@@ -146,8 +151,7 @@ protected:
 
 
 	//! called when a player moved
-	void PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMoveInfo &info, 
-						EventsSeq &tosendevts);
+	void PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMoveInfo &info);
 
 
 	//! refresh player objects
@@ -155,16 +159,17 @@ protected:
 
 
 	//! change player stance
-	void ChangeStance(Ice::Long id, LbaNet::ModelStance NewStanceId, 
-														EventsSeq &tosendevts);
+	void ChangeStance(Ice::Long id, LbaNet::ModelStance NewStanceId);
 
 	//! change player state
-	void ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, float FallingSize, 
-														EventsSeq &tosendevts);
+	void ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, float FallingSize);
 
 	//! a player is raised from dead
-	void RaiseFromDeadEvent(Ice::Long id, EventsSeq &tosendevts);
+	void RaiseFromDeadEvent(Ice::Long id);
 
+
+	//! process player action
+	void ProcessPlayerAction(Ice::Long id, bool ForcedNormalAction);
 
 private:
 	// threading and mutex stuff
@@ -190,6 +195,8 @@ private:
 	 EventsSeq													_tosendevts;
 
 	ServerLuaHandler											_luaH;
+
+	std::map<long, boost::shared_ptr<TriggerBase> >				_triggers;
 };
 
 

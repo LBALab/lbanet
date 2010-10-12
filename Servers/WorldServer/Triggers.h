@@ -35,7 +35,10 @@ class TriggerBase
 {
 public:
 	//! constructor
-	TriggerBase(){}
+	TriggerBase(long id, bool CheckPlayers, bool CheckNpcs, bool CheckMovableObjects)
+		: _id(id), _CheckPlayers(CheckPlayers), 
+			_CheckNpcs(CheckNpcs), _CheckMovableObjects(CheckMovableObjects)
+	{}
 	
 	//! destructor
 	virtual ~TriggerBase(void){}
@@ -53,84 +56,11 @@ public:
 		_posZ = Z;
 	}
 
-protected:
-	MapHandler *	_map;
-	float			_posX;
-	float			_posY;
-	float			_posZ;
-};
-
-
-
-//!  class handling triggers when player/object enter or leave map
-class EnterLeaveMapTrigger : public TriggerBase
-{
-public:
-	//! constructor
-	EnterLeaveMapTrigger(){}
-	
-	//! destructor
-	virtual ~EnterLeaveMapTrigger(void){}
-
-	//! check trigger on object enter map
-	// ObjectType ==>
-	//! 1 -> npc object
-	//! 2 -> player object
-	//! 3 -> movable object
-	virtual void ObjectEnterMap(int ObjectType, Ice::Long ObjectId) = 0;
-
-	//! check trigger on object leave map
-	// ObjectType ==>
-	//! 1 -> npc object
-	//! 2 -> player object
-	//! 3 -> movable object
-	virtual void ObjectLeaveMap(int ObjectType, Ice::Long ObjectId) = 0;
-};
-
-
-
-//!  class handling triggers when player/object moves
-class MovingTrigger : public EnterLeaveMapTrigger
-{
-public:
-	//! constructor
-	MovingTrigger(){}
-	
-	//! destructor
-	virtual ~MovingTrigger(void){}
-
-	//! check trigger on object move
-	// ObjectType ==>
-	//! 1 -> npc object
-	//! 2 -> player object
-	//! 3 -> movable object
-	virtual void CheckTriggerOnMove(int ObjectType, Ice::Long ObjectId,
-										const LbaNet::PlayerMoveInfo &info) = 0;
-};
-
-
-
-//! class handling triggers when player/object enter/leave zone
-class ZoneTrigger : public MovingTrigger
-{
-public:
-	//! constructor
-	//! AllowMultiActivation is used as flag to know if the trigger should be activated
-	//! again if an object is already inside the zone and a second object enters
-	//! as an example for door trigger, we would set the flag to false as only 
-	//! the first player entering would open
-	//! the door, any other player entering the zone will do nothing
-	//! as well, the door will close only when the last player leave the zone
-	ZoneTrigger(	float sizeX, float sizeY, float sizeZ, 
-					bool CheckPlayers, bool CheckNpcs, bool CheckMovableObjects,
-					bool AllowMultiActivation);
-	
-	//! destructor
-	virtual ~ZoneTrigger(void);
-
-	//! check trigger on object move
-	virtual void CheckTriggerOnMove(int ObjectType, Ice::Long ObjectId,
-										const LbaNet::PlayerMoveInfo &info);
+	//! get trigger id
+	long GetId()
+	{
+		return _id;
+	}
 
 
 	//! check trigger on object enter map
@@ -145,7 +75,76 @@ public:
 	//! 1 -> npc object
 	//! 2 -> player object
 	//! 3 -> movable object
+	virtual void ObjectLeaveMap(int ObjectType, Ice::Long ObjectId){}
+
+	//! check trigger on object move
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void ObjectMoved(int ObjectType, Ice::Long ObjectId,
+										const LbaNet::PlayerPosition &info){}
+
+
+	//! check trigger on object action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	// ObjectMode give the mode the object was when performing the action
+	virtual void ObjectAction(int ObjectType, Ice::Long ObjectId,
+										const LbaNet::PlayerPosition &info,
+										const std::string &ObjectMode){}
+
+
+protected:
+	long			_id;
+	bool			_CheckPlayers;
+	bool			_CheckNpcs;
+	bool			_CheckMovableObjects;
+
+
+	MapHandler *	_map;
+	float			_posX;
+	float			_posY;
+	float			_posZ;
+};
+
+
+
+//! class handling triggers when player/object enter/leave zone
+class ZoneTrigger : public TriggerBase
+{
+public:
+	//! constructor
+	//! AllowMultiActivation is used as flag to know if the trigger should be activated
+	//! again if an object is already inside the zone and a second object enters
+	//! as an example for door trigger, we would set the flag to false as only 
+	//! the first player entering would open
+	//! the door, any other player entering the zone will do nothing
+	//! as well, the door will close only when the last player leave the zone
+	ZoneTrigger( long id, bool CheckPlayers, bool CheckNpcs, bool CheckMovableObjects,
+					float sizeX, float sizeY, float sizeZ, 
+					bool AllowMultiActivation);
+	
+	//! destructor
+	virtual ~ZoneTrigger(void);
+
+	//! check trigger on object move
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void ObjectMoved(int ObjectType, Ice::Long ObjectId,
+										const LbaNet::PlayerPosition &info);
+
+	//! check trigger on object leave map
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
 	virtual void ObjectLeaveMap(int ObjectType, Ice::Long ObjectId);
+
 
 	//! set action when enter zone
 	void SetActionOnEnter(boost::shared_ptr<ActionBase> action)
@@ -176,9 +175,7 @@ private:
 	float													_sizeY;
 	float													_sizeZ;
 
-	bool													_CheckPlayers;
-	bool													_CheckNpcs;
-	bool													_CheckMovableObjects;
+
 	bool													_AllowMultiActivation;
 
 	boost::shared_ptr<ActionBase>							_actionOnEnter;
@@ -187,6 +184,90 @@ private:
 	std::set<std::pair<int, Ice::Long> >					_objectsinside;
 };
 
+
+
+
+//! class handling triggers when player/object use action at a certain distance of an object
+class ActivationTrigger : public TriggerBase
+{
+public:
+	//! constructor
+	//! can configure up to 2 modes to be accepted for trigger the action
+	ActivationTrigger( long id, bool CheckPlayers, bool CheckNpcs, bool CheckMovableObjects,
+							float MaxSquaredDistance, 
+							const std::string & AcceptedMode1, 
+							const std::string & AcceptedMode2);
+	
+	//! destructor
+	virtual ~ActivationTrigger(void);
+
+
+	//! set action when activated
+	void SetActionOnActivation(boost::shared_ptr<ActionBase> action)
+	{_action = action;}
+
+
+	//! check trigger on object action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	// ObjectMode give the mode the object was when performing the action
+	virtual void ObjectAction(int ObjectType, Ice::Long ObjectId,
+										const LbaNet::PlayerPosition &info,
+										const std::string &ObjectMode);
+
+private:
+	boost::shared_ptr<ActionBase>			_action;
+	float									_MaxSquaredDistance; 
+	std::string								_AcceptedMode1; 
+	std::string								_AcceptedMode2;
+};
+
+
+
+//! class handling triggers when player/object use action in a zone
+class ZoneActionTrigger : public TriggerBase
+{
+public:
+	//! constructor
+	ZoneActionTrigger( long id, bool CheckPlayers, bool CheckNpcs, bool CheckMovableObjects,
+						float sizeX, float sizeY, float sizeZ, 
+							const std::string & AcceptedMode1, 
+							const std::string & AcceptedMode2);
+	
+	//! destructor
+	virtual ~ZoneActionTrigger(void);
+
+
+	//! check trigger on object action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	// ObjectMode give the mode the object was when performing the action
+	virtual void ObjectAction(int ObjectType, Ice::Long ObjectId,
+										const LbaNet::PlayerPosition &info,
+										const std::string &ObjectMode);
+
+
+
+	//! set action when activated
+	void SetActionOnActivation(boost::shared_ptr<ActionBase> action)
+	{_action = action;}
+
+
+
+private:
+	float									_sizeX;
+	float									_sizeY;
+	float									_sizeZ;
+
+	std::string								_AcceptedMode1; 
+	std::string								_AcceptedMode2;
+
+	boost::shared_ptr<ActionBase>			_action;
+};
 
 
 #endif

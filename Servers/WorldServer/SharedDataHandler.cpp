@@ -413,6 +413,23 @@ PlayerPosition SharedDataHandler::GetPlayerPosition(Ice::Long clientid)
 
 
 /***********************************************************
+get player mode string
+***********************************************************/
+std::string SharedDataHandler::GetPlayerModeString(Ice::Long clientid)
+{
+	Lock sync(*this);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
+	if(it != _currentplayers.end())
+		return it->second->GetPlayerModeString();
+
+
+	return "";
+}
+
+
+
+/***********************************************************
 get player extra info
 ***********************************************************/
 LbaNet::ObjectExtraInfo SharedDataHandler::GetPlayerExtraInfo(Ice::Long clientid)

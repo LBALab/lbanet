@@ -179,6 +179,14 @@ LbaNet::PlayerPosition PlayerHandler::GetPlayerPosition()
 	return _currentinfo.ppos;
 }
 
+/***********************************************************
+get player mode string
+***********************************************************/
+std::string PlayerHandler::GetPlayerModeString()
+{
+	return _currentinfo.model.Mode;
+}
+
 
 /***********************************************************
 //!  update player stance

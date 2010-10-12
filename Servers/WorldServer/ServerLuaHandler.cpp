@@ -10,6 +10,7 @@ extern "C"
 #include <LbaTypes.h>
 #include "MapHandler.h"
 #include "LogHandler.h"
+#include "Triggers.h"
 
 
 /***********************************************************
@@ -91,7 +92,36 @@ ServerLuaHandler::ServerLuaHandler(const std::string & luafile)
 
 		luabind::class_<MapHandler>("MapHandler")
 		.def("AddActorObject", &MapHandler::AddActorObject)
+		.def("AddTrigger", &MapHandler::AddTrigger)
+		.def("Teleport", &MapHandler::Teleport),
 		
+
+		luabind::class_<TriggerBase, boost::shared_ptr<TriggerBase> >("TriggerBase")
+		.def(luabind::constructor<long, bool, bool, bool>())
+		.def("SetPosition", &TriggerBase::SetPosition),
+
+		luabind::class_<ZoneTrigger, TriggerBase, boost::shared_ptr<TriggerBase> >("ZoneTrigger")
+		.def(luabind::constructor<long, bool, bool, bool, float, float, float, bool>())
+		.def("SetActionOnEnter", &ZoneTrigger::SetActionOnEnter)
+		.def("SetActionOnLeave", &ZoneTrigger::SetActionOnLeave),
+
+		luabind::class_<ActivationTrigger, TriggerBase, boost::shared_ptr<TriggerBase> >("ActivationTrigger")
+		.def(luabind::constructor<long, bool, bool, bool, float, const std::string &, const std::string &>())
+		.def("SetActionOnActivation", &ActivationTrigger::SetActionOnActivation),
+
+		luabind::class_<ZoneActionTrigger, TriggerBase, boost::shared_ptr<TriggerBase> >("ZoneActionTrigger")
+		.def(luabind::constructor<long, bool, bool, bool, float, float, float, 
+											const std::string &, const std::string &>())
+		.def("SetActionOnActivation", &ZoneActionTrigger::SetActionOnActivation),
+
+		
+
+		luabind::class_<ActionBase, boost::shared_ptr<ActionBase> >("ActionBase")
+		.def(luabind::constructor<>()),
+
+		luabind::class_<TeleportAction, ActionBase, boost::shared_ptr<ActionBase> >("TeleportAction")
+		.def(luabind::constructor<const std::string &, const std::string &>())
+
 		];
 
 		// read lua file

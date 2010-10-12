@@ -10,6 +10,8 @@
 #include "InventoryBoxHandler.h"
 #include "MailBoxHandler.h"
 
+#include <math.h>
+
 #define _THREAD_WAIT_TIME_	17
 
 /***********************************************************
@@ -176,7 +178,7 @@ void MapHandler::run()
 		// process events
 		std::map<Ice::Long, EventsSeq> evts;
 		GetEvents(evts);
-		ProcessEvents(evts, _tosendevts);
+		ProcessEvents(evts);
 
 
 		// send events to all proxies
@@ -211,8 +213,7 @@ void MapHandler::run()
 /***********************************************************
 process events
 ***********************************************************/
-void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts, 
-									EventsSeq &tosendevts)
+void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts)
 {
 	std::map<Ice::Long, EventsSeq>::const_iterator it = evts.begin();
 	std::map<Ice::Long, EventsSeq>::const_iterator end = evts.end();
@@ -229,14 +230,14 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts,
 			// client entered
 			if(info == typeid(LbaNet::PlayerEnterEvent))
 			{
-				PlayerEntered(it->first, tosendevts);
+				PlayerEntered(it->first);
 				continue;
 			}
 
 			// client left
 			if(info == typeid(LbaNet::PlayerLeaveEvent))
 			{
-				PlayerLeft(it->first, tosendevts);
+				PlayerLeft(it->first);
 				continue;
 			}
 
@@ -246,7 +247,7 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts,
 				LbaNet::PlayerMovedEvent* castedptr = 
 					dynamic_cast<LbaNet::PlayerMovedEvent *>(&obj);
 
-				PlayerMoved(it->first, castedptr->Time, castedptr->info, tosendevts);
+				PlayerMoved(it->first, castedptr->Time, castedptr->info);
 				continue;
 			}
 
@@ -278,7 +279,7 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts,
 				LbaNet::ChangeStanceEvent* castedptr = 
 					dynamic_cast<LbaNet::ChangeStanceEvent *>(&obj);
 				
-				ChangeStance(it->first, castedptr->NewStance, tosendevts);
+				ChangeStance(it->first, castedptr->NewStance);
 				continue;
 			}
 
@@ -288,9 +289,8 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts,
 			{
 				LbaNet::PressedActionKeyEvent* castedptr = 
 					dynamic_cast<LbaNet::PressedActionKeyEvent *>(&obj);
-				
-				//TODO
-					//bool			ForcedNormalAction;
+
+				ProcessPlayerAction(it->first, castedptr->ForcedNormalAction);
 				continue;
 			}
 
@@ -317,14 +317,14 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts,
 				LbaNet::UpdateStateEvent* castedptr = 
 					dynamic_cast<LbaNet::UpdateStateEvent *>(&obj);
 
-				ChangePlayerState(it->first, castedptr->NewState, castedptr->FallingSize, tosendevts);
+				ChangePlayerState(it->first, castedptr->NewState, castedptr->FallingSize);
 				continue;
 			}
 
 			// RaiseFromDeadEvent
 			if(info == typeid(LbaNet::RaiseFromDeadEvent))
 			{
-				RaiseFromDeadEvent(it->first, tosendevts);
+				RaiseFromDeadEvent(it->first);
 				continue;
 			}
 
@@ -334,7 +334,7 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts,
 				LbaNet::NewClientExtraInfoEvent* castedptr = 
 					dynamic_cast<LbaNet::NewClientExtraInfoEvent *>(&obj);
 
-				tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+				_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 									PlayerObject, it->first, new ObjectExtraInfoUpdate(castedptr->ExtraInfo)));
 				continue;
 			}
@@ -423,7 +423,7 @@ std::map<Ice::Long, ClientProxyBasePtr> MapHandler::GetProxies()
 /***********************************************************
 player entered map
 ***********************************************************/
-void MapHandler::PlayerEntered(Ice::Long id, EventsSeq &tosendevts)
+void MapHandler::PlayerEntered(Ice::Long id)
 {
 	// add player to list
 	_currentplayers.push_back(id);
@@ -476,23 +476,41 @@ void MapHandler::PlayerEntered(Ice::Long id, EventsSeq &tosendevts)
 		PhysicDesc.SizeX = 0.5;
 		PhysicDesc.SizeY = 5;
 
-		tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+		_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 													PlayerObject, id, pinfo.model, PhysicDesc, 
 									SharedDataHandler::getInstance()->GetInfo(id).lifemana,
 									SharedDataHandler::getInstance()->GetPlayerExtraInfo(id)));
+	}
+
+
+	// inform triggers
+	{
+		std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
+		std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
+		for(; ittr != endtr; ++ittr)
+			ittr->second->ObjectEnterMap(2, id);
 	}
 }
 
 /***********************************************************
 player left map
 ***********************************************************/
-void MapHandler::PlayerLeft(Ice::Long id, EventsSeq &tosendevts)
+void MapHandler::PlayerLeft(Ice::Long id)
 {
 	std::vector<Ice::Long>::iterator it = std::find(_currentplayers.begin(), _currentplayers.end(), id);
 	if(it != _currentplayers.end())
 	{
+		// inform triggers
+		{
+			std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
+			std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
+			for(; ittr != endtr; ++ittr)
+				ittr->second->ObjectLeaveMap(2, id);
+		}
+
+
 		// inform all players that player left
-		tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+		_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 													PlayerObject, id));
 
 		// remove player from list
@@ -525,24 +543,52 @@ void MapHandler::GuiUpdate(Ice::Long id, const std::string guidi, GuiUpdatesSeq	
 /***********************************************************
 called when a player moved
 ***********************************************************/
-void MapHandler::PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMoveInfo &info, 
-							 EventsSeq &tosendevts)
+void MapHandler::PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMoveInfo &info)
 {
-	//TODO first check if the info is correct
+	//TODO first check if the info is correct and no cheating
 
-	//TODO then do a interpolation and check for triggers
 
+
+	//do an interpolation and check for triggers
+	{
+		PlayerPosition lastpos = SharedDataHandler::getInstance()->GetPlayerPosition(id);
+
+		float diffX = (info.CurrentPos.X - lastpos.X);
+		float diffY = (info.CurrentPos.Y - lastpos.Y);
+		float diffZ = (info.CurrentPos.Z - lastpos.Z);
+		float diffpos = abs(diffX)	+ abs(diffY) +  abs(diffZ);
+
+		// if player moved
+		if(diffpos > 0.0001f)
+		{
+			// do a 10th interpolation
+			for(int i=1; i<= 10; ++i)
+			{
+				PlayerPosition pos(lastpos);
+				pos.X += (diffX/10) * i;
+				pos.Y += (diffX/10) * i;
+				pos.Z += (diffX/10) * i;
+
+				// inform triggers
+				std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
+				std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
+				for(; ittr != endtr; ++ittr)
+					ittr->second->ObjectMoved(2, id, pos);
+			}
+		}
+	}
+
+
+	// update player position
+	PlayerPosition pos(info.CurrentPos);
+	pos.MapName = _mapinfo.Name;
+	SharedDataHandler::getInstance()->UpdatePlayerPosition(id, pos);
 
 
 	if(info.ForcedChange)
 	{
-		// update player position
-		PlayerPosition pos(info.CurrentPos);
-		pos.MapName = _mapinfo.Name;
-		SharedDataHandler::getInstance()->UpdatePlayerPosition(id, pos);
-
 		// inform all of player move
-		tosendevts.push_back(new LbaNet::PlayerMovedEvent(time, id, info, false));
+		_tosendevts.push_back(new LbaNet::PlayerMovedEvent(time, id, info, false));
 	}
 
 
@@ -574,29 +620,6 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 		toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 			LbaNet::NpcObject, itact->first, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo , actinfo.ExtraInfo));
 	}
-
-
-	//{
-	//ModelInfo		DisplayDesc;
-	//DisplayDesc.TypeRenderer = RenderOsgModel;
-	//DisplayDesc.ModelName = "Worlds/Lba1Original/Grids/TheComplexPvpArena.osgb";
-	//DisplayDesc.State = LbaNet::NoState;
-
-	//ObjectPhysicDesc	PhysicDesc;
-	//PhysicDesc.Pos.X = 0;
-	//PhysicDesc.Pos.Y = 0;
-	//PhysicDesc.Pos.Z = 0;
-	//PhysicDesc.Pos.Rotation = 0;
-	//PhysicDesc.TypePhysO = StaticAType;	
-	//PhysicDesc.TypeShape = TriangleMeshShape;
-
-	//PhysicDesc.Collidable = true;
-	//PhysicDesc.Filename = "Worlds/Lba1Original/Grids/TheComplexPvpArena.phy";
-
-	//toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-	//											StaticObject, 1, DisplayDesc, PhysicDesc,
-	//											LbaNet::LifeManaInfo() ,LbaNet::ObjectExtraInfo()));
-	//}
 
 	
 	// current players in map
@@ -631,12 +654,11 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 /***********************************************************
 change player stance
 ***********************************************************/
-void MapHandler::ChangeStance(Ice::Long id, LbaNet::ModelStance NewStance, 
-														EventsSeq &tosendevts)
+void MapHandler::ChangeStance(Ice::Long id, LbaNet::ModelStance NewStance)
 {
 	ModelInfo returnmodel;
 	if(SharedDataHandler::getInstance()->UpdatePlayerStance(id, NewStance, returnmodel))
-		tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 					PlayerObject, id, new ModelUpdate(returnmodel, false)));
 }
 
@@ -644,12 +666,11 @@ void MapHandler::ChangeStance(Ice::Long id, LbaNet::ModelStance NewStance,
 /***********************************************************
 change player state
 ***********************************************************/
-void MapHandler::ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, float FallingSize, 
-																			 EventsSeq &tosendevts)
+void MapHandler::ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, float FallingSize)
 {
 	ModelInfo returnmodel;
 	if(SharedDataHandler::getInstance()->UpdatePlayerState(id, NewState, returnmodel))
-		tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 					PlayerObject, id, new ModelUpdate(returnmodel, true)));
 
 	//TODO - hurt by falling
@@ -659,7 +680,7 @@ void MapHandler::ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, fl
 /***********************************************************
 a player is raised from dead
 ***********************************************************/
-void MapHandler::RaiseFromDeadEvent(Ice::Long id, EventsSeq &tosendevts)
+void MapHandler::RaiseFromDeadEvent(Ice::Long id)
 {
 	ModelInfo returnmodel;
 
@@ -676,10 +697,10 @@ void MapHandler::RaiseFromDeadEvent(Ice::Long id, EventsSeq &tosendevts)
 		moveinfo.CurrentSpeedY = 0;
 		moveinfo.CurrentSpeedZ = 0;
 		moveinfo.CurrentSpeedRotation = 0;
-		tosendevts.push_back(new LbaNet::PlayerMovedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+		_tosendevts.push_back(new LbaNet::PlayerMovedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 															id, moveinfo, true));
 
-		tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 					PlayerObject, id, new ModelUpdate(returnmodel, false)));
 	}
 }
@@ -747,5 +768,34 @@ void MapHandler::Teleport(int ObjectType, Ice::Long ObjectId,
 
 			//TODO - other actors
 		}
+	}
+}
+
+
+
+/***********************************************************
+add a trigger of moving type to the map
+***********************************************************/
+void MapHandler::AddTrigger(boost::shared_ptr<TriggerBase> trigger)
+{
+	_triggers[trigger->GetId()] = trigger;
+}
+
+
+
+/***********************************************************
+process player action
+***********************************************************/
+void MapHandler::ProcessPlayerAction(Ice::Long id, bool ForcedNormalAction)
+{
+	PlayerPosition pos = SharedDataHandler::getInstance()->GetPlayerPosition(id);
+	std::string mode = SharedDataHandler::getInstance()->GetPlayerModeString(id);
+
+	// inform triggers
+	{
+		std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
+		std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
+		for(; ittr != endtr; ++ittr)
+			ittr->second->ObjectAction(2, id, pos, (ForcedNormalAction? "Normal": mode));
 	}
 }

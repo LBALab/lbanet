@@ -99,6 +99,9 @@ public:
 	//!  get player position
 	PlayerPosition GetPlayerPosition(Ice::Long clientid);
 
+	//! get player mode string
+	std::string GetPlayerModeString(Ice::Long clientid);
+
 
 	//! get player extra info
 	LbaNet::ObjectExtraInfo GetPlayerExtraInfo(Ice::Long clientid);
