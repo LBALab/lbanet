@@ -27,22 +27,20 @@ ZoneTrigger::~ZoneTrigger(void)
 /***********************************************************
 check trigger on object move
 ***********************************************************/
-void ZoneTrigger::CheckTriggerOnMove(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
+void ZoneTrigger::CheckTriggerOnMove(int ObjectType, Ice::Long ObjectId,
 										const LbaNet::PlayerMoveInfo &info)
 {
-	if(OType == LbaNet::StaticObject || LbaNet::GhostObject)
+	if(ObjectType == 1 && !_CheckNpcs)
 		return;
 
-	if(OType == LbaNet::CpuObject && !_CheckNpcs)
+	if(ObjectType == 2 && !_CheckPlayers)
 		return;
 
-	if(OType == LbaNet::MovableObject && !_CheckMovableObjects)
+	if(ObjectType == 3 && !_CheckMovableObjects)
 		return;
 
-	if(OType == LbaNet::PlayerObject && !_CheckPlayers)
-		return;
 
-	bool wasinside = _objectsinside.find(std::make_pair<LbaNet::ObjectTypeEnum, Ice::Long>(OType, ObjectId)) 
+	bool wasinside = _objectsinside.find(std::make_pair<int, Ice::Long>(ObjectType, ObjectId)) 
 																		!= _objectsinside.end();
 
 	bool isinside = false;
@@ -54,10 +52,10 @@ void ZoneTrigger::CheckTriggerOnMove(LbaNet::ObjectTypeEnum OType, Ice::Long Obj
 	}
 
 	if(isinside && !wasinside)
-		Entered(OType, ObjectId);
+		Entered(ObjectType, ObjectId);
 
 	if(!isinside && wasinside)
-		Left(OType, ObjectId);
+		Left(ObjectType, ObjectId);
 }
 
 
@@ -66,35 +64,35 @@ void ZoneTrigger::CheckTriggerOnMove(LbaNet::ObjectTypeEnum OType, Ice::Long Obj
 /***********************************************************
 check trigger on object leave map
 ***********************************************************/
-void ZoneTrigger::ObjectLeaveMap(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId)
+void ZoneTrigger::ObjectLeaveMap(int ObjectType, Ice::Long ObjectId)
 {
-	if(_objectsinside.find(std::make_pair<LbaNet::ObjectTypeEnum, Ice::Long>(OType, ObjectId)) 
+	if(_objectsinside.find(std::make_pair<int, Ice::Long>(ObjectType, ObjectId)) 
 																		!= _objectsinside.end())
-		Left(OType, ObjectId);
+		Left(ObjectType, ObjectId);
 }
 
 
 /***********************************************************
 when object entered
 ***********************************************************/
-void ZoneTrigger::Entered(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId)
+void ZoneTrigger::Entered(int ObjectType, Ice::Long ObjectId)
 {
-	_objectsinside.insert(std::make_pair<LbaNet::ObjectTypeEnum, Ice::Long>(OType, ObjectId));
+	_objectsinside.insert(std::make_pair<int, Ice::Long>(ObjectType, ObjectId));
 
 	if(_AllowMultiActivation || _objectsinside.size() == 1)
 		if(_actionOnEnter)
-			_actionOnEnter->Execute(_map, OType, ObjectId);
+			_actionOnEnter->Execute(_map, ObjectType, ObjectId);
 }
 
 
 /***********************************************************
 when object left
 ***********************************************************/
-void ZoneTrigger::Left(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId)
+void ZoneTrigger::Left(int ObjectType, Ice::Long ObjectId)
 {
-	_objectsinside.erase(std::make_pair<LbaNet::ObjectTypeEnum, Ice::Long>(OType, ObjectId));
+	_objectsinside.erase(std::make_pair<int, Ice::Long>(ObjectType, ObjectId));
 
 	if(_AllowMultiActivation || _objectsinside.size() == 0)
 		if(_actionOnLeave)
-			_actionOnLeave->Execute(_map, OType, ObjectId);
+			_actionOnLeave->Execute(_map, ObjectType, ObjectId);
 }

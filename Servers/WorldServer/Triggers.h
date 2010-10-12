@@ -73,10 +73,18 @@ public:
 	virtual ~EnterLeaveMapTrigger(void){}
 
 	//! check trigger on object enter map
-	virtual void ObjectEnterMap(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId) = 0;
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void ObjectEnterMap(int ObjectType, Ice::Long ObjectId) = 0;
 
 	//! check trigger on object leave map
-	virtual void ObjectLeaveMap(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId) = 0;
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void ObjectLeaveMap(int ObjectType, Ice::Long ObjectId) = 0;
 };
 
 
@@ -92,7 +100,11 @@ public:
 	virtual ~MovingTrigger(void){}
 
 	//! check trigger on object move
-	virtual void CheckTriggerOnMove(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void CheckTriggerOnMove(int ObjectType, Ice::Long ObjectId,
 										const LbaNet::PlayerMoveInfo &info) = 0;
 };
 
@@ -117,15 +129,23 @@ public:
 	virtual ~ZoneTrigger(void);
 
 	//! check trigger on object move
-	virtual void CheckTriggerOnMove(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
+	virtual void CheckTriggerOnMove(int ObjectType, Ice::Long ObjectId,
 										const LbaNet::PlayerMoveInfo &info);
 
 
 	//! check trigger on object enter map
-	virtual void ObjectEnterMap(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId){}
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void ObjectEnterMap(int ObjectType, Ice::Long ObjectId){}
 
 	//! check trigger on object leave map
-	virtual void ObjectLeaveMap(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId);
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void ObjectLeaveMap(int ObjectType, Ice::Long ObjectId);
 
 	//! set action when enter zone
 	void SetActionOnEnter(boost::shared_ptr<ActionBase> action)
@@ -138,10 +158,18 @@ public:
 
 protected:
 	//! when object entered
-	void Entered(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId);
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	void Entered(int ObjectType, Ice::Long ObjectId);
 
 	//! when object left
-	void Left(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId);
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	void Left(int ObjectType, Ice::Long ObjectId);
 
 private:
 	float													_sizeX;
@@ -156,7 +184,7 @@ private:
 	boost::shared_ptr<ActionBase>							_actionOnEnter;
 	boost::shared_ptr<ActionBase>							_actionOnLeave;
 
-	std::set<std::pair<LbaNet::ObjectTypeEnum, Ice::Long> >	_objectsinside;
+	std::set<std::pair<int, Ice::Long> >					_objectsinside;
 };
 
 

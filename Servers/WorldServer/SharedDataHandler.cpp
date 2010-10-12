@@ -2,7 +2,6 @@
 #include "PlayerHandler.h"
 #include "MapHandler.h"
 #include "SynchronizedTimeHandler.h"
-#include "ServerLuaHandler.h"
 #include "LogHandler.h"
 
 SharedDataHandler* SharedDataHandler::_Instance = NULL;
@@ -34,23 +33,17 @@ void SharedDataHandler::SetWorldDefaultInformation(WorldInformation &worldinfo)
 	Lock sync(*this);
 	_worldinfo = worldinfo;
 
-	// set lua handler
-	_luaH = boost::shared_ptr<ServerLuaHandler>(new ServerLuaHandler(worldinfo.FileUsedInfo["lua"]));
-
 	// create all maps
 	LbaNet::MapsSeq::const_iterator itm = worldinfo.Maps.begin();
 	LbaNet::MapsSeq::const_iterator endm = worldinfo.Maps.end();
 	for(; itm != endm; ++itm)
 	{
+		std::string luafile = "Data/Worlds/" + _worldinfo.Description.WorldName;
+		luafile += "Lua/" + itm->second.Name + "_server.lua";
+
 		// create map object
-		boost::shared_ptr<MapHandler> mapH(new MapHandler(itm->second));
+		boost::shared_ptr<MapHandler> mapH(new MapHandler(itm->second, luafile));
 		_currentmaps[itm->first] = mapH;
-
-		// register map to lua
-		_luaH->RegisterMap(itm->first, mapH.get());
-
-		// init map using lua
-		_luaH->CallLua("InitMap_" + itm->first);
 	}
 }
 
@@ -325,8 +318,6 @@ void SharedDataHandler::CleanUp()
 	_currentplayers.clear();
 
 	_dbH = boost::shared_ptr<DatabaseHandlerBase>();
-
-	_luaH = boost::shared_ptr<ServerLuaHandler>();
 }
 
 

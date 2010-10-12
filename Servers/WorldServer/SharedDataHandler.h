@@ -172,7 +172,7 @@ private:
 	static SharedDataHandler *											_Instance;
 	
 	boost::shared_ptr<DatabaseHandlerBase>								_dbH;
-	boost::shared_ptr<ServerLuaHandler>									_luaH;
+
 	WorldInformation													_worldinfo;
 
 	std::map<std::string, boost::shared_ptr<MapHandler> >				_currentmaps;

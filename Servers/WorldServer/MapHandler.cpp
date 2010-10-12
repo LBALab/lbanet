@@ -87,10 +87,9 @@ void EventsSenderToAll::run()
 /***********************************************************
 constructor
 ***********************************************************/
-MapHandler::MapHandler(const MapInfo & mapinfo)
-: _Trunning(false), _mapinfo(mapinfo)
+MapHandler::MapHandler(const MapInfo & mapinfo, const std::string & luafilename)
+: _Trunning(false), _mapinfo(mapinfo), _luaH(luafilename)
 {
-
 	// initialize the gui handlers
 	_guihandlers["CommunityBox"] = boost::shared_ptr<ServerGUIBase>(new CommunityBoxHandler());
 	_guihandlers["ShortcutBox"] = boost::shared_ptr<ServerGUIBase>(new ShortcutBoxHandler());
@@ -103,6 +102,11 @@ MapHandler::MapHandler(const MapInfo & mapinfo)
 	_guihandlers["InventoryBox"] = boost::shared_ptr<ServerGUIBase>(new InventoryBoxHandler());
 
 
+	// register map to lua
+	_luaH.RegisterMap(mapinfo.Name, this);
+
+	// init map using lua
+	_luaH.CallLua("InitMap");
 }
 
 /***********************************************************
@@ -568,7 +572,7 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 		const ActorObjectInfo & actinfo = itact->second->GetActorInfo();
 
 		toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-			actinfo.TypeO, itact->first, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo , actinfo.ExtraInfo));
+			LbaNet::NpcObject, itact->first, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo , actinfo.ExtraInfo));
 	}
 
 
@@ -696,7 +700,7 @@ void MapHandler::AddActorObject(const ActorObjectInfo & object)
 /***********************************************************
 teleport an object
 ***********************************************************/
-void MapHandler::Teleport(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
+void MapHandler::Teleport(int ObjectType, Ice::Long ObjectId,
 							const std::string &NewMapName, 
 							const std::string &SpawningName)
 {
@@ -704,7 +708,7 @@ void MapHandler::Teleport(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 	if(NewMapName != _mapinfo.Name)
 	{
 		// teleport player outside the map
-		if(OType == LbaNet::PlayerObject)
+		if(ObjectType == 2)
 			SharedDataHandler::getInstance()->ChangeMapPlayer(ObjectId, NewMapName, SpawningName);
 	}
 	else // same map
@@ -723,7 +727,7 @@ void MapHandler::Teleport(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 			pos.MapName = _mapinfo.Name;
 
 
-			if(OType == LbaNet::PlayerObject)
+			if(ObjectType == 2)
 			{
 				// update player position
 				SharedDataHandler::getInstance()->UpdatePlayerPosition(ObjectId, pos);

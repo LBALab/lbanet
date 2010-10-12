@@ -34,13 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 struct ActorObjectInfo
 {
 	//constructor
-	// type ==>
-	//1 - StaticObject
-	//2 - CpuObject
-	//3 - MovableObject
-	//4 - PlayerObject
-	//5 - GhostObject
-	ActorObjectInfo(long id, int type);
+	ActorObjectInfo(long id);
 
 	// set enum for render type as lua does not map enum
 	//1 - RenderOsgModel
@@ -58,10 +52,10 @@ struct ActorObjectInfo
 	void SetPhysicalShape(int shape);
 
 	// set enum for SetPhysicalActorType as lua does not map enum
-	//1 - StaticAType
-	//2 - KynematicAType
-	//3 - DynamicAType
-	//4 - CharControlAType
+	//1 - StaticAType - used for static npc
+	//2 - KynematicAType - used for moving npc
+	//3 - DynamicAType - used for dynamic object (not implemented)
+	//4 - CharControlAType - used for object movable by the player
 	void SetPhysicalActorType(int ptype);
 
 
@@ -94,13 +88,6 @@ struct ActorObjectInfo
 
 	long						ObjectId;
 
-
-	//1 - StaticObject
-	//2 - CpuObject
-	//3 - MovableObject
-	//4 - PlayerObject
-	//5 - GhostObject
-	LbaNet::ObjectTypeEnum		TypeO;
 
 	LbaNet::ModelInfo			DisplayDesc;
 	LbaNet::ObjectPhysicDesc	PhysicDesc;

@@ -4,27 +4,9 @@
 /***********************************************************
 constructor
 ***********************************************************/
-ActorObjectInfo::ActorObjectInfo(long id, int type)
+ActorObjectInfo::ActorObjectInfo(long id)
 : ObjectId(id)
 {
-	switch(type)
-	{
-		case 1:
-			TypeO = LbaNet::StaticObject;
-		break;
-		case 2:
-			TypeO = LbaNet::CpuObject;
-		break;
-		case 3:
-			TypeO = LbaNet::MovableObject;
-		break;
-		case 4:
-			TypeO = LbaNet::PlayerObject;
-		break;
-		case 5:
-			TypeO = LbaNet::GhostObject;
-		break;
-	}
 }
 
 

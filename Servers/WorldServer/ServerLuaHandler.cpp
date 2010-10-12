@@ -79,7 +79,7 @@ ServerLuaHandler::ServerLuaHandler(const std::string & luafile)
 
 
 		luabind::class_<ActorObjectInfo>("ActorObjectInfo")
-		.def(luabind::constructor<long, int>())
+		.def(luabind::constructor<long>())
 		.def_readwrite("DisplayDesc", &ActorObjectInfo::DisplayDesc)
 		.def_readwrite("PhysicDesc", &ActorObjectInfo::PhysicDesc)
 		.def_readwrite("LifeInfo", &ActorObjectInfo::LifeInfo)

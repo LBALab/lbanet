@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ServerGuiBase.h"
 #include "ClientProxyHandler.h"
 #include "ActorHandler.h"
+#include "ServerLuaHandler.h"
 
 using namespace LbaNet;
 
@@ -79,7 +80,7 @@ class MapHandler : public Runnable
 {
 public:
 	//! constructor
-	MapHandler(const MapInfo & mapinfo);
+	MapHandler(const MapInfo & mapinfo, const std::string & luafilename);
 
 	//! desructor
 	~MapHandler(void);
@@ -119,7 +120,11 @@ public:
 					
 
 	// teleport an object
-	void Teleport(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	void Teleport(int ObjectType, Ice::Long ObjectId,
 						const std::string &NewMapName, 
 						const std::string &SpawningName);
 
@@ -183,6 +188,8 @@ private:
 	 std::map<Ice::Long, boost::shared_ptr<ActorHandler> >		_Actors;
 
 	 EventsSeq													_tosendevts;
+
+	ServerLuaHandler											_luaH;
 };
 
 

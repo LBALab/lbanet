@@ -22,8 +22,8 @@ Teleport::~Teleport(void)
 //! execute the action
 //! parameter return the object type and number triggering the action
 ***********************************************************/
-void Teleport::Execute(MapHandler * owner, LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId)
+void Teleport::Execute(MapHandler * owner, int ObjectType, Ice::Long ObjectId)
 {
 	if(owner)
-		owner->Teleport(OType, ObjectId, _NewMap, _Spawning);
+		owner->Teleport(ObjectType, ObjectId, _NewMap, _Spawning);
 }

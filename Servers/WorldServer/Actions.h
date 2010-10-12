@@ -40,7 +40,11 @@ public:
 
 	//! execute the action
 	//! parameter return the object type and number triggering the action
-	virtual void Execute(MapHandler * owner, LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId) = 0;
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Execute(MapHandler * owner, int ObjectType, Ice::Long ObjectId) = 0;
 
 };
 
@@ -57,7 +61,11 @@ public:
 
 	//! execute the action
 	//! parameter return the object type and number triggering the action
-	virtual void Execute(MapHandler * owner, LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId);
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Execute(MapHandler * owner, int ObjectType, Ice::Long ObjectId);
 
 private:
 	std::string		_NewMap;
