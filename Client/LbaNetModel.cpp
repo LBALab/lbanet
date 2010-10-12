@@ -150,8 +150,8 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc
 {
 	switch(OType)
 	{
-		// 1 -> static object
-	case LbaNet::StaticObject:
+		// 1 -> npc object
+	case LbaNet::NpcObject:
 			{
 			boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
 			_staticObjects[desc.Id] = tmpobj;
@@ -160,29 +160,8 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc
 			}
 		break;
 
-		// 2 -> server controlled
-		case LbaNet::CpuObject:
-			{
-			boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
-			_serverObjects[desc.Id] = tmpobj;
 
-			tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
-			tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
-			}
-		break;
-
-		// 3 -> movable by player
-		case LbaNet::MovableObject:
-			{
-			boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
-			_movableObjects[desc.Id] = tmpobj;
-
-			tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
-			tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
-			}
-		break;
-
-		// 4 -> player object
+		// 2 -> player object
 		case LbaNet::PlayerObject:
 			//special treatment if main player
 			if(m_playerObjectId == desc.Id)
@@ -211,7 +190,7 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc
 			}
 		break;
 
-		// 5 -> ghost object
+		// 3 -> ghost object
 		case LbaNet::GhostObject:
 			{
 			boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
@@ -232,8 +211,8 @@ void LbaNetModel::RemObject(LbaNet::ObjectTypeEnum OType, long id)
 {
 	switch(OType)
 	{
-		// 1 -> static object
-		case LbaNet::StaticObject:
+		// 1 -> npc object
+		case LbaNet::NpcObject:
 			{
 			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _staticObjects.find(id);
 			if(it != _staticObjects.end())
@@ -241,25 +220,7 @@ void LbaNetModel::RemObject(LbaNet::ObjectTypeEnum OType, long id)
 			}
 		break;
 
-		// 2 -> server controlled
-		case LbaNet::CpuObject:
-			{
-			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _serverObjects.find(id);
-			if(it != _serverObjects.end())
-				_serverObjects.erase(it);
-			}
-		break;
-
-		// 3 -> movable by player
-		case LbaNet::MovableObject:
-			{
-			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _movableObjects.find(id);
-			if(it != _movableObjects.end())
-				_movableObjects.erase(it);
-			}
-		break;
-
-		// 4 -> player object
+		// 2 -> player object
 		case LbaNet::PlayerObject:
 			//special treatment if main player
 			if(m_playerObjectId == id)
@@ -274,7 +235,7 @@ void LbaNetModel::RemObject(LbaNet::ObjectTypeEnum OType, long id)
 			}
 		break;
 
-		// 5 -> ghost object
+		// 3 -> ghost object
 		case LbaNet::GhostObject:
 			{
 			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _ghostObjects.find(id);
@@ -351,11 +312,9 @@ void LbaNetModel::ResetPlayerObject()
 /***********************************************************
  add object from server
  type:
-1 -> static object
-2 -> server controlled
-3 -> movable by player
-4 -> player object
-5 -> ghost object
+1 -> npc object
+2 -> player object
+3 -> ghost object
 ***********************************************************/
 void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId, 
 					const LbaNet::ModelInfo &DisplayDesc, 
@@ -482,7 +441,7 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 
 	}
 
-	ObjectInfo obj((long)ObjectId, DInfo, PInfo, (OType == LbaNet::StaticObject));
+	ObjectInfo obj((long)ObjectId, DInfo, PInfo, (PhysicDesc.TypePhysO == LbaNet::StaticAType));
 	AddObject(OType, obj, DisplayDesc, extrainfo, lifeinfo);
 }
 
@@ -491,11 +450,9 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 /***********************************************************
  remove object from server	
  type:
-1 -> static object
-2 -> server controlled
-3 -> movable by player
-4 -> player object
-5 -> ghost object
+1 -> npc object
+2 -> player object
+3 -> ghost object
 ***********************************************************/
 void LbaNetModel::RemoveObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId)
 {
@@ -511,8 +468,8 @@ void LbaNetModel::UpdateObjectDisplay(LbaNet::ObjectTypeEnum OType, Ice::Long Ob
 {
 	switch(OType)
 	{
-		// 1 -> static object
-		case LbaNet::StaticObject:
+		// 1 -> npc object
+		case LbaNet::NpcObject:
 			{
 			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _staticObjects.find((long)ObjectId);
 			if(it != _staticObjects.end())
@@ -520,25 +477,8 @@ void LbaNetModel::UpdateObjectDisplay(LbaNet::ObjectTypeEnum OType, Ice::Long Ob
 			}
 		break;
 
-		// 2 -> server controlled
-		case LbaNet::CpuObject:
-			{
-			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _serverObjects.find((long)ObjectId);
-			if(it != _serverObjects.end())
-				it->second->GetDisplayObject()->Update(update);
-			}
-		break;
 
-		// 3 -> movable by player
-		case LbaNet::MovableObject:
-			{
-			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _movableObjects.find((long)ObjectId);
-			if(it != _movableObjects.end())
-				it->second->GetDisplayObject()->Update(update);
-			}
-		break;
-
-		// 4 -> player object
+		// 2 -> player object
 		case LbaNet::PlayerObject:
 			//special treatment if main player
 			if(m_playerObjectId == (long)ObjectId)
@@ -553,7 +493,7 @@ void LbaNetModel::UpdateObjectDisplay(LbaNet::ObjectTypeEnum OType, Ice::Long Ob
 			}
 		break;
 
-		// 5 -> ghost object
+		// 3 -> ghost object
 		case LbaNet::GhostObject:
 			{
 			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _ghostObjects.find((long)ObjectId);

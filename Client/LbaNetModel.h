@@ -80,11 +80,9 @@ public:
 
 	//! add object from server
 	//! type:
-	// 1 -> static object
-	// 2 -> server controlled
-	// 3 -> movable by player
-	// 4 -> player object
-	// 5 -> ghost object
+	// 1 -> npc object
+	// 2 -> player object
+	// 3 -> ghost object
 	void AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId, 
 						const LbaNet::ModelInfo &DisplayDesc, 
 						const LbaNet::ObjectPhysicDesc &PhysicDesc,
