@@ -12,7 +12,7 @@ module LbaNet
 				StProtectedHurt, StRestrictedMovingObject, StFighting };	
 				
 				
-	enum ObjectTypeEnum { StaticObject, CpuObject, MovableObject, PlayerObject, GhostObject };	
+	enum ObjectTypeEnum { NpcObject, PlayerObject, GhostObject };	
 	
 	enum RenderTypeEnum { RenderOsgModel, RenderSprite, RenderLba1M, RenderLba2M };	
 	
@@ -67,9 +67,6 @@ module LbaNet
 		string 			Name;
 		string 			Description;
 		string			Type;
-		string 			ObjectFile;
-		string			MusicFile;
-		int			RepatMusic;
 		
 		// 1 - orthogonal
 		// 2 - perspective
