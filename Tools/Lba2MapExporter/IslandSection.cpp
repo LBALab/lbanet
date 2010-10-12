@@ -217,7 +217,7 @@ osg::ref_ptr<osg::Group> IslandSection::loadObjects(std::map<int, bool > &mObjLi
 	
 	mNumObjects = *((unsigned int *)(objInfo + 8));
 
-	std::ofstream luafile("serverscript.lua", std::ios::app);
+	std::ofstream luafile((mIslandName+"_server.lua").c_str(), std::ios::app);
 
 	if (mNumObjects > 0)
 	{
@@ -246,7 +246,7 @@ osg::ref_ptr<osg::Group> IslandSection::loadObjects(std::map<int, bool > &mObjLi
 			std::stringstream objname;
 			objname<< mIslandName << "_OBJ_" << mObjectInfo[i].index + 1;
 			luafile<<std::endl<<std::endl;
-			luafile<<"	OBJ_"<<objcounter<<" = ActorObjectInfo("<<objcounter<<", 1)"<<std::endl;
+			luafile<<"	OBJ_"<<objcounter<<" = ActorObjectInfo("<<objcounter<<")"<<std::endl;
 			luafile<<"	OBJ_"<<objcounter<<":SetRenderType(1)"<<std::endl;
 			luafile<<"	OBJ_"<<objcounter<<".DisplayDesc.ModelName = \"Worlds/Lba2Original/Islands/"<<objname.str()<<".osgb\""<<std::endl;
 			luafile<<"	OBJ_"<<objcounter<<".DisplayDesc.UseLight = false"<<std::endl;	

@@ -107,10 +107,10 @@ void	SceneExterior::loadSections()
 		}
 
 	{
-	std::ofstream luafile("serverscript.lua", std::ios::app);
-	luafile<<"function InitMap_"<<mName<<"()"<<std::endl;
+	std::ofstream luafile((mName+"_server.lua").c_str(), std::ios::app);
+	luafile<<"function InitMap()"<<std::endl;
 
-	luafile<<"	"<<"MapObject = ActorObjectInfo("<<1<<", 1)"<<std::endl;
+	luafile<<"	"<<"MapObject = ActorObjectInfo("<<1<<")"<<std::endl;
 	luafile<<"	"<<"MapObject:SetRenderType(1)"<<std::endl;
 	luafile<<"	"<<"MapObject.DisplayDesc.ModelName = \"Worlds/Lba2Original/Islands/"<<mName<<".osgb\""<<std::endl;
 	luafile<<"	"<<"MapObject.DisplayDesc.UseLight = false"<<std::endl;		
