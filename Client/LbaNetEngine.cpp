@@ -101,7 +101,7 @@ void LbaNetEngine::Initialize(void)
 
 	// init OSG
 	LogHandler::getInstance()->LogToFile("Initializing display engine...");
-	OsgHandler::getInstance()->Initialize("LBANet", "./Data", m_gui_handler);
+	OsgHandler::getInstance()->Initialize("LBANet", "./Data", m_gui_handler, false);
 
 
 	//init physic engine

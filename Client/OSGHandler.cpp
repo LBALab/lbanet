@@ -39,6 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <osgViewer/Viewer>
 #include <osgViewer/ViewerEventHandlers>
+#include <osgViewer/CompositeViewer>
 
 #include <osgDB/ReadFile>
 #include <osgDB/FileUtils>
@@ -52,6 +53,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // win32 only
 #include <osgViewer/api/Win32/GraphicsWindowWin32>
 
+#include "GraphicsWindowQt"
 
 
 #include <math.h>
@@ -107,9 +109,13 @@ OsgHandler::~OsgHandler()
 /***********************************************************
 initialize
 ***********************************************************/
-void OsgHandler::Initialize(const std::string &WindowName, const std::string &DataPath,
-							boost::shared_ptr<GuiHandler> GuiH)
+osg::ref_ptr<GraphicsWindowQt> OsgHandler::Initialize(const std::string &WindowName, const std::string &DataPath,
+															boost::shared_ptr<GuiHandler> GuiH, bool useQT)
 {
+	_useQT = useQT;
+	osg::ref_ptr<GraphicsWindowQt> qtwin; 
+
+
 	osgDB::setDataFilePathList(DataPath);
 
 
@@ -160,12 +166,23 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
     traits->sharedContext = 0;
 	traits->windowName = WindowName;
 	traits->useCursor = false;
-    osg::ref_ptr<osg::GraphicsContext> gc = osg::GraphicsContext::createGraphicsContext(traits.get());
-    _gw = dynamic_cast<osgViewer::GraphicsWindow*>(gc.get());
-    if (!_gw)
-        return;
 
-    _viewer->getCamera()->setGraphicsContext(gc.get());
+	if(_useQT)
+	{
+        qtwin = new GraphicsWindowQt(traits.get());
+		_viewer->getCamera()->setGraphicsContext(qtwin.get());
+	}
+	else
+	{
+		osg::ref_ptr<osg::GraphicsContext> gc = osg::GraphicsContext::createGraphicsContext(traits.get());
+		_gw = dynamic_cast<osgViewer::GraphicsWindow*>(gc.get());
+		if (!_gw)
+			return qtwin;
+
+		_viewer->getCamera()->setGraphicsContext(gc.get());
+	}
+
+
 	_viewer->getCamera()->setClearColor(osg::Vec4(0, 0, 0, 1));
     _viewer->getCamera()->setViewport(0,0,_resX,_resY);
 
@@ -283,6 +300,7 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 	LogHandler::getInstance()->LogToFile("Initializing of graphics window done.");
 
 
+	return qtwin;
 }
 
 /***********************************************************

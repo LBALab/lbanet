@@ -58,7 +58,7 @@ namespace osgShadow
 
 class GuiHandler;
 class OsgEventHandler;
-
+class GraphicsWindowQt;
 
 static int ReceivesShadowTraversalMask = 0x1;
 static int CastsShadowTraversalMask = 0x2;
@@ -81,8 +81,8 @@ public:
 	~OsgHandler();
 
 	//! initialize
-	void Initialize(const std::string &WindowName, const std::string &DataPath,
-							boost::shared_ptr<GuiHandler> GuiH);
+	osg::ref_ptr<GraphicsWindowQt> Initialize(const std::string &WindowName, const std::string &DataPath,
+														boost::shared_ptr<GuiHandler> GuiH, bool useQT);
 
 	//! finalize function
 	void Finalize();
@@ -255,7 +255,10 @@ private:
 
 
 	// osg handlers
+	bool											_useQT;
 	osg::ref_ptr<osgViewer::Viewer>					_viewer;
+
+
 	osg::ref_ptr<osg::PositionAttitudeTransform>	_rootNode3d;
 	osg::ref_ptr<osg::Group>						_root;
 	osg::ref_ptr<osg::Group>						_rootNodeGui;
