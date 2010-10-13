@@ -66,8 +66,7 @@ class PhysXActorsHandler : public PhysXObjectHandlerBase
 public:
 	//! constructor
 	PhysXActorsHandler(boost::shared_ptr<ActorUserData> UserData,
-						NxActor* Actor, const LbaQuaternion& rotation,
-						float sizeY);
+						NxActor* Actor, float sizeY);
 
 	//! destructor
 	virtual ~PhysXActorsHandler();

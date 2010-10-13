@@ -53,7 +53,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // win32 only
 #include <osgViewer/api/Win32/GraphicsWindowWin32>
 
+
+#ifdef _USE_QT_EDITOR_
+#include "editor.h"
 #include "GraphicsWindowQt"
+#endif
 
 
 #include <math.h>
@@ -109,13 +113,10 @@ OsgHandler::~OsgHandler()
 /***********************************************************
 initialize
 ***********************************************************/
-osg::ref_ptr<GraphicsWindowQt> OsgHandler::Initialize(const std::string &WindowName, const std::string &DataPath,
-															boost::shared_ptr<GuiHandler> GuiH, bool useQT)
+
+void OsgHandler::Initialize(const std::string &WindowName, const std::string &DataPath,
+														boost::shared_ptr<GuiHandler> GuiH)
 {
-	_useQT = useQT;
-	osg::ref_ptr<GraphicsWindowQt> qtwin; 
-
-
 	osgDB::setDataFilePathList(DataPath);
 
 
@@ -167,20 +168,31 @@ osg::ref_ptr<GraphicsWindowQt> OsgHandler::Initialize(const std::string &WindowN
 	traits->windowName = WindowName;
 	traits->useCursor = false;
 
-	if(_useQT)
+#ifdef _USE_QT_EDITOR_
 	{
-        qtwin = new GraphicsWindowQt(traits.get());
-		_viewer->getCamera()->setGraphicsContext(qtwin.get());
+
+		QMainWindow *EditorClass = new QMainWindow();
+		Ui::EditorClass uieditor;
+		uieditor.setupUi(EditorClass);
+	
+        GraphicsWindowQt *qtwin = new GraphicsWindowQt(traits.get());
+		_viewer->getCamera()->setGraphicsContext(qtwin);
+
+		uieditor.mdiArea->addSubWindow(qtwin->getGraphWidget());
+		qtwin->getGraphWidget()->show();
+
+		EditorClass->show();
 	}
-	else
+#else
 	{
 		osg::ref_ptr<osg::GraphicsContext> gc = osg::GraphicsContext::createGraphicsContext(traits.get());
 		_gw = dynamic_cast<osgViewer::GraphicsWindow*>(gc.get());
 		if (!_gw)
-			return qtwin;
+			return;
 
 		_viewer->getCamera()->setGraphicsContext(gc.get());
 	}
+#endif
 
 
 	_viewer->getCamera()->setClearColor(osg::Vec4(0, 0, 0, 1));
@@ -298,9 +310,6 @@ osg::ref_ptr<GraphicsWindowQt> OsgHandler::Initialize(const std::string &WindowN
 
 	// put everything in the right place
 	LogHandler::getInstance()->LogToFile("Initializing of graphics window done.");
-
-
-	return qtwin;
 }
 
 /***********************************************************

@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "NxCooking.h"
 #include "Stream.h"
 #include "PhysXErrorStream.h"
+#include "CommonTypes.h"
 
 #include <limits>
 #include <fstream>
@@ -385,7 +386,8 @@ NxActor* PhysXEngine::CreatePlane(const NxVec3 & StartPosition, const NxVec3 & P
 	create box actor
 ***********************************************************/
 NxActor* PhysXEngine::CreateBox(const NxVec3 & StartPosition, float dimX, float dimY, float dimZ, 
-								float density, LbaNet::PhysicalActorType Type, ActorUserData * adata, bool collidable)
+								float density, LbaNet::PhysicalActorType Type, ActorUserData * adata, 
+								const LbaQuaternion& rotation, bool collidable)
 {
 
 	// Add a single-shape actor to the scene
@@ -424,6 +426,8 @@ NxActor* PhysXEngine::CreateBox(const NxVec3 & StartPosition, float dimX, float 
 	actorDesc.userData = adata;
 
 	actorDesc.globalPose.t	= StartPosition;	
+	actorDesc.globalPose.M = NxQuat(NxVec3(rotation.X, rotation.Y, rotation.Z), rotation.W);
+
 	assert(actorDesc.isValid());
 	NxActor *pActor = gScene->createActor(actorDesc);	
 	assert(pActor);
@@ -437,7 +441,7 @@ NxActor* PhysXEngine::CreateBox(const NxVec3 & StartPosition, float dimX, float 
 NxActor* PhysXEngine::CreateSphere(const NxVec3 & StartPosition, float radius, float density, 
 									LbaNet::PhysicalActorType Type,  ActorUserData * adata,
 									float staticFriction, float dynamicFriction, float restitution, 
-									bool collidable)
+									const LbaQuaternion& rotation, bool collidable)
 {
 	// Add a single-shape actor to the scene
 	NxActorDesc actorDesc;
@@ -481,8 +485,10 @@ NxActor* PhysXEngine::CreateSphere(const NxVec3 & StartPosition, float radius, f
 		sphereDesc.group = GROUP_NON_COLLIDABLE;
 
 	actorDesc.shapes.pushBack(&sphereDesc);
-	actorDesc.globalPose.t	= StartPosition;	
 	actorDesc.userData = adata;
+
+	actorDesc.globalPose.t	= StartPosition;	
+	actorDesc.globalPose.M = NxQuat(NxVec3(rotation.X, rotation.Y, rotation.Z), rotation.W);
 
 	return gScene->createActor(actorDesc);
 }
@@ -491,7 +497,8 @@ NxActor* PhysXEngine::CreateSphere(const NxVec3 & StartPosition, float radius, f
 	create capsule actor
 ***********************************************************/
 NxActor* PhysXEngine::CreateCapsule(const NxVec3 & StartPosition, float radius, float height, float density, 
-										LbaNet::PhysicalActorType Type, ActorUserData * adata, bool collidable)
+										LbaNet::PhysicalActorType Type, ActorUserData * adata, 
+										const LbaQuaternion& rotation, bool collidable)
 {
 	// Add a single-shape actor to the scene
 	NxActorDesc actorDesc;
@@ -523,8 +530,11 @@ NxActor* PhysXEngine::CreateCapsule(const NxVec3 & StartPosition, float radius, 
 		capsuleDesc.group = GROUP_NON_COLLIDABLE;
 
 	actorDesc.shapes.pushBack(&capsuleDesc);
-	actorDesc.globalPose.t	= StartPosition;
 	actorDesc.userData = adata;
+
+	actorDesc.globalPose.t	= StartPosition;
+	actorDesc.globalPose.M = NxQuat(NxVec3(rotation.X, rotation.Y, rotation.Z), rotation.W);
+
 
 	return gScene->createActor(actorDesc);
 }
@@ -586,7 +596,8 @@ NxController* PhysXEngine::CreateCharacterBox(const NxVec3 & StartPosition, cons
 ***********************************************************/
 NxActor* PhysXEngine::CreateTriangleMesh(const NxVec3 & StartPosition, float *Vertexes, size_t VertexesSize, 
 											unsigned int *Indices, size_t IndicesSize,
-											ActorUserData * adata, bool collidable)
+											ActorUserData * adata, 
+											const LbaQuaternion& rotation, bool collidable)
 {
 	// Create descriptor for triangle mesh
 	NxTriangleMeshDesc triangleMeshDesc;
@@ -632,8 +643,10 @@ NxActor* PhysXEngine::CreateTriangleMesh(const NxVec3 & StartPosition, float *Ve
 	assert(tmsd.isValid());
 	actorDesc.shapes.pushBack(&tmsd);
 	actorDesc.body		= NULL;		
-	actorDesc.globalPose.t	= StartPosition;
 	actorDesc.userData = adata;
+
+	actorDesc.globalPose.t	= StartPosition;
+	actorDesc.globalPose.M = NxQuat(NxVec3(rotation.X, rotation.Y, rotation.Z), rotation.W);
 
 	if (pMesh)
 	{
@@ -655,7 +668,8 @@ NxActor* PhysXEngine::CreateTriangleMesh(const NxVec3 & StartPosition, float *Ve
 //! Load triangle mesh shape to the engine
 ***********************************************************/
 NxActor* PhysXEngine::LoadTriangleMeshFile(const NxVec3 & StartPosition, const std::string Filename,
-												ActorUserData * userdata, bool collidable)
+												ActorUserData * userdata, 
+												const LbaQuaternion& rotation, bool collidable)
 {
 	// load data from binary file and set it into a triangle mesh
 	std::ifstream file(Filename.c_str(), std::ifstream::binary);
@@ -691,7 +705,7 @@ NxActor* PhysXEngine::LoadTriangleMeshFile(const NxVec3 & StartPosition, const s
 	}
 
 	NxActor* actor = CreateTriangleMesh(StartPosition, buffervertex, sizevertex, bufferindices, sizeindices, 
-											userdata, collidable);
+											userdata, rotation, collidable);
 	//NxActor* act = NULL;
 	delete[] buffervertex;
 	delete[] bufferindices;

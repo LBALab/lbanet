@@ -13,6 +13,144 @@
 
 #include "GraphicsWindowQt"
 
+
+//////////////////////////////////////////////////////////////////////////////
+//                       Keyboard key mapping for Qt
+//////////////////////////////////////////////////////////////////////////////
+
+class QtKeyboardMap
+{
+    public:
+
+        QtKeyboardMap()
+        {
+			_keyMap[Qt::Key_Backspace] = osgGA::GUIEventAdapter::KEY_BackSpace;
+			_keyMap[Qt::Key_Tab] = osgGA::GUIEventAdapter::KEY_Tab;
+			_keyMap[Qt::Key_Clear] = osgGA::GUIEventAdapter::KEY_Clear;
+			_keyMap[Qt::Key_Return] = osgGA::GUIEventAdapter::KEY_Return;
+			_keyMap[Qt::Key_Pause] = osgGA::GUIEventAdapter::KEY_Pause;
+			_keyMap[Qt::Key_ScrollLock] = osgGA::GUIEventAdapter::KEY_Scroll_Lock;
+			_keyMap[Qt::Key_SysReq] = osgGA::GUIEventAdapter::KEY_Sys_Req;
+			_keyMap[Qt::Key_Escape] = osgGA::GUIEventAdapter::KEY_Escape;
+			_keyMap[Qt::Key_Delete] = osgGA::GUIEventAdapter::KEY_Delete;
+
+			_keyMap[Qt::Key_Home] = osgGA::GUIEventAdapter::KEY_Home;
+			_keyMap[Qt::Key_Left] = osgGA::GUIEventAdapter::KEY_Left;
+			_keyMap[Qt::Key_Up] = osgGA::GUIEventAdapter::KEY_Up;
+			_keyMap[Qt::Key_Right] = osgGA::GUIEventAdapter::KEY_Right;
+			_keyMap[Qt::Key_Down] = osgGA::GUIEventAdapter::KEY_Down;
+			_keyMap[Qt::Key_PageUp] = osgGA::GUIEventAdapter::KEY_Page_Up;
+			_keyMap[Qt::Key_PageDown] = osgGA::GUIEventAdapter::KEY_Page_Down;
+			_keyMap[Qt::Key_End] = osgGA::GUIEventAdapter::KEY_End;
+
+			_keyMap[Qt::Key_Select] = osgGA::GUIEventAdapter::KEY_Select;
+			_keyMap[Qt::Key_Print] = osgGA::GUIEventAdapter::KEY_Print;
+			_keyMap[Qt::Key_Execute] = osgGA::GUIEventAdapter::KEY_Execute;
+			_keyMap[Qt::Key_Insert] = osgGA::GUIEventAdapter::KEY_Insert;
+			_keyMap[Qt::Key_Menu] = osgGA::GUIEventAdapter::KEY_Menu;
+			_keyMap[Qt::Key_Cancel] = osgGA::GUIEventAdapter::KEY_Cancel;
+			_keyMap[Qt::Key_Help] = osgGA::GUIEventAdapter::KEY_Help;
+			_keyMap[Qt::Key_Mode_switch] = osgGA::GUIEventAdapter::KEY_Mode_switch;
+			_keyMap[Qt::Key_NumLock] = osgGA::GUIEventAdapter::KEY_Num_Lock;
+
+			_keyMap[Qt::Key_Shift] = osgGA::GUIEventAdapter::KEY_Shift_L;
+			_keyMap[Qt::Key_Shift] = osgGA::GUIEventAdapter::KEY_Shift_R;
+			_keyMap[Qt::Key_Control] = osgGA::GUIEventAdapter::KEY_Control_L;
+			_keyMap[Qt::Key_Control] = osgGA::GUIEventAdapter::KEY_Control_R;
+			_keyMap[Qt::Key_CapsLock] = osgGA::GUIEventAdapter::KEY_Caps_Lock;
+			_keyMap[Qt::Key_CapsLock] = osgGA::GUIEventAdapter::KEY_Shift_Lock;
+
+			_keyMap[Qt::Key_Meta] = osgGA::GUIEventAdapter::KEY_Meta_R; // Qt doesn't have a Meta L
+			_keyMap[Qt::Key_Alt] = osgGA::GUIEventAdapter::KEY_Alt_R; // Qt doesn't have a Alt L
+			_keyMap[Qt::Key_Super_L] = osgGA::GUIEventAdapter::KEY_Super_L;
+			_keyMap[Qt::Key_Super_R] = osgGA::GUIEventAdapter::KEY_Super_R;
+			_keyMap[Qt::Key_Hyper_L] = osgGA::GUIEventAdapter::KEY_Hyper_L;
+			_keyMap[Qt::Key_Hyper_R] = osgGA::GUIEventAdapter::KEY_Hyper_R;
+
+			_keyMap[Qt::Key_Equal] = osgGA::GUIEventAdapter::KEY_KP_Equal;
+			_keyMap[Qt::Key_Asterisk] = osgGA::GUIEventAdapter::KEY_KP_Multiply;
+			_keyMap[Qt::Key_Plus] = osgGA::GUIEventAdapter::KEY_KP_Add;
+
+			_keyMap[Qt::Key_Minus] = osgGA::GUIEventAdapter::KEY_KP_Subtract;
+			_keyMap[Qt::Key_Period] = osgGA::GUIEventAdapter::KEY_KP_Decimal;
+			_keyMap[Qt::Key_division] = osgGA::GUIEventAdapter::KEY_KP_Divide;
+			_keyMap[Qt::Key_0] = osgGA::GUIEventAdapter::KEY_KP_0;
+			_keyMap[Qt::Key_1] = osgGA::GUIEventAdapter::KEY_KP_1;
+			_keyMap[Qt::Key_2] = osgGA::GUIEventAdapter::KEY_KP_2;
+			_keyMap[Qt::Key_2] = osgGA::GUIEventAdapter::KEY_KP_3;
+			_keyMap[Qt::Key_4] = osgGA::GUIEventAdapter::KEY_KP_4;
+			_keyMap[Qt::Key_5] = osgGA::GUIEventAdapter::KEY_KP_5;
+			_keyMap[Qt::Key_6] = osgGA::GUIEventAdapter::KEY_KP_6;
+			_keyMap[Qt::Key_7] = osgGA::GUIEventAdapter::KEY_KP_7;
+			_keyMap[Qt::Key_8] = osgGA::GUIEventAdapter::KEY_KP_8;
+			_keyMap[Qt::Key_9] = osgGA::GUIEventAdapter::KEY_KP_9;
+
+			_keyMap[Qt::Key_F1] = osgGA::GUIEventAdapter::KEY_F1;
+			_keyMap[Qt::Key_F2] = osgGA::GUIEventAdapter::KEY_F2;
+			_keyMap[Qt::Key_F3] = osgGA::GUIEventAdapter::KEY_F3;
+			_keyMap[Qt::Key_F4] = osgGA::GUIEventAdapter::KEY_F4;
+			_keyMap[Qt::Key_F5] = osgGA::GUIEventAdapter::KEY_F5;
+			_keyMap[Qt::Key_F6] = osgGA::GUIEventAdapter::KEY_F6;
+			_keyMap[Qt::Key_F7] = osgGA::GUIEventAdapter::KEY_F7;
+			_keyMap[Qt::Key_F8] = osgGA::GUIEventAdapter::KEY_F8;
+			_keyMap[Qt::Key_F9] = osgGA::GUIEventAdapter::KEY_F9;
+			_keyMap[Qt::Key_F10] = osgGA::GUIEventAdapter::KEY_F10;
+			_keyMap[Qt::Key_F11] = osgGA::GUIEventAdapter::KEY_F11;
+			_keyMap[Qt::Key_F12] = osgGA::GUIEventAdapter::KEY_F12;
+			_keyMap[Qt::Key_F13] = osgGA::GUIEventAdapter::KEY_F13;
+			_keyMap[Qt::Key_F14] = osgGA::GUIEventAdapter::KEY_F14;
+			_keyMap[Qt::Key_F15] = osgGA::GUIEventAdapter::KEY_F15;
+			_keyMap[Qt::Key_F16] = osgGA::GUIEventAdapter::KEY_F16;
+			_keyMap[Qt::Key_F17] = osgGA::GUIEventAdapter::KEY_F17;
+			_keyMap[Qt::Key_F18] = osgGA::GUIEventAdapter::KEY_F18;
+			_keyMap[Qt::Key_F19] = osgGA::GUIEventAdapter::KEY_F19;
+			_keyMap[Qt::Key_F20] = osgGA::GUIEventAdapter::KEY_F20;
+			_keyMap[Qt::Key_F21] = osgGA::GUIEventAdapter::KEY_F21;
+			_keyMap[Qt::Key_F22] = osgGA::GUIEventAdapter::KEY_F22;
+			_keyMap[Qt::Key_F23] = osgGA::GUIEventAdapter::KEY_F23;
+			_keyMap[Qt::Key_F24] = osgGA::GUIEventAdapter::KEY_F24;
+			_keyMap[Qt::Key_F25] = osgGA::GUIEventAdapter::KEY_F25;
+			_keyMap[Qt::Key_F26] = osgGA::GUIEventAdapter::KEY_F26;
+			_keyMap[Qt::Key_F27] = osgGA::GUIEventAdapter::KEY_F27;
+			_keyMap[Qt::Key_F28] = osgGA::GUIEventAdapter::KEY_F28;
+			_keyMap[Qt::Key_F29] = osgGA::GUIEventAdapter::KEY_F29;
+			_keyMap[Qt::Key_F30] = osgGA::GUIEventAdapter::KEY_F30;
+			_keyMap[Qt::Key_F31] = osgGA::GUIEventAdapter::KEY_F31;
+			_keyMap[Qt::Key_F32] = osgGA::GUIEventAdapter::KEY_F32;
+			_keyMap[Qt::Key_F33] = osgGA::GUIEventAdapter::KEY_F33;
+			_keyMap[Qt::Key_F34] = osgGA::GUIEventAdapter::KEY_F34;
+			_keyMap[Qt::Key_F35] = osgGA::GUIEventAdapter::KEY_F35;
+
+			_keyMap[Qt::Key_Space] = osgGA::GUIEventAdapter::KEY_Space;
+        }
+
+        ~QtKeyboardMap() {}
+
+        int remapKey(int key)
+        {
+            KeyMap::const_iterator map = _keyMap.find(key);
+            return map==_keyMap.end() ? key : map->second;
+        }
+
+    protected:
+
+        typedef std::map<int, int> KeyMap;
+        KeyMap _keyMap;
+};
+
+static QtKeyboardMap s_qtKeyboardMap;
+static int remapQtKey(int key)
+{
+    return s_qtKeyboardMap.remapKey(key);
+}
+
+
+
+
+
+
+
+
 GraphWidget::GraphWidget( const QGLFormat& format, QWidget* parent, const QGLWidget* shareWidget, Qt::WindowFlags f )
 : QGLWidget(format, parent, shareWidget, f)
 {
@@ -40,13 +178,15 @@ void GraphWidget::resizeEvent( QResizeEvent* event )
 void GraphWidget::keyPressEvent( QKeyEvent* event )
 {
     setKeyboardModifiers( event );
-    _gw->getEventQueue()->keyPress( (osgGA::GUIEventAdapter::KeySymbol) *(event->text().toAscii().data()) );
+	int key = remapQtKey(event->key());
+    _gw->getEventQueue()->keyPress( key );
 }
 
 void GraphWidget::keyReleaseEvent( QKeyEvent* event )
 {
     setKeyboardModifiers( event );
-    _gw->getEventQueue()->keyRelease( (osgGA::GUIEventAdapter::KeySymbol) *(event->text().toAscii().data()) );
+	int key = remapQtKey(event->key());
+    _gw->getEventQueue()->keyRelease( key );
 }
 
 void GraphWidget::mousePressEvent( QMouseEvent* event )
@@ -107,7 +247,14 @@ void GraphWidget::wheelEvent( QWheelEvent* event )
         event->delta()>0 ? osgGA::GUIEventAdapter::SCROLL_UP : osgGA::GUIEventAdapter::SCROLL_DOWN );
 }
 
-GraphicsWindowQt::GraphicsWindowQt( osg::GraphicsContext::Traits* traits )
+void GraphWidget::closeEvent( QCloseEvent* event )
+{
+	//_gw->getEventQueue()->quitApplication();
+}
+
+
+
+GraphicsWindowQt::GraphicsWindowQt( osg::GraphicsContext::Traits* traits)
 :   _widget(0),
     _initialized(false),
     _realized(false)
@@ -164,7 +311,7 @@ bool GraphicsWindowQt::init()
         
         Qt::WindowFlags flags = Qt::Window|Qt::CustomizeWindowHint;//|Qt::WindowStaysOnTopHint;
         if ( _traits->windowDecoration )
-            flags |= Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowSystemMenuHint;
+			flags |= Qt::WindowTitleHint|Qt::WindowMinMaxButtonsHint|Qt::WindowSystemMenuHint/*|Qt::WindowCloseButtonHint*/;
         
         _widget = new GraphWidget( format, 0, shareWidget, flags );
     }
@@ -177,6 +324,8 @@ bool GraphicsWindowQt::init()
     _widget->setFocusPolicy( Qt::WheelFocus );
     _widget->setGraphicsWindow( this );
     useCursor( _traits->useCursor );
+
+	_widget->show();
     return true;
 }
 

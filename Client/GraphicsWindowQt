@@ -36,7 +36,8 @@ public:
     virtual void mouseDoubleClickEvent( QMouseEvent* event );
     virtual void mouseMoveEvent( QMouseEvent* event );
     virtual void wheelEvent( QWheelEvent* event );
-    
+    virtual void closeEvent(QCloseEvent *);
+
 protected:
     osgViewer::GraphicsWindow* _gw;
 };
@@ -44,7 +45,7 @@ protected:
 class GraphicsWindowQt : public osgViewer::GraphicsWindow
 {
 public:
-    GraphicsWindowQt( osg::GraphicsContext::Traits* traits );
+    GraphicsWindowQt( osg::GraphicsContext::Traits* traits);
     virtual ~GraphicsWindowQt();
     
     inline GraphWidget* getGraphWidget() { return _widget; }

@@ -34,6 +34,7 @@ class NxVec3;
 class NxController;
 class NxActor;
 class NxUserOutputStream;
+class LbaQuaternion;
 
 #include <vector>
 #include <set>
@@ -79,15 +80,17 @@ public:
 	//! create actors
 	// type: 1=static, 2=kinematic, 3=dynamic
 	NxActor* CreateBox(const NxVec3 & StartPosition, float dimX, float dimY, float dimZ, 
-						float density, LbaNet::PhysicalActorType Type, ActorUserData * adata, bool collidable = true);
+						float density, LbaNet::PhysicalActorType Type, ActorUserData * adata, 
+						const LbaQuaternion& rotation, bool collidable = true);
 
 	NxActor* CreateSphere(const NxVec3 & StartPosition, float radius, float density, 
 							LbaNet::PhysicalActorType Type, ActorUserData * adata,
 							float staticFriction, float dynamicFriction, float restitution, 
-							bool collidable = true);
+							const LbaQuaternion& rotation, bool collidable = true);
 
 	NxActor* CreateCapsule(const NxVec3 & StartPosition, float radius, float height, 
-							float density, LbaNet::PhysicalActorType Type, ActorUserData * adata, bool collidable = true);
+							float density, LbaNet::PhysicalActorType Type, ActorUserData * adata, 
+							const LbaQuaternion& rotation, bool collidable = true);
 
 
 	NxController* CreateCharacter(const NxVec3 & StartPosition, float radius, float height,
@@ -98,10 +101,10 @@ public:
 
 	NxActor* CreateTriangleMesh(const NxVec3 & StartPosition, float *Vertexes, 
 										size_t VertexesSize, unsigned int *Indices, size_t IndicesSize,
-										ActorUserData * adata, bool collidable=true);
+										ActorUserData * adata,const LbaQuaternion& rotation, bool collidable=true);
 
 	NxActor* LoadTriangleMeshFile(const NxVec3 & StartPosition, const std::string Filename,
-												ActorUserData * userdata, bool collidable);
+												ActorUserData * userdata, const LbaQuaternion& rotation, bool collidable);
 
 	void DestroyActor(NxActor* actor);
 	void DestroyCharacter(NxController* character);

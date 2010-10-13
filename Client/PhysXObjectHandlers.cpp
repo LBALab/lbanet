@@ -47,18 +47,9 @@ PhysXObjectHandlerBase::PhysXObjectHandlerBase(boost::shared_ptr<ActorUserData> 
 	Constructor
 ***********************************************************/
 PhysXActorsHandler::PhysXActorsHandler(boost::shared_ptr<ActorUserData> UserData,
-													NxActor* Actor, const LbaQuaternion& rotation,
-													float sizeY)
+													NxActor* Actor, float sizeY)
 		: PhysXObjectHandlerBase(UserData), _Actor(Actor), _sizeY(sizeY)
 {
-	_Actor->setGlobalOrientationQuat(NxQuat(NxVec3(rotation.X, rotation.Y, rotation.Z), rotation.W));
-
-	// offset the actor position to take sizey into consideration
-	NxVec3 vec = _Actor->getGlobalPosition();
-	vec.y += _sizeY/2;
-	_Actor->setGlobalPosition(vec);
-
-
 	#ifdef _DEBUG
 		LogHandler::getInstance()->LogToFile("Created new PhysXActor.");
 	#endif
@@ -207,16 +198,6 @@ PhysXControllerHandler::PhysXControllerHandler(boost::shared_ptr<ActorUserData> 
 		: PhysXObjectHandlerBase(UserData), _Controller(Controller), _rotH(rotH),
 			_sizeY(sizeY)
 {
-
-	// offset the actor position to take sizey into consideration
-	if(_Controller)
-	{
-		NxExtendedVec3 vec = _Controller->getPosition();
-		vec.y += _sizeY/2;
-		PhysXEngine::getInstance()->SetCharacterPos(_Controller, NxVec3((float)vec.x, (float)vec.y, (float)vec.z));
-	}
-
-
 	#ifdef _DEBUG
 		LogHandler::getInstance()->LogToFile("Created new PhysXController.");
 	#endif
@@ -383,15 +364,15 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionBox::BuildSelf(l
 
 	if(ActorType != LbaNet::CharControlAType)
 	{
-		NxActor* act = PhysXEngine::getInstance()->CreateBox(NxVec3(positionX, positionY, positionZ), 
+		NxActor* act = PhysXEngine::getInstance()->CreateBox(NxVec3(positionX, positionY + sizeY/2, positionZ), 
 													sizeX, sizeY, sizeZ, 
-													density, ActorType, udata.get(), collidable);
+													density, ActorType, udata.get(), rotation, collidable);
 		
-		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, act, rotation, sizeY));
+		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, act, sizeY));
 	}
 	else
 	{
-		NxController* controller = PhysXEngine::getInstance()->CreateCharacterBox(NxVec3(positionX, positionY, positionZ), 
+		NxController* controller = PhysXEngine::getInstance()->CreateCharacterBox(NxVec3(positionX, positionY + sizeY/2, positionZ), 
 															NxVec3(sizeX, sizeY, sizeZ), udata.get());
 
 		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXControllerHandler(udata, controller, 
@@ -431,16 +412,17 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionCapsule::BuildSe
 
 	if(ActorType != LbaNet::CharControlAType)
 	{
-		NxActor* act = PhysXEngine::getInstance()->CreateCapsule(NxVec3(positionX, positionY, positionZ), 
-													radius, height,
-													density, ActorType, udata.get(), collidable);
+		NxActor* act = PhysXEngine::getInstance()->CreateCapsule(NxVec3(positionX, positionY + sizeY/2, positionZ), 
+																	radius, height,
+																	density, ActorType, udata.get(), 
+																	rotation, collidable);
 		
-		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, act, rotation, sizeY));
+		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, act, sizeY));
 	}
 	else
 	{
-		NxController* controller = PhysXEngine::getInstance()->CreateCharacter(NxVec3(positionX, positionY, positionZ), 
-															radius, height, udata.get());
+		NxController* controller = PhysXEngine::getInstance()->CreateCharacter(NxVec3(positionX, positionY + sizeY/2, positionZ), 
+																		radius, height, udata.get());
 
 		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXControllerHandler(udata, controller, 
 								boost::shared_ptr<SimpleRotationHandler>(new SimpleRotationHandler(rotation)), sizeY));
@@ -483,17 +465,19 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionSphere::BuildSel
 
 	if(ActorType != LbaNet::CharControlAType)
 	{
-		NxActor* act = PhysXEngine::getInstance()->CreateSphere(NxVec3(positionX, positionY, positionZ), radius, 
-													density, ActorType, udata.get(), 
-													staticFriction, dynamicFriction,
-													restitution, collidable);
+		NxActor* act = PhysXEngine::getInstance()->CreateSphere(NxVec3(positionX, positionY + sizeY/2, positionZ), 
+																	radius, 
+																	density, ActorType, udata.get(), 
+																	staticFriction, dynamicFriction,
+																	restitution, rotation, collidable);
 
-		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, act, rotation, sizeY));
+		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, act, sizeY));
 	}
 	else
 	{
-		NxController* controller = PhysXEngine::getInstance()->CreateCharacter(NxVec3(positionX, positionY, positionZ), 
-															radius, 0, udata.get());
+		NxController* controller = PhysXEngine::getInstance()->CreateCharacter(NxVec3(positionX, 
+																		positionY + sizeY/2, positionZ), 
+																		radius, 0, udata.get());
 
 		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXControllerHandler(udata, controller, 
 								boost::shared_ptr<SimpleRotationHandler>(new SimpleRotationHandler(rotation)), sizeY));
@@ -531,7 +515,8 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionTriangleMesh::Bu
 	boost::shared_ptr<ActorUserData> udata = boost::shared_ptr<ActorUserData>(new ActorUserData(ActorType, id));
 
 	NxActor* actor = PhysXEngine::getInstance()->LoadTriangleMeshFile(NxVec3(positionX, positionY, positionZ), 
-														"Data/"+MeshInfoDataFileName, udata.get(), collidable);
+														"Data/"+MeshInfoDataFileName, udata.get(), 
+														rotation, collidable);
 
-	return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, actor, rotation, 0));
+	return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, actor, 0));
 }

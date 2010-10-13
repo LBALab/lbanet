@@ -41,6 +41,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <IceUtil/Thread.h>
 
+
+#ifdef _USE_QT_EDITOR_
+#include <QtGui/QApplication>
+#include <QtGui/QtEvents>
+#endif
+
+
 #define TIME_PER_FRAME 17
 
 /***********************************************************
@@ -101,7 +108,7 @@ void LbaNetEngine::Initialize(void)
 
 	// init OSG
 	LogHandler::getInstance()->LogToFile("Initializing display engine...");
-	OsgHandler::getInstance()->Initialize("LBANet", "./Data", m_gui_handler, false);
+	OsgHandler::getInstance()->Initialize("LBANet", "./Data", m_gui_handler);
 
 
 	//init physic engine
@@ -162,6 +169,10 @@ void LbaNetEngine::run(void)
 			//get physic results
 			PhysXEngine::getInstance()->GetPhysicsResults();
 
+#ifdef _USE_QT_EDITOR_
+			// process Qt events - this handles both events and paints the browser image
+            QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+#endif
 
 			// process stuff between frame
 			Process(timetodiff, tdiff);

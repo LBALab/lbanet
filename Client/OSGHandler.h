@@ -81,8 +81,9 @@ public:
 	~OsgHandler();
 
 	//! initialize
-	osg::ref_ptr<GraphicsWindowQt> Initialize(const std::string &WindowName, const std::string &DataPath,
-														boost::shared_ptr<GuiHandler> GuiH, bool useQT);
+	void Initialize(const std::string &WindowName, const std::string &DataPath,
+														boost::shared_ptr<GuiHandler> GuiH);
+
 
 	//! finalize function
 	void Finalize();
@@ -255,7 +256,6 @@ private:
 
 
 	// osg handlers
-	bool											_useQT;
 	osg::ref_ptr<osgViewer::Viewer>					_viewer;
 
 
