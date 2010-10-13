@@ -124,9 +124,6 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
 			MapInfo mapi;
 			mapi.Name = v.second.get<std::string>("<xmlattr>.name");
 			mapi.Type = v.second.get<std::string>("<xmlattr>.type");
-			mapi.MusicFile = v.second.get<std::string>("<xmlattr>.music");
-			mapi.RepatMusic = v.second.get<int>("<xmlattr>.repeatmusic", 0);
-			mapi.ObjectFile = v.second.get<std::string>("ObjectFile", "");
 			mapi.Description = v.second.get<std::string>("description", "");
 			mapi.AutoCameraType = v.second.get<int>("<xmlattr>.AutoCameraType", 1);
 
