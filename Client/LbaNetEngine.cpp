@@ -45,6 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef _USE_QT_EDITOR_
 #include <QtGui/QApplication>
 #include <QtGui/QtEvents>
+#include "editorhandler.h"
 #endif
 
 
@@ -91,6 +92,10 @@ initialize the class
 ***********************************************************/
 void LbaNetEngine::Initialize(void)
 {
+#ifdef _USE_QT_EDITOR_
+	m_editor_handler= boost::shared_ptr<EditorHandler>(new EditorHandler());
+#endif
+
 	// init gui
 	m_gui_handler = boost::shared_ptr<GuiHandler>(new GuiHandler());
 
@@ -108,7 +113,7 @@ void LbaNetEngine::Initialize(void)
 
 	// init OSG
 	LogHandler::getInstance()->LogToFile("Initializing display engine...");
-	OsgHandler::getInstance()->Initialize("LBANet", "./Data", m_gui_handler);
+	OsgHandler::getInstance()->Initialize("LBANet", "./Data", m_gui_handler,m_editor_handler);
 
 
 	//init physic engine
@@ -148,13 +153,20 @@ void LbaNetEngine::run(void)
 
 	//SwitchGuiToGame();
 
-
 	// done in order to solve bug at startup with GUI mouse
 	int resX, resY;
 	bool fullscreen;
 	OsgHandler::getInstance()->GetScreenAttributes(resX, resY, fullscreen);
 	OsgHandler::getInstance()->Resize(resX+1, resY+1, fullscreen);
 	OsgHandler::getInstance()->Resize(resX, resY, fullscreen);
+
+
+#ifdef _USE_QT_EDITOR_
+	m_editor_handler->RefreshDisplay();
+	TryLogin("Editor", "", true);
+	SwitchGuiToGame();
+#endif
+
 
 	try
 	{

@@ -446,6 +446,16 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 			}
 		}
 
+		case(osgGA::GUIEventAdapter::RESIZE):
+		{
+			//TODO - check if needed when not editor mode
+			int width = ea.getWindowWidth();
+			int height = ea.getWindowHeight();
+			OsgHandler::getInstance()->Resize(width, height);
+			break;
+		}
+
+
 		// key release  
 		case(osgGA::GUIEventAdapter::KEYUP):
 		{

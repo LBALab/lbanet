@@ -37,6 +37,8 @@ class PhysXEngine;
 class GuiHandler;
 class LbaNetModel;
 class ChatServerHandler;
+class EditorHandler;
+
 
 /***********************************************************************
  * Module:  LbaNetEngine.h
@@ -111,6 +113,10 @@ private:
 
 	// last music played
 	std::string										m_lastmusic;
+
+#ifdef _USE_QT_EDITOR_
+	boost::shared_ptr<EditorHandler>				m_editor_handler;
+#endif
 };
 
 #endif

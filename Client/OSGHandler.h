@@ -59,6 +59,7 @@ namespace osgShadow
 class GuiHandler;
 class OsgEventHandler;
 class GraphicsWindowQt;
+class EditorHandler;
 
 static int ReceivesShadowTraversalMask = 0x1;
 static int CastsShadowTraversalMask = 0x2;
@@ -81,8 +82,14 @@ public:
 	~OsgHandler();
 
 	//! initialize
+#ifdef _USE_QT_EDITOR_
+	void Initialize(const std::string &WindowName, const std::string &DataPath,
+														boost::shared_ptr<GuiHandler> GuiH,
+														boost::shared_ptr<EditorHandler> editorH);
+#else
 	void Initialize(const std::string &WindowName, const std::string &DataPath,
 														boost::shared_ptr<GuiHandler> GuiH);
+#endif
 
 
 	//! finalize function
@@ -92,6 +99,8 @@ public:
 	//! change screen resolution
 	void Resize(int resX, int resY, bool fullscreen);
 
+	//! change screen resolution
+	void Resize(int resX, int resY);
 
 	//! toggle fullscreen or windowed mode
 	void ToggleFullScreen();

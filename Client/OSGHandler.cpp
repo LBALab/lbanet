@@ -53,7 +53,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // win32 only
 #include <osgViewer/api/Win32/GraphicsWindowWin32>
 
-
 #ifdef _USE_QT_EDITOR_
 #include "editorhandler.h"
 #endif
@@ -112,9 +111,14 @@ OsgHandler::~OsgHandler()
 /***********************************************************
 initialize
 ***********************************************************/
-
+#ifdef _USE_QT_EDITOR_
+void OsgHandler::Initialize(const std::string &WindowName, const std::string &DataPath,
+														boost::shared_ptr<GuiHandler> GuiH,
+														boost::shared_ptr<EditorHandler> editorH)
+#else
 void OsgHandler::Initialize(const std::string &WindowName, const std::string &DataPath,
 														boost::shared_ptr<GuiHandler> GuiH)
+#endif
 {
 	osgDB::setDataFilePathList(DataPath);
 
@@ -176,7 +180,7 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
         GraphicsWindowQt *qtwin = new GraphicsWindowQt(traits.get());
 		_viewer->getCamera()->setGraphicsContext(qtwin);
 
-		EditorHandler * editorH = new EditorHandler(0, qtwin);
+		editorH->SetOsgWindow(qtwin);
 	}
 #else
 	{
@@ -356,6 +360,13 @@ void OsgHandler::Finalize()
 }
 
 
+/***********************************************************
+change screen resolution
+***********************************************************/
+void OsgHandler::Resize(int resX, int resY)
+{
+	Resize(resX, resY, _isFullscreen);
+}
 
 /***********************************************************
 change screen resolution
@@ -370,9 +381,11 @@ void OsgHandler::Resize(int resX, int resY, bool fullscreen)
 
 		ResetScreen();
 
+		#ifndef _USE_QT_EDITOR_
 		ConfigurationManager::GetInstance()->SetInt("Display.Screen.ScreenResolutionX", _resX);
 		ConfigurationManager::GetInstance()->SetInt("Display.Screen.ScreenResolutionY", _resY);
 		ConfigurationManager::GetInstance()->SetBool("Display.Screen.Fullscreen", _isFullscreen);
+		#endif
 	}
 }
 
@@ -417,16 +430,20 @@ void OsgHandler::ResetScreen()
 
 		if(_isFullscreen)
 		{
+			#ifndef _USE_QT_EDITOR_
 			window->setWindowDecoration(false);
 			window->setWindowRectangle(0, 0, screenWidth, screenHeight);
+			#endif
 			_viewportX = screenWidth;
 			_viewportY = screenHeight;
 			
 		}
 		else
 		{
+			#ifndef _USE_QT_EDITOR_
 			window->setWindowDecoration(true);
 			window->setWindowRectangle(_posX, _posY, _resX, _resY);
+			#endif
 			_viewportX = _resX;
 			_viewportY = _resY;
 		}

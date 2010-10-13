@@ -133,7 +133,9 @@ handle connect button event
 ***********************************************************/
 bool MenuGUI::HandleSwitchWorld(const CEGUI::EventArgs& e)
 {
+#ifndef _USE_QT_EDITOR_
 	EventsQueue::getReceiverQueue()->AddEvent(new DisplayGUIEvent(1));
+#endif
 	return true;
 }
 
@@ -143,7 +145,9 @@ handle connect button event
 ***********************************************************/
 bool MenuGUI::HandleDisconnect (const CEGUI::EventArgs& e)
 {
+#ifndef _USE_QT_EDITOR_
 	EventsQueue::getReceiverQueue()->AddEvent(new DisplayGUIEvent(0));
+#endif
 	return true;
 }
 

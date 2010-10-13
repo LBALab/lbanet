@@ -266,6 +266,7 @@ void OptionsGUI::Apply()
 
 
 		//------------- handle video tab
+		#ifndef _USE_QT_EDITOR_
 		{
 			bool changeRes = false;
 
@@ -328,6 +329,7 @@ void OptionsGUI::Apply()
 				}
 			}
 		}
+		#endif
 
 
 		//------------- handle sound tab
