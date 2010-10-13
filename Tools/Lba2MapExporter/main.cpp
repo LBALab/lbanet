@@ -47,10 +47,6 @@ int main( int argc, char **argv )
 	listile.push_back("PLATFORM");
 	listile.push_back("SOUSCELB");
 
-	{
-		// clean the file
-		std::ofstream luafile("serverscript.lua");
-	}
 
 	for(size_t i=0; i< listile.size(); ++i)
 	{

@@ -107,7 +107,7 @@ void	SceneExterior::loadSections()
 		}
 
 	{
-	std::ofstream luafile((mName+"_server.lua").c_str(), std::ios::app);
+	std::ofstream luafile((mName+"_server.lua").c_str());
 	luafile<<"function InitMap()"<<std::endl;
 
 	luafile<<"	"<<"MapObject = ActorObjectInfo("<<1<<")"<<std::endl;
@@ -159,7 +159,7 @@ void	SceneExterior::loadSections()
 		}
 
 	{
-	std::ofstream luafile("serverscript.lua", std::ios::app);
+	std::ofstream luafile((mName+"_server.lua").c_str(), std::ios::app);
 	luafile<<"end"<<std::endl;
 	}
 
