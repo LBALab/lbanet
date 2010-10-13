@@ -325,7 +325,6 @@ bool GraphicsWindowQt::init()
     _widget->setGraphicsWindow( this );
     useCursor( _traits->useCursor );
 
-	_widget->show();
     return true;
 }
 

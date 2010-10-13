@@ -55,8 +55,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #ifdef _USE_QT_EDITOR_
-#include "editor.h"
-#include "GraphicsWindowQt"
+#include "editorhandler.h"
 #endif
 
 
@@ -162,7 +161,11 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
     traits->y = _posY;
     traits->width = _resX;
     traits->height = _resY;
+#ifdef _USE_QT_EDITOR_
+    traits->windowDecoration = false;
+#else
     traits->windowDecoration = true;
+#endif
     traits->doubleBuffer = true;
     traits->sharedContext = 0;
 	traits->windowName = WindowName;
@@ -170,18 +173,10 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 
 #ifdef _USE_QT_EDITOR_
 	{
-
-		QMainWindow *EditorClass = new QMainWindow();
-		Ui::EditorClass uieditor;
-		uieditor.setupUi(EditorClass);
-	
         GraphicsWindowQt *qtwin = new GraphicsWindowQt(traits.get());
 		_viewer->getCamera()->setGraphicsContext(qtwin);
 
-		uieditor.mdiArea->addSubWindow(qtwin->getGraphWidget());
-		qtwin->getGraphWidget()->show();
-
-		EditorClass->show();
+		EditorHandler * editorH = new EditorHandler(0, qtwin);
 	}
 #else
 	{
