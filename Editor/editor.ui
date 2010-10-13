@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>692</width>
+    <width>690</width>
     <height>870</height>
    </rect>
   </property>
@@ -81,7 +81,7 @@
                <item>
                 <widget class="QTabWidget" name="tabWidgetworld">
                  <property name="currentIndex">
-                  <number>4</number>
+                  <number>0</number>
                  </property>
                  <widget class="QWidget" name="tab_worldinfo">
                   <attribute name="title">
@@ -142,7 +142,14 @@
                     </spacer>
                    </item>
                    <item row="2" column="2">
-                    <widget class="QTextEdit" name="textEdit_worlddescription"/>
+                    <widget class="QTextEdit" name="textEdit_worlddescription">
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>60</height>
+                      </size>
+                     </property>
+                    </widget>
                    </item>
                    <item row="4" column="0">
                     <widget class="QLabel" name="label_world_news_t">
@@ -152,7 +159,14 @@
                     </widget>
                    </item>
                    <item row="4" column="2">
-                    <widget class="QTextEdit" name="textEdit_worldnews"/>
+                    <widget class="QTextEdit" name="textEdit_worldnews">
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>60</height>
+                      </size>
+                     </property>
+                    </widget>
                    </item>
                    <item row="3" column="2">
                     <spacer name="verticalSpacer_4">
@@ -458,7 +472,14 @@
                         <number>4</number>
                        </property>
                        <item>
-                        <widget class="QTableView" name="tableView_MapList"/>
+                        <widget class="QTableView" name="tableView_MapList">
+                         <property name="selectionMode">
+                          <enum>QAbstractItemView::SingleSelection</enum>
+                         </property>
+                         <property name="selectionBehavior">
+                          <enum>QAbstractItemView::SelectRows</enum>
+                         </property>
+                        </widget>
                        </item>
                       </layout>
                      </widget>
@@ -559,7 +580,14 @@
                         <number>4</number>
                        </property>
                        <item>
-                        <widget class="QTableView" name="tableView_TeleportList"/>
+                        <widget class="QTableView" name="tableView_TeleportList">
+                         <property name="selectionMode">
+                          <enum>QAbstractItemView::SingleSelection</enum>
+                         </property>
+                         <property name="selectionBehavior">
+                          <enum>QAbstractItemView::SelectRows</enum>
+                         </property>
+                        </widget>
                        </item>
                       </layout>
                      </widget>
@@ -612,7 +640,7 @@
                <item>
                 <widget class="QTabWidget" name="tabWidget_map">
                  <property name="currentIndex">
-                  <number>4</number>
+                  <number>0</number>
                  </property>
                  <widget class="QWidget" name="tab_mapinfo">
                   <attribute name="title">
@@ -641,7 +669,14 @@
                     </widget>
                    </item>
                    <item row="2" column="2">
-                    <widget class="QTextEdit" name="textEdit_map_description"/>
+                    <widget class="QTextEdit" name="textEdit_map_description">
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>60</height>
+                      </size>
+                     </property>
+                    </widget>
                    </item>
                    <item row="4" column="0">
                     <widget class="QLabel" name="label_mapType">
@@ -900,7 +935,14 @@
                         <number>4</number>
                        </property>
                        <item>
-                        <widget class="QTableView" name="tableView_SpawningList"/>
+                        <widget class="QTableView" name="tableView_SpawningList">
+                         <property name="selectionMode">
+                          <enum>QAbstractItemView::SingleSelection</enum>
+                         </property>
+                         <property name="selectionBehavior">
+                          <enum>QAbstractItemView::SelectRows</enum>
+                         </property>
+                        </widget>
                        </item>
                       </layout>
                      </widget>
@@ -1007,7 +1049,14 @@
                         <number>4</number>
                        </property>
                        <item>
-                        <widget class="QTableView" name="tableView_ActorList"/>
+                        <widget class="QTableView" name="tableView_ActorList">
+                         <property name="selectionMode">
+                          <enum>QAbstractItemView::SingleSelection</enum>
+                         </property>
+                         <property name="selectionBehavior">
+                          <enum>QAbstractItemView::SelectRows</enum>
+                         </property>
+                        </widget>
                        </item>
                       </layout>
                      </widget>
@@ -1114,7 +1163,14 @@
                         <number>4</number>
                        </property>
                        <item>
-                        <widget class="QTableView" name="tableViewTriggerList"/>
+                        <widget class="QTableView" name="tableViewTriggerList">
+                         <property name="selectionMode">
+                          <enum>QAbstractItemView::SingleSelection</enum>
+                         </property>
+                         <property name="selectionBehavior">
+                          <enum>QAbstractItemView::SelectRows</enum>
+                         </property>
+                        </widget>
                        </item>
                       </layout>
                      </widget>
@@ -1221,7 +1277,14 @@
                         <number>4</number>
                        </property>
                        <item>
-                        <widget class="QTableView" name="tableViewActionList"/>
+                        <widget class="QTableView" name="tableViewActionList">
+                         <property name="selectionMode">
+                          <enum>QAbstractItemView::SingleSelection</enum>
+                         </property>
+                         <property name="selectionBehavior">
+                          <enum>QAbstractItemView::SelectRows</enum>
+                         </property>
+                        </widget>
                        </item>
                       </layout>
                      </widget>
@@ -1287,6 +1350,12 @@
         </property>
         <item>
          <widget class="QGroupBox" name="groupBox_game">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="title">
            <string>Game</string>
           </property>
@@ -1308,8 +1377,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>692</width>
-     <height>20</height>
+     <width>690</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -1323,7 +1392,13 @@
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuHelp"/>
   </widget>
   <action name="actionNew_World">
    <property name="icon">
