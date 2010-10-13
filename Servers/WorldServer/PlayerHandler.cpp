@@ -96,6 +96,10 @@ update current position in the world
 ***********************************************************/
 void PlayerHandler::UpdatePositionInWorld(const LbaNet::PlayerPosition& Position)
 {
+	// only update when on same map
+	if(_currentinfo.ppos.MapName != Position.MapName)
+		return;
+
 	_currentinfo.ppos = Position;
 }
 

@@ -548,7 +548,6 @@ void MapHandler::PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMove
 	//TODO first check if the info is correct and no cheating
 
 
-
 	//do an interpolation and check for triggers
 	{
 		PlayerPosition lastpos = SharedDataHandler::getInstance()->GetPlayerPosition(id);
@@ -778,6 +777,7 @@ add a trigger of moving type to the map
 ***********************************************************/
 void MapHandler::AddTrigger(boost::shared_ptr<TriggerBase> trigger)
 {
+	trigger->SetOwner(this);
 	_triggers[trigger->GetId()] = trigger;
 }
 

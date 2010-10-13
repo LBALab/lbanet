@@ -38,8 +38,8 @@ void SharedDataHandler::SetWorldDefaultInformation(WorldInformation &worldinfo)
 	LbaNet::MapsSeq::const_iterator endm = worldinfo.Maps.end();
 	for(; itm != endm; ++itm)
 	{
-		std::string luafile = "Data/Worlds/" + _worldinfo.Description.WorldName;
-		luafile += "Lua/" + itm->second.Name + "_server.lua";
+		std::string luafile = "Worlds/" + _worldinfo.Description.WorldName;
+		luafile += "/Lua/" + itm->second.Name + "_server.lua";
 
 		// create map object
 		boost::shared_ptr<MapHandler> mapH(new MapHandler(itm->second, luafile));
