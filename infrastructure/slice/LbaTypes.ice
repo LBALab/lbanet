@@ -12,9 +12,9 @@ module LbaNet
 				StProtectedHurt, StRestrictedMovingObject, StFighting };	
 				
 				
-	enum ObjectTypeEnum { NpcObject, PlayerObject, GhostObject };	
+	enum ObjectTypeEnum { NpcObject, PlayerObject, GhostObject, EditorObject };	
 	
-	enum RenderTypeEnum { RenderOsgModel, RenderSprite, RenderLba1M, RenderLba2M };	
+	enum RenderTypeEnum { RenderOsgModel, RenderSprite, RenderLba1M, RenderLba2M, RenderCross, RenderBox, RenderCapsule };	
 	
 	enum PhysicalShapeEnum { NoShape, BoxShape, CapsuleShape, SphereShape, TriangleMeshShape };	
 	
@@ -39,7 +39,7 @@ module LbaNet
 	{
 		string 			Name;
 		string 			MapName;
-		string 			SpawningName;
+		long 			SpawningId;
 	};
 
 	dictionary<string, TeleportInfo> ServerTeleportsSeq;
@@ -50,6 +50,7 @@ module LbaNet
 	// spawning information
 	struct SpawningInfo
 	{
+		long			Id;
 		string 			Name;
 		float 			PosX;
 		float 			PosY;
@@ -58,7 +59,7 @@ module LbaNet
 		float 			Rotation;	
 	};
 	
-	dictionary<string, SpawningInfo> SpawningsSeq;
+	dictionary<long, SpawningInfo> SpawningsSeq;
 	
 	
 	// map information
@@ -109,7 +110,7 @@ module LbaNet
 		float			StartingLife;
 		float			StartingMana;
 		string			StartingMap;
-		string			Spawning;
+		long			SpawningId;
 		ModelInfo		StartingModel;
 		
 		InventoryMap		StartingInventory;
