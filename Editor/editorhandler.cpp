@@ -122,7 +122,10 @@ bool StringTableModel::setData(const QModelIndex &index, const QVariant &value, 
 
 
 
-//! get a string
+
+/***********************************************************
+get a string
+***********************************************************/
 QString StringTableModel::GetString(const QModelIndex &index)
 {
 	if (index.isValid()) 
@@ -130,6 +133,24 @@ QString StringTableModel::GetString(const QModelIndex &index)
 
 	return QString();
 }
+
+
+
+
+
+/***********************************************************
+get the corresponding id
+***********************************************************/
+long StringTableModel::GetId(const QModelIndex &index)
+{
+	if (index.isValid()) 
+		return _ids[index.row()];
+
+	return -1;
+}
+
+
+
 
 /***********************************************************
 insertRows
@@ -186,10 +207,26 @@ void StringTableModel::Clear()
 /***********************************************************
 add a row
 ***********************************************************/
-void StringTableModel::AddRow(long id, const QStringList &data)
+void StringTableModel::AddOrUpdateRow(long id, const QStringList &data)
 {
 	if(_stringMatrix.size() == data.size())
 	{
+		for(size_t i=0; i< _ids.size(); ++i)
+		{
+			if(_ids[i] == id)
+			{
+				// object already existing - update it
+				for(size_t j=0; j< data.size(); ++j)
+					_stringMatrix[j].replace(i, data[j]);
+
+				QModelIndex index1 = createIndex(i, 0);
+				QModelIndex index2 = createIndex(i, data.size()-1);
+				emit dataChanged(index1, index2);
+				return;
+			}
+		}
+
+		// object does not exist - insert it
 		beginInsertRows(QModelIndex(), _stringMatrix[0].size(), _stringMatrix[0].size());
 
 		for(size_t i=0; i<_stringMatrix.size(); ++i)
@@ -226,6 +263,9 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	_openworlddialog = new QDialog(this);
 	_uiopenworlddialog.setupUi(_openworlddialog);
 
+	_addspawningdialog = new QDialog(this);
+	_uiaddspawningdialog.setupUi(_addspawningdialog);
+
 
 	// set model for map list
 	{
@@ -240,12 +280,24 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	// set model for tp list
 	{
 		 QStringList header;
-		 header << "Name" << "Map" << "Spawning";
+		 header << "Name" << "Map" << "SpawningId";
 		_tplistmodel = new StringTableModel(header);
 		_uieditor.tableView_TeleportList->setModel(_tplistmodel);
 		QHeaderView * mpheaders = _uieditor.tableView_TeleportList->horizontalHeader();
 		mpheaders->setResizeMode(QHeaderView::Stretch);
 	}
+
+	// set model for spawninglist
+	{
+		 QStringList header;
+		 header << "Name" << "X" << "Y" << "Z" << "Rot" << "F";
+		_mapspawninglistmodel = new StringTableModel(header);
+		_uieditor.tableView_SpawningList->setModel(_mapspawninglistmodel);
+		QHeaderView * mpheaders = _uieditor.tableView_SpawningList->horizontalHeader();
+		mpheaders->setResizeMode(QHeaderView::Stretch);
+	}
+
+	
 	
 
 	// reset world info
@@ -264,17 +316,24 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	//connect(_uieditor.tableView_MapList->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), 
 	//				this, SLOT(map_selected(QModelIndex,QModelIndex)));
 	
+	connect(_uieditor.pushButton_addSpwaning, SIGNAL(clicked()) , this, SLOT(addspawning_button_clicked()));
+	connect(_uieditor.pushButton_removeSpwaning, SIGNAL(clicked()) , this, SLOT(removespawning_button_clicked()));	
+	connect(_uieditor.pushButton_selectSpwaning, SIGNAL(clicked()) , this, SLOT(selectspawning_button_clicked()));		
 
 
 	connect(_uieditor.pushButton_goto_tp, SIGNAL(clicked()) , this, SLOT(goto_tp_button_clicked()));
 	connect(_uieditor.pushButton_goto_map, SIGNAL(clicked()) , this, SLOT(goto_map_button_clicked()));
 
+	connect(_uieditor.pushButton_goto_tp, SIGNAL(itemDoubleClicked(QTableWidgetItem)) , this, SLOT(goto_tp_button_clicked()));
+	connect(_uieditor.pushButton_goto_map, SIGNAL(itemDoubleClicked(QTableWidgetItem)) , this, SLOT(goto_map_button_clicked()));
 
 
 	connect(_uiaddtriggerdialog.buttonBox, SIGNAL(accepted()) , this, SLOT(addtrigger_accepted()));
 	connect(_uiaddtriggerdialog.buttonBox, SIGNAL(cancelled()) , this, SLOT(addtrigger_cancelled()));
 
 	connect(_uiopenworlddialog.buttonBox, SIGNAL(accepted()) , this, SLOT(OpenWorld()));
+
+	connect(_uiaddspawningdialog.buttonBox, SIGNAL(accepted()) , this, SLOT(AddSpawning_clicked()));
 
 
 
@@ -497,7 +556,7 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 		{
 			QStringList data;
 			data << itm->first.c_str() << itm->second.Description.c_str();
-			_maplistmodel->AddRow(cc, data);
+			_maplistmodel->AddOrUpdateRow(cc, data);
 		}
 	}
 
@@ -508,9 +567,12 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 		LbaNet::ServerTeleportsSeq::const_iterator endtp = _winfo.TeleportInfo.end();
 		for(long cc=1; ittp != endtp; ++ittp, ++cc)
 		{
+			QString spid;
+			spid.setNum (ittp->second.SpawningId);	
+
 			QStringList data;
-			data << ittp->first.c_str() << ittp->second.MapName.c_str() << ittp->second.SpawningName.c_str();
-			_tplistmodel->AddRow(cc, data);
+			data << ittp->first.c_str() << ittp->second.MapName.c_str() << spid;
+			_tplistmodel->AddOrUpdateRow(cc, data);
 		}
 	}
 }
@@ -539,6 +601,8 @@ reset map display in editor
 ***********************************************************/
 void EditorHandler::ResetMap()
 {
+	_currspawningidx = 0;
+
 	ResetObject();
 }
 
@@ -565,9 +629,9 @@ void EditorHandler::goto_tp_button_clicked()
 	if(indexes.size() > 2)
 	{
 		std::string mapname = _tplistmodel->GetString(indexes[1]).toAscii().data();
-		std::string spawning = _tplistmodel->GetString(indexes[2]).toAscii().data();
+		long spawningid = _tplistmodel->GetString(indexes[2]).toLong();
 		
-		SharedDataHandler::getInstance()->ChangeMapPlayer(1, mapname, spawning);
+		SharedDataHandler::getInstance()->ChangeMapPlayer(1, mapname, spawningid);
 	}
 }
 
@@ -591,10 +655,9 @@ void EditorHandler::goto_map_button_clicked()
 		}
 		else
 		{
-			// TODO - replace by adding a default spawning
-			QMessageBox::warning(this, tr("No Spawning"),
-			tr("You need at least one spawning in the map to be able to go there."),
-			QMessageBox::Ok);
+			// add a default spawning
+			long spid = AddOrModSpawning(mapname, "DefaultSpawning", 0, 0, 0, 0, true);
+			SharedDataHandler::getInstance()->ChangeMapPlayer(1, mapname, spid);
 		}
 	}
 }
@@ -607,20 +670,185 @@ refresh gui with map info
 void EditorHandler::SetMapInfo(const std::string & mapname)
 {
 	ResetMap();
+
+	const LbaNet::MapInfo & mapinfo = _winfo.Maps[mapname];
+
+	_uieditor.label_mapname->setText(mapinfo.Name.c_str());
+	_uieditor.textEdit_map_description->setText(mapinfo.Description.c_str());
+
+	switch(mapinfo.AutoCameraType)
+	{
+		case 1:
+			_uieditor.radioButton_camtype_ortho->setDown(true);
+		break;
+
+		case 2:
+			_uieditor.radioButton_camtype_persp->setDown(true);
+		break;
+
+		case 3:
+			_uieditor.radioButton_camtype_3d->setDown(true);
+		break;
+	}
+
+	if(mapinfo.Type == "exterior")
+	{
+		_uieditor.comboBox_maptype->setCurrentIndex(0);
+	}
+	else
+	{
+		_uieditor.comboBox_maptype->setCurrentIndex(1);
+	}
+
+
+	// add the spawnings
+	{
+		_mapspawninglistmodel->Clear();
+		LbaNet::SpawningsSeq::const_iterator ittp = mapinfo.Spawnings.begin();
+		LbaNet::SpawningsSeq::const_iterator endtp = mapinfo.Spawnings.end();
+		for(; ittp != endtp; ++ittp)
+		{
+			QString Xs;
+			Xs.setNum (ittp->second.PosX, 'f');
+			QString Ys;
+			Ys.setNum (ittp->second.PosY, 'f');
+			QString Zs;
+			Zs.setNum (ittp->second.PosZ, 'f');
+			QString Rots;
+			Rots.setNum (ittp->second.Rotation, 'f');
+
+
+			QStringList data;
+			data << ittp->second.Name.c_str() << Xs << Ys << Zs << Rots << (ittp->second.ForceRotation ? "Y" : "N");
+			_mapspawninglistmodel->AddOrUpdateRow(ittp->first, data);
+
+			_currspawningidx = (ittp->first + 1);
+		}
+	}
+}
+
+
+
+
+
+/***********************************************************
+on addspawning clicked
+***********************************************************/
+void EditorHandler::addspawning_button_clicked()
+{
+	_addspawningdialog->show();
+}
+
+/***********************************************************
+on removespawning clicked
+***********************************************************/
+void EditorHandler::removespawning_button_clicked()
+{
+	QItemSelectionModel *selectionModel = _uieditor.tableView_SpawningList->selectionModel();
+	QModelIndexList indexes = selectionModel->selectedIndexes();
+	if(indexes.size() > 2)
+	{
+		// inform server
+		long spawningid = _mapspawninglistmodel->GetId(indexes[0]);
+		std::string mapname = _uieditor.label_mapname->text().toAscii().data();
+		RemoveSpawning(mapname, spawningid);
+
+		// remove row from table
+		_mapspawninglistmodel->removeRows(indexes[0].row(), 1);
+	}
+}
+
+/***********************************************************
+on selectspawning clicked
+***********************************************************/
+void EditorHandler::selectspawning_button_clicked()
+{
+
 }
 
 
 /***********************************************************
-called when map selected in the list
+on AddSpawning clicked
 ***********************************************************/
-void EditorHandler::map_selected(const QModelIndex & idx1, const QModelIndex & idx2)
+void EditorHandler::AddSpawning_clicked()
 {
-	//QItemSelectionModel *selectionModel = _uieditor.tableView_MapList->selectionModel();
-	//QModelIndexList indexes = selectionModel->selectedIndexes();
+	_addspawningdialog->hide();
 
-	//if(indexes.size() > 0)
-	//{
-	//	std::string mapname = _maplistmodel->GetString(indexes[0]).toAscii().data();
-	//	SetMapInfo(mapname);
-	//}
+	AddOrModSpawning(_uieditor.label_mapname->text().toAscii().data(),
+				_uiaddspawningdialog.lineEdit_name->text().toAscii().data(),
+				(float)_uiaddspawningdialog.doubleSpinBox_posx->value(), 
+				(float)_uiaddspawningdialog.doubleSpinBox_posy->value(), 
+				(float)_uiaddspawningdialog.doubleSpinBox_posz->value(),
+				(float)_uiaddspawningdialog.doubleSpinBox_rotation->value(), 
+				_uiaddspawningdialog.checkBox_forcerotation->isChecked());
+
+}
+
+
+/***********************************************************
+add a spawning to the map
+***********************************************************/
+long EditorHandler::AddOrModSpawning(const std::string &mapname,
+										const std::string &spawningname,
+										float PosX, float PosY, float PosZ,
+										float Rotation, bool forcedrotation)
+{
+	// first update the internal info
+	LbaNet::SpawningInfo spawn;
+	spawn.Id = _currspawningidx++;
+	spawn.Name = spawningname;
+	spawn.PosX = PosX;
+	spawn.PosY = PosY;
+	spawn.PosZ = PosZ;
+	spawn.Rotation = Rotation;
+	spawn.ForceRotation = forcedrotation;
+	_winfo.Maps[mapname].Spawnings[spawn.Id] = spawn;
+
+
+	//! add spawning to the list
+	{
+		QString Xs;
+		Xs.setNum (PosX, 'f');
+		QString Ys;
+		Ys.setNum (PosY, 'f');
+		QString Zs;
+		Zs.setNum (PosZ, 'f');
+		QString Rots;
+		Rots.setNum(Rotation, 'f');
+
+		QStringList data;
+		data << spawningname.c_str() << Xs << Ys << Zs << Rots << (forcedrotation ? "Y" : "N");
+		_mapspawninglistmodel->AddOrUpdateRow(spawn.Id, data);
+	}
+
+
+	// then inform the server
+	boost::shared_ptr<EditorUpdateBase> update(new UpdateEditor_AddOrModSpawning(spawn.Id,
+																					spawningname,
+																					PosX, PosY, PosZ,
+																					Rotation, forcedrotation));
+
+	SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
+
+	return spawn.Id;
+}
+
+
+
+/***********************************************************
+remove a spawning from the map
+***********************************************************/
+void EditorHandler::RemoveSpawning(const std::string &mapname, long spawningid)
+{
+	// first update the internal info
+	LbaNet::SpawningsSeq::iterator it = _winfo.Maps[mapname].Spawnings.find(spawningid);
+	if(it != _winfo.Maps[mapname].Spawnings.end())
+	{
+		// erase from data
+		_winfo.Maps[mapname].Spawnings.erase(it);
+
+		// then inform the server
+		boost::shared_ptr<EditorUpdateBase> update(new UpdateEditor_RemoveSpawning(spawningid));
+		SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
+	}
 }

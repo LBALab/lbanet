@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ui_editor.h"
 #include "ui_addtriggerdialog.h"
 #include "ui_openworlddialog.h"
+#include "ui_addspawning.h"
 #include "GraphicsWindowQt"
 
 #include <LbaTypes.h>
@@ -66,10 +67,13 @@ public:
 	void Clear();
 
 	//! add a row
-	void AddRow(long id, const QStringList &data);
+	void AddOrUpdateRow(long id, const QStringList &data);
 
 	//! get a string
 	QString GetString(const QModelIndex &index);
+
+	//! get the corresponding id
+	long GetId(const QModelIndex &index);
 
 private:
 	std::vector<QStringList>		_stringMatrix;
@@ -97,6 +101,8 @@ public:
 	//! refresh display
 	void RefreshDisplay();
 
+	//! refresh gui with map info
+	void SetMapInfo(const std::string & mapname);
 
 public slots:
 	 //! ui button clicked
@@ -129,9 +135,18 @@ public slots:
 	 //! on go map clicked
      void goto_map_button_clicked();
 
-	//! called when map selected in the list
-	void map_selected(const QModelIndex & idx1, const QModelIndex & idx2);
 
+	//! on addspawning clicked
+	void addspawning_button_clicked();
+
+	//! on removespawning clicked
+	void removespawning_button_clicked();
+
+	//! on selectspawning clicked
+	void selectspawning_button_clicked();
+
+	//! on AddSpawning clicked
+	void AddSpawning_clicked();
 
 protected:
 	//! override close event
@@ -152,8 +167,6 @@ protected:
 	//! refresh gui with world info
 	void SetWorldInfo(const std::string & worldname);
 
-	//! refresh gui with map info
-	void SetMapInfo(const std::string & mapname);
 
 	//! reset world display in editor
 	void ResetWorld();
@@ -165,25 +178,37 @@ protected:
 	void ResetObject();
 
 
+	//! add a spawning to the map
+	long AddOrModSpawning(const std::string &mapname,
+							const std::string &spawningname,
+							float PosX, float PosY, float PosZ,
+							float Rotation, bool forcedrotation);
+
+	//! remove a spawning from the map
+	void RemoveSpawning(const std::string &mapname, long spawningid);
 
 private:
-	Ui::EditorClass			_uieditor;
+	Ui::EditorClass				_uieditor;
 
-	Ui::AddTriggerDialog	_uiaddtriggerdialog;
-	QDialog *				_addtriggerdialog;
+	Ui::AddTriggerDialog		_uiaddtriggerdialog;
+	QDialog *					_addtriggerdialog;
 
-	Ui::DialogOpenWorld		_uiopenworlddialog;
-	QDialog *				_openworlddialog;
+	Ui::DialogOpenWorld			_uiopenworlddialog;
+	QDialog *					_openworlddialog;
+
+	Ui::DialogNewSpawning		_uiaddspawningdialog;
+	QDialog *					_addspawningdialog;
+
+	StringTableModel *			_maplistmodel;
+	StringTableModel *			_tplistmodel;
+	StringTableModel *			_mapspawninglistmodel;
+
+	GraphicsWindowQt *			_osgwindow;
 
 
-	StringTableModel *		_maplistmodel;
-	StringTableModel *		_tplistmodel;
-
-	GraphicsWindowQt *		_osgwindow;
-
-
-	bool					_modified;
-	LbaNet::WorldInformation _winfo;
+	bool						_modified;
+	LbaNet::WorldInformation	_winfo;
+	long						_currspawningidx;
 };
 
 #endif // EDITORHANDLER_H
