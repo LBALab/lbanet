@@ -339,6 +339,19 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts)
 									PlayerObject, it->first, new ObjectExtraInfoUpdate(castedptr->ExtraInfo)));
 				continue;
 			}
+
+			//editor update event
+			#ifdef _USE_QT_EDITOR_
+			if(info == typeid(EditorEvent))
+			{
+				EditorEvent* castedptr = 
+					static_cast<EditorEvent *>(&obj);
+
+				ProcessEditorUpdate(castedptr->_update);
+
+				continue;
+			}
+			#endif
 		}
 	}
 }
@@ -627,16 +640,34 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 
 
 	//current objects in map
-	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact = _Actors.begin();
-	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endact = _Actors.end();
-	for(; itact != endact; ++itact)
 	{
-		// TODO - check if objects are visible by the player ( depends of condition)
-		const ActorObjectInfo & actinfo = itact->second->GetActorInfo();
+		std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact = _Actors.begin();
+		std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endact = _Actors.end();
+		for(; itact != endact; ++itact)
+		{
+			// TODO - check if objects are visible by the player ( depends of condition)
+			const ActorObjectInfo & actinfo = itact->second->GetActorInfo();
 
-		toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-			LbaNet::NpcObject, itact->first, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo , actinfo.ExtraInfo));
+			toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+				LbaNet::NpcObject, itact->first, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo , 
+				actinfo.ExtraInfo));
+		}
 	}
+
+	#ifdef _USE_QT_EDITOR_
+	{
+		std::map<Ice::Long, ActorObjectInfo >::iterator itact = _editorObjects.begin();
+		std::map<Ice::Long, ActorObjectInfo >::iterator endact = _editorObjects.end();
+		for(; itact != endact; ++itact)
+		{
+			const ActorObjectInfo & actinfo = itact->second;
+
+			toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+				LbaNet::EditorObject, itact->first, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo , 
+				actinfo.ExtraInfo));
+		}
+	}
+	#endif
 
 	
 	// current players in map
@@ -753,19 +784,19 @@ teleport an object
 ***********************************************************/
 void MapHandler::Teleport(int ObjectType, Ice::Long ObjectId,
 							const std::string &NewMapName, 
-							const std::string &SpawningName)
+							long SpawningId)
 {
 	// if teleport on different map
 	if(NewMapName != _mapinfo.Name)
 	{
 		// teleport player outside the map
 		if(ObjectType == 2)
-			SharedDataHandler::getInstance()->ChangeMapPlayer(ObjectId, NewMapName, SpawningName);
+			SharedDataHandler::getInstance()->ChangeMapPlayer(ObjectId, NewMapName, SpawningId);
 	}
 	else // same map
 	{
 		// get spawning info
-		LbaNet::SpawningsSeq::iterator itsp = _mapinfo.Spawnings.find(SpawningName);
+		LbaNet::SpawningsSeq::iterator itsp = _mapinfo.Spawnings.find(SpawningId);
 		if(itsp != _mapinfo.Spawnings.end())
 		{
 			PlayerPosition pos;
@@ -1064,22 +1095,71 @@ bool MapHandler::RaiseFromDead(Ice::Long clientid, ModelInfo & returnmodel)
 }
 
 
+/***********************************************************
+process editor events
+***********************************************************/
+void MapHandler::ProcessEditorUpdate(boost::shared_ptr<EditorUpdateBase> update)
+{
+	EditorUpdateBase & obj = *update;
+	const std::type_info& info = typeid(obj);
 
+	// spawning update
+	if(info == typeid(UpdateEditor_AddOrModSpawning))
+	{
+		UpdateEditor_AddOrModSpawning* castedptr = 
+			static_cast<UpdateEditor_AddOrModSpawning *>(&obj);
+
+		Editor_AddOrModSpawning(castedptr->_SpawningId,
+									castedptr->_spawningname,
+									castedptr->_PosX,
+									castedptr->_PosY, 
+									castedptr->_PosZ,
+									castedptr->_Rotation, 
+									castedptr->_forcedrotation);
+
+		return;
+	}
+
+
+	// spawning remove
+	if(info == typeid(UpdateEditor_RemoveSpawning))
+	{
+		UpdateEditor_RemoveSpawning* castedptr = 
+			static_cast<UpdateEditor_RemoveSpawning *>(&obj);
+
+		Editor_RemoveSpawning(castedptr->_SpawningId);
+	}
+}
 
 
 /***********************************************************
 add a spawning to the map
 ***********************************************************/
-void MapHandler::Editor_AddOrModSpawning(	const std::string &spawningname,
+void MapHandler::Editor_AddOrModSpawning(	long SpawningId, const std::string &spawningname,
 											float PosX, float PosY, float PosZ,
 											float Rotation, bool forcedrotation)
 {
 	LbaNet::SpawningInfo spawn;
+	spawn.Id = SpawningId;
 	spawn.Name = spawningname;
 	spawn.PosX = PosX;
 	spawn.PosY = PosY;
 	spawn.PosZ = PosZ;
 	spawn.Rotation = Rotation;
 	spawn.ForceRotation = forcedrotation;
-	_mapinfo.Spawnings[spawningname] = spawn;	
+	_mapinfo.Spawnings[SpawningId] = spawn;	
+}
+
+
+/***********************************************************
+remove a spawning
+***********************************************************/
+void MapHandler::Editor_RemoveSpawning(long SpawningId)
+{
+	LbaNet::SpawningsSeq::iterator it = _mapinfo.Spawnings.find(SpawningId);
+	if(it != _mapinfo.Spawnings.end())
+	{
+		// erase from data
+		_mapinfo.Spawnings.erase(it);
+	}
 }

@@ -120,7 +120,7 @@ ServerLuaHandler::ServerLuaHandler(const std::string & luafile)
 		.def(luabind::constructor<>()),
 
 		luabind::class_<TeleportAction, ActionBase, boost::shared_ptr<ActionBase> >("TeleportAction")
-		.def(luabind::constructor<const std::string &, const std::string &>())
+		.def(luabind::constructor<const std::string &, long>())
 
 		];
 

@@ -27,9 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define __LbaNetModel_ServerExtendedEvents_h
 
 #include <ClientServerEvents.h>
-
-
-
+#include <boost/shared_ptr.hpp>
 
 /*
 ************************************************************************************************************************
@@ -48,6 +46,60 @@ public:
 };
 
 
+/*
+************************************************************************************************************************
+*                                                  class UpdateEditor_AddOrModSpawning
+*
+*	base class for all editor update
+************************************************************************************************************************
+*/
+class UpdateEditor_AddOrModSpawning : public EditorUpdateBase
+{
+public:
+	//! constructor
+	UpdateEditor_AddOrModSpawning(long SpawningId, const std::string &spawningname,
+									float PosX, float PosY, float PosZ,
+									float Rotation, bool forcedrotation)
+	: _SpawningId(SpawningId), _spawningname(spawningname), _PosX(PosX), _PosY(PosY), _PosZ(PosZ),
+		_Rotation(Rotation), _forcedrotation(forcedrotation)
+	{
+	}
+	long 			_SpawningId;
+	std::string		_spawningname;
+	float			_PosX;
+	float			_PosY;
+	float			_PosZ;
+	float			_Rotation;
+	bool			_forcedrotation;
+};
+
+
+
+/*
+************************************************************************************************************************
+*                                                  class UpdateEditor_RemoveSpawning
+*
+*	base class for all editor update
+************************************************************************************************************************
+*/
+class UpdateEditor_RemoveSpawning : public EditorUpdateBase
+{
+public:
+	//! constructor
+	UpdateEditor_RemoveSpawning(long SpawningId)
+	: _SpawningId(SpawningId)
+	{
+	}
+
+	long 		_SpawningId;
+};
+
+
+
+
+
+
+
 
 /*
 ************************************************************************************************************************
@@ -60,12 +112,12 @@ class EditorEvent : public LbaNet::ClientServerEventBase
 {
 public:
 	//! constructor
-	EditorEvent(EditorUpdateBase * update)
+	EditorEvent(boost::shared_ptr<EditorUpdateBase> update)
 		: _update(update)
 	{
 	}
 
-	EditorUpdateBase * _update;
+	boost::shared_ptr<EditorUpdateBase> _update;
 
 };
 

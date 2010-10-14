@@ -37,8 +37,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ServerLuaHandler.h"
 #include "Triggers.h"
 
+
 using namespace LbaNet;
 class PlayerHandler;
+class EditorUpdateBase;
+
 
 //! used to send event to 1 client
 class EventsSender : public IceUtil::Thread
@@ -140,7 +143,7 @@ public:
 	//! 3 -> movable object
 	void Teleport(int ObjectType, Ice::Long ObjectId,
 						const std::string &NewMapName, 
-						const std::string &SpawningName);
+						long SpawningId);
 
 
 
@@ -233,24 +236,17 @@ protected:
 	bool RaiseFromDead(Ice::Long clientid, ModelInfo & returnmodel);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+	//! process editor events
+	void ProcessEditorUpdate(boost::shared_ptr<EditorUpdateBase> update);
 
 
 	//! add a spawning to the map
-	void Editor_AddOrModSpawning(	const std::string &spawningname,
+	void Editor_AddOrModSpawning(	long SpawningId, const std::string &spawningname,
 									float PosX, float PosY, float PosZ,
 									float Rotation, bool forcedrotation);
+
+	//! remove a spawning
+	void Editor_RemoveSpawning(long SpawningId);
 
 private:
 	// threading and mutex stuff
@@ -266,14 +262,18 @@ private:
 	std::vector<Ice::Long>										_currentplayers;
 
 
-	 std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >		_players;
-	 std::map<Ice::Long, EventsSeq>								_events;
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >		_players;
+	std::map<Ice::Long, EventsSeq>								_events;
 
-	 std::map<std::string, boost::shared_ptr<ServerGUIBase> >	_guihandlers;
+	std::map<std::string, boost::shared_ptr<ServerGUIBase> >	_guihandlers;
 
-	 std::map<Ice::Long, boost::shared_ptr<ActorHandler> >		_Actors;
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >		_Actors;
 
-	 EventsSeq													_tosendevts;
+	#ifdef _USE_QT_EDITOR_
+	std::map<Ice::Long, ActorObjectInfo >						_editorObjects;
+	#endif
+
+	EventsSeq													_tosendevts;
 
 	ServerLuaHandler											_luaH;
 

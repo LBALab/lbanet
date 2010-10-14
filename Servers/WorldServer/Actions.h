@@ -54,7 +54,7 @@ class TeleportAction : public ActionBase
 {
 public:
 	//! constructor
-	TeleportAction(const std::string & NewMap, const std::string & Spawning);
+	TeleportAction(const std::string & NewMap, long SpawningId);
 	
 	//! destructor
 	virtual ~TeleportAction(void);
@@ -69,7 +69,7 @@ public:
 
 private:
 	std::string		_NewMap;
-	std::string		_Spawning;
+	long			_SpawningId;
 
 };
 

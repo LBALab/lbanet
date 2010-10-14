@@ -4,8 +4,8 @@
 /***********************************************************
 constructor
 ***********************************************************/
-TeleportAction::TeleportAction(const std::string & NewMap, const std::string & Spawning)
-: _NewMap(NewMap), _Spawning(Spawning)
+TeleportAction::TeleportAction(const std::string & NewMap, long SpawningId)
+: _NewMap(NewMap), _SpawningId(SpawningId)
 {
 
 }
@@ -25,5 +25,5 @@ TeleportAction::~TeleportAction(void)
 void TeleportAction::Execute(MapHandler * owner, int ObjectType, Ice::Long ObjectId)
 {
 	if(owner)
-		owner->Teleport(ObjectType, ObjectId, _NewMap, _Spawning);
+		owner->Teleport(ObjectType, ObjectId, _NewMap, _SpawningId);
 }

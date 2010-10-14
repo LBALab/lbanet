@@ -125,7 +125,7 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectE
 		//in this case set the default information
 		bool forcerotation;
 		savedinfo.ppos = GetSpawningInfo(	_worldinfo.StartingInfo.StartingMap, 
-											_worldinfo.StartingInfo.Spawning,
+											_worldinfo.StartingInfo.SpawningId,
 											forcerotation);
 
 		savedinfo.lifemana.CurrentLife = _worldinfo.StartingInfo.StartingLife;
@@ -294,7 +294,7 @@ ClientProxyBasePtr SharedDataHandler::GetProxy(Ice::Long clientid)
 returning the spawning info for a map
 ***********************************************************/
 PlayerPosition SharedDataHandler::GetSpawningInfo(const std::string &MapName, 
-													const std::string &SpawningName,
+													long SpawningId,
 													bool &forcerotation)
 {
 	PlayerPosition res;
@@ -305,7 +305,7 @@ PlayerPosition SharedDataHandler::GetSpawningInfo(const std::string &MapName,
 	MapsSeq::iterator it = _worldinfo.Maps.find(MapName);
 	if(it != _worldinfo.Maps.end())
 	{
-		SpawningsSeq::iterator itsp = it->second.Spawnings.find(SpawningName);
+		SpawningsSeq::iterator itsp = it->second.Spawnings.find(SpawningId);
 		if(itsp != it->second.Spawnings.end())
 		{
 			res.X = itsp->second.PosX;
@@ -363,7 +363,7 @@ void SharedDataHandler::TeleportPlayer(Ice::Long clientid, const std::string &Te
 		{
 			//only tp if change map
 			if(ittp->second.MapName != itplayer->second->GetCurrentMap())
-				ChangeMapPlayer(clientid, ittp->second.MapName, ittp->second.SpawningName);
+				ChangeMapPlayer(clientid, ittp->second.MapName, ittp->second.SpawningId);
 		}
 	}
 }
@@ -373,7 +373,7 @@ void SharedDataHandler::TeleportPlayer(Ice::Long clientid, const std::string &Te
 change map for player
 ***********************************************************/
 void SharedDataHandler::ChangeMapPlayer(Ice::Long clientid, const std::string &NewMapName, 
-											const std::string &SpawningName)
+											long SpawningId)
 {
 	Lock sync(*this);
 
@@ -381,7 +381,7 @@ void SharedDataHandler::ChangeMapPlayer(Ice::Long clientid, const std::string &N
 	LbaNet::MapsSeq::iterator itm = _worldinfo.Maps.find(NewMapName);
 	if(itm != _worldinfo.Maps.end())
 	{
-		LbaNet::SpawningsSeq::iterator itsp = itm->second.Spawnings.find(SpawningName);
+		LbaNet::SpawningsSeq::iterator itsp = itm->second.Spawnings.find(SpawningId);
 		if(itsp != itm->second.Spawnings.end())
 		{
 			//! get player current position
@@ -449,3 +449,50 @@ void SharedDataHandler::ChangeMapPlayer(Ice::Long clientid, LbaNet::PlayerPositi
 				new PlayerEnterEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), clientid));
 }
 
+
+/***********************************************************
+called by editor
+***********************************************************/
+#ifdef _USE_QT_EDITOR_
+void SharedDataHandler::EditorUpdate(const std::string &mapname, 
+									 boost::shared_ptr<EditorUpdateBase> update)
+{
+	EditorUpdateBase & obj = *update;
+	const std::type_info& info = typeid(obj);
+
+	// spawning update
+	if(info == typeid(UpdateEditor_AddOrModSpawning))
+	{
+		UpdateEditor_AddOrModSpawning* castedptr = 
+			static_cast<UpdateEditor_AddOrModSpawning *>(&obj);
+
+		LbaNet::SpawningInfo spawn;
+		spawn.Id = castedptr->_SpawningId;
+		spawn.Name = castedptr->_spawningname;
+		spawn.PosX = castedptr->_PosX;
+		spawn.PosY = castedptr->_PosY;
+		spawn.PosZ = castedptr->_PosZ;
+		spawn.Rotation = castedptr->_Rotation;
+		spawn.ForceRotation = castedptr->_forcedrotation;
+		_worldinfo.Maps[mapname].Spawnings[spawn.Id] = spawn;
+	}
+
+	// spawning remove
+	if(info == typeid(UpdateEditor_RemoveSpawning))
+	{
+		UpdateEditor_RemoveSpawning* castedptr = 
+			static_cast<UpdateEditor_RemoveSpawning *>(&obj);
+
+		LbaNet::SpawningsSeq::iterator it = _worldinfo.Maps[mapname].Spawnings.find(castedptr->_SpawningId);
+		if(it != _worldinfo.Maps[mapname].Spawnings.end())
+		{
+			// erase from data
+			_worldinfo.Maps[mapname].Spawnings.erase(it);
+		}
+	}
+	
+
+	// inform the map
+	AddEvent(mapname, 1, new EditorEvent(update));
+}
+#endif

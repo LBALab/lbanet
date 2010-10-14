@@ -33,6 +33,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "DatabaseHandlerBase.h"
 #include "ClientProxyHandler.h"
+#include "ServerExtendedEvents.h"
+
 
 class MapHandler;
 class PlayerHandler;
@@ -95,10 +97,12 @@ public:
 
 	//! change map for player
 	void ChangeMapPlayer(Ice::Long clientid, const std::string &NewMapName, 
-										const std::string &SpawningName);
+										long SpawningId);
 
-
-
+#ifdef _USE_QT_EDITOR_
+	//! called by editor
+	void EditorUpdate(const std::string &mapname, boost::shared_ptr<EditorUpdateBase> update);
+#endif
 
 protected:
 	//! constructor
@@ -106,7 +110,7 @@ protected:
 
 	//! returning the spawning info for a map
 	PlayerPosition GetSpawningInfo(const std::string &MapName, 
-									const std::string &SpawningName,
+									long SpawningId,
 									bool &forcerotation);
 
 	//! add events
