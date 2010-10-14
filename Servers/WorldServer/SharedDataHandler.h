@@ -79,63 +79,16 @@ public:
 	// clean up
 	void CleanUp();
 
-
-	// return inventory size
-	int GetInventorySize(Ice::Long clientid);
-
-	// return inventory content
-	ItemsMap GetInventory(Ice::Long clientid);
-
-	// return shortcuts
-	ShortcutsSeq GetShorcuts(Ice::Long clientid);
-
-	//! get player info
-	SavedWorldInfo GetInfo(Ice::Long clientid);
-
-
-	//!  update player position
-	void UpdatePlayerPosition(Ice::Long clientid, const PlayerPosition & pos);
-
-	//!  get player position
-	PlayerPosition GetPlayerPosition(Ice::Long clientid);
-
-	//! get player mode string
-	std::string GetPlayerModeString(Ice::Long clientid);
-
-
-	//! get player extra info
-	LbaNet::ObjectExtraInfo GetPlayerExtraInfo(Ice::Long clientid);
+	//get player proxy
+	ClientProxyBasePtr GetProxy(Ice::Long clientid);
 
 
 	//! get database
 	boost::shared_ptr<DatabaseHandlerBase> GetDatabase();
 
-
-	//!  get player proxy
-	ClientProxyBasePtr GetProxy(Ice::Long clientid);
-
-
-	//!  update player stance
-	//! return true if state has been updated
-	bool UpdatePlayerStance(Ice::Long clientid, LbaNet::ModelStance NewStance,
-									ModelInfo & returnmodel );
-
-
-	//!  update player state
-	//! return true if state has been updated
-	bool UpdatePlayerState(Ice::Long clientid, LbaNet::ModelState NewState,
-									ModelInfo & returnmodel );
  	
  	// used when a client update name info
 	void UpdateClientExtraInfo(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo);
-
-
-	//! get the place to respawn in case of death
-	LbaNet::PlayerPosition GetSpawningPlace(Ice::Long clientid);
-
-	//!  raised player from dead
-	//! return true if raised
-	bool RaiseFromDead(Ice::Long clientid, ModelInfo & returnmodel);
 
 	//! teleport player
 	void TeleportPlayer(Ice::Long clientid, const std::string &TeleportId);
@@ -143,6 +96,9 @@ public:
 	//! change map for player
 	void ChangeMapPlayer(Ice::Long clientid, const std::string &NewMapName, 
 										const std::string &SpawningName);
+
+
+
 
 protected:
 	//! constructor

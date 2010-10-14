@@ -75,6 +75,9 @@ public:
 	//! get player current map
 	std::string GetCurrentMap();
 
+	//! get player extra info
+	LbaNet::LifeManaInfo GetLifeManaInfo()
+	{ return _currentinfo.lifemana;}
 
 	//! update player life and mana
 	void UpdateLifeMana(const LbaNet::LifeManaInfo & lifeinfo);
@@ -119,6 +122,7 @@ public:
 	//! get player extra info
 	LbaNet::ObjectExtraInfo GetExtraInfo()
 	{ return _extrainfo;}
+
 
 
 	//! get the place to respawn in case of death

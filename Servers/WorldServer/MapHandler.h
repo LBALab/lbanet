@@ -38,7 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Triggers.h"
 
 using namespace LbaNet;
-
+class PlayerHandler;
 
 //! used to send event to 1 client
 class EventsSender : public IceUtil::Thread
@@ -61,18 +61,31 @@ class EventsSenderToAll : public IceUtil::Thread
 {
 public:
 	//! constructor
-	EventsSenderToAll(EventsSeq & events, std::map<Ice::Long, ClientProxyBasePtr> &proxies);
+	EventsSenderToAll(EventsSeq & events, std::vector<ClientProxyBasePtr> &proxies);
 
 	// running function of the thread
 	virtual void run();
 
 private:
 	EventsSeq									_events;
-	std::map<Ice::Long, ClientProxyBasePtr>		_proxies;
+	std::vector<ClientProxyBasePtr>		_proxies;
 };
 
 
 
+class NoPlayerException : public std::exception
+{
+public:
+
+	NoPlayerException()
+	{}
+
+	virtual ~NoPlayerException()  throw ()
+	{}
+
+	virtual const char* what() const throw ()
+	{ return ""; }
+};
 
 
 
@@ -104,16 +117,16 @@ public:
 	void GetEvents(std::map<Ice::Long, EventsSeq> & evts);
 
 	// add player proxy
-	void AddProxy(Ice::Long clientid, ClientProxyBasePtr proxy);
+	void AddPlayer(Ice::Long clientid, boost::shared_ptr<PlayerHandler> player);
 
 	// remove player proxy
-	void RemoveProxy(Ice::Long clientid);
+	void RemovePlayer(Ice::Long clientid);
 
 	// get player proxy
 	ClientProxyBasePtr GetProxy(Ice::Long clientid);
 
 	// get players proxies
-	std::map<Ice::Long, ClientProxyBasePtr> GetProxies();
+	std::vector<ClientProxyBasePtr> GetProxies();
 
 
 	// function used by LUA to add actor
@@ -167,9 +180,77 @@ protected:
 	//! a player is raised from dead
 	void RaiseFromDeadEvent(Ice::Long id);
 
-
 	//! process player action
 	void ProcessPlayerAction(Ice::Long id, bool ForcedNormalAction);
+
+
+
+	// return inventory size
+	int GetInventorySize(Ice::Long clientid);
+
+	// return inventory content
+	ItemsMap GetInventory(Ice::Long clientid);
+
+	// return shortcuts
+	ShortcutsSeq GetShorcuts(Ice::Long clientid);
+
+	//!  get player position
+	PlayerPosition GetPlayerPosition(Ice::Long clientid);
+
+	//! get player mode string
+	std::string GetPlayerModeString(Ice::Long clientid);
+
+	//! get player life info
+	LbaNet::LifeManaInfo GetPlayerLifeInfo(Ice::Long clientid);
+
+	//! get player extra info
+	LbaNet::ObjectExtraInfo GetPlayerExtraInfo(Ice::Long clientid);
+
+	//! get player model info
+	LbaNet::ModelInfo  GetPlayerModelInfo(Ice::Long clientid);
+
+	//! get the place to respawn in case of death
+	LbaNet::PlayerPosition GetSpawningPlace(Ice::Long clientid);
+
+
+
+	//!  update player position
+	bool UpdatePlayerPosition(Ice::Long clientid, const PlayerPosition & pos);
+
+	//!  update player stance
+	//! return true if state has been updated
+	bool UpdatePlayerStance(Ice::Long clientid, LbaNet::ModelStance NewStance,
+									ModelInfo & returnmodel );
+
+
+	//!  update player state
+	//! return true if state has been updated
+	bool UpdatePlayerState(Ice::Long clientid, LbaNet::ModelState NewState,
+									ModelInfo & returnmodel );
+
+	//!  raised player from dead
+	//! return true if raised
+	bool RaiseFromDead(Ice::Long clientid, ModelInfo & returnmodel);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//! add a spawning to the map
+	void Editor_AddOrModSpawning(	const std::string &spawningname,
+									float PosX, float PosY, float PosZ,
+									float Rotation, bool forcedrotation);
 
 private:
 	// threading and mutex stuff
@@ -185,7 +266,7 @@ private:
 	std::vector<Ice::Long>										_currentplayers;
 
 
-	 std::map<Ice::Long, ClientProxyBasePtr>					_playerproxies;
+	 std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >		_players;
 	 std::map<Ice::Long, EventsSeq>								_events;
 
 	 std::map<std::string, boost::shared_ptr<ServerGUIBase> >	_guihandlers;

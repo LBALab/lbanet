@@ -9,6 +9,7 @@
 #include "CommunityBoxHandler.h"
 #include "InventoryBoxHandler.h"
 #include "MailBoxHandler.h"
+#include "PlayerHandler.h"
 
 #include <math.h>
 
@@ -49,7 +50,7 @@ void EventsSender::run()
 /***********************************************************
 constructor
 ***********************************************************/
-EventsSenderToAll::EventsSenderToAll(EventsSeq & events, std::map<Ice::Long, ClientProxyBasePtr> &proxies)
+EventsSenderToAll::EventsSenderToAll(EventsSeq & events, std::vector<ClientProxyBasePtr> &proxies)
 {
 	_events.swap(events);
 	_proxies.swap(proxies);
@@ -61,14 +62,14 @@ running function of the thread
 ***********************************************************/
 void EventsSenderToAll::run()
 {
-	std::map<Ice::Long, ClientProxyBasePtr>::iterator it = _proxies.begin();
-	std::map<Ice::Long, ClientProxyBasePtr>::iterator end = _proxies.end();
+	std::vector<ClientProxyBasePtr>::iterator it = _proxies.begin();
+	std::vector<ClientProxyBasePtr>::iterator end = _proxies.end();
 	for(; it != end; ++it)
 	{
 		try
 		{
-			if(it->second)
-				it->second->ServerEvents(_events);
+			if(*it)
+				(*it)->ServerEvents(_events);
 		}
 		catch(const IceUtil::Exception& ex)
 		{
@@ -377,24 +378,25 @@ void MapHandler::GetEvents(std::map<Ice::Long, EventsSeq> & evts)
 /***********************************************************
 add player proxy
 ***********************************************************/
-void MapHandler::AddProxy(Ice::Long clientid, ClientProxyBasePtr proxy)
+void MapHandler::AddPlayer(Ice::Long clientid, boost::shared_ptr<PlayerHandler> player)
 {
 	IceUtil::Mutex::Lock sync(_mutex_proxies);
-	_playerproxies[clientid] = proxy;
+	_players[clientid] = player;
 
 }
 
 /***********************************************************
 remove player proxy
 ***********************************************************/
-void MapHandler::RemoveProxy(Ice::Long clientid)
+void MapHandler::RemovePlayer(Ice::Long clientid)
 {
 	IceUtil::Mutex::Lock sync(_mutex_proxies);
 
-	std::map<Ice::Long, ClientProxyBasePtr>::iterator it =	_playerproxies.find(clientid);	
-	if(it != _playerproxies.end())
-		_playerproxies.erase(it);
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it =	_players.find(clientid);	
+	if(it != _players.end())
+		_players.erase(it);
 }
+
 
 /***********************************************************
 get player proxy
@@ -403,9 +405,9 @@ ClientProxyBasePtr MapHandler::GetProxy(Ice::Long clientid)
 {
 	IceUtil::Mutex::Lock sync(_mutex_proxies);
 
-	std::map<Ice::Long, ClientProxyBasePtr>::iterator it =	_playerproxies.find(clientid);	
-	if(it != _playerproxies.end())
-		return it->second;
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it =	_players.find(clientid);	
+	if(it != _players.end())
+		return it->second->GetProxy();
 
 	return NULL;
 }
@@ -413,10 +415,17 @@ ClientProxyBasePtr MapHandler::GetProxy(Ice::Long clientid)
 /***********************************************************
 get players proxies
 ***********************************************************/
-std::map<Ice::Long, ClientProxyBasePtr> MapHandler::GetProxies()
+std::vector<ClientProxyBasePtr> MapHandler::GetProxies()
 {
 	IceUtil::Mutex::Lock sync(_mutex_proxies);
-	return _playerproxies;
+
+	std::vector<ClientProxyBasePtr> proxies;
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.begin();
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator end = _players.end();
+	for(; it != end; ++it)
+		proxies.push_back(it->second->GetProxy());
+
+	return proxies;
 }
 
 
@@ -428,67 +437,69 @@ void MapHandler::PlayerEntered(Ice::Long id)
 	// add player to list
 	_currentplayers.push_back(id);
 
-
-	// first give info to the player about current map state
-	EventsSeq toplayer;
-
-
-	// inform client he enter a new map
-	toplayer.push_back(new NewMapEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-												_mapinfo.Name, "", _mapinfo.AutoCameraType)); //TODO put script here
-	
-
-	// player inventory
+	try
 	{
-	GuiParamsSeq seq;
-	seq.push_back(new InventoryGuiParameter(SharedDataHandler::getInstance()->GetInventorySize(id), 
-								SharedDataHandler::getInstance()->GetInventory(id)));
-	toplayer.push_back(
-		new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), "InventoryBox", seq, false, false));
+		// first give info to the player about current map state
+		EventsSeq toplayer;
+
+
+		// inform client he enter a new map
+		toplayer.push_back(new NewMapEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+													_mapinfo.Name, "", _mapinfo.AutoCameraType)); //TODO put script here
+		
+
+		// player inventory
+		{
+		GuiParamsSeq seq;
+		seq.push_back(new InventoryGuiParameter(GetInventorySize(id), GetInventory(id)));
+		toplayer.push_back(
+			new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), "InventoryBox", seq, false, false));
+		}
+
+		// player shortcut
+		{
+		GuiParamsSeq seq;
+		seq.push_back(new ShortcutGuiParameter(GetShorcuts(id)));
+		toplayer.push_back(
+			new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), "ShortcutBox", seq, false, false));
+		}
+
+
+
+		IceUtil::ThreadPtr t = new EventsSender(toplayer, GetProxy(id));
+		t->start();	
+
+
+
+		// then inform all players that player entered
+		//TODO - change size
+		{
+			ObjectPhysicDesc	PhysicDesc;
+			PhysicDesc.Pos = GetPlayerPosition(id);
+			PhysicDesc.TypePhysO = KynematicAType;	
+			PhysicDesc.TypeShape = CapsuleShape;
+			PhysicDesc.Collidable = false;
+			PhysicDesc.Density = 1;
+			PhysicDesc.SizeX = 0.5;
+			PhysicDesc.SizeY = 5;
+
+			_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+														PlayerObject, id, GetPlayerModelInfo(id), PhysicDesc, 
+														GetPlayerLifeInfo(id), GetPlayerExtraInfo(id)));
+		}
+
+
+		// inform triggers
+		{
+			std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
+			std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
+			for(; ittr != endtr; ++ittr)
+				ittr->second->ObjectEnterMap(2, id);
+		}
 	}
-
-	// player shortcut
+	catch(NoPlayerException)
 	{
-	GuiParamsSeq seq;
-	seq.push_back(new ShortcutGuiParameter(SharedDataHandler::getInstance()->GetShorcuts(id)));
-	toplayer.push_back(
-		new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), "ShortcutBox", seq, false, false));
-	}
-
-
-
-	IceUtil::ThreadPtr t = new EventsSender(toplayer, GetProxy(id));
-	t->start();	
-
-
-
-	// then inform all players that player entered
-	//TODO - change size
-	{
-		SavedWorldInfo pinfo = SharedDataHandler::getInstance()->GetInfo(id);
-
-		ObjectPhysicDesc	PhysicDesc;
-		PhysicDesc.Pos = pinfo.ppos;
-		PhysicDesc.TypePhysO = KynematicAType;	
-		PhysicDesc.TypeShape = CapsuleShape;
-		PhysicDesc.Collidable = false;
-		PhysicDesc.Density = 1;
-		PhysicDesc.SizeX = 0.5;
-		PhysicDesc.SizeY = 5;
-
-		_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-													PlayerObject, id, pinfo.model, PhysicDesc, 
-									SharedDataHandler::getInstance()->GetInfo(id).lifemana,
-									SharedDataHandler::getInstance()->GetPlayerExtraInfo(id)));
-	}
-
-
-	// inform triggers
-	{
-		std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
-		std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
-		for(; ittr != endtr; ++ittr)
-			ittr->second->ObjectEnterMap(2, id);
+		// player already left the map
 	}
 }
 
@@ -547,55 +558,62 @@ void MapHandler::PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMove
 {
 	//TODO first check if the info is correct and no cheating
 
-
-	//do an interpolation and check for triggers
+	try
 	{
-		PlayerPosition lastpos = SharedDataHandler::getInstance()->GetPlayerPosition(id);
-
-		float diffX = (info.CurrentPos.X - lastpos.X);
-		float diffY = (info.CurrentPos.Y - lastpos.Y);
-		float diffZ = (info.CurrentPos.Z - lastpos.Z);
-		float diffpos = abs(diffX)	+ abs(diffY) +  abs(diffZ);
-
-		// if player moved
-		if(diffpos > 0.0001f)
+		//do an interpolation and check for triggers
 		{
-			// do a 10th interpolation
-			for(int i=1; i<= 10; ++i)
-			{
-				PlayerPosition pos(lastpos);
-				pos.X += (diffX/10) * i;
-				pos.Y += (diffX/10) * i;
-				pos.Z += (diffX/10) * i;
+			PlayerPosition lastpos = GetPlayerPosition(id);
 
-				// inform triggers
-				std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
-				std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
-				for(; ittr != endtr; ++ittr)
-					ittr->second->ObjectMoved(2, id, pos);
+			float diffX = (info.CurrentPos.X - lastpos.X);
+			float diffY = (info.CurrentPos.Y - lastpos.Y);
+			float diffZ = (info.CurrentPos.Z - lastpos.Z);
+			float diffpos = abs(diffX)	+ abs(diffY) +  abs(diffZ);
+
+			// if player moved
+			if(diffpos > 0.0001f)
+			{
+				// do a 10th interpolation
+				for(int i=1; i<= 10; ++i)
+				{
+					PlayerPosition pos(lastpos);
+					pos.X += (diffX/10) * i;
+					pos.Y += (diffX/10) * i;
+					pos.Z += (diffX/10) * i;
+
+					// inform triggers
+					std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
+					std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
+					for(; ittr != endtr; ++ittr)
+						ittr->second->ObjectMoved(2, id, pos);
+				}
 			}
 		}
+
+
+		// update player position
+		PlayerPosition pos(info.CurrentPos);
+		pos.MapName = _mapinfo.Name;
+
+		// check if position could be updated
+		if(UpdatePlayerPosition(id, pos))
+		{
+			if(info.ForcedChange)
+			{
+				// inform all of player move
+				_tosendevts.push_back(new LbaNet::PlayerMovedEvent(time, id, info, false));
+			}
+
+			// inform guis that player moved
+			std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator itg = _guihandlers.begin();
+			std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator endg = _guihandlers.end();
+			for(; itg != endg; ++itg)
+				itg->second->PlayerMoved(id, info.CurrentPos);
+		}
 	}
-
-
-	// update player position
-	PlayerPosition pos(info.CurrentPos);
-	pos.MapName = _mapinfo.Name;
-	SharedDataHandler::getInstance()->UpdatePlayerPosition(id, pos);
-
-
-	if(info.ForcedChange)
+	catch(NoPlayerException)
 	{
-		// inform all of player move
-		_tosendevts.push_back(new LbaNet::PlayerMovedEvent(time, id, info, false));
+		// player already left the map
 	}
-
-
-	// inform guis that player moved
-	std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator itg = _guihandlers.begin();
-	std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator endg = _guihandlers.end();
-	for(; itg != endg; ++itg)
-		itg->second->PlayerMoved(id, info.CurrentPos);
 }
 
 
@@ -625,21 +643,27 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 	//TODO - change size
 	for(size_t cc=0; cc<_currentplayers.size(); ++cc)
 	{
-		SavedWorldInfo pinfo = SharedDataHandler::getInstance()->GetInfo(_currentplayers[cc]);
+		try
+		{
+			ObjectPhysicDesc	PhysicDesc;
+			PhysicDesc.Pos = GetPlayerPosition(_currentplayers[cc]);
+			PhysicDesc.TypePhysO = KynematicAType;	
+			PhysicDesc.TypeShape = CapsuleShape;
+			PhysicDesc.Collidable = false;
+			PhysicDesc.Density = 1;
+			PhysicDesc.SizeX = 0.5;
+			PhysicDesc.SizeY = 5;
 
-		ObjectPhysicDesc	PhysicDesc;
-		PhysicDesc.Pos = pinfo.ppos;
-		PhysicDesc.TypePhysO = KynematicAType;	
-		PhysicDesc.TypeShape = CapsuleShape;
-		PhysicDesc.Collidable = false;
-		PhysicDesc.Density = 1;
-		PhysicDesc.SizeX = 0.5;
-		PhysicDesc.SizeY = 5;
-
-		toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-													PlayerObject, _currentplayers[cc], pinfo.model, PhysicDesc, 
-												SharedDataHandler::getInstance()->GetInfo(_currentplayers[cc]).lifemana,
-												SharedDataHandler::getInstance()->GetPlayerExtraInfo(_currentplayers[cc])));
+			toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+														PlayerObject, _currentplayers[cc], 
+														GetPlayerModelInfo(_currentplayers[cc]), PhysicDesc, 
+														GetPlayerLifeInfo(_currentplayers[cc]),
+														GetPlayerExtraInfo(_currentplayers[cc])));
+		}
+		catch(NoPlayerException)
+		{
+			// player already left the map
+		}
 	}
 
 
@@ -656,7 +680,7 @@ change player stance
 void MapHandler::ChangeStance(Ice::Long id, LbaNet::ModelStance NewStance)
 {
 	ModelInfo returnmodel;
-	if(SharedDataHandler::getInstance()->UpdatePlayerStance(id, NewStance, returnmodel))
+	if(UpdatePlayerStance(id, NewStance, returnmodel))
 		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 					PlayerObject, id, new ModelUpdate(returnmodel, false)));
 }
@@ -668,7 +692,7 @@ change player state
 void MapHandler::ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, float FallingSize)
 {
 	ModelInfo returnmodel;
-	if(SharedDataHandler::getInstance()->UpdatePlayerState(id, NewState, returnmodel))
+	if(UpdatePlayerState(id, NewState, returnmodel))
 		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 					PlayerObject, id, new ModelUpdate(returnmodel, true)));
 
@@ -684,23 +708,30 @@ void MapHandler::RaiseFromDeadEvent(Ice::Long id)
 	ModelInfo returnmodel;
 
 	//check if player was dead
-	if(SharedDataHandler::getInstance()->RaiseFromDead(id, returnmodel))
+	if(RaiseFromDead(id, returnmodel))
 	{
-		// if so change state and teleport to raising area
-		LbaNet::PlayerPosition pos = SharedDataHandler::getInstance()->GetSpawningPlace(id);
+		try
+		{
+			// if so change state and teleport to raising area
+			LbaNet::PlayerPosition pos = GetSpawningPlace(id);
 
-		LbaNet::PlayerMoveInfo moveinfo;
-		moveinfo.ForcedChange = true;
-		moveinfo.CurrentPos = pos;
-		moveinfo.CurrentSpeedX = 0;
-		moveinfo.CurrentSpeedY = 0;
-		moveinfo.CurrentSpeedZ = 0;
-		moveinfo.CurrentSpeedRotation = 0;
-		_tosendevts.push_back(new LbaNet::PlayerMovedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-															id, moveinfo, true));
+			LbaNet::PlayerMoveInfo moveinfo;
+			moveinfo.ForcedChange = true;
+			moveinfo.CurrentPos = pos;
+			moveinfo.CurrentSpeedX = 0;
+			moveinfo.CurrentSpeedY = 0;
+			moveinfo.CurrentSpeedZ = 0;
+			moveinfo.CurrentSpeedRotation = 0;
+			_tosendevts.push_back(new LbaNet::PlayerMovedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+																id, moveinfo, true));
 
-		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-					PlayerObject, id, new ModelUpdate(returnmodel, false)));
+			_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+						PlayerObject, id, new ModelUpdate(returnmodel, false)));
+		}
+		catch(NoPlayerException)
+		{
+			// player already left the map
+		}
 	}
 }
 
@@ -750,19 +781,20 @@ void MapHandler::Teleport(int ObjectType, Ice::Long ObjectId,
 			if(ObjectType == 2)
 			{
 				// update player position
-				SharedDataHandler::getInstance()->UpdatePlayerPosition(ObjectId, pos);
-
-				// inform all of player move
-				LbaNet::PlayerMoveInfo moveinfo;
-				moveinfo.ForcedChange = true;
-				moveinfo.CurrentPos = pos;
-				moveinfo.CurrentSpeedX = 0;
-				moveinfo.CurrentSpeedY = 0;
-				moveinfo.CurrentSpeedZ = 0;
-				moveinfo.CurrentSpeedRotation = 0;
-				_tosendevts.push_back(new LbaNet::PlayerMovedEvent(
-														SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-														ObjectId, moveinfo, true));	
+				if(UpdatePlayerPosition(ObjectId, pos))
+				{
+					// inform all of player move
+					LbaNet::PlayerMoveInfo moveinfo;
+					moveinfo.ForcedChange = true;
+					moveinfo.CurrentPos = pos;
+					moveinfo.CurrentSpeedX = 0;
+					moveinfo.CurrentSpeedY = 0;
+					moveinfo.CurrentSpeedZ = 0;
+					moveinfo.CurrentSpeedRotation = 0;
+					_tosendevts.push_back(new LbaNet::PlayerMovedEvent(
+															SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+															ObjectId, moveinfo, true));	
+				}
 			}
 
 			//TODO - other actors
@@ -788,14 +820,266 @@ process player action
 ***********************************************************/
 void MapHandler::ProcessPlayerAction(Ice::Long id, bool ForcedNormalAction)
 {
-	PlayerPosition pos = SharedDataHandler::getInstance()->GetPlayerPosition(id);
-	std::string mode = SharedDataHandler::getInstance()->GetPlayerModeString(id);
-
-	// inform triggers
+	try
 	{
-		std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
-		std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
-		for(; ittr != endtr; ++ittr)
-			ittr->second->ObjectAction(2, id, pos, (ForcedNormalAction? "Normal": mode));
+		PlayerPosition pos = GetPlayerPosition(id);
+		std::string mode = GetPlayerModeString(id);
+
+		// inform triggers
+		{
+			std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
+			std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
+			for(; ittr != endtr; ++ittr)
+				ittr->second->ObjectAction(2, id, pos, (ForcedNormalAction? "Normal": mode));
+		}
 	}
+	catch(NoPlayerException)
+	{
+		// player already left the map
+	}
+}
+
+
+
+
+/***********************************************************
+return inventory size
+***********************************************************/
+int MapHandler::GetInventorySize(Ice::Long clientid)
+{
+	{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->GetInventorySize();
+	}
+
+	throw(NoPlayerException());
+}
+
+/***********************************************************
+return inventory content
+***********************************************************/
+ItemsMap MapHandler::GetInventory(Ice::Long clientid)
+{
+	{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->GetInventory();
+	}
+
+	throw(NoPlayerException());
+}
+
+
+
+/***********************************************************
+return shortcuts
+***********************************************************/
+ShortcutsSeq MapHandler::GetShorcuts(Ice::Long clientid)
+{
+	{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->GetShorcuts();
+	}
+
+	throw(NoPlayerException());
+}
+
+/***********************************************************
+get player position
+***********************************************************/
+PlayerPosition MapHandler::GetPlayerPosition(Ice::Long clientid)
+{
+	{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->GetPlayerPosition();
+	}
+
+	throw(NoPlayerException());
+}
+
+
+/***********************************************************
+get player mode string
+***********************************************************/
+std::string MapHandler::GetPlayerModeString(Ice::Long clientid)
+{
+	{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->GetPlayerModeString();
+	}
+
+	throw(NoPlayerException());
+}
+
+
+
+/***********************************************************
+get player life info
+***********************************************************/
+LbaNet::LifeManaInfo MapHandler::GetPlayerLifeInfo(Ice::Long clientid)
+{
+	{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->GetLifeManaInfo();
+	}
+
+	throw(NoPlayerException());
+}
+
+
+/***********************************************************
+get player extra info
+***********************************************************/
+LbaNet::ObjectExtraInfo MapHandler::GetPlayerExtraInfo(Ice::Long clientid)
+{
+	{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->GetExtraInfo();
+	}
+
+	throw(NoPlayerException());
+}
+
+
+/***********************************************************
+get player model info
+***********************************************************/
+LbaNet::ModelInfo MapHandler::GetPlayerModelInfo(Ice::Long clientid)
+{
+	{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->GetModelInfo();
+	}
+
+	throw(NoPlayerException());
+}
+
+
+/***********************************************************
+//!  get the place to respawn in case of death
+***********************************************************/
+LbaNet::PlayerPosition MapHandler::GetSpawningPlace(Ice::Long clientid)
+{
+	{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->GetSpawningPlace();
+	}
+
+	throw(NoPlayerException());
+}
+
+
+
+
+/***********************************************************
+update player position
+***********************************************************/
+bool MapHandler::UpdatePlayerPosition(Ice::Long clientid, const PlayerPosition & pos)
+{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+	{
+		it->second->UpdatePositionInWorld(pos);
+		return true;
+	}
+
+	return false;
+}
+
+
+/***********************************************************
+//!  update player stance
+//! return true if state has been updated
+***********************************************************/
+bool MapHandler::UpdatePlayerStance(Ice::Long clientid, LbaNet::ModelStance NewStance,
+												ModelInfo & returnmodel )
+{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->UpdatePlayerStance(NewStance, returnmodel);
+
+	return false;
+}
+
+
+/***********************************************************
+//!  update player state
+//! return true if state has been updated
+***********************************************************/
+bool MapHandler::UpdatePlayerState(Ice::Long clientid, LbaNet::ModelState NewState,
+												ModelInfo & returnmodel )
+{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->UpdatePlayerState(NewState, returnmodel);
+
+	return false;
+}
+
+/***********************************************************
+	//!  raised player from dead
+	//! return true if raised
+***********************************************************/
+bool MapHandler::RaiseFromDead(Ice::Long clientid, ModelInfo & returnmodel)
+{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->RaiseFromDead(returnmodel);
+
+	return false;
+}
+
+
+
+
+
+/***********************************************************
+add a spawning to the map
+***********************************************************/
+void MapHandler::Editor_AddOrModSpawning(	const std::string &spawningname,
+											float PosX, float PosY, float PosZ,
+											float Rotation, bool forcedrotation)
+{
+	LbaNet::SpawningInfo spawn;
+	spawn.Name = spawningname;
+	spawn.PosX = PosX;
+	spawn.PosY = PosY;
+	spawn.PosZ = PosZ;
+	spawn.Rotation = Rotation;
+	spawn.ForceRotation = forcedrotation;
+	_mapinfo.Spawnings[spawningname] = spawn;	
 }

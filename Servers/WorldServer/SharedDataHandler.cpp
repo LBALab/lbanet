@@ -213,24 +213,79 @@ used when a client disconnect from a world
 
 
 
+
+
 /***********************************************************
-used when a client update name info
+add events
 ***********************************************************/
-void SharedDataHandler::UpdateClientExtraInfo(Ice::Long clientid, 
-											  const LbaNet::ObjectExtraInfo& extrainfo)
+void SharedDataHandler::AddEvents(const std::string &MapName, Ice::Long clientid, const EventsSeq &evts)
+{
+	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator it = _currentmaps.find(MapName);
+	if(it != _currentmaps.end())
+		it->second->AddEvents(clientid, evts);
+}
+
+
+/***********************************************************
+add 1 event
+***********************************************************/
+void SharedDataHandler::AddEvent(const std::string &MapName,Ice::Long clientid, 
+									ClientServerEventBasePtr evt)
+{
+	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator it = _currentmaps.find(MapName);
+	if(it != _currentmaps.end())
+		it->second->AddEvent(clientid, evt);
+}
+
+
+
+/***********************************************************
+player leave map
+***********************************************************/
+void SharedDataHandler::PlayerLeaveMap(const std::string &MapName, Ice::Long clientid)
+{
+	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator it = _currentmaps.find(MapName);
+	if(it != _currentmaps.end())
+		it->second->RemovePlayer(clientid);
+
+	// add player leave event
+	AddEvent(MapName, clientid, 
+		new PlayerLeaveEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), clientid));
+}
+
+
+
+/***********************************************************
+clean up
+***********************************************************/
+void SharedDataHandler::CleanUp()
+{
+	Lock sync(*this);
+
+	_currentmaps.clear();
+	_currentplayers.clear();
+
+	_dbH = boost::shared_ptr<DatabaseHandlerBase>();
+}
+
+
+
+
+
+
+/***********************************************************
+get player proxy
+***********************************************************/
+ClientProxyBasePtr SharedDataHandler::GetProxy(Ice::Long clientid)
 {
 	Lock sync(*this);
 
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
 	if(it != _currentplayers.end())
-	{
-		it->second->SetExtraInfo(extrainfo);
+		return it->second->GetProxy();
 
-		// add event
-		AddEvent(it->second->GetCurrentMap(), clientid, 
-			new NewClientExtraInfoEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), extrainfo));
-	}
 
+	return NULL;
 }
 
 
@@ -267,266 +322,25 @@ PlayerPosition SharedDataHandler::GetSpawningInfo(const std::string &MapName,
 
 
 
-/***********************************************************
-add events
-***********************************************************/
-void SharedDataHandler::AddEvents(const std::string &MapName, Ice::Long clientid, const EventsSeq &evts)
-{
-	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator it = _currentmaps.find(MapName);
-	if(it != _currentmaps.end())
-		it->second->AddEvents(clientid, evts);
-}
-
 
 /***********************************************************
-add 1 event
+used when a client update name info
 ***********************************************************/
-void SharedDataHandler::AddEvent(const std::string &MapName,Ice::Long clientid, 
-									ClientServerEventBasePtr evt)
-{
-	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator it = _currentmaps.find(MapName);
-	if(it != _currentmaps.end())
-		it->second->AddEvent(clientid, evt);
-}
-
-
-
-/***********************************************************
-player leave map
-***********************************************************/
-void SharedDataHandler::PlayerLeaveMap(const std::string &MapName, Ice::Long clientid)
-{
-	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator it = _currentmaps.find(MapName);
-	if(it != _currentmaps.end())
-		it->second->RemoveProxy(clientid);
-
-	// add player leave event
-	AddEvent(MapName, clientid, 
-		new PlayerLeaveEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), clientid));
-}
-
-
-
-/***********************************************************
-clean up
-***********************************************************/
-void SharedDataHandler::CleanUp()
-{
-	Lock sync(*this);
-
-	_currentmaps.clear();
-	_currentplayers.clear();
-
-	_dbH = boost::shared_ptr<DatabaseHandlerBase>();
-}
-
-
-
-
-/***********************************************************
-return inventory size
-***********************************************************/
-int SharedDataHandler::GetInventorySize(Ice::Long clientid)
+void SharedDataHandler::UpdateClientExtraInfo(Ice::Long clientid, 
+											  const LbaNet::ObjectExtraInfo& extrainfo)
 {
 	Lock sync(*this);
 
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
 	if(it != _currentplayers.end())
-		return it->second->GetInventorySize();
-	else
-		return 1;
+	{
+		it->second->SetExtraInfo(extrainfo);
+
+		// add event
+		AddEvent(it->second->GetCurrentMap(), clientid, 
+			new NewClientExtraInfoEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), extrainfo));
+	}
 }
-
-/***********************************************************
-return inventory content
-***********************************************************/
-ItemsMap SharedDataHandler::GetInventory(Ice::Long clientid)
-{
-	Lock sync(*this);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
-	if(it != _currentplayers.end())
-		return it->second->GetInventory();
-	else
-		return ItemsMap();
-}
-
-
-
-/***********************************************************
-return shortcuts
-***********************************************************/
-ShortcutsSeq SharedDataHandler::GetShorcuts(Ice::Long clientid)
-{
-	Lock sync(*this);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
-	if(it != _currentplayers.end())
-		return it->second->GetShorcuts();
-	else
-		return ShortcutsSeq();
-}
-
-
-/***********************************************************
-get player info
-***********************************************************/
-SavedWorldInfo SharedDataHandler::GetInfo(Ice::Long clientid)
-{
-	Lock sync(*this);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
-	if(it != _currentplayers.end())
-		return it->second->GetInfo();
-	else
-		return SavedWorldInfo();
-}
-
-
-
-/***********************************************************
-update player position
-***********************************************************/
-void SharedDataHandler::UpdatePlayerPosition(Ice::Long clientid, const PlayerPosition & pos)
-{
-	Lock sync(*this);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
-	if(it != _currentplayers.end())
-		it->second->UpdatePositionInWorld(pos);
-}
-
-/***********************************************************
-get player position
-***********************************************************/
-PlayerPosition SharedDataHandler::GetPlayerPosition(Ice::Long clientid)
-{
-	Lock sync(*this);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
-	if(it != _currentplayers.end())
-		return it->second->GetPlayerPosition();
-
-
-	return PlayerPosition();
-}
-
-
-/***********************************************************
-get player mode string
-***********************************************************/
-std::string SharedDataHandler::GetPlayerModeString(Ice::Long clientid)
-{
-	Lock sync(*this);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
-	if(it != _currentplayers.end())
-		return it->second->GetPlayerModeString();
-
-
-	return "";
-}
-
-
-
-/***********************************************************
-get player extra info
-***********************************************************/
-LbaNet::ObjectExtraInfo SharedDataHandler::GetPlayerExtraInfo(Ice::Long clientid)
-{
-	Lock sync(*this);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
-	if(it != _currentplayers.end())
-		return it->second->GetExtraInfo();
-
-
-	return LbaNet::ObjectExtraInfo();
-}
-
-
-
-/***********************************************************
-get player proxy
-***********************************************************/
-ClientProxyBasePtr SharedDataHandler::GetProxy(Ice::Long clientid)
-{
-	Lock sync(*this);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
-	if(it != _currentplayers.end())
-		return it->second->GetProxy();
-
-
-	return NULL;
-}
-
-
-/***********************************************************
-//!  update player stance
-//! return true if state has been updated
-***********************************************************/
-bool SharedDataHandler::UpdatePlayerStance(Ice::Long clientid, LbaNet::ModelStance NewStance,
-												ModelInfo & returnmodel )
-{
-	Lock sync(*this);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
-	if(it != _currentplayers.end())
-		return it->second->UpdatePlayerStance(NewStance, returnmodel);
-
-	return false;
-}
-
-
-/***********************************************************
-//!  update player state
-//! return true if state has been updated
-***********************************************************/
-bool SharedDataHandler::UpdatePlayerState(Ice::Long clientid, LbaNet::ModelState NewState,
-												ModelInfo & returnmodel )
-{
-	Lock sync(*this);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
-	if(it != _currentplayers.end())
-		return it->second->UpdatePlayerState(NewState, returnmodel);
-
-	return false;
-}
-
-
-/***********************************************************
-//!  get the place to respawn in case of death
-***********************************************************/
-LbaNet::PlayerPosition SharedDataHandler::GetSpawningPlace(Ice::Long clientid)
-{
-	Lock sync(*this);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
-	if(it != _currentplayers.end())
-		return it->second->GetSpawningPlace();
-
-	return LbaNet::PlayerPosition();
-}
-
-
-
-/***********************************************************
-	//!  raised player from dead
-	//! return true if raised
-***********************************************************/
-bool SharedDataHandler::RaiseFromDead(Ice::Long clientid, ModelInfo & returnmodel)
-{
-	Lock sync(*this);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
-	if(it != _currentplayers.end())
-		return it->second->RaiseFromDead(returnmodel);
-
-	return false;
-}
-
 
 
 /***********************************************************
@@ -618,7 +432,7 @@ void SharedDataHandler::ChangeMapPlayer(Ice::Long clientid, LbaNet::PlayerPositi
 		it->second->StartThread();
 
 		// add proxies to the map
-		it->second->AddProxy(clientid, itplayer->second->GetProxy());
+		it->second->AddPlayer(clientid, itplayer->second);
 	}
 	else
 	{
@@ -634,3 +448,4 @@ void SharedDataHandler::ChangeMapPlayer(Ice::Long clientid, LbaNet::PlayerPositi
 	AddEvent(newpos.MapName, clientid, 
 				new PlayerEnterEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), clientid));
 }
+
