@@ -116,6 +116,70 @@ private:
 
 
 
+/***********************************************************************
+This is the base class describing an Oriented Capsule
+See definition in OsgObjectHandler.cpp
+ ***********************************************************************/
+class OsgCrossDescription : public DisplayObjectDescriptionBase
+{
+public:
+	//! constructor
+	OsgCrossDescription(float size, float colorR, float colorG, float colorB, float colorA)
+		: _size(size), _colorR(colorR), _colorG(colorG), _colorB(colorB), _colorA(colorA)
+	{}
+
+	//! destructor
+	virtual ~OsgCrossDescription(){}
+
+
+	//! build description into dynamic object
+	virtual boost::shared_ptr<DisplayObjectHandlerBase> BuildSelf(boost::shared_ptr<DisplayTransformation> Tr, 
+																				DisplayHandlerBase * disH) const;
+
+private:
+	float _size;
+
+	float _colorR;
+	float _colorG;
+	float _colorB;
+	float _colorA;
+};
+
+
+/***********************************************************************
+This is the base class describing an Oriented Capsule
+See definition in OsgObjectHandler.cpp
+ ***********************************************************************/
+class OsgBoxDescription : public DisplayObjectDescriptionBase
+{
+public:
+	//! constructor
+	OsgBoxDescription(float sizex, float sizey, float sizez, 
+							float colorR, float colorG, float colorB, float colorA)
+		: _sizex(sizex), _sizey(sizey), _sizez(sizez), _colorR(colorR),
+					_colorG(colorG), _colorB(colorB), _colorA(colorA)
+	{}
+
+	//! destructor
+	virtual ~OsgBoxDescription(){}
+
+
+	//! build description into dynamic object
+	virtual boost::shared_ptr<DisplayObjectHandlerBase> BuildSelf(boost::shared_ptr<DisplayTransformation> Tr, 
+																				DisplayHandlerBase * disH) const;
+
+private:
+	float _sizex;
+	float _sizey;
+	float _sizez;
+
+	float _colorR;
+	float _colorG;
+	float _colorB;
+	float _colorA;
+};
+
+
 
 
 /***********************************************************************

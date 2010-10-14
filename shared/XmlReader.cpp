@@ -58,7 +58,7 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
 		TeleportInfo tpi;
 		tpi.Name = v.second.get<std::string>("<xmlattr>.name");
 		tpi.MapName = v.second.get<std::string>("<xmlattr>.map");
-		tpi.SpawningName = v.second.get<std::string>("<xmlattr>.sparea");
+		tpi.SpawningId = v.second.get<long>("<xmlattr>.spawningid");
 		res.TeleportInfo[tpi.Name] = tpi;
 	}
 
@@ -76,7 +76,7 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
 	res.StartingInfo.StartingLife = pt.get<float>("World.PlayerStartingInfo.StartingLife");
 	res.StartingInfo.StartingMana = pt.get<float>("World.PlayerStartingInfo.StartingMana");	
 	res.StartingInfo.StartingMap = pt.get<std::string>("World.PlayerStartingInfo.StartingMap");
-	res.StartingInfo.Spawning = pt.get<std::string>("World.PlayerStartingInfo.Spawning");
+	res.StartingInfo.SpawningId = pt.get<long>("World.PlayerStartingInfo.SpawningId");
 	res.StartingInfo.StartingModel.ModelName = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.ModelName");
 	res.StartingInfo.StartingModel.Outfit = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.Outfit");
 	res.StartingInfo.StartingModel.Weapon = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.Weapon");
@@ -130,6 +130,7 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
 			BOOST_FOREACH(ptree::value_type &v2, v.second.get_child("spareas"))
 			{
 				SpawningInfo spwi;
+				spwi.Id = v2.second.get<long>("<xmlattr>.Id");
 				spwi.Name = v2.second.get<std::string>("<xmlattr>.name");
 				spwi.PosX = v2.second.get<float>("<xmlattr>.posX");
 				spwi.PosY = v2.second.get<float>("<xmlattr>.posY");
@@ -137,7 +138,7 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
 				spwi.ForceRotation = v2.second.get<bool>("<xmlattr>.ForceRotation", false);
 				spwi.Rotation = v2.second.get<float>("<xmlattr>.RotationAtArrival", 0);
 
-				mapi.Spawnings[spwi.Name] = spwi;
+				mapi.Spawnings[spwi.Id] = spwi;
 			}
 
 			res.Maps[mapi.Name] = mapi;
