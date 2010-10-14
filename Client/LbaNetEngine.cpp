@@ -443,6 +443,10 @@ void LbaNetEngine::HandleGameEvents()
 			LbaNet::NewMapEvent * castedptr = 
 				dynamic_cast<LbaNet::NewMapEvent *>(&obj);
 
+			#ifdef _USE_QT_EDITOR_
+			m_editor_handler->SetMapInfo(castedptr->MapName);
+			#endif
+
 			// update model
 			m_lbaNetModel->NewMap(castedptr->MapName, castedptr->InitializationScript, 
 																castedptr->AutoCameraType);

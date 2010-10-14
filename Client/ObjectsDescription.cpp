@@ -226,6 +226,30 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgSimpleObjectDescription::BuildSel
 }
 
 
+/***********************************************************
+build description into dynamic object
+***********************************************************/
+boost::shared_ptr<DisplayObjectHandlerBase> OsgCrossDescription::BuildSelf(boost::shared_ptr<DisplayTransformation> Tr, 
+																				DisplayHandlerBase * disH) const
+{
+	if(disH)
+		return disH->CreateCrossObject(_size, _colorR, _colorG, _colorB, _colorA, Tr);
+
+	return boost::shared_ptr<DisplayObjectHandlerBase> ();
+}
+
+
+/***********************************************************
+build description into dynamic object
+***********************************************************/
+boost::shared_ptr<DisplayObjectHandlerBase> OsgBoxDescription::BuildSelf(boost::shared_ptr<DisplayTransformation> Tr, 
+																				DisplayHandlerBase * disH) const
+{
+	if(disH)
+		return disH->CreateBoxObject(_sizex, _sizey, _sizez, _colorR, _colorG, _colorB, _colorA, Tr);
+
+	return boost::shared_ptr<DisplayObjectHandlerBase> ();
+}
 
 
 /***********************************************************

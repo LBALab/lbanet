@@ -92,18 +92,11 @@ void LbaNetModel::Process(double tnow, float tdiff)
 	if(m_paused)
 		return;
 
-	// process all _serverObjects
-	{
-	std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _serverObjects.begin();
-	std::map<long, boost::shared_ptr<DynamicObject> >::iterator end = _serverObjects.end();
-	for(; it != end; ++it)
-		it->second->Process(tnow, tdiff);
-	}
 
-	// process all _movableObjects
+	// process all _npcObjects
 	{
-	std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _movableObjects.begin();
-	std::map<long, boost::shared_ptr<DynamicObject> >::iterator end = _movableObjects.end();
+	std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _npcObjects.begin();
+	std::map<long, boost::shared_ptr<DynamicObject> >::iterator end = _npcObjects.end();
 	for(; it != end; ++it)
 		it->second->Process(tnow, tdiff);
 	}
@@ -123,6 +116,17 @@ void LbaNetModel::Process(double tnow, float tdiff)
 	for(; it != end; ++it)
 		it->second->Process(tnow, tdiff);
 	}
+
+
+	// process all editor Objects
+	#ifdef _USE_QT_EDITOR_
+	{
+	std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _editorObjects.begin();
+	std::map<long, boost::shared_ptr<DynamicObject> >::iterator end = _editorObjects.end();
+	for(; it != end; ++it)
+		it->second->Process(tnow, tdiff);
+	}
+	#endif
 
 
 	//process player object
@@ -151,10 +155,10 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc
 	switch(OType)
 	{
 		// 1 -> npc object
-	case LbaNet::NpcObject:
+		case LbaNet::NpcObject:
 			{
 			boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
-			_staticObjects[desc.Id] = tmpobj;
+			_npcObjects[desc.Id] = tmpobj;
 			tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
 			tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
 			}
@@ -200,6 +204,19 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc
 			tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
 			}
 		break;
+
+
+		// editor object
+		#ifdef _USE_QT_EDITOR_
+		case LbaNet::EditorObject:
+			{
+			boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
+			_editorObjects[desc.Id] = tmpobj;
+			tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
+			tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
+			}
+		break;
+		#endif
 	}
 }
 
@@ -214,9 +231,9 @@ void LbaNetModel::RemObject(LbaNet::ObjectTypeEnum OType, long id)
 		// 1 -> npc object
 		case LbaNet::NpcObject:
 			{
-			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _staticObjects.find(id);
-			if(it != _staticObjects.end())
-				_staticObjects.erase(it);
+			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _npcObjects.find(id);
+			if(it != _npcObjects.end())
+				_npcObjects.erase(it);
 			}
 		break;
 
@@ -243,6 +260,17 @@ void LbaNetModel::RemObject(LbaNet::ObjectTypeEnum OType, long id)
 				_ghostObjects.erase(it);
 			}
 		break;
+
+		// editor object
+		#ifdef _USE_QT_EDITOR_
+		case LbaNet::EditorObject:
+			{
+			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _editorObjects.find(id);
+			if(it != _editorObjects.end())
+				_editorObjects.erase(it);
+			}
+		break;
+		#endif
 	}
 }
 
@@ -252,11 +280,13 @@ clean up map
 void LbaNetModel::CleanupMap()
 {
 	//clear dynamic object of the current scene
-	_staticObjects.clear();
-	_serverObjects.clear();
-	_movableObjects.clear();
+	_npcObjects.clear();
 	_playerObjects.clear();
 	_ghostObjects.clear();
+
+	#ifdef _USE_QT_EDITOR_
+	_editorObjects.clear();
+	#endif
 
 	//clean up player
 	ResetPlayerObject();
@@ -374,6 +404,26 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 		}
 		break;
 
+		//RenderCross
+		case LbaNet::RenderCross:
+		{
+			//TODO
+		}
+		break;
+
+		//RenderBox
+		case LbaNet::RenderBox:
+		{
+			//TODO
+		}
+		break;
+
+		//RenderCapsule
+		case LbaNet::RenderCapsule:
+		{
+			//TODO
+		}
+		break;
 	}
 
 	// create physic object
@@ -471,8 +521,8 @@ void LbaNetModel::UpdateObjectDisplay(LbaNet::ObjectTypeEnum OType, Ice::Long Ob
 		// 1 -> npc object
 		case LbaNet::NpcObject:
 			{
-			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _staticObjects.find((long)ObjectId);
-			if(it != _staticObjects.end())
+			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _npcObjects.find((long)ObjectId);
+			if(it != _npcObjects.end())
 				it->second->GetDisplayObject()->Update(update);
 			}
 		break;
@@ -501,6 +551,17 @@ void LbaNetModel::UpdateObjectDisplay(LbaNet::ObjectTypeEnum OType, Ice::Long Ob
 				it->second->GetDisplayObject()->Update(update);
 			}
 		break;
+
+		// editor object
+		#ifdef _USE_QT_EDITOR_
+		case LbaNet::EditorObject:
+			{
+			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _editorObjects.find((long)ObjectId);
+			if(it != _editorObjects.end())
+				it->second->GetDisplayObject()->Update(update);
+			}
+		break;
+		#endif
 	}
 }
 

@@ -139,12 +139,6 @@ protected:
 
 	//! add object to the scene
 	//! if IsMainPlayer then treat this object as the player object
-	//! type:
-	// 1 -> static object
-	// 2 -> server controlled
-	// 3 -> movable by player
-	// 4 -> player object
-	// 5 -> ghost object
 	void AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc,
 					const LbaNet::ModelInfo &DisplayDesc,
 					const LbaNet::ObjectExtraInfo &extrainfo,
@@ -152,12 +146,6 @@ protected:
 
 
 	//! remove object from the scene
-	//! type:
-	// 1 -> static object
-	// 2 -> server controlled
-	// 3 -> movable by player
-	// 4 -> player object
-	// 5 -> ghost object
 	virtual void RemObject(LbaNet::ObjectTypeEnum OType, long id);
 
 
@@ -165,17 +153,16 @@ protected:
 private:
 	
 	// list of object populating the scene
-	// static object - do not move, do not need to process
-	// server objects - will move from script
-	// movable objects - moved by player - create a ghost in the other side
+	// npc objects - server controlled
 	// player objects - will move randomly - get info from server
 	// ghosts objects - replication of other movable objects
-	std::map<long, boost::shared_ptr<DynamicObject> >	_staticObjects;
-	std::map<long, boost::shared_ptr<DynamicObject> >	_serverObjects;
-	std::map<long, boost::shared_ptr<DynamicObject> >	_movableObjects;
+	std::map<long, boost::shared_ptr<DynamicObject> >	_npcObjects;
 	std::map<long, boost::shared_ptr<ExternalPlayer> >	_playerObjects;
 	std::map<long, boost::shared_ptr<DynamicObject> >	_ghostObjects;
 
+	#ifdef _USE_QT_EDITOR_
+	std::map<long, boost::shared_ptr<DynamicObject> >	_editorObjects;
+	#endif
 
 	// last cycle time
 	bool												m_paused;

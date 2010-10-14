@@ -1076,7 +1076,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCapsuleObject(floa
 	osg::ref_ptr<osg::Geode> capsuleGeode(new osg::Geode());
 	osg::ref_ptr<osg::Capsule> caps(new osg::Capsule(osg::Vec3(0,0,0),radius,height));
 	osg::ref_ptr<osg::ShapeDrawable> capsdraw = new osg::ShapeDrawable(caps);
-	//capsdraw->setColor(osg::Vec4(colorR, colorG, colorB, colorA));
+	capsdraw->setColor(osg::Vec4(colorR, colorG, colorB, colorA));
 	capsuleGeode->addDrawable(capsdraw);
 	resnode->addChild(capsuleGeode);
 
@@ -1107,7 +1107,108 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCapsuleObject(floa
 		resnode = transform;
 	}
 	
-	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, true, true);
+	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, false, false);
+	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat, true));
+}
+
+
+/***********************************************************
+create box object
+***********************************************************/
+boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateBoxObject(float sizex, float sizey, float sizez, 
+														float colorR, float colorG, float colorB, float colorA,
+														boost::shared_ptr<DisplayTransformation> Tr)
+{
+	osg::ref_ptr<osg::Group> resnode = new osg::Group();
+
+	// create capsule
+	osg::ref_ptr<osg::Geode> capsuleGeode(new osg::Geode());
+	osg::ref_ptr<osg::Box> caps(new osg::Box(osg::Vec3(0,0,0),sizex, sizey, sizez));
+	osg::ref_ptr<osg::ShapeDrawable> capsdraw = new osg::ShapeDrawable(caps);
+	capsdraw->setColor(osg::Vec4(colorR, colorG, colorB, colorA));
+	capsuleGeode->addDrawable(capsdraw);
+	resnode->addChild(capsuleGeode);
+
+	// create orientation line
+	osg::Geode* lineGeode = new osg::Geode();
+	osg::Geometry* lineGeometry = new osg::Geometry();
+	lineGeode->addDrawable(lineGeometry); 
+
+	osg::Vec3Array* lineVertices = new osg::Vec3Array();
+	lineVertices->push_back( osg::Vec3( 0, 0, 0) );
+	lineVertices->push_back( osg::Vec3(0, 5, 0) );
+	lineGeometry->setVertexArray( lineVertices ); 
+
+	osg::DrawElementsUInt* dunit = new osg::DrawElementsUInt(osg::PrimitiveSet::LINES, 0);
+	dunit->push_back(0);
+	dunit->push_back(1);
+	lineGeometry->addPrimitiveSet(dunit); 
+	resnode->addChild(lineGeode);
+
+	if(Tr)
+	{
+		osg::ref_ptr<osg::PositionAttitudeTransform> transform = new osg::PositionAttitudeTransform();
+		transform->setPosition(osg::Vec3d(Tr->translationX, Tr->translationY, Tr->translationZ));
+		transform->setAttitude(osg::Quat(Tr->rotation.X, Tr->rotation.Y, Tr->rotation.Z, Tr->rotation.W));
+		transform->setScale(osg::Vec3d(Tr->scaleX, Tr->scaleY, Tr->scaleZ));
+
+		transform->addChild(resnode);
+		resnode = transform;
+	}
+	
+	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, false, false);
+	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat, true));
+}
+
+
+
+/***********************************************************
+create box object
+***********************************************************/
+boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCrossObject(float size,  
+														float colorR, float colorG, float colorB, float colorA,
+														boost::shared_ptr<DisplayTransformation> Tr)
+{
+	osg::ref_ptr<osg::Group> resnode = new osg::Group();
+
+
+	// create orientation line
+	osg::Geode* lineGeode = new osg::Geode();
+	osg::Geometry* lineGeometry = new osg::Geometry();
+	lineGeode->addDrawable(lineGeometry); 
+
+	osg::Vec3Array* lineVertices = new osg::Vec3Array();
+	lineVertices->push_back( osg::Vec3( -size/2, 0, 0) );
+	lineVertices->push_back( osg::Vec3(size/2, 0, 0) );
+	lineVertices->push_back( osg::Vec3(0 , 0, -size/2) );
+	lineVertices->push_back( osg::Vec3(0 , 0, size/2) );
+	lineGeometry->setVertexArray( lineVertices ); 
+
+	osg::Vec4Array* linecolor = new osg::Vec4Array();
+	linecolor->push_back( osg::Vec4( colorR, colorG, colorB, colorA) );
+	lineGeometry->setColorArray(linecolor);
+	lineGeometry->setColorBinding(osg::Geometry::BIND_OVERALL);
+
+	osg::DrawElementsUInt* dunit = new osg::DrawElementsUInt(osg::PrimitiveSet::LINES, 0);
+	dunit->push_back(0);
+	dunit->push_back(1);
+	dunit->push_back(2);
+	dunit->push_back(3);
+	lineGeometry->addPrimitiveSet(dunit); 
+	resnode->addChild(lineGeode);
+
+	if(Tr)
+	{
+		osg::ref_ptr<osg::PositionAttitudeTransform> transform = new osg::PositionAttitudeTransform();
+		transform->setPosition(osg::Vec3d(Tr->translationX, Tr->translationY, Tr->translationZ));
+		transform->setAttitude(osg::Quat(Tr->rotation.X, Tr->rotation.Y, Tr->rotation.Z, Tr->rotation.W));
+		transform->setScale(osg::Vec3d(Tr->scaleX, Tr->scaleY, Tr->scaleZ));
+
+		transform->addChild(resnode);
+		resnode = transform;
+	}
+	
+	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, false, false);
 	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat, true));
 }
 

@@ -202,6 +202,19 @@ public:
 															float colorR, float colorG, float colorB, float colorA,
 															boost::shared_ptr<DisplayTransformation> Tr);
 
+
+	//! create box object
+	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateBoxObject(float sizex, float sizey, float sizez, 
+															float colorR, float colorG, float colorB, float colorA,
+															boost::shared_ptr<DisplayTransformation> Tr);
+
+
+
+	//! create cross object
+	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateCrossObject(float size,
+															float colorR, float colorG, float colorB, float colorA,
+															boost::shared_ptr<DisplayTransformation> Tr);
+
 	//! create PAT
 	osg::ref_ptr<osg::PositionAttitudeTransform> CreatePAT(boost::shared_ptr<DisplayTransformation> Tr);
 
