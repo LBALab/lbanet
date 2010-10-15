@@ -331,4 +331,68 @@ public:
 };
 
 
+/*
+************************************************************************************************************************
+*                                                  class EditorPlayerMovedEvent
+*
+*	tell editor that player moved
+************************************************************************************************************************
+*/
+class EditorPlayerMovedEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	EditorPlayerMovedEvent(float posx, float posy, float posz)
+		: _posx(posx), _posy(posy), _posz(posz)
+	{
+	}
+
+	float _posx;
+	float _posy;
+	float _posz;
+};
+
+
+/*
+************************************************************************************************************************
+*                                                  class EditorTeleportEvent
+*
+*	editor tp the player on the map
+************************************************************************************************************************
+*/
+class EditorTeleportEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	EditorTeleportEvent(float posx, float posy, float posz)
+		: _posx(posx), _posy(posy), _posz(posz)
+	{
+	}
+
+	float _posx;
+	float _posy;
+	float _posz;
+};
+
+
+/*
+************************************************************************************************************************
+*                                                  class EditorCameraChangeEvent
+*
+*	editor tp the player on the map
+************************************************************************************************************************
+*/
+class EditorCameraChangeEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	EditorCameraChangeEvent(bool forceghost)
+		: _forceghost(forceghost)
+	{
+	}
+
+	bool _forceghost;
+};
+
+
 #endif

@@ -42,7 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	Constructor
 ***********************************************************/
 CharacterController::CharacterController()
-: _isGhost(false), _lastupdatetime(0)
+: _isGhost(false), _lastupdatetime(0), _forcedghost(false)
 {
 
 }
@@ -191,30 +191,30 @@ void CharacterController::Process(double tnow, float tdiff)
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
 	boost::shared_ptr<DisplayObjectHandlerBase> diso = _character->GetDisplayObject();
 
-	if(_isGhost)
+	if(_isGhost || _forcedghost)
 	{
-		float speedX = 0.0f;
-		float speedY = 0.0f;
-		float speedZ = 0.0f;
+		//float speedX = 0.0f;
+		//float speedY = 0.0f;
+		//float speedZ = 0.0f;
 
-		//if right key pressed
-		if(_pressedkeys._keyleft)
-			speedX = -0.01f;
-		else if(_pressedkeys._keyright)
-			speedX = 0.01f;
+		////if right key pressed
+		//if(_pressedkeys._keyleft)
+		//	speedX = -0.01f;
+		//else if(_pressedkeys._keyright)
+		//	speedX = 0.01f;
 
-		//if up key pressed
-		if(_pressedkeys._keyforward)
-			speedZ = -0.01f;
-		else if(_pressedkeys._keybackward)
-			speedZ = 0.01f;
+		////if up key pressed
+		//if(_pressedkeys._keyforward)
+		//	speedZ = -0.01f;
+		//else if(_pressedkeys._keybackward)
+		//	speedZ = 0.01f;
 
-		if(_pressedkeys._keyup)
-			speedY = 0.01f;
-		else if(_pressedkeys._keydown)
-			speedY = -0.01f;
+		//if(_pressedkeys._keyup)
+		//	speedY = 0.01f;
+		//else if(_pressedkeys._keydown)
+		//	speedY = -0.01f;
 
-		physo->Move(speedX*tdiff, speedY*tdiff, speedZ*tdiff, false);
+		//physo->Move(speedX*tdiff, speedY*tdiff, speedZ*tdiff, false);
 	}
 	else
 	{
@@ -506,7 +506,7 @@ check if we need to send update to server
 void CharacterController::UpdateServer(double tnow, float tdiff)
 {
 	// do nothing if ghost
-	if(_isGhost)
+	if(_forcedghost || _isGhost)
 	{
 		_oldtdiff = tdiff;
 		return;
@@ -568,6 +568,19 @@ void CharacterController::UpdateServer(double tnow, float tdiff)
 		EventsQueue::getSenderQueue()->AddEvent(new LbaNet::PlayerMovedEvent(tnow, 0, _currentupdate, false));
 		_lastupdatetime = tnow;
 	}
+
+	#ifdef _USE_QT_EDITOR_
+	{
+		float diffpos = abs(_lastupdate.CurrentPos.X - _currentupdate.CurrentPos.X) 
+						+ abs(_lastupdate.CurrentPos.Y - _currentupdate.CurrentPos.Y) 
+						+  abs(_lastupdate.CurrentPos.Z - _currentupdate.CurrentPos.Z);
+		if(diffpos > 0.001)
+			EventsQueue::getReceiverQueue()->AddEvent(new EditorPlayerMovedEvent(	_currentupdate.CurrentPos.X,
+																					_currentupdate.CurrentPos.Y,
+																					_currentupdate.CurrentPos.Z));
+	}
+	#endif
+
 
 	_lastupdate = _currentupdate;
 }

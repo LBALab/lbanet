@@ -555,6 +555,44 @@ void LbaNetEngine::HandleGameEvents()
 			m_lbaNetModel->CenterCamera();
 			continue;
 		}
+
+		// EditorPlayerMovedEvent
+		#ifdef _USE_QT_EDITOR_
+		if(info == typeid(EditorPlayerMovedEvent))
+		{
+			EditorPlayerMovedEvent* castedptr = 
+				dynamic_cast<EditorPlayerMovedEvent *>(&obj);
+
+			m_editor_handler->PlayerMoved(castedptr->_posx, castedptr->_posy, castedptr->_posz);
+			continue;
+		}
+		#endif
+
+
+		// EditorPlayerMovedEvent
+		#ifdef _USE_QT_EDITOR_
+		if(info == typeid(EditorTeleportEvent))
+		{
+			EditorTeleportEvent* castedptr = 
+				dynamic_cast<EditorTeleportEvent *>(&obj);
+
+			m_lbaNetModel->EditorTpPlayer(castedptr->_posx, castedptr->_posy, castedptr->_posz);
+			continue;
+		}
+		#endif
+		
+
+		// EditorCameraChangeEvent
+		#ifdef _USE_QT_EDITOR_
+		if(info == typeid(EditorCameraChangeEvent))
+		{
+			EditorCameraChangeEvent* castedptr = 
+				dynamic_cast<EditorCameraChangeEvent *>(&obj);
+
+			m_lbaNetModel->ForceGhost(castedptr->_forceghost);
+			continue;
+		}
+		#endif
 	}
 }
 

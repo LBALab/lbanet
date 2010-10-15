@@ -27,8 +27,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /***********************************************************
 Constructor
 ***********************************************************/
-AnimatedObjectHandlerBase::AnimatedObjectHandlerBase(boost::shared_ptr<DisplayTransformation> Tr)
-: OsgObjectHandler(Tr)
+AnimatedObjectHandlerBase::AnimatedObjectHandlerBase(boost::shared_ptr<DisplayTransformation> Tr,
+														const LbaNet::ObjectExtraInfo &extrainfo)
+: OsgObjectHandler(Tr, extrainfo)
 {
 }
 
@@ -68,15 +69,6 @@ int AnimatedObjectHandlerBase::Update(LbaNet::DisplayObjectUpdateBasePtr update)
 	if(info == typeid(LbaNet::PauseAnimationUpdate))
 	{
 		PauseAnimation();
-	}
-
-	// ObjectExtraInfoUpdate
-	if(info == typeid(LbaNet::ObjectExtraInfoUpdate))
-	{
-		LbaNet::ObjectExtraInfoUpdate * castedptr = 
-			dynamic_cast<LbaNet::ObjectExtraInfoUpdate *>(update.get());
-
-		UpdateExtraInfo(castedptr->Update);
 	}
 
 	// ObjectLifeInfoUpdate

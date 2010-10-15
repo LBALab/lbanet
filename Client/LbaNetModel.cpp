@@ -134,7 +134,7 @@ void LbaNetModel::Process(double tnow, float tdiff)
 		m_controllerChar->Process(tnow, tdiff);
 
 	if(m_controllerCam)
-		m_controllerCam->Process();
+		m_controllerCam->Process(tnow, tdiff);
 
 
 
@@ -364,7 +364,7 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 			{
 				boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
 					(new OsgSimpleObjectDescription(DisplayDesc.ModelName, 
-								DisplayDesc.UseLight, DisplayDesc.CastShadow));
+								DisplayDesc.UseLight, DisplayDesc.CastShadow, extrainfo));
 
 				boost::shared_ptr<DisplayTransformation> tr;
 				DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
@@ -407,21 +407,39 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 		//RenderCross
 		case LbaNet::RenderCross:
 		{
-			//TODO
+			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
+				(new OsgCrossDescription(PhysicDesc.SizeX, 
+				DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA, extrainfo));
+
+			boost::shared_ptr<DisplayTransformation> Tr(new DisplayTransformation());
+			Tr->scaleY = 2;
+			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(Tr, dispobdesc));
 		}
 		break;
 
 		//RenderBox
 		case LbaNet::RenderBox:
 		{
-			//TODO
+			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
+				(new OsgBoxDescription(PhysicDesc.SizeX, PhysicDesc.SizeY, PhysicDesc.SizeZ, 
+				DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA, extrainfo));
+
+			boost::shared_ptr<DisplayTransformation> Tr(new DisplayTransformation());
+			Tr->scaleY = 2;
+			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(Tr, dispobdesc));
 		}
 		break;
 
 		//RenderCapsule
 		case LbaNet::RenderCapsule:
 		{
-			//TODO
+			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
+				(new OsgOrientedCapsuleDescription(PhysicDesc.SizeY, PhysicDesc.SizeX, 
+				DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA, extrainfo));
+
+			boost::shared_ptr<DisplayTransformation> Tr(new DisplayTransformation());
+			Tr->scaleY = 2;
+			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(Tr, dispobdesc));
 		}
 		break;
 	}
@@ -574,6 +592,9 @@ void LbaNetModel::KeyPressed(LbanetKey keyid)
 {
 	if(m_controllerChar)
 		m_controllerChar->KeyPressed(keyid);
+
+	if(m_controllerCam)
+		m_controllerCam->KeyPressed(keyid);
 }
 
 /***********************************************************
@@ -583,6 +604,9 @@ void LbaNetModel::KeyReleased(LbanetKey keyid)
 {
 	if(m_controllerChar)
 		m_controllerChar->KeyReleased(keyid);
+
+	if(m_controllerCam)
+		m_controllerCam->KeyReleased(keyid);
 }
 
 
@@ -656,3 +680,33 @@ void LbaNetModel::CenterCamera()
 	if(m_controllerCam)
 		m_controllerCam->Center();
 }
+
+
+#ifdef _USE_QT_EDITOR_
+/***********************************************************
+editor tp the player
+***********************************************************/
+void LbaNetModel::EditorTpPlayer(float posx, float posy, float posz)
+{
+	LbaNet::PlayerMoveInfo info;
+	info.CurrentPos.X = posx;
+	info.CurrentPos.Y = posy;
+	info.CurrentPos.Z = posz;
+	info.CurrentPos.Rotation = 0;
+	m_controllerChar->Teleport(info);
+}
+
+
+/***********************************************************
+force the camera in ghost mode or not
+***********************************************************/
+void LbaNetModel::ForceGhost(bool force)
+{
+	m_controllerChar->ForceGhost(force);
+	m_controllerCam->ForceGhost(force);
+}
+
+
+
+#endif
+

@@ -79,18 +79,12 @@ public:
 	// pause current running animation
 	virtual void PauseAnimation();
 
-	// update object extra info
-	virtual void UpdateExtraInfo(const LbaNet::ObjectExtraInfo &info);
-
 	// update object life info
 	virtual void UpdateLifeInfo(const LbaNet::LifeManaInfo &info);
 
 protected:
 	// refresh model
 	int RefreshModel();
-
-	// refresh text
-	void RefreshText();
 
 	// refresh life/mana bars
 	void RefreshLifeManaBars();
@@ -99,7 +93,6 @@ protected:
 private:
 	LBA1ModelClass*									_model;
 	osg::ref_ptr<osg::Node>							_osgnode;
-	osg::ref_ptr<osg::AutoTransform>				_textgroup;
 	osg::ref_ptr<osg::AutoTransform>				_barsgroup;
 	bool											_paused;
 
@@ -109,7 +102,7 @@ private:
 	LbaNet::ModelInfo								_currentmodelinfo;
 	std::string										_currentanimationstring;
 
-	LbaNet::ObjectExtraInfo							_extrainfo;
+
 	LbaNet::LifeManaInfo							_lifeinfo;
 
 

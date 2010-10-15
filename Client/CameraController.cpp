@@ -39,7 +39,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	Constructor
 ***********************************************************/
 CameraController::CameraController()
-: _lastactX(0), _lastactY(0), _lastactZ(0), _movecamera(false), _isGhost(false)
+: _lastactX(0), _lastactY(0), _lastactZ(0), _movecamera(false), 
+	_isGhost(false), _forcedghost(false)
 {
 
 }
@@ -52,6 +53,99 @@ CameraController::~CameraController()
 {
 
 }
+
+
+
+/***********************************************************
+key pressed
+***********************************************************/
+void CameraController::KeyPressed(LbanetKey keyid)
+{
+	switch(keyid)
+	{
+		case LbanetKey_Forward:
+		{
+			_pressedkeys._keyforward = true;
+		}
+		break;
+		
+		case LbanetKey_Backward:
+		{
+			_pressedkeys._keybackward = true;
+		}
+		break;
+		
+		case LbanetKey_Left:
+		{
+			_pressedkeys._keyleft = true;
+		}
+		break;
+		
+		case LbanetKey_Right:
+		{
+			_pressedkeys._keyright = true;
+		}
+		break;
+
+		case LbanetKey_Up:
+		{
+			_pressedkeys._keyup = true;
+		}
+		break;
+		
+		case LbanetKey_Down:
+		{
+			_pressedkeys._keydown = true;
+		}
+		break;
+	}
+}
+
+/***********************************************************
+key released
+***********************************************************/
+void CameraController::KeyReleased(LbanetKey keyid)
+{
+	switch(keyid)
+	{
+		case LbanetKey_Forward:
+		{
+			_pressedkeys._keyforward = false;
+		}
+		break;
+		
+		case LbanetKey_Backward:
+		{
+			_pressedkeys._keybackward = false;
+		}
+		break;
+		
+		case LbanetKey_Left:
+		{
+			_pressedkeys._keyleft = false;
+		}
+		break;
+		
+		case LbanetKey_Right:
+		{
+			_pressedkeys._keyright = false;
+		}
+		break;
+
+		case LbanetKey_Up:
+		{
+			_pressedkeys._keyup = false;
+		}
+		break;
+		
+		case LbanetKey_Down:
+		{
+			_pressedkeys._keydown = false;
+		}
+		break;
+	}
+}
+
 
 
 /***********************************************************
@@ -69,7 +163,7 @@ void CameraController::SetCharacter(boost::shared_ptr<DynamicObject> charac, boo
 /***********************************************************
 process function
 ***********************************************************/
-void CameraController::Process()
+void CameraController::Process(double tnow, float tdiff)
 {
 	if(!_character)
 		return;
@@ -99,9 +193,45 @@ void CameraController::Process()
 	OsgHandler::getInstance()->GetCameraTarget(_targetx, _targety, _targetz);
 	_targety -= _CAM_OFFSET_Y_;
 
-	if(_isGhost)
+	if(_isGhost || _forcedghost)
 	{
-		OsgHandler::getInstance()->SetCameraTarget(actX, actY+_CAM_OFFSET_Y_, actZ);
+		float speedX = 0.0f;
+		float speedY = 0.0f;
+		float speedZ = 0.0f;
+
+		//if right key pressed
+		if(_pressedkeys._keyleft)
+			speedX = -0.01f;
+		else if(_pressedkeys._keyright)
+			speedX = 0.01f;
+
+		//if up key pressed
+		if(_pressedkeys._keyforward)
+			speedZ = -0.01f;
+		else if(_pressedkeys._keybackward)
+			speedZ = 0.01f;
+
+		if(_pressedkeys._keyup)
+			speedY = 0.01f;
+		else if(_pressedkeys._keydown)
+			speedY = -0.01f;
+
+		double azimut = OsgHandler::getInstance()->GetCameraAzimut();
+
+		LbaQuaternion Q(azimut, LbaVec3(0, 1, 0));
+		LbaVec3 current_directionX(Q.GetDirection(LbaVec3(1, 0, 0)));
+		LbaVec3 current_directionZ(Q.GetDirection(LbaVec3(0, 0, 1)));
+
+
+		float ajustedspeedx = speedX*current_directionX.x + speedZ*current_directionX.z;
+		float ajustedspeedz = speedX*current_directionZ.x + speedZ*current_directionZ.z;
+
+
+
+		OsgHandler::getInstance()->SetCameraTarget(_targetx+ajustedspeedx*tdiff, 
+													_targety+speedY*tdiff+_CAM_OFFSET_Y_,
+													_targetz+ajustedspeedz*tdiff);
+
 		_movecamera = false;
 		return;
 	}

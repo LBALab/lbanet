@@ -126,6 +126,15 @@ public:
 	//! center the camera on player
 	void CenterCamera();
 
+
+	#ifdef _USE_QT_EDITOR_
+	//! editor tp the player
+	void EditorTpPlayer(float posx, float posy, float posz);
+
+	//! force the camera in ghost mode or not
+	void ForceGhost(bool force);
+	#endif
+
 protected:
 
 	//! clean up map

@@ -35,6 +35,7 @@ namespace osg
 	class MatrixTransform;
 	class PositionAttitudeTransform;
 	class Group;
+	class AutoTransform;
 }
 
 class DisplayTransformation;
@@ -49,10 +50,12 @@ class OsgObjectHandler : public DisplayObjectHandlerBase
 {
 public:
 	//! default constructor
-	OsgObjectHandler(boost::shared_ptr<DisplayTransformation> Tr);
+	OsgObjectHandler(boost::shared_ptr<DisplayTransformation> Tr,
+						const LbaNet::ObjectExtraInfo &extrainfo);
 
 	//! constructor
-	OsgObjectHandler(osg::ref_ptr<osg::MatrixTransform> OsgObject, bool uselight);
+	OsgObjectHandler(osg::ref_ptr<osg::MatrixTransform> OsgObject, bool uselight,
+						const LbaNet::ObjectExtraInfo &extrainfo);
 
 	//! destructor
 	virtual ~OsgObjectHandler();
@@ -85,12 +88,22 @@ protected:
 	// return root object on no light scene
 	osg::ref_ptr<osg::Group> GetRootNoLight();
 
+	// update object extra info
+	virtual void UpdateExtraInfo(const LbaNet::ObjectExtraInfo &info);
+
+	// refresh text
+	void RefreshText();
+
+
 protected:
-	float								_posX;
-	float								_posY; 
-	float								_posZ;
-	LbaQuaternion						_Q;
-	bool								_displayed;
+	float											_posX;
+	float											_posY; 
+	float											_posZ;
+	LbaQuaternion									_Q;
+	bool											_displayed;
+
+	osg::ref_ptr<osg::AutoTransform>				_textgroup;
+	LbaNet::ObjectExtraInfo							_extrainfo;
 
 private:
 	osg::ref_ptr<osg::MatrixTransform>				_OsgObject;

@@ -34,7 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <osg/Group>
 #include <osg/Geode>
 #include <osg/AutoTransform>
-#include <osgText/Text>
+
 
 
 /***********************************************************
@@ -44,9 +44,8 @@ Lba1ModelHandler::Lba1ModelHandler(boost::shared_ptr<DisplayTransformation> Tr,
 								   const LbaNet::ModelInfo & info, float animationspeed,
 									const LbaNet::ObjectExtraInfo &extrainfo,
 									const LbaNet::LifeManaInfo &lifeinfo)
-: AnimatedObjectHandlerBase(Tr), _model(NULL), _animationspeed(animationspeed),
-	_currAnimation(-1), _currModel(-1), _currBody(-1), _paused(false),
-	_extrainfo(extrainfo), _lifeinfo(lifeinfo)
+: AnimatedObjectHandlerBase(Tr, extrainfo), _model(NULL), _animationspeed(animationspeed),
+	_currAnimation(-1), _currModel(-1), _currBody(-1), _paused(false), _lifeinfo(lifeinfo)
 {
 	UpdateModel(info);
 }
@@ -245,55 +244,6 @@ void Lba1ModelHandler::PauseAnimation()
 
 
 
-/***********************************************************
-refresh text
-***********************************************************/
-void Lba1ModelHandler::RefreshText()
-{
-	osg::ref_ptr<osg::Group> root = GetRootNoLight();
-	if(root)
-	{
-		if(_textgroup)
-		{
-			root->removeChild(_textgroup);
-			_textgroup = NULL;
-		}
-
-		_textgroup = new osg::AutoTransform();
-		_textgroup->setPosition(osg::Vec3(0, 3.1, 0));
-		_textgroup->setAutoRotateMode(osg::AutoTransform::ROTATE_TO_SCREEN);
-		_textgroup->setMinimumScale(0.01);
-		_textgroup->setMaximumScale(0.5);
-		_textgroup->setAutoScaleToScreen(true);
-
-		osg::ref_ptr<osg::Geode> _textgeode = new osg::Geode();
-		osg::ref_ptr<osgText::Text> textd = new osgText::Text();
-		textd->setText(_extrainfo.Name);
-		textd->setColor(osg::Vec4(_extrainfo.NameColorR, _extrainfo.NameColorG, _extrainfo.NameColorB, 1));
-		textd->setCharacterSize(/*0.4f*/10);
-		textd->setFont("Tahoma.ttf");
-		textd->setAlignment(osgText::Text::CENTER_CENTER);
-
-
-
-		textd->setBackdropColor(osg::Vec4(0, 0, 0, 1));
-		textd->setBackdropType(osgText::Text::OUTLINE);
-		textd->setBackdropImplementation(osgText::Text::NO_DEPTH_BUFFER);
-		textd->setBackdropOffset(0.1f);
-
-		_textgeode->addDrawable(textd);
-
-		osg::StateSet* stateSet = _textgeode->getOrCreateStateSet();
-		stateSet->setMode(GL_BLEND, osg::StateAttribute::ON);
-		stateSet->setMode(GL_DEPTH_TEST,osg::StateAttribute::OFF);
-		stateSet->setMode(GL_LIGHTING,osg::StateAttribute::OFF);
-		stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-		stateSet->setRenderBinDetails( 10000, "RenderBin");
-
-		_textgroup->addChild(_textgeode);
-		root->addChild(_textgroup);
-	}
-}
 
 
 /***********************************************************
@@ -446,14 +396,6 @@ void Lba1ModelHandler::RefreshLifeManaBars()
 
 
 
-/***********************************************************
-update object extra info
-***********************************************************/
-void Lba1ModelHandler::UpdateExtraInfo(const LbaNet::ObjectExtraInfo &info)
-{
-	_extrainfo = info;
-	RefreshText();
-}
 
 /***********************************************************
 update object life info

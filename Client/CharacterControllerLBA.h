@@ -78,6 +78,15 @@ public:
 	//! server teleport player
 	void Teleport(const LbaNet::PlayerMoveInfo &info);
 
+	#ifdef _USE_QT_EDITOR_
+	//! force the camera in ghost mode or not
+	void ForceGhost(bool force)
+	{
+		_forcedghost = force;
+	}
+	#endif
+
+
 protected:
 
 	//! check if we need to send update to server
@@ -100,6 +109,7 @@ private:
 	LbaNet::ModelState 							_currentstatestr;
 
 	bool										_isGhost;
+	bool										_forcedghost;
 
 	CharKeyPressed								_pressedkeys;
 
