@@ -29,6 +29,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class DisplayObjectHandlerBase;
 class DisplayTransformation;
 
+namespace LbaNet
+{
+	class ObjectExtraInfo;
+}
+
 #include <string>
 
 
@@ -54,23 +59,27 @@ public:
 	//! create simple display object
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateSimpleObject(const std::string & filename,
 															boost::shared_ptr<DisplayTransformation> Tr,
-															bool UseLight, bool CastShadow) = 0;
+															bool UseLight, bool CastShadow,
+															const LbaNet::ObjectExtraInfo &extrainfo) = 0;
 
 
 	//! create capsule object
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateCapsuleObject(float radius, float height, 
 															float colorR, float colorG, float colorB, float colorA,
-															boost::shared_ptr<DisplayTransformation> Tr) = 0;
+															boost::shared_ptr<DisplayTransformation> Tr,
+															const LbaNet::ObjectExtraInfo &extrainfo) = 0;
 
 	//! create box object
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateBoxObject(float sizex, float sizey, float sizez, 
 															float colorR, float colorG, float colorB, float colorA,
-															boost::shared_ptr<DisplayTransformation> Tr) = 0;
+															boost::shared_ptr<DisplayTransformation> Tr,
+															const LbaNet::ObjectExtraInfo &extrainfo) = 0;
 
 	//! create cross object
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateCrossObject(float size,
 															float colorR, float colorG, float colorB, float colorA,
-															boost::shared_ptr<DisplayTransformation> Tr) = 0;
+															boost::shared_ptr<DisplayTransformation> Tr,
+															const LbaNet::ObjectExtraInfo &extrainfo) = 0;
 };
 
 

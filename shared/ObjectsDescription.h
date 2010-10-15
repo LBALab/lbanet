@@ -95,8 +95,9 @@ class OsgSimpleObjectDescription : public DisplayObjectDescriptionBase
 {
 public:
 	//! constructor
-	OsgSimpleObjectDescription(const std::string & filename, bool UseLight, bool CastShadow)
-		: _filename(filename), _UseLight(UseLight), _CastShadow(CastShadow)
+	OsgSimpleObjectDescription(const std::string & filename, bool UseLight, bool CastShadow,
+								const LbaNet::ObjectExtraInfo &extrainfo)
+		: _filename(filename), _UseLight(UseLight), _CastShadow(CastShadow), _extrainfo(extrainfo)
 	{}
 
 	//! destructor
@@ -112,6 +113,8 @@ private:
 	bool			_UseLight;
 	bool			_CastShadow;
 
+	LbaNet::ObjectExtraInfo	_extrainfo;
+
 };
 
 
@@ -124,8 +127,10 @@ class OsgCrossDescription : public DisplayObjectDescriptionBase
 {
 public:
 	//! constructor
-	OsgCrossDescription(float size, float colorR, float colorG, float colorB, float colorA)
-		: _size(size), _colorR(colorR), _colorG(colorG), _colorB(colorB), _colorA(colorA)
+	OsgCrossDescription(float size, float colorR, float colorG, float colorB, float colorA,
+								const LbaNet::ObjectExtraInfo &extrainfo)
+		: _size(size), _colorR(colorR), _colorG(colorG), _colorB(colorB), _colorA(colorA), 
+				_extrainfo(extrainfo)
 	{}
 
 	//! destructor
@@ -143,6 +148,8 @@ private:
 	float _colorG;
 	float _colorB;
 	float _colorA;
+
+	LbaNet::ObjectExtraInfo	_extrainfo;
 };
 
 
@@ -155,9 +162,10 @@ class OsgBoxDescription : public DisplayObjectDescriptionBase
 public:
 	//! constructor
 	OsgBoxDescription(float sizex, float sizey, float sizez, 
-							float colorR, float colorG, float colorB, float colorA)
+							float colorR, float colorG, float colorB, float colorA,
+							const LbaNet::ObjectExtraInfo &extrainfo)
 		: _sizex(sizex), _sizey(sizey), _sizez(sizez), _colorR(colorR),
-					_colorG(colorG), _colorB(colorB), _colorA(colorA)
+					_colorG(colorG), _colorB(colorB), _colorA(colorA), _extrainfo(extrainfo)
 	{}
 
 	//! destructor
@@ -177,6 +185,8 @@ private:
 	float _colorG;
 	float _colorB;
 	float _colorA;
+
+	LbaNet::ObjectExtraInfo	_extrainfo;
 };
 
 
@@ -191,9 +201,10 @@ class OsgOrientedCapsuleDescription : public DisplayObjectDescriptionBase
 public:
 	//! constructor
 	OsgOrientedCapsuleDescription(float height, float radius,
-									float colorR, float colorG, float colorB, float colorA)
+									float colorR, float colorG, float colorB, float colorA,
+									const LbaNet::ObjectExtraInfo &extrainfo)
 		: _height(height), _radius(radius), _colorR(colorR),
-					_colorG(colorG), _colorB(colorB), _colorA(colorA)
+					_colorG(colorG), _colorB(colorB), _colorA(colorA), _extrainfo(extrainfo)
 	{}
 
 	//! destructor
@@ -212,6 +223,8 @@ private:
 	float _colorG;
 	float _colorB;
 	float _colorA;
+
+	LbaNet::ObjectExtraInfo	_extrainfo;
 };
 
 
