@@ -120,9 +120,6 @@ bool StringTableModel::setData(const QModelIndex &index, const QVariant &value, 
 	return false;
 }
 
-
-
-
 /***********************************************************
 get a string
 ***********************************************************/
@@ -134,10 +131,6 @@ QString StringTableModel::GetString(const QModelIndex &index)
 	return QString();
 }
 
-
-
-
-
 /***********************************************************
 get the corresponding id
 ***********************************************************/
@@ -148,9 +141,6 @@ long StringTableModel::GetId(const QModelIndex &index)
 
 	return -1;
 }
-
-
-
 
 /***********************************************************
 insertRows
@@ -178,6 +168,8 @@ bool StringTableModel::removeRows(int position, int rows, const QModelIndex &par
 
 	for (int row = 0; row < rows; ++row) 
 	{
+		_ids.erase(_ids.begin()+position);
+
 		for(size_t i=0; i<_stringMatrix.size(); ++i)
 			_stringMatrix[i].removeAt(position);
 	}
@@ -192,15 +184,19 @@ clear the table content
 ***********************************************************/
 void StringTableModel::Clear()
 {
+	_ids.clear();
+
 	if(_stringMatrix.size() > 0)
 	{
-		beginRemoveRows(QModelIndex(), 0, _stringMatrix.size());
+		beginRemoveRows(QModelIndex(), 0, _stringMatrix.size()-1);
 
 		for(size_t i=0; i<_stringMatrix.size(); ++i)
 			_stringMatrix[i].clear();
 
 		endRemoveRows();
 	}
+
+	reset();
 }
 
 
@@ -239,6 +235,183 @@ void StringTableModel::AddOrUpdateRow(long id, const QStringList &data)
 }
 
 
+
+
+
+
+
+
+
+/***********************************************************
+rowCount
+***********************************************************/
+int MixedTableModel::rowCount(const QModelIndex &parent) const
+{
+	if(_objMatrix.size() > 0)
+		return _objMatrix[0].size();
+
+	return 0;
+}
+
+/***********************************************************
+columnCount
+***********************************************************/
+int MixedTableModel::columnCount(const QModelIndex &parent) const
+{
+	return _objMatrix.size();
+}
+
+/***********************************************************
+data
+***********************************************************/
+QVariant MixedTableModel::data(const QModelIndex &index, int role) const
+{
+     if (!index.isValid())
+         return QVariant();
+
+     if (index.column() >= _objMatrix.size())
+         return QVariant();
+
+     if (index.row() >= _objMatrix[0].size())
+         return QVariant();
+
+     if (role == Qt::DisplayRole || role == Qt::EditRole)
+         return _objMatrix[index.column()][index.row()];
+     else
+         return QVariant();
+
+}
+
+/***********************************************************
+headerData
+***********************************************************/
+QVariant MixedTableModel::headerData(int section, Qt::Orientation orientation,
+											 int role) const
+{
+     if (role != Qt::DisplayRole)
+         return QVariant();
+
+     if (orientation == Qt::Horizontal)
+	 {
+		 if(section < _header.size())
+			return _header[section];
+	 }
+
+	 return QVariant();
+}
+
+/***********************************************************
+flags
+***********************************************************/
+Qt::ItemFlags MixedTableModel::flags(const QModelIndex &index) const
+{
+	if (!index.isValid())
+		return Qt::ItemIsEnabled;
+
+	if(index.column() > 0 && index.row() > 2)
+		return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
+	else
+		return QAbstractItemModel::flags(index);
+}
+
+/***********************************************************
+setData
+***********************************************************/
+bool MixedTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+	if (index.isValid() && role == Qt::EditRole) 
+	{
+		_objMatrix[index.column()][index.row()] = value;
+		emit dataChanged(index, index);
+		return true;
+	}
+
+	return false;
+}
+
+/***********************************************************
+get a string
+***********************************************************/
+QVariant MixedTableModel::GetData(const QModelIndex &index)
+{
+	if (index.isValid()) 
+		return _objMatrix[index.column()][index.row()];
+
+	return QVariant();
+}
+
+
+
+/***********************************************************
+insertRows
+***********************************************************/
+bool MixedTableModel::insertRows(int position, int rows, const QModelIndex &parent)
+{
+	beginInsertRows(QModelIndex(), position, position+rows-1);
+
+	for (int row = 0; row < rows; ++row) 
+	{
+		for(size_t i=0; i<_objMatrix.size(); ++i)
+			_objMatrix[i].insert(position, "");
+	}
+
+	endInsertRows();
+	return true;
+}
+
+/***********************************************************
+removeRows
+***********************************************************/
+bool MixedTableModel::removeRows(int position, int rows, const QModelIndex &parent)
+{
+	beginRemoveRows(QModelIndex(), position, position+rows-1);
+
+	for (int row = 0; row < rows; ++row) 
+	{
+		for(size_t i=0; i<_objMatrix.size(); ++i)
+			_objMatrix[i].removeAt(position);
+	}
+
+	endRemoveRows();
+	return true;
+}
+
+
+/***********************************************************
+clear the table content
+***********************************************************/
+void MixedTableModel::Clear()
+{
+	if(_objMatrix.size() > 0)
+	{
+		beginRemoveRows(QModelIndex(), 0, _objMatrix.size()-1);
+
+		for(size_t i=0; i<_objMatrix.size(); ++i)
+			_objMatrix[i].clear();
+
+		endRemoveRows();
+	}
+
+	reset();
+}
+
+
+/***********************************************************
+add a row
+***********************************************************/
+void MixedTableModel::AddRow(const QVariantList &data)
+{
+	if(_objMatrix.size() == data.size())
+	{
+		// object does not exist - insert it
+		beginInsertRows(QModelIndex(), _objMatrix[0].size(), _objMatrix[0].size());
+
+		for(size_t i=0; i<_objMatrix.size(); ++i)
+			_objMatrix[i].push_back(data[i]);
+
+		endInsertRows();
+	}
+}
 
 
 
@@ -290,12 +463,23 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	// set model for spawninglist
 	{
 		 QStringList header;
-		 header << "Name" << "X" << "Y" << "Z" << "Rot" << "F";
+		 header << "Name" << "X" << "Y" << "Z";
 		_mapspawninglistmodel = new StringTableModel(header);
 		_uieditor.tableView_SpawningList->setModel(_mapspawninglistmodel);
 		QHeaderView * mpheaders = _uieditor.tableView_SpawningList->horizontalHeader();
 		mpheaders->setResizeMode(QHeaderView::Stretch);
 	}
+
+	// set model for objectmap
+	{
+		 QStringList header;
+		 header << "Property" << "Value";
+		_objectmodel = new MixedTableModel(header);
+		_uieditor.tableView_object->setModel(_objectmodel);
+		QHeaderView * mpheaders = _uieditor.tableView_object->horizontalHeader();
+		mpheaders->setResizeMode(QHeaderView::Stretch);
+	}
+
 
 	
 	
@@ -313,19 +497,21 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.actionLoad_World, SIGNAL(triggered()), this, SLOT(OpenWorldAction())); 
 	connect(_uieditor.actionSave, SIGNAL(triggered()), this, SLOT(SaveWorldAction())); 
 	connect(_uieditor.pushButton_addTrigger, SIGNAL(clicked()) , this, SLOT(addtrigger_button_clicked()));
-	//connect(_uieditor.tableView_MapList->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), 
-	//				this, SLOT(map_selected(QModelIndex,QModelIndex)));
-	
+	connect(_uieditor.pushButton_info_go, SIGNAL(clicked()) , this, SLOT(info_go_clicked()));
+
+	connect(_uieditor.radioButton_info_player, SIGNAL(toggled(bool)) , this, SLOT(info_camera_toggled(bool)));
+
+
 	connect(_uieditor.pushButton_addSpwaning, SIGNAL(clicked()) , this, SLOT(addspawning_button_clicked()));
 	connect(_uieditor.pushButton_removeSpwaning, SIGNAL(clicked()) , this, SLOT(removespawning_button_clicked()));	
 	connect(_uieditor.pushButton_selectSpwaning, SIGNAL(clicked()) , this, SLOT(selectspawning_button_clicked()));		
 
-
 	connect(_uieditor.pushButton_goto_tp, SIGNAL(clicked()) , this, SLOT(goto_tp_button_clicked()));
 	connect(_uieditor.pushButton_goto_map, SIGNAL(clicked()) , this, SLOT(goto_map_button_clicked()));
 
-	connect(_uieditor.pushButton_goto_tp, SIGNAL(itemDoubleClicked(QTableWidgetItem)) , this, SLOT(goto_tp_button_clicked()));
-	connect(_uieditor.pushButton_goto_map, SIGNAL(itemDoubleClicked(QTableWidgetItem)) , this, SLOT(goto_map_button_clicked()));
+	connect(_uieditor.tableView_TeleportList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(goto_tp_double_clicked(const QModelIndex&)));
+	connect(_uieditor.tableView_MapList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(goto_map_double_clicked(const QModelIndex&)));
+
 
 
 	connect(_uiaddtriggerdialog.buttonBox, SIGNAL(accepted()) , this, SLOT(addtrigger_accepted()));
@@ -413,7 +599,7 @@ refresh display
 ***********************************************************/
 void EditorHandler::RefreshDisplay()
 {
-	_uieditor.groupBox_game->setMinimumWidth(600);
+	_uieditor.groupBox_game->setMinimumHeight(600);
 }
 
 /***********************************************************
@@ -433,7 +619,10 @@ NewWorldAction
 ***********************************************************/
 void EditorHandler::NewWorldAction()
 {
-	//TODO - ResetWorld
+	if(SaveBeforeQuit())
+	{
+		//TODO - ResetWorld
+	}
 }
 
 
@@ -442,15 +631,18 @@ OpenWorldAction
 ***********************************************************/
 void EditorHandler::OpenWorldAction()
 {
-	std::vector<LbaNet::WorldDesc> list;
-	DataLoader::getInstance()->GetAvailableWorlds(list);
+	if(SaveBeforeQuit())
+	{
+		std::vector<LbaNet::WorldDesc> list;
+		DataLoader::getInstance()->GetAvailableWorlds(list);
 
-	_uiopenworlddialog.comboBoxWorldToOpen->clear();
+		_uiopenworlddialog.comboBoxWorldToOpen->clear();
 
-	for(size_t i=0; i<list.size(); ++i)
-		_uiopenworlddialog.comboBoxWorldToOpen->addItem(list[i].WorldName.c_str());
+		for(size_t i=0; i<list.size(); ++i)
+			_uiopenworlddialog.comboBoxWorldToOpen->addItem(list[i].WorldName.c_str());
 
-	_openworlddialog->show();
+		_openworlddialog->show();
+	}
 }
 
 
@@ -603,6 +795,10 @@ void EditorHandler::ResetMap()
 {
 	_currspawningidx = 0;
 
+	_uieditor.label_mapname->setText("");
+	_uieditor.textEdit_map_description->setText("");
+	_mapspawninglistmodel->Clear();
+
 	ResetObject();
 }
 
@@ -612,9 +808,27 @@ reset object display in editor
 ***********************************************************/
 void EditorHandler::ResetObject()
 {
-
+	_objectmodel->Clear();
 }
 
+
+
+/***********************************************************
+on go tp clicked
+***********************************************************/
+void EditorHandler::goto_tp_double_clicked(const QModelIndex & itm)
+{
+	goto_tp_button_clicked();
+}
+
+
+/***********************************************************
+on go map clicked
+***********************************************************/
+void EditorHandler::goto_map_double_clicked(const QModelIndex & itm)
+{
+	goto_map_button_clicked();
+}
 
 
 /***********************************************************
@@ -714,12 +928,9 @@ void EditorHandler::SetMapInfo(const std::string & mapname)
 			Ys.setNum (ittp->second.PosY, 'f');
 			QString Zs;
 			Zs.setNum (ittp->second.PosZ, 'f');
-			QString Rots;
-			Rots.setNum (ittp->second.Rotation, 'f');
-
 
 			QStringList data;
-			data << ittp->second.Name.c_str() << Xs << Ys << Zs << Rots << (ittp->second.ForceRotation ? "Y" : "N");
+			data << ittp->second.Name.c_str() << Xs << Ys << Zs;
 			_mapspawninglistmodel->AddOrUpdateRow(ittp->first, data);
 
 			_currspawningidx = (ittp->first + 1);
@@ -736,6 +947,14 @@ on addspawning clicked
 ***********************************************************/
 void EditorHandler::addspawning_button_clicked()
 {
+	//clear old stuff
+	_uiaddspawningdialog.lineEdit_name->setText("");
+	_uiaddspawningdialog.doubleSpinBox_posx->setValue(0);
+	_uiaddspawningdialog.doubleSpinBox_posy->setValue(0);
+	_uiaddspawningdialog.doubleSpinBox_posz->setValue(0);
+	_uiaddspawningdialog.doubleSpinBox_rotation->setValue(0);
+	_uiaddspawningdialog.checkBox_forcerotation->setChecked(false);
+
 	_addspawningdialog->show();
 }
 
@@ -763,7 +982,20 @@ on selectspawning clicked
 ***********************************************************/
 void EditorHandler::selectspawning_button_clicked()
 {
-
+	QItemSelectionModel *selectionModel = _uieditor.tableView_SpawningList->selectionModel();
+	QModelIndexList indexes = selectionModel->selectedIndexes();
+	if(indexes.size() > 2)
+	{
+		long spawningid = _mapspawninglistmodel->GetId(indexes[0]);
+		std::string mapname = _uieditor.label_mapname->text().toAscii().data();
+		LbaNet::SpawningsSeq::const_iterator it = _winfo.Maps[mapname].Spawnings.find(spawningid);
+		if(it != _winfo.Maps[mapname].Spawnings.end())
+		{
+			SelectSpawning(spawningid, it->second.Name,
+									it->second.PosX, it->second.PosY, it->second.PosZ,
+									it->second.Rotation, it->second.ForceRotation);
+		}
+	}
 }
 
 
@@ -813,20 +1045,18 @@ long EditorHandler::AddOrModSpawning(const std::string &mapname,
 		Ys.setNum (PosY, 'f');
 		QString Zs;
 		Zs.setNum (PosZ, 'f');
-		QString Rots;
-		Rots.setNum(Rotation, 'f');
 
 		QStringList data;
-		data << spawningname.c_str() << Xs << Ys << Zs << Rots << (forcedrotation ? "Y" : "N");
+		data << spawningname.c_str() << Xs << Ys << Zs;
 		_mapspawninglistmodel->AddOrUpdateRow(spawn.Id, data);
 	}
 
 
 	// then inform the server
-	boost::shared_ptr<EditorUpdateBase> update(new UpdateEditor_AddOrModSpawning(spawn.Id,
-																					spawningname,
-																					PosX, PosY, PosZ,
-																					Rotation, forcedrotation));
+	EditorUpdateBasePtr update = new UpdateEditor_AddOrModSpawning(	spawn.Id,
+																	spawningname,
+																	PosX, PosY, PosZ,
+																	Rotation, forcedrotation);
 
 	SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
 
@@ -848,7 +1078,107 @@ void EditorHandler::RemoveSpawning(const std::string &mapname, long spawningid)
 		_winfo.Maps[mapname].Spawnings.erase(it);
 
 		// then inform the server
-		boost::shared_ptr<EditorUpdateBase> update(new UpdateEditor_RemoveSpawning(spawningid));
+		EditorUpdateBasePtr update = new UpdateEditor_RemoveSpawning(spawningid);
 		SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
+	}
+}
+
+
+/***********************************************************
+player moved
+***********************************************************/
+void EditorHandler::PlayerMoved(float posx, float posy, float posz)
+{
+	_uieditor.doubleSpinBox_info_posx->setValue(posx);
+	_uieditor.doubleSpinBox_info_posy->setValue(posy);
+	_uieditor.doubleSpinBox_info_posz->setValue(posz);
+}
+
+
+
+/***********************************************************
+when go button clicked on info part
+***********************************************************/
+void EditorHandler::info_go_clicked()
+{
+	EventsQueue::getReceiverQueue()->AddEvent(new EditorTeleportEvent(	_uieditor.doubleSpinBox_info_posx->value(),
+																		_uieditor.doubleSpinBox_info_posy->value(),
+																		_uieditor.doubleSpinBox_info_posz->value()));
+}
+
+
+
+/***********************************************************
+camera type toggled in info
+***********************************************************/
+void EditorHandler::info_camera_toggled(bool checked)
+{
+	EventsQueue::getReceiverQueue()->AddEvent(new EditorCameraChangeEvent(!checked));
+}
+
+
+
+/***********************************************************
+set spawning in the object
+***********************************************************/
+void EditorHandler::SelectSpawning(long id, const std::string &spawningname,
+						float PosX, float PosY, float PosZ,
+						float Rotation, bool forcedrotation)
+{
+	ResetObject();
+
+
+	{
+		QVariantList data;
+		data<<"Type"<<"Spawning";
+		_objectmodel->AddRow(data);
+	}
+
+	{
+		QVariantList data;
+		data<<"SubCategory"<<"-";
+		_objectmodel->AddRow(data);
+	}
+
+	{
+		QVariantList data;
+		data<<"Id"<<id;
+		_objectmodel->AddRow(data);
+	}
+
+	{
+		QVariantList data;
+		data<<"Name"<<spawningname.c_str();
+		_objectmodel->AddRow(data);
+	}
+
+	{
+		QVariantList data;
+		data<<"PosX"<<(double)PosX;
+		_objectmodel->AddRow(data);
+	}
+
+	{
+		QVariantList data;
+		data<<"PosY"<<(double)PosY;
+		_objectmodel->AddRow(data);
+	}
+
+	{
+		QVariantList data;
+		data<<"PosZ"<<(double)PosZ;
+		_objectmodel->AddRow(data);
+	}
+
+	{
+		QVariantList data;
+		data<<"Force Rotation"<<forcedrotation;
+		_objectmodel->AddRow(data);
+	}
+
+	{
+		QVariantList data;
+		data<<"Rotation"<<(double)Rotation;
+		_objectmodel->AddRow(data);
 	}
 }

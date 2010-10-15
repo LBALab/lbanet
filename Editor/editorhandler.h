@@ -35,6 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <LbaTypes.h>
 
+class QTableWidgetItem;
 
 //! used as model for table
 class StringTableModel : public QAbstractTableModel
@@ -83,6 +84,55 @@ private:
 
 
 
+
+
+//! used as model for table
+class MixedTableModel : public QAbstractTableModel
+{
+	Q_OBJECT
+
+public:
+	//! constructor
+	MixedTableModel(const QStringList &header, QObject *parent = 0)
+	 : QAbstractTableModel(parent), _objMatrix(header.size()), _header(header)
+	{}
+
+	int rowCount(const QModelIndex &parent = QModelIndex()) const;
+	int columnCount(const QModelIndex &parent = QModelIndex()) const;
+
+	QVariant data(const QModelIndex &index, int role) const;
+	QVariant headerData(int section, Qt::Orientation orientation,
+					 int role = Qt::DisplayRole) const;
+
+     Qt::ItemFlags flags(const QModelIndex &index) const;
+     bool setData(const QModelIndex &index, const QVariant &value,
+                  int role = Qt::EditRole);
+
+
+     bool insertRows(int position, int rows, const QModelIndex &index = QModelIndex());
+     bool removeRows(int position, int rows, const QModelIndex &index = QModelIndex());
+
+	//! clear the table content
+	void Clear();
+
+	//! add a row
+	void AddRow(const QVariantList &data);
+
+	//! get a string
+	QVariant GetData(const QModelIndex &index);
+
+private:
+	std::vector<QVariantList>			_objMatrix;
+	QStringList							_header;
+};
+
+
+
+
+
+
+
+
 //! take care of editor
 class EditorHandler : public QMainWindow
 {
@@ -103,6 +153,9 @@ public:
 
 	//! refresh gui with map info
 	void SetMapInfo(const std::string & mapname);
+
+	//! player moved
+	void PlayerMoved(float posx, float posy, float posz);
 
 public slots:
 	 //! ui button clicked
@@ -135,6 +188,11 @@ public slots:
 	 //! on go map clicked
      void goto_map_button_clicked();
 
+	 //! on go tp clicked
+     void goto_tp_double_clicked(const QModelIndex & itm);
+
+	 //! on go map clicked
+     void goto_map_double_clicked(const QModelIndex & itm);
 
 	//! on addspawning clicked
 	void addspawning_button_clicked();
@@ -147,6 +205,12 @@ public slots:
 
 	//! on AddSpawning clicked
 	void AddSpawning_clicked();
+
+	//! when go button clicked on info part
+	void info_go_clicked();
+
+	//! camera type toggled in info
+	void info_camera_toggled(bool checked);
 
 protected:
 	//! override close event
@@ -187,6 +251,13 @@ protected:
 	//! remove a spawning from the map
 	void RemoveSpawning(const std::string &mapname, long spawningid);
 
+
+	//! set spawning in the object
+	void SelectSpawning(long id, const std::string &spawningname,
+							float PosX, float PosY, float PosZ,
+							float Rotation, bool forcedrotation);
+
+
 private:
 	Ui::EditorClass				_uieditor;
 
@@ -202,6 +273,9 @@ private:
 	StringTableModel *			_maplistmodel;
 	StringTableModel *			_tplistmodel;
 	StringTableModel *			_mapspawninglistmodel;
+
+	MixedTableModel *			_objectmodel;
+
 
 	GraphicsWindowQt *			_osgwindow;
 

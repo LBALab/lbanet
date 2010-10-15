@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>690</width>
+    <width>899</width>
     <height>870</height>
    </rect>
   </property>
@@ -81,7 +81,7 @@
                <item>
                 <widget class="QTabWidget" name="tabWidgetworld">
                  <property name="currentIndex">
-                  <number>0</number>
+                  <number>4</number>
                  </property>
                  <widget class="QWidget" name="tab_worldinfo">
                   <attribute name="title">
@@ -192,7 +192,7 @@
                   </attribute>
                   <layout class="QVBoxLayout" name="verticalLayout_8">
                    <property name="spacing">
-                    <number>4</number>
+                    <number>2</number>
                    </property>
                    <property name="margin">
                     <number>4</number>
@@ -316,7 +316,7 @@
                       <item row="0" column="0">
                        <widget class="QLabel" name="label_modeltype_t">
                         <property name="text">
-                         <string>ModelType:</string>
+                         <string>Type:</string>
                         </property>
                        </widget>
                       </item>
@@ -329,45 +329,61 @@
                         </item>
                        </widget>
                       </item>
-                      <item row="1" column="0">
-                       <widget class="QLabel" name="label_modelname">
-                        <property name="text">
-                         <string>ModelName:</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="1" column="1">
-                       <widget class="QComboBox" name="comboBox_modelname"/>
-                      </item>
                       <item row="2" column="0">
                        <widget class="QLabel" name="label_modeloutfit">
                         <property name="text">
-                         <string>ModelOutfit:</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="3" column="0">
-                       <widget class="QLabel" name="label_ModelWeapon">
-                        <property name="text">
-                         <string>ModelWeapon:</string>
+                         <string>Outfit:</string>
                         </property>
                        </widget>
                       </item>
                       <item row="4" column="0">
                        <widget class="QLabel" name="label_modelmode">
                         <property name="text">
-                         <string>ModelMode:</string>
+                         <string>Mode:</string>
                         </property>
                        </widget>
                       </item>
                       <item row="2" column="1">
                        <widget class="QComboBox" name="comboBox_modeloutfit"/>
                       </item>
-                      <item row="3" column="1">
-                       <widget class="QComboBox" name="comboBox_modelweapon"/>
-                      </item>
                       <item row="4" column="1">
                        <widget class="QComboBox" name="comboBox_modelmode"/>
+                      </item>
+                      <item row="0" column="3">
+                       <widget class="QLabel" name="label_modelname">
+                        <property name="text">
+                         <string>Name:</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="0" column="4">
+                       <widget class="QComboBox" name="comboBox_modelname"/>
+                      </item>
+                      <item row="2" column="3">
+                       <widget class="QLabel" name="label_ModelWeapon">
+                        <property name="text">
+                         <string>Weapon:</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="2" column="4">
+                       <widget class="QComboBox" name="comboBox_modelweapon"/>
+                      </item>
+                      <item row="0" column="2">
+                       <spacer name="horizontalSpacer_5">
+                        <property name="orientation">
+                         <enum>Qt::Horizontal</enum>
+                        </property>
+                        <property name="sizeType">
+                         <enum>QSizePolicy::MinimumExpanding</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                         <size>
+                          <width>40</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                       </spacer>
                       </item>
                      </layout>
                     </widget>
@@ -390,14 +406,23 @@
                       <enum>Qt::Horizontal</enum>
                      </property>
                      <widget class="QGroupBox" name="groupBox_worldmap_mapaction">
+                      <property name="maximumSize">
+                       <size>
+                        <width>50</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
                       <property name="title">
                        <string>Activity</string>
                       </property>
                       <layout class="QVBoxLayout" name="verticalLayout_2">
                        <item>
                         <widget class="QPushButton" name="pushButton_addmap">
+                         <property name="toolTip">
+                          <string>Add map</string>
+                         </property>
                          <property name="text">
-                          <string>        Add Map</string>
+                          <string/>
                          </property>
                          <property name="icon">
                           <iconset resource="editor.qrc">
@@ -416,8 +441,11 @@
                        </item>
                        <item>
                         <widget class="QPushButton" name="pushButton_removemap">
+                         <property name="toolTip">
+                          <string>Remove selected map</string>
+                         </property>
                          <property name="text">
-                          <string>  Remove Map</string>
+                          <string/>
                          </property>
                          <property name="icon">
                           <iconset resource="editor.qrc">
@@ -433,8 +461,11 @@
                        </item>
                        <item>
                         <widget class="QPushButton" name="pushButton_goto_map">
+                         <property name="toolTip">
+                          <string>Teleport to selected map</string>
+                         </property>
                          <property name="text">
-                          <string>      Go to Map</string>
+                          <string/>
                          </property>
                          <property name="icon">
                           <iconset resource="editor.qrc">
@@ -498,14 +529,23 @@
                       <enum>Qt::Horizontal</enum>
                      </property>
                      <widget class="QGroupBox" name="groupBox_worldmap_tpaction">
+                      <property name="maximumSize">
+                       <size>
+                        <width>50</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
                       <property name="title">
                        <string>Activity</string>
                       </property>
                       <layout class="QVBoxLayout" name="verticalLayout_6">
                        <item>
                         <widget class="QPushButton" name="pushButton_addtp">
+                         <property name="toolTip">
+                          <string>Add Teleport</string>
+                         </property>
                          <property name="text">
-                          <string>          Add</string>
+                          <string/>
                          </property>
                          <property name="icon">
                           <iconset resource="editor.qrc">
@@ -524,8 +564,11 @@
                        </item>
                        <item>
                         <widget class="QPushButton" name="pushButton_removetp">
+                         <property name="toolTip">
+                          <string>Remove selected teleport</string>
+                         </property>
                          <property name="text">
-                          <string>    Remove</string>
+                          <string/>
                          </property>
                          <property name="icon">
                           <iconset resource="editor.qrc">
@@ -540,9 +583,32 @@
                         </widget>
                        </item>
                        <item>
-                        <widget class="QPushButton" name="pushButton_goto_tp">
+                        <widget class="QPushButton" name="pushButton_edittp">
+                         <property name="toolTip">
+                          <string>Edit selected teleport</string>
+                         </property>
                          <property name="text">
-                          <string>   Teleport</string>
+                          <string/>
+                         </property>
+                         <property name="icon">
+                          <iconset resource="editor.qrc">
+                           <normaloff>:/Editor/Resources/icons/PNG/onebit_20.png</normaloff>:/Editor/Resources/icons/PNG/onebit_20.png</iconset>
+                         </property>
+                         <property name="iconSize">
+                          <size>
+                           <width>20</width>
+                           <height>20</height>
+                          </size>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="pushButton_goto_tp">
+                         <property name="toolTip">
+                          <string>Teleport to selected</string>
+                         </property>
+                         <property name="text">
+                          <string/>
                          </property>
                          <property name="icon">
                           <iconset resource="editor.qrc">
@@ -847,6 +913,12 @@
                       <enum>Qt::Horizontal</enum>
                      </property>
                      <widget class="QGroupBox" name="groupBox_spawning_actions">
+                      <property name="maximumSize">
+                       <size>
+                        <width>50</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
                       <property name="title">
                        <string>Activity</string>
                       </property>
@@ -859,8 +931,11 @@
                        </property>
                        <item>
                         <widget class="QPushButton" name="pushButton_addSpwaning">
+                         <property name="toolTip">
+                          <string>Add new spawning</string>
+                         </property>
                          <property name="text">
-                          <string>        Add</string>
+                          <string/>
                          </property>
                          <property name="icon">
                           <iconset resource="editor.qrc">
@@ -879,8 +954,11 @@
                        </item>
                        <item>
                         <widget class="QPushButton" name="pushButton_removeSpwaning">
+                         <property name="toolTip">
+                          <string>Remove selected spawning</string>
+                         </property>
                          <property name="text">
-                          <string>  Remove</string>
+                          <string/>
                          </property>
                          <property name="icon">
                           <iconset resource="editor.qrc">
@@ -896,8 +974,11 @@
                        </item>
                        <item>
                         <widget class="QPushButton" name="pushButton_selectSpwaning">
+                         <property name="toolTip">
+                          <string>Display selected spawning properties</string>
+                         </property>
                          <property name="text">
-                          <string>     Select</string>
+                          <string/>
                          </property>
                          <property name="icon">
                           <iconset resource="editor.qrc">
@@ -961,6 +1042,12 @@
                       <enum>Qt::Horizontal</enum>
                      </property>
                      <widget class="QGroupBox" name="groupBox_spawning_actions_2">
+                      <property name="maximumSize">
+                       <size>
+                        <width>50</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
                       <property name="title">
                        <string>Activity</string>
                       </property>
@@ -973,8 +1060,11 @@
                        </property>
                        <item>
                         <widget class="QPushButton" name="pushButton_addActor">
+                         <property name="toolTip">
+                          <string>Add new actor</string>
+                         </property>
                          <property name="text">
-                          <string>        Add</string>
+                          <string/>
                          </property>
                          <property name="icon">
                           <iconset resource="editor.qrc">
@@ -993,8 +1083,11 @@
                        </item>
                        <item>
                         <widget class="QPushButton" name="pushButton_removeActor">
+                         <property name="toolTip">
+                          <string>Remove selected actor</string>
+                         </property>
                          <property name="text">
-                          <string>  Remove</string>
+                          <string/>
                          </property>
                          <property name="icon">
                           <iconset resource="editor.qrc">
@@ -1010,8 +1103,11 @@
                        </item>
                        <item>
                         <widget class="QPushButton" name="pushButton_selectActor">
+                         <property name="toolTip">
+                          <string>Display selected actor properties</string>
+                         </property>
                          <property name="text">
-                          <string>     Select</string>
+                          <string/>
                          </property>
                          <property name="icon">
                           <iconset resource="editor.qrc">
@@ -1075,6 +1171,12 @@
                       <enum>Qt::Horizontal</enum>
                      </property>
                      <widget class="QGroupBox" name="groupBox_spawning_actions_3">
+                      <property name="maximumSize">
+                       <size>
+                        <width>50</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
                       <property name="title">
                        <string>Activity</string>
                       </property>
@@ -1087,8 +1189,11 @@
                        </property>
                        <item>
                         <widget class="QPushButton" name="pushButton_addTrigger">
+                         <property name="toolTip">
+                          <string>Add a new trigger</string>
+                         </property>
                          <property name="text">
-                          <string>        Add</string>
+                          <string/>
                          </property>
                          <property name="icon">
                           <iconset resource="editor.qrc">
@@ -1107,8 +1212,11 @@
                        </item>
                        <item>
                         <widget class="QPushButton" name="pushButton_removeTrigger">
+                         <property name="toolTip">
+                          <string>Remove selected trigger</string>
+                         </property>
                          <property name="text">
-                          <string>  Remove</string>
+                          <string/>
                          </property>
                          <property name="icon">
                           <iconset resource="editor.qrc">
@@ -1124,8 +1232,11 @@
                        </item>
                        <item>
                         <widget class="QPushButton" name="pushButton_selectTrigger">
+                         <property name="toolTip">
+                          <string>Display selected trigger properties</string>
+                         </property>
                          <property name="text">
-                          <string>     Select</string>
+                          <string/>
                          </property>
                          <property name="icon">
                           <iconset resource="editor.qrc">
@@ -1189,6 +1300,12 @@
                       <enum>Qt::Horizontal</enum>
                      </property>
                      <widget class="QGroupBox" name="groupBox_spawning_actions_4">
+                      <property name="maximumSize">
+                       <size>
+                        <width>50</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
                       <property name="title">
                        <string>Activity</string>
                       </property>
@@ -1201,8 +1318,11 @@
                        </property>
                        <item>
                         <widget class="QPushButton" name="pushButton_addAction">
+                         <property name="toolTip">
+                          <string>Add a new action</string>
+                         </property>
                          <property name="text">
-                          <string>        Add</string>
+                          <string/>
                          </property>
                          <property name="icon">
                           <iconset resource="editor.qrc">
@@ -1221,8 +1341,11 @@
                        </item>
                        <item>
                         <widget class="QPushButton" name="pushButton_removeAction">
+                         <property name="toolTip">
+                          <string>Remove selected action</string>
+                         </property>
                          <property name="text">
-                          <string>  Remove</string>
+                          <string/>
                          </property>
                          <property name="icon">
                           <iconset resource="editor.qrc">
@@ -1238,8 +1361,11 @@
                        </item>
                        <item>
                         <widget class="QPushButton" name="pushButton_selectAction">
+                         <property name="toolTip">
+                          <string>Display selected action properties</string>
+                         </property>
                          <property name="text">
-                          <string>     Select</string>
+                          <string/>
                          </property>
                          <property name="icon">
                           <iconset resource="editor.qrc">
@@ -1326,7 +1452,11 @@
                 <number>4</number>
                </property>
                <item>
-                <widget class="QTableView" name="tableView_object"/>
+                <widget class="QTableView" name="tableView_object">
+                 <property name="selectionMode">
+                  <enum>QAbstractItemView::SingleSelection</enum>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
@@ -1344,26 +1474,162 @@
          <height>0</height>
         </size>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_16">
+       <layout class="QVBoxLayout" name="verticalLayout_9">
+        <property name="spacing">
+         <number>4</number>
+        </property>
         <property name="margin">
          <number>4</number>
         </property>
         <item>
-         <widget class="QGroupBox" name="groupBox_game">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
+         <widget class="QSplitter" name="splitter_9">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
           </property>
-          <property name="title">
-           <string>Game</string>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_17">
-           <property name="margin">
-            <number>2</number>
+          <widget class="QGroupBox" name="groupBox_game">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
            </property>
-          </layout>
+           <property name="title">
+            <string>Game</string>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_17">
+            <property name="margin">
+             <number>2</number>
+            </property>
+           </layout>
+          </widget>
+          <widget class="QGroupBox" name="groupBox_view">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>45</height>
+            </size>
+           </property>
+           <property name="title">
+            <string>Info</string>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_6">
+            <property name="margin">
+             <number>4</number>
+            </property>
+            <property name="spacing">
+             <number>4</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_info_pos_t">
+              <property name="text">
+               <string>Position:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLabel" name="label_info_posx">
+              <property name="text">
+               <string>X:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QDoubleSpinBox" name="doubleSpinBox_info_posx">
+              <property name="minimum">
+               <double>-100000.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>100000.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="3">
+             <widget class="QLabel" name="label_info_posx_2">
+              <property name="text">
+               <string>Y:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="4">
+             <widget class="QDoubleSpinBox" name="doubleSpinBox_info_posy">
+              <property name="minimum">
+               <double>-100000.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>100000.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="5">
+             <widget class="QLabel" name="label_info_posx_3">
+              <property name="text">
+               <string>Z:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="6">
+             <widget class="QDoubleSpinBox" name="doubleSpinBox_info_posz">
+              <property name="minimum">
+               <double>-100000.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>100000.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="7">
+             <widget class="QPushButton" name="pushButton_info_go">
+              <property name="text">
+               <string>Go</string>
+              </property>
+              <property name="icon">
+               <iconset resource="editor.qrc">
+                <normaloff>:/Editor/Resources/icons/PNG/onebit_10.png</normaloff>:/Editor/Resources/icons/PNG/onebit_10.png</iconset>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="8">
+             <spacer name="horizontalSpacer_9">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::MinimumExpanding</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="0" column="9">
+             <widget class="QLabel" name="label_info_viewtype">
+              <property name="text">
+               <string>Camera:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="10">
+             <widget class="QRadioButton" name="radioButton_info_player">
+              <property name="text">
+               <string>Player</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="11">
+             <widget class="QRadioButton" name="radioButton_info_free">
+              <property name="text">
+               <string>Free</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
          </widget>
         </item>
        </layout>
@@ -1377,8 +1643,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>690</width>
-     <height>20</height>
+     <width>899</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
