@@ -101,7 +101,7 @@ public:
 
 #ifdef _USE_QT_EDITOR_
 	//! called by editor
-	void EditorUpdate(const std::string &mapname, boost::shared_ptr<EditorUpdateBase> update);
+	void EditorUpdate(const std::string &mapname, LbaNet::EditorUpdateBasePtr update);
 #endif
 
 protected:

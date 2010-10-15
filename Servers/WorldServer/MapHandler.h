@@ -237,7 +237,7 @@ protected:
 
 
 	//! process editor events
-	void ProcessEditorUpdate(boost::shared_ptr<EditorUpdateBase> update);
+	void ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update);
 
 
 	//! add a spawning to the map

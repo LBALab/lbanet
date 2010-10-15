@@ -34,6 +34,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 struct ActorObjectInfo
 {
 	//constructor
+	ActorObjectInfo(){}
+
+	//constructor
 	ActorObjectInfo(long id);
 
 	// set enum for render type as lua does not map enum

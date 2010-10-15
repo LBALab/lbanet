@@ -455,16 +455,16 @@ called by editor
 ***********************************************************/
 #ifdef _USE_QT_EDITOR_
 void SharedDataHandler::EditorUpdate(const std::string &mapname, 
-									 boost::shared_ptr<EditorUpdateBase> update)
+										LbaNet::EditorUpdateBasePtr update)
 {
-	EditorUpdateBase & obj = *update;
+	LbaNet::EditorUpdateBase & obj = *update;
 	const std::type_info& info = typeid(obj);
 
 	// spawning update
 	if(info == typeid(UpdateEditor_AddOrModSpawning))
 	{
 		UpdateEditor_AddOrModSpawning* castedptr = 
-			static_cast<UpdateEditor_AddOrModSpawning *>(&obj);
+			dynamic_cast<UpdateEditor_AddOrModSpawning *>(&obj);
 
 		LbaNet::SpawningInfo spawn;
 		spawn.Id = castedptr->_SpawningId;
@@ -481,7 +481,7 @@ void SharedDataHandler::EditorUpdate(const std::string &mapname,
 	if(info == typeid(UpdateEditor_RemoveSpawning))
 	{
 		UpdateEditor_RemoveSpawning* castedptr = 
-			static_cast<UpdateEditor_RemoveSpawning *>(&obj);
+			dynamic_cast<UpdateEditor_RemoveSpawning *>(&obj);
 
 		LbaNet::SpawningsSeq::iterator it = _worldinfo.Maps[mapname].Spawnings.find(castedptr->_SpawningId);
 		if(it != _worldinfo.Maps[mapname].Spawnings.end())

@@ -29,22 +29,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <ClientServerEvents.h>
 #include <boost/shared_ptr.hpp>
 
-/*
-************************************************************************************************************************
-*                                                  class EditorUpdateBase
-*
-*	base class for all editor update
-************************************************************************************************************************
-*/
-class EditorUpdateBase
-{
-public:
-	//! constructor
-	EditorUpdateBase()
-	{
-	}
-};
-
 
 /*
 ************************************************************************************************************************
@@ -53,7 +37,7 @@ public:
 *	base class for all editor update
 ************************************************************************************************************************
 */
-class UpdateEditor_AddOrModSpawning : public EditorUpdateBase
+class UpdateEditor_AddOrModSpawning : public LbaNet::EditorUpdateBase
 {
 public:
 	//! constructor
@@ -82,7 +66,7 @@ public:
 *	base class for all editor update
 ************************************************************************************************************************
 */
-class UpdateEditor_RemoveSpawning : public EditorUpdateBase
+class UpdateEditor_RemoveSpawning : public LbaNet::EditorUpdateBase
 {
 public:
 	//! constructor
@@ -112,13 +96,12 @@ class EditorEvent : public LbaNet::ClientServerEventBase
 {
 public:
 	//! constructor
-	EditorEvent(boost::shared_ptr<EditorUpdateBase> update)
+	EditorEvent(LbaNet::EditorUpdateBasePtr update)
 		: _update(update)
 	{
 	}
 
-	boost::shared_ptr<EditorUpdateBase> _update;
-
+	LbaNet::EditorUpdateBasePtr _update;
 };
 
 
