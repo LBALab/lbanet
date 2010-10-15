@@ -102,6 +102,11 @@ module LbaNet
 		ModelState		State;
 		bool			UseLight;
 		bool			CastShadow;
+		
+		float			ColorR;
+		float			ColorG;
+		float			ColorB;
+		float			ColorA;			
 	};
 
 	struct PlayerStartingInfo
@@ -688,7 +693,12 @@ module LbaNet
 	class ObjectLifeInfoUpdate extends DisplayObjectUpdateBase
 	{
 		LifeManaInfo			Update;
-	};	
+	};
+	
+	// base class for all editor update
+	class EditorUpdateBase
+	{
+	};
 };	
 
 #endif
