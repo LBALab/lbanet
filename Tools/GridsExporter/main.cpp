@@ -22,7 +22,7 @@ int main(int argc, char** argv)
 		LBA_MAP_PHYS mapp(i, 0);
 	}
 
-	for(int i=1; i<=148; ++i)
+	for(int i=1; i<=138; ++i)
 	{
 		// export graphic
 		LBA_MAP_GL map(i, 1);

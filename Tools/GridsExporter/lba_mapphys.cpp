@@ -334,7 +334,7 @@ LBA_LAYOUT_PHYS::~LBA_LAYOUT_PHYS()
 constructor
 ***********************************************************/
 LBA_GRID_PHYS::LBA_GRID_PHYS(LBA_PACK_PHYS *pack_grid,LBA_PACK_PHYS *pack_layout,int n,
-							 bool LBA2, bool customlayout, bool forcelayout)
+							 bool LBA2, bool customgrid, bool customlayout, bool forcelayout)
 {
     int i=0,j=0,k=0,l=0;
     LBA_LAYOUT_PHYS *layout;
@@ -343,7 +343,11 @@ LBA_GRID_PHYS::LBA_GRID_PHYS(LBA_PACK_PHYS *pack_grid,LBA_PACK_PHYS *pack_layout
     int height_subcolumn=0,offset_column=0;
 
 	//std::cout<<"LBA_GRID_PHYS"<<std::endl;
-    LBA_ENTRY_PHYS *entry=new LBA_ENTRY_PHYS(pack_grid->data, pack_grid->datalenght);
+    LBA_ENTRY_PHYS *entry;
+	if(customgrid)
+		entry=new LBA_ENTRY_PHYS(pack_grid->data, pack_grid->datalenght);
+	else
+		entry=new LBA_ENTRY_PHYS(pack_grid, n);
 
     if(LBA2 && !forcelayout)
 		n=entry->data[0]+180-1;
@@ -499,7 +503,7 @@ LBA_MAP_PHYS::LBA_MAP_PHYS(int n,bool LBA2)
 
 
     palet=new LBA_PALET_PHYS(pack_ress);
-    grid=new LBA_GRID_PHYS(pack_grid,pack_layout,n,LBA2, false);
+    grid=new LBA_GRID_PHYS(pack_grid,pack_layout,n,LBA2, false, false, false);
 
 
     printf("%d ",number_brick);
@@ -747,7 +751,7 @@ LBA_MAP_PHYS::LBA_MAP_PHYS(bool LBA2, const std::string &grfile,
 		pack_layout=new LBA_PACK_PHYS(layoutfile);
 
     palet=new LBA_PALET_PHYS(pack_ress);
-    grid=new LBA_GRID_PHYS(pack_grid, pack_layout, layoutused, LBA2, customlayoutfile, forcelayout);
+    grid=new LBA_GRID_PHYS(pack_grid, pack_layout, layoutused, LBA2, true, customlayoutfile, forcelayout);
 
 
     printf("%d ",number_brick);

@@ -423,12 +423,16 @@ class LBA_GRID
 	{ return info_brick; }
 
     LBA_GRID(VIRTUAL_FILE_READ_ONLY &pack_grid,VIRTUAL_FILE_READ_ONLY &pack_layout,int n,
-				int LBA2, bool customlayout, bool forcedlayout = false)
-    {
+				int LBA2, bool customgrid, bool customlayout, bool forcedlayout)
+	{
         int index_data=0;
         unsigned char flag,number_sub_colomn;
         int height_subcolumn,offset_column;
-		LBA_ENTRY *entry=new LBA_ENTRY(pack_grid.GetBuffer());
+		LBA_ENTRY *entry;
+		if(customgrid)
+			entry=new LBA_ENTRY(pack_grid.GetBuffer());
+		else
+			entry=new LBA_ENTRY(pack_grid,n);
 
         if(LBA2 && !forcedlayout)
 			n=entry->data[0]+180-1;
@@ -660,7 +664,7 @@ public:
 
 
         palet=new LBA_PALET(*pack_ress);
-        grid=new LBA_GRID(*pack_grid, *pack_layout, layoutused, LBA2, customlayoutfile, forcelayout);
+        grid=new LBA_GRID(*pack_grid, *pack_layout, layoutused, LBA2, true, customlayoutfile, forcelayout);
 
 		Initialize(LBA2, pack_brick);
 
@@ -694,7 +698,7 @@ public:
 			 pack_layout=new VIRTUAL_FILE_READ_ONLY("data//map//lba1//LBA_BLL.HQR");
 		}
         palet=new LBA_PALET(*pack_ress);
-        grid=new LBA_GRID(*pack_grid,*pack_layout,n,LBA2, false);
+        grid=new LBA_GRID(*pack_grid,*pack_layout,n,LBA2, false, false, false);
 
 		Initialize(LBA2, pack_brick);
 

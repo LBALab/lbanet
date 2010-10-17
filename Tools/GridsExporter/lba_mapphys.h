@@ -129,7 +129,7 @@ class LBA_GRID_PHYS
 public:
 	// constructor
     LBA_GRID_PHYS(LBA_PACK_PHYS *pack_grid,LBA_PACK_PHYS *pack_layout,int n,bool LBA2, 
-					bool customlayout, bool forcelayout = false);
+					bool customgrid, bool customlayout, bool forcelayout);
 
 	// destructor
     ~LBA_GRID_PHYS();
