@@ -108,7 +108,7 @@ void	SceneExterior::loadSections()
 
 	{
 	std::ofstream luafile((mName+"_server.lua").c_str());
-	luafile<<"function InitMap()"<<std::endl;
+	luafile<<"function InitMap(environment)"<<std::endl;
 
 	luafile<<"	"<<"MapObject = ActorObjectInfo("<<1<<")"<<std::endl;
 	luafile<<"	"<<"MapObject:SetRenderType(1)"<<std::endl;
@@ -123,7 +123,8 @@ void	SceneExterior::loadSections()
 	luafile<<"	"<<"MapObject:SetPhysicalShape(5)"<<std::endl;
 	luafile<<"	"<<"MapObject.PhysicDesc.Collidable = true"<<std::endl;
 	luafile<<"	"<<"MapObject.PhysicDesc.Filename = \"Worlds/Lba2Original/Islands/"<<mName<<".phy\""<<std::endl;
-	luafile<<"	"<<"Map_"<<mName<<":AddActorObject(MapObject)"<<std::endl;
+	luafile<<"	MapObjectH = ActorHandler(MapObject)"<<std::endl;	
+	luafile<<"	"<<"environment:AddActorObject(MapObjectH)"<<std::endl;
 	}
 
 	//256 Section Chunks

@@ -19,7 +19,7 @@
 
 
 void LBA_MAP_GL::face(double X,double Y,double Z,double texture_x,double texture_y,
-					  double h,int a,int b,int c,bool hidden)
+					  double h,int a,int b,int c, int sizeX, int sizeY, bool hidden)
 {
     double vertex[20][3];
     double uv[24][2];
@@ -128,12 +128,12 @@ void LBA_MAP_GL::face(double X,double Y,double Z,double texture_x,double texture
 	face.v[8]=vertex[c][2];
 	
 	{
-		face.vt[0]=(texture_x+uv[a][0])/2048.;
-		face.vt[1]=(texture_y+uv[a][1])/2048.;
-		face.vt[2]=(texture_x+uv[b][0])/2048.;
-		face.vt[3]=(texture_y+uv[b][1])/2048.;
-		face.vt[4]=(texture_x+uv[c][0])/2048.;
-		face.vt[5]=(texture_y+uv[c][1])/2048.;
+		face.vt[0]=(texture_x+uv[a][0])/(float)sizeX;
+		face.vt[1]=(texture_y+uv[a][1])/(float)sizeY;
+		face.vt[2]=(texture_x+uv[b][0])/(float)sizeX;
+		face.vt[3]=(texture_y+uv[b][1])/(float)sizeY;
+		face.vt[4]=(texture_x+uv[c][0])/(float)sizeX;
+		face.vt[5]=(texture_y+uv[c][1])/(float)sizeY;
 	}
 
 	face.vn[0]=n[0]/l;
@@ -144,15 +144,14 @@ void LBA_MAP_GL::face(double X,double Y,double Z,double texture_x,double texture
 
 
 // initialize LBA_MAP_GL
-void LBA_MAP_GL::Initialize(int LBA2)
+void LBA_MAP_GL::Initialize(int LBA2, bool withbackface)
 {
 	nb_faces.clear();
 	islba2 = LBA2;
 
     int i,j,k;
     int offset_x,offset_y;
-    texture_map=new unsigned char[2048*2048*4];
-	memset(texture_map, 0, 2048*2048*4*sizeof(unsigned char));
+
 
     LBA_SHARED_BRICK *shared_brick1= new LBA_SHARED_BRICK[lba_map->number_brick];
     LBA_SHARED_BRICK *shared_brick2= new LBA_SHARED_BRICK[lba_map->number_brick];
@@ -220,22 +219,49 @@ void LBA_MAP_GL::Initialize(int LBA2)
 		}
 	}
 
+	std::ofstream checknbbricks("nbbricks.csv", std::ios::app);
+	checknbbricks<<lba_map->number_brick<<std::endl;
+	checknbbricks.close();
+
+	int sizeX = 512;
+	int sizeY = 512;
+	int divider = 10;
+
+	if(lba_map->number_brick > 130)
+	{
+		sizeX = 1024;
+		divider = 21;
+	}
+	if(lba_map->number_brick > 273)
+		sizeY = 1024;
+
+	if(lba_map->number_brick > 546)
+	{
+		sizeX = 2048;
+		divider = 42;
+	}
+
+	if(lba_map->number_brick > 1092)
+		sizeY = 2048;
+
+    texture_map=new unsigned char[sizeX*sizeY*4];
+	memset(texture_map, 0, sizeX*sizeY*4*sizeof(unsigned char));
 
 
     for(i=0;i<lba_map->number_brick;i++)
     {
-        offset_x=(i%42);offset_x*=48;
-        offset_y=(i/42);offset_y*=38;
+        offset_x=(i%divider);offset_x*=48;
+        offset_y=(i/divider);offset_y*=38;
         for(j=0;j<38;j++)
         for(k=0;k<48;k++)
         {
-          texture_map[((offset_y+j)*2048+offset_x+k)*4+0]=lba_map->palet->couleur[lba_map->brick[i].pixel[j][k]][0];
-          texture_map[((offset_y+j)*2048+offset_x+k)*4+1]=lba_map->palet->couleur[lba_map->brick[i].pixel[j][k]][1];
-          texture_map[((offset_y+j)*2048+offset_x+k)*4+2]=lba_map->palet->couleur[lba_map->brick[i].pixel[j][k]][2];
+          texture_map[((offset_y+j)*sizeX+offset_x+k)*4+0]=lba_map->palet->couleur[lba_map->brick[i].pixel[j][k]][0];
+          texture_map[((offset_y+j)*sizeX+offset_x+k)*4+1]=lba_map->palet->couleur[lba_map->brick[i].pixel[j][k]][1];
+          texture_map[((offset_y+j)*sizeX+offset_x+k)*4+2]=lba_map->palet->couleur[lba_map->brick[i].pixel[j][k]][2];
           if(lba_map->brick[i].pixel[j][k]==0)
-          texture_map[((offset_y+j)*2048+offset_x+k)*4+3]=0;
+          texture_map[((offset_y+j)*sizeX+offset_x+k)*4+3]=0;
           else
-          texture_map[((offset_y+j)*2048+offset_x+k)*4+3]=255;
+          texture_map[((offset_y+j)*sizeX+offset_x+k)*4+3]=255;
         }
 
         if(shared_brick1[i].id!=-1)
@@ -248,10 +274,10 @@ void LBA_MAP_GL::Initialize(int LBA2)
                 if(j2>=0&&j2<38&&k2>=0&&k2<48&&lba_map->brick[shared_brick1[i].id].pixel[j2][k2]!=0)
                 {
 
-                    texture_map[((offset_y+j)*2048+offset_x+k)*4+0]=lba_map->palet->couleur[lba_map->brick[shared_brick1[i].id].pixel[j2][k2]][0];
-                    texture_map[((offset_y+j)*2048+offset_x+k)*4+1]=lba_map->palet->couleur[lba_map->brick[shared_brick1[i].id].pixel[j2][k2]][1];
-                    texture_map[((offset_y+j)*2048+offset_x+k)*4+2]=lba_map->palet->couleur[lba_map->brick[shared_brick1[i].id].pixel[j2][k2]][2];
-                    texture_map[((offset_y+j)*2048+offset_x+k)*4+3]=255;
+                    texture_map[((offset_y+j)*sizeX+offset_x+k)*4+0]=lba_map->palet->couleur[lba_map->brick[shared_brick1[i].id].pixel[j2][k2]][0];
+                    texture_map[((offset_y+j)*sizeX+offset_x+k)*4+1]=lba_map->palet->couleur[lba_map->brick[shared_brick1[i].id].pixel[j2][k2]][1];
+                    texture_map[((offset_y+j)*sizeX+offset_x+k)*4+2]=lba_map->palet->couleur[lba_map->brick[shared_brick1[i].id].pixel[j2][k2]][2];
+                    texture_map[((offset_y+j)*sizeX+offset_x+k)*4+3]=255;
                 }
             }
         }
@@ -265,10 +291,10 @@ void LBA_MAP_GL::Initialize(int LBA2)
                 if(j2>=0&&j2<38&&k2>=0&&k2<48&&lba_map->brick[shared_brick2[i].id].pixel[j2][k2]!=0)
                 {
 
-                    texture_map[((offset_y+j)*2048+offset_x+k)*4+0]=lba_map->palet->couleur[lba_map->brick[shared_brick2[i].id].pixel[j2][k2]][0];
-                    texture_map[((offset_y+j)*2048+offset_x+k)*4+1]=lba_map->palet->couleur[lba_map->brick[shared_brick2[i].id].pixel[j2][k2]][1];
-                    texture_map[((offset_y+j)*2048+offset_x+k)*4+2]=lba_map->palet->couleur[lba_map->brick[shared_brick2[i].id].pixel[j2][k2]][2];
-                    texture_map[((offset_y+j)*2048+offset_x+k)*4+3]=255;
+                    texture_map[((offset_y+j)*sizeX+offset_x+k)*4+0]=lba_map->palet->couleur[lba_map->brick[shared_brick2[i].id].pixel[j2][k2]][0];
+                    texture_map[((offset_y+j)*sizeX+offset_x+k)*4+1]=lba_map->palet->couleur[lba_map->brick[shared_brick2[i].id].pixel[j2][k2]][1];
+                    texture_map[((offset_y+j)*sizeX+offset_x+k)*4+2]=lba_map->palet->couleur[lba_map->brick[shared_brick2[i].id].pixel[j2][k2]][2];
+                    texture_map[((offset_y+j)*sizeX+offset_x+k)*4+3]=255;
                 }
             }
         }
@@ -286,7 +312,7 @@ void LBA_MAP_GL::Initialize(int LBA2)
 	ILuint imn;
 	ilGenImages(1, &imn);
 	ilBindImage(imn);
-	ilTexImage( 2048, 2048, 1, 4, IL_RGBA, IL_UNSIGNED_BYTE, texture_map);
+	ilTexImage( sizeX, sizeY, 1, 4, IL_RGBA, IL_UNSIGNED_BYTE, texture_map);
 	ilSaveImage(texture_filename.c_str());
 	ilDeleteImages(1, &imn);
 
@@ -308,137 +334,140 @@ void LBA_MAP_GL::Initialize(int LBA2)
 				if(lba_map->grid->info_brick[X][Z][Y].index_brick!=-1)
 				{
 					  cmpt++;
-					  texture_x=(lba_map->grid->info_brick[X][Z][Y].index_brick)%42;
+					  texture_x=(lba_map->grid->info_brick[X][Z][Y].index_brick)%divider;
 					  texture_x*=48;
-					  texture_y=(lba_map->grid->info_brick[X][Z][Y].index_brick)/42;
+					  texture_y=(lba_map->grid->info_brick[X][Z][Y].index_brick)/divider;
 					  texture_y*=38;
 
 					switch(lba_map->grid->info_brick[X][Z][Y].shape)
 					{
 						case 1:
-							face(X,Y,Z,texture_x,texture_y,h,3,11,18,false);
-							face(X,Y,Z,texture_x,texture_y,h,18,14,3,false);
-							face(X,Y,Z,texture_x,texture_y,h,15,19,17,false);
-							face(X,Y,Z,texture_x,texture_y,h,17,9,15,false);
-							face(X,Y,Z,texture_x,texture_y,h,0,2,12,false);
-							face(X,Y,Z,texture_x,texture_y,h,13,8,1,false);
-
-							face(X,Y,Z,texture_x,texture_y,h,2,0,4,true);
-							face(X,Y,Z,texture_x,texture_y,h,4,10,2,true);
-							face(X,Y,Z,texture_x,texture_y,h,1,8,16,true);
-							face(X,Y,Z,texture_x,texture_y,h,16,5,1,true);
-							face(X,Y,Z,texture_x,texture_y,h,7,17,19,true);
-							face(X,Y,Z,texture_x,texture_y,h,18,11,6,true);
-
-
+							face(X,Y,Z,texture_x,texture_y,h,3,11,18,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,18,14,3,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,15,19,17,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,17,9,15,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,0,2,12,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,13,8,1,sizeX,sizeY,false);
+							
+							if(withbackface)
+							{
+							face(X,Y,Z,texture_x,texture_y,h,2,0,4,sizeX,sizeY,true);
+							face(X,Y,Z,texture_x,texture_y,h,4,10,2,sizeX,sizeY,true);
+							face(X,Y,Z,texture_x,texture_y,h,1,8,16,sizeX,sizeY,true);
+							face(X,Y,Z,texture_x,texture_y,h,16,5,1,sizeX,sizeY,true);
+							face(X,Y,Z,texture_x,texture_y,h,7,17,19,sizeX,sizeY,true);
+							face(X,Y,Z,texture_x,texture_y,h,18,11,6,sizeX,sizeY,true);
 							nb_faces.push_back(12);
+							}
+							else
+								nb_faces.push_back(6);
 							break;
 						case 2:
-							face(X,Y,Z,texture_x,texture_y,h,11,18,14,false);
-							face(X,Y,Z,texture_x,texture_y,h,11,13,8,false);
-							face(X,Y,Z,texture_x,texture_y,h,8,6,11,false);
-							face(X,Y,Z,texture_x,texture_y,h,19,17,9,false);
-							face(X,Y,Z,texture_x,texture_y,h,9,15,19,false);
-							face(X,Y,Z,texture_x,texture_y,h,9,16,5,false);
+							face(X,Y,Z,texture_x,texture_y,h,11,18,14,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,11,13,8,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,8,6,11,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,19,17,9,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,9,15,19,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,9,16,5,sizeX,sizeY,false);
 							nb_faces.push_back(6);
 							break;
 						case 3:
-							face(X,Y,Z,texture_x,texture_y,h,15,19,17,false);
-							face(X,Y,Z,texture_x,texture_y,h,2,12,17,false);
-							face(X,Y,Z,texture_x,texture_y,h,17,7,2,false);
-							face(X,Y,Z,texture_x,texture_y,h,11,18,14,false);
-							face(X,Y,Z,texture_x,texture_y,h,14,3,10,false);
-							face(X,Y,Z,texture_x,texture_y,h,2,4,10,false);
+							face(X,Y,Z,texture_x,texture_y,h,15,19,17,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,2,12,17,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,17,7,2,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,11,18,14,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,14,3,10,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,2,4,10,sizeX,sizeY,false);
 							nb_faces.push_back(6);
 							break;
 						case 4:
-							face(X,Y,Z,texture_x,texture_y,h,11,18,8,false);
-							face(X,Y,Z,texture_x,texture_y,h,8,1,11,false);
-							face(X,Y,Z,texture_x,texture_y,h,19,17,9,false);
-							face(X,Y,Z,texture_x,texture_y,h,1,8,16,false);
-							face(X,Y,Z,texture_x,texture_y,h,16,5,1,false);
-							face(X,Y,Z,texture_x,texture_y,h,0,4,10,false);
+							face(X,Y,Z,texture_x,texture_y,h,11,18,8,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,8,1,11,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,19,17,9,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,1,8,16,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,16,5,1,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,0,4,10,sizeX,sizeY,false);
 							nb_faces.push_back(6);
 							break;
 						case 5:
-							face(X,Y,Z,texture_x,texture_y,h,19,17,0,false);
-							face(X,Y,Z,texture_x,texture_y,h,0,2,19,false);
-							face(X,Y,Z,texture_x,texture_y,h,3,11,18,false);
-							face(X,Y,Z,texture_x,texture_y,h,1,16,5,false);
-							face(X,Y,Z,texture_x,texture_y,h,2,0,4,false);
-							face(X,Y,Z,texture_x,texture_y,h,4,10,3,false);
+							face(X,Y,Z,texture_x,texture_y,h,19,17,0,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,0,2,19,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,3,11,18,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,1,16,5,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,2,0,4,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,4,10,3,sizeX,sizeY,false);
 							nb_faces.push_back(6);
 							break;
 						case 6:
-							face(X,Y,Z,texture_x,texture_y,h,4,2,12,false);
-							face(X,Y,Z,texture_x,texture_y,h,13,8,5,false);
-							face(X,Y,Z,texture_x,texture_y,h,3,11,18,false);
-							face(X,Y,Z,texture_x,texture_y,h,18,14,3,false);
-							face(X,Y,Z,texture_x,texture_y,h,19,17,9,false);
-							face(X,Y,Z,texture_x,texture_y,h,9,15,19,false);
-							face(X,Y,Z,texture_x,texture_y,h,5,9,16,false);
-							face(X,Y,Z,texture_x,texture_y,h,4,3,10,false);
+							face(X,Y,Z,texture_x,texture_y,h,4,2,12,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,13,8,5,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,3,11,18,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,18,14,3,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,19,17,9,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,9,15,19,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,5,9,16,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,4,3,10,sizeX,sizeY,false);
 							nb_faces.push_back(8);
 							break;
 						case 7:
-							face(X,Y,Z,texture_x,texture_y,h,19,8,1,false);
-							face(X,Y,Z,texture_x,texture_y,h,0,2,18,false);
-							face(X,Y,Z,texture_x,texture_y,h,3,11,18,false);
-							face(X,Y,Z,texture_x,texture_y,h,19,17,9,false);
-							face(X,Y,Z,texture_x,texture_y,h,1,8,16,false);
-							face(X,Y,Z,texture_x,texture_y,h,16,5,1,false);
-							face(X,Y,Z,texture_x,texture_y,h,10,2,0,false);
-							face(X,Y,Z,texture_x,texture_y,h,0,4,10,false);
+							face(X,Y,Z,texture_x,texture_y,h,19,8,1,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,0,2,18,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,3,11,18,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,19,17,9,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,1,8,16,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,16,5,1,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,10,2,0,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,0,4,10,sizeX,sizeY,false);
 							nb_faces.push_back(8);
 							break;
 						case 8:
-							face(X,Y,Z,texture_x,texture_y,h,0,4,10,false);
-							face(X,Y,Z,texture_x,texture_y,h,10,13,8,false);
-							face(X,Y,Z,texture_x,texture_y,h,8,1,10,false);
-							face(X,Y,Z,texture_x,texture_y,h,11,18,14,false);
-							face(X,Y,Z,texture_x,texture_y,h,15,19,17,false);
-							face(X,Y,Z,texture_x,texture_y,h,17,9,15,false);
-							face(X,Y,Z,texture_x,texture_y,h,1,8,16,false);
-							face(X,Y,Z,texture_x,texture_y,h,16,5,1,false);
+							face(X,Y,Z,texture_x,texture_y,h,0,4,10,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,10,13,8,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,8,1,10,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,11,18,14,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,15,19,17,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,17,9,15,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,1,8,16,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,16,5,1,sizeX,sizeY,false);
 							nb_faces.push_back(8);
 							break;
 						case 9:
-							face(X,Y,Z,texture_x,texture_y,h,16,0,2,false);
-							face(X,Y,Z,texture_x,texture_y,h,2,12,16,false);
-							face(X,Y,Z,texture_x,texture_y,h,3,11,18,false);
-							face(X,Y,Z,texture_x,texture_y,h,18,14,3,false);
-							face(X,Y,Z,texture_x,texture_y,h,15,19,17,false);
-							face(X,Y,Z,texture_x,texture_y,h,16,5,1,false);
-							face(X,Y,Z,texture_x,texture_y,h,10,2,0,false);
-							face(X,Y,Z,texture_x,texture_y,h,0,4,10,false);
+							face(X,Y,Z,texture_x,texture_y,h,16,0,2,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,2,12,16,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,3,11,18,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,18,14,3,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,15,19,17,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,16,5,1,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,10,2,0,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,0,4,10,sizeX,sizeY,false);
 							nb_faces.push_back(8);
 							break;
 						case 10:
-							face(X,Y,Z,texture_x,texture_y,h,6,11,12,false);
-							face(X,Y,Z,texture_x,texture_y,h,13,17,7,false);
-							face(X,Y,Z,texture_x,texture_y,h,11,18,14,false);
-							face(X,Y,Z,texture_x,texture_y,h,15,19,17,false);
+							face(X,Y,Z,texture_x,texture_y,h,6,11,12,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,13,17,7,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,11,18,14,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,15,19,17,sizeX,sizeY,false);
 							nb_faces.push_back(4);
 							break;
 						case 11:
-							face(X,Y,Z,texture_x,texture_y,h,0,11,18,false);
-							face(X,Y,Z,texture_x,texture_y,h,19,17,1,false);
-							face(X,Y,Z,texture_x,texture_y,h,0,4,10,false);
-							face(X,Y,Z,texture_x,texture_y,h,1,5,16,false);
+							face(X,Y,Z,texture_x,texture_y,h,0,11,18,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,19,17,1,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,0,4,10,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,1,5,16,sizeX,sizeY,false);
 							nb_faces.push_back(4);
 							break;
 						case 12:
-							face(X,Y,Z,texture_x,texture_y,h,11,18,9,false);
-							face(X,Y,Z,texture_x,texture_y,h,8,4,10,false);
-							face(X,Y,Z,texture_x,texture_y,h,19,17,9,false);
-							face(X,Y,Z,texture_x,texture_y,h,8,16,5,false);
+							face(X,Y,Z,texture_x,texture_y,h,11,18,9,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,8,4,10,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,19,17,9,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,8,16,5,sizeX,sizeY,false);
 							nb_faces.push_back(4);
 							break;
 						case 13:
-							face(X,Y,Z,texture_x,texture_y,h,3,19,17,false);
-							face(X,Y,Z,texture_x,texture_y,h,16,5,2,false);
-							face(X,Y,Z,texture_x,texture_y,h,2,4,10,false);
-							face(X,Y,Z,texture_x,texture_y,h,3,18,11,false);
+							face(X,Y,Z,texture_x,texture_y,h,3,19,17,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,16,5,2,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,2,4,10,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,3,18,11,sizeX,sizeY,false);
 							nb_faces.push_back(4);
 							break;
 					}
@@ -455,7 +484,7 @@ void LBA_MAP_GL::Initialize(int LBA2)
 LBA_MAP_GL::LBA_MAP_GL(int LBA2, const std::string &grfile, 
 					   	bool custombrickfile, const std::string &brkfile,
 						bool customlayoutfile, const std::string &layoutfile,
-						int layoutused, bool forcelayout)
+						int layoutused, bool forcelayout, bool withbackface)
 {
 	// set filenames
 	texture_filename = grfile;
@@ -469,7 +498,8 @@ LBA_MAP_GL::LBA_MAP_GL(int LBA2, const std::string &grfile,
 							custombrickfile, brkfile,
 							customlayoutfile, layoutfile,
 							layoutused, forcelayout);
-	Initialize(LBA2);
+
+	Initialize(LBA2,withbackface);
 }
 
 

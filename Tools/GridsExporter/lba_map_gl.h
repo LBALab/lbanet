@@ -750,7 +750,7 @@ private:
 	std::string map_filename;
 
 protected:
-	void Initialize(int LBA2);
+	void Initialize(int LBA2, bool withbackface=false);
 
 public:
 	// constructor with map number
@@ -760,11 +760,11 @@ public:
 	LBA_MAP_GL(int LBA2, const std::string &grfile, 
 						bool custombrickfile, const std::string &brkfile,
 						bool customlayoutfile, const std::string &layoutfile,
-						int layoutused, bool forcelayout = false);
+						int layoutused, bool forcelayout, bool withbackface);
 
 
     void face(double X,double Y,double Z,double texture_x,double texture_y,
-									double h,int a,int b,int c,bool hidden);
+									double h,int a,int b,int c,int sizeX, int sizeY, bool hidden);
 
 
 

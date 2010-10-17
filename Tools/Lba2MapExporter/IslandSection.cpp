@@ -269,7 +269,8 @@ osg::ref_ptr<osg::Group> IslandSection::loadObjects(std::map<int, bool > &mObjLi
 				luafile<<"	OBJ_"<<objcounter<<".PhysicDesc.Collidable = false"<<std::endl;
 			}
 
-			luafile<<"	"<<"Map_"<<mIslandName<<":AddActorObject("<<"OBJ_"<<objcounter<<")"<<std::endl;
+			luafile<<"	OBJ_"<<objcounter<<"H = ActorHandler(OBJ_"<<objcounter<<")"<<std::endl;
+			luafile<<"	"<<"environment:AddActorObject("<<"OBJ_"<<objcounter<<"H)"<<std::endl;
 		}
 		delete [] mObjectInfo;
 	}

@@ -99,6 +99,10 @@ int main(int argc, char** argv)
 				layoutfile = tokens[7];
 			}
 
+			bool backface = false;
+			if(tokens.size() > 8)
+				backface = (bool)atoi(tokens[8].c_str());
+		
 
 			bool forcelayout = false;
 			if(lba2 && layout >= 0)
@@ -108,7 +112,7 @@ int main(int argc, char** argv)
 			LBA_MAP_GL map(lba2, file, 
 								custombricks, brickfile,
 								customlayout, layoutfile,
-								layout, forcelayout);
+								layout, forcelayout, backface);
 			map.ExportMapOSG();
 
 			//export physic
@@ -153,7 +157,7 @@ int main(int argc, char** argv)
 	std::string tmp;
 	LBA_MAP_GL map(lba2, file, 
 						false, tmp, false, tmp,
-						layout);
+						layout, false, false);
 	map.ExportMapOSG();
 
 	//export physic
