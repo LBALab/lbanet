@@ -699,6 +699,25 @@ module LbaNet
 	class EditorUpdateBase
 	{
 	};
+	
+	// base class used to exchange updates between client and server concerning physic info of an object
+	class PhysicObjectUpdateBase
+	{
+	};
+	
+	// server inform clients that position changed
+	class PositionUpdate extends PhysicObjectUpdateBase
+	{
+		PlayerPosition			Update;
+	};	
+		
+	// server inform clients that size changed
+	class SizeUpdate extends PhysicObjectUpdateBase
+	{
+		float				SizeX;
+		float				SizeY;
+		float				SizeZ;		
+	};	
 };	
 
 #endif

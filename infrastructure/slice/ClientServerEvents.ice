@@ -137,6 +137,10 @@ module LbaNet
 	{
 	};
 	
+	// client tell server that he is ready to play
+	class ReadyToPlayEvent extends ClientServerEventBase
+	{
+	};	
 	
 	// server tell client to update the display of 1 object
 	class UpdateDisplayObjectEvent extends ClientServerEventBase
@@ -145,6 +149,14 @@ module LbaNet
 		long				ObjectId;
 		DisplayObjectUpdateBase		Update;
 	};	
+	
+	// server tell client to update the display of 1 object
+	class UpdatePhysicObjectEvent extends ClientServerEventBase
+	{
+		ObjectTypeEnum			TypeO;
+		long				ObjectId;
+		PhysicObjectUpdateBase		Update;
+	};		
 	
 	// client tell server that player state should be updated
 	class UpdateStateEvent extends ClientServerEventBase
