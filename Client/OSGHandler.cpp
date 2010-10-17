@@ -553,7 +553,13 @@ void OsgHandler::ToggleCameraType(int cameraType)
 	if(_cameraType != cameraType)
 	{
 		_cameraType = cameraType;
-		ResetCameraDistances();
+
+		double distance = 110;
+		if(_cameraType == 2)
+			distance = 15;
+		if(_cameraType == 3)
+			distance = 20;
+		ResetCameraDistances(distance);
 
 		ConfigurationManager::GetInstance()->SetInt("Display.Camera.CameraType", _cameraType);
 	}
@@ -569,7 +575,14 @@ void OsgHandler::ToggleAutoCameraType(int cameraType)
 	{
 		_autoCameraType = cameraType;
 		if(_cameraType == 0)
-			ResetCameraDistances();
+		{
+			double distance = 110;
+			if(_autoCameraType == 2)
+				distance = 15;
+			if(_autoCameraType == 3)
+				distance = 20;
+			ResetCameraDistances(distance);
+		}
 	}
 }	
 
@@ -678,9 +691,9 @@ void OsgHandler::DeltaUpdateCameraAzimut(double delta)
 /***********************************************************
 reset camera distances when changeing cam type
 ***********************************************************/
-void OsgHandler::ResetCameraDistances()
+void OsgHandler::ResetCameraDistances(double distance)
 {
-	SetCameraDistance(_distance, true);
+	SetCameraDistance(distance, true);
 	SetCameraZenit(_zenit, true);
 	SetCameraAzimut(_azimut, true);
 }
@@ -1083,22 +1096,6 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCapsuleObject(floa
 	capsuleGeode->addDrawable(capsdraw);
 	resnode->addChild(capsuleGeode);
 
-	// create orientation line
-	osg::Geode* lineGeode = new osg::Geode();
-	osg::Geometry* lineGeometry = new osg::Geometry();
-	lineGeode->addDrawable(lineGeometry); 
-
-	osg::Vec3Array* lineVertices = new osg::Vec3Array();
-	lineVertices->push_back( osg::Vec3( 0, 0, 0) );
-	lineVertices->push_back( osg::Vec3(0, 5, 0) );
-	lineGeometry->setVertexArray( lineVertices ); 
-
-	osg::DrawElementsUInt* dunit = new osg::DrawElementsUInt(osg::PrimitiveSet::LINES, 0);
-	dunit->push_back(0);
-	dunit->push_back(1);
-	lineGeometry->addPrimitiveSet(dunit); 
-	resnode->addChild(lineGeode);
-
 	if(Tr)
 	{
 		osg::ref_ptr<osg::PositionAttitudeTransform> transform = new osg::PositionAttitudeTransform();
@@ -1127,27 +1124,16 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateBoxObject(float si
 
 	// create capsule
 	osg::ref_ptr<osg::Geode> capsuleGeode(new osg::Geode());
-	osg::ref_ptr<osg::Box> caps(new osg::Box(osg::Vec3(0,0,0),sizex, sizey, sizez));
+	osg::ref_ptr<osg::Box> caps(new osg::Box(osg::Vec3(0,(sizey/2),0), sizex, sizey, sizez));
 	osg::ref_ptr<osg::ShapeDrawable> capsdraw = new osg::ShapeDrawable(caps);
 	capsdraw->setColor(osg::Vec4(colorR, colorG, colorB, colorA));
 	capsuleGeode->addDrawable(capsdraw);
 	resnode->addChild(capsuleGeode);
 
-	// create orientation line
-	osg::Geode* lineGeode = new osg::Geode();
-	osg::Geometry* lineGeometry = new osg::Geometry();
-	lineGeode->addDrawable(lineGeometry); 
-
-	osg::Vec3Array* lineVertices = new osg::Vec3Array();
-	lineVertices->push_back( osg::Vec3( 0, 0, 0) );
-	lineVertices->push_back( osg::Vec3(0, 5, 0) );
-	lineGeometry->setVertexArray( lineVertices ); 
-
-	osg::DrawElementsUInt* dunit = new osg::DrawElementsUInt(osg::PrimitiveSet::LINES, 0);
-	dunit->push_back(0);
-	dunit->push_back(1);
-	lineGeometry->addPrimitiveSet(dunit); 
-	resnode->addChild(lineGeode);
+    osg::StateSet* stateset = capsuleGeode->getOrCreateStateSet();
+	stateset->setMode(GL_BLEND, osg::StateAttribute::ON);
+	stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+	stateset->setRenderBinDetails( 9000, "RenderBin");
 
 	if(Tr)
 	{
@@ -1208,7 +1194,9 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCrossObject(float 
     linewidth->setWidth(3.0f);
     stateset->setAttributeAndModes(linewidth,osg::StateAttribute::ON);
 	stateset->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-
+	stateset->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
+	stateset->setRenderingHint( osg::StateSet::OPAQUE_BIN );
+	stateset->setRenderBinDetails( 9000, "RenderBin");
 
 	if(Tr)
 	{

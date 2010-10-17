@@ -75,6 +75,8 @@ public:
 	//! get information about a specific world
 	void GetWorldInformation(const std::string &Filename, LbaNet::WorldInformation &res);
 
+	//! saved information about a specific world
+	void SaveWorldInformation(const std::string &Filename, const LbaNet::WorldInformation &res);
 
 	//! used to get the character entities info
 	entitiesTableStruct* GetEntitiesInfo();

@@ -196,6 +196,15 @@ void DataLoader::GetWorldInformation(const std::string &Filename, LbaNet::WorldI
 
 
 /***********************************************************
+saved information about a specific world
+***********************************************************/
+
+void DataLoader::SaveWorldInformation(const std::string &Filename, const LbaNet::WorldInformation &res)
+{
+	XmlReader::SaveWorldInfo( "./Data/Worlds/" + Filename + "/WorldDescription.xml", res);
+}
+
+/***********************************************************
 used to get the character entities info
 ***********************************************************/
 entitiesTableStruct* DataLoader::GetEntitiesInfo()

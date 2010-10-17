@@ -664,6 +664,15 @@ void CharacterController::UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr updat
 }
 
 
+/***********************************************************
+update player physic
+***********************************************************/
+void CharacterController::UpdatePhysic(LbaNet::PhysicObjectUpdateBasePtr update)
+{
+	if(_character && _character->GetPhysicalObject())
+		_character->GetPhysicalObject()->Update(update);
+}
+
 
 /***********************************************************
 internaly update mode and state

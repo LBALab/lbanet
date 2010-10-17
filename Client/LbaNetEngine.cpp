@@ -113,7 +113,11 @@ void LbaNetEngine::Initialize(void)
 
 	// init OSG
 	LogHandler::getInstance()->LogToFile("Initializing display engine...");
-	OsgHandler::getInstance()->Initialize("LBANet", "./Data", m_gui_handler,m_editor_handler);
+	#ifdef _USE_QT_EDITOR_
+	OsgHandler::getInstance()->Initialize("LBANet", "./Data", m_gui_handler, m_editor_handler);
+	#else
+	OsgHandler::getInstance()->Initialize("LBANet", "./Data", m_gui_handler);
+	#endif
 
 
 	//init physic engine
@@ -495,6 +499,17 @@ void LbaNetEngine::HandleGameEvents()
 			continue;
 		}
 
+
+		// UpdatePhysicObjectEvent
+		if(info == typeid(LbaNet::UpdatePhysicObjectEvent))
+		{
+			LbaNet::UpdatePhysicObjectEvent * castedptr = 
+				dynamic_cast<LbaNet::UpdatePhysicObjectEvent *>(&obj);
+
+			m_lbaNetModel->UpdateObjectPhysic(castedptr->TypeO, castedptr->ObjectId, castedptr->Update);
+
+			continue;
+		}
 
 		// PlayerKeyPressedEvent
 		if(info == typeid(PlayerKeyPressedEvent))

@@ -102,6 +102,10 @@ public:
 	void UpdateObjectDisplay(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId, 
 									  LbaNet::DisplayObjectUpdateBasePtr update);
 
+	//! update object physic
+	void UpdateObjectPhysic(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId, 
+									  LbaNet::PhysicObjectUpdateBasePtr update);
+
 	//! key pressed
 	void KeyPressed(LbanetKey keyid);
 

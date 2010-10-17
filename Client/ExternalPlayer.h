@@ -130,6 +130,8 @@ public:
 	//! update player display
 	void UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr update);
 
+	//! update player physic
+	void UpdatePhysic(LbaNet::PhysicObjectUpdateBasePtr update);
 
 protected:
 	//! internaly update mode and state

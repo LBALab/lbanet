@@ -446,14 +446,15 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 			}
 		}
 
+		#ifdef _USE_QT_EDITOR_
 		case(osgGA::GUIEventAdapter::RESIZE):
 		{
-			//TODO - check if needed when not editor mode
 			int width = ea.getWindowWidth();
 			int height = ea.getWindowHeight();
 			OsgHandler::getInstance()->Resize(width, height);
 			break;
 		}
+		#endif
 
 
 		// key release  

@@ -197,6 +197,14 @@ void ExternalPlayer::UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr update)
 	_obje->GetDisplayObject()->Update(update);
 }
 
+/***********************************************************
+update player physic
+***********************************************************/
+void ExternalPlayer::UpdatePhysic(LbaNet::PhysicObjectUpdateBasePtr update)
+{
+	_obje->GetPhysicalObject()->Update(update);
+}
+
 
 
 /***********************************************************

@@ -75,6 +75,9 @@ public:
 	//! update player display
 	void UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr update);
 
+	//! update player physic
+	void UpdatePhysic(LbaNet::PhysicObjectUpdateBasePtr update);
+
 	//! server teleport player
 	void Teleport(const LbaNet::PlayerMoveInfo &info);
 

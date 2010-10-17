@@ -246,7 +246,7 @@ protected:
 	void ResetCameraAzimut();
 
 	//! reset camera distances when changeing cam type
-	void ResetCameraDistances();
+	void ResetCameraDistances(double distance);
 
 private:
 	// singleton

@@ -279,6 +279,9 @@ clean up map
 ***********************************************************/
 void LbaNetModel::CleanupMap()
 {
+	//clean up player
+	ResetPlayerObject();
+
 	//clear dynamic object of the current scene
 	_npcObjects.clear();
 	_playerObjects.clear();
@@ -287,9 +290,6 @@ void LbaNetModel::CleanupMap()
 	#ifdef _USE_QT_EDITOR_
 	_editorObjects.clear();
 	#endif
-
-	//clean up player
-	ResetPlayerObject();
 }
 
 
@@ -508,8 +508,11 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 		break;
 
 	}
-
+#ifdef _USE_QT_EDITOR_
+	ObjectInfo obj((long)ObjectId, DInfo, PInfo, false); // make all objects dynamic in editor as we can change them
+#else
 	ObjectInfo obj((long)ObjectId, DInfo, PInfo, (PhysicDesc.TypePhysO == LbaNet::StaticAType));
+#endif
 	AddObject(OType, obj, DisplayDesc, extrainfo, lifeinfo);
 }
 
@@ -584,6 +587,63 @@ void LbaNetModel::UpdateObjectDisplay(LbaNet::ObjectTypeEnum OType, Ice::Long Ob
 }
 
 
+/***********************************************************
+update object physic
+***********************************************************/
+void LbaNetModel::UpdateObjectPhysic(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId, 
+								  LbaNet::PhysicObjectUpdateBasePtr update)
+{
+	switch(OType)
+	{
+		// 1 -> npc object
+		case LbaNet::NpcObject:
+			{
+			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _npcObjects.find((long)ObjectId);
+			if(it != _npcObjects.end())
+				it->second->GetPhysicalObject()->Update(update);
+			}
+		break;
+
+
+		// 2 -> player object
+		case LbaNet::PlayerObject:
+			//special treatment if main player
+			if(m_playerObjectId == (long)ObjectId)
+			{
+				m_controllerChar->UpdatePhysic(update);
+			}
+			else
+			{
+				std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _playerObjects.find((long)ObjectId);
+				if(it != _playerObjects.end())
+					it->second->UpdatePhysic(update);
+			}
+		break;
+
+		// 3 -> ghost object
+		case LbaNet::GhostObject:
+			{
+			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _ghostObjects.find((long)ObjectId);
+			if(it != _ghostObjects.end())
+				it->second->GetPhysicalObject()->Update(update);
+			}
+		break;
+
+		// editor object
+		#ifdef _USE_QT_EDITOR_
+		case LbaNet::EditorObject:
+			{
+			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _editorObjects.find((long)ObjectId);
+			if(it != _editorObjects.end())
+				it->second->GetPhysicalObject()->Update(update);
+			}
+		break;
+		#endif
+	}
+}
+
+
+
 
 /***********************************************************
 key pressed
@@ -647,7 +707,7 @@ void LbaNetModel::NewMap(const std::string & NewMap, const std::string & Script,
 
 	//TODO script part
 
-	// to remove that
+	// todo remove that
 	OsgHandler::getInstance()->ResetDisplayTree();
 	LbaMainLightInfo lightinfo(0, 100, 50);
 	OsgHandler::getInstance()->SetLight(lightinfo);
@@ -667,6 +727,10 @@ map is fully refreshed
 ***********************************************************/
 void LbaNetModel::RefreshEnd()
 {
+	// tell server that we are ready to play
+	EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ReadyToPlayEvent(
+										SynchronizedTimeHandler::GetCurrentTimeDouble()));
+
 	Resume();
 }
 

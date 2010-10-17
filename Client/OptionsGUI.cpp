@@ -266,8 +266,8 @@ void OptionsGUI::Apply()
 
 
 		//------------- handle video tab
-		#ifndef _USE_QT_EDITOR_
 		{
+		#ifndef _USE_QT_EDITOR_
 			bool changeRes = false;
 
 			//handle screen resolution
@@ -310,7 +310,7 @@ void OptionsGUI::Apply()
 			{
 				OsgHandler::getInstance()->Resize(_currScreenX, _currScreenY, _currFullscreen);
 			}
-
+		#endif
 
 			//handle perpective
 			CEGUI::Combobox * combocamtype = static_cast<CEGUI::Combobox *> (
@@ -329,7 +329,7 @@ void OptionsGUI::Apply()
 				}
 			}
 		}
-		#endif
+
 
 
 		//------------- handle sound tab

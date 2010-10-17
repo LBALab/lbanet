@@ -762,14 +762,17 @@ void PhysXEngine::DestroyActor(NxActor* actor)
 
 
 	//destroy internal actor if there is one
-	ActorUserData * udata = (ActorUserData *)actor->userData;
-	if(udata && !udata->Getreleased())
+	if(actor)
 	{
-		udata->Setreleased(true);
-	}
+		ActorUserData * udata = (ActorUserData *)actor->userData;
+		if(udata && !udata->Getreleased())
+		{
+			udata->Setreleased(true);
+		}
 
-	if(gScene && actor)
-		gScene->releaseActor(*actor);
+		if(gScene)
+			gScene->releaseActor(*actor);
+	}
 }
 
 /***********************************************************
