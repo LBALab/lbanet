@@ -12,11 +12,14 @@ extern "C"
 #include "LogHandler.h"
 #include "Triggers.h"
 
+#ifdef _USE_QT_EDITOR_	
+#include "editorhandler.h"
+#endif
 
 /***********************************************************
 constructor
 ***********************************************************/
-ServerLuaHandler::ServerLuaHandler(const std::string & luafile)
+ServerLuaHandler::ServerLuaHandler()
 {
 	try
 	{
@@ -30,7 +33,6 @@ ServerLuaHandler::ServerLuaHandler(const std::string & luafile)
 		luabind::module(m_LuaState) [
 		luabind::class_<LbaNet::ModelInfo>("ModelInfo")
 		.def(luabind::constructor<>())
-		.def_readwrite("TypeRenderer", &LbaNet::ModelInfo::TypeRenderer)
 		.def_readwrite("ModelId", &LbaNet::ModelInfo::ModelId)
 		.def_readwrite("ModelName", &LbaNet::ModelInfo::ModelName)
 		.def_readwrite("Outfit", &LbaNet::ModelInfo::Outfit)
@@ -38,8 +40,11 @@ ServerLuaHandler::ServerLuaHandler(const std::string & luafile)
 		.def_readwrite("Mode", &LbaNet::ModelInfo::Mode)
 		.def_readwrite("State", &LbaNet::ModelInfo::State)
 		.def_readwrite("UseLight", &LbaNet::ModelInfo::UseLight)
-		.def_readwrite("CastShadow", &LbaNet::ModelInfo::CastShadow),
-
+		.def_readwrite("CastShadow", &LbaNet::ModelInfo::CastShadow)
+		.def_readwrite("ColorR", &LbaNet::ModelInfo::ColorR)
+		.def_readwrite("ColorG", &LbaNet::ModelInfo::ColorG)
+		.def_readwrite("ColorB", &LbaNet::ModelInfo::ColorB)
+		.def_readwrite("ColorA", &LbaNet::ModelInfo::ColorA),
 
 		luabind::class_<LbaNet::PlayerPosition>("PlayerPosition")
 		.def(luabind::constructor<>())
@@ -53,8 +58,6 @@ ServerLuaHandler::ServerLuaHandler(const std::string & luafile)
 		luabind::class_<LbaNet::ObjectPhysicDesc>("ObjectPhysicDesc")
 		.def(luabind::constructor<>())
 		.def_readwrite("Pos", &LbaNet::ObjectPhysicDesc::Pos)
-		.def_readwrite("TypeShape", &LbaNet::ObjectPhysicDesc::TypeShape)
-		.def_readwrite("TypePhysO", &LbaNet::ObjectPhysicDesc::TypePhysO)
 		.def_readwrite("Density", &LbaNet::ObjectPhysicDesc::Density)
 		.def_readwrite("Collidable", &LbaNet::ObjectPhysicDesc::Collidable)
 		.def_readwrite("SizeX", &LbaNet::ObjectPhysicDesc::SizeX)
@@ -90,46 +93,59 @@ ServerLuaHandler::ServerLuaHandler(const std::string & luafile)
 		.def("SetPhysicalActorType", &ActorObjectInfo::SetPhysicalActorType)
 		.def("SetModelState", &ActorObjectInfo::SetModelState),
 
-		luabind::class_<MapHandler>("MapHandler")
-		.def("AddActorObject", &MapHandler::AddActorObject)
-		.def("AddTrigger", &MapHandler::AddTrigger)
-		.def("Teleport", &MapHandler::Teleport),
+		luabind::class_<ActorHandler, boost::shared_ptr<ActorHandler> >("ActorHandler")
+		.def(luabind::constructor<const ActorObjectInfo &>()),
+
+		luabind::class_<ScriptEnvironmentBase>("ScriptEnvironmentBase")
+		.def("AddActorObject", &ScriptEnvironmentBase::AddActorObject)
+		.def("AddTrigger", &ScriptEnvironmentBase::AddTrigger)
+		.def("AddAction", &ScriptEnvironmentBase::AddAction)
+		.def("Teleport", &ScriptEnvironmentBase::Teleport),
+
+		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),
+
+		#ifdef _USE_QT_EDITOR_	
+		luabind::class_<EditorHandler, ScriptEnvironmentBase>("EditorHandler"),
+		#endif
+
+
+		luabind::class_<TriggerInfo>("TriggerInfo")
+		.def(luabind::constructor<>())
+		.def(luabind::constructor<long, const std::string &, bool, bool, bool>())
+		.def_readwrite("id", &TriggerInfo::id)
+		.def_readwrite("name", &TriggerInfo::name)
+		.def_readwrite("CheckPlayers", &TriggerInfo::CheckPlayers)
+		.def_readwrite("CheckNpcs", &TriggerInfo::CheckNpcs)
+		.def_readwrite("CheckMovableObjects", &TriggerInfo::CheckMovableObjects),
 		
 
 		luabind::class_<TriggerBase, boost::shared_ptr<TriggerBase> >("TriggerBase")
-		.def(luabind::constructor<long, bool, bool, bool>())
-		.def("SetPosition", &TriggerBase::SetPosition),
+		.def(luabind::constructor<TriggerInfo>())
+		.def("SetPosition", &TriggerBase::SetPosition)
+		.def("SetAction1", &ZoneTrigger::SetAction1)
+		.def("SetAction2", &ZoneTrigger::SetAction2)
+		.def("SetAction3", &ZoneTrigger::SetAction3),
 
 		luabind::class_<ZoneTrigger, TriggerBase, boost::shared_ptr<TriggerBase> >("ZoneTrigger")
-		.def(luabind::constructor<long, bool, bool, bool, float, float, float, bool>())
-		.def("SetActionOnEnter", &ZoneTrigger::SetActionOnEnter)
-		.def("SetActionOnLeave", &ZoneTrigger::SetActionOnLeave),
+		.def(luabind::constructor<TriggerInfo, float, float, float, bool>()),
 
 		luabind::class_<ActivationTrigger, TriggerBase, boost::shared_ptr<TriggerBase> >("ActivationTrigger")
-		.def(luabind::constructor<long, bool, bool, bool, float, const std::string &, const std::string &>())
-		.def("SetActionOnActivation", &ActivationTrigger::SetActionOnActivation),
+		.def(luabind::constructor<TriggerInfo, float, const std::string &, const std::string &>()),
 
 		luabind::class_<ZoneActionTrigger, TriggerBase, boost::shared_ptr<TriggerBase> >("ZoneActionTrigger")
-		.def(luabind::constructor<long, bool, bool, bool, float, float, float, 
-											const std::string &, const std::string &>())
-		.def("SetActionOnActivation", &ZoneActionTrigger::SetActionOnActivation),
+		.def(luabind::constructor<TriggerInfo, float, float, float, const std::string &, const std::string &>()),
 
 		
 
 		luabind::class_<ActionBase, boost::shared_ptr<ActionBase> >("ActionBase")
-		.def(luabind::constructor<>()),
+		.def(luabind::constructor<long, const std::string&>()),
 
 		luabind::class_<TeleportAction, ActionBase, boost::shared_ptr<ActionBase> >("TeleportAction")
-		.def(luabind::constructor<const std::string &, long>())
+		.def(luabind::constructor<long, const std::string&, const std::string &, long>())
 
 		];
 
-		// read lua file
-		int error = luaL_dofile(m_LuaState, ("Data/"+luafile).c_str());
-		if(error != 0)
-		{
-			LogHandler::getInstance()->LogToFile(std::string("Error loading lua file: ") + lua_tostring(m_LuaState, -1));
-		}
+
 	}
 	catch(const std::exception &error)
 	{
@@ -147,28 +163,30 @@ ServerLuaHandler::~ServerLuaHandler(void)
 
 
 /***********************************************************
-register map to lua global
+load a lua file
 ***********************************************************/
-void ServerLuaHandler::RegisterMap(const std::string & mapname, MapHandler * map)
+void ServerLuaHandler::LoadFile(const std::string & luafile)
 {
-	try
+	// read lua file
+	int error = luaL_dofile(m_LuaState, ("Data/"+luafile).c_str());
+	if(error != 0)
 	{
-		luabind::globals(m_LuaState)["Map_" + mapname] = map;
-	}
-	catch(const std::exception &error)
-	{
-		LogHandler::getInstance()->LogToFile(std::string("Exception registering map to lua: ") + error.what(), 0);
+		LogHandler::getInstance()->LogToFile(std::string("Error loading lua file: ") + lua_tostring(m_LuaState, -1));
 	}
 }
+
 
 /***********************************************************
 call lua function
 ***********************************************************/
-void ServerLuaHandler::CallLua(const std::string & functioname)
+void ServerLuaHandler::CallLua(const std::string & functioname, ScriptEnvironmentBase* env)
 {
 	try
 	{
-		luabind::call_function<void>(m_LuaState, functioname.c_str());
+		if(env)
+			luabind::call_function<void>(m_LuaState, functioname.c_str(), env);
+		else
+			luabind::call_function<void>(m_LuaState, functioname.c_str());
 	}
 	catch(const std::exception &error)
 	{

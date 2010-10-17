@@ -1,5 +1,5 @@
 #include "ActorHandler.h"
-
+#include <fstream>
 
 /***********************************************************
 constructor
@@ -194,6 +194,171 @@ void ActorObjectInfo::SetModelState(int state)
 
 
 /***********************************************************
+accessor
+***********************************************************/
+int ActorObjectInfo::GetRenderType()
+{
+	switch(DisplayDesc.TypeRenderer)
+	{
+		case LbaNet::RenderOsgModel:
+			return 1;
+		break;
+		case LbaNet::RenderSprite:
+			return 2;
+		break;
+		case LbaNet::RenderLba1M:
+			return 3;
+		break;
+		case LbaNet::RenderLba2M:
+			return 4;
+		break;
+	}
+
+	return 0;
+}
+
+/***********************************************************
+accessor
+***********************************************************/
+int ActorObjectInfo::GetPhysicalShape()
+{
+	switch(PhysicDesc.TypeShape)
+	{
+		case LbaNet::NoShape:
+			return 1;
+		break;
+		case LbaNet::BoxShape:
+			return 2;
+		break;
+		case LbaNet::CapsuleShape:
+			return 3;
+		break;
+		case LbaNet::SphereShape:
+			return 4;
+		break;
+		case LbaNet::TriangleMeshShape:
+			return 5;
+		break;
+	}
+
+	return 0;
+}
+
+/***********************************************************
+accessor
+***********************************************************/
+int ActorObjectInfo::GetPhysicalActorType()
+{
+	switch(PhysicDesc.TypePhysO)
+	{
+		case LbaNet::StaticAType:
+			return 1;
+		break;
+		case LbaNet::KynematicAType:
+			return 2;
+		break;
+		case LbaNet::DynamicAType:
+			return 3;
+		break;
+		case LbaNet::CharControlAType:
+			return 4;
+		break;
+	}
+
+	return 0;
+}
+
+/***********************************************************
+accessor
+***********************************************************/
+int ActorObjectInfo::GetModelState()
+{
+	switch(DisplayDesc.State)
+	{
+		case LbaNet::NoState:
+			return 1;
+		break;
+		case LbaNet::StNormal:
+			return 2;
+		break;
+		case LbaNet::StDying:
+			return 3;
+		break;
+		case LbaNet::StDrowning:
+			return 4;
+		break;
+		case LbaNet::StDrowningGas:
+			return 5;
+		break;
+		case LbaNet::StBurning:
+			return 6;
+		break;
+		case LbaNet::StSmallHurt:
+			return 7;
+		break;
+		case LbaNet::StMediumHurt:
+			return 8;
+		break;
+		case LbaNet::StBigHurt:
+			return 9;
+		break;
+		case LbaNet::StHurtFall:
+			return 10;
+		break;
+		case LbaNet::StFinishedFall:
+			return 11;
+		break;
+		case LbaNet::StFalling:
+			return 12;
+		break;
+		case LbaNet::StJumping:
+			return 13;
+		break;
+		case LbaNet::StMovingObject:
+			return 14;
+		break;
+		case LbaNet::StUseWeapon:
+			return 15;
+		break;
+		case LbaNet::StImmune:
+			return 16;
+		break;
+		case LbaNet::StHidden:
+			return 17;
+		break;
+		case LbaNet::StScripted:
+			return 18;
+		break;
+		case LbaNet::StProtectedHurt:
+			return 19;
+		break;
+		case LbaNet::StRestrictedMovingObject:
+			return 20;
+		break;
+		case LbaNet::StFighting:
+			return 21;
+		break;
+	}
+
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***********************************************************
 constructor
 ***********************************************************/
 ActorHandler::ActorHandler(const ActorObjectInfo & actorinfo)
@@ -209,4 +374,48 @@ destructor
 ActorHandler::~ActorHandler(void)
 {
 
+}
+
+
+/***********************************************************
+save actor to lua file
+***********************************************************/
+void ActorHandler::SaveToLuaFile(std::ofstream & file)
+{
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<" = ActorObjectInfo("<<m_actorinfo.ObjectId<<")"<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<":SetRenderType("<<m_actorinfo.GetRenderType()<<")"<<std::endl;
+
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ModelId = "<<m_actorinfo.DisplayDesc.ModelId<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ModelName = \""<<m_actorinfo.DisplayDesc.ModelName<<"\""<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.Outfit = \""<<m_actorinfo.DisplayDesc.Outfit<<"\""<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.Weapon = \""<<m_actorinfo.DisplayDesc.Weapon<<"\""<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.Mode = \""<<m_actorinfo.DisplayDesc.Mode<<"\""<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.UseLight = "<<(m_actorinfo.DisplayDesc.UseLight?"true":"false")<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.CastShadow = "<<(m_actorinfo.DisplayDesc.CastShadow?"true":"false")<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ColorR = "<<m_actorinfo.DisplayDesc.ColorR<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ColorG = "<<m_actorinfo.DisplayDesc.ColorG<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ColorB = "<<m_actorinfo.DisplayDesc.ColorB<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ColorA = "<<m_actorinfo.DisplayDesc.ColorA<<std::endl;	
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<":SetModelState("<<m_actorinfo.GetModelState()<<")"<<std::endl;
+
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.Pos.X = "<<m_actorinfo.PhysicDesc.Pos.X<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.Pos.Y = "<<m_actorinfo.PhysicDesc.Pos.Y<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.Pos.Z = "<<m_actorinfo.PhysicDesc.Pos.Z<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.Pos.Rotation = "<<m_actorinfo.PhysicDesc.Pos.Rotation<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.Density = "<<m_actorinfo.PhysicDesc.Density<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.Collidable = "<<(m_actorinfo.PhysicDesc.Collidable?"true":"false")<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.SizeX = "<<m_actorinfo.PhysicDesc.SizeX<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.SizeY = "<<m_actorinfo.PhysicDesc.SizeY<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.SizeZ = "<<m_actorinfo.PhysicDesc.SizeZ<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.Filename = \""<<m_actorinfo.PhysicDesc.Filename<<"\""<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<":SetPhysicalActorType("<<m_actorinfo.GetPhysicalActorType()<<")"<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<":SetPhysicalShape("<<m_actorinfo.GetPhysicalShape()<<")"<<std::endl;
+
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".ExtraInfo.Name = \""<<m_actorinfo.ExtraInfo.Name<<"\""<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".ExtraInfo.NameColorR = "<<m_actorinfo.ExtraInfo.NameColorR<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".ExtraInfo.NameColorG = "<<m_actorinfo.ExtraInfo.NameColorG<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".ExtraInfo.NameColorB = "<<m_actorinfo.ExtraInfo.NameColorB<<std::endl;
+
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<"H = ActorHandler(Actor_"<<m_actorinfo.ObjectId<<")"<<std::endl;
+	file<<"\tenvironment:AddActorObject(Actor_"<<m_actorinfo.ObjectId<<"H)"<<std::endl<<std::endl;
 }

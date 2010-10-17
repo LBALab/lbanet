@@ -96,8 +96,8 @@ public:
 	void TeleportPlayer(Ice::Long clientid, const std::string &TeleportId);
 
 	//! change map for player
-	void ChangeMapPlayer(Ice::Long clientid, const std::string &NewMapName, 
-										long SpawningId);
+	void ChangeMapPlayer(Ice::Long clientid, const std::string &NewMapName, long SpawningId,
+							float offsetX=0, float offsetY=0, float offsetZ=0);
 
 #ifdef _USE_QT_EDITOR_
 	//! called by editor

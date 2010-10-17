@@ -91,8 +91,10 @@ void EventsSenderToAll::run()
 /***********************************************************
 constructor
 ***********************************************************/
-MapHandler::MapHandler(const MapInfo & mapinfo, const std::string & luafilename)
-: _Trunning(false), _mapinfo(mapinfo), _luaH(luafilename)
+MapHandler::MapHandler(const MapInfo & mapinfo, 
+						const std::string & mapluafilename,
+						const std::string & globalluafilname)
+: _Trunning(false), _mapinfo(mapinfo)
 {
 	// initialize the gui handlers
 	_guihandlers["CommunityBox"] = boost::shared_ptr<ServerGUIBase>(new CommunityBoxHandler());
@@ -105,12 +107,11 @@ MapHandler::MapHandler(const MapInfo & mapinfo, const std::string & luafilename)
 	_guihandlers["ShopBox"] = boost::shared_ptr<ServerGUIBase>(new ShopBoxHandler());
 	_guihandlers["InventoryBox"] = boost::shared_ptr<ServerGUIBase>(new InventoryBoxHandler());
 
+	_luaH.LoadFile(globalluafilname);
+	_luaH.LoadFile(mapluafilename);
 
-	// register map to lua
-	_luaH.RegisterMap(mapinfo.Name, this);
-
-	// init map using lua
-	_luaH.CallLua("InitMap");
+	_luaH.CallLua("InitGlobal", this);
+	_luaH.CallLua("InitMap", this);
 
 
 	// add editor display objects
@@ -121,21 +122,8 @@ MapHandler::MapHandler(const MapInfo & mapinfo, const std::string & luafilename)
 	{
 		long edobjid = it->first + 1000000;
 
-		ActorObjectInfo ainfo(edobjid);
-		ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderCross;
-		ainfo.DisplayDesc.ColorR = 0.2;
-		ainfo.DisplayDesc.ColorG = 1.0;
-		ainfo.DisplayDesc.ColorB = 0.2;
-		ainfo.DisplayDesc.ColorA = 1.0;
-		ainfo.PhysicDesc.TypeShape = LbaNet::NoShape;
-		ainfo.PhysicDesc.Pos.X = it->second.PosX;
-		ainfo.PhysicDesc.Pos.Y = it->second.PosY;
-		ainfo.PhysicDesc.Pos.Z = it->second.PosZ;
-		ainfo.PhysicDesc.SizeX = 3;
-		ainfo.ExtraInfo.Name = "Spawning: " + it->second.Name;
-		ainfo.ExtraInfo.NameColorR = 0.2;
-		ainfo.ExtraInfo.NameColorG = 1.0;
-		ainfo.ExtraInfo.NameColorB = 0.2;
+		ActorObjectInfo ainfo = CreateSpawningDisplay(edobjid, it->second.PosX, 
+									it->second.PosY, it->second.PosZ, it->second.Name);
 		_editorObjects[edobjid] = ainfo;
 	}
 	#endif
@@ -369,6 +357,13 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts)
 				continue;
 			}
 
+			//ReadyToPlayEvent
+			if(info == typeid(LbaNet::ReadyToPlayEvent))
+			{
+				SetReady(it->first);
+				continue;
+			}
+
 			//editor update event
 			#ifdef _USE_QT_EDITOR_
 			if(info == typeid(EditorEvent))
@@ -598,39 +593,25 @@ called when a player moved
 ***********************************************************/
 void MapHandler::PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMoveInfo &info)
 {
+	// check if player ready to play - else do nothing as this may be old move form other maps
+	if(!IsReady(id))
+		return;
+
 	#ifndef _USE_QT_EDITOR_
 	//TODO first check if the info is correct and no cheating
 	#endif
 
 	try
 	{
-		//do an interpolation and check for triggers
+		//do an sweep test and check for triggers
 		{
 			PlayerPosition lastpos = GetPlayerPosition(id);
+			// inform triggers
+			std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
+			std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
+			for(; ittr != endtr; ++ittr)
+				ittr->second->ObjectMoved(2, id, lastpos, info.CurrentPos);
 
-			float diffX = (info.CurrentPos.X - lastpos.X);
-			float diffY = (info.CurrentPos.Y - lastpos.Y);
-			float diffZ = (info.CurrentPos.Z - lastpos.Z);
-			float diffpos = abs(diffX)	+ abs(diffY) +  abs(diffZ);
-
-			// if player moved
-			if(diffpos > 0.0001f)
-			{
-				// do a 10th interpolation
-				for(int i=1; i<= 10; ++i)
-				{
-					PlayerPosition pos(lastpos);
-					pos.X += (diffX/10) * i;
-					pos.Y += (diffX/10) * i;
-					pos.Z += (diffX/10) * i;
-
-					// inform triggers
-					std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
-					std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
-					for(; ittr != endtr; ++ittr)
-						ittr->second->ObjectMoved(2, id, pos);
-				}
-			}
 		}
 
 
@@ -802,9 +783,9 @@ void MapHandler::RaiseFromDeadEvent(Ice::Long id)
 /***********************************************************
 function used by LUA to add actor
 ***********************************************************/
-void MapHandler::AddActorObject(const ActorObjectInfo & object)
+void MapHandler::AddActorObject(boost::shared_ptr<ActorHandler> actor)
 {
-	_Actors[object.ObjectId] = boost::shared_ptr<ActorHandler>(new ActorHandler(object));
+	_Actors[actor->GetId()] = actor;
 }
 
 
@@ -813,16 +794,17 @@ void MapHandler::AddActorObject(const ActorObjectInfo & object)
 /***********************************************************
 teleport an object
 ***********************************************************/
-void MapHandler::Teleport(int ObjectType, Ice::Long ObjectId,
-							const std::string &NewMapName, 
-							long SpawningId)
+void MapHandler::Teleport(int ObjectType, long ObjectId,
+							const std::string &NewMapName, long SpawningId,
+							float offsetX, float offsetY, float offsetZ)
 {
 	// if teleport on different map
 	if(NewMapName != _mapinfo.Name)
 	{
 		// teleport player outside the map
 		if(ObjectType == 2)
-			SharedDataHandler::getInstance()->ChangeMapPlayer(ObjectId, NewMapName, SpawningId);
+			SharedDataHandler::getInstance()->ChangeMapPlayer(ObjectId, NewMapName, SpawningId,
+																		offsetX, offsetY, offsetZ);
 	}
 	else // same map
 	{
@@ -831,9 +813,9 @@ void MapHandler::Teleport(int ObjectType, Ice::Long ObjectId,
 		if(itsp != _mapinfo.Spawnings.end())
 		{
 			PlayerPosition pos;
-			pos.X = itsp->second.PosX;
-			pos.Y = itsp->second.PosY;
-			pos.Z = itsp->second.PosZ;
+			pos.X = itsp->second.PosX + offsetX;
+			pos.Y = itsp->second.PosY + offsetY;
+			pos.Z = itsp->second.PosZ + offsetZ;
 			if(itsp->second.ForceRotation)
 				pos.Rotation = itsp->second.Rotation;
 
@@ -866,15 +848,70 @@ void MapHandler::Teleport(int ObjectType, Ice::Long ObjectId,
 
 
 
+
 /***********************************************************
-add a trigger of moving type to the map
+add a trigger to the map
 ***********************************************************/
 void MapHandler::AddTrigger(boost::shared_ptr<TriggerBase> trigger)
 {
-	trigger->SetOwner(this);
-	_triggers[trigger->GetId()] = trigger;
+	if(trigger)
+	{
+		trigger->SetOwner(this);
+		_triggers[trigger->GetId()] = trigger;
+
+		#ifdef _USE_QT_EDITOR_
+		ActorObjectInfo ainfo = trigger->GetDisplayObject();
+		long edobjid = ainfo.ObjectId;
+
+		std::map<Ice::Long, ActorObjectInfo >::iterator itm = _editorObjects.find(edobjid);
+		if(itm != _editorObjects.end())
+		{
+			// object already exist - update position if needed
+			_editorObjects[edobjid] = ainfo;
+
+			// reset the object display on client
+			_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+																			LbaNet::EditorObject, edobjid));
+
+			_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+					LbaNet::EditorObject, edobjid, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo, 
+					ainfo.ExtraInfo));
+		}
+		else
+		{
+			// object does not exist - add it
+			_editorObjects[edobjid] = ainfo;
+
+			_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+					LbaNet::EditorObject, edobjid, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo , 
+					ainfo.ExtraInfo));
+		}
+		#endif
+	}
 }
 
+	
+/***********************************************************
+add an action
+***********************************************************/				
+void MapHandler::AddAction(boost::shared_ptr<ActionBase> action)
+{
+	if(action)
+		_actions[action->GetId()] = action;
+}
+
+
+/***********************************************************
+get the action correspondant to the id
+***********************************************************/				
+boost::shared_ptr<ActionBase> MapHandler::GetAction(long actionid)
+{
+	std::map<long, boost::shared_ptr<ActionBase> >::iterator it = _actions.find(actionid);
+	if(it != _actions.end())
+		return it->second;
+
+	return boost::shared_ptr<ActionBase>();
+}
 
 
 /***********************************************************
@@ -1127,8 +1164,41 @@ bool MapHandler::RaiseFromDead(Ice::Long clientid, ModelInfo & returnmodel)
 
 
 /***********************************************************
+set player ready to play
+***********************************************************/
+void MapHandler::SetReady(Ice::Long clientid)
+{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		it->second->SetReady();
+}
+
+
+/***********************************************************
+ask if player ready to play
+***********************************************************/
+bool MapHandler::IsReady(Ice::Long clientid)
+{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->IsReady();
+
+	return false;
+}
+
+
+
+
+
+
+/***********************************************************
 process editor events
 ***********************************************************/
+#ifdef _USE_QT_EDITOR_
 void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 {
 	LbaNet::EditorUpdateBase & obj = *update;
@@ -1160,12 +1230,56 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 
 		Editor_RemoveSpawning(castedptr->_SpawningId);
 	}
+
+
+	// action update
+	if(info == typeid(UpdateEditor_AddOrModAction))
+	{
+		UpdateEditor_AddOrModAction* castedptr = 
+			dynamic_cast<UpdateEditor_AddOrModAction *>(&obj);
+
+		AddAction(castedptr->_action);
+		return;
+	}
+
+
+	// action remove
+	if(info == typeid(UpdateEditor_RemoveAction))
+	{
+		UpdateEditor_RemoveAction* castedptr = 
+			dynamic_cast<UpdateEditor_RemoveAction *>(&obj);
+
+		Editor_RemoveAction(castedptr->_ActionId);
+	}
+
+
+	// trigger update
+	if(info == typeid(UpdateEditor_AddOrModTrigger))
+	{
+		UpdateEditor_AddOrModTrigger* castedptr = 
+			dynamic_cast<UpdateEditor_AddOrModTrigger *>(&obj);
+
+		AddTrigger(castedptr->_trigger);
+		return;
+	}
+
+
+	// trigger remove
+	if(info == typeid(UpdateEditor_RemoveTrigger))
+	{
+		UpdateEditor_RemoveTrigger* castedptr = 
+			dynamic_cast<UpdateEditor_RemoveTrigger *>(&obj);
+
+		Editor_RemoveTrigger(castedptr->_TriggerId);
+	}
 }
+#endif
 
 
 /***********************************************************
 add a spawning to the map
 ***********************************************************/
+#ifdef _USE_QT_EDITOR_
 void MapHandler::Editor_AddOrModSpawning(	long SpawningId, const std::string &spawningname,
 											float PosX, float PosY, float PosZ,
 											float Rotation, bool forcedrotation)
@@ -1186,25 +1300,24 @@ void MapHandler::Editor_AddOrModSpawning(	long SpawningId, const std::string &sp
 	if(itm != _editorObjects.end())
 	{
 		// object already exist - update position if needed
+		itm->second.PhysicDesc.Pos.X = PosX;
+		itm->second.PhysicDesc.Pos.Y = PosY;
+		itm->second.PhysicDesc.Pos.Z = PosZ;
+
+		std::stringstream strs;
+		strs << "Spawning-"<<SpawningId<<": " << spawningname;
+		itm->second.ExtraInfo.Name = strs.str();
+
+		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+				LbaNet::EditorObject, edobjid, new ObjectExtraInfoUpdate(itm->second.ExtraInfo)));
+
+		_tosendevts.push_back(new UpdatePhysicObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+				LbaNet::EditorObject, edobjid, new PositionUpdate(itm->second.PhysicDesc.Pos)));
 	}
 	else
 	{
 		// object does not exist - add it
-		ActorObjectInfo ainfo(edobjid);
-		ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderCross;
-		ainfo.DisplayDesc.ColorR = 0.2;
-		ainfo.DisplayDesc.ColorG = 1.0;
-		ainfo.DisplayDesc.ColorB = 0.2;
-		ainfo.DisplayDesc.ColorA = 1.0;
-		ainfo.PhysicDesc.TypeShape = LbaNet::NoShape;
-		ainfo.PhysicDesc.Pos.X = PosX;
-		ainfo.PhysicDesc.Pos.Y = PosY;
-		ainfo.PhysicDesc.Pos.Z = PosZ;
-		ainfo.PhysicDesc.SizeX = 3;
-		ainfo.ExtraInfo.Name = "Spawning: " + spawningname;
-		ainfo.ExtraInfo.NameColorR = 0.2;
-		ainfo.ExtraInfo.NameColorG = 1.0;
-		ainfo.ExtraInfo.NameColorB = 0.2;
+		ActorObjectInfo ainfo = CreateSpawningDisplay(edobjid, PosX, PosY, PosZ, spawningname);
 		_editorObjects[edobjid] = ainfo;
 
 		_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
@@ -1212,11 +1325,13 @@ void MapHandler::Editor_AddOrModSpawning(	long SpawningId, const std::string &sp
 				ainfo.ExtraInfo));
 	}
 }
+#endif
 
 
 /***********************************************************
 remove a spawning
 ***********************************************************/
+#ifdef _USE_QT_EDITOR_
 void MapHandler::Editor_RemoveSpawning(long SpawningId)
 {
 	long edobjid = SpawningId + 1000000;
@@ -1236,4 +1351,79 @@ void MapHandler::Editor_RemoveSpawning(long SpawningId)
 																			LbaNet::EditorObject, edobjid));
 		}
 	}
+}
+#endif
+
+
+/***********************************************************
+remove an action
+***********************************************************/
+#ifdef _USE_QT_EDITOR_
+void MapHandler::Editor_RemoveAction(long ActionId)
+{
+	std::map<long, boost::shared_ptr<ActionBase> >::iterator it = _actions.find(ActionId);
+	if(it != _actions.end())
+	{
+		// erase from data
+		_actions.erase(it);
+	}
+}
+#endif
+
+
+/***********************************************************
+remove a trigger
+***********************************************************/
+#ifdef _USE_QT_EDITOR_
+void MapHandler::Editor_RemoveTrigger(long TriggerId)
+{
+	std::map<long, boost::shared_ptr<TriggerBase> >::iterator it = _triggers.find(TriggerId);
+	if(it != _triggers.end())
+	{
+		// erase from data
+		_triggers.erase(it);
+
+		long edobjid = TriggerId + 2000000;
+		std::map<Ice::Long, ActorObjectInfo >::iterator itm = _editorObjects.find(edobjid);
+		if(itm != _editorObjects.end())
+		{
+			_editorObjects.erase(itm);
+
+			_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+																			LbaNet::EditorObject, edobjid));
+		}
+	}
+}
+#endif
+
+
+/***********************************************************
+create display object for spawning
+***********************************************************/
+ActorObjectInfo MapHandler::CreateSpawningDisplay(long id, float PosX, float PosY, float PosZ, 
+												  const std::string & name)
+{
+	ActorObjectInfo ainfo(id);
+	ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderCross;
+	ainfo.DisplayDesc.ColorR = 0.2f;
+	ainfo.DisplayDesc.ColorG = 1.0f;
+	ainfo.DisplayDesc.ColorB = 0.2f;
+	ainfo.DisplayDesc.ColorA = 1.0f;
+	ainfo.PhysicDesc.TypeShape = LbaNet::NoShape;
+	ainfo.PhysicDesc.TypePhysO = LbaNet::StaticAType;
+	ainfo.PhysicDesc.Pos.X = PosX;
+	ainfo.PhysicDesc.Pos.Y = PosY;
+	ainfo.PhysicDesc.Pos.Z = PosZ;
+	ainfo.PhysicDesc.Pos.Rotation = 0;
+	ainfo.PhysicDesc.SizeX = 3;
+	ainfo.PhysicDesc.SizeY = 0;
+	ainfo.PhysicDesc.SizeZ = 0;
+
+	std::stringstream strs;
+	strs << "Spawning-"<<id-1000000<<": " << name;
+	ainfo.ExtraInfo.Name = strs.str();
+	ainfo.ExtraInfo.NameColorR = 0.2f;
+	ainfo.ExtraInfo.NameColorG = 1.0f;
+	ainfo.ExtraInfo.NameColorB = 0.2f;
+	return ainfo;
 }

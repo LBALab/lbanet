@@ -11,7 +11,7 @@ PlayerHandler::PlayerHandler(long clientid, ClientProxyBasePtr proxy,
 						const LbaNet::ObjectExtraInfo& extrainfo)
 	: _clientid(clientid), _proxy(proxy), 
 		_dbH(dbH), _currentinfo(savedinfo), _worldname(worldname),
-		_extrainfo(extrainfo)
+		_extrainfo(extrainfo), _ready(false)
 {
 	// get quest information
 	if(_dbH) 
@@ -109,6 +109,15 @@ update current position in the world
 void PlayerHandler::Teleport(const LbaNet::PlayerPosition& Position)
 {
 	_currentinfo.ppos = Position;
+	_ready = false;	// player not ready to play yet
+
+	// raise from dead in case it is dead for some reason
+	if(_currentstate && _currentstate->IsDead())
+	{
+		_currentinfo.model.State = LbaNet::StNormal;
+		UpdateStateModeClass();
+	}
+
 
 	//TODO - remove that and replace by a raising place system
 	_spawningIno = Position;

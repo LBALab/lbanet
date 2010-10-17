@@ -38,11 +38,12 @@ void SharedDataHandler::SetWorldDefaultInformation(WorldInformation &worldinfo)
 	LbaNet::MapsSeq::const_iterator endm = worldinfo.Maps.end();
 	for(; itm != endm; ++itm)
 	{
-		std::string luafile = "Worlds/" + _worldinfo.Description.WorldName;
-		luafile += "/Lua/" + itm->second.Name + "_server.lua";
+		std::string luafile = "Worlds/" + _worldinfo.Description.WorldName + "/Lua/";
+		std::string globalluafile = luafile + "global_server.lua";
+		luafile += itm->second.Name + "_server.lua";
 
 		// create map object
-		boost::shared_ptr<MapHandler> mapH(new MapHandler(itm->second, luafile));
+		boost::shared_ptr<MapHandler> mapH(new MapHandler(itm->second, luafile, globalluafile));
 		_currentmaps[itm->first] = mapH;
 	}
 }
@@ -125,7 +126,7 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectE
 		//in this case set the default information
 		bool forcerotation;
 		savedinfo.ppos = GetSpawningInfo(	_worldinfo.StartingInfo.StartingMap, 
-											_worldinfo.StartingInfo.SpawningId,
+											(long)_worldinfo.StartingInfo.SpawningId,
 											forcerotation);
 
 		savedinfo.lifemana.CurrentLife = _worldinfo.StartingInfo.StartingLife;
@@ -232,9 +233,19 @@ add 1 event
 void SharedDataHandler::AddEvent(const std::string &MapName,Ice::Long clientid, 
 									ClientServerEventBasePtr evt)
 {
-	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator it = _currentmaps.find(MapName);
-	if(it != _currentmaps.end())
-		it->second->AddEvent(clientid, evt);
+	if(MapName == "") // send to all maps
+	{
+		std::map<std::string, boost::shared_ptr<MapHandler> >::iterator it = _currentmaps.begin();
+		std::map<std::string, boost::shared_ptr<MapHandler> >::iterator end = _currentmaps.end();
+		for(; it != end; ++it)
+			it->second->AddEvent(clientid, evt);
+	}
+	else
+	{
+		std::map<std::string, boost::shared_ptr<MapHandler> >::iterator it = _currentmaps.find(MapName);
+		if(it != _currentmaps.end())
+			it->second->AddEvent(clientid, evt);
+	}
 }
 
 
@@ -363,7 +374,7 @@ void SharedDataHandler::TeleportPlayer(Ice::Long clientid, const std::string &Te
 		{
 			//only tp if change map
 			if(ittp->second.MapName != itplayer->second->GetCurrentMap())
-				ChangeMapPlayer(clientid, ittp->second.MapName, ittp->second.SpawningId);
+				ChangeMapPlayer(clientid, ittp->second.MapName, (long)ittp->second.SpawningId);
 		}
 	}
 }
@@ -372,8 +383,8 @@ void SharedDataHandler::TeleportPlayer(Ice::Long clientid, const std::string &Te
 /***********************************************************
 change map for player
 ***********************************************************/
-void SharedDataHandler::ChangeMapPlayer(Ice::Long clientid, const std::string &NewMapName, 
-											long SpawningId)
+void SharedDataHandler::ChangeMapPlayer(Ice::Long clientid, const std::string &NewMapName, long SpawningId,
+											float offsetX, float offsetY, float offsetZ)
 {
 	Lock sync(*this);
 
@@ -390,9 +401,9 @@ void SharedDataHandler::ChangeMapPlayer(Ice::Long clientid, const std::string &N
 			{
 				LbaNet::PlayerPosition ppos = itplayer->second->GetPlayerPosition();
 				ppos.MapName = NewMapName;
-				ppos.X = itsp->second.PosX;
-				ppos.Y = itsp->second.PosY;
-				ppos.Z = itsp->second.PosZ;
+				ppos.X = itsp->second.PosX + offsetX;
+				ppos.Y = itsp->second.PosY + offsetY;
+				ppos.Z = itsp->second.PosZ + offsetZ;
 
 				if(itsp->second.ForceRotation)
 					ppos.Rotation = itsp->second.Rotation;

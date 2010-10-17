@@ -36,7 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ActorHandler.h"
 #include "ServerLuaHandler.h"
 #include "Triggers.h"
-
+#include "ScriptEnvironmentBase.h"
 
 using namespace LbaNet;
 class PlayerHandler;
@@ -93,11 +93,13 @@ public:
 
 
 //! take care of a map of the world
-class MapHandler : public Runnable
+class MapHandler : public Runnable, public ScriptEnvironmentBase
 {
 public:
 	//! constructor
-	MapHandler(const MapInfo & mapinfo, const std::string & luafilename);
+	MapHandler(const MapInfo & mapinfo, 
+					const std::string & mapluafilename,
+					const std::string & globalluafilname);
 
 	//! desructor
 	~MapHandler(void);
@@ -107,7 +109,6 @@ public:
 
 	// running function of the thread
 	virtual void run();
-
 
 
 	//! add events
@@ -133,23 +134,27 @@ public:
 
 
 	// function used by LUA to add actor
-	void AddActorObject(const ActorObjectInfo & object);
+	virtual void AddActorObject(boost::shared_ptr<ActorHandler> actor);
 					
+	// add a trigger of moving type to the map
+	virtual void AddTrigger(boost::shared_ptr<TriggerBase> trigger);
+					
+	// add an action
+	virtual void AddAction(boost::shared_ptr<ActionBase> action);
 
 	// teleport an object
 	// ObjectType ==>
 	//! 1 -> npc object
 	//! 2 -> player object
 	//! 3 -> movable object
-	void Teleport(int ObjectType, Ice::Long ObjectId,
+	virtual void Teleport(int ObjectType, long ObjectId,
 						const std::string &NewMapName, 
-						long SpawningId);
+						long SpawningId,
+						float offsetX, float offsetY, float offsetZ);
 
 
-
-	// add a trigger of moving type to the map
-	void AddTrigger(boost::shared_ptr<TriggerBase> trigger);
-
+	// get the action correspondant to the id
+	virtual boost::shared_ptr<ActionBase> GetAction(long actionid);
 
 protected:
 	// process events
@@ -215,6 +220,11 @@ protected:
 	//! get the place to respawn in case of death
 	LbaNet::PlayerPosition GetSpawningPlace(Ice::Long clientid);
 
+	//! set player ready to play
+	void SetReady(Ice::Long clientid);
+
+	//! ask if player ready to play
+	bool IsReady(Ice::Long clientid);
 
 
 	//!  update player position
@@ -237,6 +247,7 @@ protected:
 
 
 	//! process editor events
+	#ifdef _USE_QT_EDITOR_
 	void ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update);
 
 
@@ -247,6 +258,17 @@ protected:
 
 	//! remove a spawning
 	void Editor_RemoveSpawning(long SpawningId);
+
+	//! remove an action
+	void Editor_RemoveAction(long ActionId);
+
+	//! remove an trigger
+	void Editor_RemoveTrigger(long TriggerId);
+	#endif
+	
+	//! create display object for spawning
+	ActorObjectInfo CreateSpawningDisplay(long id, float PosX, float PosY, float PosZ, 
+											const std::string & name);
 
 private:
 	// threading and mutex stuff
@@ -278,6 +300,7 @@ private:
 	ServerLuaHandler											_luaH;
 
 	std::map<long, boost::shared_ptr<TriggerBase> >				_triggers;
+	std::map<long, boost::shared_ptr<ActionBase> >				_actions;
 };
 
 

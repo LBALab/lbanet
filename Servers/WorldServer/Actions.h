@@ -26,14 +26,57 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define _LBANET_ACTION_H__
 
 #include <LbaTypes.h>
-class MapHandler;
+#include <boost/shared_ptr.hpp>
+class ScriptEnvironmentBase;
+
+
+
+//! base class used as action argument
+class ActionArgumentBase
+{
+public:
+	//! constructor
+	ActionArgumentBase(){}
+	
+	//! destructor
+	virtual ~ActionArgumentBase(void){}
+};
+
+
+//! base class used as action argument
+class OffsetArgument : public ActionArgumentBase
+{
+public:
+	//! constructor
+	OffsetArgument()
+		: _offsetX(0), _offsetY(0), _offsetZ(0)
+	{}
+
+	//! constructor
+	OffsetArgument(float offsetX, float offsetY, float offsetZ)
+		: _offsetX(offsetX), _offsetY(offsetY), _offsetZ(offsetZ)
+	{}
+
+	//! destructor
+	virtual ~OffsetArgument(void){}
+
+
+	float _offsetX;
+	float _offsetY;
+	float _offsetZ;
+};
+
+
+
 
 //! base class used as action to be performed on trigger
 class ActionBase
 {
 public:
 	//! constructor
-	ActionBase(){}
+	ActionBase(long id, const std::string &name)
+		: _id(id), _name(name)
+	{}
 	
 	//! destructor
 	virtual ~ActionBase(void){}
@@ -44,9 +87,34 @@ public:
 	//! 1 -> npc object
 	//! 2 -> player object
 	//! 3 -> movable object
-	virtual void Execute(MapHandler * owner, int ObjectType, Ice::Long ObjectId){}
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args){}
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName(){ return "";}
+
+	//! get action id
+	long GetId()
+	{ return _id;}
+
+	//! get action name
+	std::string GetName()
+	{ return _name;}
+
+	//! set action name
+	void SetName(const std::string & name)
+	{ _name = name;}
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file){}
+
+
+private:
+	long			_id;
+	std::string		_name;
 
 };
+
 
 
 //! use to teleport the object to a new location
@@ -54,7 +122,8 @@ class TeleportAction : public ActionBase
 {
 public:
 	//! constructor
-	TeleportAction(const std::string & NewMap, long SpawningId);
+	TeleportAction(long id, const std::string &name,
+						const std::string & NewMap, long SpawningId);
 	
 	//! destructor
 	virtual ~TeleportAction(void);
@@ -65,12 +134,29 @@ public:
 	//! 1 -> npc object
 	//! 2 -> player object
 	//! 3 -> movable object
-	virtual void Execute(MapHandler * owner, int ObjectType, Ice::Long ObjectId);
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args);
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "TeleportAction"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file);
+
+	// acessor
+	std::string GetMapName()
+	{ return _NewMap;}
+
+	// acessor
+	long GetSpawning()
+	{ return _SpawningId;}
 
 private:
 	std::string		_NewMap;
 	long			_SpawningId;
-
 };
 
 

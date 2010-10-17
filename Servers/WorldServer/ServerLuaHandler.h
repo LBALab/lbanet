@@ -26,25 +26,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define _SERVER_LUA_HANDLER_H__
 
 #include <string>
+#include "ScriptEnvironmentBase.h"
 
 struct lua_State;
-class MapHandler;
+
 
 //! class taking care of the maping between lua and the server interfaces
 class ServerLuaHandler
 {
 public:
 	//! constructor
-	ServerLuaHandler(const std::string & luafile);
+	ServerLuaHandler();
 	
 	//! destructor
 	~ServerLuaHandler(void);
 
-	//! register map to lua global
-	void RegisterMap(const std::string & mapname, MapHandler * map);
+	//! load a lua file
+	void LoadFile(const std::string & luafile);
 
 	//! call lua function
-	void CallLua(const std::string & functioname);
+	void CallLua(const std::string & functioname, ScriptEnvironmentBase* env = 0);
 
 private:
 	lua_State *		m_LuaState;

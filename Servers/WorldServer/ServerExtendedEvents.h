@@ -29,6 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <ClientServerEvents.h>
 #include <boost/shared_ptr.hpp>
 
+class ActionBase;
+class TriggerBase;
 
 /*
 ************************************************************************************************************************
@@ -79,6 +81,95 @@ public:
 };
 
 
+
+
+
+
+/*
+************************************************************************************************************************
+*                                                  class UpdateEditor_AddAction
+*
+*	base class for all editor update
+************************************************************************************************************************
+*/
+class UpdateEditor_AddOrModAction : public LbaNet::EditorUpdateBase
+{
+public:
+	//! constructor
+	UpdateEditor_AddOrModAction(boost::shared_ptr<ActionBase> action)
+	: _action(action)
+	{
+	}
+
+	boost::shared_ptr<ActionBase> _action;
+};
+
+
+
+/*
+************************************************************************************************************************
+*                                                  class UpdateEditor_RemoveAction
+*
+*	base class for all editor update
+************************************************************************************************************************
+*/
+class UpdateEditor_RemoveAction : public LbaNet::EditorUpdateBase
+{
+public:
+	//! constructor
+	UpdateEditor_RemoveAction(long ActionId)
+	: _ActionId(ActionId)
+	{
+	}
+
+	long 		_ActionId;
+};
+
+
+
+
+
+
+
+/*
+************************************************************************************************************************
+*                                                  class UpdateEditor_AddTrigger
+*
+*	base class for all editor update
+************************************************************************************************************************
+*/
+class UpdateEditor_AddOrModTrigger : public LbaNet::EditorUpdateBase
+{
+public:
+	//! constructor
+	UpdateEditor_AddOrModTrigger(boost::shared_ptr<TriggerBase> trigger)
+	: _trigger(trigger)
+	{
+	}
+
+	boost::shared_ptr<TriggerBase> _trigger;
+};
+
+
+
+/*
+************************************************************************************************************************
+*                                                  class UpdateEditor_RemoveTrigger
+*
+*	base class for all editor update
+************************************************************************************************************************
+*/
+class UpdateEditor_RemoveTrigger : public LbaNet::EditorUpdateBase
+{
+public:
+	//! constructor
+	UpdateEditor_RemoveTrigger(long TriggerId)
+	: _TriggerId(TriggerId)
+	{
+	}
+
+	long 		_TriggerId;
+};
 
 
 

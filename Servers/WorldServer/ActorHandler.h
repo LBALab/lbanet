@@ -34,7 +34,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 struct ActorObjectInfo
 {
 	//constructor
-	ActorObjectInfo(){}
+	ActorObjectInfo()
+		: ObjectId(-1)
+	{}
 
 	//constructor
 	ActorObjectInfo(long id);
@@ -86,8 +88,11 @@ struct ActorObjectInfo
 	//21 - StFighting
 	void SetModelState(int state);
 
-
-
+	// accessors
+	int GetRenderType();
+	int GetPhysicalShape();
+	int GetPhysicalActorType();
+	int GetModelState();
 
 	long						ObjectId;
 
@@ -107,11 +112,19 @@ public:
 	ActorHandler(const ActorObjectInfo & actorinfo);
 	
 	//! destructor
-	~ActorHandler(void);
+	virtual ~ActorHandler(void);
 
 	//! get actor info
 	const ActorObjectInfo & GetActorInfo()
 	{ return m_actorinfo; }
+
+
+	// save actor to lua file
+	virtual void SaveToLuaFile(std::ofstream & file);
+
+	//! get actor id
+	long GetId()
+	{ return m_actorinfo.ObjectId;}
 
 
 private:

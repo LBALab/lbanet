@@ -132,6 +132,14 @@ public:
 	//! return true if raised
 	bool RaiseFromDead(LbaNet::ModelInfo & returnmodel);
 
+	//! set player ready to play
+	void SetReady()
+	{_ready = true;}
+
+	//! ask if player ready to play
+	bool IsReady()
+	{return _ready;}
+
 protected:
 	// update state and mode class from modelinfo
 	void UpdateStateModeClass();
@@ -140,6 +148,7 @@ private:
 	long										_clientid;
 	ClientProxyBasePtr							_proxy;
 	boost::shared_ptr<DatabaseHandlerBase>		_dbH;
+	bool										_ready;
 
 	std::string									_worldname;
 	LbaNet::SavedWorldInfo						_currentinfo;
