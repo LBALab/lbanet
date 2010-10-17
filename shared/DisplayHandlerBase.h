@@ -31,7 +31,7 @@ class DisplayTransformation;
 
 namespace LbaNet
 {
-	class ObjectExtraInfo;
+	struct ObjectExtraInfo;
 }
 
 #include <string>

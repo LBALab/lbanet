@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/foreach.hpp>
+#include <boost/property_tree/detail/xml_parser_writer_settings.hpp>
 
 
 // load a world information into memory
@@ -53,21 +54,29 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
     res.Description.News = pt.get<std::string>("World.news");
 
 	// get teleport info
-    BOOST_FOREACH(ptree::value_type &v, pt.get_child("World.teleports"))
+	try
 	{
-		TeleportInfo tpi;
-		tpi.Name = v.second.get<std::string>("<xmlattr>.name");
-		tpi.MapName = v.second.get<std::string>("<xmlattr>.map");
-		tpi.SpawningId = v.second.get<long>("<xmlattr>.spawningid");
-		res.TeleportInfo[tpi.Name] = tpi;
+		BOOST_FOREACH(ptree::value_type &v, pt.get_child("World.teleports"))
+		{
+			TeleportInfo tpi;
+			tpi.Name = v.second.get<std::string>("<xmlattr>.name");
+			tpi.MapName = v.second.get<std::string>("<xmlattr>.map");
+			tpi.SpawningId = v.second.get<long>("<xmlattr>.spawningid");
+			res.TeleportInfo[tpi.Name] = tpi;
+		}
 	}
+	catch(...){} // no tps
 
 	// get the files info
-    BOOST_FOREACH(ptree::value_type &v, pt.get_child("World.files"))
+	try
 	{
-		res.FileUsedInfo[v.second.get<std::string>("<xmlattr>.name")] 
-								=  v.second.get<std::string>("<xmlattr>.path");
+		BOOST_FOREACH(ptree::value_type &v, pt.get_child("World.files"))
+		{
+			res.FileUsedInfo[v.second.get<std::string>("<xmlattr>.name")] 
+									=  v.second.get<std::string>("<xmlattr>.path");
+		}
 	}
+	catch(...){} // no files
 
 
 
@@ -104,50 +113,173 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
 
 	}
 
-
-
-
-    BOOST_FOREACH(ptree::value_type &v, pt.get_child("World.PlayerStartingInfo.StartingInventory"))
+	// get the inventory
+	try
 	{
-		InventoryItem itm;
-		itm.Number = v.second.get<int>("Number");
-		itm.PlaceInInventory = v.second.get<int>("Position");
-		res.StartingInfo.StartingInventory[v.second.get<long>("ObjectId")] = itm;
+		BOOST_FOREACH(ptree::value_type &v, pt.get_child("World.PlayerStartingInfo.StartingInventory"))
+		{
+			InventoryItem itm;
+			itm.Number = v.second.get<int>("Number");
+			itm.PlaceInInventory = v.second.get<int>("Position");
+			res.StartingInfo.StartingInventory[v.second.get<long>("ObjectId")] = itm;
+		}
+	}
+	catch(...){} // no inventory
+	
+
+
+	// get the maps
+	try
+	{
+		BOOST_FOREACH(ptree::value_type &v, pt.get_child("World.maps"))
+		{
+			if(v.first != "<xmlcomment>")
+			{
+				MapInfo mapi;
+				mapi.Name = v.second.get<std::string>("<xmlattr>.name");
+				mapi.Type = v.second.get<std::string>("<xmlattr>.type");
+				mapi.Description = v.second.get<std::string>("description", "");
+				mapi.AutoCameraType = v.second.get<int>("<xmlattr>.AutoCameraType", 1);
+
+				try
+				{
+					BOOST_FOREACH(ptree::value_type &v2, v.second.get_child("spareas"))
+					{
+						SpawningInfo spwi;
+						spwi.Id = v2.second.get<long>("<xmlattr>.Id");
+						spwi.Name = v2.second.get<std::string>("<xmlattr>.name");
+						spwi.PosX = v2.second.get<float>("<xmlattr>.posX");
+						spwi.PosY = v2.second.get<float>("<xmlattr>.posY");
+						spwi.PosZ = v2.second.get<float>("<xmlattr>.posZ");
+						spwi.ForceRotation = v2.second.get<bool>("<xmlattr>.ForceRotation", false);
+						spwi.Rotation = v2.second.get<float>("<xmlattr>.RotationAtArrival", 0);
+
+						mapi.Spawnings[spwi.Id] = spwi;
+					}
+				}
+				catch(...){} // no spawning
+
+				res.Maps[mapi.Name] = mapi;
+			}
+		}
+	}
+	catch(...){} // no map
+
+	return true;
+}
+
+
+
+// save a world information into file
+bool XmlReader::SaveWorldInfo(const std::string &Filename, const WorldInformation &res)
+{
+	// Create an empty property tree object
+	using boost::property_tree::ptree;
+	ptree pt;
+
+
+	// get map description
+    pt.put("World.name", res.Description.WorldName);
+    pt.put("World.description", res.Description.Description);
+    pt.put("World.news", res.Description.News);
+
+	// get teleport info
+	//LbaNet::ServerTeleportsSeq::const_iterator ittp = res.TeleportInfo.begin();
+	//LbaNet::ServerTeleportsSeq::const_iterator endtp = res.TeleportInfo.end();
+	//for(; ittp != endtp; ++ittp)
+    BOOST_FOREACH(const LbaNet::ServerTeleportsSeq::value_type &tp, res.TeleportInfo)
+	{
+		ptree &tmp = pt.add("World.teleports.teleport","");
+		tmp.put("<xmlattr>.name", tp.second.Name);
+		tmp.put("<xmlattr>.map", tp.second.MapName);
+		tmp.put("<xmlattr>.spawningid", tp.second.SpawningId);
+	}
+
+	// get the files info
+    BOOST_FOREACH(const LbaNet::FilesSeq::value_type &file, res.FileUsedInfo)
+	{
+		ptree &tmp = pt.add("World.files.file","");
+		tmp.put("<xmlattr>.name", file.first);
+		tmp.put("<xmlattr>.path", file.second);
+	}
+
+
+	//// get the starting info
+	pt.put("World.PlayerStartingInfo.InventorySize", res.StartingInfo.InventorySize);
+	pt.put("World.PlayerStartingInfo.StartingLife", res.StartingInfo.StartingLife);
+	pt.put("World.PlayerStartingInfo.StartingMana", res.StartingInfo.StartingMana);	
+	pt.put("World.PlayerStartingInfo.StartingMap", res.StartingInfo.StartingMap);
+	pt.put("World.PlayerStartingInfo.SpawningId", res.StartingInfo.SpawningId);
+	pt.put("World.PlayerStartingInfo.StartingModel.ModelName", res.StartingInfo.StartingModel.ModelName);
+	pt.put("World.PlayerStartingInfo.StartingModel.Outfit", res.StartingInfo.StartingModel.Outfit);
+	pt.put("World.PlayerStartingInfo.StartingModel.Weapon", res.StartingInfo.StartingModel.Weapon);
+	pt.put("World.PlayerStartingInfo.StartingModel.Mode", res.StartingInfo.StartingModel.Mode);
+
+
+	switch(res.StartingInfo.StartingModel.TypeRenderer)
+	{
+		case LbaNet::RenderOsgModel: // -> osg model
+			pt.put("World.PlayerStartingInfo.StartingModel.RendererType", 0);
+		break;
+
+		case LbaNet::RenderSprite: // 1 -> sprite
+			pt.put("World.PlayerStartingInfo.StartingModel.RendererType", 1);
+		break;
+
+		case LbaNet::RenderLba1M: // 2 -> LBA1 model
+			pt.put("World.PlayerStartingInfo.StartingModel.RendererType", 2);
+		break;
+
+		case LbaNet::RenderLba2M: // 3 -> LBA2 model
+			pt.put("World.PlayerStartingInfo.StartingModel.RendererType", 3);
+		break;
+	}
+
+
+    BOOST_FOREACH(const LbaNet::InventoryMap::value_type &itm, res.StartingInfo.StartingInventory)
+	{
+		ptree &tmp = pt.add("World.PlayerStartingInfo.StartingInventory.object","");
+		tmp.put("ObjectId", itm.first);
+		tmp.put("Number", itm.second.Number);
+		tmp.put("Position", itm.second.PlaceInInventory);
 	}
 
 	
 	// get the maps
-    BOOST_FOREACH(ptree::value_type &v, pt.get_child("World.maps"))
+    BOOST_FOREACH(const LbaNet::MapsSeq::value_type &mapi, res.Maps)
 	{
-		if(v.first != "<xmlcomment>")
+		ptree &tmp = pt.add("World.maps.Map","");
+		tmp.put("<xmlattr>.name", mapi.second.Name);
+		tmp.put("<xmlattr>.type", mapi.second.Type);
+		tmp.put("description", mapi.second.Description);
+		tmp.put("<xmlattr>.AutoCameraType", mapi.second.AutoCameraType);
+
+		BOOST_FOREACH(const LbaNet::SpawningsSeq::value_type &spwi, mapi.second.Spawnings)
 		{
-			MapInfo mapi;
-			mapi.Name = v.second.get<std::string>("<xmlattr>.name");
-			mapi.Type = v.second.get<std::string>("<xmlattr>.type");
-			mapi.Description = v.second.get<std::string>("description", "");
-			mapi.AutoCameraType = v.second.get<int>("<xmlattr>.AutoCameraType", 1);
-
-			BOOST_FOREACH(ptree::value_type &v2, v.second.get_child("spareas"))
-			{
-				SpawningInfo spwi;
-				spwi.Id = v2.second.get<long>("<xmlattr>.Id");
-				spwi.Name = v2.second.get<std::string>("<xmlattr>.name");
-				spwi.PosX = v2.second.get<float>("<xmlattr>.posX");
-				spwi.PosY = v2.second.get<float>("<xmlattr>.posY");
-				spwi.PosZ = v2.second.get<float>("<xmlattr>.posZ");
-				spwi.ForceRotation = v2.second.get<bool>("<xmlattr>.ForceRotation", false);
-				spwi.Rotation = v2.second.get<float>("<xmlattr>.RotationAtArrival", 0);
-
-				mapi.Spawnings[spwi.Id] = spwi;
-			}
-
-			res.Maps[mapi.Name] = mapi;
+			ptree &tmp2 = tmp.add("spareas.spawning","");
+			tmp2.put("<xmlattr>.Id", spwi.second.Id);
+			tmp2.put("<xmlattr>.name", spwi.second.Name);
+			tmp2.put("<xmlattr>.posX", spwi.second.PosX);
+			tmp2.put("<xmlattr>.posY", spwi.second.PosY);
+			tmp2.put("<xmlattr>.posZ", spwi.second.PosZ);
+			tmp2.put("<xmlattr>.ForceRotation", spwi.second.ForceRotation);
+			tmp2.put("<xmlattr>.RotationAtArrival", spwi.second.Rotation);
 		}
 	}
 
-
+	// Write the property tree into the XML file 
+	try
+	{
+		const boost::property_tree::xml_parser::xml_writer_settings<char> settings('	', 1);
+		write_xml(Filename, pt, std::locale(), settings);
+	}
+	catch(...)
+	{
+		return false;
+	}
 	return true;
 }
+
 
 
 

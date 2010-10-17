@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define _LBANET_PHYSICAL_OBJECT_HANDLER_BASE_H_
 
 #include "CommonTypes.h"
+#include <LbaTypes.h>
 
 class ActorUserData;
 
@@ -94,6 +95,9 @@ public:
 	//! show or hide the object
 	virtual void ShowOrHide(bool Show) = 0;
 
+
+	//! update physic with new data
+	virtual void Update(LbaNet::PhysicObjectUpdateBasePtr update);
 
 protected:
 	bool _resetted;

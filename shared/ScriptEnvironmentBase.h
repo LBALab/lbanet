@@ -23,29 +23,55 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#ifndef __LBA_NET_XML_READER_H__
-#define __LBA_NET_XML_READER_H__
+#ifndef _LBANET_SCRIPT_ENV_BASE_H_
+#define _LBANET_SCRIPT_ENV_BASE_H_
 
 
-#include <LbaTypes.h>
-
-using namespace LbaNet;
+class ActorHandler;
+class TriggerBase;
+class ActionBase;
+#include <boost/shared_ptr.hpp>
 
 //*************************************************************************************************
-//*                                      class XmlReader
+//*                               class ScriptEnvironmentBase
 //*************************************************************************************************
-
-class XmlReader
+/**
+* @brief Base class for lua script environment
+*
+*/
+class ScriptEnvironmentBase
 {
 public:
-	// load a world information into memory
-	static  bool LoadWorldInfo(const std::string &Filename, WorldInformation &res);
 
-	// load a world description into memory
-	static  bool LoadWorldDesc(const std::string &Filename, WorldDesc &res);
+	//! constructor
+	ScriptEnvironmentBase(){}
 
-	// save a world information into file
-	static  bool SaveWorldInfo(const std::string &Filename, const WorldInformation &res);
+
+	//! destructor
+	virtual ~ScriptEnvironmentBase(){}
+
+
+	// function used by LUA to add actor
+	virtual void AddActorObject(boost::shared_ptr<ActorHandler> actor) = 0;
+
+	// add a trigger 
+	virtual void AddTrigger(boost::shared_ptr<TriggerBase> trigger) = 0;
+
+	// add an action
+	virtual void AddAction(boost::shared_ptr<ActionBase> action) = 0;
+
+	// teleport an object
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Teleport(int ObjectType, long ObjectId,
+							const std::string &NewMapName, 
+							long SpawningId,
+							float offsetX, float offsetY, float offsetZ) = 0;
+
+	// get the action correspondant to the id
+	virtual boost::shared_ptr<ActionBase> GetAction(long actionid) = 0;
 };
 
 
