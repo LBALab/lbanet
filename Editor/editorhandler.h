@@ -25,17 +25,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef EDITORHANDLER_H
 #define EDITORHANDLER_H
 
- #include <QAbstractTableModel>
+#include <QAbstractTableModel>
 #include <QObject>
+#include <QStyledItemDelegate>
+
 #include "ui_editor.h"
 #include "ui_addtriggerdialog.h"
 #include "ui_openworlddialog.h"
 #include "ui_addspawning.h"
+#include "ui_addaction.h"
+
 #include "GraphicsWindowQt"
+#include "ScriptEnvironmentBase.h"
 
 #include <LbaTypes.h>
+#include <boost/shared_ptr.hpp>
 
 class QTableWidgetItem;
+class ServerLuaHandler;
+class ActorHandler;
+
 
 //! used as model for table
 class StringTableModel : public QAbstractTableModel
@@ -121,6 +130,13 @@ public:
 	//! get a string
 	QVariant GetData(const QModelIndex &index);
 
+	//! get a string
+	QVariant GetData(int col, int row);
+
+	//! set a string
+	void SetData(int col, int row, QVariant v);
+
+
 private:
 	std::vector<QVariantList>			_objMatrix;
 	QStringList							_header;
@@ -130,11 +146,40 @@ private:
 
 
 
+ class CustomDelegate : public QStyledItemDelegate
+ {
+     Q_OBJECT
+
+ public:
+     CustomDelegate(QObject *parent = 0);
+
+     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
+                           const QModelIndex &index) const;
+
+     void setEditorData(QWidget *editor, const QModelIndex &index) const;
+     void setModelData(QWidget *editor, QAbstractItemModel *model,
+                       const QModelIndex &index) const;
+
+     void updateEditorGeometry(QWidget *editor,
+         const QStyleOptionViewItem &option, const QModelIndex &index) const;
+
+	 void Clear();
+
+	 void SetCustomIndex(int index, boost::shared_ptr<QStringList> list);
+
+ private:
+	 std::map<int, boost::shared_ptr<QStringList> >	_customs;
+ };
+
+
+
+
+
 
 
 
 //! take care of editor
-class EditorHandler : public QMainWindow
+class EditorHandler : public QMainWindow, public ScriptEnvironmentBase
 {
 	Q_OBJECT
 
@@ -157,15 +202,43 @@ public:
 	//! player moved
 	void PlayerMoved(float posx, float posy, float posz);
 
+
+	// function used by LUA to add actor
+	virtual void AddActorObject(boost::shared_ptr<ActorHandler> actor);
+					
+	// add a trigger of moving type to the map
+	virtual void AddTrigger(boost::shared_ptr<TriggerBase> trigger);
+					
+	// add an action
+	virtual void AddAction(boost::shared_ptr<ActionBase> action);
+
+	// teleport an object
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Teleport(int ObjectType, long ObjectId,
+						const std::string &NewMapName, 
+						long SpawningId,
+						float offsetX, float offsetY, float offsetZ);
+
+	// get the action correspondant to the id
+	virtual boost::shared_ptr<ActionBase> GetAction(long actionid);
+
 public slots:
 	 //! ui button clicked
      void addtrigger_button_clicked();
 
+	 //! ui button clicked
+     void removetrigger_button_clicked();
+
+	 //! ui button clicked
+     void selecttrigger_button_clicked();
+
+
 	 //! dialog accepted
      void addtrigger_accepted();
 
-	 //! dialog cancelled
-     void addtrigger_cancelled();
 
 	 //! quit editor
      void quit();
@@ -203,6 +276,9 @@ public slots:
 	//! on selectspawning clicked
 	void selectspawning_button_clicked();
 
+	 //! on selectspawning clicked
+     void selectspawning_double_clicked(const QModelIndex & itm);
+
 	//! on AddSpawning clicked
 	void AddSpawning_clicked();
 
@@ -211,6 +287,32 @@ public slots:
 
 	//! camera type toggled in info
 	void info_camera_toggled(bool checked);
+
+	//! data changed in object view
+	void objectdatachanged(const QModelIndex &index1, const QModelIndex &index2);
+
+	//! addAction_button_clicked
+	void addAction_button_clicked();
+	void addAction1_button_clicked();
+	void addAction2_button_clicked();
+	void addAction3_button_clicked();
+
+	//! removeAction_button_clicked
+	void removeAction_button_clicked();
+
+	//! selectAction_button_clicked
+	void selectAction_button_clicked();
+
+	//! add action accepted
+	void AddActionAccepted();
+
+	 //! on selectaction_double_clicked
+     void selectaction_double_clicked(const QModelIndex & itm);
+
+	 //! on selecttrigger_double_clicked
+     void selecttrigger_double_clicked(const QModelIndex & itm);
+
+
 
 protected:
 	//! override close event
@@ -227,6 +329,12 @@ protected:
 
 	//! set the work as saved
 	void SetSaved();
+
+	//! set the work as modified
+	void SetMapModified();
+
+	//! Check if we need to save before quit map
+	bool SaveMapBeforeQuit(bool alreadychangedmap = false);
 
 	//! refresh gui with world info
 	void SetWorldInfo(const std::string & worldname);
@@ -246,7 +354,8 @@ protected:
 	long AddOrModSpawning(const std::string &mapname,
 							const std::string &spawningname,
 							float PosX, float PosY, float PosZ,
-							float Rotation, bool forcedrotation);
+							float Rotation, bool forcedrotation,
+							long modifyid = -1);
 
 	//! remove a spawning from the map
 	void RemoveSpawning(const std::string &mapname, long spawningid);
@@ -258,31 +367,129 @@ protected:
 							float Rotation, bool forcedrotation);
 
 
+	//! clear the object displayed if it is the selected one
+	void ClearObjectIfSelected(const std::string objecttype, long id);
+
+
+	//! called when spawning object changed
+	void SpawningObjectChanged(long id);
+
+
+	//! check if a world is opened
+	bool IsWorldOpened();
+
+	//! check if a map is opened
+	bool IsMapOpened();
+
+
+	//! add an new action to the list
+	void AddNewAction(boost::shared_ptr<ActionBase> action);
+
+	//! remove an action from the list
+	void RemoveAction(long id);
+
+	//! add an action name to the name list
+	void AddActionName(const std::string & name);
+
+	//! remove an action name to the name list
+	void RemoveActionName(const std::string & name);
+
+	//! replace an action name to the name list
+	void ReplaceActionName(const std::string & oldname, const std::string & newname);
+
+	//! select an action and display it in object view
+	void SelectAction(long id);
+
+	//! add an spawning name to the name list
+	void AddSpawningName(const std::string & mapname, const std::string & name);
+
+	//! remove an spawning name to the name list
+	void RemoveSpawningName(const std::string & mapname, const std::string & name);
+
+	//! replace an spawning name to the name list
+	void ReplaceSpawningName(const std::string & mapname, const std::string & oldname, 
+																const std::string & newname);
+
+	//! called when action object changed
+	void ActionObjectChanged(long id, const std::string & category);
+
+	//! save global lus file for current world
+	void SaveGlobalLua(const std::string & filename);
+
+
+	//! add an new trigger to the list
+	void AddNewTrigger(boost::shared_ptr<TriggerBase> trigger);
+
+	//! get action id from name
+	long GetActionId(const std::string & name);
+
+	//! remove trigger
+	void RemoveTrigger(long id);
+
+	//! select trigger
+	void SelectTrigger(long id);
+
+	//! get action name from id
+	std::string GetActionName(long id);
+
+	//! called when trigger object changed
+	void TriggerObjectChanged(long id, const std::string & category);
+
+	//! change current map to new map
+	void ChangeMap(const std::string & mapname, long spawningid);
+
+	//! save current map to file
+	void SaveMap(const std::string & filename);
+
 private:
-	Ui::EditorClass				_uieditor;
+	Ui::EditorClass										_uieditor;
 
-	Ui::AddTriggerDialog		_uiaddtriggerdialog;
-	QDialog *					_addtriggerdialog;
+	Ui::AddTriggerDialog								_uiaddtriggerdialog;
+	QDialog *											_addtriggerdialog;
 
-	Ui::DialogOpenWorld			_uiopenworlddialog;
-	QDialog *					_openworlddialog;
+	Ui::DialogOpenWorld									_uiopenworlddialog;
+	QDialog *											_openworlddialog;
 
-	Ui::DialogNewSpawning		_uiaddspawningdialog;
-	QDialog *					_addspawningdialog;
+	Ui::DialogNewSpawning								_uiaddspawningdialog;
+	QDialog *											_addspawningdialog;
 
-	StringTableModel *			_maplistmodel;
-	StringTableModel *			_tplistmodel;
-	StringTableModel *			_mapspawninglistmodel;
+	Ui::DialogAddaction									_ui_addactiondialog;
+	QDialog *											_addactiondialog;
 
-	MixedTableModel *			_objectmodel;
+	StringTableModel *									_maplistmodel;
+	StringTableModel *									_tplistmodel;
+	StringTableModel *									_mapspawninglistmodel;
+	StringTableModel *									_actionlistmodel;
+	StringTableModel *									_triggerlistmodel;
+
+	MixedTableModel *									_objectmodel;
+	CustomDelegate *									_objectcustomdelegate;
+
+	boost::shared_ptr<QStringList>						_actionNameList;
+	boost::shared_ptr<QStringList>						_mapNameList;
+	boost::shared_ptr<QStringList>						_triggerNameList;
+	std::map<std::string, boost::shared_ptr<QStringList> >	_mapSpawningList;
+
+	GraphicsWindowQt *									_osgwindow;
 
 
-	GraphicsWindowQt *			_osgwindow;
+	bool												_modified;
+	bool												_mapmodified;
+	LbaNet::WorldInformation							_winfo;
 
 
-	bool						_modified;
-	LbaNet::WorldInformation	_winfo;
-	long						_currspawningidx;
+	boost::shared_ptr<ServerLuaHandler>					_luaH;
+
+	std::map<long, boost::shared_ptr<TriggerBase> >		_triggers;
+	std::map<long, boost::shared_ptr<ActionBase> >		_actions;
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >	_Actors;
+
+	long												_currspawningidx;
+	long												_curractionidx;
+	long												_currtriggeridx;
+
+	int													_updatetriggerdialogonnewaction;
+
 };
 
 #endif // EDITORHANDLER_H
