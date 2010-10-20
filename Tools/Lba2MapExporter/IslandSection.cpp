@@ -120,13 +120,14 @@ osg::ref_ptr<osg::Geode>	IslandSection::loadGround(PhysicalInfo & physinfo)
 						int yi = y + idxOrder[i] % 2;
 
 						/* Vertex position */
-						physinfo.vertexes.push_back(	((((float)(xi) - 32)) + (mXpos * 64.0f)));
+						physinfo.vertexes.push_back(/*1024+*/-(((((float)(64 - yi) - 32)) - (mYpos * 64.0f))));
 						physinfo.vertexes.push_back(	(((float)(heightmap[xi][yi])) / 256));
-						physinfo.vertexes.push_back(1024+((((float)(64 - yi) - 32)) - (mYpos * 64.0f)));
+						physinfo.vertexes.push_back(	((((float)(xi) - 32)) + (mXpos * 64.0f)));
 
-						myVerticesPoly->push_back(osg::Vec3(	((((float)(xi) - 32)) + (mXpos * 64.0f)),
+
+						myVerticesPoly->push_back(osg::Vec3(	(/*1024+*/-((((float)(64 - yi) - 32)) - (mYpos * 64.0f))),
 																((((float)(heightmap[xi][yi])) / 256)),
-																(1024+(((float)(64 - yi) - 32)) - (mYpos * 64.0f))
+																((((float)(xi) - 32)) + (mXpos * 64.0f))
 															));
 
 
@@ -226,25 +227,27 @@ osg::ref_ptr<osg::Group> IslandSection::loadObjects(std::map<int, bool > &mObjLi
 		mILE->Read(mObjectInfo, mILE->getSize());
 		for (unsigned int i = 0; i < mNumObjects; ++i, ++objcounter)
 		{			
-			//osg::ref_ptr<osg::PositionAttitudeTransform> PAT = new osg::PositionAttitudeTransform();
-			//PAT->setPosition (osg::Vec3(	(mObjectInfo[i].oz / 512.0f - 32)  + (mXpos * 64.0f), 
-			//								(mObjectInfo[i].oy / 256.0f), 
-			//								1024+((-mObjectInfo[i].ox / 512.0f + 32)  - (mYpos * 64.0f))
-			//							));
-			//PAT->setAttitude(osg::Quat(((mObjectInfo[i].angle + 4) * PI) / 8, osg::Vec3(0, 1, 0)));
 			bool physicfile = loadSingleObject(&mObjectInfo[i], mObjLibrary);
 
-			//PAT->addChild(tmpobject);
-			//root->addChild(PAT);
-
-
-			float posX = (mObjectInfo[i].oz / 512.0f - 32)  + (mXpos * 64.0f);
+			float posX = /*1024+*/((/*-*/mObjectInfo[i].ox / 512.0f - 32)  /*-*/+ (mYpos * 64.0f));
 			float posY = (mObjectInfo[i].oy / 256.0f);
-			float posZ = 1024+((-mObjectInfo[i].ox / 512.0f + 32)  - (mYpos * 64.0f));
-			float rotation = (((((mObjectInfo[i].angle + 4) * PI) / 8) / PI) * 180);
+			float posZ = (mObjectInfo[i].oz / 512.0f - 32)  + (mXpos * 64.0f);
+			float rotation = (((((mObjectInfo[i].angle - 4) * PI) / 8) / PI) * 180);
 
 			std::stringstream objname;
 			objname<< mIslandName << "_OBJ_" << mObjectInfo[i].index + 1;
+
+
+			osg::ref_ptr<osg::Node> tmpobject = osgDB::readNodeFile(objname.str()+".osgb");
+			osg::ref_ptr<osg::PositionAttitudeTransform> PAT = new osg::PositionAttitudeTransform();
+			PAT->setPosition (osg::Vec3(posX, posY, posZ));
+			PAT->setAttitude(osg::Quat(((mObjectInfo[i].angle - 4) * PI) / 8, osg::Vec3(0, 1, 0)));
+			PAT->addChild(tmpobject);
+			root->addChild(PAT);
+
+
+
+
 			luafile<<std::endl<<std::endl;
 			luafile<<"	OBJ_"<<objcounter<<" = ActorObjectInfo("<<objcounter<<")"<<std::endl;
 			luafile<<"	OBJ_"<<objcounter<<":SetRenderType(1)"<<std::endl;
@@ -335,13 +338,13 @@ void	IslandSection::addPolygonSection(unsigned char *buffer, OBLPolygonHeader *h
 				if (oBLvertices[polygon->idx[j]].z > mMBox.Mz)
 					mMBox.Mz = oBLvertices[polygon->idx[j]].z;
 				/* Position */
-				physinfo.vertexes.push_back(oBLvertices[polygon->idx[j]].x  / 512.0f);
-				physinfo.vertexes.push_back(oBLvertices[polygon->idx[j]].y  / 256.0f);
 				physinfo.vertexes.push_back(oBLvertices[polygon->idx[j]].z  / 512.0f);
+				physinfo.vertexes.push_back(oBLvertices[polygon->idx[j]].y  / 256.0f);
+				physinfo.vertexes.push_back(oBLvertices[polygon->idx[j]].x  / -512.0f);
 
-				cut->myVerticesPoly->push_back(osg::Vec3(	(oBLvertices[polygon->idx[j]].x  / 512.0f),
+				cut->myVerticesPoly->push_back(osg::Vec3(	(oBLvertices[polygon->idx[j]].z  / 512.0f),
 															(oBLvertices[polygon->idx[j]].y  / 512.0f),
-															((oBLvertices[polygon->idx[j]].z  / 512.0f))
+															(oBLvertices[polygon->idx[j]].x  / -512.0f)
 														));
 
 
@@ -435,9 +438,9 @@ bool	IslandSection::loadSingleObject(IslandObjectInfo *objInfo,
 			// push vertices for points and spheres
 			for(int i=0; i<oBLheader->numVerticesType1; ++i)
 			{
-				myVertices->push_back(osg::Vec3(	(oBLvertices[i].x  / 512.0f),
+				myVertices->push_back(osg::Vec3(	(oBLvertices[i].z  / 512.0f),
 													(oBLvertices[i].y  / 512.0f),
-													((oBLvertices[i].z  / 512.0f))
+													((oBLvertices[i].x  / -512.0f))
 														));
 			}
 		}
@@ -623,7 +626,7 @@ bool	IslandSection::loadSingleObject(IslandObjectInfo *objInfo,
 		osgUtil::Optimizer optOSGFile;
 		optOSGFile.optimize (root.get());
 
-		osgDB::writeNodeFile(*root.get(), iss.str() + ".osgb", new osgDB::Options("Compressor=zlib"));
+		osgDB::writeNodeFile(*root.get(), iss.str() + ".osgb", new osgDB::Options("WriteImageHint=UseExternal Compressor=zlib"));
 
 
 		if(physinfo.vertexes.size() > 0 && physinfo.indices.size() > 0)
@@ -670,8 +673,8 @@ void	IslandSection::loadCutGroups(unsigned char *objBuffer, std::map<unsigned in
 		
 		unsigned char x = cutChar[0];
 		unsigned char y = cutChar[1];
-		unsigned char width = cutChar[2];
-		unsigned char height = cutChar[3];
+		int width = ((int)cutChar[2])+1;
+		int height = ((int)cutChar[3])+1;
 		
 		iss << mIslandName << "_OBJ_CUT_" << (int)x << "_" << (int)y << "_" << (int)width << "_" << (int)height <<".png";
 

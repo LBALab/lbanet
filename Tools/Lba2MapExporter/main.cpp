@@ -26,10 +26,11 @@
 #include <IL/ilu.h>
 
 int main( int argc, char **argv )
-
 {
 	ilInit();
 	iluInit();
+
+	osgDB::setDataFilePathList(".");
 
 	std::vector<std::string> listile;
 	listile.push_back("ASCENCE");

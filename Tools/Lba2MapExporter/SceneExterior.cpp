@@ -156,7 +156,8 @@ void	SceneExterior::loadSections()
 
 			osg::ref_ptr<osg::Geode> geode = mSections.back()->load(*physinfo);
 			rootmap->addChild(geode);
-			/*rootobject->addChild(*/mSections.back()->loadObjects(mObjLibrary, counter)/*)*/;
+			//rootobject->addChild(mSections.back()->loadObjects(mObjLibrary, counter));
+			mSections.back()->loadObjects(mObjLibrary, counter);
 		}
 
 	{
@@ -246,5 +247,5 @@ void	SceneExterior::loadSections()
 
 	osgUtil::Optimizer optOSGFile;
 	optOSGFile.optimize (root.get());
-	osgDB::writeNodeFile(*root.get(), mName + ".osgb", new osgDB::Options("Compressor=zlib"));
+	osgDB::writeNodeFile(*root.get(), mName + ".osgb", new osgDB::Options("WriteImageHint=UseExternal Compressor=zlib"));
 }
