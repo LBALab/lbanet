@@ -59,10 +59,11 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
 		BOOST_FOREACH(ptree::value_type &v, pt.get_child("World.teleports"))
 		{
 			TeleportInfo tpi;
+			tpi.Id = v.second.get<long>("<xmlattr>.id");
 			tpi.Name = v.second.get<std::string>("<xmlattr>.name");
 			tpi.MapName = v.second.get<std::string>("<xmlattr>.map");
 			tpi.SpawningId = v.second.get<long>("<xmlattr>.spawningid");
-			res.TeleportInfo[tpi.Name] = tpi;
+			res.TeleportInfo[tpi.Id] = tpi;
 		}
 	}
 	catch(...){} // no tps
@@ -81,11 +82,12 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
 
 
 	// get the starting info
-	res.StartingInfo.InventorySize = pt.get<int>("World.PlayerStartingInfo.InventorySize");
-	res.StartingInfo.StartingLife = pt.get<float>("World.PlayerStartingInfo.StartingLife");
-	res.StartingInfo.StartingMana = pt.get<float>("World.PlayerStartingInfo.StartingMana");	
-	res.StartingInfo.StartingMap = pt.get<std::string>("World.PlayerStartingInfo.StartingMap");
-	res.StartingInfo.SpawningId = pt.get<long>("World.PlayerStartingInfo.SpawningId");
+	res.StartingInfo.InventorySize = pt.get<int>("World.PlayerStartingInfo.InventorySize", 1);
+	res.StartingInfo.StartingLife = pt.get<float>("World.PlayerStartingInfo.StartingLife", 1);
+	res.StartingInfo.StartingMana = pt.get<float>("World.PlayerStartingInfo.StartingMana", 1);	
+	res.StartingInfo.StartingArmor = pt.get<float>("World.PlayerStartingInfo.StartingArmor", 0.0f);
+	res.StartingInfo.StartingMap = pt.get<std::string>("World.PlayerStartingInfo.StartingMap", "");
+	res.StartingInfo.SpawningId = pt.get<long>("World.PlayerStartingInfo.SpawningId", -1);
 	res.StartingInfo.StartingModel.ModelName = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.ModelName");
 	res.StartingInfo.StartingModel.Outfit = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.Outfit");
 	res.StartingInfo.StartingModel.Weapon = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.Weapon");
@@ -140,6 +142,7 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
 				mapi.Type = v.second.get<std::string>("<xmlattr>.type");
 				mapi.Description = v.second.get<std::string>("description", "");
 				mapi.AutoCameraType = v.second.get<int>("<xmlattr>.AutoCameraType", 1);
+				mapi.IsInstance = v.second.get<bool>("<xmlattr>.IsInstance", false);
 
 				try
 				{
@@ -190,6 +193,7 @@ bool XmlReader::SaveWorldInfo(const std::string &Filename, const WorldInformatio
     BOOST_FOREACH(const LbaNet::ServerTeleportsSeq::value_type &tp, res.TeleportInfo)
 	{
 		ptree &tmp = pt.add("World.teleports.teleport","");
+		tmp.put("<xmlattr>.id", tp.second.Id);
 		tmp.put("<xmlattr>.name", tp.second.Name);
 		tmp.put("<xmlattr>.map", tp.second.MapName);
 		tmp.put("<xmlattr>.spawningid", tp.second.SpawningId);
@@ -208,6 +212,7 @@ bool XmlReader::SaveWorldInfo(const std::string &Filename, const WorldInformatio
 	pt.put("World.PlayerStartingInfo.InventorySize", res.StartingInfo.InventorySize);
 	pt.put("World.PlayerStartingInfo.StartingLife", res.StartingInfo.StartingLife);
 	pt.put("World.PlayerStartingInfo.StartingMana", res.StartingInfo.StartingMana);	
+	pt.put("World.PlayerStartingInfo.StartingArmor", res.StartingInfo.StartingArmor);
 	pt.put("World.PlayerStartingInfo.StartingMap", res.StartingInfo.StartingMap);
 	pt.put("World.PlayerStartingInfo.SpawningId", res.StartingInfo.SpawningId);
 	pt.put("World.PlayerStartingInfo.StartingModel.ModelName", res.StartingInfo.StartingModel.ModelName);
@@ -253,6 +258,7 @@ bool XmlReader::SaveWorldInfo(const std::string &Filename, const WorldInformatio
 		tmp.put("<xmlattr>.type", mapi.second.Type);
 		tmp.put("description", mapi.second.Description);
 		tmp.put("<xmlattr>.AutoCameraType", mapi.second.AutoCameraType);
+		tmp.put("<xmlattr>.IsInstance", mapi.second.IsInstance);
 
 		BOOST_FOREACH(const LbaNet::SpawningsSeq::value_type &spwi, mapi.second.Spawnings)
 		{

@@ -334,7 +334,8 @@ public:
 	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id) const;
 
 
-	//nothing more to do here, the only thing we need is a position
+private:
+	LbaQuaternion _rot;
 };
 
 
@@ -444,9 +445,6 @@ public:
 									LbaNet::PhysicalActorType Otype, float Odensity,
 									const LbaQuaternion &rot,
 									float sY,
-									float StaticFriction, 
-									float DynamicFriction, 
-									float Restitution,
 									bool Collidable);
 
 	//! destructor
@@ -459,11 +457,6 @@ public:
 public:
 	// radius of the sphere from capsule sphere
 	float radius;
-
-	// used primarly for projectiles
-	float staticFriction; 
-	float dynamicFriction; 
-	float restitution;
 
 	// keep sizeY
 	float sizeY;
