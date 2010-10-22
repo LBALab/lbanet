@@ -50,7 +50,7 @@ module LbaNet
 	// client ask server to be teleported
 	class TeleportEvent extends ClientServerEventBase
 	{
-		string			TeleportId;
+		long			TeleportId;
 	};
 	
 	// client/server tell the other to change stance

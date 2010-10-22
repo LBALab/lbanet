@@ -37,13 +37,14 @@ module LbaNet
 	// teleport information
 	struct TeleportInfo
 	{
+		long			Id;
 		string 			Name;
 		string 			MapName;
 		long 			SpawningId;
 	};
 
-	dictionary<string, TeleportInfo> ServerTeleportsSeq;
-	sequence<string> 		TeleportsSeq;
+	dictionary<long, TeleportInfo> 	ServerTeleportsSeq;
+	dictionary<long, string> 	TeleportsSeq;
 	dictionary<string, string> 	FilesSeq;
 
 
@@ -73,6 +74,8 @@ module LbaNet
 		// 2 - perspective
 		// 3 - free 3d
 		int			AutoCameraType;
+		
+		bool			IsInstance;
 		
 		SpawningsSeq 		Spawnings;
 
@@ -106,7 +109,20 @@ module LbaNet
 		float			ColorR;
 		float			ColorG;
 		float			ColorB;
-		float			ColorA;			
+		float			ColorA;	
+		
+		
+		float			TransX;
+		float			TransY;		
+		float			TransZ;	
+		
+		float			ScaleX;
+		float			ScaleY;		
+		float			ScaleZ;			
+		
+		float			RotX;
+		float			RotY;		
+		float			RotZ;			
 	};
 
 	struct PlayerStartingInfo
@@ -114,6 +130,7 @@ module LbaNet
 		int			InventorySize;
 		float			StartingLife;
 		float			StartingMana;
+		float			StartingArmor;
 		string			StartingMap;
 		long			SpawningId;
 		ModelInfo		StartingModel;
@@ -229,6 +246,7 @@ module LbaNet
 		float			MaxLife;
 		float			CurrentMana;
 		float			MaxMana;
+		float			CurrentArmor;
 	};	
 	
 	
