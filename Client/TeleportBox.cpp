@@ -40,10 +40,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class MyTeleListItem : public CEGUI::ListboxTextItem
 {
 public:
-    MyTeleListItem (const CEGUI::String& text) : CEGUI::ListboxTextItem(text)
+    MyTeleListItem (long id, const CEGUI::String& text) 
+		: CEGUI::ListboxTextItem(text), _id(id)
     {
         setSelectionBrushImage("TaharezLook", "MultiListSelectionBrush");
     }
+
+	long _id;
 };
 
 
@@ -160,7 +163,7 @@ bool TeleportBox::HandleGoButton (const CEGUI::EventArgs& e)
 	if(it != NULL)
 	{
 		EventsQueue::getSenderQueue()->AddEvent(new LbaNet::TeleportEvent(
-			SynchronizedTimeHandler::GetCurrentTimeDouble(), it->getText().c_str()));
+			SynchronizedTimeHandler::GetCurrentTimeDouble(), it->_id));
 
 		HandleClose(e);
 	}
@@ -193,7 +196,7 @@ void TeleportBox::Refresh(const LbaNet::GuiParamsSeq &Parameters)
 			LbaNet::TeleportsSeq::const_iterator it = _tplist.begin();
 			LbaNet::TeleportsSeq::const_iterator end = _tplist.end();
 			for(; it != end; ++it)
-				lb->addItem(new MyTeleListItem(*it));
+				lb->addItem(new MyTeleListItem(it->first, it->second));
 		}
 	}
 }

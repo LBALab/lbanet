@@ -229,6 +229,9 @@ public:
 	void* GetWindowsHandle();
 
 
+	//! optimize the scene
+	void OptimizeScene();
+
 protected:
 	//! constructor
 	OsgHandler();

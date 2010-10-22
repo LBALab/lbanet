@@ -50,6 +50,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <osgShadow/MinimalShadowMap>
 #include <osgShadow/ShadowMap>
 #include <osgParticle/PrecipitationEffect>
+#include <osgDB/Registry>
+#include <osgUtil/Optimizer>
 
 // win32 only
 #include <osgViewer/api/Win32/GraphicsWindowWin32>
@@ -66,6 +68,58 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 OsgHandler* OsgHandler::_singletonInstance = NULL;
+
+/***********************************************************
+use to restrict optimizer 
+***********************************************************/
+struct OptimizationAllowedCallback : public osgUtil::Optimizer::IsOperationPermissibleForObjectCallback
+{
+	virtual bool isOperationPermissibleForObjectImplementation (const osgUtil::Optimizer *optimizer, 
+												const osg::Node *node, unsigned int option) const 
+	{
+		if(node->getName() == "NoOptimization")
+			return false;
+
+		return osgUtil::Optimizer::IsOperationPermissibleForObjectCallback::
+			isOperationPermissibleForObjectImplementation(optimizer, node, option);
+	}
+
+};
+
+
+/***********************************************************
+use to make sure that we share texture file and dont it multiple times
+***********************************************************/
+class FileReadOnceCallback : public osgDB::Registry::ReadFileCallback
+{
+private:
+	typedef std::map<std::string,osg::ref_ptr<osg::Object> > PathPointerMap;
+	PathPointerMap pathpointermap;
+
+public:
+
+	virtual osgDB::ReaderWriter::ReadResult readImage(const std::string& filename, 
+											const osgDB::ReaderWriter::Options* options)
+	{
+		PathPointerMap::iterator itr=pathpointermap.find(filename);
+		if (itr==pathpointermap.end())
+		{
+			osgDB::ReaderWriter::ReadResult result;
+			result=osgDB::Registry::instance()->readImageImplementation(filename,options);
+			osg::ref_ptr<osg::Image> refobj=result.getImage();
+			if (result.validImage()) pathpointermap[filename]=refobj;
+			return result;
+		}
+		else
+		{
+			osgDB::ReaderWriter::ReadResult result(itr->second.get(),osgDB::ReaderWriter::ReadResult::FILE_LOADED);
+			return itr->second.get();
+		}
+	}
+};
+
+
+
 
 
 
@@ -122,6 +176,9 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 #endif
 {
 	osgDB::setDataFilePathList(DataPath);
+
+    // set the osgDB::Registy read file callback to catch all requests for reading files.
+    osgDB::Registry::instance()->setReadFileCallback(new FileReadOnceCallback());
 
 
 	LogHandler::getInstance()->LogToFile("Initializing graphics window...");
@@ -212,8 +269,10 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 	_rootNode3d->setScale(osg::Vec3d(1, 0.5, 1));
 	_rootNode3d->setAttitude(osg::Quat(osg::DegreesToRadians(-45.0), osg::Vec3(0,1,0)));
 	_translNode = new osg::PositionAttitudeTransform();
-	_rootNode3d->addChild(_translNode);
+	_translNode->setName("TranslationNode");
 
+	_rootNode3d->addChild(_translNode);
+	_rootNode3d->setName("Root3D");
 
 
 	_root=new osg::Group;
@@ -265,7 +324,7 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 	_clipNode = new osg::ClipNode();
 	_clipNode->setStateSetModes(*_translNode->getOrCreateStateSet(),osg::StateAttribute::ON|osg::StateAttribute::PROTECTED|osg::StateAttribute::OVERRIDE);
 	_translNode->addChild(_clipNode);
-
+	_clipNode->setName("Clipnode");
 
 	_eventH = new OsgEventHandler();
 	//TODO remove static and make it configurable
@@ -297,6 +356,7 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 
 	osgViewer::ScreenCaptureHandler *screenshoth = new osgViewer::ScreenCaptureHandler;
 	screenshoth->setKeyEventTakeScreenShot(osgGA::GUIEventAdapter::KEY_F10);
+	screenshoth->setKeyEventToggleContinuousCapture(-1);
 	_viewer->addEventHandler(screenshoth);
 
 
@@ -789,7 +849,7 @@ void OsgHandler::ResetDisplayTree()
 
 	_lightNode = new osg::LightSource();
 	_translNode->addChild(_lightNode);
-
+	_lightNode->setName("LightNode");
 
 	// check if we use shadow or not
 	if(_displayShadow)
@@ -807,10 +867,12 @@ void OsgHandler::ResetDisplayTree()
 	{
 		_sceneRootNode = new osg::Group();	
 	}
+	_sceneRootNode->setName("SceneRootNode");
 
 	_lightNode->addChild(_sceneRootNode);
 
 	_sceneNoLightRootNode = new osg::Group();	
+	_sceneRootNode->setName("SceneRootNodeNoLight");
 	_translNode->addChild(_sceneNoLightRootNode);
 
 
@@ -1234,3 +1296,13 @@ osg::ref_ptr<osg::PositionAttitudeTransform> OsgHandler::CreatePAT(boost::shared
 
 
 
+/***********************************************************
+optimize the scene
+***********************************************************/
+void OsgHandler::OptimizeScene()
+{
+    // run optimization over the scene graph
+    osgUtil::Optimizer optimizer;
+	optimizer.setIsOperationPermissibleForObjectCallback(new OptimizationAllowedCallback());
+    optimizer.optimize(_rootNode3d);
+}

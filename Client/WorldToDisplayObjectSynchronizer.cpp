@@ -63,7 +63,11 @@ synchronization function - will typically be called on every frames
 int WorldToDisplayObjectSynchronizer::Process(double time, float tdiff)
 {
 	StraightSync();
-	return _disH->Process(time, tdiff);
+
+	if(_disH)
+		return _disH->Process(time, tdiff);
+
+	return 0;
 }
 
 
@@ -101,7 +105,7 @@ void WorldToDisplayObjectSynchronizer::StraightSync()
 	}
 
 	// update displayed position if needed
-	if(positionchanged)
+	if(_disH && positionchanged)
 		_disH->SetPosition(_lastDisplayPositionX, _lastDisplayPositionY, _lastDisplayPositionZ);
 
 
@@ -112,6 +116,7 @@ void WorldToDisplayObjectSynchronizer::StraightSync()
 		||	!equal(Quat.W, _lastDisplayRotation.W))
 	{
 		_lastDisplayRotation = Quat;
-		_disH->SetRotation(_lastDisplayRotation);
+		if(_disH)
+			_disH->SetRotation(_lastDisplayRotation);
 	}
 }

@@ -73,7 +73,10 @@ OsgObjectHandler::OsgObjectHandler(osg::ref_ptr<osg::MatrixTransform> OsgObject,
 : _posX(0), _posY(0), _posZ(0), _displayed(true), _extrainfo(extrainfo)
 {
 	if(uselight)
+	{
 		_OsgObject = OsgObject;
+		_OsgObjectNoLight = OsgHandler::getInstance()->AddEmptyActorNode(false);
+	}
 	else
 		_OsgObjectNoLight = OsgObject;
 
@@ -290,4 +293,16 @@ void OsgObjectHandler::RefreshText()
 			root->addChild(_textgroup);
 		}
 	}
+}
+
+/***********************************************************
+sett dont optimize
+***********************************************************/
+void OsgObjectHandler::ForbidOptimize()
+{
+	if(_osgpat)
+		_osgpat->setName("NoOptimization");
+
+	if(_osgpatNoLight)
+		_osgpatNoLight->setName("NoOptimization");
 }

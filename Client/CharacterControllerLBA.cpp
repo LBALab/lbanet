@@ -77,6 +77,14 @@ void CharacterController::SetPhysicalCharacter(boost::shared_ptr<DynamicObject> 
 	// update mode if needed
 	if(!_isGhost)
 		UpdateModeAndState(Info.Mode, Info.State, SynchronizedTimeHandler::GetCurrentTimeDouble(), 0);
+
+	#ifdef _USE_QT_EDITOR_
+	{
+			EventsQueue::getReceiverQueue()->AddEvent(new EditorPlayerMovedEvent(	_lastupdate.CurrentPos.X,
+																					_lastupdate.CurrentPos.Y,
+																					_lastupdate.CurrentPos.Z));
+	}
+	#endif
 }
 
 

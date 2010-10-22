@@ -116,7 +116,7 @@ PhysicalDescriptionBase::~PhysicalDescriptionBase()
 ***********************************************************/
 PhysicalDescriptionNoShape::PhysicalDescriptionNoShape(float posX, float posY, float posZ, 
 													   const LbaQuaternion &rot)
-: PhysicalDescriptionBase(posX, posY, posZ, rot)
+: PhysicalDescriptionBase(posX, posY, posZ, rot), _rot(rot)
 {
 
 }
@@ -136,7 +136,7 @@ PhysicalDescriptionNoShape::~PhysicalDescriptionNoShape()
 boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionNoShape::BuildSelf(long id) const
 {
 	return boost::shared_ptr<PhysicalObjectHandlerBase>( 
-				new SimplePhysicalObjectHandler(positionX, positionY, positionZ, LbaQuaternion()));
+				new SimplePhysicalObjectHandler(positionX, positionY, positionZ, _rot));
 }
 
 

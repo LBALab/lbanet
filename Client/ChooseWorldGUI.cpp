@@ -182,14 +182,78 @@ bool ChooseWorldGUI::HandleWorldSelected (const CEGUI::EventArgs& e)
 					CEGUI::WindowManager::getSingleton().getWindow("ChooseWorldDescription"));
 				if(eb)
 				{
-					eb->setText(_wlist[idx].Description);
+					std::string str = _wlist[idx].Description;
+					int idxs = 0;
+					bool firsttime=true;
+					while((idxs = str.find(" @ ")) != std::string::npos)
+					{
+						std::string tmp = str.substr(0, idxs);
+						if(tmp == "")
+							tmp = "\n";
+
+						if(firsttime)
+						{
+							firsttime = false;
+							eb->setText((const unsigned char *)tmp.c_str());
+						}
+						else
+							eb->appendText((const unsigned char *)tmp.c_str());
+
+						while(((idxs+4) < (int)str.size()) && (str[idxs+3] == '@') && (str[idxs+4] == ' '))
+						{
+							eb->appendText("\n");
+							idxs+= 2;
+						}
+
+						str = str.substr(idxs+3);
+					}
+
+					if(firsttime)
+					{
+						firsttime = false;
+						eb->setText((const unsigned char *)str.c_str());
+					}
+					else
+						eb->appendText((const unsigned char *)str.c_str());
 				}
 
 				 eb = static_cast<CEGUI::MultiLineEditbox *> (
 					CEGUI::WindowManager::getSingleton().getWindow("ChooseWorldNews"));
 				if(eb)
 				{
-					eb->setText(_wlist[idx].News);
+					std::string str = _wlist[idx].News;
+					int idxs = 0;
+					bool firsttime=true;
+					while((idxs = str.find(" @ ")) != std::string::npos)
+					{
+						std::string tmp = str.substr(0, idxs);
+						if(tmp == "")
+							tmp = "\n";
+
+						if(firsttime)
+						{
+							firsttime = false;
+							eb->setText((const unsigned char *)tmp.c_str());
+						}
+						else
+							eb->appendText((const unsigned char *)tmp.c_str());
+
+						while(((idxs+4) < (int)str.size()) && (str[idxs+3] == '@') && (str[idxs+4] == ' '))
+						{
+							eb->appendText("\n");
+							idxs+= 2;
+						}
+
+						str = str.substr(idxs+3);
+					}
+
+					if(firsttime)
+					{
+						firsttime = false;
+						eb->setText((const unsigned char *)str.c_str());
+					}
+					else
+						eb->appendText((const unsigned char *)str.c_str());
 				}
 
 				_selectedworld = _wlist[idx].WorldName;

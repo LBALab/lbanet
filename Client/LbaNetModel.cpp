@@ -157,10 +157,13 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc
 		// 1 -> npc object
 		case LbaNet::NpcObject:
 			{
-			boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
-			_npcObjects[desc.Id] = tmpobj;
-			tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
-			tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
+				boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
+				_npcObjects[desc.Id] = tmpobj;
+				if(tmpobj->GetDisplayObject())
+				{
+					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
+					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
+				}
 			}
 		break;
 
@@ -181,27 +184,34 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc
 				if(m_controllerCam)
 					m_controllerCam->SetCharacter(playerObject);
 
-				m_controllerChar->UpdateDisplay(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
-				m_controllerChar->UpdateDisplay(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
+				if(playerObject->GetDisplayObject())
+				{
+					m_controllerChar->UpdateDisplay(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
+					m_controllerChar->UpdateDisplay(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
+				}
 			}
 			else
 			{
 				boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
 				_playerObjects[desc.Id] = boost::shared_ptr<ExternalPlayer>(new ExternalPlayer(tmpobj, DisplayDesc));
-
-				tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
-				tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
+				if(tmpobj->GetDisplayObject())
+				{
+					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
+					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
+				}
 			}
 		break;
 
 		// 3 -> ghost object
 		case LbaNet::GhostObject:
 			{
-			boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
-			_ghostObjects[desc.Id] = tmpobj;
-
-			tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
-			tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
+				boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
+				_ghostObjects[desc.Id] = tmpobj;
+				if(tmpobj->GetDisplayObject())
+				{
+					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
+					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
+				}
 			}
 		break;
 
@@ -210,10 +220,13 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc
 		#ifdef _USE_QT_EDITOR_
 		case LbaNet::EditorObject:
 			{
-			boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
-			_editorObjects[desc.Id] = tmpobj;
-			tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
-			tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
+				boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
+				_editorObjects[desc.Id] = tmpobj;
+				if(tmpobj->GetDisplayObject())
+				{
+					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
+					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
+				}
 			}
 		break;
 		#endif
@@ -366,7 +379,19 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 					(new OsgSimpleObjectDescription(DisplayDesc.ModelName, 
 								DisplayDesc.UseLight, DisplayDesc.CastShadow, extrainfo));
 
-				boost::shared_ptr<DisplayTransformation> tr;
+				boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
+				tr->translationX = DisplayDesc.TransX;
+				tr->translationY = DisplayDesc.TransY;
+				tr->translationZ = DisplayDesc.TransZ;
+
+				tr->rotation.AddRotation(DisplayDesc.RotX, LbaVec3(1,0,0));
+				tr->rotation.AddRotation(DisplayDesc.RotY, LbaVec3(0,1,0));
+				tr->rotation.AddRotation(DisplayDesc.RotZ, LbaVec3(0,0,1));
+
+				tr->scaleX = DisplayDesc.ScaleX;
+				tr->scaleY = DisplayDesc.ScaleY;
+				tr->scaleZ = DisplayDesc.ScaleZ;
+
 				DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
 			}
 			else
@@ -486,13 +511,12 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 		// 3 = Sphere
 		case LbaNet::SphereShape:
 		{
-				// TODO
-				//PInfo = boost::shared_ptr<PhysicalDescriptionBase>(new 
-				//	PhysicalDescriptionCapsule(PhysicDesc.Pos.X, PhysicDesc.Pos.Y, PhysicDesc.Pos.Z, 
-				//						PhysicDesc.TypePhysO, PhysicDesc.Density,
-				//						LbaQuaternion(PhysicDesc.Pos.Rotation, LbaVec3(0, 1, 0)),
-				//						PhysicDesc.SizeY, 
-				//						PhysicDesc.Collidable));
+				PInfo = boost::shared_ptr<PhysicalDescriptionBase>(new 
+					PhysicalDescriptionSphere(PhysicDesc.Pos.X, PhysicDesc.Pos.Y, PhysicDesc.Pos.Z, 
+										PhysicDesc.TypePhysO, PhysicDesc.Density,
+										LbaQuaternion(PhysicDesc.Pos.Rotation, LbaVec3(0, 1, 0)),
+										PhysicDesc.SizeY, 
+										PhysicDesc.Collidable));
 		}
 		break;
 
@@ -731,6 +755,7 @@ void LbaNetModel::RefreshEnd()
 	EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ReadyToPlayEvent(
 										SynchronizedTimeHandler::GetCurrentTimeDouble()));
 
+	OsgHandler::getInstance()->OptimizeScene();
 	Resume();
 }
 

@@ -128,8 +128,14 @@ public:
 	virtual NxControllerAction  onControllerHit(const NxControllersHit& hit)
 	{
 		NxController* cont = hit.controller;
-		ActorUserData * characterdatamain = (ActorUserData *)cont->getActor()->userData;
-		ActorUserData * characterdata = (ActorUserData *)hit.other->getActor()->userData;
+		ActorUserData * characterdatamain = NULL;
+		if(cont->getActor())
+			characterdatamain = (ActorUserData *)cont->getActor()->userData;
+
+		ActorUserData * characterdata = NULL;
+		if(hit.other->getActor())
+			characterdata = (ActorUserData *)hit.other->getActor()->userData;
+
 		if(characterdatamain && characterdata)
 		{
 			characterdatamain->AddActorHitted(characterdata->GetActorId(), characterdata->GetActorType());
@@ -396,16 +402,13 @@ NxActor* PhysXEngine::CreateBox(const NxVec3 & StartPosition, float dimX, float 
 
 	// The actor has one shape, a box, 1m on a side
 	NxBoxShapeDesc boxDesc;
-	boxDesc.dimensions.set(dimX, dimY, dimZ);
+	boxDesc.dimensions.set(dimX/2, dimY/2, dimZ/2);
 	boxDesc.localPose.t = NxVec3(0, 0, 0);
 
 	if(Type != LbaNet::StaticAType)
 	{
 		if(Type == LbaNet::KynematicAType)
 			bodyDesc.flags |= NX_BF_KINEMATIC;
-
-		if(Type == LbaNet::DynamicAType)
-			bodyDesc.flags |= NX_BF_FROZEN_ROT ;
 
 		actorDesc.body	= &bodyDesc;
 		actorDesc.density = density;
@@ -434,6 +437,53 @@ NxActor* PhysXEngine::CreateBox(const NxVec3 & StartPosition, float dimX, float 
 
 	return pActor;
 }
+
+/***********************************************************
+	create sphere actor
+***********************************************************/
+NxActor* PhysXEngine::CreateSphere(const NxVec3 & StartPosition, float radius, float density, 
+						LbaNet::PhysicalActorType Type, ActorUserData * adata,
+						const LbaQuaternion& rotation, bool collidable)
+{
+	// Add a single-shape actor to the scene
+	NxActorDesc actorDesc;
+	NxBodyDesc bodyDesc;
+
+	// The actor has one shape, a sphere, 1m on radius
+	NxSphereShapeDesc sphereDesc;
+	sphereDesc.radius		= radius;
+	sphereDesc.localPose.t	= NxVec3(0, 0, 0);
+	
+
+	if(Type != LbaNet::StaticAType)
+	{
+		if(Type == LbaNet::KynematicAType)
+			bodyDesc.flags |= NX_BF_KINEMATIC;
+
+		actorDesc.body	= &bodyDesc;
+		actorDesc.density = density;
+		
+		if(Type == LbaNet::DynamicAType)
+			sphereDesc.group = GROUP_COLLIDABLE_PUSHABLE;
+		else
+			sphereDesc.group = GROUP_COLLIDABLE_NON_PUSHABLE;
+	}
+	else
+		sphereDesc.group = GROUP_COLLIDABLE_NON_PUSHABLE;
+
+
+	if(!collidable)
+		sphereDesc.group = GROUP_NON_COLLIDABLE;
+
+	actorDesc.shapes.pushBack(&sphereDesc);
+	actorDesc.userData = adata;
+
+	actorDesc.globalPose.t	= StartPosition;	
+	actorDesc.globalPose.M = NxQuat(NxVec3(rotation.X, rotation.Y, rotation.Z), rotation.W);
+
+	return gScene->createActor(actorDesc);
+}
+
 
 /***********************************************************
 	create sphere actor
@@ -772,6 +822,14 @@ void PhysXEngine::DestroyActor(NxActor* actor)
 
 		if(gScene)
 			gScene->releaseActor(*actor);
+
+		// inform controllers
+		for(unsigned int i=0; i<gManager->getNbControllers(); ++i)
+		{
+			NxController*	cont = gManager->getController(i);
+			cont->reportSceneChanged();
+		}
+	
 	}
 }
 
@@ -789,6 +847,13 @@ void PhysXEngine::DestroyCharacter(NxController* character)
 
 	if(gManager && character)
 		gManager->releaseController(*character);
+
+	// inform controllers
+	for(unsigned int i=0; i<gManager->getNbControllers(); ++i)
+	{
+		NxController*	cont = gManager->getController(i);
+		cont->reportSceneChanged();
+	}
 }
 
 

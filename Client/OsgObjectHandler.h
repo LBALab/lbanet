@@ -94,6 +94,8 @@ protected:
 	// refresh text
 	void RefreshText();
 
+	// set t dont optimize
+	void ForbidOptimize();
 
 protected:
 	float											_posX;

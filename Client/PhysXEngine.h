@@ -85,6 +85,10 @@ public:
 
 	NxActor* CreateSphere(const NxVec3 & StartPosition, float radius, float density, 
 							LbaNet::PhysicalActorType Type, ActorUserData * adata,
+							const LbaQuaternion& rotation, bool collidable = true);
+
+	NxActor* CreateSphere(const NxVec3 & StartPosition, float radius, float density, 
+							LbaNet::PhysicalActorType Type, ActorUserData * adata,
 							float staticFriction, float dynamicFriction, float restitution, 
 							const LbaQuaternion& rotation, bool collidable = true);
 
