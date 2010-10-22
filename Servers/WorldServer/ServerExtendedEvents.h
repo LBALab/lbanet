@@ -31,6 +31,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class ActionBase;
 class TriggerBase;
+class ActorHandler;
+
 
 /*
 ************************************************************************************************************************
@@ -170,6 +172,119 @@ public:
 
 	long 		_TriggerId;
 };
+
+
+
+
+
+
+/*
+************************************************************************************************************************
+*                                                  class UpdateEditor_AddTrigger
+*
+*	base class for all editor update
+************************************************************************************************************************
+*/
+class UpdateEditor_AddOrModMap : public LbaNet::EditorUpdateBase
+{
+public:
+	//! constructor
+	UpdateEditor_AddOrModMap(const LbaNet::MapInfo & mapinfo)
+	: _mapinfo(mapinfo)
+	{
+	}
+
+	LbaNet::MapInfo _mapinfo;
+};
+
+
+
+/*
+************************************************************************************************************************
+*                                                  class UpdateEditor_RemoveMap
+*
+*	base class for all editor update
+************************************************************************************************************************
+*/
+class UpdateEditor_RemoveMap : public LbaNet::EditorUpdateBase
+{
+public:
+	//! constructor
+	UpdateEditor_RemoveMap(const std::string & MapName)
+	: _MapName(MapName)
+	{
+	}
+
+	std::string 		_MapName;
+};
+
+
+
+/*
+************************************************************************************************************************
+*                                                  class UpdateEditor_TeleportListChanged
+*
+*	base class for all editor update
+************************************************************************************************************************
+*/
+class UpdateEditor_TeleportListChanged : public LbaNet::EditorUpdateBase
+{
+public:
+	//! constructor
+	UpdateEditor_TeleportListChanged(const LbaNet::ServerTeleportsSeq & TpList)
+	: _TpList(TpList)
+	{
+	}
+
+	LbaNet::ServerTeleportsSeq _TpList;
+};
+
+
+
+
+/*
+************************************************************************************************************************
+*                                                  class UpdateEditor_AddOrModActor
+*
+*	base class for all editor update
+************************************************************************************************************************
+*/
+class UpdateEditor_AddOrModActor : public LbaNet::EditorUpdateBase
+{
+public:
+	//! constructor
+	UpdateEditor_AddOrModActor(boost::shared_ptr<ActorHandler> actor)
+	: _actor(actor)
+	{
+	}
+
+	boost::shared_ptr<ActorHandler> _actor;
+};
+
+
+
+/*
+************************************************************************************************************************
+*                                                  class UpdateEditor_RemoveActor
+*
+*	base class for all editor update
+************************************************************************************************************************
+*/
+class UpdateEditor_RemoveActor : public LbaNet::EditorUpdateBase
+{
+public:
+	//! constructor
+	UpdateEditor_RemoveActor(long id)
+	: _id(id)
+	{
+	}
+
+	long 		_id;
+};
+
+
+
+
 
 
 

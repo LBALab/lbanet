@@ -659,10 +659,20 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 		{
 			// TODO - check if objects are visible by the player ( depends of condition)
 			const ActorObjectInfo & actinfo = itact->second->GetActorInfo();
+			LbaNet::ObjectExtraInfo xinfo = actinfo.ExtraInfo;
+
+			#ifdef _USE_QT_EDITOR_
+				std::stringstream strs;
+				strs<<"Actor_"<<actinfo.ObjectId<<": "<<xinfo.Name;
+				xinfo.Name = strs.str();
+				xinfo.NameColorR = 0.2;
+				xinfo.NameColorG = 0.2;
+				xinfo.NameColorB = 1.0;
+			#endif
 
 			toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-				LbaNet::NpcObject, itact->first, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo , 
-				actinfo.ExtraInfo));
+				LbaNet::NpcObject, itact->first, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo, 
+				xinfo));
 		}
 	}
 
@@ -1272,6 +1282,38 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 
 		Editor_RemoveTrigger(castedptr->_TriggerId);
 	}
+
+	// map info modified
+	if(info == typeid(UpdateEditor_AddOrModMap))
+	{
+		UpdateEditor_AddOrModMap* castedptr = 
+			dynamic_cast<UpdateEditor_AddOrModMap *>(&obj);
+
+		_mapinfo = castedptr->_mapinfo;
+	}
+
+
+
+	// actor update
+	if(info == typeid(UpdateEditor_AddOrModActor))
+	{
+		UpdateEditor_AddOrModActor* castedptr = 
+			dynamic_cast<UpdateEditor_AddOrModActor *>(&obj);
+
+		Editor_AddModActor(castedptr->_actor);
+		return;
+	}
+
+
+	// actor remove
+	if(info == typeid(UpdateEditor_RemoveActor))
+	{
+		UpdateEditor_RemoveActor* castedptr = 
+			dynamic_cast<UpdateEditor_RemoveActor *>(&obj);
+
+		Editor_RemoveActor(castedptr->_id);
+	}
+
 }
 #endif
 
@@ -1420,10 +1462,64 @@ ActorObjectInfo MapHandler::CreateSpawningDisplay(long id, float PosX, float Pos
 	ainfo.PhysicDesc.SizeZ = 0;
 
 	std::stringstream strs;
-	strs << "Spawning-"<<id-1000000<<": " << name;
+	strs << "Spawn-"<<id-1000000<<": " << name;
 	ainfo.ExtraInfo.Name = strs.str();
 	ainfo.ExtraInfo.NameColorR = 0.2f;
 	ainfo.ExtraInfo.NameColorG = 1.0f;
 	ainfo.ExtraInfo.NameColorB = 0.2f;
 	return ainfo;
 }
+
+
+
+/***********************************************************
+add an actor
+***********************************************************/
+#ifdef _USE_QT_EDITOR_
+void MapHandler::Editor_AddModActor(boost::shared_ptr<ActorHandler> actor)
+{
+	AddActorObject(actor);
+
+	// update client
+	_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+																	LbaNet::NpcObject, actor->GetId()));
+
+
+
+	LbaNet::ObjectExtraInfo xinfo = actor->GetInfo().ExtraInfo;
+	std::stringstream strs;
+	strs<<"Actor_"<<actor->GetId()<<": "<<xinfo.Name;
+	xinfo.Name = strs.str();
+	xinfo.NameColorR = 0.2;
+	xinfo.NameColorG = 0.2;
+	xinfo.NameColorB = 1.0;
+
+
+	_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+														LbaNet::NpcObject, actor->GetId(), 
+														actor->GetInfo().DisplayDesc, 
+														actor->GetInfo().PhysicDesc, 
+														actor->GetInfo().LifeInfo, 
+														xinfo));
+}
+#endif
+
+
+/***********************************************************
+remove an actor
+***********************************************************/
+#ifdef _USE_QT_EDITOR_
+void MapHandler::Editor_RemoveActor(long Id)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator it = _Actors.find(Id);
+	if(it != _Actors.end())
+	{
+		// erase from data
+		_Actors.erase(it);
+
+		// update client
+		_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+																		LbaNet::NpcObject, Id));
+	}
+}
+#endif

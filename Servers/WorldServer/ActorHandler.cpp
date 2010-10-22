@@ -7,6 +7,17 @@ constructor
 ActorObjectInfo::ActorObjectInfo(long id)
 : ObjectId(id)
 {
+	DisplayDesc.RotX = 0;
+	DisplayDesc.RotY = 0;
+	DisplayDesc.RotZ = 0;
+
+	DisplayDesc.TransX = 0;
+	DisplayDesc.TransY = 0;
+	DisplayDesc.TransZ = 0;
+
+	DisplayDesc.ScaleX = 1;
+	DisplayDesc.ScaleY = 1;
+	DisplayDesc.ScaleZ = 1;
 }
 
 
@@ -395,7 +406,16 @@ void ActorHandler::SaveToLuaFile(std::ofstream & file)
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ColorR = "<<m_actorinfo.DisplayDesc.ColorR<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ColorG = "<<m_actorinfo.DisplayDesc.ColorG<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ColorB = "<<m_actorinfo.DisplayDesc.ColorB<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ColorA = "<<m_actorinfo.DisplayDesc.ColorA<<std::endl;	
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ColorA = "<<m_actorinfo.DisplayDesc.ColorA<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.TransX = "<<m_actorinfo.DisplayDesc.TransX<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.TransY = "<<m_actorinfo.DisplayDesc.TransY<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.TransZ = "<<m_actorinfo.DisplayDesc.TransZ<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ScaleX = "<<m_actorinfo.DisplayDesc.ScaleX<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ScaleY = "<<m_actorinfo.DisplayDesc.ScaleY<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ScaleZ = "<<m_actorinfo.DisplayDesc.ScaleZ<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.RotX = "<<m_actorinfo.DisplayDesc.RotX<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.RotY = "<<m_actorinfo.DisplayDesc.RotY<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.RotZ = "<<m_actorinfo.DisplayDesc.RotZ<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<":SetModelState("<<m_actorinfo.GetModelState()<<")"<<std::endl;
 
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.Pos.X = "<<m_actorinfo.PhysicDesc.Pos.X<<std::endl;

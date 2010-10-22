@@ -169,23 +169,7 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectE
 	}
 
 	// send teleport list
-	//  TODO - add condition on list
-	{
-		std::vector<std::string> Tps;
-		LbaNet::ServerTeleportsSeq::iterator ittp = _worldinfo.TeleportInfo.begin();
-		LbaNet::ServerTeleportsSeq::iterator endtp = _worldinfo.TeleportInfo.end();
-		for(; ittp != endtp; ++ittp)
-			Tps.push_back(ittp->first);
-
-		EventsSeq toplayer;
-		GuiParamsSeq seq;
-		seq.push_back(new TeleportGuiParameter(Tps));
-		toplayer.push_back(
-			new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), "TeleportBox", seq, false, false));
-
-		IceUtil::ThreadPtr t = new EventsSender(toplayer, proxy);
-		t->start();	
-	}
+	SendTpList(clientid, proxy);
 }
 
 
@@ -357,7 +341,7 @@ void SharedDataHandler::UpdateClientExtraInfo(Ice::Long clientid,
 /***********************************************************
 teleport player
 ***********************************************************/
-void SharedDataHandler::TeleportPlayer(Ice::Long clientid, const std::string &TeleportId)
+void SharedDataHandler::TeleportPlayer(Ice::Long clientid, long TeleportId)
 {
 	{
 		Lock sync(*this);
@@ -470,6 +454,7 @@ void SharedDataHandler::EditorUpdate(const std::string &mapname,
 {
 	LbaNet::EditorUpdateBase & obj = *update;
 	const std::type_info& info = typeid(obj);
+	bool publish = true;
 
 	// spawning update
 	if(info == typeid(UpdateEditor_AddOrModSpawning))
@@ -501,9 +486,99 @@ void SharedDataHandler::EditorUpdate(const std::string &mapname,
 			_worldinfo.Maps[mapname].Spawnings.erase(it);
 		}
 	}
+
+
+	// map add
+	if(info == typeid(UpdateEditor_AddOrModMap))
+	{
+		publish = false;
+		UpdateEditor_AddOrModMap* castedptr = 
+			dynamic_cast<UpdateEditor_AddOrModMap *>(&obj);
+
+		LbaNet::MapsSeq::iterator it = _worldinfo.Maps.find(castedptr->_mapinfo.Name);
+		if(it != _worldinfo.Maps.end())
+		{
+			// map already exist - update it
+			_worldinfo.Maps[castedptr->_mapinfo.Name] = castedptr->_mapinfo;
+			AddEvent(castedptr->_mapinfo.Name, 1, new EditorEvent(update));
+		}
+		else
+		{
+			//new map - add it
+			_worldinfo.Maps[castedptr->_mapinfo.Name] = castedptr->_mapinfo;
+
+			// create map object
+			std::string luafile = "Worlds/" + _worldinfo.Description.WorldName + "/Lua/";
+			std::string globalluafile = luafile + "global_server.lua";
+			luafile += castedptr->_mapinfo.Name + "_server.lua";
+			boost::shared_ptr<MapHandler> mapH(new MapHandler(castedptr->_mapinfo, luafile, globalluafile));
+			_currentmaps[castedptr->_mapinfo.Name] = mapH;
+		}
+	}
+
+
+	// map remove
+	if(info == typeid(UpdateEditor_RemoveMap))
+	{
+		publish = false;
+		UpdateEditor_RemoveMap* castedptr = 
+			dynamic_cast<UpdateEditor_RemoveMap *>(&obj);
+
+		LbaNet::MapsSeq::iterator it = _worldinfo.Maps.find(castedptr->_MapName);
+		if(it != _worldinfo.Maps.end())
+		{
+			// map exist - delete it
+			_worldinfo.Maps.erase(it);
+
+			//delete map object
+			std::map<std::string, boost::shared_ptr<MapHandler> >::iterator itm = 
+													_currentmaps.find(castedptr->_MapName);
+			if(itm != _currentmaps.end())
+				_currentmaps.erase(itm);
+
+		}
+	}
+
+	// tp update
+	if(info == typeid(UpdateEditor_TeleportListChanged))
+	{
+		publish = false;
+		UpdateEditor_TeleportListChanged* castedptr = 
+			dynamic_cast<UpdateEditor_TeleportListChanged *>(&obj);
+
+		_worldinfo.TeleportInfo = castedptr->_TpList;
+
+		// send teleport list
+		SendTpList(1, _currentplayers[1]->GetProxy());
+	}
+
 	
 
 	// inform the map
-	AddEvent(mapname, 1, new EditorEvent(update));
+	if(publish)
+		AddEvent(mapname, 1, new EditorEvent(update));
 }
 #endif
+
+
+/***********************************************************
+send tp lsit to player
+***********************************************************/
+void SharedDataHandler::SendTpList(Ice::Long clientid, const ClientProxyBasePtr &proxy)
+{
+	//  TODO - add condition on list
+	LbaNet::TeleportsSeq Tps;
+	LbaNet::ServerTeleportsSeq::iterator ittp = _worldinfo.TeleportInfo.begin();
+	LbaNet::ServerTeleportsSeq::iterator endtp = _worldinfo.TeleportInfo.end();
+	for(; ittp != endtp; ++ittp)
+		Tps[ittp->first] = ittp->second.Name;
+
+	EventsSeq toplayer;
+	GuiParamsSeq seq;
+	seq.push_back(new TeleportGuiParameter(Tps));
+	toplayer.push_back(
+		new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), "TeleportBox", seq, false, false));
+
+	IceUtil::ThreadPtr t = new EventsSender(toplayer, proxy);
+	t->start();	
+}

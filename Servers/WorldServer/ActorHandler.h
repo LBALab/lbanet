@@ -36,7 +36,19 @@ struct ActorObjectInfo
 	//constructor
 	ActorObjectInfo()
 		: ObjectId(-1)
-	{}
+	{
+		DisplayDesc.RotX = 0;
+		DisplayDesc.RotY = 0;
+		DisplayDesc.RotZ = 0;
+
+		DisplayDesc.TransX = 0;
+		DisplayDesc.TransY = 0;
+		DisplayDesc.TransZ = 0;
+
+		DisplayDesc.ScaleX = 1;
+		DisplayDesc.ScaleY = 1;
+		DisplayDesc.ScaleZ = 1;	
+	}
 
 	//constructor
 	ActorObjectInfo(long id);
@@ -126,6 +138,9 @@ public:
 	long GetId()
 	{ return m_actorinfo.ObjectId;}
 
+	// get actor info
+	ActorObjectInfo & GetInfo()
+	{ return m_actorinfo; }
 
 private:
 	ActorObjectInfo		m_actorinfo;

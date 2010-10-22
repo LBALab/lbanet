@@ -44,7 +44,16 @@ ServerLuaHandler::ServerLuaHandler()
 		.def_readwrite("ColorR", &LbaNet::ModelInfo::ColorR)
 		.def_readwrite("ColorG", &LbaNet::ModelInfo::ColorG)
 		.def_readwrite("ColorB", &LbaNet::ModelInfo::ColorB)
-		.def_readwrite("ColorA", &LbaNet::ModelInfo::ColorA),
+		.def_readwrite("ColorA", &LbaNet::ModelInfo::ColorA)
+		.def_readwrite("TransX", &LbaNet::ModelInfo::TransX)
+		.def_readwrite("TransY", &LbaNet::ModelInfo::TransY)
+		.def_readwrite("TransZ", &LbaNet::ModelInfo::TransZ)		
+		.def_readwrite("ScaleX", &LbaNet::ModelInfo::ScaleX)
+		.def_readwrite("ScaleY", &LbaNet::ModelInfo::ScaleY)
+		.def_readwrite("ScaleZ", &LbaNet::ModelInfo::ScaleZ)	
+		.def_readwrite("RotX", &LbaNet::ModelInfo::RotX)
+		.def_readwrite("RotY", &LbaNet::ModelInfo::RotY)
+		.def_readwrite("RotZ", &LbaNet::ModelInfo::RotZ),
 
 		luabind::class_<LbaNet::PlayerPosition>("PlayerPosition")
 		.def(luabind::constructor<>())

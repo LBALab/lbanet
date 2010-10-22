@@ -264,6 +264,12 @@ protected:
 
 	//! remove an trigger
 	void Editor_RemoveTrigger(long TriggerId);
+
+	//! add an actor
+	void Editor_AddModActor(boost::shared_ptr<ActorHandler> actor);
+
+	//! remove an actor
+	void Editor_RemoveActor(long Id);
 	#endif
 	
 	//! create display object for spawning

@@ -93,7 +93,7 @@ public:
 	void UpdateClientExtraInfo(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo);
 
 	//! teleport player
-	void TeleportPlayer(Ice::Long clientid, const std::string &TeleportId);
+	void TeleportPlayer(Ice::Long clientid, long TeleportId);
 
 	//! change map for player
 	void ChangeMapPlayer(Ice::Long clientid, const std::string &NewMapName, long SpawningId,
@@ -130,6 +130,10 @@ protected:
 
 	//! internally change map for player
 	void ChangeMapPlayer(Ice::Long clientid, LbaNet::PlayerPosition &newpos);
+
+	//! send tp list to player
+	void SendTpList(Ice::Long clientid, const ClientProxyBasePtr &proxy);
+
 
 private:
 	static SharedDataHandler *											_Instance;

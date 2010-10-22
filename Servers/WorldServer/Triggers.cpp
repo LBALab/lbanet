@@ -202,10 +202,10 @@ ActorObjectInfo ZoneTrigger::GetDisplayObject()
 {
 	ActorObjectInfo ainfo(GetId() + 2000000);
 	ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderBox;
-	ainfo.DisplayDesc.ColorR = 1.0;
-	ainfo.DisplayDesc.ColorG = 0.2;
-	ainfo.DisplayDesc.ColorB = 0.2;
-	ainfo.DisplayDesc.ColorA = 0.5;
+	ainfo.DisplayDesc.ColorR = 1.0f;
+	ainfo.DisplayDesc.ColorG = 0.2f;
+	ainfo.DisplayDesc.ColorB = 0.2f;
+	ainfo.DisplayDesc.ColorA = 0.5f;
 	ainfo.PhysicDesc.TypeShape = LbaNet::NoShape;
 	ainfo.PhysicDesc.TypePhysO = LbaNet::StaticAType;
 	ainfo.PhysicDesc.Pos.X = _posX;
@@ -219,9 +219,9 @@ ActorObjectInfo ZoneTrigger::GetDisplayObject()
 	std::stringstream strs;
 	strs << "ZoneTrigger-"<<GetId()<<": " << GetName();
 	ainfo.ExtraInfo.Name = strs.str();
-	ainfo.ExtraInfo.NameColorR = 1.0;
-	ainfo.ExtraInfo.NameColorG = 0.2;
-	ainfo.ExtraInfo.NameColorB = 0.2;
+	ainfo.ExtraInfo.NameColorR = 1.0f;
+	ainfo.ExtraInfo.NameColorG = 0.2f;
+	ainfo.ExtraInfo.NameColorB = 0.2f;
 	return ainfo;
 }
 
