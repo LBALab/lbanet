@@ -34,9 +34,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ui_openworlddialog.h"
 #include "ui_addspawning.h"
 #include "ui_addaction.h"
+#include "ui_addmapdialog.h"
+#include "ui_addteleportdialog.h"
+#include "ui_addworlddialog.h"
+#include "ui_addactordialog.h"
 
 #include "GraphicsWindowQt"
 #include "ScriptEnvironmentBase.h"
+#include "Lba1ModelMapHandler.h"
 
 #include <LbaTypes.h>
 #include <boost/shared_ptr.hpp>
@@ -84,6 +89,9 @@ public:
 
 	//! get the corresponding id
 	long GetId(const QModelIndex &index);
+
+	//! get next free id
+	long GetNextId();
 
 private:
 	std::vector<QStringList>		_stringMatrix;
@@ -151,7 +159,7 @@ private:
      Q_OBJECT
 
  public:
-     CustomDelegate(QObject *parent = 0);
+     CustomDelegate(QObject *parent, QAbstractItemModel * model);
 
      QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
                            const QModelIndex &index) const;
@@ -167,8 +175,18 @@ private:
 
 	 void SetCustomIndex(int index, boost::shared_ptr<QStringList> list);
 
+public slots:
+		 
+	//! data changed in object view
+	void objmodified(int flag);
+
+	//! data changed in object view
+	void objmodified2(double flag);
+
+
  private:
-	 std::map<int, boost::shared_ptr<QStringList> >	_customs;
+	 std::map<int, boost::shared_ptr<QStringList> >		_customs;
+	 QAbstractItemModel *								_model;
  };
 
 
@@ -224,6 +242,7 @@ public:
 
 	// get the action correspondant to the id
 	virtual boost::shared_ptr<ActionBase> GetAction(long actionid);
+
 
 public slots:
 	 //! ui button clicked
@@ -312,7 +331,87 @@ public slots:
 	 //! on selecttrigger_double_clicked
      void selecttrigger_double_clicked(const QModelIndex & itm);
 
+	 //! world description changed
+	 void WorldDescriptionChanged();
 
+	 //! worlds news changed
+	 void WorldNewsChanged();
+
+
+	 //! starting map modified
+	 void StartingMapModified(int index);
+
+	 //! starting spawn modified
+	 void StartingSpawnModified(int index);
+
+	 //! starting life modified
+	 void StartingLifeModified(int value);
+
+	 //! starting Outfit modified
+	 void StartingOutfitModified(int index);
+
+	 //! starting Weapon modified
+	 void StartingWeaponModified(int index);
+
+	 //! starting Mode modified
+	 void StartingModeModified(int index);
+
+
+	 //! ui button clicked
+     void addmap_button_clicked();
+
+	 //! ui button clicked
+     void removemap_button_clicked();
+
+	 //! dialog accepted
+     void addmap_accepted();
+
+	 //! map description changed
+	 void MapDescriptionChanged();
+
+	 //! map type changed
+	 void MapTypeChanged(int flag);
+
+	 //! map instance changed
+	 void MapInstanceChanged(int flag);
+
+	 //! map cam type changed
+	 void MapCameraTypeChanged(bool flag);
+
+
+	//! tp add button push
+	 void TpAdd_button();
+
+	//! tp remove button push
+	 void TpRemove_button();
+
+	//! tp edit button push
+	 void TpEdit_button();
+
+	//! tp add button push
+	 void TpAdd_button_accepted();
+
+	//! map changed in tp dialog
+	void TpDialogMapChanged(int flag);
+
+	//! add world accepted
+	void addworld_accepted();
+
+
+	//! Actor add button push
+	 void ActorAdd_button();
+
+	//! Actor remove button push
+	 void ActorRemove_button();
+
+	//! Actor edit button push
+	 void ActorSelect_button();
+
+	//! Actor add button push
+	 void ActorAdd_button_accepted();
+
+	 //! on selectactor_double_clicked
+     void selectactor_double_clicked(const QModelIndex & itm);
 
 protected:
 	//! override close event
@@ -441,6 +540,46 @@ protected:
 	//! save current map to file
 	void SaveMap(const std::string & filename);
 
+	// refresh starting info tab
+	void RefreshStartingInfo();
+
+	// refresh starting map
+	void RefreshStartingMap();
+
+	// refresh starting spawning
+	void RefreshStartingSpawning();
+
+	// refresh starting outfit
+	void RefreshStartingModelOutfit();
+
+	// refresh starting weapon
+	void RefreshStartingModelWeapon();
+
+	// refresh starting mode
+	void RefreshStartingModelMode();
+
+	// tp to default spawning of map
+	void CreateDefaultSpawningAndTp(const std::string & mapname);
+
+	// update tp list with new span name
+	void UpdateTpSpanName(const std::string & mapname, long spwid, const std::string &  spname);
+
+	// remove actor
+	void RemoveActor(long id);
+
+	// select actor
+	void SelectActor(long id);
+
+	// called when actor object changed
+	void ActorObjectChanged(long id);
+
+	//! update editor selected ector display
+	void UpdateSelectedActorDisplay(LbaNet::ObjectPhysicDesc desc);
+
+	//! remove current selected display
+	void RemoveSelectedActorDislay();
+
+
 private:
 	Ui::EditorClass										_uieditor;
 
@@ -456,11 +595,25 @@ private:
 	Ui::DialogAddaction									_ui_addactiondialog;
 	QDialog *											_addactiondialog;
 
+	Ui::DialogAddMap									_ui_addmapdialog;
+	QDialog *											_addmapdialog;
+
+	Ui::DialogAddTeleport								_ui_addtpdialog;
+	QDialog *											_addtpdialog;
+
+	Ui::Dialog_NewWorld									_ui_addworlddialog;
+	QDialog *											_addworlddialog;
+
+	Ui::DialogAddActor									_ui_addactordialog;
+	QDialog *											_addactordialog;
+
 	StringTableModel *									_maplistmodel;
 	StringTableModel *									_tplistmodel;
 	StringTableModel *									_mapspawninglistmodel;
 	StringTableModel *									_actionlistmodel;
 	StringTableModel *									_triggerlistmodel;
+	StringTableModel *									_actorlistmodel;
+
 
 	MixedTableModel *									_objectmodel;
 	CustomDelegate *									_objectcustomdelegate;
@@ -469,6 +622,9 @@ private:
 	boost::shared_ptr<QStringList>						_mapNameList;
 	boost::shared_ptr<QStringList>						_triggerNameList;
 	std::map<std::string, boost::shared_ptr<QStringList> >	_mapSpawningList;
+	boost::shared_ptr<QStringList>						_actortypeList;
+	boost::shared_ptr<QStringList>						_actordtypeList;
+	boost::shared_ptr<QStringList>						_actorptypeList;
 
 	GraphicsWindowQt *									_osgwindow;
 
@@ -487,9 +643,22 @@ private:
 	long												_currspawningidx;
 	long												_curractionidx;
 	long												_currtriggeridx;
+	long												_currteleportidx;
+	long												_curractoridx;
 
 	int													_updatetriggerdialogonnewaction;
 
+	float												_posX;
+	float												_posY;
+	float												_posZ;
+
+	long												_edited_tp;
+
+
+	std::map<std::string, ModelData>					_lba1Mdata;
+
+
+	osg::ref_ptr<osg::MatrixTransform>					_actornode;
 };
 
 #endif // EDITORHANDLER_H

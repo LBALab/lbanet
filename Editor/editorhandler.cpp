@@ -29,10 +29,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "SharedDataHandler.h"
 #include "ServerLuaHandler.h"
 #include "Triggers.h"
+#include "StringHelperFuncs.h"
+
 
 #include <QMessageBox>
+#include <boost/filesystem.hpp>
 
 #include <fstream>
+#include <math.h>
+
+#include "OSGHandler.h"
+#include <osg/Geode>
+#include <osg/Geometry>
+#include <osg/Shape>
+#include <osg/ShapeDrawable>
+#include <osg/MatrixTransform>
+#include <osgUtil/SmoothingVisitor>
+#include <osg/LineWidth>
+
 
 /***********************************************************
 rowCount
@@ -145,6 +159,19 @@ long StringTableModel::GetId(const QModelIndex &index)
 	return -1;
 }
 
+
+/***********************************************************
+get next free id
+***********************************************************/
+long StringTableModel::GetNextId()
+{
+	if(_ids.size() == 0)
+		return 1;
+
+	return _ids[_ids.size()-1] + 1;
+}
+
+
 /***********************************************************
 insertRows
 ***********************************************************/
@@ -187,19 +214,22 @@ clear the table content
 ***********************************************************/
 void StringTableModel::Clear()
 {
-	_ids.clear();
-
-	if(_stringMatrix.size() > 0)
+	if(_ids.size() > 0)
 	{
-		beginRemoveRows(QModelIndex(), 0, _stringMatrix.size()-1);
+		_ids.clear();
 
-		for(size_t i=0; i<_stringMatrix.size(); ++i)
-			_stringMatrix[i].clear();
+		if(_stringMatrix.size() > 0)
+		{
+			beginRemoveRows(QModelIndex(), 0, _stringMatrix[0].size()-1);
 
-		endRemoveRows();
+			for(size_t i=0; i<_stringMatrix.size(); ++i)
+				_stringMatrix[i].clear();
+
+			endRemoveRows();
+		}
+
+		reset();
 	}
-
-	reset();
 }
 
 
@@ -403,9 +433,9 @@ clear the table content
 ***********************************************************/
 void MixedTableModel::Clear()
 {
-	if(_objMatrix.size() > 0)
+	if(_objMatrix.size() > 0 && _objMatrix[0].size() > 0)
 	{
-		beginRemoveRows(QModelIndex(), 0, _objMatrix.size()-1);
+		beginRemoveRows(QModelIndex(), 0, _objMatrix[0].size()-1);
 
 		for(size_t i=0; i<_objMatrix.size(); ++i)
 			_objMatrix[i].clear();
@@ -441,8 +471,8 @@ void MixedTableModel::AddRow(const QVariantList &data)
 /***********************************************************
 Constructor
 ***********************************************************/
-CustomDelegate::CustomDelegate(QObject *parent)
-     : QStyledItemDelegate(parent)
+CustomDelegate::CustomDelegate(QObject *parent, QAbstractItemModel * model)
+     : QStyledItemDelegate(parent), _model(model)
 {
 }
 
@@ -451,16 +481,30 @@ CustomDelegate::CustomDelegate(QObject *parent)
 Constructor
 ***********************************************************/
 QWidget *CustomDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option,
-                           const QModelIndex &index) const
+											const QModelIndex &index) const
 {
 	std::map<int, boost::shared_ptr<QStringList> >::const_iterator it = _customs.find(index.row());
 	if(it != _customs.end())
 	{
-		 QComboBox *editor = new QComboBox(parent);
-		 editor->insertItems(0, *(it->second));
-		 editor->setEditable(false);
-		 return editor;
+		QComboBox *editor = new QComboBox(parent);
+		editor->insertItems(0, *(it->second));
+		editor->setEditable(false);
+
+		connect(editor, SIGNAL(	activated(int)) , this, SLOT(objmodified(int)));
+		return editor;
 	}
+
+	QVariant data = _model->data(index, Qt::DisplayRole);
+	if(data.type() == QVariant::Double)
+	{
+		QDoubleSpinBox *editor = new QDoubleSpinBox(parent);
+		editor->setMinimum(-100000);
+		editor->setMaximum(100000);
+		editor->setSingleStep(0.1);
+		connect(editor, SIGNAL(	valueChanged(double)) , this, SLOT(objmodified2(double)));
+		return editor;
+	}
+
 
 	return QStyledItemDelegate::createEditor(parent, option, index);
 }
@@ -482,6 +526,17 @@ void CustomDelegate::setEditorData(QWidget *editor, const QModelIndex &index) co
 			comboBox->setCurrentIndex(index);
 	}
 
+	QVariant data = _model->data(index, Qt::DisplayRole);
+	if(data.type() == QVariant::Double)
+	{
+		 double value = index.model()->data(index, Qt::DisplayRole).toInt();
+
+		 QDoubleSpinBox *spinBox = static_cast<QDoubleSpinBox*>(editor);
+		 spinBox->setValue(value);
+	}
+
+
+
 	QStyledItemDelegate::setEditorData(editor, index);
 }
 
@@ -500,7 +555,15 @@ void CustomDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
 		 model->setData(index, value);
 	}
 
+	QVariant data = _model->data(index, Qt::DisplayRole);
+	if(data.type() == QVariant::Double)
+	{
+		 QDoubleSpinBox *spinBox = static_cast<QDoubleSpinBox*>(editor);
+		 spinBox->interpretText();
+		 double value = spinBox->value();
 
+		 model->setData(index, value);
+	}
 	
 	QStyledItemDelegate::setModelData(editor, model, index);
 }
@@ -534,6 +597,24 @@ void CustomDelegate::SetCustomIndex(int index, boost::shared_ptr<QStringList> li
 }
 
 
+/***********************************************************
+data changed in object view
+***********************************************************/
+void CustomDelegate::objmodified(int flag)
+{
+	QWidget *editor = static_cast<QWidget *>(sender());
+	emit commitData(editor);
+}
+
+
+/***********************************************************
+data changed in object view
+***********************************************************/
+void CustomDelegate::objmodified2(double flag)
+{
+	QWidget *editor = static_cast<QWidget *>(sender());
+	emit commitData(editor);
+}
 
 
 
@@ -548,8 +629,16 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
  : QMainWindow(parent, flags), _modified(false), 
  _actionNameList(new QStringList()), _mapNameList(new QStringList()),
  _curractionidx(0), _currspawningidx(0), _currtriggeridx(0),
-	_updatetriggerdialogonnewaction(-1), _triggerNameList(new QStringList())
+	_updatetriggerdialogonnewaction(-1), _triggerNameList(new QStringList()),
+	_actortypeList(new QStringList()), _actordtypeList(new QStringList()),
+	_actorptypeList(new QStringList())
+
 {
+	(*_actortypeList) << "Static" << "Scripted" << "Movable";
+	(*_actordtypeList) << "Osg Model" << "Sprite" << "Lba1 Model" << "Lba2 Model";
+	(*_actorptypeList) << "No Shape" << "Box" << "Capsule" << "Sphere" << "Triangle Mesh";
+
+
 	_uieditor.setupUi(this);
 
 	_addtriggerdialog = new QDialog(this);
@@ -563,6 +652,45 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 
 	_addactiondialog = new QDialog(this);
 	_ui_addactiondialog.setupUi(_addactiondialog);
+
+	_addmapdialog = new QDialog(this);
+	_ui_addmapdialog.setupUi(_addmapdialog);
+
+	_addtpdialog = new QDialog(this);
+	_ui_addtpdialog.setupUi(_addtpdialog);
+
+	_addworlddialog = new QDialog(this);
+	_ui_addworlddialog.setupUi(_addworlddialog);
+
+	_addactordialog = new QDialog(this);
+	_ui_addactordialog.setupUi(_addactordialog);
+
+
+
+
+	// read the file and get data
+	std::ifstream file((Lba1ModelDataPath+"lba1_model_animation.csv").c_str());
+	if(file.is_open())
+	{
+		// read first information line
+		std::string line;
+		std::vector<std::string> infos;
+
+		std::getline(file, line);
+		StringHelper::Tokenize(line, infos, ",");
+
+		while(!file.eof())
+		{
+			std::getline(file, line);
+			std::vector<std::string> tokens;
+			StringHelper::Tokenize(line, tokens, ",");
+
+			_lba1Mdata[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].modelnumber = atoi(tokens[4].c_str());
+				_lba1Mdata[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].bodynumber = atoi(tokens[5].c_str());
+		}
+	}
+
+
 	
 
 
@@ -579,7 +707,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	// set model for tp list
 	{
 		 QStringList header;
-		 header << "Name" << "Map" << "Spawning";
+		 header << "Name" << "Map" << "Spawn";
 		_tplistmodel = new StringTableModel(header);
 		_uieditor.tableView_TeleportList->setModel(_tplistmodel);
 		QHeaderView * mpheaders = _uieditor.tableView_TeleportList->horizontalHeader();
@@ -605,7 +733,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 		QHeaderView * mpheaders = _uieditor.tableView_object->horizontalHeader();
 		mpheaders->setResizeMode(QHeaderView::Stretch);
 
-		_objectcustomdelegate = new CustomDelegate();
+		_objectcustomdelegate = new CustomDelegate(0, _objectmodel);
 		_uieditor.tableView_object->setItemDelegate(_objectcustomdelegate);
 
 		_uieditor.tableView_object->setEditTriggers(QAbstractItemView::CurrentChanged | 
@@ -637,6 +765,28 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	}
 		
 	
+	// set model for spawninglist
+	{
+		 QStringList header;
+		 header << "Name" << "X" << "Y" << "Z";
+		_mapspawninglistmodel = new StringTableModel(header);
+		_uieditor.tableView_SpawningList->setModel(_mapspawninglistmodel);
+		QHeaderView * mpheaders = _uieditor.tableView_SpawningList->horizontalHeader();
+		mpheaders->setResizeMode(QHeaderView::Stretch);
+	}
+
+
+	// set model for actorlist
+	{
+		 QStringList header;
+		 header << "Name" << "Type" << "DisplayType" << "PhysicalType";
+		_actorlistmodel = new StringTableModel(header);
+		_uieditor.tableView_ActorList->setModel(_actorlistmodel);
+		QHeaderView * mpheaders = _uieditor.tableView_ActorList->horizontalHeader();
+		mpheaders->setResizeMode(QHeaderView::Stretch);
+	}
+	
+
 
 	// reset world info
 	ResetWorld();
@@ -663,7 +813,28 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 
 	connect(_uieditor.pushButton_addAction, SIGNAL(clicked()) , this, SLOT(addAction_button_clicked()));
 	connect(_uieditor.pushButton_removeAction, SIGNAL(clicked()) , this, SLOT(removeAction_button_clicked()));	
-	connect(_uieditor.pushButton_selectAction, SIGNAL(clicked()) , this, SLOT(selectAction_button_clicked()));		
+	connect(_uieditor.pushButton_selectAction, SIGNAL(clicked()) , this, SLOT(selectAction_button_clicked()));	
+
+	connect(_uieditor.pushButton_addmap, SIGNAL(clicked()) , this, SLOT(addmap_button_clicked()));
+	connect(_uieditor.pushButton_removemap, SIGNAL(clicked()) , this, SLOT(removemap_button_clicked()));	
+
+	connect(_uieditor.pushButton_addtp, SIGNAL(clicked()) , this, SLOT(TpAdd_button()));
+	connect(_uieditor.pushButton_removetp, SIGNAL(clicked()) , this, SLOT(TpRemove_button()));	
+	connect(_uieditor.pushButton_edittp, SIGNAL(clicked()) , this, SLOT(TpEdit_button()));	
+
+
+	connect(_uieditor.pushButton_addActor, SIGNAL(clicked()) , this, SLOT(ActorAdd_button()));
+	connect(_uieditor.pushButton_removeActor, SIGNAL(clicked()) , this, SLOT(ActorRemove_button()));	
+	connect(_uieditor.pushButton_selectActor, SIGNAL(clicked()) , this, SLOT(ActorSelect_button()));
+
+
+	//! Actor add button push
+	 void ActorAdd_button_accepted();
+
+
+	connect(_uieditor.textEdit_worlddescription, SIGNAL(textChanged()) , this, SLOT(WorldDescriptionChanged()));	
+	connect(_uieditor.textEdit_worldnews, SIGNAL(textChanged()) , this, SLOT(WorldNewsChanged()));	
+	
 
 	connect(_uiaddtriggerdialog.pushButton_addact1, SIGNAL(clicked()) , this, SLOT(addAction1_button_clicked()));
 	connect(_uiaddtriggerdialog.pushButton_addact2, SIGNAL(clicked()) , this, SLOT(addAction2_button_clicked()));
@@ -677,6 +848,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.tableView_SpawningList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectspawning_double_clicked(const QModelIndex&)));
 	connect(_uieditor.tableViewActionList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectaction_double_clicked(const QModelIndex&)));
 	connect(_uieditor.tableViewTriggerList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selecttrigger_double_clicked(const QModelIndex&)));
+	connect(_uieditor.tableView_ActorList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectactor_double_clicked(const QModelIndex&)));
 
 
 
@@ -688,6 +860,28 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uiopenworlddialog.buttonBox, SIGNAL(accepted()) , this, SLOT(OpenWorld()));
 	connect(_uiaddspawningdialog.buttonBox, SIGNAL(accepted()) , this, SLOT(AddSpawning_clicked()));
 	connect(_ui_addactiondialog.buttonBox, SIGNAL(accepted()) , this, SLOT(AddActionAccepted()));
+	connect(_ui_addmapdialog.buttonBox, SIGNAL(accepted()) , this, SLOT(addmap_accepted()));
+	connect(_ui_addtpdialog.buttonBox, SIGNAL(accepted()) , this, SLOT(TpAdd_button_accepted()));
+	connect(_ui_addworlddialog.buttonBox, SIGNAL(accepted()) , this, SLOT(addworld_accepted()));
+	connect(_ui_addactordialog.buttonBox, SIGNAL(accepted()) , this, SLOT(ActorAdd_button_accepted()));
+
+	connect(_uieditor.comboBox_startingmap, SIGNAL(activated(int)) , this, SLOT(StartingMapModified(int)));		
+	connect(_uieditor.comboBox_startingspawning, SIGNAL(activated(int)) , this, SLOT(StartingSpawnModified(int)));	
+	connect(_uieditor.comboBox_modeloutfit, SIGNAL(activated(int)) , this, SLOT(StartingOutfitModified(int)));		
+	connect(_uieditor.comboBox_modelweapon, SIGNAL(activated(int)) , this, SLOT(StartingWeaponModified(int)));	
+	connect(_uieditor.comboBox_modelmode, SIGNAL(activated(int)) , this, SLOT(StartingModeModified(int)));		
+	connect(_uieditor.spinBox_startinglife, SIGNAL(valueChanged(int)) , this, SLOT(StartingLifeModified(int)));	
+	connect(_uieditor.spinBox_startingMana, SIGNAL(valueChanged(int)) , this, SLOT(StartingLifeModified(int)));	
+	connect(_uieditor.spinBox_startingarmor, SIGNAL(valueChanged(int)) , this, SLOT(StartingLifeModified(int)));
+
+	connect(_ui_addtpdialog.comboBox_map, SIGNAL(activated(int)) , this, SLOT(TpDialogMapChanged(int)));
+
+	connect(_uieditor.textEdit_map_description, SIGNAL(textChanged()) , this, SLOT(MapDescriptionChanged()));
+	connect(_uieditor.comboBox_maptype, SIGNAL(activated(int)) , this, SLOT(MapTypeChanged(int)));
+	connect(_uieditor.checkBox_map_instancied, SIGNAL(stateChanged(int)) , this, SLOT(MapInstanceChanged(int)));
+	connect(_uieditor.radioButton_camtype_ortho, SIGNAL(toggled(bool)) , this, SLOT(MapCameraTypeChanged(bool)));
+	connect(_uieditor.radioButton_camtype_persp, SIGNAL(toggled(bool)) , this, SLOT(MapCameraTypeChanged(bool)));
+	connect(_uieditor.radioButton_camtype_3d, SIGNAL(toggled(bool)) , this, SLOT(MapCameraTypeChanged(bool)));
 
 }
 
@@ -816,6 +1010,7 @@ void EditorHandler::addtrigger_accepted()
 		case 0: // zone trigger
 		{
 			boost::shared_ptr<TriggerBase> trig(new ZoneTrigger(triggerinf, 1, 1, 1, true));
+			trig->SetPosition(_posX, _posY, _posZ);
 			trig->SetAction1(GetActionId(_uiaddtriggerdialog.comboBox_action1->currentText().toAscii().data()));
 			trig->SetAction2(GetActionId(_uiaddtriggerdialog.comboBox_action2->currentText().toAscii().data()));
 			trig->SetAction3(GetActionId(_uiaddtriggerdialog.comboBox_action3->currentText().toAscii().data()));
@@ -873,8 +1068,8 @@ void EditorHandler::NewWorldAction()
 {
 	if(SaveBeforeQuit())
 	{
-		//TODO - ResetWorld
-		//TODO - set saved
+		_ui_addworlddialog.lineEdit_worldname->setText("");
+		_addworlddialog->show();
 	}
 }
 
@@ -904,6 +1099,9 @@ SaveWorldAction
 ***********************************************************/
 void EditorHandler::SaveWorldAction()
 {
+	if(!IsWorldOpened())
+		return;
+
 	if(_modified)
 	{
 		// save xml file
@@ -914,7 +1112,8 @@ void EditorHandler::SaveWorldAction()
 
 		// save current map
 		std::string mapname = _uieditor.label_mapname->text().toAscii().data();
-		SaveMap("./Data/Worlds/" + _winfo.Description.WorldName + "/Lua/" + mapname + "_server.lua");
+		if(mapname != "")
+			SaveMap("./Data/Worlds/" + _winfo.Description.WorldName + "/Lua/" + mapname + "_server.lua");
 
 		SetSaved();
 	}
@@ -1055,15 +1254,21 @@ refresh gui with world info
 ***********************************************************/
 void EditorHandler::SetWorldInfo(const std::string & worldname)
 {
-	DataLoader::getInstance()->GetWorldInformation(worldname, _winfo);
+	LbaNet::WorldInformation tmpinfo;
+	DataLoader::getInstance()->GetWorldInformation(worldname, tmpinfo);
+	_winfo = tmpinfo;
 
 	setWindowTitle(("LBANet Editor - " + worldname).c_str());
 
 	_uieditor.label_worldname->setText(_winfo.Description.WorldName.c_str());
 
-	_uieditor.textEdit_worlddescription->setText(_winfo.Description.Description.c_str());
+	QString descs = QString::fromUtf8(_winfo.Description.Description.c_str());
+	descs.replace(QString(" @ "), QString("\n"));
+	_uieditor.textEdit_worlddescription->setText(descs);
 
-	_uieditor.textEdit_worldnews->setText(_winfo.Description.News.c_str());
+	QString newss = QString::fromUtf8(_winfo.Description.News.c_str());
+	newss.replace(QString(" @ "), QString("\n"));
+	_uieditor.textEdit_worldnews->setText(newss);
 
 
 	// add maps
@@ -1107,8 +1312,10 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 			}
 
 			QStringList data;
-			data << ittp->first.c_str() << ittp->second.MapName.c_str() << spawningname.c_str();
-			_tplistmodel->AddOrUpdateRow(cc, data);
+			data << ittp->second.Name.c_str() << ittp->second.MapName.c_str() << spawningname.c_str();
+			_tplistmodel->AddOrUpdateRow(ittp->first, data);
+
+			_currteleportidx = ittp->first;
 		}
 	}
 
@@ -1120,6 +1327,10 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 	_luaH = boost::shared_ptr<ServerLuaHandler>(new ServerLuaHandler());
 	_luaH->LoadFile(globalluafile);
 	_luaH->CallLua("InitGlobal", this);
+
+
+	// refresh starting info
+	RefreshStartingInfo();
 }
 
 
@@ -1142,6 +1353,7 @@ void EditorHandler::ResetWorld()
 	_uieditor.textEdit_worldnews->setText("");
 
 	_curractionidx = 0;
+	_currteleportidx = 0;
 
 	ResetMap();
 }
@@ -1158,6 +1370,7 @@ void EditorHandler::ResetMap()
 	_uieditor.label_mapname->setText("");
 	_uieditor.textEdit_map_description->setText("");
 	_mapspawninglistmodel->Clear();
+	_actorlistmodel->Clear();
 
 	_triggerlistmodel->Clear();
 	_triggers.clear();
@@ -1175,6 +1388,8 @@ void EditorHandler::ResetObject()
 {
 	_objectcustomdelegate->Clear();
 	_objectmodel->Clear();
+
+	RemoveSelectedActorDislay();
 }
 
 
@@ -1255,11 +1470,7 @@ void EditorHandler::goto_map_button_clicked()
 		}
 		else
 		{
-			// add a default spawning
-			long spid = AddOrModSpawning(mapname, "DefaultSpawning", 0, 0, 0, 0, true, 0);
-			AddSpawningName(mapname, "DefaultSpawning");
-			ChangeMap(mapname, spid);
-			SetModified();
+			CreateDefaultSpawningAndTp(mapname);
 		}
 	}
 }
@@ -1278,20 +1489,24 @@ void EditorHandler::SetMapInfo(const std::string & mapname)
 	const LbaNet::MapInfo & mapinfo = _winfo.Maps[mapname];
 
 	_uieditor.label_mapname->setText(mapinfo.Name.c_str());
-	_uieditor.textEdit_map_description->setText(mapinfo.Description.c_str());
+
+
+	QString descs = QString::fromUtf8(mapinfo.Description.c_str());
+	descs.replace(QString(" @ "), QString("\n"));
+	_uieditor.textEdit_map_description->setText(descs);
 
 	switch(mapinfo.AutoCameraType)
 	{
 		case 1:
-			_uieditor.radioButton_camtype_ortho->setDown(true);
+			_uieditor.radioButton_camtype_ortho->setChecked(true);
 		break;
 
 		case 2:
-			_uieditor.radioButton_camtype_persp->setDown(true);
+			_uieditor.radioButton_camtype_persp->setChecked(true);
 		break;
 
 		case 3:
-			_uieditor.radioButton_camtype_3d->setDown(true);
+			_uieditor.radioButton_camtype_3d->setChecked(true);
 		break;
 	}
 
@@ -1303,6 +1518,8 @@ void EditorHandler::SetMapInfo(const std::string & mapname)
 	{
 		_uieditor.comboBox_maptype->setCurrentIndex(1);
 	}
+
+	_uieditor.checkBox_map_instancied->setChecked(mapinfo.IsInstance);
 
 
 	// add the spawnings
@@ -1352,9 +1569,9 @@ void EditorHandler::addspawning_button_clicked()
 
 	//clear old stuff
 	_uiaddspawningdialog.lineEdit_name->setText("");
-	_uiaddspawningdialog.doubleSpinBox_posx->setValue(0);
-	_uiaddspawningdialog.doubleSpinBox_posy->setValue(0);
-	_uiaddspawningdialog.doubleSpinBox_posz->setValue(0);
+	_uiaddspawningdialog.doubleSpinBox_posx->setValue(_posX);
+	_uiaddspawningdialog.doubleSpinBox_posy->setValue(_posY);
+	_uiaddspawningdialog.doubleSpinBox_posz->setValue(_posZ);
 	_uiaddspawningdialog.doubleSpinBox_rotation->setValue(0);
 	_uiaddspawningdialog.checkBox_forcerotation->setChecked(false);
 
@@ -1377,6 +1594,8 @@ void EditorHandler::removespawning_button_clicked()
 
 		// remove row from table
 		_mapspawninglistmodel->removeRows(indexes[0].row(), 1);
+
+		RefreshStartingSpawning();
 	}
 }
 
@@ -1453,6 +1672,7 @@ void EditorHandler::AddSpawning_clicked()
 				_uiaddspawningdialog.checkBox_forcerotation->isChecked());
 
 	SetModified();
+	RefreshStartingSpawning();
 }
 
 
@@ -1524,7 +1744,7 @@ void EditorHandler::RemoveSpawning(const std::string &mapname, long spawningid)
 		EditorUpdateBasePtr update = new UpdateEditor_RemoveSpawning(spawningid);
 		SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
 
-		ClearObjectIfSelected("Spawning", spawningid);
+		ClearObjectIfSelected("Spawn", spawningid);
 
 		SetModified();
 	}
@@ -1539,6 +1759,10 @@ void EditorHandler::PlayerMoved(float posx, float posy, float posz)
 	_uieditor.doubleSpinBox_info_posx->setValue(posx);
 	_uieditor.doubleSpinBox_info_posy->setValue(posy);
 	_uieditor.doubleSpinBox_info_posz->setValue(posz);
+
+	_posX = floor(posx+0.5f);
+	_posY = floor(posy+0.5f);
+	_posZ = floor(posz+0.5f);
 }
 
 
@@ -1577,7 +1801,7 @@ void EditorHandler::SelectSpawning(long id, const std::string &spawningname,
 
 	{
 		QVariantList data;
-		data<<"Type"<<"Spawning";
+		data<<"Type"<<"Spawn";
 		_objectmodel->AddRow(data);
 	}
 
@@ -1651,6 +1875,7 @@ void EditorHandler::ClearObjectIfSelected(const std::string objecttype, long id)
 }
 
 
+
 /***********************************************************
 data changed in object view
 ***********************************************************/
@@ -1662,7 +1887,7 @@ void EditorHandler::objectdatachanged(const QModelIndex &index1, const QModelInd
 		std::string category = _objectmodel->GetData(1, 1).toString().toAscii().data();
 		long objid = _objectmodel->GetData(1, 2).toString().toLong();
 
-		if(type == "Spawning")
+		if(type == "Spawn")
 		{
 			SpawningObjectChanged(objid);
 			return;
@@ -1677,6 +1902,12 @@ void EditorHandler::objectdatachanged(const QModelIndex &index1, const QModelInd
 		if(type == "Trigger")
 		{
 			TriggerObjectChanged(objid, category);
+			return;
+		}
+
+		if(type == "Actor")
+		{
+			ActorObjectChanged(objid);
 			return;
 		}
 	}
@@ -1722,7 +1953,10 @@ void EditorHandler::SpawningObjectChanged(long id)
 									Rotation, forcedrotation,
 									id);
 
+		UpdateTpSpanName(mapname, id, name.toAscii().data());
+
 		SetModified();
+		RefreshStartingSpawning();
 	}
 }
 
@@ -1751,6 +1985,85 @@ function used by LUA to add actor
 void EditorHandler::AddActorObject(boost::shared_ptr<ActorHandler> actor)
 {
 	_Actors[actor->GetId()] = actor;
+
+	std::string type;
+	switch(actor->GetInfo().PhysicDesc.TypePhysO)
+	{
+		case LbaNet::StaticAType:
+			type = "Static";
+		break;
+
+		case LbaNet::KynematicAType:
+			type = "Scripted";
+		break;
+
+		case LbaNet::CharControlAType:
+			type = "Movable";
+		break;  
+	}
+
+
+	std::string dtype;
+	switch(actor->GetInfo().DisplayDesc.TypeRenderer)
+	{
+		case LbaNet::RenderOsgModel:
+			dtype = "Osg Model";
+		break;
+
+		case RenderSprite:
+			dtype = "Sprite";
+		break;
+
+		case RenderLba1M:
+			dtype = "Lba1 Model";
+		break;
+
+		case RenderLba2M:
+			dtype = "Lba2 Model";
+		break;
+
+		case RenderCross:
+			dtype = "Cross";
+		break;
+
+		case RenderBox:
+			dtype = "Box";
+		break;
+
+		case RenderCapsule:
+			dtype = "Capsule";
+		break;
+	}
+
+	std::string ptype;
+	switch(actor->GetInfo().PhysicDesc.TypeShape)
+	{
+		case LbaNet::NoShape:
+			ptype = "No Shape";
+		break;
+		case BoxShape:
+			ptype = "Box";
+		break;
+		case CapsuleShape:
+			ptype = "Capsule";
+		break;
+		case SphereShape:
+			ptype = "Sphere";
+		break;
+		case TriangleMeshShape:
+			ptype = "Triangle Mesh";
+		break;
+	}
+
+	std::string name = actor->GetInfo().ExtraInfo.Name;
+	if(name == "")
+		name = "-";
+
+	QStringList data;
+	data << name.c_str()<< type.c_str()  << dtype.c_str() << ptype.c_str();
+	_actorlistmodel->AddOrUpdateRow(actor->GetId(), data);
+
+	_curractoridx = actor->GetId();
 }
 
 /***********************************************************
@@ -2117,7 +2430,7 @@ void EditorHandler::SelectAction(long id)
 				}
 
 				QVariantList data;
-				data << "Spawning" << spawningname.c_str();
+				data << "Spawn" << spawningname.c_str();
 				_objectmodel->AddRow(data);
 			}
 
@@ -2596,4 +2909,1635 @@ void EditorHandler::SaveMap(const std::string & filename)
 		itt->second->SaveToLuaFile(file);
 
 	file<<"end"<<std::endl;
+}
+
+
+/***********************************************************
+world description changed
+***********************************************************/
+void EditorHandler::WorldDescriptionChanged()
+{
+	QString descs = _uieditor.textEdit_worlddescription->toPlainText();
+	descs.replace(QString("\n"), QString(" @ "));
+	_winfo.Description.Description = descs.toUtf8().data();
+	SetModified();
+}
+
+/***********************************************************
+worlds news changed
+***********************************************************/
+void EditorHandler::WorldNewsChanged()
+{
+	QString descs = _uieditor.textEdit_worldnews->toPlainText();
+	descs.replace(QString("\n"), QString(" @ "));
+	_winfo.Description.News = descs.toUtf8().data();
+	SetModified();
+}
+
+
+/***********************************************************
+refresh starting info tab
+***********************************************************/
+void EditorHandler::RefreshStartingInfo()
+{
+	// map list part
+	RefreshStartingMap();
+
+	// spawning part
+	RefreshStartingSpawning();
+
+	_uieditor.spinBox_startinglife->setValue(_winfo.StartingInfo.StartingLife);
+	_uieditor.spinBox_startingMana->setValue(_winfo.StartingInfo.StartingMana);
+	_uieditor.spinBox_startingarmor->setValue(_winfo.StartingInfo.StartingArmor);
+
+	RefreshStartingModelOutfit();
+}
+
+
+/***********************************************************
+refresh starting map
+***********************************************************/
+void EditorHandler::RefreshStartingMap()
+{
+	_uieditor.comboBox_startingmap->clear();
+	_uieditor.comboBox_startingmap->insertItems(0, *_mapNameList);
+	int index = _uieditor.comboBox_startingmap->findText(_winfo.StartingInfo.StartingMap.c_str());
+	if(index >= 0)
+		_uieditor.comboBox_startingmap->setCurrentIndex(index);
+	else
+	{
+		if(_winfo.Maps.size() > 0)
+		{
+			_winfo.StartingInfo.StartingMap = _winfo.Maps.begin()->first;
+			RefreshStartingMap();
+			return;
+		}
+	}
+}
+
+/***********************************************************
+refresh starting spawning
+***********************************************************/
+void EditorHandler::RefreshStartingSpawning()
+{
+	_uieditor.comboBox_startingspawning->clear();
+
+	LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(_winfo.StartingInfo.StartingMap);
+	if(itmap != _winfo.Maps.end())
+	{
+		std::map<std::string, boost::shared_ptr<QStringList> >::iterator itsp = 
+													_mapSpawningList.find(_winfo.StartingInfo.StartingMap);
+		if(itsp != _mapSpawningList.end())
+		{
+			_uieditor.comboBox_startingspawning->insertItems(0, *(itsp->second));	
+
+			LbaNet::SpawningsSeq::iterator it = itmap->second.Spawnings.find(_winfo.StartingInfo.SpawningId);
+			if(it != itmap->second.Spawnings.end())
+			{
+				int index = _uieditor.comboBox_startingspawning->findText(it->second.Name.c_str());
+				if(index >= 0)
+					_uieditor.comboBox_startingspawning->setCurrentIndex(index);
+			}	
+			else
+			{
+				if(itmap->second.Spawnings.size() > 0)
+				{
+					_winfo.StartingInfo.SpawningId = itmap->second.Spawnings.begin()->first;
+					RefreshStartingSpawning();
+					return;
+				}
+			}
+		}
+	}
+}
+
+/***********************************************************
+refresh starting outfit
+***********************************************************/
+void EditorHandler::RefreshStartingModelOutfit()
+{
+	_uieditor.comboBox_modeloutfit->clear();
+
+	std::map<std::string, OutfitData>::iterator it = _lba1Mdata[_winfo.StartingInfo.StartingModel.ModelName].outfits.begin();
+	std::map<std::string, OutfitData>::iterator end = _lba1Mdata[_winfo.StartingInfo.StartingModel.ModelName].outfits.end();
+	for(; it != end; ++it)
+		_uieditor.comboBox_modeloutfit->addItem(it->first.c_str());
+
+	int index = _uieditor.comboBox_modeloutfit->findText(_winfo.StartingInfo.StartingModel.Outfit.c_str());
+	if(index >= 0)
+		_uieditor.comboBox_modeloutfit->setCurrentIndex(index);
+	else
+	{
+		if(_lba1Mdata[_winfo.StartingInfo.StartingModel.ModelName].outfits.size() > 0)
+		{
+			_winfo.StartingInfo.StartingModel.Outfit = _lba1Mdata[_winfo.StartingInfo.StartingModel.ModelName].outfits.begin()->first;
+		
+			RefreshStartingModelOutfit();
+			return;
+		}
+	}
+
+	RefreshStartingModelWeapon();
+}
+
+/***********************************************************
+
+***********************************************************/
+void EditorHandler::RefreshStartingModelWeapon()
+{
+	_uieditor.comboBox_modelweapon->clear();
+
+	std::map<std::string, WeaponData>::iterator it = _lba1Mdata[_winfo.StartingInfo.StartingModel.ModelName].
+											outfits[_winfo.StartingInfo.StartingModel.Outfit].weapons.begin();
+	std::map<std::string, WeaponData>::iterator end = _lba1Mdata[_winfo.StartingInfo.StartingModel.ModelName].
+											outfits[_winfo.StartingInfo.StartingModel.Outfit].weapons.end();
+	for(; it != end; ++it)
+		_uieditor.comboBox_modelweapon->addItem(it->first.c_str());
+
+	int index = _uieditor.comboBox_modelweapon->findText(_winfo.StartingInfo.StartingModel.Weapon.c_str());
+	if(index >= 0)
+		_uieditor.comboBox_modelweapon->setCurrentIndex(index);
+	else
+	{
+		if(_lba1Mdata[_winfo.StartingInfo.StartingModel.ModelName].
+			outfits[_winfo.StartingInfo.StartingModel.Outfit].weapons.size() > 0)
+		{
+			_winfo.StartingInfo.StartingModel.Weapon = _lba1Mdata[_winfo.StartingInfo.StartingModel.ModelName].
+											outfits[_winfo.StartingInfo.StartingModel.Outfit].weapons.begin()->first;
+		
+			RefreshStartingModelWeapon();
+			return;
+		}
+	}
+
+	RefreshStartingModelMode();
+}
+
+/***********************************************************
+refresh starting mode
+***********************************************************/
+void EditorHandler::RefreshStartingModelMode()
+{
+	_uieditor.comboBox_modelmode->clear();
+
+	std::map<std::string, ModeData>::iterator it = _lba1Mdata[_winfo.StartingInfo.StartingModel.ModelName].
+											outfits[_winfo.StartingInfo.StartingModel.Outfit].
+											weapons[_winfo.StartingInfo.StartingModel.Weapon].modes.begin();
+	std::map<std::string, ModeData>::iterator end = _lba1Mdata[_winfo.StartingInfo.StartingModel.ModelName].
+											outfits[_winfo.StartingInfo.StartingModel.Outfit].
+											weapons[_winfo.StartingInfo.StartingModel.Weapon].modes.end();
+	for(; it != end; ++it)
+		_uieditor.comboBox_modelmode->addItem(it->first.c_str());
+
+	int index = _uieditor.comboBox_modelmode->findText(_winfo.StartingInfo.StartingModel.Mode.c_str());
+	if(index >= 0)
+		_uieditor.comboBox_modelmode->setCurrentIndex(index);
+	else
+	{
+		if(_lba1Mdata[_winfo.StartingInfo.StartingModel.ModelName].
+			outfits[_winfo.StartingInfo.StartingModel.Outfit].
+			weapons[_winfo.StartingInfo.StartingModel.Weapon].modes.size() > 0)
+		{
+			_winfo.StartingInfo.StartingModel.Mode = _lba1Mdata[_winfo.StartingInfo.StartingModel.ModelName].
+											outfits[_winfo.StartingInfo.StartingModel.Outfit].
+											weapons[_winfo.StartingInfo.StartingModel.Weapon].modes.begin()->first;
+		
+			RefreshStartingModelMode();
+			return;
+		}
+	}
+}
+
+
+
+/***********************************************************
+starting map modified
+***********************************************************/
+void EditorHandler::StartingMapModified(int index)
+{
+	_winfo.StartingInfo.StartingMap = _uieditor.comboBox_startingmap->currentText().toAscii().data();
+
+	SetModified();
+	RefreshStartingSpawning();
+}
+
+
+/***********************************************************
+starting spawn modified
+***********************************************************/
+void EditorHandler::StartingSpawnModified(int index)
+{
+	std::string spname = _uieditor.comboBox_startingspawning->currentText().toAscii().data();
+	long spid = -1;
+	if(spname != "")
+	{
+		LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(_winfo.StartingInfo.StartingMap);
+		if(itmap != _winfo.Maps.end())
+		{
+			LbaNet::SpawningsSeq::iterator it = itmap->second.Spawnings.begin();
+			LbaNet::SpawningsSeq::iterator end = itmap->second.Spawnings.end();
+			for(;it != end; ++it)
+			{
+				if(spname == it->second.Name)
+				{
+					spid = it->first;
+					break;
+				}
+			}
+		}
+	}
+
+	_winfo.StartingInfo.SpawningId = spid;
+	SetModified();
+}
+
+/***********************************************************
+starting life modified
+***********************************************************/
+void EditorHandler::StartingLifeModified(int value)
+{
+	_winfo.StartingInfo.StartingLife = _uieditor.spinBox_startinglife->value();
+	_winfo.StartingInfo.StartingMana = _uieditor.spinBox_startingMana->value();
+	_winfo.StartingInfo.StartingArmor = _uieditor.spinBox_startingarmor->value();
+
+	SetModified();
+}
+
+/***********************************************************
+starting Outfit modified
+***********************************************************/
+void EditorHandler::StartingOutfitModified(int index)
+{
+	_winfo.StartingInfo.StartingModel.Outfit = _uieditor.comboBox_modeloutfit->currentText().toAscii().data();
+
+	SetModified();
+	RefreshStartingModelWeapon();
+}
+
+/***********************************************************
+starting Weapon modified
+***********************************************************/
+void EditorHandler::StartingWeaponModified(int index)
+{
+	_winfo.StartingInfo.StartingModel.Weapon = _uieditor.comboBox_modelweapon->currentText().toAscii().data();
+
+	SetModified();
+	RefreshStartingModelMode();
+}
+
+/***********************************************************
+starting Mode modified
+***********************************************************/
+void EditorHandler::StartingModeModified(int index)
+{
+	_winfo.StartingInfo.StartingModel.Mode = _uieditor.comboBox_modelmode->currentText().toAscii().data();
+
+	SetModified();
+}
+
+
+
+/***********************************************************
+ui button clicked
+***********************************************************/
+void EditorHandler::addmap_button_clicked()
+{
+	if(!IsWorldOpened())
+		return;
+
+	// clear data
+	_ui_addmapdialog.lineEdit_mapname->setText("");
+	_ui_addmapdialog.textEdit_map_description->setText("");
+	_ui_addmapdialog.radioButton_camtype_ortho->setChecked (true);
+	_ui_addmapdialog.checkBox_map_instancied->setChecked (false);
+	_addmapdialog->show();
+}
+
+/***********************************************************
+ui button clicked
+***********************************************************/
+void EditorHandler::removemap_button_clicked()
+{
+	QItemSelectionModel *selectionModel = _uieditor.tableView_MapList->selectionModel();
+	QModelIndexList indexes = selectionModel->selectedIndexes();
+
+	if(indexes.size() > 0)
+	{
+		std::string mapname = _maplistmodel->GetString(indexes[0]).toAscii().data();
+
+
+		LbaNet::MapsSeq::iterator itm = _winfo.Maps.find(mapname);
+		if(itm != _winfo.Maps.end())
+		{
+			// remove from internal memory
+			_winfo.Maps.erase(itm);
+
+			// remove row from table
+			_maplistmodel->removeRows(indexes[0].row(), 1);
+
+			// update map list name
+			QStringList::iterator it = std::find(_mapNameList->begin(), _mapNameList->end(), mapname.c_str());
+			if(it != _mapNameList->end())
+				_mapNameList->erase(it);
+
+
+			//inform server
+			EditorUpdateBasePtr update = new UpdateEditor_RemoveMap(mapname);
+			SharedDataHandler::getInstance()->EditorUpdate("-", update);
+
+			SetModified();
+			RefreshStartingMap();
+		}
+	}
+}
+
+
+/***********************************************************
+dialog accepted
+***********************************************************/
+void EditorHandler::addmap_accepted()
+{
+	QString mapname = _ui_addmapdialog.lineEdit_mapname->text();
+
+	// user forgot to set a name
+	if(mapname == "")
+		return;
+
+	if(_mapNameList->contains(mapname))
+	{
+		QMessageBox::warning(this, tr("Name already used"),
+			tr("The name you entered for the map is already used. Please enter a unique name."),
+			QMessageBox::Ok);
+		return;
+	}
+
+	_addmapdialog->hide();
+
+	LbaNet::MapInfo newmapinfo;
+	newmapinfo.Name = mapname.toAscii().data();
+
+	QString descs = _ui_addmapdialog.textEdit_map_description->toPlainText();
+	descs.replace(QString("\n"), QString(" @ "));
+	newmapinfo.Description = descs.toUtf8().data();
+
+	newmapinfo.Type = (_ui_addmapdialog.comboBox_maptype->currentIndex() == 0) ? "exterior" : "interior";
+
+	newmapinfo.IsInstance = _ui_addmapdialog.checkBox_map_instancied->isChecked();
+
+	newmapinfo.AutoCameraType = 1;
+	if(_ui_addmapdialog.radioButton_camtype_persp->isChecked())
+		newmapinfo.AutoCameraType = 2;
+	if(_ui_addmapdialog.radioButton_camtype_3d->isChecked())
+		newmapinfo.AutoCameraType = 3;
+
+	_winfo.Maps[newmapinfo.Name] = newmapinfo;
+
+
+	// refresh lists
+	QStringList data;
+	data << mapname << newmapinfo.Description.c_str();
+	_maplistmodel->AddOrUpdateRow(_maplistmodel->GetNextId(), data);
+
+	(*_mapNameList) << mapname;
+	_mapSpawningList[newmapinfo.Name] = boost::shared_ptr<QStringList>(new QStringList());
+
+
+	//inform server
+	EditorUpdateBasePtr update = new UpdateEditor_AddOrModMap(newmapinfo);
+	SharedDataHandler::getInstance()->EditorUpdate("-", update);
+	
+
+	SetModified();
+	RefreshStartingMap();
+	CreateDefaultSpawningAndTp(newmapinfo.Name);
+}
+
+
+
+/***********************************************************
+tp to default spawning of map
+***********************************************************/
+void EditorHandler::CreateDefaultSpawningAndTp(const std::string & mapname)
+{
+	// add a default spawning
+	long spid = AddOrModSpawning(mapname, "DefaultSpawning", 0, 0, 0, 0, true, 0);
+	AddSpawningName(mapname, "DefaultSpawning");
+	ChangeMap(mapname, spid);
+	SetModified();
+	RefreshStartingSpawning();
+}
+
+
+/***********************************************************
+map description changed
+***********************************************************/
+void EditorHandler::MapDescriptionChanged()
+{
+	std::string mapname = _uieditor.label_mapname->text().toAscii().data();
+	if(mapname != "")
+	{
+		QString descs = _uieditor.textEdit_map_description->toPlainText();
+		descs.replace(QString("\n"), QString(" @ "));
+		std::string descstring	= descs.toUtf8().data();
+
+		if(_winfo.Maps[mapname].Description != descstring)
+		{
+			SetModified();
+
+			//inform server
+			EditorUpdateBasePtr update = new UpdateEditor_AddOrModMap(_winfo.Maps[mapname]);
+			SharedDataHandler::getInstance()->EditorUpdate("-", update);
+		}
+	}
+}
+
+/***********************************************************
+map type changed
+***********************************************************/
+void EditorHandler::MapTypeChanged(int flag)
+{
+	std::string mapname = _uieditor.label_mapname->text().toAscii().data();
+	if(mapname != "")
+	{
+		_winfo.Maps[mapname].Type = (_uieditor.comboBox_maptype->currentIndex() == 0) ? "exterior" : "interior";
+
+		SetModified();
+
+		//inform server
+		EditorUpdateBasePtr update = new UpdateEditor_AddOrModMap(_winfo.Maps[mapname]);
+		SharedDataHandler::getInstance()->EditorUpdate("-", update);
+	}
+}
+
+/***********************************************************
+map instance changed
+***********************************************************/
+void EditorHandler::MapInstanceChanged(int flag)
+{
+	std::string mapname = _uieditor.label_mapname->text().toAscii().data();
+	if(mapname != "")
+	{
+		_winfo.Maps[mapname].IsInstance = _uieditor.checkBox_map_instancied->isChecked();
+
+		SetModified();
+
+		//inform server
+		EditorUpdateBasePtr update = new UpdateEditor_AddOrModMap(_winfo.Maps[mapname]);
+		SharedDataHandler::getInstance()->EditorUpdate("-", update);
+	}
+}
+
+/***********************************************************
+map cam type changed
+***********************************************************/
+void EditorHandler::MapCameraTypeChanged(bool flag)
+{
+	std::string mapname = _uieditor.label_mapname->text().toAscii().data();
+	if(mapname != "")
+	{
+		if(flag == true)
+		{
+			QWidget *sendero = static_cast<QWidget *>(sender());
+			if(sendero)
+			{
+				bool changed = false;
+
+				if(sendero->objectName() == "radioButton_camtype_ortho")
+				{
+					if(_winfo.Maps[mapname].AutoCameraType != 1)
+					{
+						_winfo.Maps[mapname].AutoCameraType = 1;
+						changed = true;
+					}
+				}
+
+				if(sendero->objectName() == "radioButton_camtype_persp")
+				{
+					if(_winfo.Maps[mapname].AutoCameraType != 2)
+					{
+						_winfo.Maps[mapname].AutoCameraType = 2;
+						changed = true;
+					}
+				}
+
+				if(sendero->objectName() == "radioButton_camtype_3d")
+				{
+					if(_winfo.Maps[mapname].AutoCameraType != 3)
+					{
+						_winfo.Maps[mapname].AutoCameraType = 3;
+						changed = true;
+					}
+				}
+
+				if(changed)
+				{
+					SetModified();
+
+					//inform server
+					EditorUpdateBasePtr update = new UpdateEditor_AddOrModMap(_winfo.Maps[mapname]);
+					SharedDataHandler::getInstance()->EditorUpdate("-", update);
+				}
+			}
+		}
+	}
+}
+
+
+
+/***********************************************************
+tp add button push
+***********************************************************/
+void EditorHandler::TpAdd_button()
+{
+	_ui_addtpdialog.lineEdit_tpname->setText("");
+	_ui_addtpdialog.comboBox_map->clear();
+	_ui_addtpdialog.comboBox_map->insertItems(0, *_mapNameList);
+	_ui_addtpdialog.comboBox_spawn->clear();
+	_addtpdialog->setWindowTitle("Add Teleport");
+	_edited_tp = -1;
+
+	_addtpdialog->show();
+}
+
+
+/***********************************************************
+tp remove button push
+***********************************************************/
+void EditorHandler::TpRemove_button()
+{
+	QItemSelectionModel *selectionModel = _uieditor.tableView_TeleportList->selectionModel();
+	QModelIndexList indexes = selectionModel->selectedIndexes();
+
+	if(indexes.size() > 0)
+	{
+		long tpid = _tplistmodel->GetId(indexes[0]);
+
+		LbaNet::ServerTeleportsSeq::iterator it = _winfo.TeleportInfo.find(tpid);
+		if( it != _winfo.TeleportInfo.end())
+		{
+			// remove from internal memory
+			_winfo.TeleportInfo.erase(it);
+
+			// remove row from table
+			_tplistmodel->removeRows(indexes[0].row(), 1);
+
+
+			//inform server
+			EditorUpdateBasePtr update = new UpdateEditor_TeleportListChanged(_winfo.TeleportInfo);
+			SharedDataHandler::getInstance()->EditorUpdate("-", update);
+
+			SetModified();
+		}
+	}
+}
+
+
+/***********************************************************
+tp edit button push
+***********************************************************/
+void EditorHandler::TpEdit_button()
+{
+	QItemSelectionModel *selectionModel = _uieditor.tableView_TeleportList->selectionModel();
+	QModelIndexList indexes = selectionModel->selectedIndexes();
+
+	if(indexes.size() > 0)
+	{
+		long id = _tplistmodel->GetId(indexes[0]);
+		std::string name = _tplistmodel->GetString(indexes[0]).toAscii().data();
+		_edited_tp = id;
+
+		LbaNet::ServerTeleportsSeq::iterator it = _winfo.TeleportInfo.find(id);
+		if( it != _winfo.TeleportInfo.end())
+		{
+			_ui_addtpdialog.lineEdit_tpname->setText(name.c_str());
+
+
+			// add map list to combo box
+			_ui_addtpdialog.comboBox_map->clear();
+			_ui_addtpdialog.comboBox_map->insertItems(0, *_mapNameList);
+
+			int index = _ui_addtpdialog.comboBox_map->findText(it->second.MapName.c_str());
+			if(index >= 0)
+				_ui_addtpdialog.comboBox_map->setCurrentIndex(index);
+
+
+
+			// add spawning list to combo box
+			_ui_addtpdialog.comboBox_spawn->clear();
+
+			std::map<std::string, boost::shared_ptr<QStringList> >::iterator itsp = 
+													_mapSpawningList.find(it->second.MapName.c_str());
+			if(itsp != _mapSpawningList.end())
+			{
+				_ui_addtpdialog.comboBox_spawn->insertItems(0, *(itsp->second));
+
+				// select span in combo box if exist
+				LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(it->second.MapName);
+				if(itmap != _winfo.Maps.end())
+				{
+					LbaNet::SpawningsSeq::iterator itmapsp = itmap->second.Spawnings.find(it->second.SpawningId);
+					if(itmapsp != itmap->second.Spawnings.end())
+					{
+						std::string spname = itmapsp->second.Name;
+						int indexsp = _ui_addtpdialog.comboBox_spawn->findText(spname.c_str());
+						if(indexsp >= 0)
+							_ui_addtpdialog.comboBox_spawn->setCurrentIndex(indexsp);
+					}
+				}
+			}
+
+			std::stringstream strs;
+			strs<<"Edit Teleport #"<<id;
+			_addtpdialog->setWindowTitle(strs.str().c_str());
+			_addtpdialog->show();
+		}
+	}
+}
+
+/***********************************************************
+tp add button push
+***********************************************************/
+void EditorHandler::TpAdd_button_accepted()
+{
+	std::string tpname = _ui_addtpdialog.lineEdit_tpname->text().toAscii().data();
+	if(tpname == "")
+		return;
+
+	_addtpdialog->hide();
+
+	std::string mapname = _ui_addtpdialog.comboBox_map->currentText().toAscii().data();
+	std::string spawnname = _ui_addtpdialog.comboBox_spawn->currentText().toAscii().data();
+
+	long spid = -1;
+	if(spawnname != "")
+	{
+		LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(mapname);
+		if(itmap != _winfo.Maps.end())
+		{
+			LbaNet::SpawningsSeq::iterator it = itmap->second.Spawnings.begin();
+			LbaNet::SpawningsSeq::iterator end = itmap->second.Spawnings.end();
+			for(;it != end; ++it)
+			{
+				if(spawnname == it->second.Name)
+				{
+					spid = it->first;
+					break;
+				}
+			}
+		}
+	}
+
+	long tpid = 0;
+	if(_edited_tp >= 0)
+		tpid = _edited_tp;
+	else
+	{
+		tpid = (++_currteleportidx);
+	}
+
+	QStringList data;
+	data << tpname.c_str() << mapname.c_str() << spawnname.c_str();
+	_tplistmodel->AddOrUpdateRow(tpid, data);
+
+
+	_winfo.TeleportInfo[tpid].Name = tpname;
+	_winfo.TeleportInfo[tpid].MapName = mapname;
+	_winfo.TeleportInfo[tpid].SpawningId = spid;
+
+	//inform server
+	EditorUpdateBasePtr update = new UpdateEditor_TeleportListChanged(_winfo.TeleportInfo);
+	SharedDataHandler::getInstance()->EditorUpdate("-", update);
+
+	SetModified();
+}
+
+
+/***********************************************************
+tp add button push
+***********************************************************/
+void EditorHandler::TpDialogMapChanged(int flag)
+{
+	std::string mapname = _ui_addtpdialog.comboBox_map->currentText().toAscii().data();
+
+	//update spawning list
+	_ui_addtpdialog.comboBox_spawn->clear();
+
+	std::map<std::string, boost::shared_ptr<QStringList> >::iterator itsp = 
+											_mapSpawningList.find(mapname.c_str());
+	if(itsp != _mapSpawningList.end())
+	{
+		_ui_addtpdialog.comboBox_spawn->insertItems(0, *(itsp->second));
+
+		if(itsp->second->size() > 0)
+			_ui_addtpdialog.comboBox_spawn->setCurrentIndex(0);
+	}
+}
+
+
+/***********************************************************
+update tp list with new span name
+***********************************************************/
+void EditorHandler::UpdateTpSpanName(const std::string & mapname, 
+									 long spwid, 
+									 const std::string &  spname)
+{
+	LbaNet::ServerTeleportsSeq::iterator it = _winfo.TeleportInfo.begin();
+	LbaNet::ServerTeleportsSeq::iterator end = _winfo.TeleportInfo.end();
+	for(; it != end; ++it)
+	{
+		if(it->second.MapName == mapname)
+		{
+			if(it->second.SpawningId = spwid)
+			{
+				QStringList data;
+				data << it->second.Name.c_str() << mapname.c_str() << spname.c_str();
+				_tplistmodel->AddOrUpdateRow(it->first, data);
+			}
+		}
+	}
+}
+
+
+/***********************************************************
+add world accepted
+***********************************************************/
+void EditorHandler::addworld_accepted()
+{
+	std::string wname = _ui_addworlddialog.lineEdit_worldname->text().toAscii().data();
+
+	if(wname == "")
+		return;
+
+	_addworlddialog->hide();
+	ResetWorld();
+
+	LbaNet::WorldInformation winfo;
+	winfo.Description.WorldName = wname;
+	QString descs = _ui_addworlddialog.textEdit_worlddesc->toPlainText();
+	descs.replace(QString("\n"), QString(" @ "));
+	winfo.Description.Description = descs.toUtf8().data();
+	winfo.StartingInfo.InventorySize = 30;
+	winfo.StartingInfo.StartingLife = 50;
+	winfo.StartingInfo.StartingMana = 50;
+	winfo.StartingInfo.StartingArmor = 0;
+	winfo.StartingInfo.StartingModel.TypeRenderer = LbaNet::RenderLba1M;
+	winfo.StartingInfo.StartingModel.ModelName = "Twinsen";
+	winfo.StartingInfo.StartingModel.Outfit = "Nurse";
+	winfo.StartingInfo.StartingModel.Weapon = "No";
+	winfo.StartingInfo.StartingModel.Mode = "Normal";
+	winfo.StartingInfo.SpawningId = -1;
+
+
+	//create directories
+	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname );}catch(...){}
+	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/Lua");}catch(...){}
+
+	// save new world
+	DataLoader::getInstance()->SaveWorldInformation(wname, winfo);
+
+	// reset gui to new world
+	ResetWorld();
+	SetWorldInfo(wname);
+
+	EventsQueue::getReceiverQueue()->AddEvent(new ChangeWorldEvent(wname));
+
+	_modified = false;
+	_mapmodified = false;
+}
+
+
+
+/***********************************************************
+on selectactor_double_clicked
+***********************************************************/
+void EditorHandler::selectactor_double_clicked(const QModelIndex & itm)
+{
+	ActorSelect_button();
+}
+
+/***********************************************************
+Actor add button push
+***********************************************************/
+void EditorHandler::ActorAdd_button()
+{
+	_ui_addactordialog.lineEdit_name->setText("");
+	_addactordialog->show();
+}
+
+
+/***********************************************************
+Actor remove button push
+***********************************************************/
+void EditorHandler::ActorRemove_button()
+{
+	QItemSelectionModel *selectionModel = _uieditor.tableView_ActorList->selectionModel();
+	QModelIndexList indexes = selectionModel->selectedIndexes();
+	if(indexes.size() > 1)
+	{
+		// inform server
+		long id = _actorlistmodel->GetId(indexes[0]);
+		RemoveActor(id);
+
+		// remove row from table
+		_actorlistmodel->removeRows(indexes[0].row(), 1);
+
+		// clear object
+		ClearObjectIfSelected("Actor", id);
+	}
+}
+
+
+/***********************************************************
+Actor edit button push
+***********************************************************/
+void EditorHandler::ActorSelect_button()
+{
+	QItemSelectionModel *selectionModel = _uieditor.tableView_ActorList->selectionModel();
+	QModelIndexList indexes = selectionModel->selectedIndexes();
+	if(indexes.size() > 1)
+	{
+		long id = _actorlistmodel->GetId(indexes[0]);	
+		SelectActor(id);
+	}
+}
+
+
+/***********************************************************
+Actor add button push
+***********************************************************/
+void EditorHandler::ActorAdd_button_accepted()
+{
+	_addactordialog->hide();
+
+
+	// add the actor to internal
+	ActorObjectInfo ainfo(_curractoridx+1);
+	ainfo.ExtraInfo.Name = _ui_addactordialog.lineEdit_name->text().toAscii().data();
+	ainfo.ExtraInfo.NameColorR = 1.0;
+	ainfo.ExtraInfo.NameColorG = 1.0;
+	ainfo.ExtraInfo.NameColorB = 1.0;
+
+	switch(_ui_addactordialog.comboBox_dtype->currentIndex())
+	{
+		case 0:
+			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderOsgModel;
+		break;
+		case 1:
+			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderSprite;
+		break;
+		case 2:
+			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderLba1M;
+		break;
+		case 3:
+			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderLba2M;
+		break;
+	}
+
+	switch(_ui_addactordialog.comboBox_atype->currentIndex())
+	{
+		case 0:
+			ainfo.PhysicDesc.TypePhysO = LbaNet::StaticAType;
+		break;
+		case 1:
+			ainfo.PhysicDesc.TypePhysO = LbaNet::KynematicAType;
+		break;
+		case 2:
+			ainfo.PhysicDesc.TypePhysO = LbaNet::CharControlAType;
+		break;
+	}
+
+	switch(_ui_addactordialog.comboBox_ptype->currentIndex())
+	{
+		case 0:
+			ainfo.PhysicDesc.TypeShape = LbaNet::NoShape;
+		break;
+		case 1:
+			ainfo.PhysicDesc.TypeShape = LbaNet::BoxShape;
+		break;
+		case 2:
+			ainfo.PhysicDesc.TypeShape = LbaNet::CapsuleShape;
+		break;
+		case 3:
+			ainfo.PhysicDesc.TypeShape = LbaNet::SphereShape;
+		break;
+		case 4:
+			ainfo.PhysicDesc.TypeShape = LbaNet::TriangleMeshShape;
+		break;
+	}
+
+	ainfo.DisplayDesc.ModelId = 0;
+	ainfo.DisplayDesc.UseLight = true;
+	ainfo.DisplayDesc.CastShadow = true;
+	ainfo.DisplayDesc.ColorR = 1;
+	ainfo.DisplayDesc.ColorG = 1;
+	ainfo.DisplayDesc.ColorB = 1;
+	ainfo.DisplayDesc.ColorA = 1;
+	ainfo.DisplayDesc.TransX = 0;
+	ainfo.DisplayDesc.TransY = 0;
+	ainfo.DisplayDesc.TransZ = 0;
+	ainfo.DisplayDesc.ScaleX = 1;
+	ainfo.DisplayDesc.ScaleY = 1;
+	ainfo.DisplayDesc.ScaleZ = 1;
+	ainfo.DisplayDesc.RotX = 0;
+	ainfo.DisplayDesc.RotY = 0;
+	ainfo.DisplayDesc.RotZ = 0;
+	ainfo.DisplayDesc.State = LbaNet::StNormal;
+
+	ainfo.PhysicDesc.Pos.X = _posX;
+	ainfo.PhysicDesc.Pos.Y = _posY;
+	ainfo.PhysicDesc.Pos.Z = _posZ;
+	ainfo.PhysicDesc.Pos.Rotation = 0;
+	ainfo.PhysicDesc.Density = 1;
+	ainfo.PhysicDesc.Collidable = true;
+	ainfo.PhysicDesc.SizeX = 1;
+	ainfo.PhysicDesc.SizeY = 1;
+	ainfo.PhysicDesc.SizeZ = 1;
+
+
+	boost::shared_ptr<ActorHandler> act(new ActorHandler(ainfo));
+	AddActorObject(act);
+
+	SetMapModified();
+
+	//inform server
+	std::string mapname = _uieditor.label_mapname->text().toAscii().data();
+	EditorUpdateBasePtr update = new UpdateEditor_AddOrModActor(act);
+	SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
+
+	SelectActor(ainfo.ObjectId);
+}
+
+
+
+
+/***********************************************************
+remove actor
+***********************************************************/
+void EditorHandler::RemoveActor(long id)
+{
+	//remove internal trigger
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator it = _Actors.find(id);
+	if(it != _Actors.end())
+	{
+		_Actors.erase(it);
+		SetMapModified();
+
+		//inform server
+		std::string mapname = _uieditor.label_mapname->text().toAscii().data();
+		EditorUpdateBasePtr update = new UpdateEditor_RemoveActor(id);
+		SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
+
+		ClearObjectIfSelected("Actor", id);
+	}
+}
+
+
+
+/***********************************************************
+select actor
+***********************************************************/
+void EditorHandler::SelectActor(long id)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator it = _Actors.find(id);
+	if(it != _Actors.end())
+	{
+		ResetObject();
+		const ActorObjectInfo & ainfo = it->second->GetInfo();
+		
+
+		{
+			QVariantList data;
+			data<<"Type"<<"Actor";
+			_objectmodel->AddRow(data);
+		}
+
+		{
+			QVariantList data;
+			data<<"SubCategory"<<"-";
+			_objectmodel->AddRow(data);
+		}
+
+		{
+			QVariantList data;
+			data<<"Id"<<id;
+			_objectmodel->AddRow(data);
+		}
+
+		{
+			QVariantList data;
+			data<<"Name"<<ainfo.ExtraInfo.Name.c_str();
+			_objectmodel->AddRow(data);
+		}
+
+
+
+		std::string type;
+		switch(ainfo.PhysicDesc.TypePhysO)
+		{
+			case LbaNet::StaticAType:
+				type = "Static";
+			break;
+
+			case LbaNet::KynematicAType:
+				type = "Scripted";
+			break;
+
+			case LbaNet::CharControlAType:
+				type = "Movable";
+			break;  
+		}
+		{
+			QVariantList data;
+			data<<"Type"<<type.c_str();
+			_objectmodel->AddRow(data);
+		}
+
+		std::string dtype;
+		switch(ainfo.DisplayDesc.TypeRenderer)
+		{
+			case LbaNet::RenderOsgModel:
+				dtype = "Osg Model";
+			break;
+
+			case RenderSprite:
+				dtype = "Sprite";
+			break;
+
+			case RenderLba1M:
+				dtype = "Lba1 Model";
+			break;
+
+			case RenderLba2M:
+				dtype = "Lba2 Model";
+			break;
+
+			case RenderCross:
+				dtype = "Cross";
+			break;
+
+			case RenderBox:
+				dtype = "Box";
+			break;
+
+			case RenderCapsule:
+				dtype = "Capsule";
+			break;
+		}
+		{
+			QVariantList data;
+			data<<"Display Type"<<dtype.c_str();
+			_objectmodel->AddRow(data);
+		}
+
+		std::string ptype;
+		switch(ainfo.PhysicDesc.TypeShape)
+		{
+			case LbaNet::NoShape:
+				ptype = "No Shape";
+			break;
+			case BoxShape:
+				ptype = "Box";
+			break;
+			case CapsuleShape:
+				ptype = "Capsule";
+			break;
+			case SphereShape:
+				ptype = "Sphere";
+			break;
+			case TriangleMeshShape:
+				ptype = "Triangle Mesh";
+			break;
+		}
+		{
+			QVariantList data;
+			data<<"Physical Type"<<ptype.c_str();
+			_objectmodel->AddRow(data);
+		}
+
+		_objectcustomdelegate->SetCustomIndex(4, _actortypeList);
+		_objectcustomdelegate->SetCustomIndex(5, _actordtypeList);
+		_objectcustomdelegate->SetCustomIndex(6, _actorptypeList);		
+
+
+		{
+			QVariantList data;
+			data<<"Position X"<<(double)ainfo.PhysicDesc.Pos.X;
+			_objectmodel->AddRow(data);
+		}
+		{
+			QVariantList data;
+			data<<"Position Y"<<(double)ainfo.PhysicDesc.Pos.Y;
+			_objectmodel->AddRow(data);
+		}
+		{
+			QVariantList data;
+			data<<"Position Z"<<(double)ainfo.PhysicDesc.Pos.Z;
+			_objectmodel->AddRow(data);
+		}
+		{
+			QVariantList data;
+			data<<"Rotation"<<(double)ainfo.PhysicDesc.Pos.Rotation;
+			_objectmodel->AddRow(data);
+		}
+
+		if(ainfo.PhysicDesc.TypeShape != LbaNet::NoShape)
+		{
+			{
+				QVariantList data;
+				data<<"Collidable"<<ainfo.PhysicDesc.Collidable;
+				_objectmodel->AddRow(data);
+			}
+
+			if(ainfo.PhysicDesc.TypeShape != LbaNet::TriangleMeshShape)
+			{
+				{
+					QVariantList data;
+					data<<"Size X"<<(double)ainfo.PhysicDesc.SizeX;
+					_objectmodel->AddRow(data);
+				}
+				{
+					QVariantList data;
+					data<<"Size Y"<<(double)ainfo.PhysicDesc.SizeY;
+					_objectmodel->AddRow(data);
+				}
+				{
+					QVariantList data;
+					data<<"Size Z"<<(double)ainfo.PhysicDesc.SizeZ;
+					_objectmodel->AddRow(data);
+				}
+			}
+			else
+			{
+				{
+					QVariantList data;
+					data<<"Physic filename"<<ainfo.PhysicDesc.Filename.c_str();
+					_objectmodel->AddRow(data);
+				}
+			}
+		}
+
+		{
+			QVariantList data;
+			data<<"Use Light"<<ainfo.DisplayDesc.UseLight;
+			_objectmodel->AddRow(data);
+		}
+		{
+			QVariantList data;
+			data<<"Cast shadow"<<ainfo.DisplayDesc.CastShadow;
+			_objectmodel->AddRow(data);
+		}
+
+		{
+			QVariantList data;
+			data<<"Display translation X"<<(double)ainfo.DisplayDesc.TransX;
+			_objectmodel->AddRow(data);
+		}
+		{
+			QVariantList data;
+			data<<"Display translation Y"<<(double)ainfo.DisplayDesc.TransY;
+			_objectmodel->AddRow(data);
+		}
+		{
+			QVariantList data;
+			data<<"Display translation Z"<<(double)ainfo.DisplayDesc.TransZ;
+			_objectmodel->AddRow(data);
+		}
+		{
+			QVariantList data;
+			data<<"Display rotation X"<<(double)ainfo.DisplayDesc.RotX;
+			_objectmodel->AddRow(data);
+		}
+		{
+			QVariantList data;
+			data<<"Display rotation Y"<<(double)ainfo.DisplayDesc.RotY;
+			_objectmodel->AddRow(data);
+		}
+		{
+			QVariantList data;
+			data<<"Display rotation Z"<<(double)ainfo.DisplayDesc.RotZ;
+			_objectmodel->AddRow(data);
+		}
+		{
+			QVariantList data;
+			data<<"Display scale X"<<(double)ainfo.DisplayDesc.ScaleX;
+			_objectmodel->AddRow(data);
+		}
+		{
+			QVariantList data;
+			data<<"Display scale Y"<<(double)ainfo.DisplayDesc.ScaleY;
+			_objectmodel->AddRow(data);
+		}
+		{
+			QVariantList data;
+			data<<"Display scale Z"<<(double)ainfo.DisplayDesc.ScaleZ;
+			_objectmodel->AddRow(data);
+		}
+
+		{
+			QVariantList data;
+			data<<"Display model/file name"<<ainfo.DisplayDesc.ModelName.c_str();
+			_objectmodel->AddRow(data);
+		}
+		// TODO Outfit;
+		// TODO Weapon;
+		// TODO - add file choose dialog
+
+		UpdateSelectedActorDisplay(ainfo.PhysicDesc);
+	}
+}
+
+
+
+/***********************************************************
+called when actor object changed
+***********************************************************/
+void EditorHandler::ActorObjectChanged(long id)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator it = _Actors.find(id);
+	if(it != _Actors.end())
+	{
+		bool updateobj = false;
+		ActorObjectInfo & ainfo = it->second->GetInfo();
+
+		ainfo.ExtraInfo.Name = _objectmodel->GetData(1, 3).toString().toAscii().data();
+
+		ainfo.PhysicDesc.Pos.X = _objectmodel->GetData(1, 7).toFloat();
+		ainfo.PhysicDesc.Pos.Y = _objectmodel->GetData(1, 8).toFloat();
+		ainfo.PhysicDesc.Pos.Z = _objectmodel->GetData(1, 9).toFloat();
+		ainfo.PhysicDesc.Pos.Rotation = _objectmodel->GetData(1, 10).toFloat();
+
+		int index = 11;
+
+		if(ainfo.PhysicDesc.TypeShape != LbaNet::NoShape)
+		{
+			ainfo.PhysicDesc.Collidable = _objectmodel->GetData(1, index).toBool();
+			++index;
+
+			if(ainfo.PhysicDesc.TypeShape != LbaNet::TriangleMeshShape)
+			{
+				ainfo.PhysicDesc.SizeX = _objectmodel->GetData(1, index).toString().toFloat();
+				++index;
+				ainfo.PhysicDesc.SizeY = _objectmodel->GetData(1, index).toString().toFloat();
+				++index;
+				ainfo.PhysicDesc.SizeZ = _objectmodel->GetData(1, index).toString().toFloat();
+				++index;
+			}
+			else
+			{
+				ainfo.PhysicDesc.Filename = _objectmodel->GetData(1, index).toString().toAscii().data();
+				++index;
+			}
+		}
+
+		ainfo.DisplayDesc.UseLight = _objectmodel->GetData(1, index).toBool();
+		++index;
+
+		ainfo.DisplayDesc.CastShadow = _objectmodel->GetData(1, index).toBool();
+		++index;
+
+		ainfo.DisplayDesc.TransX = _objectmodel->GetData(1, index).toString().toFloat();
+		++index;
+		ainfo.DisplayDesc.TransY = _objectmodel->GetData(1, index).toString().toFloat();
+		++index;
+		ainfo.DisplayDesc.TransZ = _objectmodel->GetData(1, index).toString().toFloat();
+		++index;
+
+		ainfo.DisplayDesc.RotX = _objectmodel->GetData(1, index).toString().toFloat();
+		++index;
+		ainfo.DisplayDesc.RotY = _objectmodel->GetData(1, index).toString().toFloat();
+		++index;
+		ainfo.DisplayDesc.RotZ = _objectmodel->GetData(1, index).toString().toFloat();
+		++index;
+
+		ainfo.DisplayDesc.ScaleX = _objectmodel->GetData(1, index).toString().toFloat();
+		++index;
+		ainfo.DisplayDesc.ScaleY = _objectmodel->GetData(1, index).toString().toFloat();
+		++index;
+		ainfo.DisplayDesc.ScaleZ = _objectmodel->GetData(1, index).toString().toFloat();
+		++index;
+
+
+		ainfo.DisplayDesc.ModelName = _objectmodel->GetData(1, index).toString().toAscii().data();
+		++index;
+
+		
+		{
+		LbaNet::PhysicalActorType before = ainfo.PhysicDesc.TypePhysO;
+		std::string type = _objectmodel->GetData(1, 4).toString().toAscii().data();
+		if(type == "Static") 
+			ainfo.PhysicDesc.TypePhysO = LbaNet::StaticAType;
+		if(type == "Scripted") 
+			ainfo.PhysicDesc.TypePhysO = LbaNet::KynematicAType;
+		if(type == "Movable") 
+			ainfo.PhysicDesc.TypePhysO = LbaNet::CharControlAType;
+		if(before != ainfo.PhysicDesc.TypePhysO)
+			updateobj = true;
+
+		LbaNet::RenderTypeEnum befored = ainfo.DisplayDesc.TypeRenderer;
+		std::string dtype = _objectmodel->GetData(1, 5).toString().toAscii().data();
+		if(dtype == "Osg Model") 
+			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderOsgModel;
+		if(dtype == "Sprite") 
+			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderSprite;
+		if(dtype == "Lba1 Model") 
+			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderLba1M;
+		if(dtype == "Lba2 Model") 
+			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderLba2M;
+		if(befored != ainfo.DisplayDesc.TypeRenderer)
+			updateobj = true;
+
+		LbaNet::PhysicalShapeEnum beforep = ainfo.PhysicDesc.TypeShape;
+		std::string ptype = _objectmodel->GetData(1, 6).toString().toAscii().data();
+		if(ptype == "No Shape") 
+			ainfo.PhysicDesc.TypeShape = LbaNet::NoShape;
+		if(ptype == "Box") 
+			ainfo.PhysicDesc.TypeShape = LbaNet::BoxShape;
+		if(ptype == "Capsule") 
+			ainfo.PhysicDesc.TypeShape = LbaNet::CapsuleShape;
+		if(ptype == "Sphere") 
+			ainfo.PhysicDesc.TypeShape = LbaNet::SphereShape;
+		if(ptype == "Triangle Mesh") 
+			ainfo.PhysicDesc.TypeShape = LbaNet::TriangleMeshShape;
+		if(beforep != ainfo.PhysicDesc.TypeShape)
+			updateobj = true;
+		}
+
+
+		//inform server
+		std::string mapname = _uieditor.label_mapname->text().toAscii().data();
+		EditorUpdateBasePtr update = new UpdateEditor_AddOrModActor(it->second);
+		SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
+
+
+		// update list
+		{
+			std::string type;
+			switch(ainfo.PhysicDesc.TypePhysO)
+			{
+				case LbaNet::StaticAType:
+					type = "Static";
+				break;
+
+				case LbaNet::KynematicAType:
+					type = "Scripted";
+				break;
+
+				case LbaNet::CharControlAType:
+					type = "Movable";
+				break;  
+			}
+
+
+			std::string dtype;
+			switch(ainfo.DisplayDesc.TypeRenderer)
+			{
+				case LbaNet::RenderOsgModel:
+					dtype = "Osg Model";
+				break;
+
+				case RenderSprite:
+					dtype = "Sprite";
+				break;
+
+				case RenderLba1M:
+					dtype = "Lba1 Model";
+				break;
+
+				case RenderLba2M:
+					dtype = "Lba2 Model";
+				break;
+
+				case RenderCross:
+					dtype = "Cross";
+				break;
+
+				case RenderBox:
+					dtype = "Box";
+				break;
+
+				case RenderCapsule:
+					dtype = "Capsule";
+				break;
+			}
+
+			std::string ptype;
+			switch(ainfo.PhysicDesc.TypeShape)
+			{
+				case LbaNet::NoShape:
+					ptype = "No Shape";
+				break;
+				case BoxShape:
+					ptype = "Box";
+				break;
+				case CapsuleShape:
+					ptype = "Capsule";
+				break;
+				case SphereShape:
+					ptype = "Sphere";
+				break;
+				case TriangleMeshShape:
+					ptype = "Triangle Mesh";
+				break;
+			}
+
+			std::string name = ainfo.ExtraInfo.Name;
+			if(name == "")
+				name = "-";
+
+			QStringList data;
+			data << name.c_str()<< type.c_str()  << dtype.c_str() << ptype.c_str();
+			_actorlistmodel->AddOrUpdateRow(id, data);
+		}
+
+
+
+		//refresh object
+		if(updateobj)
+			SelectActor(id);
+
+
+		SetMapModified();
+		UpdateSelectedActorDisplay(ainfo.PhysicDesc);
+	}
+}
+
+
+/***********************************************************
+update editor selected ector display
+***********************************************************/
+void EditorHandler::UpdateSelectedActorDisplay(LbaNet::ObjectPhysicDesc desc)
+{
+	RemoveSelectedActorDislay();
+
+	_actornode = OsgHandler::getInstance()->AddEmptyActorNode(false);
+
+	osg::Matrixd Trans;
+	osg::Matrixd Rotation;
+	Trans.makeTranslate(desc.Pos.X, desc.Pos.Y, desc.Pos.Z);
+	LbaQuaternion Q(desc.Pos.Rotation, LbaVec3(0,1,0));
+	Rotation.makeRotate(osg::Quat(Q.X, Q.Y, Q.Z, Q.W));
+	_actornode->setMatrix(Rotation * Trans);
+
+	switch(desc.TypeShape)
+	{
+		case LbaNet::NoShape:
+		{
+			osg::Geode* lineGeode = new osg::Geode();
+			osg::Geometry* lineGeometry = new osg::Geometry();
+			lineGeode->addDrawable(lineGeometry); 
+
+			osg::Vec3Array* lineVertices = new osg::Vec3Array();
+			lineVertices->push_back( osg::Vec3( -2, 0, 0) );
+			lineVertices->push_back( osg::Vec3(2, 0, 0) );
+			lineVertices->push_back( osg::Vec3(0 , 0, -2) );
+			lineVertices->push_back( osg::Vec3(0 , 0, 2) );
+			lineGeometry->setVertexArray( lineVertices ); 
+
+			osg::Vec4Array* linecolor = new osg::Vec4Array();
+			linecolor->push_back( osg::Vec4( 0.2, 0.2, 1.0, 0.5) );
+			lineGeometry->setColorArray(linecolor);
+			lineGeometry->setColorBinding(osg::Geometry::BIND_OVERALL);
+
+			osg::DrawElementsUInt* dunit = new osg::DrawElementsUInt(osg::PrimitiveSet::LINES, 0);
+			dunit->push_back(0);
+			dunit->push_back(1);
+			dunit->push_back(2);
+			dunit->push_back(3);
+			lineGeometry->addPrimitiveSet(dunit); 
+			_actornode->addChild(lineGeode);
+
+			osg::StateSet* stateset = lineGeometry->getOrCreateStateSet();
+			osg::LineWidth* linewidth = new osg::LineWidth();
+
+			linewidth->setWidth(3.0f);
+			stateset->setAttributeAndModes(linewidth,osg::StateAttribute::ON);
+			stateset->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
+			stateset->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
+			stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+			stateset->setRenderBinDetails( 8000, "RenderBin");
+
+
+		}
+		break;
+		case LbaNet::BoxShape:
+		{
+			osg::ref_ptr<osg::Geode> capsuleGeode(new osg::Geode());
+			osg::ref_ptr<osg::Box> caps(new osg::Box(osg::Vec3(0,(desc.SizeY/2),0), desc.SizeX, desc.SizeY, desc.SizeZ));
+			osg::ref_ptr<osg::ShapeDrawable> capsdraw = new osg::ShapeDrawable(caps);
+			capsdraw->setColor(osg::Vec4(0.2, 0.2, 1.0, 0.4));
+			capsuleGeode->addDrawable(capsdraw);
+			_actornode->addChild(capsuleGeode);
+
+			osg::StateSet* stateset = capsuleGeode->getOrCreateStateSet();
+			stateset->setMode(GL_BLEND, osg::StateAttribute::ON);
+			stateset->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
+			stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+			stateset->setRenderBinDetails( 8000, "RenderBin");	
+		}
+		break;
+		case CapsuleShape:
+		{
+			osg::ref_ptr<osg::Geode> capsuleGeode(new osg::Geode());
+			osg::ref_ptr<osg::Capsule> caps(new osg::Capsule(osg::Vec3(0,desc.SizeY/2,0),desc.SizeX/2,desc.SizeY-desc.SizeX));
+			osg::ref_ptr<osg::ShapeDrawable> capsdraw = new osg::ShapeDrawable(caps);
+			capsdraw->setColor(osg::Vec4(0.2, 0.2, 1.0, 0.4));
+			capsuleGeode->addDrawable(capsdraw);
+			_actornode->addChild(capsuleGeode);
+
+			osg::Matrixd RotationC;
+			LbaQuaternion QC(90, LbaVec3(1,0,0));
+			RotationC.makeRotate(osg::Quat(QC.X, QC.Y, QC.Z, QC.W));
+			osg::Quat quatC;
+			quatC.set(RotationC);
+			caps->setRotation(quatC);
+
+			osg::StateSet* stateset = capsuleGeode->getOrCreateStateSet();
+			stateset->setMode(GL_BLEND, osg::StateAttribute::ON);
+			stateset->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
+			stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+			stateset->setRenderBinDetails( 8000, "RenderBin");	
+		}
+		break;
+		case SphereShape:
+		{
+			osg::ref_ptr<osg::Geode> capsuleGeode(new osg::Geode());
+			osg::ref_ptr<osg::Sphere> caps(new osg::Sphere(osg::Vec3(0,desc.SizeY/2,0),desc.SizeY/2));
+			osg::ref_ptr<osg::ShapeDrawable> capsdraw = new osg::ShapeDrawable(caps);
+			capsdraw->setColor(osg::Vec4(0.2, 0.2, 1.0, 0.4));
+			capsuleGeode->addDrawable(capsdraw);
+			_actornode->addChild(capsuleGeode);
+
+			osg::StateSet* stateset = capsuleGeode->getOrCreateStateSet();
+			stateset->setMode(GL_BLEND, osg::StateAttribute::ON);
+			stateset->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
+			stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+			stateset->setRenderBinDetails( 8000, "RenderBin");	
+		}
+		break;
+		case TriangleMeshShape:
+		{
+			std::ifstream file(("Data/"+desc.Filename).c_str(), std::ifstream::binary);
+			if(!file.is_open())
+				return;
+
+			unsigned int sizevertex;
+			unsigned int sizeindices;
+			unsigned int sizematerials;
+
+			file.read((char*)&sizevertex, sizeof(unsigned int));
+			file.read((char*)&sizeindices, sizeof(unsigned int));
+			file.read((char*)&sizematerials, sizeof(unsigned int));
+
+			float *buffervertex = new float[sizevertex];
+			unsigned int *bufferindices = new unsigned int[sizeindices];
+			file.read((char*)buffervertex, sizevertex*sizeof(float));
+			file.read((char*)bufferindices, sizeindices*sizeof(unsigned int));
+
+			osg::ref_ptr<osg::Geode> myGeode = new osg::Geode();
+			_actornode->addChild(myGeode);
+			osg::ref_ptr<osg::Geometry> m_myGeometry = new osg::Geometry();
+			myGeode->addDrawable(m_myGeometry.get());
+
+			osg::Vec3Array* myVerticesPoly = new osg::Vec3Array;
+			for(unsigned int i=0; i<sizevertex; i+=3)
+				myVerticesPoly->push_back(osg::Vec3(buffervertex[i], buffervertex[i+1], buffervertex[i+2]));
+			m_myGeometry->setVertexArray( myVerticesPoly ); 
+
+			osg::DrawElementsUInt* myprimitive = new osg::DrawElementsUInt(osg::PrimitiveSet::TRIANGLES, 0);
+			for(unsigned int i=0; i<sizeindices; ++i)
+				myprimitive->push_back(bufferindices[i]);
+
+			m_myGeometry->addPrimitiveSet(myprimitive);
+
+			osgUtil::SmoothingVisitor::smooth(*(m_myGeometry.get()));
+
+			osg::Vec4Array* colors = new osg::Vec4Array;
+			colors->push_back(osg::Vec4(0.2, 0.2, 1.0, 0.4));
+			m_myGeometry->setColorArray(colors);
+			m_myGeometry->setColorBinding(osg::Geometry::BIND_OVERALL);
+
+			delete[] buffervertex;
+			delete[] bufferindices;
+
+			osg::StateSet* stateset = myGeode->getOrCreateStateSet();
+			stateset->setMode(GL_BLEND, osg::StateAttribute::ON);
+			stateset->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
+			stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+			stateset->setRenderBinDetails( 8000, "RenderBin");	
+
+		}
+		break;
+	}
+}
+
+
+/***********************************************************
+remove current selected display
+***********************************************************/
+void EditorHandler::RemoveSelectedActorDislay()
+{
+	if(_actornode)
+		OsgHandler::getInstance()->RemoveActorNode(_actornode, false);
+
+	_actornode = NULL;
 }

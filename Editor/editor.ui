@@ -81,7 +81,7 @@
                <item>
                 <widget class="QTabWidget" name="tabWidgetworld">
                  <property name="currentIndex">
-                  <number>5</number>
+                  <number>0</number>
                  </property>
                  <widget class="QWidget" name="tab_worldinfo">
                   <attribute name="title">
@@ -200,7 +200,7 @@
                    <item>
                     <widget class="QGroupBox" name="groupBox_startingplace">
                      <property name="title">
-                      <string>StartingPlace</string>
+                      <string>Starting Place</string>
                      </property>
                      <layout class="QGridLayout" name="gridLayout_3">
                       <item row="0" column="0">
@@ -216,7 +216,7 @@
                       <item row="0" column="3">
                        <widget class="QLabel" name="label_starting_spawning_t">
                         <property name="text">
-                         <string>Spawning:</string>
+                         <string>Spawn:</string>
                         </property>
                        </widget>
                       </item>
@@ -229,7 +229,7 @@
                          <enum>Qt::Horizontal</enum>
                         </property>
                         <property name="sizeType">
-                         <enum>QSizePolicy::Fixed</enum>
+                         <enum>QSizePolicy::Preferred</enum>
                         </property>
                         <property name="sizeHint" stdset="0">
                          <size>
@@ -245,7 +245,7 @@
                    <item>
                     <widget class="QGroupBox" name="groupBoxstartinglife">
                      <property name="title">
-                      <string>Starting Life</string>
+                      <string>Starting Condition</string>
                      </property>
                      <layout class="QGridLayout" name="gridLayout_4">
                       <item row="0" column="0">
@@ -294,7 +294,7 @@
                          <enum>Qt::Horizontal</enum>
                         </property>
                         <property name="sizeType">
-                         <enum>QSizePolicy::Fixed</enum>
+                         <enum>QSizePolicy::Preferred</enum>
                         </property>
                         <property name="sizeHint" stdset="0">
                          <size>
@@ -304,13 +304,43 @@
                         </property>
                        </spacer>
                       </item>
+                      <item row="0" column="6">
+                       <widget class="QLabel" name="lbaelstartin_armor">
+                        <property name="text">
+                         <string>Armor:</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="0" column="5">
+                       <spacer name="horizontalSpacer_6">
+                        <property name="orientation">
+                         <enum>Qt::Horizontal</enum>
+                        </property>
+                        <property name="sizeType">
+                         <enum>QSizePolicy::Preferred</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                         <size>
+                          <width>20</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                       </spacer>
+                      </item>
+                      <item row="0" column="7">
+                       <widget class="QSpinBox" name="spinBox_startingarmor">
+                        <property name="maximum">
+                         <number>1000</number>
+                        </property>
+                       </widget>
+                      </item>
                      </layout>
                     </widget>
                    </item>
                    <item>
                     <widget class="QGroupBox" name="groupBoxstartinmodel">
                      <property name="title">
-                      <string>StartingModel</string>
+                      <string>Starting Model</string>
                      </property>
                      <layout class="QGridLayout" name="gridLayout_5">
                       <item row="0" column="0">
@@ -357,7 +387,13 @@
                        </widget>
                       </item>
                       <item row="0" column="4">
-                       <widget class="QComboBox" name="comboBox_modelname"/>
+                       <widget class="QComboBox" name="comboBox_modelname">
+                        <item>
+                         <property name="text">
+                          <string>Twinsen</string>
+                         </property>
+                        </item>
+                       </widget>
                       </item>
                       <item row="2" column="3">
                        <widget class="QLabel" name="label_ModelWeapon">
@@ -375,7 +411,7 @@
                          <enum>Qt::Horizontal</enum>
                         </property>
                         <property name="sizeType">
-                         <enum>QSizePolicy::MinimumExpanding</enum>
+                         <enum>QSizePolicy::Preferred</enum>
                         </property>
                         <property name="sizeHint" stdset="0">
                          <size>
@@ -835,7 +871,7 @@
                <item>
                 <widget class="QTabWidget" name="tabWidget_map">
                  <property name="currentIndex">
-                  <number>4</number>
+                  <number>0</number>
                  </property>
                  <widget class="QWidget" name="tab_mapinfo">
                   <attribute name="title">
@@ -1033,7 +1069,7 @@
                  </widget>
                  <widget class="QWidget" name="tab_spawnings">
                   <attribute name="title">
-                   <string>Spawnings</string>
+                   <string>Spawns</string>
                   </attribute>
                   <layout class="QHBoxLayout" name="horizontalLayout_10">
                    <item>
@@ -1061,7 +1097,7 @@
                        <item>
                         <widget class="QPushButton" name="pushButton_addSpwaning">
                          <property name="toolTip">
-                          <string>Add new spawning</string>
+                          <string>Add new spawn</string>
                          </property>
                          <property name="text">
                           <string/>
@@ -1084,7 +1120,7 @@
                        <item>
                         <widget class="QPushButton" name="pushButton_removeSpwaning">
                          <property name="toolTip">
-                          <string>Remove selected spawning</string>
+                          <string>Remove selected spawn</string>
                          </property>
                          <property name="text">
                           <string/>
@@ -1104,7 +1140,7 @@
                        <item>
                         <widget class="QPushButton" name="pushButton_selectSpwaning">
                          <property name="toolTip">
-                          <string>Display selected spawning properties</string>
+                          <string>Display selected spawn properties</string>
                          </property>
                          <property name="text">
                           <string/>
@@ -1138,7 +1174,7 @@
                      </widget>
                      <widget class="QGroupBox" name="groupBox_spawning_list">
                       <property name="title">
-                       <string>Spawning List</string>
+                       <string>Spawns List</string>
                       </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_11">
                        <property name="margin">
