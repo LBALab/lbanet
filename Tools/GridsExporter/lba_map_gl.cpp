@@ -21,8 +21,8 @@
 void LBA_MAP_GL::face(double X,double Y,double Z,double texture_x,double texture_y,
 					  double h,int a,int b,int c, int sizeX, int sizeY, bool hidden)
 {
-    double vertex[20][3];
-    double uv[24][2];
+    double vertex[22][3];
+    double uv[22][2];
     for(int i=0;i<20;i++)
     vertex[i][0]=vertex[i][1]=vertex[i][2]=0.;
 
@@ -46,6 +46,8 @@ void LBA_MAP_GL::face(double X,double Y,double Z,double texture_x,double texture
     vertex[17][0]=X+1.;vertex[17][1]=Y*h+0.,vertex[17][2]=Z+0.;
     vertex[18][0]=X+1.;vertex[18][1]=Y*h+0.,vertex[18][2]=Z+1.;
     vertex[19][0]=X+1.;vertex[19][1]=Y*h+0.,vertex[19][2]=Z+1.;
+    vertex[20][0]=X+0.;vertex[20][1]=Y*h+h ,vertex[20][2]=Z+0.;
+    vertex[21][0]=X+0.;vertex[21][1]=Y*h+0.,vertex[21][2]=Z+1.;
 
 //UV shared + OFFSET 0.5 NOT MIRRORED
 	if(hidden)
@@ -93,6 +95,8 @@ void LBA_MAP_GL::face(double X,double Y,double Z,double texture_x,double texture
 		uv[17][0]=46.5; uv[17][1]=26;
 		uv[18][0]=22.5; uv[18][1]=36.5;
 		uv[19][0]=24.5; uv[19][1]=36.5;
+		uv[20][0]=22.5; uv[20][1]=2.5;
+		uv[21][0]=2.5;  uv[21][1]=26;
 	}
 
 
@@ -381,11 +385,11 @@ void LBA_MAP_GL::Initialize(int LBA2, bool withbackface)
 							nb_faces.push_back(6);
 							break;
 						case 4:
-							face(X,Y,Z,texture_x,texture_y,h,11,18,8,sizeX,sizeY,false);
-							face(X,Y,Z,texture_x,texture_y,h,8,1,11,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,21,18,8,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,8,20,21,sizeX,sizeY,false);
 							face(X,Y,Z,texture_x,texture_y,h,19,17,9,sizeX,sizeY,false);
-							face(X,Y,Z,texture_x,texture_y,h,1,8,16,sizeX,sizeY,false);
-							face(X,Y,Z,texture_x,texture_y,h,16,5,1,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,20,8,16,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,16,5,20,sizeX,sizeY,false);
 							face(X,Y,Z,texture_x,texture_y,h,0,4,10,sizeX,sizeY,false);
 							nb_faces.push_back(6);
 							break;
@@ -450,8 +454,8 @@ void LBA_MAP_GL::Initialize(int LBA2, bool withbackface)
 							nb_faces.push_back(4);
 							break;
 						case 11:
-							face(X,Y,Z,texture_x,texture_y,h,0,11,18,sizeX,sizeY,false);
-							face(X,Y,Z,texture_x,texture_y,h,19,17,1,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,0,21,18,sizeX,sizeY,false);
+							face(X,Y,Z,texture_x,texture_y,h,19,17,20,sizeX,sizeY,false);
 							face(X,Y,Z,texture_x,texture_y,h,0,4,10,sizeX,sizeY,false);
 							face(X,Y,Z,texture_x,texture_y,h,1,5,16,sizeX,sizeY,false);
 							nb_faces.push_back(4);
