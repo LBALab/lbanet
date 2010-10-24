@@ -79,6 +79,9 @@ public:
 	//! only for animated model
 	// get current associated speed
 	virtual float GetCurrentAssociatedSpeedZ() {return 0;}
+
+	//! set name of display object that will be returned during picking
+	virtual void SetName(const std::string & name) = 0;
 };
 
 
