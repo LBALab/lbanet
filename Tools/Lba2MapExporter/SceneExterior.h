@@ -51,13 +51,13 @@ private:
 
 
 	//Collision Heightmap
-	struct Tile
-	{
-		float Height;
-		bool Direction;		
-	};
-	std::vector<Tile>	mTileList;
-	Tile *mTile[1024][1024];
+	//struct Tile
+	//{
+	//	float Height;
+	//	bool Direction;		
+	//};
+	//std::vector<Tile>	mTileList;
+	//Tile *mTile[1024][1024];
 
 
 };
