@@ -51,8 +51,8 @@ void ZoneTrigger::ObjectMoved(int ObjectType, Ice::Long ObjectId,
 		if(SweepTest(StartPosition, EndPosition, collisionpos))
 		{
 			if(!wasinside)
-				Entered(ObjectType, ObjectId, (_posX-collisionpos.X), (collisionpos.Y-_posY), 
-																		(_posZ-collisionpos.Z));	
+				Entered(ObjectType, ObjectId, (collisionpos.X-_posX), (collisionpos.Y-_posY), 
+																		(collisionpos.Z-_posZ));	
 
 			wasinside = true;
 		}
