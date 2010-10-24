@@ -46,6 +46,47 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <osg/MatrixTransform>
 #include <osgUtil/SmoothingVisitor>
 #include <osg/LineWidth>
+#include <osg/PolygonMode>
+#include <osgManipulator/TranslateAxisDragger>
+#include <osgManipulator/Command>
+
+
+
+class DraggerCustomCallback : public osgManipulator::DraggerCallback
+{
+public:
+	//! constructor 
+	DraggerCustomCallback(int pickedarrow)
+		: _pickedarrow(pickedarrow)
+	{}
+
+
+
+	virtual bool receive(const osgManipulator::MotionCommand& command) 
+	{ 
+		EventsQueue::getReceiverQueue()->AddEvent(new PickedArrowMovedEvent(_pickedarrow));		
+		return true; 
+	}
+
+
+private:
+	int					_pickedarrow;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /***********************************************************
@@ -388,7 +429,7 @@ set a string
 void MixedTableModel::SetData(int col, int row, QVariant v)
 {
 	_objMatrix[col][row] = v;
-	QModelIndex index = createIndex(col, row);
+	QModelIndex index = createIndex(row, col);
 	emit dataChanged(index, index);
 }
 
@@ -1390,6 +1431,7 @@ void EditorHandler::ResetObject()
 	_objectmodel->Clear();
 
 	RemoveSelectedActorDislay();
+	RemoveArrows();
 }
 
 
@@ -1618,14 +1660,7 @@ void EditorHandler::selectspawning_button_clicked()
 	if(indexes.size() > 2)
 	{
 		long spawningid = _mapspawninglistmodel->GetId(indexes[0]);
-		std::string mapname = _uieditor.label_mapname->text().toAscii().data();
-		LbaNet::SpawningsSeq::const_iterator it = _winfo.Maps[mapname].Spawnings.find(spawningid);
-		if(it != _winfo.Maps[mapname].Spawnings.end())
-		{
-			SelectSpawning(spawningid, it->second.Name,
-									it->second.PosX, it->second.PosY, it->second.PosZ,
-									it->second.Rotation, it->second.ForceRotation);
-		}
+		SelectSpawning(spawningid);
 	}
 }
 
@@ -1664,12 +1699,7 @@ void EditorHandler::AddSpawning_clicked()
 	// add name to list
 	AddSpawningName(mapname, spname.toAscii().data());
 
-	SelectSpawning(id, spname.toAscii().data(),
-				(float)_uiaddspawningdialog.doubleSpinBox_posx->value(), 
-				(float)_uiaddspawningdialog.doubleSpinBox_posy->value(), 
-				(float)_uiaddspawningdialog.doubleSpinBox_posz->value(),
-				(float)_uiaddspawningdialog.doubleSpinBox_rotation->value(), 
-				_uiaddspawningdialog.checkBox_forcerotation->isChecked());
+	SelectSpawning(id);
 
 	SetModified();
 	RefreshStartingSpawning();
@@ -1792,10 +1822,21 @@ void EditorHandler::info_camera_toggled(bool checked)
 /***********************************************************
 set spawning in the object
 ***********************************************************/
-void EditorHandler::SelectSpawning(long id, const std::string &spawningname,
-						float PosX, float PosY, float PosZ,
-						float Rotation, bool forcedrotation)
+void EditorHandler::SelectSpawning(long id)
 {
+	std::string mapname = _uieditor.label_mapname->text().toAscii().data();
+	LbaNet::SpawningsSeq::const_iterator it = _winfo.Maps[mapname].Spawnings.find(id);
+	if(it == _winfo.Maps[mapname].Spawnings.end())
+		return;
+
+	std::string spawningname = it->second.Name;
+	float PosX = it->second.PosX;
+	float PosY = it->second.PosY;
+	float PosZ = it->second.PosZ;
+	float Rotation = it->second.Rotation;
+	bool forcedrotation = it->second.ForceRotation;
+
+
 	ResetObject();
 
 
@@ -2763,6 +2804,11 @@ void EditorHandler::SelectTrigger(long id)
 			_objectcustomdelegate->SetCustomIndex(4, _actionNameList);
 			_objectcustomdelegate->SetCustomIndex(5, _actionNameList);
 
+			UpdateSelectedZoneTriggerDisplay(ptr->GetPosX(), ptr->GetPosY(), ptr->GetPosZ(),
+											ptr->GetSizeX(), ptr->GetSizeY(), ptr->GetSizeZ());
+
+			DrawArrows(ptr->GetPosX(), ptr->GetPosY(), ptr->GetPosZ());
+
 			return;
 		}
 	}
@@ -2871,6 +2917,10 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category)
 		//inform server
 		EditorUpdateBasePtr update = new UpdateEditor_AddOrModTrigger(modifiedtrig);
 		SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
+
+
+		UpdateSelectedZoneTriggerDisplay(posX, posY, posZ, sizeX, sizeY, sizeZ);
+
 		return;
 	}
 }
@@ -4143,6 +4193,8 @@ void EditorHandler::SelectActor(long id)
 		// TODO - add file choose dialog
 
 		UpdateSelectedActorDisplay(ainfo.PhysicDesc);
+		osg::Vec3 center = _actornode->computeBound().center();
+		DrawArrows(center.x(), center.y(), center.z());
 	}
 }
 
@@ -4528,6 +4580,8 @@ void EditorHandler::UpdateSelectedActorDisplay(LbaNet::ObjectPhysicDesc desc)
 		}
 		break;
 	}
+
+
 }
 
 
@@ -4540,4 +4594,287 @@ void EditorHandler::RemoveSelectedActorDislay()
 		OsgHandler::getInstance()->RemoveActorNode(_actornode, false);
 
 	_actornode = NULL;
+}
+
+
+/***********************************************************
+called when an object is picked
+***********************************************************/
+void EditorHandler::PickedObject(const std::string & name)
+{
+	if(_draggerX && _draggerX->getDraggerActive())
+		return;
+
+	if(_draggerY && _draggerY->getDraggerActive())
+		return;
+
+	if(_draggerZ && _draggerZ->getDraggerActive())
+		return;
+
+	if(name == "")
+	{
+		ResetObject();
+		return;
+	}
+
+	long id = atol(name.substr(2).c_str());
+
+
+	switch(name[0])
+	{
+		case 'A':
+			SelectActor(id);
+		break;
+		case 'E':
+			if(id > 2000000)
+				SelectTrigger(id-2000000);
+			else if(id > 1000000)
+				SelectSpawning(id-1000000);
+		break;
+	}
+}
+
+
+/***********************************************************
+update editor selected trigger display
+***********************************************************/
+void EditorHandler::UpdateSelectedZoneTriggerDisplay(float PosX, float PosY, float PosZ,
+											float SizeX, float SizeY, float SizeZ)
+{
+	RemoveSelectedActorDislay();
+
+	_actornode = OsgHandler::getInstance()->AddEmptyActorNode(false);
+
+	osg::Matrixd Trans;
+	Trans.makeTranslate(PosX, PosY, PosZ);
+	_actornode->setMatrix(Trans);
+
+
+	osg::ref_ptr<osg::Geode> capsuleGeode(new osg::Geode());
+	osg::ref_ptr<osg::Box> caps(new osg::Box(osg::Vec3(0,SizeY,0), SizeX, SizeY*2, SizeZ));
+	osg::ref_ptr<osg::ShapeDrawable> capsdraw = new osg::ShapeDrawable(caps);
+	capsdraw->setColor(osg::Vec4(0.5, 0.0, 0.0, 1.0));
+	capsuleGeode->addDrawable(capsdraw);
+	_actornode->addChild(capsuleGeode);
+
+	osg::StateSet* stateset = capsuleGeode->getOrCreateStateSet();
+	stateset->setMode(GL_BLEND, osg::StateAttribute::ON);
+	stateset->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
+	stateset->setRenderingHint( osg::StateSet::OPAQUE_BIN );
+	stateset->setRenderBinDetails( 9100, "RenderBin");	
+
+	osg::PolygonMode* polymode = new osg::PolygonMode;
+	polymode->setMode(osg::PolygonMode::FRONT_AND_BACK,osg::PolygonMode::LINE);
+	stateset->setAttributeAndModes(polymode,osg::StateAttribute::OVERRIDE|osg::StateAttribute::ON);
+}
+
+
+/***********************************************************
+draw arrow on selected object
+***********************************************************/
+void EditorHandler::DrawArrows(float PosX, float PosY, float PosZ)
+{
+	RemoveArrows();
+
+	_arrownode = OsgHandler::getInstance()->AddEmptyActorNode(false);
+
+	osg::ref_ptr<osg::Camera> PostRenderCam = new osg::Camera;
+	PostRenderCam->setClearMask(GL_DEPTH_BUFFER_BIT);
+	PostRenderCam->setRenderOrder(osg::Camera::POST_RENDER, 90000);
+	_arrownode->addChild(PostRenderCam);
+
+	{
+		_draggerX = new osgManipulator::Translate1DDragger(osg::Vec3d(0,0,0), osg::Vec3d(1,0,0));
+		_draggerX->setCheckForNodeInNodePath(false);
+
+		osg::Matrixd Trans;
+		Trans.makeTranslate(PosX, PosY, PosZ);
+		osg::Matrixd Scale;
+		Scale.makeScale(1, 2, 1);
+		_draggerX->setMatrix(Scale*Trans);
+		_draggerX->addDraggerCallback(new DraggerCustomCallback(1));
+		_draggerX->setHandleEvents(true);
+		_draggerX->setColor(osg::Vec4(0.0, 0.8, 0.0, 1.0));
+		PostRenderCam->addChild(_draggerX);
+
+		osg::ref_ptr<osg::Geode> myGeode(new osg::Geode());
+
+		osg::ref_ptr<osg::Cylinder> caps(new osg::Cylinder(osg::Vec3(1,0,0), 0.1, 2));
+		osg::ref_ptr<osg::ShapeDrawable> capsdraw = new osg::ShapeDrawable(caps);
+		myGeode->addDrawable(capsdraw);
+
+		osg::ref_ptr<osg::Cone> caps2(new osg::Cone(osg::Vec3(2,0,0), 0.2, 0.5));
+		osg::ref_ptr<osg::ShapeDrawable> capsdraw2 = new osg::ShapeDrawable(caps2);
+		myGeode->addDrawable(capsdraw2);
+
+		_draggerX->addChild(myGeode);
+
+		osg::Matrixd RotationC;
+		LbaQuaternion QC(90, LbaVec3(0,1,0));
+		RotationC.makeRotate(osg::Quat(QC.X, QC.Y, QC.Z, QC.W));
+		osg::Quat quatC;
+		quatC.set(RotationC);
+		caps->setRotation(quatC);
+		caps2->setRotation(quatC);
+	}
+
+
+	{
+		_draggerY = new osgManipulator::Translate1DDragger(osg::Vec3d(0,0,0), osg::Vec3d(0,1,0));
+		_draggerY->setCheckForNodeInNodePath(false);
+
+		osg::Matrixd Trans;
+		Trans.makeTranslate(PosX, PosY, PosZ);
+		osg::Matrixd Scale;
+		Scale.makeScale(1, 2, 1);
+		_draggerY->setMatrix(Scale*Trans);
+		_draggerY->addDraggerCallback(new DraggerCustomCallback(2));
+		_draggerY->setHandleEvents(true);
+		_draggerY->setColor(osg::Vec4(0.8, 0.0, 0.0, 1.0));
+
+		PostRenderCam->addChild(_draggerY);
+
+
+		osg::ref_ptr<osg::Geode> myGeode(new osg::Geode());
+		osg::ref_ptr<osg::Cylinder> caps(new osg::Cylinder(osg::Vec3(0,1,0), 0.1, 2));
+		osg::ref_ptr<osg::ShapeDrawable> capsdraw = new osg::ShapeDrawable(caps);
+		myGeode->addDrawable(capsdraw);
+
+		osg::ref_ptr<osg::Cone> caps2(new osg::Cone(osg::Vec3(0,2,0), 0.2, 0.5));
+		osg::ref_ptr<osg::ShapeDrawable> capsdraw2 = new osg::ShapeDrawable(caps2);
+		myGeode->addDrawable(capsdraw2);
+
+		_draggerY->addChild(myGeode);
+
+
+		osg::Matrixd RotationC;
+		LbaQuaternion QC(270, LbaVec3(1,0,0));
+		RotationC.makeRotate(osg::Quat(QC.X, QC.Y, QC.Z, QC.W));
+		osg::Quat quatC;
+		quatC.set(RotationC);
+		caps->setRotation(quatC);
+		caps2->setRotation(quatC);
+	}
+
+	{
+		_draggerZ = new osgManipulator::Translate1DDragger(osg::Vec3d(0,0,0), osg::Vec3d(0,0,1));
+		_draggerZ->setCheckForNodeInNodePath(false);
+
+		osg::Matrixd Trans;
+		Trans.makeTranslate(PosX, PosY, PosZ);
+		osg::Matrixd Scale;
+		Scale.makeScale(1, 2, 1);
+		_draggerZ->setMatrix(Scale*Trans);
+		_draggerZ->addDraggerCallback(new DraggerCustomCallback(3));
+		_draggerZ->setHandleEvents(true);
+		_draggerZ->setColor(osg::Vec4(0.0, 0.0, 0.8, 1.0));
+		PostRenderCam->addChild(_draggerZ);
+
+
+		osg::ref_ptr<osg::Geode> myGeode(new osg::Geode());
+
+		osg::ref_ptr<osg::Cylinder> caps(new osg::Cylinder(osg::Vec3(0,0,1), 0.1, 2));
+		osg::ref_ptr<osg::ShapeDrawable> capsdraw = new osg::ShapeDrawable(caps);
+		myGeode->addDrawable(capsdraw);
+
+		osg::ref_ptr<osg::Cone> caps2(new osg::Cone(osg::Vec3(0,0,2), 0.2, 0.5));
+		osg::ref_ptr<osg::ShapeDrawable> capsdraw2 = new osg::ShapeDrawable(caps2);
+		myGeode->addDrawable(capsdraw2);
+
+		_draggerZ->addChild(myGeode);
+	}
+
+	return;
+}
+
+
+
+/***********************************************************
+when an editor arrow was dragged by mouse
+***********************************************************/
+void EditorHandler::PickedArrowMoved(int pickedarrow)
+{
+	if(_objectmodel->rowCount() > 2)
+	{
+		QString type = _objectmodel->GetData(1, 0).toString();
+		std::string category = _objectmodel->GetData(1, 1).toString().toAscii().data();
+		long objid = _objectmodel->GetData(1, 2).toString().toLong();
+
+
+		if(type == "Trigger")
+		{
+			if(pickedarrow == 1)
+			{
+				_objectmodel->SetData(1, 9, floor(_draggerX->getMatrix().getTrans().x()*10)/10);
+				_draggerY->setMatrix(_draggerX->getMatrix());
+				_draggerZ->setMatrix(_draggerX->getMatrix());
+			}
+
+			if(pickedarrow == 2)
+			{	
+				_objectmodel->SetData(1, 10, floor(_draggerY->getMatrix().getTrans().y()*10)/10);
+				_draggerX->setMatrix(_draggerY->getMatrix());
+				_draggerZ->setMatrix(_draggerY->getMatrix());
+			}
+
+			if(pickedarrow == 3)
+			{
+				_objectmodel->SetData(1, 11, floor(_draggerZ->getMatrix().getTrans().z()*10)/10);
+				_draggerX->setMatrix(_draggerZ->getMatrix());
+				_draggerY->setMatrix(_draggerZ->getMatrix());
+			}
+
+			return;
+		}
+
+		if(type == "Actor")
+		{
+			osg::Vec3 center = _actornode->computeBound().center();
+
+			if(pickedarrow == 1)
+			{
+				float nX = _objectmodel->GetData(1, 7).toString().toFloat();
+				nX += floor(_draggerX->getMatrix().getTrans().x()*10)/10 - center.x();
+				_objectmodel->SetData(1, 7, nX);
+				_draggerY->setMatrix(_draggerX->getMatrix());
+				_draggerZ->setMatrix(_draggerX->getMatrix());
+			}
+
+			if(pickedarrow == 2)
+			{	
+				float nY = _objectmodel->GetData(1, 8).toString().toFloat();
+				nY += floor(_draggerY->getMatrix().getTrans().y()*10)/10 - center.y();
+				_objectmodel->SetData(1, 8, nY);
+				_draggerX->setMatrix(_draggerY->getMatrix());
+				_draggerZ->setMatrix(_draggerY->getMatrix());
+			}
+
+			if(pickedarrow == 3)
+			{
+				float nZ = _objectmodel->GetData(1, 9).toString().toFloat();
+				nZ += floor(_draggerZ->getMatrix().getTrans().z()*10)/10 - center.z();
+				_objectmodel->SetData(1, 9, nZ);
+				_draggerX->setMatrix(_draggerZ->getMatrix());
+				_draggerY->setMatrix(_draggerZ->getMatrix());
+			}
+
+			return;
+		}
+	}
+}
+
+
+/***********************************************************
+when an editor arrow was dragged by mouse
+***********************************************************/
+void EditorHandler::RemoveArrows()
+{
+	if(_arrownode)
+	{
+		OsgHandler::getInstance()->RemoveActorNode(_arrownode, false);
+		_arrownode = NULL;
+		_draggerX = NULL;
+		_draggerY = NULL;
+		_draggerZ = NULL;
+	}
 }

@@ -50,6 +50,11 @@ class QTableWidgetItem;
 class ServerLuaHandler;
 class ActorHandler;
 
+namespace osgManipulator
+{
+	class Translate1DDragger;
+}
+
 
 //! used as model for table
 class StringTableModel : public QAbstractTableModel
@@ -243,6 +248,12 @@ public:
 	// get the action correspondant to the id
 	virtual boost::shared_ptr<ActionBase> GetAction(long actionid);
 
+
+	// called when an object is picked
+	void PickedObject(const std::string & name);
+
+	//! when an editor arrow was dragged by mouse
+	void PickedArrowMoved(int pickedarrow);
 
 public slots:
 	 //! ui button clicked
@@ -461,9 +472,7 @@ protected:
 
 
 	//! set spawning in the object
-	void SelectSpawning(long id, const std::string &spawningname,
-							float PosX, float PosY, float PosZ,
-							float Rotation, bool forcedrotation);
+	void SelectSpawning(long id);
 
 
 	//! clear the object displayed if it is the selected one
@@ -579,6 +588,16 @@ protected:
 	//! remove current selected display
 	void RemoveSelectedActorDislay();
 
+	//! update editor selected trigger display
+	void UpdateSelectedZoneTriggerDisplay(float PosX, float PosY, float PosZ,
+												float SizeX, float SizeY, float SizeZ);
+
+
+	//! draw arrow on selected object
+	void DrawArrows(float PosX, float PosY, float PosZ);
+
+	//! remove arrow from display
+	void RemoveArrows();
 
 private:
 	Ui::EditorClass										_uieditor;
@@ -659,6 +678,11 @@ private:
 
 
 	osg::ref_ptr<osg::MatrixTransform>					_actornode;
+	osg::ref_ptr<osg::MatrixTransform>					_arrownode;
+
+	osg::ref_ptr<osgManipulator::Translate1DDragger>	_draggerX;
+	osg::ref_ptr<osgManipulator::Translate1DDragger>	_draggerY;
+	osg::ref_ptr<osgManipulator::Translate1DDragger>	_draggerZ;
 };
 
 #endif // EDITORHANDLER_H
