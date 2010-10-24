@@ -77,6 +77,9 @@ public:
 	//! update display
 	virtual int Update(LbaNet::DisplayObjectUpdateBasePtr update);
 
+
+	//! set name of display object that will be returned during picking
+	virtual void SetName(const std::string & name);
 	
 protected:
 	// update matrix
@@ -103,6 +106,7 @@ protected:
 	float											_posZ;
 	LbaQuaternion									_Q;
 	bool											_displayed;
+	bool											_uselight;
 
 	osg::ref_ptr<osg::AutoTransform>				_textgroup;
 	LbaNet::ObjectExtraInfo							_extrainfo;

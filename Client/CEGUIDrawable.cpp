@@ -59,61 +59,6 @@ struct CEGUIEventCallback : public osgGA::GUIEventHandler
 				break;
 			}
 
-		case(osgGA::GUIEventAdapter::DRAG):
-			{
-				injectionRetVal = CEGUI::System::getSingleton().injectMousePosition(x, y);
-				break;
-			}
-
-		case(osgGA::GUIEventAdapter::MOVE):
-			{
-				CEGUI::System::getSingleton().injectMousePosition(x,y);
-				break;
-			}
-
-		case(osgGA::GUIEventAdapter::PUSH):
-			{
-				CEGUI::System::getSingleton().injectMousePosition(x, y);
-
-				if (ea.getButton() == osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON)  // left
-					injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::LeftButton);
-				else if (ea.getButton() == osgGA::GUIEventAdapter::MIDDLE_MOUSE_BUTTON)  // middle
-					injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::MiddleButton);
-				else if (ea.getButton() == osgGA::GUIEventAdapter::RIGHT_MOUSE_BUTTON)  // right
-					injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::RightButton);
-
-				break;
-			}
-
-		case(osgGA::GUIEventAdapter::RELEASE):
-			{
-				CEGUI::System::getSingleton().injectMousePosition(x, y);
-
-				if (ea.getButton() == osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON)  // left
-					injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::LeftButton);
-				else if (ea.getButton() == osgGA::GUIEventAdapter::MIDDLE_MOUSE_BUTTON)  // middle
-					injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::MiddleButton);
-				else if (ea.getButton() == osgGA::GUIEventAdapter::RIGHT_MOUSE_BUTTON)  // right
-					injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::RightButton);
-
-				break;
-			}
-
-		case(osgGA::GUIEventAdapter::DOUBLECLICK):
-			{
-				CEGUI::System::getSingleton().injectMousePosition(x, y);
-
-				if (ea.getButton() == osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON)  // left
-					injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::LeftButton);
-
-				else if (ea.getButton() == osgGA::GUIEventAdapter::MIDDLE_MOUSE_BUTTON)  // middle
-					injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::MiddleButton);
-
-				else if (ea.getButton() == osgGA::GUIEventAdapter::RIGHT_MOUSE_BUTTON)  // right
-					injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::RightButton);
-				break;
-			}
-
 
 		default:
 			break;

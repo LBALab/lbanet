@@ -104,6 +104,10 @@ public:
 	//! change screen resolution
 	void Resize(int resX, int resY);
 
+	//! called when screen is resized
+	void Resized(int resX, int resY);
+
+
 	//! toggle fullscreen or windowed mode
 	void ToggleFullScreen();
 	

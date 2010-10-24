@@ -29,7 +29,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <osgGA/GUIEventHandler>
 #include "ClientExtendedEvents.h"
 
-
+namespace osgViewer
+{
+	class View;
+}
 
 //*************************************************************************************************
 //*                               class OsgEventHandler
@@ -57,10 +60,16 @@ public:
 	void SetKeyMap(const std::map<LbanetKey, int> & kmap)
 	{_keymap = kmap;}
 
+
+protected:
+	// pick in the scene
+	void pick(osgViewer::View* view, const osgGA::GUIEventAdapter& ea);
+
 private:
 	bool	_right_button_pressed;
 	int		_mouse_X;
 	int		_mouse_Y;
+
 
 	// map lbanet key to osg key
 	std::map<LbanetKey, int>		_keymap;

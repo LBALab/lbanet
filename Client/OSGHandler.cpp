@@ -77,7 +77,7 @@ struct OptimizationAllowedCallback : public osgUtil::Optimizer::IsOperationPermi
 	virtual bool isOperationPermissibleForObjectImplementation (const osgUtil::Optimizer *optimizer, 
 												const osg::Node *node, unsigned int option) const 
 	{
-		if(node->getName() == "NoOptimization")
+		if(node->getUserData())
 			return false;
 
 		return osgUtil::Optimizer::IsOperationPermissibleForObjectCallback::
@@ -271,6 +271,7 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 	_translNode = new osg::PositionAttitudeTransform();
 	_translNode->setName("TranslationNode");
 
+
 	_rootNode3d->addChild(_translNode);
 	_rootNode3d->setName("Root3D");
 
@@ -303,7 +304,6 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 	cull->setMode(osg::CullFace::BACK);
 	_HUDcam->getOrCreateStateSet()->setAttributeAndModes(cull, osg::StateAttribute::ON);
 	_HUDcam->addChild(_rootNodeGui.get());
-
 
 
 
@@ -461,6 +461,23 @@ void OsgHandler::ToggleFullScreen()
 
 	ConfigurationManager::GetInstance()->SetBool("Display.Screen.Fullscreen", _isFullscreen);
 }
+
+
+
+/***********************************************************
+called when screen is resized
+***********************************************************/
+void OsgHandler::Resized(int resX, int resY)
+{
+	_resX = resX;
+	_resY = resY;
+	_viewportX = resX;
+	_viewportY = resY;
+
+	ResetCameraProjectiomMatrix();
+	_HUDcam->setProjectionMatrix(osg::Matrix::ortho2D(0, _viewportX, 0, _viewportY));
+}
+
 
 
 /***********************************************************
@@ -771,6 +788,7 @@ void OsgHandler::SetCameraTarget(double TargetX, double TargetY, double TargetZ)
 	if(_translNode)
 		_translNode->setPosition(osg::Vec3d( -_targetx,-_targety,-_targetz ));
 }
+
 /***********************************************************
 set camera target
 ***********************************************************/
@@ -871,10 +889,13 @@ void OsgHandler::ResetDisplayTree()
 
 	_lightNode->addChild(_sceneRootNode);
 
+
+	if(_sceneNoLightRootNode)
+		_translNode->removeChild(_sceneNoLightRootNode);
+
 	_sceneNoLightRootNode = new osg::Group();	
 	_sceneRootNode->setName("SceneRootNodeNoLight");
 	_translNode->addChild(_sceneNoLightRootNode);
-
 
  //   osg::ref_ptr<osgParticle::PrecipitationEffect> precipitationEffect = new osgParticle::PrecipitationEffect;
 
@@ -1027,11 +1048,13 @@ osg::ref_ptr<osg::MatrixTransform> OsgHandler::AddEmptyActorNode(bool WithLight)
 	#endif
 
 	osg::ref_ptr<osg::MatrixTransform> transform = new osg::MatrixTransform();
+
 	if(WithLight && _sceneRootNode)
 		_sceneRootNode->addChild(transform);
 
 	if(!WithLight && _sceneNoLightRootNode)
 		_sceneNoLightRootNode->addChild(transform);
+
 
 
 	return transform;
@@ -1253,7 +1276,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCrossObject(float 
     osg::StateSet* stateset = lineGeometry->getOrCreateStateSet();
     osg::LineWidth* linewidth = new osg::LineWidth();
 
-    linewidth->setWidth(3.0f);
+    linewidth->setWidth(4.0f);
     stateset->setAttributeAndModes(linewidth,osg::StateAttribute::ON);
 	stateset->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 	stateset->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
@@ -1293,7 +1316,6 @@ osg::ref_ptr<osg::PositionAttitudeTransform> OsgHandler::CreatePAT(boost::shared
 
 	return osg::ref_ptr<osg::PositionAttitudeTransform>();
 }
-
 
 
 /***********************************************************

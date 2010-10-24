@@ -608,6 +608,33 @@ void LbaNetEngine::HandleGameEvents()
 			continue;
 		}
 		#endif
+
+
+		// ObjectPickedEvent
+		if(info == typeid(ObjectPickedEvent))
+		{
+			ObjectPickedEvent* castedptr = 
+				dynamic_cast<ObjectPickedEvent *>(&obj);
+
+			#ifdef _USE_QT_EDITOR_
+			m_editor_handler->PickedObject(castedptr->_name);
+			#endif
+
+			continue;
+		}
+		
+
+		// PickedArrowMovedEvent
+		#ifdef _USE_QT_EDITOR_
+		if(info == typeid(PickedArrowMovedEvent))
+		{
+			PickedArrowMovedEvent* castedptr = 
+				dynamic_cast<PickedArrowMovedEvent *>(&obj);
+
+			m_editor_handler->PickedArrowMoved(castedptr->_pickedarrow);
+			continue;
+		}
+		#endif
 	}
 }
 

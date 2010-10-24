@@ -395,4 +395,47 @@ public:
 };
 
 
+/*
+************************************************************************************************************************
+*                                                  class ObjectPickedEvent
+*
+*	editor tp the player on the map
+************************************************************************************************************************
+*/
+class ObjectPickedEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	ObjectPickedEvent(const std::string & name)
+		: _name(name)
+	{
+	}
+
+	std::string _name;
+};
+
+
+/*
+************************************************************************************************************************
+*                                                  class PickedArrowMovedEvent
+*
+*	editor tp the player on the map
+************************************************************************************************************************
+*/
+class PickedArrowMovedEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	PickedArrowMovedEvent(int pickedarrow)
+		: _pickedarrow(pickedarrow)
+	{
+	}
+
+	int		_pickedarrow;
+};
+
+
+
+
+
 #endif

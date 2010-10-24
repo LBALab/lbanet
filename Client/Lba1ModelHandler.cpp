@@ -34,7 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <osg/Group>
 #include <osg/Geode>
 #include <osg/AutoTransform>
-
+#include <osgUtil/SmoothingVisitor>
 
 
 /***********************************************************
@@ -158,6 +158,7 @@ refresh model
 ***********************************************************/
 int Lba1ModelHandler::RefreshModel()
 {
+	bool modelchanged = false;
 	int newmodel=0;
 	int newbody=0;
 	std::vector<int> newanimations;
@@ -216,6 +217,7 @@ int Lba1ModelHandler::RefreshModel()
 		}
 
 		_paused = false;
+		modelchanged = true;
 	}
 
 	// do nothing if same animation loaded already
@@ -228,12 +230,15 @@ int Lba1ModelHandler::RefreshModel()
 		_paused = false;
 	}
 
+	
+	if(modelchanged)
+	{
+		// refresh text part
+		RefreshText();
 
-	// refresh text part
-	RefreshText();
-
-	// refresh life part
-	RefreshLifeManaBars();
+		// refresh life part
+		RefreshLifeManaBars();
+	}
 
 	return 0;
 }
@@ -280,45 +285,45 @@ void Lba1ModelHandler::RefreshLifeManaBars()
 		// add bars
 		{
 			osg::ref_ptr<osg::Geometry> myGeometry = new osg::Geometry();
-			osg::Vec2Array* myVertices = new osg::Vec2Array;
+			osg::Vec3Array* myVertices = new osg::Vec3Array;
 			osg::Vec4Array* myColors = new osg::Vec4Array;
 
 			myColors->push_back(osg::Vec4(0.0f, 0.0f, 0.0f, 0.3f));
-			myVertices->push_back(osg::Vec2(-sizebar,0));
+			myVertices->push_back(osg::Vec3(-sizebar,0, 0));
 			myColors->push_back(osg::Vec4(0.0f, 0.0f, 0.0f, 0.3f));
-			myVertices->push_back(osg::Vec2(sizebar,0));		
+			myVertices->push_back(osg::Vec3(sizebar,0, 0));		
 			myColors->push_back(osg::Vec4(0.0f, 0.0f, 0.0f, 0.3f));
-			myVertices->push_back(osg::Vec2(sizebar,4));	
+			myVertices->push_back(osg::Vec3(sizebar,4, 0));	
 			myColors->push_back(osg::Vec4(0.0f, 0.0f, 0.0f, 0.3f));
-			myVertices->push_back(osg::Vec2(-sizebar,4));	
+			myVertices->push_back(osg::Vec3(-sizebar,4, 0));	
 
 			myColors->push_back(osg::Vec4(11/255.f, 11/255.f, 71/255.f, 1));
-			myVertices->push_back(osg::Vec2(-sizebar,0));	
+			myVertices->push_back(osg::Vec3(-sizebar,0, 0));	
 			myColors->push_back(osg::Vec4(11/255.f, 11/255.f, 71/255.f, 1));
-			myVertices->push_back(osg::Vec2(-sizebar+(sizebar*2*_lifeinfo.CurrentMana/_lifeinfo.MaxMana),0));	
+			myVertices->push_back(osg::Vec3(-sizebar+(sizebar*2*_lifeinfo.CurrentMana/_lifeinfo.MaxMana),0, 0));	
 			myColors->push_back(osg::Vec4(13/255.f, 12/255.f, 150/255.f, 1));
-			myVertices->push_back(osg::Vec2(-sizebar+(sizebar*2*_lifeinfo.CurrentMana/_lifeinfo.MaxMana),4));	
+			myVertices->push_back(osg::Vec3(-sizebar+(sizebar*2*_lifeinfo.CurrentMana/_lifeinfo.MaxMana),4, 0));	
 			myColors->push_back(osg::Vec4(13/255.f, 12/255.f, 150/255.f, 1));
-			myVertices->push_back(osg::Vec2(-sizebar,4));	
+			myVertices->push_back(osg::Vec3(-sizebar,4, 0));	
 
 
 			myColors->push_back(osg::Vec4(0.0f, 0.0f, 0.0f, 0.3f));
-			myVertices->push_back(osg::Vec2(-sizebar,6));
+			myVertices->push_back(osg::Vec3(-sizebar,6, 0));
 			myColors->push_back(osg::Vec4(0.0f, 0.0f, 0.0f, 0.3f));
-			myVertices->push_back(osg::Vec2(sizebar,6));		
+			myVertices->push_back(osg::Vec3(sizebar,6, 0));		
 			myColors->push_back(osg::Vec4(0.0f, 0.0f, 0.0f, 0.3f));
-			myVertices->push_back(osg::Vec2(sizebar,10));	
+			myVertices->push_back(osg::Vec3(sizebar,10, 0));	
 			myColors->push_back(osg::Vec4(0.0f, 0.0f, 0.0f, 0.3f));
-			myVertices->push_back(osg::Vec2(-sizebar,10));	
+			myVertices->push_back(osg::Vec3(-sizebar,10, 0));	
 
 			myColors->push_back(osg::Vec4(115/255.f, 0.f, 2/255.f, 1));
-			myVertices->push_back(osg::Vec2(-sizebar,6));	
+			myVertices->push_back(osg::Vec3(-sizebar,6, 0));	
 			myColors->push_back(osg::Vec4(115/255.f, 0.f, 2/255.f, 1));
-			myVertices->push_back(osg::Vec2(-sizebar+(sizebar*2*_lifeinfo.CurrentLife/_lifeinfo.MaxLife),6));	
+			myVertices->push_back(osg::Vec3(-sizebar+(sizebar*2*_lifeinfo.CurrentLife/_lifeinfo.MaxLife),6, 0));	
 			myColors->push_back(osg::Vec4(254/255.f, 0.f, 3/255.f, 1));
-			myVertices->push_back(osg::Vec2(-sizebar+(sizebar*2*_lifeinfo.CurrentLife/_lifeinfo.MaxLife),10));	
+			myVertices->push_back(osg::Vec3(-sizebar+(sizebar*2*_lifeinfo.CurrentLife/_lifeinfo.MaxLife),10, 0));	
 			myColors->push_back(osg::Vec4(254/255.f, 0.f, 3/255.f, 1));
-			myVertices->push_back(osg::Vec2(-sizebar,10));	
+			myVertices->push_back(osg::Vec3(-sizebar,10, 0));	
 
 
 			osg::DrawElementsUInt* myprimitive = new osg::DrawElementsUInt(osg::PrimitiveSet::QUADS, 0);
@@ -336,29 +341,29 @@ void Lba1ModelHandler::RefreshLifeManaBars()
 		// add contour
 		{
 			osg::ref_ptr<osg::Geometry> myGeometry = new osg::Geometry();
-			osg::Vec2Array* myVertices = new osg::Vec2Array;
+			osg::Vec3Array* myVertices = new osg::Vec3Array;
 			osg::Vec4Array* myColors = new osg::Vec4Array;
 
 
 
 			myColors->push_back(osg::Vec4(0.f, 104/255.f, 107/255.f, 0.7f));
-			myVertices->push_back(osg::Vec2(-sizebar,0));
+			myVertices->push_back(osg::Vec3(-sizebar,0, 0));
 			myColors->push_back(osg::Vec4(0.f, 104/255.f, 107/255.f, 0.7f));
-			myVertices->push_back(osg::Vec2(sizebar,0));		
+			myVertices->push_back(osg::Vec3(sizebar,0, 0));		
 			myColors->push_back(osg::Vec4(115/255.f, 252/255.f, 252/255.f, 0.7f));
-			myVertices->push_back(osg::Vec2(sizebar,4));	
+			myVertices->push_back(osg::Vec3(sizebar,4, 0));	
 			myColors->push_back(osg::Vec4(115/255.f, 252/255.f, 252/255.f, 0.7f));
-			myVertices->push_back(osg::Vec2(-sizebar,4));	
+			myVertices->push_back(osg::Vec3(-sizebar,4, 0));	
 
 
 			myColors->push_back(osg::Vec4(0.f, 104/255.f, 107/255.f, 0.7f));
-			myVertices->push_back(osg::Vec2(-sizebar,6));
+			myVertices->push_back(osg::Vec3(-sizebar,6, 0));
 			myColors->push_back(osg::Vec4(0.f, 104/255.f, 107/255.f, 0.7f));
-			myVertices->push_back(osg::Vec2(sizebar,6));		
+			myVertices->push_back(osg::Vec3(sizebar,6, 0));		
 			myColors->push_back(osg::Vec4(115/255.f, 252/255.f, 252/255.f, 0.7f));
-			myVertices->push_back(osg::Vec2(sizebar,10));	
+			myVertices->push_back(osg::Vec3(sizebar,10, 0));	
 			myColors->push_back(osg::Vec4(115/255.f, 252/255.f, 252/255.f, 0.7f));
-			myVertices->push_back(osg::Vec2(-sizebar,10));	
+			myVertices->push_back(osg::Vec3(-sizebar,10, 0));	
 
 
 			osg::DrawElementsUInt* myprimitive = new osg::DrawElementsUInt(osg::PrimitiveSet::LINES, 0);

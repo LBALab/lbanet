@@ -4,8 +4,9 @@
 #include "SynchronizedTimeHandler.h"
 #include <CEGUI.h>
 
-
-
+#include <osgViewer/Viewer>
+#include <osgUtil/PolytopeIntersector>
+#include <osg/io_utils>
 
  /************************************************************************
      Translate a OSGKey to the proper CEGUI::Key
@@ -220,8 +221,68 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 {
 	switch(ea.getEventType())
 	{
+		case(osgGA::GUIEventAdapter::MOVE):
+		{
+			float x = ea.getX();
+			float y = ea.getWindowHeight() - ea.getY();
+
+			CEGUI::System::getSingleton().injectMousePosition(x,y);
+			break;
+		}
+
+
+
+		case(osgGA::GUIEventAdapter::DOUBLECLICK):
+		{
+			float x = ea.getX();
+			float y = ea.getWindowHeight() - ea.getY();
+
+			CEGUI::System::getSingleton().injectMousePosition(x, y);
+			bool injectionRetVal = false;
+
+			if (ea.getButton() == osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON)  // left
+				injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::LeftButton);
+
+			else if (ea.getButton() == osgGA::GUIEventAdapter::MIDDLE_MOUSE_BUTTON)  // middle
+				injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::MiddleButton);
+
+			else if (ea.getButton() == osgGA::GUIEventAdapter::RIGHT_MOUSE_BUTTON)  // right
+				injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::RightButton);
+
+			if(injectionRetVal)
+				return true;
+
+			break;
+		}
+
+
 		case(osgGA::GUIEventAdapter::PUSH):
 		{
+			float x = ea.getX();
+			float y = ea.getWindowHeight() - ea.getY();
+
+			CEGUI::System::getSingleton().injectMousePosition(x, y);
+			bool injectionRetVal = false;
+
+			if (ea.getButton() == osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON)  // left
+				injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::LeftButton);
+			else if (ea.getButton() == osgGA::GUIEventAdapter::MIDDLE_MOUSE_BUTTON)  // middle
+				injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::MiddleButton);
+			else if (ea.getButton() == osgGA::GUIEventAdapter::RIGHT_MOUSE_BUTTON)  // right
+				injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::RightButton);
+
+			if(injectionRetVal)
+				return true;
+
+
+			if(ea.getButton() == osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON)
+			{	
+				osgViewer::View* view = dynamic_cast<osgViewer::View*>(&aa);
+				pick(view, ea);
+				return false;
+			}
+
+
 			if(ea.getButton() == osgGA::GUIEventAdapter::RIGHT_MOUSE_BUTTON)
 			{	
 				_mouse_X = ea.getX();
@@ -235,6 +296,23 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 
 		case(osgGA::GUIEventAdapter::RELEASE):
 		{
+			float x = ea.getX();
+			float y = ea.getWindowHeight() - ea.getY();
+
+			CEGUI::System::getSingleton().injectMousePosition(x, y);
+			bool injectionRetVal = false;
+
+			if (ea.getButton() == osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON)  // left
+				injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::LeftButton);
+			else if (ea.getButton() == osgGA::GUIEventAdapter::MIDDLE_MOUSE_BUTTON)  // middle
+				injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::MiddleButton);
+			else if (ea.getButton() == osgGA::GUIEventAdapter::RIGHT_MOUSE_BUTTON)  // right
+				injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::RightButton);
+
+			if(injectionRetVal)
+				return true;
+
+
 			if(ea.getButton() == osgGA::GUIEventAdapter::RIGHT_MOUSE_BUTTON)
 			{
 				_right_button_pressed = false;
@@ -245,6 +323,11 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 		// update Zenit on mouse move with right button pressed
 		case(osgGA::GUIEventAdapter::DRAG):
 		{
+			float x = ea.getX();
+			float y = ea.getWindowHeight() - ea.getY();
+
+			CEGUI::System::getSingleton().injectMousePosition(x, y);
+
 			if(_right_button_pressed)
 			{
 				OsgHandler::getInstance()->DeltaUpdateCameraAzimut(_mouse_X-ea.getX());
@@ -446,15 +529,18 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 			}
 		}
 
-		#ifdef _USE_QT_EDITOR_
 		case(osgGA::GUIEventAdapter::RESIZE):
 		{
 			int width = ea.getWindowWidth();
 			int height = ea.getWindowHeight();
+			#ifdef _USE_QT_EDITOR_
 			OsgHandler::getInstance()->Resize(width, height);
+			#else
+			OsgHandler::getInstance()->Resized(width, height);
+			#endif
 			break;
 		}
-		#endif
+
 
 
 		// key release  
@@ -548,3 +634,58 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 	return false;
 }
 
+
+
+
+/***********************************************************
+pick object in the scene
+***********************************************************/
+void OsgEventHandler::pick(osgViewer::View* view, const osgGA::GUIEventAdapter& ea)
+{
+    osg::Viewport* viewport = view->getCamera()->getViewport();
+    double mx = viewport->x() + (int)((double )viewport->width()*(ea.getXnormalized()*0.5+0.5));
+    double my = viewport->y() + (int)((double )viewport->height()*(ea.getYnormalized()*0.5+0.5));
+    double w = 5.0f;
+    double h = 5.0f;
+    osgUtil::PolytopeIntersector* picker = new 
+		osgUtil::PolytopeIntersector( osgUtil::Intersector::WINDOW, mx-w, my-h, mx+w, my+h );
+
+    osgUtil::IntersectionVisitor iv(picker);
+    view->getCamera()->accept(iv);
+
+	std::string keepname;
+
+    if (picker->containsIntersections())
+    {
+        osgUtil::PolytopeIntersector::Intersections intersections = picker->getIntersections();
+
+        for(osgUtil::PolytopeIntersector::Intersections::iterator hitr = intersections.begin();
+				hitr != intersections.end();  ++hitr)
+        {
+			osg::NodePath::reverse_iterator it = hitr->nodePath.rbegin();
+			osg::NodePath::reverse_iterator end = hitr->nodePath.rend();
+			for(; it != end; ++it)
+			{
+				std::string name = (*it)->getName();
+				if(name.size() > 2 && name[1] == '_')
+				{
+					if(keepname == "")
+						keepname = name;
+					else
+					{
+						// take editor stuff before actors
+						char c1 = keepname[0];
+						char c2 = name[0];
+						if(c2 == 'E' && c1 == 'A')
+							keepname = name;
+					}
+         
+					//hitr->getWorldIntersectPoint()
+					//hitr->getWorldIntersectNormal()
+				}
+			}
+        }
+    }
+
+	EventsQueue::getReceiverQueue()->AddEvent(new ObjectPickedEvent(keepname));      
+}

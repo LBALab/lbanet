@@ -161,6 +161,9 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc
 				_npcObjects[desc.Id] = tmpobj;
 				if(tmpobj->GetDisplayObject())
 				{
+					std::stringstream strs;
+					strs << "A_" << desc.Id;
+					tmpobj->GetDisplayObject()->SetName(strs.str());
 					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
 					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
 				}
@@ -186,6 +189,9 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc
 
 				if(playerObject->GetDisplayObject())
 				{
+					std::stringstream strs;
+					strs << "M_" << desc.Id;
+					playerObject->GetDisplayObject()->SetName(strs.str());
 					m_controllerChar->UpdateDisplay(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
 					m_controllerChar->UpdateDisplay(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
 				}
@@ -196,6 +202,9 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc
 				_playerObjects[desc.Id] = boost::shared_ptr<ExternalPlayer>(new ExternalPlayer(tmpobj, DisplayDesc));
 				if(tmpobj->GetDisplayObject())
 				{
+					std::stringstream strs;
+					strs << "P_" << desc.Id;
+					tmpobj->GetDisplayObject()->SetName(strs.str());
 					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
 					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
 				}
@@ -209,6 +218,9 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc
 				_ghostObjects[desc.Id] = tmpobj;
 				if(tmpobj->GetDisplayObject())
 				{
+					std::stringstream strs;
+					strs << "G_" << desc.Id;
+					tmpobj->GetDisplayObject()->SetName(strs.str());
 					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
 					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
 				}
@@ -224,6 +236,9 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc
 				_editorObjects[desc.Id] = tmpobj;
 				if(tmpobj->GetDisplayObject())
 				{
+					std::stringstream strs;
+					strs << "E_" << desc.Id;
+					tmpobj->GetDisplayObject()->SetName(strs.str());
 					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
 					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
 				}

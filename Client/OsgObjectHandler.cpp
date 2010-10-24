@@ -42,7 +42,7 @@ default constructor
 ***********************************************************/
 OsgObjectHandler::OsgObjectHandler(boost::shared_ptr<DisplayTransformation> Tr,
 									const LbaNet::ObjectExtraInfo &extrainfo)
-:  _posX(0), _posY(0), _posZ(0), _displayed(true), _extrainfo(extrainfo)
+:  _posX(0), _posY(0), _posZ(0), _displayed(true), _extrainfo(extrainfo), _uselight(true)
 {
 	#ifdef _DEBUG
 		LogHandler::getInstance()->LogToFile("Created empty Osg object.");
@@ -70,7 +70,7 @@ Constructor
 ***********************************************************/
 OsgObjectHandler::OsgObjectHandler(osg::ref_ptr<osg::MatrixTransform> OsgObject, bool uselight,
 										const LbaNet::ObjectExtraInfo &extrainfo)
-: _posX(0), _posY(0), _posZ(0), _displayed(true), _extrainfo(extrainfo)
+: _posX(0), _posY(0), _posZ(0), _displayed(true), _extrainfo(extrainfo), _uselight(uselight)
 {
 	if(uselight)
 	{
@@ -258,8 +258,20 @@ void OsgObjectHandler::RefreshText()
 
 		if(_extrainfo.Name != "")
 		{
+			osg::Vec3 posT;
+			if(_uselight)
+			{
+				osg::BoundingSphere bs = GetRoot()->computeBound();
+				posT = bs.center()+ osg::Vec3(0,1,0);		
+			}
+			else
+			{
+				osg::BoundingSphere bs = GetRootNoLight()->computeBound();
+				posT = bs.center()+ osg::Vec3(0,1,0);	
+			}
+
 			_textgroup = new osg::AutoTransform();
-			_textgroup->setPosition(osg::Vec3(0, 3.1, 0));
+			_textgroup->setPosition(posT/*osg::Vec3(0, 3.1, 0)*/);
 			_textgroup->setAutoRotateMode(osg::AutoTransform::ROTATE_TO_SCREEN);
 			_textgroup->setMinimumScale(0.01);
 			_textgroup->setMaximumScale(0.5);
@@ -301,8 +313,29 @@ sett dont optimize
 void OsgObjectHandler::ForbidOptimize()
 {
 	if(_osgpat)
-		_osgpat->setName("NoOptimization");
+		_osgpat->setUserData(new osg::Node());
+
 
 	if(_osgpatNoLight)
-		_osgpatNoLight->setName("NoOptimization");
+		_osgpatNoLight->setUserData(new osg::Node());
+}
+
+
+
+/***********************************************************
+set name of display object that will be returned during picking
+***********************************************************/
+void OsgObjectHandler::SetName(const std::string & name)
+{
+	if(_osgpat)
+		_osgpat->setName(name);
+
+	if(_OsgObject)
+		_OsgObject->setName(name);
+
+	if(_osgpatNoLight)
+		_osgpatNoLight->setName(name);
+
+	if(_OsgObjectNoLight)
+		_OsgObjectNoLight->setName(name);
 }
