@@ -82,6 +82,14 @@ public:
 	// update object life info
 	virtual void UpdateLifeInfo(const LbaNet::LifeManaInfo &info);
 
+
+	// save current model state
+	virtual void SaveState();
+
+	// restore previously saved model state
+	virtual void RestoreState();
+
+
 protected:
 	// refresh model
 	int RefreshModel();
@@ -109,6 +117,10 @@ private:
 	int												_currModel;
 	int												_currBody;
 	int												_currAnimation;
+
+
+	LbaNet::ModelInfo								_savedmodelinfo;
+	std::string										_savedanimationstring;
 };
 
 

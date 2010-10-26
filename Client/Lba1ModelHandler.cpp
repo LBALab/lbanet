@@ -415,3 +415,24 @@ void Lba1ModelHandler::UpdateLifeInfo(const LbaNet::LifeManaInfo &info)
 	_lifeinfo = info;
 	RefreshLifeManaBars();
 }
+
+
+
+/***********************************************************
+save current model state
+***********************************************************/
+void Lba1ModelHandler::SaveState()
+{
+	_savedmodelinfo = _currentmodelinfo;
+	_savedanimationstring = _currentanimationstring;
+}
+
+/***********************************************************
+restore previously saved model state
+***********************************************************/
+void Lba1ModelHandler::RestoreState()
+{
+	_currentmodelinfo = _savedmodelinfo;
+	_currentanimationstring = _savedanimationstring;
+	RefreshModel();
+}

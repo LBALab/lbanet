@@ -196,274 +196,264 @@ process function
 ***********************************************************/
 void CharacterController::Process(double tnow, float tdiff)
 {
+	// do nothing if ghost
+	if(_forcedghost || _isGhost)
+	{
+		_oldtdiff = tdiff;
+		return;
+	}
+
+	if(_currentstatestr == LbaNet::StScripted)
+	{
+		ProcessScript(tnow, tdiff);
+
+		// update server if needed
+		UpdateServer(tnow, tdiff);
+
+		return;
+	}
+
+
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
 	boost::shared_ptr<DisplayObjectHandlerBase> diso = _character->GetDisplayObject();
 
-	if(_isGhost || _forcedghost)
+
+
+	bool moving = false;
+	bool IsIdle = true;
+	bool allowedmoving = false;
+	int allowedrotating = 0;
+	bool standoniddle = false;
+	bool canfly = false;
+	bool checkgravity = true;
+	bool checkwater = true;
+
+	float speedX = 0;
+	float speedY = 0;
+	float speedZ = 0;
+
+	if(_currentstate)
 	{
-		//float speedX = 0.0f;
-		//float speedY = 0.0f;
-		//float speedZ = 0.0f;
+		allowedmoving = _currentstate->AllowedMoving();
+		allowedrotating = _currentstate->AllowedRotating();
+		standoniddle = _currentstate->StandOnIddle();
+		checkgravity = checkgravity && !(_currentstate->IsImmuneGravity());
+		checkwater = checkwater && !(_currentstate->IsImmuneDrowning());
+	}
+	if(_currentmode)
+	{
+		canfly = _currentmode->CanFly();
+		checkgravity = checkgravity && _currentmode->NeedCheckForGravity();
+		checkwater = checkwater && _currentmode->NeedCheckForWater();
+	}
 
-		////if right key pressed
-		//if(_pressedkeys._keyleft)
-		//	speedX = -0.01f;
-		//else if(_pressedkeys._keyright)
-		//	speedX = 0.01f;
 
-		////if up key pressed
-		//if(_pressedkeys._keyforward)
-		//	speedZ = -0.01f;
-		//else if(_pressedkeys._keybackward)
-		//	speedZ = 0.01f;
+	// check for moving forward/backward
+	if(allowedmoving)
+	{	
+		if(_pressedkeys._keyforward)
+		{
+			//update animation
+			int resupd = diso->Update(new LbaNet::AnimationStringUpdate("MoveForward"));
+			if(resupd == 0)
+			{
+				IsIdle = false;
+				moving = true;
+			}			
+		}
+		else if(_pressedkeys._keybackward)
+		{
+			//update animation
+			int resupd = diso->Update(new LbaNet::AnimationStringUpdate("MoveBackward"));
+			if(resupd == 0)
+			{
+				IsIdle = false;
+				moving = true;
+			}	
+		}
 
-		//if(_pressedkeys._keyup)
-		//	speedY = 0.01f;
-		//else if(_pressedkeys._keydown)
-		//	speedY = -0.01f;
+		if(canfly)
+		{
+			if(_pressedkeys._keyup)
+			{
+				IsIdle = false;
+				speedY += (0.01f * tdiff);
+			}
+			else if(_pressedkeys._keydown)
+			{
+				IsIdle = false;
+				speedY -= (0.01f * tdiff);
+			}
+		}
+	}
 
-		//physo->Move(speedX*tdiff, speedY*tdiff, speedZ*tdiff, false);
+	// check for rotating
+	if(allowedrotating > 0)
+	{
+		if(_pressedkeys._keyleft)
+		{
+			if(!moving && (allowedrotating == 1))
+			{
+				//update animation
+				diso->Update(new LbaNet::AnimationStringUpdate("TurnLeft"));
+				IsIdle = false;
+			}
+
+			physo->RotateYAxis(0.15f*tdiff);
+		}
+		else if(_pressedkeys._keyright)
+		{
+			if(!moving && (allowedrotating == 1))
+			{
+				//update animation
+				diso->Update(new LbaNet::AnimationStringUpdate("TurnRight"));
+				IsIdle = false;
+			}
+
+			physo->RotateYAxis(-0.15f*tdiff);
+		}
+	}
+
+	// update to standing pose if needed
+	if(IsIdle && standoniddle)
+	{
+		//update animation
+		diso->Update(new LbaNet::AnimationStringUpdate("Stand"));
+	}
+
+
+	// inform mode and state that we are moving
+	if(moving)
+	{
+		if(_currentstate)
+			_currentstate->InformMoving();
+
+		if(_currentmode)
+			_currentmode->CharacterMoving();
 	}
 	else
 	{
-		bool moving = false;
-		bool IsIdle = true;
-		bool allowedmoving = false;
-		int allowedrotating = 0;
-		bool standoniddle = false;
-		bool canfly = false;
-		bool checkgravity = true;
-		bool checkwater = true;
-
-		float speedX = 0;
-		float speedY = 0;
-		float speedZ = 0;
-
-		if(_currentstate)
-		{
-			allowedmoving = _currentstate->AllowedMoving();
-			allowedrotating = _currentstate->AllowedRotating();
-			standoniddle = _currentstate->StandOnIddle();
-			checkgravity = checkgravity && !(_currentstate->IsImmuneGravity());
-			checkwater = checkwater && !(_currentstate->IsImmuneDrowning());
-		}
 		if(_currentmode)
-		{
-			canfly = _currentmode->CanFly();
-			checkgravity = checkgravity && _currentmode->NeedCheckForGravity();
-			checkwater = checkwater && _currentmode->NeedCheckForWater();
-		}
+			_currentmode->CharacterStoppedMoving();
+	}
 
 
-		// check for moving forward/backward
-		if(allowedmoving)
+	// get speed of animation
+	if(_currentmode)
+	{
+		if(_currentmode->UseAnimationSpeed())
 		{	
-			if(_pressedkeys._keyforward)
+			speedX += diso->GetCurrentAssociatedSpeedX() * tdiff;
+			speedY += diso->GetCurrentAssociatedSpeedY() * tdiff;
+			speedZ += diso->GetCurrentAssociatedSpeedZ() * tdiff;
+		}
+
+		speedX += _currentmode->GetAddedSpeedX() * tdiff;
+	}
+
+
+	// check for gravity
+	if(checkgravity)
+		speedY -= (0.05f * tdiff); //TODO - make the gravity configurable?
+
+	// move the physical shape
+	LbaQuaternion Q;
+	physo->GetRotation(Q);
+	LbaVec3 current_directionX(Q.GetDirection(LbaVec3(0, 0, 1)));
+	LbaVec3 current_directionZ(Q.GetDirection(LbaVec3(1, 0, 0)));
+	float ajustedspeedx = speedX*current_directionX.x + speedZ*current_directionZ.x;
+	float ajustedspeedZ = speedX*current_directionX.z + speedZ*current_directionZ.z;
+
+	physo->Move(ajustedspeedx, speedY, ajustedspeedZ);
+	boost::shared_ptr<ActorUserData> udata = physo->GetUserData();
+	bool touchground = true;
+	int touchedfloormaterial = 0;
+	if(udata)
+	{
+		touchground = udata->GetTouchingGround();
+		touchedfloormaterial = udata->GetHittedFloorMaterial();
+	}
+
+
+
+	// check if we are falling down
+	if(checkgravity)
+	{
+		// get current position
+		float cX, cY, CZ;
+		physo->GetPosition(cX, cY, CZ);
+
+
+		// if the actor does not touch the ground it means he is falling down
+		if(!touchground /*&& !_player->IsAttached()*/) // TODO attach system
+		{
+			if(!_chefkiffall)
 			{
-				//update animation
-				int resupd = diso->Update(new LbaNet::AnimationStringUpdate("MoveForward"));
-				if(resupd == 0)
-				{
-					IsIdle = false;
-					moving = true;
-				}			
-			}
-			else if(_pressedkeys._keybackward)
-			{
-				//update animation
-				int resupd = diso->Update(new LbaNet::AnimationStringUpdate("MoveBackward"));
-				if(resupd == 0)
-				{
-					IsIdle = false;
-					moving = true;
-				}	
-			}
-
-			if(canfly)
-			{
-				if(_pressedkeys._keyup)
-				{
-					IsIdle = false;
-					speedY += (0.01f * tdiff);
-				}
-				else if(_pressedkeys._keydown)
-				{
-					IsIdle = false;
-					speedY -= (0.01f * tdiff);
-				}
-			}
-		}
-
-		// check for rotating
-		if(allowedrotating > 0)
-		{
-			if(_pressedkeys._keyleft)
-			{
-				if(!moving && (allowedrotating == 1))
-				{
-					//update animation
-					diso->Update(new LbaNet::AnimationStringUpdate("TurnLeft"));
-					IsIdle = false;
-				}
-
-				physo->RotateYAxis(0.15f*tdiff);
-			}
-			else if(_pressedkeys._keyright)
-			{
-				if(!moving && (allowedrotating == 1))
-				{
-					//update animation
-					diso->Update(new LbaNet::AnimationStringUpdate("TurnRight"));
-					IsIdle = false;
-				}
-
-				physo->RotateYAxis(-0.15f*tdiff);
-			}
-		}
-
-		// update to standing pose if needed
-		if(IsIdle && standoniddle)
-		{
-			//update animation
-			diso->Update(new LbaNet::AnimationStringUpdate("Stand"));
-		}
-
-
-		// inform mode and state that we are moving
-		if(moving)
-		{
-			if(_currentstate)
-				_currentstate->InformMoving();
-
-			if(_currentmode)
-				_currentmode->CharacterMoving();
-		}
-		else
-		{
-			if(_currentmode)
-				_currentmode->CharacterStoppedMoving();
-		}
-
-
-		// get speed of animation
-		if(_currentmode)
-		{
-			if(_currentmode->UseAnimationSpeed())
-			{	
-				speedX += diso->GetCurrentAssociatedSpeedX() * tdiff;
-				speedY += diso->GetCurrentAssociatedSpeedY() * tdiff;
-				speedZ += diso->GetCurrentAssociatedSpeedZ() * tdiff;
-			}
-
-			speedX += _currentmode->GetAddedSpeedX() * tdiff;
-		}
-
-
-		// check for gravity
-		if(checkgravity)
-			speedY -= (0.05f * tdiff); //TODO - make the gravity configurable?
-
-		// move the physical shape
-		LbaQuaternion Q;
-		physo->GetRotation(Q);
-		LbaVec3 current_directionX(Q.GetDirection(LbaVec3(0, 0, 1)));
-		LbaVec3 current_directionZ(Q.GetDirection(LbaVec3(1, 0, 0)));
-		float ajustedspeedx = speedX*current_directionX.x + speedZ*current_directionZ.x;
-		float ajustedspeedZ = speedX*current_directionX.z + speedZ*current_directionZ.z;
-
-		physo->Move(ajustedspeedx, speedY, ajustedspeedZ);
-		boost::shared_ptr<ActorUserData> udata = physo->GetUserData();
-		bool touchground = true;
-		int touchedfloormaterial = 0;
-		if(udata)
-		{
-			touchground = udata->GetTouchingGround();
-			touchedfloormaterial = udata->GetHittedFloorMaterial();
-		}
-
-
-
-		// check if we are falling down
-		if(checkgravity)
-		{
-			// get current position
-			float cX, cY, CZ;
-			physo->GetPosition(cX, cY, CZ);
-
-
-			// if the actor does not touch the ground it means he is falling down
-			if(!touchground /*&& !_player->IsAttached()*/) // TODO attach system
-			{
-				if(!_chefkiffall)
-				{
-					_chefkiffall = true;
-					_ycheckiffall = cY;
-				}
-				else
-				{
-					float fallsize = (_ycheckiffall - cY);
-					if(fallsize > 0.2)
-					{
-						// start fall down state
-						UpdateModeAndState(_currentmodestr, LbaNet::StFalling, tnow);
-					}
-				}
-
-				// additionnal check if we go out of map - if yes then just die
-				if(cY < -5)
-					UpdateModeAndState(_currentmodestr, LbaNet::StDying, tnow);
+				_chefkiffall = true;
+				_ycheckiffall = cY;
 			}
 			else
 			{
-				_chefkiffall = false;
-
-				//if we were falling down then player will be hurt by touching the ground
-				if(_currentstatestr == LbaNet::StFalling)
+				float fallsize = (_ycheckiffall - cY);
+				if(fallsize > 0.2)
 				{
-					float fallsize = _ycheckiffall - cY;
+					// start fall down state
+					UpdateModeAndState(_currentmodestr, LbaNet::StFalling, tnow);
+				}
+			}
 
-					if(fallsize > 1.5)
+			// additionnal check if we go out of map - if yes then just die
+			if(cY < -5)
+				UpdateModeAndState(_currentmodestr, LbaNet::StDying, tnow);
+		}
+		else
+		{
+			_chefkiffall = false;
+
+			//if we were falling down then player will be hurt by touching the ground
+			if(_currentstatestr == LbaNet::StFalling)
+			{
+				float fallsize = _ycheckiffall - cY;
+
+				if(fallsize > 1.5)
+				{
+					if(fallsize > 6)
 					{
-						if(fallsize > 6)
-						{
-							// go to hurt state as fall was very big
-							UpdateModeAndState(_currentmodestr, LbaNet::StHurtFall, tnow, fallsize);
-						}
-						else
-						{
-							// go to landed state as fall is not that big
-							UpdateModeAndState(_currentmodestr, LbaNet::StFinishedFall, tnow, fallsize);
-						}
+						// go to hurt state as fall was very big
+						UpdateModeAndState(_currentmodestr, LbaNet::StHurtFall, tnow, fallsize);
 					}
 					else
 					{
-						// go back to normal state as this was a very small fall
-						UpdateModeAndState(_currentmodestr, LbaNet::StNormal, tnow);
+						// go to landed state as fall is not that big
+						UpdateModeAndState(_currentmodestr, LbaNet::StFinishedFall, tnow, fallsize);
 					}
 				}
-			}
-			
-		}
-
-		// check if we touch water
-		if(checkwater)
-		{
-			if(touchground)
-			{
-				if(touchedfloormaterial == 17)	// water
-					UpdateModeAndState(_currentmodestr, LbaNet::StDrowning, tnow);
-
-				if(touchedfloormaterial == 18)	// gaz
-					UpdateModeAndState(_currentmodestr, LbaNet::StDrowningGas, tnow);
-
-				if(touchedfloormaterial == 19)	// lava
-					UpdateModeAndState(_currentmodestr, LbaNet::StBurning, tnow);
+				else
+				{
+					// go back to normal state as this was a very small fall
+					UpdateModeAndState(_currentmodestr, LbaNet::StNormal, tnow);
+				}
 			}
 		}
-
 		
-
 	}
+
+	// check if we touch water
+	if(checkwater)
+	{
+		if(touchground)
+		{
+			if(touchedfloormaterial == 17)	// water
+				UpdateModeAndState(_currentmodestr, LbaNet::StDrowning, tnow);
+
+			if(touchedfloormaterial == 18)	// gaz
+				UpdateModeAndState(_currentmodestr, LbaNet::StDrowningGas, tnow);
+
+			if(touchedfloormaterial == 19)	// lava
+				UpdateModeAndState(_currentmodestr, LbaNet::StBurning, tnow);
+		}
+	}
+
 
 	//update display and animation
 	bool animfinished = false;
@@ -513,13 +503,6 @@ check if we need to send update to server
 ***********************************************************/
 void CharacterController::UpdateServer(double tnow, float tdiff)
 {
-	// do nothing if ghost
-	if(_forcedghost || _isGhost)
-	{
-		_oldtdiff = tdiff;
-		return;
-	}
-
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
 
 	// get current position
@@ -734,6 +717,11 @@ void CharacterController::UpdateModeAndState(const std::string &newmode,
 	// only update if different
 	if(newstate != _currentstatestr)
 	{
+		// restore display if older state was scripted
+		if(_currentstatestr == LbaNet::StScripted)
+			_character->GetDisplayObject()->RestoreState();
+
+
 		_currentstatestr = newstate;
 		switch(_currentstatestr)
 		{
@@ -829,6 +817,10 @@ void CharacterController::UpdateModeAndState(const std::string &newmode,
 			break; 
 			case LbaNet::StScripted:
 			{
+				// save current display for when we finish script
+				_character->GetDisplayObject()->SaveState();
+
+
 				_currentstate = boost::shared_ptr<CharacterStateBase>(new StScripted());						
 			}
 			break;

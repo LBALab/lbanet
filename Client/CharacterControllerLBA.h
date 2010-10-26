@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ClientExtendedEvents.h"
 #include "CharacterStates.h"
 #include "CharacterModes.h"
+#include "ScriptedActor.h"
 
 #include <ClientServerEvents.h>
 
@@ -48,14 +49,14 @@ class DynamicObject;
  * Modified: mardi 14 juillet 2009 17:41:03
  * Purpose: Declaration of the class CharacterController
  ***********************************************************************/
-class CharacterController
+class CharacterController : public ScriptedActor
 {
 public:
 	//! constructor
 	CharacterController();
 
 	//! destructor
-	~CharacterController();
+	virtual ~CharacterController();
 
 	// set physcial character
 	void SetPhysicalCharacter(boost::shared_ptr<DynamicObject> charac, 
@@ -105,7 +106,6 @@ protected:
 								float FallingSize = 0);
 
 private:
-	boost::shared_ptr<DynamicObject>			_character;
 	boost::shared_ptr<CharacterModeBase>		_currentmode;
 	boost::shared_ptr<CharacterStateBase>		_currentstate;
 	std::string									_currentmodestr;

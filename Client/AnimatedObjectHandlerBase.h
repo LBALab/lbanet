@@ -75,6 +75,7 @@ public:
 
 	// update object life info
 	virtual void UpdateLifeInfo(const LbaNet::LifeManaInfo &info) = 0;
+
 };
 
 
