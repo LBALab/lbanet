@@ -82,6 +82,13 @@ public:
 
 	//! set name of display object that will be returned during picking
 	virtual void SetName(const std::string & name) = 0;
+
+
+	// save current model state
+	virtual void SaveState(){}
+
+	// restore previously saved model state
+	virtual void RestoreState(){}
 };
 
 
