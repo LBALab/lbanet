@@ -735,7 +735,7 @@ module LbaNet
 		float				SizeX;
 		float				SizeY;
 		float				SizeZ;		
-	};	
+	};		
 };	
 
 #endif
