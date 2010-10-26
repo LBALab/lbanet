@@ -228,6 +228,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Client\ClientLuaHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\infrastructure\cpp\ClientServerEvents.cpp"
 				>
 			</File>
@@ -384,6 +388,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\shared\LuaThreadHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Client\MailBox.cpp"
 				>
 			</File>
@@ -449,6 +457,10 @@
 			</File>
 			<File
 				RelativePath="..\Client\RemoteConnectionHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Client\ScriptedActor.cpp"
 				>
 			</File>
 			<File
@@ -591,6 +603,10 @@
 			</File>
 			<File
 				RelativePath="..\Client\ClientExtendedTypes.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Client\ClientLuaHandler.h"
 				>
 			</File>
 			<File
@@ -814,6 +830,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\shared\LuaThreadHandler.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Client\MailBox.h"
 				>
 			</File>
@@ -907,6 +927,10 @@
 			</File>
 			<File
 				RelativePath="..\Client\SampleMutex_WIN.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Client\ScriptedActor.h"
 				>
 			</File>
 			<File
