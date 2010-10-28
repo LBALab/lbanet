@@ -175,6 +175,20 @@ module LbaNet
 	{
 		ObjectExtraInfo 		ExtraInfo;
 	};	
+	
+	
+	// server tell client to execute lua script
+	class StartClientScriptEvent extends ClientServerEventBase
+	{
+		string 				ScriptName;
+	};
+	
+	// client tell server that script is finished
+	class ScriptExecutionFinishedEvent extends ClientServerEventBase
+	{
+		string 				ScriptName;
+	};
+		
 };	
 
 #endif
