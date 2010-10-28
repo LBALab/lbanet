@@ -109,7 +109,8 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("AddActorObject", &ScriptEnvironmentBase::AddActorObject)
 		.def("AddTrigger", &ScriptEnvironmentBase::AddTrigger)
 		.def("AddAction", &ScriptEnvironmentBase::AddAction)
-		.def("Teleport", &ScriptEnvironmentBase::Teleport),
+		.def("Teleport", &ScriptEnvironmentBase::Teleport)
+		.def("ExecuteClientScript", &ScriptEnvironmentBase::ExecuteClientScript),
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),
 
@@ -150,8 +151,10 @@ ServerLuaHandler::ServerLuaHandler()
 		.def(luabind::constructor<long, const std::string&>()),
 
 		luabind::class_<TeleportAction, ActionBase, boost::shared_ptr<ActionBase> >("TeleportAction")
-		.def(luabind::constructor<long, const std::string&, const std::string &, long>())
+		.def(luabind::constructor<long, const std::string&, const std::string &, long>()),
 
+		luabind::class_<ClientScriptAction, ActionBase, boost::shared_ptr<ActionBase> >("ClientScriptAction")
+		.def(luabind::constructor<long, const std::string&, const std::string &>())
 		];
 
 

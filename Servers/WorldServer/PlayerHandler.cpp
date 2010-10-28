@@ -11,7 +11,7 @@ PlayerHandler::PlayerHandler(long clientid, ClientProxyBasePtr proxy,
 						const LbaNet::ObjectExtraInfo& extrainfo)
 	: _clientid(clientid), _proxy(proxy), 
 		_dbH(dbH), _currentinfo(savedinfo), _worldname(worldname),
-		_extrainfo(extrainfo), _ready(false)
+		_extrainfo(extrainfo), _ready(false), _saved(false)
 {
 	// get quest information
 	if(_dbH) 
@@ -111,12 +111,9 @@ void PlayerHandler::Teleport(const LbaNet::PlayerPosition& Position)
 	_currentinfo.ppos = Position;
 	_ready = false;	// player not ready to play yet
 
-	// raise from dead in case it is dead for some reason
-	if(_currentstate && _currentstate->IsDead())
-	{
-		_currentinfo.model.State = LbaNet::StNormal;
-		UpdateStateModeClass();
-	}
+	// player goes back to nromal state when changing map
+	_currentinfo.model.State = LbaNet::StNormal;
+	UpdateStateModeClass();
 
 
 	//TODO - remove that and replace by a raising place system
@@ -268,6 +265,37 @@ bool PlayerHandler::UpdatePlayerState(LbaNet::ModelState NewState,LbaNet::ModelI
 
 	return false;
 }
+
+
+
+/***********************************************************
+save player state
+***********************************************************/
+void PlayerHandler::SavePlayerState()
+{
+	_saved = true;
+	_savedState = _currentinfo.model.State;
+}
+
+/***********************************************************
+restore player state
+***********************************************************/
+bool PlayerHandler::RestorePlayerState(LbaNet::ModelInfo & returnmodel)
+{
+	if(_saved)
+	{
+		_saved = false;
+		_currentinfo.model.State = _savedState;
+		UpdateStateModeClass();
+		returnmodel = _currentinfo.model;
+		return true;
+	}
+
+	return false;
+}
+
+
+
 
 /***********************************************************
 update state and mode class from modelinfo

@@ -65,7 +65,7 @@ public:
 	// get shortcuts
 	LbaNet::ShortcutsSeq GetShorcuts() {return _currentshortcuts;}
 
-	// player update on of the shorcut - TODO
+	// player update on the shorcut - TODO
 	void UpdateShortcut(int Position, long ItemId);
 
 	// get current size of inventory
@@ -113,7 +113,16 @@ public:
 
 	//!  update player state
 	//! return true if state has been updated
-	bool UpdatePlayerState(LbaNet::ModelState NewState,LbaNet::ModelInfo & returnmodel);
+	bool UpdatePlayerState(LbaNet::ModelState NewState, LbaNet::ModelInfo & returnmodel);
+
+
+	//!  save player state
+	void SavePlayerState();
+
+	//!  restore player state
+	bool RestorePlayerState(LbaNet::ModelInfo & returnmodel);
+
+
 
 	//! set player extra info
 	void SetExtraInfo(const LbaNet::ObjectExtraInfo& extrainfo)
@@ -163,6 +172,9 @@ private:
 
 	boost::shared_ptr<CharacterModeBase>		_currentmode;
 	boost::shared_ptr<CharacterStateBase>		_currentstate;
+
+	bool										_saved;
+	LbaNet::ModelState							_savedState;
 };
 
 #endif

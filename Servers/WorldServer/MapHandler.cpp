@@ -364,6 +364,18 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts)
 				continue;
 			}
 
+
+			//ScriptExecutionFinishedEvent
+			if(info == typeid(LbaNet::ScriptExecutionFinishedEvent))
+			{
+				LbaNet::ScriptExecutionFinishedEvent* castedptr = 
+					dynamic_cast<LbaNet::ScriptExecutionFinishedEvent *>(&obj);
+
+				FinishedScript(it->first, castedptr->ScriptName);
+				continue;
+			}
+
+
 			//editor update event
 			#ifdef _USE_QT_EDITOR_
 			if(info == typeid(EditorEvent))
@@ -1157,6 +1169,38 @@ bool MapHandler::UpdatePlayerState(Ice::Long clientid, LbaNet::ModelState NewSta
 	return false;
 }
 
+
+
+/***********************************************************
+//!  save player state
+***********************************************************/
+void MapHandler::SavePlayerState(Ice::Long clientid)
+{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		it->second->SavePlayerState();
+
+}
+
+
+/***********************************************************
+//!  restore player state
+***********************************************************/
+bool MapHandler::RestorePlayerState(Ice::Long clientid, ModelInfo & returnmodel)
+{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->RestorePlayerState(returnmodel);
+
+	return false;
+}
+
+
+
 /***********************************************************
 	//!  raised player from dead
 	//! return true if raised
@@ -1523,3 +1567,76 @@ void MapHandler::Editor_RemoveActor(long Id)
 	}
 }
 #endif
+
+
+/***********************************************************
+execute client script - does not work on npc objects
+ObjectType ==>
+ 1 -> npc object
+ 2 -> player object
+ 3 -> movable object
+***********************************************************/
+void MapHandler::ExecuteClientScript(int ObjectType, long ObjectId,
+										const std::string & ScriptName)
+{
+	// does not work on npc
+	if(ObjectId == 1)
+		return;
+
+
+	long clientid = -1;
+
+	// on player
+	if(ObjectId == 2)
+		clientid = ObjectId;
+
+	// on object moved by player
+	if(ObjectId == 3)
+	{
+		// todo - find attached player
+	}
+
+	// check if client found - else return
+	if(clientid < 0)
+		return;
+
+
+	// change to scripted state and inform player to run script
+	ModelInfo returnmodel;
+	SavePlayerState(clientid);
+	if(UpdatePlayerState(clientid, LbaNet::StScripted, returnmodel))
+	{
+		EventsSeq toplayer;
+
+		toplayer.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+					PlayerObject, clientid, new ModelUpdate(returnmodel, false)));
+
+		toplayer.push_back(new StartClientScriptEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+									ScriptName));
+
+		IceUtil::ThreadPtr t = new EventsSender(toplayer, GetProxy(clientid));
+		t->start();	
+	}
+}
+
+/***********************************************************
+called when a script is finished on a client
+***********************************************************/
+void MapHandler::FinishedScript(long id, const std::string & ScriptName)
+{
+	// todo - maybe check if script was running 
+
+
+	// change state back to before scripted and inform the client
+	ModelInfo returnmodel;
+	if(RestorePlayerState(id, returnmodel))
+	{
+		EventsSeq toplayer;
+
+		toplayer.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+					PlayerObject, id, new ModelUpdate(returnmodel, false)));
+
+		IceUtil::ThreadPtr t = new EventsSender(toplayer, GetProxy(id));
+		t->start();	
+	}
+}

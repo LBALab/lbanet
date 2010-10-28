@@ -156,6 +156,16 @@ public:
 	// get the action correspondant to the id
 	virtual boost::shared_ptr<ActionBase> GetAction(long actionid);
 
+
+	// execute client script - does not work on npc objects
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void ExecuteClientScript(int ObjectType, long ObjectId,
+										const std::string & ScriptName);
+
+
 protected:
 	// process events
 	void ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts);
@@ -241,6 +251,15 @@ protected:
 	bool UpdatePlayerState(Ice::Long clientid, LbaNet::ModelState NewState,
 									ModelInfo & returnmodel );
 
+
+	//!  save player state
+	void SavePlayerState(Ice::Long clientid);
+
+	//!  restore player state
+	bool RestorePlayerState(Ice::Long clientid, ModelInfo & returnmodel);
+
+
+
 	//!  raised player from dead
 	//! return true if raised
 	bool RaiseFromDead(Ice::Long clientid, ModelInfo & returnmodel);
@@ -275,6 +294,9 @@ protected:
 	//! create display object for spawning
 	ActorObjectInfo CreateSpawningDisplay(long id, float PosX, float PosY, float PosZ, 
 											const std::string & name);
+
+	//! called when a script is finished on a client
+	void FinishedScript(long id, const std::string & ScriptName);
 
 private:
 	// threading and mutex stuff
