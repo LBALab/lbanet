@@ -72,6 +72,16 @@ public:
 
 	// get the action correspondant to the id
 	virtual boost::shared_ptr<ActionBase> GetAction(long actionid) = 0;
+
+
+	// execute client script - does not work on npc objects
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void ExecuteClientScript(int ObjectType, long ObjectId,
+										const std::string & ScriptName) = 0;
+
 };
 
 

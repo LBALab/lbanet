@@ -48,6 +48,10 @@ public:
 	int GetReference()
 	{return m_refKey;}
 
+	//! get script name
+	std::string GetScriptName()
+	{return m_FunctionName;}
+
 private:
 	lua_State *		m_LuaThreadState;
 	lua_State *		m_LuaMainState;
