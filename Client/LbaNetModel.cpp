@@ -33,7 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "CharacterControllerLBA.h"
 #include "ExternalPlayer.h"
 #include "EventsQueue.h"
-
+#include "ClientLuaHandler.h"
 
 
 #define	_LBA1_MODEL_ANIMATION_SPEED_	1.8f
@@ -131,7 +131,7 @@ void LbaNetModel::Process(double tnow, float tdiff)
 
 	//process player object
 	if(m_controllerChar)
-		m_controllerChar->Process(tnow, tdiff);
+		m_controllerChar->Process(tnow, tdiff, m_luaHandler);
 
 	if(m_controllerCam)
 		m_controllerCam->Process(tnow, tdiff);
@@ -744,7 +744,11 @@ void LbaNetModel::NewMap(const std::string & NewMap, const std::string & Script,
 
 	m_current_map_name = NewMap;
 
-	//TODO script part
+	//script part
+	m_luaHandler = boost::shared_ptr<ClientLuaHandler>(new  ClientLuaHandler(this));
+	if(Script != "")
+		m_luaHandler->LoadFile(Script);
+
 
 	// todo remove that
 	OsgHandler::getInstance()->ResetDisplayTree();
@@ -784,6 +788,44 @@ void LbaNetModel::CenterCamera()
 	if(m_controllerCam)
 		m_controllerCam->Center();
 }
+
+
+
+/***********************************************************
+start lua script in a separate thread
+***********************************************************/
+void LbaNetModel::StartScript(const std::string & FunctionName)
+{
+	if(m_luaHandler)
+		m_luaHandler->StartScript(FunctionName);
+}
+
+
+
+/***********************************************************
+used by lua to move an actor or player
+if id < 1 then it moves players
+the actor will move using animation speed
+***********************************************************/
+void LbaNetModel::ActorStraightWalkTo(int ScriptId, long ActorId, float PosX, 
+							  float PosY, float PosZ)
+{
+	if(ActorId >= 0)
+	{
+		// on actor
+		//TODO
+	}
+	else
+	{
+		// on player
+		if(m_controllerChar)
+			m_controllerChar->ActorStraightWalkTo(ScriptId, PosX, PosY, PosZ);
+	}
+}
+
+
+
+
 
 
 #ifdef _USE_QT_EDITOR_

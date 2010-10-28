@@ -71,7 +71,8 @@ public:
 	void KeyReleased(LbanetKey keyid);
 
 	//! process function
-	void Process(double tnow, float tdiff);
+	void Process(double tnow, float tdiff, 
+					boost::shared_ptr<ClientLuaHandler> scripthandler);
 
 	//! update player display
 	void UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr update);

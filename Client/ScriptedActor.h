@@ -28,7 +28,67 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <boost/shared_ptr.hpp>
 
 class DynamicObject;
+class ClientLuaHandler;
 
+
+/***********************************************************************
+ * Module:  ScriptedActor.h
+ * Author:  vivien
+ * Purpose: Declaration of the class ScriptPartBase
+ ***********************************************************************/
+class ScriptPartBase
+{
+public:
+
+	//! constructor
+	ScriptPartBase(int scriptid)
+		: _scriptid(scriptid)
+	{}
+
+	//! destructor
+	virtual ~ScriptPartBase(){}
+
+	//! get the id of the attached script
+	int GetAttachedScriptId()
+	{return _scriptid;}
+
+	//! process script part
+	//! return true if finished
+	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor) = 0;
+
+protected:
+
+	int _scriptid;
+};
+
+
+
+/***********************************************************************
+ * Module:  ScriptedActor.h
+ * Author:  vivien
+ * Purpose: Declaration of the class WalkToScriptPart
+ ***********************************************************************/
+class StraightWalkToScriptPart : public ScriptPartBase
+{
+public:
+
+	//! constructor
+	StraightWalkToScriptPart(int scriptid, float PosX, float PosY, float PosZ,
+						boost::shared_ptr<DynamicObject> actor);
+
+	//! destructor
+	virtual ~StraightWalkToScriptPart(){}
+
+
+	//! process script part
+	//! return true if finished
+	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor);
+
+protected:
+	float	_PosX;
+	float	_PosY;
+	float	_PosZ;
+};
 
 
 
@@ -47,11 +107,16 @@ public:
 	virtual ~ScriptedActor();
 
 	//! process function
-	void ProcessScript(double tnow, float tdiff);
+	void ProcessScript(double tnow, float tdiff, boost::shared_ptr<ClientLuaHandler> scripthandler);
 
+	//! used by lua to move an actor or player
+	//! if id < 1 then it moves players
+	//! the actor will move using animation speed
+	void ActorStraightWalkTo(int ScriptId, float PosX, float PosY, float PosZ);
 
 protected:
 	boost::shared_ptr<DynamicObject>			_character;
+	boost::shared_ptr<ScriptPartBase>			_currentScript;
 };
 
 #endif

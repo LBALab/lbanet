@@ -41,7 +41,7 @@ class PhysXEngine;
 class CharacterController;
 class CameraController;
 class ExternalPlayer;
-
+class ClientLuaHandler;
 
 /***********************************************************************
  * Module:  LbaNetModel.h
@@ -131,6 +131,16 @@ public:
 	void CenterCamera();
 
 
+	//! start lua script in a separate thread
+	void StartScript(const std::string & FunctionName);
+
+
+	//! used by lua to move an actor or player
+	//! if id < 1 then it moves players
+	//! the actor will move using animation speed
+	void ActorStraightWalkTo(int ScriptId, long ActorId, float PosX, float PosY, float PosZ);
+
+
 	#ifdef _USE_QT_EDITOR_
 	//! editor tp the player
 	void EditorTpPlayer(float posx, float posy, float posz);
@@ -184,6 +194,9 @@ private:
 	// controllers
 	boost::shared_ptr<CharacterController>				m_controllerChar;
 	boost::shared_ptr<CameraController>					m_controllerCam;
+
+	// lua handler
+	boost::shared_ptr<ClientLuaHandler>					m_luaHandler;
 
 
 	// player object

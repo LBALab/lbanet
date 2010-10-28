@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "EventsQueue.h"
 #include "SynchronizedTimeHandler.h"
 #include "DynamicObject.h"
+#include "ClientLuaHandler.h"
 
 
 #include <iostream>
@@ -35,6 +36,33 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef M_PI
 #define M_PI    3.14159265358979323846f
 #endif
+
+
+
+
+/***********************************************************
+constructor
+***********************************************************/
+StraightWalkToScriptPart::StraightWalkToScriptPart(int scriptid, float PosX, float PosY, float PosZ, 
+									boost::shared_ptr<DynamicObject> actor)
+	: ScriptPartBase(scriptid), _PosX(PosX), _PosY(PosY), _PosZ(PosZ)
+{
+
+}
+
+
+/***********************************************************
+process script part
+return true if finished
+***********************************************************/
+bool StraightWalkToScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor)
+{
+
+	return false;
+}
+
+
+
 
 
 /***********************************************************
@@ -57,8 +85,31 @@ ScriptedActor::~ScriptedActor()
 /***********************************************************
 process function
 ***********************************************************/
-void ScriptedActor::ProcessScript(double tnow, float tdiff)
+void ScriptedActor::ProcessScript(double tnow, float tdiff, boost::shared_ptr<ClientLuaHandler> scripthandler)
 {
+	if(_currentScript)
+	{
+		bool finished = _currentScript->Process(tnow, tdiff, _character);
+		if(finished)
+		{
+			//tell script handler that script part is finished
+			if(scripthandler)
+				scripthandler->ResumeThread(_currentScript->GetAttachedScriptId());
 
+			// delete script part
+			_currentScript = boost::shared_ptr<ScriptPartBase>();
+		}
+	}
 }
 
+
+/***********************************************************
+used by lua to move an actor or player
+if id < 1 then it moves players
+the actor will move using animation speed
+***********************************************************/
+void ScriptedActor::ActorStraightWalkTo(int ScriptId, float PosX, float PosY, float PosZ)
+{
+	_currentScript = boost::shared_ptr<ScriptPartBase>(
+						new StraightWalkToScriptPart(ScriptId, PosX, PosY, PosZ, _character));
+}

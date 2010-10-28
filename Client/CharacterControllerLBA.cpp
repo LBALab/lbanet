@@ -194,7 +194,8 @@ void CharacterController::KeyReleased(LbanetKey keyid)
 /***********************************************************
 process function
 ***********************************************************/
-void CharacterController::Process(double tnow, float tdiff)
+void CharacterController::Process(double tnow, float tdiff, 
+								  boost::shared_ptr<ClientLuaHandler> scripthandler)
 {
 	// do nothing if ghost
 	if(_forcedghost || _isGhost)
@@ -205,7 +206,7 @@ void CharacterController::Process(double tnow, float tdiff)
 
 	if(_currentstatestr == LbaNet::StScripted)
 	{
-		ProcessScript(tnow, tdiff);
+		ProcessScript(tnow, tdiff, scripthandler);
 
 		// update server if needed
 		UpdateServer(tnow, tdiff);

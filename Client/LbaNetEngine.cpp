@@ -571,6 +571,22 @@ void LbaNetEngine::HandleGameEvents()
 			continue;
 		}
 
+
+		// StartClientScriptEvent
+		if(info == typeid(LbaNet::StartClientScriptEvent))
+		{
+			LbaNet::StartClientScriptEvent* castedptr = 
+				dynamic_cast<LbaNet::StartClientScriptEvent *>(&obj);
+
+			if(m_gui_handler)
+				m_lbaNetModel->StartScript(castedptr->ScriptName);
+
+			continue;
+		}
+
+
+
+
 		// EditorPlayerMovedEvent
 		#ifdef _USE_QT_EDITOR_
 		if(info == typeid(EditorPlayerMovedEvent))

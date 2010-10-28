@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 struct lua_State;
 class LuaThreadHandler;
+class LbaNetModel;
 
 
 //! class taking care of the maping between lua and the server interfaces
@@ -38,7 +39,7 @@ class ClientLuaHandler
 {
 public:
 	//! constructor
-	ClientLuaHandler();
+	ClientLuaHandler(LbaNetModel * model);
 
 	//! destructor
 	~ClientLuaHandler(void);

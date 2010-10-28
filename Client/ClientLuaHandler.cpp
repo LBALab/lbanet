@@ -12,13 +12,14 @@ extern "C"
 #include "LbaNetModel.h"
 #include "LuaThreadHandler.h"
 
-
+#include "EventsQueue.h"
+#include "SynchronizedTimeHandler.h"
 
 
 /***********************************************************
 constructor
 ***********************************************************/
-ClientLuaHandler::ClientLuaHandler()
+ClientLuaHandler::ClientLuaHandler(LbaNetModel * model)
 {
 	try
 	{
@@ -31,8 +32,11 @@ ClientLuaHandler::ClientLuaHandler()
 		luabind::module(m_LuaState) [
 		luabind::class_<LbaNetModel>("LbaNetModel")
 		.def(luabind::constructor<>())
+		.def("ActorStraightWalkTo", &LbaNetModel::ActorStraightWalkTo, luabind::yield)
 		];
 
+		// register the lbanetmodel as global for the whole script
+		luabind::globals(m_LuaState)["Model"] = model;
 
 	}
 	catch(const std::exception &error)
@@ -105,6 +109,12 @@ void ClientLuaHandler::ResumeThread(int ThreadIdx)
 	{
 		// run thread and destroy it if finished
 		if(it->second->ResumeThread())
+		{
+			// inform server that script is finished
+			EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ScriptExecutionFinishedEvent(
+				SynchronizedTimeHandler::GetCurrentTimeDouble(), it->second->GetScriptName()));
+
 			m_RunningThreads.erase(it);
+		}
 	}
 }
