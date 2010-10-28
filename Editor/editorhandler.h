@@ -255,6 +255,16 @@ public:
 	//! when an editor arrow was dragged by mouse
 	void PickedArrowMoved(int pickedarrow);
 
+
+	// execute client script - does not work on npc objects
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void ExecuteClientScript(int ObjectType, long ObjectId,
+		const std::string & ScriptName){}
+
+
 public slots:
 	 //! ui button clicked
      void addtrigger_button_clicked();
