@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Imageset Name="tunicicon" Imagefile="tunic.png" NativeHorzRes="1280" NativeVertRes="1024" >
+    <Image Name="normal" XPos="0" YPos="0" Width="26" Height="26" />
+    <Image Name="hover" XPos="37" YPos="0" Width="26" Height="26" />
+    <Image Name="clicked" XPos="71" YPos="0" Width="26" Height="26" />
+    <Image Name="disabled" XPos="107" YPos="0" Width="26" Height="26" />
+</Imageset>

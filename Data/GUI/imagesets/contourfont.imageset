@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Imageset Name="contourfont" Imagefile="Font.png" NativeHorzRes="800" NativeVertRes="600" >
+    <Image Name="Num0" XPos="5" YPos="96" Width="22" Height="32" />
+    <Image Name="Num1" XPos="37" YPos="96" Width="22" Height="32" />
+    <Image Name="Num2" XPos="69" YPos="96" Width="22" Height="32" />
+    <Image Name="Num3" XPos="101" YPos="96" Width="22" Height="32" />
+    <Image Name="Num4" XPos="133" YPos="96" Width="22" Height="32" />
+    <Image Name="Num5" XPos="165" YPos="96" Width="22" Height="32" />
+    <Image Name="Num6" XPos="197" YPos="96" Width="22" Height="32" />
+    <Image Name="Num7" XPos="229" YPos="96" Width="22" Height="32" />
+    <Image Name="Num8" XPos="261" YPos="96" Width="22" Height="32" />
+    <Image Name="Num9" XPos="293" YPos="96" Width="22" Height="32" />
+    <Image Name="LetF" XPos="197" YPos="128" Width="22" Height="32" />   
+</Imageset>

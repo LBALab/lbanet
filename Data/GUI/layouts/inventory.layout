@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+        <Window Type="TaharezLook/FrameWindow" Name="InventoryFrame" >
+            <Property Name="UnifiedAreaRect" Value="{{0.25,0},{0.25,0},{0.75,0},{0.75,0}" />
+	    <Property Name="TitlebarFont" Value="Commonwealth-10" />
+	    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+	    <Property Name="TitlebarEnabled" Value="True" />            
+            <Property Name="Text" Value="Inventory" />
+            <Property Name="RollUpEnabled" Value="True" />
+            <Property Name="SizingEnabled" Value="True" />
+
+		<Window Type="TaharezLook/ScrollablePane" Name="InventoryFrame/Scrollable" >
+	        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}" />	
+		    
+		</Window>
+        </Window>
+</GUILayout>
+

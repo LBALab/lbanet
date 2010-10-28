@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+        <Window Type="TaharezLook/FrameWindow" Name="ContainerFrame" >
+            <Property Name="UnifiedAreaRect" Value="{{0.50,-215},{0.4,-138},{0.50,215},{0.4,135}" />
+	    <Property Name="TitlebarFont" Value="Commonwealth-10" />
+	    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+	    <Property Name="TitlebarEnabled" Value="True" />            
+            <Property Name="Text" Value=" Container                              Inventory" />
+            <Property Name="RollUpEnabled" Value="False" />
+            <Property Name="SizingEnabled" Value="False" />
+
+		<Window Type="TaharezLook/StaticText" Name="ContainerFrame/ConScrollable/contour" >
+			<Property Name="Text" Value="" />
+			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0,10},{0,0},{0,175},{1,-35}" />
+			<Property Name="MousePassThroughEnabled" Value="True" />                        
+		</Window> 
+
+		<Window Type="TaharezLook/ScrollablePane" Name="ContainerFrame/ConScrollable" >
+	        <Property Name="UnifiedAreaRect" Value="{{0,10},{0,0},{0,175},{1,-35}" />
+		</Window>
+
+
+		<Window Type="TaharezLook/StaticText" Name="ContainerFrame/InvScrollable/contour" >
+			<Property Name="Text" Value="" />
+			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0,185},{0,0},{1,-10},{1,-35}" />
+			<Property Name="MousePassThroughEnabled" Value="True" />                        
+		</Window>	
+
+		<Window Type="TaharezLook/ScrollablePane" Name="ContainerFrame/InvScrollable" >  
+	        <Property Name="UnifiedAreaRect" Value="{{0,185},{0,0},{1,-10},{1,-35}" />		
+		</Window>
+		
+
+            <Window Type="TaharezLook/Button" Name="ContainerFrame/OK" >
+            	<Property Name="Text" Value="OK" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.5,-145},{1,-30},{0.5,-55},{1,-5}}" />
+            </Window>            
+            <Window Type="TaharezLook/Button" Name="ContainerFrame/TakeAll" >
+            	<Property Name="Text" Value="Take All" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.5,-45},{1,-30},{0.5,45},{1,-5}}" />
+            </Window>	            
+            <Window Type="TaharezLook/Button" Name="ContainerFrame/Cancel" >
+            	<Property Name="Text" Value="Cancel" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.5,55},{1,-30},{0.5,145},{1,-5}}" />
+            </Window>
+	
+        </Window>
+</GUILayout>
+

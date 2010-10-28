@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<GUILayout>
+    <Window Type="DefaultWindow" Name="ChooseNumberBoxRoot" >
+        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+        
+        
+	    <Window Type="TaharezLook/FrameWindow" Name="ChooseNumberBoxFrame" >
+		<Property Name="Text" Value="Please specify the item number" />
+		<Property Name="TitlebarFont" Value="Commonwealth-10" />
+		<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		<Property Name="UnifiedMinSize" Value="{{0,128},{0,128}}" />
+		<Property Name="TitlebarEnabled" Value="True" />
+		<Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.3,0},{0.3,300},{0.3,60}}" />
+
+		    <Window Type="TaharezLook/Spinner" Name="ChooseNumberBoxFrame/spinner" >
+			<Property Name="StepSize" Value="1" />
+			<Property Name="CurrentValue" Value="1" />
+			<Property Name="MaximumValue" Value="9999" />
+			<Property Name="MinimumValue" Value="1" />
+			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0,10},{0,25},{1,-10},{0,55}}" />
+		    </Window>   
+
+		 <Window Type="TaharezLook/Button" Name="ChooseNumberBoxFrame/bOk">
+		    <Property Name="Text" Value="OK" />
+			<Property Name="UnifiedAreaRect" Value="{{0.5,-80},{1,-35},{0.5,-5},{1,-10}}" />
+		</Window>  
+
+		<Window Type="TaharezLook/Button" Name="ChooseNumberBoxFrame/bCancel">
+		    <Property Name="Text" Value="Cancel" />
+			<Property Name="UnifiedAreaRect" Value="{{0.5,5},{1,-35},{0.5,80},{1,-10}}" />
+		</Window>       
+	    </Window>
+        
+        
+        
+   </Window>         
+</GUILayout>

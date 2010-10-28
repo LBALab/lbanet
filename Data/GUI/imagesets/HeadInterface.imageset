@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Imageset Name="HeadInterface" Imagefile="HeadInterface.png" >
+    <Image Name="imageHI" XPos="196" YPos="446" Width="633" Height="70" />
+</Imageset>

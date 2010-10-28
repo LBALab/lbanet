@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+        <Window Type="TaharezLook/FrameWindow" Name="JournalFrame" >
+            <Property Name="Text" Value="Journal" />
+            <Property Name="TitlebarFont" Value="Commonwealth-10" />
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+            <Property Name="TitlebarEnabled" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.25,0},{0.323385,0},{0.549219,0},{0.639087,0}}" />
+            <Window Type="TaharezLook/TabControl" Name="Root/JournalWin/tab" >
+		<Property Name="TabHeight" Value="{0,-1}" />
+		<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		<Property Name="TabPanePosition" Value="Top" />
+                <Property Name="UnifiedAreaRect" Value="{{0,5},{0,0},{1,-5},{1,-5}}" />
+                <Window Type="DefaultWindow" Name="Root/JournalWin/tab/questtab" >
+                    <Property Name="Text" Value="Quests" />
+                    <Property Name="Visible" Value="False" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+                    
+                    
+                      <Window Type="TaharezLook/StaticText" Name="Root/JournalWin/tab/questtab/contour" >
+                        <Property Name="Text" Value="" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{0.4,0}}" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />                        
+                    </Window>
+                    
+    			<Window Type="TaharezLook/Tree" Name="Root/JournalWin/tab/questtab/Tree">
+				<Property Name="ID" Value="1" />
+				<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        	<Property Name="UnifiedAreaRect" Value="{{0,0},{0,2},{1,0},{0.4,0}}" />
+			</Window>                    
+                    
+                    <Window Type="TaharezLook/MultiLineEditbox" Name="Root/JournalWin/tab/questtab/Description" >
+                        <Property Name="MaxTextLength" Value="1073741823" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,0},{0.4,3},{1,0},{1,0}}" />
+                        <Property Name="ReadOnly" Value="true" />
+                        
+                    </Window>
+                </Window>
+                <Window Type="DefaultWindow" Name="Root/JournalWin/tab/questdonetab" >
+                    <Property Name="Text" Value="Done Quests" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+                    
+                    
+                      <Window Type="TaharezLook/StaticText" Name="Root/JournalWin/tab/questdonetab/contour" >
+                        <Property Name="Text" Value="" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{0.4,0}}" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />                        
+                    </Window>
+                    
+    			<Window Type="TaharezLook/Tree" Name="Root/JournalWin/tab/questdonetab/Tree">
+				<Property Name="ID" Value="1" />
+				<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        	<Property Name="UnifiedAreaRect" Value="{{0,0},{0,2},{1,0},{0.4,0}}" />
+			</Window>                    
+                    
+                    <Window Type="TaharezLook/MultiLineEditbox" Name="Root/JournalWin/tab/questdonetab/Description" >
+                        <Property Name="MaxTextLength" Value="1073741823" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,0},{0.4,3},{1,0},{1,0}}" />
+                        <Property Name="ReadOnly" Value="true" />
+                    </Window>
+                </Window>
+            </Window>
+        </Window>
+</GUILayout>

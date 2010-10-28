@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Imageset Name="soundbutton" Imagefile="soundbutton.png" NativeHorzRes="1280" NativeVertRes="1024" AutoScaled="false" >
+    <Image Name="hover" XPos="150" YPos="100" Width="70" Height="65" />
+    <Image Name="disabled" XPos="410" YPos="100" Width="70" Height="65" />
+    <Image Name="clicked" XPos="30" YPos="100" Width="70" Height="65" />
+    <Image Name="normal" XPos="285" YPos="100" Width="70" Height="65" />
+</Imageset>

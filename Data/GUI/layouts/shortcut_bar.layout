@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+	<Window Type="TaharezLook/StaticImage" Name="shortcut_bar" >
+	    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+	    <Property Name="UnifiedAreaRect" Value="{{0,5},{1,-55},{1,-5},{1,-5}}" />           
+	</Window>    
+</GUILayout>
+

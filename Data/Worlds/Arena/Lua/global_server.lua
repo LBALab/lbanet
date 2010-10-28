@@ -1,0 +1,2 @@
+function InitGlobal(environment)
+end

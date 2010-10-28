@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="DefaultWindow" Name="OptionsRoot" >
+        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+        <Window Type="TaharezLook/FrameWindow" Name="OptionsFrameW" >
+            <Property Name="Text" Value="Options" />
+            <Property Name="TitlebarFont" Value="Commonwealth-10" />
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+            <Property Name="TitlebarEnabled" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,30},{0,30},{1,-30},{1,-30}}" />
+            <Window Type="TaharezLook/TabControl" Name="OptionsTab" >
+                <Property Name="TabHeight" Value="{0,-1}" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="TabPanePosition" Value="Top" />
+                <Property Name="UnifiedAreaRect" Value="{{0,10},{0,0},{1,-10},{1,-45}}" />
+                <Window Type="DefaultWindow" Name="OptionsTab/General" >
+                    <Property Name="Text" Value="General" />
+                    <Property Name="Visible" Value="False" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+                    
+                      <Window Type="TaharezLook/StaticText" Name="OptionsTab/General/contour" >
+                        <Property Name="Text" Value="" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,1},{1,0},{1,0}}" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />                        
+                    </Window>   
+ 
+  
+  
+    
+     		 <Window Type="TaharezLook/StaticText" Name="OptionsTab/General/lbltextcolor_name" >      
+    		    <Property Name="Text" Value="Name color:" />         
+    		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+    		    <Property Name="UnifiedAreaRect" Value="{{0.1,0},{0.1,200},{0.1,150},{0.1,230}}" />
+  		</Window>      
+    
+   		 <Window Type="TaharezLook/StaticText" Name="OptionsTab/General/lbltextR_name" >      
+  		    <Property Name="Text" Value="R:" />         
+  		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+    		    <Property Name="UnifiedAreaRect" Value="{{0.1,60},{0.1,240},{0.1,100},{0.1,270}}" />
+  		</Window>       
+  
+  		<Window Type="TaharezLook/Spinner" Name="OptionsTab/General/lbltextRv_name" > 
+  		    <Property Name="StepSize" Value="1" />
+  		    <Property Name="CurrentValue" Value="0" />
+  		    <Property Name="MaximumValue" Value="255" />
+  		    <Property Name="MinimumValue" Value="0" />		
+  		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+    		    <Property Name="UnifiedAreaRect" Value="{{0.1,110},{0.1,240},{0.1,180},{0.1,270}}" /> 
+  		</Window>
+        
+   		 <Window Type="TaharezLook/StaticText" Name="OptionsTab/General/lbltextG_name" >      
+  		    <Property Name="Text" Value="G:" />         
+  		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+    		    <Property Name="UnifiedAreaRect" Value="{{0.1,60},{0.1,280},{0.1,100},{0.1,310}}" />
+  		</Window>       
+  
+  		<Window Type="TaharezLook/Spinner" Name="OptionsTab/General/lbltextGv_name" > 
+  		    <Property Name="StepSize" Value="1" />
+  		    <Property Name="CurrentValue" Value="0" />
+  		    <Property Name="MaximumValue" Value="255" />
+  		    <Property Name="MinimumValue" Value="0" />  
+  		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+    		    <Property Name="UnifiedAreaRect" Value="{{0.1,110},{0.1,280},{0.1,180},{0.1,310}}" />
+  		</Window>
+    
+   		 <Window Type="TaharezLook/StaticText" Name="OptionsTab/General/lbltextB_name" >      
+  		    <Property Name="Text" Value="B:" />         
+  		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+    		    <Property Name="UnifiedAreaRect" Value="{{0.1,60},{0.1,320},{0.1,100},{0.1,350}}" />
+  		</Window>       
+  
+  		<Window Type="TaharezLook/Spinner" Name="OptionsTab/General/lbltextBv_name" > 
+  		    <Property Name="StepSize" Value="1" />
+  		    <Property Name="CurrentValue" Value="0" />
+  		    <Property Name="MaximumValue" Value="255" />
+  		    <Property Name="MinimumValue" Value="0" /> 
+  		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+    		    <Property Name="UnifiedAreaRect" Value="{{0.1,110},{0.1,320},{0.1,180},{0.1,350}}" />  
+		</Window>	
+  
+  
+ 		 <Window Type="TaharezLook/StaticText" Name="OptionsTab/General/lbltxtLang" >      
+		    <Property Name="Text" Value="Language:" />         
+		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+  		    <Property Name="UnifiedAreaRect" Value="{{0.5,-100},{0,50},{0.5,0},{0,80}}" />
+		</Window>   		
+
+		<Window Type="TaharezLook/Combobox" Name="OptionsTab/General/lbltxtLangcb" >
+			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0.5,20},{0,50},{0.5,200},{0,200}}" />
+			<Property Name="MaxEditTextLength" Value="1073741823" />
+		</Window>
+                    
+                </Window>
+                <Window Type="DefaultWindow" Name="OptionsTab/Video" >
+                    <Property Name="Text" Value="Video" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />            
+                    
+                      <Window Type="TaharezLook/StaticText" Name="OptionsTab/Video/contour" >
+                        <Property Name="Text" Value="" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,1},{1,0},{1,0}}" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />                        
+                    </Window>                    
+                    
+                     <Window Type="TaharezLook/StaticText" Name="OptionsTab/Video/stext" >
+                        <Property Name="Text" Value="Screen resolution:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.5,-200},{0,30},{0.5,-20},{0,55}}" />
+                    </Window>                                   
+                    
+                    <Window Type="TaharezLook/Combobox" Name="OptionsTab/Video/ComboRes" >
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.5,20},{0,30},{0.5,200},{0,200}}" />
+                        <Property Name="MaxEditTextLength" Value="1073741823" />
+                    </Window>
+
+                    <Window Type="TaharezLook/Checkbox" Name="OptionsTab/Video/cbfullscreen" >
+                        <Property Name="Text" Value="Fullscreen mode" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.5,-200},{0,100},{0.5,0},{0,120}}" />
+                    </Window>
+ 
+                    
+                     <Window Type="TaharezLook/StaticText" Name="OptionsTab/Video/camtypetext" >
+                        <Property Name="Text" Value="Camera type:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.5,-200},{0,200},{0.5,-20},{0,225}}" />
+                    </Window>  
+                    
+                    <Window Type="TaharezLook/Combobox" Name="OptionsTab/Video/cbcameratype" >
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.5,20},{0,200},{0.5,200},{0,320}}" />
+                    </Window>                                  
+                                        
+                    
+                </Window>
+                <Window Type="DefaultWindow" Name="OptionsTab/Sound" >
+                    <Property Name="Text" Value="Sound" />
+                    <Property Name="Visible" Value="False" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />               
+                       
+                      <Window Type="TaharezLook/StaticText" Name="OptionsTab/Sound/contour" >
+                        <Property Name="Text" Value="" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,1},{1,0},{1,0}}" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />                        
+                    </Window>                   
+                    
+                    
+                    <Window Type="TaharezLook/StaticText" Name="OptionsTab/Sound/textgeneralsound" >
+                        <Property Name="Text" Value="General volume:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.5,-200},{0,30},{0.5,-20},{0,55}}" />
+                    </Window>
+                    <Window Type="TaharezLook/HorizontalScrollbar" Name="OptionsTab/Sound/sbgeneralvolume" >
+			 <Property Name="DocumentSize" Value="100" />
+			 <Property Name="PageSize" Value="1" />
+			 <Property Name="StepSize" Value="1" />
+			 <Property Name="OverlapSize" Value="0" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.5,20},{0,35},{0.5,200},{0,50}}" />
+                    </Window>
+
+                    
+                    <Window Type="TaharezLook/StaticText" Name="OptionsTab/Sound/MusicVolumest" >
+                        <Property Name="Text" Value="Music volume:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.5,-200},{0,70},{0.5,-20},{0,95}}" />
+                    </Window>                    
+
+                    <Window Type="TaharezLook/HorizontalScrollbar" Name="OptionsTab/Sound/sbMusicVolume" >
+			 <Property Name="DocumentSize" Value="100" />
+			 <Property Name="PageSize" Value="1" />
+			 <Property Name="StepSize" Value="1" />
+			 <Property Name="OverlapSize" Value="0" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.5,20},{0,75},{0.5,200},{0,90}}" />
+                    </Window>
+              
+                    
+                </Window>
+                <Window Type="DefaultWindow" Name="OptionsTab/Gui" >
+                    <Property Name="Text" Value="GUI" />
+                    <Property Name="Visible" Value="False" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+                                         
+                      <Window Type="TaharezLook/StaticText" Name="OptionsTab/Gui/contour" >
+                        <Property Name="Text" Value="" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,1},{1,0},{1,0}}" />
+                        <Property Name="MousePassThroughEnabled" Value="True" />                        
+                    </Window>  
+                    
+			 <Window Type="TaharezLook/StaticText" Name="OptionsTab/Gui/fontsizet" >      
+			    <Property Name="Text" Value="Font size:" />         
+			    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+			    <Property Name="UnifiedAreaRect" Value="{{0.1,0},{0.1,40},{0.1,100},{0.1,70}}" />
+			</Window>        
+                    
+			<Window Type="TaharezLook/Spinner" Name="OptionsTab/Gui/fontsize" > 
+			    <Property Name="StepSize" Value="1" />
+			    <Property Name="CurrentValue" Value="10" />
+			    <Property Name="MaximumValue" Value="14" />
+			    <Property Name="MinimumValue" Value="8" />		
+			    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+			    <Property Name="UnifiedAreaRect" Value="{{0.1,110},{0.1,40},{0.1,180},{0.1,70}}" /> 
+			</Window>
+		
+                </Window>
+            </Window>
+            <Window Type="TaharezLook/Button" Name="OptionsFrameW/Apply" >
+            	<Property Name="Text" Value="Apply" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.5,55},{1,-35},{0.5,145},{1,-10}}" />
+            </Window>
+            <Window Type="TaharezLook/Button" Name="OptionsFrameW/OK" >
+            	<Property Name="Text" Value="OK" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.5,-145},{1,-35},{0.5,-55},{1,-10}}" />
+            </Window>
+            <Window Type="TaharezLook/Button" Name="OptionsFrameW/Cancel" >
+            	<Property Name="Text" Value="Cancel" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.5,-45},{1,-35},{0.5,45},{1,-10}}" />
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="DefaultWindow" Name="MenuRoot" >
+        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+        
+        <Window Type="TaharezLook/Button" Name="MenubResume" >      
+            <Property Name="Text" Value="Resume" />        
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.10,0},{0.7,0},{0.20,0}}" />
+        </Window>
+
+         <Window Type="TaharezLook/Button" Name="MenubInventory" >        
+            <Property Name="Text" Value="Inventory" />            
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.22,0},{0.7,0},{0.32,0}}" />
+        </Window>
+        
+         <Window Type="TaharezLook/Button" Name="MenubOption" >       
+            <Property Name="Text" Value="Options" />            
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.34,0},{0.7,0},{0.44,0}}" />
+        </Window>
+        
+        <Window Type="TaharezLook/Button" Name="MenubSwitchWorld" >         
+            <Property Name="Text" Value="Switch World" />           
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.46,0},{0.7,0},{0.56,0}}" />
+        </Window>
+        
+        <Window Type="TaharezLook/Button" Name="MenubDisconnect" >         
+            <Property Name="Text" Value="Disconnect" />          
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.58,0},{0.7,0},{0.68,0}}" />
+        </Window>
+        
+        <Window Type="TaharezLook/Button" Name="MenubQuit" >        
+            <Property Name="Text" Value="Quit" />         
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.70,0},{0.7,0},{0.80,0}}" />
+        </Window>
+        
+        <Window Type="TaharezLook/Button" Name="MenubCredits" >          
+            <Property Name="Text" Value="Credits" />           
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.82,0},{0.7,0},{0.92,0}}" />
+        </Window>
+    </Window>
+</GUILayout>

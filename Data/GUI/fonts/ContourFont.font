@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<Font Name="contourfont" Filename="contourfont.imageset" Type="Pixmap" NativeHorzRes="1600" NativeVertRes="1200" AutoScaled="true">
+   <Mapping Codepoint="48" Image="Num0" />  
+   <Mapping Codepoint="49" Image="Num1" />
+   <Mapping Codepoint="50" Image="Num2" />
+   <Mapping Codepoint="51" Image="Num3" />
+   <Mapping Codepoint="52" Image="Num4" />
+   <Mapping Codepoint="53" Image="Num5" />
+   <Mapping Codepoint="54" Image="Num6" />
+   <Mapping Codepoint="55" Image="Num7" />
+   <Mapping Codepoint="56" Image="Num8" />
+   <Mapping Codepoint="57" Image="Num9" />   
+   <Mapping Codepoint="70" Image="LetF" />
+</Font> 

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+	<Window Type="TaharezLook/FrameWindow" Name="CommunityFrame" >
+	    <Property Name="Text" Value="Community" />
+	    <Property Name="TitlebarFont" Value="Commonwealth-10" />
+	    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+	    <Property Name="TitlebarEnabled" Value="True" />
+	    <Property Name="UnifiedAreaRect" Value="{{1,-250},{0.1,0},{1,-20},{0.1,300}}" />    
+	    <Window Type="TaharezLook/TabControl" Name="CommunityFrameTC" >
+		<Property Name="TabHeight" Value="{0,-1}" />
+		<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		<Property Name="TabPanePosition" Value="Top" />
+            	<Property Name="UnifiedAreaRect" Value="{{0,10},{0,0},{1,-10},{1,-10}}" />
+		<Window Type="DefaultWindow" Name="CommunityFrame/Tabonline" >
+		    <Property Name="Text" Value="Online" />
+		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+
+		    <Window Type="TaharezLook/Listbox" Name="Community/onlinelist" >
+			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0,0},{0,1},{1,0},{1,0}}" />
+		    </Window>                       
+		</Window>
+		
+		
+		<Window Type="DefaultWindow" Name="CommunityFrame/Tabfriend" >
+		    <Property Name="Text" Value="Friends" />
+		    <Property Name="Visible" Value="False" />
+		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+
+			<Window Type="TaharezLook/Listbox" Name="Community/friendlist" >
+				<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+				<Property Name="UnifiedAreaRect" Value="{{0,0},{0,1},{1,0},{1.0,-30}}" />
+			</Window>    
+
+       
+			<Window Type="TaharezLook/Button" Name="CommunityFrame/friendAdd" >   
+			    <Property Name="Text" Value="+" />
+			    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+			    <Property Name="UnifiedAreaRect" Value="{{0.5,-65},{1.0,-26},{0.5,-25},{1.0,-4}}" />
+			    <Property Name="Tooltip" Value="Add/Accept"/>
+			</Window>
+			<Window Type="TaharezLook/Button" Name="CommunityFrame/friendRemove" >          
+			    <Property Name="Text" Value="-" />
+			    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+			    <Property Name="UnifiedAreaRect" Value="{{0.5,-20},{1.0,-26},{0.5,20},{1.0,-4}}" />
+			    <Property Name="Tooltip" Value="Remove/Reject"/>
+			</Window>
+   			<Window Type="TaharezLook/Button" Name="CommunityFrame/friendRefresh" >          
+			    <Property Name="Text" Value="@" />
+			    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+			    <Property Name="UnifiedAreaRect" Value="{{0.5,25},{1.0,-26},{0.5,65},{1.0,-4}}" />
+			    <Property Name="Tooltip" Value="Refresh list"/>			    
+			</Window> 		    
+		</Window>
+		<Window Type="DefaultWindow" Name="CommunityFrame/TabParty" >
+		    <Property Name="Text" Value="Party" />
+		    <Property Name="Visible" Value="False" />
+		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+
+		    <Window Type="TaharezLook/Listbox" Name="Community/partylist" >
+			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0,0},{0,1},{1,0},{1,0}}" />
+		    </Window>                      
+		</Window>
+	    </Window>
+	</Window>
+</GUILayout>

@@ -1,0 +1,1503 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="TaharezLook/FrameWindow" Name="EditorWindow" >
+        <Property Name="Text" Value="LBANet Editor" />
+        <Property Name="TitlebarFont" Value="Commonwealth-10" />
+        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+        <Property Name="TitlebarEnabled" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0.0656253,0},{0.107292,0},{0.722852,0},{0.842965,0}}" />
+        <Window Type="TaharezLook/TabControl" Name="EditorWindow/tabcontrol" >
+            <Property Name="TabHeight" Value="{0,26.1008}" />
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+            <Property Name="TabPanePosition" Value="Top" />
+            <Property Name="UnifiedAreaRect" Value="{{0.0262976,0},{0.0776472,0},{0.966608,0},{0.967647,0}}" />
+            <Window Type="DefaultWindow" Name="EditorWindow/tabcontrol/Maps" >
+                <Property Name="Text" Value="Maps" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{-0.0175209,0},{-0.031681,0},{0.997199,0},{0.994171,0}}" />
+                <Window Type="TaharezLook/Listbox" Name="EditorWindow/tabcontrol/Maps/list" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.0240106,0},{0.0435556,0},{0.325529,0},{0.979169,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Combobox" Name="EditorWindow/tabcontrol/Maps/combosp" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.441957,0},{0.0400353,0},{0.87963,0},{0.453949,0}}" />
+                    <Property Name="MaxEditTextLength" Value="1073741823" />
+                </Window>
+                <Window Type="TaharezLook/Editbox" Name="EditorWindow/tabcontrol/Maps/editX" >
+                    <Property Name="MaxTextLength" Value="1073741823" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.463523,0},{0.120479,0},{0.571848,0},{0.192621,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Editbox" Name="EditorWindow/tabcontrol/Maps/editY" >
+                    <Property Name="MaxTextLength" Value="1073741823" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.654527,0},{0.120721,0},{0.773892,0},{0.182265,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Editbox" Name="EditorWindow/tabcontrol/Maps/editZ" >
+                    <Property Name="MaxTextLength" Value="1073741823" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.869681,0},{0.120698,0},{0.992726,0},{0.182219,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Maps/stx" >
+                    <Property Name="Text" Value="X:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.376685,0},{0.12429,0},{0.448212,0},{0.182536,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Maps/sty" >
+                    <Property Name="Text" Value="Y:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.5821,0},{0.121183,0},{0.649946,0},{0.184061,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Maps/stz" >
+                    <Property Name="Text" Value="Z:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.786181,0},{0.121955,0},{0.866908,0},{0.181509,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Button" Name="EditorWindow/tabcontrol/Maps/go" >
+                    <Property Name="Text" Value="GO" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.578865,0},{0.220266,0},{0.764467,0},{0.281155,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Maps/line" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.37756,0},{0.296539,0},{0.982667,0},{0.308601,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Maps/lblname" >
+                    <Property Name="Text" Value="Name:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.396294,0},{0.327323,0},{0.541417,0},{0.386902,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Editbox" Name="EditorWindow/tabcontrol/Maps/editname" >
+                    <Property Name="MaxTextLength" Value="1073741823" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.567112,0},{0.327017,0},{0.917162,0},{0.394059,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Checkbox" Name="EditorWindow/tabcontrol/Maps/interior" >
+                    <Property Name="Text" Value="interior" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.577185,0},{0.484547,0},{0.860304,0},{0.541645,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Maps/stmusic" >
+                    <Property Name="Text" Value="Music path:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.397356,0},{0.541297,0},{0.54616,0},{0.604362,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Combobox" Name="EditorWindow/tabcontrol/Maps/editmusic" >
+                    <Property Name="Text" Value="Music/" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.550868,0},{0.537835,0},{0.884289,0},{0.855027,0}}" />
+                    <Property Name="MaxEditTextLength" Value="1073741823" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Maps/stmapdata" >
+                    <Property Name="Text" Value="Mapdata path:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.391206,0},{0.610498,0},{0.541478,0},{0.670518,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Combobox" Name="EditorWindow/tabcontrol/Maps/edtmapdata" >
+                    <Property Name="Text" Value="Maps/" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.549144,0},{0.612912,0},{0.989984,0},{0.923008,0}}" />
+                    <Property Name="MaxEditTextLength" Value="1073741823" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Maps/stlocala" >
+                    <Property Name="Text" Value="Lactors path:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.392475,0},{0.685773,0},{0.542747,0},{0.753548,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Combobox" Name="EditorWindow/tabcontrol/Maps/edtlocalA" >
+                    <Property Name="Text" Value="LocalActors/" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.550989,0},{0.684968,0},{0.990783,0},{0.975678,0}}" />
+                    <Property Name="MaxEditTextLength" Value="1073741823" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Maps/stexta" >
+                    <Property Name="Text" Value="Eactors path:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.393019,0},{0.759767,0},{0.541478,0},{0.827541,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Combobox" Name="EditorWindow/tabcontrol/Maps/edtexta" >
+                    <Property Name="Text" Value="ExternalActors/" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.548632,0},{0.769936,0},{0.991542,0},{1.05483,0}}" />
+                    <Property Name="MaxEditTextLength" Value="1073741823" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Maps/sttext" >
+                    <Property Name="Text" Value="Texts path:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.394288,0},{0.840858,0},{0.539121,0},{0.906695,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Combobox" Name="EditorWindow/tabcontrol/Maps/edttext" >
+                    <Property Name="Text" Value="Texts/" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.544505,0},{0.840053,0},{0.991573,0},{1.10169,0}}" />
+                    <Property Name="MaxEditTextLength" Value="1073741823" />
+                </Window>
+                <Window Type="TaharezLook/Button" Name="EditorWindow/tabcontrol/Maps/create" >
+                    <Property Name="Text" Value="Create/Update" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.507253,0},{0.920667,0},{0.757253,0},{0.99232,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Maps/mloop" >
+                    <Property Name="StepSize" Value="1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="100" />
+                    <Property Name="MinimumValue" Value="-1" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.897663,0},{0.53731,0},{0.985705,0},{0.603146,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Maps/stdesc" >
+                    <Property Name="Text" Value="Description:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.394994,0},{0.412437,0},{0.537542,0},{0.48215,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Editbox" Name="EditorWindow/tabcontrol/Maps/edtdesc" >
+                    <Property Name="MaxTextLength" Value="1073741823" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.572858,0},{0.41357,0},{0.911623,0},{0.471652,0}}" />
+                </Window>
+            </Window>
+            <Window Type="DefaultWindow" Name="EditorWindow/tabcontrol/Spawnings" >
+                <Property Name="Text" Value="Spawnings" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+                <Window Type="TaharezLook/Listbox" Name="EditorWindow/tabcontrol/Spawnings/list" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.0092423,0},{0.00766462,0},{0.300328,0},{0.979554,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Editbox" Name="EditorWindow/tabcontrol/Spawnings/spnameadd" >
+                    <Property Name="MaxTextLength" Value="1073741823" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.552833,0},{0.05,0},{0.802833,0},{0.1,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Button" Name="EditorWindow/tabcontrol/Spawnings/spadd" >
+                    <Property Name="Text" Value="Add" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.82,0},{0.05,0},{0.92,0},{0.1,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Spawnings/line" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.37756,0},{0.15,0},{0.982667,0},{0.16,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Spawnings/spname" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.552833,0},{0.2,0},{0.802833,0},{0.25,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Button" Name="EditorWindow/tabcontrol/Spawnings/sprem" >
+                    <Property Name="Text" Value="Remove" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.35,0},{0.2,0},{0.5,0},{0.25,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Spawnings/spx" >
+                    <Property Name="Text" Value="X:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.436345,0},{0.338351,0},{0.613655,0},{0.391472,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Spawnings/spy" >
+                    <Property Name="Text" Value="Y:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.436792,0},{0.434374,0},{0.615682,0},{0.489484,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Spawnings/spz" >
+                    <Property Name="Text" Value="Z:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.435451,0},{0.532109,0},{0.617501,0},{0.583242,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Spawnings/spex" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="0" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.668188,0},{0.333807,0},{0.85024,0},{0.390906,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Spawnings/spey" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="0" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.665474,0},{0.42983,0},{0.852266,0},{0.486929,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Spawnings/spez" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="0" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.667502,0},{0.52983,0},{0.851133,0},{0.582952,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Button" Name="EditorWindow/tabcontrol/Spawnings/spsave" >
+                    <Property Name="Text" Value="Save" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.544484,0},{0.764784,0},{0.794484,0},{0.827849,0}}" />
+                </Window>
+            </Window>
+            <Window Type="DefaultWindow" Name="EditorWindow/tabcontrol/Exits" >
+                <Property Name="Text" Value="Exits" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{-2.32831e-010,0},{0.00596603,0},{1,0},{1.00597,0}}" />
+                <Window Type="TaharezLook/Listbox" Name="EditorWindow/tabcontrol/Exits/list" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.00766208,0},{0.00766462,0},{0.338253,0},{0.987508,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Editbox" Name="EditorWindow/tabcontrol/Exits/spnameadd" >
+                    <Property Name="MaxTextLength" Value="1073741823" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.552833,0},{0.05,0},{0.802833,0},{0.1,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Button" Name="EditorWindow/tabcontrol/Exits/spadd" >
+                    <Property Name="Text" Value="Add" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.82,0},{0.05,0},{0.92,0},{0.1,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Exits/line" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.37756,0},{0.11,0},{0.982667,0},{0.12,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Button" Name="EditorWindow/tabcontrol/Exits/brem" >
+                    <Property Name="Text" Value="Remove" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.360942,0},{0.128119,0},{0.51613,0},{0.19715,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Exits/name" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.557574,0},{0.132951,0},{0.873943,0},{0.196015,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Exits/spx" >
+                    <Property Name="Text" Value="X:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.493233,0},{0.398011,0},{0.670543,0},{0.451132,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Exits/spy" >
+                    <Property Name="Text" Value="Y:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.488938,0},{0.474147,0},{0.667828,0},{0.529257,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Exits/spz" >
+                    <Property Name="Text" Value="Z:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.486017,0},{0.542052,0},{0.668067,0},{0.593185,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Exits/spex" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="0" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.685571,0},{0.393466,0},{0.867623,0},{0.450566,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Exits/spey" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="0" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.686017,0},{0.465625,0},{0.872809,0},{0.522724,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Exits/spez" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="0" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.681724,0},{0.537784,0},{0.865355,0},{0.590906,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Exits/sizex" >
+                    <Property Name="Text" Value="Size X:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.491652,0},{0.626708,0},{0.668962,0},{0.679829,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Exits/sizey" >
+                    <Property Name="Text" Value="Size Y:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.487358,0},{0.700856,0},{0.666248,0},{0.755966,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Exits/ssizez" >
+                    <Property Name="Text" Value="Size Z:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.484437,0},{0.776714,0},{0.666487,0},{0.827847,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Exits/sizeex" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="0" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.683991,0},{0.620175,0},{0.866043,0},{0.677274,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Exits/sizeey" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="0" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.682857,0},{0.690346,0},{0.869649,0},{0.747445,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Exits/sizeez" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="0" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.683304,0},{0.776425,0},{0.866935,0},{0.829547,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Exits/newmapst" >
+                    <Property Name="Text" Value="New map:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.507455,0},{0.234942,0},{0.684764,0},{0.288063,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Exits/newspawning" >
+                    <Property Name="Text" Value="Spawning:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.507901,0},{0.305112,0},{0.68679,0},{0.360222,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Button" Name="EditorWindow/tabcontrol/Exits/spsave" >
+                    <Property Name="Text" Value="Save" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.560286,0},{0.886093,0},{0.810286,0},{0.949158,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Combobox" Name="EditorWindow/tabcontrol/Exits/newmapex" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.704533,0},{0.224432,0},{0.978235,0},{0.474432,0}}" />
+                    <Property Name="MaxEditTextLength" Value="1073741823" />
+                </Window>
+                <Window Type="TaharezLook/Combobox" Name="EditorWindow/tabcontrol/Exits/newspax" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.703399,0},{0.304545,0},{0.977102,0},{0.554545,0}}" />
+                    <Property Name="MaxEditTextLength" Value="1073741823" />
+                </Window>
+            </Window>
+            <Window Type="DefaultWindow" Name="EditorWindow/tabcontrol/Texts" >
+                <Property Name="Text" Value="Texts" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+                <Window Type="TaharezLook/Listbox" Name="EditorWindow/tabcontrol/Texts/list" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.0108225,0},{0.011642,0},{0.284525,0},{0.971599,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Button" Name="EditorWindow/tabcontrol/Texts/badd" >
+                    <Property Name="Text" Value="Add" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.740877,0},{0.136929,0},{0.897645,0},{0.221868,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Button" Name="EditorWindow/tabcontrol/Texts/brem" >
+                    <Property Name="Text" Value="Remove" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.369976,0},{0.131529,0},{0.57099,0},{0.216468,0}}" />
+                </Window>
+                <Window Type="TaharezLook/MultiLineEditbox" Name="EditorWindow/tabcontrol/Texts/txt" >
+                    <Property Name="Text" >
+</Property>
+                    <Property Name="MaxTextLength" Value="1073741823" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.3483,0},{0.332951,0},{0.930142,0},{0.712215,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Button" Name="EditorWindow/tabcontrol/Texts/bupd" >
+                    <Property Name="Text" Value="Update" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.51288,0},{0.748875,0},{0.745498,0},{0.843759,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Texts/textfile" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.336345,0},{0.0374947,0},{0.926089,0},{0.0965819,0}}" />
+                </Window>
+            </Window>
+            <Window Type="DefaultWindow" Name="EditorWindow/tabcontrol/Sprites" >
+                <Property Name="Text" Value="Sprites" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{-0.00252833,0},{0.00170078,0},{0.997472,0},{1.0017,0}}" />
+                <Window Type="TaharezLook/Listbox" Name="EditorWindow/tabcontrol/Sprites/splist" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.00924221,0},{0.00916609,0},{0.24028,0},{0.611228,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Listbox" Name="EditorWindow/tabcontrol/Sprites/sppartlist" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.00924215,0},{0.618046,0},{0.240279,0},{0.9854,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Button" Name="EditorWindow/tabcontrol/Sprites/addspr" >
+                    <Property Name="Text" Value="Add sprite" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.257149,0},{0.015623,0},{0.38579,0},{0.076836,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Combobox" Name="EditorWindow/tabcontrol/Sprites/spritefile" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.400131,0},{0.0203792,0},{0.975019,0},{0.498284,0}}" />
+                    <Property Name="MaxEditTextLength" Value="1073741823" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Sprites/line" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.270793,0},{0.106457,0},{0.960723,0},{0.113245,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Sprites/sprlblnumber" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.270925,0},{0.131622,0},{0.393244,0},{0.192835,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Sprites/sprfilelbl" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.407585,0},{0.132977,0},{0.966043,0},{0.195891,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Button" Name="EditorWindow/tabcontrol/Sprites/AddPartbt" >
+                    <Property Name="Text" Value="Add" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.248431,0},{0.619055,0},{0.337882,0},{0.676866,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Button" Name="EditorWindow/tabcontrol/Sprites/rmbt" >
+                    <Property Name="Text" Value="Remove" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.272057,0},{0.201701,0},{0.388056,0},{0.259512,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Button" Name="EditorWindow/tabcontrol/Sprites/rmpartbt" >
+                    <Property Name="Text" Value="Remove" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.248169,0},{0.686078,0},{0.35279,0},{0.748992,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Sprites/bottomLeftX" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="-100" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.2741,0},{0.809465,0},{0.361997,0},{0.860247,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Sprites/bottomLeftY" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="-100" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.275467,0},{0.871811,0},{0.361124,0},{0.92129,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Sprites/bottomLeftZ" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="-100" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.275467,0},{0.931811,0},{0.361124,0},{0.979245,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Sprites/topRightX" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="-100" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.901345,0},{0.292836,0},{0.99177,0},{0.346222,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Sprites/topRightY" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="-100" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.902424,0},{0.348273,0},{0.98992,0},{0.395148,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Sprites/topRightZ" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="-100" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.902424,0},{0.408273,0},{0.98992,0},{0.455148,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Sprites/topLeftX" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="-100" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.27252,0},{0.30633,0},{0.360417,0},{0.357112,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Sprites/topLeftY" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="-100" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.273887,0},{0.364698,0},{0.359544,0},{0.414177,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Sprites/topLeftZ" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="-100" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.272307,0},{0.422709,0},{0.357964,0},{0.474121,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Sprites/bottomRightX" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="-100" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.895024,0},{0.750232,0},{0.985449,0},{0.803618,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Sprites/bottomRightY" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="-100" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.896103,0},{0.813623,0},{0.983599,0},{0.860498,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Sprites/bottomRightZ" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="-100" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.896103,0},{0.871635,0},{0.983599,0},{0.91851,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Sprites/topLeftXText" >
+                    <Property Name="StepSize" Value="1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="-1000" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.383519,0},{0.308096,0},{0.47377,0},{0.35497,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Sprites/topLeftYText" >
+                    <Property Name="StepSize" Value="1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="-1000" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.381679,0},{0.358982,0},{0.470264,0},{0.400649,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Sprites/bottomLeftXText" >
+                    <Property Name="StepSize" Value="1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="-1000" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.367649,0},{0.812867,0},{0.458074,0},{0.863649,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Sprites/bottomLeftYText" >
+                    <Property Name="StepSize" Value="1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="-1000" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.366488,0},{0.873512,0},{0.4572,0},{0.922991,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Sprites/topRightXText" >
+                    <Property Name="StepSize" Value="1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="-1000" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.804004,0},{0.291136,0},{0.894429,0},{0.344522,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Sprites/topRightYText" >
+                    <Property Name="StepSize" Value="1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="-1000" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.80382,0},{0.348273,0},{0.895108,0},{0.395148,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Sprites/bottomRightXText" >
+                    <Property Name="StepSize" Value="1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="-1000" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.802671,0},{0.814274,0},{0.898266,0},{0.865056,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Sprites/bottomRightYText" >
+                    <Property Name="StepSize" Value="1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="-1000" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.804325,0},{0.875319,0},{0.895727,0},{0.922194,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Button" Name="EditorWindow/tabcontrol/Sprites/savebt" >
+                    <Property Name="Text" Value="Save" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.560549,0},{0.925542,0},{0.68034,0},{0.986755,0}}" />
+                </Window>
+            </Window>
+            <Window Type="DefaultWindow" Name="EditorWindow/tabcontrol/Videos" >
+                <Property Name="Text" Value="Videos" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+            </Window>
+            <Window Type="DefaultWindow" Name="EditorWindow/tabcontrol/Actors" >
+                <Property Name="Text" Value="Actors" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{-0.000316066,0},{-0.00198864,0},{0.99968,0},{0.998008,0}}" />
+                <Window Type="TaharezLook/Listbox" Name="EditorWindow/tabcontrol/LActors/list" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.0092423,0},{0.00766462,0},{0.300328,0},{0.979554,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Button" Name="EditorWindow/tabcontrol/LActors/spadd" >
+                    <Property Name="Text" Value="Add" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.466034,0},{0.0201699,0},{0.566034,0},{0.0761358,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/LActors/spname" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.461181,0},{0.126419,0},{0.635331,0},{0.180396,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Button" Name="EditorWindow/tabcontrol/LActors/sprem" >
+                    <Property Name="Text" Value="Remove" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.319975,0},{0.126419,0},{0.433631,0},{0.182385,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/LActors/lbtype" >
+                    <Property Name="Text" Value="Type:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.650359,0},{0.124431,0},{0.792905,0},{0.183518,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Combobox" Name="EditorWindow/tabcontrol/LActors/cbtype" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.587598,0},{0.0215849,0},{0.853399,0},{0.271585,0}}" />
+                    <Property Name="MaxEditTextLength" Value="1073741823" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/LActors/spx" >
+                    <Property Name="Text" Value="X:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.31941,0},{0.207098,0},{0.368723,0},{0.260219,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/LActors/spy" >
+                    <Property Name="Text" Value="Y:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.484197,0},{0.205675,0},{0.547733,0},{0.260786,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/LActors/spz" >
+                    <Property Name="Text" Value="Z:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.65984,0},{0.207954,0},{0.715474,0},{0.259087,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/LActors/spex" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="0" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.37585,0},{0.204541,0},{0.458349,0},{0.261641,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/LActors/spey" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="0" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.55486,0},{0.203119,0},{0.638939,0},{0.260219,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/LActors/spez" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="0" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.719649,0},{0.203686,0},{0.806888,0},{0.256808,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/str" >
+                    <Property Name="Text" Value="R:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.817622,0},{0.203687,0},{0.88906,0},{0.254819,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/sper" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="0" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.893711,0},{0.205966,0},{0.993591,0},{0.257098,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/LActors/sizex" >
+                    <Property Name="Text" Value="Size X:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.458468,0},{0.282667,0},{0.548866,0},{0.335788,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/LActors/sizey" >
+                    <Property Name="Text" Value="Size Y:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.631157,0},{0.283234,0},{0.719976,0},{0.338344,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/LActors/ssizez" >
+                    <Property Name="Text" Value="Size Z:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.80522,0},{0.283522,0},{0.887717,0},{0.334655,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/LActors/sizeex" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="0" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.548094,0},{0.280111,0},{0.632173,0},{0.33721,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/LActors/sizeey" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="0" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.725523,0},{0.282667,0},{0.804861,0},{0.339766,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/LActors/sizeez" >
+                    <Property Name="StepSize" Value="0.1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="1000" />
+                    <Property Name="MinimumValue" Value="0" />
+                    <Property Name="TextInputMode" Value="FloatingPoint" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.890312,0},{0.285222,0},{0.985451,0},{0.338344,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Checkbox" Name="EditorWindow/tabcontrol/Actors/passable" >
+                    <Property Name="Text" Value="Solid" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.32257,0},{0.280679,0},{0.460375,0},{0.3338,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Checkbox" Name="EditorWindow/tabcontrol/Actors/depthm" >
+                    <Property Name="Text" Value="DepthMask" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.860975,0},{0.453129,0},{1.00668,0},{0.510226,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/lblsig" >
+                    <Property Name="Text" Value="Signal:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.305187,0},{0.356249,0},{0.395586,0},{0.427268,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/spsig" >
+                    <Property Name="StepSize" Value="1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="32767" />
+                    <Property Name="MinimumValue" Value="-32768" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.402027,0},{0.358804,0},{0.495586,0},{0.425845,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/lbtar" >
+                    <Property Name="Text" Value="Targets:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.50656,0},{0.359095,0},{0.639625,0},{0.424147,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Editbox" Name="EditorWindow/tabcontrol/Actors/etars" >
+                    <Property Name="MaxTextLength" Value="1073741823" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.649226,0},{0.353695,0},{0.758586,0},{0.420736,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Checkbox" Name="EditorWindow/tabcontrol/Actors/renderercb" >
+                    <Property Name="Text" Value="render" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.309928,0},{0.441762,0},{0.42245,0},{0.51278,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/strtype" >
+                    <Property Name="Text" Value="rtype:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.411509,0},{0.452272,0},{0.500327,0},{0.515335,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Combobox" Name="EditorWindow/tabcontrol/Actors/sptyper" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.50024,0},{0.450574,0},{0.660168,0},{0.678698,0}}" />
+                    <Property Name="MaxEditTextLength" Value="1073741823" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/strtarget" >
+                    <Property Name="Text" Value="rtarget:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.665028,0},{0.45114,0},{0.76807,0},{0.518181,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Editbox" Name="EditorWindow/tabcontrol/Actors/sprtarget" >
+                    <Property Name="MaxTextLength" Value="1073741823" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.768188,0},{0.447728,0},{0.857009,0},{0.514769,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/stltype" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.80182,0},{0.12215,0},{0.991771,0},{0.181237,0}}" />
+                </Window>
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/line" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.361181,0},{0.0946,0},{0.973048,0},{0.103969,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Button" Name="EditorWindow/tabcontrol/Actors/save" >
+                    <Property Name="Text" Value="Save" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.540192,0},{0.929292,0},{0.743418,0},{0.993906,0}}" />
+                </Window>
+                <Window Type="DefaultWindow" Name="EditorWindow/tabcontrol/Actors/textawin" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.32415,0},{0.542866,0},{0.987533,0},{0.881308,0}}" />
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/textawin/lblacd" >
+                        <Property Name="Text" Value="Activation distance:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0217768,0},{0.0638082,0},{0.288928,0},{0.233403,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/textawin/spactdis" >
+                        <Property Name="StepSize" Value="1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="32767" />
+                        <Property Name="MinimumValue" Value="-32768" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.0537576,0},{0.433756,0},{0.233403,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/textawin/lbltextid" >
+                        <Property Name="Text" Value="Text id:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0245892,0},{0.249239,0},{0.29174,0},{0.423859,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/textawin/txtidspr" >
+                        <Property Name="StepSize" Value="1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="0" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.305625,0},{0.248732,0},{0.433664,0},{0.418327,0}}" />
+                    </Window>
+                </Window>
+                <Window Type="DefaultWindow" Name="EditorWindow/tabcontrol/Actors/switchawin" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.32415,0},{0.542866,0},{0.987533,0},{0.881308,0}}" />
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/switchawin/lblacd" >
+                        <Property Name="Text" Value="Activation distance:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0217768,0},{0.0638082,0},{0.288928,0},{0.233403,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/switchawin/spactdis" >
+                        <Property Name="StepSize" Value="1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="32767" />
+                        <Property Name="MinimumValue" Value="-32768" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.0537576,0},{0.433756,0},{0.233403,0}}" />
+                    </Window>
+                </Window>
+                <Window Type="DefaultWindow" Name="EditorWindow/tabcontrol/Actors/ladderawin" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.325545,0},{0.539118,0},{0.983871,0},{0.899669,0}}" />
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/ladderawin/lblacd" >
+                        <Property Name="Text" Value="Activation distance:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0217768,0},{0.0638082,0},{0.288928,0},{0.233403,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/ladderawin/spactdis" >
+                        <Property Name="StepSize" Value="1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="32767" />
+                        <Property Name="MinimumValue" Value="-32768" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.0537576,0},{0.433756,0},{0.233403,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/ladderawin/lbltextid" >
+                        <Property Name="Text" Value="Direction:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0245892,0},{0.249239,0},{0.29174,0},{0.423859,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/ladderawin/direct" >
+                        <Property Name="StepSize" Value="90" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="270" />
+                        <Property Name="MinimumValue" Value="0" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.305625,0},{0.248732,0},{0.433664,0},{0.418327,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/ladderawin/spx" >
+                        <Property Name="Text" Value="dX:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0254062,0},{0.460998,0},{0.202716,0},{0.617897,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/ladderawin/spy" >
+                        <Property Name="Text" Value="dY:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0239328,0},{0.637213,0},{0.202823,0},{0.786668,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/ladderawin/spz" >
+                        <Property Name="Text" Value="dZ:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0168311,0},{0.800989,0},{0.198881,0},{0.941749,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/ladderawin/spex" >
+                        <Property Name="StepSize" Value="0.1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.222684,0},{0.48004,0},{0.404736,0},{0.607897,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/ladderawin/spey" >
+                        <Property Name="StepSize" Value="0.1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.22189,0},{0.637387,0},{0.408682,0},{0.779395,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/ladderawin/spez" >
+                        <Property Name="StepSize" Value="0.1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.223918,0},{0.79871,0},{0.407549,0},{0.941459,0}}" />
+                    </Window>
+                </Window>
+                <Window Type="DefaultWindow" Name="EditorWindow/tabcontrol/Actors/exitactorwin" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.318832,0},{0.538457,0},{0.98727,0},{0.912615,0}}" />
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/exitactorwin/lblacd" >
+                        <Property Name="Text" Value="Activation distance:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0217768,0},{0.0638082,0},{0.288928,0},{0.233403,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/exitactorwin/spactdis" >
+                        <Property Name="StepSize" Value="1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="32767" />
+                        <Property Name="MinimumValue" Value="-32768" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.0537576,0},{0.433756,0},{0.233403,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/exitactorwin/lbltextid" >
+                        <Property Name="Text" Value="Direction:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0245892,0},{0.249239,0},{0.29174,0},{0.423859,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/exitactorwin/direct" >
+                        <Property Name="StepSize" Value="90" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="270" />
+                        <Property Name="MinimumValue" Value="0" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.305625,0},{0.248732,0},{0.433664,0},{0.418327,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/exitactorwin/spx" >
+                        <Property Name="Text" Value="dX:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0316227,0},{0.447446,0},{0.208933,0},{0.600572,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/exitactorwin/spy" >
+                        <Property Name="Text" Value="dY:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0301785,0},{0.598017,0},{0.209068,0},{0.753131,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/exitactorwin/spz" >
+                        <Property Name="Text" Value="dZ:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0307287,0},{0.754846,0},{0.212779,0},{0.928711,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/exitactorwin/spex" >
+                        <Property Name="StepSize" Value="0.1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.227532,0},{0.461085,0},{0.409584,0},{0.59546,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/exitactorwin/spey" >
+                        <Property Name="StepSize" Value="0.1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.230492,0},{0.602564,0},{0.417284,0},{0.750576,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/exitactorwin/spez" >
+                        <Property Name="StepSize" Value="0.1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.23252,0},{0.766203,0},{0.416151,0},{0.914784,0}}" />
+                    </Window>
+                </Window>
+                <Window Type="DefaultWindow" Name="EditorWindow/tabcontrol/Actors/dooractorwin" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.316434,0},{0.53811,0},{0.987401,0},{0.910567,0}}" />
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/dooractorwin/stzsx" >
+                        <Property Name="Text" Value="Zone size X:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0338708,0},{0.0597286,0},{0.262675,0},{0.224299,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/dooractorwin/lbzsy" >
+                        <Property Name="Text" Value="Zone size Y:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0362259,0},{0.241267,0},{0.257965,0},{0.427195,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/dooractorwin/lblzsz" >
+                        <Property Name="Text" Value="Zone size Z:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0349554,0},{0.426697,0},{0.259049,0},{0.617964,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/dooractorwin/zsxsp" >
+                        <Property Name="StepSize" Value="0.1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.306879,0},{0.0461542,0},{0.434413,0},{0.226743,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/dooractorwin/zsysp" >
+                        <Property Name="StepSize" Value="0.1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.305981,0},{0.232036,0},{0.433514,0},{0.412624,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/dooractorwin/zszsp" >
+                        <Property Name="StepSize" Value="0.1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.297645,0},{0.438823,0},{0.427534,0},{0.603393,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Checkbox" Name="EditorWindow/tabcontrol/Actors/dooractorwin/cblocked" >
+                        <Property Name="Text" Value="locked" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0585064,0},{0.608235,0},{0.249628,0},{0.751448,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Checkbox" Name="EditorWindow/tabcontrol/Actors/dooractorwin/cbhide" >
+                        <Property Name="Text" Value="hide at open" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0572357,0},{0.772308,0},{0.344918,0},{0.942217,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/dooractorwin/stkey" >
+                        <Property Name="Text" Value="keyid:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.454354,0},{0.0771946,0},{0.584242,0},{0.247104,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/dooractorwin/keyidsp" >
+                        <Property Name="StepSize" Value="1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="32767" />
+                        <Property Name="MinimumValue" Value="0" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.587326,0},{0.0864256,0},{0.71957,0},{0.256335,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Checkbox" Name="EditorWindow/tabcontrol/Actors/dooractorwin/destroykey" >
+                        <Property Name="Text" Value="destroy key" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.734428,0},{0.0849774,0},{0.993849,0},{0.244208,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/dooractorwin/trxlbl" >
+                        <Property Name="Text" Value="Op-trX:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.450542,0},{0.307783,0},{0.603983,0},{0.456335,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/dooractorwin/trxsp" >
+                        <Property Name="StepSize" Value="0.1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.602727,0},{0.301448,0},{0.727905,0},{0.455339,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/dooractorwin/spxlbl" >
+                        <Property Name="Text" Value="Op-spX" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.728634,0},{0.305339,0},{0.872653,0},{0.453892,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/dooractorwin/spxsp" >
+                        <Property Name="StepSize" Value="0.01" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.878091,0},{0.293213,0},{1.00091,0},{0.447104,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/dooractorwin/trylbl" >
+                        <Property Name="Text" Value="Op-trY:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.455252,0},{0.493213,0},{0.608693,0},{0.641765,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/dooractorwin/trysp" >
+                        <Property Name="StepSize" Value="0.1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.600372,0},{0.492217,0},{0.72555,0},{0.646108,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/dooractorwin/spylbl" >
+                        <Property Name="Text" Value="Op-spY" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.730989,0},{0.496108,0},{0.875008,0},{0.644662,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/dooractorwin/spysp" >
+                        <Property Name="StepSize" Value="0.01" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.875736,0},{0.503892,0},{0.998555,0},{0.648552,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/dooractorwin/trzlbl" >
+                        <Property Name="Text" Value="Op-trZ:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.448187,0},{0.732037,0},{0.601628,0},{0.880589,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/dooractorwin/trzsp" >
+                        <Property Name="StepSize" Value="0.1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.602727,0},{0.709683,0},{0.727905,0},{0.863574,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/dooractorwin/spzlbl" >
+                        <Property Name="Text" Value="Op-spZ" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.726279,0},{0.708235,0},{0.870298,0},{0.856788,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/dooractorwin/spzsp" >
+                        <Property Name="StepSize" Value="0.01" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.873381,0},{0.716018,0},{0.9962,0},{0.876697,0}}" />
+                    </Window>
+                </Window>
+                <Window Type="DefaultWindow" Name="EditorWindow/tabcontrol/Actors/containeractorwin" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.316434,0},{0.53811,0},{0.987401,0},{0.910567,0}}" />
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/containeractorwin/stzsx" >
+                        <Property Name="Text" Value="Zone size X:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0338708,0},{0.0597286,0},{0.262675,0},{0.224299,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/containeractorwin/lbzsy" >
+                        <Property Name="Text" Value="Zone size Y:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0362259,0},{0.241267,0},{0.257965,0},{0.427195,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/containeractorwin/lblzsz" >
+                        <Property Name="Text" Value="Zone size Z:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0349554,0},{0.426697,0},{0.259049,0},{0.617964,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/containeractorwin/zsxsp" >
+                        <Property Name="StepSize" Value="0.1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.306879,0},{0.0461542,0},{0.434413,0},{0.226743,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/containeractorwin/zsysp" >
+                        <Property Name="StepSize" Value="0.1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.305981,0},{0.232036,0},{0.433514,0},{0.412624,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/containeractorwin/zszsp" >
+                        <Property Name="StepSize" Value="0.1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.297645,0},{0.438823,0},{0.427534,0},{0.603393,0}}" />
+                    </Window>
+                </Window>
+                <Window Type="DefaultWindow" Name="EditorWindow/tabcontrol/Actors/upexitactorwin" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.318832,0},{0.538457,0},{0.98727,0},{0.912615,0}}" />
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/upexitactorwin/lblacd" >
+                        <Property Name="Text" Value="Activation distance:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0217768,0},{0.0638082,0},{0.288928,0},{0.233403,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/upexitactorwin/spactdis" >
+                        <Property Name="StepSize" Value="1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="32767" />
+                        <Property Name="MinimumValue" Value="-32768" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.0537576,0},{0.433756,0},{0.233403,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/upexitactorwin/lbltextid" >
+                        <Property Name="Text" Value="Direction:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0245892,0},{0.249239,0},{0.29174,0},{0.423859,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/upexitactorwin/direct" >
+                        <Property Name="StepSize" Value="90" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="270" />
+                        <Property Name="MinimumValue" Value="0" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.305625,0},{0.248732,0},{0.433664,0},{0.418327,0}}" />
+                    </Window>
+                </Window>
+                <Window Type="DefaultWindow" Name="EditorWindow/tabcontrol/Actors/areaswitchwin" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.316434,0},{0.53811,0},{0.987401,0},{0.910567,0}}" />
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/areaswitchwin/stzsx" >
+                        <Property Name="Text" Value="Zone size X:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0338708,0},{0.0597286,0},{0.262675,0},{0.224299,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/areaswitchwin/lbzsy" >
+                        <Property Name="Text" Value="Zone size Y:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0362259,0},{0.241267,0},{0.257965,0},{0.427195,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/areaswitchwin/lblzsz" >
+                        <Property Name="Text" Value="Zone size Z:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0349554,0},{0.426697,0},{0.259049,0},{0.617964,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/areaswitchwin/zsxsp" >
+                        <Property Name="StepSize" Value="0.1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.306879,0},{0.0461542,0},{0.434413,0},{0.226743,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/areaswitchwin/zsysp" >
+                        <Property Name="StepSize" Value="0.1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.305981,0},{0.232036,0},{0.433514,0},{0.412624,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/areaswitchwin/zszsp" >
+                        <Property Name="StepSize" Value="0.1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.297645,0},{0.438823,0},{0.427534,0},{0.603393,0}}" />
+                    </Window>
+                </Window>
+                <Window Type="DefaultWindow" Name="EditorWindow/tabcontrol/Actors/floorswitchwin" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.316434,0},{0.53811,0},{0.987401,0},{0.910567,0}}" />
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/floorswitchwin/stzsx" >
+                        <Property Name="Text" Value="Zone size X:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0338708,0},{0.0597286,0},{0.262675,0},{0.224299,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/floorswitchwin/lbzsy" >
+                        <Property Name="Text" Value="Zone size Y:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0362259,0},{0.241267,0},{0.257965,0},{0.427195,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/floorswitchwin/lblzsz" >
+                        <Property Name="Text" Value="Zone size Z:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0349554,0},{0.426697,0},{0.259049,0},{0.617964,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/floorswitchwin/zsxsp" >
+                        <Property Name="StepSize" Value="0.1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.306879,0},{0.0461542,0},{0.434413,0},{0.226743,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/floorswitchwin/zsysp" >
+                        <Property Name="StepSize" Value="0.1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.305981,0},{0.232036,0},{0.433514,0},{0.412624,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/floorswitchwin/zszsp" >
+                        <Property Name="StepSize" Value="0.1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.297645,0},{0.438823,0},{0.427534,0},{0.603393,0}}" />
+                    </Window>
+                </Window>
+                <Window Type="DefaultWindow" Name="EditorWindow/tabcontrol/Actors/liftactorwin" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.316434,0},{0.53811,0},{0.987401,0},{0.910567,0}}" />
+                    <Window Type="TaharezLook/MultiColumnList" Name="EditorWindow/tabcontrol/Actors/liftactorwin/listscript" >
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.00796429,0},{0.0490499,0},{0.971564,0},{0.672804,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Editbox" Name="EditorWindow/tabcontrol/Actors/liftactorwin/edtype" >
+                        <Property Name="MaxTextLength" Value="1073741823" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0103194,0},{0.673755,0},{0.135498,0},{0.822308,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Editbox" Name="EditorWindow/tabcontrol/Actors/liftactorwin/edva" >
+                        <Property Name="MaxTextLength" Value="1073741823" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.145646,0},{0.682986,0},{0.28731,0},{0.820859,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Editbox" Name="EditorWindow/tabcontrol/Actors/liftactorwin/edvb" >
+                        <Property Name="MaxTextLength" Value="1073741823" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.297459,0},{0.692217,0},{0.448544,0},{0.82475,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Editbox" Name="EditorWindow/tabcontrol/Actors/liftactorwin/edvc" >
+                        <Property Name="MaxTextLength" Value="1073741823" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.459064,0},{0.685882,0},{0.621925,0},{0.823755,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Editbox" Name="EditorWindow/tabcontrol/Actors/liftactorwin/edspeed" >
+                        <Property Name="MaxTextLength" Value="1073741823" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.627362,0},{0.684434,0},{0.797289,0},{0.816968,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Editbox" Name="EditorWindow/tabcontrol/Actors/liftactorwin/edsound" >
+                        <Property Name="MaxTextLength" Value="1073741823" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.807437,0},{0.682986,0},{0.975007,0},{0.815519,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Button" Name="EditorWindow/tabcontrol/Actors/liftactorwin/addb" >
+                        <Property Name="Text" Value="Add" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.238581,0},{0.83104,0},{0.439124,0},{0.979593,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Button" Name="EditorWindow/tabcontrol/Actors/liftactorwin/remb" >
+                        <Property Name="Text" Value="Remove" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.451999,0},{0.835384,0},{0.678448,0},{0.983936,0}}" />
+                    </Window>
+                </Window>
+                
+                <Window Type="DefaultWindow" Name="EditorWindow/tabcontrol/Actors/hurtareawin" >
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.316434,0},{0.53811,0},{0.987401,0},{0.910567,0}}" />
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/hurtareawin/stzsx" >
+                        <Property Name="Text" Value="Zone size X:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0338708,0},{0.0597286,0},{0.262675,0},{0.224299,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/hurtareawin/lbzsy" >
+                        <Property Name="Text" Value="Zone size Y:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0362259,0},{0.241267,0},{0.257965,0},{0.427195,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/hurtareawin/lblzsz" >
+                        <Property Name="Text" Value="Zone size Z:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0349554,0},{0.426697,0},{0.259049,0},{0.617964,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/hurtareawin/zsxsp" >
+                        <Property Name="StepSize" Value="0.1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.306879,0},{0.0461542,0},{0.434413,0},{0.226743,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/hurtareawin/zsysp" >
+                        <Property Name="StepSize" Value="0.1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.305981,0},{0.232036,0},{0.433514,0},{0.412624,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/hurtareawin/zszsp" >
+                        <Property Name="StepSize" Value="0.1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="1000" />
+                        <Property Name="MinimumValue" Value="-1000" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.297645,0},{0.438823,0},{0.427534,0},{0.603393,0}}" />
+                    </Window>
+                    
+                    <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/hurtareawin/lbllifetaken" >
+                        <Property Name="Text" Value="Life taken:" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.0349554,0},{0.65,0},{0.259049,0},{0.8,0}}" />
+                    </Window>   
+                    <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/hurtareawin/lifetaken" >
+                        <Property Name="StepSize" Value="1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="10000" />
+                        <Property Name="MinimumValue" Value="0" />
+                        <Property Name="TextInputMode" Value="FloatingPoint" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.297645,0},{0.65,0},{0.427534,0},{0.8,0}}" />
+                    </Window>                    
+                    
+                </Window>                
+                
+                <Window Type="TaharezLook/StaticText" Name="EditorWindow/tabcontrol/Actors/sound" >
+                    <Property Name="Text" Value="Sound:" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.766163,0},{0.353694,0},{0.864463,0},{0.412781,0}}" />
+                </Window>
+                <Window Type="TaharezLook/Spinner" Name="EditorWindow/tabcontrol/Actors/sounded" >
+                    <Property Name="StepSize" Value="1" />
+                    <Property Name="CurrentValue" Value="0" />
+                    <Property Name="MaximumValue" Value="10000" />
+                    <Property Name="MinimumValue" Value="-1" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.880385,0},{0.35426,0},{0.988166,0},{0.415336,0}}" />
+                </Window>
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

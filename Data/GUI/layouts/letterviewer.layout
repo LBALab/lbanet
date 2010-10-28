@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >        
+       <Window Type="TaharezLook/FrameWindow" Name="LetterViewerWIndowFrame" >
+        <Property Name="Text" Value="Letter" />
+	<Property Name="TitlebarFont" Value="Commonwealth-10" />        
+        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+        <Property Name="UnifiedMinSize" Value="{{0,128},{0,128}}" />
+        <Property Name="TitlebarEnabled" Value="true" />
+        <Property Name="SizingEnabled" Value="true" />
+        <Property Name="CloseButtonEnabled" Value="true" />          
+        <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.3,0},{0.7,0},{0.7,0}}" />     
+      
+     
+    		<Window Type="TaharezLook/StaticText" Name="LetterViewerSubject" >            
+		    <Property Name="Text" Value="Subject:" />        
+		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0,10},{0,10},{0,100},{0,40}}" />
+		</Window>
+		
+		<Window Type="TaharezLook/Editbox" Name="LetterViewerSubjectEdit" >    
+		    <Property Name="MaxTextLength" Value="250" />
+		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0,110},{0,10},{1,-10},{0,40}}" />
+		    <Property Name="ReadOnly" Value="true" />		    
+		</Window>        
+		
+		<Window Type="TaharezLook/MultiLineEditbox" Name="LetterViewerMessage" >         
+		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0,10},{0,50},{1,-10},{1,-40}}" />
+		    <Property Name="ReadOnly" Value="true" />		    
+		</Window>        
+       
+		<Window Type="TaharezLook/Button" Name="LetterViewerGoB" >   
+		    <Property Name="Text" Value="Close" />
+		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0.5,-100},{1,-35},{0.5,-10},{1,-5}}" />
+		</Window>
+		<Window Type="TaharezLook/Button" Name="LetterViewerDestroyB" >          
+		    <Property Name="Text" Value="Destroy" />
+		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0.5,10},{1,-35},{0.5,100},{1,-5}}" />
+		</Window>
+	</Window>		
+</GUILayout>

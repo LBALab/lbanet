@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="TaharezLook/FrameWindow" Name="ChatFrame" >
+        <Property Name="Text" Value="Chat" />
+        <Property Name="TitlebarFont" Value="Commonwealth-10" />
+        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+        <Property Name="UnifiedMinSize" Value="{{0,128},{0,128}}" />
+        <Property Name="TitlebarEnabled" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0.1,0},{0.65,0},{0.90,0},{0.99,0}}" />
+        <Window Type="TaharezLook/TabControl" Name="Chat/TabControl" >
+            <Property Name="TabHeight" Value="{0,-1}" />
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+            <Property Name="TabPanePosition" Value="Top" />
+            <Property Name="UnifiedAreaRect" Value="{{0,10},{0,0},{1,-10},{1,-40}}" />
+        </Window>
+        
+            <Window Type="TaharezLook/Editbox" Name="Chat/edit" >
+                <Property Name="Text" Value="" />
+                <Property Name="MaxTextLength" Value="400" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0,100},{1,-35},{1,-75},{1,-10}}" />
+            </Window>   
+            
+         <Window Type="TaharezLook/Button" Name="Chat/bChannel">
+            <Property Name="Text" Value="World" />
+                <Property Name="UnifiedAreaRect" Value="{{0,10},{1,-35},{0,95},{1,-10}}" />
+        </Window>    
+        
+            
+         <Window Type="TaharezLook/Button" Name="Chat/bSend">
+            <Property Name="Text" Value="Send" />
+                <Property Name="UnifiedAreaRect" Value="{{1,-70},{1,-35},{1,-10},{1,-10}}" />
+        </Window>           
+    </Window>
+</GUILayout>

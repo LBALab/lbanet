@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="DefaultWindow" Name="Root" >
+        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+        
+	<Window Type="TaharezLook/StaticImage" Name="LBaNetLogo" >
+	    <Property Name="Image"     Value="set:LogoBig image:Logo" />
+	    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+	    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />           
+	</Window>        
+        
+	<Window Type="TaharezLook/StaticImage" Name="LBaNetLogoCenter" >
+	    <Property Name="Image"     Value="set:LogoCenter image:Logo" />
+	    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+	    <Property Name="UnifiedAreaRect" Value="{{0.5,-300},{0.5,-300},{0.5,300},{0.5,300}}" />           
+	</Window>  
+	
+     
+        
+       <Window Type="TaharezLook/FrameWindow" Name="LoginWIndowFrame" >
+        <Property Name="Text" Value="" />
+        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+        <Property Name="UnifiedMinSize" Value="{{0,128},{0,128}}" />
+        <Property Name="TitlebarEnabled" Value="true" />
+        <Property Name="SizingEnabled" Value="false" />
+        <Property Name="CloseButtonEnabled" Value="false" />          
+        <Property Name="UnifiedAreaRect" Value="{{0.25,0},{0.95,-220},{0.75,0},{0.95,0}}" />     
+
+
+		 <Window Type="TaharezLook/StaticText" Name="LoginLabel" >      
+		    <Property Name="Text" Value="Nickname:" />         
+		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0.1,0},{0,10},{0.4,5},{0,40}}" />
+		</Window>       
+
+		<Window Type="TaharezLook/Editbox" Name="LoginText" >    
+		    <Property Name="MaxTextLength" Value="20" />
+		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0.4,15},{0,10},{0.9,0},{0,40}}" />    
+		</Window>
+
+		<Window Type="TaharezLook/StaticText" Name="PasswordLabel" > 
+		    <Property Name="Text" Value="Password:" />         
+		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0.1,0},{0,50},{0.4,5},{0,80}}" />        
+		</Window>
+
+		<Window Type="TaharezLook/Editbox" Name="PasswordText" >  
+		    <Property Name="MaxTextLength" Value="20" />
+		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0.4,15},{0,50},{0.9,0},{0,80}}" />      
+		</Window>
+
+		<Window Type="TaharezLook/StaticText" Name="ServerOnLabel" > 
+		    <Property Name="Text" Value="Server: " />         
+		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0.2,0},{0,100},{0.4,0},{0,130}}" />        
+		</Window>		
+		
+
+		    <Window Type="TaharezLook/Checkbox" Name="LoginPlayLocalCb" >
+			<Property Name="Text" Value="Play in local mode" />
+			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0.4,10},{0,100},{0.7,0},{0,130}}" />
+		    </Window>  
+
+		<Window Type="TaharezLook/Button" Name="ConnectB" >    
+		    <Property Name="Text" Value="Login" />             
+		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0.5,-100},{0,150},{0.5,-10},{0,180}}" />        
+		</Window>
+		<Window Type="TaharezLook/Button" Name="CancelB" >     
+		    <Property Name="Text" Value="Quit" />        
+		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0.5,10},{0,150},{0.5,100},{0,180}}" />       
+		</Window>
+    	</Window>
+    	
+         <Window Type="TaharezLook/FrameWindow" Name="DisplayLoginErrorFrame" >
+            <Property Name="TitlebarFont" Value="Commonwealth-10" />
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+            <Property Name="TitlebarEnabled" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.10,0},{0.3,0},{0.35,0},{0.5,0}}" />
+            <Property Name="Text" Value="Login error" />             
+            <Window Type="TaharezLook/MultiLineEditbox" Name="DisplayLoginErrorFrame/text" >
+                <Property Name="MaxTextLength" Value="1073741823" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0,5},{0,0},{1,-5},{0.83,0}}" />
+            </Window>
+            <Window Type="TaharezLook/Button" Name="DisplayLoginErrorFrame/bok" >
+                <Property Name="Text" Value="OK" />            
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.5,-30},{0.85,0},{0.5,30},{0.97,0}}" />
+            </Window>
+        </Window>   
+        
+        
+	<Window Type="TaharezLook/StaticText" Name="ClientVersionText" > 
+	    <Property Name="Text" Value="" />         
+	    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+	    <Property Name="UnifiedAreaRect" Value="{{1,-90},{0,10},{1,-10},{0,40}}" />        
+	</Window>  	
+    </Window>
+</GUILayout>

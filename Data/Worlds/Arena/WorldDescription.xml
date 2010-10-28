@@ -1,0 +1,39 @@
+<World>
+    <name>Arena</name>	
+    <description>Demo world to test custom bricks and 3d view. Map made by Mazaka151</description>
+    <news>11/10/2010: First release.</description>
+    
+    
+	 <!--Define the place it is possible to teleport to-->   
+	<teleports>        
+	</teleports>     
+    
+    	<PlayerStartingInfo>
+    		<InventorySize>30</InventorySize>
+		<StartingLife>50</StartingLife>
+		<StartingMana>50</StartingMana>		
+		<StartingMap>BattleArena</StartingMap>
+		<SpawningId>1</SpawningId>
+
+		<StartingModel>
+			<RendererType>2</RendererType>		
+			<ModelName>Twinsen</ModelName>
+			<Outfit>Fulltunic</Outfit>
+			<Weapon>MagicBall</Weapon>
+			<Mode>Normal</Mode>
+		</StartingModel>		
+
+			
+		<StartingInventory />
+    	</PlayerStartingInfo>
+    	
+    <maps>
+        <!--Battle Arena-->
+        <Map name="BattleArena" type="interior" music="Music/Midi_mi_win18.midi" AutoCameraType="2">
+            <description>The Complex - Battle Arena</description>
+            <spareas>
+                <sparea Id="1" name="FirstSpawning" posX="33.000000" posY="11.300000" posZ="7.500000" RotationAtArrival="0" />
+            </spareas>
+        </Map>
+    </maps>
+</World>

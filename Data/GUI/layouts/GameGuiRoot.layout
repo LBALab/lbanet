@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="DefaultWindow" Name="GameGUI/root" >
+        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+        <Property Name="MousePassThroughEnabled" Value="True" />
+        
+        <Window Type="TaharezLook/StaticImage" Name="HeadInterfaceBG" >
+            <Property Name="Image" Value="set:HeadInterface image:imageHI" />
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{1.0,-631},{0,-1},{1.0,0},{0,70}}" />
+        </Window>
+
+        <Window Type="TaharezLook/StaticImage" Name="MenuCharInterfaceBG" >
+            <Property Name="Image" Value="set:MenuChar image:imageMenuChar" />
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0,0},{0,-1},{0,200},{0,70}}" />
+        </Window>
+   
+
+	<Window Type="TaharezLook/ImageButton" Name="btncomicon">
+		<Property Name="UnifiedPosition" Value="{{1.0,-595},{0,0}}" />
+		<Property Name="UnifiedSize" Value="{{0,110},{0,65}}" />
+		<Property Name="NormalImage"     Value="set:LbaNetB image:normal" />
+		<Property Name="HoverImage"      Value="set:LbaNetB image:hover"  />
+		<Property Name="PushedImage"     Value="set:LbaNetB image:clicked" />
+		<Property Name="DisabledImage"   Value="set:LbaNetB image:disabled" />
+	</Window> 
+
+
+	<Window Type="TaharezLook/ImageButton" Name="btnteleporticon">
+		<Property Name="UnifiedPosition" Value="{{1.0,-490},{0,0}}" />
+		<Property Name="UnifiedSize" Value="{{0,70},{0,65}}" />
+		<Property Name="NormalImage"     Value="set:TeleportButton image:normal" />
+		<Property Name="HoverImage"      Value="set:TeleportButton image:hover"  />
+		<Property Name="PushedImage"     Value="set:TeleportButton image:clicked" />
+		<Property Name="DisabledImage"   Value="set:TeleportButton image:disabled" />
+	</Window> 
+	
+
+	<Window Type="TaharezLook/ImageButton" Name="btnchaticon">
+		<Property Name="UnifiedPosition" Value="{{1.0,-425},{0,0}}" />
+		<Property Name="UnifiedSize" Value="{{0,70},{0,65}}" />
+		<Property Name="NormalImage"     Value="set:chatbutton image:normal" />
+		<Property Name="HoverImage"      Value="set:chatbutton image:hover"  />
+		<Property Name="PushedImage"     Value="set:chatbutton image:clicked" />
+		<Property Name="DisabledImage"   Value="set:chatbutton image:disabled" />
+	</Window> 
+
+
+	
+	<Window Type="TaharezLook/ImageButton" Name="btnoption">
+		<Property Name="UnifiedPosition" Value="{{1.0,-150},{0,0}}" />
+		<Property Name="UnifiedSize" Value="{{0,70},{0,65}}" />
+		<Property Name="NormalImage"     Value="set:optionsbutton image:normal" />
+		<Property Name="HoverImage"      Value="set:optionsbutton image:hover"  />
+		<Property Name="PushedImage"     Value="set:optionsbutton image:clicked" />
+		<Property Name="DisabledImage"   Value="set:optionsbutton image:disabled" />
+	</Window> 
+	
+	<Window Type="TaharezLook/ImageButton" Name="btnsound">
+		<Property Name="UnifiedPosition" Value="{{1.0,-200},{0,0}}" />
+		<Property Name="UnifiedSize" Value="{{0,70},{0,65}}" />
+		<Property Name="NormalImage"     Value="set:soundbutton image:normal" />
+		<Property Name="HoverImage"      Value="set:soundbutton image:hover"  />
+		<Property Name="PushedImage"     Value="set:soundbutton image:clicked" />
+		<Property Name="DisabledImage"   Value="set:soundbutton image:disabled" />
+	</Window> 	
+	
+	<Window Type="TaharezLook/ImageButton" Name="btnchangeworld">
+		<Property Name="UnifiedPosition" Value="{{1.0,-350},{0,0}}" />
+		<Property Name="UnifiedSize" Value="{{0,70},{0,65}}" />
+		<Property Name="NormalImage"     Value="set:changeworldbutton image:normal" />
+		<Property Name="HoverImage"      Value="set:changeworldbutton image:hover"  />
+		<Property Name="PushedImage"     Value="set:changeworldbutton image:clicked" />
+		<Property Name="DisabledImage"   Value="set:changeworldbutton image:disabled" />
+	</Window> 
+	
+	<Window Type="TaharezLook/ImageButton" Name="btnquit">
+		<Property Name="UnifiedPosition" Value="{{1.0,-100},{0,0}}" />
+		<Property Name="UnifiedSize" Value="{{0,70},{0,65}}" />
+		<Property Name="NormalImage"     Value="set:quitbutton image:normal" />
+		<Property Name="HoverImage"      Value="set:quitbutton image:hover"  />
+		<Property Name="PushedImage"     Value="set:quitbutton image:clicked" />
+		<Property Name="DisabledImage"   Value="set:quitbutton image:disabled" />
+	</Window> 
+
+        <Window Type="TaharezLook/FrameWindow" Name="DisplayGameTextFrame" >
+            <Property Name="TitlebarFont" Value="Commonwealth-10" />
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+            <Property Name="TitlebarEnabled" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.35,0},{0.2,0},{0.65,0},{0.5,0}}" />
+            <Property Name="Text" Value="Public notice" />             
+            <Window Type="TaharezLook/MultiLineEditbox" Name="DisplayGameTextFrame/text" >
+                <Property Name="MaxTextLength" Value="1073741823" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0,5},{0,10},{1,-5},{0.83,0}}" />
+            </Window>
+            <Window Type="TaharezLook/Button" Name="DisplayGameTextFrame/bok" >
+                <Property Name="Text" Value="OK" />            
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.5,-30},{0.85,0},{0.5,30},{0.97,0}}" />
+            </Window>
+        </Window>
+
+
+
+	<Window Type="TaharezLook/ImageButton" Name="btntunic">
+		<Property Name="UnifiedPosition" Value="{{0.0,60},{0,42}}" />
+		<Property Name="UnifiedSize" Value="{{0,26},{0,26}}" />
+		<Property Name="NormalImage"     Value="set:tunicicon image:normal" />
+		<Property Name="HoverImage"      Value="set:tunicicon image:hover"  />
+		<Property Name="PushedImage"     Value="set:tunicicon image:clicked" />
+		<Property Name="DisabledImage"   Value="set:tunicicon image:disabled" />
+	</Window> 
+
+	<Window Type="TaharezLook/ImageButton" Name="btnquest">
+		<Property Name="UnifiedPosition" Value="{{0.0,83},{0,44}}" />
+		<Property Name="UnifiedSize" Value="{{0,26},{0,26}}" />
+		<Property Name="NormalImage"     Value="set:questicon image:normal" />
+		<Property Name="HoverImage"      Value="set:questicon image:hover"  />
+		<Property Name="PushedImage"     Value="set:questicon image:clicked" />
+		<Property Name="DisabledImage"   Value="set:questicon image:disabled" />
+	</Window> 
+
+	<Window Type="TaharezLook/ImageButton" Name="btnweapon">
+		<Property Name="UnifiedPosition" Value="{{0.0,110},{0,42}}" />
+		<Property Name="UnifiedSize" Value="{{0,26},{0,26}}" />
+		<Property Name="NormalImage"     Value="set:weaponicon image:normal" />
+		<Property Name="HoverImage"      Value="set:weaponicon image:hover"  />
+		<Property Name="PushedImage"     Value="set:weaponicon image:clicked" />
+		<Property Name="DisabledImage"   Value="set:weaponicon image:disabled" />
+	</Window> 	
+
+	<Window Type="TaharezLook/StaticText" Name="PlayerName" >
+	    <Property Name="Text" Value="Editor" />
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />	    
+	    <Property Name="UnifiedAreaRect" Value="{{0.0,64},{0,25},{0.0,150},{0.0,44}}" />
+	    <Property Name="BackgroundEnabled" Value="False" />
+	    <Property Name="FrameEnabled" Value="False" />
+	    <Property Name="TextColours" Value="FF32DCD8" />
+	    <Property Name="Font" Value="abbey_m1-9" />
+	</Window>
+
+    </Window>
+</GUILayout>

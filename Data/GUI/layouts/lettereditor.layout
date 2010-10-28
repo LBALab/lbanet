@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >           
+       <Window Type="TaharezLook/FrameWindow" Name="LetterEditorWIndowFrame" >
+        <Property Name="Text" Value="Write your letter" />
+	<Property Name="TitlebarFont" Value="Commonwealth-10" />        
+        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+        <Property Name="UnifiedMinSize" Value="{{0,128},{0,128}}" />
+        <Property Name="TitlebarEnabled" Value="true" />
+        <Property Name="SizingEnabled" Value="true" />
+        <Property Name="CloseButtonEnabled" Value="true" />          
+        <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.3,0},{0.7,0},{0.7,0}}" />     
+       
+    		<Window Type="TaharezLook/StaticText" Name="LEditSubject" >            
+		    <Property Name="Text" Value="Subject:" />        
+		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0,10},{0,10},{0,100},{0,40}}" />
+		</Window>
+		
+		<Window Type="TaharezLook/Editbox" Name="LetterEditorSubjectEdit" >    
+		    <Property Name="MaxTextLength" Value="250" />
+		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0,110},{0,10},{1,-10},{0,40}}" />
+		</Window>        
+		
+		<Window Type="TaharezLook/MultiLineEditbox" Name="LetterEditorMessage" >         
+		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0,10},{0,50},{1,-10},{1,-40}}" />
+		</Window>        
+       
+		<Window Type="TaharezLook/Button" Name="LEditGoB" >   
+		    <Property Name="Text" Value="OK" />
+		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0.5,-100},{1,-35},{0.5,-10},{1,-5}}" />
+		</Window>
+		<Window Type="TaharezLook/Button" Name="LEditCancelB" >          
+		    <Property Name="Text" Value="Cancel" />
+		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0.5,10},{1,-35},{0.5,100},{1,-5}}" />
+		</Window>
+	</Window>		
+</GUILayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="TaharezLook/FrameWindow" Name="choosePlayerName" >
+        <Property Name="Text" Value="Please specify the player name" />
+        <Property Name="TitlebarFont" Value="Commonwealth-10" />
+        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+        <Property Name="UnifiedMinSize" Value="{{0,128},{0,128}}" />
+        <Property Name="TitlebarEnabled" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.3,0},{0.3,300},{0.3,60}}" />
+  
+            <Window Type="TaharezLook/Editbox" Name="Chat/choosePlayerName/edit" >
+                <Property Name="Text" Value="" />
+                <Property Name="MaxTextLength" Value="1073741823" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0,10},{0,25},{1,-10},{0,55}}" />
+            </Window>   
+            
+         <Window Type="TaharezLook/Button" Name="Chat/choosePlayerName/bOk">
+            <Property Name="Text" Value="OK" />
+                <Property Name="UnifiedAreaRect" Value="{{0.5,-80},{1,-35},{0.5,-5},{1,-10}}" />
+        </Window>  
+        
+        <Window Type="TaharezLook/Button" Name="Chat/choosePlayerName/bCancel">
+            <Property Name="Text" Value="Cancel" />
+                <Property Name="UnifiedAreaRect" Value="{{0.5,5},{1,-35},{0.5,80},{1,-10}}" />
+        </Window>       
+    </Window>
+</GUILayout>
