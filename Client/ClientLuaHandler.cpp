@@ -33,6 +33,8 @@ ClientLuaHandler::ClientLuaHandler(LbaNetModel * model)
 		luabind::class_<LbaNetModel>("LbaNetModel")
 		.def(luabind::constructor<>())
 		.def("ActorStraightWalkTo", &LbaNetModel::ActorStraightWalkTo, luabind::yield)
+		.def("ActorRotate", &LbaNetModel::ActorRotate, luabind::yield)
+		.def("ActorAnimate", &LbaNetModel::ActorAnimate, luabind::yield)
 		];
 
 		// register the lbanetmodel as global for the whole script

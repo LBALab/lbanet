@@ -140,6 +140,18 @@ public:
 	//! the actor will move using animation speed
 	void ActorStraightWalkTo(int ScriptId, long ActorId, float PosX, float PosY, float PosZ);
 
+	//! used by lua to rotate an actor
+	//! if id < 1 then it moves players
+	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
+	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
+	void ActorRotate(int ScriptId, long ActorId, float Angle, float RotationSpeedPerSec);
+
+	//! used by lua to wait until an actor animation is finished
+	//! if id < 1 then it moves players
+	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
+	void ActorAnimate(int ScriptId, long ActorId, bool AnimationMove);
+
+
 
 	#ifdef _USE_QT_EDITOR_
 	//! editor tp the player

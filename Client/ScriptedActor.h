@@ -88,6 +88,66 @@ protected:
 	float	_PosX;
 	float	_PosY;
 	float	_PosZ;
+
+	float	_StartPosX;
+	float	_StartPosY;
+	float	_StartPosZ;
+
+	float	_distance;
+	float	_distanceDone;
+};
+
+
+
+/***********************************************************************
+ * Module:  ScriptedActor.h
+ * Author:  vivien
+ * Purpose: Declaration of the class AnimateScriptPart
+ ***********************************************************************/
+class PlayAnimationScriptPart : public ScriptPartBase
+{
+public:
+
+	//! constructor
+	PlayAnimationScriptPart(int scriptid, bool AnimationMove);
+
+	//! destructor
+	virtual ~PlayAnimationScriptPart(){}
+
+
+	//! process script part
+	//! return true if finished
+	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor);
+
+protected:
+	bool	_AnimationMove;
+};
+
+
+
+/***********************************************************************
+ * Module:  ScriptedActor.h
+ * Author:  vivien
+ * Purpose: Declaration of the class AnimateScriptPart
+ ***********************************************************************/
+class RotateScriptPart : public ScriptPartBase
+{
+public:
+
+	//! constructor
+	RotateScriptPart(int scriptid, float Angle, float RotationSpeedPerSec);
+
+	//! destructor
+	virtual ~RotateScriptPart(){}
+
+
+	//! process script part
+	//! return true if finished
+	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor);
+
+protected:
+	float	_RotationSpeedPerSec;
+	float	_Angle;
 };
 
 
@@ -109,10 +169,19 @@ public:
 	//! process function
 	void ProcessScript(double tnow, float tdiff, boost::shared_ptr<ClientLuaHandler> scripthandler);
 
-	//! used by lua to move an actor or player
-	//! if id < 1 then it moves players
+	//! used by lua to move an actor
 	//! the actor will move using animation speed
 	void ActorStraightWalkTo(int ScriptId, float PosX, float PosY, float PosZ);
+
+	//! used by lua to rotate an actor
+	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
+	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
+	void ActorRotate(int ScriptId, float Angle, float RotationSpeedPerSec);
+
+	//! used by lua to wait until an actor animation is finished
+	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
+	void ActorAnimate(int ScriptId, bool AnimationMove);
+
 
 protected:
 	boost::shared_ptr<DynamicObject>			_character;

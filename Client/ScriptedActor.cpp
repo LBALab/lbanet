@@ -47,7 +47,16 @@ StraightWalkToScriptPart::StraightWalkToScriptPart(int scriptid, float PosX, flo
 									boost::shared_ptr<DynamicObject> actor)
 	: ScriptPartBase(scriptid), _PosX(PosX), _PosY(PosY), _PosZ(PosZ)
 {
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = actor->GetPhysicalObject();
+	physo->GetPosition(_StartPosX, _StartPosY, _StartPosZ);
 
+	float diffX = (_PosX - _StartPosX);
+	float diffY = (_PosY - _StartPosY);
+	float diffZ = (_PosZ - _StartPosZ);
+	float _distance = (diffX*diffX) + (diffY*diffY) + (diffZ*diffZ);
+	_distance = sqrt(_distance);
+
+	_distanceDone = 0;
 }
 
 
@@ -57,6 +66,116 @@ return true if finished
 ***********************************************************/
 bool StraightWalkToScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor)
 {
+	// proces with animation
+	actor->Process(tnow, tdiff);
+
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = actor->GetPhysicalObject();
+	boost::shared_ptr<DisplayObjectHandlerBase> disso = actor->GetDisplayObject();
+
+
+	// check if we arrive at destination
+	if(abs(_distance-_distanceDone) < 0.01)
+		return true;
+
+
+	// get animation speed
+	float speedX = disso->GetCurrentAssociatedSpeedX();
+	float speedY = disso->GetCurrentAssociatedSpeedY();
+	float speedZ = disso->GetCurrentAssociatedSpeedZ();
+
+	_distanceDone += (speedX+speedY+speedZ) * tdiff;
+	if(_distanceDone > _distance)
+		_distanceDone = _distance;
+
+	float ratio = (_distanceDone / _distance);
+
+	float curPosX = (_PosX*ratio) + (_StartPosX*(1-ratio));
+	float curPosY = (_PosY*ratio) + (_StartPosY*(1-ratio));
+	float curPosZ = (_PosZ*ratio) + (_StartPosZ*(1-ratio));
+
+	physo->MoveTo(curPosX, curPosY, curPosZ);
+
+
+	return false;
+}
+
+
+
+
+
+/***********************************************************
+	Constructor
+***********************************************************/
+PlayAnimationScriptPart::PlayAnimationScriptPart(int scriptid, bool AnimationMove)
+	: ScriptPartBase(scriptid), _AnimationMove(AnimationMove)
+{
+}
+
+
+
+/***********************************************************
+process script part
+return true if finished
+***********************************************************/
+bool PlayAnimationScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor)
+{
+	// proces with animation
+	int res = actor->Process(tnow, tdiff);
+	if(res == 1)
+		return true;
+
+
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = actor->GetPhysicalObject();
+	boost::shared_ptr<DisplayObjectHandlerBase> disso = actor->GetDisplayObject();
+
+	if(_AnimationMove)
+	{
+		// get animation speed
+		float speedX = disso->GetCurrentAssociatedSpeedX();
+		float speedY = disso->GetCurrentAssociatedSpeedY();
+		float speedZ = disso->GetCurrentAssociatedSpeedZ();
+
+		if(speedX != 0 && speedY != 0 && speedZ != 0)
+			physo->Move(speedX*tdiff, speedY*tdiff, speedZ*tdiff, false);
+	}
+
+	return false;
+}
+
+
+
+
+
+
+/***********************************************************
+	Constructor
+***********************************************************/
+RotateScriptPart::RotateScriptPart(int scriptid, float Angle, float RotationSpeedPerSec)
+	: ScriptPartBase(scriptid), _Angle(Angle), _RotationSpeedPerSec(RotationSpeedPerSec)
+{
+
+}
+
+
+/***********************************************************
+//! process script part
+//! return true if finished
+***********************************************************/
+bool RotateScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor)
+{
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = actor->GetPhysicalObject();
+	float currAngle = physo->GetRotationYAxis();
+
+	double distance = (_Angle-currAngle);
+	if(abs(distance) > 1.0)
+	{
+		if((distance > 0 && distance < 180) || (distance < -180))
+			physo->RotateYAxis(-_RotationSpeedPerSec*tdiff);
+		else
+			physo->RotateYAxis(_RotationSpeedPerSec*tdiff);
+	}
+	else
+		return true;
 
 	return false;
 }
@@ -112,4 +231,28 @@ void ScriptedActor::ActorStraightWalkTo(int ScriptId, float PosX, float PosY, fl
 {
 	_currentScript = boost::shared_ptr<ScriptPartBase>(
 						new StraightWalkToScriptPart(ScriptId, PosX, PosY, PosZ, _character));
+}
+
+
+
+/***********************************************************
+//! used by lua to rotate an actor
+//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
+//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
+***********************************************************/
+void ScriptedActor::ActorRotate(int ScriptId, float Angle, float RotationSpeedPerSec)
+{
+	_currentScript = boost::shared_ptr<ScriptPartBase>(
+						new RotateScriptPart(ScriptId, Angle, RotationSpeedPerSec));
+}
+
+
+/***********************************************************
+//! used by lua to wait until an actor animation is finished
+//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
+***********************************************************/
+void ScriptedActor::ActorAnimate(int ScriptId, bool AnimationMove)
+{
+	_currentScript = boost::shared_ptr<ScriptPartBase>(
+						new PlayAnimationScriptPart(ScriptId, AnimationMove));
 }

@@ -825,6 +825,49 @@ void LbaNetModel::ActorStraightWalkTo(int ScriptId, long ActorId, float PosX,
 
 
 
+/***********************************************************
+//! used by lua to rotate an actor
+//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
+//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
+***********************************************************/
+void LbaNetModel::ActorRotate(int ScriptId, long ActorId, float Angle, float RotationSpeedPerSec)
+{
+	if(ActorId >= 0)
+	{
+		// on actor
+		//TODO
+	}
+	else
+	{
+		// on player
+		if(m_controllerChar)
+			m_controllerChar->ActorRotate(ScriptId, Angle, RotationSpeedPerSec);
+	}
+}
+
+
+/***********************************************************
+//! used by lua to wait until an actor animation is finished
+//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
+***********************************************************/
+void LbaNetModel::ActorAnimate(int ScriptId, long ActorId, bool AnimationMove)
+{
+	if(ActorId >= 0)
+	{
+		// on actor
+		//TODO
+	}
+	else
+	{
+		// on player
+		if(m_controllerChar)
+			m_controllerChar->ActorAnimate(ScriptId, AnimationMove);
+	}
+}
+
+
+
+
 
 
 
