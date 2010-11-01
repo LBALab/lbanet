@@ -85,3 +85,146 @@ function ActorGoUpLadder(ScriptId, ActorId, LadderPosition, LadderHeight, Ladder
 	Model:ActorStraightWalkTo(ScriptId, ActorId, TranslationPosition)	
 
 end
+
+
+function TakeExitUp(ScriptId, ActorId, ExitPosition, ExitDirection)
+
+	-- change actor mode to normal
+	Model:UpdateActorMode(ActorId, "Normal")
+
+	-- get current position
+	CurrentPosition = Model:GetActorPosition(ActorId)
+	
+	-- calculate offsets depending of ladder direction
+	remX=0
+	remZ=0
+	dX=0
+	dZ=0
+	
+	if (ExitDirection >= 45) then	
+		if (ExitDirection >= 135) then
+			if (ExitDirection >= 225) then
+				if (ExitDirection >= 315) then
+					remZ = -0.8
+					dZ = 1
+				else
+					remX = 0.8
+					dX = -1
+				end			
+			else
+				remZ = 0.8
+				dZ = -1
+			end
+		else
+			remX = -0.8
+			dX = 1
+		end
+	else
+		remZ = -0.8
+		dZ = 1
+	end
+	
+
+	-- calculate position and rotation actor need to proceed to
+	TranslationPosition = LbaVec3(ExitPosition)
+	TranslationPosition.x = TranslationPosition.x + remX
+	TranslationPosition.z = TranslationPosition.z + remZ
+	
+	TDistance = LbaVec3(TranslationPosition)
+	TDistance.x = TDistance.x - CurrentPosition.x
+	TDistance.z = TDistance.z - CurrentPosition.z
+	angle = LbaQuaternion.GetAngleFromVector(TDistance)
+
+	
+	-- add first rotation toward exit position		
+	Model:ActorRotate(ScriptId, ActorId, angle, 0.15, true)
+	
+	
+	-- add translation to exit
+	Model:UpdateActorAnimation(ActorId, "MoveForward")	
+	Model:ActorStraightWalkTo(ScriptId, ActorId, TranslationPosition)
+	
+	
+	-- add rotation before climbing
+	Model:ActorRotate(ScriptId, ActorId, ExitDirection, 0.15, true)
+	
+
+	-- add exit animation
+	Model:UpdateActorAnimation(ActorId, "Climb")
+	Model:ActorAnimate(ScriptId, ActorId, true)
+
+
+end
+
+
+
+function TakeExitDown(ScriptId, ActorId, ExitPosition, ExitDirection)
+
+	-- change actor mode to normal
+	Model:UpdateActorMode(ActorId, "Normal")
+
+	-- get current position
+	CurrentPosition = Model:GetActorPosition(ActorId)
+	
+	-- calculate offsets depending of ladder direction
+	remX=0
+	remZ=0
+	dX=0
+	dZ=0
+	
+	if (ExitDirection >= 45) then	
+		if (ExitDirection >= 135) then
+			if (ExitDirection >= 225) then
+				if (ExitDirection >= 315) then
+					remZ = -0.8
+					dZ = 1
+				else
+					remX = 0.8
+					dX = -1
+				end			
+			else
+				remZ = 0.8
+				dZ = -1
+			end
+		else
+			remX = -0.8
+			dX = 1
+		end
+	else
+		remZ = -0.8
+		dZ = 1
+	end
+	
+
+	-- calculate position and rotation actor need to proceed to
+	TranslationPosition = LbaVec3(ExitPosition)
+	TranslationPosition.x = TranslationPosition.x + remX
+	TranslationPosition.z = TranslationPosition.z + remZ
+	
+	TDistance = LbaVec3(TranslationPosition)
+	TDistance.x = TDistance.x - CurrentPosition.x
+	TDistance.z = TDistance.z - CurrentPosition.z
+	angle = LbaQuaternion.GetAngleFromVector(TDistance)
+
+	
+	-- add first rotation toward exit position		
+	Model:ActorRotate(ScriptId, ActorId, angle, 0.15, true)
+	
+	
+	-- add translation to exit
+	Model:UpdateActorAnimation(ActorId, "MoveForward")	
+	Model:ActorStraightWalkTo(ScriptId, ActorId, TranslationPosition)
+	
+	
+	-- add rotation before climbing
+	Model:ActorRotate(ScriptId, ActorId, ExitDirection, 0.15, true)
+	
+
+	-- add exit animation
+	Model:UpdateActorAnimation(ActorId, "Crawl")
+	Model:ActorAnimate(ScriptId, ActorId, true)
+	Model:ActorAnimate(ScriptId, ActorId, true)
+	Model:ActorAnimate(ScriptId, ActorId, true)
+	Model:ActorAnimate(ScriptId, ActorId, true)	
+	Model:ActorAnimate(ScriptId, ActorId, true)	
+end
