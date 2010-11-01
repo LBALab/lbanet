@@ -329,4 +329,49 @@ function InitGlobal(environment)
 	Action_111 = TeleportAction(111, "tp_from_outmain_to_triangle", "Map112_2", 2)
 	environment:AddAction(Action_111)
 
+	Action_112 = TeleportAction(112, "tp_from_otringal_to_control", "Map054_2", 1)
+	environment:AddAction(Action_112)
+
+	Action_113 = TeleportAction(113, "tp_from_control_to_otringal", "OTRINGAL", 2)
+	environment:AddAction(Action_113)
+
+	Action_114 = TeleportAction(114, "tp_from_control_to_controltop", "Map054_2", 3)
+	environment:AddAction(Action_114)
+
+	Action_115 = TeleportAction(115, "tp_from_controltop_to_control", "Map054_2", 2)
+	environment:AddAction(Action_115)
+
+	Action_116 = TeleportAction(116, "tp_from_otringal_to_way1", "Map055_2", 1)
+	environment:AddAction(Action_116)
+
+	Action_117 = TeleportAction(117, "tp_from_otringal_to_terminal", "Map047_2", 1)
+	environment:AddAction(Action_117)
+
+	Action_118 = TeleportAction(118, "tp_from_way1_to_otringal1", "OTRINGAL", 3)
+	environment:AddAction(Action_118)
+
+	Action_119 = TeleportAction(119, "tp_from_way2_to_otringal2", "OTRINGAL", 4)
+	environment:AddAction(Action_119)
+
+	Action_120 = TeleportAction(120, "tp_from_otringal_to_way2", "Map055_2", 2)
+	environment:AddAction(Action_120)
+
+	Action_121 = TeleportAction(121, "tp_from_way1_to_terminal1", "Map047_2", 3)
+	environment:AddAction(Action_121)
+
+	Action_122 = TeleportAction(122, "tp_from_way2_to_terminal2", "Map047_2", 2)
+	environment:AddAction(Action_122)
+
+	Action_123 = TeleportAction(123, "tp_from_terminal_to_otringal", "OTRINGAL", 5)
+	environment:AddAction(Action_123)
+
+	Action_124 = TeleportAction(124, "tp_from_terminal2_to_way2", "Map055_2", 4)
+	environment:AddAction(Action_124)
+
+	Action_125 = TeleportAction(125, "tp_form_terminal1_to_way1", "Map055_2", 3)
+	environment:AddAction(Action_125)
+
+	Action_126 = TeleportAction(126, "tp_from_otringal_to_copback", "", -1)
+	environment:AddAction(Action_126)
+
 end

@@ -433,9 +433,17 @@
 		</Map>
 		<Map name="Map047_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Otringal, Emperor&apos;s palace departure room</description>
+			<spareas>
+				<spawning Id="1" name="from_otringal" posX="42.5" posY="7" posZ="23" ForceRotation="true" RotationAtArrival="0"/>
+				<spawning Id="2" name="from_way2" posX="40" posY="5" posZ="56" ForceRotation="false" RotationAtArrival="0"/>
+				<spawning Id="3" name="from_way1" posX="45" posY="5" posZ="56" ForceRotation="false" RotationAtArrival="0"/>
+			</spareas>
 		</Map>
 		<Map name="Map048_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Otringal, Emperor&apos;s palace 1st room</description>
+			<spareas>
+				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="true" RotationAtArrival="0"/>
+			</spareas>
 		</Map>
 		<Map name="Map049_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Otringal, Emperor&apos;s palace last room</description>
@@ -451,15 +459,29 @@
 		</Map>
 		<Map name="Map052_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Otringal, Prison entrance</description>
+			<spareas>
+				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="true" RotationAtArrival="0"/>
+			</spareas>
 		</Map>
 		<Map name="Map053_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Otringal, Prison</description>
 		</Map>
 		<Map name="Map054_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Otringal, control tower entrance</description>
+			<spareas>
+				<spawning Id="1" name="from_otringal" posX="6" posY="0" posZ="11" ForceRotation="true" RotationAtArrival="90"/>
+				<spawning Id="2" name="from_controltop" posX="10" posY="18" posZ="3.5" ForceRotation="true" RotationAtArrival="0"/>
+				<spawning Id="3" name="from_control" posX="57" posY="7" posZ="54" ForceRotation="true" RotationAtArrival="180"/>
+			</spareas>
 		</Map>
 		<Map name="Map055_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Otringal, the space port</description>
+			<spareas>
+				<spawning Id="1" name="from_otringal1" posX="9" posY="0" posZ="23" ForceRotation="true" RotationAtArrival="180"/>
+				<spawning Id="2" name="from_otringal2" posX="4" posY="0" posZ="23" ForceRotation="true" RotationAtArrival="180"/>
+				<spawning Id="3" name="from_terminal1" posX="9" posY="0" posZ="8" ForceRotation="false" RotationAtArrival="0"/>
+				<spawning Id="4" name="from_terminal2" posX="4" posY="0" posZ="8" ForceRotation="false" RotationAtArrival="0"/>
+			</spareas>
 		</Map>
 		<Map name="Map056_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Celebration Island, inside the temple</description>
@@ -535,9 +557,15 @@
 		</Map>
 		<Map name="Map079_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Otringal, Casino jackpot room</description>
+			<spareas>
+				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="true" RotationAtArrival="0"/>
+			</spareas>
 		</Map>
 		<Map name="Map080_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Otringal, Bar backstage</description>
+			<spareas>
+				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="true" RotationAtArrival="0"/>
+			</spareas>
 		</Map>
 		<Map name="Map081_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Otringal, Casino entrance</description>
@@ -550,6 +578,9 @@
 		</Map>
 		<Map name="Map084_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Otringal, the lowest elevators</description>
+			<spareas>
+				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="true" RotationAtArrival="0"/>
+			</spareas>
 		</Map>
 		<Map name="Map085_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Francos gazogem factory, 1st room</description>
@@ -574,15 +605,24 @@
 		</Map>
 		<Map name="Map092_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Otringal, the Twinsunian souvenir shop</description>
+			<spareas>
+				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="true" RotationAtArrival="0"/>
+			</spareas>
 		</Map>
 		<Map name="Map093_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Otringal, the Dissidents&apos; hide out</description>
+			<spareas>
+				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="true" RotationAtArrival="0"/>
+			</spareas>
 		</Map>
 		<Map name="Map094_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Mosquibees Island, the passage to the fragment</description>
 		</Map>
 		<Map name="Map095_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Otringal, the elevator to the Upper City</description>
+			<spareas>
+				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="true" RotationAtArrival="0"/>
+			</spareas>
 		</Map>
 		<Map name="Map096_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Otringal, one of the rooms in the Emperor&apos;s palace(1)</description>
@@ -648,15 +688,27 @@
 		</Map>
 		<Map name="Map114_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Otringal, Bathroom in the Imperial Hotel</description>
+			<spareas>
+				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="true" RotationAtArrival="0"/>
+			</spareas>
 		</Map>
 		<Map name="Map115_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Otringal, Imperial Hotel, 2nd room</description>
+			<spareas>
+				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="true" RotationAtArrival="0"/>
+			</spareas>
 		</Map>
 		<Map name="Map116_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Francos Island, Shop</description>
+			<spareas>
+				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="true" RotationAtArrival="0"/>
+			</spareas>
 		</Map>
 		<Map name="Map117_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Francos Island, Tavern</description>
+			<spareas>
+				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="true" RotationAtArrival="0"/>
+			</spareas>
 		</Map>
 		<Map name="Map118_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Francos Island, Scientist&apos;s house</description>
@@ -672,9 +724,15 @@
 		</Map>
 		<Map name="Map122_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Island CX, Top of the control tower</description>
+			<spareas>
+				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="true" RotationAtArrival="0"/>
+			</spareas>
 		</Map>
 		<Map name="Map123_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Island CX, Control tower, room 2</description>
+			<spareas>
+				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="true" RotationAtArrival="0"/>
+			</spareas>
 		</Map>
 		<Map name="Map124_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Island CX, Control tower, room 1</description>
@@ -690,15 +748,24 @@
 		</Map>
 		<Map name="Map128_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>The protection spell cave, 1st room</description>
+			<spareas>
+				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="true" RotationAtArrival="0"/>
+			</spareas>
 		</Map>
 		<Map name="Map129_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>The protection spell cave, 2nd room</description>
+			<spareas>
+				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="true" RotationAtArrival="0"/>
+			</spareas>
 		</Map>
 		<Map name="Map130_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>The Dark Monk statue, the wizards, 1st room</description>
 		</Map>
 		<Map name="Map131_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>The Dark Monk statue, the top, 2nd room</description>
+			<spareas>
+				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="true" RotationAtArrival="0"/>
+			</spareas>
 		</Map>
 		<Map name="Map132_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>The Dark Monk statue, 3rd room</description>
@@ -711,17 +778,34 @@
 		</Map>
 		<Map name="Map135_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Unfinished room</description>
+			<spareas>
+				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="true" RotationAtArrival="0"/>
+			</spareas>
 		</Map>
 		<Map name="Map136_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>White Leaf Desert and Otringal, Esmer shuttle</description>
+			<spareas>
+				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="true" RotationAtArrival="0"/>
+			</spareas>
 		</Map>
 		<Map name="Map137_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>The Dark Monk statue Secret room</description>
+			<spareas>
+				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="true" RotationAtArrival="0"/>
+			</spareas>
 		</Map>
 		<Map name="OTRINGAL" type="exterior" AutoCameraType="3" IsInstance="false">
 			<description>OTRINGAL island</description>
 			<spareas>
-				<spawning Id="1" name="Teleport" posX="447" posY="45.3" posZ="472" ForceRotation="false" RotationAtArrival="0"/>
+				<spawning Id="1" name="Teleport" posX="442.5" posY="30" posZ="520" ForceRotation="false" RotationAtArrival="0"/>
+				<spawning Id="2" name="from_control" posX="501.5" posY="12.5" posZ="585" ForceRotation="true" RotationAtArrival="0"/>
+				<spawning Id="3" name="from_way1" posX="497.5" posY="7" posZ="560.5" ForceRotation="true" RotationAtArrival="90"/>
+				<spawning Id="4" name="from_way2" posX="497.5" posY="7" posZ="564.5" ForceRotation="true" RotationAtArrival="90"/>
+				<spawning Id="5" name="from_terminal" posX="457" posY="15.5" posZ="562.5" ForceRotation="true" RotationAtArrival="270"/>
+				<spawning Id="6" name="from_ele1low" posX="453" posY="15" posZ="554" ForceRotation="false" RotationAtArrival="0"/>
+				<spawning Id="7" name="from_cop1" posX="452" posY="15" posZ="574" ForceRotation="false" RotationAtArrival="0"/>
+				<spawning Id="8" name="from_cop2" posX="455" posY="15" posZ="577" ForceRotation="false" RotationAtArrival="0"/>
+				<spawning Id="9" name="from_copback" posX="445" posY="15" posZ="581" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
 		<Map name="PLATFORM" type="exterior" AutoCameraType="3" IsInstance="false">
