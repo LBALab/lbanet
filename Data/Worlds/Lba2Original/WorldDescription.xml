@@ -17,7 +17,23 @@
 			<Mode>Normal</Mode>
 			<RendererType>2</RendererType>
 		</StartingModel>
-	</PlayerStartingInfo>
+	</PlayerStartingInfo>  
+	 <!--Define the place it is possible to teleport to-->   
+	<teleports>
+		<teleport name="Ascension Island" map="ASCENCE" sparea="Teleport"/>
+		<teleport name="Celebration Island" map="CELEBRAT" sparea="Teleport"/>			
+		<teleport name="Celebration Island 2" map="CELEBRA2" sparea="Teleport"/>
+		<teleport name="Citdel Island" map="CITABAU" sparea="Teleport"/>		
+		<teleport name="Citdel Island - raining" map="CITADEL" sparea="Teleport"/>
+		<teleport name="Desert Island" map="DESERT" sparea="Teleport"/>
+		<teleport name="Emeraude Moon" map="EMERAUDE" sparea="Teleport"/>
+		<teleport name="Ilot CX" map="ILOTCX" sparea="Teleport"/>	
+		<teleport name="Knartas Island" map="KNARTAS" sparea="Teleport"/>
+		<teleport name="Mosquibee Island" map="MOSQUIBE" sparea="Teleport"/>
+		<teleport name="Otringal" map="OTRINGAL" sparea="Teleport"/>	
+		<teleport name="Under Gas" map="PLATFORM" sparea="Teleport"/>
+		<teleport name="Under Celebration" map="SOUSCELB" sparea="Teleport"/>		
+	</teleports>     	
 	<maps>
 		<Map name="ASCENCE" type="exterior" AutoCameraType="3" IsInstance="false">
 			<description>ASCENCE island</description>
