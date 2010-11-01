@@ -20,19 +20,19 @@
 	</PlayerStartingInfo>  
 	 <!--Define the place it is possible to teleport to-->   
 	<teleports>
-		<teleport name="Ascension Island" map="ASCENCE" sparea="Teleport"/>
-		<teleport name="Celebration Island" map="CELEBRAT" sparea="Teleport"/>			
-		<teleport name="Celebration Island 2" map="CELEBRA2" sparea="Teleport"/>
-		<teleport name="Citdel Island" map="CITABAU" sparea="Teleport"/>		
-		<teleport name="Citdel Island - raining" map="CITADEL" sparea="Teleport"/>
-		<teleport name="Desert Island" map="DESERT" sparea="Teleport"/>
-		<teleport name="Emeraude Moon" map="EMERAUDE" sparea="Teleport"/>
-		<teleport name="Ilot CX" map="ILOTCX" sparea="Teleport"/>	
-		<teleport name="Knartas Island" map="KNARTAS" sparea="Teleport"/>
-		<teleport name="Mosquibee Island" map="MOSQUIBE" sparea="Teleport"/>
-		<teleport name="Otringal" map="OTRINGAL" sparea="Teleport"/>	
-		<teleport name="Under Gas" map="PLATFORM" sparea="Teleport"/>
-		<teleport name="Under Celebration" map="SOUSCELB" sparea="Teleport"/>		
+		<teleport id="0" name="Ascension Island" map="ASCENCE" spawningid="1"/>
+		<teleport id="1" name="Celebration Island" map="CELEBRAT" spawningid="1"/>			
+		<teleport id="2" name="Celebration Island 2" map="CELEBRA2" spawningid="1"/>
+		<teleport id="3" name="Citdel Island" map="CITABAU" spawningid="1"/>		
+		<teleport id="4" name="Citdel Island - raining" map="CITADEL" spawningid="1"/>
+		<teleport id="5" name="Desert Island" map="DESERT" spawningid="1"/>
+		<teleport id="6" name="Emeraude Moon" map="EMERAUDE" spawningid="1"/>
+		<teleport id="7" name="Ilot CX" map="ILOTCX" spawningid="1"/>	
+		<teleport id="8" name="Knartas Island" map="KNARTAS" spawningid="1"/>
+		<teleport id="9" name="Mosquibee Island" map="MOSQUIBE" spawningid="1"/>
+		<teleport id="10" name="Otringal" map="OTRINGAL" spawningid="1"/>	
+		<teleport id="11" name="Under Gas" map="PLATFORM" spawningid="1"/>
+		<teleport id="12" name="Under Celebration" map="SOUSCELB" spawningid="1"/>		
 	</teleports>     	
 	<maps>
 		<Map name="ASCENCE" type="exterior" AutoCameraType="3" IsInstance="false">
