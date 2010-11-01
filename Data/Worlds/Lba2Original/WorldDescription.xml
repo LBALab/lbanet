@@ -96,6 +96,11 @@
 			<description>EMERAUDE island</description>
 			<spareas>
 				<spawning Id="1" name="Teleport" posX="459" posY="2.3" posZ="504" ForceRotation="false" RotationAtArrival="0"/>
+				<spawning Id="3" name="from_control" posX="494.65" posY="1.5" posZ="505" ForceRotation="true" RotationAtArrival="180"/>
+				<spawning Id="4" name="from_square" posX="501.3" posY="1.5" posZ="487.5" ForceRotation="true" RotationAtArrival="0"/>
+				<spawning Id="5" name="from_cross" posX="501" posY="1.5" posZ="460" ForceRotation="true" RotationAtArrival="270"/>
+				<spawning Id="6" name="from_circle" posX="463.5" posY="1.5" posZ="488" ForceRotation="true" RotationAtArrival="0"/>
+				<spawning Id="7" name="from_triangle" posX="476.5" posY="1.5" posZ="505" ForceRotation="true" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
 		<Map name="ILOTCX" type="exterior" AutoCameraType="3" IsInstance="false">
@@ -210,7 +215,10 @@
 		<Map name="Map014_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Emerald Moon, Outside Baldino&apos;s cell</description>
 			<spareas>
-				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="false" RotationAtArrival="0"/>
+				<spawning Id="1" name="from_baldinocell" posX="5" posY="1" posZ="8" ForceRotation="false" RotationAtArrival="0"/>
+				<spawning Id="2" name="from_tech" posX="11" posY="1" posZ="4" ForceRotation="false" RotationAtArrival="0"/>
+				<spawning Id="3" name="from_circle" posX="17" posY="1" posZ="35" ForceRotation="false" RotationAtArrival="0"/>
+				<spawning Id="4" name="from_triangle" posX="47" posY="1" posZ="5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
 		<Map name="Map015_2" type="interior" AutoCameraType="1" IsInstance="false">
@@ -275,7 +283,9 @@
 		<Map name="Map024_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Emerald Moon, next to outside Baldino&apos;s cell</description>
 			<spareas>
-				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="false" RotationAtArrival="0"/>
+				<spawning Id="2" name="from_square" posX="60" posY="1" posZ="23" ForceRotation="false" RotationAtArrival="0"/>
+				<spawning Id="3" name="from_inmain" posX="47" posY="1" posZ="61" ForceRotation="false" RotationAtArrival="0"/>
+				<spawning Id="4" name="from_cross" posX="35" posY="1" posZ="25" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
 		<Map name="Map025_2" type="interior" AutoCameraType="1" IsInstance="false">
@@ -330,7 +340,7 @@
 		<Map name="Map032_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Emerald Moon, diamond shape room</description>
 			<spareas>
-				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="true" RotationAtArrival="0"/>
+				<spawning Id="1" name="from_outmain" posX="37" posY="1" posZ="11" ForceRotation="true" RotationAtArrival="270"/>
 			</spareas>
 		</Map>
 		<Map name="Map033_2" type="interior" AutoCameraType="1" IsInstance="false">
@@ -404,19 +414,21 @@
 		<Map name="Map044_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Emerald Moon, entrance circle symbol room</description>
 			<spareas>
-				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="true" RotationAtArrival="0"/>
+				<spawning Id="1" name="from_outmain" posX="29" posY="1" posZ="57" ForceRotation="true" RotationAtArrival="270"/>
+				<spawning Id="2" name="from_inmain" posX="19" posY="1" posZ="57" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
 		<Map name="Map045_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Emerald Moon, entrance X symbol room</description>
 			<spareas>
-				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="true" RotationAtArrival="0"/>
+				<spawning Id="1" name="from_tech" posX="12.9" posY="1" posZ="35" ForceRotation="false" RotationAtArrival="0"/>
+				<spawning Id="2" name="from_outmain" posX="3" posY="1" posZ="37" ForceRotation="true" RotationAtArrival="90"/>
 			</spareas>
 		</Map>
 		<Map name="Map046_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Emerald Moon, Baldino&apos;s cell</description>
 			<spareas>
-				<spawning Id="0" name="DefaultSpawning" posX="0" posY="0" posZ="0" ForceRotation="true" RotationAtArrival="0"/>
+				<spawning Id="1" name="from_inmain" posX="60" posY="1" posZ="55" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
 		<Map name="Map047_2" type="interior" AutoCameraType="1" IsInstance="false">
@@ -622,9 +634,17 @@
 		</Map>
 		<Map name="Map112_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Emerald Moon, entrance triangle symbol room</description>
+			<spareas>
+				<spawning Id="1" name="from_inmain" posX="51" posY="1" posZ="9" ForceRotation="false" RotationAtArrival="0"/>
+				<spawning Id="2" name="from_outmain" posX="61" posY="1" posZ="9" ForceRotation="true" RotationAtArrival="270"/>
+			</spareas>
 		</Map>
 		<Map name="Map113_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Emerald Moon, entrance square symbol room</description>
+			<spareas>
+				<spawning Id="1" name="from_outmain" posX="62" posY="1" posZ="37" ForceRotation="true" RotationAtArrival="270"/>
+				<spawning Id="2" name="from_tech" posX="52" posY="1" posZ="37" ForceRotation="false" RotationAtArrival="0"/>
+			</spareas>
 		</Map>
 		<Map name="Map114_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>Otringal, Bathroom in the Imperial Hotel</description>

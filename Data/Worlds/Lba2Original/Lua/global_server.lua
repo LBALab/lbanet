@@ -263,4 +263,70 @@ function InitGlobal(environment)
 	Action_89 = TeleportAction(89, "tp_from_bushuttle_to_buesmer", "Map013_2", 3)
 	environment:AddAction(Action_89)
 
+	Action_90 = TeleportAction(90, "tp_from_outmain_to_control", "Map032_2", 1)
+	environment:AddAction(Action_90)
+
+	Action_91 = TeleportAction(91, "tp_from_control_to_outmain", "EMERAUDE", 3)
+	environment:AddAction(Action_91)
+
+	Action_92 = TeleportAction(92, "tp_from_outmain_to_square", "Map113_2", 1)
+	environment:AddAction(Action_92)
+
+	Action_93 = TeleportAction(93, "tp_from_square_to_outmain", "EMERAUDE", 4)
+	environment:AddAction(Action_93)
+
+	Action_94 = TeleportAction(94, "tp_from_square_to_tech", "Map024_2", 2)
+	environment:AddAction(Action_94)
+
+	Action_95 = TeleportAction(95, "tp_from_tech_to_square", "Map113_2", 2)
+	environment:AddAction(Action_95)
+
+	Action_96 = TeleportAction(96, "tp_from_tech_to_inmain", "Map014_2", 2)
+	environment:AddAction(Action_96)
+
+	Action_97 = TeleportAction(97, "tp_from_inmain_to_tech", "Map024_2", 3)
+	environment:AddAction(Action_97)
+
+	Action_98 = TeleportAction(98, "tp_from_tech_to_cross", "Map045_2", 1)
+	environment:AddAction(Action_98)
+
+	Action_99 = TeleportAction(99, "tp_from_cross_to_tech", "Map024_2", 4)
+	environment:AddAction(Action_99)
+
+	Action_100 = TeleportAction(100, "tp_from_cross_to_outmain", "EMERAUDE", 5)
+	environment:AddAction(Action_100)
+
+	Action_101 = TeleportAction(101, "tp_from_outmain_to_cross", "Map045_2", 2)
+	environment:AddAction(Action_101)
+
+	Action_102 = TeleportAction(102, "tp_from_inmain_to_baldinocell", "Map046_2", 1)
+	environment:AddAction(Action_102)
+
+	Action_103 = TeleportAction(103, "tp_from_baldinocell_to_inmain", "Map014_2", 1)
+	environment:AddAction(Action_103)
+
+	Action_104 = TeleportAction(104, "tp_from_outmain_to_circle", "Map044_2", 1)
+	environment:AddAction(Action_104)
+
+	Action_105 = TeleportAction(105, "tp_form_circle_to_outmain", "EMERAUDE", 6)
+	environment:AddAction(Action_105)
+
+	Action_106 = TeleportAction(106, "tp_from_circle_to_inmain", "Map014_2", 3)
+	environment:AddAction(Action_106)
+
+	Action_107 = TeleportAction(107, "tp_from_inmain_to_circle", "Map044_2", 2)
+	environment:AddAction(Action_107)
+
+	Action_108 = TeleportAction(108, "tp_from_inmain_to_triangle", "Map112_2", 1)
+	environment:AddAction(Action_108)
+
+	Action_109 = TeleportAction(109, "tp_from_triangle_to_inmain", "Map014_2", 4)
+	environment:AddAction(Action_109)
+
+	Action_110 = TeleportAction(110, "tp_from_triangle_to_outmain", "EMERAUDE", 7)
+	environment:AddAction(Action_110)
+
+	Action_111 = TeleportAction(111, "tp_from_outmain_to_triangle", "Map112_2", 2)
+	environment:AddAction(Action_111)
+
 end
