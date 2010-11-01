@@ -33,7 +33,7 @@ function InitMap(environment)
 	environment:AddActorObject(Actor_1H)
 
 	Trigger_1_info = TriggerInfo(1, "to_citadel", true, true, false)
-	Trigger_1 = ZoneTrigger(Trigger_1_info, 4, 4, 2, true)
+	Trigger_1 = ZoneTrigger(Trigger_1_info, 4, 8, 2, true)
 	Trigger_1:SetPosition(13, 5, 26.5)
 	Trigger_1:SetAction1(36)
 	Trigger_1:SetAction2(-1)

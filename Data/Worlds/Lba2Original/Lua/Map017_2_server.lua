@@ -33,7 +33,7 @@ function InitMap(environment)
 	environment:AddActorObject(Actor_1H)
 
 	Trigger_1_info = TriggerInfo(1, "to_baggagesecond", true, true, false)
-	Trigger_1 = ZoneTrigger(Trigger_1_info, 2.1, 3.5, 1, true)
+	Trigger_1 = ZoneTrigger(Trigger_1_info, 2.1, 7, 1, true)
 	Trigger_1:SetPosition(32, 3, 63.5)
 	Trigger_1:SetAction1(32)
 	Trigger_1:SetAction2(-1)

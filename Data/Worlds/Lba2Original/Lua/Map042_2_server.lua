@@ -33,7 +33,7 @@ function InitMap(environment)
 	environment:AddActorObject(Actor_1H)
 
 	Trigger_1_info = TriggerInfo(1, "to_buesmer", true, true, false)
-	Trigger_1 = ZoneTrigger(Trigger_1_info, 4, 4, 1, true)
+	Trigger_1 = ZoneTrigger(Trigger_1_info, 4, 8, 1, true)
 	Trigger_1:SetPosition(10, 3, 19.5)
 	Trigger_1:SetAction1(89)
 	Trigger_1:SetAction2(-1)

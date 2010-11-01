@@ -42,7 +42,7 @@ function InitMap(environment)
 	environment:AddActorObject(Actor_1H)
 
 	Trigger_1_info = TriggerInfo(1, "to_outmain", true, true, false)
-	Trigger_1 = ZoneTrigger(Trigger_1_info, 1, 4, 4, true)
+	Trigger_1 = ZoneTrigger(Trigger_1_info, 1, 8, 4, true)
 	Trigger_1:SetPosition(39, 1, 11)
 	Trigger_1:SetAction1(91)
 	Trigger_1:SetAction2(-1)
