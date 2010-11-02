@@ -582,3 +582,14 @@ void SharedDataHandler::SendTpList(Ice::Long clientid, const ClientProxyBasePtr 
 	IceUtil::ThreadPtr t = new EventsSender(toplayer, proxy);
 	t->start();	
 }
+
+
+/***********************************************************
+return the client lua filename for a map
+***********************************************************/
+std::string SharedDataHandler::GetClientLuaFilename(const std::string & mapname)
+{
+	std::string luafile = "Worlds/" + _worldinfo.Description.WorldName + "/Lua/";
+	luafile += mapname + "_client.lua";
+	return luafile;
+}

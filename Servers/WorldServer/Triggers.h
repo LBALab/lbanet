@@ -323,7 +323,7 @@ public:
 	//! constructor
 	//! can configure up to 2 modes to be accepted for trigger the action
 	ActivationTrigger( const TriggerInfo & triggerinfo,
-							float MaxSquaredDistance, 
+							float MaxDistance, 
 							const std::string & AcceptedMode1, 
 							const std::string & AcceptedMode2);
 	
@@ -343,6 +343,24 @@ public:
 
 	//! get type of the action in string form
 	virtual std::string GetTypeName(){ return "ActivationTrigger";}
+
+	//! get distance
+	float GetDistance();
+
+	// acessor
+	std::string GetAcceptedMode1()
+	{return _AcceptedMode1;}
+
+	// acessor
+	std::string GetAcceptedMode2()
+	{return _AcceptedMode2;}
+
+
+	//! get object to display for editor
+	virtual ActorObjectInfo GetDisplayObject();
+
+	// save trigger to lua file
+	virtual void SaveToLuaFile(std::ofstream & file);
 
 private:
 	float									_MaxSquaredDistance; 
@@ -381,7 +399,7 @@ public:
 
 	// acessor
 	float GetSizeX()
-	{ return _sizeX;}
+	{ return _sizeX*2;}
 
 	// acessor
 	float GetSizeY()
@@ -389,7 +407,21 @@ public:
 
 	// acessor
 	float GetSizeZ()
-	{ return _sizeZ;}
+	{ return _sizeZ*2;}
+
+	// acessor
+	std::string GetAcceptedMode1()
+	{return _AcceptedMode1;}
+
+	// acessor
+	std::string GetAcceptedMode2()
+	{return _AcceptedMode2;}
+
+	//! get object to display for editor
+	virtual ActorObjectInfo GetDisplayObject();
+
+	// save trigger to lua file
+	virtual void SaveToLuaFile(std::ofstream & file);
 
 private:
 

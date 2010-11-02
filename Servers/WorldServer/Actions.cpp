@@ -1,5 +1,5 @@
 #include "Actions.h"
-#include "MapHandler.h"
+#include "ScriptEnvironmentBase.h"
 #include <fstream>
 
 /***********************************************************
@@ -71,8 +71,8 @@ void TeleportAction::SaveToLuaFile(std::ofstream & file)
 constructor
 ***********************************************************/
 ClientScriptAction::ClientScriptAction(long id, const std::string &name,
-						const std::string & ScriptName)
-: ActionBase(id, name), _ScriptName(ScriptName)
+									   long ScriptId)
+: ActionBase(id, name), _ScriptId(ScriptId)
 {
 
 }
@@ -92,8 +92,12 @@ ClientScriptAction::~ClientScriptAction(void)
 void ClientScriptAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
 								ActionArgumentBase* args)
 {
-	if(owner)
-		owner->ExecuteClientScript(ObjectType, ObjectId, _ScriptName);
+	if(owner && _ScriptId >= 0)
+	{
+		std::stringstream strs;
+		strs << "ClientScript_" << _ScriptId;
+		owner->ExecuteClientScript(ObjectType, ObjectId, strs.str());
+	}
 }
 
 
@@ -103,7 +107,9 @@ save action to lua file
 void ClientScriptAction::SaveToLuaFile(std::ofstream & file)
 {
 	file<<"\tAction_"<<GetId()<<" = ClientScriptAction("<<GetId()<<", \""
-				<<GetName()<<"\", \""<<_ScriptName<<"\")"<<std::endl;
+				<<GetName()<<"\", "<<_ScriptId<<")"<<std::endl;
 
 	file<<"\tenvironment:AddAction(Action_"<<GetId()<<")"<<std::endl<<std::endl;
 }
+
+

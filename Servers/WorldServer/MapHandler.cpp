@@ -494,7 +494,9 @@ void MapHandler::PlayerEntered(Ice::Long id)
 
 		// inform client he enter a new map
 		toplayer.push_back(new NewMapEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-													_mapinfo.Name, "", _mapinfo.AutoCameraType)); //TODO put script here
+												_mapinfo.Name, 
+												SharedDataHandler::getInstance()->GetClientLuaFilename(_mapinfo.Name), 
+												_mapinfo.AutoCameraType)); 
 		
 
 		// player inventory
@@ -847,7 +849,7 @@ void MapHandler::Teleport(int ObjectType, long ObjectId,
 			if(ObjectType == 2)
 			{
 				// update player position
-				if(UpdatePlayerPosition(ObjectId, pos))
+				if(UpdatePlayerPosition(ObjectId, pos, true))
 				{
 					// inform all of player move
 					LbaNet::PlayerMoveInfo moveinfo;
@@ -884,6 +886,8 @@ void MapHandler::AddTrigger(boost::shared_ptr<TriggerBase> trigger)
 		#ifdef _USE_QT_EDITOR_
 		ActorObjectInfo ainfo = trigger->GetDisplayObject();
 		long edobjid = ainfo.ObjectId;
+		if(edobjid < 0)
+			return;
 
 		std::map<Ice::Long, ActorObjectInfo >::iterator itm = _editorObjects.find(edobjid);
 		if(itm != _editorObjects.end())
@@ -1121,14 +1125,17 @@ LbaNet::PlayerPosition MapHandler::GetSpawningPlace(Ice::Long clientid)
 /***********************************************************
 update player position
 ***********************************************************/
-bool MapHandler::UpdatePlayerPosition(Ice::Long clientid, const PlayerPosition & pos)
+bool MapHandler::UpdatePlayerPosition(Ice::Long clientid, const PlayerPosition & pos, bool teleport)
 {
 	IceUtil::Mutex::Lock sync(_mutex_proxies);
 
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
 	{
-		it->second->UpdatePositionInWorld(pos);
+		if(teleport)
+			it->second->Teleport(pos);
+		else
+			it->second->UpdatePositionInWorld(pos);
 		return true;
 	}
 
@@ -1391,7 +1398,7 @@ void MapHandler::Editor_AddOrModSpawning(	long SpawningId, const std::string &sp
 		itm->second.PhysicDesc.Pos.Z = PosZ;
 
 		std::stringstream strs;
-		strs << "Spawning-"<<SpawningId<<": " << spawningname;
+		strs << "Spawn-"<<SpawningId<<": " << spawningname;
 		itm->second.ExtraInfo.Name = strs.str();
 
 		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
@@ -1580,18 +1587,18 @@ void MapHandler::ExecuteClientScript(int ObjectType, long ObjectId,
 										const std::string & ScriptName)
 {
 	// does not work on npc
-	if(ObjectId == 1)
+	if(ObjectType == 1)
 		return;
 
 
 	long clientid = -1;
 
 	// on player
-	if(ObjectId == 2)
+	if(ObjectType == 2)
 		clientid = ObjectId;
 
 	// on object moved by player
-	if(ObjectId == 3)
+	if(ObjectType == 3)
 	{
 		// todo - find attached player
 	}

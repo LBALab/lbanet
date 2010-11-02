@@ -11,6 +11,8 @@ extern "C"
 #include "MapHandler.h"
 #include "LogHandler.h"
 #include "Triggers.h"
+#include "ClientScript.h"
+
 
 #ifdef _USE_QT_EDITOR_	
 #include "editorhandler.h"
@@ -110,7 +112,9 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("AddTrigger", &ScriptEnvironmentBase::AddTrigger)
 		.def("AddAction", &ScriptEnvironmentBase::AddAction)
 		.def("Teleport", &ScriptEnvironmentBase::Teleport)
-		.def("ExecuteClientScript", &ScriptEnvironmentBase::ExecuteClientScript),
+		.def("ExecuteClientScript", &ScriptEnvironmentBase::ExecuteClientScript)
+		.def("EditorAddClientScript", &ScriptEnvironmentBase::EditorAddClientScript)
+		,
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),
 
@@ -154,9 +158,23 @@ ServerLuaHandler::ServerLuaHandler()
 		.def(luabind::constructor<long, const std::string&, const std::string &, long>()),
 
 		luabind::class_<ClientScriptAction, ActionBase, boost::shared_ptr<ActionBase> >("ClientScriptAction")
-		.def(luabind::constructor<long, const std::string&, const std::string &>())
-		];
+		.def(luabind::constructor<long, const std::string&, long>()),
 
+
+
+		luabind::class_<ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("ClientScriptBase")
+		.def(luabind::constructor<long, const std::string&>()),
+
+		luabind::class_<GoUpLadderScript, ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("GoUpLadderScript")
+		.def(luabind::constructor<long, const std::string&, float, float, float, float, int>()),
+
+		luabind::class_<TakeExitUpScript, ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("TakeExitUpScript")
+		.def(luabind::constructor<long, const std::string&, float, float, float, int>()),
+
+		luabind::class_<TakeExitDownScript, ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("TakeExitDownScript")
+		.def(luabind::constructor<long, const std::string&, float, float, float, int>())
+
+		];
 
 	}
 	catch(const std::exception &error)

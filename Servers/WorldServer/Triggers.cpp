@@ -2,6 +2,8 @@
 #include "ScriptEnvironmentBase.h"
 #include <fstream>
 
+#include <math.h>
+
 /***********************************************************
 constructor
 ***********************************************************/
@@ -251,11 +253,11 @@ void ZoneTrigger::SaveToLuaFile(std::ofstream & file)
 constructor
 ***********************************************************/
 ActivationTrigger::ActivationTrigger( const TriggerInfo & triggerinfo,
-										float MaxSquaredDistance, 
+										float MaxDistance, 
 										const std::string & AcceptedMode1, 
 										const std::string & AcceptedMode2)
 	: TriggerBase(triggerinfo),
-		_MaxSquaredDistance(MaxSquaredDistance), _AcceptedMode1(AcceptedMode1),
+		_MaxSquaredDistance(MaxDistance*MaxDistance), _AcceptedMode1(AcceptedMode1),
 		_AcceptedMode2(AcceptedMode2)
 {
 
@@ -269,6 +271,14 @@ destructor
 ActivationTrigger::~ActivationTrigger(void)
 {
 
+}
+
+/***********************************************************
+get distance
+***********************************************************/
+float ActivationTrigger::GetDistance()
+{
+	return sqrt(_MaxSquaredDistance);
 }
 
 
@@ -308,6 +318,61 @@ void ActivationTrigger::ObjectAction(int ObjectType, Ice::Long ObjectId,
 			act->Execute(_owner, ObjectType, ObjectId, 0);
 	}
 }
+
+
+
+/***********************************************************
+get object to display for editor
+***********************************************************/
+ActorObjectInfo ActivationTrigger::GetDisplayObject()
+{
+	ActorObjectInfo ainfo(GetId() + 2000000);
+	ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderCapsule;
+	ainfo.DisplayDesc.ColorR = 1.0f;
+	ainfo.DisplayDesc.ColorG = 0.2f;
+	ainfo.DisplayDesc.ColorB = 0.2f;
+	ainfo.DisplayDesc.ColorA = 0.5f;
+
+	ainfo.PhysicDesc.TypeShape = LbaNet::NoShape;
+	ainfo.PhysicDesc.TypePhysO = LbaNet::StaticAType;
+	ainfo.PhysicDesc.Pos.X = _posX;
+	ainfo.PhysicDesc.Pos.Y = _posY;
+	ainfo.PhysicDesc.Pos.Z = _posZ;
+	ainfo.PhysicDesc.Pos.Rotation = 0;
+	ainfo.PhysicDesc.SizeX = GetDistance();
+	ainfo.PhysicDesc.SizeY = 0;
+	ainfo.PhysicDesc.SizeZ = 0;
+
+	std::stringstream strs;
+	strs << "ActivationTrigger-"<<GetId()<<": " << GetName();
+	ainfo.ExtraInfo.Name = strs.str();
+	ainfo.ExtraInfo.NameColorR = 1.0f;
+	ainfo.ExtraInfo.NameColorG = 0.2f;
+	ainfo.ExtraInfo.NameColorB = 0.2f;
+	return ainfo;
+}
+
+
+
+
+/***********************************************************
+save trigger to lua file
+***********************************************************/
+void ActivationTrigger::SaveToLuaFile(std::ofstream & file)
+{
+	file<<"\tTrigger_"<<GetId()<<"_info = TriggerInfo("<<GetId()<<", \""<<GetName()<<"\", "<<
+		(CheckPlayer()?"true":"false")<<", "<<(CheckNpcs()?"true":"false")<<", "<<(CheckMovableObjects()?"true":"false")<<")"<<std::endl;
+	file<<"\tTrigger_"<<GetId()<<" = ActivationTrigger(Trigger_"<<GetId()<<"_info, "
+		<<GetDistance()<<", \""<<_AcceptedMode1<<"\", \""<<_AcceptedMode2<<"\")"<<std::endl;
+	file<<"\tTrigger_"<<GetId()<<":SetPosition("<<GetPosX()<<", "<<GetPosY()<<", "<<GetPosZ()<<")"<<std::endl;
+	file<<"\tTrigger_"<<GetId()<<":SetAction1("<<GetAction1()<<")"<<std::endl;
+	file<<"\tTrigger_"<<GetId()<<":SetAction2("<<GetAction2()<<")"<<std::endl;
+	file<<"\tTrigger_"<<GetId()<<":SetAction3("<<GetAction3()<<")"<<std::endl;
+	file<<"\tenvironment:AddTrigger(Trigger_"<<GetId()<<")"<<std::endl<<std::endl;
+}
+
+
+
 
 
 
@@ -369,4 +434,56 @@ void ZoneActionTrigger::ObjectAction(int ObjectType, Ice::Long ObjectId,
 			act->Execute(_owner, ObjectType, ObjectId, 0);
 	}
 }
+
+
+
+/***********************************************************
+get object to display for editor
+***********************************************************/
+ActorObjectInfo ZoneActionTrigger::GetDisplayObject()
+{
+	ActorObjectInfo ainfo(GetId() + 2000000);
+	ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderBox;
+	ainfo.DisplayDesc.ColorR = 1.0f;
+	ainfo.DisplayDesc.ColorG = 0.2f;
+	ainfo.DisplayDesc.ColorB = 0.2f;
+	ainfo.DisplayDesc.ColorA = 0.5f;
+	ainfo.PhysicDesc.TypeShape = LbaNet::NoShape;
+	ainfo.PhysicDesc.TypePhysO = LbaNet::StaticAType;
+	ainfo.PhysicDesc.Pos.X = _posX;
+	ainfo.PhysicDesc.Pos.Y = _posY;
+	ainfo.PhysicDesc.Pos.Z = _posZ;
+	ainfo.PhysicDesc.Pos.Rotation = 0;
+	ainfo.PhysicDesc.SizeX = _sizeX*2;
+	ainfo.PhysicDesc.SizeY = _sizeY;
+	ainfo.PhysicDesc.SizeZ = _sizeZ*2;
+
+	std::stringstream strs;
+	strs << "ZoneActionTrigger-"<<GetId()<<": " << GetName();
+	ainfo.ExtraInfo.Name = strs.str();
+	ainfo.ExtraInfo.NameColorR = 1.0f;
+	ainfo.ExtraInfo.NameColorG = 0.2f;
+	ainfo.ExtraInfo.NameColorB = 0.2f;
+	return ainfo;
+}
+
+
+
+
+/***********************************************************
+save trigger to lua file
+***********************************************************/
+void ZoneActionTrigger::SaveToLuaFile(std::ofstream & file)
+{
+	file<<"\tTrigger_"<<GetId()<<"_info = TriggerInfo("<<GetId()<<", \""<<GetName()<<"\", "<<
+		(CheckPlayer()?"true":"false")<<", "<<(CheckNpcs()?"true":"false")<<", "<<(CheckMovableObjects()?"true":"false")<<")"<<std::endl;
+	file<<"\tTrigger_"<<GetId()<<" = ZoneActionTrigger(Trigger_"<<GetId()<<"_info, "
+		<<(_sizeX*2)<<", "<<_sizeY<<", "<<(_sizeZ*2)<<", \""<<_AcceptedMode1<<"\", \""<<_AcceptedMode2<<"\")"<<std::endl;
+	file<<"\tTrigger_"<<GetId()<<":SetPosition("<<GetPosX()<<", "<<GetPosY()<<", "<<GetPosZ()<<")"<<std::endl;
+	file<<"\tTrigger_"<<GetId()<<":SetAction1("<<GetAction1()<<")"<<std::endl;
+	file<<"\tTrigger_"<<GetId()<<":SetAction2("<<GetAction2()<<")"<<std::endl;
+	file<<"\tTrigger_"<<GetId()<<":SetAction3("<<GetAction3()<<")"<<std::endl;
+	file<<"\tenvironment:AddTrigger(Trigger_"<<GetId()<<")"<<std::endl<<std::endl;
+}
+
 

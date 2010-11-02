@@ -161,13 +161,13 @@ private:
 
 
 
-//! use to teleport the object to a new location
+//! use to start a script on client side
 class ClientScriptAction : public ActionBase
 {
 public:
 	//! constructor
 	ClientScriptAction(long id, const std::string &name,
-						const std::string & ScriptName);
+						long ScriptId);
 	
 	//! destructor
 	virtual ~ClientScriptAction(void);
@@ -191,12 +191,16 @@ public:
 	virtual void SaveToLuaFile(std::ofstream & file);
 
 	// accessor
-	std::string GetScriptName()
-	{ return _ScriptName;}
+	long GetScriptId()
+	{ return _ScriptId;}
 
+	void SetScriptId(long ScriptId)
+	{ _ScriptId = ScriptId;}
 
 private:
-	std::string		_ScriptName;
+	long		_ScriptId;
 };
+
+
 
 #endif

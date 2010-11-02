@@ -166,6 +166,9 @@ public:
 										const std::string & ScriptName);
 
 
+	// only used by the editor to add client scripts to the list
+	virtual void EditorAddClientScript(boost::shared_ptr<ClientScriptBase> script){}
+
 protected:
 	// process events
 	void ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts);
@@ -238,7 +241,7 @@ protected:
 
 
 	//!  update player position
-	bool UpdatePlayerPosition(Ice::Long clientid, const PlayerPosition & pos);
+	bool UpdatePlayerPosition(Ice::Long clientid, const PlayerPosition & pos, bool teleport = false);
 
 	//!  update player stance
 	//! return true if state has been updated

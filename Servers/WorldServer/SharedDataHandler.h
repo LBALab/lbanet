@@ -104,6 +104,10 @@ public:
 	void EditorUpdate(const std::string &mapname, LbaNet::EditorUpdateBasePtr update);
 #endif
 
+
+	//! return the client lua filename for a map
+	std::string GetClientLuaFilename(const std::string & mapname);
+
 protected:
 	//! constructor
 	SharedDataHandler(void){}
