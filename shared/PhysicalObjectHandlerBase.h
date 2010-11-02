@@ -132,7 +132,7 @@ public:
 	//! get object rotation on a single angle
 	float GetRotationYAxis()
 	{
-		return _Q.GetRotationSingleAngle(LbaVec3(0,1,0));
+		return _Q.GetRotationSingleAngle();
 	}
 
 	//! set object rotation on all axis

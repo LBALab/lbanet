@@ -26,6 +26,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <NxQuat.h>
 
 
+#ifndef M_PI
+#define M_PI    3.14159265358979323846f
+#endif
+
 /***********************************************************
 Constructor
 ***********************************************************/
@@ -52,9 +56,9 @@ LbaQuaternion::LbaQuaternion(float angle, LbaVec3 vec)
 /***********************************************************
 add rotation to quaternion
 ***********************************************************/
-void LbaQuaternion::AddRotation(float angle, LbaVec3 vec)
+void LbaQuaternion::AddRotation(float angle, const LbaVec3 &vec)
 {
-	float tochange = GetRotationSingleAngle(vec) + angle;
+	float tochange = GetRotationSingleAngle() + angle;
 	if(tochange < 0)
 		tochange += 360;
 	if(tochange > 360)
@@ -86,13 +90,35 @@ LbaVec3 LbaQuaternion::GetDirection(const LbaVec3 &vec)
 /***********************************************************
 get object rotation on a single angle
 ***********************************************************/
-float LbaQuaternion::GetRotationSingleAngle(const LbaVec3 &vec)
+float LbaQuaternion::GetRotationSingleAngle()
 {
 	NxQuat current;
 	current.setXYZW(X, Y, Z, W);
-	NxVec3 nvec(vec.x, vec.y, vec.z);
+	NxVec3 nvec;
 
 	float Yangle;
 	current.getAngleAxis(Yangle, nvec);
 	return Yangle;
+}
+
+
+
+/***********************************************************
+get the angle between a vector and the 0 angle
+***********************************************************/
+float LbaQuaternion::GetAngleFromVector(const LbaVec3 &vec)
+{
+	float norm = sqrt((vec.x * vec.x) + (vec.z * vec.z));
+	if(norm)
+	{
+		float nx = -vec.x / norm;
+		float nz = vec.z / norm;
+
+		float res = 0;
+		res = atan2(nz, nx) - atan2(1.0f,0.0f);
+		res = 180 * res / M_PI;
+		return res;
+	}
+
+	return 0;
 }

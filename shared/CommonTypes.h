@@ -70,13 +70,17 @@ public:
 
 
 	//! add rotation to quaternion - degree
-	void AddRotation(float angle, LbaVec3 vec);
+	void AddRotation(float angle, const LbaVec3 &vec);
 
 	//! get direction vector
 	LbaVec3 GetDirection(const LbaVec3 &vec);
 
 	//! get object rotation on a single angle - degree
-	float GetRotationSingleAngle(const LbaVec3 &vec);
+	float GetRotationSingleAngle();
+
+
+	//! get the angle between a vector and the 0 angle
+	static float GetAngleFromVector(const LbaVec3 &vec);
 
 	float X;
 	float Y;

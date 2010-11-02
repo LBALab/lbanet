@@ -80,6 +80,10 @@ public:
 	// get current associated speed
 	virtual float GetCurrentAssociatedSpeedZ() {return 0;}
 
+	//! get current model
+	virtual LbaNet::ModelInfo GetCurrentModel() {return LbaNet::ModelInfo();}
+
+
 	//! set name of display object that will be returned during picking
 	virtual void SetName(const std::string & name) = 0;
 

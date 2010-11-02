@@ -30,6 +30,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class ActorHandler;
 class TriggerBase;
 class ActionBase;
+class ClientScriptBase;
+
 #include <boost/shared_ptr.hpp>
 
 //*************************************************************************************************
@@ -81,6 +83,11 @@ public:
 	//! 3 -> movable object
 	virtual void ExecuteClientScript(int ObjectType, long ObjectId,
 										const std::string & ScriptName) = 0;
+
+
+
+	// only used by the editor to add client scripts to the list
+	virtual void EditorAddClientScript(boost::shared_ptr<ClientScriptBase> script) = 0;
 
 };
 

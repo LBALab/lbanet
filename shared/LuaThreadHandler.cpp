@@ -34,8 +34,8 @@ destructor
 ***********************************************************/	
 LuaThreadHandler::~LuaThreadHandler(void)
 {
+	//lua_close(m_LuaThreadState);
 	luaL_unref(m_LuaMainState,LUA_REGISTRYINDEX,m_refKey);
-	lua_close(m_LuaThreadState);
 }
 
 

@@ -187,9 +187,6 @@ bool XmlReader::SaveWorldInfo(const std::string &Filename, const WorldInformatio
     pt.put("World.news", res.Description.News);
 
 	// get teleport info
-	//LbaNet::ServerTeleportsSeq::const_iterator ittp = res.TeleportInfo.begin();
-	//LbaNet::ServerTeleportsSeq::const_iterator endtp = res.TeleportInfo.end();
-	//for(; ittp != endtp; ++ittp)
     BOOST_FOREACH(const LbaNet::ServerTeleportsSeq::value_type &tp, res.TeleportInfo)
 	{
 		ptree &tmp = pt.add("World.teleports.teleport","");
