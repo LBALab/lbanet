@@ -949,7 +949,7 @@
 				<spawning Id="9" name="from_copback" posX="445" posY="15.5" posZ="581" ForceRotation="true" RotationAtArrival="270"/>
 				<spawning Id="10" name="from_loweleright" posX="459.5" posY="30" posZ="541.5" ForceRotation="true" RotationAtArrival="90"/>
 				<spawning Id="11" name="from_loweleleft" posX="445.5" posY="30" posZ="541.5" ForceRotation="true" RotationAtArrival="270"/>
-				<spawning Id="12" name="from_souvenir" posX="452.5" posY="30" posZ="505" ForceRotation="true" RotationAtArrival="270"/>
+				<spawning Id="12" name="from_souvenir" posX="452.5" posY="30" posZ="505" ForceRotation="true" RotationAtArrival="0"/>
 				<spawning Id="13" name="from_casino" posX="427" posY="30" posZ="506" ForceRotation="true" RotationAtArrival="0"/>
 				<spawning Id="14" name="from_highele" posX="454.5" posY="30" posZ="490" ForceRotation="true" RotationAtArrival="0"/>
 				<spawning Id="15" name="from_club" posX="393" posY="10" posZ="511.5" ForceRotation="true" RotationAtArrival="270"/>
@@ -958,7 +958,7 @@
 				<spawning Id="18" name="from_higheleright" posX="461.5" posY="44" posZ="477.5" ForceRotation="true" RotationAtArrival="90"/>
 				<spawning Id="19" name="from_hotelstraight" posX="454.5" posY="43" posZ="456" ForceRotation="true" RotationAtArrival="0"/>
 				<spawning Id="20" name="from_hotelcurve" posX="457.5" posY="43" posZ="453" ForceRotation="true" RotationAtArrival="90"/>
-				<spawning Id="21" name="from_royalshuttle" posX="467.5" posY="44" posZ="435.5" ForceRotation="true" RotationAtArrival="0"/>
+				<spawning Id="21" name="from_royalshuttle" posX="467.5" posY="44.5" posZ="435.5" ForceRotation="true" RotationAtArrival="0"/>
 				<spawning Id="22" name="from_gate" posX="479.5" posY="60" posZ="439.5" ForceRotation="true" RotationAtArrival="270"/>
 				<spawning Id="23" name="from_otr" posX="479.5" posY="60" posZ="444.5" ForceRotation="true" RotationAtArrival="90"/>
 				<spawning Id="24" name="from_gatetrue" posX="476" posY="44.5" posZ="442" ForceRotation="true" RotationAtArrival="270"/>

@@ -23505,7 +23505,7 @@ function InitMap(environment)
 
 	Trigger_21_info = TriggerInfo(21, "to_royalshuttle", true, true, false)
 	Trigger_21 = ZoneTrigger(Trigger_21_info, 3, 8, 2, true)
-	Trigger_21:SetPosition(467.5, 46.5, 431.6)
+	Trigger_21:SetPosition(467.5, 46.1, 431.6)
 	Trigger_21:SetAction1(178)
 	Trigger_21:SetAction2(-1)
 	Trigger_21:SetAction3(-1)
