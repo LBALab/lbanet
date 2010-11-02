@@ -188,7 +188,13 @@ module LbaNet
 	{
 		string 				ScriptName;
 	};
-		
+	
+	
+	// server tell client to execute lua script
+	class ClientExecuteScriptStringEvent extends ClientServerEventBase
+	{
+		string 				ScriptString;
+	};		
 };	
 
 #endif
