@@ -12,6 +12,15 @@ function InitMap(environment)
 	Actor_1.DisplayDesc.ColorG = -0.00132704
 	Actor_1.DisplayDesc.ColorB = -0.00132704
 	Actor_1.DisplayDesc.ColorA = -0.00132704
+	Actor_1.DisplayDesc.TransX = 0
+	Actor_1.DisplayDesc.TransY = 0
+	Actor_1.DisplayDesc.TransZ = 0
+	Actor_1.DisplayDesc.ScaleX = 1
+	Actor_1.DisplayDesc.ScaleY = 1
+	Actor_1.DisplayDesc.ScaleZ = 1
+	Actor_1.DisplayDesc.RotX = 0
+	Actor_1.DisplayDesc.RotY = 0
+	Actor_1.DisplayDesc.RotZ = 0
 	Actor_1:SetModelState(1)
 	Actor_1.PhysicDesc.Pos.X = 0
 	Actor_1.PhysicDesc.Pos.Y = 0
@@ -39,5 +48,21 @@ function InitMap(environment)
 	Trigger_1:SetAction2(-1)
 	Trigger_1:SetAction3(-1)
 	environment:AddTrigger(Trigger_1)
+
+	Trigger_2_info = TriggerInfo(2, "to_cita_from_window", true, true, false)
+	Trigger_2 = ZoneTrigger(Trigger_2_info, 2, 6, 1, true)
+	Trigger_2:SetPosition(25, 9, 24.8)
+	Trigger_2:SetAction1(129)
+	Trigger_2:SetAction2(-1)
+	Trigger_2:SetAction3(-1)
+	environment:AddTrigger(Trigger_2)
+
+	Trigger_4_info = TriggerInfo(4, "act_climb_win", true, true, false)
+	Trigger_4 = ActivationTrigger(Trigger_4_info, 1.5, "Normal", "None")
+	Trigger_4:SetPosition(25, 9, 24.7)
+	Trigger_4:SetAction1(131)
+	Trigger_4:SetAction2(-1)
+	Trigger_4:SetAction3(-1)
+	environment:AddTrigger(Trigger_4)
 
 end

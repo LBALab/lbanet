@@ -374,4 +374,19 @@ function InitGlobal(environment)
 	Action_126 = TeleportAction(126, "tp_from_otringal_to_copback", "", -1)
 	environment:AddAction(Action_126)
 
+	Action_127 = TeleportAction(127, "tp_from_citadel_to_museum_window", "Map016_2", 1)
+	environment:AddAction(Action_127)
+
+	Action_128 = ClientScriptAction(128, "climb_museaum_window_outside", 1)
+	environment:AddAction(Action_128)
+
+	Action_129 = TeleportAction(129, "tp_from_museum_to_cita_window", "CITABAU", 16)
+	environment:AddAction(Action_129)
+
+	Action_130 = ClientScriptAction(130, "sc_exitup_museum_window", 2)
+	environment:AddAction(Action_130)
+
+	Action_131 = ClientScriptAction(131, "sc_exitup_window_from_museum", 2)
+	environment:AddAction(Action_131)
+
 end

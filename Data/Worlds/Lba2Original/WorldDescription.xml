@@ -70,6 +70,7 @@
 				<spawning Id="13" name="from_spiderfirst" posX="541" posY="27.5" posZ="448" ForceRotation="true" RotationAtArrival="180"/>
 				<spawning Id="14" name="from_spidersecond" posX="537.5" posY="22.5" posZ="427" ForceRotation="true" RotationAtArrival="180"/>
 				<spawning Id="15" name="from_tralumain" posX="477" posY="22.5" posZ="439.5" ForceRotation="false" RotationAtArrival="180"/>
+				<spawning Id="16" name="from_museum_window" posX="488.7" posY="10.3" posZ="535" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
 		<Map name="CITADEL" type="exterior" AutoCameraType="3" IsInstance="false">
@@ -246,6 +247,7 @@
 			<description>Citadel Island, Miss Bloop&apos;s Private Museum</description>
 			<spareas>
 				<spawning Id="0" name="from_cita" posX="62" posY="2" posZ="57" ForceRotation="false" RotationAtArrival="270"/>
+				<spawning Id="1" name="from_cita_window" posX="25" posY="9" posZ="26" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
 		<Map name="Map017_2" type="interior" AutoCameraType="1" IsInstance="false">
