@@ -268,10 +268,12 @@ void OsgObjectHandler::RefreshText()
 			{
 				osg::BoundingSphere bs = GetRootNoLight()->computeBound();
 				posT = bs.center()+ osg::Vec3(0,1,0);	
+				if(_extrainfo.Name.find("Spawn") == 0)
+					posT = osg::Vec3(0,1,0);	
 			}
 
 			_textgroup = new osg::AutoTransform();
-			_textgroup->setPosition(posT/*osg::Vec3(0, 3.1, 0)*/);
+			_textgroup->setPosition(posT);
 			_textgroup->setAutoRotateMode(osg::AutoTransform::ROTATE_TO_SCREEN);
 			_textgroup->setMinimumScale(0.01);
 			_textgroup->setMaximumScale(0.5);

@@ -1181,6 +1181,11 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCapsuleObject(floa
 	capsuleGeode->addDrawable(capsdraw);
 	resnode->addChild(capsuleGeode);
 
+	osg::StateSet* stateset = capsuleGeode->getOrCreateStateSet();
+	stateset->setMode(GL_BLEND, osg::StateAttribute::ON);
+	stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+	stateset->setRenderBinDetails( 9000, "RenderBin");
+
 	if(Tr)
 	{
 		osg::ref_ptr<osg::PositionAttitudeTransform> transform = new osg::PositionAttitudeTransform();

@@ -651,6 +651,17 @@ void LbaNetEngine::HandleGameEvents()
 			continue;
 		}
 		#endif
+
+		// ClientExecuteScriptStringEvent
+		if(info == typeid(LbaNet::ClientExecuteScriptStringEvent))
+		{
+			LbaNet::ClientExecuteScriptStringEvent* castedptr = 
+				dynamic_cast<LbaNet::ClientExecuteScriptStringEvent *>(&obj);
+
+			m_lbaNetModel->ExecuteScriptString(castedptr->ScriptString);
+			continue;
+		}
+		
 	}
 }
 

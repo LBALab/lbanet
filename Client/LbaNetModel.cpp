@@ -79,6 +79,11 @@ void LbaNetModel::ChangeWorld(const std::string & NewWorld)
 {
 	// clean old world
 	CleanupWorld();
+
+	//script part
+	m_luaHandler = boost::shared_ptr<ClientLuaHandler>(new  ClientLuaHandler(this));
+	m_luaHandler->LoadFile("LuaCommon/ClientHelperFunctions.lua");
+	m_luaHandler->LoadFile("Worlds/" + NewWorld + "/Lua/global_client.lua");
 }
 
 
@@ -451,9 +456,21 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 				(new OsgCrossDescription(PhysicDesc.SizeX, 
 				DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA, extrainfo));
 
-			boost::shared_ptr<DisplayTransformation> Tr(new DisplayTransformation());
-			Tr->scaleY = 2;
-			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(Tr, dispobdesc));
+
+			boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
+			tr->translationX = DisplayDesc.TransX;
+			tr->translationY = DisplayDesc.TransY;
+			tr->translationZ = DisplayDesc.TransZ;
+
+			tr->rotation.AddRotation(DisplayDesc.RotX, LbaVec3(1,0,0));
+			tr->rotation.AddRotation(DisplayDesc.RotY, LbaVec3(0,1,0));
+			tr->rotation.AddRotation(DisplayDesc.RotZ, LbaVec3(0,0,1));
+
+			tr->scaleX = DisplayDesc.ScaleX;
+			tr->scaleY = DisplayDesc.ScaleY;
+			tr->scaleZ = DisplayDesc.ScaleZ;
+
+			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
 		}
 		break;
 
@@ -464,9 +481,21 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 				(new OsgBoxDescription(PhysicDesc.SizeX, PhysicDesc.SizeY, PhysicDesc.SizeZ, 
 				DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA, extrainfo));
 
-			boost::shared_ptr<DisplayTransformation> Tr(new DisplayTransformation());
-			Tr->scaleY = 2;
-			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(Tr, dispobdesc));
+
+			boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
+			tr->translationX = DisplayDesc.TransX;
+			tr->translationY = DisplayDesc.TransY;
+			tr->translationZ = DisplayDesc.TransZ;
+
+			tr->rotation.AddRotation(DisplayDesc.RotX, LbaVec3(1,0,0));
+			tr->rotation.AddRotation(DisplayDesc.RotY, LbaVec3(0,1,0));
+			tr->rotation.AddRotation(DisplayDesc.RotZ, LbaVec3(0,0,1));
+
+			tr->scaleX = DisplayDesc.ScaleX;
+			tr->scaleY = DisplayDesc.ScaleY;
+			tr->scaleZ = DisplayDesc.ScaleZ;
+
+			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
 		}
 		break;
 
@@ -477,9 +506,20 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 				(new OsgOrientedCapsuleDescription(PhysicDesc.SizeY, PhysicDesc.SizeX, 
 				DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA, extrainfo));
 
-			boost::shared_ptr<DisplayTransformation> Tr(new DisplayTransformation());
-			Tr->scaleY = 2;
-			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(Tr, dispobdesc));
+			boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
+			tr->translationX = DisplayDesc.TransX;
+			tr->translationY = DisplayDesc.TransY;
+			tr->translationZ = DisplayDesc.TransZ;
+
+			tr->rotation.AddRotation(DisplayDesc.RotX, LbaVec3(1,0,0));
+			tr->rotation.AddRotation(DisplayDesc.RotY, LbaVec3(0,1,0));
+			tr->rotation.AddRotation(DisplayDesc.RotZ, LbaVec3(0,0,1));
+
+			tr->scaleX = DisplayDesc.ScaleX;
+			tr->scaleY = DisplayDesc.ScaleY;
+			tr->scaleZ = DisplayDesc.ScaleZ;
+
+			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
 		}
 		break;
 	}
@@ -726,6 +766,9 @@ void LbaNetModel::PlayerMovedUpdate(Ice::Long PlayerId, double updatetime,
 		if(teleport && (m_playerObjectId == (long)PlayerId))
 		{
 			m_controllerChar->Teleport(info);
+
+			EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ReadyToPlayEvent(
+				SynchronizedTimeHandler::GetCurrentTimeDouble()));
 		}
 	}
 }
@@ -743,11 +786,6 @@ void LbaNetModel::NewMap(const std::string & NewMap, const std::string & Script,
 	CleanupMap();
 
 	m_current_map_name = NewMap;
-
-	//script part
-	m_luaHandler = boost::shared_ptr<ClientLuaHandler>(new  ClientLuaHandler(this));
-	if(Script != "")
-		m_luaHandler->LoadFile(Script);
 
 
 	// todo remove that
@@ -801,14 +839,136 @@ void LbaNetModel::StartScript(const std::string & FunctionName)
 }
 
 
+/***********************************************************
+used by lua to get an actor Position
+if id < 1 then it get player position
+***********************************************************/
+LbaVec3 LbaNetModel::GetActorPosition(long ActorId)
+{
+	LbaVec3 res;
+
+	if(ActorId >= 0)
+	{
+		std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+			it->second->GetPhysicalObject()->GetPosition(res.x, res.y, res.z);
+	}
+	else
+	{
+		// on player
+		if(m_controllerChar)
+			m_controllerChar->GetPosition(res.x, res.y, res.z);
+	}
+
+	return res;
+}
+
+
+/***********************************************************
+used by lua to get an actor Rotation
+if id < 1 then it get player position
+***********************************************************/
+float LbaNetModel::GetActorRotation(long ActorId)
+{
+	if(ActorId >= 0)
+	{
+		std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+			return it->second->GetPhysicalObject()->GetRotationYAxis();
+	}
+	else
+	{
+		// on player
+		if(m_controllerChar)
+			return m_controllerChar->GetRotation();
+	}
+
+	return 0;
+}
+
+
+ /***********************************************************
+used by lua to get an actor Rotation
+if id < 1 then it get player position
+***********************************************************/
+LbaQuaternion LbaNetModel::GetActorRotationQuat(long ActorId)
+{
+	if(ActorId >= 0)
+	{
+		std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+		{
+			LbaQuaternion res;
+			it->second->GetPhysicalObject()->GetRotation(res);
+			return res;
+		}
+	}
+	else
+	{
+		// on player
+		if(m_controllerChar)
+			return m_controllerChar->GetRotationQuat();
+	}
+
+	return LbaQuaternion();
+}
+
+
+
+/***********************************************************
+ used by lua to update an actor animation
+ if id < 1 then it get player position
+***********************************************************/
+void LbaNetModel::UpdateActorAnimation(long ActorId, const std::string & AnimationString)
+{
+	if(ActorId >= 0)
+	{
+		std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+			it->second->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate(AnimationString));
+	}
+	else
+	{
+		// on player
+		if(m_controllerChar)
+			m_controllerChar->UpdateAnimation(AnimationString);
+	}
+}
+
+
+
+/***********************************************************
+//! used by lua to update an actor mode
+//! if id < 1 then it get player position
+***********************************************************/
+void LbaNetModel::UpdateActorMode(long ActorId, const std::string & Mode)
+{
+	if(ActorId >= 0)
+	{
+		std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+		{
+			LbaNet::ModelInfo model = it->second->GetDisplayObject()->GetCurrentModel();
+			model.Mode = Mode;
+			it->second->GetDisplayObject()->Update(new LbaNet::ModelUpdate(model, false));
+		}
+	}
+	else
+	{
+		// on player
+		if(m_controllerChar)
+			m_controllerChar->UpdateActorMode(Mode);
+	}
+}
+
+
 
 /***********************************************************
 used by lua to move an actor or player
 if id < 1 then it moves players
 the actor will move using animation speed
 ***********************************************************/
-void LbaNetModel::ActorStraightWalkTo(int ScriptId, long ActorId, float PosX, 
-							  float PosY, float PosZ)
+void LbaNetModel::ActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position)
 {
 	if(ActorId >= 0)
 	{
@@ -819,7 +979,7 @@ void LbaNetModel::ActorStraightWalkTo(int ScriptId, long ActorId, float PosX,
 	{
 		// on player
 		if(m_controllerChar)
-			m_controllerChar->ActorStraightWalkTo(ScriptId, PosX, PosY, PosZ);
+			m_controllerChar->ActorStraightWalkTo(ScriptId, Position.x, Position.y, Position.z);
 	}
 }
 
@@ -830,7 +990,8 @@ void LbaNetModel::ActorStraightWalkTo(int ScriptId, long ActorId, float PosX,
 //! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
 //! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
 ***********************************************************/
-void LbaNetModel::ActorRotate(int ScriptId, long ActorId, float Angle, float RotationSpeedPerSec)
+void LbaNetModel::ActorRotate(int ScriptId, long ActorId, float Angle, float RotationSpeedPerSec,
+								bool ManageAnimation)
 {
 	if(ActorId >= 0)
 	{
@@ -841,7 +1002,7 @@ void LbaNetModel::ActorRotate(int ScriptId, long ActorId, float Angle, float Rot
 	{
 		// on player
 		if(m_controllerChar)
-			m_controllerChar->ActorRotate(ScriptId, Angle, RotationSpeedPerSec);
+			m_controllerChar->ActorRotate(ScriptId, Angle, RotationSpeedPerSec, ManageAnimation);
 	}
 }
 
@@ -893,6 +1054,15 @@ void LbaNetModel::ForceGhost(bool force)
 {
 	m_controllerChar->ForceGhost(force);
 	m_controllerCam->ForceGhost(force);
+}
+
+/***********************************************************
+execute lua script given as a string
+***********************************************************/
+void LbaNetModel::ExecuteScriptString( const std::string &ScriptString )
+{
+	if(m_luaHandler)
+		m_luaHandler->ExecuteScriptString(ScriptString);
 }
 
 

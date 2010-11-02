@@ -53,7 +53,7 @@ StraightWalkToScriptPart::StraightWalkToScriptPart(int scriptid, float PosX, flo
 	float diffX = (_PosX - _StartPosX);
 	float diffY = (_PosY - _StartPosY);
 	float diffZ = (_PosZ - _StartPosZ);
-	float _distance = (diffX*diffX) + (diffY*diffY) + (diffZ*diffZ);
+	_distance = (diffX*diffX) + (diffY*diffY) + (diffZ*diffZ);
 	_distance = sqrt(_distance);
 
 	_distanceDone = 0;
@@ -135,8 +135,16 @@ bool PlayAnimationScriptPart::Process(double tnow, float tdiff, boost::shared_pt
 		float speedY = disso->GetCurrentAssociatedSpeedY();
 		float speedZ = disso->GetCurrentAssociatedSpeedZ();
 
-		if(speedX != 0 && speedY != 0 && speedZ != 0)
-			physo->Move(speedX*tdiff, speedY*tdiff, speedZ*tdiff, false);
+		LbaQuaternion Q;
+		physo->GetRotation(Q);
+		LbaVec3 current_directionX(Q.GetDirection(LbaVec3(0, 0, 1)));
+		LbaVec3 current_directionZ(Q.GetDirection(LbaVec3(1, 0, 0)));
+		float ajustedspeedx = speedX*current_directionX.x + speedZ*current_directionZ.x;
+		float ajustedspeedZ = speedX*current_directionX.z + speedZ*current_directionZ.z;
+
+
+		if(speedX != 0 || speedY != 0 || speedZ != 0)
+			physo->Move(ajustedspeedx*tdiff, speedY*tdiff, ajustedspeedZ*tdiff, false);
 	}
 
 	return false;
@@ -150,10 +158,14 @@ bool PlayAnimationScriptPart::Process(double tnow, float tdiff, boost::shared_pt
 /***********************************************************
 	Constructor
 ***********************************************************/
-RotateScriptPart::RotateScriptPart(int scriptid, float Angle, float RotationSpeedPerSec)
-	: ScriptPartBase(scriptid), _Angle(Angle), _RotationSpeedPerSec(RotationSpeedPerSec)
+RotateScriptPart::RotateScriptPart(int scriptid, float Angle, float RotationSpeedPerSec, bool ManageAnimation)
+	: ScriptPartBase(scriptid), _Angle(Angle), _RotationSpeedPerSec(RotationSpeedPerSec),
+		_ManageAnimation(ManageAnimation)
 {
-
+	while(_Angle < 0)
+		_Angle += 360;
+	while(_Angle > 360)
+		_Angle -= 360;
 }
 
 
@@ -163,16 +175,28 @@ RotateScriptPart::RotateScriptPart(int scriptid, float Angle, float RotationSpee
 ***********************************************************/
 bool RotateScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor)
 {
+	actor->Process(tnow, tdiff);
+
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo = actor->GetPhysicalObject();
 	float currAngle = physo->GetRotationYAxis();
 
-	double distance = (_Angle-currAngle);
-	if(abs(distance) > 1.0)
+	double distance = (currAngle-_Angle);
+	if(abs(distance) > 2.0)
 	{
 		if((distance > 0 && distance < 180) || (distance < -180))
-			physo->RotateYAxis(-_RotationSpeedPerSec*tdiff);
+		{
+			if(_ManageAnimation)
+				actor->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate("TurnRight"));
+
+			physo->RotateYAxis(std::max((-_RotationSpeedPerSec*tdiff), (-(float)abs(distance))));
+		}
 		else
-			physo->RotateYAxis(_RotationSpeedPerSec*tdiff);
+		{
+			if(_ManageAnimation)
+				actor->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate("TurnLeft"));
+
+			physo->RotateYAxis(std::min((_RotationSpeedPerSec*tdiff), ((float)abs(distance))));
+		}
 	}
 	else
 		return true;
@@ -211,12 +235,15 @@ void ScriptedActor::ProcessScript(double tnow, float tdiff, boost::shared_ptr<Cl
 		bool finished = _currentScript->Process(tnow, tdiff, _character);
 		if(finished)
 		{
-			//tell script handler that script part is finished
-			if(scripthandler)
-				scripthandler->ResumeThread(_currentScript->GetAttachedScriptId());
+			long scid = _currentScript->GetAttachedScriptId();
 
 			// delete script part
 			_currentScript = boost::shared_ptr<ScriptPartBase>();
+
+			//tell script handler that script part is finished
+			if(scripthandler)
+				scripthandler->ResumeThread(scid);
+
 		}
 	}
 }
@@ -240,10 +267,11 @@ void ScriptedActor::ActorStraightWalkTo(int ScriptId, float PosX, float PosY, fl
 //! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
 //! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
 ***********************************************************/
-void ScriptedActor::ActorRotate(int ScriptId, float Angle, float RotationSpeedPerSec)
+void ScriptedActor::ActorRotate(int ScriptId, float Angle, float RotationSpeedPerSec, 
+								bool ManageAnimation)
 {
 	_currentScript = boost::shared_ptr<ScriptPartBase>(
-						new RotateScriptPart(ScriptId, Angle, RotationSpeedPerSec));
+						new RotateScriptPart(ScriptId, Angle, RotationSpeedPerSec, ManageAnimation));
 }
 
 

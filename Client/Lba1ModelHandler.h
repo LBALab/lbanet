@@ -70,6 +70,9 @@ public:
 	// get current associated speed
 	virtual float GetCurrentAssociatedSpeedZ();
 
+	//! get current model
+	virtual LbaNet::ModelInfo GetCurrentModel();
+
 	// update model
 	virtual int UpdateModel(const LbaNet::ModelInfo & info);
 

@@ -678,10 +678,14 @@ void OsgEventHandler::pick(osgViewer::View* view, const osgGA::GUIEventAdapter& 
 						char c2 = name[0];
 						if(c2 == 'E' && c1 == 'A')
 							keepname = name;
+
+						// always take player stuff before anything
+						if(c2 == 'M' || c1 == 'P')
+						{
+							EventsQueue::getReceiverQueue()->AddEvent(new ObjectPickedEvent(name)); 
+							return;
+						}
 					}
-         
-					//hitr->getWorldIntersectPoint()
-					//hitr->getWorldIntersectNormal()
 				}
 			}
         }

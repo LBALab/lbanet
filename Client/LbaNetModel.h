@@ -134,17 +134,39 @@ public:
 	//! start lua script in a separate thread
 	void StartScript(const std::string & FunctionName);
 
+	//! used by lua to get an actor Position
+	//! if id < 1 then it get player position
+	LbaVec3 GetActorPosition(long ActorId);
+
+	//! used by lua to get an actor Rotation
+	//! if id < 1 then it get player position
+	float GetActorRotation(long ActorId);
+
+	//! used by lua to get an actor Rotation
+	//! if id < 1 then it get player position
+	LbaQuaternion GetActorRotationQuat(long ActorId);
+
+	//! used by lua to update an actor animation
+	//! if id < 1 then it get player position
+	void UpdateActorAnimation(long ActorId, const std::string & AnimationString);
+
+	//! used by lua to update an actor mode
+	//! if id < 1 then it get player position
+	void UpdateActorMode(long ActorId, const std::string & Mode);
+
 
 	//! used by lua to move an actor or player
 	//! if id < 1 then it moves players
 	//! the actor will move using animation speed
-	void ActorStraightWalkTo(int ScriptId, long ActorId, float PosX, float PosY, float PosZ);
+	void ActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position);
 
 	//! used by lua to rotate an actor
 	//! if id < 1 then it moves players
 	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
 	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
-	void ActorRotate(int ScriptId, long ActorId, float Angle, float RotationSpeedPerSec);
+	//! if ManageAnimation is true then the animation will be changed to suit the rotation
+	void ActorRotate(int ScriptId, long ActorId, float Angle, float RotationSpeedPerSec,
+						bool ManageAnimation);
 
 	//! used by lua to wait until an actor animation is finished
 	//! if id < 1 then it moves players
@@ -160,6 +182,10 @@ public:
 	//! force the camera in ghost mode or not
 	void ForceGhost(bool force);
 	#endif
+
+
+	//! execute lua script given as a string
+	void ExecuteScriptString( const std::string &ScriptString );
 
 protected:
 

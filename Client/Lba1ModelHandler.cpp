@@ -126,6 +126,16 @@ float Lba1ModelHandler::GetCurrentAssociatedSpeedZ()
 	return 0;
 }
 
+
+
+/***********************************************************
+get current model
+***********************************************************/
+LbaNet::ModelInfo Lba1ModelHandler::GetCurrentModel()
+{
+	return _currentmodelinfo;
+}
+
 /***********************************************************
 update model
 ***********************************************************/

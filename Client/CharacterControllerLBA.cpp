@@ -864,3 +864,53 @@ void CharacterController::Teleport(const LbaNet::PlayerMoveInfo &info)
 	LbaQuaternion Q(info.CurrentPos.Rotation, LbaVec3(0,1,0));
 	physo->RotateTo(Q);
 }
+
+
+/***********************************************************
+get player current position
+***********************************************************/
+void CharacterController::GetPosition(float & PosX, float & PosY, float & PosZ)
+{
+	_character->GetPhysicalObject()->GetPosition(PosX, PosY, PosZ);
+}
+
+
+/***********************************************************
+get player current rotation
+***********************************************************/
+float CharacterController::GetRotation()
+{
+	return _character->GetPhysicalObject()->GetRotationYAxis();
+}
+
+
+/***********************************************************
+get player current rotation
+***********************************************************/
+LbaQuaternion CharacterController::GetRotationQuat()
+{
+	LbaQuaternion res;
+	_character->GetPhysicalObject()->GetRotation(res);
+	return res;
+}
+
+
+
+/***********************************************************
+used by lua to update animation
+***********************************************************/
+void CharacterController::UpdateAnimation( const std::string & AnimationString)
+{
+	_character->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate(AnimationString));
+}
+
+/***********************************************************
+update Mode
+***********************************************************/
+void CharacterController::UpdateActorMode( const std::string & Mode )
+{
+	LbaNet::ModelInfo model = _character->GetDisplayObject()->GetCurrentModel();
+	model.Mode = Mode;
+	_character->GetDisplayObject()->Update(new LbaNet::ModelUpdate(model, false));
+}
+

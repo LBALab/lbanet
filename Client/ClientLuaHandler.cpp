@@ -3,6 +3,8 @@
 extern "C"
 {
     #include "lua.h"
+	#include "lauxlib.h"
+	#include "lualib.h"
 }
 #include <luabind/luabind.hpp>
 
@@ -29,9 +31,43 @@ ClientLuaHandler::ClientLuaHandler(LbaNetModel * model)
 		// Connect LuaBind to this lua state
 		luabind::open(m_LuaState);
 
+		luaL_openlibs(m_LuaState);
+
+
 		luabind::module(m_LuaState) [
+
+		luabind::class_<LbaVec3>("LbaVec3")
+		.def(luabind::constructor<>())
+		.def(luabind::constructor<float, float, float>())
+		.def(luabind::constructor<LbaVec3>())
+		.def_readwrite("x", &LbaVec3::x)
+		.def_readwrite("y", &LbaVec3::y)
+		.def_readwrite("z", &LbaVec3::z),
+
+		luabind::class_<LbaQuaternion>("LbaQuaternion")
+		.def(luabind::constructor<>())
+		.def(luabind::constructor<float, float, float, float>())
+		.def(luabind::constructor<float, LbaVec3>())
+		.def_readwrite("X", &LbaQuaternion::X)
+		.def_readwrite("Y", &LbaQuaternion::Y)
+		.def_readwrite("Z", &LbaQuaternion::Z)
+		.def_readwrite("W", &LbaQuaternion::W)	
+		.def("AddRotation", &LbaQuaternion::AddRotation)
+		.def("GetDirection", &LbaQuaternion::GetDirection)
+		.def("GetRotationSingleAngle", &LbaQuaternion::GetRotationSingleAngle)
+		.scope
+		[
+			luabind::def("GetAngleFromVector", &LbaQuaternion::GetAngleFromVector)
+		],
+		
+
 		luabind::class_<LbaNetModel>("LbaNetModel")
 		.def(luabind::constructor<>())
+		.def("GetActorPosition", &LbaNetModel::GetActorPosition)
+		.def("GetActorRotation", &LbaNetModel::GetActorRotation)
+		.def("GetActorRotationQuat", &LbaNetModel::GetActorRotationQuat)
+		.def("UpdateActorAnimation", &LbaNetModel::UpdateActorAnimation)
+		.def("UpdateActorMode", &LbaNetModel::UpdateActorMode)
 		.def("ActorStraightWalkTo", &LbaNetModel::ActorStraightWalkTo, luabind::yield)
 		.def("ActorRotate", &LbaNetModel::ActorRotate, luabind::yield)
 		.def("ActorAnimate", &LbaNetModel::ActorAnimate, luabind::yield)
@@ -119,4 +155,17 @@ void ClientLuaHandler::ResumeThread(int ThreadIdx)
 			m_RunningThreads.erase(it);
 		}
 	}
+}
+
+/***********************************************************
+execute lua script given as a string
+***********************************************************/
+void ClientLuaHandler::ExecuteScriptString( const std::string & ScriptString )
+{
+	int error = luaL_dostring(m_LuaState, ScriptString.c_str());
+	if(error != 0)
+	{
+		LogHandler::getInstance()->LogToFile(std::string("Exception calling executing script string: ") + lua_tostring(m_LuaState, -1));
+	}
+
 }

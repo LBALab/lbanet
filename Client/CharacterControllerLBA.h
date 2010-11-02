@@ -91,6 +91,20 @@ public:
 	}
 	#endif
 
+	//! get player current position
+	void GetPosition(float & PosX, float & PosY, float & PosZ);
+
+	//! get player current rotation
+	float GetRotation();
+
+	//! get player current rotation
+	LbaQuaternion GetRotationQuat();
+
+	//! used by lua to update animation
+	void UpdateAnimation( const std::string & AnimationString);
+
+	//! update Mode
+	void UpdateActorMode( const std::string & Mode );
 
 protected:
 
@@ -105,6 +119,7 @@ protected:
 								LbaNet::ModelState newstate,
 								double tnow,
 								float FallingSize = 0);
+
 
 private:
 	boost::shared_ptr<CharacterModeBase>		_currentmode;

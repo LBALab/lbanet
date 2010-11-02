@@ -57,6 +57,8 @@ public:
 	//! resume yield thread
 	void ResumeThread(int ThreadIdx);
 
+	//! execute lua script given as a string
+	void ExecuteScriptString( const std::string & ScriptString );
 
 private:
 	lua_State *													m_LuaState;

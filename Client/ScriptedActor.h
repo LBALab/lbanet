@@ -135,7 +135,7 @@ class RotateScriptPart : public ScriptPartBase
 public:
 
 	//! constructor
-	RotateScriptPart(int scriptid, float Angle, float RotationSpeedPerSec);
+	RotateScriptPart(int scriptid, float Angle, float RotationSpeedPerSec, bool ManageAnimation);
 
 	//! destructor
 	virtual ~RotateScriptPart(){}
@@ -148,6 +148,7 @@ public:
 protected:
 	float	_RotationSpeedPerSec;
 	float	_Angle;
+	bool	_ManageAnimation;
 };
 
 
@@ -176,7 +177,8 @@ public:
 	//! used by lua to rotate an actor
 	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
 	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
-	void ActorRotate(int ScriptId, float Angle, float RotationSpeedPerSec);
+	//! if ManageAnimation is true then the animation will be changed to suit the rotation
+	void ActorRotate(int ScriptId, float Angle, float RotationSpeedPerSec, bool ManageAnimation);
 
 	//! used by lua to wait until an actor animation is finished
 	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
