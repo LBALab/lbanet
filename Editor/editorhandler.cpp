@@ -25,12 +25,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "editorhandler.h"
 #include "EventsQueue.h"
 #include "ClientExtendedEvents.h"
+#include "SynchronizedTimeHandler.h"
 #include "DataLoader.h"
 #include "SharedDataHandler.h"
 #include "ServerLuaHandler.h"
 #include "Triggers.h"
 #include "StringHelperFuncs.h"
-
+#include "ClientScript.h"
 
 #include <QMessageBox>
 #include <boost/filesystem.hpp>
@@ -61,7 +62,6 @@ public:
 	{}
 
 
-
 	virtual bool receive(const osgManipulator::MotionCommand& command) 
 	{ 
 		EventsQueue::getReceiverQueue()->AddEvent(new PickedArrowMovedEvent(_pickedarrow));		
@@ -76,14 +76,46 @@ private:
 
 
 
+/***********************************************************
+add data to the list
+***********************************************************/
+void CustomStringListModel::AddData(const QString & Data)
+{
+	int row = rowCount();
+	insertRows(row, 1);
+	setData(createIndex(row, 0), Data);
+}
 
 
+/***********************************************************
+clear the list
+***********************************************************/	
+void CustomStringListModel::Clear()
+{
+	setStringList(QStringList());
+}
 
 
+/***********************************************************
+remove data of the list if exist
+***********************************************************/
+void CustomStringListModel::RemoveData(const QString & Data)
+{
+	int idx = stringList().indexOf(Data);
+	if(idx >= 0)
+		removeRows(idx, 1);
+}
 
 
-
-
+/***********************************************************
+remove data of the list if exist
+***********************************************************/
+void CustomStringListModel::ReplaceData(const QString & OldData, const QString & NewData)
+{
+	int idx = stringList().indexOf(OldData);
+	if(idx >= 0)
+		setData(createIndex(idx, 0), NewData);
+}
 
 
 
@@ -524,11 +556,11 @@ Constructor
 QWidget *CustomDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option,
 											const QModelIndex &index) const
 {
-	std::map<int, boost::shared_ptr<QStringList> >::const_iterator it = _customs.find(index.row());
+	std::map<QModelIndex, boost::shared_ptr<CustomStringListModel> >::const_iterator it = _customs.find(index);
 	if(it != _customs.end())
 	{
 		QComboBox *editor = new QComboBox(parent);
-		editor->insertItems(0, *(it->second));
+		editor->setModel(it->second.get());
 		editor->setEditable(false);
 
 		connect(editor, SIGNAL(	activated(int)) , this, SLOT(objmodified(int)));
@@ -556,7 +588,7 @@ Constructor
 ***********************************************************/
 void CustomDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-	std::map<int, boost::shared_ptr<QStringList> >::const_iterator it = _customs.find(index.row());
+	std::map<QModelIndex, boost::shared_ptr<CustomStringListModel> >::const_iterator it = _customs.find(index);
 	if(it != _customs.end())
 	{
 		 QString value = index.model()->data(index, Qt::DisplayRole).toString();
@@ -570,7 +602,7 @@ void CustomDelegate::setEditorData(QWidget *editor, const QModelIndex &index) co
 	QVariant data = _model->data(index, Qt::DisplayRole);
 	if(data.type() == QVariant::Double)
 	{
-		 double value = index.model()->data(index, Qt::DisplayRole).toInt();
+		 double value = index.model()->data(index, Qt::DisplayRole).toDouble();
 
 		 QDoubleSpinBox *spinBox = static_cast<QDoubleSpinBox*>(editor);
 		 spinBox->setValue(value);
@@ -588,7 +620,7 @@ Constructor
 void CustomDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
                        const QModelIndex &index) const
 {
-	std::map<int, boost::shared_ptr<QStringList> >::const_iterator it = _customs.find(index.row());
+	std::map<QModelIndex, boost::shared_ptr<CustomStringListModel> >::const_iterator it = _customs.find(index);
 	if(it != _customs.end())
 	{
 		 QComboBox *comboBox = static_cast<QComboBox*>(editor);
@@ -632,7 +664,7 @@ void CustomDelegate::Clear()
 /***********************************************************
 Constructor
 ***********************************************************/
-void CustomDelegate::SetCustomIndex(int index, boost::shared_ptr<QStringList> list)
+void CustomDelegate::SetCustomIndex(QModelIndex index, boost::shared_ptr<CustomStringListModel> list)
 {
 	_customs[index] = list;
 }
@@ -668,16 +700,26 @@ Constructor
 ***********************************************************/
 EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
  : QMainWindow(parent, flags), _modified(false), 
- _actionNameList(new QStringList()), _mapNameList(new QStringList()),
+ _actionNameList(new CustomStringListModel()), _mapNameList(new CustomStringListModel()),
  _curractionidx(0), _currspawningidx(0), _currtriggeridx(0),
-	_updatetriggerdialogonnewaction(-1), _triggerNameList(new QStringList()),
-	_actortypeList(new QStringList()), _actordtypeList(new QStringList()),
-	_actorptypeList(new QStringList())
+	_updatetriggerdialogonnewaction(-1), _triggerNameList(new CustomStringListModel()),
+	_actortypeList(new CustomStringListModel()), _actordtypeList(new CustomStringListModel()),
+	_actorptypeList(new CustomStringListModel()), _cscriptList(new CustomStringListModel()),
+	_updateactiondialogonnewscript(-1), _actormodeList(new CustomStringListModel())
 
 {
-	(*_actortypeList) << "Static" << "Scripted" << "Movable";
-	(*_actordtypeList) << "Osg Model" << "Sprite" << "Lba1 Model" << "Lba2 Model";
-	(*_actorptypeList) << "No Shape" << "Box" << "Capsule" << "Sphere" << "Triangle Mesh";
+	QStringList actlist;
+	actlist << "Static" << "Scripted" << "Movable";
+	_actortypeList->setStringList(actlist);
+	QStringList acttypelist;
+	acttypelist << "Osg Model" << "Sprite" << "Lba1 Model" << "Lba2 Model";
+	_actordtypeList->setStringList(acttypelist);
+	QStringList actptypelist;
+	actptypelist << "No Shape" << "Box" << "Capsule" << "Sphere" << "Triangle Mesh";
+	_actorptypeList->setStringList(actptypelist);
+	QStringList actmodelist;
+	actmodelist << "None" << "Normal" << "Sport" << "Angry" << "Discrete" << "Protopack" << "Horse" << "Dinofly";
+	_actormodeList->setStringList(actmodelist);
 
 
 	_uieditor.setupUi(this);
@@ -706,7 +748,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	_addactordialog = new QDialog(this);
 	_ui_addactordialog.setupUi(_addactordialog);
 
-
+	_addcscriptdialog = new QDialog(this);
+	_ui_addcscriptdialog.setupUi(_addcscriptdialog);
 
 
 	// read the file and get data
@@ -767,17 +810,17 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 
 	// set model for objectmap
 	{
-		 QStringList header;
+		 QVector<QVariant> header;
 		 header << "Property" << "Value";
-		_objectmodel = new MixedTableModel(header);
-		_uieditor.tableView_object->setModel(_objectmodel);
-		QHeaderView * mpheaders = _uieditor.tableView_object->horizontalHeader();
+		_objectmodel = new TreeModel(header);
+		_uieditor.treeView_object->setModel(_objectmodel);
+		QHeaderView * mpheaders = _uieditor.treeView_object->header();
 		mpheaders->setResizeMode(QHeaderView::Stretch);
 
 		_objectcustomdelegate = new CustomDelegate(0, _objectmodel);
-		_uieditor.tableView_object->setItemDelegate(_objectcustomdelegate);
+		_uieditor.treeView_object->setItemDelegate(_objectcustomdelegate);
 
-		_uieditor.tableView_object->setEditTriggers(QAbstractItemView::CurrentChanged | 
+		_uieditor.treeView_object->setEditTriggers(QAbstractItemView::CurrentChanged | 
 													QAbstractItemView::DoubleClicked | 
 													QAbstractItemView::SelectedClicked);
 	}
@@ -828,6 +871,19 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	}
 	
 
+	// set model for client script
+	{
+		 QStringList header;
+		 header << "Name" << "Type";
+		_cscriptlistmodel = new StringTableModel(header);
+		_uieditor.tableViewCScriptsList->setModel(_cscriptlistmodel);
+		QHeaderView * mpheaders = _uieditor.tableViewCScriptsList->horizontalHeader();
+		mpheaders->setResizeMode(QHeaderView::Stretch);
+	}
+	
+
+
+
 
 	// reset world info
 	ResetWorld();
@@ -869,6 +925,12 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.pushButton_selectActor, SIGNAL(clicked()) , this, SLOT(ActorSelect_button()));
 
 
+	connect(_uieditor.pushButton_addCScript, SIGNAL(clicked()) , this, SLOT(addcscript_button_clicked()));
+	connect(_uieditor.pushButton_removeCScript, SIGNAL(clicked()) , this, SLOT(removecscript_button_clicked()));	
+	connect(_uieditor.pushButton_selectCScript, SIGNAL(clicked()) , this, SLOT(selectcscript_button_clicked()));
+
+
+
 	//! Actor add button push
 	 void ActorAdd_button_accepted();
 
@@ -890,6 +952,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.tableViewActionList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectaction_double_clicked(const QModelIndex&)));
 	connect(_uieditor.tableViewTriggerList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selecttrigger_double_clicked(const QModelIndex&)));
 	connect(_uieditor.tableView_ActorList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectactor_double_clicked(const QModelIndex&)));
+	connect(_uieditor.tableViewCScriptsList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectcscript_double_clicked(const QModelIndex&)));
 
 
 
@@ -905,6 +968,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_ui_addtpdialog.buttonBox, SIGNAL(accepted()) , this, SLOT(TpAdd_button_accepted()));
 	connect(_ui_addworlddialog.buttonBox, SIGNAL(accepted()) , this, SLOT(addworld_accepted()));
 	connect(_ui_addactordialog.buttonBox, SIGNAL(accepted()) , this, SLOT(ActorAdd_button_accepted()));
+	connect(_ui_addcscriptdialog.buttonBox, SIGNAL(accepted()) , this, SLOT(addcscript_accepted()));
+
 
 	connect(_uieditor.comboBox_startingmap, SIGNAL(activated(int)) , this, SLOT(StartingMapModified(int)));		
 	connect(_uieditor.comboBox_startingspawning, SIGNAL(activated(int)) , this, SLOT(StartingSpawnModified(int)));	
@@ -924,6 +989,9 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.radioButton_camtype_persp, SIGNAL(toggled(bool)) , this, SLOT(MapCameraTypeChanged(bool)));
 	connect(_uieditor.radioButton_camtype_3d, SIGNAL(toggled(bool)) , this, SLOT(MapCameraTypeChanged(bool)));
 
+	connect(_ui_addactiondialog.comboBox_actiontype, SIGNAL(activated(int)) , this, SLOT(SetActionDialogType(int)));
+	connect(_ui_addactiondialog.comboBox_tp_map, SIGNAL(activated(int)) , this, SLOT(actiond_tpmap_changed(int)));
+	connect(_ui_addactiondialog.pushButton_script_add, SIGNAL(clicked()) , this, SLOT(actiond_scriptadd_clicked()));
 }
 
 /***********************************************************
@@ -958,12 +1026,9 @@ void EditorHandler::addtrigger_button_clicked()
 
 	//clear data
 	_uiaddtriggerdialog.lineEdit_triggername->setText("");
-	_uiaddtriggerdialog.comboBox_action1->clear();
-	_uiaddtriggerdialog.comboBox_action1->insertItems(0, *_actionNameList);
-	_uiaddtriggerdialog.comboBox_action2->clear();
-	_uiaddtriggerdialog.comboBox_action2->insertItems(0, *_actionNameList);
-	_uiaddtriggerdialog.comboBox_action3->clear();
-	_uiaddtriggerdialog.comboBox_action3->insertItems(0, *_actionNameList);
+	_uiaddtriggerdialog.comboBox_action1->setModel(_actionNameList.get());
+	_uiaddtriggerdialog.comboBox_action2->setModel(_actionNameList.get());
+	_uiaddtriggerdialog.comboBox_action3->setModel(_actionNameList.get());
 	_addtriggerdialog->show();
 }
 
@@ -1026,7 +1091,7 @@ void EditorHandler::addtrigger_accepted()
 	if(triggername == "")
 		return;
 
-	if(_triggerNameList->contains(triggername))
+	if(_triggerNameList->stringList().contains(triggername))
 	{
 		QMessageBox::warning(this, tr("Name already used"),
 			tr("The name you entered for the trigger is already used. Please enter a unique name."),
@@ -1058,6 +1123,30 @@ void EditorHandler::addtrigger_accepted()
 			AddNewTrigger(trig);
 		}
 		break;
+
+		case 1: // activation trigger
+		{
+			boost::shared_ptr<TriggerBase> trig(new ActivationTrigger(triggerinf, 1.5, "Normal", "None"));
+			trig->SetPosition(_posX, _posY, _posZ);
+			trig->SetAction1(GetActionId(_uiaddtriggerdialog.comboBox_action1->currentText().toAscii().data()));
+			trig->SetAction2(GetActionId(_uiaddtriggerdialog.comboBox_action2->currentText().toAscii().data()));
+			trig->SetAction3(GetActionId(_uiaddtriggerdialog.comboBox_action3->currentText().toAscii().data()));
+			AddNewTrigger(trig);
+		}
+		break;
+
+		case 2: // ZoneActionTrigger
+		{
+			boost::shared_ptr<TriggerBase> trig(new ZoneActionTrigger(triggerinf, 1, 1, 1, "Normal", "None"));
+			trig->SetPosition(_posX, _posY, _posZ);
+			trig->SetAction1(GetActionId(_uiaddtriggerdialog.comboBox_action1->currentText().toAscii().data()));
+			trig->SetAction2(GetActionId(_uiaddtriggerdialog.comboBox_action2->currentText().toAscii().data()));
+			trig->SetAction3(GetActionId(_uiaddtriggerdialog.comboBox_action3->currentText().toAscii().data()));
+			AddNewTrigger(trig);
+		}
+		break;
+
+
 	}
 
 	SelectTrigger(id);
@@ -1155,6 +1244,13 @@ void EditorHandler::SaveWorldAction()
 		std::string mapname = _uieditor.label_mapname->text().toAscii().data();
 		if(mapname != "")
 			SaveMap("./Data/Worlds/" + _winfo.Description.WorldName + "/Lua/" + mapname + "_server.lua");
+
+		// save editor file
+		SaveEditorLua("./Data/Worlds/" + _winfo.Description.WorldName + "/Lua/global_editor.lua");
+
+		// save client file
+		SaveGlobalClientLua("./Data/Worlds/" + _winfo.Description.WorldName + "/Lua/global_client.lua");
+
 
 		SetSaved();
 	}
@@ -1323,16 +1419,15 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 			data << itm->first.c_str() << itm->second.Description.c_str();
 			_maplistmodel->AddOrUpdateRow(cc, data);
 
-			(*_mapNameList) << itm->first.c_str();
+
+			_mapNameList->AddData(itm->first.c_str());
 
 			// add spawning to the list
-			_mapSpawningList[itm->first] = boost::shared_ptr<QStringList>(new QStringList());
+			_mapSpawningList[itm->first] = boost::shared_ptr<CustomStringListModel>(new CustomStringListModel());
 			LbaNet::SpawningsSeq::const_iterator itsp = itm->second.Spawnings.begin();
 			LbaNet::SpawningsSeq::const_iterator endsp = itm->second.Spawnings.end();
 			for(; itsp != endsp; ++itsp)
-			{
-				*(_mapSpawningList[itm->first]) << itsp->second.Name.c_str();
-			}
+				_mapSpawningList[itm->first]->AddData(itsp->second.Name.c_str());
 		}
 	}
 
@@ -1365,10 +1460,12 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 	// add lua stuff
 	std::string luafile = "Worlds/" + _winfo.Description.WorldName + "/Lua/";
 	std::string globalluafile = luafile + "global_server.lua";
+	std::string globaleditorluafile = luafile + "global_editor.lua";
 	_luaH = boost::shared_ptr<ServerLuaHandler>(new ServerLuaHandler());
 	_luaH->LoadFile(globalluafile);
+	_luaH->LoadFile(globaleditorluafile);
 	_luaH->CallLua("InitGlobal", this);
-
+	_luaH->CallLua("InitEditor", this);
 
 	// refresh starting info
 	RefreshStartingInfo();
@@ -1385,9 +1482,12 @@ void EditorHandler::ResetWorld()
 	_maplistmodel->Clear();
 	_tplistmodel->Clear();
 	_actionlistmodel->Clear();
-	_actionNameList->clear();
-	*_actionNameList << "None";
-	_mapNameList->clear();
+	_actionNameList->Clear();
+	_actionNameList->AddData("None");
+	_mapNameList->Clear();
+	_cscriptList->Clear();
+	_cscriptlistmodel->Clear();
+	_mapSpawningList.clear();
 
 	_uieditor.label_worldname->setText("");
 	_uieditor.textEdit_worlddescription->setText("");
@@ -1395,6 +1495,7 @@ void EditorHandler::ResetWorld()
 
 	_curractionidx = 0;
 	_currteleportidx = 0;
+	_curscriptidx = 0;
 
 	ResetMap();
 }
@@ -1415,7 +1516,7 @@ void EditorHandler::ResetMap()
 
 	_triggerlistmodel->Clear();
 	_triggers.clear();
-	_triggerNameList->clear();
+	_triggerNameList->Clear();
 	_Actors.clear();
 
 	ResetObject();
@@ -1431,6 +1532,7 @@ void EditorHandler::ResetObject()
 	_objectmodel->Clear();
 
 	RemoveSelectedActorDislay();
+	RemoveSelectedScriptDislay();
 	RemoveArrows();
 }
 
@@ -1678,7 +1780,7 @@ void EditorHandler::AddSpawning_clicked()
 		return;
 
 
-	if(_mapSpawningList[mapname]->contains(spname))
+	if(_mapSpawningList[mapname]->stringList().contains(spname))
 	{
 		QMessageBox::warning(this, tr("Name already used"),
 			tr("The name you entered for the spawning is already used. Please enter a unique name."),
@@ -1790,9 +1892,9 @@ void EditorHandler::PlayerMoved(float posx, float posy, float posz)
 	_uieditor.doubleSpinBox_info_posy->setValue(posy);
 	_uieditor.doubleSpinBox_info_posz->setValue(posz);
 
-	_posX = floor(posx+0.5f);
-	_posY = floor(posy+0.5f);
-	_posZ = floor(posz+0.5f);
+	_posX = floor(posx*2)/2;
+	_posY = floor(posy+0.5);
+	_posZ = floor(posz*2)/2;
 }
 
 
@@ -1822,7 +1924,7 @@ void EditorHandler::info_camera_toggled(bool checked)
 /***********************************************************
 set spawning in the object
 ***********************************************************/
-void EditorHandler::SelectSpawning(long id)
+void EditorHandler::SelectSpawning(long id, const QModelIndex &parent)
 {
 	std::string mapname = _uieditor.label_mapname->text().toAscii().data();
 	LbaNet::SpawningsSeq::const_iterator it = _winfo.Maps[mapname].Spawnings.find(id);
@@ -1836,62 +1938,62 @@ void EditorHandler::SelectSpawning(long id)
 	float Rotation = it->second.Rotation;
 	bool forcedrotation = it->second.ForceRotation;
 
-
-	ResetObject();
+	if(parent == QModelIndex())
+		ResetObject();
 
 
 	{
-		QVariantList data;
+		QVector<QVariant> data;
 		data<<"Type"<<"Spawn";
-		_objectmodel->AddRow(data);
+		_objectmodel->AppendRow(data, parent, true);
 	}
 
 	{
-		QVariantList data;
+		QVector<QVariant> data;
 		data<<"SubCategory"<<"-";
-		_objectmodel->AddRow(data);
+		_objectmodel->AppendRow(data, parent, true);
 	}
 
 	{
-		QVariantList data;
+		QVector<QVariant> data;
 		data<<"Id"<<id;
-		_objectmodel->AddRow(data);
+		_objectmodel->AppendRow(data, parent, true);
 	}
 
 	{
-		QVariantList data;
+		QVector<QVariant> data;
 		data<<"Name"<<spawningname.c_str();
-		_objectmodel->AddRow(data);
+		_objectmodel->AppendRow(data, parent);
 	}
 
 	{
-		QVariantList data;
+		QVector<QVariant> data;
 		data<<"PosX"<<(double)PosX;
-		_objectmodel->AddRow(data);
+		_objectmodel->AppendRow(data, parent);
 	}
 
 	{
-		QVariantList data;
+		QVector<QVariant> data;
 		data<<"PosY"<<(double)PosY;
-		_objectmodel->AddRow(data);
+		_objectmodel->AppendRow(data, parent);
 	}
 
 	{
-		QVariantList data;
+		QVector<QVariant> data;
 		data<<"PosZ"<<(double)PosZ;
-		_objectmodel->AddRow(data);
+		_objectmodel->AppendRow(data, parent);
 	}
 
 	{
-		QVariantList data;
+		QVector<QVariant> data;
 		data<<"Force Rotation"<<forcedrotation;
-		_objectmodel->AddRow(data);
+		_objectmodel->AppendRow(data, parent);
 	}
 
 	{
-		QVariantList data;
+		QVector<QVariant> data;
 		data<<"Rotation"<<(double)Rotation;
-		_objectmodel->AddRow(data);
+		_objectmodel->AppendRow(data, parent);
 	}
 }
 
@@ -1903,10 +2005,10 @@ void EditorHandler::ClearObjectIfSelected(const std::string objecttype, long id)
 {
 	if(_objectmodel->rowCount() > 2)
 	{
-		QString type = _objectmodel->GetData(1, 0).toString();
+		QString type = _objectmodel->data(_objectmodel->GetIndex(1, 0)).toString();
 		if(objecttype == type.toAscii().data())
 		{
-			long objid = _objectmodel->GetData(1, 2).toString().toLong();	
+			long objid = _objectmodel->data(_objectmodel->GetIndex(1, 2)).toString().toLong();	
 			if(id == objid)
 			{
 				ResetObject();
@@ -1922,35 +2024,45 @@ data changed in object view
 ***********************************************************/
 void EditorHandler::objectdatachanged(const QModelIndex &index1, const QModelIndex &index2)
 {
+	QModelIndex parentIdx = _objectmodel->parent(index1);
+
 	if(_objectmodel->rowCount() > 2)
 	{
-		QString type = _objectmodel->GetData(1, 0).toString();
-		std::string category = _objectmodel->GetData(1, 1).toString().toAscii().data();
-		long objid = _objectmodel->GetData(1, 2).toString().toLong();
+		QString type = _objectmodel->data(_objectmodel->GetIndex(1, 0, parentIdx)).toString();
+		std::string category = _objectmodel->data(_objectmodel->GetIndex(1, 1, parentIdx)).toString().toAscii().data();
+		long objid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toLong();
 
 		if(type == "Spawn")
 		{
-			SpawningObjectChanged(objid);
+			SpawningObjectChanged(objid, parentIdx);
 			return;
 		}
 
 		if(type == "Action")
 		{
-			ActionObjectChanged(objid, category);
+			ActionObjectChanged(objid, category, parentIdx);
 			return;
 		}
 
 		if(type == "Trigger")
 		{
-			TriggerObjectChanged(objid, category);
+			TriggerObjectChanged(objid, category, parentIdx);
 			return;
 		}
 
 		if(type == "Actor")
 		{
-			ActorObjectChanged(objid);
+			ActorObjectChanged(objid, parentIdx);
 			return;
 		}
+
+		if(type == "ClientScript")
+		{
+			CScriptObjectChanged(objid, category, parentIdx);
+			return;
+		}
+
+		
 	}
 }
 
@@ -1958,29 +2070,29 @@ void EditorHandler::objectdatachanged(const QModelIndex &index1, const QModelInd
 /***********************************************************
 called when spawning object changed
 ***********************************************************/
-void EditorHandler::SpawningObjectChanged(long id)
+void EditorHandler::SpawningObjectChanged(long id, const QModelIndex &parentIdx)
 {
 	if(_objectmodel->rowCount() > 8)
 	{
-		QString name = _objectmodel->GetData(1, 3).toString();
-		float PosX = _objectmodel->GetData(1, 4).toFloat();
-		float PosY = _objectmodel->GetData(1, 5).toFloat();
-		float PosZ = _objectmodel->GetData(1, 6).toFloat();
-		bool forcedrotation = _objectmodel->GetData(1, 7).toBool();
-		float Rotation = _objectmodel->GetData(1, 8).toFloat();
+		QString name = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString();
+		float PosX = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toFloat();
+		float PosY = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toFloat();
+		float PosZ = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toFloat();
+		bool forcedrotation = _objectmodel->data(_objectmodel->GetIndex(1, 7, parentIdx)).toBool();
+		float Rotation = _objectmodel->data(_objectmodel->GetIndex(1, 8, parentIdx)).toFloat();
 		std::string mapname = _uieditor.label_mapname->text().toAscii().data();
 		std::string oldname = _winfo.Maps[mapname].Spawnings[id].Name;
 
 		// check if name changed already exist
 		if(name != oldname.c_str())
 		{
-			if(name == "" || _mapSpawningList[mapname]->contains(name))
+			if(name == "" || _mapSpawningList[mapname]->stringList().contains(name))
 			{
 				QMessageBox::warning(this, tr("Name already used"),
 					tr("The name you entered for the spawning is already used. Please enter a unique name."),
 					QMessageBox::Ok);
 
-				_objectmodel->SetData(1, 3, oldname.c_str());
+				_objectmodel->setData(_objectmodel->GetIndex(1, 3, parentIdx), oldname.c_str());
 				return;
 			}
 		}
@@ -2123,7 +2235,7 @@ void EditorHandler::AddTrigger(boost::shared_ptr<TriggerBase> trigger)
 		slist << trigger->GetName().c_str() << trigger->GetTypeName().c_str();
 		_triggerlistmodel->AddOrUpdateRow(_currtriggeridx, slist);
 
-		*_triggerNameList << trigger->GetName().c_str();
+		_triggerNameList->AddData(trigger->GetName().c_str());
 	}
 }
 
@@ -2198,12 +2310,9 @@ void EditorHandler::AddNewAction(boost::shared_ptr<ActionBase> action)
 			int index2 = _uiaddtriggerdialog.comboBox_action2->currentIndex();
 			int index3 = _uiaddtriggerdialog.comboBox_action3->currentIndex();
 
-			_uiaddtriggerdialog.comboBox_action1->clear();
-			_uiaddtriggerdialog.comboBox_action1->insertItems(0, *_actionNameList);
-			_uiaddtriggerdialog.comboBox_action2->clear();
-			_uiaddtriggerdialog.comboBox_action2->insertItems(0, *_actionNameList);
-			_uiaddtriggerdialog.comboBox_action3->clear();
-			_uiaddtriggerdialog.comboBox_action3->insertItems(0, *_actionNameList);
+			_uiaddtriggerdialog.comboBox_action1->setModel(_actionNameList.get());
+			_uiaddtriggerdialog.comboBox_action2->setModel(_actionNameList.get());
+			_uiaddtriggerdialog.comboBox_action3->setModel(_actionNameList.get());
 
 			_uiaddtriggerdialog.comboBox_action1->setCurrentIndex(index1);
 			_uiaddtriggerdialog.comboBox_action2->setCurrentIndex(index2);
@@ -2267,8 +2376,8 @@ add an action name to the name list
 ***********************************************************/
 void EditorHandler::AddActionName(const std::string & name)
 {
-	if(!_actionNameList->contains(name.c_str()))
-		(*_actionNameList) << name.c_str();
+	if(!_actionNameList->stringList().contains(name.c_str()))
+		_actionNameList->AddData(name.c_str());
 }
 
 
@@ -2277,9 +2386,7 @@ remove an action name to the name list
 ***********************************************************/
 void EditorHandler::RemoveActionName(const std::string & name)
 {
-	QStringList::iterator it = std::find(_actionNameList->begin(), _actionNameList->end(), name.c_str());
-	if(it != _actionNameList->end())
-		_actionNameList->erase(it);
+	_actionNameList->RemoveData(name.c_str());
 }
 
 
@@ -2288,9 +2395,7 @@ replace an action name to the name list
 ***********************************************************/
 void EditorHandler::ReplaceActionName(const std::string & oldname, const std::string & newname)
 {
-	QStringList::iterator it = std::find(_actionNameList->begin(), _actionNameList->end(), oldname.c_str());
-	if(it != _actionNameList->end())
-		*it = newname.c_str();
+	_actionNameList->ReplaceData(oldname.c_str(), newname.c_str());
 }
 
 
@@ -2331,6 +2436,8 @@ void EditorHandler::addAction_button_clicked()
 
 	// clear data
 	_ui_addactiondialog.lineEdit_actionname->setText("");
+	_ui_addactiondialog.comboBox_actiontype->setCurrentIndex(0);
+	SetActionDialogType(0);
 
 	_addactiondialog->show();
 }
@@ -2392,7 +2499,7 @@ void EditorHandler::AddActionAccepted()
 	if(actname == "" || actname == "None")
 		return;
 
-	if(_actionNameList->contains(actname))
+	if(_actionNameList->stringList().contains(actname))
 	{
 		QMessageBox::warning(this, tr("Name already used"),
 			tr("The name you entered for the action is already used. Please enter a unique name."),
@@ -2407,8 +2514,54 @@ void EditorHandler::AddActionAccepted()
 	{
 		case 0: // teleport
 		{
+			std::string mapname = _ui_addactiondialog.comboBox_tp_map->currentText().toAscii().data();
+			std::string spawning = _ui_addactiondialog.comboBox_tp_spawn->currentText().toAscii().data();
+
+			long spid = -1;
+			if(spawning != "")
+			{
+				LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(mapname);
+				if(itmap != _winfo.Maps.end())
+				{
+					LbaNet::SpawningsSeq::iterator it = itmap->second.Spawnings.begin();
+					LbaNet::SpawningsSeq::iterator end = itmap->second.Spawnings.end();
+					for(;it != end; ++it)
+					{
+						if(spawning == it->second.Name)
+						{
+							spid = it->first;
+							break;
+						}
+					}
+				}
+			}
+
 			AddNewAction(boost::shared_ptr<ActionBase>
-				(new TeleportAction(id,	actname.toAscii().data(), "", -1)));
+				(new TeleportAction(id,	actname.toAscii().data(), mapname, spid)));
+		}
+		break;
+	
+		case 1: // client script
+		{
+			std::string scriptname = _ui_addactiondialog.comboBox_script_name->currentText().toAscii().data();
+
+			long scid = -1;
+			if(scriptname != "")
+			{
+				std::map<long, boost::shared_ptr<ClientScriptBase> >::iterator it = _cscripts.begin();
+				std::map<long, boost::shared_ptr<ClientScriptBase> >::iterator end = _cscripts.end();
+				for(;it != end; ++it)
+				{
+					if(scriptname == it->second->GetName())
+					{
+						scid = it->first;
+						break;
+					}
+				}
+			}
+
+			AddNewAction(boost::shared_ptr<ActionBase>
+				(new ClientScriptAction(id,	actname.toAscii().data(), scid)));
 		}
 		break;
 	}
@@ -2419,35 +2572,36 @@ void EditorHandler::AddActionAccepted()
 /***********************************************************
 select an action and display it in object view
 ***********************************************************/
-void EditorHandler::SelectAction(long id)
+void EditorHandler::SelectAction(long id, const QModelIndex &parent)
 {
 	std::map<long, boost::shared_ptr<ActionBase> >::iterator it = _actions.find(id);
 	if(it != _actions.end())
 	{
-		ResetObject();
+		if(parent == QModelIndex())
+			ResetObject();
 
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Type"<<"Action";
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent, true);
 		}
 
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"SubCategory"<<it->second->GetTypeName().c_str();
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent, true);
 		}
 
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Id"<<id;
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent, true);
 		}
 
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Name"<<it->second->GetName().c_str();
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent);
 		}
 
 		std::string actiontype = it->second->GetTypeName();
@@ -2455,9 +2609,9 @@ void EditorHandler::SelectAction(long id)
 		{
 			TeleportAction* ptr = static_cast<TeleportAction*>(it->second.get());
 			{
-				QVariantList data;
+				QVector<QVariant> data;
 				data << "NewMap" << ptr->GetMapName().c_str();
-				_objectmodel->AddRow(data);
+				_objectmodel->AppendRow(data, parent);
 			}
 
 			{	
@@ -2470,19 +2624,43 @@ void EditorHandler::SelectAction(long id)
 						spawningname = it->second.Name;
 				}
 
-				QVariantList data;
+				QVector<QVariant> data;
 				data << "Spawn" << spawningname.c_str();
-				_objectmodel->AddRow(data);
+				_objectmodel->AppendRow(data, parent);
 			}
 
-			_objectcustomdelegate->SetCustomIndex(4, _mapNameList);
+			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _mapNameList);
 
-			std::map<std::string, boost::shared_ptr<QStringList> >::iterator it = _mapSpawningList.find(ptr->GetMapName());
+			std::map<std::string, boost::shared_ptr<CustomStringListModel> >::iterator it = 
+														_mapSpawningList.find(ptr->GetMapName());
 			if(it != _mapSpawningList.end())
-				_objectcustomdelegate->SetCustomIndex(5, it->second);
+				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 5, parent), it->second);
 
 			return;
 		}
+
+		if(actiontype == "ClientScriptAction")
+		{
+			ClientScriptAction* ptr = static_cast<ClientScriptAction*>(it->second.get());
+			{
+				std::string csname;
+				std::map<long, boost::shared_ptr<ClientScriptBase> >::iterator itsc = _cscripts.find(ptr->GetScriptId());
+				if(itsc != _cscripts.end())
+					csname = itsc->second->GetName();
+
+				QVector<QVariant> data;
+				data << "Script name" << csname.c_str();
+				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+				if(csname != "")
+					SelectCScript(ptr->GetScriptId(), idx);
+			}
+
+			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _cscriptList);
+
+			return;
+		}
+
 	}
 }
 
@@ -2494,8 +2672,8 @@ add an spawning name to the name list
 ***********************************************************/
 void EditorHandler::AddSpawningName(const std::string & mapname, const std::string & name)
 {
-	if(!_mapSpawningList[mapname]->contains(name.c_str()))
-		(*_mapSpawningList[mapname]) << name.c_str();
+	if(!_mapSpawningList[mapname]->stringList().contains(name.c_str()))
+		_mapSpawningList[mapname]->AddData(name.c_str());
 }
 
 
@@ -2504,11 +2682,7 @@ remove an spawning name to the name list
 ***********************************************************/
 void EditorHandler::RemoveSpawningName(const std::string & mapname, const std::string & name)
 {
-	// remove from text list
-	QStringList::iterator it = std::find(_mapSpawningList[mapname]->begin(), 
-											_mapSpawningList[mapname]->end(), name.c_str());
-	if(it != _mapSpawningList[mapname]->end())
-		_mapSpawningList[mapname]->erase(it);
+	_mapSpawningList[mapname]->RemoveData(name.c_str());
 }
 
 
@@ -2518,31 +2692,28 @@ replace an spawning name to the name list
 void EditorHandler::ReplaceSpawningName(const std::string & mapname, const std::string & oldname, 
 															const std::string & newname)
 {
-	QStringList::iterator it = std::find(_mapSpawningList[mapname]->begin(), 
-											_mapSpawningList[mapname]->end(), oldname.c_str());
-	if(it != _mapSpawningList[mapname]->end())
-		*it = newname.c_str();
+	_mapSpawningList[mapname]->ReplaceData(oldname.c_str(), newname.c_str());
 }
 
 
 /***********************************************************
 called when action object changed
 ***********************************************************/
-void EditorHandler::ActionObjectChanged(long id, const std::string & category)
+void EditorHandler::ActionObjectChanged(long id, const std::string & category, const QModelIndex &parentIdx)
 {
 	std::string oldname = _actions[id]->GetName();
-	QString name = _objectmodel->GetData(1, 3).toString();
+	QString name = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString();
 
 	// check if name changed already exist
 	if(name != oldname.c_str())
 	{
-		if(name == "" || _actionNameList->contains(name))
+		if(name == "" || _actionNameList->stringList().contains(name))
 		{
 			QMessageBox::warning(this, tr("Name already used"),
 				tr("The name you entered for the action is already used. Please enter a unique name."),
 				QMessageBox::Ok);
 
-			_objectmodel->SetData(1, 3, oldname.c_str());
+			_objectmodel->setData(_objectmodel->GetIndex(1, 3, parentIdx), oldname.c_str());
 			return;
 		}
 	}
@@ -2551,9 +2722,10 @@ void EditorHandler::ActionObjectChanged(long id, const std::string & category)
 	if(category == "TeleportAction")
 	{
 		// get info
-		std::string mapname = _objectmodel->GetData(1, 4).toString().toAscii().data();
-		std::string spawning = _objectmodel->GetData(1, 5).toString().toAscii().data();
+		std::string mapname = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
+		std::string spawning = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toString().toAscii().data();
 
+		std::string oldmapname = static_cast<TeleportAction*>(_actions[id].get())->GetMapName();
 
 		// get id associated to spawning
 		long spid = -1;
@@ -2580,10 +2752,18 @@ void EditorHandler::ActionObjectChanged(long id, const std::string & category)
 		boost::shared_ptr<ActionBase> modifiedact(new TeleportAction(id,
 											name.toAscii().data(), mapname, spid));
 
-		ReplaceActionName(oldname, modifiedact->GetName());
+
 		_actions[id] = modifiedact;
 
+		if(name != oldname.c_str())
+		{
+			ReplaceActionName(oldname, modifiedact->GetName());
 
+			// update action name on parent
+			if(parentIdx != QModelIndex())
+				_objectmodel->setData(_objectmodel->GetIndex(1, parentIdx.row(), 
+											_objectmodel->parent(parentIdx)), name);	
+		}
 
 		// update action list display
 		QStringList slist;
@@ -2600,9 +2780,83 @@ void EditorHandler::ActionObjectChanged(long id, const std::string & category)
 		SharedDataHandler::getInstance()->EditorUpdate("", update);
 
 		// refresh spawning list for action
-		std::map<std::string, boost::shared_ptr<QStringList> >::iterator it = _mapSpawningList.find(mapname);
-		if(it != _mapSpawningList.end())
-			_objectcustomdelegate->SetCustomIndex(5, it->second);
+		if(oldmapname != mapname)
+		{
+			std::map<std::string, boost::shared_ptr<CustomStringListModel> >::iterator it = 
+				_mapSpawningList.find(mapname);
+			if(it != _mapSpawningList.end())
+			{
+				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 5, parentIdx), it->second);
+
+				QStringList lst = it->second->stringList();
+				if(lst.size() > 0)
+					_objectmodel->setData(_objectmodel->GetIndex(1, 5, parentIdx), lst[0]);	
+			}
+		}
+
+
+		return;
+	}
+
+
+	if(category == "ClientScriptAction")
+	{
+		// get info
+		std::string scriptname = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
+
+		// get id associated to spawning
+		long scid = -1;
+		if(scriptname != "")
+		{
+			std::map<long, boost::shared_ptr<ClientScriptBase> >::iterator it = _cscripts.begin();
+			std::map<long, boost::shared_ptr<ClientScriptBase> >::iterator end = _cscripts.end();
+			for(;it != end; ++it)
+			{
+				if(scriptname == it->second->GetName())
+				{
+					scid = it->first;
+					break;
+				}
+			}
+		}
+
+
+		// created modified action and replace old one
+		boost::shared_ptr<ActionBase> modifiedact(new ClientScriptAction(id,
+													name.toAscii().data(), scid));
+
+
+		_actions[id] = modifiedact;
+
+		if(name != oldname.c_str())
+		{
+			ReplaceActionName(oldname, modifiedact->GetName());
+
+			// update action name on parent
+			if(parentIdx != QModelIndex())
+				_objectmodel->setData(_objectmodel->GetIndex(1, parentIdx.row(), 
+				_objectmodel->parent(parentIdx)), name);	
+		}
+
+		// update action list display
+		QStringList slist;
+		slist << name << modifiedact->GetTypeName().c_str();
+		_actionlistmodel->AddOrUpdateRow(id, slist);
+
+
+		// need to save as something changed
+		SetModified();
+
+
+		_objectmodel->Clear(_objectmodel->GetIndex(0, 4, parentIdx));
+		if(scid >= 0)
+			SelectCScript(scid, _objectmodel->GetIndex(0, 4, parentIdx));
+
+
+
+		//inform server
+		EditorUpdateBasePtr update = new UpdateEditor_AddOrModAction(modifiedact);
+		SharedDataHandler::getInstance()->EditorUpdate("", update);
 
 		return;
 	}
@@ -2693,35 +2947,36 @@ void EditorHandler::RemoveTrigger(long id)
 /***********************************************************
 select trigger
 ***********************************************************/
-void EditorHandler::SelectTrigger(long id)
+void EditorHandler::SelectTrigger(long id, const QModelIndex &parent)
 {
 	std::map<long, boost::shared_ptr<TriggerBase> >::iterator it = _triggers.find(id);
 	if(it != _triggers.end())
 	{
-		ResetObject();
+		if(parent == QModelIndex())
+			ResetObject();
 
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Type"<<"Trigger";
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent, true);
 		}
 
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"SubCategory"<<it->second->GetTypeName().c_str();
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent, true);
 		}
 
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Id"<<id;
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent, true);
 		}
 
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Name"<<it->second->GetName().c_str();
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent);
 		}
 
 		std::string actiontype = it->second->GetTypeName();
@@ -2729,83 +2984,226 @@ void EditorHandler::SelectTrigger(long id)
 		{
 			ZoneTrigger* ptr = static_cast<ZoneTrigger*>(it->second.get());
 			{
-				QVariantList data;
-				data << "Action On Enter" << GetActionName(ptr->GetAction1()).c_str();
-				_objectmodel->AddRow(data);
+				std::string actname = GetActionName(ptr->GetAction1());
+				QVector<QVariant> data;
+				data << "Action On Enter" << actname.c_str();
+				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+				
+				if(actname != "" && actname != "None")
+					SelectAction(ptr->GetAction1(), idx);
 			}
 			{
-				QVariantList data;
-				data << "Action On Leave" << GetActionName(ptr->GetAction2()).c_str();
-				_objectmodel->AddRow(data);
+				std::string actname = GetActionName(ptr->GetAction2());
+				QVector<QVariant> data;
+				data << "Action On Leave" << actname.c_str();
+				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+				
+				if(actname != "" && actname != "None")
+					SelectAction(ptr->GetAction1(), idx);
 			}
 
 			{
-				QVariantList data;
+				QVector<QVariant> data;
 				data << "Trigger on Player" << ptr->CheckPlayer();
-				_objectmodel->AddRow(data);
+				_objectmodel->AppendRow(data, parent);
 			}
 
 			{
-				QVariantList data;
+				QVector<QVariant> data;
 				data << "Trigger on Npc" << ptr->CheckNpcs();
-				_objectmodel->AddRow(data);
+				_objectmodel->AppendRow(data, parent);
 			}
 
 			{
-				QVariantList data;
+				QVector<QVariant> data;
 				data << "Trigger on Movable Objects" << ptr->CheckMovableObjects();
-				_objectmodel->AddRow(data);
+				_objectmodel->AppendRow(data, parent);
 			}
 
 
 			{
-				QVariantList data;
+				QVector<QVariant> data;
 				data << "Position X" << (double)ptr->GetPosX();
-				_objectmodel->AddRow(data);
+				_objectmodel->AppendRow(data, parent);
 			}
 
 			{
-				QVariantList data;
+				QVector<QVariant> data;
 				data << "Position Y" << (double)ptr->GetPosY();
-				_objectmodel->AddRow(data);
+				_objectmodel->AppendRow(data, parent);
 			}
 
 			{
-				QVariantList data;
+				QVector<QVariant> data;
 				data << "Position Z" << (double)ptr->GetPosZ();
-				_objectmodel->AddRow(data);
+				_objectmodel->AppendRow(data, parent);
 			}
 
 			{
-				QVariantList data;
+				QVector<QVariant> data;
 				data << "Zone size X" << (double)ptr->GetSizeX();
-				_objectmodel->AddRow(data);
+				_objectmodel->AppendRow(data, parent);
 			}
 
 			{
-				QVariantList data;
+				QVector<QVariant> data;
 				data << "Zone size Y" << (double)ptr->GetSizeY();
-				_objectmodel->AddRow(data);
+				_objectmodel->AppendRow(data, parent);
 			}
 
 			{
-				QVariantList data;
+				QVector<QVariant> data;
 				data << "Zone size Z" << (double)ptr->GetSizeZ();
-				_objectmodel->AddRow(data);
+				_objectmodel->AppendRow(data, parent);
 			}
 
 			{
-				QVariantList data;
+				QVector<QVariant> data;
 				data << "Multi Activation" << ptr->MultiActivation();
-				_objectmodel->AddRow(data);
+				_objectmodel->AppendRow(data, parent);
 			}
 
 
-			_objectcustomdelegate->SetCustomIndex(4, _actionNameList);
-			_objectcustomdelegate->SetCustomIndex(5, _actionNameList);
+			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actionNameList);
+			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 5, parent), _actionNameList);
 
 			UpdateSelectedZoneTriggerDisplay(ptr->GetPosX(), ptr->GetPosY(), ptr->GetPosZ(),
 											ptr->GetSizeX(), ptr->GetSizeY(), ptr->GetSizeZ());
+
+			DrawArrows(ptr->GetPosX(), ptr->GetPosY(), ptr->GetPosZ());
+
+			return;
+		}
+
+		if(actiontype == "ZoneActionTrigger")
+		{
+			ZoneActionTrigger* ptr = static_cast<ZoneActionTrigger*>(it->second.get());
+			{
+				std::string actname = GetActionName(ptr->GetAction1());
+				QVector<QVariant> data;
+				data << "Action On Activation" << actname.c_str();
+				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+				if(actname != "" && actname != "None")
+					SelectAction(ptr->GetAction1(), idx);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Position X" << (double)ptr->GetPosX();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Position Y" << (double)ptr->GetPosY();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Position Z" << (double)ptr->GetPosZ();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Zone size X" << (double)ptr->GetSizeX();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Zone size Y" << (double)ptr->GetSizeY();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Zone size Z" << (double)ptr->GetSizeZ();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Accepted Mode 1" << ptr->GetAcceptedMode1().c_str();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Accepted Mode 2" << ptr->GetAcceptedMode2().c_str();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actionNameList);
+			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 11, parent), _actormodeList);
+			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 12, parent), _actormodeList);
+
+			UpdateSelectedZoneTriggerDisplay(ptr->GetPosX(), ptr->GetPosY(), ptr->GetPosZ(),
+				ptr->GetSizeX(), ptr->GetSizeY(), ptr->GetSizeZ());
+
+			DrawArrows(ptr->GetPosX(), ptr->GetPosY(), ptr->GetPosZ());
+
+			return;
+		}
+
+
+		if(actiontype == "ActivationTrigger")
+		{
+			ActivationTrigger* ptr = static_cast<ActivationTrigger*>(it->second.get());
+			{
+				std::string actname = GetActionName(ptr->GetAction1());
+				QVector<QVariant> data;
+				data << "Action On Activation" << actname.c_str();
+				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+				if(actname != "" && actname != "None")
+					SelectAction(ptr->GetAction1(), idx);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Position X" << (double)ptr->GetPosX();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Position Y" << (double)ptr->GetPosY();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Position Z" << (double)ptr->GetPosZ();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Activation distance" << (double)ptr->GetDistance();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Accepted Mode 1" << ptr->GetAcceptedMode1().c_str();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Accepted Mode 2" << ptr->GetAcceptedMode2().c_str();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actionNameList);
+			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 9, parent), _actormodeList);
+			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 10, parent), _actormodeList);
+
+			UpdateSelectedDistanceTriggerDisplay(ptr->GetPosX(), ptr->GetPosY(), ptr->GetPosZ(),
+																					ptr->GetDistance());
 
 			DrawArrows(ptr->GetPosX(), ptr->GetPosY(), ptr->GetPosZ());
 
@@ -2833,24 +3231,24 @@ std::string  EditorHandler::GetActionName(long id)
 /***********************************************************
 called when trigger object changed
 ***********************************************************/
-void EditorHandler::TriggerObjectChanged(long id, const std::string & category)
+void EditorHandler::TriggerObjectChanged(long id, const std::string & category, const QModelIndex &parentIdx)
 {
 	TriggerInfo triggerinfo;
 	triggerinfo.id = id;
-	triggerinfo.name = _objectmodel->GetData(1, 3).toString().toAscii().data();
+	triggerinfo.name = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString().toAscii().data();
 	std::string oldname = _triggers[id]->GetName();
 	std::string mapname = _uieditor.label_mapname->text().toAscii().data();
 
 	// check if name changed already exist
 	if(triggerinfo.name != oldname)
 	{
-		if(triggerinfo.name == "" || _triggerNameList->contains(triggerinfo.name.c_str()))
+		if(triggerinfo.name == "" || _triggerNameList->stringList().contains(triggerinfo.name.c_str()))
 		{
 			QMessageBox::warning(this, tr("Name already used"),
 				tr("The name you entered for the trigger is already used. Please enter a unique name."),
 				QMessageBox::Ok);
 
-			_objectmodel->SetData(1, 3, oldname.c_str());
+			_objectmodel->setData(_objectmodel->GetIndex(1, 3, parentIdx), oldname.c_str());
 			return;
 		}
 	}
@@ -2860,17 +3258,17 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category)
 	{
 		// get info
 
-		std::string action1 = _objectmodel->GetData(1, 4).toString().toAscii().data();
-		std::string action2 = _objectmodel->GetData(1, 5).toString().toAscii().data();
-		triggerinfo.CheckPlayers = _objectmodel->GetData(1, 6).toBool();
-		triggerinfo.CheckNpcs = _objectmodel->GetData(1, 7).toBool();
-		triggerinfo.CheckMovableObjects = _objectmodel->GetData(1, 8).toBool();
-		float posX = _objectmodel->GetData(1, 9).toFloat();
-		float posY = _objectmodel->GetData(1, 10).toFloat();
-		float posZ = _objectmodel->GetData(1, 11).toFloat();
-		float sizeX = _objectmodel->GetData(1, 12).toFloat();
-		float sizeY = _objectmodel->GetData(1, 13).toFloat();
-		float sizeZ = _objectmodel->GetData(1, 14).toFloat();
+		std::string action1 = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
+		std::string action2 = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toString().toAscii().data();
+		triggerinfo.CheckPlayers = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toBool();
+		triggerinfo.CheckNpcs = _objectmodel->data(_objectmodel->GetIndex(1, 7, parentIdx)).toBool();
+		triggerinfo.CheckMovableObjects = _objectmodel->data(_objectmodel->GetIndex(1, 8, parentIdx)).toBool();
+		float posX = _objectmodel->data(_objectmodel->GetIndex(1, 9, parentIdx)).toFloat();
+		float posY = _objectmodel->data(_objectmodel->GetIndex(1, 10, parentIdx)).toFloat();
+		float posZ = _objectmodel->data(_objectmodel->GetIndex(1, 11, parentIdx)).toFloat();
+		float sizeX = _objectmodel->data(_objectmodel->GetIndex(1, 12, parentIdx)).toFloat();
+		float sizeY = _objectmodel->data(_objectmodel->GetIndex(1, 13, parentIdx)).toFloat();
+		float sizeZ = _objectmodel->data(_objectmodel->GetIndex(1, 14, parentIdx)).toFloat();
 		if(sizeX < 0.0001)
 			sizeX = 0.0001;
 		if(sizeY < 0.0001)
@@ -2878,7 +3276,7 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category)
 		if(sizeZ < 0.0001)
 			sizeZ = 0.0001;
 
-		bool multicactiv = _objectmodel->GetData(1, 15).toBool();
+		bool multicactiv = _objectmodel->data(_objectmodel->GetIndex(1, 15, parentIdx)).toBool();
 
 		// get id associated to actions
 		long act1id = GetActionId(action1);
@@ -2889,15 +3287,17 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category)
 
 		boost::shared_ptr<TriggerBase> modifiedtrig(new ZoneTrigger(triggerinfo, sizeX, sizeY, sizeZ, multicactiv));
 		modifiedtrig->SetPosition(posX, posY, posZ);
+
+		long lastact1id = modifiedtrig->GetAction1();
+		long lastact2id = modifiedtrig->GetAction2();
+
 		modifiedtrig->SetAction1(act1id);
 		modifiedtrig->SetAction2(act2id);
 
 
 
 		// update trigger name list
-		QStringList::iterator it = std::find(_triggerNameList->begin(), _triggerNameList->end(), oldname.c_str());
-		if(it != _triggerNameList->end())
-			*it = triggerinfo.name.c_str();
+		_triggerNameList->ReplaceData(oldname.c_str(), triggerinfo.name.c_str());
 
 
 		_triggers[id] = modifiedtrig;
@@ -2921,8 +3321,182 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category)
 
 		UpdateSelectedZoneTriggerDisplay(posX, posY, posZ, sizeX, sizeY, sizeZ);
 
+		if(act1id < 0)
+		{
+			_objectmodel->Clear(_objectmodel->GetIndex(0, 4, parentIdx));
+		}
+		else if(lastact1id != act1id)
+		{
+			// refresh sub tree
+			_objectmodel->Clear(_objectmodel->GetIndex(0, 4, parentIdx));
+			SelectAction(act1id, _objectmodel->GetIndex(0, 4, parentIdx));
+		}
+
+		if(act2id < 0)
+		{
+			_objectmodel->Clear(_objectmodel->GetIndex(0, 5, parentIdx));
+		}
+		else if(lastact2id != act2id)
+		{
+			// refresh sub tree
+			_objectmodel->Clear(_objectmodel->GetIndex(0, 5, parentIdx));
+			SelectAction(act2id, _objectmodel->GetIndex(0, 5, parentIdx));
+		}
 		return;
 	}
+
+
+	if(category == "ZoneActionTrigger")
+	{
+		// get info
+
+		std::string action1 = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
+		float posX = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toFloat();
+		float posY = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toFloat();
+		float posZ = _objectmodel->data(_objectmodel->GetIndex(1, 7, parentIdx)).toFloat();
+		float sizeX = _objectmodel->data(_objectmodel->GetIndex(1, 8, parentIdx)).toFloat();
+		float sizeY = _objectmodel->data(_objectmodel->GetIndex(1, 9, parentIdx)).toFloat();
+		float sizeZ = _objectmodel->data(_objectmodel->GetIndex(1, 10, parentIdx)).toFloat();
+		triggerinfo.CheckPlayers = true;
+		triggerinfo.CheckNpcs = true;
+		triggerinfo.CheckMovableObjects = false;
+
+		if(sizeX < 0.0001)
+			sizeX = 0.0001;
+		if(sizeY < 0.0001)
+			sizeY = 0.0001;
+		if(sizeZ < 0.0001)
+			sizeZ = 0.0001;
+
+		std::string mode1 = _objectmodel->data(_objectmodel->GetIndex(1, 11, parentIdx)).toString().toAscii().data();
+		std::string mode2 = _objectmodel->data(_objectmodel->GetIndex(1, 12, parentIdx)).toString().toAscii().data();
+
+
+		// get id associated to actions
+		long act1id = GetActionId(action1);
+
+
+		// created modified action and replace old one
+
+		boost::shared_ptr<TriggerBase> modifiedtrig(new ZoneActionTrigger(triggerinfo, sizeX, sizeY, sizeZ, mode1, mode2));
+		modifiedtrig->SetPosition(posX, posY, posZ);
+
+		long lastact1id = modifiedtrig->GetAction1();
+		modifiedtrig->SetAction1(act1id);
+
+
+		// update trigger name list
+		_triggerNameList->ReplaceData(oldname.c_str(), triggerinfo.name.c_str());
+
+
+		_triggers[id] = modifiedtrig;
+
+
+		// update trigger list display
+		QStringList slist;
+		slist << triggerinfo.name.c_str() << modifiedtrig->GetTypeName().c_str();
+		_triggerlistmodel->AddOrUpdateRow(id, slist);
+
+
+
+		// need to save as something changed
+		SetMapModified();
+
+
+		//inform server
+		EditorUpdateBasePtr update = new UpdateEditor_AddOrModTrigger(modifiedtrig);
+		SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
+
+
+		UpdateSelectedZoneTriggerDisplay(posX, posY, posZ, sizeX, sizeY, sizeZ);
+
+		if(act1id < 0)
+		{
+			_objectmodel->Clear(_objectmodel->GetIndex(0, 4, parentIdx));
+		}
+		else if(lastact1id != act1id)
+		{
+			// refresh sub tree
+			_objectmodel->Clear(_objectmodel->GetIndex(0, 4, parentIdx));
+			SelectAction(act1id, _objectmodel->GetIndex(0, 4, parentIdx));
+		}
+
+		return;
+	}
+
+
+	if(category == "ActivationTrigger")
+	{
+		// get info
+
+		std::string action1 = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
+		float posX = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toFloat();
+		float posY = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toFloat();
+		float posZ = _objectmodel->data(_objectmodel->GetIndex(1, 7, parentIdx)).toFloat();
+		float distance = _objectmodel->data(_objectmodel->GetIndex(1, 8, parentIdx)).toFloat();
+		triggerinfo.CheckPlayers = true;
+		triggerinfo.CheckNpcs = true;
+		triggerinfo.CheckMovableObjects = false;
+
+		if(distance < 0.0001)
+			distance = 0.0001;
+
+		std::string mode1 = _objectmodel->data(_objectmodel->GetIndex(1, 9, parentIdx)).toString().toAscii().data();
+		std::string mode2 = _objectmodel->data(_objectmodel->GetIndex(1, 10, parentIdx)).toString().toAscii().data();
+
+
+		// get id associated to actions
+		long act1id = GetActionId(action1);
+
+
+		// created modified action and replace old one
+
+		boost::shared_ptr<TriggerBase> modifiedtrig(new ActivationTrigger(triggerinfo, distance, mode1, mode2));
+		modifiedtrig->SetPosition(posX, posY, posZ);
+
+		long lastact1id = modifiedtrig->GetAction1();
+		modifiedtrig->SetAction1(act1id);
+
+
+		// update trigger name list
+		_triggerNameList->ReplaceData(oldname.c_str(), triggerinfo.name.c_str());
+
+
+		_triggers[id] = modifiedtrig;
+
+
+		// update trigger list display
+		QStringList slist;
+		slist << triggerinfo.name.c_str() << modifiedtrig->GetTypeName().c_str();
+		_triggerlistmodel->AddOrUpdateRow(id, slist);
+
+
+
+		// need to save as something changed
+		SetMapModified();
+
+
+		//inform server
+		EditorUpdateBasePtr update = new UpdateEditor_AddOrModTrigger(modifiedtrig);
+		SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
+
+
+		UpdateSelectedDistanceTriggerDisplay(posX, posY, posZ, distance);
+
+		if(act1id < 0)
+		{
+			_objectmodel->Clear(_objectmodel->GetIndex(0, 4, parentIdx));
+		}
+		else if(lastact1id != act1id)
+		{
+			// refresh sub tree
+			_objectmodel->Clear(_objectmodel->GetIndex(0, 4, parentIdx));
+			SelectAction(act1id, _objectmodel->GetIndex(0, 4, parentIdx));
+		}
+
+		return;
+	}
+
 }
 
 
@@ -3009,8 +3583,7 @@ refresh starting map
 ***********************************************************/
 void EditorHandler::RefreshStartingMap()
 {
-	_uieditor.comboBox_startingmap->clear();
-	_uieditor.comboBox_startingmap->insertItems(0, *_mapNameList);
+	_uieditor.comboBox_startingmap->setModel(_mapNameList.get());
 	int index = _uieditor.comboBox_startingmap->findText(_winfo.StartingInfo.StartingMap.c_str());
 	if(index >= 0)
 		_uieditor.comboBox_startingmap->setCurrentIndex(index);
@@ -3030,16 +3603,14 @@ refresh starting spawning
 ***********************************************************/
 void EditorHandler::RefreshStartingSpawning()
 {
-	_uieditor.comboBox_startingspawning->clear();
-
 	LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(_winfo.StartingInfo.StartingMap);
 	if(itmap != _winfo.Maps.end())
 	{
-		std::map<std::string, boost::shared_ptr<QStringList> >::iterator itsp = 
+		std::map<std::string, boost::shared_ptr<CustomStringListModel> >::iterator itsp = 
 													_mapSpawningList.find(_winfo.StartingInfo.StartingMap);
 		if(itsp != _mapSpawningList.end())
 		{
-			_uieditor.comboBox_startingspawning->insertItems(0, *(itsp->second));	
+			_uieditor.comboBox_startingspawning->setModel(itsp->second.get());	
 
 			LbaNet::SpawningsSeq::iterator it = itmap->second.Spawnings.find(_winfo.StartingInfo.SpawningId);
 			if(it != itmap->second.Spawnings.end())
@@ -3286,10 +3857,7 @@ void EditorHandler::removemap_button_clicked()
 			_maplistmodel->removeRows(indexes[0].row(), 1);
 
 			// update map list name
-			QStringList::iterator it = std::find(_mapNameList->begin(), _mapNameList->end(), mapname.c_str());
-			if(it != _mapNameList->end())
-				_mapNameList->erase(it);
-
+			_mapNameList->RemoveData(mapname.c_str());
 
 			//inform server
 			EditorUpdateBasePtr update = new UpdateEditor_RemoveMap(mapname);
@@ -3313,7 +3881,7 @@ void EditorHandler::addmap_accepted()
 	if(mapname == "")
 		return;
 
-	if(_mapNameList->contains(mapname))
+	if(_mapNameList->stringList().contains(mapname))
 	{
 		QMessageBox::warning(this, tr("Name already used"),
 			tr("The name you entered for the map is already used. Please enter a unique name."),
@@ -3348,8 +3916,8 @@ void EditorHandler::addmap_accepted()
 	data << mapname << newmapinfo.Description.c_str();
 	_maplistmodel->AddOrUpdateRow(_maplistmodel->GetNextId(), data);
 
-	(*_mapNameList) << mapname;
-	_mapSpawningList[newmapinfo.Name] = boost::shared_ptr<QStringList>(new QStringList());
+	_mapNameList->AddData(mapname);
+	_mapSpawningList[newmapinfo.Name] = boost::shared_ptr<CustomStringListModel>(new CustomStringListModel());
 
 
 	//inform server
@@ -3500,9 +4068,7 @@ tp add button push
 void EditorHandler::TpAdd_button()
 {
 	_ui_addtpdialog.lineEdit_tpname->setText("");
-	_ui_addtpdialog.comboBox_map->clear();
-	_ui_addtpdialog.comboBox_map->insertItems(0, *_mapNameList);
-	_ui_addtpdialog.comboBox_spawn->clear();
+	_ui_addtpdialog.comboBox_map->setModel(_mapNameList.get());
 	_addtpdialog->setWindowTitle("Add Teleport");
 	_edited_tp = -1;
 
@@ -3563,8 +4129,7 @@ void EditorHandler::TpEdit_button()
 
 
 			// add map list to combo box
-			_ui_addtpdialog.comboBox_map->clear();
-			_ui_addtpdialog.comboBox_map->insertItems(0, *_mapNameList);
+			_ui_addtpdialog.comboBox_map->setModel(_mapNameList.get());
 
 			int index = _ui_addtpdialog.comboBox_map->findText(it->second.MapName.c_str());
 			if(index >= 0)
@@ -3573,13 +4138,11 @@ void EditorHandler::TpEdit_button()
 
 
 			// add spawning list to combo box
-			_ui_addtpdialog.comboBox_spawn->clear();
-
-			std::map<std::string, boost::shared_ptr<QStringList> >::iterator itsp = 
+			std::map<std::string, boost::shared_ptr<CustomStringListModel> >::iterator itsp = 
 													_mapSpawningList.find(it->second.MapName.c_str());
 			if(itsp != _mapSpawningList.end())
 			{
-				_ui_addtpdialog.comboBox_spawn->insertItems(0, *(itsp->second));
+				_ui_addtpdialog.comboBox_spawn->setModel(itsp->second.get());
 
 				// select span in combo box if exist
 				LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(it->second.MapName);
@@ -3669,16 +4232,13 @@ void EditorHandler::TpDialogMapChanged(int flag)
 {
 	std::string mapname = _ui_addtpdialog.comboBox_map->currentText().toAscii().data();
 
-	//update spawning list
-	_ui_addtpdialog.comboBox_spawn->clear();
-
-	std::map<std::string, boost::shared_ptr<QStringList> >::iterator itsp = 
+	std::map<std::string, boost::shared_ptr<CustomStringListModel> >::iterator itsp = 
 											_mapSpawningList.find(mapname.c_str());
 	if(itsp != _mapSpawningList.end())
 	{
-		_ui_addtpdialog.comboBox_spawn->insertItems(0, *(itsp->second));
+		_ui_addtpdialog.comboBox_spawn->setModel(itsp->second.get());
 
-		if(itsp->second->size() > 0)
+		if(itsp->second->stringList().size() > 0)
 			_ui_addtpdialog.comboBox_spawn->setCurrentIndex(0);
 	}
 }
@@ -3946,37 +4506,39 @@ void EditorHandler::RemoveActor(long id)
 /***********************************************************
 select actor
 ***********************************************************/
-void EditorHandler::SelectActor(long id)
+void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator it = _Actors.find(id);
 	if(it != _Actors.end())
 	{
-		ResetObject();
+		if(parent == QModelIndex())
+			ResetObject();
+
 		const ActorObjectInfo & ainfo = it->second->GetInfo();
 		
 
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Type"<<"Actor";
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent, true);
 		}
 
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"SubCategory"<<"-";
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent, true);
 		}
 
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Id"<<id;
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent, true);
 		}
 
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Name"<<ainfo.ExtraInfo.Name.c_str();
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent);
 		}
 
 
@@ -3997,9 +4559,9 @@ void EditorHandler::SelectActor(long id)
 			break;  
 		}
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Type"<<type.c_str();
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent);
 		}
 
 		std::string dtype;
@@ -4034,9 +4596,9 @@ void EditorHandler::SelectActor(long id)
 			break;
 		}
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Display Type"<<dtype.c_str();
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent);
 		}
 
 		std::string ptype;
@@ -4059,134 +4621,134 @@ void EditorHandler::SelectActor(long id)
 			break;
 		}
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Physical Type"<<ptype.c_str();
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent);
 		}
 
-		_objectcustomdelegate->SetCustomIndex(4, _actortypeList);
-		_objectcustomdelegate->SetCustomIndex(5, _actordtypeList);
-		_objectcustomdelegate->SetCustomIndex(6, _actorptypeList);		
+		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actortypeList);
+		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 5, parent), _actordtypeList);
+		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 6, parent), _actorptypeList);		
 
 
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Position X"<<(double)ainfo.PhysicDesc.Pos.X;
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent);
 		}
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Position Y"<<(double)ainfo.PhysicDesc.Pos.Y;
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent);
 		}
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Position Z"<<(double)ainfo.PhysicDesc.Pos.Z;
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent);
 		}
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Rotation"<<(double)ainfo.PhysicDesc.Pos.Rotation;
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent);
 		}
 
 		if(ainfo.PhysicDesc.TypeShape != LbaNet::NoShape)
 		{
 			{
-				QVariantList data;
+				QVector<QVariant> data;
 				data<<"Collidable"<<ainfo.PhysicDesc.Collidable;
-				_objectmodel->AddRow(data);
+				_objectmodel->AppendRow(data, parent);
 			}
 
 			if(ainfo.PhysicDesc.TypeShape != LbaNet::TriangleMeshShape)
 			{
 				{
-					QVariantList data;
+					QVector<QVariant> data;
 					data<<"Size X"<<(double)ainfo.PhysicDesc.SizeX;
-					_objectmodel->AddRow(data);
+					_objectmodel->AppendRow(data, parent);
 				}
 				{
-					QVariantList data;
+					QVector<QVariant> data;
 					data<<"Size Y"<<(double)ainfo.PhysicDesc.SizeY;
-					_objectmodel->AddRow(data);
+					_objectmodel->AppendRow(data, parent);
 				}
 				{
-					QVariantList data;
+					QVector<QVariant> data;
 					data<<"Size Z"<<(double)ainfo.PhysicDesc.SizeZ;
-					_objectmodel->AddRow(data);
+					_objectmodel->AppendRow(data, parent);
 				}
 			}
 			else
 			{
 				{
-					QVariantList data;
+					QVector<QVariant> data;
 					data<<"Physic filename"<<ainfo.PhysicDesc.Filename.c_str();
-					_objectmodel->AddRow(data);
+					_objectmodel->AppendRow(data, parent);
 				}
 			}
 		}
 
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Use Light"<<ainfo.DisplayDesc.UseLight;
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent);
 		}
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Cast shadow"<<ainfo.DisplayDesc.CastShadow;
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent);
 		}
 
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Display translation X"<<(double)ainfo.DisplayDesc.TransX;
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent);
 		}
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Display translation Y"<<(double)ainfo.DisplayDesc.TransY;
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent);
 		}
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Display translation Z"<<(double)ainfo.DisplayDesc.TransZ;
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent);
 		}
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Display rotation X"<<(double)ainfo.DisplayDesc.RotX;
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent);
 		}
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Display rotation Y"<<(double)ainfo.DisplayDesc.RotY;
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent);
 		}
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Display rotation Z"<<(double)ainfo.DisplayDesc.RotZ;
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent);
 		}
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Display scale X"<<(double)ainfo.DisplayDesc.ScaleX;
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent);
 		}
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Display scale Y"<<(double)ainfo.DisplayDesc.ScaleY;
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent);
 		}
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Display scale Z"<<(double)ainfo.DisplayDesc.ScaleZ;
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent);
 		}
 
 		{
-			QVariantList data;
+			QVector<QVariant> data;
 			data<<"Display model/file name"<<ainfo.DisplayDesc.ModelName.c_str();
-			_objectmodel->AddRow(data);
+			_objectmodel->AppendRow(data, parent);
 		}
 		// TODO Outfit;
 		// TODO Weapon;
@@ -4203,7 +4765,7 @@ void EditorHandler::SelectActor(long id)
 /***********************************************************
 called when actor object changed
 ***********************************************************/
-void EditorHandler::ActorObjectChanged(long id)
+void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator it = _Actors.find(id);
 	if(it != _Actors.end())
@@ -4211,71 +4773,71 @@ void EditorHandler::ActorObjectChanged(long id)
 		bool updateobj = false;
 		ActorObjectInfo & ainfo = it->second->GetInfo();
 
-		ainfo.ExtraInfo.Name = _objectmodel->GetData(1, 3).toString().toAscii().data();
+		ainfo.ExtraInfo.Name = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString().toAscii().data();
 
-		ainfo.PhysicDesc.Pos.X = _objectmodel->GetData(1, 7).toFloat();
-		ainfo.PhysicDesc.Pos.Y = _objectmodel->GetData(1, 8).toFloat();
-		ainfo.PhysicDesc.Pos.Z = _objectmodel->GetData(1, 9).toFloat();
-		ainfo.PhysicDesc.Pos.Rotation = _objectmodel->GetData(1, 10).toFloat();
+		ainfo.PhysicDesc.Pos.X = _objectmodel->data(_objectmodel->GetIndex(1, 7, parentIdx)).toFloat();
+		ainfo.PhysicDesc.Pos.Y = _objectmodel->data(_objectmodel->GetIndex(1, 8, parentIdx)).toFloat();
+		ainfo.PhysicDesc.Pos.Z = _objectmodel->data(_objectmodel->GetIndex(1, 9, parentIdx)).toFloat();
+		ainfo.PhysicDesc.Pos.Rotation = _objectmodel->data(_objectmodel->GetIndex(1, 10, parentIdx)).toFloat();
 
 		int index = 11;
 
 		if(ainfo.PhysicDesc.TypeShape != LbaNet::NoShape)
 		{
-			ainfo.PhysicDesc.Collidable = _objectmodel->GetData(1, index).toBool();
+			ainfo.PhysicDesc.Collidable = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
 			++index;
 
 			if(ainfo.PhysicDesc.TypeShape != LbaNet::TriangleMeshShape)
 			{
-				ainfo.PhysicDesc.SizeX = _objectmodel->GetData(1, index).toString().toFloat();
+				ainfo.PhysicDesc.SizeX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
 				++index;
-				ainfo.PhysicDesc.SizeY = _objectmodel->GetData(1, index).toString().toFloat();
+				ainfo.PhysicDesc.SizeY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
 				++index;
-				ainfo.PhysicDesc.SizeZ = _objectmodel->GetData(1, index).toString().toFloat();
+				ainfo.PhysicDesc.SizeZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
 				++index;
 			}
 			else
 			{
-				ainfo.PhysicDesc.Filename = _objectmodel->GetData(1, index).toString().toAscii().data();
+				ainfo.PhysicDesc.Filename = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
 				++index;
 			}
 		}
 
-		ainfo.DisplayDesc.UseLight = _objectmodel->GetData(1, index).toBool();
+		ainfo.DisplayDesc.UseLight = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
 		++index;
 
-		ainfo.DisplayDesc.CastShadow = _objectmodel->GetData(1, index).toBool();
+		ainfo.DisplayDesc.CastShadow = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
 		++index;
 
-		ainfo.DisplayDesc.TransX = _objectmodel->GetData(1, index).toString().toFloat();
+		ainfo.DisplayDesc.TransX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
 		++index;
-		ainfo.DisplayDesc.TransY = _objectmodel->GetData(1, index).toString().toFloat();
+		ainfo.DisplayDesc.TransY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
 		++index;
-		ainfo.DisplayDesc.TransZ = _objectmodel->GetData(1, index).toString().toFloat();
-		++index;
-
-		ainfo.DisplayDesc.RotX = _objectmodel->GetData(1, index).toString().toFloat();
-		++index;
-		ainfo.DisplayDesc.RotY = _objectmodel->GetData(1, index).toString().toFloat();
-		++index;
-		ainfo.DisplayDesc.RotZ = _objectmodel->GetData(1, index).toString().toFloat();
+		ainfo.DisplayDesc.TransZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
 		++index;
 
-		ainfo.DisplayDesc.ScaleX = _objectmodel->GetData(1, index).toString().toFloat();
+		ainfo.DisplayDesc.RotX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
 		++index;
-		ainfo.DisplayDesc.ScaleY = _objectmodel->GetData(1, index).toString().toFloat();
+		ainfo.DisplayDesc.RotY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
 		++index;
-		ainfo.DisplayDesc.ScaleZ = _objectmodel->GetData(1, index).toString().toFloat();
+		ainfo.DisplayDesc.RotZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+		++index;
+
+		ainfo.DisplayDesc.ScaleX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+		++index;
+		ainfo.DisplayDesc.ScaleY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+		++index;
+		ainfo.DisplayDesc.ScaleZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
 		++index;
 
 
-		ainfo.DisplayDesc.ModelName = _objectmodel->GetData(1, index).toString().toAscii().data();
+		ainfo.DisplayDesc.ModelName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
 		++index;
 
 		
 		{
 		LbaNet::PhysicalActorType before = ainfo.PhysicDesc.TypePhysO;
-		std::string type = _objectmodel->GetData(1, 4).toString().toAscii().data();
+		std::string type = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
 		if(type == "Static") 
 			ainfo.PhysicDesc.TypePhysO = LbaNet::StaticAType;
 		if(type == "Scripted") 
@@ -4286,7 +4848,7 @@ void EditorHandler::ActorObjectChanged(long id)
 			updateobj = true;
 
 		LbaNet::RenderTypeEnum befored = ainfo.DisplayDesc.TypeRenderer;
-		std::string dtype = _objectmodel->GetData(1, 5).toString().toAscii().data();
+		std::string dtype = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toString().toAscii().data();
 		if(dtype == "Osg Model") 
 			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderOsgModel;
 		if(dtype == "Sprite") 
@@ -4299,7 +4861,7 @@ void EditorHandler::ActorObjectChanged(long id)
 			updateobj = true;
 
 		LbaNet::PhysicalShapeEnum beforep = ainfo.PhysicDesc.TypeShape;
-		std::string ptype = _objectmodel->GetData(1, 6).toString().toAscii().data();
+		std::string ptype = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toString().toAscii().data();
 		if(ptype == "No Shape") 
 			ainfo.PhysicDesc.TypeShape = LbaNet::NoShape;
 		if(ptype == "Box") 
@@ -4631,6 +5193,9 @@ void EditorHandler::PickedObject(const std::string & name)
 			else if(id > 1000000)
 				SelectSpawning(id-1000000);
 		break;
+		case 'M':
+			ResetObject();
+		break;
 	}
 }
 
@@ -4639,7 +5204,7 @@ void EditorHandler::PickedObject(const std::string & name)
 update editor selected trigger display
 ***********************************************************/
 void EditorHandler::UpdateSelectedZoneTriggerDisplay(float PosX, float PosY, float PosZ,
-											float SizeX, float SizeY, float SizeZ)
+													 float SizeX, float SizeY, float SizeZ)
 {
 	RemoveSelectedActorDislay();
 
@@ -4651,7 +5216,7 @@ void EditorHandler::UpdateSelectedZoneTriggerDisplay(float PosX, float PosY, flo
 
 
 	osg::ref_ptr<osg::Geode> capsuleGeode(new osg::Geode());
-	osg::ref_ptr<osg::Box> caps(new osg::Box(osg::Vec3(0,SizeY,0), SizeX, SizeY*2, SizeZ));
+	osg::ref_ptr<osg::Box> caps(new osg::Box(osg::Vec3(0,SizeY/2,0), SizeX, SizeY, SizeZ));
 	osg::ref_ptr<osg::ShapeDrawable> capsdraw = new osg::ShapeDrawable(caps);
 	capsdraw->setColor(osg::Vec4(0.5, 0.0, 0.0, 1.0));
 	capsuleGeode->addDrawable(capsdraw);
@@ -4667,6 +5232,38 @@ void EditorHandler::UpdateSelectedZoneTriggerDisplay(float PosX, float PosY, flo
 	polymode->setMode(osg::PolygonMode::FRONT_AND_BACK,osg::PolygonMode::LINE);
 	stateset->setAttributeAndModes(polymode,osg::StateAttribute::OVERRIDE|osg::StateAttribute::ON);
 }
+
+
+/***********************************************************
+update editor selected trigger display
+***********************************************************/
+void EditorHandler::UpdateSelectedDistanceTriggerDisplay(float PosX, float PosY, float PosZ, float distance)
+{
+	RemoveSelectedActorDislay();
+
+	_actornode = OsgHandler::getInstance()->AddEmptyActorNode(false);
+
+	osg::Matrixd Trans;
+	Trans.makeTranslate(PosX, PosY, PosZ);
+	_actornode->setMatrix(Trans);
+
+
+	osg::ref_ptr<osg::Geode> capsuleGeode(new osg::Geode());
+	osg::ref_ptr<osg::Sphere> caps(new osg::Sphere(osg::Vec3(0,0,0), distance));
+	osg::ref_ptr<osg::ShapeDrawable> capsdraw = new osg::ShapeDrawable(caps);
+	capsdraw->setColor(osg::Vec4(0.5, 0.0, 0.0, 0.2));
+	capsuleGeode->addDrawable(capsdraw);
+	_actornode->addChild(capsuleGeode);
+
+	osg::StateSet* stateset = capsuleGeode->getOrCreateStateSet();
+	stateset->setMode(GL_BLEND, osg::StateAttribute::ON);
+	stateset->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
+	stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+	stateset->setRenderBinDetails( 9100, "RenderBin");	
+}
+
+
+
 
 
 /***********************************************************
@@ -4796,34 +5393,90 @@ void EditorHandler::PickedArrowMoved(int pickedarrow)
 {
 	if(_objectmodel->rowCount() > 2)
 	{
-		QString type = _objectmodel->GetData(1, 0).toString();
-		std::string category = _objectmodel->GetData(1, 1).toString().toAscii().data();
-		long objid = _objectmodel->GetData(1, 2).toString().toLong();
+		QString type = _objectmodel->data(_objectmodel->GetIndex(1, 0)).toString();
+		std::string category = _objectmodel->data(_objectmodel->GetIndex(1, 1)).toString().toAscii().data();
+		long objid = _objectmodel->data(_objectmodel->GetIndex(1, 2)).toString().toLong();
 
 
 		if(type == "Trigger")
 		{
-			if(pickedarrow == 1)
+			if(category == "ZoneTrigger")
 			{
-				_objectmodel->SetData(1, 9, floor(_draggerX->getMatrix().getTrans().x()*10)/10);
-				_draggerY->setMatrix(_draggerX->getMatrix());
-				_draggerZ->setMatrix(_draggerX->getMatrix());
+				if(pickedarrow == 1)
+				{
+					_objectmodel->setData(_objectmodel->GetIndex(1, 9), floor(_draggerX->getMatrix().getTrans().x()*10)/10);
+					_draggerY->setMatrix(_draggerX->getMatrix());
+					_draggerZ->setMatrix(_draggerX->getMatrix());
+				}
+
+				if(pickedarrow == 2)
+				{	
+					_objectmodel->setData(_objectmodel->GetIndex(1, 10), floor(_draggerY->getMatrix().getTrans().y()*10)/10);
+					_draggerX->setMatrix(_draggerY->getMatrix());
+					_draggerZ->setMatrix(_draggerY->getMatrix());
+				}
+
+				if(pickedarrow == 3)
+				{
+					_objectmodel->setData(_objectmodel->GetIndex(1, 11), floor(_draggerZ->getMatrix().getTrans().z()*10)/10);
+					_draggerX->setMatrix(_draggerZ->getMatrix());
+					_draggerY->setMatrix(_draggerZ->getMatrix());
+				}
+				
+				return;
 			}
 
-			if(pickedarrow == 2)
-			{	
-				_objectmodel->SetData(1, 10, floor(_draggerY->getMatrix().getTrans().y()*10)/10);
-				_draggerX->setMatrix(_draggerY->getMatrix());
-				_draggerZ->setMatrix(_draggerY->getMatrix());
-			}
-
-			if(pickedarrow == 3)
+			if(category == "ActivationTrigger")
 			{
-				_objectmodel->SetData(1, 11, floor(_draggerZ->getMatrix().getTrans().z()*10)/10);
-				_draggerX->setMatrix(_draggerZ->getMatrix());
-				_draggerY->setMatrix(_draggerZ->getMatrix());
+				if(pickedarrow == 1)
+				{
+					_objectmodel->setData(_objectmodel->GetIndex(1, 5), floor(_draggerX->getMatrix().getTrans().x()*10)/10);
+					_draggerY->setMatrix(_draggerX->getMatrix());
+					_draggerZ->setMatrix(_draggerX->getMatrix());
+				}
+
+				if(pickedarrow == 2)
+				{	
+					_objectmodel->setData(_objectmodel->GetIndex(1, 6), floor(_draggerY->getMatrix().getTrans().y()*10)/10);
+					_draggerX->setMatrix(_draggerY->getMatrix());
+					_draggerZ->setMatrix(_draggerY->getMatrix());
+				}
+
+				if(pickedarrow == 3)
+				{
+					_objectmodel->setData(_objectmodel->GetIndex(1, 7), floor(_draggerZ->getMatrix().getTrans().z()*10)/10);
+					_draggerX->setMatrix(_draggerZ->getMatrix());
+					_draggerY->setMatrix(_draggerZ->getMatrix());
+				}
+
+				return;
 			}
 
+			if(category == "ZoneActionTrigger")
+			{
+				if(pickedarrow == 1)
+				{
+					_objectmodel->setData(_objectmodel->GetIndex(1, 5), floor(_draggerX->getMatrix().getTrans().x()*10)/10);
+					_draggerY->setMatrix(_draggerX->getMatrix());
+					_draggerZ->setMatrix(_draggerX->getMatrix());
+				}
+
+				if(pickedarrow == 2)
+				{	
+					_objectmodel->setData(_objectmodel->GetIndex(1, 6), floor(_draggerY->getMatrix().getTrans().y()*10)/10);
+					_draggerX->setMatrix(_draggerY->getMatrix());
+					_draggerZ->setMatrix(_draggerY->getMatrix());
+				}
+
+				if(pickedarrow == 3)
+				{
+					_objectmodel->setData(_objectmodel->GetIndex(1, 7), floor(_draggerZ->getMatrix().getTrans().z()*10)/10);
+					_draggerX->setMatrix(_draggerZ->getMatrix());
+					_draggerY->setMatrix(_draggerZ->getMatrix());
+				}
+
+				return;
+			}
 			return;
 		}
 
@@ -4833,27 +5486,27 @@ void EditorHandler::PickedArrowMoved(int pickedarrow)
 
 			if(pickedarrow == 1)
 			{
-				float nX = _objectmodel->GetData(1, 7).toString().toFloat();
+				float nX = _objectmodel->data(_objectmodel->GetIndex(1, 7)).toString().toFloat();
 				nX += floor(_draggerX->getMatrix().getTrans().x()*10)/10 - center.x();
-				_objectmodel->SetData(1, 7, nX);
+				_objectmodel->setData(_objectmodel->GetIndex(1, 7), nX);
 				_draggerY->setMatrix(_draggerX->getMatrix());
 				_draggerZ->setMatrix(_draggerX->getMatrix());
 			}
 
 			if(pickedarrow == 2)
 			{	
-				float nY = _objectmodel->GetData(1, 8).toString().toFloat();
+				float nY = _objectmodel->data(_objectmodel->GetIndex(1, 8)).toString().toFloat();
 				nY += floor(_draggerY->getMatrix().getTrans().y()*10)/10 - center.y();
-				_objectmodel->SetData(1, 8, nY);
+				_objectmodel->setData(_objectmodel->GetIndex(1, 8), nY);
 				_draggerX->setMatrix(_draggerY->getMatrix());
 				_draggerZ->setMatrix(_draggerY->getMatrix());
 			}
 
 			if(pickedarrow == 3)
 			{
-				float nZ = _objectmodel->GetData(1, 9).toString().toFloat();
+				float nZ = _objectmodel->data(_objectmodel->GetIndex(1, 9)).toString().toFloat();
 				nZ += floor(_draggerZ->getMatrix().getTrans().z()*10)/10 - center.z();
-				_objectmodel->SetData(1, 9, nZ);
+				_objectmodel->setData(_objectmodel->GetIndex(1, 9), nZ);
 				_draggerX->setMatrix(_draggerZ->getMatrix());
 				_draggerY->setMatrix(_draggerZ->getMatrix());
 			}
@@ -4877,4 +5530,644 @@ void EditorHandler::RemoveArrows()
 		_draggerY = NULL;
 		_draggerZ = NULL;
 	}
+}
+
+
+/***********************************************************
+only used by the editor to add client scripts to the list
+***********************************************************/
+void EditorHandler::EditorAddClientScript(boost::shared_ptr<ClientScriptBase> script)
+{
+	_cscripts[script->GetId()] = script;
+	_curscriptidx = script->GetId();
+
+	QStringList data;
+	data << script->GetName().c_str() << script->GetTypeName().c_str();
+	_cscriptlistmodel->AddOrUpdateRow(script->GetId(), data);
+
+	_cscriptList->AddData(script->GetName().c_str());
+
+	// refresh client script
+	std::stringstream strs;
+	script->SaveScriptToLua(strs);
+	EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::ClientExecuteScriptStringEvent(
+		SynchronizedTimeHandler::GetCurrentTimeDouble(), strs.str()));	
+}
+
+
+/***********************************************************
+addcscript_button_clicked
+***********************************************************/
+void EditorHandler::addcscript_button_clicked()
+{
+	if(!IsWorldOpened())
+		return;
+
+	_ui_addcscriptdialog.lineEdit_name->setText("");
+	_addcscriptdialog->show();
+}
+
+
+/***********************************************************
+removecscript_button_clicked
+***********************************************************/
+void EditorHandler::removecscript_button_clicked()
+{
+	QItemSelectionModel *selectionModel = _uieditor.tableViewCScriptsList->selectionModel();
+	QModelIndexList indexes = selectionModel->selectedIndexes();
+	if(indexes.size() > 1)
+	{
+		// inform server
+		long id = _cscriptlistmodel->GetId(indexes[0]);
+		std::string name = _cscriptlistmodel->GetString(indexes[0]).toAscii().data();
+		
+		//remove from map
+		std::map<long, boost::shared_ptr<ClientScriptBase> >::iterator itm = _cscripts.find(id);
+		if(itm != _cscripts.end())
+			_cscripts.erase(itm);
+
+		// remove row from table
+		_cscriptlistmodel->removeRows(indexes[0].row(), 1);
+
+		// remove from list
+		_cscriptList->RemoveData(name.c_str());
+
+		// clear object
+		ClearObjectIfSelected("ClientScript", id);
+
+		// tell user to save change
+		SetModified();
+	}
+}
+
+
+/***********************************************************
+selectcscript_button_clicked
+***********************************************************/
+void EditorHandler::selectcscript_button_clicked()
+{
+	QItemSelectionModel *selectionModel = _uieditor.tableViewCScriptsList->selectionModel();
+	QModelIndexList indexes = selectionModel->selectedIndexes();
+	if(indexes.size() > 1)
+	{
+		// inform server
+		long id = _cscriptlistmodel->GetId(indexes[0]);
+
+		SelectCScript(id);
+	}
+}
+
+/***********************************************************
+addcscript_accepted
+***********************************************************/
+void EditorHandler::addcscript_accepted()
+{
+
+	QString csname = _ui_addcscriptdialog.lineEdit_name->text();
+
+	// user forgot to set a name
+	if(csname == "")
+		return;
+
+	if(_cscriptList->stringList().contains(csname))
+	{
+		QMessageBox::warning(this, tr("Name already used"),
+			tr("The name you entered for the script is already used. Please enter a unique name."),
+			QMessageBox::Ok);
+		return;
+	}
+
+	_addcscriptdialog->hide();
+
+
+
+	long id = _curscriptidx+1;
+
+
+	switch(_ui_addcscriptdialog.comboBox_type->currentIndex())
+	{
+		case 0: // go up ladder
+		{
+			boost::shared_ptr<ClientScriptBase> script(new GoUpLadderScript(id, csname.toAscii().data(),
+																			_posX, _posY, _posZ, 5, 0));
+
+			EditorAddClientScript(script);
+
+		}
+		break;
+
+		case 1: // exit up
+		{
+			boost::shared_ptr<ClientScriptBase> script(new TakeExitUpScript(id, csname.toAscii().data(),
+				_posX, _posY, _posZ, 0));
+
+			EditorAddClientScript(script);
+
+		}
+		break;
+
+		case 2: // exit down
+		{
+			boost::shared_ptr<ClientScriptBase> script(new TakeExitDownScript(id, csname.toAscii().data(),
+				_posX, _posY, _posZ, 0));
+
+			EditorAddClientScript(script);
+
+		}
+		break;
+	}
+
+	SelectCScript(id);
+
+	// tell user to save change
+	SetModified();
+
+
+	switch(_updateactiondialogonnewscript)
+	{
+		case 1:
+			{
+				int index = _ui_addactiondialog.comboBox_script_name->findText(csname);
+				if(index >= 0)
+					_ui_addactiondialog.comboBox_script_name->setCurrentIndex(index);
+			}
+		break;
+	}
+
+	_updateactiondialogonnewscript = -1;
+}
+
+/***********************************************************
+selectcscript_double_clicked
+***********************************************************/
+void EditorHandler::selectcscript_double_clicked( const QModelIndex & itm )
+{
+	selectcscript_button_clicked();
+}
+
+/***********************************************************
+SelectCScript
+***********************************************************/
+void EditorHandler::SelectCScript(long id, const QModelIndex &parent)
+{
+	std::map<long, boost::shared_ptr<ClientScriptBase> >::iterator it = _cscripts.find(id);
+	if(it != _cscripts.end())
+	{
+		if(parent == QModelIndex())
+			ResetObject();
+
+		{
+			QVector<QVariant> data;
+			data<<"Type"<<"ClientScript";
+			_objectmodel->AppendRow(data, parent, true);
+		}
+
+		{
+			QVector<QVariant> data;
+			data<<"SubCategory"<<it->second->GetTypeName().c_str();
+			_objectmodel->AppendRow(data, parent, true);
+		}
+
+		{
+			QVector<QVariant> data;
+			data<<"Id"<<id;
+			_objectmodel->AppendRow(data, parent, true);
+		}
+
+		{
+			QVector<QVariant> data;
+			data<<"Name"<<it->second->GetName().c_str();
+			_objectmodel->AppendRow(data, parent);
+		}
+
+		std::string actiontype = it->second->GetTypeName();
+		if(actiontype == "GoUpLadderScript")
+		{
+			GoUpLadderScript* ptr = static_cast<GoUpLadderScript*>(it->second.get());
+
+			{
+				QVector<QVariant> data;
+				data << "Position X" << (double)ptr->GetLadderPositionX();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Position Y" << (double)ptr->GetLadderPositionY();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Position Z" << (double)ptr->GetLadderPositionZ();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Ladder Height" << (double)ptr->GetLadderHeight();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Ladder Direction" << ptr->GetLadderDirection();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			UpdateSelectedGoUpLadderScriptDisplay(ptr->GetLadderPositionX(), ptr->GetLadderPositionY(), ptr->GetLadderPositionZ(),
+													ptr->GetLadderHeight(), ptr->GetLadderDirection());
+
+
+			return;
+		}
+
+		if(actiontype == "TakeExitUpScript")
+		{
+			TakeExitUpScript* ptr = static_cast<TakeExitUpScript*>(it->second.get());
+
+			{
+				QVector<QVariant> data;
+				data << "Position X" << (double)ptr->GetExitPositionX();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Position Y" << (double)ptr->GetExitPositionY();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Position Z" << (double)ptr->GetExitPositionZ();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Exit Direction" << ptr->GetExitDirection();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			UpdateSelectedGoUpLadderScriptDisplay(ptr->GetExitPositionX(), ptr->GetExitPositionY(), ptr->GetExitPositionZ(),
+														0, ptr->GetExitDirection());
+
+
+			return;
+		}
+
+		if(actiontype == "TakeExitDownScript")
+		{
+			TakeExitDownScript* ptr = static_cast<TakeExitDownScript*>(it->second.get());
+
+			{
+				QVector<QVariant> data;
+				data << "Position X" << (double)ptr->GetExitPositionX();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Position Y" << (double)ptr->GetExitPositionY();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Position Z" << (double)ptr->GetExitPositionZ();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Exit Direction" << ptr->GetExitDirection();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			UpdateSelectedGoUpLadderScriptDisplay(ptr->GetExitPositionX(), ptr->GetExitPositionY(), ptr->GetExitPositionZ(),
+				0, ptr->GetExitDirection());
+
+
+			return;
+		}
+	}
+}
+
+/***********************************************************
+SaveEditorLua
+***********************************************************/
+void EditorHandler::SaveEditorLua( const std::string & filename )
+{
+	std::ofstream file(filename.c_str());
+	file<<"function InitEditor(environment)"<<std::endl;
+
+	std::map<long, boost::shared_ptr<ClientScriptBase> >::const_iterator it = _cscripts.begin();
+	std::map<long, boost::shared_ptr<ClientScriptBase> >::const_iterator end = _cscripts.end();
+	for(; it != end; ++it)
+		it->second->SaveToLuaFile(file);
+
+
+	file<<"end"<<std::endl;
+}
+
+
+/***********************************************************
+SaveGlobalClientLua
+***********************************************************/
+void EditorHandler::SaveGlobalClientLua( const std::string & filename )
+{
+	std::ofstream file(filename.c_str());
+
+	std::map<long, boost::shared_ptr<ClientScriptBase> >::const_iterator it = _cscripts.begin();
+	std::map<long, boost::shared_ptr<ClientScriptBase> >::const_iterator end = _cscripts.end();
+	for(; it != end; ++it)
+		it->second->SaveScriptToLua(file);
+}
+
+
+/***********************************************************
+UpdateSelectedGoUpLadderScriptDisplay
+***********************************************************/
+void EditorHandler::UpdateSelectedGoUpLadderScriptDisplay( float posX, float posY, float posZ, 
+															float Height, int Direction )
+{
+	RemoveSelectedScriptDislay();
+
+	_scriptnode = OsgHandler::getInstance()->AddEmptyActorNode(false);
+
+	osg::Matrixd Trans;
+	osg::Matrixd Rotation;
+	Trans.makeTranslate(posX, posY, posZ);
+	LbaQuaternion Q(Direction+180, LbaVec3(0,1,0));
+	Rotation.makeRotate(osg::Quat(Q.X, Q.Y, Q.Z, Q.W));
+	_scriptnode->setMatrix(Rotation * Trans);
+
+	osg::Geode* lineGeode = new osg::Geode();
+	osg::Geometry* lineGeometry = new osg::Geometry();
+	lineGeode->addDrawable(lineGeometry); 
+
+	osg::Vec3Array* lineVertices = new osg::Vec3Array();
+	lineVertices->push_back( osg::Vec3( -1, 0, 0) );
+	lineVertices->push_back( osg::Vec3(1, 0, 0) );
+	lineVertices->push_back( osg::Vec3(0 , 0, -1) );
+	lineVertices->push_back( osg::Vec3(0 , 0, 1) );
+	lineVertices->push_back( osg::Vec3(0 , 0, 0) );
+	lineVertices->push_back( osg::Vec3(0 , Height, 0) );
+	lineVertices->push_back( osg::Vec3( -1, Height, 0) );
+	lineVertices->push_back( osg::Vec3(1, Height, 0) );
+	lineVertices->push_back( osg::Vec3(0 , Height, -1) );
+	lineVertices->push_back( osg::Vec3(0 , Height, 1) );
+
+	lineVertices->push_back( osg::Vec3(0 , Height/2, 0) );
+	lineVertices->push_back( osg::Vec3(0 , Height/2, 2) );
+
+	lineGeometry->setVertexArray( lineVertices ); 
+
+	osg::Vec4Array* linecolor = new osg::Vec4Array();
+	linecolor->push_back( osg::Vec4( 1.0, 1.0, 0.2, 0.8) );
+	lineGeometry->setColorArray(linecolor);
+	lineGeometry->setColorBinding(osg::Geometry::BIND_OVERALL);
+
+	osg::DrawElementsUInt* dunit = new osg::DrawElementsUInt(osg::PrimitiveSet::LINES, 0);
+	for(int i=0; i<12; ++i)
+		dunit->push_back(i);
+
+	lineGeometry->addPrimitiveSet(dunit); 
+	_scriptnode->addChild(lineGeode);
+
+	osg::StateSet* stateset = lineGeometry->getOrCreateStateSet();
+	osg::LineWidth* linewidth = new osg::LineWidth();
+
+	linewidth->setWidth(3.0f);
+	stateset->setAttributeAndModes(linewidth,osg::StateAttribute::ON);
+	stateset->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
+	stateset->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
+	stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+	stateset->setRenderBinDetails( 8000, "RenderBin");
+
+}
+
+/***********************************************************
+CScriptObjectChanged
+***********************************************************/
+void EditorHandler::CScriptObjectChanged( long id, const std::string & category, const QModelIndex &parentIdx )
+{
+	std::string name = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString().toAscii().data();
+	std::string oldname = _cscripts[id]->GetName();
+
+
+	// check if name changed already exist
+	if(name != oldname)
+	{
+		if(name == "" || _cscriptList->stringList().contains(name.c_str()))
+		{
+			QMessageBox::warning(this, tr("Name already used"),
+				tr("The name you entered for the script is already used. Please enter a unique name."),
+				QMessageBox::Ok);
+
+			_objectmodel->setData(_objectmodel->GetIndex(1, 3, parentIdx), oldname.c_str());
+			return;
+		}
+
+		// update script name list
+		_cscriptList->ReplaceData(oldname.c_str(), name.c_str());
+	}
+
+
+	if(category == "GoUpLadderScript")
+	{
+		float posX = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toFloat();
+		float posY = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toFloat();
+		float posZ = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toFloat();
+		float height = _objectmodel->data(_objectmodel->GetIndex(1, 7, parentIdx)).toFloat();
+		int direction = _objectmodel->data(_objectmodel->GetIndex(1, 8, parentIdx)).toInt();
+
+
+		// created modified script and replace old one
+		boost::shared_ptr<ClientScriptBase> modifiedscript(new GoUpLadderScript
+										(id, name, posX, posY, posZ, height, direction));
+
+
+		// update map
+		_cscripts[id] = modifiedscript;
+
+
+		// update script list display
+		QStringList slist;
+		slist << name.c_str() << modifiedscript->GetTypeName().c_str();
+		_cscriptlistmodel->AddOrUpdateRow(id, slist);
+
+
+		// need to save as something changed
+		SetModified();
+
+
+		// update display
+		UpdateSelectedGoUpLadderScriptDisplay(posX, posY, posZ, height, direction);
+
+		// refresh client script
+		std::stringstream strs;
+		modifiedscript->SaveScriptToLua(strs);
+		EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::ClientExecuteScriptStringEvent(
+									SynchronizedTimeHandler::GetCurrentTimeDouble(), strs.str()));	
+
+		return;
+	}
+
+
+
+	if(category == "TakeExitUpScript")
+	{
+		float posX = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toFloat();
+		float posY = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toFloat();
+		float posZ = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toFloat();
+		int direction = _objectmodel->data(_objectmodel->GetIndex(1, 7, parentIdx)).toInt();
+
+
+		// created modified script and replace old one
+		boost::shared_ptr<ClientScriptBase> modifiedscript(new TakeExitUpScript
+			(id, name, posX, posY, posZ, direction));
+
+
+		// update map
+		_cscripts[id] = modifiedscript;
+
+
+		// update script list display
+		QStringList slist;
+		slist << name.c_str() << modifiedscript->GetTypeName().c_str();
+		_cscriptlistmodel->AddOrUpdateRow(id, slist);
+
+
+		// need to save as something changed
+		SetModified();
+
+
+		// update display
+		UpdateSelectedGoUpLadderScriptDisplay(posX, posY, posZ, 0, direction);
+
+		// refresh client script
+		std::stringstream strs;
+		modifiedscript->SaveScriptToLua(strs);
+		EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::ClientExecuteScriptStringEvent(
+			SynchronizedTimeHandler::GetCurrentTimeDouble(), strs.str()));	
+
+		return;
+	}
+
+
+
+	if(category == "TakeExitDownScript")
+	{
+		float posX = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toFloat();
+		float posY = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toFloat();
+		float posZ = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toFloat();
+		int direction = _objectmodel->data(_objectmodel->GetIndex(1, 7, parentIdx)).toInt();
+
+
+		// created modified script and replace old one
+		boost::shared_ptr<ClientScriptBase> modifiedscript(new TakeExitDownScript
+			(id, name, posX, posY, posZ, direction));
+
+
+		// update map
+		_cscripts[id] = modifiedscript;
+
+
+		// update script list display
+		QStringList slist;
+		slist << name.c_str() << modifiedscript->GetTypeName().c_str();
+		_cscriptlistmodel->AddOrUpdateRow(id, slist);
+
+
+		// need to save as something changed
+		SetModified();
+
+
+		// update display
+		UpdateSelectedGoUpLadderScriptDisplay(posX, posY, posZ, 0, direction);
+
+		// refresh client script
+		std::stringstream strs;
+		modifiedscript->SaveScriptToLua(strs);
+		EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::ClientExecuteScriptStringEvent(
+			SynchronizedTimeHandler::GetCurrentTimeDouble(), strs.str()));	
+
+		return;
+	}
+
+}
+
+
+/***********************************************************
+remove current selected display
+***********************************************************/
+void EditorHandler::RemoveSelectedScriptDislay()
+{
+	if(_scriptnode)
+		OsgHandler::getInstance()->RemoveActorNode(_scriptnode, false);
+
+	_scriptnode = NULL;
+}
+
+/***********************************************************
+reset action dialog
+***********************************************************/
+void EditorHandler::ResetActionDialog()
+{
+	_ui_addactiondialog.frame_TP->hide();
+	_ui_addactiondialog.frame_script->hide();
+	_addactiondialog->resize(300, 100);
+}
+
+/***********************************************************
+set type of action dialog
+***********************************************************/
+void EditorHandler::SetActionDialogType( int type )
+{
+	ResetActionDialog();
+
+	switch(type)
+	{
+		case 0:
+		{
+			_ui_addactiondialog.frame_TP->show();
+			_ui_addactiondialog.comboBox_tp_map->setModel(_maplistmodel);
+			actiond_tpmap_changed(0);
+		}
+		break;
+
+		case 1:
+		{
+			_ui_addactiondialog.frame_script->show();
+			_ui_addactiondialog.comboBox_script_name->setModel(_cscriptlistmodel);
+		}
+		break;
+	}
+}
+
+/***********************************************************
+actiond_tpmap_changed
+***********************************************************/
+void EditorHandler::actiond_tpmap_changed( int type )
+{
+	std::string mapname = _ui_addactiondialog.comboBox_tp_map->currentText().toAscii().data();
+
+	std::map<std::string, boost::shared_ptr<CustomStringListModel> >::iterator it = 
+		_mapSpawningList.find(mapname);
+
+	if(it != _mapSpawningList.end())
+		_ui_addactiondialog.comboBox_tp_spawn->setModel(it->second.get());
+}
+
+
+
+/***********************************************************
+add script button clicked
+***********************************************************/
+void EditorHandler::actiond_scriptadd_clicked()
+{
+	_updateactiondialogonnewscript = 1;
+	addcscript_button_clicked();
 }

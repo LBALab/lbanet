@@ -44,6 +44,16 @@
        <string>ZoneTrigger</string>
       </property>
      </item>
+     <item>
+      <property name="text">
+       <string>ActivationTrigger</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>ZoneActionTrigger</string>
+      </property>
+     </item>
     </widget>
    </item>
    <item row="7" column="0" colspan="3">
