@@ -106,22 +106,22 @@ function TakeExitUp(ScriptId, ActorId, ExitPosition, ExitDirection)
 			if (ExitDirection >= 225) then
 				if (ExitDirection >= 315) then
 					remZ = -0.8
-					dZ = 1
+					dZ = 0.5
 				else
 					remX = 0.8
-					dX = -1
+					dX = -0.5
 				end			
 			else
 				remZ = 0.8
-				dZ = -1
+				dZ = -0.5
 			end
 		else
 			remX = -0.8
-			dX = 1
+			dX = 0.5
 		end
 	else
 		remZ = -0.8
-		dZ = 1
+		dZ = 0.5
 	end
 	
 
