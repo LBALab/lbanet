@@ -371,22 +371,346 @@ function InitGlobal(environment)
 	Action_125 = TeleportAction(125, "tp_form_terminal1_to_way1", "Map055_2", 3)
 	environment:AddAction(Action_125)
 
-	Action_126 = TeleportAction(126, "tp_from_otringal_to_copback", "", -1)
+	Action_126 = TeleportAction(126, "tp_from_otringal_to_copback", "Map053_2", 2)
 	environment:AddAction(Action_126)
 
-	Action_127 = TeleportAction(127, "tp_from_citadel_to_museum_window", "Map016_2", 1)
-	environment:AddAction(Action_127)
-
-	Action_128 = ClientScriptAction(128, "climb_museaum_window_outside", 1)
-	environment:AddAction(Action_128)
-
-	Action_129 = TeleportAction(129, "tp_from_museum_to_cita_window", "CITABAU", 16)
-	environment:AddAction(Action_129)
-
-	Action_130 = ClientScriptAction(130, "sc_exitup_museum_window", 2)
-	environment:AddAction(Action_130)
-
-	Action_131 = ClientScriptAction(131, "sc_exitup_window_from_museum", 2)
+	Action_131 = TeleportAction(131, "tp_from_copbox_to_otringalcop1", "OTRINGAL", 7)
 	environment:AddAction(Action_131)
+
+	Action_132 = TeleportAction(132, "tp_from_copbox_to_otringalcop2", "OTRINGAL", 8)
+	environment:AddAction(Action_132)
+
+	Action_133 = TeleportAction(133, "tp_from_otringalcop1_to_copbox", "Map052_2", 2)
+	environment:AddAction(Action_133)
+
+	Action_134 = TeleportAction(134, "tp_from_otringalcop2_to_copbox2", "Map052_2", 3)
+	environment:AddAction(Action_134)
+
+	Action_135 = TeleportAction(135, "tp_from_jail_to_copbox", "Map052_2", 1)
+	environment:AddAction(Action_135)
+
+	Action_136 = TeleportAction(136, "tp_from_copbox_to_jail", "Map053_2", 1)
+	environment:AddAction(Action_136)
+
+	Action_137 = TeleportAction(137, "tp_from_copback_to_otringal", "OTRINGAL", 9)
+	environment:AddAction(Action_137)
+
+	Action_138 = TeleportAction(138, "tp_from_otringal_to_lowelelow", "Map051_2", 1)
+	environment:AddAction(Action_138)
+
+	Action_139 = TeleportAction(139, "tp_from_lowelelow_to_otringal", "OTRINGAL", 6)
+	environment:AddAction(Action_139)
+
+	Action_140 = TeleportAction(140, "tp_from_loweleup_to_lowelelow", "Map051_2", 2)
+	environment:AddAction(Action_140)
+
+	Action_141 = TeleportAction(141, "tp_from_lowelelow_to_loweleup", "Map084_2", 1)
+	environment:AddAction(Action_141)
+
+	Action_142 = TeleportAction(142, "tp_from_loweleup_to_otringal", "OTRINGAL", 10)
+	environment:AddAction(Action_142)
+
+	Action_143 = TeleportAction(143, "tp_from_otringal_to_loweleright", "Map084_2", 3)
+	environment:AddAction(Action_143)
+
+	Action_144 = TeleportAction(144, "tp_from_loweleup_to_otr2", "OTRINGAL", 11)
+	environment:AddAction(Action_144)
+
+	Action_145 = TeleportAction(145, "tp_from_otringal_to_loweleleft", "Map084_2", 2)
+	environment:AddAction(Action_145)
+
+	Action_146 = TeleportAction(146, "tp_from_souvenir_to_otringal", "OTRINGAL", 12)
+	environment:AddAction(Action_146)
+
+	Action_147 = TeleportAction(147, "tp_from_otringal_to_souvenir", "Map092_2", 1)
+	environment:AddAction(Action_147)
+
+	Action_148 = TeleportAction(148, "tp_from_dissidents_to_souvenir", "Map092_2", 2)
+	environment:AddAction(Action_148)
+
+	Action_149 = TeleportAction(149, "tp_from_souvenir_to_dissidents", "Map093_2", 1)
+	environment:AddAction(Action_149)
+
+	Action_150 = TeleportAction(150, "tp_from_hotelstraight_to_otringalstraight", "OTRINGAL", 19)
+	environment:AddAction(Action_150)
+
+	Action_151 = TeleportAction(151, "tp_from_otringalstraight_to_hotelstraight", "Map050_2", 1)
+	environment:AddAction(Action_151)
+
+	Action_152 = TeleportAction(152, "tp_from_hotelcurve_to_ortingalcurve", "OTRINGAL", 20)
+	environment:AddAction(Action_152)
+
+	Action_153 = TeleportAction(153, "tp_from_otringalcurve_to_hotelcurve", "Map050_2", 2)
+	environment:AddAction(Action_153)
+
+	Action_154 = TeleportAction(154, "drop", "Map081_2", 1)
+	environment:AddAction(Action_154)
+
+	Action_156 = TeleportAction(156, "up", "Map081_2", 3)
+	environment:AddAction(Action_156)
+
+	Action_157 = TeleportAction(157, "tp_from_otringal_to_casino", "Map081_2", 2)
+	environment:AddAction(Action_157)
+
+	Action_158 = TeleportAction(158, "tp_from_casino_to_otringal", "OTRINGAL", 13)
+	environment:AddAction(Action_158)
+
+	Action_159 = TeleportAction(159, "tp_from_casino_to_casinocrock", "Map079_2", 1)
+	environment:AddAction(Action_159)
+
+	Action_160 = TeleportAction(160, "tp_from_casinocrock_to_casino", "Map081_2", 4)
+	environment:AddAction(Action_160)
+
+	Action_161 = TeleportAction(161, "tp_from_casinocrock_to_otringal", "OTRINGAL", 16)
+	environment:AddAction(Action_161)
+
+	Action_162 = TeleportAction(162, "tp_from_otringal_to_casinocrock", "Map079_2", 2)
+	environment:AddAction(Action_162)
+
+	Action_163 = TeleportAction(163, "tp_from_club_to_otringal", "OTRINGAL", 15)
+	environment:AddAction(Action_163)
+
+	Action_164 = TeleportAction(164, "tp_from_otringal_to_club", "Map082_2", 1)
+	environment:AddAction(Action_164)
+
+	Action_165 = TeleportAction(165, "tp_from_backstage_to_club", "Map082_2", 3)
+	environment:AddAction(Action_165)
+
+	Action_166 = TeleportAction(166, "tp_from_club_to_backstage", "Map080_2", 1)
+	environment:AddAction(Action_166)
+
+	Action_167 = TeleportAction(167, "tp_from_rick_to_club", "Map082_2", 2)
+	environment:AddAction(Action_167)
+
+	Action_168 = TeleportAction(168, "tp_from_club_to_rick", "Map083_2", 1)
+	environment:AddAction(Action_168)
+
+	Action_169 = TeleportAction(169, "tp_from_highele_to_otringal", "OTRINGAL", 14)
+	environment:AddAction(Action_169)
+
+	Action_170 = TeleportAction(170, "tp_from_otringal_to_highele", "Map095_2", 1)
+	environment:AddAction(Action_170)
+
+	Action_171 = TeleportAction(171, "leftup", "Map095_2", 2)
+	environment:AddAction(Action_171)
+
+	Action_172 = TeleportAction(172, "right", "Map095_2", 4)
+	environment:AddAction(Action_172)
+
+	Action_173 = TeleportAction(173, "tp_from_highele_to_otrright", "OTRINGAL", 18)
+	environment:AddAction(Action_173)
+
+	Action_174 = TeleportAction(174, "tp_from_otringal_to_higheleright", "Map095_2", 6)
+	environment:AddAction(Action_174)
+
+	Action_175 = TeleportAction(175, "tp_from_highele_to_otrleft", "OTRINGAL", 17)
+	environment:AddAction(Action_175)
+
+	Action_176 = TeleportAction(176, "tp_from_otringal_to_higheleleft", "Map095_2", 5)
+	environment:AddAction(Action_176)
+
+	Action_177 = TeleportAction(177, "tp_from_royalshuttle_to_otringal", "OTRINGAL", 21)
+	environment:AddAction(Action_177)
+
+	Action_178 = TeleportAction(178, "tp_from_otringal_to_royalshuttle", "Map127_2", 1)
+	environment:AddAction(Action_178)
+
+	Action_179 = TeleportAction(179, "tp_from_gate_to_otr", "OTRINGAL", 22)
+	environment:AddAction(Action_179)
+
+	Action_180 = TeleportAction(180, "tp_from_otr_to_gate", "OTRINGAL", 23)
+	environment:AddAction(Action_180)
+
+	Action_181 = TeleportAction(181, "expandexit", "OTRINGAL", 24)
+	environment:AddAction(Action_181)
+
+	Action_182 = TeleportAction(182, "expandentrance", "OTRINGAL", 25)
+	environment:AddAction(Action_182)
+
+	Action_183 = TeleportAction(183, "tp_from_insanity_to_otringal", "OTRINGAL", 26)
+	environment:AddAction(Action_183)
+
+	Action_184 = TeleportAction(184, "tp_from_otringal_to_insanity", "Map099_2", 1)
+	environment:AddAction(Action_184)
+
+	Action_185 = TeleportAction(185, "tp_from_4_to_3", "Map098_2", 3)
+	environment:AddAction(Action_185)
+
+	Action_186 = TeleportAction(186, "tp_from_4_to_8", "Map103_2", 2)
+	environment:AddAction(Action_186)
+
+	Action_187 = TeleportAction(187, "tp_from_3_to_2", "Map097_2", 3)
+	environment:AddAction(Action_187)
+
+	Action_188 = TeleportAction(188, "tp_from_3_to_7", "Map102_2", 3)
+	environment:AddAction(Action_188)
+
+	Action_189 = TeleportAction(189, "tp_from_3_to_4", "Map099_2", 2)
+	environment:AddAction(Action_189)
+
+	Action_190 = TeleportAction(190, "tp_from_2_to_3", "Map098_2", 1)
+	environment:AddAction(Action_190)
+
+	Action_191 = TeleportAction(191, "tp_from_2_to_1", "Map096_2", 1)
+	environment:AddAction(Action_191)
+
+	Action_192 = TeleportAction(192, "tp_from_2_to_6", "Map101_2", 4)
+	environment:AddAction(Action_192)
+
+	Action_193 = TeleportAction(193, "tp_from_1_to_2", "Map097_2", 1)
+	environment:AddAction(Action_193)
+
+	Action_194 = TeleportAction(194, "tp_from_1_to_5", "Map100_2", 2)
+	environment:AddAction(Action_194)
+
+	Action_195 = TeleportAction(195, "tp_from_8_to_4", "Map099_2", 3)
+	environment:AddAction(Action_195)
+
+	Action_196 = TeleportAction(196, "tp_from_8_to_7", "Map102_2", 4)
+	environment:AddAction(Action_196)
+
+	Action_197 = TeleportAction(197, "tp_from_7_to_8", "Map103_2", 1)
+	environment:AddAction(Action_197)
+
+	Action_198 = TeleportAction(198, "tp_from_7_to_3", "Map098_2", 2)
+	environment:AddAction(Action_198)
+
+	Action_199 = TeleportAction(199, "tp_from_7_to_6", "Map101_2", 3)
+	environment:AddAction(Action_199)
+
+	Action_200 = TeleportAction(200, "tp_from_6_to_7", "Map102_2", 1)
+	environment:AddAction(Action_200)
+
+	Action_201 = TeleportAction(201, "tp_from_6_to_2", "Map097_2", 2)
+	environment:AddAction(Action_201)
+
+	Action_202 = TeleportAction(202, "tp_from_6_to_5", "Map100_2", 1)
+	environment:AddAction(Action_202)
+
+	Action_203 = TeleportAction(203, "tp_from_5_to_6", "Map101_2", 1)
+	environment:AddAction(Action_203)
+
+	Action_204 = TeleportAction(204, "tp_from_5_to_1", "Map096_2", 2)
+	environment:AddAction(Action_204)
+
+	Action_205 = TeleportAction(205, "tp_from_8_to_12", "Map107_2", 3)
+	environment:AddAction(Action_205)
+
+	Action_206 = TeleportAction(206, "tp_from_7_to_11", "Map106_2", 4)
+	environment:AddAction(Action_206)
+
+	Action_207 = TeleportAction(207, "tp_from_6_to_10", "Map105_2", 4)
+	environment:AddAction(Action_207)
+
+	Action_208 = TeleportAction(208, "tp_from_5_to_9", "Map104_2", 1)
+	environment:AddAction(Action_208)
+
+	Action_209 = TeleportAction(209, "tp_from_9_to_5", "Map100_2", 3)
+	environment:AddAction(Action_209)
+
+	Action_210 = TeleportAction(210, "tp_from_9_to_10", "Map105_2", 1)
+	environment:AddAction(Action_210)
+
+	Action_211 = TeleportAction(211, "tp_from_10_to_9", "Map104_2", 2)
+	environment:AddAction(Action_211)
+
+	Action_212 = TeleportAction(212, "tp_from_10_to_6", "Map101_2", 2)
+	environment:AddAction(Action_212)
+
+	Action_213 = TeleportAction(213, "tp_from_10_to_11", "Map106_2", 1)
+	environment:AddAction(Action_213)
+
+	Action_214 = TeleportAction(214, "tp_from_11_to_10", "Map105_2", 3)
+	environment:AddAction(Action_214)
+
+	Action_215 = TeleportAction(215, "tp_from_11_to_7", "Map102_2", 2)
+	environment:AddAction(Action_215)
+
+	Action_216 = TeleportAction(216, "tp_from_11_to_12", "Map107_2", 1)
+	environment:AddAction(Action_216)
+
+	Action_217 = TeleportAction(217, "tp_from_12_to_8", "Map103_2", 3)
+	environment:AddAction(Action_217)
+
+	Action_218 = TeleportAction(218, "tp_from_12_to_11", "Map106_2", 3)
+	environment:AddAction(Action_218)
+
+	Action_219 = TeleportAction(219, "tp_from_12_to_16", "Map111_2", 2)
+	environment:AddAction(Action_219)
+
+	Action_220 = TeleportAction(220, "tp_from_16_to_12", "Map107_2", 2)
+	environment:AddAction(Action_220)
+
+	Action_221 = TeleportAction(221, "tp_from_16_to_15", "Map110_2", 3)
+	environment:AddAction(Action_221)
+
+	Action_222 = TeleportAction(222, "tp_from_11_to_15", "Map110_2", 2)
+	environment:AddAction(Action_222)
+
+	Action_223 = TeleportAction(223, "tp_from_15_to_11", "Map106_2", 2)
+	environment:AddAction(Action_223)
+
+	Action_224 = TeleportAction(224, "tp_from_15_to_16", "Map111_2", 1)
+	environment:AddAction(Action_224)
+
+	Action_225 = TeleportAction(225, "tp_from_15_to_14", "Map109_2", 3)
+	environment:AddAction(Action_225)
+
+	Action_226 = TeleportAction(226, "tp_from_10_to_14", "Map109_2", 2)
+	environment:AddAction(Action_226)
+
+	Action_227 = TeleportAction(227, "tp_from_14_to_10", "Map105_2", 2)
+	environment:AddAction(Action_227)
+
+	Action_228 = TeleportAction(228, "tp_from_14_to_15", "Map110_2", 1)
+	environment:AddAction(Action_228)
+
+	Action_229 = TeleportAction(229, "tp_from_14_to_13", "Map108_2", 3)
+	environment:AddAction(Action_229)
+
+	Action_230 = TeleportAction(230, "tp_from_9_to_13", "Map108_2", 1)
+	environment:AddAction(Action_230)
+
+	Action_231 = TeleportAction(231, "tp_from_13_to_9", "Map104_2", 3)
+	environment:AddAction(Action_231)
+
+	Action_232 = TeleportAction(232, "tp_from_13_to_14", "Map109_2", 1)
+	environment:AddAction(Action_232)
+
+	Action_233 = TeleportAction(233, "tp_from_biggie_to_13", "Map108_2", 2)
+	environment:AddAction(Action_233)
+
+	Action_234 = TeleportAction(234, "tp_from_13_to_biggie", "Map049_2", 1)
+	environment:AddAction(Action_234)
+
+	Action_235 = TeleportAction(235, "tp_from_hotel3_to_hotel", "Map050_2", 5)
+	environment:AddAction(Action_235)
+
+	Action_236 = TeleportAction(236, "tp_from_hotel_to_hotel3", "Map048_2", 1)
+	environment:AddAction(Action_236)
+
+	Action_237 = TeleportAction(237, "to_from_hotel1_to_hotel", "Map050_2", 3)
+	environment:AddAction(Action_237)
+
+	Action_238 = TeleportAction(238, "tp_from_hotel_to_hotel1", "Map114_2", 1)
+	environment:AddAction(Action_238)
+
+	Action_239 = TeleportAction(239, "tp_from_hotel2_to_hotel", "Map050_2", 4)
+	environment:AddAction(Action_239)
+
+	Action_240 = TeleportAction(240, "tp_from_hotel_to_hotel2", "Map115_2", 1)
+	environment:AddAction(Action_240)
+
+	Action_241 = TeleportAction(241, "tp_from_citadel_to_museum_window", "Map016_2", 1)
+	environment:AddAction(Action_241)
+
+	Action_242 = ClientScriptAction(242, "climb_museum_window_outside", 1)
+	environment:AddAction(Action_242)
+
+	Action_243 = TeleportAction(243, "tp_from_museum_to_cita_window", "CITABAU", 16)
+	environment:AddAction(Action_243)
+
+	Action_244 = ClientScriptAction(244, "sc_exitup_window_from_museum", 2)
+	environment:AddAction(Action_244)
 
 end

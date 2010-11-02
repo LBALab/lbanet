@@ -12,15 +12,6 @@ function InitMap(environment)
 	Actor_1.DisplayDesc.ColorG = 0
 	Actor_1.DisplayDesc.ColorB = 0
 	Actor_1.DisplayDesc.ColorA = 0
-	Actor_1.DisplayDesc.TransX = 0
-	Actor_1.DisplayDesc.TransY = 0
-	Actor_1.DisplayDesc.TransZ = 0
-	Actor_1.DisplayDesc.ScaleX = 1
-	Actor_1.DisplayDesc.ScaleY = 1
-	Actor_1.DisplayDesc.ScaleZ = 1
-	Actor_1.DisplayDesc.RotX = 0
-	Actor_1.DisplayDesc.RotY = 0
-	Actor_1.DisplayDesc.RotZ = 0
 	Actor_1:SetModelState(1)
 	Actor_1.PhysicDesc.Pos.X = 0
 	Actor_1.PhysicDesc.Pos.Y = 0
