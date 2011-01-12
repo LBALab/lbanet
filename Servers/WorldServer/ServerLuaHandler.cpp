@@ -12,6 +12,7 @@ extern "C"
 #include "LogHandler.h"
 #include "Triggers.h"
 #include "ClientScript.h"
+#include "ActionArguments.h"
 
 
 #ifdef _USE_QT_EDITOR_	
@@ -149,7 +150,20 @@ ServerLuaHandler::ServerLuaHandler()
 		luabind::class_<ZoneActionTrigger, TriggerBase, boost::shared_ptr<TriggerBase> >("ZoneActionTrigger")
 		.def(luabind::constructor<TriggerInfo, float, float, float, const std::string &, const std::string &>()),
 
-		
+		luabind::class_<TimerTrigger, TriggerBase, boost::shared_ptr<TriggerBase> >("TimerTrigger")
+		.def(luabind::constructor<TriggerInfo, long>()),
+
+
+		luabind::class_<ActionArgumentBase>("ActionArgumentBase")
+		.def(luabind::constructor<ActionArgumentBase>()),
+
+		luabind::class_<OffsetArgument, ActionArgumentBase>("OffsetArgument")
+		.def(luabind::constructor<float, float, float>())
+		.def_readwrite("OffsetX", &OffsetArgument::_offsetX)
+		.def_readwrite("OffsetY", &OffsetArgument::_offsetY)
+		.def_readwrite("OffsetZ", &OffsetArgument::_offsetZ),
+
+
 
 		luabind::class_<ActionBase, boost::shared_ptr<ActionBase> >("ActionBase")
 		.def(luabind::constructor<long, const std::string&>()),
@@ -160,6 +174,8 @@ ServerLuaHandler::ServerLuaHandler()
 		luabind::class_<ClientScriptAction, ActionBase, boost::shared_ptr<ActionBase> >("ClientScriptAction")
 		.def(luabind::constructor<long, const std::string&, long>()),
 
+		luabind::class_<CustomAction, ActionBase, boost::shared_ptr<ActionBase> >("CustomAction")
+		.def(luabind::constructor<long, const std::string&, const std::string&>()),
 
 
 		luabind::class_<ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("ClientScriptBase")
@@ -221,5 +237,25 @@ void ServerLuaHandler::CallLua(const std::string & functioname, ScriptEnvironmen
 	catch(const std::exception &error)
 	{
 		LogHandler::getInstance()->LogToFile(std::string("Exception calling lua function ") + functioname + std::string(" : ") + error.what() + std::string(" : ") + lua_tostring(m_LuaState, -1), 0);
+	}
+}
+
+
+
+/***********************************************************
+call lua function
+***********************************************************/
+void ServerLuaHandler::ExecuteCustomAction(int ObjectType, long ObjectId,
+											const std::string & FunctionName,
+											ActionArgumentBase * args,
+											ScriptEnvironmentBase* env)
+{
+	try
+	{
+		luabind::call_function<void>(m_LuaState, FunctionName.c_str(), ObjectType, ObjectId, args, env);
+	}
+	catch(const std::exception &error)
+	{
+		LogHandler::getInstance()->LogToFile(std::string("Exception calling lua function ") + FunctionName + std::string(" : ") + error.what() + std::string(" : ") + lua_tostring(m_LuaState, -1), 0);
 	}
 }

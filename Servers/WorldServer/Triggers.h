@@ -182,6 +182,11 @@ public:
 										const std::string &ObjectMode){}
 
 
+	//! check trigger on each fram
+	//! warning - this can reduce performance!
+	virtual void NewFrame(){}
+
+
 	//! get object to display for editor
 	virtual ActorObjectInfo GetDisplayObject()
 	{
@@ -432,6 +437,39 @@ private:
 
 	std::string								_AcceptedMode1; 
 	std::string								_AcceptedMode2;
+};
+
+
+//! class handling triggers happening on regular timer
+class TimerTrigger : public TriggerBase
+{
+public:
+	//! constructor
+	TimerTrigger( const TriggerInfo & triggerinfo,
+						long TimeInMillisecond);
+	
+	//! destructor
+	virtual ~TimerTrigger(void);
+
+
+	//! check trigger on each fram
+	//! warning - this can reduce performance!
+	virtual void NewFrame();
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName(){ return "TimerTrigger";}
+
+
+	// save trigger to lua file
+	virtual void SaveToLuaFile(std::ofstream & file);
+
+	// acessor
+	long GetTimeinMs()
+	{ return _TimeInMillisecond;}
+
+private:
+	long	_TimeInMillisecond;
+	long	_lasttime;
 };
 
 

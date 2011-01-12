@@ -166,6 +166,15 @@ public:
 										const std::string & ScriptName);
 
 
+	// execute custom lua function
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void ExecuteCustomAction(int ObjectType, long ObjectId,
+										const std::string & FunctionName,
+										ActionArgumentBase * args);
+
 	// only used by the editor to add client scripts to the list
 	virtual void EditorAddClientScript(boost::shared_ptr<ClientScriptBase> script){}
 

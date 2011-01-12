@@ -1,6 +1,7 @@
 #include "Triggers.h"
 #include "ScriptEnvironmentBase.h"
 #include <fstream>
+#include "SynchronizedTimeHandler.h"
 
 #include <math.h>
 
@@ -480,6 +481,78 @@ void ZoneActionTrigger::SaveToLuaFile(std::ofstream & file)
 	file<<"\tTrigger_"<<GetId()<<" = ZoneActionTrigger(Trigger_"<<GetId()<<"_info, "
 		<<(_sizeX*2)<<", "<<_sizeY<<", "<<(_sizeZ*2)<<", \""<<_AcceptedMode1<<"\", \""<<_AcceptedMode2<<"\")"<<std::endl;
 	file<<"\tTrigger_"<<GetId()<<":SetPosition("<<GetPosX()<<", "<<GetPosY()<<", "<<GetPosZ()<<")"<<std::endl;
+	file<<"\tTrigger_"<<GetId()<<":SetAction1("<<GetAction1()<<")"<<std::endl;
+	file<<"\tTrigger_"<<GetId()<<":SetAction2("<<GetAction2()<<")"<<std::endl;
+	file<<"\tTrigger_"<<GetId()<<":SetAction3("<<GetAction3()<<")"<<std::endl;
+	file<<"\tenvironment:AddTrigger(Trigger_"<<GetId()<<")"<<std::endl<<std::endl;
+}
+
+
+
+
+
+
+
+/***********************************************************
+constructor
+***********************************************************/
+TimerTrigger::TimerTrigger( const TriggerInfo & triggerinfo,
+									long TimeInMillisecond)
+	: TriggerBase(triggerinfo),
+		_TimeInMillisecond(TimeInMillisecond), _lasttime(-1)
+{
+
+}
+
+
+/***********************************************************
+destructor
+***********************************************************/
+TimerTrigger::~TimerTrigger(void)
+{
+
+}
+
+
+/***********************************************************
+//! check trigger on object action
+// ObjectType ==>
+//! 1 -> npc object
+//! 2 -> player object
+//! 3 -> movable object
+// ObjectMode give the mode the object was when performing the action
+***********************************************************/
+void TimerTrigger::NewFrame()
+{
+	long curr = SynchronizedTimeHandler::GetCurrentTimeInt();
+
+	if(_lasttime > 0)
+	{
+		// if timer time elapsed
+		if((curr - _lasttime) > _TimeInMillisecond)
+		{
+			// reset timer
+			_lasttime = curr;
+
+			// execute action
+			boost::shared_ptr<ActionBase> act = _owner->GetAction(_actionid1);
+			if(act)
+				act->Execute(_owner, 0, 0, 0);
+		}
+	}
+	else
+		_lasttime = curr;
+}
+
+/***********************************************************
+save trigger to lua file
+***********************************************************/
+void TimerTrigger::SaveToLuaFile(std::ofstream & file)
+{
+	file<<"\tTrigger_"<<GetId()<<"_info = TriggerInfo("<<GetId()<<", \""<<GetName()<<"\", "<<
+		(CheckPlayer()?"true":"false")<<", "<<(CheckNpcs()?"true":"false")<<", "<<(CheckMovableObjects()?"true":"false")<<")"<<std::endl;
+	file<<"\tTrigger_"<<GetId()<<" = TimerTrigger(Trigger_"<<GetId()<<"_info, "
+		<<_TimeInMillisecond<<"\")"<<std::endl;
 	file<<"\tTrigger_"<<GetId()<<":SetAction1("<<GetAction1()<<")"<<std::endl;
 	file<<"\tTrigger_"<<GetId()<<":SetAction2("<<GetAction2()<<")"<<std::endl;
 	file<<"\tTrigger_"<<GetId()<<":SetAction3("<<GetAction3()<<")"<<std::endl;

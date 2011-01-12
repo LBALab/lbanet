@@ -22,44 +22,48 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------------------------------------------------------------------
 */
 
-#ifndef _SERVER_LUA_HANDLER_H__
-#define _SERVER_LUA_HANDLER_H__
-
-#include <string>
-#include "ScriptEnvironmentBase.h"
-
-struct lua_State;
+#ifndef _LBANET_ACTION_ARGS_H__
+#define _LBANET_ACTION_ARGS_H__
 
 
-//! class taking care of the maping between lua and the server interfaces
-class ServerLuaHandler
+
+//! base class used as action argument
+class ActionArgumentBase
 {
 public:
 	//! constructor
-	ServerLuaHandler();
+	ActionArgumentBase(){}
 	
 	//! destructor
-	~ServerLuaHandler(void);
-
-	//! load a lua file
-	void LoadFile(const std::string & luafile);
-
-	//! call lua function
-	void CallLua(const std::string & functioname, ScriptEnvironmentBase* env = 0);
-
-
-	// execute custom lua function
-	// ObjectType ==>
-	//! 1 -> npc object
-	//! 2 -> player object
-	//! 3 -> movable object
-	void ExecuteCustomAction(int ObjectType, long ObjectId,
-										const std::string & FunctionName,
-										ActionArgumentBase * args,
-										ScriptEnvironmentBase* env);
-
-private:
-	lua_State *		m_LuaState;
+	virtual ~ActionArgumentBase(void){}
 };
+
+
+
+
+//! base class used as action argument
+class OffsetArgument : public ActionArgumentBase
+{
+public:
+	//! constructor
+	OffsetArgument()
+		: _offsetX(0), _offsetY(0), _offsetZ(0)
+	{}
+
+	//! constructor
+	OffsetArgument(float offsetX, float offsetY, float offsetZ)
+		: _offsetX(offsetX), _offsetY(offsetY), _offsetZ(offsetZ)
+	{}
+
+	//! destructor
+	virtual ~OffsetArgument(void){}
+
+
+	float _offsetX;
+	float _offsetY;
+	float _offsetZ;
+};
+
+
 
 #endif

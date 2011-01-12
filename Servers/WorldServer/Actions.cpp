@@ -113,3 +113,50 @@ void ClientScriptAction::SaveToLuaFile(std::ofstream & file)
 }
 
 
+
+
+
+
+/***********************************************************
+constructor
+***********************************************************/
+CustomAction::CustomAction(long id, const std::string &name,
+									  const std::string &customluafunctionname)
+: ActionBase(id, name), _customluafunctionname(customluafunctionname)
+{
+
+}
+
+/***********************************************************
+destructor
+***********************************************************/	
+CustomAction::~CustomAction(void)
+{
+
+}
+
+/***********************************************************
+//! execute the action
+//! parameter return the object type and number triggering the action
+***********************************************************/
+void CustomAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+								ActionArgumentBase* args)
+{
+	if(owner && _customluafunctionname != "")
+	{
+		owner->ExecuteCustomAction(ObjectType, ObjectId, _customluafunctionname, args);
+	}
+}
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void CustomAction::SaveToLuaFile(std::ofstream & file)
+{
+	file<<"\tAction_"<<GetId()<<" = CustomAction("<<GetId()<<", \""
+				<<GetName()<<"\", "<<_customluafunctionname<<")"<<std::endl;
+
+	file<<"\tenvironment:AddAction(Action_"<<GetId()<<")"<<std::endl<<std::endl;
+}
+

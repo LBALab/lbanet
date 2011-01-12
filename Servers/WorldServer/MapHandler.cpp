@@ -1626,6 +1626,25 @@ void MapHandler::ExecuteClientScript(int ObjectType, long ObjectId,
 	}
 }
 
+
+
+/***********************************************************
+execute custom lua function
+ObjectType ==>
+ 1 -> npc object
+ 2 -> player object
+ 3 -> movable object
+***********************************************************/
+void MapHandler::ExecuteCustomAction(int ObjectType, long ObjectId,
+										const std::string & FunctionName,
+										ActionArgumentBase * args)
+{
+	_luaH.ExecuteCustomAction(ObjectType, ObjectId, FunctionName, args, this);
+}
+
+
+
+
 /***********************************************************
 called when a script is finished on a client
 ***********************************************************/

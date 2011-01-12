@@ -29,43 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <boost/shared_ptr.hpp>
 class ScriptEnvironmentBase;
 
-
-
-//! base class used as action argument
-class ActionArgumentBase
-{
-public:
-	//! constructor
-	ActionArgumentBase(){}
-	
-	//! destructor
-	virtual ~ActionArgumentBase(void){}
-};
-
-
-//! base class used as action argument
-class OffsetArgument : public ActionArgumentBase
-{
-public:
-	//! constructor
-	OffsetArgument()
-		: _offsetX(0), _offsetY(0), _offsetZ(0)
-	{}
-
-	//! constructor
-	OffsetArgument(float offsetX, float offsetY, float offsetZ)
-		: _offsetX(offsetX), _offsetY(offsetY), _offsetZ(offsetZ)
-	{}
-
-	//! destructor
-	virtual ~OffsetArgument(void){}
-
-
-	float _offsetX;
-	float _offsetY;
-	float _offsetZ;
-};
-
+#include "ActionArguments.h"
 
 
 
@@ -201,6 +165,48 @@ private:
 	long		_ScriptId;
 };
 
+
+
+
+//! use to perform a custom lua action
+class CustomAction : public ActionBase
+{
+public:
+	//! constructor
+	CustomAction(long id, const std::string &name,
+						const std::string &customluafunctionname);
+	
+	//! destructor
+	virtual ~CustomAction(void);
+
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args);
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "CustomAction"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file);
+
+	// accessor
+	std::string GetLuaFunctionName()
+	{ return _customluafunctionname;}
+
+	void SetLuaFunctionName(std::string FunctionName)
+	{ _customluafunctionname = FunctionName;}
+
+private:
+	std::string		_customluafunctionname;
+};
 
 
 #endif
