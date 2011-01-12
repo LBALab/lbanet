@@ -554,6 +554,10 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath="..\Servers\WorldServer\ActionArguments.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Servers\WorldServer\Actions.h"
 				>
 			</File>

@@ -1146,6 +1146,16 @@ void EditorHandler::addtrigger_accepted()
 		}
 		break;
 
+		case 3: // TimerTrigger
+		{
+			boost::shared_ptr<TriggerBase> trig(new TimerTrigger(triggerinf, 1000));
+			trig->SetPosition(_posX, _posY, _posZ);
+			trig->SetAction1(GetActionId(_uiaddtriggerdialog.comboBox_action1->currentText().toAscii().data()));
+			trig->SetAction2(GetActionId(_uiaddtriggerdialog.comboBox_action2->currentText().toAscii().data()));
+			trig->SetAction3(GetActionId(_uiaddtriggerdialog.comboBox_action3->currentText().toAscii().data()));
+			AddNewTrigger(trig);
+		}
+		break;
 
 	}
 
@@ -2564,6 +2574,16 @@ void EditorHandler::AddActionAccepted()
 				(new ClientScriptAction(id,	actname.toAscii().data(), scid)));
 		}
 		break;
+	
+		case 2: // custom action
+		{
+			std::string functionname = _ui_addactiondialog.lineEdit_customaction->text().toAscii().data();
+
+			AddNewAction(boost::shared_ptr<ActionBase>
+				(new CustomAction(id,	actname.toAscii().data(), functionname)));
+		}
+		break;
+
 	}
 
 	SelectAction(id);
@@ -2660,6 +2680,20 @@ void EditorHandler::SelectAction(long id, const QModelIndex &parent)
 
 			return;
 		}
+
+
+		if(actiontype == "CustomAction")
+		{
+			CustomAction* ptr = static_cast<CustomAction*>(it->second.get());
+			{
+				QVector<QVariant> data;
+				data << "Function name" << ptr->GetLuaFunctionName().c_str();
+				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+			}
+
+			return;
+		}
+
 
 	}
 }
@@ -2852,6 +2886,48 @@ void EditorHandler::ActionObjectChanged(long id, const std::string & category, c
 		if(scid >= 0)
 			SelectCScript(scid, _objectmodel->GetIndex(0, 4, parentIdx));
 
+
+
+		//inform server
+		EditorUpdateBasePtr update = new UpdateEditor_AddOrModAction(modifiedact);
+		SharedDataHandler::getInstance()->EditorUpdate("", update);
+
+		return;
+	}
+
+
+
+	if(category == "CustomAction")
+	{
+		// get info
+		std::string scriptname = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
+
+
+		// created modified action and replace old one
+		boost::shared_ptr<ActionBase> modifiedact(new CustomAction(id,
+													name.toAscii().data(), scriptname));
+
+
+		_actions[id] = modifiedact;
+
+		if(name != oldname.c_str())
+		{
+			ReplaceActionName(oldname, modifiedact->GetName());
+
+			// update action name on parent
+			if(parentIdx != QModelIndex())
+				_objectmodel->setData(_objectmodel->GetIndex(1, parentIdx.row(), 
+				_objectmodel->parent(parentIdx)), name);	
+		}
+
+		// update action list display
+		QStringList slist;
+		slist << name << modifiedact->GetTypeName().c_str();
+		_actionlistmodel->AddOrUpdateRow(id, slist);
+
+
+		// need to save as something changed
+		SetModified();
 
 
 		//inform server
@@ -3209,6 +3285,33 @@ void EditorHandler::SelectTrigger(long id, const QModelIndex &parent)
 
 			return;
 		}
+
+
+
+		if(actiontype == "TimerTrigger")
+		{
+			TimerTrigger* ptr = static_cast<TimerTrigger*>(it->second.get());
+			{
+				std::string actname = GetActionName(ptr->GetAction1());
+				QVector<QVariant> data;
+				data << "Action On Activation" << actname.c_str();
+				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+				if(actname != "" && actname != "None")
+					SelectAction(ptr->GetAction1(), idx);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Time in ms" << (int)ptr->GetTimeinMs();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+
+			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actionNameList);
+
+			return;
+		}
 	}
 }
 
@@ -3496,6 +3599,68 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 
 		return;
 	}
+
+
+
+	if(category == "TimerTrigger")
+	{
+		// get info
+
+		std::string action1 = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
+		long time = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toInt();
+		triggerinfo.CheckPlayers = true;
+		triggerinfo.CheckNpcs = true;
+		triggerinfo.CheckMovableObjects = false;
+
+
+		// get id associated to actions
+		long act1id = GetActionId(action1);
+
+
+		// created modified action and replace old one
+		boost::shared_ptr<TriggerBase> modifiedtrig(new TimerTrigger(triggerinfo, time));
+
+		long lastact1id = modifiedtrig->GetAction1();
+		modifiedtrig->SetAction1(act1id);
+
+
+		// update trigger name list
+		_triggerNameList->ReplaceData(oldname.c_str(), triggerinfo.name.c_str());
+
+
+		_triggers[id] = modifiedtrig;
+
+
+		// update trigger list display
+		QStringList slist;
+		slist << triggerinfo.name.c_str() << modifiedtrig->GetTypeName().c_str();
+		_triggerlistmodel->AddOrUpdateRow(id, slist);
+
+
+
+		// need to save as something changed
+		SetMapModified();
+
+
+		//inform server
+		EditorUpdateBasePtr update = new UpdateEditor_AddOrModTrigger(modifiedtrig);
+		SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
+
+
+		if(act1id < 0)
+		{
+			_objectmodel->Clear(_objectmodel->GetIndex(0, 4, parentIdx));
+		}
+		else if(lastact1id != act1id)
+		{
+			// refresh sub tree
+			_objectmodel->Clear(_objectmodel->GetIndex(0, 4, parentIdx));
+			SelectAction(act1id, _objectmodel->GetIndex(0, 4, parentIdx));
+		}
+
+		return;
+	}
+
 
 }
 
@@ -6118,6 +6283,7 @@ void EditorHandler::ResetActionDialog()
 {
 	_ui_addactiondialog.frame_TP->hide();
 	_ui_addactiondialog.frame_script->hide();
+	_ui_addactiondialog.frame_customAct->hide();
 	_addactiondialog->resize(300, 100);
 }
 
@@ -6144,6 +6310,13 @@ void EditorHandler::SetActionDialogType( int type )
 			_ui_addactiondialog.comboBox_script_name->setModel(_cscriptlistmodel);
 		}
 		break;
+
+		case 2:
+		{
+			_ui_addactiondialog.frame_customAct->show();
+		}
+		break;
+
 	}
 }
 

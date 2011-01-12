@@ -81,7 +81,7 @@
                <item>
                 <widget class="QTabWidget" name="tabWidgetworld">
                  <property name="currentIndex">
-                  <number>0</number>
+                  <number>5</number>
                  </property>
                  <widget class="QWidget" name="tab_worldinfo">
                   <attribute name="title">
@@ -1000,7 +1000,7 @@
                <item>
                 <widget class="QTabWidget" name="tabWidget_map">
                  <property name="currentIndex">
-                  <number>0</number>
+                  <number>4</number>
                  </property>
                  <widget class="QWidget" name="tab_mapinfo">
                   <attribute name="title">
@@ -1809,7 +1809,7 @@
      <x>0</x>
      <y>0</y>
      <width>960</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
