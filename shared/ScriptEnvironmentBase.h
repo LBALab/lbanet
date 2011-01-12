@@ -31,8 +31,10 @@ class ActorHandler;
 class TriggerBase;
 class ActionBase;
 class ClientScriptBase;
+class ActionArgumentBase;
 
 #include <boost/shared_ptr.hpp>
+
 
 //*************************************************************************************************
 //*                               class ScriptEnvironmentBase
@@ -84,6 +86,15 @@ public:
 	virtual void ExecuteClientScript(int ObjectType, long ObjectId,
 										const std::string & ScriptName) = 0;
 
+
+	// execute custom lua function
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void ExecuteCustomAction(int ObjectType, long ObjectId,
+										const std::string & FunctionName,
+										ActionArgumentBase * args) = 0;
 
 
 	// only used by the editor to add client scripts to the list
