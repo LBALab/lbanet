@@ -34,7 +34,7 @@
 <text id="31">éMailbox</text>
 <text id="32">éCompose</text>
 <text id="33">éResume</text>
-<text id="34">éOptions:</text>
+<text id="34">éOptions</text>
 <text id="35">éSwitch World</text>
 <text id="36">éDisconnect</text>
 <text id="37">éCredits</text>
@@ -89,8 +89,7 @@
 <text id="85">éDisplay community window</text>
 <text id="86">éTeleport</text>
 <text id="87">éDisplay Chat</text>
-<text id="88">éChange world</text>
-<text id="89">éDisplay shortcut bar</text>
+<text id="88">éDisplay shortcut bar</text>
 
 
 </texts>

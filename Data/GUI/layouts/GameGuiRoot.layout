@@ -80,7 +80,7 @@
 		<Property Name="HoverImage"      Value="set:changeworldbutton image:hover"  />
 		<Property Name="PushedImage"     Value="set:changeworldbutton image:clicked" />
 		<Property Name="DisabledImage"   Value="set:changeworldbutton image:disabled" />
-		<Property Name="Tooltip"   Value="#88" />		
+		<Property Name="Tooltip"   Value="#35" />		
 	</Window> 
 	
 	<Window Type="TaharezLook/ImageButton" Name="btnquit">
