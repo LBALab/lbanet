@@ -85,12 +85,12 @@
 <text id="81">éServer is not reacheable.</text>
 <text id="82">éPermission denied:</text>
 <text id="83">éYou got disconnected from the server.</text>
-<text id="84">éNormal</text>
-<text id="85">éSportive</text>
-<text id="86">éAggressive</text>
-<text id="87">éDiscrete</text>
-<text id="88">éServer: ON</text>
-<text id="89">éServer: OFF</text>
-<text id="90">éError trying to log on the server:</text>
+<text id="84">éGeneral</text>
+<text id="85">éDisplay community window</text>
+<text id="86">éTeleport</text>
+<text id="87">éDisplay Chat</text>
+<text id="88">éChange world</text>
+<text id="89">éDisplay shortcut bar</text>
+
 
 </texts>
