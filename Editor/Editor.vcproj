@@ -316,6 +316,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Client\GUILocalizationCallback.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\shared\HQRHandler.cpp"
 				>
 			</File>
@@ -381,6 +385,10 @@
 			</File>
 			<File
 				RelativePath="..\Servers\WorldServer\LocalDatabaseHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Client\Localizer.cpp"
 				>
 			</File>
 			<File
@@ -778,6 +786,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Client\GUILocalizationCallback.h"
+				>
+			</File>
+			<File
 				RelativePath="..\shared\HQRHandler.h"
 				>
 			</File>
@@ -839,6 +851,10 @@
 			</File>
 			<File
 				RelativePath="..\Servers\WorldServer\LocalDatabaseHandler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Client\Localizer.h"
 				>
 			</File>
 			<File
