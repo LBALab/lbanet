@@ -31,6 +31,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "SynchronizedTimeHandler.h"
 #include "DataLoader.h"
 #include "OSGHandler.h"
+#include "Localizer.h"
+#include "GUILocalizationCallback.h"
 
 #include <iostream>
 #include <algorithm>
@@ -84,7 +86,8 @@ void InventoryBox::Initialize(CEGUI::Window* Root)
 {
 	try
 	{
-		_myBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "inventory.layout" );
+		_myBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "inventory.layout",
+								"", "", &MyPropertyCallback);
 		Root->addChildWindow(_myBox);
 
 
@@ -545,7 +548,7 @@ void InventoryBox::Update(const LbaNet::GuiUpdatesSeq &Updates)
 
 			std::string itemdescription = itinfo.DescriptionTextExtra;
 			if(itemdescription == "")
-				itemdescription = DataLoader::getInstance()->GetInventoryText((long)itinfo.DescriptionId);
+				itemdescription = Localizer::getInstance()->GetText(Localizer::Inventory, (long)itinfo.DescriptionId);
 
 
 			if(itinfo.Count > 0)
@@ -616,7 +619,7 @@ void InventoryBox::RefreshInventory()
 	{
 		std::string itemdescription = it->second.DescriptionTextExtra;
 		if(itemdescription == "")
-			itemdescription = DataLoader::getInstance()->GetInventoryText((long)it->second.DescriptionId);
+			itemdescription = Localizer::getInstance()->GetText(Localizer::Inventory, (long)it->second.DescriptionId);
 
 		if(it->second.Count > 0)
 			UpdateItem((long)it->first, itemdescription, it->second.Count, it->second.IconName, it->second.Position);

@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "MessageBox.h"
 #include <CEGUI.h>
 #include "LogHandler.h"
+#include "GUILocalizationCallback.h"
 
 CGMessageBox* CGMessageBox::_singletonInstance = NULL;
 
@@ -71,7 +72,8 @@ void CGMessageBox::Initialize(CEGUI::Window* Root)
 {
 	try
 	{
-		_myBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "textbox.layout" );
+		_myBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "textbox.layout",
+								"", "", &MyPropertyCallback);
 		Root->addChildWindow(_myBox);
 
 

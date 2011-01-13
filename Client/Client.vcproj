@@ -244,6 +244,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ClientLuaHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\shared\ClientScript.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\infrastructure\cpp\ClientServerEvents.cpp"
 				>
 			</File>
@@ -309,6 +317,10 @@
 			</File>
 			<File
 				RelativePath=".\GuiHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\GUILocalizationCallback.cpp"
 				>
 			</File>
 			<File
@@ -380,11 +392,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Localizer.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\shared\LogHandler.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\LoginGUI.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\shared\LuaThreadHandler.cpp"
 				>
 			</File>
 			<File
@@ -449,6 +469,10 @@
 			</File>
 			<File
 				RelativePath=".\RemoteConnectionHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ScriptedActor.cpp"
 				>
 			</File>
 			<File
@@ -590,6 +614,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ClientLuaHandler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\shared\ClientScript.h"
+				>
+			</File>
+			<File
 				RelativePath="..\shared\CommonTypes.h"
 				>
 			</File>
@@ -662,6 +694,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\GUILocalizationCallback.h"
+				>
+			</File>
+			<File
 				RelativePath="..\shared\HQRHandler.h"
 				>
 			</File>
@@ -718,11 +754,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Localizer.h"
+				>
+			</File>
+			<File
 				RelativePath="..\shared\LogHandler.h"
 				>
 			</File>
 			<File
 				RelativePath=".\LoginGUI.h"
+				>
+			</File>
+			<File
+				RelativePath="..\shared\LuaThreadHandler.h"
 				>
 			</File>
 			<File
@@ -791,6 +835,10 @@
 			</File>
 			<File
 				RelativePath=".\RunnableThread.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ScriptedActor.h"
 				>
 			</File>
 			<File

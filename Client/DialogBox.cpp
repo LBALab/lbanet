@@ -30,6 +30,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "SynchronizedTimeHandler.h"
 #include "DataLoader.h"
 #include "OSGHandler.h"
+#include "Localizer.h"
+#include "GUILocalizationCallback.h"
 
 #include <iostream>
 #include <algorithm>
@@ -151,7 +153,8 @@ void NPCDialogBox::Initialize(CEGUI::Window* Root)
 {
 	try
 	{
-		_myBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "dialog.layout" );
+		_myBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "dialog.layout",
+								"", "", &MyPropertyCallback);
 		Root->addChildWindow(_myBox);
 
 
@@ -311,7 +314,7 @@ void NPCDialogBox::BuildDialog(const LbaNet::DialogPartInfo &DialogPart)
 		// display NPC dialog text
 		{
 			CEGUI::Window* txs = CEGUI::WindowManager::getSingleton().getWindow("DialogFrame/multiline");
-			std::string str = DataLoader::getInstance()->GetText((long)DialogPart.NpcTextId);
+			std::string str = Localizer::getInstance()->GetText(Localizer::Map, (long)DialogPart.NpcTextId);
 			int idxs = 0;
 			bool firsttime=true;
 			while((idxs = str.find(" @ ")) != std::string::npos)
@@ -350,7 +353,7 @@ void NPCDialogBox::BuildDialog(const LbaNet::DialogPartInfo &DialogPart)
 
 		for(size_t i=0; i<DialogPart.PlayerTextsId.size(); ++i)
 		{
-			std::string str = DataLoader::getInstance()->GetText((long)DialogPart.PlayerTextsId[i]);	
+			std::string str = Localizer::getInstance()->GetText(Localizer::Map, (long)DialogPart.PlayerTextsId[i]);	
 			CEGUI::ListboxItem *it = new MyDialogItem((const unsigned char *)str.c_str(), i);
 			lb->addItem(it);		
 		}
@@ -380,7 +383,7 @@ void NPCDialogBox::Refresh(const LbaNet::GuiParamsSeq &Parameters)
 			_current_dialoged_actor = castedptr->NPCId;
 
 			// set dialog title
-			std::string title = "Dialog with "+ DataLoader::getInstance()->GetNameText((long)castedptr->TittleTextId);
+			std::string title = "Dialog with "+ Localizer::getInstance()->GetText(Localizer::Name, (long)castedptr->TittleTextId);
 			static_cast<CEGUI::FrameWindow *> (
 				CEGUI::WindowManager::getSingleton().getWindow("DialogFrame"))
 				->setText((const unsigned char *)title.c_str());

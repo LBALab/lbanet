@@ -23,60 +23,71 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#if !defined(__LbaNetModel_1_DataLoader_h)
-#define __LbaNetModel_1_DataLoader_h
+#if !defined(__Lbanet_localizer_h)
+#define __Lbanet_localizer_h
 
 #include <string>
-#include <vector>
 #include <map>
-#include <LbaTypes.h>
 
-struct entitiesTableStruct;
 
 /***********************************************************************
- * Module:  DataLoader.h
- * Author:  vivien
- * Modified: lundi 27 juillet 2009 14:56:34
- * Purpose: Declaration of the class DataLoader
+ * Module:  Localizer.h
+ * Purpose: Class used to localize game text to other languages
  ***********************************************************************/
-class DataLoader
+class Localizer
 {
 public:
 
+	enum LocalizeType { GUI, Map, Quest, Inventory, Name };
+
 	//! destructor
-	~DataLoader();
+	~Localizer();
 
 	// singleton pattern
-	static DataLoader * getInstance();
-
+	static Localizer * getInstance();
 
 	//! set current world name
 	void SetWorldName(std::string WorldName);
 
 
-	//! get list of available worlds
-	void GetAvailableWorlds(std::vector<LbaNet::WorldDesc> & list);
+	//! get the text given a text id
+	std::string GetText(LocalizeType type, long TextId);
 
-	//! get information about a specific world
-	void GetWorldInformation(const std::string &Filename, LbaNet::WorldInformation &res);
 
-	//! saved information about a specific world
-	void SaveWorldInformation(const std::string &Filename, const LbaNet::WorldInformation &res);
+	//! set game language
+	void SetLanguage(std::string lang);
 
-	//! used to get the character entities info
-	entitiesTableStruct* GetEntitiesInfo();
+	//! get language
+	std::string GetLanguage()
+	{return _lang;}
+
 
 protected:
 	//! constructor
-   DataLoader();
+   Localizer();
+
+	//! refresh text files
+	void RefreshTexts();
+
+	//! refresh text files
+	void RefreshGuiTexts();
+
 
 private:
-	static DataLoader *		_singletonInstance;
+	static Localizer *		_singletonInstance;
 
+	// current world loaded
 	std::string				_currentworldname;
 
-	entitiesTableStruct*	_estruct;
+	// current language used
+	std::string				_lang;
 
+	// contain preloaded text
+	std::map<long, std::string>		_gui_texts;
+	std::map<long, std::string>		_map_texts;
+	std::map<long, std::string>		_inventory_texts;
+	std::map<long, std::string>		_quest_texts;
+	std::map<long, std::string>		_name_texts;
 };
 
 #endif

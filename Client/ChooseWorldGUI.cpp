@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "MusicHandler.h"
 #include "EventsQueue.h"
 #include "ClientExtendedEvents.h"
+#include "GUILocalizationCallback.h"
 
 class MyListItemCW : public CEGUI::ListboxTextItem
 {
@@ -62,7 +63,8 @@ void ChooseWorldGUI::Initialize(void)
 {
 	try
 	{
-		_root = CEGUI::WindowManager::getSingleton().loadWindowLayout( "ChooseWorldWindow.layout" );
+		_root = CEGUI::WindowManager::getSingleton().loadWindowLayout( "ChooseWorldWindow.layout",
+								"", "", &MyPropertyCallback);
 
 		static_cast<CEGUI::PushButton *> (
 			CEGUI::WindowManager::getSingleton().getWindow("CWGoB"))->subscribeEvent (

@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ClientExtendedTypes.h"
 #include "CommunityBox.h"
 #include "OSGHandler.h"
+#include "GUILocalizationCallback.h"
 
 #include <iostream>
 #include <algorithm>
@@ -156,7 +157,8 @@ void MailBox::Initialize(CEGUI::Window* Root)
 {
 	try
 	{
-		_myBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "mailbox.layout" );
+		_myBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "mailbox.layout",
+								"", "", &MyPropertyCallback);
 		Root->addChildWindow(_myBox);
 		_myBox->hide();
 
@@ -224,7 +226,8 @@ void MailBox::Initialize(CEGUI::Window* Root)
 
 	try
 	{
-		_readMailBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "readmail.layout" );
+		_readMailBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "readmail.layout",
+								"", "", &MyPropertyCallback);
 		Root->addChildWindow(_readMailBox);
 		_readMailBox->hide();
 
@@ -266,7 +269,8 @@ void MailBox::Initialize(CEGUI::Window* Root)
 
 	try
 	{
-		_writeMailBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "writemail.layout" );
+		_writeMailBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "writemail.layout",
+								"", "", &MyPropertyCallback);
 		Root->addChildWindow(_writeMailBox);
 		_writeMailBox->hide();
 	

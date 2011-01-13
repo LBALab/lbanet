@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "SynchronizedTimeHandler.h"
 #include "ClientExtendedTypes.h"
 #include "OSGHandler.h"
+#include "GUILocalizationCallback.h"
 
 #include <iostream>
 #include <algorithm>
@@ -77,7 +78,8 @@ void LetterViewerBox::Initialize(CEGUI::Window* Root)
 {
 	try
 	{
-		_myBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "letterviewer.layout" );
+		_myBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "letterviewer.layout",
+								"", "", &MyPropertyCallback);
 		Root->addChildWindow(_myBox);
 
 		static_cast<CEGUI::PushButton *> (

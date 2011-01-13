@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "EventsQueue.h"
 #include "SynchronizedTimeHandler.h"
 #include "OSGHandler.h"
+#include "GUILocalizationCallback.h"
 
 #include <iostream>
 #include <algorithm>
@@ -73,7 +74,8 @@ void LetterEditorBox::Initialize(CEGUI::Window* Root)
 {
 	try
 	{
-		_myBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "lettereditor.layout" );
+		_myBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "lettereditor.layout",
+								"", "", &MyPropertyCallback);
 		Root->addChildWindow(_myBox);
 
 		static_cast<CEGUI::PushButton *> (

@@ -29,6 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DataLoader.h"
 #include "OSGHandler.h"
 #include "StringHelperFuncs.h"
+#include "Localizer.h"
+#include "GUILocalizationCallback.h"
 
 #include <iostream>
 #include <algorithm>
@@ -151,7 +153,8 @@ void JournalBox::Initialize(CEGUI::Window* Root)
 {
 	try
 	{
-		_myBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "questbook.layout" );
+		_myBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "questbook.layout",
+								"", "", &MyPropertyCallback);
 		Root->addChildWindow(_myBox);
 
 
@@ -346,9 +349,9 @@ void JournalBox::RebuildBook(bool reset)
 			const LbaNet::QuestInfo &qi = itstarted->second;
 			if(qi.Visible)
 			{
-				std::string Tittle = DataLoader::getInstance()->GetQuestText((long)qi.TittleTextId);
-				std::string Description = DataLoader::getInstance()->GetQuestText((long)qi.DescriptionTextId);
-				std::string QuestArea = DataLoader::getInstance()->GetQuestText((long)qi.QuestAreaTextId);
+				std::string Tittle = Localizer::getInstance()->GetText(Localizer::Quest, (long)qi.TittleTextId);
+				std::string Description = Localizer::getInstance()->GetText(Localizer::Quest, (long)qi.DescriptionTextId);
+				std::string QuestArea = Localizer::getInstance()->GetText(Localizer::Quest, (long)qi.QuestAreaTextId);
 
 				if(QuestArea == "")
 					QuestArea = "General";
@@ -445,9 +448,9 @@ void JournalBox::RebuildBook(bool reset)
 			const LbaNet::QuestInfo &qi = itfinished->second;
 			if(qi.Visible)
 			{
-				std::string Tittle = DataLoader::getInstance()->GetQuestText((long)qi.TittleTextId);
-				std::string Description = DataLoader::getInstance()->GetQuestText((long)qi.DescriptionTextId);
-				std::string QuestArea = DataLoader::getInstance()->GetQuestText((long)qi.QuestAreaTextId);
+				std::string Tittle = Localizer::getInstance()->GetText(Localizer::Quest, (long)qi.TittleTextId);
+				std::string Description = Localizer::getInstance()->GetText(Localizer::Quest, (long)qi.DescriptionTextId);
+				std::string QuestArea = Localizer::getInstance()->GetText(Localizer::Quest, (long)qi.QuestAreaTextId);
 
 				if(QuestArea == "")
 					QuestArea = "General";

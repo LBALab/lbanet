@@ -22,35 +22,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------------------------------------------------------------------
 */
 
-#include "DataLoader.h"
-#include "LogHandler.h"
+#include "Localizer.h"
 #include "XmlReader.h"
-#include "Entities.h"
-#include "Lba1ModelMapHandler.h"
 
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem/operations.hpp>
-namespace fs = boost::filesystem;
-
-
-DataLoader* DataLoader::_singletonInstance = NULL;
+Localizer* Localizer::_singletonInstance = NULL;
 
 
 
 /***********************************************************
 	Constructor
 ***********************************************************/
-DataLoader::DataLoader()
+Localizer::Localizer()
 {
-	LogHandler::getInstance()->LogToFile("Initializing data handler class...");
-	_estruct = parseEntities(Lba1ModelDataPath+"FILE3D.HQR");
+	RefreshGuiTexts();
 }
 
 
 /***********************************************************
 	Destructor
 ***********************************************************/
-DataLoader::~DataLoader()
+Localizer::~Localizer()
 {
 
 }
@@ -59,10 +50,10 @@ DataLoader::~DataLoader()
 /***********************************************************
 singleton pattern
 ***********************************************************/
-DataLoader * DataLoader::getInstance()
+Localizer * Localizer::getInstance()
 {
 	if(!_singletonInstance)
-		_singletonInstance = new DataLoader();
+		_singletonInstance = new Localizer();
 
 	return _singletonInstance;
 }
@@ -75,78 +66,92 @@ DataLoader * DataLoader::getInstance()
 /***********************************************************
 load world information into memory
 ***********************************************************/
-void DataLoader::SetWorldName(std::string WorldName)
+void Localizer::SetWorldName(std::string WorldName)
 {
 	if(_currentworldname != WorldName)
 	{
 		_currentworldname = WorldName;
-
-		// TODO - process reading all necessary data
+		RefreshTexts();
 	}
 }
 
 
 
 /***********************************************************
-get the list of available worlds
+get the text given a text id
 ***********************************************************/
-void DataLoader::GetAvailableWorlds(std::vector<LbaNet::WorldDesc> & list)
+std::string Localizer::GetText(LocalizeType type, long TextId)
 {
-	// get all xml file of the directory
-	std::vector<std::string> files;
+	switch(type)
 	{
-		fs::path full_path( fs::system_complete( "./Data/Worlds" ) );
+		case GUI:
+			return _gui_texts[TextId];			
+		break;
 
-		if ( !fs::exists( full_path ) )
-		{
-			LogHandler::getInstance()->LogToFile(std::string("\nData/Worlds directory Not found: ") + full_path.file_string());
-			return;
-		}
+		case Map:
+			return _map_texts[TextId];	
+		break;
 
-		if ( fs::is_directory( full_path ) )
-		{
-			fs::directory_iterator end_iter;
-			for ( fs::directory_iterator dir_itr( full_path ); dir_itr != end_iter;	++dir_itr )
-			{
-				if ( fs::is_directory( dir_itr->status() ) )
-				{
-					files.push_back(dir_itr->path().string() + "/WorldDescription.xml");
-				}
-			}
-		}
+		case Quest:
+			return _quest_texts[TextId];		
+		break;
+
+		case Inventory:
+			return _inventory_texts[TextId];			
+		break;
+
+		case Name:
+			return _name_texts[TextId];			
+		break;
 	}
 
-	// for each file add an entry
-	for(size_t i=0; i< files.size(); ++i)
+	return "unknown";
+}
+
+
+/***********************************************************
+set game language
+***********************************************************/
+void Localizer::SetLanguage(std::string lang)
+{
+	if(_lang != lang)
 	{
-		WorldDesc desc;
-		if(XmlReader::LoadWorldDesc(files[i], desc))
-			list.push_back(desc);
+		_lang = lang;
+		RefreshGuiTexts();
+		RefreshTexts();
 	}
 }
 
+
 /***********************************************************
-get information about a specific world
+refresh text files
 ***********************************************************/
-void DataLoader::GetWorldInformation(const std::string &Filename, LbaNet::WorldInformation &res)
+void Localizer::RefreshTexts()
 {
-	XmlReader::LoadWorldInfo( "./Data/Worlds/" + Filename + "/WorldDescription.xml", res);
+	if(_currentworldname == "")
+		return;
+
+	_map_texts.clear();
+	_inventory_texts.clear();
+	_quest_texts.clear();
+	_name_texts.clear();
 }
 
 
 /***********************************************************
-saved information about a specific world
+refresh text files
 ***********************************************************/
-
-void DataLoader::SaveWorldInformation(const std::string &Filename, const LbaNet::WorldInformation &res)
+void Localizer::RefreshGuiTexts()
 {
-	XmlReader::SaveWorldInfo( "./Data/Worlds/" + Filename + "/WorldDescription.xml", res);
-}
+	_gui_texts.clear();
 
-/***********************************************************
-used to get the character entities info
-***********************************************************/
-entitiesTableStruct* DataLoader::GetEntitiesInfo()
-{
-	return _estruct;
+	// first load the choosen language
+	_gui_texts = XmlReader::LoadTextFile("Data/GUI/texts/" + _lang + ".xml");
+
+	// then add non translated english text if needed
+	if(_lang != "en")
+	{
+		std::map<long, std::string> tmp = XmlReader::LoadTextFile("Data/GUI/texts/en.xml");
+		_gui_texts.insert(tmp.begin(),tmp.end());
+	}
 }

@@ -35,6 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ClientExtendedTypes.h"
 #include <typeinfo>
 #include "OSGHandler.h"
+#include "GUILocalizationCallback.h"
 
 
 // Sample sub-class for ListboxTextItem that auto-sets the selection brush
@@ -93,7 +94,8 @@ void CommunityBox::Initialize(CEGUI::Window* Root)
 {
 	try
 	{
-		_myBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "community.layout" );
+		_myBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "community.layout",
+								"", "", &MyPropertyCallback);
 		Root->addChildWindow(_myBox);
 
 		CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
@@ -131,7 +133,8 @@ void CommunityBox::Initialize(CEGUI::Window* Root)
 
 
 
-		_myChooseName = CEGUI::WindowManager::getSingleton().loadWindowLayout( "AddFriendName.layout" );
+		_myChooseName = CEGUI::WindowManager::getSingleton().loadWindowLayout( "AddFriendName.layout",
+								"", "", &MyPropertyCallback);
 		_myChooseName->setProperty("AlwaysOnTop", "True");
 		Root->addChildWindow(_myChooseName);
 		_myChooseName->hide();

@@ -29,6 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "MusicHandler.h"
 #include "EventsQueue.h"
 #include "ClientExtendedEvents.h"
+#include "GUILocalizationCallback.h"
+#include "Localizer.h"
 
 /***********************************************************
 	Constructor
@@ -54,7 +56,8 @@ void LoginGUI::Initialize()
 {
 	try
 	{
-		_root = CEGUI::WindowManager::getSingleton().loadWindowLayout( "LoginWindow.layout" );
+		_root = CEGUI::WindowManager::getSingleton().loadWindowLayout( "LoginWindow.layout",
+								"", "", &MyPropertyCallback);
 
 
 		static_cast<CEGUI::PushButton *> (
@@ -188,7 +191,8 @@ void LoginGUI::SetServrOn(bool ServerOn)
 		CEGUI::Window * lt = static_cast<CEGUI::Window *> (
 				CEGUI::WindowManager::getSingleton().getWindow("ServerOnLabel"));
 
-		lt->setText((ServerOn ? "Server: ON" : "Server: OFF"));
+		lt->setText((ServerOn ? (const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 78).c_str() 
+								: (const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 79).c_str()));
 
 		if(!ServerOn)
 		{
@@ -218,22 +222,22 @@ void LoginGUI::InformNotLoggedIn(int problem, const std::string & reason)
 		if(problem == 0)	// can not connect to the server
 		{
 			txs->setText("");
-			txs->appendText("Error trying to log on the server:");
-			txs->appendText("Server is not reacheable.");
+			txs->appendText((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 80).c_str());
+			txs->appendText((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 81).c_str());
 		}
 
 		if(problem == -1)	// wrong login / password
 		{
 			txs->setText("");
-			txs->appendText("Error trying to log on the server:");
-			txs->appendText("Permission denied:");
+			txs->appendText((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 80).c_str());
+			txs->appendText((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 82).c_str());
 			txs->appendText(reason);
 		}
 
 		if(problem == -2)	// got disconnected
 		{
 			txs->setText("");
-			txs->appendText("You got disconnected from the server.");
+			txs->appendText((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 83).c_str());
 		}
 
 		CEGUI::WindowManager::getSingleton().getWindow("DisplayLoginErrorFrame")->show();

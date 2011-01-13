@@ -35,17 +35,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ClientExtendedEvents.h"
 #include "ClientExtendedTypes.h"
 #include "OSGHandler.h"
-
+#include "GUILocalizationCallback.h"
+#include "Localizer.h"
 
 // Sample sub-class for ListboxTextItem that auto-sets the selection brush
 // image.  This saves doing it manually every time in the code.
 class MyListItem : public CEGUI::ListboxTextItem
 {
 public:
-    MyListItem (const CEGUI::String& text) : CEGUI::ListboxTextItem(text)
+    MyListItem (const CEGUI::String& text, const CEGUI::String& text2) 
+		: CEGUI::ListboxTextItem(text), _text2(text2)
     {
         setSelectionBrushImage("TaharezLook", "MultiListSelectionBrush");
     }
+
+	CEGUI::String	_text2;
 };
 
 
@@ -203,13 +207,14 @@ void ChatBox::Initialize(CEGUI::Window* Root)
 {
 	try
 	{
-		_myChat = CEGUI::WindowManager::getSingleton().loadWindowLayout( "chatbox.layout" );
+		_myChat = CEGUI::WindowManager::getSingleton().loadWindowLayout( "chatbox.layout",
+								"", "", &MyPropertyCallback);
 		Root->addChildWindow(_myChat);
 		//tc->setProperty( "InheritsAlpha", "false" );
 
-		AddTab("All");
-		AddTab("World");
-		AddTab("Map");
+		AddTab(Localizer::getInstance()->GetText(Localizer::GUI, 68));
+		AddTab(Localizer::getInstance()->GetText(Localizer::GUI, 69));
+		AddTab(Localizer::getInstance()->GetText(Localizer::GUI, 70));
 
 		static_cast<CEGUI::PushButton *> (
 			CEGUI::WindowManager::getSingleton().getWindow("Chat/bChannel"))->subscribeEvent (
@@ -238,7 +243,7 @@ void ChatBox::Initialize(CEGUI::Window* Root)
 							CEGUI::Event::Subscriber (&ChatBox::HandleLbSelected, this));
 
 
-		_lb->setProperty("Text", "Channels");
+		_lb->setProperty("Text", Localizer::getInstance()->GetText(Localizer::GUI, 71));
 		_lb->setProperty("UnifiedMaxSize", "{{1,0},{1,0}}");
 		_lb->setProperty("UnifiedAreaRect", "{{0,10},{1,-160},{0,120},{1,-40}}");
 		_lb->setProperty("AlwaysOnTop", "True");
@@ -246,12 +251,16 @@ void ChatBox::Initialize(CEGUI::Window* Root)
 		_myChat->addChildWindow(_lb);
 		_lb->hide();
 
-		_myChannels = CEGUI::WindowManager::getSingleton().loadWindowLayout( "choosechannel.layout" );
+		_myChannels = CEGUI::WindowManager::getSingleton().loadWindowLayout( "choosechannel.layout",
+								"", "", &MyPropertyCallback);
+
 		_myChannels->setProperty("AlwaysOnTop", "True");
 		Root->addChildWindow(_myChannels);
 		_myChannels->hide();
 
-		_myChooseName = CEGUI::WindowManager::getSingleton().loadWindowLayout( "choosePlayerName.layout" );
+		_myChooseName = CEGUI::WindowManager::getSingleton().loadWindowLayout( "choosePlayerName.layout",
+								"", "", &MyPropertyCallback);
+
 		_myChooseName->setProperty("AlwaysOnTop", "True");
 		Root->addChildWindow(_myChooseName);
 		_myChooseName->hide();
@@ -437,7 +446,14 @@ bool ChatBox::HandleBChannel(const CEGUI::EventArgs& e)
 		std::list<std::string>::const_iterator it = _channels.begin();
 		std::list<std::string>::const_iterator end = _channels.end();
 		for(; it != end; ++it)
-			_lb->addItem(new MyListItem((const unsigned char *)it->c_str()));
+		{
+			std::string tmp = *it;
+			if(tmp == "World")
+				tmp = Localizer::getInstance()->GetText(Localizer::GUI, 69);
+			if(tmp == "Map")
+				tmp = Localizer::getInstance()->GetText(Localizer::GUI, 70);
+			_lb->addItem(new MyListItem((const unsigned char *)tmp.c_str(), (const unsigned char *)it->c_str()));
+		}
 
 
 		std::list<std::string>::const_iterator itw = _whisper_channels.begin();
@@ -445,13 +461,13 @@ bool ChatBox::HandleBChannel(const CEGUI::EventArgs& e)
 		for(; itw != endw; ++itw)
 		{
 			std::string wchtmp = "w:" + *itw;
-			_lb->addItem(new MyListItem((const unsigned char *)wchtmp.c_str()));
+			_lb->addItem(new MyListItem((const unsigned char *)wchtmp.c_str(), (const unsigned char *)wchtmp.c_str()));
 		}
 
 
 
-		_lb->addItem(new MyListItem("Whisper.."));
-		_lb->addItem(new MyListItem("New.."));
+		_lb->addItem(new MyListItem((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 72).c_str(), "Whisper.."));
+		_lb->addItem(new MyListItem((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 73).c_str(), "New.."));
 
 		_lb->show();
 	}
@@ -518,7 +534,7 @@ void ChatBox::SetCurrentMap(const std::string & WorldName, const std::string & M
 
 		CEGUI::Window * chatfw = CEGUI::WindowManager::getSingleton().getWindow("ChatFrame");
 		if(chatfw)
-			chatfw->setProperty("Text", "Chat - " + _currentWorld + "/" + _currentMap);
+			chatfw->setProperty("Text", (const unsigned char *)(Localizer::getInstance()->GetText(Localizer::GUI, 2) + " - " + _currentWorld + "/" + _currentMap).c_str());
 	}
 	catch(CEGUI::Exception &ex)
 	{
@@ -730,8 +746,11 @@ handle event when list is selected
 ***********************************************************/
 bool ChatBox::HandleLbSelected (const CEGUI::EventArgs& e)
 {
-	const CEGUI::ListboxTextItem * it = static_cast<const CEGUI::ListboxTextItem *>(_lb->getFirstSelectedItem());
-	std::string txt = it->getText().c_str();
+	const MyListItem * it = static_cast<const MyListItem *>(_lb->getFirstSelectedItem());
+	if(!it)
+		return false;
+
+	std::string txt = it->_text2.c_str();
 	if(txt == "New..")
 	{
 		_myChannels->show();

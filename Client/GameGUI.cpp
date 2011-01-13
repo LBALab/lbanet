@@ -43,7 +43,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "JournalBox.h"
 #include "MailBox.h"
 #include "ShopBox.h"
-
+#include "Localizer.h"
+#include "GUILocalizationCallback.h"
 
 /***********************************************************
 constructor
@@ -84,7 +85,8 @@ void GameGUI::Initialize()
 {
 	try
 	{
-		_root = CEGUI::WindowManager::getSingleton().loadWindowLayout( "GameGuiRoot.layout" );
+		_root = CEGUI::WindowManager::getSingleton().loadWindowLayout( "GameGuiRoot.layout",
+								"", "", &MyPropertyCallback);
 
 		std::map<std::string, boost::shared_ptr<GameGUIBase> >::iterator it = _gameguis.begin();
 		std::map<std::string, boost::shared_ptr<GameGUIBase> >::iterator end = _gameguis.end();
@@ -467,7 +469,7 @@ bool GameGUI::DisplayGameText(long textid, bool show)
 
 		if(show)
 		{
-			std::string str = DataLoader::getInstance()->GetText(textid);
+			std::string str = Localizer::getInstance()->GetText(Localizer::Map, textid);
 			int idxs = 0;
 			bool firsttime=true;
 			while((idxs = str.find(" @ ")) != std::string::npos)

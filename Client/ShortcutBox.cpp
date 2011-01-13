@@ -32,6 +32,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "InventoryBox.h"
 #include "DataLoader.h"
 #include "OSGHandler.h"
+#include "Localizer.h"
+#include "GUILocalizationCallback.h"
+
 
 #include <iostream>
 #include <algorithm>
@@ -88,10 +91,12 @@ void ShortcutBox::Initialize(CEGUI::Window* Root)
 {
 	try
 	{
-		_myBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "shortcut_bar.layout" );
+		_myBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "shortcut_bar.layout",
+								"", "", &MyPropertyCallback);
 		Root->addChildWindow(_myBox);
 
-		_myStances = CEGUI::WindowManager::getSingleton().loadWindowLayout( "stance_bar.layout" );
+		_myStances = CEGUI::WindowManager::getSingleton().loadWindowLayout( "stance_bar.layout",
+								"", "", &MyPropertyCallback);
 		Root->addChildWindow(_myStances);
 
 
@@ -174,7 +179,7 @@ void ShortcutBox::Initialize(CEGUI::Window* Root)
 			tmp->setProperty("Image", "set:"+ImageSetHandler::GetStanceImage(1)+" image:full_image");
 			_inv_boxes[0]->addChildWindow(tmp);
 			tmp->setProperty("MousePassThroughEnabled", "True");
-			_inv_boxes[0]->setProperty("Tooltip", "Normal");
+			_inv_boxes[0]->setProperty("Tooltip", (const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 74).c_str());
 
 			tmp = CEGUI::WindowManager::getSingleton().createWindow("TaharezLook/StaticImage");
 			//tmp->setArea(CEGUI::UDim(0,5), CEGUI::UDim(0,17), CEGUI::UDim(0, _boxsize-10), CEGUI::UDim(0, _boxsize-20));
@@ -182,7 +187,7 @@ void ShortcutBox::Initialize(CEGUI::Window* Root)
 			tmp->setProperty("Image", "set:"+ImageSetHandler::GetStanceImage(2)+" image:full_image");
 			_inv_boxes[1]->addChildWindow(tmp);
 			tmp->setProperty("MousePassThroughEnabled", "True");
-			_inv_boxes[1]->setProperty("Tooltip", "Sportive");
+			_inv_boxes[1]->setProperty("Tooltip", (const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 75).c_str());
 
 			tmp = CEGUI::WindowManager::getSingleton().createWindow("TaharezLook/StaticImage");
 			//tmp->setArea(CEGUI::UDim(0,5), CEGUI::UDim(0,17), CEGUI::UDim(0, _boxsize-10), CEGUI::UDim(0, _boxsize-20));
@@ -190,7 +195,7 @@ void ShortcutBox::Initialize(CEGUI::Window* Root)
 			tmp->setProperty("Image", "set:"+ImageSetHandler::GetStanceImage(3)+" image:full_image");
 			_inv_boxes[2]->addChildWindow(tmp);
 			tmp->setProperty("MousePassThroughEnabled", "True");
-			_inv_boxes[2]->setProperty("Tooltip", "Aggressive");
+			_inv_boxes[2]->setProperty("Tooltip", (const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 76).c_str());
 
 			tmp = CEGUI::WindowManager::getSingleton().createWindow("TaharezLook/StaticImage");
 			//tmp->setArea(CEGUI::UDim(0,5), CEGUI::UDim(0,17), CEGUI::UDim(0, _boxsize-10), CEGUI::UDim(0, _boxsize-20));
@@ -198,7 +203,7 @@ void ShortcutBox::Initialize(CEGUI::Window* Root)
 			tmp->setProperty("Image", "set:"+ImageSetHandler::GetStanceImage(4)+" image:full_image");
 			_inv_boxes[3]->addChildWindow(tmp);
 			tmp->setProperty("MousePassThroughEnabled", "True");
-			_inv_boxes[3]->setProperty("Tooltip", "Discrete");
+			_inv_boxes[3]->setProperty("Tooltip", (const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 77).c_str());
 		}
 
 
@@ -396,7 +401,7 @@ void ShortcutBox::SetShorcut(CEGUI::Window* box, const LbaNet::ItemInfo &iteminf
 
 		std::string itemdescription = iteminfo.DescriptionTextExtra;
 		if(itemdescription == "")
-			itemdescription = DataLoader::getInstance()->GetInventoryText((long)iteminfo.DescriptionId);
+			itemdescription = Localizer::getInstance()->GetText(Localizer::Inventory, (long)iteminfo.DescriptionId);
 
 
 		CEGUI::String tmpstr((const unsigned char *)itemdescription.c_str());

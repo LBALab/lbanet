@@ -1027,6 +1027,14 @@ void LbaNetModel::ActorAnimate(int ScriptId, long ActorId, bool AnimationMove)
 }
 
 
+/***********************************************************
+execute lua script given as a string
+***********************************************************/
+void LbaNetModel::ExecuteScriptString( const std::string &ScriptString )
+{
+	if(m_luaHandler)
+		m_luaHandler->ExecuteScriptString(ScriptString);
+}
 
 
 
@@ -1055,17 +1063,6 @@ void LbaNetModel::ForceGhost(bool force)
 	m_controllerChar->ForceGhost(force);
 	m_controllerCam->ForceGhost(force);
 }
-
-/***********************************************************
-execute lua script given as a string
-***********************************************************/
-void LbaNetModel::ExecuteScriptString( const std::string &ScriptString )
-{
-	if(m_luaHandler)
-		m_luaHandler->ExecuteScriptString(ScriptString);
-}
-
-
 
 #endif
 

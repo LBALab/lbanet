@@ -36,6 +36,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "EventsQueue.h"
 #include "DataLoader.h"
 #include "OSGHandler.h"
+#include "Localizer.h"
+#include "GUILocalizationCallback.h"
 
 #define _NB_BOX_CONTAINER_ 12
 
@@ -85,7 +87,8 @@ void ContainerBox::Initialize(CEGUI::Window* Root)
 {
 	try
 	{
-		_myBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "container.layout" );
+		_myBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "container.layout",
+								"", "", &MyPropertyCallback);
 		Root->addChildWindow(_myBox);
 
 
@@ -406,7 +409,7 @@ std::pair<CEGUI::Window*, CEGUI::Window*> ContainerBox::AddInventoryItem(const L
 
 	std::string itemdescription = itinfo.DescriptionTextExtra;
 	if(itemdescription == "")
-		itemdescription = DataLoader::getInstance()->GetInventoryText((long)itinfo.DescriptionId);
+		itemdescription = Localizer::getInstance()->GetText(Localizer::Inventory, (long)itinfo.DescriptionId);
 
 	CEGUI::String tmpstr((const unsigned char *)itemdescription.c_str());
 	tmp->setProperty("Tooltip", tmpstr);

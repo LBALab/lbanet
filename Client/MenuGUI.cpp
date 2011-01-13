@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "LogHandler.h"
 #include "EventsQueue.h"
 #include "ClientExtendedEvents.h"
+#include "GUILocalizationCallback.h"
 
 /***********************************************************
 constructor
@@ -52,7 +53,8 @@ void MenuGUI::Initialize()
 	try
 	{
 		// Load the Imageset that has the pictures for our button.
-		_root = CEGUI::WindowManager::getSingleton().loadWindowLayout( "MenuWindow.layout" );
+		_root = CEGUI::WindowManager::getSingleton().loadWindowLayout( "MenuWindow.layout",
+								"", "", &MyPropertyCallback);
 
 		static_cast<CEGUI::PushButton *> (
 			CEGUI::WindowManager::getSingleton().getWindow("MenubResume"))->subscribeEvent (

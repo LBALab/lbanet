@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ChooseNumberBox.h"
 #include <CEGUI.h>
 #include "LogHandler.h"
+#include "GUILocalizationCallback.h"
 
 ChooseNumberBox* ChooseNumberBox::_singletonInstance = NULL;
 
@@ -72,7 +73,8 @@ void ChooseNumberBox::Initialize(CEGUI::Window* Root)
 {
 	try
 	{
-		_myBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "choosenumberbox.layout" );
+		_myBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "choosenumberbox.layout",
+								"", "", &MyPropertyCallback);
 		Root->addChildWindow(_myBox);
 
 

@@ -30,6 +30,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "SynchronizedTimeHandler.h"
 #include "DataLoader.h"
 #include "OSGHandler.h"
+#include "Localizer.h"
+#include "GUILocalizationCallback.h"
 
 #include <iostream>
 #include <algorithm>
@@ -87,7 +89,8 @@ void NPCShopBox::Initialize(CEGUI::Window* Root)
 {
 	try
 	{
-		_mytradeBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "trader.layout" );
+		_mytradeBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "trader.layout",
+								"", "", &MyPropertyCallback);
 		Root->addChildWindow(_mytradeBox);
 
 
@@ -297,7 +300,7 @@ void NPCShopBox::AddItem(const LbaNet::ItemInfo &itinfo, CEGUI::Window* parent)
 
 	std::string itemdescription = itinfo.DescriptionTextExtra;
 	if(itemdescription == "")
-		itemdescription = DataLoader::getInstance()->GetInventoryText((long)itinfo.DescriptionId);
+		itemdescription = Localizer::getInstance()->GetText(Localizer::Inventory, (long)itinfo.DescriptionId);
 
 
 	std::stringstream strs;

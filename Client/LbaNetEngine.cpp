@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "RemoteConnectionHandler.h"
 #include "LocalConnectionHandler.h"
 #include "ChatServerHandler.h"
-
+#include "Localizer.h"
 
 #include <IceUtil/Thread.h>
 
@@ -92,6 +92,14 @@ initialize the class
 ***********************************************************/
 void LbaNetEngine::Initialize(void)
 {
+	// first get the language to use
+	std::string language;
+	ConfigurationManager::GetInstance()->GetString("Options.General.Language", language);
+	if(language == "")
+		language = "en";
+	Localizer::getInstance()->SetLanguage(language);
+
+
 #ifdef _USE_QT_EDITOR_
 	m_editor_handler= boost::shared_ptr<EditorHandler>(new EditorHandler());
 #endif

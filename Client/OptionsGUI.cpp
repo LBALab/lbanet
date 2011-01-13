@@ -32,6 +32,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "EventsQueue.h"
 #include "ClientExtendedEvents.h"
 #include "DataLoader.h"
+#include "Localizer.h"
+#include "GUILocalizationCallback.h"
 
 
 // Sample sub-class for ListboxTextItem that auto-sets the selection brush
@@ -69,7 +71,8 @@ void OptionsGUI::Initialize()
 	try
 	{
 		// Load the Imageset that has the pictures for our button.
-		_root = CEGUI::WindowManager::getSingleton().loadWindowLayout( "Options.layout" );
+		_root = CEGUI::WindowManager::getSingleton().loadWindowLayout( "Options.layout",
+								"", "", &MyPropertyCallback);
 
 		static_cast<CEGUI::PushButton *> (
 			CEGUI::WindowManager::getSingleton().getWindow("OptionsFrameW/OK"))->subscribeEvent (
@@ -114,7 +117,7 @@ void OptionsGUI::Initialize()
 			cbatype->addItem(new MyOptListItem("sp"));
 			cbatype->addItem(new MyOptListItem("it"));
 
-			_lang = DataLoader::getInstance()->GetLanguage();
+			_lang = Localizer::getInstance()->GetLanguage();
 			cbatype->setText(_lang);
 		}
 
@@ -122,19 +125,19 @@ void OptionsGUI::Initialize()
 			CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/Video/cbcameratype"));
 		if(combocamtype)
 		{
-			MyOptListItem * tmp0 = new MyOptListItem("Auto");
+			MyOptListItem * tmp0 = new MyOptListItem((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 89).c_str());
 			tmp0->setID(0);
 			combocamtype->addItem(tmp0);
 
-			MyOptListItem * tmp1 = new MyOptListItem("Orthogonal");
+			MyOptListItem * tmp1 = new MyOptListItem((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 90).c_str());
 			tmp1->setID(1);
 			combocamtype->addItem(tmp1);
 
-			MyOptListItem * tmp2 = new MyOptListItem("Perspective");
+			MyOptListItem * tmp2 = new MyOptListItem((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 91).c_str());
 			tmp2->setID(2);
 			combocamtype->addItem(tmp2);
 
-			MyOptListItem * tmp3 = new MyOptListItem("Free 3d");
+			MyOptListItem * tmp3 = new MyOptListItem((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 92).c_str());
 			tmp3->setID(3);
 			combocamtype->addItem(tmp3);
 		}
@@ -208,7 +211,7 @@ void OptionsGUI::Apply()
 				if(_lang != sp)
 				{
 					_lang = sp;
-					DataLoader::getInstance()->SetLanguage(_lang);
+					Localizer::getInstance()->SetLanguage(_lang);
 					ConfigurationManager::GetInstance()->SetString("Options.General.Language", _lang);
 				}
 			}
