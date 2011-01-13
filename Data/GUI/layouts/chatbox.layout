@@ -2,7 +2,7 @@
 
 <GUILayout >
     <Window Type="TaharezLook/FrameWindow" Name="ChatFrame" >
-        <Property Name="Text" Value="Chat" />
+        <Property Name="Text" Value="#2" />
         <Property Name="TitlebarFont" Value="Commonwealth-10" />
         <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
         <Property Name="UnifiedMinSize" Value="{{0,128},{0,128}}" />
@@ -23,13 +23,13 @@
             </Window>   
             
          <Window Type="TaharezLook/Button" Name="Chat/bChannel">
-            <Property Name="Text" Value="World" />
+            <Property Name="Text" Value="#3" />
                 <Property Name="UnifiedAreaRect" Value="{{0,10},{1,-35},{0,95},{1,-10}}" />
         </Window>    
         
             
          <Window Type="TaharezLook/Button" Name="Chat/bSend">
-            <Property Name="Text" Value="Send" />
+            <Property Name="Text" Value="#4" />
                 <Property Name="UnifiedAreaRect" Value="{{1,-70},{1,-35},{1,-10},{1,-10}}" />
         </Window>           
     </Window>

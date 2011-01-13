@@ -6,7 +6,7 @@
 	    <Property Name="TitlebarFont" Value="Commonwealth-10" />
 	    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 	    <Property Name="TitlebarEnabled" Value="True" />            
-            <Property Name="Text" Value="Inventory" />
+            <Property Name="Text" Value="#18" />
             <Property Name="RollUpEnabled" Value="True" />
             <Property Name="SizingEnabled" Value="True" />
 

@@ -2,7 +2,7 @@
 
 <GUILayout >
         <Window Type="TaharezLook/FrameWindow" Name="JournalFrame" >
-            <Property Name="Text" Value="Journal" />
+            <Property Name="Text" Value="#53" />
             <Property Name="TitlebarFont" Value="Commonwealth-10" />
             <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
             <Property Name="TitlebarEnabled" Value="True" />
@@ -13,7 +13,7 @@
 		<Property Name="TabPanePosition" Value="Top" />
                 <Property Name="UnifiedAreaRect" Value="{{0,5},{0,0},{1,-5},{1,-5}}" />
                 <Window Type="DefaultWindow" Name="Root/JournalWin/tab/questtab" >
-                    <Property Name="Text" Value="Quests" />
+                    <Property Name="Text" Value="#54" />
                     <Property Name="Visible" Value="False" />
                     <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 		    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
@@ -41,7 +41,7 @@
                     </Window>
                 </Window>
                 <Window Type="DefaultWindow" Name="Root/JournalWin/tab/questdonetab" >
-                    <Property Name="Text" Value="Done Quests" />
+                    <Property Name="Text" Value="#55" />
                     <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 		    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
                     

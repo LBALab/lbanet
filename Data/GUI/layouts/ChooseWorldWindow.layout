@@ -27,7 +27,7 @@
         <Property Name="UnifiedAreaRect" Value="{{0.2,0},{0.1,0},{0.8,0},{0.9,0}}" />     
        
     		<Window Type="TaharezLook/StaticText" Name="ChooseWorldLabel" >            
-		    <Property Name="Text" Value="Please select a world to enter to:" />        
+		    <Property Name="Text" Value="#8" />        
 		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 		    <Property Name="UnifiedAreaRect" Value="{{0.5,-150},{0,10},{0.5,150},{0,40}}" />
 		</Window>   
@@ -47,12 +47,12 @@
 		    <Property Name="ReadOnly" Value="true" />
 		</Window>        
 		<Window Type="TaharezLook/Button" Name="CWGoB" >   
-		    <Property Name="Text" Value="Enter" />
+		    <Property Name="Text" Value="#9" />
 		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 		    <Property Name="UnifiedAreaRect" Value="{{0.5,-100},{0.85,20},{0.5,-10},{0.85,50}}" />
 		</Window>
 		<Window Type="TaharezLook/Button" Name="CWCancelB" >          
-		    <Property Name="Text" Value="Cancel" />
+		    <Property Name="Text" Value="#1" />
 		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 		    <Property Name="UnifiedAreaRect" Value="{{0.5,10},{0.85,20},{0.5,100},{0.85,50}}" />
 		</Window>

@@ -2,7 +2,7 @@
 
 <GUILayout >
     <Window Type="TaharezLook/FrameWindow" Name="DialogFrame" >
-        <Property Name="Text" Value="Dialog" />
+        <Property Name="Text" Value="#16" />
         <Property Name="TitlebarFont" Value="Commonwealth-10" />
         <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
         <Property Name="TitlebarEnabled" Value="True" />

@@ -6,7 +6,7 @@
 	    <Property Name="TitlebarFont" Value="Commonwealth-10" />
 	    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 	    <Property Name="TitlebarEnabled" Value="True" />            
-	    <Property Name="Text" Value="Trade (right click to buy)" />
+	    <Property Name="Text" Value="#63" />
 	    <Property Name="RollUpEnabled" Value="True" />
 	    <Property Name="SizingEnabled" Value="True" />
 	    
@@ -17,7 +17,7 @@
             
        	    <Window Type="TaharezLook/StaticText" Name="DialogTraderFrame/kashes" >           
             <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
- 	    <Property Name="Text" Value="You have 9999 ka" />   
+ 	    <Property Name="Text" Value="#64" />   
  	    <Property Name="FrameEnabled" Value="False" />
  	    <Property Name="BackgroundEnabled" Value="False" />	    
             <Property Name="UnifiedAreaRect" Value="{{0.5,-65},{1,-30},{0.5,75},{1,-5}}" />	

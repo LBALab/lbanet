@@ -2,7 +2,7 @@
 
 <GUILayout >           
        <Window Type="TaharezLook/FrameWindow" Name="LetterEditorWIndowFrame" >
-        <Property Name="Text" Value="Write your letter" />
+        <Property Name="Text" Value="#19" />
 	<Property Name="TitlebarFont" Value="Commonwealth-10" />        
         <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
         <Property Name="UnifiedMinSize" Value="{{0,128},{0,128}}" />
@@ -12,7 +12,7 @@
         <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.3,0},{0.7,0},{0.7,0}}" />     
        
     		<Window Type="TaharezLook/StaticText" Name="LEditSubject" >            
-		    <Property Name="Text" Value="Subject:" />        
+		    <Property Name="Text" Value="#20" />        
 		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 		    <Property Name="UnifiedAreaRect" Value="{{0,10},{0,10},{0,100},{0,40}}" />
 		</Window>
@@ -29,12 +29,12 @@
 		</Window>        
        
 		<Window Type="TaharezLook/Button" Name="LEditGoB" >   
-		    <Property Name="Text" Value="OK" />
+		    <Property Name="Text" Value="#0" />
 		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 		    <Property Name="UnifiedAreaRect" Value="{{0.5,-100},{1,-35},{0.5,-10},{1,-5}}" />
 		</Window>
 		<Window Type="TaharezLook/Button" Name="LEditCancelB" >          
-		    <Property Name="Text" Value="Cancel" />
+		    <Property Name="Text" Value="#1" />
 		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 		    <Property Name="UnifiedAreaRect" Value="{{0.5,10},{1,-35},{0.5,100},{1,-5}}" />
 		</Window>

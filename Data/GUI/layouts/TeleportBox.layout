@@ -2,7 +2,7 @@
 
 <GUILayout >
 	<Window Type="TaharezLook/FrameWindow" Name="TeleportFrame" >
-	    <Property Name="Text" Value="Select a location to teleport" />	
+	    <Property Name="Text" Value="#60" />	
 	    <Property Name="TitlebarFont" Value="Commonwealth-10" />
 	    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 	    <Property Name="TitlebarEnabled" Value="True" />
@@ -13,12 +13,12 @@
 	    </Window>
        
          <Window Type="TaharezLook/Button" Name="TeleporGoButton">
-            <Property Name="Text" Value="GO" />
+            <Property Name="Text" Value="#61" />
                 <Property Name="UnifiedAreaRect" Value="{{0.5,-90},{1,-35},{0.5,-10},{1,-10}}" />
         </Window>  
         
         <Window Type="TaharezLook/Button" Name="TeleportCancelButton">
-            <Property Name="Text" Value="Cancel" />
+            <Property Name="Text" Value="#1" />
                 <Property Name="UnifiedAreaRect" Value="{{0.5,10},{1,-35},{0.5,90},{1,-10}}" />
         </Window> 	    
 	    

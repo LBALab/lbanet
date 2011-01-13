@@ -5,7 +5,7 @@
         <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
         <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
         <Window Type="TaharezLook/FrameWindow" Name="OptionsFrameW" >
-            <Property Name="Text" Value="Options" />
+            <Property Name="Text" Value="#34" />
             <Property Name="TitlebarFont" Value="Commonwealth-10" />
             <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
             <Property Name="TitlebarEnabled" Value="True" />
@@ -32,13 +32,13 @@
   
     
      		 <Window Type="TaharezLook/StaticText" Name="OptionsTab/General/lbltextcolor_name" >      
-    		    <Property Name="Text" Value="Name color:" />         
+    		    <Property Name="Text" Value="#38" />         
     		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
     		    <Property Name="UnifiedAreaRect" Value="{{0.1,0},{0.1,200},{0.1,150},{0.1,230}}" />
   		</Window>      
     
    		 <Window Type="TaharezLook/StaticText" Name="OptionsTab/General/lbltextR_name" >      
-  		    <Property Name="Text" Value="R:" />         
+  		    <Property Name="Text" Value="#39" />         
   		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
     		    <Property Name="UnifiedAreaRect" Value="{{0.1,60},{0.1,240},{0.1,100},{0.1,270}}" />
   		</Window>       
@@ -53,7 +53,7 @@
   		</Window>
         
    		 <Window Type="TaharezLook/StaticText" Name="OptionsTab/General/lbltextG_name" >      
-  		    <Property Name="Text" Value="G:" />         
+  		    <Property Name="Text" Value="#40" />         
   		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
     		    <Property Name="UnifiedAreaRect" Value="{{0.1,60},{0.1,280},{0.1,100},{0.1,310}}" />
   		</Window>       
@@ -68,7 +68,7 @@
   		</Window>
     
    		 <Window Type="TaharezLook/StaticText" Name="OptionsTab/General/lbltextB_name" >      
-  		    <Property Name="Text" Value="B:" />         
+  		    <Property Name="Text" Value="#41" />         
   		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
     		    <Property Name="UnifiedAreaRect" Value="{{0.1,60},{0.1,320},{0.1,100},{0.1,350}}" />
   		</Window>       
@@ -84,7 +84,7 @@
   
   
  		 <Window Type="TaharezLook/StaticText" Name="OptionsTab/General/lbltxtLang" >      
-		    <Property Name="Text" Value="Language:" />         
+		    <Property Name="Text" Value="#42" />         
 		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
   		    <Property Name="UnifiedAreaRect" Value="{{0.5,-100},{0,50},{0.5,0},{0,80}}" />
 		</Window>   		
@@ -97,7 +97,7 @@
                     
                 </Window>
                 <Window Type="DefaultWindow" Name="OptionsTab/Video" >
-                    <Property Name="Text" Value="Video" />
+                    <Property Name="Text" Value="#43" />
                     <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                     <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />            
                     
@@ -109,7 +109,7 @@
                     </Window>                    
                     
                      <Window Type="TaharezLook/StaticText" Name="OptionsTab/Video/stext" >
-                        <Property Name="Text" Value="Screen resolution:" />
+                        <Property Name="Text" Value="#44" />
                         <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                         <Property Name="UnifiedAreaRect" Value="{{0.5,-200},{0,30},{0.5,-20},{0,55}}" />
                     </Window>                                   
@@ -121,14 +121,14 @@
                     </Window>
 
                     <Window Type="TaharezLook/Checkbox" Name="OptionsTab/Video/cbfullscreen" >
-                        <Property Name="Text" Value="Fullscreen mode" />
+                        <Property Name="Text" Value="#45" />
                         <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                         <Property Name="UnifiedAreaRect" Value="{{0.5,-200},{0,100},{0.5,0},{0,120}}" />
                     </Window>
  
                     
                      <Window Type="TaharezLook/StaticText" Name="OptionsTab/Video/camtypetext" >
-                        <Property Name="Text" Value="Camera type:" />
+                        <Property Name="Text" Value="#46" />
                         <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                         <Property Name="UnifiedAreaRect" Value="{{0.5,-200},{0,200},{0.5,-20},{0,225}}" />
                     </Window>  
@@ -141,7 +141,7 @@
                     
                 </Window>
                 <Window Type="DefaultWindow" Name="OptionsTab/Sound" >
-                    <Property Name="Text" Value="Sound" />
+                    <Property Name="Text" Value="#47" />
                     <Property Name="Visible" Value="False" />
                     <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                     <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />               
@@ -155,7 +155,7 @@
                     
                     
                     <Window Type="TaharezLook/StaticText" Name="OptionsTab/Sound/textgeneralsound" >
-                        <Property Name="Text" Value="General volume:" />
+                        <Property Name="Text" Value="#48" />
                         <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                         <Property Name="UnifiedAreaRect" Value="{{0.5,-200},{0,30},{0.5,-20},{0,55}}" />
                     </Window>
@@ -170,7 +170,7 @@
 
                     
                     <Window Type="TaharezLook/StaticText" Name="OptionsTab/Sound/MusicVolumest" >
-                        <Property Name="Text" Value="Music volume:" />
+                        <Property Name="Text" Value="#49" />
                         <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                         <Property Name="UnifiedAreaRect" Value="{{0.5,-200},{0,70},{0.5,-20},{0,95}}" />
                     </Window>                    
@@ -187,7 +187,7 @@
                     
                 </Window>
                 <Window Type="DefaultWindow" Name="OptionsTab/Gui" >
-                    <Property Name="Text" Value="GUI" />
+                    <Property Name="Text" Value="#50" />
                     <Property Name="Visible" Value="False" />
                     <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                     <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
@@ -200,7 +200,7 @@
                     </Window>  
                     
 			 <Window Type="TaharezLook/StaticText" Name="OptionsTab/Gui/fontsizet" >      
-			    <Property Name="Text" Value="Font size:" />         
+			    <Property Name="Text" Value="#51" />         
 			    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 			    <Property Name="UnifiedAreaRect" Value="{{0.1,0},{0.1,40},{0.1,100},{0.1,70}}" />
 			</Window>        
@@ -217,17 +217,17 @@
                 </Window>
             </Window>
             <Window Type="TaharezLook/Button" Name="OptionsFrameW/Apply" >
-            	<Property Name="Text" Value="Apply" />
+            	<Property Name="Text" Value="#52" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                 <Property Name="UnifiedAreaRect" Value="{{0.5,55},{1,-35},{0.5,145},{1,-10}}" />
             </Window>
             <Window Type="TaharezLook/Button" Name="OptionsFrameW/OK" >
-            	<Property Name="Text" Value="OK" />
+            	<Property Name="Text" Value="#0" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                 <Property Name="UnifiedAreaRect" Value="{{0.5,-145},{1,-35},{0.5,-55},{1,-10}}" />
             </Window>
             <Window Type="TaharezLook/Button" Name="OptionsFrameW/Cancel" >
-            	<Property Name="Text" Value="Cancel" />
+            	<Property Name="Text" Value="#1" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                 <Property Name="UnifiedAreaRect" Value="{{0.5,-45},{1,-35},{0.5,45},{1,-10}}" />
             </Window>

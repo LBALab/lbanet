@@ -2,13 +2,13 @@
 
 <GUILayout >
     <Window Type="TaharezLook/FrameWindow" Name="WriteMailFrame" >
-        <Property Name="Text" Value="Write Mail" />
+        <Property Name="Text" Value="#65" />
         <Property Name="TitlebarFont" Value="Commonwealth-10" />
         <Property Name="UnifiedMinSize" Value="{{0,128},{0,128}}" />
         <Property Name="TitlebarEnabled" Value="True" />
         <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.3,0},{0.7,0},{0.7,0}}" />
         <Window Type="TaharezLook/StaticText" Name="WriteMailFrame/To" >
-            <Property Name="Text" Value="To:" />
+            <Property Name="Text" Value="#66" />
             <Property Name="HorzExtent" Value="16" />
             <Property Name="VertExtent" Value="18.1008" />
             <Property Name="UnifiedAreaRect" Value="{{0,10},{0,10},{0,50},{0,40}}" />
@@ -25,15 +25,15 @@
             <Property Name="MaxTextLength" Value="2500" />
         </Window>
         <Window Type="TaharezLook/Button" Name="WriteMailFrame/GoB" >
-            <Property Name="Text" Value="Send" />
+            <Property Name="Text" Value="#4" />
             <Property Name="UnifiedAreaRect" Value="{{0.5,-100},{1,-35},{0.5,-10},{1,-5}}" />
         </Window>
         <Window Type="TaharezLook/Button" Name="WriteMailFrame/CancelB" >
-            <Property Name="Text" Value="Cancel" />
+            <Property Name="Text" Value="#1" />
             <Property Name="UnifiedAreaRect" Value="{{0.5,10},{1,-35},{0.5,100},{1,-5}}" />
         </Window>
         <Window Type="TaharezLook/Combobox" Name="WriteMailFrame/contacts" >
-            <Property Name="Text" Value="Contacts" />
+            <Property Name="Text" Value="#67" />
             <Property Name="UnifiedAreaRect" Value="{{1,-150},{0,10},{1,-10},{0,100}}" />
         </Window>
     </Window>

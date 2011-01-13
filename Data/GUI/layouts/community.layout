@@ -2,7 +2,7 @@
 
 <GUILayout >
 	<Window Type="TaharezLook/FrameWindow" Name="CommunityFrame" >
-	    <Property Name="Text" Value="Community" />
+	    <Property Name="Text" Value="#10" />
 	    <Property Name="TitlebarFont" Value="Commonwealth-10" />
 	    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 	    <Property Name="TitlebarEnabled" Value="True" />
@@ -13,7 +13,7 @@
 		<Property Name="TabPanePosition" Value="Top" />
             	<Property Name="UnifiedAreaRect" Value="{{0,10},{0,0},{1,-10},{1,-10}}" />
 		<Window Type="DefaultWindow" Name="CommunityFrame/Tabonline" >
-		    <Property Name="Text" Value="Online" />
+		    <Property Name="Text" Value="#11" />
 		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 		    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
 
@@ -25,7 +25,7 @@
 		
 		
 		<Window Type="DefaultWindow" Name="CommunityFrame/Tabfriend" >
-		    <Property Name="Text" Value="Friends" />
+		    <Property Name="Text" Value="#12" />
 		    <Property Name="Visible" Value="False" />
 		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 		    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
@@ -56,7 +56,7 @@
 			</Window> 		    
 		</Window>
 		<Window Type="DefaultWindow" Name="CommunityFrame/TabParty" >
-		    <Property Name="Text" Value="Party" />
+		    <Property Name="Text" Value="#13" />
 		    <Property Name="Visible" Value="False" />
 		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 		    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />

@@ -2,7 +2,7 @@
 
 <GUILayout >
     <Window Type="TaharezLook/FrameWindow" Name="Mailbox" >
-        <Property Name="Text" Value="Mailbox" />
+        <Property Name="Text" Value="#31" />
         <Property Name="TitlebarFont" Value="Commonwealth-10" />
         <Property Name="UnifiedMinSize" Value="{{0,128},{0,128}}" />
         <Property Name="TitlebarEnabled" Value="True" />
@@ -17,7 +17,7 @@
             <Property Name="ColumnHeader" Value="text:Text width:{0.4,0} id:5" />
         </Window>
         <Window Type="TaharezLook/Button" Name="Mailbox/ComposeB" >
-            <Property Name="Text" Value="Compose" />
+            <Property Name="Text" Value="#32" />
             <Property Name="UnifiedAreaRect" Value="{{0.5,-50},{1,-30},{0.5,50},{1,-5}}" />
         </Window>
     </Window>

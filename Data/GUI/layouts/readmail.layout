@@ -2,13 +2,13 @@
 
 <GUILayout >
     <Window Type="TaharezLook/FrameWindow" Name="ReadMailFrame" >
-        <Property Name="Text" Value="Read Mail" />
+        <Property Name="Text" Value="#56" />
         <Property Name="TitlebarFont" Value="Commonwealth-10" />
         <Property Name="UnifiedMinSize" Value="{{0,128},{0,128}}" />
         <Property Name="TitlebarEnabled" Value="True" />
         <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.3,0},{0.7,0},{0.7,0}}" />
         <Window Type="TaharezLook/StaticText" Name="ReadMailFrame/From" >
-            <Property Name="Text" Value="From:" />
+            <Property Name="Text" Value="#57" />
             <Property Name="HorzExtent" Value="34" />
             <Property Name="VertExtent" Value="18.1008" />
             <Property Name="UnifiedAreaRect" Value="{{0,10},{0,10},{0,100},{0,40}}" />
@@ -26,16 +26,16 @@
             <Property Name="TextParsingEnabled" Value="False" />
         </Window>
         <Window Type="TaharezLook/Button" Name="ReadMailFrame/ReplyB" >
-            <Property Name="Text" Value="Reply" />
+            <Property Name="Text" Value="#58" />
             <Property Name="UnifiedAreaRect" Value="{{0.5,-145},{1,-35},{0.5,-55},{1,-5}}" />
         </Window>
         <Window Type="TaharezLook/Button" Name="ReadMailFrame/DestroyB" >
-            <Property Name="Text" Value="Delete" />
+            <Property Name="Text" Value="#59" />
             <Property Name="UnifiedAreaRect" Value="{{0.5,-45},{1,-35},{0.5,45},{1,-5}}" />
         </Window>
         
          <Window Type="TaharezLook/Button" Name="ReadMailFrame/CloseB" >
-            <Property Name="Text" Value="Close" />
+            <Property Name="Text" Value="#22" />
             <Property Name="UnifiedAreaRect" Value="{{0.5,55},{1,-35},{0.5,145},{1,-5}}" />
         </Window>       
     </Window>
