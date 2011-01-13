@@ -16,7 +16,7 @@
                 <Property Name="TabPanePosition" Value="Top" />
                 <Property Name="UnifiedAreaRect" Value="{{0,10},{0,0},{1,-10},{1,-45}}" />
                 <Window Type="DefaultWindow" Name="OptionsTab/General" >
-                    <Property Name="Text" Value="General" />
+                    <Property Name="Text" Value="#84" />
                     <Property Name="Visible" Value="False" />
                     <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                     <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />

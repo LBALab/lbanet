@@ -26,6 +26,7 @@
 		<Property Name="HoverImage"      Value="set:LbaNetB image:hover"  />
 		<Property Name="PushedImage"     Value="set:LbaNetB image:clicked" />
 		<Property Name="DisabledImage"   Value="set:LbaNetB image:disabled" />
+		<Property Name="Tooltip"   Value="#85" />
 	</Window> 
 
 
@@ -36,6 +37,7 @@
 		<Property Name="HoverImage"      Value="set:TeleportButton image:hover"  />
 		<Property Name="PushedImage"     Value="set:TeleportButton image:clicked" />
 		<Property Name="DisabledImage"   Value="set:TeleportButton image:disabled" />
+		<Property Name="Tooltip"   Value="#86" />		
 	</Window> 
 	
 
@@ -46,6 +48,7 @@
 		<Property Name="HoverImage"      Value="set:chatbutton image:hover"  />
 		<Property Name="PushedImage"     Value="set:chatbutton image:clicked" />
 		<Property Name="DisabledImage"   Value="set:chatbutton image:disabled" />
+		<Property Name="Tooltip"   Value="#87" />		
 	</Window> 
 
 
@@ -57,6 +60,7 @@
 		<Property Name="HoverImage"      Value="set:optionsbutton image:hover"  />
 		<Property Name="PushedImage"     Value="set:optionsbutton image:clicked" />
 		<Property Name="DisabledImage"   Value="set:optionsbutton image:disabled" />
+		<Property Name="Tooltip"   Value="#34" />		
 	</Window> 
 	
 	<Window Type="TaharezLook/ImageButton" Name="btnsound">
@@ -66,6 +70,7 @@
 		<Property Name="HoverImage"      Value="set:soundbutton image:hover"  />
 		<Property Name="PushedImage"     Value="set:soundbutton image:clicked" />
 		<Property Name="DisabledImage"   Value="set:soundbutton image:disabled" />
+		<Property Name="Tooltip"   Value="#47" />		
 	</Window> 	
 	
 	<Window Type="TaharezLook/ImageButton" Name="btnchangeworld">
@@ -75,6 +80,7 @@
 		<Property Name="HoverImage"      Value="set:changeworldbutton image:hover"  />
 		<Property Name="PushedImage"     Value="set:changeworldbutton image:clicked" />
 		<Property Name="DisabledImage"   Value="set:changeworldbutton image:disabled" />
+		<Property Name="Tooltip"   Value="#88" />		
 	</Window> 
 	
 	<Window Type="TaharezLook/ImageButton" Name="btnquit">
@@ -84,6 +90,7 @@
 		<Property Name="HoverImage"      Value="set:quitbutton image:hover"  />
 		<Property Name="PushedImage"     Value="set:quitbutton image:clicked" />
 		<Property Name="DisabledImage"   Value="set:quitbutton image:disabled" />
+		<Property Name="Tooltip"   Value="#29" />		
 	</Window> 
 
         <Window Type="TaharezLook/FrameWindow" Name="DisplayGameTextFrame" >
@@ -113,6 +120,7 @@
 		<Property Name="HoverImage"      Value="set:tunicicon image:hover"  />
 		<Property Name="PushedImage"     Value="set:tunicicon image:clicked" />
 		<Property Name="DisabledImage"   Value="set:tunicicon image:disabled" />
+		<Property Name="Tooltip"   Value="#18" />		
 	</Window> 
 
 	<Window Type="TaharezLook/ImageButton" Name="btnquest">
@@ -122,6 +130,7 @@
 		<Property Name="HoverImage"      Value="set:questicon image:hover"  />
 		<Property Name="PushedImage"     Value="set:questicon image:clicked" />
 		<Property Name="DisabledImage"   Value="set:questicon image:disabled" />
+		<Property Name="Tooltip"   Value="#54" />		
 	</Window> 
 
 	<Window Type="TaharezLook/ImageButton" Name="btnweapon">
@@ -131,6 +140,7 @@
 		<Property Name="HoverImage"      Value="set:weaponicon image:hover"  />
 		<Property Name="PushedImage"     Value="set:weaponicon image:clicked" />
 		<Property Name="DisabledImage"   Value="set:weaponicon image:disabled" />
+		<Property Name="Tooltip"   Value="#89" />		
 	</Window> 	
 
 	<Window Type="TaharezLook/StaticText" Name="PlayerName" >
