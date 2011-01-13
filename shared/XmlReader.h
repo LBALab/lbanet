@@ -46,6 +46,9 @@ public:
 
 	// save a world information into file
 	static  bool SaveWorldInfo(const std::string &Filename, const WorldInformation &res);
+
+	// get a text from file
+	static std::map<long, std::string> LoadTextFile(const std::string &Filename);
 };
 
 

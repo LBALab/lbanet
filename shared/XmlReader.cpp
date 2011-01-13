@@ -31,7 +31,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <boost/property_tree/detail/xml_parser_writer_settings.hpp>
 
 
-// load a world information into memory
+
+
+/***********************************************************
+load a world information into memory
+***********************************************************/
 bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res)
 {
 	// Create an empty property tree object
@@ -173,7 +177,9 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
 
 
 
-// save a world information into file
+/***********************************************************
+save a world information into file
+***********************************************************/
 bool XmlReader::SaveWorldInfo(const std::string &Filename, const WorldInformation &res)
 {
 	// Create an empty property tree object
@@ -287,7 +293,9 @@ bool XmlReader::SaveWorldInfo(const std::string &Filename, const WorldInformatio
 
 
 
-// load a world description into memory
+/***********************************************************
+load a world description into memory
+***********************************************************/
  bool XmlReader::LoadWorldDesc(const std::string &Filename, WorldDesc &res)
 {
 	// Create an empty property tree object
@@ -311,3 +319,45 @@ bool XmlReader::SaveWorldInfo(const std::string &Filename, const WorldInformatio
 
 	return true;
 }
+
+ 
+
+/***********************************************************
+get a text from file
+***********************************************************/
+std::map<long, std::string> XmlReader::LoadTextFile(const std::string &Filename)
+{
+	std::map<long, std::string> res;
+
+
+	// Create an empty property tree object
+	using boost::property_tree::wptree;
+	wptree pt;
+
+	// Load the XML file into the property tree
+	try
+	{
+		read_xml(Filename, pt);
+	}
+	catch(...)
+	{
+		return res;
+	}
+
+	// get text info
+	try
+	{
+		BOOST_FOREACH(wptree::value_type &v, pt.get_child(L"texts"))
+		{
+			long Id = v.second.get<long>(L"<xmlattr>.id");
+			std::wstring text = v.second.data();
+			std::string conv(text.begin(), text.end());
+			res[Id] = conv;
+		}
+	}
+	catch(...){} // no text
+
+
+	return res;
+}
+
