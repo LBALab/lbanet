@@ -2583,7 +2583,15 @@ void EditorHandler::AddActionAccepted()
 				(new CustomAction(id,	actname.toAscii().data(), functionname)));
 		}
 		break;
+	
+		case 3: // display text action
+		{
+			long textid = _ui_addactiondialog.spinBox_displaytext->value();
 
+			AddNewAction(boost::shared_ptr<ActionBase>
+				(new DisplayTextAction(id,	actname.toAscii().data(), textid)));
+		}
+		break;
 	}
 
 	SelectAction(id);
@@ -2694,6 +2702,17 @@ void EditorHandler::SelectAction(long id, const QModelIndex &parent)
 			return;
 		}
 
+		if(actiontype == "DisplayTextAction")
+		{
+			DisplayTextAction* ptr = static_cast<DisplayTextAction*>(it->second.get());
+			{
+				QVector<QVariant> data;
+				data << "Text id" << ptr->GetTextId(); //todo - check if need cast to int to display as spinbox
+				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+			}
+
+			return;
+		}
 
 	}
 }
@@ -2936,6 +2955,49 @@ void EditorHandler::ActionObjectChanged(long id, const std::string & category, c
 
 		return;
 	}
+
+
+
+	if(category == "DisplayTextAction")
+	{
+		// get info
+		long textid = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toLong();
+
+
+		// created modified action and replace old one
+		boost::shared_ptr<ActionBase> modifiedact(new DisplayTextAction(id,
+													name.toAscii().data(), textid));
+
+
+		_actions[id] = modifiedact;
+
+		if(name != oldname.c_str())
+		{
+			ReplaceActionName(oldname, modifiedact->GetName());
+
+			// update action name on parent
+			if(parentIdx != QModelIndex())
+				_objectmodel->setData(_objectmodel->GetIndex(1, parentIdx.row(), 
+				_objectmodel->parent(parentIdx)), name);	
+		}
+
+		// update action list display
+		QStringList slist;
+		slist << name << modifiedact->GetTypeName().c_str();
+		_actionlistmodel->AddOrUpdateRow(id, slist);
+
+
+		// need to save as something changed
+		SetModified();
+
+
+		//inform server
+		EditorUpdateBasePtr update = new UpdateEditor_AddOrModAction(modifiedact);
+		SharedDataHandler::getInstance()->EditorUpdate("", update);
+
+		return;
+	}
+
 }
 
 
@@ -5840,6 +5902,16 @@ void EditorHandler::addcscript_accepted()
 
 		}
 		break;
+
+		case 3: // custom script
+		{
+			boost::shared_ptr<ClientScriptBase> script(new CustomScript(id, csname.toAscii().data(), ""));
+
+			EditorAddClientScript(script);
+
+		}
+		break;
+
 	}
 
 	SelectCScript(id);
@@ -6014,6 +6086,18 @@ void EditorHandler::SelectCScript(long id, const QModelIndex &parent)
 				0, ptr->GetExitDirection());
 
 
+			return;
+		}
+
+		if(actiontype == "CustomScript")
+		{
+			CustomScript* ptr = static_cast<CustomScript*>(it->second.get());
+
+			{
+				QVector<QVariant> data;
+				data << "Lua function name" << ptr->LuaFunctionName().c_str();
+				_objectmodel->AppendRow(data, parent);
+			}
 			return;
 		}
 	}
@@ -6262,6 +6346,39 @@ void EditorHandler::CScriptObjectChanged( long id, const std::string & category,
 		return;
 	}
 
+
+	if(category == "CustomScript")
+	{
+		std::string fctname = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
+
+
+
+		// created modified script and replace old one
+		boost::shared_ptr<ClientScriptBase> modifiedscript(new CustomScript
+			(id, name, fctname));
+
+
+		// update map
+		_cscripts[id] = modifiedscript;
+
+
+		// update script list display
+		QStringList slist;
+		slist << name.c_str() << modifiedscript->GetTypeName().c_str();
+		_cscriptlistmodel->AddOrUpdateRow(id, slist);
+
+
+		// need to save as something changed
+		SetModified();
+
+		// refresh client script
+		std::stringstream strs;
+		modifiedscript->SaveScriptToLua(strs);
+		EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::ClientExecuteScriptStringEvent(
+			SynchronizedTimeHandler::GetCurrentTimeDouble(), strs.str()));	
+
+		return;
+	}
 }
 
 
@@ -6284,6 +6401,7 @@ void EditorHandler::ResetActionDialog()
 	_ui_addactiondialog.frame_TP->hide();
 	_ui_addactiondialog.frame_script->hide();
 	_ui_addactiondialog.frame_customAct->hide();
+	_ui_addactiondialog.frame_displaytext->hide();
 	_addactiondialog->resize(300, 100);
 }
 
@@ -6317,6 +6435,11 @@ void EditorHandler::SetActionDialogType( int type )
 		}
 		break;
 
+		case 3:
+		{
+			_ui_addactiondialog.frame_displaytext->show();
+		}
+		break;
 	}
 }
 

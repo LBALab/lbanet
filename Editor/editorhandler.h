@@ -300,6 +300,15 @@ public:
 										const std::string & FunctionName,
 										ActionArgumentBase * args){}
 
+	// display text to client window
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void DisplayTxtAction(int ObjectType, long ObjectId,
+		long TextId){}
+
+
 public slots:
 	 //! ui button clicked
      void addtrigger_button_clicked();
