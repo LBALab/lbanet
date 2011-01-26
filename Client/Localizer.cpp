@@ -135,6 +135,33 @@ void Localizer::RefreshTexts()
 	_inventory_texts.clear();
 	_quest_texts.clear();
 	_name_texts.clear();
+
+	_map_texts = XmlReader::LoadTextFile("Data/"+_currentworldname+"/Texts/" + _lang + "/map.xml");
+	_inventory_texts = XmlReader::LoadTextFile("Data/"+_currentworldname+"/Texts/" + _lang + "/inventory.xml");
+	_quest_texts = XmlReader::LoadTextFile("Data/"+_currentworldname+"/Texts/" + _lang + "/quest.xml");
+	_name_texts = XmlReader::LoadTextFile("Data/"+_currentworldname+"/Texts/" + _lang + "/name.xml");
+
+
+	// then add non translated english text if needed
+	if(_lang != "en")
+	{
+		{
+		std::map<long, std::string> tmp = XmlReader::LoadTextFile("Data/"+_currentworldname+"/Texts/en/map.xml");
+		_map_texts.insert(tmp.begin(),tmp.end());
+		}
+		{
+		std::map<long, std::string> tmp = XmlReader::LoadTextFile("Data/"+_currentworldname+"/Texts/en/inventory.xml");
+		_inventory_texts.insert(tmp.begin(),tmp.end());
+		}
+		{
+		std::map<long, std::string> tmp = XmlReader::LoadTextFile("Data/"+_currentworldname+"/Texts/en/quest.xml");
+		_quest_texts.insert(tmp.begin(),tmp.end());
+		}
+		{
+		std::map<long, std::string> tmp = XmlReader::LoadTextFile("Data/"+_currentworldname+"/Texts/en/name.xml");
+		_name_texts.insert(tmp.begin(),tmp.end());
+		}
+	}
 }
 
 
