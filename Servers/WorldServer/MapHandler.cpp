@@ -1644,6 +1644,51 @@ void MapHandler::ExecuteCustomAction(int ObjectType, long ObjectId,
 
 
 
+/***********************************************************
+display text to client window
+ObjectType ==>
+ 1 -> npc object
+ 2 -> player object
+ 3 -> movable object
+***********************************************************/
+void MapHandler::DisplayTxtAction(int ObjectType, long ObjectId,
+										long TextId)
+{
+	// does not work on npc
+	if(ObjectType == 1)
+		return;
+
+
+	long clientid = -1;
+
+	// on player
+	if(ObjectType == 2)
+		clientid = ObjectId;
+
+	// on object moved by player
+	if(ObjectType == 3)
+	{
+		// todo - find attached player
+	}
+
+	// check if client found - else return
+	if(clientid < 0)
+		return;
+
+
+	// send text request to player
+	EventsSeq toplayer;
+	LbaNet::GuiParamsSeq seq;
+	seq.push_back(new DisplayGameText(TextId));
+	toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+				"TextBox", seq, true, false));
+
+	IceUtil::ThreadPtr t = new EventsSender(toplayer, GetProxy(clientid));
+	t->start();	
+}
+
+
+
 
 /***********************************************************
 called when a script is finished on a client

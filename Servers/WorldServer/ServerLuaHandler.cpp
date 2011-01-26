@@ -115,6 +115,7 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("Teleport", &ScriptEnvironmentBase::Teleport)
 		.def("ExecuteClientScript", &ScriptEnvironmentBase::ExecuteClientScript)
 		.def("EditorAddClientScript", &ScriptEnvironmentBase::EditorAddClientScript)
+		.def("DisplayTextAction", &ScriptEnvironmentBase::DisplayTxtAction)
 		,
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),
@@ -177,6 +178,9 @@ ServerLuaHandler::ServerLuaHandler()
 		luabind::class_<CustomAction, ActionBase, boost::shared_ptr<ActionBase> >("CustomAction")
 		.def(luabind::constructor<long, const std::string&, const std::string&>()),
 
+		luabind::class_<DisplayTextAction, ActionBase, boost::shared_ptr<ActionBase> >("DisplayTextAction")
+		.def(luabind::constructor<long, const std::string&, long>()),
+
 
 		luabind::class_<ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("ClientScriptBase")
 		.def(luabind::constructor<long, const std::string&>()),
@@ -188,8 +192,10 @@ ServerLuaHandler::ServerLuaHandler()
 		.def(luabind::constructor<long, const std::string&, float, float, float, int>()),
 
 		luabind::class_<TakeExitDownScript, ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("TakeExitDownScript")
-		.def(luabind::constructor<long, const std::string&, float, float, float, int>())
+		.def(luabind::constructor<long, const std::string&, float, float, float, int>()),
 
+		luabind::class_<CustomScript, ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("CustomScript")
+		.def(luabind::constructor<long, const std::string&, const std::string&>())
 		];
 
 	}

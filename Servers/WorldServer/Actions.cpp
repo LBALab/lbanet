@@ -160,3 +160,47 @@ void CustomAction::SaveToLuaFile(std::ofstream & file)
 	file<<"\tenvironment:AddAction(Action_"<<GetId()<<")"<<std::endl<<std::endl;
 }
 
+
+
+
+/***********************************************************
+constructor
+***********************************************************/
+DisplayTextAction::DisplayTextAction(long id, const std::string &name, long TextId)
+: ActionBase(id, name), _TextId(TextId)
+{
+
+}
+
+/***********************************************************
+destructor
+***********************************************************/	
+DisplayTextAction::~DisplayTextAction(void)
+{
+
+}
+
+/***********************************************************
+//! execute the action
+//! parameter return the object type and number triggering the action
+***********************************************************/
+void DisplayTextAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+								ActionArgumentBase* args)
+{
+	if(owner)
+		owner->DisplayTxtAction(ObjectType, ObjectId, _TextId);
+}
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void DisplayTextAction::SaveToLuaFile(std::ofstream & file)
+{
+	file<<"\tAction_"<<GetId()<<" = DisplayTextAction("<<GetId()<<", \""
+				<<GetName()<<"\", "<<_TextId<<")"<<std::endl;
+
+	file<<"\tenvironment:AddAction(Action_"<<GetId()<<")"<<std::endl<<std::endl;
+}
+
+

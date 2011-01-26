@@ -209,4 +209,44 @@ private:
 };
 
 
+
+
+//! use to display a text on client
+class DisplayTextAction : public ActionBase
+{
+public:
+	//! constructor
+	DisplayTextAction(long id, const std::string &name, long TextId);
+	
+	//! destructor
+	virtual ~DisplayTextAction(void);
+
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args);
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "DisplayTextAction"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file);
+
+	// acessor
+	long GetTextId()
+	{ return _TextId;}
+
+
+private:
+	long			_TextId;
+};
+
+
 #endif
