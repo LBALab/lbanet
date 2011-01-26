@@ -100,6 +100,14 @@ public:
 	// only used by the editor to add client scripts to the list
 	virtual void EditorAddClientScript(boost::shared_ptr<ClientScriptBase> script) = 0;
 
+
+	// display text to client window
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void DisplayTxtAction(int ObjectType, long ObjectId,
+										long TextId) = 0;
 };
 
 

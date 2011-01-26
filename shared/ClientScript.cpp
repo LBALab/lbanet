@@ -152,3 +152,47 @@ void TakeExitDownScript::SaveScriptToLua(std::ostream & luastream)
 	luastream << "TakeExitDown(ScriptId, -1, ExitPosition, "<<_ExitDirection<<")"<<std::endl;
 	luastream << "end"<<std::endl<<std::endl;
 }
+
+
+
+/***********************************************************
+constructor
+***********************************************************/	
+CustomScript::CustomScript(long id, const std::string &name,
+								  const std::string & luafunctionname)
+								   : ClientScriptBase(id, name), 
+								   _luafunctionname(luafunctionname)
+{
+
+}
+
+/***********************************************************
+destructor
+***********************************************************/	
+CustomScript::~CustomScript(void)
+{
+
+}
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void CustomScript::SaveToLuaFile(std::ofstream & editorfile)
+{
+	editorfile<<"\tScript_"<<GetId()<<" = CustomScript("<<GetId()<<", \""
+		<<GetName()<<"\", \""<<_luafunctionname<<"\")"<<std::endl;
+
+	editorfile<<"\tenvironment:EditorAddClientScript(Script_"<<GetId()<<")"<<std::endl<<std::endl;
+}
+
+
+/***********************************************************
+save script content to lua
+***********************************************************/
+void CustomScript::SaveScriptToLua(std::ostream & luastream)
+{
+	luastream << "function ClientScript_"<<GetId()<<"(ScriptId)"<<std::endl;
+	luastream << _luafunctionname <<"(ScriptId)"<<std::endl;
+	luastream << "end"<<std::endl<<std::endl;
+}

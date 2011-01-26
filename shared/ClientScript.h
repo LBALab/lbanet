@@ -208,4 +208,41 @@ protected:
 
 
 
+
+//! use to start a script on client side
+class CustomScript : public ClientScriptBase
+{
+public:
+	//! constructor
+	CustomScript(long id, const std::string &name,
+						const std::string & luafunctionname);
+
+	//! destructor
+	virtual ~CustomScript(void);
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "CustomScript"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & editorfile);
+
+	// save script content to lua
+	virtual void SaveScriptToLua(std::ostream & luastream);
+
+
+	// accessors
+	std::string LuaFunctionName() const { return _luafunctionname; }
+	void SetLuaFunctionName(const std::string & val) { _luafunctionname = val; }
+
+
+protected:
+	std::string	_luafunctionname;
+
+};
+
+
+
 #endif
