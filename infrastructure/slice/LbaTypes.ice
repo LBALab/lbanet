@@ -3,13 +3,13 @@
 
 module LbaNet
 {
-	enum ModelStance { StanceNormal, StanceSporty, StanceAggresive, StanceDiscrete };		
+	enum ModelStance { StanceNormal, StanceSporty, StanceAggresive, StanceDiscrete, StanceProtopack, StanceHorse, StanceDinofly };		
 	
 	
 	enum ModelState { NoState, StNormal, StDying, StDrowning, StDrowningGas, StBurning, 
 				StSmallHurt, StMediumHurt, StBigHurt, StHurtFall, StFinishedFall, StFalling, 
 				StJumping, StMovingObject, StUseWeapon, StImmune, StHidden, StScripted,
-				StProtectedHurt, StRestrictedMovingObject, StFighting };	
+				StProtectedHurt, StRestrictedMovingObject, StFighting, StPrepareWeapon };	
 				
 				
 	enum ObjectTypeEnum { NpcObject, PlayerObject, GhostObject, EditorObject };	
@@ -48,6 +48,40 @@ module LbaNet
 	dictionary<string, string> 	FilesSeq;
 
 
+	
+	// give information about an item
+	struct ItemInfo
+	{
+		long 			Id;
+		string 			IconName;
+		long 			DescriptionId;
+		int 			Max;
+		int 			Price;
+		string 			DescriptionTextExtra;
+		int			Type;
+		float			Effect;
+		int			Flag;
+		bool			Ephemere;
+		string			StringFlag;
+	};
+	
+	// give information about an item position in inventory
+	struct ItemPosInfo
+	{
+		ItemInfo		Info;	
+		int 			Count;
+		int 			Position;
+	};
+		
+	// map an item with a position in display grid
+	dictionary<long, ItemPosInfo> 	ItemsMap;
+		
+	sequence<ItemInfo> 		ShortcutsSeq;
+
+	dictionary<long, int> 		ItemList;
+
+
+
 	// spawning information
 	struct SpawningInfo
 	{
@@ -78,21 +112,13 @@ module LbaNet
 		bool			IsInstance;
 		
 		SpawningsSeq 		Spawnings;
+		
+		float			HurtFallFactor;
 
 	};	
 	dictionary<string, MapInfo> 	MapsSeq;
 	
-	
-	
-	struct InventoryItem
-	{
-		int 			Number;
-		int 			PlaceInInventory;
-	};
 		
-	dictionary<long, InventoryItem> InventoryMap;
-	
-			
 	
 	struct ModelInfo
 	{
@@ -135,7 +161,7 @@ module LbaNet
 		long			SpawningId;
 		ModelInfo		StartingModel;
 		
-		InventoryMap		StartingInventory;
+		ItemsMap		StartingInventory;
 	};
 
 
@@ -183,24 +209,7 @@ module LbaNet
 	
 	sequence<PMInfo> 		PMsSeq;
 	
-	
-	// give information about an item
-	struct ItemInfo
-	{
-		long 			Id;
-		string 			IconName;
-		long 			DescriptionId;
-		int 			Count;
-		int 			Max;
-		int 			Price;
-		string 			DescriptionTextExtra;
-		int 			Position;
-	};
-		
-	// map an item with a position in display grid
-	dictionary<long, ItemInfo> 	ItemsMap;
-	
-	dictionary<long, int> 		ItemList;
+
 	
 	
 	// give information about a player status
@@ -229,14 +238,12 @@ module LbaNet
 	};
 
 	
-	
-	sequence<ItemInfo> 		ShortcutsSeq;
 
 	
 	struct InventoryInfo
 	{
 		int 			InventorySize;
-		InventoryMap 		InventoryStructure;
+		ItemsMap 		InventoryStructure;
 		ShortcutsSeq 		UsedShorcuts;
 	};
 	
@@ -530,7 +537,7 @@ module LbaNet
 	// server send inventory update to client
 	class UpdateInventoryItem extends GuiUpdateBase
 	{
-		ItemInfo		Info;
+		ItemPosInfo		Info;
 	};	
 	
 	// client update item position

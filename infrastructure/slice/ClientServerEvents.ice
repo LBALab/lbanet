@@ -194,7 +194,14 @@ module LbaNet
 	class ClientExecuteScriptStringEvent extends ClientServerEventBase
 	{
 		string 				ScriptString;
-	};		
+	};
+	
+	
+	// client tell server that an item has been used
+	class PlayerItemUsedEvent extends ClientServerEventBase
+	{
+		long 				ItemId;
+	};	
 };	
 
 #endif
