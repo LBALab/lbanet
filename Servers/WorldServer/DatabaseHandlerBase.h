@@ -97,6 +97,8 @@ public:
     // return letter info
     virtual LbaNet::LetterInfo GetLetterInfo(Ice::Long LetterId) = 0;
 
+	// delete letter
+    virtual void DeleteLetter(Ice::Long LetterId) = 0;
 
 	// get quest information
 	virtual void GetQuestInfo(const std::string& WorldName, long PlayerId, 

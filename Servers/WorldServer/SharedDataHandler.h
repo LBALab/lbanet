@@ -108,6 +108,24 @@ public:
 	//! return the client lua filename for a map
 	std::string GetClientLuaFilename(const std::string & mapname);
 
+
+	//! update player shortcut
+	void UpdatePlayerShortcut(Ice::Long clientid, int Position, long ItemId);
+
+	//! player switch item
+	void PlayerSwitchItem(Ice::Long clientid, long ItemId, int NewPosition);
+
+	//! player use item
+	void PlayerItemUsed(Ice::Long clientid, long ItemId);
+
+	//! Player Create Letter
+	void PlayerCreateLetter(Ice::Long clientid, const std::string & subject,
+										const std::string & message);
+
+	//! Player Destroy Item
+	void PlayerDestroyItem(Ice::Long clientid, long ItemId);
+
+
 protected:
 	//! constructor
 	SharedDataHandler(void){}

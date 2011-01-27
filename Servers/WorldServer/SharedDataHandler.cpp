@@ -3,6 +3,7 @@
 #include "MapHandler.h"
 #include "SynchronizedTimeHandler.h"
 #include "LogHandler.h"
+#include "InventoryItemHandler.h"
 
 SharedDataHandler* SharedDataHandler::_Instance = NULL;
 
@@ -32,6 +33,11 @@ void SharedDataHandler::SetWorldDefaultInformation(WorldInformation &worldinfo)
 {
 	Lock sync(*this);
 	_worldinfo = worldinfo;
+
+
+	// inform inventory handler
+	InventoryItemHandler::getInstance()->SetCurrentWorld(worldinfo.Description.WorldName);
+
 
 	// create all maps
 	LbaNet::MapsSeq::const_iterator itm = worldinfo.Maps.begin();
@@ -65,6 +71,7 @@ get database
 ***********************************************************/
 boost::shared_ptr<DatabaseHandlerBase> SharedDataHandler::GetDatabase()
 {
+	Lock sync(*this);
 	return _dbH;
 }
 
@@ -91,6 +98,8 @@ used when a client connect to a world
 void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo, 
 											const ClientInterfacePrx &proxy)
 {
+	// internal - no lock
+
 	RegisterClient(clientid, extrainfo, new RemoteClientProxy(proxy));
 }
 
@@ -101,6 +110,8 @@ used when a client connect to a world
 void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo, 
 											ClientInterfacePtr proxy)
 {
+	// internal - no lock
+
 	RegisterClient(clientid, extrainfo, new LocalClientProxy(proxy));
 }
 
@@ -205,6 +216,8 @@ add events
 ***********************************************************/
 void SharedDataHandler::AddEvents(const std::string &MapName, Ice::Long clientid, const EventsSeq &evts)
 {
+	// internal - no lock
+
 	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator it = _currentmaps.find(MapName);
 	if(it != _currentmaps.end())
 		it->second->AddEvents(clientid, evts);
@@ -217,6 +230,8 @@ add 1 event
 void SharedDataHandler::AddEvent(const std::string &MapName,Ice::Long clientid, 
 									ClientServerEventBasePtr evt)
 {
+	// internal - no lock
+
 	if(MapName == "") // send to all maps
 	{
 		std::map<std::string, boost::shared_ptr<MapHandler> >::iterator it = _currentmaps.begin();
@@ -239,6 +254,8 @@ player leave map
 ***********************************************************/
 void SharedDataHandler::PlayerLeaveMap(const std::string &MapName, Ice::Long clientid)
 {
+	// internal - no lock
+
 	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator it = _currentmaps.find(MapName);
 	if(it != _currentmaps.end())
 		it->second->RemovePlayer(clientid);
@@ -292,6 +309,8 @@ PlayerPosition SharedDataHandler::GetSpawningInfo(const std::string &MapName,
 													long SpawningId,
 													bool &forcerotation)
 {
+	// internal - no lock
+
 	PlayerPosition res;
 	res.MapName = MapName;
 	res.Rotation = 0;
@@ -343,25 +362,52 @@ teleport player
 ***********************************************************/
 void SharedDataHandler::TeleportPlayer(Ice::Long clientid, long TeleportId)
 {
+	bool ok = false;
+	std::string mapname;
+	long spawnid = 0;
+
 	{
 		Lock sync(*this);
 		//TODO - check if teleport is legal
-	}
 
-	// get tp info
-	LbaNet::ServerTeleportsSeq::iterator ittp = _worldinfo.TeleportInfo.find(TeleportId);
-	if(ittp != _worldinfo.TeleportInfo.end())
-	{
-		//! get player current map
+		// get tp info
+		LbaNet::ServerTeleportsSeq::iterator ittp = _worldinfo.TeleportInfo.find(TeleportId);
 		std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _currentplayers.find(clientid);
-		if(itplayer != _currentplayers.end())
+	
+		if(ittp != _worldinfo.TeleportInfo.end())
 		{
-			//only tp if change map
-			if(ittp->second.MapName != itplayer->second->GetCurrentMap())
-				ChangeMapPlayer(clientid, ittp->second.MapName, (long)ittp->second.SpawningId);
+			//! get player current map
+			if(itplayer != _currentplayers.end())
+			{
+				//only tp if change map
+				if(ittp->second.MapName != itplayer->second->GetCurrentMap())
+				{
+					ok = true;
+					mapname = ittp->second.MapName;
+					spawnid = (long)ittp->second.SpawningId;
+				}
+			}
 		}
 	}
+
+	// cant lock this part...
+	if(ok)
+		ChangeMapPlayer(clientid, mapname, spawnid);
 }
+
+
+/***********************************************************
+update player shortcut
+***********************************************************/
+void SharedDataHandler::UpdatePlayerShortcut(Ice::Long clientid, int Position, long ItemId)
+{
+	Lock sync(*this);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _currentplayers.find(clientid);
+	if(itplayer != _currentplayers.end())
+		itplayer->second->UpdateShortcut(Position, ItemId);
+}
+
 
 
 /***********************************************************
@@ -405,6 +451,8 @@ internally change map for player
 ***********************************************************/
 void SharedDataHandler::ChangeMapPlayer(Ice::Long clientid, LbaNet::PlayerPosition &newpos)
 {
+	// internal - no lock
+
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _currentplayers.find(clientid);
 	if(itplayer == _currentplayers.end())
 		return;
@@ -562,10 +610,12 @@ void SharedDataHandler::EditorUpdate(const std::string &mapname,
 
 
 /***********************************************************
-send tp lsit to player
+send tp list to player
 ***********************************************************/
 void SharedDataHandler::SendTpList(Ice::Long clientid, const ClientProxyBasePtr &proxy)
 {
+	// internal - no lock
+
 	//  TODO - add condition on list
 	LbaNet::TeleportsSeq Tps;
 	LbaNet::ServerTeleportsSeq::iterator ittp = _worldinfo.TeleportInfo.begin();
@@ -589,7 +639,65 @@ return the client lua filename for a map
 ***********************************************************/
 std::string SharedDataHandler::GetClientLuaFilename(const std::string & mapname)
 {
+	Lock sync(*this);
+
 	std::string luafile = "Worlds/" + _worldinfo.Description.WorldName + "/Lua/";
 	luafile += mapname + "_client.lua";
 	return luafile;
 }
+
+
+/***********************************************************
+player switch item
+***********************************************************/
+void SharedDataHandler::PlayerSwitchItem(Ice::Long clientid, long ItemId, int NewPosition)
+{
+	Lock sync(*this);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _currentplayers.find(clientid);
+	if(itplayer != _currentplayers.end())
+		itplayer->second->SwitchItem(ItemId, NewPosition);
+
+}
+
+/***********************************************************
+player use item
+***********************************************************/
+void SharedDataHandler::PlayerItemUsed(Ice::Long clientid, long ItemId)
+{
+	Lock sync(*this);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
+	if(it != _currentplayers.end())
+	{
+		// add event
+		AddEvent(it->second->GetCurrentMap(), clientid, 
+			new PlayerItemUsedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), ItemId));
+	}
+}
+
+/***********************************************************
+Player Create Letter
+***********************************************************/
+void SharedDataHandler::PlayerCreateLetter(Ice::Long clientid, const std::string & subject,
+											const std::string & message)
+{
+	Lock sync(*this);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _currentplayers.find(clientid);
+	if(itplayer != _currentplayers.end())
+		itplayer->second->CreateLetter(subject, message);
+}
+
+/***********************************************************
+Player Destroy Item
+***********************************************************/
+void SharedDataHandler::PlayerDestroyItem(Ice::Long clientid, long ItemId)
+{
+	Lock sync(*this);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _currentplayers.find(clientid);
+	if(itplayer != _currentplayers.end())
+		itplayer->second->DestroyItem(ItemId);
+}
+

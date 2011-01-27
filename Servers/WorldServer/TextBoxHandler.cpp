@@ -51,7 +51,7 @@ void TextBoxHandler::HideGUI(Ice::Long clientid)
 	{
 		EventsSeq toplayer;
 		toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-												"MailBox", GuiParamsSeq(), false, true));
+												"TextBox", GuiParamsSeq(), false, true));
 
 		IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
 		t->start();	

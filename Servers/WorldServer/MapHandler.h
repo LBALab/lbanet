@@ -211,10 +211,11 @@ protected:
 
 
 	//! change player stance
-	void ChangeStance(Ice::Long id, LbaNet::ModelStance NewStanceId);
+	void ChangeStance(Ice::Long id, LbaNet::ModelStance NewStanceId, bool fromserver = false);
 
 	//! change player state
-	void ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, float FallingSize);
+	void ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, float FallingSize,
+																			bool fromserver = false);
 
 	//! a player is raised from dead
 	void RaiseFromDeadEvent(Ice::Long id);
@@ -264,13 +265,30 @@ protected:
 	//!  update player stance
 	//! return true if state has been updated
 	bool UpdatePlayerStance(Ice::Long clientid, LbaNet::ModelStance NewStance,
-									ModelInfo & returnmodel );
+									ModelInfo & returnmodel, bool fromserver = false);
 
 
 	//!  update player state
 	//! return true if state has been updated
 	bool UpdatePlayerState(Ice::Long clientid, LbaNet::ModelState NewState,
 									ModelInfo & returnmodel );
+
+	//!  update player weapon
+	//! return true if state has been updated
+	bool UpdatePlayerWeapon(Ice::Long clientid, const std::string & weapon,
+													ModelInfo & returnmodel );
+
+
+	//!  update player outfit
+	//! return true if state has been updated
+	bool UpdatePlayerOutfit(Ice::Long clientid, const std::string & outfit,
+													ModelInfo & returnmodel );
+	
+	//! change player weapon
+	void ChangeWeapon(Ice::Long id, const std::string & weapon);
+
+	//! change player outfit
+	void ChangeOutfit(Ice::Long id, const std::string & outfit);
 
 
 	//!  save player state
@@ -318,6 +336,27 @@ protected:
 
 	//! called when a script is finished on a client
 	void FinishedScript(long id, const std::string & ScriptName);
+
+	//! called when the player use an item
+	void PlayerItemUsed(Ice::Long clientid, long ItemId);
+
+	//! get info about an item
+	LbaNet::ItemPosInfo GetItemInfo(Ice::Long clientid, long ItemId);
+
+
+	//! item consumed
+	bool PlayerConsumeItem(Ice::Long clientid, long ItemId);
+
+	//! remove ephemere from player inventory
+	void RemoveEphemere(Ice::Long clientid);
+
+	//! update player life
+	//! return true if no life
+	bool DeltaUpdateLife(Ice::Long clientid, float update);
+
+	//! update player mana
+	//! return true if no mana
+	bool DeltaUpdateMana(Ice::Long clientid, float update);
 
 private:
 	// threading and mutex stuff

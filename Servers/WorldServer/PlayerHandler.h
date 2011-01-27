@@ -60,12 +60,12 @@ public:
 	LbaNet::ModelInfo GetModelInfo() {return _currentinfo.model;}
 
 	//! get inventory
-	LbaNet::ItemsMap GetInventory() {return _currentinventory;}
+	LbaNet::ItemsMap GetInventory() {return _currentinfo.inventory.InventoryStructure;}
 
 	// get shortcuts
-	LbaNet::ShortcutsSeq GetShorcuts() {return _currentshortcuts;}
+	LbaNet::ShortcutsSeq GetShorcuts() {return _currentinfo.inventory.UsedShorcuts;}
 
-	// player update on the shorcut - TODO
+	// player update on the shorcut
 	void UpdateShortcut(int Position, long ItemId);
 
 	// get current size of inventory
@@ -108,12 +108,22 @@ public:
 
 	//!  update player stance
 	//! return true if state has been updated
-	bool UpdatePlayerStance(LbaNet::ModelStance NewStance, LbaNet::ModelInfo & returnmodel);
+	bool UpdatePlayerStance(LbaNet::ModelStance NewStance, LbaNet::ModelInfo & returnmodel,
+								bool changefromserver = false);
 
 
 	//!  update player state
 	//! return true if state has been updated
 	bool UpdatePlayerState(LbaNet::ModelState NewState, LbaNet::ModelInfo & returnmodel);
+
+
+	//!  update player weapon
+	//! return true if state has been updated
+	bool UpdatePlayerWeapon(const std::string & weapon,	LbaNet::ModelInfo & returnmodel);
+
+	//!  update player outfit
+	//! return true if state has been updated
+	bool UpdatePlayerOutfit(const std::string & outfit,	LbaNet::ModelInfo & returnmodel);
 
 
 	//!  save player state
@@ -149,6 +159,33 @@ public:
 	bool IsReady()
 	{return _ready;}
 
+
+	//! player switch item
+	void SwitchItem(long ItemId, int NewPosition);
+
+	//! Player Create Letter
+	void CreateLetter(const std::string & subject, const std::string & message);
+
+	//! Player Destroy Item
+	void DestroyItem(long ItemId);
+
+	//! get info about an item
+	LbaNet::ItemPosInfo GetItemInfo(long ItemId);
+
+	//! item consumed - return true if life is updated
+	bool ConsumeItem(long ItemId);
+
+	//! remove ephemere from player inventory
+	void RemoveEphemere();
+
+	//! update player life
+	//! return true if no life
+	bool DeltaUpdateLife(float update);
+
+	//! update player mana
+	//! return true if no mana
+	bool DeltaUpdateMana(float update);
+
 protected:
 	// update state and mode class from modelinfo
 	void UpdateStateModeClass();
@@ -161,8 +198,6 @@ private:
 
 	std::string									_worldname;
 	LbaNet::SavedWorldInfo						_currentinfo;
-	LbaNet::ItemsMap							_currentinventory;
-	LbaNet::ShortcutsSeq						_currentshortcuts;
 	LbaNet::ObjectExtraInfo						_extrainfo;
 	LbaNet::PlayerPosition						_spawningIno;
 

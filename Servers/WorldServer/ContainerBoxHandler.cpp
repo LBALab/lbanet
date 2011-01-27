@@ -75,5 +75,6 @@ show the GUI for a certain player
 void ContainerBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition &curPosition,
 					boost::shared_ptr<ShowGuiParamBase> params)
 {
-	// TODO
+	// TODO - also check if container needs reset
+
 }

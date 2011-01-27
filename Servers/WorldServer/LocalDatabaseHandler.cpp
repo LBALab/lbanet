@@ -178,9 +178,9 @@ LbaNet::SavedWorldInfo LocalDatabaseHandler::ChangeWorld(const std::string& NewW
 				// get data
 				for(int i=0; i<nbrow; ++i)
 				{
-					LbaNet::InventoryItem itm;
-					itm.Number = atoi(pazResult[(nbcollumn*(i+1))+2]);
-					itm.PlaceInInventory = atoi(pazResult[(nbcollumn*(i+1))+3]);
+					LbaNet::ItemPosInfo itm;
+					itm.Count = atoi(pazResult[(nbcollumn*(i+1))+2]);
+					itm.Position = atoi(pazResult[(nbcollumn*(i+1))+3]);
 					resP.inventory.InventoryStructure[atol(pazResult[(nbcollumn*(i+1))+1])] = itm;
 				}
 
@@ -524,13 +524,13 @@ void LocalDatabaseHandler::UpdateInventory(const LbaNet::InventoryInfo &Inventor
 			}
 
 
-			LbaNet::InventoryMap::const_iterator iti = Inventory.InventoryStructure.begin();
-			LbaNet::InventoryMap::const_iterator endi = Inventory.InventoryStructure.end();
+			LbaNet::ItemsMap::const_iterator iti = Inventory.InventoryStructure.begin();
+			LbaNet::ItemsMap::const_iterator endi = Inventory.InventoryStructure.end();
 			for(;iti != endi; ++iti)
 			{
 				query.str("");
 				query << "INSERT INTO lba_inventory (worldid, objectid, number, InventoryPlace) VALUES('";
-				query << uworldid << "', '" << iti->first << "', '" << iti->second.Number << "', '" << iti->second.PlaceInInventory << "')";
+				query << uworldid << "', '" << iti->first << "', '" << iti->second.Count << "', '" << iti->second.Position << "')";
 				
 				dbres = sqlite3_exec(_db, query.str().c_str(), 0, 0, &zErrMsg);
 				if(dbres != SQLITE_OK)

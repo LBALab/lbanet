@@ -122,6 +122,10 @@ public:
     LbaNet::PMsSeq GetInboxPM(long playerid);
 
 
+	// delete letter
+	void DeleteLetter(Ice::Long LetterId){}
+
+
 protected:
 	LocalDatabaseHandler(const LocalDatabaseHandler &);
 	const LocalDatabaseHandler & operator=(const LocalDatabaseHandler &);

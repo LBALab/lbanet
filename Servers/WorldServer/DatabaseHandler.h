@@ -95,6 +95,8 @@ public:
     // return letter info
     LbaNet::LetterInfo GetLetterInfo(Ice::Long LetterId);
 
+	// delete letter
+    void DeleteLetter(Ice::Long LetterId);
 
 	// get quest information
 	void GetQuestInfo(const std::string& WorldName, long PlayerId, 

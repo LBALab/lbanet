@@ -175,9 +175,9 @@ LbaNet::SavedWorldInfo DatabaseHandler::ChangeWorld(const std::string& NewWorldN
 			{
 				for(size_t i=0; i<res2.size(); ++i)
 				{
-					LbaNet::InventoryItem itm;
-					itm.Number = res2[i][2];
-					itm.PlaceInInventory = res2[i][3];
+					LbaNet::ItemPosInfo itm;
+					itm.Count = res2[i][2];
+					itm.Position = res2[i][3];
 					resP.inventory.InventoryStructure[res2[i][1]] = itm;
 				}
 			}
@@ -447,13 +447,13 @@ void DatabaseHandler::UpdateInventory(const LbaNet::InventoryInfo &Inventory, co
 			if(!query.exec())
 				std::cerr<<IceUtil::Time::now()<<": LBA_Server - Update DELETE failed for user id "<<PlayerId<<" : "<<query.error()<<std::endl;
 
-			LbaNet::InventoryMap::const_iterator iti = Inventory.InventoryStructure.begin();
-			LbaNet::InventoryMap::const_iterator endi = Inventory.InventoryStructure.end();
+			LbaNet::ItemsMap::const_iterator iti = Inventory.InventoryStructure.begin();
+			LbaNet::ItemsMap::const_iterator endi = Inventory.InventoryStructure.end();
 			for(;iti != endi; ++iti)
 			{
 				query.clear();
 				query << "INSERT INTO lba_inventory (worldid, objectid, number, InventoryPlace) VALUES('";
-				query << res[0][0] << "', '" << iti->first << "', '" << iti->second.Number << "', '" << iti->second.PlaceInInventory << "')";
+				query << res[0][0] << "', '" << iti->first << "', '" << iti->second.Count << "', '" << iti->second.Position << "')";
 				if(!query.exec())
 					std::cerr<<IceUtil::Time::now()<<": LBA_Server - Update INSERT usertoworldmap failed for user id "<<PlayerId<<" : "<<query.error()<<std::endl;
 
@@ -827,6 +827,32 @@ LbaNet::LetterInfo DatabaseHandler::GetLetterInfo(Ice::Long LetterId)
 	}
 
 	return resF;
+}
+
+
+
+/***********************************************************
+delete letter
+***********************************************************/
+void DatabaseHandler::DeleteLetter(Ice::Long LetterId)
+{
+	Lock sync(*this);
+	if(!_mysqlH || !_mysqlH->connected())
+	{
+		Connect();
+		if(!_mysqlH->connected())
+		{
+			Clear();
+			return;
+		}
+	}
+
+	mysqlpp::Query query(_mysqlH, false);
+	query << "DELETE FROM lba_letters";
+	query << " WHERE id = '"<<LetterId<<"'";
+	if(!query.exec())
+		std::cerr<<IceUtil::Time::now()<<": LBA_Server - Update DELETE failed for letter id "<<LetterId<<" : "<<query.error()<<std::endl;
+
 }
 
 

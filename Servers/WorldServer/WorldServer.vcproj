@@ -181,6 +181,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\Actions.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ActorHandler.cpp"
 				>
 			</File>
@@ -202,6 +206,10 @@
 			</File>
 			<File
 				RelativePath="..\..\infrastructure\cpp\ClientInterface.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\ClientScript.cpp"
 				>
 			</File>
 			<File
@@ -229,7 +237,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\InventoryItemHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\infrastructure\cpp\LbaTypes.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\LogHandler.cpp"
 				>
 			</File>
 			<File
@@ -289,6 +305,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Triggers.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\WorldChatHandler.cpp"
 				>
 			</File>
@@ -315,6 +335,10 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\Actions.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ClientProxyHandler.h"
 				>
 			</File>
@@ -340,6 +364,14 @@
 			</File>
 			<File
 				RelativePath=".\InventoryBoxHandler.h"
+				>
+			</File>
+			<File
+				RelativePath=".\InventoryItemHandler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\LogHandler.h"
 				>
 			</File>
 			<File

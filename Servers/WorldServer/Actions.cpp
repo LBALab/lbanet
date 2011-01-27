@@ -47,7 +47,7 @@ void TeleportAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice:
 			}
 		}
 
-		owner->Teleport(ObjectType, ObjectId, _NewMap, _SpawningId,
+		owner->Teleport(ObjectType, (long)ObjectId, _NewMap, _SpawningId,
 							offsetX, offsetY, offsetZ);
 	}
 }
@@ -96,7 +96,7 @@ void ClientScriptAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, 
 	{
 		std::stringstream strs;
 		strs << "ClientScript_" << _ScriptId;
-		owner->ExecuteClientScript(ObjectType, ObjectId, strs.str());
+		owner->ExecuteClientScript(ObjectType, (long)ObjectId, strs.str());
 	}
 }
 
@@ -144,7 +144,7 @@ void CustomAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::L
 {
 	if(owner && _customluafunctionname != "")
 	{
-		owner->ExecuteCustomAction(ObjectType, ObjectId, _customluafunctionname, args);
+		owner->ExecuteCustomAction(ObjectType, (long)ObjectId, _customluafunctionname, args);
 	}
 }
 
@@ -188,7 +188,7 @@ void DisplayTextAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, I
 								ActionArgumentBase* args)
 {
 	if(owner)
-		owner->DisplayTxtAction(ObjectType, ObjectId, _TextId);
+		owner->DisplayTxtAction(ObjectType, (long)ObjectId, _TextId);
 }
 
 

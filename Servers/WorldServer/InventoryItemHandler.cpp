@@ -21,40 +21,67 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 -----------------------------------------------------------------------------
 */
-#include "ShortcutBoxHandler.h"
-#include "SharedDataHandler.h"
+
+#include "InventoryItemHandler.h"
+#include "XmlReader.h"
+
+InventoryItemHandler* InventoryItemHandler::_singletonInstance = NULL;
+
+
 
 /***********************************************************
-update gui with info from server
+singleton pattern
 ***********************************************************/
-void ShortcutBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBasePtr &Update)
+InventoryItemHandler * InventoryItemHandler::getInstance()
 {
-	LbaNet::GuiUpdateBase * ptr = Update.get();
-	const std::type_info& info = typeid(*ptr);
-
-	// LbaNet::ShortcutUpdate
-	if(info == typeid(LbaNet::ShortcutUpdate))
-	{
-		LbaNet::ShortcutUpdate * castedptr = 
-			dynamic_cast<LbaNet::ShortcutUpdate *>(ptr);
-
-		SharedDataHandler::getInstance()->UpdatePlayerShortcut(clientid, castedptr->Position, 
-																			(long)castedptr->ItemId);
-	}
-}
-
-/***********************************************************
-update gui with info from server
-***********************************************************/
-void ShortcutBoxHandler::HideGUI(Ice::Long clientid)
-{
+    if(!_singletonInstance)
+    {
+        _singletonInstance = new InventoryItemHandler();
+		return _singletonInstance;
+    }
+    else
+    {
+		return _singletonInstance;
+    }
 }
 
 
 /***********************************************************
-show the GUI for a certain player
+Constructor
 ***********************************************************/
-void ShortcutBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition &curPosition,
-					boost::shared_ptr<ShowGuiParamBase> params)
+InventoryItemHandler::InventoryItemHandler()
 {
+
 }
+
+/***********************************************************
+Destructor
+***********************************************************/
+InventoryItemHandler::~InventoryItemHandler()
+{
+
+}
+
+/***********************************************************
+set current world
+***********************************************************/
+void InventoryItemHandler::SetCurrentWorld(const std::string worldname)
+{
+	_items.clear();
+	XmlReader::LoadInventoryFile("Data/Worlds/"+worldname+"/Inventory.xml", _items);
+}
+
+/***********************************************************
+get item info
+***********************************************************/
+LbaNet::ItemInfo InventoryItemHandler::GetItemInfo(long itemid)
+{
+	if(_items.find(itemid) != _items.end())
+		return _items[itemid];
+
+	// in case not found
+	LbaNet::ItemInfo res;
+	res.Id = -1;
+	return res;
+}
+
