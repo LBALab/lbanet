@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<items>
+    <item id="1" filename="health" type="1" valueA="1" Max="10" Price="5" Description="0" Effect="30"/>
+    <item id="2" filename="magic" type="1" valueA="2" Max="10" Price="5" Description="1" Effect="30"/>
+    <item id="3" filename="clover" type="1" valueA="3" Max="3" Price="20" Description="2" Effect="100"/>
+    <item id="4" filename="key" type="2" valueA="0" Max="10" Description="3" Ephemere="1"/>
+    <item id="5" filename="Horse" type="3" valueA="2" Max="1" Description="4"/>
+    <item id="6" filename="Dino" type="3" valueA="3" Max="1" Description="5"/>
+    <item id="7" filename="protopack" type="3" valueA="1" Max="1" Price="5" Description="6"/>
+    <item id="8" filename="kash" type="6" valueA="0" Max="9999" Description="7"/>
+    <item id="9" filename="Feather" type="7" valueA="1" Max="1" Description="8"/>
+    <item id="10" filename="letter" type="8" valueA="0" Max="1" From="9" Subject="10" Description="11"/>   
+    <item id="11" filename="Gas" type="6" valueA="0" Max="10" Price="10" Description="12"/>   
+    <item id="12" filename="Ticket" type="6" valueA="0" Max="1" Price="10" Description="13"/>   
+
+
+    <item id="13" filename="glass" type="1" valueA="3" Max="10" Price="2" Description="14" Effect="80"/>
+    <item id="14" filename="gluehwein" type="1" valueA="2" Max="10" Price="1" Description="15" Effect="80"/>
+    <item id="15" filename="Lebkuchen" type="1" valueA="1" Max="10" Price="2" Description="16" Effect="80"/>
+    <item id="16" filename="candy" type="1" valueA="1" Max="10" Price="1" Description="17" Effect="80"/>
+    <item id="17" filename="giftbox" type="6" valueA="0" Max="1" Price="1" Description="18" Effect="1"/>
+    <item id="18" filename="hairdryer" type="5" valueA="0" Max="1" Price="1" Description="19" Effect="1"/>
+    <item id="19" filename="grain" type="5" valueA="0" Max="1" Price="50" Description="20" Effect="1"/>    
+    
+    <item id="20" filename="bcake1" type="1" valueA="3" Max="5" Price="1" Description="21" Effect="100"/> 
+    <item id="21" filename="giftbox" type="6" valueA="0" Max="1" Price="1" Description="22" Effect="1"/>    
+    <item id="22" filename="bcake1" type="4" Max="1" Price="1" Description="22" Extra="MagicBall"/>    
+    <item id="23" filename="bcake1" type="4" Max="1" Price="1" Description="23" Extra="Saber"/>   
+    <item id="24" filename="bcake1" type="9" Max="1" Price="1" Description="24" Extra="Prisoner"/>    
+    <item id="25" filename="bcake1" type="9" Max="1" Price="1" Description="25" Extra="Nurse"/> 
+    <item id="26" filename="bcake1" type="9" Max="1" Price="1" Description="26" Extra="Tunic"/>    
+    <item id="27" filename="bcake1" type="9" Max="1" Price="1" Description="27" Extra="Fulltunic"/>   
+    
+</items>

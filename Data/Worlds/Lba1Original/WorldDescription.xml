@@ -4,15 +4,9 @@
 	<description>Reconstruction of the LBA1 original world.</description>
 	<news>11/10/2010: First release with new engine.</news>
 	<files>
-		<file name="inventory" path="Inventory/lba1_inventory.xml"/>
-		<file name="inventorytext" path="Texts/Lba1/inventory.xml"/>
 		<file name="models" path="Models/models.xml"/>
-		<file name="nametext" path="Texts/Lba1/names.xml"/>
-		<file name="quests" path="Quest/lba1.xml"/>
-		<file name="questtext" path="Texts/Lba1/quest.xml"/>
 		<file name="sounds" path="Samples/sounds.xml"/>
 		<file name="sprites" path="Sprites/sprites.xml"/>
-		<file name="text" path="Texts/Lba1/text.xml"/>
 		<file name="videos" path="Sprites/videos.xml"/>
 	</files>
 	<PlayerStartingInfo>
@@ -29,6 +23,170 @@
 			<Mode>Normal</Mode>
 			<RendererType>2</RendererType>
 		</StartingModel>
+		
+		<StartingInventory>
+			<item>
+				<ObjectId>1</ObjectId>
+				<Position>1</Position>				
+				<Number>1</Number>				
+			</item>	
+			
+			<item>
+				<ObjectId>2</ObjectId>
+				<Position>2</Position>				
+				<Number>1</Number>				
+			</item>				
+			
+			<item>
+				<ObjectId>3</ObjectId>
+				<Position>3</Position>				
+				<Number>1</Number>				
+			</item>					
+			
+			<item>
+				<ObjectId>4</ObjectId>
+				<Position>4</Position>				
+				<Number>1</Number>				
+			</item>						
+			
+			<item>
+				<ObjectId>5</ObjectId>
+				<Position>5</Position>				
+				<Number>1</Number>				
+			</item>					
+			
+			<item>
+				<ObjectId>6</ObjectId>
+				<Position>6</Position>				
+				<Number>1</Number>				
+			</item>					
+			
+			<item>
+				<ObjectId>7</ObjectId>
+				<Position>7</Position>				
+				<Number>1</Number>				
+			</item>					
+			
+			<item>
+				<ObjectId>8</ObjectId>
+				<Position>8</Position>				
+				<Number>1</Number>				
+			</item>					
+			
+			<item>
+				<ObjectId>9</ObjectId>
+				<Position>9</Position>				
+				<Number>1</Number>				
+			</item>					
+			
+			<item>
+				<ObjectId>10</ObjectId>
+				<Position>10</Position>				
+				<Number>1</Number>				
+			</item>					
+			
+			<item>
+				<ObjectId>11</ObjectId>
+				<Position>11</Position>				
+				<Number>1</Number>				
+			</item>					
+			
+			<item>
+				<ObjectId>12</ObjectId>
+				<Position>12</Position>				
+				<Number>1</Number>				
+			</item>					
+			
+			<item>
+				<ObjectId>13</ObjectId>
+				<Position>13</Position>				
+				<Number>1</Number>				
+			</item>					
+			
+			<item>
+				<ObjectId>14</ObjectId>
+				<Position>14</Position>				
+				<Number>1</Number>				
+			</item>					
+			
+			<item>
+				<ObjectId>15</ObjectId>
+				<Position>15</Position>				
+				<Number>1</Number>				
+			</item>					
+			
+			<item>
+				<ObjectId>16</ObjectId>
+				<Position>16</Position>				
+				<Number>1</Number>				
+			</item>					
+			
+			<item>
+				<ObjectId>17</ObjectId>
+				<Position>17</Position>				
+				<Number>1</Number>				
+			</item>					
+			
+			<item>
+				<ObjectId>18</ObjectId>
+				<Position>18</Position>				
+				<Number>1</Number>				
+			</item>					
+			
+			<item>
+				<ObjectId>19</ObjectId>
+				<Position>19</Position>				
+				<Number>1</Number>				
+			</item>					
+			
+			<item>
+				<ObjectId>20</ObjectId>
+				<Position>20</Position>				
+				<Number>1</Number>				
+			</item>					
+			
+			<item>
+				<ObjectId>21</ObjectId>
+				<Position>21</Position>				
+				<Number>1</Number>				
+			</item>					
+			
+			<item>
+				<ObjectId>22</ObjectId>
+				<Position>22</Position>				
+				<Number>1</Number>				
+			</item>					
+			
+			<item>
+				<ObjectId>23</ObjectId>
+				<Position>23</Position>				
+				<Number>1</Number>				
+			</item>					
+			
+			<item>
+				<ObjectId>24</ObjectId>
+				<Position>24</Position>				
+				<Number>1</Number>				
+			</item>					
+			
+			<item>
+				<ObjectId>25</ObjectId>
+				<Position>25</Position>				
+				<Number>1</Number>				
+			</item>					
+			
+			<item>
+				<ObjectId>26</ObjectId>
+				<Position>26</Position>				
+				<Number>1</Number>				
+			</item>					
+			
+			<item>
+				<ObjectId>27</ObjectId>
+				<Position>27</Position>				
+				<Number>1</Number>				
+			</item>	
+		</StartingInventory>		
 	</PlayerStartingInfo>
 	<maps>
 		<Map name="Map000_1" type="interior" AutoCameraType="1" IsInstance="false">
