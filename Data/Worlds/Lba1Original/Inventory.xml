@@ -23,7 +23,7 @@
     <item id="19" filename="grain" type="5" valueA="0" Max="1" Price="50" Description="20" Effect="1"/>    
     
     <item id="20" filename="bcake1" type="1" valueA="3" Max="5" Price="1" Description="21" Effect="100"/> 
-    <item id="21" filename="giftbox" type="6" valueA="0" Max="1" Price="1" Description="22" Effect="1"/>    
+    <item id="21" filename="giftbox" type="6" valueA="0" Max="1" Price="1" Description="28" Effect="1"/>    
     <item id="22" filename="bcake1" type="4" Max="1" Price="1" Description="22" Extra="MagicBall"/>    
     <item id="23" filename="bcake1" type="4" Max="1" Price="1" Description="23" Extra="Saber"/>   
     <item id="24" filename="bcake1" type="9" Max="1" Price="1" Description="24" Extra="Prisoner"/>    
