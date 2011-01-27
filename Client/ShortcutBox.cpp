@@ -593,14 +593,14 @@ void ShortcutBox::Update(const LbaNet::GuiUpdatesSeq &Updates)
 		LbaNet::GuiUpdateBase * ptr = Updates[i].get();
 		const std::type_info& info = typeid(*ptr);
 
-		// UpdateInventorySize
+		// UsedShorcutUpdate
 		if(info == typeid(UsedShorcutUpdate))
 		{
 			UsedShorcutUpdate * castedptr = 
 				dynamic_cast<UsedShorcutUpdate *>(ptr);
 
 			int veci = castedptr->_shortcutid;
-			unsigned int id = ((veci == 0)? 13: veci+3); // TODO test this
+			unsigned int id = ((veci == 0)? 13: veci+3);
 
 			if(id < _shortcutinfo.size())
 			{

@@ -142,7 +142,7 @@ protected:
 	void RefreshContainer();
 
 	//! add item inside the container
-	std::pair<CEGUI::Window*, CEGUI::Window*> AddInventoryItem(const LbaNet::ItemInfo & itinfo, 
+	std::pair<CEGUI::Window*, CEGUI::Window*> AddInventoryItem(const LbaNet::ItemPosInfo & itinfo, 
 																	CEGUI::Window* parent, 
 																	bool tocontainer);
 

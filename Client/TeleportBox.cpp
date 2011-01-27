@@ -198,7 +198,7 @@ void TeleportBox::Refresh(const LbaNet::GuiParamsSeq &Parameters)
 			LbaNet::TeleportsSeq::const_iterator it = _tplist.begin();
 			LbaNet::TeleportsSeq::const_iterator end = _tplist.end();
 			for(; it != end; ++it)
-				lb->addItem(new MyTeleListItem(it->first, it->second));
+				lb->addItem(new MyTeleListItem((long)it->first, it->second));
 		}
 	}
 }

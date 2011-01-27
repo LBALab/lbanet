@@ -211,7 +211,7 @@ bool ContainerBox::handle_ItemDroppedInContainer(const CEGUI::EventArgs& args)
 		long Id = dd_args.dragDropItem->getID();
 		LbaNet::ItemsMap::iterator itcontent = _InventoryContent.find(Id);
 		if(itcontent != _InventoryContent.end())
-			ChooseNumberBox::getInstance()->Show(this, Id, itcontent->second.Max, true);
+			ChooseNumberBox::getInstance()->Show(this, Id, itcontent->second.Info.Max, true);
 	}
 
     return true;
@@ -235,7 +235,7 @@ bool ContainerBox::handle_ItemDroppedInInventory(const CEGUI::EventArgs& args)
 		long Id = dd_args.dragDropItem->getID();
 		LbaNet::ItemsMap::iterator itcontent = _ContainerContent.find(Id);
 		if(itcontent != _ContainerContent.end())
-			ChooseNumberBox::getInstance()->Show(this, Id, itcontent->second.Max, false);
+			ChooseNumberBox::getInstance()->Show(this, Id, itcontent->second.Info.Max, false);
 	}
 
     return true;
@@ -258,7 +258,7 @@ bool ContainerBox::handle_ItemDroppedInContainerItem(const CEGUI::EventArgs& arg
 		long Id = dd_args.dragDropItem->getID();
 		LbaNet::ItemsMap::iterator itcontent = _InventoryContent.find(Id);
 		if(itcontent != _InventoryContent.end())
-			ChooseNumberBox::getInstance()->Show(this, Id, itcontent->second.Max, true);
+			ChooseNumberBox::getInstance()->Show(this, Id, itcontent->second.Info.Max, true);
 	}
 
     return true;
@@ -282,7 +282,7 @@ bool ContainerBox::handle_ItemDroppedInInventoryItem(const CEGUI::EventArgs& arg
 		long Id = dd_args.dragDropItem->getID();
 		LbaNet::ItemsMap::iterator itcontent = _ContainerContent.find(Id);
 		if(itcontent != _ContainerContent.end())
-			ChooseNumberBox::getInstance()->Show(this, Id, itcontent->second.Max, false);
+			ChooseNumberBox::getInstance()->Show(this, Id, itcontent->second.Info.Max, false);
 	}
 
     return true;
@@ -373,18 +373,18 @@ void ContainerBox::TakeAll()
 /***********************************************************
 add an item inside the container
 ***********************************************************/
-std::pair<CEGUI::Window*, CEGUI::Window*> ContainerBox::AddInventoryItem(const LbaNet::ItemInfo & itinfo, 
+std::pair<CEGUI::Window*, CEGUI::Window*> ContainerBox::AddInventoryItem(const LbaNet::ItemPosInfo & itinfo, 
 																			CEGUI::Window* parent, 
 																			bool tocontainer)
 {
 	CEGUI::Window*	tmp = CEGUI::WindowManager::getSingleton().createWindow("DragContainer");
 	tmp->setArea(CEGUI::UDim(0,0), CEGUI::UDim(0,0), CEGUI::UDim(1, 0), CEGUI::UDim(1, 0));
-	tmp->setID((unsigned int)itinfo.Id);
+	tmp->setID((unsigned int)itinfo.Info.Id);
 
 	CEGUI::Window*	tmp2 = CEGUI::WindowManager::getSingleton().createWindow("TaharezLook/StaticImage");
 	tmp2->setArea(CEGUI::UDim(0,5.0f), CEGUI::UDim(0,12.0f), CEGUI::UDim(0, (float)_boxsize-10.0f), CEGUI::UDim(0, (float)_boxsize-20.0f));
 
-	std::string imagesetname = ImageSetHandler::GetInventoryImage(itinfo.IconName);
+	std::string imagesetname = ImageSetHandler::GetInventoryImage(itinfo.Info.IconName);
 	tmp2->setProperty("Image", "set:" + imagesetname + " image:full_image");
 	tmp2->setProperty("MousePassThroughEnabled", "True");
 
@@ -407,9 +407,9 @@ std::pair<CEGUI::Window*, CEGUI::Window*> ContainerBox::AddInventoryItem(const L
 		tmp3->setID(2);
 
 
-	std::string itemdescription = itinfo.DescriptionTextExtra;
+	std::string itemdescription = itinfo.Info.DescriptionTextExtra;
 	if(itemdescription == "")
-		itemdescription = Localizer::getInstance()->GetText(Localizer::Inventory, (long)itinfo.DescriptionId);
+		itemdescription = Localizer::getInstance()->GetText(Localizer::Inventory, (long)itinfo.Info.DescriptionId);
 
 	CEGUI::String tmpstr((const unsigned char *)itemdescription.c_str());
 	tmp->setProperty("Tooltip", tmpstr);
@@ -556,7 +556,7 @@ int ContainerBox::AddItemFromContainerToInventory(long Id, int number)
 		LbaNet::ItemsMap::iterator inventoryptr = _ContainerContent.find(Id);
 		if(inventoryptr != _ContainerContent.end())
 		{
-			LbaNet::ItemInfo tmp = inventoryptr->second;
+			LbaNet::ItemPosInfo tmp = inventoryptr->second;
 			tmp.Count = 0;
 			_InventoryContent[Id] = tmp;
 			itc = _InventoryContent.find(Id);
@@ -570,7 +570,7 @@ int ContainerBox::AddItemFromContainerToInventory(long Id, int number)
 	}
 
 	// update numbers
-	int max = itc->second.Max;
+	int max = itc->second.Info.Max;
 	int current = itc->second.Count;
 	int taken = std::min((max-current), number);
 
@@ -607,7 +607,7 @@ int ContainerBox::AddItemFromInventoryToContainer(long Id, int number)
 		LbaNet::ItemsMap::iterator inventoryptr = _InventoryContent.find(Id);
 		if(inventoryptr != _InventoryContent.end())
 		{
-			LbaNet::ItemInfo tmp = inventoryptr->second;
+			LbaNet::ItemPosInfo tmp = inventoryptr->second;
 			tmp.Count = 0;
 			_ContainerContent[Id] = tmp;
 			itc = _ContainerContent.find(Id);
@@ -621,7 +621,7 @@ int ContainerBox::AddItemFromInventoryToContainer(long Id, int number)
 	}
 
 	// update numbers
-	int max = itc->second.Max;
+	int max = itc->second.Info.Max;
 	int current = itc->second.Count;
 	int taken = std::min((max-current), number);
 
@@ -838,7 +838,7 @@ void  ContainerBox::Refresh()
 	for(; it != end; ++it)
 	{
 		
-		std::string imagesetname = ImageSetHandler::GetInventoryImage(_ContainerContent[it->first].IconName);
+		std::string imagesetname = ImageSetHandler::GetInventoryImage(_ContainerContent[it->first].Info.IconName);
 		it->second.first->getChildAtIdx(0)->setProperty("Image", "set:" + imagesetname + " image:full_image");
 	}
 
@@ -846,7 +846,7 @@ void  ContainerBox::Refresh()
 	std::map<Ice::Long, std::pair<CEGUI::Window*, CEGUI::Window*> >::iterator end2 = _inv_objects.end();
 	for(; it2 != end2; ++it2)
 	{
-		std::string imagesetname = ImageSetHandler::GetInventoryImage(_InventoryContent[it2->first].IconName);
+		std::string imagesetname = ImageSetHandler::GetInventoryImage(_InventoryContent[it2->first].Info.IconName);
 		it2->second.first->getChildAtIdx(0)->setProperty("Image", "set:" + imagesetname + " image:full_image");
 	}
 }

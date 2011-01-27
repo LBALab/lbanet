@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "XmlReader.h"
 #include "Entities.h"
 #include "Lba1ModelMapHandler.h"
+#include "Localizer.h"
 
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
@@ -80,6 +81,8 @@ void DataLoader::SetWorldName(std::string WorldName)
 	if(_currentworldname != WorldName)
 	{
 		_currentworldname = WorldName;
+
+		Localizer::getInstance()->SetWorldName(WorldName);
 
 		// TODO - process reading all necessary data
 	}

@@ -63,9 +63,23 @@ Lba1ModelHandler::~Lba1ModelHandler()
 		delete _model;
 
 	// delete old node
-	osg::ref_ptr<osg::Group> root = GetRoot();
-	if(root && _osgnode)
-		root->removeChild(_osgnode);
+	{
+		osg::ref_ptr<osg::Group> root = GetRoot();
+		if(root && _osgnode)
+			root->removeChild(_osgnode);
+	}
+
+	{
+		osg::ref_ptr<osg::Group> root = GetRootNoLight();
+		if(root)
+		{
+			if(_barsgroup)
+			{
+				root->removeChild(_barsgroup);
+				_barsgroup = NULL;
+			}
+		}
+	}
 }
 
 /***********************************************************

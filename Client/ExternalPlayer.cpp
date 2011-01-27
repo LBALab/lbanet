@@ -254,102 +254,107 @@ void ExternalPlayer::UpdateModeAndState(const std::string &newmode,
 	{
 		case LbaNet::StNormal:
 		{
-			_currentstate = boost::shared_ptr<CharacterStateBase>(new StNormal());
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateNormal());
 		}
 		break;
 		case LbaNet::StDying:
 		{
-			_currentstate = boost::shared_ptr<CharacterStateBase>(new StDying());			
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateDying());			
 		}
 		break; 
 		case LbaNet::StDrowning:
 		{
-			_currentstate = boost::shared_ptr<CharacterStateBase>(new StDrowning());			
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateDrowning());			
 		}
 		break; 
 		case LbaNet::StDrowningGas:
 		{
-			_currentstate = boost::shared_ptr<CharacterStateBase>(new StDrowningGas());		
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateDrowningGas());		
 		}
 		break; 
 		case LbaNet::StBurning:
 		{
-			_currentstate = boost::shared_ptr<CharacterStateBase>(new StBurning());						
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateBurning());						
 		}
 		break; 
 		case LbaNet::StSmallHurt:
 		{
-			_currentstate = boost::shared_ptr<CharacterStateBase>(new StSmallHurt());						
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateSmallHurt());						
 		}
 		break; 
 		case LbaNet::StMediumHurt:
 		{
-			_currentstate = boost::shared_ptr<CharacterStateBase>(new StMediumHurt());						
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateMediumHurt());						
 		}
 		break; 
 		case LbaNet::StBigHurt:
 		{
-			_currentstate = boost::shared_ptr<CharacterStateBase>(new StBigHurt());						
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateBigHurt());						
 		}
 		break; 
 		case LbaNet::StHurtFall:
 		{
-			_currentstate = boost::shared_ptr<CharacterStateBase>(new StHurtFall());						
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateHurtFall());						
 		}
 		break; 
 		case LbaNet::StFinishedFall:
 		{
-			_currentstate = boost::shared_ptr<CharacterStateBase>(new StFinishedFall());						
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateFinishedFall());						
 		}
 		break;	
 		case LbaNet::StFalling:
 		{
-			_currentstate = boost::shared_ptr<CharacterStateBase>(new StFalling());					
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateFalling());					
 		}
 		break; 
 		case LbaNet::StJumping:
 		{
-			_currentstate = boost::shared_ptr<CharacterStateBase>(new StJumping());						
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateJumping());						
 		}
 		break; 
 		case LbaNet::StMovingObject:
 		{
-			_currentstate = boost::shared_ptr<CharacterStateBase>(new StMovingObject());						
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateMovingObject());						
 		}
 		break; 
 		case LbaNet::StRestrictedMovingObject:
 		{
-			_currentstate = boost::shared_ptr<CharacterStateBase>(new StRestrictedMovingObject());						
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateRestrictedMovingObject());						
 		}
 		break; 
 		case LbaNet::StUseWeapon:
 		{
-			_currentstate = boost::shared_ptr<CharacterStateBase>(new StUseWeapon());						
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateUseWeapon());						
 		}
 		break; 
 		case LbaNet::StImmune:
 		{
-			_currentstate = boost::shared_ptr<CharacterStateBase>(new StImmune());						
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateImmune());						
 		}
 		break; 
 		case LbaNet::StProtectedHurt:
 		{
-			_currentstate = boost::shared_ptr<CharacterStateBase>(new StProtectedHurt());						
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateProtectedHurt());						
 		}
 		break; 
 		case LbaNet::StHidden:
 		{
-			_currentstate = boost::shared_ptr<CharacterStateBase>(new StHidden());						
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateHidden());						
 		}
 		break; 
 		case LbaNet::StScripted:
 		{
-			_currentstate = boost::shared_ptr<CharacterStateBase>(new StScripted());						
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateScripted());						
 		}
 		break;
 		case LbaNet::StFighting:
 		{
-			_currentstate = boost::shared_ptr<CharacterStateBase>(new StFighting());						
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateFighting());						
+		}
+		break;
+		case LbaNet::StPrepareWeapon:
+		{
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StatePrepareWeapon());						
 		}
 		break;
 	}

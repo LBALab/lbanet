@@ -229,7 +229,7 @@ void NPCShopBox::RefreshTradeDialog()
 	LbaNet::ItemsMap::iterator it = _inventoryshop.begin();
 	for(size_t i=0; it != _inventoryshop.end(); ++i, ++it)
 	{
-		AddItem(it->second, _inv_boxes[i]);	 
+		AddItem(it->second.Info, _inv_boxes[i]);	 
 	}
 }
 

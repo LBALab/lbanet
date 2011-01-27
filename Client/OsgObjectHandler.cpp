@@ -107,6 +107,16 @@ OsgObjectHandler::~OsgObjectHandler()
 			OsgHandler::getInstance()->RemoveActorNode(_OsgObjectNoLight, false);
 	}
 
+	osg::ref_ptr<osg::Group> root = GetRootNoLight();
+	if(root)
+	{
+		if(_textgroup)
+		{
+			root->removeChild(_textgroup);
+			_textgroup = NULL;
+		}
+	}
+
 }
 
 

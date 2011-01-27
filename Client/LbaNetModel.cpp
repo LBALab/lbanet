@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ExternalPlayer.h"
 #include "EventsQueue.h"
 #include "ClientLuaHandler.h"
+#include "DataLoader.h"
 
 
 #define	_LBA1_MODEL_ANIMATION_SPEED_	1.8f
@@ -79,6 +80,9 @@ void LbaNetModel::ChangeWorld(const std::string & NewWorld)
 {
 	// clean old world
 	CleanupWorld();
+
+	//data loader init
+	DataLoader::getInstance()->SetWorldName(NewWorld);
 
 	//script part
 	m_luaHandler = boost::shared_ptr<ClientLuaHandler>(new  ClientLuaHandler(this));

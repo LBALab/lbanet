@@ -218,7 +218,7 @@ void CameraController::Process(double tnow, float tdiff)
 
 		double azimut = OsgHandler::getInstance()->GetCameraAzimut();
 
-		LbaQuaternion Q(azimut, LbaVec3(0, 1, 0));
+		LbaQuaternion Q((float)azimut, LbaVec3(0, 1, 0));
 		LbaVec3 current_directionX(Q.GetDirection(LbaVec3(1, 0, 0)));
 		LbaVec3 current_directionZ(Q.GetDirection(LbaVec3(0, 0, 1)));
 

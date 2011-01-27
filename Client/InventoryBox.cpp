@@ -470,7 +470,7 @@ void InventoryBox::Refresh()
 	std::map<Ice::Long, std::pair<CEGUI::Window*, CEGUI::Window*> >::iterator end = _objects.end();
 	for(; it != end; ++it)
 	{
-		std::string imagesetname = ImageSetHandler::GetInventoryImage(_inventoryinfo[it->first].IconName);
+		std::string imagesetname = ImageSetHandler::GetInventoryImage(_inventoryinfo[it->first].Info.IconName);
 		it->second.first->getChildAtIdx(0)->setProperty("Image", "set:" + imagesetname + " image:full_image");
 	}
 }
@@ -544,25 +544,25 @@ void InventoryBox::Update(const LbaNet::GuiUpdatesSeq &Updates)
 			LbaNet::UpdateInventoryItem * castedptr = 
 				dynamic_cast<LbaNet::UpdateInventoryItem *>(ptr);
 
-			LbaNet::ItemInfo & itinfo = castedptr->Info;
+			LbaNet::ItemPosInfo & itinfo = castedptr->Info;
 
-			std::string itemdescription = itinfo.DescriptionTextExtra;
+			std::string itemdescription = itinfo.Info.DescriptionTextExtra;
 			if(itemdescription == "")
-				itemdescription = Localizer::getInstance()->GetText(Localizer::Inventory, (long)itinfo.DescriptionId);
+				itemdescription = Localizer::getInstance()->GetText(Localizer::Inventory, (long)itinfo.Info.DescriptionId);
 
 
 			if(itinfo.Count > 0)
-				_inventoryinfo[itinfo.Id] = itinfo;
+				_inventoryinfo[itinfo.Info.Id] = itinfo;
 			else
 			{
 				// destroy object if exist
-				LbaNet::ItemsMap::iterator it = _inventoryinfo.find(itinfo.Id);
+				LbaNet::ItemsMap::iterator it = _inventoryinfo.find(itinfo.Info.Id);
 				if(it != _inventoryinfo.end())
 					_inventoryinfo.erase(it);
 			}
 
 
-			UpdateItem((long)itinfo.Id, itemdescription, itinfo.Count, itinfo.IconName, itinfo.Position);
+			UpdateItem((long)itinfo.Info.Id, itemdescription, itinfo.Count, itinfo.Info.IconName, itinfo.Position);
 		}
 	}
 }
@@ -617,12 +617,12 @@ void InventoryBox::RefreshInventory()
 	LbaNet::ItemsMap::const_iterator  end = _inventoryinfo.end();
 	for(; it != end; ++it)
 	{
-		std::string itemdescription = it->second.DescriptionTextExtra;
+		std::string itemdescription = it->second.Info.DescriptionTextExtra;
 		if(itemdescription == "")
-			itemdescription = Localizer::getInstance()->GetText(Localizer::Inventory, (long)it->second.DescriptionId);
+			itemdescription = Localizer::getInstance()->GetText(Localizer::Inventory, (long)it->second.Info.DescriptionId);
 
 		if(it->second.Count > 0)
-			UpdateItem((long)it->first, itemdescription, it->second.Count, it->second.IconName, it->second.Position);
+			UpdateItem((long)it->first, itemdescription, it->second.Count, it->second.Info.IconName, it->second.Position);
 	}
 }
 
@@ -635,7 +635,7 @@ LbaNet::ItemInfo InventoryBox::GetItemInfo(Ice::Long itemid)
 {
 	LbaNet::ItemsMap::iterator it = _inventoryinfo.find(itemid);
 	if(it != _inventoryinfo.end())
-		return it->second;
+		return it->second.Info;
 	else
 	{
 		LbaNet::ItemInfo res;
