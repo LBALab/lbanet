@@ -26,7 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <IceUtil/StaticMutex.h>
 #include <IceUtil/IceUtil.h>
 
-bool LogHandler::_instanceFlag = false;
 LogHandler* LogHandler::_singletonInstance = NULL;
 static IceUtil::StaticMutex myStaticMutex = ICE_STATIC_MUTEX_INITIALIZER;
 
@@ -36,10 +35,9 @@ singleton pattern
 ***********************************************************/
 LogHandler * LogHandler::getInstance()
 {
-    if(!_instanceFlag)
+    if(!_singletonInstance)
     {
         _singletonInstance = new LogHandler();
-        _instanceFlag = true;
 		return _singletonInstance;
     }
     else

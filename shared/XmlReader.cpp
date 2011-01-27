@@ -124,9 +124,9 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
 	{
 		BOOST_FOREACH(ptree::value_type &v, pt.get_child("World.PlayerStartingInfo.StartingInventory"))
 		{
-			InventoryItem itm;
-			itm.Number = v.second.get<int>("Number");
-			itm.PlaceInInventory = v.second.get<int>("Position");
+			ItemPosInfo itm;
+			itm.Count = v.second.get<int>("Number");
+			itm.Position = v.second.get<int>("Position");
 			res.StartingInfo.StartingInventory[v.second.get<long>("ObjectId")] = itm;
 		}
 	}
@@ -147,6 +147,7 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
 				mapi.Description = v.second.get<std::string>("description", "");
 				mapi.AutoCameraType = v.second.get<int>("<xmlattr>.AutoCameraType", 1);
 				mapi.IsInstance = v.second.get<bool>("<xmlattr>.IsInstance", false);
+				mapi.HurtFallFactor = v.second.get<float>("<xmlattr>.HurtFallFactor", 2);
 
 				try
 				{
@@ -244,12 +245,12 @@ bool XmlReader::SaveWorldInfo(const std::string &Filename, const WorldInformatio
 	}
 
 
-    BOOST_FOREACH(const LbaNet::InventoryMap::value_type &itm, res.StartingInfo.StartingInventory)
+    BOOST_FOREACH(const LbaNet::ItemsMap::value_type &itm, res.StartingInfo.StartingInventory)
 	{
 		ptree &tmp = pt.add("World.PlayerStartingInfo.StartingInventory.object","");
 		tmp.put("ObjectId", itm.first);
-		tmp.put("Number", itm.second.Number);
-		tmp.put("Position", itm.second.PlaceInInventory);
+		tmp.put("Number", itm.second.Count);
+		tmp.put("Position", itm.second.Position);
 	}
 
 	
@@ -262,6 +263,8 @@ bool XmlReader::SaveWorldInfo(const std::string &Filename, const WorldInformatio
 		tmp.put("description", mapi.second.Description);
 		tmp.put("<xmlattr>.AutoCameraType", mapi.second.AutoCameraType);
 		tmp.put("<xmlattr>.IsInstance", mapi.second.IsInstance);
+		tmp.put("<xmlattr>.HurtFallFactor", mapi.second.HurtFallFactor);
+
 
 		BOOST_FOREACH(const LbaNet::SpawningsSeq::value_type &spwi, mapi.second.Spawnings)
 		{
@@ -361,3 +364,48 @@ std::map<long, std::string> XmlReader::LoadTextFile(const std::string &Filename)
 	return res;
 }
 
+
+
+/***********************************************************
+get inventory from file
+***********************************************************/
+bool XmlReader::LoadInventoryFile(const std::string &Filename, std::map<long, ItemInfo> &res)
+{
+	// Create an empty property tree object
+	using boost::property_tree::ptree;
+	ptree pt;
+
+	// Load the XML file into the property tree
+	try
+	{
+		read_xml(Filename, pt);
+	}
+	catch(...)
+	{
+		return false;
+	}
+
+	// get teleport info
+	try
+	{
+		BOOST_FOREACH(ptree::value_type &v, pt.get_child("items"))
+		{
+			ItemInfo tpi;
+			tpi.Id = v.second.get<long>("<xmlattr>.id");
+			tpi.IconName = v.second.get<std::string>("<xmlattr>.filename", "");
+			tpi.DescriptionId = v.second.get<long>("<xmlattr>.Description", 0);
+			tpi.Max = v.second.get<int>("<xmlattr>.Max", 1);
+			tpi.Price = v.second.get<int>("<xmlattr>.Price", 1);
+			tpi.Type = v.second.get<int>("<xmlattr>.type", 1);
+			tpi.Effect = v.second.get<float>("<xmlattr>.Effect", 1);
+			tpi.Flag = v.second.get<int>("<xmlattr>.valueA", 1);
+			tpi.Ephemere = (v.second.get<int>("<xmlattr>.Ephemere", 0) == 1);
+			tpi.StringFlag = v.second.get<std::string>("<xmlattr>.Extra", "");
+			res[(long)tpi.Id] = tpi;
+		}
+	}
+	catch(...){} // no tps
+
+
+	return true;
+}

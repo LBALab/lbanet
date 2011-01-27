@@ -4,7 +4,7 @@
 
 //! tell state that current animation has finished
 //! return true if animation should be paused
-bool StDying::AnimationFinished()
+bool StateDying::AnimationFinished()
 {
 
 #ifndef _LBANET_SERVER_SIDE_

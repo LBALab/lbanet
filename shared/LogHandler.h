@@ -67,8 +67,6 @@ private:
 
 	// singleton
 	static LogHandler *		_singletonInstance;
-    static bool				_instanceFlag;
-
 };
 
 

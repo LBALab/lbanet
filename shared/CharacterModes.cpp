@@ -79,7 +79,7 @@ get the speed to add to the X axis
 float DinoflyCharacterMode::GetAddedSpeedX()
 {
 	if(_moving)
-		return 0.03f; // TODO - test dino speed
+		return 0.01f;
 	else
 		return 0;
 }

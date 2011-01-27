@@ -49,6 +49,9 @@ public:
 
 	// get a text from file
 	static std::map<long, std::string> LoadTextFile(const std::string &Filename);
+
+	// get inventory from file
+	static bool LoadInventoryFile(const std::string &Filename, std::map<long, ItemInfo> &res);
 };
 
 

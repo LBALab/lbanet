@@ -110,14 +110,14 @@ public:
 * @brief Base class representing a certain state of a character
 *
 */
-class StNormal : public CharacterStateBase
+class StateNormal : public CharacterStateBase
 {
 public:
 	//! constructor
-	StNormal(){}
+	StateNormal(){}
 
 	//! destructor
-	virtual ~StNormal(void){}
+	virtual ~StateNormal(void){}
 
 	//! ask if we are allowed to move in this mode
 	virtual bool AllowedMoving(){return true;}
@@ -153,14 +153,14 @@ public:
 * @brief Base class representing a certain state of a character
 *
 */
-class StMovingObject : public CharacterStateBase
+class StateMovingObject : public CharacterStateBase
 {
 public:
 	//! constructor
-	StMovingObject(){}
+	StateMovingObject(){}
 
 	//! destructor
-	virtual ~StMovingObject(void){}
+	virtual ~StateMovingObject(void){}
 
 	//! ask if we are allowed to move in this mode
 	virtual bool AllowedMoving(){return true;}
@@ -191,15 +191,15 @@ public:
 * @brief Base class representing a certain state of a character
 *
 */
-class StRestrictedMovingObject : public CharacterStateBase
+class StateRestrictedMovingObject : public CharacterStateBase
 {
 public:
 	//! constructor
-	StRestrictedMovingObject()
+	StateRestrictedMovingObject()
 	{}
 
 	//! destructor
-	virtual ~StRestrictedMovingObject(void){}
+	virtual ~StateRestrictedMovingObject(void){}
 
 	//! ask if we are allowed to move in this mode
 	virtual bool AllowedMoving(){return true;}
@@ -231,16 +231,16 @@ public:
 * @brief Base class representing a certain state of a character
 *
 */
-class StImmune : public CharacterStateBase
+class StateImmune : public CharacterStateBase
 {
 public:
 	//! constructor
 	//! in normal immune can not be hurt or drown either 
-	StImmune()
+	StateImmune()
 	{}
 
 	//! destructor
-	virtual ~StImmune(void){}
+	virtual ~StateImmune(void){}
 
 	//! ask if we are allowed to move in this mode
 	virtual bool AllowedMoving(){return true;}
@@ -290,16 +290,16 @@ public:
 * @brief Base class representing a certain state of a character
 *
 */
-class StProtectedHurt : public CharacterStateBase
+class StateProtectedHurt : public CharacterStateBase
 {
 public:
 	//! constructor
 	//! in normal immune can not be hurt or drown either 
-	StProtectedHurt()
+	StateProtectedHurt()
 	{}
 
 	//! destructor
-	virtual ~StProtectedHurt(void){}
+	virtual ~StateProtectedHurt(void){}
 
 	//! ask if we are allowed to move in this mode
 	virtual bool AllowedMoving(){return true;}
@@ -334,16 +334,16 @@ public:
 * @brief Base class representing a certain state of a character
 *
 */
-class StHidden : public CharacterStateBase
+class StateHidden : public CharacterStateBase
 {
 public:
 	//! constructor
-	StHidden()
+	StateHidden()
 		: _switchstate(false)
 	{}
 
 	//! destructor
-	virtual ~StHidden(void){}
+	virtual ~StateHidden(void){}
 
 	//! ask if we are allowed to move in this mode
 	virtual bool AllowedMoving(){return true;}
@@ -391,20 +391,20 @@ private:
 
 
 //*************************************************************************************************
-//*                               class StDying
+//*                               class StateDying
 //*************************************************************************************************
 /**
 * @brief Base class representing a certain state of a character
 *
 */
-class StDying : public CharacterStateBase
+class StateDying : public CharacterStateBase
 {
 public:
 	//! constructor
-	StDying(void){}
+	StateDying(void){}
 
 	//! destructor
-	virtual ~StDying(void){}
+	virtual ~StateDying(void){}
 
 	//! tell state that current animation has finished
 	//! return true if animation should be paused
@@ -449,20 +449,20 @@ public:
 
 
 //*************************************************************************************************
-//*                               class StDrowning
+//*                               class StateDrowning
 //*************************************************************************************************
 /**
 * @brief Base class representing a certain state of a character
 *
 */
-class StDrowning : public StDying
+class StateDrowning : public StateDying
 {
 public:
 	//! constructor
-	StDrowning(void){}
+	StateDrowning(void){}
 
 	//! destructor
-	virtual ~StDrowning(void){}
+	virtual ~StateDrowning(void){}
 
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
@@ -473,20 +473,20 @@ public:
 };
 
 //*************************************************************************************************
-//*                               class StDrowningGas
+//*                               class StateDrowningGas
 //*************************************************************************************************
 /**
 * @brief Base class representing a certain state of a character
 *
 */
-class StDrowningGas : public StDying
+class StateDrowningGas : public StateDying
 {
 public:
 	//! constructor
-	StDrowningGas(void){}
+	StateDrowningGas(void){}
 
 	//! destructor
-	virtual ~StDrowningGas(void){}
+	virtual ~StateDrowningGas(void){}
 
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
@@ -497,20 +497,20 @@ public:
 };
 
 //*************************************************************************************************
-//*                               class StBurning
+//*                               class StateBurning
 //*************************************************************************************************
 /**
 * @brief Base class representing a certain state of a character
 *
 */
-class StBurning : public StDying
+class StateBurning : public StateDying
 {
 public:
 	//! constructor
-	StBurning(void){}
+	StateBurning(void){}
 
 	//! destructor
-	virtual ~StBurning(void){}
+	virtual ~StateBurning(void){}
 
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
@@ -523,22 +523,22 @@ public:
 
 
 //*************************************************************************************************
-//*                               class StSmallHurt
+//*                               class StateSmallHurt
 //*************************************************************************************************
 /**
 * @brief Base class representing a certain state of a character
 *
 */
-class StSmallHurt : public CharacterStateBase
+class StateSmallHurt : public CharacterStateBase
 {
 public:
 	//! constructor
-	StSmallHurt(void)
+	StateSmallHurt(void)
 		: _switchstate(false)
 	{}
 
 	//! destructor
-	virtual ~StSmallHurt(void){}
+	virtual ~StateSmallHurt(void){}
 
 
 	//! tell state that current animation has finished
@@ -576,20 +576,20 @@ private:
 
 
 //*************************************************************************************************
-//*                               class StMediumHurt
+//*                               class StateMediumHurt
 //*************************************************************************************************
 /**
 * @brief Base class representing a certain state of a character
 *
 */
-class StMediumHurt : public StSmallHurt
+class StateMediumHurt : public StateSmallHurt
 {
 public:
 	//! constructor
-	StMediumHurt(void){}
+	StateMediumHurt(void){}
 
 	//! destructor
-	virtual ~StMediumHurt(void){}
+	virtual ~StateMediumHurt(void){}
 
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
@@ -600,20 +600,20 @@ public:
 };
 
 //*************************************************************************************************
-//*                               class StBigHurt
+//*                               class StateBigHurt
 //*************************************************************************************************
 /**
 * @brief Base class representing a certain state of a character
 *
 */
-class StBigHurt : public StSmallHurt
+class StateBigHurt : public StateSmallHurt
 {
 public:
 	//! constructor
-	StBigHurt(void){}
+	StateBigHurt(void){}
 
 	//! destructor
-	virtual ~StBigHurt(void){}
+	virtual ~StateBigHurt(void){}
 
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
@@ -624,20 +624,20 @@ public:
 };
 
 //*************************************************************************************************
-//*                               class StFinishedFall
+//*                               class StateFinishedFall
 //*************************************************************************************************
 /**
 * @brief Base class representing a certain state of a character
 *
 */
-class StFinishedFall : public StSmallHurt
+class StateFinishedFall : public StateSmallHurt
 {
 public:
 	//! constructor
-	StFinishedFall(void){}
+	StateFinishedFall(void){}
 
 	//! destructor
-	virtual ~StFinishedFall(void){}
+	virtual ~StateFinishedFall(void){}
 
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
@@ -648,20 +648,20 @@ public:
 };
 
 //*************************************************************************************************
-//*                               class StHurtFall
+//*                               class StateHurtFall
 //*************************************************************************************************
 /**
 * @brief Base class representing a certain state of a character
 *
 */
-class StHurtFall : public StSmallHurt
+class StateHurtFall : public StateSmallHurt
 {
 public:
 	//! constructor
-	StHurtFall(void){}
+	StateHurtFall(void){}
 
 	//! destructor
-	virtual ~StHurtFall(void){}
+	virtual ~StateHurtFall(void){}
 
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
@@ -674,20 +674,20 @@ public:
 
 
 //*************************************************************************************************
-//*                               class StFalling
+//*                               class StateFalling
 //*************************************************************************************************
 /**
 * @brief Base class representing a certain state of a character
 *
 */
-class StFalling : public CharacterStateBase
+class StateFalling : public CharacterStateBase
 {
 public:
 	//! constructor
-	StFalling(void){}
+	StateFalling(void){}
 
 	//! destructor
-	virtual ~StFalling(void){}
+	virtual ~StateFalling(void){}
 
 
 	//! check if in this state we can play hurt animation
@@ -712,16 +712,16 @@ public:
 * @brief Base class representing a certain state of a character
 *
 */
-class StJumping : public CharacterStateBase
+class StateJumping : public CharacterStateBase
 {
 public:
 	//! constructor
-	StJumping(void)
+	StateJumping(void)
 		: _switchstate(false)
 	{}
 
 	//! destructor
-	virtual ~StJumping(void){}
+	virtual ~StateJumping(void){}
 
 
 	//! tell state that current animation has finished
@@ -768,16 +768,16 @@ private:
 * @brief Base class representing a certain state of a character
 *
 */
-class StUseWeapon: public CharacterStateBase
+class StateUseWeapon: public CharacterStateBase
 {
 public:
 	//! constructor
-	StUseWeapon(void)
+	StateUseWeapon(void)
 		: _switchstate(false)
 	{}
 
 	//! destructor
-	virtual ~StUseWeapon(void){}
+	virtual ~StateUseWeapon(void){}
 
 
 	//! tell state that current animation has finished
@@ -815,20 +815,20 @@ private:
 
 
 //*************************************************************************************************
-//*                               class StScripted
+//*                               class StateScripted
 //*************************************************************************************************
 /**
 * @brief Base class representing a certain state of a character
 *
 */
-class StScripted: public CharacterStateBase
+class StateScripted: public CharacterStateBase
 {
 public:
 	//! constructor
-	StScripted(void){}
+	StateScripted(void){}
 
 	//! destructor
-	virtual ~StScripted(void){}
+	virtual ~StateScripted(void){}
 
 	//! check if in this state we can play hurt animation
 	virtual bool CanPlayHurt(){return false;}
@@ -847,20 +847,20 @@ public:
 
 
 //*************************************************************************************************
-//*                               class StFighting
+//*                               class StateFighting
 //*************************************************************************************************
 /**
 * @brief Base class representing a certain state of a character
 *
 */
-class StFighting : public CharacterStateBase
+class StateFighting : public CharacterStateBase
 {
 public:
 	//! constructor
-	StFighting(void){}
+	StateFighting(void){}
 
 	//! destructor
-	virtual ~StFighting(void){}
+	virtual ~StateFighting(void){}
 
 	//! ask if we are allowed to rotate in this mode
 	//! 0 -> no
@@ -885,6 +885,57 @@ public:
 };
 
 
-				
+	
+
+//*************************************************************************************************
+//*                               class StUseWeapon
+//*************************************************************************************************
+/**
+* @brief Base class representing a certain state of a character
+*
+*/
+class StatePrepareWeapon: public CharacterStateBase
+{
+public:
+	//! constructor
+	StatePrepareWeapon(void)
+		: _switchstate(false)
+	{}
+
+	//! destructor
+	virtual ~StatePrepareWeapon(void){}
+
+
+	//! tell state that current animation has finished
+	//! return true if animation should be paused
+	virtual bool AnimationFinished()
+	{
+		_switchstate = true;
+		return false;
+	}
+
+
+	//! check if should change to another state
+	virtual bool ShouldChangeState(LbaNet::ModelState & newstate)
+	{
+		newstate = LbaNet::StNormal;
+		return _switchstate;
+	}
+
+
+	//! ask state if we need to play animation at start
+	virtual bool PlayAnimationAtStart(std::string & animstring)
+	{
+		animstring = "PrepareWeapon";
+		return true;
+	}
+
+	//! check if we can change state from this state
+	virtual bool ChangeLegal(LbaNet::ModelState NewState){return true;}
+
+private:
+	bool	_switchstate;
+
+};			
 
 #endif
