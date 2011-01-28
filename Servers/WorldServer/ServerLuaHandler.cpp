@@ -13,6 +13,7 @@ extern "C"
 #include "Triggers.h"
 #include "ClientScript.h"
 #include "ActionArguments.h"
+#include "Conditions.h"
 
 
 #ifdef _USE_QT_EDITOR_	
@@ -167,7 +168,9 @@ ServerLuaHandler::ServerLuaHandler()
 
 
 		luabind::class_<ActionBase, boost::shared_ptr<ActionBase> >("ActionBase")
-		.def(luabind::constructor<long, const std::string&>()),
+		.def(luabind::constructor<long, const std::string&>())
+		.def("Execute", &ActionBase::Execute)
+		,
 
 		luabind::class_<TeleportAction, ActionBase, boost::shared_ptr<ActionBase> >("TeleportAction")
 		.def(luabind::constructor<long, const std::string&, const std::string &, long>()),
@@ -195,7 +198,34 @@ ServerLuaHandler::ServerLuaHandler()
 		.def(luabind::constructor<long, const std::string&, float, float, float, int>()),
 
 		luabind::class_<CustomScript, ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("CustomScript")
-		.def(luabind::constructor<long, const std::string&, const std::string&>())
+		.def(luabind::constructor<long, const std::string&, const std::string&>()),
+
+
+
+		luabind::class_<ConditionBase, boost::shared_ptr<ConditionBase> >("ConditionBase")
+		.def(luabind::constructor<>())
+		.def("Passed", &ConditionBase::Passed)
+		,
+
+		luabind::class_<AlwaysTrueCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("AlwaysTrueCondition")
+		.def(luabind::constructor<>()),
+
+		luabind::class_<NegateCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("NegateCondition")
+		.def(luabind::constructor<>())
+		.def("SetCondition", &NegateCondition::SetCondition)
+		,
+
+		luabind::class_<AndCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("AndCondition")
+		.def(luabind::constructor<>())
+		.def("SetCondition1", &AndCondition::SetCondition1)
+		.def("SetCondition2", &AndCondition::SetCondition2)
+		,
+
+
+		luabind::class_<OrCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("OrCondition")
+		.def(luabind::constructor<>())
+		.def("SetCondition1", &OrCondition::SetCondition1)
+		.def("SetCondition2", &OrCondition::SetCondition2)
 		];
 
 	}

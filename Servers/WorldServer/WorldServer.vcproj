@@ -221,6 +221,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Conditions.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ContainerBoxHandler.cpp"
 				>
 			</File>
@@ -278,10 +282,6 @@
 			</File>
 			<File
 				RelativePath=".\ServerLuaHandler.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ServerLuaHandler.h"
 				>
 			</File>
 			<File
@@ -347,6 +347,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Conditions.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ContainerBoxHandler.h"
 				>
 			</File>
@@ -395,6 +399,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ServerLuaHandler.h"
+				>
+			</File>
+			<File
 				RelativePath=".\SharedDataHandler.h"
 				>
 			</File>
@@ -412,6 +420,10 @@
 			</File>
 			<File
 				RelativePath=".\TextBoxHandler.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Triggers.h"
 				>
 			</File>
 			<File
