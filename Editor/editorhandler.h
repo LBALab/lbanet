@@ -45,6 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ScriptEnvironmentBase.h"
 #include "Lba1ModelMapHandler.h"
 #include "treemodel.h"
+#include "Conditions.h"
 
 #include <LbaTypes.h>
 #include <boost/shared_ptr.hpp>
@@ -706,6 +707,17 @@ protected:
 	//! reset action dialog
 	void ResetActionDialog();
 
+	//! select a condition
+	void SelectCondition(ConditionBasePtr cond, const QModelIndex &parent = QModelIndex());
+
+	//! create a new condition
+	ConditionBasePtr CreateCondition(const std::string & type);
+
+	//! get type of condition
+	std::string GetConditionType(ConditionBasePtr ptr);
+
+	//! called when Condition changed
+	void ConditionChanged(const std::string & category, const QModelIndex &parentIdx);
 
 private:
 	Ui::EditorClass										_uieditor;
@@ -758,7 +770,7 @@ private:
 	boost::shared_ptr<CustomStringListModel>							_actorptypeList;
 	boost::shared_ptr<CustomStringListModel>							_cscriptList;
 	boost::shared_ptr<CustomStringListModel>							_actormodeList;
-
+	boost::shared_ptr<CustomStringListModel>							_conditiontypeList;
 
 	GraphicsWindowQt *									_osgwindow;
 
@@ -803,6 +815,9 @@ private:
 	osg::ref_ptr<osgManipulator::Translate1DDragger>	_draggerX;
 	osg::ref_ptr<osgManipulator::Translate1DDragger>	_draggerY;
 	osg::ref_ptr<osgManipulator::Translate1DDragger>	_draggerZ;
+
+
+	std::map<QModelIndex, void *>						_modelidxdatamap;
 };
 
 #endif // EDITORHANDLER_H

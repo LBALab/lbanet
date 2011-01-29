@@ -705,7 +705,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	_updatetriggerdialogonnewaction(-1), _triggerNameList(new CustomStringListModel()),
 	_actortypeList(new CustomStringListModel()), _actordtypeList(new CustomStringListModel()),
 	_actorptypeList(new CustomStringListModel()), _cscriptList(new CustomStringListModel()),
-	_updateactiondialogonnewscript(-1), _actormodeList(new CustomStringListModel())
+	_updateactiondialogonnewscript(-1), _actormodeList(new CustomStringListModel()), 
+	_conditiontypeList(new CustomStringListModel())
 
 {
 	QStringList actlist;
@@ -720,6 +721,12 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	QStringList actmodelist;
 	actmodelist << "None" << "Normal" << "Sport" << "Angry" << "Discrete" << "Protopack" << "Horse" << "Dinofly";
 	_actormodeList->setStringList(actmodelist);
+
+
+	QStringList condlist;
+	condlist << "No" << "AlwaysTrueCondition" << "NegateCondition" << "AndCondition" << "OrCondition";
+	_conditiontypeList->setStringList(condlist);
+	
 
 
 	_uieditor.setupUi(this);
@@ -1540,6 +1547,7 @@ void EditorHandler::ResetObject()
 {
 	_objectcustomdelegate->Clear();
 	_objectmodel->Clear();
+	_modelidxdatamap.clear();
 
 	RemoveSelectedActorDislay();
 	RemoveSelectedScriptDislay();
@@ -2040,39 +2048,48 @@ void EditorHandler::objectdatachanged(const QModelIndex &index1, const QModelInd
 	{
 		QString type = _objectmodel->data(_objectmodel->GetIndex(1, 0, parentIdx)).toString();
 		std::string category = _objectmodel->data(_objectmodel->GetIndex(1, 1, parentIdx)).toString().toAscii().data();
-		long objid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toLong();
+
 
 		if(type == "Spawn")
 		{
+			long objid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toLong();
 			SpawningObjectChanged(objid, parentIdx);
 			return;
 		}
 
 		if(type == "Action")
 		{
+			long objid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toLong();
 			ActionObjectChanged(objid, category, parentIdx);
 			return;
 		}
 
 		if(type == "Trigger")
 		{
+			long objid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toLong();
 			TriggerObjectChanged(objid, category, parentIdx);
 			return;
 		}
 
 		if(type == "Actor")
 		{
+			long objid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toLong();
 			ActorObjectChanged(objid, parentIdx);
 			return;
 		}
 
 		if(type == "ClientScript")
 		{
+			long objid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toLong();
 			CScriptObjectChanged(objid, category, parentIdx);
 			return;
 		}
 
-		
+		if(type == "Condition")
+		{
+			ConditionChanged(category, parentIdx);
+			return;
+		}		
 	}
 }
 
@@ -2592,6 +2609,13 @@ void EditorHandler::AddActionAccepted()
 				(new DisplayTextAction(id,	actname.toAscii().data(), textid)));
 		}
 		break;
+	
+		case 4: // conditional action
+		{
+			AddNewAction(boost::shared_ptr<ActionBase>
+				(new ConditionalAction(id,	actname.toAscii().data())));
+		}
+		break;
 	}
 
 	SelectAction(id);
@@ -2714,6 +2738,57 @@ void EditorHandler::SelectAction(long id, const QModelIndex &parent)
 			return;
 		}
 
+		if(actiontype == "ConditionalAction")
+		{
+			ConditionalAction* ptr = static_cast<ConditionalAction*>(it->second.get());
+			{
+				// add condition
+				{
+					std::string condtype = "No";
+					ConditionBasePtr condptr = ptr->GetCondition();
+					if(condptr)
+					{
+						condtype = condptr->GetTypeName();
+					}
+
+					QVector<QVariant> data;
+					data << "Condition" << condtype.c_str();
+					QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+					if(condptr)
+						SelectCondition(condptr, idx);
+				}
+
+
+				// add action true
+				{
+					std::string actname = GetActionName(ptr->GetActionTrue());
+					QVector<QVariant> data;
+					data << "Action On True" << actname.c_str();
+					QModelIndex idx = _objectmodel->AppendRow(data, parent);
+					
+					if(actname != "" && actname != "None")
+						SelectAction(ptr->GetActionTrue(), idx);
+				}
+
+				// add action false
+				{
+					std::string actname = GetActionName(ptr->GetActionFalse());
+					QVector<QVariant> data;
+					data << "Action On False" << actname.c_str();
+					QModelIndex idx = _objectmodel->AppendRow(data, parent);
+					
+					if(actname != "" && actname != "None")
+						SelectAction(ptr->GetActionFalse(), idx);
+				}
+			}
+
+			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _conditiontypeList);
+			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 5, parent), _actionNameList);
+			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 6, parent), _actionNameList);
+
+			return;
+		}
 	}
 }
 
@@ -2993,6 +3068,101 @@ void EditorHandler::ActionObjectChanged(long id, const std::string & category, c
 
 		//inform server
 		EditorUpdateBasePtr update = new UpdateEditor_AddOrModAction(modifiedact);
+		SharedDataHandler::getInstance()->EditorUpdate("", update);
+
+		return;
+	}
+
+
+
+	if(category == "ConditionalAction")
+	{
+		// created modified action and replace old one
+		ConditionalAction* modifiedact = static_cast<ConditionalAction*>(_actions[id].get());
+
+		// check condition part
+		{
+			std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
+			std::string currcond = GetConditionType(modifiedact->GetCondition());
+
+			if(condition != currcond)
+			{
+				ConditionBasePtr ptrtmp = CreateCondition(condition);
+				modifiedact->SetCondition(ptrtmp);
+
+				_objectmodel->Clear(_objectmodel->GetIndex(0, 4, parentIdx));
+				if(ptrtmp)
+					SelectCondition(ptrtmp, _objectmodel->GetIndex(0, 4, parentIdx));
+
+			}
+		}
+
+
+
+		// check action part
+		{
+			// get id associated to actions
+			std::string action1 = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toString().toAscii().data();
+			std::string action2 = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toString().toAscii().data();
+			long act1id = GetActionId(action1);
+			long act2id = GetActionId(action2);
+
+
+			// created modified action and replace old one
+			long lastact1id = modifiedact->GetActionTrue();
+			long lastact2id = modifiedact->GetActionFalse();
+			modifiedact->SetActionTrue(act1id);
+			modifiedact->SetActionFalse(act2id);
+
+			if(act1id < 0)
+			{
+				_objectmodel->Clear(_objectmodel->GetIndex(0, 5, parentIdx));
+			}
+			else if(lastact1id != act1id)
+			{
+				// refresh sub tree
+				_objectmodel->Clear(_objectmodel->GetIndex(0, 5, parentIdx));
+				SelectAction(act1id, _objectmodel->GetIndex(0, 5, parentIdx));
+			}
+
+			if(act2id < 0)
+			{
+				_objectmodel->Clear(_objectmodel->GetIndex(0, 6, parentIdx));
+			}
+			else if(lastact2id != act2id)
+			{
+				// refresh sub tree
+				_objectmodel->Clear(_objectmodel->GetIndex(0, 6, parentIdx));
+				SelectAction(act2id, _objectmodel->GetIndex(0, 6, parentIdx));
+			}
+		}
+
+
+
+
+		if(name != oldname.c_str())
+		{
+			ReplaceActionName(oldname, modifiedact->GetName());
+
+			// update action name on parent
+			if(parentIdx != QModelIndex())
+				_objectmodel->setData(_objectmodel->GetIndex(1, parentIdx.row(), 
+				_objectmodel->parent(parentIdx)), name);	
+		}
+
+		// update action list display
+		QStringList slist;
+		slist << name << modifiedact->GetTypeName().c_str();
+		_actionlistmodel->AddOrUpdateRow(id, slist);
+
+
+		// need to save as something changed
+		SetModified();
+
+
+
+		//inform server
+		EditorUpdateBasePtr update = new UpdateEditor_AddOrModAction(_actions[id]);
 		SharedDataHandler::getInstance()->EditorUpdate("", update);
 
 		return;
@@ -3453,8 +3623,8 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 		boost::shared_ptr<TriggerBase> modifiedtrig(new ZoneTrigger(triggerinfo, sizeX, sizeY, sizeZ, multicactiv));
 		modifiedtrig->SetPosition(posX, posY, posZ);
 
-		long lastact1id = modifiedtrig->GetAction1();
-		long lastact2id = modifiedtrig->GetAction2();
+		long lastact1id = _triggers[id]->GetAction1();
+		long lastact2id = _triggers[id]->GetAction2();
 
 		modifiedtrig->SetAction1(act1id);
 		modifiedtrig->SetAction2(act2id);
@@ -3546,7 +3716,7 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 		boost::shared_ptr<TriggerBase> modifiedtrig(new ZoneActionTrigger(triggerinfo, sizeX, sizeY, sizeZ, mode1, mode2));
 		modifiedtrig->SetPosition(posX, posY, posZ);
 
-		long lastact1id = modifiedtrig->GetAction1();
+		long lastact1id = _triggers[id]->GetAction1();
 		modifiedtrig->SetAction1(act1id);
 
 
@@ -3619,7 +3789,7 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 		boost::shared_ptr<TriggerBase> modifiedtrig(new ActivationTrigger(triggerinfo, distance, mode1, mode2));
 		modifiedtrig->SetPosition(posX, posY, posZ);
 
-		long lastact1id = modifiedtrig->GetAction1();
+		long lastact1id = _triggers[id]->GetAction1();
 		modifiedtrig->SetAction1(act1id);
 
 
@@ -3682,7 +3852,7 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 		// created modified action and replace old one
 		boost::shared_ptr<TriggerBase> modifiedtrig(new TimerTrigger(triggerinfo, time));
 
-		long lastact1id = modifiedtrig->GetAction1();
+		long lastact1id = _triggers[id]->GetAction1();
 		modifiedtrig->SetAction1(act1id);
 
 
@@ -6466,4 +6636,269 @@ void EditorHandler::actiond_scriptadd_clicked()
 {
 	_updateactiondialogonnewscript = 1;
 	addcscript_button_clicked();
+}
+
+
+/***********************************************************
+select a condition
+***********************************************************/
+void EditorHandler::SelectCondition(ConditionBasePtr cond, const QModelIndex &parent)
+{
+	if(parent == QModelIndex())
+		ResetObject();
+
+	if(!cond)
+		return;
+
+	// add pointer for later change
+	_modelidxdatamap[parent] = (void*)cond.get();
+
+	{
+		QVector<QVariant> data;
+		data<<"Type"<<"Condition";
+		_objectmodel->AppendRow(data, parent, true);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"SubCategory"<<cond->GetTypeName().c_str();
+		_objectmodel->AppendRow(data, parent, true);
+	}
+
+	std::string type = cond->GetTypeName();
+	if(type == "NegateCondition")
+	{
+		NegateCondition* ptr = static_cast<NegateCondition*>(cond.get());
+
+		ConditionBasePtr condptr = ptr->GetCondition();
+
+		QVector<QVariant> data;
+		data << "Condition to negate" << GetConditionType(condptr).c_str();
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+		if(condptr)
+			SelectCondition(condptr, idx);
+
+		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _conditiontypeList);
+
+		return;
+	}
+
+	if(type == "AndCondition")
+	{
+		AndCondition* ptr = static_cast<AndCondition*>(cond.get());
+
+		{
+		ConditionBasePtr condptr = ptr->GetCondition1();
+
+		QVector<QVariant> data;
+		data << "Condition 1" << GetConditionType(condptr).c_str();
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+		if(condptr)
+			SelectCondition(condptr, idx);
+		}
+
+		{
+		ConditionBasePtr condptr = ptr->GetCondition2();
+		QVector<QVariant> data2;
+		data2 << "Condition 2" << GetConditionType(condptr).c_str();
+		QModelIndex idx = _objectmodel->AppendRow(data2, parent);
+
+		if(condptr)
+			SelectCondition(condptr, idx);
+		}
+
+
+		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _conditiontypeList);
+		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 3, parent), _conditiontypeList);
+
+		return;
+	}
+
+
+	if(type == "OrCondition")
+	{
+		OrCondition* ptr = static_cast<OrCondition*>(cond.get());
+		{
+		ConditionBasePtr condptr = ptr->GetCondition1();
+
+		QVector<QVariant> data;
+		data << "Condition 1" << GetConditionType(condptr).c_str();
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+		if(condptr)
+			SelectCondition(condptr, idx);
+		}
+
+		{
+		ConditionBasePtr condptr = ptr->GetCondition2();
+		QVector<QVariant> data2;
+		data2 << "Condition 2" << GetConditionType(condptr).c_str();
+		QModelIndex idx = _objectmodel->AppendRow(data2, parent);
+
+		if(condptr)
+			SelectCondition(condptr, idx);
+		}
+
+		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _conditiontypeList);
+		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 3, parent), _conditiontypeList);
+
+		return;
+	}
+
+}
+
+/***********************************************************
+create a new condition
+***********************************************************/
+ConditionBasePtr EditorHandler::CreateCondition(const std::string & type)
+{
+	if(type == "AlwaysTrueCondition")
+		return ConditionBasePtr(new AlwaysTrueCondition());
+
+	if(type == "NegateCondition")
+		return ConditionBasePtr(new NegateCondition());
+
+	if(type == "AndCondition")
+		return ConditionBasePtr(new AndCondition());
+
+	if(type == "OrCondition")
+		return ConditionBasePtr(new OrCondition());
+
+	return ConditionBasePtr();
+}
+
+/***********************************************************
+get type of condition
+***********************************************************/
+std::string EditorHandler::GetConditionType(ConditionBasePtr ptr)
+{
+	std::string res = "No";
+	if(ptr)
+		res = ptr->GetTypeName();
+
+	return res;
+}
+
+/***********************************************************
+called when Condition changed
+***********************************************************/
+void EditorHandler::ConditionChanged(const std::string & category, const QModelIndex &parentIdx)
+{
+	std::map<QModelIndex, void *>::iterator it = _modelidxdatamap.find(parentIdx);
+	if(it != _modelidxdatamap.end())
+	{
+		void * ptr = it->second;
+		if(ptr)
+		{	
+			if(category == "NegateCondition")
+			{
+				NegateCondition* cond = (NegateCondition*)ptr;
+
+				std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();
+				std::string currcond = GetConditionType(cond->GetCondition());
+
+				if(condition != currcond)
+				{
+					ConditionBasePtr ptrtmp = CreateCondition(condition);
+					cond->SetCondition(ptrtmp);
+
+					_objectmodel->Clear(_objectmodel->GetIndex(0, 2, parentIdx));
+					if(ptrtmp)
+						SelectCondition(ptrtmp, _objectmodel->GetIndex(0, 2, parentIdx));
+
+					// need to save as something changed
+					SetModified();
+				}
+			}
+
+			if(category == "AndCondition")
+			{
+				AndCondition* cond = (AndCondition*)ptr;
+
+				//condition 1
+				{
+					std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();
+					std::string currcond = GetConditionType(cond->GetCondition1());
+
+					if(condition != currcond)
+					{
+						ConditionBasePtr ptrtmp = CreateCondition(condition);
+						cond->SetCondition1(ptrtmp);
+
+						_objectmodel->Clear(_objectmodel->GetIndex(0, 2, parentIdx));
+						if(ptrtmp)
+							SelectCondition(ptrtmp, _objectmodel->GetIndex(0, 2, parentIdx));
+
+
+						// need to save as something changed
+						SetModified();
+					}
+				}
+
+				//condition 2
+				{
+					std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString().toAscii().data();
+					std::string currcond = GetConditionType(cond->GetCondition2());
+
+					if(condition != currcond)
+					{
+						ConditionBasePtr ptrtmp = CreateCondition(condition);
+						cond->SetCondition2(ptrtmp);
+
+						_objectmodel->Clear(_objectmodel->GetIndex(0, 3, parentIdx));
+						if(ptrtmp)
+							SelectCondition(ptrtmp, _objectmodel->GetIndex(0, 3, parentIdx));
+
+						// need to save as something changed
+						SetModified();
+					}
+				}
+			}
+
+			if(category == "OrCondition")	
+			{
+				OrCondition* cond = (OrCondition*)ptr;
+
+				//condition 1
+				{
+					std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();
+					std::string currcond = GetConditionType(cond->GetCondition1());
+
+					if(condition != currcond)
+					{
+						ConditionBasePtr ptrtmp = CreateCondition(condition);
+						cond->SetCondition1(ptrtmp);
+
+						_objectmodel->Clear(_objectmodel->GetIndex(0, 2, parentIdx));
+						if(ptrtmp)
+							SelectCondition(ptrtmp, _objectmodel->GetIndex(0, 2, parentIdx));
+
+						// need to save as something changed
+						SetModified();
+					}
+				}
+
+				//condition 2
+				{
+					std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString().toAscii().data();
+					std::string currcond = GetConditionType(cond->GetCondition2());
+
+					if(condition != currcond)
+					{
+						ConditionBasePtr ptrtmp = CreateCondition(condition);
+						cond->SetCondition2(ptrtmp);
+
+						_objectmodel->Clear(_objectmodel->GetIndex(0, 3, parentIdx));
+						if(ptrtmp)
+							SelectCondition(ptrtmp, _objectmodel->GetIndex(0, 3, parentIdx));
+
+						// need to save as something changed
+						SetModified();
+					}
+				}
+			}
+		}
+	}
 }
