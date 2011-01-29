@@ -115,7 +115,6 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("AddAction", &ScriptEnvironmentBase::AddAction)
 		.def("Teleport", &ScriptEnvironmentBase::Teleport)
 		.def("ExecuteClientScript", &ScriptEnvironmentBase::ExecuteClientScript)
-		.def("EditorAddClientScript", &ScriptEnvironmentBase::EditorAddClientScript)
 		.def("DisplayTextAction", &ScriptEnvironmentBase::DisplayTxtAction)
 		,
 
@@ -176,9 +175,9 @@ ServerLuaHandler::ServerLuaHandler()
 		.def(luabind::constructor<long, const std::string&, const std::string &, long>()),
 
 		luabind::class_<ClientScriptAction, ActionBase, boost::shared_ptr<ActionBase> >("ClientScriptAction")
-		.def(luabind::constructor<long, const std::string&, long>())
-		.def("GetScriptId", &ClientScriptAction::GetScriptId)
-		.def("SetScriptId", &ClientScriptAction::SetScriptId)			
+		.def(luabind::constructor<long, const std::string&>())
+		.def("GetScript", &ClientScriptAction::GetScript)
+		.def("SetScript", &ClientScriptAction::SetScript)			
 		,
 
 		luabind::class_<CustomAction, ActionBase, boost::shared_ptr<ActionBase> >("CustomAction")
@@ -207,19 +206,53 @@ ServerLuaHandler::ServerLuaHandler()
 
 
 		luabind::class_<ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("ClientScriptBase")
-		.def(luabind::constructor<long, const std::string&>()),
+		.def(luabind::constructor<>())
+		.def("Execute", &ClientScriptBase::Execute)
+		,
 
 		luabind::class_<GoUpLadderScript, ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("GoUpLadderScript")
-		.def(luabind::constructor<long, const std::string&, float, float, float, float, int>()),
+		.def(luabind::constructor<>())
+		.def("GetLadderPositionX", &GoUpLadderScript::GetLadderPositionX)
+		.def("GetLadderPositionY", &GoUpLadderScript::GetLadderPositionY)
+		.def("GetLadderPositionZ", &GoUpLadderScript::GetLadderPositionZ)
+		.def("SetLadderPositionX", &GoUpLadderScript::SetLadderPositionX)
+		.def("SetLadderPositionY", &GoUpLadderScript::SetLadderPositionY)
+		.def("SetLadderPositionZ", &GoUpLadderScript::SetLadderPositionZ)
+		.def("GetLadderHeight", &GoUpLadderScript::GetLadderHeight)
+		.def("SetLadderHeight", &GoUpLadderScript::SetLadderHeight)
+		.def("GetLadderDirection", &GoUpLadderScript::GetLadderDirection)
+		.def("SetLadderDirection", &GoUpLadderScript::SetLadderDirection)
+		,
 
 		luabind::class_<TakeExitUpScript, ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("TakeExitUpScript")
-		.def(luabind::constructor<long, const std::string&, float, float, float, int>()),
+		.def(luabind::constructor<>())
+		.def("GetExitPositionX", &TakeExitUpScript::GetExitPositionX)
+		.def("GetExitPositionY", &TakeExitUpScript::GetExitPositionY)
+		.def("GetExitPositionZ", &TakeExitUpScript::GetExitPositionZ)
+		.def("SetExitPositionX", &TakeExitUpScript::GetExitPositionX)
+		.def("SetExitPositionY", &TakeExitUpScript::SetExitPositionY)
+		.def("SetExitPositionZ", &TakeExitUpScript::SetExitPositionZ)
+		.def("GetExitDirection", &TakeExitUpScript::GetExitDirection)
+		.def("SetExitDirection", &TakeExitUpScript::SetExitDirection)
+		,
 
 		luabind::class_<TakeExitDownScript, ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("TakeExitDownScript")
-		.def(luabind::constructor<long, const std::string&, float, float, float, int>()),
+		.def(luabind::constructor<>())
+		.def("GetExitPositionX", &TakeExitDownScript::GetExitPositionX)
+		.def("GetExitPositionY", &TakeExitDownScript::GetExitPositionY)
+		.def("GetExitPositionZ", &TakeExitDownScript::GetExitPositionZ)
+		.def("SetExitPositionX", &TakeExitDownScript::GetExitPositionX)
+		.def("SetExitPositionY", &TakeExitDownScript::SetExitPositionY)
+		.def("SetExitPositionZ", &TakeExitDownScript::SetExitPositionZ)
+		.def("GetExitDirection", &TakeExitDownScript::GetExitDirection)
+		.def("SetExitDirection", &TakeExitDownScript::SetExitDirection)
+		,
 
 		luabind::class_<CustomScript, ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("CustomScript")
-		.def(luabind::constructor<long, const std::string&, const std::string&>()),
+		.def(luabind::constructor<>())
+		.def("GetLuaFunctionName", &CustomScript::GetLuaFunctionName)
+		.def("SetLuaFunctionName", &CustomScript::SetLuaFunctionName)
+		,
 
 
 

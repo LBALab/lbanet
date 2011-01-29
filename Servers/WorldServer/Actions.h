@@ -31,7 +31,7 @@ class ScriptEnvironmentBase;
 
 #include "ActionArguments.h"
 #include "Conditions.h"
-
+#include "ClientScript.h"
 
 //! base class used as action to be performed on trigger
 class ActionBase
@@ -130,8 +130,7 @@ class ClientScriptAction : public ActionBase
 {
 public:
 	//! constructor
-	ClientScriptAction(long id, const std::string &name,
-						long ScriptId);
+	ClientScriptAction(long id, const std::string &name);
 	
 	//! destructor
 	virtual ~ClientScriptAction(void);
@@ -155,14 +154,14 @@ public:
 	virtual void SaveToLuaFile(std::ofstream & file);
 
 	// accessor
-	long GetScriptId()
-	{ return _ScriptId;}
+	ClientScriptBasePtr GetScript()
+	{ return _Script;}
 
-	void SetScriptId(long ScriptId)
-	{ _ScriptId = ScriptId;}
+	void SetScript(ClientScriptBasePtr Script)
+	{ _Script = Script;}
 
 private:
-	long		_ScriptId;
+	ClientScriptBasePtr		_Script;
 };
 
 

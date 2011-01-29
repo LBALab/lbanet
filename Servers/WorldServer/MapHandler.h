@@ -163,7 +163,8 @@ public:
 	//! 2 -> player object
 	//! 3 -> movable object
 	virtual void ExecuteClientScript(int ObjectType, long ObjectId,
-										const std::string & ScriptName);
+										const std::string & ScriptName,
+										bool InlineFunction);
 
 
 	// execute custom lua function
@@ -175,8 +176,7 @@ public:
 										const std::string & FunctionName,
 										ActionArgumentBase * args);
 
-	// only used by the editor to add client scripts to the list
-	virtual void EditorAddClientScript(boost::shared_ptr<ClientScriptBase> script){}
+
 
 	// display text to client window
 	// ObjectType ==>

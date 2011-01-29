@@ -70,9 +70,8 @@ void TeleportAction::SaveToLuaFile(std::ofstream & file)
 /***********************************************************
 constructor
 ***********************************************************/
-ClientScriptAction::ClientScriptAction(long id, const std::string &name,
-									   long ScriptId)
-: ActionBase(id, name), _ScriptId(ScriptId)
+ClientScriptAction::ClientScriptAction(long id, const std::string &name)
+: ActionBase(id, name)
 {
 
 }
@@ -92,12 +91,8 @@ ClientScriptAction::~ClientScriptAction(void)
 void ClientScriptAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
 								ActionArgumentBase* args)
 {
-	if(owner && _ScriptId >= 0)
-	{
-		std::stringstream strs;
-		strs << "ClientScript_" << _ScriptId;
-		owner->ExecuteClientScript(ObjectType, (long)ObjectId, strs.str());
-	}
+	if(_Script)
+		_Script->Execute(owner, ObjectType, ObjectId);
 }
 
 
@@ -107,7 +102,15 @@ save action to lua file
 void ClientScriptAction::SaveToLuaFile(std::ofstream & file)
 {
 	file<<"\tAction_"<<GetId()<<" = ClientScriptAction("<<GetId()<<", \""
-				<<GetName()<<"\", "<<_ScriptId<<")"<<std::endl;
+				<<GetName()<<"\")"<<std::endl;
+
+	if(_Script)
+	{
+		std::stringstream csname;
+		csname<<"Action_"<<GetId()<<"_cs";
+		_Script->SaveToLuaFile(file, csname.str());
+		file<<"\tAction_"<<GetId()<<":SetScript("<<csname.str()<<")"<<std::endl;
+	}
 
 	file<<"\tenvironment:AddAction(Action_"<<GetId()<<")"<<std::endl<<std::endl;
 }

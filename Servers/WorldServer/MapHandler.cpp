@@ -111,6 +111,8 @@ MapHandler::MapHandler(const MapInfo & mapinfo,
 	_luaH.LoadFile(globalluafilname);
 	_luaH.LoadFile(mapluafilename);
 
+	//todo - aussi virer plus tard serveur global lua load - do a find on Loadfile pour virer...
+
 	_luaH.CallLua("InitGlobal", this);
 	_luaH.CallLua("InitMap", this);
 
@@ -1676,7 +1678,8 @@ ObjectType ==>
  3 -> movable object
 ***********************************************************/
 void MapHandler::ExecuteClientScript(int ObjectType, long ObjectId,
-										const std::string & ScriptName)
+										const std::string & ScriptName,
+										bool InlineFunction)
 {
 	// does not work on npc
 	if(ObjectType == 1)
@@ -1711,7 +1714,7 @@ void MapHandler::ExecuteClientScript(int ObjectType, long ObjectId,
 					PlayerObject, clientid, new ModelUpdate(returnmodel, false)));
 
 		toplayer.push_back(new StartClientScriptEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-									ScriptName));
+									ScriptName, InlineFunction));
 
 		IceUtil::ThreadPtr t = new EventsSender(toplayer, GetProxy(clientid));
 		t->start();	
