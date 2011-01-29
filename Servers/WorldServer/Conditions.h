@@ -59,6 +59,9 @@ public:
 	// save action to lua file
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & conditionname){}
 	
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName(){ return "";}
 };
 
 
@@ -76,6 +79,9 @@ public:
 	
 	// save action to lua file
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & conditionname);
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName(){ return "AlwaysTrueCondition";}
 };
 
 
@@ -105,6 +111,9 @@ public:
 	// accessor
 	ConditionBasePtr GetCondition()
 	{ return _tonegate;}
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName(){ return "NegateCondition";}
 
 private:
 	ConditionBasePtr _tonegate;
@@ -148,6 +157,9 @@ public:
 	// accessor
 	ConditionBasePtr GetCondition2()
 	{ return _cond2;}
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName(){ return "AndCondition";}
 
 private:
 	ConditionBasePtr _cond1;
@@ -194,6 +206,9 @@ public:
 	// accessor
 	ConditionBasePtr GetCondition2()
 	{ return _cond2;}
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName(){ return "OrCondition";}
 
 private:
 	ConditionBasePtr _cond1;

@@ -30,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class ScriptEnvironmentBase;
 
 #include "ActionArguments.h"
-
+#include "Conditions.h"
 
 
 //! base class used as action to be performed on trigger
@@ -243,10 +243,69 @@ public:
 	long GetTextId()
 	{ return _TextId;}
 
+	// acessor
+	void SetTextId(long id)
+	{ _TextId = id;}
+
 
 private:
 	long			_TextId;
 };
 
+
+
+//! use to display a text on client
+class ConditionalAction : public ActionBase
+{
+public:
+	//! constructor
+	ConditionalAction(long id, const std::string &name);
+	
+	//! destructor
+	virtual ~ConditionalAction(void);
+
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args);
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "ConditionalAction"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file);
+
+	//accessors
+	void SetCondition(ConditionBasePtr	condition)
+	{ _condition = condition; }
+
+	ConditionBasePtr GetCondition()
+	{ return _condition; }
+
+	void SetActionTrue(long act)
+	{_actionTrue = act;}
+
+	void SetActionFalse(long act)
+	{_actionFalse = act;}
+
+	long GetActionTrue()
+	{ return _actionTrue; }
+
+	long GetActionFalse()
+	{ return _actionFalse; }
+
+private:
+	ConditionBasePtr		_condition;
+
+	long					_actionTrue;
+	long					_actionFalse;
+};
 
 #endif

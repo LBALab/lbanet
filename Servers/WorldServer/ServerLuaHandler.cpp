@@ -176,13 +176,34 @@ ServerLuaHandler::ServerLuaHandler()
 		.def(luabind::constructor<long, const std::string&, const std::string &, long>()),
 
 		luabind::class_<ClientScriptAction, ActionBase, boost::shared_ptr<ActionBase> >("ClientScriptAction")
-		.def(luabind::constructor<long, const std::string&, long>()),
+		.def(luabind::constructor<long, const std::string&, long>())
+		.def("GetScriptId", &ClientScriptAction::GetScriptId)
+		.def("SetScriptId", &ClientScriptAction::SetScriptId)			
+		,
 
 		luabind::class_<CustomAction, ActionBase, boost::shared_ptr<ActionBase> >("CustomAction")
-		.def(luabind::constructor<long, const std::string&, const std::string&>()),
+		.def(luabind::constructor<long, const std::string&, const std::string&>())
+		.def("GetLuaFunctionName", &CustomAction::GetLuaFunctionName)
+		.def("SetLuaFunctionName", &CustomAction::SetLuaFunctionName)		
+		,
 
 		luabind::class_<DisplayTextAction, ActionBase, boost::shared_ptr<ActionBase> >("DisplayTextAction")
-		.def(luabind::constructor<long, const std::string&, long>()),
+		.def(luabind::constructor<long, const std::string&, long>())
+		.def("GetTextId", &DisplayTextAction::GetTextId)
+		.def("SetTextId", &DisplayTextAction::SetTextId)		
+		,
+
+		luabind::class_<ConditionalAction, ActionBase, boost::shared_ptr<ActionBase> >("ConditionalAction")
+		.def(luabind::constructor<long, const std::string&>())
+		.def("SetCondition", &ConditionalAction::SetCondition)
+		.def("GetCondition", &ConditionalAction::GetCondition)
+		.def("SetActionTrue", &ConditionalAction::SetActionTrue)
+		.def("SetActionFalse", &ConditionalAction::SetActionFalse)
+		.def("GetActionTrue", &ConditionalAction::GetActionTrue)
+		.def("GetActionFalse", &ConditionalAction::GetActionFalse)
+		,
+
+
 
 
 		luabind::class_<ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("ClientScriptBase")

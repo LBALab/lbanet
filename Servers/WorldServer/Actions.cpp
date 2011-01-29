@@ -204,3 +204,69 @@ void DisplayTextAction::SaveToLuaFile(std::ofstream & file)
 }
 
 
+
+
+/***********************************************************
+constructor
+***********************************************************/	
+ConditionalAction::ConditionalAction(long id, const std::string &name)
+: ActionBase(id, name)
+{
+
+}
+	
+
+/***********************************************************
+destructor
+***********************************************************/	
+ConditionalAction::~ConditionalAction(void)
+{
+
+}
+
+/***********************************************************
+//! execute the action
+//! parameter return the object type and number triggering the action
+***********************************************************/	
+void ConditionalAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+											ActionArgumentBase* args)
+{
+	if(_condition && _condition->Passed(owner, ObjectType, ObjectId))
+	{
+		boost::shared_ptr<ActionBase> act = owner->GetAction(_actionTrue);
+		if(act)
+			act->Execute(owner, ObjectType, ObjectId, 0);
+	}
+	else
+	{
+		boost::shared_ptr<ActionBase> act = owner->GetAction(_actionFalse);
+		if(act)
+			act->Execute(owner, ObjectType, ObjectId, 0);
+	}
+}
+
+
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void ConditionalAction::SaveToLuaFile(std::ofstream & file)
+{
+	file<<"\tAction_"<<GetId()<<" = ConditionalAction("<<GetId()<<", \""
+				<<GetName()<<"\")"<<std::endl;
+
+	file<<"\tAction_"<<GetId()<<":SetActionTrue("<<_actionTrue<<")"<<std::endl;
+	file<<"\tAction_"<<GetId()<<":SetActionFalse("<<_actionFalse<<")"<<std::endl;
+
+	if(_condition)
+	{
+		std::stringstream condname;
+		condname<<"Action_"<<GetId()<<"_cond";
+		_condition->SaveToLuaFile(file, condname.str());
+
+		file<<"\tAction_"<<GetId()<<":SetCondition("<<condname.str()<<")"<<std::endl;
+	}
+
+	file<<"\tenvironment:AddAction(Action_"<<GetId()<<")"<<std::endl<<std::endl;
+}
