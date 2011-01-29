@@ -52,7 +52,7 @@ public:
 
 
 	//! start script in a new thread
-	void StartScript(const std::string & FunctionName);
+	void StartScript(const std::string & FunctionName, bool inlinefunction);
 
 	//! resume yield thread
 	void ResumeThread(int ThreadIdx);

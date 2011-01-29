@@ -132,7 +132,7 @@ public:
 
 
 	//! start lua script in a separate thread
-	void StartScript(const std::string & FunctionName);
+	void StartScript(const std::string & FunctionName, bool inlinefunction);
 
 	//! used by lua to get an actor Position
 	//! if id < 1 then it get player position

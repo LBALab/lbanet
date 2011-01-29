@@ -587,7 +587,7 @@ void LbaNetEngine::HandleGameEvents()
 				dynamic_cast<LbaNet::StartClientScriptEvent *>(&obj);
 
 			if(m_gui_handler)
-				m_lbaNetModel->StartScript(castedptr->ScriptName);
+				m_lbaNetModel->StartScript(castedptr->ScriptName, castedptr->InlineFunction);
 
 			continue;
 		}

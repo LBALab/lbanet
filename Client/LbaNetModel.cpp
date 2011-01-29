@@ -87,7 +87,6 @@ void LbaNetModel::ChangeWorld(const std::string & NewWorld)
 	//script part
 	m_luaHandler = boost::shared_ptr<ClientLuaHandler>(new  ClientLuaHandler(this));
 	m_luaHandler->LoadFile("LuaCommon/ClientHelperFunctions.lua");
-	m_luaHandler->LoadFile("Worlds/" + NewWorld + "/Lua/global_client.lua");
 }
 
 
@@ -836,10 +835,10 @@ void LbaNetModel::CenterCamera()
 /***********************************************************
 start lua script in a separate thread
 ***********************************************************/
-void LbaNetModel::StartScript(const std::string & FunctionName)
+void LbaNetModel::StartScript(const std::string & FunctionName, bool inlinefunction)
 {
 	if(m_luaHandler)
-		m_luaHandler->StartScript(FunctionName);
+		m_luaHandler->StartScript(FunctionName, inlinefunction);
 }
 
 
