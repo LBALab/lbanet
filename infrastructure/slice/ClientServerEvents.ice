@@ -181,6 +181,7 @@ module LbaNet
 	class StartClientScriptEvent extends ClientServerEventBase
 	{
 		string 				ScriptName;
+		bool				InlineFunction;	
 	};
 	
 	// client tell server that script is finished
