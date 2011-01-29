@@ -706,7 +706,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	_actortypeList(new CustomStringListModel()), _actordtypeList(new CustomStringListModel()),
 	_actorptypeList(new CustomStringListModel()), _cscriptList(new CustomStringListModel()),
 	_updateactiondialogonnewscript(-1), _actormodeList(new CustomStringListModel()), 
-	_conditiontypeList(new CustomStringListModel())
+	_conditiontypeList(new CustomStringListModel()), _cscripttypeList(new CustomStringListModel())
 
 {
 	QStringList actlist;
@@ -727,6 +727,10 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	condlist << "No" << "AlwaysTrueCondition" << "NegateCondition" << "AndCondition" << "OrCondition";
 	_conditiontypeList->setStringList(condlist);
 	
+	QStringList cslist;
+	cslist << "No" << "GoUpLadderScript" << "TakeExitUpScript" << "TakeExitDownScript" << "CustomScript";
+	_cscripttypeList->setStringList(cslist);
+
 
 
 	_uieditor.setupUi(this);
@@ -754,9 +758,6 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 
 	_addactordialog = new QDialog(this);
 	_ui_addactordialog.setupUi(_addactordialog);
-
-	_addcscriptdialog = new QDialog(this);
-	_ui_addcscriptdialog.setupUi(_addcscriptdialog);
 
 
 	// read the file and get data
@@ -878,18 +879,6 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	}
 	
 
-	// set model for client script
-	{
-		 QStringList header;
-		 header << "Name" << "Type";
-		_cscriptlistmodel = new StringTableModel(header);
-		_uieditor.tableViewCScriptsList->setModel(_cscriptlistmodel);
-		QHeaderView * mpheaders = _uieditor.tableViewCScriptsList->horizontalHeader();
-		mpheaders->setResizeMode(QHeaderView::Stretch);
-	}
-	
-
-
 
 
 	// reset world info
@@ -932,10 +921,6 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.pushButton_selectActor, SIGNAL(clicked()) , this, SLOT(ActorSelect_button()));
 
 
-	connect(_uieditor.pushButton_addCScript, SIGNAL(clicked()) , this, SLOT(addcscript_button_clicked()));
-	connect(_uieditor.pushButton_removeCScript, SIGNAL(clicked()) , this, SLOT(removecscript_button_clicked()));	
-	connect(_uieditor.pushButton_selectCScript, SIGNAL(clicked()) , this, SLOT(selectcscript_button_clicked()));
-
 
 
 	//! Actor add button push
@@ -959,9 +944,6 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.tableViewActionList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectaction_double_clicked(const QModelIndex&)));
 	connect(_uieditor.tableViewTriggerList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selecttrigger_double_clicked(const QModelIndex&)));
 	connect(_uieditor.tableView_ActorList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectactor_double_clicked(const QModelIndex&)));
-	connect(_uieditor.tableViewCScriptsList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectcscript_double_clicked(const QModelIndex&)));
-
-
 
 	connect(_objectmodel, SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)) , 
 								this, SLOT(objectdatachanged(const QModelIndex &, const QModelIndex &)));
@@ -975,7 +957,6 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_ui_addtpdialog.buttonBox, SIGNAL(accepted()) , this, SLOT(TpAdd_button_accepted()));
 	connect(_ui_addworlddialog.buttonBox, SIGNAL(accepted()) , this, SLOT(addworld_accepted()));
 	connect(_ui_addactordialog.buttonBox, SIGNAL(accepted()) , this, SLOT(ActorAdd_button_accepted()));
-	connect(_ui_addcscriptdialog.buttonBox, SIGNAL(accepted()) , this, SLOT(addcscript_accepted()));
 
 
 	connect(_uieditor.comboBox_startingmap, SIGNAL(activated(int)) , this, SLOT(StartingMapModified(int)));		
@@ -998,7 +979,6 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 
 	connect(_ui_addactiondialog.comboBox_actiontype, SIGNAL(activated(int)) , this, SLOT(SetActionDialogType(int)));
 	connect(_ui_addactiondialog.comboBox_tp_map, SIGNAL(activated(int)) , this, SLOT(actiond_tpmap_changed(int)));
-	connect(_ui_addactiondialog.pushButton_script_add, SIGNAL(clicked()) , this, SLOT(actiond_scriptadd_clicked()));
 }
 
 /***********************************************************
@@ -1262,13 +1242,6 @@ void EditorHandler::SaveWorldAction()
 		if(mapname != "")
 			SaveMap("./Data/Worlds/" + _winfo.Description.WorldName + "/Lua/" + mapname + "_server.lua");
 
-		// save editor file
-		SaveEditorLua("./Data/Worlds/" + _winfo.Description.WorldName + "/Lua/global_editor.lua");
-
-		// save client file
-		SaveGlobalClientLua("./Data/Worlds/" + _winfo.Description.WorldName + "/Lua/global_client.lua");
-
-
 		SetSaved();
 	}
 }
@@ -1480,9 +1453,7 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 	std::string globaleditorluafile = luafile + "global_editor.lua";
 	_luaH = boost::shared_ptr<ServerLuaHandler>(new ServerLuaHandler());
 	_luaH->LoadFile(globalluafile);
-	_luaH->LoadFile(globaleditorluafile);
 	_luaH->CallLua("InitGlobal", this);
-	_luaH->CallLua("InitEditor", this);
 
 	// refresh starting info
 	RefreshStartingInfo();
@@ -1503,7 +1474,6 @@ void EditorHandler::ResetWorld()
 	_actionNameList->AddData("None");
 	_mapNameList->Clear();
 	_cscriptList->Clear();
-	_cscriptlistmodel->Clear();
 	_mapSpawningList.clear();
 
 	_uieditor.label_worldname->setText("");
@@ -1712,7 +1682,6 @@ void EditorHandler::SetMapInfo(const std::string & mapname)
 	std::string globalluafile = luafile + "global_server.lua";
 	luafile += mapname + "_server.lua";
 	_luaH = boost::shared_ptr<ServerLuaHandler>(new ServerLuaHandler());
-	_luaH->LoadFile(globalluafile);
 	_luaH->LoadFile(luafile);
 	_luaH->CallLua("InitMap", this);
 }
@@ -2057,13 +2026,6 @@ void EditorHandler::objectdatachanged(const QModelIndex &index1, const QModelInd
 			return;
 		}
 
-		if(type == "Action")
-		{
-			long objid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toLong();
-			ActionObjectChanged(objid, category, parentIdx);
-			return;
-		}
-
 		if(type == "Trigger")
 		{
 			long objid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toLong();
@@ -2078,10 +2040,16 @@ void EditorHandler::objectdatachanged(const QModelIndex &index1, const QModelInd
 			return;
 		}
 
-		if(type == "ClientScript")
+		if(type == "Action")
 		{
 			long objid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toLong();
-			CScriptObjectChanged(objid, category, parentIdx);
+			ActionObjectChanged(objid, category, parentIdx);
+			return;
+		}
+
+		if(type == "ClientScript")
+		{
+			CScriptObjectChanged(category, parentIdx);
 			return;
 		}
 
@@ -2570,25 +2538,8 @@ void EditorHandler::AddActionAccepted()
 	
 		case 1: // client script
 		{
-			std::string scriptname = _ui_addactiondialog.comboBox_script_name->currentText().toAscii().data();
-
-			long scid = -1;
-			if(scriptname != "")
-			{
-				std::map<long, boost::shared_ptr<ClientScriptBase> >::iterator it = _cscripts.begin();
-				std::map<long, boost::shared_ptr<ClientScriptBase> >::iterator end = _cscripts.end();
-				for(;it != end; ++it)
-				{
-					if(scriptname == it->second->GetName())
-					{
-						scid = it->first;
-						break;
-					}
-				}
-			}
-
 			AddNewAction(boost::shared_ptr<ActionBase>
-				(new ClientScriptAction(id,	actname.toAscii().data(), scid)));
+				(new ClientScriptAction(id,	actname.toAscii().data())));
 		}
 		break;
 	
@@ -2695,20 +2646,18 @@ void EditorHandler::SelectAction(long id, const QModelIndex &parent)
 		{
 			ClientScriptAction* ptr = static_cast<ClientScriptAction*>(it->second.get());
 			{
-				std::string csname;
-				std::map<long, boost::shared_ptr<ClientScriptBase> >::iterator itsc = _cscripts.find(ptr->GetScriptId());
-				if(itsc != _cscripts.end())
-					csname = itsc->second->GetName();
+				ClientScriptBasePtr scriptptr = ptr->GetScript();
+				std::string name = GetCScriptType(scriptptr);
 
 				QVector<QVariant> data;
-				data << "Script name" << csname.c_str();
+				data << "Script" << name.c_str();
 				QModelIndex idx = _objectmodel->AppendRow(data, parent);
 
-				if(csname != "")
-					SelectCScript(ptr->GetScriptId(), idx);
+				if(scriptptr)
+					SelectCScript(scriptptr, idx);
 			}
 
-			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _cscriptList);
+			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _cscripttypeList);
 
 			return;
 		}
@@ -2929,32 +2878,31 @@ void EditorHandler::ActionObjectChanged(long id, const std::string & category, c
 
 	if(category == "ClientScriptAction")
 	{
-		// get info
-		std::string scriptname = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
+		// created modified action and replace old one
+		ClientScriptAction* modifiedact = static_cast<ClientScriptAction*>(_actions[id].get());
 
-		// get id associated to spawning
-		long scid = -1;
-		if(scriptname != "")
+		// check script part
 		{
-			std::map<long, boost::shared_ptr<ClientScriptBase> >::iterator it = _cscripts.begin();
-			std::map<long, boost::shared_ptr<ClientScriptBase> >::iterator end = _cscripts.end();
-			for(;it != end; ++it)
+			std::string script = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
+			std::string currscript = GetCScriptType(modifiedact->GetScript());
+
+			if(script != currscript)
 			{
-				if(scriptname == it->second->GetName())
+				ClientScriptBasePtr ptrtmp = CreateCscript(script);
+				modifiedact->SetScript(ptrtmp);
+
+
+				QModelIndex curidx = _objectmodel->GetIndex(0, 4, parentIdx);
+				_objectmodel->Clear(curidx);
+				if(ptrtmp)
 				{
-					scid = it->first;
-					break;
+					SelectCScript(ptrtmp, curidx);
+
+					_uieditor.treeView_object->setExpanded(curidx, true); // expand 
 				}
+
 			}
 		}
-
-
-		// created modified action and replace old one
-		boost::shared_ptr<ActionBase> modifiedact(new ClientScriptAction(id,
-													name.toAscii().data(), scid));
-
-
-		_actions[id] = modifiedact;
 
 		if(name != oldname.c_str())
 		{
@@ -2976,14 +2924,8 @@ void EditorHandler::ActionObjectChanged(long id, const std::string & category, c
 		SetModified();
 
 
-		_objectmodel->Clear(_objectmodel->GetIndex(0, 4, parentIdx));
-		if(scid >= 0)
-			SelectCScript(scid, _objectmodel->GetIndex(0, 4, parentIdx));
-
-
-
 		//inform server
-		EditorUpdateBasePtr update = new UpdateEditor_AddOrModAction(modifiedact);
+		EditorUpdateBasePtr update = new UpdateEditor_AddOrModAction(_actions[id]);
 		SharedDataHandler::getInstance()->EditorUpdate("", update);
 
 		return;
@@ -3090,9 +3032,14 @@ void EditorHandler::ActionObjectChanged(long id, const std::string & category, c
 				ConditionBasePtr ptrtmp = CreateCondition(condition);
 				modifiedact->SetCondition(ptrtmp);
 
-				_objectmodel->Clear(_objectmodel->GetIndex(0, 4, parentIdx));
+				QModelIndex curidx = _objectmodel->GetIndex(0, 4, parentIdx);
+				_objectmodel->Clear(curidx);
 				if(ptrtmp)
-					SelectCondition(ptrtmp, _objectmodel->GetIndex(0, 4, parentIdx));
+				{
+					SelectCondition(ptrtmp, curidx);
+
+					_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+				}
 
 			}
 		}
@@ -5931,377 +5878,157 @@ void EditorHandler::RemoveArrows()
 
 
 /***********************************************************
-only used by the editor to add client scripts to the list
-***********************************************************/
-void EditorHandler::EditorAddClientScript(boost::shared_ptr<ClientScriptBase> script)
-{
-	_cscripts[script->GetId()] = script;
-	_curscriptidx = script->GetId();
-
-	QStringList data;
-	data << script->GetName().c_str() << script->GetTypeName().c_str();
-	_cscriptlistmodel->AddOrUpdateRow(script->GetId(), data);
-
-	_cscriptList->AddData(script->GetName().c_str());
-
-	// refresh client script
-	std::stringstream strs;
-	script->SaveScriptToLua(strs);
-	EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::ClientExecuteScriptStringEvent(
-		SynchronizedTimeHandler::GetCurrentTimeDouble(), strs.str()));	
-}
-
-
-/***********************************************************
-addcscript_button_clicked
-***********************************************************/
-void EditorHandler::addcscript_button_clicked()
-{
-	if(!IsWorldOpened())
-		return;
-
-	_ui_addcscriptdialog.lineEdit_name->setText("");
-	_addcscriptdialog->show();
-}
-
-
-/***********************************************************
-removecscript_button_clicked
-***********************************************************/
-void EditorHandler::removecscript_button_clicked()
-{
-	QItemSelectionModel *selectionModel = _uieditor.tableViewCScriptsList->selectionModel();
-	QModelIndexList indexes = selectionModel->selectedIndexes();
-	if(indexes.size() > 1)
-	{
-		// inform server
-		long id = _cscriptlistmodel->GetId(indexes[0]);
-		std::string name = _cscriptlistmodel->GetString(indexes[0]).toAscii().data();
-		
-		//remove from map
-		std::map<long, boost::shared_ptr<ClientScriptBase> >::iterator itm = _cscripts.find(id);
-		if(itm != _cscripts.end())
-			_cscripts.erase(itm);
-
-		// remove row from table
-		_cscriptlistmodel->removeRows(indexes[0].row(), 1);
-
-		// remove from list
-		_cscriptList->RemoveData(name.c_str());
-
-		// clear object
-		ClearObjectIfSelected("ClientScript", id);
-
-		// tell user to save change
-		SetModified();
-	}
-}
-
-
-/***********************************************************
-selectcscript_button_clicked
-***********************************************************/
-void EditorHandler::selectcscript_button_clicked()
-{
-	QItemSelectionModel *selectionModel = _uieditor.tableViewCScriptsList->selectionModel();
-	QModelIndexList indexes = selectionModel->selectedIndexes();
-	if(indexes.size() > 1)
-	{
-		// inform server
-		long id = _cscriptlistmodel->GetId(indexes[0]);
-
-		SelectCScript(id);
-	}
-}
-
-/***********************************************************
-addcscript_accepted
-***********************************************************/
-void EditorHandler::addcscript_accepted()
-{
-
-	QString csname = _ui_addcscriptdialog.lineEdit_name->text();
-
-	// user forgot to set a name
-	if(csname == "")
-		return;
-
-	if(_cscriptList->stringList().contains(csname))
-	{
-		QMessageBox::warning(this, tr("Name already used"),
-			tr("The name you entered for the script is already used. Please enter a unique name."),
-			QMessageBox::Ok);
-		return;
-	}
-
-	_addcscriptdialog->hide();
-
-
-
-	long id = _curscriptidx+1;
-
-
-	switch(_ui_addcscriptdialog.comboBox_type->currentIndex())
-	{
-		case 0: // go up ladder
-		{
-			boost::shared_ptr<ClientScriptBase> script(new GoUpLadderScript(id, csname.toAscii().data(),
-																			_posX, _posY, _posZ, 5, 0));
-
-			EditorAddClientScript(script);
-
-		}
-		break;
-
-		case 1: // exit up
-		{
-			boost::shared_ptr<ClientScriptBase> script(new TakeExitUpScript(id, csname.toAscii().data(),
-				_posX, _posY, _posZ, 0));
-
-			EditorAddClientScript(script);
-
-		}
-		break;
-
-		case 2: // exit down
-		{
-			boost::shared_ptr<ClientScriptBase> script(new TakeExitDownScript(id, csname.toAscii().data(),
-				_posX, _posY, _posZ, 0));
-
-			EditorAddClientScript(script);
-
-		}
-		break;
-
-		case 3: // custom script
-		{
-			boost::shared_ptr<ClientScriptBase> script(new CustomScript(id, csname.toAscii().data(), ""));
-
-			EditorAddClientScript(script);
-
-		}
-		break;
-
-	}
-
-	SelectCScript(id);
-
-	// tell user to save change
-	SetModified();
-
-
-	switch(_updateactiondialogonnewscript)
-	{
-		case 1:
-			{
-				int index = _ui_addactiondialog.comboBox_script_name->findText(csname);
-				if(index >= 0)
-					_ui_addactiondialog.comboBox_script_name->setCurrentIndex(index);
-			}
-		break;
-	}
-
-	_updateactiondialogonnewscript = -1;
-}
-
-/***********************************************************
-selectcscript_double_clicked
-***********************************************************/
-void EditorHandler::selectcscript_double_clicked( const QModelIndex & itm )
-{
-	selectcscript_button_clicked();
-}
-
-/***********************************************************
 SelectCScript
 ***********************************************************/
-void EditorHandler::SelectCScript(long id, const QModelIndex &parent)
+void EditorHandler::SelectCScript(ClientScriptBasePtr script, const QModelIndex &parent)
 {
-	std::map<long, boost::shared_ptr<ClientScriptBase> >::iterator it = _cscripts.find(id);
-	if(it != _cscripts.end())
+
+	if(parent == QModelIndex())
+		ResetObject();
+
+
+	// add pointer for later change
+	_modelidxdatamap[parent] = (void*)script.get();
+
+	if(!script)
+		return;
+
 	{
-		if(parent == QModelIndex())
-			ResetObject();
+		QVector<QVariant> data;
+		data<<"Type"<<"ClientScript";
+		_objectmodel->AppendRow(data, parent, true);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"SubCategory"<<script->GetTypeName().c_str();
+		_objectmodel->AppendRow(data, parent, true);
+	}
+
+	std::string actiontype = script->GetTypeName();
+	if(actiontype == "GoUpLadderScript")
+	{
+		GoUpLadderScript* ptr = static_cast<GoUpLadderScript*>(script.get());
 
 		{
 			QVector<QVariant> data;
-			data<<"Type"<<"ClientScript";
-			_objectmodel->AppendRow(data, parent, true);
-		}
-
-		{
-			QVector<QVariant> data;
-			data<<"SubCategory"<<it->second->GetTypeName().c_str();
-			_objectmodel->AppendRow(data, parent, true);
-		}
-
-		{
-			QVector<QVariant> data;
-			data<<"Id"<<id;
-			_objectmodel->AppendRow(data, parent, true);
-		}
-
-		{
-			QVector<QVariant> data;
-			data<<"Name"<<it->second->GetName().c_str();
+			data << "Position X" << (double)ptr->GetLadderPositionX();
 			_objectmodel->AppendRow(data, parent);
 		}
 
-		std::string actiontype = it->second->GetTypeName();
-		if(actiontype == "GoUpLadderScript")
 		{
-			GoUpLadderScript* ptr = static_cast<GoUpLadderScript*>(it->second.get());
-
-			{
-				QVector<QVariant> data;
-				data << "Position X" << (double)ptr->GetLadderPositionX();
-				_objectmodel->AppendRow(data, parent);
-			}
-
-			{
-				QVector<QVariant> data;
-				data << "Position Y" << (double)ptr->GetLadderPositionY();
-				_objectmodel->AppendRow(data, parent);
-			}
-
-			{
-				QVector<QVariant> data;
-				data << "Position Z" << (double)ptr->GetLadderPositionZ();
-				_objectmodel->AppendRow(data, parent);
-			}
-
-			{
-				QVector<QVariant> data;
-				data << "Ladder Height" << (double)ptr->GetLadderHeight();
-				_objectmodel->AppendRow(data, parent);
-			}
-
-			{
-				QVector<QVariant> data;
-				data << "Ladder Direction" << ptr->GetLadderDirection();
-				_objectmodel->AppendRow(data, parent);
-			}
-
-			UpdateSelectedGoUpLadderScriptDisplay(ptr->GetLadderPositionX(), ptr->GetLadderPositionY(), ptr->GetLadderPositionZ(),
-													ptr->GetLadderHeight(), ptr->GetLadderDirection());
-
-
-			return;
+			QVector<QVariant> data;
+			data << "Position Y" << (double)ptr->GetLadderPositionY();
+			_objectmodel->AppendRow(data, parent);
 		}
 
-		if(actiontype == "TakeExitUpScript")
 		{
-			TakeExitUpScript* ptr = static_cast<TakeExitUpScript*>(it->second.get());
-
-			{
-				QVector<QVariant> data;
-				data << "Position X" << (double)ptr->GetExitPositionX();
-				_objectmodel->AppendRow(data, parent);
-			}
-
-			{
-				QVector<QVariant> data;
-				data << "Position Y" << (double)ptr->GetExitPositionY();
-				_objectmodel->AppendRow(data, parent);
-			}
-
-			{
-				QVector<QVariant> data;
-				data << "Position Z" << (double)ptr->GetExitPositionZ();
-				_objectmodel->AppendRow(data, parent);
-			}
-
-			{
-				QVector<QVariant> data;
-				data << "Exit Direction" << ptr->GetExitDirection();
-				_objectmodel->AppendRow(data, parent);
-			}
-
-			UpdateSelectedGoUpLadderScriptDisplay(ptr->GetExitPositionX(), ptr->GetExitPositionY(), ptr->GetExitPositionZ(),
-														0, ptr->GetExitDirection());
-
-
-			return;
+			QVector<QVariant> data;
+			data << "Position Z" << (double)ptr->GetLadderPositionZ();
+			_objectmodel->AppendRow(data, parent);
 		}
 
-		if(actiontype == "TakeExitDownScript")
 		{
-			TakeExitDownScript* ptr = static_cast<TakeExitDownScript*>(it->second.get());
-
-			{
-				QVector<QVariant> data;
-				data << "Position X" << (double)ptr->GetExitPositionX();
-				_objectmodel->AppendRow(data, parent);
-			}
-
-			{
-				QVector<QVariant> data;
-				data << "Position Y" << (double)ptr->GetExitPositionY();
-				_objectmodel->AppendRow(data, parent);
-			}
-
-			{
-				QVector<QVariant> data;
-				data << "Position Z" << (double)ptr->GetExitPositionZ();
-				_objectmodel->AppendRow(data, parent);
-			}
-
-			{
-				QVector<QVariant> data;
-				data << "Exit Direction" << ptr->GetExitDirection();
-				_objectmodel->AppendRow(data, parent);
-			}
-
-			UpdateSelectedGoUpLadderScriptDisplay(ptr->GetExitPositionX(), ptr->GetExitPositionY(), ptr->GetExitPositionZ(),
-				0, ptr->GetExitDirection());
-
-
-			return;
+			QVector<QVariant> data;
+			data << "Ladder Height" << (double)ptr->GetLadderHeight();
+			_objectmodel->AppendRow(data, parent);
 		}
 
-		if(actiontype == "CustomScript")
 		{
-			CustomScript* ptr = static_cast<CustomScript*>(it->second.get());
-
-			{
-				QVector<QVariant> data;
-				data << "Lua function name" << ptr->LuaFunctionName().c_str();
-				_objectmodel->AppendRow(data, parent);
-			}
-			return;
+			QVector<QVariant> data;
+			data << "Ladder Direction" << ptr->GetLadderDirection();
+			_objectmodel->AppendRow(data, parent);
 		}
+
+		UpdateSelectedGoUpLadderScriptDisplay(ptr->GetLadderPositionX(), ptr->GetLadderPositionY(), ptr->GetLadderPositionZ(),
+												ptr->GetLadderHeight(), ptr->GetLadderDirection());
+
+
+		return;
 	}
-}
 
-/***********************************************************
-SaveEditorLua
-***********************************************************/
-void EditorHandler::SaveEditorLua( const std::string & filename )
-{
-	std::ofstream file(filename.c_str());
-	file<<"function InitEditor(environment)"<<std::endl;
+	if(actiontype == "TakeExitUpScript")
+	{
+		TakeExitUpScript* ptr = static_cast<TakeExitUpScript*>(script.get());
 
-	std::map<long, boost::shared_ptr<ClientScriptBase> >::const_iterator it = _cscripts.begin();
-	std::map<long, boost::shared_ptr<ClientScriptBase> >::const_iterator end = _cscripts.end();
-	for(; it != end; ++it)
-		it->second->SaveToLuaFile(file);
+		{
+			QVector<QVariant> data;
+			data << "Position X" << (double)ptr->GetExitPositionX();
+			_objectmodel->AppendRow(data, parent);
+		}
+
+		{
+			QVector<QVariant> data;
+			data << "Position Y" << (double)ptr->GetExitPositionY();
+			_objectmodel->AppendRow(data, parent);
+		}
+
+		{
+			QVector<QVariant> data;
+			data << "Position Z" << (double)ptr->GetExitPositionZ();
+			_objectmodel->AppendRow(data, parent);
+		}
+
+		{
+			QVector<QVariant> data;
+			data << "Exit Direction" << ptr->GetExitDirection();
+			_objectmodel->AppendRow(data, parent);
+		}
+
+		UpdateSelectedGoUpLadderScriptDisplay(ptr->GetExitPositionX(), ptr->GetExitPositionY(), ptr->GetExitPositionZ(),
+													0, ptr->GetExitDirection());
 
 
-	file<<"end"<<std::endl;
-}
+		return;
+	}
+
+	if(actiontype == "TakeExitDownScript")
+	{
+		TakeExitDownScript* ptr = static_cast<TakeExitDownScript*>(script.get());
+
+		{
+			QVector<QVariant> data;
+			data << "Position X" << (double)ptr->GetExitPositionX();
+			_objectmodel->AppendRow(data, parent);
+		}
+
+		{
+			QVector<QVariant> data;
+			data << "Position Y" << (double)ptr->GetExitPositionY();
+			_objectmodel->AppendRow(data, parent);
+		}
+
+		{
+			QVector<QVariant> data;
+			data << "Position Z" << (double)ptr->GetExitPositionZ();
+			_objectmodel->AppendRow(data, parent);
+		}
+
+		{
+			QVector<QVariant> data;
+			data << "Exit Direction" << ptr->GetExitDirection();
+			_objectmodel->AppendRow(data, parent);
+		}
+
+		UpdateSelectedGoUpLadderScriptDisplay(ptr->GetExitPositionX(), ptr->GetExitPositionY(), ptr->GetExitPositionZ(),
+			0, ptr->GetExitDirection());
 
 
-/***********************************************************
-SaveGlobalClientLua
-***********************************************************/
-void EditorHandler::SaveGlobalClientLua( const std::string & filename )
-{
-	std::ofstream file(filename.c_str());
+		return;
+	}
 
-	std::map<long, boost::shared_ptr<ClientScriptBase> >::const_iterator it = _cscripts.begin();
-	std::map<long, boost::shared_ptr<ClientScriptBase> >::const_iterator end = _cscripts.end();
-	for(; it != end; ++it)
-		it->second->SaveScriptToLua(file);
+	if(actiontype == "CustomScript")
+	{
+		CustomScript* ptr = static_cast<CustomScript*>(script.get());
+
+		{
+			QVector<QVariant> data;
+			data << "Lua function name" << ptr->GetLuaFunctionName().c_str();
+			_objectmodel->AppendRow(data, parent);
+		}
+		return;
+	}
+
 }
 
 
@@ -6370,184 +6097,115 @@ void EditorHandler::UpdateSelectedGoUpLadderScriptDisplay( float posX, float pos
 /***********************************************************
 CScriptObjectChanged
 ***********************************************************/
-void EditorHandler::CScriptObjectChanged( long id, const std::string & category, const QModelIndex &parentIdx )
+void EditorHandler::CScriptObjectChanged( const std::string & category, const QModelIndex &parentIdx )
 {
-	std::string name = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString().toAscii().data();
-	std::string oldname = _cscripts[id]->GetName();
-
-
-	// check if name changed already exist
-	if(name != oldname)
+	std::map<QModelIndex, void *>::iterator it = _modelidxdatamap.find(parentIdx);
+	if(it != _modelidxdatamap.end())
 	{
-		if(name == "" || _cscriptList->stringList().contains(name.c_str()))
-		{
-			QMessageBox::warning(this, tr("Name already used"),
-				tr("The name you entered for the script is already used. Please enter a unique name."),
-				QMessageBox::Ok);
+		void * ptr = it->second;
+		if(ptr)
+		{	
+			if(category == "GoUpLadderScript")
+			{
+				float posX = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toFloat();
+				float posY = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toFloat();
+				float posZ = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toFloat();
+				float height = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toFloat();
+				int direction = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toInt();
 
-			_objectmodel->setData(_objectmodel->GetIndex(1, 3, parentIdx), oldname.c_str());
-			return;
+
+				// created modified script and replace old one
+				GoUpLadderScript* modifiedscript = (GoUpLadderScript*)ptr;
+				modifiedscript->SetLadderPositionX(posX);
+				modifiedscript->SetLadderPositionY(posY);
+				modifiedscript->SetLadderPositionZ(posZ);
+				modifiedscript->SetLadderHeight(height);
+				modifiedscript->SetLadderDirection(direction);
+
+				// need to save as something changed
+				SetModified();
+
+
+				// update display
+				UpdateSelectedGoUpLadderScriptDisplay(posX, posY, posZ, height, direction);
+
+				return;
+			}
+
+
+
+			if(category == "TakeExitUpScript")
+			{
+				float posX = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toFloat();
+				float posY = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toFloat();
+				float posZ = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toFloat();
+				int direction = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toInt();
+
+
+				// created modified script and replace old one
+				TakeExitUpScript* modifiedscript = (TakeExitUpScript*)ptr;
+				modifiedscript->SetExitPositionX(posX);
+				modifiedscript->SetExitPositionY(posY);
+				modifiedscript->SetExitPositionZ(posZ);
+				modifiedscript->SetExitDirection(direction);
+
+
+
+				// need to save as something changed
+				SetModified();
+
+
+				// update display
+				UpdateSelectedGoUpLadderScriptDisplay(posX, posY, posZ, 0, direction);
+
+				return;
+			}
+
+
+
+			if(category == "TakeExitDownScript")
+			{
+				float posX = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toFloat();
+				float posY = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toFloat();
+				float posZ = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toFloat();
+				int direction = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toInt();
+
+
+				// created modified script and replace old one
+				TakeExitDownScript* modifiedscript = (TakeExitDownScript*)ptr;
+				modifiedscript->SetExitPositionX(posX);
+				modifiedscript->SetExitPositionY(posY);
+				modifiedscript->SetExitPositionZ(posZ);
+				modifiedscript->SetExitDirection(direction);
+
+
+				// need to save as something changed
+				SetModified();
+
+
+				// update display
+				UpdateSelectedGoUpLadderScriptDisplay(posX, posY, posZ, 0, direction);
+
+				return;
+			}
+
+
+			if(category == "CustomScript")
+			{
+				std::string fctname = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();
+
+
+				// created modified script and replace old one
+				CustomScript* modifiedscript = (CustomScript*)ptr;
+				modifiedscript->SetLuaFunctionName(fctname);
+
+
+				// need to save as something changed
+				SetModified();
+
+				return;
+			}		
 		}
-
-		// update script name list
-		_cscriptList->ReplaceData(oldname.c_str(), name.c_str());
-	}
-
-
-	if(category == "GoUpLadderScript")
-	{
-		float posX = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toFloat();
-		float posY = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toFloat();
-		float posZ = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toFloat();
-		float height = _objectmodel->data(_objectmodel->GetIndex(1, 7, parentIdx)).toFloat();
-		int direction = _objectmodel->data(_objectmodel->GetIndex(1, 8, parentIdx)).toInt();
-
-
-		// created modified script and replace old one
-		boost::shared_ptr<ClientScriptBase> modifiedscript(new GoUpLadderScript
-										(id, name, posX, posY, posZ, height, direction));
-
-
-		// update map
-		_cscripts[id] = modifiedscript;
-
-
-		// update script list display
-		QStringList slist;
-		slist << name.c_str() << modifiedscript->GetTypeName().c_str();
-		_cscriptlistmodel->AddOrUpdateRow(id, slist);
-
-
-		// need to save as something changed
-		SetModified();
-
-
-		// update display
-		UpdateSelectedGoUpLadderScriptDisplay(posX, posY, posZ, height, direction);
-
-		// refresh client script
-		std::stringstream strs;
-		modifiedscript->SaveScriptToLua(strs);
-		EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::ClientExecuteScriptStringEvent(
-									SynchronizedTimeHandler::GetCurrentTimeDouble(), strs.str()));	
-
-		return;
-	}
-
-
-
-	if(category == "TakeExitUpScript")
-	{
-		float posX = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toFloat();
-		float posY = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toFloat();
-		float posZ = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toFloat();
-		int direction = _objectmodel->data(_objectmodel->GetIndex(1, 7, parentIdx)).toInt();
-
-
-		// created modified script and replace old one
-		boost::shared_ptr<ClientScriptBase> modifiedscript(new TakeExitUpScript
-			(id, name, posX, posY, posZ, direction));
-
-
-		// update map
-		_cscripts[id] = modifiedscript;
-
-
-		// update script list display
-		QStringList slist;
-		slist << name.c_str() << modifiedscript->GetTypeName().c_str();
-		_cscriptlistmodel->AddOrUpdateRow(id, slist);
-
-
-		// need to save as something changed
-		SetModified();
-
-
-		// update display
-		UpdateSelectedGoUpLadderScriptDisplay(posX, posY, posZ, 0, direction);
-
-		// refresh client script
-		std::stringstream strs;
-		modifiedscript->SaveScriptToLua(strs);
-		EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::ClientExecuteScriptStringEvent(
-			SynchronizedTimeHandler::GetCurrentTimeDouble(), strs.str()));	
-
-		return;
-	}
-
-
-
-	if(category == "TakeExitDownScript")
-	{
-		float posX = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toFloat();
-		float posY = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toFloat();
-		float posZ = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toFloat();
-		int direction = _objectmodel->data(_objectmodel->GetIndex(1, 7, parentIdx)).toInt();
-
-
-		// created modified script and replace old one
-		boost::shared_ptr<ClientScriptBase> modifiedscript(new TakeExitDownScript
-			(id, name, posX, posY, posZ, direction));
-
-
-		// update map
-		_cscripts[id] = modifiedscript;
-
-
-		// update script list display
-		QStringList slist;
-		slist << name.c_str() << modifiedscript->GetTypeName().c_str();
-		_cscriptlistmodel->AddOrUpdateRow(id, slist);
-
-
-		// need to save as something changed
-		SetModified();
-
-
-		// update display
-		UpdateSelectedGoUpLadderScriptDisplay(posX, posY, posZ, 0, direction);
-
-		// refresh client script
-		std::stringstream strs;
-		modifiedscript->SaveScriptToLua(strs);
-		EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::ClientExecuteScriptStringEvent(
-			SynchronizedTimeHandler::GetCurrentTimeDouble(), strs.str()));	
-
-		return;
-	}
-
-
-	if(category == "CustomScript")
-	{
-		std::string fctname = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
-
-
-
-		// created modified script and replace old one
-		boost::shared_ptr<ClientScriptBase> modifiedscript(new CustomScript
-			(id, name, fctname));
-
-
-		// update map
-		_cscripts[id] = modifiedscript;
-
-
-		// update script list display
-		QStringList slist;
-		slist << name.c_str() << modifiedscript->GetTypeName().c_str();
-		_cscriptlistmodel->AddOrUpdateRow(id, slist);
-
-
-		// need to save as something changed
-		SetModified();
-
-		// refresh client script
-		std::stringstream strs;
-		modifiedscript->SaveScriptToLua(strs);
-		EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::ClientExecuteScriptStringEvent(
-			SynchronizedTimeHandler::GetCurrentTimeDouble(), strs.str()));	
-
-		return;
 	}
 }
 
@@ -6569,7 +6227,6 @@ reset action dialog
 void EditorHandler::ResetActionDialog()
 {
 	_ui_addactiondialog.frame_TP->hide();
-	_ui_addactiondialog.frame_script->hide();
 	_ui_addactiondialog.frame_customAct->hide();
 	_ui_addactiondialog.frame_displaytext->hide();
 	_addactiondialog->resize(300, 100);
@@ -6592,12 +6249,6 @@ void EditorHandler::SetActionDialogType( int type )
 		}
 		break;
 
-		case 1:
-		{
-			_ui_addactiondialog.frame_script->show();
-			_ui_addactiondialog.comboBox_script_name->setModel(_cscriptlistmodel);
-		}
-		break;
 
 		case 2:
 		{
@@ -6627,16 +6278,6 @@ void EditorHandler::actiond_tpmap_changed( int type )
 		_ui_addactiondialog.comboBox_tp_spawn->setModel(it->second.get());
 }
 
-
-
-/***********************************************************
-add script button clicked
-***********************************************************/
-void EditorHandler::actiond_scriptadd_clicked()
-{
-	_updateactiondialogonnewscript = 1;
-	addcscript_button_clicked();
-}
 
 
 /***********************************************************
@@ -6804,9 +6445,14 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 					ConditionBasePtr ptrtmp = CreateCondition(condition);
 					cond->SetCondition(ptrtmp);
 
-					_objectmodel->Clear(_objectmodel->GetIndex(0, 2, parentIdx));
+					QModelIndex curidx = _objectmodel->GetIndex(0, 2, parentIdx);
+					_objectmodel->Clear(curidx);
 					if(ptrtmp)
-						SelectCondition(ptrtmp, _objectmodel->GetIndex(0, 2, parentIdx));
+					{
+						SelectCondition(ptrtmp, curidx);
+
+						_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+					}
 
 					// need to save as something changed
 					SetModified();
@@ -6827,9 +6473,14 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 						ConditionBasePtr ptrtmp = CreateCondition(condition);
 						cond->SetCondition1(ptrtmp);
 
-						_objectmodel->Clear(_objectmodel->GetIndex(0, 2, parentIdx));
+						QModelIndex curidx = _objectmodel->GetIndex(0, 2, parentIdx);
+						_objectmodel->Clear(curidx);
 						if(ptrtmp)
-							SelectCondition(ptrtmp, _objectmodel->GetIndex(0, 2, parentIdx));
+						{
+							SelectCondition(ptrtmp, curidx);
+
+							_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+						}
 
 
 						// need to save as something changed
@@ -6847,9 +6498,14 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 						ConditionBasePtr ptrtmp = CreateCondition(condition);
 						cond->SetCondition2(ptrtmp);
 
-						_objectmodel->Clear(_objectmodel->GetIndex(0, 3, parentIdx));
+						QModelIndex curidx = _objectmodel->GetIndex(0, 3, parentIdx);
+						_objectmodel->Clear(curidx);
 						if(ptrtmp)
-							SelectCondition(ptrtmp, _objectmodel->GetIndex(0, 3, parentIdx));
+						{
+							SelectCondition(ptrtmp, curidx);
+
+							_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+						}
 
 						// need to save as something changed
 						SetModified();
@@ -6871,9 +6527,14 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 						ConditionBasePtr ptrtmp = CreateCondition(condition);
 						cond->SetCondition1(ptrtmp);
 
-						_objectmodel->Clear(_objectmodel->GetIndex(0, 2, parentIdx));
+						QModelIndex curidx = _objectmodel->GetIndex(0, 2, parentIdx);
+						_objectmodel->Clear(curidx);
 						if(ptrtmp)
-							SelectCondition(ptrtmp, _objectmodel->GetIndex(0, 2, parentIdx));
+						{
+							SelectCondition(ptrtmp, curidx);
+
+							_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+						}
 
 						// need to save as something changed
 						SetModified();
@@ -6890,9 +6551,15 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 						ConditionBasePtr ptrtmp = CreateCondition(condition);
 						cond->SetCondition2(ptrtmp);
 
-						_objectmodel->Clear(_objectmodel->GetIndex(0, 3, parentIdx));
+
+						QModelIndex curidx = _objectmodel->GetIndex(0, 3, parentIdx);
+						_objectmodel->Clear();
 						if(ptrtmp)
-							SelectCondition(ptrtmp, _objectmodel->GetIndex(0, 3, parentIdx));
+						{
+							SelectCondition(ptrtmp, curidx);
+
+							_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+						}
 
 						// need to save as something changed
 						SetModified();
@@ -6902,3 +6569,57 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 		}
 	}
 }
+
+
+
+/***********************************************************
+create a new condition
+***********************************************************/
+ClientScriptBasePtr EditorHandler::CreateCscript(const std::string & type)
+{
+	if(type == "GoUpLadderScript")
+	{
+		GoUpLadderScript * sc = new GoUpLadderScript();
+		sc->SetLadderPositionX(_posX);
+		sc->SetLadderPositionY(_posY);
+		sc->SetLadderPositionZ(_posZ);
+		return ClientScriptBasePtr(sc);
+	}
+
+	if(type == "TakeExitUpScript")
+	{
+		TakeExitUpScript * sc = new TakeExitUpScript();
+		sc->SetExitPositionX(_posX);
+		sc->SetExitPositionY(_posY);
+		sc->SetExitPositionZ(_posZ);
+		return ClientScriptBasePtr(sc);
+	}
+
+
+	if(type == "TakeExitDownScript")
+	{
+		TakeExitDownScript * sc = new TakeExitDownScript();
+		sc->SetExitPositionX(_posX);
+		sc->SetExitPositionY(_posY);
+		sc->SetExitPositionZ(_posZ);
+		return ClientScriptBasePtr(sc);
+	}
+
+	if(type == "CustomScript")
+		return ClientScriptBasePtr(new CustomScript());
+
+	return ClientScriptBasePtr();
+}
+
+/***********************************************************
+get type of condition
+***********************************************************/
+std::string EditorHandler::GetCScriptType(ClientScriptBasePtr ptr)
+{
+	std::string res = "No";
+	if(ptr)
+		res = ptr->GetTypeName();
+
+	return res;
+}
+

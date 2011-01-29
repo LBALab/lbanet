@@ -39,13 +39,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ui_addteleportdialog.h"
 #include "ui_addworlddialog.h"
 #include "ui_addactordialog.h"
-#include "ui_addclientscript.h"
+
 
 #include "GraphicsWindowQt"
 #include "ScriptEnvironmentBase.h"
 #include "Lba1ModelMapHandler.h"
 #include "treemodel.h"
 #include "Conditions.h"
+#include "ClientScript.h"
 
 #include <LbaTypes.h>
 #include <boost/shared_ptr.hpp>
@@ -290,8 +291,8 @@ public:
 	//! 2 -> player object
 	//! 3 -> movable object
 	virtual void ExecuteClientScript(int ObjectType, long ObjectId,
-		const std::string & ScriptName){}
-
+										const std::string & ScriptName,
+										bool InlineFunction){}
 	// execute custom lua function
 	// ObjectType ==>
 	//! 1 -> npc object
@@ -479,32 +480,12 @@ public slots:
 	 //! on selectactor_double_clicked
      void selectactor_double_clicked(const QModelIndex & itm);
 
-	// only used by the editor to add client scripts to the list
-	virtual void EditorAddClientScript(boost::shared_ptr<ClientScriptBase> script);
-
-	//! ui button clicked
-	void addcscript_button_clicked();
-
-	//! ui button clicked
-	void removecscript_button_clicked();
-
-	//! ui button clicked
-	void selectcscript_button_clicked();
-
-	//! dialog accepted
-	void addcscript_accepted();
-
-	//! dialog accepted
-	void selectcscript_double_clicked(const QModelIndex & itm);
 
 	//! set type of action dialog
 	void SetActionDialogType(int type);
 
 	//! set type of action dialog
 	void actiond_tpmap_changed(int type);
-
-	//! add script button clicked
-	void actiond_scriptadd_clicked();
 
 protected:
 	//! override close event
@@ -684,20 +665,17 @@ protected:
 	void RemoveArrows();
 
 	//! select script and put info in object list
-	void SelectCScript( long id, const QModelIndex &parent = QModelIndex());
+	void SelectCScript( ClientScriptBasePtr script, const QModelIndex &parent = QModelIndex());
 
-	//! save editor lua file
-	void SaveEditorLua( const std::string & filename );
 
-	//! save client lua file
-	void SaveGlobalClientLua( const std::string & filename );
+
 
 	//! draw ladder on the map
 	void UpdateSelectedGoUpLadderScriptDisplay( float posX, float posY, float posZ, float Height, int Direction );
 
 
 	//! called when CScript object changed
-	void CScriptObjectChanged(long id, const std::string & category, const QModelIndex &parentIdx);
+	void CScriptObjectChanged(const std::string & category, const QModelIndex &parentIdx);
 
 
 	//! remove current selected display
@@ -718,6 +696,14 @@ protected:
 
 	//! called when Condition changed
 	void ConditionChanged(const std::string & category, const QModelIndex &parentIdx);
+
+
+	//! create a new cscript
+	ClientScriptBasePtr CreateCscript(const std::string & type);
+
+	//! get type of cscript
+	std::string GetCScriptType(ClientScriptBasePtr ptr);
+
 
 private:
 	Ui::EditorClass										_uieditor;
@@ -746,8 +732,6 @@ private:
 	Ui::DialogAddActor									_ui_addactordialog;
 	QDialog *											_addactordialog;
 
-	Ui::Dialog_CreateCScript							_ui_addcscriptdialog;
-	QDialog *											_addcscriptdialog;
 
 
 	StringTableModel *									_maplistmodel;
@@ -756,7 +740,7 @@ private:
 	StringTableModel *									_actionlistmodel;
 	StringTableModel *									_triggerlistmodel;
 	StringTableModel *									_actorlistmodel;
-	StringTableModel *									_cscriptlistmodel;
+
 
 	TreeModel *											_objectmodel;
 	CustomDelegate *									_objectcustomdelegate;
@@ -771,6 +755,7 @@ private:
 	boost::shared_ptr<CustomStringListModel>							_cscriptList;
 	boost::shared_ptr<CustomStringListModel>							_actormodeList;
 	boost::shared_ptr<CustomStringListModel>							_conditiontypeList;
+	boost::shared_ptr<CustomStringListModel>							_cscripttypeList;
 
 	GraphicsWindowQt *									_osgwindow;
 
@@ -785,7 +770,7 @@ private:
 	std::map<long, boost::shared_ptr<TriggerBase> >		_triggers;
 	std::map<long, boost::shared_ptr<ActionBase> >		_actions;
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >	_Actors;
-	std::map<long, boost::shared_ptr<ClientScriptBase> >	_cscripts;
+
 
 	long												_currspawningidx;
 	long												_curractionidx;
@@ -817,6 +802,7 @@ private:
 	osg::ref_ptr<osgManipulator::Translate1DDragger>	_draggerZ;
 
 
+	// keep selected items in meemory
 	std::map<QModelIndex, void *>						_modelidxdatamap;
 };
 
