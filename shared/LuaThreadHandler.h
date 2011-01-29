@@ -35,7 +35,7 @@ class LuaThreadHandler
 {
 public:
 	//! constructor
-	LuaThreadHandler(lua_State * mainstate, const std::string & FunctionName);
+	LuaThreadHandler(lua_State * mainstate, const std::string & FunctionName, bool inlinefunction);
 	
 	//! destructor
 	~LuaThreadHandler(void);
@@ -57,6 +57,9 @@ private:
 	lua_State *		m_LuaMainState;
 	std::string		m_FunctionName;
 	int				m_refKey;
+
+
+	static unsigned long	m_idgenerator;
 };
 
 #endif

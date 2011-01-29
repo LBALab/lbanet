@@ -25,6 +25,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _LBANET_CLIENT_SCRIPT_H__
 #define _LBANET_CLIENT_SCRIPT_H__
 
+#include <boost/shared_ptr.hpp>
+#include <LbaTypes.h>
+
+class ScriptEnvironmentBase;
+class ClientScriptBase;
+typedef boost::shared_ptr<ClientScriptBase> ClientScriptBasePtr;
+
 #include <string>
 
 //! base class used as action argument
@@ -32,8 +39,7 @@ class ClientScriptBase
 {
 public:
 	//! constructor
-	ClientScriptBase(long id, const std::string &name)
-		: _id(id), _name(name)
+	ClientScriptBase()
 	{}
 	
 	//! destructor
@@ -42,29 +48,18 @@ public:
 	//! get type of the script in string form
 	virtual std::string GetTypeName(){ return "";}
 
-	//! get action id
-	long GetId()
-	{ return _id;}
-
-	//! get action name
-	std::string GetName()
-	{ return _name;}
-
-	//! set action name
-	void SetName(const std::string & name)
-	{ _name = name;}
 
 	// save script to lua file
-	virtual void SaveToLuaFile(std::ofstream & editorfile){}
-
-	// save script content to lua
-	virtual void SaveScriptToLua(std::ostream & luastream){}
+	virtual void SaveToLuaFile(std::ofstream & editorfile, const std::string & name){}
 
 
-private:
-	long			_id;
-	std::string		_name;
-
+	//! execute the script
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId){}
 };
 
 
@@ -74,9 +69,7 @@ class GoUpLadderScript : public ClientScriptBase
 {
 public:
 	//! constructor
-	GoUpLadderScript(long id, const std::string &name,
-						float LadderPositionX, float LadderPositionY, float LadderPositionZ,
-						float LadderHeight, int LadderDirection);
+	GoUpLadderScript();
 	
 	//! destructor
 	virtual ~GoUpLadderScript(void);
@@ -88,10 +81,10 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & editorfile);
+	virtual void SaveToLuaFile(std::ofstream & editorfile, const std::string & name);
 
-	// save script content to lua
-	virtual void SaveScriptToLua(std::ostream & luastream);
+	//! execute the script
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId);
 
 
 	// accessors
@@ -123,9 +116,7 @@ class TakeExitUpScript : public ClientScriptBase
 {
 public:
 	//! constructor
-	TakeExitUpScript(long id, const std::string &name,
-		float  ExitPositionX, float  ExitPositionY, float  ExitPositionZ,
-		int ExitDirection);
+	TakeExitUpScript();
 
 	//! destructor
 	virtual ~TakeExitUpScript(void);
@@ -137,10 +128,10 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & editorfile);
+	virtual void SaveToLuaFile(std::ofstream & editorfile, const std::string & name);
 
-	// save script content to lua
-	virtual void SaveScriptToLua(std::ostream & luastream);
+	//! execute the script
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId);
 
 
 	// accessors
@@ -169,9 +160,7 @@ class TakeExitDownScript : public ClientScriptBase
 {
 public:
 	//! constructor
-	TakeExitDownScript(long id, const std::string &name,
-		float  ExitPositionX, float  ExitPositionY, float  ExitPositionZ,
-		int ExitDirection);
+	TakeExitDownScript();
 
 	//! destructor
 	virtual ~TakeExitDownScript(void);
@@ -183,11 +172,10 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & editorfile);
+	virtual void SaveToLuaFile(std::ofstream & editorfile, const std::string & name);
 
-	// save script content to lua
-	virtual void SaveScriptToLua(std::ostream & luastream);
-
+	//! execute the script
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId);
 
 	// accessors
 	float GetExitPositionX() const { return _ExitPositionX; }
@@ -214,8 +202,7 @@ class CustomScript : public ClientScriptBase
 {
 public:
 	//! constructor
-	CustomScript(long id, const std::string &name,
-						const std::string & luafunctionname);
+	CustomScript();
 
 	//! destructor
 	virtual ~CustomScript(void);
@@ -227,16 +214,15 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & editorfile);
-
-	// save script content to lua
-	virtual void SaveScriptToLua(std::ostream & luastream);
-
+	virtual void SaveToLuaFile(std::ofstream & editorfile, const std::string & name);
 
 	// accessors
-	std::string LuaFunctionName() const { return _luafunctionname; }
+	std::string GetLuaFunctionName() const { return _luafunctionname; }
 	void SetLuaFunctionName(const std::string & val) { _luafunctionname = val; }
 
+
+	//! execute the script
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId);
 
 protected:
 	std::string	_luafunctionname;

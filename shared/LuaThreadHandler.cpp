@@ -1,5 +1,7 @@
 #include "LuaThreadHandler.h"
 #include "LogHandler.h"
+#include <sstream>
+#include <iostream>
 
 extern "C"
 {
@@ -7,12 +9,12 @@ extern "C"
 }
 #include <luabind/luabind.hpp>
 
-
+unsigned long LuaThreadHandler::m_idgenerator = 0;
 
 /***********************************************************
 constructor
 ***********************************************************/
-LuaThreadHandler::LuaThreadHandler(lua_State * mainstate, const std::string & FunctionName)
+LuaThreadHandler::LuaThreadHandler(lua_State * mainstate, const std::string & FunctionName, bool inlinefunction)
 : m_FunctionName(FunctionName), m_LuaMainState(mainstate)
 {
 	try
@@ -20,7 +22,26 @@ LuaThreadHandler::LuaThreadHandler(lua_State * mainstate, const std::string & Fu
 		m_LuaThreadState = lua_newthread(m_LuaMainState);
 		m_refKey = luaL_ref(m_LuaMainState, LUA_REGISTRYINDEX);
 
-		luabind::resume_function<void>(m_LuaThreadState, m_FunctionName.c_str(), m_refKey);
+		if(inlinefunction)
+		{
+			++m_idgenerator;
+
+			std::stringstream fctname;
+			fctname<<"LTH"<<m_idgenerator;
+
+			std::stringstream inlinefct;
+			inlinefct<<"function "<<fctname.str()<<"(ScriptId)"<<std::endl;
+			inlinefct<<FunctionName;
+			inlinefct<<"end"<<std::endl;
+
+			std::string check = inlinefct.str();
+			luaL_dostring(m_LuaMainState, inlinefct.str().c_str());
+
+			luabind::resume_function<void>(m_LuaThreadState, fctname.str().c_str(), m_refKey);
+
+		}
+		else
+			luabind::resume_function<void>(m_LuaThreadState, m_FunctionName.c_str(), m_refKey);
 	}
 	catch(const std::exception &error)
 	{

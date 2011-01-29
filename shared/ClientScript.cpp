@@ -1,20 +1,14 @@
 #include "ClientScript.h"
 #include <fstream>
-
+#include "ScriptEnvironmentBase.h"
 
 
 /***********************************************************
 constructor
 ***********************************************************/	
-GoUpLadderScript::GoUpLadderScript(long id, const std::string &name,
-					float LadderPositionX, float LadderPositionY, float LadderPositionZ,
-					float LadderHeight, int LadderDirection)
-					: 	ClientScriptBase(id, name), 
-						_LadderPositionX(LadderPositionX),
-						_LadderPositionY(LadderPositionY),
-						_LadderPositionZ(LadderPositionZ),
-						_LadderHeight(LadderHeight),
-						_LadderDirection(LadderDirection)
+GoUpLadderScript::GoUpLadderScript()
+: _LadderPositionX(0), _LadderPositionY(0), _LadderPositionZ(0), 
+	_LadderHeight(5), _LadderDirection(0)
 {
 
 }
@@ -31,41 +25,41 @@ GoUpLadderScript::~GoUpLadderScript(void)
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void GoUpLadderScript::SaveToLuaFile(std::ofstream & editorfile)
+void GoUpLadderScript::SaveToLuaFile(std::ofstream & editorfile, const std::string & name)
 {
-	editorfile<<"\tScript_"<<GetId()<<" = GoUpLadderScript("<<GetId()<<", \""
-				<<GetName()<<"\", "<<_LadderPositionX<<", "<<_LadderPositionY<<", "
-				<<_LadderPositionZ<<", "<<_LadderHeight<<", "<<_LadderDirection<<")"<<std::endl;
-
-	editorfile<<"\tenvironment:EditorAddClientScript(Script_"<<GetId()<<")"<<std::endl<<std::endl;
+	editorfile<<"\t"<<name<<" = GoUpLadderScript()"<<std::endl;
+	editorfile<<"\t"<<name<<":SetLadderPositionX("<<_LadderPositionX<<")"<<std::endl;
+	editorfile<<"\t"<<name<<":SetLadderPositionY("<<_LadderPositionY<<")"<<std::endl;
+	editorfile<<"\t"<<name<<":SetLadderPositionZ("<<_LadderPositionZ<<")"<<std::endl;
+	editorfile<<"\t"<<name<<":SetLadderHeight("<<_LadderHeight<<")"<<std::endl;
+	editorfile<<"\t"<<name<<":SetLadderDirection("<<_LadderDirection<<")"<<std::endl;
 }
 
  
-/***********************************************************
-save script content to lua
-***********************************************************/
-void GoUpLadderScript::SaveScriptToLua(std::ostream & luastream)
-{
-	luastream << "function ClientScript_"<<GetId()<<"(ScriptId)"<<std::endl;
-	luastream << "LadderPosition = LbaVec3("<<_LadderPositionX<<", "<<_LadderPositionY<<", "<<_LadderPositionZ<<")"<<std::endl;
-	luastream << "ActorGoUpLadder(ScriptId, -1, LadderPosition, "<<_LadderHeight<<", "<<_LadderDirection<<")"<<std::endl;
-	luastream << "end"<<std::endl<<std::endl;
-}
 
+/***********************************************************
+execute the script
+***********************************************************/
+void GoUpLadderScript::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId)
+{
+	if(owner)
+	{
+		std::stringstream luastream;
+		luastream << "LadderPosition = LbaVec3("<<_LadderPositionX<<", "<<_LadderPositionY<<", "<<_LadderPositionZ<<")"<<std::endl;
+		luastream << "ActorGoUpLadder(ScriptId, -1, LadderPosition, "<<_LadderHeight<<", "<<_LadderDirection<<")"<<std::endl;
+
+		owner->ExecuteClientScript(ObjectType, (long)ObjectId, luastream.str(), true);
+	}
+}
 
 
 
 /***********************************************************
 constructor
 ***********************************************************/	
-TakeExitUpScript::TakeExitUpScript(long id, const std::string &name,
-								   float  ExitPositionX, float  ExitPositionY, float  ExitPositionZ,
-								   int  ExitDirection)
-								   : ClientScriptBase(id, name), 
-								   _ExitPositionX(ExitPositionX),
-								   _ExitPositionY(ExitPositionY),
-								   _ExitPositionZ(ExitPositionZ),
-								   _ExitDirection(ExitDirection)
+TakeExitUpScript::TakeExitUpScript()
+: _ExitPositionX(0), _ExitPositionY(0), _ExitPositionZ(0), 
+	_ExitDirection(0)
 {
 
 }
@@ -82,40 +76,40 @@ TakeExitUpScript::~TakeExitUpScript(void)
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void TakeExitUpScript::SaveToLuaFile(std::ofstream & editorfile)
+void TakeExitUpScript::SaveToLuaFile(std::ofstream & editorfile, const std::string & name)
 {
-	editorfile<<"\tScript_"<<GetId()<<" = TakeExitUpScript("<<GetId()<<", \""
-		<<GetName()<<"\", "<<_ExitPositionX<<", "<<_ExitPositionY<<", "
-		<<_ExitPositionZ<<", "<<_ExitDirection<<")"<<std::endl;
-
-	editorfile<<"\tenvironment:EditorAddClientScript(Script_"<<GetId()<<")"<<std::endl<<std::endl;
+	editorfile<<"\t"<<name<<" = TakeExitUpScript()"<<std::endl;
+	editorfile<<"\t"<<name<<":SetExitPositionX("<<_ExitPositionX<<")"<<std::endl;
+	editorfile<<"\t"<<name<<":SetExitPositionY("<<_ExitPositionY<<")"<<std::endl;
+	editorfile<<"\t"<<name<<":SetExitPositionZ("<<_ExitPositionZ<<")"<<std::endl;
+	editorfile<<"\t"<<name<<":SetExitDirection("<<_ExitDirection<<")"<<std::endl;
 }
 
 
 /***********************************************************
-save script content to lua
+execute the script
 ***********************************************************/
-void TakeExitUpScript::SaveScriptToLua(std::ostream & luastream)
+void TakeExitUpScript::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId)
 {
-	luastream << "function ClientScript_"<<GetId()<<"(ScriptId)"<<std::endl;
-	luastream << "ExitPosition = LbaVec3("<<_ExitPositionX<<", "<<_ExitPositionY<<", "<<_ExitPositionZ<<")"<<std::endl;
-	luastream << "TakeExitUp(ScriptId, -1, ExitPosition, "<<_ExitDirection<<")"<<std::endl;
-	luastream << "end"<<std::endl<<std::endl;
+	if(owner)
+	{
+		std::stringstream luastream;
+		luastream << "ExitPosition = LbaVec3("<<_ExitPositionX<<", "<<_ExitPositionY<<", "<<_ExitPositionZ<<")"<<std::endl;
+		luastream << "TakeExitUp(ScriptId, -1, ExitPosition, "<<_ExitDirection<<")"<<std::endl;
+		
+		owner->ExecuteClientScript(ObjectType, (long)ObjectId, luastream.str(), true);
+	}
 }
+
 
 
 
 /***********************************************************
 constructor
 ***********************************************************/	
-TakeExitDownScript::TakeExitDownScript(long id, const std::string &name,
-								   float  ExitPositionX, float  ExitPositionY, float  ExitPositionZ,
-								   int  ExitDirection)
-								   : ClientScriptBase(id, name), 
-								   _ExitPositionX(ExitPositionX),
-								   _ExitPositionY(ExitPositionY),
-								   _ExitPositionZ(ExitPositionZ),
-								   _ExitDirection(ExitDirection)
+TakeExitDownScript::TakeExitDownScript()
+: _ExitPositionX(0), _ExitPositionY(0), _ExitPositionZ(0), 
+	_ExitDirection(0)
 {
 
 }
@@ -132,36 +126,40 @@ TakeExitDownScript::~TakeExitDownScript(void)
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void TakeExitDownScript::SaveToLuaFile(std::ofstream & editorfile)
+void TakeExitDownScript::SaveToLuaFile(std::ofstream & editorfile, const std::string & name)
 {
-	editorfile<<"\tScript_"<<GetId()<<" = TakeExitDownScript("<<GetId()<<", \""
-		<<GetName()<<"\", "<<_ExitPositionX<<", "<<_ExitPositionY<<", "
-		<<_ExitPositionZ<<", "<<_ExitDirection<<")"<<std::endl;
-
-	editorfile<<"\tenvironment:EditorAddClientScript(Script_"<<GetId()<<")"<<std::endl<<std::endl;
+	editorfile<<"\t"<<name<<" = TakeExitDownScript()"<<std::endl;
+	editorfile<<"\t"<<name<<":SetExitPositionX("<<_ExitPositionX<<")"<<std::endl;
+	editorfile<<"\t"<<name<<":SetExitPositionY("<<_ExitPositionY<<")"<<std::endl;
+	editorfile<<"\t"<<name<<":SetExitPositionZ("<<_ExitPositionZ<<")"<<std::endl;
+	editorfile<<"\t"<<name<<":SetExitDirection("<<_ExitDirection<<")"<<std::endl;
 }
+
 
 
 /***********************************************************
-save script content to lua
+execute the script
 ***********************************************************/
-void TakeExitDownScript::SaveScriptToLua(std::ostream & luastream)
+void TakeExitDownScript::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId)
 {
-	luastream << "function ClientScript_"<<GetId()<<"(ScriptId)"<<std::endl;
-	luastream << "ExitPosition = LbaVec3("<<_ExitPositionX<<", "<<_ExitPositionY<<", "<<_ExitPositionZ<<")"<<std::endl;
-	luastream << "TakeExitDown(ScriptId, -1, ExitPosition, "<<_ExitDirection<<")"<<std::endl;
-	luastream << "end"<<std::endl<<std::endl;
+	if(owner)
+	{
+		std::stringstream luastream;
+		luastream << "ExitPosition = LbaVec3("<<_ExitPositionX<<", "<<_ExitPositionY<<", "<<_ExitPositionZ<<")"<<std::endl;
+		luastream << "TakeExitDown(ScriptId, -1, ExitPosition, "<<_ExitDirection<<")"<<std::endl;
+		
+		owner->ExecuteClientScript(ObjectType, (long)ObjectId, luastream.str(), true);
+	}
 }
+
+
 
 
 
 /***********************************************************
 constructor
 ***********************************************************/	
-CustomScript::CustomScript(long id, const std::string &name,
-								  const std::string & luafunctionname)
-								   : ClientScriptBase(id, name), 
-								   _luafunctionname(luafunctionname)
+CustomScript::CustomScript()
 {
 
 }
@@ -178,21 +176,20 @@ CustomScript::~CustomScript(void)
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void CustomScript::SaveToLuaFile(std::ofstream & editorfile)
+void CustomScript::SaveToLuaFile(std::ofstream & editorfile, const std::string & name)
 {
-	editorfile<<"\tScript_"<<GetId()<<" = CustomScript("<<GetId()<<", \""
-		<<GetName()<<"\", \""<<_luafunctionname<<"\")"<<std::endl;
-
-	editorfile<<"\tenvironment:EditorAddClientScript(Script_"<<GetId()<<")"<<std::endl<<std::endl;
+	editorfile<<"\t"<<name<<" = CustomScript()"<<std::endl;
+	editorfile<<"\t"<<name<<":SetLuaFunctionName(\""<<_luafunctionname<<"\")"<<std::endl;
 }
 
 
+
+
 /***********************************************************
-save script content to lua
+execute the script
 ***********************************************************/
-void CustomScript::SaveScriptToLua(std::ostream & luastream)
+void CustomScript::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId)
 {
-	luastream << "function ClientScript_"<<GetId()<<"(ScriptId)"<<std::endl;
-	luastream << _luafunctionname <<"(ScriptId)"<<std::endl;
-	luastream << "end"<<std::endl<<std::endl;
+	if(owner)
+		owner->ExecuteClientScript(ObjectType, (long)ObjectId, _luafunctionname, false);
 }
