@@ -47,6 +47,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "treemodel.h"
 #include "Conditions.h"
 #include "ClientScript.h"
+#include "Actions.h"
 
 #include <LbaTypes.h>
 #include <boost/shared_ptr.hpp>
@@ -261,8 +262,6 @@ public:
 	// add a trigger of moving type to the map
 	virtual void AddTrigger(boost::shared_ptr<TriggerBase> trigger);
 					
-	// add an action
-	virtual void AddAction(boost::shared_ptr<ActionBase> action);
 
 	// teleport an object
 	// ObjectType ==>
@@ -273,10 +272,6 @@ public:
 						const std::string &NewMapName, 
 						long SpawningId,
 						float offsetX, float offsetY, float offsetZ);
-
-	// get the action correspondant to the id
-	virtual boost::shared_ptr<ActionBase> GetAction(long actionid);
-
 
 	// called when an object is picked
 	void PickedObject(const std::string & name);
@@ -377,23 +372,6 @@ public slots:
 	//! data changed in object view
 	void objectdatachanged(const QModelIndex &index1, const QModelIndex &index2);
 
-	//! addAction_button_clicked
-	void addAction_button_clicked();
-	void addAction1_button_clicked();
-	void addAction2_button_clicked();
-	void addAction3_button_clicked();
-
-	//! removeAction_button_clicked
-	void removeAction_button_clicked();
-
-	//! selectAction_button_clicked
-	void selectAction_button_clicked();
-
-	//! add action accepted
-	void AddActionAccepted();
-
-	 //! on selectaction_double_clicked
-     void selectaction_double_clicked(const QModelIndex & itm);
 
 	 //! on selecttrigger_double_clicked
      void selecttrigger_double_clicked(const QModelIndex & itm);
@@ -481,11 +459,6 @@ public slots:
      void selectactor_double_clicked(const QModelIndex & itm);
 
 
-	//! set type of action dialog
-	void SetActionDialogType(int type);
-
-	//! set type of action dialog
-	void actiond_tpmap_changed(int type);
 
 protected:
 	//! override close event
@@ -553,23 +526,14 @@ protected:
 	bool IsMapOpened();
 
 
-	//! add an new action to the list
-	void AddNewAction(boost::shared_ptr<ActionBase> action);
-
-	//! remove an action from the list
-	void RemoveAction(long id);
-
-	//! add an action name to the name list
-	void AddActionName(const std::string & name);
-
-	//! remove an action name to the name list
-	void RemoveActionName(const std::string & name);
-
-	//! replace an action name to the name list
-	void ReplaceActionName(const std::string & oldname, const std::string & newname);
-
 	//! select an action and display it in object view
-	void SelectAction(long id, const QModelIndex &parent = QModelIndex());
+	void SelectAction(ActionBasePtr action, const QModelIndex &parent = QModelIndex());
+
+	//! called when action object changed
+	void ActionObjectChanged(const std::string & category, const QModelIndex &parentIdx);
+
+
+
 
 	//! add an spawning name to the name list
 	void AddSpawningName(const std::string & mapname, const std::string & name);
@@ -579,29 +543,18 @@ protected:
 
 	//! replace an spawning name to the name list
 	void ReplaceSpawningName(const std::string & mapname, const std::string & oldname, 
-																const std::string & newname);
+															const std::string & newname);
 
-	//! called when action object changed
-	void ActionObjectChanged(long id, const std::string & category, const QModelIndex &parentIdx);
-
-	//! save global lus file for current world
-	void SaveGlobalLua(const std::string & filename);
 
 
 	//! add an new trigger to the list
 	void AddNewTrigger(boost::shared_ptr<TriggerBase> trigger);
-
-	//! get action id from name
-	long GetActionId(const std::string & name);
 
 	//! remove trigger
 	void RemoveTrigger(long id);
 
 	//! select trigger
 	void SelectTrigger(long id, const QModelIndex &parent = QModelIndex());
-
-	//! get action name from id
-	std::string GetActionName(long id);
 
 	//! called when trigger object changed
 	void TriggerObjectChanged(long id, const std::string & category, const QModelIndex &parentIdx);
@@ -682,9 +635,6 @@ protected:
 	void RemoveSelectedScriptDislay();
 
 
-	//! reset action dialog
-	void ResetActionDialog();
-
 	//! select a condition
 	void SelectCondition(ConditionBasePtr cond, const QModelIndex &parent = QModelIndex());
 
@@ -705,6 +655,13 @@ protected:
 	std::string GetCScriptType(ClientScriptBasePtr ptr);
 
 
+	//! create a new action
+	ActionBasePtr CreateAction(const std::string & type);
+
+	//! get type of action
+	std::string GetActionType(ActionBasePtr ptr);
+
+
 private:
 	Ui::EditorClass										_uieditor;
 
@@ -717,8 +674,6 @@ private:
 	Ui::DialogNewSpawning								_uiaddspawningdialog;
 	QDialog *											_addspawningdialog;
 
-	Ui::DialogAddaction									_ui_addactiondialog;
-	QDialog *											_addactiondialog;
 
 	Ui::DialogAddMap									_ui_addmapdialog;
 	QDialog *											_addmapdialog;
@@ -737,7 +692,6 @@ private:
 	StringTableModel *									_maplistmodel;
 	StringTableModel *									_tplistmodel;
 	StringTableModel *									_mapspawninglistmodel;
-	StringTableModel *									_actionlistmodel;
 	StringTableModel *									_triggerlistmodel;
 	StringTableModel *									_actorlistmodel;
 
@@ -745,7 +699,6 @@ private:
 	TreeModel *											_objectmodel;
 	CustomDelegate *									_objectcustomdelegate;
 
-	boost::shared_ptr<CustomStringListModel>							_actionNameList;
 	boost::shared_ptr<CustomStringListModel>							_mapNameList;
 	boost::shared_ptr<CustomStringListModel>							_triggerNameList;
 	std::map<std::string, boost::shared_ptr<CustomStringListModel> >	_mapSpawningList;
@@ -756,6 +709,7 @@ private:
 	boost::shared_ptr<CustomStringListModel>							_actormodeList;
 	boost::shared_ptr<CustomStringListModel>							_conditiontypeList;
 	boost::shared_ptr<CustomStringListModel>							_cscripttypeList;
+	boost::shared_ptr<CustomStringListModel>							_actiontypeList;
 
 	GraphicsWindowQt *									_osgwindow;
 
@@ -767,17 +721,15 @@ private:
 
 	boost::shared_ptr<ServerLuaHandler>					_luaH;
 
-	std::map<long, boost::shared_ptr<TriggerBase> >		_triggers;
-	std::map<long, boost::shared_ptr<ActionBase> >		_actions;
+	std::map<long, boost::shared_ptr<TriggerBase> >			_triggers;
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >	_Actors;
 
 
 	long												_currspawningidx;
-	long												_curractionidx;
 	long												_currtriggeridx;
 	long												_currteleportidx;
 	long												_curractoridx;
-	long												_curscriptidx;
+
 
 	int													_updatetriggerdialogonnewaction;
 	int													_updateactiondialogonnewscript;

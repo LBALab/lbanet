@@ -700,13 +700,14 @@ Constructor
 ***********************************************************/
 EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
  : QMainWindow(parent, flags), _modified(false), 
- _actionNameList(new CustomStringListModel()), _mapNameList(new CustomStringListModel()),
- _curractionidx(0), _currspawningidx(0), _currtriggeridx(0),
+ _mapNameList(new CustomStringListModel()),
+ _currspawningidx(0), _currtriggeridx(0),
 	_updatetriggerdialogonnewaction(-1), _triggerNameList(new CustomStringListModel()),
 	_actortypeList(new CustomStringListModel()), _actordtypeList(new CustomStringListModel()),
 	_actorptypeList(new CustomStringListModel()), _cscriptList(new CustomStringListModel()),
 	_updateactiondialogonnewscript(-1), _actormodeList(new CustomStringListModel()), 
-	_conditiontypeList(new CustomStringListModel()), _cscripttypeList(new CustomStringListModel())
+	_conditiontypeList(new CustomStringListModel()), _cscripttypeList(new CustomStringListModel()),
+	_actiontypeList(new CustomStringListModel())
 
 {
 	QStringList actlist;
@@ -731,6 +732,10 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	cslist << "No" << "GoUpLadderScript" << "TakeExitUpScript" << "TakeExitDownScript" << "CustomScript";
 	_cscripttypeList->setStringList(cslist);
 
+	QStringList actilist;
+	actilist << "No" << "TeleportAction" << "ClientScriptAction" << "CustomAction" 
+			<< "DisplayTextAction" << "ConditionalAction";
+	_actiontypeList->setStringList(actilist);
 
 
 	_uieditor.setupUi(this);
@@ -744,8 +749,6 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	_addspawningdialog = new QDialog(this);
 	_uiaddspawningdialog.setupUi(_addspawningdialog);
 
-	_addactiondialog = new QDialog(this);
-	_ui_addactiondialog.setupUi(_addactiondialog);
 
 	_addmapdialog = new QDialog(this);
 	_ui_addmapdialog.setupUi(_addmapdialog);
@@ -834,18 +837,6 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	}
 
 
-	// set model for actionlist
-	{
-		 QStringList header;
-		 header << "Name" << "Type";
-		_actionlistmodel = new StringTableModel(header);
-		_uieditor.tableViewActionList->setModel(_actionlistmodel);
-		QHeaderView * mpheaders = _uieditor.tableViewActionList->horizontalHeader();
-		mpheaders->setResizeMode(QHeaderView::Stretch);
-	}
-	
-
-
 	// set model for triggerlist
 	{
 		 QStringList header;
@@ -904,10 +895,6 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.pushButton_removeSpwaning, SIGNAL(clicked()) , this, SLOT(removespawning_button_clicked()));	
 	connect(_uieditor.pushButton_selectSpwaning, SIGNAL(clicked()) , this, SLOT(selectspawning_button_clicked()));		
 
-	connect(_uieditor.pushButton_addAction, SIGNAL(clicked()) , this, SLOT(addAction_button_clicked()));
-	connect(_uieditor.pushButton_removeAction, SIGNAL(clicked()) , this, SLOT(removeAction_button_clicked()));	
-	connect(_uieditor.pushButton_selectAction, SIGNAL(clicked()) , this, SLOT(selectAction_button_clicked()));	
-
 	connect(_uieditor.pushButton_addmap, SIGNAL(clicked()) , this, SLOT(addmap_button_clicked()));
 	connect(_uieditor.pushButton_removemap, SIGNAL(clicked()) , this, SLOT(removemap_button_clicked()));	
 
@@ -929,11 +916,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 
 	connect(_uieditor.textEdit_worlddescription, SIGNAL(textChanged()) , this, SLOT(WorldDescriptionChanged()));	
 	connect(_uieditor.textEdit_worldnews, SIGNAL(textChanged()) , this, SLOT(WorldNewsChanged()));	
-	
 
-	connect(_uiaddtriggerdialog.pushButton_addact1, SIGNAL(clicked()) , this, SLOT(addAction1_button_clicked()));
-	connect(_uiaddtriggerdialog.pushButton_addact2, SIGNAL(clicked()) , this, SLOT(addAction2_button_clicked()));
-	connect(_uiaddtriggerdialog.pushButton_addact3, SIGNAL(clicked()) , this, SLOT(addAction3_button_clicked()));
 	
 	connect(_uieditor.pushButton_goto_tp, SIGNAL(clicked()) , this, SLOT(goto_tp_button_clicked()));
 	connect(_uieditor.pushButton_goto_map, SIGNAL(clicked()) , this, SLOT(goto_map_button_clicked()));
@@ -941,7 +924,6 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.tableView_TeleportList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(goto_tp_double_clicked(const QModelIndex&)));
 	connect(_uieditor.tableView_MapList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(goto_map_double_clicked(const QModelIndex&)));
 	connect(_uieditor.tableView_SpawningList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectspawning_double_clicked(const QModelIndex&)));
-	connect(_uieditor.tableViewActionList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectaction_double_clicked(const QModelIndex&)));
 	connect(_uieditor.tableViewTriggerList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selecttrigger_double_clicked(const QModelIndex&)));
 	connect(_uieditor.tableView_ActorList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectactor_double_clicked(const QModelIndex&)));
 
@@ -952,7 +934,6 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uiaddtriggerdialog.buttonBox, SIGNAL(accepted()) , this, SLOT(addtrigger_accepted()));
 	connect(_uiopenworlddialog.buttonBox, SIGNAL(accepted()) , this, SLOT(OpenWorld()));
 	connect(_uiaddspawningdialog.buttonBox, SIGNAL(accepted()) , this, SLOT(AddSpawning_clicked()));
-	connect(_ui_addactiondialog.buttonBox, SIGNAL(accepted()) , this, SLOT(AddActionAccepted()));
 	connect(_ui_addmapdialog.buttonBox, SIGNAL(accepted()) , this, SLOT(addmap_accepted()));
 	connect(_ui_addtpdialog.buttonBox, SIGNAL(accepted()) , this, SLOT(TpAdd_button_accepted()));
 	connect(_ui_addworlddialog.buttonBox, SIGNAL(accepted()) , this, SLOT(addworld_accepted()));
@@ -977,8 +958,6 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.radioButton_camtype_persp, SIGNAL(toggled(bool)) , this, SLOT(MapCameraTypeChanged(bool)));
 	connect(_uieditor.radioButton_camtype_3d, SIGNAL(toggled(bool)) , this, SLOT(MapCameraTypeChanged(bool)));
 
-	connect(_ui_addactiondialog.comboBox_actiontype, SIGNAL(activated(int)) , this, SLOT(SetActionDialogType(int)));
-	connect(_ui_addactiondialog.comboBox_tp_map, SIGNAL(activated(int)) , this, SLOT(actiond_tpmap_changed(int)));
 }
 
 /***********************************************************
@@ -1013,9 +992,6 @@ void EditorHandler::addtrigger_button_clicked()
 
 	//clear data
 	_uiaddtriggerdialog.lineEdit_triggername->setText("");
-	_uiaddtriggerdialog.comboBox_action1->setModel(_actionNameList.get());
-	_uiaddtriggerdialog.comboBox_action2->setModel(_actionNameList.get());
-	_uiaddtriggerdialog.comboBox_action3->setModel(_actionNameList.get());
 	_addtriggerdialog->show();
 }
 
@@ -1104,9 +1080,6 @@ void EditorHandler::addtrigger_accepted()
 		{
 			boost::shared_ptr<TriggerBase> trig(new ZoneTrigger(triggerinf, 1, 1, 1, true));
 			trig->SetPosition(_posX, _posY, _posZ);
-			trig->SetAction1(GetActionId(_uiaddtriggerdialog.comboBox_action1->currentText().toAscii().data()));
-			trig->SetAction2(GetActionId(_uiaddtriggerdialog.comboBox_action2->currentText().toAscii().data()));
-			trig->SetAction3(GetActionId(_uiaddtriggerdialog.comboBox_action3->currentText().toAscii().data()));
 			AddNewTrigger(trig);
 		}
 		break;
@@ -1115,9 +1088,6 @@ void EditorHandler::addtrigger_accepted()
 		{
 			boost::shared_ptr<TriggerBase> trig(new ActivationTrigger(triggerinf, 1.5, "Normal", "None"));
 			trig->SetPosition(_posX, _posY, _posZ);
-			trig->SetAction1(GetActionId(_uiaddtriggerdialog.comboBox_action1->currentText().toAscii().data()));
-			trig->SetAction2(GetActionId(_uiaddtriggerdialog.comboBox_action2->currentText().toAscii().data()));
-			trig->SetAction3(GetActionId(_uiaddtriggerdialog.comboBox_action3->currentText().toAscii().data()));
 			AddNewTrigger(trig);
 		}
 		break;
@@ -1126,9 +1096,6 @@ void EditorHandler::addtrigger_accepted()
 		{
 			boost::shared_ptr<TriggerBase> trig(new ZoneActionTrigger(triggerinf, 1, 1, 1, "Normal", "None"));
 			trig->SetPosition(_posX, _posY, _posZ);
-			trig->SetAction1(GetActionId(_uiaddtriggerdialog.comboBox_action1->currentText().toAscii().data()));
-			trig->SetAction2(GetActionId(_uiaddtriggerdialog.comboBox_action2->currentText().toAscii().data()));
-			trig->SetAction3(GetActionId(_uiaddtriggerdialog.comboBox_action3->currentText().toAscii().data()));
 			AddNewTrigger(trig);
 		}
 		break;
@@ -1137,9 +1104,6 @@ void EditorHandler::addtrigger_accepted()
 		{
 			boost::shared_ptr<TriggerBase> trig(new TimerTrigger(triggerinf, 1000));
 			trig->SetPosition(_posX, _posY, _posZ);
-			trig->SetAction1(GetActionId(_uiaddtriggerdialog.comboBox_action1->currentText().toAscii().data()));
-			trig->SetAction2(GetActionId(_uiaddtriggerdialog.comboBox_action2->currentText().toAscii().data()));
-			trig->SetAction3(GetActionId(_uiaddtriggerdialog.comboBox_action3->currentText().toAscii().data()));
 			AddNewTrigger(trig);
 		}
 		break;
@@ -1233,9 +1197,6 @@ void EditorHandler::SaveWorldAction()
 	{
 		// save xml file
 		DataLoader::getInstance()->SaveWorldInformation(_winfo.Description.WorldName, _winfo);
-
-		// save global lua file
-		SaveGlobalLua("./Data/Worlds/" + _winfo.Description.WorldName + "/Lua/global_server.lua");
 
 		// save current map
 		std::string mapname = _uieditor.label_mapname->text().toAscii().data();
@@ -1449,10 +1410,7 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 
 	// add lua stuff
 	std::string luafile = "Worlds/" + _winfo.Description.WorldName + "/Lua/";
-	std::string globalluafile = luafile + "global_server.lua";
-	std::string globaleditorluafile = luafile + "global_editor.lua";
 	_luaH = boost::shared_ptr<ServerLuaHandler>(new ServerLuaHandler());
-	_luaH->LoadFile(globalluafile);
 	_luaH->CallLua("InitGlobal", this);
 
 	// refresh starting info
@@ -1469,9 +1427,6 @@ void EditorHandler::ResetWorld()
 {
 	_maplistmodel->Clear();
 	_tplistmodel->Clear();
-	_actionlistmodel->Clear();
-	_actionNameList->Clear();
-	_actionNameList->AddData("None");
 	_mapNameList->Clear();
 	_cscriptList->Clear();
 	_mapSpawningList.clear();
@@ -1480,9 +1435,7 @@ void EditorHandler::ResetWorld()
 	_uieditor.textEdit_worlddescription->setText("");
 	_uieditor.textEdit_worldnews->setText("");
 
-	_curractionidx = 0;
 	_currteleportidx = 0;
-	_curscriptidx = 0;
 
 	ResetMap();
 }
@@ -1679,11 +1632,32 @@ void EditorHandler::SetMapInfo(const std::string & mapname)
 
 	// add lua stuff
 	std::string luafile = "Worlds/" + _winfo.Description.WorldName + "/Lua/";
-	std::string globalluafile = luafile + "global_server.lua";
 	luafile += mapname + "_server.lua";
 	_luaH = boost::shared_ptr<ServerLuaHandler>(new ServerLuaHandler());
 	_luaH->LoadFile(luafile);
 	_luaH->CallLua("InitMap", this);
+
+	// resend all actors to server to be in sync
+	{
+		std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator it =	_Actors.begin();
+		std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator end =	_Actors.end();
+		for(; it != end; ++it)
+		{
+			EditorUpdateBasePtr update = new UpdateEditor_AddOrModActor(it->second);
+			SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
+		}
+	}
+
+	// resend all triggers to server to be in sync
+	{
+		std::map<long, boost::shared_ptr<TriggerBase> >::iterator it =	_triggers.begin();
+		std::map<long, boost::shared_ptr<TriggerBase> >::iterator end =	_triggers.end();
+		for(; it != end; ++it)
+		{
+			EditorUpdateBasePtr update = new UpdateEditor_AddOrModTrigger(it->second);
+			SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
+		}
+	}
 }
 
 
@@ -2042,8 +2016,7 @@ void EditorHandler::objectdatachanged(const QModelIndex &index1, const QModelInd
 
 		if(type == "Action")
 		{
-			long objid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toLong();
-			ActionObjectChanged(objid, category, parentIdx);
+			ActionObjectChanged(category, parentIdx);
 			return;
 		}
 
@@ -2234,24 +2207,7 @@ void EditorHandler::AddTrigger(boost::shared_ptr<TriggerBase> trigger)
 	}
 }
 
-/***********************************************************
-add an action
-***********************************************************/				
-void EditorHandler::AddAction(boost::shared_ptr<ActionBase> action)
-{
-	if(action)
-	{
-		_curractionidx = action->GetId();
 
-		_actions[_curractionidx] = action;
-
-		QStringList slist;
-		slist << action->GetName().c_str() << action->GetTypeName().c_str();
-		_actionlistmodel->AddOrUpdateRow(_curractionidx, slist);
-
-		AddActionName(action->GetName());
-	}
-}
 
 /***********************************************************
 // teleport an object
@@ -2269,477 +2225,411 @@ void EditorHandler::Teleport(int ObjectType, long ObjectId,
 }
 
 
-/***********************************************************
-get the action correspondant to the id
-***********************************************************/				
-boost::shared_ptr<ActionBase> EditorHandler::GetAction(long actionid)
-{
-	std::map<long, boost::shared_ptr<ActionBase> >::iterator it = _actions.find(actionid);
-	if(it != _actions.end())
-		return it->second;
-
-	return boost::shared_ptr<ActionBase>();
-}
 
 
-
-/***********************************************************
-add an new action to the list
-***********************************************************/	
-void EditorHandler::AddNewAction(boost::shared_ptr<ActionBase> action)
-{
-	if(action)
-	{
-		// add action internally
-		AddAction(action);
-		SetModified();
-
-		//inform server
-		EditorUpdateBasePtr update = new UpdateEditor_AddOrModAction(action);
-		SharedDataHandler::getInstance()->EditorUpdate("", update);
-
-		// update add trigger dialog if opened
-		if(_updatetriggerdialogonnewaction>=0)
-		{
-			int index1 = _uiaddtriggerdialog.comboBox_action1->currentIndex();
-			int index2 = _uiaddtriggerdialog.comboBox_action2->currentIndex();
-			int index3 = _uiaddtriggerdialog.comboBox_action3->currentIndex();
-
-			_uiaddtriggerdialog.comboBox_action1->setModel(_actionNameList.get());
-			_uiaddtriggerdialog.comboBox_action2->setModel(_actionNameList.get());
-			_uiaddtriggerdialog.comboBox_action3->setModel(_actionNameList.get());
-
-			_uiaddtriggerdialog.comboBox_action1->setCurrentIndex(index1);
-			_uiaddtriggerdialog.comboBox_action2->setCurrentIndex(index2);
-			_uiaddtriggerdialog.comboBox_action3->setCurrentIndex(index3);
-
-			switch(_updatetriggerdialogonnewaction)
-			{
-				case 1:
-				{
-					 int index = _uiaddtriggerdialog.comboBox_action1->findText(action->GetName().c_str());
-					 if(index >= 0)
-						_uiaddtriggerdialog.comboBox_action1->setCurrentIndex(index);
-				}
-				break;
-
-				case 2:
-				{
-					 int index = _uiaddtriggerdialog.comboBox_action2->findText(action->GetName().c_str());
-					 if(index >= 0)
-						_uiaddtriggerdialog.comboBox_action2->setCurrentIndex(index);
-				}
-				break;
-
-				case 3:
-				{
-					 int index = _uiaddtriggerdialog.comboBox_action3->findText(action->GetName().c_str());
-					 if(index >= 0)
-						_uiaddtriggerdialog.comboBox_action3->setCurrentIndex(index);
-				}
-				break;
-			}
-
-			_updatetriggerdialogonnewaction = -1;
-		}
-	}
-}
-
-/***********************************************************
-remove an action from the list
-***********************************************************/	
-void EditorHandler::RemoveAction(long id)
-{
-	//remove internal action
-	std::map<long, boost::shared_ptr<ActionBase> >::iterator it = _actions.find(id);
-	if(it != _actions.end())
-	{
-		RemoveActionName(it->second->GetName());
-		_actions.erase(it);
-		SetModified();
-
-
-		//inform server
-		EditorUpdateBasePtr update = new UpdateEditor_RemoveAction(id);
-		SharedDataHandler::getInstance()->EditorUpdate("", update);
-	}
-}
-
-
-/***********************************************************
-add an action name to the name list
-***********************************************************/
-void EditorHandler::AddActionName(const std::string & name)
-{
-	if(!_actionNameList->stringList().contains(name.c_str()))
-		_actionNameList->AddData(name.c_str());
-}
-
-
-/***********************************************************
-remove an action name to the name list
-***********************************************************/
-void EditorHandler::RemoveActionName(const std::string & name)
-{
-	_actionNameList->RemoveData(name.c_str());
-}
-
-
-/***********************************************************
-replace an action name to the name list
-***********************************************************/
-void EditorHandler::ReplaceActionName(const std::string & oldname, const std::string & newname)
-{
-	_actionNameList->ReplaceData(oldname.c_str(), newname.c_str());
-}
-
-
-/***********************************************************
-addAction_button_clicked
-***********************************************************/
-void EditorHandler::addAction1_button_clicked()
-{
-	_updatetriggerdialogonnewaction = 1;
-	addAction_button_clicked();
-}
-
-/***********************************************************
-addAction_button_clicked
-***********************************************************/
-void EditorHandler::addAction2_button_clicked()
-{
-	_updatetriggerdialogonnewaction = 2;
-	addAction_button_clicked();
-}
-
-/***********************************************************
-addAction_button_clicked
-***********************************************************/
-void EditorHandler::addAction3_button_clicked()
-{
-	_updatetriggerdialogonnewaction = 3;
-	addAction_button_clicked();
-}
-
-/***********************************************************
-addAction_button_clicked
-***********************************************************/
-void EditorHandler::addAction_button_clicked()
-{
-	if(!IsWorldOpened())
-		return;
-
-	// clear data
-	_ui_addactiondialog.lineEdit_actionname->setText("");
-	_ui_addactiondialog.comboBox_actiontype->setCurrentIndex(0);
-	SetActionDialogType(0);
-
-	_addactiondialog->show();
-}
-
-
-
-/***********************************************************
-removeAction_button_clicked
-***********************************************************/
-void EditorHandler::removeAction_button_clicked()
-{
-	QItemSelectionModel *selectionModel = _uieditor.tableViewActionList->selectionModel();
-	QModelIndexList indexes = selectionModel->selectedIndexes();
-	if(indexes.size() > 1)
-	{
-		// inform server
-		long id = _actionlistmodel->GetId(indexes[0]);
-		RemoveAction(id);
-
-		// remove row from table
-		_actionlistmodel->removeRows(indexes[0].row(), 1);
-
-		// clear object
-		ClearObjectIfSelected("Action", id);
-	}
-}
-
-
-/***********************************************************
-selectAction_button_clicked
-***********************************************************/
-void EditorHandler::selectaction_double_clicked(const QModelIndex & itm)
-{
-	selectAction_button_clicked();
-}
-
-/***********************************************************
-selectAction_button_clicked
-***********************************************************/
-void EditorHandler::selectAction_button_clicked()
-{
-	QItemSelectionModel *selectionModel = _uieditor.tableViewActionList->selectionModel();
-	QModelIndexList indexes = selectionModel->selectedIndexes();
-	if(indexes.size() > 1)
-	{
-		long id = _actionlistmodel->GetId(indexes[0]);
-		SelectAction(id);
-	}
-}
-
-
-/***********************************************************
-add action accepted
-***********************************************************/
-void EditorHandler::AddActionAccepted()
-{
-	QString actname = _ui_addactiondialog.lineEdit_actionname->text();
-
-	if(actname == "" || actname == "None")
-		return;
-
-	if(_actionNameList->stringList().contains(actname))
-	{
-		QMessageBox::warning(this, tr("Name already used"),
-			tr("The name you entered for the action is already used. Please enter a unique name."),
-			QMessageBox::Ok);
-		return;
-	}
-
-	_addactiondialog->hide();
-	long id = _curractionidx+1;
-
-	switch(_ui_addactiondialog.comboBox_actiontype->currentIndex())
-	{
-		case 0: // teleport
-		{
-			std::string mapname = _ui_addactiondialog.comboBox_tp_map->currentText().toAscii().data();
-			std::string spawning = _ui_addactiondialog.comboBox_tp_spawn->currentText().toAscii().data();
-
-			long spid = -1;
-			if(spawning != "")
-			{
-				LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(mapname);
-				if(itmap != _winfo.Maps.end())
-				{
-					LbaNet::SpawningsSeq::iterator it = itmap->second.Spawnings.begin();
-					LbaNet::SpawningsSeq::iterator end = itmap->second.Spawnings.end();
-					for(;it != end; ++it)
-					{
-						if(spawning == it->second.Name)
-						{
-							spid = it->first;
-							break;
-						}
-					}
-				}
-			}
-
-			AddNewAction(boost::shared_ptr<ActionBase>
-				(new TeleportAction(id,	actname.toAscii().data(), mapname, spid)));
-		}
-		break;
-	
-		case 1: // client script
-		{
-			AddNewAction(boost::shared_ptr<ActionBase>
-				(new ClientScriptAction(id,	actname.toAscii().data())));
-		}
-		break;
-	
-		case 2: // custom action
-		{
-			std::string functionname = _ui_addactiondialog.lineEdit_customaction->text().toAscii().data();
-
-			AddNewAction(boost::shared_ptr<ActionBase>
-				(new CustomAction(id,	actname.toAscii().data(), functionname)));
-		}
-		break;
-	
-		case 3: // display text action
-		{
-			long textid = _ui_addactiondialog.spinBox_displaytext->value();
-
-			AddNewAction(boost::shared_ptr<ActionBase>
-				(new DisplayTextAction(id,	actname.toAscii().data(), textid)));
-		}
-		break;
-	
-		case 4: // conditional action
-		{
-			AddNewAction(boost::shared_ptr<ActionBase>
-				(new ConditionalAction(id,	actname.toAscii().data())));
-		}
-		break;
-	}
-
-	SelectAction(id);
-}
 
 /***********************************************************
 select an action and display it in object view
 ***********************************************************/
-void EditorHandler::SelectAction(long id, const QModelIndex &parent)
+void EditorHandler::SelectAction(ActionBasePtr action, const QModelIndex &parent)
 {
-	std::map<long, boost::shared_ptr<ActionBase> >::iterator it = _actions.find(id);
-	if(it != _actions.end())
+	if(parent == QModelIndex())
+		ResetObject();
+
+	if(!action)
+		return;
+
+
+	// add pointer for later change
+	_modelidxdatamap[parent] = (void*)action.get();
+
+
 	{
-		if(parent == QModelIndex())
-			ResetObject();
+		QVector<QVariant> data;
+		data<<"Type"<<"Action";
+		_objectmodel->AppendRow(data, parent, true);
+	}
 
+	{
+		QVector<QVariant> data;
+		data<<"SubCategory"<<action->GetTypeName().c_str();
+		_objectmodel->AppendRow(data, parent, true);
+	}
+
+
+	std::string actiontype = action->GetTypeName();
+	if(actiontype == "TeleportAction")
+	{
+		TeleportAction* ptr = static_cast<TeleportAction*>(action.get());
 		{
 			QVector<QVariant> data;
-			data<<"Type"<<"Action";
-			_objectmodel->AppendRow(data, parent, true);
-		}
-
-		{
-			QVector<QVariant> data;
-			data<<"SubCategory"<<it->second->GetTypeName().c_str();
-			_objectmodel->AppendRow(data, parent, true);
-		}
-
-		{
-			QVector<QVariant> data;
-			data<<"Id"<<id;
-			_objectmodel->AppendRow(data, parent, true);
-		}
-
-		{
-			QVector<QVariant> data;
-			data<<"Name"<<it->second->GetName().c_str();
+			data << "NewMap" << ptr->GetMapName().c_str();
 			_objectmodel->AppendRow(data, parent);
 		}
 
-		std::string actiontype = it->second->GetTypeName();
-		if(actiontype == "TeleportAction")
-		{
-			TeleportAction* ptr = static_cast<TeleportAction*>(it->second.get());
+		{	
+			std::string spawningname;
+			LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(ptr->GetMapName());
+			if(itmap != _winfo.Maps.end())
 			{
-				QVector<QVariant> data;
-				data << "NewMap" << ptr->GetMapName().c_str();
-				_objectmodel->AppendRow(data, parent);
+				LbaNet::SpawningsSeq::iterator it = itmap->second.Spawnings.find(ptr->GetSpawning());
+				if(it != itmap->second.Spawnings.end())
+					spawningname = it->second.Name;
 			}
 
-			{	
-				std::string spawningname;
-				LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(ptr->GetMapName());
-				if(itmap != _winfo.Maps.end())
+			QVector<QVariant> data;
+			data << "Spawn" << spawningname.c_str();
+			_objectmodel->AppendRow(data, parent);
+		}
+
+		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _mapNameList);
+
+		std::map<std::string, boost::shared_ptr<CustomStringListModel> >::iterator it = 
+													_mapSpawningList.find(ptr->GetMapName());
+		if(it != _mapSpawningList.end())
+			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 3, parent), it->second);
+
+		return;
+	}
+
+	if(actiontype == "ClientScriptAction")
+	{
+		ClientScriptAction* ptr = static_cast<ClientScriptAction*>(action.get());
+		{
+			ClientScriptBasePtr scriptptr = ptr->GetScript();
+			std::string name = GetCScriptType(scriptptr);
+
+			QVector<QVariant> data;
+			data << "Script" << name.c_str();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+			if(scriptptr)
+				SelectCScript(scriptptr, idx);
+		}
+
+		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _cscripttypeList);
+
+		return;
+	}
+
+
+	if(actiontype == "CustomAction")
+	{
+		CustomAction* ptr = static_cast<CustomAction*>(action.get());
+		{
+			QVector<QVariant> data;
+			data << "Function name" << ptr->GetLuaFunctionName().c_str();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+
+		return;
+	}
+
+	if(actiontype == "DisplayTextAction")
+	{
+		DisplayTextAction* ptr = static_cast<DisplayTextAction*>(action.get());
+		{
+			QVector<QVariant> data;
+			data << "Text id" << ptr->GetTextId(); //todo - check if need cast to int to display as spinbox
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+
+		return;
+	}
+
+	if(actiontype == "ConditionalAction")
+	{
+		ConditionalAction* ptr = static_cast<ConditionalAction*>(action.get());
+		{
+			// add condition
+			{
+				std::string condtype = "No";
+				ConditionBasePtr condptr = ptr->GetCondition();
+				if(condptr)
 				{
-					LbaNet::SpawningsSeq::iterator it = itmap->second.Spawnings.find(ptr->GetSpawning());
-					if(it != itmap->second.Spawnings.end())
-						spawningname = it->second.Name;
+					condtype = condptr->GetTypeName();
 				}
 
 				QVector<QVariant> data;
-				data << "Spawn" << spawningname.c_str();
-				_objectmodel->AppendRow(data, parent);
-			}
-
-			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _mapNameList);
-
-			std::map<std::string, boost::shared_ptr<CustomStringListModel> >::iterator it = 
-														_mapSpawningList.find(ptr->GetMapName());
-			if(it != _mapSpawningList.end())
-				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 5, parent), it->second);
-
-			return;
-		}
-
-		if(actiontype == "ClientScriptAction")
-		{
-			ClientScriptAction* ptr = static_cast<ClientScriptAction*>(it->second.get());
-			{
-				ClientScriptBasePtr scriptptr = ptr->GetScript();
-				std::string name = GetCScriptType(scriptptr);
-
-				QVector<QVariant> data;
-				data << "Script" << name.c_str();
+				data << "Condition" << condtype.c_str();
 				QModelIndex idx = _objectmodel->AppendRow(data, parent);
 
-				if(scriptptr)
-					SelectCScript(scriptptr, idx);
+				if(condptr)
+					SelectCondition(condptr, idx);
 			}
 
-			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _cscripttypeList);
 
-			return;
-		}
-
-
-		if(actiontype == "CustomAction")
-		{
-			CustomAction* ptr = static_cast<CustomAction*>(it->second.get());
+			// add action true
 			{
+				ActionBasePtr actptr = ptr->GetActionTrue();
+				std::string acttype = GetActionType(actptr);
+
 				QVector<QVariant> data;
-				data << "Function name" << ptr->GetLuaFunctionName().c_str();
+				data << "Action On True" << acttype.c_str();
 				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+				
+				if(actptr)
+					SelectAction(actptr, idx);
 			}
 
-			return;
-		}
-
-		if(actiontype == "DisplayTextAction")
-		{
-			DisplayTextAction* ptr = static_cast<DisplayTextAction*>(it->second.get());
+			// add action false
 			{
+				ActionBasePtr actptr = ptr->GetActionFalse();
+				std::string acttype = GetActionType(actptr);
+
 				QVector<QVariant> data;
-				data << "Text id" << ptr->GetTextId(); //todo - check if need cast to int to display as spinbox
+				data << "Action On False" << acttype.c_str();
 				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+				
+				if(actptr)
+					SelectAction(actptr, idx);
 			}
-
-			return;
 		}
 
-		if(actiontype == "ConditionalAction")
-		{
-			ConditionalAction* ptr = static_cast<ConditionalAction*>(it->second.get());
+		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _conditiontypeList);
+		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 3, parent), _actiontypeList);
+		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actiontypeList);
+
+		return;
+	}
+
+}
+
+
+
+/***********************************************************
+called when action object changed
+***********************************************************/
+void EditorHandler::ActionObjectChanged(const std::string & category, const QModelIndex &parentIdx)
+{
+	std::map<QModelIndex, void *>::iterator it = _modelidxdatamap.find(parentIdx);
+	if(it != _modelidxdatamap.end())
+	{
+		void * ptr = it->second;
+		if(ptr)
+		{	
+			if(category == "TeleportAction")
 			{
-				// add condition
+				TeleportAction* modifiedaction = (TeleportAction*)ptr;
+
+				// get info
+				std::string mapname = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();
+				std::string spawning = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString().toAscii().data();
+
+				std::string oldmapname = modifiedaction->GetMapName();
+
+
+				// get id associated to spawning
+				long spid = -1;
+				if(spawning != "")
 				{
-					std::string condtype = "No";
-					ConditionBasePtr condptr = ptr->GetCondition();
-					if(condptr)
+					LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(mapname);
+					if(itmap != _winfo.Maps.end())
 					{
-						condtype = condptr->GetTypeName();
+						LbaNet::SpawningsSeq::iterator it = itmap->second.Spawnings.begin();
+						LbaNet::SpawningsSeq::iterator end = itmap->second.Spawnings.end();
+						for(;it != end; ++it)
+						{
+							if(spawning == it->second.Name)
+							{
+								spid = it->first;
+								break;
+							}
+						}
 					}
-
-					QVector<QVariant> data;
-					data << "Condition" << condtype.c_str();
-					QModelIndex idx = _objectmodel->AppendRow(data, parent);
-
-					if(condptr)
-						SelectCondition(condptr, idx);
 				}
 
+				// update action
+				modifiedaction->SetMapName(mapname);
+				modifiedaction->SetSpawning(spid);
 
-				// add action true
+
+				// need to save as something changed
+				SetModified();
+
+
+
+				// refresh spawning list for action
+				if(oldmapname != mapname)
 				{
-					std::string actname = GetActionName(ptr->GetActionTrue());
-					QVector<QVariant> data;
-					data << "Action On True" << actname.c_str();
-					QModelIndex idx = _objectmodel->AppendRow(data, parent);
-					
-					if(actname != "" && actname != "None")
-						SelectAction(ptr->GetActionTrue(), idx);
+					std::map<std::string, boost::shared_ptr<CustomStringListModel> >::iterator it = 
+						_mapSpawningList.find(mapname);
+					if(it != _mapSpawningList.end())
+					{
+						_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 3, parentIdx), it->second);
+
+						QStringList lst = it->second->stringList();
+						if(lst.size() > 0)
+							_objectmodel->setData(_objectmodel->GetIndex(1, 3, parentIdx), lst[0]);	
+					}
 				}
 
-				// add action false
-				{
-					std::string actname = GetActionName(ptr->GetActionFalse());
-					QVector<QVariant> data;
-					data << "Action On False" << actname.c_str();
-					QModelIndex idx = _objectmodel->AppendRow(data, parent);
-					
-					if(actname != "" && actname != "None")
-						SelectAction(ptr->GetActionFalse(), idx);
-				}
+
+				return;
 			}
 
-			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _conditiontypeList);
-			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 5, parent), _actionNameList);
-			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 6, parent), _actionNameList);
 
-			return;
+			if(category == "ClientScriptAction")
+			{
+				// created modified action and replace old one
+				ClientScriptAction* modifiedact = (ClientScriptAction*)ptr;
+
+				// check script part
+				{
+					std::string script = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();
+					std::string currscript = GetCScriptType(modifiedact->GetScript());
+
+					if(script != currscript)
+					{
+						ClientScriptBasePtr ptrtmp = CreateCscript(script);
+						modifiedact->SetScript(ptrtmp);
+
+
+						QModelIndex curidx = _objectmodel->GetIndex(0, 2, parentIdx);
+						_objectmodel->Clear(curidx);
+						if(ptrtmp)
+						{
+							SelectCScript(ptrtmp, curidx);
+
+							_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+						}
+
+					}
+				}
+
+
+				// need to save as something changed
+				SetModified();
+
+				return;
+			}
+
+
+
+			if(category == "CustomAction")
+			{
+				// get info
+				std::string scriptname = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();
+
+
+				// created modified action and replace old one
+				CustomAction* modifiedact = (CustomAction*)ptr;
+				modifiedact->SetLuaFunctionName(scriptname);
+
+				// need to save as something changed
+				SetModified();
+
+				return;
+			}
+
+
+
+			if(category == "DisplayTextAction")
+			{
+				// get info
+				long textid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toLong();
+
+
+				// created modified action and replace old one
+				DisplayTextAction* modifiedact = (DisplayTextAction*)ptr;
+				modifiedact->SetTextId(textid);
+
+				// need to save as something changed
+				SetModified();
+
+				return;
+			}
+
+
+
+			if(category == "ConditionalAction")
+			{
+				// created modified action and replace old one
+				ConditionalAction* modifiedact = (ConditionalAction*)ptr;
+
+				// check condition part
+				{
+					std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();
+					std::string currcond = GetConditionType(modifiedact->GetCondition());
+
+					if(condition != currcond)
+					{
+						ConditionBasePtr ptrtmp = CreateCondition(condition);
+						modifiedact->SetCondition(ptrtmp);
+
+						QModelIndex curidx = _objectmodel->GetIndex(0, 2, parentIdx);
+						_objectmodel->Clear(curidx);
+						if(ptrtmp)
+						{
+							SelectCondition(ptrtmp, curidx);
+
+							_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+						}
+
+					}
+				}
+
+
+				// get id associated to actions
+				std::string action1 = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString().toAscii().data();
+				std::string action2 = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
+
+				//action 1
+				{
+					std::string curract = GetActionType(modifiedact->GetActionTrue());
+
+					if(action1 != curract)
+					{
+						ActionBasePtr ptrtmp = CreateAction(action1);
+						modifiedact->SetActionTrue(ptrtmp);
+
+						QModelIndex curidx = _objectmodel->GetIndex(0, 3, parentIdx);
+						_objectmodel->Clear(curidx);
+						if(ptrtmp)
+						{
+							SelectAction(ptrtmp, curidx);
+
+							_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+						}
+
+					}
+				}
+
+				//action 2
+				{
+					std::string curract = GetActionType(modifiedact->GetActionFalse());
+
+					if(action2 != curract)
+					{
+						ActionBasePtr ptrtmp = CreateAction(action2);
+						modifiedact->SetActionFalse(ptrtmp);
+
+						QModelIndex curidx = _objectmodel->GetIndex(0, 4, parentIdx);
+						_objectmodel->Clear(curidx);
+						if(ptrtmp)
+						{
+							SelectAction(ptrtmp, curidx);
+
+							_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+						}
+
+					}
+				}
+
+
+
+				// need to save as something changed
+				SetModified();
+
+				return;
+			}
 		}
 	}
+
 }
+
+
+
 
 
 
@@ -2774,369 +2664,6 @@ void EditorHandler::ReplaceSpawningName(const std::string & mapname, const std::
 
 
 /***********************************************************
-called when action object changed
-***********************************************************/
-void EditorHandler::ActionObjectChanged(long id, const std::string & category, const QModelIndex &parentIdx)
-{
-	std::string oldname = _actions[id]->GetName();
-	QString name = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString();
-
-	// check if name changed already exist
-	if(name != oldname.c_str())
-	{
-		if(name == "" || _actionNameList->stringList().contains(name))
-		{
-			QMessageBox::warning(this, tr("Name already used"),
-				tr("The name you entered for the action is already used. Please enter a unique name."),
-				QMessageBox::Ok);
-
-			_objectmodel->setData(_objectmodel->GetIndex(1, 3, parentIdx), oldname.c_str());
-			return;
-		}
-	}
-
-
-	if(category == "TeleportAction")
-	{
-		// get info
-		std::string mapname = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
-		std::string spawning = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toString().toAscii().data();
-
-		std::string oldmapname = static_cast<TeleportAction*>(_actions[id].get())->GetMapName();
-
-		// get id associated to spawning
-		long spid = -1;
-		if(spawning != "")
-		{
-			LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(mapname);
-			if(itmap != _winfo.Maps.end())
-			{
-				LbaNet::SpawningsSeq::iterator it = itmap->second.Spawnings.begin();
-				LbaNet::SpawningsSeq::iterator end = itmap->second.Spawnings.end();
-				for(;it != end; ++it)
-				{
-					if(spawning == it->second.Name)
-					{
-						spid = it->first;
-						break;
-					}
-				}
-			}
-		}
-
-
-		// created modified action and replace old one
-		boost::shared_ptr<ActionBase> modifiedact(new TeleportAction(id,
-											name.toAscii().data(), mapname, spid));
-
-
-		_actions[id] = modifiedact;
-
-		if(name != oldname.c_str())
-		{
-			ReplaceActionName(oldname, modifiedact->GetName());
-
-			// update action name on parent
-			if(parentIdx != QModelIndex())
-				_objectmodel->setData(_objectmodel->GetIndex(1, parentIdx.row(), 
-											_objectmodel->parent(parentIdx)), name);	
-		}
-
-		// update action list display
-		QStringList slist;
-		slist << name << modifiedact->GetTypeName().c_str();
-		_actionlistmodel->AddOrUpdateRow(id, slist);
-
-
-		// need to save as something changed
-		SetModified();
-
-
-		//inform server
-		EditorUpdateBasePtr update = new UpdateEditor_AddOrModAction(modifiedact);
-		SharedDataHandler::getInstance()->EditorUpdate("", update);
-
-		// refresh spawning list for action
-		if(oldmapname != mapname)
-		{
-			std::map<std::string, boost::shared_ptr<CustomStringListModel> >::iterator it = 
-				_mapSpawningList.find(mapname);
-			if(it != _mapSpawningList.end())
-			{
-				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 5, parentIdx), it->second);
-
-				QStringList lst = it->second->stringList();
-				if(lst.size() > 0)
-					_objectmodel->setData(_objectmodel->GetIndex(1, 5, parentIdx), lst[0]);	
-			}
-		}
-
-
-		return;
-	}
-
-
-	if(category == "ClientScriptAction")
-	{
-		// created modified action and replace old one
-		ClientScriptAction* modifiedact = static_cast<ClientScriptAction*>(_actions[id].get());
-
-		// check script part
-		{
-			std::string script = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
-			std::string currscript = GetCScriptType(modifiedact->GetScript());
-
-			if(script != currscript)
-			{
-				ClientScriptBasePtr ptrtmp = CreateCscript(script);
-				modifiedact->SetScript(ptrtmp);
-
-
-				QModelIndex curidx = _objectmodel->GetIndex(0, 4, parentIdx);
-				_objectmodel->Clear(curidx);
-				if(ptrtmp)
-				{
-					SelectCScript(ptrtmp, curidx);
-
-					_uieditor.treeView_object->setExpanded(curidx, true); // expand 
-				}
-
-			}
-		}
-
-		if(name != oldname.c_str())
-		{
-			ReplaceActionName(oldname, modifiedact->GetName());
-
-			// update action name on parent
-			if(parentIdx != QModelIndex())
-				_objectmodel->setData(_objectmodel->GetIndex(1, parentIdx.row(), 
-				_objectmodel->parent(parentIdx)), name);	
-		}
-
-		// update action list display
-		QStringList slist;
-		slist << name << modifiedact->GetTypeName().c_str();
-		_actionlistmodel->AddOrUpdateRow(id, slist);
-
-
-		// need to save as something changed
-		SetModified();
-
-
-		//inform server
-		EditorUpdateBasePtr update = new UpdateEditor_AddOrModAction(_actions[id]);
-		SharedDataHandler::getInstance()->EditorUpdate("", update);
-
-		return;
-	}
-
-
-
-	if(category == "CustomAction")
-	{
-		// get info
-		std::string scriptname = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
-
-
-		// created modified action and replace old one
-		boost::shared_ptr<ActionBase> modifiedact(new CustomAction(id,
-													name.toAscii().data(), scriptname));
-
-
-		_actions[id] = modifiedact;
-
-		if(name != oldname.c_str())
-		{
-			ReplaceActionName(oldname, modifiedact->GetName());
-
-			// update action name on parent
-			if(parentIdx != QModelIndex())
-				_objectmodel->setData(_objectmodel->GetIndex(1, parentIdx.row(), 
-				_objectmodel->parent(parentIdx)), name);	
-		}
-
-		// update action list display
-		QStringList slist;
-		slist << name << modifiedact->GetTypeName().c_str();
-		_actionlistmodel->AddOrUpdateRow(id, slist);
-
-
-		// need to save as something changed
-		SetModified();
-
-
-		//inform server
-		EditorUpdateBasePtr update = new UpdateEditor_AddOrModAction(modifiedact);
-		SharedDataHandler::getInstance()->EditorUpdate("", update);
-
-		return;
-	}
-
-
-
-	if(category == "DisplayTextAction")
-	{
-		// get info
-		long textid = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toLong();
-
-
-		// created modified action and replace old one
-		boost::shared_ptr<ActionBase> modifiedact(new DisplayTextAction(id,
-													name.toAscii().data(), textid));
-
-
-		_actions[id] = modifiedact;
-
-		if(name != oldname.c_str())
-		{
-			ReplaceActionName(oldname, modifiedact->GetName());
-
-			// update action name on parent
-			if(parentIdx != QModelIndex())
-				_objectmodel->setData(_objectmodel->GetIndex(1, parentIdx.row(), 
-				_objectmodel->parent(parentIdx)), name);	
-		}
-
-		// update action list display
-		QStringList slist;
-		slist << name << modifiedact->GetTypeName().c_str();
-		_actionlistmodel->AddOrUpdateRow(id, slist);
-
-
-		// need to save as something changed
-		SetModified();
-
-
-		//inform server
-		EditorUpdateBasePtr update = new UpdateEditor_AddOrModAction(modifiedact);
-		SharedDataHandler::getInstance()->EditorUpdate("", update);
-
-		return;
-	}
-
-
-
-	if(category == "ConditionalAction")
-	{
-		// created modified action and replace old one
-		ConditionalAction* modifiedact = static_cast<ConditionalAction*>(_actions[id].get());
-
-		// check condition part
-		{
-			std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
-			std::string currcond = GetConditionType(modifiedact->GetCondition());
-
-			if(condition != currcond)
-			{
-				ConditionBasePtr ptrtmp = CreateCondition(condition);
-				modifiedact->SetCondition(ptrtmp);
-
-				QModelIndex curidx = _objectmodel->GetIndex(0, 4, parentIdx);
-				_objectmodel->Clear(curidx);
-				if(ptrtmp)
-				{
-					SelectCondition(ptrtmp, curidx);
-
-					_uieditor.treeView_object->setExpanded(curidx, true); // expand 
-				}
-
-			}
-		}
-
-
-
-		// check action part
-		{
-			// get id associated to actions
-			std::string action1 = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toString().toAscii().data();
-			std::string action2 = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toString().toAscii().data();
-			long act1id = GetActionId(action1);
-			long act2id = GetActionId(action2);
-
-
-			// created modified action and replace old one
-			long lastact1id = modifiedact->GetActionTrue();
-			long lastact2id = modifiedact->GetActionFalse();
-			modifiedact->SetActionTrue(act1id);
-			modifiedact->SetActionFalse(act2id);
-
-			if(act1id < 0)
-			{
-				_objectmodel->Clear(_objectmodel->GetIndex(0, 5, parentIdx));
-			}
-			else if(lastact1id != act1id)
-			{
-				// refresh sub tree
-				_objectmodel->Clear(_objectmodel->GetIndex(0, 5, parentIdx));
-				SelectAction(act1id, _objectmodel->GetIndex(0, 5, parentIdx));
-			}
-
-			if(act2id < 0)
-			{
-				_objectmodel->Clear(_objectmodel->GetIndex(0, 6, parentIdx));
-			}
-			else if(lastact2id != act2id)
-			{
-				// refresh sub tree
-				_objectmodel->Clear(_objectmodel->GetIndex(0, 6, parentIdx));
-				SelectAction(act2id, _objectmodel->GetIndex(0, 6, parentIdx));
-			}
-		}
-
-
-
-
-		if(name != oldname.c_str())
-		{
-			ReplaceActionName(oldname, modifiedact->GetName());
-
-			// update action name on parent
-			if(parentIdx != QModelIndex())
-				_objectmodel->setData(_objectmodel->GetIndex(1, parentIdx.row(), 
-				_objectmodel->parent(parentIdx)), name);	
-		}
-
-		// update action list display
-		QStringList slist;
-		slist << name << modifiedact->GetTypeName().c_str();
-		_actionlistmodel->AddOrUpdateRow(id, slist);
-
-
-		// need to save as something changed
-		SetModified();
-
-
-
-		//inform server
-		EditorUpdateBasePtr update = new UpdateEditor_AddOrModAction(_actions[id]);
-		SharedDataHandler::getInstance()->EditorUpdate("", update);
-
-		return;
-	}
-
-}
-
-
-/***********************************************************
-save global lus file for current world
-***********************************************************/
-void EditorHandler::SaveGlobalLua(const std::string & filename)
-{
-	std::ofstream file(filename.c_str());
-	file<<"function InitGlobal(environment)"<<std::endl;
-
-	std::map<long, boost::shared_ptr<ActionBase> >::const_iterator it = _actions.begin();
-	std::map<long, boost::shared_ptr<ActionBase> >::const_iterator end = _actions.end();
-	for(; it != end; ++it)
-		it->second->SaveToLuaFile(file);
-
-
-	file<<"end"<<std::endl;
-}
-
-
-/***********************************************************
 add an new trigger to the list
 ***********************************************************/
 void EditorHandler::AddNewTrigger(boost::shared_ptr<TriggerBase> trigger)
@@ -3153,30 +2680,6 @@ void EditorHandler::AddNewTrigger(boost::shared_ptr<TriggerBase> trigger)
 		SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
 	}
 }
-
-/***********************************************************
-get action id from name
-***********************************************************/
-long EditorHandler::GetActionId(const std::string & name)
-{
-	long id = -1;
-	if(name != "" && name != "None")
-	{
-		std::map<long, boost::shared_ptr<ActionBase> >::iterator it = _actions.begin();
-		std::map<long, boost::shared_ptr<ActionBase> >::iterator end = _actions.end();
-		for(;it != end; ++it)
-		{
-			if(name == it->second->GetName())
-			{
-				id = it->first;
-				break;
-			}
-		}
-	}
-
-	return id;
-}
-
 
 
 /***********************************************************
@@ -3238,23 +2741,31 @@ void EditorHandler::SelectTrigger(long id, const QModelIndex &parent)
 		if(actiontype == "ZoneTrigger")
 		{
 			ZoneTrigger* ptr = static_cast<ZoneTrigger*>(it->second.get());
+
+			//action 1
 			{
-				std::string actname = GetActionName(ptr->GetAction1());
+				ActionBasePtr actptr = ptr->GetAction1();
+				std::string acttype = GetActionType(actptr);
+
 				QVector<QVariant> data;
-				data << "Action On Enter" << actname.c_str();
+				data << "Action On Enter" << acttype.c_str();
 				QModelIndex idx = _objectmodel->AppendRow(data, parent);
 				
-				if(actname != "" && actname != "None")
-					SelectAction(ptr->GetAction1(), idx);
+				if(actptr)
+					SelectAction(actptr, idx);
 			}
+
+			//action 2
 			{
-				std::string actname = GetActionName(ptr->GetAction2());
+				ActionBasePtr actptr = ptr->GetAction2();
+				std::string acttype = GetActionType(actptr);
+
 				QVector<QVariant> data;
-				data << "Action On Leave" << actname.c_str();
+				data << "Action On Leave" << acttype.c_str();
 				QModelIndex idx = _objectmodel->AppendRow(data, parent);
 				
-				if(actname != "" && actname != "None")
-					SelectAction(ptr->GetAction1(), idx);
+				if(actptr)
+					SelectAction(actptr, idx);
 			}
 
 			{
@@ -3319,8 +2830,8 @@ void EditorHandler::SelectTrigger(long id, const QModelIndex &parent)
 			}
 
 
-			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actionNameList);
-			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 5, parent), _actionNameList);
+			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actiontypeList);
+			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 5, parent), _actiontypeList);
 
 			UpdateSelectedZoneTriggerDisplay(ptr->GetPosX(), ptr->GetPosY(), ptr->GetPosZ(),
 											ptr->GetSizeX(), ptr->GetSizeY(), ptr->GetSizeZ());
@@ -3333,14 +2844,18 @@ void EditorHandler::SelectTrigger(long id, const QModelIndex &parent)
 		if(actiontype == "ZoneActionTrigger")
 		{
 			ZoneActionTrigger* ptr = static_cast<ZoneActionTrigger*>(it->second.get());
-			{
-				std::string actname = GetActionName(ptr->GetAction1());
-				QVector<QVariant> data;
-				data << "Action On Activation" << actname.c_str();
-				QModelIndex idx = _objectmodel->AppendRow(data, parent);
 
-				if(actname != "" && actname != "None")
-					SelectAction(ptr->GetAction1(), idx);
+			//action 1
+			{
+				ActionBasePtr actptr = ptr->GetAction1();
+				std::string acttype = GetActionType(actptr);
+
+				QVector<QVariant> data;
+				data << "Action On Activation" << acttype.c_str();
+				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+				
+				if(actptr)
+					SelectAction(actptr, idx);
 			}
 
 			{
@@ -3391,7 +2906,7 @@ void EditorHandler::SelectTrigger(long id, const QModelIndex &parent)
 				_objectmodel->AppendRow(data, parent);
 			}
 
-			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actionNameList);
+			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actiontypeList);
 			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 11, parent), _actormodeList);
 			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 12, parent), _actormodeList);
 
@@ -3407,14 +2922,17 @@ void EditorHandler::SelectTrigger(long id, const QModelIndex &parent)
 		if(actiontype == "ActivationTrigger")
 		{
 			ActivationTrigger* ptr = static_cast<ActivationTrigger*>(it->second.get());
+			//action 1
 			{
-				std::string actname = GetActionName(ptr->GetAction1());
-				QVector<QVariant> data;
-				data << "Action On Activation" << actname.c_str();
-				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+				ActionBasePtr actptr = ptr->GetAction1();
+				std::string acttype = GetActionType(actptr);
 
-				if(actname != "" && actname != "None")
-					SelectAction(ptr->GetAction1(), idx);
+				QVector<QVariant> data;
+				data << "Action On Activation" << acttype.c_str();
+				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+				
+				if(actptr)
+					SelectAction(actptr, idx);
 			}
 
 			{
@@ -3453,7 +2971,7 @@ void EditorHandler::SelectTrigger(long id, const QModelIndex &parent)
 				_objectmodel->AppendRow(data, parent);
 			}
 
-			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actionNameList);
+			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actiontypeList);
 			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 9, parent), _actormodeList);
 			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 10, parent), _actormodeList);
 
@@ -3470,14 +2988,17 @@ void EditorHandler::SelectTrigger(long id, const QModelIndex &parent)
 		if(actiontype == "TimerTrigger")
 		{
 			TimerTrigger* ptr = static_cast<TimerTrigger*>(it->second.get());
+			//action 1
 			{
-				std::string actname = GetActionName(ptr->GetAction1());
-				QVector<QVariant> data;
-				data << "Action On Activation" << actname.c_str();
-				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+				ActionBasePtr actptr = ptr->GetAction1();
+				std::string acttype = GetActionType(actptr);
 
-				if(actname != "" && actname != "None")
-					SelectAction(ptr->GetAction1(), idx);
+				QVector<QVariant> data;
+				data << "Action On Activation" << acttype.c_str();
+				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+				
+				if(actptr)
+					SelectAction(actptr, idx);
 			}
 
 			{
@@ -3487,26 +3008,11 @@ void EditorHandler::SelectTrigger(long id, const QModelIndex &parent)
 			}
 
 
-			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actionNameList);
+			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actiontypeList);
 
 			return;
 		}
 	}
-}
-
-
-/***********************************************************
-get action name from id
-***********************************************************/
-std::string  EditorHandler::GetActionName(long id)
-{
-	std::string name = "None";
-
-	std::map<long, boost::shared_ptr<ActionBase> >::iterator it = _actions.find(id);
-	if(it != _actions.end())
-		return it->second->GetName();
-
-	return name;
 }
 
 
@@ -3560,29 +3066,63 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 
 		bool multicactiv = _objectmodel->data(_objectmodel->GetIndex(1, 15, parentIdx)).toBool();
 
-		// get id associated to actions
-		long act1id = GetActionId(action1);
-		long act2id = GetActionId(action2);
-
 
 		// created modified action and replace old one
-
-		boost::shared_ptr<TriggerBase> modifiedtrig(new ZoneTrigger(triggerinfo, sizeX, sizeY, sizeZ, multicactiv));
+		ZoneTrigger* modifiedtrig = (ZoneTrigger*)_triggers[id].get();
 		modifiedtrig->SetPosition(posX, posY, posZ);
+		modifiedtrig->SetTriggerInfo(triggerinfo);
+		modifiedtrig->SetSize(sizeX, sizeY, sizeZ);
+		modifiedtrig->SetMultiActivation(multicactiv);
 
-		long lastact1id = _triggers[id]->GetAction1();
-		long lastact2id = _triggers[id]->GetAction2();
 
-		modifiedtrig->SetAction1(act1id);
-		modifiedtrig->SetAction2(act2id);
+		//action 1
+		{
+			std::string curract = GetActionType(modifiedtrig->GetAction1());
+
+			if(action1 != curract)
+			{
+				ActionBasePtr ptrtmp = CreateAction(action1);
+				modifiedtrig->SetAction1(ptrtmp);
+
+				QModelIndex curidx = _objectmodel->GetIndex(0, 4, parentIdx);
+				_objectmodel->Clear(curidx);
+				if(ptrtmp)
+				{
+					SelectAction(ptrtmp, curidx);
+
+					_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+				}
+
+			}
+		}
+
+		//action 2
+		{
+			std::string curract = GetActionType(modifiedtrig->GetAction2());
+
+			if(action2 != curract)
+			{
+				ActionBasePtr ptrtmp = CreateAction(action2);
+				modifiedtrig->SetAction2(ptrtmp);
+
+				QModelIndex curidx = _objectmodel->GetIndex(0, 5, parentIdx);
+				_objectmodel->Clear(curidx);
+				if(ptrtmp)
+				{
+					SelectAction(ptrtmp, curidx);
+
+					_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+				}
+
+			}
+		}
+
+
 
 
 
 		// update trigger name list
 		_triggerNameList->ReplaceData(oldname.c_str(), triggerinfo.name.c_str());
-
-
-		_triggers[id] = modifiedtrig;
 
 
 		// update trigger list display
@@ -3597,33 +3137,12 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 
 
 		//inform server
-		EditorUpdateBasePtr update = new UpdateEditor_AddOrModTrigger(modifiedtrig);
+		EditorUpdateBasePtr update = new UpdateEditor_AddOrModTrigger(_triggers[id]);
 		SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
 
 
 		UpdateSelectedZoneTriggerDisplay(posX, posY, posZ, sizeX, sizeY, sizeZ);
 
-		if(act1id < 0)
-		{
-			_objectmodel->Clear(_objectmodel->GetIndex(0, 4, parentIdx));
-		}
-		else if(lastact1id != act1id)
-		{
-			// refresh sub tree
-			_objectmodel->Clear(_objectmodel->GetIndex(0, 4, parentIdx));
-			SelectAction(act1id, _objectmodel->GetIndex(0, 4, parentIdx));
-		}
-
-		if(act2id < 0)
-		{
-			_objectmodel->Clear(_objectmodel->GetIndex(0, 5, parentIdx));
-		}
-		else if(lastact2id != act2id)
-		{
-			// refresh sub tree
-			_objectmodel->Clear(_objectmodel->GetIndex(0, 5, parentIdx));
-			SelectAction(act2id, _objectmodel->GetIndex(0, 5, parentIdx));
-		}
 		return;
 	}
 
@@ -3654,25 +3173,38 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 		std::string mode2 = _objectmodel->data(_objectmodel->GetIndex(1, 12, parentIdx)).toString().toAscii().data();
 
 
-		// get id associated to actions
-		long act1id = GetActionId(action1);
-
-
 		// created modified action and replace old one
-
-		boost::shared_ptr<TriggerBase> modifiedtrig(new ZoneActionTrigger(triggerinfo, sizeX, sizeY, sizeZ, mode1, mode2));
+		ZoneActionTrigger* modifiedtrig = (ZoneActionTrigger*)_triggers[id].get();
 		modifiedtrig->SetPosition(posX, posY, posZ);
+		modifiedtrig->SetTriggerInfo(triggerinfo);
+		modifiedtrig->SetSize(sizeX, sizeY, sizeZ);
+		modifiedtrig->SetMode1(mode1);
+		modifiedtrig->SetMode2(mode2);
 
-		long lastact1id = _triggers[id]->GetAction1();
-		modifiedtrig->SetAction1(act1id);
+		//action 1
+		{
+			std::string curract = GetActionType(modifiedtrig->GetAction1());
+
+			if(action1 != curract)
+			{
+				ActionBasePtr ptrtmp = CreateAction(action1);
+				modifiedtrig->SetAction1(ptrtmp);
+
+				QModelIndex curidx = _objectmodel->GetIndex(0, 4, parentIdx);
+				_objectmodel->Clear(curidx);
+				if(ptrtmp)
+				{
+					SelectAction(ptrtmp, curidx);
+
+					_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+				}
+
+			}
+		}
 
 
 		// update trigger name list
 		_triggerNameList->ReplaceData(oldname.c_str(), triggerinfo.name.c_str());
-
-
-		_triggers[id] = modifiedtrig;
-
 
 		// update trigger list display
 		QStringList slist;
@@ -3686,22 +3218,11 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 
 
 		//inform server
-		EditorUpdateBasePtr update = new UpdateEditor_AddOrModTrigger(modifiedtrig);
+		EditorUpdateBasePtr update = new UpdateEditor_AddOrModTrigger(_triggers[id]);
 		SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
 
 
 		UpdateSelectedZoneTriggerDisplay(posX, posY, posZ, sizeX, sizeY, sizeZ);
-
-		if(act1id < 0)
-		{
-			_objectmodel->Clear(_objectmodel->GetIndex(0, 4, parentIdx));
-		}
-		else if(lastact1id != act1id)
-		{
-			// refresh sub tree
-			_objectmodel->Clear(_objectmodel->GetIndex(0, 4, parentIdx));
-			SelectAction(act1id, _objectmodel->GetIndex(0, 4, parentIdx));
-		}
 
 		return;
 	}
@@ -3728,23 +3249,38 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 
 
 		// get id associated to actions
-		long act1id = GetActionId(action1);
-
-
-		// created modified action and replace old one
-
-		boost::shared_ptr<TriggerBase> modifiedtrig(new ActivationTrigger(triggerinfo, distance, mode1, mode2));
+		ActivationTrigger* modifiedtrig = (ActivationTrigger*)_triggers[id].get();
 		modifiedtrig->SetPosition(posX, posY, posZ);
+		modifiedtrig->SetTriggerInfo(triggerinfo);
+		modifiedtrig->SetMode1(mode1);
+		modifiedtrig->SetMode2(mode2);
+		modifiedtrig->SetDistance(distance);
 
-		long lastact1id = _triggers[id]->GetAction1();
-		modifiedtrig->SetAction1(act1id);
+
+		//action 1
+		{
+			std::string curract = GetActionType(modifiedtrig->GetAction1());
+
+			if(action1 != curract)
+			{
+				ActionBasePtr ptrtmp = CreateAction(action1);
+				modifiedtrig->SetAction1(ptrtmp);
+
+				QModelIndex curidx = _objectmodel->GetIndex(0, 4, parentIdx);
+				_objectmodel->Clear(curidx);
+				if(ptrtmp)
+				{
+					SelectAction(ptrtmp, curidx);
+
+					_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+				}
+
+			}
+		}
 
 
 		// update trigger name list
 		_triggerNameList->ReplaceData(oldname.c_str(), triggerinfo.name.c_str());
-
-
-		_triggers[id] = modifiedtrig;
 
 
 		// update trigger list display
@@ -3759,22 +3295,11 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 
 
 		//inform server
-		EditorUpdateBasePtr update = new UpdateEditor_AddOrModTrigger(modifiedtrig);
+		EditorUpdateBasePtr update = new UpdateEditor_AddOrModTrigger(_triggers[id]);
 		SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
 
 
 		UpdateSelectedDistanceTriggerDisplay(posX, posY, posZ, distance);
-
-		if(act1id < 0)
-		{
-			_objectmodel->Clear(_objectmodel->GetIndex(0, 4, parentIdx));
-		}
-		else if(lastact1id != act1id)
-		{
-			// refresh sub tree
-			_objectmodel->Clear(_objectmodel->GetIndex(0, 4, parentIdx));
-			SelectAction(act1id, _objectmodel->GetIndex(0, 4, parentIdx));
-		}
 
 		return;
 	}
@@ -3793,21 +3318,36 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 
 
 		// get id associated to actions
-		long act1id = GetActionId(action1);
+		TimerTrigger* modifiedtrig = (TimerTrigger*)_triggers[id].get();
+		modifiedtrig->SetTriggerInfo(triggerinfo);
+		modifiedtrig->SetTime(time);
 
 
-		// created modified action and replace old one
-		boost::shared_ptr<TriggerBase> modifiedtrig(new TimerTrigger(triggerinfo, time));
 
-		long lastact1id = _triggers[id]->GetAction1();
-		modifiedtrig->SetAction1(act1id);
+		//action 1
+		{
+			std::string curract = GetActionType(modifiedtrig->GetAction1());
+
+			if(action1 != curract)
+			{
+				ActionBasePtr ptrtmp = CreateAction(action1);
+				modifiedtrig->SetAction1(ptrtmp);
+
+				QModelIndex curidx = _objectmodel->GetIndex(0, 4, parentIdx);
+				_objectmodel->Clear(curidx);
+				if(ptrtmp)
+				{
+					SelectAction(ptrtmp, curidx);
+
+					_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+				}
+
+			}
+		}
 
 
 		// update trigger name list
 		_triggerNameList->ReplaceData(oldname.c_str(), triggerinfo.name.c_str());
-
-
-		_triggers[id] = modifiedtrig;
 
 
 		// update trigger list display
@@ -3822,20 +3362,10 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 
 
 		//inform server
-		EditorUpdateBasePtr update = new UpdateEditor_AddOrModTrigger(modifiedtrig);
+		EditorUpdateBasePtr update = new UpdateEditor_AddOrModTrigger(_triggers[id]);
 		SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
 
 
-		if(act1id < 0)
-		{
-			_objectmodel->Clear(_objectmodel->GetIndex(0, 4, parentIdx));
-		}
-		else if(lastact1id != act1id)
-		{
-			// refresh sub tree
-			_objectmodel->Clear(_objectmodel->GetIndex(0, 4, parentIdx));
-			SelectAction(act1id, _objectmodel->GetIndex(0, 4, parentIdx));
-		}
 
 		return;
 	}
@@ -6221,62 +5751,6 @@ void EditorHandler::RemoveSelectedScriptDislay()
 	_scriptnode = NULL;
 }
 
-/***********************************************************
-reset action dialog
-***********************************************************/
-void EditorHandler::ResetActionDialog()
-{
-	_ui_addactiondialog.frame_TP->hide();
-	_ui_addactiondialog.frame_customAct->hide();
-	_ui_addactiondialog.frame_displaytext->hide();
-	_addactiondialog->resize(300, 100);
-}
-
-/***********************************************************
-set type of action dialog
-***********************************************************/
-void EditorHandler::SetActionDialogType( int type )
-{
-	ResetActionDialog();
-
-	switch(type)
-	{
-		case 0:
-		{
-			_ui_addactiondialog.frame_TP->show();
-			_ui_addactiondialog.comboBox_tp_map->setModel(_maplistmodel);
-			actiond_tpmap_changed(0);
-		}
-		break;
-
-
-		case 2:
-		{
-			_ui_addactiondialog.frame_customAct->show();
-		}
-		break;
-
-		case 3:
-		{
-			_ui_addactiondialog.frame_displaytext->show();
-		}
-		break;
-	}
-}
-
-/***********************************************************
-actiond_tpmap_changed
-***********************************************************/
-void EditorHandler::actiond_tpmap_changed( int type )
-{
-	std::string mapname = _ui_addactiondialog.comboBox_tp_map->currentText().toAscii().data();
-
-	std::map<std::string, boost::shared_ptr<CustomStringListModel> >::iterator it = 
-		_mapSpawningList.find(mapname);
-
-	if(it != _mapSpawningList.end())
-		_ui_addactiondialog.comboBox_tp_spawn->setModel(it->second.get());
-}
 
 
 
@@ -6623,3 +6097,41 @@ std::string EditorHandler::GetCScriptType(ClientScriptBasePtr ptr)
 	return res;
 }
 
+
+
+
+/***********************************************************
+create a new action
+***********************************************************/
+ActionBasePtr EditorHandler::CreateAction(const std::string & type)
+{
+	if(type == "TeleportAction")
+		return ActionBasePtr(new TeleportAction());
+
+	if(type == "ClientScriptAction")
+		return ActionBasePtr(new ClientScriptAction());
+
+	if(type == "CustomAction")
+		return ActionBasePtr(new CustomAction());
+
+	if(type == "DisplayTextAction")
+		return ActionBasePtr(new DisplayTextAction());
+
+	if(type == "ConditionalAction")
+		return ActionBasePtr(new ConditionalAction());
+
+	return ActionBasePtr();
+}
+
+
+/***********************************************************
+get type of action
+***********************************************************/
+std::string EditorHandler::GetActionType(ActionBasePtr ptr)
+{
+	std::string res = "No";
+	if(ptr)
+		res = ptr->GetTypeName();
+
+	return res;
+}
