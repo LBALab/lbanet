@@ -61,8 +61,6 @@ public:
 	// add a trigger 
 	virtual void AddTrigger(boost::shared_ptr<TriggerBase> trigger) = 0;
 
-	// add an action
-	virtual void AddAction(boost::shared_ptr<ActionBase> action) = 0;
 
 	// teleport an object
 	// ObjectType ==>
@@ -73,9 +71,6 @@ public:
 							const std::string &NewMapName, 
 							long SpawningId,
 							float offsetX, float offsetY, float offsetZ) = 0;
-
-	// get the action correspondant to the id
-	virtual boost::shared_ptr<ActionBase> GetAction(long actionid) = 0;
 
 
 	// execute client script - does not work on npc objects
