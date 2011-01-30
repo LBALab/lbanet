@@ -14,7 +14,7 @@ module LbaNet
 				
 	enum ObjectTypeEnum { NpcObject, PlayerObject, GhostObject, EditorObject };	
 	
-	enum RenderTypeEnum { RenderOsgModel, RenderSprite, RenderLba1M, RenderLba2M, RenderCross, RenderBox, RenderCapsule };	
+	enum RenderTypeEnum { RenderOsgModel, RenderSprite, RenderLba1M, RenderLba2M, RenderCross, RenderBox, RenderCapsule, NoRender };	
 	
 	enum PhysicalShapeEnum { NoShape, BoxShape, CapsuleShape, SphereShape, TriangleMeshShape };	
 	
