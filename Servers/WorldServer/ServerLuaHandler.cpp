@@ -112,7 +112,6 @@ ServerLuaHandler::ServerLuaHandler()
 		luabind::class_<ScriptEnvironmentBase>("ScriptEnvironmentBase")
 		.def("AddActorObject", &ScriptEnvironmentBase::AddActorObject)
 		.def("AddTrigger", &ScriptEnvironmentBase::AddTrigger)
-		.def("AddAction", &ScriptEnvironmentBase::AddAction)
 		.def("Teleport", &ScriptEnvironmentBase::Teleport)
 		.def("ExecuteClientScript", &ScriptEnvironmentBase::ExecuteClientScript)
 		.def("DisplayTextAction", &ScriptEnvironmentBase::DisplayTxtAction)
@@ -167,33 +166,38 @@ ServerLuaHandler::ServerLuaHandler()
 
 
 		luabind::class_<ActionBase, boost::shared_ptr<ActionBase> >("ActionBase")
-		.def(luabind::constructor<long, const std::string&>())
+		.def(luabind::constructor<>())
 		.def("Execute", &ActionBase::Execute)
 		,
 
 		luabind::class_<TeleportAction, ActionBase, boost::shared_ptr<ActionBase> >("TeleportAction")
-		.def(luabind::constructor<long, const std::string&, const std::string &, long>()),
+		.def(luabind::constructor<>())
+		.def("GetMapName", &TeleportAction::GetMapName)
+		.def("SetMapName", &TeleportAction::SetMapName)	
+		.def("GetSpawning", &TeleportAction::GetSpawning)
+		.def("SetSpawning", &TeleportAction::SetSpawning)		
+		,
 
 		luabind::class_<ClientScriptAction, ActionBase, boost::shared_ptr<ActionBase> >("ClientScriptAction")
-		.def(luabind::constructor<long, const std::string&>())
+		.def(luabind::constructor<>())
 		.def("GetScript", &ClientScriptAction::GetScript)
 		.def("SetScript", &ClientScriptAction::SetScript)			
 		,
 
 		luabind::class_<CustomAction, ActionBase, boost::shared_ptr<ActionBase> >("CustomAction")
-		.def(luabind::constructor<long, const std::string&, const std::string&>())
+		.def(luabind::constructor<>())
 		.def("GetLuaFunctionName", &CustomAction::GetLuaFunctionName)
 		.def("SetLuaFunctionName", &CustomAction::SetLuaFunctionName)		
 		,
 
 		luabind::class_<DisplayTextAction, ActionBase, boost::shared_ptr<ActionBase> >("DisplayTextAction")
-		.def(luabind::constructor<long, const std::string&, long>())
+		.def(luabind::constructor<>())
 		.def("GetTextId", &DisplayTextAction::GetTextId)
 		.def("SetTextId", &DisplayTextAction::SetTextId)		
 		,
 
 		luabind::class_<ConditionalAction, ActionBase, boost::shared_ptr<ActionBase> >("ConditionalAction")
-		.def(luabind::constructor<long, const std::string&>())
+		.def(luabind::constructor<>())
 		.def("SetCondition", &ConditionalAction::SetCondition)
 		.def("GetCondition", &ConditionalAction::GetCondition)
 		.def("SetActionTrue", &ConditionalAction::SetActionTrue)
@@ -229,7 +233,7 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetExitPositionX", &TakeExitUpScript::GetExitPositionX)
 		.def("GetExitPositionY", &TakeExitUpScript::GetExitPositionY)
 		.def("GetExitPositionZ", &TakeExitUpScript::GetExitPositionZ)
-		.def("SetExitPositionX", &TakeExitUpScript::GetExitPositionX)
+		.def("SetExitPositionX", &TakeExitUpScript::SetExitPositionX)
 		.def("SetExitPositionY", &TakeExitUpScript::SetExitPositionY)
 		.def("SetExitPositionZ", &TakeExitUpScript::SetExitPositionZ)
 		.def("GetExitDirection", &TakeExitUpScript::GetExitDirection)
@@ -241,7 +245,7 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetExitPositionX", &TakeExitDownScript::GetExitPositionX)
 		.def("GetExitPositionY", &TakeExitDownScript::GetExitPositionY)
 		.def("GetExitPositionZ", &TakeExitDownScript::GetExitPositionZ)
-		.def("SetExitPositionX", &TakeExitDownScript::GetExitPositionX)
+		.def("SetExitPositionX", &TakeExitDownScript::SetExitPositionX)
 		.def("SetExitPositionY", &TakeExitDownScript::SetExitPositionY)
 		.def("SetExitPositionZ", &TakeExitDownScript::SetExitPositionZ)
 		.def("GetExitDirection", &TakeExitDownScript::GetExitDirection)
@@ -267,12 +271,15 @@ ServerLuaHandler::ServerLuaHandler()
 		luabind::class_<NegateCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("NegateCondition")
 		.def(luabind::constructor<>())
 		.def("SetCondition", &NegateCondition::SetCondition)
+		.def("GetCondition", &NegateCondition::GetCondition)
 		,
 
 		luabind::class_<AndCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("AndCondition")
 		.def(luabind::constructor<>())
 		.def("SetCondition1", &AndCondition::SetCondition1)
 		.def("SetCondition2", &AndCondition::SetCondition2)
+		.def("GetCondition1", &AndCondition::GetCondition1)
+		.def("GetCondition2", &AndCondition::GetCondition2)
 		,
 
 
@@ -280,6 +287,8 @@ ServerLuaHandler::ServerLuaHandler()
 		.def(luabind::constructor<>())
 		.def("SetCondition1", &OrCondition::SetCondition1)
 		.def("SetCondition2", &OrCondition::SetCondition2)
+		.def("GetCondition1", &OrCondition::GetCondition1)
+		.def("GetCondition2", &OrCondition::GetCondition2)
 		];
 
 	}

@@ -103,11 +103,10 @@ void ZoneTrigger::Entered(int ObjectType, Ice::Long ObjectId,
 
 	if(_AllowMultiActivation || _objectsinside.size() == 1)
 	{
-		boost::shared_ptr<ActionBase> act = _owner->GetAction(_actionid1);
-		if(act)
+		if(_action1)
 		{
 			OffsetArgument arg(offsetX, offsetY, offsetZ);
-			act->Execute(_owner, ObjectType, ObjectId, &arg);
+			_action1->Execute(_owner, ObjectType, ObjectId, &arg);
 		}
 	}
 }
@@ -122,9 +121,8 @@ void ZoneTrigger::Left(int ObjectType, Ice::Long ObjectId)
 
 	if(_AllowMultiActivation || _objectsinside.size() == 0)
 	{
-		boost::shared_ptr<ActionBase> act = _owner->GetAction(_actionid2);
-		if(act)
-			act->Execute(_owner, ObjectType, ObjectId, 0);
+		if(_action2)
+			_action2->Execute(_owner, ObjectType, ObjectId, 0);
 	}
 }
 
@@ -241,9 +239,34 @@ void ZoneTrigger::SaveToLuaFile(std::ofstream & file)
 	file<<"\tTrigger_"<<GetId()<<" = ZoneTrigger(Trigger_"<<GetId()<<"_info, "
 		<<(_sizeX*2)<<", "<<_sizeY<<", "<<(_sizeZ*2)<<", "<<(_AllowMultiActivation?"true":"false")<<")"<<std::endl;
 	file<<"\tTrigger_"<<GetId()<<":SetPosition("<<GetPosX()<<", "<<GetPosY()<<", "<<GetPosZ()<<")"<<std::endl;
-	file<<"\tTrigger_"<<GetId()<<":SetAction1("<<GetAction1()<<")"<<std::endl;
-	file<<"\tTrigger_"<<GetId()<<":SetAction2("<<GetAction2()<<")"<<std::endl;
-	file<<"\tTrigger_"<<GetId()<<":SetAction3("<<GetAction3()<<")"<<std::endl;
+
+	if(_action1)
+	{
+		std::stringstream aname;
+		aname<<"Trigger_"<<GetId()<<"_act1";
+		_action1->SaveToLuaFile(file, aname.str());
+
+		file<<"\tTrigger_"<<GetId()<<":SetAction1("<<aname.str()<<")"<<std::endl;
+	}
+
+	if(_action2)
+	{
+		std::stringstream aname;
+		aname<<"Trigger_"<<GetId()<<"_act2";
+		_action2->SaveToLuaFile(file, aname.str());
+
+		file<<"\tTrigger_"<<GetId()<<":SetAction1("<<aname.str()<<")"<<std::endl;
+	}
+
+	if(_action3)
+	{
+		std::stringstream aname;
+		aname<<"Trigger_"<<GetId()<<"_act3";
+		_action3->SaveToLuaFile(file, aname.str());
+
+		file<<"\tTrigger_"<<GetId()<<":SetAction1("<<aname.str()<<")"<<std::endl;
+	}
+
 	file<<"\tenvironment:AddTrigger(Trigger_"<<GetId()<<")"<<std::endl<<std::endl;
 }
 
@@ -282,6 +305,15 @@ float ActivationTrigger::GetDistance()
 	return sqrt(_MaxSquaredDistance);
 }
 
+/***********************************************************
+set distance
+***********************************************************/
+void ActivationTrigger::SetDistance(float distance)
+{
+	_MaxSquaredDistance = (distance*distance);
+}
+
+
 
 /***********************************************************
 //! check trigger on object action
@@ -314,9 +346,8 @@ void ActivationTrigger::ObjectAction(int ObjectType, Ice::Long ObjectId,
 	float distance = (diffX*diffX) + (diffY*diffY) + (diffZ*diffZ);
 	if(distance <= _MaxSquaredDistance)
 	{
-		boost::shared_ptr<ActionBase> act = _owner->GetAction(_actionid1);
-		if(act)
-			act->Execute(_owner, ObjectType, ObjectId, 0);
+		if(_action1)
+			_action1->Execute(_owner, ObjectType, ObjectId, 0);
 	}
 }
 
@@ -366,9 +397,34 @@ void ActivationTrigger::SaveToLuaFile(std::ofstream & file)
 	file<<"\tTrigger_"<<GetId()<<" = ActivationTrigger(Trigger_"<<GetId()<<"_info, "
 		<<GetDistance()<<", \""<<_AcceptedMode1<<"\", \""<<_AcceptedMode2<<"\")"<<std::endl;
 	file<<"\tTrigger_"<<GetId()<<":SetPosition("<<GetPosX()<<", "<<GetPosY()<<", "<<GetPosZ()<<")"<<std::endl;
-	file<<"\tTrigger_"<<GetId()<<":SetAction1("<<GetAction1()<<")"<<std::endl;
-	file<<"\tTrigger_"<<GetId()<<":SetAction2("<<GetAction2()<<")"<<std::endl;
-	file<<"\tTrigger_"<<GetId()<<":SetAction3("<<GetAction3()<<")"<<std::endl;
+
+	if(_action1)
+	{
+		std::stringstream aname;
+		aname<<"Trigger_"<<GetId()<<"_act1";
+		_action1->SaveToLuaFile(file, aname.str());
+
+		file<<"\tTrigger_"<<GetId()<<":SetAction1("<<aname.str()<<")"<<std::endl;
+	}
+
+	if(_action2)
+	{
+		std::stringstream aname;
+		aname<<"Trigger_"<<GetId()<<"_act2";
+		_action2->SaveToLuaFile(file, aname.str());
+
+		file<<"\tTrigger_"<<GetId()<<":SetAction1("<<aname.str()<<")"<<std::endl;
+	}
+
+	if(_action3)
+	{
+		std::stringstream aname;
+		aname<<"Trigger_"<<GetId()<<"_act3";
+		_action3->SaveToLuaFile(file, aname.str());
+
+		file<<"\tTrigger_"<<GetId()<<":SetAction1("<<aname.str()<<")"<<std::endl;
+	}
+
 	file<<"\tenvironment:AddTrigger(Trigger_"<<GetId()<<")"<<std::endl<<std::endl;
 }
 
@@ -430,9 +486,8 @@ void ZoneActionTrigger::ObjectAction(int ObjectType, Ice::Long ObjectId,
 		(info.Y >= (_posY)		  && info.Y < (_posY+_sizeY)) &&
 		(info.Z >= (_posZ-_sizeZ) && info.Z < (_posZ+_sizeZ)))
 	{
-		boost::shared_ptr<ActionBase> act = _owner->GetAction(_actionid1);
-		if(act)
-			act->Execute(_owner, ObjectType, ObjectId, 0);
+		if(_action1)
+			_action1->Execute(_owner, ObjectType, ObjectId, 0);
 	}
 }
 
@@ -481,9 +536,34 @@ void ZoneActionTrigger::SaveToLuaFile(std::ofstream & file)
 	file<<"\tTrigger_"<<GetId()<<" = ZoneActionTrigger(Trigger_"<<GetId()<<"_info, "
 		<<(_sizeX*2)<<", "<<_sizeY<<", "<<(_sizeZ*2)<<", \""<<_AcceptedMode1<<"\", \""<<_AcceptedMode2<<"\")"<<std::endl;
 	file<<"\tTrigger_"<<GetId()<<":SetPosition("<<GetPosX()<<", "<<GetPosY()<<", "<<GetPosZ()<<")"<<std::endl;
-	file<<"\tTrigger_"<<GetId()<<":SetAction1("<<GetAction1()<<")"<<std::endl;
-	file<<"\tTrigger_"<<GetId()<<":SetAction2("<<GetAction2()<<")"<<std::endl;
-	file<<"\tTrigger_"<<GetId()<<":SetAction3("<<GetAction3()<<")"<<std::endl;
+
+	if(_action1)
+	{
+		std::stringstream aname;
+		aname<<"Trigger_"<<GetId()<<"_act1";
+		_action1->SaveToLuaFile(file, aname.str());
+
+		file<<"\tTrigger_"<<GetId()<<":SetAction1("<<aname.str()<<")"<<std::endl;
+	}
+
+	if(_action2)
+	{
+		std::stringstream aname;
+		aname<<"Trigger_"<<GetId()<<"_act2";
+		_action2->SaveToLuaFile(file, aname.str());
+
+		file<<"\tTrigger_"<<GetId()<<":SetAction1("<<aname.str()<<")"<<std::endl;
+	}
+
+	if(_action3)
+	{
+		std::stringstream aname;
+		aname<<"Trigger_"<<GetId()<<"_act3";
+		_action3->SaveToLuaFile(file, aname.str());
+
+		file<<"\tTrigger_"<<GetId()<<":SetAction1("<<aname.str()<<")"<<std::endl;
+	}
+
 	file<<"\tenvironment:AddTrigger(Trigger_"<<GetId()<<")"<<std::endl<<std::endl;
 }
 
@@ -535,9 +615,8 @@ void TimerTrigger::NewFrame()
 			_lasttime = curr;
 
 			// execute action
-			boost::shared_ptr<ActionBase> act = _owner->GetAction(_actionid1);
-			if(act)
-				act->Execute(_owner, 0, 0, 0);
+			if(_action1)
+				_action1->Execute(_owner, 0, 0, 0);
 		}
 	}
 	else

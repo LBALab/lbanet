@@ -33,13 +33,16 @@ class ScriptEnvironmentBase;
 #include "Conditions.h"
 #include "ClientScript.h"
 
+class ActionBase;
+typedef boost::shared_ptr<ActionBase> ActionBasePtr;
+
+
 //! base class used as action to be performed on trigger
 class ActionBase
 {
 public:
 	//! constructor
-	ActionBase(long id, const std::string &name)
-		: _id(id), _name(name)
+	ActionBase()
 	{}
 	
 	//! destructor
@@ -57,25 +60,9 @@ public:
 	//! get type of the action in string form
 	virtual std::string GetTypeName(){ return "";}
 
-	//! get action id
-	long GetId()
-	{ return _id;}
-
-	//! get action name
-	std::string GetName()
-	{ return _name;}
-
-	//! set action name
-	void SetName(const std::string & name)
-	{ _name = name;}
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file){}
-
-
-private:
-	long			_id;
-	std::string		_name;
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name){}
 
 };
 
@@ -86,8 +73,7 @@ class TeleportAction : public ActionBase
 {
 public:
 	//! constructor
-	TeleportAction(long id, const std::string &name,
-						const std::string & NewMap, long SpawningId);
+	TeleportAction();
 	
 	//! destructor
 	virtual ~TeleportAction(void);
@@ -108,7 +94,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file);
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
 	// acessor
 	std::string GetMapName()
@@ -117,6 +103,16 @@ public:
 	// acessor
 	long GetSpawning()
 	{ return _SpawningId;}
+
+
+	// acessor
+	void SetMapName(std::string map)
+	{ _NewMap = map;}
+
+	// acessor
+	void SetSpawning(long spawn)
+	{ _SpawningId = spawn;}
+
 
 private:
 	std::string		_NewMap;
@@ -130,7 +126,7 @@ class ClientScriptAction : public ActionBase
 {
 public:
 	//! constructor
-	ClientScriptAction(long id, const std::string &name);
+	ClientScriptAction();
 	
 	//! destructor
 	virtual ~ClientScriptAction(void);
@@ -151,7 +147,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file);
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
 	// accessor
 	ClientScriptBasePtr GetScript()
@@ -172,8 +168,7 @@ class CustomAction : public ActionBase
 {
 public:
 	//! constructor
-	CustomAction(long id, const std::string &name,
-						const std::string &customluafunctionname);
+	CustomAction();
 	
 	//! destructor
 	virtual ~CustomAction(void);
@@ -194,7 +189,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file);
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
 	// accessor
 	std::string GetLuaFunctionName()
@@ -215,7 +210,7 @@ class DisplayTextAction : public ActionBase
 {
 public:
 	//! constructor
-	DisplayTextAction(long id, const std::string &name, long TextId);
+	DisplayTextAction();
 	
 	//! destructor
 	virtual ~DisplayTextAction(void);
@@ -236,7 +231,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file);
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
 	// acessor
 	long GetTextId()
@@ -258,7 +253,7 @@ class ConditionalAction : public ActionBase
 {
 public:
 	//! constructor
-	ConditionalAction(long id, const std::string &name);
+	ConditionalAction();
 	
 	//! destructor
 	virtual ~ConditionalAction(void);
@@ -279,7 +274,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file);
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
 	//accessors
 	void SetCondition(ConditionBasePtr	condition)
@@ -288,23 +283,23 @@ public:
 	ConditionBasePtr GetCondition()
 	{ return _condition; }
 
-	void SetActionTrue(long act)
+	void SetActionTrue(ActionBasePtr act)
 	{_actionTrue = act;}
 
-	void SetActionFalse(long act)
+	void SetActionFalse(ActionBasePtr act)
 	{_actionFalse = act;}
 
-	long GetActionTrue()
+	ActionBasePtr GetActionTrue()
 	{ return _actionTrue; }
 
-	long GetActionFalse()
+	ActionBasePtr GetActionFalse()
 	{ return _actionFalse; }
 
 private:
 	ConditionBasePtr		_condition;
 
-	long					_actionTrue;
-	long					_actionFalse;
+	ActionBasePtr			_actionTrue;
+	ActionBasePtr			_actionFalse;
 };
 
 #endif

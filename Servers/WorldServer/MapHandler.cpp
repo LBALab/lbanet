@@ -93,8 +93,7 @@ void EventsSenderToAll::run()
 constructor
 ***********************************************************/
 MapHandler::MapHandler(const MapInfo & mapinfo, 
-						const std::string & mapluafilename,
-						const std::string & globalluafilname)
+						const std::string & mapluafilename)
 : _Trunning(false), _mapinfo(mapinfo)
 {
 	// initialize the gui handlers
@@ -108,12 +107,8 @@ MapHandler::MapHandler(const MapInfo & mapinfo,
 	_guihandlers["ShopBox"] = boost::shared_ptr<ServerGUIBase>(new ShopBoxHandler());
 	_guihandlers["InventoryBox"] = boost::shared_ptr<ServerGUIBase>(new InventoryBoxHandler());
 
-	_luaH.LoadFile(globalluafilname);
 	_luaH.LoadFile(mapluafilename);
 
-	//todo - aussi virer plus tard serveur global lua load - do a find on Loadfile pour virer...
-
-	_luaH.CallLua("InitGlobal", this);
 	_luaH.CallLua("InitMap", this);
 
 
@@ -977,29 +972,6 @@ void MapHandler::AddTrigger(boost::shared_ptr<TriggerBase> trigger)
 	}
 }
 
-	
-/***********************************************************
-add an action
-***********************************************************/				
-void MapHandler::AddAction(boost::shared_ptr<ActionBase> action)
-{
-	if(action)
-		_actions[action->GetId()] = action;
-}
-
-
-/***********************************************************
-get the action correspondant to the id
-***********************************************************/				
-boost::shared_ptr<ActionBase> MapHandler::GetAction(long actionid)
-{
-	std::map<long, boost::shared_ptr<ActionBase> >::iterator it = _actions.find(actionid);
-	if(it != _actions.end())
-		return it->second;
-
-	return boost::shared_ptr<ActionBase>();
-}
-
 
 /***********************************************************
 process player action
@@ -1387,27 +1359,6 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 	}
 
 
-	// action update
-	if(info == typeid(UpdateEditor_AddOrModAction))
-	{
-		UpdateEditor_AddOrModAction* castedptr = 
-			dynamic_cast<UpdateEditor_AddOrModAction *>(&obj);
-
-		AddAction(castedptr->_action);
-		return;
-	}
-
-
-	// action remove
-	if(info == typeid(UpdateEditor_RemoveAction))
-	{
-		UpdateEditor_RemoveAction* castedptr = 
-			dynamic_cast<UpdateEditor_RemoveAction *>(&obj);
-
-		Editor_RemoveAction(castedptr->_ActionId);
-	}
-
-
 	// trigger update
 	if(info == typeid(UpdateEditor_AddOrModTrigger))
 	{
@@ -1542,20 +1493,7 @@ void MapHandler::Editor_RemoveSpawning(long SpawningId)
 #endif
 
 
-/***********************************************************
-remove an action
-***********************************************************/
-#ifdef _USE_QT_EDITOR_
-void MapHandler::Editor_RemoveAction(long ActionId)
-{
-	std::map<long, boost::shared_ptr<ActionBase> >::iterator it = _actions.find(ActionId);
-	if(it != _actions.end())
-	{
-		// erase from data
-		_actions.erase(it);
-	}
-}
-#endif
+
 
 
 /***********************************************************

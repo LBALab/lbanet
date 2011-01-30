@@ -5,9 +5,8 @@
 /***********************************************************
 constructor
 ***********************************************************/
-TeleportAction::TeleportAction(long id, const std::string &name,
-							   const std::string & NewMap, long SpawningId)
-: ActionBase(id, name), _NewMap(NewMap), _SpawningId(SpawningId)
+TeleportAction::TeleportAction()
+: _SpawningId(-1)
 {
 
 }
@@ -56,12 +55,11 @@ void TeleportAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice:
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void TeleportAction::SaveToLuaFile(std::ofstream & file)
+void TeleportAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
-	file<<"\tAction_"<<GetId()<<" = TeleportAction("<<GetId()<<", \""
-				<<GetName()<<"\", \""<<_NewMap<<"\", "<<_SpawningId<<")"<<std::endl;
-
-	file<<"\tenvironment:AddAction(Action_"<<GetId()<<")"<<std::endl<<std::endl;
+	file<<"\t"<<name<<" = TeleportAction()"<<std::endl;
+	file<<"\t"<<name<<":SetMapName(\""<<_NewMap<<"\")"<<std::endl;
+	file<<"\t"<<name<<":SetSpawning("<<_SpawningId<<")"<<std::endl;
 }
 
 
@@ -70,8 +68,7 @@ void TeleportAction::SaveToLuaFile(std::ofstream & file)
 /***********************************************************
 constructor
 ***********************************************************/
-ClientScriptAction::ClientScriptAction(long id, const std::string &name)
-: ActionBase(id, name)
+ClientScriptAction::ClientScriptAction()
 {
 
 }
@@ -99,20 +96,17 @@ void ClientScriptAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, 
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ClientScriptAction::SaveToLuaFile(std::ofstream & file)
+void ClientScriptAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
-	file<<"\tAction_"<<GetId()<<" = ClientScriptAction("<<GetId()<<", \""
-				<<GetName()<<"\")"<<std::endl;
+	file<<"\t"<<name<<" = ClientScriptAction()"<<std::endl;
 
 	if(_Script)
 	{
 		std::stringstream csname;
-		csname<<"Action_"<<GetId()<<"_cs";
+		csname<<name<<"_cs";
 		_Script->SaveToLuaFile(file, csname.str());
-		file<<"\tAction_"<<GetId()<<":SetScript("<<csname.str()<<")"<<std::endl;
+		file<<"\t"<<name<<":SetScript("<<csname.str()<<")"<<std::endl;
 	}
-
-	file<<"\tenvironment:AddAction(Action_"<<GetId()<<")"<<std::endl<<std::endl;
 }
 
 
@@ -123,9 +117,7 @@ void ClientScriptAction::SaveToLuaFile(std::ofstream & file)
 /***********************************************************
 constructor
 ***********************************************************/
-CustomAction::CustomAction(long id, const std::string &name,
-									  const std::string &customluafunctionname)
-: ActionBase(id, name), _customluafunctionname(customluafunctionname)
+CustomAction::CustomAction()
 {
 
 }
@@ -146,21 +138,18 @@ void CustomAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::L
 								ActionArgumentBase* args)
 {
 	if(owner && _customluafunctionname != "")
-	{
 		owner->ExecuteCustomAction(ObjectType, (long)ObjectId, _customluafunctionname, args);
-	}
+
 }
 
 
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void CustomAction::SaveToLuaFile(std::ofstream & file)
+void CustomAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
-	file<<"\tAction_"<<GetId()<<" = CustomAction("<<GetId()<<", \""
-				<<GetName()<<"\", "<<_customluafunctionname<<")"<<std::endl;
-
-	file<<"\tenvironment:AddAction(Action_"<<GetId()<<")"<<std::endl<<std::endl;
+	file<<"\t"<<name<<" = CustomAction()"<<std::endl;
+	file<<"\t"<<name<<":SetLuaFunctionName(\""<<_customluafunctionname<<"\")"<<std::endl;
 }
 
 
@@ -169,8 +158,8 @@ void CustomAction::SaveToLuaFile(std::ofstream & file)
 /***********************************************************
 constructor
 ***********************************************************/
-DisplayTextAction::DisplayTextAction(long id, const std::string &name, long TextId)
-: ActionBase(id, name), _TextId(TextId)
+DisplayTextAction::DisplayTextAction()
+: _TextId(-1)
 {
 
 }
@@ -198,12 +187,10 @@ void DisplayTextAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, I
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void DisplayTextAction::SaveToLuaFile(std::ofstream & file)
+void DisplayTextAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
-	file<<"\tAction_"<<GetId()<<" = DisplayTextAction("<<GetId()<<", \""
-				<<GetName()<<"\", "<<_TextId<<")"<<std::endl;
-
-	file<<"\tenvironment:AddAction(Action_"<<GetId()<<")"<<std::endl<<std::endl;
+	file<<"\t"<<name<<" = DisplayTextAction()"<<std::endl;
+	file<<"\t"<<name<<":SetTextId("<<_TextId<<")"<<std::endl;
 }
 
 
@@ -212,8 +199,7 @@ void DisplayTextAction::SaveToLuaFile(std::ofstream & file)
 /***********************************************************
 constructor
 ***********************************************************/	
-ConditionalAction::ConditionalAction(long id, const std::string &name)
-: ActionBase(id, name)
+ConditionalAction::ConditionalAction()
 {
 
 }
@@ -236,15 +222,13 @@ void ConditionalAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, I
 {
 	if(_condition && _condition->Passed(owner, ObjectType, ObjectId))
 	{
-		boost::shared_ptr<ActionBase> act = owner->GetAction(_actionTrue);
-		if(act)
-			act->Execute(owner, ObjectType, ObjectId, 0);
+		if(_actionTrue)
+			_actionTrue->Execute(owner, ObjectType, ObjectId, 0);
 	}
 	else
 	{
-		boost::shared_ptr<ActionBase> act = owner->GetAction(_actionFalse);
-		if(act)
-			act->Execute(owner, ObjectType, ObjectId, 0);
+		if(_actionFalse)
+			_actionFalse->Execute(owner, ObjectType, ObjectId, 0);
 	}
 }
 
@@ -254,22 +238,35 @@ void ConditionalAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, I
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ConditionalAction::SaveToLuaFile(std::ofstream & file)
+void ConditionalAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
-	file<<"\tAction_"<<GetId()<<" = ConditionalAction("<<GetId()<<", \""
-				<<GetName()<<"\")"<<std::endl;
+	file<<"\t"<<name<<" = ConditionalAction()"<<std::endl;
 
-	file<<"\tAction_"<<GetId()<<":SetActionTrue("<<_actionTrue<<")"<<std::endl;
-	file<<"\tAction_"<<GetId()<<":SetActionFalse("<<_actionFalse<<")"<<std::endl;
+	if(_actionTrue)
+	{
+		std::stringstream aname;
+		aname<<name<<"_act1";
+		_actionTrue->SaveToLuaFile(file, aname.str());
+
+		file<<"\t"<<name<<":SetActionTrue("<<aname.str()<<")"<<std::endl;
+	}
+
+	if(_actionFalse)
+	{
+		std::stringstream aname;
+		aname<<name<<"_act2";
+		_actionFalse->SaveToLuaFile(file, aname.str());
+
+		file<<"\t"<<name<<":SetActionFalse("<<aname.str()<<")"<<std::endl;
+	}
 
 	if(_condition)
 	{
 		std::stringstream condname;
-		condname<<"Action_"<<GetId()<<"_cond";
+		condname<<name<<"_cond";
 		_condition->SaveToLuaFile(file, condname.str());
 
-		file<<"\tAction_"<<GetId()<<":SetCondition("<<condname.str()<<")"<<std::endl;
+		file<<"\t"<<name<<":SetCondition("<<condname.str()<<")"<<std::endl;
 	}
 
-	file<<"\tenvironment:AddAction(Action_"<<GetId()<<")"<<std::endl<<std::endl;
 }

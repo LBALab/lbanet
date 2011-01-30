@@ -45,11 +45,10 @@ void SharedDataHandler::SetWorldDefaultInformation(WorldInformation &worldinfo)
 	for(; itm != endm; ++itm)
 	{
 		std::string luafile = "Worlds/" + _worldinfo.Description.WorldName + "/Lua/";
-		std::string globalluafile = luafile + "global_server.lua";
 		luafile += itm->second.Name + "_server.lua";
 
 		// create map object
-		boost::shared_ptr<MapHandler> mapH(new MapHandler(itm->second, luafile, globalluafile));
+		boost::shared_ptr<MapHandler> mapH(new MapHandler(itm->second, luafile));
 		_currentmaps[itm->first] = mapH;
 	}
 }
@@ -557,9 +556,8 @@ void SharedDataHandler::EditorUpdate(const std::string &mapname,
 
 			// create map object
 			std::string luafile = "Worlds/" + _worldinfo.Description.WorldName + "/Lua/";
-			std::string globalluafile = luafile + "global_server.lua";
 			luafile += castedptr->_mapinfo.Name + "_server.lua";
-			boost::shared_ptr<MapHandler> mapH(new MapHandler(castedptr->_mapinfo, luafile, globalluafile));
+			boost::shared_ptr<MapHandler> mapH(new MapHandler(castedptr->_mapinfo, luafile));
 			_currentmaps[castedptr->_mapinfo.Name] = mapH;
 		}
 	}

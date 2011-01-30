@@ -58,7 +58,6 @@ public:
 	//! constructor
 	TriggerBase(const TriggerInfo & triggerinfo)
 		: _triggerinfo(triggerinfo),
-			_actionid1(-1), _actionid2(-1), _actionid3(-1),
 			_posX(0), _posY(0), _posZ(0)
 	{}
 	
@@ -91,32 +90,34 @@ public:
 	void SetName(const std::string & name)
 	{ _triggerinfo.name = name;}
 
-
+	//! set trigger info
+	void SetTriggerInfo(const TriggerInfo& triggerinfo)
+	{ _triggerinfo = triggerinfo;}
 
 	//! set action1
-	void SetAction1(long actionid)
-	{_actionid1 = actionid;}
+	void SetAction1(ActionBasePtr action)
+	{_action1 = action;}
 
 	//! set action2
-	void SetAction2(long actionid)
-	{_actionid2 = actionid;}
+	void SetAction2(ActionBasePtr action)
+	{_action2 = action;}
 
 	//! set action3
-	void SetAction3(long actionid)
-	{_actionid3 = actionid;}
+	void SetAction3(ActionBasePtr action)
+	{_action3 = action;}
 
 
 	//! get action1
-	long GetAction1()
-	{ return _actionid1;}
+	ActionBasePtr GetAction1()
+	{ return _action1;}
 
 	//! get action2
-	long GetAction2()
-	{ return _actionid2;}
+	ActionBasePtr GetAction2()
+	{ return _action2;}
 
 	//! get action3
-	long GetAction3()
-	{ return _actionid3;}
+	ActionBasePtr GetAction3()
+	{ return _action3;}
 
 	// acessor
 	float GetPosX()
@@ -204,9 +205,9 @@ protected:
 	float								_posY;
 	float								_posZ;
 
-	long								_actionid1;
-	long								_actionid2;
-	long								_actionid3;
+	ActionBasePtr						_action1;
+	ActionBasePtr						_action2;
+	ActionBasePtr						_action3;
 
 };
 
@@ -262,9 +263,21 @@ public:
 	float GetSizeZ()
 	{ return _sizeZ*2;}
 
+	// set size
+	void SetSize(float X, float Y, float Z)
+	{
+		_sizeX = X / 2;
+		_sizeY = Y;
+		_sizeZ = Z / 2;
+	}
+
 	// acessor
 	bool MultiActivation()
 	{ return _AllowMultiActivation;}
+
+	// acessor
+	void SetMultiActivation(bool allow)
+	{_AllowMultiActivation = allow;}
 
 
 	//! get object to display for editor
@@ -352,6 +365,9 @@ public:
 	//! get distance
 	float GetDistance();
 
+	//! set distance
+	void SetDistance(float distance);
+
 	// acessor
 	std::string GetAcceptedMode1()
 	{return _AcceptedMode1;}
@@ -359,6 +375,14 @@ public:
 	// acessor
 	std::string GetAcceptedMode2()
 	{return _AcceptedMode2;}
+
+	// acessor
+	void SetMode1(const std::string & mode)
+	{_AcceptedMode1 = mode;}
+
+	// acessor
+	void SetMode2(const std::string & mode)
+	{_AcceptedMode2 = mode;}
 
 
 	//! get object to display for editor
@@ -414,6 +438,14 @@ public:
 	float GetSizeZ()
 	{ return _sizeZ*2;}
 
+	// set size
+	void SetSize(float X, float Y, float Z)
+	{
+		_sizeX = X / 2;
+		_sizeY = Y;
+		_sizeZ = Z / 2;
+	}
+
 	// acessor
 	std::string GetAcceptedMode1()
 	{return _AcceptedMode1;}
@@ -421,6 +453,14 @@ public:
 	// acessor
 	std::string GetAcceptedMode2()
 	{return _AcceptedMode2;}
+
+	// acessor
+	void SetMode1(const std::string & mode)
+	{_AcceptedMode1 = mode;}
+
+	// acessor
+	void SetMode2(const std::string & mode)
+	{_AcceptedMode2 = mode;}
 
 	//! get object to display for editor
 	virtual ActorObjectInfo GetDisplayObject();
@@ -466,6 +506,10 @@ public:
 	// acessor
 	long GetTimeinMs()
 	{ return _TimeInMillisecond;}
+
+	// acessor
+	void SetTime(long ms)
+	{ _TimeInMillisecond = ms;}
 
 private:
 	long	_TimeInMillisecond;

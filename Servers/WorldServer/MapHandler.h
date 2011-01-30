@@ -98,8 +98,7 @@ class MapHandler : public Runnable, public ScriptEnvironmentBase
 public:
 	//! constructor
 	MapHandler(const MapInfo & mapinfo, 
-					const std::string & mapluafilename,
-					const std::string & globalluafilname);
+					const std::string & mapluafilename);
 
 	//! desructor
 	~MapHandler(void);
@@ -139,8 +138,6 @@ public:
 	// add a trigger of moving type to the map
 	virtual void AddTrigger(boost::shared_ptr<TriggerBase> trigger);
 					
-	// add an action
-	virtual void AddAction(boost::shared_ptr<ActionBase> action);
 
 	// teleport an object
 	// ObjectType ==>
@@ -151,10 +148,6 @@ public:
 						const std::string &NewMapName, 
 						long SpawningId,
 						float offsetX, float offsetY, float offsetZ);
-
-
-	// get the action correspondant to the id
-	virtual boost::shared_ptr<ActionBase> GetAction(long actionid);
 
 
 	// execute client script - does not work on npc objects
@@ -317,8 +310,7 @@ protected:
 	//! remove a spawning
 	void Editor_RemoveSpawning(long SpawningId);
 
-	//! remove an action
-	void Editor_RemoveAction(long ActionId);
+
 
 	//! remove an trigger
 	void Editor_RemoveTrigger(long TriggerId);
@@ -388,7 +380,6 @@ private:
 	ServerLuaHandler											_luaH;
 
 	std::map<long, boost::shared_ptr<TriggerBase> >				_triggers;
-	std::map<long, boost::shared_ptr<ActionBase> >				_actions;
 };
 
 

@@ -87,48 +87,6 @@ public:
 
 
 
-/*
-************************************************************************************************************************
-*                                                  class UpdateEditor_AddAction
-*
-*	base class for all editor update
-************************************************************************************************************************
-*/
-class UpdateEditor_AddOrModAction : public LbaNet::EditorUpdateBase
-{
-public:
-	//! constructor
-	UpdateEditor_AddOrModAction(boost::shared_ptr<ActionBase> action)
-	: _action(action)
-	{
-	}
-
-	boost::shared_ptr<ActionBase> _action;
-};
-
-
-
-/*
-************************************************************************************************************************
-*                                                  class UpdateEditor_RemoveAction
-*
-*	base class for all editor update
-************************************************************************************************************************
-*/
-class UpdateEditor_RemoveAction : public LbaNet::EditorUpdateBase
-{
-public:
-	//! constructor
-	UpdateEditor_RemoveAction(long ActionId)
-	: _ActionId(ActionId)
-	{
-	}
-
-	long 		_ActionId;
-};
-
-
-
 
 
 
