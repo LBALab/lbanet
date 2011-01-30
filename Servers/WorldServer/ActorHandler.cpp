@@ -35,6 +35,9 @@ void ActorObjectInfo::SetRenderType(int rtype)
 {
 	switch(rtype)
 	{
+		case 0:
+			DisplayDesc.TypeRenderer = LbaNet::NoRender;
+		break;
 		case 1:
 			DisplayDesc.TypeRenderer = LbaNet::RenderOsgModel;
 		break;
@@ -46,6 +49,15 @@ void ActorObjectInfo::SetRenderType(int rtype)
 		break;
 		case 4:
 			DisplayDesc.TypeRenderer = LbaNet::RenderLba2M;
+		break;
+		case 5:
+			DisplayDesc.TypeRenderer = LbaNet::RenderCross;
+		break;
+		case 6:
+			DisplayDesc.TypeRenderer = LbaNet::RenderBox;
+		break;
+		case 7:
+			DisplayDesc.TypeRenderer = LbaNet::RenderCapsule;
 		break;
 	}
 }
@@ -222,6 +234,15 @@ int ActorObjectInfo::GetRenderType()
 		break;
 		case LbaNet::RenderLba2M:
 			return 4;
+		break;
+		case LbaNet::RenderCross:
+			return 5;
+		break;
+		case LbaNet::RenderBox:
+			return 6;
+		break;
+		case LbaNet::RenderCapsule:
+			return 7;
 		break;
 	}
 
@@ -435,6 +456,17 @@ void ActorHandler::SaveToLuaFile(std::ofstream & file)
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".ExtraInfo.NameColorR = "<<m_actorinfo.ExtraInfo.NameColorR<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".ExtraInfo.NameColorG = "<<m_actorinfo.ExtraInfo.NameColorG<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".ExtraInfo.NameColorB = "<<m_actorinfo.ExtraInfo.NameColorB<<std::endl;
+
+
+	if(m_actorinfo.Condition)
+	{
+		std::stringstream condname;
+		condname<<"Actor_"<<m_actorinfo.ObjectId<<"_cond";
+		m_actorinfo.Condition->SaveToLuaFile(file, condname.str());
+
+		file<<"\tActor_"<<m_actorinfo.ObjectId<<".Condition = "<<condname.str()<<std::endl;
+	}
+
 
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<"H = ActorHandler(Actor_"<<m_actorinfo.ObjectId<<")"<<std::endl;
 	file<<"\tenvironment:AddActorObject(Actor_"<<m_actorinfo.ObjectId<<"H)"<<std::endl<<std::endl;

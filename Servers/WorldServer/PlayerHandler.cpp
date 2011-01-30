@@ -2,7 +2,7 @@
 #include "InventoryItemHandler.h"
 #include "SynchronizedTimeHandler.h"
 #include "MapHandler.h"
-
+#include "Lba1ModelMapHandler.h"
 
 #define	_CUSTOM_OFFSET_	10000000
 
@@ -860,4 +860,35 @@ bool PlayerHandler::DeltaUpdateMana(float update)
 	}
 
 	return false;
+}
+
+
+/***********************************************************
+get player physcial size
+***********************************************************/
+void PlayerHandler::GetPlayerPhysicalSize(float &sX, float &sY, float &sZ)
+{
+	// set default size
+	sX = 1;
+	sY = 5;
+	sZ = 1;
+
+	if(_currentinfo.model.TypeRenderer == LbaNet::RenderLba1M)
+	{
+		int resWeaponType;
+		ModelSize resSize;
+
+		int res = Lba1ModelMapHandler::getInstance()->GetModelExtraInfo(_currentinfo.model.ModelName,
+																		_currentinfo.model.Outfit,
+																		_currentinfo.model.Weapon,
+																		_currentinfo.model.Mode,
+																		resWeaponType, resSize);
+
+		if(res >= 0)
+		{
+			sX = resSize.X;
+			sY = resSize.Y;
+			sZ = resSize.Z;
+		}
+	}
 }

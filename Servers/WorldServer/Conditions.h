@@ -99,7 +99,7 @@ public:
 	//! check if the condition is true or not
 	virtual bool Passed(ScriptEnvironmentBase * owner, 
 							int ObjectType, Ice::Long ObjectId)
-	{ return !(_tonegate->Passed(owner, ObjectType, ObjectId));}
+	{ return !(_tonegate && _tonegate->Passed(owner, ObjectType, ObjectId));}
 	
 	// save action to lua file
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & conditionname);	
@@ -135,8 +135,8 @@ public:
 	virtual bool Passed(ScriptEnvironmentBase * owner, 
 							int ObjectType, Ice::Long ObjectId)
 	{ 
-		return _cond1->Passed(owner, ObjectType, ObjectId) 
-			&& _cond2->Passed(owner, ObjectType, ObjectId);
+		return (_cond1 && _cond1->Passed(owner, ObjectType, ObjectId)) 
+			&& (_cond2 && _cond2->Passed(owner, ObjectType, ObjectId));
 	}
 	
 	// save action to lua file
@@ -183,8 +183,8 @@ public:
 	virtual bool Passed(ScriptEnvironmentBase * owner, 
 							int ObjectType, Ice::Long ObjectId)
 	{ 
-		return _cond1->Passed(owner, ObjectType, ObjectId) 
-			|| _cond2->Passed(owner, ObjectType, ObjectId);
+		return (_cond1 &&_cond1->Passed(owner, ObjectType, ObjectId)) 
+			|| (_cond2 && _cond2->Passed(owner, ObjectType, ObjectId));
 	}
 		
 	// save action to lua file

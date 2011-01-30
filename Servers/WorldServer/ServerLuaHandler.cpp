@@ -35,6 +35,43 @@ ServerLuaHandler::ServerLuaHandler()
 
 		// Add server interfaces to the state's global scope
 		luabind::module(m_LuaState) [
+
+
+
+		luabind::class_<ConditionBase, boost::shared_ptr<ConditionBase> >("ConditionBase")
+		.def(luabind::constructor<>())
+		.def("Passed", &ConditionBase::Passed)
+		,
+
+		luabind::class_<AlwaysTrueCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("AlwaysTrueCondition")
+		.def(luabind::constructor<>()),
+
+		luabind::class_<NegateCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("NegateCondition")
+		.def(luabind::constructor<>())
+		.def("SetCondition", &NegateCondition::SetCondition)
+		.def("GetCondition", &NegateCondition::GetCondition)
+		,
+
+		luabind::class_<AndCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("AndCondition")
+		.def(luabind::constructor<>())
+		.def("SetCondition1", &AndCondition::SetCondition1)
+		.def("SetCondition2", &AndCondition::SetCondition2)
+		.def("GetCondition1", &AndCondition::GetCondition1)
+		.def("GetCondition2", &AndCondition::GetCondition2)
+		,
+
+
+		luabind::class_<OrCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("OrCondition")
+		.def(luabind::constructor<>())
+		.def("SetCondition1", &OrCondition::SetCondition1)
+		.def("SetCondition2", &OrCondition::SetCondition2)
+		.def("GetCondition1", &OrCondition::GetCondition1)
+		.def("GetCondition2", &OrCondition::GetCondition2)
+		,
+
+
+
+
 		luabind::class_<LbaNet::ModelInfo>("ModelInfo")
 		.def(luabind::constructor<>())
 		.def_readwrite("ModelId", &LbaNet::ModelInfo::ModelId)
@@ -101,6 +138,7 @@ ServerLuaHandler::ServerLuaHandler()
 		.def_readwrite("PhysicDesc", &ActorObjectInfo::PhysicDesc)
 		.def_readwrite("LifeInfo", &ActorObjectInfo::LifeInfo)
 		.def_readwrite("ExtraInfo", &ActorObjectInfo::ExtraInfo)
+		.def_readwrite("Condition", &ActorObjectInfo::Condition)
 		.def("SetRenderType", &ActorObjectInfo::SetRenderType)
 		.def("SetPhysicalShape", &ActorObjectInfo::SetPhysicalShape)
 		.def("SetPhysicalActorType", &ActorObjectInfo::SetPhysicalActorType)
@@ -256,39 +294,7 @@ ServerLuaHandler::ServerLuaHandler()
 		.def(luabind::constructor<>())
 		.def("GetLuaFunctionName", &CustomScript::GetLuaFunctionName)
 		.def("SetLuaFunctionName", &CustomScript::SetLuaFunctionName)
-		,
 
-
-
-		luabind::class_<ConditionBase, boost::shared_ptr<ConditionBase> >("ConditionBase")
-		.def(luabind::constructor<>())
-		.def("Passed", &ConditionBase::Passed)
-		,
-
-		luabind::class_<AlwaysTrueCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("AlwaysTrueCondition")
-		.def(luabind::constructor<>()),
-
-		luabind::class_<NegateCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("NegateCondition")
-		.def(luabind::constructor<>())
-		.def("SetCondition", &NegateCondition::SetCondition)
-		.def("GetCondition", &NegateCondition::GetCondition)
-		,
-
-		luabind::class_<AndCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("AndCondition")
-		.def(luabind::constructor<>())
-		.def("SetCondition1", &AndCondition::SetCondition1)
-		.def("SetCondition2", &AndCondition::SetCondition2)
-		.def("GetCondition1", &AndCondition::GetCondition1)
-		.def("GetCondition2", &AndCondition::GetCondition2)
-		,
-
-
-		luabind::class_<OrCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("OrCondition")
-		.def(luabind::constructor<>())
-		.def("SetCondition1", &OrCondition::SetCondition1)
-		.def("SetCondition2", &OrCondition::SetCondition2)
-		.def("GetCondition1", &OrCondition::GetCondition1)
-		.def("GetCondition2", &OrCondition::GetCondition2)
 		];
 
 	}

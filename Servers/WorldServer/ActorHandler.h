@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string>
 #include <LbaTypes.h>
-
+#include "Conditions.h"
 
 
 //! class used by lua to add objects on the map
@@ -105,6 +105,10 @@ struct ActorObjectInfo
 	int GetPhysicalShape();
 	int GetPhysicalActorType();
 	int GetModelState();
+
+	
+	ConditionBasePtr			Condition;
+
 
 	long						ObjectId;
 

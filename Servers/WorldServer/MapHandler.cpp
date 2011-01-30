@@ -545,7 +545,6 @@ void MapHandler::PlayerEntered(Ice::Long id)
 
 
 		// then inform all players that player entered
-		//TODO - make size variable
 		{
 			ObjectPhysicDesc	PhysicDesc;
 			PhysicDesc.Pos = GetPlayerPosition(id);
@@ -553,8 +552,11 @@ void MapHandler::PlayerEntered(Ice::Long id)
 			PhysicDesc.TypeShape = CapsuleShape;
 			PhysicDesc.Collidable = false;
 			PhysicDesc.Density = 1;
-			PhysicDesc.SizeX = 0.5;
-			PhysicDesc.SizeY = 5;
+
+			float sizeX, sizeY, sizeZ;
+			GetPlayerPhysicalSize(id, sizeX, sizeY, sizeZ);
+			PhysicDesc.SizeX = sizeX/2;
+			PhysicDesc.SizeY = sizeY;
 
 			_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 														PlayerObject, id, GetPlayerModelInfo(id), PhysicDesc, 
@@ -693,22 +695,31 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 		std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endact = _Actors.end();
 		for(; itact != endact; ++itact)
 		{
-			// TODO - check if objects are visible by the player ( depends of condition)
+			
 			const ActorObjectInfo & actinfo = itact->second->GetActorInfo();
-			LbaNet::ObjectExtraInfo xinfo = actinfo.ExtraInfo;
 
-			#ifdef _USE_QT_EDITOR_
-				std::stringstream strs;
-				strs<<"Actor_"<<actinfo.ObjectId<<": "<<xinfo.Name;
-				xinfo.Name = strs.str();
-				xinfo.NameColorR = 0.2;
-				xinfo.NameColorG = 0.2;
-				xinfo.NameColorB = 1.0;
-			#endif
+			// check if objects are visible by the player ( depends of condition)
+			bool passed = true;
+			if(actinfo.Condition)
+				passed = actinfo.Condition->Passed(this, 2, id);
 
-			toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-				LbaNet::NpcObject, itact->first, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo, 
-				xinfo));
+			if(passed)
+			{
+				LbaNet::ObjectExtraInfo xinfo = actinfo.ExtraInfo;
+
+				#ifdef _USE_QT_EDITOR_
+					std::stringstream strs;
+					strs<<"Actor_"<<actinfo.ObjectId<<": "<<xinfo.Name;
+					xinfo.Name = strs.str();
+					xinfo.NameColorR = 0.2;
+					xinfo.NameColorG = 0.2;
+					xinfo.NameColorB = 1.0;
+				#endif
+
+				toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+					LbaNet::NpcObject, itact->first, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo, 
+					xinfo));
+			}
 		}
 	}
 
@@ -729,7 +740,6 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 
 	
 	// current players in map
-	//TODO - make size variable
 	for(size_t cc=0; cc<_currentplayers.size(); ++cc)
 	{
 		try
@@ -740,8 +750,11 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 			PhysicDesc.TypeShape = CapsuleShape;
 			PhysicDesc.Collidable = false;
 			PhysicDesc.Density = 1;
-			PhysicDesc.SizeX = 0.5;
-			PhysicDesc.SizeY = 5;
+
+			float sizeX, sizeY, sizeZ;
+			GetPlayerPhysicalSize(_currentplayers[cc], sizeX, sizeY, sizeZ);
+			PhysicDesc.SizeX = sizeX/2;
+			PhysicDesc.SizeY = sizeY;
 
 			toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 														PlayerObject, _currentplayers[cc], 
@@ -770,8 +783,18 @@ void MapHandler::ChangeStance(Ice::Long id, LbaNet::ModelStance NewStance, bool 
 {
 	ModelInfo returnmodel;
 	if(UpdatePlayerStance(id, NewStance, returnmodel, fromserver))
+	{
 		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 					PlayerObject, id, new ModelUpdate(returnmodel, false)));
+
+		// update physical info as well
+		float sizeX, sizeY, sizeZ;
+		GetPlayerPhysicalSize(id, sizeX, sizeY, sizeZ);
+		_tosendevts.push_back(new UpdatePhysicObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+													PlayerObject, id,  
+													new SizeUpdate(sizeX, sizeY, sizeZ)));
+
+	}
 }
 
 
@@ -1130,6 +1153,23 @@ LbaNet::ModelInfo MapHandler::GetPlayerModelInfo(Ice::Long clientid)
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
 		return it->second->GetModelInfo();
+	}
+
+	throw(NoPlayerException());
+}
+
+
+/***********************************************************
+get player physcial size
+***********************************************************/
+void MapHandler::GetPlayerPhysicalSize(Ice::Long clientid, float &sX, float &sY, float &sZ)
+{
+	{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->GetPlayerPhysicalSize(sX, sY, sZ);
 	}
 
 	throw(NoPlayerException());
@@ -1563,6 +1603,11 @@ void MapHandler::Editor_AddModActor(boost::shared_ptr<ActorHandler> actor)
 {
 	AddActorObject(actor);
 
+	//bool passed = true;
+	//if(actor->GetInfo().Condition)
+	//	passed = actor->GetInfo().Condition->Passed(this, 2, 1);
+
+	
 	// update client
 	_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 																	LbaNet::NpcObject, actor->GetId()));
@@ -1584,6 +1629,7 @@ void MapHandler::Editor_AddModActor(boost::shared_ptr<ActorHandler> actor)
 														actor->GetInfo().PhysicDesc, 
 														actor->GetInfo().LifeInfo, 
 														xinfo));
+
 }
 #endif
 
@@ -1640,6 +1686,9 @@ void MapHandler::ExecuteClientScript(int ObjectType, long ObjectId,
 	if(clientid < 0)
 		return;
 
+	// do nothing if we are already on scripted state
+	if(GetPlayerModelInfo(clientid).State == LbaNet::StScripted)
+		return;
 
 	// change to scripted state and inform player to run script
 	ModelInfo returnmodel;

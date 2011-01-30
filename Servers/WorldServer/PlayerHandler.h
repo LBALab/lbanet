@@ -186,6 +186,9 @@ public:
 	//! return true if no mana
 	bool DeltaUpdateMana(float update);
 
+	//! get player physcial size
+	void GetPlayerPhysicalSize(float &sX, float &sY, float &sZ);
+
 protected:
 	// update state and mode class from modelinfo
 	void UpdateStateModeClass();

@@ -242,6 +242,10 @@ protected:
 	//! get player model info
 	LbaNet::ModelInfo  GetPlayerModelInfo(Ice::Long clientid);
 
+	//! get player physcial size
+	void GetPlayerPhysicalSize(Ice::Long clientid, float &sX, float &sY, float &sZ);
+
+
 	//! get the place to respawn in case of death
 	LbaNet::PlayerPosition GetSpawningPlace(Ice::Long clientid);
 
