@@ -35,9 +35,10 @@ function InitMap(environment)
 	Trigger_3_info = TriggerInfo(3, "to_citdaelisland", true, true, false)
 	Trigger_3 = ZoneTrigger(Trigger_3_info, 1, 8, 2, true)
 	Trigger_3:SetPosition(13.5, 2, 9)
-	Trigger_3:SetAction1(5)
-	Trigger_3:SetAction2(-1)
-	Trigger_3:SetAction3(-1)
+	Trigger_3_act1 = TeleportAction()
+	Trigger_3_act1:SetMapName("CITABAU")
+	Trigger_3_act1:SetSpawning(3)
+	Trigger_3:SetAction1(Trigger_3_act1)
 	environment:AddTrigger(Trigger_3)
 
 end

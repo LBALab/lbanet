@@ -35,9 +35,10 @@ function InitMap(environment)
 	Trigger_1_info = TriggerInfo(1, "to_citadel", true, true, false)
 	Trigger_1 = ZoneTrigger(Trigger_1_info, 4, 8, 2, true)
 	Trigger_1:SetPosition(13, 5, 26.5)
-	Trigger_1:SetAction1(36)
-	Trigger_1:SetAction2(-1)
-	Trigger_1:SetAction3(-1)
+	Trigger_1_act1 = TeleportAction()
+	Trigger_1_act1:SetMapName("CITABAU")
+	Trigger_1_act1:SetSpawning(12)
+	Trigger_1:SetAction1(Trigger_1_act1)
 	environment:AddTrigger(Trigger_1)
 
 end

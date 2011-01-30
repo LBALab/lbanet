@@ -35,9 +35,10 @@ function InitMap(environment)
 	Trigger_1_info = TriggerInfo(1, "to_sewer", true, true, false)
 	Trigger_1 = ZoneTrigger(Trigger_1_info, 2, 8, 2, true)
 	Trigger_1:SetPosition(20, 0, 10)
-	Trigger_1:SetAction1(20)
-	Trigger_1:SetAction2(-1)
-	Trigger_1:SetAction3(-1)
+	Trigger_1_act1 = TeleportAction()
+	Trigger_1_act1:SetMapName("Map018_2")
+	Trigger_1_act1:SetSpawning(0)
+	Trigger_1:SetAction1(Trigger_1_act1)
 	environment:AddTrigger(Trigger_1)
 
 end

@@ -44,9 +44,10 @@ function InitMap(environment)
 	Trigger_1_info = TriggerInfo(1, "to_otringal", true, true, false)
 	Trigger_1 = ZoneTrigger(Trigger_1_info, 4, 8, 4, true)
 	Trigger_1:SetPosition(10, 4, 20)
-	Trigger_1:SetAction1(177)
-	Trigger_1:SetAction2(-1)
-	Trigger_1:SetAction3(-1)
+	Trigger_1_act1 = TeleportAction()
+	Trigger_1_act1:SetMapName("OTRINGAL")
+	Trigger_1_act1:SetSpawning(21)
+	Trigger_1:SetAction1(Trigger_1_act1)
 	environment:AddTrigger(Trigger_1)
 
 end
