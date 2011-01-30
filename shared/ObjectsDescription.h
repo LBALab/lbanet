@@ -34,7 +34,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class PhysXEngine;
 class DynamicObject;
-
+class NxActor;
+class NxController;
 
 /***********************************************************************
 This class describe the tranformation applied by the display object
@@ -304,8 +305,13 @@ public:
 	virtual ~PhysicalDescriptionBase();
 
 	//! build description into a reald physic object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id) const = 0;
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id,
+										boost::shared_ptr<PhysicalDescriptionBase> self) const = 0;
 
+	//! change size
+	virtual void ResetSize(float sX, float sY, float sZ) {}
+	virtual NxActor* RebuildActor(float X, float Y, float Z, boost::shared_ptr<ActorUserData> udata){ return NULL;}
+	virtual NxController* RebuildController(float X, float Y, float Z, boost::shared_ptr<ActorUserData> udata){ return NULL;}
 
 public:
 	//position of the object in the world
@@ -331,7 +337,8 @@ public:
 	virtual ~PhysicalDescriptionNoShape();
 
 	//! build description into a reald physic object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id) const;
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id,
+										boost::shared_ptr<PhysicalDescriptionBase> self) const;
 
 
 private:
@@ -390,7 +397,14 @@ public:
 
 
 	//! build description into a reald physic object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id) const;
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id,
+										boost::shared_ptr<PhysicalDescriptionBase> self) const;
+
+	//! change size
+	virtual void ResetSize(float sX, float sY, float sZ);
+
+	virtual NxActor* RebuildActor(float X, float Y, float Z, boost::shared_ptr<ActorUserData> udata);
+	virtual NxController* RebuildController(float X, float Y, float Z, boost::shared_ptr<ActorUserData> udata);
 
 public:
 	// size of the box from the box center
@@ -419,7 +433,14 @@ public:
 
 
 	//! build description into a reald physic object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id) const;
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id,
+										boost::shared_ptr<PhysicalDescriptionBase> self) const;
+
+	//! change size
+	virtual void ResetSize(float sX, float sY, float sZ);
+
+	virtual NxActor* RebuildActor(float X, float Y, float Z, boost::shared_ptr<ActorUserData> udata);
+	virtual NxController* RebuildController(float X, float Y, float Z, boost::shared_ptr<ActorUserData> udata);
 
 public:
 	// radius of the capsule from capsule center
@@ -452,7 +473,14 @@ public:
 
 
 	//! build description into a reald physic object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id) const;
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id,
+										boost::shared_ptr<PhysicalDescriptionBase> self) const;
+
+	//! change size
+	virtual void ResetSize(float sX, float sY, float sZ);
+
+	virtual NxActor* RebuildActor(float X, float Y, float Z, boost::shared_ptr<ActorUserData> udata);
+	virtual NxController* RebuildController(float X, float Y, float Z, boost::shared_ptr<ActorUserData> udata);
 
 public:
 	// radius of the sphere from capsule sphere
@@ -481,7 +509,9 @@ public:
 
 
 	//! build description into a reald physic object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id) const;
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id,
+										boost::shared_ptr<PhysicalDescriptionBase> self) const;
+
 
 public:
 	// path of the file describing the mesh

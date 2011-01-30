@@ -32,11 +32,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 static std::string Lba1ModelDataPath = "Data/Worlds/Lba1Original/Models/";
 
+struct ModelSize
+{
+	float X;
+	float Y;
+	float Z;
+};
+
 struct ModeData
 {
 	int modelnumber;
 	int bodynumber;
 	std::map<std::string, std::vector<int> > animations;
+	ModelSize Size;
+	int WeaponType;
 };
 struct WeaponData
 {
@@ -70,6 +79,7 @@ public:
 	// get model number and body number
 	// return 0 if model correct
 	// return -1 if model incorrect
+	// todo - implement mutli animation sequence
 	int GetModelInfo(	const std::string & modelname,
 						const std::string & outfit,
 						const std::string & weapon,
@@ -78,6 +88,21 @@ public:
 						int & resmodel,
 						int & resbody,
 						std::vector<int> & resanimation);
+
+
+	// get model extra info
+	// return 0 if model correct
+	// return -1 if model incorrect
+	int GetModelExtraInfo(	const std::string & modelname,
+								const std::string & outfit,
+								const std::string & weapon,
+								const std::string & mode,
+								int & resWeaponType,
+								ModelSize & resSize);
+
+	// get full map info
+	std::map<std::string, ModelData> & GetData()
+	{ return _data; }
 
 private:
 	// singleton

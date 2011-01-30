@@ -71,9 +71,13 @@ Lba1ModelMapHandler::Lba1ModelMapHandler()
 			StringHelper::Tokenize(line, tokens, ",");
 
 			_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].modelnumber = atoi(tokens[4].c_str());
-				_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].bodynumber = atoi(tokens[5].c_str());
+			_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].bodynumber = atoi(tokens[5].c_str());
+			_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].WeaponType = atoi(tokens[6].c_str());
+			_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].Size.X = atof(tokens[7].c_str());
+			_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].Size.Y = atof(tokens[8].c_str());
+			_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].Size.Z = atof(tokens[9].c_str());
 
-			for(size_t i=6; i<tokens.size(); ++i)
+			for(size_t i=10; i<tokens.size(); ++i)
 			{
 				std::string anims = tokens[i];
 				std::string animstring = infos[i];
@@ -113,6 +117,8 @@ int Lba1ModelMapHandler::GetModelInfo(	const std::string & modelname,
 										int & resbody,
 										std::vector<int> & resanimation)
 {
+	if(modelname == "" || outfit == "" || weapon == "" || mode == "")
+		return -1;
 
 	std::map<std::string, std::vector<int> > & anims = 
 		_data[modelname].outfits[outfit].weapons[weapon].modes[mode].animations;
@@ -165,4 +171,25 @@ int Lba1ModelMapHandler::GetModelInfo(	const std::string & modelname,
 
 	// if still no success then no way
 	return -1;
+}
+
+
+/***********************************************************
+get model number and extra info
+***********************************************************/
+int Lba1ModelMapHandler::GetModelExtraInfo(	const std::string & modelname,
+								const std::string & outfit,
+								const std::string & weapon,
+								const std::string & mode,
+								int & resWeaponType,
+								ModelSize & resSize)
+{
+	if(modelname == "" || outfit == "" || weapon == "" || mode == "")
+		return -1;
+
+	ModeData &mdata = _data[modelname].outfits[outfit].weapons[weapon].modes[mode];
+
+	resWeaponType = mdata.WeaponType;
+	resSize = mdata.Size;
+	return 0;
 }
