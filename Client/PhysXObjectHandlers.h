@@ -34,6 +34,7 @@ class PhysXEngine;
 class ActorUserData;
 class NxActor;
 class NxController;
+class PhysicalDescriptionBase;
 
 /***********************************************************************
  * Handler on a physX object
@@ -66,7 +67,8 @@ class PhysXActorsHandler : public PhysXObjectHandlerBase
 public:
 	//! constructor
 	PhysXActorsHandler(boost::shared_ptr<ActorUserData> UserData,
-						NxActor* Actor, float sizeY);
+						NxActor* Actor, float sizeY,
+						boost::shared_ptr<PhysicalDescriptionBase> desc );
 
 	//! destructor
 	virtual ~PhysXActorsHandler();
@@ -101,9 +103,13 @@ public:
 	//! show or hide the object
 	virtual void ShowOrHide(bool Show);
 
+	//! update physic with new data
+	virtual void Update(LbaNet::PhysicObjectUpdateBasePtr update);
 protected:
-	NxActor*	_Actor;
-	float		_sizeY;
+	NxActor*										_Actor;
+	float											_sizeY;
+
+	boost::shared_ptr<PhysicalDescriptionBase>		_desc;
 };
 
 
@@ -118,7 +124,8 @@ public:
 	PhysXControllerHandler(boost::shared_ptr<ActorUserData> UserData,
 								NxController* Controller,
 								boost::shared_ptr<SimpleRotationHandler> rotH,
-								float sizeY);
+								float sizeY,
+								boost::shared_ptr<PhysicalDescriptionBase> desc );
 
 	//! destructor
 	virtual ~PhysXControllerHandler();
@@ -153,10 +160,14 @@ public:
 	//! show or hide the object
 	virtual void ShowOrHide(bool Show);
 
+	//! update physic with new data
+	virtual void Update(LbaNet::PhysicObjectUpdateBasePtr update);
 protected:
-	NxController*								_Controller;
-	boost::shared_ptr<SimpleRotationHandler>	_rotH;
-	float										_sizeY;
+	NxController*									_Controller;
+	boost::shared_ptr<SimpleRotationHandler>		_rotH;
+	float											_sizeY;
+
+	boost::shared_ptr<PhysicalDescriptionBase>		_desc;
 };
 
 #endif

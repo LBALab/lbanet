@@ -327,7 +327,7 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 	_clipNode->setName("Clipnode");
 
 	_eventH = new OsgEventHandler();
-	//TODO remove static and make it configurable
+	//TODO remove static keys and make it configurable
 	std::map<LbanetKey, int> kmap;
 	kmap[LbanetKey_Forward] = osgGA::GUIEventAdapter::KEY_Up;
 	kmap[LbanetKey_Backward] = osgGA::GUIEventAdapter::KEY_Down;

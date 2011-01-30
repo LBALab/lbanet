@@ -41,7 +41,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <GL/glu.h>     // Header File For The GLu32 Library
 
 
-#define SKINWIDTH	0.2f
+#define SKINWIDTH	0.01f
 #define STEPOFFSET	0.5f
 #define LIMITANGLE	70.0f
 

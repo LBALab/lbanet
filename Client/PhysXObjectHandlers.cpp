@@ -67,8 +67,9 @@ PhysXObjectHandlerBase::PhysXObjectHandlerBase(boost::shared_ptr<ActorUserData> 
 	Constructor
 ***********************************************************/
 PhysXActorsHandler::PhysXActorsHandler(boost::shared_ptr<ActorUserData> UserData,
-													NxActor* Actor, float sizeY)
-		: PhysXObjectHandlerBase(UserData), _Actor(Actor), _sizeY(sizeY)
+												NxActor* Actor, float sizeY,
+												boost::shared_ptr<PhysicalDescriptionBase> desc)
+		: PhysXObjectHandlerBase(UserData), _Actor(Actor), _sizeY(sizeY), _desc(desc)
 {
 	#ifdef _DEBUG
 		LogHandler::getInstance()->LogToFile("Created new PhysXActor.");
@@ -202,6 +203,46 @@ void PhysXActorsHandler::ShowOrHide(bool Show)
 }
 
 
+/***********************************************************
+update physic with new data
+***********************************************************/
+void PhysXActorsHandler::Update(LbaNet::PhysicObjectUpdateBasePtr update)
+{
+	const std::type_info& info = typeid(*update);
+
+	// SizeUpdate
+	if(info == typeid(LbaNet::SizeUpdate))
+	{
+		LbaNet::SizeUpdate * castedptr = 
+			dynamic_cast<LbaNet::SizeUpdate *>(update.get());
+
+		if(_Actor && _desc)
+		{
+			float X, Y, Z;
+			GetPosition(X, Y, Z);
+
+			#ifdef _DEBUG
+			LogHandler::getInstance()->LogToFile("Rebuilding PhysXActor.");
+			#endif
+
+			PhysXEngine::getInstance()->DestroyActor(_Actor);
+			
+			if(_desc)
+			{
+				_desc->ResetSize(castedptr->SizeX, castedptr->SizeY, castedptr->SizeZ);
+				_Actor = _desc->RebuildActor(X, Y, Z, _UserData);
+			}
+
+			_sizeY = castedptr->SizeY;
+		}
+
+
+		return;
+	}
+
+	PhysicalObjectHandlerBase::Update(update);
+}
+
 
 
 
@@ -214,9 +255,10 @@ void PhysXActorsHandler::ShowOrHide(bool Show)
 PhysXControllerHandler::PhysXControllerHandler(boost::shared_ptr<ActorUserData> UserData,
 												NxController* Controller,
 												boost::shared_ptr<SimpleRotationHandler> rotH,
-												float sizeY)
+												float sizeY,
+												boost::shared_ptr<PhysicalDescriptionBase> desc)
 		: PhysXObjectHandlerBase(UserData), _Controller(Controller), _rotH(rotH),
-			_sizeY(sizeY)
+			_sizeY(sizeY), _desc(desc)
 {
 	#ifdef _DEBUG
 		LogHandler::getInstance()->LogToFile("Created new PhysXController.");
@@ -346,6 +388,47 @@ void PhysXControllerHandler::ShowOrHide(bool Show)
 }
 
 
+/***********************************************************
+update physic with new data
+***********************************************************/
+void PhysXControllerHandler::Update(LbaNet::PhysicObjectUpdateBasePtr update)
+{
+	const std::type_info& info = typeid(*update);
+
+	// SizeUpdate
+	if(info == typeid(LbaNet::SizeUpdate))
+	{
+		LbaNet::SizeUpdate * castedptr = 
+			dynamic_cast<LbaNet::SizeUpdate *>(update.get());
+
+
+		if(_Controller && _desc)
+		{
+			float X, Y, Z;
+			GetPosition(X, Y, Z);
+
+			#ifdef _DEBUG
+			LogHandler::getInstance()->LogToFile("Rebuilding PhysXController.");
+			#endif
+
+			PhysXEngine::getInstance()->DestroyCharacter(_Controller);
+
+			
+			if(_desc)
+			{
+				_desc->ResetSize(castedptr->SizeX, castedptr->SizeY, castedptr->SizeZ);
+				_Controller = _desc->RebuildController(X, Y, Z, _UserData);
+			}
+
+			_sizeY = castedptr->SizeY;
+		}
+
+		return;
+	}
+
+	PhysicalObjectHandlerBase::Update(update);
+}
+
 
 
 
@@ -366,6 +449,7 @@ PhysicalDescriptionBox::PhysicalDescriptionBox(float posX, float posY, float pos
 
 }
 
+
 /***********************************************************
 	destructor
 ***********************************************************/
@@ -376,9 +460,44 @@ PhysicalDescriptionBox::~PhysicalDescriptionBox()
 
 
 /***********************************************************
+change size
+***********************************************************/
+void PhysicalDescriptionBox::ResetSize(float sX, float sY, float sZ)
+{
+	sizeX = sX;
+	sizeY = sY;
+	sizeZ = sZ;
+}
+
+
+
+/***********************************************************
+RebuildActor
+***********************************************************/
+NxActor* PhysicalDescriptionBox::RebuildActor(float X, float Y, float Z, boost::shared_ptr<ActorUserData> udata)
+{
+	return PhysXEngine::getInstance()->CreateBox(NxVec3(X, Y + sizeY/2, Z), 
+												sizeX, sizeY, sizeZ, 
+												density, ActorType, udata.get(), rotation, collidable);
+}
+
+
+
+/***********************************************************
+RebuildController
+***********************************************************/
+NxController* PhysicalDescriptionBox::RebuildController(float X, float Y, float Z, boost::shared_ptr<ActorUserData> udata)
+{
+	return PhysXEngine::getInstance()->CreateCharacterBox(NxVec3(X, Y + sizeY/2, Z), 
+															NxVec3(sizeX, sizeY, sizeZ), udata.get());
+}
+
+
+/***********************************************************
  build description into a reald physic object
 ***********************************************************/
-boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionBox::BuildSelf(long id) const
+boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionBox::BuildSelf(long id,
+														boost::shared_ptr<PhysicalDescriptionBase> self) const
 {
 	boost::shared_ptr<ActorUserData> udata = boost::shared_ptr<ActorUserData>(new ActorUserData(ActorType, id));
 
@@ -388,7 +507,7 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionBox::BuildSelf(l
 													sizeX, sizeY, sizeZ, 
 													density, ActorType, udata.get(), rotation, collidable);
 		
-		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, act, sizeY));
+		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, act, sizeY, self));
 	}
 	else
 	{
@@ -396,7 +515,7 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionBox::BuildSelf(l
 															NxVec3(sizeX, sizeY, sizeZ), udata.get());
 
 		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXControllerHandler(udata, controller, 
-								boost::shared_ptr<SimpleRotationHandler>(new SimpleRotationHandler(rotation)), sizeY));
+								boost::shared_ptr<SimpleRotationHandler>(new SimpleRotationHandler(rotation)), sizeY, self));
 	}
 }
 
@@ -424,9 +543,42 @@ PhysicalDescriptionCapsule::~PhysicalDescriptionCapsule()
 
 
 /***********************************************************
+change size
+***********************************************************/
+void PhysicalDescriptionCapsule::ResetSize(float sX, float sY, float sZ)
+{
+	sizeY = sY;
+	radius = sX/2;
+	height = sY-sX;
+}
+
+/***********************************************************
+RebuildActor
+***********************************************************/
+NxActor* PhysicalDescriptionCapsule::RebuildActor(float X, float Y, float Z, boost::shared_ptr<ActorUserData> udata)
+{
+	return PhysXEngine::getInstance()->CreateCapsule(NxVec3(X, Y + sizeY/2, Z), 
+																	radius, height,
+																	density, ActorType, udata.get(), 
+																	rotation, collidable);
+}
+
+
+
+/***********************************************************
+RebuildController
+***********************************************************/
+NxController* PhysicalDescriptionCapsule::RebuildController(float X, float Y, float Z, boost::shared_ptr<ActorUserData> udata)
+{
+	return PhysXEngine::getInstance()->CreateCharacter(NxVec3(X, Y + sizeY/2, Z), 
+																		radius, height, udata.get());
+}
+
+/***********************************************************
  build description into a reald physic object
 ***********************************************************/
-boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionCapsule::BuildSelf(long id) const
+boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionCapsule::BuildSelf(long id,
+														boost::shared_ptr<PhysicalDescriptionBase> self) const
 {
 	boost::shared_ptr<ActorUserData> udata = boost::shared_ptr<ActorUserData>(new ActorUserData(ActorType, id));
 
@@ -437,7 +589,7 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionCapsule::BuildSe
 																	density, ActorType, udata.get(), 
 																	rotation, collidable);
 		
-		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, act, sizeY));
+		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, act, sizeY, self));
 	}
 	else
 	{
@@ -445,7 +597,7 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionCapsule::BuildSe
 																		radius, height, udata.get());
 
 		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXControllerHandler(udata, controller, 
-								boost::shared_ptr<SimpleRotationHandler>(new SimpleRotationHandler(rotation)), sizeY));
+								boost::shared_ptr<SimpleRotationHandler>(new SimpleRotationHandler(rotation)), sizeY, self));
 	}
 }
 
@@ -473,9 +625,41 @@ PhysicalDescriptionSphere::~PhysicalDescriptionSphere()
 
 
 /***********************************************************
+change size
+***********************************************************/
+void PhysicalDescriptionSphere::ResetSize(float sX, float sY, float sZ)
+{
+	sizeY = sY;
+	radius = sY/2;
+}
+
+/***********************************************************
+RebuildActor
+***********************************************************/
+NxActor* PhysicalDescriptionSphere::RebuildActor(float X, float Y, float Z, boost::shared_ptr<ActorUserData> udata)
+{
+	return PhysXEngine::getInstance()->CreateSphere(NxVec3(X, Y + sizeY/2, Z), 
+																	radius, 
+																	density, ActorType, udata.get(), 
+																	rotation, collidable);
+}
+
+
+
+/***********************************************************
+RebuildController
+***********************************************************/
+NxController* PhysicalDescriptionSphere::RebuildController(float X, float Y, float Z, boost::shared_ptr<ActorUserData> udata)
+{
+	return PhysXEngine::getInstance()->CreateCharacter(NxVec3(X, Y + sizeY/2, Z), 
+																	radius, 0, udata.get());
+}
+
+/***********************************************************
  build description into a reald physic object
 ***********************************************************/
-boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionSphere::BuildSelf(long id) const
+boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionSphere::BuildSelf(long id,
+														boost::shared_ptr<PhysicalDescriptionBase> self) const
 {
 	boost::shared_ptr<ActorUserData> udata = boost::shared_ptr<ActorUserData>(new ActorUserData(ActorType, id));
 
@@ -486,7 +670,7 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionSphere::BuildSel
 																	density, ActorType, udata.get(), 
 																	rotation, collidable);
 
-		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, act, sizeY));
+		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, act, sizeY, self));
 	}
 	else
 	{
@@ -495,7 +679,7 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionSphere::BuildSel
 																		radius, 0, udata.get());
 
 		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXControllerHandler(udata, controller, 
-								boost::shared_ptr<SimpleRotationHandler>(new SimpleRotationHandler(rotation)), sizeY));
+								boost::shared_ptr<SimpleRotationHandler>(new SimpleRotationHandler(rotation)), sizeY, self));
 	}
 }
 
@@ -521,11 +705,11 @@ PhysicalDescriptionTriangleMesh::~PhysicalDescriptionTriangleMesh()
 }
 
 
-
 /***********************************************************
  build description into a reald physic object
 ***********************************************************/
-boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionTriangleMesh::BuildSelf(long id) const
+boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionTriangleMesh::BuildSelf(long id,
+														boost::shared_ptr<PhysicalDescriptionBase> self) const
 {
 	boost::shared_ptr<ActorUserData> udata = boost::shared_ptr<ActorUserData>(new ActorUserData(ActorType, id));
 
@@ -533,5 +717,5 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionTriangleMesh::Bu
 														"Data/"+MeshInfoDataFileName, udata.get(), 
 														rotation, collidable);
 
-	return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, actor, 0));
+	return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, actor, 0, self));
 }

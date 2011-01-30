@@ -64,7 +64,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 
 static float factormul_lba1_toosg = 32;
-static float factortransY_lba1_toosg = -0.1;
+static float factortransY_lba1_toosg = 0;//-0.1;
 
 
 

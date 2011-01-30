@@ -26,8 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "LogHandler.h"
 #include "XmlReader.h"
 #include "Entities.h"
-#include "Lba1ModelMapHandler.h"
 #include "Localizer.h"
+#include "Lba1ModelMapHandler.h"
 
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>

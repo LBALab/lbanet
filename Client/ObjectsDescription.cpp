@@ -133,7 +133,8 @@ PhysicalDescriptionNoShape::~PhysicalDescriptionNoShape()
 /***********************************************************
  build description into a reald physic object
 ***********************************************************/
-boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionNoShape::BuildSelf(long id) const
+boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionNoShape::BuildSelf(long id,
+												boost::shared_ptr<PhysicalDescriptionBase> self) const
 {
 	return boost::shared_ptr<PhysicalObjectHandlerBase>( 
 				new SimplePhysicalObjectHandler(positionX, positionY, positionZ, _rot));
@@ -196,7 +197,7 @@ boost::shared_ptr<DynamicObject> ObjectInfo::BuildSelf(DisplayHandlerBase * disH
 	boost::shared_ptr<PhysicalObjectHandlerBase> phH;
 	boost::shared_ptr<DisplayObjectHandlerBase> disoH;
 	if(PhysInfo)
-		phH = PhysInfo->BuildSelf(Id);
+		phH = PhysInfo->BuildSelf(Id, PhysInfo);
 	if(DisInfo)
 		disoH = DisInfo->BuildSelf(disH);
 
