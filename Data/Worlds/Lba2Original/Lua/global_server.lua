@@ -713,4 +713,6 @@ function InitGlobal(environment)
 	Action_244 = ClientScriptAction(244, "sc_exitup_window_from_museum", 2)
 	environment:AddAction(Action_244)
 
+	Action_245 = TeleportAction(245, "tp_from_temple_to_cele", "ASCENCE", 1)
+	environment:AddAction(Action_245)
 end

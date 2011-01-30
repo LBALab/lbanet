@@ -14,7 +14,7 @@
 		<teleport id="8" name="Ilot CX" map="ILOTCX" spawningid="1"/>
 		<teleport id="9" name="Knartas Island" map="KNARTAS" spawningid="1"/>
 		<teleport id="10" name="Mosquibee Island" map="MOSQUIBE" spawningid="1"/>
-		<teleport id="11" name="Otringal" map="OTRINGAL" spawningid="1"/>
+		<teleport id="11" name="Otringal" map="OTRINGAL" spawningid="12"/>
 		<teleport id="12" name="Under Gas" map="PLATFORM" spawningid="1"/>
 		<teleport id="13" name="Under Celebration" map="SOUSCELB" spawningid="1"/>
 	</teleports>
@@ -901,6 +901,9 @@
 		</Map>
 		<Map name="Map130_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>The Dark Monk statue, the wizards, 1st room</description>
+			<spareas>
+				<spawning Id="1" name="from_cele" posX="55.5" posY="8" posZ="43.5" ForceRotation="false" RotationAtArrival="0"/>
+			</spareas>
 		</Map>
 		<Map name="Map131_2" type="interior" AutoCameraType="1" IsInstance="false">
 			<description>The Dark Monk statue, the top, 2nd room</description>
