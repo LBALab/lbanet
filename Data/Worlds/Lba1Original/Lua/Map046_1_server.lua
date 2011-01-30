@@ -19,9 +19,10 @@ function InitMap(environment)
 	Trigger_1_info = TriggerInfo(1, "exit1", true, true, false)
 	Trigger_1 = ZoneTrigger(Trigger_1_info, 4, 5, 1, true)
 	Trigger_1:SetPosition(27, 1, 36.5)
-	Trigger_1:SetAction1(147)
-	Trigger_1:SetAction2(-1)
-	Trigger_1:SetAction3(-1)
+	Trigger_1_act1 = TeleportAction()
+	Trigger_1_act1:SetMapName("Map047_1")
+	Trigger_1_act1:SetSpawning(2)
+	Trigger_1:SetAction1(Trigger_1_act1)
 	environment:AddTrigger(Trigger_1)
 
 end
