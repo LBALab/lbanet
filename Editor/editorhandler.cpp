@@ -32,6 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Triggers.h"
 #include "StringHelperFuncs.h"
 #include "ClientScript.h"
+#include "Lba1ModelMapHandler.h"
 
 #include <QMessageBox>
 #include <boost/filesystem.hpp>
@@ -118,7 +119,26 @@ void CustomStringListModel::ReplaceData(const QString & OldData, const QString &
 }
 
 
+/***********************************************************
+check if data present in the list
+***********************************************************/
+bool CustomStringListModel::DataExist(const QString & Data)
+{
+	return (stringList().indexOf(Data) >= 0);
+}
 
+
+ 
+/***********************************************************
+get first data of the list
+***********************************************************/
+QString CustomStringListModel::GetFirstdata()
+{
+	if(stringList().size() > 0)
+		return stringList()[0];
+
+	return QString();
+}
 
 
 /***********************************************************
@@ -699,7 +719,7 @@ void CustomDelegate::objmodified2(double flag)
 Constructor
 ***********************************************************/
 EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
- : QMainWindow(parent, flags), _modified(false), 
+ : QMainWindow(parent, flags), _modified(false), _refreshactorlists(false),
  _mapNameList(new CustomStringListModel()),
  _currspawningidx(0), _currtriggeridx(0),
 	_updatetriggerdialogonnewaction(-1), _triggerNameList(new CustomStringListModel()),
@@ -707,14 +727,16 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	_actorptypeList(new CustomStringListModel()), _cscriptList(new CustomStringListModel()),
 	_updateactiondialogonnewscript(-1), _actormodeList(new CustomStringListModel()), 
 	_conditiontypeList(new CustomStringListModel()), _cscripttypeList(new CustomStringListModel()),
-	_actiontypeList(new CustomStringListModel())
+	_actiontypeList(new CustomStringListModel()), _actorModelNameList(new CustomStringListModel()),
+	_actorModelOutfitList(new CustomStringListModel()), _actorModelWeaponList(new CustomStringListModel()),
+	_actorModelModeList(new CustomStringListModel())
 
 {
 	QStringList actlist;
 	actlist << "Static" << "Scripted" << "Movable";
 	_actortypeList->setStringList(actlist);
 	QStringList acttypelist;
-	acttypelist << "Osg Model" << "Sprite" << "Lba1 Model" << "Lba2 Model";
+	acttypelist << "No" << "Osg Model" << "Sprite" << "Lba1 Model" << "Lba2 Model";
 	_actordtypeList->setStringList(acttypelist);
 	QStringList actptypelist;
 	actptypelist << "No Shape" << "Box" << "Capsule" << "Sphere" << "Triangle Mesh";
@@ -761,32 +783,6 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 
 	_addactordialog = new QDialog(this);
 	_ui_addactordialog.setupUi(_addactordialog);
-
-
-	// read the file and get data
-	std::ifstream file((Lba1ModelDataPath+"lba1_model_animation.csv").c_str());
-	if(file.is_open())
-	{
-		// read first information line
-		std::string line;
-		std::vector<std::string> infos;
-
-		std::getline(file, line);
-		StringHelper::Tokenize(line, infos, ",");
-
-		while(!file.eof())
-		{
-			std::getline(file, line);
-			std::vector<std::string> tokens;
-			StringHelper::Tokenize(line, tokens, ",");
-
-			_lba1Mdata[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].modelnumber = atoi(tokens[4].c_str());
-				_lba1Mdata[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].bodynumber = atoi(tokens[5].c_str());
-		}
-	}
-
-
-	
 
 
 	// set model for map list
@@ -2124,7 +2120,7 @@ void EditorHandler::AddActorObject(boost::shared_ptr<ActorHandler> actor)
 	}
 
 
-	std::string dtype;
+	std::string dtype = "No";
 	switch(actor->GetInfo().DisplayDesc.TypeRenderer)
 	{
 		case LbaNet::RenderOsgModel:
@@ -3513,8 +3509,11 @@ void EditorHandler::RefreshStartingModelOutfit()
 {
 	_uieditor.comboBox_modeloutfit->clear();
 
-	std::map<std::string, OutfitData>::iterator it = _lba1Mdata[_winfo.StartingInfo.StartingModel.ModelName].outfits.begin();
-	std::map<std::string, OutfitData>::iterator end = _lba1Mdata[_winfo.StartingInfo.StartingModel.ModelName].outfits.end();
+	std::map<std::string, ModelData> & _lba1Mdata =
+	Lba1ModelMapHandler::getInstance()->GetData();
+
+	std::map<std::string, OutfitData>::const_iterator it = _lba1Mdata[_winfo.StartingInfo.StartingModel.ModelName].outfits.begin();
+	std::map<std::string, OutfitData>::const_iterator end = _lba1Mdata[_winfo.StartingInfo.StartingModel.ModelName].outfits.end();
 	for(; it != end; ++it)
 		_uieditor.comboBox_modeloutfit->addItem(it->first.c_str());
 
@@ -3542,9 +3541,13 @@ void EditorHandler::RefreshStartingModelWeapon()
 {
 	_uieditor.comboBox_modelweapon->clear();
 
-	std::map<std::string, WeaponData>::iterator it = _lba1Mdata[_winfo.StartingInfo.StartingModel.ModelName].
+	std::map<std::string, ModelData> & _lba1Mdata =
+	Lba1ModelMapHandler::getInstance()->GetData();
+
+
+	std::map<std::string, WeaponData>::const_iterator it = _lba1Mdata[_winfo.StartingInfo.StartingModel.ModelName].
 											outfits[_winfo.StartingInfo.StartingModel.Outfit].weapons.begin();
-	std::map<std::string, WeaponData>::iterator end = _lba1Mdata[_winfo.StartingInfo.StartingModel.ModelName].
+	std::map<std::string, WeaponData>::const_iterator end = _lba1Mdata[_winfo.StartingInfo.StartingModel.ModelName].
 											outfits[_winfo.StartingInfo.StartingModel.Outfit].weapons.end();
 	for(; it != end; ++it)
 		_uieditor.comboBox_modelweapon->addItem(it->first.c_str());
@@ -3575,10 +3578,13 @@ void EditorHandler::RefreshStartingModelMode()
 {
 	_uieditor.comboBox_modelmode->clear();
 
-	std::map<std::string, ModeData>::iterator it = _lba1Mdata[_winfo.StartingInfo.StartingModel.ModelName].
+	std::map<std::string, ModelData> & _lba1Mdata =
+	Lba1ModelMapHandler::getInstance()->GetData();
+
+	std::map<std::string, ModeData>::const_iterator it = _lba1Mdata[_winfo.StartingInfo.StartingModel.ModelName].
 											outfits[_winfo.StartingInfo.StartingModel.Outfit].
 											weapons[_winfo.StartingInfo.StartingModel.Weapon].modes.begin();
-	std::map<std::string, ModeData>::iterator end = _lba1Mdata[_winfo.StartingInfo.StartingModel.ModelName].
+	std::map<std::string, ModeData>::const_iterator end = _lba1Mdata[_winfo.StartingInfo.StartingModel.ModelName].
 											outfits[_winfo.StartingInfo.StartingModel.Outfit].
 											weapons[_winfo.StartingInfo.StartingModel.Weapon].modes.end();
 	for(; it != end; ++it)
@@ -3606,7 +3612,199 @@ void EditorHandler::RefreshStartingModelMode()
 
 
 /***********************************************************
-starting map modified
+generate list of possible name
+***********************************************************/
+void EditorHandler::UpdateModelName(boost::shared_ptr<CustomStringListModel> toupdate)
+{
+	std::map<std::string, ModelData> & _lba1Mdata =
+	Lba1ModelMapHandler::getInstance()->GetData();
+
+	QStringList list;
+	std::map<std::string, ModelData>::const_iterator it = _lba1Mdata.begin();
+	std::map<std::string, ModelData>::const_iterator end = _lba1Mdata.end();
+	for(; it != end; ++it)
+		list<<it->first.c_str();
+
+	toupdate->Clear();
+	toupdate->setStringList(list);
+}
+
+/***********************************************************
+generate list of possible outfit
+***********************************************************/
+void EditorHandler::UpdateModelOutfit(const std::string & modelname, 
+											   boost::shared_ptr<CustomStringListModel> toupdate)
+{
+	std::map<std::string, ModelData> & _lba1Mdata =
+	Lba1ModelMapHandler::getInstance()->GetData();
+
+	QStringList list;
+	std::map<std::string, OutfitData>::const_iterator it = _lba1Mdata[modelname].outfits.begin();
+	std::map<std::string, OutfitData>::const_iterator end = _lba1Mdata[modelname].outfits.end();
+	for(; it != end; ++it)
+		list<<it->first.c_str();
+
+	toupdate->Clear();
+	toupdate->setStringList(list);
+}
+
+
+/***********************************************************
+generate list of possible 
+***********************************************************/
+void EditorHandler::UpdateModelWeapon(const std::string & modelname, const std::string & outfit, 
+											   boost::shared_ptr<CustomStringListModel> toupdate)
+{
+	std::map<std::string, ModelData> & _lba1Mdata =
+	Lba1ModelMapHandler::getInstance()->GetData();
+
+	QStringList list;
+	std::map<std::string, WeaponData>::const_iterator it = _lba1Mdata[modelname].outfits[outfit].weapons.begin();
+	std::map<std::string, WeaponData>::const_iterator end = _lba1Mdata[modelname].outfits[outfit].weapons.end();
+	for(; it != end; ++it)
+		list<<it->first.c_str();
+
+	toupdate->Clear();
+	toupdate->setStringList(list);
+}
+
+
+
+/***********************************************************
+generate list of possible mode
+***********************************************************/
+void EditorHandler::UpdateModelMode(const std::string & modelname, 
+											 const std::string & outfit, const std::string & weapon, 
+											 boost::shared_ptr<CustomStringListModel> toupdate)
+{
+	std::map<std::string, ModelData> & _lba1Mdata =
+	Lba1ModelMapHandler::getInstance()->GetData();
+
+	QStringList list;
+	std::map<std::string, ModeData>::const_iterator it = _lba1Mdata[modelname].outfits[outfit].weapons[weapon].modes.begin();
+	std::map<std::string, ModeData>::const_iterator end = _lba1Mdata[modelname].outfits[outfit].weapons[weapon].modes.end();
+	for(; it != end; ++it)
+		list<<it->first.c_str();
+
+	toupdate->Clear();
+	toupdate->setStringList(list);
+}
+
+
+
+/***********************************************************
+refresh Actor Model Name
+***********************************************************/
+void EditorHandler::RefreshActorModelName(int index, QModelIndex parentIdx)
+{
+	UpdateModelName(_actorModelNameList);
+
+	std::string modelname = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).
+																	toString().toAscii().data();
+
+	if(!_actorModelNameList->DataExist(modelname.c_str()))
+	{
+		modelname = _actorModelNameList->GetFirstdata().toAscii().data();
+		_objectmodel->setData(_objectmodel->GetIndex(1, index, parentIdx), modelname.c_str());
+
+	}	
+
+	RefreshActorModelOutfit(index+1, parentIdx, modelname);
+}
+
+
+/***********************************************************
+refresh Actor Model Outfit
+***********************************************************/
+void EditorHandler::RefreshActorModelOutfit(int index, QModelIndex parentIdx,
+											const std::string & modelname)
+{
+	UpdateModelOutfit(modelname, _actorModelOutfitList);
+
+	std::string outfit = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).
+																	toString().toAscii().data();
+
+	if(!_actorModelOutfitList->DataExist(outfit.c_str()))
+	{
+		outfit = _actorModelOutfitList->GetFirstdata().toAscii().data();
+		_objectmodel->setData(_objectmodel->GetIndex(1, index, parentIdx), outfit.c_str());
+	}
+
+
+	RefreshActorModelWeapon(index+1, parentIdx, modelname, outfit);
+}
+
+
+/***********************************************************
+refresh Actor Model Weapon
+***********************************************************/
+void EditorHandler::RefreshActorModelWeapon(int index, QModelIndex parentIdx,
+									const std::string & modelname, const std::string & outfit)
+{
+	UpdateModelWeapon(modelname, outfit, _actorModelWeaponList);
+
+	std::string weapon = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).
+																	toString().toAscii().data();
+
+	if(!_actorModelWeaponList->DataExist(weapon.c_str()))
+	{
+		weapon = _actorModelWeaponList->GetFirstdata().toAscii().data();
+		_objectmodel->setData(_objectmodel->GetIndex(1, index, parentIdx), weapon.c_str());
+	}
+
+
+	RefreshActorModelMode(index+1, parentIdx, modelname, outfit, weapon);
+}
+
+
+/***********************************************************
+refresh Actor Model Mode
+***********************************************************/
+void EditorHandler::RefreshActorModelMode(int index, QModelIndex parentIdx,
+									const std::string & modelname, const std::string & outfit, 
+									const std::string & weapon)
+{
+	UpdateModelMode(modelname, outfit, weapon, _actorModelModeList);
+
+	std::string mode = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).
+																	toString().toAscii().data();
+
+	if(!_actorModelModeList->DataExist(mode.c_str()))
+	{
+		mode = _actorModelModeList->GetFirstdata().toAscii().data();
+		_objectmodel->setData(_objectmodel->GetIndex(1, index, parentIdx), mode.c_str());
+	}
+
+	
+	// update physics if needed
+	std::string ptype = _objectmodel->data(_objectmodel->GetIndex(1, 7, parentIdx)).toString().toAscii().data();
+	if(ptype == "No Shape") 
+	{
+		_objectmodel->setData(_objectmodel->GetIndex(1, 7, parentIdx), "Box");
+		ptype = "Box";
+	}
+
+	if(ptype == "Box")
+	{
+		int resWeaponType;
+		ModelSize size;
+		int res = Lba1ModelMapHandler::getInstance()-> GetModelExtraInfo(modelname,
+								outfit,	weapon,	mode, resWeaponType, size);
+
+		if(res >= 0)
+		{
+			_objectmodel->setData(_objectmodel->GetIndex(1, 13, parentIdx), size.X);
+			_objectmodel->setData(_objectmodel->GetIndex(1, 14, parentIdx), size.Y);
+			_objectmodel->setData(_objectmodel->GetIndex(1, 15, parentIdx), size.Z);
+		}
+	}
+}
+
+
+
+
+/***********************************************************
+StartingMapModified
 ***********************************************************/
 void EditorHandler::StartingMapModified(int index)
 {
@@ -4264,15 +4462,18 @@ void EditorHandler::ActorAdd_button_accepted()
 	switch(_ui_addactordialog.comboBox_dtype->currentIndex())
 	{
 		case 0:
-			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderOsgModel;
+			ainfo.DisplayDesc.TypeRenderer = LbaNet::NoRender;
 		break;
 		case 1:
-			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderSprite;
+			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderOsgModel;
 		break;
 		case 2:
-			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderLba1M;
+			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderSprite;
 		break;
 		case 3:
+			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderLba1M;
+		break;
+		case 4:
 			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderLba2M;
 		break;
 	}
@@ -4416,6 +4617,17 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 		}
 
 
+		{
+			ConditionBasePtr condptr = ainfo.Condition;
+
+			QVector<QVariant> data;
+			data << "Display condition" << GetConditionType(condptr).c_str();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+			if(condptr)
+				SelectCondition(condptr, idx);
+		}
+
 
 		std::string type;
 		switch(ainfo.PhysicDesc.TypePhysO)
@@ -4438,7 +4650,7 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 			_objectmodel->AppendRow(data, parent);
 		}
 
-		std::string dtype;
+		std::string dtype = "No";
 		switch(ainfo.DisplayDesc.TypeRenderer)
 		{
 			case LbaNet::RenderOsgModel:
@@ -4500,9 +4712,10 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 			_objectmodel->AppendRow(data, parent);
 		}
 
-		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actortypeList);
-		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 5, parent), _actordtypeList);
-		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 6, parent), _actorptypeList);		
+		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _conditiontypeList);
+		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 5, parent), _actortypeList);
+		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 6, parent), _actordtypeList);
+		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 7, parent), _actorptypeList);		
 
 
 		{
@@ -4526,12 +4739,15 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 			_objectmodel->AppendRow(data, parent);
 		}
 
+		int index = 12;
+
 		if(ainfo.PhysicDesc.TypeShape != LbaNet::NoShape)
 		{
 			{
 				QVector<QVariant> data;
 				data<<"Collidable"<<ainfo.PhysicDesc.Collidable;
 				_objectmodel->AppendRow(data, parent);
+				++index;
 			}
 
 			if(ainfo.PhysicDesc.TypeShape != LbaNet::TriangleMeshShape)
@@ -4540,16 +4756,19 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 					QVector<QVariant> data;
 					data<<"Size X"<<(double)ainfo.PhysicDesc.SizeX;
 					_objectmodel->AppendRow(data, parent);
+					++index;
 				}
 				{
 					QVector<QVariant> data;
 					data<<"Size Y"<<(double)ainfo.PhysicDesc.SizeY;
 					_objectmodel->AppendRow(data, parent);
+					++index;
 				}
 				{
 					QVector<QVariant> data;
 					data<<"Size Z"<<(double)ainfo.PhysicDesc.SizeZ;
 					_objectmodel->AppendRow(data, parent);
+					++index;
 				}
 			}
 			else
@@ -4558,74 +4777,139 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 					QVector<QVariant> data;
 					data<<"Physic filename"<<ainfo.PhysicDesc.Filename.c_str();
 					_objectmodel->AppendRow(data, parent);
+					++index;
 				}
 			}
 		}
 
+		if(dtype != "No")
 		{
-			QVector<QVariant> data;
-			data<<"Use Light"<<ainfo.DisplayDesc.UseLight;
-			_objectmodel->AppendRow(data, parent);
-		}
-		{
-			QVector<QVariant> data;
-			data<<"Cast shadow"<<ainfo.DisplayDesc.CastShadow;
-			_objectmodel->AppendRow(data, parent);
+			{
+				QVector<QVariant> data;
+				data<<"Use Light"<<ainfo.DisplayDesc.UseLight;
+				_objectmodel->AppendRow(data, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data;
+				data<<"Cast shadow"<<ainfo.DisplayDesc.CastShadow;
+				_objectmodel->AppendRow(data, parent);
+				++index;
+			}
+
+			{
+				QVector<QVariant> data;
+				data<<"Display translation X"<<(double)ainfo.DisplayDesc.TransX;
+				_objectmodel->AppendRow(data, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data;
+				data<<"Display translation Y"<<(double)ainfo.DisplayDesc.TransY;
+				_objectmodel->AppendRow(data, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data;
+				data<<"Display translation Z"<<(double)ainfo.DisplayDesc.TransZ;
+				_objectmodel->AppendRow(data, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data;
+				data<<"Display rotation X"<<(double)ainfo.DisplayDesc.RotX;
+				_objectmodel->AppendRow(data, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data;
+				data<<"Display rotation Y"<<(double)ainfo.DisplayDesc.RotY;
+				_objectmodel->AppendRow(data, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data;
+				data<<"Display rotation Z"<<(double)ainfo.DisplayDesc.RotZ;
+				_objectmodel->AppendRow(data, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data;
+				data<<"Display scale X"<<(double)ainfo.DisplayDesc.ScaleX;
+				_objectmodel->AppendRow(data, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data;
+				data<<"Display scale Y"<<(double)ainfo.DisplayDesc.ScaleY;
+				_objectmodel->AppendRow(data, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data;
+				data<<"Display scale Z"<<(double)ainfo.DisplayDesc.ScaleZ;
+				_objectmodel->AppendRow(data, parent);
+				++index;
+			}
+
+
+			if(ainfo.DisplayDesc.TypeRenderer == RenderOsgModel )
+			{
+				QVector<QVariant> data;
+				data<<"Display model file"<<ainfo.DisplayDesc.ModelName.c_str();
+				_objectmodel->AppendRow(data, parent);
+				++index;
+			}
+
+			if(ainfo.DisplayDesc.TypeRenderer == RenderSprite )
+			{
+				QVector<QVariant> data;
+				data<<"Display sprite id"<<ainfo.DisplayDesc.ModelId;
+				_objectmodel->AppendRow(data, parent);
+				++index;
+			}
+
+			if(ainfo.DisplayDesc.TypeRenderer == RenderLba1M ||
+					ainfo.DisplayDesc.TypeRenderer == RenderLba2M)
+			{
+				int modelaidx = index;
+
+				QVector<QVariant> data;
+				data<<"Display model name"<<ainfo.DisplayDesc.ModelName.c_str();
+				_objectmodel->AppendRow(data, parent);
+
+				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _actorModelNameList);
+				++index;
+
+				QVector<QVariant> data2;
+				data2<<"Display model outfit"<<ainfo.DisplayDesc.Outfit.c_str();
+				_objectmodel->AppendRow(data2, parent);
+				
+				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _actorModelOutfitList);
+				++index;
+
+				QVector<QVariant> data3;
+				data3<<"Display model weapon"<<ainfo.DisplayDesc.Weapon.c_str();
+				_objectmodel->AppendRow(data3, parent);
+				
+				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _actorModelWeaponList);
+				++index;
+
+				QVector<QVariant> data4;
+				data4<<"Display model mode"<<ainfo.DisplayDesc.Mode.c_str();
+				_objectmodel->AppendRow(data4, parent);
+				
+				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _actorModelModeList);
+				++index;
+
+				if(_refreshactorlists)
+				{
+					_refreshactorlists = false;
+					RefreshActorModelName(modelaidx, parent);
+				}
+			}
 		}
 
-		{
-			QVector<QVariant> data;
-			data<<"Display translation X"<<(double)ainfo.DisplayDesc.TransX;
-			_objectmodel->AppendRow(data, parent);
-		}
-		{
-			QVector<QVariant> data;
-			data<<"Display translation Y"<<(double)ainfo.DisplayDesc.TransY;
-			_objectmodel->AppendRow(data, parent);
-		}
-		{
-			QVector<QVariant> data;
-			data<<"Display translation Z"<<(double)ainfo.DisplayDesc.TransZ;
-			_objectmodel->AppendRow(data, parent);
-		}
-		{
-			QVector<QVariant> data;
-			data<<"Display rotation X"<<(double)ainfo.DisplayDesc.RotX;
-			_objectmodel->AppendRow(data, parent);
-		}
-		{
-			QVector<QVariant> data;
-			data<<"Display rotation Y"<<(double)ainfo.DisplayDesc.RotY;
-			_objectmodel->AppendRow(data, parent);
-		}
-		{
-			QVector<QVariant> data;
-			data<<"Display rotation Z"<<(double)ainfo.DisplayDesc.RotZ;
-			_objectmodel->AppendRow(data, parent);
-		}
-		{
-			QVector<QVariant> data;
-			data<<"Display scale X"<<(double)ainfo.DisplayDesc.ScaleX;
-			_objectmodel->AppendRow(data, parent);
-		}
-		{
-			QVector<QVariant> data;
-			data<<"Display scale Y"<<(double)ainfo.DisplayDesc.ScaleY;
-			_objectmodel->AppendRow(data, parent);
-		}
-		{
-			QVector<QVariant> data;
-			data<<"Display scale Z"<<(double)ainfo.DisplayDesc.ScaleZ;
-			_objectmodel->AppendRow(data, parent);
-		}
-
-		{
-			QVector<QVariant> data;
-			data<<"Display model/file name"<<ainfo.DisplayDesc.ModelName.c_str();
-			_objectmodel->AppendRow(data, parent);
-		}
-		// TODO Outfit;
-		// TODO Weapon;
 		// TODO - add file choose dialog
 
 		UpdateSelectedActorDisplay(ainfo.PhysicDesc);
@@ -4649,12 +4933,34 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx)
 
 		ainfo.ExtraInfo.Name = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString().toAscii().data();
 
-		ainfo.PhysicDesc.Pos.X = _objectmodel->data(_objectmodel->GetIndex(1, 7, parentIdx)).toFloat();
-		ainfo.PhysicDesc.Pos.Y = _objectmodel->data(_objectmodel->GetIndex(1, 8, parentIdx)).toFloat();
-		ainfo.PhysicDesc.Pos.Z = _objectmodel->data(_objectmodel->GetIndex(1, 9, parentIdx)).toFloat();
-		ainfo.PhysicDesc.Pos.Rotation = _objectmodel->data(_objectmodel->GetIndex(1, 10, parentIdx)).toFloat();
+		ainfo.PhysicDesc.Pos.X = _objectmodel->data(_objectmodel->GetIndex(1, 8, parentIdx)).toFloat();
+		ainfo.PhysicDesc.Pos.Y = _objectmodel->data(_objectmodel->GetIndex(1, 9, parentIdx)).toFloat();
+		ainfo.PhysicDesc.Pos.Z = _objectmodel->data(_objectmodel->GetIndex(1, 10, parentIdx)).toFloat();
+		ainfo.PhysicDesc.Pos.Rotation = _objectmodel->data(_objectmodel->GetIndex(1, 11, parentIdx)).toFloat();
 
-		int index = 11;
+
+		//condition
+		{
+			std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
+			std::string currcond = GetConditionType(ainfo.Condition);
+
+			if(condition != currcond)
+			{
+				ConditionBasePtr ptrtmp = CreateCondition(condition);
+				ainfo.Condition = ptrtmp;
+
+				QModelIndex curidx = _objectmodel->GetIndex(0, 4, parentIdx);
+				_objectmodel->Clear(curidx);
+				if(ptrtmp)
+				{
+					SelectCondition(ptrtmp, curidx);
+
+					_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+				}
+			}
+		}
+
+		int index = 12;
 
 		if(ainfo.PhysicDesc.TypeShape != LbaNet::NoShape)
 		{
@@ -4677,41 +4983,86 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx)
 			}
 		}
 
-		ainfo.DisplayDesc.UseLight = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
-		++index;
+		if(ainfo.DisplayDesc.TypeRenderer != LbaNet::NoRender)
+		{
+			ainfo.DisplayDesc.UseLight = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
+			++index;
 
-		ainfo.DisplayDesc.CastShadow = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
-		++index;
+			ainfo.DisplayDesc.CastShadow = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
+			++index;
 
-		ainfo.DisplayDesc.TransX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
-		++index;
-		ainfo.DisplayDesc.TransY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
-		++index;
-		ainfo.DisplayDesc.TransZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
-		++index;
+			ainfo.DisplayDesc.TransX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+			ainfo.DisplayDesc.TransY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+			ainfo.DisplayDesc.TransZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
 
-		ainfo.DisplayDesc.RotX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
-		++index;
-		ainfo.DisplayDesc.RotY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
-		++index;
-		ainfo.DisplayDesc.RotZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
-		++index;
+			ainfo.DisplayDesc.RotX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+			ainfo.DisplayDesc.RotY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+			ainfo.DisplayDesc.RotZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
 
-		ainfo.DisplayDesc.ScaleX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
-		++index;
-		ainfo.DisplayDesc.ScaleY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
-		++index;
-		ainfo.DisplayDesc.ScaleZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
-		++index;
+			ainfo.DisplayDesc.ScaleX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+			ainfo.DisplayDesc.ScaleY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+			ainfo.DisplayDesc.ScaleZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
 
 
-		ainfo.DisplayDesc.ModelName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
-		++index;
+			if(ainfo.DisplayDesc.TypeRenderer == RenderOsgModel )
+			{
+				ainfo.DisplayDesc.ModelName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+				++index;
+			}
+
+			if(ainfo.DisplayDesc.TypeRenderer == RenderSprite )
+			{
+				ainfo.DisplayDesc.ModelId = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
+				++index;		
+			}
+
+			// todo - model needs a slight offset Y
+			if(ainfo.DisplayDesc.TypeRenderer == RenderLba1M ||
+					ainfo.DisplayDesc.TypeRenderer == RenderLba2M)
+			{
+				std::string oldmodelname = ainfo.DisplayDesc.ModelName;
+				std::string oldmodelOutfit = ainfo.DisplayDesc.Outfit;
+				std::string oldmodelWeapon = ainfo.DisplayDesc.Weapon;
+
+				ainfo.DisplayDesc.ModelName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();		
+				++index;		
+
+				ainfo.DisplayDesc.Outfit = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+				if(ainfo.DisplayDesc.ModelName != oldmodelname)
+					RefreshActorModelOutfit(index, parentIdx, ainfo.DisplayDesc.ModelName);
+				
+				++index;	
+
+				ainfo.DisplayDesc.Weapon = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+				if(ainfo.DisplayDesc.Outfit != oldmodelOutfit)
+					RefreshActorModelWeapon(index, parentIdx, ainfo.DisplayDesc.ModelName,
+																	ainfo.DisplayDesc.Outfit);	
+				
+				++index;	
+
+				ainfo.DisplayDesc.Mode = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+				if(ainfo.DisplayDesc.Weapon != oldmodelWeapon)
+					RefreshActorModelMode(index, parentIdx, ainfo.DisplayDesc.ModelName,
+																	ainfo.DisplayDesc.Outfit,
+																	ainfo.DisplayDesc.Weapon);			
+				
+				++index;	
+			}
+		}
 
 		
 		{
 		LbaNet::PhysicalActorType before = ainfo.PhysicDesc.TypePhysO;
-		std::string type = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
+		std::string type = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toString().toAscii().data();
 		if(type == "Static") 
 			ainfo.PhysicDesc.TypePhysO = LbaNet::StaticAType;
 		if(type == "Scripted") 
@@ -4722,20 +5073,28 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx)
 			updateobj = true;
 
 		LbaNet::RenderTypeEnum befored = ainfo.DisplayDesc.TypeRenderer;
-		std::string dtype = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toString().toAscii().data();
+		ainfo.DisplayDesc.TypeRenderer = LbaNet::NoRender;
+		
+		std::string dtype = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toString().toAscii().data();
 		if(dtype == "Osg Model") 
 			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderOsgModel;
 		if(dtype == "Sprite") 
 			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderSprite;
 		if(dtype == "Lba1 Model") 
+		{
 			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderLba1M;
+
+			if(befored != ainfo.DisplayDesc.TypeRenderer)
+				_refreshactorlists = true;
+		}
 		if(dtype == "Lba2 Model") 
 			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderLba2M;
+
 		if(befored != ainfo.DisplayDesc.TypeRenderer)
 			updateobj = true;
 
 		LbaNet::PhysicalShapeEnum beforep = ainfo.PhysicDesc.TypeShape;
-		std::string ptype = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toString().toAscii().data();
+		std::string ptype = _objectmodel->data(_objectmodel->GetIndex(1, 7, parentIdx)).toString().toAscii().data();
 		if(ptype == "No Shape") 
 			ainfo.PhysicDesc.TypeShape = LbaNet::NoShape;
 		if(ptype == "Box") 
@@ -4776,7 +5135,7 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx)
 			}
 
 
-			std::string dtype;
+			std::string dtype = "No";
 			switch(ainfo.DisplayDesc.TypeRenderer)
 			{
 				case LbaNet::RenderOsgModel:
@@ -5360,27 +5719,27 @@ void EditorHandler::PickedArrowMoved(int pickedarrow)
 
 			if(pickedarrow == 1)
 			{
-				float nX = _objectmodel->data(_objectmodel->GetIndex(1, 7)).toString().toFloat();
+				float nX = _objectmodel->data(_objectmodel->GetIndex(1, 8)).toString().toFloat();
 				nX += floor(_draggerX->getMatrix().getTrans().x()*10)/10 - center.x();
-				_objectmodel->setData(_objectmodel->GetIndex(1, 7), nX);
+				_objectmodel->setData(_objectmodel->GetIndex(1, 8), nX);
 				_draggerY->setMatrix(_draggerX->getMatrix());
 				_draggerZ->setMatrix(_draggerX->getMatrix());
 			}
 
 			if(pickedarrow == 2)
 			{	
-				float nY = _objectmodel->data(_objectmodel->GetIndex(1, 8)).toString().toFloat();
+				float nY = _objectmodel->data(_objectmodel->GetIndex(1, 9)).toString().toFloat();
 				nY += floor(_draggerY->getMatrix().getTrans().y()*10)/10 - center.y();
-				_objectmodel->setData(_objectmodel->GetIndex(1, 8), nY);
+				_objectmodel->setData(_objectmodel->GetIndex(1, 9), nY);
 				_draggerX->setMatrix(_draggerY->getMatrix());
 				_draggerZ->setMatrix(_draggerY->getMatrix());
 			}
 
 			if(pickedarrow == 3)
 			{
-				float nZ = _objectmodel->data(_objectmodel->GetIndex(1, 9)).toString().toFloat();
+				float nZ = _objectmodel->data(_objectmodel->GetIndex(1, 10)).toString().toFloat();
 				nZ += floor(_draggerZ->getMatrix().getTrans().z()*10)/10 - center.z();
-				_objectmodel->setData(_objectmodel->GetIndex(1, 9), nZ);
+				_objectmodel->setData(_objectmodel->GetIndex(1, 10), nZ);
 				_draggerX->setMatrix(_draggerZ->getMatrix());
 				_draggerY->setMatrix(_draggerZ->getMatrix());
 			}

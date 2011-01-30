@@ -43,7 +43,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "GraphicsWindowQt"
 #include "ScriptEnvironmentBase.h"
-#include "Lba1ModelMapHandler.h"
 #include "treemodel.h"
 #include "Conditions.h"
 #include "ClientScript.h"
@@ -83,6 +82,12 @@ public:
 
 	//! remove data of the list if exist
 	void ReplaceData(const QString & OldData, const QString & NewData);
+
+	//! check if data present in the list
+	bool DataExist(const QString & Data);
+
+	//! get first data of the list
+	QString GetFirstdata();
 };
 
 
@@ -583,6 +588,36 @@ protected:
 	// refresh starting mode
 	void RefreshStartingModelMode();
 
+	// generate list of possible name
+	void UpdateModelName(boost::shared_ptr<CustomStringListModel> toupdate);
+
+	// generate list of possible outfit
+	void UpdateModelOutfit(const std::string & modelname, boost::shared_ptr<CustomStringListModel> toupdate);
+
+	// generate list of possible weapon
+	void UpdateModelWeapon(const std::string & modelname, const std::string & outfit, 
+											boost::shared_ptr<CustomStringListModel> toupdate);
+
+	// generate list of possible mode
+	void UpdateModelMode(const std::string & modelname, const std::string & outfit, const std::string & weapon, 
+											boost::shared_ptr<CustomStringListModel> toupdate);
+
+	// refresh Actor Model Name
+	void RefreshActorModelName(int index, QModelIndex parentIdx);
+
+	// refresh Actor Model Outfit
+	void RefreshActorModelOutfit(int index, QModelIndex parentIdx, const std::string & modelname);
+
+	// refresh Actor Model Weapon
+	void RefreshActorModelWeapon(int index, QModelIndex parentIdx,
+									const std::string & modelname, const std::string & outfit);
+
+	// refresh Actor Model Mode
+	void RefreshActorModelMode(int index, QModelIndex parentIdx,
+									const std::string & modelname, const std::string & outfit, 
+									const std::string & weapon);
+
+
 	// tp to default spawning of map
 	void CreateDefaultSpawningAndTp(const std::string & mapname);
 
@@ -711,6 +746,12 @@ private:
 	boost::shared_ptr<CustomStringListModel>							_cscripttypeList;
 	boost::shared_ptr<CustomStringListModel>							_actiontypeList;
 
+	boost::shared_ptr<CustomStringListModel>							_actorModelNameList;
+	boost::shared_ptr<CustomStringListModel>							_actorModelOutfitList;
+	boost::shared_ptr<CustomStringListModel>							_actorModelWeaponList;
+	boost::shared_ptr<CustomStringListModel>							_actorModelModeList;
+	bool																_refreshactorlists;
+
 	GraphicsWindowQt *									_osgwindow;
 
 
@@ -741,9 +782,6 @@ private:
 	long												_edited_tp;
 
 
-	std::map<std::string, ModelData>					_lba1Mdata;
-
-
 	osg::ref_ptr<osg::MatrixTransform>					_actornode;
 	osg::ref_ptr<osg::MatrixTransform>					_arrownode;
 	osg::ref_ptr<osg::MatrixTransform>					_scriptnode;
@@ -752,6 +790,9 @@ private:
 	osg::ref_ptr<osgManipulator::Translate1DDragger>	_draggerX;
 	osg::ref_ptr<osgManipulator::Translate1DDragger>	_draggerY;
 	osg::ref_ptr<osgManipulator::Translate1DDragger>	_draggerZ;
+
+
+
 
 
 	// keep selected items in meemory

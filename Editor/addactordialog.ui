@@ -38,6 +38,11 @@
     <widget class="QComboBox" name="comboBox_dtype">
      <item>
       <property name="text">
+       <string>No</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
        <string>Osg Model</string>
       </property>
      </item>

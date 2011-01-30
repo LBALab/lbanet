@@ -81,7 +81,7 @@
                <item>
                 <widget class="QTabWidget" name="tabWidgetworld">
                  <property name="currentIndex">
-                  <number>4</number>
+                  <number>1</number>
                  </property>
                  <widget class="QWidget" name="tab_worldinfo">
                   <attribute name="title">
@@ -742,7 +742,7 @@
                <item>
                 <widget class="QTabWidget" name="tabWidget_map">
                  <property name="currentIndex">
-                  <number>4</number>
+                  <number>0</number>
                  </property>
                  <widget class="QWidget" name="tab_mapinfo">
                   <attribute name="title">
