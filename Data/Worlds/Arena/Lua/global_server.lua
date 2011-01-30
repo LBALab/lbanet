@@ -1,2 +1,0 @@
-function InitGlobal(environment)
-end
