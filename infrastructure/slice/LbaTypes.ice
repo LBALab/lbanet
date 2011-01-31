@@ -254,6 +254,7 @@ module LbaNet
 		float			CurrentMana;
 		float			MaxMana;
 		float			CurrentArmor;
+		bool			Display;	
 	};	
 	
 	
@@ -274,6 +275,7 @@ module LbaNet
 		float			NameColorR;
 		float			NameColorG;		
 		float			NameColorB;
+		bool			Display;
 	};		
 	
 	
