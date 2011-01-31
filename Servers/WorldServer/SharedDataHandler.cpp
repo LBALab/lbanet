@@ -33,11 +33,14 @@ void SharedDataHandler::SetWorldDefaultInformation(WorldInformation &worldinfo)
 {
 	Lock sync(*this);
 	_worldinfo = worldinfo;
+	_currentmaps.clear();
 
 
 	// inform inventory handler
 	InventoryItemHandler::getInstance()->SetCurrentWorld(worldinfo.Description.WorldName);
 
+
+#ifndef _USE_QT_EDITOR_
 
 	// create all maps
 	LbaNet::MapsSeq::const_iterator itm = worldinfo.Maps.begin();
@@ -51,6 +54,8 @@ void SharedDataHandler::SetWorldDefaultInformation(WorldInformation &worldinfo)
 		boost::shared_ptr<MapHandler> mapH(new MapHandler(itm->second, luafile));
 		_currentmaps[itm->first] = mapH;
 	}
+#endif
+
 }
 
 
@@ -466,6 +471,7 @@ void SharedDataHandler::ChangeMapPlayer(Ice::Long clientid, LbaNet::PlayerPositi
 
 	//then connect to new map
 
+#ifndef _USE_QT_EDITOR_
 	//check if map handler for the map is already present
 	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator it = _currentmaps.find(newpos.MapName);
 	if(it != _currentmaps.end())
@@ -484,6 +490,24 @@ void SharedDataHandler::ChangeMapPlayer(Ice::Long clientid, LbaNet::PlayerPositi
 		LogHandler::getInstance()->LogToFile(strs.str(), 0);
 		return;
 	}
+#else
+	LbaNet::MapsSeq::const_iterator itm = _worldinfo.Maps.find(newpos.MapName);
+	if(itm != _worldinfo.Maps.end())
+	{
+		std::string luafile = "Worlds/" + _worldinfo.Description.WorldName + "/Lua/";
+		luafile += newpos.MapName + "_server.lua";
+
+		// create map object
+		boost::shared_ptr<MapHandler> mapH(new MapHandler(itm->second, luafile));
+		_currentmaps[itm->first] = mapH;
+
+		//start run thread if not started already
+		mapH->StartThread();
+
+		// add proxies to the map
+		mapH->AddPlayer(clientid, itplayer->second);
+	}
+#endif
 
 
 	// add player enter event

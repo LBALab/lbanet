@@ -122,6 +122,7 @@ MapHandler::MapHandler(const MapInfo & mapinfo,
 
 		ActorObjectInfo ainfo = CreateSpawningDisplay(edobjid, it->second.PosX, 
 									it->second.PosY, it->second.PosZ, it->second.Name);
+		ainfo.LifeInfo.Display = false;
 		_editorObjects[edobjid] = ainfo;
 	}
 	#endif
@@ -180,6 +181,7 @@ void MapHandler::run()
 {
 	IceUtil::Monitor<IceUtil::Mutex>::Lock lock(_monitor);
 	_Trunning = true;
+	_stopping = false;
 
 	// init time
 	long waittime = SynchronizedTimeHandler::GetCurrentTimeInt();
@@ -220,7 +222,27 @@ void MapHandler::run()
 			waittime = SynchronizedTimeHandler::GetCurrentTimeInt();
 		}
 
-		//todo stop thread after a while if no player inside
+		//stop thread after a while if no player inside
+		int nbp = GetNbPlayers();
+		if(nbp == 0)
+		{
+			if(!_stopping)
+			{
+				_stopping = true;
+				_stopstarttime = SynchronizedTimeHandler::GetCurrentTimeDouble();
+			}
+			else
+			{
+				double currtime = SynchronizedTimeHandler::GetCurrentTimeDouble();
+				double tdiff = currtime - _stopstarttime;
+				if(tdiff > 60000) // stop after 1min
+					_Trunning = false;
+			}
+		}
+		else
+		{
+			_stopping = false;
+		}
 	}
 }
 
@@ -644,12 +666,15 @@ void MapHandler::PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMove
 		//do an sweep test and check for triggers
 		{
 			PlayerPosition lastpos = GetPlayerPosition(id);
+			lastpos.Y += 0.2; // small offset to make sure object is inside zone and not online a bit lower
+			PlayerPosition currPos = info.CurrentPos;
+			currPos.Y += 0.2;
+
 			// inform triggers
 			std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
 			std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
 			for(; ittr != endtr; ++ittr)
-				ittr->second->ObjectMoved(2, id, lastpos, info.CurrentPos);
-
+				ittr->second->ObjectMoved(2, id, lastpos, currPos);
 		}
 
 
@@ -729,7 +754,8 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 		std::map<Ice::Long, ActorObjectInfo >::iterator endact = _editorObjects.end();
 		for(; itact != endact; ++itact)
 		{
-			const ActorObjectInfo & actinfo = itact->second;
+			ActorObjectInfo & actinfo = itact->second;
+			actinfo.LifeInfo.Display = false;
 
 			toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 				LbaNet::EditorObject, itact->first, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo , 
@@ -889,6 +915,8 @@ function used by LUA to add actor
 void MapHandler::AddActorObject(boost::shared_ptr<ActorHandler> actor)
 {
 	_Actors[actor->GetId()] = actor;
+	actor->GetInfo().LifeInfo.Display = false;
+	actor->GetInfo().ExtraInfo.Display = false;
 }
 
 
@@ -964,6 +992,7 @@ void MapHandler::AddTrigger(boost::shared_ptr<TriggerBase> trigger)
 
 		#ifdef _USE_QT_EDITOR_
 		ActorObjectInfo ainfo = trigger->GetDisplayObject();
+		ainfo.LifeInfo.Display = false;
 		long edobjid = ainfo.ObjectId;
 		if(edobjid < 0)
 			return;
@@ -1978,4 +2007,13 @@ bool MapHandler::DeltaUpdateMana(Ice::Long clientid, float update)
 		return itplayer->second->DeltaUpdateMana(update);
 
 	return false;
+}
+
+/***********************************************************
+//! return number of player on map
+***********************************************************/
+int MapHandler::GetNbPlayers()
+{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+	return (int)_players.size();
 }

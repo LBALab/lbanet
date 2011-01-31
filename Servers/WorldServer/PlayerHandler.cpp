@@ -72,6 +72,10 @@ PlayerHandler::PlayerHandler(long clientid, ClientProxyBasePtr proxy,
 		}
 	}
 
+	_currentinfo.lifemana.Display = true;
+	_extrainfo.Display = true;
+
+
 	// create model and state classes
 	UpdateStateModeClass();
 }

@@ -354,6 +354,9 @@ protected:
 	//! return true if no mana
 	bool DeltaUpdateMana(Ice::Long clientid, float update);
 
+	//! return number of player on map
+	int GetNbPlayers();
+
 private:
 	// threading and mutex stuff
 	IceUtil::Monitor<IceUtil::Mutex>							_monitor;
@@ -384,6 +387,9 @@ private:
 	ServerLuaHandler											_luaH;
 
 	std::map<long, boost::shared_ptr<TriggerBase> >				_triggers;
+
+	bool														_stopping;
+	double														_stopstarttime;
 };
 
 
