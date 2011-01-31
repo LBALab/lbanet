@@ -1142,7 +1142,8 @@ create simple display object
 boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSimpleObject(const std::string & filename,
 														boost::shared_ptr<DisplayTransformation> Tr,
 														bool UseLight, bool CastShadow,
-														const LbaNet::ObjectExtraInfo &extrainfo)
+														const LbaNet::ObjectExtraInfo &extrainfo,
+														const LbaNet::LifeManaInfo &lifeinfo)
 {
 	osg::ref_ptr<osg::Node> resnode = LoadOSGFile(filename);
 
@@ -1158,7 +1159,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSimpleObject(const
 	}
 	
 	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, UseLight, CastShadow);
-	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat, UseLight, extrainfo));
+	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat, UseLight, extrainfo, lifeinfo));
 }
 
 
@@ -1169,7 +1170,8 @@ create capsule object
 boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCapsuleObject(float radius, float height, 
 														float colorR, float colorG, float colorB, float colorA,
 														boost::shared_ptr<DisplayTransformation> Tr,
-														const LbaNet::ObjectExtraInfo &extrainfo)
+														const LbaNet::ObjectExtraInfo &extrainfo,
+														const LbaNet::LifeManaInfo &lifeinfo)
 {
 	osg::ref_ptr<osg::Group> resnode = new osg::Group();
 
@@ -1198,7 +1200,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCapsuleObject(floa
 	}
 	
 	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, false, false);
-	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat, false, extrainfo));
+	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat, false, extrainfo, lifeinfo));
 }
 
 
@@ -1208,7 +1210,8 @@ create box object
 boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateBoxObject(float sizex, float sizey, float sizez, 
 														float colorR, float colorG, float colorB, float colorA,
 														boost::shared_ptr<DisplayTransformation> Tr,
-														const LbaNet::ObjectExtraInfo &extrainfo)
+														const LbaNet::ObjectExtraInfo &extrainfo,
+														const LbaNet::LifeManaInfo &lifeinfo)
 {
 	osg::ref_ptr<osg::Group> resnode = new osg::Group();
 
@@ -1237,7 +1240,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateBoxObject(float si
 	}
 	
 	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, false, false);
-	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat, false, extrainfo));
+	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat, false, extrainfo, lifeinfo));
 }
 
 
@@ -1248,7 +1251,8 @@ create box object
 boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCrossObject(float size,  
 														float colorR, float colorG, float colorB, float colorA,
 														boost::shared_ptr<DisplayTransformation> Tr,
-														const LbaNet::ObjectExtraInfo &extrainfo)
+														const LbaNet::ObjectExtraInfo &extrainfo,
+														const LbaNet::LifeManaInfo &lifeinfo)
 {
 	osg::ref_ptr<osg::Group> resnode = new osg::Group();
 
@@ -1300,7 +1304,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCrossObject(float 
 	}
 	
 	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, false, false);
-	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat, false, extrainfo));
+	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat, false, extrainfo, lifeinfo));
 }
 
 

@@ -201,21 +201,24 @@ public:
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateSimpleObject(const std::string & filename,
 															boost::shared_ptr<DisplayTransformation> Tr,
 															bool UseLight, bool CastShadow,
-															const LbaNet::ObjectExtraInfo &extrainfo);
+															const LbaNet::ObjectExtraInfo &extrainfo,
+															const LbaNet::LifeManaInfo &lifeinfo);
 
 
 	//! create capsule object
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateCapsuleObject(float radius, float height, 
 															float colorR, float colorG, float colorB, float colorA,
 															boost::shared_ptr<DisplayTransformation> Tr,
-															const LbaNet::ObjectExtraInfo &extrainfo);
+															const LbaNet::ObjectExtraInfo &extrainfo,
+															const LbaNet::LifeManaInfo &lifeinfo);
 
 
 	//! create box object
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateBoxObject(float sizex, float sizey, float sizez, 
 															float colorR, float colorG, float colorB, float colorA,
 															boost::shared_ptr<DisplayTransformation> Tr,
-															const LbaNet::ObjectExtraInfo &extrainfo);
+															const LbaNet::ObjectExtraInfo &extrainfo,
+															const LbaNet::LifeManaInfo &lifeinfo);
 
 
 
@@ -223,7 +226,8 @@ public:
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateCrossObject(float size,
 															float colorR, float colorG, float colorB, float colorA,
 															boost::shared_ptr<DisplayTransformation> Tr,
-															const LbaNet::ObjectExtraInfo &extrainfo);
+															const LbaNet::ObjectExtraInfo &extrainfo,
+															const LbaNet::LifeManaInfo &lifeinfo);
 
 	//! create PAT
 	osg::ref_ptr<osg::PositionAttitudeTransform> CreatePAT(boost::shared_ptr<DisplayTransformation> Tr);

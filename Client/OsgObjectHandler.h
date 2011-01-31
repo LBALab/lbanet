@@ -51,11 +51,13 @@ class OsgObjectHandler : public DisplayObjectHandlerBase
 public:
 	//! default constructor
 	OsgObjectHandler(boost::shared_ptr<DisplayTransformation> Tr,
-						const LbaNet::ObjectExtraInfo &extrainfo);
+						const LbaNet::ObjectExtraInfo &extrainfo,
+						const LbaNet::LifeManaInfo &lifeinfo);
 
 	//! constructor
 	OsgObjectHandler(osg::ref_ptr<osg::MatrixTransform> OsgObject, bool uselight,
-						const LbaNet::ObjectExtraInfo &extrainfo);
+						const LbaNet::ObjectExtraInfo &extrainfo,
+						const LbaNet::LifeManaInfo &lifeinfo);
 
 	//! destructor
 	virtual ~OsgObjectHandler();
@@ -100,6 +102,13 @@ protected:
 	// set t dont optimize
 	void ForbidOptimize();
 
+	// update object life info
+	void UpdateLifeInfo(const LbaNet::LifeManaInfo &info);
+
+	// refresh life/mana bars
+	void RefreshLifeManaBars();
+
+
 protected:
 	float											_posX;
 	float											_posY; 
@@ -110,6 +119,9 @@ protected:
 
 	osg::ref_ptr<osg::AutoTransform>				_textgroup;
 	LbaNet::ObjectExtraInfo							_extrainfo;
+
+	osg::ref_ptr<osg::AutoTransform>				_barsgroup;
+	LbaNet::LifeManaInfo							_lifeinfo;
 
 private:
 	osg::ref_ptr<osg::MatrixTransform>				_OsgObject;

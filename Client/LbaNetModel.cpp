@@ -400,7 +400,7 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 			{
 				boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
 					(new OsgSimpleObjectDescription(DisplayDesc.ModelName, 
-								DisplayDesc.UseLight, DisplayDesc.CastShadow, extrainfo));
+								DisplayDesc.UseLight, DisplayDesc.CastShadow, extrainfo, lifeinfo));
 
 				boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
 				tr->translationX = DisplayDesc.TransX;
@@ -457,7 +457,7 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 		{
 			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
 				(new OsgCrossDescription(PhysicDesc.SizeX, 
-				DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA, extrainfo));
+				DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA, extrainfo, lifeinfo));
 
 
 			boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
@@ -482,7 +482,7 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 		{
 			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
 				(new OsgBoxDescription(PhysicDesc.SizeX, PhysicDesc.SizeY, PhysicDesc.SizeZ, 
-				DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA, extrainfo));
+				DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA, extrainfo, lifeinfo));
 
 
 			boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
@@ -507,7 +507,7 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 		{
 			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
 				(new OsgOrientedCapsuleDescription(PhysicDesc.SizeY, PhysicDesc.SizeX, 
-				DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA, extrainfo));
+				DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA, extrainfo, lifeinfo));
 
 			boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
 			tr->translationX = DisplayDesc.TransX;

@@ -114,12 +114,20 @@ set game language
 ***********************************************************/
 void Localizer::SetLanguage(std::string lang)
 {
+
+#ifndef _USE_QT_EDITOR_
 	if(_lang != lang)
 	{
 		_lang = lang;
 		RefreshGuiTexts();
 		RefreshTexts();
 	}
+#else
+		_lang = "en";
+		RefreshGuiTexts();
+		RefreshTexts();
+#endif
+
 }
 
 
@@ -181,4 +189,72 @@ void Localizer::RefreshGuiTexts()
 		std::map<long, std::string> tmp = XmlReader::LoadTextFile("Data/GUI/texts/en.xml");
 		_gui_texts.insert(tmp.begin(),tmp.end());
 	}
+}
+
+
+/***********************************************************
+editor functions
+***********************************************************/
+std::map<long, std::string> Localizer::GetMap(const std::string &texttype)
+{
+	if(texttype == "inventory")
+		return _inventory_texts;
+
+	if(texttype == "quest")
+		return _quest_texts;
+
+	if(texttype == "name")
+		return _name_texts;
+
+	return _map_texts;
+}
+
+/***********************************************************
+editor functions
+***********************************************************/
+void Localizer::AddToMap(const std::string &texttype, long id, const std::string &text)
+{
+	std::map<long, std::string> &map = _map_texts;
+
+	if(texttype == "inventory")
+		map = _inventory_texts;
+
+	if(texttype == "quest")
+		map = _quest_texts;
+
+	if(texttype == "name")
+		map = _name_texts;
+
+	map[id] = text;
+}
+
+
+/***********************************************************
+editor functions
+***********************************************************/
+void Localizer::RemoveFromMap(const std::string &texttype, long id)
+{
+	std::map<long, std::string> &map = _map_texts;
+
+	if(texttype == "inventory")
+		map = _inventory_texts;
+
+	if(texttype == "quest")
+		map = _quest_texts;
+
+	if(texttype == "name")
+		map = _name_texts;
+
+	std::map<long, std::string>::iterator it = map.find(id);
+	if(it != map.end())
+		map.erase(it);
+}
+
+
+/***********************************************************
+editor functions
+***********************************************************/
+void Localizer::SaveTexts()
+{
+	//todo - save texts
 }

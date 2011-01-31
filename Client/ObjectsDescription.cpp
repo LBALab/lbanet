@@ -221,7 +221,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgSimpleObjectDescription::BuildSel
 															DisplayHandlerBase * disH) const
 {
 	if(disH)
-		return disH->CreateSimpleObject(_filename, Tr, _UseLight, _CastShadow, _extrainfo);
+		return disH->CreateSimpleObject(_filename, Tr, _UseLight, _CastShadow, _extrainfo, _lifeinfo);
 
 	return boost::shared_ptr<DisplayObjectHandlerBase> ();
 }
@@ -234,7 +234,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgCrossDescription::BuildSelf(boost
 																				DisplayHandlerBase * disH) const
 {
 	if(disH)
-		return disH->CreateCrossObject(_size, _colorR, _colorG, _colorB, _colorA, Tr, _extrainfo);
+		return disH->CreateCrossObject(_size, _colorR, _colorG, _colorB, _colorA, Tr, _extrainfo, _lifeinfo);
 
 	return boost::shared_ptr<DisplayObjectHandlerBase> ();
 }
@@ -247,7 +247,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgBoxDescription::BuildSelf(boost::
 																				DisplayHandlerBase * disH) const
 {
 	if(disH)
-		return disH->CreateBoxObject(_sizex, _sizey, _sizez, _colorR, _colorG, _colorB, _colorA, Tr, _extrainfo);
+		return disH->CreateBoxObject(_sizex, _sizey, _sizez, _colorR, _colorG, _colorB, _colorA, Tr, _extrainfo, _lifeinfo);
 
 	return boost::shared_ptr<DisplayObjectHandlerBase> ();
 }
@@ -261,7 +261,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgOrientedCapsuleDescription::Build
 															DisplayHandlerBase * disH) const
 {
 	if(disH)
-		return disH->CreateCapsuleObject(_radius, _height, _colorR, _colorG, _colorB, _colorA, Tr, _extrainfo);
+		return disH->CreateCapsuleObject(_radius, _height, _colorR, _colorG, _colorB, _colorA, Tr, _extrainfo, _lifeinfo);
 
 	return boost::shared_ptr<DisplayObjectHandlerBase> ();
 }

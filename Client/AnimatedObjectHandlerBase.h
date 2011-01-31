@@ -38,7 +38,8 @@ class AnimatedObjectHandlerBase : public OsgObjectHandler
 public:
 	//! constructor
 	AnimatedObjectHandlerBase(boost::shared_ptr<DisplayTransformation> Tr,
-									const LbaNet::ObjectExtraInfo &extrainfo);
+									const LbaNet::ObjectExtraInfo &extrainfo,
+									const LbaNet::LifeManaInfo &lifeinfo);
 
 	//! destructor
 	virtual ~AnimatedObjectHandlerBase();
@@ -73,8 +74,6 @@ public:
 	// should resume when animation or model changes
 	virtual void PauseAnimation() = 0;
 
-	// update object life info
-	virtual void UpdateLifeInfo(const LbaNet::LifeManaInfo &info) = 0;
 
 };
 

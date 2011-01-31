@@ -62,6 +62,17 @@ public:
 	{return _lang;}
 
 
+
+	//! editor functions
+	std::map<long, std::string> GetMap(const std::string &texttype);
+
+	void AddToMap(const std::string &texttype, long id, const std::string &text);
+
+	void RemoveFromMap(const std::string &texttype, long id);
+
+	void SaveTexts();
+
+
 protected:
 	//! constructor
    Localizer();
