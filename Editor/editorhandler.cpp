@@ -33,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "StringHelperFuncs.h"
 #include "ClientScript.h"
 #include "Lba1ModelMapHandler.h"
+#include "Localizer.h"
 
 #include <QMessageBox>
 #include <boost/filesystem.hpp>
@@ -729,7 +730,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	_conditiontypeList(new CustomStringListModel()), _cscripttypeList(new CustomStringListModel()),
 	_actiontypeList(new CustomStringListModel()), _actorModelNameList(new CustomStringListModel()),
 	_actorModelOutfitList(new CustomStringListModel()), _actorModelWeaponList(new CustomStringListModel()),
-	_actorModelModeList(new CustomStringListModel())
+	_actorModelModeList(new CustomStringListModel()), _currentchoosentext(0)
 
 {
 	QStringList actlist;
@@ -815,6 +816,21 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 		mpheaders->setResizeMode(QHeaderView::Stretch);
 	}
 
+	// set model for text list
+	{
+		 QStringList header;
+		 header << "Text";
+		_text_maplistmodel = new StringTableModel(header);
+		_text_questlistmodel = new StringTableModel(header);
+		_text_inventorylistmodel = new StringTableModel(header);
+		_text_namelistmodel = new StringTableModel(header);
+
+		_uieditor.tableView_TextList->setModel(_text_maplistmodel);
+		QHeaderView * mpheaders = _uieditor.tableView_TextList->horizontalHeader();
+		mpheaders->setResizeMode(QHeaderView::Stretch);
+	}
+
+
 	// set model for objectmap
 	{
 		 QVector<QVariant> header;
@@ -865,7 +881,6 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 		mpheaders->setResizeMode(QHeaderView::Stretch);
 	}
 	
-
 
 
 	// reset world info
@@ -953,6 +968,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.radioButton_camtype_ortho, SIGNAL(toggled(bool)) , this, SLOT(MapCameraTypeChanged(bool)));
 	connect(_uieditor.radioButton_camtype_persp, SIGNAL(toggled(bool)) , this, SLOT(MapCameraTypeChanged(bool)));
 	connect(_uieditor.radioButton_camtype_3d, SIGNAL(toggled(bool)) , this, SLOT(MapCameraTypeChanged(bool)));
+
+	connect(_uieditor.comboBox_choosetexttype, SIGNAL(activated(int)) , this, SLOT(TextTypeModified(int)));	
 
 }
 
@@ -1199,6 +1216,9 @@ void EditorHandler::SaveWorldAction()
 		if(mapname != "")
 			SaveMap("./Data/Worlds/" + _winfo.Description.WorldName + "/Lua/" + mapname + "_server.lua");
 
+		// save text
+		Localizer::getInstance()->SaveTexts();
+
 		SetSaved();
 	}
 }
@@ -1355,6 +1375,59 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 	_uieditor.textEdit_worldnews->setText(newss);
 
 
+	// update texts
+	{
+		Localizer::getInstance()->SetWorldName(worldname);
+
+		{
+			std::map<long, std::string> tmap = Localizer::getInstance()->GetMap("map");
+			std::map<long, std::string>::iterator it = tmap.begin();
+			std::map<long, std::string>::iterator end = tmap.end();
+			for(; it != end; ++it)
+			{
+				QStringList qlist;
+				qlist <<it->second.c_str();
+				_text_maplistmodel->AddOrUpdateRow(it->first, qlist);
+			}
+		}
+
+		{
+			std::map<long, std::string> tmap = Localizer::getInstance()->GetMap("quest");
+			std::map<long, std::string>::iterator it = tmap.begin();
+			std::map<long, std::string>::iterator end = tmap.end();
+			for(; it != end; ++it)
+			{
+				QStringList qlist;
+				qlist <<it->second.c_str();
+				_text_questlistmodel->AddOrUpdateRow(it->first, qlist);
+			}
+		}
+
+		{
+			std::map<long, std::string> tmap = Localizer::getInstance()->GetMap("inventory");
+			std::map<long, std::string>::iterator it = tmap.begin();
+			std::map<long, std::string>::iterator end = tmap.end();
+			for(; it != end; ++it)
+			{
+				QStringList qlist;
+				qlist <<it->second.c_str();
+				_text_inventorylistmodel->AddOrUpdateRow(it->first, qlist);
+			}
+		}
+
+		{
+			std::map<long, std::string> tmap = Localizer::getInstance()->GetMap("name");
+			std::map<long, std::string>::iterator it = tmap.begin();
+			std::map<long, std::string>::iterator end = tmap.end();
+			for(; it != end; ++it)
+			{
+				QStringList qlist;
+				qlist <<it->second.c_str();
+				_text_namelistmodel->AddOrUpdateRow(it->first, qlist);
+			}
+		}
+	}
+
 	// add maps
 	{
 		_maplistmodel->Clear();
@@ -1407,7 +1480,6 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 	// add lua stuff
 	std::string luafile = "Worlds/" + _winfo.Description.WorldName + "/Lua/";
 	_luaH = boost::shared_ptr<ServerLuaHandler>(new ServerLuaHandler());
-	_luaH->CallLua("InitGlobal", this);
 
 	// refresh starting info
 	RefreshStartingInfo();
@@ -3888,6 +3960,28 @@ void EditorHandler::StartingModeModified(int index)
 	SetModified();
 }
 
+/***********************************************************
+text type modified
+***********************************************************/
+void EditorHandler::TextTypeModified(int index)
+{
+	_currentchoosentext = index;
+	switch(index)
+	{
+		case 0:
+			_uieditor.tableView_TextList->setModel(_text_maplistmodel);
+		break;
+		case 1:
+			_uieditor.tableView_TextList->setModel(_text_questlistmodel);
+		break;
+		case 2:
+			_uieditor.tableView_TextList->setModel(_text_inventorylistmodel);
+		break;
+		case 3:
+			_uieditor.tableView_TextList->setModel(_text_namelistmodel);
+		break;
+	}
+}
 
 
 /***********************************************************
@@ -4472,9 +4566,11 @@ void EditorHandler::ActorAdd_button_accepted()
 		break;
 		case 3:
 			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderLba1M;
+			_refreshactorlists = true;
 		break;
 		case 4:
 			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderLba2M;
+			_refreshactorlists = true;
 		break;
 	}
 

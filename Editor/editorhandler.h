@@ -463,7 +463,8 @@ public slots:
 	 //! on selectactor_double_clicked
      void selectactor_double_clicked(const QModelIndex & itm);
 
-
+	//! text type modified
+	void TextTypeModified(int index);
 
 protected:
 	//! override close event
@@ -730,6 +731,11 @@ private:
 	StringTableModel *									_triggerlistmodel;
 	StringTableModel *									_actorlistmodel;
 
+	StringTableModel *									_text_maplistmodel;
+	StringTableModel *									_text_questlistmodel;
+	StringTableModel *									_text_inventorylistmodel;
+	StringTableModel *									_text_namelistmodel;
+	int													_currentchoosentext;
 
 	TreeModel *											_objectmodel;
 	CustomDelegate *									_objectcustomdelegate;
@@ -751,6 +757,8 @@ private:
 	boost::shared_ptr<CustomStringListModel>							_actorModelWeaponList;
 	boost::shared_ptr<CustomStringListModel>							_actorModelModeList;
 	bool																_refreshactorlists;
+
+
 
 	GraphicsWindowQt *									_osgwindow;
 
