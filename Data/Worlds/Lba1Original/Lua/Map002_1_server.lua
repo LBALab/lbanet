@@ -1,20 +1,45 @@
 function InitMap(environment)
-	MapObject = ActorObjectInfo(1)
-	MapObject:SetRenderType(1)
-	MapObject.DisplayDesc.ModelName = "Worlds/Lba1Original/Grids/Map2.osgb"
-	MapObject.DisplayDesc.UseLight = true
-	MapObject.DisplayDesc.CastShadow = false
-	MapObject:SetModelState(1)
-	MapObject.PhysicDesc.Pos.X = 0
-	MapObject.PhysicDesc.Pos.Y = 0
-	MapObject.PhysicDesc.Pos.Z = 0
-	MapObject.PhysicDesc.Pos.Rotation = 0
-	MapObject:SetPhysicalActorType(1)
-	MapObject:SetPhysicalShape(5)
-	MapObject.PhysicDesc.Collidable = true
-	MapObject.PhysicDesc.Filename = "Worlds/Lba1Original/Grids/Map2.phy"
-	MapObjectH = ActorHandler(MapObject)
-	environment:AddActorObject(MapObjectH)
+	Actor_1 = ActorObjectInfo(1)
+	Actor_1:SetRenderType(1)
+	Actor_1.DisplayDesc.ModelId = -842150451
+	Actor_1.DisplayDesc.ModelName = "Worlds/Lba1Original/Grids/Map2.osgb"
+	Actor_1.DisplayDesc.Outfit = ""
+	Actor_1.DisplayDesc.Weapon = ""
+	Actor_1.DisplayDesc.Mode = ""
+	Actor_1.DisplayDesc.UseLight = true
+	Actor_1.DisplayDesc.CastShadow = false
+	Actor_1.DisplayDesc.ColorR = -4.31602e+008
+	Actor_1.DisplayDesc.ColorG = -4.31602e+008
+	Actor_1.DisplayDesc.ColorB = -4.31602e+008
+	Actor_1.DisplayDesc.ColorA = -4.31602e+008
+	Actor_1.DisplayDesc.TransX = 0
+	Actor_1.DisplayDesc.TransY = 0
+	Actor_1.DisplayDesc.TransZ = 0
+	Actor_1.DisplayDesc.ScaleX = 1
+	Actor_1.DisplayDesc.ScaleY = 1
+	Actor_1.DisplayDesc.ScaleZ = 1
+	Actor_1.DisplayDesc.RotX = 0
+	Actor_1.DisplayDesc.RotY = 0
+	Actor_1.DisplayDesc.RotZ = 0
+	Actor_1:SetModelState(1)
+	Actor_1.PhysicDesc.Pos.X = 0
+	Actor_1.PhysicDesc.Pos.Y = 0
+	Actor_1.PhysicDesc.Pos.Z = 0
+	Actor_1.PhysicDesc.Pos.Rotation = 0
+	Actor_1.PhysicDesc.Density = -4.31602e+008
+	Actor_1.PhysicDesc.Collidable = true
+	Actor_1.PhysicDesc.SizeX = -4.31602e+008
+	Actor_1.PhysicDesc.SizeY = -4.31602e+008
+	Actor_1.PhysicDesc.SizeZ = -4.31602e+008
+	Actor_1.PhysicDesc.Filename = "Worlds/Lba1Original/Grids/Map2.phy"
+	Actor_1:SetPhysicalActorType(1)
+	Actor_1:SetPhysicalShape(5)
+	Actor_1.ExtraInfo.Name = ""
+	Actor_1.ExtraInfo.NameColorR = -4.31602e+008
+	Actor_1.ExtraInfo.NameColorG = -4.31602e+008
+	Actor_1.ExtraInfo.NameColorB = -4.31602e+008
+	Actor_1H = ActorHandler(Actor_1)
+	environment:AddActorObject(Actor_1H)
 
 	Trigger_1_info = TriggerInfo(1, "exit0", true, true, false)
 	Trigger_1 = ZoneTrigger(Trigger_1_info, 11, 6, 1, true)
@@ -78,5 +103,13 @@ function InitMap(environment)
 	Trigger_7_act1:SetSpawning(1)
 	Trigger_7:SetAction1(Trigger_7_act1)
 	environment:AddTrigger(Trigger_7)
+
+	Trigger_8_info = TriggerInfo(8, "testtext", true, true, false)
+	Trigger_8 = ActivationTrigger(Trigger_8_info, 3, "Normal", "None")
+	Trigger_8:SetPosition(23.5, 0, 60)
+	Trigger_8_act1 = DisplayTextAction()
+	Trigger_8_act1:SetTextId(199)
+	Trigger_8:SetAction1(Trigger_8_act1)
+	environment:AddTrigger(Trigger_8)
 
 end

@@ -2,7 +2,7 @@ function InitMap(environment)
 	Actor_1 = ActorObjectInfo(1)
 	Actor_1:SetRenderType(1)
 	Actor_1.DisplayDesc.ModelId = 0
-	Actor_1.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/CELEBRAT.osgb"
+	Actor_1.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/CELEBRAT.osgb"
 	Actor_1.DisplayDesc.Outfit = ""
 	Actor_1.DisplayDesc.Weapon = ""
 	Actor_1.DisplayDesc.Mode = ""
@@ -22,7 +22,7 @@ function InitMap(environment)
 	Actor_1.PhysicDesc.SizeX = 0
 	Actor_1.PhysicDesc.SizeY = 0
 	Actor_1.PhysicDesc.SizeZ = 0
-	Actor_1.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/CELEBRAT.phy"
+	Actor_1.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CELEBRAT.phy"
 	Actor_1:SetPhysicalActorType(1)
 	Actor_1:SetPhysicalShape(5)
 	Actor_1.ExtraInfo.Name = ""
@@ -35,7 +35,7 @@ function InitMap(environment)
 	Actor_2 = ActorObjectInfo(2)
 	Actor_2:SetRenderType(1)
 	Actor_2.DisplayDesc.ModelId = 0
-	Actor_2.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_1.osgb"
+	Actor_2.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_1.osgb"
 	Actor_2.DisplayDesc.Outfit = ""
 	Actor_2.DisplayDesc.Weapon = ""
 	Actor_2.DisplayDesc.Mode = ""
@@ -55,7 +55,7 @@ function InitMap(environment)
 	Actor_2.PhysicDesc.SizeX = 0
 	Actor_2.PhysicDesc.SizeY = 0
 	Actor_2.PhysicDesc.SizeZ = 0
-	Actor_2.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_1.phy"
+	Actor_2.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_1.phy"
 	Actor_2:SetPhysicalActorType(1)
 	Actor_2:SetPhysicalShape(5)
 	Actor_2.ExtraInfo.Name = ""
@@ -68,7 +68,7 @@ function InitMap(environment)
 	Actor_3 = ActorObjectInfo(3)
 	Actor_3:SetRenderType(1)
 	Actor_3.DisplayDesc.ModelId = 0
-	Actor_3.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_2.osgb"
+	Actor_3.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_2.osgb"
 	Actor_3.DisplayDesc.Outfit = ""
 	Actor_3.DisplayDesc.Weapon = ""
 	Actor_3.DisplayDesc.Mode = ""
@@ -88,7 +88,7 @@ function InitMap(environment)
 	Actor_3.PhysicDesc.SizeX = 0
 	Actor_3.PhysicDesc.SizeY = 0
 	Actor_3.PhysicDesc.SizeZ = 0
-	Actor_3.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_2.phy"
+	Actor_3.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_2.phy"
 	Actor_3:SetPhysicalActorType(1)
 	Actor_3:SetPhysicalShape(5)
 	Actor_3.ExtraInfo.Name = ""
@@ -101,7 +101,7 @@ function InitMap(environment)
 	Actor_4 = ActorObjectInfo(4)
 	Actor_4:SetRenderType(1)
 	Actor_4.DisplayDesc.ModelId = 0
-	Actor_4.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_3.osgb"
+	Actor_4.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_3.osgb"
 	Actor_4.DisplayDesc.Outfit = ""
 	Actor_4.DisplayDesc.Weapon = ""
 	Actor_4.DisplayDesc.Mode = ""
@@ -121,7 +121,7 @@ function InitMap(environment)
 	Actor_4.PhysicDesc.SizeX = 0
 	Actor_4.PhysicDesc.SizeY = 0
 	Actor_4.PhysicDesc.SizeZ = 0
-	Actor_4.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_3.phy"
+	Actor_4.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_3.phy"
 	Actor_4:SetPhysicalActorType(1)
 	Actor_4:SetPhysicalShape(5)
 	Actor_4.ExtraInfo.Name = ""
@@ -134,7 +134,7 @@ function InitMap(environment)
 	Actor_5 = ActorObjectInfo(5)
 	Actor_5:SetRenderType(1)
 	Actor_5.DisplayDesc.ModelId = 0
-	Actor_5.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_3.osgb"
+	Actor_5.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_3.osgb"
 	Actor_5.DisplayDesc.Outfit = ""
 	Actor_5.DisplayDesc.Weapon = ""
 	Actor_5.DisplayDesc.Mode = ""
@@ -154,7 +154,7 @@ function InitMap(environment)
 	Actor_5.PhysicDesc.SizeX = 0
 	Actor_5.PhysicDesc.SizeY = 0
 	Actor_5.PhysicDesc.SizeZ = 0
-	Actor_5.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_3.phy"
+	Actor_5.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_3.phy"
 	Actor_5:SetPhysicalActorType(1)
 	Actor_5:SetPhysicalShape(5)
 	Actor_5.ExtraInfo.Name = ""
@@ -167,7 +167,7 @@ function InitMap(environment)
 	Actor_6 = ActorObjectInfo(6)
 	Actor_6:SetRenderType(1)
 	Actor_6.DisplayDesc.ModelId = 0
-	Actor_6.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_4.osgb"
+	Actor_6.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_4.osgb"
 	Actor_6.DisplayDesc.Outfit = ""
 	Actor_6.DisplayDesc.Weapon = ""
 	Actor_6.DisplayDesc.Mode = ""
@@ -187,7 +187,7 @@ function InitMap(environment)
 	Actor_6.PhysicDesc.SizeX = 0
 	Actor_6.PhysicDesc.SizeY = 0
 	Actor_6.PhysicDesc.SizeZ = 0
-	Actor_6.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_4.phy"
+	Actor_6.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_4.phy"
 	Actor_6:SetPhysicalActorType(1)
 	Actor_6:SetPhysicalShape(5)
 	Actor_6.ExtraInfo.Name = ""
@@ -200,7 +200,7 @@ function InitMap(environment)
 	Actor_7 = ActorObjectInfo(7)
 	Actor_7:SetRenderType(1)
 	Actor_7.DisplayDesc.ModelId = 0
-	Actor_7.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_4.osgb"
+	Actor_7.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_4.osgb"
 	Actor_7.DisplayDesc.Outfit = ""
 	Actor_7.DisplayDesc.Weapon = ""
 	Actor_7.DisplayDesc.Mode = ""
@@ -220,7 +220,7 @@ function InitMap(environment)
 	Actor_7.PhysicDesc.SizeX = 0
 	Actor_7.PhysicDesc.SizeY = 0
 	Actor_7.PhysicDesc.SizeZ = 0
-	Actor_7.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_4.phy"
+	Actor_7.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_4.phy"
 	Actor_7:SetPhysicalActorType(1)
 	Actor_7:SetPhysicalShape(5)
 	Actor_7.ExtraInfo.Name = ""
@@ -233,7 +233,7 @@ function InitMap(environment)
 	Actor_8 = ActorObjectInfo(8)
 	Actor_8:SetRenderType(1)
 	Actor_8.DisplayDesc.ModelId = 0
-	Actor_8.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_4.osgb"
+	Actor_8.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_4.osgb"
 	Actor_8.DisplayDesc.Outfit = ""
 	Actor_8.DisplayDesc.Weapon = ""
 	Actor_8.DisplayDesc.Mode = ""
@@ -253,7 +253,7 @@ function InitMap(environment)
 	Actor_8.PhysicDesc.SizeX = 0
 	Actor_8.PhysicDesc.SizeY = 0
 	Actor_8.PhysicDesc.SizeZ = 0
-	Actor_8.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_4.phy"
+	Actor_8.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_4.phy"
 	Actor_8:SetPhysicalActorType(1)
 	Actor_8:SetPhysicalShape(5)
 	Actor_8.ExtraInfo.Name = ""
@@ -266,7 +266,7 @@ function InitMap(environment)
 	Actor_9 = ActorObjectInfo(9)
 	Actor_9:SetRenderType(1)
 	Actor_9.DisplayDesc.ModelId = 0
-	Actor_9.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_5.osgb"
+	Actor_9.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_5.osgb"
 	Actor_9.DisplayDesc.Outfit = ""
 	Actor_9.DisplayDesc.Weapon = ""
 	Actor_9.DisplayDesc.Mode = ""
@@ -286,7 +286,7 @@ function InitMap(environment)
 	Actor_9.PhysicDesc.SizeX = 0
 	Actor_9.PhysicDesc.SizeY = 0
 	Actor_9.PhysicDesc.SizeZ = 0
-	Actor_9.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_5.phy"
+	Actor_9.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_5.phy"
 	Actor_9:SetPhysicalActorType(1)
 	Actor_9:SetPhysicalShape(5)
 	Actor_9.ExtraInfo.Name = ""
@@ -299,7 +299,7 @@ function InitMap(environment)
 	Actor_10 = ActorObjectInfo(10)
 	Actor_10:SetRenderType(1)
 	Actor_10.DisplayDesc.ModelId = 0
-	Actor_10.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_5.osgb"
+	Actor_10.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_5.osgb"
 	Actor_10.DisplayDesc.Outfit = ""
 	Actor_10.DisplayDesc.Weapon = ""
 	Actor_10.DisplayDesc.Mode = ""
@@ -319,7 +319,7 @@ function InitMap(environment)
 	Actor_10.PhysicDesc.SizeX = 0
 	Actor_10.PhysicDesc.SizeY = 0
 	Actor_10.PhysicDesc.SizeZ = 0
-	Actor_10.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_5.phy"
+	Actor_10.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_5.phy"
 	Actor_10:SetPhysicalActorType(1)
 	Actor_10:SetPhysicalShape(5)
 	Actor_10.ExtraInfo.Name = ""
@@ -332,7 +332,7 @@ function InitMap(environment)
 	Actor_11 = ActorObjectInfo(11)
 	Actor_11:SetRenderType(1)
 	Actor_11.DisplayDesc.ModelId = 0
-	Actor_11.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_6.osgb"
+	Actor_11.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_6.osgb"
 	Actor_11.DisplayDesc.Outfit = ""
 	Actor_11.DisplayDesc.Weapon = ""
 	Actor_11.DisplayDesc.Mode = ""
@@ -352,7 +352,7 @@ function InitMap(environment)
 	Actor_11.PhysicDesc.SizeX = 0
 	Actor_11.PhysicDesc.SizeY = 0
 	Actor_11.PhysicDesc.SizeZ = 0
-	Actor_11.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_6.phy"
+	Actor_11.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_6.phy"
 	Actor_11:SetPhysicalActorType(1)
 	Actor_11:SetPhysicalShape(5)
 	Actor_11.ExtraInfo.Name = ""
@@ -365,7 +365,7 @@ function InitMap(environment)
 	Actor_12 = ActorObjectInfo(12)
 	Actor_12:SetRenderType(1)
 	Actor_12.DisplayDesc.ModelId = 0
-	Actor_12.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_6.osgb"
+	Actor_12.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_6.osgb"
 	Actor_12.DisplayDesc.Outfit = ""
 	Actor_12.DisplayDesc.Weapon = ""
 	Actor_12.DisplayDesc.Mode = ""
@@ -385,7 +385,7 @@ function InitMap(environment)
 	Actor_12.PhysicDesc.SizeX = 0
 	Actor_12.PhysicDesc.SizeY = 0
 	Actor_12.PhysicDesc.SizeZ = 0
-	Actor_12.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_6.phy"
+	Actor_12.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_6.phy"
 	Actor_12:SetPhysicalActorType(1)
 	Actor_12:SetPhysicalShape(5)
 	Actor_12.ExtraInfo.Name = ""
@@ -398,7 +398,7 @@ function InitMap(environment)
 	Actor_13 = ActorObjectInfo(13)
 	Actor_13:SetRenderType(1)
 	Actor_13.DisplayDesc.ModelId = 0
-	Actor_13.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_4.osgb"
+	Actor_13.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_4.osgb"
 	Actor_13.DisplayDesc.Outfit = ""
 	Actor_13.DisplayDesc.Weapon = ""
 	Actor_13.DisplayDesc.Mode = ""
@@ -418,7 +418,7 @@ function InitMap(environment)
 	Actor_13.PhysicDesc.SizeX = 0
 	Actor_13.PhysicDesc.SizeY = 0
 	Actor_13.PhysicDesc.SizeZ = 0
-	Actor_13.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_4.phy"
+	Actor_13.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_4.phy"
 	Actor_13:SetPhysicalActorType(1)
 	Actor_13:SetPhysicalShape(5)
 	Actor_13.ExtraInfo.Name = ""
@@ -431,7 +431,7 @@ function InitMap(environment)
 	Actor_14 = ActorObjectInfo(14)
 	Actor_14:SetRenderType(1)
 	Actor_14.DisplayDesc.ModelId = 0
-	Actor_14.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_4.osgb"
+	Actor_14.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_4.osgb"
 	Actor_14.DisplayDesc.Outfit = ""
 	Actor_14.DisplayDesc.Weapon = ""
 	Actor_14.DisplayDesc.Mode = ""
@@ -451,7 +451,7 @@ function InitMap(environment)
 	Actor_14.PhysicDesc.SizeX = 0
 	Actor_14.PhysicDesc.SizeY = 0
 	Actor_14.PhysicDesc.SizeZ = 0
-	Actor_14.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_4.phy"
+	Actor_14.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_4.phy"
 	Actor_14:SetPhysicalActorType(1)
 	Actor_14:SetPhysicalShape(5)
 	Actor_14.ExtraInfo.Name = ""
@@ -464,7 +464,7 @@ function InitMap(environment)
 	Actor_15 = ActorObjectInfo(15)
 	Actor_15:SetRenderType(1)
 	Actor_15.DisplayDesc.ModelId = 0
-	Actor_15.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_7.osgb"
+	Actor_15.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_7.osgb"
 	Actor_15.DisplayDesc.Outfit = ""
 	Actor_15.DisplayDesc.Weapon = ""
 	Actor_15.DisplayDesc.Mode = ""
@@ -484,7 +484,7 @@ function InitMap(environment)
 	Actor_15.PhysicDesc.SizeX = 0
 	Actor_15.PhysicDesc.SizeY = 0
 	Actor_15.PhysicDesc.SizeZ = 0
-	Actor_15.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_7.phy"
+	Actor_15.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_7.phy"
 	Actor_15:SetPhysicalActorType(1)
 	Actor_15:SetPhysicalShape(5)
 	Actor_15.ExtraInfo.Name = ""
@@ -497,7 +497,7 @@ function InitMap(environment)
 	Actor_16 = ActorObjectInfo(16)
 	Actor_16:SetRenderType(1)
 	Actor_16.DisplayDesc.ModelId = 0
-	Actor_16.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_8.osgb"
+	Actor_16.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_8.osgb"
 	Actor_16.DisplayDesc.Outfit = ""
 	Actor_16.DisplayDesc.Weapon = ""
 	Actor_16.DisplayDesc.Mode = ""
@@ -517,7 +517,7 @@ function InitMap(environment)
 	Actor_16.PhysicDesc.SizeX = 0
 	Actor_16.PhysicDesc.SizeY = 0
 	Actor_16.PhysicDesc.SizeZ = 0
-	Actor_16.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_8.phy"
+	Actor_16.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_8.phy"
 	Actor_16:SetPhysicalActorType(1)
 	Actor_16:SetPhysicalShape(5)
 	Actor_16.ExtraInfo.Name = ""
@@ -530,7 +530,7 @@ function InitMap(environment)
 	Actor_17 = ActorObjectInfo(17)
 	Actor_17:SetRenderType(1)
 	Actor_17.DisplayDesc.ModelId = 0
-	Actor_17.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_9.osgb"
+	Actor_17.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_9.osgb"
 	Actor_17.DisplayDesc.Outfit = ""
 	Actor_17.DisplayDesc.Weapon = ""
 	Actor_17.DisplayDesc.Mode = ""
@@ -550,7 +550,7 @@ function InitMap(environment)
 	Actor_17.PhysicDesc.SizeX = 0
 	Actor_17.PhysicDesc.SizeY = 0
 	Actor_17.PhysicDesc.SizeZ = 0
-	Actor_17.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_9.phy"
+	Actor_17.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_9.phy"
 	Actor_17:SetPhysicalActorType(1)
 	Actor_17:SetPhysicalShape(5)
 	Actor_17.ExtraInfo.Name = ""
@@ -563,7 +563,7 @@ function InitMap(environment)
 	Actor_18 = ActorObjectInfo(18)
 	Actor_18:SetRenderType(1)
 	Actor_18.DisplayDesc.ModelId = 0
-	Actor_18.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_9.osgb"
+	Actor_18.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_9.osgb"
 	Actor_18.DisplayDesc.Outfit = ""
 	Actor_18.DisplayDesc.Weapon = ""
 	Actor_18.DisplayDesc.Mode = ""
@@ -583,7 +583,7 @@ function InitMap(environment)
 	Actor_18.PhysicDesc.SizeX = 0
 	Actor_18.PhysicDesc.SizeY = 0
 	Actor_18.PhysicDesc.SizeZ = 0
-	Actor_18.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_9.phy"
+	Actor_18.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_9.phy"
 	Actor_18:SetPhysicalActorType(1)
 	Actor_18:SetPhysicalShape(5)
 	Actor_18.ExtraInfo.Name = ""
@@ -596,7 +596,7 @@ function InitMap(environment)
 	Actor_19 = ActorObjectInfo(19)
 	Actor_19:SetRenderType(1)
 	Actor_19.DisplayDesc.ModelId = 0
-	Actor_19.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_9.osgb"
+	Actor_19.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_9.osgb"
 	Actor_19.DisplayDesc.Outfit = ""
 	Actor_19.DisplayDesc.Weapon = ""
 	Actor_19.DisplayDesc.Mode = ""
@@ -616,7 +616,7 @@ function InitMap(environment)
 	Actor_19.PhysicDesc.SizeX = 0
 	Actor_19.PhysicDesc.SizeY = 0
 	Actor_19.PhysicDesc.SizeZ = 0
-	Actor_19.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_9.phy"
+	Actor_19.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_9.phy"
 	Actor_19:SetPhysicalActorType(1)
 	Actor_19:SetPhysicalShape(5)
 	Actor_19.ExtraInfo.Name = ""
@@ -629,7 +629,7 @@ function InitMap(environment)
 	Actor_20 = ActorObjectInfo(20)
 	Actor_20:SetRenderType(1)
 	Actor_20.DisplayDesc.ModelId = 0
-	Actor_20.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_10.osgb"
+	Actor_20.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_10.osgb"
 	Actor_20.DisplayDesc.Outfit = ""
 	Actor_20.DisplayDesc.Weapon = ""
 	Actor_20.DisplayDesc.Mode = ""
@@ -649,7 +649,7 @@ function InitMap(environment)
 	Actor_20.PhysicDesc.SizeX = 0
 	Actor_20.PhysicDesc.SizeY = 0
 	Actor_20.PhysicDesc.SizeZ = 0
-	Actor_20.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_10.phy"
+	Actor_20.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_10.phy"
 	Actor_20:SetPhysicalActorType(1)
 	Actor_20:SetPhysicalShape(5)
 	Actor_20.ExtraInfo.Name = ""
@@ -662,7 +662,7 @@ function InitMap(environment)
 	Actor_21 = ActorObjectInfo(21)
 	Actor_21:SetRenderType(1)
 	Actor_21.DisplayDesc.ModelId = 0
-	Actor_21.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_10.osgb"
+	Actor_21.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_10.osgb"
 	Actor_21.DisplayDesc.Outfit = ""
 	Actor_21.DisplayDesc.Weapon = ""
 	Actor_21.DisplayDesc.Mode = ""
@@ -682,7 +682,7 @@ function InitMap(environment)
 	Actor_21.PhysicDesc.SizeX = 0
 	Actor_21.PhysicDesc.SizeY = 0
 	Actor_21.PhysicDesc.SizeZ = 0
-	Actor_21.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_10.phy"
+	Actor_21.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_10.phy"
 	Actor_21:SetPhysicalActorType(1)
 	Actor_21:SetPhysicalShape(5)
 	Actor_21.ExtraInfo.Name = ""
@@ -695,7 +695,7 @@ function InitMap(environment)
 	Actor_22 = ActorObjectInfo(22)
 	Actor_22:SetRenderType(1)
 	Actor_22.DisplayDesc.ModelId = 0
-	Actor_22.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_11.osgb"
+	Actor_22.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_11.osgb"
 	Actor_22.DisplayDesc.Outfit = ""
 	Actor_22.DisplayDesc.Weapon = ""
 	Actor_22.DisplayDesc.Mode = ""
@@ -715,7 +715,7 @@ function InitMap(environment)
 	Actor_22.PhysicDesc.SizeX = 0
 	Actor_22.PhysicDesc.SizeY = 0
 	Actor_22.PhysicDesc.SizeZ = 0
-	Actor_22.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_11.phy"
+	Actor_22.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_11.phy"
 	Actor_22:SetPhysicalActorType(1)
 	Actor_22:SetPhysicalShape(5)
 	Actor_22.ExtraInfo.Name = ""
@@ -728,7 +728,7 @@ function InitMap(environment)
 	Actor_23 = ActorObjectInfo(23)
 	Actor_23:SetRenderType(1)
 	Actor_23.DisplayDesc.ModelId = 0
-	Actor_23.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_12.osgb"
+	Actor_23.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_12.osgb"
 	Actor_23.DisplayDesc.Outfit = ""
 	Actor_23.DisplayDesc.Weapon = ""
 	Actor_23.DisplayDesc.Mode = ""
@@ -748,7 +748,7 @@ function InitMap(environment)
 	Actor_23.PhysicDesc.SizeX = 0
 	Actor_23.PhysicDesc.SizeY = 0
 	Actor_23.PhysicDesc.SizeZ = 0
-	Actor_23.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_12.phy"
+	Actor_23.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_12.phy"
 	Actor_23:SetPhysicalActorType(1)
 	Actor_23:SetPhysicalShape(5)
 	Actor_23.ExtraInfo.Name = ""
@@ -761,7 +761,7 @@ function InitMap(environment)
 	Actor_24 = ActorObjectInfo(24)
 	Actor_24:SetRenderType(1)
 	Actor_24.DisplayDesc.ModelId = 0
-	Actor_24.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_13.osgb"
+	Actor_24.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_13.osgb"
 	Actor_24.DisplayDesc.Outfit = ""
 	Actor_24.DisplayDesc.Weapon = ""
 	Actor_24.DisplayDesc.Mode = ""
@@ -781,7 +781,7 @@ function InitMap(environment)
 	Actor_24.PhysicDesc.SizeX = 0
 	Actor_24.PhysicDesc.SizeY = 0
 	Actor_24.PhysicDesc.SizeZ = 0
-	Actor_24.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_13.phy"
+	Actor_24.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_13.phy"
 	Actor_24:SetPhysicalActorType(1)
 	Actor_24:SetPhysicalShape(5)
 	Actor_24.ExtraInfo.Name = ""
@@ -794,7 +794,7 @@ function InitMap(environment)
 	Actor_25 = ActorObjectInfo(25)
 	Actor_25:SetRenderType(1)
 	Actor_25.DisplayDesc.ModelId = 0
-	Actor_25.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_14.osgb"
+	Actor_25.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_14.osgb"
 	Actor_25.DisplayDesc.Outfit = ""
 	Actor_25.DisplayDesc.Weapon = ""
 	Actor_25.DisplayDesc.Mode = ""
@@ -814,7 +814,7 @@ function InitMap(environment)
 	Actor_25.PhysicDesc.SizeX = 0
 	Actor_25.PhysicDesc.SizeY = 0
 	Actor_25.PhysicDesc.SizeZ = 0
-	Actor_25.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/CELEBRAT_OBJ_14.phy"
+	Actor_25.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CELEBRAT_OBJ_14.phy"
 	Actor_25:SetPhysicalActorType(1)
 	Actor_25:SetPhysicalShape(5)
 	Actor_25.ExtraInfo.Name = ""

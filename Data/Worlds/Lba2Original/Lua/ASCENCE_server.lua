@@ -2,7 +2,7 @@ function InitMap(environment)
 	Actor_1 = ActorObjectInfo(1)
 	Actor_1:SetRenderType(1)
 	Actor_1.DisplayDesc.ModelId = 0
-	Actor_1.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE.osgb"
+	Actor_1.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE.osgb"
 	Actor_1.DisplayDesc.Outfit = ""
 	Actor_1.DisplayDesc.Weapon = ""
 	Actor_1.DisplayDesc.Mode = ""
@@ -31,7 +31,7 @@ function InitMap(environment)
 	Actor_1.PhysicDesc.SizeX = 0
 	Actor_1.PhysicDesc.SizeY = 0
 	Actor_1.PhysicDesc.SizeZ = 0
-	Actor_1.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE.phy"
+	Actor_1.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE.phy"
 	Actor_1:SetPhysicalActorType(1)
 	Actor_1:SetPhysicalShape(5)
 	Actor_1.ExtraInfo.Name = ""
@@ -44,7 +44,7 @@ function InitMap(environment)
 	Actor_2 = ActorObjectInfo(2)
 	Actor_2:SetRenderType(1)
 	Actor_2.DisplayDesc.ModelId = 0
-	Actor_2.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_1.osgb"
+	Actor_2.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_1.osgb"
 	Actor_2.DisplayDesc.Outfit = ""
 	Actor_2.DisplayDesc.Weapon = ""
 	Actor_2.DisplayDesc.Mode = ""
@@ -73,7 +73,7 @@ function InitMap(environment)
 	Actor_2.PhysicDesc.SizeX = 0
 	Actor_2.PhysicDesc.SizeY = 0
 	Actor_2.PhysicDesc.SizeZ = 0
-	Actor_2.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_1.phy"
+	Actor_2.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_1.phy"
 	Actor_2:SetPhysicalActorType(1)
 	Actor_2:SetPhysicalShape(5)
 	Actor_2.ExtraInfo.Name = ""
@@ -86,7 +86,7 @@ function InitMap(environment)
 	Actor_3 = ActorObjectInfo(3)
 	Actor_3:SetRenderType(1)
 	Actor_3.DisplayDesc.ModelId = 0
-	Actor_3.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_2.osgb"
+	Actor_3.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_2.osgb"
 	Actor_3.DisplayDesc.Outfit = ""
 	Actor_3.DisplayDesc.Weapon = ""
 	Actor_3.DisplayDesc.Mode = ""
@@ -115,7 +115,7 @@ function InitMap(environment)
 	Actor_3.PhysicDesc.SizeX = 0
 	Actor_3.PhysicDesc.SizeY = 0
 	Actor_3.PhysicDesc.SizeZ = 0
-	Actor_3.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_2.phy"
+	Actor_3.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_2.phy"
 	Actor_3:SetPhysicalActorType(1)
 	Actor_3:SetPhysicalShape(5)
 	Actor_3.ExtraInfo.Name = ""
@@ -128,7 +128,7 @@ function InitMap(environment)
 	Actor_4 = ActorObjectInfo(4)
 	Actor_4:SetRenderType(1)
 	Actor_4.DisplayDesc.ModelId = 0
-	Actor_4.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_3.osgb"
+	Actor_4.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_3.osgb"
 	Actor_4.DisplayDesc.Outfit = ""
 	Actor_4.DisplayDesc.Weapon = ""
 	Actor_4.DisplayDesc.Mode = ""
@@ -157,7 +157,7 @@ function InitMap(environment)
 	Actor_4.PhysicDesc.SizeX = 0
 	Actor_4.PhysicDesc.SizeY = 0
 	Actor_4.PhysicDesc.SizeZ = 0
-	Actor_4.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_3.phy"
+	Actor_4.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_3.phy"
 	Actor_4:SetPhysicalActorType(1)
 	Actor_4:SetPhysicalShape(5)
 	Actor_4.ExtraInfo.Name = ""
@@ -170,7 +170,7 @@ function InitMap(environment)
 	Actor_5 = ActorObjectInfo(5)
 	Actor_5:SetRenderType(1)
 	Actor_5.DisplayDesc.ModelId = 0
-	Actor_5.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_4.osgb"
+	Actor_5.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_4.osgb"
 	Actor_5.DisplayDesc.Outfit = ""
 	Actor_5.DisplayDesc.Weapon = ""
 	Actor_5.DisplayDesc.Mode = ""
@@ -199,7 +199,7 @@ function InitMap(environment)
 	Actor_5.PhysicDesc.SizeX = 0
 	Actor_5.PhysicDesc.SizeY = 0
 	Actor_5.PhysicDesc.SizeZ = 0
-	Actor_5.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_4.phy"
+	Actor_5.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_4.phy"
 	Actor_5:SetPhysicalActorType(1)
 	Actor_5:SetPhysicalShape(5)
 	Actor_5.ExtraInfo.Name = ""
@@ -212,7 +212,7 @@ function InitMap(environment)
 	Actor_6 = ActorObjectInfo(6)
 	Actor_6:SetRenderType(1)
 	Actor_6.DisplayDesc.ModelId = 0
-	Actor_6.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_5.osgb"
+	Actor_6.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_5.osgb"
 	Actor_6.DisplayDesc.Outfit = ""
 	Actor_6.DisplayDesc.Weapon = ""
 	Actor_6.DisplayDesc.Mode = ""
@@ -241,7 +241,7 @@ function InitMap(environment)
 	Actor_6.PhysicDesc.SizeX = 0
 	Actor_6.PhysicDesc.SizeY = 0
 	Actor_6.PhysicDesc.SizeZ = 0
-	Actor_6.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_5.phy"
+	Actor_6.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_5.phy"
 	Actor_6:SetPhysicalActorType(1)
 	Actor_6:SetPhysicalShape(5)
 	Actor_6.ExtraInfo.Name = ""
@@ -254,7 +254,7 @@ function InitMap(environment)
 	Actor_7 = ActorObjectInfo(7)
 	Actor_7:SetRenderType(1)
 	Actor_7.DisplayDesc.ModelId = 0
-	Actor_7.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_6.osgb"
+	Actor_7.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_6.osgb"
 	Actor_7.DisplayDesc.Outfit = ""
 	Actor_7.DisplayDesc.Weapon = ""
 	Actor_7.DisplayDesc.Mode = ""
@@ -283,7 +283,7 @@ function InitMap(environment)
 	Actor_7.PhysicDesc.SizeX = 0
 	Actor_7.PhysicDesc.SizeY = 0
 	Actor_7.PhysicDesc.SizeZ = 0
-	Actor_7.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_6.phy"
+	Actor_7.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_6.phy"
 	Actor_7:SetPhysicalActorType(1)
 	Actor_7:SetPhysicalShape(5)
 	Actor_7.ExtraInfo.Name = ""
@@ -296,7 +296,7 @@ function InitMap(environment)
 	Actor_8 = ActorObjectInfo(8)
 	Actor_8:SetRenderType(1)
 	Actor_8.DisplayDesc.ModelId = 0
-	Actor_8.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_7.osgb"
+	Actor_8.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_7.osgb"
 	Actor_8.DisplayDesc.Outfit = ""
 	Actor_8.DisplayDesc.Weapon = ""
 	Actor_8.DisplayDesc.Mode = ""
@@ -325,7 +325,7 @@ function InitMap(environment)
 	Actor_8.PhysicDesc.SizeX = 0
 	Actor_8.PhysicDesc.SizeY = 0
 	Actor_8.PhysicDesc.SizeZ = 0
-	Actor_8.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_7.phy"
+	Actor_8.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_7.phy"
 	Actor_8:SetPhysicalActorType(1)
 	Actor_8:SetPhysicalShape(5)
 	Actor_8.ExtraInfo.Name = ""
@@ -338,7 +338,7 @@ function InitMap(environment)
 	Actor_9 = ActorObjectInfo(9)
 	Actor_9:SetRenderType(1)
 	Actor_9.DisplayDesc.ModelId = 0
-	Actor_9.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_8.osgb"
+	Actor_9.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_8.osgb"
 	Actor_9.DisplayDesc.Outfit = ""
 	Actor_9.DisplayDesc.Weapon = ""
 	Actor_9.DisplayDesc.Mode = ""
@@ -367,7 +367,7 @@ function InitMap(environment)
 	Actor_9.PhysicDesc.SizeX = 0
 	Actor_9.PhysicDesc.SizeY = 0
 	Actor_9.PhysicDesc.SizeZ = 0
-	Actor_9.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_8.phy"
+	Actor_9.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_8.phy"
 	Actor_9:SetPhysicalActorType(1)
 	Actor_9:SetPhysicalShape(5)
 	Actor_9.ExtraInfo.Name = ""
@@ -380,7 +380,7 @@ function InitMap(environment)
 	Actor_10 = ActorObjectInfo(10)
 	Actor_10:SetRenderType(1)
 	Actor_10.DisplayDesc.ModelId = 0
-	Actor_10.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_9.osgb"
+	Actor_10.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_9.osgb"
 	Actor_10.DisplayDesc.Outfit = ""
 	Actor_10.DisplayDesc.Weapon = ""
 	Actor_10.DisplayDesc.Mode = ""
@@ -409,7 +409,7 @@ function InitMap(environment)
 	Actor_10.PhysicDesc.SizeX = 0
 	Actor_10.PhysicDesc.SizeY = 0
 	Actor_10.PhysicDesc.SizeZ = 0
-	Actor_10.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_9.phy"
+	Actor_10.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_9.phy"
 	Actor_10:SetPhysicalActorType(1)
 	Actor_10:SetPhysicalShape(5)
 	Actor_10.ExtraInfo.Name = ""
@@ -422,7 +422,7 @@ function InitMap(environment)
 	Actor_11 = ActorObjectInfo(11)
 	Actor_11:SetRenderType(1)
 	Actor_11.DisplayDesc.ModelId = 0
-	Actor_11.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_10.osgb"
+	Actor_11.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_10.osgb"
 	Actor_11.DisplayDesc.Outfit = ""
 	Actor_11.DisplayDesc.Weapon = ""
 	Actor_11.DisplayDesc.Mode = ""
@@ -451,7 +451,7 @@ function InitMap(environment)
 	Actor_11.PhysicDesc.SizeX = 0
 	Actor_11.PhysicDesc.SizeY = 0
 	Actor_11.PhysicDesc.SizeZ = 0
-	Actor_11.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_10.phy"
+	Actor_11.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_10.phy"
 	Actor_11:SetPhysicalActorType(1)
 	Actor_11:SetPhysicalShape(5)
 	Actor_11.ExtraInfo.Name = ""
@@ -464,7 +464,7 @@ function InitMap(environment)
 	Actor_12 = ActorObjectInfo(12)
 	Actor_12:SetRenderType(1)
 	Actor_12.DisplayDesc.ModelId = 0
-	Actor_12.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_11.osgb"
+	Actor_12.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_11.osgb"
 	Actor_12.DisplayDesc.Outfit = ""
 	Actor_12.DisplayDesc.Weapon = ""
 	Actor_12.DisplayDesc.Mode = ""
@@ -493,7 +493,7 @@ function InitMap(environment)
 	Actor_12.PhysicDesc.SizeX = 0
 	Actor_12.PhysicDesc.SizeY = 0
 	Actor_12.PhysicDesc.SizeZ = 0
-	Actor_12.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_11.phy"
+	Actor_12.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_11.phy"
 	Actor_12:SetPhysicalActorType(1)
 	Actor_12:SetPhysicalShape(5)
 	Actor_12.ExtraInfo.Name = ""
@@ -506,7 +506,7 @@ function InitMap(environment)
 	Actor_13 = ActorObjectInfo(13)
 	Actor_13:SetRenderType(1)
 	Actor_13.DisplayDesc.ModelId = 0
-	Actor_13.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_12.osgb"
+	Actor_13.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_12.osgb"
 	Actor_13.DisplayDesc.Outfit = ""
 	Actor_13.DisplayDesc.Weapon = ""
 	Actor_13.DisplayDesc.Mode = ""
@@ -535,7 +535,7 @@ function InitMap(environment)
 	Actor_13.PhysicDesc.SizeX = 0
 	Actor_13.PhysicDesc.SizeY = 0
 	Actor_13.PhysicDesc.SizeZ = 0
-	Actor_13.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_12.phy"
+	Actor_13.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_12.phy"
 	Actor_13:SetPhysicalActorType(1)
 	Actor_13:SetPhysicalShape(5)
 	Actor_13.ExtraInfo.Name = ""
@@ -548,7 +548,7 @@ function InitMap(environment)
 	Actor_14 = ActorObjectInfo(14)
 	Actor_14:SetRenderType(1)
 	Actor_14.DisplayDesc.ModelId = 0
-	Actor_14.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_13.osgb"
+	Actor_14.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_13.osgb"
 	Actor_14.DisplayDesc.Outfit = ""
 	Actor_14.DisplayDesc.Weapon = ""
 	Actor_14.DisplayDesc.Mode = ""
@@ -577,7 +577,7 @@ function InitMap(environment)
 	Actor_14.PhysicDesc.SizeX = 0
 	Actor_14.PhysicDesc.SizeY = 0
 	Actor_14.PhysicDesc.SizeZ = 0
-	Actor_14.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_13.phy"
+	Actor_14.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_13.phy"
 	Actor_14:SetPhysicalActorType(1)
 	Actor_14:SetPhysicalShape(5)
 	Actor_14.ExtraInfo.Name = ""
@@ -590,7 +590,7 @@ function InitMap(environment)
 	Actor_15 = ActorObjectInfo(15)
 	Actor_15:SetRenderType(1)
 	Actor_15.DisplayDesc.ModelId = 0
-	Actor_15.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_14.osgb"
+	Actor_15.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_14.osgb"
 	Actor_15.DisplayDesc.Outfit = ""
 	Actor_15.DisplayDesc.Weapon = ""
 	Actor_15.DisplayDesc.Mode = ""
@@ -619,7 +619,7 @@ function InitMap(environment)
 	Actor_15.PhysicDesc.SizeX = 0
 	Actor_15.PhysicDesc.SizeY = 0
 	Actor_15.PhysicDesc.SizeZ = 0
-	Actor_15.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_14.phy"
+	Actor_15.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_14.phy"
 	Actor_15:SetPhysicalActorType(1)
 	Actor_15:SetPhysicalShape(5)
 	Actor_15.ExtraInfo.Name = ""
@@ -632,7 +632,7 @@ function InitMap(environment)
 	Actor_16 = ActorObjectInfo(16)
 	Actor_16:SetRenderType(1)
 	Actor_16.DisplayDesc.ModelId = 0
-	Actor_16.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_11.osgb"
+	Actor_16.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_11.osgb"
 	Actor_16.DisplayDesc.Outfit = ""
 	Actor_16.DisplayDesc.Weapon = ""
 	Actor_16.DisplayDesc.Mode = ""
@@ -661,7 +661,7 @@ function InitMap(environment)
 	Actor_16.PhysicDesc.SizeX = 0
 	Actor_16.PhysicDesc.SizeY = 0
 	Actor_16.PhysicDesc.SizeZ = 0
-	Actor_16.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_11.phy"
+	Actor_16.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_11.phy"
 	Actor_16:SetPhysicalActorType(1)
 	Actor_16:SetPhysicalShape(5)
 	Actor_16.ExtraInfo.Name = ""
@@ -674,7 +674,7 @@ function InitMap(environment)
 	Actor_17 = ActorObjectInfo(17)
 	Actor_17:SetRenderType(1)
 	Actor_17.DisplayDesc.ModelId = 0
-	Actor_17.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_12.osgb"
+	Actor_17.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_12.osgb"
 	Actor_17.DisplayDesc.Outfit = ""
 	Actor_17.DisplayDesc.Weapon = ""
 	Actor_17.DisplayDesc.Mode = ""
@@ -703,7 +703,7 @@ function InitMap(environment)
 	Actor_17.PhysicDesc.SizeX = 0
 	Actor_17.PhysicDesc.SizeY = 0
 	Actor_17.PhysicDesc.SizeZ = 0
-	Actor_17.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_12.phy"
+	Actor_17.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_12.phy"
 	Actor_17:SetPhysicalActorType(1)
 	Actor_17:SetPhysicalShape(5)
 	Actor_17.ExtraInfo.Name = ""
@@ -716,7 +716,7 @@ function InitMap(environment)
 	Actor_18 = ActorObjectInfo(18)
 	Actor_18:SetRenderType(1)
 	Actor_18.DisplayDesc.ModelId = 0
-	Actor_18.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_13.osgb"
+	Actor_18.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_13.osgb"
 	Actor_18.DisplayDesc.Outfit = ""
 	Actor_18.DisplayDesc.Weapon = ""
 	Actor_18.DisplayDesc.Mode = ""
@@ -745,7 +745,7 @@ function InitMap(environment)
 	Actor_18.PhysicDesc.SizeX = 0
 	Actor_18.PhysicDesc.SizeY = 0
 	Actor_18.PhysicDesc.SizeZ = 0
-	Actor_18.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_13.phy"
+	Actor_18.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_13.phy"
 	Actor_18:SetPhysicalActorType(1)
 	Actor_18:SetPhysicalShape(5)
 	Actor_18.ExtraInfo.Name = ""
@@ -758,7 +758,7 @@ function InitMap(environment)
 	Actor_19 = ActorObjectInfo(19)
 	Actor_19:SetRenderType(1)
 	Actor_19.DisplayDesc.ModelId = 0
-	Actor_19.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_15.osgb"
+	Actor_19.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_15.osgb"
 	Actor_19.DisplayDesc.Outfit = ""
 	Actor_19.DisplayDesc.Weapon = ""
 	Actor_19.DisplayDesc.Mode = ""
@@ -787,7 +787,7 @@ function InitMap(environment)
 	Actor_19.PhysicDesc.SizeX = 0
 	Actor_19.PhysicDesc.SizeY = 0
 	Actor_19.PhysicDesc.SizeZ = 0
-	Actor_19.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_15.phy"
+	Actor_19.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_15.phy"
 	Actor_19:SetPhysicalActorType(1)
 	Actor_19:SetPhysicalShape(5)
 	Actor_19.ExtraInfo.Name = ""
@@ -800,7 +800,7 @@ function InitMap(environment)
 	Actor_20 = ActorObjectInfo(20)
 	Actor_20:SetRenderType(1)
 	Actor_20.DisplayDesc.ModelId = 0
-	Actor_20.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_16.osgb"
+	Actor_20.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_16.osgb"
 	Actor_20.DisplayDesc.Outfit = ""
 	Actor_20.DisplayDesc.Weapon = ""
 	Actor_20.DisplayDesc.Mode = ""
@@ -829,7 +829,7 @@ function InitMap(environment)
 	Actor_20.PhysicDesc.SizeX = 0
 	Actor_20.PhysicDesc.SizeY = 0
 	Actor_20.PhysicDesc.SizeZ = 0
-	Actor_20.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_16.phy"
+	Actor_20.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_16.phy"
 	Actor_20:SetPhysicalActorType(1)
 	Actor_20:SetPhysicalShape(5)
 	Actor_20.ExtraInfo.Name = ""
@@ -842,7 +842,7 @@ function InitMap(environment)
 	Actor_21 = ActorObjectInfo(21)
 	Actor_21:SetRenderType(1)
 	Actor_21.DisplayDesc.ModelId = 0
-	Actor_21.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_17.osgb"
+	Actor_21.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_17.osgb"
 	Actor_21.DisplayDesc.Outfit = ""
 	Actor_21.DisplayDesc.Weapon = ""
 	Actor_21.DisplayDesc.Mode = ""
@@ -871,7 +871,7 @@ function InitMap(environment)
 	Actor_21.PhysicDesc.SizeX = 0
 	Actor_21.PhysicDesc.SizeY = 0
 	Actor_21.PhysicDesc.SizeZ = 0
-	Actor_21.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_17.phy"
+	Actor_21.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_17.phy"
 	Actor_21:SetPhysicalActorType(1)
 	Actor_21:SetPhysicalShape(5)
 	Actor_21.ExtraInfo.Name = ""
@@ -884,7 +884,7 @@ function InitMap(environment)
 	Actor_22 = ActorObjectInfo(22)
 	Actor_22:SetRenderType(1)
 	Actor_22.DisplayDesc.ModelId = 0
-	Actor_22.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_18.osgb"
+	Actor_22.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_18.osgb"
 	Actor_22.DisplayDesc.Outfit = ""
 	Actor_22.DisplayDesc.Weapon = ""
 	Actor_22.DisplayDesc.Mode = ""
@@ -913,7 +913,7 @@ function InitMap(environment)
 	Actor_22.PhysicDesc.SizeX = 0
 	Actor_22.PhysicDesc.SizeY = 0
 	Actor_22.PhysicDesc.SizeZ = 0
-	Actor_22.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_18.phy"
+	Actor_22.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_18.phy"
 	Actor_22:SetPhysicalActorType(1)
 	Actor_22:SetPhysicalShape(5)
 	Actor_22.ExtraInfo.Name = ""
@@ -926,7 +926,7 @@ function InitMap(environment)
 	Actor_23 = ActorObjectInfo(23)
 	Actor_23:SetRenderType(1)
 	Actor_23.DisplayDesc.ModelId = 0
-	Actor_23.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_19.osgb"
+	Actor_23.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_19.osgb"
 	Actor_23.DisplayDesc.Outfit = ""
 	Actor_23.DisplayDesc.Weapon = ""
 	Actor_23.DisplayDesc.Mode = ""
@@ -955,7 +955,7 @@ function InitMap(environment)
 	Actor_23.PhysicDesc.SizeX = 0
 	Actor_23.PhysicDesc.SizeY = 0
 	Actor_23.PhysicDesc.SizeZ = 0
-	Actor_23.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_19.phy"
+	Actor_23.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_19.phy"
 	Actor_23:SetPhysicalActorType(1)
 	Actor_23:SetPhysicalShape(5)
 	Actor_23.ExtraInfo.Name = ""
@@ -968,7 +968,7 @@ function InitMap(environment)
 	Actor_24 = ActorObjectInfo(24)
 	Actor_24:SetRenderType(1)
 	Actor_24.DisplayDesc.ModelId = 0
-	Actor_24.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_20.osgb"
+	Actor_24.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_20.osgb"
 	Actor_24.DisplayDesc.Outfit = ""
 	Actor_24.DisplayDesc.Weapon = ""
 	Actor_24.DisplayDesc.Mode = ""
@@ -997,7 +997,7 @@ function InitMap(environment)
 	Actor_24.PhysicDesc.SizeX = 0
 	Actor_24.PhysicDesc.SizeY = 0
 	Actor_24.PhysicDesc.SizeZ = 0
-	Actor_24.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_20.phy"
+	Actor_24.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_20.phy"
 	Actor_24:SetPhysicalActorType(1)
 	Actor_24:SetPhysicalShape(5)
 	Actor_24.ExtraInfo.Name = ""
@@ -1010,7 +1010,7 @@ function InitMap(environment)
 	Actor_25 = ActorObjectInfo(25)
 	Actor_25:SetRenderType(1)
 	Actor_25.DisplayDesc.ModelId = 0
-	Actor_25.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_18.osgb"
+	Actor_25.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_18.osgb"
 	Actor_25.DisplayDesc.Outfit = ""
 	Actor_25.DisplayDesc.Weapon = ""
 	Actor_25.DisplayDesc.Mode = ""
@@ -1039,7 +1039,7 @@ function InitMap(environment)
 	Actor_25.PhysicDesc.SizeX = 0
 	Actor_25.PhysicDesc.SizeY = 0
 	Actor_25.PhysicDesc.SizeZ = 0
-	Actor_25.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_18.phy"
+	Actor_25.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_18.phy"
 	Actor_25:SetPhysicalActorType(1)
 	Actor_25:SetPhysicalShape(5)
 	Actor_25.ExtraInfo.Name = ""
@@ -1052,7 +1052,7 @@ function InitMap(environment)
 	Actor_26 = ActorObjectInfo(26)
 	Actor_26:SetRenderType(1)
 	Actor_26.DisplayDesc.ModelId = 0
-	Actor_26.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_18.osgb"
+	Actor_26.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_18.osgb"
 	Actor_26.DisplayDesc.Outfit = ""
 	Actor_26.DisplayDesc.Weapon = ""
 	Actor_26.DisplayDesc.Mode = ""
@@ -1081,7 +1081,7 @@ function InitMap(environment)
 	Actor_26.PhysicDesc.SizeX = 0
 	Actor_26.PhysicDesc.SizeY = 0
 	Actor_26.PhysicDesc.SizeZ = 0
-	Actor_26.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_18.phy"
+	Actor_26.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_18.phy"
 	Actor_26:SetPhysicalActorType(1)
 	Actor_26:SetPhysicalShape(5)
 	Actor_26.ExtraInfo.Name = ""
@@ -1094,7 +1094,7 @@ function InitMap(environment)
 	Actor_27 = ActorObjectInfo(27)
 	Actor_27:SetRenderType(1)
 	Actor_27.DisplayDesc.ModelId = 0
-	Actor_27.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_18.osgb"
+	Actor_27.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_18.osgb"
 	Actor_27.DisplayDesc.Outfit = ""
 	Actor_27.DisplayDesc.Weapon = ""
 	Actor_27.DisplayDesc.Mode = ""
@@ -1123,7 +1123,7 @@ function InitMap(environment)
 	Actor_27.PhysicDesc.SizeX = 0
 	Actor_27.PhysicDesc.SizeY = 0
 	Actor_27.PhysicDesc.SizeZ = 0
-	Actor_27.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_18.phy"
+	Actor_27.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_18.phy"
 	Actor_27:SetPhysicalActorType(1)
 	Actor_27:SetPhysicalShape(5)
 	Actor_27.ExtraInfo.Name = ""
@@ -1136,7 +1136,7 @@ function InitMap(environment)
 	Actor_28 = ActorObjectInfo(28)
 	Actor_28:SetRenderType(1)
 	Actor_28.DisplayDesc.ModelId = 0
-	Actor_28.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_18.osgb"
+	Actor_28.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_18.osgb"
 	Actor_28.DisplayDesc.Outfit = ""
 	Actor_28.DisplayDesc.Weapon = ""
 	Actor_28.DisplayDesc.Mode = ""
@@ -1165,7 +1165,7 @@ function InitMap(environment)
 	Actor_28.PhysicDesc.SizeX = 0
 	Actor_28.PhysicDesc.SizeY = 0
 	Actor_28.PhysicDesc.SizeZ = 0
-	Actor_28.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_18.phy"
+	Actor_28.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_18.phy"
 	Actor_28:SetPhysicalActorType(1)
 	Actor_28:SetPhysicalShape(5)
 	Actor_28.ExtraInfo.Name = ""
@@ -1178,7 +1178,7 @@ function InitMap(environment)
 	Actor_29 = ActorObjectInfo(29)
 	Actor_29:SetRenderType(1)
 	Actor_29.DisplayDesc.ModelId = 0
-	Actor_29.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_18.osgb"
+	Actor_29.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_18.osgb"
 	Actor_29.DisplayDesc.Outfit = ""
 	Actor_29.DisplayDesc.Weapon = ""
 	Actor_29.DisplayDesc.Mode = ""
@@ -1207,7 +1207,7 @@ function InitMap(environment)
 	Actor_29.PhysicDesc.SizeX = 0
 	Actor_29.PhysicDesc.SizeY = 0
 	Actor_29.PhysicDesc.SizeZ = 0
-	Actor_29.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_18.phy"
+	Actor_29.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_18.phy"
 	Actor_29:SetPhysicalActorType(1)
 	Actor_29:SetPhysicalShape(5)
 	Actor_29.ExtraInfo.Name = ""
@@ -1220,7 +1220,7 @@ function InitMap(environment)
 	Actor_30 = ActorObjectInfo(30)
 	Actor_30:SetRenderType(1)
 	Actor_30.DisplayDesc.ModelId = 0
-	Actor_30.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_18.osgb"
+	Actor_30.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_18.osgb"
 	Actor_30.DisplayDesc.Outfit = ""
 	Actor_30.DisplayDesc.Weapon = ""
 	Actor_30.DisplayDesc.Mode = ""
@@ -1249,7 +1249,7 @@ function InitMap(environment)
 	Actor_30.PhysicDesc.SizeX = 0
 	Actor_30.PhysicDesc.SizeY = 0
 	Actor_30.PhysicDesc.SizeZ = 0
-	Actor_30.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_18.phy"
+	Actor_30.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_18.phy"
 	Actor_30:SetPhysicalActorType(1)
 	Actor_30:SetPhysicalShape(5)
 	Actor_30.ExtraInfo.Name = ""
@@ -1262,7 +1262,7 @@ function InitMap(environment)
 	Actor_31 = ActorObjectInfo(31)
 	Actor_31:SetRenderType(1)
 	Actor_31.DisplayDesc.ModelId = 7
-	Actor_31.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_18.osgb"
+	Actor_31.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_18.osgb"
 	Actor_31.DisplayDesc.Outfit = ""
 	Actor_31.DisplayDesc.Weapon = ""
 	Actor_31.DisplayDesc.Mode = ""
@@ -1291,7 +1291,7 @@ function InitMap(environment)
 	Actor_31.PhysicDesc.SizeX = 5.42956e-034
 	Actor_31.PhysicDesc.SizeY = 1.71105e-039
 	Actor_31.PhysicDesc.SizeZ = 5.60519e-045
-	Actor_31.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_18.phy"
+	Actor_31.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_18.phy"
 	Actor_31:SetPhysicalActorType(1)
 	Actor_31:SetPhysicalShape(5)
 	Actor_31.ExtraInfo.Name = ""
@@ -1304,7 +1304,7 @@ function InitMap(environment)
 	Actor_32 = ActorObjectInfo(32)
 	Actor_32:SetRenderType(1)
 	Actor_32.DisplayDesc.ModelId = 7
-	Actor_32.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_21.osgb"
+	Actor_32.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_21.osgb"
 	Actor_32.DisplayDesc.Outfit = ""
 	Actor_32.DisplayDesc.Weapon = ""
 	Actor_32.DisplayDesc.Mode = ""
@@ -1333,7 +1333,7 @@ function InitMap(environment)
 	Actor_32.PhysicDesc.SizeX = 4.79243e-034
 	Actor_32.PhysicDesc.SizeY = 1.71105e-039
 	Actor_32.PhysicDesc.SizeZ = 5.60519e-045
-	Actor_32.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_21.phy"
+	Actor_32.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_21.phy"
 	Actor_32:SetPhysicalActorType(1)
 	Actor_32:SetPhysicalShape(5)
 	Actor_32.ExtraInfo.Name = ""
@@ -1346,7 +1346,7 @@ function InitMap(environment)
 	Actor_33 = ActorObjectInfo(33)
 	Actor_33:SetRenderType(1)
 	Actor_33.DisplayDesc.ModelId = 7
-	Actor_33.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_21.osgb"
+	Actor_33.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_21.osgb"
 	Actor_33.DisplayDesc.Outfit = ""
 	Actor_33.DisplayDesc.Weapon = ""
 	Actor_33.DisplayDesc.Mode = ""
@@ -1375,7 +1375,7 @@ function InitMap(environment)
 	Actor_33.PhysicDesc.SizeX = 5.4793e-034
 	Actor_33.PhysicDesc.SizeY = 1.71105e-039
 	Actor_33.PhysicDesc.SizeZ = 5.60519e-045
-	Actor_33.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_21.phy"
+	Actor_33.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_21.phy"
 	Actor_33:SetPhysicalActorType(1)
 	Actor_33:SetPhysicalShape(5)
 	Actor_33.ExtraInfo.Name = ""
@@ -1388,7 +1388,7 @@ function InitMap(environment)
 	Actor_34 = ActorObjectInfo(34)
 	Actor_34:SetRenderType(1)
 	Actor_34.DisplayDesc.ModelId = 7
-	Actor_34.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_21.osgb"
+	Actor_34.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_21.osgb"
 	Actor_34.DisplayDesc.Outfit = ""
 	Actor_34.DisplayDesc.Weapon = ""
 	Actor_34.DisplayDesc.Mode = ""
@@ -1417,7 +1417,7 @@ function InitMap(environment)
 	Actor_34.PhysicDesc.SizeX = 4.57502e-034
 	Actor_34.PhysicDesc.SizeY = 1.71105e-039
 	Actor_34.PhysicDesc.SizeZ = 5.60519e-045
-	Actor_34.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_21.phy"
+	Actor_34.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_21.phy"
 	Actor_34:SetPhysicalActorType(1)
 	Actor_34:SetPhysicalShape(5)
 	Actor_34.ExtraInfo.Name = ""
@@ -1430,7 +1430,7 @@ function InitMap(environment)
 	Actor_35 = ActorObjectInfo(35)
 	Actor_35:SetRenderType(1)
 	Actor_35.DisplayDesc.ModelId = 7
-	Actor_35.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_22.osgb"
+	Actor_35.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_22.osgb"
 	Actor_35.DisplayDesc.Outfit = ""
 	Actor_35.DisplayDesc.Weapon = ""
 	Actor_35.DisplayDesc.Mode = ""
@@ -1459,7 +1459,7 @@ function InitMap(environment)
 	Actor_35.PhysicDesc.SizeX = 1.76994e-031
 	Actor_35.PhysicDesc.SizeY = 5.96814e-039
 	Actor_35.PhysicDesc.SizeZ = 5.60519e-045
-	Actor_35.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_22.phy"
+	Actor_35.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_22.phy"
 	Actor_35:SetPhysicalActorType(1)
 	Actor_35:SetPhysicalShape(5)
 	Actor_35.ExtraInfo.Name = ""
@@ -1472,7 +1472,7 @@ function InitMap(environment)
 	Actor_36 = ActorObjectInfo(36)
 	Actor_36:SetRenderType(1)
 	Actor_36.DisplayDesc.ModelId = 7
-	Actor_36.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_23.osgb"
+	Actor_36.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_23.osgb"
 	Actor_36.DisplayDesc.Outfit = ""
 	Actor_36.DisplayDesc.Weapon = ""
 	Actor_36.DisplayDesc.Mode = ""
@@ -1501,7 +1501,7 @@ function InitMap(environment)
 	Actor_36.PhysicDesc.SizeX = 4.8819e-034
 	Actor_36.PhysicDesc.SizeY = 5.96814e-039
 	Actor_36.PhysicDesc.SizeZ = 5.60519e-045
-	Actor_36.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_23.phy"
+	Actor_36.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_23.phy"
 	Actor_36:SetPhysicalActorType(1)
 	Actor_36:SetPhysicalShape(5)
 	Actor_36.ExtraInfo.Name = ""
@@ -1514,7 +1514,7 @@ function InitMap(environment)
 	Actor_37 = ActorObjectInfo(37)
 	Actor_37:SetRenderType(1)
 	Actor_37.DisplayDesc.ModelId = 7
-	Actor_37.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_18.osgb"
+	Actor_37.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_18.osgb"
 	Actor_37.DisplayDesc.Outfit = ""
 	Actor_37.DisplayDesc.Weapon = ""
 	Actor_37.DisplayDesc.Mode = ""
@@ -1543,7 +1543,7 @@ function InitMap(environment)
 	Actor_37.PhysicDesc.SizeX = 4.56914e-034
 	Actor_37.PhysicDesc.SizeY = 1.71105e-039
 	Actor_37.PhysicDesc.SizeZ = 5.60519e-045
-	Actor_37.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_18.phy"
+	Actor_37.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_18.phy"
 	Actor_37:SetPhysicalActorType(1)
 	Actor_37:SetPhysicalShape(5)
 	Actor_37.ExtraInfo.Name = ""
@@ -1556,7 +1556,7 @@ function InitMap(environment)
 	Actor_38 = ActorObjectInfo(38)
 	Actor_38:SetRenderType(1)
 	Actor_38.DisplayDesc.ModelId = 7
-	Actor_38.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_18.osgb"
+	Actor_38.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_18.osgb"
 	Actor_38.DisplayDesc.Outfit = ""
 	Actor_38.DisplayDesc.Weapon = ""
 	Actor_38.DisplayDesc.Mode = ""
@@ -1585,7 +1585,7 @@ function InitMap(environment)
 	Actor_38.PhysicDesc.SizeX = 5.47318e-034
 	Actor_38.PhysicDesc.SizeY = 1.71105e-039
 	Actor_38.PhysicDesc.SizeZ = 5.60519e-045
-	Actor_38.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_18.phy"
+	Actor_38.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_18.phy"
 	Actor_38:SetPhysicalActorType(1)
 	Actor_38:SetPhysicalShape(5)
 	Actor_38.ExtraInfo.Name = ""
@@ -1598,7 +1598,7 @@ function InitMap(environment)
 	Actor_39 = ActorObjectInfo(39)
 	Actor_39:SetRenderType(1)
 	Actor_39.DisplayDesc.ModelId = 0
-	Actor_39.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_25.osgb"
+	Actor_39.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_25.osgb"
 	Actor_39.DisplayDesc.Outfit = ""
 	Actor_39.DisplayDesc.Weapon = ""
 	Actor_39.DisplayDesc.Mode = ""
@@ -1627,7 +1627,7 @@ function InitMap(environment)
 	Actor_39.PhysicDesc.SizeX = 0
 	Actor_39.PhysicDesc.SizeY = 0
 	Actor_39.PhysicDesc.SizeZ = 0
-	Actor_39.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_25.phy"
+	Actor_39.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_25.phy"
 	Actor_39:SetPhysicalActorType(1)
 	Actor_39:SetPhysicalShape(5)
 	Actor_39.ExtraInfo.Name = ""
@@ -1640,7 +1640,7 @@ function InitMap(environment)
 	Actor_40 = ActorObjectInfo(40)
 	Actor_40:SetRenderType(1)
 	Actor_40.DisplayDesc.ModelId = 0
-	Actor_40.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_26.osgb"
+	Actor_40.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_26.osgb"
 	Actor_40.DisplayDesc.Outfit = ""
 	Actor_40.DisplayDesc.Weapon = ""
 	Actor_40.DisplayDesc.Mode = ""
@@ -1669,7 +1669,7 @@ function InitMap(environment)
 	Actor_40.PhysicDesc.SizeX = 0
 	Actor_40.PhysicDesc.SizeY = 0
 	Actor_40.PhysicDesc.SizeZ = 0
-	Actor_40.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_26.phy"
+	Actor_40.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_26.phy"
 	Actor_40:SetPhysicalActorType(1)
 	Actor_40:SetPhysicalShape(5)
 	Actor_40.ExtraInfo.Name = ""
@@ -1682,7 +1682,7 @@ function InitMap(environment)
 	Actor_41 = ActorObjectInfo(41)
 	Actor_41:SetRenderType(1)
 	Actor_41.DisplayDesc.ModelId = 0
-	Actor_41.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_27.osgb"
+	Actor_41.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_27.osgb"
 	Actor_41.DisplayDesc.Outfit = ""
 	Actor_41.DisplayDesc.Weapon = ""
 	Actor_41.DisplayDesc.Mode = ""
@@ -1711,7 +1711,7 @@ function InitMap(environment)
 	Actor_41.PhysicDesc.SizeX = 0
 	Actor_41.PhysicDesc.SizeY = 0
 	Actor_41.PhysicDesc.SizeZ = 0
-	Actor_41.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_27.phy"
+	Actor_41.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_27.phy"
 	Actor_41:SetPhysicalActorType(1)
 	Actor_41:SetPhysicalShape(5)
 	Actor_41.ExtraInfo.Name = ""
@@ -1724,7 +1724,7 @@ function InitMap(environment)
 	Actor_42 = ActorObjectInfo(42)
 	Actor_42:SetRenderType(1)
 	Actor_42.DisplayDesc.ModelId = 0
-	Actor_42.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_28.osgb"
+	Actor_42.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_28.osgb"
 	Actor_42.DisplayDesc.Outfit = ""
 	Actor_42.DisplayDesc.Weapon = ""
 	Actor_42.DisplayDesc.Mode = ""
@@ -1753,7 +1753,7 @@ function InitMap(environment)
 	Actor_42.PhysicDesc.SizeX = 0
 	Actor_42.PhysicDesc.SizeY = 0
 	Actor_42.PhysicDesc.SizeZ = 0
-	Actor_42.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_28.phy"
+	Actor_42.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_28.phy"
 	Actor_42:SetPhysicalActorType(1)
 	Actor_42:SetPhysicalShape(5)
 	Actor_42.ExtraInfo.Name = ""
@@ -1766,7 +1766,7 @@ function InitMap(environment)
 	Actor_43 = ActorObjectInfo(43)
 	Actor_43:SetRenderType(1)
 	Actor_43.DisplayDesc.ModelId = 0
-	Actor_43.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_31.osgb"
+	Actor_43.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_31.osgb"
 	Actor_43.DisplayDesc.Outfit = ""
 	Actor_43.DisplayDesc.Weapon = ""
 	Actor_43.DisplayDesc.Mode = ""
@@ -1795,7 +1795,7 @@ function InitMap(environment)
 	Actor_43.PhysicDesc.SizeX = 0
 	Actor_43.PhysicDesc.SizeY = 0
 	Actor_43.PhysicDesc.SizeZ = 0
-	Actor_43.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_31.phy"
+	Actor_43.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_31.phy"
 	Actor_43:SetPhysicalActorType(1)
 	Actor_43:SetPhysicalShape(5)
 	Actor_43.ExtraInfo.Name = ""
@@ -1808,7 +1808,7 @@ function InitMap(environment)
 	Actor_44 = ActorObjectInfo(44)
 	Actor_44:SetRenderType(1)
 	Actor_44.DisplayDesc.ModelId = 0
-	Actor_44.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_32.osgb"
+	Actor_44.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_32.osgb"
 	Actor_44.DisplayDesc.Outfit = ""
 	Actor_44.DisplayDesc.Weapon = ""
 	Actor_44.DisplayDesc.Mode = ""
@@ -1837,7 +1837,7 @@ function InitMap(environment)
 	Actor_44.PhysicDesc.SizeX = 0
 	Actor_44.PhysicDesc.SizeY = 0
 	Actor_44.PhysicDesc.SizeZ = 0
-	Actor_44.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_32.phy"
+	Actor_44.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_32.phy"
 	Actor_44:SetPhysicalActorType(1)
 	Actor_44:SetPhysicalShape(5)
 	Actor_44.ExtraInfo.Name = ""
@@ -1850,7 +1850,7 @@ function InitMap(environment)
 	Actor_45 = ActorObjectInfo(45)
 	Actor_45:SetRenderType(1)
 	Actor_45.DisplayDesc.ModelId = 0
-	Actor_45.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_29.osgb"
+	Actor_45.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_29.osgb"
 	Actor_45.DisplayDesc.Outfit = ""
 	Actor_45.DisplayDesc.Weapon = ""
 	Actor_45.DisplayDesc.Mode = ""
@@ -1879,7 +1879,7 @@ function InitMap(environment)
 	Actor_45.PhysicDesc.SizeX = 0
 	Actor_45.PhysicDesc.SizeY = 0
 	Actor_45.PhysicDesc.SizeZ = 0
-	Actor_45.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_29.phy"
+	Actor_45.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_29.phy"
 	Actor_45:SetPhysicalActorType(1)
 	Actor_45:SetPhysicalShape(5)
 	Actor_45.ExtraInfo.Name = ""
@@ -1892,7 +1892,7 @@ function InitMap(environment)
 	Actor_46 = ActorObjectInfo(46)
 	Actor_46:SetRenderType(1)
 	Actor_46.DisplayDesc.ModelId = 0
-	Actor_46.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_24.osgb"
+	Actor_46.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_24.osgb"
 	Actor_46.DisplayDesc.Outfit = ""
 	Actor_46.DisplayDesc.Weapon = ""
 	Actor_46.DisplayDesc.Mode = ""
@@ -1921,7 +1921,7 @@ function InitMap(environment)
 	Actor_46.PhysicDesc.SizeX = 0
 	Actor_46.PhysicDesc.SizeY = 0
 	Actor_46.PhysicDesc.SizeZ = 0
-	Actor_46.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_24.phy"
+	Actor_46.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_24.phy"
 	Actor_46:SetPhysicalActorType(1)
 	Actor_46:SetPhysicalShape(5)
 	Actor_46.ExtraInfo.Name = ""
@@ -1934,7 +1934,7 @@ function InitMap(environment)
 	Actor_47 = ActorObjectInfo(47)
 	Actor_47:SetRenderType(1)
 	Actor_47.DisplayDesc.ModelId = 0
-	Actor_47.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_30.osgb"
+	Actor_47.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_30.osgb"
 	Actor_47.DisplayDesc.Outfit = ""
 	Actor_47.DisplayDesc.Weapon = ""
 	Actor_47.DisplayDesc.Mode = ""
@@ -1963,7 +1963,7 @@ function InitMap(environment)
 	Actor_47.PhysicDesc.SizeX = 0
 	Actor_47.PhysicDesc.SizeY = 0
 	Actor_47.PhysicDesc.SizeZ = 0
-	Actor_47.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_30.phy"
+	Actor_47.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_30.phy"
 	Actor_47:SetPhysicalActorType(1)
 	Actor_47:SetPhysicalShape(5)
 	Actor_47.ExtraInfo.Name = ""
@@ -1976,7 +1976,7 @@ function InitMap(environment)
 	Actor_48 = ActorObjectInfo(48)
 	Actor_48:SetRenderType(1)
 	Actor_48.DisplayDesc.ModelId = 0
-	Actor_48.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_33.osgb"
+	Actor_48.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_33.osgb"
 	Actor_48.DisplayDesc.Outfit = ""
 	Actor_48.DisplayDesc.Weapon = ""
 	Actor_48.DisplayDesc.Mode = ""
@@ -2005,7 +2005,7 @@ function InitMap(environment)
 	Actor_48.PhysicDesc.SizeX = 0
 	Actor_48.PhysicDesc.SizeY = 0
 	Actor_48.PhysicDesc.SizeZ = 0
-	Actor_48.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_33.phy"
+	Actor_48.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_33.phy"
 	Actor_48:SetPhysicalActorType(1)
 	Actor_48:SetPhysicalShape(5)
 	Actor_48.ExtraInfo.Name = ""
@@ -2018,7 +2018,7 @@ function InitMap(environment)
 	Actor_49 = ActorObjectInfo(49)
 	Actor_49:SetRenderType(1)
 	Actor_49.DisplayDesc.ModelId = 0
-	Actor_49.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_34.osgb"
+	Actor_49.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_34.osgb"
 	Actor_49.DisplayDesc.Outfit = ""
 	Actor_49.DisplayDesc.Weapon = ""
 	Actor_49.DisplayDesc.Mode = ""
@@ -2047,7 +2047,7 @@ function InitMap(environment)
 	Actor_49.PhysicDesc.SizeX = 0
 	Actor_49.PhysicDesc.SizeY = 0
 	Actor_49.PhysicDesc.SizeZ = 0
-	Actor_49.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_34.phy"
+	Actor_49.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_34.phy"
 	Actor_49:SetPhysicalActorType(1)
 	Actor_49:SetPhysicalShape(5)
 	Actor_49.ExtraInfo.Name = ""
@@ -2060,7 +2060,7 @@ function InitMap(environment)
 	Actor_50 = ActorObjectInfo(50)
 	Actor_50:SetRenderType(1)
 	Actor_50.DisplayDesc.ModelId = 0
-	Actor_50.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_35.osgb"
+	Actor_50.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_35.osgb"
 	Actor_50.DisplayDesc.Outfit = ""
 	Actor_50.DisplayDesc.Weapon = ""
 	Actor_50.DisplayDesc.Mode = ""
@@ -2089,7 +2089,7 @@ function InitMap(environment)
 	Actor_50.PhysicDesc.SizeX = 0
 	Actor_50.PhysicDesc.SizeY = 0
 	Actor_50.PhysicDesc.SizeZ = 0
-	Actor_50.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_35.phy"
+	Actor_50.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_35.phy"
 	Actor_50:SetPhysicalActorType(1)
 	Actor_50:SetPhysicalShape(5)
 	Actor_50.ExtraInfo.Name = ""
@@ -2102,7 +2102,7 @@ function InitMap(environment)
 	Actor_51 = ActorObjectInfo(51)
 	Actor_51:SetRenderType(1)
 	Actor_51.DisplayDesc.ModelId = 0
-	Actor_51.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_36.osgb"
+	Actor_51.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_36.osgb"
 	Actor_51.DisplayDesc.Outfit = ""
 	Actor_51.DisplayDesc.Weapon = ""
 	Actor_51.DisplayDesc.Mode = ""
@@ -2131,7 +2131,7 @@ function InitMap(environment)
 	Actor_51.PhysicDesc.SizeX = 0
 	Actor_51.PhysicDesc.SizeY = 0
 	Actor_51.PhysicDesc.SizeZ = 0
-	Actor_51.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_36.phy"
+	Actor_51.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_36.phy"
 	Actor_51:SetPhysicalActorType(1)
 	Actor_51:SetPhysicalShape(5)
 	Actor_51.ExtraInfo.Name = ""
@@ -2144,7 +2144,7 @@ function InitMap(environment)
 	Actor_52 = ActorObjectInfo(52)
 	Actor_52:SetRenderType(1)
 	Actor_52.DisplayDesc.ModelId = 0
-	Actor_52.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_22.osgb"
+	Actor_52.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_22.osgb"
 	Actor_52.DisplayDesc.Outfit = ""
 	Actor_52.DisplayDesc.Weapon = ""
 	Actor_52.DisplayDesc.Mode = ""
@@ -2173,7 +2173,7 @@ function InitMap(environment)
 	Actor_52.PhysicDesc.SizeX = 0
 	Actor_52.PhysicDesc.SizeY = 0
 	Actor_52.PhysicDesc.SizeZ = 0
-	Actor_52.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_22.phy"
+	Actor_52.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_22.phy"
 	Actor_52:SetPhysicalActorType(1)
 	Actor_52:SetPhysicalShape(5)
 	Actor_52.ExtraInfo.Name = ""
@@ -2186,7 +2186,7 @@ function InitMap(environment)
 	Actor_53 = ActorObjectInfo(53)
 	Actor_53:SetRenderType(1)
 	Actor_53.DisplayDesc.ModelId = 0
-	Actor_53.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_23.osgb"
+	Actor_53.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_23.osgb"
 	Actor_53.DisplayDesc.Outfit = ""
 	Actor_53.DisplayDesc.Weapon = ""
 	Actor_53.DisplayDesc.Mode = ""
@@ -2215,7 +2215,7 @@ function InitMap(environment)
 	Actor_53.PhysicDesc.SizeX = 0
 	Actor_53.PhysicDesc.SizeY = 0
 	Actor_53.PhysicDesc.SizeZ = 0
-	Actor_53.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_23.phy"
+	Actor_53.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_23.phy"
 	Actor_53:SetPhysicalActorType(1)
 	Actor_53:SetPhysicalShape(5)
 	Actor_53.ExtraInfo.Name = ""
@@ -2228,7 +2228,7 @@ function InitMap(environment)
 	Actor_54 = ActorObjectInfo(54)
 	Actor_54:SetRenderType(1)
 	Actor_54.DisplayDesc.ModelId = 0
-	Actor_54.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_22.osgb"
+	Actor_54.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/ASCENCE_OBJ_22.osgb"
 	Actor_54.DisplayDesc.Outfit = ""
 	Actor_54.DisplayDesc.Weapon = ""
 	Actor_54.DisplayDesc.Mode = ""
@@ -2257,7 +2257,7 @@ function InitMap(environment)
 	Actor_54.PhysicDesc.SizeX = 0
 	Actor_54.PhysicDesc.SizeY = 0
 	Actor_54.PhysicDesc.SizeZ = 0
-	Actor_54.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/ASCENCE_OBJ_22.phy"
+	Actor_54.PhysicDesc.Filename = "Worlds/Lba2Original/Models/ASCENCE_OBJ_22.phy"
 	Actor_54:SetPhysicalActorType(1)
 	Actor_54:SetPhysicalShape(5)
 	Actor_54.ExtraInfo.Name = ""

@@ -2,7 +2,7 @@ function InitMap(environment)
 	Actor_1 = ActorObjectInfo(1)
 	Actor_1:SetRenderType(1)
 	Actor_1.DisplayDesc.ModelId = 0
-	Actor_1.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL.osgb"
+	Actor_1.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL.osgb"
 	Actor_1.DisplayDesc.Outfit = ""
 	Actor_1.DisplayDesc.Weapon = ""
 	Actor_1.DisplayDesc.Mode = ""
@@ -31,7 +31,7 @@ function InitMap(environment)
 	Actor_1.PhysicDesc.SizeX = 0
 	Actor_1.PhysicDesc.SizeY = 0
 	Actor_1.PhysicDesc.SizeZ = 0
-	Actor_1.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL.phy"
+	Actor_1.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL.phy"
 	Actor_1:SetPhysicalActorType(1)
 	Actor_1:SetPhysicalShape(5)
 	Actor_1.ExtraInfo.Name = ""
@@ -44,7 +44,7 @@ function InitMap(environment)
 	Actor_2 = ActorObjectInfo(2)
 	Actor_2:SetRenderType(1)
 	Actor_2.DisplayDesc.ModelId = 0
-	Actor_2.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_1.osgb"
+	Actor_2.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_1.osgb"
 	Actor_2.DisplayDesc.Outfit = ""
 	Actor_2.DisplayDesc.Weapon = ""
 	Actor_2.DisplayDesc.Mode = ""
@@ -73,7 +73,7 @@ function InitMap(environment)
 	Actor_2.PhysicDesc.SizeX = 0
 	Actor_2.PhysicDesc.SizeY = 0
 	Actor_2.PhysicDesc.SizeZ = 0
-	Actor_2.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_1.phy"
+	Actor_2.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_1.phy"
 	Actor_2:SetPhysicalActorType(1)
 	Actor_2:SetPhysicalShape(5)
 	Actor_2.ExtraInfo.Name = ""
@@ -86,7 +86,7 @@ function InitMap(environment)
 	Actor_3 = ActorObjectInfo(3)
 	Actor_3:SetRenderType(1)
 	Actor_3.DisplayDesc.ModelId = 0
-	Actor_3.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_4.osgb"
+	Actor_3.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_4.osgb"
 	Actor_3.DisplayDesc.Outfit = ""
 	Actor_3.DisplayDesc.Weapon = ""
 	Actor_3.DisplayDesc.Mode = ""
@@ -115,7 +115,7 @@ function InitMap(environment)
 	Actor_3.PhysicDesc.SizeX = 0
 	Actor_3.PhysicDesc.SizeY = 0
 	Actor_3.PhysicDesc.SizeZ = 0
-	Actor_3.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_4.phy"
+	Actor_3.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_4.phy"
 	Actor_3:SetPhysicalActorType(1)
 	Actor_3:SetPhysicalShape(5)
 	Actor_3.ExtraInfo.Name = ""
@@ -128,7 +128,7 @@ function InitMap(environment)
 	Actor_4 = ActorObjectInfo(4)
 	Actor_4:SetRenderType(1)
 	Actor_4.DisplayDesc.ModelId = 0
-	Actor_4.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_5.osgb"
+	Actor_4.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_5.osgb"
 	Actor_4.DisplayDesc.Outfit = ""
 	Actor_4.DisplayDesc.Weapon = ""
 	Actor_4.DisplayDesc.Mode = ""
@@ -157,7 +157,7 @@ function InitMap(environment)
 	Actor_4.PhysicDesc.SizeX = 0
 	Actor_4.PhysicDesc.SizeY = 0
 	Actor_4.PhysicDesc.SizeZ = 0
-	Actor_4.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_5.phy"
+	Actor_4.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_5.phy"
 	Actor_4:SetPhysicalActorType(1)
 	Actor_4:SetPhysicalShape(5)
 	Actor_4.ExtraInfo.Name = ""
@@ -170,7 +170,7 @@ function InitMap(environment)
 	Actor_5 = ActorObjectInfo(5)
 	Actor_5:SetRenderType(1)
 	Actor_5.DisplayDesc.ModelId = 0
-	Actor_5.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_5.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_5.DisplayDesc.Outfit = ""
 	Actor_5.DisplayDesc.Weapon = ""
 	Actor_5.DisplayDesc.Mode = ""
@@ -199,7 +199,7 @@ function InitMap(environment)
 	Actor_5.PhysicDesc.SizeX = 0
 	Actor_5.PhysicDesc.SizeY = 0
 	Actor_5.PhysicDesc.SizeZ = 0
-	Actor_5.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_5.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_5:SetPhysicalActorType(1)
 	Actor_5:SetPhysicalShape(5)
 	Actor_5.ExtraInfo.Name = ""
@@ -212,7 +212,7 @@ function InitMap(environment)
 	Actor_6 = ActorObjectInfo(6)
 	Actor_6:SetRenderType(1)
 	Actor_6.DisplayDesc.ModelId = 0
-	Actor_6.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_6.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_6.DisplayDesc.Outfit = ""
 	Actor_6.DisplayDesc.Weapon = ""
 	Actor_6.DisplayDesc.Mode = ""
@@ -241,7 +241,7 @@ function InitMap(environment)
 	Actor_6.PhysicDesc.SizeX = 0
 	Actor_6.PhysicDesc.SizeY = 0
 	Actor_6.PhysicDesc.SizeZ = 0
-	Actor_6.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_6.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_6:SetPhysicalActorType(1)
 	Actor_6:SetPhysicalShape(5)
 	Actor_6.ExtraInfo.Name = ""
@@ -254,7 +254,7 @@ function InitMap(environment)
 	Actor_7 = ActorObjectInfo(7)
 	Actor_7:SetRenderType(1)
 	Actor_7.DisplayDesc.ModelId = 0
-	Actor_7.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_7.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_7.DisplayDesc.Outfit = ""
 	Actor_7.DisplayDesc.Weapon = ""
 	Actor_7.DisplayDesc.Mode = ""
@@ -283,7 +283,7 @@ function InitMap(environment)
 	Actor_7.PhysicDesc.SizeX = 0
 	Actor_7.PhysicDesc.SizeY = 0
 	Actor_7.PhysicDesc.SizeZ = 0
-	Actor_7.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_7.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_7:SetPhysicalActorType(1)
 	Actor_7:SetPhysicalShape(5)
 	Actor_7.ExtraInfo.Name = ""
@@ -296,7 +296,7 @@ function InitMap(environment)
 	Actor_8 = ActorObjectInfo(8)
 	Actor_8:SetRenderType(1)
 	Actor_8.DisplayDesc.ModelId = 131074
-	Actor_8.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_8.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_8.DisplayDesc.Outfit = ""
 	Actor_8.DisplayDesc.Weapon = ""
 	Actor_8.DisplayDesc.Mode = ""
@@ -325,7 +325,7 @@ function InitMap(environment)
 	Actor_8.PhysicDesc.SizeX = 9.14422e-024
 	Actor_8.PhysicDesc.SizeY = 3.60134e-043
 	Actor_8.PhysicDesc.SizeZ = 2.5714e-039
-	Actor_8.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_8.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_8:SetPhysicalActorType(1)
 	Actor_8:SetPhysicalShape(5)
 	Actor_8.ExtraInfo.Name = ""
@@ -338,7 +338,7 @@ function InitMap(environment)
 	Actor_9 = ActorObjectInfo(9)
 	Actor_9:SetRenderType(1)
 	Actor_9.DisplayDesc.ModelId = 0
-	Actor_9.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_9.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_9.DisplayDesc.Outfit = ""
 	Actor_9.DisplayDesc.Weapon = ""
 	Actor_9.DisplayDesc.Mode = ""
@@ -367,7 +367,7 @@ function InitMap(environment)
 	Actor_9.PhysicDesc.SizeX = 0
 	Actor_9.PhysicDesc.SizeY = 0
 	Actor_9.PhysicDesc.SizeZ = 0
-	Actor_9.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_9.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_9:SetPhysicalActorType(1)
 	Actor_9:SetPhysicalShape(5)
 	Actor_9.ExtraInfo.Name = ""
@@ -380,7 +380,7 @@ function InitMap(environment)
 	Actor_10 = ActorObjectInfo(10)
 	Actor_10:SetRenderType(1)
 	Actor_10.DisplayDesc.ModelId = 0
-	Actor_10.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_10.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_10.DisplayDesc.Outfit = ""
 	Actor_10.DisplayDesc.Weapon = ""
 	Actor_10.DisplayDesc.Mode = ""
@@ -409,7 +409,7 @@ function InitMap(environment)
 	Actor_10.PhysicDesc.SizeX = 0
 	Actor_10.PhysicDesc.SizeY = 0
 	Actor_10.PhysicDesc.SizeZ = 0
-	Actor_10.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_10.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_10:SetPhysicalActorType(1)
 	Actor_10:SetPhysicalShape(5)
 	Actor_10.ExtraInfo.Name = ""
@@ -422,7 +422,7 @@ function InitMap(environment)
 	Actor_11 = ActorObjectInfo(11)
 	Actor_11:SetRenderType(1)
 	Actor_11.DisplayDesc.ModelId = 427068112
-	Actor_11.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_11.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_11.DisplayDesc.Outfit = ""
 	Actor_11.DisplayDesc.Weapon = ""
 	Actor_11.DisplayDesc.Mode = ""
@@ -451,7 +451,7 @@ function InitMap(environment)
 	Actor_11.PhysicDesc.SizeX = 0
 	Actor_11.PhysicDesc.SizeY = 3.22299e-044
 	Actor_11.PhysicDesc.SizeZ = 0
-	Actor_11.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_11.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_11:SetPhysicalActorType(1)
 	Actor_11:SetPhysicalShape(5)
 	Actor_11.ExtraInfo.Name = ""
@@ -464,7 +464,7 @@ function InitMap(environment)
 	Actor_12 = ActorObjectInfo(12)
 	Actor_12:SetRenderType(1)
 	Actor_12.DisplayDesc.ModelId = 131077
-	Actor_12.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_7.osgb"
+	Actor_12.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_7.osgb"
 	Actor_12.DisplayDesc.Outfit = ""
 	Actor_12.DisplayDesc.Weapon = ""
 	Actor_12.DisplayDesc.Mode = ""
@@ -493,7 +493,7 @@ function InitMap(environment)
 	Actor_12.PhysicDesc.SizeX = 1.88341e-031
 	Actor_12.PhysicDesc.SizeY = 0.000976563
 	Actor_12.PhysicDesc.SizeZ = 1.05053e-030
-	Actor_12.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_7.phy"
+	Actor_12.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_7.phy"
 	Actor_12:SetPhysicalActorType(1)
 	Actor_12:SetPhysicalShape(5)
 	Actor_12.ExtraInfo.Name = ""
@@ -506,7 +506,7 @@ function InitMap(environment)
 	Actor_13 = ActorObjectInfo(13)
 	Actor_13:SetRenderType(1)
 	Actor_13.DisplayDesc.ModelId = 436128064
-	Actor_13.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_13.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_13.DisplayDesc.Outfit = ""
 	Actor_13.DisplayDesc.Weapon = ""
 	Actor_13.DisplayDesc.Mode = ""
@@ -535,7 +535,7 @@ function InitMap(environment)
 	Actor_13.PhysicDesc.SizeX = 2.47956e-039
 	Actor_13.PhysicDesc.SizeY = 1.05328e-034
 	Actor_13.PhysicDesc.SizeZ = 1.087e-023
-	Actor_13.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_13.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_13:SetPhysicalActorType(1)
 	Actor_13:SetPhysicalShape(5)
 	Actor_13.ExtraInfo.Name = ""
@@ -548,7 +548,7 @@ function InitMap(environment)
 	Actor_14 = ActorObjectInfo(14)
 	Actor_14:SetRenderType(1)
 	Actor_14.DisplayDesc.ModelId = 0
-	Actor_14.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_14.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_14.DisplayDesc.Outfit = ""
 	Actor_14.DisplayDesc.Weapon = ""
 	Actor_14.DisplayDesc.Mode = ""
@@ -577,7 +577,7 @@ function InitMap(environment)
 	Actor_14.PhysicDesc.SizeX = 0
 	Actor_14.PhysicDesc.SizeY = 0
 	Actor_14.PhysicDesc.SizeZ = 0
-	Actor_14.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_14.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_14:SetPhysicalActorType(1)
 	Actor_14:SetPhysicalShape(5)
 	Actor_14.ExtraInfo.Name = ""
@@ -590,7 +590,7 @@ function InitMap(environment)
 	Actor_15 = ActorObjectInfo(15)
 	Actor_15:SetRenderType(1)
 	Actor_15.DisplayDesc.ModelId = 0
-	Actor_15.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_15.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_15.DisplayDesc.Outfit = ""
 	Actor_15.DisplayDesc.Weapon = ""
 	Actor_15.DisplayDesc.Mode = ""
@@ -619,7 +619,7 @@ function InitMap(environment)
 	Actor_15.PhysicDesc.SizeX = 0
 	Actor_15.PhysicDesc.SizeY = 0
 	Actor_15.PhysicDesc.SizeZ = 0
-	Actor_15.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_15.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_15:SetPhysicalActorType(1)
 	Actor_15:SetPhysicalShape(5)
 	Actor_15.ExtraInfo.Name = ""
@@ -632,7 +632,7 @@ function InitMap(environment)
 	Actor_16 = ActorObjectInfo(16)
 	Actor_16:SetRenderType(1)
 	Actor_16.DisplayDesc.ModelId = 0
-	Actor_16.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_7.osgb"
+	Actor_16.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_7.osgb"
 	Actor_16.DisplayDesc.Outfit = ""
 	Actor_16.DisplayDesc.Weapon = ""
 	Actor_16.DisplayDesc.Mode = ""
@@ -661,7 +661,7 @@ function InitMap(environment)
 	Actor_16.PhysicDesc.SizeX = 5.98849e-024
 	Actor_16.PhysicDesc.SizeY = 1.04887e-030
 	Actor_16.PhysicDesc.SizeZ = 1.83686e-040
-	Actor_16.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_7.phy"
+	Actor_16.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_7.phy"
 	Actor_16:SetPhysicalActorType(1)
 	Actor_16:SetPhysicalShape(5)
 	Actor_16.ExtraInfo.Name = ""
@@ -674,7 +674,7 @@ function InitMap(environment)
 	Actor_17 = ActorObjectInfo(17)
 	Actor_17:SetRenderType(1)
 	Actor_17.DisplayDesc.ModelId = 0
-	Actor_17.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_8.osgb"
+	Actor_17.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_8.osgb"
 	Actor_17.DisplayDesc.Outfit = ""
 	Actor_17.DisplayDesc.Weapon = ""
 	Actor_17.DisplayDesc.Mode = ""
@@ -703,7 +703,7 @@ function InitMap(environment)
 	Actor_17.PhysicDesc.SizeX = 0
 	Actor_17.PhysicDesc.SizeY = 0
 	Actor_17.PhysicDesc.SizeZ = 0
-	Actor_17.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_8.phy"
+	Actor_17.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_8.phy"
 	Actor_17:SetPhysicalActorType(1)
 	Actor_17:SetPhysicalShape(5)
 	Actor_17.ExtraInfo.Name = ""
@@ -716,7 +716,7 @@ function InitMap(environment)
 	Actor_18 = ActorObjectInfo(18)
 	Actor_18:SetRenderType(1)
 	Actor_18.DisplayDesc.ModelId = 0
-	Actor_18.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_9.osgb"
+	Actor_18.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_9.osgb"
 	Actor_18.DisplayDesc.Outfit = ""
 	Actor_18.DisplayDesc.Weapon = ""
 	Actor_18.DisplayDesc.Mode = ""
@@ -745,7 +745,7 @@ function InitMap(environment)
 	Actor_18.PhysicDesc.SizeX = 0
 	Actor_18.PhysicDesc.SizeY = 0
 	Actor_18.PhysicDesc.SizeZ = 0
-	Actor_18.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_9.phy"
+	Actor_18.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_9.phy"
 	Actor_18:SetPhysicalActorType(1)
 	Actor_18:SetPhysicalShape(5)
 	Actor_18.ExtraInfo.Name = ""
@@ -758,7 +758,7 @@ function InitMap(environment)
 	Actor_19 = ActorObjectInfo(19)
 	Actor_19:SetRenderType(1)
 	Actor_19.DisplayDesc.ModelId = 0
-	Actor_19.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_8.osgb"
+	Actor_19.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_8.osgb"
 	Actor_19.DisplayDesc.Outfit = ""
 	Actor_19.DisplayDesc.Weapon = ""
 	Actor_19.DisplayDesc.Mode = ""
@@ -787,7 +787,7 @@ function InitMap(environment)
 	Actor_19.PhysicDesc.SizeX = 0
 	Actor_19.PhysicDesc.SizeY = 0
 	Actor_19.PhysicDesc.SizeZ = 0
-	Actor_19.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_8.phy"
+	Actor_19.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_8.phy"
 	Actor_19:SetPhysicalActorType(1)
 	Actor_19:SetPhysicalShape(5)
 	Actor_19.ExtraInfo.Name = ""
@@ -800,7 +800,7 @@ function InitMap(environment)
 	Actor_20 = ActorObjectInfo(20)
 	Actor_20:SetRenderType(1)
 	Actor_20.DisplayDesc.ModelId = 131074
-	Actor_20.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_9.osgb"
+	Actor_20.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_9.osgb"
 	Actor_20.DisplayDesc.Outfit = ""
 	Actor_20.DisplayDesc.Weapon = ""
 	Actor_20.DisplayDesc.Mode = ""
@@ -829,7 +829,7 @@ function InitMap(environment)
 	Actor_20.PhysicDesc.SizeX = 2.47958e-039
 	Actor_20.PhysicDesc.SizeY = 1.02315e-034
 	Actor_20.PhysicDesc.SizeZ = 9.14614e-024
-	Actor_20.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_9.phy"
+	Actor_20.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_9.phy"
 	Actor_20:SetPhysicalActorType(1)
 	Actor_20:SetPhysicalShape(5)
 	Actor_20.ExtraInfo.Name = ""
@@ -842,7 +842,7 @@ function InitMap(environment)
 	Actor_21 = ActorObjectInfo(21)
 	Actor_21:SetRenderType(1)
 	Actor_21.DisplayDesc.ModelId = 0
-	Actor_21.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_10.osgb"
+	Actor_21.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_10.osgb"
 	Actor_21.DisplayDesc.Outfit = ""
 	Actor_21.DisplayDesc.Weapon = ""
 	Actor_21.DisplayDesc.Mode = ""
@@ -871,7 +871,7 @@ function InitMap(environment)
 	Actor_21.PhysicDesc.SizeX = 0
 	Actor_21.PhysicDesc.SizeY = 2.38221e-044
 	Actor_21.PhysicDesc.SizeZ = 1.01021e-039
-	Actor_21.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_10.phy"
+	Actor_21.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_10.phy"
 	Actor_21:SetPhysicalActorType(1)
 	Actor_21:SetPhysicalShape(5)
 	Actor_21.ExtraInfo.Name = ""
@@ -884,7 +884,7 @@ function InitMap(environment)
 	Actor_22 = ActorObjectInfo(22)
 	Actor_22:SetRenderType(1)
 	Actor_22.DisplayDesc.ModelId = 0
-	Actor_22.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_11.osgb"
+	Actor_22.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_11.osgb"
 	Actor_22.DisplayDesc.Outfit = ""
 	Actor_22.DisplayDesc.Weapon = ""
 	Actor_22.DisplayDesc.Mode = ""
@@ -913,7 +913,7 @@ function InitMap(environment)
 	Actor_22.PhysicDesc.SizeX = 2
 	Actor_22.PhysicDesc.SizeY = 0
 	Actor_22.PhysicDesc.SizeZ = 0
-	Actor_22.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_11.phy"
+	Actor_22.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_11.phy"
 	Actor_22:SetPhysicalActorType(1)
 	Actor_22:SetPhysicalShape(5)
 	Actor_22.ExtraInfo.Name = ""
@@ -926,7 +926,7 @@ function InitMap(environment)
 	Actor_23 = ActorObjectInfo(23)
 	Actor_23:SetRenderType(1)
 	Actor_23.DisplayDesc.ModelId = 229391096
-	Actor_23.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_12.osgb"
+	Actor_23.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_12.osgb"
 	Actor_23.DisplayDesc.Outfit = ""
 	Actor_23.DisplayDesc.Weapon = ""
 	Actor_23.DisplayDesc.Mode = ""
@@ -955,7 +955,7 @@ function InitMap(environment)
 	Actor_23.PhysicDesc.SizeX = 0
 	Actor_23.PhysicDesc.SizeY = 0
 	Actor_23.PhysicDesc.SizeZ = 0
-	Actor_23.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_12.phy"
+	Actor_23.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_12.phy"
 	Actor_23:SetPhysicalActorType(1)
 	Actor_23:SetPhysicalShape(5)
 	Actor_23.ExtraInfo.Name = ""
@@ -968,7 +968,7 @@ function InitMap(environment)
 	Actor_24 = ActorObjectInfo(24)
 	Actor_24:SetRenderType(1)
 	Actor_24.DisplayDesc.ModelId = 3
-	Actor_24.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_13.osgb"
+	Actor_24.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_13.osgb"
 	Actor_24.DisplayDesc.Outfit = ""
 	Actor_24.DisplayDesc.Weapon = ""
 	Actor_24.DisplayDesc.Mode = ""
@@ -997,7 +997,7 @@ function InitMap(environment)
 	Actor_24.PhysicDesc.SizeX = 2.53444e-023
 	Actor_24.PhysicDesc.SizeY = 1.02121e-023
 	Actor_24.PhysicDesc.SizeZ = 1.0209e-023
-	Actor_24.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_13.phy"
+	Actor_24.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_13.phy"
 	Actor_24:SetPhysicalActorType(1)
 	Actor_24:SetPhysicalShape(5)
 	Actor_24.ExtraInfo.Name = ""
@@ -1010,7 +1010,7 @@ function InitMap(environment)
 	Actor_25 = ActorObjectInfo(25)
 	Actor_25:SetRenderType(1)
 	Actor_25.DisplayDesc.ModelId = 131076
-	Actor_25.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_14.osgb"
+	Actor_25.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_14.osgb"
 	Actor_25.DisplayDesc.Outfit = ""
 	Actor_25.DisplayDesc.Weapon = ""
 	Actor_25.DisplayDesc.Mode = ""
@@ -1039,7 +1039,7 @@ function InitMap(environment)
 	Actor_25.PhysicDesc.SizeX = 1.2857e-039
 	Actor_25.PhysicDesc.SizeY = 1.02316e-034
 	Actor_25.PhysicDesc.SizeZ = 0
-	Actor_25.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_14.phy"
+	Actor_25.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_14.phy"
 	Actor_25:SetPhysicalActorType(1)
 	Actor_25:SetPhysicalShape(5)
 	Actor_25.ExtraInfo.Name = ""
@@ -1052,7 +1052,7 @@ function InitMap(environment)
 	Actor_26 = ActorObjectInfo(26)
 	Actor_26:SetRenderType(1)
 	Actor_26.DisplayDesc.ModelId = 0
-	Actor_26.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_15.osgb"
+	Actor_26.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_15.osgb"
 	Actor_26.DisplayDesc.Outfit = ""
 	Actor_26.DisplayDesc.Weapon = ""
 	Actor_26.DisplayDesc.Mode = ""
@@ -1081,7 +1081,7 @@ function InitMap(environment)
 	Actor_26.PhysicDesc.SizeX = 0
 	Actor_26.PhysicDesc.SizeY = 0
 	Actor_26.PhysicDesc.SizeZ = 0
-	Actor_26.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_15.phy"
+	Actor_26.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_15.phy"
 	Actor_26:SetPhysicalActorType(1)
 	Actor_26:SetPhysicalShape(5)
 	Actor_26.ExtraInfo.Name = ""
@@ -1094,7 +1094,7 @@ function InitMap(environment)
 	Actor_27 = ActorObjectInfo(27)
 	Actor_27:SetRenderType(1)
 	Actor_27.DisplayDesc.ModelId = 0
-	Actor_27.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_16.osgb"
+	Actor_27.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_16.osgb"
 	Actor_27.DisplayDesc.Outfit = ""
 	Actor_27.DisplayDesc.Weapon = ""
 	Actor_27.DisplayDesc.Mode = ""
@@ -1123,7 +1123,7 @@ function InitMap(environment)
 	Actor_27.PhysicDesc.SizeX = 1.94255e-031
 	Actor_27.PhysicDesc.SizeY = 3.25348e-024
 	Actor_27.PhysicDesc.SizeZ = 1.83677e-040
-	Actor_27.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_16.phy"
+	Actor_27.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_16.phy"
 	Actor_27:SetPhysicalActorType(1)
 	Actor_27:SetPhysicalShape(5)
 	Actor_27.ExtraInfo.Name = ""
@@ -1136,7 +1136,7 @@ function InitMap(environment)
 	Actor_28 = ActorObjectInfo(28)
 	Actor_28:SetRenderType(1)
 	Actor_28.DisplayDesc.ModelId = 0
-	Actor_28.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_17.osgb"
+	Actor_28.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_17.osgb"
 	Actor_28.DisplayDesc.Outfit = ""
 	Actor_28.DisplayDesc.Weapon = ""
 	Actor_28.DisplayDesc.Mode = ""
@@ -1165,7 +1165,7 @@ function InitMap(environment)
 	Actor_28.PhysicDesc.SizeX = 0
 	Actor_28.PhysicDesc.SizeY = 0
 	Actor_28.PhysicDesc.SizeZ = 0
-	Actor_28.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_17.phy"
+	Actor_28.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_17.phy"
 	Actor_28:SetPhysicalActorType(1)
 	Actor_28:SetPhysicalShape(5)
 	Actor_28.ExtraInfo.Name = ""
@@ -1178,7 +1178,7 @@ function InitMap(environment)
 	Actor_29 = ActorObjectInfo(29)
 	Actor_29:SetRenderType(1)
 	Actor_29.DisplayDesc.ModelId = 0
-	Actor_29.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_17.osgb"
+	Actor_29.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_17.osgb"
 	Actor_29.DisplayDesc.Outfit = ""
 	Actor_29.DisplayDesc.Weapon = ""
 	Actor_29.DisplayDesc.Mode = ""
@@ -1207,7 +1207,7 @@ function InitMap(environment)
 	Actor_29.PhysicDesc.SizeX = 0
 	Actor_29.PhysicDesc.SizeY = 0
 	Actor_29.PhysicDesc.SizeZ = 0
-	Actor_29.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_17.phy"
+	Actor_29.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_17.phy"
 	Actor_29:SetPhysicalActorType(1)
 	Actor_29:SetPhysicalShape(5)
 	Actor_29.ExtraInfo.Name = ""
@@ -1220,7 +1220,7 @@ function InitMap(environment)
 	Actor_30 = ActorObjectInfo(30)
 	Actor_30:SetRenderType(1)
 	Actor_30.DisplayDesc.ModelId = 131076
-	Actor_30.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_17.osgb"
+	Actor_30.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_17.osgb"
 	Actor_30.DisplayDesc.Outfit = ""
 	Actor_30.DisplayDesc.Weapon = ""
 	Actor_30.DisplayDesc.Mode = ""
@@ -1249,7 +1249,7 @@ function InitMap(environment)
 	Actor_30.PhysicDesc.SizeX = 0
 	Actor_30.PhysicDesc.SizeY = 0
 	Actor_30.PhysicDesc.SizeZ = 0
-	Actor_30.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_17.phy"
+	Actor_30.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_17.phy"
 	Actor_30:SetPhysicalActorType(1)
 	Actor_30:SetPhysicalShape(5)
 	Actor_30.ExtraInfo.Name = ""
@@ -1262,7 +1262,7 @@ function InitMap(environment)
 	Actor_31 = ActorObjectInfo(31)
 	Actor_31:SetRenderType(1)
 	Actor_31.DisplayDesc.ModelId = 445567568
-	Actor_31.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_17.osgb"
+	Actor_31.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_17.osgb"
 	Actor_31.DisplayDesc.Outfit = ""
 	Actor_31.DisplayDesc.Weapon = ""
 	Actor_31.DisplayDesc.Mode = ""
@@ -1291,7 +1291,7 @@ function InitMap(environment)
 	Actor_31.PhysicDesc.SizeX = 0
 	Actor_31.PhysicDesc.SizeY = 1.91286e-023
 	Actor_31.PhysicDesc.SizeZ = 3.67348e-040
-	Actor_31.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_17.phy"
+	Actor_31.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_17.phy"
 	Actor_31:SetPhysicalActorType(1)
 	Actor_31:SetPhysicalShape(5)
 	Actor_31.ExtraInfo.Name = ""
@@ -1304,7 +1304,7 @@ function InitMap(environment)
 	Actor_32 = ActorObjectInfo(32)
 	Actor_32:SetRenderType(1)
 	Actor_32.DisplayDesc.ModelId = 225580800
-	Actor_32.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_18.osgb"
+	Actor_32.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_18.osgb"
 	Actor_32.DisplayDesc.Outfit = ""
 	Actor_32.DisplayDesc.Weapon = ""
 	Actor_32.DisplayDesc.Mode = ""
@@ -1333,7 +1333,7 @@ function InitMap(environment)
 	Actor_32.PhysicDesc.SizeX = 2.47958e-039
 	Actor_32.PhysicDesc.SizeY = 1.02318e-034
 	Actor_32.PhysicDesc.SizeZ = 3.13791e-024
-	Actor_32.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_18.phy"
+	Actor_32.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_18.phy"
 	Actor_32:SetPhysicalActorType(1)
 	Actor_32:SetPhysicalShape(5)
 	Actor_32.ExtraInfo.Name = ""
@@ -1346,7 +1346,7 @@ function InitMap(environment)
 	Actor_33 = ActorObjectInfo(33)
 	Actor_33:SetRenderType(1)
 	Actor_33.DisplayDesc.ModelId = 0
-	Actor_33.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_18.osgb"
+	Actor_33.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_18.osgb"
 	Actor_33.DisplayDesc.Outfit = ""
 	Actor_33.DisplayDesc.Weapon = ""
 	Actor_33.DisplayDesc.Mode = ""
@@ -1375,7 +1375,7 @@ function InitMap(environment)
 	Actor_33.PhysicDesc.SizeX = 1.70794e-023
 	Actor_33.PhysicDesc.SizeY = 0
 	Actor_33.PhysicDesc.SizeZ = 2.29591e-039
-	Actor_33.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_18.phy"
+	Actor_33.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_18.phy"
 	Actor_33:SetPhysicalActorType(1)
 	Actor_33:SetPhysicalShape(5)
 	Actor_33.ExtraInfo.Name = ""
@@ -1388,7 +1388,7 @@ function InitMap(environment)
 	Actor_34 = ActorObjectInfo(34)
 	Actor_34:SetRenderType(1)
 	Actor_34.DisplayDesc.ModelId = 431549888
-	Actor_34.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.osgb"
+	Actor_34.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.osgb"
 	Actor_34.DisplayDesc.Outfit = ""
 	Actor_34.DisplayDesc.Weapon = ""
 	Actor_34.DisplayDesc.Mode = ""
@@ -1417,7 +1417,7 @@ function InitMap(environment)
 	Actor_34.PhysicDesc.SizeX = 0
 	Actor_34.PhysicDesc.SizeY = 0
 	Actor_34.PhysicDesc.SizeZ = 0
-	Actor_34.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.phy"
+	Actor_34.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.phy"
 	Actor_34:SetPhysicalActorType(1)
 	Actor_34:SetPhysicalShape(5)
 	Actor_34.ExtraInfo.Name = ""
@@ -1430,7 +1430,7 @@ function InitMap(environment)
 	Actor_35 = ActorObjectInfo(35)
 	Actor_35:SetRenderType(1)
 	Actor_35.DisplayDesc.ModelId = 225580856
-	Actor_35.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.osgb"
+	Actor_35.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.osgb"
 	Actor_35.DisplayDesc.Outfit = ""
 	Actor_35.DisplayDesc.Weapon = ""
 	Actor_35.DisplayDesc.Mode = ""
@@ -1459,7 +1459,7 @@ function InitMap(environment)
 	Actor_35.PhysicDesc.SizeX = 3.28463e-024
 	Actor_35.PhysicDesc.SizeY = 1.4013e-045
 	Actor_35.PhysicDesc.SizeZ = 0
-	Actor_35.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.phy"
+	Actor_35.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.phy"
 	Actor_35:SetPhysicalActorType(1)
 	Actor_35:SetPhysicalShape(5)
 	Actor_35.ExtraInfo.Name = ""
@@ -1472,7 +1472,7 @@ function InitMap(environment)
 	Actor_36 = ActorObjectInfo(36)
 	Actor_36:SetRenderType(1)
 	Actor_36.DisplayDesc.ModelId = 131074
-	Actor_36.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.osgb"
+	Actor_36.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.osgb"
 	Actor_36.DisplayDesc.Outfit = ""
 	Actor_36.DisplayDesc.Weapon = ""
 	Actor_36.DisplayDesc.Mode = ""
@@ -1501,7 +1501,7 @@ function InitMap(environment)
 	Actor_36.PhysicDesc.SizeX = 1.27153e-020
 	Actor_36.PhysicDesc.SizeY = 2.80524e-024
 	Actor_36.PhysicDesc.SizeZ = 2.5714e-039
-	Actor_36.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.phy"
+	Actor_36.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.phy"
 	Actor_36:SetPhysicalActorType(1)
 	Actor_36:SetPhysicalShape(5)
 	Actor_36.ExtraInfo.Name = ""
@@ -1514,7 +1514,7 @@ function InitMap(environment)
 	Actor_37 = ActorObjectInfo(37)
 	Actor_37:SetRenderType(1)
 	Actor_37.DisplayDesc.ModelId = 0
-	Actor_37.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.osgb"
+	Actor_37.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.osgb"
 	Actor_37.DisplayDesc.Outfit = ""
 	Actor_37.DisplayDesc.Weapon = ""
 	Actor_37.DisplayDesc.Mode = ""
@@ -1543,7 +1543,7 @@ function InitMap(environment)
 	Actor_37.PhysicDesc.SizeX = 0
 	Actor_37.PhysicDesc.SizeY = 0
 	Actor_37.PhysicDesc.SizeZ = 0
-	Actor_37.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.phy"
+	Actor_37.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.phy"
 	Actor_37:SetPhysicalActorType(1)
 	Actor_37:SetPhysicalShape(5)
 	Actor_37.ExtraInfo.Name = ""
@@ -1556,7 +1556,7 @@ function InitMap(environment)
 	Actor_38 = ActorObjectInfo(38)
 	Actor_38:SetRenderType(1)
 	Actor_38.DisplayDesc.ModelId = 0
-	Actor_38.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_38.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_38.DisplayDesc.Outfit = ""
 	Actor_38.DisplayDesc.Weapon = ""
 	Actor_38.DisplayDesc.Mode = ""
@@ -1585,7 +1585,7 @@ function InitMap(environment)
 	Actor_38.PhysicDesc.SizeX = 0
 	Actor_38.PhysicDesc.SizeY = 0
 	Actor_38.PhysicDesc.SizeZ = 0
-	Actor_38.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_38.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_38:SetPhysicalActorType(1)
 	Actor_38:SetPhysicalShape(5)
 	Actor_38.ExtraInfo.Name = ""
@@ -1598,7 +1598,7 @@ function InitMap(environment)
 	Actor_39 = ActorObjectInfo(39)
 	Actor_39:SetRenderType(1)
 	Actor_39.DisplayDesc.ModelId = 448670344
-	Actor_39.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_39.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_39.DisplayDesc.Outfit = ""
 	Actor_39.DisplayDesc.Weapon = ""
 	Actor_39.DisplayDesc.Mode = ""
@@ -1627,7 +1627,7 @@ function InitMap(environment)
 	Actor_39.PhysicDesc.SizeX = 0
 	Actor_39.PhysicDesc.SizeY = 0
 	Actor_39.PhysicDesc.SizeZ = 0
-	Actor_39.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_39.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_39:SetPhysicalActorType(1)
 	Actor_39:SetPhysicalShape(5)
 	Actor_39.ExtraInfo.Name = ""
@@ -1640,7 +1640,7 @@ function InitMap(environment)
 	Actor_40 = ActorObjectInfo(40)
 	Actor_40:SetRenderType(1)
 	Actor_40.DisplayDesc.ModelId = 417457512
-	Actor_40.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_40.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_40.DisplayDesc.Outfit = ""
 	Actor_40.DisplayDesc.Weapon = ""
 	Actor_40.DisplayDesc.Mode = ""
@@ -1669,7 +1669,7 @@ function InitMap(environment)
 	Actor_40.PhysicDesc.SizeX = -0.969954
 	Actor_40.PhysicDesc.SizeY = 0
 	Actor_40.PhysicDesc.SizeZ = 0
-	Actor_40.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_40.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_40:SetPhysicalActorType(1)
 	Actor_40:SetPhysicalShape(5)
 	Actor_40.ExtraInfo.Name = ""
@@ -1682,7 +1682,7 @@ function InitMap(environment)
 	Actor_41 = ActorObjectInfo(41)
 	Actor_41:SetRenderType(1)
 	Actor_41.DisplayDesc.ModelId = 0
-	Actor_41.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_41.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_41.DisplayDesc.Outfit = ""
 	Actor_41.DisplayDesc.Weapon = ""
 	Actor_41.DisplayDesc.Mode = ""
@@ -1711,7 +1711,7 @@ function InitMap(environment)
 	Actor_41.PhysicDesc.SizeX = 0
 	Actor_41.PhysicDesc.SizeY = 0
 	Actor_41.PhysicDesc.SizeZ = 1.0615e-030
-	Actor_41.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_41.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_41:SetPhysicalActorType(1)
 	Actor_41:SetPhysicalShape(5)
 	Actor_41.ExtraInfo.Name = ""
@@ -1724,7 +1724,7 @@ function InitMap(environment)
 	Actor_42 = ActorObjectInfo(42)
 	Actor_42:SetRenderType(1)
 	Actor_42.DisplayDesc.ModelId = 131112
-	Actor_42.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_42.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_42.DisplayDesc.Outfit = ""
 	Actor_42.DisplayDesc.Weapon = ""
 	Actor_42.DisplayDesc.Mode = ""
@@ -1753,7 +1753,7 @@ function InitMap(environment)
 	Actor_42.PhysicDesc.SizeX = 0
 	Actor_42.PhysicDesc.SizeY = 0
 	Actor_42.PhysicDesc.SizeZ = 0
-	Actor_42.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_42.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_42:SetPhysicalActorType(1)
 	Actor_42:SetPhysicalShape(5)
 	Actor_42.ExtraInfo.Name = ""
@@ -1766,7 +1766,7 @@ function InitMap(environment)
 	Actor_43 = ActorObjectInfo(43)
 	Actor_43:SetRenderType(1)
 	Actor_43.DisplayDesc.ModelId = 0
-	Actor_43.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_43.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_43.DisplayDesc.Outfit = ""
 	Actor_43.DisplayDesc.Weapon = ""
 	Actor_43.DisplayDesc.Mode = ""
@@ -1795,7 +1795,7 @@ function InitMap(environment)
 	Actor_43.PhysicDesc.SizeX = 0
 	Actor_43.PhysicDesc.SizeY = 0
 	Actor_43.PhysicDesc.SizeZ = 5.91995e-031
-	Actor_43.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_43.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_43:SetPhysicalActorType(1)
 	Actor_43:SetPhysicalShape(5)
 	Actor_43.ExtraInfo.Name = ""
@@ -1808,7 +1808,7 @@ function InitMap(environment)
 	Actor_44 = ActorObjectInfo(44)
 	Actor_44:SetRenderType(1)
 	Actor_44.DisplayDesc.ModelId = 0
-	Actor_44.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_44.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_44.DisplayDesc.Outfit = ""
 	Actor_44.DisplayDesc.Weapon = ""
 	Actor_44.DisplayDesc.Mode = ""
@@ -1837,7 +1837,7 @@ function InitMap(environment)
 	Actor_44.PhysicDesc.SizeX = 0
 	Actor_44.PhysicDesc.SizeY = 0
 	Actor_44.PhysicDesc.SizeZ = 0
-	Actor_44.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_44.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_44:SetPhysicalActorType(1)
 	Actor_44:SetPhysicalShape(5)
 	Actor_44.ExtraInfo.Name = ""
@@ -1850,7 +1850,7 @@ function InitMap(environment)
 	Actor_45 = ActorObjectInfo(45)
 	Actor_45:SetRenderType(1)
 	Actor_45.DisplayDesc.ModelId = 0
-	Actor_45.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_45.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_45.DisplayDesc.Outfit = ""
 	Actor_45.DisplayDesc.Weapon = ""
 	Actor_45.DisplayDesc.Mode = ""
@@ -1879,7 +1879,7 @@ function InitMap(environment)
 	Actor_45.PhysicDesc.SizeX = 0
 	Actor_45.PhysicDesc.SizeY = 2.10195e-044
 	Actor_45.PhysicDesc.SizeZ = 2.8026e-045
-	Actor_45.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_45.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_45:SetPhysicalActorType(1)
 	Actor_45:SetPhysicalShape(5)
 	Actor_45.ExtraInfo.Name = ""
@@ -1892,7 +1892,7 @@ function InitMap(environment)
 	Actor_46 = ActorObjectInfo(46)
 	Actor_46:SetRenderType(1)
 	Actor_46.DisplayDesc.ModelId = 2
-	Actor_46.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_46.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_46.DisplayDesc.Outfit = ""
 	Actor_46.DisplayDesc.Weapon = ""
 	Actor_46.DisplayDesc.Mode = ""
@@ -1921,7 +1921,7 @@ function InitMap(environment)
 	Actor_46.PhysicDesc.SizeX = 5.32493e-044
 	Actor_46.PhysicDesc.SizeY = 5.46506e-044
 	Actor_46.PhysicDesc.SizeZ = 5.60519e-044
-	Actor_46.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_46.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_46:SetPhysicalActorType(1)
 	Actor_46:SetPhysicalShape(5)
 	Actor_46.ExtraInfo.Name = ""
@@ -1934,7 +1934,7 @@ function InitMap(environment)
 	Actor_47 = ActorObjectInfo(47)
 	Actor_47:SetRenderType(1)
 	Actor_47.DisplayDesc.ModelId = 131074
-	Actor_47.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_47.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_47.DisplayDesc.Outfit = ""
 	Actor_47.DisplayDesc.Weapon = ""
 	Actor_47.DisplayDesc.Mode = ""
@@ -1963,7 +1963,7 @@ function InitMap(environment)
 	Actor_47.PhysicDesc.SizeX = 0
 	Actor_47.PhysicDesc.SizeY = 6.34766
 	Actor_47.PhysicDesc.SizeZ = 1.07422
-	Actor_47.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_47.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_47:SetPhysicalActorType(1)
 	Actor_47:SetPhysicalShape(5)
 	Actor_47.ExtraInfo.Name = ""
@@ -1976,7 +1976,7 @@ function InitMap(environment)
 	Actor_48 = ActorObjectInfo(48)
 	Actor_48:SetRenderType(1)
 	Actor_48.DisplayDesc.ModelId = 225580856
-	Actor_48.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_48.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_48.DisplayDesc.Outfit = ""
 	Actor_48.DisplayDesc.Weapon = ""
 	Actor_48.DisplayDesc.Mode = ""
@@ -2005,7 +2005,7 @@ function InitMap(environment)
 	Actor_48.PhysicDesc.SizeX = 2.47958e-039
 	Actor_48.PhysicDesc.SizeY = 2.55793e-035
 	Actor_48.PhysicDesc.SizeZ = 1.82285e-031
-	Actor_48.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_48.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_48:SetPhysicalActorType(1)
 	Actor_48:SetPhysicalShape(5)
 	Actor_48.ExtraInfo.Name = ""
@@ -2018,7 +2018,7 @@ function InitMap(environment)
 	Actor_49 = ActorObjectInfo(49)
 	Actor_49:SetRenderType(1)
 	Actor_49.DisplayDesc.ModelId = 0
-	Actor_49.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_49.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_49.DisplayDesc.Outfit = ""
 	Actor_49.DisplayDesc.Weapon = ""
 	Actor_49.DisplayDesc.Mode = ""
@@ -2047,7 +2047,7 @@ function InitMap(environment)
 	Actor_49.PhysicDesc.SizeX = 0
 	Actor_49.PhysicDesc.SizeY = 0
 	Actor_49.PhysicDesc.SizeZ = 9.09495e-024
-	Actor_49.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_49.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_49:SetPhysicalActorType(1)
 	Actor_49:SetPhysicalShape(5)
 	Actor_49.ExtraInfo.Name = ""
@@ -2060,7 +2060,7 @@ function InitMap(environment)
 	Actor_50 = ActorObjectInfo(50)
 	Actor_50:SetRenderType(1)
 	Actor_50.DisplayDesc.ModelId = 0
-	Actor_50.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_50.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_50.DisplayDesc.Outfit = ""
 	Actor_50.DisplayDesc.Weapon = ""
 	Actor_50.DisplayDesc.Mode = ""
@@ -2089,7 +2089,7 @@ function InitMap(environment)
 	Actor_50.PhysicDesc.SizeX = 0
 	Actor_50.PhysicDesc.SizeY = 0
 	Actor_50.PhysicDesc.SizeZ = 0
-	Actor_50.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_50.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_50:SetPhysicalActorType(1)
 	Actor_50:SetPhysicalShape(5)
 	Actor_50.ExtraInfo.Name = ""
@@ -2102,7 +2102,7 @@ function InitMap(environment)
 	Actor_51 = ActorObjectInfo(51)
 	Actor_51:SetRenderType(1)
 	Actor_51.DisplayDesc.ModelId = 0
-	Actor_51.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_51.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_51.DisplayDesc.Outfit = ""
 	Actor_51.DisplayDesc.Weapon = ""
 	Actor_51.DisplayDesc.Mode = ""
@@ -2131,7 +2131,7 @@ function InitMap(environment)
 	Actor_51.PhysicDesc.SizeX = 0
 	Actor_51.PhysicDesc.SizeY = 0
 	Actor_51.PhysicDesc.SizeZ = 0
-	Actor_51.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_51.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_51:SetPhysicalActorType(1)
 	Actor_51:SetPhysicalShape(5)
 	Actor_51.ExtraInfo.Name = ""
@@ -2144,7 +2144,7 @@ function InitMap(environment)
 	Actor_52 = ActorObjectInfo(52)
 	Actor_52:SetRenderType(1)
 	Actor_52.DisplayDesc.ModelId = 0
-	Actor_52.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_52.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_52.DisplayDesc.Outfit = ""
 	Actor_52.DisplayDesc.Weapon = ""
 	Actor_52.DisplayDesc.Mode = ""
@@ -2173,7 +2173,7 @@ function InitMap(environment)
 	Actor_52.PhysicDesc.SizeX = 0
 	Actor_52.PhysicDesc.SizeY = 0
 	Actor_52.PhysicDesc.SizeZ = 0
-	Actor_52.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_52.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_52:SetPhysicalActorType(1)
 	Actor_52:SetPhysicalShape(5)
 	Actor_52.ExtraInfo.Name = ""
@@ -2186,7 +2186,7 @@ function InitMap(environment)
 	Actor_53 = ActorObjectInfo(53)
 	Actor_53:SetRenderType(1)
 	Actor_53.DisplayDesc.ModelId = 0
-	Actor_53.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_53.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_53.DisplayDesc.Outfit = ""
 	Actor_53.DisplayDesc.Weapon = ""
 	Actor_53.DisplayDesc.Mode = ""
@@ -2215,7 +2215,7 @@ function InitMap(environment)
 	Actor_53.PhysicDesc.SizeX = 0
 	Actor_53.PhysicDesc.SizeY = 0
 	Actor_53.PhysicDesc.SizeZ = 0
-	Actor_53.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_53.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_53:SetPhysicalActorType(1)
 	Actor_53:SetPhysicalShape(5)
 	Actor_53.ExtraInfo.Name = ""
@@ -2228,7 +2228,7 @@ function InitMap(environment)
 	Actor_54 = ActorObjectInfo(54)
 	Actor_54:SetRenderType(1)
 	Actor_54.DisplayDesc.ModelId = 0
-	Actor_54.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_54.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_54.DisplayDesc.Outfit = ""
 	Actor_54.DisplayDesc.Weapon = ""
 	Actor_54.DisplayDesc.Mode = ""
@@ -2257,7 +2257,7 @@ function InitMap(environment)
 	Actor_54.PhysicDesc.SizeX = 0
 	Actor_54.PhysicDesc.SizeY = 0
 	Actor_54.PhysicDesc.SizeZ = 0
-	Actor_54.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_54.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_54:SetPhysicalActorType(1)
 	Actor_54:SetPhysicalShape(5)
 	Actor_54.ExtraInfo.Name = ""
@@ -2270,7 +2270,7 @@ function InitMap(environment)
 	Actor_55 = ActorObjectInfo(55)
 	Actor_55:SetRenderType(1)
 	Actor_55.DisplayDesc.ModelId = 2
-	Actor_55.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_55.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_55.DisplayDesc.Outfit = ""
 	Actor_55.DisplayDesc.Weapon = ""
 	Actor_55.DisplayDesc.Mode = ""
@@ -2299,7 +2299,7 @@ function InitMap(environment)
 	Actor_55.PhysicDesc.SizeX = 5.32493e-044
 	Actor_55.PhysicDesc.SizeY = 5.46506e-044
 	Actor_55.PhysicDesc.SizeZ = 5.60519e-044
-	Actor_55.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_55.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_55:SetPhysicalActorType(1)
 	Actor_55:SetPhysicalShape(5)
 	Actor_55.ExtraInfo.Name = ""
@@ -2312,7 +2312,7 @@ function InitMap(environment)
 	Actor_56 = ActorObjectInfo(56)
 	Actor_56:SetRenderType(1)
 	Actor_56.DisplayDesc.ModelId = 0
-	Actor_56.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_56.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_56.DisplayDesc.Outfit = ""
 	Actor_56.DisplayDesc.Weapon = ""
 	Actor_56.DisplayDesc.Mode = ""
@@ -2341,7 +2341,7 @@ function InitMap(environment)
 	Actor_56.PhysicDesc.SizeX = 2.47956e-039
 	Actor_56.PhysicDesc.SizeY = 0
 	Actor_56.PhysicDesc.SizeZ = 0
-	Actor_56.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_56.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_56:SetPhysicalActorType(1)
 	Actor_56:SetPhysicalShape(5)
 	Actor_56.ExtraInfo.Name = ""
@@ -2354,7 +2354,7 @@ function InitMap(environment)
 	Actor_57 = ActorObjectInfo(57)
 	Actor_57:SetRenderType(1)
 	Actor_57.DisplayDesc.ModelId = 6
-	Actor_57.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_57.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_57.DisplayDesc.Outfit = ""
 	Actor_57.DisplayDesc.Weapon = ""
 	Actor_57.DisplayDesc.Mode = ""
@@ -2383,7 +2383,7 @@ function InitMap(environment)
 	Actor_57.PhysicDesc.SizeX = 3.23349e+038
 	Actor_57.PhysicDesc.SizeY = 1.63447
 	Actor_57.PhysicDesc.SizeZ = 0
-	Actor_57.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_57.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_57:SetPhysicalActorType(1)
 	Actor_57:SetPhysicalShape(5)
 	Actor_57.ExtraInfo.Name = ""
@@ -2396,7 +2396,7 @@ function InitMap(environment)
 	Actor_58 = ActorObjectInfo(58)
 	Actor_58:SetRenderType(1)
 	Actor_58.DisplayDesc.ModelId = 0
-	Actor_58.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_58.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_58.DisplayDesc.Outfit = ""
 	Actor_58.DisplayDesc.Weapon = ""
 	Actor_58.DisplayDesc.Mode = ""
@@ -2425,7 +2425,7 @@ function InitMap(environment)
 	Actor_58.PhysicDesc.SizeX = -1.75
 	Actor_58.PhysicDesc.SizeY = 0
 	Actor_58.PhysicDesc.SizeZ = 0
-	Actor_58.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_58.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_58:SetPhysicalActorType(1)
 	Actor_58:SetPhysicalShape(5)
 	Actor_58.ExtraInfo.Name = ""
@@ -2438,7 +2438,7 @@ function InitMap(environment)
 	Actor_59 = ActorObjectInfo(59)
 	Actor_59:SetRenderType(1)
 	Actor_59.DisplayDesc.ModelId = 225580856
-	Actor_59.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_59.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_59.DisplayDesc.Outfit = ""
 	Actor_59.DisplayDesc.Weapon = ""
 	Actor_59.DisplayDesc.Mode = ""
@@ -2467,7 +2467,7 @@ function InitMap(environment)
 	Actor_59.PhysicDesc.SizeX = 2.47958e-039
 	Actor_59.PhysicDesc.SizeY = 1.02317e-034
 	Actor_59.PhysicDesc.SizeZ = 1.79018e-031
-	Actor_59.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_59.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_59:SetPhysicalActorType(1)
 	Actor_59:SetPhysicalShape(5)
 	Actor_59.ExtraInfo.Name = ""
@@ -2480,7 +2480,7 @@ function InitMap(environment)
 	Actor_60 = ActorObjectInfo(60)
 	Actor_60:SetRenderType(1)
 	Actor_60.DisplayDesc.ModelId = 0
-	Actor_60.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_60.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_60.DisplayDesc.Outfit = ""
 	Actor_60.DisplayDesc.Weapon = ""
 	Actor_60.DisplayDesc.Mode = ""
@@ -2509,7 +2509,7 @@ function InitMap(environment)
 	Actor_60.PhysicDesc.SizeX = 0
 	Actor_60.PhysicDesc.SizeY = 0
 	Actor_60.PhysicDesc.SizeZ = 0
-	Actor_60.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_60.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_60:SetPhysicalActorType(1)
 	Actor_60:SetPhysicalShape(5)
 	Actor_60.ExtraInfo.Name = ""
@@ -2522,7 +2522,7 @@ function InitMap(environment)
 	Actor_61 = ActorObjectInfo(61)
 	Actor_61:SetRenderType(1)
 	Actor_61.DisplayDesc.ModelId = 131074
-	Actor_61.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_61.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_61.DisplayDesc.Outfit = ""
 	Actor_61.DisplayDesc.Weapon = ""
 	Actor_61.DisplayDesc.Mode = ""
@@ -2551,7 +2551,7 @@ function InitMap(environment)
 	Actor_61.PhysicDesc.SizeX = 0
 	Actor_61.PhysicDesc.SizeY = 0
 	Actor_61.PhysicDesc.SizeZ = 0
-	Actor_61.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_61.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_61:SetPhysicalActorType(1)
 	Actor_61:SetPhysicalShape(5)
 	Actor_61.ExtraInfo.Name = ""
@@ -2564,7 +2564,7 @@ function InitMap(environment)
 	Actor_62 = ActorObjectInfo(62)
 	Actor_62:SetRenderType(1)
 	Actor_62.DisplayDesc.ModelId = 0
-	Actor_62.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_62.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_62.DisplayDesc.Outfit = ""
 	Actor_62.DisplayDesc.Weapon = ""
 	Actor_62.DisplayDesc.Mode = ""
@@ -2593,7 +2593,7 @@ function InitMap(environment)
 	Actor_62.PhysicDesc.SizeX = 0
 	Actor_62.PhysicDesc.SizeY = 0
 	Actor_62.PhysicDesc.SizeZ = 0
-	Actor_62.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_62.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_62:SetPhysicalActorType(1)
 	Actor_62:SetPhysicalShape(5)
 	Actor_62.ExtraInfo.Name = ""
@@ -2606,7 +2606,7 @@ function InitMap(environment)
 	Actor_63 = ActorObjectInfo(63)
 	Actor_63:SetRenderType(1)
 	Actor_63.DisplayDesc.ModelId = 144629820
-	Actor_63.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_63.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_63.DisplayDesc.Outfit = ""
 	Actor_63.DisplayDesc.Weapon = ""
 	Actor_63.DisplayDesc.Mode = ""
@@ -2635,7 +2635,7 @@ function InitMap(environment)
 	Actor_63.PhysicDesc.SizeX = 0
 	Actor_63.PhysicDesc.SizeY = 0
 	Actor_63.PhysicDesc.SizeZ = 2.57141e-039
-	Actor_63.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_63.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_63:SetPhysicalActorType(1)
 	Actor_63:SetPhysicalShape(5)
 	Actor_63.ExtraInfo.Name = ""
@@ -2648,7 +2648,7 @@ function InitMap(environment)
 	Actor_64 = ActorObjectInfo(64)
 	Actor_64:SetRenderType(1)
 	Actor_64.DisplayDesc.ModelId = 0
-	Actor_64.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_64.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_64.DisplayDesc.Outfit = ""
 	Actor_64.DisplayDesc.Weapon = ""
 	Actor_64.DisplayDesc.Mode = ""
@@ -2677,7 +2677,7 @@ function InitMap(environment)
 	Actor_64.PhysicDesc.SizeX = 0
 	Actor_64.PhysicDesc.SizeY = 0
 	Actor_64.PhysicDesc.SizeZ = 0
-	Actor_64.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_64.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_64:SetPhysicalActorType(1)
 	Actor_64:SetPhysicalShape(5)
 	Actor_64.ExtraInfo.Name = ""
@@ -2690,7 +2690,7 @@ function InitMap(environment)
 	Actor_65 = ActorObjectInfo(65)
 	Actor_65:SetRenderType(1)
 	Actor_65.DisplayDesc.ModelId = 0
-	Actor_65.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_65.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_65.DisplayDesc.Outfit = ""
 	Actor_65.DisplayDesc.Weapon = ""
 	Actor_65.DisplayDesc.Mode = ""
@@ -2719,7 +2719,7 @@ function InitMap(environment)
 	Actor_65.PhysicDesc.SizeX = 0
 	Actor_65.PhysicDesc.SizeY = 0
 	Actor_65.PhysicDesc.SizeZ = 0
-	Actor_65.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_65.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_65:SetPhysicalActorType(1)
 	Actor_65:SetPhysicalShape(5)
 	Actor_65.ExtraInfo.Name = ""
@@ -2732,7 +2732,7 @@ function InitMap(environment)
 	Actor_66 = ActorObjectInfo(66)
 	Actor_66:SetRenderType(1)
 	Actor_66.DisplayDesc.ModelId = 1065353216
-	Actor_66.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_66.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_66.DisplayDesc.Outfit = ""
 	Actor_66.DisplayDesc.Weapon = ""
 	Actor_66.DisplayDesc.Mode = ""
@@ -2761,7 +2761,7 @@ function InitMap(environment)
 	Actor_66.PhysicDesc.SizeX = 1
 	Actor_66.PhysicDesc.SizeY = 1
 	Actor_66.PhysicDesc.SizeZ = 1
-	Actor_66.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_66.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_66:SetPhysicalActorType(1)
 	Actor_66:SetPhysicalShape(5)
 	Actor_66.ExtraInfo.Name = ""
@@ -2774,7 +2774,7 @@ function InitMap(environment)
 	Actor_67 = ActorObjectInfo(67)
 	Actor_67:SetRenderType(1)
 	Actor_67.DisplayDesc.ModelId = 0
-	Actor_67.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_67.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_67.DisplayDesc.Outfit = ""
 	Actor_67.DisplayDesc.Weapon = ""
 	Actor_67.DisplayDesc.Mode = ""
@@ -2803,7 +2803,7 @@ function InitMap(environment)
 	Actor_67.PhysicDesc.SizeX = 0
 	Actor_67.PhysicDesc.SizeY = 0
 	Actor_67.PhysicDesc.SizeZ = 0
-	Actor_67.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_67.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_67:SetPhysicalActorType(1)
 	Actor_67:SetPhysicalShape(5)
 	Actor_67.ExtraInfo.Name = ""
@@ -2816,7 +2816,7 @@ function InitMap(environment)
 	Actor_68 = ActorObjectInfo(68)
 	Actor_68:SetRenderType(1)
 	Actor_68.DisplayDesc.ModelId = 0
-	Actor_68.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_68.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_68.DisplayDesc.Outfit = ""
 	Actor_68.DisplayDesc.Weapon = ""
 	Actor_68.DisplayDesc.Mode = ""
@@ -2845,7 +2845,7 @@ function InitMap(environment)
 	Actor_68.PhysicDesc.SizeX = 0
 	Actor_68.PhysicDesc.SizeY = 0
 	Actor_68.PhysicDesc.SizeZ = 0
-	Actor_68.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_68.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_68:SetPhysicalActorType(1)
 	Actor_68:SetPhysicalShape(5)
 	Actor_68.ExtraInfo.Name = ""
@@ -2858,7 +2858,7 @@ function InitMap(environment)
 	Actor_69 = ActorObjectInfo(69)
 	Actor_69:SetRenderType(1)
 	Actor_69.DisplayDesc.ModelId = 0
-	Actor_69.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_69.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_69.DisplayDesc.Outfit = ""
 	Actor_69.DisplayDesc.Weapon = ""
 	Actor_69.DisplayDesc.Mode = ""
@@ -2887,7 +2887,7 @@ function InitMap(environment)
 	Actor_69.PhysicDesc.SizeX = 0
 	Actor_69.PhysicDesc.SizeY = 0
 	Actor_69.PhysicDesc.SizeZ = 0
-	Actor_69.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_69.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_69:SetPhysicalActorType(1)
 	Actor_69:SetPhysicalShape(5)
 	Actor_69.ExtraInfo.Name = ""
@@ -2900,7 +2900,7 @@ function InitMap(environment)
 	Actor_70 = ActorObjectInfo(70)
 	Actor_70:SetRenderType(1)
 	Actor_70.DisplayDesc.ModelId = 0
-	Actor_70.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_70.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_70.DisplayDesc.Outfit = ""
 	Actor_70.DisplayDesc.Weapon = ""
 	Actor_70.DisplayDesc.Mode = ""
@@ -2929,7 +2929,7 @@ function InitMap(environment)
 	Actor_70.PhysicDesc.SizeX = 0
 	Actor_70.PhysicDesc.SizeY = 0
 	Actor_70.PhysicDesc.SizeZ = 0
-	Actor_70.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_70.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_70:SetPhysicalActorType(1)
 	Actor_70:SetPhysicalShape(5)
 	Actor_70.ExtraInfo.Name = ""
@@ -2942,7 +2942,7 @@ function InitMap(environment)
 	Actor_71 = ActorObjectInfo(71)
 	Actor_71:SetRenderType(1)
 	Actor_71.DisplayDesc.ModelId = 0
-	Actor_71.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_71.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_71.DisplayDesc.Outfit = ""
 	Actor_71.DisplayDesc.Weapon = ""
 	Actor_71.DisplayDesc.Mode = ""
@@ -2971,7 +2971,7 @@ function InitMap(environment)
 	Actor_71.PhysicDesc.SizeX = 0
 	Actor_71.PhysicDesc.SizeY = 0
 	Actor_71.PhysicDesc.SizeZ = 0
-	Actor_71.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_71.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_71:SetPhysicalActorType(1)
 	Actor_71:SetPhysicalShape(5)
 	Actor_71.ExtraInfo.Name = ""
@@ -2984,7 +2984,7 @@ function InitMap(environment)
 	Actor_72 = ActorObjectInfo(72)
 	Actor_72:SetRenderType(1)
 	Actor_72.DisplayDesc.ModelId = 0
-	Actor_72.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_72.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_72.DisplayDesc.Outfit = ""
 	Actor_72.DisplayDesc.Weapon = ""
 	Actor_72.DisplayDesc.Mode = ""
@@ -3013,7 +3013,7 @@ function InitMap(environment)
 	Actor_72.PhysicDesc.SizeX = 0
 	Actor_72.PhysicDesc.SizeY = 0
 	Actor_72.PhysicDesc.SizeZ = 0
-	Actor_72.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_72.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_72:SetPhysicalActorType(1)
 	Actor_72:SetPhysicalShape(5)
 	Actor_72.ExtraInfo.Name = ""
@@ -3026,7 +3026,7 @@ function InitMap(environment)
 	Actor_73 = ActorObjectInfo(73)
 	Actor_73:SetRenderType(1)
 	Actor_73.DisplayDesc.ModelId = 0
-	Actor_73.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_73.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_73.DisplayDesc.Outfit = ""
 	Actor_73.DisplayDesc.Weapon = ""
 	Actor_73.DisplayDesc.Mode = ""
@@ -3055,7 +3055,7 @@ function InitMap(environment)
 	Actor_73.PhysicDesc.SizeX = 0
 	Actor_73.PhysicDesc.SizeY = 0
 	Actor_73.PhysicDesc.SizeZ = 0
-	Actor_73.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_73.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_73:SetPhysicalActorType(1)
 	Actor_73:SetPhysicalShape(5)
 	Actor_73.ExtraInfo.Name = ""
@@ -3068,7 +3068,7 @@ function InitMap(environment)
 	Actor_74 = ActorObjectInfo(74)
 	Actor_74:SetRenderType(1)
 	Actor_74.DisplayDesc.ModelId = 0
-	Actor_74.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_74.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_74.DisplayDesc.Outfit = ""
 	Actor_74.DisplayDesc.Weapon = ""
 	Actor_74.DisplayDesc.Mode = ""
@@ -3097,7 +3097,7 @@ function InitMap(environment)
 	Actor_74.PhysicDesc.SizeX = 0
 	Actor_74.PhysicDesc.SizeY = 0
 	Actor_74.PhysicDesc.SizeZ = 0
-	Actor_74.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_74.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_74:SetPhysicalActorType(1)
 	Actor_74:SetPhysicalShape(5)
 	Actor_74.ExtraInfo.Name = ""
@@ -3110,7 +3110,7 @@ function InitMap(environment)
 	Actor_75 = ActorObjectInfo(75)
 	Actor_75:SetRenderType(1)
 	Actor_75.DisplayDesc.ModelId = 0
-	Actor_75.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_75.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_75.DisplayDesc.Outfit = ""
 	Actor_75.DisplayDesc.Weapon = ""
 	Actor_75.DisplayDesc.Mode = ""
@@ -3139,7 +3139,7 @@ function InitMap(environment)
 	Actor_75.PhysicDesc.SizeX = 0
 	Actor_75.PhysicDesc.SizeY = 0
 	Actor_75.PhysicDesc.SizeZ = 0
-	Actor_75.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_75.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_75:SetPhysicalActorType(1)
 	Actor_75:SetPhysicalShape(5)
 	Actor_75.ExtraInfo.Name = ""
@@ -3152,7 +3152,7 @@ function InitMap(environment)
 	Actor_76 = ActorObjectInfo(76)
 	Actor_76:SetRenderType(1)
 	Actor_76.DisplayDesc.ModelId = 0
-	Actor_76.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_76.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_76.DisplayDesc.Outfit = ""
 	Actor_76.DisplayDesc.Weapon = ""
 	Actor_76.DisplayDesc.Mode = ""
@@ -3181,7 +3181,7 @@ function InitMap(environment)
 	Actor_76.PhysicDesc.SizeX = 0
 	Actor_76.PhysicDesc.SizeY = 0
 	Actor_76.PhysicDesc.SizeZ = 0
-	Actor_76.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_76.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_76:SetPhysicalActorType(1)
 	Actor_76:SetPhysicalShape(5)
 	Actor_76.ExtraInfo.Name = ""
@@ -3194,7 +3194,7 @@ function InitMap(environment)
 	Actor_77 = ActorObjectInfo(77)
 	Actor_77:SetRenderType(1)
 	Actor_77.DisplayDesc.ModelId = 225580856
-	Actor_77.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_77.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_77.DisplayDesc.Outfit = ""
 	Actor_77.DisplayDesc.Weapon = ""
 	Actor_77.DisplayDesc.Mode = ""
@@ -3223,7 +3223,7 @@ function InitMap(environment)
 	Actor_77.PhysicDesc.SizeX = 0
 	Actor_77.PhysicDesc.SizeY = 2.8026e-045
 	Actor_77.PhysicDesc.SizeZ = 5.92092e-031
-	Actor_77.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_77.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_77:SetPhysicalActorType(1)
 	Actor_77:SetPhysicalShape(5)
 	Actor_77.ExtraInfo.Name = ""
@@ -3236,7 +3236,7 @@ function InitMap(environment)
 	Actor_78 = ActorObjectInfo(78)
 	Actor_78:SetRenderType(1)
 	Actor_78.DisplayDesc.ModelId = 0
-	Actor_78.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_78.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_78.DisplayDesc.Outfit = ""
 	Actor_78.DisplayDesc.Weapon = ""
 	Actor_78.DisplayDesc.Mode = ""
@@ -3265,7 +3265,7 @@ function InitMap(environment)
 	Actor_78.PhysicDesc.SizeX = 0
 	Actor_78.PhysicDesc.SizeY = 0
 	Actor_78.PhysicDesc.SizeZ = 2.62763e-023
-	Actor_78.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_78.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_78:SetPhysicalActorType(1)
 	Actor_78:SetPhysicalShape(5)
 	Actor_78.ExtraInfo.Name = ""
@@ -3278,7 +3278,7 @@ function InitMap(environment)
 	Actor_79 = ActorObjectInfo(79)
 	Actor_79:SetRenderType(1)
 	Actor_79.DisplayDesc.ModelId = 131076
-	Actor_79.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_79.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_79.DisplayDesc.Outfit = ""
 	Actor_79.DisplayDesc.Weapon = ""
 	Actor_79.DisplayDesc.Mode = ""
@@ -3307,7 +3307,7 @@ function InitMap(environment)
 	Actor_79.PhysicDesc.SizeX = 3.92364e-044
 	Actor_79.PhysicDesc.SizeY = 4.06377e-044
 	Actor_79.PhysicDesc.SizeZ = 4.2039e-044
-	Actor_79.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_79.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_79:SetPhysicalActorType(1)
 	Actor_79:SetPhysicalShape(5)
 	Actor_79.ExtraInfo.Name = ""
@@ -3320,7 +3320,7 @@ function InitMap(environment)
 	Actor_80 = ActorObjectInfo(80)
 	Actor_80:SetRenderType(1)
 	Actor_80.DisplayDesc.ModelId = 100000
-	Actor_80.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_80.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_80.DisplayDesc.Outfit = ""
 	Actor_80.DisplayDesc.Weapon = ""
 	Actor_80.DisplayDesc.Mode = ""
@@ -3349,7 +3349,7 @@ function InitMap(environment)
 	Actor_80.PhysicDesc.SizeX = 0
 	Actor_80.PhysicDesc.SizeY = 0
 	Actor_80.PhysicDesc.SizeZ = 0
-	Actor_80.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_80.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_80:SetPhysicalActorType(1)
 	Actor_80:SetPhysicalShape(5)
 	Actor_80.ExtraInfo.Name = ""
@@ -3362,7 +3362,7 @@ function InitMap(environment)
 	Actor_81 = ActorObjectInfo(81)
 	Actor_81:SetRenderType(1)
 	Actor_81.DisplayDesc.ModelId = 0
-	Actor_81.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_81.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_81.DisplayDesc.Outfit = ""
 	Actor_81.DisplayDesc.Weapon = ""
 	Actor_81.DisplayDesc.Mode = ""
@@ -3391,7 +3391,7 @@ function InitMap(environment)
 	Actor_81.PhysicDesc.SizeX = 0
 	Actor_81.PhysicDesc.SizeY = 0
 	Actor_81.PhysicDesc.SizeZ = 0
-	Actor_81.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_81.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_81:SetPhysicalActorType(1)
 	Actor_81:SetPhysicalShape(5)
 	Actor_81.ExtraInfo.Name = ""
@@ -3404,7 +3404,7 @@ function InitMap(environment)
 	Actor_82 = ActorObjectInfo(82)
 	Actor_82:SetRenderType(1)
 	Actor_82.DisplayDesc.ModelId = 436093560
-	Actor_82.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_82.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_82.DisplayDesc.Outfit = ""
 	Actor_82.DisplayDesc.Weapon = ""
 	Actor_82.DisplayDesc.Mode = ""
@@ -3433,7 +3433,7 @@ function InitMap(environment)
 	Actor_82.PhysicDesc.SizeX = 1.10703e-043
 	Actor_82.PhysicDesc.SizeY = 1.12104e-043
 	Actor_82.PhysicDesc.SizeZ = 2.8026e-045
-	Actor_82.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_82.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_82:SetPhysicalActorType(1)
 	Actor_82:SetPhysicalShape(5)
 	Actor_82.ExtraInfo.Name = ""
@@ -3446,7 +3446,7 @@ function InitMap(environment)
 	Actor_83 = ActorObjectInfo(83)
 	Actor_83:SetRenderType(1)
 	Actor_83.DisplayDesc.ModelId = 1098967040
-	Actor_83.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_83.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_83.DisplayDesc.Outfit = ""
 	Actor_83.DisplayDesc.Weapon = ""
 	Actor_83.DisplayDesc.Mode = ""
@@ -3475,7 +3475,7 @@ function InitMap(environment)
 	Actor_83.PhysicDesc.SizeX = 4.88281
 	Actor_83.PhysicDesc.SizeY = 5.85938
 	Actor_83.PhysicDesc.SizeZ = 0.488281
-	Actor_83.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_83.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_83:SetPhysicalActorType(1)
 	Actor_83:SetPhysicalShape(5)
 	Actor_83.ExtraInfo.Name = ""
@@ -3488,7 +3488,7 @@ function InitMap(environment)
 	Actor_84 = ActorObjectInfo(84)
 	Actor_84:SetRenderType(1)
 	Actor_84.DisplayDesc.ModelId = 0
-	Actor_84.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_84.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_84.DisplayDesc.Outfit = ""
 	Actor_84.DisplayDesc.Weapon = ""
 	Actor_84.DisplayDesc.Mode = ""
@@ -3517,7 +3517,7 @@ function InitMap(environment)
 	Actor_84.PhysicDesc.SizeX = 0
 	Actor_84.PhysicDesc.SizeY = 0
 	Actor_84.PhysicDesc.SizeZ = 0
-	Actor_84.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_84.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_84:SetPhysicalActorType(1)
 	Actor_84:SetPhysicalShape(5)
 	Actor_84.ExtraInfo.Name = ""
@@ -3530,7 +3530,7 @@ function InitMap(environment)
 	Actor_85 = ActorObjectInfo(85)
 	Actor_85:SetRenderType(1)
 	Actor_85.DisplayDesc.ModelId = 0
-	Actor_85.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_85.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_85.DisplayDesc.Outfit = ""
 	Actor_85.DisplayDesc.Weapon = ""
 	Actor_85.DisplayDesc.Mode = ""
@@ -3559,7 +3559,7 @@ function InitMap(environment)
 	Actor_85.PhysicDesc.SizeX = 0
 	Actor_85.PhysicDesc.SizeY = 0
 	Actor_85.PhysicDesc.SizeZ = 0
-	Actor_85.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_85.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_85:SetPhysicalActorType(1)
 	Actor_85:SetPhysicalShape(5)
 	Actor_85.ExtraInfo.Name = ""
@@ -3572,7 +3572,7 @@ function InitMap(environment)
 	Actor_86 = ActorObjectInfo(86)
 	Actor_86:SetRenderType(1)
 	Actor_86.DisplayDesc.ModelId = 0
-	Actor_86.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_86.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_86.DisplayDesc.Outfit = ""
 	Actor_86.DisplayDesc.Weapon = ""
 	Actor_86.DisplayDesc.Mode = ""
@@ -3601,7 +3601,7 @@ function InitMap(environment)
 	Actor_86.PhysicDesc.SizeX = 0
 	Actor_86.PhysicDesc.SizeY = 0
 	Actor_86.PhysicDesc.SizeZ = 0
-	Actor_86.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_86.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_86:SetPhysicalActorType(1)
 	Actor_86:SetPhysicalShape(5)
 	Actor_86.ExtraInfo.Name = ""
@@ -3614,7 +3614,7 @@ function InitMap(environment)
 	Actor_87 = ActorObjectInfo(87)
 	Actor_87:SetRenderType(1)
 	Actor_87.DisplayDesc.ModelId = 0
-	Actor_87.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_87.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_87.DisplayDesc.Outfit = ""
 	Actor_87.DisplayDesc.Weapon = ""
 	Actor_87.DisplayDesc.Mode = ""
@@ -3643,7 +3643,7 @@ function InitMap(environment)
 	Actor_87.PhysicDesc.SizeX = 0
 	Actor_87.PhysicDesc.SizeY = 0
 	Actor_87.PhysicDesc.SizeZ = 0
-	Actor_87.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_87.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_87:SetPhysicalActorType(1)
 	Actor_87:SetPhysicalShape(5)
 	Actor_87.ExtraInfo.Name = ""
@@ -3656,7 +3656,7 @@ function InitMap(environment)
 	Actor_88 = ActorObjectInfo(88)
 	Actor_88:SetRenderType(1)
 	Actor_88.DisplayDesc.ModelId = 0
-	Actor_88.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_88.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_88.DisplayDesc.Outfit = ""
 	Actor_88.DisplayDesc.Weapon = ""
 	Actor_88.DisplayDesc.Mode = ""
@@ -3685,7 +3685,7 @@ function InitMap(environment)
 	Actor_88.PhysicDesc.SizeX = 0
 	Actor_88.PhysicDesc.SizeY = 0
 	Actor_88.PhysicDesc.SizeZ = 0
-	Actor_88.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_88.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_88:SetPhysicalActorType(1)
 	Actor_88:SetPhysicalShape(5)
 	Actor_88.ExtraInfo.Name = ""
@@ -3698,7 +3698,7 @@ function InitMap(environment)
 	Actor_89 = ActorObjectInfo(89)
 	Actor_89:SetRenderType(1)
 	Actor_89.DisplayDesc.ModelId = 0
-	Actor_89.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_89.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_89.DisplayDesc.Outfit = ""
 	Actor_89.DisplayDesc.Weapon = ""
 	Actor_89.DisplayDesc.Mode = ""
@@ -3727,7 +3727,7 @@ function InitMap(environment)
 	Actor_89.PhysicDesc.SizeX = 0
 	Actor_89.PhysicDesc.SizeY = 1
 	Actor_89.PhysicDesc.SizeZ = 0
-	Actor_89.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_89.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_89:SetPhysicalActorType(1)
 	Actor_89:SetPhysicalShape(5)
 	Actor_89.ExtraInfo.Name = ""
@@ -3740,7 +3740,7 @@ function InitMap(environment)
 	Actor_90 = ActorObjectInfo(90)
 	Actor_90:SetRenderType(1)
 	Actor_90.DisplayDesc.ModelId = 0
-	Actor_90.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_90.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_90.DisplayDesc.Outfit = ""
 	Actor_90.DisplayDesc.Weapon = ""
 	Actor_90.DisplayDesc.Mode = ""
@@ -3769,7 +3769,7 @@ function InitMap(environment)
 	Actor_90.PhysicDesc.SizeX = 0
 	Actor_90.PhysicDesc.SizeY = 1
 	Actor_90.PhysicDesc.SizeZ = 0
-	Actor_90.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_90.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_90:SetPhysicalActorType(1)
 	Actor_90:SetPhysicalShape(5)
 	Actor_90.ExtraInfo.Name = ""
@@ -3782,7 +3782,7 @@ function InitMap(environment)
 	Actor_91 = ActorObjectInfo(91)
 	Actor_91:SetRenderType(1)
 	Actor_91.DisplayDesc.ModelId = 225580856
-	Actor_91.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_91.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_91.DisplayDesc.Outfit = ""
 	Actor_91.DisplayDesc.Weapon = ""
 	Actor_91.DisplayDesc.Mode = ""
@@ -3811,7 +3811,7 @@ function InitMap(environment)
 	Actor_91.PhysicDesc.SizeX = 1.87091e-031
 	Actor_91.PhysicDesc.SizeY = 1.87884e-031
 	Actor_91.PhysicDesc.SizeZ = 7.46e-031
-	Actor_91.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_91.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_91:SetPhysicalActorType(1)
 	Actor_91:SetPhysicalShape(5)
 	Actor_91.ExtraInfo.Name = ""
@@ -3824,7 +3824,7 @@ function InitMap(environment)
 	Actor_92 = ActorObjectInfo(92)
 	Actor_92:SetRenderType(1)
 	Actor_92.DisplayDesc.ModelId = 0
-	Actor_92.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_92.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_92.DisplayDesc.Outfit = ""
 	Actor_92.DisplayDesc.Weapon = ""
 	Actor_92.DisplayDesc.Mode = ""
@@ -3853,7 +3853,7 @@ function InitMap(environment)
 	Actor_92.PhysicDesc.SizeX = 0
 	Actor_92.PhysicDesc.SizeY = 2.8026e-045
 	Actor_92.PhysicDesc.SizeZ = 5.92002e-031
-	Actor_92.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_92.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_92:SetPhysicalActorType(1)
 	Actor_92:SetPhysicalShape(5)
 	Actor_92.ExtraInfo.Name = ""
@@ -3866,7 +3866,7 @@ function InitMap(environment)
 	Actor_93 = ActorObjectInfo(93)
 	Actor_93:SetRenderType(1)
 	Actor_93.DisplayDesc.ModelId = 136250376
-	Actor_93.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_93.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_93.DisplayDesc.Outfit = ""
 	Actor_93.DisplayDesc.Weapon = ""
 	Actor_93.DisplayDesc.Mode = ""
@@ -3895,7 +3895,7 @@ function InitMap(environment)
 	Actor_93.PhysicDesc.SizeX = 0
 	Actor_93.PhysicDesc.SizeY = 7.00649e-045
 	Actor_93.PhysicDesc.SizeZ = 5.91966e-031
-	Actor_93.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_93.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_93:SetPhysicalActorType(1)
 	Actor_93:SetPhysicalShape(5)
 	Actor_93.ExtraInfo.Name = ""
@@ -3908,7 +3908,7 @@ function InitMap(environment)
 	Actor_94 = ActorObjectInfo(94)
 	Actor_94:SetRenderType(1)
 	Actor_94.DisplayDesc.ModelId = 225580856
-	Actor_94.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_94.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_94.DisplayDesc.Outfit = ""
 	Actor_94.DisplayDesc.Weapon = ""
 	Actor_94.DisplayDesc.Mode = ""
@@ -3937,7 +3937,7 @@ function InitMap(environment)
 	Actor_94.PhysicDesc.SizeX = 0
 	Actor_94.PhysicDesc.SizeY = 0
 	Actor_94.PhysicDesc.SizeZ = 0
-	Actor_94.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_94.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_94:SetPhysicalActorType(1)
 	Actor_94:SetPhysicalShape(5)
 	Actor_94.ExtraInfo.Name = ""
@@ -3950,7 +3950,7 @@ function InitMap(environment)
 	Actor_95 = ActorObjectInfo(95)
 	Actor_95:SetRenderType(1)
 	Actor_95.DisplayDesc.ModelId = 0
-	Actor_95.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_95.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_95.DisplayDesc.Outfit = ""
 	Actor_95.DisplayDesc.Weapon = ""
 	Actor_95.DisplayDesc.Mode = ""
@@ -3979,7 +3979,7 @@ function InitMap(environment)
 	Actor_95.PhysicDesc.SizeX = 0
 	Actor_95.PhysicDesc.SizeY = 0
 	Actor_95.PhysicDesc.SizeZ = 0
-	Actor_95.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_95.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_95:SetPhysicalActorType(1)
 	Actor_95:SetPhysicalShape(5)
 	Actor_95.ExtraInfo.Name = ""
@@ -3992,7 +3992,7 @@ function InitMap(environment)
 	Actor_96 = ActorObjectInfo(96)
 	Actor_96:SetRenderType(1)
 	Actor_96.DisplayDesc.ModelId = 0
-	Actor_96.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_96.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_96.DisplayDesc.Outfit = ""
 	Actor_96.DisplayDesc.Weapon = ""
 	Actor_96.DisplayDesc.Mode = ""
@@ -4021,7 +4021,7 @@ function InitMap(environment)
 	Actor_96.PhysicDesc.SizeX = 0
 	Actor_96.PhysicDesc.SizeY = 0
 	Actor_96.PhysicDesc.SizeZ = 0
-	Actor_96.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_96.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_96:SetPhysicalActorType(1)
 	Actor_96:SetPhysicalShape(5)
 	Actor_96.ExtraInfo.Name = ""
@@ -4034,7 +4034,7 @@ function InitMap(environment)
 	Actor_97 = ActorObjectInfo(97)
 	Actor_97:SetRenderType(1)
 	Actor_97.DisplayDesc.ModelId = 0
-	Actor_97.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_97.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_97.DisplayDesc.Outfit = ""
 	Actor_97.DisplayDesc.Weapon = ""
 	Actor_97.DisplayDesc.Mode = ""
@@ -4063,7 +4063,7 @@ function InitMap(environment)
 	Actor_97.PhysicDesc.SizeX = 0
 	Actor_97.PhysicDesc.SizeY = 0
 	Actor_97.PhysicDesc.SizeZ = 0
-	Actor_97.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_97.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_97:SetPhysicalActorType(1)
 	Actor_97:SetPhysicalShape(5)
 	Actor_97.ExtraInfo.Name = ""
@@ -4076,7 +4076,7 @@ function InitMap(environment)
 	Actor_98 = ActorObjectInfo(98)
 	Actor_98:SetRenderType(1)
 	Actor_98.DisplayDesc.ModelId = 0
-	Actor_98.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_98.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_98.DisplayDesc.Outfit = ""
 	Actor_98.DisplayDesc.Weapon = ""
 	Actor_98.DisplayDesc.Mode = ""
@@ -4105,7 +4105,7 @@ function InitMap(environment)
 	Actor_98.PhysicDesc.SizeX = 0
 	Actor_98.PhysicDesc.SizeY = 0
 	Actor_98.PhysicDesc.SizeZ = 0
-	Actor_98.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_98.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_98:SetPhysicalActorType(1)
 	Actor_98:SetPhysicalShape(5)
 	Actor_98.ExtraInfo.Name = ""
@@ -4118,7 +4118,7 @@ function InitMap(environment)
 	Actor_99 = ActorObjectInfo(99)
 	Actor_99:SetRenderType(1)
 	Actor_99.DisplayDesc.ModelId = 0
-	Actor_99.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_99.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_99.DisplayDesc.Outfit = ""
 	Actor_99.DisplayDesc.Weapon = ""
 	Actor_99.DisplayDesc.Mode = ""
@@ -4147,7 +4147,7 @@ function InitMap(environment)
 	Actor_99.PhysicDesc.SizeX = 0
 	Actor_99.PhysicDesc.SizeY = 0
 	Actor_99.PhysicDesc.SizeZ = 0
-	Actor_99.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_99.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_99:SetPhysicalActorType(1)
 	Actor_99:SetPhysicalShape(5)
 	Actor_99.ExtraInfo.Name = ""
@@ -4160,7 +4160,7 @@ function InitMap(environment)
 	Actor_100 = ActorObjectInfo(100)
 	Actor_100:SetRenderType(1)
 	Actor_100.DisplayDesc.ModelId = 0
-	Actor_100.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_100.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_100.DisplayDesc.Outfit = ""
 	Actor_100.DisplayDesc.Weapon = ""
 	Actor_100.DisplayDesc.Mode = ""
@@ -4189,7 +4189,7 @@ function InitMap(environment)
 	Actor_100.PhysicDesc.SizeX = 0
 	Actor_100.PhysicDesc.SizeY = 0
 	Actor_100.PhysicDesc.SizeZ = 0
-	Actor_100.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_100.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_100:SetPhysicalActorType(1)
 	Actor_100:SetPhysicalShape(5)
 	Actor_100.ExtraInfo.Name = ""
@@ -4202,7 +4202,7 @@ function InitMap(environment)
 	Actor_101 = ActorObjectInfo(101)
 	Actor_101:SetRenderType(1)
 	Actor_101.DisplayDesc.ModelId = 0
-	Actor_101.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_101.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_101.DisplayDesc.Outfit = ""
 	Actor_101.DisplayDesc.Weapon = ""
 	Actor_101.DisplayDesc.Mode = ""
@@ -4231,7 +4231,7 @@ function InitMap(environment)
 	Actor_101.PhysicDesc.SizeX = 0
 	Actor_101.PhysicDesc.SizeY = 0
 	Actor_101.PhysicDesc.SizeZ = 0
-	Actor_101.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_101.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_101:SetPhysicalActorType(1)
 	Actor_101:SetPhysicalShape(5)
 	Actor_101.ExtraInfo.Name = ""
@@ -4244,7 +4244,7 @@ function InitMap(environment)
 	Actor_102 = ActorObjectInfo(102)
 	Actor_102:SetRenderType(1)
 	Actor_102.DisplayDesc.ModelId = 0
-	Actor_102.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_102.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_102.DisplayDesc.Outfit = ""
 	Actor_102.DisplayDesc.Weapon = ""
 	Actor_102.DisplayDesc.Mode = ""
@@ -4273,7 +4273,7 @@ function InitMap(environment)
 	Actor_102.PhysicDesc.SizeX = 0
 	Actor_102.PhysicDesc.SizeY = 0
 	Actor_102.PhysicDesc.SizeZ = 0
-	Actor_102.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_102.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_102:SetPhysicalActorType(1)
 	Actor_102:SetPhysicalShape(5)
 	Actor_102.ExtraInfo.Name = ""
@@ -4286,7 +4286,7 @@ function InitMap(environment)
 	Actor_103 = ActorObjectInfo(103)
 	Actor_103:SetRenderType(1)
 	Actor_103.DisplayDesc.ModelId = 0
-	Actor_103.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.osgb"
+	Actor_103.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.osgb"
 	Actor_103.DisplayDesc.Outfit = ""
 	Actor_103.DisplayDesc.Weapon = ""
 	Actor_103.DisplayDesc.Mode = ""
@@ -4315,7 +4315,7 @@ function InitMap(environment)
 	Actor_103.PhysicDesc.SizeX = 0
 	Actor_103.PhysicDesc.SizeY = 0
 	Actor_103.PhysicDesc.SizeZ = 0
-	Actor_103.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.phy"
+	Actor_103.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.phy"
 	Actor_103:SetPhysicalActorType(1)
 	Actor_103:SetPhysicalShape(5)
 	Actor_103.ExtraInfo.Name = ""
@@ -4328,7 +4328,7 @@ function InitMap(environment)
 	Actor_104 = ActorObjectInfo(104)
 	Actor_104:SetRenderType(1)
 	Actor_104.DisplayDesc.ModelId = 0
-	Actor_104.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.osgb"
+	Actor_104.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.osgb"
 	Actor_104.DisplayDesc.Outfit = ""
 	Actor_104.DisplayDesc.Weapon = ""
 	Actor_104.DisplayDesc.Mode = ""
@@ -4357,7 +4357,7 @@ function InitMap(environment)
 	Actor_104.PhysicDesc.SizeX = 0
 	Actor_104.PhysicDesc.SizeY = 0
 	Actor_104.PhysicDesc.SizeZ = 0
-	Actor_104.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.phy"
+	Actor_104.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.phy"
 	Actor_104:SetPhysicalActorType(1)
 	Actor_104:SetPhysicalShape(5)
 	Actor_104.ExtraInfo.Name = ""
@@ -4370,7 +4370,7 @@ function InitMap(environment)
 	Actor_105 = ActorObjectInfo(105)
 	Actor_105:SetRenderType(1)
 	Actor_105.DisplayDesc.ModelId = 0
-	Actor_105.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_21.osgb"
+	Actor_105.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_21.osgb"
 	Actor_105.DisplayDesc.Outfit = ""
 	Actor_105.DisplayDesc.Weapon = ""
 	Actor_105.DisplayDesc.Mode = ""
@@ -4399,7 +4399,7 @@ function InitMap(environment)
 	Actor_105.PhysicDesc.SizeX = 0
 	Actor_105.PhysicDesc.SizeY = 0
 	Actor_105.PhysicDesc.SizeZ = 0
-	Actor_105.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_21.phy"
+	Actor_105.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_21.phy"
 	Actor_105:SetPhysicalActorType(1)
 	Actor_105:SetPhysicalShape(5)
 	Actor_105.ExtraInfo.Name = ""
@@ -4412,7 +4412,7 @@ function InitMap(environment)
 	Actor_106 = ActorObjectInfo(106)
 	Actor_106:SetRenderType(1)
 	Actor_106.DisplayDesc.ModelId = 0
-	Actor_106.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_21.osgb"
+	Actor_106.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_21.osgb"
 	Actor_106.DisplayDesc.Outfit = ""
 	Actor_106.DisplayDesc.Weapon = ""
 	Actor_106.DisplayDesc.Mode = ""
@@ -4441,7 +4441,7 @@ function InitMap(environment)
 	Actor_106.PhysicDesc.SizeX = 0
 	Actor_106.PhysicDesc.SizeY = 0
 	Actor_106.PhysicDesc.SizeZ = 0
-	Actor_106.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_21.phy"
+	Actor_106.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_21.phy"
 	Actor_106:SetPhysicalActorType(1)
 	Actor_106:SetPhysicalShape(5)
 	Actor_106.ExtraInfo.Name = ""
@@ -4454,7 +4454,7 @@ function InitMap(environment)
 	Actor_107 = ActorObjectInfo(107)
 	Actor_107:SetRenderType(1)
 	Actor_107.DisplayDesc.ModelId = 0
-	Actor_107.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_107.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_107.DisplayDesc.Outfit = ""
 	Actor_107.DisplayDesc.Weapon = ""
 	Actor_107.DisplayDesc.Mode = ""
@@ -4483,7 +4483,7 @@ function InitMap(environment)
 	Actor_107.PhysicDesc.SizeX = 0
 	Actor_107.PhysicDesc.SizeY = 0
 	Actor_107.PhysicDesc.SizeZ = 0
-	Actor_107.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_107.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_107:SetPhysicalActorType(1)
 	Actor_107:SetPhysicalShape(5)
 	Actor_107.ExtraInfo.Name = ""
@@ -4496,7 +4496,7 @@ function InitMap(environment)
 	Actor_108 = ActorObjectInfo(108)
 	Actor_108:SetRenderType(1)
 	Actor_108.DisplayDesc.ModelId = 0
-	Actor_108.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_108.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_108.DisplayDesc.Outfit = ""
 	Actor_108.DisplayDesc.Weapon = ""
 	Actor_108.DisplayDesc.Mode = ""
@@ -4525,7 +4525,7 @@ function InitMap(environment)
 	Actor_108.PhysicDesc.SizeX = 0
 	Actor_108.PhysicDesc.SizeY = 0
 	Actor_108.PhysicDesc.SizeZ = 0
-	Actor_108.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_108.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_108:SetPhysicalActorType(1)
 	Actor_108:SetPhysicalShape(5)
 	Actor_108.ExtraInfo.Name = ""
@@ -4538,7 +4538,7 @@ function InitMap(environment)
 	Actor_109 = ActorObjectInfo(109)
 	Actor_109:SetRenderType(1)
 	Actor_109.DisplayDesc.ModelId = 226019120
-	Actor_109.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_109.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_109.DisplayDesc.Outfit = ""
 	Actor_109.DisplayDesc.Weapon = ""
 	Actor_109.DisplayDesc.Mode = ""
@@ -4567,7 +4567,7 @@ function InitMap(environment)
 	Actor_109.PhysicDesc.SizeX = 0
 	Actor_109.PhysicDesc.SizeY = 0
 	Actor_109.PhysicDesc.SizeZ = 3.52987e-037
-	Actor_109.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_109.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_109:SetPhysicalActorType(1)
 	Actor_109:SetPhysicalShape(5)
 	Actor_109.ExtraInfo.Name = ""
@@ -4580,7 +4580,7 @@ function InitMap(environment)
 	Actor_110 = ActorObjectInfo(110)
 	Actor_110:SetRenderType(1)
 	Actor_110.DisplayDesc.ModelId = 434408920
-	Actor_110.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_110.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_110.DisplayDesc.Outfit = ""
 	Actor_110.DisplayDesc.Weapon = ""
 	Actor_110.DisplayDesc.Mode = ""
@@ -4609,7 +4609,7 @@ function InitMap(environment)
 	Actor_110.PhysicDesc.SizeX = 0
 	Actor_110.PhysicDesc.SizeY = 0
 	Actor_110.PhysicDesc.SizeZ = 0
-	Actor_110.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_110.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_110:SetPhysicalActorType(1)
 	Actor_110:SetPhysicalShape(5)
 	Actor_110.ExtraInfo.Name = ""
@@ -4622,7 +4622,7 @@ function InitMap(environment)
 	Actor_111 = ActorObjectInfo(111)
 	Actor_111:SetRenderType(1)
 	Actor_111.DisplayDesc.ModelId = 429606176
-	Actor_111.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_111.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_111.DisplayDesc.Outfit = ""
 	Actor_111.DisplayDesc.Weapon = ""
 	Actor_111.DisplayDesc.Mode = ""
@@ -4651,7 +4651,7 @@ function InitMap(environment)
 	Actor_111.PhysicDesc.SizeX = 0
 	Actor_111.PhysicDesc.SizeY = -1.95313
 	Actor_111.PhysicDesc.SizeZ = 7.32422
-	Actor_111.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_111.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_111:SetPhysicalActorType(1)
 	Actor_111:SetPhysicalShape(5)
 	Actor_111.ExtraInfo.Name = ""
@@ -4664,7 +4664,7 @@ function InitMap(environment)
 	Actor_112 = ActorObjectInfo(112)
 	Actor_112:SetRenderType(1)
 	Actor_112.DisplayDesc.ModelId = 0
-	Actor_112.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_112.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_112.DisplayDesc.Outfit = ""
 	Actor_112.DisplayDesc.Weapon = ""
 	Actor_112.DisplayDesc.Mode = ""
@@ -4693,7 +4693,7 @@ function InitMap(environment)
 	Actor_112.PhysicDesc.SizeX = 0
 	Actor_112.PhysicDesc.SizeY = 0
 	Actor_112.PhysicDesc.SizeZ = 0
-	Actor_112.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_112.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_112:SetPhysicalActorType(1)
 	Actor_112:SetPhysicalShape(5)
 	Actor_112.ExtraInfo.Name = ""
@@ -4706,7 +4706,7 @@ function InitMap(environment)
 	Actor_113 = ActorObjectInfo(113)
 	Actor_113:SetRenderType(1)
 	Actor_113.DisplayDesc.ModelId = 0
-	Actor_113.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_113.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_113.DisplayDesc.Outfit = ""
 	Actor_113.DisplayDesc.Weapon = ""
 	Actor_113.DisplayDesc.Mode = ""
@@ -4735,7 +4735,7 @@ function InitMap(environment)
 	Actor_113.PhysicDesc.SizeX = 0
 	Actor_113.PhysicDesc.SizeY = 0
 	Actor_113.PhysicDesc.SizeZ = 7.69674e-031
-	Actor_113.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_113.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_113:SetPhysicalActorType(1)
 	Actor_113:SetPhysicalShape(5)
 	Actor_113.ExtraInfo.Name = ""
@@ -4748,7 +4748,7 @@ function InitMap(environment)
 	Actor_114 = ActorObjectInfo(114)
 	Actor_114:SetRenderType(1)
 	Actor_114.DisplayDesc.ModelId = 0
-	Actor_114.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_114.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_114.DisplayDesc.Outfit = ""
 	Actor_114.DisplayDesc.Weapon = ""
 	Actor_114.DisplayDesc.Mode = ""
@@ -4777,7 +4777,7 @@ function InitMap(environment)
 	Actor_114.PhysicDesc.SizeX = 0
 	Actor_114.PhysicDesc.SizeY = 0
 	Actor_114.PhysicDesc.SizeZ = 0
-	Actor_114.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_114.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_114:SetPhysicalActorType(1)
 	Actor_114:SetPhysicalShape(5)
 	Actor_114.ExtraInfo.Name = ""
@@ -4790,7 +4790,7 @@ function InitMap(environment)
 	Actor_115 = ActorObjectInfo(115)
 	Actor_115:SetRenderType(1)
 	Actor_115.DisplayDesc.ModelId = 0
-	Actor_115.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_115.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_115.DisplayDesc.Outfit = ""
 	Actor_115.DisplayDesc.Weapon = ""
 	Actor_115.DisplayDesc.Mode = ""
@@ -4819,7 +4819,7 @@ function InitMap(environment)
 	Actor_115.PhysicDesc.SizeX = 0
 	Actor_115.PhysicDesc.SizeY = 0
 	Actor_115.PhysicDesc.SizeZ = 0
-	Actor_115.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_115.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_115:SetPhysicalActorType(1)
 	Actor_115:SetPhysicalShape(5)
 	Actor_115.ExtraInfo.Name = ""
@@ -4832,7 +4832,7 @@ function InitMap(environment)
 	Actor_116 = ActorObjectInfo(116)
 	Actor_116:SetRenderType(1)
 	Actor_116.DisplayDesc.ModelId = 144629820
-	Actor_116.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_116.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_116.DisplayDesc.Outfit = ""
 	Actor_116.DisplayDesc.Weapon = ""
 	Actor_116.DisplayDesc.Mode = ""
@@ -4861,7 +4861,7 @@ function InitMap(environment)
 	Actor_116.PhysicDesc.SizeX = 0
 	Actor_116.PhysicDesc.SizeY = 3.99805
 	Actor_116.PhysicDesc.SizeZ = 2.57141e-039
-	Actor_116.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_116.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_116:SetPhysicalActorType(1)
 	Actor_116:SetPhysicalShape(5)
 	Actor_116.ExtraInfo.Name = ""
@@ -4874,7 +4874,7 @@ function InitMap(environment)
 	Actor_117 = ActorObjectInfo(117)
 	Actor_117:SetRenderType(1)
 	Actor_117.DisplayDesc.ModelId = 0
-	Actor_117.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_117.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_117.DisplayDesc.Outfit = ""
 	Actor_117.DisplayDesc.Weapon = ""
 	Actor_117.DisplayDesc.Mode = ""
@@ -4903,7 +4903,7 @@ function InitMap(environment)
 	Actor_117.PhysicDesc.SizeX = 0
 	Actor_117.PhysicDesc.SizeY = 0
 	Actor_117.PhysicDesc.SizeZ = 0
-	Actor_117.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_117.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_117:SetPhysicalActorType(1)
 	Actor_117:SetPhysicalShape(5)
 	Actor_117.ExtraInfo.Name = ""
@@ -4916,7 +4916,7 @@ function InitMap(environment)
 	Actor_118 = ActorObjectInfo(118)
 	Actor_118:SetRenderType(1)
 	Actor_118.DisplayDesc.ModelId = 0
-	Actor_118.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_21.osgb"
+	Actor_118.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_21.osgb"
 	Actor_118.DisplayDesc.Outfit = ""
 	Actor_118.DisplayDesc.Weapon = ""
 	Actor_118.DisplayDesc.Mode = ""
@@ -4945,7 +4945,7 @@ function InitMap(environment)
 	Actor_118.PhysicDesc.SizeX = 0
 	Actor_118.PhysicDesc.SizeY = 0
 	Actor_118.PhysicDesc.SizeZ = 0
-	Actor_118.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_21.phy"
+	Actor_118.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_21.phy"
 	Actor_118:SetPhysicalActorType(1)
 	Actor_118:SetPhysicalShape(5)
 	Actor_118.ExtraInfo.Name = ""
@@ -4958,7 +4958,7 @@ function InitMap(environment)
 	Actor_119 = ActorObjectInfo(119)
 	Actor_119:SetRenderType(1)
 	Actor_119.DisplayDesc.ModelId = 0
-	Actor_119.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_21.osgb"
+	Actor_119.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_21.osgb"
 	Actor_119.DisplayDesc.Outfit = ""
 	Actor_119.DisplayDesc.Weapon = ""
 	Actor_119.DisplayDesc.Mode = ""
@@ -4987,7 +4987,7 @@ function InitMap(environment)
 	Actor_119.PhysicDesc.SizeX = 0
 	Actor_119.PhysicDesc.SizeY = 0
 	Actor_119.PhysicDesc.SizeZ = 0
-	Actor_119.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_21.phy"
+	Actor_119.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_21.phy"
 	Actor_119:SetPhysicalActorType(1)
 	Actor_119:SetPhysicalShape(5)
 	Actor_119.ExtraInfo.Name = ""
@@ -5000,7 +5000,7 @@ function InitMap(environment)
 	Actor_120 = ActorObjectInfo(120)
 	Actor_120:SetRenderType(1)
 	Actor_120.DisplayDesc.ModelId = 0
-	Actor_120.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_120.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_120.DisplayDesc.Outfit = ""
 	Actor_120.DisplayDesc.Weapon = ""
 	Actor_120.DisplayDesc.Mode = ""
@@ -5029,7 +5029,7 @@ function InitMap(environment)
 	Actor_120.PhysicDesc.SizeX = 0
 	Actor_120.PhysicDesc.SizeY = 0
 	Actor_120.PhysicDesc.SizeZ = 0
-	Actor_120.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_120.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_120:SetPhysicalActorType(1)
 	Actor_120:SetPhysicalShape(5)
 	Actor_120.ExtraInfo.Name = ""
@@ -5042,7 +5042,7 @@ function InitMap(environment)
 	Actor_121 = ActorObjectInfo(121)
 	Actor_121:SetRenderType(1)
 	Actor_121.DisplayDesc.ModelId = 0
-	Actor_121.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_121.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_121.DisplayDesc.Outfit = ""
 	Actor_121.DisplayDesc.Weapon = ""
 	Actor_121.DisplayDesc.Mode = ""
@@ -5071,7 +5071,7 @@ function InitMap(environment)
 	Actor_121.PhysicDesc.SizeX = 0
 	Actor_121.PhysicDesc.SizeY = 0
 	Actor_121.PhysicDesc.SizeZ = 0
-	Actor_121.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_121.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_121:SetPhysicalActorType(1)
 	Actor_121:SetPhysicalShape(5)
 	Actor_121.ExtraInfo.Name = ""
@@ -5084,7 +5084,7 @@ function InitMap(environment)
 	Actor_122 = ActorObjectInfo(122)
 	Actor_122:SetRenderType(1)
 	Actor_122.DisplayDesc.ModelId = 0
-	Actor_122.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_122.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_122.DisplayDesc.Outfit = ""
 	Actor_122.DisplayDesc.Weapon = ""
 	Actor_122.DisplayDesc.Mode = ""
@@ -5113,7 +5113,7 @@ function InitMap(environment)
 	Actor_122.PhysicDesc.SizeX = 0
 	Actor_122.PhysicDesc.SizeY = 0
 	Actor_122.PhysicDesc.SizeZ = 0
-	Actor_122.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_122.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_122:SetPhysicalActorType(1)
 	Actor_122:SetPhysicalShape(5)
 	Actor_122.ExtraInfo.Name = ""
@@ -5126,7 +5126,7 @@ function InitMap(environment)
 	Actor_123 = ActorObjectInfo(123)
 	Actor_123:SetRenderType(1)
 	Actor_123.DisplayDesc.ModelId = 0
-	Actor_123.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_123.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_123.DisplayDesc.Outfit = ""
 	Actor_123.DisplayDesc.Weapon = ""
 	Actor_123.DisplayDesc.Mode = ""
@@ -5155,7 +5155,7 @@ function InitMap(environment)
 	Actor_123.PhysicDesc.SizeX = 0
 	Actor_123.PhysicDesc.SizeY = 0
 	Actor_123.PhysicDesc.SizeZ = 0
-	Actor_123.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_123.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_123:SetPhysicalActorType(1)
 	Actor_123:SetPhysicalShape(5)
 	Actor_123.ExtraInfo.Name = ""
@@ -5168,7 +5168,7 @@ function InitMap(environment)
 	Actor_124 = ActorObjectInfo(124)
 	Actor_124:SetRenderType(1)
 	Actor_124.DisplayDesc.ModelId = 0
-	Actor_124.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.osgb"
+	Actor_124.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.osgb"
 	Actor_124.DisplayDesc.Outfit = ""
 	Actor_124.DisplayDesc.Weapon = ""
 	Actor_124.DisplayDesc.Mode = ""
@@ -5197,7 +5197,7 @@ function InitMap(environment)
 	Actor_124.PhysicDesc.SizeX = 0
 	Actor_124.PhysicDesc.SizeY = 0
 	Actor_124.PhysicDesc.SizeZ = 0
-	Actor_124.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.phy"
+	Actor_124.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.phy"
 	Actor_124:SetPhysicalActorType(1)
 	Actor_124:SetPhysicalShape(5)
 	Actor_124.ExtraInfo.Name = ""
@@ -5210,7 +5210,7 @@ function InitMap(environment)
 	Actor_125 = ActorObjectInfo(125)
 	Actor_125:SetRenderType(1)
 	Actor_125.DisplayDesc.ModelId = 0
-	Actor_125.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.osgb"
+	Actor_125.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.osgb"
 	Actor_125.DisplayDesc.Outfit = ""
 	Actor_125.DisplayDesc.Weapon = ""
 	Actor_125.DisplayDesc.Mode = ""
@@ -5239,7 +5239,7 @@ function InitMap(environment)
 	Actor_125.PhysicDesc.SizeX = 7.00649e-044
 	Actor_125.PhysicDesc.SizeY = 7.28675e-044
 	Actor_125.PhysicDesc.SizeZ = 7.42688e-044
-	Actor_125.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.phy"
+	Actor_125.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.phy"
 	Actor_125:SetPhysicalActorType(1)
 	Actor_125:SetPhysicalShape(5)
 	Actor_125.ExtraInfo.Name = ""
@@ -5252,7 +5252,7 @@ function InitMap(environment)
 	Actor_126 = ActorObjectInfo(126)
 	Actor_126:SetRenderType(1)
 	Actor_126.DisplayDesc.ModelId = 73
-	Actor_126.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.osgb"
+	Actor_126.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.osgb"
 	Actor_126.DisplayDesc.Outfit = ""
 	Actor_126.DisplayDesc.Weapon = ""
 	Actor_126.DisplayDesc.Mode = ""
@@ -5281,7 +5281,7 @@ function InitMap(environment)
 	Actor_126.PhysicDesc.SizeX = 6.39553e-042
 	Actor_126.PhysicDesc.SizeY = 6.50623e-042
 	Actor_126.PhysicDesc.SizeZ = 6.60152e-042
-	Actor_126.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.phy"
+	Actor_126.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.phy"
 	Actor_126:SetPhysicalActorType(1)
 	Actor_126:SetPhysicalShape(5)
 	Actor_126.ExtraInfo.Name = ""
@@ -5294,7 +5294,7 @@ function InitMap(environment)
 	Actor_127 = ActorObjectInfo(127)
 	Actor_127:SetRenderType(1)
 	Actor_127.DisplayDesc.ModelId = 0
-	Actor_127.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.osgb"
+	Actor_127.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.osgb"
 	Actor_127.DisplayDesc.Outfit = ""
 	Actor_127.DisplayDesc.Weapon = ""
 	Actor_127.DisplayDesc.Mode = ""
@@ -5323,7 +5323,7 @@ function InitMap(environment)
 	Actor_127.PhysicDesc.SizeX = 90
 	Actor_127.PhysicDesc.SizeY = 0.0913386
 	Actor_127.PhysicDesc.SizeZ = 1.01019e-039
-	Actor_127.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.phy"
+	Actor_127.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.phy"
 	Actor_127:SetPhysicalActorType(1)
 	Actor_127:SetPhysicalShape(5)
 	Actor_127.ExtraInfo.Name = ""
@@ -5336,7 +5336,7 @@ function InitMap(environment)
 	Actor_128 = ActorObjectInfo(128)
 	Actor_128:SetRenderType(1)
 	Actor_128.DisplayDesc.ModelId = 445858488
-	Actor_128.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.osgb"
+	Actor_128.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.osgb"
 	Actor_128.DisplayDesc.Outfit = ""
 	Actor_128.DisplayDesc.Weapon = ""
 	Actor_128.DisplayDesc.Mode = ""
@@ -5365,7 +5365,7 @@ function InitMap(environment)
 	Actor_128.PhysicDesc.SizeX = 0
 	Actor_128.PhysicDesc.SizeY = 0
 	Actor_128.PhysicDesc.SizeZ = 0
-	Actor_128.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.phy"
+	Actor_128.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.phy"
 	Actor_128:SetPhysicalActorType(1)
 	Actor_128:SetPhysicalShape(5)
 	Actor_128.ExtraInfo.Name = ""
@@ -5378,7 +5378,7 @@ function InitMap(environment)
 	Actor_129 = ActorObjectInfo(129)
 	Actor_129:SetRenderType(1)
 	Actor_129.DisplayDesc.ModelId = 0
-	Actor_129.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_22.osgb"
+	Actor_129.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_22.osgb"
 	Actor_129.DisplayDesc.Outfit = ""
 	Actor_129.DisplayDesc.Weapon = ""
 	Actor_129.DisplayDesc.Mode = ""
@@ -5407,7 +5407,7 @@ function InitMap(environment)
 	Actor_129.PhysicDesc.SizeX = 7.75967e-031
 	Actor_129.PhysicDesc.SizeY = 7.75852e-031
 	Actor_129.PhysicDesc.SizeZ = 7.75909e-031
-	Actor_129.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_22.phy"
+	Actor_129.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_22.phy"
 	Actor_129:SetPhysicalActorType(1)
 	Actor_129:SetPhysicalShape(5)
 	Actor_129.ExtraInfo.Name = ""
@@ -5420,7 +5420,7 @@ function InitMap(environment)
 	Actor_130 = ActorObjectInfo(130)
 	Actor_130:SetRenderType(1)
 	Actor_130.DisplayDesc.ModelId = 445858488
-	Actor_130.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_23.osgb"
+	Actor_130.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_23.osgb"
 	Actor_130.DisplayDesc.Outfit = ""
 	Actor_130.DisplayDesc.Weapon = ""
 	Actor_130.DisplayDesc.Mode = ""
@@ -5449,7 +5449,7 @@ function InitMap(environment)
 	Actor_130.PhysicDesc.SizeX = 1.42357e-023
 	Actor_130.PhysicDesc.SizeY = 1.875
 	Actor_130.PhysicDesc.SizeZ = 9.80909e-045
-	Actor_130.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_23.phy"
+	Actor_130.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_23.phy"
 	Actor_130:SetPhysicalActorType(1)
 	Actor_130:SetPhysicalShape(5)
 	Actor_130.ExtraInfo.Name = ""
@@ -5462,7 +5462,7 @@ function InitMap(environment)
 	Actor_131 = ActorObjectInfo(131)
 	Actor_131:SetRenderType(1)
 	Actor_131.DisplayDesc.ModelId = 445858488
-	Actor_131.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_24.osgb"
+	Actor_131.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_24.osgb"
 	Actor_131.DisplayDesc.Outfit = ""
 	Actor_131.DisplayDesc.Weapon = ""
 	Actor_131.DisplayDesc.Mode = ""
@@ -5491,7 +5491,7 @@ function InitMap(environment)
 	Actor_131.PhysicDesc.SizeX = 7.6782e-031
 	Actor_131.PhysicDesc.SizeY = 1.71105e-039
 	Actor_131.PhysicDesc.SizeZ = 5.60519e-045
-	Actor_131.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_24.phy"
+	Actor_131.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_24.phy"
 	Actor_131:SetPhysicalActorType(1)
 	Actor_131:SetPhysicalShape(5)
 	Actor_131.ExtraInfo.Name = ""
@@ -5504,7 +5504,7 @@ function InitMap(environment)
 	Actor_132 = ActorObjectInfo(132)
 	Actor_132:SetRenderType(1)
 	Actor_132.DisplayDesc.ModelId = 0
-	Actor_132.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_24.osgb"
+	Actor_132.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_24.osgb"
 	Actor_132.DisplayDesc.Outfit = ""
 	Actor_132.DisplayDesc.Weapon = ""
 	Actor_132.DisplayDesc.Mode = ""
@@ -5533,7 +5533,7 @@ function InitMap(environment)
 	Actor_132.PhysicDesc.SizeX = 1.4013e-045
 	Actor_132.PhysicDesc.SizeY = 4.28692e-024
 	Actor_132.PhysicDesc.SizeZ = 5.96814e-039
-	Actor_132.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_24.phy"
+	Actor_132.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_24.phy"
 	Actor_132:SetPhysicalActorType(1)
 	Actor_132:SetPhysicalShape(5)
 	Actor_132.ExtraInfo.Name = ""
@@ -5546,7 +5546,7 @@ function InitMap(environment)
 	Actor_133 = ActorObjectInfo(133)
 	Actor_133:SetRenderType(1)
 	Actor_133.DisplayDesc.ModelId = 0
-	Actor_133.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_25.osgb"
+	Actor_133.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_25.osgb"
 	Actor_133.DisplayDesc.Outfit = ""
 	Actor_133.DisplayDesc.Weapon = ""
 	Actor_133.DisplayDesc.Mode = ""
@@ -5575,7 +5575,7 @@ function InitMap(environment)
 	Actor_133.PhysicDesc.SizeX = 1.4013e-045
 	Actor_133.PhysicDesc.SizeY = 2.13258e-024
 	Actor_133.PhysicDesc.SizeZ = 5.96814e-039
-	Actor_133.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_25.phy"
+	Actor_133.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_25.phy"
 	Actor_133:SetPhysicalActorType(1)
 	Actor_133:SetPhysicalShape(5)
 	Actor_133.ExtraInfo.Name = ""
@@ -5588,7 +5588,7 @@ function InitMap(environment)
 	Actor_134 = ActorObjectInfo(134)
 	Actor_134:SetRenderType(1)
 	Actor_134.DisplayDesc.ModelId = 0
-	Actor_134.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_25.osgb"
+	Actor_134.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_25.osgb"
 	Actor_134.DisplayDesc.Outfit = ""
 	Actor_134.DisplayDesc.Weapon = ""
 	Actor_134.DisplayDesc.Mode = ""
@@ -5617,7 +5617,7 @@ function InitMap(environment)
 	Actor_134.PhysicDesc.SizeX = 0.45098
 	Actor_134.PhysicDesc.SizeY = 0
 	Actor_134.PhysicDesc.SizeZ = 0.00784314
-	Actor_134.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_25.phy"
+	Actor_134.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_25.phy"
 	Actor_134:SetPhysicalActorType(1)
 	Actor_134:SetPhysicalShape(5)
 	Actor_134.ExtraInfo.Name = ""
@@ -5630,7 +5630,7 @@ function InitMap(environment)
 	Actor_135 = ActorObjectInfo(135)
 	Actor_135:SetRenderType(1)
 	Actor_135.DisplayDesc.ModelId = 227853216
-	Actor_135.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_26.osgb"
+	Actor_135.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_26.osgb"
 	Actor_135.DisplayDesc.Outfit = ""
 	Actor_135.DisplayDesc.Weapon = ""
 	Actor_135.DisplayDesc.Mode = ""
@@ -5659,7 +5659,7 @@ function InitMap(environment)
 	Actor_135.PhysicDesc.SizeX = 0
 	Actor_135.PhysicDesc.SizeY = 0
 	Actor_135.PhysicDesc.SizeZ = 7.70514e-031
-	Actor_135.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_26.phy"
+	Actor_135.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_26.phy"
 	Actor_135:SetPhysicalActorType(1)
 	Actor_135:SetPhysicalShape(5)
 	Actor_135.ExtraInfo.Name = ""
@@ -5672,7 +5672,7 @@ function InitMap(environment)
 	Actor_136 = ActorObjectInfo(136)
 	Actor_136:SetRenderType(1)
 	Actor_136.DisplayDesc.ModelId = 227853216
-	Actor_136.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_27.osgb"
+	Actor_136.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_27.osgb"
 	Actor_136.DisplayDesc.Outfit = ""
 	Actor_136.DisplayDesc.Weapon = ""
 	Actor_136.DisplayDesc.Mode = ""
@@ -5701,7 +5701,7 @@ function InitMap(environment)
 	Actor_136.PhysicDesc.SizeX = 8.79749e-024
 	Actor_136.PhysicDesc.SizeY = 0
 	Actor_136.PhysicDesc.SizeZ = 8.40779e-045
-	Actor_136.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_27.phy"
+	Actor_136.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_27.phy"
 	Actor_136:SetPhysicalActorType(1)
 	Actor_136:SetPhysicalShape(5)
 	Actor_136.ExtraInfo.Name = ""
@@ -5714,7 +5714,7 @@ function InitMap(environment)
 	Actor_137 = ActorObjectInfo(137)
 	Actor_137:SetRenderType(1)
 	Actor_137.DisplayDesc.ModelId = 227853216
-	Actor_137.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_29.osgb"
+	Actor_137.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_29.osgb"
 	Actor_137.DisplayDesc.Outfit = ""
 	Actor_137.DisplayDesc.Weapon = ""
 	Actor_137.DisplayDesc.Mode = ""
@@ -5743,7 +5743,7 @@ function InitMap(environment)
 	Actor_137.PhysicDesc.SizeX = 0
 	Actor_137.PhysicDesc.SizeY = 1.4013e-045
 	Actor_137.PhysicDesc.SizeZ = 4.47641e-024
-	Actor_137.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_29.phy"
+	Actor_137.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_29.phy"
 	Actor_137:SetPhysicalActorType(1)
 	Actor_137:SetPhysicalShape(5)
 	Actor_137.ExtraInfo.Name = ""
@@ -5756,7 +5756,7 @@ function InitMap(environment)
 	Actor_138 = ActorObjectInfo(138)
 	Actor_138:SetRenderType(1)
 	Actor_138.DisplayDesc.ModelId = 227853216
-	Actor_138.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_138.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_138.DisplayDesc.Outfit = ""
 	Actor_138.DisplayDesc.Weapon = ""
 	Actor_138.DisplayDesc.Mode = ""
@@ -5785,7 +5785,7 @@ function InitMap(environment)
 	Actor_138.PhysicDesc.SizeX = 0
 	Actor_138.PhysicDesc.SizeY = 0
 	Actor_138.PhysicDesc.SizeZ = 4.47636e-024
-	Actor_138.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_138.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_138:SetPhysicalActorType(1)
 	Actor_138:SetPhysicalShape(5)
 	Actor_138.ExtraInfo.Name = ""
@@ -5798,7 +5798,7 @@ function InitMap(environment)
 	Actor_139 = ActorObjectInfo(139)
 	Actor_139:SetRenderType(1)
 	Actor_139.DisplayDesc.ModelId = 227853216
-	Actor_139.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_139.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_139.DisplayDesc.Outfit = ""
 	Actor_139.DisplayDesc.Weapon = ""
 	Actor_139.DisplayDesc.Mode = ""
@@ -5827,7 +5827,7 @@ function InitMap(environment)
 	Actor_139.PhysicDesc.SizeX = 0
 	Actor_139.PhysicDesc.SizeY = 2.8026e-045
 	Actor_139.PhysicDesc.SizeZ = 1.60548e-023
-	Actor_139.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_139.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_139:SetPhysicalActorType(1)
 	Actor_139:SetPhysicalShape(5)
 	Actor_139.ExtraInfo.Name = ""
@@ -5840,7 +5840,7 @@ function InitMap(environment)
 	Actor_140 = ActorObjectInfo(140)
 	Actor_140:SetRenderType(1)
 	Actor_140.DisplayDesc.ModelId = 227853216
-	Actor_140.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_140.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_140.DisplayDesc.Outfit = ""
 	Actor_140.DisplayDesc.Weapon = ""
 	Actor_140.DisplayDesc.Mode = ""
@@ -5869,7 +5869,7 @@ function InitMap(environment)
 	Actor_140.PhysicDesc.SizeX = 0
 	Actor_140.PhysicDesc.SizeY = 1.4013e-045
 	Actor_140.PhysicDesc.SizeZ = 1.60548e-023
-	Actor_140.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_140.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_140:SetPhysicalActorType(1)
 	Actor_140:SetPhysicalShape(5)
 	Actor_140.ExtraInfo.Name = ""
@@ -5882,7 +5882,7 @@ function InitMap(environment)
 	Actor_141 = ActorObjectInfo(141)
 	Actor_141:SetRenderType(1)
 	Actor_141.DisplayDesc.ModelId = 227853216
-	Actor_141.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_141.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_141.DisplayDesc.Outfit = ""
 	Actor_141.DisplayDesc.Weapon = ""
 	Actor_141.DisplayDesc.Mode = ""
@@ -5911,7 +5911,7 @@ function InitMap(environment)
 	Actor_141.PhysicDesc.SizeX = 0
 	Actor_141.PhysicDesc.SizeY = 2.8026e-045
 	Actor_141.PhysicDesc.SizeZ = 1.60548e-023
-	Actor_141.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_141.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_141:SetPhysicalActorType(1)
 	Actor_141:SetPhysicalShape(5)
 	Actor_141.ExtraInfo.Name = ""
@@ -5924,7 +5924,7 @@ function InitMap(environment)
 	Actor_142 = ActorObjectInfo(142)
 	Actor_142:SetRenderType(1)
 	Actor_142.DisplayDesc.ModelId = 227853216
-	Actor_142.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_142.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_142.DisplayDesc.Outfit = ""
 	Actor_142.DisplayDesc.Weapon = ""
 	Actor_142.DisplayDesc.Mode = ""
@@ -5953,7 +5953,7 @@ function InitMap(environment)
 	Actor_142.PhysicDesc.SizeX = 0
 	Actor_142.PhysicDesc.SizeY = 2.8026e-045
 	Actor_142.PhysicDesc.SizeZ = 2.47812e-020
-	Actor_142.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_142.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_142:SetPhysicalActorType(1)
 	Actor_142:SetPhysicalShape(5)
 	Actor_142.ExtraInfo.Name = ""
@@ -5966,7 +5966,7 @@ function InitMap(environment)
 	Actor_143 = ActorObjectInfo(143)
 	Actor_143:SetRenderType(1)
 	Actor_143.DisplayDesc.ModelId = 227853216
-	Actor_143.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_143.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_143.DisplayDesc.Outfit = ""
 	Actor_143.DisplayDesc.Weapon = ""
 	Actor_143.DisplayDesc.Mode = ""
@@ -5995,7 +5995,7 @@ function InitMap(environment)
 	Actor_143.PhysicDesc.SizeX = 0
 	Actor_143.PhysicDesc.SizeY = 1.4013e-045
 	Actor_143.PhysicDesc.SizeZ = 2.47812e-020
-	Actor_143.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_143.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_143:SetPhysicalActorType(1)
 	Actor_143:SetPhysicalShape(5)
 	Actor_143.ExtraInfo.Name = ""
@@ -6008,7 +6008,7 @@ function InitMap(environment)
 	Actor_144 = ActorObjectInfo(144)
 	Actor_144:SetRenderType(1)
 	Actor_144.DisplayDesc.ModelId = 227853216
-	Actor_144.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_144.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_144.DisplayDesc.Outfit = ""
 	Actor_144.DisplayDesc.Weapon = ""
 	Actor_144.DisplayDesc.Mode = ""
@@ -6037,7 +6037,7 @@ function InitMap(environment)
 	Actor_144.PhysicDesc.SizeX = 0
 	Actor_144.PhysicDesc.SizeY = 2.8026e-045
 	Actor_144.PhysicDesc.SizeZ = 7.44015e-023
-	Actor_144.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_144.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_144:SetPhysicalActorType(1)
 	Actor_144:SetPhysicalShape(5)
 	Actor_144.ExtraInfo.Name = ""
@@ -6050,7 +6050,7 @@ function InitMap(environment)
 	Actor_145 = ActorObjectInfo(145)
 	Actor_145:SetRenderType(1)
 	Actor_145.DisplayDesc.ModelId = 227853216
-	Actor_145.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_145.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_145.DisplayDesc.Outfit = ""
 	Actor_145.DisplayDesc.Weapon = ""
 	Actor_145.DisplayDesc.Mode = ""
@@ -6079,7 +6079,7 @@ function InitMap(environment)
 	Actor_145.PhysicDesc.SizeX = 0
 	Actor_145.PhysicDesc.SizeY = 2.8026e-045
 	Actor_145.PhysicDesc.SizeZ = 7.48963e-031
-	Actor_145.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_145.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_145:SetPhysicalActorType(1)
 	Actor_145:SetPhysicalShape(5)
 	Actor_145.ExtraInfo.Name = ""
@@ -6092,7 +6092,7 @@ function InitMap(environment)
 	Actor_146 = ActorObjectInfo(146)
 	Actor_146:SetRenderType(1)
 	Actor_146.DisplayDesc.ModelId = 227853216
-	Actor_146.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_146.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_146.DisplayDesc.Outfit = ""
 	Actor_146.DisplayDesc.Weapon = ""
 	Actor_146.DisplayDesc.Mode = ""
@@ -6121,7 +6121,7 @@ function InitMap(environment)
 	Actor_146.PhysicDesc.SizeX = 0
 	Actor_146.PhysicDesc.SizeY = 0
 	Actor_146.PhysicDesc.SizeZ = 7.54165e-031
-	Actor_146.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_146.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_146:SetPhysicalActorType(1)
 	Actor_146:SetPhysicalShape(5)
 	Actor_146.ExtraInfo.Name = ""
@@ -6134,7 +6134,7 @@ function InitMap(environment)
 	Actor_147 = ActorObjectInfo(147)
 	Actor_147:SetRenderType(1)
 	Actor_147.DisplayDesc.ModelId = 227853216
-	Actor_147.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_147.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_147.DisplayDesc.Outfit = ""
 	Actor_147.DisplayDesc.Weapon = ""
 	Actor_147.DisplayDesc.Mode = ""
@@ -6163,7 +6163,7 @@ function InitMap(environment)
 	Actor_147.PhysicDesc.SizeX = 0
 	Actor_147.PhysicDesc.SizeY = 2.8026e-045
 	Actor_147.PhysicDesc.SizeZ = 6.84478e-023
-	Actor_147.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_147.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_147:SetPhysicalActorType(1)
 	Actor_147:SetPhysicalShape(5)
 	Actor_147.ExtraInfo.Name = ""
@@ -6176,7 +6176,7 @@ function InitMap(environment)
 	Actor_148 = ActorObjectInfo(148)
 	Actor_148:SetRenderType(1)
 	Actor_148.DisplayDesc.ModelId = 227853216
-	Actor_148.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_148.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_148.DisplayDesc.Outfit = ""
 	Actor_148.DisplayDesc.Weapon = ""
 	Actor_148.DisplayDesc.Mode = ""
@@ -6205,7 +6205,7 @@ function InitMap(environment)
 	Actor_148.PhysicDesc.SizeX = 0
 	Actor_148.PhysicDesc.SizeY = 2.8026e-045
 	Actor_148.PhysicDesc.SizeZ = 1.92923e-031
-	Actor_148.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_148.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_148:SetPhysicalActorType(1)
 	Actor_148:SetPhysicalShape(5)
 	Actor_148.ExtraInfo.Name = ""
@@ -6218,7 +6218,7 @@ function InitMap(environment)
 	Actor_149 = ActorObjectInfo(149)
 	Actor_149:SetRenderType(1)
 	Actor_149.DisplayDesc.ModelId = 0
-	Actor_149.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_149.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_149.DisplayDesc.Outfit = ""
 	Actor_149.DisplayDesc.Weapon = ""
 	Actor_149.DisplayDesc.Mode = ""
@@ -6247,7 +6247,7 @@ function InitMap(environment)
 	Actor_149.PhysicDesc.SizeX = 0
 	Actor_149.PhysicDesc.SizeY = 0
 	Actor_149.PhysicDesc.SizeZ = 0
-	Actor_149.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_149.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_149:SetPhysicalActorType(1)
 	Actor_149:SetPhysicalShape(5)
 	Actor_149.ExtraInfo.Name = ""
@@ -6260,7 +6260,7 @@ function InitMap(environment)
 	Actor_150 = ActorObjectInfo(150)
 	Actor_150:SetRenderType(1)
 	Actor_150.DisplayDesc.ModelId = 227853216
-	Actor_150.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_150.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_150.DisplayDesc.Outfit = ""
 	Actor_150.DisplayDesc.Weapon = ""
 	Actor_150.DisplayDesc.Mode = ""
@@ -6289,7 +6289,7 @@ function InitMap(environment)
 	Actor_150.PhysicDesc.SizeX = 0
 	Actor_150.PhysicDesc.SizeY = 1.4013e-045
 	Actor_150.PhysicDesc.SizeZ = 7.01219e-023
-	Actor_150.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_150.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_150:SetPhysicalActorType(1)
 	Actor_150:SetPhysicalShape(5)
 	Actor_150.ExtraInfo.Name = ""
@@ -6302,7 +6302,7 @@ function InitMap(environment)
 	Actor_151 = ActorObjectInfo(151)
 	Actor_151:SetRenderType(1)
 	Actor_151.DisplayDesc.ModelId = 227853216
-	Actor_151.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_151.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_151.DisplayDesc.Outfit = ""
 	Actor_151.DisplayDesc.Weapon = ""
 	Actor_151.DisplayDesc.Mode = ""
@@ -6331,7 +6331,7 @@ function InitMap(environment)
 	Actor_151.PhysicDesc.SizeX = 0
 	Actor_151.PhysicDesc.SizeY = 2.8026e-045
 	Actor_151.PhysicDesc.SizeZ = 7.45519e-023
-	Actor_151.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_151.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_151:SetPhysicalActorType(1)
 	Actor_151:SetPhysicalShape(5)
 	Actor_151.ExtraInfo.Name = ""
@@ -6344,7 +6344,7 @@ function InitMap(environment)
 	Actor_152 = ActorObjectInfo(152)
 	Actor_152:SetRenderType(1)
 	Actor_152.DisplayDesc.ModelId = 227853216
-	Actor_152.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_152.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_152.DisplayDesc.Outfit = ""
 	Actor_152.DisplayDesc.Weapon = ""
 	Actor_152.DisplayDesc.Mode = ""
@@ -6373,7 +6373,7 @@ function InitMap(environment)
 	Actor_152.PhysicDesc.SizeX = 0
 	Actor_152.PhysicDesc.SizeY = 0
 	Actor_152.PhysicDesc.SizeZ = 3.23895e-024
-	Actor_152.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_152.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_152:SetPhysicalActorType(1)
 	Actor_152:SetPhysicalShape(5)
 	Actor_152.ExtraInfo.Name = ""
@@ -6386,7 +6386,7 @@ function InitMap(environment)
 	Actor_153 = ActorObjectInfo(153)
 	Actor_153:SetRenderType(1)
 	Actor_153.DisplayDesc.ModelId = 227853216
-	Actor_153.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.osgb"
+	Actor_153.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.osgb"
 	Actor_153.DisplayDesc.Outfit = ""
 	Actor_153.DisplayDesc.Weapon = ""
 	Actor_153.DisplayDesc.Mode = ""
@@ -6415,7 +6415,7 @@ function InitMap(environment)
 	Actor_153.PhysicDesc.SizeX = 0
 	Actor_153.PhysicDesc.SizeY = 0
 	Actor_153.PhysicDesc.SizeZ = 5.92337e-031
-	Actor_153.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_20.phy"
+	Actor_153.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_20.phy"
 	Actor_153:SetPhysicalActorType(1)
 	Actor_153:SetPhysicalShape(5)
 	Actor_153.ExtraInfo.Name = ""
@@ -6428,7 +6428,7 @@ function InitMap(environment)
 	Actor_154 = ActorObjectInfo(154)
 	Actor_154:SetRenderType(1)
 	Actor_154.DisplayDesc.ModelId = 227853216
-	Actor_154.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_30.osgb"
+	Actor_154.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_30.osgb"
 	Actor_154.DisplayDesc.Outfit = ""
 	Actor_154.DisplayDesc.Weapon = ""
 	Actor_154.DisplayDesc.Mode = ""
@@ -6457,7 +6457,7 @@ function InitMap(environment)
 	Actor_154.PhysicDesc.SizeX = 0
 	Actor_154.PhysicDesc.SizeY = 0
 	Actor_154.PhysicDesc.SizeZ = 2.1735e-024
-	Actor_154.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_30.phy"
+	Actor_154.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_30.phy"
 	Actor_154:SetPhysicalActorType(1)
 	Actor_154:SetPhysicalShape(5)
 	Actor_154.ExtraInfo.Name = ""
@@ -6470,7 +6470,7 @@ function InitMap(environment)
 	Actor_155 = ActorObjectInfo(155)
 	Actor_155:SetRenderType(1)
 	Actor_155.DisplayDesc.ModelId = 227853216
-	Actor_155.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_28.osgb"
+	Actor_155.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_28.osgb"
 	Actor_155.DisplayDesc.Outfit = ""
 	Actor_155.DisplayDesc.Weapon = ""
 	Actor_155.DisplayDesc.Mode = ""
@@ -6499,7 +6499,7 @@ function InitMap(environment)
 	Actor_155.PhysicDesc.SizeX = 0
 	Actor_155.PhysicDesc.SizeY = 2.8026e-045
 	Actor_155.PhysicDesc.SizeZ = 7.44927e-031
-	Actor_155.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_28.phy"
+	Actor_155.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_28.phy"
 	Actor_155:SetPhysicalActorType(1)
 	Actor_155:SetPhysicalShape(5)
 	Actor_155.ExtraInfo.Name = ""
@@ -6512,7 +6512,7 @@ function InitMap(environment)
 	Actor_156 = ActorObjectInfo(156)
 	Actor_156:SetRenderType(1)
 	Actor_156.DisplayDesc.ModelId = 227853216
-	Actor_156.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_28.osgb"
+	Actor_156.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_28.osgb"
 	Actor_156.DisplayDesc.Outfit = ""
 	Actor_156.DisplayDesc.Weapon = ""
 	Actor_156.DisplayDesc.Mode = ""
@@ -6541,7 +6541,7 @@ function InitMap(environment)
 	Actor_156.PhysicDesc.SizeX = 0
 	Actor_156.PhysicDesc.SizeY = 0
 	Actor_156.PhysicDesc.SizeZ = 7.87875e-031
-	Actor_156.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_28.phy"
+	Actor_156.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_28.phy"
 	Actor_156:SetPhysicalActorType(1)
 	Actor_156:SetPhysicalShape(5)
 	Actor_156.ExtraInfo.Name = ""
@@ -6554,7 +6554,7 @@ function InitMap(environment)
 	Actor_157 = ActorObjectInfo(157)
 	Actor_157:SetRenderType(1)
 	Actor_157.DisplayDesc.ModelId = 227853216
-	Actor_157.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_31.osgb"
+	Actor_157.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_31.osgb"
 	Actor_157.DisplayDesc.Outfit = ""
 	Actor_157.DisplayDesc.Weapon = ""
 	Actor_157.DisplayDesc.Mode = ""
@@ -6583,7 +6583,7 @@ function InitMap(environment)
 	Actor_157.PhysicDesc.SizeX = 0
 	Actor_157.PhysicDesc.SizeY = 2.8026e-045
 	Actor_157.PhysicDesc.SizeZ = 1.08713e-023
-	Actor_157.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_31.phy"
+	Actor_157.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_31.phy"
 	Actor_157:SetPhysicalActorType(1)
 	Actor_157:SetPhysicalShape(5)
 	Actor_157.ExtraInfo.Name = ""
@@ -6596,7 +6596,7 @@ function InitMap(environment)
 	Actor_158 = ActorObjectInfo(158)
 	Actor_158:SetRenderType(1)
 	Actor_158.DisplayDesc.ModelId = 227853216
-	Actor_158.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_32.osgb"
+	Actor_158.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_32.osgb"
 	Actor_158.DisplayDesc.Outfit = ""
 	Actor_158.DisplayDesc.Weapon = ""
 	Actor_158.DisplayDesc.Mode = ""
@@ -6625,7 +6625,7 @@ function InitMap(environment)
 	Actor_158.PhysicDesc.SizeX = 5.89662e-031
 	Actor_158.PhysicDesc.SizeY = 0
 	Actor_158.PhysicDesc.SizeZ = 8.40779e-045
-	Actor_158.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_32.phy"
+	Actor_158.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_32.phy"
 	Actor_158:SetPhysicalActorType(1)
 	Actor_158:SetPhysicalShape(5)
 	Actor_158.ExtraInfo.Name = ""
@@ -6638,7 +6638,7 @@ function InitMap(environment)
 	Actor_159 = ActorObjectInfo(159)
 	Actor_159:SetRenderType(1)
 	Actor_159.DisplayDesc.ModelId = 0
-	Actor_159.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_33.osgb"
+	Actor_159.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_33.osgb"
 	Actor_159.DisplayDesc.Outfit = ""
 	Actor_159.DisplayDesc.Weapon = ""
 	Actor_159.DisplayDesc.Mode = ""
@@ -6667,7 +6667,7 @@ function InitMap(environment)
 	Actor_159.PhysicDesc.SizeX = 0
 	Actor_159.PhysicDesc.SizeY = 0
 	Actor_159.PhysicDesc.SizeZ = 2.5714e-039
-	Actor_159.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_33.phy"
+	Actor_159.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_33.phy"
 	Actor_159:SetPhysicalActorType(1)
 	Actor_159:SetPhysicalShape(5)
 	Actor_159.ExtraInfo.Name = ""
@@ -6680,7 +6680,7 @@ function InitMap(environment)
 	Actor_160 = ActorObjectInfo(160)
 	Actor_160:SetRenderType(1)
 	Actor_160.DisplayDesc.ModelId = 227853216
-	Actor_160.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_33.osgb"
+	Actor_160.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_33.osgb"
 	Actor_160.DisplayDesc.Outfit = ""
 	Actor_160.DisplayDesc.Weapon = ""
 	Actor_160.DisplayDesc.Mode = ""
@@ -6709,7 +6709,7 @@ function InitMap(environment)
 	Actor_160.PhysicDesc.SizeX = 0
 	Actor_160.PhysicDesc.SizeY = 0.332032
 	Actor_160.PhysicDesc.SizeZ = 1.65306e-039
-	Actor_160.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_33.phy"
+	Actor_160.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_33.phy"
 	Actor_160:SetPhysicalActorType(1)
 	Actor_160:SetPhysicalShape(5)
 	Actor_160.ExtraInfo.Name = ""
@@ -6722,7 +6722,7 @@ function InitMap(environment)
 	Actor_161 = ActorObjectInfo(161)
 	Actor_161:SetRenderType(1)
 	Actor_161.DisplayDesc.ModelId = 0
-	Actor_161.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_33.osgb"
+	Actor_161.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_33.osgb"
 	Actor_161.DisplayDesc.Outfit = ""
 	Actor_161.DisplayDesc.Weapon = ""
 	Actor_161.DisplayDesc.Mode = ""
@@ -6751,7 +6751,7 @@ function InitMap(environment)
 	Actor_161.PhysicDesc.SizeX = 0
 	Actor_161.PhysicDesc.SizeY = 0
 	Actor_161.PhysicDesc.SizeZ = 1.2857e-039
-	Actor_161.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_33.phy"
+	Actor_161.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_33.phy"
 	Actor_161:SetPhysicalActorType(1)
 	Actor_161:SetPhysicalShape(5)
 	Actor_161.ExtraInfo.Name = ""
@@ -6764,7 +6764,7 @@ function InitMap(environment)
 	Actor_162 = ActorObjectInfo(162)
 	Actor_162:SetRenderType(1)
 	Actor_162.DisplayDesc.ModelId = 0
-	Actor_162.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_37.osgb"
+	Actor_162.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_37.osgb"
 	Actor_162.DisplayDesc.Outfit = ""
 	Actor_162.DisplayDesc.Weapon = ""
 	Actor_162.DisplayDesc.Mode = ""
@@ -6793,7 +6793,7 @@ function InitMap(environment)
 	Actor_162.PhysicDesc.SizeX = 3.49797e-009
 	Actor_162.PhysicDesc.SizeY = 1.29919e-008
 	Actor_162.PhysicDesc.SizeZ = 0
-	Actor_162.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_37.phy"
+	Actor_162.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_37.phy"
 	Actor_162:SetPhysicalActorType(1)
 	Actor_162:SetPhysicalShape(5)
 	Actor_162.ExtraInfo.Name = ""
@@ -6806,7 +6806,7 @@ function InitMap(environment)
 	Actor_163 = ActorObjectInfo(163)
 	Actor_163:SetRenderType(1)
 	Actor_163.DisplayDesc.ModelId = 0
-	Actor_163.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_38.osgb"
+	Actor_163.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_38.osgb"
 	Actor_163.DisplayDesc.Outfit = ""
 	Actor_163.DisplayDesc.Weapon = ""
 	Actor_163.DisplayDesc.Mode = ""
@@ -6835,7 +6835,7 @@ function InitMap(environment)
 	Actor_163.PhysicDesc.SizeX = 7.21429e+022
 	Actor_163.PhysicDesc.SizeY = 4.74204e+030
 	Actor_163.PhysicDesc.SizeZ = 0
-	Actor_163.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_38.phy"
+	Actor_163.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_38.phy"
 	Actor_163:SetPhysicalActorType(1)
 	Actor_163:SetPhysicalShape(5)
 	Actor_163.ExtraInfo.Name = ""
@@ -6848,7 +6848,7 @@ function InitMap(environment)
 	Actor_164 = ActorObjectInfo(164)
 	Actor_164:SetRenderType(1)
 	Actor_164.DisplayDesc.ModelId = 1953524082
-	Actor_164.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_38.osgb"
+	Actor_164.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_38.osgb"
 	Actor_164.DisplayDesc.Outfit = ""
 	Actor_164.DisplayDesc.Weapon = ""
 	Actor_164.DisplayDesc.Mode = ""
@@ -6877,7 +6877,7 @@ function InitMap(environment)
 	Actor_164.PhysicDesc.SizeX = 0
 	Actor_164.PhysicDesc.SizeY = 2.10195e-044
 	Actor_164.PhysicDesc.SizeZ = 0
-	Actor_164.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_38.phy"
+	Actor_164.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_38.phy"
 	Actor_164:SetPhysicalActorType(1)
 	Actor_164:SetPhysicalShape(5)
 	Actor_164.ExtraInfo.Name = ""
@@ -6890,7 +6890,7 @@ function InitMap(environment)
 	Actor_165 = ActorObjectInfo(165)
 	Actor_165:SetRenderType(1)
 	Actor_165.DisplayDesc.ModelId = 1953524082
-	Actor_165.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_40.osgb"
+	Actor_165.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_40.osgb"
 	Actor_165.DisplayDesc.Outfit = ""
 	Actor_165.DisplayDesc.Weapon = ""
 	Actor_165.DisplayDesc.Mode = ""
@@ -6919,7 +6919,7 @@ function InitMap(environment)
 	Actor_165.PhysicDesc.SizeX = 0
 	Actor_165.PhysicDesc.SizeY = 0
 	Actor_165.PhysicDesc.SizeZ = 0
-	Actor_165.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_40.phy"
+	Actor_165.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_40.phy"
 	Actor_165:SetPhysicalActorType(1)
 	Actor_165:SetPhysicalShape(5)
 	Actor_165.ExtraInfo.Name = ""
@@ -6932,7 +6932,7 @@ function InitMap(environment)
 	Actor_166 = ActorObjectInfo(166)
 	Actor_166:SetRenderType(1)
 	Actor_166.DisplayDesc.ModelId = 1953524082
-	Actor_166.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_41.osgb"
+	Actor_166.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_41.osgb"
 	Actor_166.DisplayDesc.Outfit = ""
 	Actor_166.DisplayDesc.Weapon = ""
 	Actor_166.DisplayDesc.Mode = ""
@@ -6961,7 +6961,7 @@ function InitMap(environment)
 	Actor_166.PhysicDesc.SizeX = 0
 	Actor_166.PhysicDesc.SizeY = 5.60519e-045
 	Actor_166.PhysicDesc.SizeZ = 8.40779e-045
-	Actor_166.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_41.phy"
+	Actor_166.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_41.phy"
 	Actor_166:SetPhysicalActorType(1)
 	Actor_166:SetPhysicalShape(5)
 	Actor_166.ExtraInfo.Name = ""
@@ -6974,7 +6974,7 @@ function InitMap(environment)
 	Actor_167 = ActorObjectInfo(167)
 	Actor_167:SetRenderType(1)
 	Actor_167.DisplayDesc.ModelId = 0
-	Actor_167.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_39.osgb"
+	Actor_167.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_39.osgb"
 	Actor_167.DisplayDesc.Outfit = ""
 	Actor_167.DisplayDesc.Weapon = ""
 	Actor_167.DisplayDesc.Mode = ""
@@ -7003,7 +7003,7 @@ function InitMap(environment)
 	Actor_167.PhysicDesc.SizeX = 7.21429e+022
 	Actor_167.PhysicDesc.SizeY = 4.74204e+030
 	Actor_167.PhysicDesc.SizeZ = 0
-	Actor_167.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_39.phy"
+	Actor_167.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_39.phy"
 	Actor_167:SetPhysicalActorType(1)
 	Actor_167:SetPhysicalShape(5)
 	Actor_167.ExtraInfo.Name = ""
@@ -7016,7 +7016,7 @@ function InitMap(environment)
 	Actor_168 = ActorObjectInfo(168)
 	Actor_168:SetRenderType(1)
 	Actor_168.DisplayDesc.ModelId = 0
-	Actor_168.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_42.osgb"
+	Actor_168.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_42.osgb"
 	Actor_168.DisplayDesc.Outfit = ""
 	Actor_168.DisplayDesc.Weapon = ""
 	Actor_168.DisplayDesc.Mode = ""
@@ -7045,7 +7045,7 @@ function InitMap(environment)
 	Actor_168.PhysicDesc.SizeX = 7.00622e+022
 	Actor_168.PhysicDesc.SizeY = 6.89215e+034
 	Actor_168.PhysicDesc.SizeZ = 3.63889e-041
-	Actor_168.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_42.phy"
+	Actor_168.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_42.phy"
 	Actor_168:SetPhysicalActorType(1)
 	Actor_168:SetPhysicalShape(5)
 	Actor_168.ExtraInfo.Name = ""
@@ -7058,7 +7058,7 @@ function InitMap(environment)
 	Actor_169 = ActorObjectInfo(169)
 	Actor_169:SetRenderType(1)
 	Actor_169.DisplayDesc.ModelId = 0
-	Actor_169.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_43.osgb"
+	Actor_169.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_43.osgb"
 	Actor_169.DisplayDesc.Outfit = ""
 	Actor_169.DisplayDesc.Weapon = ""
 	Actor_169.DisplayDesc.Mode = ""
@@ -7087,7 +7087,7 @@ function InitMap(environment)
 	Actor_169.PhysicDesc.SizeX = 7.21429e+022
 	Actor_169.PhysicDesc.SizeY = 4.74204e+030
 	Actor_169.PhysicDesc.SizeZ = 0
-	Actor_169.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_43.phy"
+	Actor_169.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_43.phy"
 	Actor_169:SetPhysicalActorType(1)
 	Actor_169:SetPhysicalShape(5)
 	Actor_169.ExtraInfo.Name = ""
@@ -7100,7 +7100,7 @@ function InitMap(environment)
 	Actor_170 = ActorObjectInfo(170)
 	Actor_170:SetRenderType(1)
 	Actor_170.DisplayDesc.ModelId = 40221011
-	Actor_170.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_43.osgb"
+	Actor_170.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_43.osgb"
 	Actor_170.DisplayDesc.Outfit = ""
 	Actor_170.DisplayDesc.Weapon = ""
 	Actor_170.DisplayDesc.Mode = ""
@@ -7129,7 +7129,7 @@ function InitMap(environment)
 	Actor_170.PhysicDesc.SizeX = 2.63953e-023
 	Actor_170.PhysicDesc.SizeY = 3.04923e-042
 	Actor_170.PhysicDesc.SizeZ = 3.48586e-024
-	Actor_170.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_43.phy"
+	Actor_170.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_43.phy"
 	Actor_170:SetPhysicalActorType(1)
 	Actor_170:SetPhysicalShape(5)
 	Actor_170.ExtraInfo.Name = ""
@@ -7142,7 +7142,7 @@ function InitMap(environment)
 	Actor_171 = ActorObjectInfo(171)
 	Actor_171:SetRenderType(1)
 	Actor_171.DisplayDesc.ModelId = 227853216
-	Actor_171.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_38.osgb"
+	Actor_171.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_38.osgb"
 	Actor_171.DisplayDesc.Outfit = ""
 	Actor_171.DisplayDesc.Weapon = ""
 	Actor_171.DisplayDesc.Mode = ""
@@ -7171,7 +7171,7 @@ function InitMap(environment)
 	Actor_171.PhysicDesc.SizeX = 0
 	Actor_171.PhysicDesc.SizeY = 1.4013e-045
 	Actor_171.PhysicDesc.SizeZ = 7.66925e-031
-	Actor_171.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_38.phy"
+	Actor_171.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_38.phy"
 	Actor_171:SetPhysicalActorType(1)
 	Actor_171:SetPhysicalShape(5)
 	Actor_171.ExtraInfo.Name = ""
@@ -7184,7 +7184,7 @@ function InitMap(environment)
 	Actor_172 = ActorObjectInfo(172)
 	Actor_172:SetRenderType(1)
 	Actor_172.DisplayDesc.ModelId = 227853216
-	Actor_172.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_44.osgb"
+	Actor_172.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_44.osgb"
 	Actor_172.DisplayDesc.Outfit = ""
 	Actor_172.DisplayDesc.Weapon = ""
 	Actor_172.DisplayDesc.Mode = ""
@@ -7213,7 +7213,7 @@ function InitMap(environment)
 	Actor_172.PhysicDesc.SizeX = 6.339e-024
 	Actor_172.PhysicDesc.SizeY = 0
 	Actor_172.PhysicDesc.SizeZ = 8.40779e-045
-	Actor_172.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_44.phy"
+	Actor_172.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_44.phy"
 	Actor_172:SetPhysicalActorType(1)
 	Actor_172:SetPhysicalShape(5)
 	Actor_172.ExtraInfo.Name = ""
@@ -7226,7 +7226,7 @@ function InitMap(environment)
 	Actor_173 = ActorObjectInfo(173)
 	Actor_173:SetRenderType(1)
 	Actor_173.DisplayDesc.ModelId = 1953524082
-	Actor_173.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_38.osgb"
+	Actor_173.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_38.osgb"
 	Actor_173.DisplayDesc.Outfit = ""
 	Actor_173.DisplayDesc.Weapon = ""
 	Actor_173.DisplayDesc.Mode = ""
@@ -7255,7 +7255,7 @@ function InitMap(environment)
 	Actor_173.PhysicDesc.SizeX = 0
 	Actor_173.PhysicDesc.SizeY = 5.60519e-045
 	Actor_173.PhysicDesc.SizeZ = 7.18306e-042
-	Actor_173.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_38.phy"
+	Actor_173.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_38.phy"
 	Actor_173:SetPhysicalActorType(1)
 	Actor_173:SetPhysicalShape(5)
 	Actor_173.ExtraInfo.Name = ""
@@ -7268,7 +7268,7 @@ function InitMap(environment)
 	Actor_174 = ActorObjectInfo(174)
 	Actor_174:SetRenderType(1)
 	Actor_174.DisplayDesc.ModelId = 1953524082
-	Actor_174.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_45.osgb"
+	Actor_174.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_45.osgb"
 	Actor_174.DisplayDesc.Outfit = ""
 	Actor_174.DisplayDesc.Weapon = ""
 	Actor_174.DisplayDesc.Mode = ""
@@ -7297,7 +7297,7 @@ function InitMap(environment)
 	Actor_174.PhysicDesc.SizeX = 4.57341e-038
 	Actor_174.PhysicDesc.SizeY = 4.48608e-024
 	Actor_174.PhysicDesc.SizeZ = 0
-	Actor_174.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_45.phy"
+	Actor_174.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_45.phy"
 	Actor_174:SetPhysicalActorType(1)
 	Actor_174:SetPhysicalShape(5)
 	Actor_174.ExtraInfo.Name = ""
@@ -7310,7 +7310,7 @@ function InitMap(environment)
 	Actor_175 = ActorObjectInfo(175)
 	Actor_175:SetRenderType(1)
 	Actor_175.DisplayDesc.ModelId = 0
-	Actor_175.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_46.osgb"
+	Actor_175.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_46.osgb"
 	Actor_175.DisplayDesc.Outfit = ""
 	Actor_175.DisplayDesc.Weapon = ""
 	Actor_175.DisplayDesc.Mode = ""
@@ -7339,7 +7339,7 @@ function InitMap(environment)
 	Actor_175.PhysicDesc.SizeX = 8.74493e-010
 	Actor_175.PhysicDesc.SizeY = 1.2992e-008
 	Actor_175.PhysicDesc.SizeZ = 0
-	Actor_175.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_46.phy"
+	Actor_175.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_46.phy"
 	Actor_175:SetPhysicalActorType(1)
 	Actor_175:SetPhysicalShape(5)
 	Actor_175.ExtraInfo.Name = ""
@@ -7352,7 +7352,7 @@ function InitMap(environment)
 	Actor_176 = ActorObjectInfo(176)
 	Actor_176:SetRenderType(1)
 	Actor_176.DisplayDesc.ModelId = 24707752
-	Actor_176.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_47.osgb"
+	Actor_176.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_47.osgb"
 	Actor_176.DisplayDesc.Outfit = ""
 	Actor_176.DisplayDesc.Weapon = ""
 	Actor_176.DisplayDesc.Mode = ""
@@ -7381,7 +7381,7 @@ function InitMap(environment)
 	Actor_176.PhysicDesc.SizeX = 2.10195e-044
 	Actor_176.PhysicDesc.SizeY = 0
 	Actor_176.PhysicDesc.SizeZ = -0.265625
-	Actor_176.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_47.phy"
+	Actor_176.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_47.phy"
 	Actor_176:SetPhysicalActorType(1)
 	Actor_176:SetPhysicalShape(5)
 	Actor_176.ExtraInfo.Name = ""
@@ -7394,7 +7394,7 @@ function InitMap(environment)
 	Actor_177 = ActorObjectInfo(177)
 	Actor_177:SetRenderType(1)
 	Actor_177.DisplayDesc.ModelId = 131076
-	Actor_177.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_48.osgb"
+	Actor_177.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_48.osgb"
 	Actor_177.DisplayDesc.Outfit = ""
 	Actor_177.DisplayDesc.Weapon = ""
 	Actor_177.DisplayDesc.Mode = ""
@@ -7423,7 +7423,7 @@ function InitMap(environment)
 	Actor_177.PhysicDesc.SizeX = 8.74493e-010
 	Actor_177.PhysicDesc.SizeY = 1.29931e-008
 	Actor_177.PhysicDesc.SizeZ = 4.57348e-038
-	Actor_177.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_48.phy"
+	Actor_177.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_48.phy"
 	Actor_177:SetPhysicalActorType(1)
 	Actor_177:SetPhysicalShape(5)
 	Actor_177.ExtraInfo.Name = ""
@@ -7436,7 +7436,7 @@ function InitMap(environment)
 	Actor_178 = ActorObjectInfo(178)
 	Actor_178:SetRenderType(1)
 	Actor_178.DisplayDesc.ModelId = 0
-	Actor_178.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_49.osgb"
+	Actor_178.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_49.osgb"
 	Actor_178.DisplayDesc.Outfit = ""
 	Actor_178.DisplayDesc.Weapon = ""
 	Actor_178.DisplayDesc.Mode = ""
@@ -7465,7 +7465,7 @@ function InitMap(environment)
 	Actor_178.PhysicDesc.SizeX = 7.21429e+022
 	Actor_178.PhysicDesc.SizeY = 4.74204e+030
 	Actor_178.PhysicDesc.SizeZ = 1.19386e-039
-	Actor_178.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_49.phy"
+	Actor_178.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_49.phy"
 	Actor_178:SetPhysicalActorType(1)
 	Actor_178:SetPhysicalShape(5)
 	Actor_178.ExtraInfo.Name = ""
@@ -7478,7 +7478,7 @@ function InitMap(environment)
 	Actor_179 = ActorObjectInfo(179)
 	Actor_179:SetRenderType(1)
 	Actor_179.DisplayDesc.ModelId = 0
-	Actor_179.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_8.osgb"
+	Actor_179.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_8.osgb"
 	Actor_179.DisplayDesc.Outfit = ""
 	Actor_179.DisplayDesc.Weapon = ""
 	Actor_179.DisplayDesc.Mode = ""
@@ -7507,7 +7507,7 @@ function InitMap(environment)
 	Actor_179.PhysicDesc.SizeX = 7.21429e+022
 	Actor_179.PhysicDesc.SizeY = 4.74204e+030
 	Actor_179.PhysicDesc.SizeZ = 0
-	Actor_179.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_8.phy"
+	Actor_179.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_8.phy"
 	Actor_179:SetPhysicalActorType(1)
 	Actor_179:SetPhysicalShape(5)
 	Actor_179.ExtraInfo.Name = ""
@@ -7520,7 +7520,7 @@ function InitMap(environment)
 	Actor_180 = ActorObjectInfo(180)
 	Actor_180:SetRenderType(1)
 	Actor_180.DisplayDesc.ModelId = 24707712
-	Actor_180.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_9.osgb"
+	Actor_180.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_9.osgb"
 	Actor_180.DisplayDesc.Outfit = ""
 	Actor_180.DisplayDesc.Weapon = ""
 	Actor_180.DisplayDesc.Mode = ""
@@ -7549,7 +7549,7 @@ function InitMap(environment)
 	Actor_180.PhysicDesc.SizeX = 0
 	Actor_180.PhysicDesc.SizeY = 7.00649e-045
 	Actor_180.PhysicDesc.SizeZ = 0
-	Actor_180.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_9.phy"
+	Actor_180.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_9.phy"
 	Actor_180:SetPhysicalActorType(1)
 	Actor_180:SetPhysicalShape(5)
 	Actor_180.ExtraInfo.Name = ""
@@ -7562,7 +7562,7 @@ function InitMap(environment)
 	Actor_181 = ActorObjectInfo(181)
 	Actor_181:SetRenderType(1)
 	Actor_181.DisplayDesc.ModelId = 0
-	Actor_181.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_36.osgb"
+	Actor_181.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_36.osgb"
 	Actor_181.DisplayDesc.Outfit = ""
 	Actor_181.DisplayDesc.Weapon = ""
 	Actor_181.DisplayDesc.Mode = ""
@@ -7591,7 +7591,7 @@ function InitMap(environment)
 	Actor_181.PhysicDesc.SizeX = 7.21429e+022
 	Actor_181.PhysicDesc.SizeY = 4.74204e+030
 	Actor_181.PhysicDesc.SizeZ = 0
-	Actor_181.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_36.phy"
+	Actor_181.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_36.phy"
 	Actor_181:SetPhysicalActorType(1)
 	Actor_181:SetPhysicalShape(5)
 	Actor_181.ExtraInfo.Name = ""
@@ -7604,7 +7604,7 @@ function InitMap(environment)
 	Actor_182 = ActorObjectInfo(182)
 	Actor_182:SetRenderType(1)
 	Actor_182.DisplayDesc.ModelId = 0
-	Actor_182.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_34.osgb"
+	Actor_182.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_34.osgb"
 	Actor_182.DisplayDesc.Outfit = ""
 	Actor_182.DisplayDesc.Weapon = ""
 	Actor_182.DisplayDesc.Mode = ""
@@ -7633,7 +7633,7 @@ function InitMap(environment)
 	Actor_182.PhysicDesc.SizeX = 7.21429e+022
 	Actor_182.PhysicDesc.SizeY = 4.74204e+030
 	Actor_182.PhysicDesc.SizeZ = 0
-	Actor_182.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_34.phy"
+	Actor_182.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_34.phy"
 	Actor_182:SetPhysicalActorType(1)
 	Actor_182:SetPhysicalShape(5)
 	Actor_182.ExtraInfo.Name = ""
@@ -7646,7 +7646,7 @@ function InitMap(environment)
 	Actor_183 = ActorObjectInfo(183)
 	Actor_183:SetRenderType(1)
 	Actor_183.DisplayDesc.ModelId = 1953524082
-	Actor_183.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_35.osgb"
+	Actor_183.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_35.osgb"
 	Actor_183.DisplayDesc.Outfit = ""
 	Actor_183.DisplayDesc.Weapon = ""
 	Actor_183.DisplayDesc.Mode = ""
@@ -7675,7 +7675,7 @@ function InitMap(environment)
 	Actor_183.PhysicDesc.SizeX = 90
 	Actor_183.PhysicDesc.SizeY = 5.60519e-045
 	Actor_183.PhysicDesc.SizeZ = 0
-	Actor_183.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_35.phy"
+	Actor_183.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_35.phy"
 	Actor_183:SetPhysicalActorType(1)
 	Actor_183:SetPhysicalShape(5)
 	Actor_183.ExtraInfo.Name = ""
@@ -7688,7 +7688,7 @@ function InitMap(environment)
 	Actor_184 = ActorObjectInfo(184)
 	Actor_184:SetRenderType(1)
 	Actor_184.DisplayDesc.ModelId = 24707712
-	Actor_184.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_50.osgb"
+	Actor_184.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_50.osgb"
 	Actor_184.DisplayDesc.Outfit = ""
 	Actor_184.DisplayDesc.Weapon = ""
 	Actor_184.DisplayDesc.Mode = ""
@@ -7717,7 +7717,7 @@ function InitMap(environment)
 	Actor_184.PhysicDesc.SizeX = 0.699219
 	Actor_184.PhysicDesc.SizeY = 0.666016
 	Actor_184.PhysicDesc.SizeZ = -0.197266
-	Actor_184.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_50.phy"
+	Actor_184.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_50.phy"
 	Actor_184:SetPhysicalActorType(1)
 	Actor_184:SetPhysicalShape(5)
 	Actor_184.ExtraInfo.Name = ""
@@ -7730,7 +7730,7 @@ function InitMap(environment)
 	Actor_185 = ActorObjectInfo(185)
 	Actor_185:SetRenderType(1)
 	Actor_185.DisplayDesc.ModelId = 0
-	Actor_185.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.osgb"
+	Actor_185.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.osgb"
 	Actor_185.DisplayDesc.Outfit = ""
 	Actor_185.DisplayDesc.Weapon = ""
 	Actor_185.DisplayDesc.Mode = ""
@@ -7759,7 +7759,7 @@ function InitMap(environment)
 	Actor_185.PhysicDesc.SizeX = 7.21429e+022
 	Actor_185.PhysicDesc.SizeY = 4.74204e+030
 	Actor_185.PhysicDesc.SizeZ = 0
-	Actor_185.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.phy"
+	Actor_185.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.phy"
 	Actor_185:SetPhysicalActorType(1)
 	Actor_185:SetPhysicalShape(5)
 	Actor_185.ExtraInfo.Name = ""
@@ -7772,7 +7772,7 @@ function InitMap(environment)
 	Actor_186 = ActorObjectInfo(186)
 	Actor_186:SetRenderType(1)
 	Actor_186.DisplayDesc.ModelId = 1953524082
-	Actor_186.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.osgb"
+	Actor_186.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.osgb"
 	Actor_186.DisplayDesc.Outfit = ""
 	Actor_186.DisplayDesc.Weapon = ""
 	Actor_186.DisplayDesc.Mode = ""
@@ -7801,7 +7801,7 @@ function InitMap(environment)
 	Actor_186.PhysicDesc.SizeX = -90
 	Actor_186.PhysicDesc.SizeY = 5.60519e-045
 	Actor_186.PhysicDesc.SizeZ = 0
-	Actor_186.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.phy"
+	Actor_186.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.phy"
 	Actor_186:SetPhysicalActorType(1)
 	Actor_186:SetPhysicalShape(5)
 	Actor_186.ExtraInfo.Name = ""
@@ -7814,7 +7814,7 @@ function InitMap(environment)
 	Actor_187 = ActorObjectInfo(187)
 	Actor_187:SetRenderType(1)
 	Actor_187.DisplayDesc.ModelId = 0
-	Actor_187.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.osgb"
+	Actor_187.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.osgb"
 	Actor_187.DisplayDesc.Outfit = ""
 	Actor_187.DisplayDesc.Weapon = ""
 	Actor_187.DisplayDesc.Mode = ""
@@ -7843,7 +7843,7 @@ function InitMap(environment)
 	Actor_187.PhysicDesc.SizeX = 8.74493e-010
 	Actor_187.PhysicDesc.SizeY = 1.29933e-008
 	Actor_187.PhysicDesc.SizeZ = 0
-	Actor_187.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.phy"
+	Actor_187.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.phy"
 	Actor_187:SetPhysicalActorType(1)
 	Actor_187:SetPhysicalShape(5)
 	Actor_187.ExtraInfo.Name = ""
@@ -7856,7 +7856,7 @@ function InitMap(environment)
 	Actor_188 = ActorObjectInfo(188)
 	Actor_188:SetRenderType(1)
 	Actor_188.DisplayDesc.ModelId = 24707712
-	Actor_188.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.osgb"
+	Actor_188.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.osgb"
 	Actor_188.DisplayDesc.Outfit = ""
 	Actor_188.DisplayDesc.Weapon = ""
 	Actor_188.DisplayDesc.Mode = ""
@@ -7885,7 +7885,7 @@ function InitMap(environment)
 	Actor_188.PhysicDesc.SizeX = 1.00865e-038
 	Actor_188.PhysicDesc.SizeY = 3.19481e-024
 	Actor_188.PhysicDesc.SizeZ = 1.60962e-023
-	Actor_188.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.phy"
+	Actor_188.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.phy"
 	Actor_188:SetPhysicalActorType(1)
 	Actor_188:SetPhysicalShape(5)
 	Actor_188.ExtraInfo.Name = ""
@@ -7898,7 +7898,7 @@ function InitMap(environment)
 	Actor_189 = ActorObjectInfo(189)
 	Actor_189:SetRenderType(1)
 	Actor_189.DisplayDesc.ModelId = 0
-	Actor_189.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.osgb"
+	Actor_189.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.osgb"
 	Actor_189.DisplayDesc.Outfit = ""
 	Actor_189.DisplayDesc.Weapon = ""
 	Actor_189.DisplayDesc.Mode = ""
@@ -7927,7 +7927,7 @@ function InitMap(environment)
 	Actor_189.PhysicDesc.SizeX = 7.21429e+022
 	Actor_189.PhysicDesc.SizeY = 4.74204e+030
 	Actor_189.PhysicDesc.SizeZ = 0
-	Actor_189.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.phy"
+	Actor_189.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.phy"
 	Actor_189:SetPhysicalActorType(1)
 	Actor_189:SetPhysicalShape(5)
 	Actor_189.ExtraInfo.Name = ""
@@ -7940,7 +7940,7 @@ function InitMap(environment)
 	Actor_190 = ActorObjectInfo(190)
 	Actor_190:SetRenderType(1)
 	Actor_190.DisplayDesc.ModelId = 227853216
-	Actor_190.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.osgb"
+	Actor_190.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.osgb"
 	Actor_190.DisplayDesc.Outfit = ""
 	Actor_190.DisplayDesc.Weapon = ""
 	Actor_190.DisplayDesc.Mode = ""
@@ -7969,7 +7969,7 @@ function InitMap(environment)
 	Actor_190.PhysicDesc.SizeX = 0
 	Actor_190.PhysicDesc.SizeY = 2.8026e-045
 	Actor_190.PhysicDesc.SizeZ = 1.70513e-023
-	Actor_190.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.phy"
+	Actor_190.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.phy"
 	Actor_190:SetPhysicalActorType(1)
 	Actor_190:SetPhysicalShape(5)
 	Actor_190.ExtraInfo.Name = ""
@@ -7982,7 +7982,7 @@ function InitMap(environment)
 	Actor_191 = ActorObjectInfo(191)
 	Actor_191:SetRenderType(1)
 	Actor_191.DisplayDesc.ModelId = 227853216
-	Actor_191.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.osgb"
+	Actor_191.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.osgb"
 	Actor_191.DisplayDesc.Outfit = ""
 	Actor_191.DisplayDesc.Weapon = ""
 	Actor_191.DisplayDesc.Mode = ""
@@ -8011,7 +8011,7 @@ function InitMap(environment)
 	Actor_191.PhysicDesc.SizeX = 0
 	Actor_191.PhysicDesc.SizeY = 1.4013e-045
 	Actor_191.PhysicDesc.SizeZ = 7.69373e-031
-	Actor_191.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.phy"
+	Actor_191.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.phy"
 	Actor_191:SetPhysicalActorType(1)
 	Actor_191:SetPhysicalShape(5)
 	Actor_191.ExtraInfo.Name = ""
@@ -8024,7 +8024,7 @@ function InitMap(environment)
 	Actor_192 = ActorObjectInfo(192)
 	Actor_192:SetRenderType(1)
 	Actor_192.DisplayDesc.ModelId = 227853216
-	Actor_192.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.osgb"
+	Actor_192.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.osgb"
 	Actor_192.DisplayDesc.Outfit = ""
 	Actor_192.DisplayDesc.Weapon = ""
 	Actor_192.DisplayDesc.Mode = ""
@@ -8053,7 +8053,7 @@ function InitMap(environment)
 	Actor_192.PhysicDesc.SizeX = 0
 	Actor_192.PhysicDesc.SizeY = 2.8026e-045
 	Actor_192.PhysicDesc.SizeZ = 7.67472e-031
-	Actor_192.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.phy"
+	Actor_192.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.phy"
 	Actor_192:SetPhysicalActorType(1)
 	Actor_192:SetPhysicalShape(5)
 	Actor_192.ExtraInfo.Name = ""
@@ -8066,7 +8066,7 @@ function InitMap(environment)
 	Actor_193 = ActorObjectInfo(193)
 	Actor_193:SetRenderType(1)
 	Actor_193.DisplayDesc.ModelId = 144541660
-	Actor_193.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.osgb"
+	Actor_193.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.osgb"
 	Actor_193.DisplayDesc.Outfit = ""
 	Actor_193.DisplayDesc.Weapon = ""
 	Actor_193.DisplayDesc.Mode = ""
@@ -8095,7 +8095,7 @@ function InitMap(environment)
 	Actor_193.PhysicDesc.SizeX = 3.49797e-009
 	Actor_193.PhysicDesc.SizeY = 1.29913e-008
 	Actor_193.PhysicDesc.SizeZ = 0
-	Actor_193.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.phy"
+	Actor_193.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.phy"
 	Actor_193:SetPhysicalActorType(1)
 	Actor_193:SetPhysicalShape(5)
 	Actor_193.ExtraInfo.Name = ""
@@ -8108,7 +8108,7 @@ function InitMap(environment)
 	Actor_194 = ActorObjectInfo(194)
 	Actor_194:SetRenderType(1)
 	Actor_194.DisplayDesc.ModelId = 436162928
-	Actor_194.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_52.osgb"
+	Actor_194.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_52.osgb"
 	Actor_194.DisplayDesc.Outfit = ""
 	Actor_194.DisplayDesc.Weapon = ""
 	Actor_194.DisplayDesc.Mode = ""
@@ -8137,7 +8137,7 @@ function InitMap(environment)
 	Actor_194.PhysicDesc.SizeX = 7.21429e+022
 	Actor_194.PhysicDesc.SizeY = 4.74204e+030
 	Actor_194.PhysicDesc.SizeZ = 5.51013e-040
-	Actor_194.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_52.phy"
+	Actor_194.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_52.phy"
 	Actor_194:SetPhysicalActorType(1)
 	Actor_194:SetPhysicalShape(5)
 	Actor_194.ExtraInfo.Name = ""
@@ -8150,7 +8150,7 @@ function InitMap(environment)
 	Actor_195 = ActorObjectInfo(195)
 	Actor_195:SetRenderType(1)
 	Actor_195.DisplayDesc.ModelId = 0
-	Actor_195.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_23.osgb"
+	Actor_195.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_23.osgb"
 	Actor_195.DisplayDesc.Outfit = ""
 	Actor_195.DisplayDesc.Weapon = ""
 	Actor_195.DisplayDesc.Mode = ""
@@ -8179,7 +8179,7 @@ function InitMap(environment)
 	Actor_195.PhysicDesc.SizeX = 8.74493e-010
 	Actor_195.PhysicDesc.SizeY = 1.29917e-008
 	Actor_195.PhysicDesc.SizeZ = 1.2857e-039
-	Actor_195.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_23.phy"
+	Actor_195.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_23.phy"
 	Actor_195:SetPhysicalActorType(1)
 	Actor_195:SetPhysicalShape(5)
 	Actor_195.ExtraInfo.Name = ""
@@ -8192,7 +8192,7 @@ function InitMap(environment)
 	Actor_196 = ActorObjectInfo(196)
 	Actor_196:SetRenderType(1)
 	Actor_196.DisplayDesc.ModelId = 24707712
-	Actor_196.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_22.osgb"
+	Actor_196.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_22.osgb"
 	Actor_196.DisplayDesc.Outfit = ""
 	Actor_196.DisplayDesc.Weapon = ""
 	Actor_196.DisplayDesc.Mode = ""
@@ -8221,7 +8221,7 @@ function InitMap(environment)
 	Actor_196.PhysicDesc.SizeX = 6.36289e-024
 	Actor_196.PhysicDesc.SizeY = 6.36293e-024
 	Actor_196.PhysicDesc.SizeZ = 6.35895e-024
-	Actor_196.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_22.phy"
+	Actor_196.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_22.phy"
 	Actor_196:SetPhysicalActorType(1)
 	Actor_196:SetPhysicalShape(5)
 	Actor_196.ExtraInfo.Name = ""
@@ -8234,7 +8234,7 @@ function InitMap(environment)
 	Actor_197 = ActorObjectInfo(197)
 	Actor_197:SetRenderType(1)
 	Actor_197.DisplayDesc.ModelId = 0
-	Actor_197.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_53.osgb"
+	Actor_197.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_53.osgb"
 	Actor_197.DisplayDesc.Outfit = ""
 	Actor_197.DisplayDesc.Weapon = ""
 	Actor_197.DisplayDesc.Mode = ""
@@ -8263,7 +8263,7 @@ function InitMap(environment)
 	Actor_197.PhysicDesc.SizeX = 8.74493e-010
 	Actor_197.PhysicDesc.SizeY = 1.29929e-008
 	Actor_197.PhysicDesc.SizeZ = 0
-	Actor_197.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_53.phy"
+	Actor_197.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_53.phy"
 	Actor_197:SetPhysicalActorType(1)
 	Actor_197:SetPhysicalShape(5)
 	Actor_197.ExtraInfo.Name = ""
@@ -8276,7 +8276,7 @@ function InitMap(environment)
 	Actor_198 = ActorObjectInfo(198)
 	Actor_198:SetRenderType(1)
 	Actor_198.DisplayDesc.ModelId = 0
-	Actor_198.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_53.osgb"
+	Actor_198.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_53.osgb"
 	Actor_198.DisplayDesc.Outfit = ""
 	Actor_198.DisplayDesc.Weapon = ""
 	Actor_198.DisplayDesc.Mode = ""
@@ -8305,7 +8305,7 @@ function InitMap(environment)
 	Actor_198.PhysicDesc.SizeX = 0
 	Actor_198.PhysicDesc.SizeY = 0
 	Actor_198.PhysicDesc.SizeZ = 0
-	Actor_198.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_53.phy"
+	Actor_198.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_53.phy"
 	Actor_198:SetPhysicalActorType(1)
 	Actor_198:SetPhysicalShape(5)
 	Actor_198.ExtraInfo.Name = ""
@@ -8318,7 +8318,7 @@ function InitMap(environment)
 	Actor_199 = ActorObjectInfo(199)
 	Actor_199:SetRenderType(1)
 	Actor_199.DisplayDesc.ModelId = -1
-	Actor_199.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_54.osgb"
+	Actor_199.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_54.osgb"
 	Actor_199.DisplayDesc.Outfit = ""
 	Actor_199.DisplayDesc.Weapon = ""
 	Actor_199.DisplayDesc.Mode = ""
@@ -8347,7 +8347,7 @@ function InitMap(environment)
 	Actor_199.PhysicDesc.SizeX = 0
 	Actor_199.PhysicDesc.SizeY = 0
 	Actor_199.PhysicDesc.SizeZ = 0
-	Actor_199.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_54.phy"
+	Actor_199.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_54.phy"
 	Actor_199:SetPhysicalActorType(1)
 	Actor_199:SetPhysicalShape(5)
 	Actor_199.ExtraInfo.Name = ""
@@ -8360,7 +8360,7 @@ function InitMap(environment)
 	Actor_200 = ActorObjectInfo(200)
 	Actor_200:SetRenderType(1)
 	Actor_200.DisplayDesc.ModelId = 1953524082
-	Actor_200.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_55.osgb"
+	Actor_200.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_55.osgb"
 	Actor_200.DisplayDesc.Outfit = ""
 	Actor_200.DisplayDesc.Weapon = ""
 	Actor_200.DisplayDesc.Mode = ""
@@ -8389,7 +8389,7 @@ function InitMap(environment)
 	Actor_200.PhysicDesc.SizeX = 2.47956e-039
 	Actor_200.PhysicDesc.SizeY = 2.63316e-035
 	Actor_200.PhysicDesc.SizeZ = 4.57357e-038
-	Actor_200.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_55.phy"
+	Actor_200.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_55.phy"
 	Actor_200:SetPhysicalActorType(1)
 	Actor_200:SetPhysicalShape(5)
 	Actor_200.ExtraInfo.Name = ""
@@ -8402,7 +8402,7 @@ function InitMap(environment)
 	Actor_201 = ActorObjectInfo(201)
 	Actor_201:SetRenderType(1)
 	Actor_201.DisplayDesc.ModelId = 412319752
-	Actor_201.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_55.osgb"
+	Actor_201.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_55.osgb"
 	Actor_201.DisplayDesc.Outfit = ""
 	Actor_201.DisplayDesc.Weapon = ""
 	Actor_201.DisplayDesc.Mode = ""
@@ -8431,7 +8431,7 @@ function InitMap(environment)
 	Actor_201.PhysicDesc.SizeX = 7.21429e+022
 	Actor_201.PhysicDesc.SizeY = 4.74204e+030
 	Actor_201.PhysicDesc.SizeZ = 4.57348e-038
-	Actor_201.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_55.phy"
+	Actor_201.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_55.phy"
 	Actor_201:SetPhysicalActorType(1)
 	Actor_201:SetPhysicalShape(5)
 	Actor_201.ExtraInfo.Name = ""
@@ -8444,7 +8444,7 @@ function InitMap(environment)
 	Actor_202 = ActorObjectInfo(202)
 	Actor_202:SetRenderType(1)
 	Actor_202.DisplayDesc.ModelId = 0
-	Actor_202.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_53.osgb"
+	Actor_202.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_53.osgb"
 	Actor_202.DisplayDesc.Outfit = ""
 	Actor_202.DisplayDesc.Weapon = ""
 	Actor_202.DisplayDesc.Mode = ""
@@ -8473,7 +8473,7 @@ function InitMap(environment)
 	Actor_202.PhysicDesc.SizeX = 8.74493e-010
 	Actor_202.PhysicDesc.SizeY = 1.29929e-008
 	Actor_202.PhysicDesc.SizeZ = 0
-	Actor_202.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_53.phy"
+	Actor_202.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_53.phy"
 	Actor_202:SetPhysicalActorType(1)
 	Actor_202:SetPhysicalShape(5)
 	Actor_202.ExtraInfo.Name = ""
@@ -8486,7 +8486,7 @@ function InitMap(environment)
 	Actor_203 = ActorObjectInfo(203)
 	Actor_203:SetRenderType(1)
 	Actor_203.DisplayDesc.ModelId = 0
-	Actor_203.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_53.osgb"
+	Actor_203.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_53.osgb"
 	Actor_203.DisplayDesc.Outfit = ""
 	Actor_203.DisplayDesc.Weapon = ""
 	Actor_203.DisplayDesc.Mode = ""
@@ -8515,7 +8515,7 @@ function InitMap(environment)
 	Actor_203.PhysicDesc.SizeX = 0
 	Actor_203.PhysicDesc.SizeY = 0
 	Actor_203.PhysicDesc.SizeZ = 0
-	Actor_203.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_53.phy"
+	Actor_203.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_53.phy"
 	Actor_203:SetPhysicalActorType(1)
 	Actor_203:SetPhysicalShape(5)
 	Actor_203.ExtraInfo.Name = ""
@@ -8528,7 +8528,7 @@ function InitMap(environment)
 	Actor_204 = ActorObjectInfo(204)
 	Actor_204:SetRenderType(1)
 	Actor_204.DisplayDesc.ModelId = -1
-	Actor_204.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_54.osgb"
+	Actor_204.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_54.osgb"
 	Actor_204.DisplayDesc.Outfit = ""
 	Actor_204.DisplayDesc.Weapon = ""
 	Actor_204.DisplayDesc.Mode = ""
@@ -8557,7 +8557,7 @@ function InitMap(environment)
 	Actor_204.PhysicDesc.SizeX = 0
 	Actor_204.PhysicDesc.SizeY = 0
 	Actor_204.PhysicDesc.SizeZ = 0
-	Actor_204.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_54.phy"
+	Actor_204.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_54.phy"
 	Actor_204:SetPhysicalActorType(1)
 	Actor_204:SetPhysicalShape(5)
 	Actor_204.ExtraInfo.Name = ""
@@ -8570,7 +8570,7 @@ function InitMap(environment)
 	Actor_205 = ActorObjectInfo(205)
 	Actor_205:SetRenderType(1)
 	Actor_205.DisplayDesc.ModelId = 0
-	Actor_205.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_30.osgb"
+	Actor_205.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_30.osgb"
 	Actor_205.DisplayDesc.Outfit = ""
 	Actor_205.DisplayDesc.Weapon = ""
 	Actor_205.DisplayDesc.Mode = ""
@@ -8599,7 +8599,7 @@ function InitMap(environment)
 	Actor_205.PhysicDesc.SizeX = 7.21429e+022
 	Actor_205.PhysicDesc.SizeY = 4.74204e+030
 	Actor_205.PhysicDesc.SizeZ = 0
-	Actor_205.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_30.phy"
+	Actor_205.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_30.phy"
 	Actor_205:SetPhysicalActorType(1)
 	Actor_205:SetPhysicalShape(5)
 	Actor_205.ExtraInfo.Name = ""
@@ -8612,7 +8612,7 @@ function InitMap(environment)
 	Actor_206 = ActorObjectInfo(206)
 	Actor_206:SetRenderType(1)
 	Actor_206.DisplayDesc.ModelId = 0
-	Actor_206.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_56.osgb"
+	Actor_206.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_56.osgb"
 	Actor_206.DisplayDesc.Outfit = ""
 	Actor_206.DisplayDesc.Weapon = ""
 	Actor_206.DisplayDesc.Mode = ""
@@ -8641,7 +8641,7 @@ function InitMap(environment)
 	Actor_206.PhysicDesc.SizeX = 3.49797e-009
 	Actor_206.PhysicDesc.SizeY = 1.29924e-008
 	Actor_206.PhysicDesc.SizeZ = 0
-	Actor_206.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_56.phy"
+	Actor_206.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_56.phy"
 	Actor_206:SetPhysicalActorType(1)
 	Actor_206:SetPhysicalShape(5)
 	Actor_206.ExtraInfo.Name = ""
@@ -8654,7 +8654,7 @@ function InitMap(environment)
 	Actor_207 = ActorObjectInfo(207)
 	Actor_207:SetRenderType(1)
 	Actor_207.DisplayDesc.ModelId = 1953524082
-	Actor_207.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_56.osgb"
+	Actor_207.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_56.osgb"
 	Actor_207.DisplayDesc.Outfit = ""
 	Actor_207.DisplayDesc.Weapon = ""
 	Actor_207.DisplayDesc.Mode = ""
@@ -8683,7 +8683,7 @@ function InitMap(environment)
 	Actor_207.PhysicDesc.SizeX = 1.70606e-023
 	Actor_207.PhysicDesc.SizeY = 5.60519e-045
 	Actor_207.PhysicDesc.SizeZ = 0
-	Actor_207.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_56.phy"
+	Actor_207.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_56.phy"
 	Actor_207:SetPhysicalActorType(1)
 	Actor_207:SetPhysicalShape(5)
 	Actor_207.ExtraInfo.Name = ""
@@ -8696,7 +8696,7 @@ function InitMap(environment)
 	Actor_208 = ActorObjectInfo(208)
 	Actor_208:SetRenderType(1)
 	Actor_208.DisplayDesc.ModelId = -1
-	Actor_208.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.osgb"
+	Actor_208.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.osgb"
 	Actor_208.DisplayDesc.Outfit = ""
 	Actor_208.DisplayDesc.Weapon = ""
 	Actor_208.DisplayDesc.Mode = ""
@@ -8725,7 +8725,7 @@ function InitMap(environment)
 	Actor_208.PhysicDesc.SizeX = 0
 	Actor_208.PhysicDesc.SizeY = 0
 	Actor_208.PhysicDesc.SizeZ = 0
-	Actor_208.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.phy"
+	Actor_208.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.phy"
 	Actor_208:SetPhysicalActorType(1)
 	Actor_208:SetPhysicalShape(5)
 	Actor_208.ExtraInfo.Name = ""
@@ -8738,7 +8738,7 @@ function InitMap(environment)
 	Actor_209 = ActorObjectInfo(209)
 	Actor_209:SetRenderType(1)
 	Actor_209.DisplayDesc.ModelId = 826
-	Actor_209.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.osgb"
+	Actor_209.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.osgb"
 	Actor_209.DisplayDesc.Outfit = ""
 	Actor_209.DisplayDesc.Weapon = ""
 	Actor_209.DisplayDesc.Mode = ""
@@ -8767,7 +8767,7 @@ function InitMap(environment)
 	Actor_209.PhysicDesc.SizeX = 0
 	Actor_209.PhysicDesc.SizeY = 0
 	Actor_209.PhysicDesc.SizeZ = 0
-	Actor_209.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.phy"
+	Actor_209.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.phy"
 	Actor_209:SetPhysicalActorType(1)
 	Actor_209:SetPhysicalShape(5)
 	Actor_209.ExtraInfo.Name = ""
@@ -8780,7 +8780,7 @@ function InitMap(environment)
 	Actor_210 = ActorObjectInfo(210)
 	Actor_210:SetRenderType(1)
 	Actor_210.DisplayDesc.ModelId = 24707712
-	Actor_210.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.osgb"
+	Actor_210.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.osgb"
 	Actor_210.DisplayDesc.Outfit = ""
 	Actor_210.DisplayDesc.Weapon = ""
 	Actor_210.DisplayDesc.Mode = ""
@@ -8809,7 +8809,7 @@ function InitMap(environment)
 	Actor_210.PhysicDesc.SizeX = 2.10195e-044
 	Actor_210.PhysicDesc.SizeY = 6.81907e-031
 	Actor_210.PhysicDesc.SizeZ = 1.83671e-040
-	Actor_210.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.phy"
+	Actor_210.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.phy"
 	Actor_210:SetPhysicalActorType(1)
 	Actor_210:SetPhysicalShape(5)
 	Actor_210.ExtraInfo.Name = ""
@@ -8822,7 +8822,7 @@ function InitMap(environment)
 	Actor_211 = ActorObjectInfo(211)
 	Actor_211:SetRenderType(1)
 	Actor_211.DisplayDesc.ModelId = 208547904
-	Actor_211.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_24.osgb"
+	Actor_211.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_24.osgb"
 	Actor_211.DisplayDesc.Outfit = ""
 	Actor_211.DisplayDesc.Weapon = ""
 	Actor_211.DisplayDesc.Mode = ""
@@ -8851,7 +8851,7 @@ function InitMap(environment)
 	Actor_211.PhysicDesc.SizeX = 7.21429e+022
 	Actor_211.PhysicDesc.SizeY = 4.74204e+030
 	Actor_211.PhysicDesc.SizeZ = 4.57348e-038
-	Actor_211.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_24.phy"
+	Actor_211.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_24.phy"
 	Actor_211:SetPhysicalActorType(1)
 	Actor_211:SetPhysicalShape(5)
 	Actor_211.ExtraInfo.Name = ""
@@ -8864,7 +8864,7 @@ function InitMap(environment)
 	Actor_212 = ActorObjectInfo(212)
 	Actor_212:SetRenderType(1)
 	Actor_212.DisplayDesc.ModelId = 1953524082
-	Actor_212.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.osgb"
+	Actor_212.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.osgb"
 	Actor_212.DisplayDesc.Outfit = ""
 	Actor_212.DisplayDesc.Weapon = ""
 	Actor_212.DisplayDesc.Mode = ""
@@ -8893,7 +8893,7 @@ function InitMap(environment)
 	Actor_212.PhysicDesc.SizeX = 4.57341e-038
 	Actor_212.PhysicDesc.SizeY = 7.01489e-023
 	Actor_212.PhysicDesc.SizeZ = 0
-	Actor_212.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.phy"
+	Actor_212.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.phy"
 	Actor_212:SetPhysicalActorType(1)
 	Actor_212:SetPhysicalShape(5)
 	Actor_212.ExtraInfo.Name = ""
@@ -8906,7 +8906,7 @@ function InitMap(environment)
 	Actor_213 = ActorObjectInfo(213)
 	Actor_213:SetRenderType(1)
 	Actor_213.DisplayDesc.ModelId = 0
-	Actor_213.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.osgb"
+	Actor_213.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.osgb"
 	Actor_213.DisplayDesc.Outfit = ""
 	Actor_213.DisplayDesc.Weapon = ""
 	Actor_213.DisplayDesc.Mode = ""
@@ -8935,7 +8935,7 @@ function InitMap(environment)
 	Actor_213.PhysicDesc.SizeX = 7.21429e+022
 	Actor_213.PhysicDesc.SizeY = 4.74204e+030
 	Actor_213.PhysicDesc.SizeZ = 0
-	Actor_213.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.phy"
+	Actor_213.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.phy"
 	Actor_213:SetPhysicalActorType(1)
 	Actor_213:SetPhysicalShape(5)
 	Actor_213.ExtraInfo.Name = ""
@@ -8948,7 +8948,7 @@ function InitMap(environment)
 	Actor_214 = ActorObjectInfo(214)
 	Actor_214:SetRenderType(1)
 	Actor_214.DisplayDesc.ModelId = 1953524082
-	Actor_214.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.osgb"
+	Actor_214.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.osgb"
 	Actor_214.DisplayDesc.Outfit = ""
 	Actor_214.DisplayDesc.Weapon = ""
 	Actor_214.DisplayDesc.Mode = ""
@@ -8977,7 +8977,7 @@ function InitMap(environment)
 	Actor_214.PhysicDesc.SizeX = 7.81686e-023
 	Actor_214.PhysicDesc.SizeY = 5.60519e-045
 	Actor_214.PhysicDesc.SizeZ = 0
-	Actor_214.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.phy"
+	Actor_214.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.phy"
 	Actor_214:SetPhysicalActorType(1)
 	Actor_214:SetPhysicalShape(5)
 	Actor_214.ExtraInfo.Name = ""
@@ -8990,7 +8990,7 @@ function InitMap(environment)
 	Actor_215 = ActorObjectInfo(215)
 	Actor_215:SetRenderType(1)
 	Actor_215.DisplayDesc.ModelId = 3801088
-	Actor_215.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_57.osgb"
+	Actor_215.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_57.osgb"
 	Actor_215.DisplayDesc.Outfit = ""
 	Actor_215.DisplayDesc.Weapon = ""
 	Actor_215.DisplayDesc.Mode = ""
@@ -9019,7 +9019,7 @@ function InitMap(environment)
 	Actor_215.PhysicDesc.SizeX = 0
 	Actor_215.PhysicDesc.SizeY = 0
 	Actor_215.PhysicDesc.SizeZ = 0
-	Actor_215.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_57.phy"
+	Actor_215.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_57.phy"
 	Actor_215:SetPhysicalActorType(1)
 	Actor_215:SetPhysicalShape(5)
 	Actor_215.ExtraInfo.Name = ""
@@ -9032,7 +9032,7 @@ function InitMap(environment)
 	Actor_216 = ActorObjectInfo(216)
 	Actor_216:SetRenderType(1)
 	Actor_216.DisplayDesc.ModelId = -1
-	Actor_216.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_58.osgb"
+	Actor_216.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_58.osgb"
 	Actor_216.DisplayDesc.Outfit = ""
 	Actor_216.DisplayDesc.Weapon = ""
 	Actor_216.DisplayDesc.Mode = ""
@@ -9061,7 +9061,7 @@ function InitMap(environment)
 	Actor_216.PhysicDesc.SizeX = 0
 	Actor_216.PhysicDesc.SizeY = 0
 	Actor_216.PhysicDesc.SizeZ = 0
-	Actor_216.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_58.phy"
+	Actor_216.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_58.phy"
 	Actor_216:SetPhysicalActorType(1)
 	Actor_216:SetPhysicalShape(5)
 	Actor_216.ExtraInfo.Name = ""
@@ -9074,7 +9074,7 @@ function InitMap(environment)
 	Actor_217 = ActorObjectInfo(217)
 	Actor_217:SetRenderType(1)
 	Actor_217.DisplayDesc.ModelId = -1
-	Actor_217.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_58.osgb"
+	Actor_217.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_58.osgb"
 	Actor_217.DisplayDesc.Outfit = ""
 	Actor_217.DisplayDesc.Weapon = ""
 	Actor_217.DisplayDesc.Mode = ""
@@ -9103,7 +9103,7 @@ function InitMap(environment)
 	Actor_217.PhysicDesc.SizeX = 0
 	Actor_217.PhysicDesc.SizeY = 0
 	Actor_217.PhysicDesc.SizeZ = 0
-	Actor_217.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_58.phy"
+	Actor_217.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_58.phy"
 	Actor_217:SetPhysicalActorType(1)
 	Actor_217:SetPhysicalShape(5)
 	Actor_217.ExtraInfo.Name = ""
@@ -9116,7 +9116,7 @@ function InitMap(environment)
 	Actor_218 = ActorObjectInfo(218)
 	Actor_218:SetRenderType(1)
 	Actor_218.DisplayDesc.ModelId = 1953524082
-	Actor_218.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_59.osgb"
+	Actor_218.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_59.osgb"
 	Actor_218.DisplayDesc.Outfit = ""
 	Actor_218.DisplayDesc.Weapon = ""
 	Actor_218.DisplayDesc.Mode = ""
@@ -9145,7 +9145,7 @@ function InitMap(environment)
 	Actor_218.PhysicDesc.SizeX = 0.00994873
 	Actor_218.PhysicDesc.SizeY = 0
 	Actor_218.PhysicDesc.SizeZ = 0
-	Actor_218.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_59.phy"
+	Actor_218.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_59.phy"
 	Actor_218:SetPhysicalActorType(1)
 	Actor_218:SetPhysicalShape(5)
 	Actor_218.ExtraInfo.Name = ""
@@ -9158,7 +9158,7 @@ function InitMap(environment)
 	Actor_219 = ActorObjectInfo(219)
 	Actor_219:SetRenderType(1)
 	Actor_219.DisplayDesc.ModelId = 144541660
-	Actor_219.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_60.osgb"
+	Actor_219.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_60.osgb"
 	Actor_219.DisplayDesc.Outfit = ""
 	Actor_219.DisplayDesc.Weapon = ""
 	Actor_219.DisplayDesc.Mode = ""
@@ -9187,7 +9187,7 @@ function InitMap(environment)
 	Actor_219.PhysicDesc.SizeX = 7.21429e+022
 	Actor_219.PhysicDesc.SizeY = 4.74204e+030
 	Actor_219.PhysicDesc.SizeZ = 0
-	Actor_219.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_60.phy"
+	Actor_219.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_60.phy"
 	Actor_219:SetPhysicalActorType(1)
 	Actor_219:SetPhysicalShape(5)
 	Actor_219.ExtraInfo.Name = ""
@@ -9200,7 +9200,7 @@ function InitMap(environment)
 	Actor_220 = ActorObjectInfo(220)
 	Actor_220:SetRenderType(1)
 	Actor_220.DisplayDesc.ModelId = -1088128297
-	Actor_220.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_60.osgb"
+	Actor_220.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_60.osgb"
 	Actor_220.DisplayDesc.Outfit = ""
 	Actor_220.DisplayDesc.Weapon = ""
 	Actor_220.DisplayDesc.Mode = ""
@@ -9229,7 +9229,7 @@ function InitMap(environment)
 	Actor_220.PhysicDesc.SizeX = 7.21429e+022
 	Actor_220.PhysicDesc.SizeY = 4.74204e+030
 	Actor_220.PhysicDesc.SizeZ = -0.396271
-	Actor_220.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_60.phy"
+	Actor_220.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_60.phy"
 	Actor_220:SetPhysicalActorType(1)
 	Actor_220:SetPhysicalShape(5)
 	Actor_220.ExtraInfo.Name = ""
@@ -9242,7 +9242,7 @@ function InitMap(environment)
 	Actor_221 = ActorObjectInfo(221)
 	Actor_221:SetRenderType(1)
 	Actor_221.DisplayDesc.ModelId = 1953524082
-	Actor_221.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_61.osgb"
+	Actor_221.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_61.osgb"
 	Actor_221.DisplayDesc.Outfit = ""
 	Actor_221.DisplayDesc.Weapon = ""
 	Actor_221.DisplayDesc.Mode = ""
@@ -9271,7 +9271,7 @@ function InitMap(environment)
 	Actor_221.PhysicDesc.SizeX = 0.00994873
 	Actor_221.PhysicDesc.SizeY = 0
 	Actor_221.PhysicDesc.SizeZ = 0
-	Actor_221.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_61.phy"
+	Actor_221.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_61.phy"
 	Actor_221:SetPhysicalActorType(1)
 	Actor_221:SetPhysicalShape(5)
 	Actor_221.ExtraInfo.Name = ""
@@ -9284,7 +9284,7 @@ function InitMap(environment)
 	Actor_222 = ActorObjectInfo(222)
 	Actor_222:SetRenderType(1)
 	Actor_222.DisplayDesc.ModelId = 1953524082
-	Actor_222.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_62.osgb"
+	Actor_222.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_62.osgb"
 	Actor_222.DisplayDesc.Outfit = ""
 	Actor_222.DisplayDesc.Weapon = ""
 	Actor_222.DisplayDesc.Mode = ""
@@ -9313,7 +9313,7 @@ function InitMap(environment)
 	Actor_222.PhysicDesc.SizeX = 0.00994873
 	Actor_222.PhysicDesc.SizeY = 0
 	Actor_222.PhysicDesc.SizeZ = 0
-	Actor_222.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_62.phy"
+	Actor_222.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_62.phy"
 	Actor_222:SetPhysicalActorType(1)
 	Actor_222:SetPhysicalShape(5)
 	Actor_222.ExtraInfo.Name = ""
@@ -9326,7 +9326,7 @@ function InitMap(environment)
 	Actor_223 = ActorObjectInfo(223)
 	Actor_223:SetRenderType(1)
 	Actor_223.DisplayDesc.ModelId = 144541660
-	Actor_223.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_63.osgb"
+	Actor_223.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_63.osgb"
 	Actor_223.DisplayDesc.Outfit = ""
 	Actor_223.DisplayDesc.Weapon = ""
 	Actor_223.DisplayDesc.Mode = ""
@@ -9355,7 +9355,7 @@ function InitMap(environment)
 	Actor_223.PhysicDesc.SizeX = 3.49797e-009
 	Actor_223.PhysicDesc.SizeY = 1.29919e-008
 	Actor_223.PhysicDesc.SizeZ = 0
-	Actor_223.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_63.phy"
+	Actor_223.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_63.phy"
 	Actor_223:SetPhysicalActorType(1)
 	Actor_223:SetPhysicalShape(5)
 	Actor_223.ExtraInfo.Name = ""
@@ -9368,7 +9368,7 @@ function InitMap(environment)
 	Actor_224 = ActorObjectInfo(224)
 	Actor_224:SetRenderType(1)
 	Actor_224.DisplayDesc.ModelId = 1701667139
-	Actor_224.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_64.osgb"
+	Actor_224.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_64.osgb"
 	Actor_224.DisplayDesc.Outfit = ""
 	Actor_224.DisplayDesc.Weapon = ""
 	Actor_224.DisplayDesc.Mode = ""
@@ -9397,7 +9397,7 @@ function InitMap(environment)
 	Actor_224.PhysicDesc.SizeX = 0
 	Actor_224.PhysicDesc.SizeY = 0
 	Actor_224.PhysicDesc.SizeZ = 0
-	Actor_224.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_64.phy"
+	Actor_224.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_64.phy"
 	Actor_224:SetPhysicalActorType(1)
 	Actor_224:SetPhysicalShape(5)
 	Actor_224.ExtraInfo.Name = ""
@@ -9410,7 +9410,7 @@ function InitMap(environment)
 	Actor_225 = ActorObjectInfo(225)
 	Actor_225:SetRenderType(1)
 	Actor_225.DisplayDesc.ModelId = 1920234593
-	Actor_225.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_64.osgb"
+	Actor_225.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_64.osgb"
 	Actor_225.DisplayDesc.Outfit = ""
 	Actor_225.DisplayDesc.Weapon = ""
 	Actor_225.DisplayDesc.Mode = ""
@@ -9439,7 +9439,7 @@ function InitMap(environment)
 	Actor_225.PhysicDesc.SizeX = 0
 	Actor_225.PhysicDesc.SizeY = 0
 	Actor_225.PhysicDesc.SizeZ = 0
-	Actor_225.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_64.phy"
+	Actor_225.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_64.phy"
 	Actor_225:SetPhysicalActorType(1)
 	Actor_225:SetPhysicalShape(5)
 	Actor_225.ExtraInfo.Name = ""
@@ -9452,7 +9452,7 @@ function InitMap(environment)
 	Actor_226 = ActorObjectInfo(226)
 	Actor_226:SetRenderType(1)
 	Actor_226.DisplayDesc.ModelId = 426505728
-	Actor_226.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_63.osgb"
+	Actor_226.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_63.osgb"
 	Actor_226.DisplayDesc.Outfit = ""
 	Actor_226.DisplayDesc.Weapon = ""
 	Actor_226.DisplayDesc.Mode = ""
@@ -9481,7 +9481,7 @@ function InitMap(environment)
 	Actor_226.PhysicDesc.SizeX = 1.96182e-044
 	Actor_226.PhysicDesc.SizeY = 2.10195e-044
 	Actor_226.PhysicDesc.SizeZ = 2.24208e-044
-	Actor_226.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_63.phy"
+	Actor_226.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_63.phy"
 	Actor_226:SetPhysicalActorType(1)
 	Actor_226:SetPhysicalShape(5)
 	Actor_226.ExtraInfo.Name = ""
@@ -9494,7 +9494,7 @@ function InitMap(environment)
 	Actor_227 = ActorObjectInfo(227)
 	Actor_227:SetRenderType(1)
 	Actor_227.DisplayDesc.ModelId = 0
-	Actor_227.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_64.osgb"
+	Actor_227.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_64.osgb"
 	Actor_227.DisplayDesc.Outfit = ""
 	Actor_227.DisplayDesc.Weapon = ""
 	Actor_227.DisplayDesc.Mode = ""
@@ -9523,7 +9523,7 @@ function InitMap(environment)
 	Actor_227.PhysicDesc.SizeX = 6.11241e-023
 	Actor_227.PhysicDesc.SizeY = 0
 	Actor_227.PhysicDesc.SizeZ = 0
-	Actor_227.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_64.phy"
+	Actor_227.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_64.phy"
 	Actor_227:SetPhysicalActorType(1)
 	Actor_227:SetPhysicalShape(5)
 	Actor_227.ExtraInfo.Name = ""
@@ -9536,7 +9536,7 @@ function InitMap(environment)
 	Actor_228 = ActorObjectInfo(228)
 	Actor_228:SetRenderType(1)
 	Actor_228.DisplayDesc.ModelId = 0
-	Actor_228.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_65.osgb"
+	Actor_228.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_65.osgb"
 	Actor_228.DisplayDesc.Outfit = ""
 	Actor_228.DisplayDesc.Weapon = ""
 	Actor_228.DisplayDesc.Mode = ""
@@ -9565,7 +9565,7 @@ function InitMap(environment)
 	Actor_228.PhysicDesc.SizeX = 8.74493e-010
 	Actor_228.PhysicDesc.SizeY = 1.2992e-008
 	Actor_228.PhysicDesc.SizeZ = 0
-	Actor_228.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_65.phy"
+	Actor_228.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_65.phy"
 	Actor_228:SetPhysicalActorType(1)
 	Actor_228:SetPhysicalShape(5)
 	Actor_228.ExtraInfo.Name = ""
@@ -9578,7 +9578,7 @@ function InitMap(environment)
 	Actor_229 = ActorObjectInfo(229)
 	Actor_229:SetRenderType(1)
 	Actor_229.DisplayDesc.ModelId = 512
-	Actor_229.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_66.osgb"
+	Actor_229.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_66.osgb"
 	Actor_229.DisplayDesc.Outfit = ""
 	Actor_229.DisplayDesc.Weapon = ""
 	Actor_229.DisplayDesc.Mode = ""
@@ -9607,7 +9607,7 @@ function InitMap(environment)
 	Actor_229.PhysicDesc.SizeX = 1.87279e+031
 	Actor_229.PhysicDesc.SizeY = 0
 	Actor_229.PhysicDesc.SizeZ = 0
-	Actor_229.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_66.phy"
+	Actor_229.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_66.phy"
 	Actor_229:SetPhysicalActorType(1)
 	Actor_229:SetPhysicalShape(5)
 	Actor_229.ExtraInfo.Name = ""
@@ -9620,7 +9620,7 @@ function InitMap(environment)
 	Actor_230 = ActorObjectInfo(230)
 	Actor_230:SetRenderType(1)
 	Actor_230.DisplayDesc.ModelId = -1
-	Actor_230.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_66.osgb"
+	Actor_230.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_66.osgb"
 	Actor_230.DisplayDesc.Outfit = ""
 	Actor_230.DisplayDesc.Weapon = ""
 	Actor_230.DisplayDesc.Mode = ""
@@ -9649,7 +9649,7 @@ function InitMap(environment)
 	Actor_230.PhysicDesc.SizeX = 0
 	Actor_230.PhysicDesc.SizeY = 0
 	Actor_230.PhysicDesc.SizeZ = 0
-	Actor_230.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_66.phy"
+	Actor_230.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_66.phy"
 	Actor_230:SetPhysicalActorType(1)
 	Actor_230:SetPhysicalShape(5)
 	Actor_230.ExtraInfo.Name = ""
@@ -9662,7 +9662,7 @@ function InitMap(environment)
 	Actor_231 = ActorObjectInfo(231)
 	Actor_231:SetRenderType(1)
 	Actor_231.DisplayDesc.ModelId = 24707544
-	Actor_231.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_67.osgb"
+	Actor_231.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_67.osgb"
 	Actor_231.DisplayDesc.Outfit = ""
 	Actor_231.DisplayDesc.Weapon = ""
 	Actor_231.DisplayDesc.Mode = ""
@@ -9691,7 +9691,7 @@ function InitMap(environment)
 	Actor_231.PhysicDesc.SizeX = 9.18382e-040
 	Actor_231.PhysicDesc.SizeY = 2.63318e-035
 	Actor_231.PhysicDesc.SizeZ = 8.17044e-024
-	Actor_231.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_67.phy"
+	Actor_231.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_67.phy"
 	Actor_231:SetPhysicalActorType(1)
 	Actor_231:SetPhysicalShape(5)
 	Actor_231.ExtraInfo.Name = ""
@@ -9704,7 +9704,7 @@ function InitMap(environment)
 	Actor_232 = ActorObjectInfo(232)
 	Actor_232:SetRenderType(1)
 	Actor_232.DisplayDesc.ModelId = 131076
-	Actor_232.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_67.osgb"
+	Actor_232.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_67.osgb"
 	Actor_232.DisplayDesc.Outfit = ""
 	Actor_232.DisplayDesc.Weapon = ""
 	Actor_232.DisplayDesc.Mode = ""
@@ -9733,7 +9733,7 @@ function InitMap(environment)
 	Actor_232.PhysicDesc.SizeX = 6.6746e-031
 	Actor_232.PhysicDesc.SizeY = 0
 	Actor_232.PhysicDesc.SizeZ = 0
-	Actor_232.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_67.phy"
+	Actor_232.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_67.phy"
 	Actor_232:SetPhysicalActorType(1)
 	Actor_232:SetPhysicalShape(5)
 	Actor_232.ExtraInfo.Name = ""
@@ -9746,7 +9746,7 @@ function InitMap(environment)
 	Actor_233 = ActorObjectInfo(233)
 	Actor_233:SetRenderType(1)
 	Actor_233.DisplayDesc.ModelId = 0
-	Actor_233.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_68.osgb"
+	Actor_233.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_68.osgb"
 	Actor_233.DisplayDesc.Outfit = ""
 	Actor_233.DisplayDesc.Weapon = ""
 	Actor_233.DisplayDesc.Mode = ""
@@ -9775,7 +9775,7 @@ function InitMap(environment)
 	Actor_233.PhysicDesc.SizeX = 0
 	Actor_233.PhysicDesc.SizeY = 0
 	Actor_233.PhysicDesc.SizeZ = 1.28574e-039
-	Actor_233.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_68.phy"
+	Actor_233.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_68.phy"
 	Actor_233:SetPhysicalActorType(1)
 	Actor_233:SetPhysicalShape(5)
 	Actor_233.ExtraInfo.Name = ""
@@ -9788,7 +9788,7 @@ function InitMap(environment)
 	Actor_234 = ActorObjectInfo(234)
 	Actor_234:SetRenderType(1)
 	Actor_234.DisplayDesc.ModelId = 144629820
-	Actor_234.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_69.osgb"
+	Actor_234.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_69.osgb"
 	Actor_234.DisplayDesc.Outfit = ""
 	Actor_234.DisplayDesc.Weapon = ""
 	Actor_234.DisplayDesc.Mode = ""
@@ -9817,7 +9817,7 @@ function InitMap(environment)
 	Actor_234.PhysicDesc.SizeX = 0
 	Actor_234.PhysicDesc.SizeY = 5.60519e-045
 	Actor_234.PhysicDesc.SizeZ = 2.57141e-039
-	Actor_234.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_69.phy"
+	Actor_234.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_69.phy"
 	Actor_234:SetPhysicalActorType(1)
 	Actor_234:SetPhysicalShape(5)
 	Actor_234.ExtraInfo.Name = ""
@@ -9830,7 +9830,7 @@ function InitMap(environment)
 	Actor_235 = ActorObjectInfo(235)
 	Actor_235:SetRenderType(1)
 	Actor_235.DisplayDesc.ModelId = 20
-	Actor_235.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.osgb"
+	Actor_235.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.osgb"
 	Actor_235.DisplayDesc.Outfit = ""
 	Actor_235.DisplayDesc.Weapon = ""
 	Actor_235.DisplayDesc.Mode = ""
@@ -9859,7 +9859,7 @@ function InitMap(environment)
 	Actor_235.PhysicDesc.SizeX = 1.4013e-044
 	Actor_235.PhysicDesc.SizeY = 4.2039e-045
 	Actor_235.PhysicDesc.SizeZ = 7.18306e-042
-	Actor_235.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.phy"
+	Actor_235.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.phy"
 	Actor_235:SetPhysicalActorType(1)
 	Actor_235:SetPhysicalShape(5)
 	Actor_235.ExtraInfo.Name = ""
@@ -9872,7 +9872,7 @@ function InitMap(environment)
 	Actor_236 = ActorObjectInfo(236)
 	Actor_236:SetRenderType(1)
 	Actor_236.DisplayDesc.ModelId = 20
-	Actor_236.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.osgb"
+	Actor_236.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.osgb"
 	Actor_236.DisplayDesc.Outfit = ""
 	Actor_236.DisplayDesc.Weapon = ""
 	Actor_236.DisplayDesc.Mode = ""
@@ -9901,7 +9901,7 @@ function InitMap(environment)
 	Actor_236.PhysicDesc.SizeX = 0
 	Actor_236.PhysicDesc.SizeY = 0
 	Actor_236.PhysicDesc.SizeZ = 0
-	Actor_236.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.phy"
+	Actor_236.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.phy"
 	Actor_236:SetPhysicalActorType(1)
 	Actor_236:SetPhysicalShape(5)
 	Actor_236.ExtraInfo.Name = ""
@@ -9914,7 +9914,7 @@ function InitMap(environment)
 	Actor_237 = ActorObjectInfo(237)
 	Actor_237:SetRenderType(1)
 	Actor_237.DisplayDesc.ModelId = 750
-	Actor_237.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.osgb"
+	Actor_237.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.osgb"
 	Actor_237.DisplayDesc.Outfit = ""
 	Actor_237.DisplayDesc.Weapon = ""
 	Actor_237.DisplayDesc.Mode = ""
@@ -9943,7 +9943,7 @@ function InitMap(environment)
 	Actor_237.PhysicDesc.SizeX = 0
 	Actor_237.PhysicDesc.SizeY = 0
 	Actor_237.PhysicDesc.SizeZ = 0
-	Actor_237.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.phy"
+	Actor_237.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.phy"
 	Actor_237:SetPhysicalActorType(1)
 	Actor_237:SetPhysicalShape(5)
 	Actor_237.ExtraInfo.Name = ""
@@ -9956,7 +9956,7 @@ function InitMap(environment)
 	Actor_238 = ActorObjectInfo(238)
 	Actor_238:SetRenderType(1)
 	Actor_238.DisplayDesc.ModelId = 0
-	Actor_238.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.osgb"
+	Actor_238.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.osgb"
 	Actor_238.DisplayDesc.Outfit = ""
 	Actor_238.DisplayDesc.Weapon = ""
 	Actor_238.DisplayDesc.Mode = ""
@@ -9985,7 +9985,7 @@ function InitMap(environment)
 	Actor_238.PhysicDesc.SizeX = 0
 	Actor_238.PhysicDesc.SizeY = 0
 	Actor_238.PhysicDesc.SizeZ = 0
-	Actor_238.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.phy"
+	Actor_238.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.phy"
 	Actor_238:SetPhysicalActorType(1)
 	Actor_238:SetPhysicalShape(5)
 	Actor_238.ExtraInfo.Name = ""
@@ -9998,7 +9998,7 @@ function InitMap(environment)
 	Actor_239 = ActorObjectInfo(239)
 	Actor_239:SetRenderType(1)
 	Actor_239.DisplayDesc.ModelId = 0
-	Actor_239.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.osgb"
+	Actor_239.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.osgb"
 	Actor_239.DisplayDesc.Outfit = ""
 	Actor_239.DisplayDesc.Weapon = ""
 	Actor_239.DisplayDesc.Mode = ""
@@ -10027,7 +10027,7 @@ function InitMap(environment)
 	Actor_239.PhysicDesc.SizeX = 0
 	Actor_239.PhysicDesc.SizeY = 0
 	Actor_239.PhysicDesc.SizeZ = 0
-	Actor_239.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.phy"
+	Actor_239.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.phy"
 	Actor_239:SetPhysicalActorType(1)
 	Actor_239:SetPhysicalShape(5)
 	Actor_239.ExtraInfo.Name = ""
@@ -10040,7 +10040,7 @@ function InitMap(environment)
 	Actor_240 = ActorObjectInfo(240)
 	Actor_240:SetRenderType(1)
 	Actor_240.DisplayDesc.ModelId = 0
-	Actor_240.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.osgb"
+	Actor_240.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.osgb"
 	Actor_240.DisplayDesc.Outfit = ""
 	Actor_240.DisplayDesc.Weapon = ""
 	Actor_240.DisplayDesc.Mode = ""
@@ -10069,7 +10069,7 @@ function InitMap(environment)
 	Actor_240.PhysicDesc.SizeX = 0
 	Actor_240.PhysicDesc.SizeY = 0
 	Actor_240.PhysicDesc.SizeZ = 1.28574e-039
-	Actor_240.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.phy"
+	Actor_240.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.phy"
 	Actor_240:SetPhysicalActorType(1)
 	Actor_240:SetPhysicalShape(5)
 	Actor_240.ExtraInfo.Name = ""
@@ -10082,7 +10082,7 @@ function InitMap(environment)
 	Actor_241 = ActorObjectInfo(241)
 	Actor_241:SetRenderType(1)
 	Actor_241.DisplayDesc.ModelId = 0
-	Actor_241.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.osgb"
+	Actor_241.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.osgb"
 	Actor_241.DisplayDesc.Outfit = ""
 	Actor_241.DisplayDesc.Weapon = ""
 	Actor_241.DisplayDesc.Mode = ""
@@ -10111,7 +10111,7 @@ function InitMap(environment)
 	Actor_241.PhysicDesc.SizeX = 0
 	Actor_241.PhysicDesc.SizeY = 0
 	Actor_241.PhysicDesc.SizeZ = 0
-	Actor_241.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_51.phy"
+	Actor_241.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_51.phy"
 	Actor_241:SetPhysicalActorType(1)
 	Actor_241:SetPhysicalShape(5)
 	Actor_241.ExtraInfo.Name = ""
@@ -10124,7 +10124,7 @@ function InitMap(environment)
 	Actor_242 = ActorObjectInfo(242)
 	Actor_242:SetRenderType(1)
 	Actor_242.DisplayDesc.ModelId = 144541660
-	Actor_242.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_70.osgb"
+	Actor_242.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_70.osgb"
 	Actor_242.DisplayDesc.Outfit = ""
 	Actor_242.DisplayDesc.Weapon = ""
 	Actor_242.DisplayDesc.Mode = ""
@@ -10153,7 +10153,7 @@ function InitMap(environment)
 	Actor_242.PhysicDesc.SizeX = 0.01
 	Actor_242.PhysicDesc.SizeY = 0
 	Actor_242.PhysicDesc.SizeZ = 0
-	Actor_242.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_70.phy"
+	Actor_242.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_70.phy"
 	Actor_242:SetPhysicalActorType(1)
 	Actor_242:SetPhysicalShape(5)
 	Actor_242.ExtraInfo.Name = ""
@@ -10166,7 +10166,7 @@ function InitMap(environment)
 	Actor_243 = ActorObjectInfo(243)
 	Actor_243:SetRenderType(1)
 	Actor_243.DisplayDesc.ModelId = 144541660
-	Actor_243.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_8.osgb"
+	Actor_243.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_8.osgb"
 	Actor_243.DisplayDesc.Outfit = ""
 	Actor_243.DisplayDesc.Weapon = ""
 	Actor_243.DisplayDesc.Mode = ""
@@ -10195,7 +10195,7 @@ function InitMap(environment)
 	Actor_243.PhysicDesc.SizeX = 0.01
 	Actor_243.PhysicDesc.SizeY = 0
 	Actor_243.PhysicDesc.SizeZ = 0
-	Actor_243.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_8.phy"
+	Actor_243.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_8.phy"
 	Actor_243:SetPhysicalActorType(1)
 	Actor_243:SetPhysicalShape(5)
 	Actor_243.ExtraInfo.Name = ""
@@ -10208,7 +10208,7 @@ function InitMap(environment)
 	Actor_244 = ActorObjectInfo(244)
 	Actor_244:SetRenderType(1)
 	Actor_244.DisplayDesc.ModelId = 1065353216
-	Actor_244.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_9.osgb"
+	Actor_244.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_9.osgb"
 	Actor_244.DisplayDesc.Outfit = ""
 	Actor_244.DisplayDesc.Weapon = ""
 	Actor_244.DisplayDesc.Mode = ""
@@ -10237,7 +10237,7 @@ function InitMap(environment)
 	Actor_244.PhysicDesc.SizeX = 1
 	Actor_244.PhysicDesc.SizeY = 1
 	Actor_244.PhysicDesc.SizeZ = 1
-	Actor_244.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_9.phy"
+	Actor_244.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_9.phy"
 	Actor_244:SetPhysicalActorType(1)
 	Actor_244:SetPhysicalShape(5)
 	Actor_244.ExtraInfo.Name = ""
@@ -10250,7 +10250,7 @@ function InitMap(environment)
 	Actor_245 = ActorObjectInfo(245)
 	Actor_245:SetRenderType(1)
 	Actor_245.DisplayDesc.ModelId = -1082130432
-	Actor_245.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_23.osgb"
+	Actor_245.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_23.osgb"
 	Actor_245.DisplayDesc.Outfit = ""
 	Actor_245.DisplayDesc.Weapon = ""
 	Actor_245.DisplayDesc.Mode = ""
@@ -10279,7 +10279,7 @@ function InitMap(environment)
 	Actor_245.PhysicDesc.SizeX = 0
 	Actor_245.PhysicDesc.SizeY = -1
 	Actor_245.PhysicDesc.SizeZ = 0
-	Actor_245.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_23.phy"
+	Actor_245.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_23.phy"
 	Actor_245:SetPhysicalActorType(1)
 	Actor_245:SetPhysicalShape(5)
 	Actor_245.ExtraInfo.Name = ""
@@ -10292,7 +10292,7 @@ function InitMap(environment)
 	Actor_246 = ActorObjectInfo(246)
 	Actor_246:SetRenderType(1)
 	Actor_246.DisplayDesc.ModelId = 1037621465
-	Actor_246.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_1.osgb"
+	Actor_246.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_1.osgb"
 	Actor_246.DisplayDesc.Outfit = ""
 	Actor_246.DisplayDesc.Weapon = ""
 	Actor_246.DisplayDesc.Mode = ""
@@ -10321,7 +10321,7 @@ function InitMap(environment)
 	Actor_246.PhysicDesc.SizeX = 0.168627
 	Actor_246.PhysicDesc.SizeY = 0.121569
 	Actor_246.PhysicDesc.SizeZ = 0.105882
-	Actor_246.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_1.phy"
+	Actor_246.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_1.phy"
 	Actor_246:SetPhysicalActorType(1)
 	Actor_246:SetPhysicalShape(5)
 	Actor_246.ExtraInfo.Name = ""
@@ -10334,7 +10334,7 @@ function InitMap(environment)
 	Actor_247 = ActorObjectInfo(247)
 	Actor_247:SetRenderType(1)
 	Actor_247.DisplayDesc.ModelId = 7
-	Actor_247.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_4.osgb"
+	Actor_247.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_4.osgb"
 	Actor_247.DisplayDesc.Outfit = ""
 	Actor_247.DisplayDesc.Weapon = ""
 	Actor_247.DisplayDesc.Mode = ""
@@ -10363,7 +10363,7 @@ function InitMap(environment)
 	Actor_247.PhysicDesc.SizeX = 0
 	Actor_247.PhysicDesc.SizeY = 0
 	Actor_247.PhysicDesc.SizeZ = 0
-	Actor_247.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_4.phy"
+	Actor_247.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_4.phy"
 	Actor_247:SetPhysicalActorType(1)
 	Actor_247:SetPhysicalShape(5)
 	Actor_247.ExtraInfo.Name = ""
@@ -10376,7 +10376,7 @@ function InitMap(environment)
 	Actor_248 = ActorObjectInfo(248)
 	Actor_248:SetRenderType(1)
 	Actor_248.DisplayDesc.ModelId = 144629820
-	Actor_248.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_5.osgb"
+	Actor_248.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_5.osgb"
 	Actor_248.DisplayDesc.Outfit = ""
 	Actor_248.DisplayDesc.Weapon = ""
 	Actor_248.DisplayDesc.Mode = ""
@@ -10405,7 +10405,7 @@ function InitMap(environment)
 	Actor_248.PhysicDesc.SizeX = 0
 	Actor_248.PhysicDesc.SizeY = 0
 	Actor_248.PhysicDesc.SizeZ = 2.57141e-039
-	Actor_248.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_5.phy"
+	Actor_248.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_5.phy"
 	Actor_248:SetPhysicalActorType(1)
 	Actor_248:SetPhysicalShape(5)
 	Actor_248.ExtraInfo.Name = ""
@@ -10418,7 +10418,7 @@ function InitMap(environment)
 	Actor_249 = ActorObjectInfo(249)
 	Actor_249:SetRenderType(1)
 	Actor_249.DisplayDesc.ModelId = 1046273245
-	Actor_249.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_22.osgb"
+	Actor_249.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_22.osgb"
 	Actor_249.DisplayDesc.Outfit = ""
 	Actor_249.DisplayDesc.Weapon = ""
 	Actor_249.DisplayDesc.Mode = ""
@@ -10447,7 +10447,7 @@ function InitMap(environment)
 	Actor_249.PhysicDesc.SizeX = 0.168627
 	Actor_249.PhysicDesc.SizeY = 0.121569
 	Actor_249.PhysicDesc.SizeZ = 0.105882
-	Actor_249.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_22.phy"
+	Actor_249.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_22.phy"
 	Actor_249:SetPhysicalActorType(1)
 	Actor_249:SetPhysicalShape(5)
 	Actor_249.ExtraInfo.Name = ""
@@ -10460,7 +10460,7 @@ function InitMap(environment)
 	Actor_250 = ActorObjectInfo(250)
 	Actor_250:SetRenderType(1)
 	Actor_250.DisplayDesc.ModelId = 750
-	Actor_250.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.osgb"
+	Actor_250.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.osgb"
 	Actor_250.DisplayDesc.Outfit = ""
 	Actor_250.DisplayDesc.Weapon = ""
 	Actor_250.DisplayDesc.Mode = ""
@@ -10489,7 +10489,7 @@ function InitMap(environment)
 	Actor_250.PhysicDesc.SizeX = 0
 	Actor_250.PhysicDesc.SizeY = 0
 	Actor_250.PhysicDesc.SizeZ = 0
-	Actor_250.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.phy"
+	Actor_250.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.phy"
 	Actor_250:SetPhysicalActorType(1)
 	Actor_250:SetPhysicalShape(5)
 	Actor_250.ExtraInfo.Name = ""
@@ -10502,7 +10502,7 @@ function InitMap(environment)
 	Actor_251 = ActorObjectInfo(251)
 	Actor_251:SetRenderType(1)
 	Actor_251.DisplayDesc.ModelId = -1
-	Actor_251.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.osgb"
+	Actor_251.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.osgb"
 	Actor_251.DisplayDesc.Outfit = ""
 	Actor_251.DisplayDesc.Weapon = ""
 	Actor_251.DisplayDesc.Mode = ""
@@ -10531,7 +10531,7 @@ function InitMap(environment)
 	Actor_251.PhysicDesc.SizeX = 0
 	Actor_251.PhysicDesc.SizeY = 0
 	Actor_251.PhysicDesc.SizeZ = 0
-	Actor_251.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.phy"
+	Actor_251.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.phy"
 	Actor_251:SetPhysicalActorType(1)
 	Actor_251:SetPhysicalShape(5)
 	Actor_251.ExtraInfo.Name = ""
@@ -10544,7 +10544,7 @@ function InitMap(environment)
 	Actor_252 = ActorObjectInfo(252)
 	Actor_252:SetRenderType(1)
 	Actor_252.DisplayDesc.ModelId = -1
-	Actor_252.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.osgb"
+	Actor_252.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.osgb"
 	Actor_252.DisplayDesc.Outfit = ""
 	Actor_252.DisplayDesc.Weapon = ""
 	Actor_252.DisplayDesc.Mode = ""
@@ -10573,7 +10573,7 @@ function InitMap(environment)
 	Actor_252.PhysicDesc.SizeX = 0
 	Actor_252.PhysicDesc.SizeY = 0
 	Actor_252.PhysicDesc.SizeZ = 0
-	Actor_252.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.phy"
+	Actor_252.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.phy"
 	Actor_252:SetPhysicalActorType(1)
 	Actor_252:SetPhysicalShape(5)
 	Actor_252.ExtraInfo.Name = ""
@@ -10586,7 +10586,7 @@ function InitMap(environment)
 	Actor_253 = ActorObjectInfo(253)
 	Actor_253:SetRenderType(1)
 	Actor_253.DisplayDesc.ModelId = -1
-	Actor_253.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.osgb"
+	Actor_253.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.osgb"
 	Actor_253.DisplayDesc.Outfit = ""
 	Actor_253.DisplayDesc.Weapon = ""
 	Actor_253.DisplayDesc.Mode = ""
@@ -10615,7 +10615,7 @@ function InitMap(environment)
 	Actor_253.PhysicDesc.SizeX = 0
 	Actor_253.PhysicDesc.SizeY = 0
 	Actor_253.PhysicDesc.SizeZ = 0
-	Actor_253.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.phy"
+	Actor_253.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.phy"
 	Actor_253:SetPhysicalActorType(1)
 	Actor_253:SetPhysicalShape(5)
 	Actor_253.ExtraInfo.Name = ""
@@ -10628,7 +10628,7 @@ function InitMap(environment)
 	Actor_254 = ActorObjectInfo(254)
 	Actor_254:SetRenderType(1)
 	Actor_254.DisplayDesc.ModelId = -1
-	Actor_254.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_24.osgb"
+	Actor_254.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_24.osgb"
 	Actor_254.DisplayDesc.Outfit = ""
 	Actor_254.DisplayDesc.Weapon = ""
 	Actor_254.DisplayDesc.Mode = ""
@@ -10657,7 +10657,7 @@ function InitMap(environment)
 	Actor_254.PhysicDesc.SizeX = 0
 	Actor_254.PhysicDesc.SizeY = 0
 	Actor_254.PhysicDesc.SizeZ = 0
-	Actor_254.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_24.phy"
+	Actor_254.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_24.phy"
 	Actor_254:SetPhysicalActorType(1)
 	Actor_254:SetPhysicalShape(5)
 	Actor_254.ExtraInfo.Name = ""
@@ -10670,7 +10670,7 @@ function InitMap(environment)
 	Actor_255 = ActorObjectInfo(255)
 	Actor_255:SetRenderType(1)
 	Actor_255.DisplayDesc.ModelId = 750
-	Actor_255.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_255.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_255.DisplayDesc.Outfit = ""
 	Actor_255.DisplayDesc.Weapon = ""
 	Actor_255.DisplayDesc.Mode = ""
@@ -10699,7 +10699,7 @@ function InitMap(environment)
 	Actor_255.PhysicDesc.SizeX = 0
 	Actor_255.PhysicDesc.SizeY = 0
 	Actor_255.PhysicDesc.SizeZ = 0
-	Actor_255.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_255.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_255:SetPhysicalActorType(1)
 	Actor_255:SetPhysicalShape(5)
 	Actor_255.ExtraInfo.Name = ""
@@ -10712,7 +10712,7 @@ function InitMap(environment)
 	Actor_256 = ActorObjectInfo(256)
 	Actor_256:SetRenderType(1)
 	Actor_256.DisplayDesc.ModelId = 0
-	Actor_256.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_256.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_256.DisplayDesc.Outfit = ""
 	Actor_256.DisplayDesc.Weapon = ""
 	Actor_256.DisplayDesc.Mode = ""
@@ -10741,7 +10741,7 @@ function InitMap(environment)
 	Actor_256.PhysicDesc.SizeX = 0
 	Actor_256.PhysicDesc.SizeY = 0
 	Actor_256.PhysicDesc.SizeZ = 0
-	Actor_256.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_256.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_256:SetPhysicalActorType(1)
 	Actor_256:SetPhysicalShape(5)
 	Actor_256.ExtraInfo.Name = ""
@@ -10754,7 +10754,7 @@ function InitMap(environment)
 	Actor_257 = ActorObjectInfo(257)
 	Actor_257:SetRenderType(1)
 	Actor_257.DisplayDesc.ModelId = 0
-	Actor_257.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_257.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_257.DisplayDesc.Outfit = ""
 	Actor_257.DisplayDesc.Weapon = ""
 	Actor_257.DisplayDesc.Mode = ""
@@ -10783,7 +10783,7 @@ function InitMap(environment)
 	Actor_257.PhysicDesc.SizeX = 0
 	Actor_257.PhysicDesc.SizeY = 0
 	Actor_257.PhysicDesc.SizeZ = 0
-	Actor_257.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_257.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_257:SetPhysicalActorType(1)
 	Actor_257:SetPhysicalShape(5)
 	Actor_257.ExtraInfo.Name = ""
@@ -10796,7 +10796,7 @@ function InitMap(environment)
 	Actor_258 = ActorObjectInfo(258)
 	Actor_258:SetRenderType(1)
 	Actor_258.DisplayDesc.ModelId = 0
-	Actor_258.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_258.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_258.DisplayDesc.Outfit = ""
 	Actor_258.DisplayDesc.Weapon = ""
 	Actor_258.DisplayDesc.Mode = ""
@@ -10825,7 +10825,7 @@ function InitMap(environment)
 	Actor_258.PhysicDesc.SizeX = 0
 	Actor_258.PhysicDesc.SizeY = 0
 	Actor_258.PhysicDesc.SizeZ = 0
-	Actor_258.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_258.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_258:SetPhysicalActorType(1)
 	Actor_258:SetPhysicalShape(5)
 	Actor_258.ExtraInfo.Name = ""
@@ -10838,7 +10838,7 @@ function InitMap(environment)
 	Actor_259 = ActorObjectInfo(259)
 	Actor_259:SetRenderType(1)
 	Actor_259.DisplayDesc.ModelId = 0
-	Actor_259.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_259.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_259.DisplayDesc.Outfit = ""
 	Actor_259.DisplayDesc.Weapon = ""
 	Actor_259.DisplayDesc.Mode = ""
@@ -10867,7 +10867,7 @@ function InitMap(environment)
 	Actor_259.PhysicDesc.SizeX = 0
 	Actor_259.PhysicDesc.SizeY = 1.875
 	Actor_259.PhysicDesc.SizeZ = 0
-	Actor_259.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_259.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_259:SetPhysicalActorType(1)
 	Actor_259:SetPhysicalShape(5)
 	Actor_259.ExtraInfo.Name = ""
@@ -10880,7 +10880,7 @@ function InitMap(environment)
 	Actor_260 = ActorObjectInfo(260)
 	Actor_260:SetRenderType(1)
 	Actor_260.DisplayDesc.ModelId = 511196912
-	Actor_260.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_260.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_260.DisplayDesc.Outfit = ""
 	Actor_260.DisplayDesc.Weapon = ""
 	Actor_260.DisplayDesc.Mode = ""
@@ -10909,7 +10909,7 @@ function InitMap(environment)
 	Actor_260.PhysicDesc.SizeX = 0
 	Actor_260.PhysicDesc.SizeY = 1.875
 	Actor_260.PhysicDesc.SizeZ = 0
-	Actor_260.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_260.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_260:SetPhysicalActorType(1)
 	Actor_260:SetPhysicalShape(5)
 	Actor_260.ExtraInfo.Name = ""
@@ -10922,7 +10922,7 @@ function InitMap(environment)
 	Actor_261 = ActorObjectInfo(261)
 	Actor_261:SetRenderType(1)
 	Actor_261.DisplayDesc.ModelId = 0
-	Actor_261.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_261.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_261.DisplayDesc.Outfit = ""
 	Actor_261.DisplayDesc.Weapon = ""
 	Actor_261.DisplayDesc.Mode = ""
@@ -10951,7 +10951,7 @@ function InitMap(environment)
 	Actor_261.PhysicDesc.SizeX = 2.12676e+037
 	Actor_261.PhysicDesc.SizeY = 0.240847
 	Actor_261.PhysicDesc.SizeZ = 0
-	Actor_261.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_261.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_261:SetPhysicalActorType(1)
 	Actor_261:SetPhysicalShape(5)
 	Actor_261.ExtraInfo.Name = ""
@@ -10964,7 +10964,7 @@ function InitMap(environment)
 	Actor_262 = ActorObjectInfo(262)
 	Actor_262:SetRenderType(1)
 	Actor_262.DisplayDesc.ModelId = 0
-	Actor_262.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_262.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_262.DisplayDesc.Outfit = ""
 	Actor_262.DisplayDesc.Weapon = ""
 	Actor_262.DisplayDesc.Mode = ""
@@ -10993,7 +10993,7 @@ function InitMap(environment)
 	Actor_262.PhysicDesc.SizeX = 0
 	Actor_262.PhysicDesc.SizeY = 1.759e-031
 	Actor_262.PhysicDesc.SizeZ = 0
-	Actor_262.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_262.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_262:SetPhysicalActorType(1)
 	Actor_262:SetPhysicalShape(5)
 	Actor_262.ExtraInfo.Name = ""
@@ -11006,7 +11006,7 @@ function InitMap(environment)
 	Actor_263 = ActorObjectInfo(263)
 	Actor_263:SetRenderType(1)
 	Actor_263.DisplayDesc.ModelId = 413502680
-	Actor_263.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_7.osgb"
+	Actor_263.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_7.osgb"
 	Actor_263.DisplayDesc.Outfit = ""
 	Actor_263.DisplayDesc.Weapon = ""
 	Actor_263.DisplayDesc.Mode = ""
@@ -11035,7 +11035,7 @@ function InitMap(environment)
 	Actor_263.PhysicDesc.SizeX = 0
 	Actor_263.PhysicDesc.SizeY = 0
 	Actor_263.PhysicDesc.SizeZ = 0
-	Actor_263.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_7.phy"
+	Actor_263.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_7.phy"
 	Actor_263:SetPhysicalActorType(1)
 	Actor_263:SetPhysicalShape(5)
 	Actor_263.ExtraInfo.Name = ""
@@ -11048,7 +11048,7 @@ function InitMap(environment)
 	Actor_264 = ActorObjectInfo(264)
 	Actor_264:SetRenderType(1)
 	Actor_264.DisplayDesc.ModelId = 0
-	Actor_264.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_264.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_264.DisplayDesc.Outfit = ""
 	Actor_264.DisplayDesc.Weapon = ""
 	Actor_264.DisplayDesc.Mode = ""
@@ -11077,7 +11077,7 @@ function InitMap(environment)
 	Actor_264.PhysicDesc.SizeX = 0
 	Actor_264.PhysicDesc.SizeY = 0
 	Actor_264.PhysicDesc.SizeZ = 0
-	Actor_264.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_264.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_264:SetPhysicalActorType(1)
 	Actor_264:SetPhysicalShape(5)
 	Actor_264.ExtraInfo.Name = ""
@@ -11090,7 +11090,7 @@ function InitMap(environment)
 	Actor_265 = ActorObjectInfo(265)
 	Actor_265:SetRenderType(1)
 	Actor_265.DisplayDesc.ModelId = 0
-	Actor_265.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_265.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_265.DisplayDesc.Outfit = ""
 	Actor_265.DisplayDesc.Weapon = ""
 	Actor_265.DisplayDesc.Mode = ""
@@ -11119,7 +11119,7 @@ function InitMap(environment)
 	Actor_265.PhysicDesc.SizeX = 0
 	Actor_265.PhysicDesc.SizeY = 0
 	Actor_265.PhysicDesc.SizeZ = 0
-	Actor_265.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_265.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_265:SetPhysicalActorType(1)
 	Actor_265:SetPhysicalShape(5)
 	Actor_265.ExtraInfo.Name = ""
@@ -11132,7 +11132,7 @@ function InitMap(environment)
 	Actor_266 = ActorObjectInfo(266)
 	Actor_266:SetRenderType(1)
 	Actor_266.DisplayDesc.ModelId = -8388609
-	Actor_266.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_266.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_266.DisplayDesc.Outfit = ""
 	Actor_266.DisplayDesc.Weapon = ""
 	Actor_266.DisplayDesc.Mode = ""
@@ -11161,7 +11161,7 @@ function InitMap(environment)
 	Actor_266.PhysicDesc.SizeX = 0.337891
 	Actor_266.PhysicDesc.SizeY = 5.44398e-021
 	Actor_266.PhysicDesc.SizeZ = 0
-	Actor_266.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_266.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_266:SetPhysicalActorType(1)
 	Actor_266:SetPhysicalShape(5)
 	Actor_266.ExtraInfo.Name = ""
@@ -11174,7 +11174,7 @@ function InitMap(environment)
 	Actor_267 = ActorObjectInfo(267)
 	Actor_267:SetRenderType(1)
 	Actor_267.DisplayDesc.ModelId = -2147483648
-	Actor_267.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_267.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_267.DisplayDesc.Outfit = ""
 	Actor_267.DisplayDesc.Weapon = ""
 	Actor_267.DisplayDesc.Mode = ""
@@ -11203,7 +11203,7 @@ function InitMap(environment)
 	Actor_267.PhysicDesc.SizeX = 0.466797
 	Actor_267.PhysicDesc.SizeY = -0.597656
 	Actor_267.PhysicDesc.SizeZ = 0
-	Actor_267.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_267.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_267:SetPhysicalActorType(1)
 	Actor_267:SetPhysicalShape(5)
 	Actor_267.ExtraInfo.Name = ""
@@ -11216,7 +11216,7 @@ function InitMap(environment)
 	Actor_268 = ActorObjectInfo(268)
 	Actor_268:SetRenderType(1)
 	Actor_268.DisplayDesc.ModelId = -2147483648
-	Actor_268.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_268.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_268.DisplayDesc.Outfit = ""
 	Actor_268.DisplayDesc.Weapon = ""
 	Actor_268.DisplayDesc.Mode = ""
@@ -11245,7 +11245,7 @@ function InitMap(environment)
 	Actor_268.PhysicDesc.SizeX = 0.466797
 	Actor_268.PhysicDesc.SizeY = -0.597656
 	Actor_268.PhysicDesc.SizeZ = 0
-	Actor_268.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_268.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_268:SetPhysicalActorType(1)
 	Actor_268:SetPhysicalShape(5)
 	Actor_268.ExtraInfo.Name = ""
@@ -11258,7 +11258,7 @@ function InitMap(environment)
 	Actor_269 = ActorObjectInfo(269)
 	Actor_269:SetRenderType(1)
 	Actor_269.DisplayDesc.ModelId = 1050056343
-	Actor_269.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_7.osgb"
+	Actor_269.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_7.osgb"
 	Actor_269.DisplayDesc.Outfit = ""
 	Actor_269.DisplayDesc.Weapon = ""
 	Actor_269.DisplayDesc.Mode = ""
@@ -11287,7 +11287,7 @@ function InitMap(environment)
 	Actor_269.PhysicDesc.SizeX = 0.639216
 	Actor_269.PhysicDesc.SizeY = 0.419608
 	Actor_269.PhysicDesc.SizeZ = 0.309804
-	Actor_269.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_7.phy"
+	Actor_269.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_7.phy"
 	Actor_269:SetPhysicalActorType(1)
 	Actor_269:SetPhysicalShape(5)
 	Actor_269.ExtraInfo.Name = ""
@@ -11300,7 +11300,7 @@ function InitMap(environment)
 	Actor_270 = ActorObjectInfo(270)
 	Actor_270:SetRenderType(1)
 	Actor_270.DisplayDesc.ModelId = 9364492
-	Actor_270.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_270.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_270.DisplayDesc.Outfit = ""
 	Actor_270.DisplayDesc.Weapon = ""
 	Actor_270.DisplayDesc.Mode = ""
@@ -11329,7 +11329,7 @@ function InitMap(environment)
 	Actor_270.PhysicDesc.SizeX = 0
 	Actor_270.PhysicDesc.SizeY = 0
 	Actor_270.PhysicDesc.SizeZ = 2.12676e+037
-	Actor_270.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_270.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_270:SetPhysicalActorType(1)
 	Actor_270:SetPhysicalShape(5)
 	Actor_270.ExtraInfo.Name = ""
@@ -11342,7 +11342,7 @@ function InitMap(environment)
 	Actor_271 = ActorObjectInfo(271)
 	Actor_271:SetRenderType(1)
 	Actor_271.DisplayDesc.ModelId = 0
-	Actor_271.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_271.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_271.DisplayDesc.Outfit = ""
 	Actor_271.DisplayDesc.Weapon = ""
 	Actor_271.DisplayDesc.Mode = ""
@@ -11371,7 +11371,7 @@ function InitMap(environment)
 	Actor_271.PhysicDesc.SizeX = 0
 	Actor_271.PhysicDesc.SizeY = 0
 	Actor_271.PhysicDesc.SizeZ = 0
-	Actor_271.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_271.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_271:SetPhysicalActorType(1)
 	Actor_271:SetPhysicalShape(5)
 	Actor_271.ExtraInfo.Name = ""
@@ -11384,7 +11384,7 @@ function InitMap(environment)
 	Actor_272 = ActorObjectInfo(272)
 	Actor_272:SetRenderType(1)
 	Actor_272.DisplayDesc.ModelId = 131078
-	Actor_272.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_7.osgb"
+	Actor_272.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_7.osgb"
 	Actor_272.DisplayDesc.Outfit = ""
 	Actor_272.DisplayDesc.Weapon = ""
 	Actor_272.DisplayDesc.Mode = ""
@@ -11413,7 +11413,7 @@ function InitMap(environment)
 	Actor_272.PhysicDesc.SizeX = 0
 	Actor_272.PhysicDesc.SizeY = 0
 	Actor_272.PhysicDesc.SizeZ = 0
-	Actor_272.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_7.phy"
+	Actor_272.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_7.phy"
 	Actor_272:SetPhysicalActorType(1)
 	Actor_272:SetPhysicalShape(5)
 	Actor_272.ExtraInfo.Name = ""
@@ -11426,7 +11426,7 @@ function InitMap(environment)
 	Actor_273 = ActorObjectInfo(273)
 	Actor_273:SetRenderType(1)
 	Actor_273.DisplayDesc.ModelId = 9729
-	Actor_273.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_273.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_273.DisplayDesc.Outfit = ""
 	Actor_273.DisplayDesc.Weapon = ""
 	Actor_273.DisplayDesc.Mode = ""
@@ -11455,7 +11455,7 @@ function InitMap(environment)
 	Actor_273.PhysicDesc.SizeX = 0
 	Actor_273.PhysicDesc.SizeY = 0
 	Actor_273.PhysicDesc.SizeZ = 0
-	Actor_273.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_273.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_273:SetPhysicalActorType(1)
 	Actor_273:SetPhysicalShape(5)
 	Actor_273.ExtraInfo.Name = ""
@@ -11468,7 +11468,7 @@ function InitMap(environment)
 	Actor_274 = ActorObjectInfo(274)
 	Actor_274:SetRenderType(1)
 	Actor_274.DisplayDesc.ModelId = -2147483648
-	Actor_274.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_274.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_274.DisplayDesc.Outfit = ""
 	Actor_274.DisplayDesc.Weapon = ""
 	Actor_274.DisplayDesc.Mode = ""
@@ -11497,7 +11497,7 @@ function InitMap(environment)
 	Actor_274.PhysicDesc.SizeX = 0.466797
 	Actor_274.PhysicDesc.SizeY = -0.597656
 	Actor_274.PhysicDesc.SizeZ = 0
-	Actor_274.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_274.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_274:SetPhysicalActorType(1)
 	Actor_274:SetPhysicalShape(5)
 	Actor_274.ExtraInfo.Name = ""
@@ -11510,7 +11510,7 @@ function InitMap(environment)
 	Actor_275 = ActorObjectInfo(275)
 	Actor_275:SetRenderType(1)
 	Actor_275.DisplayDesc.ModelId = 0
-	Actor_275.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_275.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_275.DisplayDesc.Outfit = ""
 	Actor_275.DisplayDesc.Weapon = ""
 	Actor_275.DisplayDesc.Mode = ""
@@ -11539,7 +11539,7 @@ function InitMap(environment)
 	Actor_275.PhysicDesc.SizeX = 473.5
 	Actor_275.PhysicDesc.SizeY = 523.5
 	Actor_275.PhysicDesc.SizeZ = 6.05469
-	Actor_275.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_275.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_275:SetPhysicalActorType(1)
 	Actor_275:SetPhysicalShape(5)
 	Actor_275.ExtraInfo.Name = ""
@@ -11552,7 +11552,7 @@ function InitMap(environment)
 	Actor_276 = ActorObjectInfo(276)
 	Actor_276:SetRenderType(1)
 	Actor_276.DisplayDesc.ModelId = 0
-	Actor_276.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_7.osgb"
+	Actor_276.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_7.osgb"
 	Actor_276.DisplayDesc.Outfit = ""
 	Actor_276.DisplayDesc.Weapon = ""
 	Actor_276.DisplayDesc.Mode = ""
@@ -11581,7 +11581,7 @@ function InitMap(environment)
 	Actor_276.PhysicDesc.SizeX = 434.5
 	Actor_276.PhysicDesc.SizeY = 484.5
 	Actor_276.PhysicDesc.SizeZ = 6.05469
-	Actor_276.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_7.phy"
+	Actor_276.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_7.phy"
 	Actor_276:SetPhysicalActorType(1)
 	Actor_276:SetPhysicalShape(5)
 	Actor_276.ExtraInfo.Name = ""
@@ -11594,7 +11594,7 @@ function InitMap(environment)
 	Actor_277 = ActorObjectInfo(277)
 	Actor_277:SetRenderType(1)
 	Actor_277.DisplayDesc.ModelId = 0
-	Actor_277.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_277.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_277.DisplayDesc.Outfit = ""
 	Actor_277.DisplayDesc.Weapon = ""
 	Actor_277.DisplayDesc.Mode = ""
@@ -11623,7 +11623,7 @@ function InitMap(environment)
 	Actor_277.PhysicDesc.SizeX = 4.57354e-038
 	Actor_277.PhysicDesc.SizeY = 7.89601e-024
 	Actor_277.PhysicDesc.SizeZ = 1.4013e-045
-	Actor_277.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_277.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_277:SetPhysicalActorType(1)
 	Actor_277:SetPhysicalShape(5)
 	Actor_277.ExtraInfo.Name = ""
@@ -11636,7 +11636,7 @@ function InitMap(environment)
 	Actor_278 = ActorObjectInfo(278)
 	Actor_278:SetRenderType(1)
 	Actor_278.DisplayDesc.ModelId = 0
-	Actor_278.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_278.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_278.DisplayDesc.Outfit = ""
 	Actor_278.DisplayDesc.Weapon = ""
 	Actor_278.DisplayDesc.Mode = ""
@@ -11665,7 +11665,7 @@ function InitMap(environment)
 	Actor_278.PhysicDesc.SizeX = 0
 	Actor_278.PhysicDesc.SizeY = 0
 	Actor_278.PhysicDesc.SizeZ = 0
-	Actor_278.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_278.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_278:SetPhysicalActorType(1)
 	Actor_278:SetPhysicalShape(5)
 	Actor_278.ExtraInfo.Name = ""
@@ -11678,7 +11678,7 @@ function InitMap(environment)
 	Actor_279 = ActorObjectInfo(279)
 	Actor_279:SetRenderType(1)
 	Actor_279.DisplayDesc.ModelId = 410486960
-	Actor_279.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_279.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_279.DisplayDesc.Outfit = ""
 	Actor_279.DisplayDesc.Weapon = ""
 	Actor_279.DisplayDesc.Mode = ""
@@ -11707,7 +11707,7 @@ function InitMap(environment)
 	Actor_279.PhysicDesc.SizeX = 1.59774e-023
 	Actor_279.PhysicDesc.SizeY = 4.4859e-024
 	Actor_279.PhysicDesc.SizeZ = 3.67345e-040
-	Actor_279.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_279.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_279:SetPhysicalActorType(1)
 	Actor_279:SetPhysicalShape(5)
 	Actor_279.ExtraInfo.Name = ""
@@ -11720,7 +11720,7 @@ function InitMap(environment)
 	Actor_280 = ActorObjectInfo(280)
 	Actor_280:SetRenderType(1)
 	Actor_280.DisplayDesc.ModelId = 0
-	Actor_280.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_280.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_280.DisplayDesc.Outfit = ""
 	Actor_280.DisplayDesc.Weapon = ""
 	Actor_280.DisplayDesc.Mode = ""
@@ -11749,7 +11749,7 @@ function InitMap(environment)
 	Actor_280.PhysicDesc.SizeX = 0
 	Actor_280.PhysicDesc.SizeY = 0
 	Actor_280.PhysicDesc.SizeZ = 0
-	Actor_280.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_280.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_280:SetPhysicalActorType(1)
 	Actor_280:SetPhysicalShape(5)
 	Actor_280.ExtraInfo.Name = ""
@@ -11762,7 +11762,7 @@ function InitMap(environment)
 	Actor_281 = ActorObjectInfo(281)
 	Actor_281:SetRenderType(1)
 	Actor_281.DisplayDesc.ModelId = 0
-	Actor_281.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_71.osgb"
+	Actor_281.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_71.osgb"
 	Actor_281.DisplayDesc.Outfit = ""
 	Actor_281.DisplayDesc.Weapon = ""
 	Actor_281.DisplayDesc.Mode = ""
@@ -11791,7 +11791,7 @@ function InitMap(environment)
 	Actor_281.PhysicDesc.SizeX = 0
 	Actor_281.PhysicDesc.SizeY = 0
 	Actor_281.PhysicDesc.SizeZ = 0
-	Actor_281.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_71.phy"
+	Actor_281.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_71.phy"
 	Actor_281:SetPhysicalActorType(1)
 	Actor_281:SetPhysicalShape(5)
 	Actor_281.ExtraInfo.Name = ""
@@ -11804,7 +11804,7 @@ function InitMap(environment)
 	Actor_282 = ActorObjectInfo(282)
 	Actor_282:SetRenderType(1)
 	Actor_282.DisplayDesc.ModelId = 1091067392
-	Actor_282.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_282.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_282.DisplayDesc.Outfit = ""
 	Actor_282.DisplayDesc.Weapon = ""
 	Actor_282.DisplayDesc.Mode = ""
@@ -11833,7 +11833,7 @@ function InitMap(environment)
 	Actor_282.PhysicDesc.SizeX = 3.35214e-024
 	Actor_282.PhysicDesc.SizeY = 1.4013e-045
 	Actor_282.PhysicDesc.SizeZ = 0
-	Actor_282.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_282.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_282:SetPhysicalActorType(1)
 	Actor_282:SetPhysicalShape(5)
 	Actor_282.ExtraInfo.Name = ""
@@ -11846,7 +11846,7 @@ function InitMap(environment)
 	Actor_283 = ActorObjectInfo(283)
 	Actor_283:SetRenderType(1)
 	Actor_283.DisplayDesc.ModelId = 9364492
-	Actor_283.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_283.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_283.DisplayDesc.Outfit = ""
 	Actor_283.DisplayDesc.Weapon = ""
 	Actor_283.DisplayDesc.Mode = ""
@@ -11875,7 +11875,7 @@ function InitMap(environment)
 	Actor_283.PhysicDesc.SizeX = 0
 	Actor_283.PhysicDesc.SizeY = 0
 	Actor_283.PhysicDesc.SizeZ = 0
-	Actor_283.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_283.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_283:SetPhysicalActorType(1)
 	Actor_283:SetPhysicalShape(5)
 	Actor_283.ExtraInfo.Name = ""
@@ -11888,7 +11888,7 @@ function InitMap(environment)
 	Actor_284 = ActorObjectInfo(284)
 	Actor_284:SetRenderType(1)
 	Actor_284.DisplayDesc.ModelId = 131076
-	Actor_284.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_7.osgb"
+	Actor_284.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_7.osgb"
 	Actor_284.DisplayDesc.Outfit = ""
 	Actor_284.DisplayDesc.Weapon = ""
 	Actor_284.DisplayDesc.Mode = ""
@@ -11917,7 +11917,7 @@ function InitMap(environment)
 	Actor_284.PhysicDesc.SizeX = 0
 	Actor_284.PhysicDesc.SizeY = 0
 	Actor_284.PhysicDesc.SizeZ = 1.01322e-020
-	Actor_284.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_7.phy"
+	Actor_284.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_7.phy"
 	Actor_284:SetPhysicalActorType(1)
 	Actor_284:SetPhysicalShape(5)
 	Actor_284.ExtraInfo.Name = ""
@@ -11930,7 +11930,7 @@ function InitMap(environment)
 	Actor_285 = ActorObjectInfo(285)
 	Actor_285:SetRenderType(1)
 	Actor_285.DisplayDesc.ModelId = 0
-	Actor_285.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_285.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_285.DisplayDesc.Outfit = ""
 	Actor_285.DisplayDesc.Weapon = ""
 	Actor_285.DisplayDesc.Mode = ""
@@ -11959,7 +11959,7 @@ function InitMap(environment)
 	Actor_285.PhysicDesc.SizeX = 0
 	Actor_285.PhysicDesc.SizeY = 0
 	Actor_285.PhysicDesc.SizeZ = 0
-	Actor_285.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_285.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_285:SetPhysicalActorType(1)
 	Actor_285:SetPhysicalShape(5)
 	Actor_285.ExtraInfo.Name = ""
@@ -11972,7 +11972,7 @@ function InitMap(environment)
 	Actor_286 = ActorObjectInfo(286)
 	Actor_286:SetRenderType(1)
 	Actor_286.DisplayDesc.ModelId = 0
-	Actor_286.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_286.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_286.DisplayDesc.Outfit = ""
 	Actor_286.DisplayDesc.Weapon = ""
 	Actor_286.DisplayDesc.Mode = ""
@@ -12001,7 +12001,7 @@ function InitMap(environment)
 	Actor_286.PhysicDesc.SizeX = 0
 	Actor_286.PhysicDesc.SizeY = 0
 	Actor_286.PhysicDesc.SizeZ = 0
-	Actor_286.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_286.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_286:SetPhysicalActorType(1)
 	Actor_286:SetPhysicalShape(5)
 	Actor_286.ExtraInfo.Name = ""
@@ -12014,7 +12014,7 @@ function InitMap(environment)
 	Actor_287 = ActorObjectInfo(287)
 	Actor_287:SetRenderType(1)
 	Actor_287.DisplayDesc.ModelId = 2
-	Actor_287.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_72.osgb"
+	Actor_287.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_72.osgb"
 	Actor_287.DisplayDesc.Outfit = ""
 	Actor_287.DisplayDesc.Weapon = ""
 	Actor_287.DisplayDesc.Mode = ""
@@ -12043,7 +12043,7 @@ function InitMap(environment)
 	Actor_287.PhysicDesc.SizeX = 0
 	Actor_287.PhysicDesc.SizeY = 2.10195e-044
 	Actor_287.PhysicDesc.SizeZ = 2.8026e-045
-	Actor_287.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_72.phy"
+	Actor_287.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_72.phy"
 	Actor_287:SetPhysicalActorType(1)
 	Actor_287:SetPhysicalShape(5)
 	Actor_287.ExtraInfo.Name = ""
@@ -12056,7 +12056,7 @@ function InitMap(environment)
 	Actor_288 = ActorObjectInfo(288)
 	Actor_288:SetRenderType(1)
 	Actor_288.DisplayDesc.ModelId = -2147483648
-	Actor_288.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_288.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_288.DisplayDesc.Outfit = ""
 	Actor_288.DisplayDesc.Weapon = ""
 	Actor_288.DisplayDesc.Mode = ""
@@ -12085,7 +12085,7 @@ function InitMap(environment)
 	Actor_288.PhysicDesc.SizeX = 0.466797
 	Actor_288.PhysicDesc.SizeY = -0.597656
 	Actor_288.PhysicDesc.SizeZ = 0
-	Actor_288.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_288.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_288:SetPhysicalActorType(1)
 	Actor_288:SetPhysicalShape(5)
 	Actor_288.ExtraInfo.Name = ""
@@ -12098,7 +12098,7 @@ function InitMap(environment)
 	Actor_289 = ActorObjectInfo(289)
 	Actor_289:SetRenderType(1)
 	Actor_289.DisplayDesc.ModelId = 158
-	Actor_289.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_289.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_289.DisplayDesc.Outfit = ""
 	Actor_289.DisplayDesc.Weapon = ""
 	Actor_289.DisplayDesc.Mode = ""
@@ -12127,7 +12127,7 @@ function InitMap(environment)
 	Actor_289.PhysicDesc.SizeX = 0
 	Actor_289.PhysicDesc.SizeY = 0
 	Actor_289.PhysicDesc.SizeZ = 0
-	Actor_289.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_289.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_289:SetPhysicalActorType(1)
 	Actor_289:SetPhysicalShape(5)
 	Actor_289.ExtraInfo.Name = ""
@@ -12140,7 +12140,7 @@ function InitMap(environment)
 	Actor_290 = ActorObjectInfo(290)
 	Actor_290:SetRenderType(1)
 	Actor_290.DisplayDesc.ModelId = -1783743228
-	Actor_290.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_290.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_290.DisplayDesc.Outfit = ""
 	Actor_290.DisplayDesc.Weapon = ""
 	Actor_290.DisplayDesc.Mode = ""
@@ -12169,7 +12169,7 @@ function InitMap(environment)
 	Actor_290.PhysicDesc.SizeX = 1.02734
 	Actor_290.PhysicDesc.SizeY = 0.923828
 	Actor_290.PhysicDesc.SizeZ = 0
-	Actor_290.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_290.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_290:SetPhysicalActorType(1)
 	Actor_290:SetPhysicalShape(5)
 	Actor_290.ExtraInfo.Name = ""
@@ -12182,7 +12182,7 @@ function InitMap(environment)
 	Actor_291 = ActorObjectInfo(291)
 	Actor_291:SetRenderType(1)
 	Actor_291.DisplayDesc.ModelId = 1065353216
-	Actor_291.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_73.osgb"
+	Actor_291.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_73.osgb"
 	Actor_291.DisplayDesc.Outfit = ""
 	Actor_291.DisplayDesc.Weapon = ""
 	Actor_291.DisplayDesc.Mode = ""
@@ -12211,7 +12211,7 @@ function InitMap(environment)
 	Actor_291.PhysicDesc.SizeX = 1
 	Actor_291.PhysicDesc.SizeY = 1
 	Actor_291.PhysicDesc.SizeZ = 1
-	Actor_291.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_73.phy"
+	Actor_291.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_73.phy"
 	Actor_291:SetPhysicalActorType(1)
 	Actor_291:SetPhysicalShape(5)
 	Actor_291.ExtraInfo.Name = ""
@@ -12224,7 +12224,7 @@ function InitMap(environment)
 	Actor_292 = ActorObjectInfo(292)
 	Actor_292:SetRenderType(1)
 	Actor_292.DisplayDesc.ModelId = 0
-	Actor_292.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_292.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_292.DisplayDesc.Outfit = ""
 	Actor_292.DisplayDesc.Weapon = ""
 	Actor_292.DisplayDesc.Mode = ""
@@ -12253,7 +12253,7 @@ function InitMap(environment)
 	Actor_292.PhysicDesc.SizeX = 2.12676e+037
 	Actor_292.PhysicDesc.SizeY = 0.240847
 	Actor_292.PhysicDesc.SizeZ = 0
-	Actor_292.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_292.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_292:SetPhysicalActorType(1)
 	Actor_292:SetPhysicalShape(5)
 	Actor_292.ExtraInfo.Name = ""
@@ -12266,7 +12266,7 @@ function InitMap(environment)
 	Actor_293 = ActorObjectInfo(293)
 	Actor_293:SetRenderType(1)
 	Actor_293.DisplayDesc.ModelId = 131076
-	Actor_293.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_74.osgb"
+	Actor_293.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_74.osgb"
 	Actor_293.DisplayDesc.Outfit = ""
 	Actor_293.DisplayDesc.Weapon = ""
 	Actor_293.DisplayDesc.Mode = ""
@@ -12295,7 +12295,7 @@ function InitMap(environment)
 	Actor_293.PhysicDesc.SizeX = 5.36055e-024
 	Actor_293.PhysicDesc.SizeY = 4.57361e-038
 	Actor_293.PhysicDesc.SizeZ = 1.10206e-039
-	Actor_293.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_74.phy"
+	Actor_293.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_74.phy"
 	Actor_293:SetPhysicalActorType(1)
 	Actor_293:SetPhysicalShape(5)
 	Actor_293.ExtraInfo.Name = ""
@@ -12308,7 +12308,7 @@ function InitMap(environment)
 	Actor_294 = ActorObjectInfo(294)
 	Actor_294:SetRenderType(1)
 	Actor_294.DisplayDesc.ModelId = 0
-	Actor_294.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_294.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_294.DisplayDesc.Outfit = ""
 	Actor_294.DisplayDesc.Weapon = ""
 	Actor_294.DisplayDesc.Mode = ""
@@ -12337,7 +12337,7 @@ function InitMap(environment)
 	Actor_294.PhysicDesc.SizeX = 0
 	Actor_294.PhysicDesc.SizeY = 0
 	Actor_294.PhysicDesc.SizeZ = 0
-	Actor_294.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_294.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_294:SetPhysicalActorType(1)
 	Actor_294:SetPhysicalShape(5)
 	Actor_294.ExtraInfo.Name = ""
@@ -12350,7 +12350,7 @@ function InitMap(environment)
 	Actor_295 = ActorObjectInfo(295)
 	Actor_295:SetRenderType(1)
 	Actor_295.DisplayDesc.ModelId = 0
-	Actor_295.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_295.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_295.DisplayDesc.Outfit = ""
 	Actor_295.DisplayDesc.Weapon = ""
 	Actor_295.DisplayDesc.Mode = ""
@@ -12379,7 +12379,7 @@ function InitMap(environment)
 	Actor_295.PhysicDesc.SizeX = 0
 	Actor_295.PhysicDesc.SizeY = 0
 	Actor_295.PhysicDesc.SizeZ = 0
-	Actor_295.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_295.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_295:SetPhysicalActorType(1)
 	Actor_295:SetPhysicalShape(5)
 	Actor_295.ExtraInfo.Name = ""
@@ -12392,7 +12392,7 @@ function InitMap(environment)
 	Actor_296 = ActorObjectInfo(296)
 	Actor_296:SetRenderType(1)
 	Actor_296.DisplayDesc.ModelId = 0
-	Actor_296.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_296.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_296.DisplayDesc.Outfit = ""
 	Actor_296.DisplayDesc.Weapon = ""
 	Actor_296.DisplayDesc.Mode = ""
@@ -12421,7 +12421,7 @@ function InitMap(environment)
 	Actor_296.PhysicDesc.SizeX = 1
 	Actor_296.PhysicDesc.SizeY = 0
 	Actor_296.PhysicDesc.SizeZ = 0
-	Actor_296.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_296.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_296:SetPhysicalActorType(1)
 	Actor_296:SetPhysicalShape(5)
 	Actor_296.ExtraInfo.Name = ""
@@ -12434,7 +12434,7 @@ function InitMap(environment)
 	Actor_297 = ActorObjectInfo(297)
 	Actor_297:SetRenderType(1)
 	Actor_297.DisplayDesc.ModelId = 0
-	Actor_297.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_297.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_297.DisplayDesc.Outfit = ""
 	Actor_297.DisplayDesc.Weapon = ""
 	Actor_297.DisplayDesc.Mode = ""
@@ -12463,7 +12463,7 @@ function InitMap(environment)
 	Actor_297.PhysicDesc.SizeX = 4.5918e-039
 	Actor_297.PhysicDesc.SizeY = 2.63311e-035
 	Actor_297.PhysicDesc.SizeZ = 4.48608e-024
-	Actor_297.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_297.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_297:SetPhysicalActorType(1)
 	Actor_297:SetPhysicalShape(5)
 	Actor_297.ExtraInfo.Name = ""
@@ -12476,7 +12476,7 @@ function InitMap(environment)
 	Actor_298 = ActorObjectInfo(298)
 	Actor_298:SetRenderType(1)
 	Actor_298.DisplayDesc.ModelId = -1
-	Actor_298.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_75.osgb"
+	Actor_298.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_75.osgb"
 	Actor_298.DisplayDesc.Outfit = ""
 	Actor_298.DisplayDesc.Weapon = ""
 	Actor_298.DisplayDesc.Mode = ""
@@ -12505,7 +12505,7 @@ function InitMap(environment)
 	Actor_298.PhysicDesc.SizeX = 0
 	Actor_298.PhysicDesc.SizeY = 0
 	Actor_298.PhysicDesc.SizeZ = 0
-	Actor_298.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_75.phy"
+	Actor_298.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_75.phy"
 	Actor_298:SetPhysicalActorType(1)
 	Actor_298:SetPhysicalShape(5)
 	Actor_298.ExtraInfo.Name = ""
@@ -12518,7 +12518,7 @@ function InitMap(environment)
 	Actor_299 = ActorObjectInfo(299)
 	Actor_299:SetRenderType(1)
 	Actor_299.DisplayDesc.ModelId = 227853216
-	Actor_299.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_76.osgb"
+	Actor_299.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_76.osgb"
 	Actor_299.DisplayDesc.Outfit = ""
 	Actor_299.DisplayDesc.Weapon = ""
 	Actor_299.DisplayDesc.Mode = ""
@@ -12547,7 +12547,7 @@ function InitMap(environment)
 	Actor_299.PhysicDesc.SizeX = 0
 	Actor_299.PhysicDesc.SizeY = 2.8026e-045
 	Actor_299.PhysicDesc.SizeZ = 1.92923e-031
-	Actor_299.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_76.phy"
+	Actor_299.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_76.phy"
 	Actor_299:SetPhysicalActorType(1)
 	Actor_299:SetPhysicalShape(5)
 	Actor_299.ExtraInfo.Name = ""
@@ -12560,7 +12560,7 @@ function InitMap(environment)
 	Actor_300 = ActorObjectInfo(300)
 	Actor_300:SetRenderType(1)
 	Actor_300.DisplayDesc.ModelId = 0
-	Actor_300.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_300.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_300.DisplayDesc.Outfit = ""
 	Actor_300.DisplayDesc.Weapon = ""
 	Actor_300.DisplayDesc.Mode = ""
@@ -12589,7 +12589,7 @@ function InitMap(environment)
 	Actor_300.PhysicDesc.SizeX = 0
 	Actor_300.PhysicDesc.SizeY = 0
 	Actor_300.PhysicDesc.SizeZ = 0
-	Actor_300.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_300.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_300:SetPhysicalActorType(1)
 	Actor_300:SetPhysicalShape(5)
 	Actor_300.ExtraInfo.Name = ""
@@ -12602,7 +12602,7 @@ function InitMap(environment)
 	Actor_301 = ActorObjectInfo(301)
 	Actor_301:SetRenderType(1)
 	Actor_301.DisplayDesc.ModelId = 430344184
-	Actor_301.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_301.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_301.DisplayDesc.Outfit = ""
 	Actor_301.DisplayDesc.Weapon = ""
 	Actor_301.DisplayDesc.Mode = ""
@@ -12631,7 +12631,7 @@ function InitMap(environment)
 	Actor_301.PhysicDesc.SizeX = 7.55377e-021
 	Actor_301.PhysicDesc.SizeY = 0
 	Actor_301.PhysicDesc.SizeZ = 0
-	Actor_301.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_301.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_301:SetPhysicalActorType(1)
 	Actor_301:SetPhysicalShape(5)
 	Actor_301.ExtraInfo.Name = ""
@@ -12644,7 +12644,7 @@ function InitMap(environment)
 	Actor_302 = ActorObjectInfo(302)
 	Actor_302:SetRenderType(1)
 	Actor_302.DisplayDesc.ModelId = 2
-	Actor_302.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_302.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_302.DisplayDesc.Outfit = ""
 	Actor_302.DisplayDesc.Weapon = ""
 	Actor_302.DisplayDesc.Mode = ""
@@ -12673,7 +12673,7 @@ function InitMap(environment)
 	Actor_302.PhysicDesc.SizeX = 1
 	Actor_302.PhysicDesc.SizeY = 0
 	Actor_302.PhysicDesc.SizeZ = 0
-	Actor_302.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_302.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_302:SetPhysicalActorType(1)
 	Actor_302:SetPhysicalShape(5)
 	Actor_302.ExtraInfo.Name = ""
@@ -12686,7 +12686,7 @@ function InitMap(environment)
 	Actor_303 = ActorObjectInfo(303)
 	Actor_303:SetRenderType(1)
 	Actor_303.DisplayDesc.ModelId = 1050056343
-	Actor_303.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_303.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_303.DisplayDesc.Outfit = ""
 	Actor_303.DisplayDesc.Weapon = ""
 	Actor_303.DisplayDesc.Mode = ""
@@ -12715,7 +12715,7 @@ function InitMap(environment)
 	Actor_303.PhysicDesc.SizeX = 0.639216
 	Actor_303.PhysicDesc.SizeY = 0.419608
 	Actor_303.PhysicDesc.SizeZ = 0.309804
-	Actor_303.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_303.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_303:SetPhysicalActorType(1)
 	Actor_303:SetPhysicalShape(5)
 	Actor_303.ExtraInfo.Name = ""
@@ -12728,7 +12728,7 @@ function InitMap(environment)
 	Actor_304 = ActorObjectInfo(304)
 	Actor_304:SetRenderType(1)
 	Actor_304.DisplayDesc.ModelId = 0
-	Actor_304.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_304.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_304.DisplayDesc.Outfit = ""
 	Actor_304.DisplayDesc.Weapon = ""
 	Actor_304.DisplayDesc.Mode = ""
@@ -12757,7 +12757,7 @@ function InitMap(environment)
 	Actor_304.PhysicDesc.SizeX = 1.31224e-038
 	Actor_304.PhysicDesc.SizeY = 0
 	Actor_304.PhysicDesc.SizeZ = 0
-	Actor_304.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_304.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_304:SetPhysicalActorType(1)
 	Actor_304:SetPhysicalShape(5)
 	Actor_304.ExtraInfo.Name = ""
@@ -12770,7 +12770,7 @@ function InitMap(environment)
 	Actor_305 = ActorObjectInfo(305)
 	Actor_305:SetRenderType(1)
 	Actor_305.DisplayDesc.ModelId = 0
-	Actor_305.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_305.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_305.DisplayDesc.Outfit = ""
 	Actor_305.DisplayDesc.Weapon = ""
 	Actor_305.DisplayDesc.Mode = ""
@@ -12799,7 +12799,7 @@ function InitMap(environment)
 	Actor_305.PhysicDesc.SizeX = 0
 	Actor_305.PhysicDesc.SizeY = 0
 	Actor_305.PhysicDesc.SizeZ = 0
-	Actor_305.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_305.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_305:SetPhysicalActorType(1)
 	Actor_305:SetPhysicalShape(5)
 	Actor_305.ExtraInfo.Name = ""
@@ -12812,7 +12812,7 @@ function InitMap(environment)
 	Actor_306 = ActorObjectInfo(306)
 	Actor_306:SetRenderType(1)
 	Actor_306.DisplayDesc.ModelId = 0
-	Actor_306.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_306.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_306.DisplayDesc.Outfit = ""
 	Actor_306.DisplayDesc.Weapon = ""
 	Actor_306.DisplayDesc.Mode = ""
@@ -12841,7 +12841,7 @@ function InitMap(environment)
 	Actor_306.PhysicDesc.SizeX = 0.498047
 	Actor_306.PhysicDesc.SizeY = 1.76758
 	Actor_306.PhysicDesc.SizeZ = -0.197266
-	Actor_306.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_306.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_306:SetPhysicalActorType(1)
 	Actor_306:SetPhysicalShape(5)
 	Actor_306.ExtraInfo.Name = ""
@@ -12854,7 +12854,7 @@ function InitMap(environment)
 	Actor_307 = ActorObjectInfo(307)
 	Actor_307:SetRenderType(1)
 	Actor_307.DisplayDesc.ModelId = 0
-	Actor_307.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_307.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_307.DisplayDesc.Outfit = ""
 	Actor_307.DisplayDesc.Weapon = ""
 	Actor_307.DisplayDesc.Mode = ""
@@ -12883,7 +12883,7 @@ function InitMap(environment)
 	Actor_307.PhysicDesc.SizeX = 2.12676e+037
 	Actor_307.PhysicDesc.SizeY = 0.240847
 	Actor_307.PhysicDesc.SizeZ = 0
-	Actor_307.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_307.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_307:SetPhysicalActorType(1)
 	Actor_307:SetPhysicalShape(5)
 	Actor_307.ExtraInfo.Name = ""
@@ -12896,7 +12896,7 @@ function InitMap(environment)
 	Actor_308 = ActorObjectInfo(308)
 	Actor_308:SetRenderType(1)
 	Actor_308.DisplayDesc.ModelId = 1076338304
-	Actor_308.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_308.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_308.DisplayDesc.Outfit = ""
 	Actor_308.DisplayDesc.Weapon = ""
 	Actor_308.DisplayDesc.Mode = ""
@@ -12925,7 +12925,7 @@ function InitMap(environment)
 	Actor_308.PhysicDesc.SizeX = 0
 	Actor_308.PhysicDesc.SizeY = 0
 	Actor_308.PhysicDesc.SizeZ = 2.12676e+037
-	Actor_308.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_308.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_308:SetPhysicalActorType(1)
 	Actor_308:SetPhysicalShape(5)
 	Actor_308.ExtraInfo.Name = ""
@@ -12938,7 +12938,7 @@ function InitMap(environment)
 	Actor_309 = ActorObjectInfo(309)
 	Actor_309:SetRenderType(1)
 	Actor_309.DisplayDesc.ModelId = 131076
-	Actor_309.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_309.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_309.DisplayDesc.Outfit = ""
 	Actor_309.DisplayDesc.Weapon = ""
 	Actor_309.DisplayDesc.Mode = ""
@@ -12967,7 +12967,7 @@ function InitMap(environment)
 	Actor_309.PhysicDesc.SizeX = 0
 	Actor_309.PhysicDesc.SizeY = 0
 	Actor_309.PhysicDesc.SizeZ = 0
-	Actor_309.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_309.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_309:SetPhysicalActorType(1)
 	Actor_309:SetPhysicalShape(5)
 	Actor_309.ExtraInfo.Name = ""
@@ -12980,7 +12980,7 @@ function InitMap(environment)
 	Actor_310 = ActorObjectInfo(310)
 	Actor_310:SetRenderType(1)
 	Actor_310.DisplayDesc.ModelId = 178
-	Actor_310.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_310.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_310.DisplayDesc.Outfit = ""
 	Actor_310.DisplayDesc.Weapon = ""
 	Actor_310.DisplayDesc.Mode = ""
@@ -13009,7 +13009,7 @@ function InitMap(environment)
 	Actor_310.PhysicDesc.SizeX = 4.57352e-038
 	Actor_310.PhysicDesc.SizeY = 7.01673e-031
 	Actor_310.PhysicDesc.SizeZ = 3.67345e-040
-	Actor_310.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_310.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_310:SetPhysicalActorType(1)
 	Actor_310:SetPhysicalShape(5)
 	Actor_310.ExtraInfo.Name = ""
@@ -13022,7 +13022,7 @@ function InitMap(environment)
 	Actor_311 = ActorObjectInfo(311)
 	Actor_311:SetRenderType(1)
 	Actor_311.DisplayDesc.ModelId = 0
-	Actor_311.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_311.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_311.DisplayDesc.Outfit = ""
 	Actor_311.DisplayDesc.Weapon = ""
 	Actor_311.DisplayDesc.Mode = ""
@@ -13051,7 +13051,7 @@ function InitMap(environment)
 	Actor_311.PhysicDesc.SizeX = 1.51758
 	Actor_311.PhysicDesc.SizeY = 1.60547
 	Actor_311.PhysicDesc.SizeZ = -0.302734
-	Actor_311.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_311.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_311:SetPhysicalActorType(1)
 	Actor_311:SetPhysicalShape(5)
 	Actor_311.ExtraInfo.Name = ""
@@ -13064,7 +13064,7 @@ function InitMap(environment)
 	Actor_312 = ActorObjectInfo(312)
 	Actor_312:SetRenderType(1)
 	Actor_312.DisplayDesc.ModelId = 47
-	Actor_312.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_312.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_312.DisplayDesc.Outfit = ""
 	Actor_312.DisplayDesc.Weapon = ""
 	Actor_312.DisplayDesc.Mode = ""
@@ -13093,7 +13093,7 @@ function InitMap(environment)
 	Actor_312.PhysicDesc.SizeX = 0
 	Actor_312.PhysicDesc.SizeY = 4.34403e-044
 	Actor_312.PhysicDesc.SizeZ = 3.78351e-044
-	Actor_312.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_312.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_312:SetPhysicalActorType(1)
 	Actor_312:SetPhysicalShape(5)
 	Actor_312.ExtraInfo.Name = ""
@@ -13106,7 +13106,7 @@ function InitMap(environment)
 	Actor_313 = ActorObjectInfo(313)
 	Actor_313:SetRenderType(1)
 	Actor_313.DisplayDesc.ModelId = 0
-	Actor_313.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_313.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_313.DisplayDesc.Outfit = ""
 	Actor_313.DisplayDesc.Weapon = ""
 	Actor_313.DisplayDesc.Mode = ""
@@ -13135,7 +13135,7 @@ function InitMap(environment)
 	Actor_313.PhysicDesc.SizeX = 0
 	Actor_313.PhysicDesc.SizeY = 0
 	Actor_313.PhysicDesc.SizeZ = 0
-	Actor_313.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_313.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_313:SetPhysicalActorType(1)
 	Actor_313:SetPhysicalShape(5)
 	Actor_313.ExtraInfo.Name = ""
@@ -13148,7 +13148,7 @@ function InitMap(environment)
 	Actor_314 = ActorObjectInfo(314)
 	Actor_314:SetRenderType(1)
 	Actor_314.DisplayDesc.ModelId = 0
-	Actor_314.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_314.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_314.DisplayDesc.Outfit = ""
 	Actor_314.DisplayDesc.Weapon = ""
 	Actor_314.DisplayDesc.Mode = ""
@@ -13177,7 +13177,7 @@ function InitMap(environment)
 	Actor_314.PhysicDesc.SizeX = 0
 	Actor_314.PhysicDesc.SizeY = 0
 	Actor_314.PhysicDesc.SizeZ = 0
-	Actor_314.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_314.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_314:SetPhysicalActorType(1)
 	Actor_314:SetPhysicalShape(5)
 	Actor_314.ExtraInfo.Name = ""
@@ -13190,7 +13190,7 @@ function InitMap(environment)
 	Actor_315 = ActorObjectInfo(315)
 	Actor_315:SetRenderType(1)
 	Actor_315.DisplayDesc.ModelId = 224612728
-	Actor_315.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_315.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_315.DisplayDesc.Outfit = ""
 	Actor_315.DisplayDesc.Weapon = ""
 	Actor_315.DisplayDesc.Mode = ""
@@ -13219,7 +13219,7 @@ function InitMap(environment)
 	Actor_315.PhysicDesc.SizeX = 1.31224e-038
 	Actor_315.PhysicDesc.SizeY = 0
 	Actor_315.PhysicDesc.SizeZ = 0
-	Actor_315.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_315.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_315:SetPhysicalActorType(1)
 	Actor_315:SetPhysicalShape(5)
 	Actor_315.ExtraInfo.Name = ""
@@ -13232,7 +13232,7 @@ function InitMap(environment)
 	Actor_316 = ActorObjectInfo(316)
 	Actor_316:SetRenderType(1)
 	Actor_316.DisplayDesc.ModelId = 0
-	Actor_316.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_316.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_316.DisplayDesc.Outfit = ""
 	Actor_316.DisplayDesc.Weapon = ""
 	Actor_316.DisplayDesc.Mode = ""
@@ -13261,7 +13261,7 @@ function InitMap(environment)
 	Actor_316.PhysicDesc.SizeX = 0
 	Actor_316.PhysicDesc.SizeY = 0
 	Actor_316.PhysicDesc.SizeZ = 0
-	Actor_316.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_316.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_316:SetPhysicalActorType(1)
 	Actor_316:SetPhysicalShape(5)
 	Actor_316.ExtraInfo.Name = ""
@@ -13274,7 +13274,7 @@ function InitMap(environment)
 	Actor_317 = ActorObjectInfo(317)
 	Actor_317:SetRenderType(1)
 	Actor_317.DisplayDesc.ModelId = 1059300260
-	Actor_317.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_317.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_317.DisplayDesc.Outfit = ""
 	Actor_317.DisplayDesc.Weapon = ""
 	Actor_317.DisplayDesc.Mode = ""
@@ -13303,7 +13303,7 @@ function InitMap(environment)
 	Actor_317.PhysicDesc.SizeX = 1.76366e-031
 	Actor_317.PhysicDesc.SizeY = 4.57354e-038
 	Actor_317.PhysicDesc.SizeZ = 5.96931e-039
-	Actor_317.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_317.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_317:SetPhysicalActorType(1)
 	Actor_317:SetPhysicalShape(5)
 	Actor_317.ExtraInfo.Name = ""
@@ -13316,7 +13316,7 @@ function InitMap(environment)
 	Actor_318 = ActorObjectInfo(318)
 	Actor_318:SetRenderType(1)
 	Actor_318.DisplayDesc.ModelId = 0
-	Actor_318.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_318.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_318.DisplayDesc.Outfit = ""
 	Actor_318.DisplayDesc.Weapon = ""
 	Actor_318.DisplayDesc.Mode = ""
@@ -13345,7 +13345,7 @@ function InitMap(environment)
 	Actor_318.PhysicDesc.SizeX = 0
 	Actor_318.PhysicDesc.SizeY = 0
 	Actor_318.PhysicDesc.SizeZ = 0
-	Actor_318.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_318.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_318:SetPhysicalActorType(1)
 	Actor_318:SetPhysicalShape(5)
 	Actor_318.ExtraInfo.Name = ""
@@ -13358,7 +13358,7 @@ function InitMap(environment)
 	Actor_319 = ActorObjectInfo(319)
 	Actor_319:SetRenderType(1)
 	Actor_319.DisplayDesc.ModelId = -1098383360
-	Actor_319.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_319.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_319.DisplayDesc.Outfit = ""
 	Actor_319.DisplayDesc.Weapon = ""
 	Actor_319.DisplayDesc.Mode = ""
@@ -13387,7 +13387,7 @@ function InitMap(environment)
 	Actor_319.PhysicDesc.SizeX = 1.4013e-044
 	Actor_319.PhysicDesc.SizeY = 4.2039e-045
 	Actor_319.PhysicDesc.SizeZ = 7.18306e-042
-	Actor_319.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_319.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_319:SetPhysicalActorType(1)
 	Actor_319:SetPhysicalShape(5)
 	Actor_319.ExtraInfo.Name = ""
@@ -13400,7 +13400,7 @@ function InitMap(environment)
 	Actor_320 = ActorObjectInfo(320)
 	Actor_320:SetRenderType(1)
 	Actor_320.DisplayDesc.ModelId = 0
-	Actor_320.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_320.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_320.DisplayDesc.Outfit = ""
 	Actor_320.DisplayDesc.Weapon = ""
 	Actor_320.DisplayDesc.Mode = ""
@@ -13429,7 +13429,7 @@ function InitMap(environment)
 	Actor_320.PhysicDesc.SizeX = 0
 	Actor_320.PhysicDesc.SizeY = 0
 	Actor_320.PhysicDesc.SizeZ = 0
-	Actor_320.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_320.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_320:SetPhysicalActorType(1)
 	Actor_320:SetPhysicalShape(5)
 	Actor_320.ExtraInfo.Name = ""
@@ -13442,7 +13442,7 @@ function InitMap(environment)
 	Actor_321 = ActorObjectInfo(321)
 	Actor_321:SetRenderType(1)
 	Actor_321.DisplayDesc.ModelId = -2147483648
-	Actor_321.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_77.osgb"
+	Actor_321.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_77.osgb"
 	Actor_321.DisplayDesc.Outfit = ""
 	Actor_321.DisplayDesc.Weapon = ""
 	Actor_321.DisplayDesc.Mode = ""
@@ -13471,7 +13471,7 @@ function InitMap(environment)
 	Actor_321.PhysicDesc.SizeX = 0.466797
 	Actor_321.PhysicDesc.SizeY = -0.597656
 	Actor_321.PhysicDesc.SizeZ = 0
-	Actor_321.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_77.phy"
+	Actor_321.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_77.phy"
 	Actor_321:SetPhysicalActorType(1)
 	Actor_321:SetPhysicalShape(5)
 	Actor_321.ExtraInfo.Name = ""
@@ -13484,7 +13484,7 @@ function InitMap(environment)
 	Actor_322 = ActorObjectInfo(322)
 	Actor_322:SetRenderType(1)
 	Actor_322.DisplayDesc.ModelId = -33
-	Actor_322.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_77.osgb"
+	Actor_322.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_77.osgb"
 	Actor_322.DisplayDesc.Outfit = ""
 	Actor_322.DisplayDesc.Weapon = ""
 	Actor_322.DisplayDesc.Mode = ""
@@ -13513,7 +13513,7 @@ function InitMap(environment)
 	Actor_322.PhysicDesc.SizeX = 0
 	Actor_322.PhysicDesc.SizeY = 0
 	Actor_322.PhysicDesc.SizeZ = 0
-	Actor_322.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_77.phy"
+	Actor_322.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_77.phy"
 	Actor_322:SetPhysicalActorType(1)
 	Actor_322:SetPhysicalShape(5)
 	Actor_322.ExtraInfo.Name = ""
@@ -13526,7 +13526,7 @@ function InitMap(environment)
 	Actor_323 = ActorObjectInfo(323)
 	Actor_323:SetRenderType(1)
 	Actor_323.DisplayDesc.ModelId = 0
-	Actor_323.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_53.osgb"
+	Actor_323.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_53.osgb"
 	Actor_323.DisplayDesc.Outfit = ""
 	Actor_323.DisplayDesc.Weapon = ""
 	Actor_323.DisplayDesc.Mode = ""
@@ -13555,7 +13555,7 @@ function InitMap(environment)
 	Actor_323.PhysicDesc.SizeX = 0
 	Actor_323.PhysicDesc.SizeY = 0
 	Actor_323.PhysicDesc.SizeZ = 1.2857e-039
-	Actor_323.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_53.phy"
+	Actor_323.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_53.phy"
 	Actor_323:SetPhysicalActorType(1)
 	Actor_323:SetPhysicalShape(5)
 	Actor_323.ExtraInfo.Name = ""
@@ -13568,7 +13568,7 @@ function InitMap(environment)
 	Actor_324 = ActorObjectInfo(324)
 	Actor_324:SetRenderType(1)
 	Actor_324.DisplayDesc.ModelId = 0
-	Actor_324.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_53.osgb"
+	Actor_324.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_53.osgb"
 	Actor_324.DisplayDesc.Outfit = ""
 	Actor_324.DisplayDesc.Weapon = ""
 	Actor_324.DisplayDesc.Mode = ""
@@ -13597,7 +13597,7 @@ function InitMap(environment)
 	Actor_324.PhysicDesc.SizeX = 0
 	Actor_324.PhysicDesc.SizeY = 1.64081e-023
 	Actor_324.PhysicDesc.SizeZ = 0
-	Actor_324.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_53.phy"
+	Actor_324.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_53.phy"
 	Actor_324:SetPhysicalActorType(1)
 	Actor_324:SetPhysicalShape(5)
 	Actor_324.ExtraInfo.Name = ""
@@ -13610,7 +13610,7 @@ function InitMap(environment)
 	Actor_325 = ActorObjectInfo(325)
 	Actor_325:SetRenderType(1)
 	Actor_325.DisplayDesc.ModelId = 0
-	Actor_325.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_55.osgb"
+	Actor_325.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_55.osgb"
 	Actor_325.DisplayDesc.Outfit = ""
 	Actor_325.DisplayDesc.Weapon = ""
 	Actor_325.DisplayDesc.Mode = ""
@@ -13639,7 +13639,7 @@ function InitMap(environment)
 	Actor_325.PhysicDesc.SizeX = 0
 	Actor_325.PhysicDesc.SizeY = 0
 	Actor_325.PhysicDesc.SizeZ = 0
-	Actor_325.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_55.phy"
+	Actor_325.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_55.phy"
 	Actor_325:SetPhysicalActorType(1)
 	Actor_325:SetPhysicalShape(5)
 	Actor_325.ExtraInfo.Name = ""
@@ -13652,7 +13652,7 @@ function InitMap(environment)
 	Actor_326 = ActorObjectInfo(326)
 	Actor_326:SetRenderType(1)
 	Actor_326.DisplayDesc.ModelId = 0
-	Actor_326.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_54.osgb"
+	Actor_326.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_54.osgb"
 	Actor_326.DisplayDesc.Outfit = ""
 	Actor_326.DisplayDesc.Weapon = ""
 	Actor_326.DisplayDesc.Mode = ""
@@ -13681,7 +13681,7 @@ function InitMap(environment)
 	Actor_326.PhysicDesc.SizeX = 0
 	Actor_326.PhysicDesc.SizeY = 0
 	Actor_326.PhysicDesc.SizeZ = 0
-	Actor_326.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_54.phy"
+	Actor_326.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_54.phy"
 	Actor_326:SetPhysicalActorType(1)
 	Actor_326:SetPhysicalShape(5)
 	Actor_326.ExtraInfo.Name = ""
@@ -13694,7 +13694,7 @@ function InitMap(environment)
 	Actor_327 = ActorObjectInfo(327)
 	Actor_327:SetRenderType(1)
 	Actor_327.DisplayDesc.ModelId = -8388609
-	Actor_327.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_53.osgb"
+	Actor_327.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_53.osgb"
 	Actor_327.DisplayDesc.Outfit = ""
 	Actor_327.DisplayDesc.Weapon = ""
 	Actor_327.DisplayDesc.Mode = ""
@@ -13723,7 +13723,7 @@ function InitMap(environment)
 	Actor_327.PhysicDesc.SizeX = 0
 	Actor_327.PhysicDesc.SizeY = 1.774e-031
 	Actor_327.PhysicDesc.SizeZ = 2.8026e-045
-	Actor_327.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_53.phy"
+	Actor_327.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_53.phy"
 	Actor_327:SetPhysicalActorType(1)
 	Actor_327:SetPhysicalShape(5)
 	Actor_327.ExtraInfo.Name = ""
@@ -13736,7 +13736,7 @@ function InitMap(environment)
 	Actor_328 = ActorObjectInfo(328)
 	Actor_328:SetRenderType(1)
 	Actor_328.DisplayDesc.ModelId = 0
-	Actor_328.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_55.osgb"
+	Actor_328.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_55.osgb"
 	Actor_328.DisplayDesc.Outfit = ""
 	Actor_328.DisplayDesc.Weapon = ""
 	Actor_328.DisplayDesc.Mode = ""
@@ -13765,7 +13765,7 @@ function InitMap(environment)
 	Actor_328.PhysicDesc.SizeX = 0
 	Actor_328.PhysicDesc.SizeY = 0
 	Actor_328.PhysicDesc.SizeZ = 0
-	Actor_328.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_55.phy"
+	Actor_328.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_55.phy"
 	Actor_328:SetPhysicalActorType(1)
 	Actor_328:SetPhysicalShape(5)
 	Actor_328.ExtraInfo.Name = ""
@@ -13778,7 +13778,7 @@ function InitMap(environment)
 	Actor_329 = ActorObjectInfo(329)
 	Actor_329:SetRenderType(1)
 	Actor_329.DisplayDesc.ModelId = 0
-	Actor_329.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_55.osgb"
+	Actor_329.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_55.osgb"
 	Actor_329.DisplayDesc.Outfit = ""
 	Actor_329.DisplayDesc.Weapon = ""
 	Actor_329.DisplayDesc.Mode = ""
@@ -13807,7 +13807,7 @@ function InitMap(environment)
 	Actor_329.PhysicDesc.SizeX = 0
 	Actor_329.PhysicDesc.SizeY = 0
 	Actor_329.PhysicDesc.SizeZ = 0
-	Actor_329.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_55.phy"
+	Actor_329.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_55.phy"
 	Actor_329:SetPhysicalActorType(1)
 	Actor_329:SetPhysicalShape(5)
 	Actor_329.ExtraInfo.Name = ""
@@ -13820,7 +13820,7 @@ function InitMap(environment)
 	Actor_330 = ActorObjectInfo(330)
 	Actor_330:SetRenderType(1)
 	Actor_330.DisplayDesc.ModelId = 131076
-	Actor_330.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_54.osgb"
+	Actor_330.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_54.osgb"
 	Actor_330.DisplayDesc.Outfit = ""
 	Actor_330.DisplayDesc.Weapon = ""
 	Actor_330.DisplayDesc.Mode = ""
@@ -13849,7 +13849,7 @@ function InitMap(environment)
 	Actor_330.PhysicDesc.SizeX = 5.59668
 	Actor_330.PhysicDesc.SizeY = 7.96887
 	Actor_330.PhysicDesc.SizeZ = 4.59234e-040
-	Actor_330.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_54.phy"
+	Actor_330.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_54.phy"
 	Actor_330:SetPhysicalActorType(1)
 	Actor_330:SetPhysicalShape(5)
 	Actor_330.ExtraInfo.Name = ""
@@ -13862,7 +13862,7 @@ function InitMap(environment)
 	Actor_331 = ActorObjectInfo(331)
 	Actor_331:SetRenderType(1)
 	Actor_331.DisplayDesc.ModelId = 0
-	Actor_331.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_30.osgb"
+	Actor_331.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_30.osgb"
 	Actor_331.DisplayDesc.Outfit = ""
 	Actor_331.DisplayDesc.Weapon = ""
 	Actor_331.DisplayDesc.Mode = ""
@@ -13891,7 +13891,7 @@ function InitMap(environment)
 	Actor_331.PhysicDesc.SizeX = 0
 	Actor_331.PhysicDesc.SizeY = 0
 	Actor_331.PhysicDesc.SizeZ = 0
-	Actor_331.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_30.phy"
+	Actor_331.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_30.phy"
 	Actor_331:SetPhysicalActorType(1)
 	Actor_331:SetPhysicalShape(5)
 	Actor_331.ExtraInfo.Name = ""
@@ -13904,7 +13904,7 @@ function InitMap(environment)
 	Actor_332 = ActorObjectInfo(332)
 	Actor_332:SetRenderType(1)
 	Actor_332.DisplayDesc.ModelId = 445867032
-	Actor_332.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_53.osgb"
+	Actor_332.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_53.osgb"
 	Actor_332.DisplayDesc.Outfit = ""
 	Actor_332.DisplayDesc.Weapon = ""
 	Actor_332.DisplayDesc.Mode = ""
@@ -13933,7 +13933,7 @@ function InitMap(environment)
 	Actor_332.PhysicDesc.SizeX = 0
 	Actor_332.PhysicDesc.SizeY = 0
 	Actor_332.PhysicDesc.SizeZ = 0
-	Actor_332.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_53.phy"
+	Actor_332.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_53.phy"
 	Actor_332:SetPhysicalActorType(1)
 	Actor_332:SetPhysicalShape(5)
 	Actor_332.ExtraInfo.Name = ""
@@ -13946,7 +13946,7 @@ function InitMap(environment)
 	Actor_333 = ActorObjectInfo(333)
 	Actor_333:SetRenderType(1)
 	Actor_333.DisplayDesc.ModelId = 22
-	Actor_333.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_55.osgb"
+	Actor_333.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_55.osgb"
 	Actor_333.DisplayDesc.Outfit = ""
 	Actor_333.DisplayDesc.Weapon = ""
 	Actor_333.DisplayDesc.Mode = ""
@@ -13975,7 +13975,7 @@ function InitMap(environment)
 	Actor_333.PhysicDesc.SizeX = 0
 	Actor_333.PhysicDesc.SizeY = 0
 	Actor_333.PhysicDesc.SizeZ = 0
-	Actor_333.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_55.phy"
+	Actor_333.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_55.phy"
 	Actor_333:SetPhysicalActorType(1)
 	Actor_333:SetPhysicalShape(5)
 	Actor_333.ExtraInfo.Name = ""
@@ -13988,7 +13988,7 @@ function InitMap(environment)
 	Actor_334 = ActorObjectInfo(334)
 	Actor_334:SetRenderType(1)
 	Actor_334.DisplayDesc.ModelId = 284015366
-	Actor_334.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_54.osgb"
+	Actor_334.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_54.osgb"
 	Actor_334.DisplayDesc.Outfit = ""
 	Actor_334.DisplayDesc.Weapon = ""
 	Actor_334.DisplayDesc.Mode = ""
@@ -14017,7 +14017,7 @@ function InitMap(environment)
 	Actor_334.PhysicDesc.SizeX = 2.75195
 	Actor_334.PhysicDesc.SizeY = -0.265625
 	Actor_334.PhysicDesc.SizeZ = 1.4013e-045
-	Actor_334.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_54.phy"
+	Actor_334.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_54.phy"
 	Actor_334:SetPhysicalActorType(1)
 	Actor_334:SetPhysicalShape(5)
 	Actor_334.ExtraInfo.Name = ""
@@ -14030,7 +14030,7 @@ function InitMap(environment)
 	Actor_335 = ActorObjectInfo(335)
 	Actor_335:SetRenderType(1)
 	Actor_335.DisplayDesc.ModelId = 0
-	Actor_335.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_54.osgb"
+	Actor_335.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_54.osgb"
 	Actor_335.DisplayDesc.Outfit = ""
 	Actor_335.DisplayDesc.Weapon = ""
 	Actor_335.DisplayDesc.Mode = ""
@@ -14059,7 +14059,7 @@ function InitMap(environment)
 	Actor_335.PhysicDesc.SizeX = 0
 	Actor_335.PhysicDesc.SizeY = 0
 	Actor_335.PhysicDesc.SizeZ = 0
-	Actor_335.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_54.phy"
+	Actor_335.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_54.phy"
 	Actor_335:SetPhysicalActorType(1)
 	Actor_335:SetPhysicalShape(5)
 	Actor_335.ExtraInfo.Name = ""
@@ -14072,7 +14072,7 @@ function InitMap(environment)
 	Actor_336 = ActorObjectInfo(336)
 	Actor_336:SetRenderType(1)
 	Actor_336.DisplayDesc.ModelId = 393218
-	Actor_336.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_54.osgb"
+	Actor_336.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_54.osgb"
 	Actor_336.DisplayDesc.Outfit = ""
 	Actor_336.DisplayDesc.Weapon = ""
 	Actor_336.DisplayDesc.Mode = ""
@@ -14101,7 +14101,7 @@ function InitMap(environment)
 	Actor_336.PhysicDesc.SizeX = -3.51367
 	Actor_336.PhysicDesc.SizeY = 0.789063
 	Actor_336.PhysicDesc.SizeZ = -5.98438
-	Actor_336.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_54.phy"
+	Actor_336.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_54.phy"
 	Actor_336:SetPhysicalActorType(1)
 	Actor_336:SetPhysicalShape(5)
 	Actor_336.ExtraInfo.Name = ""
@@ -14114,7 +14114,7 @@ function InitMap(environment)
 	Actor_337 = ActorObjectInfo(337)
 	Actor_337:SetRenderType(1)
 	Actor_337.DisplayDesc.ModelId = 1044956160
-	Actor_337.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_55.osgb"
+	Actor_337.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_55.osgb"
 	Actor_337.DisplayDesc.Outfit = ""
 	Actor_337.DisplayDesc.Weapon = ""
 	Actor_337.DisplayDesc.Mode = ""
@@ -14143,7 +14143,7 @@ function InitMap(environment)
 	Actor_337.PhysicDesc.SizeX = 0.185974
 	Actor_337.PhysicDesc.SizeY = 0.235336
 	Actor_337.PhysicDesc.SizeZ = 0.219574
-	Actor_337.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_55.phy"
+	Actor_337.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_55.phy"
 	Actor_337:SetPhysicalActorType(1)
 	Actor_337:SetPhysicalShape(5)
 	Actor_337.ExtraInfo.Name = ""
@@ -14156,7 +14156,7 @@ function InitMap(environment)
 	Actor_338 = ActorObjectInfo(338)
 	Actor_338:SetRenderType(1)
 	Actor_338.DisplayDesc.ModelId = 0
-	Actor_338.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_53.osgb"
+	Actor_338.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_53.osgb"
 	Actor_338.DisplayDesc.Outfit = ""
 	Actor_338.DisplayDesc.Weapon = ""
 	Actor_338.DisplayDesc.Mode = ""
@@ -14185,7 +14185,7 @@ function InitMap(environment)
 	Actor_338.PhysicDesc.SizeX = 0
 	Actor_338.PhysicDesc.SizeY = 0
 	Actor_338.PhysicDesc.SizeZ = 1.28575e-039
-	Actor_338.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_53.phy"
+	Actor_338.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_53.phy"
 	Actor_338:SetPhysicalActorType(1)
 	Actor_338:SetPhysicalShape(5)
 	Actor_338.ExtraInfo.Name = ""
@@ -14198,7 +14198,7 @@ function InitMap(environment)
 	Actor_339 = ActorObjectInfo(339)
 	Actor_339:SetRenderType(1)
 	Actor_339.DisplayDesc.ModelId = 1045537792
-	Actor_339.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_53.osgb"
+	Actor_339.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_53.osgb"
 	Actor_339.DisplayDesc.Outfit = ""
 	Actor_339.DisplayDesc.Weapon = ""
 	Actor_339.DisplayDesc.Mode = ""
@@ -14227,7 +14227,7 @@ function InitMap(environment)
 	Actor_339.PhysicDesc.SizeX = 0.372452
 	Actor_339.PhysicDesc.SizeY = 0.0969391
 	Actor_339.PhysicDesc.SizeZ = 0.349304
-	Actor_339.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_53.phy"
+	Actor_339.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_53.phy"
 	Actor_339:SetPhysicalActorType(1)
 	Actor_339:SetPhysicalShape(5)
 	Actor_339.ExtraInfo.Name = ""
@@ -14240,7 +14240,7 @@ function InitMap(environment)
 	Actor_340 = ActorObjectInfo(340)
 	Actor_340:SetRenderType(1)
 	Actor_340.DisplayDesc.ModelId = 1065353216
-	Actor_340.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_78.osgb"
+	Actor_340.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_78.osgb"
 	Actor_340.DisplayDesc.Outfit = ""
 	Actor_340.DisplayDesc.Weapon = ""
 	Actor_340.DisplayDesc.Mode = ""
@@ -14269,7 +14269,7 @@ function InitMap(environment)
 	Actor_340.PhysicDesc.SizeX = 1
 	Actor_340.PhysicDesc.SizeY = 1
 	Actor_340.PhysicDesc.SizeZ = 1
-	Actor_340.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_78.phy"
+	Actor_340.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_78.phy"
 	Actor_340:SetPhysicalActorType(1)
 	Actor_340:SetPhysicalShape(5)
 	Actor_340.ExtraInfo.Name = ""
@@ -14282,7 +14282,7 @@ function InitMap(environment)
 	Actor_341 = ActorObjectInfo(341)
 	Actor_341:SetRenderType(1)
 	Actor_341.DisplayDesc.ModelId = 0
-	Actor_341.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_79.osgb"
+	Actor_341.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_79.osgb"
 	Actor_341.DisplayDesc.Outfit = ""
 	Actor_341.DisplayDesc.Weapon = ""
 	Actor_341.DisplayDesc.Mode = ""
@@ -14311,7 +14311,7 @@ function InitMap(environment)
 	Actor_341.PhysicDesc.SizeX = 0
 	Actor_341.PhysicDesc.SizeY = 0
 	Actor_341.PhysicDesc.SizeZ = 0
-	Actor_341.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_79.phy"
+	Actor_341.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_79.phy"
 	Actor_341:SetPhysicalActorType(1)
 	Actor_341:SetPhysicalShape(5)
 	Actor_341.ExtraInfo.Name = ""
@@ -14324,7 +14324,7 @@ function InitMap(environment)
 	Actor_342 = ActorObjectInfo(342)
 	Actor_342:SetRenderType(1)
 	Actor_342.DisplayDesc.ModelId = 1599291732
-	Actor_342.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_79.osgb"
+	Actor_342.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_79.osgb"
 	Actor_342.DisplayDesc.Outfit = ""
 	Actor_342.DisplayDesc.Weapon = ""
 	Actor_342.DisplayDesc.Mode = ""
@@ -14353,7 +14353,7 @@ function InitMap(environment)
 	Actor_342.PhysicDesc.SizeX = 0
 	Actor_342.PhysicDesc.SizeY = 0
 	Actor_342.PhysicDesc.SizeZ = 0
-	Actor_342.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_79.phy"
+	Actor_342.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_79.phy"
 	Actor_342:SetPhysicalActorType(1)
 	Actor_342:SetPhysicalShape(5)
 	Actor_342.ExtraInfo.Name = ""
@@ -14366,7 +14366,7 @@ function InitMap(environment)
 	Actor_343 = ActorObjectInfo(343)
 	Actor_343:SetRenderType(1)
 	Actor_343.DisplayDesc.ModelId = 1328701794
-	Actor_343.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_7.osgb"
+	Actor_343.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_7.osgb"
 	Actor_343.DisplayDesc.Outfit = ""
 	Actor_343.DisplayDesc.Weapon = ""
 	Actor_343.DisplayDesc.Mode = ""
@@ -14395,7 +14395,7 @@ function InitMap(environment)
 	Actor_343.PhysicDesc.SizeX = 9.21956e-041
 	Actor_343.PhysicDesc.SizeY = 1.04891e-030
 	Actor_343.PhysicDesc.SizeZ = -1.15464e-014
-	Actor_343.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_7.phy"
+	Actor_343.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_7.phy"
 	Actor_343:SetPhysicalActorType(1)
 	Actor_343:SetPhysicalShape(5)
 	Actor_343.ExtraInfo.Name = ""
@@ -14408,7 +14408,7 @@ function InitMap(environment)
 	Actor_344 = ActorObjectInfo(344)
 	Actor_344:SetRenderType(1)
 	Actor_344.DisplayDesc.ModelId = 1065353216
-	Actor_344.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_344.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_344.DisplayDesc.Outfit = ""
 	Actor_344.DisplayDesc.Weapon = ""
 	Actor_344.DisplayDesc.Mode = ""
@@ -14437,7 +14437,7 @@ function InitMap(environment)
 	Actor_344.PhysicDesc.SizeX = 1
 	Actor_344.PhysicDesc.SizeY = 1
 	Actor_344.PhysicDesc.SizeZ = 1
-	Actor_344.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_344.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_344:SetPhysicalActorType(1)
 	Actor_344:SetPhysicalShape(5)
 	Actor_344.ExtraInfo.Name = ""
@@ -14450,7 +14450,7 @@ function InitMap(environment)
 	Actor_345 = ActorObjectInfo(345)
 	Actor_345:SetRenderType(1)
 	Actor_345.DisplayDesc.ModelId = 131076
-	Actor_345.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_79.osgb"
+	Actor_345.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_79.osgb"
 	Actor_345.DisplayDesc.Outfit = ""
 	Actor_345.DisplayDesc.Weapon = ""
 	Actor_345.DisplayDesc.Mode = ""
@@ -14479,7 +14479,7 @@ function InitMap(environment)
 	Actor_345.PhysicDesc.SizeX = 0
 	Actor_345.PhysicDesc.SizeY = 0
 	Actor_345.PhysicDesc.SizeZ = 0
-	Actor_345.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_79.phy"
+	Actor_345.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_79.phy"
 	Actor_345:SetPhysicalActorType(1)
 	Actor_345:SetPhysicalShape(5)
 	Actor_345.ExtraInfo.Name = ""
@@ -14492,7 +14492,7 @@ function InitMap(environment)
 	Actor_346 = ActorObjectInfo(346)
 	Actor_346:SetRenderType(1)
 	Actor_346.DisplayDesc.ModelId = 16
-	Actor_346.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_79.osgb"
+	Actor_346.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_79.osgb"
 	Actor_346.DisplayDesc.Outfit = ""
 	Actor_346.DisplayDesc.Weapon = ""
 	Actor_346.DisplayDesc.Mode = ""
@@ -14521,7 +14521,7 @@ function InitMap(environment)
 	Actor_346.PhysicDesc.SizeX = 4.77823e-023
 	Actor_346.PhysicDesc.SizeY = 4.77823e-023
 	Actor_346.PhysicDesc.SizeZ = 4.77823e-023
-	Actor_346.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_79.phy"
+	Actor_346.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_79.phy"
 	Actor_346:SetPhysicalActorType(1)
 	Actor_346:SetPhysicalShape(5)
 	Actor_346.ExtraInfo.Name = ""
@@ -14534,7 +14534,7 @@ function InitMap(environment)
 	Actor_347 = ActorObjectInfo(347)
 	Actor_347:SetRenderType(1)
 	Actor_347.DisplayDesc.ModelId = 64
-	Actor_347.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_7.osgb"
+	Actor_347.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_7.osgb"
 	Actor_347.DisplayDesc.Outfit = ""
 	Actor_347.DisplayDesc.Weapon = ""
 	Actor_347.DisplayDesc.Mode = ""
@@ -14563,7 +14563,7 @@ function InitMap(environment)
 	Actor_347.PhysicDesc.SizeX = 2.9431e-024
 	Actor_347.PhysicDesc.SizeY = 4.22255e-022
 	Actor_347.PhysicDesc.SizeZ = 2.53397e-023
-	Actor_347.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_7.phy"
+	Actor_347.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_7.phy"
 	Actor_347:SetPhysicalActorType(1)
 	Actor_347:SetPhysicalShape(5)
 	Actor_347.ExtraInfo.Name = ""
@@ -14576,7 +14576,7 @@ function InitMap(environment)
 	Actor_348 = ActorObjectInfo(348)
 	Actor_348:SetRenderType(1)
 	Actor_348.DisplayDesc.ModelId = 225789264
-	Actor_348.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_74.osgb"
+	Actor_348.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_74.osgb"
 	Actor_348.DisplayDesc.Outfit = ""
 	Actor_348.DisplayDesc.Weapon = ""
 	Actor_348.DisplayDesc.Mode = ""
@@ -14605,7 +14605,7 @@ function InitMap(environment)
 	Actor_348.PhysicDesc.SizeX = 0
 	Actor_348.PhysicDesc.SizeY = 0
 	Actor_348.PhysicDesc.SizeZ = 0
-	Actor_348.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_74.phy"
+	Actor_348.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_74.phy"
 	Actor_348:SetPhysicalActorType(1)
 	Actor_348:SetPhysicalShape(5)
 	Actor_348.ExtraInfo.Name = ""
@@ -14618,7 +14618,7 @@ function InitMap(environment)
 	Actor_349 = ActorObjectInfo(349)
 	Actor_349:SetRenderType(1)
 	Actor_349.DisplayDesc.ModelId = 410163392
-	Actor_349.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_80.osgb"
+	Actor_349.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_80.osgb"
 	Actor_349.DisplayDesc.Outfit = ""
 	Actor_349.DisplayDesc.Weapon = ""
 	Actor_349.DisplayDesc.Mode = ""
@@ -14647,7 +14647,7 @@ function InitMap(environment)
 	Actor_349.PhysicDesc.SizeX = 0
 	Actor_349.PhysicDesc.SizeY = 2.10195e-044
 	Actor_349.PhysicDesc.SizeZ = 0
-	Actor_349.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_80.phy"
+	Actor_349.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_80.phy"
 	Actor_349:SetPhysicalActorType(1)
 	Actor_349:SetPhysicalShape(5)
 	Actor_349.ExtraInfo.Name = ""
@@ -14660,7 +14660,7 @@ function InitMap(environment)
 	Actor_350 = ActorObjectInfo(350)
 	Actor_350:SetRenderType(1)
 	Actor_350.DisplayDesc.ModelId = 0
-	Actor_350.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_24.osgb"
+	Actor_350.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_24.osgb"
 	Actor_350.DisplayDesc.Outfit = ""
 	Actor_350.DisplayDesc.Weapon = ""
 	Actor_350.DisplayDesc.Mode = ""
@@ -14689,7 +14689,7 @@ function InitMap(environment)
 	Actor_350.PhysicDesc.SizeX = 0
 	Actor_350.PhysicDesc.SizeY = 9.45906e-039
 	Actor_350.PhysicDesc.SizeZ = 5.87748e-039
-	Actor_350.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_24.phy"
+	Actor_350.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_24.phy"
 	Actor_350:SetPhysicalActorType(1)
 	Actor_350:SetPhysicalShape(5)
 	Actor_350.ExtraInfo.Name = ""
@@ -14702,7 +14702,7 @@ function InitMap(environment)
 	Actor_351 = ActorObjectInfo(351)
 	Actor_351:SetRenderType(1)
 	Actor_351.DisplayDesc.ModelId = 0
-	Actor_351.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_24.osgb"
+	Actor_351.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_24.osgb"
 	Actor_351.DisplayDesc.Outfit = ""
 	Actor_351.DisplayDesc.Weapon = ""
 	Actor_351.DisplayDesc.Mode = ""
@@ -14731,7 +14731,7 @@ function InitMap(environment)
 	Actor_351.PhysicDesc.SizeX = 4.57355e-038
 	Actor_351.PhysicDesc.SizeY = 0
 	Actor_351.PhysicDesc.SizeZ = 0
-	Actor_351.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_24.phy"
+	Actor_351.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_24.phy"
 	Actor_351:SetPhysicalActorType(1)
 	Actor_351:SetPhysicalShape(5)
 	Actor_351.ExtraInfo.Name = ""
@@ -14744,7 +14744,7 @@ function InitMap(environment)
 	Actor_352 = ActorObjectInfo(352)
 	Actor_352:SetRenderType(1)
 	Actor_352.DisplayDesc.ModelId = 0
-	Actor_352.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_81.osgb"
+	Actor_352.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_81.osgb"
 	Actor_352.DisplayDesc.Outfit = ""
 	Actor_352.DisplayDesc.Weapon = ""
 	Actor_352.DisplayDesc.Mode = ""
@@ -14773,7 +14773,7 @@ function InitMap(environment)
 	Actor_352.PhysicDesc.SizeX = 1.19502e-025
 	Actor_352.PhysicDesc.SizeY = 0
 	Actor_352.PhysicDesc.SizeZ = 0
-	Actor_352.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_81.phy"
+	Actor_352.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_81.phy"
 	Actor_352:SetPhysicalActorType(1)
 	Actor_352:SetPhysicalShape(5)
 	Actor_352.ExtraInfo.Name = ""
@@ -14786,7 +14786,7 @@ function InitMap(environment)
 	Actor_353 = ActorObjectInfo(353)
 	Actor_353:SetRenderType(1)
 	Actor_353.DisplayDesc.ModelId = 227853216
-	Actor_353.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_82.osgb"
+	Actor_353.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_82.osgb"
 	Actor_353.DisplayDesc.Outfit = ""
 	Actor_353.DisplayDesc.Weapon = ""
 	Actor_353.DisplayDesc.Mode = ""
@@ -14815,7 +14815,7 @@ function InitMap(environment)
 	Actor_353.PhysicDesc.SizeX = 1.15747e-042
 	Actor_353.PhysicDesc.SizeY = 0
 	Actor_353.PhysicDesc.SizeZ = 0
-	Actor_353.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_82.phy"
+	Actor_353.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_82.phy"
 	Actor_353:SetPhysicalActorType(1)
 	Actor_353:SetPhysicalShape(5)
 	Actor_353.ExtraInfo.Name = ""
@@ -14828,7 +14828,7 @@ function InitMap(environment)
 	Actor_354 = ActorObjectInfo(354)
 	Actor_354:SetRenderType(1)
 	Actor_354.DisplayDesc.ModelId = 131074
-	Actor_354.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_83.osgb"
+	Actor_354.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_83.osgb"
 	Actor_354.DisplayDesc.Outfit = ""
 	Actor_354.DisplayDesc.Weapon = ""
 	Actor_354.DisplayDesc.Mode = ""
@@ -14857,7 +14857,7 @@ function InitMap(environment)
 	Actor_354.PhysicDesc.SizeX = 0
 	Actor_354.PhysicDesc.SizeY = 0
 	Actor_354.PhysicDesc.SizeZ = 7.7149e-031
-	Actor_354.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_83.phy"
+	Actor_354.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_83.phy"
 	Actor_354:SetPhysicalActorType(1)
 	Actor_354:SetPhysicalShape(5)
 	Actor_354.ExtraInfo.Name = ""
@@ -14870,7 +14870,7 @@ function InitMap(environment)
 	Actor_355 = ActorObjectInfo(355)
 	Actor_355:SetRenderType(1)
 	Actor_355.DisplayDesc.ModelId = 314
-	Actor_355.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_84.osgb"
+	Actor_355.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_84.osgb"
 	Actor_355.DisplayDesc.Outfit = ""
 	Actor_355.DisplayDesc.Weapon = ""
 	Actor_355.DisplayDesc.Mode = ""
@@ -14899,7 +14899,7 @@ function InitMap(environment)
 	Actor_355.PhysicDesc.SizeX = 0
 	Actor_355.PhysicDesc.SizeY = 0
 	Actor_355.PhysicDesc.SizeZ = 0
-	Actor_355.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_84.phy"
+	Actor_355.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_84.phy"
 	Actor_355:SetPhysicalActorType(1)
 	Actor_355:SetPhysicalShape(5)
 	Actor_355.ExtraInfo.Name = ""
@@ -14912,7 +14912,7 @@ function InitMap(environment)
 	Actor_356 = ActorObjectInfo(356)
 	Actor_356:SetRenderType(1)
 	Actor_356.DisplayDesc.ModelId = 0
-	Actor_356.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_85.osgb"
+	Actor_356.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_85.osgb"
 	Actor_356.DisplayDesc.Outfit = ""
 	Actor_356.DisplayDesc.Weapon = ""
 	Actor_356.DisplayDesc.Mode = ""
@@ -14941,7 +14941,7 @@ function InitMap(environment)
 	Actor_356.PhysicDesc.SizeX = 0
 	Actor_356.PhysicDesc.SizeY = 0
 	Actor_356.PhysicDesc.SizeZ = 0
-	Actor_356.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_85.phy"
+	Actor_356.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_85.phy"
 	Actor_356:SetPhysicalActorType(1)
 	Actor_356:SetPhysicalShape(5)
 	Actor_356.ExtraInfo.Name = ""
@@ -14954,7 +14954,7 @@ function InitMap(environment)
 	Actor_357 = ActorObjectInfo(357)
 	Actor_357:SetRenderType(1)
 	Actor_357.DisplayDesc.ModelId = 0
-	Actor_357.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_86.osgb"
+	Actor_357.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_86.osgb"
 	Actor_357.DisplayDesc.Outfit = ""
 	Actor_357.DisplayDesc.Weapon = ""
 	Actor_357.DisplayDesc.Mode = ""
@@ -14983,7 +14983,7 @@ function InitMap(environment)
 	Actor_357.PhysicDesc.SizeX = 0
 	Actor_357.PhysicDesc.SizeY = 0
 	Actor_357.PhysicDesc.SizeZ = 2.57147e-039
-	Actor_357.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_86.phy"
+	Actor_357.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_86.phy"
 	Actor_357:SetPhysicalActorType(1)
 	Actor_357:SetPhysicalShape(5)
 	Actor_357.ExtraInfo.Name = ""
@@ -14996,7 +14996,7 @@ function InitMap(environment)
 	Actor_358 = ActorObjectInfo(358)
 	Actor_358:SetRenderType(1)
 	Actor_358.DisplayDesc.ModelId = 1065353216
-	Actor_358.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_358.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_358.DisplayDesc.Outfit = ""
 	Actor_358.DisplayDesc.Weapon = ""
 	Actor_358.DisplayDesc.Mode = ""
@@ -15025,7 +15025,7 @@ function InitMap(environment)
 	Actor_358.PhysicDesc.SizeX = 0
 	Actor_358.PhysicDesc.SizeY = 0
 	Actor_358.PhysicDesc.SizeZ = 2.8026e-045
-	Actor_358.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_358.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_358:SetPhysicalActorType(1)
 	Actor_358:SetPhysicalShape(5)
 	Actor_358.ExtraInfo.Name = ""
@@ -15038,7 +15038,7 @@ function InitMap(environment)
 	Actor_359 = ActorObjectInfo(359)
 	Actor_359:SetRenderType(1)
 	Actor_359.DisplayDesc.ModelId = 878298526
-	Actor_359.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_359.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_359.DisplayDesc.Outfit = ""
 	Actor_359.DisplayDesc.Weapon = ""
 	Actor_359.DisplayDesc.Mode = ""
@@ -15067,7 +15067,7 @@ function InitMap(environment)
 	Actor_359.PhysicDesc.SizeX = 0
 	Actor_359.PhysicDesc.SizeY = 0
 	Actor_359.PhysicDesc.SizeZ = 2.8026e-045
-	Actor_359.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_359.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_359:SetPhysicalActorType(1)
 	Actor_359:SetPhysicalShape(5)
 	Actor_359.ExtraInfo.Name = ""
@@ -15080,7 +15080,7 @@ function InitMap(environment)
 	Actor_360 = ActorObjectInfo(360)
 	Actor_360:SetRenderType(1)
 	Actor_360.DisplayDesc.ModelId = 131074
-	Actor_360.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_360.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_360.DisplayDesc.Outfit = ""
 	Actor_360.DisplayDesc.Weapon = ""
 	Actor_360.DisplayDesc.Mode = ""
@@ -15109,7 +15109,7 @@ function InitMap(environment)
 	Actor_360.PhysicDesc.SizeX = 8.74493e-010
 	Actor_360.PhysicDesc.SizeY = 1.29924e-008
 	Actor_360.PhysicDesc.SizeZ = 0
-	Actor_360.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_360.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_360:SetPhysicalActorType(1)
 	Actor_360:SetPhysicalShape(5)
 	Actor_360.ExtraInfo.Name = ""
@@ -15122,7 +15122,7 @@ function InitMap(environment)
 	Actor_361 = ActorObjectInfo(361)
 	Actor_361:SetRenderType(1)
 	Actor_361.DisplayDesc.ModelId = 131074
-	Actor_361.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_361.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_361.DisplayDesc.Outfit = ""
 	Actor_361.DisplayDesc.Weapon = ""
 	Actor_361.DisplayDesc.Mode = ""
@@ -15151,7 +15151,7 @@ function InitMap(environment)
 	Actor_361.PhysicDesc.SizeX = 0
 	Actor_361.PhysicDesc.SizeY = 1.47094e-041
 	Actor_361.PhysicDesc.SizeZ = 1.47094e-041
-	Actor_361.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_361.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_361:SetPhysicalActorType(1)
 	Actor_361:SetPhysicalShape(5)
 	Actor_361.ExtraInfo.Name = ""
@@ -15164,7 +15164,7 @@ function InitMap(environment)
 	Actor_362 = ActorObjectInfo(362)
 	Actor_362:SetRenderType(1)
 	Actor_362.DisplayDesc.ModelId = 131074
-	Actor_362.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_362.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_362.DisplayDesc.Outfit = ""
 	Actor_362.DisplayDesc.Weapon = ""
 	Actor_362.DisplayDesc.Mode = ""
@@ -15193,7 +15193,7 @@ function InitMap(environment)
 	Actor_362.PhysicDesc.SizeX = 0
 	Actor_362.PhysicDesc.SizeY = 1.47094e-041
 	Actor_362.PhysicDesc.SizeZ = 1.47094e-041
-	Actor_362.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_362.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_362:SetPhysicalActorType(1)
 	Actor_362:SetPhysicalShape(5)
 	Actor_362.ExtraInfo.Name = ""
@@ -15206,7 +15206,7 @@ function InitMap(environment)
 	Actor_363 = ActorObjectInfo(363)
 	Actor_363:SetRenderType(1)
 	Actor_363.DisplayDesc.ModelId = 131076
-	Actor_363.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_363.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_363.DisplayDesc.Outfit = ""
 	Actor_363.DisplayDesc.Weapon = ""
 	Actor_363.DisplayDesc.Mode = ""
@@ -15235,7 +15235,7 @@ function InitMap(environment)
 	Actor_363.PhysicDesc.SizeX = 0
 	Actor_363.PhysicDesc.SizeY = 0
 	Actor_363.PhysicDesc.SizeZ = 0
-	Actor_363.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_363.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_363:SetPhysicalActorType(1)
 	Actor_363:SetPhysicalShape(5)
 	Actor_363.ExtraInfo.Name = ""
@@ -15248,7 +15248,7 @@ function InitMap(environment)
 	Actor_364 = ActorObjectInfo(364)
 	Actor_364:SetRenderType(1)
 	Actor_364.DisplayDesc.ModelId = 0
-	Actor_364.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_364.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_364.DisplayDesc.Outfit = ""
 	Actor_364.DisplayDesc.Weapon = ""
 	Actor_364.DisplayDesc.Mode = ""
@@ -15277,7 +15277,7 @@ function InitMap(environment)
 	Actor_364.PhysicDesc.SizeX = 0
 	Actor_364.PhysicDesc.SizeY = 0
 	Actor_364.PhysicDesc.SizeZ = 0
-	Actor_364.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_364.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_364:SetPhysicalActorType(1)
 	Actor_364:SetPhysicalShape(5)
 	Actor_364.ExtraInfo.Name = ""
@@ -15290,7 +15290,7 @@ function InitMap(environment)
 	Actor_365 = ActorObjectInfo(365)
 	Actor_365:SetRenderType(1)
 	Actor_365.DisplayDesc.ModelId = 131072
-	Actor_365.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_87.osgb"
+	Actor_365.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_87.osgb"
 	Actor_365.DisplayDesc.Outfit = ""
 	Actor_365.DisplayDesc.Weapon = ""
 	Actor_365.DisplayDesc.Mode = ""
@@ -15319,7 +15319,7 @@ function InitMap(environment)
 	Actor_365.PhysicDesc.SizeX = 1.83671e-040
 	Actor_365.PhysicDesc.SizeY = 0
 	Actor_365.PhysicDesc.SizeZ = 0
-	Actor_365.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_87.phy"
+	Actor_365.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_87.phy"
 	Actor_365:SetPhysicalActorType(1)
 	Actor_365:SetPhysicalShape(5)
 	Actor_365.ExtraInfo.Name = ""
@@ -15332,7 +15332,7 @@ function InitMap(environment)
 	Actor_366 = ActorObjectInfo(366)
 	Actor_366:SetRenderType(1)
 	Actor_366.DisplayDesc.ModelId = 0
-	Actor_366.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_88.osgb"
+	Actor_366.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_88.osgb"
 	Actor_366.DisplayDesc.Outfit = ""
 	Actor_366.DisplayDesc.Weapon = ""
 	Actor_366.DisplayDesc.Mode = ""
@@ -15361,7 +15361,7 @@ function InitMap(environment)
 	Actor_366.PhysicDesc.SizeX = 1.54143e-044
 	Actor_366.PhysicDesc.SizeY = 5.60519e-045
 	Actor_366.PhysicDesc.SizeZ = 7.18306e-042
-	Actor_366.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_88.phy"
+	Actor_366.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_88.phy"
 	Actor_366:SetPhysicalActorType(1)
 	Actor_366:SetPhysicalShape(5)
 	Actor_366.ExtraInfo.Name = ""
@@ -15374,7 +15374,7 @@ function InitMap(environment)
 	Actor_367 = ActorObjectInfo(367)
 	Actor_367:SetRenderType(1)
 	Actor_367.DisplayDesc.ModelId = -1098383360
-	Actor_367.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_89.osgb"
+	Actor_367.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_89.osgb"
 	Actor_367.DisplayDesc.Outfit = ""
 	Actor_367.DisplayDesc.Weapon = ""
 	Actor_367.DisplayDesc.Mode = ""
@@ -15403,7 +15403,7 @@ function InitMap(environment)
 	Actor_367.PhysicDesc.SizeX = 0
 	Actor_367.PhysicDesc.SizeY = -1
 	Actor_367.PhysicDesc.SizeZ = 0
-	Actor_367.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_89.phy"
+	Actor_367.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_89.phy"
 	Actor_367:SetPhysicalActorType(1)
 	Actor_367:SetPhysicalShape(5)
 	Actor_367.ExtraInfo.Name = ""
@@ -15416,7 +15416,7 @@ function InitMap(environment)
 	Actor_368 = ActorObjectInfo(368)
 	Actor_368:SetRenderType(1)
 	Actor_368.DisplayDesc.ModelId = 0
-	Actor_368.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_90.osgb"
+	Actor_368.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_90.osgb"
 	Actor_368.DisplayDesc.Outfit = ""
 	Actor_368.DisplayDesc.Weapon = ""
 	Actor_368.DisplayDesc.Mode = ""
@@ -15445,7 +15445,7 @@ function InitMap(environment)
 	Actor_368.PhysicDesc.SizeX = 0
 	Actor_368.PhysicDesc.SizeY = 0
 	Actor_368.PhysicDesc.SizeZ = 0
-	Actor_368.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_90.phy"
+	Actor_368.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_90.phy"
 	Actor_368:SetPhysicalActorType(1)
 	Actor_368:SetPhysicalShape(5)
 	Actor_368.ExtraInfo.Name = ""
@@ -15458,7 +15458,7 @@ function InitMap(environment)
 	Actor_369 = ActorObjectInfo(369)
 	Actor_369:SetRenderType(1)
 	Actor_369.DisplayDesc.ModelId = -1082130432
-	Actor_369.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_91.osgb"
+	Actor_369.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_91.osgb"
 	Actor_369.DisplayDesc.Outfit = ""
 	Actor_369.DisplayDesc.Weapon = ""
 	Actor_369.DisplayDesc.Mode = ""
@@ -15487,7 +15487,7 @@ function InitMap(environment)
 	Actor_369.PhysicDesc.SizeX = 0
 	Actor_369.PhysicDesc.SizeY = -1
 	Actor_369.PhysicDesc.SizeZ = 0
-	Actor_369.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_91.phy"
+	Actor_369.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_91.phy"
 	Actor_369:SetPhysicalActorType(1)
 	Actor_369:SetPhysicalShape(5)
 	Actor_369.ExtraInfo.Name = ""
@@ -15500,7 +15500,7 @@ function InitMap(environment)
 	Actor_370 = ActorObjectInfo(370)
 	Actor_370:SetRenderType(1)
 	Actor_370.DisplayDesc.ModelId = 423153096
-	Actor_370.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_92.osgb"
+	Actor_370.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_92.osgb"
 	Actor_370.DisplayDesc.Outfit = ""
 	Actor_370.DisplayDesc.Weapon = ""
 	Actor_370.DisplayDesc.Mode = ""
@@ -15529,7 +15529,7 @@ function InitMap(environment)
 	Actor_370.PhysicDesc.SizeX = 0
 	Actor_370.PhysicDesc.SizeY = 0
 	Actor_370.PhysicDesc.SizeZ = 7.5434e-031
-	Actor_370.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_92.phy"
+	Actor_370.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_92.phy"
 	Actor_370:SetPhysicalActorType(1)
 	Actor_370:SetPhysicalShape(5)
 	Actor_370.ExtraInfo.Name = ""
@@ -15542,7 +15542,7 @@ function InitMap(environment)
 	Actor_371 = ActorObjectInfo(371)
 	Actor_371:SetRenderType(1)
 	Actor_371.DisplayDesc.ModelId = 0
-	Actor_371.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_93.osgb"
+	Actor_371.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_93.osgb"
 	Actor_371.DisplayDesc.Outfit = ""
 	Actor_371.DisplayDesc.Weapon = ""
 	Actor_371.DisplayDesc.Mode = ""
@@ -15571,7 +15571,7 @@ function InitMap(environment)
 	Actor_371.PhysicDesc.SizeX = 0.838405
 	Actor_371.PhysicDesc.SizeY = -0.73015
 	Actor_371.PhysicDesc.SizeZ = 0.308557
-	Actor_371.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_93.phy"
+	Actor_371.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_93.phy"
 	Actor_371:SetPhysicalActorType(1)
 	Actor_371:SetPhysicalShape(5)
 	Actor_371.ExtraInfo.Name = ""
@@ -15584,7 +15584,7 @@ function InitMap(environment)
 	Actor_372 = ActorObjectInfo(372)
 	Actor_372:SetRenderType(1)
 	Actor_372.DisplayDesc.ModelId = 0
-	Actor_372.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_94.osgb"
+	Actor_372.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_94.osgb"
 	Actor_372.DisplayDesc.Outfit = ""
 	Actor_372.DisplayDesc.Weapon = ""
 	Actor_372.DisplayDesc.Mode = ""
@@ -15613,7 +15613,7 @@ function InitMap(environment)
 	Actor_372.PhysicDesc.SizeX = 2.8026e-045
 	Actor_372.PhysicDesc.SizeY = 0
 	Actor_372.PhysicDesc.SizeZ = 0
-	Actor_372.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_94.phy"
+	Actor_372.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_94.phy"
 	Actor_372:SetPhysicalActorType(1)
 	Actor_372:SetPhysicalShape(5)
 	Actor_372.ExtraInfo.Name = ""
@@ -15626,7 +15626,7 @@ function InitMap(environment)
 	Actor_373 = ActorObjectInfo(373)
 	Actor_373:SetRenderType(1)
 	Actor_373.DisplayDesc.ModelId = 0
-	Actor_373.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_95.osgb"
+	Actor_373.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_95.osgb"
 	Actor_373.DisplayDesc.Outfit = ""
 	Actor_373.DisplayDesc.Weapon = ""
 	Actor_373.DisplayDesc.Mode = ""
@@ -15655,7 +15655,7 @@ function InitMap(environment)
 	Actor_373.PhysicDesc.SizeX = 5.28717e-023
 	Actor_373.PhysicDesc.SizeY = 5.28717e-023
 	Actor_373.PhysicDesc.SizeZ = 5.28717e-023
-	Actor_373.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_95.phy"
+	Actor_373.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_95.phy"
 	Actor_373:SetPhysicalActorType(1)
 	Actor_373:SetPhysicalShape(5)
 	Actor_373.ExtraInfo.Name = ""
@@ -15668,7 +15668,7 @@ function InitMap(environment)
 	Actor_374 = ActorObjectInfo(374)
 	Actor_374:SetRenderType(1)
 	Actor_374.DisplayDesc.ModelId = 1039726841
-	Actor_374.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_96.osgb"
+	Actor_374.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_96.osgb"
 	Actor_374.DisplayDesc.Outfit = ""
 	Actor_374.DisplayDesc.Weapon = ""
 	Actor_374.DisplayDesc.Mode = ""
@@ -15697,7 +15697,7 @@ function InitMap(environment)
 	Actor_374.PhysicDesc.SizeX = 0.764706
 	Actor_374.PhysicDesc.SizeY = 0.545098
 	Actor_374.PhysicDesc.SizeZ = 0.247059
-	Actor_374.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_96.phy"
+	Actor_374.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_96.phy"
 	Actor_374:SetPhysicalActorType(1)
 	Actor_374:SetPhysicalShape(5)
 	Actor_374.ExtraInfo.Name = ""
@@ -15710,7 +15710,7 @@ function InitMap(environment)
 	Actor_375 = ActorObjectInfo(375)
 	Actor_375:SetRenderType(1)
 	Actor_375.DisplayDesc.ModelId = 1065353216
-	Actor_375.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_97.osgb"
+	Actor_375.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_97.osgb"
 	Actor_375.DisplayDesc.Outfit = ""
 	Actor_375.DisplayDesc.Weapon = ""
 	Actor_375.DisplayDesc.Mode = ""
@@ -15739,7 +15739,7 @@ function InitMap(environment)
 	Actor_375.PhysicDesc.SizeX = 1
 	Actor_375.PhysicDesc.SizeY = 1
 	Actor_375.PhysicDesc.SizeZ = 1
-	Actor_375.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_97.phy"
+	Actor_375.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_97.phy"
 	Actor_375:SetPhysicalActorType(1)
 	Actor_375:SetPhysicalShape(5)
 	Actor_375.ExtraInfo.Name = ""
@@ -15752,7 +15752,7 @@ function InitMap(environment)
 	Actor_376 = ActorObjectInfo(376)
 	Actor_376:SetRenderType(1)
 	Actor_376.DisplayDesc.ModelId = 1049100288
-	Actor_376.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_98.osgb"
+	Actor_376.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_98.osgb"
 	Actor_376.DisplayDesc.Outfit = ""
 	Actor_376.DisplayDesc.Weapon = ""
 	Actor_376.DisplayDesc.Mode = ""
@@ -15781,7 +15781,7 @@ function InitMap(environment)
 	Actor_376.PhysicDesc.SizeX = 3.37305
 	Actor_376.PhysicDesc.SizeY = -0.265625
 	Actor_376.PhysicDesc.SizeZ = -0.265625
-	Actor_376.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_98.phy"
+	Actor_376.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_98.phy"
 	Actor_376:SetPhysicalActorType(1)
 	Actor_376:SetPhysicalShape(5)
 	Actor_376.ExtraInfo.Name = ""
@@ -15794,7 +15794,7 @@ function InitMap(environment)
 	Actor_377 = ActorObjectInfo(377)
 	Actor_377:SetRenderType(1)
 	Actor_377.DisplayDesc.ModelId = 144629820
-	Actor_377.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_99.osgb"
+	Actor_377.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_99.osgb"
 	Actor_377.DisplayDesc.Outfit = ""
 	Actor_377.DisplayDesc.Weapon = ""
 	Actor_377.DisplayDesc.Mode = ""
@@ -15823,7 +15823,7 @@ function InitMap(environment)
 	Actor_377.PhysicDesc.SizeX = 7.00649e-044
 	Actor_377.PhysicDesc.SizeY = 7.14662e-044
 	Actor_377.PhysicDesc.SizeZ = 2.57147e-039
-	Actor_377.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_99.phy"
+	Actor_377.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_99.phy"
 	Actor_377:SetPhysicalActorType(1)
 	Actor_377:SetPhysicalShape(5)
 	Actor_377.ExtraInfo.Name = ""
@@ -15836,7 +15836,7 @@ function InitMap(environment)
 	Actor_378 = ActorObjectInfo(378)
 	Actor_378:SetRenderType(1)
 	Actor_378.DisplayDesc.ModelId = 0
-	Actor_378.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_100.osgb"
+	Actor_378.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_100.osgb"
 	Actor_378.DisplayDesc.Outfit = ""
 	Actor_378.DisplayDesc.Weapon = ""
 	Actor_378.DisplayDesc.Mode = ""
@@ -15865,7 +15865,7 @@ function InitMap(environment)
 	Actor_378.PhysicDesc.SizeX = 0
 	Actor_378.PhysicDesc.SizeY = 0
 	Actor_378.PhysicDesc.SizeZ = 0
-	Actor_378.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_100.phy"
+	Actor_378.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_100.phy"
 	Actor_378:SetPhysicalActorType(1)
 	Actor_378:SetPhysicalShape(5)
 	Actor_378.ExtraInfo.Name = ""
@@ -15878,7 +15878,7 @@ function InitMap(environment)
 	Actor_379 = ActorObjectInfo(379)
 	Actor_379:SetRenderType(1)
 	Actor_379.DisplayDesc.ModelId = 131076
-	Actor_379.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_101.osgb"
+	Actor_379.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_101.osgb"
 	Actor_379.DisplayDesc.Outfit = ""
 	Actor_379.DisplayDesc.Weapon = ""
 	Actor_379.DisplayDesc.Mode = ""
@@ -15907,7 +15907,7 @@ function InitMap(environment)
 	Actor_379.PhysicDesc.SizeX = 1
 	Actor_379.PhysicDesc.SizeY = 1.00003
 	Actor_379.PhysicDesc.SizeZ = 9.18358e-040
-	Actor_379.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_101.phy"
+	Actor_379.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_101.phy"
 	Actor_379:SetPhysicalActorType(1)
 	Actor_379:SetPhysicalShape(5)
 	Actor_379.ExtraInfo.Name = ""
@@ -15920,7 +15920,7 @@ function InitMap(environment)
 	Actor_380 = ActorObjectInfo(380)
 	Actor_380:SetRenderType(1)
 	Actor_380.DisplayDesc.ModelId = 22
-	Actor_380.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_102.osgb"
+	Actor_380.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_102.osgb"
 	Actor_380.DisplayDesc.Outfit = ""
 	Actor_380.DisplayDesc.Weapon = ""
 	Actor_380.DisplayDesc.Mode = ""
@@ -15949,7 +15949,7 @@ function InitMap(environment)
 	Actor_380.PhysicDesc.SizeX = 0.875
 	Actor_380.PhysicDesc.SizeY = 10.0852
 	Actor_380.PhysicDesc.SizeZ = 0.875
-	Actor_380.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_102.phy"
+	Actor_380.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_102.phy"
 	Actor_380:SetPhysicalActorType(1)
 	Actor_380:SetPhysicalShape(5)
 	Actor_380.ExtraInfo.Name = ""
@@ -15962,7 +15962,7 @@ function InitMap(environment)
 	Actor_381 = ActorObjectInfo(381)
 	Actor_381:SetRenderType(1)
 	Actor_381.DisplayDesc.ModelId = 1065353216
-	Actor_381.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_103.osgb"
+	Actor_381.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_103.osgb"
 	Actor_381.DisplayDesc.Outfit = ""
 	Actor_381.DisplayDesc.Weapon = ""
 	Actor_381.DisplayDesc.Mode = ""
@@ -15991,7 +15991,7 @@ function InitMap(environment)
 	Actor_381.PhysicDesc.SizeX = 1
 	Actor_381.PhysicDesc.SizeY = 1
 	Actor_381.PhysicDesc.SizeZ = 1
-	Actor_381.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_103.phy"
+	Actor_381.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_103.phy"
 	Actor_381:SetPhysicalActorType(1)
 	Actor_381:SetPhysicalShape(5)
 	Actor_381.ExtraInfo.Name = ""
@@ -16004,7 +16004,7 @@ function InitMap(environment)
 	Actor_382 = ActorObjectInfo(382)
 	Actor_382:SetRenderType(1)
 	Actor_382.DisplayDesc.ModelId = 1819502880
-	Actor_382.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_104.osgb"
+	Actor_382.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_104.osgb"
 	Actor_382.DisplayDesc.Outfit = ""
 	Actor_382.DisplayDesc.Weapon = ""
 	Actor_382.DisplayDesc.Mode = ""
@@ -16033,7 +16033,7 @@ function InitMap(environment)
 	Actor_382.PhysicDesc.SizeX = 1.4013e-045
 	Actor_382.PhysicDesc.SizeY = 1.4013e-045
 	Actor_382.PhysicDesc.SizeZ = 0
-	Actor_382.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_104.phy"
+	Actor_382.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_104.phy"
 	Actor_382:SetPhysicalActorType(1)
 	Actor_382:SetPhysicalShape(5)
 	Actor_382.ExtraInfo.Name = ""
@@ -16046,7 +16046,7 @@ function InitMap(environment)
 	Actor_383 = ActorObjectInfo(383)
 	Actor_383:SetRenderType(1)
 	Actor_383.DisplayDesc.ModelId = 0
-	Actor_383.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_105.osgb"
+	Actor_383.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_105.osgb"
 	Actor_383.DisplayDesc.Outfit = ""
 	Actor_383.DisplayDesc.Weapon = ""
 	Actor_383.DisplayDesc.Mode = ""
@@ -16075,7 +16075,7 @@ function InitMap(environment)
 	Actor_383.PhysicDesc.SizeX = 0
 	Actor_383.PhysicDesc.SizeY = 0
 	Actor_383.PhysicDesc.SizeZ = 0
-	Actor_383.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_105.phy"
+	Actor_383.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_105.phy"
 	Actor_383:SetPhysicalActorType(1)
 	Actor_383:SetPhysicalShape(5)
 	Actor_383.ExtraInfo.Name = ""
@@ -16088,7 +16088,7 @@ function InitMap(environment)
 	Actor_384 = ActorObjectInfo(384)
 	Actor_384:SetRenderType(1)
 	Actor_384.DisplayDesc.ModelId = 1328701794
-	Actor_384.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.osgb"
+	Actor_384.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.osgb"
 	Actor_384.DisplayDesc.Outfit = ""
 	Actor_384.DisplayDesc.Weapon = ""
 	Actor_384.DisplayDesc.Mode = ""
@@ -16117,7 +16117,7 @@ function InitMap(environment)
 	Actor_384.PhysicDesc.SizeX = 0
 	Actor_384.PhysicDesc.SizeY = 8.0293
 	Actor_384.PhysicDesc.SizeZ = 5.6416
-	Actor_384.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.phy"
+	Actor_384.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.phy"
 	Actor_384:SetPhysicalActorType(1)
 	Actor_384:SetPhysicalShape(5)
 	Actor_384.ExtraInfo.Name = ""
@@ -16130,7 +16130,7 @@ function InitMap(environment)
 	Actor_385 = ActorObjectInfo(385)
 	Actor_385:SetRenderType(1)
 	Actor_385.DisplayDesc.ModelId = 0
-	Actor_385.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.osgb"
+	Actor_385.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.osgb"
 	Actor_385.DisplayDesc.Outfit = ""
 	Actor_385.DisplayDesc.Weapon = ""
 	Actor_385.DisplayDesc.Mode = ""
@@ -16159,7 +16159,7 @@ function InitMap(environment)
 	Actor_385.PhysicDesc.SizeX = 0
 	Actor_385.PhysicDesc.SizeY = 3.06884e-043
 	Actor_385.PhysicDesc.SizeZ = 0
-	Actor_385.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.phy"
+	Actor_385.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.phy"
 	Actor_385:SetPhysicalActorType(1)
 	Actor_385:SetPhysicalShape(5)
 	Actor_385.ExtraInfo.Name = ""
@@ -16172,7 +16172,7 @@ function InitMap(environment)
 	Actor_386 = ActorObjectInfo(386)
 	Actor_386:SetRenderType(1)
 	Actor_386.DisplayDesc.ModelId = 878298526
-	Actor_386.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.osgb"
+	Actor_386.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.osgb"
 	Actor_386.DisplayDesc.Outfit = ""
 	Actor_386.DisplayDesc.Weapon = ""
 	Actor_386.DisplayDesc.Mode = ""
@@ -16201,7 +16201,7 @@ function InitMap(environment)
 	Actor_386.PhysicDesc.SizeX = 0
 	Actor_386.PhysicDesc.SizeY = 0
 	Actor_386.PhysicDesc.SizeZ = 2.8026e-045
-	Actor_386.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.phy"
+	Actor_386.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.phy"
 	Actor_386:SetPhysicalActorType(1)
 	Actor_386:SetPhysicalShape(5)
 	Actor_386.ExtraInfo.Name = ""
@@ -16214,7 +16214,7 @@ function InitMap(environment)
 	Actor_387 = ActorObjectInfo(387)
 	Actor_387:SetRenderType(1)
 	Actor_387.DisplayDesc.ModelId = 46
-	Actor_387.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_106.osgb"
+	Actor_387.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_106.osgb"
 	Actor_387.DisplayDesc.Outfit = ""
 	Actor_387.DisplayDesc.Weapon = ""
 	Actor_387.DisplayDesc.Mode = ""
@@ -16243,7 +16243,7 @@ function InitMap(environment)
 	Actor_387.PhysicDesc.SizeX = -1.58458e+029
 	Actor_387.PhysicDesc.SizeY = 1.08421e-019
 	Actor_387.PhysicDesc.SizeZ = 0
-	Actor_387.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_106.phy"
+	Actor_387.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_106.phy"
 	Actor_387:SetPhysicalActorType(1)
 	Actor_387:SetPhysicalShape(5)
 	Actor_387.ExtraInfo.Name = ""
@@ -16256,7 +16256,7 @@ function InitMap(environment)
 	Actor_388 = ActorObjectInfo(388)
 	Actor_388:SetRenderType(1)
 	Actor_388.DisplayDesc.ModelId = 0
-	Actor_388.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_70.osgb"
+	Actor_388.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_70.osgb"
 	Actor_388.DisplayDesc.Outfit = ""
 	Actor_388.DisplayDesc.Weapon = ""
 	Actor_388.DisplayDesc.Mode = ""
@@ -16285,7 +16285,7 @@ function InitMap(environment)
 	Actor_388.PhysicDesc.SizeX = 0
 	Actor_388.PhysicDesc.SizeY = 7.28803e-024
 	Actor_388.PhysicDesc.SizeZ = 9.80909e-044
-	Actor_388.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_70.phy"
+	Actor_388.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_70.phy"
 	Actor_388:SetPhysicalActorType(1)
 	Actor_388:SetPhysicalShape(5)
 	Actor_388.ExtraInfo.Name = ""
@@ -16298,7 +16298,7 @@ function InitMap(environment)
 	Actor_389 = ActorObjectInfo(389)
 	Actor_389:SetRenderType(1)
 	Actor_389.DisplayDesc.ModelId = -1096685413
-	Actor_389.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_108.osgb"
+	Actor_389.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_108.osgb"
 	Actor_389.DisplayDesc.Outfit = ""
 	Actor_389.DisplayDesc.Weapon = ""
 	Actor_389.DisplayDesc.Mode = ""
@@ -16327,7 +16327,7 @@ function InitMap(environment)
 	Actor_389.PhysicDesc.SizeX = 0
 	Actor_389.PhysicDesc.SizeY = 0
 	Actor_389.PhysicDesc.SizeZ = 0
-	Actor_389.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_108.phy"
+	Actor_389.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_108.phy"
 	Actor_389:SetPhysicalActorType(1)
 	Actor_389:SetPhysicalShape(5)
 	Actor_389.ExtraInfo.Name = ""
@@ -16340,7 +16340,7 @@ function InitMap(environment)
 	Actor_390 = ActorObjectInfo(390)
 	Actor_390:SetRenderType(1)
 	Actor_390.DisplayDesc.ModelId = 1065353215
-	Actor_390.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_109.osgb"
+	Actor_390.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_109.osgb"
 	Actor_390.DisplayDesc.Outfit = ""
 	Actor_390.DisplayDesc.Weapon = ""
 	Actor_390.DisplayDesc.Mode = ""
@@ -16369,7 +16369,7 @@ function InitMap(environment)
 	Actor_390.PhysicDesc.SizeX = 0
 	Actor_390.PhysicDesc.SizeY = 0
 	Actor_390.PhysicDesc.SizeZ = 0
-	Actor_390.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_109.phy"
+	Actor_390.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_109.phy"
 	Actor_390:SetPhysicalActorType(1)
 	Actor_390:SetPhysicalShape(5)
 	Actor_390.ExtraInfo.Name = ""
@@ -16382,7 +16382,7 @@ function InitMap(environment)
 	Actor_391 = ActorObjectInfo(391)
 	Actor_391:SetRenderType(1)
 	Actor_391.DisplayDesc.ModelId = 227853216
-	Actor_391.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_107.osgb"
+	Actor_391.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_107.osgb"
 	Actor_391.DisplayDesc.Outfit = ""
 	Actor_391.DisplayDesc.Weapon = ""
 	Actor_391.DisplayDesc.Mode = ""
@@ -16411,7 +16411,7 @@ function InitMap(environment)
 	Actor_391.PhysicDesc.SizeX = 0
 	Actor_391.PhysicDesc.SizeY = 1.4013e-045
 	Actor_391.PhysicDesc.SizeZ = 9.55211e-024
-	Actor_391.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_107.phy"
+	Actor_391.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_107.phy"
 	Actor_391:SetPhysicalActorType(1)
 	Actor_391:SetPhysicalShape(5)
 	Actor_391.ExtraInfo.Name = ""
@@ -16424,7 +16424,7 @@ function InitMap(environment)
 	Actor_392 = ActorObjectInfo(392)
 	Actor_392:SetRenderType(1)
 	Actor_392.DisplayDesc.ModelId = 0
-	Actor_392.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_110.osgb"
+	Actor_392.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_110.osgb"
 	Actor_392.DisplayDesc.Outfit = ""
 	Actor_392.DisplayDesc.Weapon = ""
 	Actor_392.DisplayDesc.Mode = ""
@@ -16453,7 +16453,7 @@ function InitMap(environment)
 	Actor_392.PhysicDesc.SizeX = 0
 	Actor_392.PhysicDesc.SizeY = 0
 	Actor_392.PhysicDesc.SizeZ = 0
-	Actor_392.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_110.phy"
+	Actor_392.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_110.phy"
 	Actor_392:SetPhysicalActorType(1)
 	Actor_392:SetPhysicalShape(5)
 	Actor_392.ExtraInfo.Name = ""
@@ -16466,7 +16466,7 @@ function InitMap(environment)
 	Actor_393 = ActorObjectInfo(393)
 	Actor_393:SetRenderType(1)
 	Actor_393.DisplayDesc.ModelId = 0
-	Actor_393.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_111.osgb"
+	Actor_393.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_111.osgb"
 	Actor_393.DisplayDesc.Outfit = ""
 	Actor_393.DisplayDesc.Weapon = ""
 	Actor_393.DisplayDesc.Mode = ""
@@ -16495,7 +16495,7 @@ function InitMap(environment)
 	Actor_393.PhysicDesc.SizeX = 0
 	Actor_393.PhysicDesc.SizeY = 0
 	Actor_393.PhysicDesc.SizeZ = 0
-	Actor_393.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_111.phy"
+	Actor_393.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_111.phy"
 	Actor_393:SetPhysicalActorType(1)
 	Actor_393:SetPhysicalShape(5)
 	Actor_393.ExtraInfo.Name = ""
@@ -16508,7 +16508,7 @@ function InitMap(environment)
 	Actor_394 = ActorObjectInfo(394)
 	Actor_394:SetRenderType(1)
 	Actor_394.DisplayDesc.ModelId = 0
-	Actor_394.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_112.osgb"
+	Actor_394.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_112.osgb"
 	Actor_394.DisplayDesc.Outfit = ""
 	Actor_394.DisplayDesc.Weapon = ""
 	Actor_394.DisplayDesc.Mode = ""
@@ -16537,7 +16537,7 @@ function InitMap(environment)
 	Actor_394.PhysicDesc.SizeX = 1
 	Actor_394.PhysicDesc.SizeY = 0
 	Actor_394.PhysicDesc.SizeZ = 0
-	Actor_394.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_112.phy"
+	Actor_394.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_112.phy"
 	Actor_394:SetPhysicalActorType(1)
 	Actor_394:SetPhysicalShape(5)
 	Actor_394.ExtraInfo.Name = ""
@@ -16550,7 +16550,7 @@ function InitMap(environment)
 	Actor_395 = ActorObjectInfo(395)
 	Actor_395:SetRenderType(1)
 	Actor_395.DisplayDesc.ModelId = 0
-	Actor_395.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_9.osgb"
+	Actor_395.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_9.osgb"
 	Actor_395.DisplayDesc.Outfit = ""
 	Actor_395.DisplayDesc.Weapon = ""
 	Actor_395.DisplayDesc.Mode = ""
@@ -16579,7 +16579,7 @@ function InitMap(environment)
 	Actor_395.PhysicDesc.SizeX = 1
 	Actor_395.PhysicDesc.SizeY = 0
 	Actor_395.PhysicDesc.SizeZ = 0
-	Actor_395.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_9.phy"
+	Actor_395.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_9.phy"
 	Actor_395:SetPhysicalActorType(1)
 	Actor_395:SetPhysicalShape(5)
 	Actor_395.ExtraInfo.Name = ""
@@ -16592,7 +16592,7 @@ function InitMap(environment)
 	Actor_396 = ActorObjectInfo(396)
 	Actor_396:SetRenderType(1)
 	Actor_396.DisplayDesc.ModelId = 0
-	Actor_396.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_8.osgb"
+	Actor_396.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_8.osgb"
 	Actor_396.DisplayDesc.Outfit = ""
 	Actor_396.DisplayDesc.Weapon = ""
 	Actor_396.DisplayDesc.Mode = ""
@@ -16621,7 +16621,7 @@ function InitMap(environment)
 	Actor_396.PhysicDesc.SizeX = 5.51035e-040
 	Actor_396.PhysicDesc.SizeY = 2.63325e-035
 	Actor_396.PhysicDesc.SizeZ = 1.31224e-038
-	Actor_396.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_8.phy"
+	Actor_396.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_8.phy"
 	Actor_396:SetPhysicalActorType(1)
 	Actor_396:SetPhysicalShape(5)
 	Actor_396.ExtraInfo.Name = ""
@@ -16634,7 +16634,7 @@ function InitMap(environment)
 	Actor_397 = ActorObjectInfo(397)
 	Actor_397:SetRenderType(1)
 	Actor_397.DisplayDesc.ModelId = 0
-	Actor_397.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_113.osgb"
+	Actor_397.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_113.osgb"
 	Actor_397.DisplayDesc.Outfit = ""
 	Actor_397.DisplayDesc.Weapon = ""
 	Actor_397.DisplayDesc.Mode = ""
@@ -16663,7 +16663,7 @@ function InitMap(environment)
 	Actor_397.PhysicDesc.SizeX = 1.01439e-030
 	Actor_397.PhysicDesc.SizeY = 1
 	Actor_397.PhysicDesc.SizeZ = 1
-	Actor_397.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_113.phy"
+	Actor_397.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_113.phy"
 	Actor_397:SetPhysicalActorType(1)
 	Actor_397:SetPhysicalShape(5)
 	Actor_397.ExtraInfo.Name = ""
@@ -16676,7 +16676,7 @@ function InitMap(environment)
 	Actor_398 = ActorObjectInfo(398)
 	Actor_398:SetRenderType(1)
 	Actor_398.DisplayDesc.ModelId = 18
-	Actor_398.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_8.osgb"
+	Actor_398.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_8.osgb"
 	Actor_398.DisplayDesc.Outfit = ""
 	Actor_398.DisplayDesc.Weapon = ""
 	Actor_398.DisplayDesc.Mode = ""
@@ -16705,7 +16705,7 @@ function InitMap(environment)
 	Actor_398.PhysicDesc.SizeX = 1.28572e-039
 	Actor_398.PhysicDesc.SizeY = 1.02318e-034
 	Actor_398.PhysicDesc.SizeZ = 3.33742e-024
-	Actor_398.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_8.phy"
+	Actor_398.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_8.phy"
 	Actor_398:SetPhysicalActorType(1)
 	Actor_398:SetPhysicalShape(5)
 	Actor_398.ExtraInfo.Name = ""
@@ -16718,7 +16718,7 @@ function InitMap(environment)
 	Actor_399 = ActorObjectInfo(399)
 	Actor_399:SetRenderType(1)
 	Actor_399.DisplayDesc.ModelId = 1
-	Actor_399.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_9.osgb"
+	Actor_399.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_9.osgb"
 	Actor_399.DisplayDesc.Outfit = ""
 	Actor_399.DisplayDesc.Weapon = ""
 	Actor_399.DisplayDesc.Mode = ""
@@ -16747,7 +16747,7 @@ function InitMap(environment)
 	Actor_399.PhysicDesc.SizeX = 7.85938
 	Actor_399.PhysicDesc.SizeY = 0
 	Actor_399.PhysicDesc.SizeZ = 0
-	Actor_399.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_9.phy"
+	Actor_399.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_9.phy"
 	Actor_399:SetPhysicalActorType(1)
 	Actor_399:SetPhysicalShape(5)
 	Actor_399.ExtraInfo.Name = ""
@@ -16760,7 +16760,7 @@ function InitMap(environment)
 	Actor_400 = ActorObjectInfo(400)
 	Actor_400:SetRenderType(1)
 	Actor_400.DisplayDesc.ModelId = 131076
-	Actor_400.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_114.osgb"
+	Actor_400.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_114.osgb"
 	Actor_400.DisplayDesc.Outfit = ""
 	Actor_400.DisplayDesc.Weapon = ""
 	Actor_400.DisplayDesc.Mode = ""
@@ -16789,7 +16789,7 @@ function InitMap(environment)
 	Actor_400.PhysicDesc.SizeX = 0
 	Actor_400.PhysicDesc.SizeY = 3.60134e-043
 	Actor_400.PhysicDesc.SizeZ = 4.59266e-040
-	Actor_400.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_114.phy"
+	Actor_400.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_114.phy"
 	Actor_400:SetPhysicalActorType(1)
 	Actor_400:SetPhysicalShape(5)
 	Actor_400.ExtraInfo.Name = ""
@@ -16802,7 +16802,7 @@ function InitMap(environment)
 	Actor_401 = ActorObjectInfo(401)
 	Actor_401:SetRenderType(1)
 	Actor_401.DisplayDesc.ModelId = 408484164
-	Actor_401.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_115.osgb"
+	Actor_401.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_115.osgb"
 	Actor_401.DisplayDesc.Outfit = ""
 	Actor_401.DisplayDesc.Weapon = ""
 	Actor_401.DisplayDesc.Mode = ""
@@ -16831,7 +16831,7 @@ function InitMap(environment)
 	Actor_401.PhysicDesc.SizeX = 0
 	Actor_401.PhysicDesc.SizeY = 5.18205e-023
 	Actor_401.PhysicDesc.SizeZ = 0
-	Actor_401.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_115.phy"
+	Actor_401.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_115.phy"
 	Actor_401:SetPhysicalActorType(1)
 	Actor_401:SetPhysicalShape(5)
 	Actor_401.ExtraInfo.Name = ""
@@ -16844,7 +16844,7 @@ function InitMap(environment)
 	Actor_402 = ActorObjectInfo(402)
 	Actor_402:SetRenderType(1)
 	Actor_402.DisplayDesc.ModelId = 131077
-	Actor_402.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_116.osgb"
+	Actor_402.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_116.osgb"
 	Actor_402.DisplayDesc.Outfit = ""
 	Actor_402.DisplayDesc.Weapon = ""
 	Actor_402.DisplayDesc.Mode = ""
@@ -16873,7 +16873,7 @@ function InitMap(environment)
 	Actor_402.PhysicDesc.SizeX = 5.97266
 	Actor_402.PhysicDesc.SizeY = 1.37695
 	Actor_402.PhysicDesc.SizeZ = 2.75586
-	Actor_402.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_116.phy"
+	Actor_402.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_116.phy"
 	Actor_402:SetPhysicalActorType(1)
 	Actor_402:SetPhysicalShape(5)
 	Actor_402.ExtraInfo.Name = ""
@@ -16886,7 +16886,7 @@ function InitMap(environment)
 	Actor_403 = ActorObjectInfo(403)
 	Actor_403:SetRenderType(1)
 	Actor_403.DisplayDesc.ModelId = 262149
-	Actor_403.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_117.osgb"
+	Actor_403.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_117.osgb"
 	Actor_403.DisplayDesc.Outfit = ""
 	Actor_403.DisplayDesc.Weapon = ""
 	Actor_403.DisplayDesc.Mode = ""
@@ -16915,7 +16915,7 @@ function InitMap(environment)
 	Actor_403.PhysicDesc.SizeX = 1
 	Actor_403.PhysicDesc.SizeY = 2.35106e-038
 	Actor_403.PhysicDesc.SizeZ = 0
-	Actor_403.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_117.phy"
+	Actor_403.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_117.phy"
 	Actor_403:SetPhysicalActorType(1)
 	Actor_403:SetPhysicalShape(5)
 	Actor_403.ExtraInfo.Name = ""
@@ -16928,7 +16928,7 @@ function InitMap(environment)
 	Actor_404 = ActorObjectInfo(404)
 	Actor_404:SetRenderType(1)
 	Actor_404.DisplayDesc.ModelId = 0
-	Actor_404.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_118.osgb"
+	Actor_404.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_118.osgb"
 	Actor_404.DisplayDesc.Outfit = ""
 	Actor_404.DisplayDesc.Weapon = ""
 	Actor_404.DisplayDesc.Mode = ""
@@ -16957,7 +16957,7 @@ function InitMap(environment)
 	Actor_404.PhysicDesc.SizeX = 1
 	Actor_404.PhysicDesc.SizeY = 1
 	Actor_404.PhysicDesc.SizeZ = 1
-	Actor_404.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_118.phy"
+	Actor_404.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_118.phy"
 	Actor_404:SetPhysicalActorType(1)
 	Actor_404:SetPhysicalShape(5)
 	Actor_404.ExtraInfo.Name = ""
@@ -16970,7 +16970,7 @@ function InitMap(environment)
 	Actor_405 = ActorObjectInfo(405)
 	Actor_405:SetRenderType(1)
 	Actor_405.DisplayDesc.ModelId = 131074
-	Actor_405.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_119.osgb"
+	Actor_405.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_119.osgb"
 	Actor_405.DisplayDesc.Outfit = ""
 	Actor_405.DisplayDesc.Weapon = ""
 	Actor_405.DisplayDesc.Mode = ""
@@ -16999,7 +16999,7 @@ function InitMap(environment)
 	Actor_405.PhysicDesc.SizeX = 4.57366e-038
 	Actor_405.PhysicDesc.SizeY = 7.41596e-031
 	Actor_405.PhysicDesc.SizeZ = 1.83686e-040
-	Actor_405.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_119.phy"
+	Actor_405.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_119.phy"
 	Actor_405:SetPhysicalActorType(1)
 	Actor_405:SetPhysicalShape(5)
 	Actor_405.ExtraInfo.Name = ""
@@ -17012,7 +17012,7 @@ function InitMap(environment)
 	Actor_406 = ActorObjectInfo(406)
 	Actor_406:SetRenderType(1)
 	Actor_406.DisplayDesc.ModelId = 131074
-	Actor_406.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_119.osgb"
+	Actor_406.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_119.osgb"
 	Actor_406.DisplayDesc.Outfit = ""
 	Actor_406.DisplayDesc.Weapon = ""
 	Actor_406.DisplayDesc.Mode = ""
@@ -17041,7 +17041,7 @@ function InitMap(environment)
 	Actor_406.PhysicDesc.SizeX = 2.10195e-044
 	Actor_406.PhysicDesc.SizeY = 0
 	Actor_406.PhysicDesc.SizeZ = 0
-	Actor_406.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_119.phy"
+	Actor_406.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_119.phy"
 	Actor_406:SetPhysicalActorType(1)
 	Actor_406:SetPhysicalShape(5)
 	Actor_406.ExtraInfo.Name = ""
@@ -17054,7 +17054,7 @@ function InitMap(environment)
 	Actor_407 = ActorObjectInfo(407)
 	Actor_407:SetRenderType(1)
 	Actor_407.DisplayDesc.ModelId = 208508392
-	Actor_407.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_120.osgb"
+	Actor_407.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_120.osgb"
 	Actor_407.DisplayDesc.Outfit = ""
 	Actor_407.DisplayDesc.Weapon = ""
 	Actor_407.DisplayDesc.Mode = ""
@@ -17083,7 +17083,7 @@ function InitMap(environment)
 	Actor_407.PhysicDesc.SizeX = 2.47033e-023
 	Actor_407.PhysicDesc.SizeY = 7.52725e-031
 	Actor_407.PhysicDesc.SizeZ = 0
-	Actor_407.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_120.phy"
+	Actor_407.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_120.phy"
 	Actor_407:SetPhysicalActorType(1)
 	Actor_407:SetPhysicalShape(5)
 	Actor_407.ExtraInfo.Name = ""
@@ -17096,7 +17096,7 @@ function InitMap(environment)
 	Actor_408 = ActorObjectInfo(408)
 	Actor_408:SetRenderType(1)
 	Actor_408.DisplayDesc.ModelId = 144541660
-	Actor_408.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_118.osgb"
+	Actor_408.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_118.osgb"
 	Actor_408.DisplayDesc.Outfit = ""
 	Actor_408.DisplayDesc.Weapon = ""
 	Actor_408.DisplayDesc.Mode = ""
@@ -17125,7 +17125,7 @@ function InitMap(environment)
 	Actor_408.PhysicDesc.SizeX = 0.01
 	Actor_408.PhysicDesc.SizeY = 0
 	Actor_408.PhysicDesc.SizeZ = 0
-	Actor_408.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_118.phy"
+	Actor_408.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_118.phy"
 	Actor_408:SetPhysicalActorType(1)
 	Actor_408:SetPhysicalShape(5)
 	Actor_408.ExtraInfo.Name = ""
@@ -17138,7 +17138,7 @@ function InitMap(environment)
 	Actor_409 = ActorObjectInfo(409)
 	Actor_409:SetRenderType(1)
 	Actor_409.DisplayDesc.ModelId = 131076
-	Actor_409.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_117.osgb"
+	Actor_409.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_117.osgb"
 	Actor_409.DisplayDesc.Outfit = ""
 	Actor_409.DisplayDesc.Weapon = ""
 	Actor_409.DisplayDesc.Mode = ""
@@ -17167,7 +17167,7 @@ function InitMap(environment)
 	Actor_409.PhysicDesc.SizeX = 0
 	Actor_409.PhysicDesc.SizeY = -1
 	Actor_409.PhysicDesc.SizeZ = 0
-	Actor_409.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_117.phy"
+	Actor_409.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_117.phy"
 	Actor_409:SetPhysicalActorType(1)
 	Actor_409:SetPhysicalShape(5)
 	Actor_409.ExtraInfo.Name = ""
@@ -17180,7 +17180,7 @@ function InitMap(environment)
 	Actor_410 = ActorObjectInfo(410)
 	Actor_410:SetRenderType(1)
 	Actor_410.DisplayDesc.ModelId = 131074
-	Actor_410.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_118.osgb"
+	Actor_410.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_118.osgb"
 	Actor_410.DisplayDesc.Outfit = ""
 	Actor_410.DisplayDesc.Weapon = ""
 	Actor_410.DisplayDesc.Mode = ""
@@ -17209,7 +17209,7 @@ function InitMap(environment)
 	Actor_410.PhysicDesc.SizeX = 0
 	Actor_410.PhysicDesc.SizeY = 0
 	Actor_410.PhysicDesc.SizeZ = 9.24668e-031
-	Actor_410.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_118.phy"
+	Actor_410.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_118.phy"
 	Actor_410:SetPhysicalActorType(1)
 	Actor_410:SetPhysicalShape(5)
 	Actor_410.ExtraInfo.Name = ""
@@ -17222,7 +17222,7 @@ function InitMap(environment)
 	Actor_411 = ActorObjectInfo(411)
 	Actor_411:SetRenderType(1)
 	Actor_411.DisplayDesc.ModelId = 131074
-	Actor_411.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_120.osgb"
+	Actor_411.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_120.osgb"
 	Actor_411.DisplayDesc.Outfit = ""
 	Actor_411.DisplayDesc.Weapon = ""
 	Actor_411.DisplayDesc.Mode = ""
@@ -17251,7 +17251,7 @@ function InitMap(environment)
 	Actor_411.PhysicDesc.SizeX = 0
 	Actor_411.PhysicDesc.SizeY = 0.332032
 	Actor_411.PhysicDesc.SizeZ = 2.5714e-039
-	Actor_411.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_120.phy"
+	Actor_411.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_120.phy"
 	Actor_411:SetPhysicalActorType(1)
 	Actor_411:SetPhysicalShape(5)
 	Actor_411.ExtraInfo.Name = ""
@@ -17264,7 +17264,7 @@ function InitMap(environment)
 	Actor_412 = ActorObjectInfo(412)
 	Actor_412:SetRenderType(1)
 	Actor_412.DisplayDesc.ModelId = 131076
-	Actor_412.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_120.osgb"
+	Actor_412.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_120.osgb"
 	Actor_412.DisplayDesc.Outfit = ""
 	Actor_412.DisplayDesc.Weapon = ""
 	Actor_412.DisplayDesc.Mode = ""
@@ -17293,7 +17293,7 @@ function InitMap(environment)
 	Actor_412.PhysicDesc.SizeX = 0
 	Actor_412.PhysicDesc.SizeY = 0
 	Actor_412.PhysicDesc.SizeZ = 7.91684e-031
-	Actor_412.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_120.phy"
+	Actor_412.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_120.phy"
 	Actor_412:SetPhysicalActorType(1)
 	Actor_412:SetPhysicalShape(5)
 	Actor_412.ExtraInfo.Name = ""
@@ -17306,7 +17306,7 @@ function InitMap(environment)
 	Actor_413 = ActorObjectInfo(413)
 	Actor_413:SetRenderType(1)
 	Actor_413.DisplayDesc.ModelId = 131074
-	Actor_413.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_119.osgb"
+	Actor_413.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_119.osgb"
 	Actor_413.DisplayDesc.Outfit = ""
 	Actor_413.DisplayDesc.Weapon = ""
 	Actor_413.DisplayDesc.Mode = ""
@@ -17335,7 +17335,7 @@ function InitMap(environment)
 	Actor_413.PhysicDesc.SizeX = 0
 	Actor_413.PhysicDesc.SizeY = 0
 	Actor_413.PhysicDesc.SizeZ = 0
-	Actor_413.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_119.phy"
+	Actor_413.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_119.phy"
 	Actor_413:SetPhysicalActorType(1)
 	Actor_413:SetPhysicalShape(5)
 	Actor_413.ExtraInfo.Name = ""
@@ -17348,7 +17348,7 @@ function InitMap(environment)
 	Actor_414 = ActorObjectInfo(414)
 	Actor_414:SetRenderType(1)
 	Actor_414.DisplayDesc.ModelId = 0
-	Actor_414.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_118.osgb"
+	Actor_414.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_118.osgb"
 	Actor_414.DisplayDesc.Outfit = ""
 	Actor_414.DisplayDesc.Weapon = ""
 	Actor_414.DisplayDesc.Mode = ""
@@ -17377,7 +17377,7 @@ function InitMap(environment)
 	Actor_414.PhysicDesc.SizeX = 0
 	Actor_414.PhysicDesc.SizeY = 0
 	Actor_414.PhysicDesc.SizeZ = 0
-	Actor_414.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_118.phy"
+	Actor_414.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_118.phy"
 	Actor_414:SetPhysicalActorType(1)
 	Actor_414:SetPhysicalShape(5)
 	Actor_414.ExtraInfo.Name = ""
@@ -17390,7 +17390,7 @@ function InitMap(environment)
 	Actor_415 = ActorObjectInfo(415)
 	Actor_415:SetRenderType(1)
 	Actor_415.DisplayDesc.ModelId = 0
-	Actor_415.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_117.osgb"
+	Actor_415.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_117.osgb"
 	Actor_415.DisplayDesc.Outfit = ""
 	Actor_415.DisplayDesc.Weapon = ""
 	Actor_415.DisplayDesc.Mode = ""
@@ -17419,7 +17419,7 @@ function InitMap(environment)
 	Actor_415.PhysicDesc.SizeX = 0
 	Actor_415.PhysicDesc.SizeY = 0
 	Actor_415.PhysicDesc.SizeZ = 0
-	Actor_415.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_117.phy"
+	Actor_415.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_117.phy"
 	Actor_415:SetPhysicalActorType(1)
 	Actor_415:SetPhysicalShape(5)
 	Actor_415.ExtraInfo.Name = ""
@@ -17432,7 +17432,7 @@ function InitMap(environment)
 	Actor_416 = ActorObjectInfo(416)
 	Actor_416:SetRenderType(1)
 	Actor_416.DisplayDesc.ModelId = 0
-	Actor_416.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_119.osgb"
+	Actor_416.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_119.osgb"
 	Actor_416.DisplayDesc.Outfit = ""
 	Actor_416.DisplayDesc.Weapon = ""
 	Actor_416.DisplayDesc.Mode = ""
@@ -17461,7 +17461,7 @@ function InitMap(environment)
 	Actor_416.PhysicDesc.SizeX = 0
 	Actor_416.PhysicDesc.SizeY = 0
 	Actor_416.PhysicDesc.SizeZ = 0
-	Actor_416.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_119.phy"
+	Actor_416.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_119.phy"
 	Actor_416:SetPhysicalActorType(1)
 	Actor_416:SetPhysicalShape(5)
 	Actor_416.ExtraInfo.Name = ""
@@ -17474,7 +17474,7 @@ function InitMap(environment)
 	Actor_417 = ActorObjectInfo(417)
 	Actor_417:SetRenderType(1)
 	Actor_417.DisplayDesc.ModelId = 0
-	Actor_417.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_120.osgb"
+	Actor_417.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_120.osgb"
 	Actor_417.DisplayDesc.Outfit = ""
 	Actor_417.DisplayDesc.Weapon = ""
 	Actor_417.DisplayDesc.Mode = ""
@@ -17503,7 +17503,7 @@ function InitMap(environment)
 	Actor_417.PhysicDesc.SizeX = 6.93408
 	Actor_417.PhysicDesc.SizeY = 10.0852
 	Actor_417.PhysicDesc.SizeZ = 6.93408
-	Actor_417.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_120.phy"
+	Actor_417.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_120.phy"
 	Actor_417:SetPhysicalActorType(1)
 	Actor_417:SetPhysicalShape(5)
 	Actor_417.ExtraInfo.Name = ""
@@ -17516,7 +17516,7 @@ function InitMap(environment)
 	Actor_418 = ActorObjectInfo(418)
 	Actor_418:SetRenderType(1)
 	Actor_418.DisplayDesc.ModelId = 131077
-	Actor_418.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_120.osgb"
+	Actor_418.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_120.osgb"
 	Actor_418.DisplayDesc.Outfit = ""
 	Actor_418.DisplayDesc.Weapon = ""
 	Actor_418.DisplayDesc.Mode = ""
@@ -17545,7 +17545,7 @@ function InitMap(environment)
 	Actor_418.PhysicDesc.SizeX = 0
 	Actor_418.PhysicDesc.SizeY = 4.33984
 	Actor_418.PhysicDesc.SizeZ = 5.38086
-	Actor_418.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_120.phy"
+	Actor_418.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_120.phy"
 	Actor_418:SetPhysicalActorType(1)
 	Actor_418:SetPhysicalShape(5)
 	Actor_418.ExtraInfo.Name = ""
@@ -17558,7 +17558,7 @@ function InitMap(environment)
 	Actor_419 = ActorObjectInfo(419)
 	Actor_419:SetRenderType(1)
 	Actor_419.DisplayDesc.ModelId = 0
-	Actor_419.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_121.osgb"
+	Actor_419.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_121.osgb"
 	Actor_419.DisplayDesc.Outfit = ""
 	Actor_419.DisplayDesc.Weapon = ""
 	Actor_419.DisplayDesc.Mode = ""
@@ -17587,7 +17587,7 @@ function InitMap(environment)
 	Actor_419.PhysicDesc.SizeX = 0
 	Actor_419.PhysicDesc.SizeY = 0
 	Actor_419.PhysicDesc.SizeZ = 1.28579e-039
-	Actor_419.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_121.phy"
+	Actor_419.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_121.phy"
 	Actor_419:SetPhysicalActorType(1)
 	Actor_419:SetPhysicalShape(5)
 	Actor_419.ExtraInfo.Name = ""
@@ -17600,7 +17600,7 @@ function InitMap(environment)
 	Actor_420 = ActorObjectInfo(420)
 	Actor_420:SetRenderType(1)
 	Actor_420.DisplayDesc.ModelId = 131074
-	Actor_420.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_122.osgb"
+	Actor_420.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_122.osgb"
 	Actor_420.DisplayDesc.Outfit = ""
 	Actor_420.DisplayDesc.Weapon = ""
 	Actor_420.DisplayDesc.Mode = ""
@@ -17629,7 +17629,7 @@ function InitMap(environment)
 	Actor_420.PhysicDesc.SizeX = 1.05442e-030
 	Actor_420.PhysicDesc.SizeY = 4.71008e-033
 	Actor_420.PhysicDesc.SizeZ = 1.09191e+027
-	Actor_420.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_122.phy"
+	Actor_420.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_122.phy"
 	Actor_420:SetPhysicalActorType(1)
 	Actor_420:SetPhysicalShape(5)
 	Actor_420.ExtraInfo.Name = ""
@@ -17642,7 +17642,7 @@ function InitMap(environment)
 	Actor_421 = ActorObjectInfo(421)
 	Actor_421:SetRenderType(1)
 	Actor_421.DisplayDesc.ModelId = 1065353216
-	Actor_421.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_123.osgb"
+	Actor_421.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_123.osgb"
 	Actor_421.DisplayDesc.Outfit = ""
 	Actor_421.DisplayDesc.Weapon = ""
 	Actor_421.DisplayDesc.Mode = ""
@@ -17671,7 +17671,7 @@ function InitMap(environment)
 	Actor_421.PhysicDesc.SizeX = 1
 	Actor_421.PhysicDesc.SizeY = 1
 	Actor_421.PhysicDesc.SizeZ = 1
-	Actor_421.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_123.phy"
+	Actor_421.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_123.phy"
 	Actor_421:SetPhysicalActorType(1)
 	Actor_421:SetPhysicalShape(5)
 	Actor_421.ExtraInfo.Name = ""
@@ -17684,7 +17684,7 @@ function InitMap(environment)
 	Actor_422 = ActorObjectInfo(422)
 	Actor_422:SetRenderType(1)
 	Actor_422.DisplayDesc.ModelId = 0
-	Actor_422.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_124.osgb"
+	Actor_422.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_124.osgb"
 	Actor_422.DisplayDesc.Outfit = ""
 	Actor_422.DisplayDesc.Weapon = ""
 	Actor_422.DisplayDesc.Mode = ""
@@ -17713,7 +17713,7 @@ function InitMap(environment)
 	Actor_422.PhysicDesc.SizeX = 0
 	Actor_422.PhysicDesc.SizeY = 0
 	Actor_422.PhysicDesc.SizeZ = 0
-	Actor_422.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_124.phy"
+	Actor_422.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_124.phy"
 	Actor_422:SetPhysicalActorType(1)
 	Actor_422:SetPhysicalShape(5)
 	Actor_422.ExtraInfo.Name = ""
@@ -17726,7 +17726,7 @@ function InitMap(environment)
 	Actor_423 = ActorObjectInfo(423)
 	Actor_423:SetRenderType(1)
 	Actor_423.DisplayDesc.ModelId = 0
-	Actor_423.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_117.osgb"
+	Actor_423.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_117.osgb"
 	Actor_423.DisplayDesc.Outfit = ""
 	Actor_423.DisplayDesc.Weapon = ""
 	Actor_423.DisplayDesc.Mode = ""
@@ -17755,7 +17755,7 @@ function InitMap(environment)
 	Actor_423.PhysicDesc.SizeX = 2.12676e+037
 	Actor_423.PhysicDesc.SizeY = 0.240847
 	Actor_423.PhysicDesc.SizeZ = 0
-	Actor_423.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_117.phy"
+	Actor_423.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_117.phy"
 	Actor_423:SetPhysicalActorType(1)
 	Actor_423:SetPhysicalShape(5)
 	Actor_423.ExtraInfo.Name = ""
@@ -17768,7 +17768,7 @@ function InitMap(environment)
 	Actor_424 = ActorObjectInfo(424)
 	Actor_424:SetRenderType(1)
 	Actor_424.DisplayDesc.ModelId = 227853216
-	Actor_424.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_118.osgb"
+	Actor_424.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_118.osgb"
 	Actor_424.DisplayDesc.Outfit = ""
 	Actor_424.DisplayDesc.Weapon = ""
 	Actor_424.DisplayDesc.Mode = ""
@@ -17797,7 +17797,7 @@ function InitMap(environment)
 	Actor_424.PhysicDesc.SizeX = 0
 	Actor_424.PhysicDesc.SizeY = 1.4013e-045
 	Actor_424.PhysicDesc.SizeZ = 6.84478e-023
-	Actor_424.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_118.phy"
+	Actor_424.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_118.phy"
 	Actor_424:SetPhysicalActorType(1)
 	Actor_424:SetPhysicalShape(5)
 	Actor_424.ExtraInfo.Name = ""
@@ -17810,7 +17810,7 @@ function InitMap(environment)
 	Actor_425 = ActorObjectInfo(425)
 	Actor_425:SetRenderType(1)
 	Actor_425.DisplayDesc.ModelId = 0
-	Actor_425.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_118.osgb"
+	Actor_425.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_118.osgb"
 	Actor_425.DisplayDesc.Outfit = ""
 	Actor_425.DisplayDesc.Weapon = ""
 	Actor_425.DisplayDesc.Mode = ""
@@ -17839,7 +17839,7 @@ function InitMap(environment)
 	Actor_425.PhysicDesc.SizeX = 0
 	Actor_425.PhysicDesc.SizeY = 0
 	Actor_425.PhysicDesc.SizeZ = 0
-	Actor_425.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_118.phy"
+	Actor_425.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_118.phy"
 	Actor_425:SetPhysicalActorType(1)
 	Actor_425:SetPhysicalShape(5)
 	Actor_425.ExtraInfo.Name = ""
@@ -17852,7 +17852,7 @@ function InitMap(environment)
 	Actor_426 = ActorObjectInfo(426)
 	Actor_426:SetRenderType(1)
 	Actor_426.DisplayDesc.ModelId = 0
-	Actor_426.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_119.osgb"
+	Actor_426.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_119.osgb"
 	Actor_426.DisplayDesc.Outfit = ""
 	Actor_426.DisplayDesc.Weapon = ""
 	Actor_426.DisplayDesc.Mode = ""
@@ -17881,7 +17881,7 @@ function InitMap(environment)
 	Actor_426.PhysicDesc.SizeX = 5.32493e-044
 	Actor_426.PhysicDesc.SizeY = 0
 	Actor_426.PhysicDesc.SizeZ = 0
-	Actor_426.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_119.phy"
+	Actor_426.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_119.phy"
 	Actor_426:SetPhysicalActorType(1)
 	Actor_426:SetPhysicalShape(5)
 	Actor_426.ExtraInfo.Name = ""
@@ -17894,7 +17894,7 @@ function InitMap(environment)
 	Actor_427 = ActorObjectInfo(427)
 	Actor_427:SetRenderType(1)
 	Actor_427.DisplayDesc.ModelId = 4
-	Actor_427.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_125.osgb"
+	Actor_427.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_125.osgb"
 	Actor_427.DisplayDesc.Outfit = ""
 	Actor_427.DisplayDesc.Weapon = ""
 	Actor_427.DisplayDesc.Mode = ""
@@ -17923,7 +17923,7 @@ function InitMap(environment)
 	Actor_427.PhysicDesc.SizeX = 0
 	Actor_427.PhysicDesc.SizeY = 0
 	Actor_427.PhysicDesc.SizeZ = 0
-	Actor_427.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_125.phy"
+	Actor_427.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_125.phy"
 	Actor_427:SetPhysicalActorType(1)
 	Actor_427:SetPhysicalShape(5)
 	Actor_427.ExtraInfo.Name = ""
@@ -17936,7 +17936,7 @@ function InitMap(environment)
 	Actor_428 = ActorObjectInfo(428)
 	Actor_428:SetRenderType(1)
 	Actor_428.DisplayDesc.ModelId = 0
-	Actor_428.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_126.osgb"
+	Actor_428.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_126.osgb"
 	Actor_428.DisplayDesc.Outfit = ""
 	Actor_428.DisplayDesc.Weapon = ""
 	Actor_428.DisplayDesc.Mode = ""
@@ -17965,7 +17965,7 @@ function InitMap(environment)
 	Actor_428.PhysicDesc.SizeX = 0
 	Actor_428.PhysicDesc.SizeY = 2.10195e-044
 	Actor_428.PhysicDesc.SizeZ = 0
-	Actor_428.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_126.phy"
+	Actor_428.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_126.phy"
 	Actor_428:SetPhysicalActorType(1)
 	Actor_428:SetPhysicalShape(5)
 	Actor_428.ExtraInfo.Name = ""
@@ -17978,7 +17978,7 @@ function InitMap(environment)
 	Actor_429 = ActorObjectInfo(429)
 	Actor_429:SetRenderType(1)
 	Actor_429.DisplayDesc.ModelId = 0
-	Actor_429.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_127.osgb"
+	Actor_429.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_127.osgb"
 	Actor_429.DisplayDesc.Outfit = ""
 	Actor_429.DisplayDesc.Weapon = ""
 	Actor_429.DisplayDesc.Mode = ""
@@ -18007,7 +18007,7 @@ function InitMap(environment)
 	Actor_429.PhysicDesc.SizeX = 0
 	Actor_429.PhysicDesc.SizeY = 0
 	Actor_429.PhysicDesc.SizeZ = 1.28572e-039
-	Actor_429.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_127.phy"
+	Actor_429.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_127.phy"
 	Actor_429:SetPhysicalActorType(1)
 	Actor_429:SetPhysicalShape(5)
 	Actor_429.ExtraInfo.Name = ""
@@ -18020,7 +18020,7 @@ function InitMap(environment)
 	Actor_430 = ActorObjectInfo(430)
 	Actor_430:SetRenderType(1)
 	Actor_430.DisplayDesc.ModelId = 0
-	Actor_430.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_128.osgb"
+	Actor_430.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_128.osgb"
 	Actor_430.DisplayDesc.Outfit = ""
 	Actor_430.DisplayDesc.Weapon = ""
 	Actor_430.DisplayDesc.Mode = ""
@@ -18049,7 +18049,7 @@ function InitMap(environment)
 	Actor_430.PhysicDesc.SizeX = 0
 	Actor_430.PhysicDesc.SizeY = 0
 	Actor_430.PhysicDesc.SizeZ = 1.28577e-039
-	Actor_430.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_128.phy"
+	Actor_430.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_128.phy"
 	Actor_430:SetPhysicalActorType(1)
 	Actor_430:SetPhysicalShape(5)
 	Actor_430.ExtraInfo.Name = ""
@@ -18062,7 +18062,7 @@ function InitMap(environment)
 	Actor_431 = ActorObjectInfo(431)
 	Actor_431:SetRenderType(1)
 	Actor_431.DisplayDesc.ModelId = 0
-	Actor_431.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_129.osgb"
+	Actor_431.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_129.osgb"
 	Actor_431.DisplayDesc.Outfit = ""
 	Actor_431.DisplayDesc.Weapon = ""
 	Actor_431.DisplayDesc.Mode = ""
@@ -18091,7 +18091,7 @@ function InitMap(environment)
 	Actor_431.PhysicDesc.SizeX = 0.316228
 	Actor_431.PhysicDesc.SizeY = 0
 	Actor_431.PhysicDesc.SizeZ = 0.948683
-	Actor_431.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_129.phy"
+	Actor_431.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_129.phy"
 	Actor_431:SetPhysicalActorType(1)
 	Actor_431:SetPhysicalShape(5)
 	Actor_431.ExtraInfo.Name = ""
@@ -18104,7 +18104,7 @@ function InitMap(environment)
 	Actor_432 = ActorObjectInfo(432)
 	Actor_432:SetRenderType(1)
 	Actor_432.DisplayDesc.ModelId = 0
-	Actor_432.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_130.osgb"
+	Actor_432.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_130.osgb"
 	Actor_432.DisplayDesc.Outfit = ""
 	Actor_432.DisplayDesc.Weapon = ""
 	Actor_432.DisplayDesc.Mode = ""
@@ -18133,7 +18133,7 @@ function InitMap(environment)
 	Actor_432.PhysicDesc.SizeX = -0.265625
 	Actor_432.PhysicDesc.SizeY = 0.0878906
 	Actor_432.PhysicDesc.SizeZ = 0.798828
-	Actor_432.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_130.phy"
+	Actor_432.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_130.phy"
 	Actor_432:SetPhysicalActorType(1)
 	Actor_432:SetPhysicalShape(5)
 	Actor_432.ExtraInfo.Name = ""
@@ -18146,7 +18146,7 @@ function InitMap(environment)
 	Actor_433 = ActorObjectInfo(433)
 	Actor_433:SetRenderType(1)
 	Actor_433.DisplayDesc.ModelId = 1082413056
-	Actor_433.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_131.osgb"
+	Actor_433.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_131.osgb"
 	Actor_433.DisplayDesc.Outfit = ""
 	Actor_433.DisplayDesc.Weapon = ""
 	Actor_433.DisplayDesc.Mode = ""
@@ -18175,7 +18175,7 @@ function InitMap(environment)
 	Actor_433.PhysicDesc.SizeX = 5.04883
 	Actor_433.PhysicDesc.SizeY = 2.30078
 	Actor_433.PhysicDesc.SizeZ = 0.304688
-	Actor_433.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_131.phy"
+	Actor_433.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_131.phy"
 	Actor_433:SetPhysicalActorType(1)
 	Actor_433:SetPhysicalShape(5)
 	Actor_433.ExtraInfo.Name = ""
@@ -18188,7 +18188,7 @@ function InitMap(environment)
 	Actor_434 = ActorObjectInfo(434)
 	Actor_434:SetRenderType(1)
 	Actor_434.DisplayDesc.ModelId = 0
-	Actor_434.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_131.osgb"
+	Actor_434.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_131.osgb"
 	Actor_434.DisplayDesc.Outfit = ""
 	Actor_434.DisplayDesc.Weapon = ""
 	Actor_434.DisplayDesc.Mode = ""
@@ -18217,7 +18217,7 @@ function InitMap(environment)
 	Actor_434.PhysicDesc.SizeX = 2.12676e+037
 	Actor_434.PhysicDesc.SizeY = 0.240847
 	Actor_434.PhysicDesc.SizeZ = 0
-	Actor_434.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_131.phy"
+	Actor_434.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_131.phy"
 	Actor_434:SetPhysicalActorType(1)
 	Actor_434:SetPhysicalShape(5)
 	Actor_434.ExtraInfo.Name = ""
@@ -18230,7 +18230,7 @@ function InitMap(environment)
 	Actor_435 = ActorObjectInfo(435)
 	Actor_435:SetRenderType(1)
 	Actor_435.DisplayDesc.ModelId = 0
-	Actor_435.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_129.osgb"
+	Actor_435.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_129.osgb"
 	Actor_435.DisplayDesc.Outfit = ""
 	Actor_435.DisplayDesc.Weapon = ""
 	Actor_435.DisplayDesc.Mode = ""
@@ -18259,7 +18259,7 @@ function InitMap(environment)
 	Actor_435.PhysicDesc.SizeX = 0
 	Actor_435.PhysicDesc.SizeY = 0
 	Actor_435.PhysicDesc.SizeZ = 1.28574e-039
-	Actor_435.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_129.phy"
+	Actor_435.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_129.phy"
 	Actor_435:SetPhysicalActorType(1)
 	Actor_435:SetPhysicalShape(5)
 	Actor_435.ExtraInfo.Name = ""
@@ -18272,7 +18272,7 @@ function InitMap(environment)
 	Actor_436 = ActorObjectInfo(436)
 	Actor_436:SetRenderType(1)
 	Actor_436.DisplayDesc.ModelId = 131076
-	Actor_436.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_130.osgb"
+	Actor_436.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_130.osgb"
 	Actor_436.DisplayDesc.Outfit = ""
 	Actor_436.DisplayDesc.Weapon = ""
 	Actor_436.DisplayDesc.Mode = ""
@@ -18301,7 +18301,7 @@ function InitMap(environment)
 	Actor_436.PhysicDesc.SizeX = 0
 	Actor_436.PhysicDesc.SizeY = 0
 	Actor_436.PhysicDesc.SizeZ = 0
-	Actor_436.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_130.phy"
+	Actor_436.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_130.phy"
 	Actor_436:SetPhysicalActorType(1)
 	Actor_436:SetPhysicalShape(5)
 	Actor_436.ExtraInfo.Name = ""
@@ -18314,7 +18314,7 @@ function InitMap(environment)
 	Actor_437 = ActorObjectInfo(437)
 	Actor_437:SetRenderType(1)
 	Actor_437.DisplayDesc.ModelId = 420284536
-	Actor_437.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_131.osgb"
+	Actor_437.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_131.osgb"
 	Actor_437.DisplayDesc.Outfit = ""
 	Actor_437.DisplayDesc.Weapon = ""
 	Actor_437.DisplayDesc.Mode = ""
@@ -18343,7 +18343,7 @@ function InitMap(environment)
 	Actor_437.PhysicDesc.SizeX = 2.47956e-039
 	Actor_437.PhysicDesc.SizeY = 1.02321e-034
 	Actor_437.PhysicDesc.SizeZ = 1.83708e-031
-	Actor_437.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_131.phy"
+	Actor_437.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_131.phy"
 	Actor_437:SetPhysicalActorType(1)
 	Actor_437:SetPhysicalShape(5)
 	Actor_437.ExtraInfo.Name = ""
@@ -18356,7 +18356,7 @@ function InitMap(environment)
 	Actor_438 = ActorObjectInfo(438)
 	Actor_438:SetRenderType(1)
 	Actor_438.DisplayDesc.ModelId = 131080
-	Actor_438.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_130.osgb"
+	Actor_438.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_130.osgb"
 	Actor_438.DisplayDesc.Outfit = ""
 	Actor_438.DisplayDesc.Weapon = ""
 	Actor_438.DisplayDesc.Mode = ""
@@ -18385,7 +18385,7 @@ function InitMap(environment)
 	Actor_438.PhysicDesc.SizeX = 0
 	Actor_438.PhysicDesc.SizeY = 0
 	Actor_438.PhysicDesc.SizeZ = 6.47791e-031
-	Actor_438.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_130.phy"
+	Actor_438.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_130.phy"
 	Actor_438:SetPhysicalActorType(1)
 	Actor_438:SetPhysicalShape(5)
 	Actor_438.ExtraInfo.Name = ""
@@ -18398,7 +18398,7 @@ function InitMap(environment)
 	Actor_439 = ActorObjectInfo(439)
 	Actor_439:SetRenderType(1)
 	Actor_439.DisplayDesc.ModelId = 222948272
-	Actor_439.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_129.osgb"
+	Actor_439.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_129.osgb"
 	Actor_439.DisplayDesc.Outfit = ""
 	Actor_439.DisplayDesc.Weapon = ""
 	Actor_439.DisplayDesc.Mode = ""
@@ -18427,7 +18427,7 @@ function InitMap(environment)
 	Actor_439.PhysicDesc.SizeX = 0
 	Actor_439.PhysicDesc.SizeY = 6.86282e-031
 	Actor_439.PhysicDesc.SizeZ = 2.75509e-040
-	Actor_439.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_129.phy"
+	Actor_439.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_129.phy"
 	Actor_439:SetPhysicalActorType(1)
 	Actor_439:SetPhysicalShape(5)
 	Actor_439.ExtraInfo.Name = ""
@@ -18440,7 +18440,7 @@ function InitMap(environment)
 	Actor_440 = ActorObjectInfo(440)
 	Actor_440:SetRenderType(1)
 	Actor_440.DisplayDesc.ModelId = 0
-	Actor_440.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_132.osgb"
+	Actor_440.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_132.osgb"
 	Actor_440.DisplayDesc.Outfit = ""
 	Actor_440.DisplayDesc.Weapon = ""
 	Actor_440.DisplayDesc.Mode = ""
@@ -18469,7 +18469,7 @@ function InitMap(environment)
 	Actor_440.PhysicDesc.SizeX = 0
 	Actor_440.PhysicDesc.SizeY = 0
 	Actor_440.PhysicDesc.SizeZ = 0
-	Actor_440.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_132.phy"
+	Actor_440.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_132.phy"
 	Actor_440:SetPhysicalActorType(1)
 	Actor_440:SetPhysicalShape(5)
 	Actor_440.ExtraInfo.Name = ""
@@ -18482,7 +18482,7 @@ function InitMap(environment)
 	Actor_441 = ActorObjectInfo(441)
 	Actor_441:SetRenderType(1)
 	Actor_441.DisplayDesc.ModelId = 0
-	Actor_441.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_133.osgb"
+	Actor_441.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_133.osgb"
 	Actor_441.DisplayDesc.Outfit = ""
 	Actor_441.DisplayDesc.Weapon = ""
 	Actor_441.DisplayDesc.Mode = ""
@@ -18511,7 +18511,7 @@ function InitMap(environment)
 	Actor_441.PhysicDesc.SizeX = 0
 	Actor_441.PhysicDesc.SizeY = 0
 	Actor_441.PhysicDesc.SizeZ = 0
-	Actor_441.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_133.phy"
+	Actor_441.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_133.phy"
 	Actor_441:SetPhysicalActorType(1)
 	Actor_441:SetPhysicalShape(5)
 	Actor_441.ExtraInfo.Name = ""
@@ -18524,7 +18524,7 @@ function InitMap(environment)
 	Actor_442 = ActorObjectInfo(442)
 	Actor_442:SetRenderType(1)
 	Actor_442.DisplayDesc.ModelId = 0
-	Actor_442.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_134.osgb"
+	Actor_442.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_134.osgb"
 	Actor_442.DisplayDesc.Outfit = ""
 	Actor_442.DisplayDesc.Weapon = ""
 	Actor_442.DisplayDesc.Mode = ""
@@ -18553,7 +18553,7 @@ function InitMap(environment)
 	Actor_442.PhysicDesc.SizeX = 0
 	Actor_442.PhysicDesc.SizeY = 0
 	Actor_442.PhysicDesc.SizeZ = 0
-	Actor_442.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_134.phy"
+	Actor_442.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_134.phy"
 	Actor_442:SetPhysicalActorType(1)
 	Actor_442:SetPhysicalShape(5)
 	Actor_442.ExtraInfo.Name = ""
@@ -18566,7 +18566,7 @@ function InitMap(environment)
 	Actor_443 = ActorObjectInfo(443)
 	Actor_443:SetRenderType(1)
 	Actor_443.DisplayDesc.ModelId = 131164
-	Actor_443.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_135.osgb"
+	Actor_443.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_135.osgb"
 	Actor_443.DisplayDesc.Outfit = ""
 	Actor_443.DisplayDesc.Weapon = ""
 	Actor_443.DisplayDesc.Mode = ""
@@ -18595,7 +18595,7 @@ function InitMap(environment)
 	Actor_443.PhysicDesc.SizeX = 0
 	Actor_443.PhysicDesc.SizeY = 4.57367e-038
 	Actor_443.PhysicDesc.SizeZ = 2.38782e-039
-	Actor_443.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_135.phy"
+	Actor_443.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_135.phy"
 	Actor_443:SetPhysicalActorType(1)
 	Actor_443:SetPhysicalShape(5)
 	Actor_443.ExtraInfo.Name = ""
@@ -18608,7 +18608,7 @@ function InitMap(environment)
 	Actor_444 = ActorObjectInfo(444)
 	Actor_444:SetRenderType(1)
 	Actor_444.DisplayDesc.ModelId = 0
-	Actor_444.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_136.osgb"
+	Actor_444.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_136.osgb"
 	Actor_444.DisplayDesc.Outfit = ""
 	Actor_444.DisplayDesc.Weapon = ""
 	Actor_444.DisplayDesc.Mode = ""
@@ -18637,7 +18637,7 @@ function InitMap(environment)
 	Actor_444.PhysicDesc.SizeX = 0.01
 	Actor_444.PhysicDesc.SizeY = 0
 	Actor_444.PhysicDesc.SizeZ = 0
-	Actor_444.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_136.phy"
+	Actor_444.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_136.phy"
 	Actor_444:SetPhysicalActorType(1)
 	Actor_444:SetPhysicalShape(5)
 	Actor_444.ExtraInfo.Name = ""
@@ -18650,7 +18650,7 @@ function InitMap(environment)
 	Actor_445 = ActorObjectInfo(445)
 	Actor_445:SetRenderType(1)
 	Actor_445.DisplayDesc.ModelId = 144629820
-	Actor_445.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_137.osgb"
+	Actor_445.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_137.osgb"
 	Actor_445.DisplayDesc.Outfit = ""
 	Actor_445.DisplayDesc.Weapon = ""
 	Actor_445.DisplayDesc.Mode = ""
@@ -18679,7 +18679,7 @@ function InitMap(environment)
 	Actor_445.PhysicDesc.SizeX = 8.40779e-045
 	Actor_445.PhysicDesc.SizeY = 1.54143e-044
 	Actor_445.PhysicDesc.SizeZ = 2.57143e-039
-	Actor_445.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_137.phy"
+	Actor_445.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_137.phy"
 	Actor_445:SetPhysicalActorType(1)
 	Actor_445:SetPhysicalShape(5)
 	Actor_445.ExtraInfo.Name = ""
@@ -18692,7 +18692,7 @@ function InitMap(environment)
 	Actor_446 = ActorObjectInfo(446)
 	Actor_446:SetRenderType(1)
 	Actor_446.DisplayDesc.ModelId = 0
-	Actor_446.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_137.osgb"
+	Actor_446.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_137.osgb"
 	Actor_446.DisplayDesc.Outfit = ""
 	Actor_446.DisplayDesc.Weapon = ""
 	Actor_446.DisplayDesc.Mode = ""
@@ -18721,7 +18721,7 @@ function InitMap(environment)
 	Actor_446.PhysicDesc.SizeX = 0
 	Actor_446.PhysicDesc.SizeY = 1.875
 	Actor_446.PhysicDesc.SizeZ = 0
-	Actor_446.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_137.phy"
+	Actor_446.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_137.phy"
 	Actor_446:SetPhysicalActorType(1)
 	Actor_446:SetPhysicalShape(5)
 	Actor_446.ExtraInfo.Name = ""
@@ -18734,7 +18734,7 @@ function InitMap(environment)
 	Actor_447 = ActorObjectInfo(447)
 	Actor_447:SetRenderType(1)
 	Actor_447.DisplayDesc.ModelId = 227853216
-	Actor_447.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_137.osgb"
+	Actor_447.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_137.osgb"
 	Actor_447.DisplayDesc.Outfit = ""
 	Actor_447.DisplayDesc.Weapon = ""
 	Actor_447.DisplayDesc.Mode = ""
@@ -18763,7 +18763,7 @@ function InitMap(environment)
 	Actor_447.PhysicDesc.SizeX = 1.83755e-040
 	Actor_447.PhysicDesc.SizeY = 1.02319e-034
 	Actor_447.PhysicDesc.SizeZ = 1.31224e-038
-	Actor_447.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_137.phy"
+	Actor_447.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_137.phy"
 	Actor_447:SetPhysicalActorType(1)
 	Actor_447:SetPhysicalShape(5)
 	Actor_447.ExtraInfo.Name = ""
@@ -18776,7 +18776,7 @@ function InitMap(environment)
 	Actor_448 = ActorObjectInfo(448)
 	Actor_448:SetRenderType(1)
 	Actor_448.DisplayDesc.ModelId = 214576680
-	Actor_448.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_120.osgb"
+	Actor_448.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_120.osgb"
 	Actor_448.DisplayDesc.Outfit = ""
 	Actor_448.DisplayDesc.Weapon = ""
 	Actor_448.DisplayDesc.Mode = ""
@@ -18805,7 +18805,7 @@ function InitMap(environment)
 	Actor_448.PhysicDesc.SizeX = 1.7038e-023
 	Actor_448.PhysicDesc.SizeY = 0
 	Actor_448.PhysicDesc.SizeZ = 0
-	Actor_448.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_120.phy"
+	Actor_448.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_120.phy"
 	Actor_448:SetPhysicalActorType(1)
 	Actor_448:SetPhysicalShape(5)
 	Actor_448.ExtraInfo.Name = ""
@@ -18818,7 +18818,7 @@ function InitMap(environment)
 	Actor_449 = ActorObjectInfo(449)
 	Actor_449:SetRenderType(1)
 	Actor_449.DisplayDesc.ModelId = 499749704
-	Actor_449.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_119.osgb"
+	Actor_449.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_119.osgb"
 	Actor_449.DisplayDesc.Outfit = ""
 	Actor_449.DisplayDesc.Weapon = ""
 	Actor_449.DisplayDesc.Mode = ""
@@ -18847,7 +18847,7 @@ function InitMap(environment)
 	Actor_449.PhysicDesc.SizeX = 1.4013e-045
 	Actor_449.PhysicDesc.SizeY = 0
 	Actor_449.PhysicDesc.SizeZ = 9.21956e-041
-	Actor_449.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_119.phy"
+	Actor_449.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_119.phy"
 	Actor_449:SetPhysicalActorType(1)
 	Actor_449:SetPhysicalShape(5)
 	Actor_449.ExtraInfo.Name = ""
@@ -18860,7 +18860,7 @@ function InitMap(environment)
 	Actor_450 = ActorObjectInfo(450)
 	Actor_450:SetRenderType(1)
 	Actor_450.DisplayDesc.ModelId = 0
-	Actor_450.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_117.osgb"
+	Actor_450.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_117.osgb"
 	Actor_450.DisplayDesc.Outfit = ""
 	Actor_450.DisplayDesc.Weapon = ""
 	Actor_450.DisplayDesc.Mode = ""
@@ -18889,7 +18889,7 @@ function InitMap(environment)
 	Actor_450.PhysicDesc.SizeX = 0
 	Actor_450.PhysicDesc.SizeY = 0
 	Actor_450.PhysicDesc.SizeZ = 0
-	Actor_450.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_117.phy"
+	Actor_450.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_117.phy"
 	Actor_450:SetPhysicalActorType(1)
 	Actor_450:SetPhysicalShape(5)
 	Actor_450.ExtraInfo.Name = ""
@@ -18902,7 +18902,7 @@ function InitMap(environment)
 	Actor_451 = ActorObjectInfo(451)
 	Actor_451:SetRenderType(1)
 	Actor_451.DisplayDesc.ModelId = 131076
-	Actor_451.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_117.osgb"
+	Actor_451.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_117.osgb"
 	Actor_451.DisplayDesc.Outfit = ""
 	Actor_451.DisplayDesc.Weapon = ""
 	Actor_451.DisplayDesc.Mode = ""
@@ -18931,7 +18931,7 @@ function InitMap(environment)
 	Actor_451.PhysicDesc.SizeX = 0
 	Actor_451.PhysicDesc.SizeY = 0
 	Actor_451.PhysicDesc.SizeZ = 6.4703e-024
-	Actor_451.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_117.phy"
+	Actor_451.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_117.phy"
 	Actor_451:SetPhysicalActorType(1)
 	Actor_451:SetPhysicalShape(5)
 	Actor_451.ExtraInfo.Name = ""
@@ -18944,7 +18944,7 @@ function InitMap(environment)
 	Actor_452 = ActorObjectInfo(452)
 	Actor_452:SetRenderType(1)
 	Actor_452.DisplayDesc.ModelId = 0
-	Actor_452.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_119.osgb"
+	Actor_452.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_119.osgb"
 	Actor_452.DisplayDesc.Outfit = ""
 	Actor_452.DisplayDesc.Weapon = ""
 	Actor_452.DisplayDesc.Mode = ""
@@ -18973,7 +18973,7 @@ function InitMap(environment)
 	Actor_452.PhysicDesc.SizeX = 6.34439
 	Actor_452.PhysicDesc.SizeY = 1.4013e-045
 	Actor_452.PhysicDesc.SizeZ = 2.83713e-024
-	Actor_452.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_119.phy"
+	Actor_452.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_119.phy"
 	Actor_452:SetPhysicalActorType(1)
 	Actor_452:SetPhysicalShape(5)
 	Actor_452.ExtraInfo.Name = ""
@@ -18986,7 +18986,7 @@ function InitMap(environment)
 	Actor_453 = ActorObjectInfo(453)
 	Actor_453:SetRenderType(1)
 	Actor_453.DisplayDesc.ModelId = 131080
-	Actor_453.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_118.osgb"
+	Actor_453.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_118.osgb"
 	Actor_453.DisplayDesc.Outfit = ""
 	Actor_453.DisplayDesc.Weapon = ""
 	Actor_453.DisplayDesc.Mode = ""
@@ -19015,7 +19015,7 @@ function InitMap(environment)
 	Actor_453.PhysicDesc.SizeX = 0
 	Actor_453.PhysicDesc.SizeY = 0
 	Actor_453.PhysicDesc.SizeZ = 2.94729e-024
-	Actor_453.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_118.phy"
+	Actor_453.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_118.phy"
 	Actor_453:SetPhysicalActorType(1)
 	Actor_453:SetPhysicalShape(5)
 	Actor_453.ExtraInfo.Name = ""
@@ -19028,7 +19028,7 @@ function InitMap(environment)
 	Actor_454 = ActorObjectInfo(454)
 	Actor_454:SetRenderType(1)
 	Actor_454.DisplayDesc.ModelId = 131084
-	Actor_454.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_118.osgb"
+	Actor_454.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_118.osgb"
 	Actor_454.DisplayDesc.Outfit = ""
 	Actor_454.DisplayDesc.Weapon = ""
 	Actor_454.DisplayDesc.Mode = ""
@@ -19057,7 +19057,7 @@ function InitMap(environment)
 	Actor_454.PhysicDesc.SizeX = 0
 	Actor_454.PhysicDesc.SizeY = 0
 	Actor_454.PhysicDesc.SizeZ = 0
-	Actor_454.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_118.phy"
+	Actor_454.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_118.phy"
 	Actor_454:SetPhysicalActorType(1)
 	Actor_454:SetPhysicalShape(5)
 	Actor_454.ExtraInfo.Name = ""
@@ -19070,7 +19070,7 @@ function InitMap(environment)
 	Actor_455 = ActorObjectInfo(455)
 	Actor_455:SetRenderType(1)
 	Actor_455.DisplayDesc.ModelId = 437649888
-	Actor_455.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_117.osgb"
+	Actor_455.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_117.osgb"
 	Actor_455.DisplayDesc.Outfit = ""
 	Actor_455.DisplayDesc.Weapon = ""
 	Actor_455.DisplayDesc.Mode = ""
@@ -19099,7 +19099,7 @@ function InitMap(environment)
 	Actor_455.PhysicDesc.SizeX = 1.4013e-045
 	Actor_455.PhysicDesc.SizeY = 0
 	Actor_455.PhysicDesc.SizeZ = 9.21956e-041
-	Actor_455.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_117.phy"
+	Actor_455.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_117.phy"
 	Actor_455:SetPhysicalActorType(1)
 	Actor_455:SetPhysicalShape(5)
 	Actor_455.ExtraInfo.Name = ""
@@ -19112,7 +19112,7 @@ function InitMap(environment)
 	Actor_456 = ActorObjectInfo(456)
 	Actor_456:SetRenderType(1)
 	Actor_456.DisplayDesc.ModelId = 131088
-	Actor_456.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_119.osgb"
+	Actor_456.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_119.osgb"
 	Actor_456.DisplayDesc.Outfit = ""
 	Actor_456.DisplayDesc.Weapon = ""
 	Actor_456.DisplayDesc.Mode = ""
@@ -19141,7 +19141,7 @@ function InitMap(environment)
 	Actor_456.PhysicDesc.SizeX = 0
 	Actor_456.PhysicDesc.SizeY = 0
 	Actor_456.PhysicDesc.SizeZ = 0
-	Actor_456.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_119.phy"
+	Actor_456.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_119.phy"
 	Actor_456:SetPhysicalActorType(1)
 	Actor_456:SetPhysicalShape(5)
 	Actor_456.ExtraInfo.Name = ""
@@ -19154,7 +19154,7 @@ function InitMap(environment)
 	Actor_457 = ActorObjectInfo(457)
 	Actor_457:SetRenderType(1)
 	Actor_457.DisplayDesc.ModelId = 0
-	Actor_457.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_118.osgb"
+	Actor_457.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_118.osgb"
 	Actor_457.DisplayDesc.Outfit = ""
 	Actor_457.DisplayDesc.Weapon = ""
 	Actor_457.DisplayDesc.Mode = ""
@@ -19183,7 +19183,7 @@ function InitMap(environment)
 	Actor_457.PhysicDesc.SizeX = 0
 	Actor_457.PhysicDesc.SizeY = 0
 	Actor_457.PhysicDesc.SizeZ = 0
-	Actor_457.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_118.phy"
+	Actor_457.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_118.phy"
 	Actor_457:SetPhysicalActorType(1)
 	Actor_457:SetPhysicalShape(5)
 	Actor_457.ExtraInfo.Name = ""
@@ -19196,7 +19196,7 @@ function InitMap(environment)
 	Actor_458 = ActorObjectInfo(458)
 	Actor_458:SetRenderType(1)
 	Actor_458.DisplayDesc.ModelId = 131074
-	Actor_458.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_118.osgb"
+	Actor_458.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_118.osgb"
 	Actor_458.DisplayDesc.Outfit = ""
 	Actor_458.DisplayDesc.Weapon = ""
 	Actor_458.DisplayDesc.Mode = ""
@@ -19225,7 +19225,7 @@ function InitMap(environment)
 	Actor_458.PhysicDesc.SizeX = 4.57352e-038
 	Actor_458.PhysicDesc.SizeY = 6.88692e-031
 	Actor_458.PhysicDesc.SizeZ = 1.83675e-040
-	Actor_458.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_118.phy"
+	Actor_458.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_118.phy"
 	Actor_458:SetPhysicalActorType(1)
 	Actor_458:SetPhysicalShape(5)
 	Actor_458.ExtraInfo.Name = ""
@@ -19238,7 +19238,7 @@ function InitMap(environment)
 	Actor_459 = ActorObjectInfo(459)
 	Actor_459:SetRenderType(1)
 	Actor_459.DisplayDesc.ModelId = 39
-	Actor_459.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_118.osgb"
+	Actor_459.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_118.osgb"
 	Actor_459.DisplayDesc.Outfit = ""
 	Actor_459.DisplayDesc.Weapon = ""
 	Actor_459.DisplayDesc.Mode = ""
@@ -19267,7 +19267,7 @@ function InitMap(environment)
 	Actor_459.PhysicDesc.SizeX = 3.40282e+038
 	Actor_459.PhysicDesc.SizeY = 3.40282e+038
 	Actor_459.PhysicDesc.SizeZ = -3.40282e+038
-	Actor_459.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_118.phy"
+	Actor_459.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_118.phy"
 	Actor_459:SetPhysicalActorType(1)
 	Actor_459:SetPhysicalShape(5)
 	Actor_459.ExtraInfo.Name = ""
@@ -19280,7 +19280,7 @@ function InitMap(environment)
 	Actor_460 = ActorObjectInfo(460)
 	Actor_460:SetRenderType(1)
 	Actor_460.DisplayDesc.ModelId = 131077
-	Actor_460.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_119.osgb"
+	Actor_460.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_119.osgb"
 	Actor_460.DisplayDesc.Outfit = ""
 	Actor_460.DisplayDesc.Weapon = ""
 	Actor_460.DisplayDesc.Mode = ""
@@ -19309,7 +19309,7 @@ function InitMap(environment)
 	Actor_460.PhysicDesc.SizeX = -6.15625
 	Actor_460.PhysicDesc.SizeY = 5.97266
 	Actor_460.PhysicDesc.SizeZ = 5.74414
-	Actor_460.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_119.phy"
+	Actor_460.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_119.phy"
 	Actor_460:SetPhysicalActorType(1)
 	Actor_460:SetPhysicalShape(5)
 	Actor_460.ExtraInfo.Name = ""
@@ -19322,7 +19322,7 @@ function InitMap(environment)
 	Actor_461 = ActorObjectInfo(461)
 	Actor_461:SetRenderType(1)
 	Actor_461.DisplayDesc.ModelId = 131085
-	Actor_461.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_138.osgb"
+	Actor_461.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_138.osgb"
 	Actor_461.DisplayDesc.Outfit = ""
 	Actor_461.DisplayDesc.Weapon = ""
 	Actor_461.DisplayDesc.Mode = ""
@@ -19351,7 +19351,7 @@ function InitMap(environment)
 	Actor_461.PhysicDesc.SizeX = 9.8836e-031
 	Actor_461.PhysicDesc.SizeY = 4.57367e-038
 	Actor_461.PhysicDesc.SizeZ = 2.5714e-039
-	Actor_461.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_138.phy"
+	Actor_461.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_138.phy"
 	Actor_461:SetPhysicalActorType(1)
 	Actor_461:SetPhysicalShape(5)
 	Actor_461.ExtraInfo.Name = ""
@@ -19364,7 +19364,7 @@ function InitMap(environment)
 	Actor_462 = ActorObjectInfo(462)
 	Actor_462:SetRenderType(1)
 	Actor_462.DisplayDesc.ModelId = 131161
-	Actor_462.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.osgb"
+	Actor_462.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.osgb"
 	Actor_462.DisplayDesc.Outfit = ""
 	Actor_462.DisplayDesc.Weapon = ""
 	Actor_462.DisplayDesc.Mode = ""
@@ -19393,7 +19393,7 @@ function InitMap(environment)
 	Actor_462.PhysicDesc.SizeX = 0
 	Actor_462.PhysicDesc.SizeY = 1
 	Actor_462.PhysicDesc.SizeZ = 0
-	Actor_462.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.phy"
+	Actor_462.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.phy"
 	Actor_462:SetPhysicalActorType(1)
 	Actor_462:SetPhysicalShape(5)
 	Actor_462.ExtraInfo.Name = ""
@@ -19406,7 +19406,7 @@ function InitMap(environment)
 	Actor_463 = ActorObjectInfo(463)
 	Actor_463:SetRenderType(1)
 	Actor_463.DisplayDesc.ModelId = 0
-	Actor_463.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.osgb"
+	Actor_463.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.osgb"
 	Actor_463.DisplayDesc.Outfit = ""
 	Actor_463.DisplayDesc.Weapon = ""
 	Actor_463.DisplayDesc.Mode = ""
@@ -19435,7 +19435,7 @@ function InitMap(environment)
 	Actor_463.PhysicDesc.SizeX = -3.40282e+038
 	Actor_463.PhysicDesc.SizeY = 0
 	Actor_463.PhysicDesc.SizeZ = 0.298828
-	Actor_463.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.phy"
+	Actor_463.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.phy"
 	Actor_463:SetPhysicalActorType(1)
 	Actor_463:SetPhysicalShape(5)
 	Actor_463.ExtraInfo.Name = ""
@@ -19448,7 +19448,7 @@ function InitMap(environment)
 	Actor_464 = ActorObjectInfo(464)
 	Actor_464:SetRenderType(1)
 	Actor_464.DisplayDesc.ModelId = -1056198656
-	Actor_464.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.osgb"
+	Actor_464.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.osgb"
 	Actor_464.DisplayDesc.Outfit = ""
 	Actor_464.DisplayDesc.Weapon = ""
 	Actor_464.DisplayDesc.Mode = ""
@@ -19477,7 +19477,7 @@ function InitMap(environment)
 	Actor_464.PhysicDesc.SizeX = 6.66211
 	Actor_464.PhysicDesc.SizeY = -8.96094
 	Actor_464.PhysicDesc.SizeZ = 1.37695
-	Actor_464.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.phy"
+	Actor_464.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.phy"
 	Actor_464:SetPhysicalActorType(1)
 	Actor_464:SetPhysicalShape(5)
 	Actor_464.ExtraInfo.Name = ""
@@ -19490,7 +19490,7 @@ function InitMap(environment)
 	Actor_465 = ActorObjectInfo(465)
 	Actor_465:SetRenderType(1)
 	Actor_465.DisplayDesc.ModelId = 1065353216
-	Actor_465.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.osgb"
+	Actor_465.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.osgb"
 	Actor_465.DisplayDesc.Outfit = ""
 	Actor_465.DisplayDesc.Weapon = ""
 	Actor_465.DisplayDesc.Mode = ""
@@ -19519,7 +19519,7 @@ function InitMap(environment)
 	Actor_465.PhysicDesc.SizeX = 1
 	Actor_465.PhysicDesc.SizeY = 1
 	Actor_465.PhysicDesc.SizeZ = 1
-	Actor_465.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.phy"
+	Actor_465.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.phy"
 	Actor_465:SetPhysicalActorType(1)
 	Actor_465:SetPhysicalShape(5)
 	Actor_465.ExtraInfo.Name = ""
@@ -19532,7 +19532,7 @@ function InitMap(environment)
 	Actor_466 = ActorObjectInfo(466)
 	Actor_466:SetRenderType(1)
 	Actor_466.DisplayDesc.ModelId = 0
-	Actor_466.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_24.osgb"
+	Actor_466.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_24.osgb"
 	Actor_466.DisplayDesc.Outfit = ""
 	Actor_466.DisplayDesc.Weapon = ""
 	Actor_466.DisplayDesc.Mode = ""
@@ -19561,7 +19561,7 @@ function InitMap(environment)
 	Actor_466.PhysicDesc.SizeX = 0
 	Actor_466.PhysicDesc.SizeY = 0
 	Actor_466.PhysicDesc.SizeZ = 0
-	Actor_466.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_24.phy"
+	Actor_466.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_24.phy"
 	Actor_466:SetPhysicalActorType(1)
 	Actor_466:SetPhysicalShape(5)
 	Actor_466.ExtraInfo.Name = ""
@@ -19574,7 +19574,7 @@ function InitMap(environment)
 	Actor_467 = ActorObjectInfo(467)
 	Actor_467:SetRenderType(1)
 	Actor_467.DisplayDesc.ModelId = 0
-	Actor_467.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_23.osgb"
+	Actor_467.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_23.osgb"
 	Actor_467.DisplayDesc.Outfit = ""
 	Actor_467.DisplayDesc.Weapon = ""
 	Actor_467.DisplayDesc.Mode = ""
@@ -19603,7 +19603,7 @@ function InitMap(environment)
 	Actor_467.PhysicDesc.SizeX = 0
 	Actor_467.PhysicDesc.SizeY = 0
 	Actor_467.PhysicDesc.SizeZ = 0
-	Actor_467.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_23.phy"
+	Actor_467.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_23.phy"
 	Actor_467:SetPhysicalActorType(1)
 	Actor_467:SetPhysicalShape(5)
 	Actor_467.ExtraInfo.Name = ""
@@ -19616,7 +19616,7 @@ function InitMap(environment)
 	Actor_468 = ActorObjectInfo(468)
 	Actor_468:SetRenderType(1)
 	Actor_468.DisplayDesc.ModelId = 0
-	Actor_468.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_22.osgb"
+	Actor_468.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_22.osgb"
 	Actor_468.DisplayDesc.Outfit = ""
 	Actor_468.DisplayDesc.Weapon = ""
 	Actor_468.DisplayDesc.Mode = ""
@@ -19645,7 +19645,7 @@ function InitMap(environment)
 	Actor_468.PhysicDesc.SizeX = 0
 	Actor_468.PhysicDesc.SizeY = -6.90039
 	Actor_468.PhysicDesc.SizeZ = 35.1563
-	Actor_468.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_22.phy"
+	Actor_468.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_22.phy"
 	Actor_468:SetPhysicalActorType(1)
 	Actor_468:SetPhysicalShape(5)
 	Actor_468.ExtraInfo.Name = ""
@@ -19658,7 +19658,7 @@ function InitMap(environment)
 	Actor_469 = ActorObjectInfo(469)
 	Actor_469:SetRenderType(1)
 	Actor_469.DisplayDesc.ModelId = 144629820
-	Actor_469.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_469.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_469.DisplayDesc.Outfit = ""
 	Actor_469.DisplayDesc.Weapon = ""
 	Actor_469.DisplayDesc.Mode = ""
@@ -19687,7 +19687,7 @@ function InitMap(environment)
 	Actor_469.PhysicDesc.SizeX = 3.36312e-044
 	Actor_469.PhysicDesc.SizeY = 3.50325e-044
 	Actor_469.PhysicDesc.SizeZ = 2.57149e-039
-	Actor_469.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_469.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_469:SetPhysicalActorType(1)
 	Actor_469:SetPhysicalShape(5)
 	Actor_469.ExtraInfo.Name = ""
@@ -19700,7 +19700,7 @@ function InitMap(environment)
 	Actor_470 = ActorObjectInfo(470)
 	Actor_470:SetRenderType(1)
 	Actor_470.DisplayDesc.ModelId = 0
-	Actor_470.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_470.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_470.DisplayDesc.Outfit = ""
 	Actor_470.DisplayDesc.Weapon = ""
 	Actor_470.DisplayDesc.Mode = ""
@@ -19729,7 +19729,7 @@ function InitMap(environment)
 	Actor_470.PhysicDesc.SizeX = 1.4013e-044
 	Actor_470.PhysicDesc.SizeY = 0
 	Actor_470.PhysicDesc.SizeZ = 9.18341e-041
-	Actor_470.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_470.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_470:SetPhysicalActorType(1)
 	Actor_470:SetPhysicalShape(5)
 	Actor_470.ExtraInfo.Name = ""
@@ -19742,7 +19742,7 @@ function InitMap(environment)
 	Actor_471 = ActorObjectInfo(471)
 	Actor_471:SetRenderType(1)
 	Actor_471.DisplayDesc.ModelId = 131074
-	Actor_471.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_471.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_471.DisplayDesc.Outfit = ""
 	Actor_471.DisplayDesc.Weapon = ""
 	Actor_471.DisplayDesc.Mode = ""
@@ -19771,7 +19771,7 @@ function InitMap(environment)
 	Actor_471.PhysicDesc.SizeX = 0
 	Actor_471.PhysicDesc.SizeY = 2.10195e-044
 	Actor_471.PhysicDesc.SizeZ = 2.8026e-045
-	Actor_471.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_471.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_471:SetPhysicalActorType(1)
 	Actor_471:SetPhysicalShape(5)
 	Actor_471.ExtraInfo.Name = ""
@@ -19784,7 +19784,7 @@ function InitMap(environment)
 	Actor_472 = ActorObjectInfo(472)
 	Actor_472:SetRenderType(1)
 	Actor_472.DisplayDesc.ModelId = 0
-	Actor_472.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_472.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_472.DisplayDesc.Outfit = ""
 	Actor_472.DisplayDesc.Weapon = ""
 	Actor_472.DisplayDesc.Mode = ""
@@ -19813,7 +19813,7 @@ function InitMap(environment)
 	Actor_472.PhysicDesc.SizeX = 0
 	Actor_472.PhysicDesc.SizeY = 0
 	Actor_472.PhysicDesc.SizeZ = 0
-	Actor_472.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_472.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_472:SetPhysicalActorType(1)
 	Actor_472:SetPhysicalShape(5)
 	Actor_472.ExtraInfo.Name = ""
@@ -19826,7 +19826,7 @@ function InitMap(environment)
 	Actor_473 = ActorObjectInfo(473)
 	Actor_473:SetRenderType(1)
 	Actor_473.DisplayDesc.ModelId = 0
-	Actor_473.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_473.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_473.DisplayDesc.Outfit = ""
 	Actor_473.DisplayDesc.Weapon = ""
 	Actor_473.DisplayDesc.Mode = ""
@@ -19855,7 +19855,7 @@ function InitMap(environment)
 	Actor_473.PhysicDesc.SizeX = 0
 	Actor_473.PhysicDesc.SizeY = 0
 	Actor_473.PhysicDesc.SizeZ = 0
-	Actor_473.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_473.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_473:SetPhysicalActorType(1)
 	Actor_473:SetPhysicalShape(5)
 	Actor_473.ExtraInfo.Name = ""
@@ -19868,7 +19868,7 @@ function InitMap(environment)
 	Actor_474 = ActorObjectInfo(474)
 	Actor_474:SetRenderType(1)
 	Actor_474.DisplayDesc.ModelId = 3
-	Actor_474.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_474.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_474.DisplayDesc.Outfit = ""
 	Actor_474.DisplayDesc.Weapon = ""
 	Actor_474.DisplayDesc.Mode = ""
@@ -19897,7 +19897,7 @@ function InitMap(environment)
 	Actor_474.PhysicDesc.SizeX = 0
 	Actor_474.PhysicDesc.SizeY = 0
 	Actor_474.PhysicDesc.SizeZ = 0
-	Actor_474.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_474.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_474:SetPhysicalActorType(1)
 	Actor_474:SetPhysicalShape(5)
 	Actor_474.ExtraInfo.Name = ""
@@ -19910,7 +19910,7 @@ function InitMap(environment)
 	Actor_475 = ActorObjectInfo(475)
 	Actor_475:SetRenderType(1)
 	Actor_475.DisplayDesc.ModelId = 131076
-	Actor_475.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_475.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_475.DisplayDesc.Outfit = ""
 	Actor_475.DisplayDesc.Weapon = ""
 	Actor_475.DisplayDesc.Mode = ""
@@ -19939,7 +19939,7 @@ function InitMap(environment)
 	Actor_475.PhysicDesc.SizeX = 1.81693e-031
 	Actor_475.PhysicDesc.SizeY = 3.0134e-023
 	Actor_475.PhysicDesc.SizeZ = 0.919189
-	Actor_475.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_475.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_475:SetPhysicalActorType(1)
 	Actor_475:SetPhysicalShape(5)
 	Actor_475.ExtraInfo.Name = ""
@@ -19952,7 +19952,7 @@ function InitMap(environment)
 	Actor_476 = ActorObjectInfo(476)
 	Actor_476:SetRenderType(1)
 	Actor_476.DisplayDesc.ModelId = 131166
-	Actor_476.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_476.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_476.DisplayDesc.Outfit = ""
 	Actor_476.DisplayDesc.Weapon = ""
 	Actor_476.DisplayDesc.Mode = ""
@@ -19981,7 +19981,7 @@ function InitMap(environment)
 	Actor_476.PhysicDesc.SizeX = 2.29592e-039
 	Actor_476.PhysicDesc.SizeY = 1.05325e-034
 	Actor_476.PhysicDesc.SizeZ = 7.52805e-031
-	Actor_476.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_476.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_476:SetPhysicalActorType(1)
 	Actor_476:SetPhysicalShape(5)
 	Actor_476.ExtraInfo.Name = ""
@@ -19994,7 +19994,7 @@ function InitMap(environment)
 	Actor_477 = ActorObjectInfo(477)
 	Actor_477:SetRenderType(1)
 	Actor_477.DisplayDesc.ModelId = 0
-	Actor_477.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_477.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_477.DisplayDesc.Outfit = ""
 	Actor_477.DisplayDesc.Weapon = ""
 	Actor_477.DisplayDesc.Mode = ""
@@ -20023,7 +20023,7 @@ function InitMap(environment)
 	Actor_477.PhysicDesc.SizeX = 9.27267e-024
 	Actor_477.PhysicDesc.SizeY = 0
 	Actor_477.PhysicDesc.SizeZ = 0
-	Actor_477.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_477.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_477:SetPhysicalActorType(1)
 	Actor_477:SetPhysicalShape(5)
 	Actor_477.ExtraInfo.Name = ""
@@ -20036,7 +20036,7 @@ function InitMap(environment)
 	Actor_478 = ActorObjectInfo(478)
 	Actor_478:SetRenderType(1)
 	Actor_478.DisplayDesc.ModelId = 0
-	Actor_478.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_478.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_478.DisplayDesc.Outfit = ""
 	Actor_478.DisplayDesc.Weapon = ""
 	Actor_478.DisplayDesc.Mode = ""
@@ -20065,7 +20065,7 @@ function InitMap(environment)
 	Actor_478.PhysicDesc.SizeX = 0
 	Actor_478.PhysicDesc.SizeY = 0
 	Actor_478.PhysicDesc.SizeZ = 0
-	Actor_478.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_478.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_478:SetPhysicalActorType(1)
 	Actor_478:SetPhysicalShape(5)
 	Actor_478.ExtraInfo.Name = ""
@@ -20078,7 +20078,7 @@ function InitMap(environment)
 	Actor_479 = ActorObjectInfo(479)
 	Actor_479:SetRenderType(1)
 	Actor_479.DisplayDesc.ModelId = 0
-	Actor_479.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_479.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_479.DisplayDesc.Outfit = ""
 	Actor_479.DisplayDesc.Weapon = ""
 	Actor_479.DisplayDesc.Mode = ""
@@ -20107,7 +20107,7 @@ function InitMap(environment)
 	Actor_479.PhysicDesc.SizeX = 0
 	Actor_479.PhysicDesc.SizeY = 0
 	Actor_479.PhysicDesc.SizeZ = 0
-	Actor_479.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_479.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_479:SetPhysicalActorType(1)
 	Actor_479:SetPhysicalShape(5)
 	Actor_479.ExtraInfo.Name = ""
@@ -20120,7 +20120,7 @@ function InitMap(environment)
 	Actor_480 = ActorObjectInfo(480)
 	Actor_480:SetRenderType(1)
 	Actor_480.DisplayDesc.ModelId = 0
-	Actor_480.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_480.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_480.DisplayDesc.Outfit = ""
 	Actor_480.DisplayDesc.Weapon = ""
 	Actor_480.DisplayDesc.Mode = ""
@@ -20149,7 +20149,7 @@ function InitMap(environment)
 	Actor_480.PhysicDesc.SizeX = 1.4013e-044
 	Actor_480.PhysicDesc.SizeY = 4.2039e-045
 	Actor_480.PhysicDesc.SizeZ = 7.18306e-042
-	Actor_480.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_480.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_480:SetPhysicalActorType(1)
 	Actor_480:SetPhysicalShape(5)
 	Actor_480.ExtraInfo.Name = ""
@@ -20162,7 +20162,7 @@ function InitMap(environment)
 	Actor_481 = ActorObjectInfo(481)
 	Actor_481:SetRenderType(1)
 	Actor_481.DisplayDesc.ModelId = 1065353216
-	Actor_481.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_481.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_481.DisplayDesc.Outfit = ""
 	Actor_481.DisplayDesc.Weapon = ""
 	Actor_481.DisplayDesc.Mode = ""
@@ -20191,7 +20191,7 @@ function InitMap(environment)
 	Actor_481.PhysicDesc.SizeX = 1
 	Actor_481.PhysicDesc.SizeY = 1
 	Actor_481.PhysicDesc.SizeZ = 1
-	Actor_481.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_481.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_481:SetPhysicalActorType(1)
 	Actor_481:SetPhysicalShape(5)
 	Actor_481.ExtraInfo.Name = ""
@@ -20204,7 +20204,7 @@ function InitMap(environment)
 	Actor_482 = ActorObjectInfo(482)
 	Actor_482:SetRenderType(1)
 	Actor_482.DisplayDesc.ModelId = 0
-	Actor_482.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_482.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_482.DisplayDesc.Outfit = ""
 	Actor_482.DisplayDesc.Weapon = ""
 	Actor_482.DisplayDesc.Mode = ""
@@ -20233,7 +20233,7 @@ function InitMap(environment)
 	Actor_482.PhysicDesc.SizeX = 2.8026e-045
 	Actor_482.PhysicDesc.SizeY = 4.2039e-045
 	Actor_482.PhysicDesc.SizeZ = 5.60519e-045
-	Actor_482.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_482.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_482:SetPhysicalActorType(1)
 	Actor_482:SetPhysicalShape(5)
 	Actor_482.ExtraInfo.Name = ""
@@ -20246,7 +20246,7 @@ function InitMap(environment)
 	Actor_483 = ActorObjectInfo(483)
 	Actor_483:SetRenderType(1)
 	Actor_483.DisplayDesc.ModelId = 0
-	Actor_483.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_483.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_483.DisplayDesc.Outfit = ""
 	Actor_483.DisplayDesc.Weapon = ""
 	Actor_483.DisplayDesc.Mode = ""
@@ -20275,7 +20275,7 @@ function InitMap(environment)
 	Actor_483.PhysicDesc.SizeX = 0
 	Actor_483.PhysicDesc.SizeY = 0
 	Actor_483.PhysicDesc.SizeZ = 0
-	Actor_483.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_483.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_483:SetPhysicalActorType(1)
 	Actor_483:SetPhysicalShape(5)
 	Actor_483.ExtraInfo.Name = ""
@@ -20288,7 +20288,7 @@ function InitMap(environment)
 	Actor_484 = ActorObjectInfo(484)
 	Actor_484:SetRenderType(1)
 	Actor_484.DisplayDesc.ModelId = 0
-	Actor_484.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_484.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_484.DisplayDesc.Outfit = ""
 	Actor_484.DisplayDesc.Weapon = ""
 	Actor_484.DisplayDesc.Mode = ""
@@ -20317,7 +20317,7 @@ function InitMap(environment)
 	Actor_484.PhysicDesc.SizeX = 1
 	Actor_484.PhysicDesc.SizeY = 0
 	Actor_484.PhysicDesc.SizeZ = 0
-	Actor_484.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_484.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_484:SetPhysicalActorType(1)
 	Actor_484:SetPhysicalShape(5)
 	Actor_484.ExtraInfo.Name = ""
@@ -20330,7 +20330,7 @@ function InitMap(environment)
 	Actor_485 = ActorObjectInfo(485)
 	Actor_485:SetRenderType(1)
 	Actor_485.DisplayDesc.ModelId = 408484084
-	Actor_485.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.osgb"
+	Actor_485.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.osgb"
 	Actor_485.DisplayDesc.Outfit = ""
 	Actor_485.DisplayDesc.Weapon = ""
 	Actor_485.DisplayDesc.Mode = ""
@@ -20359,7 +20359,7 @@ function InitMap(environment)
 	Actor_485.PhysicDesc.SizeX = 3.26238e-024
 	Actor_485.PhysicDesc.SizeY = 3.11134e-031
 	Actor_485.PhysicDesc.SizeZ = 0
-	Actor_485.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_6.phy"
+	Actor_485.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_6.phy"
 	Actor_485:SetPhysicalActorType(1)
 	Actor_485:SetPhysicalShape(5)
 	Actor_485.ExtraInfo.Name = ""
@@ -20372,7 +20372,7 @@ function InitMap(environment)
 	Actor_486 = ActorObjectInfo(486)
 	Actor_486:SetRenderType(1)
 	Actor_486.DisplayDesc.ModelId = 6
-	Actor_486.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_7.osgb"
+	Actor_486.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_7.osgb"
 	Actor_486.DisplayDesc.Outfit = ""
 	Actor_486.DisplayDesc.Weapon = ""
 	Actor_486.DisplayDesc.Mode = ""
@@ -20401,7 +20401,7 @@ function InitMap(environment)
 	Actor_486.PhysicDesc.SizeX = 1.68555
 	Actor_486.PhysicDesc.SizeY = -0.265625
 	Actor_486.PhysicDesc.SizeZ = 0.0878906
-	Actor_486.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_7.phy"
+	Actor_486.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_7.phy"
 	Actor_486:SetPhysicalActorType(1)
 	Actor_486:SetPhysicalShape(5)
 	Actor_486.ExtraInfo.Name = ""
@@ -20414,7 +20414,7 @@ function InitMap(environment)
 	Actor_487 = ActorObjectInfo(487)
 	Actor_487:SetRenderType(1)
 	Actor_487.DisplayDesc.ModelId = 0
-	Actor_487.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_8.osgb"
+	Actor_487.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_8.osgb"
 	Actor_487.DisplayDesc.Outfit = ""
 	Actor_487.DisplayDesc.Weapon = ""
 	Actor_487.DisplayDesc.Mode = ""
@@ -20443,7 +20443,7 @@ function InitMap(environment)
 	Actor_487.PhysicDesc.SizeX = 0
 	Actor_487.PhysicDesc.SizeY = 0
 	Actor_487.PhysicDesc.SizeZ = 0
-	Actor_487.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_8.phy"
+	Actor_487.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_8.phy"
 	Actor_487:SetPhysicalActorType(1)
 	Actor_487:SetPhysicalShape(5)
 	Actor_487.ExtraInfo.Name = ""
@@ -20456,7 +20456,7 @@ function InitMap(environment)
 	Actor_488 = ActorObjectInfo(488)
 	Actor_488:SetRenderType(1)
 	Actor_488.DisplayDesc.ModelId = 0
-	Actor_488.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_9.osgb"
+	Actor_488.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_9.osgb"
 	Actor_488.DisplayDesc.Outfit = ""
 	Actor_488.DisplayDesc.Weapon = ""
 	Actor_488.DisplayDesc.Mode = ""
@@ -20485,7 +20485,7 @@ function InitMap(environment)
 	Actor_488.PhysicDesc.SizeX = 0
 	Actor_488.PhysicDesc.SizeY = 0
 	Actor_488.PhysicDesc.SizeZ = 0
-	Actor_488.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_9.phy"
+	Actor_488.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_9.phy"
 	Actor_488:SetPhysicalActorType(1)
 	Actor_488:SetPhysicalShape(5)
 	Actor_488.ExtraInfo.Name = ""
@@ -20498,7 +20498,7 @@ function InitMap(environment)
 	Actor_489 = ActorObjectInfo(489)
 	Actor_489:SetRenderType(1)
 	Actor_489.DisplayDesc.ModelId = 414604640
-	Actor_489.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_139.osgb"
+	Actor_489.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_139.osgb"
 	Actor_489.DisplayDesc.Outfit = ""
 	Actor_489.DisplayDesc.Weapon = ""
 	Actor_489.DisplayDesc.Mode = ""
@@ -20527,7 +20527,7 @@ function InitMap(environment)
 	Actor_489.PhysicDesc.SizeX = 3.40282e+038
 	Actor_489.PhysicDesc.SizeY = 3.40282e+038
 	Actor_489.PhysicDesc.SizeZ = -3.40282e+038
-	Actor_489.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_139.phy"
+	Actor_489.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_139.phy"
 	Actor_489:SetPhysicalActorType(1)
 	Actor_489:SetPhysicalShape(5)
 	Actor_489.ExtraInfo.Name = ""
@@ -20540,7 +20540,7 @@ function InitMap(environment)
 	Actor_490 = ActorObjectInfo(490)
 	Actor_490:SetRenderType(1)
 	Actor_490.DisplayDesc.ModelId = 144541660
-	Actor_490.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_139.osgb"
+	Actor_490.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_139.osgb"
 	Actor_490.DisplayDesc.Outfit = ""
 	Actor_490.DisplayDesc.Weapon = ""
 	Actor_490.DisplayDesc.Mode = ""
@@ -20569,7 +20569,7 @@ function InitMap(environment)
 	Actor_490.PhysicDesc.SizeX = 0.01
 	Actor_490.PhysicDesc.SizeY = 0
 	Actor_490.PhysicDesc.SizeZ = 0
-	Actor_490.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_139.phy"
+	Actor_490.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_139.phy"
 	Actor_490:SetPhysicalActorType(1)
 	Actor_490:SetPhysicalShape(5)
 	Actor_490.ExtraInfo.Name = ""
@@ -20582,7 +20582,7 @@ function InitMap(environment)
 	Actor_491 = ActorObjectInfo(491)
 	Actor_491:SetRenderType(1)
 	Actor_491.DisplayDesc.ModelId = 131074
-	Actor_491.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_139.osgb"
+	Actor_491.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_139.osgb"
 	Actor_491.DisplayDesc.Outfit = ""
 	Actor_491.DisplayDesc.Weapon = ""
 	Actor_491.DisplayDesc.Mode = ""
@@ -20611,7 +20611,7 @@ function InitMap(environment)
 	Actor_491.PhysicDesc.SizeX = 0
 	Actor_491.PhysicDesc.SizeY = 0
 	Actor_491.PhysicDesc.SizeZ = 0
-	Actor_491.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_139.phy"
+	Actor_491.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_139.phy"
 	Actor_491:SetPhysicalActorType(1)
 	Actor_491:SetPhysicalShape(5)
 	Actor_491.ExtraInfo.Name = ""
@@ -20624,7 +20624,7 @@ function InitMap(environment)
 	Actor_492 = ActorObjectInfo(492)
 	Actor_492:SetRenderType(1)
 	Actor_492.DisplayDesc.ModelId = 0
-	Actor_492.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_140.osgb"
+	Actor_492.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_140.osgb"
 	Actor_492.DisplayDesc.Outfit = ""
 	Actor_492.DisplayDesc.Weapon = ""
 	Actor_492.DisplayDesc.Mode = ""
@@ -20653,7 +20653,7 @@ function InitMap(environment)
 	Actor_492.PhysicDesc.SizeX = 1.4013e-044
 	Actor_492.PhysicDesc.SizeY = 4.2039e-045
 	Actor_492.PhysicDesc.SizeZ = 7.18306e-042
-	Actor_492.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_140.phy"
+	Actor_492.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_140.phy"
 	Actor_492:SetPhysicalActorType(1)
 	Actor_492:SetPhysicalShape(5)
 	Actor_492.ExtraInfo.Name = ""
@@ -20666,7 +20666,7 @@ function InitMap(environment)
 	Actor_493 = ActorObjectInfo(493)
 	Actor_493:SetRenderType(1)
 	Actor_493.DisplayDesc.ModelId = 0
-	Actor_493.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_139.osgb"
+	Actor_493.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_139.osgb"
 	Actor_493.DisplayDesc.Outfit = ""
 	Actor_493.DisplayDesc.Weapon = ""
 	Actor_493.DisplayDesc.Mode = ""
@@ -20695,7 +20695,7 @@ function InitMap(environment)
 	Actor_493.PhysicDesc.SizeX = 0
 	Actor_493.PhysicDesc.SizeY = 0
 	Actor_493.PhysicDesc.SizeZ = 0
-	Actor_493.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_139.phy"
+	Actor_493.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_139.phy"
 	Actor_493:SetPhysicalActorType(1)
 	Actor_493:SetPhysicalShape(5)
 	Actor_493.ExtraInfo.Name = ""
@@ -20708,7 +20708,7 @@ function InitMap(environment)
 	Actor_494 = ActorObjectInfo(494)
 	Actor_494:SetRenderType(1)
 	Actor_494.DisplayDesc.ModelId = 0
-	Actor_494.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_139.osgb"
+	Actor_494.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_139.osgb"
 	Actor_494.DisplayDesc.Outfit = ""
 	Actor_494.DisplayDesc.Weapon = ""
 	Actor_494.DisplayDesc.Mode = ""
@@ -20737,7 +20737,7 @@ function InitMap(environment)
 	Actor_494.PhysicDesc.SizeX = 0
 	Actor_494.PhysicDesc.SizeY = 0
 	Actor_494.PhysicDesc.SizeZ = 0
-	Actor_494.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_139.phy"
+	Actor_494.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_139.phy"
 	Actor_494:SetPhysicalActorType(1)
 	Actor_494:SetPhysicalShape(5)
 	Actor_494.ExtraInfo.Name = ""
@@ -20750,7 +20750,7 @@ function InitMap(environment)
 	Actor_495 = ActorObjectInfo(495)
 	Actor_495:SetRenderType(1)
 	Actor_495.DisplayDesc.ModelId = 0
-	Actor_495.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_139.osgb"
+	Actor_495.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_139.osgb"
 	Actor_495.DisplayDesc.Outfit = ""
 	Actor_495.DisplayDesc.Weapon = ""
 	Actor_495.DisplayDesc.Mode = ""
@@ -20779,7 +20779,7 @@ function InitMap(environment)
 	Actor_495.PhysicDesc.SizeX = 0
 	Actor_495.PhysicDesc.SizeY = 0
 	Actor_495.PhysicDesc.SizeZ = 1.28579e-039
-	Actor_495.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_139.phy"
+	Actor_495.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_139.phy"
 	Actor_495:SetPhysicalActorType(1)
 	Actor_495:SetPhysicalShape(5)
 	Actor_495.ExtraInfo.Name = ""
@@ -20792,7 +20792,7 @@ function InitMap(environment)
 	Actor_496 = ActorObjectInfo(496)
 	Actor_496:SetRenderType(1)
 	Actor_496.DisplayDesc.ModelId = 1065353216
-	Actor_496.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_141.osgb"
+	Actor_496.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_141.osgb"
 	Actor_496.DisplayDesc.Outfit = ""
 	Actor_496.DisplayDesc.Weapon = ""
 	Actor_496.DisplayDesc.Mode = ""
@@ -20821,7 +20821,7 @@ function InitMap(environment)
 	Actor_496.PhysicDesc.SizeX = 1
 	Actor_496.PhysicDesc.SizeY = 1
 	Actor_496.PhysicDesc.SizeZ = 1
-	Actor_496.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_141.phy"
+	Actor_496.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_141.phy"
 	Actor_496:SetPhysicalActorType(1)
 	Actor_496:SetPhysicalShape(5)
 	Actor_496.ExtraInfo.Name = ""
@@ -20834,7 +20834,7 @@ function InitMap(environment)
 	Actor_497 = ActorObjectInfo(497)
 	Actor_497:SetRenderType(1)
 	Actor_497.DisplayDesc.ModelId = 0
-	Actor_497.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_141.osgb"
+	Actor_497.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_141.osgb"
 	Actor_497.DisplayDesc.Outfit = ""
 	Actor_497.DisplayDesc.Weapon = ""
 	Actor_497.DisplayDesc.Mode = ""
@@ -20863,7 +20863,7 @@ function InitMap(environment)
 	Actor_497.PhysicDesc.SizeX = 0
 	Actor_497.PhysicDesc.SizeY = 1.875
 	Actor_497.PhysicDesc.SizeZ = 0
-	Actor_497.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_141.phy"
+	Actor_497.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_141.phy"
 	Actor_497:SetPhysicalActorType(1)
 	Actor_497:SetPhysicalShape(5)
 	Actor_497.ExtraInfo.Name = ""
@@ -20876,7 +20876,7 @@ function InitMap(environment)
 	Actor_498 = ActorObjectInfo(498)
 	Actor_498:SetRenderType(1)
 	Actor_498.DisplayDesc.ModelId = 157418825
-	Actor_498.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_141.osgb"
+	Actor_498.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_141.osgb"
 	Actor_498.DisplayDesc.Outfit = ""
 	Actor_498.DisplayDesc.Weapon = ""
 	Actor_498.DisplayDesc.Mode = ""
@@ -20905,7 +20905,7 @@ function InitMap(environment)
 	Actor_498.PhysicDesc.SizeX = 0
 	Actor_498.PhysicDesc.SizeY = 0
 	Actor_498.PhysicDesc.SizeZ = 0
-	Actor_498.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_141.phy"
+	Actor_498.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_141.phy"
 	Actor_498:SetPhysicalActorType(1)
 	Actor_498:SetPhysicalShape(5)
 	Actor_498.ExtraInfo.Name = ""
@@ -20918,7 +20918,7 @@ function InitMap(environment)
 	Actor_499 = ActorObjectInfo(499)
 	Actor_499:SetRenderType(1)
 	Actor_499.DisplayDesc.ModelId = 131154
-	Actor_499.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_141.osgb"
+	Actor_499.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_141.osgb"
 	Actor_499.DisplayDesc.Outfit = ""
 	Actor_499.DisplayDesc.Weapon = ""
 	Actor_499.DisplayDesc.Mode = ""
@@ -20947,7 +20947,7 @@ function InitMap(environment)
 	Actor_499.PhysicDesc.SizeX = 2.10195e-044
 	Actor_499.PhysicDesc.SizeY = 463.5
 	Actor_499.PhysicDesc.SizeZ = 6.05469
-	Actor_499.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_141.phy"
+	Actor_499.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_141.phy"
 	Actor_499:SetPhysicalActorType(1)
 	Actor_499:SetPhysicalShape(5)
 	Actor_499.ExtraInfo.Name = ""
@@ -20960,7 +20960,7 @@ function InitMap(environment)
 	Actor_500 = ActorObjectInfo(500)
 	Actor_500:SetRenderType(1)
 	Actor_500.DisplayDesc.ModelId = 1328701794
-	Actor_500.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_141.osgb"
+	Actor_500.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_141.osgb"
 	Actor_500.DisplayDesc.Outfit = ""
 	Actor_500.DisplayDesc.Weapon = ""
 	Actor_500.DisplayDesc.Mode = ""
@@ -20989,7 +20989,7 @@ function InitMap(environment)
 	Actor_500.PhysicDesc.SizeX = 1.65314e-039
 	Actor_500.PhysicDesc.SizeY = 1.02316e-034
 	Actor_500.PhysicDesc.SizeZ = 1.38162e-023
-	Actor_500.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_141.phy"
+	Actor_500.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_141.phy"
 	Actor_500:SetPhysicalActorType(1)
 	Actor_500:SetPhysicalShape(5)
 	Actor_500.ExtraInfo.Name = ""
@@ -21002,7 +21002,7 @@ function InitMap(environment)
 	Actor_501 = ActorObjectInfo(501)
 	Actor_501:SetRenderType(1)
 	Actor_501.DisplayDesc.ModelId = 144629820
-	Actor_501.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_141.osgb"
+	Actor_501.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_141.osgb"
 	Actor_501.DisplayDesc.Outfit = ""
 	Actor_501.DisplayDesc.Weapon = ""
 	Actor_501.DisplayDesc.Mode = ""
@@ -21031,7 +21031,7 @@ function InitMap(environment)
 	Actor_501.PhysicDesc.SizeX = 0
 	Actor_501.PhysicDesc.SizeY = 0
 	Actor_501.PhysicDesc.SizeZ = 2.5714e-039
-	Actor_501.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_141.phy"
+	Actor_501.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_141.phy"
 	Actor_501:SetPhysicalActorType(1)
 	Actor_501:SetPhysicalShape(5)
 	Actor_501.ExtraInfo.Name = ""
@@ -21044,7 +21044,7 @@ function InitMap(environment)
 	Actor_502 = ActorObjectInfo(502)
 	Actor_502:SetRenderType(1)
 	Actor_502.DisplayDesc.ModelId = 0
-	Actor_502.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.osgb"
+	Actor_502.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.osgb"
 	Actor_502.DisplayDesc.Outfit = ""
 	Actor_502.DisplayDesc.Weapon = ""
 	Actor_502.DisplayDesc.Mode = ""
@@ -21073,7 +21073,7 @@ function InitMap(environment)
 	Actor_502.PhysicDesc.SizeX = 0
 	Actor_502.PhysicDesc.SizeY = 0
 	Actor_502.PhysicDesc.SizeZ = 0
-	Actor_502.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.phy"
+	Actor_502.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.phy"
 	Actor_502:SetPhysicalActorType(1)
 	Actor_502:SetPhysicalShape(5)
 	Actor_502.ExtraInfo.Name = ""
@@ -21086,7 +21086,7 @@ function InitMap(environment)
 	Actor_503 = ActorObjectInfo(503)
 	Actor_503:SetRenderType(1)
 	Actor_503.DisplayDesc.ModelId = 499218620
-	Actor_503.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.osgb"
+	Actor_503.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.osgb"
 	Actor_503.DisplayDesc.Outfit = ""
 	Actor_503.DisplayDesc.Weapon = ""
 	Actor_503.DisplayDesc.Mode = ""
@@ -21115,7 +21115,7 @@ function InitMap(environment)
 	Actor_503.PhysicDesc.SizeX = 6.72623e-044
 	Actor_503.PhysicDesc.SizeY = 3.13817e-024
 	Actor_503.PhysicDesc.SizeZ = 7.44292e-023
-	Actor_503.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.phy"
+	Actor_503.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.phy"
 	Actor_503:SetPhysicalActorType(1)
 	Actor_503:SetPhysicalShape(5)
 	Actor_503.ExtraInfo.Name = ""
@@ -21128,7 +21128,7 @@ function InitMap(environment)
 	Actor_504 = ActorObjectInfo(504)
 	Actor_504:SetRenderType(1)
 	Actor_504.DisplayDesc.ModelId = 420957048
-	Actor_504.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.osgb"
+	Actor_504.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.osgb"
 	Actor_504.DisplayDesc.Outfit = ""
 	Actor_504.DisplayDesc.Weapon = ""
 	Actor_504.DisplayDesc.Mode = ""
@@ -21157,7 +21157,7 @@ function InitMap(environment)
 	Actor_504.PhysicDesc.SizeX = 0
 	Actor_504.PhysicDesc.SizeY = 2.8026e-045
 	Actor_504.PhysicDesc.SizeZ = 2.81885e-024
-	Actor_504.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_19.phy"
+	Actor_504.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_19.phy"
 	Actor_504:SetPhysicalActorType(1)
 	Actor_504:SetPhysicalShape(5)
 	Actor_504.ExtraInfo.Name = ""
@@ -21170,7 +21170,7 @@ function InitMap(environment)
 	Actor_505 = ActorObjectInfo(505)
 	Actor_505:SetRenderType(1)
 	Actor_505.DisplayDesc.ModelId = 420957048
-	Actor_505.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_30.osgb"
+	Actor_505.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_30.osgb"
 	Actor_505.DisplayDesc.Outfit = ""
 	Actor_505.DisplayDesc.Weapon = ""
 	Actor_505.DisplayDesc.Mode = ""
@@ -21199,7 +21199,7 @@ function InitMap(environment)
 	Actor_505.PhysicDesc.SizeX = 0
 	Actor_505.PhysicDesc.SizeY = 2.8026e-045
 	Actor_505.PhysicDesc.SizeZ = 5.99906e-031
-	Actor_505.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_30.phy"
+	Actor_505.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_30.phy"
 	Actor_505:SetPhysicalActorType(1)
 	Actor_505:SetPhysicalShape(5)
 	Actor_505.ExtraInfo.Name = ""
@@ -21212,7 +21212,7 @@ function InitMap(environment)
 	Actor_506 = ActorObjectInfo(506)
 	Actor_506:SetRenderType(1)
 	Actor_506.DisplayDesc.ModelId = 420957048
-	Actor_506.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_142.osgb"
+	Actor_506.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_142.osgb"
 	Actor_506.DisplayDesc.Outfit = ""
 	Actor_506.DisplayDesc.Weapon = ""
 	Actor_506.DisplayDesc.Mode = ""
@@ -21241,7 +21241,7 @@ function InitMap(environment)
 	Actor_506.PhysicDesc.SizeX = 0
 	Actor_506.PhysicDesc.SizeY = 2.8026e-045
 	Actor_506.PhysicDesc.SizeZ = 3.11472e-031
-	Actor_506.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_142.phy"
+	Actor_506.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_142.phy"
 	Actor_506:SetPhysicalActorType(1)
 	Actor_506:SetPhysicalShape(5)
 	Actor_506.ExtraInfo.Name = ""
@@ -21254,7 +21254,7 @@ function InitMap(environment)
 	Actor_507 = ActorObjectInfo(507)
 	Actor_507:SetRenderType(1)
 	Actor_507.DisplayDesc.ModelId = 420957048
-	Actor_507.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_143.osgb"
+	Actor_507.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_143.osgb"
 	Actor_507.DisplayDesc.Outfit = ""
 	Actor_507.DisplayDesc.Weapon = ""
 	Actor_507.DisplayDesc.Mode = ""
@@ -21283,7 +21283,7 @@ function InitMap(environment)
 	Actor_507.PhysicDesc.SizeX = 0
 	Actor_507.PhysicDesc.SizeY = 2.8026e-045
 	Actor_507.PhysicDesc.SizeZ = 1.83495e-031
-	Actor_507.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_143.phy"
+	Actor_507.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_143.phy"
 	Actor_507:SetPhysicalActorType(1)
 	Actor_507:SetPhysicalShape(5)
 	Actor_507.ExtraInfo.Name = ""
@@ -21296,7 +21296,7 @@ function InitMap(environment)
 	Actor_508 = ActorObjectInfo(508)
 	Actor_508:SetRenderType(1)
 	Actor_508.DisplayDesc.ModelId = 420957048
-	Actor_508.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_144.osgb"
+	Actor_508.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_144.osgb"
 	Actor_508.DisplayDesc.Outfit = ""
 	Actor_508.DisplayDesc.Weapon = ""
 	Actor_508.DisplayDesc.Mode = ""
@@ -21325,7 +21325,7 @@ function InitMap(environment)
 	Actor_508.PhysicDesc.SizeX = 0
 	Actor_508.PhysicDesc.SizeY = 2.8026e-045
 	Actor_508.PhysicDesc.SizeZ = 2.63877e-023
-	Actor_508.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_144.phy"
+	Actor_508.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_144.phy"
 	Actor_508:SetPhysicalActorType(1)
 	Actor_508:SetPhysicalShape(5)
 	Actor_508.ExtraInfo.Name = ""
@@ -21338,7 +21338,7 @@ function InitMap(environment)
 	Actor_509 = ActorObjectInfo(509)
 	Actor_509:SetRenderType(1)
 	Actor_509.DisplayDesc.ModelId = 420957048
-	Actor_509.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_145.osgb"
+	Actor_509.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_145.osgb"
 	Actor_509.DisplayDesc.Outfit = ""
 	Actor_509.DisplayDesc.Weapon = ""
 	Actor_509.DisplayDesc.Mode = ""
@@ -21367,7 +21367,7 @@ function InitMap(environment)
 	Actor_509.PhysicDesc.SizeX = 0
 	Actor_509.PhysicDesc.SizeY = 2.8026e-045
 	Actor_509.PhysicDesc.SizeZ = 7.7132e-031
-	Actor_509.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_145.phy"
+	Actor_509.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_145.phy"
 	Actor_509:SetPhysicalActorType(1)
 	Actor_509:SetPhysicalShape(5)
 	Actor_509.ExtraInfo.Name = ""
@@ -21380,7 +21380,7 @@ function InitMap(environment)
 	Actor_510 = ActorObjectInfo(510)
 	Actor_510:SetRenderType(1)
 	Actor_510.DisplayDesc.ModelId = 420957048
-	Actor_510.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_146.osgb"
+	Actor_510.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_146.osgb"
 	Actor_510.DisplayDesc.Outfit = ""
 	Actor_510.DisplayDesc.Weapon = ""
 	Actor_510.DisplayDesc.Mode = ""
@@ -21409,7 +21409,7 @@ function InitMap(environment)
 	Actor_510.PhysicDesc.SizeX = 0
 	Actor_510.PhysicDesc.SizeY = 2.8026e-045
 	Actor_510.PhysicDesc.SizeZ = 7.06859e-031
-	Actor_510.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_146.phy"
+	Actor_510.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_146.phy"
 	Actor_510:SetPhysicalActorType(1)
 	Actor_510:SetPhysicalShape(5)
 	Actor_510.ExtraInfo.Name = ""
@@ -21422,7 +21422,7 @@ function InitMap(environment)
 	Actor_511 = ActorObjectInfo(511)
 	Actor_511:SetRenderType(1)
 	Actor_511.DisplayDesc.ModelId = 420957048
-	Actor_511.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.osgb"
+	Actor_511.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.osgb"
 	Actor_511.DisplayDesc.Outfit = ""
 	Actor_511.DisplayDesc.Weapon = ""
 	Actor_511.DisplayDesc.Mode = ""
@@ -21451,7 +21451,7 @@ function InitMap(environment)
 	Actor_511.PhysicDesc.SizeX = 0
 	Actor_511.PhysicDesc.SizeY = 2.8026e-045
 	Actor_511.PhysicDesc.SizeZ = 3.67504e-037
-	Actor_511.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.phy"
+	Actor_511.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.phy"
 	Actor_511:SetPhysicalActorType(1)
 	Actor_511:SetPhysicalShape(5)
 	Actor_511.ExtraInfo.Name = ""
@@ -21464,7 +21464,7 @@ function InitMap(environment)
 	Actor_512 = ActorObjectInfo(512)
 	Actor_512:SetRenderType(1)
 	Actor_512.DisplayDesc.ModelId = 420957048
-	Actor_512.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.osgb"
+	Actor_512.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.osgb"
 	Actor_512.DisplayDesc.Outfit = ""
 	Actor_512.DisplayDesc.Weapon = ""
 	Actor_512.DisplayDesc.Mode = ""
@@ -21493,7 +21493,7 @@ function InitMap(environment)
 	Actor_512.PhysicDesc.SizeX = 0
 	Actor_512.PhysicDesc.SizeY = 2.8026e-045
 	Actor_512.PhysicDesc.SizeZ = 7.71077e-031
-	Actor_512.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.phy"
+	Actor_512.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.phy"
 	Actor_512:SetPhysicalActorType(1)
 	Actor_512:SetPhysicalShape(5)
 	Actor_512.ExtraInfo.Name = ""
@@ -21506,7 +21506,7 @@ function InitMap(environment)
 	Actor_513 = ActorObjectInfo(513)
 	Actor_513:SetRenderType(1)
 	Actor_513.DisplayDesc.ModelId = 420957048
-	Actor_513.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.osgb"
+	Actor_513.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.osgb"
 	Actor_513.DisplayDesc.Outfit = ""
 	Actor_513.DisplayDesc.Weapon = ""
 	Actor_513.DisplayDesc.Mode = ""
@@ -21535,7 +21535,7 @@ function InitMap(environment)
 	Actor_513.PhysicDesc.SizeX = 0
 	Actor_513.PhysicDesc.SizeY = 2.8026e-045
 	Actor_513.PhysicDesc.SizeZ = 1.78738e-031
-	Actor_513.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.phy"
+	Actor_513.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.phy"
 	Actor_513:SetPhysicalActorType(1)
 	Actor_513:SetPhysicalShape(5)
 	Actor_513.ExtraInfo.Name = ""
@@ -21548,7 +21548,7 @@ function InitMap(environment)
 	Actor_514 = ActorObjectInfo(514)
 	Actor_514:SetRenderType(1)
 	Actor_514.DisplayDesc.ModelId = 420957048
-	Actor_514.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.osgb"
+	Actor_514.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.osgb"
 	Actor_514.DisplayDesc.Outfit = ""
 	Actor_514.DisplayDesc.Weapon = ""
 	Actor_514.DisplayDesc.Mode = ""
@@ -21577,7 +21577,7 @@ function InitMap(environment)
 	Actor_514.PhysicDesc.SizeX = 0
 	Actor_514.PhysicDesc.SizeY = 2.8026e-045
 	Actor_514.PhysicDesc.SizeZ = 7.84918e-023
-	Actor_514.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.phy"
+	Actor_514.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.phy"
 	Actor_514:SetPhysicalActorType(1)
 	Actor_514:SetPhysicalShape(5)
 	Actor_514.ExtraInfo.Name = ""
@@ -21590,7 +21590,7 @@ function InitMap(environment)
 	Actor_515 = ActorObjectInfo(515)
 	Actor_515:SetRenderType(1)
 	Actor_515.DisplayDesc.ModelId = 410659468
-	Actor_515.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.osgb"
+	Actor_515.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.osgb"
 	Actor_515.DisplayDesc.Outfit = ""
 	Actor_515.DisplayDesc.Weapon = ""
 	Actor_515.DisplayDesc.Mode = ""
@@ -21619,7 +21619,7 @@ function InitMap(environment)
 	Actor_515.PhysicDesc.SizeX = 6.72623e-044
 	Actor_515.PhysicDesc.SizeY = 0
 	Actor_515.PhysicDesc.SizeZ = 5.68653e-023
-	Actor_515.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.phy"
+	Actor_515.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.phy"
 	Actor_515:SetPhysicalActorType(1)
 	Actor_515:SetPhysicalShape(5)
 	Actor_515.ExtraInfo.Name = ""
@@ -21632,7 +21632,7 @@ function InitMap(environment)
 	Actor_516 = ActorObjectInfo(516)
 	Actor_516:SetRenderType(1)
 	Actor_516.DisplayDesc.ModelId = 0
-	Actor_516.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.osgb"
+	Actor_516.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.osgb"
 	Actor_516.DisplayDesc.Outfit = ""
 	Actor_516.DisplayDesc.Weapon = ""
 	Actor_516.DisplayDesc.Mode = ""
@@ -21661,7 +21661,7 @@ function InitMap(environment)
 	Actor_516.PhysicDesc.SizeX = 0
 	Actor_516.PhysicDesc.SizeY = 0
 	Actor_516.PhysicDesc.SizeZ = 1.4013e-045
-	Actor_516.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.phy"
+	Actor_516.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.phy"
 	Actor_516:SetPhysicalActorType(1)
 	Actor_516:SetPhysicalShape(5)
 	Actor_516.ExtraInfo.Name = ""
@@ -21674,7 +21674,7 @@ function InitMap(environment)
 	Actor_517 = ActorObjectInfo(517)
 	Actor_517:SetRenderType(1)
 	Actor_517.DisplayDesc.ModelId = 1328701794
-	Actor_517.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.osgb"
+	Actor_517.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.osgb"
 	Actor_517.DisplayDesc.Outfit = ""
 	Actor_517.DisplayDesc.Weapon = ""
 	Actor_517.DisplayDesc.Mode = ""
@@ -21703,7 +21703,7 @@ function InitMap(environment)
 	Actor_517.PhysicDesc.SizeX = 1.65304e-039
 	Actor_517.PhysicDesc.SizeY = 1.0533e-034
 	Actor_517.PhysicDesc.SizeZ = 0
-	Actor_517.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.phy"
+	Actor_517.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.phy"
 	Actor_517:SetPhysicalActorType(1)
 	Actor_517:SetPhysicalShape(5)
 	Actor_517.ExtraInfo.Name = ""
@@ -21716,7 +21716,7 @@ function InitMap(environment)
 	Actor_518 = ActorObjectInfo(518)
 	Actor_518:SetRenderType(1)
 	Actor_518.DisplayDesc.ModelId = 0
-	Actor_518.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.osgb"
+	Actor_518.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.osgb"
 	Actor_518.DisplayDesc.Outfit = ""
 	Actor_518.DisplayDesc.Weapon = ""
 	Actor_518.DisplayDesc.Mode = ""
@@ -21745,7 +21745,7 @@ function InitMap(environment)
 	Actor_518.PhysicDesc.SizeX = 0
 	Actor_518.PhysicDesc.SizeY = 0
 	Actor_518.PhysicDesc.SizeZ = 0
-	Actor_518.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.phy"
+	Actor_518.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.phy"
 	Actor_518:SetPhysicalActorType(1)
 	Actor_518:SetPhysicalShape(5)
 	Actor_518.ExtraInfo.Name = ""
@@ -21758,7 +21758,7 @@ function InitMap(environment)
 	Actor_519 = ActorObjectInfo(519)
 	Actor_519:SetRenderType(1)
 	Actor_519.DisplayDesc.ModelId = 0
-	Actor_519.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.osgb"
+	Actor_519.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.osgb"
 	Actor_519.DisplayDesc.Outfit = ""
 	Actor_519.DisplayDesc.Weapon = ""
 	Actor_519.DisplayDesc.Mode = ""
@@ -21787,7 +21787,7 @@ function InitMap(environment)
 	Actor_519.PhysicDesc.SizeX = 0
 	Actor_519.PhysicDesc.SizeY = 0
 	Actor_519.PhysicDesc.SizeZ = 0
-	Actor_519.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.phy"
+	Actor_519.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.phy"
 	Actor_519:SetPhysicalActorType(1)
 	Actor_519:SetPhysicalShape(5)
 	Actor_519.ExtraInfo.Name = ""
@@ -21800,7 +21800,7 @@ function InitMap(environment)
 	Actor_520 = ActorObjectInfo(520)
 	Actor_520:SetRenderType(1)
 	Actor_520.DisplayDesc.ModelId = 429088192
-	Actor_520.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.osgb"
+	Actor_520.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.osgb"
 	Actor_520.DisplayDesc.Outfit = ""
 	Actor_520.DisplayDesc.Weapon = ""
 	Actor_520.DisplayDesc.Mode = ""
@@ -21829,7 +21829,7 @@ function InitMap(environment)
 	Actor_520.PhysicDesc.SizeX = -3.40282e+038
 	Actor_520.PhysicDesc.SizeY = 0
 	Actor_520.PhysicDesc.SizeZ = -3.125
-	Actor_520.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.phy"
+	Actor_520.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.phy"
 	Actor_520:SetPhysicalActorType(1)
 	Actor_520:SetPhysicalShape(5)
 	Actor_520.ExtraInfo.Name = ""
@@ -21842,7 +21842,7 @@ function InitMap(environment)
 	Actor_521 = ActorObjectInfo(521)
 	Actor_521:SetRenderType(1)
 	Actor_521.DisplayDesc.ModelId = 0
-	Actor_521.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.osgb"
+	Actor_521.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.osgb"
 	Actor_521.DisplayDesc.Outfit = ""
 	Actor_521.DisplayDesc.Weapon = ""
 	Actor_521.DisplayDesc.Mode = ""
@@ -21871,7 +21871,7 @@ function InitMap(environment)
 	Actor_521.PhysicDesc.SizeX = 0
 	Actor_521.PhysicDesc.SizeY = 0
 	Actor_521.PhysicDesc.SizeZ = 0
-	Actor_521.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.phy"
+	Actor_521.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.phy"
 	Actor_521:SetPhysicalActorType(1)
 	Actor_521:SetPhysicalShape(5)
 	Actor_521.ExtraInfo.Name = ""
@@ -21884,7 +21884,7 @@ function InitMap(environment)
 	Actor_522 = ActorObjectInfo(522)
 	Actor_522:SetRenderType(1)
 	Actor_522.DisplayDesc.ModelId = 131090
-	Actor_522.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.osgb"
+	Actor_522.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.osgb"
 	Actor_522.DisplayDesc.Outfit = ""
 	Actor_522.DisplayDesc.Weapon = ""
 	Actor_522.DisplayDesc.Mode = ""
@@ -21913,7 +21913,7 @@ function InitMap(environment)
 	Actor_522.PhysicDesc.SizeX = 0
 	Actor_522.PhysicDesc.SizeY = 0
 	Actor_522.PhysicDesc.SizeZ = 0
-	Actor_522.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.phy"
+	Actor_522.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.phy"
 	Actor_522:SetPhysicalActorType(1)
 	Actor_522:SetPhysicalShape(5)
 	Actor_522.ExtraInfo.Name = ""
@@ -21926,7 +21926,7 @@ function InitMap(environment)
 	Actor_523 = ActorObjectInfo(523)
 	Actor_523:SetRenderType(1)
 	Actor_523.DisplayDesc.ModelId = 407791864
-	Actor_523.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.osgb"
+	Actor_523.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.osgb"
 	Actor_523.DisplayDesc.Outfit = ""
 	Actor_523.DisplayDesc.Weapon = ""
 	Actor_523.DisplayDesc.Mode = ""
@@ -21955,7 +21955,7 @@ function InitMap(environment)
 	Actor_523.PhysicDesc.SizeX = 0
 	Actor_523.PhysicDesc.SizeY = 0
 	Actor_523.PhysicDesc.SizeZ = 9.21956e-041
-	Actor_523.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.phy"
+	Actor_523.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.phy"
 	Actor_523:SetPhysicalActorType(1)
 	Actor_523:SetPhysicalShape(5)
 	Actor_523.ExtraInfo.Name = ""
@@ -21968,7 +21968,7 @@ function InitMap(environment)
 	Actor_524 = ActorObjectInfo(524)
 	Actor_524:SetRenderType(1)
 	Actor_524.DisplayDesc.ModelId = 144629820
-	Actor_524.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.osgb"
+	Actor_524.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.osgb"
 	Actor_524.DisplayDesc.Outfit = ""
 	Actor_524.DisplayDesc.Weapon = ""
 	Actor_524.DisplayDesc.Mode = ""
@@ -21997,7 +21997,7 @@ function InitMap(environment)
 	Actor_524.PhysicDesc.SizeX = 3.64338e-044
 	Actor_524.PhysicDesc.SizeY = 1.96182e-044
 	Actor_524.PhysicDesc.SizeZ = 2.57142e-039
-	Actor_524.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.phy"
+	Actor_524.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.phy"
 	Actor_524:SetPhysicalActorType(1)
 	Actor_524:SetPhysicalShape(5)
 	Actor_524.ExtraInfo.Name = ""
@@ -22010,7 +22010,7 @@ function InitMap(environment)
 	Actor_525 = ActorObjectInfo(525)
 	Actor_525:SetRenderType(1)
 	Actor_525.DisplayDesc.ModelId = 0
-	Actor_525.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.osgb"
+	Actor_525.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.osgb"
 	Actor_525.DisplayDesc.Outfit = ""
 	Actor_525.DisplayDesc.Weapon = ""
 	Actor_525.DisplayDesc.Mode = ""
@@ -22039,7 +22039,7 @@ function InitMap(environment)
 	Actor_525.PhysicDesc.SizeX = 0
 	Actor_525.PhysicDesc.SizeY = 0
 	Actor_525.PhysicDesc.SizeZ = 0
-	Actor_525.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.phy"
+	Actor_525.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.phy"
 	Actor_525:SetPhysicalActorType(1)
 	Actor_525:SetPhysicalShape(5)
 	Actor_525.ExtraInfo.Name = ""
@@ -22052,7 +22052,7 @@ function InitMap(environment)
 	Actor_526 = ActorObjectInfo(526)
 	Actor_526:SetRenderType(1)
 	Actor_526.DisplayDesc.ModelId = 0
-	Actor_526.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.osgb"
+	Actor_526.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.osgb"
 	Actor_526.DisplayDesc.Outfit = ""
 	Actor_526.DisplayDesc.Weapon = ""
 	Actor_526.DisplayDesc.Mode = ""
@@ -22081,7 +22081,7 @@ function InitMap(environment)
 	Actor_526.PhysicDesc.SizeX = 0
 	Actor_526.PhysicDesc.SizeY = 0
 	Actor_526.PhysicDesc.SizeZ = 0
-	Actor_526.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.phy"
+	Actor_526.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.phy"
 	Actor_526:SetPhysicalActorType(1)
 	Actor_526:SetPhysicalShape(5)
 	Actor_526.ExtraInfo.Name = ""
@@ -22094,7 +22094,7 @@ function InitMap(environment)
 	Actor_527 = ActorObjectInfo(527)
 	Actor_527:SetRenderType(1)
 	Actor_527.DisplayDesc.ModelId = 229493832
-	Actor_527.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.osgb"
+	Actor_527.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.osgb"
 	Actor_527.DisplayDesc.Outfit = ""
 	Actor_527.DisplayDesc.Weapon = ""
 	Actor_527.DisplayDesc.Mode = ""
@@ -22123,7 +22123,7 @@ function InitMap(environment)
 	Actor_527.PhysicDesc.SizeX = 0
 	Actor_527.PhysicDesc.SizeY = 2.10195e-044
 	Actor_527.PhysicDesc.SizeZ = 1.4013e-045
-	Actor_527.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.phy"
+	Actor_527.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.phy"
 	Actor_527:SetPhysicalActorType(1)
 	Actor_527:SetPhysicalShape(5)
 	Actor_527.ExtraInfo.Name = ""
@@ -22136,7 +22136,7 @@ function InitMap(environment)
 	Actor_528 = ActorObjectInfo(528)
 	Actor_528:SetRenderType(1)
 	Actor_528.DisplayDesc.ModelId = 505873904
-	Actor_528.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.osgb"
+	Actor_528.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.osgb"
 	Actor_528.DisplayDesc.Outfit = ""
 	Actor_528.DisplayDesc.Weapon = ""
 	Actor_528.DisplayDesc.Mode = ""
@@ -22165,7 +22165,7 @@ function InitMap(environment)
 	Actor_528.PhysicDesc.SizeX = 0
 	Actor_528.PhysicDesc.SizeY = 3.60134e-043
 	Actor_528.PhysicDesc.SizeZ = 2.20415e-039
-	Actor_528.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.phy"
+	Actor_528.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.phy"
 	Actor_528:SetPhysicalActorType(1)
 	Actor_528:SetPhysicalShape(5)
 	Actor_528.ExtraInfo.Name = ""
@@ -22178,7 +22178,7 @@ function InitMap(environment)
 	Actor_529 = ActorObjectInfo(529)
 	Actor_529:SetRenderType(1)
 	Actor_529.DisplayDesc.ModelId = 0
-	Actor_529.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.osgb"
+	Actor_529.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.osgb"
 	Actor_529.DisplayDesc.Outfit = ""
 	Actor_529.DisplayDesc.Weapon = ""
 	Actor_529.DisplayDesc.Mode = ""
@@ -22207,7 +22207,7 @@ function InitMap(environment)
 	Actor_529.PhysicDesc.SizeX = 8.32371e-043
 	Actor_529.PhysicDesc.SizeY = 0
 	Actor_529.PhysicDesc.SizeZ = 0
-	Actor_529.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.phy"
+	Actor_529.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.phy"
 	Actor_529:SetPhysicalActorType(1)
 	Actor_529:SetPhysicalShape(5)
 	Actor_529.ExtraInfo.Name = ""
@@ -22220,7 +22220,7 @@ function InitMap(environment)
 	Actor_530 = ActorObjectInfo(530)
 	Actor_530:SetRenderType(1)
 	Actor_530.DisplayDesc.ModelId = 0
-	Actor_530.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.osgb"
+	Actor_530.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.osgb"
 	Actor_530.DisplayDesc.Outfit = ""
 	Actor_530.DisplayDesc.Weapon = ""
 	Actor_530.DisplayDesc.Mode = ""
@@ -22249,7 +22249,7 @@ function InitMap(environment)
 	Actor_530.PhysicDesc.SizeX = 0
 	Actor_530.PhysicDesc.SizeY = 0
 	Actor_530.PhysicDesc.SizeZ = 0
-	Actor_530.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.phy"
+	Actor_530.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.phy"
 	Actor_530:SetPhysicalActorType(1)
 	Actor_530:SetPhysicalShape(5)
 	Actor_530.ExtraInfo.Name = ""
@@ -22262,7 +22262,7 @@ function InitMap(environment)
 	Actor_531 = ActorObjectInfo(531)
 	Actor_531:SetRenderType(1)
 	Actor_531.DisplayDesc.ModelId = 144577628
-	Actor_531.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.osgb"
+	Actor_531.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.osgb"
 	Actor_531.DisplayDesc.Outfit = ""
 	Actor_531.DisplayDesc.Weapon = ""
 	Actor_531.DisplayDesc.Mode = ""
@@ -22291,7 +22291,7 @@ function InitMap(environment)
 	Actor_531.PhysicDesc.SizeX = 0
 	Actor_531.PhysicDesc.SizeY = 0
 	Actor_531.PhysicDesc.SizeZ = 0
-	Actor_531.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.phy"
+	Actor_531.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.phy"
 	Actor_531:SetPhysicalActorType(1)
 	Actor_531:SetPhysicalShape(5)
 	Actor_531.ExtraInfo.Name = ""
@@ -22304,7 +22304,7 @@ function InitMap(environment)
 	Actor_532 = ActorObjectInfo(532)
 	Actor_532:SetRenderType(1)
 	Actor_532.DisplayDesc.ModelId = 225676248
-	Actor_532.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.osgb"
+	Actor_532.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.osgb"
 	Actor_532.DisplayDesc.Outfit = ""
 	Actor_532.DisplayDesc.Weapon = ""
 	Actor_532.DisplayDesc.Mode = ""
@@ -22333,7 +22333,7 @@ function InitMap(environment)
 	Actor_532.PhysicDesc.SizeX = 1.83672e-040
 	Actor_532.PhysicDesc.SizeY = 0
 	Actor_532.PhysicDesc.SizeZ = 9.21956e-041
-	Actor_532.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.phy"
+	Actor_532.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.phy"
 	Actor_532:SetPhysicalActorType(1)
 	Actor_532:SetPhysicalShape(5)
 	Actor_532.ExtraInfo.Name = ""
@@ -22346,7 +22346,7 @@ function InitMap(environment)
 	Actor_533 = ActorObjectInfo(533)
 	Actor_533:SetRenderType(1)
 	Actor_533.DisplayDesc.ModelId = 131171
-	Actor_533.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.osgb"
+	Actor_533.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.osgb"
 	Actor_533.DisplayDesc.Outfit = ""
 	Actor_533.DisplayDesc.Weapon = ""
 	Actor_533.DisplayDesc.Mode = ""
@@ -22375,7 +22375,7 @@ function InitMap(environment)
 	Actor_533.PhysicDesc.SizeX = 0.546875
 	Actor_533.PhysicDesc.SizeY = -0.546875
 	Actor_533.PhysicDesc.SizeZ = 2.02038e-039
-	Actor_533.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_147.phy"
+	Actor_533.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_147.phy"
 	Actor_533:SetPhysicalActorType(1)
 	Actor_533:SetPhysicalShape(5)
 	Actor_533.ExtraInfo.Name = ""
@@ -22388,7 +22388,7 @@ function InitMap(environment)
 	Actor_534 = ActorObjectInfo(534)
 	Actor_534:SetRenderType(1)
 	Actor_534.DisplayDesc.ModelId = 0
-	Actor_534.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_148.osgb"
+	Actor_534.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_148.osgb"
 	Actor_534.DisplayDesc.Outfit = ""
 	Actor_534.DisplayDesc.Weapon = ""
 	Actor_534.DisplayDesc.Mode = ""
@@ -22417,7 +22417,7 @@ function InitMap(environment)
 	Actor_534.PhysicDesc.SizeX = 0
 	Actor_534.PhysicDesc.SizeY = 1.875
 	Actor_534.PhysicDesc.SizeZ = 0
-	Actor_534.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_148.phy"
+	Actor_534.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_148.phy"
 	Actor_534:SetPhysicalActorType(1)
 	Actor_534:SetPhysicalShape(5)
 	Actor_534.ExtraInfo.Name = ""
@@ -22430,7 +22430,7 @@ function InitMap(environment)
 	Actor_535 = ActorObjectInfo(535)
 	Actor_535:SetRenderType(1)
 	Actor_535.DisplayDesc.ModelId = 0
-	Actor_535.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_148.osgb"
+	Actor_535.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_148.osgb"
 	Actor_535.DisplayDesc.Outfit = ""
 	Actor_535.DisplayDesc.Weapon = ""
 	Actor_535.DisplayDesc.Mode = ""
@@ -22459,7 +22459,7 @@ function InitMap(environment)
 	Actor_535.PhysicDesc.SizeX = 0
 	Actor_535.PhysicDesc.SizeY = 0
 	Actor_535.PhysicDesc.SizeZ = 0
-	Actor_535.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_148.phy"
+	Actor_535.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_148.phy"
 	Actor_535:SetPhysicalActorType(1)
 	Actor_535:SetPhysicalShape(5)
 	Actor_535.ExtraInfo.Name = ""
@@ -22472,7 +22472,7 @@ function InitMap(environment)
 	Actor_536 = ActorObjectInfo(536)
 	Actor_536:SetRenderType(1)
 	Actor_536.DisplayDesc.ModelId = -1128154068
-	Actor_536.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_149.osgb"
+	Actor_536.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_149.osgb"
 	Actor_536.DisplayDesc.Outfit = ""
 	Actor_536.DisplayDesc.Weapon = ""
 	Actor_536.DisplayDesc.Mode = ""
@@ -22501,7 +22501,7 @@ function InitMap(environment)
 	Actor_536.PhysicDesc.SizeX = -0.989779
 	Actor_536.PhysicDesc.SizeY = 0.142613
 	Actor_536.PhysicDesc.SizeZ = 0
-	Actor_536.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_149.phy"
+	Actor_536.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_149.phy"
 	Actor_536:SetPhysicalActorType(1)
 	Actor_536:SetPhysicalShape(5)
 	Actor_536.ExtraInfo.Name = ""
@@ -22514,7 +22514,7 @@ function InitMap(environment)
 	Actor_537 = ActorObjectInfo(537)
 	Actor_537:SetRenderType(1)
 	Actor_537.DisplayDesc.ModelId = 131171
-	Actor_537.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_149.osgb"
+	Actor_537.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_149.osgb"
 	Actor_537.DisplayDesc.Outfit = ""
 	Actor_537.DisplayDesc.Weapon = ""
 	Actor_537.DisplayDesc.Mode = ""
@@ -22543,7 +22543,7 @@ function InitMap(environment)
 	Actor_537.PhysicDesc.SizeX = 0
 	Actor_537.PhysicDesc.SizeY = 0
 	Actor_537.PhysicDesc.SizeZ = 2.02038e-039
-	Actor_537.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_149.phy"
+	Actor_537.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_149.phy"
 	Actor_537:SetPhysicalActorType(1)
 	Actor_537:SetPhysicalShape(5)
 	Actor_537.ExtraInfo.Name = ""
@@ -22556,7 +22556,7 @@ function InitMap(environment)
 	Actor_538 = ActorObjectInfo(538)
 	Actor_538:SetRenderType(1)
 	Actor_538.DisplayDesc.ModelId = -2147483648
-	Actor_538.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_148.osgb"
+	Actor_538.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_148.osgb"
 	Actor_538.DisplayDesc.Outfit = ""
 	Actor_538.DisplayDesc.Weapon = ""
 	Actor_538.DisplayDesc.Mode = ""
@@ -22585,7 +22585,7 @@ function InitMap(environment)
 	Actor_538.PhysicDesc.SizeX = 2.60352
 	Actor_538.PhysicDesc.SizeY = 0
 	Actor_538.PhysicDesc.SizeZ = -4.33984
-	Actor_538.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_148.phy"
+	Actor_538.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_148.phy"
 	Actor_538:SetPhysicalActorType(1)
 	Actor_538:SetPhysicalShape(5)
 	Actor_538.ExtraInfo.Name = ""
@@ -22598,7 +22598,7 @@ function InitMap(environment)
 	Actor_539 = ActorObjectInfo(539)
 	Actor_539:SetRenderType(1)
 	Actor_539.DisplayDesc.ModelId = 0
-	Actor_539.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_149.osgb"
+	Actor_539.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_149.osgb"
 	Actor_539.DisplayDesc.Outfit = ""
 	Actor_539.DisplayDesc.Weapon = ""
 	Actor_539.DisplayDesc.Mode = ""
@@ -22627,7 +22627,7 @@ function InitMap(environment)
 	Actor_539.PhysicDesc.SizeX = 2.8026e-045
 	Actor_539.PhysicDesc.SizeY = 0
 	Actor_539.PhysicDesc.SizeZ = 0
-	Actor_539.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_149.phy"
+	Actor_539.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_149.phy"
 	Actor_539:SetPhysicalActorType(1)
 	Actor_539:SetPhysicalShape(5)
 	Actor_539.ExtraInfo.Name = ""
@@ -22640,7 +22640,7 @@ function InitMap(environment)
 	Actor_540 = ActorObjectInfo(540)
 	Actor_540:SetRenderType(1)
 	Actor_540.DisplayDesc.ModelId = 1076772864
-	Actor_540.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_148.osgb"
+	Actor_540.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_148.osgb"
 	Actor_540.DisplayDesc.Outfit = ""
 	Actor_540.DisplayDesc.Weapon = ""
 	Actor_540.DisplayDesc.Mode = ""
@@ -22669,7 +22669,7 @@ function InitMap(environment)
 	Actor_540.PhysicDesc.SizeX = 1
 	Actor_540.PhysicDesc.SizeY = 2.72266
 	Actor_540.PhysicDesc.SizeZ = 3.19922
-	Actor_540.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_148.phy"
+	Actor_540.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_148.phy"
 	Actor_540:SetPhysicalActorType(1)
 	Actor_540:SetPhysicalShape(5)
 	Actor_540.ExtraInfo.Name = ""
@@ -22682,7 +22682,7 @@ function InitMap(environment)
 	Actor_541 = ActorObjectInfo(541)
 	Actor_541:SetRenderType(1)
 	Actor_541.DisplayDesc.ModelId = 0
-	Actor_541.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_149.osgb"
+	Actor_541.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_149.osgb"
 	Actor_541.DisplayDesc.Outfit = ""
 	Actor_541.DisplayDesc.Weapon = ""
 	Actor_541.DisplayDesc.Mode = ""
@@ -22711,7 +22711,7 @@ function InitMap(environment)
 	Actor_541.PhysicDesc.SizeX = 7.00649e-044
 	Actor_541.PhysicDesc.SizeY = 7.14662e-044
 	Actor_541.PhysicDesc.SizeZ = 7.28675e-044
-	Actor_541.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_149.phy"
+	Actor_541.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_149.phy"
 	Actor_541:SetPhysicalActorType(1)
 	Actor_541:SetPhysicalShape(5)
 	Actor_541.ExtraInfo.Name = ""
@@ -22724,7 +22724,7 @@ function InitMap(environment)
 	Actor_542 = ActorObjectInfo(542)
 	Actor_542:SetRenderType(1)
 	Actor_542.DisplayDesc.ModelId = 0
-	Actor_542.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_150.osgb"
+	Actor_542.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_150.osgb"
 	Actor_542.DisplayDesc.Outfit = ""
 	Actor_542.DisplayDesc.Weapon = ""
 	Actor_542.DisplayDesc.Mode = ""
@@ -22753,7 +22753,7 @@ function InitMap(environment)
 	Actor_542.PhysicDesc.SizeX = 7.00649e-044
 	Actor_542.PhysicDesc.SizeY = 7.14662e-044
 	Actor_542.PhysicDesc.SizeZ = 7.28675e-044
-	Actor_542.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_150.phy"
+	Actor_542.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_150.phy"
 	Actor_542:SetPhysicalActorType(1)
 	Actor_542:SetPhysicalShape(5)
 	Actor_542.ExtraInfo.Name = ""
@@ -22766,7 +22766,7 @@ function InitMap(environment)
 	Actor_543 = ActorObjectInfo(543)
 	Actor_543:SetRenderType(1)
 	Actor_543.DisplayDesc.ModelId = 0
-	Actor_543.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_150.osgb"
+	Actor_543.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_150.osgb"
 	Actor_543.DisplayDesc.Outfit = ""
 	Actor_543.DisplayDesc.Weapon = ""
 	Actor_543.DisplayDesc.Mode = ""
@@ -22795,7 +22795,7 @@ function InitMap(environment)
 	Actor_543.PhysicDesc.SizeX = 0
 	Actor_543.PhysicDesc.SizeY = 0
 	Actor_543.PhysicDesc.SizeZ = 0
-	Actor_543.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_150.phy"
+	Actor_543.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_150.phy"
 	Actor_543:SetPhysicalActorType(1)
 	Actor_543:SetPhysicalShape(5)
 	Actor_543.ExtraInfo.Name = ""
@@ -22808,7 +22808,7 @@ function InitMap(environment)
 	Actor_544 = ActorObjectInfo(544)
 	Actor_544:SetRenderType(1)
 	Actor_544.DisplayDesc.ModelId = 224742464
-	Actor_544.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_150.osgb"
+	Actor_544.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_150.osgb"
 	Actor_544.DisplayDesc.Outfit = ""
 	Actor_544.DisplayDesc.Weapon = ""
 	Actor_544.DisplayDesc.Mode = ""
@@ -22837,7 +22837,7 @@ function InitMap(environment)
 	Actor_544.PhysicDesc.SizeX = 1.83203
 	Actor_544.PhysicDesc.SizeY = 0
 	Actor_544.PhysicDesc.SizeZ = 9.21956e-041
-	Actor_544.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_150.phy"
+	Actor_544.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_150.phy"
 	Actor_544:SetPhysicalActorType(1)
 	Actor_544:SetPhysicalShape(5)
 	Actor_544.ExtraInfo.Name = ""
@@ -22850,7 +22850,7 @@ function InitMap(environment)
 	Actor_545 = ActorObjectInfo(545)
 	Actor_545:SetRenderType(1)
 	Actor_545.DisplayDesc.ModelId = 421486488
-	Actor_545.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_150.osgb"
+	Actor_545.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_150.osgb"
 	Actor_545.DisplayDesc.Outfit = ""
 	Actor_545.DisplayDesc.Weapon = ""
 	Actor_545.DisplayDesc.Mode = ""
@@ -22879,7 +22879,7 @@ function InitMap(environment)
 	Actor_545.PhysicDesc.SizeX = 0
 	Actor_545.PhysicDesc.SizeY = 2.10195e-044
 	Actor_545.PhysicDesc.SizeZ = 2.8026e-045
-	Actor_545.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_150.phy"
+	Actor_545.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_150.phy"
 	Actor_545:SetPhysicalActorType(1)
 	Actor_545:SetPhysicalShape(5)
 	Actor_545.ExtraInfo.Name = ""
@@ -22892,7 +22892,7 @@ function InitMap(environment)
 	Actor_546 = ActorObjectInfo(546)
 	Actor_546:SetRenderType(1)
 	Actor_546.DisplayDesc.ModelId = 0
-	Actor_546.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.osgb"
+	Actor_546.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.osgb"
 	Actor_546.DisplayDesc.Outfit = ""
 	Actor_546.DisplayDesc.Weapon = ""
 	Actor_546.DisplayDesc.Mode = ""
@@ -22921,7 +22921,7 @@ function InitMap(environment)
 	Actor_546.PhysicDesc.SizeX = -7.00649e-045
 	Actor_546.PhysicDesc.SizeY = 0
 	Actor_546.PhysicDesc.SizeZ = 0
-	Actor_546.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.phy"
+	Actor_546.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.phy"
 	Actor_546:SetPhysicalActorType(1)
 	Actor_546:SetPhysicalShape(5)
 	Actor_546.ExtraInfo.Name = ""
@@ -22934,7 +22934,7 @@ function InitMap(environment)
 	Actor_547 = ActorObjectInfo(547)
 	Actor_547:SetRenderType(1)
 	Actor_547.DisplayDesc.ModelId = -1071529984
-	Actor_547.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.osgb"
+	Actor_547.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.osgb"
 	Actor_547.DisplayDesc.Outfit = ""
 	Actor_547.DisplayDesc.Weapon = ""
 	Actor_547.DisplayDesc.Mode = ""
@@ -22963,7 +22963,7 @@ function InitMap(environment)
 	Actor_547.PhysicDesc.SizeX = 0
 	Actor_547.PhysicDesc.SizeY = -4.13477
 	Actor_547.PhysicDesc.SizeZ = 4.82422
-	Actor_547.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.phy"
+	Actor_547.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.phy"
 	Actor_547:SetPhysicalActorType(1)
 	Actor_547:SetPhysicalShape(5)
 	Actor_547.ExtraInfo.Name = ""
@@ -22976,7 +22976,7 @@ function InitMap(environment)
 	Actor_548 = ActorObjectInfo(548)
 	Actor_548:SetRenderType(1)
 	Actor_548.DisplayDesc.ModelId = 0
-	Actor_548.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.osgb"
+	Actor_548.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.osgb"
 	Actor_548.DisplayDesc.Outfit = ""
 	Actor_548.DisplayDesc.Weapon = ""
 	Actor_548.DisplayDesc.Mode = ""
@@ -23005,7 +23005,7 @@ function InitMap(environment)
 	Actor_548.PhysicDesc.SizeX = 0
 	Actor_548.PhysicDesc.SizeY = 0
 	Actor_548.PhysicDesc.SizeZ = 0
-	Actor_548.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_3.phy"
+	Actor_548.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_3.phy"
 	Actor_548:SetPhysicalActorType(1)
 	Actor_548:SetPhysicalShape(5)
 	Actor_548.ExtraInfo.Name = ""
@@ -23018,7 +23018,7 @@ function InitMap(environment)
 	Actor_549 = ActorObjectInfo(549)
 	Actor_549:SetRenderType(1)
 	Actor_549.DisplayDesc.ModelId = 0
-	Actor_549.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.osgb"
+	Actor_549.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.osgb"
 	Actor_549.DisplayDesc.Outfit = ""
 	Actor_549.DisplayDesc.Weapon = ""
 	Actor_549.DisplayDesc.Mode = ""
@@ -23047,7 +23047,7 @@ function InitMap(environment)
 	Actor_549.PhysicDesc.SizeX = 1.31224e-038
 	Actor_549.PhysicDesc.SizeY = 0
 	Actor_549.PhysicDesc.SizeZ = 0
-	Actor_549.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.phy"
+	Actor_549.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.phy"
 	Actor_549:SetPhysicalActorType(1)
 	Actor_549:SetPhysicalShape(5)
 	Actor_549.ExtraInfo.Name = ""
@@ -23060,7 +23060,7 @@ function InitMap(environment)
 	Actor_550 = ActorObjectInfo(550)
 	Actor_550:SetRenderType(1)
 	Actor_550.DisplayDesc.ModelId = 0
-	Actor_550.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.osgb"
+	Actor_550.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.osgb"
 	Actor_550.DisplayDesc.Outfit = ""
 	Actor_550.DisplayDesc.Weapon = ""
 	Actor_550.DisplayDesc.Mode = ""
@@ -23089,7 +23089,7 @@ function InitMap(environment)
 	Actor_550.PhysicDesc.SizeX = 0
 	Actor_550.PhysicDesc.SizeY = 0
 	Actor_550.PhysicDesc.SizeZ = 0
-	Actor_550.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.phy"
+	Actor_550.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.phy"
 	Actor_550:SetPhysicalActorType(1)
 	Actor_550:SetPhysicalShape(5)
 	Actor_550.ExtraInfo.Name = ""
@@ -23102,7 +23102,7 @@ function InitMap(environment)
 	Actor_551 = ActorObjectInfo(551)
 	Actor_551:SetRenderType(1)
 	Actor_551.DisplayDesc.ModelId = 0
-	Actor_551.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.osgb"
+	Actor_551.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.osgb"
 	Actor_551.DisplayDesc.Outfit = ""
 	Actor_551.DisplayDesc.Weapon = ""
 	Actor_551.DisplayDesc.Mode = ""
@@ -23131,7 +23131,7 @@ function InitMap(environment)
 	Actor_551.PhysicDesc.SizeX = 0
 	Actor_551.PhysicDesc.SizeY = 0
 	Actor_551.PhysicDesc.SizeZ = 0
-	Actor_551.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.phy"
+	Actor_551.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.phy"
 	Actor_551:SetPhysicalActorType(1)
 	Actor_551:SetPhysicalShape(5)
 	Actor_551.ExtraInfo.Name = ""
@@ -23144,7 +23144,7 @@ function InitMap(environment)
 	Actor_552 = ActorObjectInfo(552)
 	Actor_552:SetRenderType(1)
 	Actor_552.DisplayDesc.ModelId = 0
-	Actor_552.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.osgb"
+	Actor_552.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.osgb"
 	Actor_552.DisplayDesc.Outfit = ""
 	Actor_552.DisplayDesc.Weapon = ""
 	Actor_552.DisplayDesc.Mode = ""
@@ -23173,7 +23173,7 @@ function InitMap(environment)
 	Actor_552.PhysicDesc.SizeX = 0
 	Actor_552.PhysicDesc.SizeY = 0
 	Actor_552.PhysicDesc.SizeZ = 0
-	Actor_552.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.phy"
+	Actor_552.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.phy"
 	Actor_552:SetPhysicalActorType(1)
 	Actor_552:SetPhysicalShape(5)
 	Actor_552.ExtraInfo.Name = ""
@@ -23186,7 +23186,7 @@ function InitMap(environment)
 	Actor_553 = ActorObjectInfo(553)
 	Actor_553:SetRenderType(1)
 	Actor_553.DisplayDesc.ModelId = 226842216
-	Actor_553.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.osgb"
+	Actor_553.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.osgb"
 	Actor_553.DisplayDesc.Outfit = ""
 	Actor_553.DisplayDesc.Weapon = ""
 	Actor_553.DisplayDesc.Mode = ""
@@ -23215,7 +23215,7 @@ function InitMap(environment)
 	Actor_553.PhysicDesc.SizeX = 4.48416e-044
 	Actor_553.PhysicDesc.SizeY = 4.62428e-044
 	Actor_553.PhysicDesc.SizeZ = 0
-	Actor_553.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.phy"
+	Actor_553.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.phy"
 	Actor_553:SetPhysicalActorType(1)
 	Actor_553:SetPhysicalShape(5)
 	Actor_553.ExtraInfo.Name = ""
@@ -23228,7 +23228,7 @@ function InitMap(environment)
 	Actor_554 = ActorObjectInfo(554)
 	Actor_554:SetRenderType(1)
 	Actor_554.DisplayDesc.ModelId = 0
-	Actor_554.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.osgb"
+	Actor_554.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.osgb"
 	Actor_554.DisplayDesc.Outfit = ""
 	Actor_554.DisplayDesc.Weapon = ""
 	Actor_554.DisplayDesc.Mode = ""
@@ -23257,7 +23257,7 @@ function InitMap(environment)
 	Actor_554.PhysicDesc.SizeX = 0
 	Actor_554.PhysicDesc.SizeY = 0
 	Actor_554.PhysicDesc.SizeZ = 1.28572e-039
-	Actor_554.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_2.phy"
+	Actor_554.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_2.phy"
 	Actor_554:SetPhysicalActorType(1)
 	Actor_554:SetPhysicalShape(5)
 	Actor_554.ExtraInfo.Name = ""
@@ -23270,7 +23270,7 @@ function InitMap(environment)
 	Actor_555 = ActorObjectInfo(555)
 	Actor_555:SetRenderType(1)
 	Actor_555.DisplayDesc.ModelId = 0
-	Actor_555.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_151.osgb"
+	Actor_555.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_151.osgb"
 	Actor_555.DisplayDesc.Outfit = ""
 	Actor_555.DisplayDesc.Weapon = ""
 	Actor_555.DisplayDesc.Mode = ""
@@ -23299,7 +23299,7 @@ function InitMap(environment)
 	Actor_555.PhysicDesc.SizeX = 0
 	Actor_555.PhysicDesc.SizeY = 0
 	Actor_555.PhysicDesc.SizeZ = 0
-	Actor_555.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_151.phy"
+	Actor_555.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_151.phy"
 	Actor_555:SetPhysicalActorType(1)
 	Actor_555:SetPhysicalShape(5)
 	Actor_555.ExtraInfo.Name = ""
@@ -23312,7 +23312,7 @@ function InitMap(environment)
 	Actor_556 = ActorObjectInfo(556)
 	Actor_556:SetRenderType(1)
 	Actor_556.DisplayDesc.ModelId = 0
-	Actor_556.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_30.osgb"
+	Actor_556.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_30.osgb"
 	Actor_556.DisplayDesc.Outfit = ""
 	Actor_556.DisplayDesc.Weapon = ""
 	Actor_556.DisplayDesc.Mode = ""
@@ -23341,7 +23341,7 @@ function InitMap(environment)
 	Actor_556.PhysicDesc.SizeX = 0
 	Actor_556.PhysicDesc.SizeY = 0
 	Actor_556.PhysicDesc.SizeZ = 1.28572e-039
-	Actor_556.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/OTRINGAL_OBJ_30.phy"
+	Actor_556.PhysicDesc.Filename = "Worlds/Lba2Original/Models/OTRINGAL_OBJ_30.phy"
 	Actor_556:SetPhysicalActorType(1)
 	Actor_556:SetPhysicalShape(5)
 	Actor_556.ExtraInfo.Name = ""

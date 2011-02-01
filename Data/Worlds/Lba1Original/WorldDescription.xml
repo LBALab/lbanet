@@ -23,173 +23,146 @@
 			<Mode>Normal</Mode>
 			<RendererType>2</RendererType>
 		</StartingModel>
-		
 		<StartingInventory>
-			<item>
+			<object>
 				<ObjectId>1</ObjectId>
-				<Position>1</Position>				
-				<Number>1</Number>				
-			</item>	
-			
-			<item>
+				<Number>1</Number>
+				<Position>1</Position>
+			</object>
+			<object>
 				<ObjectId>2</ObjectId>
-				<Position>2</Position>				
-				<Number>1</Number>				
-			</item>				
-			
-			<item>
+				<Number>1</Number>
+				<Position>2</Position>
+			</object>
+			<object>
 				<ObjectId>3</ObjectId>
-				<Position>3</Position>				
-				<Number>1</Number>				
-			</item>					
-			
-			<item>
+				<Number>1</Number>
+				<Position>3</Position>
+			</object>
+			<object>
 				<ObjectId>4</ObjectId>
-				<Position>4</Position>				
-				<Number>1</Number>				
-			</item>						
-			
-			<item>
+				<Number>1</Number>
+				<Position>4</Position>
+			</object>
+			<object>
 				<ObjectId>5</ObjectId>
-				<Position>5</Position>				
-				<Number>1</Number>				
-			</item>					
-			
-			<item>
+				<Number>1</Number>
+				<Position>5</Position>
+			</object>
+			<object>
 				<ObjectId>6</ObjectId>
-				<Position>6</Position>				
-				<Number>1</Number>				
-			</item>					
-			
-			<item>
+				<Number>1</Number>
+				<Position>6</Position>
+			</object>
+			<object>
 				<ObjectId>7</ObjectId>
-				<Position>7</Position>				
-				<Number>1</Number>				
-			</item>					
-			
-			<item>
+				<Number>1</Number>
+				<Position>7</Position>
+			</object>
+			<object>
 				<ObjectId>8</ObjectId>
-				<Position>8</Position>				
-				<Number>1</Number>				
-			</item>					
-			
-			<item>
+				<Number>1</Number>
+				<Position>8</Position>
+			</object>
+			<object>
 				<ObjectId>9</ObjectId>
-				<Position>9</Position>				
-				<Number>1</Number>				
-			</item>					
-			
-			<item>
+				<Number>1</Number>
+				<Position>9</Position>
+			</object>
+			<object>
 				<ObjectId>10</ObjectId>
-				<Position>10</Position>				
-				<Number>1</Number>				
-			</item>					
-			
-			<item>
+				<Number>1</Number>
+				<Position>10</Position>
+			</object>
+			<object>
 				<ObjectId>11</ObjectId>
-				<Position>11</Position>				
-				<Number>1</Number>				
-			</item>					
-			
-			<item>
+				<Number>1</Number>
+				<Position>11</Position>
+			</object>
+			<object>
 				<ObjectId>12</ObjectId>
-				<Position>12</Position>				
-				<Number>1</Number>				
-			</item>					
-			
-			<item>
+				<Number>1</Number>
+				<Position>12</Position>
+			</object>
+			<object>
 				<ObjectId>13</ObjectId>
-				<Position>13</Position>				
-				<Number>1</Number>				
-			</item>					
-			
-			<item>
+				<Number>1</Number>
+				<Position>13</Position>
+			</object>
+			<object>
 				<ObjectId>14</ObjectId>
-				<Position>14</Position>				
-				<Number>1</Number>				
-			</item>					
-			
-			<item>
+				<Number>1</Number>
+				<Position>14</Position>
+			</object>
+			<object>
 				<ObjectId>15</ObjectId>
-				<Position>15</Position>				
-				<Number>1</Number>				
-			</item>					
-			
-			<item>
+				<Number>1</Number>
+				<Position>15</Position>
+			</object>
+			<object>
 				<ObjectId>16</ObjectId>
-				<Position>16</Position>				
-				<Number>1</Number>				
-			</item>					
-			
-			<item>
+				<Number>1</Number>
+				<Position>16</Position>
+			</object>
+			<object>
 				<ObjectId>17</ObjectId>
-				<Position>17</Position>				
-				<Number>1</Number>				
-			</item>					
-			
-			<item>
+				<Number>1</Number>
+				<Position>17</Position>
+			</object>
+			<object>
 				<ObjectId>18</ObjectId>
-				<Position>18</Position>				
-				<Number>1</Number>				
-			</item>					
-			
-			<item>
+				<Number>1</Number>
+				<Position>18</Position>
+			</object>
+			<object>
 				<ObjectId>19</ObjectId>
-				<Position>19</Position>				
-				<Number>1</Number>				
-			</item>					
-			
-			<item>
+				<Number>1</Number>
+				<Position>19</Position>
+			</object>
+			<object>
 				<ObjectId>20</ObjectId>
-				<Position>20</Position>				
-				<Number>1</Number>				
-			</item>					
-			
-			<item>
+				<Number>1</Number>
+				<Position>20</Position>
+			</object>
+			<object>
 				<ObjectId>21</ObjectId>
-				<Position>21</Position>				
-				<Number>1</Number>				
-			</item>					
-			
-			<item>
+				<Number>1</Number>
+				<Position>21</Position>
+			</object>
+			<object>
 				<ObjectId>22</ObjectId>
-				<Position>22</Position>				
-				<Number>1</Number>				
-			</item>					
-			
-			<item>
+				<Number>1</Number>
+				<Position>22</Position>
+			</object>
+			<object>
 				<ObjectId>23</ObjectId>
-				<Position>23</Position>				
-				<Number>1</Number>				
-			</item>					
-			
-			<item>
+				<Number>1</Number>
+				<Position>23</Position>
+			</object>
+			<object>
 				<ObjectId>24</ObjectId>
-				<Position>24</Position>				
-				<Number>1</Number>				
-			</item>					
-			
-			<item>
+				<Number>1</Number>
+				<Position>24</Position>
+			</object>
+			<object>
 				<ObjectId>25</ObjectId>
-				<Position>25</Position>				
-				<Number>1</Number>				
-			</item>					
-			
-			<item>
+				<Number>1</Number>
+				<Position>25</Position>
+			</object>
+			<object>
 				<ObjectId>26</ObjectId>
-				<Position>26</Position>				
-				<Number>1</Number>				
-			</item>					
-			
-			<item>
+				<Number>1</Number>
+				<Position>26</Position>
+			</object>
+			<object>
 				<ObjectId>27</ObjectId>
-				<Position>27</Position>				
-				<Number>1</Number>				
-			</item>	
-		</StartingInventory>		
+				<Number>1</Number>
+				<Position>27</Position>
+			</object>
+		</StartingInventory>
 	</PlayerStartingInfo>
 	<maps>
-		<Map name="Map000_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map000_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Citadel Island, Prison</description>
 			<spareas>
 				<spawning Id="1" name="FirstSpawning" posX="34" posY="4" posZ="34" ForceRotation="false" RotationAtArrival="0"/>
@@ -203,7 +176,7 @@
 				<spawning Id="9" name="spawning8" posX="0.5" posY="-1" posZ="1" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map001_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map001_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Citadel Island, outside the citadel</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="37" posY="2" posZ="15.5" ForceRotation="false" RotationAtArrival="0"/>
@@ -212,7 +185,7 @@
 				<spawning Id="4" name="spawning4" posX="22.5" posY="0" posZ="57" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map002_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map002_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Citadel Island, near the tavern</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="2.5" posY="5" posZ="2" ForceRotation="false" RotationAtArrival="0"/>
@@ -228,7 +201,7 @@
 				<spawning Id="11" name="spawning9" posX="36" posY="0" posZ="39" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map003_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map003_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Citadel Island, near the pharmacy</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="32.5" posY="15" posZ="2" ForceRotation="false" RotationAtArrival="0"/>
@@ -239,7 +212,7 @@
 				<spawning Id="6" name="spawning6" posX="36.5" posY="10" posZ="6.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map004_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map004_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Citadel Island, near twinsens house</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="21.5" posY="0" posZ="2.5" ForceRotation="false" RotationAtArrival="0"/>
@@ -253,7 +226,7 @@
 				<spawning Id="9" name="spawning9" posX="45" posY="1" posZ="59" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map005_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map005_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Citadel Island, inside Twinsens house</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="56" posY="7" posZ="28.5" ForceRotation="false" RotationAtArrival="0"/>
@@ -261,7 +234,7 @@
 				<spawning Id="3" name="spawning3" posX="22.5" posY="4" posZ="9" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map006_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map006_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Citadel Island, Harbor</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="62" posY="0" posZ="49" ForceRotation="false" RotationAtArrival="0"/>
@@ -271,19 +244,19 @@
 				<spawning Id="5" name="spawning5" posX="57.5" posY="4" posZ="26" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map007_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map007_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Citadel Island, Pharmacy</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="59" posY="0" posZ="53.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map008_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map008_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>White Leaf Desert, Temple of Bu 1st scene</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="51.5" posY="8" posZ="60" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map009_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map009_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Hamalayi Mountains, landing place</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="63" posY="3" posZ="63" ForceRotation="false" RotationAtArrival="0"/>
@@ -292,13 +265,13 @@
 				<spawning Id="4" name="spawning4" posX="2" posY="2" posZ="47.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map010_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map010_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Principal Island, Library</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="62" posY="5" posZ="2.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map011_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map011_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Principal Island, Harbor</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="41" posY="4" posZ="37" ForceRotation="false" RotationAtArrival="0"/>
@@ -310,7 +283,7 @@
 				<spawning Id="7" name="spawning7" posX="6" posY="6" posZ="48" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map012_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map012_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Principal Island, outside the fortress</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="57.5" posY="4" posZ="62" ForceRotation="false" RotationAtArrival="0"/>
@@ -322,7 +295,7 @@
 				<spawning Id="7" name="spawning7" posX="56" posY="4" posZ="4.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map013_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map013_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Principal Island, Lupin Burg</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="62" posY="0" posZ="52" ForceRotation="false" RotationAtArrival="0"/>
@@ -339,14 +312,14 @@
 				<spawning Id="12" name="spawning9" posX="21.5" posY="3" posZ="56" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map014_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map014_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Citadel Island, Tavern</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="52.5" posY="0" posZ="59" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="58.5" posY="0" posZ="41" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map015_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map015_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Hamalayi Mountains, Rabbibunny village</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="50" posY="0" posZ="2.5" ForceRotation="false" RotationAtArrival="0"/>
@@ -354,19 +327,19 @@
 				<spawning Id="3" name="spawning3" posX="2" posY="7" posZ="57.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map016_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map016_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Citadel Island, inside a Rabbibunny house</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="55.5" posY="2" posZ="60" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map017_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map017_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Principal Island, Ruins</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="2" posY="3" posZ="39" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map018_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map018_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Principal Island, outside the library</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="38" posY="9" posZ="21.5" ForceRotation="false" RotationAtArrival="0"/>
@@ -374,41 +347,41 @@
 				<spawning Id="3" name="spawning3" posX="27" posY="3" posZ="51.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map019_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map019_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Principal Island, Militairy camp</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="60" posY="7" posZ="62" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="62" posY="7" posZ="50.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map020_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map020_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Citadel Island, Architects house</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="58" posY="2" posZ="56.5" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="58" posY="2" posZ="56.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map021_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map021_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Citadel Island, secret chamber in the house</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="33" posY="3" posZ="62" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="33" posY="3" posZ="62" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map022_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map022_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Principal Island, Ticket office</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="51" posY="7" posZ="43.5" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="60.5" posY="0" posZ="56" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map023_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map023_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Principal Island, Prison</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="62" posY="1" posZ="50.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map024_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map024_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Principal Island, Port Belooga</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="63" posY="7" posZ="0" ForceRotation="false" RotationAtArrival="0"/>
@@ -422,95 +395,95 @@
 				<spawning Id="9" name="spawning9" posX="63" posY="7" posZ="0" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map025_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map025_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Principal Island, Peg Leg Street</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="59.5" posY="3" posZ="2" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="50" posY="0" posZ="20.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map026_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map026_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Principal Island, Shop</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="56.5" posY="0" posZ="62" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map027_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map027_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Principal Island, Locksmith</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="60.5" posY="2" posZ="62" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map028_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map028_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Principal Island, inside a Rabbibunny house</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="62" posY="1" posZ="59.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map029_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map029_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Principal Island, Astronimers House</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="51" posY="14" posZ="57" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map030_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map030_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Principal Island, Tavern</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="62" posY="0" posZ="58.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map031_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map031_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Principal Island, Basement of the Astronomer</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="62" posY="1" posZ="57.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map032_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map032_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Principal Island, Stables</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="57.5" posY="0" posZ="62" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="46.5" posY="0" posZ="62" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map033_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map033_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Citadel Island, Cellar of the Tavern</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="2.5" posY="13" posZ="12" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map034_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map034_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Citadel Island, Sewer of the 1st scene</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="47" posY="8" posZ="48" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map035_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map035_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Citadel Island, Warehouse</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="53" posY="0" posZ="62" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map036_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map036_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>White Leaf Desert, outside the Temple of Bu</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="2" posY="0" posZ="12.5" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="5" posY="0" posZ="2.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map037_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map037_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Principal Island, outside the water tower</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="55" posY="0" posZ="63" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="34" posY="12" posZ="42" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map038_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map038_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Principal Island, inside the water tower</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="55" posY="5" posZ="52" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map039_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map039_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>White Leaf Desert, Militairy camp</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="63" posY="3" posZ="0" ForceRotation="false" RotationAtArrival="0"/>
@@ -523,7 +496,7 @@
 				<spawning Id="8" name="spawning8" posX="63" posY="3" posZ="0" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map040_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map040_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>White Leaf Desert, Temple of Bu 2nd scene</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="3.5" posY="16" posZ="3" ForceRotation="false" RotationAtArrival="0"/>
@@ -531,13 +504,13 @@
 				<spawning Id="3" name="spawning3" posX="39.4" posY="9" posZ="31" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map041_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map041_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>White Leaf Desert, Temple of Bu 3rd scene</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="2.5" posY="7" posZ="62" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map042_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map042_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Proxima Island, Proxim City</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="1" posY="3" posZ="63" ForceRotation="false" RotationAtArrival="0"/>
@@ -559,7 +532,7 @@
 				<spawning Id="17" name="spawning9" posX="51" posY="4" posZ="62" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map043_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map043_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Proxima Island, Museum</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="45" posY="0" posZ="48" ForceRotation="false" RotationAtArrival="0"/>
@@ -568,7 +541,7 @@
 				<spawning Id="4" name="spawning4" posX="5" posY="1" posZ="49" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map044_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map044_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Proxima Island, near the Inventors house</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="62" posY="5" posZ="43" ForceRotation="false" RotationAtArrival="0"/>
@@ -577,26 +550,26 @@
 				<spawning Id="4" name="spawning4" posX="36" posY="5" posZ="34.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map045_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map045_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Proxima Island, upper rune stone</description>
 		</Map>
-		<Map name="Map046_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map046_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Proxima Island, lower rune stone</description>
 		</Map>
-		<Map name="Map047_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map047_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Proxima Island, befor the upper rune stone</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="41.5" posY="1" posZ="54" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="42" posY="2" posZ="42" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map048_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map048_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Proxima Island, Forgers house</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="55" posY="2" posZ="60" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map049_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map049_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Proxima Island, Prison</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="62" posY="11" posZ="60" ForceRotation="false" RotationAtArrival="0"/>
@@ -605,13 +578,13 @@
 				<spawning Id="4" name="spawning4" posX="60" posY="7" posZ="32" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map050_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map050_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Proxima Island, Shop</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="62" posY="0" posZ="55" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map051_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map051_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Proxima Island, Sewer</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="47" posY="11.5" posZ="61" ForceRotation="false" RotationAtArrival="0"/>
@@ -621,47 +594,47 @@
 				<spawning Id="5" name="spawning5" posX="57" posY="11.5" posZ="18" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map052_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map052_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Principal Island, house at Peg Leg Street</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="62" posY="2" posZ="59.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map053_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map053_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Proxima Island, Grobo house</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="58" posY="2" posZ="62" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map054_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map054_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Proxima Island, Inventors house</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="57.5" posY="0" posZ="61" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="61" posY="0" posZ="55" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map055_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map055_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Citadel Island, Sewer (secret)</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="62" posY="8" posZ="56" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map056_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map056_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Principal Island, Sewer (secret)</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="50" posY="8" posZ="56" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map057_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map057_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>White Leaf Desert, Maze</description>
 		</Map>
-		<Map name="Map058_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map058_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Principal Island, House with the TV</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="62" posY="2" posZ="59.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map059_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map059_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Rebelion Island, Harbor</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="1" posY="5" posZ="0" ForceRotation="false" RotationAtArrival="0"/>
@@ -673,58 +646,58 @@
 				<spawning Id="7" name="spawning7" posX="1" posY="5" posZ="0" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map060_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map060_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Rebelion Island, Rebel camp</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="63" posY="3" posZ="51" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map061_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map061_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Some room (cut-out)</description>
 		</Map>
-		<Map name="Map062_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map062_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Hamalayi Mountains, 1st fighting scene</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="50" posY="0" posZ="62" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="46.5" posY="8" posZ="2" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map063_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map063_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Hamalayi Mountains, 2nd fighting scene</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="51.5" posY="0" posZ="62" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="52" posY="11" posZ="2" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map064_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map064_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Hamalayi Mountains, Prison</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="62" posY="0" posZ="38.5" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="24" posY="14" posZ="2" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map065_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map065_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Hamalayi Mountains, outside the transporter</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="2" posY="2" posZ="40" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="33" posY="2" posZ="6" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map066_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map066_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Hamalayi Mountains, inside the transporter</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="52" posY="5" posZ="62" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="61" posY="5" posZ="59" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map067_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map067_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Hamalayi Mountains, Mutation centre 1st scene</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="28" posY="12" posZ="23.5" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="34" posY="5" posZ="58.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map068_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map068_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Hamalayi Mountains, Mutation centre 2nd scene</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="37" posY="0" posZ="51.5" ForceRotation="false" RotationAtArrival="0"/>
@@ -732,41 +705,41 @@
 				<spawning Id="3" name="spawning3" posX="62" posY="0" posZ="42.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map069_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map069_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Hamalayi Mountains, 3rd fighting scene</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="55.5" posY="6" posZ="61" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="54.5" posY="12" posZ="2" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map070_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map070_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Hamalayi Mountains, Entrance to the prison</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="39" posY="8" posZ="23" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="49" posY="0" posZ="62" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map071_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map071_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Hamalayi Mountains, outside the prison</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="51.5" posY="0" posZ="62" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="54" posY="0" posZ="43" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map072_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map072_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Hamalayi Mountains, Catamaran dock</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="62" posY="2" posZ="3.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map073_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map073_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Hamalayi Mountains, Bunker near clear water</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="62" posY="2" posZ="59" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="22" posY="2" posZ="4" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map074_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map074_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Tippet Island, Village</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="22" posY="1" posZ="48" ForceRotation="false" RotationAtArrival="0"/>
@@ -777,28 +750,28 @@
 				<spawning Id="6" name="spawning6" posX="8" posY="8" posZ="29.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map075_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map075_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Tippet Island, Secret passage scene 2</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="50" posY="3" posZ="61" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="46" posY="16" posZ="30" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map076_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map076_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Tippet Island, near the bar</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="62" posY="5" posZ="52" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="35" posY="9" posZ="49" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map077_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map077_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Tippet Island, Secret passage scene 1</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="57" posY="14" posZ="7" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="51" posY="7" posZ="58" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map078_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map078_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Tippet Island, near the Dino-Fly</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="58" posY="16" posZ="56" ForceRotation="false" RotationAtArrival="0"/>
@@ -807,31 +780,31 @@
 				<spawning Id="4" name="spawning4" posX="46" posY="19" posZ="48" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map079_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map079_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Tippet Island, Secret passage scene 3</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="62" posY="3" posZ="60" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="56" posY="9.6" posZ="29.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map080_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map080_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Tippet Island, Twinsun Cafe</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="50" posY="5" posZ="62" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="60" posY="5" posZ="49" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map081_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map081_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Hamalayi Mountains, Sacret Carrot</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="62" posY="0" posZ="51" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="52" posY="0" posZ="39" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map082_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map082_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Hamalayi Mountains, Backdoor of the prison</description>
 		</Map>
-		<Map name="Map083_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map083_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Fortress Island, inside the fortress</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="17" posY="7" posZ="42" ForceRotation="false" RotationAtArrival="0"/>
@@ -839,46 +812,46 @@
 				<spawning Id="3" name="spawning3" posX="13" posY="7" posZ="36" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map084_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map084_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Fortress Island, outside the forstress</description>
 		</Map>
-		<Map name="Map085_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map085_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Fortress Island, Secret passage scene 1</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="55" posY="0" posZ="55" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="54" posY="14" posZ="27" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map086_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map086_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Fortress Island, Secret in the fortress</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="53" posY="8" posZ="58" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map087_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map087_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Fortress Island, near Zoes cell</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="55" posY="5" posZ="46.5" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="59" posY="0" posZ="62" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map088_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map088_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Fortress Island, Swimming pool</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="32" posY="9" posZ="61" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="47" posY="7" posZ="7" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map089_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map089_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Fortress Island, Cloning center</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="62" posY="0" posZ="45" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map090_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map090_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Fortress Island, Rune stone</description>
 		</Map>
-		<Map name="Map091_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map091_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Hamalayi Mountains, Behind the sacret carrot</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="2" posY="2" posZ="59" ForceRotation="false" RotationAtArrival="0"/>
@@ -890,19 +863,19 @@
 				<spawning Id="7" name="spawning7" posX="14" posY="2" posZ="51" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map092_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map092_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Hamalayi Mountains, Clear water lake</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="62" posY="2" posZ="41" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map093_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map093_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Fortress Island, outside fortress destroyed</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="19.5" posY="7" posZ="14" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map094_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map094_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Brundle Island, outside the teleportation</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="51" posY="3" posZ="16.5" ForceRotation="false" RotationAtArrival="0"/>
@@ -911,7 +884,7 @@
 				<spawning Id="4" name="spawning4" posX="27" posY="3" posZ="29.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map095_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map095_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Brundle Island, inside the teleportation</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="60" posY="11" posZ="4.5" ForceRotation="false" RotationAtArrival="0"/>
@@ -921,13 +894,13 @@
 				<spawning Id="5" name="spawning5" posX="29" posY="15" posZ="47" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map096_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map096_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Hamalayi Mountains, Ski resort</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="61" posY="0" posZ="20" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map097_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map097_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Brundle Island, Docks</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="49" posY="1" posZ="21" ForceRotation="false" RotationAtArrival="0"/>
@@ -939,19 +912,19 @@
 				<spawning Id="7" name="spawning7" posX="41" posY="1" posZ="22" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map098_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map098_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Brundle Island, Secret room</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="58.5" posY="0" posZ="61" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map099_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map099_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Brundle Island, near the telepods</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="61" posY="8" posZ="35" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map100_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map100_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Fortress Island, Docks</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="40" posY="1" posZ="33" ForceRotation="false" RotationAtArrival="0"/>
@@ -961,44 +934,44 @@
 				<spawning Id="5" name="spawning5" posX="40" posY="1" posZ="33" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map101_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map101_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Tippet Island, Shop</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="62" posY="0" posZ="56.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map102_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map102_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Principal Island, house in port Belooga</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="62" posY="2" posZ="55.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map103_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map103_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Brundle Island, Painters house</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="62" posY="1" posZ="59.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map104_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map104_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Citadel Island, Ticket Office</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="57.5" posY="0" posZ="62" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map105_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map105_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Principal Island, inside the fortress</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="37" posY="13" posZ="11.5" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map106_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map106_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Polar Island, 2nd scene</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="49" posY="2" posZ="2" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="49" posY="2" posZ="62" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map107_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map107_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Polar Island, 3rd scene</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="34" posY="2" posZ="62" ForceRotation="false" RotationAtArrival="0"/>
@@ -1007,7 +980,7 @@
 				<spawning Id="4" name="spawning4" posX="21" posY="3" posZ="1" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map108_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map108_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Polar Island, Before the rocky peak</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="62" posY="2" posZ="55" ForceRotation="false" RotationAtArrival="0"/>
@@ -1015,57 +988,57 @@
 				<spawning Id="3" name="spawning3" posX="58" posY="2" posZ="32" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map109_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map109_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Polar Island, 4th scene</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="56.5" posY="5" posZ="62" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map110_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map110_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Polar Island, The rocky peak</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="2" posY="2" posZ="42" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="35" posY="16.6" posZ="44" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map111_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map111_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Polar Island, on the rocky peak</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="55" posY="12" posZ="53" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map112_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map112_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Polar Island, Before the end room</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="55" posY="18" posZ="53" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map113_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map113_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Polar Island, Final Battle</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="50" posY="5" posZ="61" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map114_1" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map114_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Polar Island, end scene</description>
 		</Map>
-		<Map name="Map115_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map115_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Polar Island, 1st scene</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="14.5" posY="2" posZ="62" ForceRotation="false" RotationAtArrival="0"/>
 				<spawning Id="2" name="spawning2" posX="24" posY="2" posZ="37" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map116_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map116_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Citadel Island, end sequence (1)</description>
 			<spareas>
 				<spawning Id="1" name="spawning1" posX="47" posY="0" posZ="0" ForceRotation="false" RotationAtArrival="0"/>
 			</spareas>
 		</Map>
-		<Map name="Map117_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map117_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Citadel Island, end sequence (2)</description>
 		</Map>
-		<Map name="Map118_1" type="exterior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map118_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
 			<description>Citadel Island, Twinsen&apos;s house destroyed</description>
 		</Map>
 	</maps>

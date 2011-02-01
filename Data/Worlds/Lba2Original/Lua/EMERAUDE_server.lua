@@ -2,7 +2,7 @@ function InitMap(environment)
 	Actor_1 = ActorObjectInfo(1)
 	Actor_1:SetRenderType(1)
 	Actor_1.DisplayDesc.ModelId = 750
-	Actor_1.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE.osgb"
+	Actor_1.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE.osgb"
 	Actor_1.DisplayDesc.Outfit = ""
 	Actor_1.DisplayDesc.Weapon = ""
 	Actor_1.DisplayDesc.Mode = ""
@@ -31,7 +31,7 @@ function InitMap(environment)
 	Actor_1.PhysicDesc.SizeX = 0
 	Actor_1.PhysicDesc.SizeY = 0
 	Actor_1.PhysicDesc.SizeZ = 0
-	Actor_1.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE.phy"
+	Actor_1.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE.phy"
 	Actor_1:SetPhysicalActorType(1)
 	Actor_1:SetPhysicalShape(5)
 	Actor_1.ExtraInfo.Name = ""
@@ -44,7 +44,7 @@ function InitMap(environment)
 	Actor_2 = ActorObjectInfo(2)
 	Actor_2:SetRenderType(1)
 	Actor_2.DisplayDesc.ModelId = 0
-	Actor_2.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.osgb"
+	Actor_2.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.osgb"
 	Actor_2.DisplayDesc.Outfit = ""
 	Actor_2.DisplayDesc.Weapon = ""
 	Actor_2.DisplayDesc.Mode = ""
@@ -73,7 +73,7 @@ function InitMap(environment)
 	Actor_2.PhysicDesc.SizeX = 2.02061e-023
 	Actor_2.PhysicDesc.SizeY = 0
 	Actor_2.PhysicDesc.SizeZ = 0
-	Actor_2.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.phy"
+	Actor_2.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.phy"
 	Actor_2:SetPhysicalActorType(1)
 	Actor_2:SetPhysicalShape(5)
 	Actor_2.ExtraInfo.Name = ""
@@ -86,7 +86,7 @@ function InitMap(environment)
 	Actor_3 = ActorObjectInfo(3)
 	Actor_3:SetRenderType(1)
 	Actor_3.DisplayDesc.ModelId = 0
-	Actor_3.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_3.osgb"
+	Actor_3.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_3.osgb"
 	Actor_3.DisplayDesc.Outfit = ""
 	Actor_3.DisplayDesc.Weapon = ""
 	Actor_3.DisplayDesc.Mode = ""
@@ -115,7 +115,7 @@ function InitMap(environment)
 	Actor_3.PhysicDesc.SizeX = -90
 	Actor_3.PhysicDesc.SizeY = 5.60519e-045
 	Actor_3.PhysicDesc.SizeZ = 0
-	Actor_3.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_3.phy"
+	Actor_3.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_3.phy"
 	Actor_3:SetPhysicalActorType(1)
 	Actor_3:SetPhysicalShape(5)
 	Actor_3.ExtraInfo.Name = ""
@@ -128,7 +128,7 @@ function InitMap(environment)
 	Actor_4 = ActorObjectInfo(4)
 	Actor_4:SetRenderType(1)
 	Actor_4.DisplayDesc.ModelId = 24707752
-	Actor_4.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_1.osgb"
+	Actor_4.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_1.osgb"
 	Actor_4.DisplayDesc.Outfit = ""
 	Actor_4.DisplayDesc.Weapon = ""
 	Actor_4.DisplayDesc.Mode = ""
@@ -157,7 +157,7 @@ function InitMap(environment)
 	Actor_4.PhysicDesc.SizeX = 2.10195e-044
 	Actor_4.PhysicDesc.SizeY = 1.05325e-034
 	Actor_4.PhysicDesc.SizeZ = 13.2678
-	Actor_4.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_1.phy"
+	Actor_4.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_1.phy"
 	Actor_4:SetPhysicalActorType(1)
 	Actor_4:SetPhysicalShape(5)
 	Actor_4.ExtraInfo.Name = ""
@@ -170,7 +170,7 @@ function InitMap(environment)
 	Actor_5 = ActorObjectInfo(5)
 	Actor_5:SetRenderType(1)
 	Actor_5.DisplayDesc.ModelId = 423430000
-	Actor_5.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_1.osgb"
+	Actor_5.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_1.osgb"
 	Actor_5.DisplayDesc.Outfit = ""
 	Actor_5.DisplayDesc.Weapon = ""
 	Actor_5.DisplayDesc.Mode = ""
@@ -199,7 +199,7 @@ function InitMap(environment)
 	Actor_5.PhysicDesc.SizeX = 0.0913386
 	Actor_5.PhysicDesc.SizeY = 1.01019e-039
 	Actor_5.PhysicDesc.SizeZ = 0
-	Actor_5.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_1.phy"
+	Actor_5.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_1.phy"
 	Actor_5:SetPhysicalActorType(1)
 	Actor_5:SetPhysicalShape(5)
 	Actor_5.ExtraInfo.Name = ""
@@ -212,7 +212,7 @@ function InitMap(environment)
 	Actor_6 = ActorObjectInfo(6)
 	Actor_6:SetRenderType(1)
 	Actor_6.DisplayDesc.ModelId = 0
-	Actor_6.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_4.osgb"
+	Actor_6.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_4.osgb"
 	Actor_6.DisplayDesc.Outfit = ""
 	Actor_6.DisplayDesc.Weapon = ""
 	Actor_6.DisplayDesc.Mode = ""
@@ -241,7 +241,7 @@ function InitMap(environment)
 	Actor_6.PhysicDesc.SizeX = 1.4013e-045
 	Actor_6.PhysicDesc.SizeY = 1.4013e-045
 	Actor_6.PhysicDesc.SizeZ = 1.4013e-045
-	Actor_6.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_4.phy"
+	Actor_6.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_4.phy"
 	Actor_6:SetPhysicalActorType(1)
 	Actor_6:SetPhysicalShape(5)
 	Actor_6.ExtraInfo.Name = ""
@@ -254,7 +254,7 @@ function InitMap(environment)
 	Actor_7 = ActorObjectInfo(7)
 	Actor_7:SetRenderType(1)
 	Actor_7.DisplayDesc.ModelId = 6
-	Actor_7.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_5.osgb"
+	Actor_7.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_5.osgb"
 	Actor_7.DisplayDesc.Outfit = ""
 	Actor_7.DisplayDesc.Weapon = ""
 	Actor_7.DisplayDesc.Mode = ""
@@ -283,7 +283,7 @@ function InitMap(environment)
 	Actor_7.PhysicDesc.SizeX = 0
 	Actor_7.PhysicDesc.SizeY = 0
 	Actor_7.PhysicDesc.SizeZ = 0
-	Actor_7.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_5.phy"
+	Actor_7.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_5.phy"
 	Actor_7:SetPhysicalActorType(1)
 	Actor_7:SetPhysicalShape(5)
 	Actor_7.ExtraInfo.Name = ""
@@ -296,7 +296,7 @@ function InitMap(environment)
 	Actor_8 = ActorObjectInfo(8)
 	Actor_8:SetRenderType(1)
 	Actor_8.DisplayDesc.ModelId = 24707840
-	Actor_8.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.osgb"
+	Actor_8.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.osgb"
 	Actor_8.DisplayDesc.Outfit = ""
 	Actor_8.DisplayDesc.Weapon = ""
 	Actor_8.DisplayDesc.Mode = ""
@@ -325,7 +325,7 @@ function InitMap(environment)
 	Actor_8.PhysicDesc.SizeX = 0
 	Actor_8.PhysicDesc.SizeY = 0
 	Actor_8.PhysicDesc.SizeZ = 0
-	Actor_8.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.phy"
+	Actor_8.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.phy"
 	Actor_8:SetPhysicalActorType(1)
 	Actor_8:SetPhysicalShape(5)
 	Actor_8.ExtraInfo.Name = ""
@@ -338,7 +338,7 @@ function InitMap(environment)
 	Actor_9 = ActorObjectInfo(9)
 	Actor_9:SetRenderType(1)
 	Actor_9.DisplayDesc.ModelId = 1701667139
-	Actor_9.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_6.osgb"
+	Actor_9.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_6.osgb"
 	Actor_9.DisplayDesc.Outfit = ""
 	Actor_9.DisplayDesc.Weapon = ""
 	Actor_9.DisplayDesc.Mode = ""
@@ -367,7 +367,7 @@ function InitMap(environment)
 	Actor_9.PhysicDesc.SizeX = 0
 	Actor_9.PhysicDesc.SizeY = 0
 	Actor_9.PhysicDesc.SizeZ = 0
-	Actor_9.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_6.phy"
+	Actor_9.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_6.phy"
 	Actor_9:SetPhysicalActorType(1)
 	Actor_9:SetPhysicalShape(5)
 	Actor_9.ExtraInfo.Name = ""
@@ -380,7 +380,7 @@ function InitMap(environment)
 	Actor_10 = ActorObjectInfo(10)
 	Actor_10:SetRenderType(1)
 	Actor_10.DisplayDesc.ModelId = 437616960
-	Actor_10.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_7.osgb"
+	Actor_10.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_7.osgb"
 	Actor_10.DisplayDesc.Outfit = ""
 	Actor_10.DisplayDesc.Weapon = ""
 	Actor_10.DisplayDesc.Mode = ""
@@ -409,7 +409,7 @@ function InitMap(environment)
 	Actor_10.PhysicDesc.SizeX = 0
 	Actor_10.PhysicDesc.SizeY = 0
 	Actor_10.PhysicDesc.SizeZ = 0
-	Actor_10.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_7.phy"
+	Actor_10.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_7.phy"
 	Actor_10:SetPhysicalActorType(1)
 	Actor_10:SetPhysicalShape(5)
 	Actor_10.ExtraInfo.Name = ""
@@ -422,7 +422,7 @@ function InitMap(environment)
 	Actor_11 = ActorObjectInfo(11)
 	Actor_11:SetRenderType(1)
 	Actor_11.DisplayDesc.ModelId = 826
-	Actor_11.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_8.osgb"
+	Actor_11.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_8.osgb"
 	Actor_11.DisplayDesc.Outfit = ""
 	Actor_11.DisplayDesc.Weapon = ""
 	Actor_11.DisplayDesc.Mode = ""
@@ -451,7 +451,7 @@ function InitMap(environment)
 	Actor_11.PhysicDesc.SizeX = 0
 	Actor_11.PhysicDesc.SizeY = 0
 	Actor_11.PhysicDesc.SizeZ = 0
-	Actor_11.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_8.phy"
+	Actor_11.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_8.phy"
 	Actor_11:SetPhysicalActorType(1)
 	Actor_11:SetPhysicalShape(5)
 	Actor_11.ExtraInfo.Name = ""
@@ -464,7 +464,7 @@ function InitMap(environment)
 	Actor_12 = ActorObjectInfo(12)
 	Actor_12:SetRenderType(1)
 	Actor_12.DisplayDesc.ModelId = 423430000
-	Actor_12.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_9.osgb"
+	Actor_12.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_9.osgb"
 	Actor_12.DisplayDesc.Outfit = ""
 	Actor_12.DisplayDesc.Weapon = ""
 	Actor_12.DisplayDesc.Mode = ""
@@ -493,7 +493,7 @@ function InitMap(environment)
 	Actor_12.PhysicDesc.SizeX = 0
 	Actor_12.PhysicDesc.SizeY = 0
 	Actor_12.PhysicDesc.SizeZ = 0
-	Actor_12.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_9.phy"
+	Actor_12.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_9.phy"
 	Actor_12:SetPhysicalActorType(1)
 	Actor_12:SetPhysicalShape(5)
 	Actor_12.ExtraInfo.Name = ""
@@ -506,7 +506,7 @@ function InitMap(environment)
 	Actor_13 = ActorObjectInfo(13)
 	Actor_13:SetRenderType(1)
 	Actor_13.DisplayDesc.ModelId = 423430000
-	Actor_13.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_9.osgb"
+	Actor_13.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_9.osgb"
 	Actor_13.DisplayDesc.Outfit = ""
 	Actor_13.DisplayDesc.Weapon = ""
 	Actor_13.DisplayDesc.Mode = ""
@@ -535,7 +535,7 @@ function InitMap(environment)
 	Actor_13.PhysicDesc.SizeX = 0
 	Actor_13.PhysicDesc.SizeY = 2.8026e-045
 	Actor_13.PhysicDesc.SizeZ = 6.74035e-024
-	Actor_13.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_9.phy"
+	Actor_13.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_9.phy"
 	Actor_13:SetPhysicalActorType(1)
 	Actor_13:SetPhysicalShape(5)
 	Actor_13.ExtraInfo.Name = ""
@@ -548,7 +548,7 @@ function InitMap(environment)
 	Actor_14 = ActorObjectInfo(14)
 	Actor_14:SetRenderType(1)
 	Actor_14.DisplayDesc.ModelId = 7
-	Actor_14.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_10.osgb"
+	Actor_14.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_10.osgb"
 	Actor_14.DisplayDesc.Outfit = ""
 	Actor_14.DisplayDesc.Weapon = ""
 	Actor_14.DisplayDesc.Mode = ""
@@ -577,7 +577,7 @@ function InitMap(environment)
 	Actor_14.PhysicDesc.SizeX = 3.07059e-031
 	Actor_14.PhysicDesc.SizeY = 1.71105e-039
 	Actor_14.PhysicDesc.SizeZ = 5.60519e-045
-	Actor_14.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_10.phy"
+	Actor_14.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_10.phy"
 	Actor_14:SetPhysicalActorType(1)
 	Actor_14:SetPhysicalShape(5)
 	Actor_14.ExtraInfo.Name = ""
@@ -590,7 +590,7 @@ function InitMap(environment)
 	Actor_15 = ActorObjectInfo(15)
 	Actor_15:SetRenderType(1)
 	Actor_15.DisplayDesc.ModelId = 2
-	Actor_15.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_11.osgb"
+	Actor_15.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_11.osgb"
 	Actor_15.DisplayDesc.Outfit = ""
 	Actor_15.DisplayDesc.Weapon = ""
 	Actor_15.DisplayDesc.Mode = ""
@@ -619,7 +619,7 @@ function InitMap(environment)
 	Actor_15.PhysicDesc.SizeX = 1.63994e-023
 	Actor_15.PhysicDesc.SizeY = 0
 	Actor_15.PhysicDesc.SizeZ = 9.80909e-045
-	Actor_15.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_11.phy"
+	Actor_15.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_11.phy"
 	Actor_15:SetPhysicalActorType(1)
 	Actor_15:SetPhysicalShape(5)
 	Actor_15.ExtraInfo.Name = ""
@@ -632,7 +632,7 @@ function InitMap(environment)
 	Actor_16 = ActorObjectInfo(16)
 	Actor_16:SetRenderType(1)
 	Actor_16.DisplayDesc.ModelId = 2
-	Actor_16.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_10.osgb"
+	Actor_16.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_10.osgb"
 	Actor_16.DisplayDesc.Outfit = ""
 	Actor_16.DisplayDesc.Weapon = ""
 	Actor_16.DisplayDesc.Mode = ""
@@ -661,7 +661,7 @@ function InitMap(environment)
 	Actor_16.PhysicDesc.SizeX = 0
 	Actor_16.PhysicDesc.SizeY = 0
 	Actor_16.PhysicDesc.SizeZ = 0
-	Actor_16.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_10.phy"
+	Actor_16.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_10.phy"
 	Actor_16:SetPhysicalActorType(1)
 	Actor_16:SetPhysicalShape(5)
 	Actor_16.ExtraInfo.Name = ""
@@ -674,7 +674,7 @@ function InitMap(environment)
 	Actor_17 = ActorObjectInfo(17)
 	Actor_17:SetRenderType(1)
 	Actor_17.DisplayDesc.ModelId = 16810076
-	Actor_17.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_11.osgb"
+	Actor_17.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_11.osgb"
 	Actor_17.DisplayDesc.Outfit = ""
 	Actor_17.DisplayDesc.Weapon = ""
 	Actor_17.DisplayDesc.Mode = ""
@@ -703,7 +703,7 @@ function InitMap(environment)
 	Actor_17.PhysicDesc.SizeX = 6.47451e-039
 	Actor_17.PhysicDesc.SizeY = 5.51289e-040
 	Actor_17.PhysicDesc.SizeZ = 4.71121e-038
-	Actor_17.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_11.phy"
+	Actor_17.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_11.phy"
 	Actor_17:SetPhysicalActorType(1)
 	Actor_17:SetPhysicalShape(5)
 	Actor_17.ExtraInfo.Name = ""
@@ -716,7 +716,7 @@ function InitMap(environment)
 	Actor_18 = ActorObjectInfo(18)
 	Actor_18:SetRenderType(1)
 	Actor_18.DisplayDesc.ModelId = 0
-	Actor_18.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_12.osgb"
+	Actor_18.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_12.osgb"
 	Actor_18.DisplayDesc.Outfit = ""
 	Actor_18.DisplayDesc.Weapon = ""
 	Actor_18.DisplayDesc.Mode = ""
@@ -745,7 +745,7 @@ function InitMap(environment)
 	Actor_18.PhysicDesc.SizeX = 0
 	Actor_18.PhysicDesc.SizeY = 4.2039e-045
 	Actor_18.PhysicDesc.SizeZ = 2.75572e-040
-	Actor_18.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_12.phy"
+	Actor_18.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_12.phy"
 	Actor_18:SetPhysicalActorType(1)
 	Actor_18:SetPhysicalShape(5)
 	Actor_18.ExtraInfo.Name = ""
@@ -758,7 +758,7 @@ function InitMap(environment)
 	Actor_19 = ActorObjectInfo(19)
 	Actor_19:SetRenderType(1)
 	Actor_19.DisplayDesc.ModelId = 410484320
-	Actor_19.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_13.osgb"
+	Actor_19.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_13.osgb"
 	Actor_19.DisplayDesc.Outfit = ""
 	Actor_19.DisplayDesc.Weapon = ""
 	Actor_19.DisplayDesc.Mode = ""
@@ -787,7 +787,7 @@ function InitMap(environment)
 	Actor_19.PhysicDesc.SizeX = 1.83712e-031
 	Actor_19.PhysicDesc.SizeY = 4.28688e-024
 	Actor_19.PhysicDesc.SizeZ = 0
-	Actor_19.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_13.phy"
+	Actor_19.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_13.phy"
 	Actor_19:SetPhysicalActorType(1)
 	Actor_19:SetPhysicalShape(5)
 	Actor_19.ExtraInfo.Name = ""
@@ -800,7 +800,7 @@ function InitMap(environment)
 	Actor_20 = ActorObjectInfo(20)
 	Actor_20:SetRenderType(1)
 	Actor_20.DisplayDesc.ModelId = 417452896
-	Actor_20.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_14.osgb"
+	Actor_20.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_14.osgb"
 	Actor_20.DisplayDesc.Outfit = ""
 	Actor_20.DisplayDesc.Weapon = ""
 	Actor_20.DisplayDesc.Mode = ""
@@ -829,7 +829,7 @@ function InitMap(environment)
 	Actor_20.PhysicDesc.SizeX = 0
 	Actor_20.PhysicDesc.SizeY = 5.36151e-024
 	Actor_20.PhysicDesc.SizeZ = 0
-	Actor_20.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_14.phy"
+	Actor_20.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_14.phy"
 	Actor_20:SetPhysicalActorType(1)
 	Actor_20:SetPhysicalShape(5)
 	Actor_20.ExtraInfo.Name = ""
@@ -842,7 +842,7 @@ function InitMap(environment)
 	Actor_21 = ActorObjectInfo(21)
 	Actor_21:SetRenderType(1)
 	Actor_21.DisplayDesc.ModelId = 16810076
-	Actor_21.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_1.osgb"
+	Actor_21.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_1.osgb"
 	Actor_21.DisplayDesc.Outfit = ""
 	Actor_21.DisplayDesc.Weapon = ""
 	Actor_21.DisplayDesc.Mode = ""
@@ -871,7 +871,7 @@ function InitMap(environment)
 	Actor_21.PhysicDesc.SizeX = 6.47451e-039
 	Actor_21.PhysicDesc.SizeY = 1.35485e-039
 	Actor_21.PhysicDesc.SizeZ = 4.71121e-038
-	Actor_21.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_1.phy"
+	Actor_21.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_1.phy"
 	Actor_21:SetPhysicalActorType(1)
 	Actor_21:SetPhysicalShape(5)
 	Actor_21.ExtraInfo.Name = ""
@@ -884,7 +884,7 @@ function InitMap(environment)
 	Actor_22 = ActorObjectInfo(22)
 	Actor_22:SetRenderType(1)
 	Actor_22.DisplayDesc.ModelId = 3
-	Actor_22.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_15.osgb"
+	Actor_22.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_15.osgb"
 	Actor_22.DisplayDesc.Outfit = ""
 	Actor_22.DisplayDesc.Weapon = ""
 	Actor_22.DisplayDesc.Mode = ""
@@ -913,7 +913,7 @@ function InitMap(environment)
 	Actor_22.PhysicDesc.SizeX = 1.94492e-031
 	Actor_22.PhysicDesc.SizeY = 0
 	Actor_22.PhysicDesc.SizeZ = 5.60519e-045
-	Actor_22.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_15.phy"
+	Actor_22.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_15.phy"
 	Actor_22:SetPhysicalActorType(1)
 	Actor_22:SetPhysicalShape(5)
 	Actor_22.ExtraInfo.Name = ""
@@ -926,7 +926,7 @@ function InitMap(environment)
 	Actor_23 = ActorObjectInfo(23)
 	Actor_23:SetRenderType(1)
 	Actor_23.DisplayDesc.ModelId = 0
-	Actor_23.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_16.osgb"
+	Actor_23.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_16.osgb"
 	Actor_23.DisplayDesc.Outfit = ""
 	Actor_23.DisplayDesc.Weapon = ""
 	Actor_23.DisplayDesc.Mode = ""
@@ -955,7 +955,7 @@ function InitMap(environment)
 	Actor_23.PhysicDesc.SizeX = 4.57354e-038
 	Actor_23.PhysicDesc.SizeY = 7.67632e-031
 	Actor_23.PhysicDesc.SizeZ = 0
-	Actor_23.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_16.phy"
+	Actor_23.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_16.phy"
 	Actor_23:SetPhysicalActorType(1)
 	Actor_23:SetPhysicalShape(5)
 	Actor_23.ExtraInfo.Name = ""
@@ -968,7 +968,7 @@ function InitMap(environment)
 	Actor_24 = ActorObjectInfo(24)
 	Actor_24:SetRenderType(1)
 	Actor_24.DisplayDesc.ModelId = 1701667139
-	Actor_24.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_17.osgb"
+	Actor_24.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_17.osgb"
 	Actor_24.DisplayDesc.Outfit = ""
 	Actor_24.DisplayDesc.Weapon = ""
 	Actor_24.DisplayDesc.Mode = ""
@@ -997,7 +997,7 @@ function InitMap(environment)
 	Actor_24.PhysicDesc.SizeX = 0
 	Actor_24.PhysicDesc.SizeY = 1.4013e-045
 	Actor_24.PhysicDesc.SizeZ = 1.1755e-038
-	Actor_24.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_17.phy"
+	Actor_24.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_17.phy"
 	Actor_24:SetPhysicalActorType(1)
 	Actor_24:SetPhysicalShape(5)
 	Actor_24.ExtraInfo.Name = ""
@@ -1010,7 +1010,7 @@ function InitMap(environment)
 	Actor_25 = ActorObjectInfo(25)
 	Actor_25:SetRenderType(1)
 	Actor_25.DisplayDesc.ModelId = 226152000
-	Actor_25.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.osgb"
+	Actor_25.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.osgb"
 	Actor_25.DisplayDesc.Outfit = ""
 	Actor_25.DisplayDesc.Weapon = ""
 	Actor_25.DisplayDesc.Mode = ""
@@ -1039,7 +1039,7 @@ function InitMap(environment)
 	Actor_25.PhysicDesc.SizeX = 0
 	Actor_25.PhysicDesc.SizeY = 0
 	Actor_25.PhysicDesc.SizeZ = 0
-	Actor_25.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.phy"
+	Actor_25.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.phy"
 	Actor_25:SetPhysicalActorType(1)
 	Actor_25:SetPhysicalShape(5)
 	Actor_25.ExtraInfo.Name = ""
@@ -1052,7 +1052,7 @@ function InitMap(environment)
 	Actor_26 = ActorObjectInfo(26)
 	Actor_26:SetRenderType(1)
 	Actor_26.DisplayDesc.ModelId = 226071576
-	Actor_26.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.osgb"
+	Actor_26.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.osgb"
 	Actor_26.DisplayDesc.Outfit = ""
 	Actor_26.DisplayDesc.Weapon = ""
 	Actor_26.DisplayDesc.Mode = ""
@@ -1081,7 +1081,7 @@ function InitMap(environment)
 	Actor_26.PhysicDesc.SizeX = 7.69087e-031
 	Actor_26.PhysicDesc.SizeY = 7.69078e-031
 	Actor_26.PhysicDesc.SizeZ = 1.01021e-039
-	Actor_26.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.phy"
+	Actor_26.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.phy"
 	Actor_26:SetPhysicalActorType(1)
 	Actor_26:SetPhysicalShape(5)
 	Actor_26.ExtraInfo.Name = ""
@@ -1094,7 +1094,7 @@ function InitMap(environment)
 	Actor_27 = ActorObjectInfo(27)
 	Actor_27:SetRenderType(1)
 	Actor_27.DisplayDesc.ModelId = 0
-	Actor_27.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.osgb"
+	Actor_27.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.osgb"
 	Actor_27.DisplayDesc.Outfit = ""
 	Actor_27.DisplayDesc.Weapon = ""
 	Actor_27.DisplayDesc.Mode = ""
@@ -1123,7 +1123,7 @@ function InitMap(environment)
 	Actor_27.PhysicDesc.SizeX = 4.57362e-038
 	Actor_27.PhysicDesc.SizeY = 4.57362e-038
 	Actor_27.PhysicDesc.SizeZ = 0
-	Actor_27.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.phy"
+	Actor_27.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.phy"
 	Actor_27:SetPhysicalActorType(1)
 	Actor_27:SetPhysicalShape(5)
 	Actor_27.ExtraInfo.Name = ""
@@ -1136,7 +1136,7 @@ function InitMap(environment)
 	Actor_28 = ActorObjectInfo(28)
 	Actor_28:SetRenderType(1)
 	Actor_28.DisplayDesc.ModelId = 868421
-	Actor_28.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_6.osgb"
+	Actor_28.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_6.osgb"
 	Actor_28.DisplayDesc.Outfit = ""
 	Actor_28.DisplayDesc.Weapon = ""
 	Actor_28.DisplayDesc.Mode = ""
@@ -1165,7 +1165,7 @@ function InitMap(environment)
 	Actor_28.PhysicDesc.SizeX = 4.71121e-038
 	Actor_28.PhysicDesc.SizeY = 1.37763e-039
 	Actor_28.PhysicDesc.SizeZ = 1.80458e-038
-	Actor_28.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_6.phy"
+	Actor_28.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_6.phy"
 	Actor_28:SetPhysicalActorType(1)
 	Actor_28:SetPhysicalShape(5)
 	Actor_28.ExtraInfo.Name = ""
@@ -1178,7 +1178,7 @@ function InitMap(environment)
 	Actor_29 = ActorObjectInfo(29)
 	Actor_29:SetRenderType(1)
 	Actor_29.DisplayDesc.ModelId = 311489
-	Actor_29.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_7.osgb"
+	Actor_29.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_7.osgb"
 	Actor_29.DisplayDesc.Outfit = ""
 	Actor_29.DisplayDesc.Weapon = ""
 	Actor_29.DisplayDesc.Mode = ""
@@ -1207,7 +1207,7 @@ function InitMap(environment)
 	Actor_29.PhysicDesc.SizeX = 1.80228e-038
 	Actor_29.PhysicDesc.SizeY = 4.61882e-041
 	Actor_29.PhysicDesc.SizeZ = 4.71121e-038
-	Actor_29.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_7.phy"
+	Actor_29.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_7.phy"
 	Actor_29:SetPhysicalActorType(1)
 	Actor_29:SetPhysicalShape(5)
 	Actor_29.ExtraInfo.Name = ""
@@ -1220,7 +1220,7 @@ function InitMap(environment)
 	Actor_30 = ActorObjectInfo(30)
 	Actor_30:SetRenderType(1)
 	Actor_30.DisplayDesc.ModelId = 7
-	Actor_30.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_9.osgb"
+	Actor_30.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_9.osgb"
 	Actor_30.DisplayDesc.Outfit = ""
 	Actor_30.DisplayDesc.Weapon = ""
 	Actor_30.DisplayDesc.Mode = ""
@@ -1249,7 +1249,7 @@ function InitMap(environment)
 	Actor_30.PhysicDesc.SizeX = 2.13258e-024
 	Actor_30.PhysicDesc.SizeY = 5.96814e-039
 	Actor_30.PhysicDesc.SizeZ = 5.60519e-045
-	Actor_30.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_9.phy"
+	Actor_30.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_9.phy"
 	Actor_30:SetPhysicalActorType(1)
 	Actor_30:SetPhysicalShape(5)
 	Actor_30.ExtraInfo.Name = ""
@@ -1262,7 +1262,7 @@ function InitMap(environment)
 	Actor_31 = ActorObjectInfo(31)
 	Actor_31:SetRenderType(1)
 	Actor_31.DisplayDesc.ModelId = 423715696
-	Actor_31.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_9.osgb"
+	Actor_31.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_9.osgb"
 	Actor_31.DisplayDesc.Outfit = ""
 	Actor_31.DisplayDesc.Weapon = ""
 	Actor_31.DisplayDesc.Mode = ""
@@ -1291,7 +1291,7 @@ function InitMap(environment)
 	Actor_31.PhysicDesc.SizeX = 9.80909e-045
 	Actor_31.PhysicDesc.SizeY = 1.84807e-019
 	Actor_31.PhysicDesc.SizeZ = 1.76818e-023
-	Actor_31.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_9.phy"
+	Actor_31.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_9.phy"
 	Actor_31:SetPhysicalActorType(1)
 	Actor_31:SetPhysicalShape(5)
 	Actor_31.ExtraInfo.Name = ""
@@ -1304,7 +1304,7 @@ function InitMap(environment)
 	Actor_32 = ActorObjectInfo(32)
 	Actor_32:SetRenderType(1)
 	Actor_32.DisplayDesc.ModelId = 3
-	Actor_32.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_10.osgb"
+	Actor_32.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_10.osgb"
 	Actor_32.DisplayDesc.Outfit = ""
 	Actor_32.DisplayDesc.Weapon = ""
 	Actor_32.DisplayDesc.Mode = ""
@@ -1333,7 +1333,7 @@ function InitMap(environment)
 	Actor_32.PhysicDesc.SizeX = 0
 	Actor_32.PhysicDesc.SizeY = 3.42969
 	Actor_32.PhysicDesc.SizeZ = 4.2039e-045
-	Actor_32.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_10.phy"
+	Actor_32.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_10.phy"
 	Actor_32:SetPhysicalActorType(1)
 	Actor_32:SetPhysicalShape(5)
 	Actor_32.ExtraInfo.Name = ""
@@ -1346,7 +1346,7 @@ function InitMap(environment)
 	Actor_33 = ActorObjectInfo(33)
 	Actor_33:SetRenderType(1)
 	Actor_33.DisplayDesc.ModelId = 0
-	Actor_33.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_9.osgb"
+	Actor_33.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_9.osgb"
 	Actor_33.DisplayDesc.Outfit = ""
 	Actor_33.DisplayDesc.Weapon = ""
 	Actor_33.DisplayDesc.Mode = ""
@@ -1375,7 +1375,7 @@ function InitMap(environment)
 	Actor_33.PhysicDesc.SizeX = 4.2039e-045
 	Actor_33.PhysicDesc.SizeY = 2.0459e-043
 	Actor_33.PhysicDesc.SizeZ = 0
-	Actor_33.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_9.phy"
+	Actor_33.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_9.phy"
 	Actor_33:SetPhysicalActorType(1)
 	Actor_33:SetPhysicalShape(5)
 	Actor_33.ExtraInfo.Name = ""
@@ -1388,7 +1388,7 @@ function InitMap(environment)
 	Actor_34 = ActorObjectInfo(34)
 	Actor_34:SetRenderType(1)
 	Actor_34.DisplayDesc.ModelId = 3
-	Actor_34.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_9.osgb"
+	Actor_34.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_9.osgb"
 	Actor_34.DisplayDesc.Outfit = ""
 	Actor_34.DisplayDesc.Weapon = ""
 	Actor_34.DisplayDesc.Mode = ""
@@ -1417,7 +1417,7 @@ function InitMap(environment)
 	Actor_34.PhysicDesc.SizeX = 0
 	Actor_34.PhysicDesc.SizeY = 4.57471
 	Actor_34.PhysicDesc.SizeZ = 4.2039e-045
-	Actor_34.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_9.phy"
+	Actor_34.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_9.phy"
 	Actor_34:SetPhysicalActorType(1)
 	Actor_34:SetPhysicalShape(5)
 	Actor_34.ExtraInfo.Name = ""
@@ -1430,7 +1430,7 @@ function InitMap(environment)
 	Actor_35 = ActorObjectInfo(35)
 	Actor_35:SetRenderType(1)
 	Actor_35.DisplayDesc.ModelId = 3
-	Actor_35.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_10.osgb"
+	Actor_35.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_10.osgb"
 	Actor_35.DisplayDesc.Outfit = ""
 	Actor_35.DisplayDesc.Weapon = ""
 	Actor_35.DisplayDesc.Mode = ""
@@ -1459,7 +1459,7 @@ function InitMap(environment)
 	Actor_35.PhysicDesc.SizeX = 9.25985e-031
 	Actor_35.PhysicDesc.SizeY = 1.71105e-039
 	Actor_35.PhysicDesc.SizeZ = 5.60519e-045
-	Actor_35.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_10.phy"
+	Actor_35.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_10.phy"
 	Actor_35:SetPhysicalActorType(1)
 	Actor_35:SetPhysicalShape(5)
 	Actor_35.ExtraInfo.Name = ""
@@ -1472,7 +1472,7 @@ function InitMap(environment)
 	Actor_36 = ActorObjectInfo(36)
 	Actor_36:SetRenderType(1)
 	Actor_36.DisplayDesc.ModelId = 407747888
-	Actor_36.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_11.osgb"
+	Actor_36.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_11.osgb"
 	Actor_36.DisplayDesc.Outfit = ""
 	Actor_36.DisplayDesc.Weapon = ""
 	Actor_36.DisplayDesc.Mode = ""
@@ -1501,7 +1501,7 @@ function InitMap(environment)
 	Actor_36.PhysicDesc.SizeX = 5.60519e-045
 	Actor_36.PhysicDesc.SizeY = 0
 	Actor_36.PhysicDesc.SizeZ = 0
-	Actor_36.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_11.phy"
+	Actor_36.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_11.phy"
 	Actor_36:SetPhysicalActorType(1)
 	Actor_36:SetPhysicalShape(5)
 	Actor_36.ExtraInfo.Name = ""
@@ -1514,7 +1514,7 @@ function InitMap(environment)
 	Actor_37 = ActorObjectInfo(37)
 	Actor_37:SetRenderType(1)
 	Actor_37.DisplayDesc.ModelId = 4
-	Actor_37.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.osgb"
+	Actor_37.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.osgb"
 	Actor_37.DisplayDesc.Outfit = ""
 	Actor_37.DisplayDesc.Weapon = ""
 	Actor_37.DisplayDesc.Mode = ""
@@ -1543,7 +1543,7 @@ function InitMap(environment)
 	Actor_37.PhysicDesc.SizeX = 2.29596e-039
 	Actor_37.PhysicDesc.SizeY = 2.55792e-035
 	Actor_37.PhysicDesc.SizeZ = 4.57363e-038
-	Actor_37.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.phy"
+	Actor_37.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.phy"
 	Actor_37:SetPhysicalActorType(1)
 	Actor_37:SetPhysicalShape(5)
 	Actor_37.ExtraInfo.Name = ""
@@ -1556,7 +1556,7 @@ function InitMap(environment)
 	Actor_38 = ActorObjectInfo(38)
 	Actor_38:SetRenderType(1)
 	Actor_38.DisplayDesc.ModelId = 3
-	Actor_38.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.osgb"
+	Actor_38.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.osgb"
 	Actor_38.DisplayDesc.Outfit = ""
 	Actor_38.DisplayDesc.Weapon = ""
 	Actor_38.DisplayDesc.Mode = ""
@@ -1585,7 +1585,7 @@ function InitMap(environment)
 	Actor_38.PhysicDesc.SizeX = 1.87813e-031
 	Actor_38.PhysicDesc.SizeY = 0
 	Actor_38.PhysicDesc.SizeZ = 5.60519e-045
-	Actor_38.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.phy"
+	Actor_38.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.phy"
 	Actor_38:SetPhysicalActorType(1)
 	Actor_38:SetPhysicalShape(5)
 	Actor_38.ExtraInfo.Name = ""
@@ -1598,7 +1598,7 @@ function InitMap(environment)
 	Actor_39 = ActorObjectInfo(39)
 	Actor_39:SetRenderType(1)
 	Actor_39.DisplayDesc.ModelId = 416246224
-	Actor_39.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_15.osgb"
+	Actor_39.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_15.osgb"
 	Actor_39.DisplayDesc.Outfit = ""
 	Actor_39.DisplayDesc.Weapon = ""
 	Actor_39.DisplayDesc.Mode = ""
@@ -1627,7 +1627,7 @@ function InitMap(environment)
 	Actor_39.PhysicDesc.SizeX = 5.60519e-045
 	Actor_39.PhysicDesc.SizeY = 7.69742e-031
 	Actor_39.PhysicDesc.SizeZ = 0
-	Actor_39.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_15.phy"
+	Actor_39.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_15.phy"
 	Actor_39:SetPhysicalActorType(1)
 	Actor_39:SetPhysicalShape(5)
 	Actor_39.ExtraInfo.Name = ""
@@ -1640,7 +1640,7 @@ function InitMap(environment)
 	Actor_40 = ActorObjectInfo(40)
 	Actor_40:SetRenderType(1)
 	Actor_40.DisplayDesc.ModelId = 3
-	Actor_40.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.osgb"
+	Actor_40.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.osgb"
 	Actor_40.DisplayDesc.Outfit = ""
 	Actor_40.DisplayDesc.Weapon = ""
 	Actor_40.DisplayDesc.Mode = ""
@@ -1669,7 +1669,7 @@ function InitMap(environment)
 	Actor_40.PhysicDesc.SizeX = 4.37508e-034
 	Actor_40.PhysicDesc.SizeY = 0
 	Actor_40.PhysicDesc.SizeZ = 5.60519e-045
-	Actor_40.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.phy"
+	Actor_40.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.phy"
 	Actor_40:SetPhysicalActorType(1)
 	Actor_40:SetPhysicalShape(5)
 	Actor_40.ExtraInfo.Name = ""
@@ -1682,7 +1682,7 @@ function InitMap(environment)
 	Actor_41 = ActorObjectInfo(41)
 	Actor_41:SetRenderType(1)
 	Actor_41.DisplayDesc.ModelId = 15
-	Actor_41.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.osgb"
+	Actor_41.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.osgb"
 	Actor_41.DisplayDesc.Outfit = ""
 	Actor_41.DisplayDesc.Weapon = ""
 	Actor_41.DisplayDesc.Mode = ""
@@ -1711,7 +1711,7 @@ function InitMap(environment)
 	Actor_41.PhysicDesc.SizeX = 0
 	Actor_41.PhysicDesc.SizeY = 7.00619e+022
 	Actor_41.PhysicDesc.SizeZ = 0
-	Actor_41.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.phy"
+	Actor_41.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.phy"
 	Actor_41:SetPhysicalActorType(1)
 	Actor_41:SetPhysicalShape(5)
 	Actor_41.ExtraInfo.Name = ""
@@ -1724,7 +1724,7 @@ function InitMap(environment)
 	Actor_42 = ActorObjectInfo(42)
 	Actor_42:SetRenderType(1)
 	Actor_42.DisplayDesc.ModelId = 62
-	Actor_42.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.osgb"
+	Actor_42.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.osgb"
 	Actor_42.DisplayDesc.Outfit = ""
 	Actor_42.DisplayDesc.Weapon = ""
 	Actor_42.DisplayDesc.Mode = ""
@@ -1753,7 +1753,7 @@ function InitMap(environment)
 	Actor_42.PhysicDesc.SizeX = 1.09301e-043
 	Actor_42.PhysicDesc.SizeY = 1.09301e-043
 	Actor_42.PhysicDesc.SizeZ = 1.10703e-043
-	Actor_42.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.phy"
+	Actor_42.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.phy"
 	Actor_42:SetPhysicalActorType(1)
 	Actor_42:SetPhysicalShape(5)
 	Actor_42.ExtraInfo.Name = ""
@@ -1766,7 +1766,7 @@ function InitMap(environment)
 	Actor_43 = ActorObjectInfo(43)
 	Actor_43:SetRenderType(1)
 	Actor_43.DisplayDesc.ModelId = 198
-	Actor_43.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.osgb"
+	Actor_43.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.osgb"
 	Actor_43.DisplayDesc.Outfit = ""
 	Actor_43.DisplayDesc.Weapon = ""
 	Actor_43.DisplayDesc.Mode = ""
@@ -1795,7 +1795,7 @@ function InitMap(environment)
 	Actor_43.PhysicDesc.SizeX = 2.99878e-043
 	Actor_43.PhysicDesc.SizeY = 2.99878e-043
 	Actor_43.PhysicDesc.SizeZ = 2.99878e-043
-	Actor_43.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.phy"
+	Actor_43.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.phy"
 	Actor_43:SetPhysicalActorType(1)
 	Actor_43:SetPhysicalShape(5)
 	Actor_43.ExtraInfo.Name = ""
@@ -1808,7 +1808,7 @@ function InitMap(environment)
 	Actor_44 = ActorObjectInfo(44)
 	Actor_44:SetRenderType(1)
 	Actor_44.DisplayDesc.ModelId = 24707736
-	Actor_44.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.osgb"
+	Actor_44.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.osgb"
 	Actor_44.DisplayDesc.Outfit = ""
 	Actor_44.DisplayDesc.Weapon = ""
 	Actor_44.DisplayDesc.Mode = ""
@@ -1837,7 +1837,7 @@ function InitMap(environment)
 	Actor_44.PhysicDesc.SizeX = 4.57354e-038
 	Actor_44.PhysicDesc.SizeY = 7.76387e-031
 	Actor_44.PhysicDesc.SizeZ = 0
-	Actor_44.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.phy"
+	Actor_44.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.phy"
 	Actor_44:SetPhysicalActorType(1)
 	Actor_44:SetPhysicalShape(5)
 	Actor_44.ExtraInfo.Name = ""
@@ -1850,7 +1850,7 @@ function InitMap(environment)
 	Actor_45 = ActorObjectInfo(45)
 	Actor_45:SetRenderType(1)
 	Actor_45.DisplayDesc.ModelId = 24707560
-	Actor_45.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_1.osgb"
+	Actor_45.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_1.osgb"
 	Actor_45.DisplayDesc.Outfit = ""
 	Actor_45.DisplayDesc.Weapon = ""
 	Actor_45.DisplayDesc.Mode = ""
@@ -1879,7 +1879,7 @@ function InitMap(environment)
 	Actor_45.PhysicDesc.SizeX = 7.69217e-031
 	Actor_45.PhysicDesc.SizeY = 4.57351e-038
 	Actor_45.PhysicDesc.SizeZ = 0
-	Actor_45.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_1.phy"
+	Actor_45.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_1.phy"
 	Actor_45:SetPhysicalActorType(1)
 	Actor_45:SetPhysicalShape(5)
 	Actor_45.ExtraInfo.Name = ""
@@ -1892,7 +1892,7 @@ function InitMap(environment)
 	Actor_46 = ActorObjectInfo(46)
 	Actor_46:SetRenderType(1)
 	Actor_46.DisplayDesc.ModelId = 0
-	Actor_46.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_15.osgb"
+	Actor_46.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_15.osgb"
 	Actor_46.DisplayDesc.Outfit = ""
 	Actor_46.DisplayDesc.Weapon = ""
 	Actor_46.DisplayDesc.Mode = ""
@@ -1921,7 +1921,7 @@ function InitMap(environment)
 	Actor_46.PhysicDesc.SizeX = 0
 	Actor_46.PhysicDesc.SizeY = 0
 	Actor_46.PhysicDesc.SizeZ = 0
-	Actor_46.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_15.phy"
+	Actor_46.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_15.phy"
 	Actor_46:SetPhysicalActorType(1)
 	Actor_46:SetPhysicalShape(5)
 	Actor_46.ExtraInfo.Name = ""
@@ -1934,7 +1934,7 @@ function InitMap(environment)
 	Actor_47 = ActorObjectInfo(47)
 	Actor_47:SetRenderType(1)
 	Actor_47.DisplayDesc.ModelId = 720921
-	Actor_47.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_16.osgb"
+	Actor_47.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_16.osgb"
 	Actor_47.DisplayDesc.Outfit = ""
 	Actor_47.DisplayDesc.Weapon = ""
 	Actor_47.DisplayDesc.Mode = ""
@@ -1963,7 +1963,7 @@ function InitMap(environment)
 	Actor_47.PhysicDesc.SizeX = 8.0448e-038
 	Actor_47.PhysicDesc.SizeY = 2.55802e-035
 	Actor_47.PhysicDesc.SizeZ = 4.57371e-038
-	Actor_47.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_16.phy"
+	Actor_47.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_16.phy"
 	Actor_47:SetPhysicalActorType(1)
 	Actor_47:SetPhysicalShape(5)
 	Actor_47.ExtraInfo.Name = ""
@@ -1976,7 +1976,7 @@ function InitMap(environment)
 	Actor_48 = ActorObjectInfo(48)
 	Actor_48:SetRenderType(1)
 	Actor_48.DisplayDesc.ModelId = 0
-	Actor_48.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_16.osgb"
+	Actor_48.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_16.osgb"
 	Actor_48.DisplayDesc.Outfit = ""
 	Actor_48.DisplayDesc.Weapon = ""
 	Actor_48.DisplayDesc.Mode = ""
@@ -2005,7 +2005,7 @@ function InitMap(environment)
 	Actor_48.PhysicDesc.SizeX = 0
 	Actor_48.PhysicDesc.SizeY = 0
 	Actor_48.PhysicDesc.SizeZ = 0
-	Actor_48.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_16.phy"
+	Actor_48.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_16.phy"
 	Actor_48:SetPhysicalActorType(1)
 	Actor_48:SetPhysicalShape(5)
 	Actor_48.ExtraInfo.Name = ""
@@ -2018,7 +2018,7 @@ function InitMap(environment)
 	Actor_49 = ActorObjectInfo(49)
 	Actor_49:SetRenderType(1)
 	Actor_49.DisplayDesc.ModelId = 0
-	Actor_49.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_19.osgb"
+	Actor_49.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_19.osgb"
 	Actor_49.DisplayDesc.Outfit = ""
 	Actor_49.DisplayDesc.Weapon = ""
 	Actor_49.DisplayDesc.Mode = ""
@@ -2047,7 +2047,7 @@ function InitMap(environment)
 	Actor_49.PhysicDesc.SizeX = 0
 	Actor_49.PhysicDesc.SizeY = 0
 	Actor_49.PhysicDesc.SizeZ = 0
-	Actor_49.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_19.phy"
+	Actor_49.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_19.phy"
 	Actor_49:SetPhysicalActorType(1)
 	Actor_49:SetPhysicalShape(5)
 	Actor_49.ExtraInfo.Name = ""
@@ -2060,7 +2060,7 @@ function InitMap(environment)
 	Actor_50 = ActorObjectInfo(50)
 	Actor_50:SetRenderType(1)
 	Actor_50.DisplayDesc.ModelId = 0
-	Actor_50.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_20.osgb"
+	Actor_50.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_20.osgb"
 	Actor_50.DisplayDesc.Outfit = ""
 	Actor_50.DisplayDesc.Weapon = ""
 	Actor_50.DisplayDesc.Mode = ""
@@ -2089,7 +2089,7 @@ function InitMap(environment)
 	Actor_50.PhysicDesc.SizeX = 0
 	Actor_50.PhysicDesc.SizeY = 0
 	Actor_50.PhysicDesc.SizeZ = 0
-	Actor_50.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_20.phy"
+	Actor_50.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_20.phy"
 	Actor_50:SetPhysicalActorType(1)
 	Actor_50:SetPhysicalShape(5)
 	Actor_50.ExtraInfo.Name = ""
@@ -2102,7 +2102,7 @@ function InitMap(environment)
 	Actor_51 = ActorObjectInfo(51)
 	Actor_51:SetRenderType(1)
 	Actor_51.DisplayDesc.ModelId = 0
-	Actor_51.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_21.osgb"
+	Actor_51.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_21.osgb"
 	Actor_51.DisplayDesc.Outfit = ""
 	Actor_51.DisplayDesc.Weapon = ""
 	Actor_51.DisplayDesc.Mode = ""
@@ -2131,7 +2131,7 @@ function InitMap(environment)
 	Actor_51.PhysicDesc.SizeX = 0
 	Actor_51.PhysicDesc.SizeY = 0
 	Actor_51.PhysicDesc.SizeZ = 0
-	Actor_51.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_21.phy"
+	Actor_51.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_21.phy"
 	Actor_51:SetPhysicalActorType(1)
 	Actor_51:SetPhysicalShape(5)
 	Actor_51.ExtraInfo.Name = ""
@@ -2144,7 +2144,7 @@ function InitMap(environment)
 	Actor_52 = ActorObjectInfo(52)
 	Actor_52:SetRenderType(1)
 	Actor_52.DisplayDesc.ModelId = 0
-	Actor_52.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.osgb"
+	Actor_52.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.osgb"
 	Actor_52.DisplayDesc.Outfit = ""
 	Actor_52.DisplayDesc.Weapon = ""
 	Actor_52.DisplayDesc.Mode = ""
@@ -2173,7 +2173,7 @@ function InitMap(environment)
 	Actor_52.PhysicDesc.SizeX = 0
 	Actor_52.PhysicDesc.SizeY = 4.2039e-045
 	Actor_52.PhysicDesc.SizeZ = 2.75572e-040
-	Actor_52.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.phy"
+	Actor_52.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.phy"
 	Actor_52:SetPhysicalActorType(1)
 	Actor_52:SetPhysicalShape(5)
 	Actor_52.ExtraInfo.Name = ""
@@ -2186,7 +2186,7 @@ function InitMap(environment)
 	Actor_53 = ActorObjectInfo(53)
 	Actor_53:SetRenderType(1)
 	Actor_53.DisplayDesc.ModelId = 0
-	Actor_53.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.osgb"
+	Actor_53.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.osgb"
 	Actor_53.DisplayDesc.Outfit = ""
 	Actor_53.DisplayDesc.Weapon = ""
 	Actor_53.DisplayDesc.Mode = ""
@@ -2215,7 +2215,7 @@ function InitMap(environment)
 	Actor_53.PhysicDesc.SizeX = 0
 	Actor_53.PhysicDesc.SizeY = 0
 	Actor_53.PhysicDesc.SizeZ = 0
-	Actor_53.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.phy"
+	Actor_53.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.phy"
 	Actor_53:SetPhysicalActorType(1)
 	Actor_53:SetPhysicalShape(5)
 	Actor_53.ExtraInfo.Name = ""
@@ -2228,7 +2228,7 @@ function InitMap(environment)
 	Actor_54 = ActorObjectInfo(54)
 	Actor_54:SetRenderType(1)
 	Actor_54.DisplayDesc.ModelId = 226112400
-	Actor_54.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_9.osgb"
+	Actor_54.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_9.osgb"
 	Actor_54.DisplayDesc.Outfit = ""
 	Actor_54.DisplayDesc.Weapon = ""
 	Actor_54.DisplayDesc.Mode = ""
@@ -2257,7 +2257,7 @@ function InitMap(environment)
 	Actor_54.PhysicDesc.SizeX = 4.57351e-038
 	Actor_54.PhysicDesc.SizeY = 1.14833e+027
 	Actor_54.PhysicDesc.SizeZ = 4.84192e+030
-	Actor_54.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_9.phy"
+	Actor_54.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_9.phy"
 	Actor_54:SetPhysicalActorType(1)
 	Actor_54:SetPhysicalShape(5)
 	Actor_54.ExtraInfo.Name = ""
@@ -2270,7 +2270,7 @@ function InitMap(environment)
 	Actor_55 = ActorObjectInfo(55)
 	Actor_55:SetRenderType(1)
 	Actor_55.DisplayDesc.ModelId = 0
-	Actor_55.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.osgb"
+	Actor_55.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.osgb"
 	Actor_55.DisplayDesc.Outfit = ""
 	Actor_55.DisplayDesc.Weapon = ""
 	Actor_55.DisplayDesc.Mode = ""
@@ -2299,7 +2299,7 @@ function InitMap(environment)
 	Actor_55.PhysicDesc.SizeX = 0
 	Actor_55.PhysicDesc.SizeY = 0
 	Actor_55.PhysicDesc.SizeZ = 7.71304e-031
-	Actor_55.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.phy"
+	Actor_55.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.phy"
 	Actor_55:SetPhysicalActorType(1)
 	Actor_55:SetPhysicalShape(5)
 	Actor_55.ExtraInfo.Name = ""
@@ -2312,7 +2312,7 @@ function InitMap(environment)
 	Actor_56 = ActorObjectInfo(56)
 	Actor_56:SetRenderType(1)
 	Actor_56.DisplayDesc.ModelId = 0
-	Actor_56.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_11.osgb"
+	Actor_56.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_11.osgb"
 	Actor_56.DisplayDesc.Outfit = ""
 	Actor_56.DisplayDesc.Weapon = ""
 	Actor_56.DisplayDesc.Mode = ""
@@ -2341,7 +2341,7 @@ function InitMap(environment)
 	Actor_56.PhysicDesc.SizeX = 0
 	Actor_56.PhysicDesc.SizeY = 0
 	Actor_56.PhysicDesc.SizeZ = 0
-	Actor_56.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_11.phy"
+	Actor_56.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_11.phy"
 	Actor_56:SetPhysicalActorType(1)
 	Actor_56:SetPhysicalShape(5)
 	Actor_56.ExtraInfo.Name = ""
@@ -2354,7 +2354,7 @@ function InitMap(environment)
 	Actor_57 = ActorObjectInfo(57)
 	Actor_57:SetRenderType(1)
 	Actor_57.DisplayDesc.ModelId = 24707736
-	Actor_57.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_10.osgb"
+	Actor_57.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_10.osgb"
 	Actor_57.DisplayDesc.Outfit = ""
 	Actor_57.DisplayDesc.Weapon = ""
 	Actor_57.DisplayDesc.Mode = ""
@@ -2383,7 +2383,7 @@ function InitMap(environment)
 	Actor_57.PhysicDesc.SizeX = 4.57354e-038
 	Actor_57.PhysicDesc.SizeY = 7.75874e-031
 	Actor_57.PhysicDesc.SizeZ = 0
-	Actor_57.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_10.phy"
+	Actor_57.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_10.phy"
 	Actor_57:SetPhysicalActorType(1)
 	Actor_57:SetPhysicalShape(5)
 	Actor_57.ExtraInfo.Name = ""
@@ -2396,7 +2396,7 @@ function InitMap(environment)
 	Actor_58 = ActorObjectInfo(58)
 	Actor_58:SetRenderType(1)
 	Actor_58.DisplayDesc.ModelId = 0
-	Actor_58.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_9.osgb"
+	Actor_58.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_9.osgb"
 	Actor_58.DisplayDesc.Outfit = ""
 	Actor_58.DisplayDesc.Weapon = ""
 	Actor_58.DisplayDesc.Mode = ""
@@ -2425,7 +2425,7 @@ function InitMap(environment)
 	Actor_58.PhysicDesc.SizeX = 7.75967e-031
 	Actor_58.PhysicDesc.SizeY = 7.75852e-031
 	Actor_58.PhysicDesc.SizeZ = 7.75909e-031
-	Actor_58.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_9.phy"
+	Actor_58.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_9.phy"
 	Actor_58:SetPhysicalActorType(1)
 	Actor_58:SetPhysicalShape(5)
 	Actor_58.ExtraInfo.Name = ""
@@ -2438,7 +2438,7 @@ function InitMap(environment)
 	Actor_59 = ActorObjectInfo(59)
 	Actor_59:SetRenderType(1)
 	Actor_59.DisplayDesc.ModelId = 0
-	Actor_59.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_9.osgb"
+	Actor_59.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_9.osgb"
 	Actor_59.DisplayDesc.Outfit = ""
 	Actor_59.DisplayDesc.Weapon = ""
 	Actor_59.DisplayDesc.Mode = ""
@@ -2467,7 +2467,7 @@ function InitMap(environment)
 	Actor_59.PhysicDesc.SizeX = 0
 	Actor_59.PhysicDesc.SizeY = 0
 	Actor_59.PhysicDesc.SizeZ = 0
-	Actor_59.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_9.phy"
+	Actor_59.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_9.phy"
 	Actor_59:SetPhysicalActorType(1)
 	Actor_59:SetPhysicalShape(5)
 	Actor_59.ExtraInfo.Name = ""
@@ -2480,7 +2480,7 @@ function InitMap(environment)
 	Actor_60 = ActorObjectInfo(60)
 	Actor_60:SetRenderType(1)
 	Actor_60.DisplayDesc.ModelId = 0
-	Actor_60.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_22.osgb"
+	Actor_60.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_22.osgb"
 	Actor_60.DisplayDesc.Outfit = ""
 	Actor_60.DisplayDesc.Weapon = ""
 	Actor_60.DisplayDesc.Mode = ""
@@ -2509,7 +2509,7 @@ function InitMap(environment)
 	Actor_60.PhysicDesc.SizeX = 0
 	Actor_60.PhysicDesc.SizeY = 0
 	Actor_60.PhysicDesc.SizeZ = 0
-	Actor_60.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_22.phy"
+	Actor_60.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_22.phy"
 	Actor_60:SetPhysicalActorType(1)
 	Actor_60:SetPhysicalShape(5)
 	Actor_60.ExtraInfo.Name = ""
@@ -2522,7 +2522,7 @@ function InitMap(environment)
 	Actor_61 = ActorObjectInfo(61)
 	Actor_61:SetRenderType(1)
 	Actor_61.DisplayDesc.ModelId = 0
-	Actor_61.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.osgb"
+	Actor_61.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.osgb"
 	Actor_61.DisplayDesc.Outfit = ""
 	Actor_61.DisplayDesc.Weapon = ""
 	Actor_61.DisplayDesc.Mode = ""
@@ -2551,7 +2551,7 @@ function InitMap(environment)
 	Actor_61.PhysicDesc.SizeX = 0
 	Actor_61.PhysicDesc.SizeY = 0
 	Actor_61.PhysicDesc.SizeZ = 0
-	Actor_61.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.phy"
+	Actor_61.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.phy"
 	Actor_61:SetPhysicalActorType(1)
 	Actor_61:SetPhysicalShape(5)
 	Actor_61.ExtraInfo.Name = ""
@@ -2564,7 +2564,7 @@ function InitMap(environment)
 	Actor_62 = ActorObjectInfo(62)
 	Actor_62:SetRenderType(1)
 	Actor_62.DisplayDesc.ModelId = 0
-	Actor_62.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.osgb"
+	Actor_62.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.osgb"
 	Actor_62.DisplayDesc.Outfit = ""
 	Actor_62.DisplayDesc.Weapon = ""
 	Actor_62.DisplayDesc.Mode = ""
@@ -2593,7 +2593,7 @@ function InitMap(environment)
 	Actor_62.PhysicDesc.SizeX = 0
 	Actor_62.PhysicDesc.SizeY = 0
 	Actor_62.PhysicDesc.SizeZ = 0
-	Actor_62.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.phy"
+	Actor_62.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.phy"
 	Actor_62:SetPhysicalActorType(1)
 	Actor_62:SetPhysicalShape(5)
 	Actor_62.ExtraInfo.Name = ""
@@ -2606,7 +2606,7 @@ function InitMap(environment)
 	Actor_63 = ActorObjectInfo(63)
 	Actor_63:SetRenderType(1)
 	Actor_63.DisplayDesc.ModelId = 0
-	Actor_63.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.osgb"
+	Actor_63.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.osgb"
 	Actor_63.DisplayDesc.Outfit = ""
 	Actor_63.DisplayDesc.Weapon = ""
 	Actor_63.DisplayDesc.Mode = ""
@@ -2635,7 +2635,7 @@ function InitMap(environment)
 	Actor_63.PhysicDesc.SizeX = 0
 	Actor_63.PhysicDesc.SizeY = 0
 	Actor_63.PhysicDesc.SizeZ = 0
-	Actor_63.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.phy"
+	Actor_63.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.phy"
 	Actor_63:SetPhysicalActorType(1)
 	Actor_63:SetPhysicalShape(5)
 	Actor_63.ExtraInfo.Name = ""
@@ -2648,7 +2648,7 @@ function InitMap(environment)
 	Actor_64 = ActorObjectInfo(64)
 	Actor_64:SetRenderType(1)
 	Actor_64.DisplayDesc.ModelId = 7
-	Actor_64.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.osgb"
+	Actor_64.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.osgb"
 	Actor_64.DisplayDesc.Outfit = ""
 	Actor_64.DisplayDesc.Weapon = ""
 	Actor_64.DisplayDesc.Mode = ""
@@ -2677,7 +2677,7 @@ function InitMap(environment)
 	Actor_64.PhysicDesc.SizeX = 6.29114e-023
 	Actor_64.PhysicDesc.SizeY = 5.96814e-039
 	Actor_64.PhysicDesc.SizeZ = 5.60519e-045
-	Actor_64.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.phy"
+	Actor_64.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.phy"
 	Actor_64:SetPhysicalActorType(1)
 	Actor_64:SetPhysicalShape(5)
 	Actor_64.ExtraInfo.Name = ""
@@ -2690,7 +2690,7 @@ function InitMap(environment)
 	Actor_65 = ActorObjectInfo(65)
 	Actor_65:SetRenderType(1)
 	Actor_65.DisplayDesc.ModelId = 448021536
-	Actor_65.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.osgb"
+	Actor_65.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.osgb"
 	Actor_65.DisplayDesc.Outfit = ""
 	Actor_65.DisplayDesc.Weapon = ""
 	Actor_65.DisplayDesc.Mode = ""
@@ -2719,7 +2719,7 @@ function InitMap(environment)
 	Actor_65.PhysicDesc.SizeX = 5.60519e-045
 	Actor_65.PhysicDesc.SizeY = 7.67113e-031
 	Actor_65.PhysicDesc.SizeZ = 1.80435e-031
-	Actor_65.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.phy"
+	Actor_65.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.phy"
 	Actor_65:SetPhysicalActorType(1)
 	Actor_65:SetPhysicalShape(5)
 	Actor_65.ExtraInfo.Name = ""
@@ -2732,7 +2732,7 @@ function InitMap(environment)
 	Actor_66 = ActorObjectInfo(66)
 	Actor_66:SetRenderType(1)
 	Actor_66.DisplayDesc.ModelId = 7
-	Actor_66.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.osgb"
+	Actor_66.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.osgb"
 	Actor_66.DisplayDesc.Outfit = ""
 	Actor_66.DisplayDesc.Weapon = ""
 	Actor_66.DisplayDesc.Mode = ""
@@ -2761,7 +2761,7 @@ function InitMap(environment)
 	Actor_66.PhysicDesc.SizeX = 4.79231e-034
 	Actor_66.PhysicDesc.SizeY = 1.71105e-039
 	Actor_66.PhysicDesc.SizeZ = 5.60519e-045
-	Actor_66.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.phy"
+	Actor_66.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.phy"
 	Actor_66:SetPhysicalActorType(1)
 	Actor_66:SetPhysicalShape(5)
 	Actor_66.ExtraInfo.Name = ""
@@ -2774,7 +2774,7 @@ function InitMap(environment)
 	Actor_67 = ActorObjectInfo(67)
 	Actor_67:SetRenderType(1)
 	Actor_67.DisplayDesc.ModelId = 411423160
-	Actor_67.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_23.osgb"
+	Actor_67.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_23.osgb"
 	Actor_67.DisplayDesc.Outfit = ""
 	Actor_67.DisplayDesc.Weapon = ""
 	Actor_67.DisplayDesc.Mode = ""
@@ -2803,7 +2803,7 @@ function InitMap(environment)
 	Actor_67.PhysicDesc.SizeX = 9.80909e-045
 	Actor_67.PhysicDesc.SizeY = 6.47451e-039
 	Actor_67.PhysicDesc.SizeZ = 1.75714e-031
-	Actor_67.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_23.phy"
+	Actor_67.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_23.phy"
 	Actor_67:SetPhysicalActorType(1)
 	Actor_67:SetPhysicalShape(5)
 	Actor_67.ExtraInfo.Name = ""
@@ -2816,7 +2816,7 @@ function InitMap(environment)
 	Actor_68 = ActorObjectInfo(68)
 	Actor_68:SetRenderType(1)
 	Actor_68.DisplayDesc.ModelId = 4
-	Actor_68.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_24.osgb"
+	Actor_68.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_24.osgb"
 	Actor_68.DisplayDesc.Outfit = ""
 	Actor_68.DisplayDesc.Weapon = ""
 	Actor_68.DisplayDesc.Mode = ""
@@ -2845,7 +2845,7 @@ function InitMap(environment)
 	Actor_68.PhysicDesc.SizeX = 1.77002e-031
 	Actor_68.PhysicDesc.SizeY = 7.9881e-041
 	Actor_68.PhysicDesc.SizeZ = 8.40779e-045
-	Actor_68.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_24.phy"
+	Actor_68.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_24.phy"
 	Actor_68:SetPhysicalActorType(1)
 	Actor_68:SetPhysicalShape(5)
 	Actor_68.ExtraInfo.Name = ""
@@ -2858,7 +2858,7 @@ function InitMap(environment)
 	Actor_69 = ActorObjectInfo(69)
 	Actor_69:SetRenderType(1)
 	Actor_69.DisplayDesc.ModelId = 720921
-	Actor_69.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_25.osgb"
+	Actor_69.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_25.osgb"
 	Actor_69.DisplayDesc.Outfit = ""
 	Actor_69.DisplayDesc.Weapon = ""
 	Actor_69.DisplayDesc.Mode = ""
@@ -2887,7 +2887,7 @@ function InitMap(environment)
 	Actor_69.PhysicDesc.SizeX = 1.58692e-037
 	Actor_69.PhysicDesc.SizeY = 2.55799e-035
 	Actor_69.PhysicDesc.SizeZ = 4.57351e-038
-	Actor_69.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_25.phy"
+	Actor_69.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_25.phy"
 	Actor_69:SetPhysicalActorType(1)
 	Actor_69:SetPhysicalShape(5)
 	Actor_69.ExtraInfo.Name = ""
@@ -2900,7 +2900,7 @@ function InitMap(environment)
 	Actor_70 = ActorObjectInfo(70)
 	Actor_70:SetRenderType(1)
 	Actor_70.DisplayDesc.ModelId = 0
-	Actor_70.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_23.osgb"
+	Actor_70.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_23.osgb"
 	Actor_70.DisplayDesc.Outfit = ""
 	Actor_70.DisplayDesc.Weapon = ""
 	Actor_70.DisplayDesc.Mode = ""
@@ -2929,7 +2929,7 @@ function InitMap(environment)
 	Actor_70.PhysicDesc.SizeX = 0
 	Actor_70.PhysicDesc.SizeY = 0
 	Actor_70.PhysicDesc.SizeZ = 0
-	Actor_70.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_23.phy"
+	Actor_70.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_23.phy"
 	Actor_70:SetPhysicalActorType(1)
 	Actor_70:SetPhysicalShape(5)
 	Actor_70.ExtraInfo.Name = ""
@@ -2942,7 +2942,7 @@ function InitMap(environment)
 	Actor_71 = ActorObjectInfo(71)
 	Actor_71:SetRenderType(1)
 	Actor_71.DisplayDesc.ModelId = 0
-	Actor_71.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_25.osgb"
+	Actor_71.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_25.osgb"
 	Actor_71.DisplayDesc.Outfit = ""
 	Actor_71.DisplayDesc.Weapon = ""
 	Actor_71.DisplayDesc.Mode = ""
@@ -2971,7 +2971,7 @@ function InitMap(environment)
 	Actor_71.PhysicDesc.SizeX = 0
 	Actor_71.PhysicDesc.SizeY = 0
 	Actor_71.PhysicDesc.SizeZ = 2.75522e-040
-	Actor_71.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_25.phy"
+	Actor_71.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_25.phy"
 	Actor_71:SetPhysicalActorType(1)
 	Actor_71:SetPhysicalShape(5)
 	Actor_71.ExtraInfo.Name = ""
@@ -2984,7 +2984,7 @@ function InitMap(environment)
 	Actor_72 = ActorObjectInfo(72)
 	Actor_72:SetRenderType(1)
 	Actor_72.DisplayDesc.ModelId = 7
-	Actor_72.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_24.osgb"
+	Actor_72.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_24.osgb"
 	Actor_72.DisplayDesc.Outfit = ""
 	Actor_72.DisplayDesc.Weapon = ""
 	Actor_72.DisplayDesc.Mode = ""
@@ -3013,7 +3013,7 @@ function InitMap(environment)
 	Actor_72.PhysicDesc.SizeX = 4.28692e-024
 	Actor_72.PhysicDesc.SizeY = 5.96814e-039
 	Actor_72.PhysicDesc.SizeZ = 5.60519e-045
-	Actor_72.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_24.phy"
+	Actor_72.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_24.phy"
 	Actor_72:SetPhysicalActorType(1)
 	Actor_72:SetPhysicalShape(5)
 	Actor_72.ExtraInfo.Name = ""
@@ -3026,7 +3026,7 @@ function InitMap(environment)
 	Actor_73 = ActorObjectInfo(73)
 	Actor_73:SetRenderType(1)
 	Actor_73.DisplayDesc.ModelId = 226376824
-	Actor_73.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_26.osgb"
+	Actor_73.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_26.osgb"
 	Actor_73.DisplayDesc.Outfit = ""
 	Actor_73.DisplayDesc.Weapon = ""
 	Actor_73.DisplayDesc.Mode = ""
@@ -3055,7 +3055,7 @@ function InitMap(environment)
 	Actor_73.PhysicDesc.SizeX = 9.80909e-045
 	Actor_73.PhysicDesc.SizeY = 0
 	Actor_73.PhysicDesc.SizeZ = 1.63617e-023
-	Actor_73.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_26.phy"
+	Actor_73.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_26.phy"
 	Actor_73:SetPhysicalActorType(1)
 	Actor_73:SetPhysicalShape(5)
 	Actor_73.ExtraInfo.Name = ""
@@ -3068,7 +3068,7 @@ function InitMap(environment)
 	Actor_74 = ActorObjectInfo(74)
 	Actor_74:SetRenderType(1)
 	Actor_74.DisplayDesc.ModelId = 4
-	Actor_74.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_26.osgb"
+	Actor_74.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_26.osgb"
 	Actor_74.DisplayDesc.Outfit = ""
 	Actor_74.DisplayDesc.Weapon = ""
 	Actor_74.DisplayDesc.Mode = ""
@@ -3097,7 +3097,7 @@ function InitMap(environment)
 	Actor_74.PhysicDesc.SizeX = 7.86249e-023
 	Actor_74.PhysicDesc.SizeY = 0
 	Actor_74.PhysicDesc.SizeZ = 9.80909e-045
-	Actor_74.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_26.phy"
+	Actor_74.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_26.phy"
 	Actor_74:SetPhysicalActorType(1)
 	Actor_74:SetPhysicalShape(5)
 	Actor_74.ExtraInfo.Name = ""
@@ -3110,7 +3110,7 @@ function InitMap(environment)
 	Actor_75 = ActorObjectInfo(75)
 	Actor_75:SetRenderType(1)
 	Actor_75.DisplayDesc.ModelId = 136186416
-	Actor_75.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_15.osgb"
+	Actor_75.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_15.osgb"
 	Actor_75.DisplayDesc.Outfit = ""
 	Actor_75.DisplayDesc.Weapon = ""
 	Actor_75.DisplayDesc.Mode = ""
@@ -3139,7 +3139,7 @@ function InitMap(environment)
 	Actor_75.PhysicDesc.SizeX = 5.60519e-045
 	Actor_75.PhysicDesc.SizeY = 7.68963e-031
 	Actor_75.PhysicDesc.SizeZ = 7.76943e-031
-	Actor_75.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_15.phy"
+	Actor_75.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_15.phy"
 	Actor_75:SetPhysicalActorType(1)
 	Actor_75:SetPhysicalShape(5)
 	Actor_75.ExtraInfo.Name = ""
@@ -3152,7 +3152,7 @@ function InitMap(environment)
 	Actor_76 = ActorObjectInfo(76)
 	Actor_76:SetRenderType(1)
 	Actor_76.DisplayDesc.ModelId = 7
-	Actor_76.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_16.osgb"
+	Actor_76.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_16.osgb"
 	Actor_76.DisplayDesc.Outfit = ""
 	Actor_76.DisplayDesc.Weapon = ""
 	Actor_76.DisplayDesc.Mode = ""
@@ -3181,7 +3181,7 @@ function InitMap(environment)
 	Actor_76.PhysicDesc.SizeX = 2.58488e-024
 	Actor_76.PhysicDesc.SizeY = 5.96814e-039
 	Actor_76.PhysicDesc.SizeZ = 5.60519e-045
-	Actor_76.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_16.phy"
+	Actor_76.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_16.phy"
 	Actor_76:SetPhysicalActorType(1)
 	Actor_76:SetPhysicalShape(5)
 	Actor_76.ExtraInfo.Name = ""
@@ -3194,7 +3194,7 @@ function InitMap(environment)
 	Actor_77 = ActorObjectInfo(77)
 	Actor_77:SetRenderType(1)
 	Actor_77.DisplayDesc.ModelId = 428183856
-	Actor_77.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_27.osgb"
+	Actor_77.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_27.osgb"
 	Actor_77.DisplayDesc.Outfit = ""
 	Actor_77.DisplayDesc.Weapon = ""
 	Actor_77.DisplayDesc.Mode = ""
@@ -3223,7 +3223,7 @@ function InitMap(environment)
 	Actor_77.PhysicDesc.SizeX = 9.80909e-045
 	Actor_77.PhysicDesc.SizeY = 3.44531
 	Actor_77.PhysicDesc.SizeZ = 5.08367e-023
-	Actor_77.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_27.phy"
+	Actor_77.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_27.phy"
 	Actor_77:SetPhysicalActorType(1)
 	Actor_77:SetPhysicalShape(5)
 	Actor_77.ExtraInfo.Name = ""
@@ -3236,7 +3236,7 @@ function InitMap(environment)
 	Actor_78 = ActorObjectInfo(78)
 	Actor_78:SetRenderType(1)
 	Actor_78.DisplayDesc.ModelId = 4
-	Actor_78.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_15.osgb"
+	Actor_78.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_15.osgb"
 	Actor_78.DisplayDesc.Outfit = ""
 	Actor_78.DisplayDesc.Weapon = ""
 	Actor_78.DisplayDesc.Mode = ""
@@ -3265,7 +3265,7 @@ function InitMap(environment)
 	Actor_78.PhysicDesc.SizeX = 1.87109e-031
 	Actor_78.PhysicDesc.SizeY = 1.875
 	Actor_78.PhysicDesc.SizeZ = 9.80909e-045
-	Actor_78.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_15.phy"
+	Actor_78.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_15.phy"
 	Actor_78:SetPhysicalActorType(1)
 	Actor_78:SetPhysicalShape(5)
 	Actor_78.ExtraInfo.Name = ""
@@ -3278,7 +3278,7 @@ function InitMap(environment)
 	Actor_79 = ActorObjectInfo(79)
 	Actor_79:SetRenderType(1)
 	Actor_79.DisplayDesc.ModelId = 432012496
-	Actor_79.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_16.osgb"
+	Actor_79.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_16.osgb"
 	Actor_79.DisplayDesc.Outfit = ""
 	Actor_79.DisplayDesc.Weapon = ""
 	Actor_79.DisplayDesc.Mode = ""
@@ -3307,7 +3307,7 @@ function InitMap(environment)
 	Actor_79.PhysicDesc.SizeX = 5.60519e-045
 	Actor_79.PhysicDesc.SizeY = 7.68422e-031
 	Actor_79.PhysicDesc.SizeZ = 1.8046e-031
-	Actor_79.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_16.phy"
+	Actor_79.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_16.phy"
 	Actor_79:SetPhysicalActorType(1)
 	Actor_79:SetPhysicalShape(5)
 	Actor_79.ExtraInfo.Name = ""
@@ -3320,7 +3320,7 @@ function InitMap(environment)
 	Actor_80 = ActorObjectInfo(80)
 	Actor_80:SetRenderType(1)
 	Actor_80.DisplayDesc.ModelId = 7
-	Actor_80.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_28.osgb"
+	Actor_80.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_28.osgb"
 	Actor_80.DisplayDesc.Outfit = ""
 	Actor_80.DisplayDesc.Weapon = ""
 	Actor_80.DisplayDesc.Mode = ""
@@ -3349,7 +3349,7 @@ function InitMap(environment)
 	Actor_80.PhysicDesc.SizeX = 1.93603e-031
 	Actor_80.PhysicDesc.SizeY = 1.71105e-039
 	Actor_80.PhysicDesc.SizeZ = 5.60519e-045
-	Actor_80.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_28.phy"
+	Actor_80.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_28.phy"
 	Actor_80:SetPhysicalActorType(1)
 	Actor_80:SetPhysicalShape(5)
 	Actor_80.ExtraInfo.Name = ""
@@ -3362,7 +3362,7 @@ function InitMap(environment)
 	Actor_81 = ActorObjectInfo(81)
 	Actor_81:SetRenderType(1)
 	Actor_81.DisplayDesc.ModelId = 3
-	Actor_81.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_29.osgb"
+	Actor_81.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_29.osgb"
 	Actor_81.DisplayDesc.Outfit = ""
 	Actor_81.DisplayDesc.Weapon = ""
 	Actor_81.DisplayDesc.Mode = ""
@@ -3391,7 +3391,7 @@ function InitMap(environment)
 	Actor_81.PhysicDesc.SizeX = 3.19874e-024
 	Actor_81.PhysicDesc.SizeY = 0
 	Actor_81.PhysicDesc.SizeZ = 5.60519e-045
-	Actor_81.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_29.phy"
+	Actor_81.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_29.phy"
 	Actor_81:SetPhysicalActorType(1)
 	Actor_81:SetPhysicalShape(5)
 	Actor_81.ExtraInfo.Name = ""
@@ -3404,7 +3404,7 @@ function InitMap(environment)
 	Actor_82 = ActorObjectInfo(82)
 	Actor_82:SetRenderType(1)
 	Actor_82.DisplayDesc.ModelId = 0
-	Actor_82.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.osgb"
+	Actor_82.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.osgb"
 	Actor_82.DisplayDesc.Outfit = ""
 	Actor_82.DisplayDesc.Weapon = ""
 	Actor_82.DisplayDesc.Mode = ""
@@ -3433,7 +3433,7 @@ function InitMap(environment)
 	Actor_82.PhysicDesc.SizeX = 4.2039e-045
 	Actor_82.PhysicDesc.SizeY = 1.78621e-038
 	Actor_82.PhysicDesc.SizeZ = 2.6463e-024
-	Actor_82.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.phy"
+	Actor_82.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.phy"
 	Actor_82:SetPhysicalActorType(1)
 	Actor_82:SetPhysicalShape(5)
 	Actor_82.ExtraInfo.Name = ""
@@ -3446,7 +3446,7 @@ function InitMap(environment)
 	Actor_83 = ActorObjectInfo(83)
 	Actor_83:SetRenderType(1)
 	Actor_83.DisplayDesc.ModelId = 4
-	Actor_83.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.osgb"
+	Actor_83.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.osgb"
 	Actor_83.DisplayDesc.Outfit = ""
 	Actor_83.DisplayDesc.Weapon = ""
 	Actor_83.DisplayDesc.Mode = ""
@@ -3475,7 +3475,7 @@ function InitMap(environment)
 	Actor_83.PhysicDesc.SizeX = 0
 	Actor_83.PhysicDesc.SizeY = 3.48047
 	Actor_83.PhysicDesc.SizeZ = 4.2039e-045
-	Actor_83.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.phy"
+	Actor_83.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.phy"
 	Actor_83:SetPhysicalActorType(1)
 	Actor_83:SetPhysicalShape(5)
 	Actor_83.ExtraInfo.Name = ""
@@ -3488,7 +3488,7 @@ function InitMap(environment)
 	Actor_84 = ActorObjectInfo(84)
 	Actor_84:SetRenderType(1)
 	Actor_84.DisplayDesc.ModelId = 417131496
-	Actor_84.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.osgb"
+	Actor_84.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.osgb"
 	Actor_84.DisplayDesc.Outfit = ""
 	Actor_84.DisplayDesc.Weapon = ""
 	Actor_84.DisplayDesc.Mode = ""
@@ -3517,7 +3517,7 @@ function InitMap(environment)
 	Actor_84.PhysicDesc.SizeX = 4.2039e-045
 	Actor_84.PhysicDesc.SizeY = 0
 	Actor_84.PhysicDesc.SizeZ = 0
-	Actor_84.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.phy"
+	Actor_84.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.phy"
 	Actor_84:SetPhysicalActorType(1)
 	Actor_84:SetPhysicalShape(5)
 	Actor_84.ExtraInfo.Name = ""
@@ -3530,7 +3530,7 @@ function InitMap(environment)
 	Actor_85 = ActorObjectInfo(85)
 	Actor_85:SetRenderType(1)
 	Actor_85.DisplayDesc.ModelId = 3
-	Actor_85.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.osgb"
+	Actor_85.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.osgb"
 	Actor_85.DisplayDesc.Outfit = ""
 	Actor_85.DisplayDesc.Weapon = ""
 	Actor_85.DisplayDesc.Mode = ""
@@ -3559,7 +3559,7 @@ function InitMap(environment)
 	Actor_85.PhysicDesc.SizeX = 0
 	Actor_85.PhysicDesc.SizeY = 4.01221
 	Actor_85.PhysicDesc.SizeZ = 4.2039e-045
-	Actor_85.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.phy"
+	Actor_85.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.phy"
 	Actor_85:SetPhysicalActorType(1)
 	Actor_85:SetPhysicalShape(5)
 	Actor_85.ExtraInfo.Name = ""
@@ -3572,7 +3572,7 @@ function InitMap(environment)
 	Actor_86 = ActorObjectInfo(86)
 	Actor_86:SetRenderType(1)
 	Actor_86.DisplayDesc.ModelId = 0
-	Actor_86.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.osgb"
+	Actor_86.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.osgb"
 	Actor_86.DisplayDesc.Outfit = ""
 	Actor_86.DisplayDesc.Weapon = ""
 	Actor_86.DisplayDesc.Mode = ""
@@ -3601,7 +3601,7 @@ function InitMap(environment)
 	Actor_86.PhysicDesc.SizeX = 4.2039e-045
 	Actor_86.PhysicDesc.SizeY = 2.91588e-039
 	Actor_86.PhysicDesc.SizeZ = 0
-	Actor_86.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.phy"
+	Actor_86.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.phy"
 	Actor_86:SetPhysicalActorType(1)
 	Actor_86:SetPhysicalShape(5)
 	Actor_86.ExtraInfo.Name = ""
@@ -3614,7 +3614,7 @@ function InitMap(environment)
 	Actor_87 = ActorObjectInfo(87)
 	Actor_87:SetRenderType(1)
 	Actor_87.DisplayDesc.ModelId = 3
-	Actor_87.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.osgb"
+	Actor_87.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.osgb"
 	Actor_87.DisplayDesc.Outfit = ""
 	Actor_87.DisplayDesc.Weapon = ""
 	Actor_87.DisplayDesc.Mode = ""
@@ -3643,7 +3643,7 @@ function InitMap(environment)
 	Actor_87.PhysicDesc.SizeX = 0
 	Actor_87.PhysicDesc.SizeY = 4.05566
 	Actor_87.PhysicDesc.SizeZ = 4.2039e-045
-	Actor_87.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.phy"
+	Actor_87.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.phy"
 	Actor_87:SetPhysicalActorType(1)
 	Actor_87:SetPhysicalShape(5)
 	Actor_87.ExtraInfo.Name = ""
@@ -3656,7 +3656,7 @@ function InitMap(environment)
 	Actor_88 = ActorObjectInfo(88)
 	Actor_88:SetRenderType(1)
 	Actor_88.DisplayDesc.ModelId = 422571256
-	Actor_88.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.osgb"
+	Actor_88.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.osgb"
 	Actor_88.DisplayDesc.Outfit = ""
 	Actor_88.DisplayDesc.Weapon = ""
 	Actor_88.DisplayDesc.Mode = ""
@@ -3685,7 +3685,7 @@ function InitMap(environment)
 	Actor_88.PhysicDesc.SizeX = 0
 	Actor_88.PhysicDesc.SizeY = 2.8026e-045
 	Actor_88.PhysicDesc.SizeZ = 1.8844e-031
-	Actor_88.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.phy"
+	Actor_88.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.phy"
 	Actor_88:SetPhysicalActorType(1)
 	Actor_88:SetPhysicalShape(5)
 	Actor_88.ExtraInfo.Name = ""
@@ -3698,7 +3698,7 @@ function InitMap(environment)
 	Actor_89 = ActorObjectInfo(89)
 	Actor_89:SetRenderType(1)
 	Actor_89.DisplayDesc.ModelId = 422571256
-	Actor_89.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.osgb"
+	Actor_89.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.osgb"
 	Actor_89.DisplayDesc.Outfit = ""
 	Actor_89.DisplayDesc.Weapon = ""
 	Actor_89.DisplayDesc.Mode = ""
@@ -3727,7 +3727,7 @@ function InitMap(environment)
 	Actor_89.PhysicDesc.SizeX = 0
 	Actor_89.PhysicDesc.SizeY = 2.8026e-045
 	Actor_89.PhysicDesc.SizeZ = 1.87159e-031
-	Actor_89.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.phy"
+	Actor_89.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.phy"
 	Actor_89:SetPhysicalActorType(1)
 	Actor_89:SetPhysicalShape(5)
 	Actor_89.ExtraInfo.Name = ""
@@ -3740,7 +3740,7 @@ function InitMap(environment)
 	Actor_90 = ActorObjectInfo(90)
 	Actor_90:SetRenderType(1)
 	Actor_90.DisplayDesc.ModelId = 422571256
-	Actor_90.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.osgb"
+	Actor_90.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.osgb"
 	Actor_90.DisplayDesc.Outfit = ""
 	Actor_90.DisplayDesc.Weapon = ""
 	Actor_90.DisplayDesc.Mode = ""
@@ -3769,7 +3769,7 @@ function InitMap(environment)
 	Actor_90.PhysicDesc.SizeX = 0
 	Actor_90.PhysicDesc.SizeY = 2.8026e-045
 	Actor_90.PhysicDesc.SizeZ = 1.88313e-031
-	Actor_90.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.phy"
+	Actor_90.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.phy"
 	Actor_90:SetPhysicalActorType(1)
 	Actor_90:SetPhysicalShape(5)
 	Actor_90.ExtraInfo.Name = ""
@@ -3782,7 +3782,7 @@ function InitMap(environment)
 	Actor_91 = ActorObjectInfo(91)
 	Actor_91:SetRenderType(1)
 	Actor_91.DisplayDesc.ModelId = 422571256
-	Actor_91.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.osgb"
+	Actor_91.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.osgb"
 	Actor_91.DisplayDesc.Outfit = ""
 	Actor_91.DisplayDesc.Weapon = ""
 	Actor_91.DisplayDesc.Mode = ""
@@ -3811,7 +3811,7 @@ function InitMap(environment)
 	Actor_91.PhysicDesc.SizeX = 0
 	Actor_91.PhysicDesc.SizeY = 2.8026e-045
 	Actor_91.PhysicDesc.SizeZ = 1.88005e-031
-	Actor_91.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_2.phy"
+	Actor_91.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_2.phy"
 	Actor_91:SetPhysicalActorType(1)
 	Actor_91:SetPhysicalShape(5)
 	Actor_91.ExtraInfo.Name = ""
@@ -3824,7 +3824,7 @@ function InitMap(environment)
 	Actor_92 = ActorObjectInfo(92)
 	Actor_92:SetRenderType(1)
 	Actor_92.DisplayDesc.ModelId = 422571256
-	Actor_92.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.osgb"
+	Actor_92.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.osgb"
 	Actor_92.DisplayDesc.Outfit = ""
 	Actor_92.DisplayDesc.Weapon = ""
 	Actor_92.DisplayDesc.Mode = ""
@@ -3853,7 +3853,7 @@ function InitMap(environment)
 	Actor_92.PhysicDesc.SizeX = 0
 	Actor_92.PhysicDesc.SizeY = 2.8026e-045
 	Actor_92.PhysicDesc.SizeZ = 5.59056e-024
-	Actor_92.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.phy"
+	Actor_92.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.phy"
 	Actor_92:SetPhysicalActorType(1)
 	Actor_92:SetPhysicalShape(5)
 	Actor_92.ExtraInfo.Name = ""
@@ -3866,7 +3866,7 @@ function InitMap(environment)
 	Actor_93 = ActorObjectInfo(93)
 	Actor_93:SetRenderType(1)
 	Actor_93.DisplayDesc.ModelId = 422571256
-	Actor_93.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.osgb"
+	Actor_93.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.osgb"
 	Actor_93.DisplayDesc.Outfit = ""
 	Actor_93.DisplayDesc.Weapon = ""
 	Actor_93.DisplayDesc.Mode = ""
@@ -3895,7 +3895,7 @@ function InitMap(environment)
 	Actor_93.PhysicDesc.SizeX = 0
 	Actor_93.PhysicDesc.SizeY = 2.8026e-045
 	Actor_93.PhysicDesc.SizeZ = 5.1904e-023
-	Actor_93.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.phy"
+	Actor_93.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.phy"
 	Actor_93:SetPhysicalActorType(1)
 	Actor_93:SetPhysicalShape(5)
 	Actor_93.ExtraInfo.Name = ""
@@ -3908,7 +3908,7 @@ function InitMap(environment)
 	Actor_94 = ActorObjectInfo(94)
 	Actor_94:SetRenderType(1)
 	Actor_94.DisplayDesc.ModelId = 422571256
-	Actor_94.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.osgb"
+	Actor_94.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.osgb"
 	Actor_94.DisplayDesc.Outfit = ""
 	Actor_94.DisplayDesc.Weapon = ""
 	Actor_94.DisplayDesc.Mode = ""
@@ -3937,7 +3937,7 @@ function InitMap(environment)
 	Actor_94.PhysicDesc.SizeX = 0
 	Actor_94.PhysicDesc.SizeY = 2.8026e-045
 	Actor_94.PhysicDesc.SizeZ = 1.5676e-023
-	Actor_94.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.phy"
+	Actor_94.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.phy"
 	Actor_94:SetPhysicalActorType(1)
 	Actor_94:SetPhysicalShape(5)
 	Actor_94.ExtraInfo.Name = ""
@@ -3950,7 +3950,7 @@ function InitMap(environment)
 	Actor_95 = ActorObjectInfo(95)
 	Actor_95:SetRenderType(1)
 	Actor_95.DisplayDesc.ModelId = 422571256
-	Actor_95.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.osgb"
+	Actor_95.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.osgb"
 	Actor_95.DisplayDesc.Outfit = ""
 	Actor_95.DisplayDesc.Weapon = ""
 	Actor_95.DisplayDesc.Mode = ""
@@ -3979,7 +3979,7 @@ function InitMap(environment)
 	Actor_95.PhysicDesc.SizeX = 0
 	Actor_95.PhysicDesc.SizeY = 2.8026e-045
 	Actor_95.PhysicDesc.SizeZ = 2.66233e-024
-	Actor_95.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.phy"
+	Actor_95.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.phy"
 	Actor_95:SetPhysicalActorType(1)
 	Actor_95:SetPhysicalShape(5)
 	Actor_95.ExtraInfo.Name = ""
@@ -3992,7 +3992,7 @@ function InitMap(environment)
 	Actor_96 = ActorObjectInfo(96)
 	Actor_96:SetRenderType(1)
 	Actor_96.DisplayDesc.ModelId = 416243720
-	Actor_96.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_9.osgb"
+	Actor_96.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_9.osgb"
 	Actor_96.DisplayDesc.Outfit = ""
 	Actor_96.DisplayDesc.Weapon = ""
 	Actor_96.DisplayDesc.Mode = ""
@@ -4021,7 +4021,7 @@ function InitMap(environment)
 	Actor_96.PhysicDesc.SizeX = 5.60519e-045
 	Actor_96.PhysicDesc.SizeY = 0
 	Actor_96.PhysicDesc.SizeZ = 0
-	Actor_96.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_9.phy"
+	Actor_96.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_9.phy"
 	Actor_96:SetPhysicalActorType(1)
 	Actor_96:SetPhysicalShape(5)
 	Actor_96.ExtraInfo.Name = ""
@@ -4034,7 +4034,7 @@ function InitMap(environment)
 	Actor_97 = ActorObjectInfo(97)
 	Actor_97:SetRenderType(1)
 	Actor_97.DisplayDesc.ModelId = 3
-	Actor_97.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.osgb"
+	Actor_97.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.osgb"
 	Actor_97.DisplayDesc.Outfit = ""
 	Actor_97.DisplayDesc.Weapon = ""
 	Actor_97.DisplayDesc.Mode = ""
@@ -4063,7 +4063,7 @@ function InitMap(environment)
 	Actor_97.PhysicDesc.SizeX = 8.19475e+014
 	Actor_97.PhysicDesc.SizeY = 2.12353
 	Actor_97.PhysicDesc.SizeZ = 4.2039e-045
-	Actor_97.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.phy"
+	Actor_97.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.phy"
 	Actor_97:SetPhysicalActorType(1)
 	Actor_97:SetPhysicalShape(5)
 	Actor_97.ExtraInfo.Name = ""
@@ -4076,7 +4076,7 @@ function InitMap(environment)
 	Actor_98 = ActorObjectInfo(98)
 	Actor_98:SetRenderType(1)
 	Actor_98.DisplayDesc.ModelId = 0
-	Actor_98.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.osgb"
+	Actor_98.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.osgb"
 	Actor_98.DisplayDesc.Outfit = ""
 	Actor_98.DisplayDesc.Weapon = ""
 	Actor_98.DisplayDesc.Mode = ""
@@ -4105,7 +4105,7 @@ function InitMap(environment)
 	Actor_98.PhysicDesc.SizeX = 4.2039e-045
 	Actor_98.PhysicDesc.SizeY = -2.96079e-037
 	Actor_98.PhysicDesc.SizeZ = 7.88045e-024
-	Actor_98.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_18.phy"
+	Actor_98.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_18.phy"
 	Actor_98:SetPhysicalActorType(1)
 	Actor_98:SetPhysicalShape(5)
 	Actor_98.ExtraInfo.Name = ""
@@ -4118,7 +4118,7 @@ function InitMap(environment)
 	Actor_99 = ActorObjectInfo(99)
 	Actor_99:SetRenderType(1)
 	Actor_99.DisplayDesc.ModelId = 4
-	Actor_99.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_11.osgb"
+	Actor_99.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_11.osgb"
 	Actor_99.DisplayDesc.Outfit = ""
 	Actor_99.DisplayDesc.Weapon = ""
 	Actor_99.DisplayDesc.Mode = ""
@@ -4147,7 +4147,7 @@ function InitMap(environment)
 	Actor_99.PhysicDesc.SizeX = 0
 	Actor_99.PhysicDesc.SizeY = 3.65625
 	Actor_99.PhysicDesc.SizeZ = 4.2039e-045
-	Actor_99.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_11.phy"
+	Actor_99.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_11.phy"
 	Actor_99:SetPhysicalActorType(1)
 	Actor_99:SetPhysicalShape(5)
 	Actor_99.ExtraInfo.Name = ""
@@ -4160,7 +4160,7 @@ function InitMap(environment)
 	Actor_100 = ActorObjectInfo(100)
 	Actor_100:SetRenderType(1)
 	Actor_100.DisplayDesc.ModelId = 103079215
-	Actor_100.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_9.osgb"
+	Actor_100.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_9.osgb"
 	Actor_100.DisplayDesc.Outfit = ""
 	Actor_100.DisplayDesc.Weapon = ""
 	Actor_100.DisplayDesc.Mode = ""
@@ -4189,7 +4189,7 @@ function InitMap(environment)
 	Actor_100.PhysicDesc.SizeX = 5.60519e-045
 	Actor_100.PhysicDesc.SizeY = 0
 	Actor_100.PhysicDesc.SizeZ = 0
-	Actor_100.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_9.phy"
+	Actor_100.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_9.phy"
 	Actor_100:SetPhysicalActorType(1)
 	Actor_100:SetPhysicalShape(5)
 	Actor_100.ExtraInfo.Name = ""
@@ -4202,7 +4202,7 @@ function InitMap(environment)
 	Actor_101 = ActorObjectInfo(101)
 	Actor_101:SetRenderType(1)
 	Actor_101.DisplayDesc.ModelId = 3
-	Actor_101.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_9.osgb"
+	Actor_101.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_9.osgb"
 	Actor_101.DisplayDesc.Outfit = ""
 	Actor_101.DisplayDesc.Weapon = ""
 	Actor_101.DisplayDesc.Mode = ""
@@ -4231,7 +4231,7 @@ function InitMap(environment)
 	Actor_101.PhysicDesc.SizeX = 7.68197e-031
 	Actor_101.PhysicDesc.SizeY = 0
 	Actor_101.PhysicDesc.SizeZ = 5.60519e-045
-	Actor_101.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_9.phy"
+	Actor_101.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_9.phy"
 	Actor_101:SetPhysicalActorType(1)
 	Actor_101:SetPhysicalShape(5)
 	Actor_101.ExtraInfo.Name = ""
@@ -4244,7 +4244,7 @@ function InitMap(environment)
 	Actor_102 = ActorObjectInfo(102)
 	Actor_102:SetRenderType(1)
 	Actor_102.DisplayDesc.ModelId = 0
-	Actor_102.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_11.osgb"
+	Actor_102.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_11.osgb"
 	Actor_102.DisplayDesc.Outfit = ""
 	Actor_102.DisplayDesc.Weapon = ""
 	Actor_102.DisplayDesc.Mode = ""
@@ -4273,7 +4273,7 @@ function InitMap(environment)
 	Actor_102.PhysicDesc.SizeX = 4.2039e-045
 	Actor_102.PhysicDesc.SizeY = 7.20918e-039
 	Actor_102.PhysicDesc.SizeZ = 4.48648e-024
-	Actor_102.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_11.phy"
+	Actor_102.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_11.phy"
 	Actor_102:SetPhysicalActorType(1)
 	Actor_102:SetPhysicalShape(5)
 	Actor_102.ExtraInfo.Name = ""
@@ -4286,7 +4286,7 @@ function InitMap(environment)
 	Actor_103 = ActorObjectInfo(103)
 	Actor_103:SetRenderType(1)
 	Actor_103.DisplayDesc.ModelId = 3
-	Actor_103.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_10.osgb"
+	Actor_103.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_10.osgb"
 	Actor_103.DisplayDesc.Outfit = ""
 	Actor_103.DisplayDesc.Weapon = ""
 	Actor_103.DisplayDesc.Mode = ""
@@ -4315,7 +4315,7 @@ function InitMap(environment)
 	Actor_103.PhysicDesc.SizeX = 0
 	Actor_103.PhysicDesc.SizeY = 3.78027
 	Actor_103.PhysicDesc.SizeZ = 4.2039e-045
-	Actor_103.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_10.phy"
+	Actor_103.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_10.phy"
 	Actor_103:SetPhysicalActorType(1)
 	Actor_103:SetPhysicalShape(5)
 	Actor_103.ExtraInfo.Name = ""
@@ -4328,7 +4328,7 @@ function InitMap(environment)
 	Actor_104 = ActorObjectInfo(104)
 	Actor_104:SetRenderType(1)
 	Actor_104.DisplayDesc.ModelId = 136424720
-	Actor_104.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_24.osgb"
+	Actor_104.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_24.osgb"
 	Actor_104.DisplayDesc.Outfit = ""
 	Actor_104.DisplayDesc.Weapon = ""
 	Actor_104.DisplayDesc.Mode = ""
@@ -4357,7 +4357,7 @@ function InitMap(environment)
 	Actor_104.PhysicDesc.SizeX = 4.2039e-045
 	Actor_104.PhysicDesc.SizeY = 5.92046e-031
 	Actor_104.PhysicDesc.SizeZ = 0
-	Actor_104.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_24.phy"
+	Actor_104.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_24.phy"
 	Actor_104:SetPhysicalActorType(1)
 	Actor_104:SetPhysicalShape(5)
 	Actor_104.ExtraInfo.Name = ""
@@ -4370,7 +4370,7 @@ function InitMap(environment)
 	Actor_105 = ActorObjectInfo(105)
 	Actor_105:SetRenderType(1)
 	Actor_105.DisplayDesc.ModelId = 3
-	Actor_105.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_25.osgb"
+	Actor_105.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_25.osgb"
 	Actor_105.DisplayDesc.Outfit = ""
 	Actor_105.DisplayDesc.Weapon = ""
 	Actor_105.DisplayDesc.Mode = ""
@@ -4399,7 +4399,7 @@ function InitMap(environment)
 	Actor_105.PhysicDesc.SizeX = 7.68076e-031
 	Actor_105.PhysicDesc.SizeY = 0
 	Actor_105.PhysicDesc.SizeZ = 5.60519e-045
-	Actor_105.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_25.phy"
+	Actor_105.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_25.phy"
 	Actor_105:SetPhysicalActorType(1)
 	Actor_105:SetPhysicalShape(5)
 	Actor_105.ExtraInfo.Name = ""
@@ -4412,7 +4412,7 @@ function InitMap(environment)
 	Actor_106 = ActorObjectInfo(106)
 	Actor_106:SetRenderType(1)
 	Actor_106.DisplayDesc.ModelId = 0
-	Actor_106.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_23.osgb"
+	Actor_106.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_23.osgb"
 	Actor_106.DisplayDesc.Outfit = ""
 	Actor_106.DisplayDesc.Weapon = ""
 	Actor_106.DisplayDesc.Mode = ""
@@ -4441,7 +4441,7 @@ function InitMap(environment)
 	Actor_106.PhysicDesc.SizeX = 4.2039e-045
 	Actor_106.PhysicDesc.SizeY = 1.78621e-038
 	Actor_106.PhysicDesc.SizeZ = 0
-	Actor_106.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_23.phy"
+	Actor_106.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_23.phy"
 	Actor_106:SetPhysicalActorType(1)
 	Actor_106:SetPhysicalShape(5)
 	Actor_106.ExtraInfo.Name = ""
@@ -4454,7 +4454,7 @@ function InitMap(environment)
 	Actor_107 = ActorObjectInfo(107)
 	Actor_107:SetRenderType(1)
 	Actor_107.DisplayDesc.ModelId = 4
-	Actor_107.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_26.osgb"
+	Actor_107.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_26.osgb"
 	Actor_107.DisplayDesc.Outfit = ""
 	Actor_107.DisplayDesc.Weapon = ""
 	Actor_107.DisplayDesc.Mode = ""
@@ -4483,7 +4483,7 @@ function InitMap(environment)
 	Actor_107.PhysicDesc.SizeX = 0
 	Actor_107.PhysicDesc.SizeY = 3.76074
 	Actor_107.PhysicDesc.SizeZ = 4.2039e-045
-	Actor_107.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_26.phy"
+	Actor_107.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_26.phy"
 	Actor_107:SetPhysicalActorType(1)
 	Actor_107:SetPhysicalShape(5)
 	Actor_107.ExtraInfo.Name = ""
@@ -4496,7 +4496,7 @@ function InitMap(environment)
 	Actor_108 = ActorObjectInfo(108)
 	Actor_108:SetRenderType(1)
 	Actor_108.DisplayDesc.ModelId = 226150576
-	Actor_108.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_30.osgb"
+	Actor_108.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_30.osgb"
 	Actor_108.DisplayDesc.Outfit = ""
 	Actor_108.DisplayDesc.Weapon = ""
 	Actor_108.DisplayDesc.Mode = ""
@@ -4525,7 +4525,7 @@ function InitMap(environment)
 	Actor_108.PhysicDesc.SizeX = 4.2039e-045
 	Actor_108.PhysicDesc.SizeY = 5.92146e-031
 	Actor_108.PhysicDesc.SizeZ = 0
-	Actor_108.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_30.phy"
+	Actor_108.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_30.phy"
 	Actor_108:SetPhysicalActorType(1)
 	Actor_108:SetPhysicalShape(5)
 	Actor_108.ExtraInfo.Name = ""
@@ -4538,7 +4538,7 @@ function InitMap(environment)
 	Actor_109 = ActorObjectInfo(109)
 	Actor_109:SetRenderType(1)
 	Actor_109.DisplayDesc.ModelId = 3
-	Actor_109.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_30.osgb"
+	Actor_109.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_30.osgb"
 	Actor_109.DisplayDesc.Outfit = ""
 	Actor_109.DisplayDesc.Weapon = ""
 	Actor_109.DisplayDesc.Mode = ""
@@ -4567,7 +4567,7 @@ function InitMap(environment)
 	Actor_109.PhysicDesc.SizeX = 1.8644e-031
 	Actor_109.PhysicDesc.SizeY = 0
 	Actor_109.PhysicDesc.SizeZ = 5.60519e-045
-	Actor_109.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_30.phy"
+	Actor_109.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_30.phy"
 	Actor_109:SetPhysicalActorType(1)
 	Actor_109:SetPhysicalShape(5)
 	Actor_109.ExtraInfo.Name = ""
@@ -4580,7 +4580,7 @@ function InitMap(environment)
 	Actor_110 = ActorObjectInfo(110)
 	Actor_110:SetRenderType(1)
 	Actor_110.DisplayDesc.ModelId = 0
-	Actor_110.DisplayDesc.ModelName = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_30.osgb"
+	Actor_110.DisplayDesc.ModelName = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_30.osgb"
 	Actor_110.DisplayDesc.Outfit = ""
 	Actor_110.DisplayDesc.Weapon = ""
 	Actor_110.DisplayDesc.Mode = ""
@@ -4609,7 +4609,7 @@ function InitMap(environment)
 	Actor_110.PhysicDesc.SizeX = 4.2039e-045
 	Actor_110.PhysicDesc.SizeY = 1.78621e-038
 	Actor_110.PhysicDesc.SizeZ = 7.75581e-031
-	Actor_110.PhysicDesc.Filename = "Worlds/Lba2Original/Islands/EMERAUDE_OBJ_30.phy"
+	Actor_110.PhysicDesc.Filename = "Worlds/Lba2Original/Models/EMERAUDE_OBJ_30.phy"
 	Actor_110:SetPhysicalActorType(1)
 	Actor_110:SetPhysicalShape(5)
 	Actor_110.ExtraInfo.Name = ""
