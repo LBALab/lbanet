@@ -68,34 +68,31 @@ void TextBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition &c
 					boost::shared_ptr<ShowGuiParamBase> params)
 {
 	ShowGuiParamBase * ptr = params.get();
-	const std::type_info& info = typeid(*ptr);
+	TextBoxParam * castedptr = 
+		static_cast<TextBoxParam *>(params.get());
 
-	// TextBoxParam
-	if(info == typeid(TextBoxParam))
+
+	ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
+	if(prx)
 	{
-		TextBoxParam * castedptr = 
-			static_cast<TextBoxParam *>(ptr);
-
-
-		ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
-		if(prx)
+		if(HasOpenedGui(clientid))
 		{
-			boost::shared_ptr<DatabaseHandlerBase> dbh = SharedDataHandler::getInstance()->GetDatabase();
-			if(dbh)
-			{
-				EventsSeq toplayer;
-				GuiParamsSeq seq;
-				seq.push_back(new DisplayGameText(castedptr->_textid));
-				toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-														"TextBox", seq, true, false));
-
-				IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
-				t->start();	
-
-				// add gui to the list to be removed later
-				AddOpenedGui(clientid, curPosition);
-			}
+			//close already opened box
+			HideGUI(clientid);
 		}
+		else
+		{
+			EventsSeq toplayer;
+			GuiParamsSeq seq;
+			seq.push_back(new DisplayGameText(castedptr->_textid));
+			toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+													"TextBox", seq, true, false));
 
+			IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
+			t->start();	
+
+			// add gui to the list to be removed later
+			AddOpenedGui(clientid, curPosition);
+		}
 	}
 }

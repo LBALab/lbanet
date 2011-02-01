@@ -1791,14 +1791,8 @@ void MapHandler::DisplayTxtAction(int ObjectType, long ObjectId,
 
 
 	// send text request to player
-	EventsSeq toplayer;
-	LbaNet::GuiParamsSeq seq;
-	seq.push_back(new DisplayGameText(TextId));
-	toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-				"TextBox", seq, true, false));
-
-	IceUtil::ThreadPtr t = new EventsSender(toplayer, GetProxy(clientid));
-	t->start();	
+	_guihandlers["TextBox"]->ShowGUI(clientid, GetPlayerPosition(clientid), 
+					boost::shared_ptr<ShowGuiParamBase>(new TextBoxParam(TextId)));
 }
 
 

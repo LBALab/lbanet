@@ -94,6 +94,9 @@ protected:
 	//! remove a player from the opened gui
 	void RemoveOpenedGui(Ice::Long clientid);
 
+	//! check if client has gui opened
+	bool HasOpenedGui(Ice::Long clientid);
+
 private:
 	// used in mechanism to hide a gui if the player move away
 	std::map<Ice::Long, LbaNet::PlayerPosition>		_openedguis;

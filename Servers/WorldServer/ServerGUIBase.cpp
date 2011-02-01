@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ServerGUIBase.h"
 #include <math.h>
 
-#define	_MAX_DISTANCE_PLAYER_OBJECT_SQUARE_	36
+#define	_MAX_DISTANCE_PLAYER_OBJECT_SQUARE_	16
 
 
 
@@ -79,4 +79,16 @@ void ServerGUIBase::RemoveOpenedGui(Ice::Long clientid)
 	std::map<Ice::Long, LbaNet::PlayerPosition>::iterator it = _openedguis.find(clientid);
 	if(it != _openedguis.end())
 		_openedguis.erase(it);
+}
+
+/***********************************************************
+check if client has gui opened
+***********************************************************/
+bool ServerGUIBase::HasOpenedGui(Ice::Long clientid)
+{
+	std::map<Ice::Long, LbaNet::PlayerPosition>::iterator it = _openedguis.find(clientid);
+	if(it != _openedguis.end())
+		return true;
+
+	return false;
 }

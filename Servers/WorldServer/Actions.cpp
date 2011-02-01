@@ -158,7 +158,7 @@ void CustomAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 constructor
 ***********************************************************/
 DisplayTextAction::DisplayTextAction()
-: _TextId(-1)
+: _TextId(0)
 {
 
 }
