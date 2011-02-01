@@ -64,11 +64,12 @@ public:
 
 
 	//! editor functions
-	std::map<long, std::string> GetMap(const std::string &texttype);
+	std::map<long, std::string> GetMap(LocalizeType texttype);
 
-	void AddToMap(const std::string &texttype, long id, const std::string &text);
+	//! return new index in case of insertion
+	long AddToMap(LocalizeType texttype, long id, const std::string &text);
 
-	void RemoveFromMap(const std::string &texttype, long id);
+	void RemoveFromMap(LocalizeType texttype, long id);
 
 	void SaveTexts();
 

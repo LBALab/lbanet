@@ -670,6 +670,13 @@ void LbaNetEngine::HandleGameEvents()
 			continue;
 		}
 		
+		// RefreshLuaEvent
+		if(info == typeid(RefreshLuaEvent))
+		{
+			m_lbaNetModel->RefreshLua();
+			continue;
+		}
+		
 	}
 }
 

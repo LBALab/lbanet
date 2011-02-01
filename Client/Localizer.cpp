@@ -195,55 +195,88 @@ void Localizer::RefreshGuiTexts()
 /***********************************************************
 editor functions
 ***********************************************************/
-std::map<long, std::string> Localizer::GetMap(const std::string &texttype)
+std::map<long, std::string> Localizer::GetMap(LocalizeType texttype)
 {
-	if(texttype == "inventory")
-		return _inventory_texts;
-
-	if(texttype == "quest")
-		return _quest_texts;
-
-	if(texttype == "name")
-		return _name_texts;
+	switch(texttype)
+	{
+		case Map:
+			return _map_texts;
+		break;
+		case Quest:
+			return _quest_texts;
+		break;
+		case Inventory:
+			return _inventory_texts;
+		break;
+		case Name:
+			return _name_texts;
+		break;
+	}
 
 	return _map_texts;
 }
 
 /***********************************************************
 editor functions
+return new index in case of insertion
 ***********************************************************/
-void Localizer::AddToMap(const std::string &texttype, long id, const std::string &text)
+long Localizer::AddToMap(LocalizeType texttype, long id, const std::string &text)
 {
 	std::map<long, std::string> &map = _map_texts;
 
-	if(texttype == "inventory")
-		map = _inventory_texts;
+	switch(texttype)
+	{
+		case Map:
+			map = _map_texts;
+		break;
+		case Quest:
+			map = _quest_texts;
+		break;
+		case Inventory:
+			map = _inventory_texts;
+		break;
+		case Name:
+			map = _name_texts;
+		break;
+	}
 
-	if(texttype == "quest")
-		map = _quest_texts;
 
-	if(texttype == "name")
-		map = _name_texts;
-
-	map[id] = text;
+	if(id < 0)
+	{
+		long res = map.rbegin()->first + 1;
+		map[res] = text;
+		return res;
+	}
+	else
+	{
+		map[id] = text;
+		return id;
+	}
 }
 
 
 /***********************************************************
 editor functions
 ***********************************************************/
-void Localizer::RemoveFromMap(const std::string &texttype, long id)
+void Localizer::RemoveFromMap(LocalizeType texttype, long id)
 {
 	std::map<long, std::string> &map = _map_texts;
 
-	if(texttype == "inventory")
-		map = _inventory_texts;
-
-	if(texttype == "quest")
-		map = _quest_texts;
-
-	if(texttype == "name")
-		map = _name_texts;
+	switch(texttype)
+	{
+		case Map:
+			map = _map_texts;
+		break;
+		case Quest:
+			map = _quest_texts;
+		break;
+		case Inventory:
+			map = _inventory_texts;
+		break;
+		case Name:
+			map = _name_texts;
+		break;
+	}
 
 	std::map<long, std::string>::iterator it = map.find(id);
 	if(it != map.end())
@@ -256,5 +289,11 @@ editor functions
 ***********************************************************/
 void Localizer::SaveTexts()
 {
-	//todo - save texts
+	if(_currentworldname == "")
+		return;
+
+	XmlReader::SaveTextFile("Data/Worlds/"+_currentworldname+"/Texts/" + _lang + "/map.xml", _map_texts);
+	XmlReader::SaveTextFile("Data/Worlds/"+_currentworldname+"/Texts/" + _lang + "/inventory.xml", _inventory_texts);
+	XmlReader::SaveTextFile("Data/Worlds/"+_currentworldname+"/Texts/" + _lang + "/quest.xml", _quest_texts);
+	XmlReader::SaveTextFile("Data/Worlds/"+_currentworldname+"/Texts/" + _lang + "/name.xml", _name_texts);
 }

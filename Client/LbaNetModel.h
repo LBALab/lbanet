@@ -187,6 +187,10 @@ public:
 	//! execute lua script given as a string
 	void ExecuteScriptString( const std::string &ScriptString );
 
+
+	//! refresh lua file
+	void RefreshLua();
+
 protected:
 
 	//! clean up map
@@ -242,6 +246,7 @@ private:
 
 
 	std::string											m_current_map_name;
+	std::string											m_current_world_name;
 };
 
 #endif

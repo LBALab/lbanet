@@ -83,13 +83,26 @@ void LbaNetModel::ChangeWorld(const std::string & NewWorld)
 
 	//data loader init
 	DataLoader::getInstance()->SetWorldName(NewWorld);
+	m_current_world_name = NewWorld;
 
 	//script part
 	m_luaHandler = boost::shared_ptr<ClientLuaHandler>(new  ClientLuaHandler(this));
 	m_luaHandler->LoadFile("LuaCommon/ClientHelperFunctions.lua");
+
+	// custom client file
+	m_luaHandler->LoadFile("Data/Worlds/"+NewWorld+"/Lua/CustomClient.lua");
 }
 
 
+/***********************************************************
+refresh lua file
+***********************************************************/
+void LbaNetModel::RefreshLua()
+{
+	// custom client file
+	if(m_luaHandler)
+		m_luaHandler->LoadFile("Data/Worlds/"+m_current_world_name+"/Lua/CustomClient.lua");
+}
 
 
 /***********************************************************

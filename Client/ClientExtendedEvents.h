@@ -434,6 +434,21 @@ public:
 	int		_pickedarrow;
 };
 
+/*
+************************************************************************************************************************
+*                                                  class RefreshLuaEvent
+*
+*	editor ask to Refresh Lua
+************************************************************************************************************************
+*/
+class RefreshLuaEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	RefreshLuaEvent()
+	{
+	}
+};
 
 
 
