@@ -367,6 +367,38 @@ std::map<long, std::string> XmlReader::LoadTextFile(const std::string &Filename)
 
 
 /***********************************************************
+save text in file
+***********************************************************/
+void XmlReader::SaveTextFile(const std::string &Filename, const std::map<long, std::string> &text)
+{
+	// Create an empty property tree object
+	using boost::property_tree::ptree;
+	ptree pt;
+
+	typedef std::map<long, std::string> textseq;
+
+	// get teleport info
+    BOOST_FOREACH(const textseq::value_type &txt, text)
+	{
+		ptree &tmp = pt.add("texts.text", txt.second);
+		tmp.put("<xmlattr>.id", txt.first);
+	}
+
+
+	// Write the property tree into the XML file 
+	try
+	{
+		const boost::property_tree::xml_parser::xml_writer_settings<char> settings('	', 1);
+		write_xml(Filename, pt, std::locale(), settings);
+	}
+	catch(...)
+	{
+	}
+}
+
+
+
+/***********************************************************
 get inventory from file
 ***********************************************************/
 bool XmlReader::LoadInventoryFile(const std::string &Filename, std::map<long, ItemInfo> &res)

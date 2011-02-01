@@ -50,6 +50,9 @@ public:
 	// get a text from file
 	static std::map<long, std::string> LoadTextFile(const std::string &Filename);
 
+	// save text in file
+	static void SaveTextFile(const std::string &Filename, const std::map<long, std::string> &text);
+
 	// get inventory from file
 	static bool LoadInventoryFile(const std::string &Filename, std::map<long, ItemInfo> &res);
 };
