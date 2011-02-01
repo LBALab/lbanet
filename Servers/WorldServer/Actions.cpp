@@ -139,7 +139,6 @@ void CustomAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::L
 {
 	if(owner && _customluafunctionname != "")
 		owner->ExecuteCustomAction(ObjectType, (long)ObjectId, _customluafunctionname, args);
-
 }
 
 

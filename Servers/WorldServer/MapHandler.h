@@ -98,7 +98,8 @@ class MapHandler : public Runnable, public ScriptEnvironmentBase
 public:
 	//! constructor
 	MapHandler(const MapInfo & mapinfo, 
-					const std::string & mapluafilename);
+					const std::string & mapluafilename,
+					const std::string & customluafilename);
 
 	//! desructor
 	~MapHandler(void);

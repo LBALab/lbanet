@@ -48,10 +48,13 @@ void SharedDataHandler::SetWorldDefaultInformation(WorldInformation &worldinfo)
 	for(; itm != endm; ++itm)
 	{
 		std::string luafile = "Worlds/" + _worldinfo.Description.WorldName + "/Lua/";
+		
+		// custom server file
+		std::string customluafile = luafile+"CustomServer.lua"
 		luafile += itm->second.Name + "_server.lua";
 
 		// create map object
-		boost::shared_ptr<MapHandler> mapH(new MapHandler(itm->second, luafile));
+		boost::shared_ptr<MapHandler> mapH(new MapHandler(itm->second, luafile, customluafile));
 		_currentmaps[itm->first] = mapH;
 	}
 #endif
@@ -495,10 +498,14 @@ void SharedDataHandler::ChangeMapPlayer(Ice::Long clientid, LbaNet::PlayerPositi
 	if(itm != _worldinfo.Maps.end())
 	{
 		std::string luafile = "Worlds/" + _worldinfo.Description.WorldName + "/Lua/";
+
+		// custom server file
+		std::string customluafile = luafile+"CustomServer.lua";
+
 		luafile += newpos.MapName + "_server.lua";
 
 		// create map object
-		boost::shared_ptr<MapHandler> mapH(new MapHandler(itm->second, luafile));
+		boost::shared_ptr<MapHandler> mapH(new MapHandler(itm->second, luafile, customluafile));
 		_currentmaps[itm->first] = mapH;
 
 		//start run thread if not started already
@@ -580,8 +587,11 @@ void SharedDataHandler::EditorUpdate(const std::string &mapname,
 
 			// create map object
 			std::string luafile = "Worlds/" + _worldinfo.Description.WorldName + "/Lua/";
+			
+			// custom server file
+			std::string customluafile = luafile+"CustomServer.lua";
 			luafile += castedptr->_mapinfo.Name + "_server.lua";
-			boost::shared_ptr<MapHandler> mapH(new MapHandler(castedptr->_mapinfo, luafile));
+			boost::shared_ptr<MapHandler> mapH(new MapHandler(castedptr->_mapinfo, luafile, customluafile));
 			_currentmaps[castedptr->_mapinfo.Name] = mapH;
 		}
 	}

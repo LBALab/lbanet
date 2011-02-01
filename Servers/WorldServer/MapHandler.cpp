@@ -93,7 +93,8 @@ void EventsSenderToAll::run()
 constructor
 ***********************************************************/
 MapHandler::MapHandler(const MapInfo & mapinfo, 
-						const std::string & mapluafilename)
+						const std::string & mapluafilename,
+						const std::string & customluafilename)
 : _Trunning(false), _mapinfo(mapinfo)
 {
 	// initialize the gui handlers
@@ -107,7 +108,9 @@ MapHandler::MapHandler(const MapInfo & mapinfo,
 	_guihandlers["ShopBox"] = boost::shared_ptr<ServerGUIBase>(new ShopBoxHandler());
 	_guihandlers["InventoryBox"] = boost::shared_ptr<ServerGUIBase>(new InventoryBoxHandler());
 
+	_luaH.LoadFile(customluafilename);
 	_luaH.LoadFile(mapluafilename);
+
 
 	_luaH.CallLua("InitMap", this);
 
