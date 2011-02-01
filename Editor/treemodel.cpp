@@ -65,7 +65,7 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    if (role == Qt::DisplayRole && role == Qt::EditRole)
+    if (role == Qt::DisplayRole || role == Qt::EditRole)
 	{
 		TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
 

@@ -238,10 +238,14 @@ public slots:
 	//! data changed in object view
 	void fileobjmodified(QString selectedfile);
 
+	//! data changed in object view
+	void fileobjchanged(QString selectedfile);
+
  private:
 	 std::map<QModelIndex, boost::shared_ptr<CustomStringListModel> >		_customs;
 	 std::map<QModelIndex, FileDialogOptions >								_customsfiledialog;
 	 QAbstractItemModel *													_model;
+	 bool																	_accepted;
  };
 
 
@@ -501,6 +505,9 @@ public slots:
 
 	//! RefreshClientScript
 	void RefreshClientScript();
+
+	 //! on selectactor_double_clicked
+     void selecttext_double_clicked(const QModelIndex & itm);
 
 protected:
 	//! override close event

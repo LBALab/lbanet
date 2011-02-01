@@ -59,6 +59,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "windows.h"
 #endif
 
+namespace fs = boost::filesystem;
 
 class DraggerCustomCallback : public osgManipulator::DraggerCallback
 {
@@ -584,7 +585,7 @@ void MixedTableModel::AddRow(const QVariantList &data)
 Constructor
 ***********************************************************/
 CustomDelegate::CustomDelegate(QObject *parent, QAbstractItemModel * model)
-     : QStyledItemDelegate(parent), _model(model)
+     : QStyledItemDelegate(parent), _model(model), _accepted(false)
 {
 }
 
@@ -613,10 +614,12 @@ QWidget *CustomDelegate::createEditor(QWidget *parent, const QStyleOptionViewIte
 		editor->setAcceptMode(QFileDialog::AcceptOpen);
 		editor->setFileMode(QFileDialog::ExistingFile);
 		editor->setNameFilter(itf->second.FileFilter);
-		editor->setViewMode(QFileDialog::Detail);
-		editor->setDirectory ( itf->second.StartingDirectory );
+		editor->setViewMode(QFileDialog::List);
+		editor->setModal(true);
 
 		connect(editor, SIGNAL(	fileSelected(QString)) , this, SLOT(fileobjmodified(QString)));
+		connect(editor, SIGNAL(	currentChanged(QString)) , this, SLOT(fileobjchanged(QString)));
+
 		return editor;
 	}
 
@@ -650,18 +653,27 @@ void CustomDelegate::setEditorData(QWidget *editor, const QModelIndex &index) co
 		 int index = comboBox->findText(value);
 		 if(index >= 0)
 			comboBox->setCurrentIndex(index);
+
+		 return;
 	}
 
 	std::map<QModelIndex, FileDialogOptions >::const_iterator itf = _customsfiledialog.find(index);
 	if(itf != _customsfiledialog.end())
 	{
-		 QString value = index.model()->data(index, Qt::DisplayRole).toString();
+		QString value = index.model()->data(index, Qt::DisplayRole).toString();
+		QFileDialog *dialog = static_cast<QFileDialog*>(editor);
 
-		 if(value != "")
-		 {
-			 QFileDialog *dialog = static_cast<QFileDialog*>(editor);
-			 dialog->setDirectory( value.section('/', 0, -2) );
-		 }
+		if(value != "")
+		{
+			dialog->setDirectory( QDir::currentPath()+"/Data/"+value.section('/', 0, -2) );
+			dialog->selectFile ( value.section('/', -1) );
+		}
+		else
+		{
+			dialog->setDirectory(QDir::currentPath()+"/"+itf->second.StartingDirectory);
+		}
+
+		return;
 	}
 
 
@@ -672,6 +684,8 @@ void CustomDelegate::setEditorData(QWidget *editor, const QModelIndex &index) co
 
 		 QDoubleSpinBox *spinBox = static_cast<QDoubleSpinBox*>(editor);
 		 spinBox->setValue(value);
+
+		 return;
 	}
 
 
@@ -692,6 +706,8 @@ void CustomDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
 		 QComboBox *comboBox = static_cast<QComboBox*>(editor);
 		 QString value = comboBox->currentText();
 		 model->setData(index, value);
+		
+		return;
 	}
 
 	std::map<QModelIndex, FileDialogOptions >::const_iterator itf = _customsfiledialog.find(index);
@@ -699,33 +715,75 @@ void CustomDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
 	{
 		QFileDialog *dialog = static_cast<QFileDialog*>(editor);
 		QStringList files = dialog->selectedFiles();
-		if(files.size() > 0)
+		if(_accepted && files.size() > 0)
 		{
 			QString file = files[0];
-
-			// check if choosen file is in the directory data
-			if(file.contains(QDir::currentPath()))
+			if(file != "")
 			{
-				file = file.remove(QDir::currentPath());
-			}
-			else
-			{
-				//copy the file over
-				try
+				// check if choosen file is in the directory data
+				if(file.contains(QDir::currentPath()))
 				{
-					QString filename = itf->second.StartingDirectory + "/" + file.section('/', -1);
-					boost::filesystem::copy_file(file.toAscii().data(), filename.toAscii().data());
-					file = filename;
+					file = file.remove(QDir::currentPath()+"/Data/");
 				}
-				catch(...)
+				else
 				{
-					QErrorMessage msgdial;
-					msgdial.showMessage ( "Error copying the file to the data directory!" );
-				}
-			}
+					//copy the file over
+					try
+					{
+						// get all files with same name
+						std::vector<std::string> files;
+						QString fpath = file.section('/', 0, -2 );
+						{
+							QString filenoext = file.section('/', -1);
+							filenoext = filenoext.section('.', 0, 0);
 
-			model->setData(index, file);
+
+							fs::path full_path( fpath.toAscii().data() );
+
+							if( fs::exists( full_path ) )
+							{
+								if ( fs::is_directory( full_path ) )
+								{
+									fs::directory_iterator end_iter;
+									for ( fs::directory_iterator dir_itr( full_path ); 
+														dir_itr != end_iter; ++dir_itr )
+									{
+										if ( fs::is_regular_file( dir_itr->status() ) )
+										{
+											if(dir_itr->path().stem() == filenoext.toAscii().data())
+												files.push_back(dir_itr->path().filename());
+										}
+									}
+								}
+							}
+						}
+
+						for(size_t curs=0; curs<files.size(); ++curs)
+						{
+							QString tmp = fpath + "/";
+							tmp += files[curs].c_str();
+							QString tmp2 = itf->second.StartingDirectory + "/";
+							tmp2 += files[curs].c_str();
+							boost::filesystem::copy_file(tmp.toAscii().data(), tmp2.toAscii().data());
+						}
+
+						QString filename = itf->second.StartingDirectory + "/" + file.section('/', -1);
+						file = filename.section('/', 1);
+					}
+					catch(...)
+					{
+						QErrorMessage msgdial;
+						msgdial.showMessage ( "Error copying the file to the data directory!" );
+						return;
+					}
+				}
+
+				model->setData(index, file);
+			}
 		}
+		
+		//_accepted = false;
+		return;
 	}
 
 	QVariant data = _model->data(index, Qt::DisplayRole);
@@ -736,6 +794,8 @@ void CustomDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
 		 double value = spinBox->value();
 
 		 model->setData(index, value);
+		
+		return;
 	}
 	
 	QStyledItemDelegate::setModelData(editor, model, index);
@@ -806,8 +866,15 @@ data changed in object view
 ***********************************************************/
 void CustomDelegate::fileobjmodified(QString selectedfile)
 {
-	QWidget *editor = static_cast<QWidget *>(sender());
-	emit commitData(editor);
+	_accepted = true;
+}
+
+/***********************************************************
+data changed in object view
+***********************************************************/
+void CustomDelegate::fileobjchanged(QString selectedfile)
+{
+	_accepted = false;
 }
 
 
@@ -1049,6 +1116,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.tableView_SpawningList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectspawning_double_clicked(const QModelIndex&)));
 	connect(_uieditor.tableViewTriggerList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selecttrigger_double_clicked(const QModelIndex&)));
 	connect(_uieditor.tableView_ActorList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectactor_double_clicked(const QModelIndex&)));
+	connect(_uieditor.tableView_TextList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selecttext_double_clicked(const QModelIndex&)));
 
 	connect(_objectmodel, SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)) , 
 								this, SLOT(objectdatachanged(const QModelIndex &, const QModelIndex &)));
@@ -1510,12 +1578,12 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 			for(; it != end; ++it)
 			{
 				QStringList qlist;
-				qlist <<it->second.c_str();
+				qlist <<QString::fromUtf8(it->second.c_str());
 				_text_maplistmodel->AddOrUpdateRow(it->first, qlist);
 
 				std::stringstream txtwithid;
 				txtwithid<<it->first<<": "<<it->second;
-				_text_mapNameList->AddData(txtwithid.str().c_str());
+				_text_mapNameList->AddData(QString::fromUtf8(txtwithid.str().c_str()));
 			}
 		}
 
@@ -1526,12 +1594,12 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 			for(; it != end; ++it)
 			{
 				QStringList qlist;
-				qlist <<it->second.c_str();
+				qlist <<QString::fromUtf8(it->second.c_str());
 				_text_questlistmodel->AddOrUpdateRow(it->first, qlist);
 
 				std::stringstream txtwithid;
 				txtwithid<<it->first<<": "<<it->second;
-				_text_questNameList->AddData(txtwithid.str().c_str());
+				_text_questNameList->AddData(QString::fromUtf8(txtwithid.str().c_str()));
 			}
 		}
 
@@ -1542,12 +1610,12 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 			for(; it != end; ++it)
 			{
 				QStringList qlist;
-				qlist <<it->second.c_str();
+				qlist <<QString::fromUtf8(it->second.c_str());
 				_text_inventorylistmodel->AddOrUpdateRow(it->first, qlist);
 
 				std::stringstream txtwithid;
 				txtwithid<<it->first<<": "<<it->second;
-				_text_inventoryNameList->AddData(txtwithid.str().c_str());
+				_text_inventoryNameList->AddData(QString::fromUtf8(txtwithid.str().c_str()));
 			}
 		}
 
@@ -1558,12 +1626,12 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 			for(; it != end; ++it)
 			{
 				QStringList qlist;
-				qlist <<it->second.c_str();
+				qlist <<QString::fromUtf8(it->second.c_str());
 				_text_namelistmodel->AddOrUpdateRow(it->first, qlist);
 
 				std::stringstream txtwithid;
 				txtwithid<<it->first<<": "<<it->second;
-				_text_nameNameList->AddData(txtwithid.str().c_str());
+				_text_nameNameList->AddData(QString::fromUtf8(txtwithid.str().c_str()));
 			}
 		}
 	}
@@ -2545,7 +2613,7 @@ void EditorHandler::SelectAction(ActionBasePtr action, const QModelIndex &parent
 			txttmp<<ptr->GetTextId()<<": "<<txt;
 
 			QVector<QVariant> data;
-			data << "Text" << txttmp.str().c_str();
+			data << "Text" << QString::fromUtf8(txttmp.str().c_str());
 			QModelIndex idx = _objectmodel->AppendRow(data, parent);
 		}
 
@@ -4595,6 +4663,7 @@ void EditorHandler::addworld_accepted()
 	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname );}catch(...){}
 	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/Lua");}catch(...){}
 	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/Models");}catch(...){}
+	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/Texts");}catch(...){}
 
 	// save new world
 	DataLoader::getInstance()->SaveWorldInformation(wname, winfo);
@@ -4607,7 +4676,7 @@ void EditorHandler::addworld_accepted()
 		filelua<<"-- Please note that the changes done on this file will"<<std::endl;
 		filelua<<"-- only be reflected on the server when you change map on the editor!"<<std::endl<<std::endl<<std::endl;
 		filelua<<"-- A function used as custom action should have the following signature:"<<std::endl;
-		filelua<<"-- Function Functioname(ObjectType, ObjectId, Arguments, Environment)"<<std::endl<<std::endl;
+		filelua<<"-- function Functioname(ObjectType, ObjectId, Arguments, Environment)"<<std::endl<<std::endl;
 		filelua<<"-- ObjectType and Objectid will contains the type and id of the object triggering the action"<<std::endl;
 		filelua<<"-- Arguments is a virtual class containing possible extra arguments"<<std::endl;
 		filelua<<"-- Environment is a pointer used to access the server class (see documentation for further information)"<<std::endl<<std::endl<<std::endl;
@@ -4623,7 +4692,7 @@ void EditorHandler::addworld_accepted()
 		filelua<<"-- Please note that the changes done on this file will"<<std::endl;
 		filelua<<"-- only be reflected once you click the \"Refresh client script\" in the top menu of the editor!"<<std::endl<<std::endl<<std::endl;
 		filelua<<"-- A function used as custom clientscript should have the following signature:"<<std::endl;
-		filelua<<"-- Function Functioname(ScriptId)"<<std::endl<<std::endl;
+		filelua<<"-- function Functioname(ScriptId)"<<std::endl<<std::endl;
 		filelua<<"-- ScriptId is used by many functions of the client API (see documentation for further information on the API)"<<std::endl<<std::endl<<std::endl;
 		filelua.flush();
 		filelua.close();
@@ -5124,7 +5193,7 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 				FileDialogOptions filefilter;
 				filefilter.Title = "Choose model file";
 				filefilter.StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Models").c_str();;
-				filefilter.FileFilter = "Model Files (*.osg)";
+				filefilter.FileFilter = "Model Files (*.osg *.osgb *.osga)";
 				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
 				++index;
 			}
@@ -6893,7 +6962,7 @@ void EditorHandler::TextEdit_button()
 		std::stringstream idtxt;
 		idtxt << id;
 		_ui_addtextdialog.lineEdit_id->setText(idtxt.str().c_str());
-		_ui_addtextdialog.textEdit->setPlainText(txt.c_str());
+		_ui_addtextdialog.textEdit->setPlainText(QString::fromUtf8(txt.c_str()));
 		_addtextdialog->show();
 	}
 }	
@@ -6907,7 +6976,7 @@ void EditorHandler::TextAdd_button_accepted()
 {
 	_addtextdialog->hide();
 
-	std::string txt = _ui_addtextdialog.textEdit->toPlainText().toAscii().data();
+	std::string txt = _ui_addtextdialog.textEdit->toPlainText().toUtf8().data();
 	replaceinstr(txt, "\n", " @ ");
 
 	StringTableModel *	model = NULL;
@@ -6940,7 +7009,7 @@ void EditorHandler::TextAdd_button_accepted()
 
 		Localizer::getInstance()->AddToMap(_currentchoosentext, id, txt);	
 		QStringList qlist;
-		qlist << txt.c_str();
+		qlist << QString::fromUtf8(txt.c_str());
 		model->AddOrUpdateRow(id, qlist);
 
 
@@ -6948,7 +7017,8 @@ void EditorHandler::TextAdd_button_accepted()
 		oldtxtwithid<<id<<": "<<oldtxt;
 		std::stringstream txtwithid;
 		txtwithid<<id<<": "<<txt;
-		modelname->ReplaceData(oldtxtwithid.str().c_str(), txtwithid.str().c_str());
+		modelname->ReplaceData(QString::fromUtf8(oldtxtwithid.str().c_str()), 
+									QString::fromUtf8(txtwithid.str().c_str()));
 
 	}
 	else
@@ -6956,17 +7026,15 @@ void EditorHandler::TextAdd_button_accepted()
 		// new text
 		long newid = Localizer::getInstance()->AddToMap(_currentchoosentext, -1, txt);	
 		QStringList qlist;
-		qlist << txt.c_str();
+		qlist << QString::fromUtf8(txt.c_str());
 		model->AddOrUpdateRow(newid, qlist);
 
 		std::stringstream txtwithid;
 		txtwithid<<newid<<": "<<txt;
-		modelname->AddData(txtwithid.str().c_str());
+		modelname->AddData(QString::fromUtf8(txtwithid.str().c_str()));
 	}
 
 	SetModified();
-
-	// todo - test utf8
 }
 
 /***********************************************************
@@ -6974,7 +7042,8 @@ OpenCustomServerLua
 ***********************************************************/
 void EditorHandler::OpenCustomServerLua()
 {
-	std::string path = "Data/Worlds/" + _winfo.Description.WorldName + "/Lua/CustomServer.lua";
+	std::string path = QDir::currentPath().toAscii().data();
+	path += "/Data/Worlds/" + _winfo.Description.WorldName + "/Lua/CustomServer.lua";
 
 #ifdef WIN32
 	ShellExecuteA(NULL, "open", path.c_str(), NULL, NULL, SW_SHOWNORMAL);
@@ -6988,7 +7057,8 @@ OpenCustomClientLua
 ***********************************************************/
 void EditorHandler::OpenCustomClientLua()
 {
-	std::string path = "Data/Worlds/" + _winfo.Description.WorldName + "/Lua/CustomClient.lua";
+	std::string path = QDir::currentPath().toAscii().data();
+	path += "/Data/Worlds/" + _winfo.Description.WorldName + "/Lua/CustomClient.lua";
 
 #ifdef WIN32
 	ShellExecuteA(NULL, "open", path.c_str(), NULL, NULL, SW_SHOWNORMAL);
@@ -7003,4 +7073,14 @@ RefreshClientScript
 void EditorHandler::RefreshClientScript()
 {
 	EventsQueue::getReceiverQueue()->AddEvent(new RefreshLuaEvent());
+}
+
+
+
+/***********************************************************
+selecttext_double_clicked
+***********************************************************/
+void EditorHandler::selecttext_double_clicked(const QModelIndex & itm)
+{
+	TextEdit_button();
 }
