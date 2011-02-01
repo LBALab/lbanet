@@ -47,6 +47,8 @@ public:
     int childCount() const;
     int columnCount() const;
     QVariant data(int column) const;
+    QVariant tooltip(int column) const;
+	
     int row() const;
     TreeItem *parent();
 
@@ -54,6 +56,7 @@ public:
     bool insertChildren(int position, int count, int columns);
     bool removeChildren(int position, int count);
     bool setData(int column, const QVariant &value);
+    bool setTooltip(int column, const QVariant &value);
 
 	//! clear all children
 	void Clear();
@@ -65,6 +68,8 @@ public:
 private:
     QList<TreeItem*>	childItems;
     QVector<QVariant>	itemData;
+    QVector<QVariant>	itemTooltip;
+
     TreeItem*			parentItem;
 	bool				_isReadOnly;
 };

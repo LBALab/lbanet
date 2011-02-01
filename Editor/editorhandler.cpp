@@ -33,9 +33,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "StringHelperFuncs.h"
 #include "ClientScript.h"
 #include "Lba1ModelMapHandler.h"
-#include "Localizer.h"
 
+#include <qdir.h>
+#include <QErrorMessage>
 #include <QMessageBox>
+#include <QFileDialog>
 #include <boost/filesystem.hpp>
 
 #include <fstream>
@@ -53,6 +55,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <osgManipulator/TranslateAxisDragger>
 #include <osgManipulator/Command>
 
+#ifdef WIN32
+#include "windows.h"
+#endif
 
 
 class DraggerCustomCallback : public osgManipulator::DraggerCallback
@@ -76,6 +81,19 @@ private:
 };
 
 
+
+/***********************************************************
+helper function
+***********************************************************/
+static void replaceinstr(std::string& target, const std::string oldstr, const std::string newstr) 
+{
+	unsigned int x;
+	while(x = target.find(oldstr), x != std::string::npos) 
+	{
+		target.erase(x, oldstr.length());
+		target.insert(x, newstr);
+	}
+}
 
 
 /***********************************************************
@@ -588,6 +606,20 @@ QWidget *CustomDelegate::createEditor(QWidget *parent, const QStyleOptionViewIte
 		return editor;
 	}
 
+	 std::map<QModelIndex, FileDialogOptions >::const_iterator itf = _customsfiledialog.find(index);
+	if(itf != _customsfiledialog.end())
+	{
+		QFileDialog *editor = new QFileDialog(parent, itf->second.Title);
+		editor->setAcceptMode(QFileDialog::AcceptOpen);
+		editor->setFileMode(QFileDialog::ExistingFile);
+		editor->setNameFilter(itf->second.FileFilter);
+		editor->setViewMode(QFileDialog::Detail);
+		editor->setDirectory ( itf->second.StartingDirectory );
+
+		connect(editor, SIGNAL(	fileSelected(QString)) , this, SLOT(fileobjmodified(QString)));
+		return editor;
+	}
+
 	QVariant data = _model->data(index, Qt::DisplayRole);
 	if(data.type() == QVariant::Double)
 	{
@@ -620,6 +652,19 @@ void CustomDelegate::setEditorData(QWidget *editor, const QModelIndex &index) co
 			comboBox->setCurrentIndex(index);
 	}
 
+	std::map<QModelIndex, FileDialogOptions >::const_iterator itf = _customsfiledialog.find(index);
+	if(itf != _customsfiledialog.end())
+	{
+		 QString value = index.model()->data(index, Qt::DisplayRole).toString();
+
+		 if(value != "")
+		 {
+			 QFileDialog *dialog = static_cast<QFileDialog*>(editor);
+			 dialog->setDirectory( value.section('/', 0, -2) );
+		 }
+	}
+
+
 	QVariant data = _model->data(index, Qt::DisplayRole);
 	if(data.type() == QVariant::Double)
 	{
@@ -647,6 +692,40 @@ void CustomDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
 		 QComboBox *comboBox = static_cast<QComboBox*>(editor);
 		 QString value = comboBox->currentText();
 		 model->setData(index, value);
+	}
+
+	std::map<QModelIndex, FileDialogOptions >::const_iterator itf = _customsfiledialog.find(index);
+	if(itf != _customsfiledialog.end())
+	{
+		QFileDialog *dialog = static_cast<QFileDialog*>(editor);
+		QStringList files = dialog->selectedFiles();
+		if(files.size() > 0)
+		{
+			QString file = files[0];
+
+			// check if choosen file is in the directory data
+			if(file.contains(QDir::currentPath()))
+			{
+				file = file.remove(QDir::currentPath());
+			}
+			else
+			{
+				//copy the file over
+				try
+				{
+					QString filename = itf->second.StartingDirectory + "/" + file.section('/', -1);
+					boost::filesystem::copy_file(file.toAscii().data(), filename.toAscii().data());
+					file = filename;
+				}
+				catch(...)
+				{
+					QErrorMessage msgdial;
+					msgdial.showMessage ( "Error copying the file to the data directory!" );
+				}
+			}
+
+			model->setData(index, file);
+		}
 	}
 
 	QVariant data = _model->data(index, Qt::DisplayRole);
@@ -680,6 +759,7 @@ Constructor
 void CustomDelegate::Clear()
 {
 	_customs.clear();
+	_customsfiledialog.clear();
 }
 
 /***********************************************************
@@ -689,6 +769,16 @@ void CustomDelegate::SetCustomIndex(QModelIndex index, boost::shared_ptr<CustomS
 {
 	_customs[index] = list;
 }
+
+
+/***********************************************************
+used in the case of file dialog
+***********************************************************/
+ void CustomDelegate::SetCustomIndex(QModelIndex index, FileDialogOptions filefilter)
+{
+	_customsfiledialog[index] = filefilter;
+}
+
 
 
 /***********************************************************
@@ -711,6 +801,14 @@ void CustomDelegate::objmodified2(double flag)
 }
 
 
+/***********************************************************
+data changed in object view
+***********************************************************/
+void CustomDelegate::fileobjmodified(QString selectedfile)
+{
+	QWidget *editor = static_cast<QWidget *>(sender());
+	emit commitData(editor);
+}
 
 
 
@@ -730,8 +828,9 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	_conditiontypeList(new CustomStringListModel()), _cscripttypeList(new CustomStringListModel()),
 	_actiontypeList(new CustomStringListModel()), _actorModelNameList(new CustomStringListModel()),
 	_actorModelOutfitList(new CustomStringListModel()), _actorModelWeaponList(new CustomStringListModel()),
-	_actorModelModeList(new CustomStringListModel()), _currentchoosentext(0)
-
+	_actorModelModeList(new CustomStringListModel()), _currentchoosentext(Localizer::Map),
+	_text_mapNameList(new CustomStringListModel()), _text_questNameList(new CustomStringListModel()),
+	_text_inventoryNameList(new CustomStringListModel()), _text_nameNameList(new CustomStringListModel())
 {
 	QStringList actlist;
 	actlist << "Static" << "Scripted" << "Movable";
@@ -784,6 +883,9 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 
 	_addactordialog = new QDialog(this);
 	_ui_addactordialog.setupUi(_addactordialog);
+
+	_addtextdialog = new QDialog(this);
+	_ui_addtextdialog.setupUi(_addtextdialog);
 
 
 	// set model for map list
@@ -895,6 +997,11 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.actionNew_World, SIGNAL(triggered()), this, SLOT(NewWorldAction())); 
 	connect(_uieditor.actionLoad_World, SIGNAL(triggered()), this, SLOT(OpenWorldAction())); 
 	connect(_uieditor.actionSave, SIGNAL(triggered()), this, SLOT(SaveWorldAction())); 
+	connect(_uieditor.actionCustom_Lua_for_server, SIGNAL(triggered()), this, SLOT(SaveWorldAction())); 
+	connect(_uieditor.actionCustom_Lua_for_server, SIGNAL(triggered()), this, SLOT(OpenCustomServerLua())); 
+	connect(_uieditor.actionCustom_Lua_for_client, SIGNAL(triggered()), this, SLOT(OpenCustomClientLua())); 
+	connect(_uieditor.actionRefresh_client_script, SIGNAL(triggered()), this, SLOT(RefreshClientScript())); 
+
 	connect(_uieditor.pushButton_info_go, SIGNAL(clicked()) , this, SLOT(info_go_clicked()));
 	connect(_uieditor.radioButton_info_player, SIGNAL(toggled(bool)) , this, SLOT(info_camera_toggled(bool)));
 
@@ -912,6 +1019,11 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.pushButton_addtp, SIGNAL(clicked()) , this, SLOT(TpAdd_button()));
 	connect(_uieditor.pushButton_removetp, SIGNAL(clicked()) , this, SLOT(TpRemove_button()));	
 	connect(_uieditor.pushButton_edittp, SIGNAL(clicked()) , this, SLOT(TpEdit_button()));	
+
+	connect(_uieditor.pushButton_addtext, SIGNAL(clicked()) , this, SLOT(TextAdd_button()));
+	connect(_uieditor.pushButton_removetext, SIGNAL(clicked()) , this, SLOT(TextRemove_button()));	
+	connect(_uieditor.pushButton_edittext, SIGNAL(clicked()) , this, SLOT(TextEdit_button()));	
+
 
 
 	connect(_uieditor.pushButton_addActor, SIGNAL(clicked()) , this, SLOT(ActorAdd_button()));
@@ -949,6 +1061,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_ui_addtpdialog.buttonBox, SIGNAL(accepted()) , this, SLOT(TpAdd_button_accepted()));
 	connect(_ui_addworlddialog.buttonBox, SIGNAL(accepted()) , this, SLOT(addworld_accepted()));
 	connect(_ui_addactordialog.buttonBox, SIGNAL(accepted()) , this, SLOT(ActorAdd_button_accepted()));
+	connect(_ui_addtextdialog.buttonBox, SIGNAL(accepted()) , this, SLOT(TextAdd_button_accepted()));
+
 
 
 	connect(_uieditor.comboBox_startingmap, SIGNAL(activated(int)) , this, SLOT(StartingMapModified(int)));		
@@ -1379,8 +1493,18 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 	{
 		Localizer::getInstance()->SetWorldName(worldname);
 
+		_text_maplistmodel->Clear();
+		_text_questlistmodel->Clear();
+		_text_inventorylistmodel->Clear();
+		_text_namelistmodel->Clear();
+
+		_text_mapNameList->Clear();
+		_text_questNameList->Clear();
+		_text_inventoryNameList->Clear();
+		_text_nameNameList->Clear();
+
 		{
-			std::map<long, std::string> tmap = Localizer::getInstance()->GetMap("map");
+			std::map<long, std::string> tmap = Localizer::getInstance()->GetMap(Localizer::Map);
 			std::map<long, std::string>::iterator it = tmap.begin();
 			std::map<long, std::string>::iterator end = tmap.end();
 			for(; it != end; ++it)
@@ -1388,11 +1512,15 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 				QStringList qlist;
 				qlist <<it->second.c_str();
 				_text_maplistmodel->AddOrUpdateRow(it->first, qlist);
+
+				std::stringstream txtwithid;
+				txtwithid<<it->first<<": "<<it->second;
+				_text_mapNameList->AddData(txtwithid.str().c_str());
 			}
 		}
 
 		{
-			std::map<long, std::string> tmap = Localizer::getInstance()->GetMap("quest");
+			std::map<long, std::string> tmap = Localizer::getInstance()->GetMap(Localizer::Quest);
 			std::map<long, std::string>::iterator it = tmap.begin();
 			std::map<long, std::string>::iterator end = tmap.end();
 			for(; it != end; ++it)
@@ -1400,11 +1528,15 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 				QStringList qlist;
 				qlist <<it->second.c_str();
 				_text_questlistmodel->AddOrUpdateRow(it->first, qlist);
+
+				std::stringstream txtwithid;
+				txtwithid<<it->first<<": "<<it->second;
+				_text_questNameList->AddData(txtwithid.str().c_str());
 			}
 		}
 
 		{
-			std::map<long, std::string> tmap = Localizer::getInstance()->GetMap("inventory");
+			std::map<long, std::string> tmap = Localizer::getInstance()->GetMap(Localizer::Inventory);
 			std::map<long, std::string>::iterator it = tmap.begin();
 			std::map<long, std::string>::iterator end = tmap.end();
 			for(; it != end; ++it)
@@ -1412,11 +1544,15 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 				QStringList qlist;
 				qlist <<it->second.c_str();
 				_text_inventorylistmodel->AddOrUpdateRow(it->first, qlist);
+
+				std::stringstream txtwithid;
+				txtwithid<<it->first<<": "<<it->second;
+				_text_inventoryNameList->AddData(txtwithid.str().c_str());
 			}
 		}
 
 		{
-			std::map<long, std::string> tmap = Localizer::getInstance()->GetMap("name");
+			std::map<long, std::string> tmap = Localizer::getInstance()->GetMap(Localizer::Name);
 			std::map<long, std::string>::iterator it = tmap.begin();
 			std::map<long, std::string>::iterator end = tmap.end();
 			for(; it != end; ++it)
@@ -1424,6 +1560,10 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 				QStringList qlist;
 				qlist <<it->second.c_str();
 				_text_namelistmodel->AddOrUpdateRow(it->first, qlist);
+
+				std::stringstream txtwithid;
+				txtwithid<<it->first<<": "<<it->second;
+				_text_nameNameList->AddData(txtwithid.str().c_str());
 			}
 		}
 	}
@@ -2388,6 +2528,9 @@ void EditorHandler::SelectAction(ActionBasePtr action, const QModelIndex &parent
 			QVector<QVariant> data;
 			data << "Function name" << ptr->GetLuaFunctionName().c_str();
 			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+			// add tootlip
+			_objectmodel->setTooltip(idx, "the function should be defined in custom server lua file");
 		}
 
 		return;
@@ -2397,10 +2540,16 @@ void EditorHandler::SelectAction(ActionBasePtr action, const QModelIndex &parent
 	{
 		DisplayTextAction* ptr = static_cast<DisplayTextAction*>(action.get());
 		{
+			std::string txt = Localizer::getInstance()->GetText(Localizer::Map, ptr->GetTextId());
+			std::stringstream txttmp;
+			txttmp<<ptr->GetTextId()<<": "<<txt;
+
 			QVector<QVariant> data;
-			data << "Text id" << ptr->GetTextId(); //todo - check if need cast to int to display as spinbox
+			data << "Text" << txttmp.str().c_str();
 			QModelIndex idx = _objectmodel->AppendRow(data, parent);
 		}
+
+		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _text_mapNameList);
 
 		return;
 	}
@@ -2591,12 +2740,12 @@ void EditorHandler::ActionObjectChanged(const std::string & category, const QMod
 			}
 
 
-
 			if(category == "DisplayTextAction")
 			{
 				// get info
-				long textid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toLong();
-
+				std::string text = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();
+				std::string tmp = text.substr(0, text.find(":"));
+				long textid = atol(tmp.c_str());
 
 				// created modified action and replace old one
 				DisplayTextAction* modifiedact = (DisplayTextAction*)ptr;
@@ -3960,28 +4109,6 @@ void EditorHandler::StartingModeModified(int index)
 	SetModified();
 }
 
-/***********************************************************
-text type modified
-***********************************************************/
-void EditorHandler::TextTypeModified(int index)
-{
-	_currentchoosentext = index;
-	switch(index)
-	{
-		case 0:
-			_uieditor.tableView_TextList->setModel(_text_maplistmodel);
-		break;
-		case 1:
-			_uieditor.tableView_TextList->setModel(_text_questlistmodel);
-		break;
-		case 2:
-			_uieditor.tableView_TextList->setModel(_text_inventorylistmodel);
-		break;
-		case 3:
-			_uieditor.tableView_TextList->setModel(_text_namelistmodel);
-		break;
-	}
-}
 
 
 /***********************************************************
@@ -4467,9 +4594,41 @@ void EditorHandler::addworld_accepted()
 	//create directories
 	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname );}catch(...){}
 	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/Lua");}catch(...){}
+	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/Models");}catch(...){}
 
 	// save new world
 	DataLoader::getInstance()->SaveWorldInformation(wname, winfo);
+
+	//create custom lua files
+	{
+		std::string path = "Data/Worlds/" + wname + "/Lua/CustomServer.lua";
+		std::ofstream filelua(path.c_str());
+		filelua<<"-- In this file you can define custom functions to be used on the server side."<<std::endl<<std::endl;
+		filelua<<"-- Please note that the changes done on this file will"<<std::endl;
+		filelua<<"-- only be reflected on the server when you change map on the editor!"<<std::endl<<std::endl<<std::endl;
+		filelua<<"-- A function used as custom action should have the following signature:"<<std::endl;
+		filelua<<"-- Function Functioname(ObjectType, ObjectId, Arguments, Environment)"<<std::endl<<std::endl;
+		filelua<<"-- ObjectType and Objectid will contains the type and id of the object triggering the action"<<std::endl;
+		filelua<<"-- Arguments is a virtual class containing possible extra arguments"<<std::endl;
+		filelua<<"-- Environment is a pointer used to access the server class (see documentation for further information)"<<std::endl<<std::endl<<std::endl;
+		filelua.flush();
+		filelua.close();
+	}
+	
+	{
+		std::string path = "Data/Worlds/" + wname + "/Lua/CustomClient.lua";
+		std::ofstream filelua(path.c_str());
+		filelua<<"-- In this file you can define custom functions to be used on the client side."<<std::endl;
+		filelua<<"-- It is typically used to define custom client script functions."<<std::endl<<std::endl;
+		filelua<<"-- Please note that the changes done on this file will"<<std::endl;
+		filelua<<"-- only be reflected once you click the \"Refresh client script\" in the top menu of the editor!"<<std::endl<<std::endl<<std::endl;
+		filelua<<"-- A function used as custom clientscript should have the following signature:"<<std::endl;
+		filelua<<"-- Function Functioname(ScriptId)"<<std::endl<<std::endl;
+		filelua<<"-- ScriptId is used by many functions of the client API (see documentation for further information on the API)"<<std::endl<<std::endl<<std::endl;
+		filelua.flush();
+		filelua.close();
+	}
+
 
 	// reset gui to new world
 	ResetWorld();
@@ -4873,6 +5032,13 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 					QVector<QVariant> data;
 					data<<"Physic filename"<<ainfo.PhysicDesc.Filename.c_str();
 					_objectmodel->AppendRow(data, parent);
+
+					FileDialogOptions filefilter;
+					filefilter.Title = "Choose physic file";
+					filefilter.StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Models").c_str();
+					filefilter.FileFilter = "Physic Files (*.phy)";
+					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
+
 					++index;
 				}
 			}
@@ -4954,6 +5120,12 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 				QVector<QVariant> data;
 				data<<"Display model file"<<ainfo.DisplayDesc.ModelName.c_str();
 				_objectmodel->AppendRow(data, parent);
+
+				FileDialogOptions filefilter;
+				filefilter.Title = "Choose model file";
+				filefilter.StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Models").c_str();;
+				filefilter.FileFilter = "Model Files (*.osg)";
+				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
 				++index;
 			}
 
@@ -6009,7 +6181,11 @@ void EditorHandler::SelectCScript(ClientScriptBasePtr script, const QModelIndex 
 		{
 			QVector<QVariant> data;
 			data << "Lua function name" << ptr->GetLuaFunctionName().c_str();
-			_objectmodel->AppendRow(data, parent);
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+			
+			// add tooltip
+			_objectmodel->setTooltip(idx, "the function should be defined in custom client lua file");
 		}
 		return;
 	}
@@ -6589,4 +6765,242 @@ std::string EditorHandler::GetActionType(ActionBasePtr ptr)
 		res = ptr->GetTypeName();
 
 	return res;
+}
+
+
+
+/***********************************************************
+text type modified
+***********************************************************/
+void EditorHandler::TextTypeModified(int index)
+{
+	switch(index)
+	{
+		case 0:
+			_currentchoosentext = Localizer::Map;
+			_uieditor.tableView_TextList->setModel(_text_maplistmodel);
+		break;
+		case 1:
+			_currentchoosentext = Localizer::Quest;
+			_uieditor.tableView_TextList->setModel(_text_questlistmodel);
+		break;
+		case 2:
+			_currentchoosentext = Localizer::Inventory;
+			_uieditor.tableView_TextList->setModel(_text_inventorylistmodel);
+		break;
+		case 3:
+			_currentchoosentext = Localizer::Name;
+			_uieditor.tableView_TextList->setModel(_text_namelistmodel);
+		break;
+	}
+}
+
+
+/***********************************************************
+TextAdd_button
+***********************************************************/
+void EditorHandler::TextAdd_button()
+{
+	_ui_addtextdialog.lineEdit_id->setText("");
+	_ui_addtextdialog.textEdit->setPlainText("");
+	_addtextdialog->show();
+}
+
+
+/***********************************************************
+TextRemove_button
+***********************************************************/
+void EditorHandler::TextRemove_button()
+{
+	QItemSelectionModel *selectionModel = _uieditor.tableView_TextList->selectionModel();
+	QModelIndexList indexes = selectionModel->selectedIndexes();
+
+	StringTableModel *	model = NULL;
+	boost::shared_ptr<CustomStringListModel> modelname;
+	switch(_currentchoosentext)
+	{
+		case Localizer::Map:
+			model = _text_maplistmodel;
+			modelname = _text_mapNameList;
+		break;
+		case Localizer::Quest:
+			model = _text_questlistmodel;
+			modelname = _text_questNameList;
+		break;
+		case Localizer::Inventory:
+			model = _text_inventorylistmodel;
+			modelname = _text_inventoryNameList;
+		break;
+		case Localizer::Name:
+			model = _text_namelistmodel;
+			modelname = _text_nameNameList;
+		break;
+	}	
+
+
+	if(model && indexes.size() > 0)
+	{
+		long id = model->GetId(indexes[0]);
+		std::string txt = Localizer::getInstance()->GetText(_currentchoosentext, id);
+
+		Localizer::getInstance()->RemoveFromMap(_currentchoosentext, id);
+
+		model->removeRows(indexes[0].row(), 1);
+
+		std::stringstream txtwithid;
+		txtwithid<<id<<": "<<txt;
+		modelname->RemoveData(txtwithid.str().c_str());
+
+		SetModified();
+	}
+}	
+
+
+/***********************************************************
+TextEdit_button
+***********************************************************/
+void EditorHandler::TextEdit_button()
+{
+	QItemSelectionModel *selectionModel = _uieditor.tableView_TextList->selectionModel();
+	QModelIndexList indexes = selectionModel->selectedIndexes();
+
+	StringTableModel *	model = NULL;
+	switch(_currentchoosentext)
+	{
+		case Localizer::Map:
+			model = _text_maplistmodel;
+		break;
+		case Localizer::Quest:
+			model = _text_questlistmodel;
+		break;
+		case Localizer::Inventory:
+			model = _text_inventorylistmodel;
+		break;
+		case Localizer::Name:
+			model = _text_namelistmodel;
+		break;
+	}	
+
+
+	if(model && indexes.size() > 0)
+	{
+		long id = model->GetId(indexes[0]);
+
+		std::string txt = Localizer::getInstance()->GetText(_currentchoosentext, id);
+		replaceinstr(txt, " @ ", "\n");
+
+
+		std::stringstream idtxt;
+		idtxt << id;
+		_ui_addtextdialog.lineEdit_id->setText(idtxt.str().c_str());
+		_ui_addtextdialog.textEdit->setPlainText(txt.c_str());
+		_addtextdialog->show();
+	}
+}	
+
+
+
+/***********************************************************
+TextAdd_button_accepted
+***********************************************************/
+void EditorHandler::TextAdd_button_accepted()
+{
+	_addtextdialog->hide();
+
+	std::string txt = _ui_addtextdialog.textEdit->toPlainText().toAscii().data();
+	replaceinstr(txt, "\n", " @ ");
+
+	StringTableModel *	model = NULL;
+	boost::shared_ptr<CustomStringListModel> modelname;
+	switch(_currentchoosentext)
+	{
+		case Localizer::Map:
+			model = _text_maplistmodel;
+			modelname = _text_mapNameList;
+		break;
+		case Localizer::Quest:
+			model = _text_questlistmodel;
+			modelname = _text_questNameList;
+		break;
+		case Localizer::Inventory:
+			model = _text_inventorylistmodel;
+			modelname = _text_inventoryNameList;
+		break;
+		case Localizer::Name:
+			model = _text_namelistmodel;
+			modelname = _text_nameNameList;
+		break;
+	}	
+
+	if(_ui_addtextdialog.lineEdit_id->text() != "")
+	{
+		// replace text
+		long id = _ui_addtextdialog.lineEdit_id->text().toLong();
+		std::string oldtxt = Localizer::getInstance()->GetText(_currentchoosentext, id);
+
+		Localizer::getInstance()->AddToMap(_currentchoosentext, id, txt);	
+		QStringList qlist;
+		qlist << txt.c_str();
+		model->AddOrUpdateRow(id, qlist);
+
+
+		std::stringstream oldtxtwithid;
+		oldtxtwithid<<id<<": "<<oldtxt;
+		std::stringstream txtwithid;
+		txtwithid<<id<<": "<<txt;
+		modelname->ReplaceData(oldtxtwithid.str().c_str(), txtwithid.str().c_str());
+
+	}
+	else
+	{
+		// new text
+		long newid = Localizer::getInstance()->AddToMap(_currentchoosentext, -1, txt);	
+		QStringList qlist;
+		qlist << txt.c_str();
+		model->AddOrUpdateRow(newid, qlist);
+
+		std::stringstream txtwithid;
+		txtwithid<<newid<<": "<<txt;
+		modelname->AddData(txtwithid.str().c_str());
+	}
+
+	SetModified();
+
+	// todo - test utf8
+}
+
+/***********************************************************
+OpenCustomServerLua
+***********************************************************/
+void EditorHandler::OpenCustomServerLua()
+{
+	std::string path = "Data/Worlds/" + _winfo.Description.WorldName + "/Lua/CustomServer.lua";
+
+#ifdef WIN32
+	ShellExecuteA(NULL, "open", path.c_str(), NULL, NULL, SW_SHOWNORMAL);
+	//todo - linux version
+#endif
+
+}
+
+/***********************************************************
+OpenCustomClientLua
+***********************************************************/
+void EditorHandler::OpenCustomClientLua()
+{
+	std::string path = "Data/Worlds/" + _winfo.Description.WorldName + "/Lua/CustomClient.lua";
+
+#ifdef WIN32
+	ShellExecuteA(NULL, "open", path.c_str(), NULL, NULL, SW_SHOWNORMAL);
+	//todo - linux version
+#endif
+}
+
+
+/***********************************************************
+RefreshClientScript
+***********************************************************/
+void EditorHandler::RefreshClientScript()
+{
+	EventsQueue::getReceiverQueue()->AddEvent(new RefreshLuaEvent());
 }

@@ -39,6 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ui_addteleportdialog.h"
 #include "ui_addworlddialog.h"
 #include "ui_addactordialog.h"
+#include "ui_addtextdialog.h"
 
 
 #include "GraphicsWindowQt"
@@ -47,6 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Conditions.h"
 #include "ClientScript.h"
 #include "Actions.h"
+#include "Localizer.h"
 
 #include <LbaTypes.h>
 #include <boost/shared_ptr.hpp>
@@ -192,6 +194,12 @@ private:
 
 
 
+struct FileDialogOptions
+{
+	QString Title;
+	QString FileFilter;
+	QString StartingDirectory;
+};
 
 
  class CustomDelegate : public QStyledItemDelegate
@@ -215,6 +223,10 @@ private:
 
 	 void SetCustomIndex(QModelIndex index, boost::shared_ptr<CustomStringListModel> list);
 
+	 //! used in the case of file dialog
+	 void SetCustomIndex(QModelIndex index, FileDialogOptions filefilter);
+
+
 public slots:
 		 
 	//! data changed in object view
@@ -223,9 +235,12 @@ public slots:
 	//! data changed in object view
 	void objmodified2(double flag);
 
+	//! data changed in object view
+	void fileobjmodified(QString selectedfile);
 
  private:
 	 std::map<QModelIndex, boost::shared_ptr<CustomStringListModel> >		_customs;
+	 std::map<QModelIndex, FileDialogOptions >								_customsfiledialog;
 	 QAbstractItemModel *													_model;
  };
 
@@ -464,7 +479,28 @@ public slots:
      void selectactor_double_clicked(const QModelIndex & itm);
 
 	//! text type modified
-	void TextTypeModified(int index);
+	 void TextTypeModified(int index);
+
+	//! TextAdd_button
+	void TextAdd_button();
+
+	//! TextRemove_button
+	void TextRemove_button();	
+
+	//! TextEdit_button
+	void TextEdit_button();	
+
+	//! TextAdd_button_accepted
+	void TextAdd_button_accepted();
+
+	//! OpenCustomServerLua
+	void OpenCustomServerLua();
+
+	//! OpenCustomClientLua
+	void OpenCustomClientLua();
+
+	//! RefreshClientScript
+	void RefreshClientScript();
 
 protected:
 	//! override close event
@@ -723,6 +759,8 @@ private:
 	Ui::DialogAddActor									_ui_addactordialog;
 	QDialog *											_addactordialog;
 
+	Ui::DialogAddText									_ui_addtextdialog;
+	QDialog *											_addtextdialog;
 
 
 	StringTableModel *									_maplistmodel;
@@ -735,7 +773,7 @@ private:
 	StringTableModel *									_text_questlistmodel;
 	StringTableModel *									_text_inventorylistmodel;
 	StringTableModel *									_text_namelistmodel;
-	int													_currentchoosentext;
+	Localizer::LocalizeType								_currentchoosentext;
 
 	TreeModel *											_objectmodel;
 	CustomDelegate *									_objectcustomdelegate;
@@ -757,6 +795,11 @@ private:
 	boost::shared_ptr<CustomStringListModel>							_actorModelWeaponList;
 	boost::shared_ptr<CustomStringListModel>							_actorModelModeList;
 	bool																_refreshactorlists;
+
+	boost::shared_ptr<CustomStringListModel>							_text_mapNameList;
+	boost::shared_ptr<CustomStringListModel>							_text_questNameList;
+	boost::shared_ptr<CustomStringListModel>							_text_inventoryNameList;
+	boost::shared_ptr<CustomStringListModel>							_text_nameNameList;
 
 
 

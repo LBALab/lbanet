@@ -35,6 +35,7 @@ TreeItem::TreeItem(const QVector<QVariant> &data, TreeItem *parent, bool isReadO
 {
     parentItem = parent;
     itemData = data;
+	itemTooltip.resize ( data.size() );
 }
 
 /***********************************************************
@@ -84,6 +85,16 @@ QVariant TreeItem::data(int column) const
 {
     return itemData.value(column);
 }
+
+/***********************************************************
+tooltip
+***********************************************************/
+QVariant TreeItem::tooltip(int column) const
+{
+    return itemTooltip.value(column);
+}
+
+
 
 /***********************************************************
 parent
@@ -160,6 +171,18 @@ bool TreeItem::setData(int column, const QVariant &value)
     return true;
 }
 
+
+/***********************************************************
+setTooltip
+***********************************************************/
+bool TreeItem::setTooltip(int column, const QVariant &value)
+{
+    if (column < 0 || column >= itemTooltip.size())
+        return false;
+
+    itemTooltip[column] = value;
+    return true;
+}
 
 
 /***********************************************************

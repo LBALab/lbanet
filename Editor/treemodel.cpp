@@ -65,12 +65,21 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    if (role != Qt::DisplayRole && role != Qt::EditRole)
-        return QVariant();
+    if (role == Qt::DisplayRole && role == Qt::EditRole)
+	{
+		TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
 
-    TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+		return item->data(index.column());
+	}
 
-    return item->data(index.column());
+	if(role == Qt::ToolTipRole)
+	{
+		TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+
+		return item->tooltip(index.column());
+	}
+
+    return QVariant();
 }
 
 /***********************************************************
@@ -221,6 +230,21 @@ bool TreeModel::setData(const QModelIndex &index, const QVariant &value, int rol
 
     return result;
 }
+
+
+/***********************************************************
+set model tooltip
+***********************************************************/
+bool TreeModel::setTooltip(const QModelIndex &index, const QVariant &value)
+{  
+	TreeItem *item = getItem(index);
+	if(item)
+		return item->setTooltip(index.column(), value);
+
+	return false;
+}
+
+
 
 
 /***********************************************************

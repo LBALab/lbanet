@@ -79,6 +79,10 @@ public:
 					int role = Qt::EditRole);
 
 
+	//! set model tooltip
+    bool setTooltip(const QModelIndex &index, const QVariant &value);
+
+
 	//! clear the tree content
 	void Clear(const QModelIndex &index = QModelIndex());
 

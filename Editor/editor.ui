@@ -81,7 +81,7 @@
                <item>
                 <widget class="QTabWidget" name="tabWidgetworld">
                  <property name="currentIndex">
-                  <number>5</number>
+                  <number>0</number>
                  </property>
                  <widget class="QWidget" name="tab_worldinfo">
                   <attribute name="title">
@@ -1738,7 +1738,7 @@
      <x>0</x>
      <y>0</y>
      <width>960</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -1752,7 +1752,16 @@
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
+   <widget class="QMenu" name="menuLua">
+    <property name="title">
+     <string>LUA</string>
+    </property>
+    <addaction name="actionCustom_Lua_for_server"/>
+    <addaction name="actionCustom_Lua_for_client"/>
+    <addaction name="actionRefresh_client_script"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuLua"/>
   </widget>
   <action name="actionNew_World">
    <property name="icon">
@@ -1797,6 +1806,33 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionCustom_Lua_for_server">
+   <property name="icon">
+    <iconset resource="editor.qrc">
+     <normaloff>:/Editor/Resources/icons/PNG/onebit_39.png</normaloff>:/Editor/Resources/icons/PNG/onebit_39.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open custom LUA server file...</string>
+   </property>
+  </action>
+  <action name="actionCustom_Lua_for_client">
+   <property name="icon">
+    <iconset resource="editor.qrc">
+     <normaloff>:/Editor/Resources/icons/PNG/onebit_39.png</normaloff>:/Editor/Resources/icons/PNG/onebit_39.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open custom LUA client file...</string>
+   </property>
+  </action>
+  <action name="actionRefresh_client_script">
+   <property name="icon">
+    <iconset resource="editor.qrc">
+     <normaloff>:/Editor/Resources/icons/PNG/onebit_49.png</normaloff>:/Editor/Resources/icons/PNG/onebit_49.png</iconset>
+   </property>
+   <property name="text">
+    <string>Refresh client script</string>
    </property>
   </action>
  </widget>
