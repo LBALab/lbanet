@@ -322,8 +322,13 @@ void GameGUI::RefreshGUI(const std::string & guiid, const LbaNet::GuiParamsSeq &
 				LbaNet::DisplayGameText * castedptr = 
 					dynamic_cast<LbaNet::DisplayGameText *>(ptr);
 
-				DisplayGameText((long)castedptr->Textid, Show && !Hide);
+				DisplayGameText((long)castedptr->Textid, Show);
 			}
+		}
+
+		if(Hide)
+		{
+			DisplayGameText(0, false);
 		}
 	}
 	else

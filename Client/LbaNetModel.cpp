@@ -90,7 +90,7 @@ void LbaNetModel::ChangeWorld(const std::string & NewWorld)
 	m_luaHandler->LoadFile("LuaCommon/ClientHelperFunctions.lua");
 
 	// custom client file
-	m_luaHandler->LoadFile("Data/Worlds/"+NewWorld+"/Lua/CustomClient.lua");
+	m_luaHandler->LoadFile("Worlds/"+NewWorld+"/Lua/CustomClient.lua");
 }
 
 
@@ -101,7 +101,7 @@ void LbaNetModel::RefreshLua()
 {
 	// custom client file
 	if(m_luaHandler)
-		m_luaHandler->LoadFile("Data/Worlds/"+m_current_world_name+"/Lua/CustomClient.lua");
+		m_luaHandler->LoadFile("Worlds/"+m_current_world_name+"/Lua/CustomClient.lua");
 }
 
 
