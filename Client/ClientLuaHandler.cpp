@@ -132,7 +132,14 @@ start script in a new thread
 void ClientLuaHandler::StartScript(const std::string & FunctionName, bool inlinefunction)
 {
 	boost::shared_ptr<LuaThreadHandler> Th(new LuaThreadHandler(m_LuaState, FunctionName, inlinefunction));
-	m_RunningThreads[Th->GetReference()] = Th;
+	if(Th->IsStarted())
+		m_RunningThreads[Th->GetReference()] = Th;
+	else
+	{
+		// inform server that script is not started
+		EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ScriptExecutionFinishedEvent(
+			SynchronizedTimeHandler::GetCurrentTimeDouble(), FunctionName));
+	}
 }
 
 
