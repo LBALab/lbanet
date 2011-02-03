@@ -53,6 +53,7 @@ module LbaNet
 	struct ItemInfo
 	{
 		long 			Id;
+		string 			Name;		
 		string 			IconName;
 		long 			DescriptionId;
 		int 			Max;
@@ -156,12 +157,15 @@ module LbaNet
 		int			InventorySize;
 		float			StartingLife;
 		float			StartingMana;
-		float			StartingArmor;
 		string			StartingMap;
 		long			SpawningId;
 		ModelInfo		StartingModel;
 		
 		ItemsMap		StartingInventory;
+		
+		
+		long			EquipedWeapon;
+		long			EquipedOutfit;			
 	};
 
 
@@ -266,6 +270,9 @@ module LbaNet
 		
 		// life/mana info
 		LifeManaInfo		lifemana;
+		
+		long			EquipedWeapon;
+		long			EquipedOutfit;		
 	};	
 	
 

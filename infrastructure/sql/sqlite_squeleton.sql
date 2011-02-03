@@ -61,6 +61,8 @@ CREATE TABLE `lba_worlds` (
 );
 
 
+INSERT INTO lba_users (id, josiid, lastconnected, playedtimemin, connected, currentworldid) VALUES (1, 1, 'NULL', 0, 0, 'NULL');
+
 INSERT INTO lba_worlds (id, name, description, path) VALUES (1, 'Lba1Original', '', '');
 INSERT INTO lba_worlds (id, name, description, path) VALUES (2, 'Arena', '', '');
 INSERT INTO lba_worlds (id, name, description, path) VALUES (3, 'Lba2Original', '', '');
