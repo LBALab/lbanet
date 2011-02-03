@@ -153,6 +153,10 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectE
 		savedinfo.lifemana.MaxMana = _worldinfo.StartingInfo.StartingMana;
 		savedinfo.inventory.InventoryStructure = _worldinfo.StartingInfo.StartingInventory;
 		savedinfo.model = _worldinfo.StartingInfo.StartingModel;
+
+		savedinfo.EquipedWeapon = _worldinfo.StartingInfo.EquipedWeapon;
+		savedinfo.EquipedOutfit = _worldinfo.StartingInfo.EquipedOutfit;
+
 	}
 
 

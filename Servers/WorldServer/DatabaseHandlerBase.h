@@ -68,7 +68,8 @@ public:
 	
 	// update player life information
 	virtual void UpdateModel(const LbaNet::ModelInfo & modelinfo, 
-								const std::string& WorldName,long PlayerId) = 0;
+								const std::string& WorldName,long PlayerId,
+								long equipedweapon, long equipedoutfit) = 0;
 
 	
 	// quit current world

@@ -306,7 +306,8 @@ void DatabaseHandler::UpdateLife(const LbaNet::LifeManaInfo & lifeinfo,
 update player life information
 ***********************************************************/
 void DatabaseHandler::UpdateModel(const LbaNet::ModelInfo & modelinfo, 
-							const std::string& WorldName,long PlayerId)
+							const std::string& WorldName,long PlayerId,
+								long equipedweapon, long equipedoutfit)
 {
 	Lock sync(*this);
 	if(!_mysqlH || !_mysqlH->connected())
@@ -328,6 +329,8 @@ void DatabaseHandler::UpdateModel(const LbaNet::ModelInfo & modelinfo,
 		query << ", ModelOutfit = '"<<modelinfo.Outfit<<"'";
 		query << ", ModelWeapon = '"<<modelinfo.Weapon<<"'";
 		query << ", ModelMode = '"<<modelinfo.Mode<<"'";
+		query << ", EquipedWeapon = '"<<equipedweapon<<"'";
+		query << ", EquipedOutfit = '"<<equipedoutfit<<"'";
 
 		int rtype = 0;
 		switch(modelinfo.TypeRenderer)

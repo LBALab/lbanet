@@ -63,7 +63,7 @@ LbaNet::SavedWorldInfo LocalDatabaseHandler::ChangeWorld(const std::string& NewW
 
 	// build sql statement
 	std::stringstream query;
-	query << "SELECT uw.id, uw.lastmap, uw.lastposx, uw.lastposy, uw.lastposz, uw.lastrotation, uw.InventorySize, uw.Shortcuts, uw.LifePoint, uw.ManaPoint, uw.MaxLife, uw.MaxMana, w.id, uw.ModelName, uw.ModelOutfit, uw.ModelWeapon, uw.ModelMode, uw.RendererType";
+	query << "SELECT uw.id, uw.lastmap, uw.lastposx, uw.lastposy, uw.lastposz, uw.lastrotation, uw.InventorySize, uw.Shortcuts, uw.LifePoint, uw.ManaPoint, uw.MaxLife, uw.MaxMana, w.id, uw.ModelName, uw.ModelOutfit, uw.ModelWeapon, uw.ModelMode, uw.RendererType, uw.EquipedWeapon, uw.EquipedOutfit";
 	query << " FROM lba_usertoworld uw, lba_worlds w";
 	query << " WHERE uw.userid = '"<<PlayerId<<"'";
 	query << " AND w.name = '"<<NewWorldName<<"'";
@@ -140,6 +140,9 @@ LbaNet::SavedWorldInfo LocalDatabaseHandler::ChangeWorld(const std::string& NewW
 					resP.model.TypeRenderer = LbaNet::RenderLba2M;
 				break;
 			}
+
+			resP.EquipedWeapon = atol(pazResult[nbcollumn+18]);
+			resP.EquipedOutfit = atol(pazResult[nbcollumn+19]);
 
 
 
@@ -359,7 +362,8 @@ void LocalDatabaseHandler::UpdateLife(const LbaNet::LifeManaInfo & lifeinfo,
 update player life information
 ***********************************************************/
 void LocalDatabaseHandler::UpdateModel(const LbaNet::ModelInfo & modelinfo, 
-							const std::string& WorldName,long PlayerId)
+							const std::string& WorldName,long PlayerId,
+								long equipedweapon, long equipedoutfit)
 {
 	Lock sync(*this);
 	if(!_db)
@@ -373,6 +377,8 @@ void LocalDatabaseHandler::UpdateModel(const LbaNet::ModelInfo & modelinfo,
 		query << ", ModelOutfit = '"<<modelinfo.Outfit<<"'";
 		query << ", ModelWeapon = '"<<modelinfo.Weapon<<"'";
 		query << ", ModelMode = '"<<modelinfo.Mode<<"'";
+		query << ", EquipedWeapon = '"<<equipedweapon<<"'";
+		query << ", EquipedOutfit = '"<<equipedoutfit<<"'";
 
 
 		int rtype = 0;

@@ -68,6 +68,7 @@ set current world
 void InventoryItemHandler::SetCurrentWorld(const std::string worldname)
 {
 	_items.clear();
+	_worldname = worldname;
 	XmlReader::LoadInventoryFile("Data/Worlds/"+worldname+"/Inventory.xml", _items);
 }
 
@@ -85,3 +86,78 @@ LbaNet::ItemInfo InventoryItemHandler::GetItemInfo(long itemid)
 	return res;
 }
 
+
+/***********************************************************
+add/modify item
+return item id in case of add
+***********************************************************/
+long InventoryItemHandler::AddOrModItem(long index, const LbaNet::ItemInfo &info)
+{
+	if(index < 0)
+	{
+		// add to map
+		long res = _items.rbegin()->first + 1;
+		_items[res] = info;
+		_items[res].Id = res;
+		return res;
+	}
+	else
+	{
+		_items[index] = info;
+		return index;
+	}
+}
+
+/***********************************************************
+remove item
+***********************************************************/
+void InventoryItemHandler::RemoveItem(long index)
+{
+	std::map<long, LbaNet::ItemInfo>::iterator it = _items.find(index);
+	if(it != _items.end())
+		_items.erase(it);
+}
+
+/***********************************************************
+save information into file
+***********************************************************/
+void InventoryItemHandler::SaveInformation()
+{
+	XmlReader::SaveInventoryFile("Data/Worlds/"+_worldname+"/Inventory.xml", _items);
+}
+
+
+
+/***********************************************************
+get item info
+***********************************************************/
+std::string InventoryItemHandler::GetItemTypeString(long itemid)
+{
+	std::map<long, LbaNet::ItemInfo>::iterator it = _items.find(itemid);
+	if(it != _items.end())
+	{
+		switch(it->second.Type)
+		{
+			case 1:
+				return "Consumable";
+			case 2:
+				return "Key";
+			case 3:
+				return "Mount";
+			case 4:
+				return "Weapon";
+			case 5:
+				return "Quest";
+			case 6:
+				return "Other";
+			case 7:
+				return "Special";
+			case 8:
+				return "Letter";
+			case 9:
+				return "Outfit";
+		}
+	}
+
+	return "";
+}

@@ -50,6 +50,23 @@ public:
 	// get item info
 	LbaNet::ItemInfo GetItemInfo(long itemid);
 
+	//get item map
+	const std::map<long, LbaNet::ItemInfo> &GetItemMap()
+	{ return _items;}
+
+	// add/modify item
+	// return item id in case of add
+	long AddOrModItem(long index, const LbaNet::ItemInfo &info);
+
+	// remove item
+	void RemoveItem(long index);
+
+	// save information into file
+	void SaveInformation();
+
+	// get item type
+	std::string GetItemTypeString(long itemid);
+
 private:
 
 	// singleton
@@ -57,6 +74,7 @@ private:
 
 	// item list
 	std::map<long, LbaNet::ItemInfo>			_items;
+	std::string									_worldname;
 };
 
 

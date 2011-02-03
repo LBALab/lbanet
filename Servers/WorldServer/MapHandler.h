@@ -274,19 +274,19 @@ protected:
 	//!  update player weapon
 	//! return true if state has been updated
 	bool UpdatePlayerWeapon(Ice::Long clientid, const std::string & weapon,
-													ModelInfo & returnmodel );
+													ModelInfo & returnmodel, long itemid);
 
 
 	//!  update player outfit
 	//! return true if state has been updated
 	bool UpdatePlayerOutfit(Ice::Long clientid, const std::string & outfit,
-													ModelInfo & returnmodel );
+													ModelInfo & returnmodel, long itemid);
 	
 	//! change player weapon
-	void ChangeWeapon(Ice::Long id, const std::string & weapon);
+	void ChangeWeapon(Ice::Long id, const std::string & weapon, long itemid);
 
 	//! change player outfit
-	void ChangeOutfit(Ice::Long id, const std::string & outfit);
+	void ChangeOutfit(Ice::Long id, const std::string & outfit, long itemid);
 
 
 	//!  save player state

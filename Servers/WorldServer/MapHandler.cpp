@@ -830,10 +830,10 @@ void MapHandler::ChangeStance(Ice::Long id, LbaNet::ModelStance NewStance, bool 
 /***********************************************************
 change player weapon
 ***********************************************************/
-void MapHandler::ChangeWeapon(Ice::Long id, const std::string & weapon)
+void MapHandler::ChangeWeapon(Ice::Long id, const std::string & weapon, long itemid)
 {
 	ModelInfo returnmodel;
-	if(UpdatePlayerWeapon(id, weapon, returnmodel))
+	if(UpdatePlayerWeapon(id, weapon, returnmodel, itemid))
 		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 					PlayerObject, id, new ModelUpdate(returnmodel, false)));
 }
@@ -842,10 +842,10 @@ void MapHandler::ChangeWeapon(Ice::Long id, const std::string & weapon)
 /***********************************************************
 change player outfit
 ***********************************************************/
-void MapHandler::ChangeOutfit(Ice::Long id, const std::string & outfit)
+void MapHandler::ChangeOutfit(Ice::Long id, const std::string & outfit, long itemid)
 {
 	ModelInfo returnmodel;
-	if(UpdatePlayerOutfit(id, outfit, returnmodel))
+	if(UpdatePlayerOutfit(id, outfit, returnmodel, itemid))
 		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 					PlayerObject, id, new ModelUpdate(returnmodel, false)));
 }
@@ -1287,13 +1287,13 @@ bool MapHandler::UpdatePlayerState(Ice::Long clientid, LbaNet::ModelState NewSta
 //! return true if state has been updated
 ***********************************************************/
 bool MapHandler::UpdatePlayerWeapon(Ice::Long clientid, const std::string & weapon,
-													ModelInfo & returnmodel )
+													ModelInfo & returnmodel, long itemid)
 {
 	IceUtil::Mutex::Lock sync(_mutex_proxies);
 
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
-		return it->second->UpdatePlayerWeapon(weapon, returnmodel);
+		return it->second->UpdatePlayerWeapon(weapon, returnmodel, itemid);
 
 	return false;
 }
@@ -1304,13 +1304,13 @@ bool MapHandler::UpdatePlayerWeapon(Ice::Long clientid, const std::string & weap
 //! return true if state has been updated
 ***********************************************************/
 bool MapHandler::UpdatePlayerOutfit(Ice::Long clientid, const std::string & outfit,
-													ModelInfo & returnmodel )
+													ModelInfo & returnmodel, long itemid)
 {
 	IceUtil::Mutex::Lock sync(_mutex_proxies);
 
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
-		return it->second->UpdatePlayerOutfit(outfit, returnmodel);
+		return it->second->UpdatePlayerOutfit(outfit, returnmodel, itemid);
 
 	return false;
 }
@@ -1867,7 +1867,7 @@ void MapHandler::PlayerItemUsed(Ice::Long clientid, long ItemId)
 			}
 			break;
 		case 4: // weapon item - equip it
-			ChangeWeapon(clientid, itinfo.Info.StringFlag);
+			ChangeWeapon(clientid, itinfo.Info.StringFlag, itinfo.Info.Id);
 			break;
 		case 5: // quest item - todo - might trigger quest
 			break;
@@ -1911,7 +1911,7 @@ void MapHandler::PlayerItemUsed(Ice::Long clientid, long ItemId)
 			}
 			break;
 		case 9: // outfit item - equip it
-			ChangeOutfit(clientid, itinfo.Info.StringFlag);
+			ChangeOutfit(clientid, itinfo.Info.StringFlag, itinfo.Info.Id);
 			break;
 	}
 

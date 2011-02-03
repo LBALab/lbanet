@@ -119,11 +119,11 @@ public:
 
 	//!  update player weapon
 	//! return true if state has been updated
-	bool UpdatePlayerWeapon(const std::string & weapon,	LbaNet::ModelInfo & returnmodel);
+	bool UpdatePlayerWeapon(const std::string & weapon,	LbaNet::ModelInfo & returnmodel, long ItemId);
 
 	//!  update player outfit
 	//! return true if state has been updated
-	bool UpdatePlayerOutfit(const std::string & outfit,	LbaNet::ModelInfo & returnmodel);
+	bool UpdatePlayerOutfit(const std::string & outfit,	LbaNet::ModelInfo & returnmodel, long ItemId);
 
 
 	//!  save player state
@@ -188,6 +188,13 @@ public:
 
 	//! get player physcial size
 	void GetPlayerPhysicalSize(float &sX, float &sY, float &sZ);
+
+	//! Get current power
+	float GetPower();
+
+	//! Get current armor
+	float GetArmor();
+
 
 protected:
 	// update state and mode class from modelinfo

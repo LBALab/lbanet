@@ -3,7 +3,7 @@
 #include "SynchronizedTimeHandler.h"
 #include "MapHandler.h"
 #include "Lba1ModelMapHandler.h"
-
+#include "InventoryItemHandler.h"
 #define	_CUSTOM_OFFSET_	10000000
 
 
@@ -26,6 +26,8 @@ PlayerHandler::PlayerHandler(long clientid, ClientProxyBasePtr proxy,
 
 	//TODO - remove that and replace by a raising place system
 	_spawningIno = savedinfo.ppos;
+
+
 
 
 	//unfold inventory information and shortcut information
@@ -68,6 +70,45 @@ PlayerHandler::PlayerHandler(long clientid, ClientProxyBasePtr proxy,
 			{
 				if(it->Id >= 0)
 					*it = InventoryItemHandler::getInstance()->GetItemInfo((long)it->Id);
+			}
+		}
+	}
+
+
+
+	// check outfit/weapon
+	if(_currentinfo.EquipedOutfit < 0)
+	{
+		// check if we have corresponding outfit in inventory - if so equip it
+		LbaNet::ItemsMap::iterator it = _currentinfo.inventory.InventoryStructure.begin();
+		LbaNet::ItemsMap::iterator end = _currentinfo.inventory.InventoryStructure.end();
+		for(; it != end; ++it)
+		{
+			if(it->second.Info.Type == 9)
+			{
+				if(it->second.Info.StringFlag == _currentinfo.model.Outfit)
+				{
+					_currentinfo.EquipedOutfit = it->first;
+					break;
+				}
+			}
+		}
+	}
+
+	if(_currentinfo.EquipedWeapon < 0)
+	{
+		// check if we have corresponding weapon in inventory - if so equip it
+		LbaNet::ItemsMap::iterator it = _currentinfo.inventory.InventoryStructure.begin();
+		LbaNet::ItemsMap::iterator end = _currentinfo.inventory.InventoryStructure.end();
+		for(; it != end; ++it)
+		{
+			if(it->second.Info.Type == 4)
+			{
+				if(it->second.Info.StringFlag == _currentinfo.model.Weapon)
+				{
+					_currentinfo.EquipedWeapon = it->first;
+					break;
+				}
 			}
 		}
 	}
@@ -132,7 +173,7 @@ void PlayerHandler::Teleport(const LbaNet::PlayerPosition& Position)
 	_currentinfo.ppos = Position;
 	_ready = false;	// player not ready to play yet
 
-	// player goes back to nromal state when changing map
+	// player goes back to normal state when changing map
 	_currentinfo.model.State = LbaNet::StNormal;
 	UpdateStateModeClass();
 
@@ -186,7 +227,8 @@ void PlayerHandler::SaveCurrentInfo()
 		_dbH->SetQuestInfo(_worldname, _clientid, _questStarted, _questFinished);
 
 		//set player model
-		_dbH->UpdateModel(_currentinfo.model, _worldname, _clientid);
+		_dbH->UpdateModel(_currentinfo.model, _worldname, _clientid, 
+							_currentinfo.EquipedWeapon, _currentinfo.EquipedOutfit);
 	}
 }
 
@@ -310,11 +352,14 @@ bool PlayerHandler::UpdatePlayerState(LbaNet::ModelState NewState,LbaNet::ModelI
 //!  update player weapon
 //! return true if state has been updated
 ***********************************************************/
-bool PlayerHandler::UpdatePlayerWeapon(const std::string & weapon, LbaNet::ModelInfo & returnmodel)
+bool PlayerHandler::UpdatePlayerWeapon(const std::string & weapon, LbaNet::ModelInfo & returnmodel, 
+										long ItemId)
 {
 	//check if state is legal
 	if(_currentstate && _currentstate->AllowChangeMode())
 	{
+		_currentinfo.EquipedWeapon = ItemId;
+
 		// if so check if already on this state
 		if(_currentinfo.model.Weapon != weapon)
 		{
@@ -330,11 +375,14 @@ bool PlayerHandler::UpdatePlayerWeapon(const std::string & weapon, LbaNet::Model
 //!  update player outfit
 //! return true if state has been updated
 ***********************************************************/
-bool PlayerHandler::UpdatePlayerOutfit(const std::string & outfit,	LbaNet::ModelInfo & returnmodel)
+bool PlayerHandler::UpdatePlayerOutfit(const std::string & outfit,	LbaNet::ModelInfo & returnmodel, 
+										long ItemId)
 {
 	//check if state is legal
 	if(_currentstate && _currentstate->AllowChangeMode())
 	{
+		_currentinfo.EquipedOutfit = ItemId;
+
 		// if so check if already on this state
 		if(_currentinfo.model.Outfit != outfit)
 		{
@@ -763,6 +811,55 @@ bool PlayerHandler::ConsumeItem(long ItemId)
 				updatelife = true;
 			}
 			break;
+
+			case 4: // life potion
+			{
+				if(_currentinfo.lifemana.CurrentLife == _currentinfo.lifemana.MaxLife)
+					return updatelife; // do nothing if life is full
+
+				float deltalife = it->second.Info.Effect;
+				_currentinfo.lifemana.CurrentLife += deltalife;
+				if(_currentinfo.lifemana.CurrentLife > _currentinfo.lifemana.MaxLife)
+					_currentinfo.lifemana.CurrentLife = _currentinfo.lifemana.MaxLife;
+
+				used = true;
+				updatelife = true;
+			}
+			break;
+			case 5: // mana potion
+			{
+				if(_currentinfo.lifemana.CurrentMana == _currentinfo.lifemana.MaxMana)
+					return updatelife; // do nothing if mana is full
+
+				float deltaMana = it->second.Info.Effect;
+				_currentinfo.lifemana.CurrentMana += deltaMana;
+				if(_currentinfo.lifemana.CurrentMana > _currentinfo.lifemana.MaxMana)
+					_currentinfo.lifemana.CurrentMana = _currentinfo.lifemana.MaxMana;
+
+				used = true;
+				updatelife = true;
+			}
+			break;
+			case 6: // life and mana potion
+			{
+				if(_currentinfo.lifemana.CurrentMana == _currentinfo.lifemana.MaxMana
+					&& _currentinfo.lifemana.CurrentLife == _currentinfo.lifemana.MaxLife)
+					return updatelife; // do nothing if life & mana is full
+
+				float deltalife = it->second.Info.Effect;
+				_currentinfo.lifemana.CurrentLife += deltalife;
+				if(_currentinfo.lifemana.CurrentLife > _currentinfo.lifemana.MaxLife)
+					_currentinfo.lifemana.CurrentLife = _currentinfo.lifemana.MaxLife;
+
+				float deltaMana = it->second.Info.Effect;
+				_currentinfo.lifemana.CurrentMana += deltaMana;
+				if(_currentinfo.lifemana.CurrentMana > _currentinfo.lifemana.MaxMana)
+					_currentinfo.lifemana.CurrentMana = _currentinfo.lifemana.MaxMana;
+
+				used = true;
+				updatelife = true;
+			}
+			break;
 		}
 
 		if(used)
@@ -895,4 +992,27 @@ void PlayerHandler::GetPlayerPhysicalSize(float &sX, float &sY, float &sZ)
 			sZ = resSize.Z;
 		}
 	}
+}
+
+
+/***********************************************************
+Get current power
+***********************************************************/
+float PlayerHandler::GetPower()
+{
+	if(_currentinfo.EquipedWeapon >= 0)
+		return InventoryItemHandler::getInstance()->GetItemInfo(_currentinfo.EquipedWeapon).Effect;
+
+	return 0;
+}
+
+/***********************************************************
+Get current armor
+***********************************************************/
+float PlayerHandler::GetArmor()
+{
+	if(_currentinfo.EquipedOutfit >= 0)
+		return InventoryItemHandler::getInstance()->GetItemInfo(_currentinfo.EquipedOutfit).Effect;
+
+	return 0;
 }
