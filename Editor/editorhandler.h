@@ -40,7 +40,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ui_addworlddialog.h"
 #include "ui_addactordialog.h"
 #include "ui_addtextdialog.h"
-
+#include "ui_additemdialog.h"
+#include "ui_addstartitemdialog.h"
 
 #include "GraphicsWindowQt"
 #include "ScriptEnvironmentBase.h"
@@ -509,6 +510,35 @@ public slots:
 	 //! on selectactor_double_clicked
      void selecttext_double_clicked(const QModelIndex & itm);
 
+
+
+
+	 //! on selectitem_double_clicked
+     void selectitem_double_clicked(const QModelIndex & itm);
+
+
+	//! ItemAdd_button_accepted
+	void ItemAdd_button_accepted();
+
+	//! ItemAdd_button
+	void ItemAdd_button();
+	
+	//! ItemRemove_button
+	void ItemRemove_button();
+	
+	//! ItemSelect_button
+	void ItemSelect_button();
+
+
+	//! StartItemAdd_button
+	void StartItemAdd_button();
+	
+	//! StartItemRemove_button
+	void StartItemRemove_button();
+
+	//! StartItemAdd_button_accepted
+	void StartItemAdd_button_accepted();
+
 protected:
 	//! override close event
 	virtual void closeEvent(QCloseEvent* event);
@@ -740,6 +770,11 @@ protected:
 	//! get type of action
 	std::string GetActionType(ActionBasePtr ptr);
 
+	//! set item in the object
+	void SelectItem(const LbaNet::ItemInfo & item, const QModelIndex &parent = QModelIndex());
+
+	//! item object changed
+	void ItemChanged(long id, const std::string & category, const QModelIndex &parentIdx);
 
 private:
 	Ui::EditorClass										_uieditor;
@@ -769,6 +804,12 @@ private:
 	Ui::DialogAddText									_ui_addtextdialog;
 	QDialog *											_addtextdialog;
 
+	Ui::DialogAddItem									_ui_additemdialog;
+	QDialog *											_additemdialog;
+
+	Ui::DialogAddStartItem								_ui_addstartitemdialog;
+	QDialog *											_addstartitemdialog;
+
 
 	StringTableModel *									_maplistmodel;
 	StringTableModel *									_tplistmodel;
@@ -781,6 +822,9 @@ private:
 	StringTableModel *									_text_inventorylistmodel;
 	StringTableModel *									_text_namelistmodel;
 	Localizer::LocalizeType								_currentchoosentext;
+
+	StringTableModel *									_itemlistmodel;
+	StringTableModel *									_startitemlistmodel;
 
 	TreeModel *											_objectmodel;
 	CustomDelegate *									_objectcustomdelegate;
@@ -808,6 +852,11 @@ private:
 	boost::shared_ptr<CustomStringListModel>							_text_inventoryNameList;
 	boost::shared_ptr<CustomStringListModel>							_text_nameNameList;
 
+	boost::shared_ptr<CustomStringListModel>							_itemNameList;
+
+	boost::shared_ptr<CustomStringListModel>							_consumable_itemlistmodel;
+	boost::shared_ptr<CustomStringListModel>							_mount_itemlistmodel;
+	boost::shared_ptr<CustomStringListModel>							_special_itemlistmodel;
 
 
 	GraphicsWindowQt *									_osgwindow;
@@ -848,7 +897,6 @@ private:
 	osg::ref_ptr<osgManipulator::Translate1DDragger>	_draggerX;
 	osg::ref_ptr<osgManipulator::Translate1DDragger>	_draggerY;
 	osg::ref_ptr<osgManipulator::Translate1DDragger>	_draggerZ;
-
 
 
 

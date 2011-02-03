@@ -33,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "StringHelperFuncs.h"
 #include "ClientScript.h"
 #include "Lba1ModelMapHandler.h"
+#include "InventoryItemHandler.h"
 
 #include <qdir.h>
 #include <QErrorMessage>
@@ -897,7 +898,9 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	_actorModelOutfitList(new CustomStringListModel()), _actorModelWeaponList(new CustomStringListModel()),
 	_actorModelModeList(new CustomStringListModel()), _currentchoosentext(Localizer::Map),
 	_text_mapNameList(new CustomStringListModel()), _text_questNameList(new CustomStringListModel()),
-	_text_inventoryNameList(new CustomStringListModel()), _text_nameNameList(new CustomStringListModel())
+	_text_inventoryNameList(new CustomStringListModel()), _text_nameNameList(new CustomStringListModel()),
+	_itemNameList(new CustomStringListModel()), _consumable_itemlistmodel(new CustomStringListModel()),
+	_mount_itemlistmodel(new CustomStringListModel()), _special_itemlistmodel(new CustomStringListModel())
 {
 	QStringList actlist;
 	actlist << "Static" << "Scripted" << "Movable";
@@ -926,7 +929,20 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 			<< "DisplayTextAction" << "ConditionalAction";
 	_actiontypeList->setStringList(actilist);
 
+	QStringList consu_iteml;
+	consu_iteml << "Restore % of Health" << "Restore % of Magic" << "Restore % of Health&Magic" 
+			<< "Restore Health" << "Restore Magic" << "Restore Health&Magic";
+	_consumable_itemlistmodel->setStringList(consu_iteml);
 
+	QStringList mount_iteml;
+	mount_iteml << "Protopack" << "Horse" << "Dinofly";
+	_mount_itemlistmodel->setStringList(mount_iteml);
+
+	QStringList special_iteml;
+	special_iteml << "Letter writer";
+	_special_itemlistmodel->setStringList(special_iteml);
+
+	
 	_uieditor.setupUi(this);
 
 	_addtriggerdialog = new QDialog(this);
@@ -953,6 +969,13 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 
 	_addtextdialog = new QDialog(this);
 	_ui_addtextdialog.setupUi(_addtextdialog);
+
+	_additemdialog = new QDialog(this);
+	_ui_additemdialog.setupUi(_additemdialog);
+
+	_addstartitemdialog = new QDialog(this);
+	_ui_addstartitemdialog.setupUi(_addstartitemdialog);
+	_ui_addstartitemdialog.comboBox_itemname->setModel(_itemNameList.get());
 
 
 	// set model for map list
@@ -1049,6 +1072,27 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 		QHeaderView * mpheaders = _uieditor.tableView_ActorList->horizontalHeader();
 		mpheaders->setResizeMode(QHeaderView::Stretch);
 	}
+
+	// set model for item list
+	{
+		 QStringList header;
+		 header << "Name" << "Type";
+		_itemlistmodel = new StringTableModel(header);
+		_uieditor.tableView_ItemList->setModel(_itemlistmodel);
+		QHeaderView * mpheaders = _uieditor.tableView_ItemList->horizontalHeader();
+		mpheaders->setResizeMode(QHeaderView::Stretch);
+	}	
+
+	// set model for start item
+	{
+		 QStringList header;
+		 header << "Name" << "Number";
+		_startitemlistmodel = new StringTableModel(header);
+		_uieditor.tableView_ItemList_starting->setModel(_startitemlistmodel);
+		QHeaderView * mpheaders = _uieditor.tableView_ItemList_starting->horizontalHeader();
+		mpheaders->setResizeMode(QHeaderView::Stretch);
+	}
+
 	
 
 
@@ -1098,6 +1142,12 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.pushButton_selectActor, SIGNAL(clicked()) , this, SLOT(ActorSelect_button()));
 
 
+	connect(_uieditor.pushButton_additem, SIGNAL(clicked()) , this, SLOT(ItemAdd_button()));
+	connect(_uieditor.pushButton_removeitem, SIGNAL(clicked()) , this, SLOT(ItemRemove_button()));	
+	connect(_uieditor.pushButton_selectitem, SIGNAL(clicked()) , this, SLOT(ItemSelect_button()));
+
+	connect(_uieditor.pushButton_additem_2, SIGNAL(clicked()) , this, SLOT(StartItemAdd_button()));
+	connect(_uieditor.pushButton_removeitem_2, SIGNAL(clicked()) , this, SLOT(StartItemRemove_button()));	
 
 
 	//! Actor add button push
@@ -1117,6 +1167,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.tableViewTriggerList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selecttrigger_double_clicked(const QModelIndex&)));
 	connect(_uieditor.tableView_ActorList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectactor_double_clicked(const QModelIndex&)));
 	connect(_uieditor.tableView_TextList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selecttext_double_clicked(const QModelIndex&)));
+	connect(_uieditor.tableView_ItemList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectitem_double_clicked(const QModelIndex&)));
+
 
 	connect(_objectmodel, SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)) , 
 								this, SLOT(objectdatachanged(const QModelIndex &, const QModelIndex &)));
@@ -1130,8 +1182,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_ui_addworlddialog.buttonBox, SIGNAL(accepted()) , this, SLOT(addworld_accepted()));
 	connect(_ui_addactordialog.buttonBox, SIGNAL(accepted()) , this, SLOT(ActorAdd_button_accepted()));
 	connect(_ui_addtextdialog.buttonBox, SIGNAL(accepted()) , this, SLOT(TextAdd_button_accepted()));
-
-
+	connect(_ui_additemdialog.buttonBox, SIGNAL(accepted()) , this, SLOT(ItemAdd_button_accepted()));
+	connect(_ui_addstartitemdialog.buttonBox, SIGNAL(accepted()) , this, SLOT(StartItemAdd_button_accepted()));
 
 	connect(_uieditor.comboBox_startingmap, SIGNAL(activated(int)) , this, SLOT(StartingMapModified(int)));		
 	connect(_uieditor.comboBox_startingspawning, SIGNAL(activated(int)) , this, SLOT(StartingSpawnModified(int)));	
@@ -1140,7 +1192,6 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.comboBox_modelmode, SIGNAL(activated(int)) , this, SLOT(StartingModeModified(int)));		
 	connect(_uieditor.spinBox_startinglife, SIGNAL(valueChanged(int)) , this, SLOT(StartingLifeModified(int)));	
 	connect(_uieditor.spinBox_startingMana, SIGNAL(valueChanged(int)) , this, SLOT(StartingLifeModified(int)));	
-	connect(_uieditor.spinBox_startingarmor, SIGNAL(valueChanged(int)) , this, SLOT(StartingLifeModified(int)));
 
 	connect(_ui_addtpdialog.comboBox_map, SIGNAL(activated(int)) , this, SLOT(TpDialogMapChanged(int)));
 
@@ -1400,6 +1451,9 @@ void EditorHandler::SaveWorldAction()
 
 		// save text
 		Localizer::getInstance()->SaveTexts();
+
+		// save inventory
+		InventoryItemHandler::getInstance()->SaveInformation();
 
 		SetSaved();
 	}
@@ -1683,7 +1737,45 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 		}
 	}
 
+	// add inventory items
+	{
+		InventoryItemHandler::getInstance()->SetCurrentWorld(_winfo.Description.WorldName);
+		_itemNameList->Clear();
+		_itemlistmodel->Clear();
 
+		const std::map<long, LbaNet::ItemInfo> &_inventoryitems = InventoryItemHandler::getInstance()->GetItemMap();
+		std::map<long, ItemInfo>::const_iterator itinv = _inventoryitems.begin();
+		std::map<long, ItemInfo>::const_iterator endinv = _inventoryitems.end();
+		for(; itinv != endinv; ++itinv)
+		{
+			QStringList data;
+			data << itinv->second.Name.c_str();
+			data << InventoryItemHandler::getInstance()->GetItemTypeString(itinv->first).c_str();
+			_itemlistmodel->AddOrUpdateRow(itinv->first, data);
+
+			std::stringstream txtwithid;
+			txtwithid<<itinv->first<<": "<<itinv->second.Name.c_str();
+			_itemNameList->AddData(txtwithid.str().c_str());
+		}
+	}
+
+
+	//add starting item
+	{
+		LbaNet::ItemsMap::iterator itm = _winfo.StartingInfo.StartingInventory.begin();
+		LbaNet::ItemsMap::iterator endm = _winfo.StartingInfo.StartingInventory.end();
+		for(;itm != endm; ++itm)
+		{
+			QStringList data;
+			data << InventoryItemHandler::getInstance()->GetItemInfo(itm->first).Name.c_str();
+			std::stringstream tmpstrs;
+			tmpstrs<<itm->second.Count;
+			data << tmpstrs.str().c_str();
+			_startitemlistmodel->AddOrUpdateRow(itm->first, data);
+			
+		}
+		
+	}
 
 	// add lua stuff
 	std::string luafile = "Worlds/" + _winfo.Description.WorldName + "/Lua/";
@@ -2307,6 +2399,13 @@ void EditorHandler::objectdatachanged(const QModelIndex &index1, const QModelInd
 			ConditionChanged(category, parentIdx);
 			return;
 		}		
+
+		if(type == "Item")
+		{
+			long objid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toLong();
+			ItemChanged(objid, category, parentIdx);
+			return;
+		}	
 	}
 }
 
@@ -2599,6 +2698,8 @@ void EditorHandler::SelectAction(ActionBasePtr action, const QModelIndex &parent
 
 			// add tootlip
 			_objectmodel->setTooltip(idx, "the function should be defined in custom server lua file");
+			QModelIndex idx2 = _objectmodel->GetIndex(1, idx.row(), idx.parent());
+			_objectmodel->setTooltip(idx2, "the function should be defined in custom server lua file");
 		}
 
 		return;
@@ -3731,7 +3832,6 @@ void EditorHandler::RefreshStartingInfo()
 
 	_uieditor.spinBox_startinglife->setValue(_winfo.StartingInfo.StartingLife);
 	_uieditor.spinBox_startingMana->setValue(_winfo.StartingInfo.StartingMana);
-	_uieditor.spinBox_startingarmor->setValue(_winfo.StartingInfo.StartingArmor);
 
 	RefreshStartingModelOutfit();
 }
@@ -4140,7 +4240,6 @@ void EditorHandler::StartingLifeModified(int value)
 {
 	_winfo.StartingInfo.StartingLife = _uieditor.spinBox_startinglife->value();
 	_winfo.StartingInfo.StartingMana = _uieditor.spinBox_startingMana->value();
-	_winfo.StartingInfo.StartingArmor = _uieditor.spinBox_startingarmor->value();
 
 	SetModified();
 }
@@ -4650,7 +4749,6 @@ void EditorHandler::addworld_accepted()
 	winfo.StartingInfo.InventorySize = 30;
 	winfo.StartingInfo.StartingLife = 50;
 	winfo.StartingInfo.StartingMana = 50;
-	winfo.StartingInfo.StartingArmor = 0;
 	winfo.StartingInfo.StartingModel.TypeRenderer = LbaNet::RenderLba1M;
 	winfo.StartingInfo.StartingModel.ModelName = "Twinsen";
 	winfo.StartingInfo.StartingModel.Outfit = "Nurse";
@@ -5246,8 +5344,6 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 				}
 			}
 		}
-
-		// TODO - add file choose dialog
 
 		UpdateSelectedActorDisplay(ainfo.PhysicDesc);
 		osg::Vec3 center = _actornode->computeBound().center();
@@ -6255,6 +6351,8 @@ void EditorHandler::SelectCScript(ClientScriptBasePtr script, const QModelIndex 
 			
 			// add tooltip
 			_objectmodel->setTooltip(idx, "the function should be defined in custom client lua file");
+			QModelIndex idx2 = _objectmodel->GetIndex(1, idx.row(), idx.parent());
+			_objectmodel->setTooltip(idx2, "the function should be defined in custom client lua file");
 		}
 		return;
 	}
@@ -7083,4 +7181,620 @@ selecttext_double_clicked
 void EditorHandler::selecttext_double_clicked(const QModelIndex & itm)
 {
 	TextEdit_button();
+}
+
+
+/***********************************************************
+on selectitem_double_clicked
+***********************************************************/
+void EditorHandler::selectitem_double_clicked(const QModelIndex & itm)
+{
+	ItemSelect_button();
+}
+
+
+/***********************************************************
+ItemAdd_button_accepted
+***********************************************************/
+void EditorHandler::ItemAdd_button_accepted()
+{
+	_additemdialog->hide();
+
+	LbaNet::ItemInfo newitem;
+	newitem.DescriptionId = 0;
+    newitem.Max = 1;
+    newitem.Price = 1;
+    newitem.Effect = 0;
+    newitem.Flag = 0;
+    newitem.Ephemere = false;
+
+	newitem.Name = _ui_additemdialog.lineEdit_name->text().toAscii().data();
+	switch(_ui_additemdialog.comboBox_atype->currentIndex())
+	{
+		case 0:
+			newitem.Type = 1;
+		break;
+		case 1:
+			newitem.Type = 2;
+		break;
+		case 2:
+			newitem.Type = 3;
+		break;
+		case 3:
+			newitem.Type = 4;
+		break;
+		case 4:
+			newitem.Type = 9;
+		break;
+		case 5:
+			newitem.Type = 5;
+		break;
+		case 6:
+			newitem.Type = 7;
+		break;
+		case 7:
+			newitem.Type = 8;
+		break;
+		case 8:
+			newitem.Type = 6;
+		break;
+	}
+
+	long idx = InventoryItemHandler::getInstance()->AddOrModItem(-1, newitem);
+
+	QStringList data;
+	data << newitem.Name.c_str();
+	data << InventoryItemHandler::getInstance()->GetItemTypeString(idx).c_str();
+	_itemlistmodel->AddOrUpdateRow(idx, data);
+
+	std::stringstream txtwithid;
+	txtwithid<<idx<<": "<<newitem.Name.c_str();
+	_itemNameList->AddData(txtwithid.str().c_str());
+
+	SetModified();
+	SelectItem(InventoryItemHandler::getInstance()->GetItemInfo(idx));
+}
+
+/***********************************************************
+ItemAdd_button
+***********************************************************/
+void EditorHandler::ItemAdd_button()
+{
+	_ui_additemdialog.lineEdit_name->setText("");
+	_additemdialog->show();
+}
+
+/***********************************************************
+ItemRemove_button
+***********************************************************/
+void EditorHandler::ItemRemove_button()
+{
+	QItemSelectionModel *selectionModel = _uieditor.tableView_ItemList->selectionModel();
+	QModelIndexList indexes = selectionModel->selectedIndexes();
+
+	if(indexes.size() > 0)
+	{
+		long id = _itemlistmodel->GetId(indexes[0]);
+		LbaNet::ItemInfo item = InventoryItemHandler::getInstance()->GetItemInfo(id);
+
+		InventoryItemHandler::getInstance()->RemoveItem(id);
+
+		_itemlistmodel->removeRows(indexes[0].row(), 1);
+
+		std::stringstream txtwithid;
+		txtwithid<<id<<": "<<item.Name.c_str();
+		_itemNameList->RemoveData(txtwithid.str().c_str());
+
+		SetModified();
+	}
+}
+
+
+/***********************************************************
+ItemSelect_button
+***********************************************************/
+void EditorHandler::ItemSelect_button()
+{
+	QItemSelectionModel *selectionModel = _uieditor.tableView_ItemList->selectionModel();
+	QModelIndexList indexes = selectionModel->selectedIndexes();
+
+	if(indexes.size() > 0)
+	{
+		long id = _itemlistmodel->GetId(indexes[0]);
+		LbaNet::ItemInfo item = InventoryItemHandler::getInstance()->GetItemInfo(id);
+		SelectItem(item);
+	}
+}
+
+
+/***********************************************************
+set item in the object
+***********************************************************/
+void EditorHandler::SelectItem(const LbaNet::ItemInfo & item, const QModelIndex &parent)
+{
+	if(parent == QModelIndex())
+		ResetObject();
+
+	{
+		QVector<QVariant> data;
+		data<<"Type"<<"Item";
+		_objectmodel->AppendRow(data, parent, true);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"SubCategory"<<InventoryItemHandler::getInstance()->GetItemTypeString(item.Id).c_str();
+		_objectmodel->AppendRow(data, parent, true);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Id"<<item.Id;
+		_objectmodel->AppendRow(data, parent, true);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Name"<<item.Name.c_str();
+		_objectmodel->AppendRow(data, parent);
+	}
+
+	int index = 4;
+
+	{
+		std::stringstream descstrs;
+		descstrs<<item.DescriptionId<<": "<<Localizer::getInstance()->GetText(Localizer::Inventory, item.DescriptionId);
+		
+		QVector<QVariant> data;
+		data<<"Description"<<descstrs.str().c_str();
+		_objectmodel->AppendRow(data, parent);
+
+		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _text_inventoryNameList);
+		++index;
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Icon"<<item.IconName.c_str();
+		_objectmodel->AppendRow(data, parent);
+
+		//todo put file chooser
+		++index;
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Maximum number"<<item.Max;
+		_objectmodel->AppendRow(data, parent);
+		++index;
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Default price"<<item.Price;
+		_objectmodel->AppendRow(data, parent);
+		++index;
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Ephemere"<<item.Ephemere;
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+		_objectmodel->setTooltip(idx, "If true the item will disappear when leaving the map");
+		QModelIndex idx2 = _objectmodel->GetIndex(1, idx.row(), idx.parent());
+		_objectmodel->setTooltip(idx2, "If true the item will disappear when leaving the map");
+		++index;
+	}
+
+	switch(item.Type)
+	{
+		case 1: // consummable item
+		{
+			switch(item.Flag)
+			{
+				case 1: // life potion
+				{
+					QVector<QVariant> data;
+					data<<"Type"<<"Restore % of Health";
+					_objectmodel->AppendRow(data, parent);
+
+					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _consumable_itemlistmodel);
+					++index;
+
+					QVector<QVariant> data2;
+					data2<<"Restoration in %"<<item.Effect;
+					_objectmodel->AppendRow(data2, parent);
+					++index;
+				}
+				break;
+				case 2: // mana potion
+				{
+					QVector<QVariant> data;
+					data<<"Type"<<"Restore % of Magic";
+					_objectmodel->AppendRow(data, parent);
+
+					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _consumable_itemlistmodel);
+					++index;
+
+					QVector<QVariant> data2;
+					data2<<"Restoration in %"<<item.Effect;
+					_objectmodel->AppendRow(data2, parent);
+					++index;
+				}
+				break;
+				case 3: // life and mana potion
+				{
+					QVector<QVariant> data;
+					data<<"Type"<<"Restore % of Health&Magic";
+					_objectmodel->AppendRow(data, parent);
+
+					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _consumable_itemlistmodel);
+					++index;
+
+					QVector<QVariant> data2;
+					data2<<"Restoration in %"<<item.Effect;
+					_objectmodel->AppendRow(data2, parent);
+					++index;
+				}
+				break;
+
+				case 4: // life potion
+				{
+					QVector<QVariant> data;
+					data<<"Type"<<"Restore Health";
+					_objectmodel->AppendRow(data, parent);
+
+					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _consumable_itemlistmodel);
+					++index;
+
+					QVector<QVariant> data2;
+					data2<<"Restoration value"<<item.Effect;
+					_objectmodel->AppendRow(data2, parent);
+					++index;
+				}
+				break;
+				case 5: // mana potion
+				{
+					QVector<QVariant> data;
+					data<<"Type"<<"Restore Magic";
+					_objectmodel->AppendRow(data, parent);
+
+					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _consumable_itemlistmodel);
+					++index;
+
+					QVector<QVariant> data2;
+					data2<<"Restoration value"<<item.Effect;
+					_objectmodel->AppendRow(data2, parent);
+					++index;
+				}
+				break;
+				case 6: // life and mana potion
+				{
+					QVector<QVariant> data;
+					data<<"Type"<<"Restore Health&Magic";
+					_objectmodel->AppendRow(data, parent);
+
+					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _consumable_itemlistmodel);
+					++index;
+
+					QVector<QVariant> data2;
+					data2<<"Restoration value"<<item.Effect;
+					_objectmodel->AppendRow(data2, parent);
+					++index;
+				}
+				break;
+			}
+		}
+		break;
+
+		case 3: // monture item - ride it
+		{
+			switch(item.Flag)
+			{
+				case 1:
+				{
+					QVector<QVariant> data;
+					data<<"Type"<<"Protopack";
+					_objectmodel->AppendRow(data, parent);
+
+					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _mount_itemlistmodel);
+					++index;
+				}
+				break;
+				case 2:
+				{
+					QVector<QVariant> data;
+					data<<"Type"<<"Horse";
+					_objectmodel->AppendRow(data, parent);
+
+					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _mount_itemlistmodel);
+					++index;
+				}
+				break;
+				case 3:
+				{
+					QVector<QVariant> data;
+					data<<"Type"<<"Dinofly";
+					_objectmodel->AppendRow(data, parent);
+
+					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _mount_itemlistmodel);
+					++index;
+				}
+				break;
+			}
+		}
+		break;
+
+		case 4: // weapon item - equip it
+		{
+			QVector<QVariant> data;
+			data<<"Power"<<item.Effect;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+
+			QVector<QVariant> data2;
+			data2<<"Player model"<<item.StringFlag.c_str();
+			QModelIndex idx = _objectmodel->AppendRow(data2, parent);
+
+			_objectmodel->setTooltip(idx, "Name of the model used to display the player wearing the weapon (see documentation)");
+			QModelIndex idx2 = _objectmodel->GetIndex(1, idx.row(), idx.parent());
+			_objectmodel->setTooltip(idx2, "Name of the model used to display the player wearing the weapon (see documentation)");
+			++index;
+		}
+		break;
+
+		case 7: // special usage item
+		{
+			switch(item.Flag)
+			{
+				case 1: // letter writter
+				{
+					QVector<QVariant> data;
+					data<<"Type"<<"Letter writer";
+					_objectmodel->AppendRow(data, parent);
+
+					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _special_itemlistmodel);
+					++index;
+				}
+				break;
+			}
+		}
+		break;
+
+		case 9: // outfit item - equip it
+		{
+			QVector<QVariant> data;
+			data<<"Armor"<<item.Effect;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+
+			QVector<QVariant> data2;
+			data2<<"Player model"<<item.StringFlag.c_str();
+			QModelIndex idx = _objectmodel->AppendRow(data2, parent);
+
+			_objectmodel->setTooltip(idx, "Name of the model used to display the player wearing the outfit (see documentation)");
+			QModelIndex idx2 = _objectmodel->GetIndex(1, idx.row(), idx.parent());
+			_objectmodel->setTooltip(idx2, "Name of the model used to display the player wearing the outfit (see documentation)");
+			++index;
+		}
+		break;
+	}
+
+	//
+	//{
+	//	QVector<QVariant> data;
+	//	data<<"Physic filename"<<ainfo.PhysicDesc.Filename.c_str();
+	//	_objectmodel->AppendRow(data, parent);
+
+	//	FileDialogOptions filefilter;
+	//	filefilter.Title = "Choose physic file";
+	//	filefilter.StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Models").c_str();
+	//	filefilter.FileFilter = "Physic Files (*.phy)";
+	//	_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
+
+	//	++index;
+	//}
+
+
+}
+
+
+/***********************************************************
+item object changed
+***********************************************************/
+void EditorHandler::ItemChanged(long id, const std::string & category, const QModelIndex &parentIdx)
+{
+	LbaNet::ItemInfo olditeminfo = InventoryItemHandler::getInstance()->GetItemInfo(id);
+	
+	LbaNet::ItemInfo newiteminfo = olditeminfo;
+	newiteminfo.Name = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString().toAscii().data();
+
+	// check if name changed
+	if(newiteminfo.Name != olditeminfo.Name)
+	{
+		std::stringstream oldtxtwithid;
+		oldtxtwithid<<id<<": "<<olditeminfo.Name.c_str();	
+
+		std::stringstream txtwithid;
+		txtwithid<<id<<": "<<newiteminfo.Name.c_str();	
+
+		// update trigger name list
+		_itemNameList->ReplaceData(oldtxtwithid.str().c_str(), txtwithid.str().c_str());
+
+		// update trigger list display
+		QStringList slist;
+		slist << newiteminfo.Name.c_str() << InventoryItemHandler::getInstance()->GetItemTypeString(id).c_str();
+		_itemlistmodel->AddOrUpdateRow(id, slist);
+	}
+
+
+
+	int index = 4;
+
+	std::string desc = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+	std::string tmp = desc.substr(0, desc.find(":"));
+	newiteminfo.DescriptionId = atol(tmp.c_str());
+	++index;
+
+	newiteminfo.IconName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+	++index;
+
+	newiteminfo.Max = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
+	++index;
+
+	newiteminfo.Price = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
+	++index;
+
+	newiteminfo.Ephemere = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
+	++index;
+
+
+
+	switch(newiteminfo.Type)
+	{
+		case 1: // consummable item
+		{
+			std::string flag = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+			if(flag == "Restore % of Health")
+				newiteminfo.Flag = 1;
+			if(flag == "Restore % of Magic")
+				newiteminfo.Flag = 2;
+			if(flag == "Restore % of Health&Magic")
+				newiteminfo.Flag = 3;
+			if(flag == "Restore Health")
+				newiteminfo.Flag = 4;
+			if(flag == "Restore Magic")
+				newiteminfo.Flag = 5;
+			if(flag == "Restore Health&Magic")
+				newiteminfo.Flag = 6;
+			++index;
+
+			newiteminfo.Effect = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+		}
+		break;
+
+		case 3: // monture item - ride it
+		{
+			std::string flag = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+			if(flag == "Protopack")
+				newiteminfo.Flag = 1;
+			if(flag == "Horse")
+				newiteminfo.Flag = 2;
+			if(flag == "Dinofly")
+				newiteminfo.Flag = 3;
+
+			++index;
+		}
+		break;
+
+		case 4: // weapon item - equip it
+		{
+			newiteminfo.Effect = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+
+			newiteminfo.StringFlag = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+			++index;
+		}
+		break;
+
+		case 7: // special usage item
+		{
+			std::string flag = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+			if(flag == "Letter writer")
+				newiteminfo.Flag = 1;
+
+			++index;
+		}
+		break;
+
+		case 9: // outfit item - equip it
+		{
+			newiteminfo.Effect = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+
+			newiteminfo.StringFlag = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+			++index;
+		}
+		break;
+	}
+
+	InventoryItemHandler::getInstance()->AddOrModItem(id, newiteminfo);
+	SetModified();
+
+	if(newiteminfo.Type == 1 && newiteminfo.Flag != olditeminfo.Flag)
+		SelectItem(newiteminfo, parentIdx);
+}
+
+
+
+
+
+/***********************************************************
+StartItemAdd_button
+***********************************************************/
+void EditorHandler::StartItemAdd_button()
+{
+	_ui_addstartitemdialog.spinBox_itemcount->setValue(1);
+	_addstartitemdialog->show();
+}
+
+
+/***********************************************************
+StartItemRemove_button
+***********************************************************/
+void EditorHandler::StartItemRemove_button()
+{
+	QItemSelectionModel *selectionModel = _uieditor.tableView_ItemList_starting->selectionModel();
+	QModelIndexList indexes = selectionModel->selectedIndexes();
+
+	if(indexes.size() > 0)
+	{
+		long id = _startitemlistmodel->GetId(indexes[0]);
+
+		LbaNet::ItemsMap::iterator itm = _winfo.StartingInfo.StartingInventory.find(id);
+		if(itm != _winfo.StartingInfo.StartingInventory.end())
+			_winfo.StartingInfo.StartingInventory.erase(itm);
+
+		_startitemlistmodel->removeRows(indexes[0].row(), 1);
+
+		SetModified();
+	}
+}
+
+
+/***********************************************************
+StartItemAdd_button_accepted
+***********************************************************/
+void EditorHandler::StartItemAdd_button_accepted()
+{
+	_addstartitemdialog->hide();
+
+	int count = _ui_addstartitemdialog.spinBox_itemcount->value();
+
+	std::string name = _ui_addstartitemdialog.comboBox_itemname->currentText().toAscii().data();
+	std::string tmp = name.substr(0, name.find(":"));
+	long itemid = atol(tmp.c_str());
+
+	// check if item already exist in starting inventory if so then do nothing
+	LbaNet::ItemsMap::iterator itm = _winfo.StartingInfo.StartingInventory.find(itemid);
+	if(itm == _winfo.StartingInfo.StartingInventory.end())
+	{
+		LbaNet::ItemPosInfo newitem;
+		newitem.Count = count;
+		newitem.Position = -1;
+		newitem.Info = InventoryItemHandler::getInstance()->GetItemInfo(itemid);
+
+		_winfo.StartingInfo.StartingInventory[itemid] = newitem;
+
+		QStringList data;
+		data << newitem.Info.Name.c_str();
+		std::stringstream tmpstrs;
+		tmpstrs<<newitem.Count;
+		data << tmpstrs.str().c_str();
+		_startitemlistmodel->AddOrUpdateRow(itemid, data);
+
+		SetModified();
+	}
 }

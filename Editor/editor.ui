@@ -81,7 +81,7 @@
                <item>
                 <widget class="QTabWidget" name="tabWidgetworld">
                  <property name="currentIndex">
-                  <number>0</number>
+                  <number>2</number>
                  </property>
                  <widget class="QWidget" name="tab_worldinfo">
                   <attribute name="title">
@@ -304,36 +304,6 @@
                         </property>
                        </spacer>
                       </item>
-                      <item row="0" column="6">
-                       <widget class="QLabel" name="lbaelstartin_armor">
-                        <property name="text">
-                         <string>Armor:</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="0" column="5">
-                       <spacer name="horizontalSpacer_6">
-                        <property name="orientation">
-                         <enum>Qt::Horizontal</enum>
-                        </property>
-                        <property name="sizeType">
-                         <enum>QSizePolicy::Preferred</enum>
-                        </property>
-                        <property name="sizeHint" stdset="0">
-                         <size>
-                          <width>20</width>
-                          <height>20</height>
-                         </size>
-                        </property>
-                       </spacer>
-                      </item>
-                      <item row="0" column="7">
-                       <widget class="QSpinBox" name="spinBox_startingarmor">
-                        <property name="maximum">
-                         <number>1000</number>
-                        </property>
-                       </widget>
-                      </item>
                      </layout>
                     </widget>
                    </item>
@@ -428,8 +398,191 @@
                  </widget>
                  <widget class="QWidget" name="tabstartinventory">
                   <attribute name="title">
-                   <string>StartInventory</string>
+                   <string>InventoryItems</string>
                   </attribute>
+                  <layout class="QGridLayout" name="gridLayout_7">
+                   <item row="0" column="1">
+                    <widget class="QGroupBox" name="groupBox_worldmaps_tplist_3">
+                     <property name="title">
+                      <string>Item List</string>
+                     </property>
+                     <layout class="QHBoxLayout" name="horizontalLayout_21">
+                      <property name="margin">
+                       <number>4</number>
+                      </property>
+                      <item>
+                       <widget class="QTableView" name="tableView_ItemList">
+                        <property name="selectionMode">
+                         <enum>QAbstractItemView::SingleSelection</enum>
+                        </property>
+                        <property name="selectionBehavior">
+                         <enum>QAbstractItemView::SelectRows</enum>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QGroupBox" name="groupBox_worldmaps_tplist_4">
+                     <property name="title">
+                      <string>Starting inventory</string>
+                     </property>
+                     <layout class="QHBoxLayout" name="horizontalLayout_23">
+                      <property name="margin">
+                       <number>4</number>
+                      </property>
+                      <item>
+                       <widget class="QTableView" name="tableView_ItemList_starting">
+                        <property name="selectionMode">
+                         <enum>QAbstractItemView::SingleSelection</enum>
+                        </property>
+                        <property name="selectionBehavior">
+                         <enum>QAbstractItemView::SelectRows</enum>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item row="0" column="0" rowspan="2">
+                    <widget class="QGroupBox" name="groupBox_worldmap_tpaction_3">
+                     <property name="maximumSize">
+                      <size>
+                       <width>50</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="title">
+                      <string>Activity</string>
+                     </property>
+                     <layout class="QVBoxLayout" name="verticalLayout_11">
+                      <item>
+                       <widget class="QPushButton" name="pushButton_additem">
+                        <property name="toolTip">
+                         <string>Add Teleport</string>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                        <property name="icon">
+                         <iconset resource="editor.qrc">
+                          <normaloff>:/Editor/Resources/icons/PNG/onebit_31.png</normaloff>:/Editor/Resources/icons/PNG/onebit_31.png</iconset>
+                        </property>
+                        <property name="iconSize">
+                         <size>
+                          <width>20</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                        <property name="flat">
+                         <bool>false</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="pushButton_removeitem">
+                        <property name="toolTip">
+                         <string>Remove selected teleport</string>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                        <property name="icon">
+                         <iconset resource="editor.qrc">
+                          <normaloff>:/Editor/Resources/icons/PNG/onebit_32.png</normaloff>:/Editor/Resources/icons/PNG/onebit_32.png</iconset>
+                        </property>
+                        <property name="iconSize">
+                         <size>
+                          <width>20</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="pushButton_selectitem">
+                        <property name="toolTip">
+                         <string>Teleport to selected</string>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                        <property name="icon">
+                         <iconset resource="editor.qrc">
+                          <normaloff>:/Editor/Resources/icons/PNG/onebit_27.png</normaloff>:/Editor/Resources/icons/PNG/onebit_27.png</iconset>
+                        </property>
+                        <property name="iconSize">
+                         <size>
+                          <width>20</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <spacer name="verticalSpacer_13">
+                        <property name="orientation">
+                         <enum>Qt::Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                         <enum>QSizePolicy::Minimum</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                         <size>
+                          <width>20</width>
+                          <height>41</height>
+                         </size>
+                        </property>
+                       </spacer>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="pushButton_additem_2">
+                        <property name="toolTip">
+                         <string>Add Teleport</string>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                        <property name="icon">
+                         <iconset resource="editor.qrc">
+                          <normaloff>:/Editor/Resources/icons/PNG/onebit_31.png</normaloff>:/Editor/Resources/icons/PNG/onebit_31.png</iconset>
+                        </property>
+                        <property name="iconSize">
+                         <size>
+                          <width>20</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                        <property name="flat">
+                         <bool>false</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="pushButton_removeitem_2">
+                        <property name="toolTip">
+                         <string>Remove selected teleport</string>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                        <property name="icon">
+                         <iconset resource="editor.qrc">
+                          <normaloff>:/Editor/Resources/icons/PNG/onebit_32.png</normaloff>:/Editor/Resources/icons/PNG/onebit_32.png</iconset>
+                        </property>
+                        <property name="iconSize">
+                         <size>
+                          <width>20</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
                  </widget>
                  <widget class="QWidget" name="tab_maps">
                   <attribute name="title">
@@ -1738,7 +1891,7 @@
      <x>0</x>
      <y>0</y>
      <width>960</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
