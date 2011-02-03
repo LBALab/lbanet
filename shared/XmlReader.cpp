@@ -89,13 +89,16 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
 	res.StartingInfo.InventorySize = pt.get<int>("World.PlayerStartingInfo.InventorySize", 1);
 	res.StartingInfo.StartingLife = pt.get<float>("World.PlayerStartingInfo.StartingLife", 1);
 	res.StartingInfo.StartingMana = pt.get<float>("World.PlayerStartingInfo.StartingMana", 1);	
-	res.StartingInfo.StartingArmor = pt.get<float>("World.PlayerStartingInfo.StartingArmor", 0.0f);
 	res.StartingInfo.StartingMap = pt.get<std::string>("World.PlayerStartingInfo.StartingMap", "");
 	res.StartingInfo.SpawningId = pt.get<long>("World.PlayerStartingInfo.SpawningId", -1);
 	res.StartingInfo.StartingModel.ModelName = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.ModelName");
 	res.StartingInfo.StartingModel.Outfit = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.Outfit");
 	res.StartingInfo.StartingModel.Weapon = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.Weapon");
 	res.StartingInfo.StartingModel.Mode = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.Mode");
+
+	res.StartingInfo.EquipedWeapon = pt.get<int>("World.PlayerStartingInfo.EquipedWeapon", -1);
+	res.StartingInfo.EquipedOutfit = pt.get<int>("World.PlayerStartingInfo.EquipedOutfit", -1);
+
 	res.StartingInfo.StartingModel.State = LbaNet::StNormal;
 
 	int renderT = pt.get<int>("World.PlayerStartingInfo.StartingModel.RendererType");
@@ -216,7 +219,6 @@ bool XmlReader::SaveWorldInfo(const std::string &Filename, const WorldInformatio
 	pt.put("World.PlayerStartingInfo.InventorySize", res.StartingInfo.InventorySize);
 	pt.put("World.PlayerStartingInfo.StartingLife", res.StartingInfo.StartingLife);
 	pt.put("World.PlayerStartingInfo.StartingMana", res.StartingInfo.StartingMana);	
-	pt.put("World.PlayerStartingInfo.StartingArmor", res.StartingInfo.StartingArmor);
 	pt.put("World.PlayerStartingInfo.StartingMap", res.StartingInfo.StartingMap);
 	pt.put("World.PlayerStartingInfo.SpawningId", res.StartingInfo.SpawningId);
 	pt.put("World.PlayerStartingInfo.StartingModel.ModelName", res.StartingInfo.StartingModel.ModelName);
@@ -224,6 +226,8 @@ bool XmlReader::SaveWorldInfo(const std::string &Filename, const WorldInformatio
 	pt.put("World.PlayerStartingInfo.StartingModel.Weapon", res.StartingInfo.StartingModel.Weapon);
 	pt.put("World.PlayerStartingInfo.StartingModel.Mode", res.StartingInfo.StartingModel.Mode);
 
+	pt.put("World.PlayerStartingInfo.EquipedWeapon", res.StartingInfo.EquipedWeapon);
+	pt.put("World.PlayerStartingInfo.EquipedOutfit", res.StartingInfo.EquipedWeapon);
 
 	switch(res.StartingInfo.StartingModel.TypeRenderer)
 	{
@@ -417,13 +421,14 @@ bool XmlReader::LoadInventoryFile(const std::string &Filename, std::map<long, It
 		return false;
 	}
 
-	// get teleport info
+	// get item info
 	try
 	{
 		BOOST_FOREACH(ptree::value_type &v, pt.get_child("items"))
 		{
 			ItemInfo tpi;
 			tpi.Id = v.second.get<long>("<xmlattr>.id");
+			tpi.Name = v.second.get<std::string>("<xmlattr>.name", "");
 			tpi.IconName = v.second.get<std::string>("<xmlattr>.filename", "");
 			tpi.DescriptionId = v.second.get<long>("<xmlattr>.Description", 0);
 			tpi.Max = v.second.get<int>("<xmlattr>.Max", 1);
@@ -431,12 +436,60 @@ bool XmlReader::LoadInventoryFile(const std::string &Filename, std::map<long, It
 			tpi.Type = v.second.get<int>("<xmlattr>.type", 1);
 			tpi.Effect = v.second.get<float>("<xmlattr>.Effect", 1);
 			tpi.Flag = v.second.get<int>("<xmlattr>.valueA", 1);
-			tpi.Ephemere = (v.second.get<int>("<xmlattr>.Ephemere", 0) == 1);
+			tpi.Ephemere = (v.second.get<bool>("<xmlattr>.Ephemere", false));
 			tpi.StringFlag = v.second.get<std::string>("<xmlattr>.Extra", "");
 			res[(long)tpi.Id] = tpi;
 		}
 	}
-	catch(...){} // no tps
+	catch(...){} // no item
+
+
+	return true;
+}
+
+
+/***********************************************************
+save inventory to file
+***********************************************************/
+bool XmlReader::SaveInventoryFile(const std::string &Filename, const std::map<long, ItemInfo> &info)
+{
+	// Create an empty property tree object
+	using boost::property_tree::ptree;
+	ptree pt;
+
+	typedef const std::map<long, ItemInfo> itemseq;
+
+	// get teleport info
+    BOOST_FOREACH(const itemseq::value_type &item, info)
+	{
+		ptree &tmp = pt.add("items.item", "");
+		tmp.put("<xmlattr>.id", item.second.Id);
+		tmp.put("<xmlattr>.name", item.second.Name);
+		tmp.put("<xmlattr>.filename", item.second.IconName);
+		tmp.put("<xmlattr>.Description", item.second.DescriptionId);
+		tmp.put("<xmlattr>.Max", item.second.Max);
+		tmp.put("<xmlattr>.Price", item.second.Price);
+		tmp.put("<xmlattr>.type", item.second.Type);
+		tmp.put("<xmlattr>.Effect", item.second.Effect);
+		tmp.put("<xmlattr>.valueA", item.second.Flag);
+		tmp.put("<xmlattr>.Ephemere", item.second.Ephemere);
+		tmp.put("<xmlattr>.Extra", item.second.StringFlag);
+	}
+
+
+	// Write the property tree into the XML file 
+	try
+	{
+		const boost::property_tree::xml_parser::xml_writer_settings<char> settings('	', 1);
+		write_xml(Filename, pt, std::locale(), settings);
+	}
+	catch(...)
+	{
+	}
+
+
+
+
 
 
 	return true;

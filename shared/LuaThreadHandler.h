@@ -52,11 +52,16 @@ public:
 	std::string GetScriptName()
 	{return m_FunctionName;}
 
+	//! check if thread started
+	bool IsStarted()
+	{ return m_started;}
+
 private:
 	lua_State *		m_LuaThreadState;
 	lua_State *		m_LuaMainState;
 	std::string		m_FunctionName;
 	int				m_refKey;
+	bool			m_started;
 
 
 	static unsigned long	m_idgenerator;

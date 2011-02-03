@@ -15,7 +15,7 @@ unsigned long LuaThreadHandler::m_idgenerator = 0;
 constructor
 ***********************************************************/
 LuaThreadHandler::LuaThreadHandler(lua_State * mainstate, const std::string & FunctionName, bool inlinefunction)
-: m_FunctionName(FunctionName), m_LuaMainState(mainstate)
+: m_FunctionName(FunctionName), m_LuaMainState(mainstate), m_started(false)
 {
 	try
 	{
@@ -38,10 +38,23 @@ LuaThreadHandler::LuaThreadHandler(lua_State * mainstate, const std::string & Fu
 			luaL_dostring(m_LuaMainState, inlinefct.str().c_str());
 
 			luabind::resume_function<void>(m_LuaThreadState, fctname.str().c_str(), m_refKey);
-
+			m_started = true;
 		}
 		else
-			luabind::resume_function<void>(m_LuaThreadState, m_FunctionName.c_str(), m_refKey);
+		{
+			// check if function exist
+			lua_getglobal(m_LuaMainState, m_FunctionName.c_str());
+			if (lua_isfunction(m_LuaMainState, lua_gettop(m_LuaMainState)))
+			{
+				luabind::resume_function<void>(m_LuaThreadState, m_FunctionName.c_str(), m_refKey);
+				m_started = true;
+			}
+			else
+			{
+				LogHandler::getInstance()->LogToFile(std::string("Trying to execute an undefined LUA function: ") 
+																					+ m_FunctionName, 0);		
+			}
+		}
 	}
 	catch(const std::exception &error)
 	{
@@ -66,9 +79,15 @@ return true if thread is finished and should be destructed
 ***********************************************************/	
 bool LuaThreadHandler::ResumeThread()
 {
+	if(!m_started)
+		return true;
+
 	// check if thread already finished
 	if(lua_status(m_LuaThreadState) != LUA_YIELD)
+	{
+		m_started = false;
 		return true;
+	}
 
 	try
 	{
@@ -91,5 +110,6 @@ bool LuaThreadHandler::ResumeThread()
 																					+ error.what(), 0);
 	}
 
+	m_started = false;
 	return true;
 }
