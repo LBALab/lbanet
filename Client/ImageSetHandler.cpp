@@ -24,19 +24,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <CEGUI.h>
 #include "ImageSetHandler.h"
-
+#include "LogHandler.h"
 
 /***********************************************************
 get inventory image
 ***********************************************************/
 std::string ImageSetHandler::GetInventoryImage(std::string file)
 {	
-	std::string res = "inv_" + file;
+	std::string res = "inv_" + file.substr(file.find_last_of("/")+1); //TODO - test
 
 	if(!CEGUI::ImagesetManager::getSingleton().isDefined(res))
 	{
-		CEGUI::ImagesetManager::getSingleton().
-			createFromImageFile(res, "Inventory/" + file + ".png");
+		try
+		{
+			CEGUI::ImagesetManager::getSingleton().
+				createFromImageFile(res, ("../../" + file).c_str());
+		}
+		catch(CEGUI::Exception &ex)
+		{
+			std::stringstream erstr;
+			erstr<<"Error loading file "<<file<<" into CEGUI imageset: "<<ex.getMessage();
+			LogHandler::getInstance()->LogToFile(erstr.str(), -1);
+		}
 
 		GetInventoryMiniImage(file);
 	}
@@ -50,13 +59,25 @@ get inventory image
 ***********************************************************/
 std::string ImageSetHandler::GetInventoryMiniImage(std::string file)
 {
-	std::string res = "mini_" + file;
+	std::string res = "mini_" + file.substr(file.find_last_of("/")+1); //TODO - test
+	std::string extension = file.substr(file.find_last_of("."));
+	file = file.substr(0, file.find_last_of("."));
+	file += "_mini" + extension;
 
 	if(!CEGUI::ImagesetManager::getSingleton().isDefined(res))
 	{
-		CEGUI::Imageset &ims = CEGUI::ImagesetManager::getSingleton().
-			createFromImageFile(res, "minis/" + file + ".png");
-		ims.setAutoScalingEnabled(false);
+		try
+		{
+			CEGUI::Imageset &ims = CEGUI::ImagesetManager::getSingleton().
+				createFromImageFile(res, ("../../" + file).c_str());
+			ims.setAutoScalingEnabled(false);
+		}
+		catch(CEGUI::Exception &ex)
+		{
+			std::stringstream erstr;
+			erstr<<"Error loading file "<<file<<" into CEGUI imageset: "<<ex.getMessage();
+			LogHandler::getInstance()->LogToFile(erstr.str(), -1);
+		}
 	}
 
 	return res;
@@ -91,8 +112,17 @@ std::string ImageSetHandler::GetStanceImage(int stance)
 
 	if(!CEGUI::ImagesetManager::getSingleton().isDefined(res))
 	{
-		CEGUI::ImagesetManager::getSingleton().
-			createFromImageFile(res, "Inventory/" + file + ".png");
+		try
+		{
+			CEGUI::ImagesetManager::getSingleton().
+				createFromImageFile(res, "Inventory/" + file + ".png");
+		}
+		catch(CEGUI::Exception &ex)
+		{
+			std::stringstream erstr;
+			erstr<<"Error loading file "<<file<<" into CEGUI imageset: "<<ex.getMessage();
+			LogHandler::getInstance()->LogToFile(erstr.str(), -1);
+		}
 	}
 
 	return res;

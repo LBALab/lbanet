@@ -2273,6 +2273,19 @@ void LBA1ModelClass::changeAllPolygonColors(short int oldColor, short int newCol
     }
 }
 
+
+//---------------------------------------------------------------------------
+std::set<short> LBA1ModelClass::GetAllUsedColors()
+{
+	std::set<short> res;
+
+    for(int i=0; i < Polygons->NumberOfPolygons; i++)
+       res.insert(getPolygonColor(i));
+
+	return res;
+}
+
+
 //---------------------------------------------------------------------------
 
 int LBA1ModelClass::getKeyframe(void)

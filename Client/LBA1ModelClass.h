@@ -34,6 +34,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "Entities.h"
 #include <vector>
+#include <set>
 #include <osg/Node>
 #include <osg/Geometry>
 #include <osg/PositionAttitudeTransform>
@@ -381,6 +382,7 @@ public:
     void setPolygonColor(int index, short int color);
     short int getPolygonColor(int index);
     void changeAllPolygonColors(short int oldColor, short int newColor);
+	std::set<short> GetAllUsedColors();
 
     int getKeyframe(void);
     void resetKeyframe();
