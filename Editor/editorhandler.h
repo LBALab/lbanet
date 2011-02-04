@@ -195,12 +195,33 @@ private:
 
 
 
-struct FileDialogOptions
+class FileDialogOptionsBase
 {
+public:
 	QString Title;
 	QString FileFilter;
 	QString StartingDirectory;
+
+	virtual QString PostManagement(const QString & selectedfile) = 0;
 };
+
+
+class FileDialogOptionsModel : public FileDialogOptionsBase
+{
+public:
+
+	virtual QString PostManagement(const QString & selectedfile);
+};
+
+class FileDialogOptionsIcon : public FileDialogOptionsBase
+{
+public:
+	QString OutDirectory;
+
+	virtual QString PostManagement(const QString & selectedfile);
+};
+
+
 
 
  class CustomDelegate : public QStyledItemDelegate
@@ -225,7 +246,7 @@ struct FileDialogOptions
 	 void SetCustomIndex(QModelIndex index, boost::shared_ptr<CustomStringListModel> list);
 
 	 //! used in the case of file dialog
-	 void SetCustomIndex(QModelIndex index, FileDialogOptions filefilter);
+	 void SetCustomIndex(QModelIndex index, boost::shared_ptr<FileDialogOptionsBase> filefilter);
 
 
 public slots:
@@ -244,7 +265,7 @@ public slots:
 
  private:
 	 std::map<QModelIndex, boost::shared_ptr<CustomStringListModel> >		_customs;
-	 std::map<QModelIndex, FileDialogOptions >								_customsfiledialog;
+	 std::map<QModelIndex, boost::shared_ptr<FileDialogOptionsBase> >		_customsfiledialog;
 	 QAbstractItemModel *													_model;
 	 bool																	_accepted;
  };

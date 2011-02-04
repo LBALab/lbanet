@@ -40,6 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QMessageBox>
 #include <QFileDialog>
 #include <boost/filesystem.hpp>
+#include <QImage>
 
 #include <fstream>
 #include <math.h>
@@ -581,6 +582,131 @@ void MixedTableModel::AddRow(const QVariantList &data)
 
 
 
+/***********************************************************
+PostManagement
+***********************************************************/
+QString FileDialogOptionsModel::PostManagement(const QString & selectedfile)
+{
+	QString outfile;
+
+	// check if choosen file is in the directory data
+	if(selectedfile.contains(QDir::currentPath()+"/Data/"))
+	{
+		outfile = selectedfile;
+		outfile = outfile.remove(QDir::currentPath()+"/Data/");
+	}
+	else
+	{
+		//copy the file over
+		try
+		{
+			// get all files with same name
+			std::vector<std::string> files;
+			QString fpath = selectedfile.section('/', 0, -2 );
+			{
+				QString filenoext = selectedfile.section('/', -1);
+				filenoext = filenoext.section('.', 0, 0);
+
+
+				fs::path full_path( fpath.toAscii().data() );
+
+				if( fs::exists( full_path ) )
+				{
+					if ( fs::is_directory( full_path ) )
+					{
+						fs::directory_iterator end_iter;
+						for ( fs::directory_iterator dir_itr( full_path ); 
+											dir_itr != end_iter; ++dir_itr )
+						{
+							if ( fs::is_regular_file( dir_itr->status() ) )
+							{
+								if(dir_itr->path().stem() == filenoext.toAscii().data())
+									files.push_back(dir_itr->path().filename());
+							}
+						}
+					}
+				}
+			}
+
+			for(size_t curs=0; curs<files.size(); ++curs)
+			{
+				QString tmp = fpath + "/";
+				tmp += files[curs].c_str();
+				QString tmp2 = StartingDirectory + "/";
+				tmp2 += files[curs].c_str();
+				boost::filesystem::copy_file(tmp.toAscii().data(), tmp2.toAscii().data());
+			}
+
+			QString filename = StartingDirectory + "/" + selectedfile.section('/', -1);
+			outfile = filename.section('/', 1);
+		}
+		catch(...)
+		{
+			QErrorMessage msgdial;
+			msgdial.showMessage ( "Error copying the file to the data directory!" );
+			outfile = "";
+		}
+	}
+
+	return outfile;
+}
+
+
+
+/***********************************************************
+PostManagement
+***********************************************************/
+QString FileDialogOptionsIcon::PostManagement(const QString & selectedfile)
+{
+	QString outfile;
+
+	// check if choosen file is in the directory data
+	if(selectedfile.contains(QDir::currentPath()+"/Data/"))
+	{
+		outfile = selectedfile;
+		outfile = outfile.remove(QDir::currentPath()+"/Data/");
+	}
+	else
+	{
+		//copy the file over and resize it
+		try
+		{
+			QString filename = selectedfile.section('/', -1);
+			filename = filename.section('.', 0, 0);
+
+			outfile = OutDirectory + "/" + filename + ".pmg";
+			QString outfile2 = OutDirectory + "/" + filename + "_mini.pmg";
+
+
+			QImage image(selectedfile);
+			QImage scaledimg = image.scaled(QSize(100, 100), Qt::KeepAspectRatio, Qt::SmoothTransformation );
+			scaledimg.save(QDir::currentPath()+"/"+outfile);
+
+			QImage smallscaledimg = image.scaled(QSize(25, 25), Qt::KeepAspectRatio, Qt::SmoothTransformation );
+			smallscaledimg.save(QDir::currentPath()+"/"+outfile2);
+
+			outfile = outfile.remove("Data/");
+		}
+		catch(...)
+		{
+			QErrorMessage msgdial;
+			msgdial.showMessage ( "Error copying the file to the data directory!" );
+			outfile = "";
+		}
+	}
+
+	return outfile;
+}
+
+
+
+
+
+
+
+
+
+
 
 /***********************************************************
 Constructor
@@ -608,13 +734,13 @@ QWidget *CustomDelegate::createEditor(QWidget *parent, const QStyleOptionViewIte
 		return editor;
 	}
 
-	 std::map<QModelIndex, FileDialogOptions >::const_iterator itf = _customsfiledialog.find(index);
+	 std::map<QModelIndex, boost::shared_ptr<FileDialogOptionsBase> >::const_iterator itf = _customsfiledialog.find(index);
 	if(itf != _customsfiledialog.end())
 	{
-		QFileDialog *editor = new QFileDialog(parent, itf->second.Title);
+		QFileDialog *editor = new QFileDialog(parent, itf->second->Title);
 		editor->setAcceptMode(QFileDialog::AcceptOpen);
 		editor->setFileMode(QFileDialog::ExistingFile);
-		editor->setNameFilter(itf->second.FileFilter);
+		editor->setNameFilter(itf->second->FileFilter);
 		editor->setViewMode(QFileDialog::List);
 		editor->setModal(true);
 
@@ -658,7 +784,7 @@ void CustomDelegate::setEditorData(QWidget *editor, const QModelIndex &index) co
 		 return;
 	}
 
-	std::map<QModelIndex, FileDialogOptions >::const_iterator itf = _customsfiledialog.find(index);
+	std::map<QModelIndex, boost::shared_ptr<FileDialogOptionsBase> >::const_iterator itf = _customsfiledialog.find(index);
 	if(itf != _customsfiledialog.end())
 	{
 		QString value = index.model()->data(index, Qt::DisplayRole).toString();
@@ -671,7 +797,7 @@ void CustomDelegate::setEditorData(QWidget *editor, const QModelIndex &index) co
 		}
 		else
 		{
-			dialog->setDirectory(QDir::currentPath()+"/"+itf->second.StartingDirectory);
+			dialog->setDirectory(QDir::currentPath()+"/"+itf->second->StartingDirectory);
 		}
 
 		return;
@@ -711,7 +837,7 @@ void CustomDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
 		return;
 	}
 
-	std::map<QModelIndex, FileDialogOptions >::const_iterator itf = _customsfiledialog.find(index);
+	std::map<QModelIndex, boost::shared_ptr<FileDialogOptionsBase> >::const_iterator itf = _customsfiledialog.find(index);
 	if(itf != _customsfiledialog.end())
 	{
 		QFileDialog *dialog = static_cast<QFileDialog*>(editor);
@@ -721,65 +847,9 @@ void CustomDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
 			QString file = files[0];
 			if(file != "")
 			{
-				// check if choosen file is in the directory data
-				if(file.contains(QDir::currentPath()))
-				{
-					file = file.remove(QDir::currentPath()+"/Data/");
-				}
-				else
-				{
-					//copy the file over
-					try
-					{
-						// get all files with same name
-						std::vector<std::string> files;
-						QString fpath = file.section('/', 0, -2 );
-						{
-							QString filenoext = file.section('/', -1);
-							filenoext = filenoext.section('.', 0, 0);
-
-
-							fs::path full_path( fpath.toAscii().data() );
-
-							if( fs::exists( full_path ) )
-							{
-								if ( fs::is_directory( full_path ) )
-								{
-									fs::directory_iterator end_iter;
-									for ( fs::directory_iterator dir_itr( full_path ); 
-														dir_itr != end_iter; ++dir_itr )
-									{
-										if ( fs::is_regular_file( dir_itr->status() ) )
-										{
-											if(dir_itr->path().stem() == filenoext.toAscii().data())
-												files.push_back(dir_itr->path().filename());
-										}
-									}
-								}
-							}
-						}
-
-						for(size_t curs=0; curs<files.size(); ++curs)
-						{
-							QString tmp = fpath + "/";
-							tmp += files[curs].c_str();
-							QString tmp2 = itf->second.StartingDirectory + "/";
-							tmp2 += files[curs].c_str();
-							boost::filesystem::copy_file(tmp.toAscii().data(), tmp2.toAscii().data());
-						}
-
-						QString filename = itf->second.StartingDirectory + "/" + file.section('/', -1);
-						file = filename.section('/', 1);
-					}
-					catch(...)
-					{
-						QErrorMessage msgdial;
-						msgdial.showMessage ( "Error copying the file to the data directory!" );
-						return;
-					}
-				}
-
-				model->setData(index, file);
+				QString outfile = itf->second->PostManagement(file);
+				if(outfile != "")
+					model->setData(index, outfile);
 			}
 		}
 		
@@ -835,7 +905,7 @@ void CustomDelegate::SetCustomIndex(QModelIndex index, boost::shared_ptr<CustomS
 /***********************************************************
 used in the case of file dialog
 ***********************************************************/
- void CustomDelegate::SetCustomIndex(QModelIndex index, FileDialogOptions filefilter)
+ void CustomDelegate::SetCustomIndex(QModelIndex index, boost::shared_ptr<FileDialogOptionsBase> filefilter)
 {
 	_customsfiledialog[index] = filefilter;
 }
@@ -5200,10 +5270,10 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 					data<<"Physic filename"<<ainfo.PhysicDesc.Filename.c_str();
 					_objectmodel->AppendRow(data, parent);
 
-					FileDialogOptions filefilter;
-					filefilter.Title = "Choose physic file";
-					filefilter.StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Models").c_str();
-					filefilter.FileFilter = "Physic Files (*.phy)";
+					boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
+					filefilter->Title = "Select physic file";
+					filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Models").c_str();
+					filefilter->FileFilter = "Physic Files (*.phy)";
 					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
 
 					++index;
@@ -5288,10 +5358,10 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 				data<<"Display model file"<<ainfo.DisplayDesc.ModelName.c_str();
 				_objectmodel->AppendRow(data, parent);
 
-				FileDialogOptions filefilter;
-				filefilter.Title = "Choose model file";
-				filefilter.StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Models").c_str();;
-				filefilter.FileFilter = "Model Files (*.osg *.osgb *.osga)";
+				boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
+				filefilter->Title = "Select a model file";
+				filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Models").c_str();;
+				filefilter->FileFilter = "Model Files (*.osg *.osgb *.osga)";
 				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
 				++index;
 			}
@@ -7358,6 +7428,15 @@ void EditorHandler::SelectItem(const LbaNet::ItemInfo & item, const QModelIndex 
 		data<<"Icon"<<item.IconName.c_str();
 		_objectmodel->AppendRow(data, parent);
 
+		FileDialogOptionsIcon * filterptr = new FileDialogOptionsIcon();
+		filterptr->OutDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/InventoryImages").c_str();
+		boost::shared_ptr<FileDialogOptionsBase> filefilter(filterptr);
+		filefilter->Title = "Select an image";
+		filefilter->StartingDirectory = "Data/GUI/imagesets/Inventory";
+		filefilter->FileFilter = "Images Files (*.png * bmp *.jpg)";
+		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
+
+
 		//todo put file chooser
 		++index;
 	}
@@ -7580,21 +7659,6 @@ void EditorHandler::SelectItem(const LbaNet::ItemInfo & item, const QModelIndex 
 		}
 		break;
 	}
-
-	//
-	//{
-	//	QVector<QVariant> data;
-	//	data<<"Physic filename"<<ainfo.PhysicDesc.Filename.c_str();
-	//	_objectmodel->AppendRow(data, parent);
-
-	//	FileDialogOptions filefilter;
-	//	filefilter.Title = "Choose physic file";
-	//	filefilter.StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Models").c_str();
-	//	filefilter.FileFilter = "Physic Files (*.phy)";
-	//	_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
-
-	//	++index;
-	//}
 
 
 }
