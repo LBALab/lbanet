@@ -26,138 +26,68 @@
 		<StartingInventory>
 			<object>
 				<ObjectId>1</ObjectId>
-				<Number>1</Number>
-				<Position>1</Position>
+				<Number>10</Number>
+				<Position>-1</Position>
 			</object>
 			<object>
 				<ObjectId>2</ObjectId>
 				<Number>1</Number>
-				<Position>2</Position>
+				<Position>-1</Position>
 			</object>
 			<object>
 				<ObjectId>3</ObjectId>
 				<Number>1</Number>
-				<Position>3</Position>
-			</object>
-			<object>
-				<ObjectId>4</ObjectId>
-				<Number>1</Number>
-				<Position>4</Position>
+				<Position>-1</Position>
 			</object>
 			<object>
 				<ObjectId>5</ObjectId>
 				<Number>1</Number>
-				<Position>5</Position>
+				<Position>-1</Position>
 			</object>
 			<object>
 				<ObjectId>6</ObjectId>
 				<Number>1</Number>
-				<Position>6</Position>
+				<Position>-1</Position>
 			</object>
 			<object>
 				<ObjectId>7</ObjectId>
 				<Number>1</Number>
-				<Position>7</Position>
-			</object>
-			<object>
-				<ObjectId>8</ObjectId>
-				<Number>1</Number>
-				<Position>8</Position>
+				<Position>-1</Position>
 			</object>
 			<object>
 				<ObjectId>9</ObjectId>
 				<Number>1</Number>
-				<Position>9</Position>
-			</object>
-			<object>
-				<ObjectId>10</ObjectId>
-				<Number>1</Number>
-				<Position>10</Position>
-			</object>
-			<object>
-				<ObjectId>11</ObjectId>
-				<Number>1</Number>
-				<Position>11</Position>
-			</object>
-			<object>
-				<ObjectId>12</ObjectId>
-				<Number>1</Number>
-				<Position>12</Position>
-			</object>
-			<object>
-				<ObjectId>13</ObjectId>
-				<Number>1</Number>
-				<Position>13</Position>
-			</object>
-			<object>
-				<ObjectId>14</ObjectId>
-				<Number>1</Number>
-				<Position>14</Position>
-			</object>
-			<object>
-				<ObjectId>15</ObjectId>
-				<Number>1</Number>
-				<Position>15</Position>
-			</object>
-			<object>
-				<ObjectId>16</ObjectId>
-				<Number>1</Number>
-				<Position>16</Position>
-			</object>
-			<object>
-				<ObjectId>17</ObjectId>
-				<Number>1</Number>
-				<Position>17</Position>
-			</object>
-			<object>
-				<ObjectId>18</ObjectId>
-				<Number>1</Number>
-				<Position>18</Position>
-			</object>
-			<object>
-				<ObjectId>19</ObjectId>
-				<Number>1</Number>
-				<Position>19</Position>
-			</object>
-			<object>
-				<ObjectId>20</ObjectId>
-				<Number>1</Number>
-				<Position>20</Position>
-			</object>
-			<object>
-				<ObjectId>21</ObjectId>
-				<Number>1</Number>
-				<Position>21</Position>
+				<Position>-1</Position>
 			</object>
 			<object>
 				<ObjectId>22</ObjectId>
 				<Number>1</Number>
-				<Position>22</Position>
+				<Position>-1</Position>
 			</object>
 			<object>
 				<ObjectId>23</ObjectId>
 				<Number>1</Number>
-				<Position>23</Position>
+				<Position>-1</Position>
 			</object>
 			<object>
 				<ObjectId>24</ObjectId>
 				<Number>1</Number>
-				<Position>24</Position>
+				<Position>-1</Position>
 			</object>
 			<object>
 				<ObjectId>25</ObjectId>
 				<Number>1</Number>
-				<Position>25</Position>
+				<Position>-1</Position>
 			</object>
 			<object>
 				<ObjectId>26</ObjectId>
 				<Number>1</Number>
-				<Position>26</Position>
+				<Position>-1</Position>
 			</object>
 			<object>
 				<ObjectId>27</ObjectId>
 				<Number>1</Number>
-				<Position>27</Position>
+				<Position>-1</Position>
 			</object>
 		</StartingInventory>
 	</PlayerStartingInfo>

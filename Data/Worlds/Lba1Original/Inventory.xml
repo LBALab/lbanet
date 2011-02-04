@@ -1,34 +1,30 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <items>
-    <item id="1" filename="health" type="1" valueA="1" Max="10" Price="5" Description="0" Effect="30"/>
-    <item id="2" filename="magic" type="1" valueA="2" Max="10" Price="5" Description="1" Effect="30"/>
-    <item id="3" filename="clover" type="1" valueA="3" Max="3" Price="20" Description="2" Effect="100"/>
-    <item id="4" filename="key" type="2" valueA="0" Max="10" Description="3" Ephemere="1"/>
-    <item id="5" filename="Horse" type="3" valueA="2" Max="1" Description="4"/>
-    <item id="6" filename="Dino" type="3" valueA="3" Max="1" Description="5"/>
-    <item id="7" filename="protopack" type="3" valueA="1" Max="1" Price="5" Description="6"/>
-    <item id="8" filename="kash" type="6" valueA="0" Max="9999" Description="7"/>
-    <item id="9" filename="Feather" type="7" valueA="1" Max="1" Description="8"/>
-    <item id="10" filename="letter" type="8" valueA="0" Max="1" From="9" Subject="10" Description="11"/>   
-    <item id="11" filename="Gas" type="6" valueA="0" Max="10" Price="10" Description="12"/>   
-    <item id="12" filename="Ticket" type="6" valueA="0" Max="1" Price="10" Description="13"/>   
-
-
-    <item id="13" filename="glass" type="1" valueA="3" Max="10" Price="2" Description="14" Effect="80"/>
-    <item id="14" filename="gluehwein" type="1" valueA="2" Max="10" Price="1" Description="15" Effect="80"/>
-    <item id="15" filename="Lebkuchen" type="1" valueA="1" Max="10" Price="2" Description="16" Effect="80"/>
-    <item id="16" filename="candy" type="1" valueA="1" Max="10" Price="1" Description="17" Effect="80"/>
-    <item id="17" filename="giftbox" type="6" valueA="0" Max="1" Price="1" Description="18" Effect="1"/>
-    <item id="18" filename="hairdryer" type="5" valueA="0" Max="1" Price="1" Description="19" Effect="1"/>
-    <item id="19" filename="grain" type="5" valueA="0" Max="1" Price="50" Description="20" Effect="1"/>    
-    
-    <item id="20" filename="bcake1" type="1" valueA="3" Max="5" Price="1" Description="21" Effect="100"/> 
-    <item id="21" filename="giftbox" type="6" valueA="0" Max="1" Price="1" Description="28" Effect="1"/>    
-    <item id="22" filename="yellowball" type="4" Max="1" Price="1" Description="22" Extra="MagicBall"/>    
-    <item id="23" filename="bcake1" type="4" Max="1" Price="1" Description="23" Extra="Saber"/>   
-    <item id="24" filename="bcake1" type="9" Max="1" Price="1" Description="24" Extra="Prisoner"/>    
-    <item id="25" filename="bcake1" type="9" Max="1" Price="1" Description="25" Extra="Nurse"/> 
-    <item id="26" filename="bcake1" type="9" Max="1" Price="1" Description="26" Extra="Tunic"/>    
-    <item id="27" filename="bcake1" type="9" Max="1" Price="1" Description="27" Extra="Fulltunic"/>   
-    
+	<item id="1" name="Life potion" filename="GUI/imagesets/Inventory/health.png" Description="0" Max="10" Price="5" type="1" Effect="30" valueA="1" Ephemere="false" Extra=""/>
+	<item id="2" name="Magic potion" filename="GUI/imagesets/Inventory/magic.png" Description="1" Max="10" Price="5" type="1" Effect="30" valueA="5" Ephemere="false" Extra=""/>
+	<item id="3" name="Clover" filename="GUI/imagesets/Inventory/clover.png" Description="2" Max="3" Price="20" type="1" Effect="100" valueA="3" Ephemere="false" Extra=""/>
+	<item id="4" name="Small key" filename="GUI/imagesets/Inventory/key.png" Description="3" Max="10" Price="1" type="2" Effect="1" valueA="0" Ephemere="true" Extra=""/>
+	<item id="5" name="Horse" filename="GUI/imagesets/Inventory/Horse.png" Description="4" Max="1" Price="1" type="3" Effect="1" valueA="2" Ephemere="false" Extra=""/>
+	<item id="6" name="Dinofly" filename="GUI/imagesets/Inventory/Dino.png" Description="5" Max="1" Price="1" type="3" Effect="1" valueA="3" Ephemere="false" Extra=""/>
+	<item id="7" name="Protopack" filename="GUI/imagesets/Inventory/protopack.png" Description="6" Max="1" Price="5" type="3" Effect="1" valueA="1" Ephemere="false" Extra=""/>
+	<item id="8" name="Kash" filename="GUI/imagesets/Inventory/kash.png" Description="7" Max="9999" Price="1" type="6" Effect="1" valueA="0" Ephemere="false" Extra=""/>
+	<item id="9" name="Feather" filename="GUI/imagesets/Inventory/Feather.png" Description="8" Max="1" Price="1" type="7" Effect="1" valueA="1" Ephemere="false" Extra=""/>
+	<item id="10" name="Letter" filename="GUI/imagesets/Inventory/letter.png" Description="11" Max="1" Price="1" type="8" Effect="1" valueA="0" Ephemere="false" Extra=""/>
+	<item id="11" name="Gas" filename="GUI/imagesets/Inventory/Gas.png" Description="12" Max="10" Price="10" type="6" Effect="1" valueA="0" Ephemere="false" Extra=""/>
+	<item id="12" name="Ticket" filename="GUI/imagesets/Inventory/Ticket.png" Description="13" Max="1" Price="10" type="6" Effect="1" valueA="0" Ephemere="false" Extra=""/>
+	<item id="13" name="Champagne" filename="GUI/imagesets/Inventory/glass.png" Description="14" Max="10" Price="2" type="1" Effect="80" valueA="3" Ephemere="false" Extra=""/>
+	<item id="14" name="Gluehwein" filename="GUI/imagesets/Inventory/gluehwein.png" Description="15" Max="10" Price="1" type="1" Effect="80" valueA="2" Ephemere="false" Extra=""/>
+	<item id="15" name="Lebkuchen" filename="GUI/imagesets/Inventory/Lebkuchen.png" Description="16" Max="10" Price="2" type="1" Effect="80" valueA="1" Ephemere="false" Extra=""/>
+	<item id="16" name="Candy" filename="GUI/imagesets/Inventory/candy.png" Description="17" Max="10" Price="1" type="1" Effect="80" valueA="1" Ephemere="false" Extra=""/>
+	<item id="17" name="Giftbox 2009" filename="GUI/imagesets/Inventory/giftbox.png" Description="18" Max="1" Price="1" type="6" Effect="1" valueA="0" Ephemere="false" Extra=""/>
+	<item id="18" name="Hair dryer" filename="GUI/imagesets/Inventory/hairdryer.png" Description="19" Max="1" Price="1" type="5" Effect="1" valueA="0" Ephemere="false" Extra=""/>
+	<item id="19" name="Grain" filename="GUI/imagesets/Inventory/grain.png" Description="20" Max="1" Price="50" type="5" Effect="1" valueA="0" Ephemere="false" Extra=""/>
+	<item id="20" name="Birthday cake" filename="GUI/imagesets/Inventory/bcake1.png" Description="21" Max="5" Price="1" type="1" Effect="100" valueA="3" Ephemere="false" Extra=""/>
+	<item id="21" name="Giftbox 2010" filename="GUI/imagesets/Inventory/giftbox.png" Description="28" Max="1" Price="1" type="6" Effect="1" valueA="0" Ephemere="false" Extra=""/>
+	<item id="22" name="Magic ball" filename="GUI/imagesets/Inventory/yellowball.png" Description="22" Max="1" Price="1" type="4" Effect="10" valueA="1" Ephemere="false" Extra="MagicBall"/>
+	<item id="23" name="Saber" filename="GUI/imagesets/Inventory/bcake1.png" Description="23" Max="1" Price="1" type="4" Effect="30" valueA="1" Ephemere="false" Extra="Saber"/>
+	<item id="24" name="Prisoner outfit" filename="GUI/imagesets/Inventory/bcake1.png" Description="24" Max="1" Price="1" type="9" Effect="0" valueA="1" Ephemere="false" Extra="Prisoner"/>
+	<item id="25" name="Nurse outfit" filename="GUI/imagesets/Inventory/bcake1.png" Description="25" Max="1" Price="1" type="9" Effect="0" valueA="1" Ephemere="false" Extra="Nurse"/>
+	<item id="26" name="Tunic outfit" filename="GUI/imagesets/Inventory/bcake1.png" Description="26" Max="1" Price="1" type="9" Effect="10" valueA="1" Ephemere="false" Extra="Tunic"/>
+	<item id="27" name="Fulltunic outfit" filename="GUI/imagesets/Inventory/bcake1.png" Description="27" Max="1" Price="1" type="9" Effect="20" valueA="1" Ephemere="false" Extra="Fulltunic"/>
 </items>
