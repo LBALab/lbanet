@@ -29,6 +29,20 @@ PlayerHandler::PlayerHandler(long clientid, ClientProxyBasePtr proxy,
 
 
 
+	// set default values
+	_currentinfo.model.TransX = 0;
+	_currentinfo.model.TransY = 0;
+	_currentinfo.model.TransZ = 0;
+	_currentinfo.model.RotX = 0;
+	_currentinfo.model.RotY = 0;
+	_currentinfo.model.RotZ = 0;
+	_currentinfo.model.ScaleX = 1;
+	_currentinfo.model.ScaleY = 1;
+	_currentinfo.model.ScaleZ = 1;
+	_currentinfo.model.ColorR = 1;
+	_currentinfo.model.ColorG = 1;
+	_currentinfo.model.ColorB = 1;
+	_currentinfo.model.ColorA = 1;
 
 	//unfold inventory information and shortcut information
 	{

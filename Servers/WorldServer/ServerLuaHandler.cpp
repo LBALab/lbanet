@@ -142,7 +142,9 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("SetRenderType", &ActorObjectInfo::SetRenderType)
 		.def("SetPhysicalShape", &ActorObjectInfo::SetPhysicalShape)
 		.def("SetPhysicalActorType", &ActorObjectInfo::SetPhysicalActorType)
-		.def("SetModelState", &ActorObjectInfo::SetModelState),
+		.def("SetModelState", &ActorObjectInfo::SetModelState)
+		.def("AddColorSwap", &ActorObjectInfo::AddColorSwap)
+		,
 
 		luabind::class_<ActorHandler, boost::shared_ptr<ActorHandler> >("ActorHandler")
 		.def(luabind::constructor<const ActorObjectInfo &>()),

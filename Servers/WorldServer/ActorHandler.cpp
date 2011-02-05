@@ -376,11 +376,41 @@ int ActorObjectInfo::GetModelState()
 }
 
 
+ /***********************************************************
+used by lua to add color swap to object info
+***********************************************************/
+void ActorObjectInfo::AddColorSwap(int modelpart, int oldcolor, int newcolor)
+{
+	switch(modelpart)
+	{
+		case 1:
+		{
+			LbaNet::Lba1ColorIndex idx;
+			idx.ModelPart = LbaNet::PolygonColor;
+			idx.Color = oldcolor;
+			DisplayDesc.ColorSwaps[idx] = newcolor;
+		}
+		break;
 
+		case 2:
+		{
+			LbaNet::Lba1ColorIndex idx;
+			idx.ModelPart = LbaNet::SphereColor;
+			idx.Color = oldcolor;
+			DisplayDesc.ColorSwaps[idx] = newcolor;
+		}
+		break;
 
-
-
-
+		case 3:
+		{
+			LbaNet::Lba1ColorIndex idx;
+			idx.ModelPart = LbaNet::LineColor;
+			idx.Color = oldcolor;
+			DisplayDesc.ColorSwaps[idx] = newcolor;
+		}
+		break;
+	}
+}
 
 
 
@@ -438,6 +468,34 @@ void ActorHandler::SaveToLuaFile(std::ofstream & file)
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.RotY = "<<m_actorinfo.DisplayDesc.RotY<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.RotZ = "<<m_actorinfo.DisplayDesc.RotZ<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<":SetModelState("<<m_actorinfo.GetModelState()<<")"<<std::endl;
+
+	// add color swaps
+	{
+		LbaNet::Lba1ColorChangeSeq::iterator itsw = m_actorinfo.DisplayDesc.ColorSwaps.begin();
+		LbaNet::Lba1ColorChangeSeq::iterator endsw = m_actorinfo.DisplayDesc.ColorSwaps.end();
+		for(;itsw != endsw; ++itsw)
+		{
+			int swaptype;
+			switch(itsw->first.ModelPart)
+			{
+				case LbaNet::PolygonColor:
+					swaptype = 1;
+				break;
+
+				case LbaNet::SphereColor:
+					swaptype = 2;
+				break;
+
+				case LbaNet::LineColor:
+					swaptype = 3;
+				break;
+			}
+
+			file<<"\tActor_"<<m_actorinfo.ObjectId<<":AddColorSwap("<<swaptype<<","<<itsw->first.Color<<","<<itsw->second<<")"<<std::endl;
+		}
+	}
+
+
 
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.Pos.X = "<<m_actorinfo.PhysicDesc.Pos.X<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.Pos.Y = "<<m_actorinfo.PhysicDesc.Pos.Y<<std::endl;

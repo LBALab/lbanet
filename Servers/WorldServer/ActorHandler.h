@@ -107,6 +107,10 @@ struct ActorObjectInfo
 	int GetModelState();
 
 	
+	//! used by lua to add color swap to object info
+	void AddColorSwap(int modelpart, int oldcolor, int newcolor);
+
+
 	ConditionBasePtr			Condition;
 
 
@@ -146,8 +150,23 @@ public:
 	ActorObjectInfo & GetInfo()
 	{ return m_actorinfo; }
 
+
+#ifdef _USE_QT_EDITOR_
+public:
+	std::vector<int>	initpolycolors;
+	std::vector<int>	initspherecolors;
+	std::vector<int>	initlinecolors;
+
+	std::vector<int>	currentpolycolors;
+	std::vector<int>	currentspherecolors;
+	std::vector<int>	currentlinecolors;
+#endif
+
+
 private:
 	ActorObjectInfo		m_actorinfo;
+
+
 };
 
 #endif
