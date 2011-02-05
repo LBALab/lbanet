@@ -674,8 +674,8 @@ QString FileDialogOptionsIcon::PostManagement(const QString & selectedfile)
 			QString filename = selectedfile.section('/', -1);
 			filename = filename.section('.', 0, 0);
 
-			outfile = OutDirectory + "/" + filename + ".pmg";
-			QString outfile2 = OutDirectory + "/" + filename + "_mini.pmg";
+			outfile = OutDirectory + "/" + filename + ".png";
+			QString outfile2 = OutDirectory + "/" + filename + "_mini.png";
 
 
 			QImage image(selectedfile);
@@ -761,6 +761,17 @@ QWidget *CustomDelegate::createEditor(QWidget *parent, const QStyleOptionViewIte
 		return editor;
 	}
 
+	if(data.type() == QVariant::Int)
+	{
+		QSpinBox *editor = new QSpinBox(parent);
+		editor->setMinimum(-1000000);
+		editor->setMaximum(1000000);
+		editor->setSingleStep(1);
+		connect(editor, SIGNAL(	valueChanged(int)) , this, SLOT(objmodified(int)));
+		return editor;
+	}
+
+
 
 	return QStyledItemDelegate::createEditor(parent, option, index);
 }
@@ -815,6 +826,15 @@ void CustomDelegate::setEditorData(QWidget *editor, const QModelIndex &index) co
 		 return;
 	}
 
+	if(data.type() == QVariant::Int)
+	{
+		 int value = index.model()->data(index, Qt::DisplayRole).toDouble();
+
+		 QSpinBox *spinBox = static_cast<QSpinBox*>(editor);
+		 spinBox->setValue(value);
+
+		 return;
+	}
 
 
 	QStyledItemDelegate::setEditorData(editor, index);
@@ -868,6 +888,19 @@ void CustomDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
 		
 		return;
 	}
+
+	if(data.type() == QVariant::Int)
+	{
+		 QSpinBox *spinBox = static_cast<QSpinBox*>(editor);
+		 spinBox->interpretText();
+		 int value = spinBox->value();
+
+		 model->setData(index, value);
+		
+		return;
+	}
+
+
 	
 	QStyledItemDelegate::setModelData(editor, model, index);
 }
@@ -956,7 +989,7 @@ void CustomDelegate::fileobjchanged(QString selectedfile)
 Constructor
 ***********************************************************/
 EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
- : QMainWindow(parent, flags), _modified(false), _refreshactorlists(false),
+ : QMainWindow(parent, flags), _modified(false), 
  _mapNameList(new CustomStringListModel()),
  _currspawningidx(0), _currtriggeridx(0),
 	_updatetriggerdialogonnewaction(-1), _triggerNameList(new CustomStringListModel()),
@@ -2448,7 +2481,7 @@ void EditorHandler::objectdatachanged(const QModelIndex &index1, const QModelInd
 		if(type == "Actor")
 		{
 			long objid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toLong();
-			ActorObjectChanged(objid, parentIdx);
+			ActorObjectChanged(objid, parentIdx, index1.row());
 			return;
 		}
 
@@ -2621,9 +2654,81 @@ void EditorHandler::AddActorObject(boost::shared_ptr<ActorHandler> actor)
 		break;
 	}
 
-	std::string name = actor->GetInfo().ExtraInfo.Name;
+	ActorObjectInfo & ainfo = actor->GetInfo();
+	std::string name = ainfo.ExtraInfo.Name;
 	if(name == "")
 		name = "-";
+
+
+	// init color vectors
+	{
+
+		Lba1ModelMapHandler::getInstance()->GetModelColor(ainfo.DisplayDesc.ModelName, 
+								ainfo.DisplayDesc.Outfit, ainfo.DisplayDesc.Weapon, ainfo.DisplayDesc.Mode, 
+										actor->initpolycolors, actor->initspherecolors, actor->initlinecolors);
+
+		actor->currentpolycolors = actor->initpolycolors;
+		actor->currentspherecolors = actor->initspherecolors;
+		actor->currentlinecolors = actor->initlinecolors;
+
+		LbaNet::Lba1ColorChangeSeq::iterator itsw = ainfo.DisplayDesc.ColorSwaps.begin();
+		LbaNet::Lba1ColorChangeSeq::iterator endsw = ainfo.DisplayDesc.ColorSwaps.end();
+		for(; itsw != endsw; ++itsw)
+		{
+			switch(itsw->first.ModelPart)
+			{
+				case LbaNet::PolygonColor:
+				{
+					std::vector<int>::iterator itinitc = actor->initpolycolors.begin();
+					std::vector<int>::iterator endinitc = actor->initpolycolors.end();
+					std::vector<int>::iterator itcirc = actor->currentpolycolors.begin();
+					for(; itinitc != endinitc; ++itinitc, ++itcirc)
+					{
+						if(*itinitc == itsw->first.Color)
+							break;
+					}
+
+					if(itcirc != actor->currentpolycolors.end())
+						*itcirc = itsw->second;
+				}
+				break;
+
+				case LbaNet::SphereColor:
+				{
+					std::vector<int>::iterator itinitc = actor->initspherecolors.begin();
+					std::vector<int>::iterator endinitc = actor->initspherecolors.end();
+					std::vector<int>::iterator itcirc = actor->currentspherecolors.begin();
+					for(; itinitc != endinitc; ++itinitc, ++itcirc)
+					{
+						if(*itinitc == itsw->first.Color)
+							break;
+					}
+
+					if(itcirc != actor->currentspherecolors.end())
+						*itcirc = itsw->second;
+				}
+				break;
+
+				case LbaNet::LineColor:
+				{
+					std::vector<int>::iterator itinitc = actor->initlinecolors.begin();
+					std::vector<int>::iterator endinitc = actor->initlinecolors.end();
+					std::vector<int>::iterator itcirc = actor->currentlinecolors.begin();
+					for(; itinitc != endinitc; ++itinitc, ++itcirc)
+					{
+						if(*itinitc == itsw->first.Color)
+							break;
+					}
+
+					if(itcirc != actor->currentlinecolors.end())
+						*itcirc = itsw->second;
+				}
+				break;
+			}
+		}
+	}
+
+
 
 	QStringList data;
 	data << name.c_str()<< type.c_str()  << dtype.c_str() << ptype.c_str();
@@ -4154,7 +4259,8 @@ void EditorHandler::UpdateModelMode(const std::string & modelname,
 /***********************************************************
 refresh Actor Model Name
 ***********************************************************/
-void EditorHandler::RefreshActorModelName(int index, QModelIndex parentIdx)
+void EditorHandler::RefreshActorModelName(int index, QModelIndex parentIdx, bool resize,
+											boost::shared_ptr<ActorHandler> actor)
 {
 	UpdateModelName(_actorModelNameList);
 
@@ -4164,11 +4270,12 @@ void EditorHandler::RefreshActorModelName(int index, QModelIndex parentIdx)
 	if(!_actorModelNameList->DataExist(modelname.c_str()))
 	{
 		modelname = _actorModelNameList->GetFirstdata().toAscii().data();
-		_objectmodel->setData(_objectmodel->GetIndex(1, index, parentIdx), modelname.c_str());
 
+		if(resize)
+			_objectmodel->setData(_objectmodel->GetIndex(1, index, parentIdx), modelname.c_str());
 	}	
 
-	RefreshActorModelOutfit(index+1, parentIdx, modelname);
+	RefreshActorModelOutfit(index+1, parentIdx, modelname, resize, actor);
 }
 
 
@@ -4176,7 +4283,8 @@ void EditorHandler::RefreshActorModelName(int index, QModelIndex parentIdx)
 refresh Actor Model Outfit
 ***********************************************************/
 void EditorHandler::RefreshActorModelOutfit(int index, QModelIndex parentIdx,
-											const std::string & modelname)
+											const std::string & modelname, bool resize,
+											boost::shared_ptr<ActorHandler> actor)
 {
 	UpdateModelOutfit(modelname, _actorModelOutfitList);
 
@@ -4186,11 +4294,13 @@ void EditorHandler::RefreshActorModelOutfit(int index, QModelIndex parentIdx,
 	if(!_actorModelOutfitList->DataExist(outfit.c_str()))
 	{
 		outfit = _actorModelOutfitList->GetFirstdata().toAscii().data();
-		_objectmodel->setData(_objectmodel->GetIndex(1, index, parentIdx), outfit.c_str());
+
+		if(resize)
+			_objectmodel->setData(_objectmodel->GetIndex(1, index, parentIdx), outfit.c_str());
 	}
 
 
-	RefreshActorModelWeapon(index+1, parentIdx, modelname, outfit);
+	RefreshActorModelWeapon(index+1, parentIdx, modelname, outfit, resize, actor);
 }
 
 
@@ -4198,7 +4308,8 @@ void EditorHandler::RefreshActorModelOutfit(int index, QModelIndex parentIdx,
 refresh Actor Model Weapon
 ***********************************************************/
 void EditorHandler::RefreshActorModelWeapon(int index, QModelIndex parentIdx,
-									const std::string & modelname, const std::string & outfit)
+									const std::string & modelname, const std::string & outfit, bool resize,
+											boost::shared_ptr<ActorHandler> actor)
 {
 	UpdateModelWeapon(modelname, outfit, _actorModelWeaponList);
 
@@ -4208,11 +4319,13 @@ void EditorHandler::RefreshActorModelWeapon(int index, QModelIndex parentIdx,
 	if(!_actorModelWeaponList->DataExist(weapon.c_str()))
 	{
 		weapon = _actorModelWeaponList->GetFirstdata().toAscii().data();
-		_objectmodel->setData(_objectmodel->GetIndex(1, index, parentIdx), weapon.c_str());
+
+		if(resize)
+			_objectmodel->setData(_objectmodel->GetIndex(1, index, parentIdx), weapon.c_str());
 	}
 
 
-	RefreshActorModelMode(index+1, parentIdx, modelname, outfit, weapon);
+	RefreshActorModelMode(index+1, parentIdx, modelname, outfit, weapon, resize, actor);
 }
 
 
@@ -4221,41 +4334,62 @@ refresh Actor Model Mode
 ***********************************************************/
 void EditorHandler::RefreshActorModelMode(int index, QModelIndex parentIdx,
 									const std::string & modelname, const std::string & outfit, 
-									const std::string & weapon)
+									const std::string & weapon, bool resize,
+									boost::shared_ptr<ActorHandler> actor)
 {
 	UpdateModelMode(modelname, outfit, weapon, _actorModelModeList);
 
-	std::string mode = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).
-																	toString().toAscii().data();
-
-	if(!_actorModelModeList->DataExist(mode.c_str()))
-	{
-		mode = _actorModelModeList->GetFirstdata().toAscii().data();
-		_objectmodel->setData(_objectmodel->GetIndex(1, index, parentIdx), mode.c_str());
-	}
-
-	
 	// update physics if needed
-	std::string ptype = _objectmodel->data(_objectmodel->GetIndex(1, 7, parentIdx)).toString().toAscii().data();
-	if(ptype == "No Shape") 
+	if(resize)
 	{
-		_objectmodel->setData(_objectmodel->GetIndex(1, 7, parentIdx), "Box");
-		ptype = "Box";
-	}
+		std::string mode = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).
+																		toString().toAscii().data();
 
-	if(ptype == "Box")
-	{
-		int resWeaponType;
-		ModelSize size;
-		int res = Lba1ModelMapHandler::getInstance()-> GetModelExtraInfo(modelname,
-								outfit,	weapon,	mode, resWeaponType, size);
-
-		if(res >= 0)
+		if(!_actorModelModeList->DataExist(mode.c_str()))
 		{
-			_objectmodel->setData(_objectmodel->GetIndex(1, 13, parentIdx), size.X);
-			_objectmodel->setData(_objectmodel->GetIndex(1, 14, parentIdx), size.Y);
-			_objectmodel->setData(_objectmodel->GetIndex(1, 15, parentIdx), size.Z);
+			mode = _actorModelModeList->GetFirstdata().toAscii().data();
+			_objectmodel->setData(_objectmodel->GetIndex(1, index, parentIdx), mode.c_str());
 		}
+
+
+		std::string ptype = _objectmodel->data(_objectmodel->GetIndex(1, 7, parentIdx)).toString().toAscii().data();
+		if(ptype == "No Shape") 
+		{
+			_objectmodel->setData(_objectmodel->GetIndex(1, 7, parentIdx), "Box");
+			ptype = "Box";
+		}
+
+		if(ptype == "Box")
+		{
+			int resWeaponType;
+			ModelSize size;
+			int res = Lba1ModelMapHandler::getInstance()-> GetModelExtraInfo(modelname,
+									outfit,	weapon,	mode, resWeaponType, size);
+
+			if(res >= 0)
+			{
+				float csx = _objectmodel->data(_objectmodel->GetIndex(1, 13, parentIdx)).toFloat();
+				float csy = _objectmodel->data(_objectmodel->GetIndex(1, 14, parentIdx)).toFloat();
+				float csz = _objectmodel->data(_objectmodel->GetIndex(1, 15, parentIdx)).toFloat();
+
+				if(csx != size.X)
+					_objectmodel->setData(_objectmodel->GetIndex(1, 13, parentIdx), size.X);
+				
+				if(csy != size.Y)
+					_objectmodel->setData(_objectmodel->GetIndex(1, 14, parentIdx), size.Y);
+
+				if(csz != size.Z)
+					_objectmodel->setData(_objectmodel->GetIndex(1, 15, parentIdx), size.Z);
+			}
+		}
+
+		//update color
+		Lba1ModelMapHandler::getInstance()->GetModelColor(modelname, outfit, weapon, mode, 
+										actor->initpolycolors, actor->initspherecolors, actor->initlinecolors);
+
+		actor->currentpolycolors = actor->initpolycolors;
+		actor->currentspherecolors = actor->initspherecolors;
+		actor->currentlinecolors = actor->initlinecolors;
 	}
 }
 
@@ -4832,6 +4966,7 @@ void EditorHandler::addworld_accepted()
 	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/Lua");}catch(...){}
 	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/Models");}catch(...){}
 	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/Texts");}catch(...){}
+	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/InventoryImages");}catch(...){}
 
 	// save new world
 	DataLoader::getInstance()->SaveWorldInformation(wname, winfo);
@@ -4962,11 +5097,9 @@ void EditorHandler::ActorAdd_button_accepted()
 		break;
 		case 3:
 			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderLba1M;
-			_refreshactorlists = true;
 		break;
 		case 4:
 			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderLba2M;
-			_refreshactorlists = true;
 		break;
 	}
 
@@ -5030,10 +5163,24 @@ void EditorHandler::ActorAdd_button_accepted()
 	ainfo.PhysicDesc.SizeY = 1;
 	ainfo.PhysicDesc.SizeZ = 1;
 
+	// set default model
+	if(ainfo.DisplayDesc.TypeRenderer == LbaNet::RenderLba1M)
+	{
+		ainfo.DisplayDesc.ModelName = "Ameba";
+		ainfo.DisplayDesc.Weapon = "No";
+		ainfo.DisplayDesc.Mode = "Normal";
+		ainfo.DisplayDesc.Outfit = "No";
+
+		ainfo.PhysicDesc.TypeShape = LbaNet::BoxShape;
+		ainfo.PhysicDesc.SizeX = 2;
+		ainfo.PhysicDesc.SizeY = 1;
+		ainfo.PhysicDesc.SizeZ = 2.5;
+	}
+
 
 	boost::shared_ptr<ActorHandler> act(new ActorHandler(ainfo));
-	AddActorObject(act);
 
+	AddActorObject(act);
 	SetMapModified();
 
 	//inform server
@@ -5361,7 +5508,7 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 				boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
 				filefilter->Title = "Select a model file";
 				filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Models").c_str();;
-				filefilter->FileFilter = "Model Files (*.osg *.osgb *.osga)";
+				filefilter->FileFilter = "Model Files (*.osg *.osgb *.osgt)";
 				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
 				++index;
 			}
@@ -5407,11 +5554,40 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _actorModelModeList);
 				++index;
 
-				if(_refreshactorlists)
+				const std::vector<int> &currpolyvec = it->second->currentpolycolors;
+				const std::vector<int> &currspherevec = it->second->currentspherecolors;
+				const std::vector<int> &currlinevec = it->second->currentlinecolors;
+				for(size_t cc = 0; cc<currpolyvec.size(); ++cc)
 				{
-					_refreshactorlists = false;
-					RefreshActorModelName(modelaidx, parent);
+					QVector<QVariant> data4;
+					std::stringstream names;
+					names<<"Poly color "<<cc+1;
+					data4<<names.str().c_str()<<currpolyvec[cc];
+					_objectmodel->AppendRow(data4, parent);	
+					++index;
 				}
+
+				for(size_t cc = 0; cc<currspherevec.size(); ++cc)
+				{
+					QVector<QVariant> data4;
+					std::stringstream names;
+					names<<"Sphere color "<<cc+1;
+					data4<<names.str().c_str()<<currspherevec[cc];
+					_objectmodel->AppendRow(data4, parent);	
+					++index;
+				}
+
+				for(size_t cc = 0; cc<currlinevec.size(); ++cc)
+				{
+					QVector<QVariant> data4;
+					std::stringstream names;
+					names<<"Line color "<<cc+1;
+					data4<<names.str().c_str()<<currlinevec[cc];
+					_objectmodel->AppendRow(data4, parent);	
+					++index;
+				}
+
+				RefreshActorModelName(modelaidx, parent, false, it->second);
 			}
 		}
 
@@ -5426,7 +5602,7 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 /***********************************************************
 called when actor object changed
 ***********************************************************/
-void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx)
+void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, int updatedrow)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator it = _Actors.find(id);
 	if(it != _Actors.end())
@@ -5541,24 +5717,100 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx)
 
 				ainfo.DisplayDesc.Outfit = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
 				if(ainfo.DisplayDesc.ModelName != oldmodelname)
-					RefreshActorModelOutfit(index, parentIdx, ainfo.DisplayDesc.ModelName);
+				{
+					RefreshActorModelOutfit(index, parentIdx, ainfo.DisplayDesc.ModelName, true, it->second);
+
+					updateobj = true;
+				}
 				
 				++index;	
 
 				ainfo.DisplayDesc.Weapon = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
 				if(ainfo.DisplayDesc.Outfit != oldmodelOutfit)
+				{
 					RefreshActorModelWeapon(index, parentIdx, ainfo.DisplayDesc.ModelName,
-																	ainfo.DisplayDesc.Outfit);	
+																	ainfo.DisplayDesc.Outfit, true, it->second);
+
+					updateobj = true;
+				}	
 				
 				++index;	
 
 				ainfo.DisplayDesc.Mode = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
 				if(ainfo.DisplayDesc.Weapon != oldmodelWeapon)
+				{
 					RefreshActorModelMode(index, parentIdx, ainfo.DisplayDesc.ModelName,
 																	ainfo.DisplayDesc.Outfit,
-																	ainfo.DisplayDesc.Weapon);			
+																	ainfo.DisplayDesc.Weapon, true, it->second);
+
+					updateobj = true;
+				}
 				
-				++index;	
+				++index;
+
+				for(size_t cc = 0; cc<it->second->currentpolycolors.size(); ++cc)
+				{
+					int color = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
+					if(color < 0)
+						color = 0;
+					if(color > 255)
+						color = 255;
+
+					if((updatedrow == index) && it->second->currentpolycolors[cc] != color)
+					{
+						it->second->currentpolycolors[cc] = color;
+
+						LbaNet::Lba1ColorIndex idxc;
+						idxc.ModelPart = LbaNet::PolygonColor;
+						idxc.Color = it->second->initpolycolors[cc];
+						ainfo.DisplayDesc.ColorSwaps[idxc] = color;
+					}
+	
+					++index;
+				}
+
+				for(size_t cc = 0; cc<it->second->currentspherecolors.size(); ++cc)
+				{
+					int color = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
+					if(color < 0)
+						color = 0;
+					if(color > 255)
+						color = 255;
+
+					if((updatedrow == index) && it->second->currentspherecolors[cc] != color)
+					{
+						it->second->currentspherecolors[cc] = color;
+
+						LbaNet::Lba1ColorIndex idxc;
+						idxc.ModelPart = LbaNet::SphereColor;
+						idxc.Color = it->second->initspherecolors[cc];
+						ainfo.DisplayDesc.ColorSwaps[idxc] = color;
+					}
+	
+					++index;
+				}
+
+				for(size_t cc = 0; cc<it->second->currentlinecolors.size(); ++cc)
+				{
+					int color = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
+					if(color < 0)
+						color = 0;
+					if(color > 255)
+						color = 255;
+
+					if((updatedrow == index) && it->second->currentlinecolors[cc] != color)
+					{
+						it->second->currentlinecolors[cc] = color;
+
+						LbaNet::Lba1ColorIndex idxc;
+						idxc.ModelPart = LbaNet::LineColor;
+						idxc.Color = it->second->initlinecolors[cc];
+						ainfo.DisplayDesc.ColorSwaps[idxc] = color;
+					}
+	
+					++index;
+				}
+	
 			}
 		}
 
@@ -5584,12 +5836,7 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx)
 		if(dtype == "Sprite") 
 			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderSprite;
 		if(dtype == "Lba1 Model") 
-		{
 			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderLba1M;
-
-			if(befored != ainfo.DisplayDesc.TypeRenderer)
-				_refreshactorlists = true;
-		}
 		if(dtype == "Lba2 Model") 
 			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderLba2M;
 
@@ -7433,7 +7680,7 @@ void EditorHandler::SelectItem(const LbaNet::ItemInfo & item, const QModelIndex 
 		boost::shared_ptr<FileDialogOptionsBase> filefilter(filterptr);
 		filefilter->Title = "Select an image";
 		filefilter->StartingDirectory = "Data/GUI/imagesets/Inventory";
-		filefilter->FileFilter = "Images Files (*.png * bmp *.jpg)";
+		filefilter->FileFilter = "Images Files (*.png *.bmp *.jpg *.gif)";
 		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
 
 

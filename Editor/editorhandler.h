@@ -698,19 +698,23 @@ protected:
 											boost::shared_ptr<CustomStringListModel> toupdate);
 
 	// refresh Actor Model Name
-	void RefreshActorModelName(int index, QModelIndex parentIdx);
+	void RefreshActorModelName(int index, QModelIndex parentIdx, bool resize,
+									boost::shared_ptr<ActorHandler> actor);
 
 	// refresh Actor Model Outfit
-	void RefreshActorModelOutfit(int index, QModelIndex parentIdx, const std::string & modelname);
+	void RefreshActorModelOutfit(int index, QModelIndex parentIdx, const std::string & modelname, bool resize,
+									boost::shared_ptr<ActorHandler> actor);
 
 	// refresh Actor Model Weapon
 	void RefreshActorModelWeapon(int index, QModelIndex parentIdx,
-									const std::string & modelname, const std::string & outfit);
+									const std::string & modelname, const std::string & outfit, bool resize,
+									boost::shared_ptr<ActorHandler> actor);
 
 	// refresh Actor Model Mode
 	void RefreshActorModelMode(int index, QModelIndex parentIdx,
 									const std::string & modelname, const std::string & outfit, 
-									const std::string & weapon);
+									const std::string & weapon, bool resize,
+									boost::shared_ptr<ActorHandler> actor);
 
 
 	// tp to default spawning of map
@@ -726,7 +730,7 @@ protected:
 	void SelectActor(long id, const QModelIndex &parent = QModelIndex());
 
 	// called when actor object changed
-	void ActorObjectChanged(long id, const QModelIndex &parentIdx);
+	void ActorObjectChanged(long id, const QModelIndex &parentIdx, int updatedrow);
 
 	//! update editor selected ector display
 	void UpdateSelectedActorDisplay(LbaNet::ObjectPhysicDesc desc);
@@ -866,7 +870,6 @@ private:
 	boost::shared_ptr<CustomStringListModel>							_actorModelOutfitList;
 	boost::shared_ptr<CustomStringListModel>							_actorModelWeaponList;
 	boost::shared_ptr<CustomStringListModel>							_actorModelModeList;
-	bool																_refreshactorlists;
 
 	boost::shared_ptr<CustomStringListModel>							_text_mapNameList;
 	boost::shared_ptr<CustomStringListModel>							_text_questNameList;
