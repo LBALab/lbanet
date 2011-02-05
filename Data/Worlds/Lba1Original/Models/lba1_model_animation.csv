@@ -1,5 +1,5 @@
 Name,Outfit,Weapon,Mode,EntitieNumber,BodyNumber,WeaponType,SizeX,SizeY,SizeZ,Stand,MoveForward,MoveBackward,TurnLeft,TurnRight,DoAction,HurtSmall,HurtMedium,HurtBig,Die,Drown,DrownGaz,DrownFire,Fall,StopFall,StopFallHurt,UseWeapon,PushContainer,ActivateSwitch,GoUpLadder,ArriveLadder,Crawl,Climb,ActivateGroundSwitch,Happy,Dead,PrepareWeapon,Run,Use1Weapon
-Ameba,No,No,Normal,63,0,1,2,1,2,0,1,-1,0,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,6,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
+Ameba,No,No,Normal,63,0,1,2,1,2.5,0,1,-1,0,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,6,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
 Boat,Ferry,No,Normal,24,0,-1,5,10,15,0,1,2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
 Boat,FishBoat,No,Normal,27,0,-1,3,7,7,1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
 Bomber,Grass,No,Normal,58,0,2,2,3,2,0,-1,-1,0,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
