@@ -2275,7 +2275,7 @@ void LBA1ModelClass::changeAllPolygonColors(short int oldColor, short int newCol
 
 
 //---------------------------------------------------------------------------
-std::set<short> LBA1ModelClass::GetAllUsedColors()
+std::set<short> LBA1ModelClass::GetAllPolygonColors()
 {
 	std::set<short> res;
 
@@ -2284,6 +2284,57 @@ std::set<short> LBA1ModelClass::GetAllUsedColors()
 
 	return res;
 }
+
+
+
+//---------------------------------------------------------------------------
+
+void LBA1ModelClass::changeAllLineColors(short int oldColor, short int newColor)
+{
+    for(int i=0; i < Lines->NumberOfLines; i++)
+    {
+        if(getLineColor(i)==oldColor)
+            setLineColor(i, newColor);
+    }
+}
+
+
+//---------------------------------------------------------------------------
+std::set<short> LBA1ModelClass::GetAllLineColors()
+{
+	std::set<short> res;
+
+    for(int i=0; i < Lines->NumberOfLines; i++)
+       res.insert(getLineColor(i));
+
+	return res;
+}
+
+
+//---------------------------------------------------------------------------
+
+void LBA1ModelClass::changeAllSphereColors(short int oldColor, short int newColor)
+{
+    for(int i=0; i < Spheres->NumberOfSpheres; i++)
+    {
+        if(getSphereColor(i)==oldColor)
+            setSphereColor(i, newColor);
+    }
+}
+
+
+//---------------------------------------------------------------------------
+std::set<short> LBA1ModelClass::GetAllSphereColors()
+{
+	std::set<short> res;
+
+    for(int i=0; i < Spheres->NumberOfSpheres; i++)
+       res.insert(getSphereColor(i));
+
+	return res;
+}
+
+
 
 
 //---------------------------------------------------------------------------

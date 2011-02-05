@@ -31,7 +31,8 @@ get inventory image
 ***********************************************************/
 std::string ImageSetHandler::GetInventoryImage(std::string file)
 {	
-	std::string res = "inv_" + file.substr(file.find_last_of("/")+1); //TODO - test
+	std::string res = "inv_" + file.substr(file.find_last_of("/")+1);
+	res = res.substr(0, res.find_last_of("."));
 
 	if(!CEGUI::ImagesetManager::getSingleton().isDefined(res))
 	{
@@ -59,7 +60,9 @@ get inventory image
 ***********************************************************/
 std::string ImageSetHandler::GetInventoryMiniImage(std::string file)
 {
-	std::string res = "mini_" + file.substr(file.find_last_of("/")+1); //TODO - test
+	std::string res = "mini_" + file.substr(file.find_last_of("/")+1);
+	res = res.substr(0, res.find_last_of("."));
+
 	std::string extension = file.substr(file.find_last_of("."));
 	file = file.substr(0, file.find_last_of("."));
 	file += "_mini" + extension;

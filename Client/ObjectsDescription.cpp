@@ -277,7 +277,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> Lba1ModelObjectDescription::BuildSel
 {
 	if(disH)
 		return boost::shared_ptr<DisplayObjectHandlerBase> (
-					new Lba1ModelHandler( Tr, _info, _animationspeed, _extrainfo, _lifeinfo));
+					new Lba1ModelHandler( Tr, _info, _animationspeed, _UseLight, _CastShadow, _extrainfo, _lifeinfo));
 
 	return boost::shared_ptr<DisplayObjectHandlerBase> ();
 }

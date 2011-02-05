@@ -382,7 +382,7 @@ public:
     void setPolygonColor(int index, short int color);
     short int getPolygonColor(int index);
     void changeAllPolygonColors(short int oldColor, short int newColor);
-	std::set<short> GetAllUsedColors();
+	std::set<short> GetAllPolygonColors();
 
     int getKeyframe(void);
     void resetKeyframe();
@@ -394,6 +394,9 @@ public:
     short int getLinePoint2(int index);
     void setLinePoint1(int index, short int value);
     void setLinePoint2(int index, short int value);
+    void changeAllLineColors(short int oldColor, short int newColor);
+	std::set<short> GetAllLineColors();
+
 
     void setSphereColor(int index, short int color);
     short int getSphereColor(int index);
@@ -401,6 +404,9 @@ public:
     short int getSphereCenter(int index);
     void setSphereSize(int index, short int value);
     void setSphereCenter(int index, short int value);
+    void changeAllSphereColors(short int oldColor, short int newColor);
+	std::set<short> GetAllSphereColors();
+
 
     void scaleModel(float factor);
 

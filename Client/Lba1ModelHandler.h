@@ -47,12 +47,15 @@ public:
 	//! constructor
 	Lba1ModelHandler(boost::shared_ptr<DisplayTransformation> Tr,
 						const LbaNet::ModelInfo & info, float animationspeed,
+						bool UseLight, bool CastShadow,
 						const LbaNet::ObjectExtraInfo &extrainfo,
 						const LbaNet::LifeManaInfo &lifeinfo);
 
 	//! destructor
 	virtual ~Lba1ModelHandler();
 
+	//! update display
+	virtual int Update(LbaNet::DisplayObjectUpdateBasePtr update);
 
 	//! update display with current frame - used for animation
 	//! return 1 if current animation finishes - 0 else
@@ -91,7 +94,7 @@ public:
 
 protected:
 	// refresh model
-	int RefreshModel();
+	int RefreshModel(bool forcecolor = false);
 
 
 private:
@@ -113,6 +116,12 @@ private:
 
 	LbaNet::ModelInfo								_savedmodelinfo;
 	std::string										_savedanimationstring;
+
+	bool											_UseLight;
+	bool											_CastShadow;
+
+
+	std::map<std::pair<LbaNet::Lba1MColorPart, int>, int>	_changedcolors;
 };
 
 

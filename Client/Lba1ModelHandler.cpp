@@ -42,11 +42,12 @@ Constructor
 ***********************************************************/
 Lba1ModelHandler::Lba1ModelHandler(boost::shared_ptr<DisplayTransformation> Tr,
 								   const LbaNet::ModelInfo & info, float animationspeed,
+								   bool UseLight, bool CastShadow,
 									const LbaNet::ObjectExtraInfo &extrainfo,
 									const LbaNet::LifeManaInfo &lifeinfo)
 : AnimatedObjectHandlerBase(Tr, extrainfo, lifeinfo), _model(NULL), _animationspeed(animationspeed),
 	_currAnimation(-1), _currModel(-1), _currBody(-1), _paused(false), 
-	_currentanimationstring("Stand")
+	_currentanimationstring("Stand"), _UseLight(UseLight), _CastShadow(CastShadow)
 {
 	UpdateModel(info);
 
@@ -65,7 +66,12 @@ Lba1ModelHandler::~Lba1ModelHandler()
 
 	// delete old node
 	{
-		osg::ref_ptr<osg::Group> root = GetRoot();
+		osg::ref_ptr<osg::Group> root;
+		if(_UseLight)
+			root = GetRoot();
+		else
+			root = GetRootNoLight();
+
 		if(root && _osgnode)
 			root->removeChild(_osgnode);
 	}
@@ -157,7 +163,7 @@ update model
 int Lba1ModelHandler::UpdateModel(const LbaNet::ModelInfo & info)
 {
 	_currentmodelinfo = info;
-	return RefreshModel();
+	return RefreshModel(true);
 }
 
 
@@ -177,11 +183,38 @@ int Lba1ModelHandler::UpdateAnimation(const std::string & AnimString)
 
 
 
+/***********************************************************
+update display
+***********************************************************/
+int Lba1ModelHandler::Update(LbaNet::DisplayObjectUpdateBasePtr update)
+{
+	const std::type_info& info = typeid(*update);
+
+	// ModelUpdate
+	if(info == typeid(LbaNet::Lba1ModelColorUpdate))
+	{
+		LbaNet::Lba1ModelColorUpdate * castedptr = 
+			dynamic_cast<LbaNet::Lba1ModelColorUpdate *>(update.get());
+
+		LbaNet::Lba1ColorIndex colorpair;
+		colorpair.ModelPart = castedptr->Colorpart;
+		colorpair.Color = castedptr->OldColor;
+		_currentmodelinfo.ColorSwaps[colorpair] = castedptr->NewColor;
+		RefreshModel(true);
+
+		return 0;
+	}
+
+
+
+	return AnimatedObjectHandlerBase::Update(update);
+}
+
 
 /***********************************************************
 refresh model
 ***********************************************************/
-int Lba1ModelHandler::RefreshModel()
+int Lba1ModelHandler::RefreshModel(bool forcecolor)
 {
 	bool modelchanged = false;
 	int newmodel=0;
@@ -204,7 +237,7 @@ int Lba1ModelHandler::RefreshModel()
 
 
 	// do nothing if same model loaded already
-	if( (newmodel != _currModel) || (newbody != _currBody) ) 
+	if( forcecolor || (newmodel != _currModel) || (newbody != _currBody) ) 
 	{
 		std::stringstream strs;
 		strs<<"Loading new lba1 model with entity "<<newmodel<<" and body "<<newbody<<std::endl;
@@ -215,7 +248,12 @@ int Lba1ModelHandler::RefreshModel()
 			delete _model;
 
 		// delete old node
-		osg::ref_ptr<osg::Group> root = GetRoot();
+		osg::ref_ptr<osg::Group> root;
+		if(_UseLight)
+			root = GetRoot();
+		else
+			root = GetRootNoLight();
+
 		if(root && _osgnode)
 			root->removeChild(_osgnode);
 
@@ -230,12 +268,43 @@ int Lba1ModelHandler::RefreshModel()
 										_currModel,
 										tmpstrcut->entitiesTable[_currModel].bodyList[_currBody].body);
 
+
+		// set colors
+		{
+			std::map<LbaNet::Lba1ColorIndex, int>::iterator itcolo = _currentmodelinfo.ColorSwaps.begin();
+			std::map<LbaNet::Lba1ColorIndex, int>::iterator endcolo = _currentmodelinfo.ColorSwaps.end();
+			for(; itcolo != endcolo; ++itcolo)
+			{
+				switch(itcolo->first.ModelPart)
+				{
+					case LbaNet::PolygonColor:
+						_model->changeAllPolygonColors(itcolo->first.Color, itcolo->second);
+					break;
+
+					case LbaNet::SphereColor:
+						_model->changeAllSphereColors(itcolo->first.Color, itcolo->second);
+					break;
+
+					case LbaNet::LineColor:
+						_model->changeAllLineColors(itcolo->first.Color, itcolo->second);
+					break;
+				}
+			}
+		}
+
+
 		_model->SetAnimationSpeedFactor(_animationspeed);
 
 		_model->LoadAnim(	tmpstrcut,
 							tmpstrcut->entitiesTable[_currModel].animList[_currAnimation].index);
 
 		_osgnode = _model->ExportOSGModel(true);
+
+		if(_CastShadow)
+			_osgnode->setNodeMask(ReceivesShadowTraversalMask | CastsShadowTraversalMask);
+		else
+			_osgnode->setNodeMask(ReceivesShadowTraversalMask);
+
 		if(root)
 		{
 			root->addChild(_osgnode);

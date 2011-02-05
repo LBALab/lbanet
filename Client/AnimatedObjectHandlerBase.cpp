@@ -70,11 +70,9 @@ int AnimatedObjectHandlerBase::Update(LbaNet::DisplayObjectUpdateBasePtr update)
 	if(info == typeid(LbaNet::PauseAnimationUpdate))
 	{
 		PauseAnimation();
+		return 0;
 	}
 
-
-
-	
 
 
 	return OsgObjectHandler::Update(update);

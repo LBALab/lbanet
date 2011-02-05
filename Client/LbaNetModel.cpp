@@ -450,11 +450,22 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 			//TODO animation speed
 			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
 				(new Lba1ModelObjectDescription(DisplayDesc, _LBA1_MODEL_ANIMATION_SPEED_,
-													extrainfo, lifeinfo));
+												DisplayDesc.UseLight, DisplayDesc.CastShadow, extrainfo, lifeinfo));
 
-			boost::shared_ptr<DisplayTransformation> Tr(new DisplayTransformation());
-			Tr->scaleY = 2;
-			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(Tr, dispobdesc));
+			boost::shared_ptr<DisplayTransformation> tr(new DisplayTransformation());
+			tr->translationX = DisplayDesc.TransX;
+			tr->translationY = DisplayDesc.TransY;
+			tr->translationZ = DisplayDesc.TransZ;
+
+			tr->rotation.AddRotation(DisplayDesc.RotX, LbaVec3(1,0,0));
+			tr->rotation.AddRotation(DisplayDesc.RotY, LbaVec3(0,1,0));
+			tr->rotation.AddRotation(DisplayDesc.RotZ, LbaVec3(0,0,1));
+
+			tr->scaleX = DisplayDesc.ScaleX;
+			tr->scaleY = DisplayDesc.ScaleY*2;
+			tr->scaleZ = DisplayDesc.ScaleZ;
+
+			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
 		}
 		break;
 
