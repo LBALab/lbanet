@@ -20,7 +20,9 @@ module LbaNet
 	
 	enum PhysicalActorType { StaticAType, KynematicAType, DynamicAType, CharControlAType };	
 
-
+	enum Lba1MColorPart { PolygonColor, SphereColor, LineColor };	
+	
+	
 	// give information about a world
 	struct WorldDesc
 	{
@@ -119,7 +121,16 @@ module LbaNet
 	};	
 	dictionary<string, MapInfo> 	MapsSeq;
 	
-		
+	
+
+	struct Lba1ColorIndex
+	{
+		Lba1MColorPart 	ModelPart;
+		int		Color;
+	};
+	
+	dictionary<Lba1ColorIndex, int> 		Lba1ColorChangeSeq;
+	
 	
 	struct ModelInfo
 	{
@@ -131,13 +142,7 @@ module LbaNet
 		string			Mode;		// only for animated models
 		ModelState		State;
 		bool			UseLight;
-		bool			CastShadow;
-		
-		float			ColorR;
-		float			ColorG;
-		float			ColorB;
-		float			ColorA;	
-		
+		bool			CastShadow;		
 		
 		float			TransX;
 		float			TransY;		
@@ -149,7 +154,15 @@ module LbaNet
 		
 		float			RotX;
 		float			RotY;		
-		float			RotZ;			
+		float			RotZ;		
+		
+		
+		float			ColorR;
+		float			ColorG;
+		float			ColorB;
+		float			ColorA;			
+		
+		Lba1ColorChangeSeq	ColorSwaps;	// only fo lba1 models
 	};
 
 	struct PlayerStartingInfo
@@ -728,6 +741,19 @@ module LbaNet
 	{
 		LifeManaInfo			Update;
 	};
+	
+	
+	// server inform clients that life info changed
+	class Lba1ModelColorUpdate extends DisplayObjectUpdateBase
+	{
+		Lba1MColorPart			Colorpart;
+		int				OldColor;
+		int				NewColor;		
+	};
+	
+	
+	
+	
 	
 	// base class for all editor update
 	class EditorUpdateBase
