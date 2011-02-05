@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Lba1ModelMapHandler* Lba1ModelMapHandler::_singletonInstance = NULL;
 
-
+//const short	LbaNetModel::m_body_color_map[] = {-1, 2, 19, 32, 36, 48, 64, 80, 96, 112, 128, 144, 160, 176, 192, 208, 224, 240, 243};
 
 /***********************************************************
 singleton pattern
@@ -54,43 +54,83 @@ Constructor
 Lba1ModelMapHandler::Lba1ModelMapHandler()
 {
 	// read the file and get data
-	std::ifstream file((Lba1ModelDataPath+"lba1_model_animation.csv").c_str());
-	if(file.is_open())
 	{
-		// read first information line
-		std::string line;
-		std::vector<std::string> infos;
-
-		std::getline(file, line);
-		StringHelper::Tokenize(line, infos, ",");
-
-		while(!file.eof())
+		std::ifstream file((Lba1ModelDataPath+"lba1_model_animation.csv").c_str());
+		if(file.is_open())
 		{
+			// read first information line
+			std::string line;
+			std::vector<std::string> infos;
+
 			std::getline(file, line);
-			std::vector<std::string> tokens;
-			StringHelper::Tokenize(line, tokens, ",");
+			StringHelper::Tokenize(line, infos, ",");
 
-			_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].modelnumber = atoi(tokens[4].c_str());
-			_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].bodynumber = atoi(tokens[5].c_str());
-			_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].WeaponType = atoi(tokens[6].c_str());
-			_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].Size.X = atof(tokens[7].c_str());
-			_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].Size.Y = atof(tokens[8].c_str());
-			_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].Size.Z = atof(tokens[9].c_str());
-
-			for(size_t i=10; i<tokens.size(); ++i)
+			while(!file.eof())
 			{
-				std::string anims = tokens[i];
-				std::string animstring = infos[i];
-				std::vector<std::string> tokens2;
-				StringHelper::Tokenize(anims, tokens2, ";");
-				std::vector<int> animvec;
-				for(size_t j=0; j<tokens2.size(); ++j)
-					animvec.push_back(atoi(tokens2[j].c_str()));
+				std::getline(file, line);
+				std::vector<std::string> tokens;
+				StringHelper::Tokenize(line, tokens, ",");
 
-				_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].animations[animstring] = animvec;
+				_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].modelnumber = atoi(tokens[4].c_str());
+				_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].bodynumber = atoi(tokens[5].c_str());
+				_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].WeaponType = atoi(tokens[6].c_str());
+				_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].Size.X = atof(tokens[7].c_str());
+				_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].Size.Y = atof(tokens[8].c_str());
+				_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].Size.Z = atof(tokens[9].c_str());
+
+				for(size_t i=10; i<tokens.size(); ++i)
+				{
+					std::string anims = tokens[i];
+					std::string animstring = infos[i];
+					std::vector<std::string> tokens2;
+					StringHelper::Tokenize(anims, tokens2, ";");
+					std::vector<int> animvec;
+					for(size_t j=0; j<tokens2.size(); ++j)
+						animvec.push_back(atoi(tokens2[j].c_str()));
+
+					_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].animations[animstring] = animvec;
+				}
+
+
 			}
+		}
+	}
 
+	{
+		std::ifstream file((Lba1ModelDataPath+"lba1_model_color.csv").c_str());
+		if(file.is_open())
+		{
+			while(!file.eof())
+			{
+				std::string line;
+				std::getline(file, line);
+				std::vector<std::string> tokens;
+				StringHelper::Tokenize(line, tokens, ",");
 
+				ModeData &mdata = _data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]];
+
+				for(size_t i=4; i<tokens.size(); ++i)
+				{
+					std::string color = tokens[i];
+					if(color.size() > 0)
+					{
+						std::string colostr = color.substr(1);
+						int coloridx = atoi(colostr.c_str());
+						switch(color[0])
+						{
+							case 'P':
+								mdata.polycolors.push_back(coloridx);
+							break;
+							case 'L':
+								mdata.linecolors.push_back(coloridx);
+							break;
+							case 'S':
+								mdata.spherecolors.push_back(coloridx);
+							break;
+						}
+					}
+				}
+			}
 		}
 	}
 }
@@ -191,5 +231,28 @@ int Lba1ModelMapHandler::GetModelExtraInfo(	const std::string & modelname,
 
 	resWeaponType = mdata.WeaponType;
 	resSize = mdata.Size;
+	return 0;
+}
+
+/***********************************************************
+get model color
+***********************************************************/
+int Lba1ModelMapHandler::GetModelColor(	const std::string & modelname,
+								const std::string & outfit,
+								const std::string & weapon,
+								const std::string & mode,
+								std::vector<int> & polycolors,
+								std::vector<int> & spherecolors,
+								std::vector<int> & linecolors)
+{
+	if(modelname == "" || outfit == "" || weapon == "" || mode == "")
+		return -1;
+
+	ModeData &mdata = _data[modelname].outfits[outfit].weapons[weapon].modes[mode];
+
+	polycolors = mdata.polycolors;
+	spherecolors = mdata.spherecolors;
+	linecolors = mdata.linecolors;
+
 	return 0;
 }

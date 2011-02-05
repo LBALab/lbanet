@@ -46,7 +46,12 @@ struct ModeData
 	std::map<std::string, std::vector<int> > animations;
 	ModelSize Size;
 	int WeaponType;
+
+	std::vector<int>	polycolors;
+	std::vector<int>	spherecolors;
+	std::vector<int>	linecolors;
 };
+
 struct WeaponData
 {
 	std::map<std::string, ModeData> modes;
@@ -90,6 +95,7 @@ public:
 						std::vector<int> & resanimation);
 
 
+
 	// get model extra info
 	// return 0 if model correct
 	// return -1 if model incorrect
@@ -100,6 +106,18 @@ public:
 								int & resWeaponType,
 								ModelSize & resSize);
 
+	// get model color
+	// return 0 if model correct
+	// return -1 if model incorrect
+	int GetModelColor(	const std::string & modelname,
+								const std::string & outfit,
+								const std::string & weapon,
+								const std::string & mode,
+								std::vector<int>	&polycolors,
+								std::vector<int>	&spherecolors,
+								std::vector<int>	&linecolors);
+
+
 	// get full map info
 	std::map<std::string, ModelData> & GetData()
 	{ return _data; }
@@ -109,6 +127,7 @@ private:
 	static Lba1ModelMapHandler *	_singletonInstance;
 
 	std::map<std::string, ModelData>	_data;
+
 };
 
 

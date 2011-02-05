@@ -252,10 +252,12 @@ class Lba1ModelObjectDescription : public DisplayObjectDescriptionBase
 public:
 	//! constructor
 	Lba1ModelObjectDescription(const LbaNet::ModelInfo & info, float animationspeed,
+								bool UseLight, bool CastShadow,
 								const LbaNet::ObjectExtraInfo &extrainfo,
 								const LbaNet::LifeManaInfo &lifeinfo)
 		: _info(info), _animationspeed(animationspeed), 
-				_extrainfo(extrainfo), _lifeinfo(lifeinfo)
+				_extrainfo(extrainfo), _lifeinfo(lifeinfo), _UseLight(UseLight),
+				_CastShadow(CastShadow)
 	{}
 
 	//! destructor
@@ -268,6 +270,8 @@ public:
 private:
 	LbaNet::ModelInfo		_info;
 	float					_animationspeed;
+	bool					_UseLight;
+	bool					_CastShadow;
 
 	LbaNet::ObjectExtraInfo	_extrainfo;
 	LbaNet::LifeManaInfo	_lifeinfo;
