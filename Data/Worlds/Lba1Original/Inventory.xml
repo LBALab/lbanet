@@ -23,8 +23,8 @@
 	<item id="21" name="Giftbox 2010" filename="GUI/imagesets/Inventory/giftbox.png" Description="28" Max="1" Price="1" type="6" Effect="1" valueA="0" Ephemere="false" Extra=""/>
 	<item id="22" name="Magic ball" filename="GUI/imagesets/Inventory/yellowball.png" Description="22" Max="1" Price="1" type="4" Effect="10" valueA="1" Ephemere="false" Extra="MagicBall"/>
 	<item id="23" name="Saber" filename="GUI/imagesets/Inventory/bcake1.png" Description="23" Max="1" Price="1" type="4" Effect="30" valueA="1" Ephemere="false" Extra="Saber"/>
-	<item id="24" name="Prisoner outfit" filename="GUI/imagesets/Inventory/bcake1.png" Description="24" Max="1" Price="1" type="9" Effect="0" valueA="1" Ephemere="false" Extra="Prisoner"/>
-	<item id="25" name="Nurse outfit" filename="GUI/imagesets/Inventory/bcake1.png" Description="25" Max="1" Price="1" type="9" Effect="0" valueA="1" Ephemere="false" Extra="Nurse"/>
-	<item id="26" name="Tunic outfit" filename="GUI/imagesets/Inventory/bcake1.png" Description="26" Max="1" Price="1" type="9" Effect="10" valueA="1" Ephemere="false" Extra="Tunic"/>
-	<item id="27" name="Fulltunic outfit" filename="GUI/imagesets/Inventory/bcake1.png" Description="27" Max="1" Price="1" type="9" Effect="20" valueA="1" Ephemere="false" Extra="Fulltunic"/>
+	<item id="24" name="Prisoner outfit" filename="Worlds/Lba1Original/InventoryImages/test3.png" Description="24" Max="1" Price="1" type="9" Effect="0" valueA="1" Ephemere="false" Extra="Prisoner"/>
+	<item id="25" name="Nurse outfit" filename="Worlds/Lba1Original/InventoryImages/test2.png" Description="25" Max="1" Price="1" type="9" Effect="0" valueA="1" Ephemere="false" Extra="Nurse"/>
+	<item id="26" name="Tunic outfit" filename="Worlds/Lba1Original/InventoryImages/test1.png" Description="26" Max="1" Price="1" type="9" Effect="10" valueA="1" Ephemere="false" Extra="Tunic"/>
+	<item id="27" name="Fulltunic outfit" filename="Worlds/Lba1Original/InventoryImages/02-20-10_18_13_24_164.png" Description="27" Max="1" Price="1" type="9" Effect="20" valueA="1" Ephemere="false" Extra="Fulltunic"/>
 </items>

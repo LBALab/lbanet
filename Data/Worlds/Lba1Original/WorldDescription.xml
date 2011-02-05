@@ -13,7 +13,6 @@
 		<InventorySize>30</InventorySize>
 		<StartingLife>50</StartingLife>
 		<StartingMana>50</StartingMana>
-		<StartingArmor>0</StartingArmor>
 		<StartingMap>Map000_1</StartingMap>
 		<SpawningId>1</SpawningId>
 		<StartingModel>
@@ -23,6 +22,8 @@
 			<Mode>Normal</Mode>
 			<RendererType>2</RendererType>
 		</StartingModel>
+		<EquipedWeapon>-1</EquipedWeapon>
+		<EquipedOutfit>-1</EquipedOutfit>
 		<StartingInventory>
 			<object>
 				<ObjectId>1</ObjectId>

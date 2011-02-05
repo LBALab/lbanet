@@ -41,6 +41,48 @@ function InitMap(environment)
 	Actor_1H = ActorHandler(Actor_1)
 	environment:AddActorObject(Actor_1H)
 
+	Actor_2 = ActorObjectInfo(2)
+	Actor_2:SetRenderType(3)
+	Actor_2.DisplayDesc.ModelId = 0
+	Actor_2.DisplayDesc.ModelName = "Sphero"
+	Actor_2.DisplayDesc.Outfit = "Yellow"
+	Actor_2.DisplayDesc.Weapon = "No"
+	Actor_2.DisplayDesc.Mode = "Normal"
+	Actor_2.DisplayDesc.UseLight = true
+	Actor_2.DisplayDesc.CastShadow = true
+	Actor_2.DisplayDesc.ColorR = 1
+	Actor_2.DisplayDesc.ColorG = 1
+	Actor_2.DisplayDesc.ColorB = 1
+	Actor_2.DisplayDesc.ColorA = 1
+	Actor_2.DisplayDesc.TransX = 0
+	Actor_2.DisplayDesc.TransY = 0
+	Actor_2.DisplayDesc.TransZ = 0
+	Actor_2.DisplayDesc.ScaleX = 0
+	Actor_2.DisplayDesc.ScaleY = 0
+	Actor_2.DisplayDesc.ScaleZ = 0
+	Actor_2.DisplayDesc.RotX = 0
+	Actor_2.DisplayDesc.RotY = 0
+	Actor_2.DisplayDesc.RotZ = 0
+	Actor_2:SetModelState(2)
+	Actor_2.PhysicDesc.Pos.X = 34
+	Actor_2.PhysicDesc.Pos.Y = 4
+	Actor_2.PhysicDesc.Pos.Z = 34.5
+	Actor_2.PhysicDesc.Pos.Rotation = 0
+	Actor_2.PhysicDesc.Density = 1
+	Actor_2.PhysicDesc.Collidable = true
+	Actor_2.PhysicDesc.SizeX = 1
+	Actor_2.PhysicDesc.SizeY = 5
+	Actor_2.PhysicDesc.SizeZ = 1
+	Actor_2.PhysicDesc.Filename = ""
+	Actor_2:SetPhysicalActorType(1)
+	Actor_2:SetPhysicalShape(2)
+	Actor_2.ExtraInfo.Name = ""
+	Actor_2.ExtraInfo.NameColorR = 1
+	Actor_2.ExtraInfo.NameColorG = 1
+	Actor_2.ExtraInfo.NameColorB = 1
+	Actor_2H = ActorHandler(Actor_2)
+	environment:AddActorObject(Actor_2H)
+
 	Trigger_1_info = TriggerInfo(1, "exit0", true, true, false)
 	Trigger_1 = ZoneTrigger(Trigger_1_info, 1, 4, 5, true)
 	Trigger_1:SetPosition(37.5, 13, 12.5)
