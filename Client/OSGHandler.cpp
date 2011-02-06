@@ -52,6 +52,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <osgParticle/PrecipitationEffect>
 #include <osgDB/Registry>
 #include <osgUtil/Optimizer>
+#include <osgUtil/SmoothingVisitor>
 
 // win32 only
 #include <osgViewer/api/Win32/GraphicsWindowWin32>
@@ -1134,6 +1135,100 @@ void OsgHandler::GetScreenAttributes(int &resX, int &resY, bool &fullscreen)
 
 
 
+/***********************************************************
+create sprite object
+***********************************************************/
+boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSpriteObject(const std::string & spritefile, 
+															float colorR, float colorG, float colorB, float colorA,
+															boost::shared_ptr<DisplayTransformation> Tr,
+															bool UseLight, bool CastShadow,
+															const LbaNet::ObjectExtraInfo &extrainfo,
+															const LbaNet::LifeManaInfo &lifeinfo)
+{
+	// create geode
+	osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+	osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
+	geode->addDrawable(geometry); 
+
+	// Specify the vertices:
+	osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array;
+	vertices->push_back( osg::Vec3(-1.5, 0, 0) );
+	vertices->push_back( osg::Vec3(1.5, 0, 0) );
+	vertices->push_back( osg::Vec3(1.5, 6, 0) ); 
+	vertices->push_back( osg::Vec3(-1.5, 6, 0) ); 
+	geometry->setVertexArray( vertices );
+
+	// specify the base:
+	osg::ref_ptr<osg::DrawElementsUInt> base = 
+	new osg::DrawElementsUInt(osg::PrimitiveSet::QUADS, 0);
+	base->push_back(0);
+	base->push_back(1);
+	base->push_back(2);
+	base->push_back(3);
+	geometry->addPrimitiveSet(base);
+
+	// specify the color:
+	osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array;
+	colors->push_back(osg::Vec4(colorR, colorG, colorB, colorA) ); 
+	geometry->setColorArray(colors);
+	geometry->setColorBinding(osg::Geometry::BIND_OVERALL);
+
+	// specify thetexture coordinates:
+	osg::ref_ptr<osg::Vec2Array> texcoords = new osg::Vec2Array(5);
+	(*texcoords)[0].set(0, 0); 
+	(*texcoords)[1].set(1, 0); 
+	(*texcoords)[2].set(1, 1); 
+	(*texcoords)[3].set(0, 1); 
+	geometry->setTexCoordArray(0,texcoords);
+
+
+
+
+	// Declare a group to act as root node of a scene:
+	osg::ref_ptr<osg::Group> resnode = new osg::Group();
+	resnode->addChild(geode);
+
+	osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
+	stateSet->setMode( GL_BLEND, osg::StateAttribute::ON );
+	stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+	stateSet->setRenderBinDetails( 5000, "RenderBin");
+
+	//specify normal:
+	if(!UseLight)
+		stateSet->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
+	else
+		osgUtil::SmoothingVisitor::smooth(*(geometry.get()));
+
+
+	// attach texture to geometry:
+	osg::ref_ptr<osg::Image> klnFace = osgDB::readImageFile(spritefile);
+	if (klnFace)
+	{
+		osg::ref_ptr<osg::Texture2D> KLN89FaceTexture = new osg::Texture2D;
+		KLN89FaceTexture->setDataVariance(osg::Object::DYNAMIC); 
+		KLN89FaceTexture->setImage(klnFace);
+
+		KLN89FaceTexture->setFilter(osg::Texture::MIN_FILTER, osg::Texture::LINEAR);
+		KLN89FaceTexture->setFilter(osg::Texture::MAG_FILTER, osg::Texture::LINEAR);
+
+		stateSet->setTextureAttributeAndModes(0, KLN89FaceTexture, osg::StateAttribute::ON);
+	}
+
+
+	if(Tr)
+	{
+		osg::ref_ptr<osg::PositionAttitudeTransform> transform = new osg::PositionAttitudeTransform();
+		transform->setPosition(osg::Vec3d(Tr->translationX, Tr->translationY, Tr->translationZ));
+		transform->setAttitude(osg::Quat(Tr->rotation.X, Tr->rotation.Y, Tr->rotation.Z, Tr->rotation.W));
+		transform->setScale(osg::Vec3d(Tr->scaleX, Tr->scaleY, Tr->scaleZ));
+
+		transform->addChild(resnode);
+		resnode = transform;
+	}
+	
+	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, UseLight, CastShadow);
+	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat, UseLight, extrainfo, lifeinfo));
+}
 
 
 /***********************************************************

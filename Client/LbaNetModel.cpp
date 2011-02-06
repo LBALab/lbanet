@@ -420,9 +420,7 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 				tr->translationY = DisplayDesc.TransY;
 				tr->translationZ = DisplayDesc.TransZ;
 
-				tr->rotation.AddRotation(DisplayDesc.RotX, LbaVec3(1,0,0));
-				tr->rotation.AddRotation(DisplayDesc.RotY, LbaVec3(0,1,0));
-				tr->rotation.AddRotation(DisplayDesc.RotZ, LbaVec3(0,0,1));
+				tr->rotation = LbaQuaternion(DisplayDesc.RotX, DisplayDesc.RotY, DisplayDesc.RotZ);
 
 				tr->scaleX = DisplayDesc.ScaleX;
 				tr->scaleY = DisplayDesc.ScaleY;
@@ -440,7 +438,31 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 		//1 -> sprite 
 		case LbaNet::RenderSprite:
 		{
-			//TODO
+
+			if(DisplayDesc.ModelName != "")
+			{
+				boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
+					(new SpriteDescription(DisplayDesc.ModelName, DisplayDesc.UseLight, DisplayDesc.CastShadow, 
+								DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA,
+								extrainfo, lifeinfo));
+
+				boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
+				tr->translationX = DisplayDesc.TransX;
+				tr->translationY = DisplayDesc.TransY;
+				tr->translationZ = DisplayDesc.TransZ;
+
+				tr->rotation = LbaQuaternion(DisplayDesc.RotX, DisplayDesc.RotY, DisplayDesc.RotZ);
+
+				tr->scaleX = DisplayDesc.ScaleX;
+				tr->scaleY = DisplayDesc.ScaleY;
+				tr->scaleZ = DisplayDesc.ScaleZ;
+
+				DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
+			}
+			else
+			{
+				//TODO
+			}
 		}
 		break;
 
@@ -457,9 +479,7 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 			tr->translationY = DisplayDesc.TransY;
 			tr->translationZ = DisplayDesc.TransZ;
 
-			tr->rotation.AddRotation(DisplayDesc.RotX, LbaVec3(1,0,0));
-			tr->rotation.AddRotation(DisplayDesc.RotY, LbaVec3(0,1,0));
-			tr->rotation.AddRotation(DisplayDesc.RotZ, LbaVec3(0,0,1));
+			tr->rotation = LbaQuaternion(DisplayDesc.RotX, DisplayDesc.RotY, DisplayDesc.RotZ);
 
 			tr->scaleX = DisplayDesc.ScaleX;
 			tr->scaleY = DisplayDesc.ScaleY*2;
@@ -489,9 +509,7 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 			tr->translationY = DisplayDesc.TransY;
 			tr->translationZ = DisplayDesc.TransZ;
 
-			tr->rotation.AddRotation(DisplayDesc.RotX, LbaVec3(1,0,0));
-			tr->rotation.AddRotation(DisplayDesc.RotY, LbaVec3(0,1,0));
-			tr->rotation.AddRotation(DisplayDesc.RotZ, LbaVec3(0,0,1));
+			tr->rotation = LbaQuaternion(DisplayDesc.RotX, DisplayDesc.RotY, DisplayDesc.RotZ);
 
 			tr->scaleX = DisplayDesc.ScaleX;
 			tr->scaleY = DisplayDesc.ScaleY;
@@ -514,9 +532,7 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 			tr->translationY = DisplayDesc.TransY;
 			tr->translationZ = DisplayDesc.TransZ;
 
-			tr->rotation.AddRotation(DisplayDesc.RotX, LbaVec3(1,0,0));
-			tr->rotation.AddRotation(DisplayDesc.RotY, LbaVec3(0,1,0));
-			tr->rotation.AddRotation(DisplayDesc.RotZ, LbaVec3(0,0,1));
+			tr->rotation = LbaQuaternion(DisplayDesc.RotX, DisplayDesc.RotY, DisplayDesc.RotZ);
 
 			tr->scaleX = DisplayDesc.ScaleX;
 			tr->scaleY = DisplayDesc.ScaleY;
@@ -538,9 +554,7 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 			tr->translationY = DisplayDesc.TransY;
 			tr->translationZ = DisplayDesc.TransZ;
 
-			tr->rotation.AddRotation(DisplayDesc.RotX, LbaVec3(1,0,0));
-			tr->rotation.AddRotation(DisplayDesc.RotY, LbaVec3(0,1,0));
-			tr->rotation.AddRotation(DisplayDesc.RotZ, LbaVec3(0,0,1));
+			tr->rotation = LbaQuaternion(DisplayDesc.RotX, DisplayDesc.RotY, DisplayDesc.RotZ);
 
 			tr->scaleX = DisplayDesc.ScaleX;
 			tr->scaleY = DisplayDesc.ScaleY;

@@ -210,6 +210,20 @@ boost::shared_ptr<DynamicObject> ObjectInfo::BuildSelf(DisplayHandlerBase * disH
 
 
 
+/***********************************************************
+build description into dynamic object
+***********************************************************/
+boost::shared_ptr<DisplayObjectHandlerBase> SpriteDescription::BuildSelf(boost::shared_ptr<DisplayTransformation> Tr, 
+																				DisplayHandlerBase * disH) const
+{
+	if(disH)
+		return disH->CreateSpriteObject(_spritefile, _colorR, _colorG, _colorB, _colorA, 
+											Tr, _UseLight, _CastShadow, _extrainfo, _lifeinfo);
+
+	return boost::shared_ptr<DisplayObjectHandlerBase> ();
+}
+
+
 
 
 

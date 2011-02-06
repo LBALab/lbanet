@@ -196,6 +196,13 @@ public:
 	{return _cameraType;}
 
 
+	// create sprite object
+	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateSpriteObject(const std::string & spritefile, 
+															float colorR, float colorG, float colorB, float colorA,
+															boost::shared_ptr<DisplayTransformation> Tr,
+															bool UseLight, bool CastShadow,
+															const LbaNet::ObjectExtraInfo &extrainfo,
+															const LbaNet::LifeManaInfo &lifeinfo);
 
 	//! create simple display object
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateSimpleObject(const std::string & filename,
