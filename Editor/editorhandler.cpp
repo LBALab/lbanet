@@ -4376,12 +4376,6 @@ void EditorHandler::RefreshActorModelMode(int index, QModelIndex parentIdx,
 
 
 		std::string ptype = _objectmodel->data(_objectmodel->GetIndex(1, 7, parentIdx)).toString().toAscii().data();
-		if(ptype == "No Shape") 
-		{
-			_objectmodel->setData(_objectmodel->GetIndex(1, 7, parentIdx), "Box");
-			ptype = "Box";
-		}
-
 		if(ptype == "Box")
 		{
 			int resWeaponType;
@@ -4413,6 +4407,8 @@ void EditorHandler::RefreshActorModelMode(int index, QModelIndex parentIdx,
 		actor->currentpolycolors = actor->initpolycolors;
 		actor->currentspherecolors = actor->initspherecolors;
 		actor->currentlinecolors = actor->initlinecolors;
+
+		actor->GetInfo().DisplayDesc.ColorSwaps.clear();
 	}
 }
 
@@ -5706,76 +5702,98 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 
 		if(ainfo.PhysicDesc.TypeShape != LbaNet::NoShape)
 		{
-			ainfo.PhysicDesc.Collidable = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
+			if(updatedrow == index)
+				ainfo.PhysicDesc.Collidable = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
 			++index;
 
 			if(ainfo.PhysicDesc.TypeShape != LbaNet::TriangleMeshShape)
 			{
-				ainfo.PhysicDesc.SizeX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+				if(updatedrow == index)
+					ainfo.PhysicDesc.SizeX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
 				++index;
-				ainfo.PhysicDesc.SizeY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+				if(updatedrow == index)
+					ainfo.PhysicDesc.SizeY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
 				++index;
-				ainfo.PhysicDesc.SizeZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+				if(updatedrow == index)
+					ainfo.PhysicDesc.SizeZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
 				++index;
 			}
 			else
 			{
-				ainfo.PhysicDesc.Filename = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+				if(updatedrow == index)
+					ainfo.PhysicDesc.Filename = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
 				++index;
 			}
 		}
 
 		if(ainfo.DisplayDesc.TypeRenderer != LbaNet::NoRender)
 		{
-			ainfo.DisplayDesc.UseLight = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
+			if(updatedrow == index)
+				ainfo.DisplayDesc.UseLight = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
 			++index;
 
-			ainfo.DisplayDesc.CastShadow = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
+			if(updatedrow == index)
+				ainfo.DisplayDesc.CastShadow = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
 			++index;
 
-			ainfo.DisplayDesc.TransX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			if(updatedrow == index)
+				ainfo.DisplayDesc.TransX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
 			++index;
-			ainfo.DisplayDesc.TransY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			if(updatedrow == index)
+				ainfo.DisplayDesc.TransY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
 			++index;
-			ainfo.DisplayDesc.TransZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
-			++index;
-
-			ainfo.DisplayDesc.RotX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
-			++index;
-			ainfo.DisplayDesc.RotY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
-			++index;
-			ainfo.DisplayDesc.RotZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			if(updatedrow == index)
+				ainfo.DisplayDesc.TransZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
 			++index;
 
-			ainfo.DisplayDesc.ScaleX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			if(updatedrow == index)
+				ainfo.DisplayDesc.RotX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
 			++index;
-			ainfo.DisplayDesc.ScaleY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			if(updatedrow == index)
+				ainfo.DisplayDesc.RotY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
 			++index;
-			ainfo.DisplayDesc.ScaleZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			if(updatedrow == index)
+				ainfo.DisplayDesc.RotZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+
+			if(updatedrow == index)
+				ainfo.DisplayDesc.ScaleX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+			if(updatedrow == index)
+				ainfo.DisplayDesc.ScaleY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+			if(updatedrow == index)
+				ainfo.DisplayDesc.ScaleZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
 			++index;
 
 
 			if(ainfo.DisplayDesc.TypeRenderer == RenderOsgModel )
 			{
-				ainfo.DisplayDesc.ModelName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+				if(updatedrow == index)
+					ainfo.DisplayDesc.ModelName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
 				++index;
 			}
 
 			if(ainfo.DisplayDesc.TypeRenderer == RenderSprite )
 			{
-				ainfo.DisplayDesc.ModelName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+				if(updatedrow == index)
+					ainfo.DisplayDesc.ModelName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
 				++index;	
 
-				ainfo.DisplayDesc.ColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				if(updatedrow == index)
+					ainfo.DisplayDesc.ColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
 				++index;	
 
-				ainfo.DisplayDesc.ColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				if(updatedrow == index)
+					ainfo.DisplayDesc.ColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
 				++index;		
 
-				ainfo.DisplayDesc.ColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				if(updatedrow == index)
+					ainfo.DisplayDesc.ColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
 				++index;		
 
-				ainfo.DisplayDesc.ColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				if(updatedrow == index)
+					ainfo.DisplayDesc.ColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
 				++index;			
 			}
 
@@ -5787,10 +5805,12 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 				std::string oldmodelOutfit = ainfo.DisplayDesc.Outfit;
 				std::string oldmodelWeapon = ainfo.DisplayDesc.Weapon;
 
-				ainfo.DisplayDesc.ModelName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();		
+				if(updatedrow == index)
+					ainfo.DisplayDesc.ModelName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();		
 				++index;		
 
-				ainfo.DisplayDesc.Outfit = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+				if(updatedrow == index)
+					ainfo.DisplayDesc.Outfit = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
 				if(ainfo.DisplayDesc.ModelName != oldmodelname)
 				{
 					RefreshActorModelOutfit(index, parentIdx, ainfo.DisplayDesc.ModelName, true, it->second);
@@ -5800,7 +5820,8 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 				
 				++index;	
 
-				ainfo.DisplayDesc.Weapon = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+				if(updatedrow == index)
+					ainfo.DisplayDesc.Weapon = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
 				if(ainfo.DisplayDesc.Outfit != oldmodelOutfit)
 				{
 					RefreshActorModelWeapon(index, parentIdx, ainfo.DisplayDesc.ModelName,
@@ -5811,7 +5832,8 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 				
 				++index;	
 
-				ainfo.DisplayDesc.Mode = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+				if(updatedrow == index)
+					ainfo.DisplayDesc.Mode = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
 				if(ainfo.DisplayDesc.Weapon != oldmodelWeapon)
 				{
 					RefreshActorModelMode(index, parentIdx, ainfo.DisplayDesc.ModelName,
