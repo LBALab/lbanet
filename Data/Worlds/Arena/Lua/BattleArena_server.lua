@@ -87,18 +87,18 @@ function InitMap(environment)
 	environment:AddActorObject(Actor_3H)
 
 	Actor_4 = ActorObjectInfo(4)
-	Actor_4:SetRenderType(3)
+	Actor_4:SetRenderType(2)
 	Actor_4.DisplayDesc.ModelId = 0
-	Actor_4.DisplayDesc.ModelName = "Ameba"
+	Actor_4.DisplayDesc.ModelName = "Worlds/Lba1Original/InventoryImages/test3.png"
 	Actor_4.DisplayDesc.Outfit = "No"
 	Actor_4.DisplayDesc.Weapon = "No"
 	Actor_4.DisplayDesc.Mode = "Normal"
-	Actor_4.DisplayDesc.UseLight = true
+	Actor_4.DisplayDesc.UseLight = false
 	Actor_4.DisplayDesc.CastShadow = true
 	Actor_4.DisplayDesc.ColorR = 1
 	Actor_4.DisplayDesc.ColorG = 1
 	Actor_4.DisplayDesc.ColorB = 1
-	Actor_4.DisplayDesc.ColorA = 1
+	Actor_4.DisplayDesc.ColorA = 0.8
 	Actor_4.DisplayDesc.TransX = 0
 	Actor_4.DisplayDesc.TransY = 0
 	Actor_4.DisplayDesc.TransZ = 0
@@ -122,7 +122,7 @@ function InitMap(environment)
 	Actor_4.PhysicDesc.SizeZ = 2.5
 	Actor_4.PhysicDesc.Filename = ""
 	Actor_4:SetPhysicalActorType(1)
-	Actor_4:SetPhysicalShape(2)
+	Actor_4:SetPhysicalShape(1)
 	Actor_4.ExtraInfo.Name = ""
 	Actor_4.ExtraInfo.NameColorR = 1
 	Actor_4.ExtraInfo.NameColorG = 1
