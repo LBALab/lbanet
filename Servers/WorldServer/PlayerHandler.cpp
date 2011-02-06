@@ -28,6 +28,13 @@ PlayerHandler::PlayerHandler(long clientid, ClientProxyBasePtr proxy,
 	_spawningIno = savedinfo.ppos;
 
 
+	// reset stance if dino or horse
+	if(_currentinfo.model.Mode == "Horse" || _currentinfo.model.Mode == "Dinofly")
+	{
+		_currentinfo.model.Mode = "Normal";
+		_currentinfo.model.State = LbaNet::StNormal;
+	}
+
 
 	// set default values
 	_currentinfo.model.TransX = 0;
@@ -242,7 +249,7 @@ void PlayerHandler::SaveCurrentInfo()
 
 		//set player model
 		_dbH->UpdateModel(_currentinfo.model, _worldname, _clientid, 
-							_currentinfo.EquipedWeapon, _currentinfo.EquipedOutfit);
+							(long)_currentinfo.EquipedWeapon, (long)_currentinfo.EquipedOutfit);
 	}
 }
 
@@ -1015,7 +1022,7 @@ Get current power
 float PlayerHandler::GetPower()
 {
 	if(_currentinfo.EquipedWeapon >= 0)
-		return InventoryItemHandler::getInstance()->GetItemInfo(_currentinfo.EquipedWeapon).Effect;
+		return InventoryItemHandler::getInstance()->GetItemInfo((long)_currentinfo.EquipedWeapon).Effect;
 
 	return 0;
 }
@@ -1026,7 +1033,7 @@ Get current armor
 float PlayerHandler::GetArmor()
 {
 	if(_currentinfo.EquipedOutfit >= 0)
-		return InventoryItemHandler::getInstance()->GetItemInfo(_currentinfo.EquipedOutfit).Effect;
+		return InventoryItemHandler::getInstance()->GetItemInfo((long)_currentinfo.EquipedOutfit).Effect;
 
 	return 0;
 }

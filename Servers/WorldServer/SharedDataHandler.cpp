@@ -50,7 +50,7 @@ void SharedDataHandler::SetWorldDefaultInformation(WorldInformation &worldinfo)
 		std::string luafile = "Worlds/" + _worldinfo.Description.WorldName + "/Lua/";
 		
 		// custom server file
-		std::string customluafile = luafile+"CustomServer.lua"
+		std::string customluafile = luafile+"CustomServer.lua";
 		luafile += itm->second.Name + "_server.lua";
 
 		// create map object
@@ -157,7 +157,17 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectE
 		savedinfo.EquipedWeapon = _worldinfo.StartingInfo.EquipedWeapon;
 		savedinfo.EquipedOutfit = _worldinfo.StartingInfo.EquipedOutfit;
 
+
+		// set default values
+		savedinfo.model.SkinColor = -1;
+		savedinfo.model.EyesColor = -1;
+		savedinfo.model.HairColor = -1;
+		savedinfo.model.OutfitColor = -1;
+		savedinfo.model.WeaponColor = -1;
+		savedinfo.model.MountSkinColor = -1;
+		savedinfo.model.MountHairColor = -1;
 	}
+
 
 
 	// create player object

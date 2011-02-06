@@ -99,7 +99,7 @@ LbaNet::SavedWorldInfo DatabaseHandler::ChangeWorld(const std::string& NewWorldN
 	}
 
 	mysqlpp::Query query(_mysqlH, false);
-	query << "SELECT uw.id, uw.lastmap, uw.lastposx, uw.lastposy, uw.lastposz, uw.lastrotation, uw.InventorySize, uw.Shortcuts, uw.LifePoint, uw.ManaPoint, uw.MaxLife, uw.MaxMana, w.id, uw.ModelName, uw.ModelOutfit, uw.ModelWeapon, uw.ModelMode, uw.RendererType";
+	query << "SELECT uw.id, uw.lastmap, uw.lastposx, uw.lastposy, uw.lastposz, uw.lastrotation, uw.InventorySize, uw.Shortcuts, uw.LifePoint, uw.ManaPoint, uw.MaxLife, uw.MaxMana, w.id, uw.ModelName, uw.ModelOutfit, uw.ModelWeapon, uw.ModelMode, uw.RendererType, uw.EquipedWeapon, uw.EquipedOutfit, uw.SkinColor, uw.EyesColor, uw.HairColor";
 	query << " FROM lba_usertoworld uw, lba_worlds w";
 	query << " WHERE uw.userid = '"<<PlayerId<<"'";
 	query << " AND w.name = '"<<NewWorldName<<"'";
@@ -165,6 +165,14 @@ LbaNet::SavedWorldInfo DatabaseHandler::ChangeWorld(const std::string& NewWorldN
 					resP.model.TypeRenderer = LbaNet::RenderLba2M;
 				break;
 			}
+
+			resP.EquipedWeapon = res[0][18];
+			resP.EquipedOutfit = res[0][19];
+
+			resP.model.SkinColor = res[0][20];
+			resP.model.EyesColor = res[0][21];
+			resP.model.HairColor = res[0][22];
+
 
 			worldid = res[0][12];
 
@@ -331,6 +339,9 @@ void DatabaseHandler::UpdateModel(const LbaNet::ModelInfo & modelinfo,
 		query << ", ModelMode = '"<<modelinfo.Mode<<"'";
 		query << ", EquipedWeapon = '"<<equipedweapon<<"'";
 		query << ", EquipedOutfit = '"<<equipedoutfit<<"'";
+		query << ", SkinColor = '"<<modelinfo.SkinColor<<"'";
+		query << ", EyesColor = '"<<modelinfo.EyesColor<<"'";
+		query << ", HairColor = '"<<modelinfo.HairColor<<"'";
 
 		int rtype = 0;
 		switch(modelinfo.TypeRenderer)

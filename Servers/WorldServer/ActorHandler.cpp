@@ -18,6 +18,14 @@ ActorObjectInfo::ActorObjectInfo(long id)
 	DisplayDesc.ScaleX = 1;
 	DisplayDesc.ScaleY = 1;
 	DisplayDesc.ScaleZ = 1;
+
+	DisplayDesc.SkinColor = -1;
+	DisplayDesc.EyesColor = -1;
+	DisplayDesc.HairColor = -1;
+	DisplayDesc.OutfitColor = -1;
+	DisplayDesc.WeaponColor = -1;
+	DisplayDesc.MountSkinColor = -1;
+	DisplayDesc.MountHairColor = -1;
 }
 
 

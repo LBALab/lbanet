@@ -669,9 +669,9 @@ void MapHandler::PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMove
 		//do an sweep test and check for triggers
 		{
 			PlayerPosition lastpos = GetPlayerPosition(id);
-			lastpos.Y += 0.2; // small offset to make sure object is inside zone and not online a bit lower
+			lastpos.Y += 0.2f; // small offset to make sure object is inside zone and not online a bit lower
 			PlayerPosition currPos = info.CurrentPos;
-			currPos.Y += 0.2;
+			currPos.Y += 0.2f;
 
 			// inform triggers
 			std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
@@ -1867,7 +1867,7 @@ void MapHandler::PlayerItemUsed(Ice::Long clientid, long ItemId)
 			}
 			break;
 		case 4: // weapon item - equip it
-			ChangeWeapon(clientid, itinfo.Info.StringFlag, itinfo.Info.Id);
+			ChangeWeapon(clientid, itinfo.Info.StringFlag, (long)itinfo.Info.Id);
 			break;
 		case 5: // quest item - todo - might trigger quest
 			break;
@@ -1911,7 +1911,7 @@ void MapHandler::PlayerItemUsed(Ice::Long clientid, long ItemId)
 			}
 			break;
 		case 9: // outfit item - equip it
-			ChangeOutfit(clientid, itinfo.Info.StringFlag, itinfo.Info.Id);
+			ChangeOutfit(clientid, itinfo.Info.StringFlag, (long)itinfo.Info.Id);
 			break;
 	}
 

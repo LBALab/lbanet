@@ -63,7 +63,7 @@ LbaNet::SavedWorldInfo LocalDatabaseHandler::ChangeWorld(const std::string& NewW
 
 	// build sql statement
 	std::stringstream query;
-	query << "SELECT uw.id, uw.lastmap, uw.lastposx, uw.lastposy, uw.lastposz, uw.lastrotation, uw.InventorySize, uw.Shortcuts, uw.LifePoint, uw.ManaPoint, uw.MaxLife, uw.MaxMana, w.id, uw.ModelName, uw.ModelOutfit, uw.ModelWeapon, uw.ModelMode, uw.RendererType, uw.EquipedWeapon, uw.EquipedOutfit";
+	query << "SELECT uw.id, uw.lastmap, uw.lastposx, uw.lastposy, uw.lastposz, uw.lastrotation, uw.InventorySize, uw.Shortcuts, uw.LifePoint, uw.ManaPoint, uw.MaxLife, uw.MaxMana, w.id, uw.ModelName, uw.ModelOutfit, uw.ModelWeapon, uw.ModelMode, uw.RendererType, uw.EquipedWeapon, uw.EquipedOutfit, uw.SkinColor, uw.EyesColor, uw.HairColor";
 	query << " FROM lba_usertoworld uw, lba_worlds w";
 	query << " WHERE uw.userid = '"<<PlayerId<<"'";
 	query << " AND w.name = '"<<NewWorldName<<"'";
@@ -144,6 +144,9 @@ LbaNet::SavedWorldInfo LocalDatabaseHandler::ChangeWorld(const std::string& NewW
 			resP.EquipedWeapon = atol(pazResult[nbcollumn+18]);
 			resP.EquipedOutfit = atol(pazResult[nbcollumn+19]);
 
+			resP.model.SkinColor = atol(pazResult[nbcollumn+20]);
+			resP.model.EyesColor = atol(pazResult[nbcollumn+21]);
+			resP.model.HairColor = atol(pazResult[nbcollumn+22]);
 
 
 			worldid = atol(pazResult[nbcollumn+12]);
@@ -379,7 +382,9 @@ void LocalDatabaseHandler::UpdateModel(const LbaNet::ModelInfo & modelinfo,
 		query << ", ModelMode = '"<<modelinfo.Mode<<"'";
 		query << ", EquipedWeapon = '"<<equipedweapon<<"'";
 		query << ", EquipedOutfit = '"<<equipedoutfit<<"'";
-
+		query << ", SkinColor = '"<<modelinfo.SkinColor<<"'";
+		query << ", EyesColor = '"<<modelinfo.EyesColor<<"'";
+		query << ", HairColor = '"<<modelinfo.HairColor<<"'";
 
 		int rtype = 0;
 		switch(modelinfo.TypeRenderer)
