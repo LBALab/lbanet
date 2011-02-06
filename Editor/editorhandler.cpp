@@ -700,14 +700,6 @@ QString FileDialogOptionsIcon::PostManagement(const QString & selectedfile)
 
 
 
-
-
-
-
-
-
-
-
 /***********************************************************
 Constructor
 ***********************************************************/
@@ -744,8 +736,11 @@ QWidget *CustomDelegate::createEditor(QWidget *parent, const QStyleOptionViewIte
 		editor->setViewMode(QFileDialog::List);
 		editor->setModal(true);
 
-		connect(editor, SIGNAL(	fileSelected(QString)) , this, SLOT(fileobjmodified(QString)));
-		connect(editor, SIGNAL(	currentChanged(QString)) , this, SLOT(fileobjchanged(QString)));
+		connect(editor, SIGNAL(	currentChanged(QString)) , this, SLOT(fileobjmodified(QString)));
+		connect(editor, SIGNAL(	fileSelected(QString)) , this, SLOT(fileobjacceptedbegin(QString)));
+		connect(editor, SIGNAL(	accepted()) , this, SLOT(fileobjacceptedend()));
+		connect(editor, SIGNAL(	rejected()) , this, SLOT(fileobjrejected()));
+		
 
 		return editor;
 	}
@@ -800,6 +795,10 @@ void CustomDelegate::setEditorData(QWidget *editor, const QModelIndex &index) co
 	{
 		QString value = index.model()->data(index, Qt::DisplayRole).toString();
 		QFileDialog *dialog = static_cast<QFileDialog*>(editor);
+		dialog->setGeometry( 100, 100, 500, 300 );
+
+		if(itf->second->PreviousFile == "")
+			itf->second->PreviousFile = value;
 
 		if(value != "")
 		{
@@ -860,20 +859,23 @@ void CustomDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
 	std::map<QModelIndex, boost::shared_ptr<FileDialogOptionsBase> >::const_iterator itf = _customsfiledialog.find(index);
 	if(itf != _customsfiledialog.end())
 	{
-		QFileDialog *dialog = static_cast<QFileDialog*>(editor);
-		QStringList files = dialog->selectedFiles();
-		if(_accepted && files.size() > 0)
+		if(_selectedfile != "")
 		{
-			QString file = files[0];
-			if(file != "")
-			{
-				QString outfile = itf->second->PostManagement(file);
-				if(outfile != "")
-					model->setData(index, outfile);
-			}
+			QString outfile = itf->second->PostManagement(_selectedfile);
+			if(outfile != "")
+				model->setData(index, outfile);
 		}
-		
-		//_accepted = false;
+		else
+		{
+			if(!_accepted)
+			{
+				// file rejected - reset to previous
+				model->setData(index, itf->second->PreviousFile);
+			}
+
+			itf->second->PreviousFile = "";
+		}
+
 		return;
 	}
 
@@ -970,18 +972,39 @@ data changed in object view
 ***********************************************************/
 void CustomDelegate::fileobjmodified(QString selectedfile)
 {
+	if(selectedfile != "" && selectedfile.contains("."))
+	{
+		_selectedfile = selectedfile;
+		QWidget *editor = static_cast<QWidget *>(sender());
+		emit commitData(editor);
+
+		_selectedfile = "";
+	}
+}
+
+/***********************************************************
+accept1 signal
+***********************************************************/
+void CustomDelegate::fileobjacceptedbegin(QString selectedfile)
+{
 	_accepted = true;
 }
 
 /***********************************************************
-data changed in object view
+accept2 signal
 ***********************************************************/
-void CustomDelegate::fileobjchanged(QString selectedfile)
+void CustomDelegate::fileobjacceptedend()
 {
 	_accepted = false;
 }
 
-
+/***********************************************************
+accept2 signal
+***********************************************************/
+void CustomDelegate::fileobjrejected()
+{
+	_accepted = false;
+}
 
 
 
@@ -4967,7 +4990,9 @@ void EditorHandler::addworld_accepted()
 	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/Models");}catch(...){}
 	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/Texts");}catch(...){}
 	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/InventoryImages");}catch(...){}
+	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/Sprites");}catch(...){}
 
+	
 	// save new world
 	DataLoader::getInstance()->SaveWorldInformation(wname, winfo);
 
@@ -5175,6 +5200,13 @@ void EditorHandler::ActorAdd_button_accepted()
 		ainfo.PhysicDesc.SizeX = 2;
 		ainfo.PhysicDesc.SizeY = 1;
 		ainfo.PhysicDesc.SizeZ = 2.5;
+	}
+
+	// set default model
+	if(ainfo.DisplayDesc.TypeRenderer == LbaNet::RenderSprite)
+	{
+		ainfo.DisplayDesc.UseLight = false;
+		ainfo.DisplayDesc.CastShadow = false;
 	}
 
 
@@ -5516,9 +5548,40 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 			if(ainfo.DisplayDesc.TypeRenderer == RenderSprite )
 			{
 				QVector<QVariant> data;
-				data<<"Display sprite id"<<ainfo.DisplayDesc.ModelId;
+				data<<"Display sprite file"<<ainfo.DisplayDesc.ModelName.c_str();
 				_objectmodel->AppendRow(data, parent);
+
+				boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
+				filefilter->Title = "Select an image";
+				filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Sprites").c_str();;
+				filefilter->FileFilter = "Image Files (*.png *.bmp *.jpg *.gif)";
+				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
 				++index;
+
+				{
+					QVector<QVariant> data1;
+					data1<<"Color R"<<(double)ainfo.DisplayDesc.ColorR;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data1;
+					data1<<"Color G"<<(double)ainfo.DisplayDesc.ColorG;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data1;
+					data1<<"Color B"<<(double)ainfo.DisplayDesc.ColorB;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data1;
+					data1<<"Color A"<<(double)ainfo.DisplayDesc.ColorA;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
 			}
 
 			if(ainfo.DisplayDesc.TypeRenderer == RenderLba1M ||
@@ -5700,8 +5763,20 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 
 			if(ainfo.DisplayDesc.TypeRenderer == RenderSprite )
 			{
-				ainfo.DisplayDesc.ModelId = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
+				ainfo.DisplayDesc.ModelName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+				++index;	
+
+				ainfo.DisplayDesc.ColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;	
+
+				ainfo.DisplayDesc.ColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
 				++index;		
+
+				ainfo.DisplayDesc.ColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;		
+
+				ainfo.DisplayDesc.ColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;			
 			}
 
 			// todo - model needs a slight offset Y

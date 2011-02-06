@@ -201,6 +201,8 @@ public:
 	QString Title;
 	QString FileFilter;
 	QString StartingDirectory;
+	QString PreviousFile;
+
 
 	virtual QString PostManagement(const QString & selectedfile) = 0;
 };
@@ -220,7 +222,6 @@ public:
 
 	virtual QString PostManagement(const QString & selectedfile);
 };
-
 
 
 
@@ -248,7 +249,6 @@ public:
 	 //! used in the case of file dialog
 	 void SetCustomIndex(QModelIndex index, boost::shared_ptr<FileDialogOptionsBase> filefilter);
 
-
 public slots:
 		 
 	//! data changed in object view
@@ -260,13 +260,22 @@ public slots:
 	//! data changed in object view
 	void fileobjmodified(QString selectedfile);
 
-	//! data changed in object view
-	void fileobjchanged(QString selectedfile);
+	//! accept1 signal
+	void fileobjacceptedbegin(QString selectedfile);
+
+	//! accept2 signal
+	void fileobjacceptedend();
+
+	//! rejected signal
+	void fileobjrejected();
+
 
  private:
 	 std::map<QModelIndex, boost::shared_ptr<CustomStringListModel> >		_customs;
 	 std::map<QModelIndex, boost::shared_ptr<FileDialogOptionsBase> >		_customsfiledialog;
 	 QAbstractItemModel *													_model;
+	 QString																_selectedfile;
+
 	 bool																	_accepted;
  };
 
