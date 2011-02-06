@@ -64,13 +64,16 @@ public:
 	LbaQuaternion(float x, float y, float z, float w)
 		: X(x), Y(y), Z(z), W(w){}
 
+	//! constructor from 3 angles
+	LbaQuaternion(float anglex, float angley, float anglez);
+
 
 	//!constructor with angle in degree and axis vec - degree
 	LbaQuaternion(float angle, LbaVec3 vec);
 
 
 	//! add rotation to quaternion - degree
-	void AddRotation(float angle, const LbaVec3 &vec);
+	void AddSingleRotation(float angle, const LbaVec3 &vec);
 
 	//! get direction vector
 	LbaVec3 GetDirection(const LbaVec3 &vec);

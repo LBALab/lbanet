@@ -150,7 +150,7 @@ public:
 	//! rotate object in the world
 	void RotateYAxis(float deltaY)
 	{
-		_Q.AddRotation(deltaY, LbaVec3(0,1,0));
+		_Q.AddSingleRotation(deltaY, LbaVec3(0,1,0));
 	}
 
 

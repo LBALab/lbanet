@@ -54,9 +54,26 @@ LbaQuaternion::LbaQuaternion(float angle, LbaVec3 vec)
 
 
 /***********************************************************
+constructor from 3 angles
+***********************************************************/
+LbaQuaternion::LbaQuaternion(float anglex, float angley, float anglez)
+{
+	NxQuat qx(anglex, NxVec3(1, 0, 0));
+	NxQuat qy(angley, NxVec3(0, 1, 0));
+	NxQuat qz(anglez, NxVec3(0, 0, 1));
+	NxQuat res = qx * qy * qz;
+
+	X = res.x;
+	Y = res.y;
+	Z = res.z;
+	W = res.w;
+}
+
+
+/***********************************************************
 add rotation to quaternion
 ***********************************************************/
-void LbaQuaternion::AddRotation(float angle, const LbaVec3 &vec)
+void LbaQuaternion::AddSingleRotation(float angle, const LbaVec3 &vec)
 {
 	float tochange = GetRotationSingleAngle() + angle;
 	if(tochange < 0)

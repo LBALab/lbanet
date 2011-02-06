@@ -86,6 +86,45 @@ public:
 
 
 
+/***********************************************************************
+This is the base class describing an Oriented Capsule
+See definition in OsgObjectHandler.cpp
+ ***********************************************************************/
+class SpriteDescription : public DisplayObjectDescriptionBase
+{
+public:
+	//! constructor
+	SpriteDescription(const std::string & spritefile, bool UseLight, bool CastShadow,
+							float colorR, float colorG, float colorB, float colorA,
+							const LbaNet::ObjectExtraInfo &extrainfo,
+							const LbaNet::LifeManaInfo &lifeinfo)
+		: _spritefile(spritefile), _UseLight(UseLight), _CastShadow(CastShadow),
+				_colorR(colorR), _colorG(colorG), _colorB(colorB), _colorA(colorA), 
+					_extrainfo(extrainfo), _lifeinfo(lifeinfo)
+	{}
+
+	//! destructor
+	virtual ~SpriteDescription(){}
+
+
+	//! build description into dynamic object
+	virtual boost::shared_ptr<DisplayObjectHandlerBase> BuildSelf(boost::shared_ptr<DisplayTransformation> Tr, 
+																				DisplayHandlerBase * disH) const;
+
+private:
+	std::string					_spritefile;
+	bool						_UseLight;
+	bool						_CastShadow;
+
+	float						_colorR;
+	float						_colorG;
+	float						_colorB;
+	float						_colorA;
+
+	LbaNet::ObjectExtraInfo		_extrainfo;
+	LbaNet::LifeManaInfo		_lifeinfo;
+};
+
 
 
 /***********************************************************************
