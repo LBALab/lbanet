@@ -74,9 +74,9 @@ Lba1ModelMapHandler::Lba1ModelMapHandler()
 				_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].modelnumber = atoi(tokens[4].c_str());
 				_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].bodynumber = atoi(tokens[5].c_str());
 				_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].WeaponType = atoi(tokens[6].c_str());
-				_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].Size.X = atof(tokens[7].c_str());
-				_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].Size.Y = atof(tokens[8].c_str());
-				_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].Size.Z = atof(tokens[9].c_str());
+				_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].Size.X = (float)atof(tokens[7].c_str());
+				_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].Size.Y = (float)atof(tokens[8].c_str());
+				_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].Size.Z = (float)atof(tokens[9].c_str());
 
 				for(size_t i=10; i<tokens.size(); ++i)
 				{
