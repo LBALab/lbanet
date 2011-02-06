@@ -163,6 +163,15 @@ module LbaNet
 		float			ColorA;			
 		
 		Lba1ColorChangeSeq	ColorSwaps;	// only fo lba1 models
+		
+		int			SkinColor;
+		int			EyesColor;
+		int			HairColor;
+		int			OutfitColor;
+		int			WeaponColor;
+		
+		int			MountSkinColor;
+		int			MountHairColor;
 	};
 
 	struct PlayerStartingInfo

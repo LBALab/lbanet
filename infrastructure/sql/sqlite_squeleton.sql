@@ -27,16 +27,16 @@ CREATE TABLE `lba_usertoworld` (
   `lastvisited` datetime default NULL,
   `timeplayedmin` int(11) NOT NULL default '0',
   `lastmap` varchar(50) default NULL,
-  `lastposx` float NOT NULL default '0',
-  `lastposy` float NOT NULL default '0',
-  `lastposz` float NOT NULL default '0',
-  `lastrotation` float NOT NULL default '0',
+  `lastposx` real NOT NULL default '0',
+  `lastposy` real NOT NULL default '0',
+  `lastposz` real NOT NULL default '0',
+  `lastrotation` real NOT NULL default '0',
   `InventorySize` int(11) NOT NULL default '30',
   `Shortcuts` varchar(50) NOT NULL default '-1#-1#-1#-1#-1#-1#-1#-1#-1#-1',
-  `LifePoint` float NOT NULL default '-1',
-  `ManaPoint` float NOT NULL default '-1',
-  `MaxLife` float NOT NULL default '-1',
-  `MaxMana` float NOT NULL default '-1',
+  `LifePoint` real NOT NULL default '-1',
+  `ManaPoint` real NOT NULL default '-1',
+  `MaxLife` real NOT NULL default '-1',
+  `MaxMana` real NOT NULL default '-1',
   `PvpKill` int(20) NOT NULL default '0',
   `PvpDeath` int(20) NOT NULL default '0',
   `MonsterDeath` int(20) NOT NULL default '0',
@@ -50,7 +50,10 @@ CREATE TABLE `lba_usertoworld` (
   `ModelWeapon` varchar(50) NOT NULL,
   `ModelMode` varchar(50) NOT NULL,
   `EquipedWeapon` int(11) NOT NULL default '-1',
-  `EquipedOutfit` int(11) NOT NULL default '-1'
+  `EquipedOutfit` int(11) NOT NULL default '-1',
+  `SkinColor` int(11) NOT NULL default '-1',
+  `EyesColor` int(11) NOT NULL default '-1',
+  `HairColor` int(11) NOT NULL default '-1'   
 );
 
 CREATE TABLE `lba_worlds` (

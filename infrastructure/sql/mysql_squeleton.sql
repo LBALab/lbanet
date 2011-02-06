@@ -108,6 +108,9 @@ CREATE TABLE IF NOT EXISTS `lba_usertoworld` (
   `ModelMode` varchar(50) NOT NULL DEFAULT '',
   `EquipedWeapon` int(11) NOT NULL DEFAULT '-1',
   `EquipedOutfit` int(11) NOT NULL DEFAULT '-1',
+  `SkinColor` int(11) NOT NULL default '-1',
+  `EyesColor` int(11) NOT NULL default '-1',
+  `HairColor` int(11) NOT NULL default '-1',  
   PRIMARY KEY (`id`),
   UNIQUE KEY `userid` (`userid`,`worldid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
