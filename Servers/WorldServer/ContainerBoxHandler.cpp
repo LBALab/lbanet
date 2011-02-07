@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "SharedDataHandler.h"
 #include "SynchronizedTimeHandler.h"
 #include "MapHandler.h"
+#include "Actions.h"
 
 /***********************************************************
 update gui with info from server
@@ -75,6 +76,81 @@ show the GUI for a certain player
 void ContainerBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition &curPosition,
 					boost::shared_ptr<ShowGuiParamBase> params)
 {
-	// TODO - also check if container needs reset
+	ShowGuiParamBase * ptr = params.get();
+	ContainerParam * castedptr = 
+		static_cast<ContainerParam *>(params.get());
+
+	ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
+	if(prx)
+	{
+		if(HasOpenedGui(clientid))
+		{
+			//close already opened box
+			HideGUI(clientid);
+		}
+		else
+		{
+			EventsSeq toplayer;
+			GuiParamsSeq seq;
+			seq.push_back(new ContainerGuiParameter(castedptr->_InventorySize,
+											castedptr->_sharedinfo->ContainerItems,
+											castedptr->_inventory));
+			toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+													"ContainerBox", seq, true, false));
+
+			IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
+			t->start();	
+
+			// add gui to the list to be removed later
+			AddOpenedGui(clientid, curPosition);
+
+			// store container info
+			_openedcontainers[clientid] = castedptr->_sharedinfo;
+		}
+	}
 
 }
+
+//
+//
+///***********************************************************
+//update container content
+//***********************************************************/
+//void ContainerBoxHandler::UpdateContent(long itemid, int deltanumber, ContainerSharedInfo container)
+//{
+//
+//	// if we add content
+//	if(deltanumber > 0)
+//	{
+//		std::map<long, int>::iterator itlocal = container.find(itemid);
+//		if(itlocal != _currentContent.end())
+//			itlocal->second += deltanumber;
+//		else
+//			container[itemid] = deltanumber;
+//	}
+//	else // if we remove content
+//	{
+//		std::map<long, int>::iterator itlocal = _currentContent.find(itemid);
+//		if(itlocal != _currentContent.end())
+//		{
+//			itlocal->second += deltanumber;
+//			if(itlocal->second <= 0)
+//			{
+//				// remove link
+//				_currentContent.erase(itlocal);
+//
+//				// remove link to spawn list to tell that the item has been looted
+//				std::map<long, int>::iterator itlink = _linktolootlist.find(itemid);
+//				if(itlink != _linktolootlist.end())
+//				{
+//					_lootList[itlink->second].currpicked = -1;
+//					if(resettime)
+//						_lootList[itlink->second].lastSpawningTime = 0;
+//					else
+//						_lootList[itlink->second].lastSpawningTime = IceUtil::Time::now().toMilliSecondsDouble();
+//					_linktolootlist.erase(itlink);
+//				}
+//			}
+//		}
+//	}
+//}

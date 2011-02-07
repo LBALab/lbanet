@@ -201,6 +201,15 @@ void MapHandler::run()
 		GetEvents(evts);
 		ProcessEvents(evts);
 
+		// process guis
+		{
+			double ctime = SynchronizedTimeHandler::GetCurrentTimeDouble();
+			std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator itg = _guihandlers.begin();
+			std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator endg = _guihandlers.end();
+			for(; itg != endg; ++itg)
+				itg->second->Process(ctime);
+		}
+
 
 		// send events to all proxies
 		if(_tosendevts.size() > 0)
@@ -1797,6 +1806,48 @@ void MapHandler::DisplayTxtAction(int ObjectType, long ObjectId,
 					boost::shared_ptr<ShowGuiParamBase>(new TextBoxParam(TextId)));
 }
 
+
+
+
+/***********************************************************
+send error message to client
+***********************************************************/
+void MapHandler::SendErrorMessage(long clientid, const std::string & messagetitle, 
+									const std::string &  messagecontent)
+{
+	if(clientid >= 0)
+	{
+		ClientProxyBasePtr proxy = GetProxy(clientid);
+		if(proxy)
+		{
+			LbaNet::EventsSeq toplayer;
+			LbaNet::GuiUpdatesSeq paramseq;
+			paramseq.push_back(new LbaNet::SystemMessageUpdate(messagetitle, messagecontent));
+			toplayer.push_back(new LbaNet::UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+													"main", paramseq));
+
+			IceUtil::ThreadPtr t = new EventsSender(toplayer, proxy);
+			t->start();	
+		}
+	}
+}
+
+
+/***********************************************************
+open container on client side
+***********************************************************/
+void MapHandler::OpenContainer(long clientid, boost::shared_ptr<ContainerSharedInfo> sharedinfo)
+{
+	if(clientid >= 0)
+	{
+		ItemsMap inventory = GetInventory(clientid);
+		int size = GetInventorySize(clientid);
+
+		// send container to player
+		_guihandlers["ContainerBox"]->ShowGUI(clientid, GetPlayerPosition(clientid), 
+						boost::shared_ptr<ShowGuiParamBase>(new ContainerParam(sharedinfo, inventory, size)));
+	}
+}
 
 
 

@@ -31,6 +31,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <boost/shared_ptr.hpp>
 
 
+class ContainerSharedInfo;
+
+
 // base class containing params when showing a gui
 class ShowGuiParamBase
 {
@@ -49,6 +52,30 @@ public:
 };
 
 
+// class containing text param
+class ContainerParam : public ShowGuiParamBase
+{
+public:
+	//! constructor
+	ContainerParam(boost::shared_ptr<ContainerSharedInfo> sharedinfo,
+						const LbaNet::ItemsMap & inventory,
+						int InventorySize)
+		: _sharedinfo(sharedinfo), _inventory(inventory),
+			_InventorySize(InventorySize)
+	{}
+
+	int											_InventorySize;
+	boost::shared_ptr<ContainerSharedInfo>		_sharedinfo;
+	LbaNet::ItemsMap							_inventory;
+};
+
+
+struct OpenedGuiInfo
+{
+	LbaNet::PlayerPosition		PositionAtOpening;
+	double						TimeAtOpening;
+	double						CloseTimer;
+};
 
 //*************************************************************************************************
 //*                               class ServerGUIBase
@@ -87,9 +114,13 @@ public:
 	//! a player moved - check if we need to do something (e.g. close the gui)
 	void PlayerMoved(Ice::Long clientid, const LbaNet::PlayerPosition &curPosition);
 
+	//! process guis if needed
+	void Process(double currenttime);
+
 protected:
 	//! add a player to the opened gui
-	void AddOpenedGui(Ice::Long clientid, const LbaNet::PlayerPosition &curPosition);
+	void AddOpenedGui(Ice::Long clientid, const LbaNet::PlayerPosition &curPosition,
+						double closetimer = -1);
 
 	//! remove a player from the opened gui
 	void RemoveOpenedGui(Ice::Long clientid);
@@ -99,7 +130,7 @@ protected:
 
 private:
 	// used in mechanism to hide a gui if the player move away
-	std::map<Ice::Long, LbaNet::PlayerPosition>		_openedguis;
+	std::map<Ice::Long, OpenedGuiInfo>		_openedguis;
 
 };
 

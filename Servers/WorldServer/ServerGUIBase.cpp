@@ -24,6 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "ServerGUIBase.h"
 #include <math.h>
+#include "SynchronizedTimeHandler.h"
+
 
 #define	_MAX_DISTANCE_PLAYER_OBJECT_SQUARE_	16
 
@@ -34,7 +36,7 @@ a player quitted the map - check if we need to do something (e.g. close the gui)
 ***********************************************************/
 void ServerGUIBase::PlayerLeftMap(Ice::Long clientid)
 {
-	std::map<Ice::Long, LbaNet::PlayerPosition>::iterator it = _openedguis.find(clientid);
+	std::map<Ice::Long, OpenedGuiInfo>::iterator it = _openedguis.find(clientid);
 	if(it != _openedguis.end())
 	{
 		HideGUI(clientid);
@@ -47,12 +49,12 @@ a player moved - check if we need to do something (e.g. close the gui)
 ***********************************************************/
 void ServerGUIBase::PlayerMoved(Ice::Long clientid, const LbaNet::PlayerPosition &curPosition)
 {
-	std::map<Ice::Long, LbaNet::PlayerPosition>::iterator it = _openedguis.find(clientid);
+	std::map<Ice::Long, OpenedGuiInfo>::iterator it = _openedguis.find(clientid);
 	if(it != _openedguis.end())
 	{
-		float distanceX = (it->second.X - curPosition.X);
-		float distanceY = (it->second.Y - curPosition.Y);
-		float distanceZ = (it->second.Z - curPosition.Z);
+		float distanceX = (it->second.PositionAtOpening.X - curPosition.X);
+		float distanceY = (it->second.PositionAtOpening.Y - curPosition.Y);
+		float distanceZ = (it->second.PositionAtOpening.Z - curPosition.Z);
 		float distance = (distanceX*distanceX) + (distanceY*distanceY) + (distanceZ*distanceZ);
 		
 		// check distance between player and object
@@ -63,11 +65,42 @@ void ServerGUIBase::PlayerMoved(Ice::Long clientid, const LbaNet::PlayerPosition
 
 
 /***********************************************************
+process guis if needed
+***********************************************************/
+void ServerGUIBase::Process(double currenttime)
+{
+	std::map<Ice::Long, OpenedGuiInfo>::iterator it = _openedguis.begin();
+	std::map<Ice::Long, OpenedGuiInfo>::iterator end = _openedguis.end();
+	for(;it != end; ++it)
+	{
+		if(it->second.CloseTimer > 0)
+		{
+			if((it->second.TimeAtOpening - currenttime) > it->second.CloseTimer)
+				HideGUI(it->first);
+		}
+	}
+}
+
+
+
+/***********************************************************
 add a player to the opened gui
 ***********************************************************/
-void ServerGUIBase::AddOpenedGui(Ice::Long clientid, const LbaNet::PlayerPosition &curPosition)
+void ServerGUIBase::AddOpenedGui(Ice::Long clientid, const LbaNet::PlayerPosition &curPosition,
+									double closetimer)
 {
-	_openedguis[clientid] = curPosition;
+	// remove old gui if present when new gui open
+	if(HasOpenedGui(clientid))
+		HideGUI(clientid);
+
+	OpenedGuiInfo oginfo;
+	oginfo.PositionAtOpening = curPosition;
+	oginfo.CloseTimer = closetimer;
+
+	if(closetimer >= 0)
+		oginfo.TimeAtOpening = SynchronizedTimeHandler::GetCurrentTimeDouble();
+
+	_openedguis[clientid] = oginfo;
 }
 
 
@@ -76,7 +109,7 @@ remove a player from the opened gui
 ***********************************************************/
 void ServerGUIBase::RemoveOpenedGui(Ice::Long clientid)
 {
-	std::map<Ice::Long, LbaNet::PlayerPosition>::iterator it = _openedguis.find(clientid);
+	std::map<Ice::Long, OpenedGuiInfo>::iterator it = _openedguis.find(clientid);
 	if(it != _openedguis.end())
 		_openedguis.erase(it);
 }
@@ -86,7 +119,7 @@ check if client has gui opened
 ***********************************************************/
 bool ServerGUIBase::HasOpenedGui(Ice::Long clientid)
 {
-	std::map<Ice::Long, LbaNet::PlayerPosition>::iterator it = _openedguis.find(clientid);
+	std::map<Ice::Long, OpenedGuiInfo>::iterator it = _openedguis.find(clientid);
 	if(it != _openedguis.end())
 		return true;
 

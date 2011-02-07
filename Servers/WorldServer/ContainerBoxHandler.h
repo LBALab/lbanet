@@ -49,6 +49,9 @@ public:
 	//! hide the GUI for a certain player
 	virtual void HideGUI(Ice::Long clientid);
 
+
+private:
+	std::map<long, boost::shared_ptr<ContainerSharedInfo> >		_openedcontainers;
 };
 
 #endif

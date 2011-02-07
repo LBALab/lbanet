@@ -1,6 +1,8 @@
 #include "Actions.h"
 #include "ScriptEnvironmentBase.h"
+#include "SynchronizedTimeHandler.h"
 #include <fstream>
+
 
 /***********************************************************
 constructor
@@ -268,4 +270,99 @@ void ConditionalAction::SaveToLuaFile(std::ofstream & file, const std::string & 
 		file<<"\t"<<name<<":SetCondition("<<condname.str()<<")"<<std::endl;
 	}
 
+}
+
+
+/***********************************************************
+constructor
+***********************************************************/	
+OpenContainerAction::OpenContainerAction()
+: _TimeToReset(600000) // set to 10 min
+{
+	_lastResetTime = SynchronizedTimeHandler::GetCurrentTimeDouble();
+	_shared = boost::shared_ptr<ContainerSharedInfo>(new ContainerSharedInfo());
+	_shared->OpeningClient = -1;
+}
+	
+
+/***********************************************************
+destructor
+***********************************************************/	
+OpenContainerAction::~OpenContainerAction(void)
+{
+
+}
+
+
+/***********************************************************
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+***********************************************************/	
+void OpenContainerAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args)
+{
+	long clientid = -1;
+
+	if(ObjectType == 2)
+		clientid = ObjectId;
+
+	// on object moved by player
+	if(ObjectType == 3)
+	{
+		// todo - find attached player
+	}
+
+	// check if client found - else return
+	if(clientid < 0)
+		return;
+
+	// check if container already opened
+	if(_shared->OpeningClient > 0)
+	{
+		// do nothing if same client
+		if(_shared->OpeningClient == clientid)
+			return;
+
+		// if so send error message to client
+		if(owner)
+			owner->SendErrorMessage(clientid, "Container used", "The container is already in use by another player.");
+
+		return;
+	}
+
+	// set client as opener
+	_shared->OpeningClient = clientid;
+
+
+	//prepare item set
+	PrepareContainer();
+		
+
+	// send container to client
+	if(owner)
+		owner->OpenContainer(clientid, _shared);
+}
+
+
+
+/***********************************************************
+prepare the container
+***********************************************************/	
+void OpenContainerAction::PrepareContainer()
+{
+	// TODO - also check if container needs reset
+}
+
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void OpenContainerAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
+{
+	//TODO
 }

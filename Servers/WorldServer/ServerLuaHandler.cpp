@@ -94,7 +94,16 @@ ServerLuaHandler::ServerLuaHandler()
 		.def_readwrite("ScaleZ", &LbaNet::ModelInfo::ScaleZ)	
 		.def_readwrite("RotX", &LbaNet::ModelInfo::RotX)
 		.def_readwrite("RotY", &LbaNet::ModelInfo::RotY)
-		.def_readwrite("RotZ", &LbaNet::ModelInfo::RotZ),
+		.def_readwrite("RotZ", &LbaNet::ModelInfo::RotZ)
+		.def_readwrite("SkinColor", &LbaNet::ModelInfo::SkinColor)
+		.def_readwrite("EyesColor", &LbaNet::ModelInfo::EyesColor)		
+		.def_readwrite("HairColor", &LbaNet::ModelInfo::HairColor)
+		.def_readwrite("OutfitColor", &LbaNet::ModelInfo::OutfitColor)
+		.def_readwrite("WeaponColor", &LbaNet::ModelInfo::WeaponColor)		
+		.def_readwrite("MountSkinColor", &LbaNet::ModelInfo::MountSkinColor)
+		.def_readwrite("MountHairColor", &LbaNet::ModelInfo::MountHairColor)			
+		,
+
 
 		luabind::class_<LbaNet::PlayerPosition>("PlayerPosition")
 		.def(luabind::constructor<>())
@@ -155,6 +164,8 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("Teleport", &ScriptEnvironmentBase::Teleport)
 		.def("ExecuteClientScript", &ScriptEnvironmentBase::ExecuteClientScript)
 		.def("DisplayTextAction", &ScriptEnvironmentBase::DisplayTxtAction)
+		.def("SendErrorMessage", &ScriptEnvironmentBase::SendErrorMessage)
+		.def("OpenContainer", &ScriptEnvironmentBase::OpenContainer)
 		,
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),
@@ -246,6 +257,12 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetActionFalse", &ConditionalAction::GetActionFalse)
 		,
 
+		luabind::class_<ContainerSharedInfo, boost::shared_ptr<ContainerSharedInfo> >("ContainerSharedInfo")
+		.def_readwrite("OpeningClient", &ContainerSharedInfo::OpeningClient)
+		.def_readwrite("ContainerItems", &ContainerSharedInfo::ContainerItems)
+		,
+
+		
 
 
 

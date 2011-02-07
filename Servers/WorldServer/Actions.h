@@ -304,6 +304,66 @@ private:
 
 
 
+
+struct ContainerSharedInfo
+{
+	long				OpeningClient;
+	LbaNet::ItemsMap	ContainerItems;
+};
+
+
+//! use to display a text on client
+class OpenContainerAction : public ActionBase
+{
+public:
+	//! constructor
+	OpenContainerAction();
+	
+	//! destructor
+	virtual ~OpenContainerAction(void);
+
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args);
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "OpenContainerAction"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+
+	// acessor
+	double GetTimeToReset()
+	{ return _TimeToReset;}
+
+	// acessor
+	void SetTimeToReset(double t)
+	{ _TimeToReset = t;}
+
+
+protected:
+	// prepare the container
+	void PrepareContainer();
+
+private:
+	double									_lastResetTime;
+	double									_TimeToReset;
+
+	boost::shared_ptr<ContainerSharedInfo>	_shared;
+};
+
+
+
+
+
 //TODO - add action list
 
 #endif
