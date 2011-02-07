@@ -442,7 +442,6 @@ module LbaNet
 	// server send container content to client	
 	class ContainerGuiParameter extends GuiParameterBase
 	{
-		long			ContainerId;
 		int			InventorySize;		
 		ItemsMap		ContainerContent;
 		ItemsMap		InventoryContent;	
@@ -451,7 +450,6 @@ module LbaNet
 	// server send list of item in shop to client
 	class ShopGuiParameter extends GuiParameterBase
 	{
-		long			NPCId;
 		ItemsMap		ShopContent;
 		string			MoneyIconName;
 	};
@@ -594,7 +592,6 @@ module LbaNet
 	// client tell server to update container content
 	class UpdateInvContainer extends GuiUpdateBase
 	{
-		long 			Containerid;
 		LbaNet::ItemList 	Taken;
 		LbaNet::ItemList 	Put;
 	};
@@ -687,7 +684,6 @@ module LbaNet
 	// client tell server to buy an item
 	class BuyItemUpdate extends GuiUpdateBase
 	{
-		long			NPCId;	
 		long			ItemId;
 	};	
 	
