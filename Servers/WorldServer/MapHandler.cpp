@@ -808,10 +808,10 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 /***********************************************************
 change player stance
 ***********************************************************/
-void MapHandler::ChangeStance(Ice::Long id, LbaNet::ModelStance NewStance, bool fromserver)
+void MapHandler::ChangeStance(Ice::Long id, LbaNet::ModelStance NewStance, bool fromserver, int mountid)
 {
 	ModelInfo returnmodel;
-	if(UpdatePlayerStance(id, NewStance, returnmodel, fromserver))
+	if(UpdatePlayerStance(id, NewStance, returnmodel, fromserver, mountid))
 	{
 		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 					PlayerObject, id, new ModelUpdate(returnmodel, false)));
@@ -1253,13 +1253,14 @@ bool MapHandler::UpdatePlayerPosition(Ice::Long clientid, const PlayerPosition &
 //! return true if state has been updated
 ***********************************************************/
 bool MapHandler::UpdatePlayerStance(Ice::Long clientid, LbaNet::ModelStance NewStance,
-												ModelInfo & returnmodel, bool fromserver)
+												ModelInfo & returnmodel, bool fromserver,
+												int mountid)
 {
 	IceUtil::Mutex::Lock sync(_mutex_proxies);
 
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
-		return it->second->UpdatePlayerStance(NewStance, returnmodel, fromserver);
+		return it->second->UpdatePlayerStance(NewStance, returnmodel, fromserver, mountid);
 
 	return false;
 }
@@ -1622,6 +1623,7 @@ ActorObjectInfo MapHandler::CreateSpawningDisplay(long id, float PosX, float Pos
 	ainfo.ExtraInfo.NameColorR = 0.2f;
 	ainfo.ExtraInfo.NameColorG = 1.0f;
 	ainfo.ExtraInfo.NameColorB = 0.2f;
+	ainfo.LifeInfo.Display = false;
 	return ainfo;
 }
 
@@ -1853,15 +1855,15 @@ void MapHandler::PlayerItemUsed(Ice::Long clientid, long ItemId)
 				switch(itinfo.Info.Flag)
 				{
 					case 1:
-						ChangeStance(clientid, LbaNet::StanceProtopack, true);
+						ChangeStance(clientid, LbaNet::StanceProtopack, true, ItemId);
 					break;
 					case 2:
 						if(_mapinfo.Type == "exterior")
-							ChangeStance(clientid, LbaNet::StanceHorse, true);
+							ChangeStance(clientid, LbaNet::StanceHorse, true, ItemId);
 					break;
 					case 3:
 						if(_mapinfo.Type == "exterior")
-							ChangeStance(clientid, LbaNet::StanceDinofly, true);
+							ChangeStance(clientid, LbaNet::StanceDinofly, true, ItemId);
 					break;
 				}
 			}

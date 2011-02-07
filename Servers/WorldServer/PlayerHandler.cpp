@@ -28,14 +28,6 @@ PlayerHandler::PlayerHandler(long clientid, ClientProxyBasePtr proxy,
 	_spawningIno = savedinfo.ppos;
 
 
-	// reset stance if dino or horse
-	if(_currentinfo.model.Mode == "Horse" || _currentinfo.model.Mode == "Dinofly")
-	{
-		_currentinfo.model.Mode = "Normal";
-		_currentinfo.model.State = LbaNet::StNormal;
-	}
-
-
 	// set default values
 	_currentinfo.model.TransX = 0;
 	_currentinfo.model.TransY = 0;
@@ -136,6 +128,29 @@ PlayerHandler::PlayerHandler(long clientid, ClientProxyBasePtr proxy,
 
 	_currentinfo.lifemana.Display = true;
 	_extrainfo.Display = true;
+
+
+	// reinit model colors
+	_currentinfo.model.OutfitColor = -1;
+	_currentinfo.model.WeaponColor = -1;
+	_currentinfo.model.MountSkinColor = -1;
+	_currentinfo.model.MountHairColor = -1;
+	if(_currentinfo.EquipedWeapon >= 0)
+	{
+		LbaNet::ItemInfo iinfo = InventoryItemHandler::getInstance()->GetItemInfo(_currentinfo.EquipedWeapon);
+		_currentinfo.model.WeaponColor = iinfo.Color1;
+	}
+	if(_currentinfo.EquipedOutfit >= 0)
+	{
+		LbaNet::ItemInfo iinfo = InventoryItemHandler::getInstance()->GetItemInfo(_currentinfo.EquipedOutfit);
+		_currentinfo.model.OutfitColor = iinfo.Color1;
+	}
+	if(_currentinfo.EquipedMount >= 0)
+	{
+		LbaNet::ItemInfo iinfo = InventoryItemHandler::getInstance()->GetItemInfo(_currentinfo.EquipedMount);
+		_currentinfo.model.MountSkinColor = iinfo.Color1;
+		_currentinfo.model.MountHairColor = iinfo.Color2;
+	}
 
 
 	// create model and state classes
@@ -249,7 +264,8 @@ void PlayerHandler::SaveCurrentInfo()
 
 		//set player model
 		_dbH->UpdateModel(_currentinfo.model, _worldname, _clientid, 
-							(long)_currentinfo.EquipedWeapon, (long)_currentinfo.EquipedOutfit);
+							(long)_currentinfo.EquipedWeapon, (long)_currentinfo.EquipedOutfit,
+							(long)_currentinfo.EquipedMount);
 	}
 }
 
@@ -286,12 +302,14 @@ std::string PlayerHandler::GetPlayerModeString()
 //! return true if state has been updated
 ***********************************************************/
 bool PlayerHandler::UpdatePlayerStance(LbaNet::ModelStance NewStance, LbaNet::ModelInfo & returnmodel,
-										bool changefromserver)
+										bool changefromserver, int mountid)
 {
+	int lastmountid = _currentinfo.EquipedMount;
 
 	//check if stance change is legal
 	if(_currentstate && _currentstate->AllowChangeMode())
 	{
+		_currentinfo.EquipedMount = -1;
 		std::string newmode = "Normal";
 		switch(NewStance)
 		{
@@ -313,23 +331,39 @@ bool PlayerHandler::UpdatePlayerStance(LbaNet::ModelStance NewStance, LbaNet::Mo
 
 			case LbaNet::StanceProtopack:
 				if(changefromserver)
+				{
+					_currentinfo.EquipedMount = mountid;
 					newmode = "Protopack";
+				}
 			break;
 
 			case LbaNet::StanceHorse:
 				if(changefromserver)
+				{
+					_currentinfo.EquipedMount = mountid;
 					newmode = "Horse";
+				}
 			break;
 
 			case LbaNet::StanceDinofly:
 				if(changefromserver)
+				{
+					_currentinfo.EquipedMount = mountid;
 					newmode = "Dinofly";
+				}
 			break;
 		}
 
 		// check if stance is already there
-		if(_currentinfo.model.Mode != newmode)
+		if(_currentinfo.model.Mode != newmode || lastmountid != mountid)
 		{
+			if(mountid > 0)
+			{
+				LbaNet::ItemInfo iinfo = InventoryItemHandler::getInstance()->GetItemInfo(mountid);
+				_currentinfo.model.MountSkinColor = iinfo.Color1;
+				_currentinfo.model.MountHairColor = iinfo.Color2;
+			}
+
 			_currentinfo.model.Mode = newmode;
 			_currentinfo.model.State = LbaNet::StNormal;
 			UpdateStateModeClass();
@@ -379,12 +413,15 @@ bool PlayerHandler::UpdatePlayerWeapon(const std::string & weapon, LbaNet::Model
 	//check if state is legal
 	if(_currentstate && _currentstate->AllowChangeMode())
 	{
-		_currentinfo.EquipedWeapon = ItemId;
-
 		// if so check if already on this state
-		if(_currentinfo.model.Weapon != weapon)
+		if(_currentinfo.EquipedWeapon != ItemId || _currentinfo.model.Weapon != weapon)
 		{
+			_currentinfo.EquipedWeapon = ItemId;
+			LbaNet::ItemInfo iinfo = InventoryItemHandler::getInstance()->GetItemInfo(ItemId);
+
 			_currentinfo.model.Weapon = weapon;
+			_currentinfo.model.WeaponColor = iinfo.Color1;
+
 			return UpdatePlayerState(LbaNet::StPrepareWeapon, returnmodel);
 		}
 	}
@@ -402,12 +439,15 @@ bool PlayerHandler::UpdatePlayerOutfit(const std::string & outfit,	LbaNet::Model
 	//check if state is legal
 	if(_currentstate && _currentstate->AllowChangeMode())
 	{
-		_currentinfo.EquipedOutfit = ItemId;
-
 		// if so check if already on this state
-		if(_currentinfo.model.Outfit != outfit)
+		if(_currentinfo.EquipedOutfit != ItemId || _currentinfo.model.Outfit != outfit)
 		{
+			_currentinfo.EquipedOutfit = ItemId;
+			LbaNet::ItemInfo iinfo = InventoryItemHandler::getInstance()->GetItemInfo(ItemId);
+
 			_currentinfo.model.Outfit = outfit;
+			_currentinfo.model.OutfitColor = iinfo.Color1;
+
 			UpdateStateModeClass();
 			returnmodel = _currentinfo.model;
 			return true;

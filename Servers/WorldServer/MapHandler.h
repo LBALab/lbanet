@@ -205,7 +205,8 @@ protected:
 
 
 	//! change player stance
-	void ChangeStance(Ice::Long id, LbaNet::ModelStance NewStanceId, bool fromserver = false);
+	void ChangeStance(Ice::Long id, LbaNet::ModelStance NewStanceId, bool fromserver = false,
+							int mountid = -1);
 
 	//! change player state
 	void ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, float FallingSize,
@@ -263,7 +264,8 @@ protected:
 	//!  update player stance
 	//! return true if state has been updated
 	bool UpdatePlayerStance(Ice::Long clientid, LbaNet::ModelStance NewStance,
-									ModelInfo & returnmodel, bool fromserver = false);
+									ModelInfo & returnmodel, bool fromserver = false,
+									int mountid = -1);
 
 
 	//!  update player state

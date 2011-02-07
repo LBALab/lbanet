@@ -223,6 +223,7 @@ ActorObjectInfo ZoneTrigger::GetDisplayObject()
 	ainfo.ExtraInfo.NameColorR = 1.0f;
 	ainfo.ExtraInfo.NameColorG = 0.2f;
 	ainfo.ExtraInfo.NameColorB = 0.2f;
+	ainfo.LifeInfo.Display = false;
 	return ainfo;
 }
 
@@ -381,6 +382,7 @@ ActorObjectInfo ActivationTrigger::GetDisplayObject()
 	ainfo.ExtraInfo.NameColorR = 1.0f;
 	ainfo.ExtraInfo.NameColorG = 0.2f;
 	ainfo.ExtraInfo.NameColorB = 0.2f;
+	ainfo.LifeInfo.Display = false;
 	return ainfo;
 }
 
@@ -520,6 +522,7 @@ ActorObjectInfo ZoneActionTrigger::GetDisplayObject()
 	ainfo.ExtraInfo.NameColorR = 1.0f;
 	ainfo.ExtraInfo.NameColorG = 0.2f;
 	ainfo.ExtraInfo.NameColorB = 0.2f;
+	ainfo.LifeInfo.Display = false;
 	return ainfo;
 }
 

@@ -154,11 +154,11 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectE
 		savedinfo.inventory.InventoryStructure = _worldinfo.StartingInfo.StartingInventory;
 		savedinfo.model = _worldinfo.StartingInfo.StartingModel;
 
-		savedinfo.EquipedWeapon = _worldinfo.StartingInfo.EquipedWeapon;
-		savedinfo.EquipedOutfit = _worldinfo.StartingInfo.EquipedOutfit;
-
 
 		// set default values
+		savedinfo.EquipedWeapon = -1;
+		savedinfo.EquipedOutfit = -1;
+		savedinfo.EquipedMount = -1;
 		savedinfo.model.SkinColor = -1;
 		savedinfo.model.EyesColor = -1;
 		savedinfo.model.HairColor = -1;

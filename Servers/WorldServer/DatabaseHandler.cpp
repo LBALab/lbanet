@@ -99,7 +99,7 @@ LbaNet::SavedWorldInfo DatabaseHandler::ChangeWorld(const std::string& NewWorldN
 	}
 
 	mysqlpp::Query query(_mysqlH, false);
-	query << "SELECT uw.id, uw.lastmap, uw.lastposx, uw.lastposy, uw.lastposz, uw.lastrotation, uw.InventorySize, uw.Shortcuts, uw.LifePoint, uw.ManaPoint, uw.MaxLife, uw.MaxMana, w.id, uw.ModelName, uw.ModelOutfit, uw.ModelWeapon, uw.ModelMode, uw.RendererType, uw.EquipedWeapon, uw.EquipedOutfit, uw.SkinColor, uw.EyesColor, uw.HairColor";
+	query << "SELECT uw.id, uw.lastmap, uw.lastposx, uw.lastposy, uw.lastposz, uw.lastrotation, uw.InventorySize, uw.Shortcuts, uw.LifePoint, uw.ManaPoint, uw.MaxLife, uw.MaxMana, w.id, uw.ModelName, uw.ModelOutfit, uw.ModelWeapon, uw.ModelMode, uw.RendererType, uw.EquipedWeapon, uw.EquipedOutfit, uw.EquipedMount, uw.SkinColor, uw.EyesColor, uw.HairColor";
 	query << " FROM lba_usertoworld uw, lba_worlds w";
 	query << " WHERE uw.userid = '"<<PlayerId<<"'";
 	query << " AND w.name = '"<<NewWorldName<<"'";
@@ -168,10 +168,11 @@ LbaNet::SavedWorldInfo DatabaseHandler::ChangeWorld(const std::string& NewWorldN
 
 			resP.EquipedWeapon = res[0][18];
 			resP.EquipedOutfit = res[0][19];
+			resP.EquipedMount = res[0][20];
 
-			resP.model.SkinColor = res[0][20];
-			resP.model.EyesColor = res[0][21];
-			resP.model.HairColor = res[0][22];
+			resP.model.SkinColor = res[0][21];
+			resP.model.EyesColor = res[0][22];
+			resP.model.HairColor = res[0][23];
 
 
 			worldid = res[0][12];
@@ -315,7 +316,8 @@ update player life information
 ***********************************************************/
 void DatabaseHandler::UpdateModel(const LbaNet::ModelInfo & modelinfo, 
 							const std::string& WorldName,long PlayerId,
-								long equipedweapon, long equipedoutfit)
+								long equipedweapon, long equipedoutfit,
+								long equipedmount)
 {
 	Lock sync(*this);
 	if(!_mysqlH || !_mysqlH->connected())
@@ -339,6 +341,7 @@ void DatabaseHandler::UpdateModel(const LbaNet::ModelInfo & modelinfo,
 		query << ", ModelMode = '"<<modelinfo.Mode<<"'";
 		query << ", EquipedWeapon = '"<<equipedweapon<<"'";
 		query << ", EquipedOutfit = '"<<equipedoutfit<<"'";
+		query << ", EquipedMount = '"<<equipedmount<<"'";
 		query << ", SkinColor = '"<<modelinfo.SkinColor<<"'";
 		query << ", EyesColor = '"<<modelinfo.EyesColor<<"'";
 		query << ", HairColor = '"<<modelinfo.HairColor<<"'";

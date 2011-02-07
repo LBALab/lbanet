@@ -109,7 +109,7 @@ public:
 	//!  update player stance
 	//! return true if state has been updated
 	bool UpdatePlayerStance(LbaNet::ModelStance NewStance, LbaNet::ModelInfo & returnmodel,
-								bool changefromserver = false);
+								bool changefromserver = false, int mountid = -1);
 
 
 	//!  update player state
