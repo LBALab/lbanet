@@ -96,9 +96,6 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
 	res.StartingInfo.StartingModel.Weapon = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.Weapon");
 	res.StartingInfo.StartingModel.Mode = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.Mode");
 
-	res.StartingInfo.EquipedWeapon = pt.get<int>("World.PlayerStartingInfo.EquipedWeapon", -1);
-	res.StartingInfo.EquipedOutfit = pt.get<int>("World.PlayerStartingInfo.EquipedOutfit", -1);
-
 	res.StartingInfo.StartingModel.State = LbaNet::StNormal;
 
 	int renderT = pt.get<int>("World.PlayerStartingInfo.StartingModel.RendererType");
@@ -225,9 +222,6 @@ bool XmlReader::SaveWorldInfo(const std::string &Filename, const WorldInformatio
 	pt.put("World.PlayerStartingInfo.StartingModel.Outfit", res.StartingInfo.StartingModel.Outfit);
 	pt.put("World.PlayerStartingInfo.StartingModel.Weapon", res.StartingInfo.StartingModel.Weapon);
 	pt.put("World.PlayerStartingInfo.StartingModel.Mode", res.StartingInfo.StartingModel.Mode);
-
-	pt.put("World.PlayerStartingInfo.EquipedWeapon", res.StartingInfo.EquipedWeapon);
-	pt.put("World.PlayerStartingInfo.EquipedOutfit", res.StartingInfo.EquipedWeapon);
 
 	switch(res.StartingInfo.StartingModel.TypeRenderer)
 	{
@@ -438,6 +432,8 @@ bool XmlReader::LoadInventoryFile(const std::string &Filename, std::map<long, It
 			tpi.Flag = v.second.get<int>("<xmlattr>.valueA", 1);
 			tpi.Ephemere = (v.second.get<bool>("<xmlattr>.Ephemere", false));
 			tpi.StringFlag = v.second.get<std::string>("<xmlattr>.Extra", "");
+			tpi.Color1 = v.second.get<float>("<xmlattr>.Color1", -1);
+			tpi.Color2 = v.second.get<int>("<xmlattr>.Color2", -1);
 			res[(long)tpi.Id] = tpi;
 		}
 	}
@@ -474,6 +470,8 @@ bool XmlReader::SaveInventoryFile(const std::string &Filename, const std::map<lo
 		tmp.put("<xmlattr>.valueA", item.second.Flag);
 		tmp.put("<xmlattr>.Ephemere", item.second.Ephemere);
 		tmp.put("<xmlattr>.Extra", item.second.StringFlag);
+		tmp.put("<xmlattr>.Color1", item.second.Color1);
+		tmp.put("<xmlattr>.Color2", item.second.Color2);
 	}
 
 

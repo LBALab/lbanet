@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <map>
 #include <vector>
-
+#include <LbaTypes.h>
 
 static std::string Lba1ModelDataPath = "Data/Worlds/Lba1Original/Models/";
 
@@ -37,6 +37,13 @@ struct ModelSize
 	float X;
 	float Y;
 	float Z;
+};
+
+
+struct PossibleColorInfo
+{
+	std::vector<LbaNet::Lba1ColorIndex>		_defaults;
+	std::vector<std::vector<int> >			_alternatives;
 };
 
 struct ModeData
@@ -50,6 +57,9 @@ struct ModeData
 	std::vector<int>	polycolors;
 	std::vector<int>	spherecolors;
 	std::vector<int>	linecolors;
+
+
+	std::map<std::string, PossibleColorInfo>	coloralternatives;
 };
 
 struct WeaponData
@@ -117,6 +127,18 @@ public:
 								std::vector<int>	&spherecolors,
 								std::vector<int>	&linecolors);
 
+
+	// get model color
+	// return 0 if model correct
+	// return -1 if model incorrect
+	int GetModelColorAlternative(	const std::string & modelname,
+								const std::string & outfit,
+								const std::string & weapon,
+								const std::string & mode,
+								const std::string & colorpart,
+								int alternativeindex,
+								std::vector<LbaNet::Lba1ColorIndex>	&defaultc,
+								std::vector<int>	&alternativec);
 
 	// get full map info
 	std::map<std::string, ModelData> & GetData()

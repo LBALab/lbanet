@@ -96,6 +96,7 @@ Lba1ModelMapHandler::Lba1ModelMapHandler()
 		}
 	}
 
+	// read color file
 	{
 		std::ifstream file((Lba1ModelDataPath+"lba1_model_color.csv").c_str());
 		if(file.is_open())
@@ -128,6 +129,65 @@ Lba1ModelMapHandler::Lba1ModelMapHandler()
 								mdata.spherecolors.push_back(coloridx);
 							break;
 						}
+					}
+				}
+			}
+		}
+	}
+
+	// read color alternatives file
+	{
+		std::ifstream file((Lba1ModelDataPath+"lba1_model_color_alternatives.csv").c_str());
+		if(file.is_open())
+		{
+			while(!file.eof())
+			{
+				std::string line;
+				std::getline(file, line);
+				std::vector<std::string> tokens;
+				StringHelper::Tokenize(line, tokens, ",");
+
+				ModeData &mdata = _data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]];
+				std::string colorpart = tokens[4];
+
+				// get default color
+				{
+					std::string defaultcs = tokens[5];
+					std::vector<std::string> tokensc;
+					StringHelper::Tokenize(defaultcs, tokensc, ";");
+					for(size_t cc=0; cc< tokensc.size(); ++cc)
+					{
+						std::string colostr = tokensc[cc].substr(1);
+						LbaNet::Lba1ColorIndex indx;
+						indx.Color = atoi(colostr.c_str());
+						char colortype = tokensc[cc][0];
+						switch(colortype)
+						{
+							case 'P':
+								indx.ModelPart = LbaNet::PolygonColor;
+							break;
+							case 'L':
+								indx.ModelPart = LbaNet::LineColor;
+							break;
+							case 'S':
+								indx.ModelPart = LbaNet::SphereColor;
+							break;
+						}
+
+						mdata.coloralternatives[colorpart]._defaults.push_back(indx);
+					}
+				}
+
+				for(size_t i=6; i<tokens.size(); ++i)
+				{
+					std::string defaultcs = tokens[i];
+					std::vector<std::string> tokensc;
+					StringHelper::Tokenize(defaultcs, tokensc, ";");
+					mdata.coloralternatives[colorpart]._alternatives.push_back(std::vector<int>());
+					for(size_t cc=0; cc< tokensc.size(); ++cc)
+					{
+						int color = atoi(tokensc[cc].c_str());
+						mdata.coloralternatives[colorpart]._alternatives[i-6].push_back(color);
 					}
 				}
 			}
@@ -245,6 +305,11 @@ int Lba1ModelMapHandler::GetModelColor(	const std::string & modelname,
 								std::vector<int> & spherecolors,
 								std::vector<int> & linecolors)
 {
+	polycolors.clear();
+	spherecolors.clear();
+	linecolors.clear();
+
+
 	if(modelname == "" || outfit == "" || weapon == "" || mode == "")
 		return -1;
 
@@ -253,6 +318,46 @@ int Lba1ModelMapHandler::GetModelColor(	const std::string & modelname,
 	polycolors = mdata.polycolors;
 	spherecolors = mdata.spherecolors;
 	linecolors = mdata.linecolors;
+
+	return 0;
+}
+
+
+
+
+/***********************************************************
+get model color
+***********************************************************/
+int Lba1ModelMapHandler::GetModelColorAlternative(	const std::string & modelname,
+								const std::string & outfit,
+								const std::string & weapon,
+								const std::string & mode,
+								const std::string & colorpart,
+								int alternativeindex,
+								std::vector<LbaNet::Lba1ColorIndex>	&defaultc,
+								std::vector<int>	&alternativec)
+{
+	defaultc.clear();
+	alternativec.clear();
+
+
+	if(modelname == "" || outfit == "" || weapon == "" || mode == "")
+		return -1;
+
+	ModeData &mdata = _data[modelname].outfits[outfit].weapons[weapon].modes[mode];
+
+	std::map<std::string, PossibleColorInfo>::iterator itm = mdata.coloralternatives.find(colorpart);
+	if(itm == mdata.coloralternatives.end())
+		return -1;
+
+	if(alternativeindex < 0)
+		return -1;
+
+	if(alternativeindex >= itm->second._alternatives.size())
+		return -1;
+
+	defaultc = itm->second._defaults;
+	alternativec = itm->second._alternatives[alternativeindex];
 
 	return 0;
 }
