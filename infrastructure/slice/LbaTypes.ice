@@ -66,6 +66,8 @@ module LbaNet
 		int			Flag;
 		bool			Ephemere;
 		string			StringFlag;
+		int			Color1;
+		int			Color2;
 	};
 	
 	// give information about an item position in inventory
@@ -184,10 +186,6 @@ module LbaNet
 		ModelInfo		StartingModel;
 		
 		ItemsMap		StartingInventory;
-		
-		
-		long			EquipedWeapon;
-		long			EquipedOutfit;			
 	};
 
 
@@ -294,7 +292,8 @@ module LbaNet
 		LifeManaInfo		lifemana;
 		
 		long			EquipedWeapon;
-		long			EquipedOutfit;		
+		long			EquipedOutfit;
+		long			EquipedMount;		
 	};	
 	
 

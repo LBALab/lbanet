@@ -51,6 +51,7 @@ CREATE TABLE `lba_usertoworld` (
   `ModelMode` varchar(50) NOT NULL,
   `EquipedWeapon` int(11) NOT NULL default '-1',
   `EquipedOutfit` int(11) NOT NULL default '-1',
+  `EquipedMount` int(11) NOT NULL default '-1',
   `SkinColor` int(11) NOT NULL default '-1',
   `EyesColor` int(11) NOT NULL default '-1',
   `HairColor` int(11) NOT NULL default '-1'   
