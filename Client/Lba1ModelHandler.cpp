@@ -163,6 +163,137 @@ update model
 int Lba1ModelHandler::UpdateModel(const LbaNet::ModelInfo & info)
 {
 	_currentmodelinfo = info;
+
+	// update colors if needed
+	{
+		if(_currentmodelinfo.SkinColor >= 0)
+		{
+			std::vector<LbaNet::Lba1ColorIndex>	defaultc;
+			std::vector<int>	alternativec;
+
+			int res = Lba1ModelMapHandler::getInstance()->GetModelColorAlternative(_currentmodelinfo.ModelName,
+																			_currentmodelinfo.Outfit,
+																			_currentmodelinfo.Weapon,
+																			_currentmodelinfo.Mode,
+																			"SkinColor",
+																			_currentmodelinfo.SkinColor,
+																			defaultc, alternativec);
+
+			if(defaultc.size() == alternativec.size())
+				for(size_t cc=0; cc<defaultc.size(); ++cc)
+					_currentmodelinfo.ColorSwaps[defaultc[cc]] = alternativec[cc];
+		}
+
+		if(_currentmodelinfo.EyesColor >= 0)
+		{
+			std::vector<LbaNet::Lba1ColorIndex>	defaultc;
+			std::vector<int>	alternativec;
+
+			int res = Lba1ModelMapHandler::getInstance()->GetModelColorAlternative(_currentmodelinfo.ModelName,
+																			_currentmodelinfo.Outfit,
+																			_currentmodelinfo.Weapon,
+																			_currentmodelinfo.Mode,
+																			"EyesColor",
+																			_currentmodelinfo.EyesColor,
+																			defaultc, alternativec);
+
+			if(defaultc.size() == alternativec.size())
+				for(size_t cc=0; cc<defaultc.size(); ++cc)
+					_currentmodelinfo.ColorSwaps[defaultc[cc]] = alternativec[cc];
+		}
+
+		if(_currentmodelinfo.HairColor >= 0)
+		{
+			std::vector<LbaNet::Lba1ColorIndex>	defaultc;
+			std::vector<int>	alternativec;
+
+			int res = Lba1ModelMapHandler::getInstance()->GetModelColorAlternative(_currentmodelinfo.ModelName,
+																			_currentmodelinfo.Outfit,
+																			_currentmodelinfo.Weapon,
+																			_currentmodelinfo.Mode,
+																			"HairColor",
+																			_currentmodelinfo.HairColor,
+																			defaultc, alternativec);
+
+			if(defaultc.size() == alternativec.size())
+				for(size_t cc=0; cc<defaultc.size(); ++cc)
+					_currentmodelinfo.ColorSwaps[defaultc[cc]] = alternativec[cc];
+		}
+
+		if(_currentmodelinfo.OutfitColor >= 0)
+		{
+			std::vector<LbaNet::Lba1ColorIndex>	defaultc;
+			std::vector<int>	alternativec;
+
+			int res = Lba1ModelMapHandler::getInstance()->GetModelColorAlternative(_currentmodelinfo.ModelName,
+																			_currentmodelinfo.Outfit,
+																			_currentmodelinfo.Weapon,
+																			_currentmodelinfo.Mode,
+																			"OutfitColor",
+																			_currentmodelinfo.OutfitColor,
+																			defaultc, alternativec);
+
+			if(defaultc.size() == alternativec.size())
+				for(size_t cc=0; cc<defaultc.size(); ++cc)
+					_currentmodelinfo.ColorSwaps[defaultc[cc]] = alternativec[cc];
+		}
+
+		if(_currentmodelinfo.WeaponColor >= 0)
+		{
+			std::vector<LbaNet::Lba1ColorIndex>	defaultc;
+			std::vector<int>	alternativec;
+
+			int res = Lba1ModelMapHandler::getInstance()->GetModelColorAlternative(_currentmodelinfo.ModelName,
+																			_currentmodelinfo.Outfit,
+																			_currentmodelinfo.Weapon,
+																			_currentmodelinfo.Mode,
+																			"WeaponColor",
+																			_currentmodelinfo.WeaponColor,
+																			defaultc, alternativec);
+
+			if(defaultc.size() == alternativec.size())
+				for(size_t cc=0; cc<defaultc.size(); ++cc)
+					_currentmodelinfo.ColorSwaps[defaultc[cc]] = alternativec[cc];
+		}
+
+		if(_currentmodelinfo.MountSkinColor >= 0)
+		{
+			std::vector<LbaNet::Lba1ColorIndex>	defaultc;
+			std::vector<int>	alternativec;
+
+			int res = Lba1ModelMapHandler::getInstance()->GetModelColorAlternative(_currentmodelinfo.ModelName,
+																			_currentmodelinfo.Outfit,
+																			_currentmodelinfo.Weapon,
+																			_currentmodelinfo.Mode,
+																			"MountSkinColor",
+																			_currentmodelinfo.MountSkinColor,
+																			defaultc, alternativec);
+
+			if(defaultc.size() == alternativec.size())
+				for(size_t cc=0; cc<defaultc.size(); ++cc)
+					_currentmodelinfo.ColorSwaps[defaultc[cc]] = alternativec[cc];
+		}
+
+		if(_currentmodelinfo.MountHairColor >= 0)
+		{
+			std::vector<LbaNet::Lba1ColorIndex>	defaultc;
+			std::vector<int>	alternativec;
+
+			int res = Lba1ModelMapHandler::getInstance()->GetModelColorAlternative(_currentmodelinfo.ModelName,
+																			_currentmodelinfo.Outfit,
+																			_currentmodelinfo.Weapon,
+																			_currentmodelinfo.Mode,
+																			"MountHairColor",
+																			_currentmodelinfo.MountHairColor,
+																			defaultc, alternativec);
+
+			if(defaultc.size() == alternativec.size())
+				for(size_t cc=0; cc<defaultc.size(); ++cc)
+					_currentmodelinfo.ColorSwaps[defaultc[cc]] = alternativec[cc];
+		}
+	}
+
+
 	return RefreshModel(true);
 }
 
@@ -190,7 +321,7 @@ int Lba1ModelHandler::Update(LbaNet::DisplayObjectUpdateBasePtr update)
 {
 	const std::type_info& info = typeid(*update);
 
-	// ModelUpdate
+	// Lba1ModelColorUpdate
 	if(info == typeid(LbaNet::Lba1ModelColorUpdate))
 	{
 		LbaNet::Lba1ModelColorUpdate * castedptr = 
