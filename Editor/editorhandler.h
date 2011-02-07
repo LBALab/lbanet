@@ -361,6 +361,13 @@ public:
 		long TextId){}
 
 
+	// send error message to client
+	virtual void SendErrorMessage(long clientid, const std::string & messagetitle, 
+											const std::string &  messagecontent){}
+
+	// open container on client side
+	virtual void OpenContainer(long clientid, boost::shared_ptr<ContainerSharedInfo> sharedinfo){}
+
 public slots:
 	 //! ui button clicked
      void addtrigger_button_clicked();
