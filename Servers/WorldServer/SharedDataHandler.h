@@ -132,6 +132,13 @@ public:
 	void UpdateInventory(Ice::Long clientid, LbaNet::ItemList Taken, LbaNet::ItemList Put, 
 								LbaNet::ItemClientInformType informtype);
 
+
+	//! set main player state
+	void SetMainState(LbaNet::ModelState state);
+
+	//! return main player state
+	LbaNet::ModelState GetMainState();
+
 protected:
 	//! constructor
 	SharedDataHandler(void){}
@@ -172,6 +179,8 @@ private:
 
 	std::map<std::string, boost::shared_ptr<MapHandler> >				_currentmaps;
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >				_currentplayers;
+
+	LbaNet::ModelState													_currentplayerstate;
 };
 
 #endif

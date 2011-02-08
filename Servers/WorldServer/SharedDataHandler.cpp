@@ -780,3 +780,22 @@ void SharedDataHandler::UpdateInventory(Ice::Long clientid, LbaNet::ItemList Tak
 	if(itplayer != _currentplayers.end())
 		itplayer->second->UpdateInventory(Taken, Put, informtype);
 }
+
+
+/***********************************************************
+set main player state
+***********************************************************/
+void SharedDataHandler::SetMainState(LbaNet::ModelState state)
+{
+	// no need to lock - always called within the same thread
+	_currentplayerstate = state;
+}
+
+/***********************************************************
+return main player state
+***********************************************************/
+LbaNet::ModelState SharedDataHandler::GetMainState()
+{
+	// no need to lock - always called within the same thread
+	return _currentplayerstate;
+}

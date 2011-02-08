@@ -14,6 +14,7 @@ extern "C"
 #include "ClientScript.h"
 #include "ActionArguments.h"
 #include "Conditions.h"
+#include "ScriptEnvironmentBase.h"
 
 
 #ifdef _USE_QT_EDITOR_	
@@ -27,12 +28,6 @@ ServerLuaHandler::ServerLuaHandler()
 {
 	try
 	{
-		// Create a new lua state
-		m_LuaState = lua_open();
-
-		// Connect LuaBind to this lua state
-		luabind::open(m_LuaState);
-
 		// Add server interfaces to the state's global scope
 		luabind::module(m_LuaState) [
 
@@ -328,40 +323,6 @@ destructor
 ***********************************************************/	
 ServerLuaHandler::~ServerLuaHandler(void)
 {
-	lua_close(m_LuaState);
-}
-
-
-/***********************************************************
-load a lua file
-***********************************************************/
-void ServerLuaHandler::LoadFile(const std::string & luafile)
-{
-	// read lua file
-	int error = luaL_dofile(m_LuaState, ("Data/"+luafile).c_str());
-	if(error != 0)
-	{
-		LogHandler::getInstance()->LogToFile(std::string("Error loading lua file: ") + lua_tostring(m_LuaState, -1));
-	}
-}
-
-
-/***********************************************************
-call lua function
-***********************************************************/
-void ServerLuaHandler::CallLua(const std::string & functioname, ScriptEnvironmentBase* env)
-{
-	try
-	{
-		if(env)
-			luabind::call_function<void>(m_LuaState, functioname.c_str(), env);
-		else
-			luabind::call_function<void>(m_LuaState, functioname.c_str());
-	}
-	catch(const std::exception &error)
-	{
-		LogHandler::getInstance()->LogToFile(std::string("Exception calling lua function ") + functioname + std::string(" : ") + error.what() + std::string(" : ") + lua_tostring(m_LuaState, -1), 0);
-	}
 }
 
 
@@ -382,4 +343,21 @@ void ServerLuaHandler::ExecuteCustomAction(int ObjectType, long ObjectId,
 	{
 		LogHandler::getInstance()->LogToFile(std::string("Exception calling lua function ") + FunctionName + std::string(" : ") + error.what() + std::string(" : ") + lua_tostring(m_LuaState, -1), 0);
 	}
+}
+
+
+/***********************************************************
+called when failed starting a script
+***********************************************************/
+void ServerLuaHandler::FailedStartingScript(const std::string & functioname)
+{
+	//TODO
+}
+
+/***********************************************************
+called when a script has finished
+***********************************************************/
+void ServerLuaHandler::ScriptFinished(const std::string & functioname)
+{
+	//TODO
 }

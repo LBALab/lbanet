@@ -163,7 +163,7 @@ public:
 #endif
 
 
-private:
+protected:
 	ActorObjectInfo		m_actorinfo;
 
 

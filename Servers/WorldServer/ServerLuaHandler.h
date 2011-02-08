@@ -25,28 +25,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SERVER_LUA_HANDLER_H__
 #define _SERVER_LUA_HANDLER_H__
 
-#include <string>
-#include "ScriptEnvironmentBase.h"
-
-struct lua_State;
+#include "LuaHandlerBase.h"
+class ActionArgumentBase;
 
 
 //! class taking care of the maping between lua and the server interfaces
-class ServerLuaHandler
+class ServerLuaHandler : public LuaHandlerBase
 {
 public:
 	//! constructor
 	ServerLuaHandler();
 	
 	//! destructor
-	~ServerLuaHandler(void);
-
-	//! load a lua file
-	void LoadFile(const std::string & luafile);
-
-	//! call lua function
-	void CallLua(const std::string & functioname, ScriptEnvironmentBase* env = 0);
-
+	virtual ~ServerLuaHandler(void);
 
 	// execute custom lua function
 	// ObjectType ==>
@@ -58,8 +49,14 @@ public:
 										ActionArgumentBase * args,
 										ScriptEnvironmentBase* env);
 
-private:
-	lua_State *		m_LuaState;
+
+protected:
+
+	//! called when failed starting a script
+	virtual void FailedStartingScript(const std::string & functioname);
+
+	//! called when a script has finished
+	virtual void ScriptFinished(const std::string & functioname);
 };
 
 #endif
