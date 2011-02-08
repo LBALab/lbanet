@@ -32,6 +32,7 @@ class TriggerBase;
 class ActionBase;
 class ClientScriptBase;
 class ActionArgumentBase;
+class ContainerSharedInfo;
 
 #include <boost/shared_ptr.hpp>
 
@@ -100,6 +101,15 @@ public:
 	//! 3 -> movable object
 	virtual void DisplayTxtAction(int ObjectType, long ObjectId,
 										long TextId) = 0;
+
+
+
+	// send error message to client
+	virtual void SendErrorMessage(long clientid, const std::string & messagetitle, 
+											const std::string &  messagecontent) = 0;
+
+	// open container on client side
+	virtual void OpenContainer(long clientid, boost::shared_ptr<ContainerSharedInfo> sharedinfo) = 0;
 };
 
 

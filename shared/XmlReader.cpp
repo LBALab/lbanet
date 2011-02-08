@@ -434,6 +434,22 @@ bool XmlReader::LoadInventoryFile(const std::string &Filename, std::map<long, It
 			tpi.StringFlag = v.second.get<std::string>("<xmlattr>.Extra", "");
 			tpi.Color1 = v.second.get<float>("<xmlattr>.Color1", -1);
 			tpi.Color2 = v.second.get<int>("<xmlattr>.Color2", -1);
+			
+			try
+			{
+				BOOST_FOREACH(ptree::value_type &v2, v.second.get_child("container"))
+				{
+					LbaNet::ItemGroupElement elem;
+					elem.Id = v2.second.get<long>("<xmlattr>.Id");
+					elem.Min = v2.second.get<int>("<xmlattr>.Min", 1);
+					elem.Max = v2.second.get<int>("<xmlattr>.Max", 1);
+					elem.Probability = v2.second.get<float>("<xmlattr>.Probability", 1);
+					elem.Group = v2.second.get<int>("<xmlattr>.Group", -1);
+					tpi.List.push_back(elem);
+				}
+			}
+			catch(...){} // no container
+
 			res[(long)tpi.Id] = tpi;
 		}
 	}
@@ -472,8 +488,17 @@ bool XmlReader::SaveInventoryFile(const std::string &Filename, const std::map<lo
 		tmp.put("<xmlattr>.Extra", item.second.StringFlag);
 		tmp.put("<xmlattr>.Color1", item.second.Color1);
 		tmp.put("<xmlattr>.Color2", item.second.Color2);
-	}
 
+		BOOST_FOREACH(const LbaNet::ContainedItemList::value_type &elem, item.second.List)
+		{
+			ptree &tmp2 = tmp.add("container.element","");
+			tmp2.put("<xmlattr>.Id", elem.Id);
+			tmp2.put("<xmlattr>.Min", elem.Min);
+			tmp2.put("<xmlattr>.Max", elem.Max);
+			tmp2.put("<xmlattr>.Probability", elem.Probability);
+			tmp2.put("<xmlattr>.Group", elem.Group);
+		}
+	}
 
 	// Write the property tree into the XML file 
 	try

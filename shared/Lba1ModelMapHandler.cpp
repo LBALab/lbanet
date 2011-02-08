@@ -71,24 +71,27 @@ Lba1ModelMapHandler::Lba1ModelMapHandler()
 				std::vector<std::string> tokens;
 				StringHelper::Tokenize(line, tokens, ",");
 
-				_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].modelnumber = atoi(tokens[4].c_str());
-				_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].bodynumber = atoi(tokens[5].c_str());
-				_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].WeaponType = atoi(tokens[6].c_str());
-				_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].Size.X = (float)atof(tokens[7].c_str());
-				_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].Size.Y = (float)atof(tokens[8].c_str());
-				_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].Size.Z = (float)atof(tokens[9].c_str());
-
-				for(size_t i=10; i<tokens.size(); ++i)
+				if(tokens.size() > 12)
 				{
-					std::string anims = tokens[i];
-					std::string animstring = infos[i];
-					std::vector<std::string> tokens2;
-					StringHelper::Tokenize(anims, tokens2, ";");
-					std::vector<int> animvec;
-					for(size_t j=0; j<tokens2.size(); ++j)
-						animvec.push_back(atoi(tokens2[j].c_str()));
+					_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].modelnumber = atoi(tokens[4].c_str());
+					_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].bodynumber = atoi(tokens[5].c_str());
+					_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].WeaponType = atoi(tokens[6].c_str());
+					_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].Size.X = (float)atof(tokens[7].c_str());
+					_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].Size.Y = (float)atof(tokens[8].c_str());
+					_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].Size.Z = (float)atof(tokens[9].c_str());
 
-					_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].animations[animstring] = animvec;
+					for(size_t i=10; i<tokens.size(); ++i)
+					{
+						std::string anims = tokens[i];
+						std::string animstring = infos[i];
+						std::vector<std::string> tokens2;
+						StringHelper::Tokenize(anims, tokens2, ";");
+						std::vector<int> animvec;
+						for(size_t j=0; j<tokens2.size(); ++j)
+							animvec.push_back(atoi(tokens2[j].c_str()));
+
+						_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].animations[animstring] = animvec;
+					}
 				}
 
 
@@ -107,27 +110,29 @@ Lba1ModelMapHandler::Lba1ModelMapHandler()
 				std::getline(file, line);
 				std::vector<std::string> tokens;
 				StringHelper::Tokenize(line, tokens, ",");
-
-				ModeData &mdata = _data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]];
-
-				for(size_t i=4; i<tokens.size(); ++i)
+				if(tokens.size() > 5)
 				{
-					std::string color = tokens[i];
-					if(color.size() > 0)
+					ModeData &mdata = _data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]];
+
+					for(size_t i=4; i<tokens.size(); ++i)
 					{
-						std::string colostr = color.substr(1);
-						int coloridx = atoi(colostr.c_str());
-						switch(color[0])
+						std::string color = tokens[i];
+						if(color.size() > 0)
 						{
-							case 'P':
-								mdata.polycolors.push_back(coloridx);
-							break;
-							case 'L':
-								mdata.linecolors.push_back(coloridx);
-							break;
-							case 'S':
-								mdata.spherecolors.push_back(coloridx);
-							break;
+							std::string colostr = color.substr(1);
+							int coloridx = atoi(colostr.c_str());
+							switch(color[0])
+							{
+								case 'P':
+									mdata.polycolors.push_back(coloridx);
+								break;
+								case 'L':
+									mdata.linecolors.push_back(coloridx);
+								break;
+								case 'S':
+									mdata.spherecolors.push_back(coloridx);
+								break;
+							}
 						}
 					}
 				}
@@ -146,48 +151,50 @@ Lba1ModelMapHandler::Lba1ModelMapHandler()
 				std::getline(file, line);
 				std::vector<std::string> tokens;
 				StringHelper::Tokenize(line, tokens, ",");
-
-				ModeData &mdata = _data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]];
-				std::string colorpart = tokens[4];
-
-				// get default color
+				if(tokens.size() > 6)
 				{
-					std::string defaultcs = tokens[5];
-					std::vector<std::string> tokensc;
-					StringHelper::Tokenize(defaultcs, tokensc, ";");
-					for(size_t cc=0; cc< tokensc.size(); ++cc)
+					ModeData &mdata = _data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]];
+					std::string colorpart = tokens[4];
+
+					// get default color
 					{
-						std::string colostr = tokensc[cc].substr(1);
-						LbaNet::Lba1ColorIndex indx;
-						indx.Color = atoi(colostr.c_str());
-						char colortype = tokensc[cc][0];
-						switch(colortype)
+						std::string defaultcs = tokens[5];
+						std::vector<std::string> tokensc;
+						StringHelper::Tokenize(defaultcs, tokensc, ";");
+						for(size_t cc=0; cc< tokensc.size(); ++cc)
 						{
-							case 'P':
-								indx.ModelPart = LbaNet::PolygonColor;
-							break;
-							case 'L':
-								indx.ModelPart = LbaNet::LineColor;
-							break;
-							case 'S':
-								indx.ModelPart = LbaNet::SphereColor;
-							break;
+							std::string colostr = tokensc[cc].substr(1);
+							LbaNet::Lba1ColorIndex indx;
+							indx.Color = atoi(colostr.c_str());
+							char colortype = tokensc[cc][0];
+							switch(colortype)
+							{
+								case 'P':
+									indx.ModelPart = LbaNet::PolygonColor;
+								break;
+								case 'L':
+									indx.ModelPart = LbaNet::LineColor;
+								break;
+								case 'S':
+									indx.ModelPart = LbaNet::SphereColor;
+								break;
+							}
+
+							mdata.coloralternatives[colorpart]._defaults.push_back(indx);
 						}
-
-						mdata.coloralternatives[colorpart]._defaults.push_back(indx);
 					}
-				}
 
-				for(size_t i=6; i<tokens.size(); ++i)
-				{
-					std::string defaultcs = tokens[i];
-					std::vector<std::string> tokensc;
-					StringHelper::Tokenize(defaultcs, tokensc, ";");
-					mdata.coloralternatives[colorpart]._alternatives.push_back(std::vector<int>());
-					for(size_t cc=0; cc< tokensc.size(); ++cc)
+					for(size_t i=6; i<tokens.size(); ++i)
 					{
-						int color = atoi(tokensc[cc].c_str());
-						mdata.coloralternatives[colorpart]._alternatives[i-6].push_back(color);
+						std::string defaultcs = tokens[i];
+						std::vector<std::string> tokensc;
+						StringHelper::Tokenize(defaultcs, tokensc, ";");
+						mdata.coloralternatives[colorpart]._alternatives.push_back(std::vector<int>());
+						for(size_t cc=0; cc< tokensc.size(); ++cc)
+						{
+							int color = atoi(tokensc[cc].c_str());
+							mdata.coloralternatives[colorpart]._alternatives[i-6].push_back(color);
+						}
 					}
 				}
 			}
