@@ -408,6 +408,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\shared\LuaHandlerBase.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\shared\LuaThreadHandler.cpp"
 				>
 			</File>
@@ -882,6 +886,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\shared\LuaHandlerBase.h"
+				>
+			</File>
+			<File
 				RelativePath="..\shared\LuaThreadHandler.h"
 				>
 			</File>
@@ -1051,6 +1059,10 @@
 			</File>
 			<File
 				RelativePath="..\Servers\WorldServer\TextBoxHandler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\shared\ThreadedScriptsHandlerBase.h"
 				>
 			</File>
 			<File
