@@ -78,6 +78,11 @@
        <string>Other</string>
       </property>
      </item>
+     <item>
+      <property name="text">
+       <string>Container</string>
+      </property>
+     </item>
     </widget>
    </item>
    <item row="2" column="0">

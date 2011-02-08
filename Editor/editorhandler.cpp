@@ -1052,7 +1052,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 
 	QStringList actilist;
 	actilist << "No" << "TeleportAction" << "ClientScriptAction" << "CustomAction" 
-			<< "DisplayTextAction" << "ConditionalAction";
+			<< "DisplayTextAction" << "ConditionalAction" << "OpenContainerAction";
 	_actiontypeList->setStringList(actilist);
 
 	QStringList consu_iteml;
@@ -1329,6 +1329,12 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.radioButton_camtype_3d, SIGNAL(toggled(bool)) , this, SLOT(MapCameraTypeChanged(bool)));
 
 	connect(_uieditor.comboBox_choosetexttype, SIGNAL(activated(int)) , this, SLOT(TextTypeModified(int)));	
+
+
+	connect(_uieditor.spinBox_cskin, SIGNAL(valueChanged(int)) , this, SLOT(colorModified(int)));	
+	connect(_uieditor.spinBox_ceyes, SIGNAL(valueChanged(int)) , this, SLOT(colorModified(int)));	
+	connect(_uieditor.spinBox_chair, SIGNAL(valueChanged(int)) , this, SLOT(colorModified(int)));	
+	connect(_uieditor.spinBox_coutfit, SIGNAL(valueChanged(int)) , this, SLOT(colorModified(int)));	
 
 }
 
@@ -1868,6 +1874,7 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 		InventoryItemHandler::getInstance()->SetCurrentWorld(_winfo.Description.WorldName);
 		_itemNameList->Clear();
 		_itemlistmodel->Clear();
+		_itemNameList->AddData("No item");
 
 		const std::map<long, LbaNet::ItemInfo> &_inventoryitems = InventoryItemHandler::getInstance()->GetItemMap();
 		std::map<long, ItemInfo>::const_iterator itinv = _inventoryitems.begin();
@@ -1884,6 +1891,7 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 			_itemNameList->AddData(txtwithid.str().c_str());
 		}
 	}
+	
 
 
 	//add starting item
@@ -2483,6 +2491,10 @@ void EditorHandler::objectdatachanged(const QModelIndex &index1, const QModelInd
 
 	if(_objectmodel->rowCount() > 2)
 	{
+		// go to parents until we find good one
+		while(_objectmodel->data(_objectmodel->GetIndex(0, 0, parentIdx)).toString() != "Type")
+			parentIdx = _objectmodel->parent(parentIdx);
+
 		QString type = _objectmodel->data(_objectmodel->GetIndex(1, 0, parentIdx)).toString();
 		std::string category = _objectmodel->data(_objectmodel->GetIndex(1, 1, parentIdx)).toString().toAscii().data();
 
@@ -2804,7 +2816,7 @@ void EditorHandler::Teleport(int ObjectType, long ObjectId,
 /***********************************************************
 select an action and display it in object view
 ***********************************************************/
-void EditorHandler::SelectAction(ActionBasePtr action, const QModelIndex &parent)
+void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 {
 	if(parent == QModelIndex())
 		ResetObject();
@@ -2814,7 +2826,7 @@ void EditorHandler::SelectAction(ActionBasePtr action, const QModelIndex &parent
 
 
 	// add pointer for later change
-	_modelidxdatamap[parent] = (void*)action.get();
+	_modelidxdatamap[parent] = (void*)action;
 
 
 	{
@@ -2833,7 +2845,7 @@ void EditorHandler::SelectAction(ActionBasePtr action, const QModelIndex &parent
 	std::string actiontype = action->GetTypeName();
 	if(actiontype == "TeleportAction")
 	{
-		TeleportAction* ptr = static_cast<TeleportAction*>(action.get());
+		TeleportAction* ptr = static_cast<TeleportAction*>(action);
 		{
 			QVector<QVariant> data;
 			data << "NewMap" << ptr->GetMapName().c_str();
@@ -2867,7 +2879,7 @@ void EditorHandler::SelectAction(ActionBasePtr action, const QModelIndex &parent
 
 	if(actiontype == "ClientScriptAction")
 	{
-		ClientScriptAction* ptr = static_cast<ClientScriptAction*>(action.get());
+		ClientScriptAction* ptr = static_cast<ClientScriptAction*>(action);
 		{
 			ClientScriptBasePtr scriptptr = ptr->GetScript();
 			std::string name = GetCScriptType(scriptptr);
@@ -2888,7 +2900,7 @@ void EditorHandler::SelectAction(ActionBasePtr action, const QModelIndex &parent
 
 	if(actiontype == "CustomAction")
 	{
-		CustomAction* ptr = static_cast<CustomAction*>(action.get());
+		CustomAction* ptr = static_cast<CustomAction*>(action);
 		{
 			QVector<QVariant> data;
 			data << "Function name" << ptr->GetLuaFunctionName().c_str();
@@ -2905,7 +2917,7 @@ void EditorHandler::SelectAction(ActionBasePtr action, const QModelIndex &parent
 
 	if(actiontype == "DisplayTextAction")
 	{
-		DisplayTextAction* ptr = static_cast<DisplayTextAction*>(action.get());
+		DisplayTextAction* ptr = static_cast<DisplayTextAction*>(action);
 		{
 			std::string txt = Localizer::getInstance()->GetText(Localizer::Map, ptr->GetTextId());
 			std::stringstream txttmp;
@@ -2923,7 +2935,7 @@ void EditorHandler::SelectAction(ActionBasePtr action, const QModelIndex &parent
 
 	if(actiontype == "ConditionalAction")
 	{
-		ConditionalAction* ptr = static_cast<ConditionalAction*>(action.get());
+		ConditionalAction* ptr = static_cast<ConditionalAction*>(action);
 		{
 			// add condition
 			{
@@ -2953,7 +2965,7 @@ void EditorHandler::SelectAction(ActionBasePtr action, const QModelIndex &parent
 				QModelIndex idx = _objectmodel->AppendRow(data, parent);
 				
 				if(actptr)
-					SelectAction(actptr, idx);
+					SelectAction(actptr.get(), idx);
 			}
 
 			// add action false
@@ -2966,7 +2978,7 @@ void EditorHandler::SelectAction(ActionBasePtr action, const QModelIndex &parent
 				QModelIndex idx = _objectmodel->AppendRow(data, parent);
 				
 				if(actptr)
-					SelectAction(actptr, idx);
+					SelectAction(actptr.get(), idx);
 			}
 		}
 
@@ -2976,6 +2988,102 @@ void EditorHandler::SelectAction(ActionBasePtr action, const QModelIndex &parent
 
 		return;
 	}
+
+
+
+	if(actiontype == "OpenContainerAction")
+	{
+		OpenContainerAction* ptr = static_cast<OpenContainerAction*>(action);
+		{
+			// add TimeToReset
+			{
+				QVector<QVariant> data;
+				data << "TimeToReset (in sec)" << ptr->GetTimeToReset();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			// add items
+			{
+				QVector<QVariant> data;
+				data << "Item list" << "";
+				QModelIndex idx = _objectmodel->AppendRow(data, parent, true);	
+
+				const std::vector<ContainerItemGroupElement> & items = ptr->GetItems();
+				for(size_t i=0; i<items.size(); ++i)
+				{
+					std::stringstream txtwithid;
+					txtwithid<<items[i].Id<<": "<<InventoryItemHandler::getInstance()->GetItemInfo(items[i].Id).Name;
+
+					QVector<QVariant> datait;
+					datait << "Item" << txtwithid.str().c_str();
+					QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+
+					//add min
+					{
+						QVector<QVariant> datachild;
+						datachild << "Min" << items[i].Min;
+						QModelIndex idx1 = _objectmodel->AppendRow(datachild, idxit);	
+
+						// add tooltip
+						_objectmodel->setTooltip(idx1, "Minimum number of item to spawn");
+						QModelIndex idx2 = _objectmodel->GetIndex(1, idx1.row(), idx1.parent());
+						_objectmodel->setTooltip(idx2, "Minimum number of item to spawn");
+					}
+
+					//add max
+					{
+						QVector<QVariant> datachild;
+						datachild << "Max" << items[i].Max;
+						QModelIndex idx1 = _objectmodel->AppendRow(datachild, idxit);		
+
+						// add tooltip
+						_objectmodel->setTooltip(idx1, "Maximum number of item to spawn");
+						QModelIndex idx2 = _objectmodel->GetIndex(1, idx1.row(), idx1.parent());
+						_objectmodel->setTooltip(idx2, "Maximum number of item to spawn");
+					}
+
+					//add probability
+					{
+						QVector<QVariant> datachild;
+						datachild << "Probability" << (double)items[i].Probability;
+						QModelIndex idx1 = _objectmodel->AppendRow(datachild, idxit);			
+
+						// add tooltip
+						_objectmodel->setTooltip(idx1, "Probability of the item to spawn (1 = 100%)");
+						QModelIndex idx2 = _objectmodel->GetIndex(1, idx1.row(), idx1.parent());
+						_objectmodel->setTooltip(idx2, "Probability of the item to spawn (1 = 100%)");
+					}
+
+					//add group
+					{
+						QVector<QVariant> datachild;
+						datachild << "Group" << items[i].Group;
+						QModelIndex idx1 = _objectmodel->AppendRow(datachild, idxit);				
+
+						// add tooltip
+						_objectmodel->setTooltip(idx1, "The items part of the same group are mutually exclusive");
+						QModelIndex idx2 = _objectmodel->GetIndex(1, idx1.row(), idx1.parent());
+						_objectmodel->setTooltip(idx2, "The items part of the same group are mutually exclusive");
+					}
+
+					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _itemNameList);	
+				}
+
+				// add new item
+				QVector<QVariant> datait;
+				datait << "Item" << "Add item...";
+				QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _itemNameList);	
+			
+			
+				_uieditor.treeView_object->setExpanded(idx, true); // expand 
+			}
+
+		}
+
+		return;
+	}
+	
 
 }
 
@@ -3171,7 +3279,7 @@ void EditorHandler::ActionObjectChanged(const std::string & category, const QMod
 						_objectmodel->Clear(curidx);
 						if(ptrtmp)
 						{
-							SelectAction(ptrtmp, curidx);
+							SelectAction(ptrtmp.get(), curidx);
 
 							_uieditor.treeView_object->setExpanded(curidx, true); // expand 
 						}
@@ -3192,7 +3300,7 @@ void EditorHandler::ActionObjectChanged(const std::string & category, const QMod
 						_objectmodel->Clear(curidx);
 						if(ptrtmp)
 						{
-							SelectAction(ptrtmp, curidx);
+							SelectAction(ptrtmp.get(), curidx);
 
 							_uieditor.treeView_object->setExpanded(curidx, true); // expand 
 						}
@@ -3207,6 +3315,91 @@ void EditorHandler::ActionObjectChanged(const std::string & category, const QMod
 
 				return;
 			}
+
+
+			if(category == "OpenContainerAction")
+			{
+				// get info
+				long timer = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toFloat();
+
+				// created modified action and replace old one
+				OpenContainerAction* modifiedact = (OpenContainerAction*)ptr;
+				modifiedact->SetTimeToReset(timer);
+
+
+				QModelIndex itemparent = _objectmodel->GetIndex(0, 3, parentIdx);
+				int curridx = 0;
+
+				//take care of the items
+				std::vector<ContainerItemGroupElement> &items = modifiedact->GetItems();
+				std::vector<ContainerItemGroupElement>::iterator itit = items.begin();
+				for(;itit != items.end(); ++itit)
+				{
+					QModelIndex childidx = _objectmodel->GetIndex(0, curridx, itemparent);
+					std::string id = _objectmodel->data(_objectmodel->GetIndex(1, curridx, itemparent))
+																			.toString().toAscii().data();
+					++curridx;
+
+					// need to save as something changed
+					SetModified();
+
+
+					if(id == "No item")
+					{
+						// need to remove the item
+						items.erase(itit);
+
+						_objectmodel->Clear(parentIdx);
+						SelectAction(modifiedact, parentIdx);
+						return;
+					}
+
+					std::string tmp = id.substr(0, id.find(":"));
+					itit->Id = atol(tmp.c_str());
+					itit->Min = _objectmodel->data(_objectmodel->GetIndex(1, 0, childidx)).toInt();
+					itit->Max = _objectmodel->data(_objectmodel->GetIndex(1, 1, childidx)).toInt();
+					itit->Probability = _objectmodel->data(_objectmodel->GetIndex(1, 2, childidx)).toFloat();
+					itit->Group = _objectmodel->data(_objectmodel->GetIndex(1, 3, childidx)).toInt();
+				}
+
+				QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+				std::string id = _objectmodel->data(childidx).toString().toAscii().data();
+				if(id != "Add item...")
+				{
+					if(id == "No item")
+					{
+						_objectmodel->setData(childidx, "Add item...");
+						return;
+					}
+					else
+					{
+						// add new item
+						std::string tmp = id.substr(0, id.find(":"));
+						long itmid = atol(tmp.c_str());
+
+						// cant add 2 times the same item
+						if(modifiedact->ItemExist(itmid))
+						{
+							_objectmodel->setData(childidx, "Add item...");
+							return;
+						}
+						else
+						{
+							ContainerItemGroupElement newitem(itmid, 1, 1, 1, -1);
+							items.push_back(newitem);
+
+							_objectmodel->Clear(parentIdx);
+							SelectAction(modifiedact, parentIdx);
+
+							// need to save as something changed
+							SetModified();
+						}
+					}
+				}
+
+				return;
+			}
+
 		}
 	}
 
@@ -3336,7 +3529,7 @@ void EditorHandler::SelectTrigger(long id, const QModelIndex &parent)
 				QModelIndex idx = _objectmodel->AppendRow(data, parent);
 				
 				if(actptr)
-					SelectAction(actptr, idx);
+					SelectAction(actptr.get(), idx);
 			}
 
 			//action 2
@@ -3349,7 +3542,7 @@ void EditorHandler::SelectTrigger(long id, const QModelIndex &parent)
 				QModelIndex idx = _objectmodel->AppendRow(data, parent);
 				
 				if(actptr)
-					SelectAction(actptr, idx);
+					SelectAction(actptr.get(), idx);
 			}
 
 			{
@@ -3439,7 +3632,7 @@ void EditorHandler::SelectTrigger(long id, const QModelIndex &parent)
 				QModelIndex idx = _objectmodel->AppendRow(data, parent);
 				
 				if(actptr)
-					SelectAction(actptr, idx);
+					SelectAction(actptr.get(), idx);
 			}
 
 			{
@@ -3516,7 +3709,7 @@ void EditorHandler::SelectTrigger(long id, const QModelIndex &parent)
 				QModelIndex idx = _objectmodel->AppendRow(data, parent);
 				
 				if(actptr)
-					SelectAction(actptr, idx);
+					SelectAction(actptr.get(), idx);
 			}
 
 			{
@@ -3582,7 +3775,7 @@ void EditorHandler::SelectTrigger(long id, const QModelIndex &parent)
 				QModelIndex idx = _objectmodel->AppendRow(data, parent);
 				
 				if(actptr)
-					SelectAction(actptr, idx);
+					SelectAction(actptr.get(), idx);
 			}
 
 			{
@@ -3672,7 +3865,7 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 				_objectmodel->Clear(curidx);
 				if(ptrtmp)
 				{
-					SelectAction(ptrtmp, curidx);
+					SelectAction(ptrtmp.get(), curidx);
 
 					_uieditor.treeView_object->setExpanded(curidx, true); // expand 
 				}
@@ -3693,7 +3886,7 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 				_objectmodel->Clear(curidx);
 				if(ptrtmp)
 				{
-					SelectAction(ptrtmp, curidx);
+					SelectAction(ptrtmp.get(), curidx);
 
 					_uieditor.treeView_object->setExpanded(curidx, true); // expand 
 				}
@@ -3778,7 +3971,7 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 				_objectmodel->Clear(curidx);
 				if(ptrtmp)
 				{
-					SelectAction(ptrtmp, curidx);
+					SelectAction(ptrtmp.get(), curidx);
 
 					_uieditor.treeView_object->setExpanded(curidx, true); // expand 
 				}
@@ -3854,7 +4047,7 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 				_objectmodel->Clear(curidx);
 				if(ptrtmp)
 				{
-					SelectAction(ptrtmp, curidx);
+					SelectAction(ptrtmp.get(), curidx);
 
 					_uieditor.treeView_object->setExpanded(curidx, true); // expand 
 				}
@@ -3921,7 +4114,7 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 				_objectmodel->Clear(curidx);
 				if(ptrtmp)
 				{
-					SelectAction(ptrtmp, curidx);
+					SelectAction(ptrtmp.get(), curidx);
 
 					_uieditor.treeView_object->setExpanded(curidx, true); // expand 
 				}
@@ -7332,6 +7525,9 @@ ActionBasePtr EditorHandler::CreateAction(const std::string & type)
 	if(type == "ConditionalAction")
 		return ActionBasePtr(new ConditionalAction());
 
+	if(type == "OpenContainerAction")
+		return ActionBasePtr(new OpenContainerAction());
+
 	return ActionBasePtr();
 }
 
@@ -7619,8 +7815,10 @@ void EditorHandler::ItemAdd_button_accepted()
     newitem.Max = 1;
     newitem.Price = 1;
     newitem.Effect = 0;
-    newitem.Flag = 0;
+    newitem.Flag = 1;
     newitem.Ephemere = false;
+	newitem.Color1 = -1;
+	newitem.Color2 = -1;
 
 	newitem.Name = _ui_additemdialog.lineEdit_name->text().toAscii().data();
 	switch(_ui_additemdialog.comboBox_atype->currentIndex())
@@ -7651,6 +7849,9 @@ void EditorHandler::ItemAdd_button_accepted()
 		break;
 		case 8:
 			newitem.Type = 6;
+		break;
+		case 9:
+			newitem.Type = 10;
 		break;
 	}
 
@@ -7923,6 +8124,16 @@ void EditorHandler::SelectItem(const LbaNet::ItemInfo & item, const QModelIndex 
 
 					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _mount_itemlistmodel);
 					++index;
+
+					QVector<QVariant> data1;
+					data1<<"Skin color"<<item.Color1;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+
+					QVector<QVariant> data2;
+					data2<<"Hair color"<<item.Color2;
+					_objectmodel->AppendRow(data2, parent);
+					++index;
 				}
 				break;
 				case 2:
@@ -7933,6 +8144,16 @@ void EditorHandler::SelectItem(const LbaNet::ItemInfo & item, const QModelIndex 
 
 					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _mount_itemlistmodel);
 					++index;
+
+					QVector<QVariant> data1;
+					data1<<"Skin color"<<item.Color1;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+
+					QVector<QVariant> data2;
+					data2<<"Hair color"<<item.Color2;
+					_objectmodel->AppendRow(data2, parent);
+					++index;
 				}
 				break;
 				case 3:
@@ -7942,6 +8163,16 @@ void EditorHandler::SelectItem(const LbaNet::ItemInfo & item, const QModelIndex 
 					_objectmodel->AppendRow(data, parent);
 
 					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _mount_itemlistmodel);
+					++index;
+
+					QVector<QVariant> data1;
+					data1<<"Skin color"<<item.Color1;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+
+					QVector<QVariant> data2;
+					data2<<"Hair color"<<item.Color2;
+					_objectmodel->AppendRow(data2, parent);
 					++index;
 				}
 				break;
@@ -7963,6 +8194,11 @@ void EditorHandler::SelectItem(const LbaNet::ItemInfo & item, const QModelIndex 
 			_objectmodel->setTooltip(idx, "Name of the model used to display the player wearing the weapon (see documentation)");
 			QModelIndex idx2 = _objectmodel->GetIndex(1, idx.row(), idx.parent());
 			_objectmodel->setTooltip(idx2, "Name of the model used to display the player wearing the weapon (see documentation)");
+			++index;
+
+			QVector<QVariant> data1;
+			data1<<"Weapon color"<<item.Color1;
+			_objectmodel->AppendRow(data1, parent);
 			++index;
 		}
 		break;
@@ -8000,6 +8236,91 @@ void EditorHandler::SelectItem(const LbaNet::ItemInfo & item, const QModelIndex 
 			QModelIndex idx2 = _objectmodel->GetIndex(1, idx.row(), idx.parent());
 			_objectmodel->setTooltip(idx2, "Name of the model used to display the player wearing the outfit (see documentation)");
 			++index;
+
+			QVector<QVariant> data1;
+			data1<<"Outfit color"<<item.Color1;
+			_objectmodel->AppendRow(data1, parent);
+			++index;
+		}
+		break;
+
+		case 10: // container item
+		{
+			// add items
+			{
+				QVector<QVariant> data;
+				data << "Item list" << "";
+				QModelIndex idx = _objectmodel->AppendRow(data, parent, true);	
+
+				const std::vector<LbaNet::ItemGroupElement> & items = item.List;
+				for(size_t i=0; i<items.size(); ++i)
+				{
+					std::stringstream txtwithid;
+					txtwithid<<items[i].Id<<": "<<InventoryItemHandler::getInstance()->GetItemInfo(items[i].Id).Name;
+
+					QVector<QVariant> datait;
+					datait << "Item" << txtwithid.str().c_str();
+					QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+
+					//add min
+					{
+						QVector<QVariant> datachild;
+						datachild << "Min" << items[i].Min;
+						QModelIndex idx1 = _objectmodel->AppendRow(datachild, idxit);	
+
+						// add tooltip
+						_objectmodel->setTooltip(idx1, "Minimum number of item to spawn");
+						QModelIndex idx2 = _objectmodel->GetIndex(1, idx1.row(), idx1.parent());
+						_objectmodel->setTooltip(idx2, "Minimum number of item to spawn");
+					}
+
+					//add max
+					{
+						QVector<QVariant> datachild;
+						datachild << "Max" << items[i].Max;
+						QModelIndex idx1 = _objectmodel->AppendRow(datachild, idxit);		
+
+						// add tooltip
+						_objectmodel->setTooltip(idx1, "Maximum number of item to spawn");
+						QModelIndex idx2 = _objectmodel->GetIndex(1, idx1.row(), idx1.parent());
+						_objectmodel->setTooltip(idx2, "Maximum number of item to spawn");
+					}
+
+					//add probability
+					{
+						QVector<QVariant> datachild;
+						datachild << "Probability" << (double)items[i].Probability;
+						QModelIndex idx1 = _objectmodel->AppendRow(datachild, idxit);			
+
+						// add tooltip
+						_objectmodel->setTooltip(idx1, "Probability of the item to spawn (1 = 100%)");
+						QModelIndex idx2 = _objectmodel->GetIndex(1, idx1.row(), idx1.parent());
+						_objectmodel->setTooltip(idx2, "Probability of the item to spawn (1 = 100%)");
+					}
+
+					//add group
+					{
+						QVector<QVariant> datachild;
+						datachild << "Group" << items[i].Group;
+						QModelIndex idx1 = _objectmodel->AppendRow(datachild, idxit);				
+
+						// add tooltip
+						_objectmodel->setTooltip(idx1, "The items part of the same group are mutually exclusive");
+						QModelIndex idx2 = _objectmodel->GetIndex(1, idx1.row(), idx1.parent());
+						_objectmodel->setTooltip(idx2, "The items part of the same group are mutually exclusive");
+					}
+
+					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _itemNameList);	
+				}
+
+				// add new item
+				QVector<QVariant> datait;
+				datait << "Item" << "Add item...";
+				QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _itemNameList);	
+					
+				_uieditor.treeView_object->setExpanded(idx, true); // expand 
+			}	
 		}
 		break;
 	}
@@ -8058,7 +8379,7 @@ void EditorHandler::ItemChanged(long id, const std::string & category, const QMo
 	++index;
 
 
-
+	bool refresh = false;
 	switch(newiteminfo.Type)
 	{
 		case 1: // consummable item
@@ -8092,7 +8413,11 @@ void EditorHandler::ItemChanged(long id, const std::string & category, const QMo
 				newiteminfo.Flag = 2;
 			if(flag == "Dinofly")
 				newiteminfo.Flag = 3;
+			++index;
 
+			newiteminfo.Color1 =_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
+			++index;
+			newiteminfo.Color2 =_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
 			++index;
 		}
 		break;
@@ -8103,6 +8428,9 @@ void EditorHandler::ItemChanged(long id, const std::string & category, const QMo
 			++index;
 
 			newiteminfo.StringFlag = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+			++index;
+
+			newiteminfo.Color1 =_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
 			++index;
 		}
 		break;
@@ -8124,6 +8452,72 @@ void EditorHandler::ItemChanged(long id, const std::string & category, const QMo
 
 			newiteminfo.StringFlag = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
 			++index;
+
+			newiteminfo.Color1 =_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
+			++index;
+		}
+		break;
+
+		case 10: // container item
+		{
+			QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
+			int curridx = 0;
+
+			//take care of the items
+			std::vector<LbaNet::ItemGroupElement> &items = newiteminfo.List;
+			std::vector<LbaNet::ItemGroupElement>::iterator itit = items.begin();
+			for(;itit != items.end(); ++itit)
+			{
+				QModelIndex childidx = _objectmodel->GetIndex(0, curridx, itemparent);
+				std::string id = _objectmodel->data(_objectmodel->GetIndex(1, curridx, itemparent))
+																		.toString().toAscii().data();
+				++curridx;
+
+				if(id == "No item")
+				{
+					// need to remove the item
+					items.erase(itit);
+
+					_objectmodel->Clear(parentIdx);
+					refresh = true;
+					break;
+				}
+
+				std::string tmp = id.substr(0, id.find(":"));
+				itit->Id = atol(tmp.c_str());
+				itit->Min = _objectmodel->data(_objectmodel->GetIndex(1, 0, childidx)).toInt();
+				itit->Max = _objectmodel->data(_objectmodel->GetIndex(1, 1, childidx)).toInt();
+				itit->Probability = _objectmodel->data(_objectmodel->GetIndex(1, 2, childidx)).toFloat();
+				itit->Group = _objectmodel->data(_objectmodel->GetIndex(1, 3, childidx)).toInt();
+			}
+
+			QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+			std::string id = _objectmodel->data(childidx).toString().toAscii().data();
+			if(id != "Add item...")
+			{
+				if(id == "No item")
+				{
+					_objectmodel->setData(childidx, "Add item...");
+				}
+				else
+				{
+					// add new item
+					std::string tmp = id.substr(0, id.find(":"));
+					long itmid = atol(tmp.c_str());
+
+					LbaNet::ItemGroupElement newitem;
+					newitem.Id = itmid;
+					newitem.Min = 1;
+					newitem.Max = 1;
+					newitem.Probability = 1;
+					newitem.Group = -1;
+					items.push_back(newitem);
+
+					_objectmodel->Clear(parentIdx);
+					refresh = true;
+				}
+			}
+
 		}
 		break;
 	}
@@ -8131,7 +8525,7 @@ void EditorHandler::ItemChanged(long id, const std::string & category, const QMo
 	InventoryItemHandler::getInstance()->AddOrModItem(id, newiteminfo);
 	SetModified();
 
-	if(newiteminfo.Type == 1 && newiteminfo.Flag != olditeminfo.Flag)
+	if(refresh || ((newiteminfo.Type == 1) && (newiteminfo.Flag != olditeminfo.Flag)))
 		SelectItem(newiteminfo, parentIdx);
 }
 
@@ -8182,6 +8576,9 @@ void EditorHandler::StartItemAdd_button_accepted()
 	int count = _ui_addstartitemdialog.spinBox_itemcount->value();
 
 	std::string name = _ui_addstartitemdialog.comboBox_itemname->currentText().toAscii().data();
+	if(name == "No item")
+		return;
+
 	std::string tmp = name.substr(0, name.find(":"));
 	long itemid = atol(tmp.c_str());
 
@@ -8206,3 +8603,22 @@ void EditorHandler::StartItemAdd_button_accepted()
 		SetModified();
 	}
 }
+
+/***********************************************************
+player colors modified
+***********************************************************/
+void EditorHandler::colorModified(int v)
+{
+	int cskin = _uieditor.spinBox_cskin->value();	
+	int ceyes = _uieditor.spinBox_ceyes->value();	
+	int chair = _uieditor.spinBox_chair->value();		
+	int coutfit = _uieditor.spinBox_coutfit->value();	
+	int cweapon = _uieditor.spinBox_cweapon->value();		
+	int cmount = _uieditor.spinBox_cmount->value();	
+
+
+	EditorUpdateBasePtr update = new ChangeColorEvent(cskin, ceyes, chair, coutfit, cweapon, cmount);
+
+	SharedDataHandler::getInstance()->EditorUpdate(_uieditor.label_mapname->text().toAscii().data(), update);
+
+}	

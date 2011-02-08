@@ -476,6 +476,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\shared\Randomizer.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Client\RemoteConnectionHandler.cpp"
 				>
 			</File>
@@ -955,6 +959,10 @@
 			</File>
 			<File
 				RelativePath="..\Servers\WorldServer\PlayerHandler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\shared\Randomizer.h"
 				>
 			</File>
 			<File

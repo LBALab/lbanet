@@ -576,6 +576,10 @@ public slots:
 	//! StartItemAdd_button_accepted
 	void StartItemAdd_button_accepted();
 
+
+	//! player colors modified
+	void colorModified(int v);
+
 protected:
 	//! override close event
 	virtual void closeEvent(QCloseEvent* event);
@@ -643,7 +647,7 @@ protected:
 
 
 	//! select an action and display it in object view
-	void SelectAction(ActionBasePtr action, const QModelIndex &parent = QModelIndex());
+	void SelectAction(ActionBase* action, const QModelIndex &parent = QModelIndex());
 
 	//! called when action object changed
 	void ActionObjectChanged(const std::string & category, const QModelIndex &parentIdx);
@@ -937,8 +941,6 @@ private:
 	osg::ref_ptr<osgManipulator::Translate1DDragger>	_draggerX;
 	osg::ref_ptr<osgManipulator::Translate1DDragger>	_draggerY;
 	osg::ref_ptr<osgManipulator::Translate1DDragger>	_draggerZ;
-
-
 
 
 	// keep selected items in meemory
