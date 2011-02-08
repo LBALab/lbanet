@@ -57,9 +57,9 @@ function InitMap(environment)
 	Actor_2.DisplayDesc.TransX = 0
 	Actor_2.DisplayDesc.TransY = 0
 	Actor_2.DisplayDesc.TransZ = 0
-	Actor_2.DisplayDesc.ScaleX = 0
-	Actor_2.DisplayDesc.ScaleY = 0
-	Actor_2.DisplayDesc.ScaleZ = 0
+	Actor_2.DisplayDesc.ScaleX = 1
+	Actor_2.DisplayDesc.ScaleY = 1
+	Actor_2.DisplayDesc.ScaleZ = 1
 	Actor_2.DisplayDesc.RotX = 0
 	Actor_2.DisplayDesc.RotY = 0
 	Actor_2.DisplayDesc.RotZ = 0
@@ -71,7 +71,7 @@ function InitMap(environment)
 	Actor_2.PhysicDesc.Density = 1
 	Actor_2.PhysicDesc.Collidable = true
 	Actor_2.PhysicDesc.SizeX = 1
-	Actor_2.PhysicDesc.SizeY = 5
+	Actor_2.PhysicDesc.SizeY = 3
 	Actor_2.PhysicDesc.SizeZ = 1
 	Actor_2.PhysicDesc.Filename = ""
 	Actor_2:SetPhysicalActorType(1)
@@ -100,5 +100,17 @@ function InitMap(environment)
 	Trigger_2_act1:SetSpawning(2)
 	Trigger_2:SetAction1(Trigger_2_act1)
 	environment:AddTrigger(Trigger_2)
+
+	Trigger_3_info = TriggerInfo(3, "dfdgdfg", true, true, false)
+	Trigger_3 = ZoneTrigger(Trigger_3_info, 1, 1, 1, true)
+	Trigger_3:SetPosition(23, 4, 35)
+	Trigger_3_act1 = OpenContainerAction()
+	Trigger_3_act1:SetTimeToReset(600)
+		ContItem0 = ContainerItemGroupElement(17,1,1,1,-1)
+		Trigger_3_act1:AddItem(ContItem0)
+		ContItem1 = ContainerItemGroupElement(21,1,1,1,-1)
+		Trigger_3_act1:AddItem(ContItem1)
+	Trigger_3:SetAction1(Trigger_3_act1)
+	environment:AddTrigger(Trigger_3)
 
 end

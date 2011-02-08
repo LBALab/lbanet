@@ -6,9 +6,9 @@
 	    <Property Name="TitlebarFont" Value="Commonwealth-10" />
 	    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 	    <Property Name="TitlebarEnabled" Value="True" />            
-            <Property Name="Text" Value=" #14" />
-            <Property Name="RollUpEnabled" Value="False" />
-            <Property Name="SizingEnabled" Value="False" />
+            <Property Name="Text" Value="#14" />
+            <Property Name="RollUpEnabled" Value="True" />
+            <Property Name="SizingEnabled" Value="True" />
 
 		<Window Type="TaharezLook/StaticText" Name="ContainerFrame/ConScrollable/contour" >
 			<Property Name="Text" Value="" />
