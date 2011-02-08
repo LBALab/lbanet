@@ -50,6 +50,10 @@ public:
 	virtual void HideGUI(Ice::Long clientid);
 
 
+protected:
+	//! update container
+	void UpdateContainer(long clientid, LbaNet::ItemList Taken, LbaNet::ItemList Put);
+
 private:
 	std::map<long, boost::shared_ptr<ContainerSharedInfo> >		_openedcontainers;
 };

@@ -156,6 +156,8 @@ std::string InventoryItemHandler::GetItemTypeString(long itemid)
 				return "Letter";
 			case 9:
 				return "Outfit";
+			case 10:
+				return "Container";
 		}
 	}
 

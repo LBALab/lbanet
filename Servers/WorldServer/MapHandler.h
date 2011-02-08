@@ -366,6 +366,13 @@ protected:
 	//! return number of player on map
 	int GetNbPlayers();
 
+	//! change player color
+	void ChangePlayerColor(long clientid, int skinidx, int eyesidx, int hairidx, 
+										int outfitidx, int weaponidx, int mountidx);
+
+	//! client open container
+	void OpenInventoryContainer(long clientid, long itemid);
+
 private:
 	// threading and mutex stuff
 	IceUtil::Monitor<IceUtil::Mutex>							_monitor;

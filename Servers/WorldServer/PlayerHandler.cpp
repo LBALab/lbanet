@@ -4,6 +4,8 @@
 #include "MapHandler.h"
 #include "Lba1ModelMapHandler.h"
 #include "InventoryItemHandler.h"
+#include "Randomizer.h"
+
 #define	_CUSTOM_OFFSET_	10000000
 
 
@@ -750,7 +752,7 @@ void PlayerHandler::CreateLetter(const std::string & subject, const std::string 
 			{
 				LbaNet::EventsSeq toplayer;
 				LbaNet::GuiUpdatesSeq paramseq;
-				paramseq.push_back(new LbaNet::UpdateInventoryItem(newitem));
+				paramseq.push_back(new LbaNet::UpdateInventoryItem(LbaNet::DontInform, newitem));
 				toplayer.push_back(new LbaNet::UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 														"InventoryBox", paramseq));
 
@@ -776,7 +778,7 @@ void PlayerHandler::DestroyItem(long ItemId)
 		{
 			LbaNet::EventsSeq toplayer;
 			LbaNet::GuiUpdatesSeq paramseq;
-			paramseq.push_back(new LbaNet::UpdateInventoryItem(it->second));
+			paramseq.push_back(new LbaNet::UpdateInventoryItem(LbaNet::DontInform, it->second));
 			toplayer.push_back(new LbaNet::UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 													"InventoryBox", paramseq));
 
@@ -932,7 +934,7 @@ bool PlayerHandler::ConsumeItem(long ItemId)
 			{
 				LbaNet::EventsSeq toplayer;
 				LbaNet::GuiUpdatesSeq paramseq;
-				paramseq.push_back(new LbaNet::UpdateInventoryItem(it->second));
+				paramseq.push_back(new LbaNet::UpdateInventoryItem(LbaNet::InformChat, it->second));
 				toplayer.push_back(new LbaNet::UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 														"InventoryBox", paramseq));
 
@@ -962,7 +964,7 @@ void PlayerHandler::RemoveEphemere()
 		if(it->second.Info.Ephemere)
 		{
 			it->second.Count = 0;
-			paramseq.push_back(new LbaNet::UpdateInventoryItem(it->second));
+			paramseq.push_back(new LbaNet::UpdateInventoryItem(LbaNet::DontInform, it->second));
 
 			it = _currentinfo.inventory.InventoryStructure.erase(it);
 		}
@@ -1076,4 +1078,219 @@ float PlayerHandler::GetArmor()
 		return InventoryItemHandler::getInstance()->GetItemInfo((long)_currentinfo.EquipedOutfit).Effect;
 
 	return 0;
+}
+
+/***********************************************************
+update player inventory
+***********************************************************/
+void PlayerHandler::UpdateInventory(LbaNet::ItemList Taken, LbaNet::ItemList Put, 
+													LbaNet::ItemClientInformType informtype)
+{
+	LbaNet::EventsSeq toplayer;
+	LbaNet::GuiUpdatesSeq paramseq;
+
+	LbaNet::ItemList::iterator ittaken = Taken.begin();
+	LbaNet::ItemList::iterator endtaken = Taken.end();
+	for(; ittaken != endtaken; ++ittaken)
+	{
+		LbaNet::ItemsMap::iterator it = _currentinfo.inventory.InventoryStructure.find(ittaken->first);
+		if(it != _currentinfo.inventory.InventoryStructure.end())
+		{
+			it->second.Count -= ittaken->second;
+			if(it->second.Count < 0)
+				it->second.Count = 0;
+
+			paramseq.push_back(new LbaNet::UpdateInventoryItem(informtype, it->second));
+
+			if(it->second.Count == 0)
+			{
+				// remove from inventory
+				_currentinfo.inventory.InventoryStructure.erase(it);
+			}
+		}
+	}
+
+	LbaNet::ItemList::iterator itput = Put.begin();
+	LbaNet::ItemList::iterator endput = Put.end();
+	for(; itput != endput; ++itput)
+	{
+		LbaNet::ItemsMap::iterator it = _currentinfo.inventory.InventoryStructure.find(itput->first);
+		if(it != _currentinfo.inventory.InventoryStructure.end())
+		{
+			it->second.Count += itput->second;
+			if(it->second.Count > it->second.Info.Max)
+				it->second.Count = it->second.Info.Max;
+
+			paramseq.push_back(new LbaNet::UpdateInventoryItem(informtype, it->second));
+		}
+		else
+		{
+			// add new object to inventory
+			LbaNet::ItemPosInfo newitem;
+			newitem.Count = itput->second;
+			newitem.Position = -1;
+			newitem.Info = InventoryItemHandler::getInstance()->GetItemInfo(itput->first);
+
+			if(newitem.Count > newitem.Info.Max)
+				newitem.Count = newitem.Info.Max;
+
+			if(newitem.Count > 0)
+			{
+				paramseq.push_back(new LbaNet::UpdateInventoryItem(informtype, newitem));
+
+				_currentinfo.inventory.InventoryStructure[itput->first] = newitem;
+			}
+		}
+	}
+
+	if(_proxy)
+	{
+		toplayer.push_back(new LbaNet::UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+												"InventoryBox", paramseq));
+
+		IceUtil::ThreadPtr t = new EventsSender(toplayer, _proxy);
+		t->start();	
+	}
+}
+
+
+/***********************************************************
+change player color
+***********************************************************/
+void PlayerHandler::ChangePlayerColor(int skinidx, int eyesidx, int hairidx, int outfitidx, 
+									  int weaponidx, int mountidx)
+{
+	_currentinfo.model.SkinColor = skinidx;
+	_currentinfo.model.EyesColor = eyesidx;
+	_currentinfo.model.HairColor = hairidx;
+	_currentinfo.model.OutfitColor = outfitidx;
+	_currentinfo.model.WeaponColor = weaponidx;
+	_currentinfo.model.MountSkinColor = mountidx;
+}
+
+
+
+/***********************************************************
+client open container
+***********************************************************/
+void PlayerHandler::OpenInventoryContainer(long itemid)
+{
+	LbaNet::ItemsMap::iterator it = _currentinfo.inventory.InventoryStructure.find(itemid);
+	if(it != _currentinfo.inventory.InventoryStructure.end())
+	{
+		LbaNet::GuiUpdatesSeq paramseq;
+
+		// add new items to inventory
+		LbaNet::ItemsMap newitems = GetContainerItem(it->second.Info);
+		LbaNet::ItemsMap::iterator itni = newitems.begin();
+		LbaNet::ItemsMap::iterator endni = newitems.end();
+		for(; itni != endni; ++itni)
+		{
+			LbaNet::ItemsMap::iterator itadded = _currentinfo.inventory.InventoryStructure.find(itni->second.Info.Id);
+			if(itadded != _currentinfo.inventory.InventoryStructure.end())
+			{	
+				itadded->second.Count += itni->second.Count;
+				if(itadded->second.Count > itadded->second.Info.Max)
+					itadded->second.Count = itadded->second.Info.Max;
+
+				paramseq.push_back(new LbaNet::UpdateInventoryItem(LbaNet::InformChat, itadded->second));	
+			}
+			else
+			{
+				// add it if possible
+				if(_currentinfo.inventory.InventoryStructure.size() < _currentinfo.inventory.InventorySize)
+				{
+					_currentinfo.inventory.InventoryStructure[itni->first] = itni->second;
+					paramseq.push_back(new LbaNet::UpdateInventoryItem(LbaNet::InformChat, itni->second));	
+				}
+			}
+		}
+
+		// remove container from inventory
+		it->second.Count -= 1;
+
+		paramseq.push_back(new LbaNet::UpdateInventoryItem(LbaNet::InformChat, it->second));	
+
+		if(it->second.Count <= 0)
+			_currentinfo.inventory.InventoryStructure.erase(it);
+
+		if(_proxy)
+		{
+			LbaNet::EventsSeq toplayer;
+
+			toplayer.push_back(new LbaNet::UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+													"InventoryBox", paramseq));
+
+			IceUtil::ThreadPtr t = new EventsSender(toplayer, _proxy);
+			t->start();	
+		}	
+	}
+}
+
+
+/***********************************************************
+prepare the container
+***********************************************************/	
+LbaNet::ItemsMap PlayerHandler::GetContainerItem(const LbaNet::ItemInfo &item)
+{
+	LbaNet::ItemsMap res;
+
+	//fill container with items
+	std::vector<LbaNet::ItemGroupElement>::const_iterator itc = item.List.begin();
+	std::vector<LbaNet::ItemGroupElement>::const_iterator endc = item.List.end();
+
+	std::map<int, std::vector<LbaNet::ItemGroupElement> > groups;
+	for(; itc != endc; ++itc)
+	{
+		if(itc->Group < 0)
+		{
+			bool add = true;
+			if(itc->Probability < 1)
+				if(Randomizer::getInstance()->Rand() > itc->Probability)
+					add = false;
+
+			if(add)
+			{
+				LbaNet::ItemPosInfo newitem;
+				newitem.Position = -1;
+				newitem.Info = InventoryItemHandler::getInstance()->GetItemInfo(itc->Id);
+				newitem.Count = Randomizer::getInstance()->RandInt(itc->Min, itc->Max);
+				res[itc->Id] = newitem;
+			}
+		}
+		else
+		{
+			//item part of a group
+			groups[itc->Group].push_back(*itc);
+		}
+	}
+
+
+	// take care of the groups
+	std::map<int, std::vector<LbaNet::ItemGroupElement> >::iterator itm = groups.begin();
+	std::map<int, std::vector<LbaNet::ItemGroupElement> >::iterator endm = groups.end();
+	for(; itm != endm; ++itm)
+	{
+		float currp = 0;
+		float proba = Randomizer::getInstance()->Rand();
+		std::vector<LbaNet::ItemGroupElement>::iterator itcc = itm->second.begin();
+		std::vector<LbaNet::ItemGroupElement>::iterator endcc = itm->second.end();
+		for(; itcc != endcc; ++itcc)
+		{
+			currp += itcc->Probability;
+			if(currp > proba)
+			{
+				// add item
+				LbaNet::ItemPosInfo newitem;
+				newitem.Position = -1;
+				newitem.Info = InventoryItemHandler::getInstance()->GetItemInfo(itcc->Id);
+				newitem.Count = Randomizer::getInstance()->RandInt(itcc->Min, itcc->Max);
+				res[itcc->Id] = newitem;
+
+				break;
+			}
+		}
+	}
+
+	return res;
 }

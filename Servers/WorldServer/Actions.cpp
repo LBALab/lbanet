@@ -2,6 +2,8 @@
 #include "ScriptEnvironmentBase.h"
 #include "SynchronizedTimeHandler.h"
 #include <fstream>
+#include "Randomizer.h"
+#include "InventoryItemHandler.h"
 
 
 /***********************************************************
@@ -277,9 +279,8 @@ void ConditionalAction::SaveToLuaFile(std::ofstream & file, const std::string & 
 constructor
 ***********************************************************/	
 OpenContainerAction::OpenContainerAction()
-: _TimeToReset(600000) // set to 10 min
+: _lastResetTime(0), _TimeToReset(600000) // set to 10 min
 {
-	_lastResetTime = SynchronizedTimeHandler::GetCurrentTimeDouble();
 	_shared = boost::shared_ptr<ContainerSharedInfo>(new ContainerSharedInfo());
 	_shared->OpeningClient = -1;
 }
@@ -354,7 +355,74 @@ prepare the container
 ***********************************************************/	
 void OpenContainerAction::PrepareContainer()
 {
-	// TODO - also check if container needs reset
+	double currtime = SynchronizedTimeHandler::GetCurrentTimeDouble();
+	if((currtime-_lastResetTime) > _TimeToReset)
+	{
+		_lastResetTime = currtime;
+
+		//reset container
+		ClearContainer();
+
+
+		//fill container with items
+		std::vector<ContainerItemGroupElement>::iterator itc = _containerstartitems.begin();
+		std::vector<ContainerItemGroupElement>::iterator endc = _containerstartitems.end();
+
+		std::map<int, std::vector<ContainerItemGroupElement> > groups;
+		for(; itc != endc; ++itc)
+		{
+			if(itc->Group < 0)
+			{
+				bool add = true;
+				if(itc->Probability < 1)
+					if(Randomizer::getInstance()->Rand() > itc->Probability)
+						add = false;
+
+				if(add)
+				{
+					LbaNet::ItemPosInfo newitem;
+					newitem.Position = 1;
+					newitem.Info = InventoryItemHandler::getInstance()->GetItemInfo(itc->Id);
+					newitem.Count = Randomizer::getInstance()->RandInt(itc->Min, itc->Max);
+					_shared->ContainerItems[itc->Id] = newitem;
+				}
+			}
+			else
+			{
+				//item part of a group
+				groups[itc->Group].push_back(*itc);
+			}
+		}
+
+
+		// take care of the groups
+		std::map<int, std::vector<ContainerItemGroupElement> >::iterator itm = groups.begin();
+		std::map<int, std::vector<ContainerItemGroupElement> >::iterator endm = groups.end();
+		for(; itm != endm; ++itm)
+		{
+			float currp = 0;
+			float proba = Randomizer::getInstance()->Rand();
+			std::vector<ContainerItemGroupElement>::iterator itcc = itm->second.begin();
+			std::vector<ContainerItemGroupElement>::iterator endcc = itm->second.end();
+			for(; itcc != endcc; ++itcc)
+			{
+				currp += itcc->Probability;
+				if(currp > proba)
+				{
+					// add item
+					LbaNet::ItemPosInfo newitem;
+					newitem.Position = 1;
+					newitem.Info = InventoryItemHandler::getInstance()->GetItemInfo(itcc->Id);
+					newitem.Count = Randomizer::getInstance()->RandInt(itcc->Min, itcc->Max);
+					_shared->ContainerItems[itcc->Id] = newitem;
+
+					break;
+				}
+			}
+		}
+
+
+	}
 }
 
 
@@ -364,5 +432,54 @@ save action to lua file
 ***********************************************************/	
 void OpenContainerAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
-	//TODO
+	file<<"\t"<<name<<" = OpenContainerAction()"<<std::endl;
+	file<<"\t"<<name<<":SetTimeToReset("<<GetTimeToReset()<<")"<<std::endl;
+	for(size_t i=0; i< _containerstartitems.size(); ++i)
+	{
+		file<<"\t\t"<<"ContItem"<<i<<" = ContainerItemGroupElement("	
+			<<_containerstartitems[i].Id<<","
+			<<_containerstartitems[i].Min<<","
+			<<_containerstartitems[i].Max<<","
+			<<_containerstartitems[i].Probability<<","
+			<<_containerstartitems[i].Group<<")"<<std::endl;
+		file<<"\t\t"<<name<<":AddItem(ContItem"<<i<<")"<<std::endl;
+	}
+}
+
+
+/***********************************************************
+add item to container start
+***********************************************************/	
+void OpenContainerAction::AddItem(const ContainerItemGroupElement &item)
+{
+	_containerstartitems.push_back(item);
+}
+
+
+/***********************************************************
+clear container
+***********************************************************/	
+void OpenContainerAction::ClearContainer()
+{
+	LbaNet::ItemsMap::iterator itm = _shared->ContainerItems.begin();
+	while(itm != _shared->ContainerItems.end())
+	{
+		if(itm->second.Position > 0)
+			itm = _shared->ContainerItems.erase(itm);
+		else
+			++itm;
+	}
+}
+
+
+/***********************************************************
+check if item already in container
+***********************************************************/	
+bool OpenContainerAction::ItemExist(long id)
+{
+	for(size_t i=0; i< _containerstartitems.size(); ++i)
+		if(_containerstartitems[i].Id == id)
+			return true;
+
+	return false;
 }

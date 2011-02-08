@@ -125,6 +125,12 @@ public:
 	//! Player Destroy Item
 	void PlayerDestroyItem(Ice::Long clientid, long ItemId);
 
+	//! get player inventory
+	LbaNet::ItemsMap GetInventory(Ice::Long clientid, int & inventorysize);
+
+	//! update player inventory
+	void UpdateInventory(Ice::Long clientid, LbaNet::ItemList Taken, LbaNet::ItemList Put, 
+								LbaNet::ItemClientInformType informtype);
 
 protected:
 	//! constructor

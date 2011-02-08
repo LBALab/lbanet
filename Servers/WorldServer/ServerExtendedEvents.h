@@ -269,4 +269,32 @@ public:
 };
 
 
+
+
+/*
+************************************************************************************************************************
+*                                                  class ChangeColorEvent
+*
+*	editor to test player color
+************************************************************************************************************************
+*/
+class ChangeColorEvent : public LbaNet::EditorUpdateBase
+{
+public:
+	//! constructor
+	ChangeColorEvent(int skinidx, int eyesidx, int hairidx, int outfitidx, int weaponidx, int mountidx)
+		: _skinidx(skinidx), _eyesidx(eyesidx), _hairidx(hairidx), _outfitidx(outfitidx),
+			_weaponidx(weaponidx), _mountidx(mountidx)
+	{
+	}
+
+	int _skinidx;
+	int _eyesidx;
+	int _hairidx;
+	int _outfitidx;
+	int _weaponidx;
+	int _mountidx;
+};
+
+
 #endif

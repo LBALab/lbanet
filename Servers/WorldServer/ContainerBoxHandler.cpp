@@ -26,6 +26,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "SynchronizedTimeHandler.h"
 #include "MapHandler.h"
 #include "Actions.h"
+#include "InventoryItemHandler.h"
+
+#define _NB_BOX_CONTAINER_ 18
 
 /***********************************************************
 update gui with info from server
@@ -41,12 +44,9 @@ void ContainerBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 		LbaNet::UpdateInvContainer * castedptr = 
 			dynamic_cast<LbaNet::UpdateInvContainer *>(ptr);
 
-		//TODO
-		//Ice::Long Containerid;
-		//LbaNet::ItemList Taken;
-		//LbaNet::ItemList Put;	
+		UpdateContainer((long)clientid, castedptr->Taken, castedptr->Put);
 
-		RemoveOpenedGui(clientid);
+		HideGUI(clientid);
 	}
 }
 
@@ -67,6 +67,13 @@ void ContainerBoxHandler::HideGUI(Ice::Long clientid)
 	}
 
 	RemoveOpenedGui(clientid);
+
+	std::map<long, boost::shared_ptr<ContainerSharedInfo> >::iterator itm = _openedcontainers.find(clientid);
+	if(itm != _openedcontainers.end())
+	{
+		itm->second->OpeningClient = -1;
+		_openedcontainers.erase(itm);
+	}
 }
 
 
@@ -93,8 +100,8 @@ void ContainerBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPositi
 			EventsSeq toplayer;
 			GuiParamsSeq seq;
 			seq.push_back(new ContainerGuiParameter(castedptr->_InventorySize,
-											castedptr->_sharedinfo->ContainerItems,
-											castedptr->_inventory));
+														castedptr->_sharedinfo->ContainerItems,
+														castedptr->_inventory));
 			toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 													"ContainerBox", seq, true, false));
 
@@ -108,49 +115,116 @@ void ContainerBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPositi
 			_openedcontainers[clientid] = castedptr->_sharedinfo;
 		}
 	}
-
 }
 
-//
-//
-///***********************************************************
-//update container content
-//***********************************************************/
-//void ContainerBoxHandler::UpdateContent(long itemid, int deltanumber, ContainerSharedInfo container)
-//{
-//
-//	// if we add content
-//	if(deltanumber > 0)
-//	{
-//		std::map<long, int>::iterator itlocal = container.find(itemid);
-//		if(itlocal != _currentContent.end())
-//			itlocal->second += deltanumber;
-//		else
-//			container[itemid] = deltanumber;
-//	}
-//	else // if we remove content
-//	{
-//		std::map<long, int>::iterator itlocal = _currentContent.find(itemid);
-//		if(itlocal != _currentContent.end())
-//		{
-//			itlocal->second += deltanumber;
-//			if(itlocal->second <= 0)
-//			{
-//				// remove link
-//				_currentContent.erase(itlocal);
-//
-//				// remove link to spawn list to tell that the item has been looted
-//				std::map<long, int>::iterator itlink = _linktolootlist.find(itemid);
-//				if(itlink != _linktolootlist.end())
-//				{
-//					_lootList[itlink->second].currpicked = -1;
-//					if(resettime)
-//						_lootList[itlink->second].lastSpawningTime = 0;
-//					else
-//						_lootList[itlink->second].lastSpawningTime = IceUtil::Time::now().toMilliSecondsDouble();
-//					_linktolootlist.erase(itlink);
-//				}
-//			}
-//		}
-//	}
-//}
+
+/***********************************************************
+update container
+***********************************************************/
+void ContainerBoxHandler::UpdateContainer(long clientid, LbaNet::ItemList Taken, LbaNet::ItemList Put)
+{
+	int inventorysize = 0;
+	LbaNet::ItemsMap inventory = SharedDataHandler::getInstance()->GetInventory(clientid, inventorysize);
+	LbaNet::ItemsMap &ContainerItems = _openedcontainers[clientid]->ContainerItems;
+
+	// taken part
+	{
+		LbaNet::ItemList::iterator ittaken = Taken.begin();
+		LbaNet::ItemList::iterator endtaken = Taken.end();
+		for(; ittaken != endtaken; ++ittaken)
+		{
+			// check if container has listed items available
+			LbaNet::ItemsMap::iterator itcont = ContainerItems.find(ittaken->first);
+			if(itcont != ContainerItems.end())
+			{
+				LbaNet::ItemsMap::iterator itinv = inventory.find(ittaken->first);
+				if(itinv != inventory.end())
+				{
+					int diff = itinv->second.Info.Max - itinv->second.Count;
+					if(ittaken->second > diff)
+						ittaken->second = diff;
+				}
+				else
+				{
+					if(ittaken->second > itcont->second.Info.Max)
+						ittaken->second = itcont->second.Info.Max;	
+
+					if(inventory.size() >= inventorysize) // check if inventory full
+						ittaken->second = 0;	
+				}
+
+
+				itcont->second.Count -= ittaken->second;
+				if(itcont->second.Count < 0)
+				{
+					ittaken->second += itcont->second.Count;
+					itcont->second.Count = 0;
+				}
+
+				// remove item from container
+				if(itcont->second.Count == 0)
+					ContainerItems.erase(itcont);
+			}
+			else
+				ittaken->second = 0;
+		}
+	}
+
+	// put part
+	{
+		LbaNet::ItemList::iterator itput = Put.begin();
+		LbaNet::ItemList::iterator endput = Put.end();
+		for(; itput != endput; ++itput)
+		{
+			// check if inventory has listed items available
+			LbaNet::ItemsMap::iterator itinv = inventory.find(itput->first);
+			if(itinv != inventory.end())
+			{
+				// only allowed to put normal items in container
+				if((itinv->second.Info.Type != 1) && (itinv->second.Info.Type != 6) && 
+					(itinv->second.Info.Type != 8))
+					itput->second = 0;
+
+				if(itinv->second.Count < itput->second)
+					itput->second = itinv->second.Count;
+
+				LbaNet::ItemsMap::iterator itcont = ContainerItems.find(itput->first);
+				if(itcont != ContainerItems.end())
+				{	
+					itcont->second.Count += itput->second;
+					if(itcont->second.Count > itcont->second.Info.Max)
+					{
+						itput->second -= (itcont->second.Count-itcont->second.Info.Max);
+						itcont->second.Count = itcont->second.Info.Max;
+					}
+				}
+				else
+				{
+					if(ContainerItems.size() >= _NB_BOX_CONTAINER_) //container full
+						itput->second = 0;
+
+					// add new item to container
+					LbaNet::ItemPosInfo newitem;
+					newitem.Count = itput->second;
+					newitem.Position = -1;
+					newitem.Info = InventoryItemHandler::getInstance()->GetItemInfo(itput->first);
+
+					if(newitem.Count > newitem.Info.Max)
+					{
+						itput->second -= (newitem.Count-newitem.Info.Max);
+						newitem.Count = newitem.Info.Max;
+					}
+
+					if(newitem.Count > 0)
+						ContainerItems[itput->first] = newitem;
+				}
+			}
+			else
+				itput->second = 0;
+		}
+	}
+
+
+	//update inventory
+	SharedDataHandler::getInstance()->UpdateInventory(clientid, Put, Taken, LbaNet::DontInform);
+}

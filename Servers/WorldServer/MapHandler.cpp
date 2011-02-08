@@ -419,6 +419,8 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts)
 
 				continue;
 			}
+
+
 			#endif
 
 
@@ -859,7 +861,17 @@ void MapHandler::ChangeOutfit(Ice::Long id, const std::string & outfit, long ite
 					PlayerObject, id, new ModelUpdate(returnmodel, false)));
 }
 
+/***********************************************************
+client open container
+***********************************************************/
+void MapHandler::OpenInventoryContainer(long clientid, long itemid)
+{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
 
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		it->second->OpenInventoryContainer(itemid);
+}
 
 /***********************************************************
 change player state
@@ -1438,6 +1450,7 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 			dynamic_cast<UpdateEditor_RemoveSpawning *>(&obj);
 
 		Editor_RemoveSpawning(castedptr->_SpawningId);
+		return;
 	}
 
 
@@ -1459,6 +1472,7 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 			dynamic_cast<UpdateEditor_RemoveTrigger *>(&obj);
 
 		Editor_RemoveTrigger(castedptr->_TriggerId);
+		return;
 	}
 
 	// map info modified
@@ -1468,6 +1482,7 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 			dynamic_cast<UpdateEditor_AddOrModMap *>(&obj);
 
 		_mapinfo = castedptr->_mapinfo;
+		return;
 	}
 
 
@@ -1490,6 +1505,20 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 			dynamic_cast<UpdateEditor_RemoveActor *>(&obj);
 
 		Editor_RemoveActor(castedptr->_id);
+		return;
+	}
+
+
+	if(info == typeid(ChangeColorEvent))
+	{
+		ChangeColorEvent* castedptr = 
+			static_cast<ChangeColorEvent *>(&obj);
+
+		ChangePlayerColor(1, castedptr->_skinidx, castedptr->_eyesidx, 
+								castedptr->_hairidx, castedptr->_outfitidx,
+								castedptr->_weaponidx, castedptr->_mountidx);
+		return;
+
 	}
 
 }
@@ -1966,6 +1995,10 @@ void MapHandler::PlayerItemUsed(Ice::Long clientid, long ItemId)
 		case 9: // outfit item - equip it
 			ChangeOutfit(clientid, itinfo.Info.StringFlag, (long)itinfo.Info.Id);
 			break;
+
+		case 10: // container item - open it
+			OpenInventoryContainer(clientid, (long)itinfo.Info.Id);
+		break;
 	}
 
 }
@@ -2066,4 +2099,23 @@ int MapHandler::GetNbPlayers()
 {
 	IceUtil::Mutex::Lock sync(_mutex_proxies);
 	return (int)_players.size();
+}
+
+
+/***********************************************************
+//! change player color
+***********************************************************/
+void MapHandler::ChangePlayerColor(long clientid, int skinidx, int eyesidx, int hairidx, int outfitidx, 
+								   int weaponidx, int mountidx)
+{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
+	if(itplayer != _players.end())
+	{
+		itplayer->second->ChangePlayerColor(skinidx, eyesidx, hairidx, outfitidx, weaponidx, mountidx);
+
+		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+						PlayerObject, clientid, new ModelUpdate(itplayer->second->GetModelInfo(), false)));
+	}
 }

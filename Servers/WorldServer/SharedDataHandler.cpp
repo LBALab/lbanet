@@ -747,3 +747,36 @@ void SharedDataHandler::PlayerDestroyItem(Ice::Long clientid, long ItemId)
 		itplayer->second->DestroyItem(ItemId);
 }
 
+
+
+ 
+/***********************************************************
+get player inventory
+***********************************************************/
+LbaNet::ItemsMap SharedDataHandler::GetInventory(Ice::Long clientid, int & inventorysize)
+{
+	Lock sync(*this);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _currentplayers.find(clientid);
+	if(itplayer != _currentplayers.end())
+	{
+		inventorysize = itplayer->second->GetInventorySize();
+		return itplayer->second->GetInventory();
+	}
+
+	return LbaNet::ItemsMap();
+}
+
+
+/***********************************************************
+update player inventory
+***********************************************************/
+void SharedDataHandler::UpdateInventory(Ice::Long clientid, LbaNet::ItemList Taken, 
+										LbaNet::ItemList Put, LbaNet::ItemClientInformType informtype)
+{
+	Lock sync(*this);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _currentplayers.find(clientid);
+	if(itplayer != _currentplayers.end())
+		itplayer->second->UpdateInventory(Taken, Put, informtype);
+}

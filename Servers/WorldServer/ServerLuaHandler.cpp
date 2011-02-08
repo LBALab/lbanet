@@ -71,6 +71,14 @@ ServerLuaHandler::ServerLuaHandler()
 
 
 
+		luabind::class_<ContainerItemGroupElement>("ContainerItemGroupElement")
+		.def(luabind::constructor<long, int, int, float, int>())
+		.def_readwrite("Id", &ContainerItemGroupElement::Id)
+		.def_readwrite("Min", &ContainerItemGroupElement::Min)
+		.def_readwrite("Max", &ContainerItemGroupElement::Max)
+		.def_readwrite("Probability", &ContainerItemGroupElement::Probability)
+		.def_readwrite("Group", &ContainerItemGroupElement::Group),	
+
 
 		luabind::class_<LbaNet::ModelInfo>("ModelInfo")
 		.def(luabind::constructor<>())
@@ -218,34 +226,29 @@ ServerLuaHandler::ServerLuaHandler()
 
 		luabind::class_<ActionBase, boost::shared_ptr<ActionBase> >("ActionBase")
 		.def(luabind::constructor<>())
-		.def("Execute", &ActionBase::Execute)
-		,
+		.def("Execute", &ActionBase::Execute),
 
 		luabind::class_<TeleportAction, ActionBase, boost::shared_ptr<ActionBase> >("TeleportAction")
 		.def(luabind::constructor<>())
 		.def("GetMapName", &TeleportAction::GetMapName)
 		.def("SetMapName", &TeleportAction::SetMapName)	
 		.def("GetSpawning", &TeleportAction::GetSpawning)
-		.def("SetSpawning", &TeleportAction::SetSpawning)		
-		,
+		.def("SetSpawning", &TeleportAction::SetSpawning),
 
 		luabind::class_<ClientScriptAction, ActionBase, boost::shared_ptr<ActionBase> >("ClientScriptAction")
 		.def(luabind::constructor<>())
 		.def("GetScript", &ClientScriptAction::GetScript)
-		.def("SetScript", &ClientScriptAction::SetScript)			
-		,
+		.def("SetScript", &ClientScriptAction::SetScript),
 
 		luabind::class_<CustomAction, ActionBase, boost::shared_ptr<ActionBase> >("CustomAction")
 		.def(luabind::constructor<>())
 		.def("GetLuaFunctionName", &CustomAction::GetLuaFunctionName)
-		.def("SetLuaFunctionName", &CustomAction::SetLuaFunctionName)		
-		,
+		.def("SetLuaFunctionName", &CustomAction::SetLuaFunctionName),
 
 		luabind::class_<DisplayTextAction, ActionBase, boost::shared_ptr<ActionBase> >("DisplayTextAction")
 		.def(luabind::constructor<>())
 		.def("GetTextId", &DisplayTextAction::GetTextId)
-		.def("SetTextId", &DisplayTextAction::SetTextId)		
-		,
+		.def("SetTextId", &DisplayTextAction::SetTextId),
 
 		luabind::class_<ConditionalAction, ActionBase, boost::shared_ptr<ActionBase> >("ConditionalAction")
 		.def(luabind::constructor<>())
@@ -254,22 +257,23 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("SetActionTrue", &ConditionalAction::SetActionTrue)
 		.def("SetActionFalse", &ConditionalAction::SetActionFalse)
 		.def("GetActionTrue", &ConditionalAction::GetActionTrue)
-		.def("GetActionFalse", &ConditionalAction::GetActionFalse)
-		,
+		.def("GetActionFalse", &ConditionalAction::GetActionFalse),
 
 		luabind::class_<ContainerSharedInfo, boost::shared_ptr<ContainerSharedInfo> >("ContainerSharedInfo")
 		.def_readwrite("OpeningClient", &ContainerSharedInfo::OpeningClient)
-		.def_readwrite("ContainerItems", &ContainerSharedInfo::ContainerItems)
-		,
+		.def_readwrite("ContainerItems", &ContainerSharedInfo::ContainerItems),
 
-		
 
+		luabind::class_<OpenContainerAction, ActionBase, boost::shared_ptr<ActionBase> >("OpenContainerAction")
+		.def(luabind::constructor<>())
+		.def("GetTimeToReset", &OpenContainerAction::GetTimeToReset)
+		.def("SetTimeToReset", &OpenContainerAction::SetTimeToReset)
+		.def("AddItem", &OpenContainerAction::AddItem),
 
 
 		luabind::class_<ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("ClientScriptBase")
 		.def(luabind::constructor<>())
-		.def("Execute", &ClientScriptBase::Execute)
-		,
+		.def("Execute", &ClientScriptBase::Execute),
 
 		luabind::class_<GoUpLadderScript, ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("GoUpLadderScript")
 		.def(luabind::constructor<>())
@@ -282,8 +286,7 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetLadderHeight", &GoUpLadderScript::GetLadderHeight)
 		.def("SetLadderHeight", &GoUpLadderScript::SetLadderHeight)
 		.def("GetLadderDirection", &GoUpLadderScript::GetLadderDirection)
-		.def("SetLadderDirection", &GoUpLadderScript::SetLadderDirection)
-		,
+		.def("SetLadderDirection", &GoUpLadderScript::SetLadderDirection),
 
 		luabind::class_<TakeExitUpScript, ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("TakeExitUpScript")
 		.def(luabind::constructor<>())
@@ -294,8 +297,7 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("SetExitPositionY", &TakeExitUpScript::SetExitPositionY)
 		.def("SetExitPositionZ", &TakeExitUpScript::SetExitPositionZ)
 		.def("GetExitDirection", &TakeExitUpScript::GetExitDirection)
-		.def("SetExitDirection", &TakeExitUpScript::SetExitDirection)
-		,
+		.def("SetExitDirection", &TakeExitUpScript::SetExitDirection),
 
 		luabind::class_<TakeExitDownScript, ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("TakeExitDownScript")
 		.def(luabind::constructor<>())
@@ -306,14 +308,12 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("SetExitPositionY", &TakeExitDownScript::SetExitPositionY)
 		.def("SetExitPositionZ", &TakeExitDownScript::SetExitPositionZ)
 		.def("GetExitDirection", &TakeExitDownScript::GetExitDirection)
-		.def("SetExitDirection", &TakeExitDownScript::SetExitDirection)
-		,
+		.def("SetExitDirection", &TakeExitDownScript::SetExitDirection),
 
 		luabind::class_<CustomScript, ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("CustomScript")
 		.def(luabind::constructor<>())
 		.def("GetLuaFunctionName", &CustomScript::GetLuaFunctionName)
 		.def("SetLuaFunctionName", &CustomScript::SetLuaFunctionName)
-
 		];
 
 	}

@@ -195,10 +195,24 @@ public:
 	//! Get current armor
 	float GetArmor();
 
+	//! update player inventory
+	void UpdateInventory(LbaNet::ItemList Taken, LbaNet::ItemList Put, 
+								LbaNet::ItemClientInformType informtype);
+
+
+	//! change player color
+	void ChangePlayerColor(int skinidx, int eyesidx, int hairidx, int outfitidx, int weaponidx, int mountidx);
+
+
+	//! client open container
+	void OpenInventoryContainer(long itemid);
 
 protected:
 	// update state and mode class from modelinfo
 	void UpdateStateModeClass();
+
+	// get container items
+	LbaNet::ItemsMap GetContainerItem(const LbaNet::ItemInfo &item);
 
 private:
 	long										_clientid;

@@ -311,6 +311,21 @@ struct ContainerSharedInfo
 	LbaNet::ItemsMap	ContainerItems;
 };
 
+// work-around because lua did not work with LbaNet::ItemGroupElement ...
+struct ContainerItemGroupElement
+{
+	ContainerItemGroupElement(long id, int min, int max, float proba, int group)
+		: Id(id), Min(min), Max(max), Probability(proba), Group(group)
+	{}
+
+	long 			Id;
+	int 			Min;
+	int 			Max;
+	float 			Probability;
+	int 			Group;
+};
+
+
 
 //! use to display a text on client
 class OpenContainerAction : public ActionBase
@@ -342,22 +357,36 @@ public:
 
 	// acessor
 	double GetTimeToReset()
-	{ return _TimeToReset;}
+	{ return _TimeToReset/1000;}
 
 	// acessor
 	void SetTimeToReset(double t)
-	{ _TimeToReset = t;}
+	{ _TimeToReset = t*1000;}
 
+
+	//add item to container start
+	void AddItem(const ContainerItemGroupElement &item);
+
+	// get items
+	std::vector<ContainerItemGroupElement> &GetItems()
+	{return _containerstartitems;}
+
+	// check if item already in container
+	bool ItemExist(long id);
 
 protected:
 	// prepare the container
 	void PrepareContainer();
+
+	//clear container
+	void ClearContainer();
 
 private:
 	double									_lastResetTime;
 	double									_TimeToReset;
 
 	boost::shared_ptr<ContainerSharedInfo>	_shared;
+	std::vector<ContainerItemGroupElement>	_containerstartitems;
 };
 
 
