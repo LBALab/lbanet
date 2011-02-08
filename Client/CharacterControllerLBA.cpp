@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DynamicObject.h"
 #include "ActorUserData.h"
 #include "ClientExtendedEvents.h"
+#include "SharedDataHandler.h"
 
 #include <iostream>
 #include <math.h>
@@ -195,7 +196,7 @@ void CharacterController::KeyReleased(LbanetKey keyid)
 process function
 ***********************************************************/
 void CharacterController::Process(double tnow, float tdiff, 
-								  boost::shared_ptr<ClientLuaHandler> scripthandler)
+									ThreadedScriptHandlerBase* scripthandler)
 {
 	// do nothing if ghost
 	if(_forcedghost || _isGhost)
@@ -204,6 +205,7 @@ void CharacterController::Process(double tnow, float tdiff,
 		return;
 	}
 
+	LbaNet::ModelState _currentstatestr = SharedDataHandler::getInstance()->GetMainState();
 	if(_currentstatestr == LbaNet::StScripted)
 	{
 		ProcessScript(tnow, tdiff, scripthandler);
@@ -716,15 +718,15 @@ void CharacterController::UpdateModeAndState(const std::string &newmode,
 	}
 
 	// only update if different
-	if(newstate != _currentstatestr)
+	if(newstate != SharedDataHandler::getInstance()->GetMainState())
 	{
 		// restore display if older state was scripted
-		if(_currentstatestr == LbaNet::StScripted)
+		if(SharedDataHandler::getInstance()->GetMainState() == LbaNet::StScripted)
 			_character->GetDisplayObject()->RestoreState();
 
+		SharedDataHandler::getInstance()->SetMainState(newstate);
 
-		_currentstatestr = newstate;
-		switch(_currentstatestr)
+		switch(newstate)
 		{
 			case LbaNet::StNormal:
 			{

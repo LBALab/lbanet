@@ -33,6 +33,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DynamicObject.h"
 #include "CharacterStates.h"
 #include "CharacterModes.h"
+#include "ScriptedActor.h"
+
 
 class ExternalReckon
 {
@@ -102,7 +104,7 @@ public:
 *                                                 class ExternalPlayer
 ************************************************************************************************************************
 */
-class ExternalPlayer
+class ExternalPlayer : public ScriptedActor
 {
 public:
 	//constructor
@@ -113,7 +115,8 @@ public:
 	~ExternalPlayer();
 
 	// do all check to be done when idle
-	void Process(double tnow, float tdiff);
+	void Process(double tnow, float tdiff, 
+					ThreadedScriptHandlerBase* scripthandler);
 
 	// update with external info
 	void UpdateMove(double updatetime, const LbaNet::PlayerMoveInfo &info, bool teleport);
@@ -121,11 +124,11 @@ public:
 
 	//! get physic object
 	boost::shared_ptr<PhysicalObjectHandlerBase> GetPhysicalObject()
-	{ return _obje->GetPhysicalObject();}
+	{ return _character->GetPhysicalObject();}
 
 	//! get display object
 	boost::shared_ptr<DisplayObjectHandlerBase> GetDisplayObject()
-	{ return _obje->GetDisplayObject();}
+	{ return _character->GetDisplayObject();}
 
 	//! update player display
 	void UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr update);
@@ -139,17 +142,15 @@ protected:
 								LbaNet::ModelState newstate);
 
 private:
-	double									_last_update;
+	double										_last_update;
 
-	boost::shared_ptr<DynamicObject>		_obje;
+	float 										_velocityX;
+	float 										_velocityY;
+	float 										_velocityZ;
+	float 										_velocityR;
 
-	float 									_velocityX;
-	float 									_velocityY;
-	float 									_velocityZ;
-	float 									_velocityR;
-
-	ExternalReckon							_dr;
-	bool									_shouldupdate;
+	ExternalReckon								_dr;
+	bool										_shouldupdate;
 
 	boost::shared_ptr<CharacterModeBase>		_currentmode;
 	boost::shared_ptr<CharacterStateBase>		_currentstate;

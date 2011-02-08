@@ -40,10 +40,10 @@ namespace IceUtil
 #include <LbaTypes.h>
 
 //*************************************************************************************************
-//*                               class Camera
+//*                               class ActorUserData
 //*************************************************************************************************
 /**
-* @brief Class taking care of the opengl scene camera
+* @brief Class taking care of user data in physic object
 *
 */
 class ActorUserData

@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ExternalPlayer.h"
 #include "SynchronizedTimeHandler.h"
 #include "LogHandler.h"
+#include "SharedDataHandler.h"
 
 #include <math.h>
 
@@ -34,9 +35,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ***********************************************************/
 ExternalPlayer::ExternalPlayer(boost::shared_ptr<DynamicObject> obje, 
 											const LbaNet::ModelInfo &Info)
-: _last_update(0), _obje(obje), _shouldupdate(false)
+: _last_update(0), _shouldupdate(false)
 {
-	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _obje->GetPhysicalObject();
+	_character = obje;
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
 	float X, Y, Z;
 	physo->GetPosition(X, Y, Z);
 
@@ -68,7 +70,7 @@ void ExternalPlayer::UpdateMove(double updatetime, const LbaNet::PlayerMoveInfo 
 
 		_shouldupdate = true;
 
-		boost::shared_ptr<PhysicalObjectHandlerBase> physo = _obje->GetPhysicalObject();
+		boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
 
 
 		_velocityX = info.CurrentSpeedX;
@@ -101,7 +103,7 @@ void ExternalPlayer::UpdateMove(double updatetime, const LbaNet::PlayerMoveInfo 
 					info.CurrentSpeedX, info.CurrentSpeedY, info.CurrentSpeedZ, info.CurrentSpeedRotation);
 
 		//update animation
-		_obje->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate(info.AnimationIdx));
+		_character->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate(info.AnimationIdx));
 	}
 }
 
@@ -110,11 +112,20 @@ void ExternalPlayer::UpdateMove(double updatetime, const LbaNet::PlayerMoveInfo 
 /***********************************************************
 do all check to be done when idle
 ***********************************************************/
-void ExternalPlayer::Process(double tnow, float tdiff)
+void ExternalPlayer::Process(double tnow, float tdiff, 
+								ThreadedScriptHandlerBase* scripthandler)
 {
+	if(SharedDataHandler::getInstance()->GetMainState()  == LbaNet::StScripted)
+	{
+		ProcessScript(tnow, tdiff, scripthandler);
+		return;
+	}
+
+
+
 	if(_shouldupdate)
 	{
-		boost::shared_ptr<PhysicalObjectHandlerBase> physo = _obje->GetPhysicalObject();
+		boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
 
 		// calculate prediction
 		float predicted_posX, predicted_posY, predicted_posZ;
@@ -174,7 +185,7 @@ void ExternalPlayer::Process(double tnow, float tdiff)
 		physo->RotateTo(Q);
 	}
 
-	_obje->Process(tnow, tdiff);
+	_character->Process(tnow, tdiff);
 }
 
 
@@ -194,7 +205,7 @@ void ExternalPlayer::UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr update)
 		UpdateModeAndState(castedptr->Info.Mode, castedptr->Info.State);
 	}
 
-	_obje->GetDisplayObject()->Update(update);
+	_character->GetDisplayObject()->Update(update);
 }
 
 /***********************************************************
@@ -202,7 +213,7 @@ update player physic
 ***********************************************************/
 void ExternalPlayer::UpdatePhysic(LbaNet::PhysicObjectUpdateBasePtr update)
 {
-	_obje->GetPhysicalObject()->Update(update);
+	_character->GetPhysicalObject()->Update(update);
 }
 
 

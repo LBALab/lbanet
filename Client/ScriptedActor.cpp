@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "EventsQueue.h"
 #include "SynchronizedTimeHandler.h"
 #include "DynamicObject.h"
-#include "ClientLuaHandler.h"
+#include "ThreadedScriptsHandlerBase.h"
 
 
 #include <iostream>
@@ -43,9 +43,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /***********************************************************
 constructor
 ***********************************************************/
-StraightWalkToScriptPart::StraightWalkToScriptPart(int scriptid, float PosX, float PosY, float PosZ, 
-									boost::shared_ptr<DynamicObject> actor)
-	: ScriptPartBase(scriptid), _PosX(PosX), _PosY(PosY), _PosZ(PosZ)
+StraightWalkToScriptPart::StraightWalkToScriptPart(int scriptid, bool asynchronus, 
+												   float PosX, float PosY, float PosZ, 
+													boost::shared_ptr<DynamicObject> actor)
+	: ScriptPartBase(scriptid, asynchronus), _PosX(PosX), _PosY(PosY), _PosZ(PosZ)
 {
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo = actor->GetPhysicalObject();
 	physo->GetPosition(_StartPosX, _StartPosY, _StartPosZ);
@@ -106,8 +107,8 @@ bool StraightWalkToScriptPart::Process(double tnow, float tdiff, boost::shared_p
 /***********************************************************
 	Constructor
 ***********************************************************/
-PlayAnimationScriptPart::PlayAnimationScriptPart(int scriptid, bool AnimationMove)
-	: ScriptPartBase(scriptid), _AnimationMove(AnimationMove)
+PlayAnimationScriptPart::PlayAnimationScriptPart(int scriptid, bool asynchronus, bool AnimationMove)
+	: ScriptPartBase(scriptid, asynchronus), _AnimationMove(AnimationMove)
 {
 }
 
@@ -158,8 +159,9 @@ bool PlayAnimationScriptPart::Process(double tnow, float tdiff, boost::shared_pt
 /***********************************************************
 	Constructor
 ***********************************************************/
-RotateScriptPart::RotateScriptPart(int scriptid, float Angle, float RotationSpeedPerSec, bool ManageAnimation)
-	: ScriptPartBase(scriptid), _Angle(Angle), _RotationSpeedPerSec(RotationSpeedPerSec),
+RotateScriptPart::RotateScriptPart(int scriptid, bool asynchronus, float Angle, 
+								   float RotationSpeedPerSec, bool ManageAnimation)
+	: ScriptPartBase(scriptid, asynchronus), _Angle(Angle), _RotationSpeedPerSec(RotationSpeedPerSec),
 		_ManageAnimation(ManageAnimation)
 {
 	while(_Angle < 0)
@@ -228,22 +230,24 @@ ScriptedActor::~ScriptedActor()
 /***********************************************************
 process function
 ***********************************************************/
-void ScriptedActor::ProcessScript(double tnow, float tdiff, boost::shared_ptr<ClientLuaHandler> scripthandler)
+void ScriptedActor::ProcessScript(double tnow, float tdiff, ThreadedScriptHandlerBase* scripthandler)
 {
-	if(_currentScript)
+	if(_currentScripts.size() > 0)
 	{
-		bool finished = _currentScript->Process(tnow, tdiff, _character);
+		boost::shared_ptr<ScriptPartBase> firstscript = _currentScripts.front();
+
+		bool finished = firstscript->Process(tnow, tdiff, _character);
 		if(finished)
 		{
-			long scid = _currentScript->GetAttachedScriptId();
-
-			// delete script part
-			_currentScript = boost::shared_ptr<ScriptPartBase>();
+			int scid = firstscript->GetAttachedScriptId();
+			bool asc = firstscript->IsAsynchronus();
 
 			//tell script handler that script part is finished
 			if(scripthandler)
-				scripthandler->ResumeThread(scid);
+				scripthandler->ScriptFinished(scid, asc);
 
+			// delete script part
+			_currentScripts.pop_front();
 		}
 	}
 }
@@ -254,10 +258,10 @@ used by lua to move an actor or player
 if id < 1 then it moves players
 the actor will move using animation speed
 ***********************************************************/
-void ScriptedActor::ActorStraightWalkTo(int ScriptId, float PosX, float PosY, float PosZ)
+void ScriptedActor::ActorStraightWalkTo(int ScriptId, bool asynchronus, float PosX, float PosY, float PosZ)
 {
-	_currentScript = boost::shared_ptr<ScriptPartBase>(
-						new StraightWalkToScriptPart(ScriptId, PosX, PosY, PosZ, _character));
+	_currentScripts.push_back(boost::shared_ptr<ScriptPartBase>(
+						new StraightWalkToScriptPart(ScriptId, asynchronus, PosX, PosY, PosZ, _character)));
 }
 
 
@@ -267,11 +271,11 @@ void ScriptedActor::ActorStraightWalkTo(int ScriptId, float PosX, float PosY, fl
 //! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
 //! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
 ***********************************************************/
-void ScriptedActor::ActorRotate(int ScriptId, float Angle, float RotationSpeedPerSec, 
+void ScriptedActor::ActorRotate(int ScriptId, bool asynchronus, float Angle, float RotationSpeedPerSec, 
 								bool ManageAnimation)
 {
-	_currentScript = boost::shared_ptr<ScriptPartBase>(
-						new RotateScriptPart(ScriptId, Angle, RotationSpeedPerSec, ManageAnimation));
+	_currentScripts.push_back(boost::shared_ptr<ScriptPartBase>(
+						new RotateScriptPart(ScriptId, asynchronus, Angle, RotationSpeedPerSec, ManageAnimation)));
 }
 
 
@@ -279,8 +283,8 @@ void ScriptedActor::ActorRotate(int ScriptId, float Angle, float RotationSpeedPe
 //! used by lua to wait until an actor animation is finished
 //! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
 ***********************************************************/
-void ScriptedActor::ActorAnimate(int ScriptId, bool AnimationMove)
+void ScriptedActor::ActorAnimate(int ScriptId, bool asynchronus, bool AnimationMove)
 {
-	_currentScript = boost::shared_ptr<ScriptPartBase>(
-						new PlayAnimationScriptPart(ScriptId, AnimationMove));
+	_currentScripts.push_back(boost::shared_ptr<ScriptPartBase>(
+						new PlayAnimationScriptPart(ScriptId, asynchronus, AnimationMove)));
 }

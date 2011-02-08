@@ -43,7 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	Constructor
 ***********************************************************/
 LbaNetModel::LbaNetModel()
-: m_playerObjectId(0), m_paused(false)
+: m_playerObjectId(0), m_paused(false), m_generatednumber(0)
 {
 	LogHandler::getInstance()->LogToFile("Initializing model class...");
 
@@ -116,10 +116,10 @@ void LbaNetModel::Process(double tnow, float tdiff)
 
 	// process all _npcObjects
 	{
-	std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _npcObjects.begin();
-	std::map<long, boost::shared_ptr<DynamicObject> >::iterator end = _npcObjects.end();
+	std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.begin();
+	std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator end = _npcObjects.end();
 	for(; it != end; ++it)
-		it->second->Process(tnow, tdiff);
+		it->second->Process(tnow, tdiff, this);
 	}
 
 	// process all _playerObjects
@@ -127,7 +127,7 @@ void LbaNetModel::Process(double tnow, float tdiff)
 	std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _playerObjects.begin();
 	std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator end = _playerObjects.end();
 	for(; it != end; ++it)
-		it->second->Process(tnow, tdiff);
+		it->second->Process(tnow, tdiff, this);
 	}
 
 	// process all _ghostObjects
@@ -152,12 +152,15 @@ void LbaNetModel::Process(double tnow, float tdiff)
 
 	//process player object
 	if(m_controllerChar)
-		m_controllerChar->Process(tnow, tdiff, m_luaHandler);
+		m_controllerChar->Process(tnow, tdiff, this);
 
 	if(m_controllerCam)
 		m_controllerCam->Process(tnow, tdiff);
 
 
+
+	// check for finished scripts
+	CheckFinishedAsynScripts();
 
 }
 
@@ -179,7 +182,7 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc
 		case LbaNet::NpcObject:
 			{
 				boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
-				_npcObjects[desc.Id] = tmpobj;
+				_npcObjects[desc.Id] = boost::shared_ptr<ExternalPlayer>(new ExternalPlayer(tmpobj, DisplayDesc));
 				if(tmpobj->GetDisplayObject())
 				{
 					std::stringstream strs;
@@ -280,7 +283,7 @@ void LbaNetModel::RemObject(LbaNet::ObjectTypeEnum OType, long id)
 		// 1 -> npc object
 		case LbaNet::NpcObject:
 			{
-			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _npcObjects.find(id);
+			std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(id);
 			if(it != _npcObjects.end())
 				_npcObjects.erase(it);
 			}
@@ -662,9 +665,9 @@ void LbaNetModel::UpdateObjectDisplay(LbaNet::ObjectTypeEnum OType, Ice::Long Ob
 		// 1 -> npc object
 		case LbaNet::NpcObject:
 			{
-			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _npcObjects.find((long)ObjectId);
+			std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find((long)ObjectId);
 			if(it != _npcObjects.end())
-				it->second->GetDisplayObject()->Update(update);
+				it->second->UpdateDisplay(update);
 			}
 		break;
 
@@ -718,9 +721,9 @@ void LbaNetModel::UpdateObjectPhysic(LbaNet::ObjectTypeEnum OType, Ice::Long Obj
 		// 1 -> npc object
 		case LbaNet::NpcObject:
 			{
-			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _npcObjects.find((long)ObjectId);
+			std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find((long)ObjectId);
 			if(it != _npcObjects.end())
-				it->second->GetPhysicalObject()->Update(update);
+				it->second->UpdatePhysic(update);
 			}
 		break;
 
@@ -890,7 +893,7 @@ LbaVec3 LbaNetModel::GetActorPosition(long ActorId)
 
 	if(ActorId >= 0)
 	{
-		std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _npcObjects.find(ActorId);
+		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
 		if(it != _npcObjects.end())
 			it->second->GetPhysicalObject()->GetPosition(res.x, res.y, res.z);
 	}
@@ -913,7 +916,7 @@ float LbaNetModel::GetActorRotation(long ActorId)
 {
 	if(ActorId >= 0)
 	{
-		std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _npcObjects.find(ActorId);
+		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
 		if(it != _npcObjects.end())
 			return it->second->GetPhysicalObject()->GetRotationYAxis();
 	}
@@ -936,7 +939,7 @@ LbaQuaternion LbaNetModel::GetActorRotationQuat(long ActorId)
 {
 	if(ActorId >= 0)
 	{
-		std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _npcObjects.find(ActorId);
+		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
 		if(it != _npcObjects.end())
 		{
 			LbaQuaternion res;
@@ -964,7 +967,7 @@ void LbaNetModel::UpdateActorAnimation(long ActorId, const std::string & Animati
 {
 	if(ActorId >= 0)
 	{
-		std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _npcObjects.find(ActorId);
+		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
 		if(it != _npcObjects.end())
 			it->second->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate(AnimationString));
 	}
@@ -986,7 +989,7 @@ void LbaNetModel::UpdateActorMode(long ActorId, const std::string & Mode)
 {
 	if(ActorId >= 0)
 	{
-		std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _npcObjects.find(ActorId);
+		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
 		if(it != _npcObjects.end())
 		{
 			LbaNet::ModelInfo model = it->second->GetDisplayObject()->GetCurrentModel();
@@ -1014,13 +1017,15 @@ void LbaNetModel::ActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 
 	if(ActorId >= 0)
 	{
 		// on actor
-		//TODO
+		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+			it->second->ActorStraightWalkTo(ScriptId, false, Position.x, Position.y, Position.z);
 	}
 	else
 	{
 		// on player
 		if(m_controllerChar)
-			m_controllerChar->ActorStraightWalkTo(ScriptId, Position.x, Position.y, Position.z);
+			m_controllerChar->ActorStraightWalkTo(ScriptId, false, Position.x, Position.y, Position.z);
 	}
 }
 
@@ -1037,13 +1042,15 @@ void LbaNetModel::ActorRotate(int ScriptId, long ActorId, float Angle, float Rot
 	if(ActorId >= 0)
 	{
 		// on actor
-		//TODO
+		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+			it->second->ActorRotate(ScriptId, false, Angle, RotationSpeedPerSec, ManageAnimation);
 	}
 	else
 	{
 		// on player
 		if(m_controllerChar)
-			m_controllerChar->ActorRotate(ScriptId, Angle, RotationSpeedPerSec, ManageAnimation);
+			m_controllerChar->ActorRotate(ScriptId, false, Angle, RotationSpeedPerSec, ManageAnimation);
 	}
 }
 
@@ -1057,15 +1064,96 @@ void LbaNetModel::ActorAnimate(int ScriptId, long ActorId, bool AnimationMove)
 	if(ActorId >= 0)
 	{
 		// on actor
-		//TODO
+		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+			it->second->ActorAnimate(ScriptId, false, AnimationMove);
 	}
 	else
 	{
 		// on player
 		if(m_controllerChar)
-			m_controllerChar->ActorAnimate(ScriptId, AnimationMove);
+			m_controllerChar->ActorAnimate(ScriptId, false, AnimationMove);
 	}
 }
+
+
+/***********************************************************
+asynchronus version of ActorStraightWalkTo
+***********************************************************/
+int LbaNetModel::Async_ActorStraightWalkTo(long ActorId, const LbaVec3 &Position)
+{
+	int genid = m_generatednumber++;	
+
+	if(ActorId >= 0)
+	{
+		// on actor
+		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+			it->second->ActorStraightWalkTo(genid, true, Position.x, Position.y, Position.z);
+	}
+	else
+	{
+		// on player
+		if(m_controllerChar)
+			m_controllerChar->ActorStraightWalkTo(genid, true, Position.x, Position.y, Position.z);
+	}
+
+	m_asyncscripts[genid] = false;
+	return genid;
+}
+
+/***********************************************************
+asynchronus version of ActorRotate
+***********************************************************/
+int LbaNetModel::Async_ActorRotate(long ActorId, float Angle, float RotationSpeedPerSec,
+													bool ManageAnimation)
+{
+	int genid = m_generatednumber++;	
+
+	if(ActorId >= 0)
+	{
+		// on actor
+		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+			it->second->ActorRotate(genid, true, Angle, RotationSpeedPerSec, ManageAnimation);
+	}
+	else
+	{
+		// on player
+		if(m_controllerChar)
+			m_controllerChar->ActorRotate(genid, true, Angle, RotationSpeedPerSec, ManageAnimation);
+	}
+
+	m_asyncscripts[genid] = false;
+	return genid;
+}
+
+/***********************************************************
+asynchronus version of ActorAnimate
+***********************************************************/
+int LbaNetModel::Async_ActorAnimate(long ActorId, bool AnimationMove)
+{
+	int genid = m_generatednumber++;	
+
+	if(ActorId >= 0)
+	{
+		// on actor
+		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+			it->second->ActorAnimate(genid, true, AnimationMove);
+	}
+	else
+	{
+		// on player
+		if(m_controllerChar)
+			m_controllerChar->ActorAnimate(genid, true, AnimationMove);
+	}
+
+	m_asyncscripts[genid] = false;
+	return genid;
+}
+
+
 
 
 /***********************************************************
@@ -1107,3 +1195,66 @@ void LbaNetModel::ForceGhost(bool force)
 
 #endif
 
+
+
+
+/***********************************************************
+called when a script is finished
+***********************************************************/
+void LbaNetModel::ScriptFinished(int scriptid, bool wasasynchronus)
+{
+	if(!wasasynchronus)
+	{
+		if(m_luaHandler)
+			m_luaHandler->ResumeThread(scriptid);
+	}
+	else
+	{
+		m_asyncscripts[scriptid] = true;
+	}
+}
+
+
+
+/***********************************************************
+wait until script part is finished
+***********************************************************/
+void LbaNetModel::WaitForAsyncScript(int ScriptId, int ScriptPartId)
+{
+	m_waitingscripts[ScriptPartId] = ScriptId;
+}
+
+
+/***********************************************************
+check for finished asynchronus scripts
+***********************************************************/
+void LbaNetModel::CheckFinishedAsynScripts()
+{
+	std::map<int, bool>::iterator itmap = m_waitingscripts.begin();
+	while(itmap != m_waitingscripts.end())
+	{
+		bool erase = false;
+
+		std::map<int, bool>::iterator its =	m_asyncscripts.find(itmap->first);
+		if(its != m_asyncscripts.end())
+		{
+			if(its->second == true)
+			{
+				erase = true;
+				m_asyncscripts.erase(its);
+			}
+		}
+		else
+			erase = true;
+
+		if(erase)
+		{
+			if(m_luaHandler)
+				m_luaHandler->ResumeThread(itmap->second);	
+
+			itmap = m_waitingscripts.erase(itmap);
+		}
+		else
+			++itmap;
+	}
+}

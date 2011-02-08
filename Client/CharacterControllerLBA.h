@@ -72,7 +72,7 @@ public:
 
 	//! process function
 	void Process(double tnow, float tdiff, 
-					boost::shared_ptr<ClientLuaHandler> scripthandler);
+					ThreadedScriptHandlerBase* scripthandler);
 
 	//! update player display
 	void UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr update);
@@ -125,7 +125,6 @@ private:
 	boost::shared_ptr<CharacterModeBase>		_currentmode;
 	boost::shared_ptr<CharacterStateBase>		_currentstate;
 	std::string									_currentmodestr;
-	LbaNet::ModelState 							_currentstatestr;
 
 	bool										_isGhost;
 	bool										_forcedghost;

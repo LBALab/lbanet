@@ -33,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DynamicObject.h"
 #include "CommonTypes.h"
 #include "ClientExtendedEvents.h"
+#include "ThreadedScriptsHandlerBase.h"
 
 #include <boost/shared_ptr.hpp>
 #include <ClientServerEvents.h>
@@ -49,14 +50,14 @@ class ClientLuaHandler;
  * Modified: mardi 14 juillet 2009 13:54:52
  * Purpose: Declaration of the class LbaNetModel
  ***********************************************************************/
-class LbaNetModel
+class LbaNetModel : public ThreadedScriptHandlerBase
 {
 public:
 	//! constructor
 	LbaNetModel();
 
 	//! destructor
-	~LbaNetModel();
+	virtual ~LbaNetModel();
 
 
 	//! set player id
@@ -174,6 +175,19 @@ public:
 	void ActorAnimate(int ScriptId, long ActorId, bool AnimationMove);
 
 
+	//! asynchronus version of ActorStraightWalkTo
+	int Async_ActorStraightWalkTo(long ActorId, const LbaVec3 &Position);
+
+	//! asynchronus version of ActorRotate
+	int Async_ActorRotate(long ActorId, float Angle, float RotationSpeedPerSec,
+								bool ManageAnimation);
+
+	//! asynchronus version of ActorAnimate
+	int Async_ActorAnimate(long ActorId, bool AnimationMove);
+
+	//! wait until script part is finished
+	void WaitForAsyncScript(int ScriptId, int ScriptPartId);
+
 
 	#ifdef _USE_QT_EDITOR_
 	//! editor tp the player
@@ -190,6 +204,10 @@ public:
 
 	//! refresh lua file
 	void RefreshLua();
+
+
+	//! called when a script is finished
+	virtual void ScriptFinished(int scriptid, bool wasasynchronus);
 
 protected:
 
@@ -213,7 +231,8 @@ protected:
 	//! remove object from the scene
 	virtual void RemObject(LbaNet::ObjectTypeEnum OType, long id);
 
-
+	//! check for finished asynchronus scripts
+	void CheckFinishedAsynScripts();
 
 private:
 	
@@ -221,7 +240,7 @@ private:
 	// npc objects - server controlled
 	// player objects - will move randomly - get info from server
 	// ghosts objects - replication of other movable objects
-	std::map<long, boost::shared_ptr<DynamicObject> >	_npcObjects;
+	std::map<long, boost::shared_ptr<ExternalPlayer> >	_npcObjects;
 	std::map<long, boost::shared_ptr<ExternalPlayer> >	_playerObjects;
 	std::map<long, boost::shared_ptr<DynamicObject> >	_ghostObjects;
 
@@ -247,6 +266,11 @@ private:
 
 	std::string											m_current_map_name;
 	std::string											m_current_world_name;
+
+
+	int													m_generatednumber;
+	std::map<int, bool>									m_asyncscripts;
+	std::map<int, bool>									m_waitingscripts;
 };
 
 #endif

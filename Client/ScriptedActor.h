@@ -26,9 +26,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define __SCRIPTED_ACTOR_h
 
 #include <boost/shared_ptr.hpp>
-
+#include <list>
 class DynamicObject;
-class ClientLuaHandler;
+class ThreadedScriptHandlerBase;
 
 
 /***********************************************************************
@@ -41,8 +41,8 @@ class ScriptPartBase
 public:
 
 	//! constructor
-	ScriptPartBase(int scriptid)
-		: _scriptid(scriptid)
+	ScriptPartBase(int scriptid, bool asynchronus)
+		: _scriptid(scriptid), _asynchronus(asynchronus)
 	{}
 
 	//! destructor
@@ -52,13 +52,18 @@ public:
 	int GetAttachedScriptId()
 	{return _scriptid;}
 
+	//! return true if script was running Asynchronus
+	bool IsAsynchronus()
+	{return _asynchronus;}
+
 	//! process script part
 	//! return true if finished
 	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor) = 0;
 
 protected:
 
-	int _scriptid;
+	int		_scriptid;
+	bool	_asynchronus;
 };
 
 
@@ -73,7 +78,7 @@ class StraightWalkToScriptPart : public ScriptPartBase
 public:
 
 	//! constructor
-	StraightWalkToScriptPart(int scriptid, float PosX, float PosY, float PosZ,
+	StraightWalkToScriptPart(int scriptid, bool asynchronus, float PosX, float PosY, float PosZ,
 						boost::shared_ptr<DynamicObject> actor);
 
 	//! destructor
@@ -109,7 +114,7 @@ class PlayAnimationScriptPart : public ScriptPartBase
 public:
 
 	//! constructor
-	PlayAnimationScriptPart(int scriptid, bool AnimationMove);
+	PlayAnimationScriptPart(int scriptid, bool asynchronus, bool AnimationMove);
 
 	//! destructor
 	virtual ~PlayAnimationScriptPart(){}
@@ -135,7 +140,8 @@ class RotateScriptPart : public ScriptPartBase
 public:
 
 	//! constructor
-	RotateScriptPart(int scriptid, float Angle, float RotationSpeedPerSec, bool ManageAnimation);
+	RotateScriptPart(int scriptid, bool asynchronus, float Angle, 
+						float RotationSpeedPerSec, bool ManageAnimation);
 
 	//! destructor
 	virtual ~RotateScriptPart(){}
@@ -168,26 +174,26 @@ public:
 	virtual ~ScriptedActor();
 
 	//! process function
-	void ProcessScript(double tnow, float tdiff, boost::shared_ptr<ClientLuaHandler> scripthandler);
+	void ProcessScript(double tnow, float tdiff, ThreadedScriptHandlerBase* scripthandler);
 
 	//! used by lua to move an actor
 	//! the actor will move using animation speed
-	void ActorStraightWalkTo(int ScriptId, float PosX, float PosY, float PosZ);
+	void ActorStraightWalkTo(int ScriptId, bool asynchronus, float PosX, float PosY, float PosZ);
 
 	//! used by lua to rotate an actor
 	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
 	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
 	//! if ManageAnimation is true then the animation will be changed to suit the rotation
-	void ActorRotate(int ScriptId, float Angle, float RotationSpeedPerSec, bool ManageAnimation);
+	void ActorRotate(int ScriptId, bool asynchronus, float Angle, float RotationSpeedPerSec, bool ManageAnimation);
 
 	//! used by lua to wait until an actor animation is finished
 	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
-	void ActorAnimate(int ScriptId, bool AnimationMove);
+	void ActorAnimate(int ScriptId, bool asynchronus, bool AnimationMove);
 
 
 protected:
-	boost::shared_ptr<DynamicObject>			_character;
-	boost::shared_ptr<ScriptPartBase>			_currentScript;
+	boost::shared_ptr<DynamicObject>						_character;
+	std::list<boost::shared_ptr<ScriptPartBase> >			_currentScripts;
 };
 
 #endif
