@@ -22,6 +22,8 @@ module LbaNet
 
 	enum Lba1MColorPart { PolygonColor, SphereColor, LineColor };	
 	
+	enum ItemClientInformType { DontInform, InformChat, InformHappy };
+	
 	
 	// give information about a world
 	struct WorldDesc
@@ -50,6 +52,16 @@ module LbaNet
 	dictionary<string, string> 	FilesSeq;
 
 
+	struct ItemGroupElement
+	{
+		long 			Id;
+		int 			Min;
+		int 			Max;
+		float 			Probability;
+		int 			Group;
+	};
+	sequence<ItemGroupElement>	ContainedItemList;
+	
 	
 	// give information about an item
 	struct ItemInfo
@@ -68,6 +80,7 @@ module LbaNet
 		string			StringFlag;
 		int			Color1;
 		int			Color2;
+		ContainedItemList	List;
 	};
 	
 	// give information about an item position in inventory
@@ -565,6 +578,7 @@ module LbaNet
 	// server send inventory update to client
 	class UpdateInventoryItem extends GuiUpdateBase
 	{
+		ItemClientInformType	Informtype;
 		ItemPosInfo		Info;
 	};	
 	
