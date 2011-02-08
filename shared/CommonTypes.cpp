@@ -45,11 +45,24 @@ constructor with angle and vec
 ***********************************************************/
 LbaQuaternion::LbaQuaternion(float angle, LbaVec3 vec)
 {
-	NxQuat q(angle, NxVec3(vec.x, vec.y, vec.z));
-	X = q.x;
-	Y = q.y;
-	Z = q.z;
-	W = q.w;
+	X = vec.x;
+	Y = vec.y;
+	Z = vec.z;
+
+	// Normalize the axis
+	const float i_length =  1.0f / sqrt( X*X + Y*Y + Z*Z );	
+	X = X * i_length;
+	Y = Y * i_length;
+	Z = Z * i_length;
+
+	// now make a Quaternion out of it
+	float Half = 0.01745329251994329547f * angle * 0.5f;
+
+	W = cos(Half);
+	const float sin_theta_over_two = sin(Half );
+	X = X * sin_theta_over_two;
+	Y = Y * sin_theta_over_two;
+	Z = Z * sin_theta_over_two;
 }
 
 
@@ -58,15 +71,15 @@ constructor from 3 angles
 ***********************************************************/
 LbaQuaternion::LbaQuaternion(float anglex, float angley, float anglez)
 {
-	NxQuat qx(anglex, NxVec3(1, 0, 0));
-	NxQuat qy(angley, NxVec3(0, 1, 0));
-	NxQuat qz(anglez, NxVec3(0, 0, 1));
-	NxQuat res = qx * qy * qz;
+	LbaQuaternion qx(anglex, LbaVec3(1, 0, 0));
+	LbaQuaternion qy(angley, LbaVec3(0, 1, 0));
+	LbaQuaternion qz(anglez, LbaVec3(0, 0, 1));
+	LbaQuaternion res = (qx * qy * qz);
 
-	X = res.x;
-	Y = res.y;
-	Z = res.z;
-	W = res.w;
+	X = res.X;
+	Y = res.Y;
+	Z = res.Z;
+	W = res.W;
 }
 
 
@@ -81,11 +94,11 @@ void LbaQuaternion::AddSingleRotation(float angle, const LbaVec3 &vec)
 	if(tochange > 360)
 		tochange -= 360;
 
-	NxQuat q(tochange, NxVec3(vec.x, vec.y, vec.z));
-	X = q.x;
-	Y = q.y;
-	Z = q.z;
-	W = q.w;
+	LbaQuaternion q(tochange, vec);
+	X = q.X;
+	Y = q.Y;
+	Z = q.Z;
+	W = q.W;
 }
 
 
@@ -138,4 +151,15 @@ float LbaQuaternion::GetAngleFromVector(const LbaVec3 &vec)
 	}
 
 	return 0;
+}
+
+/***********************************************************
+operator *
+***********************************************************/
+LbaQuaternion LbaQuaternion::operator *(const LbaQuaternion & q)
+{
+	return LbaQuaternion(W*q.X + q.W*X + Y*q.Z - q.Y*Z,
+						  W*q.Y + q.W*Y + Z*q.X - q.Z*X,
+						  W*q.Z + q.W*Z + X*q.Y - q.X*Y,
+						  W*q.W - X*q.X - Y*q.Y - Z*q.Z);
 }

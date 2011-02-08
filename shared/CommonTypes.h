@@ -53,6 +53,7 @@ public:
 
 /***********************************************************************
 Internal quaternion class
+based on nvidia PhysX NxQuat public code
  ***********************************************************************/
 class LbaQuaternion
 {
@@ -81,6 +82,8 @@ public:
 	//! get object rotation on a single angle - degree
 	float GetRotationSingleAngle();
 
+	//! operator *
+	LbaQuaternion operator *(const LbaQuaternion & q);
 
 	//! get the angle between a vector and the 0 angle
 	static float GetAngleFromVector(const LbaVec3 &vec);
