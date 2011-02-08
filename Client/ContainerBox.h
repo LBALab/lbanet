@@ -79,6 +79,8 @@ class ContainerBox : public GuiCallbackableBase, public GameGUIBase
 	//! handle windows closing event
 	bool HandleCancel (const CEGUI::EventArgs& e);
 
+	//! handle windows resize event
+	bool HandleResize (const CEGUI::EventArgs& e);
 
 	//! refresh inventory images
 	void Refresh();
@@ -175,11 +177,13 @@ protected:
 	//! catch key event
 	bool HandleEnterKey (const CEGUI::EventArgs& e);
 
+	//! resize inventory
+	void ResizeBox();
+
 private:
 	CEGUI::Window*				_myBox;
 	int							_boxsize;
 
-	Ice::Long					_currContainerId;
 	LbaNet::ItemsMap			_ContainerContentStatic;
 	LbaNet::ItemsMap			_ContainerContent;
 	LbaNet::ItemsMap			_InventoryContent;

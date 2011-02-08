@@ -133,6 +133,10 @@ protected:
 	//! refresh inventory display
 	void RefreshInventory();
 
+	//! inform user of item update
+	void InformUserItemUpdate(long itemId, LbaNet::ItemClientInformType Informtype, int count,
+								const std::string & Description, const std::string & iconname);
+
 private:
 	CEGUI::Window*														_myBox;
 

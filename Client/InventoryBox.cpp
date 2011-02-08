@@ -157,7 +157,7 @@ void InventoryBox::ResizeBox()
 {
 	CEGUI::Window*	win = CEGUI::WindowManager::getSingleton().getWindow("InventoryFrame");
 	CEGUI::Rect rect = win->getInnerRectClipper();
-	float width = rect.getSize().d_width;
+	float width = rect.getSize().d_width-5;
 	int nbboxhori = (int)width / (_boxsize+2);
 	if(nbboxhori > 0)
 	{
@@ -166,7 +166,7 @@ void InventoryBox::ResizeBox()
 			int x = i / nbboxhori;
 			int y = i % nbboxhori;
 
-			_inv_boxes[i]->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,(float)((_boxsize+2)*y)), 
+			_inv_boxes[i]->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,(float)5+((_boxsize+2)*y)), 
 														CEGUI::UDim(0.0f,(float)((_boxsize+2)*x))
 														));
 		}
@@ -550,13 +550,20 @@ void InventoryBox::Update(const LbaNet::GuiUpdatesSeq &Updates)
 			if(itemdescription == "")
 				itemdescription = Localizer::getInstance()->GetText(Localizer::Inventory, (long)itinfo.Info.DescriptionId);
 
+			int oldcount = 0;
+			LbaNet::ItemsMap::iterator it = _inventoryinfo.find(itinfo.Info.Id);
+			if(it != _inventoryinfo.end())
+				oldcount = it->second.Count;
+
+			InformUserItemUpdate(itinfo.Info.Id, castedptr->Informtype, itinfo.Count-oldcount,
+									itemdescription, itinfo.Info.IconName);
 
 			if(itinfo.Count > 0)
 				_inventoryinfo[itinfo.Info.Id] = itinfo;
 			else
 			{
 				// destroy object if exist
-				LbaNet::ItemsMap::iterator it = _inventoryinfo.find(itinfo.Info.Id);
+				
 				if(it != _inventoryinfo.end())
 					_inventoryinfo.erase(it);
 			}
@@ -674,4 +681,42 @@ void InventoryBox::RestoreGUISizes()
 	frw->setPosition(CEGUI::UVector2(CEGUI::UDim(_savedPosX, 0), CEGUI::UDim(_savedPosY, 0)));
 	frw->setWidth(CEGUI::UDim(_savedSizeX, 0));
 	frw->setHeight(CEGUI::UDim(_savedSizeY, 0));
+}
+
+
+
+/***********************************************************
+inform user of item update
+***********************************************************/
+void InventoryBox::InformUserItemUpdate(long itemId, LbaNet::ItemClientInformType Informtype, int count,
+											const std::string & Description, const std::string & iconname)
+{
+	switch(Informtype)
+	{
+		case LbaNet::InformChat:
+		{
+			std::stringstream strs;
+			if(count > 0)
+				strs<<"You received "<<count;
+			else
+				strs<<"You used "<<-count;
+
+			strs<<" [colour='FFFFFFFF'][image='set:"<<ImageSetHandler::GetInventoryMiniImage(iconname)<<"   image:full_image']"; 
+
+			// send message to chatbox
+			LbaNet::GuiUpdatesSeq updseq;
+			LbaNet::ChatTextUpdate * upd = 
+				new LbaNet::ChatTextUpdate("All", "info", strs.str());
+			updseq.push_back(upd);
+			EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
+				SynchronizedTimeHandler::GetCurrentTimeDouble(), "ChatBox", updseq));
+		}
+		break;
+
+		case LbaNet::InformHappy:
+		{
+			//TODO
+		}
+		break;
+	}
 }

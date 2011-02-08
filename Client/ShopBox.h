@@ -125,7 +125,6 @@ private:
 
 	std::vector<CEGUI::Window*>	_inv_boxes;
 
-	Ice::Long				_current_npc_actor;
 	LbaNet::ItemsMap		_inventoryshop;
 
 	std::vector<CEGUI::Window*>	_objects;

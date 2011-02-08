@@ -39,7 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Localizer.h"
 #include "GUILocalizationCallback.h"
 
-#define _NB_BOX_CONTAINER_ 12
+#define _NB_BOX_CONTAINER_ 18
 
 
 /***********************************************************
@@ -47,9 +47,8 @@ constructor
 ***********************************************************/
 ContainerBox::ContainerBox(int boxsize)
 : _boxsize(boxsize), _inventory_size(0), 
-	_serverupdate(new LbaNet::UpdateInvContainer(-1, LbaNet::ItemList(), LbaNet::ItemList()))
+	_serverupdate(new LbaNet::UpdateInvContainer(LbaNet::ItemList(), LbaNet::ItemList()))
 {
-	_currContainerId = -1;
 }
 
 
@@ -97,6 +96,11 @@ void ContainerBox::Initialize(CEGUI::Window* Root)
 		frw->subscribeEvent (
 			CEGUI::FrameWindow::EventCloseClicked,
 			CEGUI::Event::Subscriber (&ContainerBox::HandleCancel, this));
+
+
+		frw->subscribeEvent(
+			CEGUI::FrameWindow::EventSized,
+			CEGUI::Event::Subscriber (&ContainerBox::HandleResize, this));
 
 
 		static_cast<CEGUI::PushButton *> (
@@ -211,7 +215,12 @@ bool ContainerBox::handle_ItemDroppedInContainer(const CEGUI::EventArgs& args)
 		long Id = dd_args.dragDropItem->getID();
 		LbaNet::ItemsMap::iterator itcontent = _InventoryContent.find(Id);
 		if(itcontent != _InventoryContent.end())
-			ChooseNumberBox::getInstance()->Show(this, Id, itcontent->second.Info.Max, true);
+		{
+			if(itcontent->second.Count > 1)
+				ChooseNumberBox::getInstance()->Show(this, Id, itcontent->second.Count, true);
+			else
+				switchfrominventorytocontainer(Id, 1);
+		}
 	}
 
     return true;
@@ -235,7 +244,12 @@ bool ContainerBox::handle_ItemDroppedInInventory(const CEGUI::EventArgs& args)
 		long Id = dd_args.dragDropItem->getID();
 		LbaNet::ItemsMap::iterator itcontent = _ContainerContent.find(Id);
 		if(itcontent != _ContainerContent.end())
-			ChooseNumberBox::getInstance()->Show(this, Id, itcontent->second.Info.Max, false);
+		{
+			if(itcontent->second.Count > 1)
+				ChooseNumberBox::getInstance()->Show(this, Id, itcontent->second.Count, false);
+			else
+				switchfromcontainertoinventory(Id, 1);
+		}
 	}
 
     return true;
@@ -258,7 +272,12 @@ bool ContainerBox::handle_ItemDroppedInContainerItem(const CEGUI::EventArgs& arg
 		long Id = dd_args.dragDropItem->getID();
 		LbaNet::ItemsMap::iterator itcontent = _InventoryContent.find(Id);
 		if(itcontent != _InventoryContent.end())
-			ChooseNumberBox::getInstance()->Show(this, Id, itcontent->second.Info.Max, true);
+		{
+			if(itcontent->second.Count > 1)
+				ChooseNumberBox::getInstance()->Show(this, Id, itcontent->second.Count, true);
+			else
+				switchfrominventorytocontainer(Id, 1);
+		}
 	}
 
     return true;
@@ -282,7 +301,12 @@ bool ContainerBox::handle_ItemDroppedInInventoryItem(const CEGUI::EventArgs& arg
 		long Id = dd_args.dragDropItem->getID();
 		LbaNet::ItemsMap::iterator itcontent = _ContainerContent.find(Id);
 		if(itcontent != _ContainerContent.end())
-			ChooseNumberBox::getInstance()->Show(this, Id, itcontent->second.Info.Max, false);
+		{
+			if(itcontent->second.Count > 1)
+				ChooseNumberBox::getInstance()->Show(this, Id, itcontent->second.Count, false);
+			else
+				switchfromcontainertoinventory(Id, 1);
+		}
 	}
 
     return true;
@@ -333,17 +357,12 @@ close box and send update to server
 void ContainerBox::CloseAndUpdate()
 {
 	_myBox->hide();
-	if(_currContainerId >= 0)
-	{
-		LbaNet::GuiUpdatesSeq updseq;
-		_serverupdate->Containerid = _currContainerId;
-		updseq.push_back(_serverupdate);
-		
-		EventsQueue::getSenderQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
-			SynchronizedTimeHandler::GetCurrentTimeDouble(), "ContainerBox", updseq));
-	}
 
-	_currContainerId = -1;
+	LbaNet::GuiUpdatesSeq updseq;
+	updseq.push_back(_serverupdate);
+	
+	EventsQueue::getSenderQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
+		SynchronizedTimeHandler::GetCurrentTimeDouble(), "ContainerBox", updseq));
 }
 
 
@@ -352,7 +371,7 @@ cancel changes
 ***********************************************************/
 void ContainerBox::Cancel()
 {
-	_serverupdate = new LbaNet::UpdateInvContainer(-1, LbaNet::ItemList(), LbaNet::ItemList());
+	_serverupdate = new LbaNet::UpdateInvContainer(LbaNet::ItemList(), LbaNet::ItemList());
 }
 
 /***********************************************************
@@ -504,6 +523,7 @@ void ContainerBox::ResizeInventory(int newsize)
 	}
 
 	CleanInventory();
+	ResizeBox();
 }
 
 
@@ -695,13 +715,13 @@ void ContainerBox::switchfrominventorytocontainer(long Id, long number)
 				if(itcont != _inv_objects.end())
 				{
 					CEGUI::WindowManager::getSingleton().destroyWindow(itcont->second.first);
-					_cont_objects.erase(itcont);
+					_inv_objects.erase(itcont);
 				}
 				_InventoryContent.erase(itinv);
 			}
 			else
 			{
-				if(itcont != _cont_objects.end())
+				if(itcont != _inv_objects.end())
 				{	
 					std::stringstream strs;
 					strs<<itinv->second.Count;
@@ -709,7 +729,7 @@ void ContainerBox::switchfrominventorytocontainer(long Id, long number)
 				}
 			}
 
-			UpdateTakenPut(Id, -taken);
+			UpdateTakenPut(Id, taken);
 		}
 	}
 }
@@ -900,12 +920,10 @@ void ContainerBox::Refresh(const LbaNet::GuiParamsSeq &Parameters)
 			LbaNet::ContainerGuiParameter * castedptr = 
 				dynamic_cast<LbaNet::ContainerGuiParameter *>(ptr);
 
-			_currContainerId = castedptr->ContainerId;
-
 			_ContainerContentStatic = castedptr->ContainerContent;
 			_ContainerContent = castedptr->ContainerContent;
 			_InventoryContent = castedptr->InventoryContent;
-			_serverupdate = new LbaNet::UpdateInvContainer(-1, LbaNet::ItemList(), LbaNet::ItemList());
+			_serverupdate = new LbaNet::UpdateInvContainer(LbaNet::ItemList(), LbaNet::ItemList());
 
 			// update container part
 			RefreshContainer();
@@ -993,4 +1011,39 @@ void ContainerBox::RestoreGUISizes()
 	frw->setPosition(CEGUI::UVector2(CEGUI::UDim(_savedPosX, 0), CEGUI::UDim(_savedPosY, 0)));
 	frw->setWidth(CEGUI::UDim(_savedSizeX, 0));
 	frw->setHeight(CEGUI::UDim(_savedSizeY, 0));
+}
+
+
+
+/***********************************************************
+handle windows resize event
+***********************************************************/
+bool ContainerBox::HandleResize (const CEGUI::EventArgs& e)
+{
+	ResizeBox();
+	return false;
+}
+
+
+/***********************************************************
+resize inventory
+***********************************************************/
+void ContainerBox::ResizeBox()
+{
+	CEGUI::Window*	win = CEGUI::WindowManager::getSingleton().getWindow("ContainerFrame/InvScrollable");
+	CEGUI::Rect rect = win->getInnerRectClipper();
+	float width = rect.getSize().d_width - 5;
+	int nbboxhori = (int)width / (_boxsize+2);
+	if(nbboxhori > 0)
+	{
+		for(int i=0; i<(int)_inv_boxes.size(); ++i)
+		{
+			int x = i / nbboxhori;
+			int y = i % nbboxhori;
+
+			_inv_boxes[i]->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,5+(float)((_boxsize+2)*y)), 
+														CEGUI::UDim(0.0f,5+(float)((_boxsize+2)*x))
+														));
+		}
+	}
 }

@@ -46,8 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 constructor
 ***********************************************************/
 NPCShopBox::NPCShopBox(int boxsize)
-: _current_npc_actor(-1), _boxsize(boxsize), 
-	_currentmoney(-1)
+: _boxsize(boxsize), _currentmoney(-1)
 {
 
 
@@ -183,7 +182,7 @@ bool NPCShopBox::HandleObjectClicked (const CEGUI::EventArgs& e)
 
 		LbaNet::GuiUpdatesSeq updseq;
 		LbaNet::BuyItemUpdate * upd = 
-			new LbaNet::BuyItemUpdate(_current_npc_actor, id);
+			new LbaNet::BuyItemUpdate(id);
 		updseq.push_back(upd);
 		
 		EventsQueue::getSenderQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
@@ -203,7 +202,6 @@ close dialog and inform actor
 void NPCShopBox::CloseDialog()
 {
 	_mytradeBox->hide();
-	_current_npc_actor  = -1;
 
 	LbaNet::GuiUpdatesSeq updseq;
 	LbaNet::GuiClosedUpdate * upd = 
@@ -351,8 +349,6 @@ void NPCShopBox::Refresh(const LbaNet::GuiParamsSeq &Parameters)
 			LbaNet::ShopGuiParameter * castedptr = 
 				dynamic_cast<LbaNet::ShopGuiParameter *>(ptr);
 
-			// set NPC id
-			_current_npc_actor = castedptr->NPCId;
 
 			//set icon for money
 			_MoneyIconName = castedptr->MoneyIconName;

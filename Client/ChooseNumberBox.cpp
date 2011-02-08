@@ -145,6 +145,10 @@ void ChooseNumberBox::Show(GuiCallbackableBase * callback, long id, long maxnumb
 
 	static_cast<CEGUI::Spinner *> (
 		CEGUI::WindowManager::getSingleton().getWindow("ChooseNumberBoxFrame/spinner"))
+		->setMinimumValue(1);
+
+	static_cast<CEGUI::Spinner *> (
+		CEGUI::WindowManager::getSingleton().getWindow("ChooseNumberBoxFrame/spinner"))
 		->setMaximumValue(_currMaxNum);
 
 	static_cast<CEGUI::Spinner *> (

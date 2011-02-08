@@ -222,34 +222,34 @@ return new index in case of insertion
 ***********************************************************/
 long Localizer::AddToMap(LocalizeType texttype, long id, const std::string &text)
 {
-	std::map<long, std::string> &map = _map_texts;
+	std::map<long, std::string> *map = &_map_texts;
 
 	switch(texttype)
 	{
 		case Map:
-			map = _map_texts;
+			map = &_map_texts;
 		break;
 		case Quest:
-			map = _quest_texts;
+			map = &_quest_texts;
 		break;
 		case Inventory:
-			map = _inventory_texts;
+			map = &_inventory_texts;
 		break;
 		case Name:
-			map = _name_texts;
+			map = &_name_texts;
 		break;
 	}
 
 
 	if(id < 0)
 	{
-		long res = map.rbegin()->first + 1;
-		map[res] = text;
+		long res = map->rbegin()->first + 1;
+		(*map)[res] = text;
 		return res;
 	}
 	else
 	{
-		map[id] = text;
+		(*map)[id] = text;
 		return id;
 	}
 }
@@ -260,27 +260,27 @@ editor functions
 ***********************************************************/
 void Localizer::RemoveFromMap(LocalizeType texttype, long id)
 {
-	std::map<long, std::string> &map = _map_texts;
+	std::map<long, std::string> *map = &_map_texts;
 
 	switch(texttype)
 	{
 		case Map:
-			map = _map_texts;
+			map = &_map_texts;
 		break;
 		case Quest:
-			map = _quest_texts;
+			map = &_quest_texts;
 		break;
 		case Inventory:
-			map = _inventory_texts;
+			map = &_inventory_texts;
 		break;
 		case Name:
-			map = _name_texts;
+			map = &_name_texts;
 		break;
 	}
 
-	std::map<long, std::string>::iterator it = map.find(id);
-	if(it != map.end())
-		map.erase(it);
+	std::map<long, std::string>::iterator it = map->find(id);
+	if(it != map->end())
+		map->erase(it);
 }
 
 
