@@ -1530,7 +1530,8 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 
 		ChangePlayerColor(1, castedptr->_skinidx, castedptr->_eyesidx, 
 								castedptr->_hairidx, castedptr->_outfitidx,
-								castedptr->_weaponidx, castedptr->_mountidx);
+								castedptr->_weaponidx, castedptr->_mountidx,
+								castedptr->_mountidx2);
 		return;
 
 	}
@@ -1689,11 +1690,7 @@ void MapHandler::Editor_AddModActor(boost::shared_ptr<ActorHandler> actor)
 {
 	AddActorObject(actor);
 
-	//bool passed = true;
-	//if(actor->GetInfo().Condition)
-	//	passed = actor->GetInfo().Condition->Passed(this, 2, 1);
 
-	
 	// update client
 	_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 																	LbaNet::NpcObject, actor->GetId()));
@@ -2120,14 +2117,14 @@ int MapHandler::GetNbPlayers()
 //! change player color
 ***********************************************************/
 void MapHandler::ChangePlayerColor(long clientid, int skinidx, int eyesidx, int hairidx, int outfitidx, 
-								   int weaponidx, int mountidx)
+								   int weaponidx, int mountidx, int mountidx2)
 {
 	IceUtil::Mutex::Lock sync(_mutex_proxies);
 
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
 	if(itplayer != _players.end())
 	{
-		itplayer->second->ChangePlayerColor(skinidx, eyesidx, hairidx, outfitidx, weaponidx, mountidx);
+		itplayer->second->ChangePlayerColor(skinidx, eyesidx, hairidx, outfitidx, weaponidx, mountidx, mountidx2);
 
 		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 						PlayerObject, clientid, new ModelUpdate(itplayer->second->GetModelInfo(), false)));
@@ -2206,7 +2203,7 @@ void MapHandler::UpdateActorMode(long ActorId, const std::string & Mode)
 used by lua to move an actor or player
 the actor will move using animation speed
 ***********************************************************/
-void MapHandler::ActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position, bool asynchronus)
+void MapHandler::InternalActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position, bool asynchronus)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
@@ -2220,7 +2217,7 @@ void MapHandler::ActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &
 //! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
 //! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
 ***********************************************************/
-void MapHandler::ActorRotate(int ScriptId, long ActorId, float Angle, float RotationSpeedPerSec,
+void MapHandler::InternalActorRotate(int ScriptId, long ActorId, float Angle, float RotationSpeedPerSec,
 								bool ManageAnimation, bool asynchronus)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
@@ -2234,7 +2231,7 @@ void MapHandler::ActorRotate(int ScriptId, long ActorId, float Angle, float Rota
 //! used by lua to wait until an actor animation is finished
 //! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
 ***********************************************************/
-void MapHandler::ActorAnimate(int ScriptId, long ActorId, bool AnimationMove, bool asynchronus)
+void MapHandler::InternalActorAnimate(int ScriptId, long ActorId, bool AnimationMove, bool asynchronus)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())

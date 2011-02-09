@@ -30,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Conditions.h"
 #include "ScriptedActor.h"
 #include "CommonTypes.h"
-
+#include "ActorScriptPart.h"
 
 /***********************************************************************
 class used by lua to add objects on the map
@@ -186,6 +186,19 @@ public:
 	void Process(double tnow, float tdiff);
 
 
+	//! add script part to the script
+	void AddScriptPart(ActorScriptPartBasePtr part);
+
+
+	//! remove script part to the script
+	void RemoveScriptPart(ActorScriptPartBasePtr part);
+
+
+	//! get script
+	std::vector<ActorScriptPartBasePtr> GetScript()
+	{ return m_script; }
+
+
 #ifdef _USE_QT_EDITOR_
 public:
 	std::vector<int>		initpolycolors;
@@ -195,6 +208,15 @@ public:
 	std::vector<int>		currentpolycolors;
 	std::vector<int>		currentspherecolors;
 	std::vector<int>		currentlinecolors;
+
+	//! get actor info
+	ActorObjectInfo & GetEditorActorInfo()
+	{ return m_actorinfo; }
+
+	//! refresh actor
+	void Refresh()
+	{ SetActorInfo(m_actorinfo); }
+
 #endif
 
 
@@ -211,20 +233,22 @@ protected:
 
 
 protected:
-	ActorObjectInfo			m_actorinfo;
-	int						m_launchedscript;
-	bool					m_paused;
+	ActorObjectInfo							m_actorinfo;
+	int										m_launchedscript;
+	bool									m_paused;
 
-	ScriptEnvironmentBase*	m_scripthandler;
-
-
-	float					m_saved_X;
-	float					m_saved_Y;
-	float					m_saved_Z;
-	float					m_saved_rot;
-	LbaQuaternion			m_saved_Q;
+	ScriptEnvironmentBase*					m_scripthandler;
 
 
+	float									m_saved_X;
+	float									m_saved_Y;
+	float									m_saved_Z;
+	float									m_saved_rot;
+	LbaQuaternion							m_saved_Q;
+
+
+
+	std::vector<ActorScriptPartBasePtr>		m_script;
 };
 
 #endif

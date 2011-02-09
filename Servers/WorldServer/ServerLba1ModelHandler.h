@@ -67,10 +67,10 @@ public:
 	virtual LbaNet::ModelInfo GetCurrentModel();
 
 	// update model
-	virtual int UpdateModel(const LbaNet::ModelInfo & info);
+	virtual int UpdateModel();
 
 	// update animation
-	virtual int UpdateAnimation(const std::string & AnimString);
+	virtual int UpdateAnimation();
 
 	// pause current running animation
 	virtual void PauseAnimation();
@@ -116,7 +116,7 @@ private:
 	int												_currBody;
 	int												_currAnimation;
 
-
+	bool											_savedpaused;
 	LbaNet::ModelInfo								_savedmodelinfo;
 	std::string										_savedanimationstring;
 };

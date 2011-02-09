@@ -282,9 +282,10 @@ class ChangeColorEvent : public LbaNet::EditorUpdateBase
 {
 public:
 	//! constructor
-	ChangeColorEvent(int skinidx, int eyesidx, int hairidx, int outfitidx, int weaponidx, int mountidx)
+	ChangeColorEvent(int skinidx, int eyesidx, int hairidx, int outfitidx, int weaponidx, 
+						int mountidx, int mountidx2)
 		: _skinidx(skinidx), _eyesidx(eyesidx), _hairidx(hairidx), _outfitidx(outfitidx),
-			_weaponidx(weaponidx), _mountidx(mountidx)
+			_weaponidx(weaponidx), _mountidx(mountidx), _mountidx2(mountidx2)
 	{
 	}
 
@@ -294,6 +295,7 @@ public:
 	int _outfitidx;
 	int _weaponidx;
 	int _mountidx;
+	int _mountidx2;
 };
 
 

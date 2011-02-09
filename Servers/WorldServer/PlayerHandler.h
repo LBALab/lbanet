@@ -201,7 +201,8 @@ public:
 
 
 	//! change player color
-	void ChangePlayerColor(int skinidx, int eyesidx, int hairidx, int outfitidx, int weaponidx, int mountidx);
+	void ChangePlayerColor(int skinidx, int eyesidx, int hairidx, int outfitidx, int weaponidx, 
+				int mountidx, int mountidx2);
 
 
 	//! client open container

@@ -557,9 +557,9 @@ void ActorHandler::SaveToLuaFile(std::ofstream & file)
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".ExtraInfo.NameColorR = "<<m_actorinfo.ExtraInfo.NameColorR<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".ExtraInfo.NameColorG = "<<m_actorinfo.ExtraInfo.NameColorG<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".ExtraInfo.NameColorB = "<<m_actorinfo.ExtraInfo.NameColorB<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".ExtraInfo.Display = "<<m_actorinfo.ExtraInfo.Display<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".ExtraInfo.Display = "<<(m_actorinfo.ExtraInfo.Display?"true":"false")<<std::endl;
 
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".LifeInfo.Display = "<<m_actorinfo.LifeInfo.Display<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".LifeInfo.Display = "<<(m_actorinfo.LifeInfo.Display?"true":"false")<<std::endl;
 
 	if(m_actorinfo.Condition)
 	{
@@ -812,6 +812,32 @@ void ActorHandler::Resume()
 		}
 	}
 }
+
+
+
+/***********************************************************
+add script part to the script
+***********************************************************/
+void ActorHandler::AddScriptPart(ActorScriptPartBasePtr part)
+{
+	m_script.push_back(part);
+}
+
+
+/***********************************************************
+remove script part to the script
+***********************************************************/
+void ActorHandler::RemoveScriptPart(ActorScriptPartBasePtr part)
+{
+	std::vector<ActorScriptPartBasePtr>::iterator it = std::find(m_script.begin(), m_script.end(), part);
+	if(it != m_script.end())
+		m_script.erase(it);
+}
+
+
+
+
+
 
 
 

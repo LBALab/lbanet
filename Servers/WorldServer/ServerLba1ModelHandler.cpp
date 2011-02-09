@@ -37,9 +37,9 @@ Constructor
 ServerLba1ModelHandler::ServerLba1ModelHandler(const LbaNet::ModelInfo & info, float animationspeed)
 :  _model(NULL), _animationspeed(animationspeed),
 	_currAnimation(-1), _currModel(-1), _currBody(-1), _paused(false), 
-	_currentanimationstring("Stand")
+	_currentanimationstring("Stand"), _currentmodelinfo(info)
 {
-	UpdateModel(info);
+	UpdateModel();
 }
 
 
@@ -125,9 +125,8 @@ LbaNet::ModelInfo ServerLba1ModelHandler::GetCurrentModel()
 /***********************************************************
 update model
 ***********************************************************/
-int ServerLba1ModelHandler::UpdateModel(const LbaNet::ModelInfo & info)
+int ServerLba1ModelHandler::UpdateModel()
 {
-	_currentmodelinfo = info;
 	return RefreshModel(true);
 }
 
@@ -135,15 +134,9 @@ int ServerLba1ModelHandler::UpdateModel(const LbaNet::ModelInfo & info)
 /***********************************************************
 update animation
 ***********************************************************/
-int ServerLba1ModelHandler::UpdateAnimation(const std::string & AnimString)
+int ServerLba1ModelHandler::UpdateAnimation()
 {
-	if(_currentanimationstring != AnimString)
-	{
-		_currentanimationstring = AnimString;
-		return RefreshModel();
-	}
-
-	return 0;
+	return RefreshModel();
 }
 
 
@@ -162,7 +155,16 @@ int ServerLba1ModelHandler::Update(LbaNet::DisplayObjectUpdateBasePtr update,
 		LbaNet::ModelUpdate * castedptr = 
 			dynamic_cast<LbaNet::ModelUpdate *>(update.get());
 
-		return UpdateModel(castedptr->Info);
+		if(updatestoredstate)
+		{
+			_savedmodelinfo = castedptr->Info;
+			return 0;
+		}
+		else
+		{
+			_currentmodelinfo = castedptr->Info;
+			return UpdateModel();
+		}
 	}
 
 	// AnimationStringUpdate
@@ -171,13 +173,31 @@ int ServerLba1ModelHandler::Update(LbaNet::DisplayObjectUpdateBasePtr update,
 		LbaNet::AnimationStringUpdate * castedptr = 
 			dynamic_cast<LbaNet::AnimationStringUpdate *>(update.get());
 
-		return UpdateAnimation(castedptr->Animation);
+		if(updatestoredstate)
+		{
+			_savedanimationstring = castedptr->Animation;
+			return 0;
+		}
+		else
+		{
+			if(_currentanimationstring != castedptr->Animation)
+			{
+				_currentanimationstring = castedptr->Animation;
+				return UpdateAnimation();
+			}
+			else
+				return 0;
+		}
 	}
 
 	// PauseAnimationUpdate
 	if(info == typeid(LbaNet::PauseAnimationUpdate))
 	{
-		PauseAnimation();
+		if(updatestoredstate)
+			_savedpaused = true;
+		else
+			_paused = true;
+
 		return 0;
 	}
 
@@ -276,6 +296,7 @@ void ServerLba1ModelHandler::SaveState()
 {
 	_savedmodelinfo = _currentmodelinfo;
 	_savedanimationstring = _currentanimationstring;
+	_savedpaused = _paused;
 }
 
 
@@ -286,5 +307,6 @@ void ServerLba1ModelHandler::RestoreState()
 {
 	_currentmodelinfo = _savedmodelinfo;
 	_currentanimationstring = _savedanimationstring;
+	_paused = _savedpaused;
 	RefreshModel();
 }

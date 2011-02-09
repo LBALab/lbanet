@@ -1158,7 +1158,7 @@ void PlayerHandler::UpdateInventory(LbaNet::ItemList Taken, LbaNet::ItemList Put
 change player color
 ***********************************************************/
 void PlayerHandler::ChangePlayerColor(int skinidx, int eyesidx, int hairidx, int outfitidx, 
-									  int weaponidx, int mountidx)
+									  int weaponidx, int mountidx, int mountidx2)
 {
 	_currentinfo.model.SkinColor = skinidx;
 	_currentinfo.model.EyesColor = eyesidx;
@@ -1166,6 +1166,7 @@ void PlayerHandler::ChangePlayerColor(int skinidx, int eyesidx, int hairidx, int
 	_currentinfo.model.OutfitColor = outfitidx;
 	_currentinfo.model.WeaponColor = weaponidx;
 	_currentinfo.model.MountSkinColor = mountidx;
+	_currentinfo.model.MountHairColor = mountidx2;
 }
 
 
