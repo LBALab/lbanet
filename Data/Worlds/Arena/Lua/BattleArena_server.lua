@@ -38,103 +38,18 @@ function InitMap(environment)
 	Actor_1.ExtraInfo.NameColorR = -0.00132704
 	Actor_1.ExtraInfo.NameColorG = -0.00132704
 	Actor_1.ExtraInfo.NameColorB = -0.00132704
+	Actor_1.ExtraInfo.Display = false
+	Actor_1.LifeInfo.Display = false
 	Actor_1H = ActorHandler(Actor_1)
 	environment:AddActorObject(Actor_1H)
-
-	Actor_3 = ActorObjectInfo(3)
-	Actor_3:SetRenderType(3)
-	Actor_3.DisplayDesc.ModelId = 0
-	Actor_3.DisplayDesc.ModelName = "FunFrock"
-	Actor_3.DisplayDesc.Outfit = "No"
-	Actor_3.DisplayDesc.Weapon = "No"
-	Actor_3.DisplayDesc.Mode = "Normal"
-	Actor_3.DisplayDesc.UseLight = true
-	Actor_3.DisplayDesc.CastShadow = false
-	Actor_3.DisplayDesc.ColorR = 1
-	Actor_3.DisplayDesc.ColorG = 1
-	Actor_3.DisplayDesc.ColorB = 1
-	Actor_3.DisplayDesc.ColorA = 1
-	Actor_3.DisplayDesc.TransX = 0
-	Actor_3.DisplayDesc.TransY = 0
-	Actor_3.DisplayDesc.TransZ = 0
-	Actor_3.DisplayDesc.ScaleX = 5
-	Actor_3.DisplayDesc.ScaleY = 5
-	Actor_3.DisplayDesc.ScaleZ = 5
-	Actor_3.DisplayDesc.RotX = 0
-	Actor_3.DisplayDesc.RotY = 0
-	Actor_3.DisplayDesc.RotZ = 0
-	Actor_3:SetModelState(2)
-	Actor_3:AddColorSwap(1,240,236)
-	Actor_3:AddColorSwap(2,52,84)
-	Actor_3:AddColorSwap(3,191,228)
-	Actor_3.PhysicDesc.Pos.X = 37.5
-	Actor_3.PhysicDesc.Pos.Y = 7
-	Actor_3.PhysicDesc.Pos.Z = 8.5
-	Actor_3.PhysicDesc.Pos.Rotation = 0
-	Actor_3.PhysicDesc.Density = 1
-	Actor_3.PhysicDesc.Collidable = true
-	Actor_3.PhysicDesc.SizeX = 5
-	Actor_3.PhysicDesc.SizeY = 22
-	Actor_3.PhysicDesc.SizeZ = 5
-	Actor_3.PhysicDesc.Filename = ""
-	Actor_3:SetPhysicalActorType(1)
-	Actor_3:SetPhysicalShape(1)
-	Actor_3.ExtraInfo.Name = ""
-	Actor_3.ExtraInfo.NameColorR = 1
-	Actor_3.ExtraInfo.NameColorG = 1
-	Actor_3.ExtraInfo.NameColorB = 1
-	Actor_3H = ActorHandler(Actor_3)
-	environment:AddActorObject(Actor_3H)
-
-	Actor_4 = ActorObjectInfo(4)
-	Actor_4:SetRenderType(2)
-	Actor_4.DisplayDesc.ModelId = 0
-	Actor_4.DisplayDesc.ModelName = "Worlds/Lba1Original/InventoryImages/test3.png"
-	Actor_4.DisplayDesc.Outfit = "No"
-	Actor_4.DisplayDesc.Weapon = "No"
-	Actor_4.DisplayDesc.Mode = "Normal"
-	Actor_4.DisplayDesc.UseLight = false
-	Actor_4.DisplayDesc.CastShadow = true
-	Actor_4.DisplayDesc.ColorR = 1
-	Actor_4.DisplayDesc.ColorG = 1
-	Actor_4.DisplayDesc.ColorB = 1
-	Actor_4.DisplayDesc.ColorA = 0.8
-	Actor_4.DisplayDesc.TransX = 0
-	Actor_4.DisplayDesc.TransY = 0
-	Actor_4.DisplayDesc.TransZ = 0
-	Actor_4.DisplayDesc.ScaleX = 1
-	Actor_4.DisplayDesc.ScaleY = 1
-	Actor_4.DisplayDesc.ScaleZ = 1
-	Actor_4.DisplayDesc.RotX = 0
-	Actor_4.DisplayDesc.RotY = 0
-	Actor_4.DisplayDesc.RotZ = 0
-	Actor_4:SetModelState(2)
-	Actor_4:AddColorSwap(1,112,136)
-	Actor_4:AddColorSwap(1,192,202)
-	Actor_4.PhysicDesc.Pos.X = 42.5
-	Actor_4.PhysicDesc.Pos.Y = 7
-	Actor_4.PhysicDesc.Pos.Z = 9.5
-	Actor_4.PhysicDesc.Pos.Rotation = 0
-	Actor_4.PhysicDesc.Density = 1
-	Actor_4.PhysicDesc.Collidable = true
-	Actor_4.PhysicDesc.SizeX = 2
-	Actor_4.PhysicDesc.SizeY = 1
-	Actor_4.PhysicDesc.SizeZ = 2.5
-	Actor_4.PhysicDesc.Filename = ""
-	Actor_4:SetPhysicalActorType(1)
-	Actor_4:SetPhysicalShape(1)
-	Actor_4.ExtraInfo.Name = ""
-	Actor_4.ExtraInfo.NameColorR = 1
-	Actor_4.ExtraInfo.NameColorG = 1
-	Actor_4.ExtraInfo.NameColorB = 1
-	Actor_4H = ActorHandler(Actor_4)
-	environment:AddActorObject(Actor_4H)
 
 	Trigger_1_info = TriggerInfo(1, "test", true, true, false)
 	Trigger_1 = ZoneTrigger(Trigger_1_info, 2, 2, 2, true)
 	Trigger_1:SetPosition(45.8, 7, 10)
-	Trigger_1_act1 = CustomAction()
-	Trigger_1_act1:SetLuaFunctionName("TestServerC")
+	Trigger_1_act1 = ClientScriptAction()
+	Trigger_1_act1_cs = CustomScript()
+	Trigger_1_act1_cs:SetLuaFunctionName("ExampleClientFct")
+	Trigger_1_act1:SetScript(Trigger_1_act1_cs)
 	Trigger_1:SetAction1(Trigger_1_act1)
 	environment:AddTrigger(Trigger_1)
 
