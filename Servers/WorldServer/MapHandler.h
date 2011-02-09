@@ -187,6 +187,51 @@ public:
 	// open container on client side
 	virtual void OpenContainer(long clientid, boost::shared_ptr<ContainerSharedInfo> sharedinfo);
 
+
+
+	//! used by lua to get an actor Position
+	virtual LbaVec3 GetActorPosition(long ActorId);
+
+	//! used by lua to get an actor Rotation
+	virtual float GetActorRotation(long ActorId);
+
+	//! used by lua to get an actor Rotation
+	//! if id < 1 then it get player position
+	virtual LbaQuaternion GetActorRotationQuat(long ActorId);
+
+	//! used by lua to update an actor animation
+	virtual void UpdateActorAnimation(long ActorId, const std::string & AnimationString);
+
+	//! used by lua to update an actor mode
+	virtual void UpdateActorMode(long ActorId, const std::string & Mode);
+
+
+	//! used by lua to move an actor or player
+	//! if id < 1 then it moves players
+	//! the actor will move using animation speed
+	virtual void ActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position, 
+										bool asynchronus = false);
+
+	//! used by lua to rotate an actor
+	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
+	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
+	//! if ManageAnimation is true then the animation will be changed to suit the rotation
+	virtual void ActorRotate(int ScriptId, long ActorId, float Angle, float RotationSpeedPerSec,
+						bool ManageAnimation, bool asynchronus = false);
+
+	//! used by lua to wait until an actor animation is finished
+	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
+	virtual void ActorAnimate(int ScriptId, long ActorId, bool AnimationMove, 
+									bool asynchronus = false);
+
+	//! called when a script has finished
+	virtual void ScriptFinished(int scriptid, const std::string & functioname);
+
+
+	//! used by lua to tell that the actor should be reserved for the script
+	virtual void ReserveActor(int ScriptId, long ActorId){}
+
+
 protected:
 	// process events
 	void ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts);
@@ -399,8 +444,6 @@ private:
 	#endif
 
 	EventsSeq													_tosendevts;
-
-	ServerLuaHandler											_luaH;
 
 	std::map<long, boost::shared_ptr<TriggerBase> >				_triggers;
 

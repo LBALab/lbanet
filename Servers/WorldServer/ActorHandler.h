@@ -28,9 +28,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <LbaTypes.h>
 #include "Conditions.h"
+#include "ScriptedActor.h"
+#include "CommonTypes.h"
 
 
-//! class used by lua to add objects on the map
+/***********************************************************************
+class used by lua to add objects on the map
+ ***********************************************************************/
 struct ActorObjectInfo
 {
 	//constructor
@@ -124,8 +128,11 @@ struct ActorObjectInfo
 };
 
 
-//! class taking care of the maping between lua and the server interfaces
-class ActorHandler
+
+/***********************************************************************
+class taking care of the maping between lua and the server interfaces
+ ***********************************************************************/
+class ActorHandler : public ScriptedActor
 {
 public:
 	//! constructor
@@ -134,9 +141,15 @@ public:
 	//! destructor
 	virtual ~ActorHandler(void);
 
+	//! set script handler
+	void SetScriptHandler(ScriptEnvironmentBase* scripthandler);
+
 	//! get actor info
 	const ActorObjectInfo & GetActorInfo()
 	{ return m_actorinfo; }
+
+	//! set actor info
+	void SetActorInfo(const ActorObjectInfo & ainfo);
 
 
 	// save actor to lua file
@@ -146,25 +159,70 @@ public:
 	long GetId()
 	{ return m_actorinfo.ObjectId;}
 
-	// get actor info
-	ActorObjectInfo & GetInfo()
-	{ return m_actorinfo; }
+	//! clear color swap info
+	void ClearColorSwap();
+
+
+	//! used by lua to get an actor Position
+	LbaVec3 GetActorPosition();
+
+	//! used by lua to get an actor Rotation
+	float GetActorRotation();
+
+	//! used by lua to get an actor Rotation
+	LbaQuaternion GetActorRotationQuat();
+
+	//! used by lua to update an actor animation
+	void UpdateActorAnimation(const std::string & AnimationString);
+
+	//! used by lua to update an actor mode
+	void UpdateActorMode(const std::string & Mode);
+
+	//! called when a script has finished
+	void ScriptFinished(int scriptid, const std::string & functioname);
+
+
+	//! process actor
+	void Process(double tnow, float tdiff);
 
 
 #ifdef _USE_QT_EDITOR_
 public:
-	std::vector<int>	initpolycolors;
-	std::vector<int>	initspherecolors;
-	std::vector<int>	initlinecolors;
+	std::vector<int>		initpolycolors;
+	std::vector<int>		initspherecolors;
+	std::vector<int>		initlinecolors;
 
-	std::vector<int>	currentpolycolors;
-	std::vector<int>	currentspherecolors;
-	std::vector<int>	currentlinecolors;
+	std::vector<int>		currentpolycolors;
+	std::vector<int>		currentspherecolors;
+	std::vector<int>		currentlinecolors;
 #endif
 
 
 protected:
-	ActorObjectInfo		m_actorinfo;
+
+	//! create actor
+	void CreateActor();
+
+	//! pause the playing script
+	void Pause();
+
+	//! resume the playing script
+	void Resume();
+
+
+protected:
+	ActorObjectInfo			m_actorinfo;
+	int						m_launchedscript;
+	bool					m_paused;
+
+	ScriptEnvironmentBase*	m_scripthandler;
+
+
+	float					m_saved_X;
+	float					m_saved_Y;
+	float					m_saved_Z;
+	float					m_saved_rot;
+	LbaQuaternion			m_saved_Q;
 
 
 };

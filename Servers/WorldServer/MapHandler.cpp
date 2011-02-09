@@ -108,11 +108,14 @@ MapHandler::MapHandler(const MapInfo & mapinfo,
 	_guihandlers["ShopBox"] = boost::shared_ptr<ServerGUIBase>(new ShopBoxHandler());
 	_guihandlers["InventoryBox"] = boost::shared_ptr<ServerGUIBase>(new InventoryBoxHandler());
 
-	_luaH.LoadFile(customluafilename);
-	_luaH.LoadFile(mapluafilename);
 
+	//script part
+	m_luaHandler = boost::shared_ptr<ServerLuaHandler>(new  ServerLuaHandler());
+	m_luaHandler->LoadFile("LuaCommon/ClientHelperFunctions.lua");
+	m_luaHandler->LoadFile(customluafilename);
+	m_luaHandler->LoadFile(mapluafilename);
 
-	_luaH.CallLua("InitMap", this);
+	m_luaHandler->CallLua("InitMap", this);
 
 
 	// add editor display objects
@@ -188,7 +191,8 @@ void MapHandler::run()
 
 	// init time
 	long waittime = SynchronizedTimeHandler::GetCurrentTimeInt();
-	long tdiff = 17;
+	double timetodiff = SynchronizedTimeHandler::GetCurrentTimeDouble();
+	float tdiff = _THREAD_WAIT_TIME_;
 
 	// stop thread if running is false
 	while(_Trunning)
@@ -203,12 +207,20 @@ void MapHandler::run()
 
 		// process guis
 		{
-			double ctime = SynchronizedTimeHandler::GetCurrentTimeDouble();
 			std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator itg = _guihandlers.begin();
 			std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator endg = _guihandlers.end();
 			for(; itg != endg; ++itg)
-				itg->second->Process(ctime);
+				itg->second->Process(timetodiff);
 		}
+
+
+		// process actors
+		{
+			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ita = _Actors.begin();
+			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator enda = _Actors.end();
+			for(; ita != enda; ++ita)
+				ita->second->Process(timetodiff, tdiff);
+		}	
 
 
 		// send events to all proxies
@@ -222,16 +234,19 @@ void MapHandler::run()
 		// wait for a few milliseconds
 		{
 			long currwtime = SynchronizedTimeHandler::GetCurrentTimeInt();
-			tdiff = (currwtime-waittime);
+			long wdiff = (currwtime-waittime);
 
-			if(tdiff < _THREAD_WAIT_TIME_)
+			if(wdiff < _THREAD_WAIT_TIME_)
 			{
-				IceUtil::Time t = IceUtil::Time::milliSeconds(_THREAD_WAIT_TIME_-tdiff);
+				IceUtil::Time t = IceUtil::Time::milliSeconds(_THREAD_WAIT_TIME_-wdiff);
 				_monitor.timedWait(t);
 			}
 
 			// mesure the time used to do one cycle
 			waittime = SynchronizedTimeHandler::GetCurrentTimeInt();
+			double tdouble = SynchronizedTimeHandler::GetCurrentTimeDouble();
+			tdiff = (float)(tdouble-timetodiff);
+			timetodiff = tdouble;
 		}
 
 		//stop thread after a while if no player inside
@@ -938,9 +953,8 @@ function used by LUA to add actor
 ***********************************************************/
 void MapHandler::AddActorObject(boost::shared_ptr<ActorHandler> actor)
 {
+	actor->SetScriptHandler(this);
 	_Actors[actor->GetId()] = actor;
-	actor->GetInfo().LifeInfo.Display = false;
-	actor->GetInfo().ExtraInfo.Display = false;
 }
 
 
@@ -1686,7 +1700,7 @@ void MapHandler::Editor_AddModActor(boost::shared_ptr<ActorHandler> actor)
 
 
 
-	LbaNet::ObjectExtraInfo xinfo = actor->GetInfo().ExtraInfo;
+	LbaNet::ObjectExtraInfo xinfo = actor->GetActorInfo().ExtraInfo;
 	std::stringstream strs;
 	strs<<"Actor_"<<actor->GetId()<<": "<<xinfo.Name;
 	xinfo.Name = strs.str();
@@ -1697,9 +1711,9 @@ void MapHandler::Editor_AddModActor(boost::shared_ptr<ActorHandler> actor)
 
 	_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 														LbaNet::NpcObject, actor->GetId(), 
-														actor->GetInfo().DisplayDesc, 
-														actor->GetInfo().PhysicDesc, 
-														actor->GetInfo().LifeInfo, 
+														actor->GetActorInfo().DisplayDesc, 
+														actor->GetActorInfo().PhysicDesc, 
+														actor->GetActorInfo().LifeInfo, 
 														xinfo));
 
 }
@@ -1793,7 +1807,7 @@ void MapHandler::ExecuteCustomAction(int ObjectType, long ObjectId,
 										const std::string & FunctionName,
 										ActionArgumentBase * args)
 {
-	_luaH.ExecuteCustomAction(ObjectType, ObjectId, FunctionName, args, this);
+	m_luaHandler->ExecuteCustomAction(ObjectType, ObjectId, FunctionName, args, this);
 }
 
 
@@ -2118,4 +2132,124 @@ void MapHandler::ChangePlayerColor(long clientid, int skinidx, int eyesidx, int 
 		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 						PlayerObject, clientid, new ModelUpdate(itplayer->second->GetModelInfo(), false)));
 	}
+}
+
+
+
+
+
+/***********************************************************
+used by lua to get an actor Position
+***********************************************************/
+LbaVec3 MapHandler::GetActorPosition(long ActorId)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
+		return itact->second->GetActorPosition();
+
+	return LbaVec3();
+}
+
+
+/***********************************************************
+used by lua to get an actor Rotation
+***********************************************************/
+float MapHandler::GetActorRotation(long ActorId)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
+		return itact->second->GetActorRotation();
+
+	return 0;
+}
+
+
+ /***********************************************************
+used by lua to get an actor Rotation
+***********************************************************/
+LbaQuaternion MapHandler::GetActorRotationQuat(long ActorId)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
+		return itact->second->GetActorRotationQuat();
+
+	return LbaQuaternion();
+}
+
+
+
+/***********************************************************
+ used by lua to update an actor animation
+***********************************************************/
+void MapHandler::UpdateActorAnimation(long ActorId, const std::string & AnimationString)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
+		itact->second->UpdateActorAnimation(AnimationString);
+}
+
+
+
+/***********************************************************
+//! used by lua to update an actor mode
+***********************************************************/
+void MapHandler::UpdateActorMode(long ActorId, const std::string & Mode)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
+		itact->second->UpdateActorMode(Mode);
+}
+
+
+
+/***********************************************************
+used by lua to move an actor or player
+the actor will move using animation speed
+***********************************************************/
+void MapHandler::ActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position, bool asynchronus)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
+		itact->second->ActorStraightWalkTo(ScriptId, false, Position.x, Position.y, Position.z);
+}
+
+
+
+/***********************************************************
+//! used by lua to rotate an actor
+//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
+//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
+***********************************************************/
+void MapHandler::ActorRotate(int ScriptId, long ActorId, float Angle, float RotationSpeedPerSec,
+								bool ManageAnimation, bool asynchronus)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
+		itact->second->ActorRotate(ScriptId, false, Angle, RotationSpeedPerSec, ManageAnimation);
+}
+
+
+
+/***********************************************************
+//! used by lua to wait until an actor animation is finished
+//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
+***********************************************************/
+void MapHandler::ActorAnimate(int ScriptId, long ActorId, bool AnimationMove, bool asynchronus)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
+		itact->second->ActorAnimate(ScriptId, false, AnimationMove);
+}
+
+
+
+/***********************************************************
+//! called when a script has finished
+***********************************************************/
+void MapHandler::ScriptFinished(int scriptid, const std::string & functioname)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.begin();
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endact = _Actors.end();
+	for(; itact != endact; ++itact)
+		itact->second->ScriptFinished(scriptid, functioname);
 }

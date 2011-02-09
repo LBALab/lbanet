@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define _SERVER_LUA_HANDLER_H__
 
 #include "LuaHandlerBase.h"
-class ActionArgumentBase;
+
 
 
 //! class taking care of the maping between lua and the server interfaces
@@ -39,24 +39,7 @@ public:
 	//! destructor
 	virtual ~ServerLuaHandler(void);
 
-	// execute custom lua function
-	// ObjectType ==>
-	//! 1 -> npc object
-	//! 2 -> player object
-	//! 3 -> movable object
-	void ExecuteCustomAction(int ObjectType, long ObjectId,
-										const std::string & FunctionName,
-										ActionArgumentBase * args,
-										ScriptEnvironmentBase* env);
 
-
-protected:
-
-	//! called when failed starting a script
-	virtual void FailedStartingScript(const std::string & functioname);
-
-	//! called when a script has finished
-	virtual void ScriptFinished(const std::string & functioname);
 };
 
 #endif

@@ -1,5 +1,12 @@
 #include "ActorHandler.h"
 #include <fstream>
+#include "ScriptEnvironmentBase.h"
+#include "ObjectsDescription.h"
+#include "DynamicObject.h"
+
+
+#define	_LBA1_MODEL_ANIMATION_SPEED_	1.8f
+
 
 /***********************************************************
 constructor
@@ -432,9 +439,9 @@ void ActorObjectInfo::AddColorSwap(int modelpart, int oldcolor, int newcolor)
 constructor
 ***********************************************************/
 ActorHandler::ActorHandler(const ActorObjectInfo & actorinfo)
-: m_actorinfo(actorinfo)
+: m_launchedscript(-1), m_paused(false), m_scripthandler(NULL)
 {
-
+	SetActorInfo(actorinfo);
 }
 
 
@@ -443,8 +450,36 @@ destructor
 ***********************************************************/
 ActorHandler::~ActorHandler(void)
 {
-
+	//destroy launched script
+	if(m_launchedscript > 0 && m_scripthandler)
+		m_scripthandler->StropThread(m_launchedscript);
 }
+
+
+/***********************************************************
+set script handler
+***********************************************************/
+void ActorHandler::SetScriptHandler(ScriptEnvironmentBase* scripthandler)
+{
+	m_scripthandler = scripthandler;
+}
+
+
+/***********************************************************
+set actor info
+***********************************************************/
+void ActorHandler::SetActorInfo(const ActorObjectInfo & ainfo)
+{
+	m_actorinfo = ainfo;
+
+	//TODO - maybe not always the case
+	m_actorinfo.LifeInfo.Display = false;
+	m_actorinfo.ExtraInfo.Display = false;
+
+	CreateActor();
+}
+
+
 
 
 /***********************************************************
@@ -522,7 +557,9 @@ void ActorHandler::SaveToLuaFile(std::ofstream & file)
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".ExtraInfo.NameColorR = "<<m_actorinfo.ExtraInfo.NameColorR<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".ExtraInfo.NameColorG = "<<m_actorinfo.ExtraInfo.NameColorG<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".ExtraInfo.NameColorB = "<<m_actorinfo.ExtraInfo.NameColorB<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".ExtraInfo.Display = "<<m_actorinfo.ExtraInfo.Display<<std::endl;
 
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".LifeInfo.Display = "<<m_actorinfo.LifeInfo.Display<<std::endl;
 
 	if(m_actorinfo.Condition)
 	{
@@ -537,3 +574,246 @@ void ActorHandler::SaveToLuaFile(std::ofstream & file)
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<"H = ActorHandler(Actor_"<<m_actorinfo.ObjectId<<")"<<std::endl;
 	file<<"\tenvironment:AddActorObject(Actor_"<<m_actorinfo.ObjectId<<"H)"<<std::endl<<std::endl;
 }
+
+
+
+/***********************************************************
+clear color swap info
+***********************************************************/
+void ActorHandler::ClearColorSwap()
+{
+	m_actorinfo.DisplayDesc.ColorSwaps.clear();
+}
+
+
+
+/***********************************************************
+used by lua to get an actor Position
+***********************************************************/
+LbaVec3 ActorHandler::GetActorPosition()
+{
+	if(m_paused)
+		return LbaVec3(m_saved_X, m_saved_Y, m_saved_Z);
+
+	if(_character)
+	{
+		boost::shared_ptr<PhysicalObjectHandlerBase> physO = _character->GetPhysicalObject();
+		if(physO)
+		{
+			float X, Y, Z;
+			physO->GetPosition(X, Y, Z);
+			return LbaVec3(X, Y, Z);
+		}
+	}
+
+	return LbaVec3();
+}
+
+/***********************************************************
+used by lua to get an actor Rotation
+***********************************************************/
+float ActorHandler::GetActorRotation()
+{
+	if(m_paused)
+		return m_saved_rot;
+
+	if(_character)
+	{
+		boost::shared_ptr<PhysicalObjectHandlerBase> physO = _character->GetPhysicalObject();
+		if(physO)
+			return physO->GetRotationYAxis();
+	}
+
+	return 0;
+}
+
+/***********************************************************
+used by lua to get an actor Rotation
+***********************************************************/
+LbaQuaternion ActorHandler::GetActorRotationQuat()
+{
+	if(m_paused)
+		return m_saved_Q;
+
+	if(_character)
+	{
+		boost::shared_ptr<PhysicalObjectHandlerBase> physO = _character->GetPhysicalObject();
+		if(physO)
+		{
+			LbaQuaternion Q;
+			physO->GetRotation(Q);
+			return Q;
+		}
+	}
+
+	return LbaQuaternion();
+}
+
+/***********************************************************
+used by lua to update an actor animation
+***********************************************************/
+void ActorHandler::UpdateActorAnimation(const std::string & AnimationString)
+{
+	if(_character)
+	{
+		boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
+		if(disO)
+			disO->Update(new LbaNet::AnimationStringUpdate(AnimationString), m_paused);
+	}
+}
+
+/***********************************************************
+used by lua to update an actor mode
+***********************************************************/
+void ActorHandler::UpdateActorMode(const std::string & Mode)
+{
+	if(_character)
+	{
+		boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
+		if(disO)
+		{
+			LbaNet::ModelInfo model = disO->GetCurrentModel(m_paused);
+			model.Mode = Mode;
+			disO->Update(new LbaNet::ModelUpdate(model, false), m_paused);
+		}
+	}
+}
+
+
+
+/***********************************************************
+called when a script has finished
+***********************************************************/
+void ActorHandler::ScriptFinished(int scriptid, const std::string & functioname)
+{
+	if(m_launchedscript == scriptid)
+		m_launchedscript = -1;
+}
+
+
+
+/***********************************************************
+process actor
+***********************************************************/
+void ActorHandler::Process(double tnow, float tdiff)
+{
+
+	//TODO - NPC - monster -> target player
+
+
+	if(!m_scripthandler)
+		return;
+
+	// process script in normal case
+	if(m_launchedscript > 0 && !m_paused)
+		ProcessScript(tnow, tdiff, m_scripthandler);
+
+}
+
+
+/***********************************************************
+create actor
+***********************************************************/
+void ActorHandler::CreateActor()
+{
+	boost::shared_ptr<DisplayInfo> DInfo;
+
+	// create display object
+	switch(m_actorinfo.DisplayDesc.TypeRenderer)
+	{
+		//2 -> LBA1 model 
+		case LbaNet::RenderLba1M:
+		{
+			//TODO animation speed
+			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
+				(new Lba1ModelObjectDescription(m_actorinfo.DisplayDesc, _LBA1_MODEL_ANIMATION_SPEED_,
+												m_actorinfo.DisplayDesc.UseLight, 
+												m_actorinfo.DisplayDesc.CastShadow, 
+												m_actorinfo.ExtraInfo,
+												m_actorinfo.LifeInfo));
+
+			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(
+								boost::shared_ptr<DisplayTransformation>(), dispobdesc));
+		}
+		break;
+
+		//3-> LBA2 model
+		case LbaNet::RenderLba2M:
+		{
+			//TODO
+		}
+		break;
+	}
+
+	// create physic object
+	boost::shared_ptr<PhysicalDescriptionBase> PInfo(new 
+					PhysicalDescriptionNoShape(m_actorinfo.PhysicDesc.Pos.X, m_actorinfo.PhysicDesc.Pos.Y, 
+													m_actorinfo.PhysicDesc.Pos.Z, 
+										LbaQuaternion(m_actorinfo.PhysicDesc.Pos.Rotation, LbaVec3(0, 1, 0))));
+
+
+	ObjectInfo obj((long)m_actorinfo.ObjectId, DInfo, PInfo, 
+			(m_actorinfo.PhysicDesc.TypePhysO == LbaNet::StaticAType));
+
+	_character = obj.BuildServer();
+}
+
+
+
+
+/***********************************************************
+pause the playing script
+***********************************************************/
+void ActorHandler::Pause()
+{
+	if(!m_paused)
+	{
+		m_paused = true;
+		if(_character)
+		{
+			boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
+			if(disO)
+				disO->SaveState();
+
+			// store physical info
+			boost::shared_ptr<PhysicalObjectHandlerBase> physO = _character->GetPhysicalObject();
+			if(physO)
+			{
+				physO->GetPosition(m_saved_X, m_saved_Y, m_saved_Z);
+				m_saved_rot = physO->GetRotationYAxis();
+				physO->GetRotation(m_saved_Q);
+			}
+		}
+	}
+}
+
+
+/***********************************************************
+resume the playing script
+***********************************************************/
+void ActorHandler::Resume()
+{
+	if(m_paused)
+	{
+		m_paused = false;
+		if(_character)
+		{
+			boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
+			if(disO)
+				disO->RestoreState();
+
+			// restore physical info
+			boost::shared_ptr<PhysicalObjectHandlerBase> physO = _character->GetPhysicalObject();
+			if(physO)
+			{
+				physO->SetPosition(m_saved_X, m_saved_Y, m_saved_Z);
+				physO->SetRotation(m_saved_Q);	
+			}
+		}
+	}
+}
+
+
+
+
+//TODO - send position to all clients

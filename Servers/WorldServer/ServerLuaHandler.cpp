@@ -32,6 +32,32 @@ ServerLuaHandler::ServerLuaHandler()
 		luabind::module(m_LuaState) [
 
 
+		luabind::class_<LbaVec3>("LbaVec3")
+		.def(luabind::constructor<>())
+		.def(luabind::constructor<float, float, float>())
+		.def(luabind::constructor<LbaVec3>())
+		.def_readwrite("x", &LbaVec3::x)
+		.def_readwrite("y", &LbaVec3::y)
+		.def_readwrite("z", &LbaVec3::z),
+
+		luabind::class_<LbaQuaternion>("LbaQuaternion")
+		.def(luabind::constructor<>())
+		.def(luabind::constructor<float, float, float, float>())
+		.def(luabind::constructor<float, float, float>())
+		.def(luabind::constructor<float, LbaVec3>())
+		.def_readwrite("X", &LbaQuaternion::X)
+		.def_readwrite("Y", &LbaQuaternion::Y)
+		.def_readwrite("Z", &LbaQuaternion::Z)
+		.def_readwrite("W", &LbaQuaternion::W)	
+		.def("AddSingleRotation", &LbaQuaternion::AddSingleRotation)
+		.def("GetDirection", &LbaQuaternion::GetDirection)
+		.def("GetRotationSingleAngle", &LbaQuaternion::GetRotationSingleAngle)
+		.scope
+		[
+			luabind::def("GetAngleFromVector", &LbaQuaternion::GetAngleFromVector)
+		],
+		
+
 
 		luabind::class_<ConditionBase, boost::shared_ptr<ConditionBase> >("ConditionBase")
 		.def(luabind::constructor<>())
@@ -133,7 +159,8 @@ ServerLuaHandler::ServerLuaHandler()
 		.def_readwrite("CurrentLife", &LbaNet::LifeManaInfo::CurrentLife)
 		.def_readwrite("MaxLife", &LbaNet::LifeManaInfo::MaxLife)
 		.def_readwrite("CurrentMana", &LbaNet::LifeManaInfo::CurrentMana)
-		.def_readwrite("MaxMana", &LbaNet::LifeManaInfo::MaxMana),
+		.def_readwrite("MaxMana", &LbaNet::LifeManaInfo::MaxMana)
+		.def_readwrite("Display", &LbaNet::LifeManaInfo::Display),
 
 
 		luabind::class_<LbaNet::ObjectExtraInfo>("ObjectExtraInfo")
@@ -141,7 +168,8 @@ ServerLuaHandler::ServerLuaHandler()
 		.def_readwrite("Name", &LbaNet::ObjectExtraInfo::Name)
 		.def_readwrite("NameColorR", &LbaNet::ObjectExtraInfo::NameColorR)
 		.def_readwrite("NameColorG", &LbaNet::ObjectExtraInfo::NameColorG)
-		.def_readwrite("NameColorB", &LbaNet::ObjectExtraInfo::NameColorB),
+		.def_readwrite("NameColorB", &LbaNet::ObjectExtraInfo::NameColorB)
+		.def_readwrite("Display", &LbaNet::ObjectExtraInfo::Display),
 
 
 		luabind::class_<ActorObjectInfo>("ActorObjectInfo")
@@ -169,6 +197,19 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("DisplayTextAction", &ScriptEnvironmentBase::DisplayTxtAction)
 		.def("SendErrorMessage", &ScriptEnvironmentBase::SendErrorMessage)
 		.def("OpenContainer", &ScriptEnvironmentBase::OpenContainer)
+		.def("GetActorPosition", &ScriptEnvironmentBase::GetActorPosition)
+		.def("GetActorRotation", &ScriptEnvironmentBase::GetActorRotation)
+		.def("GetActorRotationQuat", &ScriptEnvironmentBase::GetActorRotationQuat)
+		.def("UpdateActorAnimation", &ScriptEnvironmentBase::UpdateActorAnimation)
+		.def("UpdateActorMode", &ScriptEnvironmentBase::UpdateActorMode)
+		.def("ActorStraightWalkTo", &ScriptEnvironmentBase::ActorStraightWalkTo, luabind::yield)
+		.def("ActorRotate", &ScriptEnvironmentBase::ActorRotate, luabind::yield)
+		.def("ActorAnimate", &ScriptEnvironmentBase::ActorAnimate, luabind::yield)
+		.def("Async_ActorStraightWalkTo", &ScriptEnvironmentBase::Async_ActorStraightWalkTo)
+		.def("Async_ActorRotate", &ScriptEnvironmentBase::Async_ActorRotate)
+		.def("Async_ActorAnimate", &ScriptEnvironmentBase::Async_ActorAnimate)
+		.def("WaitForAsyncScript", &ScriptEnvironmentBase::WaitForAsyncScript, luabind::yield)
+		.def("ReserveActor", &ScriptEnvironmentBase::ReserveActor)
 		,
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),
@@ -326,38 +367,3 @@ ServerLuaHandler::~ServerLuaHandler(void)
 }
 
 
-
-/***********************************************************
-call lua function
-***********************************************************/
-void ServerLuaHandler::ExecuteCustomAction(int ObjectType, long ObjectId,
-											const std::string & FunctionName,
-											ActionArgumentBase * args,
-											ScriptEnvironmentBase* env)
-{
-	try
-	{
-		luabind::call_function<void>(m_LuaState, FunctionName.c_str(), ObjectType, ObjectId, args, env);
-	}
-	catch(const std::exception &error)
-	{
-		LogHandler::getInstance()->LogToFile(std::string("Exception calling lua function ") + FunctionName + std::string(" : ") + error.what() + std::string(" : ") + lua_tostring(m_LuaState, -1), 0);
-	}
-}
-
-
-/***********************************************************
-called when failed starting a script
-***********************************************************/
-void ServerLuaHandler::FailedStartingScript(const std::string & functioname)
-{
-	//TODO
-}
-
-/***********************************************************
-called when a script has finished
-***********************************************************/
-void ServerLuaHandler::ScriptFinished(const std::string & functioname)
-{
-	//TODO
-}
