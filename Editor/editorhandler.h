@@ -394,7 +394,7 @@ public:
 	//! used by lua to move an actor or player
 	//! if id < 1 then it moves players
 	//! the actor will move using animation speed
-	virtual void ActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position, 
+	virtual void InternalActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position, 
 										bool asynchronus = false){}
 
 	//! used by lua to rotate an actor
@@ -402,23 +402,22 @@ public:
 	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
 	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
 	//! if ManageAnimation is true then the animation will be changed to suit the rotation
-	virtual void ActorRotate(int ScriptId, long ActorId, float Angle, float RotationSpeedPerSec,
+	virtual void InternalActorRotate(int ScriptId, long ActorId, float Angle, float RotationSpeedPerSec,
 								bool ManageAnimation, bool asynchronus = false){}
 
 	//! used by lua to wait until an actor animation is finished
 	//! if id < 1 then it moves players
 	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
-	virtual void ActorAnimate(int ScriptId, long ActorId, bool AnimationMove, 
+	virtual void InternalActorAnimate(int ScriptId, long ActorId, bool AnimationMove, 
 										bool asynchronus = false){}
-
-
-	//! called when a script has finished
-	virtual void ScriptFinished(int scriptid, const std::string & functioname){}
 
 
 	//! used by lua to tell that the actor should be reserved for the script
 	virtual void ReserveActor(int ScriptId, long ActorId){}
 
+
+	//! called when a script has finished
+	virtual void ScriptFinished(int scriptid, const std::string & functioname){}
 
 public slots:
 	 //! ui button clicked

@@ -172,6 +172,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\shared\ActorScriptPart.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Client\ActorUserData.cpp"
 				>
 			</File>
@@ -599,6 +603,10 @@
 			</File>
 			<File
 				RelativePath="..\Servers\WorldServer\ActorHandler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\shared\ActorScriptPart.h"
 				>
 			</File>
 			<File

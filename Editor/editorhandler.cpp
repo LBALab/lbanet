@@ -1335,7 +1335,9 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.spinBox_ceyes, SIGNAL(valueChanged(int)) , this, SLOT(colorModified(int)));	
 	connect(_uieditor.spinBox_chair, SIGNAL(valueChanged(int)) , this, SLOT(colorModified(int)));	
 	connect(_uieditor.spinBox_coutfit, SIGNAL(valueChanged(int)) , this, SLOT(colorModified(int)));	
-
+	connect(_uieditor.spinBox_cweapon, SIGNAL(valueChanged(int)) , this, SLOT(colorModified(int)));	
+	connect(_uieditor.spinBox_cmount, SIGNAL(valueChanged(int)) , this, SLOT(colorModified(int)));	
+	connect(_uieditor.spinBox_cmount2, SIGNAL(valueChanged(int)) , this, SLOT(colorModified(int)));	
 }
 
 /***********************************************************
@@ -5871,7 +5873,7 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 	if(it != _Actors.end())
 	{
 		bool updateobj = false;
-		ActorObjectInfo ainfo = it->second->GetActorInfo();
+		ActorObjectInfo &ainfo = it->second->GetEditorActorInfo();
 
 		ainfo.ExtraInfo.Name = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString().toAscii().data();
 
@@ -6001,7 +6003,6 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 				++index;			
 			}
 
-			// todo - model needs a slight offset Y
 			if(ainfo.DisplayDesc.TypeRenderer == RenderLba1M ||
 					ainfo.DisplayDesc.TypeRenderer == RenderLba2M)
 			{
@@ -6011,10 +6012,12 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 
 				if(updatedrow == index)
 					ainfo.DisplayDesc.ModelName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();		
+	
 				++index;		
 
 				if(updatedrow == index)
-					ainfo.DisplayDesc.Outfit = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+					ainfo.DisplayDesc.Outfit = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();		
+
 				if(ainfo.DisplayDesc.ModelName != oldmodelname)
 				{
 					RefreshActorModelOutfit(index, parentIdx, ainfo.DisplayDesc.ModelName, true, it->second);
@@ -6025,7 +6028,8 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 				++index;	
 
 				if(updatedrow == index)
-					ainfo.DisplayDesc.Weapon = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+					ainfo.DisplayDesc.Weapon = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();		
+
 				if(ainfo.DisplayDesc.Outfit != oldmodelOutfit)
 				{
 					RefreshActorModelWeapon(index, parentIdx, ainfo.DisplayDesc.ModelName,
@@ -6037,7 +6041,27 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 				++index;	
 
 				if(updatedrow == index)
-					ainfo.DisplayDesc.Mode = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+				{
+					ainfo.DisplayDesc.Mode = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();		
+
+					//update colors
+					Lba1ModelMapHandler::getInstance()->GetModelColor(ainfo.DisplayDesc.ModelName,
+																	ainfo.DisplayDesc.Outfit,
+																	ainfo.DisplayDesc.Weapon, 
+																	ainfo.DisplayDesc.Mode, 
+																	it->second->initpolycolors, 
+																	it->second->initspherecolors, 
+																	it->second->initlinecolors);
+
+					it->second->currentpolycolors = it->second->initpolycolors;
+					it->second->currentspherecolors = it->second->initspherecolors;
+					it->second->currentlinecolors = it->second->initlinecolors;
+
+					it->second->ClearColorSwap();
+					updateobj = true;
+				}
+
+
 				if(ainfo.DisplayDesc.Weapon != oldmodelWeapon)
 				{
 					RefreshActorModelMode(index, parentIdx, ainfo.DisplayDesc.ModelName,
@@ -6162,7 +6186,7 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 
 
 		//inform server
-		it->second->SetActorInfo(ainfo);
+		it->second->Refresh();
 		std::string mapname = _uieditor.label_mapname->text().toAscii().data();
 		EditorUpdateBasePtr update = new UpdateEditor_AddOrModActor(it->second);
 		SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
@@ -8627,9 +8651,10 @@ void EditorHandler::colorModified(int v)
 	int coutfit = _uieditor.spinBox_coutfit->value();	
 	int cweapon = _uieditor.spinBox_cweapon->value();		
 	int cmount = _uieditor.spinBox_cmount->value();	
+	int cmount2 = _uieditor.spinBox_cmount2->value();	
 
 
-	EditorUpdateBasePtr update = new ChangeColorEvent(cskin, ceyes, chair, coutfit, cweapon, cmount);
+	EditorUpdateBasePtr update = new ChangeColorEvent(cskin, ceyes, chair, coutfit, cweapon, cmount, cmount2);
 
 	SharedDataHandler::getInstance()->EditorUpdate(_uieditor.label_mapname->text().toAscii().data(), update);
 
