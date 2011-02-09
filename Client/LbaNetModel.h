@@ -31,9 +31,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "ObjectsDescription.h"
 #include "DynamicObject.h"
-#include "CommonTypes.h"
+
 #include "ClientExtendedEvents.h"
-#include "ThreadedScriptsHandlerBase.h"
+#include "ScriptEnvironmentBase.h"
 
 #include <boost/shared_ptr.hpp>
 #include <ClientServerEvents.h>
@@ -50,7 +50,7 @@ class ClientLuaHandler;
  * Modified: mardi 14 juillet 2009 13:54:52
  * Purpose: Declaration of the class LbaNetModel
  ***********************************************************************/
-class LbaNetModel : public ThreadedScriptHandlerBase
+class LbaNetModel : public ScriptEnvironmentBase
 {
 public:
 	//! constructor
@@ -132,61 +132,10 @@ public:
 	void CenterCamera();
 
 
-	//! start lua script in a separate thread
-	void StartScript(const std::string & FunctionName, bool inlinefunction);
-
-	//! used by lua to get an actor Position
-	//! if id < 1 then it get player position
-	LbaVec3 GetActorPosition(long ActorId);
-
-	//! used by lua to get an actor Rotation
-	//! if id < 1 then it get player position
-	float GetActorRotation(long ActorId);
-
-	//! used by lua to get an actor Rotation
-	//! if id < 1 then it get player position
-	LbaQuaternion GetActorRotationQuat(long ActorId);
-
-	//! used by lua to update an actor animation
-	//! if id < 1 then it get player position
-	void UpdateActorAnimation(long ActorId, const std::string & AnimationString);
-
-	//! used by lua to update an actor mode
-	//! if id < 1 then it get player position
-	void UpdateActorMode(long ActorId, const std::string & Mode);
+	//! refresh lua file
+	void RefreshLua();
 
 
-	//! used by lua to move an actor or player
-	//! if id < 1 then it moves players
-	//! the actor will move using animation speed
-	void ActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position);
-
-	//! used by lua to rotate an actor
-	//! if id < 1 then it moves players
-	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
-	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
-	//! if ManageAnimation is true then the animation will be changed to suit the rotation
-	void ActorRotate(int ScriptId, long ActorId, float Angle, float RotationSpeedPerSec,
-						bool ManageAnimation);
-
-	//! used by lua to wait until an actor animation is finished
-	//! if id < 1 then it moves players
-	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
-	void ActorAnimate(int ScriptId, long ActorId, bool AnimationMove);
-
-
-	//! asynchronus version of ActorStraightWalkTo
-	int Async_ActorStraightWalkTo(long ActorId, const LbaVec3 &Position);
-
-	//! asynchronus version of ActorRotate
-	int Async_ActorRotate(long ActorId, float Angle, float RotationSpeedPerSec,
-								bool ManageAnimation);
-
-	//! asynchronus version of ActorAnimate
-	int Async_ActorAnimate(long ActorId, bool AnimationMove);
-
-	//! wait until script part is finished
-	void WaitForAsyncScript(int ScriptId, int ScriptPartId);
 
 
 	#ifdef _USE_QT_EDITOR_
@@ -198,16 +147,114 @@ public:
 	#endif
 
 
-	//! execute lua script given as a string
-	void ExecuteScriptString( const std::string &ScriptString );
 
 
-	//! refresh lua file
-	void RefreshLua();
 
 
-	//! called when a script is finished
-	virtual void ScriptFinished(int scriptid, bool wasasynchronus);
+	// function used by LUA to add actor
+	virtual void AddActorObject(boost::shared_ptr<ActorHandler> actor){}
+
+	// add a trigger 
+	virtual void AddTrigger(boost::shared_ptr<TriggerBase> trigger){}
+
+
+	// teleport an object
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Teleport(int ObjectType, long ObjectId,
+							const std::string &NewMapName, long SpawningId,
+							float offsetX, float offsetY, float offsetZ){}
+
+
+	// execute client script - does not work on npc objects
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void ExecuteClientScript(int ObjectType, long ObjectId,
+										const std::string & ScriptName,
+										bool InlineFunction){}
+
+
+	// execute custom lua function
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void ExecuteCustomAction(int ObjectType, long ObjectId,
+										const std::string & FunctionName,
+										ActionArgumentBase * args){}
+
+
+	// display text to client window
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void DisplayTxtAction(int ObjectType, long ObjectId, long TextId){}
+
+
+
+	// send error message to client
+	virtual void SendErrorMessage(long clientid, const std::string & messagetitle, 
+											const std::string &  messagecontent){}
+
+	// open container on client side
+	virtual void OpenContainer(long clientid, boost::shared_ptr<ContainerSharedInfo> sharedinfo){}
+
+
+
+	//! used by lua to get an actor Position
+	//! if id < 1 then it get player position
+	virtual LbaVec3 GetActorPosition(long ActorId);
+
+	//! used by lua to get an actor Rotation
+	//! if id < 1 then it get player position
+	virtual float GetActorRotation(long ActorId);
+
+	//! used by lua to get an actor Rotation
+	//! if id < 1 then it get player position
+	virtual LbaQuaternion GetActorRotationQuat(long ActorId);
+
+	//! used by lua to update an actor animation
+	//! if id < 1 then it get player position
+	virtual void UpdateActorAnimation(long ActorId, const std::string & AnimationString);
+
+	//! used by lua to update an actor mode
+	//! if id < 1 then it get player position
+	virtual void UpdateActorMode(long ActorId, const std::string & Mode);
+
+
+	//! used by lua to move an actor or player
+	//! if id < 1 then it moves players
+	//! the actor will move using animation speed
+	virtual void ActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position, 
+										bool asynchronus = false);
+
+	//! used by lua to rotate an actor
+	//! if id < 1 then it moves players
+	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
+	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
+	//! if ManageAnimation is true then the animation will be changed to suit the rotation
+	virtual void ActorRotate(int ScriptId, long ActorId, float Angle, float RotationSpeedPerSec,
+								bool ManageAnimation, bool asynchronus = false);
+
+	//! used by lua to wait until an actor animation is finished
+	//! if id < 1 then it moves players
+	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
+	virtual void ActorAnimate(int ScriptId, long ActorId, bool AnimationMove, 
+								bool asynchronus = false);
+
+
+	//! called when a script has finished
+	virtual void ScriptFinished(int scriptid, const std::string & functioname);
+
+
+	//! used by lua to tell that the actor should be reserved for the script
+	virtual void ReserveActor(int ScriptId, long ActorId);
+
 
 protected:
 
@@ -231,8 +278,9 @@ protected:
 	//! remove object from the scene
 	virtual void RemObject(LbaNet::ObjectTypeEnum OType, long id);
 
-	//! check for finished asynchronus scripts
-	void CheckFinishedAsynScripts();
+
+	//! release scripted actors
+	void ReleaseActorFromScript(int scriptid);
 
 private:
 	
@@ -256,8 +304,6 @@ private:
 	boost::shared_ptr<CharacterController>				m_controllerChar;
 	boost::shared_ptr<CameraController>					m_controllerCam;
 
-	// lua handler
-	boost::shared_ptr<ClientLuaHandler>					m_luaHandler;
 
 
 	// player object
@@ -268,9 +314,7 @@ private:
 	std::string											m_current_world_name;
 
 
-	int													m_generatednumber;
-	std::map<int, bool>									m_asyncscripts;
-	std::map<int, bool>									m_waitingscripts;
+	std::map<int, std::set<long> >						m_playingscriptactors;
 };
 
 #endif

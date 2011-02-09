@@ -45,11 +45,11 @@ Lba1ModelHandler::Lba1ModelHandler(boost::shared_ptr<DisplayTransformation> Tr,
 								   bool UseLight, bool CastShadow,
 									const LbaNet::ObjectExtraInfo &extrainfo,
 									const LbaNet::LifeManaInfo &lifeinfo)
-: AnimatedObjectHandlerBase(Tr, extrainfo, lifeinfo), _model(NULL), _animationspeed(animationspeed),
-	_currAnimation(-1), _currModel(-1), _currBody(-1), _paused(false), 
-	_currentanimationstring("Stand"), _UseLight(UseLight), _CastShadow(CastShadow)
+: AnimatedObjectHandlerBase(Tr, extrainfo, lifeinfo, info), _model(NULL), _animationspeed(animationspeed),
+	_currAnimation(-1), _currModel(-1), _currBody(-1),
+	_UseLight(UseLight), _CastShadow(CastShadow)
 {
-	UpdateModel(info);
+	UpdateModel();
 
 	// forbid optimization on this node
 	ForbidOptimize();
@@ -149,21 +149,12 @@ float Lba1ModelHandler::GetCurrentAssociatedSpeedZ()
 
 
 
-/***********************************************************
-get current model
-***********************************************************/
-LbaNet::ModelInfo Lba1ModelHandler::GetCurrentModel()
-{
-	return _currentmodelinfo;
-}
 
 /***********************************************************
 update model
 ***********************************************************/
-int Lba1ModelHandler::UpdateModel(const LbaNet::ModelInfo & info)
+int Lba1ModelHandler::UpdateModel()
 {
-	_currentmodelinfo = info;
-
 	// update colors if needed
 	{
 		if(_currentmodelinfo.SkinColor >= 0)
@@ -301,15 +292,9 @@ int Lba1ModelHandler::UpdateModel(const LbaNet::ModelInfo & info)
 /***********************************************************
 update animation
 ***********************************************************/
-int Lba1ModelHandler::UpdateAnimation(const std::string & AnimString)
+int Lba1ModelHandler::UpdateAnimation()
 {
-	if(_currentanimationstring != AnimString)
-	{
-		_currentanimationstring = AnimString;
-		return RefreshModel();
-	}
-
-	return 0;
+	return RefreshModel();
 }
 
 
@@ -317,7 +302,8 @@ int Lba1ModelHandler::UpdateAnimation(const std::string & AnimString)
 /***********************************************************
 update display
 ***********************************************************/
-int Lba1ModelHandler::Update(LbaNet::DisplayObjectUpdateBasePtr update)
+int Lba1ModelHandler::Update(LbaNet::DisplayObjectUpdateBasePtr update,
+								bool updatestoredstate)
 {
 	const std::type_info& info = typeid(*update);
 
@@ -338,7 +324,7 @@ int Lba1ModelHandler::Update(LbaNet::DisplayObjectUpdateBasePtr update)
 
 
 
-	return AnimatedObjectHandlerBase::Update(update);
+	return AnimatedObjectHandlerBase::Update(update, updatestoredstate);
 }
 
 
@@ -469,23 +455,13 @@ int Lba1ModelHandler::RefreshModel(bool forcecolor)
 }
 
 
-/***********************************************************
-pause current running animation
-***********************************************************/
-void Lba1ModelHandler::PauseAnimation()
-{
-	_paused = true;
-}
-
-
 
 /***********************************************************
 save current model state
 ***********************************************************/
 void Lba1ModelHandler::SaveState()
 {
-	_savedmodelinfo = _currentmodelinfo;
-	_savedanimationstring = _currentanimationstring;
+	AnimatedObjectHandlerBase::SaveState();
 }
 
 /***********************************************************
@@ -493,7 +469,6 @@ restore previously saved model state
 ***********************************************************/
 void Lba1ModelHandler::RestoreState()
 {
-	_currentmodelinfo = _savedmodelinfo;
-	_currentanimationstring = _savedanimationstring;
+	AnimatedObjectHandlerBase::RestoreState();
 	RefreshModel();
 }

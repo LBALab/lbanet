@@ -196,7 +196,7 @@ void CharacterController::KeyReleased(LbanetKey keyid)
 process function
 ***********************************************************/
 void CharacterController::Process(double tnow, float tdiff, 
-									ThreadedScriptHandlerBase* scripthandler)
+									ScriptEnvironmentBase* scripthandler)
 {
 	// do nothing if ghost
 	if(_forcedghost || _isGhost)
@@ -257,7 +257,7 @@ void CharacterController::Process(double tnow, float tdiff,
 		if(_pressedkeys._keyforward)
 		{
 			//update animation
-			int resupd = diso->Update(new LbaNet::AnimationStringUpdate("MoveForward"));
+			int resupd = diso->Update(new LbaNet::AnimationStringUpdate("MoveForward"), false);
 			if(resupd == 0)
 			{
 				IsIdle = false;
@@ -267,7 +267,7 @@ void CharacterController::Process(double tnow, float tdiff,
 		else if(_pressedkeys._keybackward)
 		{
 			//update animation
-			int resupd = diso->Update(new LbaNet::AnimationStringUpdate("MoveBackward"));
+			int resupd = diso->Update(new LbaNet::AnimationStringUpdate("MoveBackward"), false);
 			if(resupd == 0)
 			{
 				IsIdle = false;
@@ -298,7 +298,7 @@ void CharacterController::Process(double tnow, float tdiff,
 			if(!moving && (allowedrotating == 1))
 			{
 				//update animation
-				diso->Update(new LbaNet::AnimationStringUpdate("TurnLeft"));
+				diso->Update(new LbaNet::AnimationStringUpdate("TurnLeft"), false);
 				IsIdle = false;
 			}
 
@@ -309,7 +309,7 @@ void CharacterController::Process(double tnow, float tdiff,
 			if(!moving && (allowedrotating == 1))
 			{
 				//update animation
-				diso->Update(new LbaNet::AnimationStringUpdate("TurnRight"));
+				diso->Update(new LbaNet::AnimationStringUpdate("TurnRight"), false);
 				IsIdle = false;
 			}
 
@@ -321,7 +321,7 @@ void CharacterController::Process(double tnow, float tdiff,
 	if(IsIdle && standoniddle)
 	{
 		//update animation
-		diso->Update(new LbaNet::AnimationStringUpdate("Stand"));
+		diso->Update(new LbaNet::AnimationStringUpdate("Stand"), false);
 	}
 
 
@@ -475,7 +475,7 @@ void CharacterController::Process(double tnow, float tdiff,
 
 			// pause animation if necessary
 			if(shouldpause)
-				diso->Update(new LbaNet::PauseAnimationUpdate());
+				diso->Update(new LbaNet::PauseAnimationUpdate(), false);
 		}
 
 
@@ -654,7 +654,7 @@ void CharacterController::UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr updat
 	}
 
 	if(_character && _character->GetDisplayObject())
-		_character->GetDisplayObject()->Update(update);
+		_character->GetDisplayObject()->Update(update, false);
 }
 
 
@@ -847,7 +847,7 @@ void CharacterController::UpdateModeAndState(const std::string &newmode,
 			if(_currentstate->PlayAnimationAtStart(animstring))
 			{
 				//update animation
-				_character->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate(animstring));
+				_character->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate(animstring), false);
 			}
 		}
 
@@ -909,7 +909,7 @@ used by lua to update animation
 ***********************************************************/
 void CharacterController::UpdateAnimation( const std::string & AnimationString)
 {
-	_character->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate(AnimationString));
+	_character->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate(AnimationString), false);
 }
 
 /***********************************************************
@@ -917,8 +917,8 @@ update Mode
 ***********************************************************/
 void CharacterController::UpdateActorMode( const std::string & Mode )
 {
-	LbaNet::ModelInfo model = _character->GetDisplayObject()->GetCurrentModel();
+	LbaNet::ModelInfo model = _character->GetDisplayObject()->GetCurrentModel(false);
 	model.Mode = Mode;
-	_character->GetDisplayObject()->Update(new LbaNet::ModelUpdate(model, false));
+	_character->GetDisplayObject()->Update(new LbaNet::ModelUpdate(model, false), false);
 }
 

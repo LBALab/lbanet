@@ -26,29 +26,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define _CLIENT_LUA_HANDLER_H__
 
 #include "LuaHandlerBase.h"
-class LbaNetModel;
 
 //! class taking care of the maping between lua and the server interfaces
 class ClientLuaHandler : public LuaHandlerBase
 {
 public:
 	//! constructor
-	ClientLuaHandler(LbaNetModel * model);
+	ClientLuaHandler();
 
 	//! destructor
 	virtual ~ClientLuaHandler(void);
 
-	//! execute lua script given as a string
-	void ExecuteScriptString( const std::string & ScriptString );
-
-
-protected:
-
-	//! called when failed starting a script
-	virtual void FailedStartingScript(const std::string & functioname);
-
-	//! called when a script has finished
-	virtual void ScriptFinished(const std::string & functioname);
 };
 
 #endif

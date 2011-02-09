@@ -72,7 +72,7 @@ public:
 
 	//! process function
 	void Process(double tnow, float tdiff, 
-					ThreadedScriptHandlerBase* scripthandler);
+					ScriptEnvironmentBase* scripthandler);
 
 	//! update player display
 	void UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr update);

@@ -10,15 +10,16 @@ extern "C"
 
 #include <LbaTypes.h>
 #include "LogHandler.h"
-#include "LbaNetModel.h"
+
 #include "EventsQueue.h"
 #include "SynchronizedTimeHandler.h"
+#include "ScriptEnvironmentBase.h"
 
 
 /***********************************************************
 constructor
 ***********************************************************/
-ClientLuaHandler::ClientLuaHandler(LbaNetModel * model)
+ClientLuaHandler::ClientLuaHandler()
 {
 	try
 	{
@@ -50,25 +51,21 @@ ClientLuaHandler::ClientLuaHandler(LbaNetModel * model)
 		],
 		
 
-		luabind::class_<LbaNetModel>("LbaNetModel")
-		.def(luabind::constructor<>())
-		.def("GetActorPosition", &LbaNetModel::GetActorPosition)
-		.def("GetActorRotation", &LbaNetModel::GetActorRotation)
-		.def("GetActorRotationQuat", &LbaNetModel::GetActorRotationQuat)
-		.def("UpdateActorAnimation", &LbaNetModel::UpdateActorAnimation)
-		.def("UpdateActorMode", &LbaNetModel::UpdateActorMode)
-		.def("ActorStraightWalkTo", &LbaNetModel::ActorStraightWalkTo, luabind::yield)
-		.def("ActorRotate", &LbaNetModel::ActorRotate, luabind::yield)
-		.def("ActorAnimate", &LbaNetModel::ActorAnimate, luabind::yield)
-		.def("Async_ActorStraightWalkTo", &LbaNetModel::Async_ActorStraightWalkTo)
-		.def("Async_ActorRotate", &LbaNetModel::Async_ActorRotate)
-		.def("Async_ActorAnimate", &LbaNetModel::Async_ActorAnimate)
-		.def("WaitForAsyncScript", &LbaNetModel::WaitForAsyncScript, luabind::yield)
+		luabind::class_<ScriptEnvironmentBase>("ScriptEnvironmentBase")
+		.def("GetActorPosition", &ScriptEnvironmentBase::GetActorPosition)
+		.def("GetActorRotation", &ScriptEnvironmentBase::GetActorRotation)
+		.def("GetActorRotationQuat", &ScriptEnvironmentBase::GetActorRotationQuat)
+		.def("UpdateActorAnimation", &ScriptEnvironmentBase::UpdateActorAnimation)
+		.def("UpdateActorMode", &ScriptEnvironmentBase::UpdateActorMode)
+		.def("ActorStraightWalkTo", &ScriptEnvironmentBase::ActorStraightWalkTo, luabind::yield)
+		.def("ActorRotate", &ScriptEnvironmentBase::ActorRotate, luabind::yield)
+		.def("ActorAnimate", &ScriptEnvironmentBase::ActorAnimate, luabind::yield)
+		.def("Async_ActorStraightWalkTo", &ScriptEnvironmentBase::Async_ActorStraightWalkTo)
+		.def("Async_ActorRotate", &ScriptEnvironmentBase::Async_ActorRotate)
+		.def("Async_ActorAnimate", &ScriptEnvironmentBase::Async_ActorAnimate)
+		.def("WaitForAsyncScript", &ScriptEnvironmentBase::WaitForAsyncScript, luabind::yield)
+		.def("ReserveActor", &ScriptEnvironmentBase::ReserveActor)
 		];
-
-		// register the lbanetmodel as global for the whole script
-		luabind::globals(m_LuaState)["Model"] = model;
-
 	}
 	catch(const std::exception &error)
 	{
@@ -83,38 +80,3 @@ ClientLuaHandler::~ClientLuaHandler(void)
 {
 }
 
-
-
-/***********************************************************
-called when failed starting a script
-***********************************************************/
-void ClientLuaHandler::FailedStartingScript(const std::string & functioname)
-{
-	// inform server that script is not started
-	EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ScriptExecutionFinishedEvent(
-		SynchronizedTimeHandler::GetCurrentTimeDouble(), functioname));
-}
-
-/***********************************************************
-called when a script has finished
-***********************************************************/
-void ClientLuaHandler::ScriptFinished(const std::string & functioname)
-{
-	// inform server that script is finished
-	EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ScriptExecutionFinishedEvent(
-		SynchronizedTimeHandler::GetCurrentTimeDouble(), functioname));
-}
-
-
-/***********************************************************
-execute lua script given as a string
-***********************************************************/
-void ClientLuaHandler::ExecuteScriptString( const std::string & ScriptString )
-{
-	int error = luaL_dostring(m_LuaState, ScriptString.c_str());
-	if(error != 0)
-	{
-		LogHandler::getInstance()->LogToFile(std::string("Exception calling executing script string: ") + lua_tostring(m_LuaState, -1));
-	}
-
-}

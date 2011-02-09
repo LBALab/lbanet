@@ -116,10 +116,38 @@ public:
 
 	// do all check to be done when idle
 	void Process(double tnow, float tdiff, 
-					ThreadedScriptHandlerBase* scripthandler);
+					ScriptEnvironmentBase* scripthandler);
 
 	// update with external info
 	void UpdateMove(double updatetime, const LbaNet::PlayerMoveInfo &info, bool teleport);
+
+
+	//! update player display
+	void UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr update, bool updatefromlua);
+
+	//! update player physic
+	void UpdatePhysic(LbaNet::PhysicObjectUpdateBasePtr update);
+
+	//! set the actor/player as playing script
+	void SetPlayingScript(bool playing);
+
+
+	//! get actor position
+	void GetPosition(float &X, float &Y, float &Z);
+
+	//! get actor position
+	float GetRotationYAxis();
+
+	//! get rotation
+	void GetRotation(LbaQuaternion& Q);
+
+	//! update Mode
+	void UpdateActorMode( const std::string & Mode, bool updatefromlua);
+
+protected:
+	//! internaly update mode and state
+	void UpdateModeAndState(const std::string &newmode,
+								LbaNet::ModelState newstate);
 
 
 	//! get physic object
@@ -130,16 +158,6 @@ public:
 	boost::shared_ptr<DisplayObjectHandlerBase> GetDisplayObject()
 	{ return _character->GetDisplayObject();}
 
-	//! update player display
-	void UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr update);
-
-	//! update player physic
-	void UpdatePhysic(LbaNet::PhysicObjectUpdateBasePtr update);
-
-protected:
-	//! internaly update mode and state
-	void UpdateModeAndState(const std::string &newmode,
-								LbaNet::ModelState newstate);
 
 private:
 	double										_last_update;
@@ -154,6 +172,7 @@ private:
 
 	boost::shared_ptr<CharacterModeBase>		_currentmode;
 	boost::shared_ptr<CharacterStateBase>		_currentstate;
+	bool										_playingscript;
 };
 
 

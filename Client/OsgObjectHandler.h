@@ -77,7 +77,8 @@ public:
 	virtual int Process(double time, float tdiff);
 
 	//! update display
-	virtual int Update(LbaNet::DisplayObjectUpdateBasePtr update);
+	virtual int Update(LbaNet::DisplayObjectUpdateBasePtr update,
+							bool updatestoredstate);
 
 
 	//! set name of display object that will be returned during picking

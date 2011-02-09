@@ -185,7 +185,7 @@ void LbaNetEngine::run(void)
 		// init time
 		long waittime = SynchronizedTimeHandler::GetCurrentTimeInt();
 		double timetodiff = SynchronizedTimeHandler::GetCurrentTimeDouble();
-		float tdiff = 17;
+		float tdiff = TIME_PER_FRAME;
 
 		// Loop until a quit event is found
 		while(!m_shouldexit && !OsgHandler::getInstance()->Update())
@@ -586,8 +586,13 @@ void LbaNetEngine::HandleGameEvents()
 			LbaNet::StartClientScriptEvent* castedptr = 
 				dynamic_cast<LbaNet::StartClientScriptEvent *>(&obj);
 
-			if(m_gui_handler)
-				m_lbaNetModel->StartScript(castedptr->ScriptName, castedptr->InlineFunction);
+
+			if(m_lbaNetModel->StartScript(castedptr->ScriptName, castedptr->InlineFunction) < 0)
+			{
+				// send back to server if script failed
+				EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ScriptExecutionFinishedEvent(
+					SynchronizedTimeHandler::GetCurrentTimeDouble(), castedptr->ScriptName));
+			}
 
 			continue;
 		}

@@ -35,7 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ***********************************************************/
 ExternalPlayer::ExternalPlayer(boost::shared_ptr<DynamicObject> obje, 
 											const LbaNet::ModelInfo &Info)
-: _last_update(0), _shouldupdate(false)
+: _last_update(0), _shouldupdate(false), _playingscript(false)
 {
 	_character = obje;
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
@@ -70,31 +70,34 @@ void ExternalPlayer::UpdateMove(double updatetime, const LbaNet::PlayerMoveInfo 
 
 		_shouldupdate = true;
 
-		boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
-
-
-		_velocityX = info.CurrentSpeedX;
-		_velocityY = info.CurrentSpeedY;
-		_velocityZ = info.CurrentSpeedZ;
-		_velocityR = info.CurrentSpeedRotation;
-
-
-		bool finishedmove = false;
-		if(teleport || (abs(_velocityX) < 0.000001f && abs(_velocityY) < 0.000001f && abs(_velocityZ) < 0.000001f))
+		if(!_playingscript)
 		{
-			finishedmove = true;
-			physo->MoveTo(info.CurrentPos.X,  info.CurrentPos.Y, info.CurrentPos.Z);
-		}
+			boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
 
-		if(teleport || (abs(_velocityR) < 0.001f))
-		{
-			LbaQuaternion Q(info.CurrentPos.Rotation, LbaVec3(0,1,0));
-			physo->RotateTo(Q);
 
-			// do not need to update if no rotation and no rotation
-			if(finishedmove)
+			_velocityX = info.CurrentSpeedX;
+			_velocityY = info.CurrentSpeedY;
+			_velocityZ = info.CurrentSpeedZ;
+			_velocityR = info.CurrentSpeedRotation;
+
+
+			bool finishedmove = false;
+			if(teleport || (abs(_velocityX) < 0.000001f && abs(_velocityY) < 0.000001f && abs(_velocityZ) < 0.000001f))
 			{
-				_shouldupdate = false;
+				finishedmove = true;
+				physo->MoveTo(info.CurrentPos.X,  info.CurrentPos.Y, info.CurrentPos.Z);
+			}
+
+			if(teleport || (abs(_velocityR) < 0.001f))
+			{
+				LbaQuaternion Q(info.CurrentPos.Rotation, LbaVec3(0,1,0));
+				physo->RotateTo(Q);
+
+				// do not need to update if no rotation and no rotation
+				if(finishedmove)
+				{
+					_shouldupdate = false;
+				}
 			}
 		}
 
@@ -103,7 +106,7 @@ void ExternalPlayer::UpdateMove(double updatetime, const LbaNet::PlayerMoveInfo 
 					info.CurrentSpeedX, info.CurrentSpeedY, info.CurrentSpeedZ, info.CurrentSpeedRotation);
 
 		//update animation
-		_character->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate(info.AnimationIdx));
+		_character->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate(info.AnimationIdx), _playingscript);
 	}
 }
 
@@ -113,11 +116,14 @@ void ExternalPlayer::UpdateMove(double updatetime, const LbaNet::PlayerMoveInfo 
 do all check to be done when idle
 ***********************************************************/
 void ExternalPlayer::Process(double tnow, float tdiff, 
-								ThreadedScriptHandlerBase* scripthandler)
+								ScriptEnvironmentBase* scripthandler)
 {
-	if(SharedDataHandler::getInstance()->GetMainState()  == LbaNet::StScripted)
+	if(_playingscript)
 	{
 		ProcessScript(tnow, tdiff, scripthandler);
+
+		//still update dead recon
+		_dr.Update(tnow, tdiff);
 		return;
 	}
 
@@ -192,7 +198,7 @@ void ExternalPlayer::Process(double tnow, float tdiff,
 /***********************************************************
 update player display
 ***********************************************************/
-void ExternalPlayer::UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr update)
+void ExternalPlayer::UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr update, bool updatefromlua)
 {
 	const std::type_info& info = typeid(*update);
 
@@ -205,7 +211,7 @@ void ExternalPlayer::UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr update)
 		UpdateModeAndState(castedptr->Info.Mode, castedptr->Info.State);
 	}
 
-	_character->GetDisplayObject()->Update(update);
+	_character->GetDisplayObject()->Update(update, (!updatefromlua && _playingscript));
 }
 
 /***********************************************************
@@ -374,4 +380,59 @@ void ExternalPlayer::UpdateModeAndState(const std::string &newmode,
 	//TODO - get state and display player accordingly
 }
 
+
+
+
+/***********************************************************
+internaly update mode and state
+***********************************************************/
+void ExternalPlayer::SetPlayingScript(bool playing)
+{
+	if(playing && !_playingscript)
+		_character->GetDisplayObject()->SaveState();
+
+	if(!playing && _playingscript)
+		_character->GetDisplayObject()->RestoreState();
+
+
+	_playingscript = playing;
+}
+
+
+/***********************************************************
+get actor position
+***********************************************************/
+void ExternalPlayer::GetPosition(float &X, float &Y, float &Z)
+{
+	_character->GetPhysicalObject()->GetPosition(X, Y, Z);
+}
+
+
+/***********************************************************
+get actor rotation
+***********************************************************/
+float ExternalPlayer::GetRotationYAxis()
+{
+	return _character->GetPhysicalObject()->GetRotationYAxis();
+}
+
+/***********************************************************
+get rotation
+***********************************************************/
+void ExternalPlayer::GetRotation(LbaQuaternion& Q)
+{
+	_character->GetPhysicalObject()->GetRotation(Q);
+}
+
+/***********************************************************
+update Mode
+***********************************************************/
+void ExternalPlayer::UpdateActorMode( const std::string & Mode, bool updatefromlua)
+{
+	bool usestored = !updatefromlua && _playingscript;
+
+	LbaNet::ModelInfo model = _character->GetDisplayObject()->GetCurrentModel(usestored);
+	model.Mode = Mode;
+	_character->GetDisplayObject()->Update(new LbaNet::ModelUpdate(model, false), usestored);
+}
 

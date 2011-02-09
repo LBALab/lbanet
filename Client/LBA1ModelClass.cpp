@@ -104,7 +104,7 @@ LBA1ModelClass::~LBA1ModelClass()
 LBA1ModelClass::LBA1ModelClass(entitiesTableStruct* entitiesData, const std::string &bodyPath,
 								const std::string &animPath, int entityNum,int bodyNum)
 : bodyPtr(NULL), animPtr(NULL), m_currentSpeedX(0), m_currentSpeedY(0), m_currentSpeedZ(0),
-	m_animationspeed(1), cumutime(0)
+	m_animationspeed(1), cumutime(0), rotTablePtr(rotTable)
 {
 
 	HQRHandler HQH(Lba1ModelDataPath+"RESS.HQR");

@@ -33,129 +33,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define LBA1ModelClassH
 
 #include "Entities.h"
+#include "Lba1ModelStructs.h"
 #include <vector>
 #include <set>
 #include <osg/Node>
 #include <osg/Geometry>
 #include <osg/PositionAttitudeTransform>
-
-struct TBodyHeader
-{
-    unsigned short int BodyFlag;
-	unsigned short int Unknown0;
-	unsigned short int Unknown1;
-	unsigned short int Unknown2;
-	unsigned short int Unknown3;
-	unsigned short int Unknown4;
-	unsigned short int Unknown5;
-	unsigned short int DummyOffset;
-};
-
-struct TBodyPoint
-{
-    double X; // double
-    double Y;
-    double Z;
-};
-
-struct TPoints
-{
-    int NumberOfPoints; // unsigned short
-    TBodyPoint *PointsData;
-};
-
-struct TElement
-{
-    short int FirstPoint; // unsigned
-	short int NumberOfPoints;
-	short int BasePoint;
-	short int BaseElement;
-	short int ElementFlag;
-	short int RotateZ;
-	short int RotateY;
-	short int RotateX;
-	short int Unknown0;
-	short int NumberOfShades;
-	short int Unknown1;
-	short int Unknown2;
-	int Unknown3;
-	int Y;
-	int Unknown4;
-	short int Unknown5;
-};
-
-struct TElements
-{
-    int NumberOfElements; // unsigned short
-    TElement *ElementsData;
-};
-
-struct TShade
-{
-    short int Color1; // unsigned
-    short int Color2;
-    short int Color3;
-    short int DivideColorsNum;
-};
-
-struct TShades
-{
-    int NumberOfShades; // unsigned short
-    //TShade *ShadesData;
-    char* ShadesData;
-};
-
-struct TVertex
-{
-    int Shade; // unsigned short
-    int PointNum;
-};
-
-struct TPolygon
-{
-    int RenderType; // unsigned char
-    int NumberOfVertexs; // unsigned char
-    int ColorIdx; // unsigned short
-    int Shade; // unsigned short
-    TVertex *VertexsData;
-};
-
-struct TPolygons
-{
-    int NumberOfPolygons; // unsigned short
-    TPolygon *PolygonsData;
-};
-
-struct TLine
-{
-    int Color;
-    short int PointNum1; // unsigned
-    short int PointNum2; // unsigned
-};
-
-struct TLines
-{
-    int NumberOfLines; // unsigned short
-    TLine *LinesData;
-};
-
-struct TSphere
-{
-    int Color;
-    short int Size; // unsigned
-    short int Center;
-};
-
-struct TSpheres
-{
-    int NumberOfSpheres;
-    TSphere *SpheresData;
-};
-
-struct TMatrix
-{
-	double data[12];
-};
 
 class LBA1ModelClass
 {
@@ -288,6 +171,8 @@ private:
 	osg::ref_ptr<osg::Geometry> m_myGeometrynorms;
 
 	bool m_usesoftshadow;
+
+	short int *rotTablePtr;
 
 public:
 

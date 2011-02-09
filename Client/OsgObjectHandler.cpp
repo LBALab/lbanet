@@ -204,7 +204,8 @@ int OsgObjectHandler::Process(double time, float tdiff)
 /***********************************************************
 update display
 ***********************************************************/
-int OsgObjectHandler::Update(LbaNet::DisplayObjectUpdateBasePtr update)
+int OsgObjectHandler::Update(LbaNet::DisplayObjectUpdateBasePtr update,
+									bool updatestoredstate)
 {
 	const std::type_info& info = typeid(*update);
 

@@ -29,8 +29,11 @@ Constructor
 ***********************************************************/
 AnimatedObjectHandlerBase::AnimatedObjectHandlerBase(boost::shared_ptr<DisplayTransformation> Tr,
 														const LbaNet::ObjectExtraInfo &extrainfo,
-														const LbaNet::LifeManaInfo &lifeinfo)
-: OsgObjectHandler(Tr, extrainfo, lifeinfo)
+														const LbaNet::LifeManaInfo &lifeinfo,
+														const LbaNet::ModelInfo & info)
+: OsgObjectHandler(Tr, extrainfo, lifeinfo), 
+	_currentanimationstring("Stand"), _paused(false), 
+	_currentmodelinfo(info)
 {
 }
 
@@ -44,7 +47,8 @@ AnimatedObjectHandlerBase::~AnimatedObjectHandlerBase()
 /***********************************************************
 update display
 ***********************************************************/
-int AnimatedObjectHandlerBase::Update(LbaNet::DisplayObjectUpdateBasePtr update)
+int AnimatedObjectHandlerBase::Update(LbaNet::DisplayObjectUpdateBasePtr update,
+											bool updatestoredstate)
 {
 	const std::type_info& info = typeid(*update);
 
@@ -54,7 +58,16 @@ int AnimatedObjectHandlerBase::Update(LbaNet::DisplayObjectUpdateBasePtr update)
 		LbaNet::ModelUpdate * castedptr = 
 			dynamic_cast<LbaNet::ModelUpdate *>(update.get());
 
-		return UpdateModel(castedptr->Info);
+		if(updatestoredstate)
+		{
+			_savedmodelinfo = castedptr->Info;
+			return 0;
+		}
+		else
+		{
+			_currentmodelinfo = castedptr->Info;
+			return UpdateModel();
+		}
 	}
 
 	// AnimationStringUpdate
@@ -63,17 +76,69 @@ int AnimatedObjectHandlerBase::Update(LbaNet::DisplayObjectUpdateBasePtr update)
 		LbaNet::AnimationStringUpdate * castedptr = 
 			dynamic_cast<LbaNet::AnimationStringUpdate *>(update.get());
 
-		return UpdateAnimation(castedptr->Animation);
+		if(updatestoredstate)
+		{
+			_savedanimationstring = castedptr->Animation;
+			return 0;
+		}
+		else
+		{
+			if(_currentanimationstring != castedptr->Animation)
+			{
+				_currentanimationstring = castedptr->Animation;
+				return UpdateAnimation();
+			}
+			else
+				return 0;
+		}
 	}
 
 	// PauseAnimationUpdate
 	if(info == typeid(LbaNet::PauseAnimationUpdate))
 	{
-		PauseAnimation();
+		if(updatestoredstate)
+			_savedpaused = true;
+		else
+			_paused = true;
+
 		return 0;
 	}
 
+	return OsgObjectHandler::Update(update, updatestoredstate);
+}
 
 
-	return OsgObjectHandler::Update(update);
+
+/***********************************************************
+get current model
+***********************************************************/
+LbaNet::ModelInfo AnimatedObjectHandlerBase::GetCurrentModel(bool storedstate)
+{
+	if(storedstate)
+		return _savedmodelinfo;
+	else
+		return _currentmodelinfo;
+}
+
+
+/***********************************************************
+save current model state
+***********************************************************/
+void AnimatedObjectHandlerBase::SaveState()
+{
+	_savedmodelinfo = _currentmodelinfo;
+	_savedanimationstring = _currentanimationstring;
+	_savedpaused = _paused;
+}
+
+
+/***********************************************************
+restore previously saved model state
+***********************************************************/
+void AnimatedObjectHandlerBase::RestoreState()
+{
+	_currentmodelinfo = _savedmodelinfo;
+	_currentanimationstring = _savedanimationstring;
+	_paused = _savedpaused;
+
 }

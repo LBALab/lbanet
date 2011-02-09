@@ -55,7 +55,8 @@ public:
 	virtual ~Lba1ModelHandler();
 
 	//! update display
-	virtual int Update(LbaNet::DisplayObjectUpdateBasePtr update);
+	virtual int Update(LbaNet::DisplayObjectUpdateBasePtr update,
+							bool updatestoredstate);
 
 	//! update display with current frame - used for animation
 	//! return 1 if current animation finishes - 0 else
@@ -73,17 +74,13 @@ public:
 	// get current associated speed
 	virtual float GetCurrentAssociatedSpeedZ();
 
-	//! get current model
-	virtual LbaNet::ModelInfo GetCurrentModel();
+
 
 	// update model
-	virtual int UpdateModel(const LbaNet::ModelInfo & info);
+	virtual int UpdateModel();
 
 	// update animation
-	virtual int UpdateAnimation(const std::string & AnimString);
-
-	// pause current running animation
-	virtual void PauseAnimation();
+	virtual int UpdateAnimation();
 
 	// save current model state
 	virtual void SaveState();
@@ -100,13 +97,10 @@ protected:
 private:
 	LBA1ModelClass*									_model;
 	osg::ref_ptr<osg::Node>							_osgnode;
-	bool											_paused;
 
 
 	float											_animationspeed;
 
-	LbaNet::ModelInfo								_currentmodelinfo;
-	std::string										_currentanimationstring;
 
 
 	int												_currModel;
@@ -114,8 +108,6 @@ private:
 	int												_currAnimation;
 
 
-	LbaNet::ModelInfo								_savedmodelinfo;
-	std::string										_savedanimationstring;
 
 	bool											_UseLight;
 	bool											_CastShadow;

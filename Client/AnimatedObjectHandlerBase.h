@@ -39,7 +39,8 @@ public:
 	//! constructor
 	AnimatedObjectHandlerBase(boost::shared_ptr<DisplayTransformation> Tr,
 									const LbaNet::ObjectExtraInfo &extrainfo,
-									const LbaNet::LifeManaInfo &lifeinfo);
+									const LbaNet::LifeManaInfo &lifeinfo,
+									const LbaNet::ModelInfo & info);
 
 	//! destructor
 	virtual ~AnimatedObjectHandlerBase();
@@ -50,7 +51,8 @@ public:
 	virtual int Process(double time, float tdiff) = 0;
 
 	//! update display
-	virtual int Update(LbaNet::DisplayObjectUpdateBasePtr update);
+	virtual int Update(LbaNet::DisplayObjectUpdateBasePtr update,
+							bool updatestoredstate);
 
 	// get current animation Id
 	virtual std::string GetCurrentAnimation() = 0;
@@ -65,16 +67,30 @@ public:
 	virtual float GetCurrentAssociatedSpeedZ() = 0;
 
 	// update model
-	virtual int UpdateModel(const LbaNet::ModelInfo & info) = 0;
+	virtual int UpdateModel() = 0;
 
 	// update animation
-	virtual int UpdateAnimation(const std::string & AnimString) = 0;
-
-	// pause current running animation
-	// should resume when animation or model changes
-	virtual void PauseAnimation() = 0;
+	virtual int UpdateAnimation() = 0;
 
 
+	// save current model state
+	virtual void SaveState();
+
+	// restore previously saved model state
+	virtual void RestoreState();
+
+	//! get current model
+	virtual LbaNet::ModelInfo GetCurrentModel(bool storedstate);
+
+protected:
+	bool											_paused;
+	LbaNet::ModelInfo								_currentmodelinfo;
+	std::string										_currentanimationstring;
+
+private:
+	bool											_savedpaused;
+	LbaNet::ModelInfo								_savedmodelinfo;
+	std::string										_savedanimationstring;
 };
 
 
