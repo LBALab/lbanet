@@ -134,20 +134,21 @@ public:
 
 	//! used by lua to move an actor or player
 	//! the actor will move using animation speed
-	virtual void ActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position, 
-										bool asynchronus = false) = 0;
+	void ActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position)
+	{InternalActorStraightWalkTo(ScriptId, ActorId, Position, false);}
 
 	//! used by lua to rotate an actor
 	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
 	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
 	//! if ManageAnimation is true then the animation will be changed to suit the rotation
-	virtual void ActorRotate(int ScriptId, long ActorId, float Angle, float RotationSpeedPerSec,
-									bool ManageAnimation, bool asynchronus = false) = 0;
+	void ActorRotate(int ScriptId, long ActorId, float Angle, float RotationSpeedPerSec,
+									bool ManageAnimation)
+	{InternalActorRotate(ScriptId, ActorId, Angle, RotationSpeedPerSec, ManageAnimation, false);}
 
 	//! used by lua to wait until an actor animation is finished
 	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
-	virtual void ActorAnimate(int ScriptId, long ActorId, bool AnimationMove, bool asynchronus = false) = 0;
-
+	void ActorAnimate(int ScriptId, long ActorId, bool AnimationMove)
+	{InternalActorAnimate(ScriptId, ActorId, AnimationMove, false);}
 
 	//! used by lua to tell that the actor should be reserved for the script
 	virtual void ReserveActor(int ScriptId, long ActorId) = 0;
@@ -193,6 +194,25 @@ public:
 
 
 protected:
+
+
+	//! used by lua to move an actor or player
+	//! the actor will move using animation speed
+	virtual void InternalActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position, 
+										bool asynchronus) = 0;
+
+	//! used by lua to rotate an actor
+	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
+	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
+	//! if ManageAnimation is true then the animation will be changed to suit the rotation
+	virtual void InternalActorRotate(int ScriptId, long ActorId, float Angle, float RotationSpeedPerSec,
+									bool ManageAnimation, bool asynchronus = false) = 0;
+
+	//! used by lua to wait until an actor animation is finished
+	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
+	virtual void InternalActorAnimate(int ScriptId, long ActorId, bool AnimationMove, bool asynchronus = false) = 0;
+
+
 
 	//! called when a script has finished
 	virtual void ScriptFinished(int scriptid, const std::string & functioname) = 0;

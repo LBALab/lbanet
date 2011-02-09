@@ -117,7 +117,7 @@ int ScriptEnvironmentBase::Async_ActorStraightWalkTo(long ActorId, const LbaVec3
 {
 	int genid = m_generatednumber++;	
 
-	ActorStraightWalkTo(genid, ActorId, Position, true);
+	InternalActorStraightWalkTo(genid, ActorId, Position, true);
 
 	m_asyncscripts[genid] = false;
 	return genid;
@@ -131,7 +131,7 @@ int ScriptEnvironmentBase::Async_ActorRotate(long ActorId, float Angle, float Ro
 {
 	int genid = m_generatednumber++;	
 
-	ActorRotate(genid, ActorId, Angle, RotationSpeedPerSec, ManageAnimation, true);
+	InternalActorRotate(genid, ActorId, Angle, RotationSpeedPerSec, ManageAnimation, true);
 
 	m_asyncscripts[genid] = false;
 	return genid;
@@ -144,7 +144,7 @@ int ScriptEnvironmentBase::Async_ActorAnimate(long ActorId, bool AnimationMove)
 {
 	int genid = m_generatednumber++;	
 
-	ActorAnimate(genid, ActorId, AnimationMove, true);
+	InternalActorAnimate(genid, ActorId, AnimationMove, true);
 
 	m_asyncscripts[genid] = false;
 	return genid;
