@@ -1,10 +1,13 @@
-function ActorGoUpLadder(ScriptId, ActorId, LadderPosition, LadderHeight, LadderDirection)
+function ActorGoUpLadder(ScriptId, ActorId, LadderPosition, LadderHeight, LadderDirection, Environment)
+
+	-- reserve the actor for the script
+	Environment:ReserveActor(ScriptId, ActorId)
 
 	-- change actor mode to normal
-	Model:UpdateActorMode(ActorId, "Normal")
+	Environment:UpdateActorMode(ActorId, "Normal")
 
 	-- get current position
-	CurrentPosition = Model:GetActorPosition(ActorId)
+	CurrentPosition = Environment:GetActorPosition(ActorId)
 	
 	-- calculate offsets depending of ladder direction
 	remX=0
@@ -48,52 +51,55 @@ function ActorGoUpLadder(ScriptId, ActorId, LadderPosition, LadderHeight, Ladder
 
 	
 	-- add first rotation toward ladder position		
-	Model:ActorRotate(ScriptId, ActorId, angle, 0.15, true)
+	Environment:ActorRotate(ScriptId, ActorId, angle, 0.15, true)
 	
 	
 	-- add translation to ladder
-	Model:UpdateActorAnimation(ActorId, "MoveForward")	
-	Model:ActorStraightWalkTo(ScriptId, ActorId, TranslationPosition)
+	Environment:UpdateActorAnimation(ActorId, "MoveForward")	
+	Environment:ActorStraightWalkTo(ScriptId, ActorId, TranslationPosition)
 	
 	
 	-- add rotation before climbing
-	Model:ActorRotate(ScriptId, ActorId, LadderDirection, 0.15, true)
+	Environment:ActorRotate(ScriptId, ActorId, LadderDirection, 0.15, true)
 	
 	
 	-- add translation up the ladder
 	if(LadderHeight > 4.7) then
-		Model:UpdateActorAnimation(ActorId, "GoUpLadder")
+		Environment:UpdateActorAnimation(ActorId, "GoUpLadder")
 		TranslationPosition = LbaVec3(LadderPosition)
 		TranslationPosition.x = TranslationPosition.x +remX
 		TranslationPosition.y = TranslationPosition.y +LadderHeight - 4.7
 		TranslationPosition.z = TranslationPosition.z +remZ
-		Model:ActorStraightWalkTo(ScriptId, ActorId, TranslationPosition)
+		Environment:ActorStraightWalkTo(ScriptId, ActorId, TranslationPosition)
 	end
 
 
 	-- add action up the ladder
-	Model:UpdateActorAnimation(ActorId, "ArriveLadder")
-	Model:ActorAnimate(ScriptId, ActorId, true)
+	Environment:UpdateActorAnimation(ActorId, "ArriveLadder")
+	Environment:ActorAnimate(ScriptId, ActorId, true)
 
 
 	-- add translation to exit the ladder
-	Model:UpdateActorAnimation(ActorId, "MoveForward")
+	Environment:UpdateActorAnimation(ActorId, "MoveForward")
 	TranslationPosition = LbaVec3(LadderPosition)
 	TranslationPosition.x = TranslationPosition.x +remX + dX
 	TranslationPosition.y = TranslationPosition.y +LadderHeight + 0.1	
 	TranslationPosition.z = TranslationPosition.z +remZ + dZ	
-	Model:ActorStraightWalkTo(ScriptId, ActorId, TranslationPosition)	
+	Environment:ActorStraightWalkTo(ScriptId, ActorId, TranslationPosition)	
 
 end
 
 
-function TakeExitUp(ScriptId, ActorId, ExitPosition, ExitDirection)
+function TakeExitUp(ScriptId, ActorId, ExitPosition, ExitDirection, Environment)
 
+	-- reserve the actor for the script
+	Environment:ReserveActor(ScriptId, ActorId)
+	
 	-- change actor mode to normal
-	Model:UpdateActorMode(ActorId, "Normal")
+	Environment:UpdateActorMode(ActorId, "Normal")
 
 	-- get current position
-	CurrentPosition = Model:GetActorPosition(ActorId)
+	CurrentPosition = Environment:GetActorPosition(ActorId)
 	
 	-- calculate offsets depending of ladder direction
 	remX=0
@@ -137,34 +143,37 @@ function TakeExitUp(ScriptId, ActorId, ExitPosition, ExitDirection)
 
 	
 	-- add first rotation toward exit position		
-	Model:ActorRotate(ScriptId, ActorId, angle, 0.15, true)
+	Environment:ActorRotate(ScriptId, ActorId, angle, 0.15, true)
 	
 	
 	-- add translation to exit
-	Model:UpdateActorAnimation(ActorId, "MoveForward")	
-	Model:ActorStraightWalkTo(ScriptId, ActorId, TranslationPosition)
+	Environment:UpdateActorAnimation(ActorId, "MoveForward")	
+	Environment:ActorStraightWalkTo(ScriptId, ActorId, TranslationPosition)
 	
 	
 	-- add rotation before climbing
-	Model:ActorRotate(ScriptId, ActorId, ExitDirection, 0.15, true)
+	Environment:ActorRotate(ScriptId, ActorId, ExitDirection, 0.15, true)
 	
 
 	-- add exit animation
-	Model:UpdateActorAnimation(ActorId, "Climb")
-	Model:ActorAnimate(ScriptId, ActorId, true)
+	Environment:UpdateActorAnimation(ActorId, "Climb")
+	Environment:ActorAnimate(ScriptId, ActorId, true)
 
 
 end
 
 
 
-function TakeExitDown(ScriptId, ActorId, ExitPosition, ExitDirection)
+function TakeExitDown(ScriptId, ActorId, ExitPosition, ExitDirection, Environment)
 
+	-- reserve the actor for the script
+	Environment:ReserveActor(ScriptId, ActorId)
+	
 	-- change actor mode to normal
-	Model:UpdateActorMode(ActorId, "Normal")
+	Environment:UpdateActorMode(ActorId, "Normal")
 
 	-- get current position
-	CurrentPosition = Model:GetActorPosition(ActorId)
+	CurrentPosition = Environment:GetActorPosition(ActorId)
 	
 	-- calculate offsets depending of ladder direction
 	remX=0
@@ -208,23 +217,23 @@ function TakeExitDown(ScriptId, ActorId, ExitPosition, ExitDirection)
 
 	
 	-- add first rotation toward exit position		
-	Model:ActorRotate(ScriptId, ActorId, angle, 0.15, true)
+	Environment:ActorRotate(ScriptId, ActorId, angle, 0.15, true)
 	
 	
 	-- add translation to exit
-	Model:UpdateActorAnimation(ActorId, "MoveForward")	
-	Model:ActorStraightWalkTo(ScriptId, ActorId, TranslationPosition)
+	Environment:UpdateActorAnimation(ActorId, "MoveForward")	
+	Environment:ActorStraightWalkTo(ScriptId, ActorId, TranslationPosition)
 	
 	
 	-- add rotation before climbing
-	Model:ActorRotate(ScriptId, ActorId, ExitDirection, 0.15, true)
+	Environment:ActorRotate(ScriptId, ActorId, ExitDirection, 0.15, true)
 	
 
 	-- add exit animation
-	Model:UpdateActorAnimation(ActorId, "Crawl")
-	Model:ActorAnimate(ScriptId, ActorId, true)
-	Model:ActorAnimate(ScriptId, ActorId, true)
-	Model:ActorAnimate(ScriptId, ActorId, true)
-	Model:ActorAnimate(ScriptId, ActorId, true)	
-	Model:ActorAnimate(ScriptId, ActorId, true)	
+	Environment:UpdateActorAnimation(ActorId, "Crawl")
+	Environment:ActorAnimate(ScriptId, ActorId, true)
+	Environment:ActorAnimate(ScriptId, ActorId, true)
+	Environment:ActorAnimate(ScriptId, ActorId, true)
+	Environment:ActorAnimate(ScriptId, ActorId, true)	
+	Environment:ActorAnimate(ScriptId, ActorId, true)	
 end

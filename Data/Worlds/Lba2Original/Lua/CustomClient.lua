@@ -9,11 +9,11 @@
 -- Function Functioname(ScriptId)
 
 -- ScriptId is used by many functions of the client API (see documentation for further information on the API)
+-- Environment is a pointer used to access the server class (see documentation for further information)
 
-
-function ExampleClientFct(ScriptId)
+function ExampleClientFct(ScriptId, Environment)
 
 	LadderPos = LbaVec3(42, 7, 9)
-	ActorGoUpLadder(ScriptId, -1, LadderPos, 10, 0)
+	ActorGoUpLadder(ScriptId, -1, LadderPos, 10, 0, Environment)
 	
 end
