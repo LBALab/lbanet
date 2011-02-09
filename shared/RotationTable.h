@@ -28,7 +28,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 -----------------------------------------------------------------------------
 */
 
-short int rotTable[1024]={
+#ifndef LBA1_RotationTable
+#define LBA1_RotationTable
+
+
+static short int rotTable[1024]={
 0,
 101,
 201,
@@ -1055,4 +1059,6 @@ short int rotTable[1024]={
 -101,
 };
 
-short int *rotTablePtr=rotTable;
+
+
+#endif

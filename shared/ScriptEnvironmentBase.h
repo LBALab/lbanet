@@ -36,6 +36,8 @@ class ContainerSharedInfo;
 
 #include <boost/shared_ptr.hpp>
 
+#include "CommonTypes.h"
+#include "LuaHandlerBase.h"
 
 //*************************************************************************************************
 //*                               class ScriptEnvironmentBase
@@ -49,7 +51,9 @@ class ScriptEnvironmentBase
 public:
 
 	//! constructor
-	ScriptEnvironmentBase(){}
+	ScriptEnvironmentBase()
+		: m_generatednumber(0)
+	{}
 
 
 	//! destructor
@@ -110,6 +114,100 @@ public:
 
 	// open container on client side
 	virtual void OpenContainer(long clientid, boost::shared_ptr<ContainerSharedInfo> sharedinfo) = 0;
+
+
+	//! used by lua to get an actor Position
+	virtual LbaVec3 GetActorPosition(long ActorId) = 0;
+
+	//! used by lua to get an actor Rotation
+	virtual float GetActorRotation(long ActorId) = 0;
+
+	//! used by lua to get an actor Rotation
+	virtual LbaQuaternion GetActorRotationQuat(long ActorId) = 0;
+
+	//! used by lua to update an actor animation
+	virtual void UpdateActorAnimation(long ActorId, const std::string & AnimationString) = 0;
+
+	//! used by lua to update an actor mode
+	virtual void UpdateActorMode(long ActorId, const std::string & Mode) = 0;
+
+
+	//! used by lua to move an actor or player
+	//! the actor will move using animation speed
+	virtual void ActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position, 
+										bool asynchronus = false) = 0;
+
+	//! used by lua to rotate an actor
+	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
+	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
+	//! if ManageAnimation is true then the animation will be changed to suit the rotation
+	virtual void ActorRotate(int ScriptId, long ActorId, float Angle, float RotationSpeedPerSec,
+									bool ManageAnimation, bool asynchronus = false) = 0;
+
+	//! used by lua to wait until an actor animation is finished
+	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
+	virtual void ActorAnimate(int ScriptId, long ActorId, bool AnimationMove, bool asynchronus = false) = 0;
+
+
+	//! used by lua to tell that the actor should be reserved for the script
+	virtual void ReserveActor(int ScriptId, long ActorId) = 0;
+
+
+
+	//! execute lua script given as a string
+	void ExecuteScriptString( const std::string &ScriptString );
+
+
+
+	//! called when a script is finished
+	void ScriptFinished(int scriptid, bool wasasynchronus);
+
+	//! start lua script in a separate thread
+	//! return script id if successed or -1 else
+	int StartScript(const std::string & FunctionName, bool inlinefunction);
+
+
+	//! wait until script part is finished
+	void WaitForAsyncScript(int ScriptId, int ScriptPartId);
+
+	//! check for finished asynchronus scripts
+	void CheckFinishedAsynScripts();
+
+
+	//! asynchronus version of ActorStraightWalkTo
+	int Async_ActorStraightWalkTo(long ActorId, const LbaVec3 &Position);
+
+	//! asynchronus version of ActorRotate
+	int Async_ActorRotate(long ActorId, float Angle, float RotationSpeedPerSec,
+									bool ManageAnimation);
+
+	//! asynchronus version of ActorAnimate
+	int Async_ActorAnimate(long ActorId, bool AnimationMove);
+
+
+	//! resume a thread given the id
+	void ResumeThread(int scriptid);
+
+	//! resume a thread given the id
+	void StropThread(int scriptid);
+
+
+protected:
+
+	//! called when a script has finished
+	virtual void ScriptFinished(int scriptid, const std::string & functioname) = 0;
+
+
+
+
+
+protected:
+	boost::shared_ptr<LuaHandlerBase>					m_luaHandler;
+
+private:
+	int													m_generatednumber;
+	std::map<int, bool>									m_asyncscripts;
+	std::map<int, bool>									m_waitingscripts;
 };
 
 

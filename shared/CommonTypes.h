@@ -88,6 +88,14 @@ public:
 	//! get the angle between a vector and the 0 angle
 	static float GetAngleFromVector(const LbaVec3 &vec);
 
+
+	//! rotate a vector by the quaternion
+	void rotate(LbaVec3 & v) const;
+
+	//! set current quat as left * right
+	void multiply(const LbaQuaternion& left, const LbaVec3& right);
+
+
 	float X;
 	float Y;
 	float Z;

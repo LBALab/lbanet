@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 
 struct lua_State;
+class ScriptEnvironmentBase;
 
 
 //! class taking care of a lua thread
@@ -35,7 +36,8 @@ class LuaThreadHandler
 {
 public:
 	//! constructor
-	LuaThreadHandler(lua_State * mainstate, const std::string & FunctionName, bool inlinefunction);
+	LuaThreadHandler(lua_State * mainstate, const std::string & FunctionName, 
+					bool inlinefunction, ScriptEnvironmentBase* env);
 	
 	//! destructor
 	~LuaThreadHandler(void);

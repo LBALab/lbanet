@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "CommonTypes.h"
-#include <NxQuat.h>
+#include <Math.h>
 
 
 #ifndef M_PI
@@ -59,7 +59,7 @@ LbaQuaternion::LbaQuaternion(float angle, LbaVec3 vec)
 	float Half = 0.01745329251994329547f * angle * 0.5f;
 
 	W = cos(Half);
-	const float sin_theta_over_two = sin(Half );
+	const float sin_theta_over_two = sin(Half);
 	X = X * sin_theta_over_two;
 	Y = Y * sin_theta_over_two;
 	Z = Z * sin_theta_over_two;
@@ -107,13 +107,9 @@ get direction vector
 ***********************************************************/
 LbaVec3 LbaQuaternion::GetDirection(const LbaVec3 &vec)
 {
-	NxVec3 dir(vec.x, vec.y, vec.z);
-	NxQuat current;
-	current.setXYZW(X, Y, Z, W);
-
-	current.rotate(dir);
-
-	return LbaVec3(dir.x, dir.y, dir.z);
+	LbaVec3 dir(vec);
+	rotate(dir);
+	return dir;
 }
 
 
@@ -122,13 +118,12 @@ get object rotation on a single angle
 ***********************************************************/
 float LbaQuaternion::GetRotationSingleAngle()
 {
-	NxQuat current;
-	current.setXYZW(X, Y, Z, W);
-	NxVec3 nvec;
+    float angle = acos(W) * 2.0f;
+    float sa = sqrt(1.0f - W*W);
+	if (sa)
+		angle *= 57.29577951308232286465f;
 
-	float Yangle;
-	current.getAngleAxis(Yangle, nvec);
-	return Yangle;
+	return angle;
 }
 
 
@@ -158,8 +153,37 @@ operator *
 ***********************************************************/
 LbaQuaternion LbaQuaternion::operator *(const LbaQuaternion & q)
 {
-	return LbaQuaternion(W*q.X + q.W*X + Y*q.Z - q.Y*Z,
-						  W*q.Y + q.W*Y + Z*q.X - q.Z*X,
-						  W*q.Z + q.W*Z + X*q.Y - q.X*Y,
-						  W*q.W - X*q.X - Y*q.Y - Z*q.Z);
+	return LbaQuaternion(	W*q.X + q.W*X + Y*q.Z - q.Y*Z,
+							W*q.Y + q.W*Y + Z*q.X - q.Z*X,
+							W*q.Z + q.W*Z + X*q.Y - q.X*Y,
+							W*q.W - X*q.X - Y*q.Y - Z*q.Z);
+}
+
+
+/***********************************************************
+rotate a vector by the quaternion
+***********************************************************/
+void LbaQuaternion::rotate(LbaVec3 & v) const				
+{
+	LbaQuaternion myInverse(-X, -Y, -Z, W);
+
+	LbaQuaternion left;
+	left.multiply(*this, v);
+
+	v.x =left.W*myInverse.X + myInverse.W*left.X + left.Y*myInverse.Z - myInverse.Y*left.Z;
+	v.y =left.W*myInverse.Y + myInverse.W*left.Y + left.Z*myInverse.X - myInverse.Z*left.X;
+	v.z =left.W*myInverse.Z + myInverse.W*left.Z + left.X*myInverse.Y - myInverse.X*left.Y;
+}
+
+
+
+/***********************************************************
+ set current quat as left * right
+***********************************************************/
+void LbaQuaternion::multiply(const LbaQuaternion& left, const LbaVec3& right)
+{
+	W = - left.X*right.x - left.Y*right.y - right.z*left.Z;
+	X =   left.W*right.x + left.Y*right.z - right.y*left.Z;
+	Y =   left.W*right.y + left.Z*right.x - right.z*left.X;
+	Z =   left.W*right.z + left.X*right.y - right.x*left.Y;
 }

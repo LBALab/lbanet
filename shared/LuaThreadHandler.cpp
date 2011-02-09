@@ -1,4 +1,5 @@
 #include "LuaThreadHandler.h"
+#include "ScriptEnvironmentBase.h"
 #include "LogHandler.h"
 #include <sstream>
 #include <iostream>
@@ -14,7 +15,8 @@ unsigned long LuaThreadHandler::m_idgenerator = 0;
 /***********************************************************
 constructor
 ***********************************************************/
-LuaThreadHandler::LuaThreadHandler(lua_State * mainstate, const std::string & FunctionName, bool inlinefunction)
+LuaThreadHandler::LuaThreadHandler(lua_State * mainstate, const std::string & FunctionName, 
+								   bool inlinefunction, ScriptEnvironmentBase* env)
 : m_FunctionName(FunctionName), m_LuaMainState(mainstate), m_started(false)
 {
 	try
@@ -30,14 +32,14 @@ LuaThreadHandler::LuaThreadHandler(lua_State * mainstate, const std::string & Fu
 			fctname<<"LTH"<<m_idgenerator;
 
 			std::stringstream inlinefct;
-			inlinefct<<"function "<<fctname.str()<<"(ScriptId)"<<std::endl;
+			inlinefct<<"function "<<fctname.str()<<"(ScriptId, Environment)"<<std::endl;
 			inlinefct<<FunctionName;
 			inlinefct<<"end"<<std::endl;
 
 			std::string check = inlinefct.str();
 			luaL_dostring(m_LuaMainState, inlinefct.str().c_str());
 
-			luabind::resume_function<void>(m_LuaThreadState, fctname.str().c_str(), m_refKey);
+			luabind::resume_function<void>(m_LuaThreadState, fctname.str().c_str(), m_refKey, env);
 			m_started = true;
 		}
 		else
@@ -46,7 +48,7 @@ LuaThreadHandler::LuaThreadHandler(lua_State * mainstate, const std::string & Fu
 			lua_getglobal(m_LuaMainState, m_FunctionName.c_str());
 			if (lua_isfunction(m_LuaMainState, lua_gettop(m_LuaMainState)))
 			{
-				luabind::resume_function<void>(m_LuaThreadState, m_FunctionName.c_str(), m_refKey);
+				luabind::resume_function<void>(m_LuaThreadState, m_FunctionName.c_str(), m_refKey, env);
 				m_started = true;
 			}
 			else
@@ -68,7 +70,6 @@ destructor
 ***********************************************************/	
 LuaThreadHandler::~LuaThreadHandler(void)
 {
-	//lua_close(m_LuaThreadState);
 	luaL_unref(m_LuaMainState,LUA_REGISTRYINDEX,m_refKey);
 }
 
@@ -106,10 +107,12 @@ bool LuaThreadHandler::ResumeThread()
 	}
 	catch(const std::exception &error)
 	{
-		LogHandler::getInstance()->LogToFile(std::string("Exception initializing LUA thread: ") 
+		LogHandler::getInstance()->LogToFile(std::string("Exception resuming LUA thread: ") 
 																					+ error.what(), 0);
 	}
 
 	m_started = false;
 	return true;
 }
+
+

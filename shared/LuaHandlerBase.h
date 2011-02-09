@@ -32,6 +32,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 struct lua_State;
 class LuaThreadHandler;
 class ScriptEnvironmentBase;
+class ActionArgumentBase;
+
 
 //! class taking care of the maping between lua and the server interfaces
 class LuaHandlerBase
@@ -50,17 +52,31 @@ public:
 	void CallLua(const std::string & functioname, ScriptEnvironmentBase* env = 0);
 
 	//! start script in a new thread
-	void StartScript(const std::string & FunctionName, bool inlinefunction);
+	//! return script id if successed or -1 else
+	int StartScript(const std::string & FunctionName, bool inlinefunction, 
+							ScriptEnvironmentBase* env);
 
 	//! resume yield thread
-	void ResumeThread(int ThreadIdx);
+	//! return true if finished
+	bool ResumeThread(int ThreadIdx, std::string & functioname);
 
-protected:
-	//! called when failed starting a script
-	virtual void FailedStartingScript(const std::string & functioname) = 0;
+	//! try to stop lua thread
+	void StopThread(int ThreadIdx);
 
-	//! called when a script has finished
-	virtual void ScriptFinished(const std::string & functioname) = 0;
+	//! execute lua script given as a string
+	void ExecuteScriptString( const std::string & ScriptString );
+
+
+	// execute custom lua function
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	void ExecuteCustomAction(int ObjectType, long ObjectId,
+										const std::string & FunctionName,
+										ActionArgumentBase * args,
+										ScriptEnvironmentBase* env);
+
 
 protected:
 	lua_State *													m_LuaState;

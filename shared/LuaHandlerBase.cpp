@@ -12,7 +12,7 @@ extern "C"
 #include "LogHandler.h"
 #include "LuaThreadHandler.h"
 #include "ScriptEnvironmentBase.h"
-
+#include "ActionArguments.h"
 
 /***********************************************************
 constructor
@@ -85,20 +85,25 @@ void LuaHandlerBase::CallLua(const std::string & functioname, ScriptEnvironmentB
 /***********************************************************
 start script in a new thread
 ***********************************************************/
-void LuaHandlerBase::StartScript(const std::string & FunctionName, bool inlinefunction)
+int LuaHandlerBase::StartScript(const std::string & FunctionName, bool inlinefunction, 
+									ScriptEnvironmentBase* env)
 {
-	boost::shared_ptr<LuaThreadHandler> Th(new LuaThreadHandler(m_LuaState, FunctionName, inlinefunction));
+	boost::shared_ptr<LuaThreadHandler> Th(new LuaThreadHandler(m_LuaState, FunctionName, 
+												inlinefunction, env));
 	if(Th->IsStarted())
+	{
 		m_RunningThreads[Th->GetReference()] = Th;
-	else
-		FailedStartingScript(FunctionName);
+		return Th->GetReference();
+	}
+
+	return -1;
 }
 
 
 /***********************************************************
-resume yiled thread
+resume yieled thread
 ***********************************************************/
-void LuaHandlerBase::ResumeThread(int ThreadIdx)
+bool LuaHandlerBase::ResumeThread(int ThreadIdx, std::string & functioname)
 {
 	// check if thread exist
 	std::map<int, boost::shared_ptr<LuaThreadHandler> >::iterator it = m_RunningThreads.find(ThreadIdx);
@@ -107,8 +112,57 @@ void LuaHandlerBase::ResumeThread(int ThreadIdx)
 		// run thread and destroy it if finished
 		if(it->second->ResumeThread())
 		{
-			ScriptFinished(it->second->GetScriptName());
+			functioname = it->second->GetScriptName();
 			m_RunningThreads.erase(it);
+			return true;
 		}
 	}
+
+	return false;
+}
+
+
+
+/***********************************************************
+execute lua script given as a string
+***********************************************************/
+void LuaHandlerBase::ExecuteScriptString( const std::string & ScriptString )
+{
+	int error = luaL_dostring(m_LuaState, ScriptString.c_str());
+	if(error != 0)
+	{
+		LogHandler::getInstance()->LogToFile(std::string("Exception calling executing script string: ") + lua_tostring(m_LuaState, -1));
+	}
+
+}
+
+
+/***********************************************************
+call lua function
+***********************************************************/
+void LuaHandlerBase::ExecuteCustomAction(int ObjectType, long ObjectId,
+											const std::string & FunctionName,
+											ActionArgumentBase * args,
+											ScriptEnvironmentBase* env)
+{
+	try
+	{
+		luabind::call_function<void>(m_LuaState, FunctionName.c_str(), ObjectType, ObjectId, args, env);
+	}
+	catch(const std::exception &error)
+	{
+		LogHandler::getInstance()->LogToFile(std::string("Exception calling lua function ") + FunctionName + std::string(" : ") + error.what() + std::string(" : ") + lua_tostring(m_LuaState, -1), 0);
+	}
+}
+
+
+
+/***********************************************************
+try to stop lua thread
+***********************************************************/
+void LuaHandlerBase::StopThread(int ThreadIdx)
+{
+	std::map<int, boost::shared_ptr<LuaThreadHandler> >::iterator it = m_RunningThreads.find(ThreadIdx);
+	if(it != m_RunningThreads.end())
+		m_RunningThreads.erase(it);
 }

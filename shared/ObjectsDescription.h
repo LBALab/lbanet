@@ -82,6 +82,11 @@ public:
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> BuildSelf(boost::shared_ptr<DisplayTransformation> Tr,
 																	DisplayHandlerBase * disH) const = 0;
 
+
+	//! build description into dynamic object for server
+	virtual boost::shared_ptr<DisplayObjectHandlerBase> BuildServer()
+	{return boost::shared_ptr<DisplayObjectHandlerBase>();}
+
 };
 
 
@@ -110,6 +115,7 @@ public:
 	//! build description into dynamic object
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> BuildSelf(boost::shared_ptr<DisplayTransformation> Tr, 
 																				DisplayHandlerBase * disH) const;
+
 
 private:
 	std::string					_spritefile;
@@ -306,6 +312,12 @@ public:
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> BuildSelf(boost::shared_ptr<DisplayTransformation> Tr, 
 																			DisplayHandlerBase * disH) const;
 
+
+
+	//! build description into dynamic object for server
+	virtual boost::shared_ptr<DisplayObjectHandlerBase> BuildServer();
+
+
 private:
 	LbaNet::ModelInfo		_info;
 	float					_animationspeed;
@@ -335,7 +347,8 @@ public:
 	//! build description into dynamic object
 	boost::shared_ptr<DisplayObjectHandlerBase> BuildSelf(DisplayHandlerBase * disH) const;
 
-
+	//! build description into dynamic object
+	boost::shared_ptr<DisplayObjectHandlerBase> BuildServer() const;
 
 public:
 	boost::shared_ptr<DisplayTransformation>		Transform;
@@ -368,6 +381,11 @@ public:
 	virtual NxActor* RebuildActor(float X, float Y, float Z, boost::shared_ptr<ActorUserData> udata){ return NULL;}
 	virtual NxController* RebuildController(float X, float Y, float Z, boost::shared_ptr<ActorUserData> udata){ return NULL;}
 
+
+	//! build description into dynamic object
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildServer(long id,
+										boost::shared_ptr<PhysicalDescriptionBase> self) const;
+
 public:
 	//position of the object in the world
 	float positionX;
@@ -395,9 +413,6 @@ public:
 	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id,
 										boost::shared_ptr<PhysicalDescriptionBase> self) const;
 
-
-private:
-	LbaQuaternion _rot;
 };
 
 
@@ -415,7 +430,6 @@ public:
 
 	//! destructor
 	virtual ~PhysicalDescriptionWithShape();
-
 
 public:
 
@@ -595,6 +609,10 @@ public:
 
 	//! build description into dynamic object
 	boost::shared_ptr<DynamicObject> BuildSelf(DisplayHandlerBase * disH) const;
+
+	//! build description into dynamic object
+	boost::shared_ptr<DynamicObject> BuildServer() const;
+
 
 	//get object id
 	long GetId() const {return Id;}

@@ -46,7 +46,7 @@ void GoUpLadderScript::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ic
 	{
 		std::stringstream luastream;
 		luastream << "LadderPosition = LbaVec3("<<_LadderPositionX<<", "<<_LadderPositionY<<", "<<_LadderPositionZ<<")"<<std::endl;
-		luastream << "ActorGoUpLadder(ScriptId, -1, LadderPosition, "<<_LadderHeight<<", "<<_LadderDirection<<")"<<std::endl;
+		luastream << "ActorGoUpLadder(ScriptId, -1, LadderPosition, "<<_LadderHeight<<", "<<_LadderDirection<<", Environment)"<<std::endl;
 
 		owner->ExecuteClientScript(ObjectType, (long)ObjectId, luastream.str(), true);
 	}
@@ -95,7 +95,7 @@ void TakeExitUpScript::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ic
 	{
 		std::stringstream luastream;
 		luastream << "ExitPosition = LbaVec3("<<_ExitPositionX<<", "<<_ExitPositionY<<", "<<_ExitPositionZ<<")"<<std::endl;
-		luastream << "TakeExitUp(ScriptId, -1, ExitPosition, "<<_ExitDirection<<")"<<std::endl;
+		luastream << "TakeExitUp(ScriptId, -1, ExitPosition, "<<_ExitDirection<<", Environment)"<<std::endl;
 		
 		owner->ExecuteClientScript(ObjectType, (long)ObjectId, luastream.str(), true);
 	}
@@ -146,7 +146,7 @@ void TakeExitDownScript::Execute(ScriptEnvironmentBase * owner, int ObjectType, 
 	{
 		std::stringstream luastream;
 		luastream << "ExitPosition = LbaVec3("<<_ExitPositionX<<", "<<_ExitPositionY<<", "<<_ExitPositionZ<<")"<<std::endl;
-		luastream << "TakeExitDown(ScriptId, -1, ExitPosition, "<<_ExitDirection<<")"<<std::endl;
+		luastream << "TakeExitDown(ScriptId, -1, ExitPosition, "<<_ExitDirection<<", Environment)"<<std::endl;
 		
 		owner->ExecuteClientScript(ObjectType, (long)ObjectId, luastream.str(), true);
 	}

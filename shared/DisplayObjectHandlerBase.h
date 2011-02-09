@@ -62,11 +62,12 @@ public:
 
 	//! update display
 	//! the return value depends of the derived class type
-	virtual int Update(LbaNet::DisplayObjectUpdateBasePtr update) = 0;
+	virtual int Update(LbaNet::DisplayObjectUpdateBasePtr update,
+							bool updatestoredstate) = 0;
 
 	//! only for animated model
 	// get current animation Id
-	virtual std::string GetCurrentAnimation() {return 0;}
+	virtual std::string GetCurrentAnimation() {return "";}
 
 	//! only for animated model
 	// get current associated speed
@@ -81,7 +82,7 @@ public:
 	virtual float GetCurrentAssociatedSpeedZ() {return 0;}
 
 	//! get current model
-	virtual LbaNet::ModelInfo GetCurrentModel() {return LbaNet::ModelInfo();}
+	virtual LbaNet::ModelInfo GetCurrentModel(bool storedstate) {return LbaNet::ModelInfo();}
 
 
 	//! set name of display object that will be returned during picking
@@ -94,6 +95,8 @@ public:
 	// restore previously saved model state
 	virtual void RestoreState(){}
 };
+
+
 
 
 #endif
