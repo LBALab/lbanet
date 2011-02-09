@@ -2621,7 +2621,7 @@ void EditorHandler::AddActorObject(boost::shared_ptr<ActorHandler> actor)
 	_Actors[actor->GetId()] = actor;
 
 	std::string type;
-	switch(actor->GetInfo().PhysicDesc.TypePhysO)
+	switch(actor->GetActorInfo().PhysicDesc.TypePhysO)
 	{
 		case LbaNet::StaticAType:
 			type = "Static";
@@ -2638,7 +2638,7 @@ void EditorHandler::AddActorObject(boost::shared_ptr<ActorHandler> actor)
 
 
 	std::string dtype = "No";
-	switch(actor->GetInfo().DisplayDesc.TypeRenderer)
+	switch(actor->GetActorInfo().DisplayDesc.TypeRenderer)
 	{
 		case LbaNet::RenderOsgModel:
 			dtype = "Osg Model";
@@ -2670,7 +2670,7 @@ void EditorHandler::AddActorObject(boost::shared_ptr<ActorHandler> actor)
 	}
 
 	std::string ptype;
-	switch(actor->GetInfo().PhysicDesc.TypeShape)
+	switch(actor->GetActorInfo().PhysicDesc.TypeShape)
 	{
 		case LbaNet::NoShape:
 			ptype = "No Shape";
@@ -2689,7 +2689,7 @@ void EditorHandler::AddActorObject(boost::shared_ptr<ActorHandler> actor)
 		break;
 	}
 
-	ActorObjectInfo & ainfo = actor->GetInfo();
+	const ActorObjectInfo & ainfo = actor->GetActorInfo();
 	std::string name = ainfo.ExtraInfo.Name;
 	if(name == "")
 		name = "-";
@@ -2706,8 +2706,8 @@ void EditorHandler::AddActorObject(boost::shared_ptr<ActorHandler> actor)
 		actor->currentspherecolors = actor->initspherecolors;
 		actor->currentlinecolors = actor->initlinecolors;
 
-		LbaNet::Lba1ColorChangeSeq::iterator itsw = ainfo.DisplayDesc.ColorSwaps.begin();
-		LbaNet::Lba1ColorChangeSeq::iterator endsw = ainfo.DisplayDesc.ColorSwaps.end();
+		LbaNet::Lba1ColorChangeSeq::const_iterator itsw = ainfo.DisplayDesc.ColorSwaps.begin();
+		LbaNet::Lba1ColorChangeSeq::const_iterator endsw = ainfo.DisplayDesc.ColorSwaps.end();
 		for(; itsw != endsw; ++itsw)
 		{
 			switch(itsw->first.ModelPart)
@@ -4601,7 +4601,7 @@ void EditorHandler::RefreshActorModelMode(int index, QModelIndex parentIdx,
 		actor->currentspherecolors = actor->initspherecolors;
 		actor->currentlinecolors = actor->initlinecolors;
 
-		actor->GetInfo().DisplayDesc.ColorSwaps.clear();
+		actor->ClearColorSwap();
 	}
 }
 
@@ -5196,7 +5196,12 @@ void EditorHandler::addworld_accepted()
 		filelua<<"-- function Functioname(ObjectType, ObjectId, Arguments, Environment)"<<std::endl<<std::endl;
 		filelua<<"-- ObjectType and Objectid will contains the type and id of the object triggering the action"<<std::endl;
 		filelua<<"-- Arguments is a virtual class containing possible extra arguments"<<std::endl;
-		filelua<<"-- Environment is a pointer used to access the server class (see documentation for further information)"<<std::endl<<std::endl<<std::endl;
+		filelua<<"-- Environment is a pointer used to access the server class (see documentation for further information)"<<std::endl<<std::endl;
+
+		filelua<<"function ExampleServerFct(ObjectType, ObjectId, Arguments, Environment)"<<std::endl;
+		filelua<<"	Environment:DisplayTextAction(ObjectType, ObjectId, 0)"<<std::endl;
+		filelua<<"end"<<std::endl<<std::endl<<std::endl;
+		
 		filelua.flush();
 		filelua.close();
 	}
@@ -5211,6 +5216,12 @@ void EditorHandler::addworld_accepted()
 		filelua<<"-- A function used as custom clientscript should have the following signature:"<<std::endl;
 		filelua<<"-- function Functioname(ScriptId)"<<std::endl<<std::endl;
 		filelua<<"-- ScriptId is used by many functions of the client API (see documentation for further information on the API)"<<std::endl<<std::endl<<std::endl;
+		filelua<<"-- Environment is a pointer used to access the server class (see documentation for further information)"<<std::endl<<std::endl;
+
+		filelua<<"function ExampleClientFct(ScriptId, Environment)"<<std::endl;
+		filelua<<"	LadderPos = LbaVec3(42, 7, 9)"<<std::endl;
+		filelua<<"	ActorGoUpLadder(ScriptId, -1, LadderPos, 10, 0, Environment)"<<std::endl;
+		filelua<<"end"<<std::endl<<std::endl<<std::endl;
 		filelua.flush();
 		filelua.close();
 	}
@@ -5449,7 +5460,7 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 		if(parent == QModelIndex())
 			ResetObject();
 
-		const ActorObjectInfo & ainfo = it->second->GetInfo();
+		const ActorObjectInfo & ainfo = it->second->GetActorInfo();
 		
 
 		{
@@ -5860,7 +5871,7 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 	if(it != _Actors.end())
 	{
 		bool updateobj = false;
-		ActorObjectInfo & ainfo = it->second->GetInfo();
+		ActorObjectInfo ainfo = it->second->GetActorInfo();
 
 		ainfo.ExtraInfo.Name = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString().toAscii().data();
 
@@ -6151,6 +6162,7 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 
 
 		//inform server
+		it->second->SetActorInfo(ainfo);
 		std::string mapname = _uieditor.label_mapname->text().toAscii().data();
 		EditorUpdateBasePtr update = new UpdateEditor_AddOrModActor(it->second);
 		SharedDataHandler::getInstance()->EditorUpdate(mapname, update);

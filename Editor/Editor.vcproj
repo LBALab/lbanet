@@ -488,11 +488,23 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Client\ScriptedActor.cpp"
+				RelativePath="..\shared\ScriptedActor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\shared\ScriptEnvironmentBase.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\Servers\WorldServer\ServerGUIBase.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Servers\WorldServer\ServerLBA1ModelClass.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Servers\WorldServer\ServerLba1ModelHandler.cpp"
 				>
 			</File>
 			<File
@@ -994,7 +1006,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Client\ScriptedActor.h"
+				RelativePath="..\shared\ScriptedActor.h"
 				>
 			</File>
 			<File
@@ -1007,6 +1019,14 @@
 			</File>
 			<File
 				RelativePath="..\Servers\WorldServer\ServerGUIBase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Servers\WorldServer\ServerLBA1ModelClass.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Servers\WorldServer\ServerLba1ModelHandler.h"
 				>
 			</File>
 			<File
