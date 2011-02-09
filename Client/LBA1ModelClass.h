@@ -290,6 +290,7 @@ public:
     void setSphereSize(int index, short int value);
     void setSphereCenter(int index, short int value);
     void changeAllSphereColors(short int oldColor, short int newColor);
+    void change1SphereColors(int sphereidx, short int newColor);
 	std::set<short> GetAllSphereColors();
 
 

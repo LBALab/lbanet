@@ -1000,7 +1000,7 @@ used by lua to move an actor or player
 if id < 1 then it moves players
 the actor will move using animation speed
 ***********************************************************/
-void LbaNetModel::ActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position, bool asynchronus)
+void LbaNetModel::InternalActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position, bool asynchronus)
 {
 	if(ActorId >= 0)
 	{
@@ -1026,7 +1026,7 @@ void LbaNetModel::ActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 
 //! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
 //! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
 ***********************************************************/
-void LbaNetModel::ActorRotate(int ScriptId, long ActorId, float Angle, float RotationSpeedPerSec,
+void LbaNetModel::InternalActorRotate(int ScriptId, long ActorId, float Angle, float RotationSpeedPerSec,
 									bool ManageAnimation, bool asynchronus)
 {
 	if(ActorId >= 0)
@@ -1051,7 +1051,7 @@ void LbaNetModel::ActorRotate(int ScriptId, long ActorId, float Angle, float Rot
 //! used by lua to wait until an actor animation is finished
 //! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
 ***********************************************************/
-void LbaNetModel::ActorAnimate(int ScriptId, long ActorId, bool AnimationMove, bool asynchronus)
+void LbaNetModel::InternalActorAnimate(int ScriptId, long ActorId, bool AnimationMove, bool asynchronus)
 {
 	if(ActorId >= 0)
 	{

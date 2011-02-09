@@ -2324,6 +2324,15 @@ void LBA1ModelClass::changeAllSphereColors(short int oldColor, short int newColo
 
 
 //---------------------------------------------------------------------------
+
+void LBA1ModelClass::change1SphereColors(int sphereidx, short int newColor)
+{
+	if(sphereidx < Spheres->NumberOfSpheres)
+		setSphereColor(sphereidx, newColor);
+}
+
+
+//---------------------------------------------------------------------------
 std::set<short> LBA1ModelClass::GetAllSphereColors()
 {
 	std::set<short> res;

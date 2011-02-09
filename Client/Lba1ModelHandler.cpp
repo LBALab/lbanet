@@ -399,7 +399,16 @@ int Lba1ModelHandler::RefreshModel(bool forcecolor)
 					break;
 
 					case LbaNet::SphereColor:
-						_model->changeAllSphereColors(itcolo->first.Color, itcolo->second);
+						// special case - horse hair and twinsen hairs are the same
+						if(itcolo->first.Color == 999)
+							_model->change1SphereColors(6, itcolo->second);
+						else
+						{
+							if(itcolo->first.Color == 998)
+								_model->change1SphereColors(3, itcolo->second);
+							else
+								_model->changeAllSphereColors(itcolo->first.Color, itcolo->second);	
+						}
 					break;
 
 					case LbaNet::LineColor:
