@@ -43,14 +43,60 @@ function InitMap(environment)
 	Actor_1H = ActorHandler(Actor_1)
 	environment:AddActorObject(Actor_1H)
 
-	Trigger_1_info = TriggerInfo(1, "test", true, true, false)
-	Trigger_1 = ZoneTrigger(Trigger_1_info, 2, 2, 2, true)
-	Trigger_1:SetPosition(45.8, 7, 10)
-	Trigger_1_act1 = ClientScriptAction()
-	Trigger_1_act1_cs = CustomScript()
-	Trigger_1_act1_cs:SetLuaFunctionName("ExampleClientFct")
-	Trigger_1_act1:SetScript(Trigger_1_act1_cs)
-	Trigger_1:SetAction1(Trigger_1_act1)
-	environment:AddTrigger(Trigger_1)
+	Actor_2 = ActorObjectInfo(2)
+	Actor_2:SetRenderType(3)
+	Actor_2.DisplayDesc.ModelId = 0
+	Actor_2.DisplayDesc.ModelName = "Twinsen"
+	Actor_2.DisplayDesc.Outfit = "Fulltunic"
+	Actor_2.DisplayDesc.Weapon = "No"
+	Actor_2.DisplayDesc.Mode = "Normal"
+	Actor_2.DisplayDesc.UseLight = true
+	Actor_2.DisplayDesc.CastShadow = true
+	Actor_2.DisplayDesc.ColorR = 1
+	Actor_2.DisplayDesc.ColorG = 1
+	Actor_2.DisplayDesc.ColorB = 1
+	Actor_2.DisplayDesc.ColorA = 1
+	Actor_2.DisplayDesc.TransX = 0
+	Actor_2.DisplayDesc.TransY = 0
+	Actor_2.DisplayDesc.TransZ = 0
+	Actor_2.DisplayDesc.ScaleX = 1
+	Actor_2.DisplayDesc.ScaleY = 1
+	Actor_2.DisplayDesc.ScaleZ = 1
+	Actor_2.DisplayDesc.RotX = 0
+	Actor_2.DisplayDesc.RotY = 0
+	Actor_2.DisplayDesc.RotZ = 0
+	Actor_2:SetModelState(2)
+	Actor_2.PhysicDesc.Pos.X = 43
+	Actor_2.PhysicDesc.Pos.Y = 14.1
+	Actor_2.PhysicDesc.Pos.Z = 9.5
+	Actor_2.PhysicDesc.Pos.Rotation = 0
+	Actor_2.PhysicDesc.Density = 1
+	Actor_2.PhysicDesc.Collidable = true
+	Actor_2.PhysicDesc.SizeX = 1
+	Actor_2.PhysicDesc.SizeY = 5
+	Actor_2.PhysicDesc.SizeZ = 1
+	Actor_2.PhysicDesc.Filename = ""
+	Actor_2:SetPhysicalActorType(2)
+	Actor_2:SetPhysicalShape(2)
+	Actor_2.ExtraInfo.Name = ""
+	Actor_2.ExtraInfo.NameColorR = 1
+	Actor_2.ExtraInfo.NameColorG = 1
+	Actor_2.ExtraInfo.NameColorB = 1
+	Actor_2.ExtraInfo.Display = false
+	Actor_2.LifeInfo.Display = false
+	Actor_2H = ActorHandler(Actor_2)
+	Actor_2_Sc0 = ASPChangeAnimation("MoveForward")
+	Actor_2H:AddScriptPart(Actor_2_Sc0)
+	Actor_2_Sc1 = ASPWalkStraightTo(37.6,7,9.5)
+	Actor_2H:AddScriptPart(Actor_2_Sc1)
+	Actor_2_Sc2 = ASPRotate(90,0.11,true)
+	Actor_2H:AddScriptPart(Actor_2_Sc2)
+	Actor_2_Sc3 = ASPChangeAnimation("MoveForward")
+	Actor_2H:AddScriptPart(Actor_2_Sc3)
+	Actor_2_Sc4 = ASPWalkStraightTo(50,7,9.5)
+	Actor_2H:AddScriptPart(Actor_2_Sc4)
+	Actor_2_Sc5 = ASPRotate(270,0.11,true)
+	Actor_2H:AddScriptPart(Actor_2_Sc5)
+	environment:AddActorObject(Actor_2H)
 
 end
