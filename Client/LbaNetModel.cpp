@@ -817,6 +817,22 @@ void LbaNetModel::PlayerMovedUpdate(Ice::Long PlayerId, double updatetime,
 	}
 }
 
+/***********************************************************
+when update npc position
+***********************************************************/
+void LbaNetModel::NpcMovedUpdate(Ice::Long NpcId, double updatetime, 
+									const LbaNet::PlayerMoveInfo &info,
+									bool teleport)
+{
+	std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find((long)NpcId);
+	if(it != _playerObjects.end())
+	{
+		it->second->UpdateMove(updatetime, info, teleport);
+	}
+}
+
+
+
 
 /***********************************************************
 called when we enter a new map
@@ -1119,6 +1135,189 @@ void LbaNetModel::ReleaseActorFromScript(int scriptid)
 		m_playingscriptactors.erase(itpl);
 	}
 }
+
+
+
+
+/***********************************************************
+	//! used by lua to move an actor or player
+	//! the actor will change model
+***********************************************************/
+void LbaNetModel::UpdateActorModel(long ActorId, const std::string & Name)
+{
+	if(ActorId >= 0)
+	{
+		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+			it->second->UpdateActorModel(Name, true);
+	}
+	else
+	{
+		// on player
+		if(m_controllerChar)
+			m_controllerChar->UpdateActorModel(Name);
+	}
+}
+
+
+
+/***********************************************************
+	//! used by lua to move an actor or player
+	//! the actor will change outfit
+***********************************************************/
+void LbaNetModel::UpdateActorOutfit(long ActorId, const std::string & Name)
+{
+	if(ActorId >= 0)
+	{
+		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+			it->second->UpdateActorOutfit(Name, true);
+	}
+	else
+	{
+		// on player
+		if(m_controllerChar)
+			m_controllerChar->UpdateActorOutfit(Name);
+	}
+}
+
+
+
+/***********************************************************
+	//! used by lua to move an actor or player
+	//! the actor will change weapon
+***********************************************************/
+void LbaNetModel::UpdateActorWeapon(long ActorId, const std::string & Name)
+{
+	if(ActorId >= 0)
+	{
+		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+			it->second->UpdateActorWeapon(Name, true);
+	}
+	else
+	{
+		// on player
+		if(m_controllerChar)
+			m_controllerChar->UpdateActorWeapon(Name);
+	}
+}
+
+
+
+/***********************************************************
+	//! used by lua to move an actor or player
+	//! the actor will change mode
+***********************************************************/
+void LbaNetModel::SendSignalToActor(long ActorId, int Signalnumber)
+{
+	if(ActorId >= 0)
+	{
+		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+			it->second->SendSignal(Signalnumber);
+	}
+	else
+	{
+		// on player
+		if(m_controllerChar)
+			m_controllerChar->SendSignal(Signalnumber);
+	}
+}
+
+
+
+
+
+/***********************************************************
+//! used by lua to move an actor or player
+//! the actor will move using animation speed
+***********************************************************/
+void LbaNetModel::TeleportActorTo(int ScriptId, long ActorId, const LbaVec3 &Position)
+{
+	if(ActorId >= 0)
+	{
+		ReserveActor(ScriptId, ActorId);
+
+		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+			it->second->TeleportTo(Position.x, Position.y, Position.z);
+	}
+	else
+	{
+		// on player
+		if(m_controllerChar)
+			m_controllerChar->TeleportTo(Position.x, Position.y, Position.z);
+	}
+}
+
+
+
+
+/***********************************************************
+	//! used by lua to move an actor or player
+	//! the actor will move using speed
+***********************************************************/
+void LbaNetModel::InternalActorGoTo(int ScriptId, long ActorId, const LbaVec3 &Position, 
+										float Speed, bool asynchronus)
+{
+	if(ActorId >= 0)
+	{
+		ReserveActor(ScriptId, ActorId);
+
+		// on actor
+		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+			it->second->ActorGoTo(ScriptId, Position.x, Position.y, Position.z, Speed, asynchronus);
+	}
+	else
+	{
+		// on player
+		if(m_controllerChar)
+			m_controllerChar->ActorGoTo(ScriptId, Position.x, Position.y, Position.z, Speed, asynchronus);
+	}
+}
+	
+
+
+/***********************************************************
+	//! used by lua to move an actor or player
+	//! the actor will wait for signal
+***********************************************************/
+void LbaNetModel::InternalActorWaitForSignal(int ScriptId, long ActorId, int Signalnumber, 
+												bool asynchronus)
+{
+	if(ActorId >= 0)
+	{
+		ReserveActor(ScriptId, ActorId);
+
+		// on actor
+		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+			it->second->ActorWaitForSignal(ScriptId, Signalnumber, asynchronus);
+	}
+	else
+	{
+		// on player
+		if(m_controllerChar)
+			m_controllerChar->ActorWaitForSignal(ScriptId, Signalnumber, asynchronus);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

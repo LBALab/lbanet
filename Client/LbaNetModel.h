@@ -121,6 +121,12 @@ public:
 									const LbaNet::PlayerMoveInfo &info,
 									bool teleport);
 
+	//! when update npc position
+	void NpcMovedUpdate(Ice::Long NpcId, double updatetime, 
+									const LbaNet::PlayerMoveInfo &info,
+									bool teleport);
+
+
 
 	//! called when we enter a new map
 	void NewMap(const std::string & NewMap, const std::string & Script,
@@ -237,6 +243,28 @@ public:
 	virtual void ReserveActor(int ScriptId, long ActorId);
 
 
+	//! used by lua to move an actor or player
+	//! the actor will change model
+	virtual void UpdateActorModel(long ActorId, const std::string & Name);
+
+	//! used by lua to move an actor or player
+	//! the actor will change outfit
+	virtual void UpdateActorOutfit(long ActorId, const std::string & Name);
+
+	//! used by lua to move an actor or player
+	//! the actor will change weapon
+	virtual void UpdateActorWeapon(long ActorId, const std::string & Name);
+
+	//! used by lua to move an actor or player
+	//! the actor will change mode
+	virtual void SendSignalToActor(long ActorId, int Signalnumber);
+
+
+	//! used by lua to move an actor or player
+	//! the actor will move using animation speed
+	void TeleportActorTo(int ScriptId, long ActorId, const LbaVec3 &Position);
+
+
 protected:
 
 	//! clean up map
@@ -283,6 +311,18 @@ protected:
 	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
 	virtual void InternalActorAnimate(int ScriptId, long ActorId, bool AnimationMove, 
 								bool asynchronus = false);
+
+
+	//! used by lua to move an actor or player
+	//! the actor will move using speed
+	virtual void InternalActorGoTo(int ScriptId, long ActorId, const LbaVec3 &Position, 
+										float Speed, bool asynchronus = false);
+	
+
+		//! used by lua to move an actor or player
+	//! the actor will wait for signal
+	virtual void InternalActorWaitForSignal(int ScriptId, long ActorId, int Signalnumber, 
+										bool asynchronus = false);
 
 
 private:

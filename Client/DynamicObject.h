@@ -68,6 +68,25 @@ public:
 		_disH->ShowOrHide(Show);
 	}
 
+	//! add a signal to object
+	void AddSignal(int Signal)
+	{
+		_signalReceived.push_back(Signal);
+	}
+
+	//! check if signal received and eat it up
+	bool ReceivedSignal(int signal)
+	{
+		std::vector<int>::iterator it = std::find(_signalReceived.begin(), _signalReceived.end(), signal);
+		if(it != _signalReceived.end())
+		{
+			_signalReceived.erase(it);
+			return true;
+		}
+
+		return false;
+	}
+
 protected:
 	
 	//! handler to physical object
@@ -78,6 +97,9 @@ protected:
 
 	//! object id
 	long										_id;
+
+
+	std::vector<int>							_signalReceived;
 };
 
 #endif

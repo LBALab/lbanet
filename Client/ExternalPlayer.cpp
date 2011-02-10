@@ -106,7 +106,8 @@ void ExternalPlayer::UpdateMove(double updatetime, const LbaNet::PlayerMoveInfo 
 					info.CurrentSpeedX, info.CurrentSpeedY, info.CurrentSpeedZ, info.CurrentSpeedRotation);
 
 		//update animation
-		_character->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate(info.AnimationIdx), _playingscript);
+		if(info.AnimationIdx != "")
+			_character->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate(info.AnimationIdx), _playingscript);
 	}
 }
 
@@ -436,3 +437,70 @@ void ExternalPlayer::UpdateActorMode( const std::string & Mode, bool updatefroml
 	_character->GetDisplayObject()->Update(new LbaNet::ModelUpdate(model, false), usestored);
 }
 
+
+/***********************************************************
+update Model
+***********************************************************/
+void ExternalPlayer::UpdateActorModel(const std::string & Model, bool updatefromlua)
+{
+	bool usestored = !updatefromlua && _playingscript;
+
+	LbaNet::ModelInfo model = _character->GetDisplayObject()->GetCurrentModel(usestored);
+	model.ModelName = Model;
+	_character->GetDisplayObject()->Update(new LbaNet::ModelUpdate(model, false), usestored);
+}
+
+
+/***********************************************************
+update outfit
+***********************************************************/
+void ExternalPlayer::UpdateActorOutfit(const std::string & Outfit, bool updatefromlua)
+{
+	bool usestored = !updatefromlua && _playingscript;
+
+	LbaNet::ModelInfo model = _character->GetDisplayObject()->GetCurrentModel(usestored);
+	model.Outfit = Outfit;
+	_character->GetDisplayObject()->Update(new LbaNet::ModelUpdate(model, false), usestored);
+}
+
+
+/***********************************************************
+update weapon
+***********************************************************/
+void ExternalPlayer::UpdateActorWeapon(const std::string & Weapon, bool updatefromlua)
+{
+	bool usestored = !updatefromlua && _playingscript;
+
+	LbaNet::ModelInfo model = _character->GetDisplayObject()->GetCurrentModel(usestored);
+	model.Weapon = Weapon;
+	_character->GetDisplayObject()->Update(new LbaNet::ModelUpdate(model, false), usestored);
+}
+
+
+
+/***********************************************************
+update signal
+***********************************************************/
+void ExternalPlayer::SendSignal(int Signalnumber)
+{
+	_character->AddSignal(Signalnumber);
+}
+
+
+
+/***********************************************************
+teleport
+***********************************************************/
+void ExternalPlayer::TeleportTo(float PosX, float PosY, float PosZ)
+{
+	PlayerMoveInfo minfo;
+    minfo.CurrentPos.X = PosX;
+    minfo.CurrentPos.Y = PosY;
+    minfo.CurrentPos.Z = PosZ;
+	minfo.CurrentPos.Rotation = _dr._rotation;
+    minfo.CurrentSpeedX = 0;
+    minfo.CurrentSpeedY = 0;
+    minfo.CurrentSpeedZ = 0;
+    minfo.CurrentSpeedRotation = 0;
+	UpdateMove(SynchronizedTimeHandler::GetCurrentTimeDouble(), minfo, true);
+}

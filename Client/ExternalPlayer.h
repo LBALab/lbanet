@@ -131,7 +131,6 @@ public:
 	//! set the actor/player as playing script
 	void SetPlayingScript(bool playing);
 
-
 	//! get actor position
 	void GetPosition(float &X, float &Y, float &Z);
 
@@ -143,6 +142,24 @@ public:
 
 	//! update Mode
 	void UpdateActorMode( const std::string & Mode, bool updatefromlua);
+
+	//! update Model
+	void UpdateActorModel(const std::string & Model, bool updatefromlua);
+
+	//! update Model
+	void UpdateActorOutfit(const std::string & Outfit, bool updatefromlua);
+
+	//! update Model
+	void UpdateActorWeapon(const std::string & Weapon, bool updatefromlua);
+
+	//! update Model
+	void SendSignal(int Signalnumber);
+
+	//! get player current position
+	void TeleportTo(float PosX, float PosY, float PosZ);
+
+
+
 
 protected:
 	//! internaly update mode and state

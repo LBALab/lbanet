@@ -922,3 +922,56 @@ void CharacterController::UpdateActorMode( const std::string & Mode )
 	_character->GetDisplayObject()->Update(new LbaNet::ModelUpdate(model, false), false);
 }
 
+
+
+/***********************************************************
+update Model
+***********************************************************/
+void CharacterController::UpdateActorModel(const std::string & Model)
+{
+	LbaNet::ModelInfo model = _character->GetDisplayObject()->GetCurrentModel(false);
+	model.ModelName = Model;
+	_character->GetDisplayObject()->Update(new LbaNet::ModelUpdate(model, false), false);
+}
+
+
+/***********************************************************
+update outfit
+***********************************************************/
+void CharacterController::UpdateActorOutfit(const std::string & Outfit)
+{
+	LbaNet::ModelInfo model = _character->GetDisplayObject()->GetCurrentModel(false);
+	model.Outfit = Outfit;
+	_character->GetDisplayObject()->Update(new LbaNet::ModelUpdate(model, false), false);
+}
+
+
+/***********************************************************
+update weapon
+***********************************************************/
+void CharacterController::UpdateActorWeapon(const std::string & Weapon)
+{
+	LbaNet::ModelInfo model = _character->GetDisplayObject()->GetCurrentModel(false);
+	model.Weapon = Weapon;
+	_character->GetDisplayObject()->Update(new LbaNet::ModelUpdate(model, false), false);
+}
+
+
+
+/***********************************************************
+update signal
+***********************************************************/
+void CharacterController::SendSignal(int Signalnumber)
+{
+	_character->AddSignal(Signalnumber);
+}
+
+
+
+/***********************************************************
+teleport
+***********************************************************/
+void CharacterController::TeleportTo(float PosX, float PosY, float PosZ)
+{
+	_character->GetPhysicalObject()->SetPosition(PosX, PosY, PosZ);
+}

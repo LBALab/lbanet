@@ -553,6 +553,19 @@ void LbaNetEngine::HandleGameEvents()
 			continue;
 		}
 
+		// NpcMovedEvent
+		if(info == typeid(LbaNet::NpcMovedEvent))
+		{
+			LbaNet::NpcMovedEvent* castedptr = 
+				dynamic_cast<LbaNet::NpcMovedEvent *>(&obj);
+
+			m_lbaNetModel->NpcMovedUpdate(castedptr->NpcId, castedptr->Time, 
+												castedptr->info, castedptr->Teleport);
+
+			continue;
+		}
+
+
 		// RefreshEndEvent
 		if(info == typeid(LbaNet::RefreshEndEvent))
 		{

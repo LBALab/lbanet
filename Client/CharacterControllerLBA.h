@@ -101,10 +101,28 @@ public:
 	LbaQuaternion GetRotationQuat();
 
 	//! used by lua to update animation
-	void UpdateAnimation( const std::string & AnimationString);
+	void UpdateAnimation(const std::string & AnimationString);
 
 	//! update Mode
-	void UpdateActorMode( const std::string & Mode );
+	void UpdateActorMode(const std::string & Mode );
+
+
+	//! update Model
+	void UpdateActorModel(const std::string & Model);
+
+	//! update Model
+	void UpdateActorOutfit(const std::string & Outfit);
+
+	//! update Model
+	void UpdateActorWeapon(const std::string & Weapon);
+
+	//! update Model
+	void SendSignal(int Signalnumber);
+
+	//! get player current position
+	void TeleportTo(float PosX, float PosY, float PosZ);
+
+
 
 protected:
 
