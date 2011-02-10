@@ -234,6 +234,9 @@ void MapHandler::run()
 			t->start();	
 		}
 
+		// refresh lua stuff
+		CheckFinishedAsynScripts();
+
 
 		// wait for a few milliseconds
 		{

@@ -4,6 +4,8 @@
 #include "ObjectsDescription.h"
 #include "DynamicObject.h"
 #include "SynchronizedTimeHandler.h"
+#include <math.h>
+
 
 #define	_LBA1_MODEL_ANIMATION_SPEED_	1.8f
 
@@ -467,6 +469,7 @@ void ActorHandler::ClearRunningScript()
 	}
 
 	m_launchedscript = -1;
+	ClearAllScripts();
 }
 
 
@@ -870,12 +873,11 @@ std::vector<LbaNet::ClientServerEventBasePtr> ActorHandler::Process(double tnow,
 		// process script in normal case
 		if(m_launchedscript >= 0 && !m_paused)
 			ProcessScript(tnow, tdiff, m_scripthandler);
-
-
-		// inform all client of the move if needed
-		UpdateServer(tnow, tdiff);
 	}
 
+	// inform all client of the move if needed
+	if((m_actorinfo.PhysicDesc.TypePhysO != LbaNet::StaticAType) && _character)
+		UpdateServer(tnow, tdiff);
 
 	std::vector<LbaNet::ClientServerEventBasePtr> res;
 	res.swap(_events);
@@ -1035,6 +1037,22 @@ void ActorHandler::RemoveScriptPart(ActorScriptPartBasePtr part)
 	}
 }
 
+/***********************************************************
+replace script part to the script
+***********************************************************/
+void ActorHandler::ReplaceScriptPart(ActorScriptPartBasePtr olds, ActorScriptPartBasePtr news)
+{
+	std::vector<ActorScriptPartBasePtr>::iterator it = std::find(m_script.begin(), m_script.end(), olds);
+	if(it != m_script.end())
+		*it = news;
+
+	if(m_launchedscript >= 0)
+	{
+		ClearRunningScript();
+		CreateActor();
+	}
+}
+
 
 /***********************************************************
 update position of the script
@@ -1071,6 +1089,8 @@ void ActorHandler::UpdateServer(double tnow, float tdiff)
 	LbaNet::ClientServerEventBasePtr res = NULL;
 
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+	if(!physo)
+		return;
 
 	// get current position
 	physo->GetPosition(_currentupdate.CurrentPos.X, 
@@ -1101,7 +1121,9 @@ void ActorHandler::UpdateServer(double tnow, float tdiff)
 	
 
 	// set animation
-	_currentupdate.AnimationIdx = _character->GetDisplayObject()->GetCurrentAnimation();
+	_currentupdate.AnimationIdx = -1;
+	if(_character->GetDisplayObject())
+		_currentupdate.AnimationIdx = _character->GetDisplayObject()->GetCurrentAnimation();
 
 
 
@@ -1171,11 +1193,15 @@ void ActorHandler::StartScript()
 
 	std::stringstream scripts;
 	scripts<<"function "<<fctname.str()<<"(ScriptId, Environment)"<<std::endl;
-
+	scripts<<"loopstop = 1"<<std::endl;
+	scripts<<"while loopstop > 0 do"<<std::endl;
 	for(size_t i=0; i< m_script.size(); ++i)
 		m_script[i]->WriteExecutionScript(scripts, m_actorinfo.ObjectId);
 
+	scripts<<"Environment:WaitOneCycle(ScriptId)"<<std::endl; // used to free thread so that we dont loop forever
 	scripts<<"end"<<std::endl;
+	scripts<<"end"<<std::endl;
+
 
 
 	// register it

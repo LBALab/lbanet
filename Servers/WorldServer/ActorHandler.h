@@ -207,6 +207,8 @@ public:
 	//! add script part to the script
 	void AddScriptPart(ActorScriptPartBasePtr part);
 
+	//! replace script part to the script
+	void ReplaceScriptPart(ActorScriptPartBasePtr olds, ActorScriptPartBasePtr news);
 
 	//! remove script part to the script
 	void RemoveScriptPart(ActorScriptPartBasePtr part);
@@ -217,6 +219,9 @@ public:
 	//! get script
 	std::vector<ActorScriptPartBasePtr> GetScript()
 	{ return m_script; }
+
+
+
 
 	//! clear the running script
 	void ClearRunningScript();

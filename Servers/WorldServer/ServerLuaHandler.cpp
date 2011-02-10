@@ -190,7 +190,7 @@ ServerLuaHandler::ServerLuaHandler()
 		luabind::class_<ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ActorScriptPartBase")
 		.def(luabind::constructor<>()),
 
-		luabind::class_<ActorScriptPart_GoTo, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPWalkGoTo")
+		luabind::class_<ActorScriptPart_GoTo, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPGoTo")
 		.def(luabind::constructor<float, float, float, float>()),
 
 		luabind::class_<ActorScriptPart_WalkStraightTo, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPWalkStraightTo")
@@ -257,15 +257,16 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("Async_ActorAnimate", &ScriptEnvironmentBase::Async_ActorAnimate)
 		.def("WaitForAsyncScript", &ScriptEnvironmentBase::WaitForAsyncScript, luabind::yield)
 		.def("ReserveActor", &ScriptEnvironmentBase::ReserveActor)
-		.def("ActorGoTo", &ScriptEnvironmentBase::ActorGoTo)
+		.def("ActorGoTo", &ScriptEnvironmentBase::ActorGoTo, luabind::yield)
 		.def("UpdateActorModel", &ScriptEnvironmentBase::UpdateActorModel)
 		.def("UpdateActorOutfit", &ScriptEnvironmentBase::UpdateActorOutfit)
 		.def("UpdateActorWeapon", &ScriptEnvironmentBase::UpdateActorWeapon)
-		.def("ActorWaitForSignal", &ScriptEnvironmentBase::ActorWaitForSignal)
+		.def("ActorWaitForSignal", &ScriptEnvironmentBase::ActorWaitForSignal, luabind::yield)
 		.def("SendSignalToActor", &ScriptEnvironmentBase::SendSignalToActor)
 		.def("TeleportActorTo", &ScriptEnvironmentBase::TeleportActorTo)
 		.def("Async_ActorGoTo", &ScriptEnvironmentBase::Async_ActorGoTo)
-		.def("Async_WaitForSignal", &ScriptEnvironmentBase::Async_WaitForSignal),
+		.def("Async_WaitForSignal", &ScriptEnvironmentBase::Async_WaitForSignal)
+		.def("WaitOneCycle", &ScriptEnvironmentBase::WaitOneCycle, luabind::yield),
 
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),
