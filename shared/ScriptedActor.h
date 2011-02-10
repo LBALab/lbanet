@@ -269,10 +269,12 @@ public:
 	void ActorGoTo(int ScriptId, float PosX, float PosY, float PosZ, float Speed, bool asynchronus);
 	
 
-		//! used by lua to move an actor or player
+	//! used by lua to move an actor or player
 	//! the actor will wait for signal
 	void ActorWaitForSignal(int ScriptId, int Signalnumber, bool asynchronus);
 
+	//! clear all running scripts
+	void ClearAllScripts();
 
 protected:
 	boost::shared_ptr<DynamicObject>						_character;

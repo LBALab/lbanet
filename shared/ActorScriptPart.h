@@ -94,7 +94,7 @@ public:
 
 	//! get type of the action in string form
 	virtual std::string GetTypeName()
-	{return "ASPWalkGoTo"; }
+	{return "ASPGoTo"; }
 
 
 	// save action to lua file

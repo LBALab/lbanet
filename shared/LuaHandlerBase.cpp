@@ -88,6 +88,16 @@ start script in a new thread
 int LuaHandlerBase::StartScript(const std::string & FunctionName, bool inlinefunction, 
 									ScriptEnvironmentBase* env)
 {
+	//try
+	//{
+	//	luabind::call_function<void>(m_LuaState, FunctionName.c_str(), 1, env);
+	//}
+	//catch(const std::exception &error)
+	//{
+	//	LogHandler::getInstance()->LogToFile(std::string("Exception calling lua function ") + FunctionName + std::string(" : ") + error.what() + std::string(" : ") + lua_tostring(m_LuaState, -1), 0);
+	//}
+
+
 	boost::shared_ptr<LuaThreadHandler> Th(new LuaThreadHandler(m_LuaState, FunctionName, 
 												inlinefunction, env));
 	if(Th->IsStarted())

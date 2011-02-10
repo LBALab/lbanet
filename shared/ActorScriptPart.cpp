@@ -7,14 +7,14 @@
 ActorScriptPartBasePtr ActorScriptPartBase::BuildScriptPart(const std::string & type, 
 															float sPosX, float sPosY, float sPosZ)
 {
-	if(type == "ASPWalkGoTo")
-		return ActorScriptPartBasePtr(new ActorScriptPart_GoTo(sPosX, sPosY, sPosZ, 0.1));
+	if(type == "ASPGoTo")
+		return ActorScriptPartBasePtr(new ActorScriptPart_GoTo(sPosX, sPosY, sPosZ, 0.005));
 	if(type == "ASPWalkStraightTo")
 		return ActorScriptPartBasePtr(new ActorScriptPart_WalkStraightTo(sPosX, sPosY, sPosZ));
 	if(type == "ASPPlayAnimation")
 		return ActorScriptPartBasePtr(new ActorScriptPart_PlayAnimation(true));
 	if(type == "ASPRotate")
-		return ActorScriptPartBasePtr(new ActorScriptPart_Rotate(90, 0.1, true));
+		return ActorScriptPartBasePtr(new ActorScriptPart_Rotate(90, 0.01, true));
 	if(type == "ASPChangeAnimation")
 		return ActorScriptPartBasePtr(new ActorScriptPart_ChangeAnimation("Stand"));
 	if(type == "ASPChangeModel")
@@ -57,12 +57,13 @@ void ActorScriptPart_WalkStraightTo::SaveToLuaFile(std::ofstream & file, const s
 	file<<"\t"<<name<<" = ASPWalkStraightTo("<<_PosX<<","<<_PosY<<","<<_PosZ<<")"<<std::endl;
 }
 
-/***********************************************************
+/***********************************************************z
 save action to lua file
 ***********************************************************/	
 void ActorScriptPart_WalkStraightTo::WriteExecutionScript(std::ostream & file, long actid)
 {	
-	file<<"Environment:ActorStraightWalkTo(ScriptId, "<<actid<<","<<_PosX<<","<<_PosY<<","<<_PosZ<<")"<<std::endl;
+	file << "Position = LbaVec3("<<_PosX<<","<<_PosY<<","<<_PosZ<<")"<<std::endl;
+	file<<"Environment:ActorStraightWalkTo(ScriptId,"<<actid<<",Position)"<<std::endl;
 }
 
 
@@ -81,7 +82,7 @@ save action to lua file
 ***********************************************************/	
 void ActorScriptPart_GoTo::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {	
-	file<<"\t"<<name<<" = ASPWalkGoTo("<<_PosX<<","<<_PosY<<","<<_PosZ<<","<<_Speed<<")"<<std::endl;
+	file<<"\t"<<name<<" = ASPGoTo("<<_PosX<<","<<_PosY<<","<<_PosZ<<","<<_Speed<<")"<<std::endl;
 }
 
 /***********************************************************
@@ -89,7 +90,8 @@ save action to lua file
 ***********************************************************/	
 void ActorScriptPart_GoTo::WriteExecutionScript(std::ostream & file, long actid)
 {	
-	file<<"Environment:ActorGoTo(ScriptId, "<<actid<<","<<_PosX<<","<<_PosY<<","<<_PosZ<<","<<_Speed<<")"<<std::endl;
+	file << "Position = LbaVec3("<<_PosX<<","<<_PosY<<","<<_PosZ<<")"<<std::endl;
+	file<<"Environment:ActorGoTo(ScriptId,"<<actid<<",Position,"<<_Speed<<")"<<std::endl;
 }
 
 
@@ -115,7 +117,7 @@ save action to lua file
 ***********************************************************/	
 void ActorScriptPart_PlayAnimation::WriteExecutionScript(std::ostream & file, long actid)
 {	
-	file<<"Environment:ActorAnimate(ScriptId, "<<actid<<","<<(_AnimationMove?"true":"false")<<")"<<std::endl;
+	file<<"Environment:ActorAnimate(ScriptId,"<<actid<<","<<(_AnimationMove?"true":"false")<<")"<<std::endl;
 }
 
 
@@ -143,7 +145,7 @@ save action to lua file
 ***********************************************************/	
 void ActorScriptPart_Rotate::WriteExecutionScript(std::ostream & file, long actid)
 {	
-	file<<"Environment:ActorRotate(ScriptId, "<<actid<<","<<_Angle<<","<<_RotationSpeedPerSec
+	file<<"Environment:ActorRotate(ScriptId,"<<actid<<","<<_Angle<<","<<_RotationSpeedPerSec
 					<<","<<(_ManageAnimation?"true":"false")<<")"<<std::endl;
 }
 
@@ -170,7 +172,7 @@ save action to lua file
 ***********************************************************/	
 void ActorScriptPart_ChangeAnimation::WriteExecutionScript(std::ostream & file, long actid)
 {	
-	file<<"Environment:UpdateActorAnimation(\""<<_Animationstring<<"\")"<<std::endl;
+	file<<"Environment:UpdateActorAnimation("<<actid<<",\""<<_Animationstring<<"\")"<<std::endl;
 }
 
 
@@ -196,7 +198,7 @@ save action to lua file
 ***********************************************************/	
 void ActorScriptPart_ChangeModel::WriteExecutionScript(std::ostream & file, long actid)
 {	
-	file<<"Environment:UpdateActorModel(\""<<_Name<<"\")"<<std::endl;
+	file<<"Environment:UpdateActorModel("<<actid<<",\""<<_Name<<"\")"<<std::endl;
 }
 
 
@@ -222,7 +224,7 @@ save action to lua file
 ***********************************************************/	
 void ActorScriptPart_ChangeOutfit::WriteExecutionScript(std::ostream & file, long actid)
 {	
-	file<<"Environment:UpdateActorOutfit(\""<<_Name<<"\")"<<std::endl;
+	file<<"Environment:UpdateActorOutfit("<<actid<<",\""<<_Name<<"\")"<<std::endl;
 }
 
 
@@ -248,7 +250,7 @@ save action to lua file
 ***********************************************************/	
 void ActorScriptPart_ChangeWeapon::WriteExecutionScript(std::ostream & file, long actid)
 {	
-	file<<"Environment:UpdateActorWeapon(\""<<_Name<<"\")"<<std::endl;
+	file<<"Environment:UpdateActorWeapon("<<actid<<",\""<<_Name<<"\")"<<std::endl;
 }
 
 
@@ -274,7 +276,7 @@ save action to lua file
 ***********************************************************/	
 void ActorScriptPart_ChangeMode::WriteExecutionScript(std::ostream & file, long actid)
 {	
-	file<<"Environment:UpdateActorMode(\""<<_Name<<"\")"<<std::endl;
+	file<<"Environment:UpdateActorMode("<<actid<<",\""<<_Name<<"\")"<<std::endl;
 }
 
 
@@ -300,7 +302,7 @@ save action to lua file
 ***********************************************************/	
 void ActorScriptPart_WaitForSignal::WriteExecutionScript(std::ostream & file, long actid)
 {	
-	file<<"Environment:ActorWaitForSignal(ScriptId, "<<actid<<","<<_Signalnumber<<")"<<std::endl;
+	file<<"Environment:ActorWaitForSignal(ScriptId,"<<actid<<","<<_Signalnumber<<")"<<std::endl;
 }
 
 
@@ -379,7 +381,8 @@ save action to lua file
 ***********************************************************/	
 void ActorScriptPart_TeleportTo::WriteExecutionScript(std::ostream & file, long actid)
 {	
-	file<<"Environment:TeleportActorTo(ScriptId, "<<actid<<","<<_PosX<<","<<_PosY<<","<<_PosZ<<")"<<std::endl;
+	file << "Position = LbaVec3("<<_PosX<<","<<_PosY<<","<<_PosZ<<")"<<std::endl;
+	file<<"Environment:TeleportActorTo(ScriptId,"<<actid<<",Position)"<<std::endl;
 }
 
 

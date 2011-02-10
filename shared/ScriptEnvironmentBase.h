@@ -227,6 +227,8 @@ public:
 	//! asynchronus version of WaitForSignal
 	int Async_WaitForSignal(long ActorId, int Signalnumber);
 
+	//! make a lua script sleep for one cycle
+	void WaitOneCycle(int ScriptId);
 
 
 	//! resume a thread given the id
@@ -282,6 +284,8 @@ private:
 	int													m_generatednumber;
 	std::map<int, bool>									m_asyncscripts;
 	std::map<int, bool>									m_waitingscripts;
+
+	std::map<int, int>									m_sleepingscripts;
 };
 
 

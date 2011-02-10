@@ -341,6 +341,15 @@ void ScriptedActor::ProcessScript(double tnow, float tdiff, ScriptEnvironmentBas
 
 
 /***********************************************************
+clear all running scripts
+***********************************************************/
+void ScriptedActor::ClearAllScripts()
+{
+	_currentScripts.clear();
+}
+
+
+/***********************************************************
 used by lua to move an actor or player
 if id < 1 then it moves players
 the actor will move using animation speed

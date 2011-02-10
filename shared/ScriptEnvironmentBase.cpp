@@ -81,31 +81,53 @@ check for finished asynchronus scripts
 ***********************************************************/
 void ScriptEnvironmentBase::CheckFinishedAsynScripts()
 {
-	std::map<int, bool>::iterator itmap = m_waitingscripts.begin();
-	while(itmap != m_waitingscripts.end())
+	// check waiting scripts
 	{
-		bool erase = false;
-
-		std::map<int, bool>::iterator its =	m_asyncscripts.find(itmap->first);
-		if(its != m_asyncscripts.end())
+		std::map<int, bool>::iterator itmap = m_waitingscripts.begin();
+		while(itmap != m_waitingscripts.end())
 		{
-			if(its->second == true)
+			bool erase = false;
+
+			std::map<int, bool>::iterator its =	m_asyncscripts.find(itmap->first);
+			if(its != m_asyncscripts.end())
 			{
+				if(its->second == true)
+				{
+					erase = true;
+					m_asyncscripts.erase(its);
+				}
+			}
+			else
 				erase = true;
-				m_asyncscripts.erase(its);
+
+			if(erase)
+			{
+				ResumeThread(itmap->first);
+				itmap = m_waitingscripts.erase(itmap);
+			}
+			else
+				++itmap;
+		}
+	}
+
+	// check sleeping scripts
+	{
+		std::map<int, int>::iterator itmaps = m_sleepingscripts.begin();
+		while(itmaps != m_sleepingscripts.end())
+		{
+			itmaps->second++;
+			if(itmaps->second > 3)
+			{
+				ResumeThread(itmaps->first);
+				itmaps = m_sleepingscripts.erase(itmaps);
+			}
+			else
+			{
+				++itmaps;
 			}
 		}
-		else
-			erase = true;
-
-		if(erase)
-		{
-			ResumeThread(itmap->first);
-			itmap = m_waitingscripts.erase(itmap);
-		}
-		else
-			++itmap;
 	}
+	
 }
 
 
@@ -178,6 +200,13 @@ int ScriptEnvironmentBase::Async_WaitForSignal(long ActorId, int Signalnumber)
 }
 
 
+/***********************************************************
+make a lua script sleep for one cycle
+***********************************************************/
+void ScriptEnvironmentBase::WaitOneCycle(int scriptid)
+{
+	m_sleepingscripts[scriptid] = 0;
+}
 
 
 /***********************************************************
