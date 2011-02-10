@@ -751,6 +751,7 @@ QWidget *CustomDelegate::createEditor(QWidget *parent, const QStyleOptionViewIte
 		QDoubleSpinBox *editor = new QDoubleSpinBox(parent);
 		editor->setMinimum(-100000);
 		editor->setMaximum(100000);
+		editor->setDecimals(4);
 		editor->setSingleStep(0.1);
 		connect(editor, SIGNAL(	valueChanged(double)) , this, SLOT(objmodified2(double)));
 		return editor;
@@ -1070,7 +1071,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	_special_itemlistmodel->setStringList(special_iteml);
 
 	QStringList scptypel;
-	scptypel << "Remove" << "ASPFollowWaypoint" << "ASPWalkGoTo" << "ASPWalkStraightTo" << "ASPPlayAnimation" << "ASPRotate" 
+	scptypel << "Remove" << "ASPFollowWaypoint" << "ASPGoTo" << "ASPWalkStraightTo" << "ASPPlayAnimation" << "ASPRotate" 
 			<< "ASPChangeAnimation" << "ASPChangeModel" << "ASPChangeOutfit" << "ASPChangeWeapon" 
 			<< "ASPChangeMode" << "ASPWaitForSignal" << "ASPSendSignal" << "ASPTeleportTo" << "ASPCustom";
 	_actorscriptparttypeList->setStringList(scptypel);
@@ -6186,7 +6187,89 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 			}
 		}
 
-		
+
+		//update scripts
+		if(ainfo.PhysicDesc.TypePhysO == LbaNet::KynematicAType)
+		{
+
+			QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
+			int curridx = 0;
+
+			//take care of the items
+			const std::vector<ActorScriptPartBasePtr> & items = it->second->GetScript();
+			std::vector<ActorScriptPartBasePtr>::const_iterator itit = items.begin();
+			for(int cc=0; itit != items.end(); ++itit, ++cc)
+			{
+				QModelIndex childidx = _objectmodel->GetIndex(0, curridx, itemparent);
+				std::string type = _objectmodel->data(_objectmodel->GetIndex(1, curridx, itemparent))
+																		.toString().toAscii().data();
+				++curridx;
+				if(type != (*itit)->GetTypeName())
+				{
+					if(type == "Remove")
+					{
+						it->second->RemoveScriptPart(*itit);
+					}
+					else
+					{
+						ActorScriptPartBasePtr newsp = ActorScriptPartBase::BuildScriptPart(type, _posX, _posY, _posZ);
+						if(newsp)
+							it->second->ReplaceScriptPart(*itit, newsp);
+					}
+
+					updateobj = true;
+					break;
+				}
+				else
+				{
+					int position = _objectmodel->data(_objectmodel->GetIndex(1, 0, childidx)).toInt();
+					if(position < 0)
+						position = 0;
+					if(position >= (int)items.size())
+						position = (int)items.size()-1;
+
+					if(position != cc)
+					{
+						it->second->UpdateScriptPosition(*itit, position);
+						updateobj = true;
+						break;
+					}
+
+					(*itit)->UpdateFromQt(_objectmodel, childidx, 1);
+				}
+			}
+
+			if(!updateobj)
+			{
+				QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+				std::string type = _objectmodel->data(childidx).toString().toAscii().data();
+				if(type != "Add new...")
+				{
+					if(type == "Remove")
+					{
+						_objectmodel->setData(childidx, "Add new...");
+						return;
+					}
+					else
+					{
+						//build new script part
+						ActorScriptPartBasePtr newsp = ActorScriptPartBase::BuildScriptPart(type, _posX, _posY, _posZ);
+						if(newsp)
+						{
+							it->second->AddScriptPart(newsp);
+							updateobj = true;
+						}
+						else
+						{
+							_objectmodel->setData(childidx, "Add new...");
+							return;
+						}
+					}
+				}
+			}
+		}
+
+
 		{
 		LbaNet::PhysicalActorType before = ainfo.PhysicDesc.TypePhysO;
 		std::string type = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toString().toAscii().data();
@@ -6229,77 +6312,6 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 			ainfo.PhysicDesc.TypeShape = LbaNet::TriangleMeshShape;
 		if(beforep != ainfo.PhysicDesc.TypeShape)
 			updateobj = true;
-		}
-
-
-
-		//update scripts
-		{
-
-			QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
-			int curridx = 0;
-
-			//take care of the items
-			const std::vector<ActorScriptPartBasePtr> & items = it->second->GetScript();
-			std::vector<ActorScriptPartBasePtr>::const_iterator itit = items.begin();
-			for(int cc=0; itit != items.end(); ++itit, ++cc)
-			{
-				QModelIndex childidx = _objectmodel->GetIndex(0, curridx, itemparent);
-				std::string type = _objectmodel->data(_objectmodel->GetIndex(1, curridx, itemparent))
-																		.toString().toAscii().data();
-				++curridx;
-
-
-				if(type == "Remove")
-				{
-					it->second->RemoveScriptPart(*itit);
-					updateobj = true;
-					break;
-				}
-				else
-				{
-					int position = _objectmodel->data(_objectmodel->GetIndex(1, 0, childidx)).toInt();
-					if(position < 0)
-						position = 0;
-					if(position >= (int)items.size())
-						position = (int)items.size()-1;
-
-					if(position != cc)
-					{
-						it->second->UpdateScriptPosition(*itit, position);
-						updateobj = true;
-						break;
-					}
-
-					(*itit)->UpdateFromQt(_objectmodel, _objectmodel->GetIndex(1, 0, childidx), 1);
-				}
-			}
-
-			QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
-			std::string type = _objectmodel->data(childidx).toString().toAscii().data();
-			if(type != "Add new...")
-			{
-				if(type == "Remove")
-				{
-					_objectmodel->setData(childidx, "Add new...");
-					return;
-				}
-				else
-				{
-					//build new script part
-					ActorScriptPartBasePtr newsp = ActorScriptPartBase::BuildScriptPart(type, _posX, _posY, _posZ);
-					if(newsp)
-					{
-						it->second->AddScriptPart(newsp);
-						updateobj = true;
-					}
-					else
-					{
-						_objectmodel->setData(childidx, "Add new...");
-						return;
-					}
-				}
-			}
 		}
 
 
