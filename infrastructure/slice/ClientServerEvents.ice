@@ -202,6 +202,18 @@ module LbaNet
 	class PlayerItemUsedEvent extends ClientServerEventBase
 	{
 		long 				ItemId;
+	};
+	
+	
+	
+	// server inform other that a npc moved
+	class NpcMovedEvent extends ClientServerEventBase
+	{
+		long			NpcId;
+		PlayerMoveInfo		info;
+		
+		// indicate that the npc teleported
+		bool			Teleport;	
 	};	
 };	
 
