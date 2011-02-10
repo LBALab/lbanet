@@ -34,6 +34,16 @@ typedef boost::shared_ptr<ActorScriptPartBase> ActorScriptPartBasePtr;
 #include <string>
 
 
+#ifdef _USE_QT_EDITOR_
+#include <QAbstractTableModel>
+#include <QObject>
+#include "treemodel.h"
+#include <QtCore/QVariant>
+#include <QModelIndex>
+#include <QVector>
+#endif
+
+
 
 //! base class used as an actor script
 class ActorScriptPartBase
@@ -53,6 +63,20 @@ public:
 	// save script to lua file
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name){}
 
+
+	// save script to lua file
+	virtual void WriteExecutionScript(std::ostream & file, long actid){}
+
+#ifdef _USE_QT_EDITOR_
+	// use by the editor
+	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx){}
+
+	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx){}
+#endif
+
+
+	static ActorScriptPartBasePtr BuildScriptPart(const std::string & type, 
+													float sPosX, float sPosY, float sPosZ);
 };
 
 
@@ -76,6 +100,15 @@ public:
 	// save action to lua file
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
+	// save script to lua file
+	virtual void WriteExecutionScript(std::ostream & file, long actid);
+
+#ifdef _USE_QT_EDITOR_
+	// use by the editor
+	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
+
+	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+#endif
 
 private:
 	float	_PosX;
@@ -105,6 +138,17 @@ public:
 	// save action to lua file
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
+	// save script to lua file
+	virtual void WriteExecutionScript(std::ostream & file, long actid);
+
+#ifdef _USE_QT_EDITOR_
+	// use by the editor
+	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
+
+	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+#endif
+
+
 
 private:
 	float	_PosX;
@@ -133,6 +177,17 @@ public:
 	// save action to lua file
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
+	// save script to lua file
+	virtual void WriteExecutionScript(std::ostream & file, long actid);
+
+#ifdef _USE_QT_EDITOR_
+	// use by the editor
+	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
+
+	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+#endif
+
+
 
 private:
 	bool	_AnimationMove;
@@ -160,6 +215,17 @@ public:
 
 	// save action to lua file
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+
+	// save script to lua file
+	virtual void WriteExecutionScript(std::ostream & file, long actid);
+
+#ifdef _USE_QT_EDITOR_
+	// use by the editor
+	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
+
+	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+#endif
+
 
 
 private:
@@ -190,6 +256,17 @@ public:
 	// save action to lua file
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
+	// save script to lua file
+	virtual void WriteExecutionScript(std::ostream & file, long actid);
+
+#ifdef _USE_QT_EDITOR_
+	// use by the editor
+	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
+
+	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+#endif
+
+
 
 private:
 	std::string		_Animationstring;
@@ -214,6 +291,17 @@ public:
 
 	// save action to lua file
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+
+	// save script to lua file
+	virtual void WriteExecutionScript(std::ostream & file, long actid);
+
+#ifdef _USE_QT_EDITOR_
+	// use by the editor
+	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
+
+	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+#endif
+
 
 
 private:
@@ -240,6 +328,17 @@ public:
 	// save action to lua file
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
+	// save script to lua file
+	virtual void WriteExecutionScript(std::ostream & file, long actid);
+
+#ifdef _USE_QT_EDITOR_
+	// use by the editor
+	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
+
+	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+#endif
+
+
 
 private:
 	std::string		_Name;
@@ -264,6 +363,17 @@ public:
 
 	// save action to lua file
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+
+	// save script to lua file
+	virtual void WriteExecutionScript(std::ostream & file, long actid);
+
+#ifdef _USE_QT_EDITOR_
+	// use by the editor
+	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
+
+	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+#endif
+
 
 
 private:
@@ -291,6 +401,17 @@ public:
 	// save action to lua file
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
+	// save script to lua file
+	virtual void WriteExecutionScript(std::ostream & file, long actid);
+
+#ifdef _USE_QT_EDITOR_
+	// use by the editor
+	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
+
+	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+#endif
+
+
 
 private:
 	std::string		_Name;
@@ -316,6 +437,17 @@ public:
 
 	// save action to lua file
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+
+	// save script to lua file
+	virtual void WriteExecutionScript(std::ostream & file, long actid);
+
+#ifdef _USE_QT_EDITOR_
+	// use by the editor
+	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
+
+	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+#endif
+
 
 
 private:
@@ -344,10 +476,60 @@ public:
 	// save action to lua file
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
+	// save script to lua file
+	virtual void WriteExecutionScript(std::ostream & file, long actid);
+
+#ifdef _USE_QT_EDITOR_
+	// use by the editor
+	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
+
+	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+#endif
+
+
 
 private:
 	int		_Signalnumber;
 	long	_ActorId;
+};
+
+
+
+//! use to start a script on client side
+class ActorScriptPart_TeleportTo : public ActorScriptPartBase
+{
+public:
+	//! constructor
+	ActorScriptPart_TeleportTo(float PosX, float PosY, float PosZ);
+	
+	//! destructor
+	virtual ~ActorScriptPart_TeleportTo(){}
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "ASPTeleportTo"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+
+	// save script to lua file
+	virtual void WriteExecutionScript(std::ostream & file, long actid);
+
+#ifdef _USE_QT_EDITOR_
+	// use by the editor
+	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
+
+	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+#endif
+
+
+
+private:
+	float	_PosX;
+	float	_PosY;
+	float	_PosZ;
 };
 
 
@@ -373,10 +555,24 @@ public:
 	// save action to lua file
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
+	// save script to lua file
+	virtual void WriteExecutionScript(std::ostream & file, long actid);
+
+#ifdef _USE_QT_EDITOR_
+	// use by the editor
+	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
+
+	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+#endif
+
+
 
 private:
 	std::string		_fctName;
 };
+
+
+
 
 
 #endif

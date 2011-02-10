@@ -159,6 +159,78 @@ protected:
 
 
 
+
+
+
+/***********************************************************************
+ * Module:  ScriptedActor.h
+ * Author:  vivien
+ * Purpose: Declaration of the class GoToScriptPart
+ ***********************************************************************/
+class GoToScriptPart : public ScriptPartBase
+{
+public:
+
+	//! constructor
+	GoToScriptPart(int scriptid, bool asynchronus, float PosX, float PosY, float PosZ,
+								float Speed, boost::shared_ptr<DynamicObject> actor);
+
+	//! destructor
+	virtual ~GoToScriptPart(){}
+
+
+	//! process script part
+	//! return true if finished
+	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor);
+
+protected:
+	float	_PosX;
+	float	_PosY;
+	float	_PosZ;
+	float	_Speed;
+
+	float	_StartPosX;
+	float	_StartPosY;
+	float	_StartPosZ;
+
+	float	_distance;
+	float	_distanceDone;
+};
+
+
+
+
+
+/***********************************************************************
+ * Module:  ScriptedActor.h
+ * Author:  vivien
+ * Purpose: Declaration of the class GoToScriptPart
+ ***********************************************************************/
+class WaitForSignalScriptPart : public ScriptPartBase
+{
+public:
+
+	//! constructor
+	WaitForSignalScriptPart(int scriptid, bool asynchronus, int SignalId);
+
+	//! destructor
+	virtual ~WaitForSignalScriptPart(){}
+
+
+	//! process script part
+	//! return true if finished
+	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor);
+
+protected:
+	int		_SignalId;
+};
+
+
+
+
+
+
+
 /***********************************************************************
  * Module:  ScriptedActor.h
  * Author:  vivien
@@ -190,6 +262,16 @@ public:
 	//! used by lua to wait until an actor animation is finished
 	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
 	void ActorAnimate(int ScriptId, bool asynchronus, bool AnimationMove);
+
+	
+	//! used by lua to move an actor or player
+	//! the actor will move using speed
+	void ActorGoTo(int ScriptId, float PosX, float PosY, float PosZ, float Speed, bool asynchronus);
+	
+
+		//! used by lua to move an actor or player
+	//! the actor will wait for signal
+	void ActorWaitForSignal(int ScriptId, int Signalnumber, bool asynchronus);
 
 
 protected:

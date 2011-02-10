@@ -208,6 +208,95 @@ bool RotateScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<Dynam
 
 
 
+
+
+/***********************************************************
+constructor
+***********************************************************/
+GoToScriptPart::GoToScriptPart(int scriptid, bool asynchronus, 
+												   float PosX, float PosY, float PosZ, 
+													float Speed, boost::shared_ptr<DynamicObject> actor)
+	: ScriptPartBase(scriptid, asynchronus), _PosX(PosX), _PosY(PosY), _PosZ(PosZ), _Speed(Speed)
+{
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = actor->GetPhysicalObject();
+	physo->GetPosition(_StartPosX, _StartPosY, _StartPosZ);
+
+	float diffX = (_PosX - _StartPosX);
+	float diffY = (_PosY - _StartPosY);
+	float diffZ = (_PosZ - _StartPosZ);
+	_distance = (diffX*diffX) + (diffY*diffY) + (diffZ*diffZ);
+	_distance = sqrt(_distance);
+
+	_distanceDone = 0;
+}
+
+
+/***********************************************************
+process script part
+return true if finished
+***********************************************************/
+bool GoToScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor)
+{
+	// proces with animation
+	actor->Process(tnow, tdiff);
+
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = actor->GetPhysicalObject();
+	boost::shared_ptr<DisplayObjectHandlerBase> disso = actor->GetDisplayObject();
+
+
+	// check if we arrive at destination
+	if(abs(_distance-_distanceDone) < 0.01)
+		return true;
+
+
+	// get speed
+	_distanceDone += (_Speed) * tdiff;
+	if(_distanceDone > _distance)
+		_distanceDone = _distance;
+
+	float ratio = (_distanceDone / _distance);
+
+	float curPosX = (_PosX*ratio) + (_StartPosX*(1-ratio));
+	float curPosY = (_PosY*ratio) + (_StartPosY*(1-ratio));
+	float curPosZ = (_PosZ*ratio) + (_StartPosZ*(1-ratio));
+
+	physo->MoveTo(curPosX, curPosY, curPosZ);
+
+
+	return false;
+}
+
+
+
+
+
+
+
+/***********************************************************
+constructor
+***********************************************************/
+WaitForSignalScriptPart::WaitForSignalScriptPart(int scriptid, bool asynchronus, int SignalId)
+	: ScriptPartBase(scriptid, asynchronus), _SignalId(SignalId)
+{
+}
+
+
+/***********************************************************
+process script part
+return true if finished
+***********************************************************/
+bool WaitForSignalScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor)
+{
+	// proces with animation
+	actor->Process(tnow, tdiff);
+
+	return actor->ReceivedSignal(_SignalId);
+}
+
+
+
+
+
 /***********************************************************
 	Constructor
 ***********************************************************/
@@ -285,4 +374,31 @@ void ScriptedActor::ActorAnimate(int ScriptId, bool asynchronus, bool AnimationM
 {
 	_currentScripts.push_back(boost::shared_ptr<ScriptPartBase>(
 						new PlayAnimationScriptPart(ScriptId, asynchronus, AnimationMove)));
+}
+
+
+
+
+
+/***********************************************************
+//! used by lua to move an actor or player
+//! the actor will move using speed
+***********************************************************/
+void ScriptedActor::ActorGoTo(int ScriptId, float PosX, float PosY, float PosZ, float Speed, bool asynchronus)
+{
+	_currentScripts.push_back(boost::shared_ptr<ScriptPartBase>(
+						new GoToScriptPart(ScriptId, asynchronus, PosX, PosY, PosZ, Speed, _character)));
+}
+	
+
+
+
+/***********************************************************
+//! used by lua to move an actor or player
+//! the actor will wait for signal
+***********************************************************/
+void ScriptedActor::ActorWaitForSignal(int ScriptId, int Signalnumber, bool asynchronus)
+{
+	_currentScripts.push_back(boost::shared_ptr<ScriptPartBase>(
+						new WaitForSignalScriptPart(ScriptId, asynchronus, Signalnumber)));
 }

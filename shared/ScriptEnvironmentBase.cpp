@@ -151,6 +151,34 @@ int ScriptEnvironmentBase::Async_ActorAnimate(long ActorId, bool AnimationMove)
 }
 
 
+/***********************************************************
+asynchronus version of ActorGoTo
+***********************************************************/
+int ScriptEnvironmentBase::Async_ActorGoTo(long ActorId, const LbaVec3 &Position, float Speed)
+{
+	int genid = m_generatednumber++;	
+
+	InternalActorGoTo(genid, ActorId, Position, Speed, true);
+
+	m_asyncscripts[genid] = false;
+	return genid;
+}
+
+/***********************************************************
+asynchronus version of WaitForSignal
+***********************************************************/
+int ScriptEnvironmentBase::Async_WaitForSignal(long ActorId, int Signalnumber)
+{
+	int genid = m_generatednumber++;	
+
+	InternalActorWaitForSignal(genid, ActorId, Signalnumber, true);
+
+	m_asyncscripts[genid] = false;
+	return genid;
+}
+
+
+
 
 /***********************************************************
 resume a thread given the id

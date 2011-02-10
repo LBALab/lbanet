@@ -155,6 +155,42 @@ public:
 
 
 
+	//! used by lua to move an actor or player
+	//! the actor will move using animation speed
+	void ActorGoTo(int ScriptId, long ActorId, const LbaVec3 &Position, float Speed)
+	{InternalActorGoTo(ScriptId, ActorId, Position, Speed, false);}
+
+
+	//! used by lua to move an actor or player
+	//! the actor will change model
+	virtual void UpdateActorModel(long ActorId, const std::string & Name) = 0;
+
+	//! used by lua to move an actor or player
+	//! the actor will change outfit
+	virtual void UpdateActorOutfit(long ActorId, const std::string & Name) = 0;
+
+	//! used by lua to move an actor or player
+	//! the actor will change weapon
+	virtual void UpdateActorWeapon(long ActorId, const std::string & Name) = 0;
+
+
+	//! used by lua to move an actor or player
+	//! the actor will move using animation speed
+	void ActorWaitForSignal(int ScriptId, long ActorId, int Signalnumber)
+	{InternalActorWaitForSignal(ScriptId, ActorId, Signalnumber, false);}
+
+	//! used by lua to move an actor or player
+	//! the actor will change mode
+	virtual void SendSignalToActor(long ActorId, int Signalnumber) = 0;
+
+
+	//! used by lua to move an actor or player
+	//! the actor will move using animation speed
+	virtual void TeleportActorTo(int ScriptId, long ActorId, const LbaVec3 &Position) = 0;
+
+
+	
+
 	//! execute lua script given as a string
 	void ExecuteScriptString( const std::string &ScriptString );
 
@@ -185,6 +221,13 @@ public:
 	//! asynchronus version of ActorAnimate
 	int Async_ActorAnimate(long ActorId, bool AnimationMove);
 
+	//! asynchronus version of ActorGoTo
+	int Async_ActorGoTo(long ActorId, const LbaVec3 &Position, float Speed);
+
+	//! asynchronus version of WaitForSignal
+	int Async_WaitForSignal(long ActorId, int Signalnumber);
+
+
 
 	//! resume a thread given the id
 	void ResumeThread(int scriptid);
@@ -211,6 +254,17 @@ protected:
 	//! used by lua to wait until an actor animation is finished
 	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
 	virtual void InternalActorAnimate(int ScriptId, long ActorId, bool AnimationMove, bool asynchronus = false) = 0;
+
+
+	//! used by lua to move an actor or player
+	//! the actor will move using speed
+	virtual void InternalActorGoTo(int ScriptId, long ActorId, const LbaVec3 &Position, float Speed, bool asynchronus = false) = 0;
+	
+
+		//! used by lua to move an actor or player
+	//! the actor will wait for signal
+	virtual void InternalActorWaitForSignal(int ScriptId, long ActorId, int Signalnumber, bool asynchronus = false) = 0;
+
 
 
 
