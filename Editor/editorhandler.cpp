@@ -1026,7 +1026,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	_text_mapNameList(new CustomStringListModel()), _text_questNameList(new CustomStringListModel()),
 	_text_inventoryNameList(new CustomStringListModel()), _text_nameNameList(new CustomStringListModel()),
 	_itemNameList(new CustomStringListModel()), _consumable_itemlistmodel(new CustomStringListModel()),
-	_mount_itemlistmodel(new CustomStringListModel()), _special_itemlistmodel(new CustomStringListModel())
+	_mount_itemlistmodel(new CustomStringListModel()), _special_itemlistmodel(new CustomStringListModel()),
+	_actorscriptparttypeList(new CustomStringListModel())
 {
 	QStringList actlist;
 	actlist << "Static" << "Scripted" << "Movable";
@@ -1068,6 +1069,11 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	special_iteml << "Letter writer";
 	_special_itemlistmodel->setStringList(special_iteml);
 
+	QStringList scptypel;
+	scptypel << "Remove" << "ASPFollowWaypoint" << "ASPWalkGoTo" << "ASPWalkStraightTo" << "ASPPlayAnimation" << "ASPRotate" 
+			<< "ASPChangeAnimation" << "ASPChangeModel" << "ASPChangeOutfit" << "ASPChangeWeapon" 
+			<< "ASPChangeMode" << "ASPWaitForSignal" << "ASPSendSignal" << "ASPTeleportTo" << "ASPCustom";
+	_actorscriptparttypeList->setStringList(scptypel);
 	
 	_uieditor.setupUi(this);
 
@@ -5856,6 +5862,47 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 			}
 		}
 
+
+		// add script
+		if(ainfo.PhysicDesc.TypePhysO == LbaNet::KynematicAType)
+		{
+			QVector<QVariant> data;
+			data << "Script" << "";
+			QModelIndex idx = _objectmodel->AppendRow(data, parent, true);	
+
+			const std::vector<ActorScriptPartBasePtr> & items = it->second->GetScript();
+			for(size_t i=0; i<items.size(); ++i)
+			{
+				ActorScriptPartBasePtr scpart = items[i];
+
+				QVector<QVariant> datait;
+				datait << "Script part" << scpart->GetTypeName().c_str();
+				QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+
+				//add position
+				{
+					QVector<QVariant> datachild;
+					datachild << "Position in Script" << (int)i;
+					QModelIndex idx1 = _objectmodel->AppendRow(datachild, idxit);	
+				}
+
+				scpart->WriteToQt(_objectmodel, idxit);
+
+				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _actorscriptparttypeList);	
+			}
+
+			// add new item
+			QVector<QVariant> datait;
+			datait << "Script part" << "Add new...";
+			QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _actorscriptparttypeList);	
+		
+		
+			_uieditor.treeView_object->setExpanded(idx, true); // expand 
+		}
+
+
+
 		UpdateSelectedActorDisplay(ainfo.PhysicDesc);
 		osg::Vec3 center = _actornode->computeBound().center();
 		DrawArrows(center.x(), center.y(), center.z());
@@ -6185,8 +6232,81 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 		}
 
 
+
+		//update scripts
+		{
+
+			QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
+			int curridx = 0;
+
+			//take care of the items
+			const std::vector<ActorScriptPartBasePtr> & items = it->second->GetScript();
+			std::vector<ActorScriptPartBasePtr>::const_iterator itit = items.begin();
+			for(int cc=0; itit != items.end(); ++itit, ++cc)
+			{
+				QModelIndex childidx = _objectmodel->GetIndex(0, curridx, itemparent);
+				std::string type = _objectmodel->data(_objectmodel->GetIndex(1, curridx, itemparent))
+																		.toString().toAscii().data();
+				++curridx;
+
+
+				if(type == "Remove")
+				{
+					it->second->RemoveScriptPart(*itit);
+					updateobj = true;
+					break;
+				}
+				else
+				{
+					int position = _objectmodel->data(_objectmodel->GetIndex(1, 0, childidx)).toInt();
+					if(position < 0)
+						position = 0;
+					if(position >= (int)items.size())
+						position = (int)items.size()-1;
+
+					if(position != cc)
+					{
+						it->second->UpdateScriptPosition(*itit, position);
+						updateobj = true;
+						break;
+					}
+
+					(*itit)->UpdateFromQt(_objectmodel, _objectmodel->GetIndex(1, 0, childidx), 1);
+				}
+			}
+
+			QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+			std::string type = _objectmodel->data(childidx).toString().toAscii().data();
+			if(type != "Add new...")
+			{
+				if(type == "Remove")
+				{
+					_objectmodel->setData(childidx, "Add new...");
+					return;
+				}
+				else
+				{
+					//build new script part
+					ActorScriptPartBasePtr newsp = ActorScriptPartBase::BuildScriptPart(type, _posX, _posY, _posZ);
+					if(newsp)
+					{
+						it->second->AddScriptPart(newsp);
+						updateobj = true;
+					}
+					else
+					{
+						_objectmodel->setData(childidx, "Add new...");
+						return;
+					}
+				}
+			}
+		}
+
+
+
 		//inform server
 		it->second->Refresh();
+		it->second->ClearRunningScript();
 		std::string mapname = _uieditor.label_mapname->text().toAscii().data();
 		EditorUpdateBasePtr update = new UpdateEditor_AddOrModActor(it->second);
 		SharedDataHandler::getInstance()->EditorUpdate(mapname, update);

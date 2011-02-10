@@ -419,6 +419,41 @@ public:
 	//! called when a script has finished
 	virtual void ScriptFinished(int scriptid, const std::string & functioname){}
 
+
+
+	//! used by lua to move an actor or player
+	//! the actor will change model
+	virtual void UpdateActorModel(long ActorId, const std::string & Name){}
+
+	//! used by lua to move an actor or player
+	//! the actor will change outfit
+	virtual void UpdateActorOutfit(long ActorId, const std::string & Name){}
+
+	//! used by lua to move an actor or player
+	//! the actor will change weapon
+	virtual void UpdateActorWeapon(long ActorId, const std::string & Name){}
+
+	//! used by lua to move an actor or player
+	//! the actor will change mode
+	virtual void SendSignalToActor(long ActorId, int Signalnumber){}
+
+
+	//! used by lua to move an actor or player
+	//! the actor will move using animation speed
+	void TeleportActorTo(int ScriptId, long ActorId, const LbaVec3 &Position){}
+
+
+	//! used by lua to move an actor or player
+	//! the actor will move using speed
+	virtual void InternalActorGoTo(int ScriptId, long ActorId, const LbaVec3 &Position, 
+										float Speed, bool asynchronus = false){}
+	
+
+		//! used by lua to move an actor or player
+	//! the actor will wait for signal
+	virtual void InternalActorWaitForSignal(int ScriptId, long ActorId, int Signalnumber, 
+										bool asynchronus = false){}
+
 public slots:
 	 //! ui button clicked
      void addtrigger_button_clicked();
@@ -952,6 +987,8 @@ private:
 	boost::shared_ptr<CustomStringListModel>							_consumable_itemlistmodel;
 	boost::shared_ptr<CustomStringListModel>							_mount_itemlistmodel;
 	boost::shared_ptr<CustomStringListModel>							_special_itemlistmodel;
+
+	boost::shared_ptr<CustomStringListModel>							_actorscriptparttypeList;
 
 
 	GraphicsWindowQt *									_osgwindow;
