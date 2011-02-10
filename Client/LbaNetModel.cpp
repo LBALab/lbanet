@@ -825,7 +825,7 @@ void LbaNetModel::NpcMovedUpdate(Ice::Long NpcId, double updatetime,
 									bool teleport)
 {
 	std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find((long)NpcId);
-	if(it != _playerObjects.end())
+	if(it != _npcObjects.end())
 	{
 		it->second->UpdateMove(updatetime, info, teleport);
 	}
