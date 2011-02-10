@@ -186,8 +186,55 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("AddColorSwap", &ActorObjectInfo::AddColorSwap)
 		,
 
+
+		luabind::class_<ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ActorScriptPartBase")
+		.def(luabind::constructor<>()),
+
+		luabind::class_<ActorScriptPart_GoTo, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPWalkGoTo")
+		.def(luabind::constructor<float, float, float, float>()),
+
+		luabind::class_<ActorScriptPart_WalkStraightTo, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPWalkStraightTo")
+		.def(luabind::constructor<float, float, float>()),
+
+		luabind::class_<ActorScriptPart_PlayAnimation, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPPlayAnimation")
+		.def(luabind::constructor<bool>()),
+
+		luabind::class_<ActorScriptPart_Rotate, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPRotate")
+		.def(luabind::constructor<float, float, bool>()),
+
+		luabind::class_<ActorScriptPart_ChangeAnimation, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPChangeAnimation")
+		.def(luabind::constructor<const std::string &>()),
+
+		luabind::class_<ActorScriptPart_ChangeModel, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPChangeModel")
+		.def(luabind::constructor<const std::string &>()),
+
+		luabind::class_<ActorScriptPart_ChangeOutfit, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPChangeOutfit")
+		.def(luabind::constructor<const std::string &>()),
+
+		luabind::class_<ActorScriptPart_ChangeWeapon, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPChangeWeapon")
+		.def(luabind::constructor<const std::string &>()),
+
+		luabind::class_<ActorScriptPart_ChangeMode, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPChangeMode")
+		.def(luabind::constructor<const std::string &>()),
+
+		luabind::class_<ActorScriptPart_WaitForSignal, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPWaitForSignal")
+		.def(luabind::constructor<int>()),
+
+		luabind::class_<ActorScriptPart_SendSignal, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPSendSignal")
+		.def(luabind::constructor<int, long>()),
+
+		luabind::class_<ActorScriptPart_TeleportTo, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPTeleportTo")
+		.def(luabind::constructor<float, float, float>()),
+
+		luabind::class_<ActorScriptPart_Custom, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPCustom")
+		.def(luabind::constructor<const std::string &>()),
+
+
+
 		luabind::class_<ActorHandler, boost::shared_ptr<ActorHandler> >("ActorHandler")
-		.def(luabind::constructor<const ActorObjectInfo &>()),
+		.def(luabind::constructor<const ActorObjectInfo &>())
+		.def("AddScriptPart", &ActorHandler::AddScriptPart)
+		,
 
 		luabind::class_<ScriptEnvironmentBase>("ScriptEnvironmentBase")
 		.def("AddActorObject", &ScriptEnvironmentBase::AddActorObject)
@@ -210,7 +257,16 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("Async_ActorAnimate", &ScriptEnvironmentBase::Async_ActorAnimate)
 		.def("WaitForAsyncScript", &ScriptEnvironmentBase::WaitForAsyncScript, luabind::yield)
 		.def("ReserveActor", &ScriptEnvironmentBase::ReserveActor)
-		,
+		.def("ActorGoTo", &ScriptEnvironmentBase::ActorGoTo)
+		.def("UpdateActorModel", &ScriptEnvironmentBase::UpdateActorModel)
+		.def("UpdateActorOutfit", &ScriptEnvironmentBase::UpdateActorOutfit)
+		.def("UpdateActorWeapon", &ScriptEnvironmentBase::UpdateActorWeapon)
+		.def("ActorWaitForSignal", &ScriptEnvironmentBase::ActorWaitForSignal)
+		.def("SendSignalToActor", &ScriptEnvironmentBase::SendSignalToActor)
+		.def("TeleportActorTo", &ScriptEnvironmentBase::TeleportActorTo)
+		.def("Async_ActorGoTo", &ScriptEnvironmentBase::Async_ActorGoTo)
+		.def("Async_WaitForSignal", &ScriptEnvironmentBase::Async_WaitForSignal),
+
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),
 

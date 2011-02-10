@@ -3,7 +3,7 @@
 #include "ScriptEnvironmentBase.h"
 #include "ObjectsDescription.h"
 #include "DynamicObject.h"
-
+#include "SynchronizedTimeHandler.h"
 
 #define	_LBA1_MODEL_ANIMATION_SPEED_	1.8f
 
@@ -450,9 +450,23 @@ destructor
 ***********************************************************/
 ActorHandler::~ActorHandler(void)
 {
+	ClearRunningScript();
+}
+
+
+
+/***********************************************************
+clear the running script
+***********************************************************/
+void ActorHandler::ClearRunningScript()
+{
 	//destroy launched script
 	if(m_launchedscript > 0 && m_scripthandler)
+	{
 		m_scripthandler->StropThread(m_launchedscript);
+	}
+
+	m_launchedscript = -1;
 }
 
 
@@ -477,6 +491,14 @@ void ActorHandler::SetActorInfo(const ActorObjectInfo & ainfo)
 	m_actorinfo.ExtraInfo.Display = false;
 
 	CreateActor();
+
+
+	// update last position
+	_character->GetPhysicalObject()->GetPosition(_lastupdate.CurrentPos.X, 
+													_lastupdate.CurrentPos.Y, 
+													_lastupdate.CurrentPos.Z);
+
+	_lastupdate.CurrentPos.Rotation = _character->GetPhysicalObject()->GetRotationYAxis();
 }
 
 
@@ -539,7 +561,6 @@ void ActorHandler::SaveToLuaFile(std::ofstream & file)
 	}
 
 
-
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.Pos.X = "<<m_actorinfo.PhysicDesc.Pos.X<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.Pos.Y = "<<m_actorinfo.PhysicDesc.Pos.Y<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.Pos.Z = "<<m_actorinfo.PhysicDesc.Pos.Z<<std::endl;
@@ -572,6 +593,20 @@ void ActorHandler::SaveToLuaFile(std::ofstream & file)
 
 
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<"H = ActorHandler(Actor_"<<m_actorinfo.ObjectId<<")"<<std::endl;
+
+
+	// register script
+	for(size_t i=0; i< m_script.size(); ++i)
+	{
+		std::stringstream scname;
+		scname<<"Actor_"<<m_actorinfo.ObjectId<<"_Sc"<<i;
+
+		m_script[i]->SaveToLuaFile(file, scname.str());
+		file<<"\tActor_"<<m_actorinfo.ObjectId<<"H:AddScriptPart("<<scname.str()<<")"<<std::endl;
+	}
+
+
+
 	file<<"\tenvironment:AddActorObject(Actor_"<<m_actorinfo.ObjectId<<"H)"<<std::endl<<std::endl;
 }
 
@@ -665,7 +700,7 @@ void ActorHandler::UpdateActorAnimation(const std::string & AnimationString)
 /***********************************************************
 used by lua to update an actor mode
 ***********************************************************/
-void ActorHandler::UpdateActorMode(const std::string & Mode)
+void ActorHandler::UpdateActorMode(const std::string & Mode, bool updatefromlua)
 {
 	if(_character)
 	{
@@ -675,6 +710,130 @@ void ActorHandler::UpdateActorMode(const std::string & Mode)
 			LbaNet::ModelInfo model = disO->GetCurrentModel(m_paused);
 			model.Mode = Mode;
 			disO->Update(new LbaNet::ModelUpdate(model, false), m_paused);
+
+			if(!updatefromlua || !m_paused)
+				_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
+									SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+									LbaNet::NpcObject, m_actorinfo.ObjectId,
+									new LbaNet::ModelUpdate(model, false)));
+		}
+	}
+}
+
+
+
+/***********************************************************
+update Model
+***********************************************************/
+void ActorHandler::UpdateActorModel(const std::string & Model, bool updatefromlua)
+{
+	if(_character)
+	{
+		boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
+		if(disO)
+		{
+			LbaNet::ModelInfo model = disO->GetCurrentModel(m_paused);
+			model.ModelName = Model;
+			disO->Update(new LbaNet::ModelUpdate(model, false), m_paused);
+
+			if(!updatefromlua || !m_paused)
+				_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
+									SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+									LbaNet::NpcObject, m_actorinfo.ObjectId,
+									new LbaNet::ModelUpdate(model, false)));
+		}
+	}
+}
+
+
+/***********************************************************
+update outfit
+***********************************************************/
+void ActorHandler::UpdateActorOutfit(const std::string & Outfit, bool updatefromlua)
+{
+	if(_character)
+	{
+		boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
+		if(disO)
+		{
+			LbaNet::ModelInfo model = disO->GetCurrentModel(m_paused);
+			model.Outfit = Outfit;
+			disO->Update(new LbaNet::ModelUpdate(model, false), m_paused);
+
+			if(!updatefromlua || !m_paused)
+				_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
+									SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+									LbaNet::NpcObject, m_actorinfo.ObjectId,
+									new LbaNet::ModelUpdate(model, false)));
+		}
+	}
+}
+
+
+/***********************************************************
+update weapon
+***********************************************************/
+void ActorHandler::UpdateActorWeapon(const std::string & Weapon, bool updatefromlua)
+{
+	if(_character)
+	{
+		boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
+		if(disO)
+		{
+			LbaNet::ModelInfo model = disO->GetCurrentModel(m_paused);
+			model.Weapon = Weapon;
+			disO->Update(new LbaNet::ModelUpdate(model, false), m_paused);
+
+			if(!updatefromlua || !m_paused)
+				_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
+									SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+									LbaNet::NpcObject, m_actorinfo.ObjectId,
+									new LbaNet::ModelUpdate(model, false)));
+		}
+	}
+}
+
+
+
+/***********************************************************
+update signal
+***********************************************************/
+void ActorHandler::SendSignal(int Signalnumber)
+{
+	if(_character)
+		_character->AddSignal(Signalnumber);
+
+}
+
+
+
+/***********************************************************
+teleport
+***********************************************************/
+void ActorHandler::TeleportTo(float PosX, float PosY, float PosZ)
+{
+	if(m_paused)
+	{
+		m_saved_X = PosX;
+		m_saved_Y = PosY;
+		m_saved_Z = PosZ;
+	}
+	else
+	{
+		if(_character)
+		{
+			boost::shared_ptr<PhysicalObjectHandlerBase> physO = _character->GetPhysicalObject();
+			if(physO)
+			{
+				physO->SetPosition(PosX, PosY, PosZ);
+				_lastupdate.CurrentPos.X = PosX;
+				_lastupdate.CurrentPos.Y = PosY;
+				_lastupdate.CurrentPos.Z = PosZ;
+
+				// inform clients of the tp
+				_events.push_back(new LbaNet::NpcMovedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+									m_actorinfo.ObjectId, _lastupdate, true));
+			}
 		}
 	}
 }
@@ -695,19 +854,32 @@ void ActorHandler::ScriptFinished(int scriptid, const std::string & functioname)
 /***********************************************************
 process actor
 ***********************************************************/
-void ActorHandler::Process(double tnow, float tdiff)
+std::vector<LbaNet::ClientServerEventBasePtr> ActorHandler::Process(double tnow, float tdiff)
 {
-
 	//TODO - NPC - monster -> target player
 
 
-	if(!m_scripthandler)
-		return;
+	if(m_scripthandler)
+	{
+		if(m_launchedscript < 0 && m_script.size() > 0)
+		{
+			// start script if needed 
+			StartScript();
+		}
 
-	// process script in normal case
-	if(m_launchedscript > 0 && !m_paused)
-		ProcessScript(tnow, tdiff, m_scripthandler);
+		// process script in normal case
+		if(m_launchedscript >= 0 && !m_paused)
+			ProcessScript(tnow, tdiff, m_scripthandler);
 
+
+		// inform all client of the move if needed
+		UpdateServer(tnow, tdiff);
+	}
+
+
+	std::vector<LbaNet::ClientServerEventBasePtr> res;
+	res.swap(_events);
+	return res;
 }
 
 
@@ -800,7 +972,15 @@ void ActorHandler::Resume()
 		{
 			boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
 			if(disO)
+			{
 				disO->RestoreState();
+
+				// inform clients of restoration
+				_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
+									SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+									LbaNet::NpcObject, m_actorinfo.ObjectId,
+									new LbaNet::ModelUpdate(disO->GetCurrentModel(false), false)));
+			}
 
 			// restore physical info
 			boost::shared_ptr<PhysicalObjectHandlerBase> physO = _character->GetPhysicalObject();
@@ -808,6 +988,15 @@ void ActorHandler::Resume()
 			{
 				physO->SetPosition(m_saved_X, m_saved_Y, m_saved_Z);
 				physO->SetRotation(m_saved_Q);	
+
+				_lastupdate.CurrentPos.X = m_saved_X;
+				_lastupdate.CurrentPos.Y = m_saved_Y;
+				_lastupdate.CurrentPos.Z = m_saved_Z;
+				_lastupdate.CurrentPos.Rotation = physO->GetRotationYAxis();
+
+				// inform clients of the tp
+				_events.push_back(new LbaNet::NpcMovedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+											m_actorinfo.ObjectId, _lastupdate, true));
 			}
 		}
 	}
@@ -821,6 +1010,12 @@ add script part to the script
 void ActorHandler::AddScriptPart(ActorScriptPartBasePtr part)
 {
 	m_script.push_back(part);
+
+	if(m_launchedscript >= 0)
+	{
+		ClearRunningScript();
+		CreateActor();
+	}
 }
 
 
@@ -832,14 +1027,160 @@ void ActorHandler::RemoveScriptPart(ActorScriptPartBasePtr part)
 	std::vector<ActorScriptPartBasePtr>::iterator it = std::find(m_script.begin(), m_script.end(), part);
 	if(it != m_script.end())
 		m_script.erase(it);
+
+	if(m_launchedscript >= 0)
+	{
+		ClearRunningScript();
+		CreateActor();
+	}
+}
+
+
+/***********************************************************
+update position of the script
+***********************************************************/
+void ActorHandler::UpdateScriptPosition(ActorScriptPartBasePtr part, int position)
+{
+	std::vector<ActorScriptPartBasePtr>::iterator it = std::find(m_script.begin(), m_script.end(), part);
+	if(it != m_script.end())
+	{
+		ActorScriptPartBasePtr keep = *it;
+		m_script.erase(it);
+
+		std::vector<ActorScriptPartBasePtr>::iterator itinsert = m_script.begin();
+		for(int cc=0; cc<position; ++cc)
+			++itinsert;
+
+		m_script.insert(itinsert, keep);
+	}
+
+	if(m_launchedscript >= 0)
+	{
+		ClearRunningScript();
+		CreateActor();
+	}
 }
 
 
 
+/***********************************************************
+check if we need to send update to server
+***********************************************************/
+void ActorHandler::UpdateServer(double tnow, float tdiff)
+{
+	LbaNet::ClientServerEventBasePtr res = NULL;
+
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+
+	// get current position
+	physo->GetPosition(_currentupdate.CurrentPos.X, 
+							_currentupdate.CurrentPos.Y, 
+							_currentupdate.CurrentPos.Z);
+
+
+	// get current rotation
+	_currentupdate.CurrentPos.Rotation = physo->GetRotationYAxis();
+
+
+	// set speed
+	_currentupdate.CurrentSpeedX = (_currentupdate.CurrentPos.X-_lastupdate.CurrentPos.X) / tdiff;
+	_currentupdate.CurrentSpeedY = (_currentupdate.CurrentPos.Y-_lastupdate.CurrentPos.Y) / tdiff;
+	_currentupdate.CurrentSpeedZ = (_currentupdate.CurrentPos.Z-_lastupdate.CurrentPos.Z) / tdiff;
+
+	//calculate angle speed
+	_currentupdate.CurrentSpeedRotation = (_currentupdate.CurrentPos.Rotation-
+													_lastupdate.CurrentPos.Rotation);
+
+	while(_currentupdate.CurrentSpeedRotation < -180) 
+		_currentupdate.CurrentSpeedRotation += 360;
+	while(_currentupdate.CurrentSpeedRotation > 180) 
+		_currentupdate.CurrentSpeedRotation -= 360;
+
+
+	_currentupdate.CurrentSpeedRotation /= tdiff;
+	
+
+	// set animation
+	_currentupdate.AnimationIdx = _character->GetDisplayObject()->GetCurrentAnimation();
 
 
 
+	// check if we should force the update
+	_currentupdate.ForcedChange = ShouldforceUpdate();
+
+
+	//send to server if needed
+	if(_currentupdate.ForcedChange)
+		_events.push_back(new LbaNet::NpcMovedEvent(tnow, m_actorinfo.ObjectId, _currentupdate, false));
+
+	_lastupdate = _currentupdate;
+
+}
 
 
 
-//TODO - send position to all clients
+/***********************************************************
+check if we should force the update
+***********************************************************/
+bool ActorHandler::ShouldforceUpdate()
+{
+	if(_lastupdate.AnimationIdx != _currentupdate.AnimationIdx)
+		return true;
+
+
+
+	if(abs(_lastupdate.CurrentSpeedX - _currentupdate.CurrentSpeedX) > 0.00001f)
+		return true;
+
+	if(abs(_lastupdate.CurrentSpeedY - _currentupdate.CurrentSpeedY) > 0.00001f)
+		return true;
+
+	if(abs(_lastupdate.CurrentSpeedZ - _currentupdate.CurrentSpeedZ) > 0.00001f)
+		return true;
+
+	if(abs(_lastupdate.CurrentSpeedRotation - _currentupdate.CurrentSpeedRotation) > 0.1f)
+		return true;
+
+
+
+	float diffpos = abs(_lastupdate.CurrentPos.X - _currentupdate.CurrentPos.X) 
+					+ abs(_lastupdate.CurrentPos.Y - _currentupdate.CurrentPos.Y) 
+					+  abs(_lastupdate.CurrentPos.Z - _currentupdate.CurrentPos.Z);
+	if(diffpos > 10)
+		return true;
+
+
+	double diffrot = abs(_lastupdate.CurrentPos.Rotation - _currentupdate.CurrentPos.Rotation);
+	if(diffrot > 10)
+		return true;
+
+
+	return false;
+}
+
+
+
+/***********************************************************
+start script
+***********************************************************/
+void ActorHandler::StartScript()
+{
+	// create lua script
+	std::stringstream fctname;
+	fctname<<"Actor"<<m_actorinfo.ObjectId<<"Script";
+
+	std::stringstream scripts;
+	scripts<<"function "<<fctname.str()<<"(ScriptId, Environment)"<<std::endl;
+
+	for(size_t i=0; i< m_script.size(); ++i)
+		m_script[i]->WriteExecutionScript(scripts, m_actorinfo.ObjectId);
+
+	scripts<<"end"<<std::endl;
+
+
+	// register it
+	m_scripthandler->ExecuteScriptString(scripts.str());
+
+	// start the script
+	m_launchedscript = m_scripthandler->StartScript(fctname.str(), false);
+}

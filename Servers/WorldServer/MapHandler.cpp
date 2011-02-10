@@ -219,7 +219,11 @@ void MapHandler::run()
 			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ita = _Actors.begin();
 			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator enda = _Actors.end();
 			for(; ita != enda; ++ita)
-				ita->second->Process(timetodiff, tdiff);
+			{
+				std::vector<LbaNet::ClientServerEventBasePtr> evta = ita->second->Process(timetodiff, tdiff);
+				for(size_t veci=0; veci < evta.size(); ++veci)
+					_tosendevts.push_back(evta[veci]);
+			}
 		}	
 
 
@@ -2194,7 +2198,7 @@ void MapHandler::UpdateActorMode(long ActorId, const std::string & Mode)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
-		itact->second->UpdateActorMode(Mode);
+		itact->second->UpdateActorMode(Mode, true);
 }
 
 
@@ -2249,4 +2253,108 @@ void MapHandler::ScriptFinished(int scriptid, const std::string & functioname)
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endact = _Actors.end();
 	for(; itact != endact; ++itact)
 		itact->second->ScriptFinished(scriptid, functioname);
+}
+
+
+
+
+/***********************************************************
+	//! used by lua to move an actor or player
+	//! the actor will change model
+***********************************************************/
+void MapHandler::UpdateActorModel(long ActorId, const std::string & Name)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.begin();
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endact = _Actors.end();
+	for(; itact != endact; ++itact)
+		itact->second->UpdateActorModel(Name, true);
+}
+
+
+
+/***********************************************************
+	//! used by lua to move an actor or player
+	//! the actor will change outfit
+***********************************************************/
+void MapHandler::UpdateActorOutfit(long ActorId, const std::string & Name)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.begin();
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endact = _Actors.end();
+	for(; itact != endact; ++itact)
+		itact->second->UpdateActorOutfit(Name, true);
+}
+
+
+
+/***********************************************************
+	//! used by lua to move an actor or player
+	//! the actor will change weapon
+***********************************************************/
+void MapHandler::UpdateActorWeapon(long ActorId, const std::string & Name)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.begin();
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endact = _Actors.end();
+	for(; itact != endact; ++itact)
+		itact->second->UpdateActorWeapon(Name, true);
+}
+
+
+
+/***********************************************************
+	//! used by lua to move an actor or player
+	//! the actor will change mode
+***********************************************************/
+void MapHandler::SendSignalToActor(long ActorId, int Signalnumber)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.begin();
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endact = _Actors.end();
+	for(; itact != endact; ++itact)
+		itact->second->SendSignal(Signalnumber);
+}
+
+
+
+
+
+/***********************************************************
+//! used by lua to move an actor or player
+//! the actor will move using animation speed
+***********************************************************/
+void MapHandler::TeleportActorTo(int ScriptId, long ActorId, const LbaVec3 &Position)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.begin();
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endact = _Actors.end();
+	for(; itact != endact; ++itact)
+		itact->second->TeleportTo(Position.x, Position.y, Position.z);
+}
+
+
+
+
+/***********************************************************
+	//! used by lua to move an actor or player
+	//! the actor will move using speed
+***********************************************************/
+void MapHandler::InternalActorGoTo(int ScriptId, long ActorId, const LbaVec3 &Position, 
+										float Speed, bool asynchronus)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.begin();
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endact = _Actors.end();
+	for(; itact != endact; ++itact)
+		itact->second->ActorGoTo(ScriptId, Position.x, Position.y, Position.z, Speed, asynchronus);
+}
+	
+
+
+/***********************************************************
+	//! used by lua to move an actor or player
+	//! the actor will wait for signal
+***********************************************************/
+void MapHandler::InternalActorWaitForSignal(int ScriptId, long ActorId, int Signalnumber, 
+												bool asynchronus)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.begin();
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endact = _Actors.end();
+	for(; itact != endact; ++itact)
+		itact->second->ActorWaitForSignal(ScriptId, Signalnumber, asynchronus);
 }

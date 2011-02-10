@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ScriptedActor.h"
 #include "CommonTypes.h"
 #include "ActorScriptPart.h"
+#include <ClientServerEvents.h>
 
 /***********************************************************************
 class used by lua to add objects on the map
@@ -176,14 +177,31 @@ public:
 	void UpdateActorAnimation(const std::string & AnimationString);
 
 	//! used by lua to update an actor mode
-	void UpdateActorMode(const std::string & Mode);
+	void UpdateActorMode(const std::string & Mode, bool updatefromlua);
 
 	//! called when a script has finished
 	void ScriptFinished(int scriptid, const std::string & functioname);
 
 
+	//! update Model
+	void UpdateActorModel(const std::string & Model, bool updatefromlua);
+
+	//! update Model
+	void UpdateActorOutfit(const std::string & Outfit, bool updatefromlua);
+
+	//! update Model
+	void UpdateActorWeapon(const std::string & Weapon, bool updatefromlua);
+
+	//! update Model
+	void SendSignal(int Signalnumber);
+
+	//! get player current position
+	void TeleportTo(float PosX, float PosY, float PosZ);
+
+
+
 	//! process actor
-	void Process(double tnow, float tdiff);
+	std::vector<LbaNet::ClientServerEventBasePtr> Process(double tnow, float tdiff);
 
 
 	//! add script part to the script
@@ -193,10 +211,15 @@ public:
 	//! remove script part to the script
 	void RemoveScriptPart(ActorScriptPartBasePtr part);
 
+	//! update position of the script
+	void UpdateScriptPosition(ActorScriptPartBasePtr part, int position);
 
 	//! get script
 	std::vector<ActorScriptPartBasePtr> GetScript()
 	{ return m_script; }
+
+	//! clear the running script
+	void ClearRunningScript();
 
 
 #ifdef _USE_QT_EDITOR_
@@ -231,24 +254,39 @@ protected:
 	//! resume the playing script
 	void Resume();
 
+	//! update client if needed
+	void UpdateServer(double tnow, float tdiff);
+
+	//! check if should update
+	bool ShouldforceUpdate();
+
+	//! start script
+	void StartScript();
 
 protected:
-	ActorObjectInfo							m_actorinfo;
-	int										m_launchedscript;
-	bool									m_paused;
+	ActorObjectInfo										m_actorinfo;
+	int													m_launchedscript;
+	bool												m_paused;
 
-	ScriptEnvironmentBase*					m_scripthandler;
-
-
-	float									m_saved_X;
-	float									m_saved_Y;
-	float									m_saved_Z;
-	float									m_saved_rot;
-	LbaQuaternion							m_saved_Q;
+	ScriptEnvironmentBase*								m_scripthandler;
 
 
+	float												m_saved_X;
+	float												m_saved_Y;
+	float												m_saved_Z;
+	float												m_saved_rot;
+	LbaQuaternion										m_saved_Q;
 
-	std::vector<ActorScriptPartBasePtr>		m_script;
+
+
+	std::vector<ActorScriptPartBasePtr>					m_script;
+
+
+	// update pos to clients
+	LbaNet::PlayerMoveInfo								_lastupdate;
+	LbaNet::PlayerMoveInfo								_currentupdate;
+
+	std::vector<LbaNet::ClientServerEventBasePtr>		_events;
 };
 
 #endif
