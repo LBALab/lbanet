@@ -382,6 +382,14 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("SetTimeToReset", &OpenContainerAction::SetTimeToReset)
 		.def("AddItem", &OpenContainerAction::AddItem),
 
+		luabind::class_<SendSignalAction, ActionBase, boost::shared_ptr<ActionBase> >("SendSignalAction")
+		.def(luabind::constructor<>())
+		.def("GetActorId", &SendSignalAction::GetActorId)
+		.def("SetActorId", &SendSignalAction::SetActorId)
+		.def("GetSignal", &SendSignalAction::GetSignal)
+		.def("SetSignal", &SendSignalAction::SetSignal),
+
+
 
 		luabind::class_<ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("ClientScriptBase")
 		.def(luabind::constructor<>())

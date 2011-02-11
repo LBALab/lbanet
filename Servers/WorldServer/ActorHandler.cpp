@@ -453,6 +453,7 @@ destructor
 ActorHandler::~ActorHandler(void)
 {
 	ClearRunningScript();
+	m_scripthandler = NULL;
 }
 
 
@@ -1257,7 +1258,9 @@ void ActorHandler::StartScript()
 	scripts<<"end"<<std::endl;
 	scripts<<"end"<<std::endl;
 
-
+	//std::ofstream file("ccc.txt");
+	//file<<scripts.str();
+	//file.close();
 
 	// register it
 	m_scripthandler->ExecuteScriptString(scripts.str());

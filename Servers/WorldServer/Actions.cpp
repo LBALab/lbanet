@@ -275,6 +275,40 @@ void ConditionalAction::SaveToLuaFile(std::ofstream & file, const std::string & 
 }
 
 
+
+/***********************************************************
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+***********************************************************/	
+void SendSignalAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args)
+{
+	if(owner && _Actorid >= 0 && _signal >= 0)
+		owner->SendSignalToActor(_Actorid, _signal);
+}
+
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void SendSignalAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
+{
+	file<<"\t"<<name<<" = SendSignalAction()"<<std::endl;
+	file<<"\t"<<name<<":SetActorId("<<_Actorid<<")"<<std::endl;
+	file<<"\t"<<name<<":SetSignal("<<_signal<<")"<<std::endl;
+}
+
+
+
+
+
+
+
 /***********************************************************
 constructor
 ***********************************************************/	

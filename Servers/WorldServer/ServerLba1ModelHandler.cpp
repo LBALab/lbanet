@@ -279,14 +279,6 @@ int ServerLba1ModelHandler::RefreshModel(bool forcecolor)
 }
 
 
-/***********************************************************
-pause current running animation
-***********************************************************/
-void ServerLba1ModelHandler::PauseAnimation()
-{
-	_paused = true;
-}
-
 
 
 /***********************************************************
@@ -309,4 +301,15 @@ void ServerLba1ModelHandler::RestoreState()
 	_currentanimationstring = _savedanimationstring;
 	_paused = _savedpaused;
 	RefreshModel();
+}
+
+/***********************************************************
+get current model
+***********************************************************/
+LbaNet::ModelInfo ServerLba1ModelHandler::GetCurrentModel(bool storedstate)
+{
+	if(storedstate)
+		return _savedmodelinfo;
+	else
+		return _currentmodelinfo;
 }

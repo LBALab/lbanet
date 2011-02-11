@@ -150,6 +150,8 @@ MapHandler::~MapHandler(void)
 		_threadcontrol.join();
 		_thread = NULL;
 	}
+
+	_Actors.clear();
 }
 
 

@@ -72,9 +72,6 @@ public:
 	// update animation
 	virtual int UpdateAnimation();
 
-	// pause current running animation
-	virtual void PauseAnimation();
-
 	// save current model state
 	virtual void SaveState();
 
@@ -96,6 +93,8 @@ public:
 	virtual void SetName(const std::string & name){}
 
 
+	//! get current model
+	virtual LbaNet::ModelInfo GetCurrentModel(bool storedstate);
 
 protected:
 	// refresh model
