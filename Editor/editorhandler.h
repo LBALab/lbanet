@@ -50,13 +50,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ClientScript.h"
 #include "Actions.h"
 #include "Localizer.h"
+#include "ActorHandler.h"
 
 #include <LbaTypes.h>
 #include <boost/shared_ptr.hpp>
 
 class QTableWidgetItem;
 class ServerLuaHandler;
-class ActorHandler;
+
 
 namespace osgManipulator
 {
@@ -454,6 +455,25 @@ public:
 	virtual void InternalActorWaitForSignal(int ScriptId, long ActorId, int Signalnumber, 
 										bool asynchronus = false){}
 
+	//! used by lua to move an actor or player
+	//! the actor change rotation
+	void SetActorRotation(long ActorId, float Angle){}
+
+
+	//! used by lua to rotate an actor
+	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
+	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
+	//! if ManageAnimation is true then the animation will be changed to suit the rotation
+	virtual void InternalActorRotateFromPoint(int ScriptId, long ActorId, float Angle, const LbaVec3 &Position, 
+												float RotationSpeedPerSec, bool asynchronus = false){}
+
+
+	//! used by lua to make actor follow waypoint
+	virtual void InternalActorFollowWaypoint(int ScriptId, long ActorId, int waypointindex1, 
+												int waypointindex2, bool asynchronus = false){}
+
+
+
 public slots:
 	 //! ui button clicked
      void addtrigger_button_clicked();
@@ -839,7 +859,8 @@ protected:
 	void ActorObjectChanged(long id, const QModelIndex &parentIdx, int updatedrow);
 
 	//! update editor selected ector display
-	void UpdateSelectedActorDisplay(LbaNet::ObjectPhysicDesc desc);
+	void UpdateSelectedActorDisplay(LbaNet::ObjectPhysicDesc desc,
+											   boost::shared_ptr<ActorHandler> actor);
 
 	//! remove current selected display
 	void RemoveSelectedActorDislay();
@@ -1033,6 +1054,11 @@ private:
 
 	// keep selected items in meemory
 	std::map<QModelIndex, void *>						_modelidxdatamap;
+
+
+	std::map<Ice::Long, ActorObjectInfo >				_editorObjects;
+
+
 };
 
 #endif // EDITORHANDLER_H

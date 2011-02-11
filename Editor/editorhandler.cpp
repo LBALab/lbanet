@@ -1071,9 +1071,10 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	_special_itemlistmodel->setStringList(special_iteml);
 
 	QStringList scptypel;
-	scptypel << "Remove" << "ASPFollowWaypoint" << "ASPGoTo" << "ASPWalkStraightTo" << "ASPPlayAnimation" << "ASPRotate" 
+	scptypel << "Remove" << "ASPFollowWaypoint" << "ASPGoTo" << "ASPWalkStraightTo" << "ASPTeleportTo"
+			<< "ASPRotate" << "ASPSetRotation" << "ASPPlayAnimation"
 			<< "ASPChangeAnimation" << "ASPChangeModel" << "ASPChangeOutfit" << "ASPChangeWeapon" 
-			<< "ASPChangeMode" << "ASPWaitForSignal" << "ASPSendSignal" << "ASPTeleportTo" << "ASPCustom";
+			<< "ASPChangeMode" << "ASPWaitForSignal" << "ASPSendSignal"  << "ASPCustom";
 	_actorscriptparttypeList->setStringList(scptypel);
 	
 	_uieditor.setupUi(this);
@@ -5876,8 +5877,10 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 			{
 				ActorScriptPartBasePtr scpart = items[i];
 
+				std::stringstream nametxt;
+				nametxt << i <<"-" << scpart->GetTypeName();
 				QVector<QVariant> datait;
-				datait << "Script part" << scpart->GetTypeName().c_str();
+				datait << "Script part" << nametxt.str().c_str();
 				QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
 
 				//add position
@@ -5904,7 +5907,7 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 
 
 
-		UpdateSelectedActorDisplay(ainfo.PhysicDesc);
+		UpdateSelectedActorDisplay(ainfo.PhysicDesc, it->second);
 		osg::Vec3 center = _actornode->computeBound().center();
 		DrawArrows(center.x(), center.y(), center.z());
 	}
@@ -6252,6 +6255,9 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 					}
 					else
 					{
+						// remove number on front
+						type = type.substr(2);
+
 						//build new script part
 						ActorScriptPartBasePtr newsp = ActorScriptPartBase::BuildScriptPart(type, _posX, _posY, _posZ);
 						if(newsp)
@@ -6412,7 +6418,7 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 
 
 		SetMapModified();
-		UpdateSelectedActorDisplay(ainfo.PhysicDesc);
+		UpdateSelectedActorDisplay(ainfo.PhysicDesc, it->second);
 	}
 }
 
@@ -6420,9 +6426,12 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 /***********************************************************
 update editor selected ector display
 ***********************************************************/
-void EditorHandler::UpdateSelectedActorDisplay(LbaNet::ObjectPhysicDesc desc)
+void EditorHandler::UpdateSelectedActorDisplay(LbaNet::ObjectPhysicDesc desc,
+											   boost::shared_ptr<ActorHandler> actor)
 {
 	RemoveSelectedActorDislay();
+
+
 
 	_actornode = OsgHandler::getInstance()->AddEmptyActorNode(false);
 
@@ -6585,6 +6594,24 @@ void EditorHandler::UpdateSelectedActorDisplay(LbaNet::ObjectPhysicDesc desc)
 	}
 
 
+	// create script objects
+	std::vector<ActorScriptPartBasePtr> scripts = actor->GetScript();
+	std::vector<ActorScriptPartBasePtr>::iterator it = scripts.begin();
+	std::vector<ActorScriptPartBasePtr>::iterator end = scripts.end();
+	for(int cc=0; it != end; ++it, ++cc)
+	{
+		ActorObjectInfo ainfo = (*it)->GetEditorObject(actor->GetActorInfo().ObjectId, cc);
+		if(ainfo.ObjectId >= 0)
+		{
+			_editorObjects[ainfo.ObjectId] = ainfo;
+
+			EventsQueue::getReceiverQueue()->AddEvent(
+					new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+					LbaNet::EditorObject, ainfo.ObjectId, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo, 
+					ainfo.ExtraInfo));
+		}
+	}
+	
 }
 
 
@@ -6597,6 +6624,19 @@ void EditorHandler::RemoveSelectedActorDislay()
 		OsgHandler::getInstance()->RemoveActorNode(_actornode, false);
 
 	_actornode = NULL;
+
+
+	std::map<Ice::Long, ActorObjectInfo >::iterator it = _editorObjects.begin();
+	std::map<Ice::Long, ActorObjectInfo >::iterator end = _editorObjects.end();
+	for(; it != end; ++it)
+	{
+		EventsQueue::getReceiverQueue()->AddEvent(
+			new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+													LbaNet::EditorObject, it->first));
+	}
+
+	_editorObjects.clear();
+
 }
 
 
