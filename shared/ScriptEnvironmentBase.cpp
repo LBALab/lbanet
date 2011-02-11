@@ -201,6 +201,36 @@ int ScriptEnvironmentBase::Async_WaitForSignal(long ActorId, int Signalnumber)
 
 
 /***********************************************************
+asynchronus version of WaitForSignal
+***********************************************************/
+int ScriptEnvironmentBase::Async_ActorRotateFromPoint(long ActorId, float Angle, const LbaVec3 &Position, 
+									float RotationSpeedPerSec)
+{
+	int genid = m_generatednumber++;	
+
+	InternalActorRotateFromPoint(genid, ActorId, Angle, Position, RotationSpeedPerSec, true);
+
+	m_asyncscripts[genid] = false;
+	return genid;
+}
+
+/***********************************************************
+asynchronus version of WaitForSignal
+***********************************************************/
+int ScriptEnvironmentBase::Async_ActorFollowWaypoint(long ActorId, 
+												int waypointindex1, int waypointindex2)
+{
+	int genid = m_generatednumber++;	
+
+	InternalActorFollowWaypoint(genid, ActorId, waypointindex1, waypointindex2, true);
+
+	m_asyncscripts[genid] = false;
+	return genid;
+}
+
+
+
+/***********************************************************
 make a lua script sleep for one cycle
 ***********************************************************/
 void ScriptEnvironmentBase::WaitOneCycle(int scriptid)

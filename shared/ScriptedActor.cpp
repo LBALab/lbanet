@@ -298,6 +298,176 @@ bool WaitForSignalScriptPart::Process(double tnow, float tdiff, boost::shared_pt
 
 
 /***********************************************************
+constructor
+***********************************************************/
+RotateFromPointScriptPart::RotateFromPointScriptPart(int scriptid, bool asynchronus, float Angle, 
+														float PosX, float PosY, float PosZ,
+														float Speed, boost::shared_ptr<DynamicObject> actor)
+: ScriptPartBase(scriptid, asynchronus), _PosX(PosX), _PosZ(_PosZ), _Speed(Speed), _Angle(Angle),
+	_doneAngle(0)
+		
+{
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = actor->GetPhysicalObject();
+	physo->GetPosition(_startPosX, _startPosY, _starPosZ);
+}
+
+
+/***********************************************************
+//! process script part
+//! return true if finished
+***********************************************************/
+bool RotateFromPointScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor)
+{
+	actor->Process(tnow, tdiff);
+
+	if(abs(_doneAngle) >= abs(_Angle))
+		return true;
+
+	float move = _Speed * tdiff;
+	_doneAngle += move;
+
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = actor->GetPhysicalObject();
+	physo->RotateYAxis(move);
+
+
+	//take care of translation
+	float startvecX = _startPosX - _PosX;
+	float startvecZ = _startPosZ - _PosZ;
+
+	float endvecX = (startvecX * cos(_doneAngle)) - (startvecZ * sin(_doneAngle));
+	float endvecZ = (startvecX * sin(_doneAngle)) + (startvecZ * cos(_doneAngle));
+
+	physo->MoveTo(endvecX+_PosX, _startPosY, endvecZ+_PosZ);
+
+	return false;
+}
+
+
+
+
+
+/***********************************************************
+constructor
+***********************************************************/
+FollowWaypointScriptPart::FollowWaypointScriptPart(int scriptid, bool asynchronus, 
+												   int waypointindex1, int waypointindex2, 
+													boost::shared_ptr<DynamicObject> actor)
+: ScriptPartBase(scriptid, asynchronus), _distance(0), _distancedone(0)
+{
+	std::vector<LbaVec3> waypoints = actor->GetWaypoints(waypointindex1);
+	if(waypointindex2 < (int)waypoints.size())
+	{
+		_P2 =  waypoints[waypointindex2];
+
+		if((waypointindex2+1) > (int)waypoints.size())
+			_P3 = waypoints[waypointindex2+1];
+		else
+			_P3 = _P2;
+
+		--waypointindex2;
+		if(waypointindex2 >= 0)
+			_P1 =  waypoints[waypointindex2];
+		else
+			actor->GetPhysicalObject()->GetPosition(_P1.x, _P1.y, _P1.z);
+
+		--waypointindex2;
+		if(waypointindex2 >= 0)
+			_P0 =  waypoints[waypointindex2];
+		else
+			_P0 =  _P1;
+
+		_distance = GetArcLength(_P0, _P1, _P2, _P3, 100);
+	}
+}
+
+
+/***********************************************************
+//! process script part
+//! return true if finished
+***********************************************************/
+bool FollowWaypointScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor)
+{
+	// check if we arrive at destination
+	if(abs(_distance-_distancedone) < 0.01)
+		return true;
+
+	boost::shared_ptr<DisplayObjectHandlerBase> disso = actor->GetDisplayObject();
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = actor->GetPhysicalObject();
+
+	// get animation speed
+	float speedX = disso->GetCurrentAssociatedSpeedX();
+	float speedY = disso->GetCurrentAssociatedSpeedY();
+	float speedZ = disso->GetCurrentAssociatedSpeedZ();
+
+	_distancedone += (speedX+speedY+speedZ) * tdiff;
+
+	// calculate move on spline
+	LbaVec3 res = CatmullSpline(_P0, _P1, _P2, _P3, _distancedone/_distance);
+	LbaVec3 curr;
+	physo->GetPosition(curr.x, curr.y, curr.z);
+
+
+	// move actor
+	physo->MoveTo(res.x, res.y, res.z);
+
+
+	// rotate actor
+	TODO
+
+	return false;
+}
+
+
+/***********************************************************
+//! calculate spline from to between 0 and 1
+***********************************************************/
+float FollowWaypointScriptPart::CatmullSpline(float P0, float P1, float P2, float P3, float t)
+{
+	float res =	0.5 *( (2 * P1) + (-P0 + P2) * t 
+				+ (2*P0 - 5*P1 + 4*P2 - P3) * t*t 
+				+ (-P0 + 3*P1- 3*P2 + P3) * t*t*t);
+}
+
+
+/***********************************************************
+calculate spline of vector from to between 0 and 1
+***********************************************************/
+LbaVec3 FollowWaypointScriptPart::CatmullSpline(LbaVec3 P0, LbaVec3 P1, LbaVec3 P2, LbaVec3 P3, float t)
+{
+	LbaVec3 res;
+	res.x = CatmullSpline(P0.x, P1.x, P2.x, P3.x, t);
+	res.y = CatmullSpline(P0.y, P1.y, P2.y, P3.y, t);
+	res.z = CatmullSpline(P0.z, P1.z, P2.z, P3.z, t);
+
+	return res;
+}
+
+
+/***********************************************************
+calculate arc length
+***********************************************************/
+float FollowWaypointScriptPart::FollowWaypointScriptPart::GetArcLength(LbaVec3 P0, LbaVec3 P1, 
+																	   LbaVec3 P2, LbaVec3 P3, int nbsamples)
+{
+	float res = 0;
+	LbaVec3 currpoint = P1;
+	for(int i=0; i < nbsamples; ++i)
+	{
+		float t = (1.0f / nbsamples) * i;
+		LbaVec3 respoint = CatmullSpline(P0, P1, P2, P3, t);
+		res += respoint.Distance(currpoint);
+		currpoint = respoint;
+	}
+
+	return res;
+}
+
+
+
+
+
+
+/***********************************************************
 	Constructor
 ***********************************************************/
 ScriptedActor::ScriptedActor()
@@ -410,4 +580,33 @@ void ScriptedActor::ActorWaitForSignal(int ScriptId, int Signalnumber, bool asyn
 {
 	_currentScripts.push_back(boost::shared_ptr<ScriptPartBase>(
 						new WaitForSignalScriptPart(ScriptId, asynchronus, Signalnumber)));
+}
+
+
+	
+
+/***********************************************************
+//! used by lua to move an actor or player
+//! the actor will rotate
+***********************************************************/
+void ScriptedActor::ActorRotateFromPoint(int ScriptId, float Angle, float PosX, float PosY, 
+													float PosZ, float Speed, bool asynchronus)
+{
+	_currentScripts.push_back(boost::shared_ptr<ScriptPartBase>(
+						new RotateFromPointScriptPart(ScriptId, asynchronus, 
+													Angle, PosX, PosY, PosZ, Speed, _character)));
+}
+
+
+	
+
+/***********************************************************
+//! used by lua to move an actor or player
+//! the actor follow waypoint
+***********************************************************/
+void ScriptedActor::ActorFollowWaypoint(int ScriptId, int waypointindex1, int waypointindex2, bool asynchronus)
+{
+	_currentScripts.push_back(boost::shared_ptr<ScriptPartBase>(
+						new FollowWaypointScriptPart(ScriptId, asynchronus, waypointindex1, 
+						waypointindex2, _character)));
 }

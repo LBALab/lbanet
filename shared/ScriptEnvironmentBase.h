@@ -189,7 +189,29 @@ public:
 	virtual void TeleportActorTo(int ScriptId, long ActorId, const LbaVec3 &Position) = 0;
 
 
+	//! used by lua to move an actor or player
+	//! the actor change rotation
+	virtual void SetActorRotation(long ActorId, float Angle) = 0;
 	
+
+	//! used by lua to rotate an actor
+	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
+	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
+	//! if ManageAnimation is true then the animation will be changed to suit the rotation
+	void ActorRotateFromPoint(int ScriptId, long ActorId, float Angle, const LbaVec3 &Position, 
+									float RotationSpeedPerSec)
+	{InternalActorRotateFromPoint(ScriptId, ActorId, Angle, Position, RotationSpeedPerSec, false);}
+
+
+	//! used by lua to rotate an actor
+	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
+	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
+	//! if ManageAnimation is true then the animation will be changed to suit the rotation
+	void ActorFollowWaypoint(int ScriptId, long ActorId, int waypointindex1, int waypointindex2)
+	{InternalActorFollowWaypoint(ScriptId, ActorId, waypointindex1, waypointindex2, false);}
+
+
+
 
 	//! execute lua script given as a string
 	void ExecuteScriptString( const std::string &ScriptString );
@@ -226,6 +248,15 @@ public:
 
 	//! asynchronus version of WaitForSignal
 	int Async_WaitForSignal(long ActorId, int Signalnumber);
+
+	//! asynchronus version of ActorRotateFromPoint
+	int Async_ActorRotateFromPoint(long ActorId, float Angle, const LbaVec3 &Position, 
+									float RotationSpeedPerSec);
+
+	//! asynchronus version of ActorFollowWaypoint
+	int Async_ActorFollowWaypoint(long ActorId, int waypointindex1, int waypointindex2);
+
+
 
 	//! make a lua script sleep for one cycle
 	void WaitOneCycle(int ScriptId);
@@ -267,6 +298,18 @@ protected:
 	//! the actor will wait for signal
 	virtual void InternalActorWaitForSignal(int ScriptId, long ActorId, int Signalnumber, bool asynchronus = false) = 0;
 
+
+	//! used by lua to rotate an actor
+	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
+	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
+	//! if ManageAnimation is true then the animation will be changed to suit the rotation
+	virtual void InternalActorRotateFromPoint(int ScriptId, long ActorId, float Angle, const LbaVec3 &Position, 
+												float RotationSpeedPerSec, bool asynchronus = false) = 0;
+
+
+	//! used by lua to make actor follow waypoint
+	virtual void InternalActorFollowWaypoint(int ScriptId, long ActorId, int waypointindex1, 
+												int waypointindex2, bool asynchronus = false) = 0;
 
 
 

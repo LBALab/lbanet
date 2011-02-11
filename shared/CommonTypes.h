@@ -45,6 +45,16 @@ public:
 		: x(X), y(Y), z(Z)
 	{}
 
+	//! distance between 2 vectors
+	inline float Distance(const LbaVec3 & v) const
+	{
+		float dx = x - v.x;
+		float dy = y - v.y;
+		float dz = z - v.z;
+		return sqrt(dx * dx + dy * dy + dz * dz);
+	}
+
+
 	float x;
 	float y;
 	float z;

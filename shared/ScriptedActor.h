@@ -228,6 +228,88 @@ protected:
 
 
 
+/***********************************************************************
+ * Module:  ScriptedActor.h
+ * Author:  vivien
+ * Purpose: Declaration of the class GoToScriptPart
+ ***********************************************************************/
+class RotateFromPointScriptPart : public ScriptPartBase
+{
+public:
+
+	//! constructor
+	RotateFromPointScriptPart(int scriptid, bool asynchronus, float Angle, float PosX, float PosY, float PosZ,
+								float Speed, boost::shared_ptr<DynamicObject> actor);
+
+	//! destructor
+	virtual ~RotateFromPointScriptPart(){}
+
+
+	//! process script part
+	//! return true if finished
+	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor);
+
+protected:
+	float	_PosX;
+	float	_PosZ;
+	float	_startPosX;
+	float	_startPosY;
+	float	_starPosZ;
+	float	_Speed;
+	float	_Angle;
+	float	_doneAngle;
+
+};
+
+
+
+
+/***********************************************************************
+ * Module:  ScriptedActor.h
+ * Author:  vivien
+ * Purpose: Declaration of the class GoToScriptPart
+ ***********************************************************************/
+class FollowWaypointScriptPart : public ScriptPartBase
+{
+public:
+
+	//! constructor
+	FollowWaypointScriptPart(int scriptid, bool asynchronus, int waypointindex1, int waypointindex2, 
+								boost::shared_ptr<DynamicObject> actor);
+
+	//! destructor
+	virtual ~FollowWaypointScriptPart(){}
+
+
+	//! process script part
+	//! return true if finished
+	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor);
+
+
+protected:
+	//! calculate spline from to between 0 and 1
+	float CatmullSpline(float P0, float P1, float P2, float P3, float t);
+
+	//! calculate spline of vector from to between 0 and 1
+	LbaVec3 CatmullSpline(LbaVec3 P0, LbaVec3 P1, LbaVec3 P2, LbaVec3 P3, float t);
+
+	//! calculate arc length
+	float GetArcLength(LbaVec3 P0, LbaVec3 P1, LbaVec3 P2, LbaVec3 P3, int nbsamples);
+
+private:
+	float			_distance;
+	float			_distancedone;
+	LbaVec			_P0;
+	LbaVec			_P1;
+	LbaVec			_P2;
+	LbaVec			_P3;
+};
+
+
+
+
+
+
 
 
 
@@ -275,6 +357,19 @@ public:
 
 	//! clear all running scripts
 	void ClearAllScripts();
+
+	
+	//! used by lua to move an actor or player
+	//! the actor will rotate
+	void ActorRotateFromPoint(int ScriptId, float Angle, float PosX, float PosY, 
+													float PosZ, float Speed, bool asynchronus);
+
+
+	
+	//! used by lua to move an actor or player
+	//! the actor follow waypoint
+	void ActorFollowWaypoint(int ScriptId, int waypointindex1, int waypointindex2, bool asynchronus);
+
 
 protected:
 	boost::shared_ptr<DynamicObject>						_character;

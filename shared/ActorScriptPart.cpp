@@ -1,6 +1,6 @@
 #include "ActorScriptPart.h"
 #include <fstream>
-
+#include "ActorHandler.h"
 
 
 
@@ -14,7 +14,9 @@ ActorScriptPartBasePtr ActorScriptPartBase::BuildScriptPart(const std::string & 
 	if(type == "ASPPlayAnimation")
 		return ActorScriptPartBasePtr(new ActorScriptPart_PlayAnimation(true));
 	if(type == "ASPRotate")
-		return ActorScriptPartBasePtr(new ActorScriptPart_Rotate(90, 0.01, true));
+		return ActorScriptPartBasePtr(new ActorScriptPart_Rotate(90, 0.1, true));
+	if(type == "ASPSetRotation")
+		return ActorScriptPartBasePtr(new ActorScriptPart_SetRotation(90));
 	if(type == "ASPChangeAnimation")
 		return ActorScriptPartBasePtr(new ActorScriptPart_ChangeAnimation("Stand"));
 	if(type == "ASPChangeModel")
@@ -33,6 +35,12 @@ ActorScriptPartBasePtr ActorScriptPartBase::BuildScriptPart(const std::string & 
 		return ActorScriptPartBasePtr(new ActorScriptPart_TeleportTo(sPosX, sPosY, sPosZ));
 	if(type == "ASPCustom")
 		return ActorScriptPartBasePtr(new ActorScriptPart_Custom(""));
+	if(type == "ASPRotateFromPoint")
+		return ActorScriptPartBasePtr(new ActorScriptPart_RotateFromPoint(90, sPosX, sPosY, sPosZ, 0.1));
+	if(type == "ASPFollowWaypoint")
+		return ActorScriptPartBasePtr(new ActorScriptPart_FollowWaypoint(sPosX, sPosY, sPosZ));
+	if(type == "ASPStartWaypoint")
+		return ActorScriptPartBasePtr(new ActorScriptPart_StartWaypoint(sPosX, sPosY, sPosZ, true));
 
 	return ActorScriptPartBasePtr();
 }
@@ -60,7 +68,7 @@ void ActorScriptPart_WalkStraightTo::SaveToLuaFile(std::ofstream & file, const s
 /***********************************************************z
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_WalkStraightTo::WriteExecutionScript(std::ostream & file, long actid)
+void ActorScriptPart_WalkStraightTo::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
 	file << "Position = LbaVec3("<<_PosX<<","<<_PosY<<","<<_PosZ<<")"<<std::endl;
 	file<<"Environment:ActorStraightWalkTo(ScriptId,"<<actid<<",Position)"<<std::endl;
@@ -88,7 +96,7 @@ void ActorScriptPart_GoTo::SaveToLuaFile(std::ofstream & file, const std::string
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_GoTo::WriteExecutionScript(std::ostream & file, long actid)
+void ActorScriptPart_GoTo::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
 	file << "Position = LbaVec3("<<_PosX<<","<<_PosY<<","<<_PosZ<<")"<<std::endl;
 	file<<"Environment:ActorGoTo(ScriptId,"<<actid<<",Position,"<<_Speed<<")"<<std::endl;
@@ -115,7 +123,7 @@ void ActorScriptPart_PlayAnimation::SaveToLuaFile(std::ofstream & file, const st
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_PlayAnimation::WriteExecutionScript(std::ostream & file, long actid)
+void ActorScriptPart_PlayAnimation::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
 	file<<"Environment:ActorAnimate(ScriptId,"<<actid<<","<<(_AnimationMove?"true":"false")<<")"<<std::endl;
 }
@@ -143,7 +151,7 @@ void ActorScriptPart_Rotate::SaveToLuaFile(std::ofstream & file, const std::stri
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_Rotate::WriteExecutionScript(std::ostream & file, long actid)
+void ActorScriptPart_Rotate::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
 	file<<"Environment:ActorRotate(ScriptId,"<<actid<<","<<_Angle<<","<<_RotationSpeedPerSec
 					<<","<<(_ManageAnimation?"true":"false")<<")"<<std::endl;
@@ -170,7 +178,7 @@ void ActorScriptPart_ChangeAnimation::SaveToLuaFile(std::ofstream & file, const 
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_ChangeAnimation::WriteExecutionScript(std::ostream & file, long actid)
+void ActorScriptPart_ChangeAnimation::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
 	file<<"Environment:UpdateActorAnimation("<<actid<<",\""<<_Animationstring<<"\")"<<std::endl;
 }
@@ -196,7 +204,7 @@ void ActorScriptPart_ChangeModel::SaveToLuaFile(std::ofstream & file, const std:
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_ChangeModel::WriteExecutionScript(std::ostream & file, long actid)
+void ActorScriptPart_ChangeModel::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
 	file<<"Environment:UpdateActorModel("<<actid<<",\""<<_Name<<"\")"<<std::endl;
 }
@@ -222,7 +230,7 @@ void ActorScriptPart_ChangeOutfit::SaveToLuaFile(std::ofstream & file, const std
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_ChangeOutfit::WriteExecutionScript(std::ostream & file, long actid)
+void ActorScriptPart_ChangeOutfit::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
 	file<<"Environment:UpdateActorOutfit("<<actid<<",\""<<_Name<<"\")"<<std::endl;
 }
@@ -248,7 +256,7 @@ void ActorScriptPart_ChangeWeapon::SaveToLuaFile(std::ofstream & file, const std
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_ChangeWeapon::WriteExecutionScript(std::ostream & file, long actid)
+void ActorScriptPart_ChangeWeapon::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
 	file<<"Environment:UpdateActorWeapon("<<actid<<",\""<<_Name<<"\")"<<std::endl;
 }
@@ -274,7 +282,7 @@ void ActorScriptPart_ChangeMode::SaveToLuaFile(std::ofstream & file, const std::
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_ChangeMode::WriteExecutionScript(std::ostream & file, long actid)
+void ActorScriptPart_ChangeMode::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
 	file<<"Environment:UpdateActorMode("<<actid<<",\""<<_Name<<"\")"<<std::endl;
 }
@@ -300,7 +308,7 @@ void ActorScriptPart_WaitForSignal::SaveToLuaFile(std::ofstream & file, const st
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_WaitForSignal::WriteExecutionScript(std::ostream & file, long actid)
+void ActorScriptPart_WaitForSignal::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
 	file<<"Environment:ActorWaitForSignal(ScriptId,"<<actid<<","<<_Signalnumber<<")"<<std::endl;
 }
@@ -326,7 +334,7 @@ void ActorScriptPart_SendSignal::SaveToLuaFile(std::ofstream & file, const std::
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_SendSignal::WriteExecutionScript(std::ostream & file, long actid)
+void ActorScriptPart_SendSignal::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
 	file<<"Environment:SendSignalToActor("<<_ActorId<<","<<_Signalnumber<<")"<<std::endl;
 }
@@ -352,7 +360,7 @@ void ActorScriptPart_Custom::SaveToLuaFile(std::ofstream & file, const std::stri
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_Custom::WriteExecutionScript(std::ostream & file, long actid)
+void ActorScriptPart_Custom::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
 	if(_fctName != "")
 		file<<_fctName<<"(ScriptId, Environment)"<<std::endl;
@@ -379,11 +387,98 @@ void ActorScriptPart_TeleportTo::SaveToLuaFile(std::ofstream & file, const std::
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_TeleportTo::WriteExecutionScript(std::ostream & file, long actid)
+void ActorScriptPart_TeleportTo::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
 	file << "Position = LbaVec3("<<_PosX<<","<<_PosY<<","<<_PosZ<<")"<<std::endl;
 	file<<"Environment:TeleportActorTo(ScriptId,"<<actid<<",Position)"<<std::endl;
 }
+
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void ActorScriptPart_SetRotation::SaveToLuaFile(std::ofstream & file, const std::string & name)
+{	
+	file<<"\t"<<name<<" = ASPSetRotation("<<_Angle<<")"<<std::endl;
+}
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void ActorScriptPart_SetRotation::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
+{	
+	file<<"Environment:SetActorRotation(ScriptId,"<<_Angle<<")"<<std::endl;
+}
+
+
+
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void ActorScriptPart_RotateFromPoint::SaveToLuaFile(std::ofstream & file, const std::string & name)
+{	
+	file<<"\t"<<name<<" = ASPRotateFromPoint("<<_Angle<<","<<_PosX<<","<<_PosY<<","
+													<<_PosZ<<","<<_Speed<<")"<<std::endl;
+}
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void ActorScriptPart_RotateFromPoint::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
+{	
+	file << "Position = LbaVec3("<<_PosX<<","<<_PosY<<","<<_PosZ<<")"<<std::endl;
+	file<<"Environment:ActorRotateFromPoint(ScriptId,"<<actid<<","<<_Angle<<",Position,"<<_Speed<<")"<<std::endl;
+}
+
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void ActorScriptPart_FollowWaypoint::SaveToLuaFile(std::ofstream & file, const std::string & name)
+{	
+	file<<"\t"<<name<<" = ASPFollowWaypoint("<<_PosX<<","<<_PosY<<","<<_PosZ<<")"<<std::endl;
+}
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void ActorScriptPart_FollowWaypoint::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
+{	
+	std::pair<int, int> indexes = AH->AddWaypoint(LbaVec3(_PosX, _PosY, _PosZ));
+
+	if(indexes.first >= 0)
+	{
+		file<<"Environment:ActorFollowWaypoint(ScriptId,"<<actid<<","<<indexes.first<<","<<indexes.second<<")"<<std::endl;
+	}
+}
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void ActorScriptPart_StartWaypoint::SaveToLuaFile(std::ofstream & file, const std::string & name)
+{	
+	file<<"\t"<<name<<" = ASPStartWaypoint("<<_PosX<<","<<_PosY<<","<<_PosZ
+										<<","<<(_Forward?"true":"false")<<")"<<std::endl;
+}
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void ActorScriptPart_StartWaypoint::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
+{	
+	std::pair<int, int> indexes = AH->StartWaypoint(LbaVec3(_PosX, _PosY, _PosZ));
+
+	if(indexes.first >= 0)
+	{
+		file<<"Environment:UpdateActorAnimation("<<actid<<",\""<<(_Forward?"MoveForward":"MoveBackward")<<"\")"<<std::endl;
+		file<<"Environment:ActorFollowWaypoint(ScriptId,"<<actid<<","<<indexes.first<<","<<indexes.second<<")"<<std::endl;
+	}
+}
+
 
 
 
@@ -590,6 +685,104 @@ void ActorScriptPart_Custom::WriteToQt(TreeModel *	model, const QModelIndex &par
 
 
 
+/***********************************************************
+// use by the editor
+***********************************************************/
+void ActorScriptPart_SetRotation::WriteToQt(TreeModel *	model, const QModelIndex &parentIdx)
+{
+	{
+	QVector<QVariant> datachild;
+	datachild << "Angle" << (double)_Angle;
+	model->AppendRow(datachild, parentIdx);	
+	}
+}
+
+
+
+
+/***********************************************************
+// use by the editor
+***********************************************************/	
+void ActorScriptPart_RotateFromPoint::WriteToQt(TreeModel *	model, const QModelIndex &parentIdx)
+{
+	{
+	QVector<QVariant> datachild;
+	datachild << "Angle" << (double)_Angle;
+	model->AppendRow(datachild, parentIdx);	
+	}
+	{
+	QVector<QVariant> datachild;
+	datachild << "RotationPosX" << (double)_PosX;
+	model->AppendRow(datachild, parentIdx);	
+	}
+	{
+	QVector<QVariant> datachild;
+	datachild << "RotationPosY" << (double)_PosY;
+	model->AppendRow(datachild, parentIdx);	
+	}
+	{
+	QVector<QVariant> datachild;
+	datachild << "RotationPosZ" << (double)_PosZ;
+	model->AppendRow(datachild, parentIdx);	
+	}
+	{
+	QVector<QVariant> datachild;
+	datachild << "Rotation Speed" << (double)_Speed;
+	model->AppendRow(datachild, parentIdx);	
+	}
+}
+
+/***********************************************************
+// use by the editor
+***********************************************************/	
+void ActorScriptPart_FollowWaypoint::WriteToQt(TreeModel *	model, const QModelIndex &parentIdx)
+{
+	{
+	QVector<QVariant> datachild;
+	datachild << "PosX" << (double)_PosX;
+	model->AppendRow(datachild, parentIdx);	
+	}
+	{
+	QVector<QVariant> datachild;
+	datachild << "PosY" << (double)_PosY;
+	model->AppendRow(datachild, parentIdx);	
+	}
+	{
+	QVector<QVariant> datachild;
+	datachild << "PosZ" << (double)_PosZ;
+	model->AppendRow(datachild, parentIdx);	
+	}
+}
+
+/***********************************************************
+// use by the editor
+***********************************************************/	
+void ActorScriptPart_StartWaypoint::WriteToQt(TreeModel *	model, const QModelIndex &parentIdx)
+{
+	{
+	QVector<QVariant> datachild;
+	datachild << "PosX" << (double)_PosX;
+	model->AppendRow(datachild, parentIdx);	
+	}
+	{
+	QVector<QVariant> datachild;
+	datachild << "PosY" << (double)_PosY;
+	model->AppendRow(datachild, parentIdx);	
+	}
+	{
+	QVector<QVariant> datachild;
+	datachild << "PosZ" << (double)_PosZ;
+	model->AppendRow(datachild, parentIdx);	
+	}
+	{
+	QVector<QVariant> datachild;
+	datachild << "Move Forward" << _Forward;
+	model->AppendRow(datachild, parentIdx);	
+	}
+}
+
+
+
 
 /***********************************************************
 // use by the editor
@@ -638,6 +831,18 @@ void ActorScriptPart_Rotate::UpdateFromQt(TreeModel *	model, const QModelIndex &
 	_ManageAnimation = model->data(model->GetIndex(1, rowidx, parentIdx)).toBool();
 }
 
+
+
+/***********************************************************
+// use by the editor
+***********************************************************/
+void ActorScriptPart_SetRotation::UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx)
+{
+	_Angle = model->data(model->GetIndex(1, rowidx, parentIdx)).toFloat();
+}
+
+
+
 /***********************************************************
 // use by the editor
 ***********************************************************/
@@ -645,6 +850,7 @@ void ActorScriptPart_ChangeAnimation::UpdateFromQt(TreeModel *	model, const QMod
 {
 	_Animationstring = model->data(model->GetIndex(1, rowidx, parentIdx)).toString().toAscii().data();
 }
+
 
 /***********************************************************
 // use by the editor
@@ -715,5 +921,310 @@ void ActorScriptPart_Custom::UpdateFromQt(TreeModel *	model, const QModelIndex &
 {
 	_fctName = model->data(model->GetIndex(1, rowidx, parentIdx)).toString().toAscii().data();
 }
+
+
+
+/***********************************************************
+// use by the editor
+***********************************************************/	
+void ActorScriptPart_RotateFromPoint::UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx)
+{
+	_Angle = model->data(model->GetIndex(1, rowidx, parentIdx)).toFloat();
+	++rowidx;
+	_PosX = model->data(model->GetIndex(1, rowidx, parentIdx)).toFloat();
+	++rowidx;
+	_PosY = model->data(model->GetIndex(1, rowidx, parentIdx)).toFloat();
+	++rowidx;
+	_PosZ = model->data(model->GetIndex(1, rowidx, parentIdx)).toFloat();
+	++rowidx;
+	_Speed = model->data(model->GetIndex(1, rowidx, parentIdx)).toFloat();
+	++rowidx;
+}
+
+
+/***********************************************************
+// use by the editor
+***********************************************************/	
+void ActorScriptPart_FollowWaypoint::UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx)
+{
+	_PosX = model->data(model->GetIndex(1, rowidx, parentIdx)).toFloat();
+	++rowidx;
+	_PosY = model->data(model->GetIndex(1, rowidx, parentIdx)).toFloat();
+	++rowidx;
+	_PosZ = model->data(model->GetIndex(1, rowidx, parentIdx)).toFloat();
+	++rowidx;
+}
+
+
+/***********************************************************
+// use by the editor
+***********************************************************/	
+void ActorScriptPart_StartWaypoint::UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx)
+{
+	_PosX = model->data(model->GetIndex(1, rowidx, parentIdx)).toFloat();
+	++rowidx;
+	_PosY = model->data(model->GetIndex(1, rowidx, parentIdx)).toFloat();
+	++rowidx;
+	_PosZ = model->data(model->GetIndex(1, rowidx, parentIdx)).toFloat();
+	++rowidx;
+	_Forward = model->data(model->GetIndex(1, rowidx, parentIdx)).toBool();
+	++rowidx;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***********************************************************
+// use by the editor
+***********************************************************/	
+ActorObjectInfo ActorScriptPartBase::GetEditorObject(long Actorid, int scriptnumber)
+{
+	return ActorObjectInfo();
+}
+
+
+/***********************************************************
+// use by the editor
+***********************************************************/	
+ActorObjectInfo ActorScriptPart_GoTo::GetEditorObject(long Actorid, int scriptnumber)
+{
+	ActorObjectInfo ainfo(Actorid*1000 + scriptnumber + 5000000);
+	ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderLba1M;
+	ainfo.DisplayDesc.ModelName = "Object";
+	ainfo.DisplayDesc.Outfit = "Flag";
+	ainfo.DisplayDesc.Weapon = "No";
+	ainfo.DisplayDesc.Mode = "Normal";
+	ainfo.DisplayDesc.State = LbaNet::StNormal;
+    ainfo.DisplayDesc.UseLight = true;
+    ainfo.DisplayDesc.CastShadow = true;
+    ainfo.DisplayDesc.TransX = 0;
+    ainfo.DisplayDesc.TransY = 0;
+    ainfo.DisplayDesc.TransZ = 0;
+    ainfo.DisplayDesc.ScaleX = 1;
+    ainfo.DisplayDesc.ScaleY = 1;
+    ainfo.DisplayDesc.ScaleZ = 1;
+    ainfo.DisplayDesc.RotX = 0;
+    ainfo.DisplayDesc.RotY = 0;
+    ainfo.DisplayDesc.RotZ = 0;
+
+	//ainfo.DisplayDesc.ColorSwaps; todo
+
+
+	ainfo.PhysicDesc.TypeShape = LbaNet::NoShape;
+	ainfo.PhysicDesc.TypePhysO = LbaNet::StaticAType;
+	ainfo.PhysicDesc.Pos.X = _PosX;
+	ainfo.PhysicDesc.Pos.Y = _PosY;
+	ainfo.PhysicDesc.Pos.Z = _PosZ;
+	ainfo.PhysicDesc.Pos.Rotation = 0;
+
+	std::stringstream strs;
+	strs << scriptnumber;
+	ainfo.ExtraInfo.Name = strs.str();
+	ainfo.ExtraInfo.NameColorR = 0.5f;
+	ainfo.ExtraInfo.NameColorG = 0.5f;
+	ainfo.ExtraInfo.NameColorB = 1.0f;
+	ainfo.LifeInfo.Display = true;
+	ainfo.LifeInfo.Display = false;
+	return ainfo;
+}
+
+/***********************************************************
+// use by the editor
+***********************************************************/
+ActorObjectInfo ActorScriptPart_WalkStraightTo::GetEditorObject(long Actorid, int scriptnumber)
+{
+	ActorObjectInfo ainfo(Actorid*1000 + scriptnumber + 5000000);
+	ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderLba1M;
+	ainfo.DisplayDesc.ModelName = "Object";
+	ainfo.DisplayDesc.Outfit = "Flag";
+	ainfo.DisplayDesc.Weapon = "No";
+	ainfo.DisplayDesc.Mode = "Normal";
+	ainfo.DisplayDesc.State = LbaNet::StNormal;
+    ainfo.DisplayDesc.UseLight = true;
+    ainfo.DisplayDesc.CastShadow = true;
+    ainfo.DisplayDesc.TransX = 0;
+    ainfo.DisplayDesc.TransY = 0;
+    ainfo.DisplayDesc.TransZ = 0;
+    ainfo.DisplayDesc.ScaleX = 1;
+    ainfo.DisplayDesc.ScaleY = 1;
+    ainfo.DisplayDesc.ScaleZ = 1;
+    ainfo.DisplayDesc.RotX = 0;
+    ainfo.DisplayDesc.RotY = 0;
+    ainfo.DisplayDesc.RotZ = 0;
+
+	//ainfo.DisplayDesc.ColorSwaps; todo
+
+
+	ainfo.PhysicDesc.TypeShape = LbaNet::NoShape;
+	ainfo.PhysicDesc.TypePhysO = LbaNet::StaticAType;
+	ainfo.PhysicDesc.Pos.X = _PosX;
+	ainfo.PhysicDesc.Pos.Y = _PosY;
+	ainfo.PhysicDesc.Pos.Z = _PosZ;
+	ainfo.PhysicDesc.Pos.Rotation = 0;
+
+	std::stringstream strs;
+	strs << scriptnumber;
+	ainfo.ExtraInfo.Name = strs.str();
+	ainfo.ExtraInfo.NameColorR = 0.5f;
+	ainfo.ExtraInfo.NameColorG = 0.5f;
+	ainfo.ExtraInfo.NameColorB = 1.0f;
+	ainfo.LifeInfo.Display = true;
+	ainfo.LifeInfo.Display = false;
+	return ainfo;
+}
+
+
+
+
+/***********************************************************
+// use by the editor
+***********************************************************/
+ActorObjectInfo ActorScriptPart_TeleportTo::GetEditorObject(long Actorid, int scriptnumber)
+{
+	ActorObjectInfo ainfo(Actorid*1000 + scriptnumber + 5000000);
+	ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderLba1M;
+	ainfo.DisplayDesc.ModelName = "Object";
+	ainfo.DisplayDesc.Outfit = "Flag";
+	ainfo.DisplayDesc.Weapon = "No";
+	ainfo.DisplayDesc.Mode = "Normal";
+	ainfo.DisplayDesc.State = LbaNet::StNormal;
+    ainfo.DisplayDesc.UseLight = true;
+    ainfo.DisplayDesc.CastShadow = true;
+    ainfo.DisplayDesc.TransX = 0;
+    ainfo.DisplayDesc.TransY = 0;
+    ainfo.DisplayDesc.TransZ = 0;
+    ainfo.DisplayDesc.ScaleX = 1;
+    ainfo.DisplayDesc.ScaleY = 1;
+    ainfo.DisplayDesc.ScaleZ = 1;
+    ainfo.DisplayDesc.RotX = 0;
+    ainfo.DisplayDesc.RotY = 0;
+    ainfo.DisplayDesc.RotZ = 0;
+
+	//ainfo.DisplayDesc.ColorSwaps; todo
+
+
+	ainfo.PhysicDesc.TypeShape = LbaNet::NoShape;
+	ainfo.PhysicDesc.TypePhysO = LbaNet::StaticAType;
+	ainfo.PhysicDesc.Pos.X = _PosX;
+	ainfo.PhysicDesc.Pos.Y = _PosY;
+	ainfo.PhysicDesc.Pos.Z = _PosZ;
+	ainfo.PhysicDesc.Pos.Rotation = 0;
+
+	std::stringstream strs;
+	strs << scriptnumber;
+	ainfo.ExtraInfo.Name = strs.str();
+	ainfo.ExtraInfo.NameColorR = 0.5f;
+	ainfo.ExtraInfo.NameColorG = 0.5f;
+	ainfo.ExtraInfo.NameColorB = 1.0f;
+	ainfo.LifeInfo.Display = true;
+	ainfo.LifeInfo.Display = false;
+	return ainfo;
+}
+
+
+
+/***********************************************************
+// use by the editor
+***********************************************************/
+ActorObjectInfo ActorScriptPart_FollowWaypoint::GetEditorObject(long Actorid, int scriptnumber)
+{
+	ActorObjectInfo ainfo(Actorid*1000 + scriptnumber + 5000000);
+	ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderLba1M;
+	ainfo.DisplayDesc.ModelName = "Object";
+	ainfo.DisplayDesc.Outfit = "Flag";
+	ainfo.DisplayDesc.Weapon = "No";
+	ainfo.DisplayDesc.Mode = "Normal";
+	ainfo.DisplayDesc.State = LbaNet::StNormal;
+    ainfo.DisplayDesc.UseLight = true;
+    ainfo.DisplayDesc.CastShadow = true;
+    ainfo.DisplayDesc.TransX = 0;
+    ainfo.DisplayDesc.TransY = 0;
+    ainfo.DisplayDesc.TransZ = 0;
+    ainfo.DisplayDesc.ScaleX = 1;
+    ainfo.DisplayDesc.ScaleY = 1;
+    ainfo.DisplayDesc.ScaleZ = 1;
+    ainfo.DisplayDesc.RotX = 0;
+    ainfo.DisplayDesc.RotY = 0;
+    ainfo.DisplayDesc.RotZ = 0;
+
+	//ainfo.DisplayDesc.ColorSwaps; todo
+
+
+	ainfo.PhysicDesc.TypeShape = LbaNet::NoShape;
+	ainfo.PhysicDesc.TypePhysO = LbaNet::StaticAType;
+	ainfo.PhysicDesc.Pos.X = _PosX;
+	ainfo.PhysicDesc.Pos.Y = _PosY;
+	ainfo.PhysicDesc.Pos.Z = _PosZ;
+	ainfo.PhysicDesc.Pos.Rotation = 0;
+
+	std::stringstream strs;
+	strs << scriptnumber;
+	ainfo.ExtraInfo.Name = strs.str();
+	ainfo.ExtraInfo.NameColorR = 0.5f;
+	ainfo.ExtraInfo.NameColorG = 0.5f;
+	ainfo.ExtraInfo.NameColorB = 1.0f;
+	ainfo.LifeInfo.Display = true;
+	ainfo.LifeInfo.Display = false;
+	return ainfo;
+}
+
+
+
+
+/***********************************************************
+// use by the editor
+***********************************************************/
+ActorObjectInfo ActorScriptPart_StartWaypoint::GetEditorObject(long Actorid, int scriptnumber)
+{
+	ActorObjectInfo ainfo(Actorid*1000 + scriptnumber + 5000000);
+	ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderLba1M;
+	ainfo.DisplayDesc.ModelName = "Object";
+	ainfo.DisplayDesc.Outfit = "Flag";
+	ainfo.DisplayDesc.Weapon = "No";
+	ainfo.DisplayDesc.Mode = "Normal";
+	ainfo.DisplayDesc.State = LbaNet::StNormal;
+    ainfo.DisplayDesc.UseLight = true;
+    ainfo.DisplayDesc.CastShadow = true;
+    ainfo.DisplayDesc.TransX = 0;
+    ainfo.DisplayDesc.TransY = 0;
+    ainfo.DisplayDesc.TransZ = 0;
+    ainfo.DisplayDesc.ScaleX = 1;
+    ainfo.DisplayDesc.ScaleY = 1;
+    ainfo.DisplayDesc.ScaleZ = 1;
+    ainfo.DisplayDesc.RotX = 0;
+    ainfo.DisplayDesc.RotY = 0;
+    ainfo.DisplayDesc.RotZ = 0;
+
+	//ainfo.DisplayDesc.ColorSwaps; todo
+
+
+	ainfo.PhysicDesc.TypeShape = LbaNet::NoShape;
+	ainfo.PhysicDesc.TypePhysO = LbaNet::StaticAType;
+	ainfo.PhysicDesc.Pos.X = _PosX;
+	ainfo.PhysicDesc.Pos.Y = _PosY;
+	ainfo.PhysicDesc.Pos.Z = _PosZ;
+	ainfo.PhysicDesc.Pos.Rotation = 0;
+
+	std::stringstream strs;
+	strs << scriptnumber;
+	ainfo.ExtraInfo.Name = strs.str();
+	ainfo.ExtraInfo.NameColorR = 0.5f;
+	ainfo.ExtraInfo.NameColorG = 0.5f;
+	ainfo.ExtraInfo.NameColorB = 1.0f;
+	ainfo.LifeInfo.Display = true;
+	ainfo.LifeInfo.Display = false;
+	return ainfo;
+}
+
+
 
 #endif

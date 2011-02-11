@@ -30,6 +30,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class ActorScriptPartBase;
 typedef boost::shared_ptr<ActorScriptPartBase> ActorScriptPartBasePtr;
+struct ActorObjectInfo;
+class ActorHandler;
 
 #include <string>
 
@@ -65,13 +67,16 @@ public:
 
 
 	// save script to lua file
-	virtual void WriteExecutionScript(std::ostream & file, long actid){}
+	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH){}
 
 #ifdef _USE_QT_EDITOR_
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx){}
 
 	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx){}
+
+	//! get object to display for editor
+	virtual ActorObjectInfo GetEditorObject(long Actorid, int scriptnumber);
 #endif
 
 
@@ -101,13 +106,16 @@ public:
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
 	// save script to lua file
-	virtual void WriteExecutionScript(std::ostream & file, long actid);
+	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
 #ifdef _USE_QT_EDITOR_
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
 	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+
+	//! get object to display for editor
+	virtual ActorObjectInfo GetEditorObject(long Actorid, int scriptnumber);
 #endif
 
 private:
@@ -139,13 +147,16 @@ public:
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
 	// save script to lua file
-	virtual void WriteExecutionScript(std::ostream & file, long actid);
+	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
 #ifdef _USE_QT_EDITOR_
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
 	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+
+	//! get object to display for editor
+	virtual ActorObjectInfo GetEditorObject(long Actorid, int scriptnumber);
 #endif
 
 
@@ -178,7 +189,7 @@ public:
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
 	// save script to lua file
-	virtual void WriteExecutionScript(std::ostream & file, long actid);
+	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
 #ifdef _USE_QT_EDITOR_
 	// use by the editor
@@ -217,7 +228,7 @@ public:
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
 	// save script to lua file
-	virtual void WriteExecutionScript(std::ostream & file, long actid);
+	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
 #ifdef _USE_QT_EDITOR_
 	// use by the editor
@@ -257,7 +268,7 @@ public:
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
 	// save script to lua file
-	virtual void WriteExecutionScript(std::ostream & file, long actid);
+	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
 #ifdef _USE_QT_EDITOR_
 	// use by the editor
@@ -293,7 +304,7 @@ public:
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
 	// save script to lua file
-	virtual void WriteExecutionScript(std::ostream & file, long actid);
+	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
 #ifdef _USE_QT_EDITOR_
 	// use by the editor
@@ -329,7 +340,7 @@ public:
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
 	// save script to lua file
-	virtual void WriteExecutionScript(std::ostream & file, long actid);
+	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
 #ifdef _USE_QT_EDITOR_
 	// use by the editor
@@ -365,7 +376,7 @@ public:
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
 	// save script to lua file
-	virtual void WriteExecutionScript(std::ostream & file, long actid);
+	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
 #ifdef _USE_QT_EDITOR_
 	// use by the editor
@@ -402,7 +413,7 @@ public:
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
 	// save script to lua file
-	virtual void WriteExecutionScript(std::ostream & file, long actid);
+	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
 #ifdef _USE_QT_EDITOR_
 	// use by the editor
@@ -439,7 +450,7 @@ public:
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
 	// save script to lua file
-	virtual void WriteExecutionScript(std::ostream & file, long actid);
+	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
 #ifdef _USE_QT_EDITOR_
 	// use by the editor
@@ -477,7 +488,7 @@ public:
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
 	// save script to lua file
-	virtual void WriteExecutionScript(std::ostream & file, long actid);
+	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
 #ifdef _USE_QT_EDITOR_
 	// use by the editor
@@ -515,13 +526,16 @@ public:
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
 	// save script to lua file
-	virtual void WriteExecutionScript(std::ostream & file, long actid);
+	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
 #ifdef _USE_QT_EDITOR_
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
 	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+
+	//! get object to display for editor
+	virtual ActorObjectInfo GetEditorObject(long Actorid, int scriptnumber);
 #endif
 
 
@@ -556,7 +570,7 @@ public:
 	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
 	// save script to lua file
-	virtual void WriteExecutionScript(std::ostream & file, long actid);
+	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
 #ifdef _USE_QT_EDITOR_
 	// use by the editor
@@ -572,6 +586,176 @@ private:
 };
 
 
+
+
+
+
+//! use to start a script on client side
+class ActorScriptPart_SetRotation : public ActorScriptPartBase
+{
+public:
+	//! constructor
+	ActorScriptPart_SetRotation(float Angle)
+		: _Angle(Angle){}
+	
+	//! destructor
+	virtual ~ActorScriptPart_SetRotation(){}
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "ASPSetRotation"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+
+	// save script to lua file
+	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
+
+#ifdef _USE_QT_EDITOR_
+	// use by the editor
+	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
+
+	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+#endif
+
+
+
+private:
+	float	_Angle; 
+};
+
+
+
+
+//! use to start a script on client side
+class ActorScriptPart_RotateFromPoint : public ActorScriptPartBase
+{
+public:
+	//! constructor
+	ActorScriptPart_RotateFromPoint(float Angle, float PosX, float PosY, float PosZ, float speed)
+		: _Angle(Angle), _PosX(PosX), _PosY(PosY), _PosZ(PosZ), _Speed(speed)
+	{}
+	
+	//! destructor
+	virtual ~ActorScriptPart_RotateFromPoint(){}
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "ASPRotateFromPoint"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+
+	// save script to lua file
+	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
+
+#ifdef _USE_QT_EDITOR_
+	// use by the editor
+	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
+
+	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+#endif
+
+
+
+private:
+	float	_Angle; 
+	float	_PosX;
+	float	_PosY;
+	float	_PosZ;
+	float	_Speed;
+};
+
+
+
+//! use to start a script on client side
+class ActorScriptPart_FollowWaypoint : public ActorScriptPartBase
+{
+public:
+	//! constructor
+	ActorScriptPart_FollowWaypoint(float PosX, float PosY, float PosZ)
+		: _PosX(PosX), _PosY(PosY), _PosZ(PosZ)
+	{}
+	
+	//! destructor
+	virtual ~ActorScriptPart_FollowWaypoint(){}
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "ASPFollowWaypoint"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+
+	// save script to lua file
+	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
+
+#ifdef _USE_QT_EDITOR_
+	// use by the editor
+	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
+
+	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+
+	//! get object to display for editor
+	virtual ActorObjectInfo GetEditorObject(long Actorid, int scriptnumber);
+#endif
+
+
+private:
+	float	_PosX;
+	float	_PosY;
+	float	_PosZ;
+};
+
+
+//! use to start a script on client side
+class ActorScriptPart_StartWaypoint : public ActorScriptPartBase
+{
+public:
+	//! constructor
+	ActorScriptPart_StartWaypoint(float PosX, float PosY, float PosZ, bool Forward)
+		: _PosX(PosX), _PosY(PosY), _PosZ(PosZ), _Forward(Forward)
+	{}
+	
+	//! destructor
+	virtual ~ActorScriptPart_StartWaypoint(){}
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "ASPStartWaypoint"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+
+	// save script to lua file
+	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
+
+#ifdef _USE_QT_EDITOR_
+	// use by the editor
+	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
+
+	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+
+	//! get object to display for editor
+	virtual ActorObjectInfo GetEditorObject(long Actorid, int scriptnumber);
+#endif
+
+
+
+private:
+	float	_PosX;
+	float	_PosY;
+	float	_PosZ;
+	bool	_Forward;
+};
 
 
 
