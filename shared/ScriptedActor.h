@@ -27,6 +27,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <boost/shared_ptr.hpp>
 #include <list>
+#include "CommonTypes.h"
+
 class DynamicObject;
 class ScriptEnvironmentBase;
 
@@ -254,7 +256,7 @@ protected:
 	float	_PosZ;
 	float	_startPosX;
 	float	_startPosY;
-	float	_starPosZ;
+	float	_startPosZ;
 	float	_Speed;
 	float	_Angle;
 	float	_doneAngle;
@@ -299,10 +301,10 @@ protected:
 private:
 	float			_distance;
 	float			_distancedone;
-	LbaVec			_P0;
-	LbaVec			_P1;
-	LbaVec			_P2;
-	LbaVec			_P3;
+	LbaVec3			_P0;
+	LbaVec3			_P1;
+	LbaVec3			_P2;
+	LbaVec3			_P3;
 };
 
 

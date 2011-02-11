@@ -30,6 +30,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define M_PI    3.14159265358979323846f
 #endif
 
+
+/***********************************************************
+distance between 2 vectors
+***********************************************************/
+float LbaVec3::Distance(const LbaVec3 & v) const
+{
+	float dx = x - v.x;
+	float dy = y - v.y;
+	float dz = z - v.z;
+	return sqrt(dx * dx + dy * dy + dz * dz);
+}
+
+
 /***********************************************************
 Constructor
 ***********************************************************/

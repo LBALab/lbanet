@@ -180,7 +180,8 @@ save action to lua file
 ***********************************************************/	
 void ActorScriptPart_ChangeAnimation::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
-	file<<"Environment:UpdateActorAnimation("<<actid<<",\""<<_Animationstring<<"\")"<<std::endl;
+	if(_Animationstring != "")
+		file<<"Environment:UpdateActorAnimation("<<actid<<",\""<<_Animationstring<<"\")"<<std::endl;
 }
 
 
@@ -206,7 +207,8 @@ save action to lua file
 ***********************************************************/	
 void ActorScriptPart_ChangeModel::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
-	file<<"Environment:UpdateActorModel("<<actid<<",\""<<_Name<<"\")"<<std::endl;
+	if(_Name != "")
+		file<<"Environment:UpdateActorModel("<<actid<<",\""<<_Name<<"\")"<<std::endl;
 }
 
 
@@ -232,7 +234,8 @@ save action to lua file
 ***********************************************************/	
 void ActorScriptPart_ChangeOutfit::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
-	file<<"Environment:UpdateActorOutfit("<<actid<<",\""<<_Name<<"\")"<<std::endl;
+	if(_Name != "")
+		file<<"Environment:UpdateActorOutfit("<<actid<<",\""<<_Name<<"\")"<<std::endl;
 }
 
 
@@ -258,7 +261,8 @@ save action to lua file
 ***********************************************************/	
 void ActorScriptPart_ChangeWeapon::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
-	file<<"Environment:UpdateActorWeapon("<<actid<<",\""<<_Name<<"\")"<<std::endl;
+	if(_Name != "")
+		file<<"Environment:UpdateActorWeapon("<<actid<<",\""<<_Name<<"\")"<<std::endl;
 }
 
 
@@ -284,7 +288,8 @@ save action to lua file
 ***********************************************************/	
 void ActorScriptPart_ChangeMode::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
-	file<<"Environment:UpdateActorMode("<<actid<<",\""<<_Name<<"\")"<<std::endl;
+	if(_Name != "")
+		file<<"Environment:UpdateActorMode("<<actid<<",\""<<_Name<<"\")"<<std::endl;
 }
 
 
@@ -363,7 +368,7 @@ save action to lua file
 void ActorScriptPart_Custom::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
 	if(_fctName != "")
-		file<<_fctName<<"(ScriptId, Environment)"<<std::endl;
+		file<<_fctName<<"(ScriptId, Environment,"<<actid<<")"<<std::endl;
 }
 
 
@@ -408,7 +413,7 @@ save action to lua file
 ***********************************************************/	
 void ActorScriptPart_SetRotation::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
-	file<<"Environment:SetActorRotation(ScriptId,"<<_Angle<<")"<<std::endl;
+	file<<"Environment:SetActorRotation("<<actid<<","<<_Angle<<")"<<std::endl;
 }
 
 
@@ -1016,7 +1021,10 @@ ActorObjectInfo ActorScriptPart_GoTo::GetEditorObject(long Actorid, int scriptnu
     ainfo.DisplayDesc.RotY = 0;
     ainfo.DisplayDesc.RotZ = 0;
 
-	//ainfo.DisplayDesc.ColorSwaps; todo
+	LbaNet::Lba1ColorIndex cidx;
+	cidx.Color = 80;
+	cidx.ModelPart = LbaNet::PolygonColor;
+	ainfo.DisplayDesc.ColorSwaps[cidx] = 91;
 
 
 	ainfo.PhysicDesc.TypeShape = LbaNet::NoShape;
@@ -1027,7 +1035,7 @@ ActorObjectInfo ActorScriptPart_GoTo::GetEditorObject(long Actorid, int scriptnu
 	ainfo.PhysicDesc.Pos.Rotation = 0;
 
 	std::stringstream strs;
-	strs << scriptnumber;
+	strs << "SP" <<scriptnumber;
 	ainfo.ExtraInfo.Name = strs.str();
 	ainfo.ExtraInfo.NameColorR = 0.5f;
 	ainfo.ExtraInfo.NameColorG = 0.5f;
@@ -1061,7 +1069,12 @@ ActorObjectInfo ActorScriptPart_WalkStraightTo::GetEditorObject(long Actorid, in
     ainfo.DisplayDesc.RotY = 0;
     ainfo.DisplayDesc.RotZ = 0;
 
-	//ainfo.DisplayDesc.ColorSwaps; todo
+
+	LbaNet::Lba1ColorIndex cidx;
+	cidx.Color = 80;
+	cidx.ModelPart = LbaNet::PolygonColor;
+	ainfo.DisplayDesc.ColorSwaps[cidx] = 125;
+
 
 
 	ainfo.PhysicDesc.TypeShape = LbaNet::NoShape;
@@ -1072,7 +1085,7 @@ ActorObjectInfo ActorScriptPart_WalkStraightTo::GetEditorObject(long Actorid, in
 	ainfo.PhysicDesc.Pos.Rotation = 0;
 
 	std::stringstream strs;
-	strs << scriptnumber;
+	strs << "SP" <<scriptnumber;
 	ainfo.ExtraInfo.Name = strs.str();
 	ainfo.ExtraInfo.NameColorR = 0.5f;
 	ainfo.ExtraInfo.NameColorG = 0.5f;
@@ -1109,7 +1122,12 @@ ActorObjectInfo ActorScriptPart_TeleportTo::GetEditorObject(long Actorid, int sc
     ainfo.DisplayDesc.RotY = 0;
     ainfo.DisplayDesc.RotZ = 0;
 
-	//ainfo.DisplayDesc.ColorSwaps; todo
+
+	LbaNet::Lba1ColorIndex cidx;
+	cidx.Color = 80;
+	cidx.ModelPart = LbaNet::PolygonColor;
+	ainfo.DisplayDesc.ColorSwaps[cidx] = 156;
+
 
 
 	ainfo.PhysicDesc.TypeShape = LbaNet::NoShape;
@@ -1120,7 +1138,7 @@ ActorObjectInfo ActorScriptPart_TeleportTo::GetEditorObject(long Actorid, int sc
 	ainfo.PhysicDesc.Pos.Rotation = 0;
 
 	std::stringstream strs;
-	strs << scriptnumber;
+	strs << "SP" <<scriptnumber;
 	ainfo.ExtraInfo.Name = strs.str();
 	ainfo.ExtraInfo.NameColorR = 0.5f;
 	ainfo.ExtraInfo.NameColorG = 0.5f;
@@ -1156,7 +1174,12 @@ ActorObjectInfo ActorScriptPart_FollowWaypoint::GetEditorObject(long Actorid, in
     ainfo.DisplayDesc.RotY = 0;
     ainfo.DisplayDesc.RotZ = 0;
 
-	//ainfo.DisplayDesc.ColorSwaps; todo
+
+	LbaNet::Lba1ColorIndex cidx;
+	cidx.Color = 80;
+	cidx.ModelPart = LbaNet::PolygonColor;
+	ainfo.DisplayDesc.ColorSwaps[cidx] = 172;
+
 
 
 	ainfo.PhysicDesc.TypeShape = LbaNet::NoShape;
@@ -1167,7 +1190,7 @@ ActorObjectInfo ActorScriptPart_FollowWaypoint::GetEditorObject(long Actorid, in
 	ainfo.PhysicDesc.Pos.Rotation = 0;
 
 	std::stringstream strs;
-	strs << scriptnumber;
+	strs << "SP" <<scriptnumber;
 	ainfo.ExtraInfo.Name = strs.str();
 	ainfo.ExtraInfo.NameColorR = 0.5f;
 	ainfo.ExtraInfo.NameColorG = 0.5f;
@@ -1204,7 +1227,12 @@ ActorObjectInfo ActorScriptPart_StartWaypoint::GetEditorObject(long Actorid, int
     ainfo.DisplayDesc.RotY = 0;
     ainfo.DisplayDesc.RotZ = 0;
 
-	//ainfo.DisplayDesc.ColorSwaps; todo
+
+	LbaNet::Lba1ColorIndex cidx;
+	cidx.Color = 80;
+	cidx.ModelPart = LbaNet::PolygonColor;
+	ainfo.DisplayDesc.ColorSwaps[cidx] = 216;
+
 
 
 	ainfo.PhysicDesc.TypeShape = LbaNet::NoShape;
@@ -1215,7 +1243,7 @@ ActorObjectInfo ActorScriptPart_StartWaypoint::GetEditorObject(long Actorid, int
 	ainfo.PhysicDesc.Pos.Rotation = 0;
 
 	std::stringstream strs;
-	strs << scriptnumber;
+	strs << "SP" <<scriptnumber;
 	ainfo.ExtraInfo.Name = strs.str();
 	ainfo.ExtraInfo.NameColorR = 0.5f;
 	ainfo.ExtraInfo.NameColorG = 0.5f;
