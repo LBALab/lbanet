@@ -113,7 +113,7 @@ public:
 
 	std::vector<LbaVec3> GetWaypoints(int index)
 	{
-		if(index > 0 && index < (int)_waypoints.size())
+		if(index >= 0 && index < (int)_waypoints.size())
 			return _waypoints[index];
 
 		return std::vector<LbaVec3>();
