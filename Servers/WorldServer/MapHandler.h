@@ -235,6 +235,9 @@ public:
 	//! the actor will move using animation speed
 	void TeleportActorTo(int ScriptId, long ActorId, const LbaVec3 &Position);
 
+	//! used by lua to move an actor or player
+	//! the actor change rotation
+	void SetActorRotation(long ActorId, float Angle);
 
 
 protected:
@@ -462,6 +465,17 @@ protected:
 
 
 
+	//! used by lua to rotate an actor
+	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
+	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
+	//! if ManageAnimation is true then the animation will be changed to suit the rotation
+	virtual void InternalActorRotateFromPoint(int ScriptId, long ActorId, float Angle, const LbaVec3 &Position, 
+												float RotationSpeedPerSec, bool asynchronus = false);
+
+
+	//! used by lua to make actor follow waypoint
+	virtual void InternalActorFollowWaypoint(int ScriptId, long ActorId, int waypointindex1, 
+												int waypointindex2, bool asynchronus = false);
 
 
 private:

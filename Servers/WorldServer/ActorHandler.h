@@ -53,6 +53,9 @@ struct ActorObjectInfo
 		DisplayDesc.ScaleX = 1;
 		DisplayDesc.ScaleY = 1;
 		DisplayDesc.ScaleZ = 1;	
+
+		LifeInfo.Display = false;
+		ExtraInfo.Display = false;
 	}
 
 	//constructor
@@ -198,6 +201,8 @@ public:
 	//! get player current position
 	void TeleportTo(float PosX, float PosY, float PosZ);
 
+	//! set rotation
+	void SetRotation(float angle);
 
 
 	//! process actor
@@ -220,11 +225,16 @@ public:
 	std::vector<ActorScriptPartBasePtr> GetScript()
 	{ return m_script; }
 
-
-
-
 	//! clear the running script
 	void ClearRunningScript();
+
+
+
+	//! waypoint stuff
+	std::pair<int, int> StartWaypoint(const LbaVec3 &point);
+	std::pair<int, int> AddWaypoint(const LbaVec3 &point);
+
+
 
 
 #ifdef _USE_QT_EDITOR_

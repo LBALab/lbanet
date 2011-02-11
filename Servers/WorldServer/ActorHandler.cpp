@@ -470,7 +470,35 @@ void ActorHandler::ClearRunningScript()
 
 	m_launchedscript = -1;
 	ClearAllScripts();
+	if(_character)
+		_character->ClearWaypoints();
 }
+
+
+
+
+/***********************************************************
+waypoint stuff
+***********************************************************/
+std::pair<int, int> ActorHandler::StartWaypoint(const LbaVec3 &point)
+{
+	if(_character)
+		return _character->StartWaypoint(point);
+
+	return std::make_pair<int, int>(0, 0);
+}
+
+/***********************************************************
+waypoint stuff
+***********************************************************/
+std::pair<int, int> ActorHandler::AddWaypoint(const LbaVec3 &point)
+{
+	if(_character)
+		return _character->AddWaypoint(point);
+
+	return std::make_pair<int, int>(0, 0);
+}
+
 
 
 /***********************************************************
@@ -844,6 +872,34 @@ void ActorHandler::TeleportTo(float PosX, float PosY, float PosZ)
 
 
 /***********************************************************
+set rotation
+***********************************************************/
+void ActorHandler::SetRotation(float angle)
+{
+	if(m_paused)
+	{
+		m_saved_Q = LbaQuaternion();
+		m_saved_Q.AddSingleRotation(angle, LbaVec3(0, 1, 0));
+	}
+	else
+	{
+		if(_character)
+		{
+			boost::shared_ptr<PhysicalObjectHandlerBase> physO = _character->GetPhysicalObject();
+			if(physO)
+			{
+				LbaQuaternion Q;
+				Q.AddSingleRotation(angle, LbaVec3(0, 1, 0));
+				physO->SetRotation(Q);
+			}
+		}
+	}
+}
+
+
+
+
+/***********************************************************
 called when a script has finished
 ***********************************************************/
 void ActorHandler::ScriptFinished(int scriptid, const std::string & functioname)
@@ -1015,11 +1071,10 @@ void ActorHandler::AddScriptPart(ActorScriptPartBasePtr part)
 
 	if(m_launchedscript >= 0)
 	{
-		ClearRunningScript();
 		CreateActor();
+		ClearRunningScript();	
 	}
 }
-
 
 /***********************************************************
 remove script part to the script
@@ -1032,8 +1087,8 @@ void ActorHandler::RemoveScriptPart(ActorScriptPartBasePtr part)
 
 	if(m_launchedscript >= 0)
 	{
-		ClearRunningScript();
 		CreateActor();
+		ClearRunningScript();
 	}
 }
 
@@ -1196,7 +1251,7 @@ void ActorHandler::StartScript()
 	scripts<<"loopstop = 1"<<std::endl;
 	scripts<<"while loopstop > 0 do"<<std::endl;
 	for(size_t i=0; i< m_script.size(); ++i)
-		m_script[i]->WriteExecutionScript(scripts, m_actorinfo.ObjectId);
+		m_script[i]->WriteExecutionScript(scripts, m_actorinfo.ObjectId, this);
 
 	scripts<<"Environment:WaitOneCycle(ScriptId)"<<std::endl; // used to free thread so that we dont loop forever
 	scripts<<"end"<<std::endl;

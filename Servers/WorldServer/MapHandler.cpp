@@ -2267,9 +2267,8 @@ void MapHandler::ScriptFinished(int scriptid, const std::string & functioname)
 ***********************************************************/
 void MapHandler::UpdateActorModel(long ActorId, const std::string & Name)
 {
-	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.begin();
-	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endact = _Actors.end();
-	for(; itact != endact; ++itact)
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
 		itact->second->UpdateActorModel(Name, true);
 }
 
@@ -2281,9 +2280,8 @@ void MapHandler::UpdateActorModel(long ActorId, const std::string & Name)
 ***********************************************************/
 void MapHandler::UpdateActorOutfit(long ActorId, const std::string & Name)
 {
-	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.begin();
-	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endact = _Actors.end();
-	for(; itact != endact; ++itact)
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
 		itact->second->UpdateActorOutfit(Name, true);
 }
 
@@ -2295,9 +2293,8 @@ void MapHandler::UpdateActorOutfit(long ActorId, const std::string & Name)
 ***********************************************************/
 void MapHandler::UpdateActorWeapon(long ActorId, const std::string & Name)
 {
-	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.begin();
-	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endact = _Actors.end();
-	for(; itact != endact; ++itact)
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
 		itact->second->UpdateActorWeapon(Name, true);
 }
 
@@ -2309,9 +2306,8 @@ void MapHandler::UpdateActorWeapon(long ActorId, const std::string & Name)
 ***********************************************************/
 void MapHandler::SendSignalToActor(long ActorId, int Signalnumber)
 {
-	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.begin();
-	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endact = _Actors.end();
-	for(; itact != endact; ++itact)
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
 		itact->second->SendSignal(Signalnumber);
 }
 
@@ -2325,11 +2321,23 @@ void MapHandler::SendSignalToActor(long ActorId, int Signalnumber)
 ***********************************************************/
 void MapHandler::TeleportActorTo(int ScriptId, long ActorId, const LbaVec3 &Position)
 {
-	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.begin();
-	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endact = _Actors.end();
-	for(; itact != endact; ++itact)
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
 		itact->second->TeleportTo(Position.x, Position.y, Position.z);
 }
+
+
+/***********************************************************
+//! used by lua to move an actor or player
+//! the actor change rotation
+***********************************************************/
+void MapHandler::SetActorRotation(long ActorId, float Angle)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
+		itact->second->SetRotation(Angle);
+}
+
 
 
 
@@ -2341,9 +2349,8 @@ void MapHandler::TeleportActorTo(int ScriptId, long ActorId, const LbaVec3 &Posi
 void MapHandler::InternalActorGoTo(int ScriptId, long ActorId, const LbaVec3 &Position, 
 										float Speed, bool asynchronus)
 {
-	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.begin();
-	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endact = _Actors.end();
-	for(; itact != endact; ++itact)
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
 		itact->second->ActorGoTo(ScriptId, Position.x, Position.y, Position.z, Speed, asynchronus);
 }
 	
@@ -2356,8 +2363,38 @@ void MapHandler::InternalActorGoTo(int ScriptId, long ActorId, const LbaVec3 &Po
 void MapHandler::InternalActorWaitForSignal(int ScriptId, long ActorId, int Signalnumber, 
 												bool asynchronus)
 {
-	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.begin();
-	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endact = _Actors.end();
-	for(; itact != endact; ++itact)
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
 		itact->second->ActorWaitForSignal(ScriptId, Signalnumber, asynchronus);
+}
+
+
+
+
+/***********************************************************
+	//! used by lua to rotate an actor
+	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
+	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
+	//! if ManageAnimation is true then the animation will be changed to suit the rotation
+***********************************************************/
+void MapHandler::InternalActorRotateFromPoint(int ScriptId, long ActorId, float Angle, const LbaVec3 &Position, 
+												float RotationSpeedPerSec, bool asynchronus)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
+		itact->second->ActorRotateFromPoint(ScriptId, Angle, 
+													Position.x, Position.y, Position.z, RotationSpeedPerSec, 
+													asynchronus);
+}
+
+
+/***********************************************************
+ used by lua to make actor follow waypoint
+***********************************************************/
+void MapHandler::InternalActorFollowWaypoint(int ScriptId, long ActorId, int waypointindex1, 
+												int waypointindex2, bool asynchronus)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
+		itact->second->ActorFollowWaypoint(ScriptId, waypointindex1, waypointindex2, asynchronus);
 }

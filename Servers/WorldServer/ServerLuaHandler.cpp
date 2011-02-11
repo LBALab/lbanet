@@ -229,12 +229,26 @@ ServerLuaHandler::ServerLuaHandler()
 		luabind::class_<ActorScriptPart_Custom, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPCustom")
 		.def(luabind::constructor<const std::string &>()),
 
+		luabind::class_<ActorScriptPart_SetRotation, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPSetRotation")
+		.def(luabind::constructor<float>()),
 
+		luabind::class_<ActorScriptPart_RotateFromPoint, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPRotateFromPoint")
+		.def(luabind::constructor<float, float, float, float, float>()),
+
+		luabind::class_<ActorScriptPart_FollowWaypoint, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPFollowWaypoint")
+		.def(luabind::constructor<float, float, float>()),
+
+		luabind::class_<ActorScriptPart_StartWaypoint, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPStartWaypoint")
+		.def(luabind::constructor<float, float, float, bool>()),
+
+		
 
 		luabind::class_<ActorHandler, boost::shared_ptr<ActorHandler> >("ActorHandler")
 		.def(luabind::constructor<const ActorObjectInfo &>())
 		.def("AddScriptPart", &ActorHandler::AddScriptPart)
-		,
+		.def("StartWaypoint", &ActorHandler::StartWaypoint)
+		.def("AddWaypoint", &ActorHandler::AddWaypoint),
+
 
 		luabind::class_<ScriptEnvironmentBase>("ScriptEnvironmentBase")
 		.def("AddActorObject", &ScriptEnvironmentBase::AddActorObject)
@@ -266,7 +280,12 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("TeleportActorTo", &ScriptEnvironmentBase::TeleportActorTo)
 		.def("Async_ActorGoTo", &ScriptEnvironmentBase::Async_ActorGoTo)
 		.def("Async_WaitForSignal", &ScriptEnvironmentBase::Async_WaitForSignal)
-		.def("WaitOneCycle", &ScriptEnvironmentBase::WaitOneCycle, luabind::yield),
+		.def("WaitOneCycle", &ScriptEnvironmentBase::WaitOneCycle, luabind::yield)
+		.def("SetActorRotation", &ScriptEnvironmentBase::SetActorRotation)
+		.def("ActorRotateFromPoint", &ScriptEnvironmentBase::ActorRotateFromPoint, luabind::yield)
+		.def("ActorFollowWaypoint", &ScriptEnvironmentBase::ActorFollowWaypoint, luabind::yield)
+		.def("Async_ActorRotateFromPoint", &ScriptEnvironmentBase::Async_ActorRotateFromPoint)
+		.def("Async_ActorFollowWaypoint", &ScriptEnvironmentBase::Async_ActorFollowWaypoint),
 
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),
