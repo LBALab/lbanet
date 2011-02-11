@@ -1054,7 +1054,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 
 	QStringList actilist;
 	actilist << "No" << "TeleportAction" << "ClientScriptAction" << "CustomAction" 
-			<< "DisplayTextAction" << "ConditionalAction" << "OpenContainerAction";
+			<< "DisplayTextAction" << "ConditionalAction" << "OpenContainerAction" << "SendSignalAction";
 	_actiontypeList->setStringList(actilist);
 
 	QStringList consu_iteml;
@@ -1071,8 +1071,9 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	_special_itemlistmodel->setStringList(special_iteml);
 
 	QStringList scptypel;
-	scptypel << "Remove" << "ASPFollowWaypoint" << "ASPGoTo" << "ASPWalkStraightTo" << "ASPTeleportTo"
-			<< "ASPRotate" << "ASPSetRotation" << "ASPPlayAnimation"
+	scptypel << "Remove" << "ASPGoTo" << "ASPWalkStraightTo" << "ASPTeleportTo"
+			<< "ASPRotate" << "ASPSetRotation" << "ASPPlayAnimation" << "ASPRotateFromPoint"
+			<< "ASPStartWaypoint" << "ASPFollowWaypoint"
 			<< "ASPChangeAnimation" << "ASPChangeModel" << "ASPChangeOutfit" << "ASPChangeWeapon" 
 			<< "ASPChangeMode" << "ASPWaitForSignal" << "ASPSendSignal"  << "ASPCustom";
 	_actorscriptparttypeList->setStringList(scptypel);
@@ -1353,6 +1354,14 @@ Destructor
 ***********************************************************/
 EditorHandler::~EditorHandler()
 {
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator it = _Actors.begin();
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator end = _Actors.end();
+	for(; it != end; ++it)
+		it->second->SetScriptHandler(NULL);
+
+	_triggers.clear();
+	_Actors.clear();
+
 	delete _addtriggerdialog;
 }
 
@@ -3090,10 +3099,27 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 			}
 
 		}
-
 		return;
 	}
 	
+
+
+	if(actiontype == "SendSignalAction")
+	{
+		SendSignalAction* ptr = static_cast<SendSignalAction*>(action);
+		{
+			QVector<QVariant> data;
+			data << "ActorId" << (int)ptr->GetActorId();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+		{
+			QVector<QVariant> data;
+			data << "Signal" << ptr->GetSignal();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+
+		return;
+	}
 
 }
 
@@ -3409,6 +3435,28 @@ void EditorHandler::ActionObjectChanged(const std::string & category, const QMod
 
 				return;
 			}
+
+
+			if(category == "SendSignalAction")
+			{
+				// get info
+				long aid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toInt();
+				int signal = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toInt();
+
+				// created modified action and replace old one
+				SendSignalAction* modifiedact = (SendSignalAction*)ptr;
+				modifiedact->SetActorId(aid);
+				modifiedact->SetSignal(signal);
+
+
+				// need to save as something changed
+				SetModified();
+
+				return;
+			}
+
+
+
 
 		}
 	}
@@ -6205,7 +6253,12 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 			{
 				QModelIndex childidx = _objectmodel->GetIndex(0, curridx, itemparent);
 				std::string type = _objectmodel->data(_objectmodel->GetIndex(1, curridx, itemparent))
-																		.toString().toAscii().data();
+																	.toString().toAscii().data();
+				
+				int pos = type.find_first_of("-");
+				if(pos != std::string::npos)
+					type = type.substr(pos+1);
+
 				++curridx;
 				if(type != (*itit)->GetTypeName())
 				{
@@ -6255,9 +6308,6 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 					}
 					else
 					{
-						// remove number on front
-						type = type.substr(2);
-
 						//build new script part
 						ActorScriptPartBasePtr newsp = ActorScriptPartBase::BuildScriptPart(type, _posX, _posY, _posZ);
 						if(newsp)
@@ -7735,6 +7785,9 @@ ActionBasePtr EditorHandler::CreateAction(const std::string & type)
 
 	if(type == "OpenContainerAction")
 		return ActionBasePtr(new OpenContainerAction());
+
+	if(type == "SendSignalAction")
+		return ActionBasePtr(new SendSignalAction());
 
 	return ActionBasePtr();
 }
