@@ -504,3 +504,21 @@ void ExternalPlayer::TeleportTo(float PosX, float PosY, float PosZ)
     minfo.CurrentSpeedRotation = 0;
 	UpdateMove(SynchronizedTimeHandler::GetCurrentTimeDouble(), minfo, true);
 }
+
+
+/***********************************************************
+set rotation
+***********************************************************/
+void ExternalPlayer::SetRotation(float angle)
+{
+	PlayerMoveInfo minfo;
+    minfo.CurrentPos.X = _dr._posX;
+    minfo.CurrentPos.Y = _dr._posY;
+    minfo.CurrentPos.Z = _dr._posZ;
+	minfo.CurrentPos.Rotation = angle;
+    minfo.CurrentSpeedX = _dr._velocityX;
+    minfo.CurrentSpeedY = _dr._velocityY;
+    minfo.CurrentSpeedZ = _dr._velocityZ;
+    minfo.CurrentSpeedRotation = 0;
+	UpdateMove(SynchronizedTimeHandler::GetCurrentTimeDouble(), minfo, false);
+}

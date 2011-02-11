@@ -975,3 +975,14 @@ void CharacterController::TeleportTo(float PosX, float PosY, float PosZ)
 {
 	_character->GetPhysicalObject()->SetPosition(PosX, PosY, PosZ);
 }
+
+
+/***********************************************************
+set rotation
+***********************************************************/
+void CharacterController::SetRotation(float angle)
+{
+	LbaQuaternion Q;
+	Q.AddSingleRotation(angle, LbaVec3(0, 1, 0));
+	_character->GetPhysicalObject()->SetRotation(Q);
+}

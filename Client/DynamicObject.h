@@ -87,6 +87,43 @@ public:
 		return false;
 	}
 
+
+
+	std::pair<int, int> StartWaypoint(const LbaVec3 &point)
+	{
+		_waypoints.push_back(std::vector<LbaVec3>());
+
+		return AddWaypoint(point);
+	}
+
+
+	std::pair<int, int> AddWaypoint(const LbaVec3 &point)
+	{
+		if(_waypoints.size() == 0)
+			_waypoints.push_back(std::vector<LbaVec3>());
+
+		int index1 = _waypoints.size()-1;
+
+		_waypoints[index1].push_back(point);
+
+		int index2 = _waypoints[index1].size()-1;
+
+		return std::make_pair<int, int>(index1, index2);
+	}
+
+	std::vector<LbaVec3> GetWaypoints(int index)
+	{
+		if(index > 0 && index < (int)_waypoints.size())
+			return _waypoints[index];
+
+		return std::vector<LbaVec3>();
+	}
+
+	void ClearWaypoints()
+	{
+		_waypoints.clear();
+	}
+
 protected:
 	
 	//! handler to physical object
@@ -100,6 +137,8 @@ protected:
 
 
 	std::vector<int>							_signalReceived;
+
+	std::vector<std::vector<LbaVec3> >			_waypoints;
 };
 
 #endif

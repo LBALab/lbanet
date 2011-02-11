@@ -1253,6 +1253,29 @@ void LbaNetModel::TeleportActorTo(int ScriptId, long ActorId, const LbaVec3 &Pos
 
 
 
+/***********************************************************
+//! used by lua to move an actor or player
+//! the actor change rotation
+***********************************************************/
+void LbaNetModel::SetActorRotation(long ActorId, float Angle)
+{
+	if(ActorId >= 0)
+	{
+		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+			it->second->SetRotation(Angle);
+	}
+	else
+	{
+		// on player
+		if(m_controllerChar)
+			m_controllerChar->SetRotation(Angle);
+	}
+}
+
+
+
+
 
 /***********************************************************
 	//! used by lua to move an actor or player
@@ -1307,13 +1330,59 @@ void LbaNetModel::InternalActorWaitForSignal(int ScriptId, long ActorId, int Sig
 
 
 
+/***********************************************************
+	//! used by lua to rotate an actor
+	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
+	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
+	//! if ManageAnimation is true then the animation will be changed to suit the rotation
+***********************************************************/
+void LbaNetModel::InternalActorRotateFromPoint(int ScriptId, long ActorId, float Angle, const LbaVec3 &Position, 
+												float RotationSpeedPerSec, bool asynchronus)
+{
+	if(ActorId >= 0)
+	{
+		ReserveActor(ScriptId, ActorId);
+
+		// on actor
+		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+			it->second->ActorRotateFromPoint(ScriptId, Angle, 
+												Position.x, Position.y, Position.z, RotationSpeedPerSec, 
+												asynchronus);
+	}
+	else
+	{
+		// on player
+		if(m_controllerChar)
+			m_controllerChar->ActorRotateFromPoint(ScriptId, Angle, 
+													Position.x, Position.y, Position.z, RotationSpeedPerSec, 
+													asynchronus);
+	}
+}
 
 
+/***********************************************************
+ used by lua to make actor follow waypoint
+***********************************************************/
+void LbaNetModel::InternalActorFollowWaypoint(int ScriptId, long ActorId, int waypointindex1, 
+												int waypointindex2, bool asynchronus)
+{
+	if(ActorId >= 0)
+	{
+		ReserveActor(ScriptId, ActorId);
 
-
-
-
-
+		// on actor
+		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+			it->second->ActorFollowWaypoint(ScriptId, waypointindex1, waypointindex2, asynchronus);
+	}
+	else
+	{
+		// on player
+		if(m_controllerChar)
+			m_controllerChar->ActorFollowWaypoint(ScriptId, waypointindex1, waypointindex2, asynchronus);
+	}
+}
 
 
 

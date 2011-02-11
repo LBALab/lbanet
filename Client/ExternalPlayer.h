@@ -158,6 +158,8 @@ public:
 	//! get player current position
 	void TeleportTo(float PosX, float PosY, float PosZ);
 
+	//! set rotation
+	void SetRotation(float angle);
 
 
 

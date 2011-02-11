@@ -75,6 +75,11 @@ ClientLuaHandler::ClientLuaHandler()
 		.def("Async_ActorGoTo", &ScriptEnvironmentBase::Async_ActorGoTo)
 		.def("Async_WaitForSignal", &ScriptEnvironmentBase::Async_WaitForSignal)
 		.def("WaitOneCycle", &ScriptEnvironmentBase::WaitOneCycle, luabind::yield)
+		.def("SetActorRotation", &ScriptEnvironmentBase::SetActorRotation)
+		.def("ActorRotateFromPoint", &ScriptEnvironmentBase::ActorRotateFromPoint, luabind::yield)
+		.def("ActorFollowWaypoint", &ScriptEnvironmentBase::ActorFollowWaypoint, luabind::yield)
+		.def("Async_ActorRotateFromPoint", &ScriptEnvironmentBase::Async_ActorRotateFromPoint)
+		.def("Async_ActorFollowWaypoint", &ScriptEnvironmentBase::Async_ActorFollowWaypoint)
 		];
 	}
 	catch(const std::exception &error)
