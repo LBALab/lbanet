@@ -31,16 +31,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 constructor
 ***********************************************************/
 ActorUserData::ActorUserData(LbaNet::PhysicalActorType ActType, long index)
-	: ActorType(ActType), Materials(NULL), 
-		MaterialsSize(0), HittedFloorMaterial(0), 
-		released(false), ActorId(index), MovingObject(false),
-		AllowedMovingX(false), AllowedMovingZ(false), ShouldUpdate(false),
+	: ActorType(ActType), Materials(NULL), Rotation(0), ExtraRotation(0),
+		MaterialsSize(0), released(false), ActorId(index), MovingObject(false),
+		AllowedMovingX(false), AllowedMovingZ(false), 
 		CurrentMoveX(0), CurrentMoveY(0), CurrentMoveZ(0), AllowFreeMove(false),
-		TouchingGround(false)
+		TouchingGround(false), ExtraMoveX(0), ExtraMoveY(0), ExtraMoveZ(0)
 {
 	m_mutex = new IceUtil::RecMutex();
 }
-
 
 /***********************************************************
 destructor
@@ -135,26 +133,6 @@ void				ActorUserData::SetMaterials(short * newv)
 /***********************************************************
 accessor thread safe
 ***********************************************************/
-short				ActorUserData::GetHittedFloorMaterial()
-{
-	IceUtil::RecMutex::Lock lock(*m_mutex);
-	return HittedFloorMaterial;
-}
-
-/***********************************************************
-accessor thread safe
-***********************************************************/
-void				ActorUserData::SetHittedFloorMaterial(short newv)
-{
-	IceUtil::RecMutex::Lock lock(*m_mutex);
-	HittedFloorMaterial = newv;
-}
-  
-
-
-/***********************************************************
-accessor thread safe
-***********************************************************/
 bool				ActorUserData::Getreleased()
 {
 	IceUtil::RecMutex::Lock lock(*m_mutex);
@@ -238,6 +216,19 @@ bool				ActorUserData::GetAllowedMovingZ()
 	return AllowedMovingZ;
 }
 
+
+/***********************************************************
+accessor thread safe
+***********************************************************/
+void				ActorUserData::SetAllowedMovingZ(bool newv)
+{
+	IceUtil::RecMutex::Lock lock(*m_mutex);
+	AllowedMovingZ = newv;
+}
+  
+
+
+
 /***********************************************************
 accessor thread safe
 ***********************************************************/
@@ -264,98 +255,95 @@ accessor thread safe
 void				ActorUserData::GetMove(float &X, float &Y, float &Z)
 {
 	IceUtil::RecMutex::Lock lock(*m_mutex);
-	X = (AllowedMovingX?CurrentMoveX:0);
-	Y = 0;
-	Z = (AllowedMovingZ?CurrentMoveZ:0);
+	X = CurrentMoveX;
+	Y = CurrentMoveY;
+	Z = CurrentMoveZ;
 }
 
 
 /***********************************************************
 accessor thread safe
 ***********************************************************/
-void				ActorUserData::SetAllowedMovingZ(bool newv)
+void				ActorUserData::SetMove(float X, float Y, float Z)
 {
 	IceUtil::RecMutex::Lock lock(*m_mutex);
-	AllowedMovingZ = newv;
+	CurrentMoveX = X;
+	CurrentMoveY = Y;
+	CurrentMoveZ = Z;
 }
-  
-
-/***********************************************************
-accessor thread safe
-***********************************************************/
-bool				ActorUserData::GetShouldUpdate()
-{
-	IceUtil::RecMutex::Lock lock(*m_mutex);
-	return ShouldUpdate;
-}
-
-/***********************************************************
-accessor thread safe
-***********************************************************/
-void				ActorUserData::SetShouldUpdate(bool newv)
-{
-	IceUtil::RecMutex::Lock lock(*m_mutex);
-	ShouldUpdate = newv;
-}
-  
 
 
 /***********************************************************
 accessor thread safe
 ***********************************************************/
-float				ActorUserData::GetCurrentMoveX()
+void				ActorUserData::GetExtraMove(float &X, float &Y, float &Z)
 {
 	IceUtil::RecMutex::Lock lock(*m_mutex);
-	return CurrentMoveX;
+	X = ExtraMoveX;
+	Y = ExtraMoveY;
+	Z = ExtraMoveZ;
+
+	ExtraMoveX = 0;
+	ExtraMoveY = 0;
+	ExtraMoveZ = 0;
 }
+
 
 /***********************************************************
 accessor thread safe
 ***********************************************************/
-void				ActorUserData::SetCurrentMoveX(float newv)
+void				ActorUserData::AddExtraMove(float X, float Y, float Z)
 {
 	IceUtil::RecMutex::Lock lock(*m_mutex);
-	CurrentMoveX = newv;
+	ExtraMoveX += X;
+	ExtraMoveY += Y;
+	ExtraMoveZ += Z;
 }
- 
+
+
 
 /***********************************************************
 accessor thread safe
 ***********************************************************/
-float				ActorUserData::GetCurrentMoveY()
+float				ActorUserData::GetRotation()
 {
 	IceUtil::RecMutex::Lock lock(*m_mutex);
-	return CurrentMoveY;
+	return Rotation;
 }
+
 
 /***********************************************************
 accessor thread safe
 ***********************************************************/
-void				ActorUserData::SetCurrentMoveY(float newv)
+void				ActorUserData::SetRotation(float R)
 {
 	IceUtil::RecMutex::Lock lock(*m_mutex);
-	CurrentMoveY = newv;
+	Rotation = R;
 }
-  
+
 
 /***********************************************************
 accessor thread safe
 ***********************************************************/
-float				ActorUserData::GetCurrentMoveZ()
+float				ActorUserData::GetExtraRotation()
 {
 	IceUtil::RecMutex::Lock lock(*m_mutex);
-	return CurrentMoveZ;
+	float res = ExtraRotation;
+	ExtraRotation = 0;
+	return res;
 }
+
 
 /***********************************************************
 accessor thread safe
 ***********************************************************/
-void				ActorUserData::SetCurrentMoveZ(float newv)
+void				ActorUserData::AddExtraRotation(float R)
 {
 	IceUtil::RecMutex::Lock lock(*m_mutex);
-	CurrentMoveZ = newv;
+	ExtraRotation += R;
 }
-  
+
+
 
 /***********************************************************
 accessor thread safe
@@ -379,17 +367,17 @@ void				ActorUserData::SetAllowFreeMove(bool newv)
 /***********************************************************
 accessor thread safe
 ***********************************************************/
-void ActorUserData::AddActorHitted(long ActorId, int ActorType)
+void ActorUserData::AddActorHitted(HitInfo HInfo)
 {
 	IceUtil::RecMutex::Lock lock(*m_mutex);
-	HittedActors.push_back(std::make_pair<long, int>(ActorId, ActorType));
+	HittedActors.push_back(HInfo);
 }
 
 
 /***********************************************************
 accessor thread safe
 ***********************************************************/
-void ActorUserData::GetHittedActors(std::vector<std::pair<long, int> > & vec)
+void ActorUserData::GetHittedActors(std::vector<HitInfo> & vec)
 {
 	IceUtil::RecMutex::Lock lock(*m_mutex);
 	HittedActors.swap(vec);

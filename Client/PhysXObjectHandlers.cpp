@@ -160,6 +160,15 @@ move object to a position in the world
 ***********************************************************/
 void PhysXActorsHandler::MoveTo(float X, float Y, float Z)
 {
+	float currPosX, currPosY, currPosZ;
+	GetPosition(currPosX, currPosY, currPosZ);
+
+	float moveX = X - currPosX;
+	float moveY = (Y+(_sizeY/2)) - currPosY;
+	float moveZ = Z - currPosZ;
+	if(_UserData)
+		_UserData->SetMove(moveX, moveY, moveZ);
+
 	_Actor->moveGlobalPosition(NxVec3(X, Y+(_sizeY/2), Z));
 }
 
@@ -173,6 +182,10 @@ void PhysXActorsHandler::RotateYAxis(float deltaY)
 	NxQuat quat = _Actor->getGlobalOrientationQuat();
 	float Yangle;
 	quat.getAngleAxis(Yangle, NxVec3(0, 1, 0));
+
+	if(_UserData)
+		_UserData->SetRotation(deltaY);
+
 
 	// calculate new angle
 	float tochange = Yangle + deltaY;
@@ -190,7 +203,49 @@ rotate object in the world
 ***********************************************************/
 void PhysXActorsHandler::RotateTo(const LbaQuaternion& Q)
 {
-	_Actor->moveGlobalOrientationQuat(NxQuat(NxVec3(Q.X, Q.Y, Q.Z), Q.W));
+	float Yangle;
+	NxF32 tabq[4];
+	NxQuat quat = _Actor->getGlobalOrientationQuat();
+	quat.getAngleAxis(Yangle, NxVec3(0, 1, 0));
+	quat.getXYZW(tabq);
+
+	NxQuat res(NxVec3(Q.X, Q.Y, Q.Z), Q.W);
+	float wanted;
+	NxF32 tabq2[4];
+	res.getAngleAxis(wanted, NxVec3(0, 1, 0));
+	res.getXYZW(tabq2);
+
+
+	if(_UserData)
+	{
+		float move = wanted-Yangle;
+
+		if(tabq[3] > 0)
+		{
+			if(tabq2[3] < 0)
+			{
+				// sign change
+				wanted = 360 - wanted;
+				move = Yangle - wanted;
+			}	
+		}
+		else
+		{
+			if(tabq2[3] > 0)
+			{
+				// sign change
+				wanted = 360 - wanted;
+				move = Yangle - wanted;
+			}	
+		}
+
+
+		_UserData->SetRotation(move);
+
+	}
+
+
+	_Actor->moveGlobalOrientationQuat(res);
 }
 
 
@@ -334,6 +389,9 @@ rotate object in the world
 ***********************************************************/
 void PhysXControllerHandler::RotateYAxis(float deltaY)
 {	
+	if(_UserData)
+		_UserData->SetRotation(deltaY);
+
 	_rotH->RotateYAxis(deltaY);
 }
 
@@ -342,6 +400,12 @@ move object in the world
 ***********************************************************/
 void PhysXControllerHandler::Move(float deltaX, float deltaY, float deltaZ, bool checkcollision)
 {
+	if(_UserData)
+		_UserData->SetMove(deltaX, deltaY, deltaZ);
+
+	if(!_Controller) 
+		return;
+
 	unsigned int flags = 
 		PhysXEngine::getInstance()->MoveCharacter(_Controller, NxVec3(deltaX, deltaY, deltaZ), checkcollision);
 
@@ -364,9 +428,14 @@ void PhysXControllerHandler::MoveTo(float X, float Y, float Z)
 		return;
 
 	NxExtendedVec3 vec = _Controller->getPosition();
-	PhysXEngine::getInstance()->MoveCharacter(_Controller, 
-									NxVec3(X - (float)vec.x, (Y+(_sizeY/2)) - (float)vec.y, Z - (float)vec.z), 
-									false);
+	float moveX = X - (float)vec.x;
+	float moveY = (Y+(_sizeY/2)) - (float)vec.y;
+	float moveZ = Z - (float)vec.z;
+
+	if(_UserData)
+		_UserData->SetMove(moveX, moveY, moveZ);
+
+	PhysXEngine::getInstance()->MoveCharacter(_Controller, NxVec3(moveX, moveY, moveZ), false);
 }
 
 /***********************************************************
@@ -374,6 +443,11 @@ rotate object in the world
 ***********************************************************/
 void PhysXControllerHandler::RotateTo(const LbaQuaternion& Q)
 {
+	float Yangle = _rotH->GetRotationYAxis();
+	float wanted = Q.GetRotationSingleAngle();
+	if(_UserData)
+		_UserData->SetRotation(wanted-Yangle);
+
 	_rotH->RotateTo(Q);
 }
 

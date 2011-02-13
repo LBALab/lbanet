@@ -35,7 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "EventsQueue.h"
 #include "ClientLuaHandler.h"
 #include "DataLoader.h"
-
+#include "ExternalActor.h"
 
 #define	_LBA1_MODEL_ANIMATION_SPEED_	1.8f
 
@@ -116,8 +116,8 @@ void LbaNetModel::Process(double tnow, float tdiff)
 
 	// process all _npcObjects
 	{
-	std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.begin();
-	std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator end = _npcObjects.end();
+	std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.begin();
+	std::map<long, boost::shared_ptr<ExternalActor> >::iterator end = _npcObjects.end();
 	for(; it != end; ++it)
 		it->second->Process(tnow, tdiff, this);
 	}
@@ -182,7 +182,7 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc
 		case LbaNet::NpcObject:
 			{
 				boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
-				_npcObjects[desc.Id] = boost::shared_ptr<ExternalPlayer>(new ExternalPlayer(tmpobj, DisplayDesc));
+				_npcObjects[desc.Id] = boost::shared_ptr<ExternalActor>(new ExternalActor(tmpobj, DisplayDesc));
 				if(tmpobj->GetDisplayObject())
 				{
 					std::stringstream strs;
@@ -283,7 +283,7 @@ void LbaNetModel::RemObject(LbaNet::ObjectTypeEnum OType, long id)
 		// 1 -> npc object
 		case LbaNet::NpcObject:
 			{
-			std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(id);
+			std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(id);
 			if(it != _npcObjects.end())
 				_npcObjects.erase(it);
 			}
@@ -665,7 +665,7 @@ void LbaNetModel::UpdateObjectDisplay(LbaNet::ObjectTypeEnum OType, Ice::Long Ob
 		// 1 -> npc object
 		case LbaNet::NpcObject:
 			{
-			std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find((long)ObjectId);
+			std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find((long)ObjectId);
 			if(it != _npcObjects.end())
 				it->second->UpdateDisplay(update, false);
 			}
@@ -721,7 +721,7 @@ void LbaNetModel::UpdateObjectPhysic(LbaNet::ObjectTypeEnum OType, Ice::Long Obj
 		// 1 -> npc object
 		case LbaNet::NpcObject:
 			{
-			std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find((long)ObjectId);
+			std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find((long)ObjectId);
 			if(it != _npcObjects.end())
 				it->second->UpdatePhysic(update);
 			}
@@ -820,14 +820,17 @@ void LbaNetModel::PlayerMovedUpdate(Ice::Long PlayerId, double updatetime,
 /***********************************************************
 when update npc position
 ***********************************************************/
-void LbaNetModel::NpcMovedUpdate(Ice::Long NpcId, double updatetime, 
-									const LbaNet::PlayerMoveInfo &info,
-									bool teleport)
+void LbaNetModel::NpcChangedUpdate(Ice::Long NpcId, double updatetime, 
+									float CurrPosX, float CurrPosY, float CurrPosZ,
+									float CurrRotation, const std::string &CurrAnimation,
+									bool ResetPosition, bool ResetRotation,
+									LbaNet::NpcUpdateBasePtr Update)
 {
-	std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find((long)NpcId);
+	std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find((long)NpcId);
 	if(it != _npcObjects.end())
 	{
-		it->second->UpdateMove(updatetime, info, teleport);
+		it->second->NpcChangedUpdate(updatetime, CurrPosX, CurrPosY, CurrPosZ, CurrRotation,
+										CurrAnimation, ResetPosition, ResetRotation, Update);
 	}
 }
 
@@ -901,7 +904,7 @@ LbaVec3 LbaNetModel::GetActorPosition(long ActorId)
 
 	if(ActorId >= 0)
 	{
-		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
 		if(it != _npcObjects.end())
 			it->second->GetPosition(res.x, res.y, res.z);
 	}
@@ -924,7 +927,7 @@ float LbaNetModel::GetActorRotation(long ActorId)
 {
 	if(ActorId >= 0)
 	{
-		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
 		if(it != _npcObjects.end())
 			return it->second->GetRotationYAxis();
 	}
@@ -947,7 +950,7 @@ LbaQuaternion LbaNetModel::GetActorRotationQuat(long ActorId)
 {
 	if(ActorId >= 0)
 	{
-		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
 		if(it != _npcObjects.end())
 		{
 			LbaQuaternion res;
@@ -975,7 +978,7 @@ void LbaNetModel::UpdateActorAnimation(long ActorId, const std::string & Animati
 {
 	if(ActorId >= 0)
 	{
-		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
 		if(it != _npcObjects.end())
 			it->second->UpdateDisplay(new LbaNet::AnimationStringUpdate(AnimationString), true);
 	}
@@ -997,7 +1000,7 @@ void LbaNetModel::UpdateActorMode(long ActorId, const std::string & Mode)
 {
 	if(ActorId >= 0)
 	{
-		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
 		if(it != _npcObjects.end())
 			it->second->UpdateActorMode(Mode, true);
 	}
@@ -1023,7 +1026,7 @@ void LbaNetModel::InternalActorStraightWalkTo(int ScriptId, long ActorId, const 
 		ReserveActor(ScriptId, ActorId);
 
 		// on actor
-		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
 		if(it != _npcObjects.end())
 			it->second->ActorStraightWalkTo(ScriptId, asynchronus, Position.x, Position.y, Position.z);
 	}
@@ -1050,7 +1053,7 @@ void LbaNetModel::InternalActorRotate(int ScriptId, long ActorId, float Angle, f
 		ReserveActor(ScriptId, ActorId);
 
 		// on actor
-		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
 		if(it != _npcObjects.end())
 			it->second->ActorRotate(ScriptId, asynchronus, Angle, RotationSpeedPerSec, ManageAnimation);
 	}
@@ -1074,7 +1077,7 @@ void LbaNetModel::InternalActorAnimate(int ScriptId, long ActorId, bool Animatio
 		ReserveActor(ScriptId, ActorId);
 
 		// on actor
-		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
 		if(it != _npcObjects.end())
 			it->second->ActorAnimate(ScriptId, asynchronus, AnimationMove);
 	}
@@ -1106,7 +1109,7 @@ void LbaNetModel::ScriptFinished(int scriptid, const std::string & functioname)
 ***********************************************************/
 void LbaNetModel::ReserveActor(int ScriptId, long ActorId)
 {
-	std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+	std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
 	if(it != _npcObjects.end())
 	{
 		it->second->SetPlayingScript(true);
@@ -1127,7 +1130,7 @@ void LbaNetModel::ReleaseActorFromScript(int scriptid)
 		std::set<long>::iterator ends = itpl->second.end();
 		for(; its != ends; ++its)
 		{
-			std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(*its);
+			std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(*its);
 			if(it != _npcObjects.end())
 				it->second->SetPlayingScript(false);
 		}
@@ -1147,7 +1150,7 @@ void LbaNetModel::UpdateActorModel(long ActorId, const std::string & Name)
 {
 	if(ActorId >= 0)
 	{
-		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
 		if(it != _npcObjects.end())
 			it->second->UpdateActorModel(Name, true);
 	}
@@ -1169,7 +1172,7 @@ void LbaNetModel::UpdateActorOutfit(long ActorId, const std::string & Name)
 {
 	if(ActorId >= 0)
 	{
-		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
 		if(it != _npcObjects.end())
 			it->second->UpdateActorOutfit(Name, true);
 	}
@@ -1191,7 +1194,7 @@ void LbaNetModel::UpdateActorWeapon(long ActorId, const std::string & Name)
 {
 	if(ActorId >= 0)
 	{
-		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
 		if(it != _npcObjects.end())
 			it->second->UpdateActorWeapon(Name, true);
 	}
@@ -1213,7 +1216,7 @@ void LbaNetModel::SendSignalToActor(long ActorId, int Signalnumber)
 {
 	if(ActorId >= 0)
 	{
-		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
 		if(it != _npcObjects.end())
 			it->second->SendSignal(Signalnumber);
 	}
@@ -1239,7 +1242,7 @@ void LbaNetModel::TeleportActorTo(int ScriptId, long ActorId, const LbaVec3 &Pos
 	{
 		ReserveActor(ScriptId, ActorId);
 
-		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
 		if(it != _npcObjects.end())
 			it->second->TeleportTo(Position.x, Position.y, Position.z);
 	}
@@ -1261,7 +1264,7 @@ void LbaNetModel::SetActorRotation(long ActorId, float Angle)
 {
 	if(ActorId >= 0)
 	{
-		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
 		if(it != _npcObjects.end())
 			it->second->SetRotation(Angle);
 	}
@@ -1289,7 +1292,7 @@ void LbaNetModel::InternalActorGoTo(int ScriptId, long ActorId, const LbaVec3 &P
 		ReserveActor(ScriptId, ActorId);
 
 		// on actor
-		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
 		if(it != _npcObjects.end())
 			it->second->ActorGoTo(ScriptId, Position.x, Position.y, Position.z, Speed, asynchronus);
 	}
@@ -1315,7 +1318,7 @@ void LbaNetModel::InternalActorWaitForSignal(int ScriptId, long ActorId, int Sig
 		ReserveActor(ScriptId, ActorId);
 
 		// on actor
-		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
 		if(it != _npcObjects.end())
 			it->second->ActorWaitForSignal(ScriptId, Signalnumber, asynchronus);
 	}
@@ -1344,7 +1347,7 @@ void LbaNetModel::InternalActorRotateFromPoint(int ScriptId, long ActorId, float
 		ReserveActor(ScriptId, ActorId);
 
 		// on actor
-		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
 		if(it != _npcObjects.end())
 			it->second->ActorRotateFromPoint(ScriptId, Angle, 
 												Position.x, Position.y, Position.z, RotationSpeedPerSec, 
@@ -1372,7 +1375,7 @@ void LbaNetModel::InternalActorFollowWaypoint(int ScriptId, long ActorId, int wa
 		ReserveActor(ScriptId, ActorId);
 
 		// on actor
-		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _npcObjects.find(ActorId);
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
 		if(it != _npcObjects.end())
 			it->second->ActorFollowWaypoint(ScriptId, waypointindex1, waypointindex2, asynchronus);
 	}

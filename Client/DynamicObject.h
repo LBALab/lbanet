@@ -43,7 +43,8 @@ public:
 	DynamicObject(boost::shared_ptr<PhysicalObjectHandlerBase> phH,
 					boost::shared_ptr<DisplayObjectHandlerBase> disH,
 					long id)
-		: _phH(phH), _disH(disH), _id(id)
+		: _phH(phH), _disH(disH), _id(id), _additionalMoveX(0),
+			_additionalMoveY(0), _additionalMoveZ(0), _additionalMoveRotation(0)
 	{}
 
 	//!destructor
@@ -124,6 +125,24 @@ public:
 		_waypoints.clear();
 	}
 
+
+	void SetAdditionalMoves(float mx, float my, float mz, float mr)
+	{
+		_additionalMoveX = mx;
+		_additionalMoveY = my;
+		_additionalMoveZ = mz;
+		_additionalMoveRotation = mr;
+	}
+
+	void GetAdditionalMoves(float &mx, float &my, float &mz, float &mr)
+	{
+		mx = _additionalMoveX;
+		my = _additionalMoveY;
+		mz = _additionalMoveZ;
+		mr = _additionalMoveRotation;
+	}
+
+
 protected:
 	
 	//! handler to physical object
@@ -139,6 +158,11 @@ protected:
 	std::vector<int>							_signalReceived;
 
 	std::vector<std::vector<LbaVec3> >			_waypoints;
+
+	float										_additionalMoveX;
+	float										_additionalMoveY;
+	float										_additionalMoveZ;
+	float										_additionalMoveRotation;
 };
 
 #endif

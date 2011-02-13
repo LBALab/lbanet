@@ -39,6 +39,15 @@ namespace IceUtil
 #include <vector>
 #include <LbaTypes.h>
 
+struct HitInfo
+{
+	long	ActorId;
+	int		ActorType;
+	bool	HitBottom;
+	short	FloorMaterial;
+};
+
+
 //*************************************************************************************************
 //*                               class ActorUserData
 //*************************************************************************************************
@@ -70,10 +79,6 @@ public:
 	short				GetMaterials(unsigned int id);
 	void				SetMaterials(short * newv);  
 
-	short				GetHittedFloorMaterial();
-	void				SetHittedFloorMaterial(short newv);  
-
-
 	bool				Getreleased();
 	void				Setreleased(bool newv);  
 
@@ -87,29 +92,27 @@ public:
 	bool				GetAllowedMovingX();
 	void				SetAllowedMovingX(bool newv);  
 
-	void				GetMove(float &X, float &Y, float &Z);
-
 	bool				GetAllowedMovingZ();
 	void				SetAllowedMovingZ(bool newv);  
 
-	bool				GetShouldUpdate();
-	void				SetShouldUpdate(bool newv);  
 
+	void				GetMove(float &X, float &Y, float &Z);
+	void				SetMove(float X, float Y, float Z);
 
-	float				GetCurrentMoveX();
-	void				SetCurrentMoveX(float newv);  
+	void				GetExtraMove(float &X, float &Y, float &Z);
+	void				AddExtraMove(float X, float Y, float Z);
 
-	float				GetCurrentMoveY();
-	void				SetCurrentMoveY(float newv);  
+	float				GetRotation();
+	void				SetRotation(float R);
 
-	float				GetCurrentMoveZ();
-	void				SetCurrentMoveZ(float newv);  
+	float				GetExtraRotation();
+	void				AddExtraRotation(float R);
 
 	bool				GetAllowFreeMove();
 	void				SetAllowFreeMove(bool newv);
 
-	void				AddActorHitted(long ActorId, int ActorType);
-	void				GetHittedActors(std::vector<std::pair<long, int> > & vec);
+	void				AddActorHitted(HitInfo HInfo);
+	void				GetHittedActors(std::vector<HitInfo> & vec);
 
 	bool				GetTouchingGround();
 	void				SetTouchingGround(bool newv);  
@@ -130,25 +133,28 @@ private:
 
 
 	bool				TouchingGround;
-	short				HittedFloorMaterial;
 
 	bool				released;
 	bool				MovingObject;
 	int					MovingDirection;
 
+
 	bool				AllowedMovingX;
 	bool				AllowedMovingZ;
-
-
-	bool				ShouldUpdate;
+	bool				AllowFreeMove;
 
 	float				CurrentMoveX;
 	float				CurrentMoveY;
 	float				CurrentMoveZ;
 
-	bool				AllowFreeMove;
+	float				ExtraMoveX;
+	float				ExtraMoveY;
+	float				ExtraMoveZ;
 
-	std::vector<std::pair<long, int> >	HittedActors;
+	float				Rotation;
+	float				ExtraRotation;
+
+	std::vector<HitInfo>	HittedActors;
 };
 
 

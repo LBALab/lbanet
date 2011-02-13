@@ -554,13 +554,17 @@ void LbaNetEngine::HandleGameEvents()
 		}
 
 		// NpcMovedEvent
-		if(info == typeid(LbaNet::NpcMovedEvent))
+		if(info == typeid(LbaNet::NpcChangedEvent))
 		{
-			LbaNet::NpcMovedEvent* castedptr = 
-				dynamic_cast<LbaNet::NpcMovedEvent *>(&obj);
+			LbaNet::NpcChangedEvent* castedptr = 
+				dynamic_cast<LbaNet::NpcChangedEvent *>(&obj);
 
-			m_lbaNetModel->NpcMovedUpdate(castedptr->NpcId, castedptr->Time, 
-												castedptr->info, castedptr->Teleport);
+			m_lbaNetModel->NpcChangedUpdate(castedptr->NpcId, castedptr->Time, 
+												castedptr->CurrPosX, castedptr->CurrPosY,
+												castedptr->CurrPosZ, castedptr->CurrRotation,
+												castedptr->CurrAnimation,
+												castedptr->ResetPosition, castedptr->ResetRotation,
+												castedptr->Update);
 
 			continue;
 		}

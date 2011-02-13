@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "StaticObject.h"
 #include "LogHandler.h"
+#include "ActorUserData.h"
 
 #include <sstream>
 
@@ -74,6 +75,16 @@ synchronization function - will typically be called on every frames
 ***********************************************************/
 int StaticObject::Process(double time, float tdiff)
 {
+	if(_phH)
+	{
+		boost::shared_ptr<ActorUserData> udata =  _phH->GetUserData();
+		if(udata)
+		{
+			udata->SetMove(0, 0, 0);
+			udata->SetRotation(0);
+		}
+	}
+
 	if(_disH)
 		return _disH->Process(time, tdiff);
 

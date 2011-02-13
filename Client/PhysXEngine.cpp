@@ -70,8 +70,11 @@ class MyContactReport : public NxUserContactReport
 				ActorUserData * acd2 = (ActorUserData *) n2->userData;
 				if(acd1 && acd2)
 				{
-					acd1->AddActorHitted(acd2->GetActorId(), acd2->GetActorType());
-					//acd2->AddActorHitted(acd1->GetActorId(), acd1->GetActorType());
+					HitInfo hinfo;
+					hinfo.ActorId = acd2->GetActorId();
+					hinfo.ActorType = acd2->GetActorType();
+					hinfo.HitBottom = false;
+					acd1->AddActorHitted(hinfo);
 				}
 			}
 		} 
@@ -94,31 +97,36 @@ public:
 			ActorUserData * mstorage = (ActorUserData *)actor.userData;
 			if(characterdata && mstorage)
 			{
-				characterdata->AddActorHitted(mstorage->GetActorId(), mstorage->GetActorType());
-			}
+				HitInfo hinfo;
+				hinfo.ActorId = mstorage->GetActorId();
+				hinfo.ActorType = mstorage->GetActorType();
+				hinfo.HitBottom = false;
 
-
-			// i need to know which triangle of the mesh the controller has hit
-			// i did not find any other way yet...
-			NxTriangleMeshShape* tmesh = hit.shape->isTriangleMesh();
-			if(tmesh)
-			{
-				if(mstorage)
+				if(hit.shape)
 				{
 					NxRaycastHit hitinfo;
 					NxVec3 pos((float)hit.worldPos.x,(float)hit.worldPos.y+0.01f,(float)hit.worldPos.z);
 					NxVec3 vec(0, -1,0);
 
-					if(tmesh->raycast(NxRay(pos, vec), 0.02f, 
+					if(hit.shape->raycast(NxRay(pos, vec), 0.02f, 
 												NX_RAYCAST_FACE_INDEX, hitinfo, false))
 					{
+						// character hit the shape  from the bottom
+						hinfo.HitBottom = true;
+
+						// check material hit
 						if(hitinfo.faceID < mstorage->GetMaterialsSize())
-						{
-							if(characterdata)
-								characterdata->SetHittedFloorMaterial(mstorage->GetMaterials(hitinfo.faceID));
-						}
+							hinfo.FloorMaterial = mstorage->GetMaterials(hitinfo.faceID);
+						
+						// if other shape is moving - it will move the character as well
+						float mox, moy, moz;
+						mstorage->GetMove(mox, moy, moz);
+						characterdata->AddExtraMove(mox, moy, moz);	
+						characterdata->AddExtraRotation(mstorage->GetRotation());
 					}
 				}
+
+				characterdata->AddActorHitted(hinfo);
 			}
 		}
 
@@ -138,7 +146,11 @@ public:
 
 		if(characterdatamain && characterdata)
 		{
-			characterdatamain->AddActorHitted(characterdata->GetActorId(), characterdata->GetActorType());
+			HitInfo hinfo;
+			hinfo.ActorId = characterdata->GetActorId();
+			hinfo.ActorType = characterdata->GetActorType();
+			hinfo.HitBottom = false;
+			characterdatamain->AddActorHitted(hinfo);
 		}
 
 		if(characterdatamain)
@@ -147,12 +159,12 @@ public:
 			{
 				float mox, moy, moz;
 				characterdatamain->GetMove(mox, moy, moz);
-				NxVec3 vecmove(mox, moy, moz);
-
-				PhysXEngine::getInstance()->MoveCharacter(hit.other, vecmove, true);
+				mox = characterdatamain->GetAllowedMovingX() ? mox : 0;
+				moy = 0;
+				moz = characterdatamain->GetAllowedMovingZ() ? moz : 0;
 
 				if(characterdata)
-					characterdata->SetShouldUpdate(true);
+					characterdata->AddExtraMove(mox, moy, moz);
 
 				characterdatamain->SetMovingObject(true);
 			}

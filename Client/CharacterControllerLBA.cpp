@@ -205,6 +205,7 @@ void CharacterController::Process(double tnow, float tdiff,
 		return;
 	}
 
+
 	LbaNet::ModelState _currentstatestr = SharedDataHandler::getInstance()->GetMainState();
 	if(_currentstatestr == LbaNet::StScripted)
 	{
@@ -215,6 +216,14 @@ void CharacterController::Process(double tnow, float tdiff,
 
 		return;
 	}
+
+
+
+	//update display and animation
+	bool animfinished = false;
+	int pout = _character->Process(tnow, tdiff);
+	animfinished = (pout == 1);
+
 
 
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
@@ -290,6 +299,8 @@ void CharacterController::Process(double tnow, float tdiff,
 		}
 	}
 
+	float rotation = 0;
+
 	// check for rotating
 	if(allowedrotating > 0)
 	{
@@ -301,8 +312,7 @@ void CharacterController::Process(double tnow, float tdiff,
 				diso->Update(new LbaNet::AnimationStringUpdate("TurnLeft"), false);
 				IsIdle = false;
 			}
-
-			physo->RotateYAxis(0.15f*tdiff);
+			rotation = 0.15f*tdiff;
 		}
 		else if(_pressedkeys._keyright)
 		{
@@ -312,10 +322,13 @@ void CharacterController::Process(double tnow, float tdiff,
 				diso->Update(new LbaNet::AnimationStringUpdate("TurnRight"), false);
 				IsIdle = false;
 			}
-
-			physo->RotateYAxis(-0.15f*tdiff);
+			rotation = -0.15f*tdiff;
 		}
 	}
+
+	boost::shared_ptr<ActorUserData> udata = physo->GetUserData();
+	physo->RotateYAxis(rotation+udata->GetExtraRotation());
+
 
 	// update to standing pose if needed
 	if(IsIdle && standoniddle)
@@ -367,14 +380,38 @@ void CharacterController::Process(double tnow, float tdiff,
 	float ajustedspeedx = speedX*current_directionX.x + speedZ*current_directionZ.x;
 	float ajustedspeedZ = speedX*current_directionX.z + speedZ*current_directionZ.z;
 
+
+	// get additional speed in case we are on lift
+	float addspeedX, addspeedY, addspeedZ; 
+	udata->GetExtraMove(addspeedX, addspeedY, addspeedZ);
+	if(addspeedY < 0)
+		speedY += addspeedY;
+	else
+		// automatically took care of by physx
+
+	ajustedspeedx+=addspeedX;
+	ajustedspeedZ+=addspeedZ;
+
+	// move actor
 	physo->Move(ajustedspeedx, speedY, ajustedspeedZ);
-	boost::shared_ptr<ActorUserData> udata = physo->GetUserData();
+
+
 	bool touchground = true;
 	int touchedfloormaterial = 0;
 	if(udata)
 	{
 		touchground = udata->GetTouchingGround();
-		touchedfloormaterial = udata->GetHittedFloorMaterial();
+		if(touchground)
+		{
+			std::vector<HitInfo> hitvec;
+			udata->GetHittedActors(hitvec);
+			for(size_t i=0; i< hitvec.size(); ++i)
+			{
+				HitInfo &hi = hitvec[i];
+				if(hi.HitBottom)
+					touchedfloormaterial = hi.FloorMaterial;
+			}
+		}
 	}
 
 
@@ -456,12 +493,6 @@ void CharacterController::Process(double tnow, float tdiff,
 				UpdateModeAndState(_currentmodestr, LbaNet::StBurning, tnow);
 		}
 	}
-
-
-	//update display and animation
-	bool animfinished = false;
-	int pout = _character->Process(tnow, tdiff);
-	animfinished = (pout == 1);
 
 
 	// do last check for state

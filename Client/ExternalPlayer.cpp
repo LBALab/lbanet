@@ -85,13 +85,13 @@ void ExternalPlayer::UpdateMove(double updatetime, const LbaNet::PlayerMoveInfo 
 			if(teleport || (abs(_velocityX) < 0.000001f && abs(_velocityY) < 0.000001f && abs(_velocityZ) < 0.000001f))
 			{
 				finishedmove = true;
-				physo->MoveTo(info.CurrentPos.X,  info.CurrentPos.Y, info.CurrentPos.Z);
+				physo->SetPosition(info.CurrentPos.X,  info.CurrentPos.Y, info.CurrentPos.Z);
 			}
 
 			if(teleport || (abs(_velocityR) < 0.001f))
 			{
-				LbaQuaternion Q(info.CurrentPos.Rotation, LbaVec3(0,1,0));
-				physo->RotateTo(Q);
+				//LbaQuaternion Q(info.CurrentPos.Rotation, LbaVec3(0,1,0));
+				//physo->RotateTo(Q);
 
 				// do not need to update if no rotation and no rotation
 				if(finishedmove)
@@ -128,6 +128,9 @@ void ExternalPlayer::Process(double tnow, float tdiff,
 		return;
 	}
 
+
+	//update display and animation
+	_character->Process(tnow, tdiff);
 
 
 	if(_shouldupdate)
@@ -192,7 +195,7 @@ void ExternalPlayer::Process(double tnow, float tdiff,
 		physo->RotateTo(Q);
 	}
 
-	_character->Process(tnow, tdiff);
+
 }
 
 

@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "WorldToDisplayObjectSynchronizer.h"
 #include "LogHandler.h"
 #include <sstream>
+#include "ActorUserData.h"
 
 #define ABS(X) (((X)<0)?(-(X)):(X))
 
@@ -63,6 +64,16 @@ synchronization function - will typically be called on every frames
 int WorldToDisplayObjectSynchronizer::Process(double time, float tdiff)
 {
 	StraightSync();
+
+	if(_phH)
+	{
+		boost::shared_ptr<ActorUserData> udata =  _phH->GetUserData();
+		if(udata)
+		{
+			udata->SetMove(0, 0, 0);
+			udata->SetRotation(0);
+		}
+	}
 
 	if(_disH)
 		return _disH->Process(time, tdiff);

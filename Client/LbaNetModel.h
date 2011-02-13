@@ -45,6 +45,7 @@ class CharacterController;
 class CameraController;
 class ExternalPlayer;
 class ClientLuaHandler;
+class ExternalActor;
 
 /***********************************************************************
  * Module:  LbaNetModel.h
@@ -122,10 +123,11 @@ public:
 									bool teleport);
 
 	//! when update npc position
-	void NpcMovedUpdate(Ice::Long NpcId, double updatetime, 
-									const LbaNet::PlayerMoveInfo &info,
-									bool teleport);
-
+	void NpcChangedUpdate(Ice::Long NpcId, double updatetime, 
+									float CurrPosX, float CurrPosY, float CurrPosZ,
+									float CurrRotation, const std::string &CurrAnimation,
+									bool ResetPosition, bool ResetRotation,
+									LbaNet::NpcUpdateBasePtr Update);
 
 
 	//! called when we enter a new map
@@ -347,7 +349,7 @@ private:
 	// npc objects - server controlled
 	// player objects - will move randomly - get info from server
 	// ghosts objects - replication of other movable objects
-	std::map<long, boost::shared_ptr<ExternalPlayer> >	_npcObjects;
+	std::map<long, boost::shared_ptr<ExternalActor> >	_npcObjects;
 	std::map<long, boost::shared_ptr<ExternalPlayer> >	_playerObjects;
 	std::map<long, boost::shared_ptr<DynamicObject> >	_ghostObjects;
 

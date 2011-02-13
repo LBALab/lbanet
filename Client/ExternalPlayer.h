@@ -115,7 +115,7 @@ public:
 	~ExternalPlayer();
 
 	// do all check to be done when idle
-	void Process(double tnow, float tdiff, 
+	virtual void Process(double tnow, float tdiff, 
 					ScriptEnvironmentBase* scripthandler);
 
 	// update with external info
@@ -129,7 +129,7 @@ public:
 	void UpdatePhysic(LbaNet::PhysicObjectUpdateBasePtr update);
 
 	//! set the actor/player as playing script
-	void SetPlayingScript(bool playing);
+	virtual void SetPlayingScript(bool playing);
 
 	//! get actor position
 	void GetPosition(float &X, float &Y, float &Z);
@@ -178,7 +178,7 @@ protected:
 	{ return _character->GetDisplayObject();}
 
 
-private:
+protected:
 	double										_last_update;
 
 	float 										_velocityX;
