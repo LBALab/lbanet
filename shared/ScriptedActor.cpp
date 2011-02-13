@@ -27,13 +27,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DynamicObject.h"
 #include "ScriptEnvironmentBase.h"
 
-
+#include <fstream>
 #include <iostream>
 #include <math.h>
 
 #ifndef M_PI
 #define M_PI    3.14159265358979323846f
 #endif
+
 
 
 
@@ -83,6 +84,16 @@ bool StraightWalkToScriptPart::Process(double tnow, float tdiff, boost::shared_p
 	float speedZ = disso->GetCurrentAssociatedSpeedZ();
 
 	_distanceDone += (speedX+speedY+speedZ) * tdiff;
+
+	// extra move
+	float mx, my, mz, mr;
+	actor->GetAdditionalMoves(mx, my, mz, mr);
+	float extramove = (mx*mx) + (my*my) + (mz*mz);
+	extramove = sqrt(extramove);
+	_distanceDone += extramove;
+
+
+
 	if(_distanceDone > _distance)
 		_distanceDone = _distance;
 
@@ -141,9 +152,12 @@ bool PlayAnimationScriptPart::Process(double tnow, float tdiff, boost::shared_pt
 		float ajustedspeedx = speedX*current_directionX.x + speedZ*current_directionZ.x;
 		float ajustedspeedZ = speedX*current_directionX.z + speedZ*current_directionZ.z;
 
+		// extra move
+		float mx, my, mz, mr;
+		actor->GetAdditionalMoves(mx, my, mz, mr);
 
 		if(speedX != 0 || speedY != 0 || speedZ != 0)
-			physo->Move(ajustedspeedx*tdiff, speedY*tdiff, ajustedspeedZ*tdiff, false);
+			physo->Move(ajustedspeedx*tdiff+mx, speedY*tdiff+my, ajustedspeedZ*tdiff+mz, false);
 	}
 
 	return false;
@@ -180,6 +194,10 @@ bool RotateScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<Dynam
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo = actor->GetPhysicalObject();
 	float currAngle = physo->GetRotationYAxis();
 
+	// extra move
+	float mx, my, mz, mr;
+	actor->GetAdditionalMoves(mx, my, mz, mr);
+
 	double distance = (currAngle-_Angle);
 	if(abs(distance) > 2.0)
 	{
@@ -188,14 +206,14 @@ bool RotateScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<Dynam
 			if(_ManageAnimation)
 				actor->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate("TurnRight"), false);
 
-			physo->RotateYAxis(std::max((-_RotationSpeedPerSec*tdiff), (-(float)abs(distance))));
+			physo->RotateYAxis(std::max((-_RotationSpeedPerSec*tdiff)+mr, (-(float)abs(distance))));
 		}
 		else
 		{
 			if(_ManageAnimation)
 				actor->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate("TurnLeft"), false);
 
-			physo->RotateYAxis(std::min((_RotationSpeedPerSec*tdiff), ((float)abs(distance))));
+			physo->RotateYAxis(std::min((_RotationSpeedPerSec*tdiff)+mr, ((float)abs(distance))));
 		}
 	}
 	else
@@ -251,6 +269,17 @@ bool GoToScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<Dynamic
 
 	// get speed
 	_distanceDone += (_Speed) * tdiff;
+
+
+
+	// extra move
+	float mx, my, mz, mr;
+	actor->GetAdditionalMoves(mx, my, mz, mr);
+	float extramove = (mx*mx) + (my*my) + (mz*mz);
+	extramove = sqrt(extramove);
+	_distanceDone += extramove;
+
+
 	if(_distanceDone > _distance)
 		_distanceDone = _distance;
 
@@ -323,7 +352,11 @@ bool RotateFromPointScriptPart::Process(double tnow, float tdiff, boost::shared_
 	if(abs(_doneAngle) >= abs(_Angle))
 		return true;
 
-	float move = _Speed * tdiff;
+	// extra move
+	float mx, my, mz, mr;
+	actor->GetAdditionalMoves(mx, my, mz, mr);
+
+	float move = _Speed * tdiff+mr;
 	_doneAngle += move;
 
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo = actor->GetPhysicalObject();
@@ -339,7 +372,7 @@ bool RotateFromPointScriptPart::Process(double tnow, float tdiff, boost::shared_
 	float endvecX = (startvecX * cos(rad)) - (startvecZ * sin(rad));
 	float endvecZ = (startvecX * sin(rad)) + (startvecZ * cos(rad));
 
-	physo->MoveTo(endvecX+_PosX, _startPosY, endvecZ+_PosZ);
+	physo->MoveTo(endvecX+_PosX+mx, _startPosY+my, endvecZ+_PosZ+mz);
 
 	return false;
 }
@@ -366,6 +399,11 @@ FollowWaypointScriptPart::FollowWaypointScriptPart(int scriptid, bool asynchronu
 		else
 			_P3 = _P2;
 
+		if((waypointindex2+2) < (int)waypoints.size())
+			_P4 = waypoints[waypointindex2+2];
+		else
+			_P4 = _P2;
+
 		--waypointindex2;
 		if(waypointindex2 >= 0)
 			_P1 =  waypoints[waypointindex2];
@@ -378,9 +416,36 @@ FollowWaypointScriptPart::FollowWaypointScriptPart(int scriptid, bool asynchronu
 		else
 			_P0 =  _P1;
 
+		--waypointindex2;
+		if(waypointindex2 >= 0)
+			_Pm1 =  waypoints[waypointindex2];
+		else
+			_Pm1 =  _P1;
+
 		_distance = GetArcLength(_P0, _P1, _P2, _P3, 100);
 	}
 }
+
+/***********************************************************
+constructor
+***********************************************************/
+FollowWaypointScriptPart::FollowWaypointScriptPart(int scriptid, bool asynchronus, 
+							const LbaVec3 &Pm1, const LbaVec3 &P0, const LbaVec3 &P1, 
+							const LbaVec3 &P2, const LbaVec3 &P3, const LbaVec3 & P4)
+: ScriptPartBase(scriptid, asynchronus), _distance(0), _distancedone(0)
+{
+	_Pm1 = Pm1;
+	_P0 = P0;
+	_P1 = P1;
+	_P2 = P2;
+	_P3 = P3;
+	_P4 = P4;
+
+	_distance = GetArcLength(_P0, _P1, _P2, _P3, 100);
+}
+
+
+
 
 
 /***********************************************************
@@ -405,11 +470,21 @@ bool FollowWaypointScriptPart::Process(double tnow, float tdiff, boost::shared_p
 
 	float move = (speedX+speedY+speedZ) * tdiff;
 	_distancedone += abs(move);
+
+	// extra move
+	float mx, my, mz, mr;
+	actor->GetAdditionalMoves(mx, my, mz, mr);
+	float extramove = (mx*mx) + (my*my) + (mz*mz);
+	extramove = sqrt(extramove);
+	_distancedone += extramove;
+
+
 	if(_distancedone > _distance)
 		_distancedone = _distance;
 
 	// calculate move on spline
-	LbaVec3 res = CatmullSpline(_P0, _P1, _P2, _P3, _distancedone/_distance);
+	float ratio = _distancedone/_distance;
+	LbaVec3 res = CatmullSpline(_P0, _P1, _P2, _P3, ratio);
 	LbaVec3 curr;
 	physo->GetPosition(curr.x, curr.y, curr.z);
 
@@ -418,14 +493,39 @@ bool FollowWaypointScriptPart::Process(double tnow, float tdiff, boost::shared_p
 	physo->MoveTo(res.x, res.y, res.z);
 
 
-	// rotate actor
-	LbaVec3 diff(res.x-curr.x, res.y-curr.y, res.z-curr.z);
-	float angle = LbaQuaternion::GetAngleFromVector(diff);
-	float curangle = physo->GetRotationYAxis();
+	LbaVec3 tang1;
+	LbaVec3 tang2;
+
+	float r1 = ratio-0.1;
+	if(r1 < 0)
+	{
+		r1 += 1;
+		tang1 = CatmullSpline(_Pm1, _P0, _P1, _P2, r1);
+	}
+	else
+		tang1 = CatmullSpline(_P0, _P1, _P2, _P3, r1);
+
+	float r2 = ratio+0.1;
+	if(r2 > 1)
+	{
+		r2 -= 1;
+		tang2 = CatmullSpline(_P1, _P2, _P3, _P4, r2);
+	}
+	else
+		tang2 = CatmullSpline(_P0, _P1, _P2, _P3, r2);
+
+
+	LbaVec3 diff(	tang2.x-tang1.x, 
+					tang2.y-tang1.y, 
+					tang2.z-tang1.z);
+
+	float angle = LbaQuaternion::GetSignedAngleFromVector(diff);
 	if(move < 0)
 		angle += 180;
 
-	physo->RotateYAxis(angle-curangle);
+	LbaQuaternion Q;
+	Q.AddSingleRotation(angle, LbaVec3(0, 1, 0));
+	physo->RotateTo(Q);
 
 	return false;
 }
@@ -447,7 +547,8 @@ float FollowWaypointScriptPart::CatmullSpline(float P0, float P1, float P2, floa
 /***********************************************************
 calculate spline of vector from to between 0 and 1
 ***********************************************************/
-LbaVec3 FollowWaypointScriptPart::CatmullSpline(LbaVec3 P0, LbaVec3 P1, LbaVec3 P2, LbaVec3 P3, float t)
+LbaVec3 FollowWaypointScriptPart::CatmullSpline(const LbaVec3 &P0, const LbaVec3 &P1, 
+												const LbaVec3 &P2, const LbaVec3 &P3, float t)
 {
 	LbaVec3 res;
 	res.x = CatmullSpline(P0.x, P1.x, P2.x, P3.x, t);
@@ -461,8 +562,8 @@ LbaVec3 FollowWaypointScriptPart::CatmullSpline(LbaVec3 P0, LbaVec3 P1, LbaVec3 
 /***********************************************************
 calculate arc length
 ***********************************************************/
-float FollowWaypointScriptPart::GetArcLength(LbaVec3 P0, LbaVec3 P1, 
-													LbaVec3 P2, LbaVec3 P3, int nbsamples)
+float FollowWaypointScriptPart::GetArcLength(const LbaVec3 &P0, const LbaVec3 &P1, 
+											 const LbaVec3 &P2, const LbaVec3 &P3, int nbsamples)
 {
 	float res = 0;
 	LbaVec3 currpoint = P1;

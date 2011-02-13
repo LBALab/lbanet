@@ -279,6 +279,12 @@ public:
 	FollowWaypointScriptPart(int scriptid, bool asynchronus, int waypointindex1, int waypointindex2, 
 								boost::shared_ptr<DynamicObject> actor);
 
+	//! constructor
+	FollowWaypointScriptPart(int scriptid, bool asynchronus, 
+							const LbaVec3 &Pm1, const LbaVec3 &P0, const LbaVec3 &P1, 
+							const LbaVec3 &P2, const LbaVec3 &P3, const LbaVec3 & P4);
+
+
 	//! destructor
 	virtual ~FollowWaypointScriptPart(){}
 
@@ -293,18 +299,20 @@ protected:
 	float CatmullSpline(float P0, float P1, float P2, float P3, float t);
 
 	//! calculate spline of vector from to between 0 and 1
-	LbaVec3 CatmullSpline(LbaVec3 P0, LbaVec3 P1, LbaVec3 P2, LbaVec3 P3, float t);
+	LbaVec3 CatmullSpline(const LbaVec3 &P0, const LbaVec3 &P1, const LbaVec3 &P2, const LbaVec3 &P3, float t);
 
 	//! calculate arc length
-	float GetArcLength(LbaVec3 P0, LbaVec3 P1, LbaVec3 P2, LbaVec3 P3, int nbsamples);
+	float GetArcLength(const LbaVec3 &P0, const LbaVec3 &P1, const LbaVec3 &P2, const LbaVec3 &P3, int nbsamples);
 
 private:
 	float			_distance;
 	float			_distancedone;
+	LbaVec3			_Pm1;
 	LbaVec3			_P0;
 	LbaVec3			_P1;
 	LbaVec3			_P2;
 	LbaVec3			_P3;
+	LbaVec3			_P4;
 };
 
 
@@ -334,28 +342,28 @@ public:
 
 	//! used by lua to move an actor
 	//! the actor will move using animation speed
-	void ActorStraightWalkTo(int ScriptId, bool asynchronus, float PosX, float PosY, float PosZ);
+	virtual void ActorStraightWalkTo(int ScriptId, bool asynchronus, float PosX, float PosY, float PosZ);
 
 	//! used by lua to rotate an actor
 	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
 	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
 	//! if ManageAnimation is true then the animation will be changed to suit the rotation
-	void ActorRotate(int ScriptId, bool asynchronus, float Angle, float RotationSpeedPerSec, 
+	virtual void ActorRotate(int ScriptId, bool asynchronus, float Angle, float RotationSpeedPerSec, 
 					bool ManageAnimation);
 
 	//! used by lua to wait until an actor animation is finished
 	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
-	void ActorAnimate(int ScriptId, bool asynchronus, bool AnimationMove);
+	virtual void ActorAnimate(int ScriptId, bool asynchronus, bool AnimationMove);
 
 	
 	//! used by lua to move an actor or player
 	//! the actor will move using speed
-	void ActorGoTo(int ScriptId, float PosX, float PosY, float PosZ, float Speed, bool asynchronus);
+	virtual void ActorGoTo(int ScriptId, float PosX, float PosY, float PosZ, float Speed, bool asynchronus);
 	
 
 	//! used by lua to move an actor or player
 	//! the actor will wait for signal
-	void ActorWaitForSignal(int ScriptId, int Signalnumber, bool asynchronus);
+	virtual void ActorWaitForSignal(int ScriptId, int Signalnumber, bool asynchronus);
 
 	//! clear all running scripts
 	void ClearAllScripts();
@@ -363,14 +371,14 @@ public:
 	
 	//! used by lua to move an actor or player
 	//! the actor will rotate
-	void ActorRotateFromPoint(int ScriptId, float Angle, float PosX, float PosY, 
+	virtual void ActorRotateFromPoint(int ScriptId, float Angle, float PosX, float PosY, 
 													float PosZ, float Speed, bool asynchronus);
 
 
 	
 	//! used by lua to move an actor or player
 	//! the actor follow waypoint
-	void ActorFollowWaypoint(int ScriptId, int waypointindex1, int waypointindex2, bool asynchronus);
+	virtual void ActorFollowWaypoint(int ScriptId, int waypointindex1, int waypointindex2, bool asynchronus);
 
 
 protected:

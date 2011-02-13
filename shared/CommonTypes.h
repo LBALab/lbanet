@@ -81,16 +81,19 @@ public:
 	void AddSingleRotation(float angle, const LbaVec3 &vec);
 
 	//! get direction vector
-	LbaVec3 GetDirection(const LbaVec3 &vec);
+	LbaVec3 GetDirection(const LbaVec3 &vec) const;
 
 	//! get object rotation on a single angle - degree
-	float GetRotationSingleAngle();
+	float GetRotationSingleAngle() const;
 
 	//! operator *
 	LbaQuaternion operator *(const LbaQuaternion & q);
 
 	//! get the angle between a vector and the 0 angle
 	static float GetAngleFromVector(const LbaVec3 &vec);
+
+	//! get the angle between a vector and the 0 angle
+	static float GetSignedAngleFromVector(const LbaVec3 &vec);
 
 
 	//! rotate a vector by the quaternion

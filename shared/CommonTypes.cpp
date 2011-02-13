@@ -118,7 +118,7 @@ void LbaQuaternion::AddSingleRotation(float angle, const LbaVec3 &vec)
 /***********************************************************
 get direction vector
 ***********************************************************/
-LbaVec3 LbaQuaternion::GetDirection(const LbaVec3 &vec)
+LbaVec3 LbaQuaternion::GetDirection(const LbaVec3 &vec) const
 {
 	LbaVec3 dir(vec);
 	rotate(dir);
@@ -129,7 +129,7 @@ LbaVec3 LbaQuaternion::GetDirection(const LbaVec3 &vec)
 /***********************************************************
 get object rotation on a single angle
 ***********************************************************/
-float LbaQuaternion::GetRotationSingleAngle()
+float LbaQuaternion::GetRotationSingleAngle() const
 {
     float angle = acos(W) * 2.0f;
     float sa = sqrt(1.0f - W*W);
@@ -146,6 +146,20 @@ get the angle between a vector and the 0 angle
 ***********************************************************/
 float LbaQuaternion::GetAngleFromVector(const LbaVec3 &vec)
 {
+	float res = GetSignedAngleFromVector(vec);
+	if(res < 0)
+		res += 360;
+	return res;
+
+}
+
+
+
+/***********************************************************
+get the angle between a vector and the 0 angle
+***********************************************************/
+float LbaQuaternion::GetSignedAngleFromVector(const LbaVec3 &vec)
+{
 	float norm = sqrt((vec.x * vec.x) + (vec.z * vec.z));
 	if(norm)
 	{
@@ -155,11 +169,13 @@ float LbaQuaternion::GetAngleFromVector(const LbaVec3 &vec)
 		float res = 0;
 		res = atan2(nz, nx) - atan2(1.0f,0.0f);
 		res = 180 * res / M_PI;
+
 		return res;
 	}
 
 	return 0;
 }
+
 
 /***********************************************************
 operator *

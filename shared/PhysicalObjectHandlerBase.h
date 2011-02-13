@@ -124,13 +124,13 @@ public:
 	~SimpleRotationHandler(){}
 
 	//! get object rotation on all axis
-	void GetRotation(LbaQuaternion& Q)
+	void GetRotation(LbaQuaternion& Q) const
 	{
 		Q = _Q;
 	}
 
 	//! get object rotation on a single angle
-	float GetRotationYAxis()
+	float GetRotationYAxis() const
 	{
 		return _Q.GetRotationSingleAngle();
 	}
@@ -155,7 +155,7 @@ public:
 
 
 	//! get direction vector
-	LbaVec3 GetDirection(const LbaVec3 &vec)
+	LbaVec3 GetDirection(const LbaVec3 &vec) const
 	{
 		return _Q.GetDirection(vec);
 	}
