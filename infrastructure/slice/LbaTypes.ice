@@ -795,8 +795,80 @@ module LbaNet
 		float				SizeX;
 		float				SizeY;
 		float				SizeZ;		
-	};		
+	};
+	
+	
+	
+		
+	// base class for all editor update
+	class NpcUpdateBase
+	{
+	};
+	
+	
+	class StraightWalkToNpcUpd extends NpcUpdateBase
+	{
+		float PosX;
+		float PosY;
+		float PosZ;
+	};
+	
+	class GoToNpcUpd extends NpcUpdateBase
+	{
+		float PosX;
+		float PosY;
+		float PosZ;
+		float Speed;
+	};	
+	
+	class RotateNpcUpd extends NpcUpdateBase
+	{
+		float Angle;
+		float RotationSpeedPerSec;
+		bool ManageAnimation;
+	};
+	
+	class AnimateNpcUpd extends NpcUpdateBase
+	{
+		bool AnimationMove;
+	};
+	
+	
+	class RotateFromPointNpcUpd extends NpcUpdateBase
+	{
+		float Angle;
+		float PosX;
+		float PosY;
+		float PosZ;
+		float Speed;
+	};
+	
+	
+	class FollowWaypointNpcUpd extends NpcUpdateBase
+	{
+		float Pm1X;
+		float P0X;
+		float P1X;
+		float P2X;
+		float P3X;
+		float P4X;
+			
+		float Pm1Y;
+		float P0Y;
+		float P1Y;
+		float P2Y;
+		float P3Y;
+		float P4Y;
+		
+		float Pm1Z;
+		float P0Z;
+		float P1Z;
+		float P2Z;
+		float P3Z;
+		float P4Z;	
+	};	
 };	
 
 #endif
+
 

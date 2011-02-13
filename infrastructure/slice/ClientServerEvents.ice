@@ -207,13 +207,19 @@ module LbaNet
 	
 	
 	// server inform other that a npc moved
-	class NpcMovedEvent extends ClientServerEventBase
+	class NpcChangedEvent extends ClientServerEventBase
 	{
 		long			NpcId;
-		PlayerMoveInfo		info;
+		float			CurrPosX;
+		float			CurrPosY;
+		float			CurrPosZ;
+		float			CurrRotation;		
+		string			CurrAnimation;
 		
-		// indicate that the npc teleported
-		bool			Teleport;	
+		bool			ResetPosition;
+		bool			ResetRotation;	
+		
+		NpcUpdateBase		Update;
 	};	
 };	
 
