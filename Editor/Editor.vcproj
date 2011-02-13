@@ -304,6 +304,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Client\ExternalActor.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Client\ExternalPlayer.cpp"
 				>
 			</File>
@@ -799,6 +803,10 @@
 			</File>
 			<File
 				RelativePath="..\shared\EventsQueue.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Client\ExternalActor.h"
 				>
 			</File>
 			<File

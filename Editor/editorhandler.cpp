@@ -1978,6 +1978,12 @@ void EditorHandler::ResetMap()
 	_triggerlistmodel->Clear();
 	_triggers.clear();
 	_triggerNameList->Clear();
+
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator it = _Actors.begin();
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator end = _Actors.end();
+	for(; it != end; ++it)
+		it->second->SetScriptHandler(NULL);
+
 	_Actors.clear();
 
 	ResetObject();
