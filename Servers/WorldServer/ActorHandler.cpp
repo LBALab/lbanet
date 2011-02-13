@@ -1047,7 +1047,7 @@ void ActorHandler::Resume()
 /***********************************************************
 add script part to the script
 ***********************************************************/
-void ActorHandler::AddScriptPart(ActorScriptPartBasePtr part)
+int ActorHandler::AddScriptPart(ActorScriptPartBasePtr part)
 {
 	m_script.push_back(part);
 
@@ -1056,6 +1056,8 @@ void ActorHandler::AddScriptPart(ActorScriptPartBasePtr part)
 		CreateActor();
 		ClearRunningScript();	
 	}
+
+	return m_script.size()-1;
 }
 
 /***********************************************************

@@ -210,7 +210,7 @@ public:
 
 
 	//! add script part to the script
-	void AddScriptPart(ActorScriptPartBasePtr part);
+	int AddScriptPart(ActorScriptPartBasePtr part);
 
 	//! replace script part to the script
 	void ReplaceScriptPart(ActorScriptPartBasePtr olds, ActorScriptPartBasePtr news);
