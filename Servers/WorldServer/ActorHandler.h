@@ -236,6 +236,48 @@ public:
 
 
 
+	//! used by lua to move an actor
+	//! the actor will move using animation speed
+	virtual void ActorStraightWalkTo(int ScriptId, bool asynchronus, float PosX, float PosY, float PosZ);
+
+	//! used by lua to rotate an actor
+	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
+	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
+	//! if ManageAnimation is true then the animation will be changed to suit the rotation
+	virtual void ActorRotate(int ScriptId, bool asynchronus, float Angle, float RotationSpeedPerSec, 
+					bool ManageAnimation);
+
+	//! used by lua to wait until an actor animation is finished
+	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
+	virtual void ActorAnimate(int ScriptId, bool asynchronus, bool AnimationMove);
+
+	
+	//! used by lua to move an actor or player
+	//! the actor will move using speed
+	virtual void ActorGoTo(int ScriptId, float PosX, float PosY, float PosZ, float Speed, bool asynchronus);
+	
+
+	//! used by lua to move an actor or player
+	//! the actor will wait for signal
+	virtual void ActorWaitForSignal(int ScriptId, int Signalnumber, bool asynchronus);
+	
+	//! used by lua to move an actor or player
+	//! the actor will rotate
+	virtual void ActorRotateFromPoint(int ScriptId, float Angle, float PosX, float PosY, 
+													float PosZ, float Speed, bool asynchronus);
+
+	//! used by lua to move an actor or player
+	//! the actor follow waypoint
+	virtual void ActorFollowWaypoint(int ScriptId, int waypointindex1, int waypointindex2, bool asynchronus);
+
+
+
+
+
+
+
+
+
 
 #ifdef _USE_QT_EDITOR_
 public:
@@ -269,12 +311,6 @@ protected:
 	//! resume the playing script
 	void Resume();
 
-	//! update client if needed
-	void UpdateServer(double tnow, float tdiff);
-
-	//! check if should update
-	bool ShouldforceUpdate();
-
 	//! start script
 	void StartScript();
 
@@ -296,12 +332,10 @@ protected:
 
 	std::vector<ActorScriptPartBasePtr>					m_script;
 
-
-	// update pos to clients
-	LbaNet::PlayerMoveInfo								_lastupdate;
-	LbaNet::PlayerMoveInfo								_currentupdate;
-
 	std::vector<LbaNet::ClientServerEventBasePtr>		_events;
+
+	bool												m_resetposition;
+	bool												m_resetrotation;
 };
 
 #endif

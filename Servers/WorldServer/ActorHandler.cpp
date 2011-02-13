@@ -441,7 +441,8 @@ void ActorObjectInfo::AddColorSwap(int modelpart, int oldcolor, int newcolor)
 constructor
 ***********************************************************/
 ActorHandler::ActorHandler(const ActorObjectInfo & actorinfo)
-: m_launchedscript(-1), m_paused(false), m_scripthandler(NULL)
+: m_launchedscript(-1), m_paused(false), m_scripthandler(NULL),
+	m_resetposition(false), m_resetrotation(false)
 {
 	SetActorInfo(actorinfo);
 }
@@ -523,14 +524,6 @@ void ActorHandler::SetActorInfo(const ActorObjectInfo & ainfo)
 	m_actorinfo.ExtraInfo.Display = false;
 
 	CreateActor();
-
-
-	// update last position
-	_character->GetPhysicalObject()->GetPosition(_lastupdate.CurrentPos.X, 
-													_lastupdate.CurrentPos.Y, 
-													_lastupdate.CurrentPos.Z);
-
-	_lastupdate.CurrentPos.Rotation = _character->GetPhysicalObject()->GetRotationYAxis();
 }
 
 
@@ -858,13 +851,8 @@ void ActorHandler::TeleportTo(float PosX, float PosY, float PosZ)
 			if(physO)
 			{
 				physO->SetPosition(PosX, PosY, PosZ);
-				_lastupdate.CurrentPos.X = PosX;
-				_lastupdate.CurrentPos.Y = PosY;
-				_lastupdate.CurrentPos.Z = PosZ;
 
-				// inform clients of the tp
-				_events.push_back(new LbaNet::NpcMovedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-									m_actorinfo.ObjectId, _lastupdate, true));
+				m_resetposition = true;
 			}
 		}
 	}
@@ -892,6 +880,8 @@ void ActorHandler::SetRotation(float angle)
 				LbaQuaternion Q;
 				Q.AddSingleRotation(angle, LbaVec3(0, 1, 0));
 				physO->SetRotation(Q);
+
+				m_resetrotation = true;
 			}
 		}
 	}
@@ -931,10 +921,6 @@ std::vector<LbaNet::ClientServerEventBasePtr> ActorHandler::Process(double tnow,
 		if(m_launchedscript >= 0 && !m_paused)
 			ProcessScript(tnow, tdiff, m_scripthandler);
 	}
-
-	// inform all client of the move if needed
-	if((m_actorinfo.PhysicDesc.TypePhysO != LbaNet::StaticAType) && _character)
-		UpdateServer(tnow, tdiff);
 
 	std::vector<LbaNet::ClientServerEventBasePtr> res;
 	res.swap(_events);
@@ -1048,14 +1034,9 @@ void ActorHandler::Resume()
 				physO->SetPosition(m_saved_X, m_saved_Y, m_saved_Z);
 				physO->SetRotation(m_saved_Q);	
 
-				_lastupdate.CurrentPos.X = m_saved_X;
-				_lastupdate.CurrentPos.Y = m_saved_Y;
-				_lastupdate.CurrentPos.Z = m_saved_Z;
-				_lastupdate.CurrentPos.Rotation = physO->GetRotationYAxis();
+				m_resetposition = true;
+				m_resetrotation = true;
 
-				// inform clients of the tp
-				_events.push_back(new LbaNet::NpcMovedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-											m_actorinfo.ObjectId, _lastupdate, true));
 			}
 		}
 	}
@@ -1137,105 +1118,6 @@ void ActorHandler::UpdateScriptPosition(ActorScriptPartBasePtr part, int positio
 
 
 
-/***********************************************************
-check if we need to send update to server
-***********************************************************/
-void ActorHandler::UpdateServer(double tnow, float tdiff)
-{
-	LbaNet::ClientServerEventBasePtr res = NULL;
-
-	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
-	if(!physo)
-		return;
-
-	// get current position
-	physo->GetPosition(_currentupdate.CurrentPos.X, 
-							_currentupdate.CurrentPos.Y, 
-							_currentupdate.CurrentPos.Z);
-
-
-	// get current rotation
-	_currentupdate.CurrentPos.Rotation = physo->GetRotationYAxis();
-
-
-	// set speed
-	_currentupdate.CurrentSpeedX = (_currentupdate.CurrentPos.X-_lastupdate.CurrentPos.X) / tdiff;
-	_currentupdate.CurrentSpeedY = (_currentupdate.CurrentPos.Y-_lastupdate.CurrentPos.Y) / tdiff;
-	_currentupdate.CurrentSpeedZ = (_currentupdate.CurrentPos.Z-_lastupdate.CurrentPos.Z) / tdiff;
-
-	//calculate angle speed
-	_currentupdate.CurrentSpeedRotation = (_currentupdate.CurrentPos.Rotation-
-													_lastupdate.CurrentPos.Rotation);
-
-	while(_currentupdate.CurrentSpeedRotation < -180) 
-		_currentupdate.CurrentSpeedRotation += 360;
-	while(_currentupdate.CurrentSpeedRotation > 180) 
-		_currentupdate.CurrentSpeedRotation -= 360;
-
-
-	_currentupdate.CurrentSpeedRotation /= tdiff;
-	
-
-	// set animation
-	_currentupdate.AnimationIdx = -1;
-	if(_character->GetDisplayObject())
-		_currentupdate.AnimationIdx = _character->GetDisplayObject()->GetCurrentAnimation();
-
-
-
-	// check if we should force the update
-	_currentupdate.ForcedChange = ShouldforceUpdate();
-
-
-	//send to server if needed
-	if(_currentupdate.ForcedChange)
-		_events.push_back(new LbaNet::NpcMovedEvent(tnow, m_actorinfo.ObjectId, _currentupdate, false));
-
-	_lastupdate = _currentupdate;
-
-}
-
-
-
-/***********************************************************
-check if we should force the update
-***********************************************************/
-bool ActorHandler::ShouldforceUpdate()
-{
-	if(_lastupdate.AnimationIdx != _currentupdate.AnimationIdx)
-		return true;
-
-
-
-	if(abs(_lastupdate.CurrentSpeedX - _currentupdate.CurrentSpeedX) > 0.00001f)
-		return true;
-
-	if(abs(_lastupdate.CurrentSpeedY - _currentupdate.CurrentSpeedY) > 0.00001f)
-		return true;
-
-	if(abs(_lastupdate.CurrentSpeedZ - _currentupdate.CurrentSpeedZ) > 0.00001f)
-		return true;
-
-	if(abs(_lastupdate.CurrentSpeedRotation - _currentupdate.CurrentSpeedRotation) > 0.1f)
-		return true;
-
-
-
-	float diffpos = abs(_lastupdate.CurrentPos.X - _currentupdate.CurrentPos.X) 
-					+ abs(_lastupdate.CurrentPos.Y - _currentupdate.CurrentPos.Y) 
-					+  abs(_lastupdate.CurrentPos.Z - _currentupdate.CurrentPos.Z);
-	if(diffpos > 10)
-		return true;
-
-
-	double diffrot = abs(_lastupdate.CurrentPos.Rotation - _currentupdate.CurrentPos.Rotation);
-	if(diffrot > 10)
-		return true;
-
-
-	return false;
-}
-
 
 
 /***********************************************************
@@ -1268,3 +1150,259 @@ void ActorHandler::StartScript()
 	// start the script
 	m_launchedscript = m_scripthandler->StartScript(fctname.str(), false);
 }
+
+
+
+
+/***********************************************************
+used by lua to move an actor or player
+if id < 1 then it moves players
+the actor will move using animation speed
+***********************************************************/
+void ActorHandler::ActorStraightWalkTo(int ScriptId, bool asynchronus, float PosX, float PosY, float PosZ)
+{
+	ScriptedActor::ActorStraightWalkTo(ScriptId, asynchronus, PosX, PosY, PosZ);
+
+
+	boost::shared_ptr<PhysicalObjectHandlerBase> physO = _character->GetPhysicalObject();
+	boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
+	float posX, posY, posZ;
+	physO->GetPosition(posX, posY, posZ);
+	float rotation = physO->GetRotationYAxis();
+	std::string anim = disO->GetCurrentAnimation();
+
+	// inform clients
+	_events.push_back(new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+						m_actorinfo.ObjectId, posX, posY, posZ, rotation, anim, 
+						m_resetposition, m_resetrotation,
+						new LbaNet::StraightWalkToNpcUpd(PosX, PosY, PosZ)));
+
+	m_resetposition = false;
+	m_resetrotation = false;
+}
+
+
+
+/***********************************************************
+//! used by lua to rotate an actor
+//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
+//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
+***********************************************************/
+void ActorHandler::ActorRotate(int ScriptId, bool asynchronus, float Angle, float RotationSpeedPerSec, 
+								bool ManageAnimation)
+{
+	ScriptedActor::ActorRotate(ScriptId, asynchronus, Angle, RotationSpeedPerSec, ManageAnimation);
+
+
+	boost::shared_ptr<PhysicalObjectHandlerBase> physO = _character->GetPhysicalObject();
+	boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
+	float posX, posY, posZ;
+	physO->GetPosition(posX, posY, posZ);
+	float rotation = physO->GetRotationYAxis();
+	std::string anim = disO->GetCurrentAnimation();
+
+	// inform clients
+	_events.push_back(new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+						m_actorinfo.ObjectId, posX, posY, posZ, rotation, anim, 
+						m_resetposition, m_resetrotation,
+						new LbaNet::RotateNpcUpd(Angle, RotationSpeedPerSec, ManageAnimation)));
+
+	m_resetposition = false;
+	m_resetrotation = false;
+}
+
+
+/***********************************************************
+//! used by lua to wait until an actor animation is finished
+//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
+***********************************************************/
+void ActorHandler::ActorAnimate(int ScriptId, bool asynchronus, bool AnimationMove)
+{
+	ScriptedActor::ActorAnimate(ScriptId, asynchronus, AnimationMove);
+
+
+	boost::shared_ptr<PhysicalObjectHandlerBase> physO = _character->GetPhysicalObject();
+	boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
+	float posX, posY, posZ;
+	physO->GetPosition(posX, posY, posZ);
+	float rotation = physO->GetRotationYAxis();
+	std::string anim = disO->GetCurrentAnimation();
+
+	// inform clients
+	_events.push_back(new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+						m_actorinfo.ObjectId, posX, posY, posZ, rotation, anim, 
+						m_resetposition, m_resetrotation,
+						new LbaNet::AnimateNpcUpd(AnimationMove)));
+
+	m_resetposition = false;
+	m_resetrotation = false;
+}
+
+
+
+/***********************************************************
+//! used by lua to move an actor or player
+//! the actor will move using speed
+***********************************************************/
+void ActorHandler::ActorGoTo(int ScriptId, float PosX, float PosY, float PosZ, float Speed, bool asynchronus)
+{
+	ScriptedActor::ActorGoTo(ScriptId, PosX, PosY, PosZ, Speed, asynchronus);
+
+
+	boost::shared_ptr<PhysicalObjectHandlerBase> physO = _character->GetPhysicalObject();
+	boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
+	float posX, posY, posZ;
+	physO->GetPosition(posX, posY, posZ);
+	float rotation = physO->GetRotationYAxis();
+	std::string anim = disO->GetCurrentAnimation();
+
+	// inform clients
+	_events.push_back(new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+						m_actorinfo.ObjectId, posX, posY, posZ, rotation, anim, 
+						m_resetposition, m_resetrotation,
+						new LbaNet::GoToNpcUpd(PosX, PosY, PosZ, Speed)));
+
+	m_resetposition = false;
+	m_resetrotation = false;
+}
+	
+
+
+
+/***********************************************************
+//! used by lua to move an actor or player
+//! the actor will wait for signal
+***********************************************************/
+void ActorHandler::ActorWaitForSignal(int ScriptId, int Signalnumber, bool asynchronus)
+{
+	ScriptedActor::ActorWaitForSignal(ScriptId, Signalnumber, asynchronus);
+
+
+	boost::shared_ptr<PhysicalObjectHandlerBase> physO = _character->GetPhysicalObject();
+	boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
+	float posX, posY, posZ;
+	physO->GetPosition(posX, posY, posZ);
+	float rotation = physO->GetRotationYAxis();
+	std::string anim = disO->GetCurrentAnimation();
+
+	// inform clients
+	if(m_resetposition || m_resetrotation)
+		_events.push_back(new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+							m_actorinfo.ObjectId, posX, posY, posZ, rotation, anim, 
+							m_resetposition, m_resetrotation, NULL));
+
+	m_resetposition = false;
+	m_resetrotation = false;
+}
+
+
+	
+
+/***********************************************************
+//! used by lua to move an actor or player
+//! the actor will rotate
+***********************************************************/
+void ActorHandler::ActorRotateFromPoint(int ScriptId, float Angle, float PosX, float PosY, 
+													float PosZ, float Speed, bool asynchronus)
+{
+	ScriptedActor::ActorRotateFromPoint(ScriptId, Angle, PosX, PosY, PosZ, Speed, asynchronus);
+
+
+	boost::shared_ptr<PhysicalObjectHandlerBase> physO = _character->GetPhysicalObject();
+	boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
+	float posX, posY, posZ;
+	physO->GetPosition(posX, posY, posZ);
+	float rotation = physO->GetRotationYAxis();
+	std::string anim = disO->GetCurrentAnimation();
+
+	// inform clients
+	_events.push_back(new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+						m_actorinfo.ObjectId, posX, posY, posZ, rotation, anim, 
+						m_resetposition, m_resetrotation,
+						new LbaNet::RotateFromPointNpcUpd(Angle, PosX, PosY, PosZ, Speed)));
+
+	m_resetposition = false;
+	m_resetrotation = false;
+}
+
+
+	
+
+/***********************************************************
+//! used by lua to move an actor or player
+//! the actor follow waypoint
+***********************************************************/
+void ActorHandler::ActorFollowWaypoint(int ScriptId, int waypointindex1, int waypointindex2, bool asynchronus)
+{
+	ScriptedActor::ActorFollowWaypoint(ScriptId, waypointindex1, waypointindex2, asynchronus);
+
+
+	boost::shared_ptr<PhysicalObjectHandlerBase> physO = _character->GetPhysicalObject();
+	boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
+	float posX, posY, posZ;
+	physO->GetPosition(posX, posY, posZ);
+	float rotation = physO->GetRotationYAxis();
+	std::string anim = disO->GetCurrentAnimation();
+
+
+
+
+	std::vector<LbaVec3> waypoints = _character->GetWaypoints(waypointindex1);
+	if(waypointindex2 < (int)waypoints.size())
+	{
+		LbaVec3 _Pm1, _P0, _P1, _P2, _P3, _P4;
+
+		_P2 =  waypoints[waypointindex2];
+
+		if((waypointindex2+1) < (int)waypoints.size())
+			_P3 = waypoints[waypointindex2+1];
+		else
+			_P3 = _P2;
+
+		if((waypointindex2+2) < (int)waypoints.size())
+			_P4 = waypoints[waypointindex2+2];
+		else
+			_P4 = _P2;
+
+		--waypointindex2;
+		if(waypointindex2 >= 0)
+			_P1 =  waypoints[waypointindex2];
+		else
+		{
+			_P1.x = posX;
+			_P1.y = posY;
+			_P1.z = posZ;
+		}
+
+		--waypointindex2;
+		if(waypointindex2 >= 0)
+			_P0 =  waypoints[waypointindex2];
+		else
+			_P0 =  _P1;
+
+		--waypointindex2;
+		if(waypointindex2 >= 0)
+			_Pm1 =  waypoints[waypointindex2];
+		else
+			_Pm1 =  _P1;
+
+
+		// inform clients
+		_events.push_back(new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+							m_actorinfo.ObjectId, posX, posY, posZ, rotation, anim, 
+							m_resetposition, m_resetrotation,
+							new LbaNet::FollowWaypointNpcUpd(
+												_Pm1.x, _P0.x, _P1.x, _P2.x, _P3.x, _P4.x,
+												_Pm1.y, _P0.y, _P1.y, _P2.y, _P3.y, _P4.y,
+												_Pm1.z, _P0.z, _P1.z, _P2.z, _P3.z, _P4.z)));
+
+		m_resetposition = false;
+		m_resetrotation = false;
+	}
+
+
+
+
+}
+
+
