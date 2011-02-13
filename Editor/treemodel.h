@@ -28,8 +28,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QAbstractItemModel>
 #include <QModelIndex>
 #include <QVariant>
+#include <boost/shared_ptr.hpp>
 
 class TreeItem;
+class CustomStringListModel;
+class FileDialogOptionsBase;
+
 
 //*************************************************************************************************
 //*                               class TreeModel
@@ -82,6 +86,11 @@ public:
 	//! set model tooltip
     bool setTooltip(const QModelIndex &index, const QVariant &value);
 
+	bool SetCustomIndex(QModelIndex index, boost::shared_ptr<CustomStringListModel> list);
+
+	//! used in the case of file dialog
+	bool SetCustomIndex(QModelIndex index, boost::shared_ptr<FileDialogOptionsBase> filefilter);
+
 
 	//! clear the tree content
 	void Clear(const QModelIndex &index = QModelIndex());
@@ -95,6 +104,12 @@ public:
 
 	//! check if given index is read only
 	bool IsReadOnly(const QModelIndex &index) const;
+
+
+	//! accessor
+    boost::shared_ptr<CustomStringListModel> CustomIndex(const QModelIndex &index) const;
+    boost::shared_ptr<FileDialogOptionsBase> CustomIndexFile(const QModelIndex &index) const;
+
 
 private:
 	//! get item

@@ -715,24 +715,26 @@ Constructor
 QWidget *CustomDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option,
 											const QModelIndex &index) const
 {
-	std::map<QModelIndex, boost::shared_ptr<CustomStringListModel> >::const_iterator it = _customs.find(index);
-	if(it != _customs.end())
+	TreeModel* Tmodel = static_cast<TreeModel*>(_model);
+    boost::shared_ptr<CustomStringListModel> custom = Tmodel->CustomIndex(index);
+    boost::shared_ptr<FileDialogOptionsBase> customf = Tmodel->CustomIndexFile(index);
+
+	if(custom)
 	{
 		QComboBox *editor = new QComboBox(parent);
-		editor->setModel(it->second.get());
+		editor->setModel(custom.get());
 		editor->setEditable(false);
 
-		connect(editor, SIGNAL(	activated(int)) , this, SLOT(objmodified(int)));
+		connect(editor, SIGNAL(	currentIndexChanged(int)) , this, SLOT(objmodified(int)));
 		return editor;
 	}
 
-	 std::map<QModelIndex, boost::shared_ptr<FileDialogOptionsBase> >::const_iterator itf = _customsfiledialog.find(index);
-	if(itf != _customsfiledialog.end())
+	if(customf)
 	{
-		QFileDialog *editor = new QFileDialog(parent, itf->second->Title);
+		QFileDialog *editor = new QFileDialog(parent, customf->Title);
 		editor->setAcceptMode(QFileDialog::AcceptOpen);
 		editor->setFileMode(QFileDialog::ExistingFile);
-		editor->setNameFilter(itf->second->FileFilter);
+		editor->setNameFilter(customf->FileFilter);
 		editor->setViewMode(QFileDialog::List);
 		editor->setModal(true);
 
@@ -778,28 +780,46 @@ Constructor
 ***********************************************************/
 void CustomDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-	std::map<QModelIndex, boost::shared_ptr<CustomStringListModel> >::const_iterator it = _customs.find(index);
-	if(it != _customs.end())
+	TreeModel* Tmodel = static_cast<TreeModel*>(_model);
+    boost::shared_ptr<CustomStringListModel> custom = Tmodel->CustomIndex(index);
+    boost::shared_ptr<FileDialogOptionsBase> customf = Tmodel->CustomIndexFile(index);
+
+	if(custom)
 	{
 		 QString value = index.model()->data(index, Qt::DisplayRole).toString();
 
-		 QComboBox *comboBox = static_cast<QComboBox*>(editor);
+		QComboBox *comboBox = static_cast<QComboBox*>(editor);
 		 int index = comboBox->findText(value);
 		 if(index >= 0)
 			comboBox->setCurrentIndex(index);
+		 else
+		 {
+			value = value.right(value.size()-2);
+			index = comboBox->findText(value);
+			 if(index >= 0)
+				comboBox->setCurrentIndex(index);
+			 else
+			 {
+				value = value.right(value.size()-1);
+				index = comboBox->findText(value);
+				 if(index >= 0)
+					comboBox->setCurrentIndex(index);
+			 }
+		 }
 
+		 comboBox->blockSignals( false );
 		 return;
 	}
 
-	std::map<QModelIndex, boost::shared_ptr<FileDialogOptionsBase> >::const_iterator itf = _customsfiledialog.find(index);
-	if(itf != _customsfiledialog.end())
+	if(customf)
 	{
 		QString value = index.model()->data(index, Qt::DisplayRole).toString();
 		QFileDialog *dialog = static_cast<QFileDialog*>(editor);
 		dialog->setGeometry( 100, 100, 500, 300 );
 
-		if(itf->second->PreviousFile == "")
-			itf->second->PreviousFile = value;
+
+		if(customf->PreviousFile == "")
+			customf->PreviousFile = value;
 
 		if(value != "")
 		{
@@ -808,7 +828,7 @@ void CustomDelegate::setEditorData(QWidget *editor, const QModelIndex &index) co
 		}
 		else
 		{
-			dialog->setDirectory(QDir::currentPath()+"/"+itf->second->StartingDirectory);
+			dialog->setDirectory(QDir::currentPath()+"/"+customf->StartingDirectory);
 		}
 
 		return;
@@ -847,22 +867,27 @@ Constructor
 void CustomDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
                        const QModelIndex &index) const
 {
-	std::map<QModelIndex, boost::shared_ptr<CustomStringListModel> >::const_iterator it = _customs.find(index);
-	if(it != _customs.end())
+	TreeModel* Tmodel = static_cast<TreeModel*>(_model);
+    boost::shared_ptr<CustomStringListModel> custom = Tmodel->CustomIndex(index);
+    boost::shared_ptr<FileDialogOptionsBase> customf = Tmodel->CustomIndexFile(index);
+
+	if(custom)
 	{
-		 QComboBox *comboBox = static_cast<QComboBox*>(editor);
-		 QString value = comboBox->currentText();
-		 model->setData(index, value);
-		
+		QComboBox *comboBox = static_cast<QComboBox*>(editor);
+		comboBox->blockSignals( true );
+
+		QString value = comboBox->currentText();
+		model->setData(index, value);			
+
+		comboBox->blockSignals( false );
 		return;
 	}
 
-	std::map<QModelIndex, boost::shared_ptr<FileDialogOptionsBase> >::const_iterator itf = _customsfiledialog.find(index);
-	if(itf != _customsfiledialog.end())
+	if(customf)
 	{
 		if(_selectedfile != "")
 		{
-			QString outfile = itf->second->PostManagement(_selectedfile);
+			QString outfile = customf->PostManagement(_selectedfile);
 			if(outfile != "")
 				model->setData(index, outfile);
 		}
@@ -871,10 +896,10 @@ void CustomDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
 			if(!_accepted)
 			{
 				// file rejected - reset to previous
-				model->setData(index, itf->second->PreviousFile);
+				model->setData(index, customf->PreviousFile);
 			}
 
-			itf->second->PreviousFile = "";
+			customf->PreviousFile = "";
 		}
 
 		return;
@@ -925,27 +950,7 @@ Constructor
 ***********************************************************/
 void CustomDelegate::Clear()
 {
-	_customs.clear();
-	_customsfiledialog.clear();
 }
-
-/***********************************************************
-Constructor
-***********************************************************/
-void CustomDelegate::SetCustomIndex(QModelIndex index, boost::shared_ptr<CustomStringListModel> list)
-{
-	_customs[index] = list;
-}
-
-
-/***********************************************************
-used in the case of file dialog
-***********************************************************/
- void CustomDelegate::SetCustomIndex(QModelIndex index, boost::shared_ptr<FileDialogOptionsBase> filefilter)
-{
-	_customsfiledialog[index] = filefilter;
-}
-
 
 
 /***********************************************************
@@ -2892,12 +2897,12 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 			_objectmodel->AppendRow(data, parent);
 		}
 
-		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _mapNameList);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _mapNameList);
 
 		std::map<std::string, boost::shared_ptr<CustomStringListModel> >::iterator it = 
 													_mapSpawningList.find(ptr->GetMapName());
 		if(it != _mapSpawningList.end())
-			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 3, parent), it->second);
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 3, parent), it->second);
 
 		return;
 	}
@@ -2917,7 +2922,7 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 				SelectCScript(scriptptr, idx);
 		}
 
-		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _cscripttypeList);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _cscripttypeList);
 
 		return;
 	}
@@ -2953,7 +2958,7 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 			QModelIndex idx = _objectmodel->AppendRow(data, parent);
 		}
 
-		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _text_mapNameList);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _text_mapNameList);
 
 		return;
 	}
@@ -3007,9 +3012,9 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 			}
 		}
 
-		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _conditiontypeList);
-		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 3, parent), _actiontypeList);
-		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actiontypeList);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _conditiontypeList);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 3, parent), _actiontypeList);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actiontypeList);
 
 		return;
 	}
@@ -3091,14 +3096,14 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 						_objectmodel->setTooltip(idx2, "The items part of the same group are mutually exclusive");
 					}
 
-					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _itemNameList);	
+					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _itemNameList);	
 				}
 
 				// add new item
 				QVector<QVariant> datait;
 				datait << "Item" << "Add item...";
 				QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
-				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _itemNameList);	
+				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _itemNameList);	
 			
 			
 				_uieditor.treeView_object->setExpanded(idx, true); // expand 
@@ -3190,7 +3195,7 @@ void EditorHandler::ActionObjectChanged(const std::string & category, const QMod
 						_mapSpawningList.find(mapname);
 					if(it != _mapSpawningList.end())
 					{
-						_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 3, parentIdx), it->second);
+						_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 3, parentIdx), it->second);
 
 						QStringList lst = it->second->stringList();
 						if(lst.size() > 0)
@@ -3671,8 +3676,8 @@ void EditorHandler::SelectTrigger(long id, const QModelIndex &parent)
 			}
 
 
-			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actiontypeList);
-			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 5, parent), _actiontypeList);
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actiontypeList);
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 5, parent), _actiontypeList);
 
 			UpdateSelectedZoneTriggerDisplay(ptr->GetPosX(), ptr->GetPosY(), ptr->GetPosZ(),
 											ptr->GetSizeX(), ptr->GetSizeY(), ptr->GetSizeZ());
@@ -3747,9 +3752,9 @@ void EditorHandler::SelectTrigger(long id, const QModelIndex &parent)
 				_objectmodel->AppendRow(data, parent);
 			}
 
-			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actiontypeList);
-			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 11, parent), _actormodeList);
-			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 12, parent), _actormodeList);
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actiontypeList);
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 11, parent), _actormodeList);
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 12, parent), _actormodeList);
 
 			UpdateSelectedZoneTriggerDisplay(ptr->GetPosX(), ptr->GetPosY(), ptr->GetPosZ(),
 				ptr->GetSizeX(), ptr->GetSizeY(), ptr->GetSizeZ());
@@ -3812,9 +3817,9 @@ void EditorHandler::SelectTrigger(long id, const QModelIndex &parent)
 				_objectmodel->AppendRow(data, parent);
 			}
 
-			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actiontypeList);
-			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 9, parent), _actormodeList);
-			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 10, parent), _actormodeList);
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actiontypeList);
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 9, parent), _actormodeList);
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 10, parent), _actormodeList);
 
 			UpdateSelectedDistanceTriggerDisplay(ptr->GetPosX(), ptr->GetPosY(), ptr->GetPosZ(),
 																					ptr->GetDistance());
@@ -3849,7 +3854,7 @@ void EditorHandler::SelectTrigger(long id, const QModelIndex &parent)
 			}
 
 
-			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actiontypeList);
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actiontypeList);
 
 			return;
 		}
@@ -5647,10 +5652,10 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 			_objectmodel->AppendRow(data, parent);
 		}
 
-		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _conditiontypeList);
-		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 5, parent), _actortypeList);
-		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 6, parent), _actordtypeList);
-		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 7, parent), _actorptypeList);		
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _conditiontypeList);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 5, parent), _actortypeList);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 6, parent), _actordtypeList);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 7, parent), _actorptypeList);		
 
 
 		{
@@ -5717,7 +5722,7 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 					filefilter->Title = "Select physic file";
 					filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Models").c_str();
 					filefilter->FileFilter = "Physic Files (*.phy)";
-					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
+					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
 
 					++index;
 				}
@@ -5805,7 +5810,7 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 				filefilter->Title = "Select a model file";
 				filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Models").c_str();;
 				filefilter->FileFilter = "Model Files (*.osg *.osgb *.osgt)";
-				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
+				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
 				++index;
 			}
 
@@ -5819,7 +5824,7 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 				filefilter->Title = "Select an image";
 				filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Sprites").c_str();;
 				filefilter->FileFilter = "Image Files (*.png *.bmp *.jpg *.gif)";
-				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
+				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
 				++index;
 
 				{
@@ -5857,28 +5862,28 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 				data<<"Display model name"<<ainfo.DisplayDesc.ModelName.c_str();
 				_objectmodel->AppendRow(data, parent);
 
-				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _actorModelNameList);
+				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _actorModelNameList);
 				++index;
 
 				QVector<QVariant> data2;
 				data2<<"Display model outfit"<<ainfo.DisplayDesc.Outfit.c_str();
 				_objectmodel->AppendRow(data2, parent);
 				
-				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _actorModelOutfitList);
+				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _actorModelOutfitList);
 				++index;
 
 				QVector<QVariant> data3;
 				data3<<"Display model weapon"<<ainfo.DisplayDesc.Weapon.c_str();
 				_objectmodel->AppendRow(data3, parent);
 				
-				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _actorModelWeaponList);
+				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _actorModelWeaponList);
 				++index;
 
 				QVector<QVariant> data4;
 				data4<<"Display model mode"<<ainfo.DisplayDesc.Mode.c_str();
 				_objectmodel->AppendRow(data4, parent);
 				
-				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _actorModelModeList);
+				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _actorModelModeList);
 				++index;
 
 				const std::vector<int> &currpolyvec = it->second->currentpolycolors;
@@ -5946,14 +5951,14 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 
 				scpart->WriteToQt(_objectmodel, idxit);
 
-				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _actorscriptparttypeList);	
+				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _actorscriptparttypeList);	
 			}
 
 			// add new item
 			QVector<QVariant> datait;
 			datait << "Script part" << "Add new...";
 			QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
-			_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _actorscriptparttypeList);	
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _actorscriptparttypeList);	
 		
 		
 			_uieditor.treeView_object->setExpanded(idx, true); // expand 
@@ -6248,7 +6253,6 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 		//update scripts
 		if(ainfo.PhysicDesc.TypePhysO == LbaNet::KynematicAType)
 		{
-
 			QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
 			int curridx = 0;
 
@@ -6258,12 +6262,16 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 			for(int cc=0; itit != items.end(); ++itit, ++cc)
 			{
 				QModelIndex childidx = _objectmodel->GetIndex(0, curridx, itemparent);
-				std::string type = _objectmodel->data(_objectmodel->GetIndex(1, curridx, itemparent))
-																	.toString().toAscii().data();
+				QModelIndex childidx1 = _objectmodel->GetIndex(1, curridx, itemparent);
+				std::string type = _objectmodel->data(childidx1).toString().toAscii().data();
 				
+				bool numbered = false;
 				int pos = type.find_first_of("-");
 				if(pos != std::string::npos)
+				{
 					type = type.substr(pos+1);
+					numbered = true;
+				}
 
 				++curridx;
 				if(type != (*itit)->GetTypeName())
@@ -6271,16 +6279,41 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 					if(type == "Remove")
 					{
 						it->second->RemoveScriptPart(*itit);
+						//_objectmodel->Clear(childidx);
+						//_objectmodel->removeRows(curridx-1, 1, itemparent);
+						updateobj = true;
+						//return;
+						break;
 					}
 					else
 					{
 						ActorScriptPartBasePtr newsp = ActorScriptPartBase::BuildScriptPart(type, _posX, _posY, _posZ);
 						if(newsp)
+						{
 							it->second->ReplaceScriptPart(*itit, newsp);
+
+							// refresh tree
+							int position = _objectmodel->data(_objectmodel->GetIndex(1, 0, childidx)).toInt();
+							_objectmodel->Clear(childidx);
+
+							//add position
+							{
+								QVector<QVariant> datachild;
+								datachild << "Position in Script" << position;
+								QModelIndex idx1 = _objectmodel->AppendRow(datachild, childidx);	
+							}
+
+							newsp->WriteToQt(_objectmodel, childidx);
+
+							std::stringstream nametxt;
+							nametxt << position <<"-" << type;
+							_objectmodel->setData(childidx1, nametxt.str().c_str());
+
+							_uieditor.treeView_object->setExpanded(childidx, true); // expand 
+						}
 					}
 
-					updateobj = true;
-					break;
+					return;
 				}
 				else
 				{
@@ -6294,22 +6327,34 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 					{
 						it->second->UpdateScriptPosition(*itit, position);
 						updateobj = true;
-						break;
 					}
+					else
+					{
+						(*itit)->UpdateFromQt(_objectmodel, childidx, 1);
 
-					(*itit)->UpdateFromQt(_objectmodel, childidx, 1);
+						if(!numbered)
+						{
+							std::stringstream nametxt;
+							nametxt << position <<"-" << type;
+							_objectmodel->setData(childidx1, nametxt.str().c_str());
+							return;
+						}
+					}
 				}
 			}
 
 			if(!updateobj)
 			{
-				QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
-				std::string type = _objectmodel->data(childidx).toString().toAscii().data();
+				QModelIndex childidx = _objectmodel->GetIndex(0, curridx, itemparent);
+				QModelIndex childidx1 = _objectmodel->GetIndex(1, curridx, itemparent);
+				std::string type = _objectmodel->data(childidx1).toString().toAscii().data();
+				++curridx;
+
 				if(type != "Add new...")
 				{
 					if(type == "Remove")
 					{
-						_objectmodel->setData(childidx, "Add new...");
+						_objectmodel->setData(childidx1, "Add new...");
 						return;
 					}
 					else
@@ -6318,12 +6363,37 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 						ActorScriptPartBasePtr newsp = ActorScriptPartBase::BuildScriptPart(type, _posX, _posY, _posZ);
 						if(newsp)
 						{
-							it->second->AddScriptPart(newsp);
-							updateobj = true;
+							int position = it->second->AddScriptPart(newsp);
+
+							//refresh tree
+							{
+								QVector<QVariant> datachild;
+								datachild << "Position in Script" << position;
+								QModelIndex idx1 = _objectmodel->AppendRow(datachild, childidx);	
+							}
+
+							newsp->WriteToQt(_objectmodel, childidx);
+
+
+							// add new item
+							QVector<QVariant> datait;
+							datait << "Script part" << "Add new...";
+							QModelIndex idxit = _objectmodel->AppendRow(datait, itemparent);	
+							_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), 
+																		_actorscriptparttypeList);	
+						
+
+							std::stringstream nametxt;
+							nametxt << position <<"-" << type;
+							_objectmodel->setData(childidx1, nametxt.str().c_str());
+
+							_uieditor.treeView_object->setExpanded(childidx, true); // expand 	
+
+							return;
 						}
 						else
 						{
-							_objectmodel->setData(childidx, "Add new...");
+							_objectmodel->setData(childidx1, "Add new...");
 							return;
 						}
 					}
@@ -7463,7 +7533,7 @@ void EditorHandler::SelectCondition(ConditionBasePtr cond, const QModelIndex &pa
 		if(condptr)
 			SelectCondition(condptr, idx);
 
-		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _conditiontypeList);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _conditiontypeList);
 
 		return;
 	}
@@ -7494,8 +7564,8 @@ void EditorHandler::SelectCondition(ConditionBasePtr cond, const QModelIndex &pa
 		}
 
 
-		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _conditiontypeList);
-		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 3, parent), _conditiontypeList);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _conditiontypeList);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 3, parent), _conditiontypeList);
 
 		return;
 	}
@@ -7525,8 +7595,8 @@ void EditorHandler::SelectCondition(ConditionBasePtr cond, const QModelIndex &pa
 			SelectCondition(condptr, idx);
 		}
 
-		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _conditiontypeList);
-		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, 3, parent), _conditiontypeList);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _conditiontypeList);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 3, parent), _conditiontypeList);
 
 		return;
 	}
@@ -8231,7 +8301,7 @@ void EditorHandler::SelectItem(const LbaNet::ItemInfo & item, const QModelIndex 
 		data<<"Description"<<descstrs.str().c_str();
 		_objectmodel->AppendRow(data, parent);
 
-		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _text_inventoryNameList);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _text_inventoryNameList);
 		++index;
 	}
 
@@ -8246,7 +8316,7 @@ void EditorHandler::SelectItem(const LbaNet::ItemInfo & item, const QModelIndex 
 		filefilter->Title = "Select an image";
 		filefilter->StartingDirectory = "Data/GUI/imagesets/Inventory";
 		filefilter->FileFilter = "Images Files (*.png *.bmp *.jpg *.gif)";
-		_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
 
 
 		//todo put file chooser
@@ -8290,7 +8360,7 @@ void EditorHandler::SelectItem(const LbaNet::ItemInfo & item, const QModelIndex 
 					data<<"Type"<<"Restore % of Health";
 					_objectmodel->AppendRow(data, parent);
 
-					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _consumable_itemlistmodel);
+					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _consumable_itemlistmodel);
 					++index;
 
 					QVector<QVariant> data2;
@@ -8305,7 +8375,7 @@ void EditorHandler::SelectItem(const LbaNet::ItemInfo & item, const QModelIndex 
 					data<<"Type"<<"Restore % of Magic";
 					_objectmodel->AppendRow(data, parent);
 
-					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _consumable_itemlistmodel);
+					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _consumable_itemlistmodel);
 					++index;
 
 					QVector<QVariant> data2;
@@ -8320,7 +8390,7 @@ void EditorHandler::SelectItem(const LbaNet::ItemInfo & item, const QModelIndex 
 					data<<"Type"<<"Restore % of Health&Magic";
 					_objectmodel->AppendRow(data, parent);
 
-					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _consumable_itemlistmodel);
+					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _consumable_itemlistmodel);
 					++index;
 
 					QVector<QVariant> data2;
@@ -8336,7 +8406,7 @@ void EditorHandler::SelectItem(const LbaNet::ItemInfo & item, const QModelIndex 
 					data<<"Type"<<"Restore Health";
 					_objectmodel->AppendRow(data, parent);
 
-					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _consumable_itemlistmodel);
+					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _consumable_itemlistmodel);
 					++index;
 
 					QVector<QVariant> data2;
@@ -8351,7 +8421,7 @@ void EditorHandler::SelectItem(const LbaNet::ItemInfo & item, const QModelIndex 
 					data<<"Type"<<"Restore Magic";
 					_objectmodel->AppendRow(data, parent);
 
-					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _consumable_itemlistmodel);
+					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _consumable_itemlistmodel);
 					++index;
 
 					QVector<QVariant> data2;
@@ -8366,7 +8436,7 @@ void EditorHandler::SelectItem(const LbaNet::ItemInfo & item, const QModelIndex 
 					data<<"Type"<<"Restore Health&Magic";
 					_objectmodel->AppendRow(data, parent);
 
-					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _consumable_itemlistmodel);
+					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _consumable_itemlistmodel);
 					++index;
 
 					QVector<QVariant> data2;
@@ -8389,7 +8459,7 @@ void EditorHandler::SelectItem(const LbaNet::ItemInfo & item, const QModelIndex 
 					data<<"Type"<<"Protopack";
 					_objectmodel->AppendRow(data, parent);
 
-					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _mount_itemlistmodel);
+					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _mount_itemlistmodel);
 					++index;
 
 					QVector<QVariant> data1;
@@ -8409,7 +8479,7 @@ void EditorHandler::SelectItem(const LbaNet::ItemInfo & item, const QModelIndex 
 					data<<"Type"<<"Horse";
 					_objectmodel->AppendRow(data, parent);
 
-					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _mount_itemlistmodel);
+					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _mount_itemlistmodel);
 					++index;
 
 					QVector<QVariant> data1;
@@ -8429,7 +8499,7 @@ void EditorHandler::SelectItem(const LbaNet::ItemInfo & item, const QModelIndex 
 					data<<"Type"<<"Dinofly";
 					_objectmodel->AppendRow(data, parent);
 
-					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _mount_itemlistmodel);
+					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _mount_itemlistmodel);
 					++index;
 
 					QVector<QVariant> data1;
@@ -8480,7 +8550,7 @@ void EditorHandler::SelectItem(const LbaNet::ItemInfo & item, const QModelIndex 
 					data<<"Type"<<"Letter writer";
 					_objectmodel->AppendRow(data, parent);
 
-					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _special_itemlistmodel);
+					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _special_itemlistmodel);
 					++index;
 				}
 				break;
@@ -8577,14 +8647,14 @@ void EditorHandler::SelectItem(const LbaNet::ItemInfo & item, const QModelIndex 
 						_objectmodel->setTooltip(idx2, "The items part of the same group are mutually exclusive");
 					}
 
-					_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _itemNameList);	
+					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _itemNameList);	
 				}
 
 				// add new item
 				QVector<QVariant> datait;
 				datait << "Item" << "Add item...";
 				QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
-				_objectcustomdelegate->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _itemNameList);	
+				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _itemNameList);	
 					
 				_uieditor.treeView_object->setExpanded(idx, true); // expand 
 			}	

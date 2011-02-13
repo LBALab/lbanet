@@ -27,6 +27,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QVector>
 #include <QVariant>
+#include <boost/shared_ptr.hpp>
+
+class CustomStringListModel;
+class FileDialogOptionsBase;
 
 
 //*************************************************************************************************
@@ -65,6 +69,15 @@ public:
 	bool IsReadOnly() const
 	{ return _isReadOnly; }
 
+	//! SetCustomIndex
+	bool SetCustomIndex(int column, boost::shared_ptr<CustomStringListModel> list);
+
+	//! SetCustomIndex
+	bool SetCustomIndex(int column, boost::shared_ptr<FileDialogOptionsBase> filefilter);
+
+    boost::shared_ptr<CustomStringListModel> CustomIndex(int column) const;
+    boost::shared_ptr<FileDialogOptionsBase> CustomIndexFile(int column) const;
+
 private:
     QList<TreeItem*>	childItems;
     QVector<QVariant>	itemData;
@@ -72,6 +85,9 @@ private:
 
     TreeItem*			parentItem;
 	bool				_isReadOnly;
+
+	QVector<boost::shared_ptr<CustomStringListModel> >	_customs;
+	QVector<boost::shared_ptr<FileDialogOptionsBase> >	_customsfiledialog;
 };
 
 

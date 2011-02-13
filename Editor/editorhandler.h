@@ -245,10 +245,6 @@ public:
 
 	 void Clear();
 
-	 void SetCustomIndex(QModelIndex index, boost::shared_ptr<CustomStringListModel> list);
-
-	 //! used in the case of file dialog
-	 void SetCustomIndex(QModelIndex index, boost::shared_ptr<FileDialogOptionsBase> filefilter);
 
 public slots:
 		 
@@ -272,8 +268,7 @@ public slots:
 
 
  private:
-	 std::map<QModelIndex, boost::shared_ptr<CustomStringListModel> >		_customs;
-	 std::map<QModelIndex, boost::shared_ptr<FileDialogOptionsBase> >		_customsfiledialog;
+
 	 QAbstractItemModel *													_model;
 	 QString																_selectedfile;
 

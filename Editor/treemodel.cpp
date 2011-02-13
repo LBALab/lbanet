@@ -245,6 +245,32 @@ bool TreeModel::setTooltip(const QModelIndex &index, const QVariant &value)
 }
 
 
+/***********************************************************
+SetCustomIndex
+***********************************************************/
+bool TreeModel::SetCustomIndex(QModelIndex index, boost::shared_ptr<CustomStringListModel> list)
+{  
+	TreeItem *item = getItem(index);
+	if(item)
+		return item->SetCustomIndex(index.column(), list);
+
+	return false;
+}
+
+
+/***********************************************************
+SetCustomIndex
+***********************************************************/
+bool TreeModel::SetCustomIndex(QModelIndex index, boost::shared_ptr<FileDialogOptionsBase> filefilter)
+{  
+	TreeItem *item = getItem(index);
+	if(item)
+		return item->SetCustomIndex(index.column(), filefilter);
+
+	return false;
+}
+
+
 
 
 /***********************************************************
@@ -298,4 +324,37 @@ bool TreeModel::IsReadOnly(const QModelIndex &index) const
 		return it->IsReadOnly();
 
 	return true;
+}
+
+
+
+/***********************************************************
+accessor
+***********************************************************/
+boost::shared_ptr<CustomStringListModel> TreeModel::CustomIndex(const QModelIndex &index) const
+{
+    if (!index.isValid())
+        return boost::shared_ptr<CustomStringListModel>();
+
+
+	TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+	return item->CustomIndex(index.column());
+
+    return boost::shared_ptr<CustomStringListModel>();
+}
+
+
+/***********************************************************
+accessor
+***********************************************************/
+boost::shared_ptr<FileDialogOptionsBase> TreeModel::CustomIndexFile(const QModelIndex &index) const
+{
+    if (!index.isValid())
+        return boost::shared_ptr<FileDialogOptionsBase>();
+
+
+	TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+	return item->CustomIndexFile(index.column());
+
+    return boost::shared_ptr<FileDialogOptionsBase>();
 }

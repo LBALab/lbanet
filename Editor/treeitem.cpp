@@ -36,6 +36,8 @@ TreeItem::TreeItem(const QVector<QVariant> &data, TreeItem *parent, bool isReadO
     parentItem = parent;
     itemData = data;
 	itemTooltip.resize ( data.size() );
+	_customs.resize ( data.size() );
+	_customsfiledialog.resize ( data.size() );
 }
 
 /***********************************************************
@@ -191,4 +193,49 @@ clear all children
 void TreeItem::Clear()
 {
 	childItems.clear();
+}
+
+
+
+/***********************************************************
+Constructor
+***********************************************************/
+bool TreeItem::SetCustomIndex(int column, boost::shared_ptr<CustomStringListModel> list)
+{
+    if (column < 0 || column >= itemTooltip.size())
+        return false;
+
+    _customs[column] = list;
+    return true;
+}
+
+
+/***********************************************************
+used in the case of file dialog
+***********************************************************/
+bool TreeItem::SetCustomIndex(int column, boost::shared_ptr<FileDialogOptionsBase> filefilter)
+{
+    if (column < 0 || column >= itemTooltip.size())
+        return false;
+
+    _customsfiledialog[column] = filefilter;
+    return true;
+}
+
+
+ 
+/***********************************************************
+used in the case of custom
+***********************************************************/
+boost::shared_ptr<CustomStringListModel> TreeItem::CustomIndex(int column) const
+{
+    return _customs.value(column);
+}
+
+/***********************************************************
+used in the case of file dialog
+***********************************************************/
+boost::shared_ptr<FileDialogOptionsBase> TreeItem::CustomIndexFile(int column) const
+{
+    return _customsfiledialog.value(column);
 }
