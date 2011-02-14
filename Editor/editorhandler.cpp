@@ -1063,7 +1063,9 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 
 	QStringList actilist;
 	actilist << "No" << "TeleportAction" << "ClientScriptAction" << "CustomAction" 
-			<< "DisplayTextAction" << "ConditionalAction" << "OpenContainerAction" << "SendSignalAction";
+			<< "DisplayTextAction" << "ConditionalAction" << "OpenContainerAction" << "SendSignalAction"
+			<< "OpenDoorAction" << "CloseDoorAction" << "AddRemoveItemAction" << "HurtAction"
+			 << "KillAction"  << "MultiAction";
 	_actiontypeList->setStringList(actilist);
 
 	QStringList consu_iteml;
@@ -3147,8 +3149,104 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 		return;
 	}
 
-}
+	if(actiontype == "OpenDoorAction")
+	{
+		SendSignalAction* ptr = static_cast<SendSignalAction*>(action);
+		{
+			QVector<QVariant> data;
+			data << "ActorId" << (int)ptr->GetActorId();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
 
+		return;
+	}
+
+	if(actiontype == "CloseDoorAction")
+	{
+		SendSignalAction* ptr = static_cast<SendSignalAction*>(action);
+		{
+			QVector<QVariant> data;
+			data << "ActorId" << (int)ptr->GetActorId();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+
+		return;
+	}
+
+	if(actiontype == "AddRemoveItemAction")
+	{
+		AddRemoveItemAction* ptr = static_cast<AddRemoveItemAction*>(action);
+		{
+			long id = ptr->GetItemId();
+			std::stringstream txtwithid;
+			txtwithid<<id<<": "<<InventoryItemHandler::getInstance()->GetItemInfo(id).Name;
+			QVector<QVariant> data;
+			data << "Item Id" << txtwithid.str().c_str();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _itemNameList);
+		}
+		{
+			QVector<QVariant> data;
+			data << "UpdateNumber" << ptr->GetNumber();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+		return;
+	}
+
+
+	if(actiontype == "HurtAction")
+	{
+		HurtAction* ptr = static_cast<HurtAction*>(action);
+		{
+			QVector<QVariant> data;
+			data << "Hurt Value" << (double)ptr->GetHurtValue();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+		{
+			QVector<QVariant> data;
+			data << "Hurt life?" << ptr->HurtLife();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+		return;
+	}
+
+	if(actiontype == "MultiAction")
+	{
+		MultiAction* ptr = static_cast<MultiAction*>(action);
+
+		// add actions
+		{
+			QVector<QVariant> data;
+			data << "Actions" << "";
+			QModelIndex idx = _objectmodel->AppendRow(data, parent, true);	
+
+			const std::vector<ActionBasePtr> & items = ptr->GetActions();
+			for(size_t i=0; i<items.size(); ++i)
+			{
+				QVector<QVariant> data;
+				data << "Action" << items[i]->GetTypeName().c_str();
+				QModelIndex idxchild = _objectmodel->AppendRow(data, idx);
+				
+				if(actptr)
+					SelectAction(items[i], idxchild);
+
+				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxchild.row(), idx), _actiontypeList);
+			}
+
+			// add new item
+			QVector<QVariant> datait;
+			datait << "Action" << "Add new...";
+			QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idx), _actiontypeList);	
+		
+		
+			_uieditor.treeView_object->setExpanded(idx, true); // expand 
+		}
+
+		return;
+	}
+}
+		
 
 
 /***********************************************************
