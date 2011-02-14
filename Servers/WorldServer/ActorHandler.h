@@ -328,6 +328,7 @@ protected:
 	float												m_saved_Z;
 	float												m_saved_rot;
 	LbaQuaternion										m_saved_Q;
+	bool												m_savedshow;
 
 
 

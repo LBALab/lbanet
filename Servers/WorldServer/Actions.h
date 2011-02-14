@@ -685,6 +685,9 @@ public:
 	std::vector<ActionBasePtr> GetActions()
 	{ return _actions;}
 
+	//! replace old action by new one
+	void ReplaceAction(ActionBasePtr olda, ActionBasePtr newa);
+
 private:
 	std::vector<ActionBasePtr>	_actions;
 

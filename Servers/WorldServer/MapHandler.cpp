@@ -460,6 +460,21 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts)
 			}
 
 
+			//ShowHideEvent
+			if(info == typeid(LbaNet::ShowHideEvent))
+			{
+				LbaNet::ShowHideEvent* castedptr = 
+					dynamic_cast<LbaNet::ShowHideEvent *>(&obj);
+
+				// only allowed on scripted event
+				if(GetPlayerModelInfo(it->first).State == StScripted)
+				{
+					_tosendevts.push_back(new LbaNet::ShowHideEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+										PlayerObject, it->first, castedptr->Show));
+				}
+				continue;
+			}
+
 		}
 	}
 }

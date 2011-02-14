@@ -903,7 +903,19 @@ show/hide
 ***********************************************************/
 void ActorHandler::ShowHide(bool Show)
 {
-	_character->ShowOrHide(Show);
+	if(m_paused)
+	{
+		m_savedshow = Show;
+	}
+	else
+	{
+		_character->ShowOrHide(Show);
+
+		// inform clients
+		_events.push_back(new LbaNet::ShowHideEvent(
+							SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+							LbaNet::NpcObject, m_actorinfo.ObjectId, Show));
+	}
 }
 
 
@@ -1019,6 +1031,8 @@ void ActorHandler::Pause()
 				physO->GetPosition(m_saved_X, m_saved_Y, m_saved_Z);
 				m_saved_rot = physO->GetRotationYAxis();
 				physO->GetRotation(m_saved_Q);
+
+				m_savedshow = _character->IsShown();
 			}
 		}
 	}
@@ -1057,6 +1071,16 @@ void ActorHandler::Resume()
 				m_resetposition = true;
 				m_resetrotation = true;
 
+			}
+
+			if(m_savedshow != _character->IsShown())
+			{
+				_character->ShowOrHide(m_savedshow);
+
+				// inform clients of restoration
+				_events.push_back(new LbaNet::ShowHideEvent(
+									SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+									LbaNet::NpcObject, m_actorinfo.ObjectId, m_savedshow));
 			}
 		}
 	}
@@ -1191,7 +1215,10 @@ void ActorHandler::ActorStraightWalkTo(int ScriptId, bool asynchronus, float Pos
 	float posX, posY, posZ;
 	physO->GetPosition(posX, posY, posZ);
 	float rotation = physO->GetRotationYAxis();
-	std::string anim = disO->GetCurrentAnimation();
+
+	std::string anim;	
+	if(disO)
+		anim = disO->GetCurrentAnimation();
 
 	// inform clients
 	_events.push_back(new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
@@ -1221,7 +1248,10 @@ void ActorHandler::ActorRotate(int ScriptId, bool asynchronus, float Angle, floa
 	float posX, posY, posZ;
 	physO->GetPosition(posX, posY, posZ);
 	float rotation = physO->GetRotationYAxis();
-	std::string anim = disO->GetCurrentAnimation();
+
+	std::string anim;	
+	if(disO)
+		anim = disO->GetCurrentAnimation();
 
 	// inform clients
 	_events.push_back(new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
@@ -1248,7 +1278,10 @@ void ActorHandler::ActorAnimate(int ScriptId, bool asynchronus, bool AnimationMo
 	float posX, posY, posZ;
 	physO->GetPosition(posX, posY, posZ);
 	float rotation = physO->GetRotationYAxis();
-	std::string anim = disO->GetCurrentAnimation();
+
+	std::string anim;	
+	if(disO)
+		anim = disO->GetCurrentAnimation();
 
 	// inform clients
 	_events.push_back(new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
@@ -1276,7 +1309,10 @@ void ActorHandler::ActorGoTo(int ScriptId, float PosX, float PosY, float PosZ, f
 	float posX, posY, posZ;
 	physO->GetPosition(posX, posY, posZ);
 	float rotation = physO->GetRotationYAxis();
-	std::string anim = disO->GetCurrentAnimation();
+
+	std::string anim;	
+	if(disO)
+		anim = disO->GetCurrentAnimation();
 
 	// inform clients
 	_events.push_back(new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
@@ -1305,7 +1341,10 @@ void ActorHandler::ActorWaitForSignal(int ScriptId, int Signalnumber, bool async
 	float posX, posY, posZ;
 	physO->GetPosition(posX, posY, posZ);
 	float rotation = physO->GetRotationYAxis();
-	std::string anim = disO->GetCurrentAnimation();
+
+	std::string anim;	
+	if(disO)
+		anim = disO->GetCurrentAnimation();
 
 	// inform clients
 	if(m_resetposition || m_resetrotation)
@@ -1335,7 +1374,10 @@ void ActorHandler::ActorRotateFromPoint(int ScriptId, float Angle, float PosX, f
 	float posX, posY, posZ;
 	physO->GetPosition(posX, posY, posZ);
 	float rotation = physO->GetRotationYAxis();
-	std::string anim = disO->GetCurrentAnimation();
+
+	std::string anim;	
+	if(disO)
+		anim = disO->GetCurrentAnimation();
 
 	// inform clients
 	_events.push_back(new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
@@ -1364,7 +1406,10 @@ void ActorHandler::ActorFollowWaypoint(int ScriptId, int waypointindex1, int way
 	float posX, posY, posZ;
 	physO->GetPosition(posX, posY, posZ);
 	float rotation = physO->GetRotationYAxis();
-	std::string anim = disO->GetCurrentAnimation();
+
+	std::string anim;	
+	if(disO)
+		anim = disO->GetCurrentAnimation();
 
 
 

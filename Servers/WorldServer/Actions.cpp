@@ -704,3 +704,14 @@ void MultiAction::RemoveAction(ActionBasePtr action)
 	if(it != _actions.end())
 		_actions.erase(it);
 }
+
+
+/***********************************************************
+replace old action by new one
+***********************************************************/	
+void MultiAction::ReplaceAction(ActionBasePtr olda, ActionBasePtr newa)
+{
+	std::vector<ActionBasePtr>::iterator it = std::find(_actions.begin(), _actions.end(), olda);
+	if(it != _actions.end())
+		*it = newa;
+}

@@ -50,6 +50,9 @@ refresh door script
 ***********************************************************/
 void DoorHandler::RefreshScript()
 {
+	ClearRunningScript();
+	m_script.clear();
+
 	bool Xdoor = m_actorinfo.PhysicDesc.SizeX > m_actorinfo.PhysicDesc.SizeZ;
 
 	// create the script depending of the type
@@ -229,13 +232,13 @@ return opening direction
 void DoorHandler::SetOpeningDirection(const std::string & direction)
 {
 	if(direction == "right")
-		_otype = 0;
+		_odirection = 0;
 	if(direction == "left")
-		_otype = 1;
+		_odirection = 1;
 	if(direction == "top")
-		_otype = 2;
+		_odirection = 2;
 	if(direction == "bottom")
-		_otype = 3;
+		_odirection = 3;
 
 	RefreshScript();
 }

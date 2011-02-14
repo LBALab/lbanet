@@ -256,7 +256,7 @@ void ZoneTrigger::SaveToLuaFile(std::ofstream & file)
 		aname<<"Trigger_"<<GetId()<<"_act2";
 		_action2->SaveToLuaFile(file, aname.str());
 
-		file<<"\tTrigger_"<<GetId()<<":SetAction1("<<aname.str()<<")"<<std::endl;
+		file<<"\tTrigger_"<<GetId()<<":SetAction2("<<aname.str()<<")"<<std::endl;
 	}
 
 	if(_action3)
@@ -265,7 +265,7 @@ void ZoneTrigger::SaveToLuaFile(std::ofstream & file)
 		aname<<"Trigger_"<<GetId()<<"_act3";
 		_action3->SaveToLuaFile(file, aname.str());
 
-		file<<"\tTrigger_"<<GetId()<<":SetAction1("<<aname.str()<<")"<<std::endl;
+		file<<"\tTrigger_"<<GetId()<<":SetAction3("<<aname.str()<<")"<<std::endl;
 	}
 
 	file<<"\tenvironment:AddTrigger(Trigger_"<<GetId()<<")"<<std::endl<<std::endl;
@@ -415,7 +415,7 @@ void ActivationTrigger::SaveToLuaFile(std::ofstream & file)
 		aname<<"Trigger_"<<GetId()<<"_act2";
 		_action2->SaveToLuaFile(file, aname.str());
 
-		file<<"\tTrigger_"<<GetId()<<":SetAction1("<<aname.str()<<")"<<std::endl;
+		file<<"\tTrigger_"<<GetId()<<":SetAction2("<<aname.str()<<")"<<std::endl;
 	}
 
 	if(_action3)
@@ -424,7 +424,7 @@ void ActivationTrigger::SaveToLuaFile(std::ofstream & file)
 		aname<<"Trigger_"<<GetId()<<"_act3";
 		_action3->SaveToLuaFile(file, aname.str());
 
-		file<<"\tTrigger_"<<GetId()<<":SetAction1("<<aname.str()<<")"<<std::endl;
+		file<<"\tTrigger_"<<GetId()<<":SetAction3("<<aname.str()<<")"<<std::endl;
 	}
 
 	file<<"\tenvironment:AddTrigger(Trigger_"<<GetId()<<")"<<std::endl<<std::endl;
@@ -555,7 +555,7 @@ void ZoneActionTrigger::SaveToLuaFile(std::ofstream & file)
 		aname<<"Trigger_"<<GetId()<<"_act2";
 		_action2->SaveToLuaFile(file, aname.str());
 
-		file<<"\tTrigger_"<<GetId()<<":SetAction1("<<aname.str()<<")"<<std::endl;
+		file<<"\tTrigger_"<<GetId()<<":SetAction2("<<aname.str()<<")"<<std::endl;
 	}
 
 	if(_action3)
@@ -564,7 +564,7 @@ void ZoneActionTrigger::SaveToLuaFile(std::ofstream & file)
 		aname<<"Trigger_"<<GetId()<<"_act3";
 		_action3->SaveToLuaFile(file, aname.str());
 
-		file<<"\tTrigger_"<<GetId()<<":SetAction1("<<aname.str()<<")"<<std::endl;
+		file<<"\tTrigger_"<<GetId()<<":SetAction3("<<aname.str()<<")"<<std::endl;
 	}
 
 	file<<"\tenvironment:AddTrigger(Trigger_"<<GetId()<<")"<<std::endl<<std::endl;
