@@ -617,7 +617,7 @@ void ActorHandler::SaveToLuaFile(std::ofstream & file)
 	}
 
 
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<"H = ActorHandler(Actor_"<<m_actorinfo.ObjectId<<")"<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<"H = "<<LuaBuildClass()<<std::endl;
 
 
 	// register script
@@ -633,6 +633,17 @@ void ActorHandler::SaveToLuaFile(std::ofstream & file)
 
 
 	file<<"\tenvironment:AddActorObject(Actor_"<<m_actorinfo.ObjectId<<"H)"<<std::endl<<std::endl;
+}
+
+
+/***********************************************************
+return the build class
+***********************************************************/
+std::string ActorHandler::LuaBuildClass()
+{
+	std::stringstream res;
+	res<<"ActorHandler(Actor_"<<m_actorinfo.ObjectId<<")";
+	return res.str();
 }
 
 
@@ -886,6 +897,15 @@ void ActorHandler::SetRotation(float angle)
 		}
 	}
 }
+
+/***********************************************************
+show/hide
+***********************************************************/
+void ActorHandler::ShowHide(bool Show)
+{
+	_character->ShowOrHide(Show);
+}
+
 
 
 

@@ -216,4 +216,42 @@ private:
 };
 
 
+
+
+//! condition is always true
+class ItemInInventoryCondition : public ConditionBase
+{
+public:
+	//! constructor
+	ItemInInventoryCondition()
+		: _itemid(-1), _itemnumber(1)
+	{}
+
+	//! check if the condition is true or not
+	virtual bool Passed(ScriptEnvironmentBase * owner, 
+							int ObjectType, Ice::Long ObjectId);
+	
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & conditionname);
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName(){ return "ItemInInventoryCondition";}
+
+	//! accessors
+	long GetItemId()
+	{ return _itemid;}
+	void SetItemId(long id)
+	{ _itemid = id;}
+
+	int GetItemNumber()
+	{ return _itemnumber;}
+	void SetItemNumber(int nb)
+	{ _itemnumber = nb;}
+
+private:
+	long	_itemid;
+	int		_itemnumber;
+};
+
+
 #endif

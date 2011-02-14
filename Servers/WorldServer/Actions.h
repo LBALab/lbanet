@@ -438,14 +438,255 @@ public:
 	{ _signal = s;}
 
 
-private:
+protected:
 	long	_Actorid;
 	int		_signal;
 };
 
 
 
+//! use to display a text on client
+class OpenDoorAction : public SendSignalAction
+{
+public:
+	//! constructor
+	OpenDoorAction()
+	{
+		_signal = 10;
+	}
+	
+	//! destructor
+	virtual ~OpenDoorAction(void){}
 
-//TODO - add action list
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "OpenDoorAction"; }
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+};
+
+
+//! use to display a text on client
+class CloseDoorAction : public SendSignalAction
+{
+public:
+	//! constructor
+	CloseDoorAction()
+	{
+		_signal = 11;
+	}
+	
+	//! destructor
+	virtual ~CloseDoorAction(void){}
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "CloseDoorAction"; }
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+};
+
+
+
+
+
+//! use to display a text on client
+class AddRemoveItemAction : public ActionBase
+{
+public:
+	//! constructor
+	AddRemoveItemAction()
+		: _Itemid(-1), _number(1), _informClientType(1)
+	{}
+	
+	//! destructor
+	virtual ~AddRemoveItemAction(void){}
+
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args);
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "AddRemoveItemAction"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+
+	// acessor
+	long GetItemId()
+	{ return _Itemid;}
+
+	// acessor
+	void SetItemId(long id)
+	{ _Itemid = id;}
+
+	// acessor
+	int GetNumber()
+	{ return _number;}
+
+	// acessor
+	void SetNumber(int s)
+	{ _number = s;}
+
+	// acessor
+	int GetInformClientType()
+	{ return _informClientType;}
+
+	// acessor
+	void SetInformClientType(int s)
+	{ _informClientType = s;}
+
+private:
+	long	_Itemid;
+	int		_number;
+	int		_informClientType;
+};
+
+
+
+
+//! use to display a text on client
+class HurtAction : public ActionBase
+{
+public:
+	//! constructor
+	HurtAction()
+		: _hurtvalue(0), _life(true)
+	{}
+	
+	//! destructor
+	virtual ~HurtAction(void){}
+
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args);
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "HurtAction"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+
+	// acessor
+	float GetHurtValue()
+	{ return _hurtvalue;}
+
+	// acessor
+	void SetHurtValue(float v)
+	{ _hurtvalue = v;}
+
+	// acessor
+	bool HurtLife()
+	{ return _life;}
+
+	// acessor
+	void HurtLifeOrMana(bool Life)
+	{ _life = Life;}
+
+
+private:
+	float	_hurtvalue;
+	bool	_life;
+};
+
+
+
+//! use to display a text on client
+class KillAction : public ActionBase
+{
+public:
+	//! constructor
+	KillAction()
+	{}
+	
+	//! destructor
+	virtual ~KillAction(void){}
+
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args);
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "KillAction"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+
+};
+
+
+
+
+//! use to display a text on client
+class MultiAction : public ActionBase
+{
+public:
+	//! constructor
+	MultiAction()
+	{}
+	
+	//! destructor
+	virtual ~MultiAction(void){}
+
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args);
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "MultiAction"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+
+
+	//! add action
+	void AddAction(ActionBasePtr action);
+
+	//! remove action
+	void RemoveAction(ActionBasePtr action);
+
+
+private:
+	std::vector<ActionBasePtr>	_actions;
+
+};
+
+
 
 #endif

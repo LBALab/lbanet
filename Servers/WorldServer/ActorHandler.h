@@ -155,7 +155,6 @@ public:
 	//! set actor info
 	void SetActorInfo(const ActorObjectInfo & ainfo);
 
-
 	// save actor to lua file
 	virtual void SaveToLuaFile(std::ofstream & file);
 
@@ -196,13 +195,16 @@ public:
 	void UpdateActorWeapon(const std::string & Weapon, bool updatefromlua);
 
 	//! update Model
-	void SendSignal(int Signalnumber);
+	virtual void SendSignal(int Signalnumber);
 
 	//! get player current position
 	void TeleportTo(float PosX, float PosY, float PosZ);
 
 	//! set rotation
 	void SetRotation(float angle);
+
+	//! show/hide
+	void ShowHide(bool Show);
 
 
 	//! process actor
@@ -227,6 +229,7 @@ public:
 
 	//! clear the running script
 	void ClearRunningScript();
+
 
 
 
@@ -270,14 +273,9 @@ public:
 	//! the actor follow waypoint
 	virtual void ActorFollowWaypoint(int ScriptId, int waypointindex1, int waypointindex2, bool asynchronus);
 
-
-
-
-
-
-
-
-
+	//! return actor type
+	virtual std::string ActorType()
+	{ return "Scripted";}
 
 #ifdef _USE_QT_EDITOR_
 public:
@@ -313,6 +311,9 @@ protected:
 
 	//! start script
 	void StartScript();
+
+	//! return the build class
+	virtual std::string LuaBuildClass();
 
 protected:
 	ActorObjectInfo										m_actorinfo;

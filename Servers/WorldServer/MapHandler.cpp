@@ -2308,9 +2308,18 @@ void MapHandler::UpdateActorWeapon(long ActorId, const std::string & Name)
 ***********************************************************/
 void MapHandler::SendSignalToActor(long ActorId, int Signalnumber)
 {
-	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
-	if(itact != _Actors.end())
-		itact->second->SendSignal(Signalnumber);
+	if(ActorId < 0)
+	{
+		//inform players
+		_tosendevts.push_back(new SendSignalEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+																						Signalnumber));
+	}
+	else
+	{
+		std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+		if(itact != _Actors.end())
+			itact->second->SendSignal(Signalnumber);
+	}
 }
 
 
@@ -2341,6 +2350,18 @@ void MapHandler::SetActorRotation(long ActorId, float Angle)
 }
 
 
+
+/***********************************************************
+//! used by lua to move an actor or player
+//! the actor show/hide
+***********************************************************/
+void MapHandler::ActorShowHide(long ActorId, bool Show)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
+			itact->second->ShowHide(Show);
+
+}
 
 
 
@@ -2399,4 +2420,115 @@ void MapHandler::InternalActorFollowWaypoint(int ScriptId, long ActorId, int way
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
 		itact->second->ActorFollowWaypoint(ScriptId, waypointindex1, waypointindex2, asynchronus);
+}
+
+
+
+/***********************************************************
+add/remove item from player inventory
+***********************************************************/
+void MapHandler::AddOrRemoveItem(long PlayerId, long ItemId, int number, int InformClientType)
+{
+	LbaNet::ItemList Taken;
+	LbaNet::ItemList Put;
+	LbaNet::ItemClientInformType informtype = LbaNet::DontInform;
+	switch(InformClientType)
+	{
+		case 1:
+			informtype = LbaNet::InformChat;
+		break;
+		case 2:
+			informtype = LbaNet::InformHappy;
+		break;
+	}
+
+	if(number > 0)
+		Put[ItemId] = number;
+	else
+		Taken[ItemId] = number;
+
+	UpdateInventory(PlayerId, Taken, Put, informtype);
+}
+
+
+/***********************************************************
+update player inventory
+***********************************************************/
+void MapHandler::UpdateInventory(long clientid, LbaNet::ItemList Taken, LbaNet::ItemList Put, 
+										LbaNet::ItemClientInformType informtype)
+{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
+	if(itplayer != _players.end())
+		itplayer->second->UpdateInventory(Taken, Put, informtype);
+}
+
+
+
+
+/***********************************************************
+	// hurt actor
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+***********************************************************/
+void MapHandler::HurtActor(int ObjectType, long ObjectId, float HurtValue, bool HurtLife)
+{
+	switch(ObjectType)
+	{
+		case 1: // actor
+		{
+			//Todo
+		}
+		break;
+
+		case 2: // player
+		{
+			if(HurtLife)
+				DeltaUpdateLife(ObjectId, -HurtValue);
+			else
+				DeltaUpdateMana(ObjectId, -HurtValue);
+		}
+		break;
+
+		case 3: // moved object
+		{
+			// todo - find attached player
+		}
+		break;
+	}
+}
+
+
+/***********************************************************
+	// kill actor
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+***********************************************************/
+void MapHandler::KillActor(int ObjectType, long ObjectId)
+{
+	switch(ObjectType)
+	{
+		case 1: // actor
+		{
+			//Todo
+		}
+		break;
+
+		case 2: // player
+		{
+			ChangePlayerState(ObjectId, LbaNet::StDying, 0, true);
+		}
+		break;
+
+		case 3: // moved object
+		{
+			// todo - find attached player
+		}
+		break;
+	}
 }

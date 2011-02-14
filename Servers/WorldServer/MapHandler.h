@@ -240,6 +240,29 @@ public:
 	void SetActorRotation(long ActorId, float Angle);
 
 
+	//! used by lua to move an actor or player
+	//! the actor show/hide
+	virtual void ActorShowHide(long ActorId, bool Show);
+
+
+	//! add/remove item from player inventory
+	virtual void AddOrRemoveItem(long PlayerId, long ItemId, int number, int InformClientType);
+
+	// display text to client window
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void HurtActor(int ObjectType, long ObjectId, float HurtValue, bool HurtLife);
+
+	// display text to client window
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void KillActor(int ObjectType, long ObjectId);
+
+
 protected:
 	// process events
 	void ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts);
@@ -476,6 +499,11 @@ protected:
 	//! used by lua to make actor follow waypoint
 	virtual void InternalActorFollowWaypoint(int ScriptId, long ActorId, int waypointindex1, 
 												int waypointindex2, bool asynchronus = false);
+
+
+	//! update player inventory
+	void UpdateInventory(long clientid, LbaNet::ItemList Taken, LbaNet::ItemList Put, 
+								LbaNet::ItemClientInformType informtype);
 
 
 private:

@@ -306,6 +306,28 @@ void SendSignalAction::SaveToLuaFile(std::ofstream & file, const std::string & n
 
 
 
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void OpenDoorAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
+{
+	file<<"\t"<<name<<" = OpenDoorAction()"<<std::endl;
+	file<<"\t"<<name<<":SetActorId("<<_Actorid<<")"<<std::endl;
+}
+
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void CloseDoorAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
+{
+	file<<"\t"<<name<<" = CloseDoorAction()"<<std::endl;
+	file<<"\t"<<name<<":SetActorId("<<_Actorid<<")"<<std::endl;
+}
+
+
+
 
 
 
@@ -470,13 +492,15 @@ void OpenContainerAction::SaveToLuaFile(std::ofstream & file, const std::string 
 	file<<"\t"<<name<<":SetTimeToReset("<<GetTimeToReset()<<")"<<std::endl;
 	for(size_t i=0; i< _containerstartitems.size(); ++i)
 	{
-		file<<"\t\t"<<"ContItem"<<i<<" = ContainerItemGroupElement("	
+		std::stringstream itname;
+		itname<<name<<"ContItem"<<i;
+		file<<"\t\t"<<itname.str()<<" = ContainerItemGroupElement("	
 			<<_containerstartitems[i].Id<<","
 			<<_containerstartitems[i].Min<<","
 			<<_containerstartitems[i].Max<<","
 			<<_containerstartitems[i].Probability<<","
 			<<_containerstartitems[i].Group<<")"<<std::endl;
-		file<<"\t\t"<<name<<":AddItem(ContItem"<<i<<")"<<std::endl;
+		file<<"\t\t"<<name<<":AddItem("<<itname.str()<<")"<<std::endl;
 	}
 }
 
@@ -516,4 +540,167 @@ bool OpenContainerAction::ItemExist(long id)
 			return true;
 
 	return false;
+}
+
+
+
+
+
+/***********************************************************
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+***********************************************************/	
+void AddRemoveItemAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args)
+{
+	long clientid = -1;
+
+	if(ObjectType == 2)
+		clientid = ObjectId;
+
+	// on object moved by player
+	if(ObjectType == 3)
+	{
+		// todo - find attached player
+	}
+
+	// check if client found - else return
+	if(clientid < 0)
+		return;
+
+	if(owner)
+		owner->AddOrRemoveItem(clientid, _Itemid, _number, _informClientType);
+}
+
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void AddRemoveItemAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
+{
+	file<<"\t"<<name<<" = AddRemoveItemAction()"<<std::endl;
+	file<<"\t"<<name<<":SetItemId("<<_Itemid<<")"<<std::endl;
+	file<<"\t"<<name<<":SetNumber("<<_number<<")"<<std::endl;
+	file<<"\t"<<name<<":SetInformClientType("<<_informClientType<<")"<<std::endl;
+}
+
+
+
+
+
+/***********************************************************
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+***********************************************************/	
+void HurtAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args)
+{
+	if(owner)
+		owner->HurtActor(ObjectType, ObjectId, _hurtvalue, _life);
+}
+
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void HurtAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
+{
+	file<<"\t"<<name<<" = HurtAction()"<<std::endl;
+	file<<"\t"<<name<<":SetHurtValue("<<_hurtvalue<<")"<<std::endl;
+	file<<"\t"<<name<<":HurtLifeOrMana("<<(_life?"true":"false")<<")"<<std::endl;
+}
+
+
+
+
+
+/***********************************************************
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+***********************************************************/	
+void KillAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args)
+{
+	if(owner)
+		owner->KillActor(ObjectType, ObjectId);
+}
+
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void KillAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
+{
+	file<<"\t"<<name<<" = KillAction()"<<std::endl;
+}
+
+
+
+
+/***********************************************************
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+***********************************************************/	
+void MultiAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args)
+{
+	for(size_t i=0; i< _actions.size(); ++i)
+		_actions[i]->Execute(owner, ObjectType, ObjectId, args);
+}
+
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void MultiAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
+{
+	file<<"\t"<<name<<" = MultiAction()"<<std::endl;
+	for(size_t i=0; i< _actions.size(); ++i)
+	{
+		std::stringstream aname;
+		aname<<name<<"_act"<<i;
+		_actions[i]->SaveToLuaFile(file, aname.str());
+
+		file<<"\t"<<name<<":AddAction("<<aname.str()<<")"<<std::endl;
+	}
+}
+
+
+
+/***********************************************************
+add action
+***********************************************************/	
+void MultiAction::AddAction(ActionBasePtr action)
+{
+	_actions.push_back(action);
+}
+
+/***********************************************************
+remove action
+***********************************************************/	
+void MultiAction::RemoveAction(ActionBasePtr action)
+{
+	std::vector<ActionBasePtr>::iterator it = std::find(_actions.begin(), _actions.end(), action);
+	if(it != _actions.end())
+		_actions.erase(it);
 }

@@ -15,6 +15,7 @@ extern "C"
 #include "ActionArguments.h"
 #include "Conditions.h"
 #include "ScriptEnvironmentBase.h"
+#include "DoorHandler.h"
 
 
 #ifdef _USE_QT_EDITOR_	
@@ -90,6 +91,13 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetCondition2", &OrCondition::GetCondition2)
 		,
 
+		luabind::class_<ItemInInventoryCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("ItemInInventoryCondition")
+		.def(luabind::constructor<>())
+		.def("GetItemId", &ItemInInventoryCondition::GetItemId)
+		.def("SetItemId", &ItemInInventoryCondition::SetItemId)
+		.def("GetItemNumber", &ItemInInventoryCondition::GetItemNumber)
+		.def("SetItemNumber", &ItemInInventoryCondition::SetItemNumber)
+		,
 
 
 		luabind::class_<ContainerItemGroupElement>("ContainerItemGroupElement")
@@ -241,6 +249,10 @@ ServerLuaHandler::ServerLuaHandler()
 		luabind::class_<ActorScriptPart_StartWaypoint, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPStartWaypoint")
 		.def(luabind::constructor<float, float, float, bool>()),
 
+		luabind::class_<ActorScriptPart_ShowHide, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPShowHide")
+		.def(luabind::constructor<bool>()),
+		
+
 		
 
 		luabind::class_<ActorHandler, boost::shared_ptr<ActorHandler> >("ActorHandler")
@@ -248,6 +260,10 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("AddScriptPart", &ActorHandler::AddScriptPart)
 		.def("StartWaypoint", &ActorHandler::StartWaypoint)
 		.def("AddWaypoint", &ActorHandler::AddWaypoint),
+
+		luabind::class_<DoorHandler, ActorHandler, boost::shared_ptr<ActorHandler> >("DoorHandler")
+		.def(luabind::constructor<const ActorObjectInfo &, int, int, float, float, bool>()),
+
 
 
 		luabind::class_<ScriptEnvironmentBase>("ScriptEnvironmentBase")
@@ -285,7 +301,11 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("ActorRotateFromPoint", &ScriptEnvironmentBase::ActorRotateFromPoint, luabind::yield)
 		.def("ActorFollowWaypoint", &ScriptEnvironmentBase::ActorFollowWaypoint, luabind::yield)
 		.def("Async_ActorRotateFromPoint", &ScriptEnvironmentBase::Async_ActorRotateFromPoint)
-		.def("Async_ActorFollowWaypoint", &ScriptEnvironmentBase::Async_ActorFollowWaypoint),
+		.def("Async_ActorFollowWaypoint", &ScriptEnvironmentBase::Async_ActorFollowWaypoint)
+		.def("ActorShowHide", &ScriptEnvironmentBase::ActorShowHide)
+		.def("AddOrRemoveItem", &ScriptEnvironmentBase::AddOrRemoveItem)
+		.def("HurtActor", &ScriptEnvironmentBase::HurtActor)
+		.def("KillActor", &ScriptEnvironmentBase::KillActor),
 
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),
@@ -389,7 +409,37 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetSignal", &SendSignalAction::GetSignal)
 		.def("SetSignal", &SendSignalAction::SetSignal),
 
+		luabind::class_<OpenDoorAction, SendSignalAction, boost::shared_ptr<ActionBase> >("OpenDoorAction")
+		.def(luabind::constructor<>()),
 
+		luabind::class_<CloseDoorAction, SendSignalAction, boost::shared_ptr<ActionBase> >("CloseDoorAction")
+		.def(luabind::constructor<>()),
+
+		luabind::class_<AddRemoveItemAction, ActionBase, boost::shared_ptr<ActionBase> >("AddRemoveItemAction")
+		.def(luabind::constructor<>())
+		.def("GetItemId", &AddRemoveItemAction::GetItemId)
+		.def("SetItemId", &AddRemoveItemAction::SetItemId)
+		.def("GetNumber", &AddRemoveItemAction::GetNumber)
+		.def("SetNumber", &AddRemoveItemAction::SetNumber)		
+		.def("GetInformClientType", &AddRemoveItemAction::GetInformClientType)
+		.def("SetInformClientType", &AddRemoveItemAction::SetInformClientType),
+
+		luabind::class_<HurtAction, ActionBase, boost::shared_ptr<ActionBase> >("HurtAction")
+		.def(luabind::constructor<>())
+		.def("GetHurtValue", &HurtAction::GetHurtValue)
+		.def("SetHurtValue", &HurtAction::SetHurtValue)
+		.def("HurtLife", &HurtAction::HurtLife)
+		.def("HurtLifeOrMana", &HurtAction::HurtLifeOrMana),
+
+		luabind::class_<KillAction, ActionBase, boost::shared_ptr<ActionBase> >("KillAction")
+		.def(luabind::constructor<>()),
+
+		luabind::class_<MultiAction, ActionBase, boost::shared_ptr<ActionBase> >("MultiAction")
+		.def(luabind::constructor<>())
+		.def("AddAction", &MultiAction::AddAction)
+		.def("RemoveAction", &MultiAction::RemoveAction),
+
+		
 
 		luabind::class_<ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("ClientScriptBase")
 		.def(luabind::constructor<>())
