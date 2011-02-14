@@ -228,6 +228,16 @@ module LbaNet
 	class SendSignalEvent extends ClientServerEventBase
 	{
 		int 				SignalId;
+	};
+	
+	
+	
+	// server tell client to update the display of 1 object
+	class ShowHideEvent extends ClientServerEventBase
+	{
+		ObjectTypeEnum			TypeO;
+		long				ObjectId;
+		bool				Show;
 	};	
 };	
 
