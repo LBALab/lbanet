@@ -487,6 +487,26 @@ void ActorScriptPart_StartWaypoint::WriteExecutionScript(std::ostream & file, lo
 
 
 
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void ActorScriptPart_ShowHide::SaveToLuaFile(std::ofstream & file, const std::string & name)
+{
+	file<<"\t"<<name<<" = ASPShowHide("<<(_Show?"true":"false")<<")"<<std::endl;
+}
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void ActorScriptPart_ShowHide::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
+{
+	file<<"Environment:ActorShowHide("<<actid<<","<<(_Show?"true":"false")<<")"<<std::endl;
+}
+
+
+
+
+
 
 #ifdef _USE_QT_EDITOR_
 
@@ -786,6 +806,17 @@ void ActorScriptPart_StartWaypoint::WriteToQt(TreeModel *	model, const QModelInd
 	}
 }
 
+/***********************************************************
+// use by the editor
+***********************************************************/	
+void ActorScriptPart_ShowHide::WriteToQt(TreeModel *	model, const QModelIndex &parentIdx)
+{
+	{
+	QVector<QVariant> datachild;
+	datachild << "Show" << _Show;
+	model->AppendRow(datachild, parentIdx);	
+	}
+}
 
 
 
@@ -976,6 +1007,15 @@ void ActorScriptPart_StartWaypoint::UpdateFromQt(TreeModel *	model, const QModel
 	++rowidx;
 }
 
+
+
+/***********************************************************
+// use by the editor
+***********************************************************/	
+void ActorScriptPart_ShowHide::UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx)
+{
+	_Show = model->data(model->GetIndex(1, rowidx, parentIdx)).toBool();
+}
 
 
 

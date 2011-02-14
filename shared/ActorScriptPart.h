@@ -469,10 +469,12 @@ private:
 
 
 //! use to start a script on client side
+//! if signal < 0 then inform all players
 class ActorScriptPart_SendSignal : public ActorScriptPartBase
 {
 public:
 	//! constructor
+	//! if signal < 0 then inform all players
 	ActorScriptPart_SendSignal(int Signalnumber, long ActorId);
 	
 	//! destructor
@@ -757,6 +759,43 @@ private:
 	bool	_Forward;
 };
 
+
+//! use to start a script on client side
+class ActorScriptPart_ShowHide : public ActorScriptPartBase
+{
+public:
+	//! constructor
+	ActorScriptPart_ShowHide(float Show)
+		: _Show(Show)
+	{}
+	
+	//! destructor
+	virtual ~ActorScriptPart_ShowHide(){}
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "ASPShowHide"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+
+	// save script to lua file
+	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
+
+#ifdef _USE_QT_EDITOR_
+	// use by the editor
+	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
+
+	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+#endif
+
+
+
+private:
+	bool	_Show;
+};
 
 
 #endif

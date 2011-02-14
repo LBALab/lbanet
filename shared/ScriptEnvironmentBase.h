@@ -211,6 +211,9 @@ public:
 	{InternalActorFollowWaypoint(ScriptId, ActorId, waypointindex1, waypointindex2, false);}
 
 
+	//! used by lua to move an actor or player
+	//! the actor show/hide
+	virtual void ActorShowHide(long ActorId, bool Show) = 0;
 
 
 	//! execute lua script given as a string
@@ -256,8 +259,6 @@ public:
 	//! asynchronus version of ActorFollowWaypoint
 	int Async_ActorFollowWaypoint(long ActorId, int waypointindex1, int waypointindex2);
 
-
-
 	//! make a lua script sleep for one cycle
 	void WaitOneCycle(int ScriptId);
 
@@ -268,9 +269,27 @@ public:
 	//! resume a thread given the id
 	void StropThread(int scriptid);
 
+	//! add/remove item from player inventory
+	virtual void AddOrRemoveItem(long PlayerId, long ItemId, int number, int InformClientType) = 0;
+
+
+	// display text to client window
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void HurtActor(int ObjectType, long ObjectId, float HurtValue, bool HurtLife) = 0;
+
+
+	// display text to client window
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void KillActor(int ObjectType, long ObjectId) = 0;
+
 
 protected:
-
 
 	//! used by lua to move an actor or player
 	//! the actor will move using animation speed
