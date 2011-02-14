@@ -80,6 +80,7 @@ ClientLuaHandler::ClientLuaHandler()
 		.def("ActorFollowWaypoint", &ScriptEnvironmentBase::ActorFollowWaypoint, luabind::yield)
 		.def("Async_ActorRotateFromPoint", &ScriptEnvironmentBase::Async_ActorRotateFromPoint)
 		.def("Async_ActorFollowWaypoint", &ScriptEnvironmentBase::Async_ActorFollowWaypoint)
+		.def("ActorShowHide", &ScriptEnvironmentBase::ActorShowHide)
 		];
 	}
 	catch(const std::exception &error)

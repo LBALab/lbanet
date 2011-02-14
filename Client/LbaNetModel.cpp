@@ -1277,6 +1277,27 @@ void LbaNetModel::SetActorRotation(long ActorId, float Angle)
 }
 
 
+/***********************************************************
+//! used by lua to move an actor or player
+//! the actor show/hide
+***********************************************************/
+void LbaNetModel::ActorShowHide(long ActorId, bool Show)
+{
+	if(ActorId >= 0)
+	{
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+			it->second->ShowHide(Show);
+	}
+	else
+	{
+		// on player
+		if(m_controllerChar)
+			m_controllerChar->ShowHide(Show);
+	}
+}
+
+
 
 
 

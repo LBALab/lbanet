@@ -161,6 +161,8 @@ public:
 	//! set rotation
 	void SetRotation(float angle);
 
+	//! show/hide
+	void ShowHide(bool Show);
 
 
 protected:

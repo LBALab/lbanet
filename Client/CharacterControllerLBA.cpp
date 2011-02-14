@@ -1017,3 +1017,12 @@ void CharacterController::SetRotation(float angle)
 	Q.AddSingleRotation(angle, LbaVec3(0, 1, 0));
 	_character->GetPhysicalObject()->SetRotation(Q);
 }
+
+
+/***********************************************************
+show/hide
+***********************************************************/
+void CharacterController::ShowHide(bool Show)
+{
+	_character->ShowOrHide(Show);
+}

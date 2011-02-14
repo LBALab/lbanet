@@ -698,6 +698,19 @@ void LbaNetEngine::HandleGameEvents()
 			m_lbaNetModel->RefreshLua();
 			continue;
 		}
+
+
+		// SendSignalEvent
+		if(info == typeid(LbaNet::SendSignalEvent))
+		{
+			LbaNet::SendSignalEvent* castedptr = 
+				dynamic_cast<LbaNet::SendSignalEvent *>(&obj);
+
+			if(m_lbaNetModel)
+				m_lbaNetModel->SendSignalToActor(-1, castedptr->SignalId);
+
+			continue;
+		}
 		
 	}
 }

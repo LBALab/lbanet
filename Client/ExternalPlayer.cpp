@@ -525,3 +525,11 @@ void ExternalPlayer::SetRotation(float angle)
     minfo.CurrentSpeedRotation = 0;
 	UpdateMove(SynchronizedTimeHandler::GetCurrentTimeDouble(), minfo, false);
 }
+
+/***********************************************************
+show/hide
+***********************************************************/
+void ExternalPlayer::ShowHide(bool Show)
+{
+	_character->ShowOrHide(Show);
+}

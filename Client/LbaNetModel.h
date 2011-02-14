@@ -271,6 +271,29 @@ public:
 	//! the actor change rotation
 	void SetActorRotation(long ActorId, float Angle);
 
+	//! used by lua to move an actor or player
+	//! the actor show/hide
+	virtual void ActorShowHide(long ActorId, bool Show);
+
+
+	//! add/remove item from player inventory
+	virtual void AddOrRemoveItem(long PlayerId, long ItemId, int number, int InformClientType){}
+
+	// display text to client window
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void HurtActor(int ObjectType, long ObjectId, float HurtValue, bool HurtLife){}
+
+
+	// display text to client window
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void KillActor(int ObjectType, long ObjectId){}
+
 protected:
 
 	//! clean up map
