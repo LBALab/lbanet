@@ -41,6 +41,9 @@ ActorScriptPartBasePtr ActorScriptPartBase::BuildScriptPart(const std::string & 
 		return ActorScriptPartBasePtr(new ActorScriptPart_FollowWaypoint(sPosX, sPosY, sPosZ));
 	if(type == "ASPStartWaypoint")
 		return ActorScriptPartBasePtr(new ActorScriptPart_StartWaypoint(sPosX, sPosY, sPosZ, true));
+	if(type == "ASPShowHide")
+		return ActorScriptPartBasePtr(new ActorScriptPart_ShowHide(true));
+
 
 	return ActorScriptPartBasePtr();
 }

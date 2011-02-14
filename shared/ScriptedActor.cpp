@@ -356,11 +356,14 @@ bool RotateFromPointScriptPart::Process(double tnow, float tdiff, boost::shared_
 	float mx, my, mz, mr;
 	actor->GetAdditionalMoves(mx, my, mz, mr);
 
-	float move = _Speed * tdiff+mr;
+	float move = fabs(_Speed) * tdiff+mr;
+	if(_Angle < 0)
+		move = -move;
+
 	_doneAngle += move;
 
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo = actor->GetPhysicalObject();
-	physo->RotateYAxis(move);
+	physo->RotateYAxis(-move);
 
 
 	//take care of translation
