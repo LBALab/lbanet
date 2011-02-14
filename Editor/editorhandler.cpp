@@ -3227,8 +3227,7 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 				data << "Action" << items[i]->GetTypeName().c_str();
 				QModelIndex idxchild = _objectmodel->AppendRow(data, idx);
 				
-				if(actptr)
-					SelectAction(items[i], idxchild);
+				SelectAction(items[i], idxchild);
 
 				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxchild.row(), idx), _actiontypeList);
 			}
