@@ -681,6 +681,9 @@ public:
 	//! remove action
 	void RemoveAction(ActionBasePtr action);
 
+	//! get action list
+	std::vector<ActionBasePtr> GetActions()
+	{ return _actions;}
 
 private:
 	std::vector<ActionBasePtr>	_actions;
