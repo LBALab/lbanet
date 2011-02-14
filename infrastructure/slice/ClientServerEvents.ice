@@ -220,6 +220,14 @@ module LbaNet
 		bool			ResetRotation;	
 		
 		NpcUpdateBase		Update;
+	};
+	
+	
+	
+	// server send signal to client's player
+	class SendSignalEvent extends ClientServerEventBase
+	{
+		int 				SignalId;
 	};	
 };	
 
