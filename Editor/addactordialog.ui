@@ -149,6 +149,11 @@
      </item>
      <item>
       <property name="text">
+       <string>Door</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
        <string>Movable</string>
       </property>
      </item>

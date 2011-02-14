@@ -3657,7 +3657,64 @@ void EditorHandler::ActionObjectChanged(const std::string & category, const QMod
 			if(category == "MultiAction")
 			{	
 				MultiAction* modifiedact = (MultiAction*)ptr;
-				//TODO
+
+				QModelIndex itemparent = _objectmodel->GetIndex(0, 2, parentIdx);
+				int curridx = 0;
+
+				//take care of the items
+				std::vector<ActionBasePtr> &items = modifiedact->GetActions();
+				std::vector<ActionBasePtr>::iterator itit = items.begin();
+				for(;itit != items.end(); ++itit)
+				{
+					std::string oldaction = GetActionType(*itit);
+
+					std::string action = _objectmodel->data(_objectmodel->GetIndex(1, curridx, itemparent)).toString().toAscii().data();
+
+					if(oldaction != action)
+					{
+						ActionBasePtr ptrtmp = CreateAction(action);
+						modifiedact->ReplaceAction(*itit, ptrtmp);
+
+						QModelIndex curidx = _objectmodel->GetIndex(0, curridx, itemparent);
+						_objectmodel->Clear(curidx);
+						if(ptrtmp)
+						{
+							SelectAction(ptrtmp.get(), curidx);
+							_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+						}
+					}
+
+					++curridx;
+				}
+
+				QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+				std::string action = _objectmodel->data(childidx).toString().toAscii().data();
+				if(action != "Add new...")
+				{
+					if(action == "No")
+					{
+						_objectmodel->setData(childidx, "Add new...");
+						return;
+					}
+					else
+					{
+						ActionBasePtr ptrtmp = CreateAction(action);
+						modifiedact->AddAction(ptrtmp);
+
+						QModelIndex curidx = _objectmodel->GetIndex(0, curridx, itemparent);
+						if(ptrtmp)
+						{
+							SelectAction(ptrtmp.get(), curidx);
+							_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+						}
+						else
+						{
+							_objectmodel->setData(childidx, "Add new...");
+							return;
+						}
+					}
+				}
+
 
 				// need to save as something changed
 				SetModified();
@@ -5576,6 +5633,8 @@ void EditorHandler::ActorAdd_button_accepted()
 	ainfo.ExtraInfo.NameColorG = 1.0;
 	ainfo.ExtraInfo.NameColorB = 1.0;
 
+	bool door = false;
+
 	switch(_ui_addactordialog.comboBox_dtype->currentIndex())
 	{
 		case 0:
@@ -5604,6 +5663,10 @@ void EditorHandler::ActorAdd_button_accepted()
 			ainfo.PhysicDesc.TypePhysO = LbaNet::KynematicAType;
 		break;
 		case 2:
+			ainfo.PhysicDesc.TypePhysO = LbaNet::KynematicAType;
+			door = true;
+		break;
+		case 3:
 			ainfo.PhysicDesc.TypePhysO = LbaNet::CharControlAType;
 		break;
 	}
@@ -5677,7 +5740,11 @@ void EditorHandler::ActorAdd_button_accepted()
 	}
 
 
-	boost::shared_ptr<ActorHandler> act(new ActorHandler(ainfo));
+	boost::shared_ptr<ActorHandler> act;
+	if(door)
+		act = boost::shared_ptr<ActorHandler>(new DoorHandler(ainfo, 0, 0, 0, 0.01, true));
+	else
+		act = boost::shared_ptr<ActorHandler>(new ActorHandler(ainfo));
 
 	AddActorObject(act);
 	SetMapModified();
@@ -6584,6 +6651,7 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 						{
 							it->second->UpdateScriptPosition(*itit, position);
 							updateobj = true;
+							break;
 						}
 						else
 						{
@@ -8168,6 +8236,25 @@ ActionBasePtr EditorHandler::CreateAction(const std::string & type)
 
 	if(type == "SendSignalAction")
 		return ActionBasePtr(new SendSignalAction());
+
+	if(type == "OpenDoorAction")
+		return ActionBasePtr(new OpenDoorAction());
+
+	if(type == "CloseDoorAction")
+		return ActionBasePtr(new CloseDoorAction());
+
+	if(type == "AddRemoveItemAction")
+		return ActionBasePtr(new AddRemoveItemAction());
+
+	if(type == "HurtAction")
+		return ActionBasePtr(new HurtAction());
+
+	if(type == "KillAction")
+		return ActionBasePtr(new KillAction());
+
+	if(type == "MultiAction")
+		return ActionBasePtr(new MultiAction());
+
 
 	return ActionBasePtr();
 }
