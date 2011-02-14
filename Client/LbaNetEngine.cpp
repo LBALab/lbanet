@@ -712,6 +712,19 @@ void LbaNetEngine::HandleGameEvents()
 			continue;
 		}
 		
+
+		// ShowHideEvent
+		if(info == typeid(LbaNet::ShowHideEvent))
+		{
+			LbaNet::ShowHideEvent* castedptr = 
+				dynamic_cast<LbaNet::ShowHideEvent *>(&obj);
+
+			if(m_lbaNetModel)
+				m_lbaNetModel->ShowHideActor(castedptr->TypeO, castedptr->ObjectId, castedptr->Show);
+
+			continue;
+		}
+		
 	}
 }
 

@@ -294,6 +294,13 @@ public:
 	//! 3 -> movable object
 	virtual void KillActor(int ObjectType, long ObjectId){}
 
+	// show/hide object
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	void ShowHideActor(int ObjectType, long ObjectId, bool SHow);
+
 protected:
 
 	//! clean up map

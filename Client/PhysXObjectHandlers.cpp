@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "LogHandler.h"
 
 
+std::ofstream fuckf("fuck.csv");
 
 /***********************************************************
 update physic with new data
@@ -187,15 +188,19 @@ void PhysXActorsHandler::RotateYAxis(float deltaY)
 		_UserData->SetRotation(deltaY);
 
 
+	NxQuat addq(deltaY, NxVec3(0, 1, 0));
+
 	// calculate new angle
-	float tochange = Yangle + deltaY;
-	if(tochange < 0)
-		tochange += 360;
-	if(tochange > 360)
-		tochange -= 360;
+	//float tochange = Yangle + deltaY;
+	//if(tochange < 0)
+	//	tochange += 360;
+	//if(tochange > 360)
+	//	tochange -= 360;
+
+	//fuckf<<Yangle<<","<<deltaY<<","<<tochange<<std::endl;
 
 	// move to new angle
-	_Actor->moveGlobalOrientationQuat(NxQuat(tochange, NxVec3(0, 1, 0)));
+	_Actor->moveGlobalOrientationQuat(addq*quat);
 }
 
 /***********************************************************

@@ -44,7 +44,8 @@ public:
 					boost::shared_ptr<DisplayObjectHandlerBase> disH,
 					long id)
 		: _phH(phH), _disH(disH), _id(id), _additionalMoveX(0),
-			_additionalMoveY(0), _additionalMoveZ(0), _additionalMoveRotation(0)
+			_additionalMoveY(0), _additionalMoveZ(0), _additionalMoveRotation(0),
+			_show(true)
 	{}
 
 	//!destructor
@@ -65,9 +66,14 @@ public:
 	//! show or hide the object
 	void ShowOrHide(bool Show)
 	{
+		_show = Show;
 		_phH->ShowOrHide(Show);
 		_disH->ShowOrHide(Show);
 	}
+
+	//! check if is shown
+	bool IsShown()
+	{ return _show;}
 
 	//! add a signal to object
 	void AddSignal(int Signal)
@@ -163,6 +169,8 @@ protected:
 	float										_additionalMoveY;
 	float										_additionalMoveZ;
 	float										_additionalMoveRotation;
+
+	bool										_show;
 };
 
 #endif

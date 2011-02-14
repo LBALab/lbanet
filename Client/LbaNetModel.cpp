@@ -1299,6 +1299,54 @@ void LbaNetModel::ActorShowHide(long ActorId, bool Show)
 
 
 
+/***********************************************************
+// show/hide object
+// ObjectType ==>
+//! 1 -> npc object
+//! 2 -> player object
+//! 3 -> movable object
+***********************************************************/
+void LbaNetModel::ShowHideActor(int ObjectType, long ObjectId, bool SHow)
+{
+	switch(ObjectType)
+	{
+		// 1 -> npc object
+		case LbaNet::NpcObject:
+			{
+			std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find((long)ObjectId);
+			if(it != _npcObjects.end())
+				it->second->ShowHide(SHow);
+			}
+		break;
+
+
+		// 2 -> player object
+		case LbaNet::PlayerObject:
+			//special treatment if main player
+			if(m_playerObjectId == (long)ObjectId)
+			{
+				m_controllerChar->ShowHide(SHow);
+			}
+			else
+			{
+				std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _playerObjects.find((long)ObjectId);
+				if(it != _playerObjects.end())
+					it->second->ShowHide(SHow);
+			}
+		break;
+
+		// 3 -> ghost object
+		case LbaNet::GhostObject:
+			{
+				std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _ghostObjects.find((long)ObjectId);
+				//if(it != _ghostObjects.end())
+					//todo
+			}
+		break;
+
+	}
+}
+
 
 
 /***********************************************************
