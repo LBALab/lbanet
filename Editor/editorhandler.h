@@ -468,6 +468,29 @@ public:
 												int waypointindex2, bool asynchronus = false){}
 
 
+	//! used by lua to move an actor or player
+	//! the actor show/hide
+	virtual void ActorShowHide(long ActorId, bool Show){}
+
+	//! add/remove item from player inventory
+	virtual void AddOrRemoveItem(long PlayerId, long ItemId, int number, int InformClientType){}
+
+
+	// display text to client window
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void HurtActor(int ObjectType, long ObjectId, float HurtValue, bool HurtLife){}
+
+
+	// display text to client window
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void KillActor(int ObjectType, long ObjectId){}
+
 
 public slots:
 	 //! ui button clicked
@@ -680,6 +703,9 @@ public slots:
 
 	//! player colors modified
 	void colorModified(int v);
+
+
+
 
 protected:
 	//! override close event
@@ -1006,6 +1032,8 @@ private:
 
 	boost::shared_ptr<CustomStringListModel>							_actorscriptparttypeList;
 
+	boost::shared_ptr<CustomStringListModel>							_dorropeningtypeList;
+	boost::shared_ptr<CustomStringListModel>							_dorropeningdirectionList;
 
 	GraphicsWindowQt *									_osgwindow;
 

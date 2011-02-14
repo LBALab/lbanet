@@ -34,6 +34,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ClientScript.h"
 #include "Lba1ModelMapHandler.h"
 #include "InventoryItemHandler.h"
+#include "DoorHandler.h"
+
 
 #include <qdir.h>
 #include <QErrorMessage>
@@ -1033,10 +1035,11 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	_text_inventoryNameList(new CustomStringListModel()), _text_nameNameList(new CustomStringListModel()),
 	_itemNameList(new CustomStringListModel()), _consumable_itemlistmodel(new CustomStringListModel()),
 	_mount_itemlistmodel(new CustomStringListModel()), _special_itemlistmodel(new CustomStringListModel()),
-	_actorscriptparttypeList(new CustomStringListModel())
-{
+	_actorscriptparttypeList(new CustomStringListModel()),_dorropeningtypeList(new CustomStringListModel()),
+	_dorropeningdirectionList(new CustomStringListModel())
+{											 
 	QStringList actlist;
-	actlist << "Static" << "Scripted" << "Movable";
+	actlist << "Static" << "Scripted" << "Door" <<"Movable";
 	_actortypeList->setStringList(actlist);
 	QStringList acttypelist;
 	acttypelist << "No" << "Osg Model" << "Sprite" << "Lba1 Model" << "Lba2 Model";
@@ -1050,7 +1053,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 
 
 	QStringList condlist;
-	condlist << "No" << "AlwaysTrueCondition" << "NegateCondition" << "AndCondition" << "OrCondition";
+	condlist << "No" << "AlwaysTrueCondition" << "NegateCondition" << "AndCondition" << "OrCondition" 
+				<< "ItemInInventoryCondition";
 	_conditiontypeList->setStringList(condlist);
 	
 	QStringList cslist;
@@ -1080,8 +1084,19 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 			<< "ASPRotate" << "ASPSetRotation" << "ASPPlayAnimation" << "ASPRotateFromPoint"
 			<< "ASPStartWaypoint" << "ASPFollowWaypoint"
 			<< "ASPChangeAnimation" << "ASPChangeModel" << "ASPChangeOutfit" << "ASPChangeWeapon" 
-			<< "ASPChangeMode" << "ASPWaitForSignal" << "ASPSendSignal"  << "ASPCustom";
+			<< "ASPChangeMode" << "ASPWaitForSignal" << "ASPSendSignal"  
+			<< "ASPShowHide" << "ASPCustom";
+
 	_actorscriptparttypeList->setStringList(scptypel);
+
+	QStringList dorr_opentl;
+	dorr_opentl << "translation" << "rotation";
+	_dorropeningtypeList->setStringList(dorr_opentl);
+
+	QStringList dorr_opendl;
+	dorr_opendl << "right" << "left" << "top" << "bottom";
+	_dorropeningdirectionList->setStringList(dorr_opendl);
+
 	
 	_uieditor.setupUi(this);
 
@@ -5577,7 +5592,7 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 			break;
 
 			case LbaNet::KynematicAType:
-				type = "Scripted";
+				type = it->second->ActorType();
 			break;
 
 			case LbaNet::CharControlAType:
@@ -5927,41 +5942,77 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 		// add script
 		if(ainfo.PhysicDesc.TypePhysO == LbaNet::KynematicAType)
 		{
-			QVector<QVariant> data;
-			data << "Script" << "";
-			QModelIndex idx = _objectmodel->AppendRow(data, parent, true);	
-
-			const std::vector<ActorScriptPartBasePtr> & items = it->second->GetScript();
-			for(size_t i=0; i<items.size(); ++i)
+			if(type == "Door")
 			{
-				ActorScriptPartBasePtr scpart = items[i];
-
-				std::stringstream nametxt;
-				nametxt << i <<"-" << scpart->GetTypeName();
-				QVector<QVariant> datait;
-				datait << "Script part" << nametxt.str().c_str();
-				QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
-
-				//add position
+				DoorHandler* actorh = static_cast<DoorHandler*>(it->second.get());
 				{
-					QVector<QVariant> datachild;
-					datachild << "Position in Script" << (int)i;
-					QModelIndex idx1 = _objectmodel->AppendRow(datachild, idxit);	
+					QVector<QVariant> data;
+					data<<"Opening type"<<actorh->GetOpeningType().c_str();
+					_objectmodel->AppendRow(data, parent);
+					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _dorropeningtypeList);
+					++index;
 				}
 
-				scpart->WriteToQt(_objectmodel, idxit);
+				{
+					QVector<QVariant> data;
+					data<<"Opening direction"<<actorh->GetOpeningDirection().c_str();
+					_objectmodel->AppendRow(data, parent);
+					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _dorropeningdirectionList);
+					++index;
+				}
 
-				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _actorscriptparttypeList);	
+				{
+					QVector<QVariant> data;
+					data<<"Moving value"<<(double)actorh->GetOpeningValue();
+					_objectmodel->AppendRow(data, parent);
+					++index;
+				}
+
+				{
+					QVector<QVariant> data;
+					data<<"Moving speed"<<(double)actorh->GetOpeningSpeed();
+					_objectmodel->AppendRow(data, parent);
+					++index;
+				}
 			}
+			else
+			{
+				QVector<QVariant> data;
+				data << "Script" << "";
+				QModelIndex idx = _objectmodel->AppendRow(data, parent, true);	
 
-			// add new item
-			QVector<QVariant> datait;
-			datait << "Script part" << "Add new...";
-			QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
-			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _actorscriptparttypeList);	
-		
-		
-			_uieditor.treeView_object->setExpanded(idx, true); // expand 
+				const std::vector<ActorScriptPartBasePtr> & items = it->second->GetScript();
+				for(size_t i=0; i<items.size(); ++i)
+				{
+					ActorScriptPartBasePtr scpart = items[i];
+
+					std::stringstream nametxt;
+					nametxt << i <<"-" << scpart->GetTypeName();
+					QVector<QVariant> datait;
+					datait << "Script part" << nametxt.str().c_str();
+					QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+
+					//add position
+					{
+						QVector<QVariant> datachild;
+						datachild << "Position in Script" << (int)i;
+						QModelIndex idx1 = _objectmodel->AppendRow(datachild, idxit);	
+					}
+
+					scpart->WriteToQt(_objectmodel, idxit);
+
+					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _actorscriptparttypeList);	
+				}
+
+				// add new item
+				QVector<QVariant> datait;
+				datait << "Script part" << "Add new...";
+				QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _actorscriptparttypeList);	
+			
+			
+				_uieditor.treeView_object->setExpanded(idx, true); // expand 
+			}
 		}
 
 
@@ -6253,148 +6304,172 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 		//update scripts
 		if(ainfo.PhysicDesc.TypePhysO == LbaNet::KynematicAType)
 		{
-			QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
-			int curridx = 0;
-
-			//take care of the items
-			const std::vector<ActorScriptPartBasePtr> & items = it->second->GetScript();
-			std::vector<ActorScriptPartBasePtr>::const_iterator itit = items.begin();
-			for(int cc=0; itit != items.end(); ++itit, ++cc)
+			if(it->second->ActorType() == "Door")
 			{
-				QModelIndex childidx = _objectmodel->GetIndex(0, curridx, itemparent);
-				QModelIndex childidx1 = _objectmodel->GetIndex(1, curridx, itemparent);
-				std::string type = _objectmodel->data(childidx1).toString().toAscii().data();
-				
-				bool numbered = false;
-				int pos = type.find_first_of("-");
-				if(pos != std::string::npos)
-				{
-					type = type.substr(pos+1);
-					numbered = true;
-				}
+				DoorHandler* actorh = static_cast<DoorHandler*>(it->second.get());
 
-				++curridx;
-				if(type != (*itit)->GetTypeName())
-				{
-					if(type == "Remove")
-					{
-						it->second->RemoveScriptPart(*itit);
-						//_objectmodel->Clear(childidx);
-						//_objectmodel->removeRows(curridx-1, 1, itemparent);
-						updateobj = true;
-						//return;
-						break;
-					}
-					else
-					{
-						ActorScriptPartBasePtr newsp = ActorScriptPartBase::BuildScriptPart(type, _posX, _posY, _posZ);
-						if(newsp)
-						{
-							it->second->ReplaceScriptPart(*itit, newsp);
+				if(updatedrow == index)
+					actorh->SetOpeningType(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data());
+				++index;	
 
-							// refresh tree
-							int position = _objectmodel->data(_objectmodel->GetIndex(1, 0, childidx)).toInt();
-							_objectmodel->Clear(childidx);
+				if(updatedrow == index)
+					actorh->SetOpeningDirection(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data());
+				++index;	
 
-							//add position
-							{
-								QVector<QVariant> datachild;
-								datachild << "Position in Script" << position;
-								QModelIndex idx1 = _objectmodel->AppendRow(datachild, childidx);	
-							}
+				if(updatedrow == index)
+					actorh->SetOpeningValue(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat());
+				++index;	
 
-							newsp->WriteToQt(_objectmodel, childidx);
-
-							std::stringstream nametxt;
-							nametxt << position <<"-" << type;
-							_objectmodel->setData(childidx1, nametxt.str().c_str());
-
-							_uieditor.treeView_object->setExpanded(childidx, true); // expand 
-						}
-					}
-
-					return;
-				}
-				else
-				{
-					int position = _objectmodel->data(_objectmodel->GetIndex(1, 0, childidx)).toInt();
-					if(position < 0)
-						position = 0;
-					if(position >= (int)items.size())
-						position = (int)items.size()-1;
-
-					if(position != cc)
-					{
-						it->second->UpdateScriptPosition(*itit, position);
-						updateobj = true;
-					}
-					else
-					{
-						(*itit)->UpdateFromQt(_objectmodel, childidx, 1);
-
-						if(!numbered)
-						{
-							std::stringstream nametxt;
-							nametxt << position <<"-" << type;
-							_objectmodel->setData(childidx1, nametxt.str().c_str());
-							return;
-						}
-					}
-				}
+				if(updatedrow == index)
+					actorh->SetOpeningSpeed(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat());
+				++index;	
 			}
-
-			if(!updateobj)
+			else
 			{
-				QModelIndex childidx = _objectmodel->GetIndex(0, curridx, itemparent);
-				QModelIndex childidx1 = _objectmodel->GetIndex(1, curridx, itemparent);
-				std::string type = _objectmodel->data(childidx1).toString().toAscii().data();
-				++curridx;
 
-				if(type != "Add new...")
+				QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
+				int curridx = 0;
+
+				//take care of the items
+				const std::vector<ActorScriptPartBasePtr> & items = it->second->GetScript();
+				std::vector<ActorScriptPartBasePtr>::const_iterator itit = items.begin();
+				for(int cc=0; itit != items.end(); ++itit, ++cc)
 				{
-					if(type == "Remove")
+					QModelIndex childidx = _objectmodel->GetIndex(0, curridx, itemparent);
+					QModelIndex childidx1 = _objectmodel->GetIndex(1, curridx, itemparent);
+					std::string type = _objectmodel->data(childidx1).toString().toAscii().data();
+					
+					bool numbered = false;
+					int pos = type.find_first_of("-");
+					if(pos != std::string::npos)
 					{
-						_objectmodel->setData(childidx1, "Add new...");
+						type = type.substr(pos+1);
+						numbered = true;
+					}
+
+					++curridx;
+					if(type != (*itit)->GetTypeName())
+					{
+						if(type == "Remove")
+						{
+							it->second->RemoveScriptPart(*itit);
+							//_objectmodel->Clear(childidx);
+							//_objectmodel->removeRows(curridx-1, 1, itemparent);
+							updateobj = true;
+							//return;
+							break;
+						}
+						else
+						{
+							ActorScriptPartBasePtr newsp = ActorScriptPartBase::BuildScriptPart(type, _posX, _posY, _posZ);
+							if(newsp)
+							{
+								it->second->ReplaceScriptPart(*itit, newsp);
+
+								// refresh tree
+								int position = _objectmodel->data(_objectmodel->GetIndex(1, 0, childidx)).toInt();
+								_objectmodel->Clear(childidx);
+
+								//add position
+								{
+									QVector<QVariant> datachild;
+									datachild << "Position in Script" << position;
+									QModelIndex idx1 = _objectmodel->AppendRow(datachild, childidx);	
+								}
+
+								newsp->WriteToQt(_objectmodel, childidx);
+
+								std::stringstream nametxt;
+								nametxt << position <<"-" << type;
+								_objectmodel->setData(childidx1, nametxt.str().c_str());
+
+								_uieditor.treeView_object->setExpanded(childidx, true); // expand 
+							}
+						}
+
 						return;
 					}
 					else
 					{
-						//build new script part
-						ActorScriptPartBasePtr newsp = ActorScriptPartBase::BuildScriptPart(type, _posX, _posY, _posZ);
-						if(newsp)
+						int position = _objectmodel->data(_objectmodel->GetIndex(1, 0, childidx)).toInt();
+						if(position < 0)
+							position = 0;
+						if(position >= (int)items.size())
+							position = (int)items.size()-1;
+
+						if(position != cc)
 						{
-							int position = it->second->AddScriptPart(newsp);
+							it->second->UpdateScriptPosition(*itit, position);
+							updateobj = true;
+						}
+						else
+						{
+							(*itit)->UpdateFromQt(_objectmodel, childidx, 1);
 
-							//refresh tree
+							if(!numbered)
 							{
-								QVector<QVariant> datachild;
-								datachild << "Position in Script" << position;
-								QModelIndex idx1 = _objectmodel->AppendRow(datachild, childidx);	
+								std::stringstream nametxt;
+								nametxt << position <<"-" << type;
+								_objectmodel->setData(childidx1, nametxt.str().c_str());
+								return;
 							}
+						}
+					}
+				}
 
-							newsp->WriteToQt(_objectmodel, childidx);
+				if(!updateobj)
+				{
+					QModelIndex childidx = _objectmodel->GetIndex(0, curridx, itemparent);
+					QModelIndex childidx1 = _objectmodel->GetIndex(1, curridx, itemparent);
+					std::string type = _objectmodel->data(childidx1).toString().toAscii().data();
+					++curridx;
 
-
-							// add new item
-							QVector<QVariant> datait;
-							datait << "Script part" << "Add new...";
-							QModelIndex idxit = _objectmodel->AppendRow(datait, itemparent);	
-							_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), 
-																		_actorscriptparttypeList);	
-						
-
-							std::stringstream nametxt;
-							nametxt << position <<"-" << type;
-							_objectmodel->setData(childidx1, nametxt.str().c_str());
-
-							_uieditor.treeView_object->setExpanded(childidx, true); // expand 	
-
+					if(type != "Add new...")
+					{
+						if(type == "Remove")
+						{
+							_objectmodel->setData(childidx1, "Add new...");
 							return;
 						}
 						else
 						{
-							_objectmodel->setData(childidx1, "Add new...");
-							return;
+							//build new script part
+							ActorScriptPartBasePtr newsp = ActorScriptPartBase::BuildScriptPart(type, _posX, _posY, _posZ);
+							if(newsp)
+							{
+								int position = it->second->AddScriptPart(newsp);
+
+								//refresh tree
+								{
+									QVector<QVariant> datachild;
+									datachild << "Position in Script" << position;
+									QModelIndex idx1 = _objectmodel->AppendRow(datachild, childidx);	
+								}
+
+								newsp->WriteToQt(_objectmodel, childidx);
+
+
+								// add new item
+								QVector<QVariant> datait;
+								datait << "Script part" << "Add new...";
+								QModelIndex idxit = _objectmodel->AppendRow(datait, itemparent);	
+								_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), 
+																			_actorscriptparttypeList);	
+							
+
+								std::stringstream nametxt;
+								nametxt << position <<"-" << type;
+								_objectmodel->setData(childidx1, nametxt.str().c_str());
+
+								_uieditor.treeView_object->setExpanded(childidx, true); // expand 	
+
+								return;
+							}
+							else
+							{
+								_objectmodel->setData(childidx1, "Add new...");
+								return;
+							}
 						}
 					}
 				}
@@ -6409,6 +6484,15 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 			ainfo.PhysicDesc.TypePhysO = LbaNet::StaticAType;
 		if(type == "Scripted") 
 			ainfo.PhysicDesc.TypePhysO = LbaNet::KynematicAType;
+		if(type == "Door") 
+		{
+			ainfo.PhysicDesc.TypePhysO = LbaNet::KynematicAType;
+			if(it->second->ActorType() != "Door")
+			{
+				it->second = boost::shared_ptr<ActorHandler>(new DoorHandler(ainfo, 0, 0, 3, 0.01,	true));
+				updateobj = true;
+			}
+		}
 		if(type == "Movable") 
 			ainfo.PhysicDesc.TypePhysO = LbaNet::CharControlAType;
 		if(before != ainfo.PhysicDesc.TypePhysO)
@@ -7601,6 +7685,32 @@ void EditorHandler::SelectCondition(ConditionBasePtr cond, const QModelIndex &pa
 		return;
 	}
 
+
+
+	if(type == "ItemInInventoryCondition")
+	{
+		ItemInInventoryCondition* ptr = static_cast<ItemInInventoryCondition*>(cond.get());
+
+		{
+		long id = ptr->GetItemId();
+		std::stringstream txtwithid;
+		txtwithid<<id<<": "<<InventoryItemHandler::getInstance()->GetItemInfo(id).Name;
+		QVector<QVariant> data;
+		data << "Item Id" << txtwithid.str().c_str();
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+
+		{
+		QVector<QVariant> data2;
+		data2 << "Item number" << ptr->GetItemNumber();
+		QModelIndex idx = _objectmodel->AppendRow(data2, parent);
+		}
+
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _itemNameList);
+
+		return;
+	}
+
 }
 
 /***********************************************************
@@ -7648,7 +7758,7 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 		{	
 			if(category == "NegateCondition")
 			{
-				NegateCondition* cond = (NegateCondition*)ptr;
+				NegateCondition* cond = static_cast<NegateCondition*>(ptr);
 
 				std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();
 				std::string currcond = GetConditionType(cond->GetCondition());
@@ -7674,7 +7784,7 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 
 			if(category == "AndCondition")
 			{
-				AndCondition* cond = (AndCondition*)ptr;
+				AndCondition* cond = static_cast<AndCondition*>(ptr);
 
 				//condition 1
 				{
@@ -7728,7 +7838,7 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 
 			if(category == "OrCondition")	
 			{
-				OrCondition* cond = (OrCondition*)ptr;
+				OrCondition* cond = static_cast<OrCondition*>(ptr);
 
 				//condition 1
 				{
@@ -7778,6 +7888,17 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 						SetModified();
 					}
 				}
+			}
+
+			if(category == "ItemInInventoryCondition")
+			{
+				ItemInInventoryCondition* cond = static_cast<ItemInInventoryCondition*>(ptr);
+				
+				std::string itid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();
+				itid = itid.substr(0, itid.find(":"));
+				long id = atol(itid.c_str());
+				cond->SetItemId(id);				
+				cond->SetItemNumber(_objectmodel->data(_objectmodel->GetIndex(2, 2, parentIdx)).toInt());
 			}
 		}
 	}

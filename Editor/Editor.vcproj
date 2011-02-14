@@ -288,6 +288,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Servers\WorldServer\DoorHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\editor.cpp"
 				>
 			</File>
@@ -739,6 +743,10 @@
 			</File>
 			<File
 				RelativePath="..\shared\DisplayObjectHandlerBase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Servers\WorldServer\DoorHandler.h"
 				>
 			</File>
 			<File
