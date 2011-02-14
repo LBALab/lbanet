@@ -3187,7 +3187,12 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 		}
 		{
 			QVector<QVariant> data;
-			data << "UpdateNumber" << ptr->GetNumber();
+			data << "Update Number" << ptr->GetNumber();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+		{
+			QVector<QVariant> data;
+			data << "Inform Client" << ptr->GetInformClientType();
 			QModelIndex idx = _objectmodel->AppendRow(data, parent);
 		}
 		return;
@@ -3227,7 +3232,7 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 				data << "Action" << items[i]->GetTypeName().c_str();
 				QModelIndex idxchild = _objectmodel->AppendRow(data, idx);
 				
-				SelectAction(items[i], idxchild);
+				SelectAction(items[i].get(), idxchild);
 
 				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxchild.row(), idx), _actiontypeList);
 			}
@@ -3578,6 +3583,87 @@ void EditorHandler::ActionObjectChanged(const std::string & category, const QMod
 				return;
 			}
 
+
+			if(category == "OpenDoorAction")
+			{
+				// get info
+				long aid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toInt();
+
+				// created modified action and replace old one
+				SendSignalAction* modifiedact = (SendSignalAction*)ptr;
+				modifiedact->SetActorId(aid);
+
+				// need to save as something changed
+				SetModified();
+
+				return;
+			}
+
+
+			if(category == "CloseDoorAction")
+			{
+				// get info
+				long aid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toInt();
+
+				// created modified action and replace old one
+				SendSignalAction* modifiedact = (SendSignalAction*)ptr;
+				modifiedact->SetActorId(aid);
+
+				// need to save as something changed
+				SetModified();
+
+				return;
+			}
+
+			if(category == "AddRemoveItemAction")
+			{
+				// get info
+				std::string itid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();
+				itid = itid.substr(0, itid.find(":"));
+				long id = atol(itid.c_str());
+				
+				int number = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toInt();
+				int informtype = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toInt();
+
+				// created modified action and replace old one
+				AddRemoveItemAction* modifiedact = (AddRemoveItemAction*)ptr;
+				modifiedact->SetItemId(id);
+				modifiedact->SetNumber(number);
+				modifiedact->SetInformClientType(informtype);
+
+				// need to save as something changed
+				SetModified();
+
+				return;
+			}
+
+
+			if(category == "HurtAction")
+			{		
+				float value = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toFloat();
+				bool life = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toBool();
+
+				// created modified action and replace old one
+				HurtAction* modifiedact = (HurtAction*)ptr;
+				modifiedact->SetHurtValue(value);
+				modifiedact->HurtLifeOrMana(life);
+
+				// need to save as something changed
+				SetModified();
+
+				return;
+			}
+
+			if(category == "MultiAction")
+			{	
+				MultiAction* modifiedact = (MultiAction*)ptr;
+				//TODO
+
+				// need to save as something changed
+				SetModified();
+
+				return;
+			}
 
 
 
