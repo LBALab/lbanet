@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <items>
-	<item id="1" name="Life potion" filename="GUI/imagesets/Inventory/health.png" NameText="0" Description="39" Max="10" Price="5" type="1" Effect="30" valueA="1" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
-	<item id="2" name="Magic potion" filename="GUI/imagesets/Inventory/magic.png" NameText="1" Description="31" Max="10" Price="5" type="1" Effect="30" valueA="5" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
-	<item id="3" name="Clover" filename="GUI/imagesets/Inventory/clover.png" NameText="2" Description="32" Max="3" Price="20" type="1" Effect="100" valueA="3" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
-	<item id="4" name="Small key" filename="GUI/imagesets/Inventory/key.png" NameText="3" Description="33" Max="10" Price="1" type="2" Effect="1" valueA="0" Ephemere="true" Extra="" Color1="-1" Color2="-1"/>
-	<item id="5" name="Horse" filename="GUI/imagesets/Inventory/Horse.png" NameText="4" Description="34" Max="1" Price="1" type="3" Effect="1" valueA="2" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
-	<item id="6" name="Dinofly" filename="GUI/imagesets/Inventory/Dino.png" NameText="5" Description="35" Max="1" Price="1" type="3" Effect="1" valueA="3" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
-	<item id="7" name="Protopack" filename="GUI/imagesets/Inventory/protopack.png" NameText="6" Description="36" Max="1" Price="5" type="3" Effect="1" valueA="1" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
-	<item id="8" name="Kash" filename="GUI/imagesets/Inventory/kash.png" NameText="7" Description="37" Max="9999" Price="1" type="6" Effect="1" valueA="0" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
-	<item id="9" name="Feather" filename="GUI/imagesets/Inventory/Feather.png" NameText="8" Description="38" Max="1" Price="1" type="7" Effect="1" valueA="1" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
-	<item id="10" name="Letter" filename="GUI/imagesets/Inventory/letter.png" NameText="11" Description="41" Max="1" Price="1" type="8" Effect="1" valueA="0" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
-	<item id="11" name="Gas" filename="GUI/imagesets/Inventory/Gas.png" NameText="12" Description="42" Max="10" Price="10" type="6" Effect="1" valueA="0" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
-	<item id="12" name="Ticket" filename="GUI/imagesets/Inventory/Ticket.png" NameText="13" Description="43" Max="1" Price="10" type="6" Effect="1" valueA="0" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
-	<item id="13" name="Champagne" filename="GUI/imagesets/Inventory/glass.png" NameText="14" Description="44" Max="10" Price="2" type="1" Effect="80" valueA="3" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
-	<item id="14" name="Gluehwein" filename="GUI/imagesets/Inventory/gluehwein.png" NameText="15" Description="45" Max="10" Price="1" type="1" Effect="80" valueA="2" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
-	<item id="15" name="Lebkuchen" filename="GUI/imagesets/Inventory/Lebkuchen.png" NameText="16" Description="46" Max="10" Price="2" type="1" Effect="80" valueA="1" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
-	<item id="16" name="Candy" filename="GUI/imagesets/Inventory/candy.png" NameText="17" Description="47" Max="10" Price="1" type="1" Effect="80" valueA="1" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
-	<item id="17" name="Giftbox 2009" filename="GUI/imagesets/Inventory/giftbox.png" NameText="18" Description="48" Max="1" Price="1" type="10" Effect="1" valueA="0" Ephemere="false" Extra="" Color1="-1" Color2="-1">
+	<item id="1" name="Life potion" filename="GUI/imagesets/Inventory/health.png" NameText="0" Description="39" LongDescription="-1" Max="10" BuyPrice="1" SellPrice="1" type="1" Effect="30" valueA="1" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
+	<item id="2" name="Magic potion" filename="GUI/imagesets/Inventory/magic.png" NameText="1" Description="31" LongDescription="-1" Max="10" BuyPrice="1" SellPrice="1" type="1" Effect="30" valueA="5" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
+	<item id="3" name="Clover" filename="GUI/imagesets/Inventory/clover.png" NameText="2" Description="32" LongDescription="-1" Max="3" BuyPrice="1" SellPrice="1" type="1" Effect="100" valueA="3" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
+	<item id="4" name="Small key" filename="GUI/imagesets/Inventory/key.png" NameText="3" Description="33" LongDescription="-1" Max="10" BuyPrice="1" SellPrice="1" type="2" Effect="1" valueA="0" Ephemere="true" Extra="" Color1="-1" Color2="-1"/>
+	<item id="5" name="Horse" filename="GUI/imagesets/Inventory/Horse.png" NameText="4" Description="34" LongDescription="-1" Max="1" BuyPrice="1" SellPrice="1" type="3" Effect="1" valueA="2" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
+	<item id="6" name="Dinofly" filename="GUI/imagesets/Inventory/Dino.png" NameText="5" Description="35" LongDescription="-1" Max="1" BuyPrice="1" SellPrice="1" type="3" Effect="1" valueA="3" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
+	<item id="7" name="Protopack" filename="GUI/imagesets/Inventory/protopack.png" NameText="6" Description="36" LongDescription="-1" Max="1" BuyPrice="1" SellPrice="1" type="3" Effect="1" valueA="1" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
+	<item id="8" name="Kash" filename="GUI/imagesets/Inventory/kash.png" NameText="7" Description="37" LongDescription="-1" Max="9999" BuyPrice="1" SellPrice="1" type="6" Effect="1" valueA="0" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
+	<item id="9" name="Feather" filename="GUI/imagesets/Inventory/Feather.png" NameText="8" Description="38" LongDescription="-1" Max="1" BuyPrice="1" SellPrice="1" type="7" Effect="1" valueA="1" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
+	<item id="10" name="Letter" filename="GUI/imagesets/Inventory/letter.png" NameText="11" Description="41" LongDescription="-1" Max="1" BuyPrice="1" SellPrice="1" type="8" Effect="1" valueA="0" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
+	<item id="11" name="Gas" filename="GUI/imagesets/Inventory/Gas.png" NameText="12" Description="42" LongDescription="-1" Max="10" BuyPrice="1" SellPrice="1" type="6" Effect="1" valueA="0" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
+	<item id="12" name="Ticket" filename="GUI/imagesets/Inventory/Ticket.png" NameText="13" Description="43" LongDescription="-1" Max="1" BuyPrice="1" SellPrice="1" type="6" Effect="1" valueA="0" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
+	<item id="13" name="Champagne" filename="GUI/imagesets/Inventory/glass.png" NameText="14" Description="44" LongDescription="-1" Max="10" BuyPrice="1" SellPrice="1" type="1" Effect="80" valueA="3" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
+	<item id="14" name="Gluehwein" filename="GUI/imagesets/Inventory/gluehwein.png" NameText="15" Description="45" LongDescription="-1" Max="10" BuyPrice="1" SellPrice="1" type="1" Effect="80" valueA="2" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
+	<item id="15" name="Lebkuchen" filename="GUI/imagesets/Inventory/Lebkuchen.png" NameText="16" Description="46" LongDescription="-1" Max="10" BuyPrice="1" SellPrice="1" type="1" Effect="80" valueA="1" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
+	<item id="16" name="Candy" filename="GUI/imagesets/Inventory/candy.png" NameText="17" Description="47" LongDescription="-1" Max="10" BuyPrice="1" SellPrice="1" type="1" Effect="80" valueA="1" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
+	<item id="17" name="Giftbox 2009" filename="GUI/imagesets/Inventory/giftbox.png" NameText="18" Description="48" LongDescription="-1" Max="1" BuyPrice="1" SellPrice="1" type="10" Effect="1" valueA="0" Ephemere="false" Extra="" Color1="-1" Color2="-1">
 		<container>
 			<element Id="8" Min="100" Max="200" Probability="1" Group="-1"/>
 			<element Id="28" Min="1" Max="1" Probability="1" Group="-1"/>
 		</container>
 	</item>
-	<item id="18" name="Hair dryer" filename="GUI/imagesets/Inventory/hairdryer.png" NameText="19" Description="49" Max="1" Price="1" type="5" Effect="1" valueA="0" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
-	<item id="19" name="Grain" filename="GUI/imagesets/Inventory/grain.png" NameText="20" Description="50" Max="1" Price="50" type="5" Effect="1" valueA="0" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
-	<item id="20" name="Birthday cake" filename="GUI/imagesets/Inventory/bcake1.png" NameText="21" Description="51" Max="5" Price="1" type="1" Effect="100" valueA="3" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
-	<item id="21" name="Giftbox 2010" filename="GUI/imagesets/Inventory/giftbox.png" NameText="28" Description="58" Max="1" Price="1" type="10" Effect="1" valueA="0" Ephemere="false" Extra="" Color1="-1" Color2="-1">
+	<item id="18" name="Hair dryer" filename="GUI/imagesets/Inventory/hairdryer.png" NameText="19" Description="49" LongDescription="-1" Max="1" BuyPrice="1" SellPrice="1" type="5" Effect="1" valueA="0" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
+	<item id="19" name="Grain" filename="GUI/imagesets/Inventory/grain.png" NameText="20" Description="50" LongDescription="-1" Max="1" BuyPrice="1" SellPrice="1" type="5" Effect="1" valueA="0" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
+	<item id="20" name="Birthday cake" filename="GUI/imagesets/Inventory/bcake1.png" NameText="21" Description="51" LongDescription="-1" Max="5" BuyPrice="1" SellPrice="1" type="1" Effect="100" valueA="3" Ephemere="false" Extra="" Color1="-1" Color2="-1"/>
+	<item id="21" name="Giftbox 2010" filename="GUI/imagesets/Inventory/giftbox.png" NameText="28" Description="58" LongDescription="-1" Max="1" BuyPrice="1" SellPrice="1" type="10" Effect="1" valueA="0" Ephemere="false" Extra="" Color1="-1" Color2="-1">
 		<container>
 			<element Id="8" Min="100" Max="200" Probability="1" Group="-1"/>
 			<element Id="29" Min="1" Max="1" Probability="1" Group="-1"/>
 		</container>
 	</item>
-	<item id="22" name="Magic ball" filename="GUI/imagesets/Inventory/yellowball.png" NameText="22" Description="52" Max="1" Price="1" type="4" Effect="10" valueA="1" Ephemere="false" Extra="MagicBall" Color1="-1" Color2="-1"/>
-	<item id="23" name="Saber" filename="GUI/imagesets/Inventory/bcake1.png" NameText="23" Description="53" Max="1" Price="1" type="4" Effect="30" valueA="1" Ephemere="false" Extra="Saber" Color1="-1" Color2="-1"/>
-	<item id="24" name="Prisoner outfit" filename="Worlds/Lba1Original/InventoryImages/test3.png" NameText="24" Description="54" Max="1" Price="1" type="9" Effect="0" valueA="1" Ephemere="false" Extra="Prisoner" Color1="-1" Color2="-1"/>
-	<item id="25" name="Nurse outfit" filename="Worlds/Lba1Original/InventoryImages/test2.png" NameText="25" Description="55" Max="1" Price="1" type="9" Effect="0" valueA="1" Ephemere="false" Extra="Nurse" Color1="-1" Color2="-1"/>
-	<item id="26" name="Tunic outfit" filename="Worlds/Lba1Original/InventoryImages/test1.png" NameText="26" Description="56" Max="1" Price="1" type="9" Effect="10" valueA="1" Ephemere="false" Extra="Tunic" Color1="-1" Color2="-1"/>
-	<item id="27" name="Fulltunic outfit" filename="Worlds/Lba1Original/InventoryImages/02-20-10_18_13_24_164.png" NameText="27" Description="57" Max="1" Price="1" type="9" Effect="20" valueA="1" Ephemere="false" Extra="Fulltunic" Color1="-1" Color2="-1"/>
-	<item id="28" name="Red horse" filename="GUI/imagesets/Inventory/Horse.png" NameText="29" Description="34" Max="1" Price="1" type="3" Effect="0" valueA="2" Ephemere="false" Extra="" Color1="2" Color2="-1"/>
-	<item id="29" name="Red dinofly" filename="GUI/imagesets/Inventory/Dino.png" NameText="30" Description="35" Max="1" Price="1" type="3" Effect="0" valueA="3" Ephemere="false" Extra="" Color1="2" Color2="-1"/>
+	<item id="22" name="Magic ball" filename="GUI/imagesets/Inventory/yellowball.png" NameText="22" Description="52" LongDescription="-1" Max="1" BuyPrice="1" SellPrice="1" type="4" Effect="10" valueA="1" Ephemere="false" Extra="MagicBall" Color1="-1" Color2="-1"/>
+	<item id="23" name="Saber" filename="GUI/imagesets/Inventory/saber.png" NameText="23" Description="53" LongDescription="-1" Max="1" BuyPrice="1" SellPrice="1" type="4" Effect="30" valueA="1" Ephemere="false" Extra="Saber" Color1="-1" Color2="-1"/>
+	<item id="24" name="Prisoner outfit" filename="GUI/imagesets/Inventory/prison.png" NameText="24" Description="54" LongDescription="-1" Max="1" BuyPrice="1" SellPrice="1" type="9" Effect="0" valueA="1" Ephemere="false" Extra="Prisoner" Color1="-1" Color2="-1"/>
+	<item id="25" name="Nurse outfit" filename="GUI/imagesets/Inventory/nurse.png" NameText="25" Description="55" LongDescription="-1" Max="1" BuyPrice="1" SellPrice="1" type="9" Effect="0" valueA="1" Ephemere="false" Extra="Nurse" Color1="-1" Color2="-1"/>
+	<item id="26" name="Tunic outfit" filename="GUI/imagesets/Inventory/tunic.png" NameText="26" Description="56" LongDescription="-1" Max="1" BuyPrice="1" SellPrice="1" type="9" Effect="10" valueA="1" Ephemere="false" Extra="Tunic" Color1="-1" Color2="-1"/>
+	<item id="27" name="Fulltunic outfit" filename="GUI/imagesets/Inventory/tunic-medailon.png" NameText="27" Description="57" LongDescription="-1" Max="1" BuyPrice="1" SellPrice="1" type="9" Effect="20" valueA="1" Ephemere="false" Extra="Fulltunic" Color1="-1" Color2="-1"/>
+	<item id="28" name="Red horse" filename="GUI/imagesets/Inventory/Horse.png" NameText="29" Description="34" LongDescription="-1" Max="1" BuyPrice="1" SellPrice="1" type="3" Effect="0" valueA="2" Ephemere="false" Extra="" Color1="2" Color2="-1"/>
+	<item id="29" name="Red dinofly" filename="GUI/imagesets/Inventory/Dino.png" NameText="30" Description="35" LongDescription="-1" Max="1" BuyPrice="1" SellPrice="1" type="3" Effect="0" valueA="3" Ephemere="false" Extra="" Color1="2" Color2="-1"/>
 </items>

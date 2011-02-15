@@ -38,6 +38,8 @@ function InitMap(environment)
 	Actor_1.ExtraInfo.NameColorR = -4.31602e+008
 	Actor_1.ExtraInfo.NameColorG = -4.31602e+008
 	Actor_1.ExtraInfo.NameColorB = -4.31602e+008
+	Actor_1.ExtraInfo.Display = false
+	Actor_1.LifeInfo.Display = false
 	Actor_1H = ActorHandler(Actor_1)
 	environment:AddActorObject(Actor_1H)
 
@@ -110,6 +112,18 @@ function InitMap(environment)
 	Trigger_8_act1 = DisplayTextAction()
 	Trigger_8_act1:SetTextId(199)
 	Trigger_8:SetAction1(Trigger_8_act1)
+	Trigger_8:SetPlayAnimation(false)
 	environment:AddTrigger(Trigger_8)
+
+	Trigger_9_info = TriggerInfo(9, "dfgdg", true, true, false)
+	Trigger_9 = ActivationTrigger(Trigger_9_info, 1.5, "Normal", "None")
+	Trigger_9:SetPosition(56, 0, 18.5)
+	Trigger_9_act1 = AddRemoveItemAction()
+	Trigger_9_act1:SetItemId(2)
+	Trigger_9_act1:SetNumber(1)
+	Trigger_9_act1:SetInformClientType(2)
+	Trigger_9:SetAction1(Trigger_9_act1)
+	Trigger_9:SetPlayAnimation(false)
+	environment:AddTrigger(Trigger_9)
 
 end

@@ -17,3 +17,25 @@ function ExampleServerFct(ObjectType, ObjectId, Arguments, Environment)
 Environment:DisplayTextAction(ObjectType, ObjectId, 0)
 
 end
+
+
+function FunctionCustom(ScriptId, Environment,ActorId)
+	Environment:UpdateActorAnimation(ActorId,"MoveForward")
+	Position = LbaVec3(37.6,7,9.5)
+	Environment:ActorStraightWalkTo(ScriptId,ActorId,Position)
+	Environment:ActorRotate(ScriptId,ActorId,90,0.21,true)
+	Environment:UpdateActorAnimation(ActorId,"MoveForward")
+	Position = LbaVec3(50,7,9.5)
+	Environment:ActorStraightWalkTo(ScriptId,ActorId,Position)
+	Environment:ActorRotate(ScriptId,ActorId,270,0.11,true)
+	Position = LbaVec3(38,7,5.5)
+	Environment:ActorGoTo(ScriptId,ActorId,Position,0.005)
+	Position = LbaVec3(36.5,7,12.5)
+	Environment:TeleportActorTo(ScriptId,ActorId,Position)
+	Environment:SetActorRotation(ActorId,180)
+	Environment:UpdateActorModel(ActorId,"Horse")
+	Environment:UpdateActorOutfit(ActorId,"Empty")
+	Environment:UpdateActorWeapon(ActorId,"No")
+	Environment:UpdateActorMode(ActorId,"Normal")
+	Environment:ActorWaitForSignal(ScriptId,ActorId,2)
+end
