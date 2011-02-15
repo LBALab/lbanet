@@ -229,6 +229,16 @@ void MapHandler::run()
 		}	
 
 
+		// inform triggers
+		{
+			std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
+			std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
+			for(; ittr != endtr; ++ittr)
+				ittr->second->NewFrame(this, timetodiff, tdiff);
+		}
+
+
+
 		// send events to all proxies
 		if(_tosendevts.size() > 0)
 		{
@@ -644,7 +654,7 @@ void MapHandler::PlayerEntered(Ice::Long id)
 			std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
 			std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
 			for(; ittr != endtr; ++ittr)
-				ittr->second->ObjectEnterMap(2, id);
+				ittr->second->ObjectEnterMap(this, 2, id);
 		}
 	}
 	catch(NoPlayerException)
@@ -666,7 +676,7 @@ void MapHandler::PlayerLeft(Ice::Long id)
 			std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
 			std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
 			for(; ittr != endtr; ++ittr)
-				ittr->second->ObjectLeaveMap(2, id);
+				ittr->second->ObjectLeaveMap(this, 2, id);
 		}
 
 
@@ -727,7 +737,7 @@ void MapHandler::PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMove
 			std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
 			std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
 			for(; ittr != endtr; ++ittr)
-				ittr->second->ObjectMoved(2, id, lastpos, currPos);
+				ittr->second->ObjectMoved(this, 2, id, lastpos, currPos);
 		}
 
 
@@ -918,16 +928,31 @@ change player state
 void MapHandler::ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, float FallingSize,
 																						bool fromserver)
 {
-	ModelInfo returnmodel;
-	if(UpdatePlayerState(id, NewState, returnmodel))
-		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-					PlayerObject, id, new ModelUpdate(returnmodel, !fromserver)));
+	LbaNet::ModelInfo currinfo = GetPlayerModelInfo(id);
 
-	//if hurt by falling
-	if(NewState == LbaNet::StHurtFall)
+	if(currinfo.State != NewState)
 	{
-		if(FallingSize > 0)
-			DeltaUpdateLife(id, -FallingSize*_mapinfo.HurtFallFactor);
+		ModelInfo returnmodel;
+		if(UpdatePlayerState(id, NewState, returnmodel))
+		{
+			_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+							PlayerObject, id, new ModelUpdate(returnmodel, !fromserver)));
+
+			//if hurt by falling
+			if(NewState == LbaNet::StHurtFall)
+			{
+				if(FallingSize > 0)
+					DeltaUpdateLife(id, -FallingSize*_mapinfo.HurtFallFactor);
+			}
+
+			// execute delayed actions
+			std::map<Ice::Long, DelayedAction>::iterator itact = _delayedactions.find(id);
+			if(itact != _delayedactions.end())
+			{
+				itact->second.action->Execute(this, 2, id, itact->second.args);
+				_delayedactions.erase(itact);	
+			}
+		}
 	}
 }
 
@@ -1102,7 +1127,7 @@ void MapHandler::ProcessPlayerAction(Ice::Long id, bool ForcedNormalAction)
 			std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
 			std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
 			for(; ittr != endtr; ++ittr)
-				ittr->second->ObjectAction(2, id, pos, (ForcedNormalAction? "Normal": mode));
+				ittr->second->ObjectAction(this, 2, id, pos, (ForcedNormalAction? "Normal": mode));
 		}
 	}
 	catch(NoPlayerException)
@@ -2545,5 +2570,22 @@ void MapHandler::KillActor(int ObjectType, long ObjectId)
 			// todo - find attached player
 		}
 		break;
+	}
+}
+
+
+
+/***********************************************************
+delay action execution
+***********************************************************/
+void MapHandler::DelayActionAfterPlayerChangeState(const DelayedAction &action, LbaNet::ModelState newstate)
+{
+	ModelInfo returnmodel;
+	if(UpdatePlayerState(action.ClientId, newstate, returnmodel))
+	{
+		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+											PlayerObject, action.ClientId, new ModelUpdate(returnmodel, true)));
+
+		_delayedactions[action.ClientId] = action;
 	}
 }

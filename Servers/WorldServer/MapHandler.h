@@ -37,6 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ServerLuaHandler.h"
 #include "Triggers.h"
 #include "ScriptEnvironmentBase.h"
+#include "DelayedExecutionHandler.h"
 
 using namespace LbaNet;
 class PlayerHandler;
@@ -93,7 +94,7 @@ public:
 
 
 //! take care of a map of the world
-class MapHandler : public Runnable, public ScriptEnvironmentBase
+class MapHandler : public Runnable, public ScriptEnvironmentBase, public DelayedExecutionHandler
 {
 public:
 	//! constructor
@@ -262,6 +263,10 @@ public:
 	//! 3 -> movable object
 	virtual void KillActor(int ObjectType, long ObjectId);
 
+
+	//! delay action execution
+	virtual void DelayActionAfterPlayerChangeState(const DelayedAction &action, 
+													LbaNet::ModelState newstate);
 
 protected:
 	// process events
@@ -537,6 +542,9 @@ private:
 
 	bool														_stopping;
 	double														_stopstarttime;
+
+
+	std::map<Ice::Long, DelayedAction>							_delayedactions;
 };
 
 

@@ -336,10 +336,14 @@ ServerLuaHandler::ServerLuaHandler()
 		.def(luabind::constructor<TriggerInfo, float, float, float, bool>()),
 
 		luabind::class_<ActivationTrigger, TriggerBase, boost::shared_ptr<TriggerBase> >("ActivationTrigger")
-		.def(luabind::constructor<TriggerInfo, float, const std::string &, const std::string &>()),
+		.def(luabind::constructor<TriggerInfo, float, const std::string &, const std::string &>())
+		.def("GetPlayAnimation", &ActivationTrigger::GetPlayAnimation)
+		.def("SetPlayAnimation", &ActivationTrigger::SetPlayAnimation),
 
 		luabind::class_<ZoneActionTrigger, TriggerBase, boost::shared_ptr<TriggerBase> >("ZoneActionTrigger")
-		.def(luabind::constructor<TriggerInfo, float, float, float, const std::string &, const std::string &>()),
+		.def(luabind::constructor<TriggerInfo, float, float, float, const std::string &, const std::string &>())
+		.def("GetPlayAnimation", &ZoneActionTrigger::GetPlayAnimation)
+		.def("SetPlayAnimation", &ZoneActionTrigger::SetPlayAnimation),
 
 		luabind::class_<TimerTrigger, TriggerBase, boost::shared_ptr<TriggerBase> >("TimerTrigger")
 		.def(luabind::constructor<TriggerInfo, long>()),

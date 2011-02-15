@@ -27,6 +27,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Actions.h"
 #include "ActorHandler.h"
+#include "DelayedExecutionHandler.h"
+
 
 #include <boost/shared_ptr.hpp>
 #include <set>
@@ -153,21 +155,21 @@ public:
 	//! 1 -> npc object
 	//! 2 -> player object
 	//! 3 -> movable object
-	virtual void ObjectEnterMap(int ObjectType, Ice::Long ObjectId){}
+	virtual void ObjectEnterMap(DelayedExecutionHandler * delayedactH, int ObjectType, Ice::Long ObjectId){}
 
 	//! check trigger on object leave map
 	// ObjectType ==>
 	//! 1 -> npc object
 	//! 2 -> player object
 	//! 3 -> movable object
-	virtual void ObjectLeaveMap(int ObjectType, Ice::Long ObjectId){}
+	virtual void ObjectLeaveMap(DelayedExecutionHandler * delayedactH, int ObjectType, Ice::Long ObjectId){}
 
 	//! check trigger on object move
 	// ObjectType ==>
 	//! 1 -> npc object
 	//! 2 -> player object
 	//! 3 -> movable object
-	virtual void ObjectMoved(int ObjectType, Ice::Long ObjectId,
+	virtual void ObjectMoved(DelayedExecutionHandler * delayedactH, int ObjectType, Ice::Long ObjectId,
 										const LbaNet::PlayerPosition &startposition,
 										const LbaNet::PlayerPosition &endposition){}
 
@@ -178,14 +180,14 @@ public:
 	//! 2 -> player object
 	//! 3 -> movable object
 	// ObjectMode give the mode the object was when performing the action
-	virtual void ObjectAction(int ObjectType, Ice::Long ObjectId,
-										const LbaNet::PlayerPosition &info,
-										const std::string &ObjectMode){}
+	virtual void ObjectAction(DelayedExecutionHandler * delayedactH, int ObjectType, Ice::Long ObjectId,
+														const LbaNet::PlayerPosition &info,
+														const std::string &ObjectMode){}
 
 
 	//! check trigger on each fram
 	//! warning - this can reduce performance!
-	virtual void NewFrame(){}
+	virtual void NewFrame(DelayedExecutionHandler * delayedactH, double tnow, float tdiff){}
 
 
 	//! get object to display for editor
@@ -236,7 +238,7 @@ public:
 	//! 1 -> npc object
 	//! 2 -> player object
 	//! 3 -> movable object
-	virtual void ObjectMoved(int ObjectType, Ice::Long ObjectId,
+	virtual void ObjectMoved(DelayedExecutionHandler * delayedactH, int ObjectType, Ice::Long ObjectId,
 										const LbaNet::PlayerPosition &StartPosition,
 										const LbaNet::PlayerPosition &EndPosition);
 
@@ -245,7 +247,7 @@ public:
 	//! 1 -> npc object
 	//! 2 -> player object
 	//! 3 -> movable object
-	virtual void ObjectLeaveMap(int ObjectType, Ice::Long ObjectId);
+	virtual void ObjectLeaveMap(DelayedExecutionHandler * delayedactH, int ObjectType, Ice::Long ObjectId);
 
 
 	//! get type of the action in string form
@@ -355,9 +357,9 @@ public:
 	//! 2 -> player object
 	//! 3 -> movable object
 	// ObjectMode give the mode the object was when performing the action
-	virtual void ObjectAction(int ObjectType, Ice::Long ObjectId,
-										const LbaNet::PlayerPosition &info,
-										const std::string &ObjectMode);
+	virtual void ObjectAction(DelayedExecutionHandler * delayedactH, int ObjectType, Ice::Long ObjectId,
+													const LbaNet::PlayerPosition &info,
+													const std::string &ObjectMode);
 
 	//! get type of the action in string form
 	virtual std::string GetTypeName(){ return "ActivationTrigger";}
@@ -391,10 +393,19 @@ public:
 	// save trigger to lua file
 	virtual void SaveToLuaFile(std::ofstream & file);
 
+	//! accessor
+	bool GetPlayAnimation()
+	{ return _PlayAnimation;}
+
+	//! accessor
+	void SetPlayAnimation(bool play)
+	{ _PlayAnimation = _PlayAnimation;}
+
 private:
 	float									_MaxSquaredDistance; 
 	std::string								_AcceptedMode1; 
 	std::string								_AcceptedMode2;
+	bool									_PlayAnimation;
 };
 
 
@@ -419,9 +430,9 @@ public:
 	//! 2 -> player object
 	//! 3 -> movable object
 	// ObjectMode give the mode the object was when performing the action
-	virtual void ObjectAction(int ObjectType, Ice::Long ObjectId,
-										const LbaNet::PlayerPosition &info,
-										const std::string &ObjectMode);
+	virtual void ObjectAction(DelayedExecutionHandler * delayedactH, int ObjectType, Ice::Long ObjectId,
+													const LbaNet::PlayerPosition &info,
+													const std::string &ObjectMode);
 
 	//! get type of the action in string form
 	virtual std::string GetTypeName(){ return "ZoneActionTrigger";}
@@ -468,6 +479,13 @@ public:
 	// save trigger to lua file
 	virtual void SaveToLuaFile(std::ofstream & file);
 
+	//! accessor
+	bool GetPlayAnimation()
+	{ return _PlayAnimation;}
+
+	//! accessor
+	void SetPlayAnimation(bool play)
+	{ _PlayAnimation = _PlayAnimation;}
 private:
 
 
@@ -477,6 +495,7 @@ private:
 
 	std::string								_AcceptedMode1; 
 	std::string								_AcceptedMode2;
+	bool									_PlayAnimation;
 };
 
 
@@ -494,7 +513,7 @@ public:
 
 	//! check trigger on each fram
 	//! warning - this can reduce performance!
-	virtual void NewFrame();
+	virtual void NewFrame(DelayedExecutionHandler * delayedactH, double tnow, float tdiff);
 
 	//! get type of the action in string form
 	virtual std::string GetTypeName(){ return "TimerTrigger";}

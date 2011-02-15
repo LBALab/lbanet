@@ -30,7 +30,7 @@ ZoneTrigger::~ZoneTrigger(void)
 /***********************************************************
 check trigger on object move
 ***********************************************************/
-void ZoneTrigger::ObjectMoved(int ObjectType, Ice::Long ObjectId,
+void ZoneTrigger::ObjectMoved(DelayedExecutionHandler * delayedactH, int ObjectType, Ice::Long ObjectId,
 										const LbaNet::PlayerPosition &StartPosition,
 										const LbaNet::PlayerPosition &EndPosition)
 {
@@ -85,7 +85,7 @@ void ZoneTrigger::ObjectMoved(int ObjectType, Ice::Long ObjectId,
 /***********************************************************
 check trigger on object leave map
 ***********************************************************/
-void ZoneTrigger::ObjectLeaveMap(int ObjectType, Ice::Long ObjectId)
+void ZoneTrigger::ObjectLeaveMap(DelayedExecutionHandler * delayedactH, int ObjectType, Ice::Long ObjectId)
 {
 	if(_objectsinside.find(std::make_pair<int, Ice::Long>(ObjectType, ObjectId)) 
 																		!= _objectsinside.end())
@@ -283,7 +283,7 @@ ActivationTrigger::ActivationTrigger( const TriggerInfo & triggerinfo,
 										const std::string & AcceptedMode2)
 	: TriggerBase(triggerinfo),
 		_MaxSquaredDistance(MaxDistance*MaxDistance), _AcceptedMode1(AcceptedMode1),
-		_AcceptedMode2(AcceptedMode2)
+		_AcceptedMode2(AcceptedMode2), _PlayAnimation(false)
 {
 
 }
@@ -324,7 +324,8 @@ void ActivationTrigger::SetDistance(float distance)
 //! 3 -> movable object
 // ObjectMode give the mode the object was when performing the action
 ***********************************************************/
-void ActivationTrigger::ObjectAction(int ObjectType, Ice::Long ObjectId,
+void ActivationTrigger::ObjectAction(DelayedExecutionHandler * delayedactH, 
+									 int ObjectType, Ice::Long ObjectId,
 									const LbaNet::PlayerPosition &info,
 									const std::string &ObjectMode)
 {
@@ -348,7 +349,20 @@ void ActivationTrigger::ObjectAction(int ObjectType, Ice::Long ObjectId,
 	if(distance <= _MaxSquaredDistance)
 	{
 		if(_action1)
-			_action1->Execute(_owner, ObjectType, ObjectId, 0);
+		{
+			if(_PlayAnimation && ObjectType == 2)
+			{
+				DelayedAction daction;
+				daction.action = _action1;
+				daction.ClientId = ObjectId;
+				daction.args = NULL;
+				delayedactH->DelayActionAfterPlayerChangeState(daction, LbaNet::StActivateSwitch);
+			}
+			else
+			{
+				_action1->Execute(_owner, ObjectType, ObjectId, 0);
+			}
+		}
 	}
 }
 
@@ -427,6 +441,9 @@ void ActivationTrigger::SaveToLuaFile(std::ofstream & file)
 		file<<"\tTrigger_"<<GetId()<<":SetAction3("<<aname.str()<<")"<<std::endl;
 	}
 
+	file<<"\tTrigger_"<<GetId()<<":SetPlayAnimation("<<(_PlayAnimation?"true":"false")<<")"<<std::endl;
+	
+
 	file<<"\tenvironment:AddTrigger(Trigger_"<<GetId()<<")"<<std::endl<<std::endl;
 }
 
@@ -444,7 +461,8 @@ ZoneActionTrigger::ZoneActionTrigger( const TriggerInfo & triggerinfo,
 										const std::string & AcceptedMode2)
 	: TriggerBase(triggerinfo),
 		_sizeX(sizeX/2), _sizeY(sizeY), _sizeZ(sizeZ/2),
-		_AcceptedMode1(AcceptedMode1),	_AcceptedMode2(AcceptedMode2)
+		_AcceptedMode1(AcceptedMode1),	_AcceptedMode2(AcceptedMode2),
+		_PlayAnimation(false)
 {
 
 }
@@ -467,7 +485,8 @@ ZoneActionTrigger::~ZoneActionTrigger(void)
 //! 3 -> movable object
 // ObjectMode give the mode the object was when performing the action
 ***********************************************************/
-void ZoneActionTrigger::ObjectAction(int ObjectType, Ice::Long ObjectId,
+void ZoneActionTrigger::ObjectAction(DelayedExecutionHandler * delayedactH, 
+									 int ObjectType, Ice::Long ObjectId,
 									const LbaNet::PlayerPosition &info,
 									const std::string &ObjectMode)
 {
@@ -489,7 +508,20 @@ void ZoneActionTrigger::ObjectAction(int ObjectType, Ice::Long ObjectId,
 		(info.Z >= (_posZ-_sizeZ) && info.Z < (_posZ+_sizeZ)))
 	{
 		if(_action1)
-			_action1->Execute(_owner, ObjectType, ObjectId, 0);
+		{
+			if(_PlayAnimation && ObjectType == 2)
+			{
+				DelayedAction daction;
+				daction.action = _action1;
+				daction.ClientId = ObjectId;
+				daction.args = NULL;
+				delayedactH->DelayActionAfterPlayerChangeState(daction, LbaNet::StActivateGroundSwitch);
+			}
+			else
+			{
+				_action1->Execute(_owner, ObjectType, ObjectId, 0);
+			}
+		}
 	}
 }
 
@@ -567,6 +599,8 @@ void ZoneActionTrigger::SaveToLuaFile(std::ofstream & file)
 		file<<"\tTrigger_"<<GetId()<<":SetAction3("<<aname.str()<<")"<<std::endl;
 	}
 
+	file<<"\tTrigger_"<<GetId()<<":SetPlayAnimation("<<(_PlayAnimation?"true":"false")<<")"<<std::endl;
+
 	file<<"\tenvironment:AddTrigger(Trigger_"<<GetId()<<")"<<std::endl<<std::endl;
 }
 
@@ -605,17 +639,15 @@ TimerTrigger::~TimerTrigger(void)
 //! 3 -> movable object
 // ObjectMode give the mode the object was when performing the action
 ***********************************************************/
-void TimerTrigger::NewFrame()
+void TimerTrigger::NewFrame(DelayedExecutionHandler * delayedactH, double tnow, float tdiff)
 {
-	long curr = SynchronizedTimeHandler::GetCurrentTimeInt();
-
 	if(_lasttime > 0)
 	{
 		// if timer time elapsed
-		if((curr - _lasttime) > _TimeInMillisecond)
+		if((tnow - _lasttime) > _TimeInMillisecond)
 		{
 			// reset timer
-			_lasttime = curr;
+			_lasttime = tnow;
 
 			// execute action
 			if(_action1)
@@ -623,7 +655,7 @@ void TimerTrigger::NewFrame()
 		}
 	}
 	else
-		_lasttime = curr;
+		_lasttime = tnow;
 }
 
 /***********************************************************
