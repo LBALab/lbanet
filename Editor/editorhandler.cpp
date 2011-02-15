@@ -8539,14 +8539,19 @@ void EditorHandler::ItemAdd_button_accepted()
 	_additemdialog->hide();
 
 	LbaNet::ItemInfo newitem;
+	newitem.NameTextId = 0;
 	newitem.DescriptionId = 0;
+	newitem.LongDescriptionId = -1;
     newitem.Max = 1;
-    newitem.Price = 1;
+    newitem.BuyPrice = 1;
+    newitem.SellPrice = 1;
     newitem.Effect = 0;
     newitem.Flag = 1;
     newitem.Ephemere = false;
 	newitem.Color1 = -1;
 	newitem.Color2 = -1;
+
+
 
 	newitem.Name = _ui_additemdialog.lineEdit_name->text().toAscii().data();
 	switch(_ui_additemdialog.comboBox_atype->currentIndex())
@@ -8683,6 +8688,17 @@ void EditorHandler::SelectItem(const LbaNet::ItemInfo & item, const QModelIndex 
 	}
 
 	int index = 4;
+	{
+		std::stringstream descstrs;
+		descstrs<<item.NameTextId<<": "<<Localizer::getInstance()->GetText(Localizer::Inventory, item.NameTextId);
+		
+		QVector<QVariant> data;
+		data<<"Name text"<<descstrs.str().c_str();
+		_objectmodel->AppendRow(data, parent);
+
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _text_inventoryNameList);
+		++index;
+	}
 
 	{
 		std::stringstream descstrs;
@@ -8690,6 +8706,18 @@ void EditorHandler::SelectItem(const LbaNet::ItemInfo & item, const QModelIndex 
 		
 		QVector<QVariant> data;
 		data<<"Description"<<descstrs.str().c_str();
+		_objectmodel->AppendRow(data, parent);
+
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _text_inventoryNameList);
+		++index;
+	}
+
+	{
+		std::stringstream descstrs;
+		descstrs<<item.LongDescriptionId<<": "<<Localizer::getInstance()->GetText(Localizer::Inventory, item.LongDescriptionId);
+		
+		QVector<QVariant> data;
+		data<<"Long Description"<<descstrs.str().c_str();
 		_objectmodel->AppendRow(data, parent);
 
 		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _text_inventoryNameList);
@@ -8723,7 +8751,14 @@ void EditorHandler::SelectItem(const LbaNet::ItemInfo & item, const QModelIndex 
 
 	{
 		QVector<QVariant> data;
-		data<<"Default price"<<item.Price;
+		data<<"Buy price"<<item.BuyPrice;
+		_objectmodel->AppendRow(data, parent);
+		++index;
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Sell price"<<item.SellPrice;
 		_objectmodel->AppendRow(data, parent);
 		++index;
 	}
@@ -9088,11 +9123,24 @@ void EditorHandler::ItemChanged(long id, const std::string & category, const QMo
 
 
 	int index = 4;
-
+	{
+	std::string desc = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+	std::string tmp = desc.substr(0, desc.find(":"));
+	newiteminfo.NameTextId = atol(tmp.c_str());
+	++index;
+	}
+	{
 	std::string desc = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
 	std::string tmp = desc.substr(0, desc.find(":"));
 	newiteminfo.DescriptionId = atol(tmp.c_str());
 	++index;
+	}
+	{
+	std::string desc = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+	std::string tmp = desc.substr(0, desc.find(":"));
+	newiteminfo.LongDescriptionId = atol(tmp.c_str());
+	++index;
+	}
 
 	newiteminfo.IconName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
 	++index;
@@ -9100,7 +9148,10 @@ void EditorHandler::ItemChanged(long id, const std::string & category, const QMo
 	newiteminfo.Max = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
 	++index;
 
-	newiteminfo.Price = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
+	newiteminfo.BuyPrice = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
+	++index;
+
+	newiteminfo.SellPrice = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
 	++index;
 
 	newiteminfo.Ephemere = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
