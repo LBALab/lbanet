@@ -9,7 +9,8 @@ module LbaNet
 	enum ModelState { NoState, StNormal, StDying, StDrowning, StDrowningGas, StBurning, 
 				StSmallHurt, StMediumHurt, StBigHurt, StHurtFall, StFinishedFall, StFalling, 
 				StJumping, StMovingObject, StUseWeapon, StImmune, StHidden, StScripted,
-				StProtectedHurt, StRestrictedMovingObject, StFighting, StPrepareWeapon };	
+				StProtectedHurt, StRestrictedMovingObject, StFighting, StPrepareWeapon,
+				StActivateSwitch, StActivateGroundSwitch, StHappy };	
 				
 				
 	enum ObjectTypeEnum { NpcObject, PlayerObject, GhostObject, EditorObject };	
@@ -69,9 +70,12 @@ module LbaNet
 		long 			Id;
 		string 			Name;		
 		string 			IconName;
+		long 			NameTextId;		
 		long 			DescriptionId;
+		long 			LongDescriptionId;		
 		int 			Max;
-		int 			Price;
+		int 			BuyPrice;
+		int 			SellPrice;		
 		string 			DescriptionTextExtra;
 		int			Type;
 		float			Effect;
