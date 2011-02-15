@@ -730,6 +730,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Servers\WorldServer\DelayedExecutionHandler.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Client\DialogBox.h"
 				>
 			</File>

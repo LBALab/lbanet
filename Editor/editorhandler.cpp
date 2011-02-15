@@ -4007,6 +4007,12 @@ void EditorHandler::SelectTrigger(long id, const QModelIndex &parent)
 				_objectmodel->AppendRow(data, parent);
 			}
 
+			{
+				QVector<QVariant> data;
+				data << "Play animation" << ptr->GetPlayAnimation();
+				_objectmodel->AppendRow(data, parent);
+			}
+
 			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actiontypeList);
 			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 11, parent), _actormodeList);
 			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 12, parent), _actormodeList);
@@ -4069,6 +4075,12 @@ void EditorHandler::SelectTrigger(long id, const QModelIndex &parent)
 			{
 				QVector<QVariant> data;
 				data << "Accepted Mode 2" << ptr->GetAcceptedMode2().c_str();
+				_objectmodel->AppendRow(data, parent);
+			}
+
+			{
+				QVector<QVariant> data;
+				data << "Play animation" << ptr->GetPlayAnimation();
 				_objectmodel->AppendRow(data, parent);
 			}
 
@@ -4282,6 +4294,8 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 		modifiedtrig->SetMode1(mode1);
 		modifiedtrig->SetMode2(mode2);
 
+		modifiedtrig->SetPlayAnimation(_objectmodel->data(_objectmodel->GetIndex(1, 13, parentIdx)).toBool());
+
 		//action 1
 		{
 			std::string curract = GetActionType(modifiedtrig->GetAction1());
@@ -4357,6 +4371,7 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 		modifiedtrig->SetMode2(mode2);
 		modifiedtrig->SetDistance(distance);
 
+		modifiedtrig->SetPlayAnimation(_objectmodel->data(_objectmodel->GetIndex(1, 11, parentIdx)).toBool());
 
 		//action 1
 		{
