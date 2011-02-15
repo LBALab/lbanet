@@ -938,4 +938,156 @@ private:
 
 };			
 
+
+
+
+
+
+
+	
+
+//*************************************************************************************************
+//*                               class StateActivateSwitch
+//*************************************************************************************************
+/**
+* @brief Base class representing a certain state of a character
+*
+*/
+class StateActivateSwitch: public CharacterStateBase
+{
+public:
+	//! constructor
+	StateActivateSwitch(void)
+		: _switchstate(false)
+	{}
+
+	//! destructor
+	virtual ~StateActivateSwitch(void){}
+
+
+	//! tell state that current animation has finished
+	//! return true if animation should be paused
+	virtual bool AnimationFinished()
+	{
+		_switchstate = true;
+		return false;
+	}
+
+
+	//! check if should change to another state
+	virtual bool ShouldChangeState(LbaNet::ModelState & newstate)
+	{
+		newstate = LbaNet::StNormal;
+		return _switchstate;
+	}
+
+
+	//! ask state if we need to play animation at start
+	virtual bool PlayAnimationAtStart(std::string & animstring)
+	{
+		animstring = "ActivateSwitch";
+		return true;
+	}
+
+	//! check if we can change state from this state
+	virtual bool ChangeLegal(LbaNet::ModelState NewState){return true;}
+
+private:
+	bool	_switchstate;
+
+};	
+
+
+
+//*************************************************************************************************
+//*                               class StateActivateGroundSwitch
+//*************************************************************************************************
+/**
+* @brief Base class representing a certain state of a character
+*
+*/
+class StateActivateGroundSwitch: public CharacterStateBase
+{
+public:
+	//! constructor
+	StateActivateGroundSwitch(void)
+		: _switchstate(false)
+	{}
+
+	//! destructor
+	virtual ~StateActivateGroundSwitch(void){}
+
+
+	//! tell state that current animation has finished
+	//! return true if animation should be paused
+	virtual bool AnimationFinished()
+	{
+		_switchstate = true;
+		return false;
+	}
+
+
+	//! check if should change to another state
+	virtual bool ShouldChangeState(LbaNet::ModelState & newstate)
+	{
+		newstate = LbaNet::StNormal;
+		return _switchstate;
+	}
+
+
+	//! ask state if we need to play animation at start
+	virtual bool PlayAnimationAtStart(std::string & animstring)
+	{
+		animstring = "ActivateGroundSwitch";
+		return true;
+	}
+
+	//! check if we can change state from this state
+	virtual bool ChangeLegal(LbaNet::ModelState NewState){return true;}
+
+private:
+	bool	_switchstate;
+
+};	
+
+
+
+
+	
+
+//*************************************************************************************************
+//*                               class StateHappy
+//*************************************************************************************************
+/**
+* @brief Base class representing a certain state of a character
+*
+*/
+class StateHappy: public CharacterStateBase
+{
+public:
+	//! constructor
+	StateHappy(void)
+		: _switchstate(false)
+	{}
+
+	//! destructor
+	virtual ~StateHappy(void){}
+
+
+	//! ask state if we need to play animation at start
+	virtual bool PlayAnimationAtStart(std::string & animstring)
+	{
+		animstring = "Happy";
+		return true;
+	}
+
+	//! check if we can change state from this state
+	virtual bool ChangeLegal(LbaNet::ModelState NewState){return true;}
+
+private:
+	bool	_switchstate;
+
+};	
+
+
 #endif

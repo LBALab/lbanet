@@ -424,9 +424,12 @@ bool XmlReader::LoadInventoryFile(const std::string &Filename, std::map<long, It
 			tpi.Id = v.second.get<long>("<xmlattr>.id");
 			tpi.Name = v.second.get<std::string>("<xmlattr>.name", "");
 			tpi.IconName = v.second.get<std::string>("<xmlattr>.filename", "");
+			tpi.NameTextId = v.second.get<long>("<xmlattr>.NameText", 0);
 			tpi.DescriptionId = v.second.get<long>("<xmlattr>.Description", 0);
+			tpi.LongDescriptionId = v.second.get<long>("<xmlattr>.LongDescription", -1);
 			tpi.Max = v.second.get<int>("<xmlattr>.Max", 1);
-			tpi.Price = v.second.get<int>("<xmlattr>.Price", 1);
+			tpi.BuyPrice = v.second.get<int>("<xmlattr>.BuyPrice", 1);
+			tpi.SellPrice = v.second.get<int>("<xmlattr>.SellPrice", 1);
 			tpi.Type = v.second.get<int>("<xmlattr>.type", 1);
 			tpi.Effect = v.second.get<float>("<xmlattr>.Effect", 1);
 			tpi.Flag = v.second.get<int>("<xmlattr>.valueA", 1);
@@ -478,9 +481,12 @@ bool XmlReader::SaveInventoryFile(const std::string &Filename, const std::map<lo
 		tmp.put("<xmlattr>.id", item.second.Id);
 		tmp.put("<xmlattr>.name", item.second.Name);
 		tmp.put("<xmlattr>.filename", item.second.IconName);
+		tmp.put("<xmlattr>.NameText", item.second.NameTextId);
 		tmp.put("<xmlattr>.Description", item.second.DescriptionId);
+		tmp.put("<xmlattr>.LongDescription", item.second.LongDescriptionId);
 		tmp.put("<xmlattr>.Max", item.second.Max);
-		tmp.put("<xmlattr>.Price", item.second.Price);
+		tmp.put("<xmlattr>.BuyPrice", item.second.BuyPrice);
+		tmp.put("<xmlattr>.SellPrice", item.second.BuyPrice);
 		tmp.put("<xmlattr>.type", item.second.Type);
 		tmp.put("<xmlattr>.Effect", item.second.Effect);
 		tmp.put("<xmlattr>.valueA", item.second.Flag);
