@@ -278,7 +278,8 @@ public:
 	//! 1 -> npc object
 	//! 2 -> player object
 	//! 3 -> movable object
-	virtual void HurtActor(int ObjectType, long ObjectId, float HurtValue, bool HurtLife) = 0;
+	virtual void HurtActor(int ObjectType, long ObjectId, float HurtValue, bool HurtLife,
+								int PlayedAnimation) = 0;
 
 
 	// display text to client window
@@ -287,6 +288,12 @@ public:
 	//! 2 -> player object
 	//! 3 -> movable object
 	virtual void KillActor(int ObjectType, long ObjectId) = 0;
+
+	//! switch the model of an actor
+	virtual void SwitchActorModel(long ActorId, const std::string & newmodelname) = 0;
+
+	//! revert the switch the model of an actor
+	virtual void RevertActorModel(long ActorId) = 0;
 
 
 protected:
