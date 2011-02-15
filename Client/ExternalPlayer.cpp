@@ -378,6 +378,23 @@ void ExternalPlayer::UpdateModeAndState(const std::string &newmode,
 			_currentstate = boost::shared_ptr<CharacterStateBase>(new StatePrepareWeapon());						
 		}
 		break;
+		case LbaNet::StActivateSwitch:
+		{
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateActivateSwitch());						
+		}
+		break;
+
+		case LbaNet::StActivateGroundSwitch:
+		{
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateActivateGroundSwitch());						
+		}
+		break;
+
+		case LbaNet::StHappy:
+		{
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateHappy());						
+		}
+		break;
 	}
 
 

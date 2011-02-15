@@ -1457,7 +1457,14 @@ void LbaNetModel::InternalActorFollowWaypoint(int ScriptId, long ActorId, int wa
 }
 
 
-
+/***********************************************************
+internally update player state
+***********************************************************/
+void LbaNetModel::UpdatePlayerState(LbaNet::ModelState	NewState)
+{
+	if(m_controllerChar)
+		m_controllerChar->UpdateState(NewState);
+}
 
 
 

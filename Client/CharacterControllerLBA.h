@@ -128,6 +128,8 @@ public:
 	//! show/hide
 	void ShowHide(bool Show);
 
+	//! internally update player state
+	void UpdateState(LbaNet::ModelState	NewState);
 protected:
 
 	//! check if we need to send update to server

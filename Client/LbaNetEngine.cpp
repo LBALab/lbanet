@@ -724,6 +724,19 @@ void LbaNetEngine::HandleGameEvents()
 
 			continue;
 		}
+
+
+		// ShowHideEvent
+		if(info == typeid(InternalUpdateStateEvent))
+		{
+			InternalUpdateStateEvent* castedptr = 
+				dynamic_cast<InternalUpdateStateEvent *>(&obj);
+
+			if(m_lbaNetModel)
+				m_lbaNetModel->UpdatePlayerState(castedptr->_NewState);
+
+			continue;
+		}
 		
 	}
 }

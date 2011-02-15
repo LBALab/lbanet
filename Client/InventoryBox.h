@@ -71,6 +71,8 @@ class InventoryBox : public GameGUIBase
 	//! handle windows resize event
 	bool HandleObjectClicked (const CEGUI::EventArgs& e);
 
+	//! handle HappyOk button pressed
+	bool HandleHappyOkButton (const CEGUI::EventArgs& e);
 
 
 	//! refresh inventory images
@@ -135,7 +137,18 @@ protected:
 
 	//! inform user of item update
 	void InformUserItemUpdate(long itemId, LbaNet::ItemClientInformType Informtype, int count,
-								const std::string & Description, const std::string & iconname);
+								const std::string & name, const std::string & Description,
+								const std::string & LongDescription, const std::string & iconname);
+
+
+	//! inform user of item update
+	void InformChat(long itemId, int count,	const std::string & name, const std::string & Description,
+								const std::string & LongDescription, const std::string & iconname);
+
+	//! inform user of item update
+	void InformHappy(long itemId, int count, const std::string & name, const std::string & Description,
+								const std::string & LongDescription, const std::string & iconname);
+
 
 private:
 	CEGUI::Window*														_myBox;

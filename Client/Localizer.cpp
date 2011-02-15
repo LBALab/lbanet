@@ -82,6 +82,9 @@ get the text given a text id
 ***********************************************************/
 std::string Localizer::GetText(LocalizeType type, long TextId)
 {
+	if(TextId < 0)
+		return "";
+
 	switch(type)
 	{
 		case GUI:

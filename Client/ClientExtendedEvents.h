@@ -452,5 +452,23 @@ public:
 
 
 
+/*
+************************************************************************************************************************
+*                                                  class internalUpdateStateEvent
+*
+*	editor ask to Refresh Lua
+************************************************************************************************************************
+*/
+class InternalUpdateStateEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	InternalUpdateStateEvent(LbaNet::ModelState	NewState)
+		: _NewState(NewState)
+	{
+	}
+
+	LbaNet::ModelState		_NewState;
+};
 
 #endif

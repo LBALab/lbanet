@@ -292,7 +292,7 @@ void NPCShopBox::AddItem(const LbaNet::ItemInfo &itinfo, CEGUI::Window* parent)
 	tmp3->setProperty("Font" , "contourfont");
 	tmp3->setAlwaysOnTop(true);
 	std::stringstream strs2;
-	strs2<<itinfo.Price;
+	strs2<<itinfo.BuyPrice;
 	tmp3->setText(strs2.str().c_str());
 
 
@@ -302,7 +302,7 @@ void NPCShopBox::AddItem(const LbaNet::ItemInfo &itinfo, CEGUI::Window* parent)
 
 
 	std::stringstream strs;
-	strs<<"<"<<itinfo.Price<<" kashes> "<<itemdescription;
+	strs<<"<"<<itinfo.BuyPrice<<" kashes> "<<itemdescription;
 	CEGUI::String tmpstr((const unsigned char *)strs.str().c_str());
 	tmp->setProperty("Tooltip", tmpstr);
 	tmp->addChildWindow(tmp2);

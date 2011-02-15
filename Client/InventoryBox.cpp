@@ -33,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "OSGHandler.h"
 #include "Localizer.h"
 #include "GUILocalizationCallback.h"
+#include "ClientExtendedEvents.h"
 
 #include <iostream>
 #include <algorithm>
@@ -117,6 +118,16 @@ void InventoryBox::Initialize(CEGUI::Window* Root)
 			frw->show();
 		else
 			frw->hide();	
+
+
+		CEGUI::FrameWindow * frw2 = static_cast<CEGUI::FrameWindow *> (
+			CEGUI::WindowManager::getSingleton().getWindow("InventoryInformHappyFrame"));
+		frw2->hide();
+
+		static_cast<CEGUI::PushButton *> (
+			CEGUI::WindowManager::getSingleton().getWindow("InventoryInformHappyFrame/bok"))->subscribeEvent (
+			CEGUI::PushButton::EventClicked,
+			CEGUI::Event::Subscriber (&InventoryBox::HandleHappyOkButton, this));
 	}
 	catch(CEGUI::Exception &ex)
 	{
@@ -409,6 +420,27 @@ bool InventoryBox::HandleObjectClicked (const CEGUI::EventArgs& e)
 
 
 
+/***********************************************************
+handle GO button pressed
+***********************************************************/
+bool InventoryBox::HandleHappyOkButton (const CEGUI::EventArgs& e)
+{
+	EventsQueue::getReceiverQueue()->AddEvent(new InternalUpdateStateEvent(LbaNet::StNormal));
+
+	try
+	{
+		CEGUI::FrameWindow * frw2 = static_cast<CEGUI::FrameWindow *> (
+			CEGUI::WindowManager::getSingleton().getWindow("InventoryInformHappyFrame"));
+		frw2->hide();
+	}
+	catch(CEGUI::Exception &ex)
+	{
+		LogHandler::getInstance()->LogToFile(std::string("Exception hide happy windows: ") + ex.getMessage().c_str());
+	}
+
+	return true;
+}
+
 
 /***********************************************************
 empty the inventory
@@ -548,15 +580,27 @@ void InventoryBox::Update(const LbaNet::GuiUpdatesSeq &Updates)
 
 			std::string itemdescription = itinfo.Info.DescriptionTextExtra;
 			if(itemdescription == "")
-				itemdescription = Localizer::getInstance()->GetText(Localizer::Inventory, (long)itinfo.Info.DescriptionId);
+			{
+				itemdescription = Localizer::getInstance()->GetText(Localizer::Inventory, (long)itinfo.Info.NameTextId);
+				itemdescription += ": ";
+				itemdescription += Localizer::getInstance()->GetText(Localizer::Inventory, (long)itinfo.Info.DescriptionId);
+			}
 
 			int oldcount = 0;
 			LbaNet::ItemsMap::iterator it = _inventoryinfo.find(itinfo.Info.Id);
 			if(it != _inventoryinfo.end())
 				oldcount = it->second.Count;
 
+
+			std::string itedesc = itinfo.Info.DescriptionTextExtra;
+			if(itedesc == "")
+				itedesc = Localizer::getInstance()->GetText(Localizer::Inventory, (long)itinfo.Info.DescriptionId);
+			std::string nametxtdesc = Localizer::getInstance()->GetText(Localizer::Inventory, (long)itinfo.Info.NameTextId);
+			std::string itelongdesc = Localizer::getInstance()->GetText(Localizer::Inventory, (long)itinfo.Info.LongDescriptionId);
+
+
 			InformUserItemUpdate(itinfo.Info.Id, castedptr->Informtype, itinfo.Count-oldcount,
-									itemdescription, itinfo.Info.IconName);
+									nametxtdesc, itedesc, itelongdesc, itinfo.Info.IconName);
 
 			if(itinfo.Count > 0)
 				_inventoryinfo[itinfo.Info.Id] = itinfo;
@@ -626,7 +670,11 @@ void InventoryBox::RefreshInventory()
 	{
 		std::string itemdescription = it->second.Info.DescriptionTextExtra;
 		if(itemdescription == "")
-			itemdescription = Localizer::getInstance()->GetText(Localizer::Inventory, (long)it->second.Info.DescriptionId);
+		{
+			itemdescription = Localizer::getInstance()->GetText(Localizer::Inventory, (long)it->second.Info.NameTextId);
+			itemdescription += ": ";
+			itemdescription += Localizer::getInstance()->GetText(Localizer::Inventory, (long)it->second.Info.DescriptionId);
+		}
 
 		if(it->second.Count > 0)
 			UpdateItem((long)it->first, itemdescription, it->second.Count, it->second.Info.IconName, it->second.Position);
@@ -689,34 +737,83 @@ void InventoryBox::RestoreGUISizes()
 inform user of item update
 ***********************************************************/
 void InventoryBox::InformUserItemUpdate(long itemId, LbaNet::ItemClientInformType Informtype, int count,
-											const std::string & Description, const std::string & iconname)
+											const std::string & name, const std::string & Description,
+											const std::string & LongDescription, const std::string & iconname)
 {
 	switch(Informtype)
 	{
 		case LbaNet::InformChat:
 		{
-			std::stringstream strs;
-			if(count > 0)
-				strs<<"You received "<<count;
-			else
-				strs<<"You used "<<-count;
-
-			strs<<" [colour='FFFFFFFF'][image='set:"<<ImageSetHandler::GetInventoryMiniImage(iconname)<<"   image:full_image']"; 
-
-			// send message to chatbox
-			LbaNet::GuiUpdatesSeq updseq;
-			LbaNet::ChatTextUpdate * upd = 
-				new LbaNet::ChatTextUpdate("All", "info", strs.str());
-			updseq.push_back(upd);
-			EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
-				SynchronizedTimeHandler::GetCurrentTimeDouble(), "ChatBox", updseq));
+			InformChat(itemId, count, name, Description, Description, iconname);
 		}
 		break;
 
 		case LbaNet::InformHappy:
 		{
-			//TODO
+			if(count < 0)
+				InformChat(itemId, count, name, Description, LongDescription, iconname);
+			else
+				InformHappy(itemId, count, name, Description, LongDescription, iconname);
 		}
 		break;
+	}
+}
+
+
+/***********************************************************
+inform user of item update
+***********************************************************/
+void InventoryBox::InformChat(long itemId, int count, const std::string & name, const std::string & Description,
+								const std::string & LongDescription, const std::string & iconname)
+{
+	std::stringstream strs;
+	if(count > 0)
+		strs<<Localizer::getInstance()->GetText(Localizer::GUI, 93)<<count;
+	else
+		strs<<Localizer::getInstance()->GetText(Localizer::GUI, 94)<<-count;
+
+	strs<<" [colour='FFFFFFFF'][image='set:"<<ImageSetHandler::GetInventoryMiniImage(iconname)<<"   image:full_image']"; 
+
+	// send message to chatbox
+	LbaNet::GuiUpdatesSeq updseq;
+	LbaNet::ChatTextUpdate * upd = 
+		new LbaNet::ChatTextUpdate("All", "info", strs.str());
+	updseq.push_back(upd);
+	EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
+		SynchronizedTimeHandler::GetCurrentTimeDouble(), "ChatBox", updseq));
+
+}
+
+
+
+
+/***********************************************************
+inform user of item update
+***********************************************************/
+void InventoryBox::InformHappy(long itemId, int count,	const std::string & name, const std::string & Description,
+									const std::string & LongDescription, const std::string & iconname)
+{
+	EventsQueue::getReceiverQueue()->AddEvent(new InternalUpdateStateEvent(LbaNet::StHappy));
+
+	try
+	{
+		std::string showtext= Description;
+		if(LongDescription != "")
+			showtext = LongDescription;
+
+		std::string  imagetxt = "set:"+ImageSetHandler::GetInventoryImage(iconname)+" image:full_image";
+
+		CEGUI::WindowManager::getSingleton().getWindow("InventoryInformHappyFrame/name")->setText(name.c_str());
+		CEGUI::WindowManager::getSingleton().getWindow("InventoryInformHappyFrame/text")->setText(showtext.c_str());
+
+		CEGUI::WindowManager::getSingleton().getWindow("InventoryInformHappyFrame/InventoryLogo")->setProperty("Image", imagetxt.c_str());
+	
+		CEGUI::FrameWindow * frw2 = static_cast<CEGUI::FrameWindow *> (
+			CEGUI::WindowManager::getSingleton().getWindow("InventoryInformHappyFrame"));
+		frw2->show();
+	}
+	catch(CEGUI::Exception &ex)
+	{
+		LogHandler::getInstance()->LogToFile(std::string("Exception inform happy: ") + ex.getMessage().c_str());
 	}
 }

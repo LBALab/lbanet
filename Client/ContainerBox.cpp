@@ -428,7 +428,11 @@ std::pair<CEGUI::Window*, CEGUI::Window*> ContainerBox::AddInventoryItem(const L
 
 	std::string itemdescription = itinfo.Info.DescriptionTextExtra;
 	if(itemdescription == "")
-		itemdescription = Localizer::getInstance()->GetText(Localizer::Inventory, (long)itinfo.Info.DescriptionId);
+	{
+		itemdescription = Localizer::getInstance()->GetText(Localizer::Inventory, (long)itinfo.Info.NameTextId);
+		itemdescription += ": ";
+		itemdescription += Localizer::getInstance()->GetText(Localizer::Inventory, (long)itinfo.Info.DescriptionId);
+	}
 
 	CEGUI::String tmpstr((const unsigned char *)itemdescription.c_str());
 	tmp->setProperty("Tooltip", tmpstr);

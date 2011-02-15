@@ -301,6 +301,10 @@ public:
 	//! 3 -> movable object
 	void ShowHideActor(int ObjectType, long ObjectId, bool SHow);
 
+
+	//! internally update player state
+	void UpdatePlayerState(LbaNet::ModelState	NewState);
+
 protected:
 
 	//! clean up map

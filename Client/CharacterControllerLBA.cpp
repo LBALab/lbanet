@@ -699,6 +699,17 @@ void CharacterController::UpdatePhysic(LbaNet::PhysicObjectUpdateBasePtr update)
 }
 
 
+
+/***********************************************************
+internaly update player state
+***********************************************************/
+void CharacterController::UpdateState(LbaNet::ModelState	NewState)
+{
+	UpdateModeAndState(_currentmodestr, NewState, SynchronizedTimeHandler::GetCurrentTimeDouble(), 0);
+}
+
+
+
 /***********************************************************
 internaly update mode and state
 ***********************************************************/
@@ -854,7 +865,6 @@ void CharacterController::UpdateModeAndState(const std::string &newmode,
 				// save current display for when we finish script
 				_character->GetDisplayObject()->SaveState();
 
-
 				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateScripted());						
 			}
 			break;
@@ -869,7 +879,24 @@ void CharacterController::UpdateModeAndState(const std::string &newmode,
 				_currentstate = boost::shared_ptr<CharacterStateBase>(new StatePrepareWeapon());						
 			}
 			break;
-			
+	
+			case LbaNet::StActivateSwitch:
+			{
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateActivateSwitch());						
+			}
+			break;
+
+			case LbaNet::StActivateGroundSwitch:
+			{
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateActivateGroundSwitch());						
+			}
+			break;
+
+			case LbaNet::StHappy:
+			{
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateHappy());						
+			}
+			break;
 		}
 
 		if(_currentstate)
