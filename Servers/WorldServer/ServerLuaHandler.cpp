@@ -305,7 +305,9 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("ActorShowHide", &ScriptEnvironmentBase::ActorShowHide)
 		.def("AddOrRemoveItem", &ScriptEnvironmentBase::AddOrRemoveItem)
 		.def("HurtActor", &ScriptEnvironmentBase::HurtActor)
-		.def("KillActor", &ScriptEnvironmentBase::KillActor),
+		.def("KillActor", &ScriptEnvironmentBase::KillActor)
+		.def("SwitchActorModel", &ScriptEnvironmentBase::SwitchActorModel)
+		.def("RevertActorModel", &ScriptEnvironmentBase::RevertActorModel),
 
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),
@@ -433,7 +435,9 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetHurtValue", &HurtAction::GetHurtValue)
 		.def("SetHurtValue", &HurtAction::SetHurtValue)
 		.def("HurtLife", &HurtAction::HurtLife)
-		.def("HurtLifeOrMana", &HurtAction::HurtLifeOrMana),
+		.def("HurtLifeOrMana", &HurtAction::HurtLifeOrMana)
+		.def("GetPlayedAnimation", &HurtAction::GetPlayedAnimation)
+		.def("SetPlayedAnimation", &HurtAction::SetPlayedAnimation),
 
 		luabind::class_<KillAction, ActionBase, boost::shared_ptr<ActionBase> >("KillAction")
 		.def(luabind::constructor<>()),
@@ -443,7 +447,17 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("AddAction", &MultiAction::AddAction)
 		.def("RemoveAction", &MultiAction::RemoveAction),
 
-		
+		luabind::class_<SwitchAction, ActionBase, boost::shared_ptr<ActionBase> >("SwitchAction")
+		.def(luabind::constructor<>())
+		.def("GetActorId", &SwitchAction::GetActorId)
+		.def("SetActorId", &SwitchAction::SetActorId)
+		.def("GetSwitchModel", &SwitchAction::GetSwitchModel)
+		.def("SetSwitchModel", &SwitchAction::SetSwitchModel)
+		.def("SetActionTrue", &SwitchAction::SetActionTrue)
+		.def("SetActionFalse", &SwitchAction::SetActionFalse)
+		.def("GetActionTrue", &SwitchAction::GetActionTrue)
+		.def("GetActionFalse", &SwitchAction::GetActionFalse),
+
 
 		luabind::class_<ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("ClientScriptBase")
 		.def(luabind::constructor<>())

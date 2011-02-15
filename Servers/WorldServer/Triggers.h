@@ -399,7 +399,7 @@ public:
 
 	//! accessor
 	void SetPlayAnimation(bool play)
-	{ _PlayAnimation = _PlayAnimation;}
+	{ _PlayAnimation = play;}
 
 private:
 	float									_MaxSquaredDistance; 
@@ -485,7 +485,7 @@ public:
 
 	//! accessor
 	void SetPlayAnimation(bool play)
-	{ _PlayAnimation = _PlayAnimation;}
+	{ _PlayAnimation = play;}
 private:
 
 

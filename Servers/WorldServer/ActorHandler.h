@@ -277,6 +277,17 @@ public:
 	virtual std::string ActorType()
 	{ return "Scripted";}
 
+
+	//! switch actor model
+	void SwitchModel(const std::string & newmodelname);
+
+	//! revert model
+	void ReverModel();
+
+
+
+
+
 #ifdef _USE_QT_EDITOR_
 public:
 	std::vector<int>		initpolycolors;
@@ -338,6 +349,9 @@ protected:
 
 	bool												m_resetposition;
 	bool												m_resetrotation;
+
+
+	std::string											m_saved_model;
 };
 
 #endif

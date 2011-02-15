@@ -1467,9 +1467,39 @@ void ActorHandler::ActorFollowWaypoint(int ScriptId, int waypointindex1, int way
 		m_resetrotation = false;
 	}
 
-
-
-
 }
 
+
+
+/***********************************************************
+//! switch actor model
+***********************************************************/
+void ActorHandler::SwitchModel(const std::string & newmodelname)
+{
+	if(newmodelname != "")
+	{
+		m_saved_model = m_actorinfo.DisplayDesc.ModelName;
+		m_actorinfo.DisplayDesc.ModelName = newmodelname;
+		_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
+							SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+							LbaNet::NpcObject, m_actorinfo.ObjectId,
+							new LbaNet::ModelUpdate(m_actorinfo.DisplayDesc, false)));
+	}
+}
+
+/***********************************************************
+//! revert model
+***********************************************************/
+void ActorHandler::ReverModel()
+{
+	if(m_saved_model != "")
+	{
+		m_actorinfo.DisplayDesc.ModelName = m_saved_model;
+		_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
+							SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+							LbaNet::NpcObject, m_actorinfo.ObjectId,
+							new LbaNet::ModelUpdate(m_actorinfo.DisplayDesc, false)));
+		m_saved_model = "";
+	}
+}
 

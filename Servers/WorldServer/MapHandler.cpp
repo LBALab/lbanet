@@ -949,8 +949,10 @@ void MapHandler::ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, fl
 			std::map<Ice::Long, DelayedAction>::iterator itact = _delayedactions.find(id);
 			if(itact != _delayedactions.end())
 			{
-				itact->second.action->Execute(this, 2, id, itact->second.args);
-				_delayedactions.erase(itact);	
+				DelayedAction daction = itact->second;
+				_delayedactions.erase(itact);
+				if(daction.action)
+					daction.action->Execute(this, 2, id, daction.args);
 			}
 		}
 	}
@@ -2143,13 +2145,20 @@ bool MapHandler::DeltaUpdateLife(Ice::Long clientid, float update)
 ***********************************************************/
 bool MapHandler::DeltaUpdateMana(Ice::Long clientid, float update)
 {
-	IceUtil::Mutex::Lock sync(_mutex_proxies);
+	bool res = false;
+	{
+		IceUtil::Mutex::Lock sync(_mutex_proxies);
 
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
-	if(itplayer != _players.end())
-		return itplayer->second->DeltaUpdateMana(update);
+		std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
+		if(itplayer != _players.end())
+			res = itplayer->second->DeltaUpdateMana(update);
+	}
 
-	return false;
+	// give life update to everybody	
+	_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+							PlayerObject, clientid, new ObjectLifeInfoUpdate(GetPlayerLifeInfo(clientid))));
+
+	return res;
 }
 
 /***********************************************************
@@ -2485,7 +2494,7 @@ void MapHandler::AddOrRemoveItem(long PlayerId, long ItemId, int number, int Inf
 	if(number > 0)
 		Put[ItemId] = number;
 	else
-		Taken[ItemId] = number;
+		Taken[ItemId] = -number;
 
 	UpdateInventory(PlayerId, Taken, Put, informtype);
 }
@@ -2514,7 +2523,8 @@ void MapHandler::UpdateInventory(long clientid, LbaNet::ItemList Taken, LbaNet::
 	//! 2 -> player object
 	//! 3 -> movable object
 ***********************************************************/
-void MapHandler::HurtActor(int ObjectType, long ObjectId, float HurtValue, bool HurtLife)
+void MapHandler::HurtActor(int ObjectType, long ObjectId, float HurtValue, bool HurtLife,
+								int PlayedAnimation)
 {
 	switch(ObjectType)
 	{
@@ -2530,6 +2540,13 @@ void MapHandler::HurtActor(int ObjectType, long ObjectId, float HurtValue, bool 
 				DeltaUpdateLife(ObjectId, -HurtValue);
 			else
 				DeltaUpdateMana(ObjectId, -HurtValue);
+
+			if(PlayedAnimation == 1)
+				ChangePlayerState(ObjectId, LbaNet::StSmallHurt, 0, true);
+			if(PlayedAnimation == 2)
+				ChangePlayerState(ObjectId, LbaNet::StMediumHurt, 0, true);
+			if(PlayedAnimation == 3)
+				ChangePlayerState(ObjectId, LbaNet::StBigHurt, 0, true);
 		}
 		break;
 
@@ -2584,8 +2601,30 @@ void MapHandler::DelayActionAfterPlayerChangeState(const DelayedAction &action, 
 	if(UpdatePlayerState(action.ClientId, newstate, returnmodel))
 	{
 		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-											PlayerObject, action.ClientId, new ModelUpdate(returnmodel, true)));
+											PlayerObject, action.ClientId, new ModelUpdate(returnmodel, false)));
 
 		_delayedactions[action.ClientId] = action;
 	}
+}
+
+
+
+/***********************************************************
+switch the model of an actor
+***********************************************************/
+void MapHandler::SwitchActorModel(long ActorId, const std::string & newmodelname)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
+		itact->second->SwitchModel(newmodelname);
+}
+
+/***********************************************************
+revert the switch the model of an actor
+***********************************************************/
+void MapHandler::RevertActorModel(long ActorId)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
+		itact->second->ReverModel();
 }

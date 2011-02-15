@@ -590,6 +590,35 @@ void AddRemoveItemAction::SaveToLuaFile(std::ofstream & file, const std::string 
 }
 
 
+/***********************************************************
+accessor
+***********************************************************/	
+std::string AddRemoveItemAction::GetInformClientTypeString()
+{
+	std::string res = "No";
+
+	if(_informClientType == 1)
+		res = "Chat";
+	if(_informClientType == 2)
+		res = "Happy";
+
+	return res;
+}
+
+
+
+/***********************************************************
+accessor
+***********************************************************/
+void AddRemoveItemAction::SetInformClientTypeString(const std::string & anim)
+{
+	_informClientType = 0;
+
+	if(anim == "Chat")
+		_informClientType = 1;
+	if(anim == "Happy")
+		_informClientType = 2;
+}
 
 
 
@@ -605,7 +634,7 @@ void HurtAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Lon
 							ActionArgumentBase* args)
 {
 	if(owner)
-		owner->HurtActor(ObjectType, ObjectId, _hurtvalue, _life);
+		owner->HurtActor(ObjectType, ObjectId, _hurtvalue, _life, _playedanimation);
 }
 
 
@@ -617,10 +646,45 @@ void HurtAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
 	file<<"\t"<<name<<" = HurtAction()"<<std::endl;
 	file<<"\t"<<name<<":SetHurtValue("<<_hurtvalue<<")"<<std::endl;
+	file<<"\t"<<name<<":SetPlayedAnimation("<<_playedanimation<<")"<<std::endl;
 	file<<"\t"<<name<<":HurtLifeOrMana("<<(_life?"true":"false")<<")"<<std::endl;
 }
 
 
+
+/***********************************************************
+accessor
+***********************************************************/	
+std::string HurtAction::GetPlayAnimationString()
+{
+	std::string res = "No";
+
+	if(_playedanimation == 1)
+		res = "SmallHurt";
+	if(_playedanimation == 2)
+		res = "MediumHurt";
+	if(_playedanimation == 3)
+		res = "BigHurt";
+
+	return res;
+}
+
+
+
+/***********************************************************
+accessor
+***********************************************************/
+void HurtAction::SetAnimationString(const std::string & anim)
+{
+	_playedanimation = 0;
+
+	if(anim == "SmallHurt")
+		_playedanimation = 1;
+	if(anim == "MediumHurt")
+		_playedanimation = 2;
+	if(anim == "BigHurt")
+		_playedanimation = 3;
+}
 
 
 
@@ -715,3 +779,65 @@ void MultiAction::ReplaceAction(ActionBasePtr olda, ActionBasePtr newa)
 	if(it != _actions.end())
 		*it = newa;
 }
+
+
+
+/***********************************************************
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+***********************************************************/	
+void SwitchAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args)
+{
+	_switched = !_switched;
+
+	if(_switched)
+	{
+		owner->SwitchActorModel(_actorid, _switchingmodel);
+
+		if(_actionTrue)
+			_actionTrue->Execute(owner, ObjectType, ObjectId, args);
+	}
+	else
+	{
+		owner->RevertActorModel(_actorid);
+
+		if(_actionFalse)
+			_actionFalse->Execute(owner, ObjectType, ObjectId, args);
+	}
+}
+
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void SwitchAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
+{
+	file<<"\t"<<name<<" = SwitchAction()"<<std::endl;
+	file<<"\t"<<name<<":SetActorId("<<_actorid<<")"<<std::endl;
+	file<<"\t"<<name<<":SetSwitchModel(\""<<_switchingmodel<<"\")"<<std::endl;
+
+	if(_actionTrue)
+	{
+		std::stringstream aname;
+		aname<<name<<"_act"<<1;
+		_actionTrue->SaveToLuaFile(file, aname.str());
+
+		file<<"\t"<<name<<":SetActionTrue("<<aname.str()<<")"<<std::endl;
+	}
+
+	if(_actionFalse)
+	{
+		std::stringstream aname;
+		aname<<name<<"_act"<<1;
+		_actionFalse->SaveToLuaFile(file, aname.str());
+
+		file<<"\t"<<name<<":SetActionFalse("<<aname.str()<<")"<<std::endl;
+	}
+}
+

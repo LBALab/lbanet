@@ -548,6 +548,12 @@ public:
 	void SetInformClientType(int s)
 	{ _informClientType = s;}
 
+	//! accessor
+	std::string GetInformClientTypeString();
+
+	//! accessor
+	void SetInformClientTypeString(const std::string & anim);
+
 private:
 	long	_Itemid;
 	int		_number;
@@ -563,7 +569,8 @@ class HurtAction : public ActionBase
 public:
 	//! constructor
 	HurtAction()
-		: _hurtvalue(0), _life(true)
+		: _hurtvalue(0), _life(true),
+			_playedanimation(0)
 	{}
 	
 	//! destructor
@@ -603,10 +610,27 @@ public:
 	void HurtLifeOrMana(bool Life)
 	{ _life = Life;}
 
+	// get played animation on hurt
+	// 0 -> no
+	// 1 -> hurtsmall
+	// 2 -> hurtmedium
+	// 3 -> hurtbig
+	int GetPlayedAnimation()
+	{ return _playedanimation; }
+
+	void SetPlayedAnimation(int anim)
+	{ _playedanimation = anim; }
+
+	//! accessor
+	std::string GetPlayAnimationString();
+
+	//! accessor
+	void SetAnimationString(const std::string & anim);
 
 private:
 	float	_hurtvalue;
 	bool	_life;
+	int		_playedanimation;
 };
 
 
@@ -693,6 +717,78 @@ private:
 
 };
 
+
+
+//! use to display a text on client
+class SwitchAction : public ActionBase
+{
+public:
+	//! constructor
+	SwitchAction()
+		: _actorid(-1), _switched(false)
+	{}
+	
+	//! destructor
+	virtual ~SwitchAction(void){}
+
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args);
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "SwitchAction"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+
+	// get actor id
+	long GetActorId()
+	{ return _actorid;}
+
+	// set actor id
+	void SetActorId(long id)
+	{ _actorid = id;}
+
+
+	// get actor id
+	std::string GetSwitchModel()
+	{ return _switchingmodel;}
+
+	// set actor id
+	void SetSwitchModel(const std::string id)
+	{ _switchingmodel = id;}
+
+
+
+	void SetActionTrue(ActionBasePtr act)
+	{_actionTrue = act;}
+
+	void SetActionFalse(ActionBasePtr act)
+	{_actionFalse = act;}
+
+	ActionBasePtr GetActionTrue()
+	{ return _actionTrue; }
+
+	ActionBasePtr GetActionFalse()
+	{ return _actionFalse; }
+
+private:
+	ActionBasePtr			_actionTrue;
+	ActionBasePtr			_actionFalse;
+
+	long					_actorid;
+	std::string				_switchingmodel;
+	bool					_switched;
+
+};
 
 
 #endif

@@ -32,6 +32,8 @@ void DoorHandler::SendSignal(int Signalnumber)
 	if(Signalnumber == 11)	// closing
 	{
 		--_openingcounter;
+		if(_openingcounter < 0)
+			_openingcounter = 0;
 		if(_openingcounter == 0)
 		{
 			ActorHandler::SendSignal(2);
