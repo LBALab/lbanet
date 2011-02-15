@@ -1036,7 +1036,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	_itemNameList(new CustomStringListModel()), _consumable_itemlistmodel(new CustomStringListModel()),
 	_mount_itemlistmodel(new CustomStringListModel()), _special_itemlistmodel(new CustomStringListModel()),
 	_actorscriptparttypeList(new CustomStringListModel()),_dorropeningtypeList(new CustomStringListModel()),
-	_dorropeningdirectionList(new CustomStringListModel())
+	_dorropeningdirectionList(new CustomStringListModel()), _hurtanimationList(new CustomStringListModel()),
+	_iteminformclientList(new CustomStringListModel())
 {											 
 	QStringList actlist;
 	actlist << "Static" << "Scripted" << "Door" <<"Movable";
@@ -1065,7 +1066,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	actilist << "No" << "TeleportAction" << "ClientScriptAction" << "CustomAction" 
 			<< "DisplayTextAction" << "ConditionalAction" << "OpenContainerAction" << "SendSignalAction"
 			<< "OpenDoorAction" << "CloseDoorAction" << "AddRemoveItemAction" << "HurtAction"
-			 << "KillAction"  << "MultiAction";
+			 << "KillAction"  << "MultiAction" << "SwitchAction";
 	_actiontypeList->setStringList(actilist);
 
 	QStringList consu_iteml;
@@ -1099,7 +1100,16 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	dorr_opendl << "right" << "left" << "top" << "bottom";
 	_dorropeningdirectionList->setStringList(dorr_opendl);
 
+	QStringList hurtaniml;
+	hurtaniml << "No" << "SmallHurt" << "MediumHurt" << "BigHurt";
+	_hurtanimationList->setStringList(hurtaniml);
 	
+	QStringList itinformcll;
+	itinformcll << "No" << "Chat" << "Happy";
+	_iteminformclientList->setStringList(itinformcll);
+	
+
+
 	_uieditor.setupUi(this);
 
 	_addtriggerdialog = new QDialog(this);
@@ -3192,9 +3202,11 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 		}
 		{
 			QVector<QVariant> data;
-			data << "Inform Client" << ptr->GetInformClientType();
+			data << "Inform Client" << ptr->GetInformClientTypeString().c_str();
 			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _iteminformclientList);
 		}
+		
 		return;
 	}
 
@@ -3211,6 +3223,12 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 			QVector<QVariant> data;
 			data << "Hurt life?" << ptr->HurtLife();
 			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+		{
+			QVector<QVariant> data;
+			data << "Play animation" << ptr->GetPlayAnimationString().c_str();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _hurtanimationList);
 		}
 		return;
 	}
@@ -3249,6 +3267,80 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 
 		return;
 	}
+
+
+
+	if(actiontype == "SwitchAction")
+	{
+		SwitchAction* ptr = static_cast<SwitchAction*>(action);
+		{
+			// add actor id
+			{
+				QVector<QVariant> data;
+				data << "Updated Actor" <<  ptr->GetActorId();
+				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+			}
+
+			// add actor model
+			{
+				QVector<QVariant> data;
+				data << "New Model" <<  ptr->GetSwitchModel().c_str();
+				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+
+				std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ita = _Actors.find(ptr->GetActorId());
+				if(ita != _Actors.end() && ita->second->GetActorInfo().DisplayDesc.TypeRenderer == RenderSprite)
+				{
+					boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
+					filefilter->Title = "Select an image";
+					filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Sprites").c_str();;
+					filefilter->FileFilter = "Image Files (*.png *.bmp *.jpg *.gif)";
+					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), filefilter);
+				}
+				else
+				{
+					boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
+					filefilter->Title = "Select a model file";
+					filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Models").c_str();;
+					filefilter->FileFilter = "Model Files (*.osg *.osgb *.osgt)";
+					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), filefilter);
+				}
+			}
+
+
+			// add action On
+			{
+				ActionBasePtr actptr = ptr->GetActionTrue();
+				std::string acttype = GetActionType(actptr);
+
+				QVector<QVariant> data;
+				data << "Action On" << acttype.c_str();
+				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+				
+				if(actptr)
+					SelectAction(actptr.get(), idx);
+			}
+
+			// add action Off
+			{
+				ActionBasePtr actptr = ptr->GetActionFalse();
+				std::string acttype = GetActionType(actptr);
+
+				QVector<QVariant> data;
+				data << "Action Off" << acttype.c_str();
+				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+				
+				if(actptr)
+					SelectAction(actptr.get(), idx);
+			}
+		}
+
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actiontypeList);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 5, parent), _actiontypeList);
+
+		return;
+	}
+
 }
 		
 
@@ -3623,13 +3715,13 @@ void EditorHandler::ActionObjectChanged(const std::string & category, const QMod
 				long id = atol(itid.c_str());
 				
 				int number = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toInt();
-				int informtype = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toInt();
+				std::string informtype = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
 
 				// created modified action and replace old one
 				AddRemoveItemAction* modifiedact = (AddRemoveItemAction*)ptr;
 				modifiedact->SetItemId(id);
 				modifiedact->SetNumber(number);
-				modifiedact->SetInformClientType(informtype);
+				modifiedact->SetInformClientTypeString(informtype);
 
 				// need to save as something changed
 				SetModified();
@@ -3647,6 +3739,7 @@ void EditorHandler::ActionObjectChanged(const std::string & category, const QMod
 				HurtAction* modifiedact = (HurtAction*)ptr;
 				modifiedact->SetHurtValue(value);
 				modifiedact->HurtLifeOrMana(life);
+				modifiedact->SetAnimationString(_objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data());
 
 				// need to save as something changed
 				SetModified();
@@ -3672,15 +3765,25 @@ void EditorHandler::ActionObjectChanged(const std::string & category, const QMod
 
 					if(oldaction != action)
 					{
-						ActionBasePtr ptrtmp = CreateAction(action);
-						modifiedact->ReplaceAction(*itit, ptrtmp);
-
-						QModelIndex curidx = _objectmodel->GetIndex(0, curridx, itemparent);
-						_objectmodel->Clear(curidx);
-						if(ptrtmp)
+						if(action == "No")
 						{
-							SelectAction(ptrtmp.get(), curidx);
-							_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+							modifiedact->RemoveAction(*itit);
+
+							_objectmodel->Clear(parentIdx);
+							SelectAction(modifiedact, parentIdx);
+						}
+						else
+						{
+							ActionBasePtr ptrtmp = CreateAction(action);
+							modifiedact->ReplaceAction(*itit, ptrtmp);
+
+							QModelIndex curidx = _objectmodel->GetIndex(0, curridx, itemparent);
+							_objectmodel->Clear(curidx);
+							if(ptrtmp)
+							{
+								SelectAction(ptrtmp.get(), curidx);
+								_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+							}
 						}
 					}
 
@@ -3699,13 +3802,16 @@ void EditorHandler::ActionObjectChanged(const std::string & category, const QMod
 					else
 					{
 						ActionBasePtr ptrtmp = CreateAction(action);
-						modifiedact->AddAction(ptrtmp);
-
-						QModelIndex curidx = _objectmodel->GetIndex(0, curridx, itemparent);
 						if(ptrtmp)
 						{
-							SelectAction(ptrtmp.get(), curidx);
-							_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+							modifiedact->AddAction(ptrtmp);
+
+							//QModelIndex curidx = _objectmodel->GetIndex(0, curridx, itemparent);
+							//SelectAction(ptrtmp.get(), curidx);
+							//_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+
+							_objectmodel->Clear(parentIdx);
+							SelectAction(modifiedact, parentIdx);
 						}
 						else
 						{
@@ -3722,6 +3828,75 @@ void EditorHandler::ActionObjectChanged(const std::string & category, const QMod
 				return;
 			}
 
+
+			if(category == "SwitchAction")
+			{
+				// created modified action and replace old one
+				SwitchAction* modifiedact = (SwitchAction*)ptr;
+
+				// check actor part
+				{
+					long actor = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toInt();
+					std::string model = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString().toAscii().data();
+
+					modifiedact->SetActorId(actor);
+					modifiedact->SetSwitchModel(model);
+				}
+
+
+				// get id associated to actions
+				std::string action1 = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
+				std::string action2 = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toString().toAscii().data();
+
+				//action 1
+				{
+					std::string curract = GetActionType(modifiedact->GetActionTrue());
+
+					if(action1 != curract)
+					{
+						ActionBasePtr ptrtmp = CreateAction(action1);
+						modifiedact->SetActionTrue(ptrtmp);
+
+						QModelIndex curidx = _objectmodel->GetIndex(0, 4, parentIdx);
+						_objectmodel->Clear(curidx);
+						if(ptrtmp)
+						{
+							SelectAction(ptrtmp.get(), curidx);
+
+							_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+						}
+
+					}
+				}
+
+				//action 2
+				{
+					std::string curract = GetActionType(modifiedact->GetActionFalse());
+
+					if(action2 != curract)
+					{
+						ActionBasePtr ptrtmp = CreateAction(action2);
+						modifiedact->SetActionFalse(ptrtmp);
+
+						QModelIndex curidx = _objectmodel->GetIndex(0, 5, parentIdx);
+						_objectmodel->Clear(curidx);
+						if(ptrtmp)
+						{
+							SelectAction(ptrtmp.get(), curidx);
+
+							_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+						}
+
+					}
+				}
+
+
+
+				// need to save as something changed
+				SetModified();
+
+				return;
+			}
 
 
 		}
@@ -3792,6 +3967,9 @@ void EditorHandler::RemoveTrigger(long id)
 	std::map<long, boost::shared_ptr<TriggerBase> >::iterator it = _triggers.find(id);
 	if(it != _triggers.end())
 	{
+		// remove from list
+		_triggerNameList->RemoveData(it->second->GetName().c_str());
+
 		_triggers.erase(it);
 		SetMapModified();
 
@@ -8270,6 +8448,8 @@ ActionBasePtr EditorHandler::CreateAction(const std::string & type)
 	if(type == "MultiAction")
 		return ActionBasePtr(new MultiAction());
 
+	if(type == "SwitchAction")
+		return ActionBasePtr(new SwitchAction());
 
 	return ActionBasePtr();
 }
