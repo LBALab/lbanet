@@ -247,6 +247,19 @@ public:
 	//! optimize the scene
 	void OptimizeScene();
 
+
+	// create sprite object
+	osg::ref_ptr<osg::MatrixTransform> CreateSpriteObject(const std::string & spritefile, 
+												float colorR, float colorG, float colorB, float colorA,
+												boost::shared_ptr<DisplayTransformation> Tr,
+												bool UseLight, bool CastShadow);
+
+	//! create simple display object
+	osg::ref_ptr<osg::MatrixTransform> CreateSimpleObject(const std::string & filename,
+															boost::shared_ptr<DisplayTransformation> Tr,
+															bool UseLight, bool CastShadow);
+
+
 protected:
 	//! constructor
 	OsgHandler();

@@ -109,6 +109,8 @@ protected:
 	// refresh life/mana bars
 	void RefreshLifeManaBars();
 
+	//! update model
+	void UpdateModel(const LbaNet::ModelInfo &mInfo);
 
 protected:
 	float											_posX;

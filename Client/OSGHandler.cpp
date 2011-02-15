@@ -1145,6 +1145,24 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSpriteObject(const
 															const LbaNet::ObjectExtraInfo &extrainfo,
 															const LbaNet::LifeManaInfo &lifeinfo)
 {
+	osg::ref_ptr<osg::MatrixTransform> resnode = CreateSpriteObject(spritefile, 
+												colorR, colorG, colorB, colorA, Tr,	UseLight, CastShadow);
+
+	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(resnode, UseLight, extrainfo, lifeinfo));
+}
+
+
+
+
+
+/***********************************************************
+create simple display object
+***********************************************************/
+osg::ref_ptr<osg::MatrixTransform> OsgHandler::CreateSpriteObject(const std::string & spritefile, 
+											float colorR, float colorG, float colorB, float colorA,
+											boost::shared_ptr<DisplayTransformation> Tr,
+											bool UseLight, bool CastShadow)
+{
 	// create geode
 	osg::ref_ptr<osg::Geode> geode = new osg::Geode();
 	osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
@@ -1227,18 +1245,17 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSpriteObject(const
 	}
 	
 	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, UseLight, CastShadow);
-	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat, UseLight, extrainfo, lifeinfo));
+
+	return mat;
 }
 
 
 /***********************************************************
 create simple display object
 ***********************************************************/
-boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSimpleObject(const std::string & filename,
+osg::ref_ptr<osg::MatrixTransform> OsgHandler::CreateSimpleObject(const std::string & filename,
 														boost::shared_ptr<DisplayTransformation> Tr,
-														bool UseLight, bool CastShadow,
-														const LbaNet::ObjectExtraInfo &extrainfo,
-														const LbaNet::LifeManaInfo &lifeinfo)
+														bool UseLight, bool CastShadow)
 {
 	osg::ref_ptr<osg::Node> resnode = LoadOSGFile(filename);
 
@@ -1252,9 +1269,24 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSimpleObject(const
 		transform->addChild(resnode);
 		resnode = transform;
 	}
-	
+
 	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, UseLight, CastShadow);
-	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat, UseLight, extrainfo, lifeinfo));
+
+	return mat;
+}
+
+
+/***********************************************************
+create simple display object
+***********************************************************/
+boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSimpleObject(const std::string & filename,
+														boost::shared_ptr<DisplayTransformation> Tr,
+														bool UseLight, bool CastShadow,
+														const LbaNet::ObjectExtraInfo &extrainfo,
+														const LbaNet::LifeManaInfo &lifeinfo)
+{
+	osg::ref_ptr<osg::MatrixTransform> resnode = CreateSimpleObject(filename, Tr,	UseLight, CastShadow);
+	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(resnode, UseLight, extrainfo, lifeinfo));
 }
 
 

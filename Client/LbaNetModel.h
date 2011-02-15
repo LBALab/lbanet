@@ -284,7 +284,8 @@ public:
 	//! 1 -> npc object
 	//! 2 -> player object
 	//! 3 -> movable object
-	virtual void HurtActor(int ObjectType, long ObjectId, float HurtValue, bool HurtLife){}
+	virtual void HurtActor(int ObjectType, long ObjectId, float HurtValue, bool HurtLife,
+								int PlayedAnimation){}
 
 
 	// display text to client window
@@ -304,6 +305,12 @@ public:
 
 	//! internally update player state
 	void UpdatePlayerState(LbaNet::ModelState	NewState);
+
+	//! switch the model of an actor
+	virtual void SwitchActorModel(long ActorId, const std::string & newmodelname){}
+
+	//! revert the switch the model of an actor
+	virtual void RevertActorModel(long ActorId){}
 
 protected:
 

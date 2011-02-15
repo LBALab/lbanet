@@ -120,9 +120,10 @@ void InventoryBox::Initialize(CEGUI::Window* Root)
 			frw->hide();	
 
 
-		CEGUI::FrameWindow * frw2 = static_cast<CEGUI::FrameWindow *> (
-			CEGUI::WindowManager::getSingleton().getWindow("InventoryInformHappyFrame"));
-		frw2->hide();
+		_myBox2 = CEGUI::WindowManager::getSingleton().loadWindowLayout( "inventoryhappy.layout",
+								"", "", &MyPropertyCallback);
+		Root->addChildWindow(_myBox2);
+		_myBox2->hide();
 
 		static_cast<CEGUI::PushButton *> (
 			CEGUI::WindowManager::getSingleton().getWindow("InventoryInformHappyFrame/bok"))->subscribeEvent (
@@ -429,9 +430,7 @@ bool InventoryBox::HandleHappyOkButton (const CEGUI::EventArgs& e)
 
 	try
 	{
-		CEGUI::FrameWindow * frw2 = static_cast<CEGUI::FrameWindow *> (
-			CEGUI::WindowManager::getSingleton().getWindow("InventoryInformHappyFrame"));
-		frw2->hide();
+		_myBox2->hide();
 	}
 	catch(CEGUI::Exception &ex)
 	{
@@ -768,9 +767,9 @@ void InventoryBox::InformChat(long itemId, int count, const std::string & name, 
 {
 	std::stringstream strs;
 	if(count > 0)
-		strs<<Localizer::getInstance()->GetText(Localizer::GUI, 93)<<count;
+		strs<<Localizer::getInstance()->GetText(Localizer::GUI, 93)<<" "<<count;
 	else
-		strs<<Localizer::getInstance()->GetText(Localizer::GUI, 94)<<-count;
+		strs<<Localizer::getInstance()->GetText(Localizer::GUI, 94)<<" "<<-count;
 
 	strs<<" [colour='FFFFFFFF'][image='set:"<<ImageSetHandler::GetInventoryMiniImage(iconname)<<"   image:full_image']"; 
 
@@ -808,9 +807,7 @@ void InventoryBox::InformHappy(long itemId, int count,	const std::string & name,
 
 		CEGUI::WindowManager::getSingleton().getWindow("InventoryInformHappyFrame/InventoryLogo")->setProperty("Image", imagetxt.c_str());
 	
-		CEGUI::FrameWindow * frw2 = static_cast<CEGUI::FrameWindow *> (
-			CEGUI::WindowManager::getSingleton().getWindow("InventoryInformHappyFrame"));
-		frw2->show();
+		_myBox2->show();
 	}
 	catch(CEGUI::Exception &ex)
 	{

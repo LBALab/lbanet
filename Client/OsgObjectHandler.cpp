@@ -227,6 +227,18 @@ int OsgObjectHandler::Update(LbaNet::DisplayObjectUpdateBasePtr update,
 		UpdateLifeInfo(castedptr->Update);
 	}
 
+
+	// ModelUpdate
+	if(info == typeid(LbaNet::ModelUpdate))
+	{
+		LbaNet::ModelUpdate * castedptr = 
+			dynamic_cast<LbaNet::ModelUpdate *>(update.get());
+
+		UpdateModel(castedptr->Info);
+	}
+
+
+	
 	return 0;
 }
 
@@ -531,3 +543,51 @@ void OsgObjectHandler::RefreshLifeManaBars()
 	}
 }
 
+
+/***********************************************************
+update model
+***********************************************************/
+void OsgObjectHandler::UpdateModel(const LbaNet::ModelInfo &mInfo)
+{
+	if(_uselight)
+	{
+		if(_OsgObject)
+			OsgHandler::getInstance()->RemoveActorNode(_OsgObject, true);
+	}
+	else
+	{
+		if(_OsgObjectNoLight)
+			OsgHandler::getInstance()->RemoveActorNode(_OsgObjectNoLight, false);
+	}
+
+	osg::ref_ptr<osg::MatrixTransform> node;
+	boost::shared_ptr<DisplayTransformation> Tr(new DisplayTransformation());;
+	Tr->translationX = mInfo.TransX;
+	Tr->translationY = mInfo.TransY;
+	Tr->translationZ = mInfo.TransZ;
+	Tr->rotation = LbaQuaternion(mInfo.RotX, mInfo.RotY, mInfo.RotZ);
+	Tr->scaleX = mInfo.ScaleX;
+	Tr->scaleY = mInfo.ScaleY;
+	Tr->scaleZ = mInfo.ScaleZ;
+
+	if(mInfo.TypeRenderer == LbaNet::RenderSprite)
+	{
+		node = OsgHandler::getInstance()->CreateSpriteObject(mInfo.ModelName, 
+											mInfo.ColorR, mInfo.ColorG, mInfo.ColorB, mInfo.ColorA,
+											Tr,	mInfo.UseLight,	mInfo.CastShadow);
+	}
+	else
+	{
+		node = OsgHandler::getInstance()->CreateSimpleObject(mInfo.ModelName, Tr,
+																mInfo.UseLight,	mInfo.CastShadow);
+	}
+
+	if(_uselight)
+		_OsgObject = node;
+	else
+		_OsgObjectNoLight = node;
+
+
+	UpdateMatrix();
+	RefreshText();
+}

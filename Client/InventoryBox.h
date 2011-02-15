@@ -152,6 +152,7 @@ protected:
 
 private:
 	CEGUI::Window*														_myBox;
+	CEGUI::Window*														_myBox2;
 
 	LbaNet::ItemsMap													_inventoryinfo;
 
