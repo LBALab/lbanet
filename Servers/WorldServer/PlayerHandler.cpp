@@ -56,9 +56,12 @@ PlayerHandler::PlayerHandler(long clientid, ClientProxyBasePtr proxy,
 				if(it->first >= _CUSTOM_OFFSET_) // custom item
 				{
 					it->second.Info.IconName = "letter";
-					it->second.Info.DescriptionId = 0;
+					it->second.Info.NameTextId = -1;
+					it->second.Info.DescriptionId = -1;
+					it->second.Info.LongDescriptionId = -1;
 					it->second.Info.Max = 1;
-					it->second.Info.Price = 0;
+					it->second.Info.BuyPrice = 0;
+					it->second.Info.SellPrice = 0;
 
 					it->second.Info.Type = 8;
 					it->second.Info.Ephemere = false;
@@ -637,6 +640,23 @@ void PlayerHandler::UpdateStateModeClass()
 			_currentstate = boost::shared_ptr<CharacterStateBase>(new StatePrepareWeapon());						
 		}
 		break;
+		case LbaNet::StActivateSwitch:
+		{
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateActivateSwitch());						
+		}
+		break;
+
+		case LbaNet::StActivateGroundSwitch:
+		{
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateActivateGroundSwitch());						
+		}
+		break;
+
+		case LbaNet::StHappy:
+		{
+			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateHappy());						
+		}
+		break;
 	}
 }
 
@@ -737,9 +757,12 @@ void PlayerHandler::CreateLetter(const std::string & subject, const std::string 
 			newitem.Position = -1;
 			newitem.Count = 1;
 			newitem.Info.IconName = "letter";
-			newitem.Info.DescriptionId = 0;
+			newitem.Info.NameTextId = -1;
+			newitem.Info.DescriptionId = -1;
+			newitem.Info.LongDescriptionId = -1;
 			newitem.Info.Max = 1;
-			newitem.Info.Price = 0;
+			newitem.Info.BuyPrice = 0;
+			newitem.Info.SellPrice = 0;
 			newitem.Info.Type = 8;
 			newitem.Info.Ephemere = false;
 			newitem.Info.DescriptionTextExtra = "From: " + _extrainfo.Name + " Subject: " + subject;
