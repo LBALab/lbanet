@@ -160,6 +160,12 @@ private:
 	int																	_inventory_size;
 	std::vector<CEGUI::Window*>											_inv_boxes;
 	std::map<Ice::Long, std::pair<CEGUI::Window*, CEGUI::Window*> >		_objects;
+
+	float																_savedPosX2;
+	float																_savedPosY2;
+	float																_savedSizeX2;
+	float																_savedSizeY2;
+
 };
 
 #endif
