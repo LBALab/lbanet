@@ -288,6 +288,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Servers\WorldServer\DialogPart.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Servers\WorldServer\DoorHandler.cpp"
 				>
 			</File>
@@ -457,6 +461,10 @@
 			</File>
 			<File
 				RelativePath="..\Client\MusicHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Servers\WorldServer\NpcHandler.cpp"
 				>
 			</File>
 			<File
@@ -742,6 +750,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Servers\WorldServer\DialogPart.h"
+				>
+			</File>
+			<File
 				RelativePath="..\shared\DisplayHandlerBase.h"
 				>
 			</File>
@@ -963,6 +975,10 @@
 			</File>
 			<File
 				RelativePath="..\Client\MusicHandler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Servers\WorldServer\NpcHandler.h"
 				>
 			</File>
 			<File
