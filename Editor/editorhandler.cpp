@@ -3277,7 +3277,7 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 			// add actor id
 			{
 				QVector<QVariant> data;
-				data << "Updated Actor" <<  ptr->GetActorId();
+				data << "Updated Actor" <<  (int)ptr->GetActorId();
 				QModelIndex idx = _objectmodel->AppendRow(data, parent);
 			}
 
@@ -3839,8 +3839,32 @@ void EditorHandler::ActionObjectChanged(const std::string & category, const QMod
 					long actor = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toInt();
 					std::string model = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString().toAscii().data();
 
-					modifiedact->SetActorId(actor);
 					modifiedact->SetSwitchModel(model);
+
+					long oldactid = modifiedact->GetActorId();
+					if(oldactid != actor)
+					{
+						modifiedact->SetActorId(actor);
+
+						std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ita = _Actors.find(actor);
+						if(ita != _Actors.end() && ita->second->GetActorInfo().DisplayDesc.TypeRenderer == RenderSprite)
+						{
+							boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
+							filefilter->Title = "Select an image";
+							filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Sprites").c_str();;
+							filefilter->FileFilter = "Image Files (*.png *.bmp *.jpg *.gif)";
+							_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 3, parentIdx), filefilter);
+						}
+						else
+						{
+							boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
+							filefilter->Title = "Select a model file";
+							filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Models").c_str();;
+							filefilter->FileFilter = "Model Files (*.osg *.osgb *.osgt)";
+							_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 3, parentIdx), filefilter);
+						}
+					}
+
 				}
 
 
