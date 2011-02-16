@@ -16,6 +16,8 @@ extern "C"
 #include "Conditions.h"
 #include "ScriptEnvironmentBase.h"
 #include "DoorHandler.h"
+#include "DialogPart.h"
+#include "NpcHandler.h"
 
 
 #ifdef _USE_QT_EDITOR_	
@@ -264,6 +266,12 @@ ServerLuaHandler::ServerLuaHandler()
 		luabind::class_<DoorHandler, ActorHandler, boost::shared_ptr<ActorHandler> >("DoorHandler")
 		.def(luabind::constructor<const ActorObjectInfo &, int, int, float, float, bool>()),
 
+		luabind::class_<NPCHandler, ActorHandler, boost::shared_ptr<ActorHandler> >("NPCHandler")
+		.def(luabind::constructor<const ActorObjectInfo &>())
+		.def("GetRootDialog", &NPCHandler::GetRootDialog)
+		.def("SetRootDialog", &NPCHandler::SetRootDialog)	
+		,
+
 
 
 		luabind::class_<ScriptEnvironmentBase>("ScriptEnvironmentBase")
@@ -501,7 +509,25 @@ ServerLuaHandler::ServerLuaHandler()
 		luabind::class_<CustomScript, ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("CustomScript")
 		.def(luabind::constructor<>())
 		.def("GetLuaFunctionName", &CustomScript::GetLuaFunctionName)
-		.def("SetLuaFunctionName", &CustomScript::SetLuaFunctionName)
+		.def("SetLuaFunctionName", &CustomScript::SetLuaFunctionName),
+
+		luabind::class_<DialogPart, boost::shared_ptr<DialogPart> >("DialogPart")
+		.def(luabind::constructor<>())
+		.def("AddChild", &DialogPart::AddChild)
+		.def("RemoveChild", &DialogPart::RemoveChild)
+		.def("UpdateChildPosition", &DialogPart::UpdateChildPosition)	
+		.def("GetCondition", &DialogPart::GetCondition)
+		.def("Setcondition", &DialogPart::Setcondition)
+		.def("GetAction", &DialogPart::GetAction)	
+		.def("SetAction", &DialogPart::SetAction)
+		.def("EndDialog", &DialogPart::EndDialog)
+		.def("SetEndDialog", &DialogPart::SetEndDialog)		
+		.def("ResetDialog", &DialogPart::ResetDialog)
+		.def("SetResetDialog", &DialogPart::SetResetDialog)
+		.def("SetText", &DialogPart::SetText)	
+		.def("AddText", &DialogPart::AddText)	
+		.def("RemoveText", &DialogPart::RemoveText)
+		.def("PickText", &DialogPart::PickText)
 		];
 
 	}

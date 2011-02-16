@@ -630,7 +630,9 @@ void ActorHandler::SaveToLuaFile(std::ofstream & file)
 		file<<"\tActor_"<<m_actorinfo.ObjectId<<"H:AddScriptPart("<<scname.str()<<")"<<std::endl;
 	}
 
-
+	std::stringstream actorname;
+	actorname<<"Actor_"<<m_actorinfo.ObjectId;
+	ExtraLua(file, actorname.str());
 
 	file<<"\tenvironment:AddActorObject(Actor_"<<m_actorinfo.ObjectId<<"H)"<<std::endl<<std::endl;
 }

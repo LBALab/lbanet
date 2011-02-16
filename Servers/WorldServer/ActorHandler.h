@@ -326,6 +326,9 @@ protected:
 	//! return the build class
 	virtual std::string LuaBuildClass();
 
+	//! write extra lua
+	virtual void ExtraLua(std::ofstream & file, const std::string & name){}
+
 protected:
 	ActorObjectInfo										m_actorinfo;
 	int													m_launchedscript;
