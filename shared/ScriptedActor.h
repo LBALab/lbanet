@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class DynamicObject;
 class ScriptEnvironmentBase;
-
+class PhysicalObjectHandlerBase;
 
 /***********************************************************************
  * Module:  ScriptedActor.h
@@ -318,6 +318,33 @@ private:
 
 
 
+/***********************************************************************
+ * Module:  ScriptedActor.h
+ * Author:  vivien
+ * Purpose: Declaration of the class AnimateScriptPart
+ ***********************************************************************/
+class TargetScriptPart : public ScriptPartBase
+{
+public:
+
+	//! constructor
+	TargetScriptPart(int scriptid, bool asynchronus, 
+							boost::shared_ptr<PhysicalObjectHandlerBase> object);
+
+	//! destructor
+	virtual ~TargetScriptPart(){}
+
+
+	//! process script part
+	//! return true if finished
+	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor);
+
+protected:
+	boost::shared_ptr<PhysicalObjectHandlerBase>	_target;
+};
+
+
+
 
 
 
@@ -385,5 +412,17 @@ protected:
 	boost::shared_ptr<DynamicObject>						_character;
 	std::list<boost::shared_ptr<ScriptPartBase> >			_currentScripts;
 };
+
+
+
+
+
+
+
+
+
+
+
+
 
 #endif

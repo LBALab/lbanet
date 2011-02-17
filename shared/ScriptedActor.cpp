@@ -474,13 +474,6 @@ bool FollowWaypointScriptPart::Process(double tnow, float tdiff, boost::shared_p
 	float move = (speedX+speedY+speedZ) * tdiff;
 	_distancedone += abs(move);
 
-	// extra move
-	float mx, my, mz, mr;
-	actor->GetAdditionalMoves(mx, my, mz, mr);
-	float extramove = (mx*mx) + (my*my) + (mz*mz);
-	extramove = sqrt(extramove);
-	_distancedone += extramove;
-
 
 	if(_distancedone > _distance)
 		_distancedone = _distance;
@@ -580,6 +573,62 @@ float FollowWaypointScriptPart::GetArcLength(const LbaVec3 &P0, const LbaVec3 &P
 
 	return res;
 }
+
+
+
+
+
+
+
+
+
+
+/***********************************************************
+	Constructor
+***********************************************************/
+TargetScriptPart::TargetScriptPart(int scriptid, bool asynchronus, 
+							boost::shared_ptr<PhysicalObjectHandlerBase> object)
+: ScriptPartBase(scriptid, asynchronus), _target(object)
+{
+
+}
+
+
+
+
+
+/***********************************************************
+//! process script part
+//! return true if finished
+***********************************************************/
+bool TargetScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor)
+{
+	if(!_target)
+		return true;
+
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = actor->GetPhysicalObject();
+
+	LbaVec3 curr;
+	physo->GetPosition(curr.x, curr.y, curr.z);
+
+	LbaVec3 other;
+	_target->GetPosition(other.x, other.y, other.z);
+
+	LbaVec3 diff(	other.x-curr.x, 
+					other.y-curr.y, 
+					other.z-curr.z);
+
+	float angle = LbaQuaternion::GetSignedAngleFromVector(diff);
+
+	LbaQuaternion Q;
+	Q.AddSingleRotation(angle, LbaVec3(0, 1, 0));
+	physo->RotateTo(Q);
+
+	return false;
+}
+
+
+
 
 
 
