@@ -521,8 +521,8 @@ module LbaNet
 	// server send dialog to display to client	
 	class DialogGuiParameter extends GuiParameterBase
 	{
-		long			NPCId;
-		long			TittleTextId;
+		long			NpcNameTextId;
+		bool			SimpleDialog;
 		DialogPartInfo		DialogPart;
 	};
 
@@ -675,14 +675,12 @@ module LbaNet
 	// client tell server that a dialog part was selected
 	class DialogSelectedUpdate extends GuiUpdateBase
 	{
-		long			NPCId;
 		int			SelectedId;
 	};
 	
 	// server update dialog to display to client
 	class DialogUpdate extends GuiUpdateBase
 	{
-		long			NPCId;
 		DialogPartInfo		DialogPartUpdate;
 	};
 	
