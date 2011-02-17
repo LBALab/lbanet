@@ -9,22 +9,24 @@
             <Property Name="Text" Value="#95" />  
 		<Window Type="TaharezLook/StaticText" Name="InventoryInformHappyFrame/name" >
 			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-			<Property Name="UnifiedAreaRect" Value="{{0,10},{0, 30},{1,-90},{0,60}}" /> 
+			<Property Name="UnifiedAreaRect" Value="{{0,10},{0, 40},{1,-140},{0,70}}" /> 
+			<Property Name="HorzFormatting"    Value="WordWrapCentred" />
+			<Property Name="ReadOnly" Value="true" />
 		</Window>            
 		<Window Type="TaharezLook/StaticImage" Name="InventoryInformHappyFrame/InventoryLogo" >
 			<Property Name="Image"     Value="" />
 			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
- 			<Property Name="UnifiedAreaRect" Value="{{1,-80},{0, 10},{1,-10},{0,80}}" />     
+ 			<Property Name="UnifiedAreaRect" Value="{{1,-110},{0, 10},{1,-10},{0,110}}" />     
 		</Window>              
 		<Window Type="TaharezLook/MultiLineEditbox" Name="InventoryInformHappyFrame/text" >
 			<Property Name="MaxTextLength" Value="1073741823" />
 			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-			<Property Name="UnifiedAreaRect" Value="{{0,5},{0,90},{1,-5},{1,-70}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0,5},{0,120},{1,-5},{1,-50}}" />
 		</Window>
 		<Window Type="TaharezLook/Button" Name="InventoryInformHappyFrame/bok" >
 			<Property Name="Text" Value="#0" />            
 			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-			<Property Name="UnifiedAreaRect" Value="{{0.5,-30},{1,-60},{0.5,30},{1,-10}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0.5,-30},{1,-40},{0.5,30},{1,-10}}" />
 		</Window>
         </Window>        
 </GUILayout>
