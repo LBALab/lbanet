@@ -58,6 +58,31 @@ public:
 	{_rootdialog = root;}
 
 
+	//! get root dialog
+	bool GetSimpleDialog()
+	{return _simpledialog;}
+
+	//! set root dialog
+	void SetSimpleDialog(bool simple)
+	{_simpledialog = simple;}
+
+
+	//! get root dialog
+	long GetNpcName()
+	{return _npcnametextid;}
+
+	//! set root dialog
+	void SetNpcName(long name)
+	{_npcnametextid = name;}
+
+
+	//! stop target player
+	virtual void UntargetPlayer(Ice::Long PlayerId);
+
+	//! check trigger on player action
+	virtual void PlayerAction(Ice::Long PlayerId, const LbaNet::PlayerPosition &info,
+									const std::string &ObjectMode);
+
 protected:
 
 	//! return the build class
@@ -66,8 +91,19 @@ protected:
 	//! write extra lua
 	virtual void ExtraLua(std::ofstream & file, const std::string & name);
 
+	//! target player
+	void TargetPlayer(Ice::Long PlayerId);
+
+	//! stop target player
+	void StopTarget();
+
+
 private:
-	DialogPartPtr		_rootdialog;
+	long						_npcnametextid;
+	bool						_simpledialog;
+	DialogPartPtr				_rootdialog;
+
+	std::vector<Ice::Long>		_targetedplayers;
 };
 
 #endif

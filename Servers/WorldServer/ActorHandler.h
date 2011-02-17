@@ -286,6 +286,21 @@ public:
 
 
 
+	//! check trigger on player leave map
+	virtual void PlayerLeaveMap(Ice::Long PlayerId){}
+
+	//! check trigger on player move
+	virtual void PlayerMoved(Ice::Long PlayerId, const LbaNet::PlayerPosition &startposition,
+										const LbaNet::PlayerPosition &endposition){}
+
+
+	//! check trigger on object action
+	virtual void PlayerAction(Ice::Long PlayerId, const LbaNet::PlayerPosition &info,
+									const std::string &ObjectMode){}
+
+
+	//! stop target player
+	virtual void UntargetPlayer(Ice::Long PlayerId){}
 
 
 #ifdef _USE_QT_EDITOR_

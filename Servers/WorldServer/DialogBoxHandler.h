@@ -27,13 +27,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "ServerGuiBase.h"
+class ScriptEnvironmentBase;
+class DialogPart;
+
+struct DialogInfo
+{
+	long											actorid;
+	boost::shared_ptr<DialogPart>					rootdialog;
+	std::vector<boost::shared_ptr<DialogPart> >		currdialog;
+};
+
 
 //! take care of update comming from client DialogBox GUI
 class DialogBoxHandler :	public ServerGUIBase
 {
 public:
 	//! constructor
-	DialogBoxHandler(void){}
+	DialogBoxHandler(ScriptEnvironmentBase * owner)
+		: _owner(owner)
+	{}
 
 	//! destructor
 	virtual ~DialogBoxHandler(void){}
@@ -47,6 +59,14 @@ public:
 
 	//! hide the GUI for a certain player
 	virtual void HideGUI(Ice::Long clientid);
+
+protected:
+	//! select dialog
+	void SelectDialog(long clientid, int selecteid);
+
+private:
+	ScriptEnvironmentBase *		_owner;
+	std::map<long, DialogInfo>	_openeddialog;
 };
 
 #endif

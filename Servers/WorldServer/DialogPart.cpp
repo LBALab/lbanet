@@ -157,7 +157,6 @@ void DialogPart::SaveToLuaFile(std::ofstream & file, const std::string & name)
 		file<<"\t"<<name<<":SetAction("<<aname.str()<<")"<<std::endl;
 	}
 
-	file<<"\t"<<name<<":SetEndDialog("<<(_enddialog?"true":"false")<<")"<<std::endl;
 	file<<"\t"<<name<<":SetResetDialog("<<(_resetdialog?"true":"false")<<")"<<std::endl;
 
 	std::set<long>::iterator it = _textids.begin();

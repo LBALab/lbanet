@@ -32,6 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 class ContainerSharedInfo;
+class DialogPart;
 
 
 // base class containing params when showing a gui
@@ -67,6 +68,22 @@ public:
 	int											_InventorySize;
 	boost::shared_ptr<ContainerSharedInfo>		_sharedinfo;
 	LbaNet::ItemsMap							_inventory;
+};
+
+
+// class containing text param
+class DialogParam : public ShowGuiParamBase
+{
+public:
+	//! constructor
+	DialogParam(long npcid, long npcnametextid, bool simpledialog, boost::shared_ptr<DialogPart> dialogroot)
+		: _npcid(npcid), _npcnametextid(npcnametextid), _simpledialog(simpledialog), _dialogroot(dialogroot)
+	{}
+
+	long										_npcid;
+	long										_npcnametextid;
+	bool										_simpledialog;
+	boost::shared_ptr<DialogPart>				_dialogroot;
 };
 
 

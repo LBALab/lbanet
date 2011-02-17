@@ -26,6 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define _LBANET_DIALOG_PART_H__
 
 #include <boost/shared_ptr.hpp>
+#include <set>
+
 
 class DialogPart;
 typedef boost::shared_ptr<DialogPart> DialogPartPtr;
@@ -77,14 +79,6 @@ public:
 	{_action = act;}
 
 	//! accessor
-	bool EndDialog()
-	{ return _enddialog;}
-
-	//! accessor
-	void SetEndDialog(bool end)
-	{ _enddialog = end;}
-
-	//! accessor
 	bool ResetDialog()
 	{ return _resetdialog;}
 
@@ -127,7 +121,6 @@ protected:
 	ConditionBasePtr				_condition;
 	ActionBasePtr					_action;
 
-	bool							_enddialog;
 	bool							_resetdialog;
 
 	std::set<long>					_textids;

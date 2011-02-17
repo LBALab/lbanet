@@ -104,7 +104,7 @@ MapHandler::MapHandler(const MapInfo & mapinfo,
 
 	_guihandlers["TextBox"] = boost::shared_ptr<ServerGUIBase>(new TextBoxHandler());
 	_guihandlers["ContainerBox"] = boost::shared_ptr<ServerGUIBase>(new ContainerBoxHandler());
-	_guihandlers["DialogBox"] = boost::shared_ptr<ServerGUIBase>(new DialogBoxHandler());
+	_guihandlers["DialogBox"] = boost::shared_ptr<ServerGUIBase>(new DialogBoxHandler(this));
 	_guihandlers["ShopBox"] = boost::shared_ptr<ServerGUIBase>(new ShopBoxHandler());
 	_guihandlers["InventoryBox"] = boost::shared_ptr<ServerGUIBase>(new InventoryBoxHandler());
 
@@ -679,6 +679,13 @@ void MapHandler::PlayerLeft(Ice::Long id)
 				ittr->second->ObjectLeaveMap(this, 2, id);
 		}
 
+		// inform npcs
+		{
+			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ittr = _Actors.begin();
+			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endtr = _Actors.end();
+			for(; ittr != endtr; ++ittr)
+				ittr->second->PlayerLeaveMap(id);
+		}
 
 		// inform all players that player left
 		_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
@@ -734,10 +741,21 @@ void MapHandler::PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMove
 			currPos.Y += 0.2f;
 
 			// inform triggers
+			{
 			std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
 			std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
 			for(; ittr != endtr; ++ittr)
 				ittr->second->ObjectMoved(this, 2, id, lastpos, currPos);
+			}
+
+
+			// inform npcs
+			{
+			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ittr = _Actors.begin();
+			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endtr = _Actors.end();
+			for(; ittr != endtr; ++ittr)
+				ittr->second->PlayerMoved(id, lastpos, currPos);
+			}
 		}
 
 
@@ -1130,6 +1148,14 @@ void MapHandler::ProcessPlayerAction(Ice::Long id, bool ForcedNormalAction)
 			std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
 			for(; ittr != endtr; ++ittr)
 				ittr->second->ObjectAction(this, 2, id, pos, (ForcedNormalAction? "Normal": mode));
+		}
+
+		// inform npcs
+		{
+		std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ittr = _Actors.begin();
+		std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endtr = _Actors.end();
+		for(; ittr != endtr; ++ittr)
+			ittr->second->PlayerAction(id, pos, (ForcedNormalAction? "Normal": mode));
 		}
 	}
 	catch(NoPlayerException)
@@ -2627,4 +2653,30 @@ void MapHandler::RevertActorModel(long ActorId)
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
 		itact->second->ReverModel();
+}
+
+
+/***********************************************************
+open dialog with player
+***********************************************************/
+void MapHandler::StartDialog(long PlayerId, long NpcId, long npcnametextid, bool simpledialog, 
+												boost::shared_ptr<DialogPart> dialogroot)
+{
+	if(PlayerId >= 0)
+	{
+		// send container to player
+		_guihandlers["DialogBox"]->ShowGUI(PlayerId, GetPlayerPosition(PlayerId), 
+						boost::shared_ptr<ShowGuiParamBase>(new DialogParam(NpcId, npcnametextid, 
+																	simpledialog, dialogroot)));
+	}
+}
+
+/***********************************************************
+stop target player
+***********************************************************/
+void MapHandler::NpcUntargetPlayer(long NpcId, long PlayerId)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(NpcId);
+	if(itact != _Actors.end())
+		itact->second->UntargetPlayer(PlayerId);
 }
