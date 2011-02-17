@@ -312,6 +312,18 @@ public:
 	//! revert the switch the model of an actor
 	virtual void RevertActorModel(long ActorId){}
 
+
+	//! open dialog with player
+	virtual void StartDialog(long PlayerId, long NpcId, long npcnametextid, bool simpledialog, 
+												boost::shared_ptr<DialogPart> dialogroot){}
+
+	//! stop target player
+	virtual void NpcUntargetPlayer(long NpcId, long PlayerId){}
+
+
+	//! actor target player
+	virtual void NpcTargetPlayer(long ActorId, long PlayerId);
+
 protected:
 
 	//! clean up map

@@ -248,3 +248,14 @@ void ExternalActor::SetPlayingScript(bool playing)
 	_currentScripts = boost::shared_ptr<ScriptPartBase>();
 	ExternalPlayer::SetPlayingScript(playing);
 }
+
+
+
+/***********************************************************
+target player
+***********************************************************/
+void ExternalActor::Target(boost::shared_ptr<PhysicalObjectHandlerBase> object)
+{
+	_currentScripts = boost::shared_ptr<ScriptPartBase>(new 
+		TargetScriptPart(0, false, object));
+}

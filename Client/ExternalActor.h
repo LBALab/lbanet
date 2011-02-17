@@ -59,6 +59,9 @@ public:
 	//! set the actor/player as playing script
 	virtual void SetPlayingScript(bool playing);
 
+	//! target object
+	void Target(boost::shared_ptr<PhysicalObjectHandlerBase> object);
+
 private:
 	boost::shared_ptr<ScriptPartBase>			_currentScripts;
 	float										_differencePosX;

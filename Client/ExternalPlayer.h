@@ -165,15 +165,16 @@ public:
 	void ShowHide(bool Show);
 
 
+	//! get physic object
+	boost::shared_ptr<PhysicalObjectHandlerBase> GetPhysicalObject()
+	{ return _character->GetPhysicalObject();}
+
+
 protected:
 	//! internaly update mode and state
 	void UpdateModeAndState(const std::string &newmode,
 								LbaNet::ModelState newstate);
 
-
-	//! get physic object
-	boost::shared_ptr<PhysicalObjectHandlerBase> GetPhysicalObject()
-	{ return _character->GetPhysicalObject();}
 
 	//! get display object
 	boost::shared_ptr<DisplayObjectHandlerBase> GetDisplayObject()

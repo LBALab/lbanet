@@ -1468,6 +1468,37 @@ void LbaNetModel::UpdatePlayerState(LbaNet::ModelState	NewState)
 
 
 
+/***********************************************************
+actor target player
+***********************************************************/
+void LbaNetModel::NpcTargetPlayer(long ActorId, long PlayerId)
+{
+	boost::shared_ptr<PhysicalObjectHandlerBase> object;
+
+	if(m_playerObjectId == (long)PlayerId)
+	{
+		object = m_controllerChar->GetPhysicalObject();
+	}
+	else
+	{
+		std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _playerObjects.find((long)PlayerId);
+		if(it != _playerObjects.end())
+			object = it->second->GetPhysicalObject();
+	}
+
+
+	// on actor
+	if(object)
+	{
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+		{
+			it->second->Target(object);
+		}
+	}
+}
+
+
 
 
 #ifdef _USE_QT_EDITOR_

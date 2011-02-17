@@ -109,6 +109,8 @@ class InventoryBox : public GameGUIBase
 	//! restore the correct size of the windows
 	virtual void RestoreGUISizes();
 
+	//! handle enter key
+	bool HandleEnterKey(const CEGUI::EventArgs& e);
 
 protected:
 	//! resize inventory

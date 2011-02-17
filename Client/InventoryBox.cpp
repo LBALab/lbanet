@@ -81,8 +81,6 @@ InventoryBox::~InventoryBox()
 		ConfigurationManager::GetInstance()->SetFloat("Gui.Inventoryboxhappy.PosY", vec2.d_y.asRelative((float)resY));
 		ConfigurationManager::GetInstance()->SetFloat("Gui.Inventoryboxhappy.SizeX", frw2->getWidth().asRelative((float)resX));
 		ConfigurationManager::GetInstance()->SetFloat("Gui.Inventoryboxhappy.SizeY", frw2->getHeight().asRelative((float)resY));	
-	
-	
 	}
 	catch(CEGUI::Exception &ex)
 	{
@@ -157,6 +155,10 @@ void InventoryBox::Initialize(CEGUI::Window* Root)
 		frw2->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));
 		frw2->setWidth(CEGUI::UDim(SizeX, 0));
 		frw2->setHeight(CEGUI::UDim(SizeY, 0));
+	
+		frw2->subscribeEvent(CEGUI::Window::EventKeyDown,
+								CEGUI::Event::Subscriber (&InventoryBox::HandleEnterKey, this));
+
 		}
 
 
@@ -863,9 +865,32 @@ void InventoryBox::InformHappy(long itemId, int count,	const std::string & name,
 		CEGUI::WindowManager::getSingleton().getWindow("InventoryInformHappyFrame/InventoryLogo")->setProperty("Image", imagetxt.c_str());
 	
 		_myBox2->show();
+
+		CEGUI::FrameWindow * frw2 = static_cast<CEGUI::FrameWindow *> (
+			CEGUI::WindowManager::getSingleton().getWindow("InventoryInformHappyFrame"));
+		frw2->activate();
 	}
 	catch(CEGUI::Exception &ex)
 	{
 		LogHandler::getInstance()->LogToFile(std::string("Exception inform happy: ") + ex.getMessage().c_str());
 	}
+}
+
+
+
+/***********************************************************
+handle send button event
+***********************************************************/
+bool InventoryBox::HandleEnterKey (const CEGUI::EventArgs& e)
+{
+	const CEGUI::KeyEventArgs& we =
+    static_cast<const CEGUI::KeyEventArgs&>(e);
+
+
+	if(we.scancode == CEGUI::Key::Space)
+	{
+		return HandleHappyOkButton(e);
+	}
+
+    return false;
 }

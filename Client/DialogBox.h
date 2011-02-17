@@ -109,7 +109,6 @@ protected:
 
 private:
 	CEGUI::Window*			_myBox;
-	Ice::Long				_current_dialoged_actor;
 
 };
 

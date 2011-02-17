@@ -130,6 +130,11 @@ public:
 
 	//! internally update player state
 	void UpdateState(LbaNet::ModelState	NewState);
+
+	//! get physic object
+	boost::shared_ptr<PhysicalObjectHandlerBase> GetPhysicalObject();
+
+
 protected:
 
 	//! check if we need to send update to server

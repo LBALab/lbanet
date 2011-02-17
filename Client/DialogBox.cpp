@@ -262,7 +262,7 @@ bool NPCDialogBox::Handlelbelected(const CEGUI::EventArgs& e)
 	{
 		LbaNet::GuiUpdatesSeq updseq;
 		LbaNet::DialogSelectedUpdate * upd = 
-			new LbaNet::DialogSelectedUpdate(_current_dialoged_actor, it->_SelectionIdx);
+			new LbaNet::DialogSelectedUpdate(it->_SelectionIdx);
 		updseq.push_back(upd);
 		
 		EventsQueue::getSenderQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
@@ -285,7 +285,6 @@ close dialog and inform actor
 void NPCDialogBox::CloseDialog()
 {
 	_myBox->hide();
-	_current_dialoged_actor  = -1;
 
 	LbaNet::GuiUpdatesSeq updseq;
 	LbaNet::GuiClosedUpdate * upd = 
@@ -379,11 +378,10 @@ void NPCDialogBox::Refresh(const LbaNet::GuiParamsSeq &Parameters)
 			LbaNet::DialogGuiParameter * castedptr = 
 				dynamic_cast<LbaNet::DialogGuiParameter *>(ptr);
 
-			// set NPC id
-			_current_dialoged_actor = castedptr->NPCId;
-
 			// set dialog title
-			std::string title = "Dialog with "+ Localizer::getInstance()->GetText(Localizer::Name, (long)castedptr->TittleTextId);
+			std::string title = Localizer::getInstance()->GetText(Localizer::GUI, 96)
+				+" "+ Localizer::getInstance()->GetText(Localizer::Name, (long)castedptr->NpcNameTextId);
+
 			static_cast<CEGUI::FrameWindow *> (
 				CEGUI::WindowManager::getSingleton().getWindow("DialogFrame"))
 				->setText((const unsigned char *)title.c_str());
@@ -410,9 +408,6 @@ void NPCDialogBox::Update(const LbaNet::GuiUpdatesSeq &Updates)
 		{
 			LbaNet::DialogUpdate * castedptr = 
 				dynamic_cast<LbaNet::DialogUpdate *>(ptr);
-
-			// set NPC id
-			_current_dialoged_actor = castedptr->NPCId;
 
 			//set dialog
 			BuildDialog(castedptr->DialogPartUpdate);

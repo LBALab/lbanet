@@ -709,6 +709,14 @@ void CharacterController::UpdateState(LbaNet::ModelState	NewState)
 }
 
 
+/***********************************************************
+get physic object
+***********************************************************/
+boost::shared_ptr<PhysicalObjectHandlerBase> CharacterController::GetPhysicalObject()
+{ 
+	return _character->GetPhysicalObject();
+}
+
 
 /***********************************************************
 internaly update mode and state
