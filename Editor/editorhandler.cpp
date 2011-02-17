@@ -35,6 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Lba1ModelMapHandler.h"
 #include "InventoryItemHandler.h"
 #include "DoorHandler.h"
+#include "NpcHandler.h"
 
 
 #include <qdir.h>
@@ -1040,7 +1041,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	_iteminformclientList(new CustomStringListModel())
 {											 
 	QStringList actlist;
-	actlist << "Static" << "Scripted" << "Door" <<"Movable";
+	actlist << "Static" << "Scripted" << "Door" << "Npc" <<"Movable";
 	_actortypeList->setStringList(actlist);
 	QStringList acttypelist;
 	acttypelist << "No" << "Osg Model" << "Sprite" << "Lba1 Model" << "Lba2 Model";
@@ -5851,6 +5852,8 @@ void EditorHandler::ActorAdd_button_accepted()
 	ainfo.ExtraInfo.NameColorB = 1.0;
 
 	bool door = false;
+	bool npc = false;
+
 
 	switch(_ui_addactordialog.comboBox_dtype->currentIndex())
 	{
@@ -5884,6 +5887,10 @@ void EditorHandler::ActorAdd_button_accepted()
 			door = true;
 		break;
 		case 3:
+			ainfo.PhysicDesc.TypePhysO = LbaNet::KynematicAType;
+			npc = true;
+		break;
+		case 4:
 			ainfo.PhysicDesc.TypePhysO = LbaNet::CharControlAType;
 		break;
 	}
@@ -5961,7 +5968,10 @@ void EditorHandler::ActorAdd_button_accepted()
 	if(door)
 		act = boost::shared_ptr<ActorHandler>(new DoorHandler(ainfo, 0, 0, 0, 0.01, true));
 	else
-		act = boost::shared_ptr<ActorHandler>(new ActorHandler(ainfo));
+		if(npc)
+			act = boost::shared_ptr<ActorHandler>(new NPCHandler(ainfo));
+		else
+			act = boost::shared_ptr<ActorHandler>(new ActorHandler(ainfo));
 
 	AddActorObject(act);
 	SetMapModified();
@@ -6482,6 +6492,10 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 			}
 		}
 
+		if(type == "Npc")
+		{
+			// todo - add dialogs
+		}
 
 
 		UpdateSelectedActorDisplay(ainfo.PhysicDesc, it->second);
@@ -6944,6 +6958,11 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 			}
 		}
 
+		if(it->second->ActorType() == "Door")
+		{
+			//todo - dialog
+		}
+
 
 		{
 		LbaNet::PhysicalActorType before = ainfo.PhysicDesc.TypePhysO;
@@ -6958,6 +6977,15 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 			if(it->second->ActorType() != "Door")
 			{
 				it->second = boost::shared_ptr<ActorHandler>(new DoorHandler(ainfo, 0, 0, 3, 0.01,	true));
+				updateobj = true;
+			}
+		}
+		if(type == "Npc") 
+		{
+			ainfo.PhysicDesc.TypePhysO = LbaNet::KynematicAType;
+			if(it->second->ActorType() != "Npc")
+			{
+				it->second = boost::shared_ptr<ActorHandler>(new NPCHandler(ainfo));
 				updateobj = true;
 			}
 		}

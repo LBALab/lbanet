@@ -500,6 +500,13 @@ public:
 	virtual void RevertActorModel(long ActorId){}
 
 
+	//! open dialog with player
+	virtual void StartDialog(long PlayerId, long NpcId, long npcnametextid, bool simpledialog, 
+												boost::shared_ptr<DialogPart> dialogroot){}
+
+	//! stop target player
+	virtual void NpcUntargetPlayer(long NpcId, long PlayerId){}
+
 
 public slots:
 	 //! ui button clicked

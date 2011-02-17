@@ -154,6 +154,11 @@
      </item>
      <item>
       <property name="text">
+       <string>Npc</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
        <string>Movable</string>
       </property>
      </item>
