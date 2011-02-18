@@ -1038,7 +1038,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	_mount_itemlistmodel(new CustomStringListModel()), _special_itemlistmodel(new CustomStringListModel()),
 	_actorscriptparttypeList(new CustomStringListModel()),_dorropeningtypeList(new CustomStringListModel()),
 	_dorropeningdirectionList(new CustomStringListModel()), _hurtanimationList(new CustomStringListModel()),
-	_iteminformclientList(new CustomStringListModel())
+	_iteminformclientList(new CustomStringListModel()), _addList(new CustomStringListModel()),
+	_removeList(new CustomStringListModel())
 {											 
 	QStringList actlist;
 	actlist << "Static" << "Scripted" << "Door" << "Npc" <<"Movable";
@@ -1052,6 +1053,14 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	QStringList actmodelist;
 	actmodelist << "None" << "Normal" << "Sport" << "Angry" << "Discrete" << "Protopack" << "Horse" << "Dinofly";
 	_actormodeList->setStringList(actmodelist);
+
+	QStringList addrlist;
+	addrlist << "Add";
+	_addList->setStringList(addrlist);
+
+	QStringList remrlist;
+	remrlist << "Remove";
+	_addList->setStringList(remrlist);
 
 
 	QStringList condlist;
@@ -5794,7 +5803,6 @@ Actor add button push
 ***********************************************************/
 void EditorHandler::ActorAdd_button()
 {
-	_ui_addactordialog.lineEdit_name->setText("");
 	_addactordialog->show();
 }
 
@@ -5846,7 +5854,7 @@ void EditorHandler::ActorAdd_button_accepted()
 
 	// add the actor to internal
 	ActorObjectInfo ainfo(_curractoridx+1);
-	ainfo.ExtraInfo.Name = _ui_addactordialog.lineEdit_name->text().toAscii().data();
+	ainfo.ExtraInfo.Name = "";
 	ainfo.ExtraInfo.NameColorR = 1.0;
 	ainfo.ExtraInfo.NameColorG = 1.0;
 	ainfo.ExtraInfo.NameColorB = 1.0;
@@ -6042,12 +6050,6 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 			_objectmodel->AppendRow(data, parent, true);
 		}
 
-		{
-			QVector<QVariant> data;
-			data<<"Name"<<ainfo.ExtraInfo.Name.c_str();
-			_objectmodel->AppendRow(data, parent);
-		}
-
 
 		{
 			ConditionBasePtr condptr = ainfo.Condition;
@@ -6058,6 +6060,8 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 
 			if(condptr)
 				SelectCondition(condptr, idx);
+
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), _conditiontypeList);
 		}
 
 
@@ -6144,10 +6148,10 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 			_objectmodel->AppendRow(data, parent);
 		}
 
-		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _conditiontypeList);
-		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 5, parent), _actortypeList);
-		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 6, parent), _actordtypeList);
-		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 7, parent), _actorptypeList);		
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 3, parent), _conditiontypeList);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actortypeList);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 5, parent), _actordtypeList);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 6, parent), _actorptypeList);		
 
 
 		{
@@ -6171,7 +6175,7 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 			_objectmodel->AppendRow(data, parent);
 		}
 
-		int index = 12;
+		int index = 11;
 
 		if(ainfo.PhysicDesc.TypeShape != LbaNet::NoShape)
 		{
@@ -6494,7 +6498,64 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 
 		if(type == "Npc")
 		{
-			// todo - add dialogs
+			NPCHandler* actorh = static_cast<NPCHandler*>(it->second.get());
+
+			// npc name
+			{
+				std::string txt = Localizer::getInstance()->GetText(Localizer::Name, actorh->GetNpcName());
+				std::stringstream txttmp;
+				txttmp<<actorh->GetNpcName()<<": "<<txt;
+
+				QVector<QVariant> data;
+				data<<"Npc name"<<QString::fromUtf8(txttmp.str().c_str());
+				_objectmodel->AppendRow(data, parent);
+
+				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _text_nameNameList);
+				++index;
+			}
+
+			// extended dialog
+			{
+
+				QVector<QVariant> data;
+				data<<"Extended dialog"<<!actorh->GetSimpleDialog();
+				_objectmodel->AppendRow(data, parent);
+
+				++index;
+			}
+
+			//add dialogs
+			{
+
+				QVector<QVariant> data;
+				data<<"Dialogs"<<"";
+				QModelIndex idx = _objectmodel->AppendRow(data, parent, true);
+				++index;
+
+				DialogPartPtr dialptr = actorh->GetRootDialog();
+				if(dialptr)
+				{
+					std::vector<DialogPartPtr> childs = dialptr->GetChilds();
+					for(size_t gg=0; gg< childs.size(); ++gg)
+					{
+						QVector<QVariant> datait;
+						datait << "Dialog" << "";
+						QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+						_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _removeList);
+
+						SelectDialog(childs[gg], idxit);
+					}
+				}
+
+				// add new item
+				QVector<QVariant> datait;
+				datait << "Dialog" << "Add new...";
+				QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _addList);	
+			
+			
+				_uieditor.treeView_object->setExpanded(idx, true); // expand 
+			}
 		}
 
 
@@ -6517,17 +6578,16 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 		bool updateobj = false;
 		ActorObjectInfo &ainfo = it->second->GetEditorActorInfo();
 
-		ainfo.ExtraInfo.Name = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString().toAscii().data();
-
-		ainfo.PhysicDesc.Pos.X = _objectmodel->data(_objectmodel->GetIndex(1, 8, parentIdx)).toFloat();
-		ainfo.PhysicDesc.Pos.Y = _objectmodel->data(_objectmodel->GetIndex(1, 9, parentIdx)).toFloat();
-		ainfo.PhysicDesc.Pos.Z = _objectmodel->data(_objectmodel->GetIndex(1, 10, parentIdx)).toFloat();
-		ainfo.PhysicDesc.Pos.Rotation = _objectmodel->data(_objectmodel->GetIndex(1, 11, parentIdx)).toFloat();
+		ainfo.PhysicDesc.Pos.X = _objectmodel->data(_objectmodel->GetIndex(1, 7, parentIdx)).toFloat();
+		ainfo.PhysicDesc.Pos.Y = _objectmodel->data(_objectmodel->GetIndex(1, 8, parentIdx)).toFloat();
+		ainfo.PhysicDesc.Pos.Z = _objectmodel->data(_objectmodel->GetIndex(1, 9, parentIdx)).toFloat();
+		ainfo.PhysicDesc.Pos.Rotation = _objectmodel->data(_objectmodel->GetIndex(1, 10, parentIdx)).toFloat();
 
 
 		//condition
 		{
-			std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
+			QModelIndex curidx = _objectmodel->GetIndex(0, 3, parentIdx);
+			std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString().toAscii().data();
 			std::string currcond = GetConditionType(ainfo.Condition);
 
 			if(condition != currcond)
@@ -6535,7 +6595,6 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 				ConditionBasePtr ptrtmp = CreateCondition(condition);
 				ainfo.Condition = ptrtmp;
 
-				QModelIndex curidx = _objectmodel->GetIndex(0, 4, parentIdx);
 				_objectmodel->Clear(curidx);
 				if(ptrtmp)
 				{
@@ -6546,7 +6605,7 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 			}
 		}
 
-		int index = 12;
+		int index = 11;
 
 		if(ainfo.PhysicDesc.TypeShape != LbaNet::NoShape)
 		{
@@ -6958,15 +7017,73 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 			}
 		}
 
-		if(it->second->ActorType() == "Door")
+		if(it->second->ActorType() == "Npc")
 		{
-			//todo - dialog
+			NPCHandler* actorh = static_cast<NPCHandler*>(it->second.get());
+
+			// npc name
+			{
+				std::string name = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+				name = name.substr(0, name.find(":"));
+				long textid = atol(name.c_str());
+				actorh->SetNpcName(textid);
+				++index;
+			}
+
+			// extended dialog
+			{
+
+				actorh->SetSimpleDialog(!_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool());
+				++index;
+			}
+
+
+
+			// dialog info
+			{
+				QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
+				int curridx = 0;
+
+				DialogPartPtr dialptr = actorh->GetRootDialog();
+				if(dialptr)
+				{
+					std::vector<DialogPartPtr> childs = dialptr->GetChilds();
+					for(size_t gg=0; gg< childs.size(); ++gg)
+					{
+						QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+						std::string check = _objectmodel->data(childidx).toString().toAscii().data();
+						++curridx;
+
+						if(check == "Remove")
+						{
+							dialptr->RemoveChild(childs[gg]);
+
+							updateobj = true;
+							break;
+						}
+					}
+
+					if(!updateobj)
+					{
+						QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+						std::string check = _objectmodel->data(childidx).toString().toAscii().data();
+						++index;
+						if(check == "Add")
+						{
+							DialogPartPtr newd(new DialogPart());
+							dialptr->AddChild(newd);
+
+							updateobj = true;
+						}
+					}
+				}
+			}
 		}
 
 
 		{
 		LbaNet::PhysicalActorType before = ainfo.PhysicDesc.TypePhysO;
-		std::string type = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toString().toAscii().data();
+		std::string type = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
 		if(type == "Static") 
 			ainfo.PhysicDesc.TypePhysO = LbaNet::StaticAType;
 		if(type == "Scripted") 
@@ -6997,7 +7114,7 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 		LbaNet::RenderTypeEnum befored = ainfo.DisplayDesc.TypeRenderer;
 		ainfo.DisplayDesc.TypeRenderer = LbaNet::NoRender;
 		
-		std::string dtype = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toString().toAscii().data();
+		std::string dtype = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toString().toAscii().data();
 		if(dtype == "Osg Model") 
 			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderOsgModel;
 		if(dtype == "Sprite") 
@@ -7011,7 +7128,7 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 			updateobj = true;
 
 		LbaNet::PhysicalShapeEnum beforep = ainfo.PhysicDesc.TypeShape;
-		std::string ptype = _objectmodel->data(_objectmodel->GetIndex(1, 7, parentIdx)).toString().toAscii().data();
+		std::string ptype = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toString().toAscii().data();
 		if(ptype == "No Shape") 
 			ainfo.PhysicDesc.TypeShape = LbaNet::NoShape;
 		if(ptype == "Box") 
@@ -9649,3 +9766,215 @@ void EditorHandler::colorModified(int v)
 	SharedDataHandler::getInstance()->EditorUpdate(_uieditor.label_mapname->text().toAscii().data(), update);
 
 }	
+
+
+
+/***********************************************************
+select dialog and put info in object list
+***********************************************************/
+void EditorHandler::SelectDialog(boost::shared_ptr<DialogPart> dialog, const QModelIndex &parent)
+{
+	if(parent == QModelIndex())
+		ResetObject();
+
+	if(!dialog)
+		return;
+
+	// add pointer for later change
+	_modelidxdatamap[parent] = (void*)dialog.get();
+
+	{
+		QVector<QVariant> data;
+		data<<"Type"<<"Dialog";
+		_objectmodel->AppendRow(data, parent, true);
+	}
+
+	// add condition
+	{
+		ConditionBasePtr condptr = dialog->GetCondition();
+
+		QVector<QVariant> data;
+		data << "Display condition" << GetConditionType(condptr).c_str();
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+		if(condptr)
+			SelectCondition(condptr, idx);
+
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), _conditiontypeList);
+	}
+
+	// add action
+	{
+		ActionBasePtr actptr = dialog->GetAction();
+		std::string acttype = GetActionType(actptr);
+
+		QVector<QVariant> data;
+		data << "Associated action" << acttype.c_str();
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		
+		if(actptr)
+			SelectAction(actptr.get(), idx);
+
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), _actiontypeList);
+	}	
+
+	// text
+	{
+		long tid = -1;
+		std::set<long> tlist = dialog->GetTextList();
+		if(tlist.size() > 0)
+			tid = *(tlist.begin());
+
+		std::string txt = Localizer::getInstance()->GetText(Localizer::Map, tid);
+		std::stringstream txttmp;
+		txttmp<<tid<<": "<<txt;
+
+		QVector<QVariant> data;
+		data<<"Text"<<QString::fromUtf8(txttmp.str().c_str());
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), _text_mapNameList);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Reset dialog"<<dialog->ResetDialog();
+		_objectmodel->AppendRow(data, parent);
+	}
+
+	// add child dialogs
+	{
+
+		QVector<QVariant> data;
+		data<<"Child Dialogs"<<"";
+		QModelIndex idx = _objectmodel->AppendRow(data, parent, true);
+
+
+		std::vector<DialogPartPtr> childs = dialog->GetChilds();
+		for(size_t gg=0; gg< childs.size(); ++gg)
+		{
+			QVector<QVariant> datait;
+			datait << "Dialog" << "";
+			QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _removeList);	
+
+			SelectDialog(childs[gg], idxit);
+		}
+
+
+		// add new item
+		QVector<QVariant> datait;
+		datait << "Dialog" << "Add new...";
+		QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _addList);	
+	
+	
+		_uieditor.treeView_object->setExpanded(idx, true); // expand 
+	}
+}
+
+
+/***********************************************************
+called when dialog changed
+***********************************************************/
+void EditorHandler::DialogChanged(const QModelIndex &parentIdx)
+{
+	std::map<QModelIndex, void *>::iterator it = _modelidxdatamap.find(parentIdx);
+	if(it != _modelidxdatamap.end())
+	{
+		DialogPart * ptr = (DialogPart*)it->second;
+		if(ptr)
+		{	
+			//get condition info
+			{
+			std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();
+			std::string currcond = GetConditionType(ptr->GetCondition());
+
+			if(condition != currcond)
+			{
+				ConditionBasePtr ptrtmp = CreateCondition(condition);
+				ptr->Setcondition(ptrtmp);
+
+				QModelIndex curidx = _objectmodel->GetIndex(0, 2, parentIdx);
+				_objectmodel->Clear(curidx);
+				if(ptrtmp)
+				{
+					SelectCondition(ptrtmp, curidx);
+
+					_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+				}
+
+				// need to save as something changed
+				SetModified();
+			}
+			}
+
+			// get action info
+			{
+				std::string action = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString().toAscii().data();
+				std::string curract = GetActionType(ptr->GetAction());
+
+				if(action != curract)
+				{
+					ActionBasePtr ptrtmp = CreateAction(action);
+					ptr->SetAction(ptrtmp);
+
+					QModelIndex curidx = _objectmodel->GetIndex(0, 3, parentIdx);
+					_objectmodel->Clear(curidx);
+					if(ptrtmp)
+					{
+						SelectAction(ptrtmp.get(), curidx);
+
+						_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+					}
+
+				}
+			}
+
+			// get text info
+			{
+				std::string text = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();		
+				text = text.substr(0, text.find(":"));
+				long textid = atol(text.c_str());
+				ptr->SetText(textid);
+			}
+
+
+
+			// get child dialog info
+			{
+				QModelIndex itemparent = _objectmodel->GetIndex(0, 5, parentIdx);
+				int curridx = 0;
+
+				std::vector<DialogPartPtr> childs = ptr->GetChilds();
+				for(size_t gg=0; gg< childs.size(); ++gg)
+				{
+					QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+					std::string check = _objectmodel->data(childidx).toString().toAscii().data();
+					++curridx;
+
+					if(check == "Remove")
+					{
+						ptr->RemoveChild(childs[gg]);
+
+						_objectmodel->Clear(parentIdx);
+						DialogChanged(parentIdx);
+						return;
+					}
+				}
+
+				QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+				std::string check = _objectmodel->data(childidx).toString().toAscii().data();
+				if(check == "Add")
+				{
+					DialogPartPtr newd(new DialogPart());
+					ptr->AddChild(newd);
+
+					_objectmodel->Clear(parentIdx);
+					DialogChanged(parentIdx);
+					return;
+				}
+			}
+		}
+	}
+}

@@ -57,7 +57,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class QTableWidgetItem;
 class ServerLuaHandler;
-
+class DialogPart;
 
 namespace osgManipulator
 {
@@ -919,8 +919,6 @@ protected:
 	void SelectCScript( ClientScriptBasePtr script, const QModelIndex &parent = QModelIndex());
 
 
-
-
 	//! draw ladder on the map
 	void UpdateSelectedGoUpLadderScriptDisplay( float posX, float posY, float posZ, float Height, int Direction );
 
@@ -964,6 +962,13 @@ protected:
 
 	//! item object changed
 	void ItemChanged(long id, const std::string & category, const QModelIndex &parentIdx);
+
+	//! select dialog and put info in object list
+	void SelectDialog(boost::shared_ptr<DialogPart> dialog, const QModelIndex &parent = QModelIndex());
+
+	//! called when dialog changed
+	void DialogChanged(const QModelIndex &parentIdx);
+
 
 private:
 	Ui::EditorClass										_uieditor;
@@ -1053,6 +1058,10 @@ private:
 
 	boost::shared_ptr<CustomStringListModel>							_hurtanimationList;
 	boost::shared_ptr<CustomStringListModel>							_iteminformclientList;
+
+	boost::shared_ptr<CustomStringListModel>							_addList;
+	boost::shared_ptr<CustomStringListModel>							_removeList;
+
 
 	GraphicsWindowQt *									_osgwindow;
 
