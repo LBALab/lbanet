@@ -964,7 +964,7 @@ protected:
 	void ItemChanged(long id, const std::string & category, const QModelIndex &parentIdx);
 
 	//! select dialog and put info in object list
-	void SelectDialog(boost::shared_ptr<DialogPart> dialog, const QModelIndex &parent = QModelIndex());
+	void SelectDialog(DialogPart* dialog, const QModelIndex &parent = QModelIndex());
 
 	//! called when dialog changed
 	void DialogChanged(const QModelIndex &parentIdx);
