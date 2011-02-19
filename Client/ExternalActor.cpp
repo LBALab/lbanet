@@ -35,7 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ***********************************************************/
 ExternalActor::ExternalActor(boost::shared_ptr<DynamicObject> obje, 
 											const LbaNet::ModelInfo &Info)
-: ExternalPlayer(obje, Info), _shouldreset(true)
+: ExternalPlayer(obje, Info), _shouldreset(true), _targetting(false)
 {
 
 }
@@ -256,6 +256,36 @@ target player
 ***********************************************************/
 void ExternalActor::Target(boost::shared_ptr<PhysicalObjectHandlerBase> object)
 {
+	if(!_targetting)
+	{
+		_targetting = true;
+		_targetsavedScripts = _currentScripts;
+
+		boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+		_targetsavedangle = physo->GetRotationYAxis();
+	}
+
 	_currentScripts = boost::shared_ptr<ScriptPartBase>(new 
 		TargetScriptPart(0, false, object));
+}
+
+
+/***********************************************************
+untarget
+***********************************************************/
+void ExternalActor::UnTarget()
+{
+	if(_targetting)
+	{
+		_currentScripts = _targetsavedScripts;
+		if(!_playingscript)
+		{
+			boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+			LbaQuaternion Q(_targetsavedangle, LbaVec3(0, 1, 0));
+			physo->SetRotation(Q);
+		}
+
+		_targetsavedScripts = boost::shared_ptr<ScriptPartBase>();
+		_targetting = false;
+	}
 }

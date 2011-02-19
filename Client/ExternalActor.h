@@ -62,6 +62,9 @@ public:
 	//! target object
 	void Target(boost::shared_ptr<PhysicalObjectHandlerBase> object);
 
+	//! untarget
+	void UnTarget();
+
 private:
 	boost::shared_ptr<ScriptPartBase>			_currentScripts;
 	float										_differencePosX;
@@ -71,6 +74,10 @@ private:
 
 
 	bool										_shouldreset;
+
+	bool										_targetting;
+	boost::shared_ptr<ScriptPartBase>			_targetsavedScripts;
+	float										_targetsavedangle;
 
 };
 

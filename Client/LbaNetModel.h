@@ -324,6 +324,9 @@ public:
 	//! actor target player
 	virtual void NpcTargetPlayer(long ActorId, long PlayerId);
 
+	//! actor untarget player
+	virtual void NpcUnTargetPlayer(long ActorId);
+
 protected:
 
 	//! clean up map

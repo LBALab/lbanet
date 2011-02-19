@@ -1499,6 +1499,17 @@ void LbaNetModel::NpcTargetPlayer(long ActorId, long PlayerId)
 }
 
 
+/***********************************************************
+actor untarget player
+***********************************************************/
+void LbaNetModel::NpcUnTargetPlayer(long ActorId)
+{
+	std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
+	if(it != _npcObjects.end())
+		it->second->UnTarget();
+}
+
+
 
 
 #ifdef _USE_QT_EDITOR_

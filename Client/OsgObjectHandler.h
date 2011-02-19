@@ -112,6 +112,10 @@ protected:
 	//! update model
 	void UpdateModel(const LbaNet::ModelInfo &mInfo);
 
+
+	//! extract name from string
+	std::string ExtractName(const std::string &text);
+
 protected:
 	float											_posX;
 	float											_posY; 

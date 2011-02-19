@@ -726,7 +726,7 @@ void LbaNetEngine::HandleGameEvents()
 		}
 
 
-		// ShowHideEvent
+		// InternalUpdateStateEvent
 		if(info == typeid(InternalUpdateStateEvent))
 		{
 			InternalUpdateStateEvent* castedptr = 
@@ -737,7 +737,30 @@ void LbaNetEngine::HandleGameEvents()
 
 			continue;
 		}
-		
+
+		// NpcTargetPlayerEvent
+		if(info == typeid(LbaNet::NpcTargetPlayerEvent))
+		{
+			LbaNet::NpcTargetPlayerEvent* castedptr = 
+				dynamic_cast<LbaNet::NpcTargetPlayerEvent *>(&obj);
+
+			if(m_lbaNetModel)
+				m_lbaNetModel->NpcTargetPlayer(castedptr->NpcId, castedptr->PlayerId);
+
+			continue;
+		}
+
+		// NpcUnTargetPlayerEvent
+		if(info == typeid(LbaNet::NpcUnTargetPlayerEvent))
+		{
+			LbaNet::NpcUnTargetPlayerEvent* castedptr = 
+				dynamic_cast<LbaNet::NpcUnTargetPlayerEvent *>(&obj);
+
+			if(m_lbaNetModel)
+				m_lbaNetModel->NpcUnTargetPlayer(castedptr->NpcId);
+
+			continue;
+		}
 	}
 }
 

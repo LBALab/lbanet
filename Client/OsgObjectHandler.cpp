@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectsDescription.h"
 #include "OSGHandler.h"
 #include "LogHandler.h"
+#include "Localizer.h"
 
 #include <osg/Geode>
 #include <osg/Geometry>
@@ -297,6 +298,8 @@ void OsgObjectHandler::RefreshText()
 			if(_extrainfo.Display)
 #endif
 		{
+			std::string name = ExtractName(_extrainfo.Name);
+
 			osg::Vec3 posT;
 			if(_uselight)
 			{
@@ -307,7 +310,7 @@ void OsgObjectHandler::RefreshText()
 			{
 				osg::BoundingSphere bs = GetRootNoLight()->computeBound();
 				posT = bs.center()+ osg::Vec3(0,1,0);	
-				if(_extrainfo.Name.find("Spawn") == 0)
+				if(name.find("Spawn") == 0)
 					posT = osg::Vec3(0,1,0);	
 			}
 
@@ -320,7 +323,7 @@ void OsgObjectHandler::RefreshText()
 
 			osg::ref_ptr<osg::Geode> _textgeode = new osg::Geode();
 			osg::ref_ptr<osgText::Text> textd = new osgText::Text();
-			textd->setText(_extrainfo.Name);
+			textd->setText(name);
 			textd->setColor(osg::Vec4(_extrainfo.NameColorR, _extrainfo.NameColorG, _extrainfo.NameColorB, 1));
 			textd->setCharacterSize(/*0.4f*/10);
 			textd->setFont("Tahoma.ttf");
@@ -590,4 +593,32 @@ void OsgObjectHandler::UpdateModel(const LbaNet::ModelInfo &mInfo)
 
 	UpdateMatrix();
 	RefreshText();
+}
+
+
+/***********************************************************
+extract name from string
+***********************************************************/
+std::string OsgObjectHandler::ExtractName(const std::string &text)
+{
+	std::string res = text;
+
+	if(text[0] == '#')
+	{
+		res = text.substr(1);
+		long textid = atol(res.c_str());
+		res = Localizer::getInstance()->GetText(Localizer::Name, textid);
+	}
+	else
+	{
+		int index = text.find(": #");
+		if(index != std::string::npos)
+		{
+			res = text.substr(index+3);
+			long textid = atol(res.c_str());
+			res = text.substr(0, index+2) + Localizer::getInstance()->GetText(Localizer::Name, textid);
+		}
+	}
+
+	return res;
 }
