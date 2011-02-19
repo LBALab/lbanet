@@ -247,7 +247,13 @@ module LbaNet
 		long 				NpcId;
 		long 				PlayerId;		
 	};
-	
+		
+	// server send target to client
+	class NpcUnTargetPlayerEvent extends ClientServerEventBase
+	{
+		long 				NpcId;
+
+	};	
 	
 };	
 
