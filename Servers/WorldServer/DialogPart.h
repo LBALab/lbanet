@@ -44,7 +44,9 @@ class DialogPart
 {
 public:
 	//! constructor
-	DialogPart(){}
+	DialogPart()
+		: _resetdialog(false)
+	{}
 	
 	//! destructor
 	virtual ~DialogPart(void){}

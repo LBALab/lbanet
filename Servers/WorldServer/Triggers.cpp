@@ -348,19 +348,45 @@ void ActivationTrigger::ObjectAction(DelayedExecutionHandler * delayedactH,
 	float distance = (diffX*diffX) + (diffY*diffY) + (diffZ*diffZ);
 	if(distance <= _MaxSquaredDistance)
 	{
-		if(_action1)
+		LbaVec3 lvec(-diffX, -diffY, -diffZ);
+		float angle = LbaQuaternion::GetAngleFromVector(lvec);
+		float angle1a = (angle - 50);
+		float angle1b = (angle - 50);
+
+		float angle2a = (angle + 50);
+		float angle2b = (angle + 50);
+
+		if(angle1a < 0)
 		{
-			if(_PlayAnimation && ObjectType == 2)
+			angle1a += 360;
+			angle2a += 360;
+			angle1b = 0;		
+		}
+
+		if(angle2b > 360)
+		{
+			angle1b -= 360;
+			angle2b -= 360;
+			angle2a = 360;
+		}
+
+		if(	((info.Rotation > angle1a) && (info.Rotation < angle2a)) ||
+			((info.Rotation > angle1b) && (info.Rotation < angle2b)) )
+		{
+			if(_action1)
 			{
-				DelayedAction daction;
-				daction.action = _action1;
-				daction.ClientId = ObjectId;
-				daction.args = NULL;
-				delayedactH->DelayActionAfterPlayerChangeState(daction, LbaNet::StActivateSwitch);
-			}
-			else
-			{
-				_action1->Execute(_owner, ObjectType, ObjectId, 0);
+				if(_PlayAnimation && ObjectType == 2)
+				{
+					DelayedAction daction;
+					daction.action = _action1;
+					daction.ClientId = ObjectId;
+					daction.args = NULL;
+					delayedactH->DelayActionAfterPlayerChangeState(daction, LbaNet::StActivateSwitch);
+				}
+				else
+				{
+					_action1->Execute(_owner, ObjectType, ObjectId, 0);
+				}
 			}
 		}
 	}

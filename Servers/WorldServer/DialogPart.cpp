@@ -104,7 +104,8 @@ DialogPartPtr DialogPart::GetNpcNextDialog(ScriptEnvironmentBase * owner, long P
 	std::vector<DialogPartPtr>::iterator end = _childs.end();
 	for(; it != end; ++it)
 	{
-		if((*it)->GetCondition()->Passed(owner, 2, PlayerId))
+		ConditionBasePtr cond = (*it)->GetCondition();
+		if(!cond || cond->Passed(owner, 2, PlayerId))
 			return *it;
 	}
 
@@ -124,7 +125,8 @@ std::vector<DialogPartPtr>  DialogPart::GetPlayerNextDialog(ScriptEnvironmentBas
 	std::vector<DialogPartPtr>::iterator end = _childs.end();
 	for(; it != end; ++it)
 	{
-		if((*it)->GetCondition()->Passed(owner, 2, PlayerId))
+		ConditionBasePtr cond = (*it)->GetCondition();
+		if(!cond || cond->Passed(owner, 2, PlayerId))
 			res.push_back(*it);
 	}
 
@@ -168,7 +170,7 @@ void DialogPart::SaveToLuaFile(std::ofstream & file, const std::string & name)
 	for(size_t i=0; i<_childs.size(); ++i)
 	{
 		std::stringstream named;
-		named<<name<<"_child"<<i;
+		named<<name<<"_c"<<i;
 		_childs[i]->SaveToLuaFile(file, named.str());
 
 		file<<"\t"<<name<<":AddChild("<<named.str()<<")"<<std::endl;
