@@ -603,6 +603,8 @@ TargetScriptPart::TargetScriptPart(int scriptid, bool asynchronus,
 ***********************************************************/
 bool TargetScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor)
 {
+	actor->Process(tnow, tdiff);
+
 	if(!_target)
 		return true;
 

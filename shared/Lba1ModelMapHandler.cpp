@@ -110,7 +110,7 @@ Lba1ModelMapHandler::Lba1ModelMapHandler()
 				std::getline(file, line);
 				std::vector<std::string> tokens;
 				StringHelper::Tokenize(line, tokens, ",");
-				if(tokens.size() > 5)
+				if(tokens.size() >= 5)
 				{
 					ModeData &mdata = _data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]];
 
