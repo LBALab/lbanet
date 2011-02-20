@@ -215,6 +215,9 @@ protected:
 	// get container items
 	LbaNet::ItemsMap GetContainerItem(const LbaNet::ItemInfo &item);
 
+	//! reset weapon if needed
+	void ResetWeapon();
+
 private:
 	long										_clientid;
 	ClientProxyBasePtr							_proxy;

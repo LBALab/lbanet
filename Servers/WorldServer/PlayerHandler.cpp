@@ -367,6 +367,7 @@ bool PlayerHandler::UpdatePlayerStance(LbaNet::ModelStance NewStance, LbaNet::Mo
 				LbaNet::ItemInfo iinfo = InventoryItemHandler::getInstance()->GetItemInfo(mountid);
 				_currentinfo.model.MountSkinColor = iinfo.Color1;
 				_currentinfo.model.MountHairColor = iinfo.Color2;
+				ResetWeapon();
 			}
 
 			_currentinfo.model.Mode = newmode;
@@ -418,16 +419,19 @@ bool PlayerHandler::UpdatePlayerWeapon(const std::string & weapon, LbaNet::Model
 	//check if state is legal
 	if(_currentstate && _currentstate->AllowChangeMode())
 	{
-		// if so check if already on this state
-		if(_currentinfo.EquipedWeapon != ItemId || _currentinfo.model.Weapon != weapon)
+		if(_currentmode && _currentmode->CanChangeWeapon())
 		{
-			_currentinfo.EquipedWeapon = ItemId;
-			LbaNet::ItemInfo iinfo = InventoryItemHandler::getInstance()->GetItemInfo(ItemId);
+			// if so check if already on this state
+			if(_currentinfo.EquipedWeapon != ItemId || _currentinfo.model.Weapon != weapon)
+			{
+				_currentinfo.EquipedWeapon = ItemId;
+				LbaNet::ItemInfo iinfo = InventoryItemHandler::getInstance()->GetItemInfo(ItemId);
 
-			_currentinfo.model.Weapon = weapon;
-			_currentinfo.model.WeaponColor = iinfo.Color1;
+				_currentinfo.model.Weapon = weapon;
+				_currentinfo.model.WeaponColor = iinfo.Color1;
 
-			return UpdatePlayerState(LbaNet::StPrepareWeapon, returnmodel);
+				return UpdatePlayerState(LbaNet::StPrepareWeapon, returnmodel);
+			}
 		}
 	}
 
@@ -453,6 +457,7 @@ bool PlayerHandler::UpdatePlayerOutfit(const std::string & outfit,	LbaNet::Model
 			_currentinfo.model.Outfit = outfit;
 			_currentinfo.model.OutfitColor = iinfo.Color1;
 
+			ResetWeapon();
 			UpdateStateModeClass();
 			returnmodel = _currentinfo.model;
 			return true;
@@ -1317,4 +1322,49 @@ LbaNet::ItemsMap PlayerHandler::GetContainerItem(const LbaNet::ItemInfo &item)
 	}
 
 	return res;
+}
+
+
+
+/***********************************************************
+reset weapon if needed
+***********************************************************/
+void PlayerHandler::ResetWeapon()
+{
+	if(_currentinfo.EquipedWeapon >= 0)
+	{
+		LbaNet::ItemsMap::iterator it = _currentinfo.inventory.InventoryStructure.find(_currentinfo.EquipedWeapon);
+		if(it != _currentinfo.inventory.InventoryStructure.end())
+		{
+			if(it->second.Info.StringFlag == "Saber")
+			{
+				_currentinfo.EquipedWeapon = -1;
+				_currentinfo.model.Weapon = "";
+				_currentinfo.model.WeaponColor = -1;
+
+				// check for another weapon
+				LbaNet::ItemsMap::iterator it = _currentinfo.inventory.InventoryStructure.begin();
+				LbaNet::ItemsMap::iterator end = _currentinfo.inventory.InventoryStructure.end();
+				for(; it != end; ++it)
+				{
+					if(it->second.Info.Type == 4)
+					{
+						if(it->second.Info.StringFlag == "MagicBall")
+						{
+							_currentinfo.EquipedWeapon = it->first;
+							_currentinfo.model.Weapon = it->second.Info.StringFlag;
+							_currentinfo.model.WeaponColor = it->second.Info.Color1;
+							break;
+						}
+					}
+				}		
+			}
+		}
+		else
+		{
+			_currentinfo.EquipedWeapon = -1;
+			_currentinfo.model.Weapon = "";
+			_currentinfo.model.WeaponColor = -1;
+		}
+	}
 }
