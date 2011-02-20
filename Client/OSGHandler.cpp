@@ -68,6 +68,301 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 
+//
+//
+//#include <osgOcean/Version>
+//#include <osgOcean/OceanScene>
+//#include <osgOcean/FFTOceanSurface>
+//#include <osgOcean/SiltEffect>
+//#include <osgOcean/ShaderManager>
+//
+//#include "SkyDome.h"
+//
+//// ----------------------------------------------------
+////                  Scene Model
+//// ----------------------------------------------------
+//
+//class SceneModel : public osg::Referenced
+//{
+//public:
+//    enum SCENE_TYPE{ CLEAR, DUSK, CLOUDY };
+//
+//private:
+//    SCENE_TYPE _sceneType;
+//
+//    osg::ref_ptr<osg::Group> _scene;
+//
+//    osg::ref_ptr<osgOcean::OceanScene> _oceanScene;
+//    osg::ref_ptr<osgOcean::FFTOceanSurface> _oceanSurface;
+//    osg::ref_ptr<osg::TextureCubeMap> _cubemap;
+//    osg::ref_ptr<SkyDome> _skyDome;
+//        
+//    std::vector<std::string> _cubemapDirs;
+//    std::vector<osg::Vec4f>  _lightColors;
+//    std::vector<osg::Vec4f>  _fogColors;
+//    std::vector<osg::Vec3f>  _underwaterAttenuations;
+//    std::vector<osg::Vec4f>  _underwaterDiffuse;
+//        
+//    osg::ref_ptr<osg::Light> _light;
+//
+//    std::vector<osg::Vec3f>  _sunPositions;
+//    std::vector<osg::Vec4f>  _sunDiffuse;
+//    std::vector<osg::Vec4f>  _waterFogColors;
+//
+//public:
+//    SceneModel( const osg::Vec2f& windDirection = osg::Vec2f(1.0f,1.0f),
+//                float windSpeed = 12.f,
+//                float depth = 10000.f,
+//                float reflectionDamping = 0.35f,
+//                float scale = 1e-8,
+//                bool  isChoppy = true,
+//                float choppyFactor = -2.5f,
+//                float crestFoamHeight = 2.2f ):
+//        _sceneType(CLEAR)
+//    {
+//        _cubemapDirs.push_back( "sky_clear" );
+//        _cubemapDirs.push_back( "sky_dusk" );
+//        _cubemapDirs.push_back( "sky_fair_cloudy" );
+//
+//        _fogColors.push_back( intColor( 199,226,255 ) );
+//        _fogColors.push_back( intColor( 244,228,179 ) );
+//        _fogColors.push_back( intColor( 172,224,251 ) );
+//
+//        _waterFogColors.push_back( intColor(27,57,109) );
+//        _waterFogColors.push_back( intColor(44,69,106 ) );
+//        _waterFogColors.push_back( intColor(84,135,172 ) );
+//
+//        _underwaterAttenuations.push_back( osg::Vec3f(0.015f, 0.0075f, 0.005f) );
+//        _underwaterAttenuations.push_back( osg::Vec3f(0.015f, 0.0075f, 0.005f) );
+//        _underwaterAttenuations.push_back( osg::Vec3f(0.008f, 0.003f, 0.002f) );
+//
+//        _underwaterDiffuse.push_back( intColor(27,57,109) );
+//        _underwaterDiffuse.push_back( intColor(44,69,106) );
+//        _underwaterDiffuse.push_back( intColor(84,135,172) );
+//
+//        _lightColors.push_back( intColor( 105,138,174 ) );
+//        _lightColors.push_back( intColor( 105,138,174 ) );
+//        _lightColors.push_back( intColor( 105,138,174 ) );
+//
+//        _sunPositions.push_back( osg::Vec3f(326.573, 1212.99 ,1275.19) );
+//        _sunPositions.push_back( osg::Vec3f(520.f, 1900.f, 550.f ) );
+//        _sunPositions.push_back( osg::Vec3f(-1056.89f, -771.886f, 1221.18f ) );
+//
+//        _sunDiffuse.push_back( intColor( 191, 191, 191 ) );
+//        _sunDiffuse.push_back( intColor( 251, 251, 161 ) );
+//        _sunDiffuse.push_back( intColor( 191, 191, 191 ) );
+//
+//        build(windDirection, windSpeed, depth, reflectionDamping, scale, isChoppy, choppyFactor, crestFoamHeight);
+//    }
+//
+//    void build( const osg::Vec2f& windDirection,
+//                float windSpeed,
+//                float depth,
+//                float reflectionDamping,
+//                float waveScale,
+//                bool  isChoppy,
+//                float choppyFactor,
+//                float crestFoamHeight )
+//    {
+//        {
+//            _scene = new osg::Group; 
+//
+//            {
+//                _cubemap = loadCubeMapTextures( _cubemapDirs[_sceneType] );
+//            }
+//
+//            // Set up surface
+//            {
+//                _oceanSurface = new osgOcean::FFTOceanSurface( 64, 256, 17, 
+//                    windDirection, windSpeed, depth, reflectionDamping, waveScale, isChoppy, choppyFactor, 10.f, 256 );  
+//
+//                _oceanSurface->setEnvironmentMap( _cubemap.get() );
+//                _oceanSurface->setFoamBottomHeight( 2.2f );
+//                _oceanSurface->setFoamTopHeight( 3.0f );
+//                _oceanSurface->enableCrestFoam( true );
+//                _oceanSurface->setLightColor( _lightColors[_sceneType] );
+//                // Make the ocean surface track with the main camera position, giving the illusion
+//                // of an endless ocean surface.
+//                _oceanSurface->enableEndlessOcean(true);
+//            }
+//
+//            // Set up ocean scene, add surface
+//            {
+//                osg::Vec3f sunDir = -_sunPositions[_sceneType];
+//                sunDir.normalize();
+//                
+//                _oceanScene = new osgOcean::OceanScene( _oceanSurface.get() );
+//                _oceanScene->setLightID(0);
+//                _oceanScene->enableReflections(true);
+//                _oceanScene->enableRefractions(false);
+//
+//                // Set the size of _oceanCylinder which follows the camera underwater. 
+//                // This cylinder prevents the clear from being visible past the far plane 
+//                // instead it will be the fog color.
+//                // The size of the cylinder should be changed according the size of the ocean surface.
+//                _oceanScene->setCylinderSize( 1900.f, 4000.f );
+//                
+//                _oceanScene->setAboveWaterFog(0.0012f, _fogColors[_sceneType] );
+//                _oceanScene->setUnderwaterFog(0.002f,  _waterFogColors[_sceneType] );
+//                _oceanScene->setUnderwaterDiffuse( _underwaterDiffuse[_sceneType] );
+//                _oceanScene->setUnderwaterAttenuation( _underwaterAttenuations[_sceneType] );
+//
+//                _oceanScene->setSunDirection( sunDir );
+//                _oceanScene->enableGodRays(false);
+//                _oceanScene->enableSilt(false);
+//                _oceanScene->enableUnderwaterDOF(false);
+//                _oceanScene->enableDistortion(true);
+//                _oceanScene->enableGlare(false);
+//                _oceanScene->setGlareAttenuation(0.8f);
+//
+//                // create sky dome and add to ocean scene
+//                // set masks so it appears in reflected scene and normal scene
+//               // _skyDome = new SkyDome( 1900.f, 16, 16, _cubemap.get() );
+//                ////_skyDome->setNodeMask( _oceanScene->getReflectedSceneMask() | _oceanScene->getNormalSceneMask() );
+//
+//               // _scene->addChild( _skyDome );
+//
+//                {
+//                    // Create and add fake texture for use with nodes without any texture
+//                    // since the OceanScene default scene shader assumes that texture unit 
+//                    // 0 is used as a base texture map.
+//                    osg::Image * image = new osg::Image;
+//                    image->allocateImage( 1, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE );
+//                    *(osg::Vec4ub*)image->data() = osg::Vec4ub( 0xFF, 0xFF, 0xFF, 0xFF );
+//                    
+//                    osg::Texture2D* fakeTex = new osg::Texture2D( image );
+//                    fakeTex->setWrap(osg::Texture2D::WRAP_S,osg::Texture2D::REPEAT);
+//                    fakeTex->setWrap(osg::Texture2D::WRAP_T,osg::Texture2D::REPEAT);
+//                    fakeTex->setFilter(osg::Texture2D::MIN_FILTER,osg::Texture2D::NEAREST);
+//                    fakeTex->setFilter(osg::Texture2D::MAG_FILTER,osg::Texture2D::NEAREST);
+//                    
+//                    osg::StateSet* stateset = _oceanScene->getOrCreateStateSet();
+//                    stateset->setTextureAttribute(0,fakeTex,osg::StateAttribute::ON);
+//                    stateset->setTextureMode(0,GL_TEXTURE_1D,osg::StateAttribute::OFF);
+//                    stateset->setTextureMode(0,GL_TEXTURE_2D,osg::StateAttribute::ON);
+//                    stateset->setTextureMode(0,GL_TEXTURE_3D,osg::StateAttribute::OFF);
+//                }
+//
+//            }
+//
+//            {
+//                osg::LightSource* lightSource = new osg::LightSource;
+//                lightSource->setLocalStateSetModes();
+//
+//                _light = lightSource->getLight();
+//                _light->setLightNum(0);
+//                _light->setAmbient( osg::Vec4d(0.3f, 0.3f, 0.3f, 1.0f ));
+//                _light->setDiffuse( _sunDiffuse[_sceneType] );
+//                _light->setSpecular(osg::Vec4d( 0.1f, 0.1f, 0.1f, 1.0f ) );
+//                _light->setPosition( osg::Vec4f(_sunPositions[_sceneType], 1.f) ); // point light
+//
+//                _scene->addChild( lightSource );
+//                _scene->addChild( _oceanScene.get() );
+//                //_scene->addChild( sunDebug(_sunPositions[CLOUDY]) );
+//            }
+//        }
+//    }
+//
+//    osgOcean::OceanTechnique* getOceanSurface( void )
+//    {
+//        return _oceanSurface.get();
+//    }
+//
+//    osg::Group* getScene(void){
+//        return _scene.get();
+//    }
+//
+//    osgOcean::OceanScene* getOceanScene()
+//    {
+//        return _oceanScene.get();
+//    }
+//
+//    void changeScene( SCENE_TYPE type )
+//    {
+//        _sceneType = type;
+//
+//        _cubemap = loadCubeMapTextures( _cubemapDirs[_sceneType] );
+//        _skyDome->setCubeMap( _cubemap.get() );
+//        _oceanSurface->setEnvironmentMap( _cubemap.get() );
+//        _oceanSurface->setLightColor( _lightColors[type] );
+//
+//        _oceanScene->setAboveWaterFog(0.0012f, _fogColors[_sceneType] );
+//        _oceanScene->setUnderwaterFog(0.002f,  _waterFogColors[_sceneType] );
+//        _oceanScene->setUnderwaterDiffuse( _underwaterDiffuse[_sceneType] );
+//        _oceanScene->setUnderwaterAttenuation( _underwaterAttenuations[_sceneType] );
+//        
+//        osg::Vec3f sunDir = -_sunPositions[_sceneType];
+//        sunDir.normalize();
+//
+//        _oceanScene->setSunDirection( sunDir );
+//
+//        _light->setPosition( osg::Vec4f(_sunPositions[_sceneType],1.f) );
+//        _light->setDiffuse( _sunDiffuse[_sceneType] ) ;
+//    }
+//
+//    osg::ref_ptr<osg::TextureCubeMap> loadCubeMapTextures( const std::string& dir )
+//    {
+//        enum {POS_X, NEG_X, POS_Y, NEG_Y, POS_Z, NEG_Z};
+//
+//        std::string filenames[6];
+//
+//        filenames[POS_X] = "resources/textures/" + dir + "/east.png";
+//        filenames[NEG_X] = "resources/textures/" + dir + "/west.png";
+//        filenames[POS_Z] = "resources/textures/" + dir + "/north.png";
+//        filenames[NEG_Z] = "resources/textures/" + dir + "/south.png";
+//        filenames[POS_Y] = "resources/textures/" + dir + "/down.png";
+//        filenames[NEG_Y] = "resources/textures/" + dir + "/up.png";
+//
+//        osg::ref_ptr<osg::TextureCubeMap> cubeMap = new osg::TextureCubeMap;
+//        cubeMap->setInternalFormat(GL_RGBA);
+//
+//        cubeMap->setFilter( osg::Texture::MIN_FILTER,    osg::Texture::LINEAR_MIPMAP_LINEAR);
+//        cubeMap->setFilter( osg::Texture::MAG_FILTER,    osg::Texture::LINEAR);
+//        cubeMap->setWrap  ( osg::Texture::WRAP_S,        osg::Texture::CLAMP_TO_EDGE);
+//        cubeMap->setWrap  ( osg::Texture::WRAP_T,        osg::Texture::CLAMP_TO_EDGE);
+//
+//        cubeMap->setImage(osg::TextureCubeMap::NEGATIVE_X, osgDB::readImageFile( filenames[NEG_X] ) );
+//        cubeMap->setImage(osg::TextureCubeMap::POSITIVE_X, osgDB::readImageFile( filenames[POS_X] ) );
+//        cubeMap->setImage(osg::TextureCubeMap::NEGATIVE_Y, osgDB::readImageFile( filenames[NEG_Y] ) );
+//        cubeMap->setImage(osg::TextureCubeMap::POSITIVE_Y, osgDB::readImageFile( filenames[POS_Y] ) );
+//        cubeMap->setImage(osg::TextureCubeMap::NEGATIVE_Z, osgDB::readImageFile( filenames[NEG_Z] ) );
+//        cubeMap->setImage(osg::TextureCubeMap::POSITIVE_Z, osgDB::readImageFile( filenames[POS_Z] ) );
+//
+//        return cubeMap;
+//    }
+//
+//    osg::Geode* sunDebug( const osg::Vec3f& position )
+//    {
+//        osg::ShapeDrawable* sphereDraw = new osg::ShapeDrawable( new osg::Sphere( position, 15.f ) );
+//        sphereDraw->setColor(osg::Vec4f(1.f,0.f,0.f,1.f));
+//        
+//        osg::Geode* sphereGeode = new osg::Geode;
+//        sphereGeode->addDrawable( sphereDraw );
+//        
+//        return sphereGeode;
+//    }
+//
+//    osg::Vec4f intColor(unsigned int r, unsigned int g, unsigned int b, unsigned int a = 255 )
+//    {
+//        float div = 1.f/255.f;
+//        return osg::Vec4f( div*(float)r, div*(float)g, div*float(b), div*(float)a );
+//    }
+//};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 OsgHandler* OsgHandler::_singletonInstance = NULL;
 
 /***********************************************************
@@ -895,7 +1190,7 @@ void OsgHandler::ResetDisplayTree()
 		_translNode->removeChild(_sceneNoLightRootNode);
 
 	_sceneNoLightRootNode = new osg::Group();	
-	_sceneRootNode->setName("SceneRootNodeNoLight");
+	_sceneNoLightRootNode->setName("SceneRootNodeNoLight");
 	_translNode->addChild(_sceneNoLightRootNode);
 
  //   osg::ref_ptr<osgParticle::PrecipitationEffect> precipitationEffect = new osgParticle::PrecipitationEffect;
@@ -976,6 +1271,32 @@ void OsgHandler::ResetDisplayTree()
 	LbaMainLightInfo Linf;
 	Linf.UseLight = false;
 	SetLight(Linf);
+
+
+
+
+
+
+	//test osgocean
+
+ //   float windx = 1.1f, windy = 1.1f;
+ //   osg::Vec2f windDirection(windx, windy);
+
+ //   float windSpeed = 12.f;
+ //   float depth = 1000.f;
+ //   float reflectionDamping = 0.35f;
+ //   float scale = 1e-8;
+ //   bool isChoppy = true;
+	//float choppyFactor = 2.5f;
+ //   float crestFoamHeight = 2.2f;
+ //   double oceanSurfaceHeight = 0.0f;
+ //   bool testCollision = false;
+ //   bool disableShaders = false;
+
+
+ //   osgOcean::ShaderManager::instance().enableShaders(true);
+ //   osg::ref_ptr<SceneModel> scene = new SceneModel(windDirection, windSpeed, depth, reflectionDamping, scale, isChoppy, choppyFactor, crestFoamHeight);
+	//_sceneNoLightRootNode-> addChild(scene->getScene());
 }
 
 
