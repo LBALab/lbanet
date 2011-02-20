@@ -101,6 +101,9 @@ public:
 								const CharKeyPressed & ButonPressed,
 								LbaNet::ModelState & newstate) {return false;}
 
+	//! check if can change weapon
+	virtual bool CanChangeWeapon(){return false;}
+
 };
 
 //*************************************************************************************************
@@ -115,6 +118,9 @@ class NormalCharacterMode : public CharacterModeBase
 public:
 	NormalCharacterMode(void){}
 	virtual ~NormalCharacterMode(void){}
+
+	//! check if can change weapon
+	virtual bool CanChangeWeapon(){return true;}
 };
 
 //*************************************************************************************************
@@ -149,6 +155,9 @@ public:
 
 		return false;
 	}
+
+	//! check if can change weapon
+	virtual bool CanChangeWeapon(){return true;}
 
 };
 
@@ -191,6 +200,9 @@ public:
 
 		return false;
 	}
+
+	//! check if can change weapon
+	virtual bool CanChangeWeapon(){return true;}
 };
 
 
@@ -224,6 +236,9 @@ public:
 
 		return false;
 	}
+
+	//! check if can change weapon
+	virtual bool CanChangeWeapon(){return true;}
 };
 
 
