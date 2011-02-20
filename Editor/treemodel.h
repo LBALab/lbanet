@@ -91,6 +91,8 @@ public:
 	//! used in the case of file dialog
 	bool SetCustomIndex(QModelIndex index, boost::shared_ptr<FileDialogOptionsBase> filefilter);
 
+	//! use in case of number list
+	bool SetCustomIndex(QModelIndex index, boost::shared_ptr<int> list);
 
 	//! clear the tree content
 	void Clear(const QModelIndex &index = QModelIndex());
@@ -109,7 +111,7 @@ public:
 	//! accessor
     boost::shared_ptr<CustomStringListModel> CustomIndex(const QModelIndex &index) const;
     boost::shared_ptr<FileDialogOptionsBase> CustomIndexFile(const QModelIndex &index) const;
-
+    boost::shared_ptr<int> CustomIndexNumber(const QModelIndex &index) const;
 
 private:
 	//! get item

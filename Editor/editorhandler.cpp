@@ -721,11 +721,29 @@ QWidget *CustomDelegate::createEditor(QWidget *parent, const QStyleOptionViewIte
 	TreeModel* Tmodel = static_cast<TreeModel*>(_model);
     boost::shared_ptr<CustomStringListModel> custom = Tmodel->CustomIndex(index);
     boost::shared_ptr<FileDialogOptionsBase> customf = Tmodel->CustomIndexFile(index);
+    boost::shared_ptr<int> customi = Tmodel->CustomIndexNumber(index);
+
 
 	if(custom)
 	{
 		QComboBox *editor = new QComboBox(parent);
 		editor->setModel(custom.get());
+		editor->setEditable(false);
+
+		connect(editor, SIGNAL(	currentIndexChanged(int)) , this, SLOT(objmodified(int)));
+		return editor;
+	}
+
+	if(customi)
+	{
+		QComboBox *editor = new QComboBox(parent);
+		editor->addItem("Remove");
+		for(int i=0; i< *customi; ++i)
+		{
+			std::stringstream strs;
+			strs<<i;
+			editor->addItem(strs.str().c_str());
+		}
 		editor->setEditable(false);
 
 		connect(editor, SIGNAL(	currentIndexChanged(int)) , this, SLOT(objmodified(int)));
@@ -786,6 +804,8 @@ void CustomDelegate::setEditorData(QWidget *editor, const QModelIndex &index) co
 	TreeModel* Tmodel = static_cast<TreeModel*>(_model);
     boost::shared_ptr<CustomStringListModel> custom = Tmodel->CustomIndex(index);
     boost::shared_ptr<FileDialogOptionsBase> customf = Tmodel->CustomIndexFile(index);
+    boost::shared_ptr<int> customi = Tmodel->CustomIndexNumber(index);
+
 
 	if(custom)
 	{
@@ -813,6 +833,35 @@ void CustomDelegate::setEditorData(QWidget *editor, const QModelIndex &index) co
 		 comboBox->blockSignals( false );
 		 return;
 	}
+
+
+	if(customi)
+	{
+		 QString value = index.model()->data(index, Qt::DisplayRole).toString();
+
+		QComboBox *comboBox = static_cast<QComboBox*>(editor);
+		 int index = comboBox->findText(value);
+		 if(index >= 0)
+			comboBox->setCurrentIndex(index);
+		 else
+		 {
+			value = value.right(value.size()-2);
+			index = comboBox->findText(value);
+			 if(index >= 0)
+				comboBox->setCurrentIndex(index);
+			 else
+			 {
+				value = value.right(value.size()-1);
+				index = comboBox->findText(value);
+				 if(index >= 0)
+					comboBox->setCurrentIndex(index);
+			 }
+		 }
+
+		 comboBox->blockSignals( false );
+		 return;
+	}
+
 
 	if(customf)
 	{
@@ -873,8 +922,21 @@ void CustomDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
 	TreeModel* Tmodel = static_cast<TreeModel*>(_model);
     boost::shared_ptr<CustomStringListModel> custom = Tmodel->CustomIndex(index);
     boost::shared_ptr<FileDialogOptionsBase> customf = Tmodel->CustomIndexFile(index);
+    boost::shared_ptr<int> customi = Tmodel->CustomIndexNumber(index);
 
 	if(custom)
+	{
+		QComboBox *comboBox = static_cast<QComboBox*>(editor);
+		comboBox->blockSignals( true );
+
+		QString value = comboBox->currentText();
+		model->setData(index, value);			
+
+		comboBox->blockSignals( false );
+		return;
+	}
+
+	if(customi)
 	{
 		QComboBox *comboBox = static_cast<QComboBox*>(editor);
 		comboBox->blockSignals( true );
@@ -6549,9 +6611,9 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 					for(size_t gg=0; gg< childs.size(); ++gg)
 					{
 						QVector<QVariant> datait;
-						datait << "Dialog" << "";
+						datait << "Dialog" << gg;
 						QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
-						_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _removeList);
+						_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), dialptr->GetChildSize());
 
 						SelectDialog(childs[gg].get(), idxit);
 					}
@@ -7086,6 +7148,25 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 								updateobj = true;
 								break;
 							}
+							else
+							{
+								if(check == "")
+								{
+									std::stringstream strsnum;
+									strsnum<<gg;
+									_objectmodel->setData(childidx, strsnum.str().c_str());	
+								}
+								else
+								{
+									long idxnow = atol(check.c_str());
+									if(idxnow != gg)
+									{
+										dialptr->UpdateChildPosition(childs[gg], idxnow);
+										updateobj = true;
+										break;
+									}
+								}
+							}
 						}
 
 						if(!updateobj)
@@ -7097,7 +7178,7 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 							if(check == "Add")
 							{
 								DialogPartPtr newd(new DialogPart());
-								dialptr->AddChild(newd);
+								int indexcc = dialptr->AddChild(newd);
 
 								{
 								// add new item
@@ -7108,9 +7189,11 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 								}
 
 								{
+								std::stringstream strsnum;
+								strsnum<<indexcc;
 								SelectDialog(newd.get(), childidx0);
-								_objectmodel->setData(childidx, "");
-								_objectmodel->SetCustomIndex(childidx, _removeList);
+								_objectmodel->SetCustomIndex(childidx, dialptr->GetChildSize());
+								_objectmodel->setData(childidx, strsnum.str().c_str());
 								_uieditor.treeView_object->setExpanded(childidx0, true); // expand 
 								}
 
@@ -9896,9 +9979,9 @@ void EditorHandler::SelectDialog(DialogPart* dialog, const QModelIndex &parent)
 		for(size_t gg=0; gg< childs.size(); ++gg)
 		{
 			QVector<QVariant> datait;
-			datait << "Dialog" << "";
+			datait << "Dialog" << gg;
 			QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
-			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _removeList);	
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), dialog->GetChildSize());	
 
 			SelectDialog(childs[gg].get(), idxit);
 		}
@@ -10008,6 +10091,26 @@ void EditorHandler::DialogChanged(const QModelIndex &parentIdx)
 						SelectDialog(ptr, parentIdx);
 						return;
 					}
+					else
+					{
+						if(check == "")
+						{
+							std::stringstream strsnum;
+							strsnum<<gg;
+							_objectmodel->setData(childidx, strsnum.str().c_str());	
+						}
+						else
+						{
+							long idxnow = atol(check.c_str());
+							if(idxnow != gg)
+							{
+								ptr->UpdateChildPosition(childs[gg], idxnow);
+								_objectmodel->Clear(parentIdx);
+								SelectDialog(ptr, parentIdx);
+								return;
+							}
+						}
+					}
 				}
 
 				QModelIndex childidx0 = _objectmodel->GetIndex(0, curridx, itemparent);
@@ -10016,7 +10119,7 @@ void EditorHandler::DialogChanged(const QModelIndex &parentIdx)
 				if(check == "Add")
 				{
 					DialogPartPtr newd(new DialogPart());
-					ptr->AddChild(newd);
+					int indexcc = ptr->AddChild(newd);
 
 					{
 					// add new item
@@ -10027,9 +10130,11 @@ void EditorHandler::DialogChanged(const QModelIndex &parentIdx)
 					}
 
 					{
+					std::stringstream strnum;
+					strnum<<indexcc;
 					SelectDialog(newd.get(), childidx0);
-					_objectmodel->setData(childidx, "");
-					_objectmodel->SetCustomIndex(childidx, _removeList);
+					_objectmodel->SetCustomIndex(childidx, ptr->GetChildSize());
+					_objectmodel->setData(childidx, strnum.str().c_str());
 					_uieditor.treeView_object->setExpanded(childidx0, true); // expand 
 					}
 

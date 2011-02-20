@@ -75,8 +75,14 @@ public:
 	//! SetCustomIndex
 	bool SetCustomIndex(int column, boost::shared_ptr<FileDialogOptionsBase> filefilter);
 
+	//! SetCustomIndex
+	bool SetCustomIndex(int column, boost::shared_ptr<int> list);
+
+
     boost::shared_ptr<CustomStringListModel> CustomIndex(int column) const;
     boost::shared_ptr<FileDialogOptionsBase> CustomIndexFile(int column) const;
+    boost::shared_ptr<int> CustomIndexNumber(int column) const;
+
 
 private:
     QList<TreeItem*>	childItems;
@@ -88,6 +94,7 @@ private:
 
 	QVector<boost::shared_ptr<CustomStringListModel> >	_customs;
 	QVector<boost::shared_ptr<FileDialogOptionsBase> >	_customsfiledialog;
+	QVector<boost::shared_ptr<int> >					_customsnumber;
 };
 
 

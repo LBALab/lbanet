@@ -271,6 +271,20 @@ bool TreeModel::SetCustomIndex(QModelIndex index, boost::shared_ptr<FileDialogOp
 }
 
 
+	//! use in case of number list
+/***********************************************************
+SetCustomIndex
+***********************************************************/
+bool TreeModel::SetCustomIndex(QModelIndex index, boost::shared_ptr<int> list)
+{  
+	TreeItem *item = getItem(index);
+	if(item)
+		return item->SetCustomIndex(index.column(), list);
+
+	return false;
+}
+
+
 
 
 /***********************************************************
@@ -358,3 +372,20 @@ boost::shared_ptr<FileDialogOptionsBase> TreeModel::CustomIndexFile(const QModel
 
     return boost::shared_ptr<FileDialogOptionsBase>();
 }
+
+
+/***********************************************************
+accessor
+***********************************************************/
+boost::shared_ptr<int> TreeModel::CustomIndexNumber(const QModelIndex &index) const
+{
+    if (!index.isValid())
+        return boost::shared_ptr<int>();
+
+
+	TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+	return item->CustomIndexNumber(index.column());
+
+    return boost::shared_ptr<int>();
+}
+
