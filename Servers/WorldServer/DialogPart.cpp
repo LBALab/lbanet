@@ -6,9 +6,11 @@
 /***********************************************************
 add child dialog
 ***********************************************************/
-void DialogPart::AddChild(DialogPartPtr child)
+int DialogPart::AddChild(DialogPartPtr child)
 {
 	_childs.push_back(child);
+	*_childsize = *_childsize + 1;
+	return *_childsize - 1;
 }
 
 
@@ -20,6 +22,8 @@ void DialogPart::RemoveChild(DialogPartPtr child)
 	std::vector<DialogPartPtr>::iterator it = std::find(_childs.begin(), _childs.end(), child);
 	if(it != _childs.end())
 		_childs.erase(it);
+
+	*_childsize = *_childsize - 1;
 }
 
 /***********************************************************

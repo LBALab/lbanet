@@ -45,14 +45,16 @@ class DialogPart
 public:
 	//! constructor
 	DialogPart()
-		: _resetdialog(false)
-	{}
+		: _resetdialog(false), _childsize(new int)
+	{
+		*_childsize = 0;
+	}
 	
 	//! destructor
 	virtual ~DialogPart(void){}
 
 	//! add child dialog
-	void AddChild(DialogPartPtr child);
+	int AddChild(DialogPartPtr child);
 
 	//! remove child dialog
 	void RemoveChild(DialogPartPtr child);
@@ -114,8 +116,9 @@ public:
 	// save action to lua file
 	void SaveToLuaFile(std::ofstream & file, const std::string & name);
 
-
-
+	// return child size
+	boost::shared_ptr<int> GetChildSize()
+	{ return _childsize;}
 
 
 protected:
@@ -126,6 +129,9 @@ protected:
 	bool							_resetdialog;
 
 	std::set<long>					_textids;
+
+
+	boost::shared_ptr<int>			_childsize;
 };
 
 
