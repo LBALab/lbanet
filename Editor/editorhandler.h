@@ -970,6 +970,13 @@ protected:
 	void DialogChanged(const QModelIndex &parentIdx);
 
 
+	//! set spawning in the object
+	void SelectTeleport(long id, const QModelIndex &parent = QModelIndex());
+
+	//! called when spawning object changed
+	void TeleportChanged(long id, const QModelIndex &parentIdx);
+
+
 private:
 	Ui::EditorClass										_uieditor;
 
@@ -1090,7 +1097,6 @@ private:
 	float												_posY;
 	float												_posZ;
 
-	long												_edited_tp;
 
 
 	osg::ref_ptr<osg::MatrixTransform>					_actornode;

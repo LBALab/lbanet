@@ -36,7 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "InventoryItemHandler.h"
 #include "DoorHandler.h"
 #include "NpcHandler.h"
-
+#include "Teleport.h"
 
 #include <qdir.h>
 #include <QErrorMessage>
@@ -1710,6 +1710,9 @@ void EditorHandler::SaveWorldAction()
 		// save inventory
 		InventoryItemHandler::getInstance()->SaveInformation();
 
+		// save general
+		SharedDataHandler::getInstance()->SaveToLua();
+
 		SetSaved();
 	}
 }
@@ -1969,31 +1972,6 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 		}
 	}
 
-	// add teleport
-	{
-		_tplistmodel->Clear();
-
-		const std::map<long, boost::shared_ptr<Teleport> > &tpseq = SharedDataHandler::getInstance()->GetTpList();
-		std::map<long, boost::shared_ptr<Teleport> >::const_iterator ittp = tpseq.begin();
-		std::map<long, boost::shared_ptr<Teleport> >::const_iterator endtp = tpseq.end();
-		for(long cc=1; ittp != endtp; ++ittp, ++cc)
-		{
-			std::string spawningname;
-			LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(ittp->second->GetMapName());
-			if(itmap != _winfo.Maps.end())
-			{
-				LbaNet::SpawningsSeq::iterator it = itmap->second.Spawnings.find(ittp->second->GetSpawn());
-				if(it != itmap->second.Spawnings.end())
-					spawningname = it->second.Name;
-			}
-
-			QStringList data;
-			data << ittp->second->GetName().c_str() << ittp->second->GetMapName().c_str() << spawningname.c_str();
-			_tplistmodel->AddOrUpdateRow(ittp->first, data);
-
-			_currteleportidx = ittp->first;
-		}
-	}
 
 	// add inventory items
 	{
@@ -2118,7 +2096,8 @@ on go tp clicked
 ***********************************************************/
 void EditorHandler::goto_tp_double_clicked(const QModelIndex & itm)
 {
-	goto_tp_button_clicked();
+	//goto_tp_button_clicked();
+	TpEdit_button();
 }
 
 
@@ -2262,6 +2241,33 @@ void EditorHandler::SetMapInfo(const std::string & mapname)
 			_currspawningidx = (ittp->first + 1);
 		}
 	}
+
+	// add teleport
+	{
+		_tplistmodel->Clear();
+
+		const std::map<long, boost::shared_ptr<TeleportDef> > &tpseq = SharedDataHandler::getInstance()->GetTpList();
+		std::map<long, boost::shared_ptr<TeleportDef> >::const_iterator ittp = tpseq.begin();
+		std::map<long, boost::shared_ptr<TeleportDef> >::const_iterator endtp = tpseq.end();
+		for(long cc=1; ittp != endtp; ++ittp, ++cc)
+		{
+			std::string spawningname;
+			LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(ittp->second->GetMapName());
+			if(itmap != _winfo.Maps.end())
+			{
+				LbaNet::SpawningsSeq::iterator it = itmap->second.Spawnings.find(ittp->second->GetSpawn());
+				if(it != itmap->second.Spawnings.end())
+					spawningname = it->second.Name;
+			}
+
+			QStringList data;
+			data << ittp->second->GetName().c_str() << ittp->second->GetMapName().c_str() << spawningname.c_str();
+			_tplistmodel->AddOrUpdateRow(ittp->first, data);
+
+			_currteleportidx = ittp->first;
+		}
+	}
+
 
 
 	// add lua stuff
@@ -2680,6 +2686,13 @@ void EditorHandler::objectdatachanged(const QModelIndex &index1, const QModelInd
 		if(type == "Dialog")
 		{
 			DialogChanged(parentIdx);
+			return;
+		}	
+
+		if(type == "Teleport")
+		{
+			long objid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toLong();
+			TeleportChanged(objid, parentIdx);
 			return;
 		}	
 	}
@@ -5567,9 +5580,8 @@ void EditorHandler::TpAdd_button()
 {
 	_ui_addtpdialog.lineEdit_tpname->setText("");
 	_ui_addtpdialog.comboBox_map->setModel(_mapNameList.get());
+	TpDialogMapChanged(0);
 	_addtpdialog->setWindowTitle("Add Teleport");
-	_edited_tp = -1;
-
 	_addtpdialog->show();
 }
 
@@ -5588,13 +5600,11 @@ void EditorHandler::TpRemove_button()
 
 		if(SharedDataHandler::getInstance()->RemoveTeleport(tpid))
 		{
-			// remove from internal memory
-			_winfo.TeleportInfo.erase(it);
-
 			// remove row from table
 			_tplistmodel->removeRows(indexes[0].row(), 1);
 
 			SetModified();
+			ClearObjectIfSelected("Teleport", tpid);
 		}
 	}
 }
@@ -5611,51 +5621,7 @@ void EditorHandler::TpEdit_button()
 	if(indexes.size() > 0)
 	{
 		long id = _tplistmodel->GetId(indexes[0]);
-		std::string name = _tplistmodel->GetString(indexes[0]).toAscii().data();
-		_edited_tp = id;
-
-		LbaNet::ServerTeleportsSeq::iterator it = _winfo.TeleportInfo.find(id);
-		if( it != _winfo.TeleportInfo.end())
-		{
-			_ui_addtpdialog.lineEdit_tpname->setText(name.c_str());
-
-
-			// add map list to combo box
-			_ui_addtpdialog.comboBox_map->setModel(_mapNameList.get());
-
-			int index = _ui_addtpdialog.comboBox_map->findText(it->second.MapName.c_str());
-			if(index >= 0)
-				_ui_addtpdialog.comboBox_map->setCurrentIndex(index);
-
-
-
-			// add spawning list to combo box
-			std::map<std::string, boost::shared_ptr<CustomStringListModel> >::iterator itsp = 
-													_mapSpawningList.find(it->second.MapName.c_str());
-			if(itsp != _mapSpawningList.end())
-			{
-				_ui_addtpdialog.comboBox_spawn->setModel(itsp->second.get());
-
-				// select span in combo box if exist
-				LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(it->second.MapName);
-				if(itmap != _winfo.Maps.end())
-				{
-					LbaNet::SpawningsSeq::iterator itmapsp = itmap->second.Spawnings.find(it->second.SpawningId);
-					if(itmapsp != itmap->second.Spawnings.end())
-					{
-						std::string spname = itmapsp->second.Name;
-						int indexsp = _ui_addtpdialog.comboBox_spawn->findText(spname.c_str());
-						if(indexsp >= 0)
-							_ui_addtpdialog.comboBox_spawn->setCurrentIndex(indexsp);
-					}
-				}
-			}
-
-			std::stringstream strs;
-			strs<<"Edit Teleport #"<<id;
-			_addtpdialog->setWindowTitle(strs.str().c_str());
-			_addtpdialog->show();
-		}
+		SelectTeleport(id);
 	}
 }
 
@@ -5692,26 +5658,22 @@ void EditorHandler::TpAdd_button_accepted()
 		}
 	}
 
-	long tpid = 0;
-	if(_edited_tp >= 0)
-		tpid = _edited_tp;
-	else
-	{
-		tpid = (++_currteleportidx);
-	}
+	long tpid = (++_currteleportidx);
+
 
 	QStringList data;
 	data << tpname.c_str() << mapname.c_str() << spawnname.c_str();
 	_tplistmodel->AddOrUpdateRow(tpid, data);
 
 
-	boost::shared_ptr<Teleport> newtp(new Teleport(tpid));
+	boost::shared_ptr<TeleportDef> newtp(new TeleportDef(tpid));
 	newtp->SetName(tpname);
 	newtp->SetMapName(mapname);
 	newtp->SetSpawn(spid);
 	SharedDataHandler::getInstance()->AddTeleport(newtp);
 
 	SetModified();
+	SelectTeleport(tpid);
 }
 
 
@@ -5741,16 +5703,17 @@ void EditorHandler::UpdateTpSpanName(const std::string & mapname,
 									 long spwid, 
 									 const std::string &  spname)
 {
-	LbaNet::ServerTeleportsSeq::iterator it = _winfo.TeleportInfo.begin();
-	LbaNet::ServerTeleportsSeq::iterator end = _winfo.TeleportInfo.end();
+	const std::map<long, boost::shared_ptr<TeleportDef> > &tpseq = SharedDataHandler::getInstance()->GetTpList();
+	std::map<long, boost::shared_ptr<TeleportDef> >::const_iterator it = tpseq.begin();
+	std::map<long, boost::shared_ptr<TeleportDef> >::const_iterator end = tpseq.end();
 	for(; it != end; ++it)
 	{
-		if(it->second.MapName == mapname)
+		if(it->second->GetMapName() == mapname)
 		{
-			if(it->second.SpawningId = spwid)
+			if(it->second->GetSpawn() == spwid)
 			{
 				QStringList data;
-				data << it->second.Name.c_str() << mapname.c_str() << spname.c_str();
+				data << it->second->GetName().c_str() << mapname.c_str() << spname.c_str();
 				_tplistmodel->AddOrUpdateRow(it->first, data);
 			}
 		}
@@ -10137,4 +10100,193 @@ void EditorHandler::DialogChanged(const QModelIndex &parentIdx)
 			}
 		}
 	}
+}
+
+
+/***********************************************************
+set teleport in the object
+***********************************************************/
+void EditorHandler::SelectTeleport(long id, const QModelIndex &parent)
+{
+	boost::shared_ptr<TeleportDef> tp = SharedDataHandler::getInstance()->GetTeleport(id);
+	if(!tp)
+		return;
+
+	if(parent == QModelIndex())
+		ResetObject();
+
+
+	{
+		QVector<QVariant> data;
+		data<<"Type"<<"Teleport";
+		_objectmodel->AppendRow(data, parent, true);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"SubCategory"<<"-";
+		_objectmodel->AppendRow(data, parent, true);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Id"<<id;
+		_objectmodel->AppendRow(data, parent, true);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Name"<<tp->GetName().c_str();
+		_objectmodel->AppendRow(data, parent);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Map name"<<tp->GetMapName().c_str();
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), _mapNameList);
+	}
+
+	{	
+		std::string spawningname;
+		LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(tp->GetMapName());
+		if(itmap != _winfo.Maps.end())
+		{
+			LbaNet::SpawningsSeq::iterator it = itmap->second.Spawnings.find(tp->GetSpawn());
+			if(it != itmap->second.Spawnings.end())
+				spawningname = it->second.Name;
+		}
+
+		QVector<QVariant> data;
+		data << "Spawn" << spawningname.c_str();
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+		std::map<std::string, boost::shared_ptr<CustomStringListModel> >::iterator it = 
+													_mapSpawningList.find(tp->GetMapName());
+		if(it != _mapSpawningList.end())
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), it->second);
+	}
+
+
+
+	// add condition
+	{
+		std::string condtype = "No";
+		ConditionBasePtr condptr = tp->GetCondition();
+		if(condptr)
+		{
+			condtype = condptr->GetTypeName();
+		}
+
+		QVector<QVariant> data;
+		data << "Condition" << condtype.c_str();
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), _conditiontypeList);
+
+		if(condptr)
+			SelectCondition(condptr, idx);
+	}
+
+}
+
+
+/***********************************************************
+called when teleport object changed
+***********************************************************/
+void EditorHandler::TeleportChanged(long id, const QModelIndex &parentIdx)
+{
+	boost::shared_ptr<TeleportDef> tp = SharedDataHandler::getInstance()->GetTeleport(id);
+	if(!tp)
+		return;
+
+	// get info
+	std::string name = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString().toAscii().data();
+	std::string mapname = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
+	std::string spawning = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toString().toAscii().data();
+
+	std::string oldmapname = tp->GetMapName();
+
+
+	// get id associated to spawning
+	long spid = -1;
+	if(spawning != "")
+	{
+		LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(mapname);
+		if(itmap != _winfo.Maps.end())
+		{
+			LbaNet::SpawningsSeq::iterator it = itmap->second.Spawnings.begin();
+			LbaNet::SpawningsSeq::iterator end = itmap->second.Spawnings.end();
+			for(;it != end; ++it)
+			{
+				if(spawning == it->second.Name)
+				{
+					spid = it->first;
+					break;
+				}
+			}
+		}
+	}
+
+	// update action
+	tp->SetName(name);
+	tp->SetMapName(mapname);
+	tp->SetSpawn(spid);
+
+
+	// refresh spawning list for teleport
+	if(oldmapname != mapname)
+	{
+		std::map<std::string, boost::shared_ptr<CustomStringListModel> >::iterator it = 
+			_mapSpawningList.find(mapname);
+		if(it != _mapSpawningList.end())
+		{
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 5, parentIdx), it->second);
+
+			spawning = "";
+			QStringList lst = it->second->stringList();
+			if(lst.size() > 0)
+			{
+				_objectmodel->setData(_objectmodel->GetIndex(1, 5, parentIdx), lst[0]);	
+				spawning = lst[0].toAscii().data();
+			}
+		}
+	}
+
+
+	// refresh list
+	{
+	QStringList data;
+	data << name.c_str() << mapname.c_str() << spawning.c_str();
+	_tplistmodel->AddOrUpdateRow(id, data);
+	}
+
+
+
+	// check condition part
+	{
+		std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toString().toAscii().data();
+		std::string currcond = GetConditionType(tp->GetCondition());
+
+		if(condition != currcond)
+		{
+			ConditionBasePtr ptrtmp = CreateCondition(condition);
+			tp->SetCondition(ptrtmp);
+
+			QModelIndex curidx = _objectmodel->GetIndex(0, 6, parentIdx);
+			_objectmodel->Clear(curidx);
+			if(ptrtmp)
+			{
+				SelectCondition(ptrtmp, curidx);
+
+				_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+			}
+
+		}
+	}
+
+
+
+	// need to save as something changed
+	SetModified();
 }
