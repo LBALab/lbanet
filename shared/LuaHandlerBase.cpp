@@ -13,6 +13,7 @@ extern "C"
 #include "LuaThreadHandler.h"
 #include "ScriptEnvironmentBase.h"
 #include "ActionArguments.h"
+#include "SharedDataHandler.h"
 
 /***********************************************************
 constructor
@@ -79,6 +80,23 @@ void LuaHandlerBase::CallLua(const std::string & functioname, ScriptEnvironmentB
 		LogHandler::getInstance()->LogToFile(std::string("Exception calling lua function ") + functioname + std::string(" : ") + error.what() + std::string(" : ") + lua_tostring(m_LuaState, -1), 0);
 	}
 }
+
+
+/***********************************************************
+call lua function
+***********************************************************/
+void LuaHandlerBase::CallLua(const std::string & functioname, SharedDataHandler* env)
+{
+	try
+	{
+		luabind::call_function<void>(m_LuaState, functioname.c_str(), env);
+	}
+	catch(const std::exception &error)
+	{
+		LogHandler::getInstance()->LogToFile(std::string("Exception calling lua function ") + functioname + std::string(" : ") + error.what() + std::string(" : ") + lua_tostring(m_LuaState, -1), 0);
+	}
+}
+
 
 
 

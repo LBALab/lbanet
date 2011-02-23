@@ -57,31 +57,6 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
     res.Description.Description = pt.get<std::string>("World.description");
     res.Description.News = pt.get<std::string>("World.news");
 
-	// get teleport info
-	try
-	{
-		BOOST_FOREACH(ptree::value_type &v, pt.get_child("World.teleports"))
-		{
-			TeleportInfo tpi;
-			tpi.Id = v.second.get<long>("<xmlattr>.id");
-			tpi.Name = v.second.get<std::string>("<xmlattr>.name");
-			tpi.MapName = v.second.get<std::string>("<xmlattr>.map");
-			tpi.SpawningId = v.second.get<long>("<xmlattr>.spawningid");
-			res.TeleportInfo[tpi.Id] = tpi;
-		}
-	}
-	catch(...){} // no tps
-
-	// get the files info
-	try
-	{
-		BOOST_FOREACH(ptree::value_type &v, pt.get_child("World.files"))
-		{
-			res.FileUsedInfo[v.second.get<std::string>("<xmlattr>.name")] 
-									=  v.second.get<std::string>("<xmlattr>.path");
-		}
-	}
-	catch(...){} // no files
 
 
 
@@ -192,24 +167,6 @@ bool XmlReader::SaveWorldInfo(const std::string &Filename, const WorldInformatio
     pt.put("World.name", res.Description.WorldName);
     pt.put("World.description", res.Description.Description);
     pt.put("World.news", res.Description.News);
-
-	// get teleport info
-    BOOST_FOREACH(const LbaNet::ServerTeleportsSeq::value_type &tp, res.TeleportInfo)
-	{
-		ptree &tmp = pt.add("World.teleports.teleport","");
-		tmp.put("<xmlattr>.id", tp.second.Id);
-		tmp.put("<xmlattr>.name", tp.second.Name);
-		tmp.put("<xmlattr>.map", tp.second.MapName);
-		tmp.put("<xmlattr>.spawningid", tp.second.SpawningId);
-	}
-
-	// get the files info
-    BOOST_FOREACH(const LbaNet::FilesSeq::value_type &file, res.FileUsedInfo)
-	{
-		ptree &tmp = pt.add("World.files.file","");
-		tmp.put("<xmlattr>.name", file.first);
-		tmp.put("<xmlattr>.path", file.second);
-	}
 
 
 	//// get the starting info

@@ -33,7 +33,7 @@ struct lua_State;
 class LuaThreadHandler;
 class ScriptEnvironmentBase;
 class ActionArgumentBase;
-
+class SharedDataHandler;
 
 //! class taking care of the maping between lua and the server interfaces
 class LuaHandlerBase
@@ -50,6 +50,10 @@ public:
 
 	//! call lua function
 	void CallLua(const std::string & functioname, ScriptEnvironmentBase* env = 0);
+
+	//! call lua function
+	void CallLua(const std::string & functioname, SharedDataHandler* env);
+
 
 	//! start script in a new thread
 	//! return script id if successed or -1 else
