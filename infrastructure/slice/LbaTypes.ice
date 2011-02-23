@@ -38,17 +38,6 @@ module LbaNet
 	
 	
 	
-
-	// teleport information
-	struct TeleportInfo
-	{
-		long			Id;
-		string 			Name;
-		string 			MapName;
-		long 			SpawningId;
-	};
-
-	dictionary<long, TeleportInfo> 	ServerTeleportsSeq;
 	dictionary<long, string> 	TeleportsSeq;
 	dictionary<string, string> 	FilesSeq;
 
@@ -212,8 +201,6 @@ module LbaNet
 	struct WorldInformation
 	{
 		WorldDesc 		Description;
-		ServerTeleportsSeq 	TeleportInfo;
-		FilesSeq		FileUsedInfo;
 		MapsSeq			Maps;
 		
 		PlayerStartingInfo	StartingInfo;
