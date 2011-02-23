@@ -143,19 +143,25 @@ public:
 
 
 	//! add tp
-	void AddTeleport(boost::shared_ptr<Teleport> tp);
+	void AddTeleport(boost::shared_ptr<TeleportDef> tp);
 
 	//! remove tp
 	bool RemoveTeleport(long id);
 
 	//! get tp list
-	const std::map<long, boost::shared_ptr<Teleport> > &GetTpList()
+	const std::map<long, boost::shared_ptr<TeleportDef> > &GetTpList()
 	{return m_teleports;}
+
+	// get tp
+	boost::shared_ptr<TeleportDef> GetTeleport(long id);
 
 
 	//! send tp list to player
 	LbaNet::TeleportsSeq GetTpList(ScriptEnvironmentBase * owner, Ice::Long clientid) const;
 
+
+	//! save to lua
+	void SaveToLua();
 
 protected:
 	//! constructor
@@ -200,7 +206,7 @@ private:
 
 	boost::shared_ptr<LuaHandlerBase>									m_luaHandler;
 
-	std::map<long, boost::shared_ptr<Teleport> >						m_teleports;
+	std::map<long, boost::shared_ptr<TeleportDef> >						m_teleports;
 };
 
 #endif

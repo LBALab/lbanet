@@ -31,16 +31,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Conditions.h"
 
 //! base class handling teleport
-class Teleport
+class TeleportDef
 {
 public:
 	//! constructor
-	Teleport(long id)
+	TeleportDef(long id)
 		: _Id(id)
 	{}
 	
 	//! destructor
-	virtual ~Teleport(void){}
+	virtual ~TeleportDef(void){}
 
 	//! accessor
 	long GetId()

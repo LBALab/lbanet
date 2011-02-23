@@ -485,6 +485,26 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts)
 				continue;
 			}
 
+			//RefreshTpRequestEvent
+			if(info == typeid(LbaNet::RefreshTpRequestEvent))
+			{
+				ClientProxyBasePtr proxy = GetProxy(it->first);
+				if(proxy)
+				{
+					LbaNet::TeleportsSeq tpseq = SharedDataHandler::getInstance()->GetTpList(this, it->first);
+
+					EventsSeq toplayer;
+					GuiParamsSeq seq;
+					seq.push_back(new TeleportGuiParameter(tpseq));
+					toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+																"TeleportBox", seq, true, false)); 
+					
+					IceUtil::ThreadPtr t = new EventsSender(toplayer, proxy);
+					t->start();		
+				}
+
+				continue;
+			}
 		}
 	}
 }

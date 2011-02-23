@@ -26,25 +26,29 @@ SharedDataHandler * SharedDataHandler::getInstance()
 }
 
 
-
 /***********************************************************
 set world default information
 ***********************************************************/
 void SharedDataHandler::SetWorldDefaultInformation(WorldInformation &worldinfo)
 {
+	// copy world info
+	{
 	Lock sync(*this);
 	_worldinfo = worldinfo;
 	_currentmaps.clear();
+	}
 
 	//init lua part
-	std::string luafile = "Worlds/" + _worldinfo.Description.WorldName + "/Lua/";
+	std::string luafile = "Worlds/" + worldinfo.Description.WorldName + "/Lua/";
 	luafile += "general.lua";
 
-	m_luaHandler = boost::shared_ptr<ServerLuaHandler>(new  ServerLuaHandler());
+	m_luaHandler = boost::shared_ptr<ServerLuaHandler>(new ServerLuaHandler());
 	m_luaHandler->LoadFile(luafile);
 	m_luaHandler->CallLua("Init", this);
 
 
+
+	Lock sync(*this);
 
 	// inform inventory handler
 	InventoryItemHandler::getInstance()->SetCurrentWorld(worldinfo.Description.WorldName);
@@ -400,7 +404,7 @@ void SharedDataHandler::TeleportPlayer(ScriptEnvironmentBase * owner, Ice::Long 
 		//TODO - check if teleport is legal
 
 		// get tp info
-		std::map<long, boost::shared_ptr<Teleport> >::iterator ittp = m_teleports.find(TeleportId);
+		std::map<long, boost::shared_ptr<TeleportDef> >::iterator ittp = m_teleports.find(TeleportId);
 		std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _currentplayers.find(clientid);
 	
 		if(ittp != m_teleports.end())
@@ -661,8 +665,8 @@ LbaNet::TeleportsSeq SharedDataHandler::GetTpList(ScriptEnvironmentBase * owner,
 	Lock sync(*this);
 
 	LbaNet::TeleportsSeq Tps;
-	std::map<long, boost::shared_ptr<Teleport> >::const_iterator ittp = m_teleports.begin();
-	std::map<long, boost::shared_ptr<Teleport> >::const_iterator endtp = m_teleports.end();
+	std::map<long, boost::shared_ptr<TeleportDef> >::const_iterator ittp = m_teleports.begin();
+	std::map<long, boost::shared_ptr<TeleportDef> >::const_iterator endtp = m_teleports.end();
 	for(; ittp != endtp; ++ittp)
 	{
 		if(ittp->second->ValidForPlayer(owner, clientid))
@@ -803,7 +807,7 @@ LbaNet::ModelState SharedDataHandler::GetMainState()
 /***********************************************************
 add tp
 ***********************************************************/
-void SharedDataHandler::AddTeleport(boost::shared_ptr<Teleport> tp)
+void SharedDataHandler::AddTeleport(boost::shared_ptr<TeleportDef> tp)
 {
 	Lock sync(*this);
 
@@ -819,7 +823,7 @@ bool SharedDataHandler::RemoveTeleport(long id)
 {
 	Lock sync(*this);
 
-	std::map<long, boost::shared_ptr<Teleport> >::iterator it = m_teleports.find(id);
+	std::map<long, boost::shared_ptr<TeleportDef> >::iterator it = m_teleports.find(id);
 	if(it != m_teleports.end())
 	{
 		m_teleports.erase(it);
@@ -827,4 +831,40 @@ bool SharedDataHandler::RemoveTeleport(long id)
 	}
 
 	return false;
+}
+
+/***********************************************************
+get tp
+***********************************************************/
+boost::shared_ptr<TeleportDef> SharedDataHandler::GetTeleport(long id)
+{
+	Lock sync(*this);
+
+	std::map<long, boost::shared_ptr<TeleportDef> >::iterator it = m_teleports.find(id);
+	if(it != m_teleports.end())
+		return it->second;
+
+
+	return boost::shared_ptr<TeleportDef>();
+}
+
+
+/***********************************************************
+save to lua
+***********************************************************/
+void SharedDataHandler::SaveToLua()
+{
+	std::string luafile = "Data/Worlds/" + _worldinfo.Description.WorldName + "/Lua/";
+	luafile += "general.lua";
+
+	std::ofstream file(luafile.c_str());
+	file<<"function Init(environment)"<<std::endl;
+
+	// save tps
+	std::map<long, boost::shared_ptr<TeleportDef> >::iterator ita = m_teleports.begin();
+	std::map<long, boost::shared_ptr<TeleportDef> >::iterator enda = m_teleports.end();
+	for(;ita != enda; ++ita)
+		ita->second->SaveToLuaFile(file);
+
+	file<<"end"<<std::endl;
 }

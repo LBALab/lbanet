@@ -18,6 +18,9 @@ extern "C"
 #include "DoorHandler.h"
 #include "DialogPart.h"
 #include "NpcHandler.h"
+#include "Quest.h"
+#include "Teleport.h"
+#include "SharedDataHandler.h"
 
 
 #ifdef _USE_QT_EDITOR_	
@@ -529,7 +532,40 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("SetText", &DialogPart::SetText)	
 		.def("AddText", &DialogPart::AddText)	
 		.def("RemoveText", &DialogPart::RemoveText)
-		.def("PickText", &DialogPart::PickText)
+		.def("PickText", &DialogPart::PickText),
+
+		luabind::class_<Quest, boost::shared_ptr<Quest> >("Quest")
+		.def(luabind::constructor<long>())
+		.def("GetId", &Quest::GetId)
+		.def("AddCondition", &Quest::AddCondition)
+		.def("RemoveCondition", &Quest::RemoveCondition)
+		.def("GetActionAtStart", &Quest::GetActionAtStart)
+		.def("SetActionAtStart", &Quest::SetActionAtStart)
+		.def("GetActionAtComplete", &Quest::GetActionAtComplete)
+		.def("SetActionAtComplete", &Quest::SetActionAtComplete)
+		.def("GetTitleTextId", &Quest::GetTitleTextId)
+		.def("SetTitleTextId", &Quest::SetTitleTextId)
+		.def("GetDescriptionTextId", &Quest::GetDescriptionTextId)
+		.def("SetDescriptionTextId", &Quest::SetDescriptionTextId)
+		.def("StartQuest", &Quest::StartQuest)
+		.def("QuestFinished", &Quest::QuestFinished),
+
+		luabind::class_<TeleportDef, boost::shared_ptr<TeleportDef> >("TeleportDef")
+		.def(luabind::constructor<long>())
+		.def("GetId", &TeleportDef::GetId)
+		.def("GetName", &TeleportDef::GetName)	
+		.def("SetName", &TeleportDef::SetName)
+		.def("GetMapName", &TeleportDef::GetMapName)	
+		.def("SetMapName", &TeleportDef::SetMapName)
+		.def("GetSpawn", &TeleportDef::GetSpawn)	
+		.def("SetSpawn", &TeleportDef::SetSpawn)
+		.def("GetCondition", &TeleportDef::GetCondition)	
+		.def("SetCondition", &TeleportDef::SetCondition),
+
+		luabind::class_<SharedDataHandler>("SharedDataHandler")
+		.def("AddTeleport", &SharedDataHandler::AddTeleport)
+		.def("RemoveTeleport", &SharedDataHandler::RemoveTeleport)
+		.def("GetTeleport", &SharedDataHandler::GetTeleport)
 		];
 
 	}

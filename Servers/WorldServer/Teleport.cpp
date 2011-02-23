@@ -4,14 +4,14 @@
 /***********************************************************
 save to lua
 ***********************************************************/
-void Teleport::SaveToLuaFile(std::ofstream & file)
+void TeleportDef::SaveToLuaFile(std::ofstream & file)
 {
 	std::stringstream names;
 	names<<"Teleport_"<<GetId();
 
-	file<<"\t"<<names.str()<<" = Teleport("<<GetId()<<")"<<std::endl;
-	file<<"\t"<<names.str()<<":SetName("<<_Name<<")"<<std::endl;
-	file<<"\t"<<names.str()<<":SetMapName("<<_MapName<<")"<<std::endl;
+	file<<"\t"<<names.str()<<" = TeleportDef("<<GetId()<<")"<<std::endl;
+	file<<"\t"<<names.str()<<":SetName(\""<<_Name<<"\")"<<std::endl;
+	file<<"\t"<<names.str()<<":SetMapName(\""<<_MapName<<"\")"<<std::endl;
 	file<<"\t"<<names.str()<<":SetSpawn("<<_SpawnId<<")"<<std::endl;
 
 	if(_condition)
@@ -30,7 +30,7 @@ void Teleport::SaveToLuaFile(std::ofstream & file)
 /***********************************************************
 check if tp valid for player
 ***********************************************************/
-bool Teleport::ValidForPlayer(ScriptEnvironmentBase * owner, long playerid) const
+bool TeleportDef::ValidForPlayer(ScriptEnvironmentBase * owner, long playerid) const
 {
 	if(_condition)
 		return _condition->Passed(owner, 2, playerid);
