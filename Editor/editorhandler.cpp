@@ -1972,21 +1972,23 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 	// add teleport
 	{
 		_tplistmodel->Clear();
-		LbaNet::ServerTeleportsSeq::const_iterator ittp = _winfo.TeleportInfo.begin();
-		LbaNet::ServerTeleportsSeq::const_iterator endtp = _winfo.TeleportInfo.end();
+
+		const std::map<long, boost::shared_ptr<Teleport> > &tpseq = SharedDataHandler::getInstance()->GetTpList();
+		std::map<long, boost::shared_ptr<Teleport> >::const_iterator ittp = tpseq.begin();
+		std::map<long, boost::shared_ptr<Teleport> >::const_iterator endtp = tpseq.end();
 		for(long cc=1; ittp != endtp; ++ittp, ++cc)
 		{
 			std::string spawningname;
-			LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(ittp->second.MapName);
+			LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(ittp->second->GetMapName());
 			if(itmap != _winfo.Maps.end())
 			{
-				LbaNet::SpawningsSeq::iterator it = itmap->second.Spawnings.find(ittp->second.SpawningId);
+				LbaNet::SpawningsSeq::iterator it = itmap->second.Spawnings.find(ittp->second->GetSpawn());
 				if(it != itmap->second.Spawnings.end())
 					spawningname = it->second.Name;
 			}
 
 			QStringList data;
-			data << ittp->second.Name.c_str() << ittp->second.MapName.c_str() << spawningname.c_str();
+			data << ittp->second->GetName().c_str() << ittp->second->GetMapName().c_str() << spawningname.c_str();
 			_tplistmodel->AddOrUpdateRow(ittp->first, data);
 
 			_currteleportidx = ittp->first;
@@ -5584,19 +5586,13 @@ void EditorHandler::TpRemove_button()
 	{
 		long tpid = _tplistmodel->GetId(indexes[0]);
 
-		LbaNet::ServerTeleportsSeq::iterator it = _winfo.TeleportInfo.find(tpid);
-		if( it != _winfo.TeleportInfo.end())
+		if(SharedDataHandler::getInstance()->RemoveTeleport(tpid))
 		{
 			// remove from internal memory
 			_winfo.TeleportInfo.erase(it);
 
 			// remove row from table
 			_tplistmodel->removeRows(indexes[0].row(), 1);
-
-
-			//inform server
-			EditorUpdateBasePtr update = new UpdateEditor_TeleportListChanged(_winfo.TeleportInfo);
-			SharedDataHandler::getInstance()->EditorUpdate("-", update);
 
 			SetModified();
 		}
@@ -5709,13 +5705,11 @@ void EditorHandler::TpAdd_button_accepted()
 	_tplistmodel->AddOrUpdateRow(tpid, data);
 
 
-	_winfo.TeleportInfo[tpid].Name = tpname;
-	_winfo.TeleportInfo[tpid].MapName = mapname;
-	_winfo.TeleportInfo[tpid].SpawningId = spid;
-
-	//inform server
-	EditorUpdateBasePtr update = new UpdateEditor_TeleportListChanged(_winfo.TeleportInfo);
-	SharedDataHandler::getInstance()->EditorUpdate("-", update);
+	boost::shared_ptr<Teleport> newtp(new Teleport(tpid));
+	newtp->SetName(tpname);
+	newtp->SetMapName(mapname);
+	newtp->SetSpawn(spid);
+	SharedDataHandler::getInstance()->AddTeleport(newtp);
 
 	SetModified();
 }

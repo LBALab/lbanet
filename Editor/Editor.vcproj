@@ -572,6 +572,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Servers\WorldServer\Teleport.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Client\TeleportBox.cpp"
 				>
 			</File>
@@ -1115,6 +1119,10 @@
 			</File>
 			<File
 				RelativePath="..\shared\SynchronizedTimeHandler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Servers\WorldServer\Teleport.h"
 				>
 			</File>
 			<File
