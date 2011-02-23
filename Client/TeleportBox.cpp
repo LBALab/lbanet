@@ -128,7 +128,11 @@ void TeleportBox::Initialize(CEGUI::Window* Root)
 		frw->setHeight(CEGUI::UDim(SizeY, 0));
 
 		if(Visible)
-			frw->show();
+		{
+			//frw->show();
+			EventsQueue::getSenderQueue()->AddEvent(new LbaNet::RefreshTpRequestEvent(
+				SynchronizedTimeHandler::GetCurrentTimeDouble()));
+		}
 		else
 			frw->hide();
 	}
@@ -238,8 +242,11 @@ void TeleportBox::ToggleDisplay()
 		_myBox->hide();
 	else
 	{
-		_myBox->show();
-		_myBox->activate();
+		EventsQueue::getSenderQueue()->AddEvent(new LbaNet::RefreshTpRequestEvent(
+			SynchronizedTimeHandler::GetCurrentTimeDouble()));
+
+		//_myBox->show();
+		//_myBox->activate();
 	}
 }
 
