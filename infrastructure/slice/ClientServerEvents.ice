@@ -255,6 +255,12 @@ module LbaNet
 
 	};	
 	
+	
+	
+	// client ask server to get a refresh of all tps
+	class RefreshTpRequestEvent extends ClientServerEventBase
+	{
+	};	
 };	
 
 #endif
