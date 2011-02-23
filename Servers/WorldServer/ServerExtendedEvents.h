@@ -178,27 +178,6 @@ public:
 
 
 
-/*
-************************************************************************************************************************
-*                                                  class UpdateEditor_TeleportListChanged
-*
-*	base class for all editor update
-************************************************************************************************************************
-*/
-class UpdateEditor_TeleportListChanged : public LbaNet::EditorUpdateBase
-{
-public:
-	//! constructor
-	UpdateEditor_TeleportListChanged(const LbaNet::ServerTeleportsSeq & TpList)
-	: _TpList(TpList)
-	{
-	}
-
-	LbaNet::ServerTeleportsSeq _TpList;
-};
-
-
-
 
 /*
 ************************************************************************************************************************

@@ -4,6 +4,7 @@
 #include "SynchronizedTimeHandler.h"
 #include "LogHandler.h"
 #include "InventoryItemHandler.h"
+#include "LuaHandlerBase.h"
 
 SharedDataHandler* SharedDataHandler::_Instance = NULL;
 
@@ -34,6 +35,15 @@ void SharedDataHandler::SetWorldDefaultInformation(WorldInformation &worldinfo)
 	Lock sync(*this);
 	_worldinfo = worldinfo;
 	_currentmaps.clear();
+
+	//init lua part
+	std::string luafile = "Worlds/" + _worldinfo.Description.WorldName + "/Lua/";
+	luafile += "general.lua";
+
+	m_luaHandler = boost::shared_ptr<ServerLuaHandler>(new  ServerLuaHandler());
+	m_luaHandler->LoadFile(luafile);
+	m_luaHandler->CallLua("Init", this);
+
 
 
 	// inform inventory handler
@@ -200,8 +210,6 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectE
 		}
 	}
 
-	// send teleport list
-	SendTpList(clientid, proxy);
 }
 
 
@@ -381,7 +389,7 @@ void SharedDataHandler::UpdateClientExtraInfo(Ice::Long clientid,
 /***********************************************************
 teleport player
 ***********************************************************/
-void SharedDataHandler::TeleportPlayer(Ice::Long clientid, long TeleportId)
+void SharedDataHandler::TeleportPlayer(ScriptEnvironmentBase * owner, Ice::Long clientid, long TeleportId)
 {
 	bool ok = false;
 	std::string mapname;
@@ -392,20 +400,24 @@ void SharedDataHandler::TeleportPlayer(Ice::Long clientid, long TeleportId)
 		//TODO - check if teleport is legal
 
 		// get tp info
-		LbaNet::ServerTeleportsSeq::iterator ittp = _worldinfo.TeleportInfo.find(TeleportId);
+		std::map<long, boost::shared_ptr<Teleport> >::iterator ittp = m_teleports.find(TeleportId);
 		std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _currentplayers.find(clientid);
 	
-		if(ittp != _worldinfo.TeleportInfo.end())
+		if(ittp != m_teleports.end())
 		{
 			//! get player current map
 			if(itplayer != _currentplayers.end())
 			{
-				//only tp if change map
-				if(ittp->second.MapName != itplayer->second->GetCurrentMap())
+				//check if player allowed to tp
+				if(ittp->second->ValidForPlayer(owner, clientid))
 				{
-					ok = true;
-					mapname = ittp->second.MapName;
-					spawnid = (long)ittp->second.SpawningId;
+					//only tp if change map
+					if(ittp->second->GetMapName() != itplayer->second->GetCurrentMap())
+					{
+						ok = true;
+						mapname = ittp->second->GetMapName();
+						spawnid = (long)ittp->second->GetSpawn();
+					}
 				}
 			}
 		}
@@ -632,20 +644,6 @@ void SharedDataHandler::EditorUpdate(const std::string &mapname,
 
 		}
 	}
-
-	// tp update
-	if(info == typeid(UpdateEditor_TeleportListChanged))
-	{
-		publish = false;
-		UpdateEditor_TeleportListChanged* castedptr = 
-			dynamic_cast<UpdateEditor_TeleportListChanged *>(&obj);
-
-		_worldinfo.TeleportInfo = castedptr->_TpList;
-
-		// send teleport list
-		SendTpList(1, _currentplayers[1]->GetProxy());
-	}
-
 	
 
 	// inform the map
@@ -658,25 +656,26 @@ void SharedDataHandler::EditorUpdate(const std::string &mapname,
 /***********************************************************
 send tp list to player
 ***********************************************************/
-void SharedDataHandler::SendTpList(Ice::Long clientid, const ClientProxyBasePtr &proxy)
+LbaNet::TeleportsSeq SharedDataHandler::GetTpList(ScriptEnvironmentBase * owner, Ice::Long clientid) const
 {
-	// internal - no lock
+	Lock sync(*this);
 
-	//  TODO - add condition on list
 	LbaNet::TeleportsSeq Tps;
-	LbaNet::ServerTeleportsSeq::iterator ittp = _worldinfo.TeleportInfo.begin();
-	LbaNet::ServerTeleportsSeq::iterator endtp = _worldinfo.TeleportInfo.end();
+	std::map<long, boost::shared_ptr<Teleport> >::const_iterator ittp = m_teleports.begin();
+	std::map<long, boost::shared_ptr<Teleport> >::const_iterator endtp = m_teleports.end();
 	for(; ittp != endtp; ++ittp)
-		Tps[ittp->first] = ittp->second.Name;
+	{
+		if(ittp->second->ValidForPlayer(owner, clientid))
+			Tps[ittp->first] = ittp->second->GetName();
+	}
 
-	EventsSeq toplayer;
-	GuiParamsSeq seq;
-	seq.push_back(new TeleportGuiParameter(Tps));
-	toplayer.push_back(
-		new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), "TeleportBox", seq, false, false));
+	return Tps;
 
-	IceUtil::ThreadPtr t = new EventsSender(toplayer, proxy);
-	t->start();	
+	//EventsSeq toplayer;
+	//GuiParamsSeq seq;
+	//seq.push_back(new TeleportGuiParameter(Tps));
+	//toplayer.push_back(
+	//	new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), "TeleportBox", seq, false, false));
 }
 
 
@@ -798,4 +797,34 @@ LbaNet::ModelState SharedDataHandler::GetMainState()
 {
 	// no need to lock - always called within the same thread
 	return _currentplayerstate;
+}
+
+
+/***********************************************************
+add tp
+***********************************************************/
+void SharedDataHandler::AddTeleport(boost::shared_ptr<Teleport> tp)
+{
+	Lock sync(*this);
+
+	if(tp)
+		m_teleports[tp->GetId()] = tp;
+}
+
+
+/***********************************************************
+remove tp
+***********************************************************/
+bool SharedDataHandler::RemoveTeleport(long id)
+{
+	Lock sync(*this);
+
+	std::map<long, boost::shared_ptr<Teleport> >::iterator it = m_teleports.find(id);
+	if(it != m_teleports.end())
+	{
+		m_teleports.erase(it);
+		return true;
+	}
+
+	return false;
 }

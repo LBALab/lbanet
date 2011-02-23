@@ -34,12 +34,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DatabaseHandlerBase.h"
 #include "ClientProxyHandler.h"
 #include "ServerExtendedEvents.h"
+#include "Teleport.h"
 
 
 class MapHandler;
 class PlayerHandler;
 class ServerLuaHandler;
-
+class LuaHandlerBase;
+class ScriptEnvironmentBase;
 
 using namespace LbaNet;
 
@@ -93,7 +95,7 @@ public:
 	void UpdateClientExtraInfo(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo);
 
 	//! teleport player
-	void TeleportPlayer(Ice::Long clientid, long TeleportId);
+	void TeleportPlayer(ScriptEnvironmentBase * owner, Ice::Long clientid, long TeleportId);
 
 	//! change map for player
 	void ChangeMapPlayer(Ice::Long clientid, const std::string &NewMapName, long SpawningId,
@@ -139,6 +141,22 @@ public:
 	//! return main player state
 	LbaNet::ModelState GetMainState();
 
+
+	//! add tp
+	void AddTeleport(boost::shared_ptr<Teleport> tp);
+
+	//! remove tp
+	bool RemoveTeleport(long id);
+
+	//! get tp list
+	const std::map<long, boost::shared_ptr<Teleport> > &GetTpList()
+	{return m_teleports;}
+
+
+	//! send tp list to player
+	LbaNet::TeleportsSeq GetTpList(ScriptEnvironmentBase * owner, Ice::Long clientid) const;
+
+
 protected:
 	//! constructor
 	SharedDataHandler(void){}
@@ -166,8 +184,6 @@ protected:
 	//! internally change map for player
 	void ChangeMapPlayer(Ice::Long clientid, LbaNet::PlayerPosition &newpos);
 
-	//! send tp list to player
-	void SendTpList(Ice::Long clientid, const ClientProxyBasePtr &proxy);
 
 
 private:
@@ -181,6 +197,10 @@ private:
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >				_currentplayers;
 
 	LbaNet::ModelState													_currentplayerstate;
+
+	boost::shared_ptr<LuaHandlerBase>									m_luaHandler;
+
+	std::map<long, boost::shared_ptr<Teleport> >						m_teleports;
 };
 
 #endif

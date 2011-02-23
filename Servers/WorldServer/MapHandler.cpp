@@ -352,7 +352,7 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts)
 				LbaNet::TeleportEvent* castedptr = 
 					dynamic_cast<LbaNet::TeleportEvent *>(&obj);
 
-				SharedDataHandler::getInstance()->TeleportPlayer(it->first, (long)castedptr->TeleportId);
+				SharedDataHandler::getInstance()->TeleportPlayer(this, it->first, (long)castedptr->TeleportId);
 
 				continue;
 			}
