@@ -1,0 +1,2 @@
+function Init(environment)
+end

@@ -43,6 +43,92 @@ function InitMap(environment)
 	Actor_1H = ActorHandler(Actor_1)
 	environment:AddActorObject(Actor_1H)
 
+	Actor_2 = ActorObjectInfo(2)
+	Actor_2:SetRenderType(3)
+	Actor_2.DisplayDesc.ModelId = 0
+	Actor_2.DisplayDesc.ModelName = "FunFrock"
+	Actor_2.DisplayDesc.Outfit = "No"
+	Actor_2.DisplayDesc.Weapon = "No"
+	Actor_2.DisplayDesc.Mode = "Normal"
+	Actor_2.DisplayDesc.UseLight = true
+	Actor_2.DisplayDesc.CastShadow = true
+	Actor_2.DisplayDesc.ColorR = 1
+	Actor_2.DisplayDesc.ColorG = 1
+	Actor_2.DisplayDesc.ColorB = 1
+	Actor_2.DisplayDesc.ColorA = 1
+	Actor_2.DisplayDesc.TransX = 0
+	Actor_2.DisplayDesc.TransY = 0
+	Actor_2.DisplayDesc.TransZ = 0
+	Actor_2.DisplayDesc.ScaleX = 1
+	Actor_2.DisplayDesc.ScaleY = 1
+	Actor_2.DisplayDesc.ScaleZ = 1
+	Actor_2.DisplayDesc.RotX = 0
+	Actor_2.DisplayDesc.RotY = 0
+	Actor_2.DisplayDesc.RotZ = 0
+	Actor_2:SetModelState(2)
+	Actor_2.PhysicDesc.Pos.X = 57.5
+	Actor_2.PhysicDesc.Pos.Y = 0
+	Actor_2.PhysicDesc.Pos.Z = 20
+	Actor_2.PhysicDesc.Pos.Rotation = 0
+	Actor_2.PhysicDesc.Density = 1
+	Actor_2.PhysicDesc.Collidable = true
+	Actor_2.PhysicDesc.SizeX = 1
+	Actor_2.PhysicDesc.SizeY = 5
+	Actor_2.PhysicDesc.SizeZ = 1
+	Actor_2.PhysicDesc.Filename = ""
+	Actor_2:SetPhysicalActorType(2)
+	Actor_2:SetPhysicalShape(2)
+	Actor_2.ExtraInfo.Name = "#0"
+	Actor_2.ExtraInfo.NameColorR = 1
+	Actor_2.ExtraInfo.NameColorG = 1
+	Actor_2.ExtraInfo.NameColorB = 1
+	Actor_2.ExtraInfo.Display = false
+	Actor_2.LifeInfo.Display = false
+	Actor_2H = NPCHandler(Actor_2)
+	Actor_2H_dia = DialogPart()
+	Actor_2H_dia:SetResetDialog(false)
+	Actor_2H_dia_c0 = DialogPart()
+	Actor_2H_dia_c0:SetResetDialog(false)
+	Actor_2H_dia_c0:AddText(0)
+	Actor_2H_dia_c0_c0 = DialogPart()
+	Actor_2H_dia_c0_c0:SetResetDialog(false)
+	Actor_2H_dia_c0_c0:AddText(9)
+	Actor_2H_dia_c0_c0_c0 = DialogPart()
+	Actor_2H_dia_c0_c0_c0_cond = NegateCondition()
+	Actor_2H_dia_c0_c0_c0_cond_c = AlwaysTrueCondition()
+	Actor_2H_dia_c0_c0_c0_cond:SetCondition(Actor_2H_dia_c0_c0_c0_cond_c)
+	Actor_2H_dia_c0_c0_c0:Setcondition(Actor_2H_dia_c0_c0_c0_cond)
+	Actor_2H_dia_c0_c0_c0:SetResetDialog(false)
+	Actor_2H_dia_c0_c0_c0:AddText(10)
+	Actor_2H_dia_c0_c0_c0_c0 = DialogPart()
+	Actor_2H_dia_c0_c0_c0_c0:SetResetDialog(false)
+	Actor_2H_dia_c0_c0_c0_c0:AddText(4)
+	Actor_2H_dia_c0_c0_c0:AddChild(Actor_2H_dia_c0_c0_c0_c0)
+	Actor_2H_dia_c0_c0_c0_c1 = DialogPart()
+	Actor_2H_dia_c0_c0_c0_c1:SetResetDialog(false)
+	Actor_2H_dia_c0_c0_c0_c1:AddText(28)
+	Actor_2H_dia_c0_c0_c0:AddChild(Actor_2H_dia_c0_c0_c0_c1)
+	Actor_2H_dia_c0_c0:AddChild(Actor_2H_dia_c0_c0_c0)
+	Actor_2H_dia_c0_c0_c1 = DialogPart()
+	Actor_2H_dia_c0_c0_c1:SetResetDialog(true)
+	Actor_2H_dia_c0_c0_c1:AddText(24)
+	Actor_2H_dia_c0_c0_c1_c0 = DialogPart()
+	Actor_2H_dia_c0_c0_c1_c0_act = HurtAction()
+	Actor_2H_dia_c0_c0_c1_c0_act:SetHurtValue(10)
+	Actor_2H_dia_c0_c0_c1_c0_act:SetPlayedAnimation(1)
+	Actor_2H_dia_c0_c0_c1_c0_act:HurtLifeOrMana(true)
+	Actor_2H_dia_c0_c0_c1_c0:SetAction(Actor_2H_dia_c0_c0_c1_c0_act)
+	Actor_2H_dia_c0_c0_c1_c0:SetResetDialog(true)
+	Actor_2H_dia_c0_c0_c1_c0:AddText(33)
+	Actor_2H_dia_c0_c0_c1:AddChild(Actor_2H_dia_c0_c0_c1_c0)
+	Actor_2H_dia_c0_c0:AddChild(Actor_2H_dia_c0_c0_c1)
+	Actor_2H_dia_c0:AddChild(Actor_2H_dia_c0_c0)
+	Actor_2H_dia:AddChild(Actor_2H_dia_c0)
+	Actor_2H:SetRootDialog(Actor_2H_dia)
+	Actor_2H:SetNpcName(0)
+	Actor_2H:SetSimpleDialog(false)
+	environment:AddActorObject(Actor_2H)
+
 	Trigger_1_info = TriggerInfo(1, "exit0", true, true, false)
 	Trigger_1 = ZoneTrigger(Trigger_1_info, 11, 6, 1, true)
 	Trigger_1:SetPosition(19.5, 0, 0.5)
@@ -114,16 +200,5 @@ function InitMap(environment)
 	Trigger_8:SetAction1(Trigger_8_act1)
 	Trigger_8:SetPlayAnimation(false)
 	environment:AddTrigger(Trigger_8)
-
-	Trigger_9_info = TriggerInfo(9, "dfgdg", true, true, false)
-	Trigger_9 = ActivationTrigger(Trigger_9_info, 1.5, "Normal", "None")
-	Trigger_9:SetPosition(56, 0, 18.5)
-	Trigger_9_act1 = AddRemoveItemAction()
-	Trigger_9_act1:SetItemId(2)
-	Trigger_9_act1:SetNumber(1)
-	Trigger_9_act1:SetInformClientType(2)
-	Trigger_9:SetAction1(Trigger_9_act1)
-	Trigger_9:SetPlayAnimation(false)
-	environment:AddTrigger(Trigger_9)
 
 end

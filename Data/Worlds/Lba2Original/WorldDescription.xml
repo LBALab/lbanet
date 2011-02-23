@@ -3,21 +3,7 @@
 	<name>Lba2Original</name>
 	<description>Reconstruction of the LBA2 original world.</description>
 	<news>11/10/2010: First release.</news>
-	<teleports>
-		<teleport id="1" name="Ascension Island" map="ASCENCE" spawningid="1"/>
-		<teleport id="2" name="Celebration Island" map="CELEBRAT" spawningid="1"/>
-		<teleport id="3" name="Celebration Island 2" map="CELEBRA2" spawningid="1"/>
-		<teleport id="4" name="Citdel Island" map="CITABAU" spawningid="1"/>
-		<teleport id="5" name="Citdel Island - raining" map="CITADEL" spawningid="1"/>
-		<teleport id="6" name="Desert Island" map="DESERT" spawningid="1"/>
-		<teleport id="7" name="Emeraude Moon" map="EMERAUDE" spawningid="1"/>
-		<teleport id="8" name="Ilot CX" map="ILOTCX" spawningid="1"/>
-		<teleport id="9" name="Knartas Island" map="KNARTAS" spawningid="1"/>
-		<teleport id="10" name="Mosquibee Island" map="MOSQUIBE" spawningid="1"/>
-		<teleport id="11" name="Otringal" map="OTRINGAL" spawningid="12"/>
-		<teleport id="12" name="Under Gas" map="PLATFORM" spawningid="1"/>
-		<teleport id="13" name="Under Celebration" map="SOUSCELB" spawningid="1"/>
-	</teleports>
+
 	<PlayerStartingInfo>
 		<InventorySize>30</InventorySize>
 		<StartingLife>50</StartingLife>
