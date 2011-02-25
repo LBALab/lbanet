@@ -36,6 +36,7 @@ class ContainerSharedInfo;
 class DialogPart;
 
 #include <boost/shared_ptr.hpp>
+#include <LbaTypes.h>
 
 #include "CommonTypes.h"
 #include "LuaHandlerBase.h"
@@ -321,6 +322,9 @@ public:
 	//! condition
 	virtual bool ChapterStarted(long PlayerId, int Chapter) = 0;
 
+	//! open shop
+	virtual void OpenShop(long PlayerId, const LbaNet::ItemsMap &items, 
+									const LbaNet::ItemInfo & currencyitem) = 0;
 
 protected:
 
