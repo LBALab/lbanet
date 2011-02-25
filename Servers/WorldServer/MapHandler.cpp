@@ -2746,7 +2746,7 @@ condition
 ***********************************************************/
 bool MapHandler::QuestStarted(long PlayerId, long Questid)
 {
-	IceUtil::Mutex::Lock sync(_mutex_proxies);
+	//IceUtil::Mutex::Lock sync(_mutex_proxies); - internal call
 
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(PlayerId);
 	if(itplayer != _players.end())
@@ -2760,7 +2760,7 @@ condition
 ***********************************************************/
 bool MapHandler::QuestFinished(long PlayerId, long Questid)
 {
-	IceUtil::Mutex::Lock sync(_mutex_proxies);
+	//IceUtil::Mutex::Lock sync(_mutex_proxies); - internal call
 
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(PlayerId);
 	if(itplayer != _players.end())
@@ -2774,7 +2774,7 @@ condition
 ***********************************************************/
 bool MapHandler::ChapterStarted(long PlayerId, int Chapter)
 {
-	IceUtil::Mutex::Lock sync(_mutex_proxies);
+	//IceUtil::Mutex::Lock sync(_mutex_proxies); - internal call
 
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(PlayerId);
 	if(itplayer != _players.end())

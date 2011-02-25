@@ -909,7 +909,7 @@ void SharedDataHandler::SaveToLua()
 	std::map<long, QuestPtr>::iterator itq = questmap.begin();
 	std::map<long, QuestPtr>::iterator endq = questmap.end();
 	for(;itq != endq; ++itq)
-		ita->second->SaveToLuaFile(file);
+		itq->second->SaveToLuaFile(file);
 
 
 	file<<"end"<<std::endl;

@@ -798,7 +798,9 @@ class StartQuestAction : public ActionBase
 {
 public:
 	//! constructor
-	StartQuestAction(){}
+	StartQuestAction()
+		: _QuestId(-1)
+	{}
 	
 	//! destructor
 	virtual ~StartQuestAction(void){}
@@ -841,7 +843,9 @@ class FinishQuestAction : public ActionBase
 {
 public:
 	//! constructor
-	FinishQuestAction(){}
+	FinishQuestAction()
+		: _QuestId(-1)
+	{}
 	
 	//! destructor
 	virtual ~FinishQuestAction(void){}

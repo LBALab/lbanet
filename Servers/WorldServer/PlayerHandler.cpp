@@ -6,7 +6,7 @@
 #include "InventoryItemHandler.h"
 #include "Randomizer.h"
 #include "QuestHandler.h"
-
+#include "Quest.h"
 
 #define	_CUSTOM_OFFSET_	10000000
 
@@ -258,6 +258,27 @@ void PlayerHandler::StartQuest(long questid)
 		int chap = QuestHandler::getInstance()->GetQuestChapter(questid);
 		if(chap > _currentchapter)
 			_currentchapter = chap;
+
+		//inform client
+		if(_proxy)
+		{
+			LbaNet::EventsSeq toplayer;
+			LbaNet::GuiUpdatesSeq paramseq;
+			QuestInfo qinfo;
+			qinfo.Id = questid;
+			QuestPtr qptr = QuestHandler::getInstance()->GetQuest(questid);
+			qinfo.ChapterTextId = qptr->GetChapter();
+			qinfo.QuestAreaTextId = qptr->GetLocationTextId();	
+			qinfo.TittleTextId = qptr->GetTitleTextId();
+			qinfo.DescriptionTextId = qptr->GetDescriptionTextId();
+			qinfo.Visible = qptr->GetVisible();
+			paramseq.push_back(new QuestUpdate(qinfo, false));
+			toplayer.push_back(new LbaNet::UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+													"JournalBox", paramseq));
+
+			IceUtil::ThreadPtr t = new EventsSender(toplayer, _proxy);
+			t->start();	
+		}
 	}
 }
 
@@ -272,7 +293,30 @@ void PlayerHandler::FinishQuest(long questid)
 
 	std::vector<long>::iterator it2 = std::find(_questFinished.begin(), _questFinished.end(), questid);
 	if(it2 == _questFinished.end())
+	{
 		_questFinished.push_back(questid);
+
+		//inform client
+		if(_proxy)
+		{
+			LbaNet::EventsSeq toplayer;
+			LbaNet::GuiUpdatesSeq paramseq;
+			QuestInfo qinfo;
+			qinfo.Id = questid;
+			QuestPtr qptr = QuestHandler::getInstance()->GetQuest(questid);
+			qinfo.ChapterTextId = qptr->GetChapter();
+			qinfo.QuestAreaTextId = qptr->GetLocationTextId();	
+			qinfo.TittleTextId = qptr->GetTitleTextId();
+			qinfo.DescriptionTextId = qptr->GetDescriptionTextId();
+			qinfo.Visible = qptr->GetVisible();
+			paramseq.push_back(new QuestUpdate(qinfo, true));
+			toplayer.push_back(new LbaNet::UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+													"JournalBox", paramseq));
+
+			IceUtil::ThreadPtr t = new EventsSender(toplayer, _proxy);
+			t->start();	
+		}
+	}
 }
 
 
@@ -294,7 +338,7 @@ check if quest started
 bool PlayerHandler::QuestFinished(long questid)
 {
 	std::vector<long>::iterator it = std::find(_questFinished.begin(), _questFinished.end(), questid);
-	if(it == _questFinished.end())
+	if(it != _questFinished.end())
 		return true;
 
 	return false;
