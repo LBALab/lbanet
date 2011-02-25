@@ -2782,3 +2782,18 @@ bool MapHandler::ChapterStarted(long PlayerId, int Chapter)
 
 	return false;
 }
+
+
+/***********************************************************
+open shop
+***********************************************************/
+void MapHandler::OpenShop(long PlayerId, const LbaNet::ItemsMap &items, 
+									const LbaNet::ItemInfo & currencyitem)
+{
+	if(PlayerId >= 0)
+	{
+		// send container to player
+		_guihandlers["ShopBox"]->ShowGUI(PlayerId, GetPlayerPosition(PlayerId), 
+						boost::shared_ptr<ShowGuiParamBase>(new ShopParam(items, currencyitem)));
+	}
+}

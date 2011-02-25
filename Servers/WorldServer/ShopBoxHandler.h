@@ -47,6 +47,16 @@ public:
 
 	//! hide the GUI for a certain player
 	virtual void HideGUI(Ice::Long clientid);
+
+
+protected:
+
+	//! buy item
+	void BuyItem(long clientid, long ItemId);
+
+
+private:
+	std::map<long, ShopParam>		_openedshops;
 };
 
 #endif

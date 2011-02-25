@@ -335,7 +335,16 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("HurtActor", &ScriptEnvironmentBase::HurtActor)
 		.def("KillActor", &ScriptEnvironmentBase::KillActor)
 		.def("SwitchActorModel", &ScriptEnvironmentBase::SwitchActorModel)
-		.def("RevertActorModel", &ScriptEnvironmentBase::RevertActorModel),
+		.def("RevertActorModel", &ScriptEnvironmentBase::RevertActorModel)
+		.def("StartDialog", &ScriptEnvironmentBase::StartDialog)
+		.def("NpcUntargetPlayer", &ScriptEnvironmentBase::NpcUntargetPlayer)
+		.def("StartQuest", &ScriptEnvironmentBase::StartQuest)
+		.def("TriggerQuestEnd", &ScriptEnvironmentBase::TriggerQuestEnd)
+		.def("QuestStarted", &ScriptEnvironmentBase::QuestStarted)
+		.def("QuestFinished", &ScriptEnvironmentBase::QuestFinished)
+		.def("ChapterStarted", &ScriptEnvironmentBase::ChapterStarted)
+		.def("OpenShop", &ScriptEnvironmentBase::OpenShop)
+		,
 
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),
@@ -495,6 +504,13 @@ ServerLuaHandler::ServerLuaHandler()
 		.def(luabind::constructor<>())
 		.def("GetQuestId", &FinishQuestAction::GetQuestId)
 		.def("SetQuestId", &FinishQuestAction::SetQuestId),
+
+		luabind::class_<OpenShopAction, ActionBase, boost::shared_ptr<ActionBase> >("OpenShopAction")
+		.def(luabind::constructor<>())
+		.def("AddItem", &OpenShopAction::AddItem)
+		.def("RemoveItem", &OpenShopAction::RemoveItem)
+		.def("GetCurrencyItem", &OpenShopAction::GetCurrencyItem)
+		.def("SetCurrencyItem", &OpenShopAction::SetCurrencyItem),
 
 
 

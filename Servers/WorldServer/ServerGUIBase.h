@@ -70,6 +70,25 @@ public:
 	LbaNet::ItemsMap							_inventory;
 };
 
+// class containing text param
+class ShopParam : public ShowGuiParamBase
+{
+public:
+	//! default
+	ShopParam(){}
+
+	//! constructor
+	ShopParam(const LbaNet::ItemsMap & shopinventory,
+						const LbaNet::ItemInfo & currencyitem)
+		: _shopinventory(shopinventory), _currencyitem(currencyitem)
+	{}
+
+
+	LbaNet::ItemsMap							_shopinventory;
+	LbaNet::ItemInfo							_currencyitem;
+};
+
+
 
 // class containing text param
 class DialogParam : public ShowGuiParamBase

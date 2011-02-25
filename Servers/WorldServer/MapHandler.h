@@ -298,6 +298,10 @@ public:
 	//! condition
 	virtual bool ChapterStarted(long PlayerId, int Chapter);
 
+	//! open shop
+	virtual void OpenShop(long PlayerId, const LbaNet::ItemsMap &items, 
+									const LbaNet::ItemInfo & currencyitem);
+
 protected:
 	// process events
 	void ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts);

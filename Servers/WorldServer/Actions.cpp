@@ -916,3 +916,97 @@ void FinishQuestAction::SaveToLuaFile(std::ofstream & file, const std::string & 
 	file<<"\t"<<name<<" = FinishQuestAction()"<<std::endl;
 	file<<"\t"<<name<<":SetQuestId("<<_QuestId<<")"<<std::endl;
 }
+
+
+
+
+
+
+/***********************************************************
+//! execute the action
+//! parameter return the object type and number triggering the action
+***********************************************************/
+void OpenShopAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+								ActionArgumentBase* args)
+{
+	long clientid = -1;
+
+	if(ObjectType == 2)
+		clientid = ObjectId;
+
+	// on object moved by player
+	if(ObjectType == 3)
+	{
+		// todo - find attached player
+	}
+
+	// check if client found - else return
+	if(clientid < 0)
+		return;
+
+	if(owner)
+		owner->OpenShop(clientid, _items, _currencyitem);
+}
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void OpenShopAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
+{
+	file<<"\t"<<name<<" = OpenShopAction()"<<std::endl;
+	file<<"\t"<<name<<":SetCurrencyItem("<<_currencyitem.Id<<")"<<std::endl;
+
+	LbaNet::ItemsMap::iterator it =	_items.begin();
+	LbaNet::ItemsMap::iterator end = _items.end();
+	for(; it != end; ++it)
+		file<<"\t"<<name<<":AddItem("<<it->first<<")"<<std::endl;	
+}
+
+
+/***********************************************************
+add item to container start
+***********************************************************/	
+void OpenShopAction::AddItem(long item, int price)
+{
+	if(item >= 0)
+	{
+		LbaNet::ItemPosInfo itposinfo;
+		itposinfo.Info = InventoryItemHandler::getInstance()->GetItemInfo(item);
+		if(price >= 0)
+			itposinfo.Info.BuyPrice = price;
+
+		itposinfo.Count = 1;
+		itposinfo.Position = -1;
+
+		_items[item] = itposinfo;
+	}
+}
+
+
+/***********************************************************
+remove item to container start
+***********************************************************/	
+void OpenShopAction::RemoveItem(long item)
+{
+	LbaNet::ItemsMap::iterator it = _items.find(item);
+	if(it != _items.end())
+		_items.erase(it);
+}
+
+
+/***********************************************************
+get currency item
+***********************************************************/	
+long OpenShopAction::GetCurrencyItem()
+{
+	return _currencyitem.Id;
+}
+
+/***********************************************************
+set currency item
+***********************************************************/	
+void OpenShopAction::SetCurrencyItem(long it)
+{
+	_currencyitem = InventoryItemHandler::getInstance()->GetItemInfo(it);
+}

@@ -880,4 +880,62 @@ private:
 
 
 
+
+//! use to display a text on client
+class OpenShopAction : public ActionBase
+{
+public:
+	//! constructor
+	OpenShopAction()
+	{
+		_currencyitem.Id = -1;
+	}
+
+	//! destructor
+	virtual ~OpenShopAction(void){}
+
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args);
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "OpenShopAction"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+
+
+	//add item to container start
+	void AddItem(long item, int price);
+
+	// get items
+	LbaNet::ItemsMap &GetItems()
+	{return _items;}
+
+	//remove item to container start
+	void RemoveItem(long item);
+
+	// get currency item
+	long GetCurrencyItem();
+
+	// set currency item
+	void SetCurrencyItem(long it);
+
+
+private:
+	LbaNet::ItemsMap	_items;
+	LbaNet::ItemInfo	_currencyitem;
+};
+
+
+
+
 #endif

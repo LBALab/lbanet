@@ -40,15 +40,13 @@ void ShopBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBasePtr &
 		LbaNet::BuyItemUpdate * castedptr = 
 			dynamic_cast<LbaNet::BuyItemUpdate *>(ptr);
 
-		//TODO
-		//Ice::Long NPCId;
-		//Ice::Long ItemId;
+		BuyItem((long)clientid, (long)castedptr->ItemId);
 	}
 
 	// LbaNet::GuiClosedUpdate
 	if(info == typeid(LbaNet::GuiClosedUpdate))
 	{
-		RemoveOpenedGui(clientid);
+		HideGUI(clientid);
 	}
 }
 
@@ -78,5 +76,83 @@ show the GUI for a certain player
 void ShopBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition &curPosition,
 					boost::shared_ptr<ShowGuiParamBase> params)
 {
-	// TODO
+	ShowGuiParamBase * ptr = params.get();
+	ShopParam * castedptr = 
+		static_cast<ShopParam *>(params.get());
+
+	ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
+	if(prx)
+	{
+		if(HasOpenedGui(clientid))
+		{
+			//close already opened box
+			HideGUI(clientid);
+		}
+		else
+		{
+			EventsSeq toplayer;
+			GuiParamsSeq seq;
+			seq.push_back(new ShopGuiParameter(castedptr->_shopinventory,
+														castedptr->_currencyitem.IconName));
+			toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+													"ShopBox", seq, true, false));
+
+			IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
+			t->start();	
+
+			// add gui to the list to be removed later
+			AddOpenedGui(clientid, curPosition);
+
+			// store container info
+			_openedshops[clientid] = *castedptr;
+		}
+	}
+}
+
+/***********************************************************
+buy item
+***********************************************************/
+void ShopBoxHandler::BuyItem(long clientid, long ItemId)
+{
+	int inventorysize = 0;
+	LbaNet::ItemsMap inventory = SharedDataHandler::getInstance()->GetInventory(clientid, inventorysize);
+	ShopParam &ShopItems = _openedshops[clientid];
+
+
+	// check if shop has listed items available
+	LbaNet::ItemsMap::iterator itcont = ShopItems._shopinventory.find(ItemId);
+	if(itcont != ShopItems._shopinventory.end())
+	{
+		// check if player has enough money
+		LbaNet::ItemsMap::iterator itinv = inventory.find(ShopItems._currencyitem.Id);
+		if(itinv != inventory.end())
+		{
+			bool buy = true;
+			if(itinv->second.Count >= itcont->second.Info.BuyPrice)
+			{
+				LbaNet::ItemsMap::iterator itinv2 = inventory.find(ItemId);
+				if(itinv2 != inventory.end())
+				{
+					// check if too much item of this type
+					int diff = (itinv2->second.Info.Max - itinv2->second.Count);
+					if(diff <= 0)
+						buy = false;
+				}
+				else
+				{
+					if(inventory.size() >= inventorysize) // check if inventory full
+						buy = false;
+				}	
+			}
+
+			if(buy)
+			{
+				//update inventory
+				LbaNet::ItemList Taken, Put;
+				Taken[ShopItems._currencyitem.Id] = itcont->second.Info.BuyPrice;
+				Put[ItemId] = 1;
+				SharedDataHandler::getInstance()->UpdateInventory(clientid, Taken, Put, LbaNet::DontInform);
+			}
+		}
+	}
 }
