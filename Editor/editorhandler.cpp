@@ -1339,9 +1339,9 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	// set model for quest
 	{
 		 QStringList header;
-		 header << "Title";
+		 header << "Location" << "Title";
 		_questlistmodel = new StringTableModel(header);
-		_uieditor.tableView_QuestList->setModel(_startitemlistmodel);
+		_uieditor.tableView_QuestList->setModel(_questlistmodel);
 		QHeaderView * mpheaders = _uieditor.tableView_QuestList->horizontalHeader();
 		mpheaders->setResizeMode(QHeaderView::Stretch);
 	}
@@ -2290,6 +2290,29 @@ void EditorHandler::SetMapInfo(const std::string & mapname)
 	}
 
 
+	// add quest
+	{
+		_questlistmodel->Clear();
+
+		std::map<long, QuestPtr> &tpseq = QuestHandler::getInstance()->GetQuests();
+		std::map<long, QuestPtr>::const_iterator ittp = tpseq.begin();
+		std::map<long, QuestPtr>::const_iterator endtp = tpseq.end();
+		for(; ittp != endtp; ++ittp)
+		{
+			long tid = ittp->second->GetLocationTextId();
+			std::string txt = Localizer::getInstance()->GetText(Localizer::Quest, tid);
+			std::stringstream txttmp;
+			txttmp<<tid<<": "<<txt;
+			long tid2 = ittp->second->GetTitleTextId();
+			std::string txt2 = Localizer::getInstance()->GetText(Localizer::Quest, tid2);
+			std::stringstream txttmp2;
+			txttmp2<<tid2<<": "<<txt2;
+
+			QStringList data;
+			data << txttmp.str().c_str() << txttmp2.str().c_str();
+			_questlistmodel->AddOrUpdateRow(ittp->first, data);
+		}
+	}
 
 	// add lua stuff
 	std::string luafile = "Worlds/" + _winfo.Description.WorldName + "/Lua/";
@@ -8410,7 +8433,7 @@ void EditorHandler::SelectCondition(ConditionBasePtr cond, const QModelIndex &pa
 		if(condptr)
 			SelectCondition(condptr, idx);
 
-		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _conditiontypeList);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 3, parent), _conditiontypeList);
 
 		return;
 	}
@@ -8441,8 +8464,8 @@ void EditorHandler::SelectCondition(ConditionBasePtr cond, const QModelIndex &pa
 		}
 
 
-		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _conditiontypeList);
 		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 3, parent), _conditiontypeList);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _conditiontypeList);
 
 		return;
 	}
@@ -8472,8 +8495,8 @@ void EditorHandler::SelectCondition(ConditionBasePtr cond, const QModelIndex &pa
 			SelectCondition(condptr, idx);
 		}
 
-		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _conditiontypeList);
 		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 3, parent), _conditiontypeList);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _conditiontypeList);
 
 		return;
 	}
@@ -8499,7 +8522,7 @@ void EditorHandler::SelectCondition(ConditionBasePtr cond, const QModelIndex &pa
 		QModelIndex idx = _objectmodel->AppendRow(data2, parent);
 		}
 
-		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _itemNameList);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 3, parent), _itemNameList);
 
 		return;
 	}
@@ -10502,7 +10525,7 @@ void EditorHandler::QuestAdd_button()
 	QuestHandler::getInstance()->AddQuest(newQuest);
 
 	QStringList data;
-	data << "";
+	data << "-1" << "-1";
 	_questlistmodel->AddOrUpdateRow(qid, data);
 
 	SetModified();
@@ -10678,36 +10701,45 @@ void EditorHandler::SelectQuest(long id, const QModelIndex &parent)
 		QVector<QVariant> data;
 		data<<"Conditions"<<"";
 		QModelIndex idx = _objectmodel->AppendRow(data, parent, true);
-
-
-		std::vector<ConditionBasePtr> childs = qu->GetConditions();
-		for(size_t gg=0; gg< childs.size(); ++gg)
-		{
-			std::string condtype = "No";
-			ConditionBasePtr condptr = childs[gg];
-			if(condptr)
-				condtype = condptr->GetTypeName();
-
-			QVector<QVariant> data;
-			data << "Condition" << condtype.c_str();
-			QModelIndex idx = _objectmodel->AppendRow(data, parent);
-
-			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), _conditiontypeList);
-
-			if(condptr)
-				SelectCondition(condptr, idx);
-		}
-
-		// add new item
-		QVector<QVariant> datait;
-		datait << "Condition" << "Add new...";
-		QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
-		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _conditiontypeList);	
-	
-	
-		_uieditor.treeView_object->setExpanded(idx, true); // expand 
+		DisplayConditions(qu->GetConditions(), idx);
 	}
 }
+
+
+/***********************************************************
+display conditions
+***********************************************************/
+void EditorHandler::DisplayConditions(std::vector<ConditionBasePtr> conds, const QModelIndex &parent)
+{
+	_objectmodel->Clear(parent);
+
+	for(size_t gg=0; gg< conds.size(); ++gg)
+	{
+		std::string condtype = "No";
+		ConditionBasePtr condptr = conds[gg];
+		if(condptr)
+			condtype = condptr->GetTypeName();
+
+		QVector<QVariant> data;
+		data << "Condition" << condtype.c_str();
+		QModelIndex idxit = _objectmodel->AppendRow(data, parent);
+
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), parent), _conditiontypeList);
+
+		if(condptr)
+			SelectCondition(condptr, idxit);
+	}
+
+	// add new item
+	QVector<QVariant> datait;
+	datait << "Condition" << "Add new...";
+	QModelIndex idxit = _objectmodel->AppendRow(datait, parent);	
+	_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _conditiontypeList);	
+
+
+	_uieditor.treeView_object->setExpanded(parent, true); // expand 
+}
+
 
 /***********************************************************
 called when Quest object changed
@@ -10726,9 +10758,12 @@ void EditorHandler::QuestChanged(long id, const QModelIndex &parentIdx)
 
 	SetModified();
 
+
 	// get text
+	QString txtLoc; 
 	{
-		std::string text = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toString().toAscii().data();		
+		txtLoc =_objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toString();
+		std::string text = txtLoc.toAscii().data();
 		text = text.substr(0, text.find(":"));
 		long textid = atol(text.c_str());
 		qu->SetLocationTextId(textid);
@@ -10742,18 +10777,9 @@ void EditorHandler::QuestChanged(long id, const QModelIndex &parentIdx)
 		qu->SetTitleTextId(textid);
 
 		// refresh list
-		if(textid >= 0)
-		{
-			QStringList data;
-			data << txt;
-			_questlistmodel->AddOrUpdateRow(id, data);
-		}
-		else
-		{
-			QStringList data;
-			data << "";
-			_questlistmodel->AddOrUpdateRow(id, data);
-		}
+		QStringList data;
+		data<< txtLoc << txt;
+		_questlistmodel->AddOrUpdateRow(id, data);
 	}
 	// get text
 	{
@@ -10822,10 +10848,7 @@ void EditorHandler::QuestChanged(long id, const QModelIndex &parentIdx)
 				if(condition == "No")
 				{
 					qu->RemoveCondition(childs[gg]);
-
-					// reset quest display
-					_objectmodel->Clear(parentIdx);
-					SelectQuest(id, parentIdx);
+					DisplayConditions(qu->GetConditions(), itemparent);
 					return;
 				}
 				else
@@ -10842,9 +10865,8 @@ void EditorHandler::QuestChanged(long id, const QModelIndex &parentIdx)
 						_uieditor.treeView_object->setExpanded(curidx, true); // expand 
 					}
 				}
-				++curridx;
-
 			}
+			++curridx;
 		}
 
 		QModelIndex childidx0 = _objectmodel->GetIndex(0, curridx, itemparent);
@@ -10852,22 +10874,26 @@ void EditorHandler::QuestChanged(long id, const QModelIndex &parentIdx)
 		std::string check = _objectmodel->data(childidx).toString().toAscii().data();
 		if(check != "No")
 		{
-			ConditionBasePtr ptrtmp = CreateCondition(check);
-			qu->AddCondition(ptrtmp);
-
-			_objectmodel->Clear(childidx);
-			if(ptrtmp)
+			if(check != "Add new...")
 			{
-				SelectCondition(ptrtmp, childidx);
-				_uieditor.treeView_object->setExpanded(childidx, true); // expand 
-			}
+				ConditionBasePtr ptrtmp = CreateCondition(check);
+				qu->AddCondition(ptrtmp);
 
-			{
-			// add new item
-			QVector<QVariant> datait;
-			datait << "Condition" << "Add new...";
-			QModelIndex idxit = _objectmodel->AppendRow(datait, itemparent);	
-			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _conditiontypeList);	
+				_objectmodel->Clear(childidx0);
+				if(ptrtmp)
+				{
+					SelectCondition(ptrtmp, childidx0);
+					_uieditor.treeView_object->setExpanded(childidx0, true); // expand 
+				}
+
+				{
+				// add new item
+				QVector<QVariant> datait;
+				datait << "Condition" << "Add new...";
+				QModelIndex idxit = _objectmodel->AppendRow(datait, itemparent);	
+				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _conditiontypeList);	
+				}
+
 			}
 		}
 		else

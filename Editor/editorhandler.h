@@ -1011,6 +1011,9 @@ protected:
 	//! called when Quest object changed
 	void QuestChanged(long id, const QModelIndex &parentIdx);
 
+	//! display conditions
+	void DisplayConditions(std::vector<ConditionBasePtr> conds, const QModelIndex &parent);
+
 private:
 	Ui::EditorClass										_uieditor;
 
