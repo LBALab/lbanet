@@ -67,6 +67,11 @@ void ShopBoxHandler::HideGUI(Ice::Long clientid)
 	}
 
 	RemoveOpenedGui(clientid);
+
+	std::map<long, ShopParam>::iterator itm = _openedshops.find(clientid);
+	if(itm != _openedshops.end())
+		_openedshops.erase(itm);
+
 }
 
 
