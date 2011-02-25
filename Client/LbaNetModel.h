@@ -342,6 +342,9 @@ public:
 	//! condition
 	virtual bool ChapterStarted(long PlayerId, int Chapter){return false;}
 
+	//! open shop
+	virtual void OpenShop(long PlayerId, const LbaNet::ItemsMap &items, 
+									const LbaNet::ItemInfo & currencyitem){}
 protected:
 
 	//! clean up map
