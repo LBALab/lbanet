@@ -305,6 +305,23 @@ public:
 	//! stop target player
 	virtual void NpcUntargetPlayer(long NpcId, long PlayerId) = 0;
 
+
+	//! start quest
+	virtual void StartQuest(long PlayerId, long Questid) = 0;
+
+	//! end quest
+	virtual void TriggerQuestEnd(long PlayerId, long Questid) = 0;
+
+	//! condition
+	virtual bool QuestStarted(long PlayerId, long Questid) = 0;
+
+	//! condition
+	virtual bool QuestFinished(long PlayerId, long Questid) = 0;
+
+	//! condition
+	virtual bool ChapterStarted(long PlayerId, int Chapter) = 0;
+
+
 protected:
 
 	//! used by lua to move an actor or player
