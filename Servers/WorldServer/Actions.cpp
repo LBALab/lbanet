@@ -841,3 +841,78 @@ void SwitchAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 	}
 }
 
+
+/***********************************************************
+//! execute the action
+//! parameter return the object type and number triggering the action
+***********************************************************/
+void StartQuestAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+								ActionArgumentBase* args)
+{
+	long clientid = -1;
+
+	if(ObjectType == 2)
+		clientid = ObjectId;
+
+	// on object moved by player
+	if(ObjectType == 3)
+	{
+		// todo - find attached player
+	}
+
+	// check if client found - else return
+	if(clientid < 0)
+		return;
+
+	if(owner)
+		owner->StartQuest(clientid, _QuestId);
+}
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void StartQuestAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
+{
+	file<<"\t"<<name<<" = StartQuestAction()"<<std::endl;
+	file<<"\t"<<name<<":SetQuestId("<<_QuestId<<")"<<std::endl;
+}
+
+
+
+
+/***********************************************************
+//! execute the action
+//! parameter return the object type and number triggering the action
+***********************************************************/
+void FinishQuestAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+								ActionArgumentBase* args)
+{
+	long clientid = -1;
+
+	if(ObjectType == 2)
+		clientid = ObjectId;
+
+	// on object moved by player
+	if(ObjectType == 3)
+	{
+		// todo - find attached player
+	}
+
+	// check if client found - else return
+	if(clientid < 0)
+		return;
+
+	if(owner)
+		owner->TriggerQuestEnd(clientid, _QuestId);
+}
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void FinishQuestAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
+{
+	file<<"\t"<<name<<" = FinishQuestAction()"<<std::endl;
+	file<<"\t"<<name<<":SetQuestId("<<_QuestId<<")"<<std::endl;
+}

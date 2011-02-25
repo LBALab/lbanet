@@ -38,7 +38,8 @@ class Quest
 public:
 	//! constructor
 	Quest(long id)
-		: _id(id)
+		: _id(id), _chapternumber(1), _titleTextId(-1),
+			_descriptionTextId(-1), _locationtextid(-1), _visible(true)
 	{}
 
 	//! destructor
@@ -53,6 +54,10 @@ public:
 
 	//! remove condition
 	void RemoveCondition(ConditionBasePtr cond);
+
+	//! add condition
+	void ReplaceCondition(ConditionBasePtr oldc, ConditionBasePtr newc);
+
 
 	//! get conditions
 	std::vector<ConditionBasePtr> GetConditions()
@@ -91,6 +96,15 @@ public:
 	{_descriptionTextId = id;}
 
 
+	//! get location text id
+	long GetLocationTextId()
+	{return _locationtextid;}
+
+	//! set location text id
+	void SetLocationTextId(long id)
+	{_locationtextid = id;}
+
+
 	//! start quest for player
 	void StartQuest(ScriptEnvironmentBase * owner, long playerid);
 
@@ -101,8 +115,27 @@ public:
 	// save quest to lua file
 	void SaveToLuaFile(std::ofstream & file);
 
+
+	//! get chapter number
+	int GetChapter()
+	{return _chapternumber;}
+
+	//! set title text id
+	void SetChapter(int nb)
+	{_chapternumber = nb;}
+
+
+	//! get visible
+	bool GetVisible()
+	{return _visible;}
+
+	//! set visible
+	void SetVisible(bool v)
+	{_visible = v;}
+
 private:
 	long							_id;
+	int								_chapternumber;
 
 	std::vector<ConditionBasePtr>	_conditions;
 	ActionBasePtr					_actionAtStart;
@@ -110,6 +143,9 @@ private:
 
 	long							_titleTextId;
 	long							_descriptionTextId;
+	long							_locationtextid;
+
+	bool							_visible;
 };
 
 #endif

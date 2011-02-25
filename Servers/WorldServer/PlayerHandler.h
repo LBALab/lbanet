@@ -94,6 +94,16 @@ public:
 	// finish a quest
 	void FinishQuest(long questid);
 
+	//! check if quest started
+	bool QuestStarted(long questid);
+
+	//! check if quest finished
+	bool QuestFinished(long questid);
+
+	//! return current chapter
+	int GetCurrentChapter()
+	{ return _currentchapter;}
+
 	//! save current info in database
 	void SaveCurrentInfo();
 
@@ -238,6 +248,8 @@ private:
 
 	bool										_saved;
 	LbaNet::ModelState							_savedState;
+
+	int											_currentchapter;
 };
 
 #endif

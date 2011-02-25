@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <boost/shared_ptr.hpp>
 #include <IceUtil/Mutex.h>
 
-
+class ScriptEnvironmentBase;
 class Quest;
 typedef boost::shared_ptr<Quest>	QuestPtr;
 
@@ -54,6 +54,20 @@ public:
 	//! get quest
 	QuestPtr GetQuest(long id);
 
+	//! quest list
+	std::map<long, QuestPtr> GetQuests();
+
+	//! start quest for player
+	bool StartQuest(ScriptEnvironmentBase * owner, long id, long playerid);
+
+	//! check if quest is done for player
+	bool QuestFinished(ScriptEnvironmentBase * owner, long id, long playerid);
+
+	//! return quest chapter
+	int GetQuestChapter(long id);
+
+	//! generate quest id
+	long GenerateQuestid();
 
 protected:
 	//! constructor

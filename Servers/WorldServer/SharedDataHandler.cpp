@@ -5,6 +5,9 @@
 #include "LogHandler.h"
 #include "InventoryItemHandler.h"
 #include "LuaHandlerBase.h"
+#include "QuestHandler.h"
+#include "Quest.h"
+
 
 SharedDataHandler* SharedDataHandler::_Instance = NULL;
 
@@ -197,7 +200,36 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectE
 	// send friend list to client
 	if(_dbH)
 	{
-		// get list from db
+		 //also quest list
+		std::vector<long> questStarted, questFinished;
+		_dbH->GetQuestInfo(_worldinfo.Description.WorldName, (long)clientid, questStarted, questFinished);
+		LbaNet::QuestsMap startedQ, endedQ;
+		for(size_t i=0; i< questStarted.size(); ++i)
+		{
+			QuestPtr q = QuestHandler::getInstance()->GetQuest(questStarted[i]);
+			LbaNet::QuestInfo qinf;
+			qinf.Id = questStarted[i];
+			qinf.ChapterTextId = q->GetChapter();
+			qinf.QuestAreaTextId = q->GetLocationTextId();	
+			qinf.TittleTextId = q->GetTitleTextId();
+			qinf.DescriptionTextId = q->GetDescriptionTextId();
+			qinf.Visible = q->GetVisible();
+			startedQ[qinf.Id] = qinf;
+		}
+		for(size_t i=0; i< questFinished.size(); ++i)
+		{
+			QuestPtr q = QuestHandler::getInstance()->GetQuest(questFinished[i]);
+			LbaNet::QuestInfo qinf;
+			qinf.Id = questFinished[i];
+			qinf.ChapterTextId = q->GetChapter();
+			qinf.QuestAreaTextId = q->GetLocationTextId();	
+			qinf.TittleTextId = q->GetTitleTextId();
+			qinf.DescriptionTextId = q->GetDescriptionTextId();
+			qinf.Visible = q->GetVisible();
+			endedQ[qinf.Id] = qinf;
+		}
+
+		// get friend list from db
 		LbaNet::FriendsSeq friends = _dbH->GetFriends((long)clientid);
 
 		// send list to player
@@ -208,6 +240,11 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectE
 			paramseq.push_back(new FriendListGuiParameter(friends));
 			toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 													"CommunityBox", paramseq, false, false));
+
+			GuiParamsSeq paramseq2;
+			paramseq2.push_back(new QuestJournalGuiParameter(startedQ, endedQ));
+			toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+													"JournalBox", paramseq2, false, false));
 
 			IceUtil::ThreadPtr t = new EventsSender(toplayer, proxy);
 			t->start();	
@@ -866,5 +903,45 @@ void SharedDataHandler::SaveToLua()
 	for(;ita != enda; ++ita)
 		ita->second->SaveToLuaFile(file);
 
+
+	// save quests
+	std::map<long, QuestPtr> questmap = QuestHandler::getInstance()->GetQuests();
+	std::map<long, QuestPtr>::iterator itq = questmap.begin();
+	std::map<long, QuestPtr>::iterator endq = questmap.end();
+	for(;itq != endq; ++itq)
+		ita->second->SaveToLuaFile(file);
+
+
 	file<<"end"<<std::endl;
 }
+
+
+
+
+/***********************************************************
+add quest
+***********************************************************/
+void SharedDataHandler::AddQuest(QuestPtr quest)
+{
+	QuestHandler::getInstance()->AddQuest(quest);
+}
+
+
+/***********************************************************
+remove quest
+***********************************************************/
+void SharedDataHandler::RemoveQuest(long id)
+{
+	QuestHandler::getInstance()->RemoveQuest(id);
+}
+
+
+
+/***********************************************************
+get quest
+***********************************************************/
+QuestPtr SharedDataHandler::GetQuest(long id)
+{
+	return QuestHandler::getInstance()->GetQuest(id);
+}
+

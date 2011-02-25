@@ -21,6 +21,17 @@ void Quest::RemoveCondition(ConditionBasePtr cond)
 
 
 /***********************************************************
+replace condition
+***********************************************************/	
+void Quest::ReplaceCondition(ConditionBasePtr oldc, ConditionBasePtr newc)
+{
+	std::vector<ConditionBasePtr>::iterator it = std::find(_conditions.begin(), _conditions.end(), oldc);
+	if(it != _conditions.end())
+		*it = newc;
+}
+
+
+/***********************************************************
 start quest for player
 ***********************************************************/
 void Quest::StartQuest(ScriptEnvironmentBase * owner, long playerid)
@@ -91,8 +102,11 @@ void Quest::SaveToLuaFile(std::ofstream & file)
 		file<<"\t"<<name.str()<<":SetActionAtComplete("<<aname.str()<<")"<<std::endl;
 	}
 
+	file<<"\t"<<name.str()<<":SetChapter("<<_chapternumber<<")"<<std::endl;
 	file<<"\t"<<name.str()<<":SetTitleTextId("<<_titleTextId<<")"<<std::endl;
 	file<<"\t"<<name.str()<<":SetDescriptionTextId("<<_descriptionTextId<<")"<<std::endl;
+	file<<"\t"<<name.str()<<":SetLocationTextId("<<_locationtextid<<")"<<std::endl;
+	file<<"\t"<<name.str()<<":SetVisible("<<(_visible?"true":"false")<<")"<<std::endl;
 
 
 	for(size_t i=0; i< _conditions.size(); ++i)

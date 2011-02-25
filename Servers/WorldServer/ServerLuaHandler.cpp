@@ -68,7 +68,8 @@ ServerLuaHandler::ServerLuaHandler()
 		luabind::class_<ConditionBase, boost::shared_ptr<ConditionBase> >("ConditionBase")
 		.def(luabind::constructor<>())
 		.def("Passed", &ConditionBase::Passed)
-		,
+		.def("GetTextid", &ConditionBase::GetTextid)
+		.def("SetTextid", &ConditionBase::SetTextid),
 
 		luabind::class_<AlwaysTrueCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("AlwaysTrueCondition")
 		.def(luabind::constructor<>()),
@@ -76,16 +77,14 @@ ServerLuaHandler::ServerLuaHandler()
 		luabind::class_<NegateCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("NegateCondition")
 		.def(luabind::constructor<>())
 		.def("SetCondition", &NegateCondition::SetCondition)
-		.def("GetCondition", &NegateCondition::GetCondition)
-		,
+		.def("GetCondition", &NegateCondition::GetCondition),
 
 		luabind::class_<AndCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("AndCondition")
 		.def(luabind::constructor<>())
 		.def("SetCondition1", &AndCondition::SetCondition1)
 		.def("SetCondition2", &AndCondition::SetCondition2)
 		.def("GetCondition1", &AndCondition::GetCondition1)
-		.def("GetCondition2", &AndCondition::GetCondition2)
-		,
+		.def("GetCondition2", &AndCondition::GetCondition2),
 
 
 		luabind::class_<OrCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("OrCondition")
@@ -93,16 +92,30 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("SetCondition1", &OrCondition::SetCondition1)
 		.def("SetCondition2", &OrCondition::SetCondition2)
 		.def("GetCondition1", &OrCondition::GetCondition1)
-		.def("GetCondition2", &OrCondition::GetCondition2)
-		,
+		.def("GetCondition2", &OrCondition::GetCondition2),
 
 		luabind::class_<ItemInInventoryCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("ItemInInventoryCondition")
 		.def(luabind::constructor<>())
 		.def("GetItemId", &ItemInInventoryCondition::GetItemId)
 		.def("SetItemId", &ItemInInventoryCondition::SetItemId)
 		.def("GetItemNumber", &ItemInInventoryCondition::GetItemNumber)
-		.def("SetItemNumber", &ItemInInventoryCondition::SetItemNumber)
-		,
+		.def("SetItemNumber", &ItemInInventoryCondition::SetItemNumber),
+
+		luabind::class_<QuestStartedCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("QuestStartedCondition")
+		.def(luabind::constructor<>())
+		.def("GetQuestId", &QuestStartedCondition::GetQuestId)
+		.def("SetQuestId", &QuestStartedCondition::SetQuestId),
+
+		luabind::class_<QuestFinishedCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("QuestFinishedCondition")
+		.def(luabind::constructor<>())
+		.def("GetQuestId", &QuestFinishedCondition::GetQuestId)
+		.def("SetQuestId", &QuestFinishedCondition::SetQuestId),
+
+		luabind::class_<ChapterStartedCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("ChapterStartedCondition")
+		.def(luabind::constructor<>())
+		.def("GetChapter", &ChapterStartedCondition::GetChapter)
+		.def("SetChapter", &ChapterStartedCondition::SetChapter),
+
 
 
 		luabind::class_<ContainerItemGroupElement>("ContainerItemGroupElement")
@@ -473,6 +486,17 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetActionTrue", &SwitchAction::GetActionTrue)
 		.def("GetActionFalse", &SwitchAction::GetActionFalse),
 
+		luabind::class_<StartQuestAction, ActionBase, boost::shared_ptr<ActionBase> >("StartQuestAction")
+		.def(luabind::constructor<>())
+		.def("GetQuestId", &StartQuestAction::GetQuestId)
+		.def("SetQuestId", &StartQuestAction::SetQuestId),
+
+		luabind::class_<FinishQuestAction, ActionBase, boost::shared_ptr<ActionBase> >("FinishQuestAction")
+		.def(luabind::constructor<>())
+		.def("GetQuestId", &FinishQuestAction::GetQuestId)
+		.def("SetQuestId", &FinishQuestAction::SetQuestId),
+
+
 
 		luabind::class_<ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("ClientScriptBase")
 		.def(luabind::constructor<>())
@@ -548,7 +572,13 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetDescriptionTextId", &Quest::GetDescriptionTextId)
 		.def("SetDescriptionTextId", &Quest::SetDescriptionTextId)
 		.def("StartQuest", &Quest::StartQuest)
-		.def("QuestFinished", &Quest::QuestFinished),
+		.def("QuestFinished", &Quest::QuestFinished)
+		.def("GetLocationTextId", &Quest::GetLocationTextId)
+		.def("SetLocationTextId", &Quest::SetLocationTextId)
+		.def("GetChapter", &Quest::GetChapter)
+		.def("SetChapter", &Quest::SetChapter)
+		.def("GetVisible", &Quest::GetVisible)
+		.def("SetVisible", &Quest::SetVisible),
 
 		luabind::class_<TeleportDef, boost::shared_ptr<TeleportDef> >("TeleportDef")
 		.def(luabind::constructor<long>())
@@ -566,6 +596,9 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("AddTeleport", &SharedDataHandler::AddTeleport)
 		.def("RemoveTeleport", &SharedDataHandler::RemoveTeleport)
 		.def("GetTeleport", &SharedDataHandler::GetTeleport)
+		.def("AddQuest", &SharedDataHandler::AddQuest)
+		.def("RemoveQuest", &SharedDataHandler::RemoveQuest)
+		.def("GetQuest", &SharedDataHandler::GetQuest)
 		];
 
 	}

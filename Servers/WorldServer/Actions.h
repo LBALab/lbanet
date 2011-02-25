@@ -791,4 +791,93 @@ private:
 };
 
 
+
+
+//! use to display a text on client
+class StartQuestAction : public ActionBase
+{
+public:
+	//! constructor
+	StartQuestAction(){}
+	
+	//! destructor
+	virtual ~StartQuestAction(void){}
+
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args);
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "StartQuestAction"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+
+	// acessor
+	long GetQuestId()
+	{ return _QuestId;}
+
+	// acessor
+	void SetQuestId(long id)
+	{ _QuestId = id;}
+
+
+private:
+	long			_QuestId;
+};
+
+
+
+//! use to display a text on client
+class FinishQuestAction : public ActionBase
+{
+public:
+	//! constructor
+	FinishQuestAction(){}
+	
+	//! destructor
+	virtual ~FinishQuestAction(void){}
+
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args);
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "FinishQuestAction"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+
+	// acessor
+	long GetQuestId()
+	{ return _QuestId;}
+
+	// acessor
+	void SetQuestId(long id)
+	{ _QuestId = id;}
+
+
+private:
+	long			_QuestId;
+};
+
+
+
+
 #endif

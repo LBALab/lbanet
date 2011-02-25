@@ -35,13 +35,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ClientProxyHandler.h"
 #include "ServerExtendedEvents.h"
 #include "Teleport.h"
-
+#include "QuestHandler.h"
 
 class MapHandler;
 class PlayerHandler;
 class ServerLuaHandler;
 class LuaHandlerBase;
 class ScriptEnvironmentBase;
+
 
 using namespace LbaNet;
 
@@ -162,6 +163,18 @@ public:
 
 	//! save to lua
 	void SaveToLua();
+
+
+	//! add quest
+	void AddQuest(QuestPtr quest);
+
+	//! remove quest
+	void RemoveQuest(long id);
+
+	//! get quest
+	QuestPtr GetQuest(long id);
+
+
 
 protected:
 	//! constructor

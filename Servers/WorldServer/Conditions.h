@@ -47,7 +47,9 @@ class ConditionBase
 {
 public:
 	//! constructor
-	ConditionBase(){}
+	ConditionBase()
+		: _textid(-1)
+	{}
 
 	//! destructor
 	virtual ~ConditionBase(){}
@@ -62,6 +64,17 @@ public:
 
 	//! get type of the action in string form
 	virtual std::string GetTypeName(){ return "";}
+
+	//! get text id
+	long GetTextid()
+	{ return _textid;}
+
+	//! set text id
+	void SetTextid(long id)
+	{ _textid = id;}
+
+protected:
+	long		_textid;
 };
 
 
@@ -251,6 +264,101 @@ public:
 private:
 	long	_itemid;
 	int		_itemnumber;
+};
+
+
+
+//! condition is always true
+class QuestStartedCondition : public ConditionBase
+{
+public:
+	//! constructor
+	QuestStartedCondition()
+		: _questid(-1)
+	{}
+
+	//! check if the condition is true or not
+	virtual bool Passed(ScriptEnvironmentBase * owner, 
+							int ObjectType, Ice::Long ObjectId);
+	
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & conditionname);
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName(){ return "QuestStartedCondition";}
+
+	//! accessors
+	long GetQuestId()
+	{ return _questid;}
+	void SetQuestId(long id)
+	{ _questid = id;}
+
+
+private:
+	long	_questid;
+};
+
+
+//! condition is always true
+class QuestFinishedCondition : public ConditionBase
+{
+public:
+	//! constructor
+	QuestFinishedCondition()
+		: _questid(-1)
+	{}
+
+	//! check if the condition is true or not
+	virtual bool Passed(ScriptEnvironmentBase * owner, 
+							int ObjectType, Ice::Long ObjectId);
+	
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & conditionname);
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName(){ return "QuestFinishedCondition";}
+
+	//! accessors
+	long GetQuestId()
+	{ return _questid;}
+	void SetQuestId(long id)
+	{ _questid = id;}
+
+
+private:
+	long	_questid;
+};
+
+
+
+//! condition is always true
+class ChapterStartedCondition : public ConditionBase
+{
+public:
+	//! constructor
+	ChapterStartedCondition()
+		: _chapter(-1)
+	{}
+
+	//! check if the condition is true or not
+	virtual bool Passed(ScriptEnvironmentBase * owner, 
+							int ObjectType, Ice::Long ObjectId);
+	
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & conditionname);
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName(){ return "ChapterStartedCondition";}
+
+	//! accessors
+	int GetChapter()
+	{ return _chapter;}
+	void SetChapter(int id)
+	{ _chapter = id;}
+
+
+private:
+	int	_chapter;
 };
 
 

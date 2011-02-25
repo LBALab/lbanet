@@ -283,6 +283,21 @@ public:
 	virtual void NpcUntargetPlayer(long NpcId, long PlayerId);
 
 
+	//! start quest
+	virtual void StartQuest(long PlayerId, long Questid);
+
+	//! end quest
+	virtual void TriggerQuestEnd(long PlayerId, long Questid);
+
+	//! condition
+	virtual bool QuestStarted(long PlayerId, long Questid);
+
+	//! condition
+	virtual bool QuestFinished(long PlayerId, long Questid);
+
+	//! condition
+	virtual bool ChapterStarted(long PlayerId, int Chapter);
+
 protected:
 	// process events
 	void ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts);

@@ -2700,3 +2700,85 @@ void MapHandler::NpcUntargetPlayer(long NpcId, long PlayerId)
 	if(itact != _Actors.end())
 		itact->second->UntargetPlayer(PlayerId);
 }
+
+
+
+/***********************************************************
+start quest
+***********************************************************/
+void MapHandler::StartQuest(long PlayerId, long Questid)
+{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(PlayerId);
+	if(itplayer != _players.end())
+	{
+		if(!itplayer->second->QuestStarted(Questid) && !itplayer->second->QuestFinished(Questid))
+		{
+			if(QuestHandler::getInstance()->StartQuest(this, Questid, PlayerId))
+				itplayer->second->StartQuest(Questid);
+		}
+	}
+}
+
+/***********************************************************
+end quest
+***********************************************************/
+void MapHandler::TriggerQuestEnd(long PlayerId, long Questid)
+{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(PlayerId);
+	if(itplayer != _players.end())
+	{
+		if(itplayer->second->QuestStarted(Questid))
+		{
+			if(QuestHandler::getInstance()->QuestFinished(this, Questid, PlayerId))
+				itplayer->second->FinishQuest(Questid);
+		}
+	}
+}
+
+
+
+/***********************************************************
+condition
+***********************************************************/
+bool MapHandler::QuestStarted(long PlayerId, long Questid)
+{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(PlayerId);
+	if(itplayer != _players.end())
+		return itplayer->second->QuestStarted(Questid);
+
+	return false;
+}
+
+/***********************************************************
+condition
+***********************************************************/
+bool MapHandler::QuestFinished(long PlayerId, long Questid)
+{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(PlayerId);
+	if(itplayer != _players.end())
+		return itplayer->second->QuestFinished(Questid);
+
+	return false;
+}
+
+/***********************************************************
+condition
+***********************************************************/
+bool MapHandler::ChapterStarted(long PlayerId, int Chapter)
+{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(PlayerId);
+	if(itplayer != _players.end())
+		return (itplayer->second->GetCurrentChapter() >= Chapter);
+
+	return false;
+}

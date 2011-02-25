@@ -5,6 +5,8 @@
 #include "Lba1ModelMapHandler.h"
 #include "InventoryItemHandler.h"
 #include "Randomizer.h"
+#include "QuestHandler.h"
+
 
 #define	_CUSTOM_OFFSET_	10000000
 
@@ -19,11 +21,29 @@ PlayerHandler::PlayerHandler(long clientid, ClientProxyBasePtr proxy,
 						const LbaNet::ObjectExtraInfo& extrainfo)
 	: _clientid(clientid), _proxy(proxy), 
 		_dbH(dbH), _currentinfo(savedinfo), _worldname(worldname),
-		_extrainfo(extrainfo), _ready(false), _saved(false)
+		_extrainfo(extrainfo), _ready(false), _saved(false), _currentchapter(1)
 {
 	// get quest information
 	if(_dbH) 
+	{
 		_dbH->GetQuestInfo(_worldname, _clientid, _questStarted, _questFinished);
+
+		for(size_t i=0; i< _questStarted.size(); ++i)
+		{
+			// change chapter if needed
+			int chap = QuestHandler::getInstance()->GetQuestChapter(_questStarted[i]);
+			if(chap > _currentchapter)
+				_currentchapter = chap;
+		}
+
+		for(size_t i=0; i< _questFinished.size(); ++i)
+		{
+			// change chapter if needed
+			int chap = QuestHandler::getInstance()->GetQuestChapter(_questFinished[i]);
+			if(chap > _currentchapter)
+				_currentchapter = chap;
+		}
+	}
 
 
 	//TODO - remove that and replace by a raising place system
@@ -231,7 +251,14 @@ void PlayerHandler::StartQuest(long questid)
 {
 	std::vector<long>::iterator it = std::find(_questStarted.begin(), _questStarted.end(), questid);
 	if(it == _questStarted.end())
+	{
 		_questStarted.push_back(questid);
+
+		// change chapter if needed
+		int chap = QuestHandler::getInstance()->GetQuestChapter(questid);
+		if(chap > _currentchapter)
+			_currentchapter = chap;
+	}
 }
 
 /***********************************************************
@@ -243,9 +270,35 @@ void PlayerHandler::FinishQuest(long questid)
 	if(it != _questStarted.end())
 		_questStarted.erase(it);
 
-	_questFinished.push_back(questid);
+	std::vector<long>::iterator it2 = std::find(_questFinished.begin(), _questFinished.end(), questid);
+	if(it2 == _questFinished.end())
+		_questFinished.push_back(questid);
 }
 
+
+/***********************************************************
+check if quest started
+***********************************************************/
+bool PlayerHandler::QuestStarted(long questid)
+{
+	std::vector<long>::iterator it = std::find(_questStarted.begin(), _questStarted.end(), questid);
+	if(it != _questStarted.end())
+		return true;
+
+	return false;
+}
+
+/***********************************************************
+check if quest started
+***********************************************************/
+bool PlayerHandler::QuestFinished(long questid)
+{
+	std::vector<long>::iterator it = std::find(_questFinished.begin(), _questFinished.end(), questid);
+	if(it == _questFinished.end())
+		return true;
+
+	return false;
+}
 
 
 /***********************************************************
@@ -1368,3 +1421,4 @@ void PlayerHandler::ResetWeapon()
 		}
 	}
 }
+
