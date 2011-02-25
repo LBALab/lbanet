@@ -1037,6 +1037,129 @@
                    </item>
                   </layout>
                  </widget>
+                 <widget class="QWidget" name="tab_2">
+                  <attribute name="title">
+                   <string>Quests</string>
+                  </attribute>
+                  <layout class="QHBoxLayout" name="horizontalLayout_24">
+                   <item>
+                    <widget class="QSplitter" name="splitter_10">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <widget class="QGroupBox" name="groupBox_worldmap_mapaction_2">
+                      <property name="maximumSize">
+                       <size>
+                        <width>50</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="title">
+                       <string>Activity</string>
+                      </property>
+                      <layout class="QVBoxLayout" name="verticalLayout_12">
+                       <item>
+                        <widget class="QPushButton" name="pushButton_addquest">
+                         <property name="toolTip">
+                          <string>Add map</string>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                         <property name="icon">
+                          <iconset resource="editor.qrc">
+                           <normaloff>:/Editor/Resources/icons/PNG/onebit_31.png</normaloff>:/Editor/Resources/icons/PNG/onebit_31.png</iconset>
+                         </property>
+                         <property name="iconSize">
+                          <size>
+                           <width>20</width>
+                           <height>20</height>
+                          </size>
+                         </property>
+                         <property name="flat">
+                          <bool>false</bool>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="pushButton_removequest">
+                         <property name="toolTip">
+                          <string>Remove selected map</string>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                         <property name="icon">
+                          <iconset resource="editor.qrc">
+                           <normaloff>:/Editor/Resources/icons/PNG/onebit_32.png</normaloff>:/Editor/Resources/icons/PNG/onebit_32.png</iconset>
+                         </property>
+                         <property name="iconSize">
+                          <size>
+                           <width>20</width>
+                           <height>20</height>
+                          </size>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="pushButton_selectquest">
+                         <property name="toolTip">
+                          <string>Teleport to selected map</string>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                         <property name="icon">
+                          <iconset resource="editor.qrc">
+                           <normaloff>:/Editor/Resources/icons/PNG/onebit_27.png</normaloff>:/Editor/Resources/icons/PNG/onebit_27.png</iconset>
+                         </property>
+                         <property name="iconSize">
+                          <size>
+                           <width>20</width>
+                           <height>20</height>
+                          </size>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <spacer name="verticalSpacer_14">
+                         <property name="orientation">
+                          <enum>Qt::Vertical</enum>
+                         </property>
+                         <property name="sizeHint" stdset="0">
+                          <size>
+                           <width>20</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                        </spacer>
+                       </item>
+                      </layout>
+                     </widget>
+                     <widget class="QGroupBox" name="groupBox_worldmaps_maplist_2">
+                      <property name="title">
+                       <string>Quest List</string>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_22">
+                       <property name="margin">
+                        <number>4</number>
+                       </property>
+                       <item>
+                        <widget class="QTableView" name="tableView_QuestList">
+                         <property name="selectionMode">
+                          <enum>QAbstractItemView::SingleSelection</enum>
+                         </property>
+                         <property name="selectionBehavior">
+                          <enum>QAbstractItemView::SelectRows</enum>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
                  <widget class="QWidget" name="tab">
                   <attribute name="title">
                    <string>ColorTest</string>
@@ -2099,7 +2222,7 @@
      <x>0</x>
      <y>0</y>
      <width>960</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

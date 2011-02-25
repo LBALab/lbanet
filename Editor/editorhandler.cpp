@@ -37,6 +37,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DoorHandler.h"
 #include "NpcHandler.h"
 #include "Teleport.h"
+#include "QuestHandler.h"
+#include "Quest.h"
+
 
 #include <qdir.h>
 #include <QErrorMessage>
@@ -1127,7 +1130,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 
 	QStringList condlist;
 	condlist << "No" << "AlwaysTrueCondition" << "NegateCondition" << "AndCondition" << "OrCondition" 
-				<< "ItemInInventoryCondition";
+				<< "ItemInInventoryCondition" << "QuestStartedCondition" << "QuestFinishedCondition"
+				<< "ChapterStartedCondition";
 	_conditiontypeList->setStringList(condlist);
 	
 	QStringList cslist;
@@ -1138,7 +1142,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	actilist << "No" << "TeleportAction" << "ClientScriptAction" << "CustomAction" 
 			<< "DisplayTextAction" << "ConditionalAction" << "OpenContainerAction" << "SendSignalAction"
 			<< "OpenDoorAction" << "CloseDoorAction" << "AddRemoveItemAction" << "HurtAction"
-			 << "KillAction"  << "MultiAction" << "SwitchAction";
+			 << "KillAction"  << "MultiAction" << "SwitchAction" << "StartQuestAction" << "FinishQuestAction";
 	_actiontypeList->setStringList(actilist);
 
 	QStringList consu_iteml;
@@ -1332,6 +1336,15 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 		mpheaders->setResizeMode(QHeaderView::Stretch);
 	}
 
+	// set model for quest
+	{
+		 QStringList header;
+		 header << "Title";
+		_questlistmodel = new StringTableModel(header);
+		_uieditor.tableView_QuestList->setModel(_startitemlistmodel);
+		QHeaderView * mpheaders = _uieditor.tableView_QuestList->horizontalHeader();
+		mpheaders->setResizeMode(QHeaderView::Stretch);
+	}
 	
 
 
@@ -1389,6 +1402,12 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.pushButton_removeitem_2, SIGNAL(clicked()) , this, SLOT(StartItemRemove_button()));	
 
 
+
+	connect(_uieditor.pushButton_addquest, SIGNAL(clicked()) , this, SLOT(QuestAdd_button()));
+	connect(_uieditor.pushButton_removequest, SIGNAL(clicked()) , this, SLOT(QuestRemove_button()));	
+	connect(_uieditor.pushButton_selectquest, SIGNAL(clicked()) , this, SLOT(QuestSelect_button()));
+
+
 	//! Actor add button push
 	 void ActorAdd_button_accepted();
 
@@ -1407,6 +1426,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.tableView_ActorList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectactor_double_clicked(const QModelIndex&)));
 	connect(_uieditor.tableView_TextList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selecttext_double_clicked(const QModelIndex&)));
 	connect(_uieditor.tableView_ItemList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectitem_double_clicked(const QModelIndex&)));
+	connect(_uieditor.tableView_QuestList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectquest_double_clicked(const QModelIndex&)));
+
 
 
 	connect(_objectmodel, SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)) , 
@@ -2695,6 +2716,13 @@ void EditorHandler::objectdatachanged(const QModelIndex &index1, const QModelInd
 			TeleportChanged(objid, parentIdx);
 			return;
 		}	
+
+		if(type == "Quest")
+		{
+			long objid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toLong();
+			QuestChanged(objid, parentIdx);
+			return;
+		}	
 	}
 }
 
@@ -3435,6 +3463,29 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 		return;
 	}
 
+
+	if(actiontype == "StartQuestAction")
+	{
+		StartQuestAction* ptr = static_cast<StartQuestAction*>(action);
+		{
+			QVector<QVariant> data;
+			data << "QuestId" << (int)ptr->GetQuestId();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+		return;
+	}
+
+	if(actiontype == "FinishQuestAction")
+	{
+		FinishQuestAction* ptr = static_cast<FinishQuestAction*>(action);
+		{
+			QVector<QVariant> data;
+			data << "QuestId" << (int)ptr->GetQuestId();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+		return;
+	}
+
 }
 		
 
@@ -4009,6 +4060,37 @@ void EditorHandler::ActionObjectChanged(const std::string & category, const QMod
 				}
 
 
+
+				// need to save as something changed
+				SetModified();
+
+				return;
+			}
+
+
+			if(category == "StartQuestAction")
+			{
+				// get info
+				long qid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toInt();
+
+				// created modified action and replace old one
+				StartQuestAction* modifiedact = (StartQuestAction*)ptr;
+				modifiedact->SetQuestId(qid);
+
+				// need to save as something changed
+				SetModified();
+
+				return;
+			}
+
+			if(category == "FinishQuestAction")
+			{
+				// get info
+				long qid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toInt();
+
+				// created modified action and replace old one
+				FinishQuestAction* modifiedact = (FinishQuestAction*)ptr;
+				modifiedact->SetQuestId(qid);
 
 				// need to save as something changed
 				SetModified();
@@ -8298,6 +8380,22 @@ void EditorHandler::SelectCondition(ConditionBasePtr cond, const QModelIndex &pa
 		_objectmodel->AppendRow(data, parent, true);
 	}
 
+
+	// text id
+	{
+		long tid = cond->GetTextid();
+		std::string txt = Localizer::getInstance()->GetText(Localizer::Quest, tid);
+		std::stringstream txttmp;
+		txttmp<<tid<<": "<<txt;
+
+		QVector<QVariant> data;
+		data<<"Associated Text"<<QString::fromUtf8(txttmp.str().c_str());
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), _text_questNameList);
+	}
+
+
 	std::string type = cond->GetTypeName();
 	if(type == "NegateCondition")
 	{
@@ -8406,6 +8504,47 @@ void EditorHandler::SelectCondition(ConditionBasePtr cond, const QModelIndex &pa
 		return;
 	}
 
+
+	if(type == "QuestStartedCondition")
+	{
+		QuestStartedCondition* ptr = static_cast<QuestStartedCondition*>(cond.get());
+
+		{
+		QVector<QVariant> data;
+		data << "Quest Id" << (int)ptr->GetQuestId();
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+
+		return;
+	}
+
+
+	if(type == "QuestFinishedCondition")
+	{
+		QuestFinishedCondition* ptr = static_cast<QuestFinishedCondition*>(cond.get());
+
+		{
+		QVector<QVariant> data;
+		data << "Quest Id" << (int)ptr->GetQuestId();
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+
+		return;
+	}
+
+
+	if(type == "ChapterStartedCondition")
+	{
+		ChapterStartedCondition* ptr = static_cast<ChapterStartedCondition*>(cond.get());
+
+		{
+		QVector<QVariant> data;
+		data << "Chapter number" << ptr->GetChapter();
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+
+		return;
+	}
 }
 
 /***********************************************************
@@ -8424,6 +8563,18 @@ ConditionBasePtr EditorHandler::CreateCondition(const std::string & type)
 
 	if(type == "OrCondition")
 		return ConditionBasePtr(new OrCondition());
+
+	if(type == "ItemInInventoryCondition")
+		return ConditionBasePtr(new ItemInInventoryCondition());
+
+	if(type == "QuestStartedCondition")
+		return ConditionBasePtr(new QuestStartedCondition());
+
+	if(type == "QuestFinishedCondition")
+		return ConditionBasePtr(new QuestFinishedCondition());
+
+	if(type == "ChapterStartedCondition")
+		return ConditionBasePtr(new ChapterStartedCondition());
 
 	return ConditionBasePtr();
 }
@@ -8451,11 +8602,23 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 		void * ptr = it->second;
 		if(ptr)
 		{	
+			// get text
+			{
+			std::string text = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();		
+			text = text.substr(0, text.find(":"));
+			long textid = atol(text.c_str());
+			ConditionBase* cond = static_cast<ConditionBase*>(ptr);
+			cond->SetTextid(textid);
+			}
+		
+			int index = 3;
+
 			if(category == "NegateCondition")
 			{
 				NegateCondition* cond = static_cast<NegateCondition*>(ptr);
 
-				std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();
+
+				std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
 				std::string currcond = GetConditionType(cond->GetCondition());
 
 				if(condition != currcond)
@@ -8463,7 +8626,7 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 					ConditionBasePtr ptrtmp = CreateCondition(condition);
 					cond->SetCondition(ptrtmp);
 
-					QModelIndex curidx = _objectmodel->GetIndex(0, 2, parentIdx);
+					QModelIndex curidx = _objectmodel->GetIndex(0, index, parentIdx);
 					_objectmodel->Clear(curidx);
 					if(ptrtmp)
 					{
@@ -8483,7 +8646,7 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 
 				//condition 1
 				{
-					std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();
+					std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
 					std::string currcond = GetConditionType(cond->GetCondition1());
 
 					if(condition != currcond)
@@ -8491,7 +8654,7 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 						ConditionBasePtr ptrtmp = CreateCondition(condition);
 						cond->SetCondition1(ptrtmp);
 
-						QModelIndex curidx = _objectmodel->GetIndex(0, 2, parentIdx);
+						QModelIndex curidx = _objectmodel->GetIndex(0, index, parentIdx);
 						_objectmodel->Clear(curidx);
 						if(ptrtmp)
 						{
@@ -8506,9 +8669,11 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 					}
 				}
 
+				++index;
+
 				//condition 2
 				{
-					std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString().toAscii().data();
+					std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
 					std::string currcond = GetConditionType(cond->GetCondition2());
 
 					if(condition != currcond)
@@ -8516,7 +8681,7 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 						ConditionBasePtr ptrtmp = CreateCondition(condition);
 						cond->SetCondition2(ptrtmp);
 
-						QModelIndex curidx = _objectmodel->GetIndex(0, 3, parentIdx);
+						QModelIndex curidx = _objectmodel->GetIndex(0, index, parentIdx);
 						_objectmodel->Clear(curidx);
 						if(ptrtmp)
 						{
@@ -8537,7 +8702,7 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 
 				//condition 1
 				{
-					std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();
+					std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
 					std::string currcond = GetConditionType(cond->GetCondition1());
 
 					if(condition != currcond)
@@ -8545,7 +8710,7 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 						ConditionBasePtr ptrtmp = CreateCondition(condition);
 						cond->SetCondition1(ptrtmp);
 
-						QModelIndex curidx = _objectmodel->GetIndex(0, 2, parentIdx);
+						QModelIndex curidx = _objectmodel->GetIndex(0, index, parentIdx);
 						_objectmodel->Clear(curidx);
 						if(ptrtmp)
 						{
@@ -8559,9 +8724,11 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 					}
 				}
 
+				++index;
+
 				//condition 2
 				{
-					std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString().toAscii().data();
+					std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
 					std::string currcond = GetConditionType(cond->GetCondition2());
 
 					if(condition != currcond)
@@ -8570,7 +8737,7 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 						cond->SetCondition2(ptrtmp);
 
 
-						QModelIndex curidx = _objectmodel->GetIndex(0, 3, parentIdx);
+						QModelIndex curidx = _objectmodel->GetIndex(0, index, parentIdx);
 						_objectmodel->Clear();
 						if(ptrtmp)
 						{
@@ -8589,11 +8756,37 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 			{
 				ItemInInventoryCondition* cond = static_cast<ItemInInventoryCondition*>(ptr);
 				
-				std::string itid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();
+				std::string itid = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
 				itid = itid.substr(0, itid.find(":"));
 				long id = atol(itid.c_str());
-				cond->SetItemId(id);				
-				cond->SetItemNumber(_objectmodel->data(_objectmodel->GetIndex(2, 2, parentIdx)).toInt());
+				cond->SetItemId(id);	
+
+				++index;
+				cond->SetItemNumber(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt());
+			}
+
+			if(category == "QuestStartedCondition")
+			{
+				QuestStartedCondition* cond = static_cast<QuestStartedCondition*>(ptr);
+				
+				long id = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
+				cond->SetQuestId(id);				
+			}
+
+			if(category == "QuestFinishedCondition")
+			{
+				QuestFinishedCondition* cond = static_cast<QuestFinishedCondition*>(ptr);
+				
+				long id = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
+				cond->SetQuestId(id);				
+			}
+
+			if(category == "ChapterStartedCondition")
+			{
+				ChapterStartedCondition* cond = static_cast<ChapterStartedCondition*>(ptr);
+				
+				int id = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
+				cond->SetChapter(id);				
 			}
 		}
 	}
@@ -8701,6 +8894,12 @@ ActionBasePtr EditorHandler::CreateAction(const std::string & type)
 
 	if(type == "SwitchAction")
 		return ActionBasePtr(new SwitchAction());
+
+	if(type == "StartQuestAction")
+		return ActionBasePtr(new StartQuestAction());
+
+	if(type == "FinishQuestAction")
+		return ActionBasePtr(new FinishQuestAction());
 
 	return ActionBasePtr();
 }
@@ -10290,3 +10489,393 @@ void EditorHandler::TeleportChanged(long id, const QModelIndex &parentIdx)
 	// need to save as something changed
 	SetModified();
 }
+
+
+
+/***********************************************************
+QuestAdd_button
+***********************************************************/
+void EditorHandler::QuestAdd_button()
+{
+	long qid = QuestHandler::getInstance()->GenerateQuestid();
+	QuestPtr newQuest(new Quest(qid));
+	QuestHandler::getInstance()->AddQuest(newQuest);
+
+	QStringList data;
+	data << "";
+	_questlistmodel->AddOrUpdateRow(qid, data);
+
+	SetModified();
+	SelectQuest(qid);
+}
+
+
+/***********************************************************
+QuestRemove_button
+***********************************************************/
+void EditorHandler::QuestRemove_button()
+{
+	QItemSelectionModel *selectionModel = _uieditor.tableView_QuestList->selectionModel();
+	QModelIndexList indexes = selectionModel->selectedIndexes();
+
+	if(indexes.size() > 0)
+	{
+		long id = _questlistmodel->GetId(indexes[0]);
+		QuestHandler::getInstance()->RemoveQuest(id);
+
+		_questlistmodel->removeRows(indexes[0].row(), 1);
+
+		SetModified();
+	}
+}
+
+
+/***********************************************************
+QuestSelect_button
+***********************************************************/
+void EditorHandler::QuestSelect_button()
+{
+	QItemSelectionModel *selectionModel = _uieditor.tableView_QuestList->selectionModel();
+	QModelIndexList indexes = selectionModel->selectedIndexes();
+
+	if(indexes.size() > 0)
+	{
+		long id = _questlistmodel->GetId(indexes[0]);
+		SelectQuest(id);
+	}
+}
+
+/***********************************************************
+on selectitem_double_clicked
+***********************************************************/
+void EditorHandler::selectquest_double_clicked(const QModelIndex & itm)
+{
+	QuestSelect_button();		
+}
+
+
+
+/***********************************************************
+set Quest in the object
+***********************************************************/
+void EditorHandler::SelectQuest(long id, const QModelIndex &parent)
+{
+	QuestPtr qu = QuestHandler::getInstance()->GetQuest(id);
+	if(!qu)
+		return;
+
+	if(parent == QModelIndex())
+		ResetObject();
+
+
+	{
+		QVector<QVariant> data;
+		data<<"Type"<<"Quest";
+		_objectmodel->AppendRow(data, parent, true);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"SubCategory"<<"-";
+		_objectmodel->AppendRow(data, parent, true);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Id"<<id;
+		_objectmodel->AppendRow(data, parent, true);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Chapter"<<qu->GetChapter();
+		_objectmodel->AppendRow(data, parent);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Visible"<<qu->GetVisible();
+		_objectmodel->AppendRow(data, parent);
+	}
+
+	// location
+	{
+		long tid = qu->GetLocationTextId();
+		std::string txt = Localizer::getInstance()->GetText(Localizer::Quest, tid);
+		std::stringstream txttmp;
+		txttmp<<tid<<": "<<txt;
+
+		QVector<QVariant> data;
+		data<<"Location"<<QString::fromUtf8(txttmp.str().c_str());
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), _text_questNameList);
+	}
+
+	// title
+	{
+		long tid = qu->GetTitleTextId();
+		std::string txt = Localizer::getInstance()->GetText(Localizer::Quest, tid);
+		std::stringstream txttmp;
+		txttmp<<tid<<": "<<txt;
+
+		QVector<QVariant> data;
+		data<<"Title"<<QString::fromUtf8(txttmp.str().c_str());
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), _text_questNameList);
+	}
+
+	// description
+	{
+		long tid = qu->GetDescriptionTextId();
+		std::string txt = Localizer::getInstance()->GetText(Localizer::Quest, tid);
+		std::stringstream txttmp;
+		txttmp<<tid<<": "<<txt;
+
+		QVector<QVariant> data;
+		data<<"Description"<<QString::fromUtf8(txttmp.str().c_str());
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), _text_questNameList);
+	}
+
+
+	// action at start
+	{
+		ActionBasePtr actptr = qu->GetActionAtStart();
+		std::string acttype = GetActionType(actptr);
+
+		QVector<QVariant> data;
+		data << "Action at start" << acttype.c_str();
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		
+		if(actptr)
+			SelectAction(actptr.get(), idx);
+
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), _actiontypeList);
+	}	
+
+	// action at end
+	{
+		ActionBasePtr actptr = qu->GetActionAtComplete();
+		std::string acttype = GetActionType(actptr);
+
+		QVector<QVariant> data;
+		data << "Action at end" << acttype.c_str();
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		
+		if(actptr)
+			SelectAction(actptr.get(), idx);
+
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), _actiontypeList);
+	}
+
+
+	// add conditions
+	{
+
+		QVector<QVariant> data;
+		data<<"Conditions"<<"";
+		QModelIndex idx = _objectmodel->AppendRow(data, parent, true);
+
+
+		std::vector<ConditionBasePtr> childs = qu->GetConditions();
+		for(size_t gg=0; gg< childs.size(); ++gg)
+		{
+			std::string condtype = "No";
+			ConditionBasePtr condptr = childs[gg];
+			if(condptr)
+				condtype = condptr->GetTypeName();
+
+			QVector<QVariant> data;
+			data << "Condition" << condtype.c_str();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), _conditiontypeList);
+
+			if(condptr)
+				SelectCondition(condptr, idx);
+		}
+
+		// add new item
+		QVector<QVariant> datait;
+		datait << "Condition" << "Add new...";
+		QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _conditiontypeList);	
+	
+	
+		_uieditor.treeView_object->setExpanded(idx, true); // expand 
+	}
+}
+
+/***********************************************************
+called when Quest object changed
+***********************************************************/
+void EditorHandler::QuestChanged(long id, const QModelIndex &parentIdx)
+{
+	QuestPtr qu = QuestHandler::getInstance()->GetQuest(id);
+	if(!qu)
+		return;
+
+	// get info
+	int chapter = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toInt();
+	bool visible = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toBool();
+	qu->SetChapter(chapter);
+	qu->SetVisible(visible);
+
+	SetModified();
+
+	// get text
+	{
+		std::string text = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toString().toAscii().data();		
+		text = text.substr(0, text.find(":"));
+		long textid = atol(text.c_str());
+		qu->SetLocationTextId(textid);
+	}
+	// get text
+	{
+		QString txt = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toString();
+		std::string text = txt.toAscii().data();		
+		text = text.substr(0, text.find(":"));
+		long textid = atol(text.c_str());
+		qu->SetTitleTextId(textid);
+
+		// refresh list
+		if(textid >= 0)
+		{
+			QStringList data;
+			data << txt;
+			_questlistmodel->AddOrUpdateRow(id, data);
+		}
+		else
+		{
+			QStringList data;
+			data << "";
+			_questlistmodel->AddOrUpdateRow(id, data);
+		}
+	}
+	// get text
+	{
+		std::string text = _objectmodel->data(_objectmodel->GetIndex(1, 7, parentIdx)).toString().toAscii().data();		
+		text = text.substr(0, text.find(":"));
+		long textid = atol(text.c_str());
+		qu->SetDescriptionTextId(textid);
+	}
+
+
+	// get action info
+	{
+		std::string action = _objectmodel->data(_objectmodel->GetIndex(1, 8, parentIdx)).toString().toAscii().data();
+		std::string curract = GetActionType(qu->GetActionAtStart());
+
+		if(action != curract)
+		{
+			ActionBasePtr ptrtmp = CreateAction(action);
+			qu->SetActionAtStart(ptrtmp);
+
+			QModelIndex curidx = _objectmodel->GetIndex(0, 8, parentIdx);
+			_objectmodel->Clear(curidx);
+			if(ptrtmp)
+			{
+				SelectAction(ptrtmp.get(), curidx);
+				_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+			}
+
+		}
+	}
+	// get action info
+	{
+		std::string action = _objectmodel->data(_objectmodel->GetIndex(1, 9, parentIdx)).toString().toAscii().data();
+		std::string curract = GetActionType(qu->GetActionAtComplete());
+
+		if(action != curract)
+		{
+			ActionBasePtr ptrtmp = CreateAction(action);
+			qu->SetActionAtComplete(ptrtmp);
+
+			QModelIndex curidx = _objectmodel->GetIndex(0, 9, parentIdx);
+			_objectmodel->Clear(curidx);
+			if(ptrtmp)
+			{
+				SelectAction(ptrtmp.get(), curidx);
+				_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+			}
+
+		}
+	}
+
+
+	// get child conditions info
+	{
+		QModelIndex itemparent = _objectmodel->GetIndex(0, 10, parentIdx);
+		int curridx = 0;
+
+		std::vector<ConditionBasePtr> childs = qu->GetConditions();
+		for(size_t gg=0; gg< childs.size(); ++gg)
+		{
+			std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, curridx, itemparent)).toString().toAscii().data();
+			std::string currcond = GetConditionType(childs[gg]);
+
+			if(condition != currcond)
+			{
+				if(condition == "No")
+				{
+					qu->RemoveCondition(childs[gg]);
+
+					// reset quest display
+					_objectmodel->Clear(parentIdx);
+					SelectQuest(id, parentIdx);
+					return;
+				}
+				else
+				{
+					ConditionBasePtr ptrtmp = CreateCondition(condition);
+					qu->ReplaceCondition(childs[gg], ptrtmp);
+
+					QModelIndex curidx = _objectmodel->GetIndex(0, curridx, itemparent);
+					_objectmodel->Clear(curidx);
+					if(ptrtmp)
+					{
+						SelectCondition(ptrtmp, curidx);
+
+						_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+					}
+				}
+				++curridx;
+
+			}
+		}
+
+		QModelIndex childidx0 = _objectmodel->GetIndex(0, curridx, itemparent);
+		QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+		std::string check = _objectmodel->data(childidx).toString().toAscii().data();
+		if(check != "No")
+		{
+			ConditionBasePtr ptrtmp = CreateCondition(check);
+			qu->AddCondition(ptrtmp);
+
+			_objectmodel->Clear(childidx);
+			if(ptrtmp)
+			{
+				SelectCondition(ptrtmp, childidx);
+				_uieditor.treeView_object->setExpanded(childidx, true); // expand 
+			}
+
+			{
+			// add new item
+			QVector<QVariant> datait;
+			datait << "Condition" << "Add new...";
+			QModelIndex idxit = _objectmodel->AppendRow(datait, itemparent);	
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _conditiontypeList);	
+			}
+		}
+		else
+		{
+			_objectmodel->setData(childidx, "Add new...");
+		}
+	}
+}
+
+
+

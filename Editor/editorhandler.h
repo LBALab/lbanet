@@ -507,6 +507,20 @@ public:
 	//! stop target player
 	virtual void NpcUntargetPlayer(long NpcId, long PlayerId){}
 
+	//! start quest
+	virtual void StartQuest(long PlayerId, long Questid){}
+
+	//! end quest
+	virtual void TriggerQuestEnd(long PlayerId, long Questid){}
+
+	//! condition
+	virtual bool QuestStarted(long PlayerId, long Questid){return false;}
+
+	//! condition
+	virtual bool QuestFinished(long PlayerId, long Questid){return false;}
+
+	//! condition
+	virtual bool ChapterStarted(long PlayerId, int Chapter){return false;}
 
 public slots:
 	 //! ui button clicked
@@ -688,8 +702,6 @@ public slots:
      void selecttext_double_clicked(const QModelIndex & itm);
 
 
-
-
 	 //! on selectitem_double_clicked
      void selectitem_double_clicked(const QModelIndex & itm);
 
@@ -721,6 +733,19 @@ public slots:
 	void colorModified(int v);
 
 
+	//! QuestAdd_button
+	void QuestAdd_button();
+	
+	//! QuestRemove_button
+	void QuestRemove_button();
+	
+	//! QuestSelect_button
+	void QuestSelect_button();
+
+	 //! on selectitem_double_clicked
+     void selectquest_double_clicked(const QModelIndex & itm);
+
+	
 
 
 protected:
@@ -970,12 +995,17 @@ protected:
 	void DialogChanged(const QModelIndex &parentIdx);
 
 
-	//! set spawning in the object
+	//! set Teleport in the object
 	void SelectTeleport(long id, const QModelIndex &parent = QModelIndex());
 
-	//! called when spawning object changed
+	//! called when Teleport object changed
 	void TeleportChanged(long id, const QModelIndex &parentIdx);
 
+	//! set Quest in the object
+	void SelectQuest(long id, const QModelIndex &parent = QModelIndex());
+
+	//! called when Quest object changed
+	void QuestChanged(long id, const QModelIndex &parentIdx);
 
 private:
 	Ui::EditorClass										_uieditor;
@@ -1026,6 +1056,9 @@ private:
 
 	StringTableModel *									_itemlistmodel;
 	StringTableModel *									_startitemlistmodel;
+
+	StringTableModel *									_questlistmodel;
+
 
 	TreeModel *											_objectmodel;
 	CustomDelegate *									_objectcustomdelegate;
