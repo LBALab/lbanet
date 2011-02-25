@@ -27,10 +27,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "LogHandler.h"
 #include "ConfigurationManager.h"
 #include "DataLoader.h"
-#include "OSGHandler.h"
 #include "StringHelperFuncs.h"
 #include "Localizer.h"
 #include "GUILocalizationCallback.h"
+#include "EventsQueue.h"
+#include "SynchronizedTimeHandler.h"
+#include "OSGHandler.h"
+
 
 #include <iostream>
 #include <algorithm>
@@ -453,7 +456,7 @@ void JournalBox::RebuildBook(bool reset)
 				std::string QuestArea = Localizer::getInstance()->GetText(Localizer::Quest, (long)qi.QuestAreaTextId);
 
 				if(QuestArea == "")
-					QuestArea = "General";
+					QuestArea = Localizer::getInstance()->GetText(Localizer::GUI, 84);
 
 				std::vector<CEGUI::String> listt;
 				CreateTextList(Description, listt);
@@ -637,6 +640,21 @@ void JournalBox::Update(const LbaNet::GuiUpdatesSeq &Updates)
 				LbaNet::QuestsMap::iterator it = _QuestsFinished.find(QuestI.Id);
 				if(it != _QuestsFinished.end())
 					_QuestsFinished.erase(it);
+
+				if(QuestI.Visible)
+				{
+					std::stringstream strs;
+					strs << Localizer::getInstance()->GetText(Localizer::GUI, 97)<<": ";
+					strs << Localizer::getInstance()->GetText(Localizer::Quest, (long)QuestI.TittleTextId);
+			
+					// send message to chatbox
+					LbaNet::GuiUpdatesSeq updseq;
+					LbaNet::ChatTextUpdate * upd = 
+						new LbaNet::ChatTextUpdate("All", "info", strs.str());
+					updseq.push_back(upd);
+					EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
+						SynchronizedTimeHandler::GetCurrentTimeDouble(), "ChatBox", updseq));
+				}
 			}
 
 			RebuildBook(false);
