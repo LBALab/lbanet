@@ -327,6 +327,21 @@ public:
 	//! actor untarget player
 	virtual void NpcUnTargetPlayer(long ActorId);
 
+	//! start quest
+	virtual void StartQuest(long PlayerId, long Questid){}
+
+	//! end quest
+	virtual void TriggerQuestEnd(long PlayerId, long Questid){}
+
+	//! condition
+	virtual bool QuestStarted(long PlayerId, long Questid){return false;}
+
+	//! condition
+	virtual bool QuestFinished(long PlayerId, long Questid){return false;}
+
+	//! condition
+	virtual bool ChapterStarted(long PlayerId, int Chapter){return false;}
+
 protected:
 
 	//! clean up map
