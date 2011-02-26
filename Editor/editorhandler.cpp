@@ -1142,7 +1142,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	actilist << "No" << "TeleportAction" << "ClientScriptAction" << "CustomAction" 
 			<< "DisplayTextAction" << "ConditionalAction" << "OpenContainerAction" << "SendSignalAction"
 			<< "OpenDoorAction" << "CloseDoorAction" << "AddRemoveItemAction" << "HurtAction"
-			 << "KillAction"  << "MultiAction" << "SwitchAction" << "StartQuestAction" << "FinishQuestAction";
+			 << "KillAction"  << "MultiAction" << "SwitchAction" << "StartQuestAction" << "FinishQuestAction"
+			 << "OpenShopAction";
 	_actiontypeList->setStringList(actilist);
 
 	QStringList consu_iteml;
@@ -3509,6 +3510,67 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 		return;
 	}
 
+	if(actiontype == "OpenShopAction")
+	{
+		OpenShopAction* ptr = static_cast<OpenShopAction*>(action);
+		{
+			{
+			std::stringstream txtwithid;
+			txtwithid<<ptr->GetCurrencyItem()<<": "<<InventoryItemHandler::getInstance()->
+													GetItemInfo(ptr->GetCurrencyItem()).Name;
+
+			QVector<QVariant> data;
+			data << "Currency Item" << txtwithid.str().c_str();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), idx.parent()), _itemNameList);	
+
+			}
+
+
+			// add items
+			{
+				QVector<QVariant> data;
+				data << "Item list" << "";
+				QModelIndex idx = _objectmodel->AppendRow(data, parent, true);	
+
+				const LbaNet::ItemsMap & itemsM = ptr->GetItems();
+				LbaNet::ItemsMap::const_iterator ititem = itemsM.begin();
+				LbaNet::ItemsMap::const_iterator enditem = itemsM.end();
+				for(; ititem != enditem; ++ititem)
+				{
+					std::stringstream txtwithid;
+					txtwithid<<ititem->second.Info.Id<<": "
+						<<InventoryItemHandler::getInstance()->GetItemInfo(ititem->second.Info.Id).Name;
+
+					QVector<QVariant> datait;
+					datait << "Item" << txtwithid.str().c_str();
+					QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+
+					//add price
+					{
+						QVector<QVariant> datachild;
+						datachild << "Price" << ititem->second.Info.BuyPrice;
+						QModelIndex idx1 = _objectmodel->AppendRow(datachild, idxit);	
+					}
+
+					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _itemNameList);	
+				}
+
+				// add new item
+				QVector<QVariant> datait;
+				datait << "Item" << "Add item...";
+				QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _itemNameList);	
+			
+			
+				_uieditor.treeView_object->setExpanded(idx, true); // expand 
+			}
+		}
+		return;
+	}
+
+	
+
 }
 		
 
@@ -4122,6 +4184,81 @@ void EditorHandler::ActionObjectChanged(const std::string & category, const QMod
 			}
 
 
+			if(category == "OpenShopAction")
+			{
+				// get info
+				std::string curidstr =_objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();
+				curidstr = curidstr.substr(0, curidstr.find(":"));
+
+				// created modified action and replace old one
+				OpenShopAction* modifiedact = (OpenShopAction*)ptr;
+				modifiedact->SetCurrencyItem(atol(curidstr.c_str()));
+
+				// need to save as something changed
+				SetModified();
+
+				QModelIndex itemparent = _objectmodel->GetIndex(0, 3, parentIdx);
+				int curridx = 0;
+
+				//take care of the items
+				const LbaNet::ItemsMap &items = modifiedact->GetItems();
+				LbaNet::ItemsMap::const_iterator itit = items.begin();
+				for(;itit != items.end(); ++itit)
+				{
+					QModelIndex childidx = _objectmodel->GetIndex(0, curridx, itemparent);
+					std::string id = _objectmodel->data(_objectmodel->GetIndex(1, curridx, itemparent))
+																			.toString().toAscii().data();
+					++curridx;
+
+					if(id == "No item")
+					{
+						// need to remove the item
+						modifiedact->RemoveItem(itit->first);
+
+						_objectmodel->Clear(parentIdx);
+						SelectAction(modifiedact, parentIdx);
+						return;
+					}
+
+					std::string tmp = id.substr(0, id.find(":"));
+					long itmId = atol(tmp.c_str());
+					int price = _objectmodel->data(_objectmodel->GetIndex(1, 0, childidx)).toInt();
+					modifiedact->AddItem(itmId, price);
+				}
+
+				QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+				QModelIndex childidx0 = _objectmodel->GetIndex(0, curridx, itemparent);
+				std::string id = _objectmodel->data(childidx).toString().toAscii().data();
+				if(id != "Add item...")
+				{
+					if(id == "No item")
+					{
+						_objectmodel->setData(childidx, "Add item...");
+						return;
+					}
+					else
+					{
+						// add new item
+						std::string tmp = id.substr(0, id.find(":"));
+						LbaNet::ItemInfo iteminfo = modifiedact->AddItemR(atol(tmp.c_str()), -1);
+
+						//add price
+						{
+							QVector<QVariant> datachild;
+							datachild << "Price" << iteminfo.BuyPrice;
+							_objectmodel->AppendRow(datachild, childidx0);	
+						}
+
+						// add new item
+						QVector<QVariant> datait;
+						datait << "Item" << "Add item...";
+						QModelIndex idxit = _objectmodel->AppendRow(datait, itemparent);	
+						_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _itemNameList);	
+					}
+				}
+
+				return;
+			}
 		}
 	}
 
@@ -8924,6 +9061,10 @@ ActionBasePtr EditorHandler::CreateAction(const std::string & type)
 	if(type == "FinishQuestAction")
 		return ActionBasePtr(new FinishQuestAction());
 
+	if(type == "OpenShopAction")
+		return ActionBasePtr(new OpenShopAction());
+
+	
 	return ActionBasePtr();
 }
 
