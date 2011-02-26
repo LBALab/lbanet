@@ -28,6 +28,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "ServerGuiBase.h"
 
+namespace LbaNet
+{
+	class ClientServerEventBase;
+}
+
+
 //! take care of update comming from client ShopBox GUI
 class ShopBoxHandler :	public ServerGUIBase
 {
@@ -54,6 +60,8 @@ protected:
 	//! buy item
 	void BuyItem(long clientid, long ItemId);
 
+	//! update money to client
+	LbaNet::ClientServerEventBase * UpdateMoney(long currencyid, long clientid);
 
 private:
 	std::map<long, ShopParam>		_openedshops;

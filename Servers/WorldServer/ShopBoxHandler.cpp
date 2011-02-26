@@ -102,6 +102,7 @@ void ShopBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition &c
 			toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 													"ShopBox", seq, true, false));
 
+			toplayer.push_back(UpdateMoney(castedptr->_currencyitem.Id, (long)clientid));
 			IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
 			t->start();	
 
@@ -157,7 +158,37 @@ void ShopBoxHandler::BuyItem(long clientid, long ItemId)
 				Taken[ShopItems._currencyitem.Id] = itcont->second.Info.BuyPrice;
 				Put[ItemId] = 1;
 				SharedDataHandler::getInstance()->UpdateInventory(clientid, Taken, Put, LbaNet::DontInform);
+
+				ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
+				if(prx)
+				{
+					EventsSeq toplayer;
+					toplayer.push_back(UpdateMoney(ShopItems._currencyitem.Id, (long)clientid));
+					IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
+					t->start();	
+				}
 			}
 		}
 	}
+}
+
+
+/***********************************************************
+buy item
+***********************************************************/
+LbaNet::ClientServerEventBase * ShopBoxHandler::UpdateMoney(long currencyid, long clientid)
+{
+	int count = 0;
+	int inventorysize = 0;
+	LbaNet::ItemsMap inventory = SharedDataHandler::getInstance()->GetInventory(clientid, inventorysize);
+	LbaNet::ItemsMap::iterator it = inventory.find(currencyid);
+	if(it != inventory.end())
+		count = it->second.Count;
+
+	LbaNet::GuiUpdatesSeq updseq;
+	LbaNet::PlayerMoneyUpdate * upd = 
+		new LbaNet::PlayerMoneyUpdate(count);
+	updseq.push_back(upd);
+	return new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+											"ShopBox", updseq);
 }

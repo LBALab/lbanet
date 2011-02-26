@@ -960,8 +960,9 @@ void OpenShopAction::SaveToLuaFile(std::ofstream & file, const std::string & nam
 	LbaNet::ItemsMap::iterator it =	_items.begin();
 	LbaNet::ItemsMap::iterator end = _items.end();
 	for(; it != end; ++it)
-		file<<"\t"<<name<<":AddItem("<<it->first<<")"<<std::endl;	
+		file<<"\t"<<name<<":AddItem("<<it->first<<", "<<it->second.Info.BuyPrice<<")"<<std::endl;	
 }
+
 
 
 /***********************************************************
@@ -981,6 +982,30 @@ void OpenShopAction::AddItem(long item, int price)
 
 		_items[item] = itposinfo;
 	}
+}
+
+
+/***********************************************************
+add item to container start
+***********************************************************/	
+LbaNet::ItemInfo OpenShopAction::AddItemR(long item, int price)
+{
+	if(item >= 0)
+	{
+		LbaNet::ItemPosInfo itposinfo;
+		itposinfo.Info = InventoryItemHandler::getInstance()->GetItemInfo(item);
+		if(price >= 0)
+			itposinfo.Info.BuyPrice = price;
+
+		itposinfo.Count = 1;
+		itposinfo.Position = -1;
+
+		_items[item] = itposinfo;
+
+		return itposinfo.Info;
+	}
+
+	return LbaNet::ItemInfo();
 }
 
 

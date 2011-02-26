@@ -920,8 +920,11 @@ public:
 	//add item to container start
 	void AddItem(long item, int price);
 
+	//add item to container start
+	LbaNet::ItemInfo AddItemR(long item, int price);
+
 	// get items
-	LbaNet::ItemsMap &GetItems()
+	const LbaNet::ItemsMap &GetItems()
 	{return _items;}
 
 	//remove item to container start
