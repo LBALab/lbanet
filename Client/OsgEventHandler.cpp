@@ -2,6 +2,8 @@
 #include "OSGHandler.h"
 #include "EventsQueue.h"
 #include "SynchronizedTimeHandler.h"
+#include "ClientExtendedTypes.h"
+
 #include <CEGUI.h>
 
 #include <osgViewer/Viewer>
@@ -525,7 +527,116 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 					EventsQueue::getReceiverQueue()->AddEvent(new CenterCameraEvent());
 					return true;	
 				}
-				
+
+				// shortcut 0
+				if(kkk == _keymap[LbanetKey_Shortcut0])
+				{
+					LbaNet::GuiUpdatesSeq updseq;
+					updseq.push_back(new UsedShorcutUpdate(0));
+					EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
+						SynchronizedTimeHandler::GetCurrentTimeDouble(), "ShortcutBox", updseq));
+
+					return true;	
+				}
+
+				// shortcut 1
+				if(kkk == _keymap[LbanetKey_Shortcut1])
+				{
+					LbaNet::GuiUpdatesSeq updseq;
+					updseq.push_back(new UsedShorcutUpdate(1));
+					EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
+						SynchronizedTimeHandler::GetCurrentTimeDouble(), "ShortcutBox", updseq));
+
+					return true;	
+				}
+
+				// shortcut 2
+				if(kkk == _keymap[LbanetKey_Shortcut2])
+				{
+					LbaNet::GuiUpdatesSeq updseq;
+					updseq.push_back(new UsedShorcutUpdate(2));
+					EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
+						SynchronizedTimeHandler::GetCurrentTimeDouble(), "ShortcutBox", updseq));
+
+					return true;	
+				}
+
+				// shortcut 3
+				if(kkk == _keymap[LbanetKey_Shortcut3])
+				{
+					LbaNet::GuiUpdatesSeq updseq;
+					updseq.push_back(new UsedShorcutUpdate(3));
+					EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
+						SynchronizedTimeHandler::GetCurrentTimeDouble(), "ShortcutBox", updseq));
+
+					return true;	
+				}
+
+				// shortcut 4
+				if(kkk == _keymap[LbanetKey_Shortcut4])
+				{
+					LbaNet::GuiUpdatesSeq updseq;
+					updseq.push_back(new UsedShorcutUpdate(4));
+					EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
+						SynchronizedTimeHandler::GetCurrentTimeDouble(), "ShortcutBox", updseq));
+
+					return true;	
+				}
+
+				// shortcut 5
+				if(kkk == _keymap[LbanetKey_Shortcut5])
+				{
+					LbaNet::GuiUpdatesSeq updseq;
+					updseq.push_back(new UsedShorcutUpdate(5));
+					EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
+						SynchronizedTimeHandler::GetCurrentTimeDouble(), "ShortcutBox", updseq));
+
+					return true;	
+				}
+
+				// shortcut 6
+				if(kkk == _keymap[LbanetKey_Shortcut6])
+				{
+					LbaNet::GuiUpdatesSeq updseq;
+					updseq.push_back(new UsedShorcutUpdate(6));
+					EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
+						SynchronizedTimeHandler::GetCurrentTimeDouble(), "ShortcutBox", updseq));
+
+					return true;	
+				}
+
+				// shortcut 7
+				if(kkk == _keymap[LbanetKey_Shortcut7])
+				{
+					LbaNet::GuiUpdatesSeq updseq;
+					updseq.push_back(new UsedShorcutUpdate(7));
+					EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
+						SynchronizedTimeHandler::GetCurrentTimeDouble(), "ShortcutBox", updseq));
+
+					return true;	
+				}
+
+				// shortcut 8
+				if(kkk == _keymap[LbanetKey_Shortcut8])
+				{
+					LbaNet::GuiUpdatesSeq updseq;
+					updseq.push_back(new UsedShorcutUpdate(8));
+					EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
+						SynchronizedTimeHandler::GetCurrentTimeDouble(), "ShortcutBox", updseq));
+
+					return true;	
+				}
+
+				// shortcut 9
+				if(kkk == _keymap[LbanetKey_Shortcut9])
+				{
+					LbaNet::GuiUpdatesSeq updseq;
+					updseq.push_back(new UsedShorcutUpdate(9));
+					EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
+						SynchronizedTimeHandler::GetCurrentTimeDouble(), "ShortcutBox", updseq));
+
+					return true;	
+				}				
 			}
 		}
 

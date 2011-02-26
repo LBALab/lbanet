@@ -47,7 +47,17 @@ enum LbanetKey
 	LbanetKey_Stance2,
 	LbanetKey_Stance3,
 	LbanetKey_Stance4,
-	LbanetKey_CenterCamera
+	LbanetKey_CenterCamera,
+	LbanetKey_Shortcut0,
+	LbanetKey_Shortcut1,
+	LbanetKey_Shortcut2,
+	LbanetKey_Shortcut3,
+	LbanetKey_Shortcut4,
+	LbanetKey_Shortcut5,
+	LbanetKey_Shortcut6,
+	LbanetKey_Shortcut7,
+	LbanetKey_Shortcut8,
+	LbanetKey_Shortcut9
 };
 
 /*

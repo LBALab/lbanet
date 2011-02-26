@@ -600,7 +600,7 @@ void ShortcutBox::Update(const LbaNet::GuiUpdatesSeq &Updates)
 				dynamic_cast<UsedShorcutUpdate *>(ptr);
 
 			int veci = castedptr->_shortcutid;
-			unsigned int id = ((veci == 0)? 13: veci+3);
+			unsigned int id = ((veci == 0)? 9: veci-1);
 
 			if(id < _shortcutinfo.size())
 			{

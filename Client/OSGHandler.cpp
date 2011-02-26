@@ -641,6 +641,17 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 	kmap[LbanetKey_Stance3] = osgGA::GUIEventAdapter::KEY_F3;
 	kmap[LbanetKey_Stance4] = osgGA::GUIEventAdapter::KEY_F4;
 	kmap[LbanetKey_CenterCamera] = osgGA::GUIEventAdapter::KEY_Shift_R;
+	kmap[LbanetKey_Shortcut0] = '0';
+	kmap[LbanetKey_Shortcut1] = '1';
+	kmap[LbanetKey_Shortcut2] = '2';
+	kmap[LbanetKey_Shortcut3] = '3';
+	kmap[LbanetKey_Shortcut4] = '4';
+	kmap[LbanetKey_Shortcut5] = '5';
+	kmap[LbanetKey_Shortcut6] = '6';
+	kmap[LbanetKey_Shortcut7] = '7';
+	kmap[LbanetKey_Shortcut8] = '8';
+	kmap[LbanetKey_Shortcut9] = '9';
+
 	_eventH->SetKeyMap(kmap);
 
 	// add the stats handler

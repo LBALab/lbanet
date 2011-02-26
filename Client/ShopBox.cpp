@@ -262,9 +262,12 @@ set player money
 ***********************************************************/
 void NPCShopBox::RefreshMoney()
 {
-	std::stringstream strs;
-	strs<<"You have "<<_currentmoney<<" [image='set:"<<ImageSetHandler::GetInventoryMiniImage(_MoneyIconName)<<" image:full_image']";
-	CEGUI::WindowManager::getSingleton().getWindow("DialogTraderFrame/kashes")->setText(strs.str());
+	if(_MoneyIconName != "")
+	{
+		std::stringstream strs;
+		strs<<_currentmoney<<"  [image='set:"<<ImageSetHandler::GetInventoryMiniImage(_MoneyIconName)<<" image:full_image']";
+		CEGUI::WindowManager::getSingleton().getWindow("DialogTraderFrame/kashes")->setText(strs.str());
+	}
 }
 
 
@@ -299,10 +302,10 @@ void NPCShopBox::AddItem(const LbaNet::ItemInfo &itinfo, CEGUI::Window* parent)
 	std::string itemdescription = itinfo.DescriptionTextExtra;
 	if(itemdescription == "")
 		itemdescription = Localizer::getInstance()->GetText(Localizer::Inventory, (long)itinfo.DescriptionId);
-
+	std::string itemname = Localizer::getInstance()->GetText(Localizer::Inventory, (long)itinfo.NameTextId);
 
 	std::stringstream strs;
-	strs<<"<"<<itinfo.BuyPrice<<" kashes> "<<itemdescription;
+	strs<<"<"<<itinfo.BuyPrice<<"> "<<itemname<<": "<<itemdescription;
 	CEGUI::String tmpstr((const unsigned char *)strs.str().c_str());
 	tmp->setProperty("Tooltip", tmpstr);
 	tmp->addChildWindow(tmp2);
