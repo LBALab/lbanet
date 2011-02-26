@@ -3,12 +3,6 @@
 	<name>Lba1Original</name>
 	<description>Reconstruction of the LBA1 original world.</description>
 	<news>11/10/2010: First release with new engine.</news>
-	<files>
-		<file name="models" path="Models/models.xml"/>
-		<file name="sounds" path="Samples/sounds.xml"/>
-		<file name="sprites" path="Sprites/sprites.xml"/>
-		<file name="videos" path="Sprites/videos.xml"/>
-	</files>
 	<PlayerStartingInfo>
 		<InventorySize>30</InventorySize>
 		<StartingLife>50</StartingLife>

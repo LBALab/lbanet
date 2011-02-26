@@ -12,6 +12,7 @@
 			<Property Name="UnifiedAreaRect" Value="{{0,10},{0, 40},{1,-140},{0,70}}" /> 
 			<Property Name="HorzFormatting"    Value="WordWrapCentred" />
 			<Property Name="ReadOnly" Value="true" />
+ 	   		<Property Name="FrameEnabled" Value="False" />			
 		</Window>            
 		<Window Type="TaharezLook/StaticImage" Name="InventoryInformHappyFrame/InventoryLogo" >
 			<Property Name="Image"     Value="" />

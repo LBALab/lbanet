@@ -17,10 +17,10 @@
             
        	    <Window Type="TaharezLook/StaticText" Name="DialogTraderFrame/kashes" >           
             <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
- 	    <Property Name="Text" Value="#64" />   
+ 	    <Property Name="Text" Value="" />   
  	    <Property Name="FrameEnabled" Value="False" />
  	    <Property Name="BackgroundEnabled" Value="False" />	    
-            <Property Name="UnifiedAreaRect" Value="{{0.5,-65},{1,-30},{0.5,75},{1,-5}}" />	
+            <Property Name="UnifiedAreaRect" Value="{{0.5,-30},{1,-30},{0.95,0},{1,-5}}" />	
             </Window>            
 
 	</Window>    
