@@ -1,4 +1,43 @@
 function InitMap(environment)
+	Spawn_1 = Spawn(1)
+	Spawn_1:SetPosX(20)
+	Spawn_1:SetPosY(11)
+	Spawn_1:SetPosZ(12)
+	Spawn_1:SetName("from_otringalstraight")
+	Spawn_1:SetForceRotation(true)
+	Spawn_1:SetRotation(0)
+	environment:AddSpawn(Spawn_1)
+
+	Spawn_2 = Spawn(2)
+	Spawn_2:SetPosX(19)
+	Spawn_2:SetPosY(11)
+	Spawn_2:SetPosZ(13)
+	Spawn_2:SetName("from_otringalcurve")
+	Spawn_2:SetForceRotation(true)
+	Spawn_2:SetRotation(90)
+	environment:AddSpawn(Spawn_2)
+
+	Spawn_3 = Spawn(3)
+	Spawn_3:SetPosX(44)
+	Spawn_3:SetPosY(11)
+	Spawn_3:SetPosZ(6)
+	Spawn_3:SetName("from_hotel1")
+	environment:AddSpawn(Spawn_3)
+
+	Spawn_4 = Spawn(4)
+	Spawn_4:SetPosX(38)
+	Spawn_4:SetPosY(11)
+	Spawn_4:SetPosZ(6)
+	Spawn_4:SetName("from_hotel2")
+	environment:AddSpawn(Spawn_4)
+
+	Spawn_5 = Spawn(5)
+	Spawn_5:SetPosX(32)
+	Spawn_5:SetPosY(11)
+	Spawn_5:SetPosZ(6)
+	Spawn_5:SetName("from_hotel3")
+	environment:AddSpawn(Spawn_5)
+
 	Actor_1 = ActorObjectInfo(1)
 	Actor_1:SetRenderType(1)
 	Actor_1.DisplayDesc.ModelId = 750
@@ -87,3 +126,4 @@ function InitMap(environment)
 	environment:AddTrigger(Trigger_5)
 
 end
+

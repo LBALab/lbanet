@@ -1,4 +1,18 @@
 function InitMap(environment)
+	Spawn_1 = Spawn(1)
+	Spawn_1:SetPosX(58.5)
+	Spawn_1:SetPosY(1)
+	Spawn_1:SetPosZ(41)
+	Spawn_1:SetName("from_magic")
+	environment:AddSpawn(Spawn_1)
+
+	Spawn_2 = Spawn(2)
+	Spawn_2:SetPosX(23.5)
+	Spawn_2:SetPosY(11)
+	Spawn_2:SetPosZ(10.6)
+	Spawn_2:SetName("from_blowtron")
+	environment:AddSpawn(Spawn_2)
+
 	Actor_1 = ActorObjectInfo(1)
 	Actor_1:SetRenderType(1)
 	Actor_1.DisplayDesc.ModelId = 0
@@ -51,3 +65,4 @@ function InitMap(environment)
 	environment:AddTrigger(Trigger_2)
 
 end
+

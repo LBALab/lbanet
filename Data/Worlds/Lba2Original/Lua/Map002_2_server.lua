@@ -1,4 +1,11 @@
 function InitMap(environment)
+	Spawn_0 = Spawn(0)
+	Spawn_0:SetPosX(18)
+	Spawn_0:SetPosY(3)
+	Spawn_0:SetPosZ(2)
+	Spawn_0:SetName("FromHouse")
+	environment:AddSpawn(Spawn_0)
+
 	Actor_1 = ActorObjectInfo(1)
 	Actor_1:SetRenderType(1)
 	Actor_1.DisplayDesc.ModelId = -1163005939
@@ -42,3 +49,4 @@ function InitMap(environment)
 	environment:AddTrigger(Trigger_1)
 
 end
+

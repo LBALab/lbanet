@@ -1,4 +1,11 @@
 function InitMap(environment)
+	Spawn_1 = Spawn(1)
+	Spawn_1:SetPosX(456)
+	Spawn_1:SetPosY(12.3)
+	Spawn_1:SetPosZ(454)
+	Spawn_1:SetName("Teleport")
+	environment:AddSpawn(Spawn_1)
+
 	Actor_1 = ActorObjectInfo(1)
 	Actor_1:SetRenderType(1)
 	Actor_1.DisplayDesc.ModelId = 750
@@ -1287,3 +1294,4 @@ function InitMap(environment)
 	environment:AddActorObject(Actor_39H)
 
 end
+

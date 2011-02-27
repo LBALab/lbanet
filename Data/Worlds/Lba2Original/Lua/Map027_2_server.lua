@@ -1,4 +1,11 @@
 function InitMap(environment)
+	Spawn_0 = Spawn(0)
+	Spawn_0:SetPosX(0)
+	Spawn_0:SetPosY(0)
+	Spawn_0:SetPosZ(0)
+	Spawn_0:SetName("DefaultSpawning")
+	environment:AddSpawn(Spawn_0)
+
 	MapObject = ActorObjectInfo(1)
 	MapObject:SetRenderType(1)
 	MapObject.DisplayDesc.ModelName = "Worlds/Lba2Original/Grids/Map27.osgb"
@@ -16,3 +23,4 @@ function InitMap(environment)
 	MapObjectH = ActorHandler(MapObject)
 	environment:AddActorObject(MapObjectH)
 end
+

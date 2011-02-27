@@ -1,4 +1,27 @@
 function InitMap(environment)
+	Spawn_1 = Spawn(1)
+	Spawn_1:SetPosX(39)
+	Spawn_1:SetPosY(8)
+	Spawn_1:SetPosZ(62)
+	Spawn_1:SetName("from_baggagebag")
+	Spawn_1:SetForceRotation(true)
+	Spawn_1:SetRotation(180)
+	environment:AddSpawn(Spawn_1)
+
+	Spawn_2 = Spawn(2)
+	Spawn_2:SetPosX(2.5)
+	Spawn_2:SetPosY(7)
+	Spawn_2:SetPosZ(59)
+	Spawn_2:SetName("from_baggage")
+	environment:AddSpawn(Spawn_2)
+
+	Spawn_3 = Spawn(3)
+	Spawn_3:SetPosX(49)
+	Spawn_3:SetPosY(8)
+	Spawn_3:SetPosZ(9)
+	Spawn_3:SetName("from_baggagesecret")
+	environment:AddSpawn(Spawn_3)
+
 	Actor_1 = ActorObjectInfo(1)
 	Actor_1:SetRenderType(1)
 	Actor_1.DisplayDesc.ModelId = -1163005939
@@ -60,3 +83,4 @@ function InitMap(environment)
 	environment:AddTrigger(Trigger_3)
 
 end
+
