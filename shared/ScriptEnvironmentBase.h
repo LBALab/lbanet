@@ -34,6 +34,7 @@ class ClientScriptBase;
 class ActionArgumentBase;
 class ContainerSharedInfo;
 class DialogPart;
+class Spawn;
 
 #include <boost/shared_ptr.hpp>
 #include <LbaTypes.h>
@@ -67,6 +68,9 @@ public:
 
 	// add a trigger 
 	virtual void AddTrigger(boost::shared_ptr<TriggerBase> trigger) = 0;
+					
+	// add spawn
+	virtual void AddSpawn(boost::shared_ptr<Spawn> spawn) = 0;
 
 
 	// teleport an object

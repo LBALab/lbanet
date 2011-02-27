@@ -52,12 +52,6 @@ public:
 
 	// save text in file
 	static void SaveTextFile(const std::string &Filename, const std::map<long, std::string> &text);
-
-	// get inventory from file
-	static bool LoadInventoryFile(const std::string &Filename, std::map<long, ItemInfo> &res);
-
-	// save inventory to file
-	static bool SaveInventoryFile(const std::string &Filename, const std::map<long, ItemInfo> &info);
 };
 
 

@@ -124,24 +124,6 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
 				mapi.IsInstance = v.second.get<bool>("<xmlattr>.IsInstance", false);
 				mapi.HurtFallFactor = v.second.get<float>("<xmlattr>.HurtFallFactor", 2);
 
-				try
-				{
-					BOOST_FOREACH(ptree::value_type &v2, v.second.get_child("spareas"))
-					{
-						SpawningInfo spwi;
-						spwi.Id = v2.second.get<long>("<xmlattr>.Id");
-						spwi.Name = v2.second.get<std::string>("<xmlattr>.name");
-						spwi.PosX = v2.second.get<float>("<xmlattr>.posX");
-						spwi.PosY = v2.second.get<float>("<xmlattr>.posY");
-						spwi.PosZ = v2.second.get<float>("<xmlattr>.posZ");
-						spwi.ForceRotation = v2.second.get<bool>("<xmlattr>.ForceRotation", false);
-						spwi.Rotation = v2.second.get<float>("<xmlattr>.RotationAtArrival", 0);
-
-						mapi.Spawnings[spwi.Id] = spwi;
-					}
-				}
-				catch(...){} // no spawning
-
 				res.Maps[mapi.Name] = mapi;
 			}
 		}
@@ -219,19 +201,6 @@ bool XmlReader::SaveWorldInfo(const std::string &Filename, const WorldInformatio
 		tmp.put("<xmlattr>.AutoCameraType", mapi.second.AutoCameraType);
 		tmp.put("<xmlattr>.IsInstance", mapi.second.IsInstance);
 		tmp.put("<xmlattr>.HurtFallFactor", mapi.second.HurtFallFactor);
-
-
-		BOOST_FOREACH(const LbaNet::SpawningsSeq::value_type &spwi, mapi.second.Spawnings)
-		{
-			ptree &tmp2 = tmp.add("spareas.spawning","");
-			tmp2.put("<xmlattr>.Id", spwi.second.Id);
-			tmp2.put("<xmlattr>.name", spwi.second.Name);
-			tmp2.put("<xmlattr>.posX", spwi.second.PosX);
-			tmp2.put("<xmlattr>.posY", spwi.second.PosY);
-			tmp2.put("<xmlattr>.posZ", spwi.second.PosZ);
-			tmp2.put("<xmlattr>.ForceRotation", spwi.second.ForceRotation);
-			tmp2.put("<xmlattr>.RotationAtArrival", spwi.second.Rotation);
-		}
 	}
 
 	// Write the property tree into the XML file 
@@ -351,132 +320,3 @@ void XmlReader::SaveTextFile(const std::string &Filename, const std::map<long, s
 	}
 }
 
-
-
-/***********************************************************
-get inventory from file
-***********************************************************/
-bool XmlReader::LoadInventoryFile(const std::string &Filename, std::map<long, ItemInfo> &res)
-{
-	// Create an empty property tree object
-	using boost::property_tree::ptree;
-	ptree pt;
-
-	// Load the XML file into the property tree
-	try
-	{
-		read_xml(Filename, pt);
-	}
-	catch(...)
-	{
-		return false;
-	}
-
-	// get item info
-	try
-	{
-		BOOST_FOREACH(ptree::value_type &v, pt.get_child("items"))
-		{
-			ItemInfo tpi;
-			tpi.Id = v.second.get<long>("<xmlattr>.id");
-			tpi.Name = v.second.get<std::string>("<xmlattr>.name", "");
-			tpi.IconName = v.second.get<std::string>("<xmlattr>.filename", "");
-			tpi.NameTextId = v.second.get<long>("<xmlattr>.NameText", 0);
-			tpi.DescriptionId = v.second.get<long>("<xmlattr>.Description", 0);
-			tpi.LongDescriptionId = v.second.get<long>("<xmlattr>.LongDescription", -1);
-			tpi.Max = v.second.get<int>("<xmlattr>.Max", 1);
-			tpi.BuyPrice = v.second.get<int>("<xmlattr>.BuyPrice", 1);
-			tpi.SellPrice = v.second.get<int>("<xmlattr>.SellPrice", 1);
-			tpi.Type = v.second.get<int>("<xmlattr>.type", 1);
-			tpi.Effect = v.second.get<float>("<xmlattr>.Effect", 1);
-			tpi.Flag = v.second.get<int>("<xmlattr>.valueA", 1);
-			tpi.Ephemere = (v.second.get<bool>("<xmlattr>.Ephemere", false));
-			tpi.StringFlag = v.second.get<std::string>("<xmlattr>.Extra", "");
-			tpi.Color1 = v.second.get<float>("<xmlattr>.Color1", -1);
-			tpi.Color2 = v.second.get<int>("<xmlattr>.Color2", -1);
-			
-			try
-			{
-				BOOST_FOREACH(ptree::value_type &v2, v.second.get_child("container"))
-				{
-					LbaNet::ItemGroupElement elem;
-					elem.Id = v2.second.get<long>("<xmlattr>.Id");
-					elem.Min = v2.second.get<int>("<xmlattr>.Min", 1);
-					elem.Max = v2.second.get<int>("<xmlattr>.Max", 1);
-					elem.Probability = v2.second.get<float>("<xmlattr>.Probability", 1);
-					elem.Group = v2.second.get<int>("<xmlattr>.Group", -1);
-					tpi.List.push_back(elem);
-				}
-			}
-			catch(...){} // no container
-
-			res[(long)tpi.Id] = tpi;
-		}
-	}
-	catch(...){} // no item
-
-
-	return true;
-}
-
-
-/***********************************************************
-save inventory to file
-***********************************************************/
-bool XmlReader::SaveInventoryFile(const std::string &Filename, const std::map<long, ItemInfo> &info)
-{
-	// Create an empty property tree object
-	using boost::property_tree::ptree;
-	ptree pt;
-
-	typedef const std::map<long, ItemInfo> itemseq;
-
-	// get teleport info
-    BOOST_FOREACH(const itemseq::value_type &item, info)
-	{
-		ptree &tmp = pt.add("items.item", "");
-		tmp.put("<xmlattr>.id", item.second.Id);
-		tmp.put("<xmlattr>.name", item.second.Name);
-		tmp.put("<xmlattr>.filename", item.second.IconName);
-		tmp.put("<xmlattr>.NameText", item.second.NameTextId);
-		tmp.put("<xmlattr>.Description", item.second.DescriptionId);
-		tmp.put("<xmlattr>.LongDescription", item.second.LongDescriptionId);
-		tmp.put("<xmlattr>.Max", item.second.Max);
-		tmp.put("<xmlattr>.BuyPrice", item.second.BuyPrice);
-		tmp.put("<xmlattr>.SellPrice", item.second.BuyPrice);
-		tmp.put("<xmlattr>.type", item.second.Type);
-		tmp.put("<xmlattr>.Effect", item.second.Effect);
-		tmp.put("<xmlattr>.valueA", item.second.Flag);
-		tmp.put("<xmlattr>.Ephemere", item.second.Ephemere);
-		tmp.put("<xmlattr>.Extra", item.second.StringFlag);
-		tmp.put("<xmlattr>.Color1", item.second.Color1);
-		tmp.put("<xmlattr>.Color2", item.second.Color2);
-
-		BOOST_FOREACH(const LbaNet::ContainedItemList::value_type &elem, item.second.List)
-		{
-			ptree &tmp2 = tmp.add("container.element","");
-			tmp2.put("<xmlattr>.Id", elem.Id);
-			tmp2.put("<xmlattr>.Min", elem.Min);
-			tmp2.put("<xmlattr>.Max", elem.Max);
-			tmp2.put("<xmlattr>.Probability", elem.Probability);
-			tmp2.put("<xmlattr>.Group", elem.Group);
-		}
-	}
-
-	// Write the property tree into the XML file 
-	try
-	{
-		const boost::property_tree::xml_parser::xml_writer_settings<char> settings('	', 1);
-		write_xml(Filename, pt, std::locale(), settings);
-	}
-	catch(...)
-	{
-	}
-
-
-
-
-
-
-	return true;
-}
