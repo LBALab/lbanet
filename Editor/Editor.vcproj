@@ -560,6 +560,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Servers\WorldServer\Spawn.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\dependencies\sqlite\sqlite3.c"
 				>
 			</File>
@@ -1115,6 +1119,10 @@
 			</File>
 			<File
 				RelativePath="..\Servers\WorldServer\ShortcutBoxHandler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Servers\WorldServer\Spawn.h"
 				>
 			</File>
 			<File

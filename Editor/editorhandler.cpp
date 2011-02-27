@@ -39,7 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Teleport.h"
 #include "QuestHandler.h"
 #include "Quest.h"
-
+#include "Spawn.h"
 
 #include <qdir.h>
 #include <QErrorMessage>
@@ -1487,6 +1487,7 @@ EditorHandler::~EditorHandler()
 
 	_triggers.clear();
 	_Actors.clear();
+	_spawns.clear();
 
 	delete _addtriggerdialog;
 }
@@ -1874,6 +1875,7 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 	LbaNet::WorldInformation tmpinfo;
 	DataLoader::getInstance()->GetWorldInformation(worldname, tmpinfo);
 	_winfo = tmpinfo;
+	_firstmapofworld = true;
 
 	setWindowTitle(("LBANet Editor - " + worldname).c_str());
 
@@ -1984,10 +1986,6 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 
 			// add spawning to the list
 			_mapSpawningList[itm->first] = boost::shared_ptr<CustomStringListModel>(new CustomStringListModel());
-			LbaNet::SpawningsSeq::const_iterator itsp = itm->second.Spawnings.begin();
-			LbaNet::SpawningsSeq::const_iterator endsp = itm->second.Spawnings.end();
-			for(; itsp != endsp; ++itsp)
-				_mapSpawningList[itm->first]->AddData(itsp->second.Name.c_str());
 		}
 	}
 
@@ -2041,6 +2039,7 @@ void EditorHandler::ResetMap()
 	_triggerlistmodel->Clear();
 	_triggers.clear();
 	_triggerNameList->Clear();
+	_spawns.clear();
 
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator it = _Actors.begin();
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator end = _Actors.end();
@@ -2096,34 +2095,11 @@ void EditorHandler::goto_tp_button_clicked()
 	QItemSelectionModel *selectionModel = _uieditor.tableView_TeleportList->selectionModel();
 	QModelIndexList indexes = selectionModel->selectedIndexes();
 
-
 	if(indexes.size() > 2)
 	{
 		std::string mapname = _tplistmodel->GetString(indexes[1]).toAscii().data();
 		std::string spawning = _tplistmodel->GetString(indexes[2]).toAscii().data();
-
-		// get id associated to spawning
-		long spid = -1;
-		if(spawning != "")
-		{
-			LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(mapname);
-			if(itmap != _winfo.Maps.end())
-			{
-				LbaNet::SpawningsSeq::iterator it = itmap->second.Spawnings.begin();
-				LbaNet::SpawningsSeq::iterator end = itmap->second.Spawnings.end();
-				for(;it != end; ++it)
-				{
-					if(spawning == it->second.Name)
-					{
-						spid = it->first;
-						break;
-					}
-				}
-			}
-		}
-
-		if(spid >= 0)
-			ChangeMap(mapname, spid);
+		ChangeMap(mapname, spawning);
 	}
 }
 
@@ -2138,11 +2114,10 @@ void EditorHandler::goto_map_button_clicked()
 	if(indexes.size() > 0)
 	{
 		std::string mapname = _maplistmodel->GetString(indexes[0]).toAscii().data();
-		
-		const LbaNet::MapInfo & mapinfo = _winfo.Maps[mapname];
-		if(mapinfo.Spawnings.size() > 0)
+		long spid = SharedDataHandler::getInstance()->GetSpawnId(mapname, "");	
+		if(spid >= 0)
 		{
-			ChangeMap(mapname, mapinfo.Spawnings.begin()->first);
+			ChangeMap(mapname, spid);
 		}
 		else
 		{
@@ -2198,117 +2173,97 @@ void EditorHandler::SetMapInfo(const std::string & mapname)
 	_uieditor.checkBox_map_instancied->setChecked(mapinfo.IsInstance);
 
 
-	// add the spawnings
+	if(_firstmapofworld)
 	{
-		_mapspawninglistmodel->Clear();
-		LbaNet::SpawningsSeq::const_iterator ittp = mapinfo.Spawnings.begin();
-		LbaNet::SpawningsSeq::const_iterator endtp = mapinfo.Spawnings.end();
-		for(; ittp != endtp; ++ittp)
+		_firstmapofworld = false;
+
+		// add teleport
 		{
-			QString Xs;
-			Xs.setNum (ittp->second.PosX, 'f');
-			QString Ys;
-			Ys.setNum (ittp->second.PosY, 'f');
-			QString Zs;
-			Zs.setNum (ittp->second.PosZ, 'f');
+			_tplistmodel->Clear();
 
-			QStringList data;
-			data << ittp->second.Name.c_str() << Xs << Ys << Zs;
-			_mapspawninglistmodel->AddOrUpdateRow(ittp->first, data);
-
-			_currspawningidx = (ittp->first + 1);
-		}
-	}
-
-	// add teleport
-	{
-		_tplistmodel->Clear();
-
-		const std::map<long, boost::shared_ptr<TeleportDef> > &tpseq = SharedDataHandler::getInstance()->GetTpList();
-		std::map<long, boost::shared_ptr<TeleportDef> >::const_iterator ittp = tpseq.begin();
-		std::map<long, boost::shared_ptr<TeleportDef> >::const_iterator endtp = tpseq.end();
-		for(long cc=1; ittp != endtp; ++ittp, ++cc)
-		{
-			std::string spawningname;
-			LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(ittp->second->GetMapName());
-			if(itmap != _winfo.Maps.end())
+			const std::map<long, boost::shared_ptr<TeleportDef> > &tpseq = SharedDataHandler::getInstance()->GetTpList();
+			std::map<long, boost::shared_ptr<TeleportDef> >::const_iterator ittp = tpseq.begin();
+			std::map<long, boost::shared_ptr<TeleportDef> >::const_iterator endtp = tpseq.end();
+			for(long cc=1; ittp != endtp; ++ittp, ++cc)
 			{
-				LbaNet::SpawningsSeq::iterator it = itmap->second.Spawnings.find(ittp->second->GetSpawn());
-				if(it != itmap->second.Spawnings.end())
-					spawningname = it->second.Name;
+				std::string spawningname;
+
+				boost::shared_ptr<Spawn> spwn = SharedDataHandler::getInstance()->GetSpawn(ittp->second->GetMapName(), ittp->second->GetSpawn());
+				if(spwn)
+					spawningname = spwn->GetName();
+
+				QStringList data;
+				data << ittp->second->GetName().c_str() << ittp->second->GetMapName().c_str() << spawningname.c_str();
+				_tplistmodel->AddOrUpdateRow(ittp->first, data);
+
+				_currteleportidx = ittp->first;
 			}
-
-			QStringList data;
-			data << ittp->second->GetName().c_str() << ittp->second->GetMapName().c_str() << spawningname.c_str();
-			_tplistmodel->AddOrUpdateRow(ittp->first, data);
-
-			_currteleportidx = ittp->first;
 		}
-	}
 
 
-	// add quest
-	{
-		_questlistmodel->Clear();
-
-		std::map<long, QuestPtr> &tpseq = QuestHandler::getInstance()->GetQuests();
-		std::map<long, QuestPtr>::const_iterator ittp = tpseq.begin();
-		std::map<long, QuestPtr>::const_iterator endtp = tpseq.end();
-		for(; ittp != endtp; ++ittp)
+		// add quest
 		{
-			long tid = ittp->second->GetLocationTextId();
-			std::string txt = Localizer::getInstance()->GetText(Localizer::Quest, tid);
-			std::stringstream txttmp;
-			txttmp<<tid<<": "<<txt;
-			long tid2 = ittp->second->GetTitleTextId();
-			std::string txt2 = Localizer::getInstance()->GetText(Localizer::Quest, tid2);
-			std::stringstream txttmp2;
-			txttmp2<<tid2<<": "<<txt2;
+			_questlistmodel->Clear();
 
-			QStringList data;
-			data << txttmp.str().c_str() << txttmp2.str().c_str();
-			_questlistmodel->AddOrUpdateRow(ittp->first, data);
+			std::map<long, QuestPtr> &tpseq = QuestHandler::getInstance()->GetQuests();
+			std::map<long, QuestPtr>::const_iterator ittp = tpseq.begin();
+			std::map<long, QuestPtr>::const_iterator endtp = tpseq.end();
+			for(; ittp != endtp; ++ittp)
+			{
+				long tid = ittp->second->GetLocationTextId();
+				std::string txt = Localizer::getInstance()->GetText(Localizer::Quest, tid);
+				std::stringstream txttmp;
+				txttmp<<tid<<": "<<txt;
+				long tid2 = ittp->second->GetTitleTextId();
+				std::string txt2 = Localizer::getInstance()->GetText(Localizer::Quest, tid2);
+				std::stringstream txttmp2;
+				txttmp2<<tid2<<": "<<txt2;
+
+				QStringList data;
+				data << txttmp.str().c_str() << txttmp2.str().c_str();
+				_questlistmodel->AddOrUpdateRow(ittp->first, data);
+			}
 		}
-	}
 
 
-	// add inventory items
-	{
-		_itemNameList->Clear();
-		_itemlistmodel->Clear();
-		_itemNameList->AddData("No item");
-
-		const std::map<long, InventoryItemDefPtr> &_inventoryitems = InventoryItemHandler::getInstance()->GetItemMap();
-		std::map<long, InventoryItemDefPtr>::const_iterator itinv = _inventoryitems.begin();
-		std::map<long, InventoryItemDefPtr>::const_iterator endinv = _inventoryitems.end();
-		for(; itinv != endinv; ++itinv)
+		// add inventory items
 		{
-			QStringList data;
-			data << itinv->second->GetName().c_str();
-			data << InventoryItemHandler::getInstance()->GetItemTypeString(itinv->first).c_str();
-			_itemlistmodel->AddOrUpdateRow(itinv->first, data);
+			_itemNameList->Clear();
+			_itemlistmodel->Clear();
+			_itemNameList->AddData("No item");
 
-			std::stringstream txtwithid;
-			txtwithid<<itinv->first<<": "<<itinv->second->GetName().c_str();
-			_itemNameList->AddData(txtwithid.str().c_str());
-		}
-	}
-	
-	//add starting item
-	{
-		LbaNet::ItemsMap::iterator itm = _winfo.StartingInfo.StartingInventory.begin();
-		LbaNet::ItemsMap::iterator endm = _winfo.StartingInfo.StartingInventory.end();
-		for(;itm != endm; ++itm)
-		{
-			QStringList data;
-			data << InventoryItemHandler::getInstance()->GetItemInfo(itm->first).Name.c_str();
-			std::stringstream tmpstrs;
-			tmpstrs<<itm->second.Count;
-			data << tmpstrs.str().c_str();
-			_startitemlistmodel->AddOrUpdateRow(itm->first, data);
-			
+			const std::map<long, InventoryItemDefPtr> &_inventoryitems = InventoryItemHandler::getInstance()->GetItemMap();
+			std::map<long, InventoryItemDefPtr>::const_iterator itinv = _inventoryitems.begin();
+			std::map<long, InventoryItemDefPtr>::const_iterator endinv = _inventoryitems.end();
+			for(; itinv != endinv; ++itinv)
+			{
+				QStringList data;
+				data << itinv->second->GetName().c_str();
+				data << InventoryItemHandler::getInstance()->GetItemTypeString(itinv->first).c_str();
+				_itemlistmodel->AddOrUpdateRow(itinv->first, data);
+
+				std::stringstream txtwithid;
+				txtwithid<<itinv->first<<": "<<itinv->second->GetName().c_str();
+				_itemNameList->AddData(txtwithid.str().c_str());
+			}
 		}
 		
+		//add starting item
+		{
+			LbaNet::ItemsMap::iterator itm = _winfo.StartingInfo.StartingInventory.begin();
+			LbaNet::ItemsMap::iterator endm = _winfo.StartingInfo.StartingInventory.end();
+			for(;itm != endm; ++itm)
+			{
+				QStringList data;
+				data << InventoryItemHandler::getInstance()->GetItemInfo(itm->first).Name.c_str();
+				std::stringstream tmpstrs;
+				tmpstrs<<itm->second.Count;
+				data << tmpstrs.str().c_str();
+				_startitemlistmodel->AddOrUpdateRow(itm->first, data);
+				
+			}
+			
+		}
 	}
 
 
@@ -2441,8 +2396,7 @@ void EditorHandler::AddSpawning_clicked()
 				(float)_uiaddspawningdialog.doubleSpinBox_rotation->value(), 
 				_uiaddspawningdialog.checkBox_forcerotation->isChecked());
 
-	// add name to list
-	AddSpawningName(mapname, spname.toAscii().data());
+
 
 	SelectSpawning(id);
 
@@ -2460,42 +2414,28 @@ long EditorHandler::AddOrModSpawning(const std::string &mapname,
 										float Rotation, bool forcedrotation,
 										long modifyid)
 {
-	// first update the internal info
-	LbaNet::SpawningInfo spawn;
-	spawn.Id = ((modifyid >= 0)?modifyid:_currspawningidx++);
-	spawn.Name = spawningname;
-	spawn.PosX = PosX;
-	spawn.PosY = PosY;
-	spawn.PosZ = PosZ;
-	spawn.Rotation = Rotation;
-	spawn.ForceRotation = forcedrotation;
-	_winfo.Maps[mapname].Spawnings[spawn.Id] = spawn;
 
+	long spid = ((modifyid >= 0)?modifyid:_currspawningidx);
+	boost::shared_ptr<Spawn> newspawn(new Spawn(spid));
+	newspawn->SetName(spawningname);
+	newspawn->SetPosX(PosX);
+	newspawn->SetPosY(PosY);
+	newspawn->SetPosZ(PosZ);
+	newspawn->SetRotation(Rotation);
+	newspawn->SetForceRotation(forcedrotation);
 
-	//! add spawning to the list
-	{
-		QString Xs;
-		Xs.setNum (PosX, 'f');
-		QString Ys;
-		Ys.setNum (PosY, 'f');
-		QString Zs;
-		Zs.setNum (PosZ, 'f');
+	AddSpawn(newspawn);
 
-		QStringList data;
-		data << spawningname.c_str() << Xs << Ys << Zs;
-		_mapspawninglistmodel->AddOrUpdateRow(spawn.Id, data);
-	}
 
 
 	// then inform the server
-	EditorUpdateBasePtr update = new UpdateEditor_AddOrModSpawning(	spawn.Id,
-																	spawningname,
+	EditorUpdateBasePtr update = new UpdateEditor_AddOrModSpawning(	spid, spawningname,
 																	PosX, PosY, PosZ,
 																	Rotation, forcedrotation);
 
 	SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
 
-	return spawn.Id;
+	return spid;
 }
 
 
@@ -2506,14 +2446,14 @@ remove a spawning from the map
 void EditorHandler::RemoveSpawning(const std::string &mapname, long spawningid)
 {
 	// first update the internal info
-	LbaNet::SpawningsSeq::iterator it = _winfo.Maps[mapname].Spawnings.find(spawningid);
-	if(it != _winfo.Maps[mapname].Spawnings.end())
+	std::map<long, boost::shared_ptr<Spawn> >::iterator it = _spawns.find(spawningid);
+	if(it != _spawns.end())
 	{
 		// remove from text list
-		RemoveSpawningName(mapname, it->second.Name);
+		RemoveSpawningName(mapname, it->second->GetName());
 
 		// erase from data
-		_winfo.Maps[mapname].Spawnings.erase(it);
+		_spawns.erase(it);
 
 		// then inform the server
 		EditorUpdateBasePtr update = new UpdateEditor_RemoveSpawning(spawningid);
@@ -2570,16 +2510,16 @@ set spawning in the object
 void EditorHandler::SelectSpawning(long id, const QModelIndex &parent)
 {
 	std::string mapname = _uieditor.label_mapname->text().toAscii().data();
-	LbaNet::SpawningsSeq::const_iterator it = _winfo.Maps[mapname].Spawnings.find(id);
-	if(it == _winfo.Maps[mapname].Spawnings.end())
+	std::map<long, boost::shared_ptr<Spawn> >::iterator it = _spawns.find(id);
+	if(it == _spawns.end())
 		return;
 
-	std::string spawningname = it->second.Name;
-	float PosX = it->second.PosX;
-	float PosY = it->second.PosY;
-	float PosZ = it->second.PosZ;
-	float Rotation = it->second.Rotation;
-	bool forcedrotation = it->second.ForceRotation;
+	std::string spawningname = it->second->GetName();
+	float PosX = it->second->GetPosX();
+	float PosY = it->second->GetPosY();
+	float PosZ = it->second->GetPosZ();
+	float Rotation = it->second->GetRotation();
+	bool forcedrotation = it->second->GetForceRotation();
 
 	if(parent == QModelIndex())
 		ResetObject();
@@ -2753,6 +2693,14 @@ called when spawning object changed
 ***********************************************************/
 void EditorHandler::SpawningObjectChanged(long id, const QModelIndex &parentIdx)
 {
+	std::map<long, boost::shared_ptr<Spawn> >::iterator it = _spawns.find(id);
+	if(it == _spawns.end())	
+		return;
+
+	boost::shared_ptr<Spawn> oldspawn = it->second;
+	if(!oldspawn)
+		return;
+
 	if(_objectmodel->rowCount() > 8)
 	{
 		QString name = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString();
@@ -2762,7 +2710,7 @@ void EditorHandler::SpawningObjectChanged(long id, const QModelIndex &parentIdx)
 		bool forcedrotation = _objectmodel->data(_objectmodel->GetIndex(1, 7, parentIdx)).toBool();
 		float Rotation = _objectmodel->data(_objectmodel->GetIndex(1, 8, parentIdx)).toFloat();
 		std::string mapname = _uieditor.label_mapname->text().toAscii().data();
-		std::string oldname = _winfo.Maps[mapname].Spawnings[id].Name;
+		std::string oldname = oldspawn->GetName();
 
 		// check if name changed already exist
 		if(name != oldname.c_str())
@@ -2992,6 +2940,33 @@ void EditorHandler::AddTrigger(boost::shared_ptr<TriggerBase> trigger)
 	}
 }
 
+/***********************************************************
+add spawn
+***********************************************************/	
+void EditorHandler::AddSpawn(boost::shared_ptr<Spawn> spawn)
+{
+	if(spawn)
+	{
+		_spawns[spawn->GetId()] = spawn;
+
+		QString Xs;
+		Xs.setNum(spawn->GetPosX(), 'f');
+		QString Ys;
+		Ys.setNum(spawn->GetPosY(), 'f');
+		QString Zs;
+		Zs.setNum(spawn->GetPosZ(), 'f');
+
+		QStringList data;
+		data << spawn->GetName().c_str() << Xs << Ys << Zs;
+		_mapspawninglistmodel->AddOrUpdateRow(spawn->GetId(), data);
+
+		_currspawningidx = (_spawns.rbegin()->second->GetId() + 1);
+
+		// add name to list
+		std::string mapname = _uieditor.label_mapname->text().toAscii().data();
+		AddSpawningName(mapname, spawn->GetName());
+	}
+}	
 
 
 /***********************************************************
@@ -3057,9 +3032,9 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 			LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(ptr->GetMapName());
 			if(itmap != _winfo.Maps.end())
 			{
-				LbaNet::SpawningsSeq::iterator it = itmap->second.Spawnings.find(ptr->GetSpawning());
-				if(it != itmap->second.Spawnings.end())
-					spawningname = it->second.Name;
+				boost::shared_ptr<Spawn> spwn = SharedDataHandler::getInstance()->GetSpawn(ptr->GetMapName(), ptr->GetSpawning());
+				if(spwn)
+					spawningname = spwn->GetName();
 			}
 
 			QVector<QVariant> data;
@@ -3606,24 +3581,8 @@ void EditorHandler::ActionObjectChanged(const std::string & category, const QMod
 
 
 				// get id associated to spawning
-				long spid = -1;
-				if(spawning != "")
-				{
-					LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(mapname);
-					if(itmap != _winfo.Maps.end())
-					{
-						LbaNet::SpawningsSeq::iterator it = itmap->second.Spawnings.begin();
-						LbaNet::SpawningsSeq::iterator end = itmap->second.Spawnings.end();
-						for(;it != end; ++it)
-						{
-							if(spawning == it->second.Name)
-							{
-								spid = it->first;
-								break;
-							}
-						}
-					}
-				}
+				long spid = SharedDataHandler::getInstance()->GetSpawnId(mapname, spawning);
+
 
 				// update action
 				modifiedaction->SetMapName(mapname);
@@ -5063,6 +5022,14 @@ void EditorHandler::ChangeMap(const std::string & mapname, long spawningid)
 		SharedDataHandler::getInstance()->ChangeMapPlayer(1, mapname, spawningid);
 }
 
+/***********************************************************
+change current map to new map
+***********************************************************/
+void EditorHandler::ChangeMap(const std::string & mapname, const std::string SpawnName)
+{
+	if(SaveMapBeforeQuit())
+		SharedDataHandler::getInstance()->ChangeMapPlayer(1, mapname, SpawnName);
+}
 
 
 /***********************************************************
@@ -5072,6 +5039,13 @@ void EditorHandler::SaveMap(const std::string & filename)
 {
 	std::ofstream file(filename.c_str());
 	file<<"function InitMap(environment)"<<std::endl;
+
+	// save spawns
+	std::map<long, boost::shared_ptr<Spawn> >::iterator its= _spawns.begin();
+	std::map<long, boost::shared_ptr<Spawn> >::iterator ends = _spawns.end();
+	for(;its != ends; ++its)
+		its->second->SaveToLuaFile(file);
+	
 
 	// save actors
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ita = _Actors.begin();
@@ -5164,18 +5138,19 @@ void EditorHandler::RefreshStartingSpawning()
 		{
 			_uieditor.comboBox_startingspawning->setModel(itsp->second.get());	
 
-			LbaNet::SpawningsSeq::iterator it = itmap->second.Spawnings.find(_winfo.StartingInfo.SpawningId);
-			if(it != itmap->second.Spawnings.end())
+			boost::shared_ptr<Spawn> spwn = SharedDataHandler::getInstance()->GetSpawn(_winfo.StartingInfo.StartingMap, _winfo.StartingInfo.SpawningId);
+			if(spwn)
 			{
-				int index = _uieditor.comboBox_startingspawning->findText(it->second.Name.c_str());
+				int index = _uieditor.comboBox_startingspawning->findText(spwn->GetName().c_str());
 				if(index >= 0)
 					_uieditor.comboBox_startingspawning->setCurrentIndex(index);
 			}	
 			else
 			{
-				if(itmap->second.Spawnings.size() > 0)
+				spwn = SharedDataHandler::getInstance()->GetSpawn(_winfo.StartingInfo.StartingMap, -1);
+				if(spwn)
 				{
-					_winfo.StartingInfo.SpawningId = itmap->second.Spawnings.begin()->first;
+					_winfo.StartingInfo.SpawningId = spwn->GetId();
 					RefreshStartingSpawning();
 					return;
 				}
@@ -5528,24 +5503,7 @@ starting spawn modified
 void EditorHandler::StartingSpawnModified(int index)
 {
 	std::string spname = _uieditor.comboBox_startingspawning->currentText().toAscii().data();
-	long spid = -1;
-	if(spname != "")
-	{
-		LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(_winfo.StartingInfo.StartingMap);
-		if(itmap != _winfo.Maps.end())
-		{
-			LbaNet::SpawningsSeq::iterator it = itmap->second.Spawnings.begin();
-			LbaNet::SpawningsSeq::iterator end = itmap->second.Spawnings.end();
-			for(;it != end; ++it)
-			{
-				if(spname == it->second.Name)
-				{
-					spid = it->first;
-					break;
-				}
-			}
-		}
-	}
+	long spid = SharedDataHandler::getInstance()->GetSpawnId(_winfo.StartingInfo.StartingMap, spname);
 
 	_winfo.StartingInfo.SpawningId = spid;
 	SetModified();
@@ -5906,25 +5864,7 @@ void EditorHandler::TpAdd_button_accepted()
 	std::string mapname = _ui_addtpdialog.comboBox_map->currentText().toAscii().data();
 	std::string spawnname = _ui_addtpdialog.comboBox_spawn->currentText().toAscii().data();
 
-	long spid = -1;
-	if(spawnname != "")
-	{
-		LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(mapname);
-		if(itmap != _winfo.Maps.end())
-		{
-			LbaNet::SpawningsSeq::iterator it = itmap->second.Spawnings.begin();
-			LbaNet::SpawningsSeq::iterator end = itmap->second.Spawnings.end();
-			for(;it != end; ++it)
-			{
-				if(spawnname == it->second.Name)
-				{
-					spid = it->first;
-					break;
-				}
-			}
-		}
-	}
-
+	long spid = SharedDataHandler::getInstance()->GetSpawnId(mapname, spawnname);
 	long tpid = (++_currteleportidx);
 
 
@@ -10594,9 +10534,9 @@ void EditorHandler::SelectTeleport(long id, const QModelIndex &parent)
 		LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(tp->GetMapName());
 		if(itmap != _winfo.Maps.end())
 		{
-			LbaNet::SpawningsSeq::iterator it = itmap->second.Spawnings.find(tp->GetSpawn());
-			if(it != itmap->second.Spawnings.end())
-				spawningname = it->second.Name;
+			boost::shared_ptr<Spawn> spwn = SharedDataHandler::getInstance()->GetSpawn(tp->GetMapName(), tp->GetSpawn());
+			if(spwn)
+				spawningname = spwn->GetName();
 		}
 
 		QVector<QVariant> data;
@@ -10651,24 +10591,7 @@ void EditorHandler::TeleportChanged(long id, const QModelIndex &parentIdx)
 
 
 	// get id associated to spawning
-	long spid = -1;
-	if(spawning != "")
-	{
-		LbaNet::MapsSeq::iterator itmap = _winfo.Maps.find(mapname);
-		if(itmap != _winfo.Maps.end())
-		{
-			LbaNet::SpawningsSeq::iterator it = itmap->second.Spawnings.begin();
-			LbaNet::SpawningsSeq::iterator end = itmap->second.Spawnings.end();
-			for(;it != end; ++it)
-			{
-				if(spawning == it->second.Name)
-				{
-					spid = it->first;
-					break;
-				}
-			}
-		}
-	}
+	long spid = SharedDataHandler::getInstance()->GetSpawnId(mapname, spawning);
 
 	// update action
 	tp->SetName(name);

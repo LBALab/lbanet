@@ -314,6 +314,8 @@ public:
 	// add a trigger of moving type to the map
 	virtual void AddTrigger(boost::shared_ptr<TriggerBase> trigger);
 					
+	// add spawn
+	virtual void AddSpawn(boost::shared_ptr<Spawn> spawn);				
 
 	// teleport an object
 	// ObjectType ==>
@@ -855,6 +857,9 @@ protected:
 	//! change current map to new map
 	void ChangeMap(const std::string & mapname, long spawningid);
 
+	//! change current map to new map
+	void ChangeMap(const std::string & mapname, const std::string SpawnName);
+
 	//! save current map to file
 	void SaveMap(const std::string & filename);
 
@@ -1117,13 +1122,14 @@ private:
 	bool												_modified;
 	bool												_mapmodified;
 	LbaNet::WorldInformation							_winfo;
+	bool												_firstmapofworld;
 
 
 	boost::shared_ptr<ServerLuaHandler>					_luaH;
 
 	std::map<long, boost::shared_ptr<TriggerBase> >			_triggers;
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >	_Actors;
-
+	std::map<long, boost::shared_ptr<Spawn> >				_spawns;
 
 	long												_currspawningidx;
 	long												_currtriggeridx;
