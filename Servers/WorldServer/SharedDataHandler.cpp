@@ -7,6 +7,7 @@
 #include "LuaHandlerBase.h"
 #include "QuestHandler.h"
 #include "Quest.h"
+#include "Spawn.h"
 
 
 SharedDataHandler* SharedDataHandler::_Instance = NULL;
@@ -54,7 +55,7 @@ void SharedDataHandler::SetWorldDefaultInformation(WorldInformation &worldinfo)
 	Lock sync(*this);
 
 
-#ifndef _USE_QT_EDITOR_
+//#ifndef _USE_QT_EDITOR_
 
 	// create all maps
 	LbaNet::MapsSeq::const_iterator itm = worldinfo.Maps.begin();
@@ -71,7 +72,7 @@ void SharedDataHandler::SetWorldDefaultInformation(WorldInformation &worldinfo)
 		boost::shared_ptr<MapHandler> mapH(new MapHandler(itm->second, luafile, customluafile));
 		_currentmaps[itm->first] = mapH;
 	}
-#endif
+//#endif
 
 }
 
@@ -383,18 +384,18 @@ PlayerPosition SharedDataHandler::GetSpawningInfo(const std::string &MapName,
 	res.Rotation = 0;
 	forcerotation = false;
 
-	MapsSeq::iterator it = _worldinfo.Maps.find(MapName);
-	if(it != _worldinfo.Maps.end())
+	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator itmap = _currentmaps.find(MapName);
+	if(itmap != _currentmaps.end())
 	{
-		SpawningsSeq::iterator itsp = it->second.Spawnings.find(SpawningId);
-		if(itsp != it->second.Spawnings.end())
+		boost::shared_ptr<Spawn> spn = itmap->second->GetSpawn(SpawningId);
+		if(spn)
 		{
-			res.X = itsp->second.PosX;
-			res.Y = itsp->second.PosY;
-			res.Z = itsp->second.PosZ;
-			res.Rotation = itsp->second.Rotation;
+			res.X = spn->GetPosX();
+			res.Y = spn->GetPosY();
+			res.Z = spn->GetPosZ();
+			res.Rotation = spn->GetRotation();
 
-			forcerotation = itsp->second.ForceRotation;
+			forcerotation = spn->GetForceRotation();
 		}
 	}
 
@@ -490,11 +491,11 @@ void SharedDataHandler::ChangeMapPlayer(Ice::Long clientid, const std::string &N
 	Lock sync(*this);
 
 	// get map spawning info
-	LbaNet::MapsSeq::iterator itm = _worldinfo.Maps.find(NewMapName);
-	if(itm != _worldinfo.Maps.end())
+	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator itmap = _currentmaps.find(NewMapName);
+	if(itmap != _currentmaps.end())
 	{
-		LbaNet::SpawningsSeq::iterator itsp = itm->second.Spawnings.find(SpawningId);
-		if(itsp != itm->second.Spawnings.end())
+		boost::shared_ptr<Spawn> spn = itmap->second->GetSpawn(SpawningId);
+		if(spn)
 		{
 			//! get player current position
 			std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _currentplayers.find(clientid);
@@ -502,12 +503,48 @@ void SharedDataHandler::ChangeMapPlayer(Ice::Long clientid, const std::string &N
 			{
 				LbaNet::PlayerPosition ppos = itplayer->second->GetPlayerPosition();
 				ppos.MapName = NewMapName;
-				ppos.X = itsp->second.PosX + offsetX;
-				ppos.Y = itsp->second.PosY + offsetY;
-				ppos.Z = itsp->second.PosZ + offsetZ;
+				ppos.X = spn->GetPosX() + offsetX;
+				ppos.Y = spn->GetPosY() + offsetY;
+				ppos.Z = spn->GetPosZ() + offsetZ;
 
-				if(itsp->second.ForceRotation)
-					ppos.Rotation = itsp->second.Rotation;
+				if(spn->GetForceRotation())
+					ppos.Rotation = spn->GetRotation();
+
+				ChangeMapPlayer(clientid, ppos);
+			}
+		}
+	}
+}
+
+
+/***********************************************************
+change map for player
+***********************************************************/
+void SharedDataHandler::ChangeMapPlayer(Ice::Long clientid, const std::string &NewMapName, 
+										const std::string SpawnName,
+										float offsetX, float offsetY, float offsetZ)
+{
+	Lock sync(*this);
+
+	// get map spawning info
+	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator itmap = _currentmaps.find(NewMapName);
+	if(itmap != _currentmaps.end())
+	{
+		boost::shared_ptr<Spawn> spn = itmap->second->GetSpawn(SpawnName);
+		if(spn)
+		{
+			//! get player current position
+			std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _currentplayers.find(clientid);
+			if(itplayer != _currentplayers.end())
+			{
+				LbaNet::PlayerPosition ppos = itplayer->second->GetPlayerPosition();
+				ppos.MapName = NewMapName;
+				ppos.X = spn->GetPosX() + offsetX;
+				ppos.Y = spn->GetPosY() + offsetY;
+				ppos.Z = spn->GetPosZ() + offsetZ;
+
+				if(spn->GetForceRotation())
+					ppos.Rotation = spn->GetRotation();
 
 				ChangeMapPlayer(clientid, ppos);
 			}
@@ -597,37 +634,6 @@ void SharedDataHandler::EditorUpdate(const std::string &mapname,
 	LbaNet::EditorUpdateBase & obj = *update;
 	const std::type_info& info = typeid(obj);
 	bool publish = true;
-
-	// spawning update
-	if(info == typeid(UpdateEditor_AddOrModSpawning))
-	{
-		UpdateEditor_AddOrModSpawning* castedptr = 
-			dynamic_cast<UpdateEditor_AddOrModSpawning *>(&obj);
-
-		LbaNet::SpawningInfo spawn;
-		spawn.Id = castedptr->_SpawningId;
-		spawn.Name = castedptr->_spawningname;
-		spawn.PosX = castedptr->_PosX;
-		spawn.PosY = castedptr->_PosY;
-		spawn.PosZ = castedptr->_PosZ;
-		spawn.Rotation = castedptr->_Rotation;
-		spawn.ForceRotation = castedptr->_forcedrotation;
-		_worldinfo.Maps[mapname].Spawnings[spawn.Id] = spawn;
-	}
-
-	// spawning remove
-	if(info == typeid(UpdateEditor_RemoveSpawning))
-	{
-		UpdateEditor_RemoveSpawning* castedptr = 
-			dynamic_cast<UpdateEditor_RemoveSpawning *>(&obj);
-
-		LbaNet::SpawningsSeq::iterator it = _worldinfo.Maps[mapname].Spawnings.find(castedptr->_SpawningId);
-		if(it != _worldinfo.Maps[mapname].Spawnings.end())
-		{
-			// erase from data
-			_worldinfo.Maps[mapname].Spawnings.erase(it);
-		}
-	}
 
 
 	// map add
@@ -957,4 +963,31 @@ add item
 void SharedDataHandler::AddInventoryItem(boost::shared_ptr<InventoryItemDef> item)
 {
 	InventoryItemHandler::getInstance()->AddItem(item);
+}
+
+
+/***********************************************************
+get spawn
+***********************************************************/
+boost::shared_ptr<Spawn> SharedDataHandler::GetSpawn(const std::string & mapname, long spawnid)
+{
+	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator itmap = _currentmaps.find(mapname);
+	if(itmap != _currentmaps.end())
+		return itmap->second->GetSpawn(spawnid);
+
+	return boost::shared_ptr<Spawn>();
+}
+
+
+
+/***********************************************************
+get spawn
+***********************************************************/
+long SharedDataHandler::GetSpawnId(const std::string & mapname, const std::string & name)
+{
+	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator itmap = _currentmaps.find(mapname);
+	if(itmap != _currentmaps.end())
+		return itmap->second->GetSpawnId(name);
+
+	return -1;
 }

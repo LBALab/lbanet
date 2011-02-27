@@ -22,7 +22,7 @@ extern "C"
 #include "Teleport.h"
 #include "SharedDataHandler.h"
 #include "InventoryItemHandler.h"
-
+#include "Spawn.h"
 
 #ifdef _USE_QT_EDITOR_	
 #include "editorhandler.h"
@@ -345,6 +345,7 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("QuestFinished", &ScriptEnvironmentBase::QuestFinished)
 		.def("ChapterStarted", &ScriptEnvironmentBase::ChapterStarted)
 		.def("OpenShop", &ScriptEnvironmentBase::OpenShop)
+		.def("AddSpawn", &ScriptEnvironmentBase::AddSpawn)
 		,
 
 
@@ -665,7 +666,23 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetReplacedItem", &InventoryItemDef::GetReplacedItem)
 		.def("GetAction", &InventoryItemDef::GetAction)	
 		.def("SetReplacedItem", &InventoryItemDef::SetReplacedItem)
-		.def("SetAction", &InventoryItemDef::SetAction)	
+		.def("SetAction", &InventoryItemDef::SetAction),
+
+		luabind::class_<Spawn, boost::shared_ptr<Spawn> >("Spawn")
+		.def(luabind::constructor<long>())
+		.def("GetId", &Spawn::GetId)
+		.def("GetPosX", &Spawn::GetPosX)	
+		.def("GetPosY", &Spawn::GetPosY)	
+		.def("GetPosZ", &Spawn::GetPosZ)	
+		.def("SetPosX", &Spawn::SetPosX)	
+		.def("SetPosY", &Spawn::SetPosY)	
+		.def("SetPosZ", &Spawn::SetPosZ)
+		.def("GetForceRotation", &Spawn::GetForceRotation)
+		.def("SetForceRotation", &Spawn::SetForceRotation)
+		.def("GetRotation", &Spawn::GetRotation)
+		.def("SetRotation", &Spawn::SetRotation)
+		.def("GetName", &Spawn::GetName)
+		.def("SetName", &Spawn::SetName)		
 		];
 
 	}

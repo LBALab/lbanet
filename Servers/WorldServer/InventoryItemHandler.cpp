@@ -76,10 +76,10 @@ void InventoryItemDef::SaveToLuaFile(std::ofstream & file) const
 	if(_action)
 	{
 		std::stringstream aname;
-		aname<<name<<"_act";
+		aname<<name.str()<<"_act";
 		_action->SaveToLuaFile(file, aname.str());
 
-		file<<"\t"<<name<<":SetAction("<<aname.str()<<")"<<std::endl;
+		file<<"\t"<<name.str()<<":SetAction("<<aname.str()<<")"<<std::endl;
 	}
 
 	for(size_t i=0; i< _info.List.size(); ++i)

@@ -12,6 +12,7 @@
 #include "PlayerHandler.h"
 #include "ActorHandler.h"
 #include "InventoryItemHandler.h"
+#include "Spawn.h"
 
 #include <math.h>
 
@@ -117,22 +118,6 @@ MapHandler::MapHandler(const MapInfo & mapinfo,
 	m_luaHandler->LoadFile(mapluafilename);
 
 	m_luaHandler->CallLua("InitMap", this);
-
-
-	// add editor display objects
-	#ifdef _USE_QT_EDITOR_
-	LbaNet::SpawningsSeq::const_iterator it = _mapinfo.Spawnings.begin();
-	LbaNet::SpawningsSeq::const_iterator end = _mapinfo.Spawnings.end();
-	for(; it != end; ++it)
-	{
-		long edobjid = it->first + 1000000;
-
-		ActorObjectInfo ainfo = CreateSpawningDisplay(edobjid, it->second.PosX, 
-									it->second.PosY, it->second.PosZ, it->second.Name);
-		ainfo.LifeInfo.Display = false;
-		_editorObjects[edobjid] = ainfo;
-	}
-	#endif
 }
 
 /***********************************************************
@@ -1068,15 +1053,15 @@ void MapHandler::Teleport(int ObjectType, long ObjectId,
 	else // same map
 	{
 		// get spawning info
-		LbaNet::SpawningsSeq::iterator itsp = _mapinfo.Spawnings.find(SpawningId);
-		if(itsp != _mapinfo.Spawnings.end())
+		boost::shared_ptr<Spawn> spn = GetSpawn(SpawningId);
+		if(spn)
 		{
 			PlayerPosition pos;
-			pos.X = itsp->second.PosX + offsetX;
-			pos.Y = itsp->second.PosY + offsetY;
-			pos.Z = itsp->second.PosZ + offsetZ;
-			if(itsp->second.ForceRotation)
-				pos.Rotation = itsp->second.Rotation;
+			pos.X = spn->GetPosX() + offsetX;
+			pos.Y = spn->GetPosY() + offsetY;
+			pos.Z = spn->GetPosZ() + offsetZ;
+			if(spn->GetForceRotation())
+				pos.Rotation = spn->GetRotation();
 
 			pos.MapName = _mapinfo.Name;
 
@@ -1646,46 +1631,15 @@ void MapHandler::Editor_AddOrModSpawning(	long SpawningId, const std::string &sp
 											float PosX, float PosY, float PosZ,
 											float Rotation, bool forcedrotation)
 {
-	LbaNet::SpawningInfo spawn;
-	spawn.Id = SpawningId;
-	spawn.Name = spawningname;
-	spawn.PosX = PosX;
-	spawn.PosY = PosY;
-	spawn.PosZ = PosZ;
-	spawn.Rotation = Rotation;
-	spawn.ForceRotation = forcedrotation;
-	_mapinfo.Spawnings[SpawningId] = spawn;	
+	boost::shared_ptr<Spawn> newspan(new Spawn(SpawningId));
+	newspan->SetName(spawningname);
+	newspan->SetPosX(PosX);
+	newspan->SetPosY(PosY);
+	newspan->SetPosZ(PosZ);
+	newspan->SetRotation(Rotation);
+	newspan->SetForceRotation(forcedrotation);
+	AddSpawn(newspan);
 
-	long edobjid = SpawningId + 1000000;
-
-	std::map<Ice::Long, ActorObjectInfo >::iterator itm = _editorObjects.find(edobjid);
-	if(itm != _editorObjects.end())
-	{
-		// object already exist - update position if needed
-		itm->second.PhysicDesc.Pos.X = PosX;
-		itm->second.PhysicDesc.Pos.Y = PosY;
-		itm->second.PhysicDesc.Pos.Z = PosZ;
-
-		std::stringstream strs;
-		strs << "Spawn-"<<SpawningId<<": " << spawningname;
-		itm->second.ExtraInfo.Name = strs.str();
-
-		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-				LbaNet::EditorObject, edobjid, new ObjectExtraInfoUpdate(itm->second.ExtraInfo)));
-
-		_tosendevts.push_back(new UpdatePhysicObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-				LbaNet::EditorObject, edobjid, new PositionUpdate(itm->second.PhysicDesc.Pos)));
-	}
-	else
-	{
-		// object does not exist - add it
-		ActorObjectInfo ainfo = CreateSpawningDisplay(edobjid, PosX, PosY, PosZ, spawningname);
-		_editorObjects[edobjid] = ainfo;
-
-		_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-				LbaNet::EditorObject, edobjid, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo , 
-				ainfo.ExtraInfo));
-	}
 }
 #endif
 
@@ -1697,12 +1651,11 @@ remove a spawning
 void MapHandler::Editor_RemoveSpawning(long SpawningId)
 {
 	long edobjid = SpawningId + 1000000;
-
-	LbaNet::SpawningsSeq::iterator it = _mapinfo.Spawnings.find(SpawningId);
-	if(it != _mapinfo.Spawnings.end())
+	std::map<long, boost::shared_ptr<Spawn> >::iterator it = _spawns.find(SpawningId);
+	if(it != _spawns.end())
 	{
 		// erase from data
-		_mapinfo.Spawnings.erase(it);
+		_spawns.erase(it);
 
 		std::map<Ice::Long, ActorObjectInfo >::iterator itm = _editorObjects.find(edobjid);
 		if(itm != _editorObjects.end())
@@ -2788,4 +2741,109 @@ void MapHandler::OpenShop(long PlayerId, const LbaNet::ItemsMap &items,
 		_guihandlers["ShopBox"]->ShowGUI(PlayerId, GetPlayerPosition(PlayerId), 
 						boost::shared_ptr<ShowGuiParamBase>(new ShopParam(items, currencyitem)));
 	}
+}
+
+/***********************************************************
+add spawn
+***********************************************************/					
+void MapHandler::AddSpawn(boost::shared_ptr<Spawn> spawn)
+{
+	if(spawn)
+	_spawns[spawn->GetId()] = spawn;
+
+#ifdef _USE_QT_EDITOR_
+	long edobjid = spawn->GetId() + 1000000;
+
+	std::map<Ice::Long, ActorObjectInfo >::iterator itm = _editorObjects.find(edobjid);
+	if(itm != _editorObjects.end())
+	{
+		// object already exist - update position if needed
+		itm->second.PhysicDesc.Pos.X = spawn->GetPosX();
+		itm->second.PhysicDesc.Pos.Y = spawn->GetPosY();
+		itm->second.PhysicDesc.Pos.Z = spawn->GetPosZ();
+
+		std::stringstream strs;
+		strs << "Spawn-"<<spawn->GetId()<<": " << spawn->GetName();
+		itm->second.ExtraInfo.Name = strs.str();
+
+		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+				LbaNet::EditorObject, edobjid, new ObjectExtraInfoUpdate(itm->second.ExtraInfo)));
+
+		_tosendevts.push_back(new UpdatePhysicObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+				LbaNet::EditorObject, edobjid, new PositionUpdate(itm->second.PhysicDesc.Pos)));
+	}
+	else
+	{
+		// object does not exist - add it
+		ActorObjectInfo ainfo = CreateSpawningDisplay(edobjid, 
+					spawn->GetPosX(), spawn->GetPosY(), spawn->GetPosZ(), spawn->GetName());
+		_editorObjects[edobjid] = ainfo;
+
+		_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+				LbaNet::EditorObject, edobjid, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo , 
+				ainfo.ExtraInfo));
+	}
+#endif
+
+}
+
+/***********************************************************
+get spawn
+***********************************************************/
+boost::shared_ptr<Spawn> MapHandler::GetSpawn(long id)
+{
+	if(id < 0)
+	{
+		if(_spawns.size() > 0)
+			return _spawns.begin()->second;
+		else
+			return boost::shared_ptr<Spawn>();
+	}
+
+	std::map<long, boost::shared_ptr<Spawn> >::iterator it = _spawns.find(id);
+	if(it != _spawns.end())
+		return it->second;
+
+	return boost::shared_ptr<Spawn>();
+}
+
+/***********************************************************
+get spawn
+***********************************************************/
+boost::shared_ptr<Spawn> MapHandler::GetSpawn(const std::string SpawnName)
+{
+	std::map<long, boost::shared_ptr<Spawn> >::iterator it = _spawns.begin();
+	std::map<long, boost::shared_ptr<Spawn> >::iterator end = _spawns.end();
+	for(;it != end; ++it)
+	{
+		if(SpawnName == it->second->GetName())
+			return it->second;
+	}
+
+	return boost::shared_ptr<Spawn>();
+}
+
+
+/***********************************************************
+get spawn
+***********************************************************/
+long MapHandler::GetSpawnId(const std::string SpawnName)
+{
+	if(SpawnName == "")
+	{
+		if(_spawns.size() > 0)
+			return _spawns.begin()->first;
+		else
+			return -1;
+	}
+
+	std::map<long, boost::shared_ptr<Spawn> >::iterator it = _spawns.begin();
+	std::map<long, boost::shared_ptr<Spawn> >::iterator end = _spawns.end();
+	for(;it != end; ++it)
+	{
+		if(SpawnName == it->second->GetName())
+			return it->first;
+	}
+
+	return -1;
 }

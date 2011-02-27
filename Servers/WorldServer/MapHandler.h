@@ -42,7 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using namespace LbaNet;
 class PlayerHandler;
 class EditorUpdateBase;
-
+class Spawn;
 
 //! used to send event to 1 client
 class EventsSender : public IceUtil::Thread
@@ -140,6 +140,9 @@ public:
 	// add a trigger of moving type to the map
 	virtual void AddTrigger(boost::shared_ptr<TriggerBase> trigger);
 					
+	// add a trigger of moving type to the map
+	virtual void AddSpawn(boost::shared_ptr<Spawn> spawn);
+
 
 	// teleport an object
 	// ObjectType ==>
@@ -301,6 +304,18 @@ public:
 	//! open shop
 	virtual void OpenShop(long PlayerId, const LbaNet::ItemsMap &items, 
 									const LbaNet::ItemInfo & currencyitem);
+
+	// get spawn
+	boost::shared_ptr<Spawn> GetSpawn(long id);
+
+	// get spawn
+	boost::shared_ptr<Spawn> GetSpawn(const std::string SpawnName);
+
+	// get spawn
+	long GetSpawnId(const std::string SpawnName);
+
+
+
 
 protected:
 	// process events
@@ -573,6 +588,8 @@ private:
 	EventsSeq													_tosendevts;
 
 	std::map<long, boost::shared_ptr<TriggerBase> >				_triggers;
+	std::map<long, boost::shared_ptr<Spawn> >					_spawns;
+
 
 	bool														_stopping;
 	double														_stopstarttime;

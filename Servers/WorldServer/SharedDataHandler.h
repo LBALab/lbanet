@@ -43,6 +43,7 @@ class ServerLuaHandler;
 class LuaHandlerBase;
 class ScriptEnvironmentBase;
 class InventoryItemDef;
+class Spawn;
 
 using namespace LbaNet;
 
@@ -100,6 +101,10 @@ public:
 
 	//! change map for player
 	void ChangeMapPlayer(Ice::Long clientid, const std::string &NewMapName, long SpawningId,
+							float offsetX=0, float offsetY=0, float offsetZ=0);
+
+	//! change map for player
+	void ChangeMapPlayer(Ice::Long clientid, const std::string &NewMapName, const std::string SpawnName,
 							float offsetX=0, float offsetY=0, float offsetZ=0);
 
 #ifdef _USE_QT_EDITOR_
@@ -177,6 +182,11 @@ public:
 	//! add item
 	void AddInventoryItem(boost::shared_ptr<InventoryItemDef> item);
 
+	//! get spawn
+	boost::shared_ptr<Spawn> GetSpawn(const std::string & mapname, long spawnid);
+
+	//! get spawn
+	long GetSpawnId(const std::string & mapname, const std::string & name);
 
 protected:
 	//! constructor
