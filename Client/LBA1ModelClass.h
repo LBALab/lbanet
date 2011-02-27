@@ -166,9 +166,10 @@ private:
 
 
 	osg::ref_ptr<osg::Geometry> m_myGeometry;
+	osg::ref_ptr<osg::Geometry> m_myGeometrytransp;
 	std::vector<osg::ref_ptr<osg::PositionAttitudeTransform> > m_Spheres;
 	osg::ref_ptr<osg::Geometry> m_myGeometrylines;
-	osg::ref_ptr<osg::Geometry> m_myGeometrynorms;
+	//osg::ref_ptr<osg::Geometry> m_myGeometrynorms;
 
 	bool m_usesoftshadow;
 
@@ -315,7 +316,7 @@ public:
 	{m_animationspeed = animationspeed;}
 
 
-	osg::ref_ptr<osg::Node> ExportOSGModel(bool usesoftshadow);
+	osg::ref_ptr<osg::Node> ExportOSGModel(bool usesoftshadow, bool addtransparent = false);
 };
 
 #endif

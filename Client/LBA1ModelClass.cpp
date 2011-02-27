@@ -67,6 +67,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static float factormul_lba1_toosg = 32;
 static float factortransY_lba1_toosg = 0;//-0.1;
 
+#define		_ALPHA_C_V	0.15f
 
 
 LBA1ModelClass::~LBA1ModelClass()
@@ -2131,8 +2132,13 @@ bool LBA1ModelClass::AnimateModel(float tdiff)
 				}
 
 				m_myGeometry->setVertexArray( myVertices ); 
-
 				osgUtil::SmoothingVisitor::smooth(*(m_myGeometry.get()));
+
+				if(m_myGeometrytransp)
+				{
+					m_myGeometrytransp->setVertexArray( myVertices ); 
+					osgUtil::SmoothingVisitor::smooth(*(m_myGeometrytransp.get()));
+				}
 
 
 				//osg::Vec3Array* norms = (osg::Vec3Array*) m_myGeometry->getNormalArray();
@@ -2555,7 +2561,7 @@ void LBA1ModelClass::setLoopKeyframe(short int value)
 //---------------------------------------------------------------------------
 
 
-osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow)
+osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow, bool addtransparent)
 {
 	m_usesoftshadow = usesoftshadow;
 	
@@ -2706,10 +2712,17 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow)
 	polyPtr=Polygons->PolygonsData;
 
 	{
+		if(addtransparent)
+		{
+			m_myGeometrytransp = new osg::Geometry();
+			myGeode->addDrawable(m_myGeometrytransp.get());
+		}
+
 		m_myGeometry = new osg::Geometry();
 		myGeode->addDrawable(m_myGeometry.get());
 
 		osg::Vec4Array* colors = new osg::Vec4Array;
+		osg::ref_ptr<osg::Vec4Array> colorstransp = new osg::Vec4Array;
 		osg::Vec3Array* normals = new osg::Vec3Array;
 
 
@@ -2783,20 +2796,25 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow)
 				{
 					osg::DrawElementsUInt* myprimitive = new osg::DrawElementsUInt(osg::PrimitiveSet::TRIANGLES, 0);
 					unsigned char* ptr=(unsigned char*)m_paletteRGB+(it->first)*3;
-					colors->push_back(osg::Vec4((*ptr)/255.0f,(*(ptr+1))/255.0f,(*(ptr+2))/255.0f, 1.0f));
+					colors->push_back(osg::Vec4((*ptr)/255.0f,(*(ptr+1))/255.0f,(*(ptr+2))/255.0f, 1.0));
+					colorstransp->push_back(osg::Vec4((*ptr)/255.0f,(*(ptr+1))/255.0f,(*(ptr+2))/255.0f, _ALPHA_C_V));
 
 					for(size_t cc=0; cc<tmp.first.size(); ++cc)
 					{
 						myprimitive->push_back(tmp.first[cc]);
 					}
 					m_myGeometry->addPrimitiveSet(myprimitive);
+
+					if(addtransparent)
+						m_myGeometrytransp->addPrimitiveSet(myprimitive);
 				}
 
 				if(tmp.second.size() > 0)
 				{
 					osg::DrawElementsUInt* myprimitive = new osg::DrawElementsUInt(osg::PrimitiveSet::QUADS, 0);
 					unsigned char* ptr=(unsigned char*)m_paletteRGB+(it->first)*3;
-					colors->push_back(osg::Vec4((*ptr)/255.0f,(*(ptr+1))/255.0f,(*(ptr+2))/255.0f, 1.0f));
+					colors->push_back(osg::Vec4((*ptr)/255.0f,(*(ptr+1))/255.0f,(*(ptr+2))/255.0f, 1.0));
+					colorstransp->push_back(osg::Vec4((*ptr)/255.0f,(*(ptr+1))/255.0f,(*(ptr+2))/255.0f, _ALPHA_C_V));
 
 					for(size_t cc=0; cc<tmp.second.size(); ++cc)
 					{
@@ -2804,6 +2822,8 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow)
 					}
 					m_myGeometry->addPrimitiveSet(myprimitive);
 
+					if(addtransparent)
+						m_myGeometrytransp->addPrimitiveSet(myprimitive);
 				}
 			}
 		}
@@ -2819,7 +2839,8 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow)
 				{
 					osg::DrawElementsUInt* myprimitive = new osg::DrawElementsUInt(osg::PrimitiveSet::POLYGON, 0);
 					unsigned char* ptr=(unsigned char*)m_paletteRGB+(it->first)*3;
-					colors->push_back(osg::Vec4((*ptr)/255.0f,(*(ptr+1))/255.0f,(*(ptr+2))/255.0f, 1.0f));
+					colors->push_back(osg::Vec4((*ptr)/255.0f,(*(ptr+1))/255.0f,(*(ptr+2))/255.0f, 1.0));
+					colorstransp->push_back(osg::Vec4((*ptr)/255.0f,(*(ptr+1))/255.0f,(*(ptr+2))/255.0f, _ALPHA_C_V));
 
 					std::vector<int> & polydraw = tmp[cc];
 					for(size_t cc2=0; cc2<polydraw.size(); ++cc2)
@@ -2828,6 +2849,9 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow)
 					}
 
 					m_myGeometry->addPrimitiveSet(myprimitive);
+
+					if(addtransparent)
+						m_myGeometrytransp->addPrimitiveSet(myprimitive);
 				}
 			}
 		}
@@ -2840,6 +2864,25 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow)
 		m_myGeometry->setColorArray(colors);
 		m_myGeometry->setColorBinding(osg::Geometry::BIND_PER_PRIMITIVE_SET);
 
+
+		if(addtransparent)
+		{
+			osg::StateSet* stateset = m_myGeometry->getOrCreateStateSet();
+			stateset->setRenderBinDetails( 4100, "RenderBin");
+
+			m_myGeometrytransp->setVertexArray( myVerticesPoly ); 
+			m_myGeometrytransp->setUseDisplayList( false );
+			m_myGeometrytransp->setDataVariance(osg::Object::DYNAMIC);
+			osgUtil::SmoothingVisitor::smooth(*(m_myGeometrytransp.get()));
+			m_myGeometrytransp->setColorArray(colorstransp);
+			m_myGeometrytransp->setColorBinding(osg::Geometry::BIND_PER_PRIMITIVE_SET);
+
+			osg::StateSet* stateset2 = m_myGeometrytransp->getOrCreateStateSet();
+			stateset2->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
+			stateset2->setMode( GL_BLEND, osg::StateAttribute::ON );
+			stateset2->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+			stateset2->setRenderBinDetails( 4000, "RenderBin");
+		}
 	}
 
 
@@ -2896,6 +2939,9 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow)
         linewidth->setWidth(2.0f);
         stateset->setAttributeAndModes(linewidth,osg::StateAttribute::ON);
 		stateset->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
+
+		if(addtransparent)
+			stateset->setRenderBinDetails( 4100, "RenderBin");
 	}
 
 
@@ -2923,6 +2969,13 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow)
 
 		root->addChild(PAT);
 		m_Spheres.push_back(PAT);
+
+
+		if(addtransparent)
+		{
+			osg::StateSet* stateset = Geodesphere->getOrCreateStateSet();
+			stateset->setRenderBinDetails( 4100, "RenderBin");
+		}
 	}
 
     // Create and add fake texture for use with nodes without any texture

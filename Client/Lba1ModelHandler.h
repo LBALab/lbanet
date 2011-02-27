@@ -49,7 +49,8 @@ public:
 						const LbaNet::ModelInfo & info, float animationspeed,
 						bool UseLight, bool CastShadow,
 						const LbaNet::ObjectExtraInfo &extrainfo,
-						const LbaNet::LifeManaInfo &lifeinfo);
+						const LbaNet::LifeManaInfo &lifeinfo,
+						bool mainchar);
 
 	//! destructor
 	virtual ~Lba1ModelHandler();
@@ -98,7 +99,6 @@ private:
 	LBA1ModelClass*									_model;
 	osg::ref_ptr<osg::Node>							_osgnode;
 
-
 	float											_animationspeed;
 
 
@@ -111,6 +111,7 @@ private:
 
 	bool											_UseLight;
 	bool											_CastShadow;
+	bool											_mainchar;
 
 
 	std::map<std::pair<LbaNet::Lba1MColorPart, int>, int>	_changedcolors;

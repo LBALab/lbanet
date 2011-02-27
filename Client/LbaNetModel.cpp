@@ -472,10 +472,17 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 		//2 -> LBA1 model 
 		case LbaNet::RenderLba1M:
 		{
+			bool mainchar = false;
+			if(OType == LbaNet::PlayerObject)
+				if(ObjectId == m_playerObjectId)
+					mainchar = true;
+
+
 			//TODO animation speed
 			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
 				(new Lba1ModelObjectDescription(DisplayDesc, _LBA1_MODEL_ANIMATION_SPEED_,
-												DisplayDesc.UseLight, DisplayDesc.CastShadow, extrainfo, lifeinfo));
+												DisplayDesc.UseLight, DisplayDesc.CastShadow, extrainfo, 
+												lifeinfo, mainchar));
 
 			boost::shared_ptr<DisplayTransformation> tr(new DisplayTransformation());
 			tr->translationX = DisplayDesc.TransX;

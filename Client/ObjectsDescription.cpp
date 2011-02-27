@@ -330,7 +330,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> Lba1ModelObjectDescription::BuildSel
 {
 	return boost::shared_ptr<DisplayObjectHandlerBase> (
 					new Lba1ModelHandler( Tr, _info, _animationspeed, _UseLight, 
-												_CastShadow, _extrainfo, _lifeinfo));
+												_CastShadow, _extrainfo, _lifeinfo, _mainchar));
 }
 
 

@@ -1539,9 +1539,13 @@ osg::ref_ptr<osg::MatrixTransform> OsgHandler::CreateSpriteObject(const std::str
 	resnode->addChild(geode);
 
 	osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
-	stateSet->setMode( GL_BLEND, osg::StateAttribute::ON );
-	stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-	stateSet->setRenderBinDetails( 5000, "RenderBin");
+
+	if(colorA < 1.0f)
+	{
+		stateSet->setMode( GL_BLEND, osg::StateAttribute::ON );
+		stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+		stateSet->setRenderBinDetails( 5000, "RenderBin");
+	}
 
 	//specify normal:
 	if(!UseLight)

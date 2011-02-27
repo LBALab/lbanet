@@ -761,6 +761,20 @@ void LbaNetEngine::HandleGameEvents()
 
 			continue;
 		}
+
+		// CutMapEvent
+		if(info == typeid(LbaNet::CutMapEvent))
+		{
+			LbaNet::CutMapEvent* castedptr = 
+				dynamic_cast<LbaNet::CutMapEvent *>(&obj);
+
+			OsgHandler::getInstance()->SetClipPlane(castedptr->Y);
+
+			continue;
+		}
+
+
+		
 	}
 }
 

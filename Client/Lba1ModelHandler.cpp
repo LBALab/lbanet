@@ -44,10 +44,11 @@ Lba1ModelHandler::Lba1ModelHandler(boost::shared_ptr<DisplayTransformation> Tr,
 								   const LbaNet::ModelInfo & info, float animationspeed,
 								   bool UseLight, bool CastShadow,
 									const LbaNet::ObjectExtraInfo &extrainfo,
-									const LbaNet::LifeManaInfo &lifeinfo)
+									const LbaNet::LifeManaInfo &lifeinfo,
+									bool mainchar)
 : AnimatedObjectHandlerBase(Tr, extrainfo, lifeinfo, info), _model(NULL), _animationspeed(animationspeed),
 	_currAnimation(-1), _currModel(-1), _currBody(-1),
-	_UseLight(UseLight), _CastShadow(CastShadow)
+	_UseLight(UseLight), _CastShadow(CastShadow), _mainchar(mainchar)
 {
 	UpdateModel();
 
@@ -424,7 +425,7 @@ int Lba1ModelHandler::RefreshModel(bool forcecolor)
 		_model->LoadAnim(	tmpstrcut,
 							tmpstrcut->entitiesTable[_currModel].animList[_currAnimation].index);
 
-		_osgnode = _model->ExportOSGModel(true);
+		_osgnode = _model->ExportOSGModel(true, _mainchar);
 
 		if(_CastShadow)
 			_osgnode->setNodeMask(ReceivesShadowTraversalMask | CastsShadowTraversalMask);
