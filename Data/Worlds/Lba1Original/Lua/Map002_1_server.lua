@@ -297,4 +297,3 @@ function InitMap(environment)
 	environment:AddTrigger(Trigger_9)
 
 end
-
