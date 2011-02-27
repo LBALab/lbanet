@@ -299,10 +299,11 @@ public:
 	Lba1ModelObjectDescription(const LbaNet::ModelInfo & info, float animationspeed,
 								bool UseLight, bool CastShadow,
 								const LbaNet::ObjectExtraInfo &extrainfo,
-								const LbaNet::LifeManaInfo &lifeinfo)
+								const LbaNet::LifeManaInfo &lifeinfo,
+								bool mainchar)
 		: _info(info), _animationspeed(animationspeed), 
 				_extrainfo(extrainfo), _lifeinfo(lifeinfo), _UseLight(UseLight),
-				_CastShadow(CastShadow)
+				_CastShadow(CastShadow), _mainchar(mainchar)
 	{}
 
 	//! destructor
@@ -326,6 +327,7 @@ private:
 
 	LbaNet::ObjectExtraInfo	_extrainfo;
 	LbaNet::LifeManaInfo	_lifeinfo;
+	bool					_mainchar;
 };
 
 
