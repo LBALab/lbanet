@@ -1214,6 +1214,7 @@ void PlayerHandler::UpdateInventory(LbaNet::ItemList Taken, LbaNet::ItemList Put
 	LbaNet::EventsSeq toplayer;
 	LbaNet::GuiUpdatesSeq paramseq;
 
+	// take from inventory
 	LbaNet::ItemList::iterator ittaken = Taken.begin();
 	LbaNet::ItemList::iterator endtaken = Taken.end();
 	for(; ittaken != endtaken; ++ittaken)
@@ -1235,10 +1236,15 @@ void PlayerHandler::UpdateInventory(LbaNet::ItemList Taken, LbaNet::ItemList Put
 		}
 	}
 
+	// put in inventory
 	LbaNet::ItemList::iterator itput = Put.begin();
 	LbaNet::ItemList::iterator endput = Put.end();
 	for(; itput != endput; ++itput)
 	{
+		long replacedid = -1;
+		LbaNet::ItemPosInfo newitempos;
+
+
 		LbaNet::ItemsMap::iterator it = _currentinfo.inventory.InventoryStructure.find(itput->first);
 		if(it != _currentinfo.inventory.InventoryStructure.end())
 		{
@@ -1246,26 +1252,44 @@ void PlayerHandler::UpdateInventory(LbaNet::ItemList Taken, LbaNet::ItemList Put
 			if(it->second.Count > it->second.Info.Max)
 				it->second.Count = it->second.Info.Max;
 
-			paramseq.push_back(new LbaNet::UpdateInventoryItem(informtype, it->second));
+			newitempos = it->second;
 		}
 		else
 		{
 			// add new object to inventory
-			LbaNet::ItemPosInfo newitem;
-			newitem.Count = itput->second;
-			newitem.Position = -1;
-			newitem.Info = InventoryItemHandler::getInstance()->GetItemInfo(itput->first);
+			newitempos.Count = itput->second;
+			newitempos.Position = -1;
+			newitempos.Info = InventoryItemHandler::getInstance()->GetItemInfo(itput->first);
 
-			if(newitem.Count > newitem.Info.Max)
-				newitem.Count = newitem.Info.Max;
+			if(newitempos.Count > newitempos.Info.Max)
+				newitempos.Count = newitempos.Info.Max;
 
-			if(newitem.Count > 0)
+			if(newitempos.Count > 0)
+				_currentinfo.inventory.InventoryStructure[itput->first] = newitempos;
+		}
+
+		if(newitempos.Info.ReplaceItem >= 0)
+		{
+			// check if we have item and remove it
+			LbaNet::ItemsMap::iterator it = _currentinfo.inventory.InventoryStructure.find(newitempos.Info.ReplaceItem);
+			if(it != _currentinfo.inventory.InventoryStructure.end())
 			{
-				paramseq.push_back(new LbaNet::UpdateInventoryItem(informtype, newitem));
+				it->second.Count -= itput->second;
+				if(it->second.Count < 0)
+					it->second.Count = 0;
 
-				_currentinfo.inventory.InventoryStructure[itput->first] = newitem;
+				paramseq.push_back(new LbaNet::UpdateInventoryItem(LbaNet::DontInform, it->second));
+
+				if(it->second.Count == 0)
+				{
+					// remove from inventory
+					_currentinfo.inventory.InventoryStructure.erase(it);
+				}
 			}
 		}
+
+		if(newitempos.Count > 0)
+			paramseq.push_back(new LbaNet::UpdateInventoryItem(informtype, newitempos));
 	}
 
 	if(_proxy)

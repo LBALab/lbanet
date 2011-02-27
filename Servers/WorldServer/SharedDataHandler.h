@@ -42,7 +42,7 @@ class PlayerHandler;
 class ServerLuaHandler;
 class LuaHandlerBase;
 class ScriptEnvironmentBase;
-
+class InventoryItemDef;
 
 using namespace LbaNet;
 
@@ -174,6 +174,8 @@ public:
 	//! get quest
 	QuestPtr GetQuest(long id);
 
+	//! add item
+	void AddInventoryItem(boost::shared_ptr<InventoryItemDef> item);
 
 
 protected:

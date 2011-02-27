@@ -945,4 +945,83 @@ private:
 
 
 
+//! use to display a text on client
+class CutMapAction : public ActionBase
+{
+public:
+	//! constructor
+	CutMapAction()
+		: _Y(-1)
+	{}
+	
+	//! destructor
+	virtual ~CutMapAction(void){}
+
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args);
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "CutMapAction"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+
+	// acessor
+	float GetY()
+	{ return _Y;}
+
+	// acessor
+	void SetY(float id)
+	{ _Y = id;}
+
+
+private:
+	float			_Y;
+};
+
+
+
+//! use to display a text on client
+class OpenLetterWritterAction : public ActionBase
+{
+public:
+	//! constructor
+	OpenLetterWritterAction()
+	{}
+	
+	//! destructor
+	virtual ~OpenLetterWritterAction(void){}
+
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args);
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "OpenLetterWritterAction"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+
+};
+
+
+
+
 #endif

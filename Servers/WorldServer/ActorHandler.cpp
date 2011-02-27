@@ -981,7 +981,7 @@ void ActorHandler::CreateActor()
 												m_actorinfo.DisplayDesc.UseLight, 
 												m_actorinfo.DisplayDesc.CastShadow, 
 												m_actorinfo.ExtraInfo,
-												m_actorinfo.LifeInfo));
+												m_actorinfo.LifeInfo, false));
 
 			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(
 								boost::shared_ptr<DisplayTransformation>(), dispobdesc));

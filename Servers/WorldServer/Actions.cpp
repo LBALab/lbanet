@@ -4,6 +4,9 @@
 #include <fstream>
 #include "Randomizer.h"
 #include "InventoryItemHandler.h"
+#include "ClientProxyHandler.h"
+#include "SharedDataHandler.h"
+#include "MapHandler.h"
 
 
 /***********************************************************
@@ -1035,3 +1038,99 @@ void OpenShopAction::SetCurrencyItem(long it)
 {
 	_currencyitem = InventoryItemHandler::getInstance()->GetItemInfo(it);
 }
+
+
+
+/***********************************************************
+//! execute the action
+//! parameter return the object type and number triggering the action
+***********************************************************/
+void CutMapAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+								ActionArgumentBase* args)
+{
+	long clientid = -1;
+
+	if(ObjectType == 2)
+		clientid = ObjectId;
+
+	// on object moved by player
+	if(ObjectType == 3)
+	{
+		// todo - find attached player
+	}
+
+	// check if client found - else return
+	if(clientid < 0)
+		return;
+
+
+	//get player proxy and send info
+	ClientProxyBasePtr proxy = SharedDataHandler::getInstance()->GetProxy(clientid);
+	if(proxy)
+	{
+		EventsSeq toplayer;
+		toplayer.push_back(new CutMapEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), _Y));
+		IceUtil::ThreadPtr t = new EventsSender(toplayer, proxy);
+		t->start();		
+	}
+}
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void CutMapAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
+{
+	file<<"\t"<<name<<" = CutMapAction()"<<std::endl;
+	file<<"\t"<<name<<":SetY("<<_Y<<")"<<std::endl;
+}
+
+
+
+
+/***********************************************************
+//! execute the action
+//! parameter return the object type and number triggering the action
+***********************************************************/
+void OpenLetterWritterAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+								ActionArgumentBase* args)
+{
+	long clientid = -1;
+
+	if(ObjectType == 2)
+		clientid = ObjectId;
+
+	// on object moved by player
+	if(ObjectType == 3)
+	{
+		// todo - find attached player
+	}
+
+	// check if client found - else return
+	if(clientid < 0)
+		return;
+
+
+	//get player proxy and send info
+	ClientProxyBasePtr proxy = SharedDataHandler::getInstance()->GetProxy(clientid);
+	if(proxy)
+	{
+		EventsSeq toplayer;
+		toplayer.push_back(
+			new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+										"LetterEditorBox", GuiParamsSeq(), true, false));
+
+		IceUtil::ThreadPtr t = new EventsSender(toplayer, proxy);
+		t->start();		
+	}
+}
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void OpenLetterWritterAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
+{
+	file<<"\t"<<name<<" = OpenLetterWritterAction()"<<std::endl;
+}
+

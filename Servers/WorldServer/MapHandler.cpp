@@ -11,6 +11,7 @@
 #include "MailBoxHandler.h"
 #include "PlayerHandler.h"
 #include "ActorHandler.h"
+#include "InventoryItemHandler.h"
 
 #include <math.h>
 
@@ -2064,19 +2065,10 @@ void MapHandler::PlayerItemUsed(Ice::Long clientid, long ItemId)
 		case 6: // other item - dont do anything
 			break;
 		case 7: // special usage item
-			switch(itinfo.Info.Flag)
 			{
-				case 1: // letter writter
-				{
-					EventsSeq toplayer;		
-					toplayer.push_back(
-						new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-													"LetterEditorBox", GuiParamsSeq(), true, false));
-
-					IceUtil::ThreadPtr t = new EventsSender(toplayer, GetProxy(clientid));
-					t->start();	
-				}
-				break;
+				ActionBasePtr actptr = InventoryItemHandler::getInstance()->GetItemAction(itinfo.Info.Id);
+				if(actptr)
+					actptr->Execute(this, 2, clientid, NULL);
 			}
 			break;
 		case 8: // letters item, open them

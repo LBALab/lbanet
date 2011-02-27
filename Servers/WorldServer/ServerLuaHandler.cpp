@@ -21,6 +21,7 @@ extern "C"
 #include "Quest.h"
 #include "Teleport.h"
 #include "SharedDataHandler.h"
+#include "InventoryItemHandler.h"
 
 
 #ifdef _USE_QT_EDITOR_	
@@ -512,6 +513,14 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetCurrencyItem", &OpenShopAction::GetCurrencyItem)
 		.def("SetCurrencyItem", &OpenShopAction::SetCurrencyItem),
 
+		luabind::class_<CutMapAction, ActionBase, boost::shared_ptr<ActionBase> >("CutMapAction")
+		.def(luabind::constructor<>())
+		.def("GetY", &CutMapAction::GetY)
+		.def("SetY", &CutMapAction::SetY),
+
+		luabind::class_<OpenLetterWritterAction, ActionBase, boost::shared_ptr<ActionBase> >("OpenLetterWritterAction")
+		.def(luabind::constructor<>()),
+
 
 
 		luabind::class_<ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("ClientScriptBase")
@@ -615,6 +624,48 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("AddQuest", &SharedDataHandler::AddQuest)
 		.def("RemoveQuest", &SharedDataHandler::RemoveQuest)
 		.def("GetQuest", &SharedDataHandler::GetQuest)
+		.def("AddInventoryItem", &SharedDataHandler::AddInventoryItem),
+
+		luabind::class_<InventoryItemDef, boost::shared_ptr<InventoryItemDef> >("InventoryItemDef")
+		.def(luabind::constructor<long>())
+		.def("GetId", &InventoryItemDef::GetId)
+		.def("GetName", &InventoryItemDef::GetName)	
+		.def("GetIconName", &InventoryItemDef::GetIconName)
+		.def("GetNameTextId", &InventoryItemDef::GetNameTextId)	
+		.def("GetDescriptionId", &InventoryItemDef::GetDescriptionId)
+		.def("GetLongDescriptionId", &InventoryItemDef::GetLongDescriptionId)	
+		.def("GetMax", &InventoryItemDef::GetMax)
+		.def("GetBuyPrice", &InventoryItemDef::GetBuyPrice)	
+		.def("GetSellPrice", &InventoryItemDef::GetSellPrice)
+		.def("GetDescriptionTextExtra", &InventoryItemDef::GetDescriptionTextExtra)	
+		.def("GetType", &InventoryItemDef::GetType)
+		.def("GetEffect", &InventoryItemDef::GetEffect)	
+		.def("GetFlag", &InventoryItemDef::GetFlag)
+		.def("GetEphemere", &InventoryItemDef::GetEphemere)	
+		.def("GetStringFlag", &InventoryItemDef::GetStringFlag)
+		.def("GetColor1", &InventoryItemDef::GetColor1)	
+		.def("GetColor2", &InventoryItemDef::GetColor2)
+		.def("SetName", &InventoryItemDef::SetName)	
+		.def("SetIconName", &InventoryItemDef::SetIconName)
+		.def("SetNameTextId", &InventoryItemDef::SetNameTextId)	
+		.def("SetDescriptionId", &InventoryItemDef::SetDescriptionId)
+		.def("SetLongDescriptionId", &InventoryItemDef::SetLongDescriptionId)	
+		.def("SetMax", &InventoryItemDef::SetMax)
+		.def("SetBuyPrice", &InventoryItemDef::SetBuyPrice)	
+		.def("SetSellPrice", &InventoryItemDef::SetSellPrice)
+		.def("SetDescriptionTextExtra", &InventoryItemDef::SetDescriptionTextExtra)	
+		.def("SetType", &InventoryItemDef::SetType)
+		.def("SetEffect", &InventoryItemDef::SetEffect)	
+		.def("SetFlag", &InventoryItemDef::SetFlag)
+		.def("SetEphemere", &InventoryItemDef::SetEphemere)	
+		.def("SetStringFlag", &InventoryItemDef::SetStringFlag)
+		.def("SetColor1", &InventoryItemDef::SetColor1)	
+		.def("SetColor2", &InventoryItemDef::SetColor2)
+		.def("AddContainedItem", &InventoryItemDef::AddContainedItem)
+		.def("GetReplacedItem", &InventoryItemDef::GetReplacedItem)
+		.def("GetAction", &InventoryItemDef::GetAction)	
+		.def("SetReplacedItem", &InventoryItemDef::SetReplacedItem)
+		.def("SetAction", &InventoryItemDef::SetAction)	
 		];
 
 	}

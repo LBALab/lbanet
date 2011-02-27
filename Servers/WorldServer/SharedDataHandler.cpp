@@ -53,9 +53,6 @@ void SharedDataHandler::SetWorldDefaultInformation(WorldInformation &worldinfo)
 
 	Lock sync(*this);
 
-	// inform inventory handler
-	InventoryItemHandler::getInstance()->SetCurrentWorld(worldinfo.Description.WorldName);
-
 
 #ifndef _USE_QT_EDITOR_
 
@@ -912,6 +909,13 @@ void SharedDataHandler::SaveToLua()
 		itq->second->SaveToLuaFile(file);
 
 
+	// save items
+	const std::map<long, InventoryItemDefPtr> &items = InventoryItemHandler::getInstance()->GetItemMap();
+	std::map<long, InventoryItemDefPtr>::const_iterator ititm = items.begin();
+	std::map<long, InventoryItemDefPtr>::const_iterator enditm = items.end();
+	for(;ititm != enditm; ++ititm)
+		ititm->second->SaveToLuaFile(file);
+
 	file<<"end"<<std::endl;
 }
 
@@ -945,3 +949,12 @@ QuestPtr SharedDataHandler::GetQuest(long id)
 	return QuestHandler::getInstance()->GetQuest(id);
 }
 
+
+
+/***********************************************************
+add item
+***********************************************************/
+void SharedDataHandler::AddInventoryItem(boost::shared_ptr<InventoryItemDef> item)
+{
+	InventoryItemHandler::getInstance()->AddItem(item);
+}
