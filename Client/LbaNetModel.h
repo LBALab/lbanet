@@ -166,7 +166,9 @@ public:
 
 	// add a trigger 
 	virtual void AddTrigger(boost::shared_ptr<TriggerBase> trigger){}
-
+					
+	// add spawn
+	virtual void AddSpawn(boost::shared_ptr<Spawn> spawn){}
 
 	// teleport an object
 	// ObjectType ==>
