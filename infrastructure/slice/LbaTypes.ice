@@ -74,6 +74,7 @@ module LbaNet
 		int			Color1;
 		int			Color2;
 		ContainedItemList	List;
+		long			ReplaceItem;
 	};
 	
 	// give information about an item position in inventory

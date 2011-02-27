@@ -260,6 +260,13 @@ module LbaNet
 	// client ask server to get a refresh of all tps
 	class RefreshTpRequestEvent extends ClientServerEventBase
 	{
+	};
+	
+	
+	// server tell client to cut the map with a clip plane on the Y axis
+	class CutMapEvent extends ClientServerEventBase
+	{
+		float				Y;
 	};	
 };	
 
