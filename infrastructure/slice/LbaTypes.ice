@@ -92,22 +92,6 @@ module LbaNet
 
 	dictionary<long, int> 		ItemList;
 
-
-
-	// spawning information
-	struct SpawningInfo
-	{
-		long			Id;
-		string 			Name;
-		float 			PosX;
-		float 			PosY;
-		float 			PosZ;
-		bool			ForceRotation;
-		float 			Rotation;	
-	};
-	
-	dictionary<long, SpawningInfo> SpawningsSeq;
-	
 	
 	// map information
 	struct MapInfo
@@ -122,8 +106,6 @@ module LbaNet
 		int			AutoCameraType;
 		
 		bool			IsInstance;
-		
-		SpawningsSeq 		Spawnings;
 		
 		float			HurtFallFactor;
 
