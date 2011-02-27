@@ -1,4 +1,18 @@
 function InitMap(environment)
+	Spawn_1 = Spawn(1)
+	Spawn_1:SetPosX(51)
+	Spawn_1:SetPosY(7)
+	Spawn_1:SetPosZ(43.5)
+	Spawn_1:SetName("spawning1")
+	environment:AddSpawn(Spawn_1)
+
+	Spawn_2 = Spawn(2)
+	Spawn_2:SetPosX(60.5)
+	Spawn_2:SetPosY(0)
+	Spawn_2:SetPosZ(56)
+	Spawn_2:SetName("spawning2")
+	environment:AddSpawn(Spawn_2)
+
 	MapObject = ActorObjectInfo(1)
 	MapObject:SetRenderType(1)
 	MapObject.DisplayDesc.ModelName = "Worlds/Lba1Original/Grids/Map22.osgb"
@@ -35,3 +49,4 @@ function InitMap(environment)
 	environment:AddTrigger(Trigger_2)
 
 end
+

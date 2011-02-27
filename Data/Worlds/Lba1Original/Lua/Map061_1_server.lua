@@ -17,3 +17,4 @@ function InitMap(environment)
 	environment:AddActorObject(MapObjectH)
 
 end
+

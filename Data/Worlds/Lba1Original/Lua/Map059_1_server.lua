@@ -1,4 +1,53 @@
 function InitMap(environment)
+	Spawn_1 = Spawn(1)
+	Spawn_1:SetPosX(1)
+	Spawn_1:SetPosY(5)
+	Spawn_1:SetPosZ(0)
+	Spawn_1:SetName("spawning1")
+	environment:AddSpawn(Spawn_1)
+
+	Spawn_2 = Spawn(2)
+	Spawn_2:SetPosX(1)
+	Spawn_2:SetPosY(5)
+	Spawn_2:SetPosZ(0)
+	Spawn_2:SetName("spawning2")
+	environment:AddSpawn(Spawn_2)
+
+	Spawn_3 = Spawn(3)
+	Spawn_3:SetPosX(1)
+	Spawn_3:SetPosY(5)
+	Spawn_3:SetPosZ(0)
+	Spawn_3:SetName("spawning3")
+	environment:AddSpawn(Spawn_3)
+
+	Spawn_4 = Spawn(4)
+	Spawn_4:SetPosX(1)
+	Spawn_4:SetPosY(5)
+	Spawn_4:SetPosZ(0)
+	Spawn_4:SetName("spawning4")
+	environment:AddSpawn(Spawn_4)
+
+	Spawn_5 = Spawn(5)
+	Spawn_5:SetPosX(47)
+	Spawn_5:SetPosY(5)
+	Spawn_5:SetPosZ(0)
+	Spawn_5:SetName("spawning5")
+	environment:AddSpawn(Spawn_5)
+
+	Spawn_6 = Spawn(6)
+	Spawn_6:SetPosX(1)
+	Spawn_6:SetPosY(5)
+	Spawn_6:SetPosZ(0)
+	Spawn_6:SetName("spawning6")
+	environment:AddSpawn(Spawn_6)
+
+	Spawn_7 = Spawn(7)
+	Spawn_7:SetPosX(1)
+	Spawn_7:SetPosY(5)
+	Spawn_7:SetPosZ(0)
+	Spawn_7:SetName("spawning7")
+	environment:AddSpawn(Spawn_7)
+
 	MapObject = ActorObjectInfo(1)
 	MapObject:SetRenderType(1)
 	MapObject.DisplayDesc.ModelName = "Worlds/Lba1Original/Grids/Map59.osgb"
@@ -71,3 +120,4 @@ function InitMap(environment)
 	environment:AddTrigger(Trigger_6)
 
 end
+

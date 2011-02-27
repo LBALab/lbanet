@@ -35,3 +35,4 @@ function InitMap(environment)
 	environment:AddTrigger(Trigger_2)
 
 end
+

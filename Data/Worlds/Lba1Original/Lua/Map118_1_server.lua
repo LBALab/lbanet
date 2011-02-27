@@ -89,3 +89,4 @@ function InitMap(environment)
 	environment:AddTrigger(Trigger_8)
 
 end
+
