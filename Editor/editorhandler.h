@@ -58,6 +58,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class QTableWidgetItem;
 class ServerLuaHandler;
 class DialogPart;
+class InventoryItemDef;
 
 namespace osgManipulator
 {
@@ -987,7 +988,7 @@ protected:
 	std::string GetActionType(ActionBasePtr ptr);
 
 	//! set item in the object
-	void SelectItem(const LbaNet::ItemInfo & item, const QModelIndex &parent = QModelIndex());
+	void SelectItem(boost::shared_ptr<InventoryItemDef> item, const QModelIndex &parent = QModelIndex());
 
 	//! item object changed
 	void ItemChanged(long id, const std::string & category, const QModelIndex &parentIdx);
