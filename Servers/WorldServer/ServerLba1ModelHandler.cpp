@@ -24,11 +24,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "ServerLba1ModelHandler.h"
 #include "ServerLBA1ModelClass.h"
-#include "DataLoader.h"
 #include "Entities.h"
-#include "LogHandler.h"
 #include "Lba1ModelMapHandler.h"
+#include "LogHandler.h"
 
+entitiesTableStruct* ServerLba1ModelHandler::_estruct = parseEntities(Lba1ModelDataPath+"FILE3D.HQR");
 
 
 /***********************************************************
@@ -84,7 +84,7 @@ get current associated speed
 float ServerLba1ModelHandler::GetCurrentAssociatedSpeedX()
 {
 	if(_model)
-		return _model->GetCurrentSpeedX();
+		return (float)_model->GetCurrentSpeedX();
 
 	return 0;
 }
@@ -95,7 +95,7 @@ get current associated speed
 float ServerLba1ModelHandler::GetCurrentAssociatedSpeedY()
 {
 	if(_model)
-		return _model->GetCurrentSpeedY();
+		return (float)_model->GetCurrentSpeedY();
 
 	return 0;
 }
@@ -107,7 +107,7 @@ get current associated speed
 float ServerLba1ModelHandler::GetCurrentAssociatedSpeedZ()
 {
 	if(_model)
-		return _model->GetCurrentSpeedZ();
+		return (float)_model->GetCurrentSpeedZ();
 
 	return 0;
 }
@@ -228,8 +228,6 @@ int ServerLba1ModelHandler::RefreshModel(bool forcecolor)
 		return res;
 
 
-	entitiesTableStruct* tmpstrcut = DataLoader::getInstance()->GetEntitiesInfo();
-
 
 	// do nothing if same model loaded already
 	if( forcecolor || (newmodel != _currModel) || (newbody != _currBody) ) 
@@ -248,17 +246,17 @@ int ServerLba1ModelHandler::RefreshModel(bool forcecolor)
 		_currBody = newbody;
 		_currAnimation = 0;
 
-		_model = new ServerLBA1ModelClass(	tmpstrcut, 
+		_model = new ServerLBA1ModelClass(	_estruct, 
 											Lba1ModelDataPath+"BODY.HQR", 
 											Lba1ModelDataPath+"ANIM.HQR", 
 											_currModel,
-											tmpstrcut->entitiesTable[_currModel].bodyList[_currBody].body);
+											_estruct->entitiesTable[_currModel].bodyList[_currBody].body);
 
 
 		_model->SetAnimationSpeedFactor(_animationspeed);
 
-		_model->LoadAnim(	tmpstrcut,
-							tmpstrcut->entitiesTable[_currModel].animList[_currAnimation].index);
+		_model->LoadAnim(	_estruct,
+							_estruct->entitiesTable[_currModel].animList[_currAnimation].index);
 
 		_paused = false;
 		modelchanged = true;
@@ -268,8 +266,8 @@ int ServerLba1ModelHandler::RefreshModel(bool forcecolor)
 	if(_currAnimation != newanimations[0]) // TODO change to use animation vector
 	{
 		_currAnimation = newanimations[0];
-		_model->LoadAnim(	tmpstrcut,
-							tmpstrcut->entitiesTable[_currModel].animList[_currAnimation].index);
+		_model->LoadAnim(	_estruct,
+							_estruct->entitiesTable[_currModel].animList[_currAnimation].index);
 
 		_paused = false;
 	}

@@ -61,12 +61,12 @@ public:
 
 
 	//! accessors
-	long GetId() const{return _info.Id;}
+	long GetId() const{return (long)_info.Id;}
     std::string GetName() const{return _info.Name;}
     std::string GetIconName() const{return _info.IconName;}
-    long GetNameTextId() const{return _info.NameTextId;}
-    long GetDescriptionId() const{return _info.DescriptionId;}
-    long GetLongDescriptionId() const{return _info.LongDescriptionId;}
+    long GetNameTextId() const{return (long)_info.NameTextId;}
+    long GetDescriptionId() const{return (long)_info.DescriptionId;}
+    long GetLongDescriptionId() const{return (long)_info.LongDescriptionId;}
     int GetMax() const{return _info.Max;}
     int GetBuyPrice() const{return _info.BuyPrice;}
     int GetSellPrice() const{return _info.SellPrice;}
@@ -78,7 +78,7 @@ public:
     std::string GetStringFlag() const{return _info.StringFlag;}
     int GetColor1() const{return _info.Color1;}
     int GetColor2() const{return _info.Color2;}
-	long GetReplacedItem() const{return _info.ReplaceItem;}
+	long GetReplacedItem() const{return (long)_info.ReplaceItem;}
 	ActionBasePtr GetAction() const{return _action;}
 
 	//! accessors

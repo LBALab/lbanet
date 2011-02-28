@@ -368,7 +368,7 @@ void OpenContainerAction::Execute(ScriptEnvironmentBase * owner, int ObjectType,
 	long clientid = -1;
 
 	if(ObjectType == 2)
-		clientid = ObjectId;
+		clientid = (long)ObjectId;
 
 	// on object moved by player
 	if(ObjectType == 3)
@@ -460,7 +460,7 @@ void OpenContainerAction::PrepareContainer()
 		for(; itm != endm; ++itm)
 		{
 			float currp = 0;
-			float proba = Randomizer::getInstance()->Rand();
+			float proba = (float)Randomizer::getInstance()->Rand();
 			std::vector<ContainerItemGroupElement>::iterator itcc = itm->second.begin();
 			std::vector<ContainerItemGroupElement>::iterator endcc = itm->second.end();
 			for(; itcc != endcc; ++itcc)
@@ -563,7 +563,7 @@ void AddRemoveItemAction::Execute(ScriptEnvironmentBase * owner, int ObjectType,
 	long clientid = -1;
 
 	if(ObjectType == 2)
-		clientid = ObjectId;
+		clientid = (long)ObjectId;
 
 	// on object moved by player
 	if(ObjectType == 3)
@@ -637,7 +637,7 @@ void HurtAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Lon
 							ActionArgumentBase* args)
 {
 	if(owner)
-		owner->HurtActor(ObjectType, ObjectId, _hurtvalue, _life, _playedanimation);
+		owner->HurtActor(ObjectType, (long)ObjectId, _hurtvalue, _life, _playedanimation);
 }
 
 
@@ -703,7 +703,7 @@ void KillAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Lon
 							ActionArgumentBase* args)
 {
 	if(owner)
-		owner->KillActor(ObjectType, ObjectId);
+		owner->KillActor(ObjectType, (long)ObjectId);
 }
 
 
@@ -855,7 +855,7 @@ void StartQuestAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ic
 	long clientid = -1;
 
 	if(ObjectType == 2)
-		clientid = ObjectId;
+		clientid = (long)ObjectId;
 
 	// on object moved by player
 	if(ObjectType == 3)
@@ -894,7 +894,7 @@ void FinishQuestAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, I
 	long clientid = -1;
 
 	if(ObjectType == 2)
-		clientid = ObjectId;
+		clientid = (long)ObjectId;
 
 	// on object moved by player
 	if(ObjectType == 3)
@@ -935,7 +935,7 @@ void OpenShopAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice:
 	long clientid = -1;
 
 	if(ObjectType == 2)
-		clientid = ObjectId;
+		clientid = (long)ObjectId;
 
 	// on object moved by player
 	if(ObjectType == 3)
@@ -1028,7 +1028,7 @@ get currency item
 ***********************************************************/	
 long OpenShopAction::GetCurrencyItem()
 {
-	return _currencyitem.Id;
+	return (long)_currencyitem.Id;
 }
 
 /***********************************************************
@@ -1051,7 +1051,7 @@ void CutMapAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::L
 	long clientid = -1;
 
 	if(ObjectType == 2)
-		clientid = ObjectId;
+		clientid = (long)ObjectId;
 
 	// on object moved by player
 	if(ObjectType == 3)
@@ -1098,7 +1098,7 @@ void OpenLetterWritterAction::Execute(ScriptEnvironmentBase * owner, int ObjectT
 	long clientid = -1;
 
 	if(ObjectType == 2)
-		clientid = ObjectId;
+		clientid = (long)ObjectId;
 
 	// on object moved by player
 	if(ObjectType == 3)

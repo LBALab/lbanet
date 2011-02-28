@@ -448,7 +448,7 @@ void SharedDataHandler::TeleportPlayer(ScriptEnvironmentBase * owner, Ice::Long 
 			if(itplayer != _currentplayers.end())
 			{
 				//check if player allowed to tp
-				if(ittp->second->ValidForPlayer(owner, clientid))
+				if(ittp->second->ValidForPlayer(owner, (long)clientid))
 				{
 					//only tp if change map
 					if(ittp->second->GetMapName() != itplayer->second->GetCurrentMap())
@@ -709,7 +709,7 @@ LbaNet::TeleportsSeq SharedDataHandler::GetTpList(ScriptEnvironmentBase * owner,
 	std::map<long, boost::shared_ptr<TeleportDef> >::const_iterator endtp = m_teleports.end();
 	for(; ittp != endtp; ++ittp)
 	{
-		if(ittp->second->ValidForPlayer(owner, clientid))
+		if(ittp->second->ValidForPlayer(owner, (long)clientid))
 			Tps[ittp->first] = ittp->second->GetName();
 	}
 

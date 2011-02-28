@@ -42,6 +42,8 @@ struct ActorObjectInfo
 	ActorObjectInfo()
 		: ObjectId(-1)
 	{
+		DisplayDesc.ModelId = 0;
+
 		DisplayDesc.RotX = 0;
 		DisplayDesc.RotY = 0;
 		DisplayDesc.RotZ = 0;
@@ -53,6 +55,20 @@ struct ActorObjectInfo
 		DisplayDesc.ScaleX = 1;
 		DisplayDesc.ScaleY = 1;
 		DisplayDesc.ScaleZ = 1;	
+
+		DisplayDesc.ColorR = 0;
+		DisplayDesc.ColorG = 0;
+		DisplayDesc.ColorB = 0;
+		DisplayDesc.ColorA = 0;
+
+		PhysicDesc.Density = 0;
+		PhysicDesc.SizeX = 0;
+		PhysicDesc.SizeY = 0;
+		PhysicDesc.SizeZ = 0;
+		ExtraInfo.NameColorR = 0;
+		ExtraInfo.NameColorG = 0;
+		ExtraInfo.NameColorB = 0;
+
 
 		LifeInfo.Display = false;
 		ExtraInfo.Display = false;

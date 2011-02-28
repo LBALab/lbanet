@@ -73,14 +73,14 @@ void DialogBoxHandler::HideGUI(Ice::Long clientid)
 
 
 	// remove from map
-	std::map<long, DialogInfo>::iterator it = _openeddialog.find(clientid);
+	std::map<long, DialogInfo>::iterator it = _openeddialog.find((long)clientid);
 	if(it != _openeddialog.end())
 	{
 		long npcid = it->second.actorid;
 		_openeddialog.erase(it);
 
 		if(_owner)
-			_owner->NpcUntargetPlayer(npcid, clientid);
+			_owner->NpcUntargetPlayer(npcid, (long)clientid);
 	}
 }
 
@@ -99,7 +99,7 @@ void DialogBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition 
 	{
 		if(castedptr->_dialogroot)
 		{
-			DialogPartPtr dialptr = castedptr->_dialogroot->GetNpcNextDialog(_owner, clientid);
+			DialogPartPtr dialptr = castedptr->_dialogroot->GetNpcNextDialog(_owner, (long)clientid);
 			if(dialptr)
 			{
 				EventsSeq toplayer;
@@ -107,7 +107,7 @@ void DialogBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition 
 				DialogPartInfo dialpart;
 				dialpart.NpcTextId = dialptr->PickText();
 
-				std::vector<DialogPartPtr>  dials = dialptr->GetPlayerNextDialog(_owner, clientid);
+				std::vector<DialogPartPtr>  dials = dialptr->GetPlayerNextDialog(_owner, (long)clientid);
 				for(size_t i=0; i<dials.size(); ++i)
 					dialpart.PlayerTextsId.push_back(dials[i]->PickText());
 
@@ -128,7 +128,7 @@ void DialogBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition 
 				dinfo.rootdialog = castedptr->_dialogroot;
 				dinfo.currdialog = dials;
 				dinfo.actorid = castedptr->_npcid;
-				_openeddialog[clientid] = dinfo;
+				_openeddialog[(long)clientid] = dinfo;
 			}
 		}
 	}
@@ -143,7 +143,7 @@ void DialogBoxHandler::SelectDialog(long clientid, int selecteid)
 	if(it != _openeddialog.end())
 	{
 		const std::vector<DialogPartPtr> &curr = it->second.currdialog;
-		if(selecteid < 0 || selecteid >= curr.size())
+		if(selecteid < 0 || selecteid >= (int)curr.size())
 		{
 			HideGUI(clientid);
 			return;

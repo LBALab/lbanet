@@ -83,7 +83,7 @@ bool ItemInInventoryCondition::Passed(ScriptEnvironmentBase * owner,
 	long clientid = -1;
 
 	if(ObjectType == 2)
-		clientid = ObjectId;
+		clientid = (long)ObjectId;
 
 	// on object moved by player
 	if(ObjectType == 3)
@@ -131,7 +131,7 @@ bool QuestStartedCondition::Passed(ScriptEnvironmentBase * owner,
 	long clientid = -1;
 
 	if(ObjectType == 2)
-		clientid = ObjectId;
+		clientid = (long)ObjectId;
 
 	// on object moved by player
 	if(ObjectType == 3)
@@ -171,7 +171,7 @@ bool QuestFinishedCondition::Passed(ScriptEnvironmentBase * owner,
 	long clientid = -1;
 
 	if(ObjectType == 2)
-		clientid = ObjectId;
+		clientid = (long)ObjectId;
 
 	// on object moved by player
 	if(ObjectType == 3)
@@ -211,7 +211,7 @@ bool ChapterStartedCondition::Passed(ScriptEnvironmentBase * owner,
 	long clientid = -1;
 
 	if(ObjectType == 2)
-		clientid = ObjectId;
+		clientid = (long)ObjectId;
 
 	// on object moved by player
 	if(ObjectType == 3)

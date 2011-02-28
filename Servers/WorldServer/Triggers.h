@@ -532,7 +532,7 @@ public:
 
 private:
 	long	_TimeInMillisecond;
-	long	_lasttime;
+	double	_lasttime;
 };
 
 

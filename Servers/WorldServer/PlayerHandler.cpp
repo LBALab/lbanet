@@ -162,17 +162,17 @@ PlayerHandler::PlayerHandler(long clientid, ClientProxyBasePtr proxy,
 	_currentinfo.model.MountHairColor = -1;
 	if(_currentinfo.EquipedWeapon >= 0)
 	{
-		LbaNet::ItemInfo iinfo = InventoryItemHandler::getInstance()->GetItemInfo(_currentinfo.EquipedWeapon);
+		LbaNet::ItemInfo iinfo = InventoryItemHandler::getInstance()->GetItemInfo((long)_currentinfo.EquipedWeapon);
 		_currentinfo.model.WeaponColor = iinfo.Color1;
 	}
 	if(_currentinfo.EquipedOutfit >= 0)
 	{
-		LbaNet::ItemInfo iinfo = InventoryItemHandler::getInstance()->GetItemInfo(_currentinfo.EquipedOutfit);
+		LbaNet::ItemInfo iinfo = InventoryItemHandler::getInstance()->GetItemInfo((long)_currentinfo.EquipedOutfit);
 		_currentinfo.model.OutfitColor = iinfo.Color1;
 	}
 	if(_currentinfo.EquipedMount >= 0)
 	{
-		LbaNet::ItemInfo iinfo = InventoryItemHandler::getInstance()->GetItemInfo(_currentinfo.EquipedMount);
+		LbaNet::ItemInfo iinfo = InventoryItemHandler::getInstance()->GetItemInfo((long)_currentinfo.EquipedMount);
 		_currentinfo.model.MountSkinColor = iinfo.Color1;
 		_currentinfo.model.MountHairColor = iinfo.Color2;
 	}
@@ -406,7 +406,7 @@ std::string PlayerHandler::GetPlayerModeString()
 bool PlayerHandler::UpdatePlayerStance(LbaNet::ModelStance NewStance, LbaNet::ModelInfo & returnmodel,
 										bool changefromserver, int mountid)
 {
-	int lastmountid = _currentinfo.EquipedMount;
+	long lastmountid = (long)_currentinfo.EquipedMount;
 
 	//check if stance change is legal
 	if(_currentstate && _currentstate->AllowChangeMode())
@@ -1259,7 +1259,7 @@ void PlayerHandler::UpdateInventory(LbaNet::ItemList Taken, LbaNet::ItemList Put
 			// add new object to inventory
 			newitempos.Count = itput->second;
 			newitempos.Position = -1;
-			newitempos.Info = InventoryItemHandler::getInstance()->GetItemInfo(itput->first);
+			newitempos.Info = InventoryItemHandler::getInstance()->GetItemInfo((long)itput->first);
 
 			if(newitempos.Count > newitempos.Info.Max)
 				newitempos.Count = newitempos.Info.Max;
@@ -1348,7 +1348,7 @@ void PlayerHandler::OpenInventoryContainer(long itemid)
 			else
 			{
 				// add it if possible
-				if(_currentinfo.inventory.InventoryStructure.size() < _currentinfo.inventory.InventorySize)
+				if((int)_currentinfo.inventory.InventoryStructure.size() < _currentinfo.inventory.InventorySize)
 				{
 					_currentinfo.inventory.InventoryStructure[itni->first] = itni->second;
 					paramseq.push_back(new LbaNet::UpdateInventoryItem(LbaNet::InformChat, itni->second));	
@@ -1403,7 +1403,7 @@ LbaNet::ItemsMap PlayerHandler::GetContainerItem(const LbaNet::ItemInfo &item)
 			{
 				LbaNet::ItemPosInfo newitem;
 				newitem.Position = -1;
-				newitem.Info = InventoryItemHandler::getInstance()->GetItemInfo(itc->Id);
+				newitem.Info = InventoryItemHandler::getInstance()->GetItemInfo((long)itc->Id);
 				newitem.Count = Randomizer::getInstance()->RandInt(itc->Min, itc->Max);
 				res[itc->Id] = newitem;
 			}
@@ -1422,7 +1422,7 @@ LbaNet::ItemsMap PlayerHandler::GetContainerItem(const LbaNet::ItemInfo &item)
 	for(; itm != endm; ++itm)
 	{
 		float currp = 0;
-		float proba = Randomizer::getInstance()->Rand();
+		float proba = (float)Randomizer::getInstance()->Rand();
 		std::vector<LbaNet::ItemGroupElement>::iterator itcc = itm->second.begin();
 		std::vector<LbaNet::ItemGroupElement>::iterator endcc = itm->second.end();
 		for(; itcc != endcc; ++itcc)
@@ -1433,7 +1433,7 @@ LbaNet::ItemsMap PlayerHandler::GetContainerItem(const LbaNet::ItemInfo &item)
 				// add item
 				LbaNet::ItemPosInfo newitem;
 				newitem.Position = -1;
-				newitem.Info = InventoryItemHandler::getInstance()->GetItemInfo(itcc->Id);
+				newitem.Info = InventoryItemHandler::getInstance()->GetItemInfo((long)itcc->Id);
 				newitem.Count = Randomizer::getInstance()->RandInt(itcc->Min, itcc->Max);
 				res[itcc->Id] = newitem;
 

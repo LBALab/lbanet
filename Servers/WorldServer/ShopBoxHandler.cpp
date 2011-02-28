@@ -68,7 +68,7 @@ void ShopBoxHandler::HideGUI(Ice::Long clientid)
 
 	RemoveOpenedGui(clientid);
 
-	std::map<long, ShopParam>::iterator itm = _openedshops.find(clientid);
+	std::map<long, ShopParam>::iterator itm = _openedshops.find((long)clientid);
 	if(itm != _openedshops.end())
 		_openedshops.erase(itm);
 
@@ -102,7 +102,7 @@ void ShopBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition &c
 			toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 													"ShopBox", seq, true, false));
 
-			toplayer.push_back(UpdateMoney(castedptr->_currencyitem.Id, (long)clientid));
+			toplayer.push_back(UpdateMoney((long)castedptr->_currencyitem.Id, (long)clientid));
 			IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
 			t->start();	
 
@@ -110,7 +110,7 @@ void ShopBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition &c
 			AddOpenedGui(clientid, curPosition);
 
 			// store container info
-			_openedshops[clientid] = *castedptr;
+			_openedshops[(long)clientid] = *castedptr;
 		}
 	}
 }
@@ -146,7 +146,7 @@ void ShopBoxHandler::BuyItem(long clientid, long ItemId)
 				}
 				else
 				{
-					if(inventory.size() >= inventorysize) // check if inventory full
+					if((int)inventory.size() >= inventorysize) // check if inventory full
 						buy = false;
 				}	
 			}
@@ -163,7 +163,7 @@ void ShopBoxHandler::BuyItem(long clientid, long ItemId)
 				if(prx)
 				{
 					EventsSeq toplayer;
-					toplayer.push_back(UpdateMoney(ShopItems._currencyitem.Id, (long)clientid));
+					toplayer.push_back(UpdateMoney((long)ShopItems._currencyitem.Id, (long)clientid));
 					IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
 					t->start();	
 				}

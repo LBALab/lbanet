@@ -128,7 +128,7 @@ void NPCHandler::PlayerAction(Ice::Long PlayerId, const LbaNet::PlayerPosition &
 		{
 			// start dialog
 			if(m_scripthandler)
-				m_scripthandler->StartDialog(PlayerId, m_actorinfo.ObjectId, 
+				m_scripthandler->StartDialog((long)PlayerId, m_actorinfo.ObjectId, 
 										_npcnametextid, _simpledialog, _rootdialog);
 
 			// target player

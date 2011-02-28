@@ -68,7 +68,7 @@ void ContainerBoxHandler::HideGUI(Ice::Long clientid)
 
 	RemoveOpenedGui(clientid);
 
-	std::map<long, boost::shared_ptr<ContainerSharedInfo> >::iterator itm = _openedcontainers.find(clientid);
+	std::map<long, boost::shared_ptr<ContainerSharedInfo> >::iterator itm = _openedcontainers.find((long)clientid);
 	if(itm != _openedcontainers.end())
 	{
 		itm->second->OpeningClient = -1;
@@ -112,7 +112,7 @@ void ContainerBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPositi
 			AddOpenedGui(clientid, curPosition);
 
 			// store container info
-			_openedcontainers[clientid] = castedptr->_sharedinfo;
+			_openedcontainers[(long)clientid] = castedptr->_sharedinfo;
 		}
 	}
 }
@@ -149,7 +149,7 @@ void ContainerBoxHandler::UpdateContainer(long clientid, LbaNet::ItemList Taken,
 					if(ittaken->second > itcont->second.Info.Max)
 						ittaken->second = itcont->second.Info.Max;	
 
-					if(inventory.size() >= inventorysize) // check if inventory full
+					if((int)inventory.size() >= inventorysize) // check if inventory full
 						ittaken->second = 0;	
 				}
 
@@ -207,7 +207,7 @@ void ContainerBoxHandler::UpdateContainer(long clientid, LbaNet::ItemList Taken,
 					LbaNet::ItemPosInfo newitem;
 					newitem.Count = itput->second;
 					newitem.Position = -1;
-					newitem.Info = InventoryItemHandler::getInstance()->GetItemInfo(itput->first);
+					newitem.Info = InventoryItemHandler::getInstance()->GetItemInfo((long)itput->first);
 
 					if(newitem.Count > newitem.Info.Max)
 					{

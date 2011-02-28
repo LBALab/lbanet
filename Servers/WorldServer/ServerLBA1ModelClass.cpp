@@ -55,6 +55,8 @@ static float factortransY_lba1_toosg = 0;//-0.1;
 
 
 
+
+
 ServerLBA1ModelClass::~ServerLBA1ModelClass()
 {
 	free(Points->PointsData);

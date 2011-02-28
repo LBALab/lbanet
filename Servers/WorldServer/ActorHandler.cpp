@@ -35,6 +35,19 @@ ActorObjectInfo::ActorObjectInfo(long id)
 	DisplayDesc.WeaponColor = -1;
 	DisplayDesc.MountSkinColor = -1;
 	DisplayDesc.MountHairColor = -1;
+
+	DisplayDesc.ModelId = 0;
+	DisplayDesc.ColorR = 0;
+	DisplayDesc.ColorG = 0;
+	DisplayDesc.ColorB = 0;
+	DisplayDesc.ColorA = 0;
+	PhysicDesc.Density = 1;
+	PhysicDesc.SizeX = 0;
+	PhysicDesc.SizeY = 0;
+	PhysicDesc.SizeZ = 0;
+	ExtraInfo.NameColorR = 0;
+	ExtraInfo.NameColorG = 0;
+	ExtraInfo.NameColorB = 0;
 }
 
 

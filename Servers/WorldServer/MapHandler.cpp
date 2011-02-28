@@ -2019,7 +2019,7 @@ void MapHandler::PlayerItemUsed(Ice::Long clientid, long ItemId)
 			break;
 		case 7: // special usage item
 			{
-				ActionBasePtr actptr = InventoryItemHandler::getInstance()->GetItemAction(itinfo.Info.Id);
+				ActionBasePtr actptr = InventoryItemHandler::getInstance()->GetItemAction((long)itinfo.Info.Id);
 				if(actptr)
 					actptr->Execute(this, 2, clientid, NULL);
 			}
@@ -2050,7 +2050,7 @@ void MapHandler::PlayerItemUsed(Ice::Long clientid, long ItemId)
 			break;
 
 		case 10: // container item - open it
-			OpenInventoryContainer(clientid, (long)itinfo.Info.Id);
+			OpenInventoryContainer((long)clientid, (long)itinfo.Info.Id);
 		break;
 	}
 

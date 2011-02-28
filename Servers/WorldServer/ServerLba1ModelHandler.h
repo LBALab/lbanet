@@ -29,6 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DisplayObjectHandlerBase.h"
 
 class ServerLBA1ModelClass;
+struct entitiesTableStruct;
+
 
 /***********************************************************************
  * Module:  Lba1ModelHandler.h
@@ -118,6 +120,8 @@ private:
 	bool											_savedpaused;
 	LbaNet::ModelInfo								_savedmodelinfo;
 	std::string										_savedanimationstring;
+
+	static entitiesTableStruct*						_estruct;
 };
 
 
