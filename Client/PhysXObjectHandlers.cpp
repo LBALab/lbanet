@@ -31,26 +31,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "LogHandler.h"
 
 
-/***********************************************************
-update physic with new data
-***********************************************************/
-void PhysicalObjectHandlerBase::Update(LbaNet::PhysicObjectUpdateBasePtr update)
-{
-	const std::type_info& info = typeid(*update);
-
-	// PositionUpdate
-	if(info == typeid(LbaNet::PositionUpdate))
-	{
-		LbaNet::PositionUpdate * castedptr = 
-			dynamic_cast<LbaNet::PositionUpdate *>(update.get());
-
-		MoveTo(castedptr->Update.X, castedptr->Update.Y, castedptr->Update.Z);
-		LbaQuaternion Q(castedptr->Update.Rotation, LbaVec3(0,1,0));
-		RotateTo(Q);
-	}
-}
-
-
 
 /***********************************************************
 	Constructor

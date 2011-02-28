@@ -24,7 +24,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "StaticObject.h"
 #include "LogHandler.h"
+
+#ifndef _LBANET_SERVER_SIDE_
 #include "ActorUserData.h"
+#endif
 
 #include <sstream>
 
@@ -75,6 +78,7 @@ synchronization function - will typically be called on every frames
 ***********************************************************/
 int StaticObject::Process(double time, float tdiff)
 {
+	#ifndef _LBANET_SERVER_SIDE_
 	if(_phH)
 	{
 		boost::shared_ptr<ActorUserData> udata =  _phH->GetUserData();
@@ -84,6 +88,7 @@ int StaticObject::Process(double time, float tdiff)
 			udata->SetRotation(0);
 		}
 	}
+	#endif
 
 	if(_disH)
 		return _disH->Process(time, tdiff);

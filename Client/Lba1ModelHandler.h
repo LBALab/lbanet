@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 class LBA1ModelClass;
+class entitiesTableStruct;
 namespace osg
 {
 	class Node;
@@ -115,6 +116,8 @@ private:
 
 
 	std::map<std::pair<LbaNet::Lba1MColorPart, int>, int>	_changedcolors;
+
+	static entitiesTableStruct*						_estruct;
 };
 
 

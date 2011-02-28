@@ -63,8 +63,6 @@ public:
 	//! saved information about a specific world
 	void SaveWorldInformation(const std::string &Filename, const LbaNet::WorldInformation &res);
 
-	//! used to get the character entities info
-	entitiesTableStruct* GetEntitiesInfo();
 
 protected:
 	//! constructor
@@ -75,7 +73,6 @@ private:
 
 	std::string				_currentworldname;
 
-	entitiesTableStruct*	_estruct;
 
 };
 

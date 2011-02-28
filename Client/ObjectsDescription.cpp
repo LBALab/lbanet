@@ -23,11 +23,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "ObjectsDescription.h"
-#include "PhysXObjectHandlers.h"
 #include "WorldToDisplayObjectSynchronizer.h"
 #include "StaticObject.h"
+
+#ifndef _LBANET_SERVER_SIDE_
 #include "Lba1ModelHandler.h"
+#endif
 #include "ServerLba1ModelHandler.h"
+
 
 
 /***********************************************************
@@ -75,16 +78,6 @@ DisplayInfo::~DisplayInfo()
 
 
 
-/***********************************************************
-build description into dynamic object
-***********************************************************/
-boost::shared_ptr<DisplayObjectHandlerBase> DisplayInfo::BuildSelf(DisplayHandlerBase * disH) const
-{
-	if(DisplayDesc)
-		return DisplayDesc->BuildSelf(Transform, disH);
-	
-	return boost::shared_ptr<DisplayObjectHandlerBase>();
-}
 
 
 /***********************************************************
@@ -117,17 +110,6 @@ PhysicalDescriptionBase::PhysicalDescriptionBase(float posX, float posY, float p
 PhysicalDescriptionBase::~PhysicalDescriptionBase()
 {
 
-}
-
-
-/***********************************************************
- build description into a reald physic object
-***********************************************************/
-boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionBase::BuildServer(long id,
-												boost::shared_ptr<PhysicalDescriptionBase> self) const
-{
-	return boost::shared_ptr<PhysicalObjectHandlerBase>( 
-				new SimplePhysicalObjectHandler(positionX, positionY, positionZ, rotation));
 }
 
 
@@ -210,6 +192,19 @@ ObjectInfo::~ObjectInfo()
 
 }
 
+#ifndef _LBANET_SERVER_SIDE_
+
+
+/***********************************************************
+build description into dynamic object
+***********************************************************/
+boost::shared_ptr<DisplayObjectHandlerBase> DisplayInfo::BuildSelf(DisplayHandlerBase * disH) const
+{
+	if(DisplayDesc)
+		return DisplayDesc->BuildSelf(Transform, disH);
+	
+	return boost::shared_ptr<DisplayObjectHandlerBase>();
+}
 
 /***********************************************************
 build description into dynamic object
@@ -230,22 +225,6 @@ boost::shared_ptr<DynamicObject> ObjectInfo::BuildSelf(DisplayHandlerBase * disH
 }
 
 
-
-/***********************************************************
-build description into dynamic object for server
-***********************************************************/
-boost::shared_ptr<DynamicObject> ObjectInfo::BuildServer() const
-{
-	boost::shared_ptr<PhysicalObjectHandlerBase> phH;
-	boost::shared_ptr<DisplayObjectHandlerBase> disoH;
-	if(PhysInfo)
-		phH = PhysInfo->BuildServer(Id, PhysInfo);
-	if(DisInfo)
-		disoH = DisInfo->BuildServer();
-
-
-	return boost::shared_ptr<DynamicObject>(new StaticObject(phH, disoH, Id));
-}
 
 
 
@@ -333,6 +312,19 @@ boost::shared_ptr<DisplayObjectHandlerBase> Lba1ModelObjectDescription::BuildSel
 												_CastShadow, _extrainfo, _lifeinfo, _mainchar));
 }
 
+#endif
+
+/***********************************************************
+ build description into a reald physic object
+***********************************************************/
+boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionBase::BuildServer(long id,
+												boost::shared_ptr<PhysicalDescriptionBase> self) const
+{
+	return boost::shared_ptr<PhysicalObjectHandlerBase>( 
+				new SimplePhysicalObjectHandler(positionX, positionY, positionZ, rotation));
+}
+
+
 
 /***********************************************************
 build description into dynamic object for server
@@ -341,4 +333,21 @@ boost::shared_ptr<DisplayObjectHandlerBase> Lba1ModelObjectDescription::BuildSer
 {
 	return boost::shared_ptr<DisplayObjectHandlerBase> (
 					new ServerLba1ModelHandler( _info, _animationspeed ));
+}
+
+
+/***********************************************************
+build description into dynamic object for server
+***********************************************************/
+boost::shared_ptr<DynamicObject> ObjectInfo::BuildServer() const
+{
+	boost::shared_ptr<PhysicalObjectHandlerBase> phH;
+	boost::shared_ptr<DisplayObjectHandlerBase> disoH;
+	if(PhysInfo)
+		phH = PhysInfo->BuildServer(Id, PhysInfo);
+	if(DisInfo)
+		disoH = DisInfo->BuildServer();
+
+
+	return boost::shared_ptr<DynamicObject>(new StaticObject(phH, disoH, Id));
 }

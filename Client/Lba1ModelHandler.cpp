@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Lba1ModelHandler.h"
 #include "LBA1ModelClass.h"
-#include "DataLoader.h"
 #include "Entities.h"
 #include "LogHandler.h"
 #include "Lba1ModelMapHandler.h"
@@ -36,6 +35,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <osg/AutoTransform>
 #include <osgUtil/SmoothingVisitor>
 
+
+entitiesTableStruct* Lba1ModelHandler::_estruct = parseEntities(Lba1ModelDataPath+"FILE3D.HQR");
 
 /***********************************************************
 Constructor
@@ -351,7 +352,6 @@ int Lba1ModelHandler::RefreshModel(bool forcecolor)
 		return res;
 
 
-	entitiesTableStruct* tmpstrcut = DataLoader::getInstance()->GetEntitiesInfo();
 
 
 	// do nothing if same model loaded already
@@ -380,11 +380,11 @@ int Lba1ModelHandler::RefreshModel(bool forcecolor)
 		_currBody = newbody;
 		_currAnimation = 0;
 
-		_model = new LBA1ModelClass(	tmpstrcut, 
+		_model = new LBA1ModelClass(	_estruct, 
 										Lba1ModelDataPath+"BODY.HQR", 
 										Lba1ModelDataPath+"ANIM.HQR", 
 										_currModel,
-										tmpstrcut->entitiesTable[_currModel].bodyList[_currBody].body);
+										_estruct->entitiesTable[_currModel].bodyList[_currBody].body);
 
 
 		// set colors
@@ -422,8 +422,8 @@ int Lba1ModelHandler::RefreshModel(bool forcecolor)
 
 		_model->SetAnimationSpeedFactor(_animationspeed);
 
-		_model->LoadAnim(	tmpstrcut,
-							tmpstrcut->entitiesTable[_currModel].animList[_currAnimation].index);
+		_model->LoadAnim(	_estruct,
+							_estruct->entitiesTable[_currModel].animList[_currAnimation].index);
 
 		_osgnode = _model->ExportOSGModel(true, _mainchar);
 
@@ -445,8 +445,8 @@ int Lba1ModelHandler::RefreshModel(bool forcecolor)
 	if(_currAnimation != newanimations[0]) // TODO change to use animation vector
 	{
 		_currAnimation = newanimations[0];
-		_model->LoadAnim(	tmpstrcut,
-							tmpstrcut->entitiesTable[_currModel].animList[_currAnimation].index);
+		_model->LoadAnim(	_estruct,
+							_estruct->entitiesTable[_currModel].animList[_currAnimation].index);
 
 		_paused = false;
 	}
