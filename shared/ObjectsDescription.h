@@ -78,10 +78,11 @@ public:
 	//! destructor
 	virtual ~DisplayObjectDescriptionBase(){}
 
+#ifndef _LBANET_SERVER_SIDE_
 	//! build description into dynamic object
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> BuildSelf(boost::shared_ptr<DisplayTransformation> Tr,
 																	DisplayHandlerBase * disH) const = 0;
-
+#endif
 
 	//! build description into dynamic object for server
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> BuildServer()
@@ -309,10 +310,11 @@ public:
 	//! destructor
 	virtual ~Lba1ModelObjectDescription(){}
 
+#ifndef _LBANET_SERVER_SIDE_
 	//! build description into dynamic object
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> BuildSelf(boost::shared_ptr<DisplayTransformation> Tr, 
 																			DisplayHandlerBase * disH) const;
-
+#endif
 
 
 	//! build description into dynamic object for server

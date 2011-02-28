@@ -8,13 +8,13 @@ ActorScriptPartBasePtr ActorScriptPartBase::BuildScriptPart(const std::string & 
 															float sPosX, float sPosY, float sPosZ)
 {
 	if(type == "ASPGoTo")
-		return ActorScriptPartBasePtr(new ActorScriptPart_GoTo(sPosX, sPosY, sPosZ, 0.005));
+		return ActorScriptPartBasePtr(new ActorScriptPart_GoTo(sPosX, sPosY, sPosZ, 0.005f));
 	if(type == "ASPWalkStraightTo")
 		return ActorScriptPartBasePtr(new ActorScriptPart_WalkStraightTo(sPosX, sPosY, sPosZ));
 	if(type == "ASPPlayAnimation")
 		return ActorScriptPartBasePtr(new ActorScriptPart_PlayAnimation(true));
 	if(type == "ASPRotate")
-		return ActorScriptPartBasePtr(new ActorScriptPart_Rotate(90, 0.1, true));
+		return ActorScriptPartBasePtr(new ActorScriptPart_Rotate(90, 0.1f, true));
 	if(type == "ASPSetRotation")
 		return ActorScriptPartBasePtr(new ActorScriptPart_SetRotation(90));
 	if(type == "ASPChangeAnimation")
@@ -36,7 +36,7 @@ ActorScriptPartBasePtr ActorScriptPartBase::BuildScriptPart(const std::string & 
 	if(type == "ASPCustom")
 		return ActorScriptPartBasePtr(new ActorScriptPart_Custom(""));
 	if(type == "ASPRotateFromPoint")
-		return ActorScriptPartBasePtr(new ActorScriptPart_RotateFromPoint(90, sPosX, sPosY, sPosZ, 0.1));
+		return ActorScriptPartBasePtr(new ActorScriptPart_RotateFromPoint(90, sPosX, sPosY, sPosZ, 0.1f));
 	if(type == "ASPFollowWaypoint")
 		return ActorScriptPartBasePtr(new ActorScriptPart_FollowWaypoint(sPosX, sPosY, sPosZ));
 	if(type == "ASPStartWaypoint")

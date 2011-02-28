@@ -97,7 +97,22 @@ public:
 
 
 	//! update physic with new data
-	virtual void Update(LbaNet::PhysicObjectUpdateBasePtr update);
+	virtual void Update(LbaNet::PhysicObjectUpdateBasePtr update)
+	{
+		const std::type_info& info = typeid(*update);
+
+		// PositionUpdate
+		if(info == typeid(LbaNet::PositionUpdate))
+		{
+			LbaNet::PositionUpdate * castedptr = 
+				dynamic_cast<LbaNet::PositionUpdate *>(update.get());
+
+			MoveTo(castedptr->Update.X, castedptr->Update.Y, castedptr->Update.Z);
+			LbaQuaternion Q(castedptr->Update.Rotation, LbaVec3(0,1,0));
+			RotateTo(Q);
+		}
+	}
+
 
 protected:
 	bool _resetted;

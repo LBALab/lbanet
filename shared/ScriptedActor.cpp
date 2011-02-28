@@ -492,7 +492,7 @@ bool FollowWaypointScriptPart::Process(double tnow, float tdiff, boost::shared_p
 	LbaVec3 tang1;
 	LbaVec3 tang2;
 
-	float r1 = ratio-0.1;
+	float r1 = ratio-0.1f;
 	if(r1 < 0)
 	{
 		r1 += 1;
@@ -501,7 +501,7 @@ bool FollowWaypointScriptPart::Process(double tnow, float tdiff, boost::shared_p
 	else
 		tang1 = CatmullSpline(_P0, _P1, _P2, _P3, r1);
 
-	float r2 = ratio+0.1;
+	float r2 = ratio+0.1f;
 	if(r2 > 1)
 	{
 		r2 -= 1;

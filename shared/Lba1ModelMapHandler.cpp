@@ -360,7 +360,7 @@ int Lba1ModelMapHandler::GetModelColorAlternative(	const std::string & modelname
 	if(alternativeindex < 0)
 		return -1;
 
-	if(alternativeindex >= itm->second._alternatives.size())
+	if(alternativeindex >= (int)itm->second._alternatives.size())
 		return -1;
 
 	defaultc = itm->second._defaults;

@@ -32,7 +32,7 @@ class TriggerBase;
 class ActionBase;
 class ClientScriptBase;
 class ActionArgumentBase;
-class ContainerSharedInfo;
+struct ContainerSharedInfo;
 class DialogPart;
 class Spawn;
 

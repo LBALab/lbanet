@@ -1,6 +1,9 @@
 #include "CharacterStates.h"
-#include "EventsQueue.h"
+
+#ifndef _LBANET_SERVER_SIDE_
 #include "SynchronizedTimeHandler.h"
+#include "EventsQueue.h"
+#endif
 
 //! tell state that current animation has finished
 //! return true if animation should be paused
