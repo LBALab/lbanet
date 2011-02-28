@@ -1983,9 +1983,6 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 
 
 			_mapNameList->AddData(itm->first.c_str());
-
-			// add spawning to the list
-			_mapSpawningList[itm->first] = boost::shared_ptr<CustomStringListModel>(new CustomStringListModel());
 		}
 	}
 
@@ -2176,6 +2173,24 @@ void EditorHandler::SetMapInfo(const std::string & mapname)
 	if(_firstmapofworld)
 	{
 		_firstmapofworld = false;
+
+		// add spawns
+		{
+			LbaNet::MapsSeq::const_iterator itm = _winfo.Maps.begin();
+			LbaNet::MapsSeq::const_iterator endm = _winfo.Maps.end();
+			for(long cc=1; itm != endm; ++itm, ++cc)
+			{
+				// add spawning to the list
+				_mapSpawningList[itm->first] = boost::shared_ptr<CustomStringListModel>(new CustomStringListModel());
+			
+				std::map<long, boost::shared_ptr<Spawn> > spwns = SharedDataHandler::getInstance()->GetSpawns(itm->first);
+				std::map<long, boost::shared_ptr<Spawn> >::iterator itsp = spwns.begin();
+				std::map<long, boost::shared_ptr<Spawn> >::iterator endsp = spwns.end();
+				for(; itsp != endsp; ++itsp)
+					AddSpawningName(itm->first, itsp->second->GetName());
+			}
+		}
+
 
 		// add teleport
 		{
