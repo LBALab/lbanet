@@ -24,7 +24,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "MapInfoXmlReader.h"
+
 #include "tinyxml.h"
+#include <math.h>
+#include "Lba1ModelMapHandler.h"
 
 
 // string helper function
@@ -151,21 +154,23 @@ MapInfo MapInfoXmlReader::LoadMap(TiXmlElement* pElem)
 			return res;
 
 		res.Name = pElem->Attribute("name");
-		std::string namem = res.Name;
-		if(namem.find("Map") == 0)
 		{
-			namem = namem.substr(3);
-			std::string numstr = namem.substr(0, namem.find("_"));
-			std::string rest = namem.substr(namem.find("_"));
-			int num = atoi(numstr.c_str());
-			std::stringstream mapnamess;
-			mapnamess<<"Map";
-			if(num < 10)
-				mapnamess<<"0";
-			if(num < 100)
-				mapnamess<<"0";
-			mapnamess<<num<<rest;
-			res.Name = mapnamess.str();
+			std::string namem = res.Name;
+			if(namem.find("Map") == 0)
+			{
+				namem = namem.substr(3);
+				std::string numstr = namem.substr(0, namem.find("_"));
+				std::string rest = namem.substr(namem.find("_"));
+				int num = atoi(numstr.c_str());
+				std::stringstream mapnamess;
+				mapnamess<<"Map";
+				if(num < 10)
+					mapnamess<<"0";
+				if(num < 100)
+					mapnamess<<"0";
+				mapnamess<<num<<rest;
+				res.Name = mapnamess.str();
+			}
 		}
 
 		res.Type = pElem->Attribute("type");
@@ -188,6 +193,15 @@ MapInfo MapInfoXmlReader::LoadMap(TiXmlElement* pElem)
 	}
 
 
+	// block: files
+	{
+		pElem=hRoot.FirstChild( "files" ).FirstChild().Element();
+		for( pElem; pElem; pElem=pElem->NextSiblingElement())
+		{
+			res.Files[pElem->Attribute("name")] = pElem->Attribute("path");
+		}
+
+	}
 
 	// block: spawning areas
 	{
@@ -223,6 +237,25 @@ MapInfo MapInfoXmlReader::LoadMap(TiXmlElement* pElem)
 			ex.NewMap=pElem->Attribute("newMap");
 			ex.Spawning=pElem->Attribute("spawning");
 
+			{
+				std::string nmnamem = ex.NewMap;
+				if(nmnamem.find("Map") == 0)
+				{
+					nmnamem = nmnamem.substr(3);
+					std::string numstr = nmnamem.substr(0, nmnamem.find("_"));
+					std::string rest = nmnamem.substr(nmnamem.find("_"));
+					int num = atoi(numstr.c_str());
+					std::stringstream mapnamess;
+					mapnamess<<"Map";
+					if(num < 10)
+						mapnamess<<"0";
+					if(num < 100)
+						mapnamess<<"0";
+					mapnamess<<num<<rest;
+					ex.NewMap = mapnamess.str();
+				}
+			}
+
 			pElem->QueryFloatAttribute("TopRightX", &ex.TopRightX);
 			pElem->QueryFloatAttribute("TopRightY", &ex.TopRightY);
 			pElem->QueryFloatAttribute("TopRightZ", &ex.TopRightZ);
@@ -230,6 +263,14 @@ MapInfo MapInfoXmlReader::LoadMap(TiXmlElement* pElem)
 			pElem->QueryFloatAttribute("BottomLeftX", &ex.BottomLeftX);
 			pElem->QueryFloatAttribute("BottomLeftY", &ex.BottomLeftY);
 			pElem->QueryFloatAttribute("BottomLeftZ", &ex.BottomLeftZ);
+
+			ex.SizeX = floor(ex.TopRightX + 0.5f) - floor(ex.BottomLeftX + 0.5f);
+			ex.SizeY = ((floor(ex.TopRightY + 0.5f) - floor(ex.BottomLeftY + 0.5f)) / 2) + 1;
+			ex.SizeZ = floor(ex.TopRightZ + 0.5f) - floor(ex.BottomLeftZ + 0.5f);
+
+			ex.PosX = floor(ex.BottomLeftX + 0.5f) + (ex.SizeX / 2);
+			ex.PosY = floor(ex.BottomLeftY + 0.5f);
+			ex.PosZ = floor(ex.BottomLeftZ + 0.5f) + (ex.SizeZ / 2);
 
 			res.Exits[ex.Name] = ex;
 		}
@@ -244,584 +285,683 @@ MapInfo MapInfoXmlReader::LoadMap(TiXmlElement* pElem)
 - load map actors into memory
 --------------------------------------------------------------------------------------------------
 */
-bool MapInfoXmlReader::LoadActors(const std::string &Filename)
+bool MapInfoXmlReader::LoadActors(const std::string &Filename,
+							std::map<long, boost::shared_ptr<TriggerBase> >	&triggers,
+							std::map<Ice::Long, boost::shared_ptr<ActorHandler> >	&Actors,
+							long &triggerid, long &actorid)
 {
-//	TiXmlDocument doc(Filename);
-//	if (!doc.LoadFile())
-//		return false;
-//
-//
-//	TiXmlHandle hDoc(&doc);
-//	TiXmlElement* pElem;
-//
-//	// block: actors attributes
-//	{
-//		pElem=hDoc.FirstChildElement().Element();
-//
-//		// should always have a valid root but handle gracefully if it does
-//		if (!pElem)
-//			return false;
-//
-//
-//		// for each actors
-//		pElem=pElem->FirstChildElement();
-//		for( pElem; pElem; pElem=pElem->NextSiblingElement())
-//		{
-//			long id=0, type=0;
-//			float posX=0, posY=0, posZ=0;
-//			float sizeX=0, sizeY=0, sizeZ=0;
-//			float offsetsizeY=0;
-//			int rotation=0;
-//			bool passable = true;
-//			bool depthmask = true;
-//			bool movable = false;
-//			bool collidable = true;
-//			bool actif = false;
-//			bool allowfreemove = false;
-//
-//			long renderertype=-1;
-//			std::vector<long> renderertarget;
-//			D3ObjectRenderer * renderer = NULL;
-//			long outputsignal=-1;
-//			long attachedsound=-1;
-//			std::vector<long> stargets;
-//			const char * targetsstring = pElem->Attribute("signaltargets");
-//			if(targetsstring)
-//			{
-//				std::vector<std::string> tokens;
-//				StringTokenize(targetsstring, tokens, ",");
-//				for(size_t i=0; i<tokens.size(); ++i)
-//					stargets.push_back(atol(tokens[i].c_str()));
-//			}
-//
-//			const char * rendertargetsstring = pElem->Attribute("renderertarget");
-//			if(rendertargetsstring)
-//			{
-//				std::vector<std::string> tokens;
-//				StringTokenize(rendertargetsstring, tokens, ",");
-//				for(size_t i=0; i<tokens.size(); ++i)
-//					renderertarget.push_back(atol(tokens[i].c_str()));
-//			}
-//
-//
-//
-//			pElem->QueryValueAttribute("id", &id);
-//			std::stringstream strss;
-//			strss<<"Start reading actor id "<<id;
-//
-//#ifndef _LBANET_SERVER_SIDE_
-//			LogHandler::getInstance()->LogToFile(strss.str());
-//#endif
-//
-//			pElem->QueryValueAttribute("type", &type);
-//			pElem->QueryFloatAttribute("posX", &posX);
-//			pElem->QueryFloatAttribute("posY", &posY);
-//			pElem->QueryFloatAttribute("posZ", &posZ);
-//			pElem->QueryFloatAttribute("sizeX", &sizeX);
-//			pElem->QueryFloatAttribute("sizeY", &sizeY);
-//			pElem->QueryFloatAttribute("sizeZ", &sizeZ);
-//			pElem->QueryFloatAttribute("offsetsizeY", &offsetsizeY);
-//			pElem->QueryIntAttribute("rotation", &rotation);
-//			pElem->QueryValueAttribute("passable", &passable);
-//			pElem->QueryValueAttribute("depthmask", &depthmask);
-//			pElem->QueryValueAttribute("movable", &movable);
-//			pElem->QueryValueAttribute("outputsignal", &outputsignal);
-//			pElem->QueryValueAttribute("attachedsound", &attachedsound);
-//			pElem->QueryValueAttribute("collidable", &collidable);
-//			pElem->QueryValueAttribute("actif", &actif);
-//			pElem->QueryValueAttribute("allowfreemove", &allowfreemove);
-//
-//
-//			if(pElem->QueryValueAttribute("renderertype", &renderertype) == TIXML_SUCCESS)
-//				if(renderertarget.size() > 0)
-//				{
-//#ifndef _LBANET_SERVER_SIDE_
-//					//renderer = new SpriteRenderer();
-//					switch(renderertype)
-//					{
-//						case 0: // sprite renderer
-//							{
-//								std::vector<SpriteInfo *> vectmp;
-//								for(size_t itar = 0; itar<renderertarget.size(); ++itar)
-//								{
-//									std::map<long, SpriteInfo>::iterator itsp = spinfos.find(renderertarget[itar]);
-//									if(itsp != spinfos.end())
-//										vectmp.push_back(&itsp->second);
-//								}
-//
-//								if(vectmp.size() > 0)
-//								{
-//									SpriteRenderer * tmp = new SpriteRenderer();
-//									tmp->SetSprites(vectmp);
-//									renderer = tmp;
-//								}
-//							}
-//						break;
-//						case 1: // video renderer
-//							{
-//								std::map<long, SpriteInfo>::iterator itsp = vidinfos.find(renderertarget[0]);
-//								if(itsp != vidinfos.end())
-//								{
-//									std::vector<SpriteInfo *> vectmp;
-//									vectmp.push_back(&itsp->second);
-//									AviVideoRenderer * tmp = new AviVideoRenderer();
-//									tmp->SetSprites(vectmp);
-//									renderer = tmp;
-//								}
-//							}
-//						break;
-//						case 2: // model renderer
-//							{
-//								std::map<long, ModelInfo>::iterator itsp = modelinfos.find(renderertarget[0]);
-//								if(itsp != modelinfos.end())
-//								{
-//									MS3DModel * tmp = new MS3DModel();
-//									tmp->loadModelData( itsp->second.filename );
-//									tmp->SetScale(itsp->second.ScaleX, itsp->second.ScaleY, itsp->second.ScaleZ);
-//									tmp->SetTranslation(itsp->second.TransX, itsp->second.TransY, itsp->second.TransZ);
-//									tmp->SetRotation(itsp->second.RotX, itsp->second.RotY, itsp->second.RotZ);
-//
-//
-//									renderer = tmp;
-//								}
-//							}
-//						break;
-//						case 3: // character renderer
-//							{
-//								if(renderertarget.size() > 1)
-//								{
-//									CharacterRenderer * tmp = new CharacterRenderer(AnimationSpeed);
-//									tmp->changeAnimEntity(renderertarget[0], renderertarget[1]);
-//									tmp->setActorAnimation(0);
-//									renderer = tmp;
-//								}
-//							}
-//						break;
-//					}
-//#else
-//					if(renderertype == 3)
-//					{
-//						if(renderertarget.size() > 1)
-//						{
-//							ServerCharacterRenderer * tmp = new ServerCharacterRenderer(AnimationSpeed);
-//							tmp->changeAnimEntity(renderertarget[0], renderertarget[1]);
-//							tmp->setActorAnimation(0);
-//							renderer = tmp;
-//						}
-//					}
-//#endif
-//				}
-//
-//
-//			Actor * act;
-//			switch(type)
-//			{
-//				case 0:	//basic actor class
-//					act = new Actor();
-//				break;
-//				case 1:	//text actor class
-//				{
-//					long textid=0;
-//					float activationdistance;
-//					pElem->QueryValueAttribute("activationdistance", &activationdistance);
-//					pElem->QueryValueAttribute("textid", &textid);
-//					int activationtype=1;
-//					pElem->QueryValueAttribute("activationtype", &activationtype);
-//					act = new TextActor(activationdistance, textid, activationtype);
-//				}
-//				break;
-//				case 2:	//ladder actor class
-//				{
-//					float deltaX=0, deltaY=0, deltaZ=0;
-//					int direction=0;
-//					float activationdistance;
-//					pElem->QueryValueAttribute("activationdistance", &activationdistance);
-//					pElem->QueryValueAttribute("deltaX", &deltaX);
-//					pElem->QueryValueAttribute("deltaY", &deltaY);
-//					pElem->QueryValueAttribute("deltaZ", &deltaZ);
-//					pElem->QueryValueAttribute("direction", &direction);
-//					int activationtype=1;
-//					pElem->QueryValueAttribute("activationtype", &activationtype);
-//					act = new LadderActor(activationdistance, deltaX, deltaY, deltaZ, direction, activationtype);
-//				}
-//				break;
-//				case 3:	//exit actor class
-//				{
-//					float deltaX=0, deltaY=0, deltaZ=0;
-//					int direction=0;
-//					float activationdistance;
-//					pElem->QueryValueAttribute("activationdistance", &activationdistance);
-//					pElem->QueryValueAttribute("deltaX", &deltaX);
-//					pElem->QueryValueAttribute("deltaY", &deltaY);
-//					pElem->QueryValueAttribute("deltaZ", &deltaZ);
-//					pElem->QueryValueAttribute("direction", &direction);
-//					int activationtype=1;
-//					pElem->QueryValueAttribute("activationtype", &activationtype);
-//					act = new ExitActor(activationdistance, deltaX, deltaY, deltaZ, direction, activationtype);
-//				}
-//				break;
-//
-//				case 4:	//door actor class
-//				{
-//					float zoneSizeX=0, zoneSizeY=0, zoneSizeZ=0;
-//					bool locked = false;
-//					bool hide = false;
-//					long keyid=0;
-//					float OpenTransX=0;
-//					float OpenTransY=0;
-//					float OpenTransZ=0;
-//					float OpenTransSpeedX=0;
-//					float OpenTransSpeedY=0;
-//					float OpenTransSpeedZ=0;
-//					bool destroykey = false;
-//
-//					pElem->QueryValueAttribute("zoneSizeX", &zoneSizeX);
-//					pElem->QueryValueAttribute("zoneSizeY", &zoneSizeY);
-//					pElem->QueryValueAttribute("zoneSizeZ", &zoneSizeZ);
-//					pElem->QueryValueAttribute("locked", &locked);
-//					pElem->QueryValueAttribute("keyid", &keyid);
-//					pElem->QueryValueAttribute("hide", &hide);
-//					pElem->QueryValueAttribute("destroykey", &destroykey);
-//
-//					pElem->QueryValueAttribute("OpenTransX", &OpenTransX);
-//					pElem->QueryValueAttribute("OpenTransY", &OpenTransY);
-//					pElem->QueryValueAttribute("OpenTransZ", &OpenTransZ);
-//					pElem->QueryValueAttribute("OpenTransSpeedX", &OpenTransSpeedX);
-//					pElem->QueryValueAttribute("OpenTransSpeedY", &OpenTransSpeedY);
-//					pElem->QueryValueAttribute("OpenTransSpeedZ", &OpenTransSpeedZ);
-//
-//
-//
-//					act = new DoorActor(zoneSizeX, zoneSizeY, zoneSizeZ, locked, keyid, hide,
-//											OpenTransX, OpenTransY, OpenTransZ,
-//											OpenTransSpeedX, OpenTransSpeedY, OpenTransSpeedZ, destroykey);
-//					passable = false;
-//				}
-//				break;
-//
-//				case 5:	//container actor class
-//				{
-//					float zoneSizeX=0, zoneSizeY=0, zoneSizeZ=0;
-//					pElem->QueryValueAttribute("zonesizeX", &zoneSizeX);
-//					pElem->QueryValueAttribute("zonesizeY", &zoneSizeY);
-//					pElem->QueryValueAttribute("zonesizeZ", &zoneSizeZ);
-//					int activationtype=1;
-//					pElem->QueryValueAttribute("activationtype", &activationtype);
-//					ContainerActor *tmpC = new ContainerActor(zoneSizeX, zoneSizeY, zoneSizeZ, activationtype);
-//
-//					// get the contained items
-//					std::vector<ItemGroup> items;
-//					TiXmlElement* pElemC=pElem->FirstChildElement();
-//					for( pElemC; pElemC; pElemC=pElemC->NextSiblingElement())
-//					{
-//						// for each group of items
-//						ItemGroup newGroup;
-//						newGroup.lastSpawningTime = 0;
-//						newGroup.RespawningTime = 300000; // default = 5min
-//						newGroup.currpicked = -1;
-//						pElemC->QueryValueAttribute("respawnTimeInMs", &newGroup.RespawningTime);
-//
-//						TiXmlElement* itemGroup=pElemC->FirstChildElement();
-//						for( itemGroup; itemGroup; itemGroup=itemGroup->NextSiblingElement())
-//						{
-//							ItemGroupElement elem;
-//							itemGroup->QueryValueAttribute("id", &elem.id);
-//							itemGroup->QueryValueAttribute("number", &elem.number);
-//							itemGroup->QueryValueAttribute("probability", &elem.probability);
-//							newGroup.groupelements.push_back(elem);
-//						}
-//						if(newGroup.groupelements.size() > 0)
-//							items.push_back(newGroup);
-//					}
-//					tmpC->SetLootList(items);
-//
-//					act = tmpC;
-//				}
-//				break;
-//
-//				case 6:	//up exit actor class
-//				{
-//					int direction=0;
-//					float activationdistance;
-//					pElem->QueryValueAttribute("activationdistance", &activationdistance);
-//					pElem->QueryValueAttribute("direction", &direction);
-//					int activationtype=1;
-//					pElem->QueryValueAttribute("activationtype", &activationtype);
-//					act = new UpExitActor(activationdistance, direction, activationtype);
-//				}
-//				break;
-//
-//				case 7:	//switch actor class
-//				{
-//					float activationdistance;
-//					pElem->QueryValueAttribute("activationdistance", &activationdistance);
-//					int activationtype=1;
-//					pElem->QueryValueAttribute("activationtype", &activationtype);
-//					act = new SwitchActor(activationdistance, activationtype);
-//
-//					sizeX=0.4f;
-//					sizeY=3.0f;
-//					sizeZ=0.4f;
-//					offsetsizeY=3.5f;
-//					collidable = false;
-//				}
-//				break;
-//
-//				case 8:	//area switch actor class
-//				{
-//					float zoneSizeX=0, zoneSizeY=0, zoneSizeZ=0;
-//					long QuestToTriggerEnd = -1;
-//					pElem->QueryValueAttribute("zonesizeX", &zoneSizeX);
-//					pElem->QueryValueAttribute("zonesizeY", &zoneSizeY);
-//					pElem->QueryValueAttribute("zonesizeZ", &zoneSizeZ);
-//					pElem->QueryValueAttribute("QuestToTriggerEnd", &QuestToTriggerEnd);
-//					act = new AreaSwitch(zoneSizeX, zoneSizeY, zoneSizeZ, QuestToTriggerEnd);
-//				}
-//				break;
-//
-//				case 9:	//floor switch actor class
-//				{
-//					float zoneSizeX=0, zoneSizeY=0, zoneSizeZ=0;
-//					pElem->QueryValueAttribute("zonesizeX", &zoneSizeX);
-//					pElem->QueryValueAttribute("zonesizeY", &zoneSizeY);
-//					pElem->QueryValueAttribute("zonesizeZ", &zoneSizeZ);
-//					int activationtype=1;
-//					pElem->QueryValueAttribute("activationtype", &activationtype);
-//					act = new FloorSwitch(zoneSizeX, zoneSizeY, zoneSizeZ, activationtype);
-//				}
-//				break;
-//
-//				case 10:	//lift actor class
-//				{
-//					bool autoattach = true;
-//					pElem->QueryValueAttribute("autoattach", &autoattach);					
-//
-//					std::vector<PlayerScriptPart> scripts;
-//					TiXmlNode* pNode2=pElem->FirstChild("scripts");
-//					if(pNode2)
-//					{
-//						TiXmlElement*pElem2=pNode2->FirstChildElement();
-//						for( pElem2; pElem2; pElem2=pElem2->NextSiblingElement())
-//						{
-//							PlayerScriptPart ps;
-//							ps.ValueA = -1;
-//							ps.ValueB = -1;
-//							ps.ValueC = -1;
-//							ps.Sound = -1;
-//							ps.SoundNum = -1;
-//							ps.Speed = -1;
-//							ps.Animation = -1;
-//							ps.Flag = true;
-//
-//							pElem2->QueryValueAttribute("type", &ps.Type);
-//							pElem2->QueryValueAttribute("ValueA", &ps.ValueA);
-//							pElem2->QueryValueAttribute("ValueB", &ps.ValueB);
-//							pElem2->QueryValueAttribute("ValueC", &ps.ValueC);
-//							pElem2->QueryValueAttribute("Speed", &ps.Speed);
-//							pElem2->QueryValueAttribute("Sound", &ps.Sound);
-//							pElem2->QueryValueAttribute("SoundNum", &ps.SoundNum);
-//							pElem2->QueryValueAttribute("Animation", &ps.Animation);
-//							pElem2->QueryValueAttribute("Flag", &ps.Flag);
-//							scripts.push_back(ps);
-//						}
-//					}
-//					act = new ScriptableActor(scripts, autoattach);
-//				}
-//				break;
-//
-//				case 11:	//hurt area class
-//				{
-//					float zoneSizeX=0, zoneSizeY=0, zoneSizeZ=0;
-//					int lifetaken=5;
-//					pElem->QueryValueAttribute("zonesizeX", &zoneSizeX);
-//					pElem->QueryValueAttribute("zonesizeY", &zoneSizeY);
-//					pElem->QueryValueAttribute("zonesizeZ", &zoneSizeZ);
-//					pElem->QueryValueAttribute("lifetaken", &lifetaken);
-//					act = new HurtArea(zoneSizeX, zoneSizeY, zoneSizeZ, lifetaken);
-//				}
-//				break;
-//
-//				case 12:	//NPC class
-//				{
-//					int npctype=1;
-//					float activationdistance=10;//6;
-//					pElem->QueryValueAttribute("activationdistance", &activationdistance);
-//					pElem->QueryValueAttribute("NPCType", &npctype);
-//					const char *namea = pElem->Attribute("Name");
-//					std::string NameNPC = "NPC";
-//					if(namea)
-//						NameNPC = namea;
-//
-//
-//					std::vector<PlayerScriptPart> scripts;
-//					TiXmlNode* pNode2=pElem->FirstChild("scripts");
-//					if(pNode2)
-//					{
-//						TiXmlElement*pElem2=pNode2->FirstChildElement();
-//						for( pElem2; pElem2; pElem2=pElem2->NextSiblingElement())
-//						{
-//							PlayerScriptPart ps;
-//							ps.ValueA = -1;
-//							ps.ValueB = -1;
-//							ps.ValueC = -1;
-//							ps.Sound = -1;
-//							ps.Speed = -1;
-//							ps.SoundNum = -1;
-//							ps.Animation = -1;
-//							ps.Flag = true;
-//
-//							pElem2->QueryValueAttribute("type", &ps.Type);
-//							pElem2->QueryValueAttribute("ValueA", &ps.ValueA);
-//							pElem2->QueryValueAttribute("ValueB", &ps.ValueB);
-//							pElem2->QueryValueAttribute("ValueC", &ps.ValueC);
-//							pElem2->QueryValueAttribute("Speed", &ps.Speed);
-//							pElem2->QueryValueAttribute("Sound", &ps.Sound);
-//							pElem2->QueryValueAttribute("SoundNum", &ps.SoundNum);
-//							pElem2->QueryValueAttribute("Animation", &ps.Animation);
-//							pElem2->QueryValueAttribute("Flag", &ps.Flag);
-//							scripts.push_back(ps);
-//						}
-//					}
-//
-//					DialogHandlerPtr dialogptr = DialogHandlerPtr();
-//					#ifndef _LBANET_SERVER_SIDE_
-//					dialogptr = LoadDialog(pElem->FirstChildElement("Dialog"), invH, qH, actH);
-//					#endif
-//
-//					NPCActor *tmpact = new NPCActor(scripts, false, npctype, activationdistance, NameNPC, 
-//													dialogptr);
-//
-//					if(npctype == 2)
-//					{
-//						TiXmlNode* itemGroup=pElem->FirstChild("items");
-//						if(itemGroup)
-//						{
-//							std::map<long, TraderItem> items;
-//							TiXmlElement*pElem2=itemGroup->FirstChildElement();
-//							for( pElem2; pElem2; pElem2=pElem2->NextSiblingElement())
-//							{
-//								TraderItem itm;
-//								itm.id = -1;
-//								pElem2->QueryValueAttribute("id", &itm.id);
-//								itm.condition = LoadCondition(pElem2->FirstChildElement("Condition"), invH, qH, actH);
-//								 
-//								items[itm.id] = itm;
-//							}
-//
-//							tmpact->SetItems(items);
-//						}
-//					}
-//
-//					act = tmpact;
-//				}
-//				break;
-//
-//
-//				case 13: //scripted zone actor class
-//				{
-//					float zoneSizeX=0, zoneSizeY=0, zoneSizeZ=0;
-//					pElem->QueryValueAttribute("zonesizeX", &zoneSizeX);
-//					pElem->QueryValueAttribute("zonesizeY", &zoneSizeY);
-//					pElem->QueryValueAttribute("zonesizeZ", &zoneSizeZ);
-//					int activationtype=1;
-//					pElem->QueryValueAttribute("activationtype", &activationtype);
-//
-//					long neededitem=-1;
-//					pElem->QueryValueAttribute("neededitem", &neededitem);
-//					bool destroyitem = false;
-//					pElem->QueryValueAttribute("destroyitem", &destroyitem);
-//
-//					const char *abortedmessage = pElem->Attribute("abortedmessage");
-//					std::string abortedmessages;
-//					if(abortedmessage)
-//						abortedmessages = abortedmessage;
-//
-//
-//					std::vector<PlayerScriptPart> scripts;
-//					TiXmlNode* pNode2=pElem->FirstChild("scripts");
-//					if(pNode2)
-//					{
-//						TiXmlElement*pElem2=pNode2->FirstChildElement();
-//						for( pElem2; pElem2; pElem2=pElem2->NextSiblingElement())
-//						{
-//							PlayerScriptPart ps;
-//							ps.ValueA = -1;
-//							ps.ValueB = -1;
-//							ps.ValueC = -1;
-//							ps.Sound = -1;
-//							ps.Speed = -1;
-//							ps.SoundNum = -1;
-//							ps.Animation = -1;
-//							ps.Flag = true;
-//							pElem2->QueryValueAttribute("type", &ps.Type);
-//							pElem2->QueryValueAttribute("ValueA", &ps.ValueA);
-//							pElem2->QueryValueAttribute("ValueB", &ps.ValueB);
-//							pElem2->QueryValueAttribute("ValueC", &ps.ValueC);
-//							pElem2->QueryValueAttribute("Speed", &ps.Speed);
-//							pElem2->QueryValueAttribute("Sound", &ps.Sound);
-//							pElem2->QueryValueAttribute("SoundNum", &ps.SoundNum);
-//							pElem2->QueryValueAttribute("Animation", &ps.Animation);
-//							pElem2->QueryValueAttribute("Flag", &ps.Flag);
-//
-//							const char *newMap = pElem2->Attribute("newMap");
-//							if(newMap)
-//								ps.NewMap = newMap;
-//
-//							const char *spawning = pElem2->Attribute("spawning");
-//							if(spawning)
-//								ps.Spawning = spawning;
-//
-//							scripts.push_back(ps);
-//						}
-//					}
-//					act = new ScriptedZoneActor(zoneSizeX, zoneSizeY, zoneSizeZ, scripts, 
-//												activationtype, neededitem, destroyitem, abortedmessages);
-//				}
-//				break;
-//
-//
-//				case 14:	//mailbox class
-//				{
-//					float activationdistance;
-//					int activationtype=1;
-//					pElem->QueryValueAttribute("activationdistance", &activationdistance);
-//					pElem->QueryValueAttribute("activationtype", &activationtype);
-//					act = new MailboxActor(activationdistance, activationtype);
-//				}
-//				break;
-//			}
-//
-//			// add common attributes
-//			act->SetId(id);
-//			act->SetPosition(posX, posY, posZ);
-//			act->SetRotation((float)rotation);
-//			act->SetSize(sizeX, sizeY, sizeZ);
-//			act->SetOffsetSizeY(offsetsizeY);
-//			act->SetPassable(passable);
-//			act->SetDepthMask(depthmask);
-//			act->SetMovable(movable);
-//			act->SetCollidable(collidable);
-//			act->SetActif(actif);
-//			act->SetAllowFreeMove(allowfreemove);
-//			
-//			
-//
-//			act->SetRenderer(renderer);
-//
-//			act->SetType(type);
-//			act->SetOutputSignal(outputsignal, stargets);
-//			act->SetRendererType(renderertype, renderertarget);
-//			act->SetAttachedSound(attachedsound);
-//			act->SetSignaler(signaler);
-//
-//			// add it to the vector
-//			vec[id] = act;
-//		}
-//	}
-//
-//#ifndef _LBANET_SERVER_SIDE_
-//	LogHandler::getInstance()->LogToFile("Finished reading xml file for actors...");
-//#endif
+	TiXmlDocument doc(Filename);
+	if (!doc.LoadFile())
+		return false;
+
+
+	TiXmlHandle hDoc(&doc);
+	TiXmlElement* pElem;
+
+	// block: actors attributes
+	{
+		pElem=hDoc.FirstChildElement().Element();
+
+		// should always have a valid root but handle gracefully if it does
+		if (!pElem)
+			return false;
+
+
+		// for each actors
+		pElem=pElem->FirstChildElement();
+		for( pElem; pElem; pElem=pElem->NextSiblingElement())
+		{
+			long id=0, type=0;
+			float posX=0, posY=0, posZ=0;
+			float sizeX=0, sizeY=0, sizeZ=0;
+			float offsetsizeY=0;
+			int rotation=0;
+			bool passable = true;
+			bool depthmask = true;
+			bool movable = false;
+			bool collidable = true;
+			bool actif = false;
+			bool allowfreemove = false;
+
+			long renderertype=-1;
+			std::vector<long> renderertarget;
+			//D3ObjectRenderer * renderer = NULL;
+			long outputsignal=-1;
+			long attachedsound=-1;
+			std::vector<long> stargets;
+			const char * targetsstring = pElem->Attribute("signaltargets");
+			if(targetsstring)
+			{
+				std::vector<std::string> tokens;
+				StringTokenize(targetsstring, tokens, ",");
+				for(size_t i=0; i<tokens.size(); ++i)
+					stargets.push_back(atol(tokens[i].c_str()));
+			}
+
+			const char * rendertargetsstring = pElem->Attribute("renderertarget");
+			if(rendertargetsstring)
+			{
+				std::vector<std::string> tokens;
+				StringTokenize(rendertargetsstring, tokens, ",");
+				for(size_t i=0; i<tokens.size(); ++i)
+					renderertarget.push_back(atol(tokens[i].c_str()));
+			}
+
+
+
+			pElem->QueryValueAttribute("id", &id);
+			std::stringstream strss;
+			strss<<"Start reading actor id "<<id;
+
+
+
+			pElem->QueryValueAttribute("type", &type);
+			pElem->QueryFloatAttribute("posX", &posX);
+			pElem->QueryFloatAttribute("posY", &posY);
+			pElem->QueryFloatAttribute("posZ", &posZ);
+			pElem->QueryFloatAttribute("sizeX", &sizeX);
+			pElem->QueryFloatAttribute("sizeY", &sizeY);
+			pElem->QueryFloatAttribute("sizeZ", &sizeZ);
+			pElem->QueryFloatAttribute("offsetsizeY", &offsetsizeY);
+			pElem->QueryIntAttribute("rotation", &rotation);
+			pElem->QueryValueAttribute("passable", &passable);
+			pElem->QueryValueAttribute("depthmask", &depthmask);
+			pElem->QueryValueAttribute("movable", &movable);
+			pElem->QueryValueAttribute("outputsignal", &outputsignal);
+			pElem->QueryValueAttribute("attachedsound", &attachedsound);
+			pElem->QueryValueAttribute("collidable", &collidable);
+			pElem->QueryValueAttribute("actif", &actif);
+			pElem->QueryValueAttribute("allowfreemove", &allowfreemove);
+
+
+			if(pElem->QueryValueAttribute("renderertype", &renderertype) == TIXML_SUCCESS)
+			{
+				if(renderertype == 1)
+					continue;
+				if(renderertype == 2)
+					continue;
+			}
+
+
+			//Actor * act;
+			switch(type)
+			{
+				case 1:	//text actor class
+				{
+					//long textid=0;
+					//float activationdistance;
+					//pElem->QueryValueAttribute("activationdistance", &activationdistance);
+					//pElem->QueryValueAttribute("textid", &textid);
+					//int activationtype=1;
+					//pElem->QueryValueAttribute("activationtype", &activationtype);
+					//act = new TextActor(activationdistance, textid, activationtype);
+				}
+				break;
+				case 2:	//ladder actor class
+				{
+					float deltaX=0, deltaY=0, deltaZ=0;
+					int direction=0;
+					float activationdistance;
+					pElem->QueryValueAttribute("activationdistance", &activationdistance);
+					pElem->QueryValueAttribute("deltaX", &deltaX);
+					pElem->QueryValueAttribute("deltaY", &deltaY);
+					pElem->QueryValueAttribute("deltaZ", &deltaZ);
+					pElem->QueryValueAttribute("direction", &direction);
+					int activationtype=1;
+					pElem->QueryValueAttribute("activationtype", &activationtype);
+
+					TriggerInfo triinfo;
+					triinfo.id = triggerid++;
+					triinfo.CheckPlayers = true;
+					triinfo.CheckMovableObjects = false;
+					triinfo.CheckNpcs = false;
+					std::stringstream triname;
+					triname<<"LadderTri_"<<triinfo.id;
+					triinfo.name = triname.str();
+					boost::shared_ptr<TriggerBase> newtri(new ActivationTrigger(triinfo, activationdistance*activationdistance, "Normal", ""));
+					newtri->SetPosition(posX, posY, posZ);
+
+					GoUpLadderScript * goupl = new GoUpLadderScript();
+					goupl->SetLadderDirection(direction);
+					goupl->SetLadderHeight(deltaY);
+					goupl->SetLadderPositionX(posX);
+					goupl->SetLadderPositionY(posY);
+					goupl->SetLadderPositionZ(posZ);
+
+					ClientScriptAction * act = new ClientScriptAction();
+					act->SetScript(ClientScriptBasePtr(goupl));
+					newtri->SetAction1(ActionBasePtr(act));
+
+					triggers[newtri->GetId()] = newtri;
+				}
+				break;
+				case 3:	//exit actor class
+				{
+					float deltaX=0, deltaY=0, deltaZ=0;
+					int direction=0;
+					float activationdistance;
+					pElem->QueryValueAttribute("activationdistance", &activationdistance);
+					pElem->QueryValueAttribute("deltaX", &deltaX);
+					pElem->QueryValueAttribute("deltaY", &deltaY);
+					pElem->QueryValueAttribute("deltaZ", &deltaZ);
+					pElem->QueryValueAttribute("direction", &direction);
+					int activationtype=1;
+					pElem->QueryValueAttribute("activationtype", &activationtype);
+
+					TriggerInfo triinfo;
+					triinfo.id = triggerid++;
+					triinfo.CheckPlayers = true;
+					triinfo.CheckMovableObjects = false;
+					triinfo.CheckNpcs = false;
+					std::stringstream triname;
+					triname<<"ExitDownTri_"<<triinfo.id;
+					triinfo.name = triname.str();
+					boost::shared_ptr<TriggerBase> newtri(new ActivationTrigger(triinfo, activationdistance*activationdistance, "Normal", ""));
+					newtri->SetPosition(posX, posY, posZ);
+
+					TakeExitDownScript * goupl = new TakeExitDownScript();
+					goupl->SetExitDirection(direction);
+					goupl->SetExitPositionX(posX);
+					goupl->SetExitPositionY(posY);
+					goupl->SetExitPositionZ(posZ);
+
+					ClientScriptAction * act = new ClientScriptAction();
+					act->SetScript(ClientScriptBasePtr(goupl));
+					newtri->SetAction1(ActionBasePtr(act));
+
+					triggers[newtri->GetId()] = newtri;
+				}
+				break;
+
+				case 4:	//door actor class
+				{
+					float zoneSizeX=0, zoneSizeY=0, zoneSizeZ=0;
+					bool locked = false;
+					bool hide = false;
+					long keyid=0;
+					float OpenTransX=0;
+					float OpenTransY=0;
+					float OpenTransZ=0;
+					float OpenTransSpeedX=0;
+					float OpenTransSpeedY=0;
+					float OpenTransSpeedZ=0;
+					bool destroykey = false;
+
+					pElem->QueryValueAttribute("zoneSizeX", &zoneSizeX);
+					pElem->QueryValueAttribute("zoneSizeY", &zoneSizeY);
+					pElem->QueryValueAttribute("zoneSizeZ", &zoneSizeZ);
+					pElem->QueryValueAttribute("locked", &locked);
+					pElem->QueryValueAttribute("keyid", &keyid);
+					pElem->QueryValueAttribute("hide", &hide);
+					pElem->QueryValueAttribute("destroykey", &destroykey);
+
+					pElem->QueryValueAttribute("OpenTransX", &OpenTransX);
+					pElem->QueryValueAttribute("OpenTransY", &OpenTransY);
+					pElem->QueryValueAttribute("OpenTransZ", &OpenTransZ);
+					pElem->QueryValueAttribute("OpenTransSpeedX", &OpenTransSpeedX);
+					pElem->QueryValueAttribute("OpenTransSpeedY", &OpenTransSpeedY);
+					pElem->QueryValueAttribute("OpenTransSpeedZ", &OpenTransSpeedZ);
+
+					std::stringstream sprnames;
+					sprnames<<"sprite";
+					if(renderertarget[0] < 10)
+						sprnames<<"0";
+					if(renderertarget[0] < 100)
+						sprnames<<"0";
+					sprnames<<renderertarget[0]<<".osgb";
+
+					ActorObjectInfo actorinfo(actorid++);
+					actorinfo.SetRenderType(1);
+					actorinfo.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/"+sprnames.str();
+					actorinfo.DisplayDesc.UseLight = true;
+					actorinfo.DisplayDesc.CastShadow = false;
+					actorinfo.SetModelState(1);
+					actorinfo.PhysicDesc.Pos.X = posX;
+					actorinfo.PhysicDesc.Pos.Y = posY;
+					actorinfo.PhysicDesc.Pos.Z = posZ;
+					actorinfo.PhysicDesc.Pos.Rotation = 0;
+					actorinfo.SetPhysicalActorType(1);
+					actorinfo.SetPhysicalShape(2);
+					actorinfo.PhysicDesc.Collidable = true;
+					actorinfo.PhysicDesc.SizeX = sizeX;
+					actorinfo.PhysicDesc.SizeY = sizeY;
+					actorinfo.PhysicDesc.SizeZ = sizeZ;
+					boost::shared_ptr<ActorHandler> act(new DoorHandler(actorinfo, 0, 0,
+															OpenTransX+OpenTransY+OpenTransZ, 
+															OpenTransSpeedX+OpenTransSpeedY+OpenTransSpeedZ, true));
+
+					Actors[act->GetId()] = act;
+
+					TriggerInfo triinfo;
+					triinfo.id = triggerid++;
+					triinfo.CheckPlayers = true;
+					triinfo.CheckMovableObjects = false;
+					triinfo.CheckNpcs = false;
+					std::stringstream triname;
+					triname<<"DoorTri_"<<triinfo.id;
+					triinfo.name = triname.str();
+					boost::shared_ptr<TriggerBase> newtri(new ZoneTrigger(triinfo, zoneSizeX, zoneSizeY, zoneSizeZ, true));
+					newtri->SetPosition(posX, posY, posZ);
+
+					OpenDoorAction * actio = new OpenDoorAction();
+					actio->SetActorId(act->GetId());
+					newtri->SetAction1(ActionBasePtr(actio));
+
+					triggers[newtri->GetId()] = newtri;
+				}
+				break;
+
+				case 5:	//container actor class
+				{
+					float zoneSizeX=0, zoneSizeY=0, zoneSizeZ=0;
+					pElem->QueryValueAttribute("zonesizeX", &zoneSizeX);
+					pElem->QueryValueAttribute("zonesizeY", &zoneSizeY);
+					pElem->QueryValueAttribute("zonesizeZ", &zoneSizeZ);
+					int activationtype=1;
+					pElem->QueryValueAttribute("activationtype", &activationtype);
+
+					TriggerInfo triinfo;
+					triinfo.id = triggerid++;
+					triinfo.CheckPlayers = true;
+					triinfo.CheckMovableObjects = false;
+					triinfo.CheckNpcs = false;
+					std::stringstream triname;
+					triname<<"ContainerTri_"<<triinfo.id;
+					triinfo.name = triname.str();
+					boost::shared_ptr<ZoneActionTrigger> newtri(new ZoneActionTrigger(triinfo, zoneSizeX, zoneSizeY, zoneSizeZ, "Normal", ""));
+					newtri->SetPosition(posX, posY, posZ);
+					newtri->SetPlayAnimation(true);
+
+					OpenContainerAction * act = new OpenContainerAction();
+					act->SetTimeToReset(300);
+					newtri->SetAction1(ActionBasePtr(act));
+
+					triggers[newtri->GetId()] = newtri;
+
+
+					// get the contained items
+					TiXmlElement* pElemC=pElem->FirstChildElement();
+					int itgroupidx = 1;
+					for( pElemC; pElemC; pElemC=pElemC->NextSiblingElement(), ++itgroupidx)
+					{
+						TiXmlElement* itemGroup=pElemC->FirstChildElement();
+						for( itemGroup; itemGroup; itemGroup=itemGroup->NextSiblingElement())
+						{
+							long itid;
+							int itnumber;
+							float itproba;
+
+							itemGroup->QueryValueAttribute("id", &itid);
+							itemGroup->QueryValueAttribute("number", &itnumber);
+							itemGroup->QueryValueAttribute("probability", &itproba);
+
+							act->AddItem(ContainerItemGroupElement(itid, itnumber, itnumber, itproba, itgroupidx));
+						}
+					}
+				}
+				break;
+
+				case 6:	//up exit actor class
+				{
+					int direction=0;
+					float activationdistance;
+					pElem->QueryValueAttribute("activationdistance", &activationdistance);
+					pElem->QueryValueAttribute("direction", &direction);
+					int activationtype=1;
+					pElem->QueryValueAttribute("activationtype", &activationtype);
+
+					TriggerInfo triinfo;
+					triinfo.id = triggerid++;
+					triinfo.CheckPlayers = true;
+					triinfo.CheckMovableObjects = false;
+					triinfo.CheckNpcs = false;
+					std::stringstream triname;
+					triname<<"ExitUpTri_"<<triinfo.id;
+					triinfo.name = triname.str();
+					boost::shared_ptr<TriggerBase> newtri(new ActivationTrigger(triinfo, activationdistance*activationdistance, "Normal", ""));
+					newtri->SetPosition(posX, posY, posZ);
+
+					TakeExitUpScript * goupl = new TakeExitUpScript();
+					goupl->SetExitDirection(direction);
+					goupl->SetExitPositionX(posX);
+					goupl->SetExitPositionY(posY);
+					goupl->SetExitPositionZ(posZ);
+
+					ClientScriptAction * act = new ClientScriptAction();
+					act->SetScript(ClientScriptBasePtr(goupl));
+					newtri->SetAction1(ActionBasePtr(act));
+
+					triggers[newtri->GetId()] = newtri;
+				}
+				break;
+
+				case 7:	//switch actor class
+				{
+					//float activationdistance;
+					//pElem->QueryValueAttribute("activationdistance", &activationdistance);
+					//int activationtype=1;
+					//pElem->QueryValueAttribute("activationtype", &activationtype);
+					//act = new SwitchActor(activationdistance, activationtype);
+
+					//sizeX=0.4f;
+					//sizeY=3.0f;
+					//sizeZ=0.4f;
+					//offsetsizeY=3.5f;
+					//collidable = false;
+				}
+				break;
+
+				case 8:	//area switch actor class
+				{
+					//float zoneSizeX=0, zoneSizeY=0, zoneSizeZ=0;
+					//long QuestToTriggerEnd = -1;
+					//pElem->QueryValueAttribute("zonesizeX", &zoneSizeX);
+					//pElem->QueryValueAttribute("zonesizeY", &zoneSizeY);
+					//pElem->QueryValueAttribute("zonesizeZ", &zoneSizeZ);
+					//pElem->QueryValueAttribute("QuestToTriggerEnd", &QuestToTriggerEnd);
+					//act = new AreaSwitch(zoneSizeX, zoneSizeY, zoneSizeZ, QuestToTriggerEnd);
+				}
+				break;
+
+				case 9:	//floor switch actor class
+				{
+					//float zoneSizeX=0, zoneSizeY=0, zoneSizeZ=0;
+					//pElem->QueryValueAttribute("zonesizeX", &zoneSizeX);
+					//pElem->QueryValueAttribute("zonesizeY", &zoneSizeY);
+					//pElem->QueryValueAttribute("zonesizeZ", &zoneSizeZ);
+					//int activationtype=1;
+					//pElem->QueryValueAttribute("activationtype", &activationtype);
+					//act = new FloorSwitch(zoneSizeX, zoneSizeY, zoneSizeZ, activationtype);
+				}
+				break;
+
+				case 10:	//lift actor class
+				{
+					//bool autoattach = true;
+					//pElem->QueryValueAttribute("autoattach", &autoattach);					
+
+					//std::vector<PlayerScriptPart> scripts;
+					//TiXmlNode* pNode2=pElem->FirstChild("scripts");
+					//if(pNode2)
+					//{
+					//	TiXmlElement*pElem2=pNode2->FirstChildElement();
+					//	for( pElem2; pElem2; pElem2=pElem2->NextSiblingElement())
+					//	{
+					//		PlayerScriptPart ps;
+					//		ps.ValueA = -1;
+					//		ps.ValueB = -1;
+					//		ps.ValueC = -1;
+					//		ps.Sound = -1;
+					//		ps.SoundNum = -1;
+					//		ps.Speed = -1;
+					//		ps.Animation = -1;
+					//		ps.Flag = true;
+
+					//		pElem2->QueryValueAttribute("type", &ps.Type);
+					//		pElem2->QueryValueAttribute("ValueA", &ps.ValueA);
+					//		pElem2->QueryValueAttribute("ValueB", &ps.ValueB);
+					//		pElem2->QueryValueAttribute("ValueC", &ps.ValueC);
+					//		pElem2->QueryValueAttribute("Speed", &ps.Speed);
+					//		pElem2->QueryValueAttribute("Sound", &ps.Sound);
+					//		pElem2->QueryValueAttribute("SoundNum", &ps.SoundNum);
+					//		pElem2->QueryValueAttribute("Animation", &ps.Animation);
+					//		pElem2->QueryValueAttribute("Flag", &ps.Flag);
+					//		scripts.push_back(ps);
+					//	}
+					//}
+					//act = new ScriptableActor(scripts, autoattach);
+				}
+				break;
+
+				case 11:	//hurt area class
+				{
+					float zoneSizeX=0, zoneSizeY=0, zoneSizeZ=0;
+					int lifetaken=5;
+					pElem->QueryValueAttribute("zonesizeX", &zoneSizeX);
+					pElem->QueryValueAttribute("zonesizeY", &zoneSizeY);
+					pElem->QueryValueAttribute("zonesizeZ", &zoneSizeZ);
+					pElem->QueryValueAttribute("lifetaken", &lifetaken);
+
+					TriggerInfo triinfo;
+					triinfo.id = triggerid++;
+					triinfo.CheckPlayers = true;
+					triinfo.CheckMovableObjects = false;
+					triinfo.CheckNpcs = false;
+					std::stringstream triname;
+					triname<<"HurtTri_"<<triinfo.id;
+					triinfo.name = triname.str();
+					boost::shared_ptr<ZoneTrigger> newtri(new ZoneTrigger(triinfo, zoneSizeX, zoneSizeY, zoneSizeZ, true));
+					newtri->SetPosition(posX, posY, posZ);
+
+					HurtAction * act = new HurtAction();
+					act->HurtLifeOrMana(true);
+					act->SetHurtValue((float)lifetaken);
+					newtri->SetAction1(ActionBasePtr(act));
+
+					triggers[newtri->GetId()] = newtri;
+				}
+				break;
+
+				case 12:	//NPC class
+				{
+					int npctype=1;
+					float activationdistance=10;//6;
+					pElem->QueryValueAttribute("activationdistance", &activationdistance);
+					pElem->QueryValueAttribute("NPCType", &npctype);
+					const char *namea = pElem->Attribute("Name");
+					std::string NameNPC = "";
+					if(namea)
+						NameNPC = namea;
+
+
+					bool mfound = false;
+					std::string ModelName;
+					std::string Outfit;
+					std::string Weapon;
+					std::string Mode;
+					std::map<std::string, ModelData> &models = Lba1ModelMapHandler::getInstance()->GetData();
+					std::map<std::string, ModelData>::iterator itm = models.begin();
+					std::map<std::string, ModelData>::iterator endm = models.end();
+					for(; itm != endm && !mfound; ++itm)
+					{
+						std::map<std::string, OutfitData>::iterator itm2 = itm->second.outfits.begin();
+						std::map<std::string, OutfitData>::iterator endm2 = itm->second.outfits.end();
+						for(; itm2 != endm2 && !mfound; ++itm2)
+						{
+							std::map<std::string, WeaponData>::iterator itm3 = itm2->second.weapons.begin();
+							std::map<std::string, WeaponData>::iterator endm3 = itm2->second.weapons.end();
+							for(; itm3 != endm3 && !mfound; ++itm3)
+							{
+								std::map<std::string, ModeData>::iterator itm4 = itm3->second.modes.begin();
+								std::map<std::string, ModeData>::iterator endm4 = itm3->second.modes.end();
+								for(; itm4 != endm4 && !mfound; ++itm4)
+								{
+									if(itm4->second.modelnumber == renderertarget[0] &&
+											itm4->second.bodynumber == renderertarget[1])
+									{
+										mfound = true;
+										ModelName = itm->first;
+										Outfit = itm2->first;
+										Weapon = itm3->first;
+										Mode = itm4->first;
+									}
+								}							
+							}						
+						}		
+					}
+					
+
+					// add map actor
+					ActorObjectInfo actorinfo(actorid++);
+					actorinfo.SetRenderType(3);
+					actorinfo.DisplayDesc.ModelName = ModelName;
+					actorinfo.DisplayDesc.Outfit = Outfit;
+					actorinfo.DisplayDesc.Weapon = Weapon;
+					actorinfo.DisplayDesc.Mode = Mode;
+					actorinfo.DisplayDesc.UseLight = true;
+					actorinfo.DisplayDesc.CastShadow = false;
+					actorinfo.SetModelState(1);
+					actorinfo.PhysicDesc.Pos.X = posX;
+					actorinfo.PhysicDesc.Pos.Y = posY;
+					actorinfo.PhysicDesc.Pos.Z = posZ;
+					actorinfo.PhysicDesc.Pos.Rotation = (float)rotation;
+					actorinfo.SetPhysicalActorType(2);
+					actorinfo.SetPhysicalShape(2);
+					actorinfo.PhysicDesc.Collidable = true;
+
+					int resWeaponType;
+					ModelSize size;
+					int res = Lba1ModelMapHandler::getInstance()-> GetModelExtraInfo(ModelName,
+																	Outfit,	Weapon,	Mode, resWeaponType, size);
+					actorinfo.PhysicDesc.SizeX = size.X;
+					actorinfo.PhysicDesc.SizeY = size.Y;
+					actorinfo.PhysicDesc.SizeZ = size.Z;
+
+					actorinfo.ExtraInfo.Name = NameNPC;
+					boost::shared_ptr<ActorHandler> act(new NPCHandler(actorinfo));
+					Actors[act->GetId()] = act;
+
+
+					//std::vector<PlayerScriptPart> scripts;
+					//TiXmlNode* pNode2=pElem->FirstChild("scripts");
+					//if(pNode2)
+					//{
+					//	TiXmlElement*pElem2=pNode2->FirstChildElement();
+					//	for( pElem2; pElem2; pElem2=pElem2->NextSiblingElement())
+					//	{
+					//		PlayerScriptPart ps;
+					//		ps.ValueA = -1;
+					//		ps.ValueB = -1;
+					//		ps.ValueC = -1;
+					//		ps.Sound = -1;
+					//		ps.Speed = -1;
+					//		ps.SoundNum = -1;
+					//		ps.Animation = -1;
+					//		ps.Flag = true;
+
+					//		pElem2->QueryValueAttribute("type", &ps.Type);
+					//		pElem2->QueryValueAttribute("ValueA", &ps.ValueA);
+					//		pElem2->QueryValueAttribute("ValueB", &ps.ValueB);
+					//		pElem2->QueryValueAttribute("ValueC", &ps.ValueC);
+					//		pElem2->QueryValueAttribute("Speed", &ps.Speed);
+					//		pElem2->QueryValueAttribute("Sound", &ps.Sound);
+					//		pElem2->QueryValueAttribute("SoundNum", &ps.SoundNum);
+					//		pElem2->QueryValueAttribute("Animation", &ps.Animation);
+					//		pElem2->QueryValueAttribute("Flag", &ps.Flag);
+					//		scripts.push_back(ps);
+					//	}
+					//}
+
+					//DialogHandlerPtr dialogptr = DialogHandlerPtr();
+					//#ifndef _LBANET_SERVER_SIDE_
+					//dialogptr = LoadDialog(pElem->FirstChildElement("Dialog"), invH, qH, actH);
+					//#endif
+
+					//NPCActor *tmpact = new NPCActor(scripts, false, npctype, activationdistance, NameNPC, 
+					//								dialogptr);
+
+					//if(npctype == 2)
+					//{
+					//	TiXmlNode* itemGroup=pElem->FirstChild("items");
+					//	if(itemGroup)
+					//	{
+					//		std::map<long, TraderItem> items;
+					//		TiXmlElement*pElem2=itemGroup->FirstChildElement();
+					//		for( pElem2; pElem2; pElem2=pElem2->NextSiblingElement())
+					//		{
+					//			TraderItem itm;
+					//			itm.id = -1;
+					//			pElem2->QueryValueAttribute("id", &itm.id);
+					//			itm.condition = LoadCondition(pElem2->FirstChildElement("Condition"), invH, qH, actH);
+					//			 
+					//			items[itm.id] = itm;
+					//		}
+
+					//		tmpact->SetItems(items);
+					//	}
+					//}
+
+					//act = tmpact;
+				}
+				break;
+
+
+				case 13: //scripted zone actor class
+				{
+					//float zoneSizeX=0, zoneSizeY=0, zoneSizeZ=0;
+					//pElem->QueryValueAttribute("zonesizeX", &zoneSizeX);
+					//pElem->QueryValueAttribute("zonesizeY", &zoneSizeY);
+					//pElem->QueryValueAttribute("zonesizeZ", &zoneSizeZ);
+					//int activationtype=1;
+					//pElem->QueryValueAttribute("activationtype", &activationtype);
+
+					//long neededitem=-1;
+					//pElem->QueryValueAttribute("neededitem", &neededitem);
+					//bool destroyitem = false;
+					//pElem->QueryValueAttribute("destroyitem", &destroyitem);
+
+					//const char *abortedmessage = pElem->Attribute("abortedmessage");
+					//std::string abortedmessages;
+					//if(abortedmessage)
+					//	abortedmessages = abortedmessage;
+
+
+					//std::vector<PlayerScriptPart> scripts;
+					//TiXmlNode* pNode2=pElem->FirstChild("scripts");
+					//if(pNode2)
+					//{
+					//	TiXmlElement*pElem2=pNode2->FirstChildElement();
+					//	for( pElem2; pElem2; pElem2=pElem2->NextSiblingElement())
+					//	{
+					//		PlayerScriptPart ps;
+					//		ps.ValueA = -1;
+					//		ps.ValueB = -1;
+					//		ps.ValueC = -1;
+					//		ps.Sound = -1;
+					//		ps.Speed = -1;
+					//		ps.SoundNum = -1;
+					//		ps.Animation = -1;
+					//		ps.Flag = true;
+					//		pElem2->QueryValueAttribute("type", &ps.Type);
+					//		pElem2->QueryValueAttribute("ValueA", &ps.ValueA);
+					//		pElem2->QueryValueAttribute("ValueB", &ps.ValueB);
+					//		pElem2->QueryValueAttribute("ValueC", &ps.ValueC);
+					//		pElem2->QueryValueAttribute("Speed", &ps.Speed);
+					//		pElem2->QueryValueAttribute("Sound", &ps.Sound);
+					//		pElem2->QueryValueAttribute("SoundNum", &ps.SoundNum);
+					//		pElem2->QueryValueAttribute("Animation", &ps.Animation);
+					//		pElem2->QueryValueAttribute("Flag", &ps.Flag);
+
+					//		const char *newMap = pElem2->Attribute("newMap");
+					//		if(newMap)
+					//			ps.NewMap = newMap;
+
+					//		const char *spawning = pElem2->Attribute("spawning");
+					//		if(spawning)
+					//			ps.Spawning = spawning;
+
+					//		scripts.push_back(ps);
+					//	}
+					//}
+					//act = new ScriptedZoneActor(zoneSizeX, zoneSizeY, zoneSizeZ, scripts, 
+					//							activationtype, neededitem, destroyitem, abortedmessages);
+				}
+				break;
+
+
+				case 14:	//mailbox class
+				{
+					//float activationdistance;
+					//int activationtype=1;
+					//pElem->QueryValueAttribute("activationdistance", &activationdistance);
+					//pElem->QueryValueAttribute("activationtype", &activationtype);
+					//act = new MailboxActor(activationdistance, activationtype);
+				}
+				break;
+			}
+		}
+	}
+
 
 	return true;
 }

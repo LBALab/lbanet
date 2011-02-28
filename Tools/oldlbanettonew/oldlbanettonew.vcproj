@@ -40,9 +40,9 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/D  _CRT_SECURE_NO_WARNINGS"
+				AdditionalOptions="/D  _CRT_SECURE_NO_WARNINGS /D _LBANET_SERVER_SIDE_"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\dependencies\3rdParty\include;..\..\dependencies\libconfig\include;..\..\shared;..\..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\..\dependencies\LUA\include;..\..\dependencies\luabind\include;..\..\Servers\WorldServer;..\..\dependencies\tinyxml\include"
+				AdditionalIncludeDirectories="..\..\dependencies\3rdParty\include;..\..\dependencies\libconfig\include;..\..\shared;..\..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\..\dependencies\LUA\include;..\..\dependencies\luabind\include;..\..\Servers\WorldServer;..\..\dependencies\tinyxml\include;..\..\Client"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;TIXML_USE_STL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -116,10 +116,10 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/D  _CRT_SECURE_NO_WARNINGS"
+				AdditionalOptions="/D  _CRT_SECURE_NO_WARNINGS /D _LBANET_SERVER_SIDE_"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="..\..\dependencies\3rdParty\include;..\..\dependencies\libconfig\include;..\..\shared;..\..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\..\dependencies\LUA\include;..\..\dependencies\luabind\include;..\..\Servers\WorldServer;..\..\dependencies\tinyxml\include"
+				AdditionalIncludeDirectories="..\..\dependencies\3rdParty\include;..\..\dependencies\libconfig\include;..\..\shared;..\..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\..\dependencies\LUA\include;..\..\dependencies\luabind\include;..\..\Servers\WorldServer;..\..\dependencies\tinyxml\include;..\..\Client"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;TIXML_USE_STL"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -180,11 +180,35 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\..\Servers\WorldServer\Actions.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\ActorHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\ActorScriptPart.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\CharacterModes.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\CharacterStates.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\infrastructure\cpp\ChatInfo.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\infrastructure\cpp\ClientInterface.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\ClientScript.cpp"
 				>
 			</File>
 			<File
@@ -196,11 +220,83 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\shared\CommonTypes.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\CommunityBoxHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\Conditions.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\ContainerBoxHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\DialogBoxHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\DialogPart.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\DoorHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\Entities.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\HQRHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\HQRlib.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\InventoryBoxHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\InventoryItemHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\Lba1ModelMapHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\infrastructure\cpp\LbaTypes.cpp"
 				>
 			</File>
 			<File
+				RelativePath="..\..\shared\LogHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\LuaHandlerBase.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\LuaThreadHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\MailBoxHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\main.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\MapHandler.cpp"
 				>
 			</File>
 			<File
@@ -209,6 +305,98 @@
 			</File>
 			<File
 				RelativePath=".\MapInfoXmlWriter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\NpcHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Client\ObjectsDescription.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\PlayerHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\Quest.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\QuestHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\Randomizer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\ScriptedActor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\ScriptEnvironmentBase.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\ServerGUIBase.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\ServerLBA1ModelClass.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\ServerLba1ModelHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\ServerLuaHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\SharedDataHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\ShopBoxHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\ShortcutBoxHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\Spawn.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Client\StaticObject.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\StreamReader.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\SynchronizedTimeHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\Teleport.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\TextBoxHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\Triggers.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Servers\WorldServer\WorldServerInterfaceServant.cpp"
 				>
 			</File>
 		</Filter>

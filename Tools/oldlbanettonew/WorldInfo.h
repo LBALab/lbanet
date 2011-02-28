@@ -65,6 +65,14 @@ struct ExitInfo
 	float			BottomLeftY;
 	float			BottomLeftZ;
 
+	float			SizeX;
+	float			SizeY;
+	float			SizeZ;
+
+	float			PosX;
+	float			PosY;
+	float			PosZ;
+
 	// arrival point of the exit
 	std::string		NewMap;
 	std::string		Spawning;

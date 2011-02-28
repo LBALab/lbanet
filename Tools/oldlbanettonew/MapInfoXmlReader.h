@@ -29,7 +29,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "WorldInfo.h"
 #include <vector>
 #include <map>
-
+#include <boost/shared_ptr.hpp>
+#include <LbaTypes.h>
+#include "Triggers.h"
+#include "ActorHandler.h"
+#include "NpcHandler.h"
+#include "DoorHandler.h"
 
 class TiXmlElement;
 
@@ -46,7 +51,10 @@ public:
 
 
 	// load map actors into memory
-	static  bool LoadActors(const std::string &Filename);
+	static  bool LoadActors(const std::string &Filename,
+							std::map<long, boost::shared_ptr<TriggerBase> >	&triggers,
+							std::map<Ice::Long, boost::shared_ptr<ActorHandler> >	&Actors,
+							long &triggerid, long &actorid);
 
 
 protected:
