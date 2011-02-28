@@ -991,3 +991,16 @@ long SharedDataHandler::GetSpawnId(const std::string & mapname, const std::strin
 
 	return -1;
 }
+
+
+/***********************************************************
+get spawns
+***********************************************************/
+std::map<long, boost::shared_ptr<Spawn> > SharedDataHandler::GetSpawns(const std::string & mapname)
+{
+	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator itmap = _currentmaps.find(mapname);
+	if(itmap != _currentmaps.end())
+		return itmap->second->GetSpawns();
+
+	return std::map<long, boost::shared_ptr<Spawn> >();
+}

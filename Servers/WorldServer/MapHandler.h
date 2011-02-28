@@ -314,6 +314,10 @@ public:
 	// get spawn
 	long GetSpawnId(const std::string SpawnName);
 
+	//! get spawns
+	std::map<long, boost::shared_ptr<Spawn> > GetSpawns()
+	{return _spawns;}
+
 
 
 

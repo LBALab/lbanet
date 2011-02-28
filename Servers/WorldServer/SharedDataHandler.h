@@ -188,6 +188,10 @@ public:
 	//! get spawn
 	long GetSpawnId(const std::string & mapname, const std::string & name);
 
+	//! get spawns
+	std::map<long, boost::shared_ptr<Spawn> > GetSpawns(const std::string & mapname);
+
+
 protected:
 	//! constructor
 	SharedDataHandler(void){}
