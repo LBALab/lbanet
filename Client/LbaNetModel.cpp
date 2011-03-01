@@ -622,7 +622,9 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 										PhysicDesc.TypePhysO, PhysicDesc.Density,
 										LbaQuaternion(PhysicDesc.Pos.Rotation, LbaVec3(0, 1, 0)),
 										PhysicDesc.SizeY, 
-										PhysicDesc.Collidable));
+										PhysicDesc.Collidable, 
+										PhysicDesc.Bounciness, 
+										PhysicDesc.StaticFriction, PhysicDesc.DynamicFriction));
 		}
 		break;
 

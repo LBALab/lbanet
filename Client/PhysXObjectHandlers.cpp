@@ -656,9 +656,12 @@ PhysicalDescriptionSphere::PhysicalDescriptionSphere(float posX, float posY, flo
 														LbaNet::PhysicalActorType Otype, float Odensity,
 														const LbaQuaternion &rot,
 														float sY,
-														bool Collidable)
+														bool Collidable,
+														float Bounciness, 
+														float StaticFriction, float DynamicFriction)
 	:PhysicalDescriptionWithShape(posX, posY, posZ, Otype, Odensity, rot, Collidable),
-		radius(sY/2), sizeY(sY)
+		radius(sY/2), sizeY(sY), bounciness(Bounciness), staticFriction(StaticFriction),
+			dynamicFriction(DynamicFriction)
 {
 
 }
@@ -686,7 +689,14 @@ RebuildActor
 ***********************************************************/
 NxActor* PhysicalDescriptionSphere::RebuildActor(float X, float Y, float Z, boost::shared_ptr<ActorUserData> udata)
 {
-	return PhysXEngine::getInstance()->CreateSphere(NxVec3(X, Y + sizeY/2, Z), 
+	if(ActorType == LbaNet::DynamicAType)
+		return PhysXEngine::getInstance()->CreateSphere(NxVec3(X, Y + sizeY/2, Z), 
+																	radius, 
+																	density, ActorType, udata.get(), 
+																	bounciness, staticFriction, dynamicFriction,
+																	rotation, collidable);
+	else
+		return PhysXEngine::getInstance()->CreateSphere(NxVec3(X, Y + sizeY/2, Z), 
 																	radius, 
 																	density, ActorType, udata.get(), 
 																	rotation, collidable);
