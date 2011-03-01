@@ -147,10 +147,10 @@ int main(int argc, char** argv)
 					myTexts->push_back(osg::Vec2(BottomLeftTextcoordX/TextureWidthInPixels, BottomLeftTextcoordY/TextureHeightInPixels));
 					myTexts->push_back(osg::Vec2(BottomRightTextcoordX/TextureWidthInPixels, BottomRightTextcoordY/TextureHeightInPixels));
 
-					myVertices->push_back(osg::Vec3(TopRightCornerX, TopRightCornerY/2.0f, TopRightCornerZ));
-					myVertices->push_back(osg::Vec3(TopLeftCornerX,  TopLeftCornerY/2.0f, TopLeftCornerZ));
-					myVertices->push_back(osg::Vec3(BottomLeftCornerX, BottomLeftCornerY/2.0f, BottomLeftCornerZ));
-					myVertices->push_back(osg::Vec3(BottomRightCornerX, BottomRightCornerY/2.0f, BottomRightCornerZ));
+					myVertices->push_back(osg::Vec3(TopRightCornerX, TopRightCornerY, TopRightCornerZ));
+					myVertices->push_back(osg::Vec3(TopLeftCornerX,  TopLeftCornerY, TopLeftCornerZ));
+					myVertices->push_back(osg::Vec3(BottomLeftCornerX, BottomLeftCornerY, BottomLeftCornerZ));
+					myVertices->push_back(osg::Vec3(BottomRightCornerX, BottomRightCornerY, BottomRightCornerZ));
 
 
 					myGeometry->addPrimitiveSet(myprimitive);
