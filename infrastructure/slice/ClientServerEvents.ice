@@ -124,6 +124,9 @@ module LbaNet
 		string			MapName;
 		string			InitializationScript;
 		int			AutoCameraType;
+		
+		string			MusicPath;
+		int			RepeatMusic;		
 	};
 	
 	
@@ -267,7 +270,8 @@ module LbaNet
 	class CutMapEvent extends ClientServerEventBase
 	{
 		float				Y;
-	};	
+	};
+	
 };	
 
 #endif

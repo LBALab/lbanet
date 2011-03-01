@@ -108,6 +108,9 @@ module LbaNet
 		bool			IsInstance;
 		
 		float			HurtFallFactor;
+		
+		string			Music;
+		int			Repeat;
 
 	};	
 	dictionary<string, MapInfo> 	MapsSeq;
