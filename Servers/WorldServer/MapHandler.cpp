@@ -599,7 +599,7 @@ void MapHandler::PlayerEntered(Ice::Long id)
 		toplayer.push_back(new NewMapEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 												_mapinfo.Name, 
 												SharedDataHandler::getInstance()->GetClientLuaFilename(_mapinfo.Name), 
-												_mapinfo.AutoCameraType)); 
+												_mapinfo.AutoCameraType, _mapinfo.Music, _mapinfo.Repeat)); 
 		
 		// remove ephemere item
 		RemoveEphemere(id);
@@ -2846,4 +2846,18 @@ long MapHandler::GetSpawnId(const std::string SpawnName)
 	}
 
 	return -1;
+}
+
+
+/***********************************************************
+open mailbox
+***********************************************************/
+void MapHandler::OpenMailbox(long PlayerId)
+{
+	if(PlayerId >= 0)
+	{
+		// send container to player
+		_guihandlers["MailBox"]->ShowGUI(PlayerId, GetPlayerPosition(PlayerId), 
+						boost::shared_ptr<ShowGuiParamBase>());
+	}
 }

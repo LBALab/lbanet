@@ -1022,6 +1022,37 @@ public:
 };
 
 
+//! use to display a text on client
+class OpenMailboxAction : public ActionBase
+{
+public:
+	//! constructor
+	OpenMailboxAction()
+	{}
+	
+	//! destructor
+	virtual ~OpenMailboxAction(void){}
+
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args);
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "OpenMailboxAction"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+
+};
+
 
 
 #endif

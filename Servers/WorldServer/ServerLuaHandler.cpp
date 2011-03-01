@@ -346,7 +346,7 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("ChapterStarted", &ScriptEnvironmentBase::ChapterStarted)
 		.def("OpenShop", &ScriptEnvironmentBase::OpenShop)
 		.def("AddSpawn", &ScriptEnvironmentBase::AddSpawn)
-		,
+		.def("OpenMailbox", &ScriptEnvironmentBase::OpenMailbox),
 
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),
@@ -522,6 +522,8 @@ ServerLuaHandler::ServerLuaHandler()
 		luabind::class_<OpenLetterWritterAction, ActionBase, boost::shared_ptr<ActionBase> >("OpenLetterWritterAction")
 		.def(luabind::constructor<>()),
 
+		luabind::class_<OpenMailboxAction, ActionBase, boost::shared_ptr<ActionBase> >("OpenMailboxAction")
+		.def(luabind::constructor<>()),
 
 
 		luabind::class_<ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("ClientScriptBase")

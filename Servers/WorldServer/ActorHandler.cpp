@@ -1491,7 +1491,7 @@ void ActorHandler::ActorFollowWaypoint(int ScriptId, int waypointindex1, int way
 ***********************************************************/
 void ActorHandler::SwitchModel(const std::string & newmodelname)
 {
-	if(newmodelname != "")
+	//if(newmodelname != "")
 	{
 		m_saved_model = m_actorinfo.DisplayDesc.ModelName;
 		m_actorinfo.DisplayDesc.ModelName = newmodelname;

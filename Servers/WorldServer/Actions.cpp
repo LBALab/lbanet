@@ -1134,3 +1134,41 @@ void OpenLetterWritterAction::SaveToLuaFile(std::ofstream & file, const std::str
 	file<<"\t"<<name<<" = OpenLetterWritterAction()"<<std::endl;
 }
 
+
+/***********************************************************
+//! execute the action
+//! parameter return the object type and number triggering the action
+***********************************************************/
+void OpenMailboxAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+								ActionArgumentBase* args)
+{
+	long clientid = -1;
+
+	if(ObjectType == 2)
+		clientid = (long)ObjectId;
+
+	// on object moved by player
+	if(ObjectType == 3)
+	{
+		// todo - find attached player
+	}
+
+	// check if client found - else return
+	if(clientid < 0)
+		return;
+
+
+	//send to client
+	if(owner)
+		owner->OpenMailbox(clientid);
+}
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void OpenMailboxAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
+{
+	file<<"\t"<<name<<" = OpenMailboxAction()"<<std::endl;
+}
+

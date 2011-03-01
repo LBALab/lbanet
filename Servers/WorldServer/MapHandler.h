@@ -318,7 +318,8 @@ public:
 	std::map<long, boost::shared_ptr<Spawn> > GetSpawns()
 	{return _spawns;}
 
-
+	//! open mailbox
+	virtual void OpenMailbox(long PlayerId);
 
 
 protected:
