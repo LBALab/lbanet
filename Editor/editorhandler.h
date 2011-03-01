@@ -529,6 +529,10 @@ public:
 	virtual void OpenShop(long PlayerId, const LbaNet::ItemsMap &items, 
 									const LbaNet::ItemInfo & currencyitem){}
 
+	//! open mailbox
+	virtual void OpenMailbox(long PlayerId){}
+
+
 public slots:
 	 //! ui button clicked
      void addtrigger_button_clicked();

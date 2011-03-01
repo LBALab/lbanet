@@ -1143,7 +1143,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 			<< "DisplayTextAction" << "ConditionalAction" << "OpenContainerAction" << "SendSignalAction"
 			<< "OpenDoorAction" << "CloseDoorAction" << "AddRemoveItemAction" << "HurtAction"
 			 << "KillAction"  << "MultiAction" << "SwitchAction" << "StartQuestAction" << "FinishQuestAction"
-			 << "OpenShopAction"<< "CutMapAction"<< "OpenLetterWritterAction";
+			 << "OpenShopAction"<< "CutMapAction"<< "OpenLetterWritterAction"<< "OpenMailboxAction";
+
 	_actiontypeList->setStringList(actilist);
 
 	QStringList consu_iteml;
@@ -9050,6 +9051,9 @@ ActionBasePtr EditorHandler::CreateAction(const std::string & type)
 
 	if(type == "OpenLetterWritterAction")
 		return ActionBasePtr(new OpenLetterWritterAction());
+	
+	if(type == "OpenMailboxAction")
+		return ActionBasePtr(new OpenMailboxAction());
 	
 	return ActionBasePtr();
 }
