@@ -539,7 +539,8 @@ public:
 									LbaNet::PhysicalActorType Otype, float Odensity,
 									const LbaQuaternion &rot,
 									float sY,
-									bool Collidable);
+									bool Collidable,
+									float Bounciness, float StaticFriction, float DynamicFriction);
 
 	//! destructor
 	virtual ~PhysicalDescriptionSphere();
@@ -561,6 +562,10 @@ public:
 
 	// keep sizeY
 	float sizeY;
+
+	float bounciness;
+	float staticFriction;
+	float dynamicFriction;
 };
 
 
