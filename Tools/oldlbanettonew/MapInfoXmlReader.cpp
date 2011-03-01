@@ -288,7 +288,7 @@ MapInfo MapInfoXmlReader::LoadMap(TiXmlElement* pElem)
 bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 							std::map<long, boost::shared_ptr<TriggerBase> >	&triggers,
 							std::map<Ice::Long, boost::shared_ptr<ActorHandler> >	&Actors,
-							long &triggerid, long &actorid)
+							long &triggerid, long &actorid, long textoffset)
 {
 	TiXmlDocument doc(Filename);
 	if (!doc.LoadFile())
@@ -388,13 +388,30 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 			{
 				case 1:	//text actor class
 				{
-					//long textid=0;
-					//float activationdistance;
-					//pElem->QueryValueAttribute("activationdistance", &activationdistance);
-					//pElem->QueryValueAttribute("textid", &textid);
-					//int activationtype=1;
-					//pElem->QueryValueAttribute("activationtype", &activationtype);
-					//act = new TextActor(activationdistance, textid, activationtype);
+					long textid=0;
+					float activationdistance;
+					pElem->QueryValueAttribute("activationdistance", &activationdistance);
+					pElem->QueryValueAttribute("textid", &textid);
+					int activationtype=1;
+					pElem->QueryValueAttribute("activationtype", &activationtype);
+					textid+=textoffset;
+
+					TriggerInfo triinfo;
+					triinfo.id = triggerid++;
+					triinfo.CheckPlayers = true;
+					triinfo.CheckMovableObjects = false;
+					triinfo.CheckNpcs = false;
+					std::stringstream triname;
+					triname<<"TextTri_"<<triinfo.id;
+					triinfo.name = triname.str();
+					boost::shared_ptr<TriggerBase> newtri(new ActivationTrigger(triinfo, activationdistance/2, "Normal", ""));
+					newtri->SetPosition(posX, posY, posZ);
+
+					DisplayTextAction * act = new DisplayTextAction();
+					act->SetTextId(textid);
+					newtri->SetAction1(ActionBasePtr(act));
+
+					triggers[newtri->GetId()] = newtri;
 				}
 				break;
 				case 2:	//ladder actor class
@@ -418,7 +435,7 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 					std::stringstream triname;
 					triname<<"LadderTri_"<<triinfo.id;
 					triinfo.name = triname.str();
-					boost::shared_ptr<TriggerBase> newtri(new ActivationTrigger(triinfo, activationdistance*activationdistance, "Normal", ""));
+					boost::shared_ptr<TriggerBase> newtri(new ActivationTrigger(triinfo, activationdistance/2, "Normal", ""));
 					newtri->SetPosition(posX, posY, posZ);
 
 					GoUpLadderScript * goupl = new GoUpLadderScript();
@@ -456,7 +473,7 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 					std::stringstream triname;
 					triname<<"ExitDownTri_"<<triinfo.id;
 					triinfo.name = triname.str();
-					boost::shared_ptr<TriggerBase> newtri(new ActivationTrigger(triinfo, activationdistance*activationdistance, "Normal", ""));
+					boost::shared_ptr<TriggerBase> newtri(new ActivationTrigger(triinfo, activationdistance/2, "Normal", ""));
 					newtri->SetPosition(posX, posY, posZ);
 
 					TakeExitDownScript * goupl = new TakeExitDownScript();
@@ -520,7 +537,7 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 					actorinfo.PhysicDesc.Pos.Y = posY;
 					actorinfo.PhysicDesc.Pos.Z = posZ;
 					actorinfo.PhysicDesc.Pos.Rotation = 0;
-					actorinfo.SetPhysicalActorType(1);
+					actorinfo.SetPhysicalActorType(2);
 					actorinfo.SetPhysicalShape(2);
 					actorinfo.PhysicDesc.Collidable = true;
 					actorinfo.PhysicDesc.SizeX = sizeX;
@@ -598,6 +615,13 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 							act->AddItem(ContainerItemGroupElement(itid, itnumber, itnumber, itproba, itgroupidx));
 						}
 					}
+					if(act->GetItems().size() == 0)
+					{
+						act->AddItem(ContainerItemGroupElement(1, 1, 1, 0.3f, itgroupidx));
+						act->AddItem(ContainerItemGroupElement(2, 1, 1, 0.3f, itgroupidx));
+						act->AddItem(ContainerItemGroupElement(8, 2, 2, 0.35f, itgroupidx));
+						act->AddItem(ContainerItemGroupElement(3, 1, 1, 0.05f, itgroupidx));
+					}
 				}
 				break;
 
@@ -618,7 +642,7 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 					std::stringstream triname;
 					triname<<"ExitUpTri_"<<triinfo.id;
 					triinfo.name = triname.str();
-					boost::shared_ptr<TriggerBase> newtri(new ActivationTrigger(triinfo, activationdistance*activationdistance, "Normal", ""));
+					boost::shared_ptr<TriggerBase> newtri(new ActivationTrigger(triinfo, activationdistance/2, "Normal", ""));
 					newtri->SetPosition(posX, posY, posZ);
 
 					TakeExitUpScript * goupl = new TakeExitUpScript();
@@ -637,17 +661,73 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 
 				case 7:	//switch actor class
 				{
-					//float activationdistance;
-					//pElem->QueryValueAttribute("activationdistance", &activationdistance);
-					//int activationtype=1;
-					//pElem->QueryValueAttribute("activationtype", &activationtype);
+					float activationdistance;
+					pElem->QueryValueAttribute("activationdistance", &activationdistance);
+					int activationtype=1;
+					pElem->QueryValueAttribute("activationtype", &activationtype);
 					//act = new SwitchActor(activationdistance, activationtype);
 
-					//sizeX=0.4f;
-					//sizeY=3.0f;
-					//sizeZ=0.4f;
-					//offsetsizeY=3.5f;
-					//collidable = false;
+
+					std::stringstream sprnames;
+					sprnames<<"sprite";
+					if(renderertarget[0] < 10)
+						sprnames<<"0";
+					if(renderertarget[0] < 100)
+						sprnames<<"0";
+					sprnames<<renderertarget[0]<<".osgb";
+
+					ActorObjectInfo actorinfo(actorid++);
+					actorinfo.SetRenderType(1);
+					actorinfo.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/"+sprnames.str();
+					actorinfo.DisplayDesc.UseLight = true;
+					actorinfo.DisplayDesc.CastShadow = false;
+					actorinfo.DisplayDesc.TransY=-3.5f;
+					actorinfo.SetModelState(1);
+					actorinfo.PhysicDesc.Pos.X = posX;
+					actorinfo.PhysicDesc.Pos.Y = posY+3.5f;
+					actorinfo.PhysicDesc.Pos.Z = posZ;
+					actorinfo.PhysicDesc.Pos.Rotation = 0;
+					actorinfo.SetPhysicalActorType(1);
+					actorinfo.SetPhysicalShape(2);
+					actorinfo.PhysicDesc.Collidable = false;
+					actorinfo.PhysicDesc.SizeX = 0.4f;
+					actorinfo.PhysicDesc.SizeY = 3.0f;
+					actorinfo.PhysicDesc.SizeZ = 0.4f;
+					boost::shared_ptr<ActorHandler> act(new ActorHandler(actorinfo));
+
+					Actors[act->GetId()] = act;
+
+
+					TriggerInfo triinfo;
+					triinfo.id = triggerid++;
+					triinfo.CheckPlayers = true;
+					triinfo.CheckMovableObjects = false;
+					triinfo.CheckNpcs = false;
+					std::stringstream triname;
+					triname<<"SwitchTri_"<<triinfo.id;
+					triinfo.name = triname.str();
+					boost::shared_ptr<ActivationTrigger> newtri(new ActivationTrigger(triinfo, activationdistance/2, "Normal", ""));
+					newtri->SetPosition(posX, posY, posZ);
+					newtri->SetPlayAnimation(true);
+
+					SwitchAction * action = new SwitchAction();
+					action->SetActorId(act->GetId());
+
+					if(renderertarget.size() > 1)
+					{
+						std::stringstream sprnames2;
+						sprnames2<<"sprite";
+						if(renderertarget[1] < 10)
+							sprnames2<<"0";
+						if(renderertarget[1] < 100)
+							sprnames2<<"0";
+						sprnames2<<renderertarget[1]<<".osgb";
+						action->SetSwitchModel("Worlds/Lba1Original/Sprites/"+sprnames2.str());
+					}
+
+					newtri->SetAction1(ActionBasePtr(action));
+
+					triggers[newtri->GetId()] = newtri;
 				}
 				break;
 
@@ -665,18 +745,68 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 
 				case 9:	//floor switch actor class
 				{
-					//float zoneSizeX=0, zoneSizeY=0, zoneSizeZ=0;
-					//pElem->QueryValueAttribute("zonesizeX", &zoneSizeX);
-					//pElem->QueryValueAttribute("zonesizeY", &zoneSizeY);
-					//pElem->QueryValueAttribute("zonesizeZ", &zoneSizeZ);
-					//int activationtype=1;
-					//pElem->QueryValueAttribute("activationtype", &activationtype);
-					//act = new FloorSwitch(zoneSizeX, zoneSizeY, zoneSizeZ, activationtype);
+					float zoneSizeX=0, zoneSizeY=0, zoneSizeZ=0;
+					pElem->QueryValueAttribute("zonesizeX", &zoneSizeX);
+					pElem->QueryValueAttribute("zonesizeY", &zoneSizeY);
+					pElem->QueryValueAttribute("zonesizeZ", &zoneSizeZ);
+					int activationtype=1;
+					pElem->QueryValueAttribute("activationtype", &activationtype);
+
+
+					TriggerInfo triinfo;
+					triinfo.id = triggerid++;
+					triinfo.CheckPlayers = true;
+					triinfo.CheckMovableObjects = false;
+					triinfo.CheckNpcs = false;
+					std::stringstream triname;
+					triname<<"FloorSwitchTri_"<<triinfo.id;
+					triinfo.name = triname.str();
+					boost::shared_ptr<ZoneActionTrigger> newtri(new ZoneActionTrigger(triinfo, zoneSizeX, zoneSizeY, zoneSizeZ, "Normal", ""));
+					newtri->SetPosition(posX, posY, posZ);
+					newtri->SetPlayAnimation(true);
+
+					SendSignalAction * act = new SendSignalAction();
+					act->SetSignal(outputsignal);
+					act->SetActorId(-1);
+					newtri->SetAction1(ActionBasePtr(act));
+
+					triggers[newtri->GetId()] = newtri;
 				}
 				break;
 
 				case 10:	//lift actor class
 				{
+
+					std::stringstream sprnames;
+					sprnames<<"sprite";
+					if(renderertarget[0] < 10)
+						sprnames<<"0";
+					if(renderertarget[0] < 100)
+						sprnames<<"0";
+					sprnames<<renderertarget[0]<<".osgb";
+
+					ActorObjectInfo actorinfo(actorid++);
+					actorinfo.SetRenderType(1);
+					actorinfo.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/"+sprnames.str();
+					actorinfo.DisplayDesc.UseLight = true;
+					actorinfo.DisplayDesc.CastShadow = false;
+					actorinfo.SetModelState(1);
+					actorinfo.PhysicDesc.Pos.X = posX;
+					actorinfo.PhysicDesc.Pos.Y = posY;
+					actorinfo.PhysicDesc.Pos.Z = posZ;
+					actorinfo.PhysicDesc.Pos.Rotation = 0;
+					actorinfo.SetPhysicalActorType(2);
+					actorinfo.SetPhysicalShape(2);
+					actorinfo.PhysicDesc.Collidable = true;
+					actorinfo.PhysicDesc.SizeX = sizeX;
+					actorinfo.PhysicDesc.SizeY = sizeY;
+					actorinfo.PhysicDesc.SizeZ = sizeZ;
+					boost::shared_ptr<ActorHandler> act(new ActorHandler(actorinfo));
+
+					Actors[act->GetId()] = act;
+
+
+
 					//bool autoattach = true;
 					//pElem->QueryValueAttribute("autoattach", &autoattach);					
 
@@ -799,7 +929,7 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 					actorinfo.DisplayDesc.Weapon = Weapon;
 					actorinfo.DisplayDesc.Mode = Mode;
 					actorinfo.DisplayDesc.UseLight = true;
-					actorinfo.DisplayDesc.CastShadow = false;
+					actorinfo.DisplayDesc.CastShadow = true;
 					actorinfo.SetModelState(1);
 					actorinfo.PhysicDesc.Pos.X = posX;
 					actorinfo.PhysicDesc.Pos.Y = posY;

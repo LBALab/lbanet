@@ -54,7 +54,7 @@ public:
 	static  bool LoadActors(const std::string &Filename,
 							std::map<long, boost::shared_ptr<TriggerBase> >	&triggers,
 							std::map<Ice::Long, boost::shared_ptr<ActorHandler> >	&Actors,
-							long &triggerid, long &actorid);
+							long &triggerid, long &actorid, long textoffset);
 
 
 protected:

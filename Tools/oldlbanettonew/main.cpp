@@ -41,6 +41,20 @@ int main( int argc, char **argv )
 	MapInfoXmlReader::LoadWorld("Data/Lba1Original.xml", winfo);
 	MapInfoXmlWriter::SaveWorld("Data/Worlds/"+winfo.Name+"/WorldDescription.xml", winfo);
 
+	std::map<std::string, long>	textoffsets;
+	std::ifstream fileoff("textoffsets.txt");
+	if(fileoff.is_open())
+	{
+		while(!fileoff.eof())
+		{
+			std::string tmp1;
+			long tmp2;
+			fileoff>>tmp1;
+			fileoff>>tmp2;
+			textoffsets[tmp1] = tmp2;
+		}
+	}
+
 
 	// modify spawning and exit to fit new style
 	{
@@ -183,10 +197,14 @@ int main( int argc, char **argv )
 			_triggers[newtri->GetId()] = newtri;
 		}
 
+		std::string textfile = itmap->second.Files["Texts"];
+		textfile.substr(textfile.find("/")+1);
+		long txtoffeset = textoffsets[textfile];
+
 
 		// add actors
-		MapInfoXmlReader::LoadActors("Data/"+itmap->second.Files["LocalActors"], _triggers, _Actors, triggerid, actorid);
-		MapInfoXmlReader::LoadActors("Data/"+itmap->second.Files["ExternalActors"], _triggers, _Actors, triggerid, actorid);
+		MapInfoXmlReader::LoadActors("Data/"+itmap->second.Files["LocalActors"], _triggers, _Actors, triggerid, actorid, txtoffeset);
+		MapInfoXmlReader::LoadActors("Data/"+itmap->second.Files["ExternalActors"], _triggers, _Actors, triggerid, actorid, txtoffeset);
 
 
 		// save to files
