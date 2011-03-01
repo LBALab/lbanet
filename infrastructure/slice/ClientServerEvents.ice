@@ -272,6 +272,36 @@ module LbaNet
 		float				Y;
 	};
 	
+	
+	// server tell client to create projectile
+	class CreateProjectileEvent extends ClientServerEventBase
+	{
+		int			OwnerActorType;
+		long			OwnerActorId;		
+	
+		long			Id;
+		ModelInfo		DisplayDesc;
+		ObjectPhysicDesc	PhysicDesc;
+		bool			ClientIsOwner;
+		
+		float			ForceX;
+		float			ForceY;		
+		float			ForceZ;		
+		float			ForceYOnImpact;
+		
+		int			NbBounce;
+		bool			IgnoreGravity;
+	};
+	
+	
+	// server tell client to destroy projectile
+	class DestroyProjectileEvent extends ClientServerEventBase
+	{
+		long			Id;
+
+		int			TouchedActorType;
+		long			TouchedActorId;
+	};	
 };	
 
 #endif

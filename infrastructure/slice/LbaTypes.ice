@@ -384,6 +384,11 @@ module LbaNet
 		
 		// used for triangle mesh
 		string			Filename;
+		
+		
+		float			Bounciness;
+		float			StaticFriction; 
+		float			DynamicFriction; 		
 	};
 
 
