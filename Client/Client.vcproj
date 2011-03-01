@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/D  _CRT_SECURE_NO_WARNINGS"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\dependencies\OSG\include;..\dependencies\CEGUI\cegui\include;..\dependencies\3rdParty\include;..\dependencies\libconfig\include;..\shared;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Foundation/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Physics/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Cooking/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/PhysXLoader/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/NxCharacter/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot;;..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\dependencies\fmod\include;..\dependencies\CrashReport\crashrpt\include;..\dependencies\LUA\include;..\dependencies\luabind\include;..\Servers\WorldServer;..\dependencies\sqlite"
+				AdditionalIncludeDirectories="..\dependencies\OSG\include;..\dependencies\CEGUI\cegui\include;..\dependencies\3rdParty\include;..\dependencies\libconfig\include;..\shared;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Foundation/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Physics/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Cooking/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/PhysXLoader/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/NxCharacter/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot;;..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\dependencies\fmod\include;..\dependencies\CrashReport\crashrpt\include;..\dependencies\LUA\include;..\dependencies\luabind\include;..\Servers\WorldServer;..\dependencies\sqlite;."
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -188,6 +188,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\shared\ActorScriptPart.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ActorUserData.cpp"
 				>
 			</File>
@@ -300,11 +304,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Servers\WorldServer\DialogPart.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Servers\WorldServer\DoorHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\shared\Entities.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\shared\EventsQueue.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ExternalActor.cpp"
 				>
 			</File>
 			<File
@@ -412,6 +428,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\shared\LuaHandlerBase.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\shared\LuaThreadHandler.cpp"
 				>
 			</File>
@@ -448,6 +468,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Servers\WorldServer\NpcHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ObjectsDescription.cpp"
 				>
 			</File>
@@ -480,15 +504,39 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Servers\WorldServer\Quest.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Servers\WorldServer\QuestHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\shared\Randomizer.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\RemoteConnectionHandler.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\ScriptedActor.cpp"
+				RelativePath="..\shared\ScriptedActor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\shared\ScriptEnvironmentBase.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\Servers\WorldServer\ServerGUIBase.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Servers\WorldServer\ServerLBA1ModelClass.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Servers\WorldServer\ServerLba1ModelHandler.cpp"
 				>
 			</File>
 			<File
@@ -516,6 +564,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Servers\WorldServer\Spawn.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\dependencies\sqlite\sqlite3.c"
 				>
 			</File>
@@ -533,6 +585,10 @@
 			</File>
 			<File
 				RelativePath="..\shared\SynchronizedTimeHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Servers\WorldServer\Teleport.cpp"
 				>
 			</File>
 			<File

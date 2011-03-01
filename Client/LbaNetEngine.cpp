@@ -468,6 +468,11 @@ void LbaNetEngine::HandleGameEvents()
 			upd.push_back(new ChatMapNameUpdate(castedptr->MapName));
 			m_gui_handler->UpdateGameGUI("ChatBox", upd);
 
+			// update music
+			if(castedptr->MusicPath != "")
+				MusicHandler::getInstance()->PlayMusic(castedptr->MusicPath, castedptr->RepeatMusic);
+
+
 			continue;
 		}
 
@@ -720,7 +725,7 @@ void LbaNetEngine::HandleGameEvents()
 				dynamic_cast<LbaNet::ShowHideEvent *>(&obj);
 
 			if(m_lbaNetModel)
-				m_lbaNetModel->ShowHideActor(castedptr->TypeO, castedptr->ObjectId, castedptr->Show);
+				m_lbaNetModel->ShowHideActor(castedptr->TypeO, (long)castedptr->ObjectId, castedptr->Show);
 
 			continue;
 		}
@@ -745,7 +750,7 @@ void LbaNetEngine::HandleGameEvents()
 				dynamic_cast<LbaNet::NpcTargetPlayerEvent *>(&obj);
 
 			if(m_lbaNetModel)
-				m_lbaNetModel->NpcTargetPlayer(castedptr->NpcId, castedptr->PlayerId);
+				m_lbaNetModel->NpcTargetPlayer((long)castedptr->NpcId, (long)castedptr->PlayerId);
 
 			continue;
 		}
@@ -757,7 +762,7 @@ void LbaNetEngine::HandleGameEvents()
 				dynamic_cast<LbaNet::NpcUnTargetPlayerEvent *>(&obj);
 
 			if(m_lbaNetModel)
-				m_lbaNetModel->NpcUnTargetPlayer(castedptr->NpcId);
+				m_lbaNetModel->NpcUnTargetPlayer((long)castedptr->NpcId);
 
 			continue;
 		}

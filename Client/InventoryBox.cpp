@@ -631,7 +631,7 @@ void InventoryBox::Update(const LbaNet::GuiUpdatesSeq &Updates)
 			std::string itelongdesc = Localizer::getInstance()->GetText(Localizer::Inventory, (long)itinfo.Info.LongDescriptionId);
 
 
-			InformUserItemUpdate(itinfo.Info.Id, castedptr->Informtype, itinfo.Count-oldcount,
+			InformUserItemUpdate((long)itinfo.Info.Id, castedptr->Informtype, itinfo.Count-oldcount,
 									nametxtdesc, itedesc, itelongdesc, itinfo.Info.IconName);
 
 			if(itinfo.Count > 0)

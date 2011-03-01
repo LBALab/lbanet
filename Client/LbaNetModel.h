@@ -347,6 +347,9 @@ public:
 	//! open shop
 	virtual void OpenShop(long PlayerId, const LbaNet::ItemsMap &items, 
 									const LbaNet::ItemInfo & currencyitem){}
+	//! open mailbox
+	virtual void OpenMailbox(long PlayerId){}
+
 protected:
 
 	//! clean up map
