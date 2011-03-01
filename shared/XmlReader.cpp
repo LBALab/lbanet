@@ -123,6 +123,8 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
 				mapi.AutoCameraType = v.second.get<int>("<xmlattr>.AutoCameraType", 1);
 				mapi.IsInstance = v.second.get<bool>("<xmlattr>.IsInstance", false);
 				mapi.HurtFallFactor = v.second.get<float>("<xmlattr>.HurtFallFactor", 2);
+				mapi.Music = v.second.get<std::string>("<xmlattr>.music", "");
+				mapi.Repeat = v.second.get<int>("<xmlattr>.repeatmusic", 0);
 
 				res.Maps[mapi.Name] = mapi;
 			}
@@ -201,6 +203,8 @@ bool XmlReader::SaveWorldInfo(const std::string &Filename, const WorldInformatio
 		tmp.put("<xmlattr>.AutoCameraType", mapi.second.AutoCameraType);
 		tmp.put("<xmlattr>.IsInstance", mapi.second.IsInstance);
 		tmp.put("<xmlattr>.HurtFallFactor", mapi.second.HurtFallFactor);
+		tmp.put("<xmlattr>.music", mapi.second.Music);
+		tmp.put("<xmlattr>.repeatmusic", mapi.second.Repeat);
 	}
 
 	// Write the property tree into the XML file 

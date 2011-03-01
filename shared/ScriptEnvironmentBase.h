@@ -330,6 +330,9 @@ public:
 	virtual void OpenShop(long PlayerId, const LbaNet::ItemsMap &items, 
 									const LbaNet::ItemInfo & currencyitem) = 0;
 
+	//! open mailbox
+	virtual void OpenMailbox(long PlayerId) = 0;
+
 protected:
 
 	//! used by lua to move an actor or player
