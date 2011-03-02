@@ -18,67 +18,7 @@
 		</StartingModel>
 		<StartingInventory>
 			<object>
-				<ObjectId>1</ObjectId>
-				<Number>10</Number>
-				<Position>-1</Position>
-			</object>
-			<object>
-				<ObjectId>2</ObjectId>
-				<Number>1</Number>
-				<Position>-1</Position>
-			</object>
-			<object>
-				<ObjectId>3</ObjectId>
-				<Number>1</Number>
-				<Position>-1</Position>
-			</object>
-			<object>
-				<ObjectId>5</ObjectId>
-				<Number>1</Number>
-				<Position>-1</Position>
-			</object>
-			<object>
-				<ObjectId>6</ObjectId>
-				<Number>1</Number>
-				<Position>-1</Position>
-			</object>
-			<object>
-				<ObjectId>7</ObjectId>
-				<Number>1</Number>
-				<Position>-1</Position>
-			</object>
-			<object>
-				<ObjectId>9</ObjectId>
-				<Number>1</Number>
-				<Position>-1</Position>
-			</object>
-			<object>
-				<ObjectId>22</ObjectId>
-				<Number>1</Number>
-				<Position>-1</Position>
-			</object>
-			<object>
-				<ObjectId>23</ObjectId>
-				<Number>1</Number>
-				<Position>-1</Position>
-			</object>
-			<object>
 				<ObjectId>24</ObjectId>
-				<Number>1</Number>
-				<Position>-1</Position>
-			</object>
-			<object>
-				<ObjectId>25</ObjectId>
-				<Number>1</Number>
-				<Position>-1</Position>
-			</object>
-			<object>
-				<ObjectId>26</ObjectId>
-				<Number>1</Number>
-				<Position>-1</Position>
-			</object>
-			<object>
-				<ObjectId>27</ObjectId>
 				<Number>1</Number>
 				<Position>-1</Position>
 			</object>

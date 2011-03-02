@@ -158,6 +158,13 @@ function TakeExitUp(ScriptId, ActorId, ExitPosition, ExitDirection, Environment)
 	-- add exit animation
 	Environment:UpdateActorAnimation(ActorId, "Climb")
 	Environment:ActorAnimate(ScriptId, ActorId, true)
+	
+	-- go up to activate trigger
+	NewPosition = Environment:GetActorPosition(ActorId)
+	NewPosition.x = NewPosition.x - remX
+	NewPosition.y = NewPosition.y + 2.5
+	NewPosition.z = NewPosition.z - remZ
+	Environment:TeleportActorTo(ScriptId, ActorId, NewPosition)
 
 
 end
