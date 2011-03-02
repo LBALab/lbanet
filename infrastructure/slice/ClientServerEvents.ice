@@ -301,7 +301,15 @@ module LbaNet
 
 		int			TouchedActorType;
 		long			TouchedActorId;
-	};	
+	};
+	
+	// client tell server to update player color
+	class UpdatePlayerColorEvent extends ClientServerEventBase
+	{
+		int			SkinColor;
+		int			EyesColor;
+		int			HairColor;
+	};
 };	
 
 #endif
