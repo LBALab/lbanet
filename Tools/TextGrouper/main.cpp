@@ -55,10 +55,9 @@ std::vector<std::string> GetFile(const std::string &directory)
 	return files;
 }
 
-
-int main( int argc, char **argv )
+void Group(const std::string & path, const std::string & outfile, const std::string & offsetfile)
 {
-	std::vector<std::string> files = GetFile("en/Lba2");
+	std::vector<std::string> files = GetFile(path);
 
 	//todo - sort files
 
@@ -86,13 +85,29 @@ int main( int argc, char **argv )
 		}
 	}
 
-	MapInfoXmlWriter::SaveTexts("Out.xml", globaltexts);
+	MapInfoXmlWriter::SaveTexts(outfile, globaltexts);
 
-	std::ofstream filem("textoffsets.txt");
+	std::ofstream filem(offsetfile.c_str());
 	std::map<std::string, long>::iterator ito = offsets.begin();
 	std::map<std::string, long>::iterator endo = offsets.end();
 	for(; ito != endo; ++ito)
 		filem<<ito->first<<" "<<ito->second<<std::endl;
+}
+
+
+int main( int argc, char **argv )
+{
+	Group("Texts/de/Lba1", "Lba1/de/map.xml", "Lba1/textoffsets.txt");
+	Group("Texts/en/Lba1", "Lba1/en/map.xml", "Lba1/textoffsets.txt");
+	Group("Texts/fr/Lba1", "Lba1/fr/map.xml", "Lba1/textoffsets.txt");
+	Group("Texts/it/Lba1", "Lba1/it/map.xml", "Lba1/textoffsets.txt");
+	Group("Texts/sp/Lba1", "Lba1/sp/map.xml", "Lba1/textoffsets.txt");
+
+	Group("Texts/de/Lba2", "Lba2/de/map.xml", "Lba2/textoffsets.txt");
+	Group("Texts/en/Lba2", "Lba2/en/map.xml", "Lba2/textoffsets.txt");
+	Group("Texts/fr/Lba2", "Lba2/fr/map.xml", "Lba2/textoffsets.txt");
+	Group("Texts/it/Lba2", "Lba2/it/map.xml", "Lba2/textoffsets.txt");
+	Group("Texts/sp/Lba2", "Lba2/sp/map.xml", "Lba2/textoffsets.txt");
 
 	return 0;
 }
