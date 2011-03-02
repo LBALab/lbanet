@@ -8095,27 +8095,27 @@ void EditorHandler::PickedArrowMoved(int pickedarrow)
 
 			if(pickedarrow == 1)
 			{
-				float nX = _objectmodel->data(_objectmodel->GetIndex(1, 8)).toString().toFloat();
+				float nX = _objectmodel->data(_objectmodel->GetIndex(1, 7)).toString().toFloat();
 				nX += floor(_draggerX->getMatrix().getTrans().x()*10)/10 - center.x();
-				_objectmodel->setData(_objectmodel->GetIndex(1, 8), nX);
+				_objectmodel->setData(_objectmodel->GetIndex(1, 7), nX);
 				_draggerY->setMatrix(_draggerX->getMatrix());
 				_draggerZ->setMatrix(_draggerX->getMatrix());
 			}
 
 			if(pickedarrow == 2)
 			{	
-				float nY = _objectmodel->data(_objectmodel->GetIndex(1, 9)).toString().toFloat();
+				float nY = _objectmodel->data(_objectmodel->GetIndex(1, 8)).toString().toFloat();
 				nY += floor(_draggerY->getMatrix().getTrans().y()*10)/10 - center.y();
-				_objectmodel->setData(_objectmodel->GetIndex(1, 9), nY);
+				_objectmodel->setData(_objectmodel->GetIndex(1, 8), nY);
 				_draggerX->setMatrix(_draggerY->getMatrix());
 				_draggerZ->setMatrix(_draggerY->getMatrix());
 			}
 
 			if(pickedarrow == 3)
 			{
-				float nZ = _objectmodel->data(_objectmodel->GetIndex(1, 10)).toString().toFloat();
+				float nZ = _objectmodel->data(_objectmodel->GetIndex(1, 9)).toString().toFloat();
 				nZ += floor(_draggerZ->getMatrix().getTrans().z()*10)/10 - center.z();
-				_objectmodel->setData(_objectmodel->GetIndex(1, 10), nZ);
+				_objectmodel->setData(_objectmodel->GetIndex(1, 9), nZ);
 				_draggerX->setMatrix(_draggerZ->getMatrix());
 				_draggerY->setMatrix(_draggerZ->getMatrix());
 			}
