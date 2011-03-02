@@ -32,6 +32,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommonTypes.h"
 #include "DisplayHandlerBase.h"
 
+#include <LbaTypes.h>
+
 class PhysXEngine;
 class DynamicObject;
 class NxActor;
@@ -377,7 +379,7 @@ public:
 	virtual ~PhysicalDescriptionBase();
 
 	//! build description into a reald physic object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id,
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(LbaNet::ObjectTypeEnum type, long id,
 										boost::shared_ptr<PhysicalDescriptionBase> self) const = 0;
 
 	//! change size
@@ -414,7 +416,7 @@ public:
 	virtual ~PhysicalDescriptionNoShape();
 
 	//! build description into a reald physic object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id,
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(LbaNet::ObjectTypeEnum type, long id,
 										boost::shared_ptr<PhysicalDescriptionBase> self) const;
 
 };
@@ -470,7 +472,7 @@ public:
 
 
 	//! build description into a reald physic object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id,
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(LbaNet::ObjectTypeEnum type, long id,
 										boost::shared_ptr<PhysicalDescriptionBase> self) const;
 
 	//! change size
@@ -506,7 +508,7 @@ public:
 
 
 	//! build description into a reald physic object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id,
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(LbaNet::ObjectTypeEnum type, long id,
 										boost::shared_ptr<PhysicalDescriptionBase> self) const;
 
 	//! change size
@@ -547,7 +549,7 @@ public:
 
 
 	//! build description into a reald physic object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id,
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(LbaNet::ObjectTypeEnum type, long id,
 										boost::shared_ptr<PhysicalDescriptionBase> self) const;
 
 	//! change size
@@ -587,7 +589,7 @@ public:
 
 
 	//! build description into a reald physic object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(long id,
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(LbaNet::ObjectTypeEnum type, long id,
 										boost::shared_ptr<PhysicalDescriptionBase> self) const;
 
 
@@ -609,7 +611,7 @@ public:
 	ObjectInfo(){}
 
 	//! constructor
-	ObjectInfo(long oid, boost::shared_ptr<DisplayInfo> DInfo,
+	ObjectInfo(LbaNet::ObjectTypeEnum type, long oid, boost::shared_ptr<DisplayInfo> DInfo,
 				boost::shared_ptr<PhysicalDescriptionBase> PInfo,
 				bool Static);
 
@@ -631,6 +633,7 @@ public:
 	boost::shared_ptr<PhysicalDescriptionBase>	PhysInfo;
 	bool										IsStatic;
 	long										Id;
+	LbaNet::ObjectTypeEnum 						Type;
 };
 
 

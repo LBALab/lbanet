@@ -30,6 +30,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <LbaTypes.h>
 
 class ActorUserData;
+class NxActor;
+
 
 //*************************************************************************************************
 //*                               class PhysicalObjectHandlerBase
@@ -113,6 +115,14 @@ public:
 		}
 	}
 
+	//! ignore collision between two pairs of actors
+	virtual void IgnoreCollisionWith(PhysicalObjectHandlerBase * actor) = 0;
+
+	//! add force to actor - only for dynamic actors
+	virtual void AddForce(float X, float Y, float Z) = 0;
+
+	//! return internal actor - only for physX actor
+	virtual NxActor* GetphysXInternalActor() = 0;
 
 protected:
 	bool _resetted;
@@ -284,6 +294,15 @@ public:
 	//! show or hide the object
 	virtual void ShowOrHide(bool Show){}
 
+	//! ignore collision between two pairs of actors
+	virtual void IgnoreCollisionWith(PhysicalObjectHandlerBase * actor){}
+
+	//! add force to actor - only for dynamic actors
+	virtual void AddForce(float X, float Y, float Z){}
+
+
+	//! return internal actor - only for physX actor
+	virtual NxActor* GetphysXInternalActor(){return NULL;}
 
 private:
 	float _PosX;
