@@ -846,7 +846,30 @@ module LbaNet
 		float P2Z;
 		float P3Z;
 		float P4Z;	
-	};	
+	};
+	
+	
+	struct ProjectileInfo
+	{	
+		int			OwnerActorType;
+		long			OwnerActorId;	
+	
+		long			Id;
+		ModelInfo		DisplayDesc;
+		ObjectPhysicDesc	PhysicDesc;
+		long			ManagingClientId;
+		
+	
+		float			ForceX;
+		float			ForceY;		
+		float			ForceZ;		
+		float			ForceYOnImpact;
+		
+		int			NbBounce;
+		bool			IgnoreGravity;
+		
+		float			LifeTime;
+	};
 };	
 
 #endif

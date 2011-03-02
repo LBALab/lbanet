@@ -276,21 +276,7 @@ module LbaNet
 	// server tell client to create projectile
 	class CreateProjectileEvent extends ClientServerEventBase
 	{
-		int			OwnerActorType;
-		long			OwnerActorId;		
-	
-		long			Id;
-		ModelInfo		DisplayDesc;
-		ObjectPhysicDesc	PhysicDesc;
-		bool			ClientIsOwner;
-		
-		float			ForceX;
-		float			ForceY;		
-		float			ForceZ;		
-		float			ForceYOnImpact;
-		
-		int			NbBounce;
-		bool			IgnoreGravity;
+		ProjectileInfo			Info;
 	};
 	
 	
