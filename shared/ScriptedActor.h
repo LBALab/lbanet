@@ -402,11 +402,13 @@ public:
 													float PosZ, float Speed, bool asynchronus);
 
 
-	
 	//! used by lua to move an actor or player
 	//! the actor follow waypoint
 	virtual void ActorFollowWaypoint(int ScriptId, int waypointindex1, int waypointindex2, bool asynchronus);
 
+	//! clear all scripts
+	void ClearScripts()
+	{_currentScripts.clear();}
 
 protected:
 	boost::shared_ptr<DynamicObject>						_character;
