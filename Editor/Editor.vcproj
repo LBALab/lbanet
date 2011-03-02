@@ -500,6 +500,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Client\ProjectileHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Servers\WorldServer\Quest.cpp"
 				>
 			</File>
@@ -1039,6 +1043,10 @@
 			</File>
 			<File
 				RelativePath="..\Servers\WorldServer\PlayerHandler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Client\ProjectileHandler.h"
 				>
 			</File>
 			<File
