@@ -491,6 +491,18 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts)
 
 				continue;
 			}
+
+			// UpdatePlayerColorEvent
+			if(info == typeid(LbaNet::UpdatePlayerColorEvent))
+			{
+				LbaNet::UpdatePlayerColorEvent* castedptr = 
+					static_cast<LbaNet::UpdatePlayerColorEvent *>(&obj);
+
+				ChangePlayerColor(1, castedptr->SkinColor, castedptr->EyesColor, 
+										castedptr->HairColor, -2, -2, -2, -2);
+				continue;
+
+			}
 		}
 	}
 }

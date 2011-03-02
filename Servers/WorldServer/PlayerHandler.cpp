@@ -1312,10 +1312,15 @@ void PlayerHandler::ChangePlayerColor(int skinidx, int eyesidx, int hairidx, int
 	_currentinfo.model.SkinColor = skinidx;
 	_currentinfo.model.EyesColor = eyesidx;
 	_currentinfo.model.HairColor = hairidx;
-	_currentinfo.model.OutfitColor = outfitidx;
-	_currentinfo.model.WeaponColor = weaponidx;
-	_currentinfo.model.MountSkinColor = mountidx;
-	_currentinfo.model.MountHairColor = mountidx2;
+
+	if(outfitidx > -2)
+		_currentinfo.model.OutfitColor = outfitidx;
+	if(weaponidx > -2)
+		_currentinfo.model.WeaponColor = weaponidx;
+	if(mountidx > -2)
+		_currentinfo.model.MountSkinColor = mountidx;
+	if(mountidx2 > -2)
+		_currentinfo.model.MountHairColor = mountidx2;
 }
 
 
