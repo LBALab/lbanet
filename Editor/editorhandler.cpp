@@ -1466,6 +1466,9 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 
 	connect(_uieditor.comboBox_choosetexttype, SIGNAL(activated(int)) , this, SLOT(TextTypeModified(int)));	
 
+	connect(_uieditor.lineEdit_mapmusic, SIGNAL(textChanged(QString)) , this, SLOT(MapMusicChanged(QString)));
+	connect(_uieditor.spinBox_mapmusicrepeat, SIGNAL(valueChanged(int)) , this, SLOT(MapMusicRepeatChanged(int)));
+	connect(_uieditor.pushButto_mapmusic, SIGNAL(clicked()) , this, SLOT(MapMusicFile_clicked()));
 
 	connect(_uieditor.spinBox_cskin, SIGNAL(valueChanged(int)) , this, SLOT(colorModified(int)));	
 	connect(_uieditor.spinBox_ceyes, SIGNAL(valueChanged(int)) , this, SLOT(colorModified(int)));	
@@ -2169,6 +2172,10 @@ void EditorHandler::SetMapInfo(const std::string & mapname)
 	}
 
 	_uieditor.checkBox_map_instancied->setChecked(mapinfo.IsInstance);
+
+	//music part
+	_uieditor.lineEdit_mapmusic->setText(mapinfo.Music.c_str());
+	_uieditor.spinBox_mapmusicrepeat->setValue(mapinfo.Repeat);
 
 
 	if(_firstmapofworld)
@@ -4407,6 +4414,19 @@ void EditorHandler::SelectTrigger(long id, const QModelIndex &parent)
 					SelectAction(actptr.get(), idx);
 			}
 
+			//action 3
+			{
+				ActionBasePtr actptr = ptr->GetAction3();
+				std::string acttype = GetActionType(actptr);
+
+				QVector<QVariant> data;
+				data << "Action On Stay" << acttype.c_str();
+				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+				
+				if(actptr)
+					SelectAction(actptr.get(), idx);
+			}
+
 			{
 				QVector<QVariant> data;
 				data << "Trigger on Player" << ptr->CheckPlayer();
@@ -4468,9 +4488,19 @@ void EditorHandler::SelectTrigger(long id, const QModelIndex &parent)
 				_objectmodel->AppendRow(data, parent);
 			}
 
+			{
+				QVector<QVariant> data;
+				data << "Activation Frequency (sec)" << ptr-> GetStayUpdateFrequency();
+				QModelIndex idx2 = _objectmodel->AppendRow(data, parent);
+
+				// add tootlip
+				_objectmodel->setTooltip(idx2, "Frequency in second the Action on Stay is executed");
+			}
 
 			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actiontypeList);
 			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 5, parent), _actiontypeList);
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 6, parent), _actiontypeList);
+
 
 			UpdateSelectedZoneTriggerDisplay(ptr->GetPosX(), ptr->GetPosY(), ptr->GetPosZ(),
 											ptr->GetSizeX(), ptr->GetSizeY(), ptr->GetSizeZ());
@@ -4699,15 +4729,17 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 
 		std::string action1 = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toString().toAscii().data();
 		std::string action2 = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toString().toAscii().data();
-		triggerinfo.CheckPlayers = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toBool();
-		triggerinfo.CheckNpcs = _objectmodel->data(_objectmodel->GetIndex(1, 7, parentIdx)).toBool();
-		triggerinfo.CheckMovableObjects = _objectmodel->data(_objectmodel->GetIndex(1, 8, parentIdx)).toBool();
-		float posX = _objectmodel->data(_objectmodel->GetIndex(1, 9, parentIdx)).toFloat();
-		float posY = _objectmodel->data(_objectmodel->GetIndex(1, 10, parentIdx)).toFloat();
-		float posZ = _objectmodel->data(_objectmodel->GetIndex(1, 11, parentIdx)).toFloat();
-		float sizeX = _objectmodel->data(_objectmodel->GetIndex(1, 12, parentIdx)).toFloat();
-		float sizeY = _objectmodel->data(_objectmodel->GetIndex(1, 13, parentIdx)).toFloat();
-		float sizeZ = _objectmodel->data(_objectmodel->GetIndex(1, 14, parentIdx)).toFloat();
+		std::string action3 = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toString().toAscii().data();
+		
+		triggerinfo.CheckPlayers = _objectmodel->data(_objectmodel->GetIndex(1, 7, parentIdx)).toBool();
+		triggerinfo.CheckNpcs = _objectmodel->data(_objectmodel->GetIndex(1, 8, parentIdx)).toBool();
+		triggerinfo.CheckMovableObjects = _objectmodel->data(_objectmodel->GetIndex(1, 9, parentIdx)).toBool();
+		float posX = _objectmodel->data(_objectmodel->GetIndex(1, 10, parentIdx)).toFloat();
+		float posY = _objectmodel->data(_objectmodel->GetIndex(1, 11, parentIdx)).toFloat();
+		float posZ = _objectmodel->data(_objectmodel->GetIndex(1, 12, parentIdx)).toFloat();
+		float sizeX = _objectmodel->data(_objectmodel->GetIndex(1, 13, parentIdx)).toFloat();
+		float sizeY = _objectmodel->data(_objectmodel->GetIndex(1, 14, parentIdx)).toFloat();
+		float sizeZ = _objectmodel->data(_objectmodel->GetIndex(1, 15, parentIdx)).toFloat();
 		if(sizeX < 0.0001)
 			sizeX = 0.0001;
 		if(sizeY < 0.0001)
@@ -4715,8 +4747,8 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 		if(sizeZ < 0.0001)
 			sizeZ = 0.0001;
 
-		bool multicactiv = _objectmodel->data(_objectmodel->GetIndex(1, 15, parentIdx)).toBool();
-
+		bool multicactiv = _objectmodel->data(_objectmodel->GetIndex(1, 16, parentIdx)).toBool();
+		double frequency = _objectmodel->data(_objectmodel->GetIndex(1, 17, parentIdx)).toDouble();
 
 		// created modified action and replace old one
 		ZoneTrigger* modifiedtrig = (ZoneTrigger*)_triggers[id].get();
@@ -4724,7 +4756,7 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 		modifiedtrig->SetTriggerInfo(triggerinfo);
 		modifiedtrig->SetSize(sizeX, sizeY, sizeZ);
 		modifiedtrig->SetMultiActivation(multicactiv);
-
+		modifiedtrig->SetStayUpdateFrequency(frequency);
 
 		//action 1
 		{
@@ -4768,6 +4800,26 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 			}
 		}
 
+		//action 3
+		{
+			std::string curract = GetActionType(modifiedtrig->GetAction3());
+
+			if(action3 != curract)
+			{
+				ActionBasePtr ptrtmp = CreateAction(action3);
+				modifiedtrig->SetAction3(ptrtmp);
+
+				QModelIndex curidx = _objectmodel->GetIndex(0, 6, parentIdx);
+				_objectmodel->Clear(curidx);
+				if(ptrtmp)
+				{
+					SelectAction(ptrtmp.get(), curidx);
+
+					_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+				}
+
+			}
+		}
 
 
 
@@ -8013,21 +8065,21 @@ void EditorHandler::PickedArrowMoved(int pickedarrow)
 			{
 				if(pickedarrow == 1)
 				{
-					_objectmodel->setData(_objectmodel->GetIndex(1, 9), floor(_draggerX->getMatrix().getTrans().x()*10)/10);
+					_objectmodel->setData(_objectmodel->GetIndex(1, 10), floor(_draggerX->getMatrix().getTrans().x()*10)/10);
 					_draggerY->setMatrix(_draggerX->getMatrix());
 					_draggerZ->setMatrix(_draggerX->getMatrix());
 				}
 
 				if(pickedarrow == 2)
 				{	
-					_objectmodel->setData(_objectmodel->GetIndex(1, 10), floor(_draggerY->getMatrix().getTrans().y()*10)/10);
+					_objectmodel->setData(_objectmodel->GetIndex(1, 11), floor(_draggerY->getMatrix().getTrans().y()*10)/10);
 					_draggerX->setMatrix(_draggerY->getMatrix());
 					_draggerZ->setMatrix(_draggerY->getMatrix());
 				}
 
 				if(pickedarrow == 3)
 				{
-					_objectmodel->setData(_objectmodel->GetIndex(1, 11), floor(_draggerZ->getMatrix().getTrans().z()*10)/10);
+					_objectmodel->setData(_objectmodel->GetIndex(1, 12), floor(_draggerZ->getMatrix().getTrans().z()*10)/10);
 					_draggerX->setMatrix(_draggerZ->getMatrix());
 					_draggerY->setMatrix(_draggerZ->getMatrix());
 				}
@@ -11067,3 +11119,76 @@ void EditorHandler::QuestChanged(long id, const QModelIndex &parentIdx)
 
 
 
+
+/***********************************************************
+map music changed
+***********************************************************/
+void EditorHandler::MapMusicChanged(const QString & text)
+{
+	std::string mapname = _uieditor.label_mapname->text().toAscii().data();
+	if(mapname != "")
+	{
+		_winfo.Maps[mapname].Music = _uieditor.lineEdit_mapmusic->text().toAscii().data();
+		SetModified();
+	}
+
+}
+
+/***********************************************************
+map music repeat changed
+***********************************************************/
+void EditorHandler::MapMusicRepeatChanged(int newvalue)
+{
+	std::string mapname = _uieditor.label_mapname->text().toAscii().data();
+	if(mapname != "")
+	{
+		_winfo.Maps[mapname].Repeat = _uieditor.spinBox_mapmusicrepeat->value();
+		SetModified();
+	}
+}
+
+/***********************************************************
+map music file clicked
+***********************************************************/
+void EditorHandler::MapMusicFile_clicked()
+{
+	QString currfile = _uieditor.label_mapname->text();
+	if(currfile != "")
+		currfile = "Data/" + currfile;
+
+	QStringList selectedfile = 
+		QFileDialog::getOpenFileNames (this, "Select a music file", currfile, 
+										"Music (*.mp3 *.midi *.Ogg)");
+
+	if(selectedfile.size() > 0)
+	{
+		QString selected = 	selectedfile[0];
+
+		// check if choosen file is in the directory data
+		if(selected.contains(QDir::currentPath()+"/Data/"))
+		{
+			selected = selected.remove(QDir::currentPath()+"/Data/");
+		}
+		else
+		{
+			//copy the file over
+			try
+			{
+				QString newfilename = "Data/Worlds/";
+				newfilename += _winfo.Description.WorldName.c_str(); 
+				newfilename	+= "/" + selected.section('/', -1);
+				boost::filesystem::copy_file(selected.toAscii().data(), newfilename.toAscii().data());
+
+				selected = newfilename.section('/', 1);
+			}
+			catch(...)
+			{
+				QErrorMessage msgdial;
+				msgdial.showMessage ( "Error copying the file to the data directory!" );
+				selected = "";
+			}
+		}
+
+		_uieditor.lineEdit_mapmusic->setText(selected);
+	}
+}

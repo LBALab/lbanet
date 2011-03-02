@@ -533,6 +533,7 @@ public:
 	virtual void OpenMailbox(long PlayerId){}
 
 
+
 public slots:
 	 //! ui button clicked
      void addtrigger_button_clicked();
@@ -753,10 +754,17 @@ public slots:
 	//! QuestSelect_button
 	void QuestSelect_button();
 
-	 //! on selectitem_double_clicked
-     void selectquest_double_clicked(const QModelIndex & itm);
+	//! on selectitem_double_clicked
+	void selectquest_double_clicked(const QModelIndex & itm);
 
+	//! map music changed
+	void MapMusicChanged(const QString & text);
+
+	//! map music repeat changed
+	void MapMusicRepeatChanged(int newvalue);
 	
+	//! map music file clicked
+	void MapMusicFile_clicked();
 
 
 protected:
