@@ -84,7 +84,7 @@ int main( int argc, char **argv )
 							std::map<std::string, ExitInfo>::iterator ende2 = Exits2.end();
 							for(; ite2 != ende2; ++ite2)
 							{
-								
+
 								if( (itspm->second.PosX > (ite2->second.PosX-ite2->second.SizeX-0.1) && itspm->second.PosX < (ite2->second.PosX+ite2->second.SizeX+0.1)) &&
 									(itspm->second.PosY > (ite2->second.PosY-0.1)		  && itspm->second.PosY < (ite2->second.PosY+ite2->second.SizeY+0.1)) &&
 									(itspm->second.PosZ > (ite2->second.PosZ-ite2->second.SizeZ-0.1) && itspm->second.PosZ < (ite2->second.PosZ+ite2->second.SizeZ+0.1)))
@@ -102,7 +102,7 @@ int main( int argc, char **argv )
 							std::map<std::string, ExitInfo>::iterator ite2 = Exits2.begin();
 							std::map<std::string, ExitInfo>::iterator ende2 = Exits2.end();
 							for(; ite2 != ende2; ++ite2)
-							{	
+							{
 								if( (itspm->second.PosX > (ite2->second.PosX-ite2->second.SizeX-0.1) && itspm->second.PosX < (ite2->second.PosX+ite2->second.SizeX+0.1)) &&
 									(itspm->second.PosY > (ite2->second.PosY-0.1)		  && itspm->second.PosY < (ite2->second.PosY+ite2->second.SizeY+0.1)) &&
 									(itspm->second.PosZ > (ite2->second.PosZ-ite2->second.SizeZ-0.1) && itspm->second.PosZ < (ite2->second.PosZ+ite2->second.SizeZ+0.1)))
@@ -113,7 +113,7 @@ int main( int argc, char **argv )
 							}
 						}
 					}
-				}	
+				}
 			}
 
 		}
@@ -134,7 +134,7 @@ int main( int argc, char **argv )
 		std::string mapname = itmap->second.Files["Maps"];
 		mapname = mapname.substr(mapname.find_last_of("/")+1);
 		mapname = mapname.substr(0, mapname.find("."));
-		//mapname[0] = toupper((unsigned char)mapname[0]);
+		//mapname[0] = toupper((unsigned char)mapname[0]); <- for LBA1 and LBA2
 
 		std::string extran;
 		std::string worldmapname = winfo.Name;
@@ -245,7 +245,7 @@ int main( int argc, char **argv )
 			std::map<long, boost::shared_ptr<Spawn> >::iterator ends = _spawns.end();
 			for(;its != ends; ++its)
 				its->second->SaveToLuaFile(file);
-			
+
 
 			// save actors
 			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ita = _Actors.begin();
