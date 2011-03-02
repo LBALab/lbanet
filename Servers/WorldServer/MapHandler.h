@@ -483,6 +483,8 @@ protected:
 	//! get info about an item
 	LbaNet::ItemPosInfo GetItemInfo(Ice::Long clientid, long ItemId);
 
+	//! get info about an item
+	LbaNet::ItemPosInfo GetCurrentWeaponInfo(Ice::Long clientid);
 
 	//! item consumed
 	bool PlayerConsumeItem(Ice::Long clientid, long ItemId);
@@ -565,6 +567,17 @@ protected:
 								LbaNet::ItemClientInformType informtype);
 
 
+	//! player use weapon
+	void UseWeapon(Ice::Long PlayerId);
+
+	//! destroy projectile
+	void DestroyProjectile(long PlayerId, long ProjectileId, int	TouchedActorType,
+							long TouchedActorId);
+
+	//! destroy projectile
+	void DestroyPlayerProjectile(Ice::Long PlayerId);
+
+
 private:
 	// threading and mutex stuff
 	IceUtil::Monitor<IceUtil::Mutex>							_monitor;
@@ -601,6 +614,9 @@ private:
 
 
 	std::map<Ice::Long, DelayedAction>							_delayedactions;
+
+	std::map<long, LbaNet::ProjectileInfo>						_launchedprojectiles;
+	std::map<long, std::vector<long> >							_playerprojectiles;
 };
 
 

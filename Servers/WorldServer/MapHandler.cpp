@@ -368,7 +368,7 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts)
 			// PressedWeaponKeyEvent
 			if(info == typeid(LbaNet::PressedWeaponKeyEvent))
 			{
-				//TODO
+				UseWeapon(it->first);
 				continue;
 			}
 
@@ -500,6 +500,18 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts)
 
 				ChangePlayerColor(1, castedptr->SkinColor, castedptr->EyesColor, 
 										castedptr->HairColor, -2, -2, -2, -2);
+				continue;
+
+			}
+
+			// DestroyProjectileEvent
+			if(info == typeid(LbaNet::DestroyProjectileEvent))
+			{
+				LbaNet::DestroyProjectileEvent* castedptr = 
+					static_cast<LbaNet::DestroyProjectileEvent *>(&obj);
+
+				DestroyProjectile(it->first, castedptr->Id, 
+									castedptr->TouchedActorType, castedptr->TouchedActorId);
 				continue;
 
 			}
@@ -708,6 +720,9 @@ void MapHandler::PlayerLeft(Ice::Long id)
 		// inform all players that player left
 		_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 													PlayerObject, id));
+
+		// destroy projectiles
+		DestroyPlayerProjectile(id);
 
 		// remove player from list
 		_currentplayers.erase(it);
@@ -2025,7 +2040,7 @@ void MapHandler::PlayerItemUsed(Ice::Long clientid, long ItemId)
 		case 4: // weapon item - equip it
 			ChangeWeapon(clientid, itinfo.Info.StringFlag, (long)itinfo.Info.Id);
 			break;
-		case 5: // quest item - todo - might trigger quest
+		case 5: // quest item
 			break;
 		case 6: // other item - dont do anything
 			break;
@@ -2079,6 +2094,23 @@ LbaNet::ItemPosInfo MapHandler::GetItemInfo(Ice::Long clientid, long ItemId)
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
 	if(itplayer != _players.end())
 		return itplayer->second->GetItemInfo(ItemId);
+
+	LbaNet::ItemPosInfo res;
+	res.Info.Id = -1;
+	return res;
+}
+
+
+/***********************************************************
+get info about an item
+***********************************************************/
+LbaNet::ItemPosInfo MapHandler::GetCurrentWeaponInfo(Ice::Long clientid)
+{
+	IceUtil::Mutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
+	if(itplayer != _players.end())
+		return itplayer->second->GetCurrentWeaponInfo();
 
 	LbaNet::ItemPosInfo res;
 	res.Info.Id = -1;
@@ -2533,7 +2565,7 @@ void MapHandler::HurtActor(int ObjectType, long ObjectId, float HurtValue, bool 
 	{
 		case 1: // actor
 		{
-			//Todo
+			//Todo - hurt NPC
 		}
 		break;
 
@@ -2575,7 +2607,7 @@ void MapHandler::KillActor(int ObjectType, long ObjectId)
 	{
 		case 1: // actor
 		{
-			//Todo
+			//Todo - kill NPC
 		}
 		break;
 
@@ -2871,5 +2903,185 @@ void MapHandler::OpenMailbox(long PlayerId)
 		// send container to player
 		_guihandlers["MailBox"]->ShowGUI(PlayerId, GetPlayerPosition(PlayerId), 
 						boost::shared_ptr<ShowGuiParamBase>());
+	}
+}
+
+/***********************************************************
+use weapon
+***********************************************************/
+void MapHandler::UseWeapon(Ice::Long PlayerId)
+{
+	LbaNet::ItemPosInfo weaponinfo = GetCurrentWeaponInfo(PlayerId);
+	if(weaponinfo.Info.Id < 0)
+		return;
+
+	if(weaponinfo.Info.Name.find("MagicBall") != std::string::npos)//todo - not static -> add projectile to item
+	{
+		std::string mode = GetPlayerModelInfo(PlayerId).Mode;
+
+		LbaNet::ProjectileInfo newProj;
+
+		newProj.OwnerActorType = 2;
+		newProj.OwnerActorId = PlayerId;	
+		newProj.Id = ((_launchedprojectiles.size() > 0) ? (_launchedprojectiles.rbegin()->first+1): 0);
+
+		newProj.DisplayDesc.TypeRenderer = LbaNet::RenderCapsule;
+		newProj.DisplayDesc.UseLight = true;
+		newProj.DisplayDesc.CastShadow = true;
+		newProj.DisplayDesc.RotX=0;
+		newProj.DisplayDesc.RotY=0;
+		newProj.DisplayDesc.RotZ=0;
+		newProj.DisplayDesc.TransX=0;
+		newProj.DisplayDesc.TransY=0;
+		newProj.DisplayDesc.TransZ=0;
+		newProj.DisplayDesc.ScaleX=0;
+		newProj.DisplayDesc.ScaleY=0;
+		newProj.DisplayDesc.ScaleZ=0;
+		newProj.DisplayDesc.ColorR=0.8f;
+		newProj.DisplayDesc.ColorG=0.8f;
+		newProj.DisplayDesc.ColorB=0.2f;
+		newProj.DisplayDesc.ColorA=1.0f;
+
+		PlayerPosition playerpos = GetPlayerPosition(PlayerId);
+		LbaQuaternion Q(playerpos.Rotation, LbaVec3(0, 1, 0));
+		LbaVec3 current_directionX(Q.GetDirection(LbaVec3(0, 0, 1)));
+		LbaVec3 current_directionZ(Q.GetDirection(LbaVec3(1, 0, 0)));
+
+		float ajustedoffsetx = 0.5f*current_directionX.x + 0.5f*current_directionZ.x;
+		float ajustedoffsetZ = 0.5f*current_directionX.z + 0.5f*current_directionZ.z;
+
+
+	    newProj.PhysicDesc.Pos.X = playerpos.X + ajustedoffsetx;
+	    newProj.PhysicDesc.Pos.Y = playerpos.Y + 3;
+	    newProj.PhysicDesc.Pos.Z = playerpos.Z + ajustedoffsetZ;
+		newProj.PhysicDesc.TypeShape = LbaNet::SphereShape;
+		newProj.PhysicDesc.TypePhysO = LbaNet::DynamicAType;
+		newProj.PhysicDesc.Density = 1;
+		newProj.PhysicDesc.Collidable = false;
+		newProj.PhysicDesc.SizeX = 0.5f;
+		newProj.PhysicDesc.SizeY = 0.5f;
+		newProj.PhysicDesc.SizeZ = 0;
+		newProj.PhysicDesc.Bounciness = 0.999f;
+		newProj.PhysicDesc.StaticFriction = 0.1f;
+		newProj.PhysicDesc.DynamicFriction = 0.1f;
+
+
+		newProj.ManagingClientId = PlayerId;
+		
+		newProj.IgnoreGravity = false;
+
+		newProj.ForceX = 0;
+		newProj.ForceY = 0;		
+		newProj.ForceZ = 0;	
+		newProj.ForceYOnImpact = 0;
+		bool launch = false;
+
+		if(mode == "Normal")
+		{
+			newProj.ForceX = 2*current_directionX.x + 2*current_directionZ.x;
+			newProj.ForceY = 0.5;		
+			newProj.ForceZ = 2*current_directionX.z + 2*current_directionZ.z;
+			newProj.ForceYOnImpact = 0.8;
+			launch = true;
+		}
+
+		if(mode == "Sport")
+		{
+			newProj.ForceX = 2*current_directionX.x + 2*current_directionZ.x;
+			newProj.ForceY = 0;		
+			newProj.ForceZ = 2*current_directionX.z + 2*current_directionZ.z;
+			newProj.ForceYOnImpact = 0.8;
+			launch = true;
+		}
+
+		if(mode == "Angry")
+		{
+			newProj.ForceX = 2*current_directionX.x + 2*current_directionZ.x;
+			newProj.ForceY = 0;		
+			newProj.ForceZ = 2*current_directionX.z + 2*current_directionZ.z;
+			newProj.ForceYOnImpact = 0.8;
+			launch = true;
+		}
+
+		if(mode == "Discrete")
+		{
+			newProj.ForceX = 0.6f*current_directionX.x + 0.6f*current_directionZ.x;
+			newProj.ForceY = 2.3f;		
+			newProj.ForceZ = 0.6f*current_directionX.z + 0.6f*current_directionZ.z;
+			newProj.ForceYOnImpact = 1.5f;
+			launch = true;
+		}
+
+		bool nomana = DeltaUpdateMana(PlayerId, -5);
+		newProj.NbBounce = (nomana ? 1 : 3);
+
+		if(launch)
+		{
+			_launchedprojectiles[newProj.Id] = newProj;
+			_playerprojectiles[PlayerId].push_back(newProj.Id);
+
+			_tosendevts.push_back(new CreateProjectileEvent(
+							SynchronizedTimeHandler::GetCurrentTimeDouble(), newProj));
+		}
+
+	}
+
+
+	// todo - other weapons
+}
+
+
+
+
+/***********************************************************
+destroy projectile
+***********************************************************/
+void MapHandler::DestroyProjectile(long PlayerId, long ProjectileId, int	TouchedActorType,
+										long TouchedActorId)
+{
+	std::map<long, LbaNet::ProjectileInfo>::iterator itp =	_launchedprojectiles.find(ProjectileId);
+	if(itp != _launchedprojectiles.end())
+	{
+		if(itp->second.ManagingClientId == PlayerId)
+		{
+			//todo - hurt actors
+			
+
+			//destroy projectile
+			_launchedprojectiles.erase(itp);
+
+
+			std::map<long, std::vector<long> >::iterator itplayer = _playerprojectiles.find(PlayerId);
+			if(itplayer != _playerprojectiles.end())
+			{
+				std::vector<long>::iterator itpp = 
+					std::find(itplayer->second.begin(), itplayer->second.end(), ProjectileId);
+				if(itpp != itplayer->second.end())
+					itplayer->second.erase(itpp);
+
+				if(itplayer->second.size() == 0)
+					_playerprojectiles.erase(itplayer);
+			}
+
+			_tosendevts.push_back(new DestroyProjectileEvent(
+							SynchronizedTimeHandler::GetCurrentTimeDouble(), ProjectileId, 
+															TouchedActorType, TouchedActorId));
+		}
+
+	}
+}
+
+
+/***********************************************************
+destroy projectile
+***********************************************************/
+void MapHandler::DestroyPlayerProjectile(Ice::Long PlayerId)
+{
+	std::map<long, std::vector<long> >::iterator itplayer = _playerprojectiles.find(PlayerId);
+	if(itplayer != _playerprojectiles.end())
+	{
+		std::vector<long> projs = itplayer->second;
+		for(size_t i=0; i< projs.size(); ++i)
+			DestroyProjectile(PlayerId, projs[i], -1, -1);
 	}
 }

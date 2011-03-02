@@ -937,6 +937,16 @@ LbaNet::ItemPosInfo PlayerHandler::GetItemInfo(long ItemId)
 	return res;
 }
 
+
+/***********************************************************
+get info about an item
+***********************************************************/
+LbaNet::ItemPosInfo PlayerHandler::GetCurrentWeaponInfo()
+{
+	return GetItemInfo(_currentinfo.EquipedWeapon);
+}
+
+
 /***********************************************************
 item consumed - return true if life is updated
 ***********************************************************/

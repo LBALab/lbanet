@@ -182,6 +182,9 @@ public:
 	//! get info about an item
 	LbaNet::ItemPosInfo GetItemInfo(long ItemId);
 
+	//! get info about an item
+	LbaNet::ItemPosInfo GetCurrentWeaponInfo();
+
 	//! item consumed - return true if life is updated
 	bool ConsumeItem(long ItemId);
 

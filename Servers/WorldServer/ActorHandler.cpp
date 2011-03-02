@@ -532,7 +532,7 @@ void ActorHandler::SetActorInfo(const ActorObjectInfo & ainfo)
 {
 	m_actorinfo = ainfo;
 
-	//TODO - maybe not always the case
+	//TODO - maybe not always be the default
 	m_actorinfo.LifeInfo.Display = false;
 	m_actorinfo.ExtraInfo.Display = false;
 
@@ -953,7 +953,7 @@ process actor
 ***********************************************************/
 std::vector<LbaNet::ClientServerEventBasePtr> ActorHandler::Process(double tnow, float tdiff)
 {
-	//TODO - NPC - monster -> target player
+	//TODO - monster -> target player
 
 
 	if(m_scripthandler)
@@ -988,7 +988,7 @@ void ActorHandler::CreateActor()
 		//2 -> LBA1 model 
 		case LbaNet::RenderLba1M:
 		{
-			//TODO animation speed
+			//TODO configurable animation speed
 			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
 				(new Lba1ModelObjectDescription(m_actorinfo.DisplayDesc, _LBA1_MODEL_ANIMATION_SPEED_,
 												m_actorinfo.DisplayDesc.UseLight, 
@@ -1004,7 +1004,7 @@ void ActorHandler::CreateActor()
 		//3-> LBA2 model
 		case LbaNet::RenderLba2M:
 		{
-			//TODO
+			//TODO - LBA2 model renderer
 		}
 		break;
 	}
@@ -1016,7 +1016,7 @@ void ActorHandler::CreateActor()
 										LbaQuaternion(m_actorinfo.PhysicDesc.Pos.Rotation, LbaVec3(0, 1, 0))));
 
 
-	ObjectInfo obj((long)m_actorinfo.ObjectId, DInfo, PInfo, 
+	ObjectInfo obj(LbaNet::EditorObject, (long)m_actorinfo.ObjectId, DInfo, PInfo, 
 			(m_actorinfo.PhysicDesc.TypePhysO == LbaNet::StaticAType));
 
 	_character = obj.BuildServer();
