@@ -1068,3 +1068,4 @@ void CharacterController::ShowHide(bool Show)
 																		LbaNet::PlayerObject, -1, Show));
 	}
 }
+

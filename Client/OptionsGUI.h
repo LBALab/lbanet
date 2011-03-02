@@ -71,6 +71,13 @@ public:
 	//! send name color
 	void SendNameColor();
 
+	//! send player color
+	void SendPlayerColor();
+
+	//! set world name
+	void SetWorldName(const std::string &name)
+	{_worldname = name;}
+
 protected:
 	//! apply new changes
 	void Apply();
@@ -81,9 +88,17 @@ protected:
 	//! quit windows
 	void Quit();
 
+	
+
 
 private:
+	std::string		_worldname;
+
 	// general part
+	int				_skinC;
+	int				_eyesC;
+	int				_hairC;
+
 	int				_nameR;
 	int				_nameG;
 	int				_nameB;

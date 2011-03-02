@@ -339,6 +339,10 @@ void LbaNetModel::CleanupMap()
 	_playerObjects.clear();
 	_ghostObjects.clear();
 
+	//clear scripts
+	m_playingscriptactors.clear();
+
+
 	#ifdef _USE_QT_EDITOR_
 	_editorObjects.clear();
 	#endif
@@ -382,7 +386,10 @@ void LbaNetModel::ResetPlayerObject()
 	boost::shared_ptr<DynamicObject> playerObject = boost::shared_ptr<DynamicObject>(new StaticObject(physo, boost::shared_ptr<DisplayObjectHandlerBase>(), m_playerObjectId));
 
 	if(m_controllerChar)
+	{
+		m_controllerChar->ClearScripts();
 		m_controllerChar->SetPhysicalCharacter(playerObject, LbaNet::ModelInfo(), true);
+	}
 	if(m_controllerCam)
 		m_controllerCam->SetCharacter(playerObject, true);
 }

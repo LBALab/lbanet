@@ -134,6 +134,8 @@ public:
 	//! get physic object
 	boost::shared_ptr<PhysicalObjectHandlerBase> GetPhysicalObject();
 
+	//! reset script
+	void ResetScript();
 
 protected:
 

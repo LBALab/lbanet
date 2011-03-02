@@ -592,3 +592,13 @@ void GuiHandler::GetLifeManaInfo(float &lifePerc, float &ManaPerc)
 	lifePerc = _lifepercent;
 	ManaPerc = _manapercent;
 }
+
+/***********************************************************
+set world name
+***********************************************************/
+void GuiHandler::SetWorldName(const std::string &name)
+{
+	if(_option_gui)
+		_option_gui->SetWorldName(name);
+}
+

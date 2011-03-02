@@ -986,6 +986,10 @@ void LbaNetEngine::ChangeWorld(const std::string & NewWorld)
 	//change gui to game gui
 	SwitchGuiToGame();
 
+	// update options
+	m_gui_handler->SetWorldName(NewWorld);
+
+
 	// inform server
 	if(m_serverConH)
 		m_serverConH->ChangeWorld(NewWorld);

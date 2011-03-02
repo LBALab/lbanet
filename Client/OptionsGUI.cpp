@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DataLoader.h"
 #include "Localizer.h"
 #include "GUILocalizationCallback.h"
+#include "SynchronizedTimeHandler.h"
 
 
 // Sample sub-class for ListboxTextItem that auto-sets the selection brush
@@ -215,6 +216,58 @@ void OptionsGUI::Apply()
 					ConfigurationManager::GetInstance()->SetString("Options.General.Language", _lang);
 				}
 			}
+
+			{
+				bool nchanged = false;
+
+				//handle skin color
+				CEGUI::Spinner *sbgs = static_cast<CEGUI::Spinner *> (
+				CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/General/lbltextSkinColorv_name"));
+				if(sbgs)
+				{
+					int sp = (int)sbgs->getCurrentValue();
+					if(_skinC != sp)
+					{
+						nchanged = true;
+						_skinC = sp;
+						ConfigurationManager::GetInstance()->SetInt("Worlds."+_worldname+".SkinColor", _nameR);
+					}
+				}
+
+				//handle eyes color
+				CEGUI::Spinner *sbgsG = static_cast<CEGUI::Spinner *> (
+				CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/General/lbltextEyesColorv_name"));
+				if(sbgsG)
+				{
+					int sp = (int)sbgsG->getCurrentValue();
+					if(_eyesC != sp)
+					{
+						nchanged = true;
+						_eyesC = sp;
+						ConfigurationManager::GetInstance()->SetInt("Worlds."+_worldname+".EyesColor", _nameG);
+					}
+				}
+
+				//handle hair color
+				CEGUI::Spinner *sbgsB = static_cast<CEGUI::Spinner *> (
+				CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/General/lbltextHairColorv_name"));
+				if(sbgsB)
+				{
+					int sp = (int)sbgsB->getCurrentValue();
+					if(_hairC != sp)
+					{
+						nchanged = true;
+						_hairC = sp;
+						ConfigurationManager::GetInstance()->SetInt("Worlds."+_worldname+".HairColor", _nameB);
+					}
+				}
+
+				if(nchanged)
+					SendPlayerColor();
+			}
+
+
+
 
 			{
 				bool nchanged = false;
@@ -409,6 +462,39 @@ void OptionsGUI::Cancel()
 				cbatype->setText(_lang);
 
 			{
+				//handle skin color
+				CEGUI::Spinner *sbgs = static_cast<CEGUI::Spinner *> (
+				CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/General/lbltextSkinColorv_name"));
+				if(sbgs)
+				{
+					std::stringstream strs;
+					strs<<_skinC;
+					sbgs->setText(strs.str());
+				}
+
+				//handle eyes color
+				CEGUI::Spinner *sbgsG = static_cast<CEGUI::Spinner *> (
+				CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/General/lbltextEyesColorv_name"));
+				if(sbgsG)
+				{
+					std::stringstream strs;
+					strs<<_eyesC;
+					sbgsG->setText(strs.str());
+				}
+
+				//handle hair color
+				CEGUI::Spinner *sbgsB = static_cast<CEGUI::Spinner *> (
+				CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/General/lbltextHairColorv_name"));
+				if(sbgsB)
+				{
+					std::stringstream strs;
+					strs<<_hairC;
+					sbgsB->setText(strs.str());
+				}
+			}
+
+
+			{
 				//handle name R
 				CEGUI::Spinner *sbgs = static_cast<CEGUI::Spinner *> (
 				CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/General/lbltextRv_name"));
@@ -530,6 +616,13 @@ void OptionsGUI::Displayed()
 	ConfigurationManager::GetInstance()->GetInt("Options.General.NameG", _nameG);
 	ConfigurationManager::GetInstance()->GetInt("Options.General.NameB", _nameB);
 
+	_skinC = -1;
+	_eyesC = -1;
+	_hairC = -1;
+	ConfigurationManager::GetInstance()->GetInt("Worlds."+_worldname+".SkinColor", _skinC);
+	ConfigurationManager::GetInstance()->GetInt("Worlds."+_worldname+".EyesColor", _eyesC);
+	ConfigurationManager::GetInstance()->GetInt("Worlds."+_worldname+".HairColor", _hairC);
+
 	ConfigurationManager::GetInstance()->GetInt("Display.Screen.ScreenResolutionX", _currScreenX);
 	ConfigurationManager::GetInstance()->GetInt("Display.Screen.ScreenResolutionY", _currScreenY);
 	ConfigurationManager::GetInstance()->GetBool("Display.Screen.Fullscreen", _currFullscreen);
@@ -556,4 +649,16 @@ void OptionsGUI::SendNameColor()
 	colorstr <<((_nameB < 16)?"0":"") << std::uppercase << std::hex << _nameB;
 
 	EventsQueue::getReceiverQueue()->AddEvent(new PlayerNameColorChangedEvent(colorstr.str()));
+}
+
+
+
+/***********************************************************
+send player color
+***********************************************************/
+void OptionsGUI::SendPlayerColor()
+{
+	EventsQueue::getSenderQueue()->AddEvent(new LbaNet::UpdatePlayerColorEvent(
+													SynchronizedTimeHandler::GetCurrentTimeDouble(),
+													_skinC, _eyesC, _hairC));
 }

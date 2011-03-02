@@ -168,7 +168,26 @@ bool ConfigurationManager::SetBool(const std::string & path, const bool &res)
 	}
 	catch(libconfig::SettingNotFoundException)
 	{
-		LogHandler::getInstance()->LogToFile(std::string("Can not find preferences setting: ") + path);
+		try
+		{
+			//std::string curpath = path.substr(0, path.find(".")-1);
+			//std::string leftpath = path.substr(path.find(".")+1);
+			//while(true)
+			//{
+			//	try{setting.add(curpath, libconfig::Setting::TypeGroup);}catch(...){}
+			//}
+
+
+			libconfig::Setting & setting = _configH->getRoot();
+			setting.add(path, libconfig::Setting::TypeBoolean);
+			_configH->lookup(path) = res;
+			_configH->writeFile("Data/Preferences.cfg");
+			ret = true;
+		}
+		catch(...)
+		{
+			LogHandler::getInstance()->LogToFile(std::string("Can not find preferences setting: ") + path);
+		}
 	}
 	catch(libconfig::SettingTypeException)
 	{
@@ -202,7 +221,18 @@ bool ConfigurationManager::SetInt(const std::string & path, const int &res)
 	}
 	catch(libconfig::SettingNotFoundException)
 	{
-		LogHandler::getInstance()->LogToFile(std::string("Can not find preferences setting: ") + path);
+		try
+		{
+			libconfig::Setting & setting = _configH->getRoot();
+			setting.add(path, libconfig::Setting::TypeInt);
+			_configH->lookup(path) = res;
+			_configH->writeFile("Data/Preferences.cfg");
+			ret = true;
+		}
+		catch(...)
+		{
+			LogHandler::getInstance()->LogToFile(std::string("Can not find preferences setting: ") + path);
+		}
 	}
 	catch(libconfig::SettingTypeException)
 	{
@@ -235,7 +265,18 @@ bool ConfigurationManager::SetLong(const std::string & path, const long &res)
 	}
 	catch(libconfig::SettingNotFoundException)
 	{
-		LogHandler::getInstance()->LogToFile(std::string("Can not find preferences setting: ") + path);
+		try
+		{
+			libconfig::Setting & setting = _configH->getRoot();
+			setting.add(path, libconfig::Setting::TypeInt64);
+			_configH->lookup(path) = res;
+			_configH->writeFile("Data/Preferences.cfg");
+			ret = true;
+		}
+		catch(...)
+		{
+			LogHandler::getInstance()->LogToFile(std::string("Can not find preferences setting: ") + path);
+		}
 	}
 	catch(libconfig::SettingTypeException)
 	{
@@ -268,7 +309,18 @@ bool ConfigurationManager::SetFloat(const std::string & path, const float &res)
 	}
 	catch(libconfig::SettingNotFoundException)
 	{
-		LogHandler::getInstance()->LogToFile(std::string("Can not find preferences setting: ") + path);
+		try
+		{
+			libconfig::Setting & setting = _configH->getRoot();
+			setting.add(path, libconfig::Setting::TypeFloat);
+			_configH->lookup(path) = res;
+			_configH->writeFile("Data/Preferences.cfg");
+			ret = true;
+		}
+		catch(...)
+		{
+			LogHandler::getInstance()->LogToFile(std::string("Can not find preferences setting: ") + path);
+		}
 	}
 	catch(libconfig::SettingTypeException)
 	{
@@ -301,7 +353,18 @@ bool ConfigurationManager::SetDouble(const std::string & path, const double &res
 	}
 	catch(libconfig::SettingNotFoundException)
 	{
-		LogHandler::getInstance()->LogToFile(std::string("Can not find preferences setting: ") + path);
+		try
+		{
+			libconfig::Setting & setting = _configH->getRoot();
+			setting.add(path, libconfig::Setting::TypeFloat);
+			_configH->lookup(path) = res;
+			_configH->writeFile("Data/Preferences.cfg");
+			ret = true;
+		}
+		catch(...)
+		{
+			LogHandler::getInstance()->LogToFile(std::string("Can not find preferences setting: ") + path);
+		}
 	}
 	catch(libconfig::SettingTypeException)
 	{
@@ -334,7 +397,18 @@ bool ConfigurationManager::SetString(const std::string & path, const std::string
 	}
 	catch(libconfig::SettingNotFoundException)
 	{
-		LogHandler::getInstance()->LogToFile(std::string("Can not find preferences setting: ") + path);
+		try
+		{
+			libconfig::Setting & setting = _configH->getRoot();
+			setting.add(path, libconfig::Setting::TypeString);
+			_configH->lookup(path) = res;
+			_configH->writeFile("Data/Preferences.cfg");
+			ret = true;
+		}
+		catch(...)
+		{
+			LogHandler::getInstance()->LogToFile(std::string("Can not find preferences setting: ") + path);
+		}
 	}
 	catch(libconfig::SettingTypeException)
 	{

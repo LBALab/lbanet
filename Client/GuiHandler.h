@@ -132,6 +132,8 @@ public:
 	//! get life info
 	void GetLifeManaInfo(float &lifePerc, float &ManaPerc);
 
+	//! set world name
+	void SetWorldName(const std::string &name);
 
 protected:
 	//! inject time to the GUI
