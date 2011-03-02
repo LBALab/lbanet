@@ -88,6 +88,8 @@ void NPCHandler::PlayerAction(Ice::Long PlayerId, const LbaNet::PlayerPosition &
 	if(std::find(_targetedplayers.begin(), _targetedplayers.end(), PlayerId) != _targetedplayers.end())
 		return;
 
+	if(_rootdialog->GetChilds().size() == 0)
+		return;
 
 	float posX, posY, posZ;
 	physO->GetPosition(posX, posY, posZ);

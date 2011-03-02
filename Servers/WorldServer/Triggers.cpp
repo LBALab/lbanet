@@ -13,7 +13,7 @@ ZoneTrigger::ZoneTrigger( const TriggerInfo & triggerinfo,
 							bool AllowMultiActivation)
 	: TriggerBase(triggerinfo), 
 			_sizeX(sizeX/2), _sizeY(sizeY), _sizeZ(sizeZ/2),
-			_AllowMultiActivation(AllowMultiActivation)
+			_AllowMultiActivation(AllowMultiActivation), _StayUpdateFrequency(-1)
 {
 }
 	
@@ -87,9 +87,30 @@ check trigger on object leave map
 ***********************************************************/
 void ZoneTrigger::ObjectLeaveMap(DelayedExecutionHandler * delayedactH, int ObjectType, Ice::Long ObjectId)
 {
-	if(_objectsinside.find(std::make_pair<int, Ice::Long>(ObjectType, ObjectId)) 
-																		!= _objectsinside.end())
+	if(_objectsinside.find(std::make_pair<int, Ice::Long>(ObjectType, ObjectId)) != _objectsinside.end())
 		Left(ObjectType, ObjectId);
+}
+
+
+/***********************************************************
+//! check trigger on each fram
+//! warning - this can reduce performance!
+***********************************************************/
+void ZoneTrigger::NewFrame(DelayedExecutionHandler * delayedactH, double tnow, float tdiff)
+{
+	if(_action3 && _StayUpdateFrequency > 0)
+	{
+		std::map<std::pair<int, Ice::Long>, double >::iterator it =	_objectsinside.begin();
+		std::map<std::pair<int, Ice::Long>, double >::iterator end = _objectsinside.end();
+		for(; it != end; ++it)
+		{
+			if((tnow - it->second) >= (_StayUpdateFrequency*1000))
+			{
+				it->second = tnow;
+				_action3->Execute(_owner, it->first.first, it->first.second, NULL);
+			}
+		}
+	}
 }
 
 
@@ -99,7 +120,7 @@ when object entered
 void ZoneTrigger::Entered(int ObjectType, Ice::Long ObjectId,
 							float offsetX, float offsetY, float offsetZ)
 {
-	_objectsinside.insert(std::make_pair<int, Ice::Long>(ObjectType, ObjectId));
+	_objectsinside[std::make_pair<int, Ice::Long>(ObjectType, ObjectId)] = SynchronizedTimeHandler::GetCurrentTimeDouble();
 
 	if(_AllowMultiActivation || _objectsinside.size() == 1)
 	{
@@ -240,6 +261,7 @@ void ZoneTrigger::SaveToLuaFile(std::ofstream & file)
 	file<<"\tTrigger_"<<GetId()<<" = ZoneTrigger(Trigger_"<<GetId()<<"_info, "
 		<<(_sizeX*2)<<", "<<_sizeY<<", "<<(_sizeZ*2)<<", "<<(_AllowMultiActivation?"true":"false")<<")"<<std::endl;
 	file<<"\tTrigger_"<<GetId()<<":SetPosition("<<GetPosX()<<", "<<GetPosY()<<", "<<GetPosZ()<<")"<<std::endl;
+	file<<"\tTrigger_"<<GetId()<<":SetStayUpdateFrequency("<<_StayUpdateFrequency<<")"<<std::endl;
 
 	if(_action1)
 	{

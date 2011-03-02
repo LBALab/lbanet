@@ -249,6 +249,10 @@ public:
 	//! 3 -> movable object
 	virtual void ObjectLeaveMap(DelayedExecutionHandler * delayedactH, int ObjectType, Ice::Long ObjectId);
 
+	//! check trigger on each fram
+	//! warning - this can reduce performance!
+	virtual void NewFrame(DelayedExecutionHandler * delayedactH, double tnow, float tdiff);
+
 
 	//! get type of the action in string form
 	virtual std::string GetTypeName(){ return "ZoneTrigger";}
@@ -287,6 +291,13 @@ public:
 
 	// save trigger to lua file
 	virtual void SaveToLuaFile(std::ofstream & file);
+
+
+	void SetStayUpdateFrequency(double StayUpdateFrequency)
+	{ _StayUpdateFrequency = StayUpdateFrequency;}
+
+	double GetStayUpdateFrequency()
+	{ return _StayUpdateFrequency;}
 
 protected:
 
@@ -329,8 +340,10 @@ private:
 	float													_sizeZ;
 	bool													_AllowMultiActivation;
 
+	double													_StayUpdateFrequency;
 
-	std::set<std::pair<int, Ice::Long> >					_objectsinside;
+
+	std::map<std::pair<int, Ice::Long>, double >			_objectsinside;
 };
 
 

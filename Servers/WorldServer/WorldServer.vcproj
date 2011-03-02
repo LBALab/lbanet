@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/D _LBANET_SERVER_SIDE_"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ICE_HOME)\include&quot;;..\..\infrastructure\include;..\..\shared;&quot;..\..\dependencies\MySQL++\include&quot;;..\..\dependencies\mysql\include;..\..\dependencies\sqlite;..\..\dependencies\3rdParty\include;..\..\dependencies\LUA\include;..\..\dependencies\luabind\include;..\..\Client"
+				AdditionalIncludeDirectories="&quot;$(ICE_HOME)\include&quot;;..\..\infrastructure\include;..\..\shared;&quot;..\..\dependencies\MySQL++\include&quot;;..\..\dependencies\mysql\include;..\..\dependencies\sqlite;..\..\dependencies\3rdParty\include;..\..\dependencies\LUA\include;..\..\dependencies\luabind\include;..\..\Client;."
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;TIXML_USE_STL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -119,7 +119,7 @@
 				AdditionalOptions="/D _LBANET_SERVER_SIDE_"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(ICE_HOME)\include&quot;;..\..\infrastructure\include;..\..\shared;&quot;..\..\dependencies\MySQL++\include&quot;;..\..\dependencies\mysql\include;..\..\dependencies\sqlite;..\..\dependencies\3rdParty\include;..\..\dependencies\LUA\include;..\..\dependencies\luabind\include;..\..\Client"
+				AdditionalIncludeDirectories="&quot;$(ICE_HOME)\include&quot;;..\..\infrastructure\include;..\..\shared;&quot;..\..\dependencies\MySQL++\include&quot;;..\..\dependencies\mysql\include;..\..\dependencies\sqlite;..\..\dependencies\3rdParty\include;..\..\dependencies\LUA\include;..\..\dependencies\luabind\include;..\..\Client;."
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;TIXML_USE_STL"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -193,6 +193,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\shared\ActorScriptPart.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\shared\CharacterModes.cpp"
 				>
 			</File>
@@ -217,6 +221,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\shared\CommonTypes.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CommunityBoxHandler.cpp"
 				>
 			</File>
@@ -237,6 +245,26 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DialogPart.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\DoorHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\Entities.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\HQRHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\HQRlib.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\InventoryBoxHandler.cpp"
 				>
 			</File>
@@ -245,11 +273,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\shared\Lba1ModelMapHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\infrastructure\cpp\LbaTypes.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\shared\LogHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\LuaHandlerBase.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\LuaThreadHandler.cpp"
 				>
 			</File>
 			<File
@@ -273,11 +313,47 @@
 				>
 			</File>
 			<File
+				RelativePath=".\NpcHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Client\ObjectsDescription.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\PlayerHandler.cpp"
 				>
 			</File>
 			<File
+				RelativePath=".\Quest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\QuestHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\Randomizer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\ScriptedActor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\ScriptEnvironmentBase.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ServerGUIBase.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ServerLBA1ModelClass.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ServerLba1ModelHandler.cpp"
 				>
 			</File>
 			<File
@@ -297,7 +373,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Spawn.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Client\StaticObject.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\StreamReader.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\shared\SynchronizedTimeHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Teleport.cpp"
 				>
 			</File>
 			<File

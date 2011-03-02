@@ -369,12 +369,14 @@ ServerLuaHandler::ServerLuaHandler()
 		luabind::class_<TriggerBase, boost::shared_ptr<TriggerBase> >("TriggerBase")
 		.def(luabind::constructor<TriggerInfo>())
 		.def("SetPosition", &TriggerBase::SetPosition)
-		.def("SetAction1", &ZoneTrigger::SetAction1)
-		.def("SetAction2", &ZoneTrigger::SetAction2)
-		.def("SetAction3", &ZoneTrigger::SetAction3),
+		.def("SetAction1", &TriggerBase::SetAction1)
+		.def("SetAction2", &TriggerBase::SetAction2)
+		.def("SetAction3", &TriggerBase::SetAction3),
 
 		luabind::class_<ZoneTrigger, TriggerBase, boost::shared_ptr<TriggerBase> >("ZoneTrigger")
-		.def(luabind::constructor<TriggerInfo, float, float, float, bool>()),
+		.def(luabind::constructor<TriggerInfo, float, float, float, bool>())
+		.def("SetStayUpdateFrequency", &ZoneTrigger::SetStayUpdateFrequency)
+		.def("GetStayUpdateFrequency", &ZoneTrigger::GetStayUpdateFrequency),
 
 		luabind::class_<ActivationTrigger, TriggerBase, boost::shared_ptr<TriggerBase> >("ActivationTrigger")
 		.def(luabind::constructor<TriggerInfo, float, const std::string &, const std::string &>())
