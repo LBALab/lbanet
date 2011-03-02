@@ -30,6 +30,53 @@
  
   
   
+  		 <Window Type="TaharezLook/StaticText" Name="OptionsTab/General/lbltextSkinColor_name" >      
+    		    <Property Name="Text" Value="#98" />         
+    		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+      		    <Property Name="UnifiedAreaRect" Value="{{0.1,60},{0.1,40},{0.1,100},{0.1,70}}" />
+    		</Window>       
+    
+    		<Window Type="TaharezLook/Spinner" Name="OptionsTab/General/lbltextSkinColorv_name" > 
+    		    <Property Name="StepSize" Value="1" />
+    		    <Property Name="CurrentValue" Value="-1" />
+    		    <Property Name="MaximumValue" Value="20" />
+    		    <Property Name="MinimumValue" Value="-1" /> 	
+    		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+      		    <Property Name="UnifiedAreaRect" Value="{{0.1,110},{0.1,40},{0.1,180},{0.1,70}}" /> 
+    		</Window>
+          
+     		 <Window Type="TaharezLook/StaticText" Name="OptionsTab/General/lbltextEyesColor_name" >      
+    		    <Property Name="Text" Value="#99" />         
+    		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+      		    <Property Name="UnifiedAreaRect" Value="{{0.1,60},{0.1,80},{0.1,100},{0.1,110}}" />
+    		</Window>       
+    
+    		<Window Type="TaharezLook/Spinner" Name="OptionsTab/General/lbltextEyesColorv_name" > 
+    		    <Property Name="StepSize" Value="1" />
+    		    <Property Name="CurrentValue" Value="-1" />
+    		    <Property Name="MaximumValue" Value="20" />
+    		    <Property Name="MinimumValue" Value="-1" /> 
+    		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+      		    <Property Name="UnifiedAreaRect" Value="{{0.1,110},{0.1,80},{0.1,180},{0.1,110}}" />
+    		</Window>
+      
+     		 <Window Type="TaharezLook/StaticText" Name="OptionsTab/General/lbltextHairColor_name" >      
+    		    <Property Name="Text" Value="#100" />         
+    		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+      		    <Property Name="UnifiedAreaRect" Value="{{0.1,60},{0.1,120},{0.1,100},{0.1,150}}" />
+    		</Window>       
+    
+    		<Window Type="TaharezLook/Spinner" Name="OptionsTab/General/lbltextHairColorv_name" > 
+    		    <Property Name="StepSize" Value="1" />
+    		    <Property Name="CurrentValue" Value="-1" />
+    		    <Property Name="MaximumValue" Value="20" />
+    		    <Property Name="MinimumValue" Value="-1" /> 
+    		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+      		    <Property Name="UnifiedAreaRect" Value="{{0.1,110},{0.1,120},{0.1,180},{0.1,150}}" />  
+		</Window>	
+		
+  
+  
     
      		 <Window Type="TaharezLook/StaticText" Name="OptionsTab/General/lbltextcolor_name" >      
     		    <Property Name="Text" Value="#38" />         
