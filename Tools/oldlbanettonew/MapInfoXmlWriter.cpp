@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "tinyxml.h"
 
 // save world information into file
-void MapInfoXmlWriter::SaveWorld(const std::string Filename, const WorldInfo & wi)
+void MapInfoXmlWriter::SaveWorld(const std::string &Filename, WorldInfo & wi)
 {
 	TiXmlDocument doc;
 	std::string s;
@@ -50,16 +50,27 @@ void MapInfoXmlWriter::SaveWorld(const std::string Filename, const WorldInfo & w
 	TiXmlElement * maps = new TiXmlElement( "maps" );
 	root->LinkEndChild(maps);
 
-	std::map<std::string, MapInfo>::const_iterator it = wi.Maps.begin();
-	std::map<std::string, MapInfo>::const_iterator end = wi.Maps.end();
+	std::map<std::string, MapInfo>::iterator it = wi.Maps.begin();
+	std::map<std::string, MapInfo>::iterator end = wi.Maps.end();
 	for(; it != end; ++it)
 	{
 		TiXmlElement * map = new TiXmlElement( "Map" );
 		maps->LinkEndChild(map);
 
+
+		std::string worldmapname = wi.Name;
+		std::string mapname2 = it->second.Files["Maps"];
+		mapname2 = mapname2.substr(0, mapname2.find_last_of("/"));
+		mapname2 = mapname2.substr(mapname2.find_last_of("/")+1);
+		if(mapname2 == "Lba1")
+			worldmapname = "Lba1Original";
+		if(mapname2 == "Lba2")
+			worldmapname = "Lba2Original";
+
+
 		map->SetAttribute("name", it->first);
 		map->SetAttribute("type", it->second.Type);
-		map->SetAttribute("music", "World/Lba1Original/"+it->second.Music);
+		map->SetAttribute("music", "World/"+worldmapname+"/"+it->second.Music);
 		map->SetAttribute("repeatmusic", it->second.MusicLoop);
 
 		map->SetAttribute("AutoCameraType", 1);

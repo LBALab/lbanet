@@ -38,8 +38,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 int main( int argc, char **argv )
 {
 	WorldInfo winfo;
-	MapInfoXmlReader::LoadWorld("Data/Lba1Original.xml", winfo);
+	MapInfoXmlReader::LoadWorld("Data/Colozen.xml"/*"Data/Lba1Expanded.xml"*//*"Data/Lba1Original.xml"*/, winfo);
 	MapInfoXmlWriter::SaveWorld("Data/Worlds/"+winfo.Name+"/WorldDescription.xml", winfo);
+
 
 	std::map<std::string, long>	textoffsets;
 	std::ifstream fileoff("textoffsets.txt");
@@ -119,8 +120,6 @@ int main( int argc, char **argv )
 	}
 
 
-
-
 	std::map<std::string, MapInfo>::iterator itmap = winfo.Maps.begin();
 	std::map<std::string, MapInfo>::iterator endmap = winfo.Maps.end();
 	for(; itmap != endmap; ++itmap)
@@ -135,12 +134,39 @@ int main( int argc, char **argv )
 		std::string mapname = itmap->second.Files["Maps"];
 		mapname = mapname.substr(mapname.find_last_of("/")+1);
 		mapname = mapname.substr(0, mapname.find("."));
-		mapname[0] = toupper((unsigned char)mapname[0]);
+		//mapname[0] = toupper((unsigned char)mapname[0]);
+
+		std::string extran;
+		std::string worldmapname = winfo.Name;
+		std::string mapname2 = itmap->second.Files["Maps"];
+		mapname2 = mapname2.substr(0, mapname2.find_last_of("/"));
+		mapname2 = mapname2.substr(mapname2.find_last_of("/")+1);
+		if(mapname2 == "Lba1")
+			worldmapname = "Lba1Original";
+		else if(mapname2 == "Lba2")
+			worldmapname = "Lba2Original";
+		else
+		{
+			if(mapname2 != worldmapname)
+			{
+				std::string mapname3 = itmap->second.Files["Maps"];
+				mapname3 = mapname3.substr(0, mapname3.find_last_of("/"));
+				mapname3 = mapname3.substr(0, mapname3.find_last_of("/"));
+				mapname3 = mapname3.substr(mapname3.find_last_of("/")+1);
+				if(mapname3 != worldmapname)
+				{
+					mapname2 = mapname3 + "/" + mapname2;
+				}
+
+				extran = mapname2 + "/";
+			}
+		}
+
 
 		// add map actor
 		ActorObjectInfo actorinfo(actorid++);
 		actorinfo.SetRenderType(1);
-		actorinfo.DisplayDesc.ModelName = "Worlds/"+winfo.Name+"/Grids/"+mapname+".osgb";
+		actorinfo.DisplayDesc.ModelName = "Worlds/"+worldmapname+"/Grids/"+extran+mapname+".osgb";
 		actorinfo.DisplayDesc.UseLight = true;
 		actorinfo.DisplayDesc.CastShadow = false;
 		actorinfo.SetModelState(1);
@@ -151,7 +177,7 @@ int main( int argc, char **argv )
 		actorinfo.SetPhysicalActorType(1);
 		actorinfo.SetPhysicalShape(5);
 		actorinfo.PhysicDesc.Collidable = true;
-		actorinfo.PhysicDesc.Filename = "Worlds/"+winfo.Name+"/Grids/"+mapname+".phy";
+		actorinfo.PhysicDesc.Filename = "Worlds/"+worldmapname+"/Grids/"+extran+mapname+".phy";
 		actorinfo.ExtraInfo.Name = "Map";
 		boost::shared_ptr<ActorHandler> act(new ActorHandler(actorinfo));
 		_Actors[act->GetId()] = act;
@@ -166,7 +192,7 @@ int main( int argc, char **argv )
 		{
 			boost::shared_ptr<Spawn> newsp(new Spawn(itsp->second.Id));
 			newsp->SetPosX(itsp->second.PosX);
-			newsp->SetPosY(itsp->second.PosY);
+			newsp->SetPosY(itsp->second.PosY+0.01f);
 			newsp->SetPosZ(itsp->second.PosZ);
 			newsp->SetForceRotation(false);
 			newsp->SetName(itsp->first);
@@ -198,13 +224,13 @@ int main( int argc, char **argv )
 		}
 
 		std::string textfile = itmap->second.Files["Texts"];
-		textfile.substr(textfile.find("/")+1);
+		textfile = textfile.substr(textfile.find_last_of("/")+1);
 		long txtoffeset = textoffsets[textfile];
 
 
 		// add actors
-		MapInfoXmlReader::LoadActors("Data/"+itmap->second.Files["LocalActors"], _triggers, _Actors, triggerid, actorid, txtoffeset);
-		MapInfoXmlReader::LoadActors("Data/"+itmap->second.Files["ExternalActors"], _triggers, _Actors, triggerid, actorid, txtoffeset);
+		MapInfoXmlReader::LoadActors("Data/"+itmap->second.Files["LocalActors"], _triggers, _Actors, triggerid, txtoffeset);
+		MapInfoXmlReader::LoadActors("Data/"+itmap->second.Files["ExternalActors"], _triggers, _Actors, triggerid, txtoffeset);
 
 
 		// save to files
@@ -236,6 +262,7 @@ int main( int argc, char **argv )
 			file<<"end"<<std::endl;
 		}
 	}
+
 
 	return 0;
 }

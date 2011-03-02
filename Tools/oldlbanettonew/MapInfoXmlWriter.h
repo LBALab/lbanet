@@ -38,7 +38,7 @@ class MapInfoXmlWriter
 {
 public:
 	// save world information into file
-	static void SaveWorld(const std::string Filename, const WorldInfo & wi);
+	static void SaveWorld(const std::string &Filename, WorldInfo & wi);
 };
 
 

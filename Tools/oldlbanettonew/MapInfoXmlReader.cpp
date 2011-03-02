@@ -269,7 +269,7 @@ MapInfo MapInfoXmlReader::LoadMap(TiXmlElement* pElem)
 			ex.SizeZ = floor(ex.TopRightZ + 0.5f) - floor(ex.BottomLeftZ + 0.5f);
 
 			ex.PosX = floor(ex.BottomLeftX + 0.5f) + (ex.SizeX / 2);
-			ex.PosY = floor(ex.BottomLeftY + 0.5f);
+			ex.PosY = floor(ex.BottomLeftY + 0.5f) -1;
 			ex.PosZ = floor(ex.BottomLeftZ + 0.5f) + (ex.SizeZ / 2);
 
 			res.Exits[ex.Name] = ex;
@@ -288,7 +288,7 @@ MapInfo MapInfoXmlReader::LoadMap(TiXmlElement* pElem)
 bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 							std::map<long, boost::shared_ptr<TriggerBase> >	&triggers,
 							std::map<Ice::Long, boost::shared_ptr<ActorHandler> >	&Actors,
-							long &triggerid, long &actorid, long textoffset)
+							long &triggerid, long textoffset)
 {
 	TiXmlDocument doc(Filename);
 	if (!doc.LoadFile())
@@ -350,11 +350,6 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 
 
 			pElem->QueryValueAttribute("id", &id);
-			std::stringstream strss;
-			strss<<"Start reading actor id "<<id;
-
-
-
 			pElem->QueryValueAttribute("type", &type);
 			pElem->QueryFloatAttribute("posX", &posX);
 			pElem->QueryFloatAttribute("posY", &posY);
@@ -373,6 +368,8 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 			pElem->QueryValueAttribute("actif", &actif);
 			pElem->QueryValueAttribute("allowfreemove", &allowfreemove);
 
+			sizeX*= 2;
+			sizeZ*= 2;
 
 			if(pElem->QueryValueAttribute("renderertype", &renderertype) == TIXML_SUCCESS)
 			{
@@ -386,7 +383,7 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 			//Actor * act;
 			switch(type)
 			{
-				case 1:	//text actor class
+				case 1:	//text actor class /////OK
 				{
 					long textid=0;
 					float activationdistance;
@@ -404,7 +401,7 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 					std::stringstream triname;
 					triname<<"TextTri_"<<triinfo.id;
 					triinfo.name = triname.str();
-					boost::shared_ptr<TriggerBase> newtri(new ActivationTrigger(triinfo, activationdistance/2, "Normal", ""));
+					boost::shared_ptr<TriggerBase> newtri(new ActivationTrigger(triinfo, activationdistance/3, "Normal", ""));
 					newtri->SetPosition(posX, posY, posZ);
 
 					DisplayTextAction * act = new DisplayTextAction();
@@ -414,7 +411,7 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 					triggers[newtri->GetId()] = newtri;
 				}
 				break;
-				case 2:	//ladder actor class
+				case 2:	//ladder actor class /////OK
 				{
 					float deltaX=0, deltaY=0, deltaZ=0;
 					int direction=0;
@@ -435,7 +432,7 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 					std::stringstream triname;
 					triname<<"LadderTri_"<<triinfo.id;
 					triinfo.name = triname.str();
-					boost::shared_ptr<TriggerBase> newtri(new ActivationTrigger(triinfo, activationdistance/2, "Normal", ""));
+					boost::shared_ptr<TriggerBase> newtri(new ActivationTrigger(triinfo, activationdistance/3, "Normal", ""));
 					newtri->SetPosition(posX, posY, posZ);
 
 					GoUpLadderScript * goupl = new GoUpLadderScript();
@@ -452,7 +449,7 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 					triggers[newtri->GetId()] = newtri;
 				}
 				break;
-				case 3:	//exit actor class
+				case 3:	//exit actor class /////OK
 				{
 					float deltaX=0, deltaY=0, deltaZ=0;
 					int direction=0;
@@ -473,7 +470,7 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 					std::stringstream triname;
 					triname<<"ExitDownTri_"<<triinfo.id;
 					triinfo.name = triname.str();
-					boost::shared_ptr<TriggerBase> newtri(new ActivationTrigger(triinfo, activationdistance/2, "Normal", ""));
+					boost::shared_ptr<ActivationTrigger> newtri(new ActivationTrigger(triinfo, activationdistance/3, "Normal", ""));
 					newtri->SetPosition(posX, posY, posZ);
 
 					TakeExitDownScript * goupl = new TakeExitDownScript();
@@ -482,15 +479,32 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 					goupl->SetExitPositionY(posY);
 					goupl->SetExitPositionZ(posZ);
 
-					ClientScriptAction * act = new ClientScriptAction();
-					act->SetScript(ClientScriptBasePtr(goupl));
-					newtri->SetAction1(ActionBasePtr(act));
+					if(stargets.size() > 0)
+					{
+						MultiAction * act = new MultiAction();
+
+						OpenDoorAction * act1 = new OpenDoorAction();
+						act1->SetActorId(stargets[0]+2);
+						act->AddAction(ActionBasePtr(act1));
+
+						ClientScriptAction * act2 = new ClientScriptAction();
+						act2->SetScript(ClientScriptBasePtr(goupl));
+						act->AddAction(ActionBasePtr(act2));
+			
+						newtri->SetAction1(ActionBasePtr(act));
+					}
+					else
+					{
+						ClientScriptAction * act = new ClientScriptAction();
+						act->SetScript(ClientScriptBasePtr(goupl));
+						newtri->SetAction1(ActionBasePtr(act));
+					}
 
 					triggers[newtri->GetId()] = newtri;
 				}
 				break;
 
-				case 4:	//door actor class
+				case 4:	//door actor class /////OK
 				{
 					float zoneSizeX=0, zoneSizeY=0, zoneSizeZ=0;
 					bool locked = false;
@@ -519,6 +533,9 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 					pElem->QueryValueAttribute("OpenTransSpeedY", &OpenTransSpeedY);
 					pElem->QueryValueAttribute("OpenTransSpeedZ", &OpenTransSpeedZ);
 
+					zoneSizeX*= 2;
+					zoneSizeZ*= 2;
+
 					std::stringstream sprnames;
 					sprnames<<"sprite";
 					if(renderertarget[0] < 10)
@@ -527,7 +544,7 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 						sprnames<<"0";
 					sprnames<<renderertarget[0]<<".osgb";
 
-					ActorObjectInfo actorinfo(actorid++);
+					ActorObjectInfo actorinfo(id+2);
 					actorinfo.SetRenderType(1);
 					actorinfo.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/"+sprnames.str();
 					actorinfo.DisplayDesc.UseLight = true;
@@ -543,9 +560,13 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 					actorinfo.PhysicDesc.SizeX = sizeX;
 					actorinfo.PhysicDesc.SizeY = sizeY;
 					actorinfo.PhysicDesc.SizeZ = sizeZ;
-					boost::shared_ptr<ActorHandler> act(new DoorHandler(actorinfo, 0, 0,
-															OpenTransX+OpenTransY+OpenTransZ, 
-															OpenTransSpeedX+OpenTransSpeedY+OpenTransSpeedZ, true));
+
+					float trans = OpenTransX+OpenTransY+OpenTransZ;
+					int side = 1;
+					if(trans < 0)
+						side = 0;
+					boost::shared_ptr<ActorHandler> act(new DoorHandler(actorinfo, 0, side, fabs(trans), 
+															fabs(OpenTransSpeedX+OpenTransSpeedY+OpenTransSpeedZ), true));
 
 					Actors[act->GetId()] = act;
 
@@ -557,18 +578,22 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 					std::stringstream triname;
 					triname<<"DoorTri_"<<triinfo.id;
 					triinfo.name = triname.str();
-					boost::shared_ptr<TriggerBase> newtri(new ZoneTrigger(triinfo, zoneSizeX, zoneSizeY, zoneSizeZ, true));
+					boost::shared_ptr<TriggerBase> newtri(new ZoneTrigger(triinfo, zoneSizeX, zoneSizeY, zoneSizeZ, false));
 					newtri->SetPosition(posX, posY, posZ);
 
 					OpenDoorAction * actio = new OpenDoorAction();
 					actio->SetActorId(act->GetId());
 					newtri->SetAction1(ActionBasePtr(actio));
+					CloseDoorAction * actio2 = new CloseDoorAction();
+					actio2->SetActorId(act->GetId());
+					newtri->SetAction2(ActionBasePtr(actio2));
+					
 
 					triggers[newtri->GetId()] = newtri;
 				}
 				break;
 
-				case 5:	//container actor class
+				case 5:	//container actor class /////OK
 				{
 					float zoneSizeX=0, zoneSizeY=0, zoneSizeZ=0;
 					pElem->QueryValueAttribute("zonesizeX", &zoneSizeX);
@@ -576,6 +601,9 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 					pElem->QueryValueAttribute("zonesizeZ", &zoneSizeZ);
 					int activationtype=1;
 					pElem->QueryValueAttribute("activationtype", &activationtype);
+
+					zoneSizeX*= 2;
+					zoneSizeZ*= 2;
 
 					TriggerInfo triinfo;
 					triinfo.id = triggerid++;
@@ -625,7 +653,7 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 				}
 				break;
 
-				case 6:	//up exit actor class
+				case 6:	//up exit actor class /////OK
 				{
 					int direction=0;
 					float activationdistance;
@@ -642,7 +670,7 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 					std::stringstream triname;
 					triname<<"ExitUpTri_"<<triinfo.id;
 					triinfo.name = triname.str();
-					boost::shared_ptr<TriggerBase> newtri(new ActivationTrigger(triinfo, activationdistance/2, "Normal", ""));
+					boost::shared_ptr<ActivationTrigger> newtri(new ActivationTrigger(triinfo, activationdistance/3, "Normal", ""));
 					newtri->SetPosition(posX, posY, posZ);
 
 					TakeExitUpScript * goupl = new TakeExitUpScript();
@@ -651,15 +679,33 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 					goupl->SetExitPositionY(posY);
 					goupl->SetExitPositionZ(posZ);
 
-					ClientScriptAction * act = new ClientScriptAction();
-					act->SetScript(ClientScriptBasePtr(goupl));
-					newtri->SetAction1(ActionBasePtr(act));
+					if(stargets.size() > 0)
+					{
+						newtri->SetPlayAnimation(true);
+						MultiAction * act = new MultiAction();
+
+						OpenDoorAction * act1 = new OpenDoorAction();
+						act1->SetActorId(stargets[0]+2);
+						act->AddAction(ActionBasePtr(act1));
+
+						ClientScriptAction * act2 = new ClientScriptAction();
+						act2->SetScript(ClientScriptBasePtr(goupl));
+						act->AddAction(ActionBasePtr(act2));
+			
+						newtri->SetAction1(ActionBasePtr(act));
+					}
+					else
+					{
+						ClientScriptAction * act = new ClientScriptAction();
+						act->SetScript(ClientScriptBasePtr(goupl));
+						newtri->SetAction1(ActionBasePtr(act));
+					}
 
 					triggers[newtri->GetId()] = newtri;
 				}
 				break;
 
-				case 7:	//switch actor class
+				case 7:	//switch actor class /////OK
 				{
 					float activationdistance;
 					pElem->QueryValueAttribute("activationdistance", &activationdistance);
@@ -676,23 +722,22 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 						sprnames<<"0";
 					sprnames<<renderertarget[0]<<".osgb";
 
-					ActorObjectInfo actorinfo(actorid++);
+					ActorObjectInfo actorinfo(id+2);
 					actorinfo.SetRenderType(1);
 					actorinfo.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/"+sprnames.str();
 					actorinfo.DisplayDesc.UseLight = true;
 					actorinfo.DisplayDesc.CastShadow = false;
-					actorinfo.DisplayDesc.TransY=-3.5f;
 					actorinfo.SetModelState(1);
 					actorinfo.PhysicDesc.Pos.X = posX;
-					actorinfo.PhysicDesc.Pos.Y = posY+3.5f;
+					actorinfo.PhysicDesc.Pos.Y = posY;
 					actorinfo.PhysicDesc.Pos.Z = posZ;
 					actorinfo.PhysicDesc.Pos.Rotation = 0;
 					actorinfo.SetPhysicalActorType(1);
 					actorinfo.SetPhysicalShape(2);
 					actorinfo.PhysicDesc.Collidable = false;
-					actorinfo.PhysicDesc.SizeX = 0.4f;
+					actorinfo.PhysicDesc.SizeX = 0.8f;
 					actorinfo.PhysicDesc.SizeY = 3.0f;
-					actorinfo.PhysicDesc.SizeZ = 0.4f;
+					actorinfo.PhysicDesc.SizeZ = 0.8f;
 					boost::shared_ptr<ActorHandler> act(new ActorHandler(actorinfo));
 
 					Actors[act->GetId()] = act;
@@ -706,7 +751,7 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 					std::stringstream triname;
 					triname<<"SwitchTri_"<<triinfo.id;
 					triinfo.name = triname.str();
-					boost::shared_ptr<ActivationTrigger> newtri(new ActivationTrigger(triinfo, activationdistance/2, "Normal", ""));
+					boost::shared_ptr<ActivationTrigger> newtri(new ActivationTrigger(triinfo, activationdistance/3, "Normal", ""));
 					newtri->SetPosition(posX, posY, posZ);
 					newtri->SetPlayAnimation(true);
 
@@ -724,6 +769,20 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 						sprnames2<<renderertarget[1]<<".osgb";
 						action->SetSwitchModel("Worlds/Lba1Original/Sprites/"+sprnames2.str());
 					}
+
+					if(stargets.size() > 0)
+					{
+						SendSignalAction * act1 = new SendSignalAction();
+						act1->SetActorId(stargets[0]+2);
+						act1->SetSignal(outputsignal);
+						action->SetActionTrue(ActionBasePtr(act1));
+
+						SendSignalAction * act2 = new SendSignalAction();
+						act2->SetActorId(stargets[0]+2);
+						act2->SetSignal(outputsignal);
+						action->SetActionFalse(ActionBasePtr(act2));
+					}
+
 
 					newtri->SetAction1(ActionBasePtr(action));
 
@@ -743,7 +802,7 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 				}
 				break;
 
-				case 9:	//floor switch actor class
+				case 9:	//floor switch actor class /////OK
 				{
 					float zoneSizeX=0, zoneSizeY=0, zoneSizeZ=0;
 					pElem->QueryValueAttribute("zonesizeX", &zoneSizeX);
@@ -752,6 +811,8 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 					int activationtype=1;
 					pElem->QueryValueAttribute("activationtype", &activationtype);
 
+					zoneSizeX*= 2;
+					zoneSizeZ*= 2;
 
 					TriggerInfo triinfo;
 					triinfo.id = triggerid++;
@@ -767,14 +828,18 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 
 					SendSignalAction * act = new SendSignalAction();
 					act->SetSignal(outputsignal);
-					act->SetActorId(-1);
+					if(stargets.size() > 0)
+						act->SetActorId(stargets[0]+2);
+					else
+						act->SetActorId(-1);
+
 					newtri->SetAction1(ActionBasePtr(act));
 
 					triggers[newtri->GetId()] = newtri;
 				}
 				break;
 
-				case 10:	//lift actor class
+				case 10:	//lift actor class /////OK
 				{
 
 					std::stringstream sprnames;
@@ -785,9 +850,67 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 						sprnames<<"0";
 					sprnames<<renderertarget[0]<<".osgb";
 
-					ActorObjectInfo actorinfo(actorid++);
-					actorinfo.SetRenderType(1);
-					actorinfo.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/"+sprnames.str();
+					ActorObjectInfo actorinfo(id+2);
+
+					if(renderertype == 3)
+					{
+						bool mfound = false;
+						std::string ModelName;
+						std::string Outfit;
+						std::string Weapon;
+						std::string Mode;
+						std::map<std::string, ModelData> &models = Lba1ModelMapHandler::getInstance()->GetData();
+						std::map<std::string, ModelData>::iterator itm = models.begin();
+						std::map<std::string, ModelData>::iterator endm = models.end();
+						for(; itm != endm && !mfound; ++itm)
+						{
+							std::map<std::string, OutfitData>::iterator itm2 = itm->second.outfits.begin();
+							std::map<std::string, OutfitData>::iterator endm2 = itm->second.outfits.end();
+							for(; itm2 != endm2 && !mfound; ++itm2)
+							{
+								std::map<std::string, WeaponData>::iterator itm3 = itm2->second.weapons.begin();
+								std::map<std::string, WeaponData>::iterator endm3 = itm2->second.weapons.end();
+								for(; itm3 != endm3 && !mfound; ++itm3)
+								{
+									std::map<std::string, ModeData>::iterator itm4 = itm3->second.modes.begin();
+									std::map<std::string, ModeData>::iterator endm4 = itm3->second.modes.end();
+									for(; itm4 != endm4 && !mfound; ++itm4)
+									{
+										if(itm4->second.modelnumber == renderertarget[0] &&
+												itm4->second.bodynumber == renderertarget[1])
+										{
+											mfound = true;
+											ModelName = itm->first;
+											Outfit = itm2->first;
+											Weapon = itm3->first;
+											Mode = itm4->first;
+										}
+									}							
+								}						
+							}		
+						}
+
+						actorinfo.SetRenderType(3);
+						actorinfo.DisplayDesc.ModelName = ModelName;
+						actorinfo.DisplayDesc.Outfit = Outfit;
+						actorinfo.DisplayDesc.Weapon = Weapon;
+						actorinfo.DisplayDesc.Mode = Mode;
+
+						int resWeaponType;
+						ModelSize size;
+						Lba1ModelMapHandler::getInstance()-> GetModelExtraInfo(ModelName,
+																		Outfit,	Weapon,	Mode, resWeaponType, size);
+						sizeX = size.X;
+						sizeY = size.Y;
+						sizeZ = size.Z;
+					}
+					else
+					{
+						actorinfo.SetRenderType(1);
+						actorinfo.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/"+sprnames.str();
+					}
+
+
 					actorinfo.DisplayDesc.UseLight = true;
 					actorinfo.DisplayDesc.CastShadow = false;
 					actorinfo.SetModelState(1);
@@ -798,9 +921,12 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 					actorinfo.SetPhysicalActorType(2);
 					actorinfo.SetPhysicalShape(2);
 					actorinfo.PhysicDesc.Collidable = true;
+
 					actorinfo.PhysicDesc.SizeX = sizeX;
 					actorinfo.PhysicDesc.SizeY = sizeY;
 					actorinfo.PhysicDesc.SizeZ = sizeZ;
+
+
 					boost::shared_ptr<ActorHandler> act(new ActorHandler(actorinfo));
 
 					Actors[act->GetId()] = act;
@@ -811,39 +937,80 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 					//pElem->QueryValueAttribute("autoattach", &autoattach);					
 
 					//std::vector<PlayerScriptPart> scripts;
-					//TiXmlNode* pNode2=pElem->FirstChild("scripts");
-					//if(pNode2)
-					//{
-					//	TiXmlElement*pElem2=pNode2->FirstChildElement();
-					//	for( pElem2; pElem2; pElem2=pElem2->NextSiblingElement())
-					//	{
-					//		PlayerScriptPart ps;
-					//		ps.ValueA = -1;
-					//		ps.ValueB = -1;
-					//		ps.ValueC = -1;
-					//		ps.Sound = -1;
-					//		ps.SoundNum = -1;
-					//		ps.Speed = -1;
-					//		ps.Animation = -1;
-					//		ps.Flag = true;
+					TiXmlNode* pNode2=pElem->FirstChild("scripts");
+					if(pNode2)
+					{
+						TiXmlElement*pElem2=pNode2->FirstChildElement();
+						for( pElem2; pElem2; pElem2=pElem2->NextSiblingElement())
+						{
+							int Type;
+							float ValueA = -1;
+							float ValueB = -1;
+							float ValueC = -1;
+							float Sound = -1;
+							int SoundNum = -1;
+							float Speed = -1;
+							int Animation = -1;
+							bool Flag = true;
 
-					//		pElem2->QueryValueAttribute("type", &ps.Type);
-					//		pElem2->QueryValueAttribute("ValueA", &ps.ValueA);
-					//		pElem2->QueryValueAttribute("ValueB", &ps.ValueB);
-					//		pElem2->QueryValueAttribute("ValueC", &ps.ValueC);
-					//		pElem2->QueryValueAttribute("Speed", &ps.Speed);
-					//		pElem2->QueryValueAttribute("Sound", &ps.Sound);
-					//		pElem2->QueryValueAttribute("SoundNum", &ps.SoundNum);
-					//		pElem2->QueryValueAttribute("Animation", &ps.Animation);
-					//		pElem2->QueryValueAttribute("Flag", &ps.Flag);
-					//		scripts.push_back(ps);
-					//	}
-					//}
+							pElem2->QueryValueAttribute("type", &Type);
+							pElem2->QueryValueAttribute("ValueA", &ValueA);
+							pElem2->QueryValueAttribute("ValueB", &ValueB);
+							pElem2->QueryValueAttribute("ValueC", &ValueC);
+							pElem2->QueryValueAttribute("Speed", &Speed);
+							pElem2->QueryValueAttribute("Sound", &Sound);
+							pElem2->QueryValueAttribute("SoundNum", &SoundNum);
+							pElem2->QueryValueAttribute("Animation", &Animation);
+							pElem2->QueryValueAttribute("Flag", &Flag);
+
+							switch(Type)
+							{
+								case 0: //rotation
+									act->AddScriptPart(ActorScriptPartBasePtr(
+										new ActorScriptPart_Rotate(ValueA, fabs(Speed), false)));
+								break;
+								case 1: //translation
+									act->AddScriptPart(ActorScriptPartBasePtr(
+										new ActorScriptPart_GoTo(ValueA, ValueB, ValueC, Speed)));
+								break;
+								//case 2: //animation - todo
+								//	act->AddScriptPart(ActorScriptPartBasePtr(
+								//		new ActorScriptPart_ChangeAnimation(const std::string & Animationstring)));
+								//	act->AddScriptPart(ActorScriptPartBasePtr(
+								//		new ActorScriptPart_PlayAnimation(true)));
+								//break;
+								case 3: //send signal
+									act->AddScriptPart(ActorScriptPartBasePtr(
+										new ActorScriptPart_SendSignal((int)ValueB, ((long)ValueA)+2)));
+								break;
+								case 4: //wait signal
+									act->AddScriptPart(ActorScriptPartBasePtr(
+										new ActorScriptPart_WaitForSignal((int)ValueA)));
+								break;
+								case 5: //wait time - todo
+									//act->AddScriptPart(ActorScriptPartBasePtr(
+									//	new ActorScriptPart_WaitForSignal((int)ValueA)));
+								break;	
+								case 6: //curve - todo
+									//act->AddScriptPart(ActorScriptPartBasePtr(
+									//	new ActorScriptPart_WaitForSignal((int)ValueA)));
+								break;	
+								case 7: //hide
+									act->AddScriptPart(ActorScriptPartBasePtr(
+										new ActorScriptPart_ShowHide(false)));
+								break;
+								case 8: //show
+									act->AddScriptPart(ActorScriptPartBasePtr(
+										new ActorScriptPart_ShowHide(true)));
+								break;
+							}
+						}
+					}
 					//act = new ScriptableActor(scripts, autoattach);
 				}
 				break;
 
-				case 11:	//hurt area class
+				case 11:	//hurt area class /////OK
 				{
 					float zoneSizeX=0, zoneSizeY=0, zoneSizeZ=0;
 					int lifetaken=5;
@@ -851,6 +1018,10 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 					pElem->QueryValueAttribute("zonesizeY", &zoneSizeY);
 					pElem->QueryValueAttribute("zonesizeZ", &zoneSizeZ);
 					pElem->QueryValueAttribute("lifetaken", &lifetaken);
+
+					zoneSizeX*= 2;
+					zoneSizeZ*= 2;
+					zoneSizeY+= 0.3f;
 
 					TriggerInfo triinfo;
 					triinfo.id = triggerid++;
@@ -866,13 +1037,23 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 					HurtAction * act = new HurtAction();
 					act->HurtLifeOrMana(true);
 					act->SetHurtValue((float)lifetaken);
+					act->SetAnimationString("BigHurt");
 					newtri->SetAction1(ActionBasePtr(act));
+
+
+					newtri->SetStayUpdateFrequency(2);
+					HurtAction * act2 = new HurtAction();
+					act2->HurtLifeOrMana(true);
+					act2->SetHurtValue((float)lifetaken);
+					act2->SetAnimationString("BigHurt");
+					newtri->SetAction3(ActionBasePtr(act2));
+
 
 					triggers[newtri->GetId()] = newtri;
 				}
 				break;
 
-				case 12:	//NPC class
+				case 12:	//NPC class /////OK
 				{
 					int npctype=1;
 					float activationdistance=10;//6;
@@ -921,8 +1102,8 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 					}
 					
 
-					// add map actor
-					ActorObjectInfo actorinfo(actorid++);
+					// add actor
+					ActorObjectInfo actorinfo(id+2);
 					actorinfo.SetRenderType(3);
 					actorinfo.DisplayDesc.ModelName = ModelName;
 					actorinfo.DisplayDesc.Outfit = Outfit;
@@ -953,34 +1134,75 @@ bool MapInfoXmlReader::LoadActors(const std::string &Filename,
 
 
 					//std::vector<PlayerScriptPart> scripts;
-					//TiXmlNode* pNode2=pElem->FirstChild("scripts");
-					//if(pNode2)
-					//{
-					//	TiXmlElement*pElem2=pNode2->FirstChildElement();
-					//	for( pElem2; pElem2; pElem2=pElem2->NextSiblingElement())
-					//	{
-					//		PlayerScriptPart ps;
-					//		ps.ValueA = -1;
-					//		ps.ValueB = -1;
-					//		ps.ValueC = -1;
-					//		ps.Sound = -1;
-					//		ps.Speed = -1;
-					//		ps.SoundNum = -1;
-					//		ps.Animation = -1;
-					//		ps.Flag = true;
+					TiXmlNode* pNode2=pElem->FirstChild("scripts");
+					if(pNode2)
+					{
+						TiXmlElement*pElem2=pNode2->FirstChildElement();
+						for( pElem2; pElem2; pElem2=pElem2->NextSiblingElement())
+						{
+							int Type;
+							float ValueA = -1;
+							float ValueB = -1;
+							float ValueC = -1;
+							float Sound = -1;
+							int SoundNum = -1;
+							float Speed = -1;
+							int Animation = -1;
+							bool Flag = true;
 
-					//		pElem2->QueryValueAttribute("type", &ps.Type);
-					//		pElem2->QueryValueAttribute("ValueA", &ps.ValueA);
-					//		pElem2->QueryValueAttribute("ValueB", &ps.ValueB);
-					//		pElem2->QueryValueAttribute("ValueC", &ps.ValueC);
-					//		pElem2->QueryValueAttribute("Speed", &ps.Speed);
-					//		pElem2->QueryValueAttribute("Sound", &ps.Sound);
-					//		pElem2->QueryValueAttribute("SoundNum", &ps.SoundNum);
-					//		pElem2->QueryValueAttribute("Animation", &ps.Animation);
-					//		pElem2->QueryValueAttribute("Flag", &ps.Flag);
-					//		scripts.push_back(ps);
-					//	}
-					//}
+							pElem2->QueryValueAttribute("type", &Type);
+							pElem2->QueryValueAttribute("ValueA", &ValueA);
+							pElem2->QueryValueAttribute("ValueB", &ValueB);
+							pElem2->QueryValueAttribute("ValueC", &ValueC);
+							pElem2->QueryValueAttribute("Speed", &Speed);
+							pElem2->QueryValueAttribute("Sound", &Sound);
+							pElem2->QueryValueAttribute("SoundNum", &SoundNum);
+							pElem2->QueryValueAttribute("Animation", &Animation);
+							pElem2->QueryValueAttribute("Flag", &Flag);
+
+							switch(Type)
+							{
+								case 0: //rotation
+									act->AddScriptPart(ActorScriptPartBasePtr(
+										new ActorScriptPart_Rotate(ValueA, fabs(Speed), false)));
+								break;
+								case 1: //translation
+									act->AddScriptPart(ActorScriptPartBasePtr(
+										new ActorScriptPart_GoTo(ValueA, ValueB, ValueC, Speed)));
+								break;
+								//case 2: //animation - todo
+								//	act->AddScriptPart(ActorScriptPartBasePtr(
+								//		new ActorScriptPart_ChangeAnimation(const std::string & Animationstring)));
+								//	act->AddScriptPart(ActorScriptPartBasePtr(
+								//		new ActorScriptPart_PlayAnimation(true)));
+								//break;
+								case 3: //send signal
+									act->AddScriptPart(ActorScriptPartBasePtr(
+										new ActorScriptPart_SendSignal((int)ValueB, ((long)ValueA)+2)));
+								break;
+								case 4: //wait signal
+									act->AddScriptPart(ActorScriptPartBasePtr(
+										new ActorScriptPart_WaitForSignal((int)ValueA)));
+								break;
+								case 5: //wait time - todo
+									//act->AddScriptPart(ActorScriptPartBasePtr(
+									//	new ActorScriptPart_WaitForSignal((int)ValueA)));
+								break;	
+								case 6: //curve - todo
+									//act->AddScriptPart(ActorScriptPartBasePtr(
+									//	new ActorScriptPart_WaitForSignal((int)ValueA)));
+								break;	
+								case 7: //hide
+									act->AddScriptPart(ActorScriptPartBasePtr(
+										new ActorScriptPart_ShowHide(false)));
+								break;
+								case 8: //show
+									act->AddScriptPart(ActorScriptPartBasePtr(
+										new ActorScriptPart_ShowHide(true)));
+								break;
+							}
+						}
+					}
 
 					//DialogHandlerPtr dialogptr = DialogHandlerPtr();
 					//#ifndef _LBANET_SERVER_SIDE_
