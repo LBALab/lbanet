@@ -105,6 +105,17 @@ public:
 
 	//! update physic with new data
 	virtual void Update(LbaNet::PhysicObjectUpdateBasePtr update);
+
+
+	//! ignore collision between two pairs of actors
+	virtual void IgnoreCollisionWith(PhysicalObjectHandlerBase * actor);
+
+	//! add force to actor - only for dynamic actors
+	virtual void AddForce(float X, float Y, float Z);
+
+	//! return internal actor - only for physX actor
+	virtual NxActor* GetphysXInternalActor();
+
 protected:
 	NxActor*										_Actor;
 	float											_sizeY;
@@ -162,6 +173,17 @@ public:
 
 	//! update physic with new data
 	virtual void Update(LbaNet::PhysicObjectUpdateBasePtr update);
+
+
+	//! ignore collision between two pairs of actors
+	virtual void IgnoreCollisionWith(PhysicalObjectHandlerBase * actor){}
+
+	//! add force to actor - only for dynamic actors
+	virtual void AddForce(float X, float Y, float Z){}
+
+	//! return internal actor - only for physX actor
+	virtual NxActor* GetphysXInternalActor();
+
 protected:
 	NxController*									_Controller;
 	boost::shared_ptr<SimpleRotationHandler>		_rotH;

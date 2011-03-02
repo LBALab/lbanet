@@ -30,8 +30,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /***********************************************************
 constructor
 ***********************************************************/
-ActorUserData::ActorUserData(LbaNet::PhysicalActorType ActType, long index)
-	: ActorType(ActType), Materials(NULL), Rotation(0), ExtraRotation(0),
+ActorUserData::ActorUserData(LbaNet::PhysicalActorType ActType, LbaNet::ObjectTypeEnum ActObj, long index)
+	: ActorType(ActType), ActObjType(ActObj), Materials(NULL), Rotation(0), ExtraRotation(0),
 		MaterialsSize(0), released(false), ActorId(index), MovingObject(false),
 		AllowedMovingX(false), AllowedMovingZ(false), 
 		CurrentMoveX(0), CurrentMoveY(0), CurrentMoveZ(0), AllowFreeMove(false),
@@ -67,6 +67,25 @@ void				ActorUserData::SetActorType(LbaNet::PhysicalActorType newv)
 {
 	IceUtil::RecMutex::Lock lock(*m_mutex);
 	ActorType = newv;
+}
+
+
+/***********************************************************
+accessor thread safe
+***********************************************************/
+LbaNet::ObjectTypeEnum	ActorUserData::GetActorObjType()
+{
+	IceUtil::RecMutex::Lock lock(*m_mutex);
+	return ActObjType;
+}
+
+/***********************************************************
+accessor thread safe
+***********************************************************/
+void				ActorUserData::SetActorObjType(LbaNet::ObjectTypeEnum newv)
+{
+	IceUtil::RecMutex::Lock lock(*m_mutex);
+	ActObjType = newv;
 }
 
 

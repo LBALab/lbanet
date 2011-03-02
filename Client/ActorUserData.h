@@ -41,10 +41,11 @@ namespace IceUtil
 
 struct HitInfo
 {
-	long	ActorId;
-	int		ActorType;
-	bool	HitBottom;
-	short	FloorMaterial;
+	LbaNet::ObjectTypeEnum			ActorObjType;
+	long							ActorId;
+	LbaNet::PhysicalActorType		ActorPhysType;
+	bool							HitBottom;
+	short							FloorMaterial;
 };
 
 
@@ -59,7 +60,7 @@ class ActorUserData
 {
 public:
 	//! constructor
-	ActorUserData(LbaNet::PhysicalActorType ActType, long index);
+	ActorUserData(LbaNet::PhysicalActorType ActType, LbaNet::ObjectTypeEnum ActObj, long index);
 
 	//! destructor
 	~ActorUserData();
@@ -67,6 +68,10 @@ public:
 	//! accessor thread safe
 	LbaNet::PhysicalActorType	GetActorType();
 	void				SetActorType(LbaNet::PhysicalActorType newv);
+
+
+	LbaNet::ObjectTypeEnum	GetActorObjType();
+	void				SetActorObjType(LbaNet::ObjectTypeEnum newv);
 
 
 	long				GetActorId(); 
@@ -119,6 +124,10 @@ public:
 
 private:
 	IceUtil::RecMutex *	m_mutex;
+
+
+
+	LbaNet::ObjectTypeEnum			ActObjType;
 
 	// Actor type
 	// 1 = static

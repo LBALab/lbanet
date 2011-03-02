@@ -46,6 +46,7 @@ class CameraController;
 class ExternalPlayer;
 class ClientLuaHandler;
 class ExternalActor;
+class ProjectileHandler;
 
 /***********************************************************************
  * Module:  LbaNetModel.h
@@ -349,6 +350,14 @@ public:
 									const LbaNet::ItemInfo & currencyitem){}
 	//! open mailbox
 	virtual void OpenMailbox(long PlayerId){}
+	
+
+	//! create projectile
+	void CreateProjectile(const LbaNet::ProjectileInfo & Info);
+
+	//! destroy projectile
+	void DestroyProjectile(long Id);
+
 
 protected:
 
@@ -422,6 +431,14 @@ protected:
 	//! used by lua to make actor follow waypoint
 	virtual void InternalActorFollowWaypoint(int ScriptId, long ActorId, int waypointindex1, 
 												int waypointindex2, bool asynchronus = false);
+
+
+	ObjectInfo CreateObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId, 
+								const LbaNet::ModelInfo &DisplayDesc, 
+								const LbaNet::ObjectPhysicDesc &PhysicDesc,
+								const LbaNet::ObjectExtraInfo &extrainfo,
+								const LbaNet::LifeManaInfo &lifeinfo);
+
 private:
 	
 	// list of object populating the scene
@@ -431,6 +448,9 @@ private:
 	std::map<long, boost::shared_ptr<ExternalActor> >	_npcObjects;
 	std::map<long, boost::shared_ptr<ExternalPlayer> >	_playerObjects;
 	std::map<long, boost::shared_ptr<DynamicObject> >	_ghostObjects;
+
+	std::map<long, boost::shared_ptr<ProjectileHandler> >	_projectileObjects;
+	
 
 	#ifdef _USE_QT_EDITOR_
 	std::map<long, boost::shared_ptr<DynamicObject> >	_editorObjects;

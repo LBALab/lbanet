@@ -778,8 +778,29 @@ void LbaNetEngine::HandleGameEvents()
 			continue;
 		}
 
+		// CreateProjectileEvent
+		if(info == typeid(LbaNet::CreateProjectileEvent))
+		{
+			LbaNet::CreateProjectileEvent* castedptr = 
+				dynamic_cast<LbaNet::CreateProjectileEvent *>(&obj);
 
-		
+			if(m_lbaNetModel)
+				m_lbaNetModel->CreateProjectile(castedptr->Info);
+
+			continue;
+		}
+
+		// DestroyProjectileEvent
+		if(info == typeid(LbaNet::DestroyProjectileEvent))
+		{
+			LbaNet::DestroyProjectileEvent* castedptr = 
+				dynamic_cast<LbaNet::DestroyProjectileEvent *>(&obj);
+
+			if(m_lbaNetModel)
+				m_lbaNetModel->DestroyProjectile(castedptr->Id);
+
+			continue;
+		}
 	}
 }
 

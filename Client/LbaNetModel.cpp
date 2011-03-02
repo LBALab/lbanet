@@ -36,6 +36,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ClientLuaHandler.h"
 #include "DataLoader.h"
 #include "ExternalActor.h"
+#include "ProjectileHandler.h"
+
 
 #define	_LBA1_MODEL_ANIMATION_SPEED_	1.8f
 
@@ -136,6 +138,16 @@ void LbaNetModel::Process(double tnow, float tdiff)
 	std::map<long, boost::shared_ptr<DynamicObject> >::iterator end = _ghostObjects.end();
 	for(; it != end; ++it)
 		it->second->Process(tnow, tdiff);
+	}
+
+	//process projectiles
+	std::map<long, boost::shared_ptr<ProjectileHandler> >::iterator itproj = _projectileObjects.begin();
+	while(itproj != _projectileObjects.end())
+	{
+		if(itproj->second->Process(tnow, tdiff))
+			itproj = _projectileObjects.erase(itproj);
+		else
+			++itproj;
 	}
 
 
@@ -397,7 +409,6 @@ void LbaNetModel::ResetPlayerObject()
 
 
 
-
 /***********************************************************
  add object from server
  type:
@@ -405,11 +416,11 @@ void LbaNetModel::ResetPlayerObject()
 2 -> player object
 3 -> ghost object
 ***********************************************************/
-void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId, 
-					const LbaNet::ModelInfo &DisplayDesc, 
-					const LbaNet::ObjectPhysicDesc &PhysicDesc,
-					const LbaNet::ObjectExtraInfo &extrainfo,
-					const LbaNet::LifeManaInfo &lifeinfo)
+ObjectInfo LbaNetModel::CreateObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId, 
+								const LbaNet::ModelInfo &DisplayDesc, 
+								const LbaNet::ObjectPhysicDesc &PhysicDesc,
+								const LbaNet::ObjectExtraInfo &extrainfo,
+								const LbaNet::LifeManaInfo &lifeinfo)
 {
 	boost::shared_ptr<DisplayInfo> DInfo;
 
@@ -438,10 +449,6 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 
 				DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
 			}
-			else
-			{
-				//TODO
-			}
 		}
 		break;
 
@@ -468,10 +475,6 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 				tr->scaleZ = DisplayDesc.ScaleZ;
 
 				DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
-			}
-			else
-			{
-				//TODO
 			}
 		}
 		break;
@@ -509,7 +512,7 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 		//3-> LBA2 model
 		case LbaNet::RenderLba2M:
 		{
-			//TODO
+			//TODO - lba2 models
 		}
 		break;
 
@@ -648,10 +651,29 @@ void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId,
 
 	}
 #ifdef _USE_QT_EDITOR_
-	ObjectInfo obj((long)ObjectId, DInfo, PInfo, false); // make all objects dynamic in editor as we can change them
+	ObjectInfo obj(OType, (long)ObjectId, DInfo, PInfo, false); // make all objects dynamic in editor as we can change them
 #else
-	ObjectInfo obj((long)ObjectId, DInfo, PInfo, (PhysicDesc.TypePhysO == LbaNet::StaticAType));
+	ObjectInfo obj(OType, (long)ObjectId, DInfo, PInfo, (PhysicDesc.TypePhysO == LbaNet::StaticAType));
 #endif
+	
+	return obj;
+}
+
+
+/***********************************************************
+ add object from server
+ type:
+1 -> npc object
+2 -> player object
+3 -> ghost object
+***********************************************************/
+void LbaNetModel::AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId, 
+					const LbaNet::ModelInfo &DisplayDesc, 
+					const LbaNet::ObjectPhysicDesc &PhysicDesc,
+					const LbaNet::ObjectExtraInfo &extrainfo,
+					const LbaNet::LifeManaInfo &lifeinfo)
+{
+	ObjectInfo obj = CreateObject(OType, ObjectId, DisplayDesc, PhysicDesc, extrainfo, lifeinfo);
 	AddObject(OType, obj, DisplayDesc, extrainfo, lifeinfo);
 }
 
@@ -1356,7 +1378,7 @@ void LbaNetModel::ShowHideActor(int ObjectType, long ObjectId, bool SHow)
 			{
 				std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _ghostObjects.find((long)ObjectId);
 				//if(it != _ghostObjects.end())
-					//todo
+					//todo - GhostObject
 			}
 		break;
 
@@ -1527,6 +1549,82 @@ void LbaNetModel::NpcUnTargetPlayer(long ActorId)
 
 
 
+/***********************************************************
+create projectile
+***********************************************************/
+void LbaNetModel::CreateProjectile(const LbaNet::ProjectileInfo & Info)
+{
+	LbaNet::ObjectExtraInfo extrainfo;
+	extrainfo.Display = false;
+	LbaNet::LifeManaInfo lifeinfo;
+	lifeinfo.Display = false;
+
+	ObjectInfo obj = CreateObject(LbaNet::GhostObject, Info.Id, 
+								Info.DisplayDesc, Info.PhysicDesc, extrainfo, lifeinfo);
+
+	boost::shared_ptr<DynamicObject> dynobj = obj.BuildSelf(OsgHandler::getInstance());
+
+
+	// projectile should not touch creator
+	boost::shared_ptr<PhysicalObjectHandlerBase> physobj = dynobj->GetPhysicalObject();
+	if(physobj)
+	{
+		if(Info.OwnerActorId >= 0)
+		{
+			boost::shared_ptr<PhysicalObjectHandlerBase> ownerobj;
+			switch(Info.OwnerActorType)
+			{
+				// 1 -> npc object
+				case LbaNet::NpcObject:
+				{
+					std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find((long)Info.OwnerActorId);
+					if(it != _npcObjects.end())
+						ownerobj = it->second->GetPhysicalObject();
+				}
+				break;
+
+
+				// 2 -> player object
+				case LbaNet::PlayerObject:
+					//special treatment if main player
+					if(m_playerObjectId == (long)Info.OwnerActorId)
+					{
+						ownerobj = m_controllerChar->GetPhysicalObject();
+					}
+					else
+					{
+						std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _playerObjects.find((long)Info.OwnerActorId);
+						if(it != _playerObjects.end())
+							ownerobj = it->second->GetPhysicalObject();
+					}
+				break;
+
+			}
+
+			if(ownerobj)
+				physobj->IgnoreCollisionWith(ownerobj.get());
+		}
+	}
+
+	//create projectile handler
+	_projectileObjects[Info.Id] = boost::shared_ptr<ProjectileHandler>(
+		new ProjectileHandler(dynobj, Info, Info.ManagingClientId == m_playerObjectId));
+}
+
+
+/***********************************************************
+destroy projectile
+***********************************************************/
+void LbaNetModel::DestroyProjectile(long Id)
+{
+	std::map<long, boost::shared_ptr<ProjectileHandler> >::iterator it = _projectileObjects.find(Id);
+	if(it != _projectileObjects.end())
+		_projectileObjects.erase(it);
+}
+
+
+
+
 
 #ifdef _USE_QT_EDITOR_
 /***********************************************************
@@ -1553,5 +1651,6 @@ void LbaNetModel::ForceGhost(bool force)
 }
 
 #endif
+
 
 

@@ -72,7 +72,8 @@ class MyContactReport : public NxUserContactReport
 				{
 					HitInfo hinfo;
 					hinfo.ActorId = acd2->GetActorId();
-					hinfo.ActorType = acd2->GetActorType();
+					hinfo.ActorObjType = acd2->GetActorObjType();
+					hinfo.ActorPhysType = acd2->GetActorType();
 					hinfo.HitBottom = false;
 					acd1->AddActorHitted(hinfo);
 				}
@@ -99,7 +100,8 @@ public:
 			{
 				HitInfo hinfo;
 				hinfo.ActorId = mstorage->GetActorId();
-				hinfo.ActorType = mstorage->GetActorType();
+				hinfo.ActorObjType = mstorage->GetActorObjType();
+				hinfo.ActorPhysType = mstorage->GetActorType();
 				hinfo.HitBottom = false;
 
 				if(hit.shape)
@@ -148,7 +150,8 @@ public:
 		{
 			HitInfo hinfo;
 			hinfo.ActorId = characterdata->GetActorId();
-			hinfo.ActorType = characterdata->GetActorType();
+			hinfo.ActorObjType = characterdata->GetActorObjType();
+			hinfo.ActorPhysType = characterdata->GetActorType();
 			hinfo.HitBottom = false;
 			characterdatamain->AddActorHitted(hinfo);
 		}
@@ -447,6 +450,7 @@ NxActor* PhysXEngine::CreateBox(const NxVec3 & StartPosition, float dimX, float 
 	NxActor *pActor = gScene->createActor(actorDesc);	
 	assert(pActor);
 
+	pActor->setContactReportFlags(NX_NOTIFY_ON_START_TOUCH);
 	return pActor;
 }
 
@@ -493,7 +497,13 @@ NxActor* PhysXEngine::CreateSphere(const NxVec3 & StartPosition, float radius, f
 	actorDesc.globalPose.t	= StartPosition;	
 	actorDesc.globalPose.M = NxQuat(NxVec3(rotation.X, rotation.Y, rotation.Z), rotation.W);
 
-	return gScene->createActor(actorDesc);
+
+	assert(actorDesc.isValid());
+	NxActor *pActor = gScene->createActor(actorDesc);	
+	assert(pActor);
+
+	pActor->setContactReportFlags(NX_NOTIFY_ON_START_TOUCH);
+	return pActor;
 }
 
 
@@ -552,7 +562,13 @@ NxActor* PhysXEngine::CreateSphere(const NxVec3 & StartPosition, float radius, f
 	actorDesc.globalPose.t	= StartPosition;	
 	actorDesc.globalPose.M = NxQuat(NxVec3(rotation.X, rotation.Y, rotation.Z), rotation.W);
 
-	return gScene->createActor(actorDesc);
+
+	assert(actorDesc.isValid());
+	NxActor *pActor = gScene->createActor(actorDesc);	
+	assert(pActor);
+
+	pActor->setContactReportFlags(NX_NOTIFY_ON_START_TOUCH);
+	return pActor;
 }
 
 /***********************************************************
@@ -598,7 +614,12 @@ NxActor* PhysXEngine::CreateCapsule(const NxVec3 & StartPosition, float radius, 
 	actorDesc.globalPose.M = NxQuat(NxVec3(rotation.X, rotation.Y, rotation.Z), rotation.W);
 
 
-	return gScene->createActor(actorDesc);
+	assert(actorDesc.isValid());
+	NxActor *pActor = gScene->createActor(actorDesc);	
+	assert(pActor);
+
+	pActor->setContactReportFlags(NX_NOTIFY_ON_START_TOUCH);
+	return pActor;
 }
 
 
