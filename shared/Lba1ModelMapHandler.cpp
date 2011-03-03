@@ -224,11 +224,27 @@ int Lba1ModelMapHandler::GetModelInfo(	const std::string & modelname,
 										int & resbody,
 										std::vector<int> & resanimation)
 {
-	if(modelname == "" || outfit == "" || weapon == "" || mode == "")
+	if(modelname == "" || outfit == "" || weapon == "" || mode == "" || animation == "")
 		return -1;
 
 	std::map<std::string, std::vector<int> > & anims = 
 		_data[modelname].outfits[outfit].weapons[weapon].modes[mode].animations;
+
+
+	//check if given animation is a number
+	if(animation[0] == '#')
+	{
+		resanimation.clear();
+		int anim = atoi(animation.substr(1).c_str());
+		if(anim < 0)
+			anim = 0;
+		resanimation.push_back(anim);
+		resmodel = _data[modelname].outfits[outfit].weapons[weapon].modes[mode].modelnumber;
+		resbody = _data[modelname].outfits[outfit].weapons[weapon].modes[mode].bodynumber;
+		return 0;		
+	}
+
+
 
 	// do first trial with current mode
 	{

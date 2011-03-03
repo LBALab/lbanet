@@ -38,7 +38,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
-
 /***********************************************************
 constructor
 ***********************************************************/
@@ -465,6 +464,7 @@ bool FollowWaypointScriptPart::Process(double tnow, float tdiff, boost::shared_p
 
 	boost::shared_ptr<DisplayObjectHandlerBase> disso = actor->GetDisplayObject();
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo = actor->GetPhysicalObject();
+	std::string animation = disso->GetCurrentAnimation();
 
 	// get animation speed
 	float speedX = disso->GetCurrentAssociatedSpeedX();
@@ -516,8 +516,9 @@ bool FollowWaypointScriptPart::Process(double tnow, float tdiff, boost::shared_p
 					tang2.z-tang1.z);
 
 	float angle = LbaQuaternion::GetSignedAngleFromVector(diff);
-	if(move < 0)
+	if(animation != "MoveForward")
 		angle += 180;
+
 
 	LbaQuaternion Q;
 	Q.AddSingleRotation(angle, LbaVec3(0, 1, 0));

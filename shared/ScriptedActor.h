@@ -410,9 +410,20 @@ public:
 	void ClearScripts()
 	{_currentScripts.clear();}
 
+	//! get attached actor
+	boost::shared_ptr<DynamicObject> GetAttached()
+	{ return _attachedactor; }
+
+	//! attach actor
+	void SetAttached(boost::shared_ptr<DynamicObject>actor)
+	{_attachedactor = actor;}
+
 protected:
 	boost::shared_ptr<DynamicObject>						_character;
 	std::list<boost::shared_ptr<ScriptPartBase> >			_currentScripts;
+
+
+	boost::shared_ptr<DynamicObject>						_attachedactor;
 };
 
 
