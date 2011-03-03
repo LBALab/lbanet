@@ -3121,3 +3121,15 @@ void MapHandler::DestroyPlayerProjectile(Ice::Long PlayerId)
 			DestroyProjectile((long)PlayerId, projs[i], -1, -1);
 	}
 }
+
+
+
+/***********************************************************
+get actor info
+***********************************************************/
+boost::shared_ptr<DynamicObject> MapHandler::GetActor(int ObjectType, long ObjectId)
+{
+	//TODO - get actor info 
+	return boost::shared_ptr<DynamicObject>();
+}
+

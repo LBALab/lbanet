@@ -321,6 +321,8 @@ public:
 	//! open mailbox
 	virtual void OpenMailbox(long PlayerId);
 
+	//! get actor info
+	virtual boost::shared_ptr<DynamicObject> GetActor(int ObjectType, long ObjectId);
 
 protected:
 	// process events
