@@ -58,19 +58,17 @@ void MapInfoXmlWriter::SaveWorld(const std::string &Filename, WorldInfo & wi)
 		maps->LinkEndChild(map);
 
 
-		std::string worldmapname = wi.Name;
+		std::string worldmapname = "Lba1Original";
 		std::string mapname2 = it->second.Files["Maps"];
 		mapname2 = mapname2.substr(0, mapname2.find_last_of("/"));
 		mapname2 = mapname2.substr(mapname2.find_last_of("/")+1);
-		if(mapname2 == "Lba1")
-			worldmapname = "Lba1Original";
 		if(mapname2 == "Lba2")
 			worldmapname = "Lba2Original";
 
 
 		map->SetAttribute("name", it->first);
 		map->SetAttribute("type", it->second.Type);
-		map->SetAttribute("music", "World/"+worldmapname+"/"+it->second.Music);
+		map->SetAttribute("music", "Worlds/"+worldmapname+"/"+it->second.Music);
 		map->SetAttribute("repeatmusic", it->second.MusicLoop);
 
 		map->SetAttribute("AutoCameraType", 1);

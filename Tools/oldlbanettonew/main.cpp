@@ -38,7 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 int main( int argc, char **argv )
 {
 	WorldInfo winfo;
-	MapInfoXmlReader::LoadWorld("Data/Colozen.xml"/*"Data/Lba1Expanded.xml"*//*"Data/Lba1Original.xml"*/, winfo);
+	MapInfoXmlReader::LoadWorld(/*"Data/Colozen.xml"*//*"Data/Lba1Expanded.xml"*/"Data/Lba1Original.xml", winfo);
 	MapInfoXmlWriter::SaveWorld("Data/Worlds/"+winfo.Name+"/WorldDescription.xml", winfo);
 
 
