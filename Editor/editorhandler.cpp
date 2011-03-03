@@ -40,6 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "QuestHandler.h"
 #include "Quest.h"
 #include "Spawn.h"
+#include "MusicHandler.h"
 
 #include <qdir.h>
 #include <QErrorMessage>
@@ -1990,14 +1991,9 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 		}
 	}
 
-
-
 	// add lua stuff
 	std::string luafile = "Worlds/" + _winfo.Description.WorldName + "/Lua/";
 	_luaH = boost::shared_ptr<ServerLuaHandler>(new ServerLuaHandler());
-
-	// refresh starting info
-	RefreshStartingInfo();
 }
 
 
@@ -2182,6 +2178,7 @@ void EditorHandler::SetMapInfo(const std::string & mapname)
 	{
 		_firstmapofworld = false;
 
+
 		// add spawns
 		{
 			LbaNet::MapsSeq::const_iterator itm = _winfo.Maps.begin();
@@ -2198,6 +2195,10 @@ void EditorHandler::SetMapInfo(const std::string & mapname)
 					AddSpawningName(itm->first, itsp->second->GetName());
 			}
 		}
+
+		// refresh starting info
+		RefreshStartingInfo();
+
 
 
 		// add teleport
@@ -2634,9 +2635,13 @@ void EditorHandler::objectdatachanged(const QModelIndex &index1, const QModelInd
 
 	if(_objectmodel->rowCount() > 2)
 	{
+		int updatedrow = index1.row();
 		// go to parents until we find good one
 		while(_objectmodel->data(_objectmodel->GetIndex(0, 0, parentIdx)).toString() != "Type")
+		{
 			parentIdx = _objectmodel->parent(parentIdx);
+			updatedrow = -1;
+		}
 
 		QString type = _objectmodel->data(_objectmodel->GetIndex(1, 0, parentIdx)).toString();
 		std::string category = _objectmodel->data(_objectmodel->GetIndex(1, 1, parentIdx)).toString().toAscii().data();
@@ -2659,7 +2664,7 @@ void EditorHandler::objectdatachanged(const QModelIndex &index1, const QModelInd
 		if(type == "Actor")
 		{
 			long objid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toLong();
-			ActorObjectChanged(objid, parentIdx, index1.row());
+			ActorObjectChanged(objid, parentIdx, updatedrow);
 			return;
 		}
 
@@ -5697,6 +5702,7 @@ void EditorHandler::addmap_accepted()
 
 	LbaNet::MapInfo newmapinfo;
 	newmapinfo.Name = mapname.toAscii().data();
+	newmapinfo.Repeat = 0;
 
 	QString descs = _ui_addmapdialog.textEdit_map_description->toPlainText();
 	descs.replace(QString("\n"), QString(" @ "));
@@ -6032,8 +6038,9 @@ void EditorHandler::addworld_accepted()
 	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/Texts");}catch(...){}
 	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/InventoryImages");}catch(...){}
 	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/Sprites");}catch(...){}
+	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/Music");}catch(...){}
+	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/Grid");}catch(...){}
 
-	
 	// save new world
 	DataLoader::getInstance()->SaveWorldInformation(wname, winfo);
 
@@ -11128,8 +11135,14 @@ void EditorHandler::MapMusicChanged(const QString & text)
 	std::string mapname = _uieditor.label_mapname->text().toAscii().data();
 	if(mapname != "")
 	{
-		_winfo.Maps[mapname].Music = _uieditor.lineEdit_mapmusic->text().toAscii().data();
-		SetModified();
+		std::string newv = _uieditor.lineEdit_mapmusic->text().toAscii().data();
+		if(newv != _winfo.Maps[mapname].Music)
+		{
+			_winfo.Maps[mapname].Music = newv;
+			SetModified();
+
+			MusicHandler::getInstance()->PlayMusic("Data/"+_winfo.Maps[mapname].Music, _winfo.Maps[mapname].Repeat);
+		}
 	}
 
 }
@@ -11142,8 +11155,14 @@ void EditorHandler::MapMusicRepeatChanged(int newvalue)
 	std::string mapname = _uieditor.label_mapname->text().toAscii().data();
 	if(mapname != "")
 	{
-		_winfo.Maps[mapname].Repeat = _uieditor.spinBox_mapmusicrepeat->value();
-		SetModified();
+		int newv = _uieditor.spinBox_mapmusicrepeat->value();
+		if(newv != _winfo.Maps[mapname].Repeat)
+		{
+			_winfo.Maps[mapname].Repeat = newv;
+			SetModified();
+
+			MusicHandler::getInstance()->PlayMusic("Data/"+_winfo.Maps[mapname].Music, _winfo.Maps[mapname].Repeat);
+		}
 	}
 }
 
@@ -11152,7 +11171,7 @@ map music file clicked
 ***********************************************************/
 void EditorHandler::MapMusicFile_clicked()
 {
-	QString currfile = _uieditor.label_mapname->text();
+	QString currfile = _uieditor.lineEdit_mapmusic->text();
 	if(currfile != "")
 		currfile = "Data/" + currfile;
 
@@ -11163,6 +11182,7 @@ void EditorHandler::MapMusicFile_clicked()
 	if(selectedfile.size() > 0)
 	{
 		QString selected = 	selectedfile[0];
+		selected.replace("\\", "/");
 
 		// check if choosen file is in the directory data
 		if(selected.contains(QDir::currentPath()+"/Data/"))
@@ -11176,7 +11196,7 @@ void EditorHandler::MapMusicFile_clicked()
 			{
 				QString newfilename = "Data/Worlds/";
 				newfilename += _winfo.Description.WorldName.c_str(); 
-				newfilename	+= "/" + selected.section('/', -1);
+				newfilename	+= "/Music/" + selected.section('/', -1);
 				boost::filesystem::copy_file(selected.toAscii().data(), newfilename.toAscii().data());
 
 				selected = newfilename.section('/', 1);
