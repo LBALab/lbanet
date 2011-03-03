@@ -533,6 +533,9 @@ public:
 	virtual void OpenMailbox(long PlayerId){}
 
 
+	//! get actor info
+	virtual boost::shared_ptr<DynamicObject> GetActor(int ObjectType, long ObjectId)
+	{return boost::shared_ptr<DynamicObject>();}
 
 public slots:
 	 //! ui button clicked
