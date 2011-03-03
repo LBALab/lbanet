@@ -869,6 +869,7 @@ module LbaNet
 		bool			IgnoreGravity;
 		
 		float			LifeTime;
+		bool			Comeback;
 	};
 };	
 

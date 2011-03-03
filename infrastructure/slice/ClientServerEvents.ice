@@ -279,6 +279,14 @@ module LbaNet
 		ProjectileInfo			Info;
 	};
 	
+	// server tell client to destroy projectile
+	class ProjectileHittedActorEvent extends ClientServerEventBase
+	{
+		long			Id;
+
+		int			TouchedActorType;
+		long			TouchedActorId;
+	};
 	
 	// server tell client to destroy projectile
 	class DestroyProjectileEvent extends ClientServerEventBase
