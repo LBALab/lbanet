@@ -30,6 +30,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ActorUserData.h"
 #include "ClientExtendedEvents.h"
 #include "SharedDataHandler.h"
+#include "ScriptEnvironmentBase.h"
+
 
 #include <iostream>
 #include <math.h>
@@ -67,6 +69,10 @@ void CharacterController::SetPhysicalCharacter(boost::shared_ptr<DynamicObject> 
 {
 	_character = charac;
 	_isGhost = AsGhost;
+
+	// reset attached actor
+	_attachedactor = boost::shared_ptr<DynamicObject>();
+
 
 	// update last position
 	_character->GetPhysicalObject()->GetPosition(_lastupdate.CurrentPos.X,
@@ -332,8 +338,16 @@ void CharacterController::Process(double tnow, float tdiff,
 		}
 	}
 
-	boost::shared_ptr<ActorUserData> udata = physo->GetUserData();
-	physo->RotateYAxis(rotation+udata->GetExtraRotation());
+	float extrarotation = 0;
+	if(_attachedactor)
+	{
+		boost::shared_ptr<PhysicalObjectHandlerBase> attchedphys = _attachedactor->GetPhysicalObject();
+		if(attchedphys)
+			extrarotation = attchedphys->GetLastRotation();
+		
+	}
+
+	physo->RotateYAxis(rotation+extrarotation);
 
 
 	// update to standing pose if needed
@@ -389,26 +403,44 @@ void CharacterController::Process(double tnow, float tdiff,
 
 
 	// get additional speed in case we are on lift
-	float addspeedX, addspeedY, addspeedZ;
-	udata->GetExtraMove(addspeedX, addspeedY, addspeedZ);
-	//if(addspeedY <= 0)
-	//	speedY += addspeedY;
-	if(addspeedY != 0)
-		speedY = addspeedY;
+	if(_attachedactor)
+	{
+		float addspeedX=0, addspeedY=0, addspeedZ=0;
 
+		boost::shared_ptr<PhysicalObjectHandlerBase> attchedphys = _attachedactor->GetPhysicalObject();
+		if(attchedphys)
+			attchedphys->GetLastMove(addspeedX, addspeedY, addspeedZ);
+		
+		ajustedspeedx+=addspeedX;
+		ajustedspeedZ+=addspeedZ;
 
-	ajustedspeedx+=addspeedX;
-	ajustedspeedZ+=addspeedZ;
+		if(addspeedY <= 0)
+		{
+			speedY += addspeedY;
+			_attachedactor = boost::shared_ptr<DynamicObject>(); // dettach actor afterwards
+		}
+		else
+		{
+			//todo - check if we are still on the actor
+
+			checkgravity = false;
+			speedY = addspeedY;
+		}
+	}
+
 
 	// move actor
 	physo->Move(ajustedspeedx, speedY, ajustedspeedZ);
 
 
+	// check for touched ground and attached actor
 	bool touchground = true;
 	int touchedfloormaterial = 0;
+	boost::shared_ptr<ActorUserData> udata = physo->GetUserData();
 	if(udata)
 	{
 		touchground = udata->GetTouchingGround();
+
 		if(touchground)
 		{
 			std::vector<HitInfo> hitvec;
@@ -417,7 +449,12 @@ void CharacterController::Process(double tnow, float tdiff,
 			{
 				HitInfo &hi = hitvec[i];
 				if(hi.HitBottom)
+				{
 					touchedfloormaterial = hi.FloorMaterial;
+
+					if(scripthandler)
+						_attachedactor = scripthandler->GetActor(hi.ActorObjType, hi.ActorId);
+				}
 			}
 		}
 	}
@@ -957,6 +994,9 @@ void CharacterController::Teleport(const LbaNet::PlayerMoveInfo &info)
 
 	LbaQuaternion Q(info.CurrentPos.Rotation, LbaVec3(0,1,0));
 	physo->RotateTo(Q);
+
+	// reset attached actor
+	_attachedactor = boost::shared_ptr<DynamicObject>();
 }
 
 

@@ -31,11 +31,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 constructor
 ***********************************************************/
 ActorUserData::ActorUserData(LbaNet::PhysicalActorType ActType, LbaNet::ObjectTypeEnum ActObj, long index)
-	: ActorType(ActType), ActObjType(ActObj), Materials(NULL), Rotation(0), ExtraRotation(0),
+	: ActorType(ActType), ActObjType(ActObj), Materials(NULL), Rotation(0), 
 		MaterialsSize(0), released(false), ActorId(index), MovingObject(false),
-		AllowedMovingX(false), AllowedMovingZ(false), 
-		CurrentMoveX(0), CurrentMoveY(0), CurrentMoveZ(0), AllowFreeMove(false),
-		TouchingGround(false), ExtraMoveX(0), ExtraMoveY(0), ExtraMoveZ(0)
+		AllowedMovingX(false), AllowedMovingZ(false), TouchingGround(false),
+		CurrentMoveX(0), CurrentMoveY(0), CurrentMoveZ(0), AllowFreeMove(false)
+		
 {
 	m_mutex = new IceUtil::RecMutex();
 }
@@ -292,33 +292,6 @@ void				ActorUserData::SetMove(float X, float Y, float Z)
 }
 
 
-/***********************************************************
-accessor thread safe
-***********************************************************/
-void				ActorUserData::GetExtraMove(float &X, float &Y, float &Z)
-{
-	IceUtil::RecMutex::Lock lock(*m_mutex);
-	X = ExtraMoveX;
-	Y = ExtraMoveY;
-	Z = ExtraMoveZ;
-
-	ExtraMoveX = 0;
-	ExtraMoveY = 0;
-	ExtraMoveZ = 0;
-}
-
-
-/***********************************************************
-accessor thread safe
-***********************************************************/
-void				ActorUserData::AddExtraMove(float X, float Y, float Z)
-{
-	IceUtil::RecMutex::Lock lock(*m_mutex);
-	ExtraMoveX += X;
-	ExtraMoveY += Y;
-	ExtraMoveZ += Z;
-}
-
 
 
 /***********************************************************
@@ -340,27 +313,6 @@ void				ActorUserData::SetRotation(float R)
 	Rotation = R;
 }
 
-
-/***********************************************************
-accessor thread safe
-***********************************************************/
-float				ActorUserData::GetExtraRotation()
-{
-	IceUtil::RecMutex::Lock lock(*m_mutex);
-	float res = ExtraRotation;
-	ExtraRotation = 0;
-	return res;
-}
-
-
-/***********************************************************
-accessor thread safe
-***********************************************************/
-void				ActorUserData::AddExtraRotation(float R)
-{
-	IceUtil::RecMutex::Lock lock(*m_mutex);
-	ExtraRotation += R;
-}
 
 
 

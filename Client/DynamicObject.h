@@ -148,7 +148,6 @@ public:
 		mr = _additionalMoveRotation;
 	}
 
-
 protected:
 	
 	//! handler to physical object

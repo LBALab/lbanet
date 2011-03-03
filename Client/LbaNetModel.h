@@ -358,6 +358,8 @@ public:
 	//! destroy projectile
 	void DestroyProjectile(long Id);
 
+	//! get actor info
+	virtual boost::shared_ptr<DynamicObject> GetActor(int ObjectType, long ObjectId);
 
 protected:
 

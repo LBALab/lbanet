@@ -52,6 +52,11 @@ public:
 	virtual boost::shared_ptr<ActorUserData> GetUserData()
 	{ return _UserData; }
 	
+	//! get last move
+	virtual void GetLastMove(float &X, float &Y, float &Z);
+
+	//! get last rotation
+	virtual float GetLastRotation();
 
 protected:
 	boost::shared_ptr<ActorUserData>	_UserData;

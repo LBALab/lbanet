@@ -104,14 +104,8 @@ public:
 	void				GetMove(float &X, float &Y, float &Z);
 	void				SetMove(float X, float Y, float Z);
 
-	void				GetExtraMove(float &X, float &Y, float &Z);
-	void				AddExtraMove(float X, float Y, float Z);
-
 	float				GetRotation();
 	void				SetRotation(float R);
-
-	float				GetExtraRotation();
-	void				AddExtraRotation(float R);
 
 	bool				GetAllowFreeMove();
 	void				SetAllowFreeMove(bool newv);
@@ -156,12 +150,7 @@ private:
 	float				CurrentMoveY;
 	float				CurrentMoveZ;
 
-	float				ExtraMoveX;
-	float				ExtraMoveY;
-	float				ExtraMoveZ;
-
 	float				Rotation;
-	float				ExtraRotation;
 
 	std::vector<HitInfo>	HittedActors;
 };

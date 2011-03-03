@@ -1632,6 +1632,54 @@ void LbaNetModel::DestroyProjectile(long Id)
 
 
 
+/***********************************************************
+get actor info
+***********************************************************/
+boost::shared_ptr<DynamicObject> LbaNetModel::GetActor(int ObjectType, long ObjectId)
+{
+	switch(ObjectType)
+	{
+		// 1 -> npc object
+		case LbaNet::NpcObject:
+			{
+			std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find((long)ObjectId);
+			if(it != _npcObjects.end())
+				return it->second->GetActor();
+			}
+		break;
+
+
+		// 2 -> player object
+		case LbaNet::PlayerObject:
+			//special treatment if main player
+			if(m_playerObjectId == (long)ObjectId)
+			{
+				return m_controllerChar->GetActor();
+			}
+			else
+			{
+				std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _playerObjects.find((long)ObjectId);
+				if(it != _playerObjects.end())
+					return it->second->GetActor();
+			}
+		break;
+
+		// 3 -> ghost object
+		case LbaNet::GhostObject:
+			{
+				std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _ghostObjects.find((long)ObjectId);
+				//if(it != _ghostObjects.end())
+					//todo - GhostObject
+			}
+		break;
+
+	}
+
+	return boost::shared_ptr<DynamicObject>();
+}
+
+
+
 
 
 #ifdef _USE_QT_EDITOR_

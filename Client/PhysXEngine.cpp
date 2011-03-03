@@ -119,12 +119,6 @@ public:
 						// check material hit
 						if(hitinfo.faceID < mstorage->GetMaterialsSize())
 							hinfo.FloorMaterial = mstorage->GetMaterials(hitinfo.faceID);
-						
-						// if other shape is moving - it will move the character as well
-						float mox, moy, moz;
-						mstorage->GetMove(mox, moy, moz);
-						characterdata->AddExtraMove(mox, moy, moz);	
-						characterdata->AddExtraRotation(mstorage->GetRotation());
 					}
 				}
 
@@ -165,9 +159,6 @@ public:
 				mox = characterdatamain->GetAllowedMovingX() ? mox : 0;
 				moy = 0;
 				moz = characterdatamain->GetAllowedMovingZ() ? moz : 0;
-
-				if(characterdata)
-					characterdata->AddExtraMove(mox, moy, moz);
 
 				characterdatamain->SetMovingObject(true);
 			}
@@ -975,8 +966,7 @@ void PhysXEngine::IgnoreActorContact(NxActor* actor1, NxActor* actor2)
 /***********************************************************
 perform small raycast to find what actor is below
 ***********************************************************/
-bool PhysXEngine::RayCast(NxController* Controller, float maxdistance, HitInfo &hinfo,
-							float &hittedmovex, float &hittedmovey, float &hittedmovez)
+bool PhysXEngine::RayCast(NxController* Controller, float maxdistance, HitInfo &hinfo)
 {
 	NxExtendedVec3 vec = Controller->getPosition();
 	NxVec3 pos(vec.x, vec.y+maxdistance+0.01f, vec.z);
@@ -995,8 +985,6 @@ bool PhysXEngine::RayCast(NxController* Controller, float maxdistance, HitInfo &
 			hinfo.ActorObjType = data->GetActorObjType();
 			hinfo.ActorPhysType = data->GetActorType();
 			hinfo.HitBottom = true;
-
-			data->GetMove(hittedmovex, hittedmovey, hittedmovez);
 			return true;
 		}
 	}

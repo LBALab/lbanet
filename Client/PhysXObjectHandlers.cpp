@@ -43,6 +43,30 @@ PhysXObjectHandlerBase::PhysXObjectHandlerBase(boost::shared_ptr<ActorUserData> 
 
 
 /***********************************************************
+get last move
+***********************************************************/	
+void PhysXObjectHandlerBase::GetLastMove(float &X, float &Y, float &Z)
+{
+	if(_UserData)
+		_UserData->GetMove(X, Y, Z);
+}
+
+
+/***********************************************************
+get last rotation
+***********************************************************/
+float PhysXObjectHandlerBase::GetLastRotation()
+{
+	if(_UserData)
+		return _UserData->GetRotation();
+
+	return 0;
+}
+
+
+
+
+/***********************************************************
 	Constructor
 ***********************************************************/
 PhysXActorsHandler::PhysXActorsHandler(boost::shared_ptr<ActorUserData> UserData,

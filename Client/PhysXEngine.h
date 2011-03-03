@@ -141,8 +141,7 @@ public:
 
 
 	//! perform small raycast to find what actor is behind
-	bool RayCast(NxController* Controller, float maxdistance, HitInfo &hinfo,
-					float &hittedmovex, float &hittedmovey, float &hittedmovez);
+	bool RayCast(NxController* Controller, float maxdistance, HitInfo &hinfo);
 
 protected:
 	//! constructor
