@@ -35,6 +35,7 @@ class ActionArgumentBase;
 struct ContainerSharedInfo;
 class DialogPart;
 class Spawn;
+class DynamicObject;
 
 #include <boost/shared_ptr.hpp>
 #include <LbaTypes.h>
@@ -332,6 +333,9 @@ public:
 
 	//! open mailbox
 	virtual void OpenMailbox(long PlayerId) = 0;
+
+	//! get actor info
+	virtual boost::shared_ptr<DynamicObject> GetActor(int ObjectType, long ObjectId) = 0;
 
 protected:
 

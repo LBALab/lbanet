@@ -124,6 +124,13 @@ public:
 	//! return internal actor - only for physX actor
 	virtual NxActor* GetphysXInternalActor() = 0;
 
+	//! get last move
+	virtual void GetLastMove(float &X, float &Y, float &Z) = 0;
+
+	//! get last rotation
+	virtual float GetLastRotation() = 0;
+
+
 protected:
 	bool _resetted;
 };
@@ -205,7 +212,8 @@ public:
 	//! constructor
 	SimplePhysicalObjectHandler(float pX, float pY, float pZ,
 									const LbaQuaternion& Q)
-		: _PosX(pX), _PosY(pY), _PosZ(pZ), _rotH(Q)
+		: _PosX(pX), _PosY(pY), _PosZ(pZ), _rotH(Q), _lastmoveX(0), 
+			_lastmoveY(0), _lastmoveZ(0), _lastrotation(0)
 	{}
 
 	//! destructor
@@ -237,6 +245,10 @@ public:
 		_PosX += deltaX;
 		_PosY += deltaY;
 		_PosZ += deltaZ;
+
+		_lastmoveX = deltaX;
+		_lastmoveY = deltaY;
+		_lastmoveZ = deltaZ;
 	}
 
 
@@ -262,6 +274,10 @@ public:
 	//! move object to a position in the world
 	virtual void MoveTo(float X, float Y, float Z)
 	{
+		_lastmoveX = X-_PosX;
+		_lastmoveY = Y-_PosY;
+		_lastmoveZ = Z-_PosZ;
+
 		_PosX = X;
 		_PosY = Y;
 		_PosZ = Z;
@@ -278,6 +294,7 @@ public:
 	//! rotate object in the world
 	virtual void RotateYAxis(float Speed)
 	{
+		_lastrotation = Speed;
 		_rotH.RotateYAxis(Speed);
 	}
 
@@ -304,10 +321,28 @@ public:
 	//! return internal actor - only for physX actor
 	virtual NxActor* GetphysXInternalActor(){return NULL;}
 
+	//! get last move
+	virtual void GetLastMove(float &X, float &Y, float &Z) 
+	{
+		X = _lastmoveX;
+		Y = _lastmoveY;
+		Z = _lastmoveZ;
+	}
+
+	//! get last rotation
+	virtual float GetLastRotation()
+	{return _lastrotation;}
+
+
 private:
 	float _PosX;
 	float _PosY;
 	float _PosZ;
+
+	float	_lastmoveX;
+	float	_lastmoveY;
+	float	_lastmoveZ;
+	float	_lastrotation;
 
 	SimpleRotationHandler _rotH;
 };

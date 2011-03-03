@@ -418,6 +418,11 @@ public:
 	void SetAttached(boost::shared_ptr<DynamicObject>actor)
 	{_attachedactor = actor;}
 
+
+	//! get actor
+	boost::shared_ptr<DynamicObject> GetActor()
+	{return _character;}
+
 protected:
 	boost::shared_ptr<DynamicObject>						_character;
 	std::list<boost::shared_ptr<ScriptPartBase> >			_currentScripts;
