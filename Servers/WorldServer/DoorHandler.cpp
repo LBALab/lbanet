@@ -34,7 +34,7 @@ void DoorHandler::SendSignal(int Signalnumber)
 		--_openingcounter;
 		if(_openingcounter < 0)
 			_openingcounter = 0;
-		if(_openingcounter == 0)
+		else if(_openingcounter == 0)
 		{
 			ActorHandler::SendSignal(2);
 			return;
@@ -124,17 +124,17 @@ void DoorHandler::RefreshScript()
 				case 0:	// right
 				{
 					if(Xdoor)
-						addX -= m_actorinfo.PhysicDesc.SizeX;
+						addX -= m_actorinfo.PhysicDesc.SizeX/2;
 					else
-						addZ -= m_actorinfo.PhysicDesc.SizeZ;
+						addZ -= m_actorinfo.PhysicDesc.SizeZ/2;
 				}
 				break;
 				case 1:	// left
 				{
 					if(Xdoor)
-						addX += m_actorinfo.PhysicDesc.SizeX;
+						addX += m_actorinfo.PhysicDesc.SizeX/2;
 					else
-						addZ += m_actorinfo.PhysicDesc.SizeZ;
+						addZ += m_actorinfo.PhysicDesc.SizeZ/2;
 				}
 				break;
 

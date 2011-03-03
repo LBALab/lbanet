@@ -183,6 +183,20 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectE
 		savedinfo.model.MountHairColor = -1;
 	}
 
+	// reset map if needed
+	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator it = _currentmaps.find(savedinfo.ppos.MapName);
+	if(it == _currentmaps.end())
+	{
+		bool forcerotation;
+		savedinfo.ppos = GetSpawningInfo(	_worldinfo.StartingInfo.StartingMap, 
+											(long)_worldinfo.StartingInfo.SpawningId,
+											forcerotation);
+	}
+
+	if(savedinfo.model.ModelName == "")
+		savedinfo.model = _worldinfo.StartingInfo.StartingModel;
+
+
 
 
 	// create player object
@@ -205,26 +219,32 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectE
 		for(size_t i=0; i< questStarted.size(); ++i)
 		{
 			QuestPtr q = QuestHandler::getInstance()->GetQuest(questStarted[i]);
-			LbaNet::QuestInfo qinf;
-			qinf.Id = questStarted[i];
-			qinf.ChapterTextId = q->GetChapter();
-			qinf.QuestAreaTextId = q->GetLocationTextId();	
-			qinf.TittleTextId = q->GetTitleTextId();
-			qinf.DescriptionTextId = q->GetDescriptionTextId();
-			qinf.Visible = q->GetVisible();
-			startedQ[qinf.Id] = qinf;
+			if(q)
+			{
+				LbaNet::QuestInfo qinf;
+				qinf.Id = questStarted[i];
+				qinf.ChapterTextId = q->GetChapter();
+				qinf.QuestAreaTextId = q->GetLocationTextId();	
+				qinf.TittleTextId = q->GetTitleTextId();
+				qinf.DescriptionTextId = q->GetDescriptionTextId();
+				qinf.Visible = q->GetVisible();
+				startedQ[qinf.Id] = qinf;
+			}
 		}
 		for(size_t i=0; i< questFinished.size(); ++i)
 		{
 			QuestPtr q = QuestHandler::getInstance()->GetQuest(questFinished[i]);
-			LbaNet::QuestInfo qinf;
-			qinf.Id = questFinished[i];
-			qinf.ChapterTextId = q->GetChapter();
-			qinf.QuestAreaTextId = q->GetLocationTextId();	
-			qinf.TittleTextId = q->GetTitleTextId();
-			qinf.DescriptionTextId = q->GetDescriptionTextId();
-			qinf.Visible = q->GetVisible();
-			endedQ[qinf.Id] = qinf;
+			if(q)
+			{
+				LbaNet::QuestInfo qinf;
+				qinf.Id = questFinished[i];
+				qinf.ChapterTextId = q->GetChapter();
+				qinf.QuestAreaTextId = q->GetLocationTextId();	
+				qinf.TittleTextId = q->GetTitleTextId();
+				qinf.DescriptionTextId = q->GetDescriptionTextId();
+				qinf.Visible = q->GetVisible();
+				endedQ[qinf.Id] = qinf;
+			}
 		}
 
 		// get friend list from db

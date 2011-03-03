@@ -1236,10 +1236,13 @@ void ActorHandler::ActorStraightWalkTo(int ScriptId, bool asynchronus, float Pos
 		anim = disO->GetCurrentAnimation();
 
 	// inform clients
-	_events.push_back(new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+	
+	m_lastevent = new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 						m_actorinfo.ObjectId, posX, posY, posZ, rotation, anim, 
 						m_resetposition, m_resetrotation,
-						new LbaNet::StraightWalkToNpcUpd(PosX, PosY, PosZ)));
+						new LbaNet::StraightWalkToNpcUpd(PosX, PosY, PosZ));
+
+	_events.push_back(m_lastevent);
 
 	m_resetposition = false;
 	m_resetrotation = false;
@@ -1269,10 +1272,12 @@ void ActorHandler::ActorRotate(int ScriptId, bool asynchronus, float Angle, floa
 		anim = disO->GetCurrentAnimation();
 
 	// inform clients
-	_events.push_back(new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+	m_lastevent = new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 						m_actorinfo.ObjectId, posX, posY, posZ, rotation, anim, 
 						m_resetposition, m_resetrotation,
-						new LbaNet::RotateNpcUpd(Angle, RotationSpeedPerSec, ManageAnimation)));
+						new LbaNet::RotateNpcUpd(Angle, RotationSpeedPerSec, ManageAnimation));
+
+	_events.push_back(m_lastevent);
 
 	m_resetposition = false;
 	m_resetrotation = false;
@@ -1299,10 +1304,12 @@ void ActorHandler::ActorAnimate(int ScriptId, bool asynchronus, bool AnimationMo
 		anim = disO->GetCurrentAnimation();
 
 	// inform clients
-	_events.push_back(new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+	m_lastevent = new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 						m_actorinfo.ObjectId, posX, posY, posZ, rotation, anim, 
 						m_resetposition, m_resetrotation,
-						new LbaNet::AnimateNpcUpd(AnimationMove)));
+						new LbaNet::AnimateNpcUpd(AnimationMove));
+
+	_events.push_back(m_lastevent);
 
 	m_resetposition = false;
 	m_resetrotation = false;
@@ -1330,10 +1337,12 @@ void ActorHandler::ActorGoTo(int ScriptId, float PosX, float PosY, float PosZ, f
 		anim = disO->GetCurrentAnimation();
 
 	// inform clients
-	_events.push_back(new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+	m_lastevent = new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 						m_actorinfo.ObjectId, posX, posY, posZ, rotation, anim, 
 						m_resetposition, m_resetrotation,
-						new LbaNet::GoToNpcUpd(PosX, PosY, PosZ, Speed)));
+						new LbaNet::GoToNpcUpd(PosX, PosY, PosZ, Speed));
+
+	_events.push_back(m_lastevent);
 
 	m_resetposition = false;
 	m_resetrotation = false;
@@ -1363,9 +1372,13 @@ void ActorHandler::ActorWaitForSignal(int ScriptId, int Signalnumber, bool async
 
 	// inform clients
 	if(m_resetposition || m_resetrotation)
-		_events.push_back(new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+	{
+		m_lastevent = new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 							m_actorinfo.ObjectId, posX, posY, posZ, rotation, anim, 
-							m_resetposition, m_resetrotation, NULL));
+							m_resetposition, m_resetrotation, NULL);
+
+		_events.push_back(m_lastevent);
+	}
 
 	m_resetposition = false;
 	m_resetrotation = false;
@@ -1395,10 +1408,12 @@ void ActorHandler::ActorRotateFromPoint(int ScriptId, float Angle, float PosX, f
 		anim = disO->GetCurrentAnimation();
 
 	// inform clients
-	_events.push_back(new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+	m_lastevent = new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 						m_actorinfo.ObjectId, posX, posY, posZ, rotation, anim, 
 						m_resetposition, m_resetrotation,
-						new LbaNet::RotateFromPointNpcUpd(Angle, PosX, PosY, PosZ, Speed)));
+						new LbaNet::RotateFromPointNpcUpd(Angle, PosX, PosY, PosZ, Speed));
+
+	_events.push_back(m_lastevent);
 
 	m_resetposition = false;
 	m_resetrotation = false;
@@ -1470,13 +1485,15 @@ void ActorHandler::ActorFollowWaypoint(int ScriptId, int waypointindex1, int way
 
 
 		// inform clients
-		_events.push_back(new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+		m_lastevent = new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 							m_actorinfo.ObjectId, posX, posY, posZ, rotation, anim, 
 							m_resetposition, m_resetrotation,
 							new LbaNet::FollowWaypointNpcUpd(
 												_Pm1.x, _P0.x, _P1.x, _P2.x, _P3.x, _P4.x,
 												_Pm1.y, _P0.y, _P1.y, _P2.y, _P3.y, _P4.y,
-												_Pm1.z, _P0.z, _P1.z, _P2.z, _P3.z, _P4.z)));
+												_Pm1.z, _P0.z, _P1.z, _P2.z, _P3.z, _P4.z));
+
+		_events.push_back(m_lastevent);
 
 		m_resetposition = false;
 		m_resetrotation = false;
@@ -1518,3 +1535,26 @@ void ActorHandler::ReverModel()
 	}
 }
 
+
+
+/***********************************************************
+get last actor event
+***********************************************************/
+LbaNet::ClientServerEventBasePtr ActorHandler::GetLastEvent()
+{
+	if(m_lastevent)
+	{
+		// update to last position
+		boost::shared_ptr<PhysicalObjectHandlerBase> physO = _character->GetPhysicalObject();
+		boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
+
+		physO->GetPosition(m_lastevent->CurrPosX, m_lastevent->CurrPosY, m_lastevent->CurrPosZ);
+		m_lastevent->CurrRotation = physO->GetRotationYAxis();
+
+		std::string anim;	
+		if(disO)
+			m_lastevent->CurrAnimation = disO->GetCurrentAnimation();
+	}
+
+	return m_lastevent;
+}

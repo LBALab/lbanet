@@ -318,6 +318,8 @@ public:
 	//! stop target player
 	virtual void UntargetPlayer(Ice::Long PlayerId){}
 
+	//! get last actor event
+	LbaNet::ClientServerEventBasePtr GetLastEvent();
 
 #ifdef _USE_QT_EDITOR_
 public:
@@ -386,6 +388,8 @@ protected:
 
 
 	std::string											m_saved_model;
+
+	LbaNet::NpcChangedEventPtr							m_lastevent;
 };
 
 #endif

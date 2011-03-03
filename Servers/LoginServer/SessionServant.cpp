@@ -441,6 +441,7 @@ void SessionServant::ChangeNameColor(const std::string& Color, const Ice::Curren
 		_currextrainfo.NameColorR = cR / 255.0f;
 		_currextrainfo.NameColorG = cG / 255.0f;
 		_currextrainfo.NameColorB = cB / 255.0f;
+		_currextrainfo.Display = true;
 
 		std::map<std::string, ChatRoomParticipantPrx>::iterator worldit = _chat_rooms.find("World");
 		if(worldit != _chat_rooms.end())

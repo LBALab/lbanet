@@ -575,6 +575,10 @@ protected:
 							long TouchedActorId);
 
 	//! destroy projectile
+	void HittedProjectile(long PlayerId, long ProjectileId, int	TouchedActorType,
+							long TouchedActorId);
+
+	//! destroy projectile
 	void DestroyPlayerProjectile(Ice::Long PlayerId);
 
 

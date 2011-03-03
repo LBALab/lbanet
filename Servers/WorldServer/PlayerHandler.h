@@ -146,11 +146,15 @@ public:
 
 	//! set player extra info
 	void SetExtraInfo(const LbaNet::ObjectExtraInfo& extrainfo)
-	{_extrainfo = extrainfo;}
+	{
+		_extrainfo = extrainfo;
+	}
 
 	//! get player extra info
 	LbaNet::ObjectExtraInfo GetExtraInfo()
-	{ return _extrainfo;}
+	{ 
+		return _extrainfo;
+	}
 
 
 

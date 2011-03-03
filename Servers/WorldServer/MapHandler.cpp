@@ -496,9 +496,9 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts)
 			if(info == typeid(LbaNet::UpdatePlayerColorEvent))
 			{
 				LbaNet::UpdatePlayerColorEvent* castedptr = 
-					static_cast<LbaNet::UpdatePlayerColorEvent *>(&obj);
+					dynamic_cast<LbaNet::UpdatePlayerColorEvent *>(&obj);
 
-				ChangePlayerColor(1, castedptr->SkinColor, castedptr->EyesColor, 
+				ChangePlayerColor((long)it->first, castedptr->SkinColor, castedptr->EyesColor, 
 										castedptr->HairColor, -2, -2, -2, -2);
 				continue;
 
@@ -508,10 +508,22 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts)
 			if(info == typeid(LbaNet::DestroyProjectileEvent))
 			{
 				LbaNet::DestroyProjectileEvent* castedptr = 
-					static_cast<LbaNet::DestroyProjectileEvent *>(&obj);
+					dynamic_cast<LbaNet::DestroyProjectileEvent *>(&obj);
 
-				DestroyProjectile(it->first, castedptr->Id, 
-									castedptr->TouchedActorType, castedptr->TouchedActorId);
+				DestroyProjectile((long)it->first, (long)castedptr->Id, 
+									castedptr->TouchedActorType, (long)castedptr->TouchedActorId);
+				continue;
+
+			}
+
+			// DestroyProjectileEvent
+			if(info == typeid(LbaNet::ProjectileHittedActorEvent))
+			{
+				LbaNet::ProjectileHittedActorEvent* castedptr = 
+					dynamic_cast<LbaNet::ProjectileHittedActorEvent *>(&obj);
+
+				HittedProjectile((long)it->first, (long)castedptr->Id, 
+									castedptr->TouchedActorType, (long)castedptr->TouchedActorId);
 				continue;
 
 			}
@@ -672,7 +684,7 @@ void MapHandler::PlayerEntered(Ice::Long id)
 			GetPlayerPhysicalSize(id, sizeX, sizeY, sizeZ);
 			PhysicDesc.SizeX = sizeX/2;
 			PhysicDesc.SizeY = sizeY;
-
+			
 			_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 														PlayerObject, id, GetPlayerModelInfo(id), PhysicDesc, 
 														GetPlayerLifeInfo(id), GetPlayerExtraInfo(id)));
@@ -858,6 +870,11 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 				toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 					LbaNet::NpcObject, itact->first, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo, 
 					xinfo));
+
+				LbaNet::ClientServerEventBasePtr lastevent = itact->second->GetLastEvent();
+				if(lastevent)
+					toplayer.push_back(lastevent);
+
 			}
 		}
 	}
@@ -2793,7 +2810,7 @@ add spawn
 void MapHandler::AddSpawn(boost::shared_ptr<Spawn> spawn)
 {
 	if(spawn)
-	_spawns[spawn->GetId()] = spawn;
+		_spawns[spawn->GetId()] = spawn;
 
 #ifdef _USE_QT_EDITOR_
 	long edobjid = spawn->GetId() + 1000000;
@@ -2981,7 +2998,7 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 			newProj.ForceX = 2*current_directionX.x + 2*current_directionZ.x;
 			newProj.ForceY = 0.5;		
 			newProj.ForceZ = 2*current_directionX.z + 2*current_directionZ.z;
-			newProj.ForceYOnImpact = 0.8;
+			newProj.ForceYOnImpact = 0.8f;
 			launch = true;
 		}
 
@@ -2990,7 +3007,7 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 			newProj.ForceX = 2*current_directionX.x + 2*current_directionZ.x;
 			newProj.ForceY = 0;		
 			newProj.ForceZ = 2*current_directionX.z + 2*current_directionZ.z;
-			newProj.ForceYOnImpact = 0.8;
+			newProj.ForceYOnImpact = 0.8f;
 			launch = true;
 		}
 
@@ -2999,7 +3016,7 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 			newProj.ForceX = 2*current_directionX.x + 2*current_directionZ.x;
 			newProj.ForceY = 0;		
 			newProj.ForceZ = 2*current_directionX.z + 2*current_directionZ.z;
-			newProj.ForceYOnImpact = 0.8;
+			newProj.ForceYOnImpact = 0.8f;
 			launch = true;
 		}
 
@@ -3017,8 +3034,8 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 
 		if(launch)
 		{
-			_launchedprojectiles[newProj.Id] = newProj;
-			_playerprojectiles[PlayerId].push_back(newProj.Id);
+			_launchedprojectiles[(long)newProj.Id] = newProj;
+			_playerprojectiles[(long)PlayerId].push_back((long)newProj.Id);
 
 			_tosendevts.push_back(new CreateProjectileEvent(
 							SynchronizedTimeHandler::GetCurrentTimeDouble(), newProj));
@@ -3045,7 +3062,9 @@ void MapHandler::DestroyProjectile(long PlayerId, long ProjectileId, int	Touched
 		if(itp->second.ManagingClientId == PlayerId)
 		{
 			//todo - hurt actors
-			
+			if(TouchedActorId >= 0)
+				HittedProjectile(PlayerId, ProjectileId, TouchedActorType, TouchedActorId);
+		
 
 			//destroy projectile
 			_launchedprojectiles.erase(itp);
@@ -3071,17 +3090,34 @@ void MapHandler::DestroyProjectile(long PlayerId, long ProjectileId, int	Touched
 	}
 }
 
+/***********************************************************
+hitted projectile
+***********************************************************/
+void MapHandler::HittedProjectile(long PlayerId, long ProjectileId, int	TouchedActorType,
+									long TouchedActorId)
+{
+	std::map<long, LbaNet::ProjectileInfo>::iterator itp =	_launchedprojectiles.find(ProjectileId);
+	if(itp != _launchedprojectiles.end())
+	{
+		if(itp->second.ManagingClientId == PlayerId)
+		{
+			//todo - hurt actors
+		}
+
+	}
+}
+
 
 /***********************************************************
 destroy projectile
 ***********************************************************/
 void MapHandler::DestroyPlayerProjectile(Ice::Long PlayerId)
 {
-	std::map<long, std::vector<long> >::iterator itplayer = _playerprojectiles.find(PlayerId);
+	std::map<long, std::vector<long> >::iterator itplayer = _playerprojectiles.find((long)PlayerId);
 	if(itplayer != _playerprojectiles.end())
 	{
 		std::vector<long> projs = itplayer->second;
 		for(size_t i=0; i< projs.size(); ++i)
-			DestroyProjectile(PlayerId, projs[i], -1, -1);
+			DestroyProjectile((long)PlayerId, projs[i], -1, -1);
 	}
 }

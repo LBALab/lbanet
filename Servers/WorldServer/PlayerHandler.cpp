@@ -64,6 +64,9 @@ PlayerHandler::PlayerHandler(long clientid, ClientProxyBasePtr proxy,
 	_currentinfo.model.ColorG = 1;
 	_currentinfo.model.ColorB = 1;
 	_currentinfo.model.ColorA = 1;
+	 _currentinfo.model.UseLight = true;
+	 _currentinfo.model.CastShadow = true;
+
 
 	//unfold inventory information and shortcut information
 	{
@@ -75,7 +78,7 @@ PlayerHandler::PlayerHandler(long clientid, ClientProxyBasePtr proxy,
 			{
 				if(it->first >= _CUSTOM_OFFSET_) // custom item
 				{
-					it->second.Info.IconName = "letter";
+					it->second.Info.IconName = "GUI/imagesets/Inventory/letter.png";
 					it->second.Info.NameTextId = -1;
 					it->second.Info.DescriptionId = -1;
 					it->second.Info.LongDescriptionId = -1;
@@ -855,10 +858,11 @@ void PlayerHandler::CreateLetter(const std::string & subject, const std::string 
 		long id = _dbH->AddLetter(_clientid, subject, message);
 		if(id >= 0)
 		{
+			id += _CUSTOM_OFFSET_;
 			LbaNet::ItemPosInfo newitem;
 			newitem.Position = -1;
 			newitem.Count = 1;
-			newitem.Info.IconName = "letter";
+			newitem.Info.IconName = "GUI/imagesets/Inventory/letter.png";
 			newitem.Info.NameTextId = -1;
 			newitem.Info.DescriptionId = -1;
 			newitem.Info.LongDescriptionId = -1;
@@ -868,7 +872,8 @@ void PlayerHandler::CreateLetter(const std::string & subject, const std::string 
 			newitem.Info.Type = 8;
 			newitem.Info.Ephemere = false;
 			newitem.Info.DescriptionTextExtra = "From: " + _extrainfo.Name + " Subject: " + subject;
-			newitem.Info.Id = id + _CUSTOM_OFFSET_;
+			newitem.Info.Id = id;
+
 
 			_currentinfo.inventory.InventoryStructure[id] = newitem;
 
@@ -943,7 +948,7 @@ get info about an item
 ***********************************************************/
 LbaNet::ItemPosInfo PlayerHandler::GetCurrentWeaponInfo()
 {
-	return GetItemInfo(_currentinfo.EquipedWeapon);
+	return GetItemInfo((long)_currentinfo.EquipedWeapon);
 }
 
 
