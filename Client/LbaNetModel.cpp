@@ -585,6 +585,14 @@ ObjectInfo LbaNetModel::CreateObject(LbaNet::ObjectTypeEnum OType, Ice::Long Obj
 		break;
 	}
 
+	float sizeX=PhysicDesc.SizeX, sizeY=PhysicDesc.SizeY, sizeZ=PhysicDesc.SizeZ;
+	if(sizeX < 0)
+		sizeX = 1;
+	if(sizeY < 0)
+		sizeY = 1;
+	if(sizeZ < 0)
+		sizeZ = 1;
+
 	// create physic object
 	boost::shared_ptr<PhysicalDescriptionBase> PInfo;
 	switch(PhysicDesc.TypeShape)
@@ -607,7 +615,7 @@ ObjectInfo LbaNetModel::CreateObject(LbaNet::ObjectTypeEnum OType, Ice::Long Obj
 					PhysicalDescriptionBox(PhysicDesc.Pos.X, PhysicDesc.Pos.Y, PhysicDesc.Pos.Z, 
 										PhysicDesc.TypePhysO, PhysicDesc.Density,
 										LbaQuaternion(PhysicDesc.Pos.Rotation, LbaVec3(0, 1, 0)),
-										PhysicDesc.SizeX, PhysicDesc.SizeY, PhysicDesc.SizeZ,
+										sizeX, sizeY, sizeZ,
 										PhysicDesc.Collidable));
 		}
 		break;
@@ -619,7 +627,7 @@ ObjectInfo LbaNetModel::CreateObject(LbaNet::ObjectTypeEnum OType, Ice::Long Obj
 					PhysicalDescriptionCapsule(PhysicDesc.Pos.X, PhysicDesc.Pos.Y, PhysicDesc.Pos.Z, 
 										PhysicDesc.TypePhysO, PhysicDesc.Density,
 										LbaQuaternion(PhysicDesc.Pos.Rotation, LbaVec3(0, 1, 0)),
-										PhysicDesc.SizeX, PhysicDesc.SizeY,
+										sizeX, sizeY,
 										PhysicDesc.Collidable));
 		}
 		break;
@@ -631,7 +639,7 @@ ObjectInfo LbaNetModel::CreateObject(LbaNet::ObjectTypeEnum OType, Ice::Long Obj
 					PhysicalDescriptionSphere(PhysicDesc.Pos.X, PhysicDesc.Pos.Y, PhysicDesc.Pos.Z, 
 										PhysicDesc.TypePhysO, PhysicDesc.Density,
 										LbaQuaternion(PhysicDesc.Pos.Rotation, LbaVec3(0, 1, 0)),
-										PhysicDesc.SizeY, 
+										sizeY, 
 										PhysicDesc.Collidable, 
 										PhysicDesc.Bounciness, 
 										PhysicDesc.StaticFriction, PhysicDesc.DynamicFriction));
@@ -1607,7 +1615,7 @@ void LbaNetModel::CreateProjectile(const LbaNet::ProjectileInfo & Info)
 	}
 
 	//create projectile handler
-	_projectileObjects[Info.Id] = boost::shared_ptr<ProjectileHandler>(
+	_projectileObjects[(long)Info.Id] = boost::shared_ptr<ProjectileHandler>(
 		new ProjectileHandler(dynobj, Info, Info.ManagingClientId == m_playerObjectId));
 }
 

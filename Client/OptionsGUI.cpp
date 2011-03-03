@@ -230,7 +230,6 @@ void OptionsGUI::Apply()
 					{
 						nchanged = true;
 						_skinC = sp;
-						ConfigurationManager::GetInstance()->SetInt("Worlds."+_worldname+".SkinColor", _nameR);
 					}
 				}
 
@@ -244,7 +243,6 @@ void OptionsGUI::Apply()
 					{
 						nchanged = true;
 						_eyesC = sp;
-						ConfigurationManager::GetInstance()->SetInt("Worlds."+_worldname+".EyesColor", _nameG);
 					}
 				}
 
@@ -258,7 +256,6 @@ void OptionsGUI::Apply()
 					{
 						nchanged = true;
 						_hairC = sp;
-						ConfigurationManager::GetInstance()->SetInt("Worlds."+_worldname+".HairColor", _nameB);
 					}
 				}
 
@@ -616,12 +613,9 @@ void OptionsGUI::Displayed()
 	ConfigurationManager::GetInstance()->GetInt("Options.General.NameG", _nameG);
 	ConfigurationManager::GetInstance()->GetInt("Options.General.NameB", _nameB);
 
-	_skinC = -1;
-	_eyesC = -1;
-	_hairC = -1;
-	ConfigurationManager::GetInstance()->GetInt("Worlds."+_worldname+".SkinColor", _skinC);
-	ConfigurationManager::GetInstance()->GetInt("Worlds."+_worldname+".EyesColor", _eyesC);
-	ConfigurationManager::GetInstance()->GetInt("Worlds."+_worldname+".HairColor", _hairC);
+	_skinC = _savedskinC;
+	_eyesC = _savedeyesC;
+	_hairC = _savedhairC;
 
 	ConfigurationManager::GetInstance()->GetInt("Display.Screen.ScreenResolutionX", _currScreenX);
 	ConfigurationManager::GetInstance()->GetInt("Display.Screen.ScreenResolutionY", _currScreenY);
@@ -661,4 +655,14 @@ void OptionsGUI::SendPlayerColor()
 	EventsQueue::getSenderQueue()->AddEvent(new LbaNet::UpdatePlayerColorEvent(
 													SynchronizedTimeHandler::GetCurrentTimeDouble(),
 													_skinC, _eyesC, _hairC));
+}
+
+/***********************************************************
+refresh player color
+***********************************************************/
+void OptionsGUI::RefreshPlayerColor(int skin, int eyes, int hair)
+{
+	_savedskinC = skin;
+	_savedeyesC = eyes;
+	_savedhairC = hair;
 }

@@ -135,6 +135,9 @@ public:
 	//! set world name
 	void SetWorldName(const std::string &name);
 
+	//! refresh player color
+	void RefreshPlayerColor(int skin, int eyes, int hair);
+
 protected:
 	//! inject time to the GUI
 	void inject_time_pulse();

@@ -973,6 +973,43 @@ void PhysXEngine::IgnoreActorContact(NxActor* actor1, NxActor* actor2)
 
 
 /***********************************************************
+perform small raycast to find what actor is below
+***********************************************************/
+bool PhysXEngine::RayCast(NxController* Controller, float maxdistance, HitInfo &hinfo,
+							float &hittedmovex, float &hittedmovey, float &hittedmovez)
+{
+	NxExtendedVec3 vec = Controller->getPosition();
+	NxVec3 pos(vec.x, vec.y+maxdistance+0.01f, vec.z);
+	NxVec3 dir(0, -1,0);
+	NxRay ray(pos, dir);
+
+	NxRaycastHit hit;
+	NxShape* hittedshape = gScene->raycastClosestShape(ray, NX_ALL_SHAPES, hit, COLLIDABLE_MASK, maxdistance+0.02f);
+	if(hittedshape)
+	{
+		NxActor& actor = hittedshape->getActor();
+		ActorUserData * data = (ActorUserData *)actor.userData;
+		if(data)
+		{
+			hinfo.ActorId = data->GetActorId();
+			hinfo.ActorObjType = data->GetActorObjType();
+			hinfo.ActorPhysType = data->GetActorType();
+			hinfo.HitBottom = true;
+
+			data->GetMove(hittedmovex, hittedmovey, hittedmovez);
+			return true;
+		}
+	}
+
+	return false;
+}
+	 
+
+
+
+
+
+/***********************************************************
 	Render actors
 ***********************************************************/
 void PhysXEngine::RenderActors()

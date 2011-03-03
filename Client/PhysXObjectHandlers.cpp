@@ -143,7 +143,7 @@ void PhysXActorsHandler::MoveTo(float X, float Y, float Z)
 	GetPosition(currPosX, currPosY, currPosZ);
 
 	float moveX = X - currPosX;
-	float moveY = (Y+(_sizeY/2)) - currPosY;
+	float moveY = Y - currPosY;
 	float moveZ = Z - currPosZ;
 	if(_UserData)
 		_UserData->SetMove(moveX, moveY, moveZ);
@@ -421,7 +421,6 @@ void PhysXControllerHandler::Move(float deltaX, float deltaY, float deltaZ, bool
 		else
 			_UserData->SetTouchingGround(false);
 	}
-	
 }
 
 /***********************************************************
@@ -496,7 +495,11 @@ void PhysXControllerHandler::Update(LbaNet::PhysicObjectUpdateBasePtr update)
 			if(_desc)
 			{
 				_desc->ResetSize(castedptr->SizeX, castedptr->SizeY, castedptr->SizeZ);
-				_Controller = _desc->RebuildController(X, Y, Z, _UserData);
+
+				float offset = 0.1f;
+				if(castedptr->SizeY > _sizeY)
+					offset = 0.5f;
+				_Controller = _desc->RebuildController(X, Y+offset, Z, _UserData);
 			}
 
 			_sizeY = castedptr->SizeY;

@@ -61,7 +61,7 @@ CharacterController::~CharacterController()
 /***********************************************************
 	Set character to control
 ***********************************************************/
-void CharacterController::SetPhysicalCharacter(boost::shared_ptr<DynamicObject> charac, 
+void CharacterController::SetPhysicalCharacter(boost::shared_ptr<DynamicObject> charac,
 												const LbaNet::ModelInfo &Info,
 												bool AsGhost)
 {
@@ -69,15 +69,21 @@ void CharacterController::SetPhysicalCharacter(boost::shared_ptr<DynamicObject> 
 	_isGhost = AsGhost;
 
 	// update last position
-	_character->GetPhysicalObject()->GetPosition(_lastupdate.CurrentPos.X, 
-							_lastupdate.CurrentPos.Y, 
+	_character->GetPhysicalObject()->GetPosition(_lastupdate.CurrentPos.X,
+							_lastupdate.CurrentPos.Y,
 							_lastupdate.CurrentPos.Z);
 
 	_lastupdate.CurrentPos.Rotation = _character->GetPhysicalObject()->GetRotationYAxis();
 
 	// update mode if needed
 	if(!_isGhost)
+	{
 		UpdateModeAndState(Info.Mode, Info.State, SynchronizedTimeHandler::GetCurrentTimeDouble(), 0);
+
+		//inform gui
+		EventsQueue::getReceiverQueue()->AddEvent(new GuiRefreshPlayerColorEvent(
+													Info.SkinColor, Info.EyesColor, Info.HairColor));
+	}
 
 	#ifdef _USE_QT_EDITOR_
 	{
@@ -101,19 +107,19 @@ void CharacterController::KeyPressed(LbanetKey keyid)
 			_pressedkeys._keyforward = true;
 		}
 		break;
-		
+
 		case LbanetKey_Backward:
 		{
 			_pressedkeys._keybackward = true;
 		}
 		break;
-		
+
 		case LbanetKey_Left:
 		{
 			_pressedkeys._keyleft = true;
 		}
 		break;
-		
+
 		case LbanetKey_Right:
 		{
 			_pressedkeys._keyright = true;
@@ -125,7 +131,7 @@ void CharacterController::KeyPressed(LbanetKey keyid)
 			_pressedkeys._keyup = true;
 		}
 		break;
-		
+
 		case LbanetKey_Down:
 		{
 			_pressedkeys._keydown = true;
@@ -152,19 +158,19 @@ void CharacterController::KeyReleased(LbanetKey keyid)
 			_pressedkeys._keyforward = false;
 		}
 		break;
-		
+
 		case LbanetKey_Backward:
 		{
 			_pressedkeys._keybackward = false;
 		}
 		break;
-		
+
 		case LbanetKey_Left:
 		{
 			_pressedkeys._keyleft = false;
 		}
 		break;
-		
+
 		case LbanetKey_Right:
 		{
 			_pressedkeys._keyright = false;
@@ -176,7 +182,7 @@ void CharacterController::KeyReleased(LbanetKey keyid)
 			_pressedkeys._keyup = false;
 		}
 		break;
-		
+
 		case LbanetKey_Down:
 		{
 			_pressedkeys._keydown = false;
@@ -195,7 +201,7 @@ void CharacterController::KeyReleased(LbanetKey keyid)
 /***********************************************************
 process function
 ***********************************************************/
-void CharacterController::Process(double tnow, float tdiff, 
+void CharacterController::Process(double tnow, float tdiff,
 									ScriptEnvironmentBase* scripthandler)
 {
 	// do nothing if ghost
@@ -262,7 +268,7 @@ void CharacterController::Process(double tnow, float tdiff,
 
 	// check for moving forward/backward
 	if(allowedmoving)
-	{	
+	{
 		if(_pressedkeys._keyforward)
 		{
 			//update animation
@@ -271,7 +277,7 @@ void CharacterController::Process(double tnow, float tdiff,
 			{
 				IsIdle = false;
 				moving = true;
-			}			
+			}
 		}
 		else if(_pressedkeys._keybackward)
 		{
@@ -281,7 +287,7 @@ void CharacterController::Process(double tnow, float tdiff,
 			{
 				IsIdle = false;
 				moving = true;
-			}	
+			}
 		}
 
 		if(canfly)
@@ -334,7 +340,8 @@ void CharacterController::Process(double tnow, float tdiff,
 	if(IsIdle && standoniddle)
 	{
 		//update animation
-		diso->Update(new LbaNet::AnimationStringUpdate("Stand"), false);
+		if(diso)
+			diso->Update(new LbaNet::AnimationStringUpdate("Stand"), false);
 	}
 
 
@@ -357,8 +364,8 @@ void CharacterController::Process(double tnow, float tdiff,
 	// get speed of animation
 	if(_currentmode)
 	{
-		if(_currentmode->UseAnimationSpeed())
-		{	
+		if(diso && _currentmode->UseAnimationSpeed())
+		{
 			speedX += diso->GetCurrentAssociatedSpeedX() * tdiff;
 			speedY += diso->GetCurrentAssociatedSpeedY() * tdiff;
 			speedZ += diso->GetCurrentAssociatedSpeedZ() * tdiff;
@@ -382,12 +389,13 @@ void CharacterController::Process(double tnow, float tdiff,
 
 
 	// get additional speed in case we are on lift
-	float addspeedX, addspeedY, addspeedZ; 
+	float addspeedX, addspeedY, addspeedZ;
 	udata->GetExtraMove(addspeedX, addspeedY, addspeedZ);
-	if(addspeedY < 0)
-		speedY += addspeedY;
-	else
-		// automatically took care of by physx
+	//if(addspeedY <= 0)
+	//	speedY += addspeedY;
+	if(addspeedY != 0)
+		speedY = addspeedY;
+
 
 	ajustedspeedx+=addspeedX;
 	ajustedspeedZ+=addspeedZ;
@@ -475,7 +483,7 @@ void CharacterController::Process(double tnow, float tdiff,
 				}
 			}
 		}
-		
+
 	}
 
 	// check if we touch water
@@ -505,7 +513,7 @@ void CharacterController::Process(double tnow, float tdiff,
 			bool shouldpause = _currentstate->AnimationFinished();
 
 			// pause animation if necessary
-			if(shouldpause)
+			if(diso && shouldpause)
 				diso->Update(new LbaNet::PauseAnimationUpdate(), false);
 		}
 
@@ -540,8 +548,8 @@ void CharacterController::UpdateServer(double tnow, float tdiff)
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
 
 	// get current position
-	physo->GetPosition(_currentupdate.CurrentPos.X, 
-							_currentupdate.CurrentPos.Y, 
+	physo->GetPosition(_currentupdate.CurrentPos.X,
+							_currentupdate.CurrentPos.Y,
 							_currentupdate.CurrentPos.Z);
 
 
@@ -557,20 +565,23 @@ void CharacterController::UpdateServer(double tnow, float tdiff)
 	//calculate angle speed
 	_currentupdate.CurrentSpeedRotation = (_currentupdate.CurrentPos.Rotation-
 													_lastupdate.CurrentPos.Rotation);
-	while(_currentupdate.CurrentSpeedRotation < -180) 
+	while(_currentupdate.CurrentSpeedRotation < -180)
 		_currentupdate.CurrentSpeedRotation += 360;
-	while(_currentupdate.CurrentSpeedRotation > 180) 
+	while(_currentupdate.CurrentSpeedRotation > 180)
 		_currentupdate.CurrentSpeedRotation -= 360;
 
 
 	_currentupdate.CurrentSpeedRotation /= tdiff;
-	
+
 
 	_oldtdiff = tdiff;
 
 
+	boost::shared_ptr<DisplayObjectHandlerBase> diso = _character->GetDisplayObject();
+
 	// set animation
-	_currentupdate.AnimationIdx = _character->GetDisplayObject()->GetCurrentAnimation();
+	if(diso)
+		_currentupdate.AnimationIdx = diso->GetCurrentAnimation();
 
 
 
@@ -596,8 +607,8 @@ void CharacterController::UpdateServer(double tnow, float tdiff)
 
 	#ifdef _USE_QT_EDITOR_
 	{
-		float diffpos = abs(_lastupdate.CurrentPos.X - _currentupdate.CurrentPos.X) 
-						+ abs(_lastupdate.CurrentPos.Y - _currentupdate.CurrentPos.Y) 
+		float diffpos = abs(_lastupdate.CurrentPos.X - _currentupdate.CurrentPos.X)
+						+ abs(_lastupdate.CurrentPos.Y - _currentupdate.CurrentPos.Y)
 						+  abs(_lastupdate.CurrentPos.Z - _currentupdate.CurrentPos.Z);
 		if(diffpos > 0.001)
 			EventsQueue::getReceiverQueue()->AddEvent(new EditorPlayerMovedEvent(	_currentupdate.CurrentPos.X,
@@ -636,8 +647,8 @@ bool CharacterController::ShouldforceUpdate()
 
 
 
-	float diffpos = abs(_lastupdate.CurrentPos.X - _currentupdate.CurrentPos.X) 
-					+ abs(_lastupdate.CurrentPos.Y - _currentupdate.CurrentPos.Y) 
+	float diffpos = abs(_lastupdate.CurrentPos.X - _currentupdate.CurrentPos.X)
+					+ abs(_lastupdate.CurrentPos.Y - _currentupdate.CurrentPos.Y)
 					+  abs(_lastupdate.CurrentPos.Z - _currentupdate.CurrentPos.Z);
 	if(diffpos > 10)
 		return true;
@@ -662,26 +673,33 @@ void CharacterController::UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr updat
 	// ModelUpdate
 	if(info == typeid(LbaNet::ModelUpdate))
 	{
-		LbaNet::ModelUpdate * castedptr = 
+		LbaNet::ModelUpdate * castedptr =
 			dynamic_cast<LbaNet::ModelUpdate *>(update.get());
 
 		// do not use update coming from the client trough the server as this could create endless loop
 		if(!castedptr->UpdateFromPlayer)
-			UpdateModeAndState(castedptr->Info.Mode, castedptr->Info.State, 
+		{
+			UpdateModeAndState(castedptr->Info.Mode, castedptr->Info.State,
 								SynchronizedTimeHandler::GetCurrentTimeDouble(), 0);
+
+			//inform gui
+			EventsQueue::getReceiverQueue()->AddEvent(new GuiRefreshPlayerColorEvent(
+				castedptr->Info.SkinColor, castedptr->Info.EyesColor, castedptr->Info.HairColor));
+
+		}
 	}
 
 	// lifeUpdate
 	if(info == typeid(LbaNet::ObjectLifeInfoUpdate))
 	{
-		LbaNet::ObjectLifeInfoUpdate * castedptr = 
+		LbaNet::ObjectLifeInfoUpdate * castedptr =
 			dynamic_cast<LbaNet::ObjectLifeInfoUpdate *>(update.get());
 
 		// update gui with new life info
 		EventsQueue::getReceiverQueue()->AddEvent(new UpdateGuiLifeEvent(
-			castedptr->Update.CurrentLife / castedptr->Update.MaxLife, 
+			castedptr->Update.CurrentLife / castedptr->Update.MaxLife,
 			castedptr->Update.CurrentMana / castedptr->Update.MaxMana));
-		
+
 	}
 
 	if(_character && _character->GetDisplayObject())
@@ -713,7 +731,7 @@ void CharacterController::UpdateState(LbaNet::ModelState	NewState)
 get physic object
 ***********************************************************/
 boost::shared_ptr<PhysicalObjectHandlerBase> CharacterController::GetPhysicalObject()
-{ 
+{
 	return _character->GetPhysicalObject();
 }
 
@@ -749,7 +767,7 @@ void CharacterController::UpdateModeAndState(const std::string &newmode,
 		if(_currentmodestr == "Discrete")
 		{
 			_currentmode = boost::shared_ptr<CharacterModeBase>(new DiscreteCharacterMode());
-		}		
+		}
 
 		if(_currentmodestr == "Protopack")
 		{
@@ -764,7 +782,7 @@ void CharacterController::UpdateModeAndState(const std::string &newmode,
 		if(_currentmodestr == "Dinofly")
 		{
 			_currentmode = boost::shared_ptr<CharacterModeBase>(new DinoflyCharacterMode());
-		}		
+		}
 	}
 
 	// only update if different
@@ -785,124 +803,124 @@ void CharacterController::UpdateModeAndState(const std::string &newmode,
 			break;
 			case LbaNet::StDying:
 			{
-				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateDying());			
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateDying());
 			}
-			break; 
+			break;
 			case LbaNet::StDrowning:
 			{
-				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateDrowning());			
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateDrowning());
 			}
-			break; 
+			break;
 			case LbaNet::StDrowningGas:
 			{
-				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateDrowningGas());		
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateDrowningGas());
 			}
-			break; 
+			break;
 			case LbaNet::StBurning:
 			{
-				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateBurning());						
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateBurning());
 			}
-			break; 
+			break;
 			case LbaNet::StSmallHurt:
 			{
-				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateSmallHurt());						
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateSmallHurt());
 			}
-			break; 
+			break;
 			case LbaNet::StMediumHurt:
 			{
-				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateMediumHurt());						
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateMediumHurt());
 			}
-			break; 
+			break;
 			case LbaNet::StBigHurt:
 			{
-				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateBigHurt());						
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateBigHurt());
 			}
-			break; 
+			break;
 			case LbaNet::StHurtFall:
 			{
-				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateHurtFall());						
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateHurtFall());
 			}
-			break; 
+			break;
 			case LbaNet::StFinishedFall:
 			{
-				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateFinishedFall());						
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateFinishedFall());
 			}
-			break;	
+			break;
 			case LbaNet::StFalling:
 			{
-				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateFalling());					
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateFalling());
 			}
-			break; 
+			break;
 			case LbaNet::StJumping:
 			{
-				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateJumping());						
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateJumping());
 			}
-			break; 
+			break;
 			case LbaNet::StMovingObject:
 			{
-				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateMovingObject());						
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateMovingObject());
 			}
-			break; 
+			break;
 			case LbaNet::StRestrictedMovingObject:
 			{
-				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateRestrictedMovingObject());						
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateRestrictedMovingObject());
 			}
-			break; 
+			break;
 			case LbaNet::StUseWeapon:
 			{
-				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateUseWeapon());						
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateUseWeapon());
 			}
-			break; 
+			break;
 			case LbaNet::StImmune:
 			{
-				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateImmune());						
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateImmune());
 			}
-			break; 
+			break;
 			case LbaNet::StProtectedHurt:
 			{
-				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateProtectedHurt());						
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateProtectedHurt());
 			}
-			break; 
+			break;
 			case LbaNet::StHidden:
 			{
-				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateHidden());						
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateHidden());
 			}
-			break; 
+			break;
 			case LbaNet::StScripted:
 			{
 				// save current display for when we finish script
 				_character->GetDisplayObject()->SaveState();
 
-				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateScripted());						
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateScripted());
 			}
 			break;
 			case LbaNet::StFighting:
 			{
-				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateFighting());						
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateFighting());
 			}
 			break;
 
 			case LbaNet::StPrepareWeapon:
 			{
-				_currentstate = boost::shared_ptr<CharacterStateBase>(new StatePrepareWeapon());						
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StatePrepareWeapon());
 			}
 			break;
-	
+
 			case LbaNet::StActivateSwitch:
 			{
-				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateActivateSwitch());						
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateActivateSwitch());
 			}
 			break;
 
 			case LbaNet::StActivateGroundSwitch:
 			{
-				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateActivateGroundSwitch());						
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateActivateGroundSwitch());
 			}
 			break;
 
 			case LbaNet::StHappy:
 			{
-				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateHappy());						
+				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateHappy());
 			}
 			break;
 		}
@@ -913,7 +931,9 @@ void CharacterController::UpdateModeAndState(const std::string &newmode,
 			if(_currentstate->PlayAnimationAtStart(animstring))
 			{
 				//update animation
-				_character->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate(animstring), false);
+				boost::shared_ptr<DisplayObjectHandlerBase> diso = _character->GetDisplayObject();
+				if(diso)
+					diso->Update(new LbaNet::AnimationStringUpdate(animstring), false);
 			}
 		}
 
@@ -1064,7 +1084,7 @@ void CharacterController::ShowHide(bool Show)
 		_character->ShowOrHide(Show);
 
 		//inform server that state is updated
-		EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ShowHideEvent( SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+		EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ShowHideEvent( SynchronizedTimeHandler::GetCurrentTimeDouble(),
 																		LbaNet::PlayerObject, -1, Show));
 	}
 }

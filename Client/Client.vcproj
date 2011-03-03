@@ -504,6 +504,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ProjectileHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Servers\WorldServer\Quest.cpp"
 				>
 			</File>

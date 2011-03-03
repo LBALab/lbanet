@@ -78,6 +78,9 @@ public:
 	void SetWorldName(const std::string &name)
 	{_worldname = name;}
 
+	//! refresh player color
+	void RefreshPlayerColor(int skin, int eyes, int hair);
+
 protected:
 	//! apply new changes
 	void Apply();
@@ -95,6 +98,9 @@ private:
 	std::string		_worldname;
 
 	// general part
+	int				_savedskinC;
+	int				_savedeyesC;
+	int				_savedhairC;
 	int				_skinC;
 	int				_eyesC;
 	int				_hairC;

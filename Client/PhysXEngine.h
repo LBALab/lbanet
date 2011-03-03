@@ -139,6 +139,11 @@ public:
 	//! ignore collision for a pair of actor
 	void IgnoreActorContact(NxActor* actor1, NxActor* actor2);
 
+
+	//! perform small raycast to find what actor is behind
+	bool RayCast(NxController* Controller, float maxdistance, HitInfo &hinfo,
+					float &hittedmovex, float &hittedmovey, float &hittedmovez);
+
 protected:
 	//! constructor
 	PhysXEngine();

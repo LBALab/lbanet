@@ -36,7 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <osg/PositionAttitudeTransform>
 #include <osg/AutoTransform>
 #include <osgText/Text>
-
+#include <osg/LineWidth>
 
 /***********************************************************
 default constructor
@@ -343,7 +343,7 @@ void OsgObjectHandler::RefreshText()
 			stateSet->setMode(GL_DEPTH_TEST,osg::StateAttribute::OFF);
 			stateSet->setMode(GL_LIGHTING,osg::StateAttribute::OFF);
 			stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-			stateSet->setRenderBinDetails( 10000, "RenderBin");
+			stateSet->setRenderBinDetails( 100000, "RenderBin");
 
 			_textgroup->addChild(_textgeode);
 			root->addChild(_textgroup);
@@ -424,6 +424,69 @@ void OsgObjectHandler::RefreshLifeManaBars()
 
 		osg::ref_ptr<osg::Geode> barsgeode = new osg::Geode();
 		float sizebar=20;
+
+		// add contour
+		{
+			osg::ref_ptr<osg::Geometry> myGeometry = new osg::Geometry();
+			osg::Vec3Array* myVertices = new osg::Vec3Array;
+			osg::Vec4Array* myColors = new osg::Vec4Array;
+
+
+
+			myColors->push_back(osg::Vec4(0.f, 104/255.f, 107/255.f, 0.7f));
+			myVertices->push_back(osg::Vec3(-sizebar,0, 0));
+			myColors->push_back(osg::Vec4(0.f, 104/255.f, 107/255.f, 0.7f));
+			myVertices->push_back(osg::Vec3(sizebar,0, 0));		
+			myColors->push_back(osg::Vec4(115/255.f, 252/255.f, 252/255.f, 0.7f));
+			myVertices->push_back(osg::Vec3(sizebar,4, 0));	
+			myColors->push_back(osg::Vec4(115/255.f, 252/255.f, 252/255.f, 0.7f));
+			myVertices->push_back(osg::Vec3(-sizebar,4, 0));	
+
+
+			myColors->push_back(osg::Vec4(0.f, 104/255.f, 107/255.f, 0.7f));
+			myVertices->push_back(osg::Vec3(-sizebar,6, 0));
+			myColors->push_back(osg::Vec4(0.f, 104/255.f, 107/255.f, 0.7f));
+			myVertices->push_back(osg::Vec3(sizebar,6, 0));		
+			myColors->push_back(osg::Vec4(115/255.f, 252/255.f, 252/255.f, 0.7f));
+			myVertices->push_back(osg::Vec3(sizebar,10, 0));	
+			myColors->push_back(osg::Vec4(115/255.f, 252/255.f, 252/255.f, 0.7f));
+			myVertices->push_back(osg::Vec3(-sizebar,10, 0));	
+
+
+			osg::DrawElementsUInt* myprimitive = new osg::DrawElementsUInt(osg::PrimitiveSet::LINES, 0);
+			myprimitive->push_back(0);
+			myprimitive->push_back(1);
+			myprimitive->push_back(1);
+			myprimitive->push_back(2);
+			myprimitive->push_back(2);
+			myprimitive->push_back(3);
+			myprimitive->push_back(3);
+			myprimitive->push_back(0);
+
+			myprimitive->push_back(4);
+			myprimitive->push_back(5);
+			myprimitive->push_back(5);
+			myprimitive->push_back(6);
+			myprimitive->push_back(6);
+			myprimitive->push_back(7);
+			myprimitive->push_back(7);
+			myprimitive->push_back(4);
+
+			myGeometry->addPrimitiveSet(myprimitive);
+			myGeometry->setVertexArray( myVertices ); 
+			myGeometry->setColorArray(myColors);
+			myGeometry->setColorBinding(osg::Geometry::BIND_PER_VERTEX);
+
+
+			osg::StateSet* stateset = myGeometry->getOrCreateStateSet();
+			osg::LineWidth* linewidth = new osg::LineWidth();
+			linewidth->setWidth(2.0f);
+			stateset->setAttributeAndModes(linewidth,osg::StateAttribute::ON);
+
+
+			barsgeode->addDrawable(myGeometry.get());
+		}
+
 		
 		// add bars
 		{
@@ -481,65 +544,13 @@ void OsgObjectHandler::RefreshLifeManaBars()
 			barsgeode->addDrawable(myGeometry.get());
 		}
 
-		// add contour
-		{
-			osg::ref_ptr<osg::Geometry> myGeometry = new osg::Geometry();
-			osg::Vec3Array* myVertices = new osg::Vec3Array;
-			osg::Vec4Array* myColors = new osg::Vec4Array;
 
-
-
-			myColors->push_back(osg::Vec4(0.f, 104/255.f, 107/255.f, 0.7f));
-			myVertices->push_back(osg::Vec3(-sizebar,0, 0));
-			myColors->push_back(osg::Vec4(0.f, 104/255.f, 107/255.f, 0.7f));
-			myVertices->push_back(osg::Vec3(sizebar,0, 0));		
-			myColors->push_back(osg::Vec4(115/255.f, 252/255.f, 252/255.f, 0.7f));
-			myVertices->push_back(osg::Vec3(sizebar,4, 0));	
-			myColors->push_back(osg::Vec4(115/255.f, 252/255.f, 252/255.f, 0.7f));
-			myVertices->push_back(osg::Vec3(-sizebar,4, 0));	
-
-
-			myColors->push_back(osg::Vec4(0.f, 104/255.f, 107/255.f, 0.7f));
-			myVertices->push_back(osg::Vec3(-sizebar,6, 0));
-			myColors->push_back(osg::Vec4(0.f, 104/255.f, 107/255.f, 0.7f));
-			myVertices->push_back(osg::Vec3(sizebar,6, 0));		
-			myColors->push_back(osg::Vec4(115/255.f, 252/255.f, 252/255.f, 0.7f));
-			myVertices->push_back(osg::Vec3(sizebar,10, 0));	
-			myColors->push_back(osg::Vec4(115/255.f, 252/255.f, 252/255.f, 0.7f));
-			myVertices->push_back(osg::Vec3(-sizebar,10, 0));	
-
-
-			osg::DrawElementsUInt* myprimitive = new osg::DrawElementsUInt(osg::PrimitiveSet::LINES, 0);
-			myprimitive->push_back(0);
-			myprimitive->push_back(1);
-			myprimitive->push_back(1);
-			myprimitive->push_back(2);
-			myprimitive->push_back(2);
-			myprimitive->push_back(3);
-			myprimitive->push_back(3);
-			myprimitive->push_back(0);
-
-			myprimitive->push_back(4);
-			myprimitive->push_back(5);
-			myprimitive->push_back(5);
-			myprimitive->push_back(6);
-			myprimitive->push_back(6);
-			myprimitive->push_back(7);
-			myprimitive->push_back(7);
-			myprimitive->push_back(4);
-
-			myGeometry->addPrimitiveSet(myprimitive);
-			myGeometry->setVertexArray( myVertices ); 
-			myGeometry->setColorArray(myColors);
-			myGeometry->setColorBinding(osg::Geometry::BIND_PER_VERTEX);
-			barsgeode->addDrawable(myGeometry.get());
-		}
 
 		osg::StateSet* stateSet = barsgeode->getOrCreateStateSet();
 		stateSet->setMode(GL_DEPTH_TEST,osg::StateAttribute::OFF);
 		stateSet->setMode(GL_TEXTURE_2D,osg::StateAttribute::OFF);
 		stateSet->setMode(GL_LIGHTING,osg::StateAttribute::OFF);
-		stateSet->setRenderBinDetails( 10000, "RenderBin");
+		stateSet->setRenderBinDetails( 100000, "RenderBin");
 
 		_barsgroup->addChild(barsgeode);
 		root->addChild(_barsgroup);

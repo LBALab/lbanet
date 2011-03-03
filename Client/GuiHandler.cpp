@@ -602,3 +602,12 @@ void GuiHandler::SetWorldName(const std::string &name)
 		_option_gui->SetWorldName(name);
 }
 
+
+/***********************************************************
+refresh player color
+***********************************************************/
+void GuiHandler::RefreshPlayerColor(int skin, int eyes, int hair)
+{
+	if(_option_gui)
+		_option_gui->RefreshPlayerColor(skin, eyes, hair);
+}

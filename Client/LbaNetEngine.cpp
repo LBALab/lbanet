@@ -470,7 +470,7 @@ void LbaNetEngine::HandleGameEvents()
 
 			// update music
 			if(castedptr->MusicPath != "")
-				MusicHandler::getInstance()->PlayMusic(castedptr->MusicPath, castedptr->RepeatMusic);
+				MusicHandler::getInstance()->PlayMusic("Data/"+castedptr->MusicPath, castedptr->RepeatMusic);
 
 
 			continue;
@@ -797,10 +797,23 @@ void LbaNetEngine::HandleGameEvents()
 				dynamic_cast<LbaNet::DestroyProjectileEvent *>(&obj);
 
 			if(m_lbaNetModel)
-				m_lbaNetModel->DestroyProjectile(castedptr->Id);
+				m_lbaNetModel->DestroyProjectile((long)castedptr->Id);
 
 			continue;
 		}
+
+		// GuiRefreshPlayerColorEvent
+		if(info == typeid(GuiRefreshPlayerColorEvent))
+		{
+			GuiRefreshPlayerColorEvent* castedptr = 
+				static_cast<GuiRefreshPlayerColorEvent *>(&obj);
+
+			if(m_gui_handler)
+				m_gui_handler->RefreshPlayerColor(castedptr->_skincolor, castedptr->_eyescolor, castedptr->_haircolor);
+
+			continue;
+		}
+		
 	}
 }
 
@@ -1055,7 +1068,7 @@ called to play the assigned music when menu
 ***********************************************************/
 void LbaNetEngine::PlayMenuMusic()
 {
-	std::string mmusic = "Data/Lba1Original/Music/LBA1-Track9.mp3";
+	std::string mmusic = "Data/Worlds/Lba1Original/Music/LBA1-Track9.mp3";
 
 	std::string tmp = MusicHandler::getInstance()->GetCurrentMusic();
 	if(tmp != mmusic)

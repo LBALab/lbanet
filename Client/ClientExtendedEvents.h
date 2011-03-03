@@ -481,4 +481,24 @@ public:
 	LbaNet::ModelState		_NewState;
 };
 
+/*
+************************************************************************************************************************
+*                                                  class GuiRefreshPlayerColorEvent
+*
+*	editor ask to Refresh Lua
+************************************************************************************************************************
+*/
+class GuiRefreshPlayerColorEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	GuiRefreshPlayerColorEvent(int skincolor, int eyescolor, int haircolor)
+		: _skincolor(skincolor), _eyescolor(eyescolor), _haircolor(haircolor)
+	{
+	}
+
+	int _skincolor;
+	int _eyescolor;
+	int _haircolor;
+};
 #endif
