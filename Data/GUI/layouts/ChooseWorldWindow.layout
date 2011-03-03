@@ -29,7 +29,7 @@
     		<Window Type="TaharezLook/StaticText" Name="ChooseWorldLabel" >            
 		    <Property Name="Text" Value="#8" />        
 		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-		    <Property Name="UnifiedAreaRect" Value="{{0.5,-150},{0,10},{0.5,150},{0,40}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0.5,-170},{0,10},{0.5,170},{0,40}}" />
 		</Window>   
        
  		<Window Type="TaharezLook/Listbox" Name="ChooseWorldList" >           

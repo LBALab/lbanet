@@ -1049,7 +1049,7 @@ function InitMap(environment)
 
 	Trigger_7_info = TriggerInfo(7, "exit6", true, false, false)
 	Trigger_7 = ZoneTrigger(Trigger_7_info, 3, 2.5, 3, true)
-	Trigger_7:SetPosition(37.5, 7, 7.5)
+	Trigger_7:SetPosition(37.5, 8, 7.5)
 	Trigger_7:SetStayUpdateFrequency(-1)
 	Trigger_7_act1 = TeleportAction()
 	Trigger_7_act1:SetMapName("Map034_1")

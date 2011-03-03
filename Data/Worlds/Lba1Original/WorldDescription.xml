@@ -25,361 +25,361 @@
 		</StartingInventory>
 	</PlayerStartingInfo>
 	<maps>
-		<Map name="Map000_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map000_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win18.midi" repeatmusic="0">
 			<description>Citadel Island, Prison</description>
 		</Map>
-		<Map name="Map001_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map001_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win19.midi" repeatmusic="0">
 			<description>Citadel Island, outside the citadel</description>
 		</Map>
-		<Map name="Map002_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map002_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track5.mp3" repeatmusic="0">
 			<description>Citadel Island, near the tavern</description>
 		</Map>
-		<Map name="Map003_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map003_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track5.mp3" repeatmusic="0">
 			<description>Citadel Island, near the pharmacy</description>
 		</Map>
-		<Map name="Map004_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map004_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win19.midi" repeatmusic="0">
 			<description>Citadel Island, near twinsens house</description>
 		</Map>
-		<Map name="Map005_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map005_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track6.mp3" repeatmusic="0">
 			<description>Citadel Island, inside Twinsens house</description>
 		</Map>
-		<Map name="Map006_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map006_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win20.midi" repeatmusic="0">
 			<description>Citadel Island, Harbor</description>
 		</Map>
-		<Map name="Map007_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map007_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win18.midi" repeatmusic="0">
 			<description>Citadel Island, Pharmacy</description>
 		</Map>
-		<Map name="Map008_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map008_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track5.mp3" repeatmusic="0">
 			<description>White Leaf Desert, Temple of Bu 1st scene</description>
 		</Map>
-		<Map name="Map009_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map009_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track7.mp3" repeatmusic="0">
 			<description>Hamalayi Mountains, landing place</description>
 		</Map>
-		<Map name="Map010_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map010_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track6.mp3" repeatmusic="0">
 			<description>Principal Island, Library</description>
 		</Map>
-		<Map name="Map011_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map011_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track2.mp3" repeatmusic="0">
 			<description>Principal Island, Harbor</description>
 		</Map>
-		<Map name="Map012_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map012_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win13.midi" repeatmusic="0">
 			<description>Principal Island, outside the fortress</description>
 		</Map>
-		<Map name="Map013_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map013_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track6.mp3" repeatmusic="0">
 			<description>Principal Island, Lupin Burg</description>
 		</Map>
-		<Map name="Map014_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map014_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win15.midi" repeatmusic="0">
 			<description>Citadel Island, Tavern</description>
 		</Map>
-		<Map name="Map015_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map015_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win10.midi" repeatmusic="0">
 			<description>Hamalayi Mountains, Rabbibunny village</description>
 		</Map>
-		<Map name="Map016_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map016_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win27.midi" repeatmusic="0">
 			<description>Citadel Island, inside a Rabbibunny house</description>
 		</Map>
-		<Map name="Map017_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map017_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track1.mp3" repeatmusic="0">
 			<description>Principal Island, Ruins</description>
 		</Map>
-		<Map name="Map018_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map018_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win10.midi" repeatmusic="0">
 			<description>Principal Island, outside the library</description>
 		</Map>
-		<Map name="Map019_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map019_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win13.midi" repeatmusic="0">
 			<description>Principal Island, Militairy camp</description>
 		</Map>
-		<Map name="Map020_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map020_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win15.midi" repeatmusic="0">
 			<description>Citadel Island, Architects house</description>
 		</Map>
-		<Map name="Map021_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map021_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win18.midi" repeatmusic="0">
 			<description>Citadel Island, secret chamber in the house</description>
 		</Map>
-		<Map name="Map022_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map022_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track2.mp3" repeatmusic="0">
 			<description>Principal Island, Ticket office</description>
 		</Map>
-		<Map name="Map023_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map023_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win16.midi" repeatmusic="0">
 			<description>Principal Island, Prison</description>
 		</Map>
-		<Map name="Map024_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map024_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track9.mp3" repeatmusic="0">
 			<description>Principal Island, Port Belooga</description>
 		</Map>
-		<Map name="Map025_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map025_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win10.midi" repeatmusic="0">
 			<description>Principal Island, Peg Leg Street</description>
 		</Map>
-		<Map name="Map026_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map026_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win15.midi" repeatmusic="0">
 			<description>Principal Island, Shop</description>
 		</Map>
-		<Map name="Map027_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map027_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win18.midi" repeatmusic="0">
 			<description>Principal Island, Locksmith</description>
 		</Map>
-		<Map name="Map028_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map028_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track6.mp3" repeatmusic="0">
 			<description>Principal Island, inside a Rabbibunny house</description>
 		</Map>
-		<Map name="Map029_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map029_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win16.midi" repeatmusic="0">
 			<description>Principal Island, Astronimers House</description>
 		</Map>
-		<Map name="Map030_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map030_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win15.midi" repeatmusic="0">
 			<description>Principal Island, Tavern</description>
 		</Map>
-		<Map name="Map031_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map031_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win18.midi" repeatmusic="0">
 			<description>Principal Island, Basement of the Astronomer</description>
 		</Map>
-		<Map name="Map032_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map032_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track6.mp3" repeatmusic="0">
 			<description>Principal Island, Stables</description>
 		</Map>
-		<Map name="Map033_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map033_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win12.midi" repeatmusic="0">
 			<description>Citadel Island, Cellar of the Tavern</description>
 		</Map>
-		<Map name="Map034_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map034_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win27.midi" repeatmusic="0">
 			<description>Citadel Island, Sewer of the 1st scene</description>
 		</Map>
-		<Map name="Map035_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map035_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track4.mp3" repeatmusic="0">
 			<description>Citadel Island, Warehouse</description>
 		</Map>
-		<Map name="Map036_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map036_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track4.mp3" repeatmusic="0">
 			<description>White Leaf Desert, outside the Temple of Bu</description>
 		</Map>
-		<Map name="Map037_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map037_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win17.midi" repeatmusic="0">
 			<description>Principal Island, outside the water tower</description>
 		</Map>
-		<Map name="Map038_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map038_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win12.midi" repeatmusic="0">
 			<description>Principal Island, inside the water tower</description>
 		</Map>
-		<Map name="Map039_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map039_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win13.midi" repeatmusic="0">
 			<description>White Leaf Desert, Militairy camp</description>
 		</Map>
-		<Map name="Map040_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map040_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track5.mp3" repeatmusic="0">
 			<description>White Leaf Desert, Temple of Bu 2nd scene</description>
 		</Map>
-		<Map name="Map041_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map041_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track2.mp3" repeatmusic="0">
 			<description>White Leaf Desert, Temple of Bu 3rd scene</description>
 		</Map>
-		<Map name="Map042_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map042_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win13.midi" repeatmusic="0">
 			<description>Proxima Island, Proxim City</description>
 		</Map>
-		<Map name="Map043_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map043_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win28.midi" repeatmusic="0">
 			<description>Proxima Island, Museum</description>
 		</Map>
-		<Map name="Map044_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map044_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win29.midi" repeatmusic="0">
 			<description>Proxima Island, near the Inventors house</description>
 		</Map>
-		<Map name="Map045_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map045_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win17.midi" repeatmusic="0">
 			<description>Proxima Island, upper rune stone</description>
 		</Map>
-		<Map name="Map046_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map046_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win17.midi" repeatmusic="0">
 			<description>Proxima Island, lower rune stone</description>
 		</Map>
-		<Map name="Map047_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map047_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win18.midi" repeatmusic="0">
 			<description>Proxima Island, befor the upper rune stone</description>
 		</Map>
-		<Map name="Map048_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map048_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win27.midi" repeatmusic="0">
 			<description>Proxima Island, Forgers house</description>
 		</Map>
-		<Map name="Map049_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map049_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win16.midi" repeatmusic="0">
 			<description>Proxima Island, Prison</description>
 		</Map>
-		<Map name="Map050_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map050_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win15.midi" repeatmusic="0">
 			<description>Proxima Island, Shop</description>
 		</Map>
-		<Map name="Map051_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map051_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win27.midi" repeatmusic="0">
 			<description>Proxima Island, Sewer</description>
 		</Map>
-		<Map name="Map052_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map052_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win27.midi" repeatmusic="0">
 			<description>Principal Island, house at Peg Leg Street</description>
 		</Map>
-		<Map name="Map053_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map053_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win18.midi" repeatmusic="0">
 			<description>Proxima Island, Grobo house</description>
 		</Map>
-		<Map name="Map054_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map054_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win15.midi" repeatmusic="0">
 			<description>Proxima Island, Inventors house</description>
 		</Map>
-		<Map name="Map055_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map055_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win27.midi" repeatmusic="0">
 			<description>Citadel Island, Sewer (secret)</description>
 		</Map>
-		<Map name="Map056_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map056_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win27.midi" repeatmusic="0">
 			<description>Principal Island, Sewer (secret)</description>
 		</Map>
-		<Map name="Map057_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map057_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track1.mp3" repeatmusic="0">
 			<description>White Leaf Desert, Maze</description>
 		</Map>
-		<Map name="Map058_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map058_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track6.mp3" repeatmusic="0">
 			<description>Principal Island, House with the TV</description>
 		</Map>
-		<Map name="Map059_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map059_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track3.mp3" repeatmusic="0">
 			<description>Rebelion Island, Harbor</description>
 		</Map>
-		<Map name="Map060_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map060_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track3.mp3" repeatmusic="0">
 			<description>Rebelion Island, Rebel camp</description>
 		</Map>
-		<Map name="Map061_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map061_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win18.midi" repeatmusic="0">
 			<description>Some room (cut-out)</description>
 		</Map>
-		<Map name="Map062_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map062_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track2.mp3" repeatmusic="0">
 			<description>Hamalayi Mountains, 1st fighting scene</description>
 		</Map>
-		<Map name="Map063_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map063_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track2.mp3" repeatmusic="0">
 			<description>Hamalayi Mountains, 2nd fighting scene</description>
 		</Map>
-		<Map name="Map064_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map064_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track5.mp3" repeatmusic="0">
 			<description>Hamalayi Mountains, Prison</description>
 		</Map>
-		<Map name="Map065_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map065_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win20.midi" repeatmusic="0">
 			<description>Hamalayi Mountains, outside the transporter</description>
 		</Map>
-		<Map name="Map066_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map066_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win12.midi" repeatmusic="0">
 			<description>Hamalayi Mountains, inside the transporter</description>
 		</Map>
-		<Map name="Map067_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map067_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track7.mp3" repeatmusic="0">
 			<description>Hamalayi Mountains, Mutation centre 1st scene</description>
 		</Map>
-		<Map name="Map068_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map068_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win28.midi" repeatmusic="0">
 			<description>Hamalayi Mountains, Mutation centre 2nd scene</description>
 		</Map>
-		<Map name="Map069_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map069_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track2.mp3" repeatmusic="0">
 			<description>Hamalayi Mountains, 3rd fighting scene</description>
 		</Map>
-		<Map name="Map070_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map070_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win13.midi" repeatmusic="0">
 			<description>Hamalayi Mountains, Entrance to the prison</description>
 		</Map>
-		<Map name="Map071_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map071_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win12.midi" repeatmusic="0">
 			<description>Hamalayi Mountains, outside the prison</description>
 		</Map>
-		<Map name="Map072_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map072_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track7.mp3" repeatmusic="0">
 			<description>Hamalayi Mountains, Catamaran dock</description>
 		</Map>
-		<Map name="Map073_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map073_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win10.midi" repeatmusic="0">
 			<description>Hamalayi Mountains, Bunker near clear water</description>
 		</Map>
-		<Map name="Map074_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map074_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track6.mp3" repeatmusic="0">
 			<description>Tippet Island, Village</description>
 		</Map>
-		<Map name="Map075_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map075_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win19.midi" repeatmusic="0">
 			<description>Tippet Island, Secret passage scene 2</description>
 		</Map>
-		<Map name="Map076_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map076_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win13.midi" repeatmusic="0">
 			<description>Tippet Island, near the bar</description>
 		</Map>
-		<Map name="Map077_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map077_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win20.midi" repeatmusic="0">
 			<description>Tippet Island, Secret passage scene 1</description>
 		</Map>
-		<Map name="Map078_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map078_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track9.mp3" repeatmusic="0">
 			<description>Tippet Island, near the Dino-Fly</description>
 		</Map>
-		<Map name="Map079_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map079_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win20.midi" repeatmusic="0">
 			<description>Tippet Island, Secret passage scene 3</description>
 		</Map>
-		<Map name="Map080_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map080_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win13.midi" repeatmusic="0">
 			<description>Tippet Island, Twinsun Cafe</description>
 		</Map>
-		<Map name="Map081_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map081_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win14.midi" repeatmusic="0">
 			<description>Hamalayi Mountains, Sacret Carrot</description>
 		</Map>
-		<Map name="Map082_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map082_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win21.midi" repeatmusic="0">
 			<description>Hamalayi Mountains, Backdoor of the prison</description>
 		</Map>
-		<Map name="Map083_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map083_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win18.midi" repeatmusic="0">
 			<description>Fortress Island, inside the fortress</description>
 		</Map>
-		<Map name="Map084_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map084_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track4.mp3" repeatmusic="0">
 			<description>Fortress Island, outside the forstress</description>
 		</Map>
-		<Map name="Map085_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map085_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track5.mp3" repeatmusic="0">
 			<description>Fortress Island, Secret passage scene 1</description>
 		</Map>
-		<Map name="Map086_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map086_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win27.midi" repeatmusic="0">
 			<description>Fortress Island, Secret in the fortress</description>
 		</Map>
-		<Map name="Map087_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map087_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win16.midi" repeatmusic="0">
 			<description>Fortress Island, near Zoes cell</description>
 		</Map>
-		<Map name="Map088_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map088_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win19.midi" repeatmusic="0">
 			<description>Fortress Island, Swimming pool</description>
 		</Map>
-		<Map name="Map089_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map089_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win17.midi" repeatmusic="0">
 			<description>Fortress Island, Cloning center</description>
 		</Map>
-		<Map name="Map090_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map090_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win16.midi" repeatmusic="0">
 			<description>Fortress Island, Rune stone</description>
 		</Map>
-		<Map name="Map091_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map091_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win22.midi" repeatmusic="0">
 			<description>Hamalayi Mountains, Behind the sacret carrot</description>
 		</Map>
-		<Map name="Map092_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map092_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win16.midi" repeatmusic="0">
 			<description>Hamalayi Mountains, Clear water lake</description>
 		</Map>
-		<Map name="Map093_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map093_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win28.midi" repeatmusic="0">
 			<description>Fortress Island, outside fortress destroyed</description>
 		</Map>
-		<Map name="Map094_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map094_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win16.midi" repeatmusic="0">
 			<description>Brundle Island, outside the teleportation</description>
 		</Map>
-		<Map name="Map095_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map095_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track1.mp3" repeatmusic="0">
 			<description>Brundle Island, inside the teleportation</description>
 		</Map>
-		<Map name="Map096_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map096_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track9.mp3" repeatmusic="0">
 			<description>Hamalayi Mountains, Ski resort</description>
 		</Map>
-		<Map name="Map097_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map097_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win20.midi" repeatmusic="0">
 			<description>Brundle Island, Docks</description>
 		</Map>
-		<Map name="Map098_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map098_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win18.midi" repeatmusic="0">
 			<description>Brundle Island, Secret room</description>
 		</Map>
-		<Map name="Map099_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map099_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track1.mp3" repeatmusic="0">
 			<description>Brundle Island, near the telepods</description>
 		</Map>
-		<Map name="Map100_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map100_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track4.mp3" repeatmusic="0">
 			<description>Fortress Island, Docks</description>
 		</Map>
-		<Map name="Map101_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map101_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win18.midi" repeatmusic="0">
 			<description>Tippet Island, Shop</description>
 		</Map>
-		<Map name="Map102_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map102_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track9.mp3" repeatmusic="0">
 			<description>Principal Island, house in port Belooga</description>
 		</Map>
-		<Map name="Map103_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map103_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win15.midi" repeatmusic="0">
 			<description>Brundle Island, Painters house</description>
 		</Map>
-		<Map name="Map104_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map104_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win19.midi" repeatmusic="0">
 			<description>Citadel Island, Ticket Office</description>
 		</Map>
-		<Map name="Map105_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map105_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track5.mp3" repeatmusic="0">
 			<description>Principal Island, inside the fortress</description>
 		</Map>
-		<Map name="Map106_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map106_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win10.midi" repeatmusic="0">
 			<description>Polar Island, 2nd scene</description>
 		</Map>
-		<Map name="Map107_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map107_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win28.midi" repeatmusic="0">
 			<description>Polar Island, 3rd scene</description>
 		</Map>
-		<Map name="Map108_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map108_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win18.midi" repeatmusic="0">
 			<description>Polar Island, Before the rocky peak</description>
 		</Map>
-		<Map name="Map109_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map109_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win13.midi" repeatmusic="0">
 			<description>Polar Island, 4th scene</description>
 		</Map>
-		<Map name="Map110_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map110_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track2.mp3" repeatmusic="0">
 			<description>Polar Island, The rocky peak</description>
 		</Map>
-		<Map name="Map111_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map111_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/LBA1-Track2.mp3" repeatmusic="0">
 			<description>Polar Island, on the rocky peak</description>
 		</Map>
-		<Map name="Map112_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map112_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win14.midi" repeatmusic="0">
 			<description>Polar Island, Before the end room</description>
 		</Map>
-		<Map name="Map113_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map113_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win17.midi" repeatmusic="0">
 			<description>Polar Island, Final Battle</description>
 		</Map>
-		<Map name="Map114_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map114_1" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win32.midi" repeatmusic="0">
 			<description>Polar Island, end scene</description>
 		</Map>
-		<Map name="Map115_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map115_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win20.midi" repeatmusic="0">
 			<description>Polar Island, 1st scene</description>
 		</Map>
-		<Map name="Map116_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map116_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win32.midi" repeatmusic="0">
 			<description>Citadel Island, end sequence (1)</description>
 		</Map>
-		<Map name="Map117_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map117_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win32.midi" repeatmusic="0">
 			<description>Citadel Island, end sequence (2)</description>
 		</Map>
-		<Map name="Map118_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+		<Map name="Map118_1" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba1Original/Music/Midi_mi_win19.midi" repeatmusic="0">
 			<description>Citadel Island, Twinsen&apos;s house destroyed</description>
 		</Map>
 	</maps>

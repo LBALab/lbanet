@@ -51,7 +51,7 @@ function InitMap(environment)
 	Spawn_8 = Spawn(8)
 	Spawn_8:SetPosX(47)
 	Spawn_8:SetPosY(1.01)
-	Spawn_8:SetPosZ(44)
+	Spawn_8:SetPosZ(43)
 	Spawn_8:SetName("laddercave")
 	environment:AddSpawn(Spawn_8)
 

@@ -4,67 +4,67 @@ function Init(environment)
 	Teleport_1:SetMapName("Map097_1")
 	Teleport_1:SetSpawn(1)
 	environment:AddTeleport(Teleport_1)
-	
+
 	Teleport_2 = TeleportDef(2)
 	Teleport_2:SetName("Citadel Island")
 	Teleport_2:SetMapName("Map006_1")
 	Teleport_2:SetSpawn(1)
 	environment:AddTeleport(Teleport_2)
-	
+
 	Teleport_3 = TeleportDef(3)
 	Teleport_3:SetName("Fortress Island")
 	Teleport_3:SetMapName("Map100_1")
 	Teleport_3:SetSpawn(1)
 	environment:AddTeleport(Teleport_3)
-	
+
 	Teleport_4 = TeleportDef(4)
 	Teleport_4:SetName("Hamalayi Mountains")
 	Teleport_4:SetMapName("Map009_1")
 	Teleport_4:SetSpawn(1)
-	environment:AddTeleport(Teleport_4)	
-	
+	environment:AddTeleport(Teleport_4)
+
 	Teleport_5 = TeleportDef(5)
 	Teleport_5:SetName("Polar Island")
 	Teleport_5:SetMapName("Map115_1")
 	Teleport_5:SetSpawn(1)
 	environment:AddTeleport(Teleport_5)
-	
+
 	Teleport_6 = TeleportDef(6)
 	Teleport_6:SetName("Principal Island")
 	Teleport_6:SetMapName("Map011_1")
 	Teleport_6:SetSpawn(1)
 	environment:AddTeleport(Teleport_6)
-	
+
 	Teleport_7 = TeleportDef(7)
 	Teleport_7:SetName("Proxima Island")
 	Teleport_7:SetMapName("Map042_1")
 	Teleport_7:SetSpawn(1)
 	environment:AddTeleport(Teleport_7)
-	
+
 	Teleport_8 = TeleportDef(8)
 	Teleport_8:SetName("Rebellion Island")
 	Teleport_8:SetMapName("Map059_1")
 	Teleport_8:SetSpawn(1)
-	environment:AddTeleport(Teleport_8)	
-	
+	environment:AddTeleport(Teleport_8)
+
 	Teleport_9 = TeleportDef(9)
 	Teleport_9:SetName("Temple of Bu")
 	Teleport_9:SetMapName("Map008_1")
 	Teleport_9:SetSpawn(1)
 	environment:AddTeleport(Teleport_9)
-	
+
 	Teleport_10 = TeleportDef(10)
 	Teleport_10:SetName("Tippett Island")
 	Teleport_10:SetMapName("Map074_1")
 	Teleport_10:SetSpawn(1)
 	environment:AddTeleport(Teleport_10)
-	
+
 	Teleport_11 = TeleportDef(11)
 	Teleport_11:SetName("White Leaf Desert")
 	Teleport_11:SetMapName("Map039_1")
 	Teleport_11:SetSpawn(1)
 	environment:AddTeleport(Teleport_11)
-	
+
 	Teleport_12 = TeleportDef(12)
 	Teleport_12:SetName("Party place")
 	Teleport_12:SetMapName("Map116_1")
@@ -665,8 +665,8 @@ function Init(environment)
 	Item_28:SetFlag(2)
 	Item_28:SetEphemere(false)
 	Item_28:SetStringFlag("")
-	Item_28:SetColor1(2)
-	Item_28:SetColor2(-1)
+	Item_28:SetColor1(5)
+	Item_28:SetColor2(3)
 	Item_28:SetReplacedItem(-1)
 	environment:AddInventoryItem(Item_28)
 
@@ -685,8 +685,8 @@ function Init(environment)
 	Item_29:SetFlag(3)
 	Item_29:SetEphemere(false)
 	Item_29:SetStringFlag("")
-	Item_29:SetColor1(2)
-	Item_29:SetColor2(-1)
+	Item_29:SetColor1(5)
+	Item_29:SetColor2(3)
 	Item_29:SetReplacedItem(-1)
 	environment:AddInventoryItem(Item_29)
 

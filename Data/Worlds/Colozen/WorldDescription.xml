@@ -25,104 +25,104 @@
 		</StartingInventory>
 	</PlayerStartingInfo>
 	<maps>
-		<Map name="Above_Granite_Cave" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/LBA1-Track2.mp3" repeatmusic="0">
-			<description>Above_Granite_Cave</description>
-		</Map>
-		<Map name="Cloning_Chamber" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/JADPCM11.mp3" repeatmusic="0">
-			<description>Cloning Chamber</description>
-		</Map>
-		<Map name="Colobee_Cave" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/JADPCM03.mp3" repeatmusic="0">
-			<description>Colobee Cave</description>
-		</Map>
-		<Map name="Colobee_Caverns" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/JADPCM04.mp3" repeatmusic="0">
-			<description>Colobee Caverns</description>
-		</Map>
-		<Map name="Colobee_House" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/LBA1-Track3.mp3" repeatmusic="0">
-			<description>Colobee House</description>
-		</Map>
-		<Map name="Colobee_Mountain_Peak" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/LBA1-Track4.mp3" repeatmusic="0">
-			<description>Colobee Mountain Peak</description>
-		</Map>
-		<Map name="Colobee_Quest_Center" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/LBA1-Track3.mp3" repeatmusic="0">
-			<description>Colobee Quest Center</description>
-		</Map>
-		<Map name="Colobee_Royal_Court" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/LBA1-Track3.mp3" repeatmusic="0">
-			<description>Colobee Royal Court</description>
-		</Map>
-		<Map name="Colobee_School" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/LBA1-Track3.mp3" repeatmusic="0">
-			<description>Colobee School</description>
-		</Map>
-		<Map name="Colobee_Shop" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/Midi_mi_win15.midi" repeatmusic="0">
-			<description>Colobee Shop</description>
-		</Map>
-		<Map name="Colobee_Village" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/LBA1-Track3.mp3" repeatmusic="0">
-			<description>Colobee Village</description>
-		</Map>
-		<Map name="Colobee_Village_Square" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/LBA1-Track3.mp3" repeatmusic="0">
-			<description>Colobee Village Square</description>
-		</Map>
-		<Map name="Colozen_Museum" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/JADPCM18.mp3" repeatmusic="0">
-			<description>Colozen Museum</description>
-		</Map>
-		<Map name="Dtech_Industries" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/JADPCM17.mp3" repeatmusic="0">
-			<description>Dtech Industries</description>
-		</Map>
-		<Map name="Dtech_Research_Facility" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/JADPCM05.mp3" repeatmusic="0">
-			<description>Dtech Research Facility</description>
-		</Map>
-		<Map name="Dtech_fuel_supplies" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/JADPCM13.mp3" repeatmusic="0">
-			<description>Dtech fuel supplies</description>
-		</Map>
-		<Map name="Inside_Makers_House" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/LBA2-Track1.mp3" repeatmusic="0">
-			<description>The Makers House (Indoors)</description>
-		</Map>
-		<Map name="Makers_House" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/LBA1-Track2.mp3" repeatmusic="0">
-			<description>Makers House</description>
-		</Map>
-		<Map name="Party_beach" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/LBA1-Track2.mp3" repeatmusic="0">
-			<description>Party beach</description>
-		</Map>
-		<Map name="Solidirity_Park" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/JADPCM07.mp3" repeatmusic="0">
-			<description>Solidirity Park</description>
-		</Map>
-		<Map name="Tech-Island_Docks" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/JADPCM05.mp3" repeatmusic="0">
-			<description>Tech-Island Docks</description>
-		</Map>
-		<Map name="Tech-Island_Research_Centre" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/LBA1-Track2.mp3" repeatmusic="0">
-			<description>Tech-Island Research Centre</description>
-		</Map>
-		<Map name="Techside_River" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/LBA1-Track2.mp3" repeatmusic="0">
-			<description>Techside River</description>
-		</Map>
-		<Map name="The_Granite_Cave" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/JADPCM14.mp3" repeatmusic="0">
-			<description>The Granite Cave</description>
-		</Map>
-		<Map name="The_Innovation_house" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/LBA1-Track9.mp3" repeatmusic="0">
-			<description>The Innovation house</description>
-		</Map>
-		<Map name="The_Shipping_Lane" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/LBA1-Track2.mp3" repeatmusic="0">
-			<description>The Shipping Lane</description>
-		</Map>
-		<Map name="The_Tinkers_Cafe" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/JADPCM18.mp3" repeatmusic="0">
-			<description>The Tinkers Cafe</description>
-		</Map>
-		<Map name="The_Trading_Platform" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/LBA1-Track2.mp3" repeatmusic="0">
-			<description>The Trading Platform</description>
-		</Map>
-		<Map name="Tinker-Town_Police_Station" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/JADPCM09.mp3" repeatmusic="0">
-			<description>Tinker-Town Police Station</description>
-		</Map>
-		<Map name="Tinker-Town_Shop" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/JADPCM10.mp3" repeatmusic="0">
-			<description>Tinker-Town Shop</description>
-		</Map>
-		<Map name="Tinker-town_Sewers" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/LBA1-Track8.mp3" repeatmusic="0">
-			<description>Tinker-town Sewers</description>
-		</Map>
-		<Map name="Tinker_Town" type="exterior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/JADPCM16.mp3" repeatmusic="0">
-			<description>Tinker Town</description>
-		</Map>
-		<Map name="Tinkers_Tunnel" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="World/Colozen/Music/JADPCM03.mp3" repeatmusic="0">
-			<description>Tinker&apos;s Tunnel</description>
-		</Map>
-	</maps>
+        <Map name="Above_Granite_Cave" type="exterior" music="Worlds/Lba1Original/Music/LBA1-Track2.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Above_Granite_Cave</description>
+        </Map>
+        <Map name="Cloning_Chamber" type="interior" music="Worlds/Lba2Original/Music/JADPCM11.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Cloning Chamber</description>
+        </Map>
+        <Map name="Colobee_Cave" type="interior" music="Worlds/Lba2Original/Music/JADPCM03.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Colobee Cave</description>
+        </Map>
+        <Map name="Colobee_Caverns" type="interior" music="Worlds/Lba2Original/Music/JADPCM04.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Colobee Caverns</description>
+        </Map>
+        <Map name="Colobee_House" type="interior" music="Worlds/Lba1Original/Music/LBA1-Track3.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Colobee House</description>
+        </Map>
+        <Map name="Colobee_Mountain_Peak" type="exterior" music="Worlds/Lba1Original/Music/LBA1-Track4.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Colobee Mountain Peak</description>
+        </Map>
+        <Map name="Colobee_Quest_Center" type="interior" music="Worlds/Lba1Original/Music/LBA1-Track3.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Colobee Quest Center</description>
+        </Map>
+        <Map name="Colobee_Royal_Court" type="interior" music="Worlds/Lba1Original/Music/LBA1-Track3.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Colobee Royal Court</description>
+        </Map>
+        <Map name="Colobee_School" type="interior" music="Worlds/Lba1Original/Music/LBA1-Track3.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Colobee School</description>
+        </Map>
+        <Map name="Colobee_Shop" type="interior" music="Worlds/Lba1Original/Music/Midi_mi_win15.midi" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Colobee Shop</description>
+        </Map>
+        <Map name="Colobee_Village" type="interior" music="Worlds/Lba1Original/Music/LBA1-Track3.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Colobee Village</description>
+        </Map>
+        <Map name="Colobee_Village_Square" type="interior" music="Worlds/Lba1Original/Music/LBA1-Track3.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Colobee Village Square</description>
+        </Map>
+        <Map name="Colozen_Museum" type="interior" music="Worlds/Lba2Original/Music/JADPCM18.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Colozen Museum</description>
+        </Map>
+        <Map name="Dtech_Industries" type="interior" music="Worlds/Lba2Original/Music/JADPCM17.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Dtech Industries</description>
+        </Map>
+        <Map name="Dtech_Research_Facility" type="interior" music="Worlds/Lba2Original/Music/JADPCM05.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Dtech Research Facility</description>
+        </Map>
+        <Map name="Dtech_fuel_supplies" type="interior" music="Worlds/Lba2Original/Music/JADPCM13.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Dtech fuel supplies</description>
+        </Map>
+        <Map name="Inside_Makers_House" type="interior" music="Worlds/Lba1Original/Music/LBA2-Track1.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>The Makers House (Indoors)</description>
+        </Map>
+        <Map name="Makers_House" type="exterior" music="Worlds/Lba1Original/Music/LBA1-Track2.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Makers House</description>
+        </Map>
+        <Map name="Party_beach" type="exterior" music="Worlds/Lba1Original/Music/LBA1-Track2.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Party beach</description>
+        </Map>
+        <Map name="Solidirity_Park" type="exterior" music="Worlds/Lba2Original/Music/JADPCM07.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Solidirity Park</description>
+        </Map>
+        <Map name="Tech-Island_Docks" type="exterior" music="Worlds/Lba2Original/Music/JADPCM05.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Tech-Island Docks</description>
+        </Map>
+        <Map name="Tech-Island_Research_Centre" type="exterior" music="Worlds/Lba1Original/Music/LBA1-Track2.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Tech-Island Research Centre</description>
+        </Map>
+        <Map name="Techside_River" type="exterior" music="Worlds/Lba1Original/Music/LBA1-Track2.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Techside River</description>
+        </Map>
+        <Map name="The_Granite_Cave" type="interior" music="Worlds/Lba2Original/Music/JADPCM14.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>The Granite Cave</description>
+        </Map>
+        <Map name="The_Innovation_house" type="interior" music="Worlds/Lba1Original/Music/LBA1-Track9.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>The Innovation house</description>
+        </Map>
+        <Map name="The_Shipping_Lane" type="exterior" music="Worlds/Lba1Original/Music/LBA1-Track2.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>The Shipping Lane</description>
+        </Map>
+        <Map name="The_Tinkers_Cafe" type="interior" music="Worlds/Lba2Original/Music/JADPCM18.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>The Tinkers Cafe</description>
+        </Map>
+        <Map name="The_Trading_Platform" type="exterior" music="Worlds/Lba1Original/Music/LBA1-Track2.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>The Trading Platform</description>
+        </Map>
+        <Map name="Tinker-Town_Police_Station" type="interior" music="Worlds/Lba2Original/Music/JADPCM09.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Tinker-Town Police Station</description>
+        </Map>
+        <Map name="Tinker-Town_Shop" type="interior" music="Worlds/Lba2Original/Music/JADPCM10.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Tinker-Town Shop</description>
+        </Map>
+        <Map name="Tinker-town_Sewers" type="interior" music="Worlds/Lba1Original/Music/LBA1-Track8.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Tinker-town Sewers</description>
+        </Map>
+        <Map name="Tinker_Town" type="exterior" music="Worlds/Lba2Original/Music/JADPCM16.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Tinker Town</description>
+        </Map>
+        <Map name="Tinkers_Tunnel" type="interior" music="Worlds/Lba2Original/Music/JADPCM03.mp3" repeatmusic="0" AutoCameraType="1" IsInstance="false" HurtFallFactor="2">
+            <description>Tinker&apos;s Tunnel</description>
+        </Map>
+    </maps>
 </World>

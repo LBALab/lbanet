@@ -18,11 +18,8 @@
 		</StartingModel>
 	</PlayerStartingInfo>
 	<maps>
-		<Map name="BattleArena" type="interior" AutoCameraType="2" IsInstance="false" HurtFallFactor="2">
+		<Map name="BattleArena" type="interior" AutoCameraType="2" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba2Original/Music/JADPCM18.mp3" repeatmusic="0">
 			<description>The Complex - Battle Arena</description>
-			<spareas>
-				<spawning Id="1" name="FirstSpawning" posX="33" posY="11.3" posZ="7.5" ForceRotation="false" RotationAtArrival="0"/>
-			</spareas>
 		</Map>
 	</maps>
 </World>

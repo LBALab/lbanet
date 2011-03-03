@@ -354,7 +354,7 @@ function InitMap(environment)
 	Actor_16.PhysicDesc.Pos.X = 29
 	Actor_16.PhysicDesc.Pos.Y = 0
 	Actor_16.PhysicDesc.Pos.Z = 58
-	Actor_16.PhysicDesc.Pos.Rotation = 433
+	Actor_16.PhysicDesc.Pos.Rotation = 270
 	Actor_16.PhysicDesc.Density = 1
 	Actor_16.PhysicDesc.Collidable = true
 	Actor_16.PhysicDesc.SizeX = 2
@@ -370,6 +370,24 @@ function InitMap(environment)
 	Actor_16.ExtraInfo.Display = false
 	Actor_16.LifeInfo.Display = false
 	Actor_16H = NPCHandler(Actor_16)
+	Actor_16_Sc0 = ASPChangeAnimation("MoveForward")
+	Actor_16H:AddScriptPart(Actor_16_Sc0)
+	Actor_16_Sc1 = ASPStartWaypoint(24,0,58,true)
+	Actor_16H:AddScriptPart(Actor_16_Sc1)
+	Actor_16_Sc2 = ASPFollowWaypoint(21,0,55.5)
+	Actor_16H:AddScriptPart(Actor_16_Sc2)
+	Actor_16_Sc3 = ASPFollowWaypoint(21,0,21.5)
+	Actor_16H:AddScriptPart(Actor_16_Sc3)
+	Actor_16_Sc4 = ASPFollowWaypoint(23,0,18.5)
+	Actor_16H:AddScriptPart(Actor_16_Sc4)
+	Actor_16_Sc5 = ASPFollowWaypoint(39,0,18)
+	Actor_16H:AddScriptPart(Actor_16_Sc5)
+	Actor_16_Sc6 = ASPFollowWaypoint(43.5,0,20)
+	Actor_16H:AddScriptPart(Actor_16_Sc6)
+	Actor_16_Sc7 = ASPFollowWaypoint(45,0,56)
+	Actor_16H:AddScriptPart(Actor_16_Sc7)
+	Actor_16_Sc8 = ASPFollowWaypoint(40.5,0,59)
+	Actor_16H:AddScriptPart(Actor_16_Sc8)
 	Actor_16H_dia = DialogPart()
 	Actor_16H_dia:SetResetDialog(false)
 	Actor_16H:SetRootDialog(Actor_16H_dia)

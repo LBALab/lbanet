@@ -56,14 +56,14 @@
 		<Window Type="TaharezLook/StaticText" Name="ServerOnLabel" > 
 		    <Property Name="Text" Value="#26" />         
 		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-		    <Property Name="UnifiedAreaRect" Value="{{0.2,0},{0,100},{0.4,0},{0,130}}" />        
+		    <Property Name="UnifiedAreaRect" Value="{{0.1,0},{0,100},{0.4,5},{0,130}}" />        
 		</Window>		
 		
 
 		    <Window Type="TaharezLook/Checkbox" Name="LoginPlayLocalCb" >
 			<Property Name="Text" Value="#27" />
 			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-			<Property Name="UnifiedAreaRect" Value="{{0.4,10},{0,100},{0.7,0},{0,130}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0.4,15},{0,100},{0.9,0},{0,130}}" />
 		    </Window>  
 
 		<Window Type="TaharezLook/Button" Name="ConnectB" >    
