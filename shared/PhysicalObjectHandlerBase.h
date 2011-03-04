@@ -131,6 +131,13 @@ public:
 	virtual float GetLastRotation() = 0;
 
 
+	//! check if actor is on top of other
+	virtual bool OnTopOff(PhysicalObjectHandlerBase * actor) = 0;
+
+
+	//! reset last move
+	virtual void ResetMove() = 0;
+
 protected:
 	bool _resetted;
 };
@@ -332,6 +339,21 @@ public:
 	//! get last rotation
 	virtual float GetLastRotation()
 	{return _lastrotation;}
+
+
+	//! check if actor is on top of other
+	virtual bool OnTopOff(PhysicalObjectHandlerBase * actor)
+	{return false;}
+
+
+	//! reset last move
+	virtual void ResetMove()
+	{
+		_lastmoveX = 0;
+		_lastmoveY = 0;
+		_lastmoveZ = 0;
+		_lastrotation = 0;
+	}
 
 
 private:

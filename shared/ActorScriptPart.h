@@ -798,4 +798,82 @@ private:
 };
 
 
+
+//! use to start a script on client side
+class ActorScriptPart_AttachToActor : public ActorScriptPartBase
+{
+public:
+	//! constructor
+	ActorScriptPart_AttachToActor(int actortype, long actorid)
+		: _actortype(actortype), _actorid(actorid)
+	{}
+	
+	//! destructor
+	virtual ~ActorScriptPart_AttachToActor(){}
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "ASPAttachToActor"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+
+	// save script to lua file
+	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
+
+
+#ifdef _USE_QT_EDITOR_
+	// use by the editor
+	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
+
+	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+#endif
+
+
+private:
+	int		_actortype;
+	long	_actorid;
+};
+
+
+//! use to start a script on client side
+class ActorScriptPart_DetachFromActor : public ActorScriptPartBase
+{
+public:
+	//! constructor
+	ActorScriptPart_DetachFromActor(long actorid)
+		: _actorid(actorid)
+	{}
+	
+	//! destructor
+	virtual ~ActorScriptPart_DetachFromActor(){}
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "ASPDetachFromActor"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+
+	// save script to lua file
+	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
+
+
+#ifdef _USE_QT_EDITOR_
+	// use by the editor
+	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
+
+	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+#endif
+
+
+private:
+	long	_actorid;
+};
+
+
 #endif

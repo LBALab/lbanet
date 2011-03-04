@@ -60,7 +60,7 @@ public:
 
 	//! process script part
 	//! return true if finished
-	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor) = 0;
+	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor, bool & moved) = 0;
 
 protected:
 
@@ -89,7 +89,7 @@ public:
 
 	//! process script part
 	//! return true if finished
-	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor);
+	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor, bool & moved);
 
 protected:
 	float	_PosX;
@@ -124,7 +124,7 @@ public:
 
 	//! process script part
 	//! return true if finished
-	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor);
+	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor, bool & moved);
 
 protected:
 	bool	_AnimationMove;
@@ -151,7 +151,7 @@ public:
 
 	//! process script part
 	//! return true if finished
-	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor);
+	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor, bool & moved);
 
 protected:
 	float	_RotationSpeedPerSec;
@@ -183,7 +183,7 @@ public:
 
 	//! process script part
 	//! return true if finished
-	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor);
+	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor, bool & moved);
 
 protected:
 	float	_PosX;
@@ -221,7 +221,7 @@ public:
 
 	//! process script part
 	//! return true if finished
-	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor);
+	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor, bool & moved);
 
 protected:
 	int		_SignalId;
@@ -249,7 +249,7 @@ public:
 
 	//! process script part
 	//! return true if finished
-	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor);
+	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor, bool & moved);
 
 protected:
 	float	_PosX;
@@ -291,7 +291,7 @@ public:
 
 	//! process script part
 	//! return true if finished
-	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor);
+	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor, bool & moved);
 
 
 protected:
@@ -337,7 +337,7 @@ public:
 
 	//! process script part
 	//! return true if finished
-	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor);
+	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor, bool & moved);
 
 protected:
 	boost::shared_ptr<PhysicalObjectHandlerBase>	_target;
@@ -365,7 +365,8 @@ public:
 	virtual ~ScriptedActor();
 
 	//! process function
-	void ProcessScript(double tnow, float tdiff, ScriptEnvironmentBase* scripthandler);
+	//! return true if actor moved or rotated
+	bool ProcessScript(double tnow, float tdiff, ScriptEnvironmentBase* scripthandler);
 
 	//! used by lua to move an actor
 	//! the actor will move using animation speed
@@ -415,7 +416,7 @@ public:
 	{ return _attachedactor; }
 
 	//! attach actor
-	void SetAttached(boost::shared_ptr<DynamicObject>actor)
+	void SetAttached(boost::shared_ptr<DynamicObject> actor)
 	{_attachedactor = actor;}
 
 

@@ -43,7 +43,10 @@ ActorScriptPartBasePtr ActorScriptPartBase::BuildScriptPart(const std::string & 
 		return ActorScriptPartBasePtr(new ActorScriptPart_StartWaypoint(sPosX, sPosY, sPosZ, true));
 	if(type == "ASPShowHide")
 		return ActorScriptPartBasePtr(new ActorScriptPart_ShowHide(true));
-
+	if(type == "ASPAttachToActor")
+		return ActorScriptPartBasePtr(new ActorScriptPart_AttachToActor(1, -1));
+	if(type == "ASPDetachFromActor")
+		return ActorScriptPartBasePtr(new ActorScriptPart_DetachFromActor(-1));
 
 	return ActorScriptPartBasePtr();
 }
@@ -509,6 +512,40 @@ void ActorScriptPart_ShowHide::WriteExecutionScript(std::ostream & file, long ac
 
 
 
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void ActorScriptPart_AttachToActor::SaveToLuaFile(std::ofstream & file, const std::string & name)
+{
+	file<<"\t"<<name<<" = ASPAttachToActor("<<_actortype<<","<<_actorid<<")"<<std::endl;
+}
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void ActorScriptPart_AttachToActor::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
+{
+	file<<"Environment:AttachActor("<<actid<<","<<_actortype<<","<<_actorid<<")"<<std::endl;
+}
+
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void ActorScriptPart_DetachFromActor::SaveToLuaFile(std::ofstream & file, const std::string & name)
+{
+	file<<"\t"<<name<<" = ASPDetachFromActor("<<_actorid<<")"<<std::endl;
+}
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void ActorScriptPart_DetachFromActor::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
+{
+	file<<"Environment:DettachActor("<<actid<<","<<_actorid<<")"<<std::endl;
+}
+
 
 
 #ifdef _USE_QT_EDITOR_
@@ -822,6 +859,38 @@ void ActorScriptPart_ShowHide::WriteToQt(TreeModel *	model, const QModelIndex &p
 }
 
 
+/***********************************************************
+// use by the editor
+***********************************************************/	
+void ActorScriptPart_AttachToActor::WriteToQt(TreeModel *	model, const QModelIndex &parentIdx)
+{
+	{
+	QVector<QVariant> datachild;
+	datachild << "Attached Actor Type" << _actortype;
+	model->AppendRow(datachild, parentIdx);	
+	}
+	{
+	QVector<QVariant> datachild;
+	datachild << "Attached Actor Id" << (int)_actorid;
+	model->AppendRow(datachild, parentIdx);	
+	}
+}
+
+/***********************************************************
+// use by the editor
+***********************************************************/	
+void ActorScriptPart_DetachFromActor::WriteToQt(TreeModel *	model, const QModelIndex &parentIdx)
+{
+	{
+	QVector<QVariant> datachild;
+	datachild << "Attached Actor Id" << (int)_actorid;
+	model->AppendRow(datachild, parentIdx);	
+	}
+}
+
+
+
+
 
 /***********************************************************
 // use by the editor
@@ -1020,6 +1089,24 @@ void ActorScriptPart_ShowHide::UpdateFromQt(TreeModel *	model, const QModelIndex
 	_Show = model->data(model->GetIndex(1, rowidx, parentIdx)).toBool();
 }
 
+
+/***********************************************************
+// use by the editor
+***********************************************************/	
+void ActorScriptPart_AttachToActor::UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx)
+{
+	_actortype = model->data(model->GetIndex(1, rowidx, parentIdx)).toInt();
+	++rowidx;
+	_actorid = model->data(model->GetIndex(1, rowidx, parentIdx)).toInt();
+}
+
+/***********************************************************
+// use by the editor
+***********************************************************/	
+void ActorScriptPart_DetachFromActor::UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx)
+{
+	_actorid = model->data(model->GetIndex(1, rowidx, parentIdx)).toInt();
+}
 
 
 

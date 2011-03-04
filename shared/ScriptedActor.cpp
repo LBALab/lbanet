@@ -63,7 +63,7 @@ StraightWalkToScriptPart::StraightWalkToScriptPart(int scriptid, bool asynchronu
 process script part
 return true if finished
 ***********************************************************/
-bool StraightWalkToScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor)
+bool StraightWalkToScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor, bool & moved)
 {
 	// proces with animation
 	actor->Process(tnow, tdiff);
@@ -76,6 +76,8 @@ bool StraightWalkToScriptPart::Process(double tnow, float tdiff, boost::shared_p
 	if(abs(_distance-_distanceDone) < 0.01)
 		return true;
 
+	// set moved flag
+	moved = true;
 
 	// get animation speed
 	float speedX = disso->GetCurrentAssociatedSpeedX();
@@ -126,7 +128,7 @@ PlayAnimationScriptPart::PlayAnimationScriptPart(int scriptid, bool asynchronus,
 process script part
 return true if finished
 ***********************************************************/
-bool PlayAnimationScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor)
+bool PlayAnimationScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor, bool & moved)
 {
 	// proces with animation
 	int res = actor->Process(tnow, tdiff);
@@ -157,6 +159,9 @@ bool PlayAnimationScriptPart::Process(double tnow, float tdiff, boost::shared_pt
 
 		if(speedX != 0 || speedY != 0 || speedZ != 0)
 			physo->Move(ajustedspeedx*tdiff+mx, speedY*tdiff+my, ajustedspeedZ*tdiff+mz, false);
+
+		// set moved flag
+		moved = true;
 	}
 
 	return false;
@@ -186,7 +191,7 @@ RotateScriptPart::RotateScriptPart(int scriptid, bool asynchronus, float Angle,
 //! process script part
 //! return true if finished
 ***********************************************************/
-bool RotateScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor)
+bool RotateScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor, bool & moved)
 {
 	actor->Process(tnow, tdiff);
 
@@ -196,6 +201,9 @@ bool RotateScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<Dynam
 	// extra move
 	float mx, my, mz, mr;
 	actor->GetAdditionalMoves(mx, my, mz, mr);
+
+	// set moved flag
+	moved = true;
 
 	double distance = (currAngle-_Angle);
 	if(abs(distance) > 2.0)
@@ -252,7 +260,7 @@ GoToScriptPart::GoToScriptPart(int scriptid, bool asynchronus,
 process script part
 return true if finished
 ***********************************************************/
-bool GoToScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor)
+bool GoToScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor, bool & moved)
 {
 	// proces with animation
 	actor->Process(tnow, tdiff);
@@ -266,9 +274,12 @@ bool GoToScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<Dynamic
 		return true;
 
 
+	// set moved flag
+	moved = true;
+
+
 	// get speed
 	_distanceDone += (_Speed) * tdiff;
-
 
 
 	// extra move
@@ -313,7 +324,7 @@ WaitForSignalScriptPart::WaitForSignalScriptPart(int scriptid, bool asynchronus,
 process script part
 return true if finished
 ***********************************************************/
-bool WaitForSignalScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor)
+bool WaitForSignalScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor, bool & moved)
 {
 	// proces with animation
 	actor->Process(tnow, tdiff);
@@ -344,12 +355,16 @@ RotateFromPointScriptPart::RotateFromPointScriptPart(int scriptid, bool asynchro
 //! process script part
 //! return true if finished
 ***********************************************************/
-bool RotateFromPointScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor)
+bool RotateFromPointScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor, bool & moved)
 {
 	actor->Process(tnow, tdiff);
 
 	if(abs(_doneAngle) >= abs(_Angle))
 		return true;
+
+
+	// set moved flag
+	moved = true;
 
 	// extra move
 	float mx, my, mz, mr;
@@ -454,13 +469,18 @@ FollowWaypointScriptPart::FollowWaypointScriptPart(int scriptid, bool asynchronu
 //! process script part
 //! return true if finished
 ***********************************************************/
-bool FollowWaypointScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor)
+bool FollowWaypointScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor, bool & moved)
 {
 	actor->Process(tnow, tdiff);
 
 	// check if we arrive at destination
 	if(abs(_distance) <= abs(_distancedone))
 		return true;
+
+
+	// set moved flag
+	moved = true;
+
 
 	boost::shared_ptr<DisplayObjectHandlerBase> disso = actor->GetDisplayObject();
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo = actor->GetPhysicalObject();
@@ -602,12 +622,16 @@ TargetScriptPart::TargetScriptPart(int scriptid, bool asynchronus,
 //! process script part
 //! return true if finished
 ***********************************************************/
-bool TargetScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor)
+bool TargetScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor, bool & moved)
 {
 	actor->Process(tnow, tdiff);
 
 	if(!_target)
 		return true;
+
+
+	// set moved flag
+	moved = true;
 
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo = actor->GetPhysicalObject();
 
@@ -658,13 +682,14 @@ ScriptedActor::~ScriptedActor()
 /***********************************************************
 process function
 ***********************************************************/
-void ScriptedActor::ProcessScript(double tnow, float tdiff, ScriptEnvironmentBase* scripthandler)
+bool ScriptedActor::ProcessScript(double tnow, float tdiff, ScriptEnvironmentBase* scripthandler)
 {
 	if(_currentScripts.size() > 0 && _character)
 	{
 		boost::shared_ptr<ScriptPartBase> firstscript = _currentScripts.front();
 
-		bool finished = firstscript->Process(tnow, tdiff, _character);
+		bool moved = false;
+		bool finished = firstscript->Process(tnow, tdiff, _character, moved);
 		if(finished)
 		{
 			int scid = firstscript->GetAttachedScriptId();
@@ -677,7 +702,11 @@ void ScriptedActor::ProcessScript(double tnow, float tdiff, ScriptEnvironmentBas
 			// delete script part
 			_currentScripts.pop_front();
 		}
+
+		return moved;
 	}
+
+	return false;
 }
 
 

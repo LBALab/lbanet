@@ -337,6 +337,22 @@ public:
 	//! get actor info
 	virtual boost::shared_ptr<DynamicObject> GetActor(int ObjectType, long ObjectId) = 0;
 
+
+	// AttachActor
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void AttachActor(long ActorId, int AttachedObjectType, long AttachedObjectId) = 0;
+
+	// DettachActor
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void DettachActor(long ActorId, long AttachedObjectId) = 0;
+
+
 protected:
 
 	//! used by lua to move an actor or player
