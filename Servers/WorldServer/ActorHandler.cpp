@@ -966,7 +966,26 @@ std::vector<LbaNet::ClientServerEventBasePtr> ActorHandler::Process(double tnow,
 
 		// process script in normal case
 		if(m_launchedscript >= 0 && !m_paused)
-			ProcessScript(tnow, tdiff, m_scripthandler);
+		{
+			// process script
+			if(!ProcessScript(tnow, tdiff, m_scripthandler))
+			{
+				// if not moved check attached
+				if(_attachedactor)
+				{
+					boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+					boost::shared_ptr<PhysicalObjectHandlerBase> attchedphys = _attachedactor->GetPhysicalObject();
+					if(physo && attchedphys)
+					{
+						physo->RotateYAxis(attchedphys->GetLastRotation());
+
+						float addspeedX=0, addspeedY=0, addspeedZ=0;
+						attchedphys->GetLastMove(addspeedX, addspeedY, addspeedZ);
+						physo->Move(addspeedX, addspeedY, addspeedZ);
+					}
+				}
+			}
+		}
 	}
 
 	std::vector<LbaNet::ClientServerEventBasePtr> res;
@@ -1557,4 +1576,51 @@ LbaNet::ClientServerEventBasePtr ActorHandler::GetLastEvent()
 	}
 
 	return m_lastevent;
+}
+
+
+/***********************************************************
+AttachActor
+***********************************************************/
+void ActorHandler::AttachActor(int AttachedObjectType, long AttachedObjectId)
+{
+	_attachedactor = m_scripthandler->GetActor(AttachedObjectType, AttachedObjectId);
+	if(_attachedactor)
+	{
+		m_attachedactorid = AttachedObjectId;
+		m_attachedactortype = AttachedObjectType;
+
+		_events.push_back(new LbaNet::NpcAttachActorEvent(
+							SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+							m_actorinfo.ObjectId, m_attachedactortype, m_attachedactorid));
+	}
+	else
+		m_attachedactorid = -1;
+}
+
+/***********************************************************
+DettachActor
+***********************************************************/
+void ActorHandler::DettachActor(long AttachedObjectId)
+{
+	_attachedactor = boost::shared_ptr<DynamicObject>();
+	m_attachedactorid = -1;
+
+	_events.push_back(new LbaNet::NpcAttachActorEvent(
+						SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+						m_actorinfo.ObjectId, m_attachedactortype, m_attachedactorid));
+}
+
+
+/***********************************************************
+get last actor event
+***********************************************************/
+LbaNet::ClientServerEventBasePtr ActorHandler::AttachActorEvent()
+{
+	if(m_attachedactorid >= 0)
+		return new LbaNet::NpcAttachActorEvent(
+							SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+							m_actorinfo.ObjectId, m_attachedactortype, m_attachedactorid);
+
+	return LbaNet::ClientServerEventBasePtr();
 }

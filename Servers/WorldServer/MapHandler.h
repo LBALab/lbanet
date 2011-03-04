@@ -98,7 +98,7 @@ class MapHandler : public Runnable, public ScriptEnvironmentBase, public Delayed
 {
 public:
 	//! constructor
-	MapHandler(const MapInfo & mapinfo, 
+	MapHandler(const std::string & worldname, const MapInfo & mapinfo, 
 					const std::string & mapluafilename,
 					const std::string & customluafilename);
 
@@ -324,6 +324,22 @@ public:
 	//! get actor info
 	virtual boost::shared_ptr<DynamicObject> GetActor(int ObjectType, long ObjectId);
 
+
+	// AttachActor
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void AttachActor(long ActorId, int AttachedObjectType, long AttachedObjectId);
+
+	// DettachActor
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void DettachActor(long ActorId, long AttachedObjectId);
+
+
 protected:
 	// process events
 	void ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts);
@@ -352,8 +368,9 @@ protected:
 							int mountid = -1);
 
 	//! change player state
+	//! EventType - 1 - environment, 2 - fall down, 3 - npc, 4 - player, 5 - other, 6 - drown
 	void ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, float FallingSize,
-																			bool fromserver = false);
+								int EventType, long ActorId, bool fromserver = false);
 
 	//! a player is raised from dead
 	void RaiseFromDeadEvent(Ice::Long id);
@@ -496,7 +513,8 @@ protected:
 
 	//! update player life
 	//! return true if no life
-	bool DeltaUpdateLife(Ice::Long clientid, float update);
+	//! updatetype : 0 - potion, 1 - environment, 2 - fall down, 3 - npc, 4 - player, 5 - other
+	bool DeltaUpdateLife(Ice::Long clientid, float update, int updatetype, long actorid);
 
 	//! update player mana
 	//! return true if no mana
@@ -594,6 +612,7 @@ private:
 	IceUtil::ThreadControl										_threadcontrol;
 	IceUtil::ThreadPtr											_thread;
 
+	std::string													_worldname;
 	MapInfo														_mapinfo;
 	std::vector<Ice::Long>										_currentplayers;
 

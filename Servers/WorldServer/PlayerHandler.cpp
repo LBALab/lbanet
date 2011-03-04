@@ -972,9 +972,7 @@ bool PlayerHandler::ConsumeItem(long ItemId)
 					return updatelife; // do nothing if life is full
 
 				float deltalife = (it->second.Info.Effect * _currentinfo.lifemana.MaxLife / 100.0f);
-				_currentinfo.lifemana.CurrentLife += deltalife;
-				if(_currentinfo.lifemana.CurrentLife > _currentinfo.lifemana.MaxLife)
-					_currentinfo.lifemana.CurrentLife = _currentinfo.lifemana.MaxLife;
+				DeltaUpdateLife(deltalife);
 
 				used = true;
 				updatelife = true;
@@ -986,9 +984,7 @@ bool PlayerHandler::ConsumeItem(long ItemId)
 					return updatelife; // do nothing if mana is full
 
 				float deltaMana = (it->second.Info.Effect * _currentinfo.lifemana.MaxMana / 100.0f);
-				_currentinfo.lifemana.CurrentMana += deltaMana;
-				if(_currentinfo.lifemana.CurrentMana > _currentinfo.lifemana.MaxMana)
-					_currentinfo.lifemana.CurrentMana = _currentinfo.lifemana.MaxMana;
+				DeltaUpdateMana(deltaMana);
 
 				used = true;
 				updatelife = true;
@@ -1001,14 +997,10 @@ bool PlayerHandler::ConsumeItem(long ItemId)
 					return updatelife; // do nothing if life & mana is full
 
 				float deltalife = (it->second.Info.Effect * _currentinfo.lifemana.MaxLife / 100.0f);
-				_currentinfo.lifemana.CurrentLife += deltalife;
-				if(_currentinfo.lifemana.CurrentLife > _currentinfo.lifemana.MaxLife)
-					_currentinfo.lifemana.CurrentLife = _currentinfo.lifemana.MaxLife;
+				DeltaUpdateLife(deltalife);
 
 				float deltaMana = (it->second.Info.Effect * _currentinfo.lifemana.MaxMana / 100.0f);
-				_currentinfo.lifemana.CurrentMana += deltaMana;
-				if(_currentinfo.lifemana.CurrentMana > _currentinfo.lifemana.MaxMana)
-					_currentinfo.lifemana.CurrentMana = _currentinfo.lifemana.MaxMana;
+				DeltaUpdateMana(deltaMana);
 
 				used = true;
 				updatelife = true;
@@ -1021,9 +1013,7 @@ bool PlayerHandler::ConsumeItem(long ItemId)
 					return updatelife; // do nothing if life is full
 
 				float deltalife = it->second.Info.Effect;
-				_currentinfo.lifemana.CurrentLife += deltalife;
-				if(_currentinfo.lifemana.CurrentLife > _currentinfo.lifemana.MaxLife)
-					_currentinfo.lifemana.CurrentLife = _currentinfo.lifemana.MaxLife;
+				DeltaUpdateLife(deltalife);
 
 				used = true;
 				updatelife = true;
@@ -1035,9 +1025,7 @@ bool PlayerHandler::ConsumeItem(long ItemId)
 					return updatelife; // do nothing if mana is full
 
 				float deltaMana = it->second.Info.Effect;
-				_currentinfo.lifemana.CurrentMana += deltaMana;
-				if(_currentinfo.lifemana.CurrentMana > _currentinfo.lifemana.MaxMana)
-					_currentinfo.lifemana.CurrentMana = _currentinfo.lifemana.MaxMana;
+				DeltaUpdateMana(deltaMana);
 
 				used = true;
 				updatelife = true;
@@ -1050,14 +1038,10 @@ bool PlayerHandler::ConsumeItem(long ItemId)
 					return updatelife; // do nothing if life & mana is full
 
 				float deltalife = it->second.Info.Effect;
-				_currentinfo.lifemana.CurrentLife += deltalife;
-				if(_currentinfo.lifemana.CurrentLife > _currentinfo.lifemana.MaxLife)
-					_currentinfo.lifemana.CurrentLife = _currentinfo.lifemana.MaxLife;
+				DeltaUpdateLife(deltalife);
 
 				float deltaMana = it->second.Info.Effect;
-				_currentinfo.lifemana.CurrentMana += deltaMana;
-				if(_currentinfo.lifemana.CurrentMana > _currentinfo.lifemana.MaxMana)
-					_currentinfo.lifemana.CurrentMana = _currentinfo.lifemana.MaxMana;
+				DeltaUpdateMana(deltaMana);
 
 				used = true;
 				updatelife = true;

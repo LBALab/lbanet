@@ -94,10 +94,10 @@ void EventsSenderToAll::run()
 /***********************************************************
 constructor
 ***********************************************************/
-MapHandler::MapHandler(const MapInfo & mapinfo, 
+MapHandler::MapHandler(const std::string & worldname, const MapInfo & mapinfo, 
 						const std::string & mapluafilename,
 						const std::string & customluafilename)
-: _Trunning(false), _mapinfo(mapinfo)
+: _Trunning(false), _mapinfo(mapinfo), _worldname(worldname)
 {
 	// initialize the gui handlers
 	_guihandlers["CommunityBox"] = boost::shared_ptr<ServerGUIBase>(new CommunityBoxHandler());
@@ -387,7 +387,7 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts)
 				LbaNet::UpdateStateEvent* castedptr = 
 					dynamic_cast<LbaNet::UpdateStateEvent *>(&obj);
 
-				ChangePlayerState(it->first, castedptr->NewState, castedptr->FallingSize);
+				ChangePlayerState(it->first, castedptr->NewState, castedptr->FallingSize, 5, -1);
 				continue;
 			}
 
@@ -875,6 +875,10 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 				if(lastevent)
 					toplayer.push_back(lastevent);
 
+				LbaNet::ClientServerEventBasePtr attachevent = itact->second->AttachActorEvent();
+				if(attachevent)
+					toplayer.push_back(attachevent);
+
 			}
 		}
 	}
@@ -994,7 +998,7 @@ void MapHandler::OpenInventoryContainer(long clientid, long itemid)
 change player state
 ***********************************************************/
 void MapHandler::ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, float FallingSize,
-																						bool fromserver)
+										int EventType, long ActorId, bool fromserver)
 {
 	LbaNet::ModelInfo currinfo = GetPlayerModelInfo(id);
 
@@ -1010,8 +1014,25 @@ void MapHandler::ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, fl
 			if(NewState == LbaNet::StHurtFall)
 			{
 				if(FallingSize > 0)
-					DeltaUpdateLife(id, -FallingSize*_mapinfo.HurtFallFactor);
+					DeltaUpdateLife(id, -FallingSize*_mapinfo.HurtFallFactor, 2, -1);
 			}
+
+			// record death by drowning
+			if(NewState == LbaNet::StDrowning || NewState == LbaNet::StDrowningGas || NewState == LbaNet::StBurning)
+			{
+				boost::shared_ptr<DatabaseHandlerBase> dbh = SharedDataHandler::getInstance()->GetDatabase();
+				if(dbh)
+					dbh->RecordKill(_worldname, (long)id, 6, -1);
+			}
+
+			// record death
+			if(NewState == LbaNet::StDying)
+			{
+				boost::shared_ptr<DatabaseHandlerBase> dbh = SharedDataHandler::getInstance()->GetDatabase();
+				if(dbh)
+					dbh->RecordKill(_worldname, (long)id, EventType, ActorId);
+			}
+
 
 			// execute delayed actions
 			std::map<Ice::Long, DelayedAction>::iterator itact = _delayedactions.find(id);
@@ -2166,7 +2187,7 @@ void MapHandler::RemoveEphemere(Ice::Long clientid)
 //! update player life
 //! return true if no life
 ***********************************************************/
-bool MapHandler::DeltaUpdateLife(Ice::Long clientid, float update)
+bool MapHandler::DeltaUpdateLife(Ice::Long clientid, float update, int updatetype, long actorid)
 {
 	bool res = false;
 	{
@@ -2183,7 +2204,7 @@ bool MapHandler::DeltaUpdateLife(Ice::Long clientid, float update)
 	_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 							PlayerObject, clientid, new ObjectLifeInfoUpdate(GetPlayerLifeInfo(clientid))));
 	if(res)// die
-		ChangePlayerState(clientid, LbaNet::StDying, 0, true);
+		ChangePlayerState(clientid, LbaNet::StDying, 0, updatetype, actorid, true);
 
 
 
@@ -2594,11 +2615,11 @@ void MapHandler::HurtActor(int ObjectType, long ObjectId, float HurtValue, bool 
 				DeltaUpdateMana(ObjectId, -HurtValue);
 
 			if(PlayedAnimation == 1)
-				ChangePlayerState(ObjectId, LbaNet::StSmallHurt, 0, true);
+				ChangePlayerState(ObjectId, LbaNet::StSmallHurt, 0, 1, -1, true);
 			if(PlayedAnimation == 2)
-				ChangePlayerState(ObjectId, LbaNet::StMediumHurt, 0, true);
+				ChangePlayerState(ObjectId, LbaNet::StMediumHurt, 0, 1, -1, true);
 			if(PlayedAnimation == 3)
-				ChangePlayerState(ObjectId, LbaNet::StBigHurt, 0, true);
+				ChangePlayerState(ObjectId, LbaNet::StBigHurt, 0, 1, -1, true);
 		}
 		break;
 
@@ -2630,7 +2651,7 @@ void MapHandler::KillActor(int ObjectType, long ObjectId)
 
 		case 2: // player
 		{
-			ChangePlayerState(ObjectId, LbaNet::StDying, 0, true);
+			ChangePlayerState(ObjectId, LbaNet::StDying, 0, 1, -1, true);
 		}
 		break;
 
@@ -3129,7 +3150,34 @@ get actor info
 ***********************************************************/
 boost::shared_ptr<DynamicObject> MapHandler::GetActor(int ObjectType, long ObjectId)
 {
-	//TODO - get actor info 
+	if(ObjectType == 1)
+	{
+		std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator it = _Actors.find(ObjectId);
+		if(it != _Actors.end())
+			return it->second->GetActor();
+	}
+
 	return boost::shared_ptr<DynamicObject>();
 }
 
+
+
+/***********************************************************
+AttachActor
+***********************************************************/
+void MapHandler::AttachActor(long ActorId, int AttachedObjectType, long AttachedObjectId)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator it = _Actors.find(ActorId);
+	if(it != _Actors.end())
+		return it->second->AttachActor(AttachedObjectType, AttachedObjectId);
+}
+
+/***********************************************************
+DettachActor
+***********************************************************/
+void MapHandler::DettachActor(long ActorId, long AttachedObjectId)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator it = _Actors.find(ActorId);
+	if(it != _Actors.end())
+		return it->second->DettachActor(AttachedObjectId);
+}

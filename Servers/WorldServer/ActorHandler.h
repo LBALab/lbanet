@@ -321,6 +321,18 @@ public:
 	//! get last actor event
 	LbaNet::ClientServerEventBasePtr GetLastEvent();
 
+	// AttachActor
+	void AttachActor(int AttachedObjectType, long AttachedObjectId);
+
+	// DettachActor
+	void DettachActor(long AttachedObjectId);
+
+
+	//! get last actor event
+	LbaNet::ClientServerEventBasePtr AttachActorEvent();
+
+
+
 #ifdef _USE_QT_EDITOR_
 public:
 	std::vector<int>		initpolycolors;
@@ -390,6 +402,10 @@ protected:
 	std::string											m_saved_model;
 
 	LbaNet::NpcChangedEventPtr							m_lastevent;
+
+	int													m_attachedactortype;
+	long												m_attachedactorid;
+
 };
 
 #endif

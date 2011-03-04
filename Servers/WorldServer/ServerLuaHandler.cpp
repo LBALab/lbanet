@@ -270,8 +270,12 @@ ServerLuaHandler::ServerLuaHandler()
 
 		luabind::class_<ActorScriptPart_ShowHide, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPShowHide")
 		.def(luabind::constructor<bool>()),
-		
 
+		luabind::class_<ActorScriptPart_AttachToActor, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPAttachToActor")
+		.def(luabind::constructor<int, long>()),		
+
+		luabind::class_<ActorScriptPart_DetachFromActor, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPDetachFromActor")
+		.def(luabind::constructor<long>()),
 		
 
 		luabind::class_<ActorHandler, boost::shared_ptr<ActorHandler> >("ActorHandler")
@@ -346,7 +350,9 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("ChapterStarted", &ScriptEnvironmentBase::ChapterStarted)
 		.def("OpenShop", &ScriptEnvironmentBase::OpenShop)
 		.def("AddSpawn", &ScriptEnvironmentBase::AddSpawn)
-		.def("OpenMailbox", &ScriptEnvironmentBase::OpenMailbox),
+		.def("OpenMailbox", &ScriptEnvironmentBase::OpenMailbox)
+		.def("AttachActor", &ScriptEnvironmentBase::AttachActor)
+		.def("DettachActor", &ScriptEnvironmentBase::DettachActor),
 
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),
