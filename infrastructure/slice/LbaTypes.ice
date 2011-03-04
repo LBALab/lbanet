@@ -749,8 +749,20 @@ module LbaNet
 		int				NewColor;		
 	};
 	
+	// server inform clients that life info changed
+	class ObjectColorUpdate extends DisplayObjectUpdateBase
+	{
+		float				R;
+		float				G;
+		float				B;
+		float				A;		
+	};	
 	
-	
+	// server inform clients that life info changed
+	class ObjectAlphaColorUpdate extends DisplayObjectUpdateBase
+	{
+		float				A;		
+	};	
 	
 	
 	// base class for all editor update
@@ -858,6 +870,8 @@ module LbaNet
 		ModelInfo		DisplayDesc;
 		ObjectPhysicDesc	PhysicDesc;
 		long			ManagingClientId;
+		
+		float			Power;
 		
 	
 		float			ForceX;
