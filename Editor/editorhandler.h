@@ -537,6 +537,22 @@ public:
 	virtual boost::shared_ptr<DynamicObject> GetActor(int ObjectType, long ObjectId)
 	{return boost::shared_ptr<DynamicObject>();}
 
+
+	// AttachActor
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void AttachActor(long ActorId, int AttachedObjectType, long AttachedObjectId){}
+
+	// DettachActor
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void DettachActor(long ActorId, long AttachedObjectId){}
+
+
 public slots:
 	 //! ui button clicked
      void addtrigger_button_clicked();

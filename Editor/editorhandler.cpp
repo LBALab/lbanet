@@ -1167,7 +1167,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 			<< "ASPStartWaypoint" << "ASPFollowWaypoint"
 			<< "ASPChangeAnimation" << "ASPChangeModel" << "ASPChangeOutfit" << "ASPChangeWeapon" 
 			<< "ASPChangeMode" << "ASPWaitForSignal" << "ASPSendSignal"  
-			<< "ASPShowHide" << "ASPCustom";
+			<< "ASPShowHide" << "ASPCustom" << "ASPAttachToActor" << "ASPDetachFromActor";
 
 	_actorscriptparttypeList->setStringList(scptypel);
 
