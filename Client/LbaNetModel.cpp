@@ -145,7 +145,15 @@ void LbaNetModel::Process(double tnow, float tdiff)
 	while(itproj != _projectileObjects.end())
 	{
 		if(itproj->second->Process(tnow, tdiff))
+		{
+			if(itproj->second->IsPlayerOwner(m_playerObjectId))
+			{
+				if(m_controllerChar)
+					m_controllerChar->SetProjectileLaunched(false);
+			}
+
 			itproj = _projectileObjects.erase(itproj);
+		}
 		else
 			++itproj;
 	}
@@ -353,7 +361,7 @@ void LbaNetModel::CleanupMap()
 
 	//clear scripts
 	m_playingscriptactors.clear();
-
+	m_controllerChar->SetProjectileLaunched(false);
 
 	#ifdef _USE_QT_EDITOR_
 	_editorObjects.clear();
@@ -1575,11 +1583,11 @@ void LbaNetModel::CreateProjectile(const LbaNet::ProjectileInfo & Info)
 
 	// projectile should not touch creator
 	boost::shared_ptr<PhysicalObjectHandlerBase> physobj = dynobj->GetPhysicalObject();
+	boost::shared_ptr<PhysicalObjectHandlerBase> ownerobj;
 	if(physobj)
 	{
 		if(Info.OwnerActorId >= 0)
 		{
-			boost::shared_ptr<PhysicalObjectHandlerBase> ownerobj;
 			switch(Info.OwnerActorType)
 			{
 				// 1 -> npc object
@@ -1597,7 +1605,13 @@ void LbaNetModel::CreateProjectile(const LbaNet::ProjectileInfo & Info)
 					//special treatment if main player
 					if(m_playerObjectId == (long)Info.OwnerActorId)
 					{
-						ownerobj = m_controllerChar->GetPhysicalObject();
+						if(m_controllerChar)
+						{
+							if(Info.Comeback)
+								m_controllerChar->SetProjectileLaunched(true);
+
+							ownerobj = m_controllerChar->GetPhysicalObject();
+						}
 					}
 					else
 					{
@@ -1606,17 +1620,13 @@ void LbaNetModel::CreateProjectile(const LbaNet::ProjectileInfo & Info)
 							ownerobj = it->second->GetPhysicalObject();
 					}
 				break;
-
 			}
-
-			if(ownerobj)
-				physobj->IgnoreCollisionWith(ownerobj.get());
 		}
 	}
 
 	//create projectile handler
 	_projectileObjects[(long)Info.Id] = boost::shared_ptr<ProjectileHandler>(
-		new ProjectileHandler(dynobj, Info, Info.ManagingClientId == m_playerObjectId));
+		new ProjectileHandler(dynobj, Info, Info.ManagingClientId == m_playerObjectId, ownerobj));
 }
 
 

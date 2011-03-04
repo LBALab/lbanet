@@ -137,6 +137,11 @@ public:
 	//! reset script
 	void ResetScript();
 
+	//! set projectile launched
+	void SetProjectileLaunched(bool launched)
+	{_projectilelaunched = launched;}
+
+
 protected:
 
 	//! check if we need to send update to server
@@ -151,6 +156,8 @@ protected:
 								double tnow,
 								float FallingSize = 0);
 
+	//! weapon used
+	void WeaponUsed();
 
 private:
 	boost::shared_ptr<CharacterModeBase>		_currentmode;
@@ -170,6 +177,8 @@ private:
 	// used for fall down check
 	bool										_chefkiffall;
 	float										_ycheckiffall;
+
+	bool										_projectilelaunched;
 
 };
 

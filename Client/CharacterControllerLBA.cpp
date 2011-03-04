@@ -45,7 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	Constructor
 ***********************************************************/
 CharacterController::CharacterController()
-: _isGhost(false), _lastupdatetime(0), _forcedghost(false)
+: _isGhost(false), _lastupdatetime(0), _forcedghost(false), _projectilelaunched(false)
 {
 
 }
@@ -149,8 +149,16 @@ void CharacterController::KeyPressed(LbanetKey keyid)
 			_pressedkeys._keyaction = true;
 		}
 		break;
+
+		case LbanetKey_Weapon:
+		{
+			_pressedkeys._keyweapon = true;
+		}
+		break;
+
 	}
 }
+
 
 /***********************************************************
 key released
@@ -198,6 +206,12 @@ void CharacterController::KeyReleased(LbanetKey keyid)
 		case LbanetKey_Action:
 		{
 			_pressedkeys._keyaction = false;
+		}
+		break;
+
+		case LbanetKey_Weapon:
+		{
+			_pressedkeys._keyweapon = false;
 		}
 		break;
 	}
@@ -592,6 +606,11 @@ void CharacterController::Process(double tnow, float tdiff,
 	LbaNet::ModelState newstate;
 	if(!_chefkiffall && !changedstate && _currentmode && _currentmode->ChangeState(_currentstatestr, _pressedkeys, newstate))
 		UpdateModeAndState(_currentmodestr, newstate, tnow);
+
+
+	// process weapon
+	if(_pressedkeys._keyweapon)
+		WeaponUsed();
 
 
 	// update server if needed
@@ -1153,4 +1172,17 @@ void CharacterController::ShowHide(bool Show)
 																		LbaNet::PlayerObject, -1, Show));
 	}
 }
+
+
+/***********************************************************
+show/hide
+***********************************************************/
+void CharacterController::WeaponUsed()
+{
+	if(_currentstate && _currentstate->CanUseWeapon() && !_projectilelaunched)
+	{
+		UpdateState(StUseWeapon);	
+	}
+}
+
 

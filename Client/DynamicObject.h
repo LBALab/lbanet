@@ -63,6 +63,12 @@ public:
 	boost::shared_ptr<DisplayObjectHandlerBase> GetDisplayObject()
 	{ return _disH;}
 
+
+	//! get physical object
+	void SetPhysicalObject(boost::shared_ptr<PhysicalObjectHandlerBase> newP)
+	{_phH = newP;}
+
+
 	//! show or hide the object
 	void ShowOrHide(bool Show)
 	{

@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <boost/shared_ptr.hpp>
 #include <LbaTypes.h>
 class DynamicObject;
+class PhysicalObjectHandlerBase;
 
 
 /*
@@ -41,7 +42,8 @@ public:
 	//constructor
 	ProjectileHandler(boost::shared_ptr<DynamicObject> obje,
 						const LbaNet::ProjectileInfo & Info,
-						bool Manage);
+						bool Manage,
+						boost::shared_ptr<PhysicalObjectHandlerBase> ownerobj);
 
 	//destructor
 	~ProjectileHandler();
@@ -51,12 +53,17 @@ public:
 	// return true if projectile should be destroyed
 	virtual bool Process(double tnow, float tdiff);
 
+	//! check if player is the owner
+	bool IsPlayerOwner(long id);
 
 private:
 	boost::shared_ptr<DynamicObject>	_obje;
 	 LbaNet::ProjectileInfo				_projInfo;
 	 bool								_Manage;
 	 int								_bounced;
+	 bool								_comingback;
+
+	 boost::shared_ptr<PhysicalObjectHandlerBase>	_ownerobj;
 };
 
 

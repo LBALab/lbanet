@@ -471,8 +471,7 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 				// weapon key
 				if(kkk == _keymap[LbanetKey_Weapon])
 				{
-					EventsQueue::getSenderQueue()->AddEvent(new LbaNet::PressedWeaponKeyEvent(
-						SynchronizedTimeHandler::GetCurrentTimeDouble()));
+					EventsQueue::getReceiverQueue()->AddEvent(new PlayerKeyPressedEvent(LbanetKey_Weapon));		
 
 					return true;	
 				}
@@ -735,6 +734,15 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 				{
 					EventsQueue::getReceiverQueue()->AddEvent(new PlayerKeyReleasedEvent(LbanetKey_Action));
 					
+					return true;	
+				}
+
+
+				// weapon key
+				if(kkk == _keymap[LbanetKey_Weapon])
+				{
+					EventsQueue::getReceiverQueue()->AddEvent(new PlayerKeyReleasedEvent(LbanetKey_Weapon));		
+
 					return true;	
 				}
 
