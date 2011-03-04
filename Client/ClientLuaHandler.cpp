@@ -81,6 +81,8 @@ ClientLuaHandler::ClientLuaHandler()
 		.def("Async_ActorRotateFromPoint", &ScriptEnvironmentBase::Async_ActorRotateFromPoint)
 		.def("Async_ActorFollowWaypoint", &ScriptEnvironmentBase::Async_ActorFollowWaypoint)
 		.def("ActorShowHide", &ScriptEnvironmentBase::ActorShowHide)
+		.def("AttachActor", &ScriptEnvironmentBase::AttachActor)
+		.def("DettachActor", &ScriptEnvironmentBase::DettachActor)
 		];
 	}
 	catch(const std::exception &error)

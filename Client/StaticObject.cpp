@@ -78,17 +78,8 @@ synchronization function - will typically be called on every frames
 ***********************************************************/
 int StaticObject::Process(double time, float tdiff)
 {
-	#ifndef _LBANET_SERVER_SIDE_
 	if(_phH)
-	{
-		boost::shared_ptr<ActorUserData> udata =  _phH->GetUserData();
-		if(udata)
-		{
-			udata->SetMove(0, 0, 0);
-			udata->SetRotation(0);
-		}
-	}
-	#endif
+		_phH->ResetMove();
 
 	if(_disH)
 		return _disH->Process(time, tdiff);

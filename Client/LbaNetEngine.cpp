@@ -813,6 +813,32 @@ void LbaNetEngine::HandleGameEvents()
 
 			continue;
 		}
+
+		// GuiRefreshPlayerColorEvent
+		if(info == typeid(GuiRefreshPlayerColorEvent))
+		{
+			GuiRefreshPlayerColorEvent* castedptr = 
+				static_cast<GuiRefreshPlayerColorEvent *>(&obj);
+
+			if(m_gui_handler)
+				m_gui_handler->RefreshPlayerColor(castedptr->_skincolor, castedptr->_eyescolor, castedptr->_haircolor);
+
+			continue;
+		}
+
+
+		// DestroyProjectileEvent
+		if(info == typeid(LbaNet::NpcAttachActorEvent))
+		{
+			LbaNet::NpcAttachActorEvent* castedptr = 
+				dynamic_cast<LbaNet::NpcAttachActorEvent *>(&obj);
+
+			if(m_lbaNetModel)
+				m_lbaNetModel->NpcAttachActor((long)castedptr->NpcId, castedptr->AttachedType, (long)castedptr->AttachedId);
+
+			continue;
+		}
+
 		
 	}
 }

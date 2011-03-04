@@ -66,14 +66,7 @@ int WorldToDisplayObjectSynchronizer::Process(double time, float tdiff)
 	StraightSync();
 
 	if(_phH)
-	{
-		boost::shared_ptr<ActorUserData> udata =  _phH->GetUserData();
-		if(udata)
-		{
-			udata->SetMove(0, 0, 0);
-			udata->SetRotation(0);
-		}
-	}
+		_phH->ResetMove();
 
 	if(_disH)
 		return _disH->Process(time, tdiff);

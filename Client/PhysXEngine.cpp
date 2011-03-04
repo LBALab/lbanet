@@ -962,34 +962,23 @@ void PhysXEngine::IgnoreActorContact(NxActor* actor1, NxActor* actor2)
 	gScene->setActorPairFlags(*actor1, *actor2, NX_IGNORE_PAIR);
 }
 
-
 /***********************************************************
-perform small raycast to find what actor is below
+check fi actor 1 is on top of actor2
 ***********************************************************/
-bool PhysXEngine::RayCast(NxController* Controller, float maxdistance, HitInfo &hinfo)
+bool PhysXEngine::CheckOnTopOff(NxActor* actor1, NxActor* actor2)
 {
-	NxExtendedVec3 vec = Controller->getPosition();
-	NxVec3 pos(vec.x, vec.y+maxdistance+0.01f, vec.z);
+	if(!actor1 || !actor2)
+		return false;
+
+	if(actor2->getNbShapes() < 1)
+		return false;
+
+	NxVec3 pos = actor1->getGlobalPosition();
+	pos.y += 0.5f;
 	NxVec3 dir(0, -1,0);
 	NxRay ray(pos, dir);
-
 	NxRaycastHit hit;
-	NxShape* hittedshape = gScene->raycastClosestShape(ray, NX_ALL_SHAPES, hit, COLLIDABLE_MASK, maxdistance+0.02f);
-	if(hittedshape)
-	{
-		NxActor& actor = hittedshape->getActor();
-		ActorUserData * data = (ActorUserData *)actor.userData;
-		if(data)
-		{
-			hinfo.ActorId = data->GetActorId();
-			hinfo.ActorObjType = data->GetActorObjType();
-			hinfo.ActorPhysType = data->GetActorType();
-			hinfo.HitBottom = true;
-			return true;
-		}
-	}
-
-	return false;
+	return (*actor2->getShapes())->raycast(ray, 1, 0, hit, true);
 }
 	 
 

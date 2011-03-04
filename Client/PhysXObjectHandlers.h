@@ -58,6 +58,12 @@ public:
 	//! get last rotation
 	virtual float GetLastRotation();
 
+	//! reset last move
+	virtual void ResetMove();
+
+	//! check if actor is on top of other
+	virtual bool OnTopOff(PhysicalObjectHandlerBase * actor);
+
 protected:
 	boost::shared_ptr<ActorUserData>	_UserData;
 };

@@ -876,7 +876,7 @@ void LbaNetModel::NpcChangedUpdate(Ice::Long NpcId, double updatetime,
 	if(it != _npcObjects.end())
 	{
 		it->second->NpcChangedUpdate(updatetime, CurrPosX, CurrPosY, CurrPosZ, CurrRotation,
-										CurrAnimation, ResetPosition, ResetRotation, Update);
+										CurrAnimation, ResetPosition, ResetRotation, Update, this);
 	}
 }
 
@@ -1676,6 +1676,56 @@ boost::shared_ptr<DynamicObject> LbaNetModel::GetActor(int ObjectType, long Obje
 	}
 
 	return boost::shared_ptr<DynamicObject>();
+}
+
+
+
+/***********************************************************
+AttachActor
+***********************************************************/
+void LbaNetModel::AttachActor(long ActorId, int AttachedObjectType, long AttachedObjectId)
+{
+	//special treatment if main player
+	if(ActorId < 0)
+	{
+		m_controllerChar->SetAttached(GetActor(AttachedObjectType, AttachedObjectId));
+	}
+	else
+	{
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find((long)ActorId);
+		if(it != _npcObjects.end())
+			it->second->SetAttached(GetActor(AttachedObjectType, AttachedObjectId));
+	}
+}
+
+/***********************************************************
+DettachActor
+***********************************************************/
+void LbaNetModel::DettachActor(long ActorId, long AttachedObjectId)
+{
+	//special treatment if main player
+	if(ActorId < 0)
+	{
+		m_controllerChar->SetAttached(boost::shared_ptr<DynamicObject>());
+	}
+	else
+	{
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find((long)ActorId);
+		if(it != _npcObjects.end())
+			it->second->SetAttached(boost::shared_ptr<DynamicObject>());
+	}
+}
+
+
+
+/***********************************************************
+attached actor to npc
+***********************************************************/
+void LbaNetModel::NpcAttachActor(long NpcId, int AttachedObjectType, long AttachedObjectId)
+{
+	std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find((long)NpcId);
+	if(it != _npcObjects.end())
+		it->second->ServerAttachActor(GetActor(AttachedObjectType, AttachedObjectId));
 }
 
 

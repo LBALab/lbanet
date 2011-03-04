@@ -221,7 +221,24 @@ void CharacterController::Process(double tnow, float tdiff,
 	LbaNet::ModelState _currentstatestr = SharedDataHandler::getInstance()->GetMainState();
 	if(_currentstatestr == LbaNet::StScripted)
 	{
-		ProcessScript(tnow, tdiff, scripthandler);
+		// process script
+		if(!ProcessScript(tnow, tdiff, scripthandler))
+		{
+			// if not moved check attached
+			if(_attachedactor)
+			{
+				boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+				boost::shared_ptr<PhysicalObjectHandlerBase> attchedphys = _attachedactor->GetPhysicalObject();
+				if(physo && attchedphys)
+				{
+					physo->RotateYAxis(attchedphys->GetLastRotation());
+
+					float addspeedX=0, addspeedY=0, addspeedZ=0;
+					attchedphys->GetLastMove(addspeedX, addspeedY, addspeedZ);
+					physo->Move(addspeedX, addspeedY, addspeedZ);
+				}
+			}
+		}
 
 		// update server if needed
 		UpdateServer(tnow, tdiff);
@@ -422,9 +439,15 @@ void CharacterController::Process(double tnow, float tdiff,
 		else
 		{
 			//todo - check if we are still on the actor
-
-			checkgravity = false;
-			speedY = addspeedY;
+			if(physo->OnTopOff(attchedphys.get()))
+			{
+				checkgravity = false;
+				speedY = addspeedY;
+			}
+			else
+			{
+				_attachedactor = boost::shared_ptr<DynamicObject>(); // dettach actor
+			}
 		}
 	}
 
@@ -1089,7 +1112,9 @@ update signal
 ***********************************************************/
 void CharacterController::SendSignal(int Signalnumber)
 {
-	_character->AddSignal(Signalnumber);
+	LbaNet::ModelState _currentstatestr = SharedDataHandler::getInstance()->GetMainState();
+	if(_currentstatestr == LbaNet::StScripted) // only if in scripted state
+		_character->AddSignal(Signalnumber);
 }
 
 

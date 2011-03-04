@@ -139,9 +139,9 @@ public:
 	//! ignore collision for a pair of actor
 	void IgnoreActorContact(NxActor* actor1, NxActor* actor2);
 
+	//! check fi actor 1 is on top of actor2
+	bool CheckOnTopOff(NxActor* actor1, NxActor* actor2);
 
-	//! perform small raycast to find what actor is behind
-	bool RayCast(NxController* Controller, float maxdistance, HitInfo &hinfo);
 
 protected:
 	//! constructor

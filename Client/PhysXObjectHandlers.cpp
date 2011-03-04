@@ -64,6 +64,35 @@ float PhysXObjectHandlerBase::GetLastRotation()
 }
 
 
+/***********************************************************
+reset last move
+***********************************************************/
+void PhysXObjectHandlerBase::ResetMove()
+{
+	if(_UserData)
+	{
+		_UserData->SetMove(0, 0, 0);
+		_UserData->SetRotation(0);
+	}
+}
+
+
+/***********************************************************
+check if actor is on top of other
+***********************************************************/
+bool PhysXObjectHandlerBase::OnTopOff(PhysicalObjectHandlerBase * actor)
+{
+	if(actor)
+	{
+		NxActor* my = GetphysXInternalActor();
+		NxActor* other = actor->GetphysXInternalActor();
+		return PhysXEngine::getInstance()->CheckOnTopOff(my, other);
+	}
+
+	return false;
+}
+
+
 
 
 /***********************************************************

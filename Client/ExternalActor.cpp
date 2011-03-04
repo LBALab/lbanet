@@ -26,6 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "SynchronizedTimeHandler.h"
 #include "LogHandler.h"
 #include "SharedDataHandler.h"
+#include "ScriptEnvironmentBase.h"
+
 
 #include <math.h>
 
@@ -55,7 +57,8 @@ void ExternalActor::NpcChangedUpdate(double updatetime,
 									float CurrPosX, float CurrPosY, float CurrPosZ,
 									float CurrRotation, const std::string &CurrAnimation,
 									bool ResetPosition, bool ResetRotation,
-									LbaNet::NpcUpdateBasePtr Update)
+									LbaNet::NpcUpdateBasePtr Update, 
+									ScriptEnvironmentBase* scripthandler)
 {
 	// update only newest info
 	if(updatetime < _last_update)
@@ -113,7 +116,10 @@ void ExternalActor::NpcChangedUpdate(double updatetime,
 
 	// update the script part
 	if(!Update)
+	{
+		_currentScripts = boost::shared_ptr<ScriptPartBase>();
 		return;
+	}
 
 
 	LbaNet::NpcUpdateBase & obj = *Update;
@@ -203,6 +209,7 @@ void ExternalActor::NpcChangedUpdate(double updatetime,
 			FollowWaypointScriptPart(0, false, Pm1X, P0, P1, P2, P3, P4));
 		return;
 	}
+
 }
 
 
@@ -215,6 +222,8 @@ void ExternalActor::Process(double tnow, float tdiff,
 {
 	if(!_playingscript)
 	{
+		bool moved = false;
+
 		if(_currentScripts)	
 		{
 			_character->SetAdditionalMoves(_differencePosX/10, _differencePosY/10, 
@@ -226,16 +235,54 @@ void ExternalActor::Process(double tnow, float tdiff,
 			_differenceRotation -= _differenceRotation/5;
 
 
-			bool finished = _currentScripts->Process(tnow, tdiff, _character);
+			bool finished = _currentScripts->Process(tnow, tdiff, _character, moved);
 			if(finished)
 				_currentScripts = boost::shared_ptr<ScriptPartBase>();
 		}
 		else
+		{
 			_character->Process(tnow, tdiff);
+		}
+
+		if(!moved)
+		{
+			// move with attached actor
+			if(_externalattachedactor)
+			{
+				boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+				boost::shared_ptr<PhysicalObjectHandlerBase> attchedphys = _externalattachedactor->GetPhysicalObject();
+				if(physo && attchedphys)
+				{
+					physo->RotateYAxis(attchedphys->GetLastRotation());
+
+					float addspeedX=0, addspeedY=0, addspeedZ=0;
+					attchedphys->GetLastMove(addspeedX, addspeedY, addspeedZ);
+					physo->Move(addspeedX, addspeedY, addspeedZ);
+				}
+			}
+		}
 	}
 	else
-		ProcessScript(tnow, tdiff, scripthandler);
+	{
+		// process script
+		if(!ProcessScript(tnow, tdiff, scripthandler))
+		{
+			// if not moved check attached
+			if(_attachedactor)
+			{
+				boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+				boost::shared_ptr<PhysicalObjectHandlerBase> attchedphys = _attachedactor->GetPhysicalObject();
+				if(physo && attchedphys)
+				{
+					physo->RotateYAxis(attchedphys->GetLastRotation());
 
+					float addspeedX=0, addspeedY=0, addspeedZ=0;
+					attchedphys->GetLastMove(addspeedX, addspeedY, addspeedZ);
+					physo->Move(addspeedX, addspeedY, addspeedZ);
+				}
+			}
+		}
+	}
 }
 
 
@@ -288,4 +335,13 @@ void ExternalActor::UnTarget()
 		_targetsavedScripts = boost::shared_ptr<ScriptPartBase>();
 		_targetting = false;
 	}
+}
+
+	
+/***********************************************************
+server attach actor
+***********************************************************/
+void ExternalActor::ServerAttachActor(boost::shared_ptr<DynamicObject> actor)
+{
+	_externalattachedactor = actor;
 }

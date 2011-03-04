@@ -361,6 +361,27 @@ public:
 	//! get actor info
 	virtual boost::shared_ptr<DynamicObject> GetActor(int ObjectType, long ObjectId);
 
+
+	// AttachActor
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void AttachActor(long ActorId, int AttachedObjectType, long AttachedObjectId);
+
+	// DettachActor
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void DettachActor(long ActorId, long AttachedObjectId);
+
+
+
+	//! attached actor to npc
+	void NpcAttachActor(long NpcId, int AttachedObjectType, long AttachedObjectId);
+
+
 protected:
 
 	//! clean up map

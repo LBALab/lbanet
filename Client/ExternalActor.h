@@ -49,7 +49,8 @@ public:
 									float CurrPosX, float CurrPosY, float CurrPosZ,
 									float CurrRotation, const std::string &CurrAnimation,
 									bool ResetPosition, bool ResetRotation,
-									LbaNet::NpcUpdateBasePtr Update);
+									LbaNet::NpcUpdateBasePtr Update, 
+									ScriptEnvironmentBase* scripthandler);
 
 
 	// do all check to be done when idle
@@ -64,6 +65,9 @@ public:
 
 	//! untarget
 	void UnTarget();
+	
+	//! server attach actor
+	void ServerAttachActor(boost::shared_ptr<DynamicObject> actor);
 
 private:
 	boost::shared_ptr<ScriptPartBase>			_currentScripts;
@@ -78,6 +82,8 @@ private:
 	bool										_targetting;
 	boost::shared_ptr<ScriptPartBase>			_targetsavedScripts;
 	float										_targetsavedangle;
+
+	boost::shared_ptr<DynamicObject>			_externalattachedactor;
 
 };
 
