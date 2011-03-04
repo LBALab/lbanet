@@ -226,6 +226,16 @@ module LbaNet
 	};
 	
 	
+	// server inform other that a npc moved
+	class NpcAttachActorEvent extends ClientServerEventBase
+	{
+		long			NpcId;	
+	
+		int 			AttachedType;
+		long 			AttachedId;	
+	};	
+	
+	
 	
 	// server send signal to client's player
 	class SendSignalEvent extends ClientServerEventBase
