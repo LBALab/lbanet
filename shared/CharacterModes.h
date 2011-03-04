@@ -44,6 +44,7 @@ public:
 		_keyup = false;
 		_keydown = false;
 		_keyaction = false;
+		_keyweapon = false;
 	}
 
 	bool										_keyforward;
@@ -53,6 +54,7 @@ public:
 	bool										_keyup;
 	bool										_keydown;
 	bool										_keyaction;
+	bool										_keyweapon;
 };
 
 

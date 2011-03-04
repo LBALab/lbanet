@@ -99,6 +99,9 @@ public:
 	
 	//! check if player is in dead state
 	virtual bool IsDead(){return false;}
+
+	//! check if can use weapon in this state
+	virtual bool CanUseWeapon(){return false;}
 };
 
 
@@ -143,6 +146,9 @@ public:
 
 	//! check if we can change state from this state
 	virtual bool ChangeLegal(LbaNet::ModelState NewState){return true;}
+
+	//! check if can use weapon in this state
+	virtual bool CanUseWeapon(){return true;}
 };
 
 
@@ -294,7 +300,7 @@ class StateProtectedHurt : public CharacterStateBase
 {
 public:
 	//! constructor
-	//! in normal immune can not be hurt or drown either 
+	//! in normal immune can not drown either 
 	StateProtectedHurt()
 	{}
 
@@ -324,6 +330,9 @@ public:
 
 	//! check if we can change state from this state
 	virtual bool ChangeLegal(LbaNet::ModelState NewState){return true;}
+
+	//! check if can use weapon in this state
+	virtual bool CanUseWeapon(){return true;}
 };
 
 

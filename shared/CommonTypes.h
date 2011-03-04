@@ -48,6 +48,11 @@ public:
 	//! distance between 2 vectors
 	float Distance(const LbaVec3 & v) const;
 
+	//! normalize vector
+	void Normalize();
+
+	//! get vector length
+	float Length();
 
 	float x;
 	float y;
