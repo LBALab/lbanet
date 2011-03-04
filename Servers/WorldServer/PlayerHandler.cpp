@@ -492,13 +492,16 @@ bool PlayerHandler::UpdatePlayerState(LbaNet::ModelState NewState,LbaNet::ModelI
 	//check if state is legal
 	if(_currentstate && _currentstate->ChangeLegal(NewState))
 	{
-		// if so check if already on this state
-		if(_currentinfo.model.State != NewState)
+		if(NewState != LbaNet::StUseWeapon || _currentstate->CanUseWeapon())
 		{
-			_currentinfo.model.State = NewState;
-			UpdateStateModeClass();
-			returnmodel = _currentinfo.model;
-			return true;
+			// if so check if already on this state
+			if(_currentinfo.model.State != NewState)
+			{
+				_currentinfo.model.State = NewState;
+				UpdateStateModeClass();
+				returnmodel = _currentinfo.model;
+				return true;
+			}
 		}
 	}
 
@@ -1118,6 +1121,10 @@ update player life
 ***********************************************************/
 bool PlayerHandler::DeltaUpdateLife(float update)
 {
+	//dont do anything on immune
+	if(update < 0 && _currentstate && _currentstate->IsImmuneHurt())
+		return false;
+
 	_currentinfo.lifemana.CurrentLife += update;
 	if(_currentinfo.lifemana.CurrentLife > _currentinfo.lifemana.MaxLife)
 		_currentinfo.lifemana.CurrentLife = _currentinfo.lifemana.MaxLife;

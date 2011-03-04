@@ -364,13 +364,6 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts)
 				continue;
 			}
 
-	
-			// PressedWeaponKeyEvent
-			if(info == typeid(LbaNet::PressedWeaponKeyEvent))
-			{
-				UseWeapon(it->first);
-				continue;
-			}
 
 
 			// RefreshObjectRequestEvent
@@ -1042,6 +1035,12 @@ void MapHandler::ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, fl
 				_delayedactions.erase(itact);
 				if(daction.action)
 					daction.action->Execute(this, 2, id, daction.args);
+			}
+
+			// check if use weapon
+			if(NewState == LbaNet::StUseWeapon)
+			{
+				UseWeapon(id);
 			}
 		}
 	}
@@ -2610,7 +2609,7 @@ void MapHandler::HurtActor(int ObjectType, long ObjectId, float HurtValue, bool 
 		case 2: // player
 		{
 			if(HurtLife)
-				DeltaUpdateLife(ObjectId, -HurtValue);
+				DeltaUpdateLife(ObjectId, -HurtValue, 1, -1);
 			else
 				DeltaUpdateMana(ObjectId, -HurtValue);
 
@@ -2959,6 +2958,7 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 
 		LbaNet::ProjectileInfo newProj;
 
+		newProj.Power = weaponinfo.Info.Effect;
 		newProj.OwnerActorType = 2;
 		newProj.OwnerActorId = PlayerId;	
 		newProj.Id = ((_launchedprojectiles.size() > 0) ? (_launchedprojectiles.rbegin()->first+1): 0);
@@ -3122,7 +3122,17 @@ void MapHandler::HittedProjectile(long PlayerId, long ProjectileId, int	TouchedA
 	{
 		if(itp->second.ManagingClientId == PlayerId)
 		{
-			//todo - hurt actors
+			if(TouchedActorType == 1)
+			{
+				//todo - hurt actors
+			}
+
+			if(TouchedActorType == 2)
+			{
+				// hurt the player
+				DeltaUpdateLife(TouchedActorId, -itp->second.Power, 4, PlayerId);
+				ChangePlayerState(TouchedActorId, LbaNet::StMediumHurt, 0, 1, -1, true);
+			}
 		}
 
 	}
