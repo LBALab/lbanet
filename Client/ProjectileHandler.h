@@ -57,13 +57,15 @@ public:
 	bool IsPlayerOwner(long id);
 
 private:
-	boost::shared_ptr<DynamicObject>	_obje;
-	 LbaNet::ProjectileInfo				_projInfo;
-	 bool								_Manage;
-	 int								_bounced;
-	 bool								_comingback;
+	bool											_launched;
+	boost::shared_ptr<DynamicObject>				_obje;
+	LbaNet::ProjectileInfo							_projInfo;
+	bool											_Manage;
+	int												_bounced;
+	bool											_comingback;
+	double											_startedball;
 
-	 boost::shared_ptr<PhysicalObjectHandlerBase>	_ownerobj;
+	boost::shared_ptr<PhysicalObjectHandlerBase>	_ownerobj;
 };
 
 

@@ -41,7 +41,7 @@ namespace IceUtil
 
 struct HitInfo
 {
-	LbaNet::ObjectTypeEnum			ActorObjType;
+	int			ActorObjType;
 	long							ActorId;
 	LbaNet::PhysicalActorType		ActorPhysType;
 	bool							HitBottom;
@@ -60,7 +60,7 @@ class ActorUserData
 {
 public:
 	//! constructor
-	ActorUserData(LbaNet::PhysicalActorType ActType, LbaNet::ObjectTypeEnum ActObj, long index);
+	ActorUserData(LbaNet::PhysicalActorType ActType, int ActObj, long index);
 
 	//! destructor
 	~ActorUserData();
@@ -70,8 +70,8 @@ public:
 	void				SetActorType(LbaNet::PhysicalActorType newv);
 
 
-	LbaNet::ObjectTypeEnum	GetActorObjType();
-	void				SetActorObjType(LbaNet::ObjectTypeEnum newv);
+	int	GetActorObjType();
+	void				SetActorObjType(int newv);
 
 
 	long				GetActorId(); 
@@ -121,7 +121,7 @@ private:
 
 
 
-	LbaNet::ObjectTypeEnum			ActObjType;
+	int			ActObjType;
 
 	// Actor type
 	// 1 = static

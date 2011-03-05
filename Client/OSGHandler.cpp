@@ -1627,6 +1627,49 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSimpleObject(const
 
 
 
+
+/***********************************************************
+create capsule object
+***********************************************************/
+boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSphereObject(float radius, 
+														float colorR, float colorG, float colorB, float colorA,
+														boost::shared_ptr<DisplayTransformation> Tr,
+														const LbaNet::ObjectExtraInfo &extrainfo,
+														const LbaNet::LifeManaInfo &lifeinfo)
+{
+	osg::ref_ptr<osg::Group> resnode = new osg::Group();
+
+	// create capsule
+	osg::ref_ptr<osg::Geode> capsuleGeode(new osg::Geode());
+	osg::ref_ptr<osg::Sphere> caps(new osg::Sphere(osg::Vec3(0,0,0),radius));
+	osg::ref_ptr<osg::ShapeDrawable> capsdraw = new osg::ShapeDrawable(caps);
+	capsdraw->setColor(osg::Vec4(colorR, colorG, colorB, colorA));
+	capsuleGeode->setName("Colorable");
+	capsuleGeode->addDrawable(capsdraw);
+	resnode->addChild(capsuleGeode);
+
+	osg::StateSet* stateset = capsuleGeode->getOrCreateStateSet();
+	stateset->setMode(GL_BLEND, osg::StateAttribute::ON);
+	stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+	stateset->setRenderBinDetails( 9000, "RenderBin");
+
+	if(Tr)
+	{
+		osg::ref_ptr<osg::PositionAttitudeTransform> transform = new osg::PositionAttitudeTransform();
+		transform->setPosition(osg::Vec3d(Tr->translationX, Tr->translationY, Tr->translationZ));
+		transform->setAttitude(osg::Quat(Tr->rotation.X, Tr->rotation.Y, Tr->rotation.Z, Tr->rotation.W));
+		transform->setScale(osg::Vec3d(Tr->scaleX, Tr->scaleY, Tr->scaleZ));
+
+		transform->addChild(resnode);
+		resnode = transform;
+	}
+	
+	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, false, false);
+	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat, false, extrainfo, lifeinfo));
+}
+
+
+
 /***********************************************************
 create capsule object
 ***********************************************************/
@@ -1643,6 +1686,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCapsuleObject(floa
 	osg::ref_ptr<osg::Capsule> caps(new osg::Capsule(osg::Vec3(0,0,0),radius,height));
 	osg::ref_ptr<osg::ShapeDrawable> capsdraw = new osg::ShapeDrawable(caps);
 	capsdraw->setColor(osg::Vec4(colorR, colorG, colorB, colorA));
+	capsuleGeode->setName("Colorable");
 	capsuleGeode->addDrawable(capsdraw);
 	resnode->addChild(capsuleGeode);
 
@@ -1683,6 +1727,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateBoxObject(float si
 	osg::ref_ptr<osg::Box> caps(new osg::Box(osg::Vec3(0,(sizey/2),0), sizex, sizey, sizez));
 	osg::ref_ptr<osg::ShapeDrawable> capsdraw = new osg::ShapeDrawable(caps);
 	capsdraw->setColor(osg::Vec4(colorR, colorG, colorB, colorA));
+	capsuleGeode->setName("Colorable");
 	capsuleGeode->addDrawable(capsdraw);
 	resnode->addChild(capsuleGeode);
 

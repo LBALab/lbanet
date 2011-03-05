@@ -88,7 +88,8 @@ public:
 	// 1 -> npc object
 	// 2 -> player object
 	// 3 -> ghost object
-	void AddObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId, 
+	// 4 -> editor object
+	void AddObject(int OType, Ice::Long ObjectId, 
 						const LbaNet::ModelInfo &DisplayDesc, 
 						const LbaNet::ObjectPhysicDesc &PhysicDesc,
 						const LbaNet::ObjectExtraInfo &extrainfo,
@@ -96,19 +97,18 @@ public:
 	
 	//! remove object from server	
 	//! type:
-	// 1 -> static object
-	// 2 -> server controlled
-	// 3 -> movable by player
-	// 4 -> player object
-	// 5 -> ghost object
-	void RemoveObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId);
+	// 1 -> npc object
+	// 2 -> player object
+	// 3 -> ghost object
+	// 4 -> editor object
+	void RemoveObject(int OType, Ice::Long ObjectId);
 
 	//! update object display
-	void UpdateObjectDisplay(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId, 
+	void UpdateObjectDisplay(int OType, Ice::Long ObjectId, 
 									  LbaNet::DisplayObjectUpdateBasePtr update);
 
 	//! update object physic
-	void UpdateObjectPhysic(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId, 
+	void UpdateObjectPhysic(int OType, Ice::Long ObjectId, 
 									  LbaNet::PhysicObjectUpdateBasePtr update);
 
 	//! key pressed
@@ -175,7 +175,8 @@ public:
 	// ObjectType ==>
 	//! 1 -> npc object
 	//! 2 -> player object
-	//! 3 -> movable object
+	//! 3 -> ghost object
+	//! 4 -> editor object
 	virtual void Teleport(int ObjectType, long ObjectId,
 							const std::string &NewMapName, long SpawningId,
 							float offsetX, float offsetY, float offsetZ){}
@@ -185,7 +186,8 @@ public:
 	// ObjectType ==>
 	//! 1 -> npc object
 	//! 2 -> player object
-	//! 3 -> movable object
+	//! 3 -> ghost object
+	//! 4 -> editor object
 	virtual void ExecuteClientScript(int ObjectType, long ObjectId,
 										const std::string & ScriptName,
 										bool InlineFunction){}
@@ -195,7 +197,8 @@ public:
 	// ObjectType ==>
 	//! 1 -> npc object
 	//! 2 -> player object
-	//! 3 -> movable object
+	//! 3 -> ghost object
+	//! 4 -> editor object
 	virtual void ExecuteCustomAction(int ObjectType, long ObjectId,
 										const std::string & FunctionName,
 										ActionArgumentBase * args){}
@@ -205,7 +208,8 @@ public:
 	// ObjectType ==>
 	//! 1 -> npc object
 	//! 2 -> player object
-	//! 3 -> movable object
+	//! 3 -> ghost object
+	//! 4 -> editor object
 	virtual void DisplayTxtAction(int ObjectType, long ObjectId, long TextId){}
 
 
@@ -395,14 +399,14 @@ protected:
 
 	//! add object to the scene
 	//! if IsMainPlayer then treat this object as the player object
-	void AddObject(LbaNet::ObjectTypeEnum OType, const ObjectInfo &desc,
+	void AddObject(int OType, const ObjectInfo &desc,
 					const LbaNet::ModelInfo &DisplayDesc,
 					const LbaNet::ObjectExtraInfo &extrainfo,
 					const LbaNet::LifeManaInfo &lifeinfo);
 
 
 	//! remove object from the scene
-	virtual void RemObject(LbaNet::ObjectTypeEnum OType, long id);
+	virtual void RemObject(int OType, long id);
 
 
 	//! release scripted actors
@@ -456,7 +460,7 @@ protected:
 												int waypointindex2, bool asynchronus = false);
 
 
-	ObjectInfo CreateObject(LbaNet::ObjectTypeEnum OType, Ice::Long ObjectId, 
+	ObjectInfo CreateObject(int OType, Ice::Long ObjectId, 
 								const LbaNet::ModelInfo &DisplayDesc, 
 								const LbaNet::ObjectPhysicDesc &PhysicDesc,
 								const LbaNet::ObjectExtraInfo &extrainfo,

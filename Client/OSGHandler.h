@@ -211,6 +211,12 @@ public:
 															const LbaNet::ObjectExtraInfo &extrainfo,
 															const LbaNet::LifeManaInfo &lifeinfo);
 
+	//! create sphere object
+	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateSphereObject(float radius, 
+															float colorR, float colorG, float colorB, float colorA,
+															boost::shared_ptr<DisplayTransformation> Tr,
+															const LbaNet::ObjectExtraInfo &extrainfo,
+															const LbaNet::LifeManaInfo &lifeinfo);
 
 	//! create capsule object
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateCapsuleObject(float radius, float height, 

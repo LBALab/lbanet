@@ -127,6 +127,9 @@ public:
 	//! return internal actor - only for physX actor
 	virtual NxActor* GetphysXInternalActor();
 
+	//! enable or disable the gravity
+	virtual void EnableDisableGravity(bool enabled);
+
 protected:
 	NxActor*										_Actor;
 	float											_sizeY;
@@ -194,6 +197,9 @@ public:
 
 	//! return internal actor - only for physX actor
 	virtual NxActor* GetphysXInternalActor();
+
+	//! enable or disable the gravity
+	virtual void EnableDisableGravity(bool enabled){}
 
 protected:
 	NxController*									_Controller;

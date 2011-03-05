@@ -137,7 +137,7 @@ PhysicalDescriptionNoShape::~PhysicalDescriptionNoShape()
 /***********************************************************
  build description into a reald physic object
 ***********************************************************/
-boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionNoShape::BuildSelf(LbaNet::ObjectTypeEnum type, long id,
+boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionNoShape::BuildSelf(int type, long id,
 												boost::shared_ptr<PhysicalDescriptionBase> self) const
 {
 	return boost::shared_ptr<PhysicalObjectHandlerBase>( 
@@ -174,7 +174,7 @@ PhysicalDescriptionWithShape::~PhysicalDescriptionWithShape()
 /***********************************************************
 	Constructor
 ***********************************************************/
-ObjectInfo::ObjectInfo(LbaNet::ObjectTypeEnum type, long oid, boost::shared_ptr<DisplayInfo> DInfo,
+ObjectInfo::ObjectInfo(int type, long oid, boost::shared_ptr<DisplayInfo> DInfo,
 				boost::shared_ptr<PhysicalDescriptionBase> PInfo,
 				bool Static)
 	: DisInfo(DInfo), PhysInfo(PInfo), IsStatic(Static), Id(oid), Type(type)
@@ -294,6 +294,20 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgOrientedCapsuleDescription::Build
 {
 	if(disH)
 		return disH->CreateCapsuleObject(_radius, _height, _colorR, _colorG, _colorB, _colorA, Tr, _extrainfo, _lifeinfo);
+
+	return boost::shared_ptr<DisplayObjectHandlerBase> ();
+}
+
+
+/***********************************************************
+build description into dynamic object
+***********************************************************/
+boost::shared_ptr<DisplayObjectHandlerBase> OsgSphereDescription::BuildSelf(
+															boost::shared_ptr<DisplayTransformation> Tr,
+															DisplayHandlerBase * disH) const
+{
+	if(disH)
+		return disH->CreateSphereObject(_radius, _colorR, _colorG, _colorB, _colorA, Tr, _extrainfo, _lifeinfo);
 
 	return boost::shared_ptr<DisplayObjectHandlerBase> ();
 }

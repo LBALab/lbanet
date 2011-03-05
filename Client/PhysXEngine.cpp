@@ -76,6 +76,13 @@ class MyContactReport : public NxUserContactReport
 					hinfo.ActorPhysType = acd2->GetActorType();
 					hinfo.HitBottom = false;
 					acd1->AddActorHitted(hinfo);
+
+					HitInfo hinfo2;
+					hinfo2.ActorId = acd1->GetActorId();
+					hinfo2.ActorObjType = acd1->GetActorObjType();
+					hinfo2.ActorPhysType = acd1->GetActorType();
+					hinfo2.HitBottom = false;
+					acd2->AddActorHitted(hinfo2);
 				}
 			}
 		} 
@@ -978,7 +985,10 @@ bool PhysXEngine::CheckOnTopOff(NxActor* actor1, NxActor* actor2)
 	NxVec3 dir(0, -1,0);
 	NxRay ray(pos, dir);
 	NxRaycastHit hit;
-	return (*actor2->getShapes())->raycast(ray, 1, 0, hit, true);
+
+	NxVec3 pos2 = actor2->getGlobalPosition();
+	bool hitted = (*actor2->getShapes())->raycast(ray, 10, 0, hit, true);
+	return hitted;
 }
 	 
 

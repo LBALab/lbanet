@@ -1169,7 +1169,7 @@ void CharacterController::ShowHide(bool Show)
 
 		//inform server that state is updated
 		EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ShowHideEvent( SynchronizedTimeHandler::GetCurrentTimeDouble(),
-																		LbaNet::PlayerObject, -1, Show));
+																		2, -1, Show));
 	}
 }
 

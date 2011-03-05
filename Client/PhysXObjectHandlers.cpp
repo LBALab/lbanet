@@ -360,6 +360,19 @@ NxActor* PhysXActorsHandler::GetphysXInternalActor()
 }
 
 
+/***********************************************************
+enable or disable the gravity
+***********************************************************/
+void PhysXActorsHandler::EnableDisableGravity(bool enabled)
+{
+	if(_Actor)
+	{
+		if(enabled)
+			_Actor->clearBodyFlag(NX_BF_DISABLE_GRAVITY);
+		else
+			_Actor->raiseBodyFlag(NX_BF_DISABLE_GRAVITY);
+	}
+}
 
 
 /***********************************************************
@@ -646,7 +659,7 @@ NxController* PhysicalDescriptionBox::RebuildController(float X, float Y, float 
 /***********************************************************
  build description into a reald physic object
 ***********************************************************/
-boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionBox::BuildSelf(LbaNet::ObjectTypeEnum type, long id,
+boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionBox::BuildSelf(int type, long id,
 														boost::shared_ptr<PhysicalDescriptionBase> self) const
 {
 	boost::shared_ptr<ActorUserData> udata = boost::shared_ptr<ActorUserData>(new ActorUserData(ActorType, type, id));
@@ -727,7 +740,7 @@ NxController* PhysicalDescriptionCapsule::RebuildController(float X, float Y, fl
 /***********************************************************
  build description into a reald physic object
 ***********************************************************/
-boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionCapsule::BuildSelf(LbaNet::ObjectTypeEnum type, long id,
+boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionCapsule::BuildSelf(int type, long id,
 														boost::shared_ptr<PhysicalDescriptionBase> self) const
 {
 	boost::shared_ptr<ActorUserData> udata = boost::shared_ptr<ActorUserData>(new ActorUserData(ActorType, type, id));
@@ -818,7 +831,7 @@ NxController* PhysicalDescriptionSphere::RebuildController(float X, float Y, flo
 /***********************************************************
  build description into a reald physic object
 ***********************************************************/
-boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionSphere::BuildSelf(LbaNet::ObjectTypeEnum type, long id,
+boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionSphere::BuildSelf(int type, long id,
 														boost::shared_ptr<PhysicalDescriptionBase> self) const
 {
 	boost::shared_ptr<ActorUserData> udata = boost::shared_ptr<ActorUserData>(new ActorUserData(ActorType, type, id));
@@ -868,7 +881,7 @@ PhysicalDescriptionTriangleMesh::~PhysicalDescriptionTriangleMesh()
 /***********************************************************
  build description into a reald physic object
 ***********************************************************/
-boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionTriangleMesh::BuildSelf(LbaNet::ObjectTypeEnum type, long id,
+boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionTriangleMesh::BuildSelf(int type, long id,
 														boost::shared_ptr<PhysicalDescriptionBase> self) const
 {
 	boost::shared_ptr<ActorUserData> udata = boost::shared_ptr<ActorUserData>(new ActorUserData(ActorType, type, id));

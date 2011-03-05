@@ -41,17 +41,18 @@ ProjectileHandler::ProjectileHandler(boost::shared_ptr<DynamicObject> obje,
 										bool Manage,
 										boost::shared_ptr<PhysicalObjectHandlerBase> ownerobj)
 : _obje(obje), _projInfo(Info), _Manage(Manage), _bounced(0), _ownerobj(ownerobj),
-	_comingback(false)
+	_comingback(false), _launched(false)
 {
 	//add force to object
 	boost::shared_ptr<PhysicalObjectHandlerBase> physobj = _obje->GetPhysicalObject();
-	if(physobj)
+	if(physobj && _ownerobj)
 	{
-		if(_ownerobj)
-			physobj->IgnoreCollisionWith(ownerobj.get());
-
-		physobj->AddForce(Info.ForceX, Info.ForceY, Info.ForceZ);
+		physobj->IgnoreCollisionWith(ownerobj.get());
+		physobj->EnableDisableGravity(false);
 	}
+	_obje->ShowOrHide(false);
+
+	_startedball = SynchronizedTimeHandler::GetCurrentTimeDouble();
 }
 
 /***********************************************************
@@ -79,6 +80,42 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 	if(!_obje)
 		return true;
 
+	// check for delay launch
+	if(!_launched)
+	{
+		if((_projInfo.Delay < 0) || ((tnow-_startedball) >= _projInfo.Delay))
+		{
+			_launched = true;
+			_startedball = SynchronizedTimeHandler::GetCurrentTimeDouble();
+			_obje->ShowOrHide(true);
+
+			boost::shared_ptr<PhysicalObjectHandlerBase> physobj = _obje->GetPhysicalObject();
+			if(physobj && _ownerobj)
+			{
+				LbaQuaternion Q;
+				_ownerobj->GetRotation(Q);
+				LbaVec3 current_directionX(Q.GetDirection(LbaVec3(0, 0, 1)));
+
+				float ajustedoffsetx = _projInfo.OffsetX*current_directionX.x;
+				float ajustedoffsetz = _projInfo.OffsetX*current_directionX.z;
+
+				float X, Y, Z;
+				_ownerobj->GetPosition(X, Y, Z);
+				physobj->SetPosition(X+ajustedoffsetx, Y+_projInfo.OffsetY, Z+ajustedoffsetz);
+
+				if(!_projInfo.IgnoreGravity)
+					physobj->EnableDisableGravity(true);
+
+				physobj->AddForce(_projInfo.ForceX*current_directionX.x, _projInfo.ForceY, _projInfo.ForceX*current_directionX.z);
+			}
+		}
+
+		return false;
+	}
+
+
+
+	float speedcomeback = 0.02f;
 	_obje->Process(tnow, tdiff);
 
 	// special case when ball come back
@@ -88,18 +125,19 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 		_obje->GetPhysicalObject()->GetPosition(myposX, myposY, myposZ);
 		
 		float ownerposX, ownerposY, ownerposZ;
-		_ownerobj->GetPosition(ownerposX, ownerposY, ownerposZ);	
+		_ownerobj->GetPosition(ownerposX, ownerposY, ownerposZ);
+		ownerposY += _projInfo.OffsetY;
 
 		float diffX = (ownerposX - myposX);
 		float diffY = (ownerposY - myposY);
 		float diffZ = (ownerposZ - myposZ);
 
-		LbaVec3 moveV(diffX, diffY, diffX);
+		LbaVec3 moveV(diffX, diffY, diffZ);
 		moveV.Normalize();
 
-		float movex = moveV.x * tdiff;
-		float movey = moveV.y * tdiff;
-		float movez = moveV.z * tdiff;	
+		float movex = moveV.x * tdiff * speedcomeback;
+		float movey = moveV.y * tdiff * speedcomeback;
+		float movez = moveV.z * tdiff * speedcomeback;	
 
 		bool finishedx=false, finishedy=false, finishedz=false;
 
@@ -158,7 +196,7 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 		{
 			++_bounced;
 			HitInfo &hiti = hitted[cc];
-			if(hiti.ActorObjType == LbaNet::NpcObject || hiti.ActorObjType == LbaNet::PlayerObject)	
+			if(hiti.ActorObjType == 1 || hiti.ActorObjType == 2)	
 			{
 				if(hiti.ActorPhysType != LbaNet::StaticAType)
 				{
@@ -168,12 +206,18 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 					touchedactorid = hiti.ActorId;
 				}
 			}
+
+			physobj->AddForce(0, _projInfo.ForceYOnImpact, 0);
 		}
 	} 
 
 
 	// if bounced too much then destroy
 	if(_bounced >= _projInfo.NbBounce)
+		destroy = true;
+
+	// check if time is up
+	if((tnow-_startedball) > _projInfo.LifeTime)
 		destroy = true;
 
 
@@ -199,7 +243,7 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 			//make display half transparent
 			boost::shared_ptr<DisplayObjectHandlerBase> diso = _obje->GetDisplayObject();
 			if(diso)
-				diso->Update(new LbaNet::ObjectAlphaColorUpdate(0.25f), false);
+				diso->Update(new LbaNet::ObjectAlphaColorUpdate(0.6f), false);
 
 
 			// set come back flag
@@ -222,10 +266,10 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 			if(_Manage)
 				EventsQueue::getSenderQueue()->AddEvent(new LbaNet::DestroyProjectileEvent(
 													SynchronizedTimeHandler::GetCurrentTimeDouble(),
-													_projInfo.Id, touchedactortype, touchedactorid));		
-		}
+													_projInfo.Id, touchedactortype, touchedactorid));	
 
-		return true;
+			return true;
+		}
 	}
 
 

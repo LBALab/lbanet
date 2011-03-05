@@ -36,6 +36,7 @@ namespace osg
 	class PositionAttitudeTransform;
 	class Group;
 	class AutoTransform;
+	class ShapeDrawable;
 }
 
 class DisplayTransformation;
@@ -115,6 +116,9 @@ protected:
 
 	//! extract name from string
 	std::string ExtractName(const std::string &text);
+
+	//! find shapdrawable
+	osg::ShapeDrawable* findShapeDrawable();
 
 protected:
 	float											_posX;
