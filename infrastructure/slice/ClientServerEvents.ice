@@ -76,7 +76,7 @@ module LbaNet
 	// server tell client to add object
 	class AddObjectEvent extends ClientServerEventBase
 	{
-		ObjectTypeEnum		TypeO;
+		int			TypeO;
 		long			ObjectId;
 		ModelInfo		DisplayDesc;
 		ObjectPhysicDesc	PhysicDesc;
@@ -88,7 +88,7 @@ module LbaNet
 	// server tell client to remove object
 	class RemoveObjectEvent extends ClientServerEventBase
 	{
-		ObjectTypeEnum		TypeO;
+		int			TypeO;
 		long			ObjectId;
 	};
 	
@@ -148,7 +148,7 @@ module LbaNet
 	// server tell client to update the display of 1 object
 	class UpdateDisplayObjectEvent extends ClientServerEventBase
 	{
-		ObjectTypeEnum			TypeO;
+		int				TypeO;
 		long				ObjectId;
 		DisplayObjectUpdateBase		Update;
 	};	
@@ -156,7 +156,7 @@ module LbaNet
 	// server tell client to update the display of 1 object
 	class UpdatePhysicObjectEvent extends ClientServerEventBase
 	{
-		ObjectTypeEnum			TypeO;
+		int				TypeO;
 		long				ObjectId;
 		PhysicObjectUpdateBase		Update;
 	};		
@@ -248,7 +248,7 @@ module LbaNet
 	// server tell client to update the display of 1 object
 	class ShowHideEvent extends ClientServerEventBase
 	{
-		ObjectTypeEnum			TypeO;
+		int				TypeO;
 		long				ObjectId;
 		bool				Show;
 	};	

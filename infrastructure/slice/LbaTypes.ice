@@ -13,9 +13,8 @@ module LbaNet
 				StActivateSwitch, StActivateGroundSwitch, StHappy };	
 				
 				
-	enum ObjectTypeEnum { NpcObject, PlayerObject, GhostObject, EditorObject };	
 	
-	enum RenderTypeEnum { RenderOsgModel, RenderSprite, RenderLba1M, RenderLba2M, RenderCross, RenderBox, RenderCapsule, NoRender };	
+	enum RenderTypeEnum { RenderOsgModel, RenderSprite, RenderLba1M, RenderLba2M, RenderCross, RenderBox, RenderCapsule, RenderSphere, NoRender };	
 	
 	enum PhysicalShapeEnum { NoShape, BoxShape, CapsuleShape, SphereShape, TriangleMeshShape };	
 	
@@ -873,10 +872,11 @@ module LbaNet
 		
 		float			Power;
 		
+		float			OffsetX;
+		float			OffsetY;
 	
 		float			ForceX;
 		float			ForceY;		
-		float			ForceZ;		
 		float			ForceYOnImpact;
 		
 		int			NbBounce;
@@ -884,6 +884,10 @@ module LbaNet
 		
 		float			LifeTime;
 		bool			Comeback;
+		
+		float			Delay;
+		bool			IsSalve;
+		float			Frequency;
 	};
 };	
 
