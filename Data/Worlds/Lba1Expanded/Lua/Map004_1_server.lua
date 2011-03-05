@@ -717,6 +717,50 @@ function InitMap(environment)
 	Actor_15H:SetSimpleDialog(false)
 	environment:AddActorObject(Actor_15H)
 
+	Actor_16 = ActorObjectInfo(16)
+	Actor_16:SetRenderType(1)
+	Actor_16.DisplayDesc.ModelId = 0
+	Actor_16.DisplayDesc.ModelName = "Worlds/Lba1Expanded/Models/mailbox.osgb"
+	Actor_16.DisplayDesc.Outfit = ""
+	Actor_16.DisplayDesc.Weapon = ""
+	Actor_16.DisplayDesc.Mode = ""
+	Actor_16.DisplayDesc.UseLight = true
+	Actor_16.DisplayDesc.CastShadow = false
+	Actor_16.DisplayDesc.ColorR = 1
+	Actor_16.DisplayDesc.ColorG = 1
+	Actor_16.DisplayDesc.ColorB = 1
+	Actor_16.DisplayDesc.ColorA = 1
+	Actor_16.DisplayDesc.TransX = 0
+	Actor_16.DisplayDesc.TransY = 3.5
+	Actor_16.DisplayDesc.TransZ = 0
+	Actor_16.DisplayDesc.ScaleX = 0.005
+	Actor_16.DisplayDesc.ScaleY = 0.005
+	Actor_16.DisplayDesc.ScaleZ = 0.008
+	Actor_16.DisplayDesc.RotX = -90
+	Actor_16.DisplayDesc.RotY = 0
+	Actor_16.DisplayDesc.RotZ = 90
+	Actor_16:SetModelState(2)
+	Actor_16.PhysicDesc.Pos.X = 33
+	Actor_16.PhysicDesc.Pos.Y = 1
+	Actor_16.PhysicDesc.Pos.Z = 42
+	Actor_16.PhysicDesc.Pos.Rotation = 0
+	Actor_16.PhysicDesc.Density = 1
+	Actor_16.PhysicDesc.Collidable = true
+	Actor_16.PhysicDesc.SizeX = 1
+	Actor_16.PhysicDesc.SizeY = 4
+	Actor_16.PhysicDesc.SizeZ = 0.5
+	Actor_16.PhysicDesc.Filename = ""
+	Actor_16:SetPhysicalActorType(1)
+	Actor_16:SetPhysicalShape(2)
+	Actor_16.ExtraInfo.Name = ""
+	Actor_16.ExtraInfo.NameColorR = 1
+	Actor_16.ExtraInfo.NameColorG = 1
+	Actor_16.ExtraInfo.NameColorB = 1
+	Actor_16.ExtraInfo.Display = false
+	Actor_16.LifeInfo.Display = false
+	Actor_16H = ActorHandler(Actor_16)
+	environment:AddActorObject(Actor_16H)
+
 	Trigger_1_info = TriggerInfo(1, "exit0", true, false, false)
 	Trigger_1 = ZoneTrigger(Trigger_1_info, 1, 4, 3, true)
 	Trigger_1:SetPosition(26.5, 1, 38.5)
@@ -888,5 +932,13 @@ function InitMap(environment)
 	Trigger_15_act2:SetActorId(6)
 	Trigger_15:SetAction2(Trigger_15_act2)
 	environment:AddTrigger(Trigger_15)
+
+	Trigger_16_info = TriggerInfo(16, "mailboxtrigger", true, true, false)
+	Trigger_16 = ActivationTrigger(Trigger_16_info, 1.5, "Normal", "None")
+	Trigger_16:SetPosition(32.7, 1, 42)
+	Trigger_16_act1 = OpenMailboxAction()
+	Trigger_16:SetAction1(Trigger_16_act1)
+	Trigger_16:SetPlayAnimation(false)
+	environment:AddTrigger(Trigger_16)
 
 end

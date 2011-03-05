@@ -1,5 +1,31 @@
-function ActorGoUpLadder(ScriptId, ActorId, LadderPosition, LadderHeight, LadderDirection, Environment)
+function ActorRotateAndMoveForwardTo(ScriptId, ActorId, ArrivalPosition, RotationSpeed, Environment)
+	
+	-- get current position
+	CurrentPosition = Environment:GetActorPosition(ActorId)	
+	
+	-- calculate rotation angle
+	TDistance = LbaVec3(ArrivalPosition)
+	TDistance.x = TDistance.x - CurrentPosition.x
+	TDistance.z = TDistance.z - CurrentPosition.z
+	angle = LbaQuaternion.GetAngleFromVector(TDistance)
 
+	
+	-- add first rotation	
+	Environment:ActorRotate(ScriptId, ActorId, angle, RotationSpeed, true)
+	
+	
+	-- add translation
+	Environment:UpdateActorAnimation(ActorId, "MoveForward")	
+	Environment:ActorStraightWalkTo(ScriptId, ActorId, ArrivalPosition)
+end
+
+
+
+function ActorGoUpLadder(ScriptId, ActorId, LadderPosition, LadderHeight, LadderDirection, Environment)
+	
+	-- fix fall down when arrive
+	LadderHeight = LadderHeight + 1
+	
 	-- reserve the actor for the script
 	Environment:ReserveActor(ScriptId, ActorId)
 
@@ -44,19 +70,10 @@ function ActorGoUpLadder(ScriptId, ActorId, LadderPosition, LadderHeight, Ladder
 	TranslationPosition.x = TranslationPosition.x + remX
 	TranslationPosition.z = TranslationPosition.z + remZ
 	
-	TDistance = LbaVec3(TranslationPosition)
-	TDistance.x = TDistance.x - CurrentPosition.x
-	TDistance.z = TDistance.z - CurrentPosition.z
-	angle = LbaQuaternion.GetAngleFromVector(TDistance)
-
 	
-	-- add first rotation toward ladder position		
-	Environment:ActorRotate(ScriptId, ActorId, angle, 0.15, true)
+	-- go to ladder
+	ActorRotateAndMoveForwardTo(ScriptId, ActorId, TranslationPosition, 0.15, Environment)	
 	
-	
-	-- add translation to ladder
-	Environment:UpdateActorAnimation(ActorId, "MoveForward")	
-	Environment:ActorStraightWalkTo(ScriptId, ActorId, TranslationPosition)
 	
 	
 	-- add rotation before climbing
@@ -136,19 +153,9 @@ function TakeExitUp(ScriptId, ActorId, ExitPosition, ExitDirection, Environment)
 	TranslationPosition.x = TranslationPosition.x + remX
 	TranslationPosition.z = TranslationPosition.z + remZ
 	
-	TDistance = LbaVec3(TranslationPosition)
-	TDistance.x = TDistance.x - CurrentPosition.x
-	TDistance.z = TDistance.z - CurrentPosition.z
-	angle = LbaQuaternion.GetAngleFromVector(TDistance)
-
 	
-	-- add first rotation toward exit position		
-	Environment:ActorRotate(ScriptId, ActorId, angle, 0.15, true)
-	
-	
-	-- add translation to exit
-	Environment:UpdateActorAnimation(ActorId, "MoveForward")	
-	Environment:ActorStraightWalkTo(ScriptId, ActorId, TranslationPosition)
+	-- go to exit
+	ActorRotateAndMoveForwardTo(ScriptId, ActorId, TranslationPosition, 0.15, Environment)	
 	
 	
 	-- add rotation before climbing
@@ -217,19 +224,9 @@ function TakeExitDown(ScriptId, ActorId, ExitPosition, ExitDirection, Environmen
 	TranslationPosition.x = TranslationPosition.x + remX
 	TranslationPosition.z = TranslationPosition.z + remZ
 	
-	TDistance = LbaVec3(TranslationPosition)
-	TDistance.x = TDistance.x - CurrentPosition.x
-	TDistance.z = TDistance.z - CurrentPosition.z
-	angle = LbaQuaternion.GetAngleFromVector(TDistance)
-
 	
-	-- add first rotation toward exit position		
-	Environment:ActorRotate(ScriptId, ActorId, angle, 0.15, true)
-	
-	
-	-- add translation to exit
-	Environment:UpdateActorAnimation(ActorId, "MoveForward")	
-	Environment:ActorStraightWalkTo(ScriptId, ActorId, TranslationPosition)
+	-- go to exit
+	ActorRotateAndMoveForwardTo(ScriptId, ActorId, TranslationPosition, 0.15, Environment)		
 	
 	
 	-- add rotation before climbing
