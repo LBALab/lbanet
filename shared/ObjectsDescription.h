@@ -289,6 +289,45 @@ private:
 
 
 
+/***********************************************************************
+This is the base class describing an Oriented Capsule
+See definition in OsgObjectHandler.cpp
+ ***********************************************************************/
+class OsgSphereDescription : public DisplayObjectDescriptionBase
+{
+public:
+	//! constructor
+	OsgSphereDescription(float radius,
+									float colorR, float colorG, float colorB, float colorA,
+									const LbaNet::ObjectExtraInfo &extrainfo,
+									const LbaNet::LifeManaInfo &lifeinfo)
+		: _radius(radius), _colorR(colorR),
+					_colorG(colorG), _colorB(colorB), _colorA(colorA), 
+					_extrainfo(extrainfo), _lifeinfo(lifeinfo)
+	{}
+
+	//! destructor
+	virtual ~OsgSphereDescription(){}
+
+
+	//! build description into dynamic object
+	virtual boost::shared_ptr<DisplayObjectHandlerBase> BuildSelf(boost::shared_ptr<DisplayTransformation> Tr, 
+																				DisplayHandlerBase * disH) const;
+
+private:
+	float _radius;
+
+	float _colorR;
+	float _colorG;
+	float _colorB;
+	float _colorA;
+
+	LbaNet::ObjectExtraInfo	_extrainfo;
+	LbaNet::LifeManaInfo	_lifeinfo;
+};
+
+
+
 
 
 /***********************************************************************
@@ -379,7 +418,7 @@ public:
 	virtual ~PhysicalDescriptionBase();
 
 	//! build description into a reald physic object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(LbaNet::ObjectTypeEnum type, long id,
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(int type, long id,
 										boost::shared_ptr<PhysicalDescriptionBase> self) const = 0;
 
 	//! change size
@@ -416,7 +455,7 @@ public:
 	virtual ~PhysicalDescriptionNoShape();
 
 	//! build description into a reald physic object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(LbaNet::ObjectTypeEnum type, long id,
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(int type, long id,
 										boost::shared_ptr<PhysicalDescriptionBase> self) const;
 
 };
@@ -472,7 +511,7 @@ public:
 
 
 	//! build description into a reald physic object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(LbaNet::ObjectTypeEnum type, long id,
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(int type, long id,
 										boost::shared_ptr<PhysicalDescriptionBase> self) const;
 
 	//! change size
@@ -508,7 +547,7 @@ public:
 
 
 	//! build description into a reald physic object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(LbaNet::ObjectTypeEnum type, long id,
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(int type, long id,
 										boost::shared_ptr<PhysicalDescriptionBase> self) const;
 
 	//! change size
@@ -549,7 +588,7 @@ public:
 
 
 	//! build description into a reald physic object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(LbaNet::ObjectTypeEnum type, long id,
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(int type, long id,
 										boost::shared_ptr<PhysicalDescriptionBase> self) const;
 
 	//! change size
@@ -589,7 +628,7 @@ public:
 
 
 	//! build description into a reald physic object
-	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(LbaNet::ObjectTypeEnum type, long id,
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(int type, long id,
 										boost::shared_ptr<PhysicalDescriptionBase> self) const;
 
 
@@ -611,7 +650,7 @@ public:
 	ObjectInfo(){}
 
 	//! constructor
-	ObjectInfo(LbaNet::ObjectTypeEnum type, long oid, boost::shared_ptr<DisplayInfo> DInfo,
+	ObjectInfo(int type, long oid, boost::shared_ptr<DisplayInfo> DInfo,
 				boost::shared_ptr<PhysicalDescriptionBase> PInfo,
 				bool Static);
 
@@ -633,7 +672,7 @@ public:
 	boost::shared_ptr<PhysicalDescriptionBase>	PhysInfo;
 	bool										IsStatic;
 	long										Id;
-	LbaNet::ObjectTypeEnum 						Type;
+	int 						Type;
 };
 
 

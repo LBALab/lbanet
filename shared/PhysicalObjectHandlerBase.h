@@ -138,6 +138,9 @@ public:
 	//! reset last move
 	virtual void ResetMove() = 0;
 
+	//! enable or disable the gravity
+	virtual void EnableDisableGravity(bool enabled) = 0;
+
 protected:
 	bool _resetted;
 };
@@ -355,6 +358,9 @@ public:
 		_lastrotation = 0;
 	}
 
+
+	//! enable or disable the gravity
+	virtual void EnableDisableGravity(bool enabled){}
 
 private:
 	float _PosX;
