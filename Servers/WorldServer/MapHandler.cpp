@@ -398,7 +398,7 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts)
 					dynamic_cast<LbaNet::NewClientExtraInfoEvent *>(&obj);
 
 				_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-									PlayerObject, it->first, new ObjectExtraInfoUpdate(castedptr->ExtraInfo)));
+									2, it->first, new ObjectExtraInfoUpdate(castedptr->ExtraInfo)));
 				continue;
 			}
 
@@ -459,7 +459,7 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts)
 				if(GetPlayerModelInfo(it->first).State == StScripted)
 				{
 					_tosendevts.push_back(new LbaNet::ShowHideEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-										PlayerObject, it->first, castedptr->Show));
+										2, it->first, castedptr->Show));
 				}
 				continue;
 			}
@@ -679,7 +679,7 @@ void MapHandler::PlayerEntered(Ice::Long id)
 			PhysicDesc.SizeY = sizeY;
 			
 			_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-														PlayerObject, id, GetPlayerModelInfo(id), PhysicDesc, 
+														2, id, GetPlayerModelInfo(id), PhysicDesc, 
 														GetPlayerLifeInfo(id), GetPlayerExtraInfo(id)));
 		}
 
@@ -724,7 +724,7 @@ void MapHandler::PlayerLeft(Ice::Long id)
 
 		// inform all players that player left
 		_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-													PlayerObject, id));
+													2, id));
 
 		// destroy projectiles
 		DestroyPlayerProjectile(id);
@@ -861,7 +861,7 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 				#endif
 
 				toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-					LbaNet::NpcObject, itact->first, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo, 
+					1, itact->first, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo, 
 					xinfo));
 
 				LbaNet::ClientServerEventBasePtr lastevent = itact->second->GetLastEvent();
@@ -911,7 +911,7 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 			PhysicDesc.SizeY = sizeY;
 
 			toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-														PlayerObject, _currentplayers[cc], 
+														2, _currentplayers[cc], 
 														GetPlayerModelInfo(_currentplayers[cc]), PhysicDesc, 
 														GetPlayerLifeInfo(_currentplayers[cc]),
 														GetPlayerExtraInfo(_currentplayers[cc])));
@@ -939,13 +939,13 @@ void MapHandler::ChangeStance(Ice::Long id, LbaNet::ModelStance NewStance, bool 
 	if(UpdatePlayerStance(id, NewStance, returnmodel, fromserver, mountid))
 	{
 		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-					PlayerObject, id, new ModelUpdate(returnmodel, false)));
+					2, id, new ModelUpdate(returnmodel, false)));
 
 		// update physical info as well
 		float sizeX, sizeY, sizeZ;
 		GetPlayerPhysicalSize(id, sizeX, sizeY, sizeZ);
 		_tosendevts.push_back(new UpdatePhysicObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-													PlayerObject, id,  
+													2, id,  
 													new SizeUpdate(sizeX, sizeY, sizeZ)));
 
 	}
@@ -960,7 +960,7 @@ void MapHandler::ChangeWeapon(Ice::Long id, const std::string & weapon, long ite
 	ModelInfo returnmodel;
 	if(UpdatePlayerWeapon(id, weapon, returnmodel, itemid))
 		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-					PlayerObject, id, new ModelUpdate(returnmodel, false)));
+					2, id, new ModelUpdate(returnmodel, false)));
 }
 
 
@@ -972,7 +972,7 @@ void MapHandler::ChangeOutfit(Ice::Long id, const std::string & outfit, long ite
 	ModelInfo returnmodel;
 	if(UpdatePlayerOutfit(id, outfit, returnmodel, itemid))
 		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-					PlayerObject, id, new ModelUpdate(returnmodel, false)));
+					2, id, new ModelUpdate(returnmodel, false)));
 }
 
 /***********************************************************
@@ -1001,7 +1001,7 @@ void MapHandler::ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, fl
 		if(UpdatePlayerState(id, NewState, returnmodel))
 		{
 			_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-							PlayerObject, id, new ModelUpdate(returnmodel, !fromserver)));
+							2, id, new ModelUpdate(returnmodel, !fromserver)));
 
 			//if hurt by falling
 			if(NewState == LbaNet::StHurtFall)
@@ -1073,10 +1073,10 @@ void MapHandler::RaiseFromDeadEvent(Ice::Long id)
 																id, moveinfo, true));
 
 			_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-						PlayerObject, id, new ModelUpdate(returnmodel, false)));
+						2, id, new ModelUpdate(returnmodel, false)));
 
 			_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-									PlayerObject, id, new ObjectLifeInfoUpdate(GetPlayerLifeInfo(id))));
+									2, id, new ObjectLifeInfoUpdate(GetPlayerLifeInfo(id))));
 		}
 		catch(NoPlayerException)
 		{
@@ -1896,7 +1896,7 @@ void MapHandler::ExecuteClientScript(int ObjectType, long ObjectId,
 		EventsSeq toplayer;
 
 		toplayer.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-					PlayerObject, clientid, new ModelUpdate(returnmodel, false)));
+					2, clientid, new ModelUpdate(returnmodel, false)));
 
 		toplayer.push_back(new StartClientScriptEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 									ScriptName, InlineFunction));
@@ -2024,7 +2024,7 @@ void MapHandler::FinishedScript(long id, const std::string & ScriptName)
 		EventsSeq toplayer;
 
 		toplayer.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-					PlayerObject, id, new ModelUpdate(returnmodel, false)));
+					2, id, new ModelUpdate(returnmodel, false)));
 
 		IceUtil::ThreadPtr t = new EventsSender(toplayer, GetProxy(id));
 		t->start();	
@@ -2051,7 +2051,7 @@ void MapHandler::PlayerItemUsed(Ice::Long clientid, long ItemId)
 			{
 				// give life update to everybody
 				_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-									PlayerObject, clientid, new ObjectLifeInfoUpdate(GetPlayerLifeInfo(clientid))));
+									2, clientid, new ObjectLifeInfoUpdate(GetPlayerLifeInfo(clientid))));
 			}
 			break;
 		case 2: // key item - dont do anything
@@ -2201,7 +2201,7 @@ bool MapHandler::DeltaUpdateLife(Ice::Long clientid, float update, int updatetyp
 
 	// give life update to everybody	
 	_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-							PlayerObject, clientid, new ObjectLifeInfoUpdate(GetPlayerLifeInfo(clientid))));
+							2, clientid, new ObjectLifeInfoUpdate(GetPlayerLifeInfo(clientid))));
 	if(res)// die
 		ChangePlayerState(clientid, LbaNet::StDying, 0, updatetype, actorid, true);
 
@@ -2228,7 +2228,7 @@ bool MapHandler::DeltaUpdateMana(Ice::Long clientid, float update)
 
 	// give life update to everybody	
 	_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-							PlayerObject, clientid, new ObjectLifeInfoUpdate(GetPlayerLifeInfo(clientid))));
+							2, clientid, new ObjectLifeInfoUpdate(GetPlayerLifeInfo(clientid))));
 
 	return res;
 }
@@ -2257,7 +2257,7 @@ void MapHandler::ChangePlayerColor(long clientid, int skinidx, int eyesidx, int 
 		itplayer->second->ChangePlayerColor(skinidx, eyesidx, hairidx, outfitidx, weaponidx, mountidx, mountidx2);
 
 		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-						PlayerObject, clientid, new ModelUpdate(itplayer->second->GetModelInfo(), false)));
+						2, clientid, new ModelUpdate(itplayer->second->GetModelInfo(), false)));
 	}
 }
 
@@ -2673,7 +2673,7 @@ void MapHandler::DelayActionAfterPlayerChangeState(const DelayedAction &action, 
 	if(UpdatePlayerState(action.ClientId, newstate, returnmodel))
 	{
 		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-											PlayerObject, action.ClientId, new ModelUpdate(returnmodel, false)));
+											2, action.ClientId, new ModelUpdate(returnmodel, false)));
 
 		_delayedactions[action.ClientId] = action;
 	}
@@ -2952,18 +2952,20 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 	if(weaponinfo.Info.Id < 0)
 		return;
 
-	if(weaponinfo.Info.Name.find("MagicBall") != std::string::npos)//todo - not static -> add projectile to item
+	if(weaponinfo.Info.StringFlag.find("MagicBall") != std::string::npos)//todo - not static -> add projectile to item
 	{
 		std::string mode = GetPlayerModelInfo(PlayerId).Mode;
 
 		LbaNet::ProjectileInfo newProj;
 
+		newProj.Comeback = true;
+		newProj.LifeTime = 10000;
 		newProj.Power = weaponinfo.Info.Effect;
 		newProj.OwnerActorType = 2;
 		newProj.OwnerActorId = PlayerId;	
 		newProj.Id = ((_launchedprojectiles.size() > 0) ? (_launchedprojectiles.rbegin()->first+1): 0);
 
-		newProj.DisplayDesc.TypeRenderer = LbaNet::RenderCapsule;
+		newProj.DisplayDesc.TypeRenderer = LbaNet::RenderSphere;
 		newProj.DisplayDesc.UseLight = true;
 		newProj.DisplayDesc.CastShadow = true;
 		newProj.DisplayDesc.RotX=0;
@@ -2972,32 +2974,30 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 		newProj.DisplayDesc.TransX=0;
 		newProj.DisplayDesc.TransY=0;
 		newProj.DisplayDesc.TransZ=0;
-		newProj.DisplayDesc.ScaleX=0;
-		newProj.DisplayDesc.ScaleY=0;
-		newProj.DisplayDesc.ScaleZ=0;
-		newProj.DisplayDesc.ColorR=0.8f;
-		newProj.DisplayDesc.ColorG=0.8f;
-		newProj.DisplayDesc.ColorB=0.2f;
+		newProj.DisplayDesc.ScaleX=1;
+		newProj.DisplayDesc.ScaleY=1;
+		newProj.DisplayDesc.ScaleZ=1;
+		newProj.DisplayDesc.ColorR=0.9f;
+		newProj.DisplayDesc.ColorG=0.788f;
+		newProj.DisplayDesc.ColorB=0.376f;
 		newProj.DisplayDesc.ColorA=1.0f;
 
 		PlayerPosition playerpos = GetPlayerPosition(PlayerId);
-		LbaQuaternion Q(playerpos.Rotation, LbaVec3(0, 1, 0));
-		LbaVec3 current_directionX(Q.GetDirection(LbaVec3(0, 0, 1)));
-		LbaVec3 current_directionZ(Q.GetDirection(LbaVec3(1, 0, 0)));
 
-		float ajustedoffsetx = 0.5f*current_directionX.x + 0.5f*current_directionZ.x;
-		float ajustedoffsetZ = 0.5f*current_directionX.z + 0.5f*current_directionZ.z;
+		newProj.OffsetX = 1.0f;
+		newProj.OffsetY = 4;
+		newProj.Delay = 500;
 
 
-	    newProj.PhysicDesc.Pos.X = playerpos.X + ajustedoffsetx;
-	    newProj.PhysicDesc.Pos.Y = playerpos.Y + 3;
-	    newProj.PhysicDesc.Pos.Z = playerpos.Z + ajustedoffsetZ;
+	    newProj.PhysicDesc.Pos.X = playerpos.X;
+	    newProj.PhysicDesc.Pos.Y = playerpos.Y;
+	    newProj.PhysicDesc.Pos.Z = playerpos.Z;
 		newProj.PhysicDesc.TypeShape = LbaNet::SphereShape;
 		newProj.PhysicDesc.TypePhysO = LbaNet::DynamicAType;
-		newProj.PhysicDesc.Density = 1;
+		newProj.PhysicDesc.Density = 1.8;
 		newProj.PhysicDesc.Collidable = false;
-		newProj.PhysicDesc.SizeX = 0.5f;
-		newProj.PhysicDesc.SizeY = 0.5f;
+		newProj.PhysicDesc.SizeX = 0;
+		newProj.PhysicDesc.SizeY = 0.2f;
 		newProj.PhysicDesc.SizeZ = 0;
 		newProj.PhysicDesc.Bounciness = 0.999f;
 		newProj.PhysicDesc.StaticFriction = 0.1f;
@@ -3010,43 +3010,38 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 
 		newProj.ForceX = 0;
 		newProj.ForceY = 0;		
-		newProj.ForceZ = 0;	
 		newProj.ForceYOnImpact = 0;
 		bool launch = false;
 
 		if(mode == "Normal")
 		{
-			newProj.ForceX = 2*current_directionX.x + 2*current_directionZ.x;
-			newProj.ForceY = 0.5;		
-			newProj.ForceZ = 2*current_directionX.z + 2*current_directionZ.z;
-			newProj.ForceYOnImpact = 0.8f;
+			newProj.ForceX = 0.15f;
+			newProj.ForceY = 0.1f;		
+			newProj.ForceYOnImpact = 0.1f;
 			launch = true;
 		}
 
 		if(mode == "Sport")
 		{
-			newProj.ForceX = 2*current_directionX.x + 2*current_directionZ.x;
+			newProj.ForceX = 0.17f;
 			newProj.ForceY = 0;		
-			newProj.ForceZ = 2*current_directionX.z + 2*current_directionZ.z;
-			newProj.ForceYOnImpact = 0.8f;
+			newProj.ForceYOnImpact = 0.05f;
 			launch = true;
 		}
 
 		if(mode == "Angry")
 		{
-			newProj.ForceX = 2*current_directionX.x + 2*current_directionZ.x;
+			newProj.ForceX = 0.17f;
 			newProj.ForceY = 0;		
-			newProj.ForceZ = 2*current_directionX.z + 2*current_directionZ.z;
-			newProj.ForceYOnImpact = 0.8f;
+			newProj.ForceYOnImpact = 0.05f;
 			launch = true;
 		}
 
 		if(mode == "Discrete")
 		{
-			newProj.ForceX = 0.6f*current_directionX.x + 0.6f*current_directionZ.x;
-			newProj.ForceY = 2.3f;		
-			newProj.ForceZ = 0.6f*current_directionX.z + 0.6f*current_directionZ.z;
-			newProj.ForceYOnImpact = 1.5f;
+			newProj.ForceX = 0.06f;
+			newProj.ForceY = 0.15f;		
+			newProj.ForceYOnImpact = 0.1f;
 			launch = true;
 		}
 

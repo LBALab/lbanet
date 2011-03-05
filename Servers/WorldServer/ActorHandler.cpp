@@ -765,7 +765,7 @@ void ActorHandler::UpdateActorMode(const std::string & Mode, bool updatefromlua)
 			if(!updatefromlua || !m_paused)
 				_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
 									SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-									LbaNet::NpcObject, m_actorinfo.ObjectId,
+									1, m_actorinfo.ObjectId,
 									new LbaNet::ModelUpdate(model, false)));
 		}
 	}
@@ -790,7 +790,7 @@ void ActorHandler::UpdateActorModel(const std::string & Model, bool updatefromlu
 			if(!updatefromlua || !m_paused)
 				_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
 									SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-									LbaNet::NpcObject, m_actorinfo.ObjectId,
+									1, m_actorinfo.ObjectId,
 									new LbaNet::ModelUpdate(model, false)));
 		}
 	}
@@ -814,7 +814,7 @@ void ActorHandler::UpdateActorOutfit(const std::string & Outfit, bool updatefrom
 			if(!updatefromlua || !m_paused)
 				_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
 									SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-									LbaNet::NpcObject, m_actorinfo.ObjectId,
+									1, m_actorinfo.ObjectId,
 									new LbaNet::ModelUpdate(model, false)));
 		}
 	}
@@ -838,7 +838,7 @@ void ActorHandler::UpdateActorWeapon(const std::string & Weapon, bool updatefrom
 			if(!updatefromlua || !m_paused)
 				_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
 									SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-									LbaNet::NpcObject, m_actorinfo.ObjectId,
+									1, m_actorinfo.ObjectId,
 									new LbaNet::ModelUpdate(model, false)));
 		}
 	}
@@ -929,7 +929,7 @@ void ActorHandler::ShowHide(bool Show)
 		// inform clients
 		_events.push_back(new LbaNet::ShowHideEvent(
 							SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-							LbaNet::NpcObject, m_actorinfo.ObjectId, Show));
+							1, m_actorinfo.ObjectId, Show));
 	}
 }
 
@@ -1035,7 +1035,7 @@ void ActorHandler::CreateActor()
 										LbaQuaternion(m_actorinfo.PhysicDesc.Pos.Rotation, LbaVec3(0, 1, 0))));
 
 
-	ObjectInfo obj(LbaNet::EditorObject, (long)m_actorinfo.ObjectId, DInfo, PInfo, 
+	ObjectInfo obj(4, (long)m_actorinfo.ObjectId, DInfo, PInfo, 
 			(m_actorinfo.PhysicDesc.TypePhysO == LbaNet::StaticAType));
 
 	_character = obj.BuildServer();
@@ -1091,7 +1091,7 @@ void ActorHandler::Resume()
 				// inform clients of restoration
 				_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
 									SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-									LbaNet::NpcObject, m_actorinfo.ObjectId,
+									1, m_actorinfo.ObjectId,
 									new LbaNet::ModelUpdate(disO->GetCurrentModel(false), false)));
 			}
 
@@ -1114,7 +1114,7 @@ void ActorHandler::Resume()
 				// inform clients of restoration
 				_events.push_back(new LbaNet::ShowHideEvent(
 									SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-									LbaNet::NpcObject, m_actorinfo.ObjectId, m_savedshow));
+									1, m_actorinfo.ObjectId, m_savedshow));
 			}
 		}
 	}
@@ -1533,7 +1533,7 @@ void ActorHandler::SwitchModel(const std::string & newmodelname)
 		m_actorinfo.DisplayDesc.ModelName = newmodelname;
 		_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
 							SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-							LbaNet::NpcObject, m_actorinfo.ObjectId,
+							1, m_actorinfo.ObjectId,
 							new LbaNet::ModelUpdate(m_actorinfo.DisplayDesc, false)));
 	}
 }
@@ -1548,7 +1548,7 @@ void ActorHandler::ReverModel()
 		m_actorinfo.DisplayDesc.ModelName = m_saved_model;
 		_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
 							SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-							LbaNet::NpcObject, m_actorinfo.ObjectId,
+							1, m_actorinfo.ObjectId,
 							new LbaNet::ModelUpdate(m_actorinfo.DisplayDesc, false)));
 		m_saved_model = "";
 	}
