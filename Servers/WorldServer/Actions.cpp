@@ -20,7 +20,7 @@ TeleportAction::TeleportAction()
 
 /***********************************************************
 destructor
-***********************************************************/	
+***********************************************************/
 TeleportAction::~TeleportAction(void)
 {
 
@@ -44,7 +44,7 @@ void TeleportAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice:
 			// player updated position
 			if(info == typeid(OffsetArgument))
 			{
-				OffsetArgument* castedptr = 
+				OffsetArgument* castedptr =
 					static_cast<OffsetArgument *>(args);
 
 				offsetX = castedptr->_offsetX;
@@ -61,7 +61,7 @@ void TeleportAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice:
 
 /***********************************************************
 save action to lua file
-***********************************************************/	
+***********************************************************/
 void TeleportAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
 	file<<"\t"<<name<<" = TeleportAction()"<<std::endl;
@@ -82,7 +82,7 @@ ClientScriptAction::ClientScriptAction()
 
 /***********************************************************
 destructor
-***********************************************************/	
+***********************************************************/
 ClientScriptAction::~ClientScriptAction(void)
 {
 
@@ -102,7 +102,7 @@ void ClientScriptAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, 
 
 /***********************************************************
 save action to lua file
-***********************************************************/	
+***********************************************************/
 void ClientScriptAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
 	file<<"\t"<<name<<" = ClientScriptAction()"<<std::endl;
@@ -131,7 +131,7 @@ CustomAction::CustomAction()
 
 /***********************************************************
 destructor
-***********************************************************/	
+***********************************************************/
 CustomAction::~CustomAction(void)
 {
 
@@ -151,7 +151,7 @@ void CustomAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::L
 
 /***********************************************************
 save action to lua file
-***********************************************************/	
+***********************************************************/
 void CustomAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
 	file<<"\t"<<name<<" = CustomAction()"<<std::endl;
@@ -172,7 +172,7 @@ DisplayTextAction::DisplayTextAction()
 
 /***********************************************************
 destructor
-***********************************************************/	
+***********************************************************/
 DisplayTextAction::~DisplayTextAction(void)
 {
 
@@ -192,7 +192,7 @@ void DisplayTextAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, I
 
 /***********************************************************
 save action to lua file
-***********************************************************/	
+***********************************************************/
 void DisplayTextAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
 	file<<"\t"<<name<<" = DisplayTextAction()"<<std::endl;
@@ -204,16 +204,16 @@ void DisplayTextAction::SaveToLuaFile(std::ofstream & file, const std::string & 
 
 /***********************************************************
 constructor
-***********************************************************/	
+***********************************************************/
 ConditionalAction::ConditionalAction()
 {
 
 }
-	
+
 
 /***********************************************************
 destructor
-***********************************************************/	
+***********************************************************/
 ConditionalAction::~ConditionalAction(void)
 {
 
@@ -222,7 +222,7 @@ ConditionalAction::~ConditionalAction(void)
 /***********************************************************
 //! execute the action
 //! parameter return the object type and number triggering the action
-***********************************************************/	
+***********************************************************/
 void ConditionalAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
 											ActionArgumentBase* args)
 {
@@ -243,7 +243,7 @@ void ConditionalAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, I
 
 /***********************************************************
 save action to lua file
-***********************************************************/	
+***********************************************************/
 void ConditionalAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
 	file<<"\t"<<name<<" = ConditionalAction()"<<std::endl;
@@ -286,7 +286,7 @@ void ConditionalAction::SaveToLuaFile(std::ofstream & file, const std::string & 
 	//! 1 -> npc object
 	//! 2 -> player object
 	//! 3 -> movable object
-***********************************************************/	
+***********************************************************/
 void SendSignalAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
 							ActionArgumentBase* args)
 {
@@ -298,7 +298,7 @@ void SendSignalAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ic
 
 /***********************************************************
 save action to lua file
-***********************************************************/	
+***********************************************************/
 void SendSignalAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
 	file<<"\t"<<name<<" = SendSignalAction()"<<std::endl;
@@ -311,7 +311,7 @@ void SendSignalAction::SaveToLuaFile(std::ofstream & file, const std::string & n
 
 /***********************************************************
 save action to lua file
-***********************************************************/	
+***********************************************************/
 void OpenDoorAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
 	file<<"\t"<<name<<" = OpenDoorAction()"<<std::endl;
@@ -322,7 +322,7 @@ void OpenDoorAction::SaveToLuaFile(std::ofstream & file, const std::string & nam
 
 /***********************************************************
 save action to lua file
-***********************************************************/	
+***********************************************************/
 void CloseDoorAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
 	file<<"\t"<<name<<" = CloseDoorAction()"<<std::endl;
@@ -336,18 +336,18 @@ void CloseDoorAction::SaveToLuaFile(std::ofstream & file, const std::string & na
 
 /***********************************************************
 constructor
-***********************************************************/	
+***********************************************************/
 OpenContainerAction::OpenContainerAction()
 : _lastResetTime(0), _TimeToReset(600000) // set to 10 min
 {
 	_shared = boost::shared_ptr<ContainerSharedInfo>(new ContainerSharedInfo());
 	_shared->OpeningClient = -1;
 }
-	
+
 
 /***********************************************************
 destructor
-***********************************************************/	
+***********************************************************/
 OpenContainerAction::~OpenContainerAction(void)
 {
 
@@ -361,7 +361,7 @@ OpenContainerAction::~OpenContainerAction(void)
 	//! 1 -> npc object
 	//! 2 -> player object
 	//! 3 -> movable object
-***********************************************************/	
+***********************************************************/
 void OpenContainerAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
 							ActionArgumentBase* args)
 {
@@ -400,7 +400,7 @@ void OpenContainerAction::Execute(ScriptEnvironmentBase * owner, int ObjectType,
 
 	//prepare item set
 	PrepareContainer();
-		
+
 
 	// send container to client
 	if(owner)
@@ -411,7 +411,7 @@ void OpenContainerAction::Execute(ScriptEnvironmentBase * owner, int ObjectType,
 
 /***********************************************************
 prepare the container
-***********************************************************/	
+***********************************************************/
 void OpenContainerAction::PrepareContainer()
 {
 	double currtime = SynchronizedTimeHandler::GetCurrentTimeDouble();
@@ -488,7 +488,7 @@ void OpenContainerAction::PrepareContainer()
 
 /***********************************************************
 save action to lua file
-***********************************************************/	
+***********************************************************/
 void OpenContainerAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
 	file<<"\t"<<name<<" = OpenContainerAction()"<<std::endl;
@@ -497,7 +497,7 @@ void OpenContainerAction::SaveToLuaFile(std::ofstream & file, const std::string 
 	{
 		std::stringstream itname;
 		itname<<name<<"ContItem"<<i;
-		file<<"\t\t"<<itname.str()<<" = ContainerItemGroupElement("	
+		file<<"\t\t"<<itname.str()<<" = ContainerItemGroupElement("
 			<<_containerstartitems[i].Id<<","
 			<<_containerstartitems[i].Min<<","
 			<<_containerstartitems[i].Max<<","
@@ -510,7 +510,7 @@ void OpenContainerAction::SaveToLuaFile(std::ofstream & file, const std::string 
 
 /***********************************************************
 add item to container start
-***********************************************************/	
+***********************************************************/
 void OpenContainerAction::AddItem(const ContainerItemGroupElement &item)
 {
 	_containerstartitems.push_back(item);
@@ -519,14 +519,15 @@ void OpenContainerAction::AddItem(const ContainerItemGroupElement &item)
 
 /***********************************************************
 clear container
-***********************************************************/	
+***********************************************************/
 void OpenContainerAction::ClearContainer()
 {
-	LbaNet::ItemsMap::iterator itm = _shared->ContainerItems.begin();
-	while(itm != _shared->ContainerItems.end())
+	LbaNet::ItemsMap & map = _shared->ContainerItems;
+	LbaNet::ItemsMap::iterator itm = map.begin();
+	while(itm != map.end())
 	{
 		if(itm->second.Position > 0)
-			itm = _shared->ContainerItems.erase(itm);
+			itm = map.erase(itm);
 		else
 			++itm;
 	}
@@ -535,7 +536,7 @@ void OpenContainerAction::ClearContainer()
 
 /***********************************************************
 check if item already in container
-***********************************************************/	
+***********************************************************/
 bool OpenContainerAction::ItemExist(long id)
 {
 	for(size_t i=0; i< _containerstartitems.size(); ++i)
@@ -556,7 +557,7 @@ bool OpenContainerAction::ItemExist(long id)
 	//! 1 -> npc object
 	//! 2 -> player object
 	//! 3 -> movable object
-***********************************************************/	
+***********************************************************/
 void AddRemoveItemAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
 							ActionArgumentBase* args)
 {
@@ -583,7 +584,7 @@ void AddRemoveItemAction::Execute(ScriptEnvironmentBase * owner, int ObjectType,
 
 /***********************************************************
 save action to lua file
-***********************************************************/	
+***********************************************************/
 void AddRemoveItemAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
 	file<<"\t"<<name<<" = AddRemoveItemAction()"<<std::endl;
@@ -595,7 +596,7 @@ void AddRemoveItemAction::SaveToLuaFile(std::ofstream & file, const std::string 
 
 /***********************************************************
 accessor
-***********************************************************/	
+***********************************************************/
 std::string AddRemoveItemAction::GetInformClientTypeString()
 {
 	std::string res = "No";
@@ -632,7 +633,7 @@ void AddRemoveItemAction::SetInformClientTypeString(const std::string & anim)
 	//! 1 -> npc object
 	//! 2 -> player object
 	//! 3 -> movable object
-***********************************************************/	
+***********************************************************/
 void HurtAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
 							ActionArgumentBase* args)
 {
@@ -644,7 +645,7 @@ void HurtAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Lon
 
 /***********************************************************
 save action to lua file
-***********************************************************/	
+***********************************************************/
 void HurtAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
 	file<<"\t"<<name<<" = HurtAction()"<<std::endl;
@@ -657,7 +658,7 @@ void HurtAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 
 /***********************************************************
 accessor
-***********************************************************/	
+***********************************************************/
 std::string HurtAction::GetPlayAnimationString()
 {
 	std::string res = "No";
@@ -698,7 +699,7 @@ void HurtAction::SetAnimationString(const std::string & anim)
 	//! 1 -> npc object
 	//! 2 -> player object
 	//! 3 -> movable object
-***********************************************************/	
+***********************************************************/
 void KillAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
 							ActionArgumentBase* args)
 {
@@ -710,7 +711,7 @@ void KillAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Lon
 
 /***********************************************************
 save action to lua file
-***********************************************************/	
+***********************************************************/
 void KillAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
 	file<<"\t"<<name<<" = KillAction()"<<std::endl;
@@ -726,7 +727,7 @@ void KillAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 	//! 1 -> npc object
 	//! 2 -> player object
 	//! 3 -> movable object
-***********************************************************/	
+***********************************************************/
 void MultiAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
 							ActionArgumentBase* args)
 {
@@ -738,7 +739,7 @@ void MultiAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Lo
 
 /***********************************************************
 save action to lua file
-***********************************************************/	
+***********************************************************/
 void MultiAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
 	file<<"\t"<<name<<" = MultiAction()"<<std::endl;
@@ -756,7 +757,7 @@ void MultiAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 
 /***********************************************************
 add action
-***********************************************************/	
+***********************************************************/
 void MultiAction::AddAction(ActionBasePtr action)
 {
 	_actions.push_back(action);
@@ -764,7 +765,7 @@ void MultiAction::AddAction(ActionBasePtr action)
 
 /***********************************************************
 remove action
-***********************************************************/	
+***********************************************************/
 void MultiAction::RemoveAction(ActionBasePtr action)
 {
 	std::vector<ActionBasePtr>::iterator it = std::find(_actions.begin(), _actions.end(), action);
@@ -775,7 +776,7 @@ void MultiAction::RemoveAction(ActionBasePtr action)
 
 /***********************************************************
 replace old action by new one
-***********************************************************/	
+***********************************************************/
 void MultiAction::ReplaceAction(ActionBasePtr olda, ActionBasePtr newa)
 {
 	std::vector<ActionBasePtr>::iterator it = std::find(_actions.begin(), _actions.end(), olda);
@@ -792,7 +793,7 @@ void MultiAction::ReplaceAction(ActionBasePtr olda, ActionBasePtr newa)
 	//! 1 -> npc object
 	//! 2 -> player object
 	//! 3 -> movable object
-***********************************************************/	
+***********************************************************/
 void SwitchAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
 							ActionArgumentBase* args)
 {
@@ -818,7 +819,7 @@ void SwitchAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::L
 
 /***********************************************************
 save action to lua file
-***********************************************************/	
+***********************************************************/
 void SwitchAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
 	file<<"\t"<<name<<" = SwitchAction()"<<std::endl;
@@ -874,7 +875,7 @@ void StartQuestAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ic
 
 /***********************************************************
 save action to lua file
-***********************************************************/	
+***********************************************************/
 void StartQuestAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
 	file<<"\t"<<name<<" = StartQuestAction()"<<std::endl;
@@ -913,7 +914,7 @@ void FinishQuestAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, I
 
 /***********************************************************
 save action to lua file
-***********************************************************/	
+***********************************************************/
 void FinishQuestAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
 	file<<"\t"<<name<<" = FinishQuestAction()"<<std::endl;
@@ -954,7 +955,7 @@ void OpenShopAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice:
 
 /***********************************************************
 save action to lua file
-***********************************************************/	
+***********************************************************/
 void OpenShopAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
 	file<<"\t"<<name<<" = OpenShopAction()"<<std::endl;
@@ -963,14 +964,14 @@ void OpenShopAction::SaveToLuaFile(std::ofstream & file, const std::string & nam
 	LbaNet::ItemsMap::iterator it =	_items.begin();
 	LbaNet::ItemsMap::iterator end = _items.end();
 	for(; it != end; ++it)
-		file<<"\t"<<name<<":AddItem("<<it->first<<", "<<it->second.Info.BuyPrice<<")"<<std::endl;	
+		file<<"\t"<<name<<":AddItem("<<it->first<<", "<<it->second.Info.BuyPrice<<")"<<std::endl;
 }
 
 
 
 /***********************************************************
 add item to container start
-***********************************************************/	
+***********************************************************/
 void OpenShopAction::AddItem(long item, int price)
 {
 	if(item >= 0)
@@ -990,7 +991,7 @@ void OpenShopAction::AddItem(long item, int price)
 
 /***********************************************************
 add item to container start
-***********************************************************/	
+***********************************************************/
 LbaNet::ItemInfo OpenShopAction::AddItemR(long item, int price)
 {
 	if(item >= 0)
@@ -1014,7 +1015,7 @@ LbaNet::ItemInfo OpenShopAction::AddItemR(long item, int price)
 
 /***********************************************************
 remove item to container start
-***********************************************************/	
+***********************************************************/
 void OpenShopAction::RemoveItem(long item)
 {
 	LbaNet::ItemsMap::iterator it = _items.find(item);
@@ -1025,7 +1026,7 @@ void OpenShopAction::RemoveItem(long item)
 
 /***********************************************************
 get currency item
-***********************************************************/	
+***********************************************************/
 long OpenShopAction::GetCurrencyItem()
 {
 	return (long)_currencyitem.Id;
@@ -1033,7 +1034,7 @@ long OpenShopAction::GetCurrencyItem()
 
 /***********************************************************
 set currency item
-***********************************************************/	
+***********************************************************/
 void OpenShopAction::SetCurrencyItem(long it)
 {
 	_currencyitem = InventoryItemHandler::getInstance()->GetItemInfo(it);
@@ -1071,14 +1072,14 @@ void CutMapAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::L
 		EventsSeq toplayer;
 		toplayer.push_back(new CutMapEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), _Y));
 		IceUtil::ThreadPtr t = new EventsSender(toplayer, proxy);
-		t->start();		
+		t->start();
 	}
 }
 
 
 /***********************************************************
 save action to lua file
-***********************************************************/	
+***********************************************************/
 void CutMapAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
 	file<<"\t"<<name<<" = CutMapAction()"<<std::endl;
@@ -1117,18 +1118,18 @@ void OpenLetterWritterAction::Execute(ScriptEnvironmentBase * owner, int ObjectT
 	{
 		EventsSeq toplayer;
 		toplayer.push_back(
-			new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+			new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 										"LetterEditorBox", GuiParamsSeq(), true, false));
 
 		IceUtil::ThreadPtr t = new EventsSender(toplayer, proxy);
-		t->start();		
+		t->start();
 	}
 }
 
 
 /***********************************************************
 save action to lua file
-***********************************************************/	
+***********************************************************/
 void OpenLetterWritterAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
 	file<<"\t"<<name<<" = OpenLetterWritterAction()"<<std::endl;
@@ -1166,7 +1167,7 @@ void OpenMailboxAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, I
 
 /***********************************************************
 save action to lua file
-***********************************************************/	
+***********************************************************/
 void OpenMailboxAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
 {
 	file<<"\t"<<name<<" = OpenMailboxAction()"<<std::endl;
