@@ -725,7 +725,7 @@ function InitMap(environment)
 	Actor_16.DisplayDesc.Weapon = ""
 	Actor_16.DisplayDesc.Mode = ""
 	Actor_16.DisplayDesc.UseLight = true
-	Actor_16.DisplayDesc.CastShadow = false
+	Actor_16.DisplayDesc.CastShadow = true
 	Actor_16.DisplayDesc.ColorR = 1
 	Actor_16.DisplayDesc.ColorG = 1
 	Actor_16.DisplayDesc.ColorB = 1

@@ -183,7 +183,18 @@
                     <Window Type="TaharezLook/Combobox" Name="OptionsTab/Video/cbcameratype" >
                         <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                         <Property Name="UnifiedAreaRect" Value="{{0.5,20},{0,200},{0.5,200},{0,320}}" />
-                    </Window>                                  
+                    </Window>    
+                    
+                     <Window Type="TaharezLook/StaticText" Name="OptionsTab/Video/shadowtext" >
+                        <Property Name="Text" Value="#101" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.5,-200},{0,240},{0.5,-20},{0,265}}" />
+                    </Window>  
+                    
+                    <Window Type="TaharezLook/Combobox" Name="OptionsTab/Video/cbshadow" >
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.5,20},{0,240},{0.5,200},{0,360}}" />
+                    </Window>                  
                                         
                     
                 </Window>

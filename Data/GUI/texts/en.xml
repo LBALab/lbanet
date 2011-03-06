@@ -101,4 +101,9 @@
 <text id="98">Skin Color:</text>
 <text id="99">Eyes Color:</text>
 <text id="100">Hair Color:</text>
+<text id="101">Shadow type:</text>
+<text id="102">No shadows</text>
+<text id="103">Minimal shadowmap</text>
+<text id="104">Standard shadowmap</text>
+<text id="105">Soft shadowmap</text>
 </texts>
