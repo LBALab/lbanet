@@ -17,7 +17,7 @@ $(TARGET): $(OBJ)
 
 .cpp.o:
 	@echo "\n         **********creation des .o************\n"
-	$(CC) -O2 -D_LBANET_SERVER_SIDE_ -DTIXML_USE_STL -I. $(INCDIR) -c $<
+	$(CC) -O2 -D_LBANET_SERVER_SIDE_ -I. $(INCDIR) -c $<
 	@echo "\n"
 
 depend: 
