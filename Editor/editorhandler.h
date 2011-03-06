@@ -42,6 +42,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ui_addtextdialog.h"
 #include "ui_additemdialog.h"
 #include "ui_addstartitemdialog.h"
+#include "ui_ImportantNotice.h"
+
 
 #include "GraphicsWindowQt"
 #include "ScriptEnvironmentBase.h"
@@ -784,7 +786,17 @@ public slots:
 	
 	//! map music file clicked
 	void MapMusicFile_clicked();
-
+	
+	//! Notice_accepted
+	void Notice_accepted();
+	
+	//! Notice_rejected
+	void Notice_rejected();
+	
+	//! Notice_closed
+	void Notice_closed(int v);
+	
+	
 
 protected:
 	//! override close event
@@ -1085,6 +1097,8 @@ private:
 	Ui::DialogAddStartItem								_ui_addstartitemdialog;
 	QDialog *											_addstartitemdialog;
 
+	Ui::NoticeDialog									_ui_NoticeDialog;
+	QDialog *											_NoticeDialogdialog;
 
 	StringTableModel *									_maplistmodel;
 	StringTableModel *									_tplistmodel;

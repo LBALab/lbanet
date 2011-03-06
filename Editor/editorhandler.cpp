@@ -41,6 +41,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Quest.h"
 #include "Spawn.h"
 #include "MusicHandler.h"
+#include "ConfigurationManager.h"
 
 #include <qdir.h>
 #include <QErrorMessage>
@@ -1478,7 +1479,29 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.spinBox_cweapon, SIGNAL(valueChanged(int)) , this, SLOT(colorModified(int)));	
 	connect(_uieditor.spinBox_cmount, SIGNAL(valueChanged(int)) , this, SLOT(colorModified(int)));	
 	connect(_uieditor.spinBox_cmount2, SIGNAL(valueChanged(int)) , this, SLOT(colorModified(int)));	
+
+
+
+	// read notice
+	int read = 0;
+	ConfigurationManager::GetInstance()->GetInt("Options.Editor.NoticeAccepted", read);
+	if(read == 0)
+	{
+		_NoticeDialogdialog = new QDialog(this);
+		_ui_NoticeDialog.setupUi(_NoticeDialogdialog);
+		_NoticeDialogdialog->setModal(true);
+		_NoticeDialogdialog->show();
+
+		
+		connect(_ui_NoticeDialog.buttonBox, SIGNAL(accepted()) , this, SLOT(Notice_accepted()));
+		connect(_ui_NoticeDialog.buttonBox, SIGNAL(accepted()) , this, SLOT(Notice_accepted()));
+		connect(_NoticeDialogdialog, SIGNAL(finished(int)) , this, SLOT(Notice_closed(int)));
+
+	}
 }
+
+
+
 
 /***********************************************************
 Destructor
@@ -7794,7 +7817,7 @@ void EditorHandler::UpdateSelectedActorDisplay(LbaNet::ObjectPhysicDesc desc,
 
 			EventsQueue::getReceiverQueue()->AddEvent(
 					new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-					LbaNet::EditorObject, ainfo.ObjectId, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo, 
+					4, ainfo.ObjectId, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo, 
 					ainfo.ExtraInfo));
 		}
 	}
@@ -7819,7 +7842,7 @@ void EditorHandler::RemoveSelectedActorDislay()
 	{
 		EventsQueue::getReceiverQueue()->AddEvent(
 			new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-													LbaNet::EditorObject, it->first));
+													4, it->first));
 	}
 
 	_editorObjects.clear();
@@ -11212,3 +11235,34 @@ void EditorHandler::MapMusicFile_clicked()
 		_uieditor.lineEdit_mapmusic->setText(selected);
 	}
 }
+
+
+/***********************************************************
+Notice_accepted
+***********************************************************/
+void EditorHandler::Notice_accepted()
+{
+	_NoticeDialogdialog->hide();
+	int read = 1;
+	ConfigurationManager::GetInstance()->SetInt("Options.Editor.NoticeAccepted", read);
+}
+
+/***********************************************************
+Notice_rejected
+***********************************************************/
+void EditorHandler::Notice_rejected()
+{
+		_NoticeDialogdialog->hide();
+		quit();
+}
+
+	
+/***********************************************************
+Notice_closed
+***********************************************************/
+void EditorHandler::Notice_closed(int v)
+{
+	if(v == 0)
+		Notice_rejected();
+}
+	
