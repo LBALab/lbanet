@@ -1,10 +1,10 @@
 TARGET=loginserver
-OBJ=ActorsParticipantServant.o ChatParticipantServant.o ClientSessionManagerServant.o main.o SessionServant.o DatabaseHandler.o ../../common/ActivableActor.o ../../common/Actor.o ../../common/MapInfoXmlReader.o ../../common/AreaSwitch.o ../../common/ContainerActor.o ../../common/DoorActor.o ../../common/ExitActor.o ../../common/FloorSwitch.o ../../common/LadderActor.o ../../common/LivingActor.o ../../common/SwitchActor.o ../../common/TextActor.o ../../common/UpExitActor.o ../../common/ZoneActivableActor.o ../../common/ZoneActor.o ../../common/HurtArea.o ../../common/Randomizer.o ../../common/3DObjectRenderer.o ../../common/Entities.o ../../common/HQRHandler.o ../../common/HQRlib.o ../../common/NPCActor.o ../../common/ScriptableActor.o ../../common/ScriptedZoneActor.o ../../common/ServerCharacterRenderer.o ../../common/ServerLBA1ModelClass.o ../../common/StreamReader.o ../../common/Quest.o ../../common/QuestCondition.o ../../common/QuestHandler.o ../../common/InventoryCondition.o ../../common/Dialog.o ../../common/MailboxActor.o ../../common/ActorCondition.o
+OBJ=AvailableWorldsHandler.o ChatParticipantServant.o ClientSessionManagerServant.o main.o SessionServant.o ../../shared/SynchronizedTimeHandler.o WorldRegistrationServant.o
 
 CC=g++
-INCDIR=-I. -I../infrastructure/include -I/usr/include -I../../common -I../../tinyxml/include -I/usr/include/mysql++ -I/usr/include/mysql
-LIBDIR=-L/usr/lib -L../infrastructure/lib -L../../tinyxml/lib
-LIBS=-lIce -lIceStorm -lIceUtil -lGlacier2 -lgenerated -ltinyxml -lmysqlpp -lmysqlclient
+INCDIR=-I. -I../../infrastructure/include -I/usr/include -I/usr/include/mysql++ -I/usr/include/mysql -I../../shared
+LIBDIR=-L/usr/lib -L../../infrastructure/lib
+LIBS=-lIce -lIceStorm -lIceUtil -lGlacier2 -lgenerated -lmysqlpp -lmysqlclient
 
 
 all: clean depend $(TARGET) install
