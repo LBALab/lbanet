@@ -2,8 +2,8 @@ TARGET=connectedtraker
 OBJ=ConnectedTrackerServant.o PermissionsVerifierServant.o SharedData.o DatabaseHandler.o main.o ../../common/md5.o
 
 CC=g++
-INCDIR=-I. -I../infrastructure/include -I/usr/include  -I/usr/include/mysql++ -I/usr/include/mysql -I../../common
-LIBDIR=-L/usr/lib -L../infrastructure/lib -L/usr/local/lib
+INCDIR=-I. -I../../infrastructure/include -I/usr/include  -I/usr/include/mysql++ -I/usr/include/mysql -I../../common
+LIBDIR=-L/usr/lib -L../../infrastructure/lib -L/usr/local/lib
 LIBS=-lIce -lIceStorm -lIceUtil -lGlacier2 -lgenerated -lmysqlpp -lmysqlclient
 
 
