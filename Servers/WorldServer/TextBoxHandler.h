@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define _TEXT_BOX_HANDLER_H__
 
 
-#include "ServerGuiBase.h"
+#include "ServerGUIBase.h"
 
 //! take care of update comming from client TextBox GUI
 class TextBoxHandler :	public ServerGUIBase

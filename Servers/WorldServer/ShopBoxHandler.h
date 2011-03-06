@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define _SHOP_BOX_HANDLER_H__
 
 
-#include "ServerGuiBase.h"
+#include "ServerGUIBase.h"
 
 namespace LbaNet
 {
