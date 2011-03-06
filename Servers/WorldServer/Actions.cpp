@@ -522,15 +522,17 @@ clear container
 ***********************************************************/
 void OpenContainerAction::ClearContainer()
 {
+	LbaNet::ItemsMap toswap;
 	LbaNet::ItemsMap & map = _shared->ContainerItems;
 	LbaNet::ItemsMap::iterator itm = map.begin();
-	while(itm != map.end())
+
+	for(;itm != map.end(); ++itm)
 	{
-		if(itm->second.Position > 0)
-			itm = map.erase(itm);
-		else
-			++itm;
+		if(itm->second.Position <= 0)
+			toswap[itm->first] =itm->second;
 	}
+
+	toswap.swap(map);
 }
 
 
