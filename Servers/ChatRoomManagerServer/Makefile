@@ -2,8 +2,8 @@ TARGET=chatroommanager
 OBJ=RoomManagerServant.o main.o
 
 CC=g++
-INCDIR=-I. -I../infrastructure/include -I/usr/include
-LIBDIR=-L/usr/lib -L../infrastructure/lib
+INCDIR=-I. -I../../infrastructure/include -I/usr/include
+LIBDIR=-L/usr/lib -L../../infrastructure/lib
 LIBS=-lIce -lIceStorm -lIceUtil -lGlacier2 -lgenerated
 
 
