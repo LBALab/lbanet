@@ -85,6 +85,9 @@ public:
 	// clean up
 	void CleanUp();
 
+	// get client name
+	std::string GetName(Ice::Long clientid);
+
 	//get player proxy
 	ClientProxyBasePtr GetProxy(Ice::Long clientid);
 

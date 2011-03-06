@@ -371,6 +371,21 @@ void SharedDataHandler::CleanUp()
 
 
 
+/***********************************************************
+get client name
+***********************************************************/
+std::string SharedDataHandler::GetName(Ice::Long clientid)
+{
+	Lock sync(*this);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
+	if(it != _currentplayers.end())
+		return it->second->GetExtraInfo().Name;
+
+
+	return NULL;
+}
+
 
 
 /***********************************************************

@@ -62,10 +62,12 @@ void MailBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBasePtr &
 		LbaNet::SendPMUpdate * castedptr = 
 			dynamic_cast<LbaNet::SendPMUpdate *>(ptr);
 
+		castedptr->PM.FromName =  SharedDataHandler::getInstance()->GetName(clientid);
 		boost::shared_ptr<DatabaseHandlerBase> dbh = SharedDataHandler::getInstance()->GetDatabase();
 		if(dbh)
 			dbh->SendPM(castedptr->PM);
 	}
+
 
 	// LbaNet::GuiClosedUpdate
 	if(info == typeid(LbaNet::GuiClosedUpdate))

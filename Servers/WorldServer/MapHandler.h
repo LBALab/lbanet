@@ -28,6 +28,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <ClientInterface.h>
 #include <IceUtil/Mutex.h>
+#include <IceUtil/RecMutex.h>
+
 #include <boost/shared_ptr.hpp>
 
 #include "RunnableThread.h"
@@ -606,7 +608,7 @@ private:
 	// threading and mutex stuff
 	IceUtil::Monitor<IceUtil::Mutex>							_monitor;
 	IceUtil::Mutex												_mutex_events;
-	IceUtil::Mutex												_mutex_proxies;
+	IceUtil::RecMutex											_mutex_proxies;
 
 	bool														_Trunning;
 	IceUtil::ThreadControl										_threadcontrol;

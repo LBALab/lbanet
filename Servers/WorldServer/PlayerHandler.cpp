@@ -1185,6 +1185,18 @@ void PlayerHandler::GetPlayerPhysicalSize(float &sX, float &sY, float &sZ)
 			sY = resSize.Y;
 			sZ = resSize.Z;
 		}
+
+		//check if something went wrong
+		if(sX < 0 || sX > 100)
+			sX = 1;
+
+		//check if something went wrong
+		if(sY < 0 || sY > 100)
+			sY = 5;
+
+		//check if something went wrong
+		if(sZ < 0 || sZ > 100)
+			sZ = 1;
 	}
 }
 
