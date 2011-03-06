@@ -1,10 +1,10 @@
-TARGET=loginserver
-OBJ=ActorsParticipantServant.o ChatParticipantServant.o ClientSessionManagerServant.o main.o SessionServant.o DatabaseHandler.o ../../common/ActivableActor.o ../../common/Actor.o ../../common/MapInfoXmlReader.o ../../common/AreaSwitch.o ../../common/ContainerActor.o ../../common/DoorActor.o ../../common/ExitActor.o ../../common/FloorSwitch.o ../../common/LadderActor.o ../../common/LivingActor.o ../../common/SwitchActor.o ../../common/TextActor.o ../../common/UpExitActor.o ../../common/ZoneActivableActor.o ../../common/ZoneActor.o ../../common/HurtArea.o ../../common/Randomizer.o ../../common/3DObjectRenderer.o ../../common/Entities.o ../../common/HQRHandler.o ../../common/HQRlib.o ../../common/NPCActor.o ../../common/ScriptableActor.o ../../common/ScriptedZoneActor.o ../../common/ServerCharacterRenderer.o ../../common/ServerLBA1ModelClass.o ../../common/StreamReader.o ../../common/Quest.o ../../common/QuestCondition.o ../../common/QuestHandler.o ../../common/InventoryCondition.o ../../common/Dialog.o ../../common/MailboxActor.o ../../common/ActorCondition.o
+TARGET=worldserver
+OBJ=.\Actions.o .\ActorHandler.o ..\..\shared\ActorScriptPart.o ..\..\shared\CharacterModes.o ..\..\shared\CharacterStates.o ..\..\shared\ClientScript.o ..\..\shared\CommonTypes.o .\CommunityBoxHandler.o .\Conditions.o .\ContainerBoxHandler.o .\DatabaseHandler.o .\DialogBoxHandler.o .\DialogPart.o .\DoorHandler.o ..\..\shared\Entities.o ..\..\shared\HQRHandler.o ..\..\shared\HQRlib.o .\InventoryBoxHandler.o .\InventoryItemHandler.o ..\..\shared\Lba1ModelMapHandler.o ..\..\shared\LogHandler.o ..\..\shared\LuaHandlerBase.o ..\..\shared\LuaThreadHandler.o .\MailBoxHandler.o .\main.o .\MaintenanceInterfaceServant.o .\MapHandler.o .\NpcHandler.o ..\..\Client\ObjectsDescription.o .\PlayerHandler.o .\Quest.o .\QuestHandler.o ..\..\shared\Randomizer.o ..\..\shared\ScriptedActor.o ..\..\shared\ScriptEnvironmentBase.o .\ServerGUIBase.o .\ServerLBA1ModelClass.o .\ServerLba1ModelHandler.o .\ServerLuaHandler.o .\SharedDataHandler.o .\ShopBoxHandler.o .\ShortcutBoxHandler.o .\Spawn.o ..\..\Client\StaticObject.o ..\..\shared\StreamReader.o ..\..\shared\SynchronizedTimeHandler.o .\Teleport.o .\TextBoxHandler.o .\Triggers.o .\WorldChatHandler.o .\WorldServerInterfaceServant.o ..\..\shared\XmlReader.o
 
 CC=g++
-INCDIR=-I. -I../infrastructure/include -I/usr/include -I../../common -I../../tinyxml/include -I/usr/include/mysql++ -I/usr/include/mysql
-LIBDIR=-L/usr/lib -L../infrastructure/lib -L../../tinyxml/lib
-LIBS=-lIce -lIceStorm -lIceUtil -lGlacier2 -lgenerated -ltinyxml -lmysqlpp -lmysqlclient
+INCDIR=-I. -I../../infrastructure/include -I/usr/include -I../../shared -I/usr/include/mysql++ -I/usr/include/mysql
+LIBDIR=-L/usr/lib -L../../infrastructure/lib
+LIBS=-lIce -lIceStorm -lIceUtil -lGlacier2 -lgenerated -lmysqlpp -lmysqlclient
 
 
 all: clean depend $(TARGET) install
@@ -17,7 +17,7 @@ $(TARGET): $(OBJ)
 
 .cpp.o:
 	@echo "\n         **********creation des .o************\n"
-	$(CC) -O2 -D_LBANET_SERVER_SIDE_ -DTIXML_USE_STL -I. $(INCDIR) -c $<
+	$(CC) -O2 -D_LBANET_SERVER_SIDE_ -I. $(INCDIR) -c $<
 	@echo "\n"
 
 depend: 
