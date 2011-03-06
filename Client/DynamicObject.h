@@ -81,6 +81,12 @@ public:
 	bool IsShown()
 	{ return _show;}
 
+	//! clear old signals
+	void ClearSignals()
+	{
+		_signalReceived.clear();
+	}
+
 	//! add a signal to object
 	void AddSignal(int Signal)
 	{

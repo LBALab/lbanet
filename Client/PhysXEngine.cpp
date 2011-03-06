@@ -979,20 +979,16 @@ bool PhysXEngine::CheckOnTopOff(NxActor* actor1, NxActor* actor2)
 
 	if(actor2->getNbShapes() < 1)
 		return false;
+	if(actor1->getNbShapes() < 1)
+		return false;
 
-	NxVec3 pos = actor1->getGlobalPosition();
-	pos.y += 0.5f;
-	NxVec3 dir(0, -1,0);
-	NxRay ray(pos, dir);
-	NxRaycastHit hit;
+	NxBounds3 bound1, bound2;
+	(*actor1->getShapes())->getWorldBounds(bound1);
+	(*actor2->getShapes())->getWorldBounds(bound2);
 
-	NxVec3 pos2 = actor2->getGlobalPosition();
-	bool hitted = (*actor2->getShapes())->raycast(ray, 10, 0, hit, true);
-	return hitted;
+	return bound1.intersects2D(bound2, 1);
 }
 	 
-
-
 
 
 

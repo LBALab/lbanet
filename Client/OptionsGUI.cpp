@@ -122,25 +122,51 @@ void OptionsGUI::Initialize()
 			cbatype->setText(_lang);
 		}
 
-		CEGUI::Combobox * combocamtype = static_cast<CEGUI::Combobox *> (
-			CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/Video/cbcameratype"));
-		if(combocamtype)
 		{
-			MyOptListItem * tmp0 = new MyOptListItem((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 89).c_str());
-			tmp0->setID(0);
-			combocamtype->addItem(tmp0);
+			CEGUI::Combobox * combocamtype = static_cast<CEGUI::Combobox *> (
+				CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/Video/cbcameratype"));
+			if(combocamtype)
+			{
+				MyOptListItem * tmp0 = new MyOptListItem((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 89).c_str());
+				tmp0->setID(0);
+				combocamtype->addItem(tmp0);
 
-			MyOptListItem * tmp1 = new MyOptListItem((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 90).c_str());
-			tmp1->setID(1);
-			combocamtype->addItem(tmp1);
+				MyOptListItem * tmp1 = new MyOptListItem((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 90).c_str());
+				tmp1->setID(1);
+				combocamtype->addItem(tmp1);
 
-			MyOptListItem * tmp2 = new MyOptListItem((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 91).c_str());
-			tmp2->setID(2);
-			combocamtype->addItem(tmp2);
+				MyOptListItem * tmp2 = new MyOptListItem((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 91).c_str());
+				tmp2->setID(2);
+				combocamtype->addItem(tmp2);
 
-			MyOptListItem * tmp3 = new MyOptListItem((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 92).c_str());
-			tmp3->setID(3);
-			combocamtype->addItem(tmp3);
+				MyOptListItem * tmp3 = new MyOptListItem((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 92).c_str());
+				tmp3->setID(3);
+				combocamtype->addItem(tmp3);
+			}
+		}
+
+
+		{
+			CEGUI::Combobox * combocamtype = static_cast<CEGUI::Combobox *> (
+				CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/Video/cbshadow"));
+			if(combocamtype)
+			{
+				MyOptListItem * tmp0 = new MyOptListItem((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 102).c_str());
+				tmp0->setID(0);
+				combocamtype->addItem(tmp0);
+
+				MyOptListItem * tmp1 = new MyOptListItem((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 103).c_str());
+				tmp1->setID(1);
+				combocamtype->addItem(tmp1);
+
+				MyOptListItem * tmp2 = new MyOptListItem((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 104).c_str());
+				tmp2->setID(2);
+				combocamtype->addItem(tmp2);
+
+				MyOptListItem * tmp3 = new MyOptListItem((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 105).c_str());
+				tmp3->setID(3);
+				combocamtype->addItem(tmp3);
+			}
 		}
 
 
@@ -365,19 +391,40 @@ void OptionsGUI::Apply()
 			}
 		#endif
 
-			//handle perpective
-			CEGUI::Combobox * combocamtype = static_cast<CEGUI::Combobox *> (
-				CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/Video/cbcameratype"));
-			if(combocamtype)
 			{
-				CEGUI::ListboxItem* selected = combocamtype->getSelectedItem();
-				if(selected)
+				//handle perpective
+				CEGUI::Combobox * combocamtype = static_cast<CEGUI::Combobox *> (
+					CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/Video/cbcameratype"));
+				if(combocamtype)
 				{
-					int sid = selected->getID();
-					if(sid !=  _currCamType)
+					CEGUI::ListboxItem* selected = combocamtype->getSelectedItem();
+					if(selected)
 					{
-						_currCamType = sid;
-						OsgHandler::getInstance()->ToggleCameraType(_currCamType);
+						int sid = selected->getID();
+						if(sid !=  _currCamType)
+						{
+							_currCamType = sid;
+							OsgHandler::getInstance()->ToggleCameraType(_currCamType);
+						}
+					}
+				}
+			}
+
+			{
+				//handle shadow
+				CEGUI::Combobox * combocamtype = static_cast<CEGUI::Combobox *> (
+					CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/Video/cbshadow"));
+				if(combocamtype)
+				{
+					CEGUI::ListboxItem* selected = combocamtype->getSelectedItem();
+					if(selected)
+					{
+						int sid = selected->getID();
+						if(sid !=  _currShadowType)
+						{
+							_currShadowType = sid;
+							OsgHandler::getInstance()->ToggleShadow(_currShadowType);
+						}
 					}
 				}
 			}
@@ -544,13 +591,24 @@ void OptionsGUI::Cancel()
 			if(checkbfull)
 				checkbfull->setSelected(_currFullscreen);
 
-
-			//handle perspective
-			CEGUI::Combobox * combocamtype = static_cast<CEGUI::Combobox *> (
-				CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/Video/cbcameratype"));
-			if(combocamtype)
 			{
-				combocamtype->setItemSelectState(_currCamType, true);
+				//handle perspective
+				CEGUI::Combobox * combocamtype = static_cast<CEGUI::Combobox *> (
+					CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/Video/cbcameratype"));
+				if(combocamtype)
+				{
+					combocamtype->setItemSelectState(_currCamType, true);
+				}
+			}
+
+			{
+				//handle shadow
+				CEGUI::Combobox * combocamtype = static_cast<CEGUI::Combobox *> (
+					CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/Video/cbshadow"));
+				if(combocamtype)
+				{
+					combocamtype->setItemSelectState(_currShadowType, true);
+				}
 			}
 		}
 
@@ -621,6 +679,8 @@ void OptionsGUI::Displayed()
 	ConfigurationManager::GetInstance()->GetInt("Display.Screen.ScreenResolutionY", _currScreenY);
 	ConfigurationManager::GetInstance()->GetBool("Display.Screen.Fullscreen", _currFullscreen);
 	ConfigurationManager::GetInstance()->GetInt("Display.Camera.CameraType", _currCamType);
+	ConfigurationManager::GetInstance()->GetInt("Display.ShadowType", _currShadowType);
+	
 
 	ConfigurationManager::GetInstance()->GetInt("Options.Sound.GeneralVolume", _currGenVolume);
 	ConfigurationManager::GetInstance()->GetInt("Options.Sound.MusicVolume", _currMusicVolume);

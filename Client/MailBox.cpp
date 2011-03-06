@@ -451,12 +451,7 @@ bool MailBox::Handlelistselected(const CEGUI::EventArgs& e)
 
 				if(li->getTooltipText() == "delete")
 				{
-					LbaNet::GuiUpdatesSeq updseq;
-					LbaNet::DeletePMUpdate * upd = 
-						new LbaNet::DeletePMUpdate(mid);
-					updseq.push_back(upd);
-					EventsQueue::getSenderQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
-						SynchronizedTimeHandler::GetCurrentTimeDouble(), "MailBox", updseq));
+					DeletePM(mid);
 				}
 				else
 				{
@@ -508,6 +503,21 @@ void MailBox::DisplayMail(const LbaNet::PMInfo & pm)
 		updseq.push_back(upd);
 		EventsQueue::getSenderQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
 			SynchronizedTimeHandler::GetCurrentTimeDouble(), "MailBox", updseq));
+
+		// mark read
+		LbaNet::PMsSeq::iterator it = _currentpms.begin();
+		LbaNet::PMsSeq::iterator end = _currentpms.end();
+		for(; it != end; ++it)
+		{
+			if(it->PMId == pm.PMId)
+			{
+				it->Opened = true;
+				break;
+			}
+		}
+
+		//refresh mailbox
+		UpdateMailbox(_currentpms);
 	}
 }
 
@@ -529,12 +539,7 @@ handle list selected event
 ***********************************************************/
 bool MailBox::HandleReadDelete(const CEGUI::EventArgs& e)
 {
-	LbaNet::GuiUpdatesSeq updseq;
-	LbaNet::DeletePMUpdate * upd = 
-		new LbaNet::DeletePMUpdate(_currentread);
-	updseq.push_back(upd);
-	EventsQueue::getSenderQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
-		SynchronizedTimeHandler::GetCurrentTimeDouble(), "MailBox", updseq));
+	DeletePM(_currentread);
 
 	SwitchToMailBox();
 	return true;
@@ -861,4 +866,34 @@ void MailBox::RestoreGUISizes()
 	frw3->setPosition(CEGUI::UVector2(CEGUI::UDim(_savePosXWrite, 0), CEGUI::UDim(_savePosYWrite, 0)));
 	frw3->setWidth(CEGUI::UDim(_saveSizeXWrite, 0));
 	frw3->setHeight(CEGUI::UDim(_saveSizeYWrite, 0));
+}
+
+
+
+/***********************************************************
+delete pm
+***********************************************************/
+void MailBox::DeletePM(Ice::Long pmid)
+{
+	LbaNet::GuiUpdatesSeq updseq;
+	LbaNet::DeletePMUpdate * upd = 
+		new LbaNet::DeletePMUpdate(pmid);
+	updseq.push_back(upd);
+	EventsQueue::getSenderQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
+		SynchronizedTimeHandler::GetCurrentTimeDouble(), "MailBox", updseq));
+
+	// remove from memory
+	LbaNet::PMsSeq::iterator it = _currentpms.begin();
+	LbaNet::PMsSeq::iterator end = _currentpms.end();
+	for(; it != end; ++it)
+	{
+		if(it->PMId == pmid)
+		{
+			_currentpms.erase(it);
+			break;
+		}
+	}
+
+	//refresh mailbox
+	UpdateMailbox(_currentpms);
 }

@@ -1133,7 +1133,10 @@ void CharacterController::SendSignal(int Signalnumber)
 {
 	LbaNet::ModelState _currentstatestr = SharedDataHandler::getInstance()->GetMainState();
 	if(_currentstatestr == LbaNet::StScripted) // only if in scripted state
+	{
+		_character->ClearSignals();
 		_character->AddSignal(Signalnumber);
+	}
 }
 
 

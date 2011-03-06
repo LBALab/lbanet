@@ -195,6 +195,9 @@ public:
 	int CameraType()
 	{return _cameraType;}
 
+	//! toggle shadow
+	void ToggleShadow(int ShadowType);
+
 
 	// create sprite object
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateSpriteObject(const std::string & spritefile, 
@@ -285,6 +288,10 @@ protected:
 	//! reset camera distances when changeing cam type
 	void ResetCameraDistances(double distance);
 
+	//! set shadow node
+	osg::ref_ptr<osg::Group> CreateShadowNode();
+
+
 private:
 	// singleton
 	static OsgHandler * _singletonInstance;
@@ -304,7 +311,7 @@ private:
 	int		_viewportX;
 	int		_viewportY;
 
-	bool	_displayShadow;
+	int		_ShadowType;
 
 
 	// camera info

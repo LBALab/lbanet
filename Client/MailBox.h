@@ -133,6 +133,9 @@ protected:
 	//! switch to mailbox
 	void SwitchToMailBox();
 
+	//! delete pm
+	void DeletePM(Ice::Long pmid);
+
 private:
 	CEGUI::Window*					_myBox;
 	CEGUI::Window*					_readMailBox;

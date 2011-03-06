@@ -116,6 +116,7 @@ private:
 	int				_currScreenY;
 	bool			_currFullscreen;
 	int				_currCamType;
+	int				_currShadowType;
 
 	// sound part
 	int				_currGenVolume;

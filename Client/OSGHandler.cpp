@@ -48,6 +48,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <osgShadow/ShadowedScene>
 #include <osgShadow/StandardShadowMap>
 #include <osgShadow/MinimalShadowMap>
+#include <osgShadow/SoftShadowMap>
+#include <osgShadow/ParallelSplitShadowMap>
+
+
+
 #include <osgShadow/ShadowMap>
 #include <osgParticle/PrecipitationEffect>
 #include <osgDB/Registry>
@@ -440,7 +445,7 @@ OsgHandler::OsgHandler()
 : _isFullscreen(false), _resX(800), _resY(600),
 	_cameraType(0), _targetx(10), _targety(10), _targetz(10),
 	_viewer(NULL), _root(NULL), _rootNode3d(NULL), _sceneRootNode(NULL), _translNode(NULL),
-	_viewportX(800), _viewportY(600), _displayShadow(false), 
+	_viewportX(800), _viewportY(600), _ShadowType(0), 
 	_current_clip_layer(-1), _autoCameraType(1), _azimut(0)
 {
 	SetCameraDistance(30);
@@ -486,14 +491,15 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 	{
 		LogHandler::getInstance()->LogToFile("Initializing camera...");
 		int ctype;
-		double camdistance, camzenit;
+		double camdistance, camzenit, camazimut;
 		ConfigurationManager::GetInstance()->GetDouble("Display.Camera.Distance", camdistance);
 		ConfigurationManager::GetInstance()->GetDouble("Display.Camera.Zenit", camzenit);
+		ConfigurationManager::GetInstance()->GetDouble("Display.Camera.Azimut", camazimut);
 		ConfigurationManager::GetInstance()->GetInt("Display.Camera.CameraType", ctype);
 		ToggleCameraType(ctype);
 		SetCameraDistance(camdistance);
 		SetCameraZenit(camzenit);
-
+		SetCameraAzimut(camazimut);
 
 		ConfigurationManager::GetInstance()->GetInt("Display.Screen.PositionX", _posX);
 		ConfigurationManager::GetInstance()->GetInt("Display.Screen.PositionY", _posY);
@@ -501,7 +507,7 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 		ConfigurationManager::GetInstance()->GetInt("Display.Screen.ScreenResolutionY", _resY);
 		ConfigurationManager::GetInstance()->GetBool("Display.Screen.Fullscreen", _isFullscreen);
 
-		ConfigurationManager::GetInstance()->GetBool("Display.ShadowOn", _displayShadow);
+		ConfigurationManager::GetInstance()->GetInt("Display.ShadowType", _ShadowType);
 	}
 
 
@@ -703,6 +709,7 @@ void OsgHandler::Finalize()
 	{
 		ConfigurationManager::GetInstance()->SetDouble("Display.Camera.Distance", _distance);
 		ConfigurationManager::GetInstance()->SetDouble("Display.Camera.Zenit", _zenit);
+		ConfigurationManager::GetInstance()->SetDouble("Display.Camera.Azimut", _azimut);
 		ConfigurationManager::GetInstance()->SetInt("Display.Camera.CameraType", _cameraType);
 
 		ConfigurationManager::GetInstance()->SetInt("Display.Screen.PositionX", _posX);
@@ -711,7 +718,7 @@ void OsgHandler::Finalize()
 		ConfigurationManager::GetInstance()->SetInt("Display.Screen.ScreenResolutionY", _resY);
 		ConfigurationManager::GetInstance()->SetBool("Display.Screen.Fullscreen", _isFullscreen);
 
-		ConfigurationManager::GetInstance()->SetBool("Display.ShadowOn", _displayShadow);
+		ConfigurationManager::GetInstance()->SetInt("Display.ShadowType", _ShadowType);
 	}
 
 	// clean up everything
@@ -1159,6 +1166,75 @@ void OsgHandler::SetLight(const LbaMainLightInfo &LightInfo)
 
 }
 
+/***********************************************************
+toggle shadow
+***********************************************************/
+void OsgHandler::ToggleShadow(int ShadowType)
+{
+	if(ShadowType != _ShadowType)
+	{
+		_ShadowType = ShadowType;
+		osg::ref_ptr<osg::Group> newnode = CreateShadowNode();
+
+		//copy childs
+		if(_sceneRootNode)
+		{
+			 unsigned int nbchilds = _sceneRootNode->getNumChildren();
+			 for(unsigned int i=0; i<nbchilds; ++i)
+			 {
+				osg::Node *node = _sceneRootNode->getChild(i);
+				newnode->addChild(node);
+			}
+		}
+
+		_sceneRootNode = newnode;
+
+		ConfigurationManager::GetInstance()->SetInt("Display.ShadowType", _ShadowType);
+	}
+}
+
+
+/***********************************************************
+set shadow node
+***********************************************************/
+osg::ref_ptr<osg::Group> OsgHandler::CreateShadowNode()
+{
+	// check if we use shadow or not
+	if(_ShadowType > 0)
+	{
+		osg::ref_ptr<osgShadow::ShadowedScene> shadowscene = new osgShadow::ShadowedScene();
+		shadowscene->setReceivesShadowTraversalMask(ReceivesShadowTraversalMask);
+		shadowscene->setCastsShadowTraversalMask(CastsShadowTraversalMask);
+
+		if(_ShadowType == 1)
+		{
+			osg::ref_ptr<osgShadow::MinimalShadowMap> shmap = new osgShadow::MinimalShadowMap();
+			shadowscene->setShadowTechnique(shmap.get());
+		}
+		if(_ShadowType == 2)
+		{
+			osg::ref_ptr<osgShadow::StandardShadowMap> shmap = new osgShadow::StandardShadowMap();
+			shadowscene->setShadowTechnique(shmap.get());
+		}
+		if(_ShadowType == 3)
+		{
+			osg::ref_ptr<osgShadow::SoftShadowMap> shmap = new osgShadow::SoftShadowMap();
+			shadowscene->setShadowTechnique(shmap.get());
+		}
+
+
+
+		shadowscene->setName("SceneRootNode");
+		return shadowscene;
+	}
+	else
+	{
+		osg::ref_ptr<osg::Group> gr = new osg::Group();
+		gr->setName("SceneRootNode");
+		return gr;	
+	}
+}
+
 
 /***********************************************************
 clear all nodes of the display tree
@@ -1176,23 +1252,9 @@ void OsgHandler::ResetDisplayTree()
 	_translNode->addChild(_lightNode);
 	_lightNode->setName("LightNode");
 
-	// check if we use shadow or not
-	if(_displayShadow)
-	{
-		osg::ref_ptr<osgShadow::ShadowedScene> shadowscene = new osgShadow::ShadowedScene();
-		shadowscene->setReceivesShadowTraversalMask(ReceivesShadowTraversalMask);
-		shadowscene->setCastsShadowTraversalMask(CastsShadowTraversalMask);
 
-		osg::ref_ptr<osgShadow::StandardShadowMap> shmap = new osgShadow::StandardShadowMap();
-		//osg::ref_ptr<osgShadow::MinimalShadowMap> shmap = new osgShadow::MinimalShadowMap();
-		shadowscene->setShadowTechnique(shmap.get());
-		_sceneRootNode = shadowscene;
-	}
-	else
-	{
-		_sceneRootNode = new osg::Group();	
-	}
-	_sceneRootNode->setName("SceneRootNode");
+	_sceneRootNode = CreateShadowNode();
+
 
 	_lightNode->addChild(_sceneRootNode);
 
