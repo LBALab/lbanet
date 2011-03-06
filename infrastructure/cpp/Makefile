@@ -1,5 +1,5 @@
 
-OBJ=ActorInfo.o ChatInfo.o ClientSession.o ConnectedTracker.o MapManager.o MapObserver.o RoomManager.o LbaTypes.o PollingChat.o
+OBJ=ChatInfo.o ClientInterface.o ClientServerEvents.o ClientSession.o ConnectedTracker.o LbaTypes.o MaintenanceInterface.o PollingChat.o RoomManager.o WorldRegistration.o WorldServerInterface.o
 
 CC=g++
 INCDIR=-I. -I../include -I/usr/include
