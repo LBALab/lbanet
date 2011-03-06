@@ -34,6 +34,11 @@ static std::string Lba1ModelDataPath = "Data/Worlds/Lba1Original/Models/";
 
 struct ModelSize
 {
+	//! constructor
+	ModelSize()
+		: X(-1), Y(-1), Z(-1)
+	{}
+
 	float X;
 	float Y;
 	float Z;
@@ -48,6 +53,11 @@ struct PossibleColorInfo
 
 struct ModeData
 {
+	//! constructor
+	ModeData()
+		: modelnumber(-1), bodynumber(-1), WeaponType(-1)
+	{}
+
 	int modelnumber;
 	int bodynumber;
 	std::map<std::string, std::vector<int> > animations;
