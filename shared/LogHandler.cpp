@@ -52,12 +52,7 @@ Constructor
 ***********************************************************/
 LogHandler::LogHandler()
 {
-	char szTempDir[MAX_PATH];
-	GetTempPathA(MAX_PATH, szTempDir);
-	_filename = szTempDir;
 	_filename = "LBAClient.log";
-
-	_guifilename = szTempDir;
 	_guifilename = "CEGUI.log";
 
 	_logfile.open(_filename.c_str());
