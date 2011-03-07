@@ -24,7 +24,7 @@ $(TARGET): $(OBJ)
 
 depend: 
 	@echo "\n         **********creation des dependances************\n"	
-	@$(CC) $(INCDIR) -MM *.cpp  > dep
+	@$(CC) $(INCDIR) -D_LBANET_SERVER_SIDE_ -MM *.cpp  > dep
 
 
 
