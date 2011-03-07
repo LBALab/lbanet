@@ -193,7 +193,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\shared\ActorScriptPart.cpp"
+				RelativePath=".\ActorScriptPart.cpp"
 				>
 			</File>
 			<File
@@ -317,7 +317,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Client\ObjectsDescription.cpp"
+				RelativePath=".\ObjectsDescription.cpp"
 				>
 			</File>
 			<File
@@ -377,7 +377,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\Client\StaticObject.cpp"
+				RelativePath="..\..\shared\StaticObject.cpp"
 				>
 			</File>
 			<File
