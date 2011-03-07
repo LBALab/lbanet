@@ -65,8 +65,18 @@ void CommunityBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 						toplayer.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 																"CommunityBox", paramseq));
 
-						IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
-						t->start();	
+						try
+						{
+							prx->ServerEvents(toplayer);
+						}
+						catch(const IceUtil::Exception& ex)
+						{
+							std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+						}
+						catch(...)
+						{
+							std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+						}
 					}
 				}
 
@@ -88,8 +98,18 @@ void CommunityBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 						toplayer.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 																"CommunityBox", paramseq));
 
-						IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
-						t->start();	
+						try
+						{
+							prx->ServerEvents(toplayer);
+						}
+						catch(const IceUtil::Exception& ex)
+						{
+							std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+						}
+						catch(...)
+						{
+							std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+						}
 					}
 				}
 			}
@@ -125,8 +145,18 @@ void CommunityBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 						toplayer.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 																"CommunityBox", paramseq));
 
-						IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
-						t->start();	
+						try
+						{
+							prx->ServerEvents(toplayer);
+						}
+						catch(const IceUtil::Exception& ex)
+						{
+							std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+						}
+						catch(...)
+						{
+							std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+						}
 					}
 				}
 
@@ -147,8 +177,18 @@ void CommunityBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 						toplayer.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 																"CommunityBox", paramseq));
 
-						IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
-						t->start();	
+						try
+						{
+							prx->ServerEvents(toplayer);
+						}
+						catch(const IceUtil::Exception& ex)
+						{
+							std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+						}
+						catch(...)
+						{
+							std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+						}
 					}
 				}
 			}
@@ -175,8 +215,18 @@ void CommunityBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 				toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 														"CommunityBox", paramseq, false, false));
 
-				IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
-				t->start();	
+				try
+				{
+					prx->ServerEvents(toplayer);
+				}
+				catch(const IceUtil::Exception& ex)
+				{
+					std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+				}
+				catch(...)
+				{
+					std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+				}
 			}
 
 		}
@@ -213,8 +263,18 @@ void CommunityBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 						toplayer.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 																"CommunityBox", paramseq));
 
-						IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
-						t->start();	
+						try
+						{
+							prx->ServerEvents(toplayer);
+						}
+						catch(const IceUtil::Exception& ex)
+						{
+							std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+						}
+						catch(...)
+						{
+							std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+						}
 					}
 				}
 
@@ -236,8 +296,18 @@ void CommunityBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 						toplayer.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 																"CommunityBox", paramseq));
 
-						IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
-						t->start();	
+						try
+						{
+							prx->ServerEvents(toplayer);
+						}
+						catch(const IceUtil::Exception& ex)
+						{
+							std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+						}
+						catch(...)
+						{
+							std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+						}
 					}
 				}
 			}

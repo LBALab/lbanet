@@ -46,36 +46,6 @@ class PlayerHandler;
 class EditorUpdateBase;
 class Spawn;
 
-//! used to send event to 1 client
-class EventsSender : public IceUtil::Thread
-{
-public:
-	//! constructor
-	EventsSender(EventsSeq & events, ClientProxyBasePtr proxy);
-
-	// running function of the thread
-	virtual void run();
-
-private:
-	EventsSeq				_events;
-	ClientProxyBasePtr		_proxy;
-};
-
-
-//! used to send event to all clients
-class EventsSenderToAll : public IceUtil::Thread
-{
-public:
-	//! constructor
-	EventsSenderToAll(EventsSeq & events, std::vector<ClientProxyBasePtr> &proxies);
-
-	// running function of the thread
-	virtual void run();
-
-private:
-	EventsSeq									_events;
-	std::vector<ClientProxyBasePtr>		_proxies;
-};
 
 
 

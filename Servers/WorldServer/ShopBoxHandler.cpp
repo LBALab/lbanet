@@ -62,8 +62,18 @@ void ShopBoxHandler::HideGUI(Ice::Long clientid)
 		toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 												"ShopBox", GuiParamsSeq(), false, true));
 
-		IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
-		t->start();	
+		try
+		{
+			prx->ServerEvents(toplayer);
+		}
+		catch(const IceUtil::Exception& ex)
+		{
+			std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+		}
+		catch(...)
+		{
+			std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+		}
 	}
 
 	RemoveOpenedGui(clientid);
@@ -103,8 +113,18 @@ void ShopBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition &c
 													"ShopBox", seq, true, false));
 
 			toplayer.push_back(UpdateMoney((long)castedptr->_currencyitem.Id, (long)clientid));
-			IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
-			t->start();	
+			try
+			{
+				prx->ServerEvents(toplayer);
+			}
+			catch(const IceUtil::Exception& ex)
+			{
+				std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+			}
+			catch(...)
+			{
+				std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+			}
 
 			// add gui to the list to be removed later
 			AddOpenedGui(clientid, curPosition);
@@ -164,8 +184,18 @@ void ShopBoxHandler::BuyItem(long clientid, long ItemId)
 				{
 					EventsSeq toplayer;
 					toplayer.push_back(UpdateMoney((long)ShopItems._currencyitem.Id, (long)clientid));
-					IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
-					t->start();	
+					try
+					{
+						prx->ServerEvents(toplayer);
+					}
+					catch(const IceUtil::Exception& ex)
+					{
+						std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+					}
+					catch(...)
+					{
+						std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+					}
 				}
 			}
 		}

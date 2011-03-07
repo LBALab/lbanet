@@ -19,75 +19,21 @@
 #define _THREAD_WAIT_TIME_	17
 #define	_CUSTOM_OFFSET_	10000000
 
-/***********************************************************
-constructor
-***********************************************************/
-EventsSender::EventsSender(EventsSeq & events, ClientProxyBasePtr proxy)
-: _proxy(proxy)
-{
-	_events.swap(events);
-}
-
-/***********************************************************
-running function of the thread
-***********************************************************/
-void EventsSender::run()
-{
-	try
-	{
-		if(_proxy)
-			_proxy->ServerEvents(_events);
-	}
-	catch(const IceUtil::Exception& ex)
-	{
-		std::cout<<"Exception in EventSender: "<<ex.what()<<std::endl;
-	}
-	catch(...)
-	{
-		std::cout<<"Unknown exception in EventSender. "<<std::endl;
-	}
-}
 
 
-
-
-/***********************************************************
-constructor
-***********************************************************/
-EventsSenderToAll::EventsSenderToAll(EventsSeq & events, std::vector<ClientProxyBasePtr> &proxies)
-{
-	_events.swap(events);
-	_proxies.swap(proxies);
-}
-
-
-/***********************************************************
-running function of the thread
-***********************************************************/
-void EventsSenderToAll::run()
-{
-	std::vector<ClientProxyBasePtr>::iterator it = _proxies.begin();
-	std::vector<ClientProxyBasePtr>::iterator end = _proxies.end();
-	for(; it != end; ++it)
-	{
-		try
-		{
-			if(*it)
-				(*it)->ServerEvents(_events);
-		}
-		catch(const IceUtil::Exception& ex)
-		{
-			std::cout<<"Exception in EventsSenderToAll: "<<ex.what()<<std::endl;
-		}
-		catch(...)
-		{
-			std::cout<<"Unknown exception in EventsSenderToAll. "<<std::endl;
-		}
-	}
-
-}
-
-
+	//try
+	//{
+	//	if(_proxy)
+	//		_proxy->ServerEvents(_events);
+	//}
+	//catch(const IceUtil::Exception& ex)
+	//{
+	//	std::cout<<"Exception in EventSender: "<<ex.what()<<std::endl;
+	//}
+	//catch(...)
+	//{
+	//	std::cout<<"Unknown exception in EventSender. "<<std::endl;
+	//}
 
 
 
@@ -228,15 +174,24 @@ void MapHandler::run()
 		// send events to all proxies
 		if(_tosendevts.size() > 0)
 		{
-			try
+			std::vector<ClientProxyBasePtr> proxies = GetProxies();
+			std::vector<ClientProxyBasePtr>::iterator it = proxies.begin();
+			std::vector<ClientProxyBasePtr>::iterator end = proxies.end();
+			for(; it != end; ++it)
 			{
-				std::vector<ClientProxyBasePtr> proxies = GetProxies();
-				IceUtil::ThreadPtr t = new EventsSenderToAll(_tosendevts, proxies);
-				t->start();	
-			}
-			catch(const IceUtil::Exception& ex)
-			{
-				std::cout<<"Exception in map sending events: "<<ex.what()<<std::endl;
+				try
+				{
+					if(*it)
+						(*it)->ServerEvents(_tosendevts);
+				}
+				catch(const IceUtil::Exception& ex)
+				{
+					std::cout<<"Exception in EventsSenderToAll: "<<ex.what()<<std::endl;
+				}
+				catch(...)
+				{
+					std::cout<<"Unknown exception in EventsSenderToAll. "<<std::endl;
+				}
 			}
 		}
 
@@ -486,8 +441,18 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts)
 					toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 																"TeleportBox", seq, true, false)); 
 					
-					IceUtil::ThreadPtr t = new EventsSender(toplayer, proxy);
-					t->start();		
+					try
+					{
+						proxy->ServerEvents(toplayer);
+					}
+					catch(const IceUtil::Exception& ex)
+					{
+						std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+					}
+					catch(...)
+					{
+						std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+					}	
 				}
 
 				continue;
@@ -666,10 +631,18 @@ void MapHandler::PlayerEntered(Ice::Long id)
 		}
 
 
-
-		IceUtil::ThreadPtr t = new EventsSender(toplayer, GetProxy(id));
-		t->start();	
-
+		try
+		{
+			GetProxy(id)->ServerEvents(toplayer);
+		}
+		catch(const IceUtil::Exception& ex)
+		{
+			std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+		}
+		catch(...)
+		{
+			std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+		}
 
 
 		// then inform all players that player entered
@@ -932,8 +905,18 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 
 
 	toplayer.push_back(new RefreshEndEvent(SynchronizedTimeHandler::GetCurrentTimeDouble()));
-	IceUtil::ThreadPtr t = new EventsSender(toplayer, GetProxy(id));
-	t->start();	
+	try
+	{
+		GetProxy(id)->ServerEvents(toplayer);
+	}
+	catch(const IceUtil::Exception& ex)
+	{
+		std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+	}
+	catch(...)
+	{
+		std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+	}
 }
 
 
@@ -1909,8 +1892,18 @@ void MapHandler::ExecuteClientScript(int ObjectType, long ObjectId,
 		toplayer.push_back(new StartClientScriptEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 									ScriptName, InlineFunction));
 
-		IceUtil::ThreadPtr t = new EventsSender(toplayer, GetProxy(clientid));
-		t->start();	
+		try
+		{
+			GetProxy(clientid)->ServerEvents(toplayer);
+		}
+		catch(const IceUtil::Exception& ex)
+		{
+			std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+		}
+		catch(...)
+		{
+			std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+		}
 	}
 }
 
@@ -1989,8 +1982,18 @@ void MapHandler::SendErrorMessage(long clientid, const std::string & messagetitl
 			toplayer.push_back(new LbaNet::UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 													"main", paramseq));
 
-			IceUtil::ThreadPtr t = new EventsSender(toplayer, proxy);
-			t->start();	
+			try
+			{
+				proxy->ServerEvents(toplayer);
+			}
+			catch(const IceUtil::Exception& ex)
+			{
+				std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+			}
+			catch(...)
+			{
+				std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+			}
 		}
 	}
 }
@@ -2034,8 +2037,18 @@ void MapHandler::FinishedScript(long id, const std::string & ScriptName)
 		toplayer.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 					2, id, new ModelUpdate(returnmodel, false)));
 
-		IceUtil::ThreadPtr t = new EventsSender(toplayer, GetProxy(id));
-		t->start();	
+		try
+		{
+			GetProxy(id)->ServerEvents(toplayer);
+		}
+		catch(const IceUtil::Exception& ex)
+		{
+			std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+		}
+		catch(...)
+		{
+			std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+		}
 	}
 }
 
@@ -2111,8 +2124,18 @@ void MapHandler::PlayerItemUsed(Ice::Long clientid, long ItemId)
 							new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 														"LetterViewerBox", seq, true, false));
 
-						IceUtil::ThreadPtr t = new EventsSender(toplayer, GetProxy(clientid));
-						t->start();
+						try
+						{
+							GetProxy(clientid)->ServerEvents(toplayer);
+						}
+						catch(const IceUtil::Exception& ex)
+						{
+							std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+						}
+						catch(...)
+						{
+							std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+						}
 					}
 				}
 			}

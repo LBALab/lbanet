@@ -88,8 +88,18 @@ void MailBoxHandler::HideGUI(Ice::Long clientid)
 		toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 												"MailBox", GuiParamsSeq(), false, true));
 
-		IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
-		t->start();	
+		try
+		{
+			prx->ServerEvents(toplayer);
+		}
+		catch(const IceUtil::Exception& ex)
+		{
+			std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+		}
+		catch(...)
+		{
+			std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+		}
 	}
 
 	RemoveOpenedGui(clientid);
@@ -114,8 +124,18 @@ void MailBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition &c
 			toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 													"MailBox", seq, true, false));
 
-			IceUtil::ThreadPtr t = new EventsSender(toplayer, prx);
-			t->start();	
+			try
+			{
+				prx->ServerEvents(toplayer);
+			}
+			catch(const IceUtil::Exception& ex)
+			{
+				std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+			}
+			catch(...)
+			{
+				std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+			}
 
 			// add gui to the list to be removed later
 			AddOpenedGui(clientid, curPosition);

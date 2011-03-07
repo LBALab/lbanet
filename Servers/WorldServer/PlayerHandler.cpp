@@ -279,8 +279,18 @@ void PlayerHandler::StartQuest(long questid)
 			toplayer.push_back(new LbaNet::UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 													"JournalBox", paramseq));
 
-			IceUtil::ThreadPtr t = new EventsSender(toplayer, _proxy);
-			t->start();	
+			try
+			{
+				_proxy->ServerEvents(toplayer);
+			}
+			catch(const IceUtil::Exception& ex)
+			{
+				std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+			}
+			catch(...)
+			{
+				std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+			}
 		}
 	}
 }
@@ -316,8 +326,18 @@ void PlayerHandler::FinishQuest(long questid)
 			toplayer.push_back(new LbaNet::UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 													"JournalBox", paramseq));
 
-			IceUtil::ThreadPtr t = new EventsSender(toplayer, _proxy);
-			t->start();	
+			try
+			{
+				_proxy->ServerEvents(toplayer);
+			}
+			catch(const IceUtil::Exception& ex)
+			{
+				std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+			}
+			catch(...)
+			{
+				std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+			}
 		}
 	}
 }
@@ -848,8 +868,18 @@ void PlayerHandler::CreateLetter(const std::string & subject, const std::string 
 			toplayer.push_back(new LbaNet::UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 													"main", paramseq));
 
-			IceUtil::ThreadPtr t = new EventsSender(toplayer, _proxy);
-			t->start();	
+			try
+			{
+				_proxy->ServerEvents(toplayer);
+			}
+			catch(const IceUtil::Exception& ex)
+			{
+				std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+			}
+			catch(...)
+			{
+				std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+			}
 		}
 
 
@@ -889,8 +919,18 @@ void PlayerHandler::CreateLetter(const std::string & subject, const std::string 
 				toplayer.push_back(new LbaNet::UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 														"InventoryBox", paramseq));
 
-				IceUtil::ThreadPtr t = new EventsSender(toplayer, _proxy);
-				t->start();	
+				try
+				{
+					_proxy->ServerEvents(toplayer);
+				}
+				catch(const IceUtil::Exception& ex)
+				{
+					std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+				}
+				catch(...)
+				{
+					std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+				}
 			}
 		}
 	}
@@ -915,8 +955,18 @@ void PlayerHandler::DestroyItem(long ItemId)
 			toplayer.push_back(new LbaNet::UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 													"InventoryBox", paramseq));
 
-			IceUtil::ThreadPtr t = new EventsSender(toplayer, _proxy);
-			t->start();	
+			try
+			{
+				_proxy->ServerEvents(toplayer);
+			}
+			catch(const IceUtil::Exception& ex)
+			{
+				std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+			}
+			catch(...)
+			{
+				std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+			}
 		}	
 
 		// if letter then delete it
@@ -1065,8 +1115,18 @@ bool PlayerHandler::ConsumeItem(long ItemId)
 				toplayer.push_back(new LbaNet::UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 														"InventoryBox", paramseq));
 
-				IceUtil::ThreadPtr t = new EventsSender(toplayer, _proxy);
-				t->start();	
+				try
+				{
+					_proxy->ServerEvents(toplayer);
+				}
+				catch(const IceUtil::Exception& ex)
+				{
+					std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+				}
+				catch(...)
+				{
+					std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+				}
 			}	
 
 			if(it->second.Count == 0) // delete item if empty
@@ -1108,8 +1168,18 @@ void PlayerHandler::RemoveEphemere()
 			toplayer.push_back(new LbaNet::UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 													"InventoryBox", paramseq));
 
-			IceUtil::ThreadPtr t = new EventsSender(toplayer, _proxy);
-			t->start();	
+			try
+			{
+				_proxy->ServerEvents(toplayer);
+			}
+			catch(const IceUtil::Exception& ex)
+			{
+				std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+			}
+			catch(...)
+			{
+				std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+			}
 		}
 	}
 
@@ -1315,8 +1385,18 @@ void PlayerHandler::UpdateInventory(LbaNet::ItemList Taken, LbaNet::ItemList Put
 		toplayer.push_back(new LbaNet::UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 												"InventoryBox", paramseq));
 
-		IceUtil::ThreadPtr t = new EventsSender(toplayer, _proxy);
-		t->start();	
+		try
+		{
+			_proxy->ServerEvents(toplayer);
+		}
+		catch(const IceUtil::Exception& ex)
+		{
+			std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+		}
+		catch(...)
+		{
+			std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+		}
 	}
 }
 
@@ -1394,8 +1474,18 @@ void PlayerHandler::OpenInventoryContainer(long itemid)
 			toplayer.push_back(new LbaNet::UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 													"InventoryBox", paramseq));
 
-			IceUtil::ThreadPtr t = new EventsSender(toplayer, _proxy);
-			t->start();	
+			try
+			{
+				_proxy->ServerEvents(toplayer);
+			}
+			catch(const IceUtil::Exception& ex)
+			{
+				std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+			}
+			catch(...)
+			{
+				std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+			}
 		}	
 	}
 }

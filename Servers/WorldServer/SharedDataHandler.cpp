@@ -264,8 +264,18 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectE
 			toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 													"JournalBox", paramseq2, false, false));
 
-			IceUtil::ThreadPtr t = new EventsSender(toplayer, proxy);
-			t->start();	
+			try
+			{
+				proxy->ServerEvents(toplayer);
+			}
+			catch(const IceUtil::Exception& ex)
+			{
+				std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+			}
+			catch(...)
+			{
+				std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+			}
 		}
 	}
 
