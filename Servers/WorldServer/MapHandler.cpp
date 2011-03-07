@@ -2982,6 +2982,8 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 		newProj.DisplayDesc.ColorG=0.788f;
 		newProj.DisplayDesc.ColorB=0.376f;
 		newProj.DisplayDesc.ColorA=1.0f;
+		newProj.DisplayDesc.State = LbaNet::NoState;
+
 
 		PlayerPosition playerpos = GetPlayerPosition(PlayerId);
 
