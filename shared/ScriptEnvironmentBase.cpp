@@ -103,7 +103,7 @@ void ScriptEnvironmentBase::CheckFinishedAsynScripts()
 			if(erase)
 			{
 				ResumeThread(itmap->first);
-				itmap = m_waitingscripts.erase(itmap);
+				m_waitingscripts.erase(itmap++);
 			}
 			else
 				++itmap;
@@ -119,7 +119,7 @@ void ScriptEnvironmentBase::CheckFinishedAsynScripts()
 			if(itmaps->second > 3)
 			{
 				ResumeThread(itmaps->first);
-				itmaps = m_sleepingscripts.erase(itmaps);
+				m_sleepingscripts.erase(itmaps++);
 			}
 			else
 			{
@@ -127,7 +127,7 @@ void ScriptEnvironmentBase::CheckFinishedAsynScripts()
 			}
 		}
 	}
-	
+
 }
 
 
@@ -137,7 +137,7 @@ asynchronus version of ActorStraightWalkTo
 ***********************************************************/
 int ScriptEnvironmentBase::Async_ActorStraightWalkTo(long ActorId, const LbaVec3 &Position)
 {
-	int genid = m_generatednumber++;	
+	int genid = m_generatednumber++;
 
 	InternalActorStraightWalkTo(genid, ActorId, Position, true);
 
@@ -151,7 +151,7 @@ asynchronus version of ActorRotate
 int ScriptEnvironmentBase::Async_ActorRotate(long ActorId, float Angle, float RotationSpeedPerSec,
 													bool ManageAnimation)
 {
-	int genid = m_generatednumber++;	
+	int genid = m_generatednumber++;
 
 	InternalActorRotate(genid, ActorId, Angle, RotationSpeedPerSec, ManageAnimation, true);
 
@@ -164,7 +164,7 @@ asynchronus version of ActorAnimate
 ***********************************************************/
 int ScriptEnvironmentBase::Async_ActorAnimate(long ActorId, bool AnimationMove)
 {
-	int genid = m_generatednumber++;	
+	int genid = m_generatednumber++;
 
 	InternalActorAnimate(genid, ActorId, AnimationMove, true);
 
@@ -178,7 +178,7 @@ asynchronus version of ActorGoTo
 ***********************************************************/
 int ScriptEnvironmentBase::Async_ActorGoTo(long ActorId, const LbaVec3 &Position, float Speed)
 {
-	int genid = m_generatednumber++;	
+	int genid = m_generatednumber++;
 
 	InternalActorGoTo(genid, ActorId, Position, Speed, true);
 
@@ -191,7 +191,7 @@ asynchronus version of WaitForSignal
 ***********************************************************/
 int ScriptEnvironmentBase::Async_WaitForSignal(long ActorId, int Signalnumber)
 {
-	int genid = m_generatednumber++;	
+	int genid = m_generatednumber++;
 
 	InternalActorWaitForSignal(genid, ActorId, Signalnumber, true);
 
@@ -203,10 +203,10 @@ int ScriptEnvironmentBase::Async_WaitForSignal(long ActorId, int Signalnumber)
 /***********************************************************
 asynchronus version of WaitForSignal
 ***********************************************************/
-int ScriptEnvironmentBase::Async_ActorRotateFromPoint(long ActorId, float Angle, const LbaVec3 &Position, 
+int ScriptEnvironmentBase::Async_ActorRotateFromPoint(long ActorId, float Angle, const LbaVec3 &Position,
 									float RotationSpeedPerSec)
 {
-	int genid = m_generatednumber++;	
+	int genid = m_generatednumber++;
 
 	InternalActorRotateFromPoint(genid, ActorId, Angle, Position, RotationSpeedPerSec, true);
 
@@ -217,10 +217,10 @@ int ScriptEnvironmentBase::Async_ActorRotateFromPoint(long ActorId, float Angle,
 /***********************************************************
 asynchronus version of WaitForSignal
 ***********************************************************/
-int ScriptEnvironmentBase::Async_ActorFollowWaypoint(long ActorId, 
+int ScriptEnvironmentBase::Async_ActorFollowWaypoint(long ActorId,
 												int waypointindex1, int waypointindex2)
 {
-	int genid = m_generatednumber++;	
+	int genid = m_generatednumber++;
 
 	InternalActorFollowWaypoint(genid, ActorId, waypointindex1, waypointindex2, true);
 
@@ -248,7 +248,7 @@ void ScriptEnvironmentBase::ResumeThread(int scriptid)
 	{
 		std::string functioname;
 		if(m_luaHandler->ResumeThread(scriptid, functioname))
-			ScriptFinished(scriptid, functioname); // inform when script is finished totally	
+			ScriptFinished(scriptid, functioname); // inform when script is finished totally
 	}
 }
 
