@@ -14,7 +14,7 @@ clear: clean depend
 
 libshared.a: $(OBJ)
 	@echo "\n         **********creation de la bibliotheque************\n"
-	ar rv libgenerated.a $(OBJ)
+	ar rv libshared.a $(OBJ)
 	@echo "\n"		
 
 .cpp.o:
