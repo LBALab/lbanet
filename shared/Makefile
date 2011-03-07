@@ -1,5 +1,5 @@
 
-OBJ=ActorScriptPart.o CharacterModes.o CharacterStates.o ClientScript.o CommonTypes.o Entities.o HQRHandler.o HQRlib.o Lba1ModelMapHandler.o LogHandler.o LuaHandlerBase.o LuaThreadHandler.o  Randomizer.o ScriptedActor.o ScriptEnvironmentBase.o StreamReader.o SynchronizedTimeHandler.o XmlReader.o
+OBJ=CharacterModes.o CharacterStates.o ClientScript.o CommonTypes.o Entities.o HQRHandler.o HQRlib.o Lba1ModelMapHandler.o LogHandler.o LuaHandlerBase.o LuaThreadHandler.o  Randomizer.o ScriptedActor.o ScriptEnvironmentBase.o StreamReader.o SynchronizedTimeHandler.o XmlReader.o
 
 CC=g++
 INCDIR=-I. -I../include -I/usr/include -I../../infrastructure/include
