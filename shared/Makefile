@@ -4,7 +4,7 @@ OBJ=CharacterModes.o CharacterStates.o ClientScript.o CommonTypes.o Entities.o H
 CC=g++
 INCDIR=-I. -I../include -I/usr/include -I../infrastructure/include -I../dependencies/LUA/include -I../dependencies/luabind/include -I../dependencies/tmpboost
 LIBDIR=-L/usr/lib -L../infrastructure/lib -L../dependencies/LUA/lib -L../dependencies/luabind/lib
-LIBS=-lIce -lIceStorm -lIceutil -lGlacier2 -lgenerated
+LIBS=-lIce -lIceStorm -lIceutil -lGlacier2 -lgenerated -llua -lluabind
 
 
 all: libshared.a install
