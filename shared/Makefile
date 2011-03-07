@@ -7,7 +7,9 @@ LIBDIR=-L/usr/lib -L../infrastructure/lib -L../dependencies/LUA/lib
 LIBS=-lIce -lIceStorm -lIceutil -lGlacier2 -lgenerated
 
 
-all: clean depend libshared.a install
+all: libshared.a install
+
+clear: clean depend
 
 
 libshared.a: $(OBJ)
