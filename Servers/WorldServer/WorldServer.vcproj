@@ -40,7 +40,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/D _LBANET_SERVER_SIDE_"
+				AdditionalOptions="/D _LBANET_SERVER_SIDE_ /D _CRT_SECURE_NO_WARNINGS"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(ICE_HOME)\include&quot;;..\..\infrastructure\include;..\..\shared;&quot;..\..\dependencies\MySQL++\include&quot;;..\..\dependencies\mysql\include;..\..\dependencies\sqlite;..\..\dependencies\3rdParty\include;..\..\dependencies\LUA\include;..\..\dependencies\luabind\include;..\..\Client;."
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;TIXML_USE_STL"
@@ -116,7 +116,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/D _LBANET_SERVER_SIDE_"
+				AdditionalOptions="/D _LBANET_SERVER_SIDE_ /D _CRT_SECURE_NO_WARNINGS"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="&quot;$(ICE_HOME)\include&quot;;..\..\infrastructure\include;..\..\shared;&quot;..\..\dependencies\MySQL++\include&quot;;..\..\dependencies\mysql\include;..\..\dependencies\sqlite;..\..\dependencies\3rdParty\include;..\..\dependencies\LUA\include;..\..\dependencies\luabind\include;..\..\Client;."
@@ -285,7 +285,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\shared\LuaHandlerBase.cpp"
+				RelativePath=".\LuaHandlerBase.cpp"
 				>
 			</File>
 			<File
