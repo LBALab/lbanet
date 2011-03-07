@@ -28,6 +28,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Lba1ModelMapHandler.h"
 #include "LogHandler.h"
 #include <LbaTypes.h>
+#include <typeinfo>
+
 
 entitiesTableStruct* ServerLba1ModelHandler::_estruct = parseEntities(Lba1ModelDataPath+"FILE3D.HQR");
 
