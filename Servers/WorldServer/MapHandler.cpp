@@ -228,9 +228,16 @@ void MapHandler::run()
 		// send events to all proxies
 		if(_tosendevts.size() > 0)
 		{
-			std::vector<ClientProxyBasePtr> proxies = GetProxies();
-			IceUtil::ThreadPtr t = new EventsSenderToAll(_tosendevts, proxies);
-			t->start();	
+			try
+			{
+				std::vector<ClientProxyBasePtr> proxies = GetProxies();
+				IceUtil::ThreadPtr t = new EventsSenderToAll(_tosendevts, proxies);
+				t->start();	
+			}
+			catch(const IceUtil::Exception& ex)
+			{
+				std::cout<<"Exception in map sending events: "<<ex.what()<<std::endl;
+			}
 		}
 
 		// refresh lua stuff
