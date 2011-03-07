@@ -23,7 +23,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "CommonTypes.h"
-#include <Math.h>
+
+#ifdef
+#include <math.h>
 
 
 #ifndef M_PI
@@ -85,7 +87,7 @@ LbaQuaternion::LbaQuaternion(float angle, LbaVec3 vec)
 	Z = vec.z;
 
 	// Normalize the axis
-	const float i_length =  1.0f / sqrt( X*X + Y*Y + Z*Z );	
+	const float i_length =  1.0f / sqrt( X*X + Y*Y + Z*Z );
 	X = X * i_length;
 	Y = Y * i_length;
 	Z = Z * i_length;
@@ -214,7 +216,7 @@ LbaQuaternion LbaQuaternion::operator *(const LbaQuaternion & q)
 /***********************************************************
 rotate a vector by the quaternion
 ***********************************************************/
-void LbaQuaternion::rotate(LbaVec3 & v) const				
+void LbaQuaternion::rotate(LbaVec3 & v) const
 {
 	LbaQuaternion myInverse(-X, -Y, -Z, W);
 
