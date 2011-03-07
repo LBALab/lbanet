@@ -80,7 +80,7 @@ void DatabaseHandler::Connect()
 /***********************************************************
 player has changed world
 ***********************************************************/
-LbaNet::SavedWorldInfo DatabaseHandler::ChangeWorld(const std::string& NewWorldName, long PlayerId, 
+LbaNet::SavedWorldInfo DatabaseHandler::ChangeWorld(const std::string& NewWorldName, long PlayerId,
 														int defaultinventorysize)
 {
 	long worldid = -1;
@@ -140,10 +140,10 @@ LbaNet::SavedWorldInfo DatabaseHandler::ChangeWorld(const std::string& NewWorldN
 			resP.lifemana.MaxMana = res[0][11];
 
 
-			resP.model.ModelName = res[0][13];
-			resP.model.Outfit = res[0][14];	
-			resP.model.Weapon = res[0][15];
-			resP.model.Mode = res[0][16];
+			resP.model.ModelName = res[0][13].c_str();
+			resP.model.Outfit = res[0][14].c_str();
+			resP.model.Weapon = res[0][15].c_str();
+			resP.model.Mode = res[0][16].c_str();
 			resP.model.State = LbaNet::StNormal;
 
 			int renderT = res[0][17];
@@ -277,7 +277,7 @@ void DatabaseHandler::UpdatePositionInWorld(const LbaNet::PlayerPosition& Positi
 /***********************************************************
 update player life information
 ***********************************************************/
-void DatabaseHandler::UpdateLife(const LbaNet::LifeManaInfo & lifeinfo, 
+void DatabaseHandler::UpdateLife(const LbaNet::LifeManaInfo & lifeinfo,
 								const std::string& WorldName,long PlayerId)
 {
 	Lock sync(*this);
@@ -314,7 +314,7 @@ void DatabaseHandler::UpdateLife(const LbaNet::LifeManaInfo & lifeinfo,
 /***********************************************************
 update player life information
 ***********************************************************/
-void DatabaseHandler::UpdateModel(const LbaNet::ModelInfo & modelinfo, 
+void DatabaseHandler::UpdateModel(const LbaNet::ModelInfo & modelinfo,
 							const std::string& WorldName,long PlayerId,
 								long equipedweapon, long equipedoutfit,
 								long equipedmount)
