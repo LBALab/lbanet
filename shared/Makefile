@@ -19,7 +19,7 @@ libshared.a: $(OBJ)
 
 .cpp.o:
 	@echo "\n         **********creation des .o************\n"
-	$(CC) -O2 -I. $(INCDIR) -c $<
+	$(CC) -O2 $(INCDIR) -c $<
 	@echo "\n"
 
 depend: 
