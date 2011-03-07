@@ -188,7 +188,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\shared\ActorScriptPart.cpp"
+				RelativePath="..\Servers\WorldServer\ActorScriptPart.cpp"
 				>
 			</File>
 			<File
@@ -428,7 +428,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\shared\LuaHandlerBase.cpp"
+				RelativePath="..\Servers\WorldServer\LuaHandlerBase.cpp"
 				>
 			</File>
 			<File
@@ -472,7 +472,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ObjectsDescription.cpp"
+				RelativePath="..\Servers\WorldServer\ObjectsDescription.cpp"
 				>
 			</File>
 			<File
@@ -576,7 +576,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\StaticObject.cpp"
+				RelativePath="..\shared\StaticObject.cpp"
 				>
 			</File>
 			<File
@@ -612,7 +612,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\WorldToDisplayObjectSynchronizer.cpp"
+				RelativePath="..\shared\WorldToDisplayObjectSynchronizer.cpp"
 				>
 			</File>
 			<File
