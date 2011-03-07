@@ -36,13 +36,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ServerExtendedEvents.h"
 #include "Teleport.h"
 #include "QuestHandler.h"
+#include "ScriptInitHandler.h"
+
 
 class MapHandler;
 class PlayerHandler;
 class ServerLuaHandler;
 class LuaHandlerBase;
 class ScriptEnvironmentBase;
-class InventoryItemDef;
 class Spawn;
 
 using namespace LbaNet;
@@ -52,14 +53,14 @@ using namespace LbaNet;
 
 
 //! take care of shared data between process
-class SharedDataHandler : public IceUtil::Mutex
+class SharedDataHandler : public IceUtil::Mutex, public ScriptInitHandler
 {
 public:
 	// singleton pattern
 	static SharedDataHandler * getInstance();
 
 	//! destructor
-	~SharedDataHandler(void){}
+	virtual ~SharedDataHandler(void){}
 
 
 	//! set world default information
@@ -72,15 +73,15 @@ public:
 	void ClientEvents(Ice::Long clientid, const EventsSeq &evts);
 
 	// used when a remote client connect to a world
-	void RegisterClient(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo, 
+	void RegisterClient(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo,
 							const ClientInterfacePrx &proxy);
 
 	// used when a local client connect to a world
-	void RegisterClient(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo, 
+	void RegisterClient(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo,
 							ClientInterfacePtr proxy);
 
 	// used when a client disconnect from a world
-	void UnregisterClient(Ice::Long clientid); 
+	void UnregisterClient(Ice::Long clientid);
 
 	// clean up
 	void CleanUp();
@@ -95,7 +96,7 @@ public:
 	//! get database
 	boost::shared_ptr<DatabaseHandlerBase> GetDatabase();
 
- 	
+
  	// used when a client update name info
 	void UpdateClientExtraInfo(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo);
 
@@ -140,7 +141,7 @@ public:
 	LbaNet::ItemsMap GetInventory(Ice::Long clientid, int & inventorysize);
 
 	//! update player inventory
-	void UpdateInventory(Ice::Long clientid, LbaNet::ItemList Taken, LbaNet::ItemList Put, 
+	void UpdateInventory(Ice::Long clientid, LbaNet::ItemList Taken, LbaNet::ItemList Put,
 								LbaNet::ItemClientInformType informtype);
 
 
@@ -152,17 +153,17 @@ public:
 
 
 	//! add tp
-	void AddTeleport(boost::shared_ptr<TeleportDef> tp);
+	virtual void AddTeleport(boost::shared_ptr<TeleportDef> tp);
 
 	//! remove tp
-	bool RemoveTeleport(long id);
+	virtual bool RemoveTeleport(long id);
 
 	//! get tp list
 	const std::map<long, boost::shared_ptr<TeleportDef> > &GetTpList()
 	{return m_teleports;}
 
 	// get tp
-	boost::shared_ptr<TeleportDef> GetTeleport(long id);
+	virtual boost::shared_ptr<TeleportDef> GetTeleport(long id);
 
 
 	//! send tp list to player
@@ -174,16 +175,16 @@ public:
 
 
 	//! add quest
-	void AddQuest(QuestPtr quest);
+	virtual void AddQuest(boost::shared_ptr<Quest> quest);
 
 	//! remove quest
-	void RemoveQuest(long id);
+	virtual void RemoveQuest(long id);
 
 	//! get quest
-	QuestPtr GetQuest(long id);
+	virtual boost::shared_ptr<Quest> GetQuest(long id);
 
 	//! add item
-	void AddInventoryItem(boost::shared_ptr<InventoryItemDef> item);
+	virtual void AddInventoryItem(boost::shared_ptr<InventoryItemDef> item);
 
 	//! get spawn
 	boost::shared_ptr<Spawn> GetSpawn(const std::string & mapname, long spawnid);
@@ -200,7 +201,7 @@ protected:
 	SharedDataHandler(void){}
 
 	//! returning the spawning info for a map
-	PlayerPosition GetSpawningInfo(const std::string &MapName, 
+	PlayerPosition GetSpawningInfo(const std::string &MapName,
 									long SpawningId,
 									bool &forcerotation);
 
@@ -215,7 +216,7 @@ protected:
 
 
 	//! register client internal function
-	void RegisterClient(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo, 
+	void RegisterClient(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo,
 							ClientProxyBasePtr proxy);
 
 
@@ -226,7 +227,7 @@ protected:
 
 private:
 	static SharedDataHandler *											_Instance;
-	
+
 	boost::shared_ptr<DatabaseHandlerBase>								_dbH;
 
 	WorldInformation													_worldinfo;

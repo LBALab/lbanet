@@ -24,7 +24,7 @@ extern "C"
 #include "InventoryItemHandler.h"
 #include "Spawn.h"
 
-#ifdef _USE_QT_EDITOR_	
+#ifdef _USE_QT_EDITOR_
 #include "editorhandler.h"
 #endif
 
@@ -55,7 +55,7 @@ ServerLuaHandler::ServerLuaHandler()
 		.def_readwrite("X", &LbaQuaternion::X)
 		.def_readwrite("Y", &LbaQuaternion::Y)
 		.def_readwrite("Z", &LbaQuaternion::Z)
-		.def_readwrite("W", &LbaQuaternion::W)	
+		.def_readwrite("W", &LbaQuaternion::W)
 		.def("AddSingleRotation", &LbaQuaternion::AddSingleRotation)
 		.def("GetDirection", &LbaQuaternion::GetDirection)
 		.def("GetRotationSingleAngle", &LbaQuaternion::GetRotationSingleAngle)
@@ -63,7 +63,7 @@ ServerLuaHandler::ServerLuaHandler()
 		[
 			luabind::def("GetAngleFromVector", &LbaQuaternion::GetAngleFromVector)
 		],
-		
+
 
 
 		luabind::class_<ConditionBase, boost::shared_ptr<ConditionBase> >("ConditionBase")
@@ -125,7 +125,7 @@ ServerLuaHandler::ServerLuaHandler()
 		.def_readwrite("Min", &ContainerItemGroupElement::Min)
 		.def_readwrite("Max", &ContainerItemGroupElement::Max)
 		.def_readwrite("Probability", &ContainerItemGroupElement::Probability)
-		.def_readwrite("Group", &ContainerItemGroupElement::Group),	
+		.def_readwrite("Group", &ContainerItemGroupElement::Group),
 
 
 		luabind::class_<LbaNet::ModelInfo>("ModelInfo")
@@ -144,20 +144,20 @@ ServerLuaHandler::ServerLuaHandler()
 		.def_readwrite("ColorA", &LbaNet::ModelInfo::ColorA)
 		.def_readwrite("TransX", &LbaNet::ModelInfo::TransX)
 		.def_readwrite("TransY", &LbaNet::ModelInfo::TransY)
-		.def_readwrite("TransZ", &LbaNet::ModelInfo::TransZ)		
+		.def_readwrite("TransZ", &LbaNet::ModelInfo::TransZ)
 		.def_readwrite("ScaleX", &LbaNet::ModelInfo::ScaleX)
 		.def_readwrite("ScaleY", &LbaNet::ModelInfo::ScaleY)
-		.def_readwrite("ScaleZ", &LbaNet::ModelInfo::ScaleZ)	
+		.def_readwrite("ScaleZ", &LbaNet::ModelInfo::ScaleZ)
 		.def_readwrite("RotX", &LbaNet::ModelInfo::RotX)
 		.def_readwrite("RotY", &LbaNet::ModelInfo::RotY)
 		.def_readwrite("RotZ", &LbaNet::ModelInfo::RotZ)
 		.def_readwrite("SkinColor", &LbaNet::ModelInfo::SkinColor)
-		.def_readwrite("EyesColor", &LbaNet::ModelInfo::EyesColor)		
+		.def_readwrite("EyesColor", &LbaNet::ModelInfo::EyesColor)
 		.def_readwrite("HairColor", &LbaNet::ModelInfo::HairColor)
 		.def_readwrite("OutfitColor", &LbaNet::ModelInfo::OutfitColor)
-		.def_readwrite("WeaponColor", &LbaNet::ModelInfo::WeaponColor)		
+		.def_readwrite("WeaponColor", &LbaNet::ModelInfo::WeaponColor)
 		.def_readwrite("MountSkinColor", &LbaNet::ModelInfo::MountSkinColor)
-		.def_readwrite("MountHairColor", &LbaNet::ModelInfo::MountHairColor)			
+		.def_readwrite("MountHairColor", &LbaNet::ModelInfo::MountHairColor)
 		,
 
 
@@ -272,11 +272,11 @@ ServerLuaHandler::ServerLuaHandler()
 		.def(luabind::constructor<bool>()),
 
 		luabind::class_<ActorScriptPart_AttachToActor, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPAttachToActor")
-		.def(luabind::constructor<int, long>()),		
+		.def(luabind::constructor<int, long>()),
 
 		luabind::class_<ActorScriptPart_DetachFromActor, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPDetachFromActor")
 		.def(luabind::constructor<long>()),
-		
+
 
 		luabind::class_<ActorHandler, boost::shared_ptr<ActorHandler> >("ActorHandler")
 		.def(luabind::constructor<const ActorObjectInfo &>())
@@ -290,11 +290,11 @@ ServerLuaHandler::ServerLuaHandler()
 		luabind::class_<NPCHandler, ActorHandler, boost::shared_ptr<ActorHandler> >("NPCHandler")
 		.def(luabind::constructor<const ActorObjectInfo &>())
 		.def("GetRootDialog", &NPCHandler::GetRootDialog)
-		.def("SetRootDialog", &NPCHandler::SetRootDialog)	
+		.def("SetRootDialog", &NPCHandler::SetRootDialog)
 		.def("GetSimpleDialog", &NPCHandler::GetSimpleDialog)
-		.def("SetSimpleDialog", &NPCHandler::SetSimpleDialog)	
+		.def("SetSimpleDialog", &NPCHandler::SetSimpleDialog)
 		.def("GetNpcName", &NPCHandler::GetNpcName)
-		.def("SetNpcName", &NPCHandler::SetNpcName)	
+		.def("SetNpcName", &NPCHandler::SetNpcName)
 		,
 
 
@@ -357,7 +357,7 @@ ServerLuaHandler::ServerLuaHandler()
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),
 
-		#ifdef _USE_QT_EDITOR_	
+		#ifdef _USE_QT_EDITOR_
 		luabind::class_<EditorHandler, ScriptEnvironmentBase>("EditorHandler"),
 		#endif
 
@@ -370,7 +370,7 @@ ServerLuaHandler::ServerLuaHandler()
 		.def_readwrite("CheckPlayers", &TriggerInfo::CheckPlayers)
 		.def_readwrite("CheckNpcs", &TriggerInfo::CheckNpcs)
 		.def_readwrite("CheckMovableObjects", &TriggerInfo::CheckMovableObjects),
-		
+
 
 		luabind::class_<TriggerBase, boost::shared_ptr<TriggerBase> >("TriggerBase")
 		.def(luabind::constructor<TriggerInfo>())
@@ -416,7 +416,7 @@ ServerLuaHandler::ServerLuaHandler()
 		luabind::class_<TeleportAction, ActionBase, boost::shared_ptr<ActionBase> >("TeleportAction")
 		.def(luabind::constructor<>())
 		.def("GetMapName", &TeleportAction::GetMapName)
-		.def("SetMapName", &TeleportAction::SetMapName)	
+		.def("SetMapName", &TeleportAction::SetMapName)
 		.def("GetSpawning", &TeleportAction::GetSpawning)
 		.def("SetSpawning", &TeleportAction::SetSpawning),
 
@@ -473,7 +473,7 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetItemId", &AddRemoveItemAction::GetItemId)
 		.def("SetItemId", &AddRemoveItemAction::SetItemId)
 		.def("GetNumber", &AddRemoveItemAction::GetNumber)
-		.def("SetNumber", &AddRemoveItemAction::SetNumber)		
+		.def("SetNumber", &AddRemoveItemAction::SetNumber)
 		.def("GetInformClientType", &AddRemoveItemAction::GetInformClientType)
 		.def("SetInformClientType", &AddRemoveItemAction::SetInformClientType),
 
@@ -582,15 +582,15 @@ ServerLuaHandler::ServerLuaHandler()
 		.def(luabind::constructor<>())
 		.def("AddChild", &DialogPart::AddChild)
 		.def("RemoveChild", &DialogPart::RemoveChild)
-		.def("UpdateChildPosition", &DialogPart::UpdateChildPosition)	
+		.def("UpdateChildPosition", &DialogPart::UpdateChildPosition)
 		.def("GetCondition", &DialogPart::GetCondition)
 		.def("Setcondition", &DialogPart::Setcondition)
-		.def("GetAction", &DialogPart::GetAction)	
+		.def("GetAction", &DialogPart::GetAction)
 		.def("SetAction", &DialogPart::SetAction)
 		.def("ResetDialog", &DialogPart::ResetDialog)
 		.def("SetResetDialog", &DialogPart::SetResetDialog)
-		.def("SetText", &DialogPart::SetText)	
-		.def("AddText", &DialogPart::AddText)	
+		.def("SetText", &DialogPart::SetText)
+		.def("AddText", &DialogPart::AddText)
 		.def("RemoveText", &DialogPart::RemoveText)
 		.def("PickText", &DialogPart::PickText),
 
@@ -619,16 +619,16 @@ ServerLuaHandler::ServerLuaHandler()
 		luabind::class_<TeleportDef, boost::shared_ptr<TeleportDef> >("TeleportDef")
 		.def(luabind::constructor<long>())
 		.def("GetId", &TeleportDef::GetId)
-		.def("GetName", &TeleportDef::GetName)	
+		.def("GetName", &TeleportDef::GetName)
 		.def("SetName", &TeleportDef::SetName)
-		.def("GetMapName", &TeleportDef::GetMapName)	
+		.def("GetMapName", &TeleportDef::GetMapName)
 		.def("SetMapName", &TeleportDef::SetMapName)
-		.def("GetSpawn", &TeleportDef::GetSpawn)	
+		.def("GetSpawn", &TeleportDef::GetSpawn)
 		.def("SetSpawn", &TeleportDef::SetSpawn)
-		.def("GetCondition", &TeleportDef::GetCondition)	
+		.def("GetCondition", &TeleportDef::GetCondition)
 		.def("SetCondition", &TeleportDef::SetCondition),
 
-		luabind::class_<SharedDataHandler>("SharedDataHandler")
+		luabind::class_<ScriptInitHandler>("ScriptInitHandler")
 		.def("AddTeleport", &SharedDataHandler::AddTeleport)
 		.def("RemoveTeleport", &SharedDataHandler::RemoveTeleport)
 		.def("GetTeleport", &SharedDataHandler::GetTeleport)
@@ -640,59 +640,59 @@ ServerLuaHandler::ServerLuaHandler()
 		luabind::class_<InventoryItemDef, boost::shared_ptr<InventoryItemDef> >("InventoryItemDef")
 		.def(luabind::constructor<long>())
 		.def("GetId", &InventoryItemDef::GetId)
-		.def("GetName", &InventoryItemDef::GetName)	
+		.def("GetName", &InventoryItemDef::GetName)
 		.def("GetIconName", &InventoryItemDef::GetIconName)
-		.def("GetNameTextId", &InventoryItemDef::GetNameTextId)	
+		.def("GetNameTextId", &InventoryItemDef::GetNameTextId)
 		.def("GetDescriptionId", &InventoryItemDef::GetDescriptionId)
-		.def("GetLongDescriptionId", &InventoryItemDef::GetLongDescriptionId)	
+		.def("GetLongDescriptionId", &InventoryItemDef::GetLongDescriptionId)
 		.def("GetMax", &InventoryItemDef::GetMax)
-		.def("GetBuyPrice", &InventoryItemDef::GetBuyPrice)	
+		.def("GetBuyPrice", &InventoryItemDef::GetBuyPrice)
 		.def("GetSellPrice", &InventoryItemDef::GetSellPrice)
-		.def("GetDescriptionTextExtra", &InventoryItemDef::GetDescriptionTextExtra)	
+		.def("GetDescriptionTextExtra", &InventoryItemDef::GetDescriptionTextExtra)
 		.def("GetType", &InventoryItemDef::GetType)
-		.def("GetEffect", &InventoryItemDef::GetEffect)	
+		.def("GetEffect", &InventoryItemDef::GetEffect)
 		.def("GetFlag", &InventoryItemDef::GetFlag)
-		.def("GetEphemere", &InventoryItemDef::GetEphemere)	
+		.def("GetEphemere", &InventoryItemDef::GetEphemere)
 		.def("GetStringFlag", &InventoryItemDef::GetStringFlag)
-		.def("GetColor1", &InventoryItemDef::GetColor1)	
+		.def("GetColor1", &InventoryItemDef::GetColor1)
 		.def("GetColor2", &InventoryItemDef::GetColor2)
-		.def("SetName", &InventoryItemDef::SetName)	
+		.def("SetName", &InventoryItemDef::SetName)
 		.def("SetIconName", &InventoryItemDef::SetIconName)
-		.def("SetNameTextId", &InventoryItemDef::SetNameTextId)	
+		.def("SetNameTextId", &InventoryItemDef::SetNameTextId)
 		.def("SetDescriptionId", &InventoryItemDef::SetDescriptionId)
-		.def("SetLongDescriptionId", &InventoryItemDef::SetLongDescriptionId)	
+		.def("SetLongDescriptionId", &InventoryItemDef::SetLongDescriptionId)
 		.def("SetMax", &InventoryItemDef::SetMax)
-		.def("SetBuyPrice", &InventoryItemDef::SetBuyPrice)	
+		.def("SetBuyPrice", &InventoryItemDef::SetBuyPrice)
 		.def("SetSellPrice", &InventoryItemDef::SetSellPrice)
-		.def("SetDescriptionTextExtra", &InventoryItemDef::SetDescriptionTextExtra)	
+		.def("SetDescriptionTextExtra", &InventoryItemDef::SetDescriptionTextExtra)
 		.def("SetType", &InventoryItemDef::SetType)
-		.def("SetEffect", &InventoryItemDef::SetEffect)	
+		.def("SetEffect", &InventoryItemDef::SetEffect)
 		.def("SetFlag", &InventoryItemDef::SetFlag)
-		.def("SetEphemere", &InventoryItemDef::SetEphemere)	
+		.def("SetEphemere", &InventoryItemDef::SetEphemere)
 		.def("SetStringFlag", &InventoryItemDef::SetStringFlag)
-		.def("SetColor1", &InventoryItemDef::SetColor1)	
+		.def("SetColor1", &InventoryItemDef::SetColor1)
 		.def("SetColor2", &InventoryItemDef::SetColor2)
 		.def("AddContainedItem", &InventoryItemDef::AddContainedItem)
 		.def("GetReplacedItem", &InventoryItemDef::GetReplacedItem)
-		.def("GetAction", &InventoryItemDef::GetAction)	
+		.def("GetAction", &InventoryItemDef::GetAction)
 		.def("SetReplacedItem", &InventoryItemDef::SetReplacedItem)
 		.def("SetAction", &InventoryItemDef::SetAction),
 
 		luabind::class_<Spawn, boost::shared_ptr<Spawn> >("Spawn")
 		.def(luabind::constructor<long>())
 		.def("GetId", &Spawn::GetId)
-		.def("GetPosX", &Spawn::GetPosX)	
-		.def("GetPosY", &Spawn::GetPosY)	
-		.def("GetPosZ", &Spawn::GetPosZ)	
-		.def("SetPosX", &Spawn::SetPosX)	
-		.def("SetPosY", &Spawn::SetPosY)	
+		.def("GetPosX", &Spawn::GetPosX)
+		.def("GetPosY", &Spawn::GetPosY)
+		.def("GetPosZ", &Spawn::GetPosZ)
+		.def("SetPosX", &Spawn::SetPosX)
+		.def("SetPosY", &Spawn::SetPosY)
 		.def("SetPosZ", &Spawn::SetPosZ)
 		.def("GetForceRotation", &Spawn::GetForceRotation)
 		.def("SetForceRotation", &Spawn::SetForceRotation)
 		.def("GetRotation", &Spawn::GetRotation)
 		.def("SetRotation", &Spawn::SetRotation)
 		.def("GetName", &Spawn::GetName)
-		.def("SetName", &Spawn::SetName)		
+		.def("SetName", &Spawn::SetName)
 		];
 
 	}
@@ -704,7 +704,7 @@ ServerLuaHandler::ServerLuaHandler()
 
 /***********************************************************
 destructor
-***********************************************************/	
+***********************************************************/
 ServerLuaHandler::~ServerLuaHandler(void)
 {
 }
