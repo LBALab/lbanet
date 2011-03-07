@@ -1093,7 +1093,7 @@ void PlayerHandler::RemoveEphemere()
 			it->second.Count = 0;
 			paramseq.push_back(new LbaNet::UpdateInventoryItem(LbaNet::DontInform, it->second));
 
-			it = _currentinfo.inventory.InventoryStructure.erase(it);
+			_currentinfo.inventory.InventoryStructure.erase(it++);
 		}
 		else
 			++it;
