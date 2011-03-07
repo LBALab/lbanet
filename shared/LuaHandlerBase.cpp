@@ -13,7 +13,8 @@ extern "C"
 #include "LuaThreadHandler.h"
 #include "ScriptEnvironmentBase.h"
 #include "ActionArguments.h"
-#include "SharedDataHandler.h"
+#include "ScriptInitHandler.h"
+
 
 /***********************************************************
 constructor
@@ -39,12 +40,12 @@ LuaHandlerBase::LuaHandlerBase()
 
 /***********************************************************
 destructor
-***********************************************************/	
+***********************************************************/
 LuaHandlerBase::~LuaHandlerBase(void)
 {
 	// clear running thread before closing main lua state
 	m_RunningThreads.clear();
-	
+
 	lua_close(m_LuaState);
 }
 
@@ -85,7 +86,7 @@ void LuaHandlerBase::CallLua(const std::string & functioname, ScriptEnvironmentB
 /***********************************************************
 call lua function
 ***********************************************************/
-void LuaHandlerBase::CallLua(const std::string & functioname, SharedDataHandler* env)
+void LuaHandlerBase::CallLua(const std::string & functioname, ScriptInitHandler* env)
 {
 	try
 	{
@@ -103,7 +104,7 @@ void LuaHandlerBase::CallLua(const std::string & functioname, SharedDataHandler*
 /***********************************************************
 start script in a new thread
 ***********************************************************/
-int LuaHandlerBase::StartScript(const std::string & FunctionName, bool inlinefunction, 
+int LuaHandlerBase::StartScript(const std::string & FunctionName, bool inlinefunction,
 									ScriptEnvironmentBase* env)
 {
 	//try
@@ -116,7 +117,7 @@ int LuaHandlerBase::StartScript(const std::string & FunctionName, bool inlinefun
 	//}
 
 
-	boost::shared_ptr<LuaThreadHandler> Th(new LuaThreadHandler(m_LuaState, FunctionName, 
+	boost::shared_ptr<LuaThreadHandler> Th(new LuaThreadHandler(m_LuaState, FunctionName,
 												inlinefunction, env));
 	if(Th->IsStarted())
 	{

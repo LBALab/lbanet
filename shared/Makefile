@@ -2,9 +2,9 @@
 OBJ=CharacterModes.o CharacterStates.o ClientScript.o CommonTypes.o Entities.o HQRHandler.o HQRlib.o Lba1ModelMapHandler.o LogHandler.o LuaHandlerBase.o LuaThreadHandler.o  Randomizer.o StaticObject.o ScriptedActor.o ScriptEnvironmentBase.o StreamReader.o SynchronizedTimeHandler.o XmlReader.o WorldToDisplayObjectSynchronizer.o
 
 CC=g++
-INCDIR=-I. -I../include -I/usr/include -I../../infrastructure/include
-LIBDIR=-L/usr/lib
-LIBS=-lIce -lIceStorm -lIceutil -lGlacier2
+INCDIR=-I. -I../include -I/usr/include -I../infrastructure/include -I../dependencies/LUA/include
+LIBDIR=-L/usr/lib -L../infrastructure/lib -L../dependencies/LUA/lib
+LIBS=-lIce -lIceStorm -lIceutil -lGlacier2 -lgenerated
 
 
 all: clean depend libshared.a install
