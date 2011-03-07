@@ -32,7 +32,7 @@ install:
 	@echo "\n"
 clean:
 	@echo "\n        ********** nettoyage ************\n"
-	rm -f $(OBJ) libgenerated.a dep
+	rm -f $(OBJ) libshared.a dep
 	@touch dep
 	@echo "\n"
 		
