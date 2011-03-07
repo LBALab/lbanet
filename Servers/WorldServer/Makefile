@@ -4,7 +4,7 @@ OBJ=Actions.o ActorHandler.o  ActorScriptPart.o CommunityBoxHandler.o Conditions
 CC=g++
 INCDIR=-I. -I../../infrastructure/include -I/usr/include -I../../shared -I. -I/usr/include/mysql++ -I/usr/include/mysql -I../../dependencies/LUA/include -I../../dependencies/luabind/include
 LIBDIR=-L/usr/lib -L../../infrastructure/lib -L../../shared/lib -L../../dependencies/LUA/lib -L../../dependencies/luabind/lib
-LIBS=-lIce -lIceStorm -lIceUtil -lGlacier2 -lgenerated -llua -lluabind -lmysqlpp -lmysqlclient
+LIBS=-lIce -lIceStorm -lIceUtil -lGlacier2 -lgenerated -llua -lluabind -lshared -lmysqlpp -lmysqlclient
 
 
 all: $(TARGET) install
