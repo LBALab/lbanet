@@ -32,7 +32,7 @@ install:
 	@echo "\n"
 clean:
 	@echo "\n        ********** nettoyage ************\n"
-	rm -f $(OBJ) $(TARGET) dep
+	rm -f $(TARGET) dep
 	@touch dep
 	@echo "\n"
 		
