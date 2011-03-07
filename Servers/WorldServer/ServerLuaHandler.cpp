@@ -637,6 +637,8 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetQuest", &SharedDataHandler::GetQuest)
 		.def("AddInventoryItem", &SharedDataHandler::AddInventoryItem),
 
+		luabind::class_<SharedDataHandler, ScriptInitHandler>("SharedDataHandler"),
+
 		luabind::class_<InventoryItemDef, boost::shared_ptr<InventoryItemDef> >("InventoryItemDef")
 		.def(luabind::constructor<long>())
 		.def("GetId", &InventoryItemDef::GetId)
