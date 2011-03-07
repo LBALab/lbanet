@@ -7,7 +7,9 @@ LIBDIR=-L/usr/lib -L../../infrastructure/lib
 LIBS=-lIce -lIceStorm -lIceUtil -lGlacier2 -lgenerated -lmysqlpp -lmysqlclient
 
 
-all: clean depend $(TARGET) install
+all: $(TARGET) install
+
+clear: clean depend
 
 
 $(TARGET): $(OBJ)
@@ -32,7 +34,7 @@ install:
 	@echo "\n"
 clean:
 	@echo "\n        ********** nettoyage ************\n"
-	rm -f $(TARGET) dep
+	rm -f $(OBJ) $(TARGET) dep
 	@touch dep
 	@echo "\n"
 		
