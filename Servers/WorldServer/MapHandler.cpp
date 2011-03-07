@@ -228,7 +228,8 @@ void MapHandler::run()
 		// send events to all proxies
 		if(_tosendevts.size() > 0)
 		{
-			IceUtil::ThreadPtr t = new EventsSenderToAll(_tosendevts, GetProxies());
+			std::vector<ClientProxyBasePtr> proxies = GetProxies();
+			IceUtil::ThreadPtr t = new EventsSenderToAll(_tosendevts, proxies);
 			t->start();	
 		}
 
