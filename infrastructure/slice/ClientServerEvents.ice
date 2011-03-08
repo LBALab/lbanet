@@ -314,6 +314,15 @@ module LbaNet
 		int			EyesColor;
 		int			HairColor;
 	};
+	
+	// client tell server he hitted an actor
+	class PlayerHittedContactActorEvent extends ClientServerEventBase
+	{
+		bool			WithWeapon;
+
+		int			TouchedActorType;
+		long			TouchedActorId;
+	};	
 };	
 
 #endif
