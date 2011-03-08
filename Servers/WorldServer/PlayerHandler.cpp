@@ -1603,3 +1603,35 @@ void PlayerHandler::ResetWeapon()
 	}
 }
 
+
+
+/***********************************************************
+get player hit contact power
+***********************************************************/
+float PlayerHandler::GetHitContactPower(bool withweapon)
+{
+	float res = -1;
+
+	int hurtmove = _currentstate->HurtActorsOnMove();
+
+	if(withweapon)
+	{
+		if(hurtmove == 2)
+		{
+			LbaNet::ItemInfo iinfo = InventoryItemHandler::getInstance()->GetItemInfo((long)_currentinfo.EquipedWeapon);
+			if(iinfo.Id >= 0)
+				return iinfo.Effect;
+		}
+	}
+	else
+	{
+		if(hurtmove == 1)
+		{
+			return 5; // TODO - make contact power configurable
+		}
+	}
+
+
+	return res;
+}
+

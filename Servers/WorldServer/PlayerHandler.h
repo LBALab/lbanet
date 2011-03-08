@@ -225,6 +225,10 @@ public:
 	//! client open container
 	void OpenInventoryContainer(long itemid);
 
+	//! get player hit contact power
+	float GetHitContactPower(bool withweapon);
+
+
 protected:
 	// update state and mode class from modelinfo
 	void UpdateStateModeClass();

@@ -482,13 +482,25 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts)
 
 			}
 
-			// DestroyProjectileEvent
+			// ProjectileHittedActorEvent
 			if(info == typeid(LbaNet::ProjectileHittedActorEvent))
 			{
 				LbaNet::ProjectileHittedActorEvent* castedptr = 
 					dynamic_cast<LbaNet::ProjectileHittedActorEvent *>(&obj);
 
 				HittedProjectile((long)it->first, (long)castedptr->Id, 
+									castedptr->TouchedActorType, (long)castedptr->TouchedActorId);
+				continue;
+
+			}
+
+			// PlayerHittedContactActorEvent
+			if(info == typeid(LbaNet::PlayerHittedContactActorEvent))
+			{
+				LbaNet::PlayerHittedContactActorEvent* castedptr = 
+					dynamic_cast<LbaNet::PlayerHittedContactActorEvent *>(&obj);
+
+				PlayerHittedContact((long)it->first, castedptr->WithWeapon, 
 									castedptr->TouchedActorType, (long)castedptr->TouchedActorId);
 				continue;
 
@@ -2185,6 +2197,36 @@ LbaNet::ItemPosInfo MapHandler::GetCurrentWeaponInfo(Ice::Long clientid)
 	return res;
 }
 
+	
+/***********************************************************
+get player hit contact power
+***********************************************************/
+float MapHandler::GetPlayerHitContactPower(Ice::Long clientid, bool withweapon)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
+	if(itplayer != _players.end())
+		return itplayer->second->GetHitContactPower(withweapon);
+
+	return -1;
+}
+
+	
+/***********************************************************
+get player armor
+***********************************************************/	
+float MapHandler::GetPlayerArmor(Ice::Long clientid)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
+	if(itplayer != _players.end())
+		return itplayer->second->GetArmor();
+
+	return 0;
+}
+
 
 /***********************************************************
 item consumed
@@ -3157,12 +3199,57 @@ void MapHandler::HittedProjectile(long PlayerId, long ProjectileId, int	TouchedA
 
 			if(TouchedActorType == 2)
 			{
-				// hurt the player
-				DeltaUpdateLife(TouchedActorId, -itp->second.Power, 4, PlayerId);
-				ChangePlayerState(TouchedActorId, LbaNet::StMediumHurt, 0, 1, -1, true);
+				PlayerHitPlayer(PlayerId, TouchedActorId, itp->second.Power);
 			}
 		}
 
+	}
+}
+
+
+/***********************************************************
+HittedProjectile
+***********************************************************/
+void MapHandler::PlayerHittedContact(long PlayerId, bool WithWeapon, int	TouchedActorType,
+										long TouchedActorId)
+{
+	float power = GetPlayerHitContactPower(PlayerId, WithWeapon);
+	if(power > 0)
+	{
+		if(TouchedActorType == 1)
+		{
+			//todo - hurt actors
+		}
+
+		if(TouchedActorType == 2)
+		{
+			PlayerHitPlayer(PlayerId, TouchedActorId, power);
+		}
+	}
+}
+
+
+/***********************************************************
+playr hit player
+***********************************************************/
+void MapHandler::PlayerHitPlayer(long hitterId, long hittedid, float hitpower)
+{
+	// reduce it by armor
+	float armor = GetPlayerArmor(hittedid);
+	float hitlife = armor - hitpower;
+	if(hitlife < 0)
+	{
+		// hurt the player
+		if(!DeltaUpdateLife(hittedid, hitlife, 4, hitterId))
+		{
+			//only play hurt if not dead
+			if(hitlife > 30)
+				ChangePlayerState(hittedid, LbaNet::StBigHurt, 0, 1, -1, true);
+			else if(hitlife > 15)
+				ChangePlayerState(hittedid, LbaNet::StMediumHurt, 0, 1, -1, true);
+			else
+				ChangePlayerState(hittedid, LbaNet::StSmallHurt, 0, 1, -1, true);
+		}
 	}
 }
 

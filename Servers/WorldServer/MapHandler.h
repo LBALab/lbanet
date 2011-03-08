@@ -476,6 +476,13 @@ protected:
 
 	//! get info about an item
 	LbaNet::ItemPosInfo GetCurrentWeaponInfo(Ice::Long clientid);
+	
+	//! get player hit contact power
+	float GetPlayerHitContactPower(Ice::Long clientid, bool withweapon);
+	
+	//! get player armor
+	float GetPlayerArmor(Ice::Long clientid);
+
 
 	//! item consumed
 	bool PlayerConsumeItem(Ice::Long clientid, long ItemId);
@@ -566,13 +573,21 @@ protected:
 	void DestroyProjectile(long PlayerId, long ProjectileId, int	TouchedActorType,
 							long TouchedActorId);
 
-	//! destroy projectile
+	//! HittedProjectile
 	void HittedProjectile(long PlayerId, long ProjectileId, int	TouchedActorType,
 							long TouchedActorId);
+
+	//! HittedProjectile
+	void PlayerHittedContact(long PlayerId, bool WithWeapon, int	TouchedActorType,
+							long TouchedActorId);
+	
 
 	//! destroy projectile
 	void DestroyPlayerProjectile(Ice::Long PlayerId);
 
+
+	//! playr hit player
+	void PlayerHitPlayer(long hitterId, long hittedid, float hitpower);
 
 private:
 	// threading and mutex stuff
