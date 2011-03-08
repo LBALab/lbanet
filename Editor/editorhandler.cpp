@@ -1494,7 +1494,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 
 		
 		connect(_ui_NoticeDialog.buttonBox, SIGNAL(accepted()) , this, SLOT(Notice_accepted()));
-		connect(_ui_NoticeDialog.buttonBox, SIGNAL(accepted()) , this, SLOT(Notice_accepted()));
+		connect(_ui_NoticeDialog.buttonBox, SIGNAL(rejected()) , this, SLOT(Notice_rejected()));
 		connect(_NoticeDialogdialog, SIGNAL(finished(int)) , this, SLOT(Notice_closed(int)));
 
 	}
@@ -9427,6 +9427,7 @@ void EditorHandler::ItemAdd_button_accepted()
     newitem.BuyPrice = 1;
     newitem.SellPrice = 1;
     newitem.Effect = 0;
+    newitem.Effect2 = 0;
     newitem.Flag = 1;
     newitem.Ephemere = false;
 	newitem.Color1 = -1;
@@ -9894,6 +9895,11 @@ void EditorHandler::SelectItem(boost::shared_ptr<InventoryItemDef> item, const Q
 			_objectmodel->AppendRow(data, parent);
 			++index;
 
+			QVector<QVariant> data;
+			data<<"Fist power"<<(double)item->GetEffect2();
+			_objectmodel->AppendRow(data, parent);
+			++index;
+
 			QVector<QVariant> data2;
 			data2<<"Player model"<<item->GetStringFlag().c_str();
 			QModelIndex idx = _objectmodel->AppendRow(data2, parent);
@@ -10156,6 +10162,9 @@ void EditorHandler::ItemChanged(long id, const std::string & category, const QMo
 		case 9: // outfit item - equip it
 		{
 			newiteminfo->SetEffect(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
+			++index;
+
+			newiteminfo->SetEffect2(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
 			++index;
 
 			newiteminfo->SetStringFlag(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data());
