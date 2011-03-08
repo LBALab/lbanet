@@ -1616,7 +1616,7 @@ float PlayerHandler::GetHitContactPower(bool withweapon)
 
 	if(withweapon)
 	{
-		if(hurtmove == 2)
+		//if(hurtmove == 2)
 		{
 			LbaNet::ItemInfo iinfo = InventoryItemHandler::getInstance()->GetItemInfo((long)_currentinfo.EquipedWeapon);
 			if(iinfo.Id >= 0)
@@ -1625,7 +1625,7 @@ float PlayerHandler::GetHitContactPower(bool withweapon)
 	}
 	else
 	{
-		if(hurtmove == 1)
+		//if(hurtmove == 1)
 		{
 			LbaNet::ItemInfo iinfo = InventoryItemHandler::getInstance()->GetItemInfo((long)_currentinfo.EquipedOutfit);
 			if(iinfo.Id >= 0)
