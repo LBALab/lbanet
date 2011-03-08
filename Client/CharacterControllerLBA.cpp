@@ -492,6 +492,21 @@ void CharacterController::Process(double tnow, float tdiff,
 					if(scripthandler)
 						_attachedactor = scripthandler->GetActor(hi.ActorObjType, hi.ActorId);
 				}
+				else
+				{
+					//if we go forward
+					if(speedX > 0)
+					{
+						int hittedAct = _currentstate->HurtActorsOnMove();
+						if(hittedAct > 0)
+						{
+							//we touched an actor - hit him
+							EventsQueue::getSenderQueue()->AddEvent(new LbaNet::PlayerHittedContactActorEvent(
+															SynchronizedTimeHandler::GetCurrentTimeDouble(),
+															(hittedAct==2), hi.ActorObjType, hi.ActorId));	
+						}
+					}
+				}
 			}
 		}
 	}

@@ -32,6 +32,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "OSGHandler.h"
 #include "Localizer.h"
 #include "GUILocalizationCallback.h"
+#include "StringHelperFuncs.h"
+#include "ClientExtendedEvents.h"
+#include "ClientExtendedTypes.h"
+
 
 #include <iostream>
 #include <algorithm>
@@ -314,6 +318,8 @@ void NPCDialogBox::BuildDialog(const LbaNet::DialogPartInfo &DialogPart)
 		{
 			CEGUI::Window* txs = CEGUI::WindowManager::getSingleton().getWindow("DialogFrame/multiline");
 			std::string str = Localizer::getInstance()->GetText(Localizer::Map, (long)DialogPart.NpcTextId);
+			str = StringHelper::replaceall(str, "#P#", _playername); // replace with player name
+
 			int idxs = 0;
 			bool firsttime=true;
 			while((idxs = str.find(" @ ")) != std::string::npos)
@@ -411,6 +417,15 @@ void NPCDialogBox::Update(const LbaNet::GuiUpdatesSeq &Updates)
 
 			//set dialog
 			BuildDialog(castedptr->DialogPartUpdate);
+		}
+
+		// SetPlayerNameUpdate
+		if(info == typeid(SetPlayerNameUpdate))
+		{
+			SetPlayerNameUpdate * castedptr = 
+				dynamic_cast<SetPlayerNameUpdate *>(ptr);
+
+			_playername = castedptr->_Name;
 		}
 	}
 }

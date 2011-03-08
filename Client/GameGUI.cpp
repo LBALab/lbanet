@@ -375,6 +375,9 @@ void GameGUI::UpdateGUI(const std::string & guiid,const LbaNet::GuiUpdatesSeq &U
 					dynamic_cast<SetPlayerNameUpdate *>(ptr);
 
 				SetPlayerName(castedptr->_Name);
+
+				//update dialog gui
+				_gameguis["DialogBox"]->Update(Updates);
 			}
 
 			// SystemMessageUpdate

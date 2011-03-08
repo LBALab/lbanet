@@ -109,6 +109,7 @@ protected:
 
 private:
 	CEGUI::Window*			_myBox;
+	std::string				_playername;
 
 };
 

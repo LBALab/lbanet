@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "LogHandler.h"
 #include "Lba1ModelMapHandler.h"
 #include "OSGHandler.h"
+#include "Randomizer.h"
 
 #include <osg/Node>
 #include <osg/Group>
@@ -441,10 +442,17 @@ int Lba1ModelHandler::RefreshModel(bool forcecolor)
 		modelchanged = true;
 	}
 
+	int pickedanimation;
+	if(newanimations.size() == 1)
+		pickedanimation = 0;
+	else
+		pickedanimation = Randomizer::getInstance()->RandInt((int)newanimations.size()-1);
+
+
 	// do nothing if same animation loaded already
-	if(_currAnimation != newanimations[0]) // TODO change to use animation vector
+	if(_currAnimation != newanimations[pickedanimation]) // TODO change to use animation vector
 	{
-		_currAnimation = newanimations[0];
+		_currAnimation = newanimations[pickedanimation];
 		_model->LoadAnim(	_estruct,
 							_estruct->entitiesTable[_currModel].animList[_currAnimation].index);
 
