@@ -564,6 +564,9 @@ public:
 		return false;
 	}
 
+	//! check if in this state we are immune to hurt
+	virtual bool IsImmuneHurt(){return true;}
+
 	//! check if in this state we can play hurt animation
 	virtual bool CanPlayHurt(){return false;}
 
