@@ -66,6 +66,7 @@ void InventoryItemDef::SaveToLuaFile(std::ofstream & file) const
 	file<<"\t"<<name.str()<<":SetDescriptionTextExtra(\""<<_info.DescriptionTextExtra<<"\")"<<std::endl;
 	file<<"\t"<<name.str()<<":SetType("<<_info.Type<<")"<<std::endl;
 	file<<"\t"<<name.str()<<":SetEffect("<<_info.Effect<<")"<<std::endl;
+	file<<"\t"<<name.str()<<":SetEffect2("<<_info.Effect2<<")"<<std::endl;
 	file<<"\t"<<name.str()<<":SetFlag("<<_info.Flag<<")"<<std::endl;
 	file<<"\t"<<name.str()<<":SetEphemere("<<(_info.Ephemere?"true":"false")<<")"<<std::endl;
 	file<<"\t"<<name.str()<<":SetStringFlag(\""<<_info.StringFlag<<"\")"<<std::endl;

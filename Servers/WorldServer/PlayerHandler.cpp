@@ -1627,7 +1627,9 @@ float PlayerHandler::GetHitContactPower(bool withweapon)
 	{
 		if(hurtmove == 1)
 		{
-			return 5; // TODO - make contact power configurable
+			LbaNet::ItemInfo iinfo = InventoryItemHandler::getInstance()->GetItemInfo((long)_currentinfo.EquipedOutfit);
+			if(iinfo.Id >= 0)
+				return iinfo.Effect2;
 		}
 	}
 

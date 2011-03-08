@@ -44,6 +44,7 @@ public:
 	{
 		_info.Id = id;
 		_info.ReplaceItem = -1;
+		_info.Effect2 = 0;
 	}
 
 	//! constructor
@@ -73,6 +74,7 @@ public:
     std::string GetDescriptionTextExtra() const{return _info.DescriptionTextExtra;}
     int GetType() const{return _info.Type;}
     float GetEffect() const{return _info.Effect;}
+    float GetEffect2() const{return _info.Effect2;}
     int GetFlag() const{return _info.Flag;}
     bool GetEphemere() const{return _info.Ephemere;}
     std::string GetStringFlag() const{return _info.StringFlag;}
@@ -94,6 +96,7 @@ public:
     void SetDescriptionTextExtra(const std::string & v){_info.DescriptionTextExtra = v;}
     void SetType(int v){_info.Type = v;}
     void SetEffect(float v){_info.Effect = v;}
+    void SetEffect2(float v){_info.Effect2 = v;}
     void SetFlag(int v){_info.Flag = v;}
     void SetEphemere(bool v){_info.Ephemere = v;}
     void SetStringFlag(const std::string & v){_info.StringFlag = v;}
