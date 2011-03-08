@@ -663,7 +663,7 @@ void MapHandler::PlayerEntered(Ice::Long id)
 			PhysicDesc.Pos = GetPlayerPosition(id);
 			PhysicDesc.TypePhysO = KynematicAType;	
 			PhysicDesc.TypeShape = CapsuleShape;
-			PhysicDesc.Collidable = false;
+			PhysicDesc.Collidable = true;
 			PhysicDesc.Density = 1;
 
 			float sizeX, sizeY, sizeZ;
@@ -895,7 +895,7 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 			PhysicDesc.Pos = GetPlayerPosition(_currentplayers[cc]);
 			PhysicDesc.TypePhysO = KynematicAType;	
 			PhysicDesc.TypeShape = CapsuleShape;
-			PhysicDesc.Collidable = false;
+			PhysicDesc.Collidable = true;
 			PhysicDesc.Density = 1;
 
 			float sizeX, sizeY, sizeZ;
