@@ -67,6 +67,7 @@ module LbaNet
 		string 			DescriptionTextExtra;
 		int			Type;
 		float			Effect;
+		float			Effect2;		
 		int			Flag;
 		bool			Ephemere;
 		string			StringFlag;
