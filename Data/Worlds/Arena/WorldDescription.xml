@@ -26,6 +26,11 @@
 				<ObjectId>22</ObjectId>
 				<Number>1</Number>
 				<Position>-1</Position>
+			</object>
+			<object>
+				<ObjectId>23</ObjectId>
+				<Number>1</Number>
+				<Position>-1</Position>
 			</object>			
 		</StartingInventory>
 	</PlayerStartingInfo>
