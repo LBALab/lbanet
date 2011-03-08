@@ -102,6 +102,12 @@ public:
 
 	//! check if can use weapon in this state
 	virtual bool CanUseWeapon(){return false;}
+
+
+	//! check if in this state we hute other actors on move
+	//! 0 -> No     1 -> Yes with hand      2 -> Yes with weapon
+	virtual int HurtActorsOnMove(){return 0;}
+
 };
 
 
@@ -789,6 +795,12 @@ public:
 	virtual ~StateUseWeapon(void){}
 
 
+	//! ask if we are allowed to rotate in this mode
+	//! 0 -> no
+	//! 1 -> yes
+	//! 2 -> yes but no turning animation
+	virtual int AllowedRotating(){return 2;}
+
 	//! tell state that current animation has finished
 	//! return true if animation should be paused
 	virtual bool AnimationFinished()
@@ -815,6 +827,9 @@ public:
 
 	//! check if we can change state from this state
 	virtual bool ChangeLegal(LbaNet::ModelState NewState){return true;}
+
+	//! check if in this state we hute other actors on move
+	virtual int HurtActorsOnMove(){return 2;}
 
 private:
 	bool	_switchstate;
@@ -890,6 +905,8 @@ public:
 	//! check if we can change state from this state
 	virtual bool ChangeLegal(LbaNet::ModelState NewState){return true;}
 	
+	//! check if in this state we hute other actors on move
+	virtual int HurtActorsOnMove(){return 1;}
 
 };
 
