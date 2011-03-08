@@ -413,13 +413,34 @@ function InitMap(environment)
 	Actor_9.ExtraInfo.NameColorR = 0
 	Actor_9.ExtraInfo.NameColorG = 0
 	Actor_9.ExtraInfo.NameColorB = 0
-	Actor_9.ExtraInfo.Display = false
+	Actor_9.ExtraInfo.Display = true
 	Actor_9.LifeInfo.Display = false
 	Actor_9H = NPCHandler(Actor_9)
 	Actor_9H_dia = DialogPart()
 	Actor_9H_dia:SetResetDialog(false)
+	Actor_9H_dia_c1 = DialogPart()
+	Actor_9H_dia_c1:SetResetDialog(false)
+	Actor_9H_dia_c1:AddText(865)
+	Actor_9H_dia_c1_c0 = DialogPart()
+	Actor_9H_dia_c1_c0_act = OpenShopAction()
+	Actor_9H_dia_c1_c0_act:SetCurrencyItem(8)
+	Actor_9H_dia_c1_c0_act:AddItem(31, 5)
+	Actor_9H_dia_c1_c0_act:AddItem(32, 5)
+	Actor_9H_dia_c1_c0_act:AddItem(33, 5)
+	Actor_9H_dia_c1_c0_act:AddItem(34, 5)
+	Actor_9H_dia_c1_c0_act:AddItem(35, 5)
+	Actor_9H_dia_c1_c0_act:AddItem(36, 10)	
+	Actor_9H_dia_c1_c0_act:AddItem(37, 10)
+	Actor_9H_dia_c1_c0_act:AddItem(38, 10)
+	Actor_9H_dia_c1_c0_act:AddItem(39, 10)	
+	Actor_9H_dia_c1_c0_act:AddItem(40, 10)		
+	Actor_9H_dia_c1_c0:SetAction(Actor_9H_dia_c1_c0_act)
+	Actor_9H_dia_c1_c0:SetResetDialog(false)
+	Actor_9H_dia_c1_c0:AddText(834)
+	Actor_9H_dia_c1:AddChild(Actor_9H_dia_c1_c0)
+	Actor_9H_dia:AddChild(Actor_9H_dia_c1)	
 	Actor_9H:SetRootDialog(Actor_9H_dia)
-	Actor_9H:SetNpcName(-1)
+	Actor_9H:SetNpcName(1)
 	Actor_9H:SetSimpleDialog(false)
 	environment:AddActorObject(Actor_9H)
 
