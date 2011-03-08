@@ -3243,9 +3243,9 @@ void MapHandler::PlayerHitPlayer(long hitterId, long hittedid, float hitpower)
 		if(!DeltaUpdateLife(hittedid, hitlife, 4, hitterId))
 		{
 			//only play hurt if not dead
-			if(hitlife > 30)
+			if(hitlife >= 20)
 				ChangePlayerState(hittedid, LbaNet::StBigHurt, 0, 1, -1, true);
-			else if(hitlife > 15)
+			else if(hitlife >= 10)
 				ChangePlayerState(hittedid, LbaNet::StMediumHurt, 0, 1, -1, true);
 			else
 				ChangePlayerState(hittedid, LbaNet::StSmallHurt, 0, 1, -1, true);
