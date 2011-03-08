@@ -13,11 +13,23 @@
 		<SpawningId>1</SpawningId>
 		<StartingModel>
 			<ModelName>Twinsen</ModelName>
-			<Outfit>Nurse</Outfit>
-			<Weapon>No</Weapon>
+			<Outfit>Fulltunic</Outfit>
+			<Weapon>MagicBall</Weapon>
 			<Mode>Normal</Mode>
 			<RendererType>2</RendererType>
 		</StartingModel>
+		<StartingInventory>
+			<object>
+				<ObjectId>27</ObjectId>
+				<Number>1</Number>
+				<Position>-1</Position>
+			</object>
+			<object>
+				<ObjectId>22</ObjectId>
+				<Number>1</Number>
+				<Position>-1</Position>
+			</object>			
+		</StartingInventory>
 	</PlayerStartingInfo>
 	<maps>
 		<Map name="ASCENCE" type="exterior" AutoCameraType="3" IsInstance="false">
