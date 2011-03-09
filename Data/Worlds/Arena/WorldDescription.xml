@@ -18,11 +18,6 @@
 		</StartingModel>
 		<StartingInventory>
 			<object>
-				<ObjectId>27</ObjectId>
-				<Number>1</Number>
-				<Position>-1</Position>
-			</object>
-			<object>
 				<ObjectId>22</ObjectId>
 				<Number>1</Number>
 				<Position>-1</Position>
@@ -31,7 +26,12 @@
 				<ObjectId>23</ObjectId>
 				<Number>1</Number>
 				<Position>-1</Position>
-			</object>			
+			</object>
+			<object>
+				<ObjectId>27</ObjectId>
+				<Number>1</Number>
+				<Position>-1</Position>
+			</object>
 		</StartingInventory>
 	</PlayerStartingInfo>
 	<maps>

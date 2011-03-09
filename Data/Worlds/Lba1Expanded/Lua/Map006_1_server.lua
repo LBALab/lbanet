@@ -264,10 +264,10 @@ function InitMap(environment)
 	Actor_10.DisplayDesc.RotY = 0
 	Actor_10.DisplayDesc.RotZ = 0
 	Actor_10:SetModelState(1)
-	Actor_10.PhysicDesc.Pos.X = 19
+	Actor_10.PhysicDesc.Pos.X = 21
 	Actor_10.PhysicDesc.Pos.Y = 0
-	Actor_10.PhysicDesc.Pos.Z = 35
-	Actor_10.PhysicDesc.Pos.Rotation = 0
+	Actor_10.PhysicDesc.Pos.Z = 36.4
+	Actor_10.PhysicDesc.Pos.Rotation = 90
 	Actor_10.PhysicDesc.Density = 1
 	Actor_10.PhysicDesc.Collidable = true
 	Actor_10.PhysicDesc.SizeX = 5
