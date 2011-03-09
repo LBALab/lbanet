@@ -62,7 +62,7 @@ void MailBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBasePtr &
 		LbaNet::SendPMUpdate * castedptr = 
 			dynamic_cast<LbaNet::SendPMUpdate *>(ptr);
 
-		castedptr->PM.FromName =  SharedDataHandler::getInstance()->GetName(clientid);
+		castedptr->PM.FromName =  _owner->GetName(clientid);
 		boost::shared_ptr<DatabaseHandlerBase> dbh = SharedDataHandler::getInstance()->GetDatabase();
 		if(dbh)
 			dbh->SendPM(castedptr->PM);
@@ -81,25 +81,13 @@ update gui with info from server
 ***********************************************************/
 void MailBoxHandler::HideGUI(Ice::Long clientid)
 {
-	ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
-	if(prx)
+	if(_owner)
 	{
 		EventsSeq toplayer;
 		toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 												"MailBox", GuiParamsSeq(), false, true));
 
-		try
-		{
-			prx->ServerEvents(toplayer);
-		}
-		catch(const IceUtil::Exception& ex)
-		{
-			std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-		}
-		catch(...)
-		{
-			std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-		}
+		_owner->SendEvents((long)clientid, toplayer);
 	}
 
 	RemoveOpenedGui(clientid);
@@ -112,11 +100,10 @@ show the GUI for a certain player
 void MailBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition &curPosition,
 					boost::shared_ptr<ShowGuiParamBase> params)
 {
-	ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
-	if(prx)
+	boost::shared_ptr<DatabaseHandlerBase> dbh = SharedDataHandler::getInstance()->GetDatabase();
+	if(dbh)
 	{
-		boost::shared_ptr<DatabaseHandlerBase> dbh = SharedDataHandler::getInstance()->GetDatabase();
-		if(dbh)
+		if(_owner)
 		{
 			EventsSeq toplayer;
 			GuiParamsSeq seq;
@@ -124,21 +111,10 @@ void MailBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition &c
 			toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 													"MailBox", seq, true, false));
 
-			try
-			{
-				prx->ServerEvents(toplayer);
-			}
-			catch(const IceUtil::Exception& ex)
-			{
-				std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-			}
-			catch(...)
-			{
-				std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-			}
-
-			// add gui to the list to be removed later
-			AddOpenedGui(clientid, curPosition);
+			_owner->SendEvents((long)clientid, toplayer);
 		}
+
+		// add gui to the list to be removed later
+		AddOpenedGui(clientid, curPosition);
 	}
 }

@@ -33,7 +33,9 @@ class ContainerBoxHandler :	public ServerGUIBase
 {
 public:
 	//! constructor
-	ContainerBoxHandler(void){}
+	ContainerBoxHandler(MapHandler*	owner)
+		: ServerGUIBase(owner)
+	{}
 
 	//! destructor
 	virtual ~ContainerBoxHandler(void){}

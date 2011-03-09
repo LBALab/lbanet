@@ -43,8 +43,8 @@ class DialogBoxHandler :	public ServerGUIBase
 {
 public:
 	//! constructor
-	DialogBoxHandler(ScriptEnvironmentBase * owner)
-		: _owner(owner)
+	DialogBoxHandler(MapHandler*	owner)
+		: ServerGUIBase(owner)
 	{}
 
 	//! destructor
@@ -65,7 +65,6 @@ protected:
 	void SelectDialog(long clientid, int selecteid);
 
 private:
-	ScriptEnvironmentBase *		_owner;
 	std::map<long, DialogInfo>	_openeddialog;
 };
 

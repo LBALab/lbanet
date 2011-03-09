@@ -124,8 +124,16 @@ LbaNet::SavedWorldInfo DatabaseHandler::ChangeWorld(const std::string& NewWorldN
 			// player inventory part
 			resP.inventory.InventorySize = res[0][6];
 
+			if(resP.inventory.InventorySize > 1000)
+				resP.inventory.InventorySize = 30; // in case of crash
+
+
 			std::vector<std::string> tokens;
 			std::string shortcutstr = res[0][7].c_str();
+			if(shortcutstr == "")
+				shortcutstr = "-1#-1#-1#-1#-1#-1#-1#-1#-1#-1"; // in case of crash
+
+
 			StringHelper::Tokenize(shortcutstr, tokens, "#");
 			for(size_t i=0; i<tokens.size(); ++i)
 			{

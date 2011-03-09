@@ -34,7 +34,9 @@ class CommunityBoxHandler :	public ServerGUIBase
 {
 public:
 	//! constructor
-	CommunityBoxHandler(void){}
+	CommunityBoxHandler(MapHandler*	owner)
+		: ServerGUIBase(owner)
+	{}
 
 	//! destructor
 	virtual ~CommunityBoxHandler(void){}

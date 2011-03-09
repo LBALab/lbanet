@@ -33,7 +33,9 @@ class ShortcutBoxHandler :	public ServerGUIBase
 {
 public:
 	//! constructor
-	ShortcutBoxHandler(void){}
+	ShortcutBoxHandler(MapHandler*	owner)
+		: ServerGUIBase(owner)
+	{}
 
 	//! destructor
 	virtual ~ShortcutBoxHandler(void){}

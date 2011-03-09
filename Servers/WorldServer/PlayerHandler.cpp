@@ -414,6 +414,14 @@ LbaNet::PlayerPosition PlayerHandler::GetPlayerPosition()
 }
 
 /***********************************************************
+get player rotation
+***********************************************************/
+float PlayerHandler::GetPlayerRotation()
+{
+	return _currentinfo.ppos.Rotation;
+}
+
+/***********************************************************
 get player mode string
 ***********************************************************/
 std::string PlayerHandler::GetPlayerModeString()

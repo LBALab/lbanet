@@ -91,23 +91,7 @@ public:
 	// clean up
 	void CleanUp();
 
-	// get client name
-	std::string GetName(Ice::Long clientid);
 
-	//get player proxy
-	ClientProxyBasePtr GetProxy(Ice::Long clientid);
-
-
-	//! teleport player
-	void TeleportPlayer(ScriptEnvironmentBase * owner, Ice::Long clientid, long TeleportId);
-
-	//! change map for player
-	void ChangeMapPlayer(Ice::Long clientid, const std::string &NewMapName, long SpawningId,
-							float offsetX=0, float offsetY=0, float offsetZ=0);
-
-	//! change map for player
-	void ChangeMapPlayer(Ice::Long clientid, const std::string &NewMapName, const std::string SpawnName,
-							float offsetX=0, float offsetY=0, float offsetZ=0);
 
 #ifdef _USE_QT_EDITOR_
 	//! called by editor
@@ -115,37 +99,21 @@ public:
 #endif
 
 
+	//! return position of a tp
+	LbaNet::PlayerPosition GetTeleportPos(ScriptEnvironmentBase * owner, long playerid, long tpid,
+												float CurrentRotation);
+
+	//! return spawn pos
+	LbaNet::PlayerPosition GetSpawnPos(const std::string &mapname, const std::string& spawnname, 
+												float CurrentRotation);
+
+	//! return spawn pos
+	LbaNet::PlayerPosition GetSpawnPos(const std::string &mapname, long spawnid, float CurrentRotation);
 
 
-
- 	// used when a client update name info
-	void UpdateClientExtraInfo(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo);
-
-
-	//! update player shortcut
-	void UpdatePlayerShortcut(Ice::Long clientid, int Position, long ItemId);
-
-	//! player switch item
-	void PlayerSwitchItem(Ice::Long clientid, long ItemId, int NewPosition);
-
-	//! player use item
-	void PlayerItemUsed(Ice::Long clientid, long ItemId);
-
-	//! Player Create Letter
-	void PlayerCreateLetter(Ice::Long clientid, const std::string & subject,
-										const std::string & message);
-
-	//! Player Destroy Item
-	void PlayerDestroyItem(Ice::Long clientid, long ItemId);
-
-	//! get player inventory
-	LbaNet::ItemsMap GetInventory(Ice::Long clientid, int & inventorysize);
-
-	//! update player inventory
-	void UpdateInventory(Ice::Long clientid, LbaNet::ItemList Taken, LbaNet::ItemList Put,
-								LbaNet::ItemClientInformType informtype);
-
-
+	//! teleport the player
+	void TeleportPlayer(long playerid, boost::shared_ptr<PlayerHandler> pinfo, 
+							 const LbaNet::PlayerPosition &newpos);
 
 
 	//*************
@@ -197,8 +165,8 @@ public:
 	//! save to lua
 	void SaveToLua();
 
-
-
+	//! update client extra info
+	void UpdateClientExtraInfo(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo);
 
 protected:
 	//! constructor
@@ -215,19 +183,20 @@ protected:
 	//! add 1 event
 	void AddEvent(const std::string &MapName,Ice::Long clientid, ClientServerEventBasePtr evt);
 
-	// player leave map
-	void PlayerLeaveMap(const std::string &MapName, Ice::Long clientid);
-
 
 	//! register client internal function
 	void RegisterClient(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo,
 							ClientProxyBasePtr proxy);
 
 
-	//! internally change map for player
-	void ChangeMapPlayer(Ice::Long clientid, LbaNet::PlayerPosition &newpos);
+	//! return spawn pos
+	LbaNet::PlayerPosition GetSpawnPosInternal(const std::string &mapname, long spawnid, 
+																			float CurrentRotation);
 
 
+	//! teleport the player
+	void TeleportPlayerInternal(long playerid, boost::shared_ptr<PlayerHandler> pinfo, 
+												const LbaNet::PlayerPosition &newpos);
 
 private:
 	static SharedDataHandler *											_Instance;
@@ -237,12 +206,14 @@ private:
 	WorldInformation													_worldinfo;
 
 	std::map<std::string, boost::shared_ptr<MapHandler> >				_currentmaps;
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >				_currentplayers;
+	std::map<Ice::Long, std::string>									_currentplayermaps;
 
 
 	boost::shared_ptr<LuaHandlerBase>									m_luaHandler;
 
 	std::map<long, boost::shared_ptr<TeleportDef> >						m_teleports;
+
+	boost::shared_ptr<PlayerHandler>									m_mainplayerH;
 };
 
 #endif

@@ -33,7 +33,9 @@ class MailBoxHandler :	public ServerGUIBase
 {
 public:
 	//! constructor
-	MailBoxHandler(void){}
+	MailBoxHandler(MapHandler*	owner)
+		: ServerGUIBase(owner)
+	{}
 
 	//! destructor
 	virtual ~MailBoxHandler(void){}

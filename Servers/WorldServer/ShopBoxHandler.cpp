@@ -55,26 +55,14 @@ update gui with info from server
 ***********************************************************/
 void ShopBoxHandler::HideGUI(Ice::Long clientid)
 {
-	ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
-	if(prx)
+	if(_owner)
 	{
 		EventsSeq toplayer;
 		toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 												"ShopBox", GuiParamsSeq(), false, true));
-
-		try
-		{
-			prx->ServerEvents(toplayer);
-		}
-		catch(const IceUtil::Exception& ex)
-		{
-			std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-		}
-		catch(...)
-		{
-			std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-		}
+		_owner->SendEvents((long)clientid, toplayer);
 	}
+
 
 	RemoveOpenedGui(clientid);
 
@@ -95,15 +83,15 @@ void ShopBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition &c
 	ShopParam * castedptr = 
 		static_cast<ShopParam *>(params.get());
 
-	ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
-	if(prx)
+
+	if(HasOpenedGui(clientid))
 	{
-		if(HasOpenedGui(clientid))
-		{
-			//close already opened box
-			HideGUI(clientid);
-		}
-		else
+		//close already opened box
+		HideGUI(clientid);
+	}
+	else
+	{
+		if(_owner)
 		{
 			EventsSeq toplayer;
 			GuiParamsSeq seq;
@@ -113,26 +101,18 @@ void ShopBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition &c
 													"ShopBox", seq, true, false));
 
 			toplayer.push_back(UpdateMoney((long)castedptr->_currencyitem.Id, (long)clientid));
-			try
-			{
-				prx->ServerEvents(toplayer);
-			}
-			catch(const IceUtil::Exception& ex)
-			{
-				std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-			}
-			catch(...)
-			{
-				std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-			}
 
-			// add gui to the list to be removed later
-			AddOpenedGui(clientid, curPosition);
-
-			// store container info
-			_openedshops[(long)clientid] = *castedptr;
+			_owner->SendEvents((long)clientid, toplayer);
 		}
+
+
+		// add gui to the list to be removed later
+		AddOpenedGui(clientid, curPosition);
+
+		// store container info
+		_openedshops[(long)clientid] = *castedptr;
 	}
+
 }
 
 /***********************************************************
@@ -140,10 +120,14 @@ buy item
 ***********************************************************/
 void ShopBoxHandler::BuyItem(long clientid, long ItemId)
 {
+	if(!_owner)
+		return;
+
 	int inventorysize = 0;
-	LbaNet::ItemsMap inventory = SharedDataHandler::getInstance()->GetInventory(clientid, inventorysize);
+	LbaNet::ItemsMap inventory = _owner->GetInventory(clientid, inventorysize);
 	ShopParam &ShopItems = _openedshops[clientid];
 
+			
 
 	// check if shop has listed items available
 	LbaNet::ItemsMap::iterator itcont = ShopItems._shopinventory.find(ItemId);
@@ -177,25 +161,13 @@ void ShopBoxHandler::BuyItem(long clientid, long ItemId)
 				LbaNet::ItemList Taken, Put;
 				Taken[ShopItems._currencyitem.Id] = itcont->second.Info.BuyPrice;
 				Put[ItemId] = 1;
-				SharedDataHandler::getInstance()->UpdateInventory(clientid, Taken, Put, LbaNet::DontInform);
+				_owner->UpdateInventory(clientid, Taken, Put, LbaNet::DontInform);
 
-				ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
-				if(prx)
+				if(_owner)
 				{
 					EventsSeq toplayer;
 					toplayer.push_back(UpdateMoney((long)ShopItems._currencyitem.Id, (long)clientid));
-					try
-					{
-						prx->ServerEvents(toplayer);
-					}
-					catch(const IceUtil::Exception& ex)
-					{
-						std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-					}
-					catch(...)
-					{
-						std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-					}
+					_owner->SendEvents(clientid, toplayer);
 				}
 			}
 		}
@@ -210,7 +182,7 @@ LbaNet::ClientServerEventBase * ShopBoxHandler::UpdateMoney(long currencyid, lon
 {
 	int count = 0;
 	int inventorysize = 0;
-	LbaNet::ItemsMap inventory = SharedDataHandler::getInstance()->GetInventory(clientid, inventorysize);
+	LbaNet::ItemsMap inventory = _owner->GetInventory(clientid, inventorysize);
 	LbaNet::ItemsMap::iterator it = inventory.find(currencyid);
 	if(it != inventory.end())
 		count = it->second.Count;

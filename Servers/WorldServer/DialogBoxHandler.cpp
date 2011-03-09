@@ -57,25 +57,13 @@ update gui with info from server
 ***********************************************************/
 void DialogBoxHandler::HideGUI(Ice::Long clientid)
 {
-	ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
-	if(prx)
+	if(_owner)
 	{
 		EventsSeq toplayer;
 		toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 												"DialogBox", GuiParamsSeq(), false, true));
 
-		try
-		{
-			prx->ServerEvents(toplayer);
-		}
-		catch(const IceUtil::Exception& ex)
-		{
-			std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-		}
-		catch(...)
-		{
-			std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-		}
+		_owner->SendEvents((long)clientid, toplayer);
 	}
 
 	RemoveOpenedGui(clientid);
@@ -104,54 +92,43 @@ void DialogBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition 
 	ShowGuiParamBase * ptr = params.get();
 	DialogParam * castedptr = static_cast<DialogParam *>(params.get());
 
-	ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
-	if(prx)
+	if(castedptr->_dialogroot)
 	{
-		if(castedptr->_dialogroot)
+		DialogPartPtr dialptr = castedptr->_dialogroot->GetNpcNextDialog(_owner, (long)clientid);
+		if(dialptr)
 		{
-			DialogPartPtr dialptr = castedptr->_dialogroot->GetNpcNextDialog(_owner, (long)clientid);
-			if(dialptr)
-			{
-				EventsSeq toplayer;
-				GuiParamsSeq seq;
-				DialogPartInfo dialpart;
-				dialpart.NpcTextId = dialptr->PickText();
+			EventsSeq toplayer;
+			GuiParamsSeq seq;
+			DialogPartInfo dialpart;
+			dialpart.NpcTextId = dialptr->PickText();
 
-				std::vector<DialogPartPtr>  dials = dialptr->GetPlayerNextDialog(_owner, (long)clientid);
-				for(size_t i=0; i<dials.size(); ++i)
-					dialpart.PlayerTextsId.push_back(dials[i]->PickText());
+			std::vector<DialogPartPtr>  dials = dialptr->GetPlayerNextDialog(_owner, (long)clientid);
+			for(size_t i=0; i<dials.size(); ++i)
+				dialpart.PlayerTextsId.push_back(dials[i]->PickText());
 
-				seq.push_back(new DialogGuiParameter(castedptr->_npcnametextid, 
-														castedptr->_simpledialog, dialpart));
+			seq.push_back(new DialogGuiParameter(castedptr->_npcnametextid, 
+													castedptr->_simpledialog, dialpart));
 
-				toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-														"DialogBox", seq, true, false));
+			toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+													"DialogBox", seq, true, false));
 
-				try
-				{
-					prx->ServerEvents(toplayer);
-				}
-				catch(const IceUtil::Exception& ex)
-				{
-					std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-				}
-				catch(...)
-				{
-					std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-				}
+			if(_owner)
+				_owner->SendEvents((long)clientid, toplayer);
 
-				// add gui to the list to be removed later
-				AddOpenedGui(clientid, curPosition);
 
-				// store info
-				DialogInfo dinfo;
-				dinfo.rootdialog = castedptr->_dialogroot;
-				dinfo.currdialog = dials;
-				dinfo.actorid = castedptr->_npcid;
-				_openeddialog[(long)clientid] = dinfo;
-			}
+
+			// add gui to the list to be removed later
+			AddOpenedGui(clientid, curPosition);
+
+			// store info
+			DialogInfo dinfo;
+			dinfo.rootdialog = castedptr->_dialogroot;
+			dinfo.currdialog = dials;
+			dinfo.actorid = castedptr->_npcid;
+			_openeddialog[(long)clientid] = dinfo;
 		}
 	}
+
 }
 
 /***********************************************************
@@ -201,26 +178,13 @@ void DialogBoxHandler::SelectDialog(long clientid, int selecteid)
 				toplayer.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 														"DialogBox", seq));
 
-				ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
-				if(prx)
-				{
-					try
-					{
-						prx->ServerEvents(toplayer);
-					}
-					catch(const IceUtil::Exception& ex)
-					{
-						std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-					}
-					catch(...)
-					{
-						std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-					}
+				if(_owner)
+					_owner->SendEvents(clientid, toplayer);
 
-					// store info
-					it->second.currdialog = dials;
-					return;
-				}
+				// store info
+				it->second.currdialog = dials;
+				return;
+
 			}
 		}
 	}

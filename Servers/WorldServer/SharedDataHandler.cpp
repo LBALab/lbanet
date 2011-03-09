@@ -106,11 +106,9 @@ void SharedDataHandler::ClientEvents(Ice::Long clientid, const EventsSeq &evts)
 	Lock sync(*this);
 
 	//get player current map
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
-	if(it != _currentplayers.end())
-	{
-		AddEvents(it->second->GetCurrentMap(), clientid, evts);
-	}
+	std::map<Ice::Long, std::string>::iterator it = _currentplayermaps.find(clientid);
+	if(it != _currentplayermaps.end())
+		AddEvents(it->second, clientid, evts);
 }
 
 
@@ -197,16 +195,19 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectE
 		savedinfo.model = _worldinfo.StartingInfo.StartingModel;
 
 
-
-
 	// create player object
 	boost::shared_ptr<PlayerHandler> player(new PlayerHandler((long)clientid, proxy, 
 											_dbH, _worldinfo.Description.WorldName, savedinfo, extrainfo));
-	_currentplayers[clientid] = player;
+#ifdef _USE_QT_EDITOR_
+	m_mainplayerH = player;
+#endif
+
+	// teleport player to correct map
+	TeleportPlayerInternal((long)clientid, player, savedinfo.ppos);
 
 
-	// take care of map part
-	ChangeMapPlayer(clientid, savedinfo.ppos);
+
+
 
 
 	// send friend list to client
@@ -292,15 +293,18 @@ used when a client disconnect from a world
 	Lock sync(*this);
 
 	//get player current map
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
-	if(it != _currentplayers.end())
+	std::map<Ice::Long, std::string>::iterator it = _currentplayermaps.find(clientid);
+	if(it != _currentplayermaps.end())
 	{
 		// make player leave map
-		PlayerLeaveMap(it->second->GetCurrentMap(), clientid);
+		std::map<std::string, boost::shared_ptr<MapHandler> >::iterator itmap = _currentmaps.find(it->second);
+		if(itmap != _currentmaps.end())
+		{
+			itmap->second->ExtRemovePlayer(clientid);
+		}
 
-		// save db and remove player
-		it->second->SaveCurrentInfo();
-		_currentplayers.erase(it);
+		//remove player
+		_currentplayermaps.erase(it);
 	}
 } 
 
@@ -348,20 +352,153 @@ void SharedDataHandler::AddEvent(const std::string &MapName,Ice::Long clientid,
 
 
 /***********************************************************
-player leave map
+return position of a tp
 ***********************************************************/
-void SharedDataHandler::PlayerLeaveMap(const std::string &MapName, Ice::Long clientid)
+LbaNet::PlayerPosition SharedDataHandler::GetTeleportPos(ScriptEnvironmentBase * owner, long playerid, 
+															long tpid,	float CurrentRotation)
 {
-	// internal - no lock
+	Lock sync(*this);
 
-	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator it = _currentmaps.find(MapName);
-	if(it != _currentmaps.end())
-		it->second->RemovePlayer(clientid);
+	// get tp info
+	std::map<long, boost::shared_ptr<TeleportDef> >::iterator ittp = m_teleports.find(tpid);
+	if(ittp != m_teleports.end())
+	{
+		//check if player allowed to tp
+		if(ittp->second->ValidForPlayer(owner, playerid))
+			return GetSpawnPosInternal(ittp->second->GetMapName(), ittp->second->GetSpawn(), CurrentRotation);
+	}
 
-	// add player leave event
-	AddEvent(MapName, clientid, 
-		new PlayerLeaveEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), clientid));
+	LbaNet::PlayerPosition newpos;
+	return newpos;
 }
+
+
+/***********************************************************
+return spawn pos
+***********************************************************/
+LbaNet::PlayerPosition SharedDataHandler::GetSpawnPos(const std::string &mapname, 
+													  const std::string& spawnname, 
+														float CurrentRotation)
+{
+	Lock sync(*this);
+	long spawnid = SharedDataHandler::GetSpawnId(mapname, spawnname);
+	return GetSpawnPosInternal(mapname, spawnid, CurrentRotation);
+}
+
+
+/***********************************************************
+return spawn pos
+***********************************************************/
+LbaNet::PlayerPosition SharedDataHandler::GetSpawnPos(const std::string &mapname, long spawnid, 
+													  float CurrentRotation)
+{
+	Lock sync(*this);
+	return GetSpawnPosInternal(mapname, spawnid, CurrentRotation);
+}
+
+
+/***********************************************************
+return spawn pos
+***********************************************************/
+LbaNet::PlayerPosition SharedDataHandler::GetSpawnPosInternal(const std::string &mapname, long spawnid, 
+																	float CurrentRotation)
+{
+	// no lock - internal function
+
+	LbaNet::PlayerPosition newpos;
+	newpos.Rotation = CurrentRotation;
+
+	// get spawn info
+	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator itmap = _currentmaps.find(mapname);
+	if(itmap != _currentmaps.end())
+	{
+		boost::shared_ptr<Spawn> spn = itmap->second->GetSpawn(spawnid);
+		if(spn)
+		{
+			newpos.MapName = mapname;
+			newpos.X = spn->GetPosX();
+			newpos.Y = spn->GetPosY();
+			newpos.Z = spn->GetPosZ();
+
+			if(spn->GetForceRotation())
+				newpos.Rotation = spn->GetRotation();
+		}
+	}
+
+	return newpos;
+}
+
+
+
+/***********************************************************
+teleport the player
+***********************************************************/
+void SharedDataHandler::TeleportPlayerInternal(long playerid, boost::shared_ptr<PlayerHandler> pinfo, 
+												const LbaNet::PlayerPosition &newpos)
+{
+	// teleport player
+	if(pinfo)
+		pinfo->Teleport(newpos);
+
+	// internally set player to correct map
+	_currentplayermaps[playerid] = newpos.MapName;
+
+
+	//connect player to new map
+#ifndef _USE_QT_EDITOR_
+	//check if map handler for the map is already present
+	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator it = _currentmaps.find(newpos.MapName);
+	if(it != _currentmaps.end())
+	{
+		//start run thread if not started already
+		it->second->StartThread();
+
+		// add proxies to the map
+		it->second->ExtAddPlayer(playerid, pinfo);
+	}
+	else
+	{
+		// log the issue, we have no map of this name
+		std::stringstream strs;
+		strs<<"Player trying to go to a non existing map - player id: "<<playerid;
+		LogHandler::getInstance()->LogToFile(strs.str(), 0);
+		return;
+	}
+#else
+	LbaNet::MapsSeq::const_iterator itm = _worldinfo.Maps.find(newpos.MapName);
+	if(itm != _worldinfo.Maps.end())
+	{
+		std::string luafile = "Worlds/" + _worldinfo.Description.WorldName + "/Lua/";
+
+		// custom server file
+		std::string customluafile = luafile+"CustomServer.lua";
+
+		luafile += newpos.MapName + "_server.lua";
+
+		// create map object
+		boost::shared_ptr<MapHandler> mapH(new MapHandler(_worldinfo.Description.WorldName, itm->second, luafile, customluafile));
+		_currentmaps[itm->first] = mapH;
+
+		//start run thread if not started already
+		mapH->StartThread();
+
+		// add proxies to the map
+		mapH->ExtAddPlayer(playerid, pinfo);
+	}
+#endif
+
+}
+
+/***********************************************************
+teleport the player
+***********************************************************/
+void SharedDataHandler::TeleportPlayer(long playerid, boost::shared_ptr<PlayerHandler> pinfo, 
+										const LbaNet::PlayerPosition &newpos)
+{
+	Lock sync(*this);
+	TeleportPlayerInternal(playerid, pinfo, newpos);
+}
+
 
 
 
@@ -373,45 +510,13 @@ void SharedDataHandler::CleanUp()
 	Lock sync(*this);
 
 	_currentmaps.clear();
-	_currentplayers.clear();
+	_currentplayermaps.clear();
 
 	_dbH = boost::shared_ptr<DatabaseHandlerBase>();
 }
 
 
 
-
-/***********************************************************
-get client name
-***********************************************************/
-std::string SharedDataHandler::GetName(Ice::Long clientid)
-{
-	Lock sync(*this);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
-	if(it != _currentplayers.end())
-		return it->second->GetExtraInfo().Name;
-
-
-	return NULL;
-}
-
-
-
-/***********************************************************
-get player proxy
-***********************************************************/
-ClientProxyBasePtr SharedDataHandler::GetProxy(Ice::Long clientid)
-{
-	Lock sync(*this);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
-	if(it != _currentplayers.end())
-		return it->second->GetProxy();
-
-
-	return NULL;
-}
 
 
 
@@ -450,223 +555,10 @@ PlayerPosition SharedDataHandler::GetSpawningInfo(const std::string &MapName,
 
 
 
-/***********************************************************
-used when a client update name info
-***********************************************************/
-void SharedDataHandler::UpdateClientExtraInfo(Ice::Long clientid, 
-											  const LbaNet::ObjectExtraInfo& extrainfo)
-{
-	Lock sync(*this);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
-	if(it != _currentplayers.end())
-	{
-		it->second->SetExtraInfo(extrainfo);
-
-		// add event
-		AddEvent(it->second->GetCurrentMap(), clientid, 
-			new NewClientExtraInfoEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), extrainfo));
-	}
-}
-
-
-/***********************************************************
-teleport player
-***********************************************************/
-void SharedDataHandler::TeleportPlayer(ScriptEnvironmentBase * owner, Ice::Long clientid, long TeleportId)
-{
-	bool ok = false;
-	std::string mapname;
-	long spawnid = 0;
-
-	{
-		Lock sync(*this);
-		//TODO - check if teleport is legal
-
-		// get tp info
-		std::map<long, boost::shared_ptr<TeleportDef> >::iterator ittp = m_teleports.find(TeleportId);
-		std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _currentplayers.find(clientid);
-	
-		if(ittp != m_teleports.end())
-		{
-			//! get player current map
-			if(itplayer != _currentplayers.end())
-			{
-				//check if player allowed to tp
-				if(ittp->second->ValidForPlayer(owner, (long)clientid))
-				{
-					//only tp if change map
-					if(ittp->second->GetMapName() != itplayer->second->GetCurrentMap())
-					{
-						ok = true;
-						mapname = ittp->second->GetMapName();
-						spawnid = (long)ittp->second->GetSpawn();
-					}
-				}
-			}
-		}
-	}
-
-	// cant lock this part...
-	if(ok)
-		ChangeMapPlayer(clientid, mapname, spawnid);
-}
-
-
-/***********************************************************
-update player shortcut
-***********************************************************/
-void SharedDataHandler::UpdatePlayerShortcut(Ice::Long clientid, int Position, long ItemId)
-{
-	Lock sync(*this);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _currentplayers.find(clientid);
-	if(itplayer != _currentplayers.end())
-		itplayer->second->UpdateShortcut(Position, ItemId);
-}
 
 
 
-/***********************************************************
-change map for player
-***********************************************************/
-void SharedDataHandler::ChangeMapPlayer(Ice::Long clientid, const std::string &NewMapName, long SpawningId,
-											float offsetX, float offsetY, float offsetZ)
-{
-	Lock sync(*this);
 
-	// get map spawning info
-	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator itmap = _currentmaps.find(NewMapName);
-	if(itmap != _currentmaps.end())
-	{
-		boost::shared_ptr<Spawn> spn = itmap->second->GetSpawn(SpawningId);
-		if(spn)
-		{
-			//! get player current position
-			std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _currentplayers.find(clientid);
-			if(itplayer != _currentplayers.end())
-			{
-				LbaNet::PlayerPosition ppos = itplayer->second->GetPlayerPosition();
-				ppos.MapName = NewMapName;
-				ppos.X = spn->GetPosX() + offsetX;
-				ppos.Y = spn->GetPosY() + offsetY;
-				ppos.Z = spn->GetPosZ() + offsetZ;
-
-				if(spn->GetForceRotation())
-					ppos.Rotation = spn->GetRotation();
-
-				ChangeMapPlayer(clientid, ppos);
-			}
-		}
-	}
-}
-
-
-/***********************************************************
-change map for player
-***********************************************************/
-void SharedDataHandler::ChangeMapPlayer(Ice::Long clientid, const std::string &NewMapName, 
-										const std::string SpawnName,
-										float offsetX, float offsetY, float offsetZ)
-{
-	Lock sync(*this);
-
-	// get map spawning info
-	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator itmap = _currentmaps.find(NewMapName);
-	if(itmap != _currentmaps.end())
-	{
-		boost::shared_ptr<Spawn> spn = itmap->second->GetSpawn(SpawnName);
-		if(spn)
-		{
-			//! get player current position
-			std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _currentplayers.find(clientid);
-			if(itplayer != _currentplayers.end())
-			{
-				LbaNet::PlayerPosition ppos = itplayer->second->GetPlayerPosition();
-				ppos.MapName = NewMapName;
-				ppos.X = spn->GetPosX() + offsetX;
-				ppos.Y = spn->GetPosY() + offsetY;
-				ppos.Z = spn->GetPosZ() + offsetZ;
-
-				if(spn->GetForceRotation())
-					ppos.Rotation = spn->GetRotation();
-
-				ChangeMapPlayer(clientid, ppos);
-			}
-		}
-	}
-}
-
-
-
-/***********************************************************
-internally change map for player
-***********************************************************/
-void SharedDataHandler::ChangeMapPlayer(Ice::Long clientid, LbaNet::PlayerPosition &newpos)
-{
-	// internal - no lock
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _currentplayers.find(clientid);
-	if(itplayer == _currentplayers.end())
-		return;
-
-	// first exit current map
-	PlayerLeaveMap(itplayer->second->GetCurrentMap(), clientid);
-
-
-	// then update player info
-	itplayer->second->Teleport(newpos);
-
-
-	//then connect to new map
-
-#ifndef _USE_QT_EDITOR_
-	//check if map handler for the map is already present
-	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator it = _currentmaps.find(newpos.MapName);
-	if(it != _currentmaps.end())
-	{
-		//start run thread if not started already
-		it->second->StartThread();
-
-		// add proxies to the map
-		it->second->AddPlayer(clientid, itplayer->second);
-	}
-	else
-	{
-		// log the issue, we have no map of this name
-		std::stringstream strs;
-		strs<<"Player trying to go to a non existing map - player id: "<<clientid;
-		LogHandler::getInstance()->LogToFile(strs.str(), 0);
-		return;
-	}
-#else
-	LbaNet::MapsSeq::const_iterator itm = _worldinfo.Maps.find(newpos.MapName);
-	if(itm != _worldinfo.Maps.end())
-	{
-		std::string luafile = "Worlds/" + _worldinfo.Description.WorldName + "/Lua/";
-
-		// custom server file
-		std::string customluafile = luafile+"CustomServer.lua";
-
-		luafile += newpos.MapName + "_server.lua";
-
-		// create map object
-		boost::shared_ptr<MapHandler> mapH(new MapHandler(_worldinfo.Description.WorldName, itm->second, luafile, customluafile));
-		_currentmaps[itm->first] = mapH;
-
-		//start run thread if not started already
-		mapH->StartThread();
-
-		// add proxies to the map
-		mapH->AddPlayer(clientid, itplayer->second);
-	}
-#endif
-
-
-	// add player enter event
-	AddEvent(newpos.MapName, clientid, 
-				new PlayerEnterEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), clientid));
-}
 
 
 /***********************************************************
@@ -708,6 +600,9 @@ void SharedDataHandler::EditorUpdate(const std::string &mapname,
 			luafile += castedptr->_mapinfo.Name + "_server.lua";
 			boost::shared_ptr<MapHandler> mapH(new MapHandler(_worldinfo.Description.WorldName, castedptr->_mapinfo, luafile, customluafile));
 			_currentmaps[castedptr->_mapinfo.Name] = mapH;
+
+			//start thread
+			mapH->StartThread();
 		}
 	}
 
@@ -734,12 +629,27 @@ void SharedDataHandler::EditorUpdate(const std::string &mapname,
 		}
 	}
 	
+	// player tp
+	if(info == typeid(EditorTeleportPlayerEvent))
+	{
+		if(mapname == "")
+		{
+			publish = false;
+
+			EditorTeleportPlayerEvent* castedptr = 
+				dynamic_cast<EditorTeleportPlayerEvent *>(&obj);
+
+			TeleportPlayerInternal(castedptr->_playerid, m_mainplayerH, castedptr->_newpos);
+		}
+	}	
+
 
 	// inform the map
 	if(publish)
 		AddEvent(mapname, 1, new EditorEvent(update));
 }
 #endif
+
 
 
 /***********************************************************
@@ -759,102 +669,6 @@ LbaNet::TeleportsSeq SharedDataHandler::GetTpList(ScriptEnvironmentBase * owner,
 	}
 
 	return Tps;
-
-	//EventsSeq toplayer;
-	//GuiParamsSeq seq;
-	//seq.push_back(new TeleportGuiParameter(Tps));
-	//toplayer.push_back(
-	//	new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), "TeleportBox", seq, false, false));
-}
-
-
-
-/***********************************************************
-player switch item
-***********************************************************/
-void SharedDataHandler::PlayerSwitchItem(Ice::Long clientid, long ItemId, int NewPosition)
-{
-	Lock sync(*this);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _currentplayers.find(clientid);
-	if(itplayer != _currentplayers.end())
-		itplayer->second->SwitchItem(ItemId, NewPosition);
-
-}
-
-/***********************************************************
-player use item
-***********************************************************/
-void SharedDataHandler::PlayerItemUsed(Ice::Long clientid, long ItemId)
-{
-	Lock sync(*this);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _currentplayers.find(clientid);
-	if(it != _currentplayers.end())
-	{
-		// add event
-		AddEvent(it->second->GetCurrentMap(), clientid, 
-			new PlayerItemUsedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), ItemId));
-	}
-}
-
-/***********************************************************
-Player Create Letter
-***********************************************************/
-void SharedDataHandler::PlayerCreateLetter(Ice::Long clientid, const std::string & subject,
-											const std::string & message)
-{
-	Lock sync(*this);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _currentplayers.find(clientid);
-	if(itplayer != _currentplayers.end())
-		itplayer->second->CreateLetter(subject, message);
-}
-
-/***********************************************************
-Player Destroy Item
-***********************************************************/
-void SharedDataHandler::PlayerDestroyItem(Ice::Long clientid, long ItemId)
-{
-	Lock sync(*this);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _currentplayers.find(clientid);
-	if(itplayer != _currentplayers.end())
-		itplayer->second->DestroyItem(ItemId);
-}
-
-
-
- 
-/***********************************************************
-get player inventory
-***********************************************************/
-LbaNet::ItemsMap SharedDataHandler::GetInventory(Ice::Long clientid, int & inventorysize)
-{
-	Lock sync(*this);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _currentplayers.find(clientid);
-	if(itplayer != _currentplayers.end())
-	{
-		inventorysize = itplayer->second->GetInventorySize();
-		return itplayer->second->GetInventory();
-	}
-
-	return LbaNet::ItemsMap();
-}
-
-
-/***********************************************************
-update player inventory
-***********************************************************/
-void SharedDataHandler::UpdateInventory(Ice::Long clientid, LbaNet::ItemList Taken, 
-										LbaNet::ItemList Put, LbaNet::ItemClientInformType informtype)
-{
-	Lock sync(*this);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _currentplayers.find(clientid);
-	if(itplayer != _currentplayers.end())
-		itplayer->second->UpdateInventory(Taken, Put, informtype);
 }
 
 
@@ -1017,4 +831,15 @@ std::map<long, boost::shared_ptr<Spawn> > SharedDataHandler::GetSpawns(const std
 		return itmap->second->GetSpawns();
 
 	return std::map<long, boost::shared_ptr<Spawn> >();
+}
+
+
+
+/***********************************************************
+update client extra info
+***********************************************************/
+void SharedDataHandler::UpdateClientExtraInfo(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo)
+{
+	EventsSeq seq;//todo
+	ClientEvents(clientid, seq);
 }

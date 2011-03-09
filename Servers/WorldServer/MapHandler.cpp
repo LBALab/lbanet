@@ -21,22 +21,6 @@
 
 
 
-	//try
-	//{
-	//	if(_proxy)
-	//		_proxy->ServerEvents(_events);
-	//}
-	//catch(const IceUtil::Exception& ex)
-	//{
-	//	std::cout<<"Exception in EventSender: "<<ex.what()<<std::endl;
-	//}
-	//catch(...)
-	//{
-	//	std::cout<<"Unknown exception in EventSender. "<<std::endl;
-	//}
-
-
-
 /***********************************************************
 constructor
 ***********************************************************/
@@ -46,15 +30,15 @@ MapHandler::MapHandler(const std::string & worldname, const MapInfo & mapinfo,
 : _Trunning(false), _mapinfo(mapinfo), _worldname(worldname)
 {
 	// initialize the gui handlers
-	_guihandlers["CommunityBox"] = boost::shared_ptr<ServerGUIBase>(new CommunityBoxHandler());
-	_guihandlers["ShortcutBox"] = boost::shared_ptr<ServerGUIBase>(new ShortcutBoxHandler());
-	_guihandlers["MailBox"] = boost::shared_ptr<ServerGUIBase>(new MailBoxHandler());
+	_guihandlers["CommunityBox"] = boost::shared_ptr<ServerGUIBase>(new CommunityBoxHandler(this));
+	_guihandlers["ShortcutBox"] = boost::shared_ptr<ServerGUIBase>(new ShortcutBoxHandler(this));
+	_guihandlers["MailBox"] = boost::shared_ptr<ServerGUIBase>(new MailBoxHandler(this));
 
-	_guihandlers["TextBox"] = boost::shared_ptr<ServerGUIBase>(new TextBoxHandler());
-	_guihandlers["ContainerBox"] = boost::shared_ptr<ServerGUIBase>(new ContainerBoxHandler());
+	_guihandlers["TextBox"] = boost::shared_ptr<ServerGUIBase>(new TextBoxHandler(this));
+	_guihandlers["ContainerBox"] = boost::shared_ptr<ServerGUIBase>(new ContainerBoxHandler(this));
 	_guihandlers["DialogBox"] = boost::shared_ptr<ServerGUIBase>(new DialogBoxHandler(this));
-	_guihandlers["ShopBox"] = boost::shared_ptr<ServerGUIBase>(new ShopBoxHandler());
-	_guihandlers["InventoryBox"] = boost::shared_ptr<ServerGUIBase>(new InventoryBoxHandler());
+	_guihandlers["ShopBox"] = boost::shared_ptr<ServerGUIBase>(new ShopBoxHandler(this));
+	_guihandlers["InventoryBox"] = boost::shared_ptr<ServerGUIBase>(new InventoryBoxHandler(this));
 
 
 	//script part
@@ -133,6 +117,16 @@ void MapHandler::run()
 	{
 		// prepare events to send to everybody
 		_tosendevts.clear();
+
+		//add and remove players
+		std::vector<std::pair<Ice::Long, boost::shared_ptr<PlayerHandler> > > toadd;
+		std::vector<Ice::Long> toremove;
+		GetToAddRemove(toadd, toremove);
+		for(size_t pp=0; pp<toadd.size(); ++pp)
+			MakePlayerEnterMap((long)toadd[pp].first, toadd[pp].second);
+		for(size_t pp=0; pp<toremove.size(); ++pp)
+			MakePlayerLeaveMap((long)toremove[pp]);
+
 
 		// process events
 		std::map<Ice::Long, EventsSeq> evts;
@@ -242,6 +236,243 @@ void MapHandler::run()
 }
 
 
+/***********************************************************
+process event
+***********************************************************/
+void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt)
+{
+	if(!evt)
+		return;
+
+	//check if player is still present on map
+	#ifndef _USE_QT_EDITOR_
+	{
+		boost::shared_ptr<PlayerHandler> pinfo =  GetPlayerInfo((long)id);
+		if(!pinfo)
+			return;
+	}
+	#endif
+
+
+	LbaNet::ClientServerEventBase & obj = *evt;
+	const std::type_info& info = typeid(obj);
+
+
+	// player updated position
+	if(info == typeid(LbaNet::PlayerMovedEvent))
+	{
+		LbaNet::PlayerMovedEvent* castedptr = 
+			dynamic_cast<LbaNet::PlayerMovedEvent *>(&obj);
+
+		PlayerMoved(id, castedptr->Time, castedptr->info);
+		return;
+	}
+
+
+	// UpdateGameGUIEvent
+	if(info == typeid(LbaNet::UpdateGameGUIEvent))
+	{
+		LbaNet::UpdateGameGUIEvent* castedptr = 
+			dynamic_cast<LbaNet::UpdateGameGUIEvent *>(&obj);
+
+		GuiUpdate(id, castedptr->GUIId, castedptr->Updates);
+		return;
+	}
+
+	// TeleportEvent
+	if(info == typeid(LbaNet::TeleportEvent))
+	{
+		LbaNet::TeleportEvent* castedptr = 
+			dynamic_cast<LbaNet::TeleportEvent *>(&obj);
+
+		LbaNet::PlayerPosition newpos = SharedDataHandler::getInstance()->GetTeleportPos(this, (long)id,
+																			(long)castedptr->TeleportId,
+																			GetPlayerRotation(id));
+		TeleportPlayer((long)id, newpos);
+		return;
+	}
+
+	// ChangeStanceEvent
+	if(info == typeid(LbaNet::ChangeStanceEvent))
+	{
+		LbaNet::ChangeStanceEvent* castedptr = 
+			dynamic_cast<LbaNet::ChangeStanceEvent *>(&obj);
+		
+		ChangeStance(id, castedptr->NewStance);
+		return;
+	}
+
+
+	// PressedActionKeyEvent
+	if(info == typeid(LbaNet::PressedActionKeyEvent))
+	{
+		LbaNet::PressedActionKeyEvent* castedptr = 
+			dynamic_cast<LbaNet::PressedActionKeyEvent *>(&obj);
+
+		ProcessPlayerAction(id, castedptr->ForcedNormalAction);
+		return;
+	}
+
+
+
+	// RefreshObjectRequestEvent
+	if(info == typeid(LbaNet::RefreshObjectRequestEvent))
+	{
+		RefreshPlayerObjects(id);
+		return;
+	}
+
+
+	// UpdateStateEvent
+	if(info == typeid(LbaNet::UpdateStateEvent))
+	{
+		LbaNet::UpdateStateEvent* castedptr = 
+			dynamic_cast<LbaNet::UpdateStateEvent *>(&obj);
+
+		ChangePlayerState(id, castedptr->NewState, castedptr->FallingSize, 5, -1);
+		return;
+	}
+
+	// RaiseFromDeadEvent
+	if(info == typeid(LbaNet::RaiseFromDeadEvent))
+	{
+		RaiseFromDeadEvent(id);
+		return;
+	}
+
+	//NewClientExtraInfoEvent
+	if(info == typeid(LbaNet::NewClientExtraInfoEvent))
+	{
+		LbaNet::NewClientExtraInfoEvent* castedptr = 
+			dynamic_cast<LbaNet::NewClientExtraInfoEvent *>(&obj);
+
+		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+							2, id, new ObjectExtraInfoUpdate(castedptr->ExtraInfo)));
+		return;
+	}
+
+	//ReadyToPlayEvent
+	if(info == typeid(LbaNet::ReadyToPlayEvent))
+	{
+		SetReady(id);
+		return;
+	}
+
+
+	//ScriptExecutionFinishedEvent
+	if(info == typeid(LbaNet::ScriptExecutionFinishedEvent))
+	{
+		LbaNet::ScriptExecutionFinishedEvent* castedptr = 
+			dynamic_cast<LbaNet::ScriptExecutionFinishedEvent *>(&obj);
+
+		FinishedScript((long)id, castedptr->ScriptName);
+		return;
+	}
+
+
+	//editor update event
+	#ifdef _USE_QT_EDITOR_
+	if(info == typeid(EditorEvent))
+	{
+		EditorEvent* castedptr = 
+			static_cast<EditorEvent *>(&obj);
+
+		ProcessEditorUpdate(castedptr->_update);
+
+		return;
+	}
+
+
+	#endif
+
+
+
+	//PlayerItemUsedEvent
+	if(info == typeid(LbaNet::PlayerItemUsedEvent))
+	{
+		LbaNet::PlayerItemUsedEvent* castedptr = 
+			dynamic_cast<LbaNet::PlayerItemUsedEvent *>(&obj);
+
+		PlayerItemUsed((long)id, (long)castedptr->ItemId);
+		return;
+	}
+
+
+	//ShowHideEvent
+	if(info == typeid(LbaNet::ShowHideEvent))
+	{
+		LbaNet::ShowHideEvent* castedptr = 
+			dynamic_cast<LbaNet::ShowHideEvent *>(&obj);
+
+		// only allowed on scripted event
+		if(GetPlayerModelInfo(id).State == StScripted)
+		{
+			_tosendevts.push_back(new LbaNet::ShowHideEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+								2, id, castedptr->Show));
+		}
+		return;
+	}
+
+	//RefreshTpRequestEvent
+	if(info == typeid(LbaNet::RefreshTpRequestEvent))
+	{
+		LbaNet::TeleportsSeq tpseq = SharedDataHandler::getInstance()->GetTpList(this, id);
+
+		EventsSeq toplayer;
+		GuiParamsSeq seq;
+		seq.push_back(new TeleportGuiParameter(tpseq));
+		toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+													"TeleportBox", seq, true, false)); 
+
+		SendEvents((long)id, toplayer);
+		return;
+	}
+
+	// UpdatePlayerColorEvent
+	if(info == typeid(LbaNet::UpdatePlayerColorEvent))
+	{
+		LbaNet::UpdatePlayerColorEvent* castedptr = 
+			dynamic_cast<LbaNet::UpdatePlayerColorEvent *>(&obj);
+
+		ChangePlayerColor((long)id, castedptr->SkinColor, castedptr->EyesColor, 
+								castedptr->HairColor, -2, -2, -2, -2);
+		return;
+	}
+
+	// DestroyProjectileEvent
+	if(info == typeid(LbaNet::DestroyProjectileEvent))
+	{
+		LbaNet::DestroyProjectileEvent* castedptr = 
+			dynamic_cast<LbaNet::DestroyProjectileEvent *>(&obj);
+
+		DestroyProjectile((long)id, (long)castedptr->Id, 
+							castedptr->TouchedActorType, (long)castedptr->TouchedActorId);
+		return;
+	}
+
+	// ProjectileHittedActorEvent
+	if(info == typeid(LbaNet::ProjectileHittedActorEvent))
+	{
+		LbaNet::ProjectileHittedActorEvent* castedptr = 
+			dynamic_cast<LbaNet::ProjectileHittedActorEvent *>(&obj);
+
+		HittedProjectile((long)id, (long)castedptr->Id, 
+							castedptr->TouchedActorType, (long)castedptr->TouchedActorId);
+		return;
+	}
+
+	// PlayerHittedContactActorEvent
+	if(info == typeid(LbaNet::PlayerHittedContactActorEvent))
+	{
+		LbaNet::PlayerHittedContactActorEvent* castedptr = 
+			dynamic_cast<LbaNet::PlayerHittedContactActorEvent *>(&obj);
+
+		PlayerHittedContact((long)id, castedptr->WithWeapon, 
+							castedptr->TouchedActorType, (long)castedptr->TouchedActorId);
+		return;
+	}
+}
+
 
 /***********************************************************
 process events
@@ -256,262 +487,7 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts)
 		LbaNet::EventsSeq::const_iterator endevt = it->second.end();
 		for(;itevt != endevt; ++itevt)
 		{
-			try
-			{
-				LbaNet::ClientServerEventBasePtr ptr = *itevt;
-				LbaNet::ClientServerEventBase & obj = *ptr;
-				const std::type_info& info = typeid(obj);
-
-				// client entered
-				if(info == typeid(LbaNet::PlayerEnterEvent))
-				{
-					PlayerEntered(it->first);
-					continue;
-				}
-
-				// client left
-				if(info == typeid(LbaNet::PlayerLeaveEvent))
-				{
-					PlayerLeft(it->first);
-					continue;
-				}
-
-				// player updated position
-				if(info == typeid(LbaNet::PlayerMovedEvent))
-				{
-					LbaNet::PlayerMovedEvent* castedptr = 
-						dynamic_cast<LbaNet::PlayerMovedEvent *>(&obj);
-
-					PlayerMoved(it->first, castedptr->Time, castedptr->info);
-					continue;
-				}
-
-
-				// UpdateGameGUIEvent
-				if(info == typeid(LbaNet::UpdateGameGUIEvent))
-				{
-					LbaNet::UpdateGameGUIEvent* castedptr = 
-						dynamic_cast<LbaNet::UpdateGameGUIEvent *>(&obj);
-		
-					GuiUpdate(it->first, castedptr->GUIId, castedptr->Updates);
-					continue;
-				}
-
-				// TeleportEvent
-				if(info == typeid(LbaNet::TeleportEvent))
-				{
-					LbaNet::TeleportEvent* castedptr = 
-						dynamic_cast<LbaNet::TeleportEvent *>(&obj);
-
-					SharedDataHandler::getInstance()->TeleportPlayer(this, it->first, (long)castedptr->TeleportId);
-
-					continue;
-				}
-
-				// ChangeStanceEvent
-				if(info == typeid(LbaNet::ChangeStanceEvent))
-				{
-					LbaNet::ChangeStanceEvent* castedptr = 
-						dynamic_cast<LbaNet::ChangeStanceEvent *>(&obj);
-					
-					ChangeStance(it->first, castedptr->NewStance);
-					continue;
-				}
-
-
-				// PressedActionKeyEvent
-				if(info == typeid(LbaNet::PressedActionKeyEvent))
-				{
-					LbaNet::PressedActionKeyEvent* castedptr = 
-						dynamic_cast<LbaNet::PressedActionKeyEvent *>(&obj);
-
-					ProcessPlayerAction(it->first, castedptr->ForcedNormalAction);
-					continue;
-				}
-
-
-
-				// RefreshObjectRequestEvent
-				if(info == typeid(LbaNet::RefreshObjectRequestEvent))
-				{
-					RefreshPlayerObjects(it->first);
-					continue;
-				}
-
-
-				// UpdateStateEvent
-				if(info == typeid(LbaNet::UpdateStateEvent))
-				{
-					LbaNet::UpdateStateEvent* castedptr = 
-						dynamic_cast<LbaNet::UpdateStateEvent *>(&obj);
-
-					ChangePlayerState(it->first, castedptr->NewState, castedptr->FallingSize, 5, -1);
-					continue;
-				}
-
-				// RaiseFromDeadEvent
-				if(info == typeid(LbaNet::RaiseFromDeadEvent))
-				{
-					RaiseFromDeadEvent(it->first);
-					continue;
-				}
-
-				//NewClientExtraInfoEvent
-				if(info == typeid(LbaNet::NewClientExtraInfoEvent))
-				{
-					LbaNet::NewClientExtraInfoEvent* castedptr = 
-						dynamic_cast<LbaNet::NewClientExtraInfoEvent *>(&obj);
-
-					_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-										2, it->first, new ObjectExtraInfoUpdate(castedptr->ExtraInfo)));
-					continue;
-				}
-
-				//ReadyToPlayEvent
-				if(info == typeid(LbaNet::ReadyToPlayEvent))
-				{
-					SetReady(it->first);
-					continue;
-				}
-
-
-				//ScriptExecutionFinishedEvent
-				if(info == typeid(LbaNet::ScriptExecutionFinishedEvent))
-				{
-					LbaNet::ScriptExecutionFinishedEvent* castedptr = 
-						dynamic_cast<LbaNet::ScriptExecutionFinishedEvent *>(&obj);
-
-					FinishedScript((long)it->first, castedptr->ScriptName);
-					continue;
-				}
-
-
-				//editor update event
-				#ifdef _USE_QT_EDITOR_
-				if(info == typeid(EditorEvent))
-				{
-					EditorEvent* castedptr = 
-						static_cast<EditorEvent *>(&obj);
-
-					ProcessEditorUpdate(castedptr->_update);
-
-					continue;
-				}
-
-
-				#endif
-
-
-
-				//PlayerItemUsedEvent
-				if(info == typeid(LbaNet::PlayerItemUsedEvent))
-				{
-					LbaNet::PlayerItemUsedEvent* castedptr = 
-						dynamic_cast<LbaNet::PlayerItemUsedEvent *>(&obj);
-
-					PlayerItemUsed((long)it->first, (long)castedptr->ItemId);
-					continue;
-				}
-
-
-				//ShowHideEvent
-				if(info == typeid(LbaNet::ShowHideEvent))
-				{
-					LbaNet::ShowHideEvent* castedptr = 
-						dynamic_cast<LbaNet::ShowHideEvent *>(&obj);
-
-					// only allowed on scripted event
-					if(GetPlayerModelInfo(it->first).State == StScripted)
-					{
-						_tosendevts.push_back(new LbaNet::ShowHideEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-											2, it->first, castedptr->Show));
-					}
-					continue;
-				}
-
-				//RefreshTpRequestEvent
-				if(info == typeid(LbaNet::RefreshTpRequestEvent))
-				{
-					ClientProxyBasePtr proxy = GetProxy(it->first);
-					if(proxy)
-					{
-						LbaNet::TeleportsSeq tpseq = SharedDataHandler::getInstance()->GetTpList(this, it->first);
-
-						EventsSeq toplayer;
-						GuiParamsSeq seq;
-						seq.push_back(new TeleportGuiParameter(tpseq));
-						toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-																	"TeleportBox", seq, true, false)); 
-						
-						try
-						{
-							proxy->ServerEvents(toplayer);
-						}
-						catch(const IceUtil::Exception& ex)
-						{
-							std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-						}
-						catch(...)
-						{
-							std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-						}	
-					}
-
-					continue;
-				}
-
-				// UpdatePlayerColorEvent
-				if(info == typeid(LbaNet::UpdatePlayerColorEvent))
-				{
-					LbaNet::UpdatePlayerColorEvent* castedptr = 
-						dynamic_cast<LbaNet::UpdatePlayerColorEvent *>(&obj);
-
-					ChangePlayerColor((long)it->first, castedptr->SkinColor, castedptr->EyesColor, 
-											castedptr->HairColor, -2, -2, -2, -2);
-					continue;
-
-				}
-
-				// DestroyProjectileEvent
-				if(info == typeid(LbaNet::DestroyProjectileEvent))
-				{
-					LbaNet::DestroyProjectileEvent* castedptr = 
-						dynamic_cast<LbaNet::DestroyProjectileEvent *>(&obj);
-
-					DestroyProjectile((long)it->first, (long)castedptr->Id, 
-										castedptr->TouchedActorType, (long)castedptr->TouchedActorId);
-					continue;
-
-				}
-
-				// ProjectileHittedActorEvent
-				if(info == typeid(LbaNet::ProjectileHittedActorEvent))
-				{
-					LbaNet::ProjectileHittedActorEvent* castedptr = 
-						dynamic_cast<LbaNet::ProjectileHittedActorEvent *>(&obj);
-
-					HittedProjectile((long)it->first, (long)castedptr->Id, 
-										castedptr->TouchedActorType, (long)castedptr->TouchedActorId);
-					continue;
-
-				}
-
-				// PlayerHittedContactActorEvent
-				if(info == typeid(LbaNet::PlayerHittedContactActorEvent))
-				{
-					LbaNet::PlayerHittedContactActorEvent* castedptr = 
-						dynamic_cast<LbaNet::PlayerHittedContactActorEvent *>(&obj);
-
-					PlayerHittedContact((long)it->first, castedptr->WithWeapon, 
-										castedptr->TouchedActorType, (long)castedptr->TouchedActorId);
-					continue;
-
-				}
-			}
-			catch(NoPlayerException)
-			{
-				// player already left the map
-			}
+			ProcessEvent(it->first, *itevt);
 		}
 	}
 }
@@ -549,6 +525,36 @@ void MapHandler::GetEvents(std::map<Ice::Long, EventsSeq> & evts)
 }
 
 
+/***********************************************************
+add player from external
+***********************************************************/
+void MapHandler::ExtAddPlayer(Ice::Long PlayerId, boost::shared_ptr<PlayerHandler> pinfo)
+{
+	IceUtil::Mutex::Lock sync(_mutex_events);
+	_toadd.push_back(std::make_pair<Ice::Long, boost::shared_ptr<PlayerHandler> >(PlayerId, pinfo));
+}
+
+
+/***********************************************************
+remove player from external
+***********************************************************/
+void MapHandler::ExtRemovePlayer(Ice::Long PlayerId)
+{
+	IceUtil::Mutex::Lock sync(_mutex_events);
+	_toremove.push_back(PlayerId);
+}
+
+
+/***********************************************************
+get player to add and remove
+***********************************************************/
+void MapHandler::GetToAddRemove(std::vector<std::pair<Ice::Long, boost::shared_ptr<PlayerHandler> > > &toadd,
+										std::vector<Ice::Long> &toremove)
+{
+	IceUtil::Mutex::Lock sync(_mutex_events);
+	_toadd.swap(toadd);
+	_toremove.swap(toremove);
+}
 
 
 /***********************************************************
@@ -556,96 +562,73 @@ player entered map
 ***********************************************************/
 void MapHandler::PlayerEntered(Ice::Long id)
 {
-	// add player to list
-	_currentplayers.push_back(id);
+	// first give info to the player about current map state
+	EventsSeq toplayer;
 
-	try
+	std::string clluafile = "Worlds/" + _worldname + "/Lua/";
+	clluafile += _mapinfo.Name + "_client.lua";
+	
+
+	// inform client he enter a new map
+	toplayer.push_back(new NewMapEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+											_mapinfo.Name, clluafile, 
+											_mapinfo.AutoCameraType, _mapinfo.Music, _mapinfo.Repeat)); 
+	
+	// player inventory
 	{
-		// first give info to the player about current map state
-		EventsSeq toplayer;
-
-		std::string clluafile = "Worlds/" + _worldname + "/Lua/";
-		clluafile += _mapinfo.Name + "_client.lua";
-		
-
-		// inform client he enter a new map
-		toplayer.push_back(new NewMapEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-												_mapinfo.Name, clluafile, 
-												_mapinfo.AutoCameraType, _mapinfo.Music, _mapinfo.Repeat)); 
-		
-		// remove ephemere item
-		RemoveEphemere(id);
-
-		//check if map is interior
-		if(_mapinfo.Type == "interior")
-		{
-			LbaNet::ModelInfo minfo = GetPlayerModelInfo(id);
-			if(minfo.Mode == "Horse" || minfo.Mode == "Dinofly")
-				ChangeStance(id, LbaNet::StanceNormal, true);
-		}
-
-		// player inventory
-		{
-		GuiParamsSeq seq;
-		seq.push_back(new InventoryGuiParameter(GetInventorySize(id), GetInventory(id)));
-		toplayer.push_back(
-			new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), "InventoryBox", seq, false, false));
-		}
-
-		// player shortcut
-		{
-		GuiParamsSeq seq;
-		seq.push_back(new ShortcutGuiParameter(GetShorcuts(id)));
-		toplayer.push_back(
-			new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), "ShortcutBox", seq, false, false));
-		}
-
-
-		try
-		{
-			GetProxy(id)->ServerEvents(toplayer);
-		}
-		catch(const IceUtil::Exception& ex)
-		{
-			std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-		}
-		catch(...)
-		{
-			std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-		}
-
-
-		// then inform all players that player entered
-		{
-			ObjectPhysicDesc	PhysicDesc;
-			PhysicDesc.Pos = GetPlayerPosition(id);
-			PhysicDesc.TypePhysO = KynematicAType;	
-			PhysicDesc.TypeShape = CapsuleShape;
-			PhysicDesc.Collidable = true;
-			PhysicDesc.Density = 1;
-
-			float sizeX, sizeY, sizeZ;
-			GetPlayerPhysicalSize(id, sizeX, sizeY, sizeZ);
-			PhysicDesc.SizeX = sizeX/2;
-			PhysicDesc.SizeY = sizeY;
-			
-			_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-														2, id, GetPlayerModelInfo(id), PhysicDesc, 
-														GetPlayerLifeInfo(id), GetPlayerExtraInfo(id)));
-		}
-
-
-		// inform triggers
-		{
-			std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
-			std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
-			for(; ittr != endtr; ++ittr)
-				ittr->second->ObjectEnterMap(this, 2, id);
-		}
+	GuiParamsSeq seq;
+	seq.push_back(new InventoryGuiParameter(GetInventorySize(id), GetInventory(id)));
+	toplayer.push_back(
+		new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), "InventoryBox", seq, false, false));
 	}
-	catch(NoPlayerException)
+
+	// player shortcut
 	{
-		// player already left the map
+	GuiParamsSeq seq;
+	seq.push_back(new ShortcutGuiParameter(GetShorcuts(id)));
+	toplayer.push_back(
+		new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), "ShortcutBox", seq, false, false));
+	}
+
+	/// send events to player
+	SendEvents((long)id, toplayer);
+
+
+	// then inform all players that player entered
+	{
+		ObjectPhysicDesc	PhysicDesc;
+		PhysicDesc.Pos = GetPlayerPosition(id);
+		PhysicDesc.TypePhysO = KynematicAType;	
+		PhysicDesc.TypeShape = CapsuleShape;
+		PhysicDesc.Collidable = true;
+		PhysicDesc.Density = 1;
+
+		float sizeX, sizeY, sizeZ;
+		GetPlayerPhysicalSize(id, sizeX, sizeY, sizeZ);
+		PhysicDesc.SizeX = sizeX/2;
+		PhysicDesc.SizeY = sizeY;
+		
+		_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+													2, id, GetPlayerModelInfo(id), PhysicDesc, 
+													GetPlayerLifeInfo(id), GetPlayerExtraInfo(id)));
+	}
+
+
+	// inform triggers
+	{
+		std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
+		std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
+		for(; ittr != endtr; ++ittr)
+			ittr->second->ObjectEnterMap(this, 2, id);
+	}
+
+
+	//check if map is interior
+	if(_mapinfo.Type == "interior")
+	{
+		LbaNet::ModelInfo minfo = GetPlayerModelInfo(id);
+		if(minfo.Mode == "Horse" || minfo.Mode == "Dinofly")
+			ChangeStance(id, LbaNet::StanceNormal, true);
 	}
 }
 
@@ -654,42 +637,39 @@ player left map
 ***********************************************************/
 void MapHandler::PlayerLeft(Ice::Long id)
 {
-	std::vector<Ice::Long>::iterator it = std::find(_currentplayers.begin(), _currentplayers.end(), id);
-	if(it != _currentplayers.end())
+	// inform triggers
 	{
-		// inform triggers
-		{
-			std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
-			std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
-			for(; ittr != endtr; ++ittr)
-				ittr->second->ObjectLeaveMap(this, 2, id);
-		}
-
-		// inform npcs
-		{
-			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ittr = _Actors.begin();
-			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endtr = _Actors.end();
-			for(; ittr != endtr; ++ittr)
-				ittr->second->PlayerLeaveMap(id);
-		}
-
-		// inform all players that player left
-		_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-													2, id));
-
-		// destroy projectiles
-		DestroyPlayerProjectile(id);
-
-		// remove player from list
-		_currentplayers.erase(it);
-	
-
-		// inform guis
-		std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator itg = _guihandlers.begin();
-		std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator endg = _guihandlers.end();
-		for(; itg != endg; ++itg)
-			itg->second->PlayerLeftMap(id);
+		std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
+		std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
+		for(; ittr != endtr; ++ittr)
+			ittr->second->ObjectLeaveMap(this, 2, id);
 	}
+
+	// inform npcs
+	{
+		std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ittr = _Actors.begin();
+		std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endtr = _Actors.end();
+		for(; ittr != endtr; ++ittr)
+			ittr->second->PlayerLeaveMap(id);
+	}
+
+	// inform guis
+	std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator itg = _guihandlers.begin();
+	std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator endg = _guihandlers.end();
+	for(; itg != endg; ++itg)
+		itg->second->PlayerLeftMap(id);
+
+
+
+	// inform all players that player left
+	_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+												2, id));
+
+	// destroy projectiles
+	DestroyPlayerProjectile(id);
+
+	// remove ephemere item
+	RemoveEphemere(id);
 }
 
 
@@ -720,57 +700,51 @@ void MapHandler::PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMove
 	//TODO first check if the info is correct and no cheating
 	#endif
 
-	try
+
+	//do an sweep test and check for triggers
 	{
-		//do an sweep test and check for triggers
+		PlayerPosition lastpos = GetPlayerPosition(id);
+		lastpos.Y += 0.2f; // small offset to make sure object is inside zone and not online a bit lower
+		PlayerPosition currPos = info.CurrentPos;
+		currPos.Y += 0.2f;
+
+		// inform triggers
 		{
-			PlayerPosition lastpos = GetPlayerPosition(id);
-			lastpos.Y += 0.2f; // small offset to make sure object is inside zone and not online a bit lower
-			PlayerPosition currPos = info.CurrentPos;
-			currPos.Y += 0.2f;
-
-			// inform triggers
-			{
-			std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
-			std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
-			for(; ittr != endtr; ++ittr)
-				ittr->second->ObjectMoved(this, 2, id, lastpos, currPos);
-			}
-
-
-			// inform npcs
-			{
-			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ittr = _Actors.begin();
-			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endtr = _Actors.end();
-			for(; ittr != endtr; ++ittr)
-				ittr->second->PlayerMoved(id, lastpos, currPos);
-			}
+		std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
+		std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
+		for(; ittr != endtr; ++ittr)
+			ittr->second->ObjectMoved(this, 2, id, lastpos, currPos);
 		}
 
 
-		// update player position
-		PlayerPosition pos(info.CurrentPos);
-		pos.MapName = _mapinfo.Name;
-
-		// check if position could be updated
-		if(UpdatePlayerPosition(id, pos))
+		// inform npcs
 		{
-			if(info.ForcedChange)
-			{
-				// inform all of player move
-				_tosendevts.push_back(new LbaNet::PlayerMovedEvent(time, id, info, false));
-			}
-
-			// inform guis that player moved
-			std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator itg = _guihandlers.begin();
-			std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator endg = _guihandlers.end();
-			for(; itg != endg; ++itg)
-				itg->second->PlayerMoved(id, info.CurrentPos);
+		std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ittr = _Actors.begin();
+		std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endtr = _Actors.end();
+		for(; ittr != endtr; ++ittr)
+			ittr->second->PlayerMoved(id, lastpos, currPos);
 		}
 	}
-	catch(NoPlayerException)
+
+
+	// update player position
+	PlayerPosition pos(info.CurrentPos);
+	pos.MapName = _mapinfo.Name;
+
+	// check if position could be updated
+	if(UpdatePlayerPosition(id, pos))
 	{
-		// player already left the map
+		if(info.ForcedChange)
+		{
+			// inform all of player move
+			_tosendevts.push_back(new LbaNet::PlayerMovedEvent(time, id, info, false));
+		}
+
+		// inform guis that player moved
+		std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator itg = _guihandlers.begin();
+		std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator endg = _guihandlers.end();
+		for(; itg != endg; ++itg)
+			itg->second->PlayerMoved(id, info.CurrentPos);
 	}
 }
 
@@ -845,48 +819,36 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 
 	
 	// current players in map
-	for(size_t cc=0; cc<_currentplayers.size(); ++cc)
 	{
-		try
+		std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itact = _players.begin();
+		std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator endact = _players.end();
+		for(; itact != endact; ++itact)
 		{
 			ObjectPhysicDesc	PhysicDesc;
-			PhysicDesc.Pos = GetPlayerPosition(_currentplayers[cc]);
+			PhysicDesc.Pos = itact->second->GetPlayerPosition();
 			PhysicDesc.TypePhysO = KynematicAType;	
 			PhysicDesc.TypeShape = CapsuleShape;
 			PhysicDesc.Collidable = true;
 			PhysicDesc.Density = 1;
 
 			float sizeX, sizeY, sizeZ;
-			GetPlayerPhysicalSize(_currentplayers[cc], sizeX, sizeY, sizeZ);
+			itact->second->GetPlayerPhysicalSize(sizeX, sizeY, sizeZ);
 			PhysicDesc.SizeX = sizeX/2;
 			PhysicDesc.SizeY = sizeY;
 
 			toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-														2, _currentplayers[cc], 
-														GetPlayerModelInfo(_currentplayers[cc]), PhysicDesc, 
-														GetPlayerLifeInfo(_currentplayers[cc]),
-														GetPlayerExtraInfo(_currentplayers[cc])));
-		}
-		catch(NoPlayerException)
-		{
-			// player already left the map
+														2, itact->first, 
+														itact->second->GetModelInfo(), PhysicDesc, 
+														itact->second->GetLifeManaInfo(),
+														itact->second->GetExtraInfo()));
 		}
 	}
 
 
 	toplayer.push_back(new RefreshEndEvent(SynchronizedTimeHandler::GetCurrentTimeDouble()));
-	try
-	{
-		GetProxy(id)->ServerEvents(toplayer);
-	}
-	catch(const IceUtil::Exception& ex)
-	{
-		std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-	}
-	catch(...)
-	{
-		std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-	}
+
+	/// send evens to player
+	SendEvents((long)id, toplayer);
 }
 
 
@@ -1007,11 +969,11 @@ void MapHandler::RaiseFromDeadEvent(Ice::Long id)
 	//check if player was dead
 	if(RaiseFromDead(id, returnmodel))
 	{
-		try
+		// if so change state and teleport to raising area
+		LbaNet::PlayerPosition pos = GetSpawningPlace(id);
+		if(!TeleportPlayer((long)id, pos))
 		{
-			// if so change state and teleport to raising area
-			LbaNet::PlayerPosition pos = GetSpawningPlace(id);
-
+			//only do that if player is not teleported in another map
 			LbaNet::PlayerMoveInfo moveinfo;
 			moveinfo.ForcedChange = true;
 			moveinfo.CurrentPos = pos;
@@ -1027,10 +989,6 @@ void MapHandler::RaiseFromDeadEvent(Ice::Long id)
 
 			_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 									2, id, new ObjectLifeInfoUpdate(GetPlayerLifeInfo(id))));
-		}
-		catch(NoPlayerException)
-		{
-			// player already left the map
 		}
 	}
 }
@@ -1056,52 +1014,18 @@ void MapHandler::Teleport(int ObjectType, long ObjectId,
 							const std::string &NewMapName, long SpawningId,
 							float offsetX, float offsetY, float offsetZ)
 {
-	// if teleport on different map
-	if(NewMapName != _mapinfo.Name)
+	if(ObjectType == 2)
 	{
-		// teleport player outside the map
-		if(ObjectType == 2)
-			SharedDataHandler::getInstance()->ChangeMapPlayer(ObjectId, NewMapName, SpawningId,
-																		offsetX, offsetY, offsetZ);
+		LbaNet::PlayerPosition newpos = 
+			SharedDataHandler::getInstance()->GetSpawnPos(NewMapName, SpawningId, GetPlayerRotation(ObjectId));
+		newpos.X += offsetX;
+		newpos.Y += offsetY;
+		newpos.Z += offsetZ;
+		TeleportPlayer(ObjectId, newpos);
 	}
-	else // same map
-	{
-		// get spawning info
-		boost::shared_ptr<Spawn> spn = GetSpawn(SpawningId);
-		if(spn)
-		{
-			PlayerPosition pos;
-			pos.X = spn->GetPosX() + offsetX;
-			pos.Y = spn->GetPosY() + offsetY;
-			pos.Z = spn->GetPosZ() + offsetZ;
-			if(spn->GetForceRotation())
-				pos.Rotation = spn->GetRotation();
-
-			pos.MapName = _mapinfo.Name;
 
 
-			if(ObjectType == 2)
-			{
-				// update player position
-				if(UpdatePlayerPosition(ObjectId, pos, true))
-				{
-					// inform all of player move
-					LbaNet::PlayerMoveInfo moveinfo;
-					moveinfo.ForcedChange = true;
-					moveinfo.CurrentPos = pos;
-					moveinfo.CurrentSpeedX = 0;
-					moveinfo.CurrentSpeedY = 0;
-					moveinfo.CurrentSpeedZ = 0;
-					moveinfo.CurrentSpeedRotation = 0;
-					_tosendevts.push_back(new LbaNet::PlayerMovedEvent(
-															SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-															ObjectId, moveinfo, true));	
-				}
-			}
-
-			//TODO - other actors
-		}
-	}
+	//TODO - other actors
 }
 
 
@@ -1157,30 +1081,23 @@ process player action
 ***********************************************************/
 void MapHandler::ProcessPlayerAction(Ice::Long id, bool ForcedNormalAction)
 {
-	try
+	PlayerPosition pos = GetPlayerPosition(id);
+	std::string mode = GetPlayerModeString(id);
+
+	// inform triggers
 	{
-		PlayerPosition pos = GetPlayerPosition(id);
-		std::string mode = GetPlayerModeString(id);
-
-		// inform triggers
-		{
-			std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
-			std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
-			for(; ittr != endtr; ++ittr)
-				ittr->second->ObjectAction(this, 2, id, pos, (ForcedNormalAction? "Normal": mode));
-		}
-
-		// inform npcs
-		{
-		std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ittr = _Actors.begin();
-		std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endtr = _Actors.end();
+		std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
+		std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
 		for(; ittr != endtr; ++ittr)
-			ittr->second->PlayerAction(id, pos, (ForcedNormalAction? "Normal": mode));
-		}
+			ittr->second->ObjectAction(this, 2, id, pos, (ForcedNormalAction? "Normal": mode));
 	}
-	catch(NoPlayerException)
+
+	// inform npcs
 	{
-		// player already left the map
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ittr = _Actors.begin();
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endtr = _Actors.end();
+	for(; ittr != endtr; ++ittr)
+		ittr->second->PlayerAction(id, pos, (ForcedNormalAction? "Normal": mode));
 	}
 }
 
@@ -1280,7 +1197,7 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 		return;
 	}
 
-
+	// color change
 	if(info == typeid(ChangeColorEvent))
 	{
 		ChangeColorEvent* castedptr = 
@@ -1292,6 +1209,16 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 								castedptr->_mountidx2);
 		return;
 
+	}
+
+	// player tp
+	if(info == typeid(EditorTeleportPlayerEvent))
+	{
+		EditorTeleportPlayerEvent* castedptr = 
+			dynamic_cast<EditorTeleportPlayerEvent *>(&obj);
+
+		TeleportPlayer(castedptr->_playerid, castedptr->_newpos);
+		return;
 	}
 
 }
@@ -1512,18 +1439,8 @@ void MapHandler::ExecuteClientScript(int ObjectType, long ObjectId,
 		toplayer.push_back(new StartClientScriptEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 									ScriptName, InlineFunction));
 
-		try
-		{
-			GetProxy(clientid)->ServerEvents(toplayer);
-		}
-		catch(const IceUtil::Exception& ex)
-		{
-			std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-		}
-		catch(...)
-		{
-			std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-		}
+		/// send evens to player
+		SendEvents(clientid, toplayer);
 	}
 }
 
@@ -1593,28 +1510,14 @@ void MapHandler::SendErrorMessage(long clientid, const std::string & messagetitl
 {
 	if(clientid >= 0)
 	{
-		ClientProxyBasePtr proxy = GetProxy(clientid);
-		if(proxy)
-		{
-			LbaNet::EventsSeq toplayer;
-			LbaNet::GuiUpdatesSeq paramseq;
-			paramseq.push_back(new LbaNet::SystemMessageUpdate(messagetitle, messagecontent));
-			toplayer.push_back(new LbaNet::UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-													"main", paramseq));
+		LbaNet::EventsSeq toplayer;
+		LbaNet::GuiUpdatesSeq paramseq;
+		paramseq.push_back(new LbaNet::SystemMessageUpdate(messagetitle, messagecontent));
+		toplayer.push_back(new LbaNet::UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+												"main", paramseq));
 
-			try
-			{
-				proxy->ServerEvents(toplayer);
-			}
-			catch(const IceUtil::Exception& ex)
-			{
-				std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-			}
-			catch(...)
-			{
-				std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-			}
-		}
+		/// send evens to player
+		SendEvents(clientid, toplayer);
 	}
 }
 
@@ -1657,18 +1560,8 @@ void MapHandler::FinishedScript(long id, const std::string & ScriptName)
 		toplayer.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 					2, id, new ModelUpdate(returnmodel, false)));
 
-		try
-		{
-			GetProxy(id)->ServerEvents(toplayer);
-		}
-		catch(const IceUtil::Exception& ex)
-		{
-			std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-		}
-		catch(...)
-		{
-			std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-		}
+		/// send evens to player
+		SendEvents(id, toplayer);
 	}
 }
 
@@ -1744,18 +1637,8 @@ void MapHandler::PlayerItemUsed(Ice::Long clientid, long ItemId)
 							new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 														"LetterViewerBox", seq, true, false));
 
-						try
-						{
-							GetProxy(clientid)->ServerEvents(toplayer);
-						}
-						catch(const IceUtil::Exception& ex)
-						{
-							std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-						}
-						catch(...)
-						{
-							std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-						}
+						/// send evens to player
+						SendEvents((long)clientid, toplayer);
 					}
 				}
 			}
@@ -2658,49 +2541,11 @@ void MapHandler::DettachActor(long ActorId, long AttachedObjectId)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-/***********************************************************
-start of protected data
-add player proxy
-***********************************************************/
-void MapHandler::AddPlayer(Ice::Long clientid, boost::shared_ptr<PlayerHandler> player)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-	_players[clientid] = player;
-
-}
-
-/***********************************************************
-remove player proxy
-***********************************************************/
-void MapHandler::RemovePlayer(Ice::Long clientid)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it =	_players.find(clientid);	
-	if(it != _players.end())
-		_players.erase(it);
-}
-
-
-
 /***********************************************************
 get player proxy
 ***********************************************************/
 ClientProxyBasePtr MapHandler::GetProxy(Ice::Long clientid)
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it =	_players.find(clientid);	
 	if(it != _players.end())
 		return it->second->GetProxy();
@@ -2713,8 +2558,6 @@ get players proxies
 ***********************************************************/
 std::vector<ClientProxyBasePtr> MapHandler::GetProxies()
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::vector<ClientProxyBasePtr> proxies;
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.begin();
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator end = _players.end();
@@ -2730,8 +2573,6 @@ client open container
 ***********************************************************/
 void MapHandler::OpenInventoryContainer(long clientid, long itemid)
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
 		it->second->OpenInventoryContainer(itemid);
@@ -2743,15 +2584,11 @@ return inventory size
 ***********************************************************/
 int MapHandler::GetInventorySize(Ice::Long clientid)
 {
-	{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
 		return it->second->GetInventorySize();
-	}
 
-	throw(NoPlayerException());
+	return 0;
 }
 
 /***********************************************************
@@ -2759,15 +2596,11 @@ return inventory content
 ***********************************************************/
 ItemsMap MapHandler::GetInventory(Ice::Long clientid)
 {
-	{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
 		return it->second->GetInventory();
-	}
 
-	throw(NoPlayerException());
+	return ItemsMap();
 }
 
 
@@ -2777,15 +2610,11 @@ return shortcuts
 ***********************************************************/
 ShortcutsSeq MapHandler::GetShorcuts(Ice::Long clientid)
 {
-	{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
 		return it->second->GetShorcuts();
-	}
 
-	throw(NoPlayerException());
+	return ShortcutsSeq();
 }
 
 /***********************************************************
@@ -2793,15 +2622,23 @@ get player position
 ***********************************************************/
 PlayerPosition MapHandler::GetPlayerPosition(Ice::Long clientid)
 {
-	{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
 		return it->second->GetPlayerPosition();
-	}
 
-	throw(NoPlayerException());
+	return PlayerPosition();
+}
+
+/***********************************************************
+get player rotation
+***********************************************************/
+float MapHandler::GetPlayerRotation(Ice::Long clientid)
+{
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->GetPlayerRotation();
+
+	return 0;
 }
 
 
@@ -2812,15 +2649,11 @@ get player mode string
 ***********************************************************/
 std::string MapHandler::GetPlayerModeString(Ice::Long clientid)
 {
-	{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
 		return it->second->GetPlayerModeString();
-	}
 
-	throw(NoPlayerException());
+	return "";
 }
 
 
@@ -2830,15 +2663,11 @@ get player life info
 ***********************************************************/
 LbaNet::LifeManaInfo MapHandler::GetPlayerLifeInfo(Ice::Long clientid)
 {
-	{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
 		return it->second->GetLifeManaInfo();
-	}
 
-	throw(NoPlayerException());
+	return LbaNet::LifeManaInfo();
 }
 
 
@@ -2847,15 +2676,11 @@ get player extra info
 ***********************************************************/
 LbaNet::ObjectExtraInfo MapHandler::GetPlayerExtraInfo(Ice::Long clientid)
 {
-	{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
 		return it->second->GetExtraInfo();
-	}
 
-	throw(NoPlayerException());
+	return LbaNet::ObjectExtraInfo();
 }
 
 
@@ -2864,15 +2689,11 @@ get player model info
 ***********************************************************/
 LbaNet::ModelInfo MapHandler::GetPlayerModelInfo(Ice::Long clientid)
 {
-	{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
 		return it->second->GetModelInfo();
-	}
 
-	throw(NoPlayerException());
+	return LbaNet::ModelInfo();
 }
 
 
@@ -2883,15 +2704,9 @@ get player physcial size
 ***********************************************************/
 void MapHandler::GetPlayerPhysicalSize(Ice::Long clientid, float &sX, float &sY, float &sZ)
 {
-	{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
-		return it->second->GetPlayerPhysicalSize(sX, sY, sZ);
-	}
-
-	throw(NoPlayerException());
+		it->second->GetPlayerPhysicalSize(sX, sY, sZ);
 }
 
 
@@ -2900,15 +2715,11 @@ void MapHandler::GetPlayerPhysicalSize(Ice::Long clientid, float &sX, float &sY,
 ***********************************************************/
 LbaNet::PlayerPosition MapHandler::GetSpawningPlace(Ice::Long clientid)
 {
-	{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
 		return it->second->GetSpawningPlace();
-	}
 
-	throw(NoPlayerException());
+	return LbaNet::PlayerPosition();
 }
 
 
@@ -2919,8 +2730,6 @@ update player position
 ***********************************************************/
 bool MapHandler::UpdatePlayerPosition(Ice::Long clientid, const PlayerPosition & pos, bool teleport)
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
 	{
@@ -2943,8 +2752,6 @@ bool MapHandler::UpdatePlayerStance(Ice::Long clientid, LbaNet::ModelStance NewS
 												ModelInfo & returnmodel, bool fromserver,
 												int mountid)
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
 		return it->second->UpdatePlayerStance(NewStance, returnmodel, fromserver, mountid);
@@ -2960,8 +2767,6 @@ bool MapHandler::UpdatePlayerStance(Ice::Long clientid, LbaNet::ModelStance NewS
 bool MapHandler::UpdatePlayerState(Ice::Long clientid, LbaNet::ModelState NewState,
 												ModelInfo & returnmodel )
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
 		return it->second->UpdatePlayerState(NewState, returnmodel);
@@ -2977,8 +2782,6 @@ bool MapHandler::UpdatePlayerState(Ice::Long clientid, LbaNet::ModelState NewSta
 bool MapHandler::UpdatePlayerWeapon(Ice::Long clientid, const std::string & weapon,
 													ModelInfo & returnmodel, long itemid)
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
 		return it->second->UpdatePlayerWeapon(weapon, returnmodel, itemid);
@@ -2994,8 +2797,6 @@ bool MapHandler::UpdatePlayerWeapon(Ice::Long clientid, const std::string & weap
 bool MapHandler::UpdatePlayerOutfit(Ice::Long clientid, const std::string & outfit,
 													ModelInfo & returnmodel, long itemid)
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
 		return it->second->UpdatePlayerOutfit(outfit, returnmodel, itemid);
@@ -3009,12 +2810,9 @@ bool MapHandler::UpdatePlayerOutfit(Ice::Long clientid, const std::string & outf
 ***********************************************************/
 void MapHandler::SavePlayerState(Ice::Long clientid)
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
 		it->second->SavePlayerState();
-
 }
 
 
@@ -3023,8 +2821,6 @@ void MapHandler::SavePlayerState(Ice::Long clientid)
 ***********************************************************/
 bool MapHandler::RestorePlayerState(Ice::Long clientid, ModelInfo & returnmodel)
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
 		return it->second->RestorePlayerState(returnmodel);
@@ -3040,8 +2836,6 @@ bool MapHandler::RestorePlayerState(Ice::Long clientid, ModelInfo & returnmodel)
 ***********************************************************/
 bool MapHandler::RaiseFromDead(Ice::Long clientid, ModelInfo & returnmodel)
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
 		return it->second->RaiseFromDead(returnmodel);
@@ -3055,8 +2849,6 @@ set player ready to play
 ***********************************************************/
 void MapHandler::SetReady(Ice::Long clientid)
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
 		it->second->SetReady();
@@ -3068,8 +2860,6 @@ ask if player ready to play
 ***********************************************************/
 bool MapHandler::IsReady(Ice::Long clientid)
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
 		return it->second->IsReady();
@@ -3085,8 +2875,6 @@ get info about an item
 ***********************************************************/
 LbaNet::ItemPosInfo MapHandler::GetItemInfo(Ice::Long clientid, long ItemId)
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
 	if(itplayer != _players.end())
 		return itplayer->second->GetItemInfo(ItemId);
@@ -3102,8 +2890,6 @@ get info about an item
 ***********************************************************/
 LbaNet::ItemPosInfo MapHandler::GetCurrentWeaponInfo(Ice::Long clientid)
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
 	if(itplayer != _players.end())
 		return itplayer->second->GetCurrentWeaponInfo();
@@ -3119,8 +2905,6 @@ get player hit contact power
 ***********************************************************/
 float MapHandler::GetPlayerHitContactPower(Ice::Long clientid, bool withweapon)
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
 	if(itplayer != _players.end())
 		return itplayer->second->GetHitContactPower(withweapon);
@@ -3134,8 +2918,6 @@ get player armor
 ***********************************************************/	
 float MapHandler::GetPlayerArmor(Ice::Long clientid)
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
 	if(itplayer != _players.end())
 		return itplayer->second->GetArmor();
@@ -3149,8 +2931,6 @@ item consumed
 ***********************************************************/
 bool MapHandler::PlayerConsumeItem(Ice::Long clientid, long ItemId)
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
 	if(itplayer != _players.end())
 		return itplayer->second->ConsumeItem(ItemId);
@@ -3164,8 +2944,6 @@ remove ephemere from player inventory
 ***********************************************************/
 void MapHandler::RemoveEphemere(Ice::Long clientid)
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
 	if(itplayer != _players.end())
 		itplayer->second->RemoveEphemere();
@@ -3180,18 +2958,15 @@ void MapHandler::RemoveEphemere(Ice::Long clientid)
 bool MapHandler::DeltaUpdateLife(Ice::Long clientid, float update, int updatetype, long actorid)
 {
 	bool res = false;
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
+	if(itplayer != _players.end())
 	{
-		IceUtil::RecMutex::Lock sync(_mutex_proxies);
+		res = itplayer->second->DeltaUpdateLife(update);
 
-		std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
-		if(itplayer != _players.end())
-		{
-			res = itplayer->second->DeltaUpdateLife(update);
-
-			// give life update to everybody	
-			_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-									2, clientid, new ObjectLifeInfoUpdate(GetPlayerLifeInfo(clientid))));
-		}
+		// give life update to everybody	
+		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+								2, clientid, new ObjectLifeInfoUpdate(GetPlayerLifeInfo(clientid))));
 	}
 
 
@@ -3209,20 +2984,16 @@ bool MapHandler::DeltaUpdateLife(Ice::Long clientid, float update, int updatetyp
 bool MapHandler::DeltaUpdateMana(Ice::Long clientid, float update)
 {
 	bool res = false;
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
+	if(itplayer != _players.end())
 	{
-		IceUtil::RecMutex::Lock sync(_mutex_proxies);
+		res = itplayer->second->DeltaUpdateMana(update);
 
-		std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
-		if(itplayer != _players.end())
-		{
-			res = itplayer->second->DeltaUpdateMana(update);
-
-			// give life update to everybody	
-			_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-									2, clientid, new ObjectLifeInfoUpdate(GetPlayerLifeInfo(clientid))));
-		}
+		// give life update to everybody	
+		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+								2, clientid, new ObjectLifeInfoUpdate(GetPlayerLifeInfo(clientid))));
 	}
-
 
 	return res;
 }
@@ -3232,7 +3003,6 @@ bool MapHandler::DeltaUpdateMana(Ice::Long clientid, float update)
 ***********************************************************/
 int MapHandler::GetNbPlayers()
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
 	return (int)_players.size();
 }
 
@@ -3240,11 +3010,9 @@ int MapHandler::GetNbPlayers()
 /***********************************************************
 update player inventory
 ***********************************************************/
-void MapHandler::UpdateInventory(long clientid, LbaNet::ItemList Taken, LbaNet::ItemList Put, 
+void MapHandler::UpdateInventory(Ice::Long clientid, LbaNet::ItemList Taken, LbaNet::ItemList Put, 
 										LbaNet::ItemClientInformType informtype)
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
 	if(itplayer != _players.end())
 		itplayer->second->UpdateInventory(Taken, Put, informtype);
@@ -3257,8 +3025,6 @@ start quest
 ***********************************************************/
 void MapHandler::StartQuest(long PlayerId, long Questid)
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(PlayerId);
 	if(itplayer != _players.end())
 	{
@@ -3275,8 +3041,6 @@ end quest
 ***********************************************************/
 void MapHandler::TriggerQuestEnd(long PlayerId, long Questid)
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(PlayerId);
 	if(itplayer != _players.end())
 	{
@@ -3295,8 +3059,6 @@ condition
 ***********************************************************/
 bool MapHandler::QuestStarted(long PlayerId, long Questid)
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(PlayerId);
 	if(itplayer != _players.end())
 		return itplayer->second->QuestStarted(Questid);
@@ -3309,8 +3071,6 @@ condition
 ***********************************************************/
 bool MapHandler::QuestFinished(long PlayerId, long Questid)
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(PlayerId);
 	if(itplayer != _players.end())
 		return itplayer->second->QuestFinished(Questid);
@@ -3323,8 +3083,6 @@ condition
 ***********************************************************/
 bool MapHandler::ChapterStarted(long PlayerId, int Chapter)
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(PlayerId);
 	if(itplayer != _players.end())
 		return (itplayer->second->GetCurrentChapter() >= Chapter);
@@ -3339,8 +3097,6 @@ bool MapHandler::ChapterStarted(long PlayerId, int Chapter)
 void MapHandler::ChangePlayerColor(long clientid, int skinidx, int eyesidx, int hairidx, int outfitidx, 
 								   int weaponidx, int mountidx, int mountidx2)
 {
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
 	if(itplayer != _players.end())
 	{
@@ -3351,3 +3107,211 @@ void MapHandler::ChangePlayerColor(long clientid, int skinidx, int eyesidx, int 
 	}
 }
 
+
+
+/***********************************************************
+get client name
+***********************************************************/
+std::string MapHandler::GetName(Ice::Long clientid)
+{
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
+	if(itplayer != _players.end())
+		return itplayer->second->GetExtraInfo().Name;
+
+
+	return "";
+}
+
+
+/***********************************************************
+player switch item
+***********************************************************/
+void MapHandler::PlayerSwitchItem(Ice::Long clientid, long ItemId, int NewPosition)
+{
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
+	if(itplayer != _players.end())
+		itplayer->second->SwitchItem(ItemId, NewPosition);
+
+}
+
+/***********************************************************
+Player Create Letter
+***********************************************************/
+void MapHandler::PlayerCreateLetter(Ice::Long clientid, const std::string & subject,
+											const std::string & message)
+{
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
+	if(itplayer != _players.end())
+		itplayer->second->CreateLetter(subject, message);
+}
+
+/***********************************************************
+Player Destroy Item
+***********************************************************/
+void MapHandler::PlayerDestroyItem(Ice::Long clientid, long ItemId)
+{
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
+	if(itplayer != _players.end())
+		itplayer->second->DestroyItem(ItemId);
+}
+
+
+/***********************************************************
+get player inventory
+***********************************************************/
+LbaNet::ItemsMap MapHandler::GetInventory(Ice::Long clientid, int & inventorysize)
+{
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
+	if(itplayer != _players.end())
+	{
+		inventorysize = itplayer->second->GetInventorySize();
+		return itplayer->second->GetInventory();
+	}
+
+	return LbaNet::ItemsMap();
+}
+
+/***********************************************************
+get player inventory
+***********************************************************/
+int MapHandler::GetInventoryItemCount(long PlayerId, long Itemid)
+{
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(PlayerId);
+	if(itplayer != _players.end())
+	{
+		const LbaNet::ItemsMap &invmap = itplayer->second->GetInventory();
+		LbaNet::ItemsMap::const_iterator itm = invmap.find(Itemid);
+		if(itm != invmap.end())
+			return itm->second.Count;
+	}
+
+	return 0;
+}
+
+
+
+
+/***********************************************************
+update player shortcut
+***********************************************************/
+void MapHandler::UpdatePlayerShortcut(Ice::Long clientid, int Position, long ItemId)
+{
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
+	if(itplayer != _players.end())
+		itplayer->second->UpdateShortcut(Position, ItemId);
+}
+
+
+
+
+/***********************************************************
+//! send event to player
+***********************************************************/
+void MapHandler::SendEvents(long PlayerId, const LbaNet::EventsSeq & evts)
+{
+	ClientProxyBasePtr proxy = GetProxy(PlayerId);
+	if(proxy)
+	{
+		try
+		{
+			proxy->ServerEvents(evts);
+		}
+		catch(const IceUtil::Exception& ex)
+		{
+			std::cout<<"Exception in sending events to client: "<<ex.what()<<std::endl;
+		}
+		catch(...)
+		{
+			std::cout<<"Unknown exception in sending events to client. "<<std::endl;
+		}
+	}
+}
+
+
+
+
+/***********************************************************
+//! teleport a player
+//! return true if player left the map
+***********************************************************/
+bool MapHandler::TeleportPlayer(long playerid, const LbaNet::PlayerPosition &newpos)
+{
+	if(newpos.MapName == "")	//something wrong happened
+		return false;
+
+	//! cehck if already left
+	 boost::shared_ptr<PlayerHandler> pinfo = GetPlayerInfo(playerid);
+	 if(!pinfo)
+		 return true;
+
+	if(newpos.MapName != _mapinfo.Name)
+	{
+		//! leave current map
+		MakePlayerLeaveMap(playerid);
+
+		//! teleport player to other map
+		SharedDataHandler::getInstance()->TeleportPlayer(playerid, pinfo, newpos);
+
+		return true;
+	}
+	else
+	{
+		// update player position
+		if(UpdatePlayerPosition(playerid, newpos, true))
+		{
+			// inform all of player move
+			LbaNet::PlayerMoveInfo moveinfo;
+			moveinfo.ForcedChange = true;
+			moveinfo.CurrentPos = newpos;
+			moveinfo.CurrentSpeedX = 0;
+			moveinfo.CurrentSpeedY = 0;
+			moveinfo.CurrentSpeedZ = 0;
+			moveinfo.CurrentSpeedRotation = 0;
+			_tosendevts.push_back(new LbaNet::PlayerMovedEvent(
+													SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+													playerid, moveinfo, true));	
+		}
+		return false;
+	}
+}
+
+
+/***********************************************************
+//! make player enter the map
+***********************************************************/
+void MapHandler::MakePlayerEnterMap(long playerid, boost::shared_ptr<PlayerHandler> info)
+{
+	_players[playerid] = info;
+	PlayerEntered(playerid);
+}
+
+/***********************************************************
+//! make player leave the map
+***********************************************************/
+void MapHandler::MakePlayerLeaveMap(long playerid)
+{
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(playerid);
+	if(itplayer != _players.end())
+	{
+		// inform everybody
+		PlayerLeft(playerid);
+
+		//save info to DB
+		itplayer->second->SaveCurrentInfo();
+
+		// remove from map
+		_players.erase(itplayer);
+	}
+}
+
+/***********************************************************
+return player info
+***********************************************************/
+boost::shared_ptr<PlayerHandler> MapHandler::GetPlayerInfo(long playerid)
+{
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(playerid);
+	if(itplayer != _players.end())
+		return itplayer->second;
+
+	return boost::shared_ptr<PlayerHandler>();
+}

@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "ShortcutBoxHandler.h"
 #include "SharedDataHandler.h"
+#include "MapHandler.h"
 
 /***********************************************************
 update gui with info from server
@@ -38,8 +39,8 @@ void ShortcutBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBaseP
 		LbaNet::ShortcutUpdate * castedptr = 
 			dynamic_cast<LbaNet::ShortcutUpdate *>(ptr);
 
-		SharedDataHandler::getInstance()->UpdatePlayerShortcut(clientid, castedptr->Position, 
-																			(long)castedptr->ItemId);
+		if(_owner)
+			_owner->UpdatePlayerShortcut(clientid, castedptr->Position, (long)castedptr->ItemId);
 	}
 }
 

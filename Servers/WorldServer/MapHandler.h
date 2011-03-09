@@ -47,24 +47,6 @@ class EditorUpdateBase;
 class Spawn;
 
 
-
-
-class NoPlayerException : public std::exception
-{
-public:
-
-	NoPlayerException()
-	{}
-
-	virtual ~NoPlayerException()  throw ()
-	{}
-
-	virtual const char* what() const throw ()
-	{ return ""; }
-};
-
-
-
 //! take care of a map of the world
 class MapHandler : public Runnable, public ScriptEnvironmentBase, public DelayedExecutionHandler
 {
@@ -93,17 +75,16 @@ public:
 	// get all events for a specific map
 	void GetEvents(std::map<Ice::Long, EventsSeq> & evts);
 
-	// add player proxy
-	void AddPlayer(Ice::Long clientid, boost::shared_ptr<PlayerHandler> player);
+	
+	//! add player from external
+	void ExtAddPlayer(Ice::Long PlayerId, boost::shared_ptr<PlayerHandler> pinfo);
+	
+	//! remove player from external
+	void ExtRemovePlayer(Ice::Long PlayerId);
 
-	// remove player proxy
-	void RemovePlayer(Ice::Long clientid);
-
-	// get player proxy
-	ClientProxyBasePtr GetProxy(Ice::Long clientid);
-
-	// get players proxies
-	std::vector<ClientProxyBasePtr> GetProxies();
+	//! get player to add and remove
+	void GetToAddRemove(std::vector<std::pair<Ice::Long, boost::shared_ptr<PlayerHandler> > > &toadd,
+							std::vector<Ice::Long> &toremove);
 
 
 	// function used by LUA to add actor
@@ -312,9 +293,51 @@ public:
 	virtual void DettachActor(long ActorId, long AttachedObjectId);
 
 
+	//! send event to player
+	virtual void SendEvents(long PlayerId, const LbaNet::EventsSeq & evts);
+
+
+
+	// get client name
+	std::string GetName(Ice::Long clientid);
+
+
+
+	//! update player shortcut
+	void UpdatePlayerShortcut(Ice::Long clientid, int Position, long ItemId);
+
+	//! player switch item
+	void PlayerSwitchItem(Ice::Long clientid, long ItemId, int NewPosition);
+
+	//! player use item
+	void PlayerItemUsed(Ice::Long clientid, long ItemId);
+
+	//! Player Create Letter
+	void PlayerCreateLetter(Ice::Long clientid, const std::string & subject,
+										const std::string & message);
+
+	//! Player Destroy Item
+	void PlayerDestroyItem(Ice::Long clientid, long ItemId);
+
+	//! get player inventory
+	LbaNet::ItemsMap GetInventory(Ice::Long clientid, int & inventorysize);
+
+	//! update player inventory
+	void UpdateInventory(Ice::Long clientid, LbaNet::ItemList Taken, LbaNet::ItemList Put, 
+								LbaNet::ItemClientInformType informtype);
+
+	//! send event to player
+	virtual int GetInventoryItemCount(long PlayerId, long Itemid);
+
+
 protected:
+
 	// process events
 	void ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts);
+
+	// process events
+	void ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt);
+
 
 	// player entered map
 	void PlayerEntered(Ice::Long id);
@@ -351,6 +374,14 @@ protected:
 	void ProcessPlayerAction(Ice::Long id, bool ForcedNormalAction);
 
 
+	// get player proxy
+	ClientProxyBasePtr GetProxy(Ice::Long clientid);
+
+	// get players proxies
+	std::vector<ClientProxyBasePtr> GetProxies();
+
+	//! return player info
+	boost::shared_ptr<PlayerHandler> GetPlayerInfo(long playerid);
 
 	// return inventory size
 	int GetInventorySize(Ice::Long clientid);
@@ -363,6 +394,9 @@ protected:
 
 	//!  get player position
 	PlayerPosition GetPlayerPosition(Ice::Long clientid);
+
+	//!  get player rotation
+	float GetPlayerRotation(Ice::Long clientid);
 
 	//! get player mode string
 	std::string GetPlayerModeString(Ice::Long clientid);
@@ -468,8 +502,6 @@ protected:
 	//! called when a script is finished on a client
 	void FinishedScript(long id, const std::string & ScriptName);
 
-	//! called when the player use an item
-	void PlayerItemUsed(Ice::Long clientid, long ItemId);
 
 	//! get info about an item
 	LbaNet::ItemPosInfo GetItemInfo(Ice::Long clientid, long ItemId);
@@ -561,9 +593,6 @@ protected:
 												int waypointindex2, bool asynchronus = false);
 
 
-	//! update player inventory
-	void UpdateInventory(long clientid, LbaNet::ItemList Taken, LbaNet::ItemList Put, 
-								LbaNet::ItemClientInformType informtype);
 
 
 	//! player use weapon
@@ -589,11 +618,23 @@ protected:
 	//! playr hit player
 	void PlayerHitPlayer(long hitterId, long hittedid, float hitpower);
 
+
+	//! teleport a player
+	//! return true if player left the map
+	bool TeleportPlayer(long playerid, const LbaNet::PlayerPosition &newpos);
+
+	//! make player enter the map
+	void MakePlayerEnterMap(long playerid, boost::shared_ptr<PlayerHandler> info);
+
+	//! make player leave the map
+	void MakePlayerLeaveMap(long playerid);
+
+
+
 private:
 	// threading and mutex stuff
 	IceUtil::Monitor<IceUtil::Mutex>							_monitor;
 	IceUtil::Mutex												_mutex_events;
-	IceUtil::RecMutex											_mutex_proxies;
 
 	bool														_Trunning;
 	IceUtil::ThreadControl										_threadcontrol;
@@ -601,29 +642,31 @@ private:
 
 	std::string													_worldname;
 	MapInfo														_mapinfo;
-	std::vector<Ice::Long>										_currentplayers;
 
 
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >		_players;
+	EventsSeq													_tosendevts;
 	std::map<Ice::Long, EventsSeq>								_events;
 
-	std::map<std::string, boost::shared_ptr<ServerGUIBase> >	_guihandlers;
+	std::vector<std::pair<Ice::Long, boost::shared_ptr<PlayerHandler> > >	_toadd;
+	std::vector<Ice::Long>										_toremove;
 
-	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >		_Actors;
 
 	#ifdef _USE_QT_EDITOR_
 	std::map<Ice::Long, ActorObjectInfo >						_editorObjects;
 	#endif
 
-	EventsSeq													_tosendevts;
 
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >		_players;
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >		_Actors;
 	std::map<long, boost::shared_ptr<TriggerBase> >				_triggers;
 	std::map<long, boost::shared_ptr<Spawn> >					_spawns;
+
+	std::map<std::string, boost::shared_ptr<ServerGUIBase> >	_guihandlers;
 
 
 	bool														_stopping;
 	double														_stopstarttime;
-
 
 	std::map<Ice::Long, DelayedAction>							_delayedactions;
 

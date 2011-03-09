@@ -33,7 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 struct ContainerSharedInfo;
 class DialogPart;
-
+class MapHandler;
 
 // base class containing params when showing a gui
 class ShowGuiParamBase
@@ -125,7 +125,9 @@ class ServerGUIBase
 public:
 
 	//! constructor
-	ServerGUIBase(){}
+	ServerGUIBase(MapHandler*	owner)
+		: _owner(owner)
+	{}
 
 
 	//! destructor
@@ -164,10 +166,11 @@ protected:
 	//! check if client has gui opened
 	bool HasOpenedGui(Ice::Long clientid);
 
-private:
+protected:
 	// used in mechanism to hide a gui if the player move away
 	std::map<Ice::Long, OpenedGuiInfo>		_openedguis;
 
+	MapHandler*								_owner;
 };
 
 

@@ -46,26 +46,14 @@ update gui with info from server
 ***********************************************************/
 void TextBoxHandler::HideGUI(Ice::Long clientid)
 {
-	ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
-	if(prx)
+	if(_owner)
 	{
 		EventsSeq toplayer;
 		toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 												"TextBox", GuiParamsSeq(), false, true));
-
-		try
-		{
-			prx->ServerEvents(toplayer);
-		}
-		catch(const IceUtil::Exception& ex)
-		{
-			std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-		}
-		catch(...)
-		{
-			std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-		}
+		_owner->SendEvents((long)clientid, toplayer);
 	}
+
 
 	RemoveOpenedGui(clientid);
 }
@@ -82,37 +70,25 @@ void TextBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition &c
 		static_cast<TextBoxParam *>(params.get());
 
 
-	ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
-	if(prx)
+	if(HasOpenedGui(clientid))
 	{
-		if(HasOpenedGui(clientid))
-		{
-			//close already opened box
-			HideGUI(clientid);
-		}
-		else
+		//close already opened box
+		HideGUI(clientid);
+	}
+	else
+	{
+		if(_owner)
 		{
 			EventsSeq toplayer;
 			GuiParamsSeq seq;
 			seq.push_back(new DisplayGameText(castedptr->_textid));
 			toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 													"TextBox", seq, true, false));
-
-			try
-			{
-				prx->ServerEvents(toplayer);
-			}
-			catch(const IceUtil::Exception& ex)
-			{
-				std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-			}
-			catch(...)
-			{
-				std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-			}
-
-			// add gui to the list to be removed later
-			AddOpenedGui(clientid, curPosition);
+			_owner->SendEvents((long)clientid, toplayer);
 		}
+
+		// add gui to the list to be removed later
+		AddOpenedGui(clientid, curPosition);
 	}
+
 }

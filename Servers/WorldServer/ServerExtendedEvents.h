@@ -278,4 +278,26 @@ public:
 };
 
 
+
+/*
+************************************************************************************************************************
+*                                                  class ChangeColorEvent
+*
+*	editor to test player color
+************************************************************************************************************************
+*/
+class EditorTeleportPlayerEvent : public LbaNet::EditorUpdateBase
+{
+public:
+	//! constructor
+	EditorTeleportPlayerEvent(long playerid, const LbaNet::PlayerPosition & newpos)
+		: _newpos(newpos), _playerid(playerid)
+	{
+	}
+
+	long						_playerid;
+	LbaNet::PlayerPosition		_newpos;
+};
+
+
 #endif

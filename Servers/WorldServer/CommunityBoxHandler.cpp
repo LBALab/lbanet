@@ -48,69 +48,42 @@ void CommunityBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 			if(dbh->AcceptFriend((long)clientid, (long)castedptr->FriendId, friendname, myname))
 			{
 				// inform first player that the friend request is accepted
+				if(_owner)
 				{
-					ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
-					if(prx)
-					{
-						EventsSeq toplayer;
-						GuiUpdatesSeq paramseq;
-						FriendInfo finfo;
-						finfo.Id = (long)castedptr->FriendId;
-						finfo.Pending = false;
-						finfo.ToAccept = false;
-						finfo.Name = friendname;
-						finfo.Removed = false;
+					EventsSeq toplayer;
+					GuiUpdatesSeq paramseq;
+					FriendInfo finfo;
+					finfo.Id = (long)castedptr->FriendId;
+					finfo.Pending = false;
+					finfo.ToAccept = false;
+					finfo.Name = friendname;
+					finfo.Removed = false;
 
-						paramseq.push_back(new FriendChangedUpdate(finfo));
-						toplayer.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-																"CommunityBox", paramseq));
+					paramseq.push_back(new FriendChangedUpdate(finfo));
+					toplayer.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+															"CommunityBox", paramseq));
 
-						try
-						{
-							prx->ServerEvents(toplayer);
-						}
-						catch(const IceUtil::Exception& ex)
-						{
-							std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-						}
-						catch(...)
-						{
-							std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-						}
-					}
+					_owner->SendEvents((long)clientid, toplayer);
 				}
 
+
 				// inform second player that the friend request is accepted
+				if(_owner)
 				{
-					ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(castedptr->FriendId);
-					if(prx)
-					{
-						EventsSeq toplayer;
-						GuiUpdatesSeq paramseq;
-						FriendInfo finfo;
-						finfo.Id = (long)clientid;
-						finfo.Pending = false;
-						finfo.ToAccept = false;
-						finfo.Name = myname;
-						finfo.Removed = false;
+					EventsSeq toplayer;
+					GuiUpdatesSeq paramseq;
+					FriendInfo finfo;
+					finfo.Id = (long)clientid;
+					finfo.Pending = false;
+					finfo.ToAccept = false;
+					finfo.Name = myname;
+					finfo.Removed = false;
 
-						paramseq.push_back(new FriendChangedUpdate(finfo));
-						toplayer.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-																"CommunityBox", paramseq));
+					paramseq.push_back(new FriendChangedUpdate(finfo));
+					toplayer.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+															"CommunityBox", paramseq));
 
-						try
-						{
-							prx->ServerEvents(toplayer);
-						}
-						catch(const IceUtil::Exception& ex)
-						{
-							std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-						}
-						catch(...)
-						{
-							std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-						}
-					}
+					_owner->SendEvents((long)castedptr->FriendId, toplayer);
 				}
 			}
 		}
@@ -129,67 +102,40 @@ void CommunityBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 
 			{
 				// inform first player that the friend is removed
+				if(_owner)
 				{
-					ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
-					if(prx)
-					{
-						EventsSeq toplayer;
-						GuiUpdatesSeq paramseq;
-						FriendInfo finfo;
-						finfo.Id = (long)castedptr->FriendId;
-						finfo.Pending = false;
-						finfo.ToAccept = false;
-						finfo.Removed = true;
+					EventsSeq toplayer;
+					GuiUpdatesSeq paramseq;
+					FriendInfo finfo;
+					finfo.Id = (long)castedptr->FriendId;
+					finfo.Pending = false;
+					finfo.ToAccept = false;
+					finfo.Removed = true;
 
-						paramseq.push_back(new FriendChangedUpdate(finfo));
-						toplayer.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-																"CommunityBox", paramseq));
+					paramseq.push_back(new FriendChangedUpdate(finfo));
+					toplayer.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+															"CommunityBox", paramseq));
 
-						try
-						{
-							prx->ServerEvents(toplayer);
-						}
-						catch(const IceUtil::Exception& ex)
-						{
-							std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-						}
-						catch(...)
-						{
-							std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-						}
-					}
+					_owner->SendEvents((long)clientid, toplayer);
 				}
 
+
 				// inform second player that the friend is removed
+				if(_owner)
 				{
-					ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(castedptr->FriendId);
-					if(prx)
-					{
-						EventsSeq toplayer;
-						GuiUpdatesSeq paramseq;
-						FriendInfo finfo;
-						finfo.Id = (long)clientid;
-						finfo.Pending = false;
-						finfo.ToAccept = false;
-						finfo.Removed = true;
+					EventsSeq toplayer;
+					GuiUpdatesSeq paramseq;
+					FriendInfo finfo;
+					finfo.Id = (long)clientid;
+					finfo.Pending = false;
+					finfo.ToAccept = false;
+					finfo.Removed = true;
 
-						paramseq.push_back(new FriendChangedUpdate(finfo));
-						toplayer.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-																"CommunityBox", paramseq));
+					paramseq.push_back(new FriendChangedUpdate(finfo));
+					toplayer.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+															"CommunityBox", paramseq));
 
-						try
-						{
-							prx->ServerEvents(toplayer);
-						}
-						catch(const IceUtil::Exception& ex)
-						{
-							std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-						}
-						catch(...)
-						{
-							std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-						}
-					}
+					_owner->SendEvents((long)castedptr->FriendId, toplayer);
 				}
 			}
 		}
@@ -206,8 +152,7 @@ void CommunityBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 			LbaNet::FriendsSeq friends = dbh->GetFriends((long)clientid);
 
 			// send list to player
-			ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
-			if(prx)
+			if(_owner)
 			{
 				EventsSeq toplayer;
 				GuiParamsSeq paramseq;
@@ -215,20 +160,8 @@ void CommunityBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 				toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 														"CommunityBox", paramseq, false, false));
 
-				try
-				{
-					prx->ServerEvents(toplayer);
-				}
-				catch(const IceUtil::Exception& ex)
-				{
-					std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-				}
-				catch(...)
-				{
-					std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-				}
+				_owner->SendEvents((long)clientid, toplayer);
 			}
-
 		}
 	}
 
@@ -246,69 +179,43 @@ void CommunityBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 			if(dbh->AskFriend((long)clientid, castedptr->FriendName, friendid, myname))
 			{
 				// inform first player that the friend request is processed
+				if(_owner)
 				{
-					ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
-					if(prx)
-					{
-						EventsSeq toplayer;
-						GuiUpdatesSeq paramseq;
-						FriendInfo finfo;
-						finfo.Id = (long)friendid;
-						finfo.Pending = true;
-						finfo.ToAccept = false;
-						finfo.Name = castedptr->FriendName;
-						finfo.Removed = false;
+					EventsSeq toplayer;
+					GuiUpdatesSeq paramseq;
+					FriendInfo finfo;
+					finfo.Id = (long)friendid;
+					finfo.Pending = true;
+					finfo.ToAccept = false;
+					finfo.Name = castedptr->FriendName;
+					finfo.Removed = false;
 
-						paramseq.push_back(new FriendChangedUpdate(finfo));
-						toplayer.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-																"CommunityBox", paramseq));
+					paramseq.push_back(new FriendChangedUpdate(finfo));
+					toplayer.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+															"CommunityBox", paramseq));
 
-						try
-						{
-							prx->ServerEvents(toplayer);
-						}
-						catch(const IceUtil::Exception& ex)
-						{
-							std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-						}
-						catch(...)
-						{
-							std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-						}
-					}
+
+					_owner->SendEvents((long)clientid, toplayer);
 				}
 
+
 				// inform second player that there is a friend request
+				if(_owner)
 				{
-					ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(friendid);
-					if(prx)
-					{
-						EventsSeq toplayer;
-						GuiUpdatesSeq paramseq;
-						FriendInfo finfo;
-						finfo.Id = (long)clientid;
-						finfo.Pending = false;
-						finfo.ToAccept = true;
-						finfo.Name = myname;
-						finfo.Removed = false;
+					EventsSeq toplayer;
+					GuiUpdatesSeq paramseq;
+					FriendInfo finfo;
+					finfo.Id = (long)clientid;
+					finfo.Pending = false;
+					finfo.ToAccept = true;
+					finfo.Name = myname;
+					finfo.Removed = false;
 
-						paramseq.push_back(new FriendChangedUpdate(finfo));
-						toplayer.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-																"CommunityBox", paramseq));
+					paramseq.push_back(new FriendChangedUpdate(finfo));
+					toplayer.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+															"CommunityBox", paramseq));
 
-						try
-						{
-							prx->ServerEvents(toplayer);
-						}
-						catch(const IceUtil::Exception& ex)
-						{
-							std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-						}
-						catch(...)
-						{
-							std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-						}
-					}
+					_owner->SendEvents(friendid, toplayer);
 				}
 			}
 		}

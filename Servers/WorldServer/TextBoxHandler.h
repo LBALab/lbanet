@@ -33,7 +33,9 @@ class TextBoxHandler :	public ServerGUIBase
 {
 public:
 	//! constructor
-	TextBoxHandler(void){}
+	TextBoxHandler(MapHandler*	owner)
+		: ServerGUIBase(owner)
+	{}
 
 	//! destructor
 	virtual ~TextBoxHandler(void){}

@@ -33,7 +33,9 @@ class InventoryBoxHandler :	public ServerGUIBase
 {
 public:
 	//! constructor
-	InventoryBoxHandler(void){}
+	InventoryBoxHandler(MapHandler*	owner)
+		: ServerGUIBase(owner)
+	{}
 
 	//! destructor
 	virtual ~InventoryBoxHandler(void){}

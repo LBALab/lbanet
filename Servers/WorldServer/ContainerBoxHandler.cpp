@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "MapHandler.h"
 #include "Actions.h"
 #include "InventoryItemHandler.h"
+#include "MapHandler.h"
 
 #define _NB_BOX_CONTAINER_ 18
 
@@ -55,25 +56,13 @@ update gui with info from server
 ***********************************************************/
 void ContainerBoxHandler::HideGUI(Ice::Long clientid)
 {
-	ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
-	if(prx)
+	if(_owner)
 	{
 		EventsSeq toplayer;
 		toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 															"ContainerBox", GuiParamsSeq(), false, true));
 
-		try
-		{
-			prx->ServerEvents(toplayer);
-		}
-		catch(const IceUtil::Exception& ex)
-		{
-			std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-		}
-		catch(...)
-		{
-			std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-		}
+		_owner->SendEvents((long)clientid, toplayer);
 	}
 
 	RemoveOpenedGui(clientid);
@@ -97,15 +86,14 @@ void ContainerBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPositi
 	ContainerParam * castedptr = 
 		static_cast<ContainerParam *>(params.get());
 
-	ClientProxyBasePtr prx = SharedDataHandler::getInstance()->GetProxy(clientid);
-	if(prx)
+	if(HasOpenedGui(clientid))
 	{
-		if(HasOpenedGui(clientid))
-		{
-			//close already opened box
-			HideGUI(clientid);
-		}
-		else
+		//close already opened box
+		HideGUI(clientid);
+	}
+	else
+	{
+		if(_owner)
 		{
 			EventsSeq toplayer;
 			GuiParamsSeq seq;
@@ -115,26 +103,17 @@ void ContainerBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPositi
 			toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 													"ContainerBox", seq, true, false));
 
-			try
-			{
-				prx->ServerEvents(toplayer);
-			}
-			catch(const IceUtil::Exception& ex)
-			{
-				std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-			}
-			catch(...)
-			{
-				std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-			}
-
-			// add gui to the list to be removed later
-			AddOpenedGui(clientid, curPosition);
-
-			// store container info
-			_openedcontainers[(long)clientid] = castedptr->_sharedinfo;
+			_owner->SendEvents((long)clientid, toplayer);
 		}
+
+
+		// add gui to the list to be removed later
+		AddOpenedGui(clientid, curPosition);
+
+		// store container info
+		_openedcontainers[(long)clientid] = castedptr->_sharedinfo;
 	}
+
 }
 
 
@@ -144,7 +123,7 @@ update container
 void ContainerBoxHandler::UpdateContainer(long clientid, LbaNet::ItemList Taken, LbaNet::ItemList Put)
 {
 	int inventorysize = 0;
-	LbaNet::ItemsMap inventory = SharedDataHandler::getInstance()->GetInventory(clientid, inventorysize);
+	LbaNet::ItemsMap inventory = _owner->GetInventory(clientid, inventorysize);
 	LbaNet::ItemsMap &ContainerItems = _openedcontainers[clientid]->ContainerItems;
 
 	// taken part
@@ -246,5 +225,5 @@ void ContainerBoxHandler::UpdateContainer(long clientid, LbaNet::ItemList Taken,
 
 
 	//update inventory
-	SharedDataHandler::getInstance()->UpdateInventory(clientid, Put, Taken, LbaNet::DontInform);
+	_owner->UpdateInventory(clientid, Put, Taken, LbaNet::DontInform);
 }

@@ -39,7 +39,9 @@ class ShopBoxHandler :	public ServerGUIBase
 {
 public:
 	//! constructor
-	ShopBoxHandler(void){}
+	ShopBoxHandler(MapHandler*	owner)
+		: ServerGUIBase(owner)
+	{}
 
 	//! destructor
 	virtual ~ShopBoxHandler(void){}

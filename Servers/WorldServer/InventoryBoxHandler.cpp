@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "InventoryBoxHandler.h"
 #include "SharedDataHandler.h"
+#include "MapHandler.h"
 
 
 /***********************************************************
@@ -39,8 +40,7 @@ void InventoryBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 		LbaNet::SwitchItemPosition * castedptr = 
 			dynamic_cast<LbaNet::SwitchItemPosition *>(ptr);
 
-		SharedDataHandler::getInstance()->PlayerSwitchItem(clientid, 
-										(long)castedptr->ItemId, castedptr->NewPosition);
+		_owner->PlayerSwitchItem(clientid, (long)castedptr->ItemId, castedptr->NewPosition);
 	}
 
 	// LbaNet::InventoryItemUsed
@@ -49,7 +49,7 @@ void InventoryBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 		LbaNet::InventoryItemUsed * castedptr = 
 			dynamic_cast<LbaNet::InventoryItemUsed *>(ptr);
 
-		SharedDataHandler::getInstance()->PlayerItemUsed(clientid, (long)castedptr->ItemId);
+		_owner->PlayerItemUsed(clientid, (long)castedptr->ItemId);
 	}
 
 	// LbaNet::CreateLetterUpdate
@@ -59,7 +59,7 @@ void InventoryBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 			dynamic_cast<LbaNet::CreateLetterUpdate *>(ptr);
 
 
-		SharedDataHandler::getInstance()->PlayerCreateLetter(clientid, 
+		_owner->PlayerCreateLetter(clientid, 
 											castedptr->Subject, castedptr->Message);
 	}
 
@@ -69,7 +69,7 @@ void InventoryBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBase
 		LbaNet::DestroyItemUpdate * castedptr = 
 			dynamic_cast<LbaNet::DestroyItemUpdate *>(ptr);
 
-		SharedDataHandler::getInstance()->PlayerDestroyItem(clientid, (long)castedptr->ItemId);
+		_owner->PlayerDestroyItem(clientid, (long)castedptr->ItemId);
 	}
 }
 

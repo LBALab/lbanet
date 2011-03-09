@@ -95,11 +95,11 @@ bool ItemInInventoryCondition::Passed(ScriptEnvironmentBase * owner,
 	if(clientid < 0)
 		return false;
 
-	int inventorysize;
-	LbaNet::ItemsMap itmap = SharedDataHandler::getInstance()->GetInventory(clientid, inventorysize);
-	LbaNet::ItemsMap::iterator it = itmap.find(_itemid);
-	if(it != itmap.end())
-		return (it->second.Count >= _itemnumber);
+	if(owner)
+	{
+		int count = owner->GetInventoryItemCount(clientid, _itemid);
+		return (count >= _itemnumber);
+	}
 
 	return false;
 }

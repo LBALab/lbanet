@@ -1066,25 +1066,11 @@ void CutMapAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::L
 	if(clientid < 0)
 		return;
 
-
-	//get player proxy and send info
-	ClientProxyBasePtr proxy = SharedDataHandler::getInstance()->GetProxy(clientid);
-	if(proxy)
+	if(owner)
 	{
 		EventsSeq toplayer;
 		toplayer.push_back(new CutMapEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), _Y));
-		try
-		{
-			proxy->ServerEvents(toplayer);
-		}
-		catch(const IceUtil::Exception& ex)
-		{
-			std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-		}
-		catch(...)
-		{
-			std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-		}
+		owner->SendEvents(clientid, toplayer);
 	}
 }
 
@@ -1124,27 +1110,13 @@ void OpenLetterWritterAction::Execute(ScriptEnvironmentBase * owner, int ObjectT
 		return;
 
 
-	//get player proxy and send info
-	ClientProxyBasePtr proxy = SharedDataHandler::getInstance()->GetProxy(clientid);
-	if(proxy)
+	if(owner)
 	{
 		EventsSeq toplayer;
 		toplayer.push_back(
 			new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 										"LetterEditorBox", GuiParamsSeq(), true, false));
-
-		try
-		{
-			proxy->ServerEvents(toplayer);
-		}
-		catch(const IceUtil::Exception& ex)
-		{
-			std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-		}
-		catch(...)
-		{
-			std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-		}
+		owner->SendEvents(clientid, toplayer);
 	}
 }
 

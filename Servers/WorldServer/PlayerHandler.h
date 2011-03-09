@@ -60,7 +60,7 @@ public:
 	LbaNet::ModelInfo GetModelInfo() {return _currentinfo.model;}
 
 	//! get inventory
-	LbaNet::ItemsMap GetInventory() {return _currentinfo.inventory.InventoryStructure;}
+	const LbaNet::ItemsMap &GetInventory() {return _currentinfo.inventory.InventoryStructure;}
 
 	// get shortcuts
 	LbaNet::ShortcutsSeq GetShorcuts() {return _currentinfo.inventory.UsedShorcuts;}
@@ -112,6 +112,9 @@ public:
 
 	//!  get player position
 	LbaNet::PlayerPosition GetPlayerPosition();
+
+	//!  get player rotation
+	float GetPlayerRotation();
 
 	//! get player mode string
 	std::string GetPlayerModeString();
