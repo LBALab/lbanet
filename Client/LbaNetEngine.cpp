@@ -1034,6 +1034,11 @@ change the world
 ***********************************************************/
 void LbaNetEngine::ChangeWorld(const std::string & NewWorld)
 {
+	if(m_currentworld == NewWorld)
+		return;
+
+	m_currentworld = NewWorld;
+
 	//clean up old world
 	m_lbaNetModel->ChangeWorld(NewWorld);
 

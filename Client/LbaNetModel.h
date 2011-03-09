@@ -386,6 +386,12 @@ public:
 	void NpcAttachActor(long NpcId, int AttachedObjectType, long AttachedObjectId);
 
 
+	//! send event to player
+	virtual void SendEvents(long PlayerId, const LbaNet::EventsSeq & evts){}
+
+	//! send event to player
+	virtual int GetInventoryItemCount(long PlayerId, long Itemid){return 0;}
+
 protected:
 
 	//! clean up map

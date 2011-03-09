@@ -105,6 +105,7 @@ private:
 	Ice::CommunicatorPtr							m_communicator;
 	std::string										m_clientV;
 	bool											m_shouldexit;
+	std::string										m_currentworld;
 
 	// game states
 	enum EngineState {ELogin=0, EChoosingWorld, EGaming, EMenu, EOption };
