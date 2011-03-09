@@ -38,7 +38,8 @@ class Spawn;
 class DynamicObject;
 
 #include <boost/shared_ptr.hpp>
-#include <LbaTypes.h>
+#include <ClientServerEvents.h>
+
 
 #include "CommonTypes.h"
 #include "LuaHandlerBase.h"
@@ -353,6 +354,13 @@ public:
 	virtual void DettachActor(long ActorId, long AttachedObjectId) = 0;
 
 
+	//! send event to player
+	virtual void SendEvents(long PlayerId, const LbaNet::EventsSeq & evts) = 0;
+
+
+	//! send event to player
+	virtual int GetInventoryItemCount(long PlayerId, long Itemid) = 0;
+
 protected:
 
 	//! used by lua to move an actor or player
@@ -398,7 +406,6 @@ protected:
 
 	//! called when a script has finished
 	virtual void ScriptFinished(int scriptid, const std::string & functioname) = 0;
-
 
 
 
