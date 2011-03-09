@@ -555,6 +555,12 @@ public:
 	virtual void DettachActor(long ActorId, long AttachedObjectId){}
 
 
+	//! send event to player
+	virtual void SendEvents(long PlayerId, const LbaNet::EventsSeq & evts){}
+
+	//! send event to player
+	virtual int GetInventoryItemCount(long PlayerId, long Itemid){return 0;}
+
 public slots:
 	 //! ui button clicked
      void addtrigger_button_clicked();
@@ -580,7 +586,7 @@ public slots:
      void OpenWorldAction();
 
 	 //! on save world action
-     void SaveWorldAction();
+	 void SaveWorldAction(std::string mapname = "");
 
 	 //! on open world
      void OpenWorld();

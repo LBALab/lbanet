@@ -1364,7 +1364,6 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.actionNew_World, SIGNAL(triggered()), this, SLOT(NewWorldAction())); 
 	connect(_uieditor.actionLoad_World, SIGNAL(triggered()), this, SLOT(OpenWorldAction())); 
 	connect(_uieditor.actionSave, SIGNAL(triggered()), this, SLOT(SaveWorldAction())); 
-	connect(_uieditor.actionCustom_Lua_for_server, SIGNAL(triggered()), this, SLOT(SaveWorldAction())); 
 	connect(_uieditor.actionCustom_Lua_for_server, SIGNAL(triggered()), this, SLOT(OpenCustomServerLua())); 
 	connect(_uieditor.actionCustom_Lua_for_client, SIGNAL(triggered()), this, SLOT(OpenCustomClientLua())); 
 	connect(_uieditor.actionRefresh_client_script, SIGNAL(triggered()), this, SLOT(RefreshClientScript())); 
@@ -1740,7 +1739,7 @@ void EditorHandler::OpenWorldAction()
 /***********************************************************
 SaveWorldAction
 ***********************************************************/
-void EditorHandler::SaveWorldAction()
+void EditorHandler::SaveWorldAction(std::string mapname)
 {
 	if(!IsWorldOpened())
 		return;
@@ -1751,7 +1750,9 @@ void EditorHandler::SaveWorldAction()
 		DataLoader::getInstance()->SaveWorldInformation(_winfo.Description.WorldName, _winfo);
 
 		// save current map
-		std::string mapname = _uieditor.label_mapname->text().toAscii().data();
+		if(mapname == "")
+			mapname = _uieditor.label_mapname->text().toAscii().data();
+
 		if(mapname != "")
 			SaveMap("./Data/Worlds/" + _winfo.Description.WorldName + "/Lua/" + mapname + "_server.lua");
 
@@ -2471,8 +2472,11 @@ long EditorHandler::AddOrModSpawning(const std::string &mapname,
 	newspawn->SetRotation(Rotation);
 	newspawn->SetForceRotation(forcedrotation);
 
-	AddSpawn(newspawn);
 
+	QString currmap = _uieditor.label_mapname->text();
+	_uieditor.label_mapname->setText(mapname.c_str());
+	AddSpawn(newspawn);
+	_uieditor.label_mapname->setText(currmap);
 
 
 	// then inform the server
@@ -2990,7 +2994,7 @@ void EditorHandler::AddTrigger(boost::shared_ptr<TriggerBase> trigger)
 		_triggerNameList->AddData(trigger->GetName().c_str());
 	}
 }
-
+		
 /***********************************************************
 add spawn
 ***********************************************************/	
@@ -3013,9 +3017,12 @@ void EditorHandler::AddSpawn(boost::shared_ptr<Spawn> spawn)
 
 		_currspawningidx = (_spawns.rbegin()->second->GetId() + 1);
 
-		// add name to list
+
 		std::string mapname = _uieditor.label_mapname->text().toAscii().data();
-		AddSpawningName(mapname, spawn->GetName());
+
+		// add name to list
+		if(mapname != "")
+			AddSpawningName(mapname, spawn->GetName());
 	}
 }	
 
@@ -5115,7 +5122,11 @@ change current map to new map
 void EditorHandler::ChangeMap(const std::string & mapname, long spawningid)
 {
 	if(SaveMapBeforeQuit())
-		SharedDataHandler::getInstance()->ChangeMapPlayer(1, mapname, spawningid);
+	{
+		LbaNet::PlayerPosition ppos = SharedDataHandler::getInstance()->GetSpawnPos(mapname, spawningid, 0);
+		EditorUpdateBasePtr update = new EditorTeleportPlayerEvent(1, ppos);
+		SharedDataHandler::getInstance()->EditorUpdate(_uieditor.label_mapname->text().toAscii().data(), update);
+	}
 }
 
 /***********************************************************
@@ -5124,7 +5135,11 @@ change current map to new map
 void EditorHandler::ChangeMap(const std::string & mapname, const std::string SpawnName)
 {
 	if(SaveMapBeforeQuit())
-		SharedDataHandler::getInstance()->ChangeMapPlayer(1, mapname, SpawnName);
+	{
+		LbaNet::PlayerPosition ppos = SharedDataHandler::getInstance()->GetSpawnPos(mapname, SpawnName, 0);
+		EditorUpdateBasePtr update = new EditorTeleportPlayerEvent(1, ppos);
+		SharedDataHandler::getInstance()->EditorUpdate(_uieditor.label_mapname->text().toAscii().data(), update);
+	}
 }
 
 
@@ -5726,6 +5741,7 @@ void EditorHandler::addmap_accepted()
 	LbaNet::MapInfo newmapinfo;
 	newmapinfo.Name = mapname.toAscii().data();
 	newmapinfo.Repeat = 0;
+	newmapinfo.HurtFallFactor = 2;
 
 	QString descs = _ui_addmapdialog.textEdit_map_description->toPlainText();
 	descs.replace(QString("\n"), QString(" @ "));
@@ -5771,8 +5787,8 @@ tp to default spawning of map
 void EditorHandler::CreateDefaultSpawningAndTp(const std::string & mapname)
 {
 	// add a default spawning
-	long spid = AddOrModSpawning(mapname, "DefaultSpawning", 0, 0, 0, 0, true, 0);
-	AddSpawningName(mapname, "DefaultSpawning");
+	long spid = AddOrModSpawning(mapname, "DefaultSpawn", 0, 0, 0, 0, true, 0);
+	SaveWorldAction(mapname);
 	ChangeMap(mapname, spid);
 	SetModified();
 	RefreshStartingSpawning();
