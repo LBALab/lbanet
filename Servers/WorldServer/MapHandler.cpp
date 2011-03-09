@@ -256,254 +256,261 @@ void MapHandler::ProcessEvents(const std::map<Ice::Long, EventsSeq> & evts)
 		LbaNet::EventsSeq::const_iterator endevt = it->second.end();
 		for(;itevt != endevt; ++itevt)
 		{
-			LbaNet::ClientServerEventBasePtr ptr = *itevt;
-			LbaNet::ClientServerEventBase & obj = *ptr;
-			const std::type_info& info = typeid(obj);
-
-			// client entered
-			if(info == typeid(LbaNet::PlayerEnterEvent))
+			try
 			{
-				PlayerEntered(it->first);
-				continue;
-			}
+				LbaNet::ClientServerEventBasePtr ptr = *itevt;
+				LbaNet::ClientServerEventBase & obj = *ptr;
+				const std::type_info& info = typeid(obj);
 
-			// client left
-			if(info == typeid(LbaNet::PlayerLeaveEvent))
-			{
-				PlayerLeft(it->first);
-				continue;
-			}
-
-			// player updated position
-			if(info == typeid(LbaNet::PlayerMovedEvent))
-			{
-				LbaNet::PlayerMovedEvent* castedptr = 
-					dynamic_cast<LbaNet::PlayerMovedEvent *>(&obj);
-
-				PlayerMoved(it->first, castedptr->Time, castedptr->info);
-				continue;
-			}
-
-
-			// UpdateGameGUIEvent
-			if(info == typeid(LbaNet::UpdateGameGUIEvent))
-			{
-				LbaNet::UpdateGameGUIEvent* castedptr = 
-					dynamic_cast<LbaNet::UpdateGameGUIEvent *>(&obj);
-	
-				GuiUpdate(it->first, castedptr->GUIId, castedptr->Updates);
-				continue;
-			}
-
-			// TeleportEvent
-			if(info == typeid(LbaNet::TeleportEvent))
-			{
-				LbaNet::TeleportEvent* castedptr = 
-					dynamic_cast<LbaNet::TeleportEvent *>(&obj);
-
-				SharedDataHandler::getInstance()->TeleportPlayer(this, it->first, (long)castedptr->TeleportId);
-
-				continue;
-			}
-
-			// ChangeStanceEvent
-			if(info == typeid(LbaNet::ChangeStanceEvent))
-			{
-				LbaNet::ChangeStanceEvent* castedptr = 
-					dynamic_cast<LbaNet::ChangeStanceEvent *>(&obj);
-				
-				ChangeStance(it->first, castedptr->NewStance);
-				continue;
-			}
-
-
-			// PressedActionKeyEvent
-			if(info == typeid(LbaNet::PressedActionKeyEvent))
-			{
-				LbaNet::PressedActionKeyEvent* castedptr = 
-					dynamic_cast<LbaNet::PressedActionKeyEvent *>(&obj);
-
-				ProcessPlayerAction(it->first, castedptr->ForcedNormalAction);
-				continue;
-			}
-
-
-
-			// RefreshObjectRequestEvent
-			if(info == typeid(LbaNet::RefreshObjectRequestEvent))
-			{
-				RefreshPlayerObjects(it->first);
-				continue;
-			}
-
-
-			// UpdateStateEvent
-			if(info == typeid(LbaNet::UpdateStateEvent))
-			{
-				LbaNet::UpdateStateEvent* castedptr = 
-					dynamic_cast<LbaNet::UpdateStateEvent *>(&obj);
-
-				ChangePlayerState(it->first, castedptr->NewState, castedptr->FallingSize, 5, -1);
-				continue;
-			}
-
-			// RaiseFromDeadEvent
-			if(info == typeid(LbaNet::RaiseFromDeadEvent))
-			{
-				RaiseFromDeadEvent(it->first);
-				continue;
-			}
-
-			//NewClientExtraInfoEvent
-			if(info == typeid(LbaNet::NewClientExtraInfoEvent))
-			{
-				LbaNet::NewClientExtraInfoEvent* castedptr = 
-					dynamic_cast<LbaNet::NewClientExtraInfoEvent *>(&obj);
-
-				_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-									2, it->first, new ObjectExtraInfoUpdate(castedptr->ExtraInfo)));
-				continue;
-			}
-
-			//ReadyToPlayEvent
-			if(info == typeid(LbaNet::ReadyToPlayEvent))
-			{
-				SetReady(it->first);
-				continue;
-			}
-
-
-			//ScriptExecutionFinishedEvent
-			if(info == typeid(LbaNet::ScriptExecutionFinishedEvent))
-			{
-				LbaNet::ScriptExecutionFinishedEvent* castedptr = 
-					dynamic_cast<LbaNet::ScriptExecutionFinishedEvent *>(&obj);
-
-				FinishedScript((long)it->first, castedptr->ScriptName);
-				continue;
-			}
-
-
-			//editor update event
-			#ifdef _USE_QT_EDITOR_
-			if(info == typeid(EditorEvent))
-			{
-				EditorEvent* castedptr = 
-					static_cast<EditorEvent *>(&obj);
-
-				ProcessEditorUpdate(castedptr->_update);
-
-				continue;
-			}
-
-
-			#endif
-
-
-
-			//PlayerItemUsedEvent
-			if(info == typeid(LbaNet::PlayerItemUsedEvent))
-			{
-				LbaNet::PlayerItemUsedEvent* castedptr = 
-					dynamic_cast<LbaNet::PlayerItemUsedEvent *>(&obj);
-
-				PlayerItemUsed((long)it->first, (long)castedptr->ItemId);
-				continue;
-			}
-
-
-			//ShowHideEvent
-			if(info == typeid(LbaNet::ShowHideEvent))
-			{
-				LbaNet::ShowHideEvent* castedptr = 
-					dynamic_cast<LbaNet::ShowHideEvent *>(&obj);
-
-				// only allowed on scripted event
-				if(GetPlayerModelInfo(it->first).State == StScripted)
+				// client entered
+				if(info == typeid(LbaNet::PlayerEnterEvent))
 				{
-					_tosendevts.push_back(new LbaNet::ShowHideEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-										2, it->first, castedptr->Show));
+					PlayerEntered(it->first);
+					continue;
 				}
-				continue;
-			}
 
-			//RefreshTpRequestEvent
-			if(info == typeid(LbaNet::RefreshTpRequestEvent))
-			{
-				ClientProxyBasePtr proxy = GetProxy(it->first);
-				if(proxy)
+				// client left
+				if(info == typeid(LbaNet::PlayerLeaveEvent))
 				{
-					LbaNet::TeleportsSeq tpseq = SharedDataHandler::getInstance()->GetTpList(this, it->first);
+					PlayerLeft(it->first);
+					continue;
+				}
 
-					EventsSeq toplayer;
-					GuiParamsSeq seq;
-					seq.push_back(new TeleportGuiParameter(tpseq));
-					toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-																"TeleportBox", seq, true, false)); 
+				// player updated position
+				if(info == typeid(LbaNet::PlayerMovedEvent))
+				{
+					LbaNet::PlayerMovedEvent* castedptr = 
+						dynamic_cast<LbaNet::PlayerMovedEvent *>(&obj);
+
+					PlayerMoved(it->first, castedptr->Time, castedptr->info);
+					continue;
+				}
+
+
+				// UpdateGameGUIEvent
+				if(info == typeid(LbaNet::UpdateGameGUIEvent))
+				{
+					LbaNet::UpdateGameGUIEvent* castedptr = 
+						dynamic_cast<LbaNet::UpdateGameGUIEvent *>(&obj);
+		
+					GuiUpdate(it->first, castedptr->GUIId, castedptr->Updates);
+					continue;
+				}
+
+				// TeleportEvent
+				if(info == typeid(LbaNet::TeleportEvent))
+				{
+					LbaNet::TeleportEvent* castedptr = 
+						dynamic_cast<LbaNet::TeleportEvent *>(&obj);
+
+					SharedDataHandler::getInstance()->TeleportPlayer(this, it->first, (long)castedptr->TeleportId);
+
+					continue;
+				}
+
+				// ChangeStanceEvent
+				if(info == typeid(LbaNet::ChangeStanceEvent))
+				{
+					LbaNet::ChangeStanceEvent* castedptr = 
+						dynamic_cast<LbaNet::ChangeStanceEvent *>(&obj);
 					
-					try
-					{
-						proxy->ServerEvents(toplayer);
-					}
-					catch(const IceUtil::Exception& ex)
-					{
-						std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
-					}
-					catch(...)
-					{
-						std::cout<<"Unknown exception in sending event to client. "<<std::endl;
-					}	
+					ChangeStance(it->first, castedptr->NewStance);
+					continue;
 				}
 
-				continue;
+
+				// PressedActionKeyEvent
+				if(info == typeid(LbaNet::PressedActionKeyEvent))
+				{
+					LbaNet::PressedActionKeyEvent* castedptr = 
+						dynamic_cast<LbaNet::PressedActionKeyEvent *>(&obj);
+
+					ProcessPlayerAction(it->first, castedptr->ForcedNormalAction);
+					continue;
+				}
+
+
+
+				// RefreshObjectRequestEvent
+				if(info == typeid(LbaNet::RefreshObjectRequestEvent))
+				{
+					RefreshPlayerObjects(it->first);
+					continue;
+				}
+
+
+				// UpdateStateEvent
+				if(info == typeid(LbaNet::UpdateStateEvent))
+				{
+					LbaNet::UpdateStateEvent* castedptr = 
+						dynamic_cast<LbaNet::UpdateStateEvent *>(&obj);
+
+					ChangePlayerState(it->first, castedptr->NewState, castedptr->FallingSize, 5, -1);
+					continue;
+				}
+
+				// RaiseFromDeadEvent
+				if(info == typeid(LbaNet::RaiseFromDeadEvent))
+				{
+					RaiseFromDeadEvent(it->first);
+					continue;
+				}
+
+				//NewClientExtraInfoEvent
+				if(info == typeid(LbaNet::NewClientExtraInfoEvent))
+				{
+					LbaNet::NewClientExtraInfoEvent* castedptr = 
+						dynamic_cast<LbaNet::NewClientExtraInfoEvent *>(&obj);
+
+					_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+										2, it->first, new ObjectExtraInfoUpdate(castedptr->ExtraInfo)));
+					continue;
+				}
+
+				//ReadyToPlayEvent
+				if(info == typeid(LbaNet::ReadyToPlayEvent))
+				{
+					SetReady(it->first);
+					continue;
+				}
+
+
+				//ScriptExecutionFinishedEvent
+				if(info == typeid(LbaNet::ScriptExecutionFinishedEvent))
+				{
+					LbaNet::ScriptExecutionFinishedEvent* castedptr = 
+						dynamic_cast<LbaNet::ScriptExecutionFinishedEvent *>(&obj);
+
+					FinishedScript((long)it->first, castedptr->ScriptName);
+					continue;
+				}
+
+
+				//editor update event
+				#ifdef _USE_QT_EDITOR_
+				if(info == typeid(EditorEvent))
+				{
+					EditorEvent* castedptr = 
+						static_cast<EditorEvent *>(&obj);
+
+					ProcessEditorUpdate(castedptr->_update);
+
+					continue;
+				}
+
+
+				#endif
+
+
+
+				//PlayerItemUsedEvent
+				if(info == typeid(LbaNet::PlayerItemUsedEvent))
+				{
+					LbaNet::PlayerItemUsedEvent* castedptr = 
+						dynamic_cast<LbaNet::PlayerItemUsedEvent *>(&obj);
+
+					PlayerItemUsed((long)it->first, (long)castedptr->ItemId);
+					continue;
+				}
+
+
+				//ShowHideEvent
+				if(info == typeid(LbaNet::ShowHideEvent))
+				{
+					LbaNet::ShowHideEvent* castedptr = 
+						dynamic_cast<LbaNet::ShowHideEvent *>(&obj);
+
+					// only allowed on scripted event
+					if(GetPlayerModelInfo(it->first).State == StScripted)
+					{
+						_tosendevts.push_back(new LbaNet::ShowHideEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+											2, it->first, castedptr->Show));
+					}
+					continue;
+				}
+
+				//RefreshTpRequestEvent
+				if(info == typeid(LbaNet::RefreshTpRequestEvent))
+				{
+					ClientProxyBasePtr proxy = GetProxy(it->first);
+					if(proxy)
+					{
+						LbaNet::TeleportsSeq tpseq = SharedDataHandler::getInstance()->GetTpList(this, it->first);
+
+						EventsSeq toplayer;
+						GuiParamsSeq seq;
+						seq.push_back(new TeleportGuiParameter(tpseq));
+						toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+																	"TeleportBox", seq, true, false)); 
+						
+						try
+						{
+							proxy->ServerEvents(toplayer);
+						}
+						catch(const IceUtil::Exception& ex)
+						{
+							std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+						}
+						catch(...)
+						{
+							std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+						}	
+					}
+
+					continue;
+				}
+
+				// UpdatePlayerColorEvent
+				if(info == typeid(LbaNet::UpdatePlayerColorEvent))
+				{
+					LbaNet::UpdatePlayerColorEvent* castedptr = 
+						dynamic_cast<LbaNet::UpdatePlayerColorEvent *>(&obj);
+
+					ChangePlayerColor((long)it->first, castedptr->SkinColor, castedptr->EyesColor, 
+											castedptr->HairColor, -2, -2, -2, -2);
+					continue;
+
+				}
+
+				// DestroyProjectileEvent
+				if(info == typeid(LbaNet::DestroyProjectileEvent))
+				{
+					LbaNet::DestroyProjectileEvent* castedptr = 
+						dynamic_cast<LbaNet::DestroyProjectileEvent *>(&obj);
+
+					DestroyProjectile((long)it->first, (long)castedptr->Id, 
+										castedptr->TouchedActorType, (long)castedptr->TouchedActorId);
+					continue;
+
+				}
+
+				// ProjectileHittedActorEvent
+				if(info == typeid(LbaNet::ProjectileHittedActorEvent))
+				{
+					LbaNet::ProjectileHittedActorEvent* castedptr = 
+						dynamic_cast<LbaNet::ProjectileHittedActorEvent *>(&obj);
+
+					HittedProjectile((long)it->first, (long)castedptr->Id, 
+										castedptr->TouchedActorType, (long)castedptr->TouchedActorId);
+					continue;
+
+				}
+
+				// PlayerHittedContactActorEvent
+				if(info == typeid(LbaNet::PlayerHittedContactActorEvent))
+				{
+					LbaNet::PlayerHittedContactActorEvent* castedptr = 
+						dynamic_cast<LbaNet::PlayerHittedContactActorEvent *>(&obj);
+
+					PlayerHittedContact((long)it->first, castedptr->WithWeapon, 
+										castedptr->TouchedActorType, (long)castedptr->TouchedActorId);
+					continue;
+
+				}
 			}
-
-			// UpdatePlayerColorEvent
-			if(info == typeid(LbaNet::UpdatePlayerColorEvent))
+			catch(NoPlayerException)
 			{
-				LbaNet::UpdatePlayerColorEvent* castedptr = 
-					dynamic_cast<LbaNet::UpdatePlayerColorEvent *>(&obj);
-
-				ChangePlayerColor((long)it->first, castedptr->SkinColor, castedptr->EyesColor, 
-										castedptr->HairColor, -2, -2, -2, -2);
-				continue;
-
-			}
-
-			// DestroyProjectileEvent
-			if(info == typeid(LbaNet::DestroyProjectileEvent))
-			{
-				LbaNet::DestroyProjectileEvent* castedptr = 
-					dynamic_cast<LbaNet::DestroyProjectileEvent *>(&obj);
-
-				DestroyProjectile((long)it->first, (long)castedptr->Id, 
-									castedptr->TouchedActorType, (long)castedptr->TouchedActorId);
-				continue;
-
-			}
-
-			// ProjectileHittedActorEvent
-			if(info == typeid(LbaNet::ProjectileHittedActorEvent))
-			{
-				LbaNet::ProjectileHittedActorEvent* castedptr = 
-					dynamic_cast<LbaNet::ProjectileHittedActorEvent *>(&obj);
-
-				HittedProjectile((long)it->first, (long)castedptr->Id, 
-									castedptr->TouchedActorType, (long)castedptr->TouchedActorId);
-				continue;
-
-			}
-
-			// PlayerHittedContactActorEvent
-			if(info == typeid(LbaNet::PlayerHittedContactActorEvent))
-			{
-				LbaNet::PlayerHittedContactActorEvent* castedptr = 
-					dynamic_cast<LbaNet::PlayerHittedContactActorEvent *>(&obj);
-
-				PlayerHittedContact((long)it->first, castedptr->WithWeapon, 
-									castedptr->TouchedActorType, (long)castedptr->TouchedActorId);
-				continue;
-
+				// player already left the map
 			}
 		}
 	}
@@ -541,58 +548,7 @@ void MapHandler::GetEvents(std::map<Ice::Long, EventsSeq> & evts)
 	_events.swap(evts);
 }
 
-/***********************************************************
-add player proxy
-***********************************************************/
-void MapHandler::AddPlayer(Ice::Long clientid, boost::shared_ptr<PlayerHandler> player)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-	_players[clientid] = player;
 
-}
-
-/***********************************************************
-remove player proxy
-***********************************************************/
-void MapHandler::RemovePlayer(Ice::Long clientid)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it =	_players.find(clientid);	
-	if(it != _players.end())
-		_players.erase(it);
-}
-
-
-/***********************************************************
-get player proxy
-***********************************************************/
-ClientProxyBasePtr MapHandler::GetProxy(Ice::Long clientid)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it =	_players.find(clientid);	
-	if(it != _players.end())
-		return it->second->GetProxy();
-
-	return NULL;
-}
-
-/***********************************************************
-get players proxies
-***********************************************************/
-std::vector<ClientProxyBasePtr> MapHandler::GetProxies()
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::vector<ClientProxyBasePtr> proxies;
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.begin();
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator end = _players.end();
-	for(; it != end; ++it)
-		proxies.push_back(it->second->GetProxy());
-
-	return proxies;
-}
 
 
 /***********************************************************
@@ -608,11 +564,13 @@ void MapHandler::PlayerEntered(Ice::Long id)
 		// first give info to the player about current map state
 		EventsSeq toplayer;
 
+		std::string clluafile = "Worlds/" + _worldname + "/Lua/";
+		clluafile += _mapinfo.Name + "_client.lua";
+		
 
 		// inform client he enter a new map
 		toplayer.push_back(new NewMapEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-												_mapinfo.Name, 
-												SharedDataHandler::getInstance()->GetClientLuaFilename(_mapinfo.Name), 
+												_mapinfo.Name, clluafile, 
 												_mapinfo.AutoCameraType, _mapinfo.Music, _mapinfo.Repeat)); 
 		
 		// remove ephemere item
@@ -978,17 +936,6 @@ void MapHandler::ChangeOutfit(Ice::Long id, const std::string & outfit, long ite
 					2, id, new ModelUpdate(returnmodel, false)));
 }
 
-/***********************************************************
-client open container
-***********************************************************/
-void MapHandler::OpenInventoryContainer(long clientid, long itemid)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
-	if(it != _players.end())
-		it->second->OpenInventoryContainer(itemid);
-}
 
 /***********************************************************
 change player state
@@ -1236,345 +1183,6 @@ void MapHandler::ProcessPlayerAction(Ice::Long id, bool ForcedNormalAction)
 		// player already left the map
 	}
 }
-
-
-
-
-/***********************************************************
-return inventory size
-***********************************************************/
-int MapHandler::GetInventorySize(Ice::Long clientid)
-{
-	{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
-	if(it != _players.end())
-		return it->second->GetInventorySize();
-	}
-
-	throw(NoPlayerException());
-}
-
-/***********************************************************
-return inventory content
-***********************************************************/
-ItemsMap MapHandler::GetInventory(Ice::Long clientid)
-{
-	{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
-	if(it != _players.end())
-		return it->second->GetInventory();
-	}
-
-	throw(NoPlayerException());
-}
-
-
-
-/***********************************************************
-return shortcuts
-***********************************************************/
-ShortcutsSeq MapHandler::GetShorcuts(Ice::Long clientid)
-{
-	{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
-	if(it != _players.end())
-		return it->second->GetShorcuts();
-	}
-
-	throw(NoPlayerException());
-}
-
-/***********************************************************
-get player position
-***********************************************************/
-PlayerPosition MapHandler::GetPlayerPosition(Ice::Long clientid)
-{
-	{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
-	if(it != _players.end())
-		return it->second->GetPlayerPosition();
-	}
-
-	throw(NoPlayerException());
-}
-
-
-/***********************************************************
-get player mode string
-***********************************************************/
-std::string MapHandler::GetPlayerModeString(Ice::Long clientid)
-{
-	{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
-	if(it != _players.end())
-		return it->second->GetPlayerModeString();
-	}
-
-	throw(NoPlayerException());
-}
-
-
-
-/***********************************************************
-get player life info
-***********************************************************/
-LbaNet::LifeManaInfo MapHandler::GetPlayerLifeInfo(Ice::Long clientid)
-{
-	{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
-	if(it != _players.end())
-		return it->second->GetLifeManaInfo();
-	}
-
-	throw(NoPlayerException());
-}
-
-
-/***********************************************************
-get player extra info
-***********************************************************/
-LbaNet::ObjectExtraInfo MapHandler::GetPlayerExtraInfo(Ice::Long clientid)
-{
-	{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
-	if(it != _players.end())
-		return it->second->GetExtraInfo();
-	}
-
-	throw(NoPlayerException());
-}
-
-
-/***********************************************************
-get player model info
-***********************************************************/
-LbaNet::ModelInfo MapHandler::GetPlayerModelInfo(Ice::Long clientid)
-{
-	{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
-	if(it != _players.end())
-		return it->second->GetModelInfo();
-	}
-
-	throw(NoPlayerException());
-}
-
-
-/***********************************************************
-get player physcial size
-***********************************************************/
-void MapHandler::GetPlayerPhysicalSize(Ice::Long clientid, float &sX, float &sY, float &sZ)
-{
-	{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
-	if(it != _players.end())
-		return it->second->GetPlayerPhysicalSize(sX, sY, sZ);
-	}
-
-	throw(NoPlayerException());
-}
-
-
-/***********************************************************
-//!  get the place to respawn in case of death
-***********************************************************/
-LbaNet::PlayerPosition MapHandler::GetSpawningPlace(Ice::Long clientid)
-{
-	{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
-	if(it != _players.end())
-		return it->second->GetSpawningPlace();
-	}
-
-	throw(NoPlayerException());
-}
-
-
-
-
-/***********************************************************
-update player position
-***********************************************************/
-bool MapHandler::UpdatePlayerPosition(Ice::Long clientid, const PlayerPosition & pos, bool teleport)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
-	if(it != _players.end())
-	{
-		if(teleport)
-			it->second->Teleport(pos);
-		else
-			it->second->UpdatePositionInWorld(pos);
-		return true;
-	}
-
-	return false;
-}
-
-
-/***********************************************************
-//!  update player stance
-//! return true if state has been updated
-***********************************************************/
-bool MapHandler::UpdatePlayerStance(Ice::Long clientid, LbaNet::ModelStance NewStance,
-												ModelInfo & returnmodel, bool fromserver,
-												int mountid)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
-	if(it != _players.end())
-		return it->second->UpdatePlayerStance(NewStance, returnmodel, fromserver, mountid);
-
-	return false;
-}
-
-
-/***********************************************************
-//!  update player state
-//! return true if state has been updated
-***********************************************************/
-bool MapHandler::UpdatePlayerState(Ice::Long clientid, LbaNet::ModelState NewState,
-												ModelInfo & returnmodel )
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
-	if(it != _players.end())
-		return it->second->UpdatePlayerState(NewState, returnmodel);
-
-	return false;
-}
-
-
-/***********************************************************
-//!  update player weapon
-//! return true if state has been updated
-***********************************************************/
-bool MapHandler::UpdatePlayerWeapon(Ice::Long clientid, const std::string & weapon,
-													ModelInfo & returnmodel, long itemid)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
-	if(it != _players.end())
-		return it->second->UpdatePlayerWeapon(weapon, returnmodel, itemid);
-
-	return false;
-}
-
-
-/***********************************************************
-//!  update player outfit
-//! return true if state has been updated
-***********************************************************/
-bool MapHandler::UpdatePlayerOutfit(Ice::Long clientid, const std::string & outfit,
-													ModelInfo & returnmodel, long itemid)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
-	if(it != _players.end())
-		return it->second->UpdatePlayerOutfit(outfit, returnmodel, itemid);
-
-	return false;
-}
-
-
-/***********************************************************
-//!  save player state
-***********************************************************/
-void MapHandler::SavePlayerState(Ice::Long clientid)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
-	if(it != _players.end())
-		it->second->SavePlayerState();
-
-}
-
-
-/***********************************************************
-//!  restore player state
-***********************************************************/
-bool MapHandler::RestorePlayerState(Ice::Long clientid, ModelInfo & returnmodel)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
-	if(it != _players.end())
-		return it->second->RestorePlayerState(returnmodel);
-
-	return false;
-}
-
-
-
-/***********************************************************
-	//!  raised player from dead
-	//! return true if raised
-***********************************************************/
-bool MapHandler::RaiseFromDead(Ice::Long clientid, ModelInfo & returnmodel)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
-	if(it != _players.end())
-		return it->second->RaiseFromDead(returnmodel);
-
-	return false;
-}
-
-
-/***********************************************************
-set player ready to play
-***********************************************************/
-void MapHandler::SetReady(Ice::Long clientid)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
-	if(it != _players.end())
-		it->second->SetReady();
-}
-
-
-/***********************************************************
-ask if player ready to play
-***********************************************************/
-bool MapHandler::IsReady(Ice::Long clientid)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
-	if(it != _players.end())
-		return it->second->IsReady();
-
-	return false;
-}
-
 
 
 
@@ -2164,179 +1772,6 @@ void MapHandler::PlayerItemUsed(Ice::Long clientid, long ItemId)
 }
 
 
-/***********************************************************
-get info about an item
-***********************************************************/
-LbaNet::ItemPosInfo MapHandler::GetItemInfo(Ice::Long clientid, long ItemId)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
-	if(itplayer != _players.end())
-		return itplayer->second->GetItemInfo(ItemId);
-
-	LbaNet::ItemPosInfo res;
-	res.Info.Id = -1;
-	return res;
-}
-
-
-/***********************************************************
-get info about an item
-***********************************************************/
-LbaNet::ItemPosInfo MapHandler::GetCurrentWeaponInfo(Ice::Long clientid)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
-	if(itplayer != _players.end())
-		return itplayer->second->GetCurrentWeaponInfo();
-
-	LbaNet::ItemPosInfo res;
-	res.Info.Id = -1;
-	return res;
-}
-
-	
-/***********************************************************
-get player hit contact power
-***********************************************************/
-float MapHandler::GetPlayerHitContactPower(Ice::Long clientid, bool withweapon)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
-	if(itplayer != _players.end())
-		return itplayer->second->GetHitContactPower(withweapon);
-
-	return -1;
-}
-
-	
-/***********************************************************
-get player armor
-***********************************************************/	
-float MapHandler::GetPlayerArmor(Ice::Long clientid)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
-	if(itplayer != _players.end())
-		return itplayer->second->GetArmor();
-
-	return 0;
-}
-
-
-/***********************************************************
-item consumed
-***********************************************************/
-bool MapHandler::PlayerConsumeItem(Ice::Long clientid, long ItemId)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
-	if(itplayer != _players.end())
-		return itplayer->second->ConsumeItem(ItemId);
-
-	return false;
-}
-
-
-/***********************************************************
-remove ephemere from player inventory
-***********************************************************/
-void MapHandler::RemoveEphemere(Ice::Long clientid)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
-	if(itplayer != _players.end())
-		itplayer->second->RemoveEphemere();
-}
-
-/***********************************************************
-//! update player life
-//! return true if no life
-***********************************************************/
-bool MapHandler::DeltaUpdateLife(Ice::Long clientid, float update, int updatetype, long actorid)
-{
-	bool res = false;
-	{
-		IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-		std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
-		if(itplayer != _players.end())
-		{
-			res = itplayer->second->DeltaUpdateLife(update);
-		}
-	}
-
-	// give life update to everybody	
-	_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-							2, clientid, new ObjectLifeInfoUpdate(GetPlayerLifeInfo(clientid))));
-	if(res)// die
-		ChangePlayerState(clientid, LbaNet::StDying, 0, updatetype, actorid, true);
-
-
-
-	return res;
-}
-
-
-/***********************************************************
-//! update player mana
-//! return true if no mana
-***********************************************************/
-bool MapHandler::DeltaUpdateMana(Ice::Long clientid, float update)
-{
-	bool res = false;
-	{
-		IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-		std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
-		if(itplayer != _players.end())
-			res = itplayer->second->DeltaUpdateMana(update);
-	}
-
-	// give life update to everybody	
-	_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-							2, clientid, new ObjectLifeInfoUpdate(GetPlayerLifeInfo(clientid))));
-
-	return res;
-}
-
-/***********************************************************
-//! return number of player on map
-***********************************************************/
-int MapHandler::GetNbPlayers()
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-	return (int)_players.size();
-}
-
-
-/***********************************************************
-//! change player color
-***********************************************************/
-void MapHandler::ChangePlayerColor(long clientid, int skinidx, int eyesidx, int hairidx, int outfitidx, 
-								   int weaponidx, int mountidx, int mountidx2)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
-	if(itplayer != _players.end())
-	{
-		itplayer->second->ChangePlayerColor(skinidx, eyesidx, hairidx, outfitidx, weaponidx, mountidx, mountidx2);
-
-		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-						2, clientid, new ModelUpdate(itplayer->second->GetModelInfo(), false)));
-	}
-}
-
-
-
-
 
 /***********************************************************
 used by lua to get an actor Position
@@ -2645,20 +2080,6 @@ void MapHandler::AddOrRemoveItem(long PlayerId, long ItemId, int number, int Inf
 }
 
 
-/***********************************************************
-update player inventory
-***********************************************************/
-void MapHandler::UpdateInventory(long clientid, LbaNet::ItemList Taken, LbaNet::ItemList Put, 
-										LbaNet::ItemClientInformType informtype)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
-	if(itplayer != _players.end())
-		itplayer->second->UpdateInventory(Taken, Put, informtype);
-}
-
-
 
 
 /***********************************************************
@@ -2801,86 +2222,6 @@ void MapHandler::NpcUntargetPlayer(long NpcId, long PlayerId)
 }
 
 
-
-/***********************************************************
-start quest
-***********************************************************/
-void MapHandler::StartQuest(long PlayerId, long Questid)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(PlayerId);
-	if(itplayer != _players.end())
-	{
-		if(!itplayer->second->QuestStarted(Questid) && !itplayer->second->QuestFinished(Questid))
-		{
-			if(QuestHandler::getInstance()->StartQuest(this, Questid, PlayerId))
-				itplayer->second->StartQuest(Questid);
-		}
-	}
-}
-
-/***********************************************************
-end quest
-***********************************************************/
-void MapHandler::TriggerQuestEnd(long PlayerId, long Questid)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(PlayerId);
-	if(itplayer != _players.end())
-	{
-		if(itplayer->second->QuestStarted(Questid))
-		{
-			if(QuestHandler::getInstance()->QuestFinished(this, Questid, PlayerId))
-				itplayer->second->FinishQuest(Questid);
-		}
-	}
-}
-
-
-
-/***********************************************************
-condition
-***********************************************************/
-bool MapHandler::QuestStarted(long PlayerId, long Questid)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(PlayerId);
-	if(itplayer != _players.end())
-		return itplayer->second->QuestStarted(Questid);
-
-	return false;
-}
-
-/***********************************************************
-condition
-***********************************************************/
-bool MapHandler::QuestFinished(long PlayerId, long Questid)
-{
-	IceUtil::RecMutex::Lock sync(_mutex_proxies);
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(PlayerId);
-	if(itplayer != _players.end())
-		return itplayer->second->QuestFinished(Questid);
-
-	return false;
-}
-
-/***********************************************************
-condition
-***********************************************************/
-bool MapHandler::ChapterStarted(long PlayerId, int Chapter)
-{
-	//IceUtil::RecMutex::Lock sync(_mutex_proxies); - internal call
-
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(PlayerId);
-	if(itplayer != _players.end())
-		return (itplayer->second->GetCurrentChapter() >= Chapter);
-
-	return false;
-}
 
 
 /***********************************************************
@@ -3032,7 +2373,6 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 		LbaNet::ProjectileInfo newProj;
 
 		newProj.Comeback = true;
-		newProj.LifeTime = 10000;
 		newProj.Power = weaponinfo.Info.Effect;
 		newProj.OwnerActorType = 2;
 		newProj.OwnerActorId = PlayerId;	
@@ -3094,6 +2434,7 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 			newProj.ForceY = 0.1f;		
 			newProj.ForceYOnImpact = 0.1f;
 			launch = true;
+			newProj.LifeTime = 5000;
 		}
 
 		if(mode == "Sport")
@@ -3102,6 +2443,7 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 			newProj.ForceY = 0;		
 			newProj.ForceYOnImpact = 0.05f;
 			launch = true;
+			newProj.LifeTime = 5000;
 		}
 
 		if(mode == "Angry")
@@ -3110,6 +2452,7 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 			newProj.ForceY = 0;		
 			newProj.ForceYOnImpact = 0.05f;
 			launch = true;
+			newProj.LifeTime = 5000;
 		}
 
 		if(mode == "Discrete")
@@ -3118,6 +2461,7 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 			newProj.ForceY = 0.15f;		
 			newProj.ForceYOnImpact = 0.1f;
 			launch = true;
+			newProj.LifeTime = 8000;
 		}
 
 		bool nomana = DeltaUpdateMana(PlayerId, -5);
@@ -3306,3 +2650,704 @@ void MapHandler::DettachActor(long ActorId, long AttachedObjectId)
 	if(it != _Actors.end())
 		return it->second->DettachActor(AttachedObjectId);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***********************************************************
+start of protected data
+add player proxy
+***********************************************************/
+void MapHandler::AddPlayer(Ice::Long clientid, boost::shared_ptr<PlayerHandler> player)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+	_players[clientid] = player;
+
+}
+
+/***********************************************************
+remove player proxy
+***********************************************************/
+void MapHandler::RemovePlayer(Ice::Long clientid)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it =	_players.find(clientid);	
+	if(it != _players.end())
+		_players.erase(it);
+}
+
+
+
+/***********************************************************
+get player proxy
+***********************************************************/
+ClientProxyBasePtr MapHandler::GetProxy(Ice::Long clientid)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it =	_players.find(clientid);	
+	if(it != _players.end())
+		return it->second->GetProxy();
+
+	return NULL;
+}
+
+/***********************************************************
+get players proxies
+***********************************************************/
+std::vector<ClientProxyBasePtr> MapHandler::GetProxies()
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::vector<ClientProxyBasePtr> proxies;
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.begin();
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator end = _players.end();
+	for(; it != end; ++it)
+		proxies.push_back(it->second->GetProxy());
+
+	return proxies;
+}
+
+
+/***********************************************************
+client open container
+***********************************************************/
+void MapHandler::OpenInventoryContainer(long clientid, long itemid)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		it->second->OpenInventoryContainer(itemid);
+}
+
+
+/***********************************************************
+return inventory size
+***********************************************************/
+int MapHandler::GetInventorySize(Ice::Long clientid)
+{
+	{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->GetInventorySize();
+	}
+
+	throw(NoPlayerException());
+}
+
+/***********************************************************
+return inventory content
+***********************************************************/
+ItemsMap MapHandler::GetInventory(Ice::Long clientid)
+{
+	{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->GetInventory();
+	}
+
+	throw(NoPlayerException());
+}
+
+
+
+/***********************************************************
+return shortcuts
+***********************************************************/
+ShortcutsSeq MapHandler::GetShorcuts(Ice::Long clientid)
+{
+	{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->GetShorcuts();
+	}
+
+	throw(NoPlayerException());
+}
+
+/***********************************************************
+get player position
+***********************************************************/
+PlayerPosition MapHandler::GetPlayerPosition(Ice::Long clientid)
+{
+	{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->GetPlayerPosition();
+	}
+
+	throw(NoPlayerException());
+}
+
+
+
+
+/***********************************************************
+get player mode string
+***********************************************************/
+std::string MapHandler::GetPlayerModeString(Ice::Long clientid)
+{
+	{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->GetPlayerModeString();
+	}
+
+	throw(NoPlayerException());
+}
+
+
+
+/***********************************************************
+get player life info
+***********************************************************/
+LbaNet::LifeManaInfo MapHandler::GetPlayerLifeInfo(Ice::Long clientid)
+{
+	{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->GetLifeManaInfo();
+	}
+
+	throw(NoPlayerException());
+}
+
+
+/***********************************************************
+get player extra info
+***********************************************************/
+LbaNet::ObjectExtraInfo MapHandler::GetPlayerExtraInfo(Ice::Long clientid)
+{
+	{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->GetExtraInfo();
+	}
+
+	throw(NoPlayerException());
+}
+
+
+/***********************************************************
+get player model info
+***********************************************************/
+LbaNet::ModelInfo MapHandler::GetPlayerModelInfo(Ice::Long clientid)
+{
+	{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->GetModelInfo();
+	}
+
+	throw(NoPlayerException());
+}
+
+
+
+
+/***********************************************************
+get player physcial size
+***********************************************************/
+void MapHandler::GetPlayerPhysicalSize(Ice::Long clientid, float &sX, float &sY, float &sZ)
+{
+	{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->GetPlayerPhysicalSize(sX, sY, sZ);
+	}
+
+	throw(NoPlayerException());
+}
+
+
+/***********************************************************
+//!  get the place to respawn in case of death
+***********************************************************/
+LbaNet::PlayerPosition MapHandler::GetSpawningPlace(Ice::Long clientid)
+{
+	{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->GetSpawningPlace();
+	}
+
+	throw(NoPlayerException());
+}
+
+
+
+
+/***********************************************************
+update player position
+***********************************************************/
+bool MapHandler::UpdatePlayerPosition(Ice::Long clientid, const PlayerPosition & pos, bool teleport)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+	{
+		if(teleport)
+			it->second->Teleport(pos);
+		else
+			it->second->UpdatePositionInWorld(pos);
+		return true;
+	}
+
+	return false;
+}
+
+
+/***********************************************************
+//!  update player stance
+//! return true if state has been updated
+***********************************************************/
+bool MapHandler::UpdatePlayerStance(Ice::Long clientid, LbaNet::ModelStance NewStance,
+												ModelInfo & returnmodel, bool fromserver,
+												int mountid)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->UpdatePlayerStance(NewStance, returnmodel, fromserver, mountid);
+
+	return false;
+}
+
+
+/***********************************************************
+//!  update player state
+//! return true if state has been updated
+***********************************************************/
+bool MapHandler::UpdatePlayerState(Ice::Long clientid, LbaNet::ModelState NewState,
+												ModelInfo & returnmodel )
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->UpdatePlayerState(NewState, returnmodel);
+
+	return false;
+}
+
+
+/***********************************************************
+//!  update player weapon
+//! return true if state has been updated
+***********************************************************/
+bool MapHandler::UpdatePlayerWeapon(Ice::Long clientid, const std::string & weapon,
+													ModelInfo & returnmodel, long itemid)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->UpdatePlayerWeapon(weapon, returnmodel, itemid);
+
+	return false;
+}
+
+
+/***********************************************************
+//!  update player outfit
+//! return true if state has been updated
+***********************************************************/
+bool MapHandler::UpdatePlayerOutfit(Ice::Long clientid, const std::string & outfit,
+													ModelInfo & returnmodel, long itemid)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->UpdatePlayerOutfit(outfit, returnmodel, itemid);
+
+	return false;
+}
+
+
+/***********************************************************
+//!  save player state
+***********************************************************/
+void MapHandler::SavePlayerState(Ice::Long clientid)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		it->second->SavePlayerState();
+
+}
+
+
+/***********************************************************
+//!  restore player state
+***********************************************************/
+bool MapHandler::RestorePlayerState(Ice::Long clientid, ModelInfo & returnmodel)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->RestorePlayerState(returnmodel);
+
+	return false;
+}
+
+
+
+/***********************************************************
+	//!  raised player from dead
+	//! return true if raised
+***********************************************************/
+bool MapHandler::RaiseFromDead(Ice::Long clientid, ModelInfo & returnmodel)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->RaiseFromDead(returnmodel);
+
+	return false;
+}
+
+
+/***********************************************************
+set player ready to play
+***********************************************************/
+void MapHandler::SetReady(Ice::Long clientid)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		it->second->SetReady();
+}
+
+
+/***********************************************************
+ask if player ready to play
+***********************************************************/
+bool MapHandler::IsReady(Ice::Long clientid)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
+	if(it != _players.end())
+		return it->second->IsReady();
+
+	return false;
+}
+
+
+
+
+/***********************************************************
+get info about an item
+***********************************************************/
+LbaNet::ItemPosInfo MapHandler::GetItemInfo(Ice::Long clientid, long ItemId)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
+	if(itplayer != _players.end())
+		return itplayer->second->GetItemInfo(ItemId);
+
+	LbaNet::ItemPosInfo res;
+	res.Info.Id = -1;
+	return res;
+}
+
+
+/***********************************************************
+get info about an item
+***********************************************************/
+LbaNet::ItemPosInfo MapHandler::GetCurrentWeaponInfo(Ice::Long clientid)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
+	if(itplayer != _players.end())
+		return itplayer->second->GetCurrentWeaponInfo();
+
+	LbaNet::ItemPosInfo res;
+	res.Info.Id = -1;
+	return res;
+}
+
+	
+/***********************************************************
+get player hit contact power
+***********************************************************/
+float MapHandler::GetPlayerHitContactPower(Ice::Long clientid, bool withweapon)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
+	if(itplayer != _players.end())
+		return itplayer->second->GetHitContactPower(withweapon);
+
+	return -1;
+}
+
+	
+/***********************************************************
+get player armor
+***********************************************************/	
+float MapHandler::GetPlayerArmor(Ice::Long clientid)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
+	if(itplayer != _players.end())
+		return itplayer->second->GetArmor();
+
+	return 0;
+}
+
+
+/***********************************************************
+item consumed
+***********************************************************/
+bool MapHandler::PlayerConsumeItem(Ice::Long clientid, long ItemId)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
+	if(itplayer != _players.end())
+		return itplayer->second->ConsumeItem(ItemId);
+
+	return false;
+}
+
+
+/***********************************************************
+remove ephemere from player inventory
+***********************************************************/
+void MapHandler::RemoveEphemere(Ice::Long clientid)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
+	if(itplayer != _players.end())
+		itplayer->second->RemoveEphemere();
+}
+
+
+
+/***********************************************************
+//! update player life
+//! return true if no life
+***********************************************************/
+bool MapHandler::DeltaUpdateLife(Ice::Long clientid, float update, int updatetype, long actorid)
+{
+	bool res = false;
+	{
+		IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+		std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
+		if(itplayer != _players.end())
+		{
+			res = itplayer->second->DeltaUpdateLife(update);
+
+			// give life update to everybody	
+			_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+									2, clientid, new ObjectLifeInfoUpdate(GetPlayerLifeInfo(clientid))));
+		}
+	}
+
+
+	if(res)// die
+		ChangePlayerState(clientid, LbaNet::StDying, 0, updatetype, actorid, true);
+
+	return res;
+}
+
+
+/***********************************************************
+//! update player mana
+//! return true if no mana
+***********************************************************/
+bool MapHandler::DeltaUpdateMana(Ice::Long clientid, float update)
+{
+	bool res = false;
+	{
+		IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+		std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
+		if(itplayer != _players.end())
+		{
+			res = itplayer->second->DeltaUpdateMana(update);
+
+			// give life update to everybody	
+			_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+									2, clientid, new ObjectLifeInfoUpdate(GetPlayerLifeInfo(clientid))));
+		}
+	}
+
+
+	return res;
+}
+
+/***********************************************************
+//! return number of player on map
+***********************************************************/
+int MapHandler::GetNbPlayers()
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+	return (int)_players.size();
+}
+
+
+/***********************************************************
+update player inventory
+***********************************************************/
+void MapHandler::UpdateInventory(long clientid, LbaNet::ItemList Taken, LbaNet::ItemList Put, 
+										LbaNet::ItemClientInformType informtype)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
+	if(itplayer != _players.end())
+		itplayer->second->UpdateInventory(Taken, Put, informtype);
+}
+
+
+
+/***********************************************************
+start quest
+***********************************************************/
+void MapHandler::StartQuest(long PlayerId, long Questid)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(PlayerId);
+	if(itplayer != _players.end())
+	{
+		if(!itplayer->second->QuestStarted(Questid) && !itplayer->second->QuestFinished(Questid))
+		{
+			if(QuestHandler::getInstance()->StartQuest(this, Questid, PlayerId))
+				itplayer->second->StartQuest(Questid);
+		}
+	}
+}
+
+/***********************************************************
+end quest
+***********************************************************/
+void MapHandler::TriggerQuestEnd(long PlayerId, long Questid)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(PlayerId);
+	if(itplayer != _players.end())
+	{
+		if(itplayer->second->QuestStarted(Questid))
+		{
+			if(QuestHandler::getInstance()->QuestFinished(this, Questid, PlayerId))
+				itplayer->second->FinishQuest(Questid);
+		}
+	}
+}
+
+
+
+/***********************************************************
+condition
+***********************************************************/
+bool MapHandler::QuestStarted(long PlayerId, long Questid)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(PlayerId);
+	if(itplayer != _players.end())
+		return itplayer->second->QuestStarted(Questid);
+
+	return false;
+}
+
+/***********************************************************
+condition
+***********************************************************/
+bool MapHandler::QuestFinished(long PlayerId, long Questid)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(PlayerId);
+	if(itplayer != _players.end())
+		return itplayer->second->QuestFinished(Questid);
+
+	return false;
+}
+
+/***********************************************************
+condition
+***********************************************************/
+bool MapHandler::ChapterStarted(long PlayerId, int Chapter)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(PlayerId);
+	if(itplayer != _players.end())
+		return (itplayer->second->GetCurrentChapter() >= Chapter);
+
+	return false;
+}
+
+
+/***********************************************************
+//! change player color
+***********************************************************/
+void MapHandler::ChangePlayerColor(long clientid, int skinidx, int eyesidx, int hairidx, int outfitidx, 
+								   int weaponidx, int mountidx, int mountidx2)
+{
+	IceUtil::RecMutex::Lock sync(_mutex_proxies);
+
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
+	if(itplayer != _players.end())
+	{
+		itplayer->second->ChangePlayerColor(skinidx, eyesidx, hairidx, outfitidx, weaponidx, mountidx, mountidx2);
+
+		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+						2, clientid, new ModelUpdate(itplayer->second->GetModelInfo(), false)));
+	}
+}
+

@@ -768,18 +768,6 @@ LbaNet::TeleportsSeq SharedDataHandler::GetTpList(ScriptEnvironmentBase * owner,
 }
 
 
-/***********************************************************
-return the client lua filename for a map
-***********************************************************/
-std::string SharedDataHandler::GetClientLuaFilename(const std::string & mapname)
-{
-	Lock sync(*this);
-
-	std::string luafile = "Worlds/" + _worldinfo.Description.WorldName + "/Lua/";
-	luafile += mapname + "_client.lua";
-	return luafile;
-}
-
 
 /***********************************************************
 player switch item
@@ -867,25 +855,6 @@ void SharedDataHandler::UpdateInventory(Ice::Long clientid, LbaNet::ItemList Tak
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _currentplayers.find(clientid);
 	if(itplayer != _currentplayers.end())
 		itplayer->second->UpdateInventory(Taken, Put, informtype);
-}
-
-
-/***********************************************************
-set main player state
-***********************************************************/
-void SharedDataHandler::SetMainState(LbaNet::ModelState state)
-{
-	// no need to lock - always called within the same thread
-	_currentplayerstate = state;
-}
-
-/***********************************************************
-return main player state
-***********************************************************/
-LbaNet::ModelState SharedDataHandler::GetMainState()
-{
-	// no need to lock - always called within the same thread
-	return _currentplayerstate;
 }
 
 

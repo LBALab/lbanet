@@ -66,8 +66,13 @@ public:
 	//! set world default information
 	void SetWorldDefaultInformation(WorldInformation &worldinfo);
 
+
 	//! set database manager
 	void SetDbManager(boost::shared_ptr<DatabaseHandlerBase> dbH);
+
+	//! get database
+	boost::shared_ptr<DatabaseHandlerBase> GetDatabase();
+
 
 	//client send events to server
 	void ClientEvents(Ice::Long clientid, const EventsSeq &evts);
@@ -93,13 +98,6 @@ public:
 	ClientProxyBasePtr GetProxy(Ice::Long clientid);
 
 
-	//! get database
-	boost::shared_ptr<DatabaseHandlerBase> GetDatabase();
-
-
- 	// used when a client update name info
-	void UpdateClientExtraInfo(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo);
-
 	//! teleport player
 	void TeleportPlayer(ScriptEnvironmentBase * owner, Ice::Long clientid, long TeleportId);
 
@@ -117,8 +115,11 @@ public:
 #endif
 
 
-	//! return the client lua filename for a map
-	std::string GetClientLuaFilename(const std::string & mapname);
+
+
+
+ 	// used when a client update name info
+	void UpdateClientExtraInfo(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo);
 
 
 	//! update player shortcut
@@ -145,11 +146,11 @@ public:
 								LbaNet::ItemClientInformType informtype);
 
 
-	//! set main player state
-	void SetMainState(LbaNet::ModelState state);
 
-	//! return main player state
-	LbaNet::ModelState GetMainState();
+
+	//*************
+	//	LUA part
+	//*************
 
 
 	//! add tp
@@ -169,9 +170,6 @@ public:
 	//! send tp list to player
 	LbaNet::TeleportsSeq GetTpList(ScriptEnvironmentBase * owner, Ice::Long clientid) const;
 
-
-	//! save to lua
-	void SaveToLua();
 
 
 	//! add quest
@@ -194,6 +192,12 @@ public:
 
 	//! get spawns
 	std::map<long, boost::shared_ptr<Spawn> > GetSpawns(const std::string & mapname);
+
+
+	//! save to lua
+	void SaveToLua();
+
+
 
 
 protected:
@@ -235,7 +239,6 @@ private:
 	std::map<std::string, boost::shared_ptr<MapHandler> >				_currentmaps;
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >				_currentplayers;
 
-	LbaNet::ModelState													_currentplayerstate;
 
 	boost::shared_ptr<LuaHandlerBase>									m_luaHandler;
 
