@@ -9895,9 +9895,9 @@ void EditorHandler::SelectItem(boost::shared_ptr<InventoryItemDef> item, const Q
 			_objectmodel->AppendRow(data, parent);
 			++index;
 
-			QVector<QVariant> data;
-			data<<"Fist power"<<(double)item->GetEffect2();
-			_objectmodel->AppendRow(data, parent);
+			QVector<QVariant> dataX;
+			dataX<<"Fist power"<<(double)item->GetEffect2();
+			_objectmodel->AppendRow(dataX, parent);
 			++index;
 
 			QVector<QVariant> data2;
