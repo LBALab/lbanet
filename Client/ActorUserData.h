@@ -41,7 +41,12 @@ namespace IceUtil
 
 struct HitInfo
 {
-	int			ActorObjType;
+	//! constructor
+	HitInfo()
+		: FloorMaterial(0), HitBottom(false), ActorId(-1)
+	{}
+
+	int								ActorObjType;
 	long							ActorId;
 	LbaNet::PhysicalActorType		ActorPhysType;
 	bool							HitBottom;

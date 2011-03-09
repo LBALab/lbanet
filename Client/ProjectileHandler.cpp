@@ -181,12 +181,17 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 	bool destroy = false;
 	int touchedactortype = -1;
 	long touchedactorid = -1;
+	float posYP = 0;
 
 	//check user data for collision
 	boost::shared_ptr<ActorUserData> userdata;
 	boost::shared_ptr<PhysicalObjectHandlerBase> physobj = _obje->GetPhysicalObject();
 	if(physobj)
+	{
+		float tmp1, tmp2;
 		userdata = physobj->GetUserData();
+		physobj->GetPosition(tmp1, posYP, tmp2);
+	}
 
 	if(userdata)
 	{
@@ -218,6 +223,10 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 
 	// check if time is up
 	if((tnow-_startedball) > _projInfo.LifeTime)
+		destroy = true;
+
+	// if ball fall down too low
+	if(posYP < -5)
 		destroy = true;
 
 

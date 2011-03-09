@@ -180,6 +180,8 @@ private:
 
 	bool										_projectilelaunched;
 
+
+	LbaNet::ModelState							_currentplayerstate;
 };
 
 #endif

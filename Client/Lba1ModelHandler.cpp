@@ -103,7 +103,10 @@ int Lba1ModelHandler::Process(double time, float tdiff)
 		animationfinished = _model->AnimateModel(tdiff);
 
 	if(animationfinished)
+	{
+		RefreshModel(false);
 		return 1;	// return 1 if animation is terminated
+	}
 	else
 		return 0;	// return 0 else
 }

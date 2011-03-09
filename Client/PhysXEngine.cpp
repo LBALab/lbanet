@@ -110,6 +110,7 @@ public:
 				hinfo.ActorObjType = mstorage->GetActorObjType();
 				hinfo.ActorPhysType = mstorage->GetActorType();
 				hinfo.HitBottom = false;
+				hinfo.FloorMaterial = 0;
 
 				if(hit.shape)
 				{

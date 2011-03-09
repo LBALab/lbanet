@@ -232,8 +232,7 @@ void CharacterController::Process(double tnow, float tdiff,
 	}
 
 
-	LbaNet::ModelState _currentstatestr = SharedDataHandler::getInstance()->GetMainState();
-	if(_currentstatestr == LbaNet::StScripted)
+	if(_currentplayerstate == LbaNet::StScripted)
 	{
 		// process script
 		if(!ProcessScript(tnow, tdiff, scripthandler))
@@ -548,7 +547,7 @@ void CharacterController::Process(double tnow, float tdiff,
 			_chefkiffall = false;
 
 			//if we were falling down then player will be hurt by touching the ground
-			if(_currentstatestr == LbaNet::StFalling)
+			if(_currentplayerstate == LbaNet::StFalling)
 			{
 				float fallsize = _ycheckiffall - cY;
 
@@ -619,7 +618,8 @@ void CharacterController::Process(double tnow, float tdiff,
 
 	// check if state should be changed by mode
 	LbaNet::ModelState newstate;
-	if(!_chefkiffall && !changedstate && _currentmode && _currentmode->ChangeState(_currentstatestr, _pressedkeys, newstate))
+	if(!_chefkiffall && !changedstate && _currentmode && 
+		_currentmode->ChangeState(_currentplayerstate, _pressedkeys, newstate))
 		UpdateModeAndState(_currentmodestr, newstate, tnow);
 
 
@@ -880,13 +880,13 @@ void CharacterController::UpdateModeAndState(const std::string &newmode,
 	}
 
 	// only update if different
-	if(newstate != SharedDataHandler::getInstance()->GetMainState())
+	if(newstate != _currentplayerstate)
 	{
 		// restore display if older state was scripted
-		if(SharedDataHandler::getInstance()->GetMainState() == LbaNet::StScripted)
+		if(_currentplayerstate == LbaNet::StScripted)
 			_character->GetDisplayObject()->RestoreState();
 
-		SharedDataHandler::getInstance()->SetMainState(newstate);
+		_currentplayerstate = newstate;
 
 		switch(newstate)
 		{
@@ -1146,8 +1146,7 @@ update signal
 ***********************************************************/
 void CharacterController::SendSignal(int Signalnumber)
 {
-	LbaNet::ModelState _currentstatestr = SharedDataHandler::getInstance()->GetMainState();
-	if(_currentstatestr == LbaNet::StScripted) // only if in scripted state
+	if(_currentplayerstate == LbaNet::StScripted) // only if in scripted state
 	{
 		_character->ClearSignals();
 		_character->AddSignal(Signalnumber);
