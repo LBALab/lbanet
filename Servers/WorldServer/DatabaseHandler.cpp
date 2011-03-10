@@ -88,15 +88,29 @@ LbaNet::SavedWorldInfo DatabaseHandler::ChangeWorld(const std::string& NewWorldN
 
 
 	Lock sync(*this);
-	if(!_mysqlH || !_mysqlH->connected())
+
+	bool connected = true;
+	for(int i=0; i<5; ++i)
 	{
-		Connect();
-		if(!_mysqlH->connected())
+		if(!_mysqlH || !_mysqlH->connected())
 		{
-			Clear();
-			throw std::exception("Can not connect to the database");
+			Connect();
+			if(!_mysqlH->connected())
+			{
+				Clear();
+				connected = false;	
+				Sleep(300);
+			}
 		}
+
+		if(connected)
+			break;
 	}
+
+	if(!connected)
+		throw std::exception("Can not connect to the database");
+
+
 
 	mysqlpp::Query query(_mysqlH, false);
 	query << "SELECT uw.id, uw.lastmap, uw.lastposx, uw.lastposy, uw.lastposz, uw.lastrotation, uw.InventorySize, uw.Shortcuts, uw.LifePoint, uw.ManaPoint, uw.MaxLife, uw.MaxMana, w.id, uw.ModelName, uw.ModelOutfit, uw.ModelWeapon, uw.ModelMode, uw.RendererType, uw.EquipedWeapon, uw.EquipedOutfit, uw.EquipedMount, uw.SkinColor, uw.EyesColor, uw.HairColor";

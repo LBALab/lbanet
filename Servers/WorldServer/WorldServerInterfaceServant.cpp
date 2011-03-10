@@ -25,6 +25,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "WorldServerInterfaceServant.h"
 #include "SharedDataHandler.h"
+#include "LogHandler.h"
+
 
 /***********************************************************
 client send events to server
