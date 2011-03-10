@@ -981,14 +981,16 @@ void MapHandler::RaiseFromDeadEvent(Ice::Long id)
 			moveinfo.CurrentSpeedY = 0;
 			moveinfo.CurrentSpeedZ = 0;
 			moveinfo.CurrentSpeedRotation = 0;
-			_tosendevts.push_back(new LbaNet::PlayerMovedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-																id, moveinfo, true));
+			moveinfo.AnimationIdx = "Stand";
 
 			_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 						2, id, new ModelUpdate(returnmodel, false)));
 
 			_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 									2, id, new ObjectLifeInfoUpdate(GetPlayerLifeInfo(id))));
+
+			_tosendevts.push_back(new LbaNet::PlayerMovedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+																id, moveinfo, true));
 		}
 	}
 }
@@ -2311,7 +2313,7 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 		newProj.ForceYOnImpact = 0;
 		bool launch = false;
 
-		if(mode == "Normal")
+		if(mode == "Normal" || mode == "Protopack")
 		{
 			newProj.ForceX = 0.15f;
 			newProj.ForceY = 0.1f;		
@@ -2470,9 +2472,9 @@ void MapHandler::PlayerHitPlayer(long hitterId, long hittedid, float hitpower)
 		if(!DeltaUpdateLife(hittedid, hitlife, 4, hitterId))
 		{
 			//only play hurt if not dead
-			if(hitlife >= 20)
+			if(hitlife < -19.9)
 				ChangePlayerState(hittedid, LbaNet::StBigHurt, 0, 1, -1, true);
-			else if(hitlife >= 10)
+			else if(hitlife < -9.9)
 				ChangePlayerState(hittedid, LbaNet::StMediumHurt, 0, 1, -1, true);
 			else
 				ChangePlayerState(hittedid, LbaNet::StSmallHurt, 0, 1, -1, true);

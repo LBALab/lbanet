@@ -117,6 +117,8 @@ void DoorHandler::RefreshScript()
 		// wait for opening signal
 			AddScriptPart(ActorScriptPartBasePtr(new ActorScriptPart_WaitForSignal(1)));
 
+			float doorrY = m_actorinfo.PhysicDesc.Pos.Rotation;
+
 			//translate
 			float addX=0, addY=0, addZ = 0;
 			switch(_odirection)
@@ -139,7 +141,7 @@ void DoorHandler::RefreshScript()
 				break;
 
 			}
-			AddScriptPart(ActorScriptPartBasePtr(new ActorScriptPart_RotateFromPoint(_openingvalue,
+			AddScriptPart(ActorScriptPartBasePtr(new ActorScriptPart_RotateFromPoint(doorrY+_openingvalue,
 													m_actorinfo.PhysicDesc.Pos.X+addX, 
 													m_actorinfo.PhysicDesc.Pos.Y+addY, 
 													m_actorinfo.PhysicDesc.Pos.Z+addZ, 
@@ -149,7 +151,7 @@ void DoorHandler::RefreshScript()
 			AddScriptPart(ActorScriptPartBasePtr(new ActorScriptPart_WaitForSignal(2)));
 
 			//translate back
-			AddScriptPart(ActorScriptPartBasePtr(new ActorScriptPart_RotateFromPoint(-_openingvalue,
+			AddScriptPart(ActorScriptPartBasePtr(new ActorScriptPart_RotateFromPoint(doorrY,
 													m_actorinfo.PhysicDesc.Pos.X+addX,  
 													m_actorinfo.PhysicDesc.Pos.Y+addY,  
 													m_actorinfo.PhysicDesc.Pos.Z+addZ,  
