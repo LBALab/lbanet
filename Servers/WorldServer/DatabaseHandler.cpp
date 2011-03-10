@@ -29,6 +29,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <IceUtil/Time.h>
 
+#ifndef WIN32
+#include <unistd.h>
+#endif
 
 /***********************************************************
 constructor
@@ -99,7 +102,12 @@ LbaNet::SavedWorldInfo DatabaseHandler::ChangeWorld(const std::string& NewWorldN
 			{
 				Clear();
 				connected = false;	
-				Sleep(300);
+
+				#ifdef WIN32
+					Sleep(300);
+				#else
+					sleep(1);
+				#endif
 			}
 		}
 
