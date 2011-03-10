@@ -626,6 +626,8 @@ void CharacterController::Process(double tnow, float tdiff,
 	// process weapon
 	if(_pressedkeys._keyweapon)
 		WeaponUsed();
+	else
+		StopUseWeapon();
 
 
 	// update server if needed
@@ -1198,7 +1200,22 @@ void CharacterController::WeaponUsed()
 {
 	if(_currentstate && _currentstate->CanUseWeapon() && !_projectilelaunched)
 	{
-		UpdateState(StUseWeapon);	
+		if(_currentmode && _currentmode->CanUseWeapon())
+		{
+			UpdateState(StUseWeapon);	
+		}
+	}
+}
+
+
+/***********************************************************
+stop using weapon
+***********************************************************/
+void CharacterController::StopUseWeapon()
+{
+	if(_currentplayerstate == LbaNet::StUseWeapon)
+	{
+		UpdateState(LbaNet::StNormal);	
 	}
 }
 

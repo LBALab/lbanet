@@ -508,6 +508,11 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 		ConfigurationManager::GetInstance()->GetBool("Display.Screen.Fullscreen", _isFullscreen);
 
 		ConfigurationManager::GetInstance()->GetInt("Display.ShadowType", _ShadowType);
+
+
+		#ifdef _USE_QT_EDITOR_
+		_isFullscreen = false;
+		#endif
 	}
 
 

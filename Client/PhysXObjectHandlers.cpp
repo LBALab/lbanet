@@ -299,20 +299,22 @@ void PhysXActorsHandler::Update(LbaNet::PhysicObjectUpdateBasePtr update)
 			dynamic_cast<LbaNet::SizeUpdate *>(update.get());
 
 		if(_Actor && _desc)
-		{
-			float X, Y, Z;
-			GetPosition(X, Y, Z);
-
-			#ifdef _DEBUG
-			LogHandler::getInstance()->LogToFile("Rebuilding PhysXActor.");
-			#endif
-
-			PhysXEngine::getInstance()->DestroyActor(_Actor);
-			
+		{		
 			if(_desc)
 			{
-				_desc->ResetSize(castedptr->SizeX, castedptr->SizeY, castedptr->SizeZ);
-				_Actor = _desc->RebuildActor(X, Y, Z, _UserData);
+				if(_desc->ResetSize(castedptr->SizeX, castedptr->SizeY, castedptr->SizeZ))
+				{
+					float X, Y, Z;
+					GetPosition(X, Y, Z);
+
+					#ifdef _DEBUG
+					LogHandler::getInstance()->LogToFile("Rebuilding PhysXActor.");
+					#endif
+
+					PhysXEngine::getInstance()->DestroyActor(_Actor);
+
+					_Actor = _desc->RebuildActor(X, Y, Z, _UserData);
+				}
 			}
 
 			_sizeY = castedptr->SizeY;
@@ -548,24 +550,20 @@ void PhysXControllerHandler::Update(LbaNet::PhysicObjectUpdateBasePtr update)
 
 		if(_Controller && _desc)
 		{
-			float X, Y, Z;
-			GetPosition(X, Y, Z);
-
-			#ifdef _DEBUG
-			LogHandler::getInstance()->LogToFile("Rebuilding PhysXController.");
-			#endif
-
-			PhysXEngine::getInstance()->DestroyCharacter(_Controller);
-
-			
 			if(_desc)
 			{
-				_desc->ResetSize(castedptr->SizeX, castedptr->SizeY, castedptr->SizeZ);
+				if(_desc->ResetSize(castedptr->SizeX, castedptr->SizeY, castedptr->SizeZ))
+				{
+					float X, Y, Z;
+					GetPosition(X, Y, Z);
 
-				float offset = 0.1f;
-				if(castedptr->SizeY > _sizeY)
-					offset = 0.5f;
-				_Controller = _desc->RebuildController(X, Y+offset, Z, _UserData);
+					#ifdef _DEBUG
+					LogHandler::getInstance()->LogToFile("Rebuilding PhysXController.");
+					#endif
+
+					PhysXEngine::getInstance()->DestroyCharacter(_Controller);
+					_Controller = _desc->RebuildController(X, Y+0.5f, Z, _UserData);
+				}
 			}
 
 			_sizeY = castedptr->SizeY;
@@ -625,11 +623,19 @@ PhysicalDescriptionBox::~PhysicalDescriptionBox()
 /***********************************************************
 change size
 ***********************************************************/
-void PhysicalDescriptionBox::ResetSize(float sX, float sY, float sZ)
+bool PhysicalDescriptionBox::ResetSize(float sX, float sY, float sZ)
 {
-	sizeX = sX;
-	sizeY = sY;
-	sizeZ = sZ;
+	if(	(fabs(sizeX - sX) > 0.0001f) || 
+		(fabs(sizeY - sY) > 0.0001f) || 
+		(fabs(sizeZ - sZ) > 0.0001f) )
+	{
+		sizeX = sX;
+		sizeY = sY;
+		sizeZ = sZ;
+		return true;
+	}
+
+	return false;
 }
 
 
@@ -708,11 +714,22 @@ PhysicalDescriptionCapsule::~PhysicalDescriptionCapsule()
 /***********************************************************
 change size
 ***********************************************************/
-void PhysicalDescriptionCapsule::ResetSize(float sX, float sY, float sZ)
+bool PhysicalDescriptionCapsule::ResetSize(float sX, float sY, float sZ)
 {
-	sizeY = sY;
-	radius = sX/2;
-	height = sY-sX;
+	float newrad = sX/2;
+	float newheight = sY-sX;
+
+	if(	(fabs(sizeY - sY) > 0.0001f) || 
+		(fabs(radius - newrad) > 0.0001f) || 
+		(fabs(height - newheight) > 0.0001f) )
+	{
+		sizeY = sY;
+		radius = newrad;
+		height = newheight;
+		return true;
+	}
+
+	return false;
 }
 
 /***********************************************************
@@ -793,10 +810,19 @@ PhysicalDescriptionSphere::~PhysicalDescriptionSphere()
 /***********************************************************
 change size
 ***********************************************************/
-void PhysicalDescriptionSphere::ResetSize(float sX, float sY, float sZ)
+bool PhysicalDescriptionSphere::ResetSize(float sX, float sY, float sZ)
 {
-	sizeY = sY;
-	radius = sY/2;
+	float newrad = sY/2;
+
+	if(	(fabs(sizeY - sY) > 0.0001f) || 
+		(fabs(radius - newrad) > 0.0001f)  )
+	{
+		sizeY = sY;
+		radius = newrad;
+		return true;
+	}
+
+	return false;
 }
 
 /***********************************************************

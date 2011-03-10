@@ -159,10 +159,15 @@ protected:
 	//! weapon used
 	void WeaponUsed();
 
+	//! stop using weapon
+	void StopUseWeapon();
+
 private:
 	boost::shared_ptr<CharacterModeBase>		_currentmode;
 	boost::shared_ptr<CharacterStateBase>		_currentstate;
 	std::string									_currentmodestr;
+	LbaNet::ModelState							_currentplayerstate;
+
 
 	bool										_isGhost;
 	bool										_forcedghost;
@@ -181,7 +186,7 @@ private:
 	bool										_projectilelaunched;
 
 
-	LbaNet::ModelState							_currentplayerstate;
+
 };
 
 #endif
