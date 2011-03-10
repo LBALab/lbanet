@@ -33,6 +33,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <unistd.h>
 #endif
 
+
+
+
+
 /***********************************************************
 constructor
 ***********************************************************/
@@ -116,7 +120,7 @@ LbaNet::SavedWorldInfo DatabaseHandler::ChangeWorld(const std::string& NewWorldN
 	}
 
 	if(!connected)
-		throw std::exception("Can not connect to the database");
+		throw dbconnectexception;
 
 
 

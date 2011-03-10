@@ -36,6 +36,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "DatabaseHandlerBase.h"
 
+//! exception
+class dbconnectexception : public std::exception
+{
+	virtual const char* what() const throw()
+	{
+		return "Can not connect to the database";
+	}
+};
+
+
 
 /***********************************************************************
  * Module:  DatabaseHandler.h
