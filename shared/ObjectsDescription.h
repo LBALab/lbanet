@@ -422,7 +422,7 @@ public:
 										boost::shared_ptr<PhysicalDescriptionBase> self) const = 0;
 
 	//! change size
-	virtual void ResetSize(float sX, float sY, float sZ) {}
+	virtual bool ResetSize(float sX, float sY, float sZ) {return false;}
 	virtual NxActor* RebuildActor(float X, float Y, float Z, boost::shared_ptr<ActorUserData> udata){ return NULL;}
 	virtual NxController* RebuildController(float X, float Y, float Z, boost::shared_ptr<ActorUserData> udata){ return NULL;}
 
@@ -515,7 +515,7 @@ public:
 										boost::shared_ptr<PhysicalDescriptionBase> self) const;
 
 	//! change size
-	virtual void ResetSize(float sX, float sY, float sZ);
+	virtual bool ResetSize(float sX, float sY, float sZ);
 
 	virtual NxActor* RebuildActor(float X, float Y, float Z, boost::shared_ptr<ActorUserData> udata);
 	virtual NxController* RebuildController(float X, float Y, float Z, boost::shared_ptr<ActorUserData> udata);
@@ -551,7 +551,7 @@ public:
 										boost::shared_ptr<PhysicalDescriptionBase> self) const;
 
 	//! change size
-	virtual void ResetSize(float sX, float sY, float sZ);
+	virtual bool ResetSize(float sX, float sY, float sZ);
 
 	virtual NxActor* RebuildActor(float X, float Y, float Z, boost::shared_ptr<ActorUserData> udata);
 	virtual NxController* RebuildController(float X, float Y, float Z, boost::shared_ptr<ActorUserData> udata);
@@ -592,7 +592,7 @@ public:
 										boost::shared_ptr<PhysicalDescriptionBase> self) const;
 
 	//! change size
-	virtual void ResetSize(float sX, float sY, float sZ);
+	virtual bool ResetSize(float sX, float sY, float sZ);
 
 	virtual NxActor* RebuildActor(float X, float Y, float Z, boost::shared_ptr<ActorUserData> udata);
 	virtual NxController* RebuildController(float X, float Y, float Z, boost::shared_ptr<ActorUserData> udata);

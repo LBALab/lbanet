@@ -339,15 +339,21 @@ bool WaitForSignalScriptPart::Process(double tnow, float tdiff, boost::shared_pt
 /***********************************************************
 constructor
 ***********************************************************/
-RotateFromPointScriptPart::RotateFromPointScriptPart(int scriptid, bool asynchronus, float Angle, 
+RotateFromPointScriptPart::RotateFromPointScriptPart(int scriptid, bool asynchronus, float ArrivalAngle, 
 														float PosX, float PosY, float PosZ,
 														float Speed, boost::shared_ptr<DynamicObject> actor)
-: ScriptPartBase(scriptid, asynchronus), _PosX(PosX), _PosZ(PosZ), _Speed(Speed), _Angle(Angle),
-	_doneAngle(0)
+: ScriptPartBase(scriptid, asynchronus), _PosX(PosX), _PosZ(PosZ), _Speed(Speed), _doneAngle(0)
 		
 {
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo = actor->GetPhysicalObject();
 	physo->GetPosition(_startPosX, _startPosY, _startPosZ);
+
+	float currY = physo->GetRotationYAxis();
+	_Angle = ArrivalAngle - currY;
+	while(_Angle < -180)
+		_Angle += 360;
+	while(_Angle > 180)
+		_Angle -= 360;
 }
 
 

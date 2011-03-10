@@ -240,7 +240,7 @@ class RotateFromPointScriptPart : public ScriptPartBase
 public:
 
 	//! constructor
-	RotateFromPointScriptPart(int scriptid, bool asynchronus, float Angle, float PosX, float PosY, float PosZ,
+	RotateFromPointScriptPart(int scriptid, bool asynchronus, float ArrivalAngle, float PosX, float PosY, float PosZ,
 								float Speed, boost::shared_ptr<DynamicObject> actor);
 
 	//! destructor

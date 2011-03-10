@@ -106,6 +106,8 @@ public:
 	//! check if can change weapon
 	virtual bool CanChangeWeapon(){return false;}
 
+	//! check if can change weapon
+	virtual bool CanUseWeapon(){return false;}
 };
 
 //*************************************************************************************************
@@ -123,6 +125,9 @@ public:
 
 	//! check if can change weapon
 	virtual bool CanChangeWeapon(){return true;}
+
+	//! check if can change weapon
+	virtual bool CanUseWeapon(){return true;}
 };
 
 //*************************************************************************************************
@@ -161,6 +166,8 @@ public:
 	//! check if can change weapon
 	virtual bool CanChangeWeapon(){return true;}
 
+	//! check if can change weapon
+	virtual bool CanUseWeapon(){return true;}
 };
 
 
@@ -205,6 +212,9 @@ public:
 
 	//! check if can change weapon
 	virtual bool CanChangeWeapon(){return true;}
+
+	//! check if can change weapon
+	virtual bool CanUseWeapon(){return true;}
 };
 
 
@@ -241,6 +251,9 @@ public:
 
 	//! check if can change weapon
 	virtual bool CanChangeWeapon(){return true;}
+
+	//! check if can change weapon
+	virtual bool CanUseWeapon(){return true;}
 };
 
 
@@ -269,6 +282,9 @@ public:
 
 	//! tell the mode that we are changing state
 	virtual void CharacterChangedState();
+
+	//! check if can change weapon
+	virtual bool CanUseWeapon(){return true;}
 
 private:
 	bool	_moving;
