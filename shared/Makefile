@@ -17,12 +17,12 @@ libshared.a: $(OBJ)
 
 .cpp.o:
 	@echo "\n         **********creation des .o************\n"
-	$(CC) -O2 $(INCDIR) -c $<
+	$(CC) -O2 -D_LBANET_SERVER_SIDE_ $(INCDIR) -c $<
 	@echo "\n"
 
 depend: 
 	@echo "\n         **********creation des dependances************\n"	
-	@$(CC) $(INCDIR) -MM *.cpp  > dep
+	@$(CC) $(INCDIR) -D_LBANET_SERVER_SIDE_ -MM *.cpp  > dep
 
 
 
