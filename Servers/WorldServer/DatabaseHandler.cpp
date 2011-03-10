@@ -120,7 +120,7 @@ LbaNet::SavedWorldInfo DatabaseHandler::ChangeWorld(const std::string& NewWorldN
 	}
 
 	if(!connected)
-		throw dbconnectexception;
+		throw dbconnectexception();
 
 
 
