@@ -94,7 +94,7 @@ LbaNet::SavedWorldInfo DatabaseHandler::ChangeWorld(const std::string& NewWorldN
 		if(!_mysqlH->connected())
 		{
 			Clear();
-			return resP;
+			throw std::exception("Can not connect to the database");
 		}
 	}
 

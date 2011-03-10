@@ -41,7 +41,14 @@ void WorldServerInterfaceServant::RegisterClient(Ice::Long clientid, const Clien
 													const LbaNet::ObjectExtraInfo& extrainfo,
 													const Ice::Current&)
 {
-	SharedDataHandler::getInstance()->RegisterClient(clientid, extrainfo, proxy);
+	try
+	{
+		SharedDataHandler::getInstance()->RegisterClient(clientid, extrainfo, proxy);
+	}
+	catch(std::exception &ex)
+	{
+		LogHandler::getInstance()->LogToFile(std::string("Problem registering the client: ") + ex.what(), 0);	
+	}
 }
 
 

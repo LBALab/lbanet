@@ -297,7 +297,20 @@ void SessionServant::ChangeWorld(const std::string& WorldName, const Ice::Curren
 	}
     catch(const IceUtil::Exception& ex)
     {
-		std::cout<<"SessionServant - Exception during ChangeWorldt: "<< ex.what()<<std::endl;
+		std::cout<<"SessionServant - Exception during ChangeWorld for client "<<_userNumber<<": "<< ex.what()<<std::endl;
+
+		try
+		{
+			// inform client world is not reachable
+			EventsSeq seq;
+			GuiUpdatesSeq upds;
+			upds.push_back(new SystemMessageUpdate("World server unreachable", "Problem connecting to the world server:"+ex.what()));
+			seq.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+											"main", upds));
+
+			_client->ServerEvents(seq);
+		}
+		catch(...){}
     }
     catch(...)
     {
