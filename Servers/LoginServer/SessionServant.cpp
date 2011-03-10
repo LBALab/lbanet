@@ -35,7 +35,7 @@ constructor
 ***********************************************************/
 SessionServant::SessionServant(const std::string& userId, const RoomManagerPrx& manager,
 					const ConnectedTrackerPrx& ctracker, std::string version)
-: _userName(userId), _manager(manager), _ctracker(ctracker), 
+: _userName(userId), _manager(manager), _ctracker(ctracker),
 	_userNumber(-1), _version(version), _currColor("FFFFFFFF"), _currentWorld(NULL)
 {
 	try
@@ -151,10 +151,10 @@ void SessionServant::QuitCurrentWorld()
 
 
 
-	
+
 /***********************************************************
 client send interface to server
-***********************************************************/ 	
+***********************************************************/
 void SessionServant::SetClientInterface(const ClientInterfacePrx& winterface, const Ice::Current&)
 {
     Lock sync(*this);
@@ -189,13 +189,13 @@ void SessionServant::SetClientInterface(const ClientInterfacePrx& winterface, co
 			}
 		}
 		params.push_back(new PlayerOnlineListGuiParameter(onlineps));
-		seq.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+		seq.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 										"CommunityBox", params, false, false));
 
-		seq.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+		seq.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 										"ChatBox", upds));
 
-		
+
 
 		_client->ServerEvents(seq);
 	}
@@ -209,10 +209,10 @@ void SessionServant::SetClientInterface(const ClientInterfacePrx& winterface, co
     }
 
 }
- 
+
 /***********************************************************
 client send events to server
-***********************************************************/	
+***********************************************************/
 void SessionServant::ClientEvents(const EventsSeq& evts, const Ice::Current&)
 {
     Lock sync(*this);
@@ -244,7 +244,7 @@ void SessionServant::ClientEvents(const EventsSeq& evts, const Ice::Current&)
 		EventsSeq seq;
 		GuiUpdatesSeq upds;
 		upds.push_back(new SystemMessageUpdate("World connection lost", "Connection has been lost with world server. Trying changing world to reconnect."));
-		seq.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+		seq.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 										"main", upds));
 
 		_client->ServerEvents(seq);
@@ -258,11 +258,11 @@ void SessionServant::ClientEvents(const EventsSeq& evts, const Ice::Current&)
 		std::cout<<"SessionServant - Unknown exception during inform client"<<std::endl;
     }
 }
- 	
- 
+
+
 /***********************************************************
 client ask server to change world
-***********************************************************/	
+***********************************************************/
 void SessionServant::ChangeWorld(const std::string& WorldName, const Ice::Current&)
 {
     Lock sync(*this);
@@ -289,7 +289,7 @@ void SessionServant::ChangeWorld(const std::string& WorldName, const Ice::Curren
 			EventsSeq seq;
 			GuiUpdatesSeq upds;
 			upds.push_back(new SystemMessageUpdate("World server unreachable", "The server for the chosen world is not reachable. Try to conenct to another world."));
-			seq.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+			seq.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 											"main", upds));
 
 			_client->ServerEvents(seq);
@@ -304,8 +304,8 @@ void SessionServant::ChangeWorld(const std::string& WorldName, const Ice::Curren
 			// inform client world is not reachable
 			EventsSeq seq;
 			GuiUpdatesSeq upds;
-			upds.push_back(new SystemMessageUpdate("World server unreachable", "Problem connecting to the world server:"+ex.what()));
-			seq.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+			upds.push_back(new SystemMessageUpdate("World server unreachable", std::string("Problem connecting to the world server:")+ex.what()));
+			seq.push_back(new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 											"main", upds));
 
 			_client->ServerEvents(seq);
@@ -446,7 +446,7 @@ void SessionServant::ChangeNameColor(const std::string& Color, const Ice::Curren
 		cGss << std::hex << Color.substr(4, 2);
 		cGss >> cG;
 
-		int cB = 0;   
+		int cB = 0;
 		std::stringstream cBss;
 		cBss << std::hex << Color.substr(6, 2);
 		cBss >> cB;
