@@ -220,7 +220,7 @@ function InitMap(environment)
 	Actor_5H:AddScriptPart(Actor_5_Sc1)
 	Actor_5_Sc2 = ASPWaitForSignal(2)
 	Actor_5H:AddScriptPart(Actor_5_Sc2)
-	Actor_5_Sc3 = ASPRotateFromPoint(90,50.5,1,27.1,0.1)
+	Actor_5_Sc3 = ASPRotateFromPoint(0,50.5,1,27.1,0.1)
 	Actor_5H:AddScriptPart(Actor_5_Sc3)
 	environment:AddActorObject(Actor_5H)
 
