@@ -320,15 +320,19 @@ function InitMap(environment)
 	Actor_14.ExtraInfo.NameColorB = 0
 	Actor_14.ExtraInfo.Display = false
 	Actor_14.LifeInfo.Display = false
-	Actor_14H = DoorHandler(Actor_14,1,0,90,0.1,false)
+	Actor_14H = DoorHandler(Actor_14,1,0,-90,0.1,false)
 	Actor_14_Sc0 = ASPWaitForSignal(1)
 	Actor_14H:AddScriptPart(Actor_14_Sc0)
-	Actor_14_Sc1 = ASPRotateFromPoint(90,36,2,13.25,0.1)
+	Actor_14_Sc1 = ASPRotateFromPoint(-90,36,2,13.25,0.1)
 	Actor_14H:AddScriptPart(Actor_14_Sc1)
 	Actor_14_Sc2 = ASPWaitForSignal(2)
 	Actor_14H:AddScriptPart(Actor_14_Sc2)
 	Actor_14_Sc3 = ASPRotateFromPoint(0,36,2,13.25,0.1)
 	Actor_14H:AddScriptPart(Actor_14_Sc3)
+	Actor_14_Sc4 = ASPTeleportTo(36,2,14.5)
+	Actor_14H:AddScriptPart(Actor_14_Sc4)
+	Actor_14_Sc5 = ASPSetRotation(0)
+	Actor_14H:AddScriptPart(Actor_14_Sc5)
 	environment:AddActorObject(Actor_14H)
 
 	Actor_15 = ActorObjectInfo(15)
@@ -372,15 +376,19 @@ function InitMap(environment)
 	Actor_15.ExtraInfo.NameColorB = 0
 	Actor_15.ExtraInfo.Display = false
 	Actor_15.LifeInfo.Display = false
-	Actor_15H = DoorHandler(Actor_15,1,1,-90,0.1,false)
+	Actor_15H = DoorHandler(Actor_15,1,1,90,0.1,false)
 	Actor_15_Sc0 = ASPWaitForSignal(1)
 	Actor_15H:AddScriptPart(Actor_15_Sc0)
-	Actor_15_Sc1 = ASPRotateFromPoint(-90,36,2,18.25,0.1)
+	Actor_15_Sc1 = ASPRotateFromPoint(90,36,2,18.25,0.1)
 	Actor_15H:AddScriptPart(Actor_15_Sc1)
 	Actor_15_Sc2 = ASPWaitForSignal(2)
 	Actor_15H:AddScriptPart(Actor_15_Sc2)
 	Actor_15_Sc3 = ASPRotateFromPoint(0,36,2,18.25,0.1)
 	Actor_15H:AddScriptPart(Actor_15_Sc3)
+	Actor_15_Sc4 = ASPTeleportTo(36,2,17)
+	Actor_15H:AddScriptPart(Actor_15_Sc4)
+	Actor_15_Sc5 = ASPSetRotation(0)
+	Actor_15H:AddScriptPart(Actor_15_Sc5)
 	environment:AddActorObject(Actor_15H)
 
 	Actor_16 = ActorObjectInfo(16)
