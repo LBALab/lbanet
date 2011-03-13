@@ -5,7 +5,7 @@
 #include "DynamicObject.h"
 #include "SynchronizedTimeHandler.h"
 #include <math.h>
-
+#include "LogHandler.h"
 
 #define	_LBA1_MODEL_ANIMATION_SPEED_	1.8f
 
@@ -1205,6 +1205,8 @@ start script
 ***********************************************************/
 void ActorHandler::StartScript()
 {
+	LogHandler::getInstance()->LogToFile("Actor Starting script", GetId());
+
 	// create lua script
 	std::stringstream fctname;
 	fctname<<"Actor"<<m_actorinfo.ObjectId<<"Script";

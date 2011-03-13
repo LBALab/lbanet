@@ -50,6 +50,7 @@ LuaThreadHandler::LuaThreadHandler(lua_State * mainstate, const std::string & Fu
 			{
 				luabind::resume_function<void>(m_LuaThreadState, m_FunctionName.c_str(), m_refKey, env);
 				m_started = true;
+				LogHandler::getInstance()->LogToFile("Script started: "+m_FunctionName, m_refKey);
 			}
 			else
 			{

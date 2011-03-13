@@ -605,7 +605,7 @@ void MapHandler::PlayerEntered(Ice::Long id)
 
 		float sizeX, sizeY, sizeZ;
 		GetPlayerPhysicalSize(id, sizeX, sizeY, sizeZ);
-		PhysicDesc.SizeX = sizeX/2;
+		PhysicDesc.SizeX = sizeX;
 		PhysicDesc.SizeY = sizeY;
 		
 		_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
@@ -702,6 +702,7 @@ void MapHandler::PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMove
 
 
 	//do an sweep test and check for triggers
+	try
 	{
 		PlayerPosition lastpos = GetPlayerPosition(id);
 		lastpos.Y += 0.2f; // small offset to make sure object is inside zone and not online a bit lower
@@ -710,42 +711,53 @@ void MapHandler::PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMove
 
 		// inform triggers
 		{
-		std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
-		std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
-		for(; ittr != endtr; ++ittr)
-			ittr->second->ObjectMoved(this, 2, id, lastpos, currPos);
+			std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
+			std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
+			for(; ittr != endtr; ++ittr)
+			{
+				ittr->second->ObjectMoved(this, 2, id, lastpos, currPos);
+
+				//check if player left map
+				if(_players.find((long)id) == _players.end())
+					throw 1;
+			}
 		}
 
 
 		// inform npcs
 		{
-		std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ittr = _Actors.begin();
-		std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endtr = _Actors.end();
-		for(; ittr != endtr; ++ittr)
-			ittr->second->PlayerMoved(id, lastpos, currPos);
+			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ittr = _Actors.begin();
+			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endtr = _Actors.end();
+			for(; ittr != endtr; ++ittr)
+				ittr->second->PlayerMoved(id, lastpos, currPos);
 		}
-	}
 
+		// update player position
+		PlayerPosition pos(info.CurrentPos);
+		pos.MapName = _mapinfo.Name;
 
-	// update player position
-	PlayerPosition pos(info.CurrentPos);
-	pos.MapName = _mapinfo.Name;
-
-	// check if position could be updated
-	if(UpdatePlayerPosition(id, pos))
-	{
-		if(info.ForcedChange)
+		// check if position could be updated
+		if(UpdatePlayerPosition(id, pos))
 		{
-			// inform all of player move
-			_tosendevts.push_back(new LbaNet::PlayerMovedEvent(time, id, info, false));
-		}
+			if(info.ForcedChange)
+			{
+				// inform all of player move
+				_tosendevts.push_back(new LbaNet::PlayerMovedEvent(time, id, info, false));
+			}
 
-		// inform guis that player moved
-		std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator itg = _guihandlers.begin();
-		std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator endg = _guihandlers.end();
-		for(; itg != endg; ++itg)
-			itg->second->PlayerMoved(id, info.CurrentPos);
+			// inform guis that player moved
+			std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator itg = _guihandlers.begin();
+			std::map<std::string, boost::shared_ptr<ServerGUIBase> >::iterator endg = _guihandlers.end();
+			for(; itg != endg; ++itg)
+				itg->second->PlayerMoved(id, info.CurrentPos);
+		}
 	}
+	catch(int)
+	{
+		// catch exception when player leave map with trigger
+	}
+
+
 }
 
 
@@ -833,7 +845,7 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 
 			float sizeX, sizeY, sizeZ;
 			itact->second->GetPlayerPhysicalSize(sizeX, sizeY, sizeZ);
-			PhysicDesc.SizeX = sizeX/2;
+			PhysicDesc.SizeX = sizeX;
 			PhysicDesc.SizeY = sizeY;
 
 			toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 

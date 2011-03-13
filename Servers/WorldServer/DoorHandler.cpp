@@ -1,5 +1,6 @@
 #include "DoorHandler.h"
 #include <math.h>
+#include "LogHandler.h"
 
 /***********************************************************
 update position of the script
@@ -21,6 +22,10 @@ void DoorHandler::SendSignal(int Signalnumber)
 {
 	if(Signalnumber == 10)	// opening
 	{
+		std::stringstream strs;
+		strs<<"Opening door signal";
+		LogHandler::getInstance()->LogToFile(strs.str(), GetId());
+
 		++_openingcounter;
 		if(_openingcounter == 1)
 		{
@@ -31,6 +36,10 @@ void DoorHandler::SendSignal(int Signalnumber)
 
 	if(Signalnumber == 11)	// closing
 	{
+		std::stringstream strs;
+		strs<<"Closing door signal";
+		LogHandler::getInstance()->LogToFile(strs.str(), GetId());
+
 		--_openingcounter;
 		if(_openingcounter < 0)
 			_openingcounter = 0;
@@ -156,6 +165,13 @@ void DoorHandler::RefreshScript()
 													m_actorinfo.PhysicDesc.Pos.Y+addY,  
 													m_actorinfo.PhysicDesc.Pos.Z+addZ,  
 													_openingspeed)));
+
+			// teleport to make sure there is no accumulating errors
+			AddScriptPart(ActorScriptPartBasePtr(new ActorScriptPart_TeleportTo(
+													m_actorinfo.PhysicDesc.Pos.X,  
+													m_actorinfo.PhysicDesc.Pos.Y,  
+													m_actorinfo.PhysicDesc.Pos.Z)));
+			AddScriptPart(ActorScriptPartBasePtr(new ActorScriptPart_SetRotation(doorrY)));
 		}
 		break;
 	}

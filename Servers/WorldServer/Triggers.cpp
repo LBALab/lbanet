@@ -2,6 +2,8 @@
 #include "ScriptEnvironmentBase.h"
 #include <fstream>
 #include "SynchronizedTimeHandler.h"
+#include "LogHandler.h"
+
 
 #include <math.h>
 
@@ -75,7 +77,14 @@ void ZoneTrigger::ObjectMoved(DelayedExecutionHandler * delayedactH, int ObjectT
 
 
 		if(!isinside && wasinside)
+		{
+
+			std::stringstream strs;
+			strs<<"Trigger - object left: "<<ObjectType<<" "<<ObjectId;
+			LogHandler::getInstance()->LogToFile(strs.str(), GetId());
+
 			Left(ObjectType, ObjectId);
+		}
 	}
 }
 
@@ -88,7 +97,12 @@ check trigger on object leave map
 void ZoneTrigger::ObjectLeaveMap(DelayedExecutionHandler * delayedactH, int ObjectType, Ice::Long ObjectId)
 {
 	if(_objectsinside.find(std::make_pair<int, Ice::Long>(ObjectType, ObjectId)) != _objectsinside.end())
+	{
 		Left(ObjectType, ObjectId);
+		std::stringstream strs;
+		strs<<"Trigger - object left map: "<<ObjectType<<" "<<ObjectId;
+		LogHandler::getInstance()->LogToFile(strs.str(), GetId());
+	}
 }
 
 
@@ -121,6 +135,13 @@ void ZoneTrigger::Entered(int ObjectType, Ice::Long ObjectId,
 							float offsetX, float offsetY, float offsetZ)
 {
 	_objectsinside[std::make_pair<int, Ice::Long>(ObjectType, ObjectId)] = SynchronizedTimeHandler::GetCurrentTimeDouble();
+
+
+	std::stringstream strs;
+	strs<<"Trigger - object entered: "<<ObjectType<<" "<<ObjectId;
+	LogHandler::getInstance()->LogToFile(strs.str(), GetId());
+
+
 
 	if(_AllowMultiActivation || _objectsinside.size() == 1)
 	{
