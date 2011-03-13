@@ -4532,6 +4532,12 @@ void EditorHandler::SelectTrigger(long id, const QModelIndex &parent)
 				_objectmodel->setTooltip(idx2, "Frequency in second the Action on Stay is executed");
 			}
 
+			{
+				QVector<QVariant> data;
+				data << "Activate On Jump" << ptr->GetActivateOnJump();
+				_objectmodel->AppendRow(data, parent);
+			}
+
 			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 4, parent), _actiontypeList);
 			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 5, parent), _actiontypeList);
 			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 6, parent), _actiontypeList);
@@ -4784,6 +4790,8 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 
 		bool multicactiv = _objectmodel->data(_objectmodel->GetIndex(1, 16, parentIdx)).toBool();
 		double frequency = _objectmodel->data(_objectmodel->GetIndex(1, 17, parentIdx)).toDouble();
+		bool activjump = _objectmodel->data(_objectmodel->GetIndex(1, 18, parentIdx)).toBool();
+
 
 		// created modified action and replace old one
 		ZoneTrigger* modifiedtrig = (ZoneTrigger*)_triggers[id].get();
@@ -4792,6 +4800,7 @@ void EditorHandler::TriggerObjectChanged(long id, const std::string & category, 
 		modifiedtrig->SetSize(sizeX, sizeY, sizeZ);
 		modifiedtrig->SetMultiActivation(multicactiv);
 		modifiedtrig->SetStayUpdateFrequency(frequency);
+		modifiedtrig->SetActivateOnJump(activjump);
 
 		//action 1
 		{
