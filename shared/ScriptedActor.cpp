@@ -426,6 +426,8 @@ FollowWaypointScriptPart::FollowWaypointScriptPart(int scriptid, bool asynchronu
 													boost::shared_ptr<DynamicObject> actor)
 : ScriptPartBase(scriptid, asynchronus), _distance(0), _distancedone(0)
 {
+	LogHandler::getInstance()->LogToFile("Follow waypoint start", actor->GetId());
+
 	std::vector<LbaVec3> waypoints = actor->GetWaypoints(waypointindex1);
 	if(waypointindex2 < (int)waypoints.size())
 	{
