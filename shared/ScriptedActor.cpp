@@ -493,6 +493,8 @@ FollowWaypointScriptPart::FollowWaypointScriptPart(int scriptid, bool asynchronu
 ***********************************************************/
 bool FollowWaypointScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor, bool & moved)
 {
+	LogHandler::getInstance()->LogToFile("Follow waypoint Process", actor->GetId());
+
 	actor->Process(tnow, tdiff);
 
 	// check if we arrive at destination
@@ -714,6 +716,8 @@ bool ScriptedActor::ProcessScript(double tnow, float tdiff, ScriptEnvironmentBas
 		bool finished = firstscript->Process(tnow, tdiff, _character, moved);
 		if(finished)
 		{
+			LogHandler::getInstance()->LogToFile("Script part finished", _character->GetId());
+
 			int scid = firstscript->GetAttachedScriptId();
 			bool asc = firstscript->IsAsynchronus();
 

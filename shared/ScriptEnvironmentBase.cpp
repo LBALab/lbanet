@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "ScriptEnvironmentBase.h"
-
+#include "LogHandler.h"
 
 
 /***********************************************************
@@ -246,9 +246,14 @@ void ScriptEnvironmentBase::ResumeThread(int scriptid)
 {
 	if(m_luaHandler)
 	{
+		LogHandler::getInstance()->LogToFile("Resuming thread script", scriptid);
+
 		std::string functioname;
 		if(m_luaHandler->ResumeThread(scriptid, functioname))
+		{
+			LogHandler::getInstance()->LogToFile("Script fully finished", scriptid);
 			ScriptFinished(scriptid, functioname); // inform when script is finished totally
+		}
 	}
 }
 
