@@ -155,6 +155,11 @@ void GameGUI::Initialize()
 
 
 		CEGUI::WindowManager::getSingleton().getWindow("DisplayGameTextFrame")->hide();
+
+
+		CEGUI::WindowManager::getSingleton().getWindow("CharPortraitDisplayHalo")->disable();
+		CEGUI::WindowManager::getSingleton().getWindow("CharPortraitDisplay")->disable();
+
 	}
 	catch(CEGUI::Exception &ex)
 	{
