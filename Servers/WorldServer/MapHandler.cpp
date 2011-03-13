@@ -711,13 +711,15 @@ void MapHandler::PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMove
 		PlayerPosition currPos = info.CurrentPos;
 		currPos.Y += 0.2f;
 
+		ModelState state = GetPlayerModelInfo(id).State;
+
 		// inform triggers
 		{
 			std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
 			std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
 			for(; ittr != endtr; ++ittr)
 			{
-				ittr->second->ObjectMoved(this, 2, id, lastpos, currPos);
+				ittr->second->ObjectMoved(this, 2, id, lastpos, currPos, state);
 
 				//check if player left map
 				if(_players.find((long)id) == _players.end())
@@ -1720,7 +1722,6 @@ void MapHandler::UpdateActorAnimation(long ActorId, const std::string & Animatio
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
 	{
-		LogHandler::getInstance()->LogToFile("Actor update anim: "+AnimationString, ActorId);
 		itact->second->UpdateActorAnimation(AnimationString);
 	}
 }
@@ -1951,7 +1952,6 @@ void MapHandler::InternalActorFollowWaypoint(int ScriptId, long ActorId, int way
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
 	{
-		LogHandler::getInstance()->LogToFile("Actor follow waypoint: ", ActorId);
 		itact->second->ActorFollowWaypoint(ScriptId, waypointindex1, waypointindex2, asynchronus);
 	}
 }

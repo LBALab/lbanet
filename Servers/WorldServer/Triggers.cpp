@@ -13,7 +13,7 @@ constructor
 ZoneTrigger::ZoneTrigger( const TriggerInfo & triggerinfo,
 							float sizeX, float sizeY, float sizeZ, 
 							bool AllowMultiActivation)
-	: TriggerBase(triggerinfo), 
+	: TriggerBase(triggerinfo),  _activateOnJump(true),
 			_sizeX(sizeX/2), _sizeY(sizeY), _sizeZ(sizeZ/2),
 			_AllowMultiActivation(AllowMultiActivation), _StayUpdateFrequency(-1)
 {
@@ -34,7 +34,8 @@ check trigger on object move
 ***********************************************************/
 void ZoneTrigger::ObjectMoved(DelayedExecutionHandler * delayedactH, int ObjectType, Ice::Long ObjectId,
 										const LbaNet::PlayerPosition &StartPosition,
-										const LbaNet::PlayerPosition &EndPosition)
+										const LbaNet::PlayerPosition &EndPosition,
+										const LbaNet::ModelState &state)
 {
 	if(ObjectType == 1 && !_triggerinfo.CheckNpcs)
 		return;
@@ -51,6 +52,7 @@ void ZoneTrigger::ObjectMoved(DelayedExecutionHandler * delayedactH, int ObjectT
 
 
 	//do a sweep test to check if object crossed trigger
+	if(_activateOnJump || state != LbaNet::StJumping)
 	{
 		LbaNet::PlayerPosition collisionpos;
 		if(SweepTest(StartPosition, EndPosition, collisionpos))
@@ -283,6 +285,7 @@ void ZoneTrigger::SaveToLuaFile(std::ofstream & file)
 		<<(_sizeX*2)<<", "<<_sizeY<<", "<<(_sizeZ*2)<<", "<<(_AllowMultiActivation?"true":"false")<<")"<<std::endl;
 	file<<"\tTrigger_"<<GetId()<<":SetPosition("<<GetPosX()<<", "<<GetPosY()<<", "<<GetPosZ()<<")"<<std::endl;
 	file<<"\tTrigger_"<<GetId()<<":SetStayUpdateFrequency("<<_StayUpdateFrequency<<")"<<std::endl;
+	file<<"\tTrigger_"<<GetId()<<":SetActivateOnJump("<<(_activateOnJump?"true":"false")<<")"<<std::endl;
 
 	if(_action1)
 	{

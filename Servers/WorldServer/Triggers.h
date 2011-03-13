@@ -171,7 +171,8 @@ public:
 	//! 3 -> movable object
 	virtual void ObjectMoved(DelayedExecutionHandler * delayedactH, int ObjectType, Ice::Long ObjectId,
 										const LbaNet::PlayerPosition &startposition,
-										const LbaNet::PlayerPosition &endposition){}
+										const LbaNet::PlayerPosition &endposition,
+										const LbaNet::ModelState &state){}
 
 
 	//! check trigger on object action
@@ -240,7 +241,8 @@ public:
 	//! 3 -> movable object
 	virtual void ObjectMoved(DelayedExecutionHandler * delayedactH, int ObjectType, Ice::Long ObjectId,
 										const LbaNet::PlayerPosition &StartPosition,
-										const LbaNet::PlayerPosition &EndPosition);
+										const LbaNet::PlayerPosition &EndPosition,
+										const LbaNet::ModelState &state);
 
 	//! check trigger on object leave map
 	// ObjectType ==>
@@ -299,6 +301,13 @@ public:
 	double GetStayUpdateFrequency()
 	{ return _StayUpdateFrequency;}
 
+	void SetActivateOnJump(bool Activate)
+	{ _activateOnJump = Activate;}
+
+	bool GetActivateOnJump()
+	{ return _activateOnJump;}
+
+
 protected:
 
 	struct Point  
@@ -341,6 +350,7 @@ private:
 	bool													_AllowMultiActivation;
 
 	double													_StayUpdateFrequency;
+	bool													_activateOnJump;
 
 
 	std::map<std::pair<int, Ice::Long>, double >			_objectsinside;
