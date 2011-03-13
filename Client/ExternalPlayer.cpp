@@ -37,6 +37,7 @@ ExternalPlayer::ExternalPlayer(boost::shared_ptr<DynamicObject> obje,
 											const LbaNet::ModelInfo &Info)
 : _last_update(0), _shouldupdate(false), _playingscript(false)
 {
+
 	_character = obje;
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
 	float X, Y, Z;
@@ -47,6 +48,11 @@ ExternalPlayer::ExternalPlayer(boost::shared_ptr<DynamicObject> obje,
 	_velocityZ=0;
 	_velocityR=0;
 	_dr.Set(X, Y, Z, physo->GetRotationYAxis(), 0, 0, 0, 0);
+
+	std::stringstream strs;
+	strs<<"Creating external player";
+	LogHandler::getInstance()->LogToFile(strs.str(), _character->GetId());
+
 
 	UpdateModeAndState(Info.Mode, Info.State);
 }
@@ -65,6 +71,11 @@ void ExternalPlayer::UpdateMove(double updatetime, const LbaNet::PlayerMoveInfo 
 {
 	if(updatetime > _last_update)
 	{
+		std::stringstream strs;
+		strs<<"Updating external player move with anim"<<info.AnimationIdx;
+		LogHandler::getInstance()->LogToFile(strs.str(), _character->GetId());
+
+
 		// update imediatly modifiable states
 		_last_update = updatetime;
 
@@ -212,8 +223,47 @@ void ExternalPlayer::UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr update, bo
 		LbaNet::ModelUpdate * castedptr = 
 			dynamic_cast<LbaNet::ModelUpdate *>(update.get());
 
+		std::stringstream strs;
+		strs<<"Updating external player model "<<castedptr->Info.ModelName<<" "
+			<<castedptr->Info.Outfit<<" "<<castedptr->Info.Weapon<<" "<<castedptr->Info.Mode<<" ";
+		LogHandler::getInstance()->LogToFile(strs.str(), _character->GetId());
+
 		UpdateModeAndState(castedptr->Info.Mode, castedptr->Info.State);
 	}
+
+	// anim string upd
+	if(info == typeid(LbaNet::AnimationStringUpdate))
+	{
+		LbaNet::AnimationStringUpdate * castedptr = 
+			dynamic_cast<LbaNet::AnimationStringUpdate *>(update.get());
+
+		std::stringstream strs;
+		strs<<"Updating external player anim "<<castedptr->Animation;
+		LogHandler::getInstance()->LogToFile(strs.str(), _character->GetId());
+	}
+
+	// ObjectExtraInfoUpdate
+	if(info == typeid(LbaNet::ObjectExtraInfoUpdate))
+	{
+		LbaNet::ObjectExtraInfoUpdate * castedptr = 
+			dynamic_cast<LbaNet::ObjectExtraInfoUpdate *>(update.get());
+
+		std::stringstream strs;
+		strs<<"Updating external player extra info "<<castedptr->Update.Name<<" "<<(castedptr->Update.Display?"Display":"Dontdisplay");
+		LogHandler::getInstance()->LogToFile(strs.str(), _character->GetId());
+	}	
+
+	// ObjectLifeInfoUpdate
+	if(info == typeid(LbaNet::ObjectLifeInfoUpdate))
+	{
+		LbaNet::ObjectLifeInfoUpdate * castedptr = 
+			dynamic_cast<LbaNet::ObjectLifeInfoUpdate *>(update.get());
+
+		std::stringstream strs;
+		strs<<"Updating external player life info "<<(castedptr->Update.Display?"Display":"Dontdisplay");
+		LogHandler::getInstance()->LogToFile(strs.str(), _character->GetId());
+	}	
+
 
 	_character->GetDisplayObject()->Update(update, (!updatefromlua && _playingscript));
 }
@@ -455,6 +505,10 @@ void ExternalPlayer::UpdateActorMode( const std::string & Mode, bool updatefroml
 	LbaNet::ModelInfo model = _character->GetDisplayObject()->GetCurrentModel(usestored);
 	model.Mode = Mode;
 	_character->GetDisplayObject()->Update(new LbaNet::ModelUpdate(model, false), usestored);
+
+	std::stringstream strs;
+	strs<<"Updating external player mode "<<Mode;
+	LogHandler::getInstance()->LogToFile(strs.str(), _character->GetId());
 }
 
 
@@ -468,6 +522,10 @@ void ExternalPlayer::UpdateActorModel(const std::string & Model, bool updatefrom
 	LbaNet::ModelInfo model = _character->GetDisplayObject()->GetCurrentModel(usestored);
 	model.ModelName = Model;
 	_character->GetDisplayObject()->Update(new LbaNet::ModelUpdate(model, false), usestored);
+
+	std::stringstream strs;
+	strs<<"Updating external player model "<<Model;
+	LogHandler::getInstance()->LogToFile(strs.str(), _character->GetId());
 }
 
 
@@ -481,6 +539,10 @@ void ExternalPlayer::UpdateActorOutfit(const std::string & Outfit, bool updatefr
 	LbaNet::ModelInfo model = _character->GetDisplayObject()->GetCurrentModel(usestored);
 	model.Outfit = Outfit;
 	_character->GetDisplayObject()->Update(new LbaNet::ModelUpdate(model, false), usestored);
+
+	std::stringstream strs;
+	strs<<"Updating external player outfit "<<Outfit;
+	LogHandler::getInstance()->LogToFile(strs.str(), _character->GetId());
 }
 
 
@@ -494,6 +556,10 @@ void ExternalPlayer::UpdateActorWeapon(const std::string & Weapon, bool updatefr
 	LbaNet::ModelInfo model = _character->GetDisplayObject()->GetCurrentModel(usestored);
 	model.Weapon = Weapon;
 	_character->GetDisplayObject()->Update(new LbaNet::ModelUpdate(model, false), usestored);
+
+	std::stringstream strs;
+	strs<<"Updating external player weapon "<<Weapon;
+	LogHandler::getInstance()->LogToFile(strs.str(), _character->GetId());
 }
 
 
@@ -549,4 +615,8 @@ show/hide
 void ExternalPlayer::ShowHide(bool Show)
 {
 	_character->ShowOrHide(Show);
+
+	std::stringstream strs;
+	strs<<"Updating external player "<<(Show?"Show":"Hide");
+	LogHandler::getInstance()->LogToFile(strs.str(), _character->GetId());
 }

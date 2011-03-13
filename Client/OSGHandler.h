@@ -269,6 +269,10 @@ public:
 															bool UseLight, bool CastShadow);
 
 
+	//! render object to file
+	void RenderObjectToFile(osg::ref_ptr<osg::Group> object, const std::string & filename);
+
+
 protected:
 	//! constructor
 	OsgHandler();

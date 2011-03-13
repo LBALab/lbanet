@@ -33,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ClientExtendedTypes.h"
 #include "DataLoader.h"
 #include "SynchronizedTimeHandler.h"
+#include "ImageSetHandler.h"
 
 #include "InventoryBox.h"
 #include "ShortcutBox.h"
@@ -388,6 +389,13 @@ void GameGUI::UpdateGUI(const std::string & guiid,const LbaNet::GuiUpdatesSeq &U
 
 				CGMessageBox::getInstance()->Show(castedptr->Title, castedptr->Message);
 			}
+
+			// RefreshCharPortraitUpdate
+			if(info == typeid(RefreshCharPortraitUpdate))
+			{
+				RefreshCharPortrait();
+			}
+			
 		}
 	}
 	else
@@ -580,4 +588,16 @@ void GameGUI::RestoreGUISizes()
 	std::map<std::string, boost::shared_ptr<GameGUIBase> >::iterator end = _gameguis.end();
 	for(; it != end; ++it)
 		it->second->RestoreGUISizes();
+}
+
+
+/***********************************************************
+refresh portrait
+***********************************************************/
+void GameGUI::RefreshCharPortrait()
+{
+	std::string imagesetname = ImageSetHandler::RefreshCharPortrait();
+	CEGUI::Window*	tmp = CEGUI::WindowManager::getSingleton().getWindow("CharPortraitDisplay");
+	if(tmp)
+		tmp->setProperty("Image", "set:" + imagesetname + " image:full_image");
 }

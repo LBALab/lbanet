@@ -131,3 +131,30 @@ std::string ImageSetHandler::GetStanceImage(int stance)
 	return res;
 }
 
+
+
+/***********************************************************
+RefreshCharPortrait
+***********************************************************/
+std::string ImageSetHandler::RefreshCharPortrait()
+{
+	std::string res = "charportrait";
+
+	if(CEGUI::ImagesetManager::getSingleton().isDefined(res))
+		CEGUI::ImagesetManager::getSingleton().destroy(res);
+
+	try
+	{
+		CEGUI::ImagesetManager::getSingleton().
+			createFromImageFile(res, "charportrait.png");
+	}
+	catch(CEGUI::Exception &ex)
+	{
+		std::stringstream erstr;
+		erstr<<"Error loading file charportrait.png into CEGUI imageset: "<<ex.getMessage();
+		LogHandler::getInstance()->LogToFile(erstr.str(), -1);
+	}
+
+	return res;
+}
+

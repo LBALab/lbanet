@@ -934,10 +934,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\StaticObject.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Stream.h"
 				>
 			</File>

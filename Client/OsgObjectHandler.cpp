@@ -755,3 +755,28 @@ std::string OsgObjectHandler::ExtractName(const std::string &text)
 
 	return res;
 }
+
+
+/***********************************************************
+save object to file
+***********************************************************/
+void OsgObjectHandler::SaveToFile(const std::string & filename)
+{
+	if(_ObjectCopy)
+		OsgHandler::getInstance()->RenderObjectToFile(_ObjectCopy, filename);
+
+	_ObjectCopy = NULL;
+}
+
+/***********************************************************
+store object copy
+***********************************************************/
+void OsgObjectHandler::StoreObjectCopy()
+{
+	osg::CopyOp cpo(osg::CopyOp::DEEP_COPY_ALL);
+
+	if(_OsgObject)
+		_ObjectCopy = (osg::MatrixTransform*)_OsgObject->clone(cpo);
+	else if(_OsgObjectNoLight)
+		_ObjectCopy = (osg::MatrixTransform*)_OsgObjectNoLight->clone(cpo);
+}

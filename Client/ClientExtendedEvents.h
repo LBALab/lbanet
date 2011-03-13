@@ -501,4 +501,22 @@ public:
 	int _eyescolor;
 	int _haircolor;
 };
+
+/*
+************************************************************************************************************************
+*                                                  class RefreshPlayerPortrait
+*
+*	refresh player portrait
+************************************************************************************************************************
+*/
+class RefreshPlayerPortraitEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	RefreshPlayerPortraitEvent()
+	{
+	}
+};
+
+
 #endif

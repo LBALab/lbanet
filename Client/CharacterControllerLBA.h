@@ -142,6 +142,10 @@ public:
 	{_projectilelaunched = launched;}
 
 
+	//! save player to file
+	void SavePlayerDisplayToFile(const std::string & filename);
+
+
 protected:
 
 	//! check if we need to send update to server

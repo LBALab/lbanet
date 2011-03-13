@@ -37,6 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DataLoader.h"
 #include "ExternalActor.h"
 #include "ProjectileHandler.h"
+#include "ClientExtendedTypes.h"
 
 
 #define	_LBA1_MODEL_ANIMATION_SPEED_	1.8f
@@ -45,7 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	Constructor
 ***********************************************************/
 LbaNetModel::LbaNetModel()
-: m_playerObjectId(0), m_paused(false)
+: m_playerObjectId(0), m_paused(false), m_newworld(false)
 {
 	LogHandler::getInstance()->LogToFile("Initializing model class...");
 
@@ -93,6 +94,9 @@ void LbaNetModel::ChangeWorld(const std::string & NewWorld)
 
 	// custom client file
 	m_luaHandler->LoadFile("Worlds/"+NewWorld+"/Lua/CustomClient.lua");
+
+	// indicate that we changed world
+	m_newworld = true;
 }
 
 
@@ -242,6 +246,12 @@ void LbaNetModel::AddObject(int OType, const ObjectInfo &desc,
 			}
 			else
 			{
+				std::stringstream strs;
+				strs<<"New player object "<<DisplayDesc.ModelName<<" "<<DisplayDesc.Outfit<<" "<<DisplayDesc.Weapon<<" "<<DisplayDesc.Mode<<" ";
+				strs<<" Display name: "<<extrainfo.Name<<" "<<(extrainfo.Display?"Yes":"No");
+				strs<<" Display life: "<<(lifeinfo.Display?"Yes":"No");
+				LogHandler::getInstance()->LogToFile(strs.str(), desc.Id);
+
 				boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
 				_playerObjects[desc.Id] = boost::shared_ptr<ExternalPlayer>(new ExternalPlayer(tmpobj, DisplayDesc));
 				if(tmpobj->GetDisplayObject())
@@ -953,9 +963,15 @@ void LbaNetModel::RefreshEnd()
 										SynchronizedTimeHandler::GetCurrentTimeDouble()));
 
 	OsgHandler::getInstance()->OptimizeScene();
-	Resume();
-}
 
+	Resume();
+
+	if(m_newworld)
+	{
+		m_newworld = false;
+		RefreshPlayerPortrait();
+	}
+}
 
 
 /***********************************************************
@@ -1759,6 +1775,25 @@ void LbaNetModel::NpcAttachActor(long NpcId, int AttachedObjectType, long Attach
 	std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find((long)NpcId);
 	if(it != _npcObjects.end())
 		it->second->ServerAttachActor(GetActor(AttachedObjectType, AttachedObjectId));
+}
+
+
+
+
+/***********************************************************
+refresh player portrait
+***********************************************************/
+void LbaNetModel::RefreshPlayerPortrait()
+{
+	//save player image
+	if(m_controllerChar)
+		m_controllerChar->SavePlayerDisplayToFile("Data/GUI/imagesets/charportrait.png");
+
+	//refresh GUI
+	LbaNet::GuiUpdatesSeq updseq;
+	updseq.push_back(new RefreshCharPortraitUpdate());
+	EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
+		SynchronizedTimeHandler::GetCurrentTimeDouble(), "main", updseq));
 }
 
 

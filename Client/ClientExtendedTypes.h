@@ -151,4 +151,21 @@ public:
 };
 
 
+/*
+************************************************************************************************************************
+*                                                  class RefreshCharPortraitUpdate
+*
+*	inform gui that char portrait changed
+************************************************************************************************************************
+*/
+class RefreshCharPortraitUpdate : public LbaNet::GuiUpdateBase
+{
+public:
+	//! constructor
+	RefreshCharPortraitUpdate()
+	{
+	}
+};
+
+
 #endif

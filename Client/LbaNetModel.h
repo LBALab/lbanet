@@ -392,6 +392,9 @@ public:
 	//! send event to player
 	virtual int GetInventoryItemCount(long PlayerId, long Itemid){return 0;}
 
+	//! refresh player portrait
+	void RefreshPlayerPortrait();
+
 protected:
 
 	//! clean up map
@@ -472,6 +475,8 @@ protected:
 								const LbaNet::ObjectExtraInfo &extrainfo,
 								const LbaNet::LifeManaInfo &lifeinfo);
 
+
+
 private:
 	
 	// list of object populating the scene
@@ -491,6 +496,7 @@ private:
 
 	// last cycle time
 	bool												m_paused;
+	bool												m_newworld;
 
 
 	// controllers

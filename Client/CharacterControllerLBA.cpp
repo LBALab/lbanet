@@ -416,6 +416,9 @@ void CharacterController::Process(double tnow, float tdiff,
 		}
 
 		speedX += _currentmode->GetAddedSpeedX() * tdiff;
+		
+		if(_currentstate)
+			_currentstate->ModifyYVelocity(speedY);
 	}
 
 
@@ -783,6 +786,7 @@ void CharacterController::UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr updat
 			EventsQueue::getReceiverQueue()->AddEvent(new GuiRefreshPlayerColorEvent(
 				castedptr->Info.SkinColor, castedptr->Info.EyesColor, castedptr->Info.HairColor));
 
+			EventsQueue::getReceiverQueue()->AddEvent(new RefreshPlayerPortraitEvent());
 		}
 	}
 
@@ -1220,4 +1224,42 @@ void CharacterController::StopUseWeapon()
 	}
 }
 
+
+/***********************************************************
+save player to file
+***********************************************************/
+void CharacterController::SavePlayerDisplayToFile(const std::string & filename)
+{
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo =  _character->GetPhysicalObject();
+	boost::shared_ptr<DisplayObjectHandlerBase> diso =  _character->GetDisplayObject();
+	if(physo && diso)
+	{
+		//change mode to normal
+		std::string savemode = _currentmodestr;
+		UpdateActorMode("Normal");
+		std::string saveanim = diso->GetCurrentAnimation();
+		UpdateAnimation("Stand");
+
+		float X, Y, Z;
+		LbaQuaternion Qs;
+		physo->GetPosition(X, Y, Z);
+		physo->GetRotation(Qs);
+		
+
+		LbaQuaternion Q(60, LbaVec3(0, 1, 0));
+		diso->SetRotation(Q);
+		diso->SetPosition(0, 0, 0);
+		diso->StoreObjectCopy();
+
+
+		//restore state
+		UpdateActorMode(savemode);
+		UpdateAnimation(saveanim);
+
+		diso->SetRotation(Qs);
+		diso->SetPosition(X, Y, Z);
+		diso->SaveToFile(filename);
+	}		
+	
+}
 

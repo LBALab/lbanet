@@ -44,6 +44,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <osgDB/ReadFile>
 #include <osgDB/FileUtils>
+#include <osgDB/WriteFile>
+
 
 #include <osgShadow/ShadowedScene>
 #include <osgShadow/StandardShadowMap>
@@ -1911,4 +1913,54 @@ void OsgHandler::OptimizeScene()
     osgUtil::Optimizer optimizer;
 	optimizer.setIsOperationPermissibleForObjectCallback(new OptimizationAllowedCallback());
     optimizer.optimize(_rootNode3d);
+}
+
+
+/***********************************************************
+render object to file
+***********************************************************/
+void OsgHandler::RenderObjectToFile(osg::ref_ptr<osg::Group> object, const std::string & filename)
+{
+	int sizeX=250, sizeY = 300;
+	float distance = 30;
+
+	osg::Image* shot = new osg::Image();
+	shot->allocateImage(sizeX, sizeY, 32, GL_RGBA, GL_UNSIGNED_BYTE);
+
+	osg::ref_ptr<osg::Camera> textureCamera = new osg::Camera;
+	textureCamera->setReferenceFrame(osg::Transform::ABSOLUTE_RF);
+	textureCamera->setClearMask(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	textureCamera->setViewport(0, 0, sizeX, sizeY);
+	textureCamera->setRenderTargetImplementation(osg::Camera::FRAME_BUFFER_OBJECT);
+	textureCamera->attach(osg::Camera::COLOR_BUFFER, shot);
+
+	textureCamera->setClearColor(osg::Vec4(0, 0, 0, 0));
+
+	float factorX = sizeX * 0.0001;
+	float factorY = sizeY * 0.0001;
+	textureCamera->setProjectionMatrixAsOrtho(-factorX*distance, factorX*distance,
+												-factorY*distance, factorY*distance,
+												-2000, 2000);
+
+	osg::Matrixd viewMatrix;
+	osg::Matrixd cameraRotation1;
+	osg::Matrixd cameraTrans;
+	cameraRotation1.makeRotate(osg::DegreesToRadians(30.0), osg::Vec3(1,0,0));
+	cameraTrans.makeTranslate( 0,-1.4,-1000 );
+	viewMatrix = cameraRotation1 * cameraTrans;
+	textureCamera->setViewMatrix(viewMatrix);
+
+	osg::PositionAttitudeTransform * RN3d = new osg::PositionAttitudeTransform();
+	RN3d->setScale(osg::Vec3d(1, 0.5, 1));
+	RN3d->setAttitude(osg::Quat(osg::DegreesToRadians(-45.0), osg::Vec3(0,1,0)));
+	RN3d->addChild(object.get());
+
+	textureCamera->addChild(RN3d);
+
+	_root->addChild(textureCamera);
+
+	_viewer->frame();
+	osgDB::writeImageFile(*shot,filename);
+
+	_root->removeChild(textureCamera);
 }

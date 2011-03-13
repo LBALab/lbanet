@@ -839,6 +839,14 @@ void LbaNetEngine::HandleGameEvents()
 			continue;
 		}
 
+		// RefreshPlayerPortraitEvent
+		if(info == typeid(RefreshPlayerPortraitEvent))
+		{
+			if(m_lbaNetModel)
+				m_lbaNetModel->RefreshPlayerPortrait();
+
+			continue;
+		}
 		
 	}
 }
@@ -867,8 +875,11 @@ void LbaNetEngine::SwitchGuiToLogin()
 	// disconnect from servers
 	Disconnect();
 
+
 	// clean up the world on disconnect
 	m_lbaNetModel->CleanupWorld();
+	m_currentworld = "";
+
 
 	PlayMenuMusic();
 

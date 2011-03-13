@@ -135,6 +135,9 @@ protected:
 	void SetPlayerName(const std::string & name);
 
 
+	//! refresh portrait
+	void RefreshCharPortrait();
+
 private:
 	std::map<std::string, boost::shared_ptr<GameGUIBase> > _gameguis;
 };

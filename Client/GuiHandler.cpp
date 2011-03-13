@@ -131,6 +131,10 @@ void GuiHandler::Initialize(int screen_size_X, int screen_size_Y)
 		CEGUI::ImagesetManager::getSingleton().create( "quest.imageset" );
 		CEGUI::ImagesetManager::getSingleton().create( "weapon.imageset" );
 
+		CEGUI::ImagesetManager::getSingleton().create( "halo2.imageset" );
+
+
+
 		CEGUI::ImagesetManager::getSingleton().create( "contourfont.imageset" );
 		CEGUI::FontManager::getSingleton().create( "ContourFont.font" );
 
@@ -611,3 +615,4 @@ void GuiHandler::RefreshPlayerColor(int skin, int eyes, int hair)
 	if(_option_gui)
 		_option_gui->RefreshPlayerColor(skin, eyes, hair);
 }
+

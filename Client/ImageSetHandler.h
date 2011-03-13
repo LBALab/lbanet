@@ -49,6 +49,9 @@ public:
 	// get image of stance
 	static std::string GetStanceImage(int stance);
 
+	// RefreshCharPortrait
+	static std::string RefreshCharPortrait();
+
 };
 
 

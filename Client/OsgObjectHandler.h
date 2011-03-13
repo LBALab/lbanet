@@ -85,6 +85,14 @@ public:
 	//! set name of display object that will be returned during picking
 	virtual void SetName(const std::string & name);
 	
+
+	//! save object to file
+	virtual void SaveToFile(const std::string & filename);
+
+	//! tore object copy
+	virtual void StoreObjectCopy();
+
+
 protected:
 	// update matrix
 	void UpdateMatrix();
@@ -139,6 +147,8 @@ private:
 	osg::ref_ptr<osg::MatrixTransform>				_OsgObjectNoLight;
 	osg::ref_ptr<osg::PositionAttitudeTransform>	_osgpat;
 	osg::ref_ptr<osg::PositionAttitudeTransform>	_osgpatNoLight;
+
+	osg::ref_ptr<osg::MatrixTransform>				_ObjectCopy;
 };
 
 
