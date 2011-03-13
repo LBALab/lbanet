@@ -17,7 +17,18 @@
             <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
             <Property Name="UnifiedAreaRect" Value="{{0,0},{0,-1},{0,200},{0,70}}" />
         </Window>
-   
+        
+            <Window Type="TaharezLook/StaticImage" Name="CharPortraitDisplayHalo" >
+            <Property Name="Image" Value="set:halo2 image:imagehalo2" />
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0,0},{0,-1},{0,60},{0,68}}" />
+        </Window>   
+        
+            <Window Type="TaharezLook/StaticImage" Name="CharPortraitDisplay" >
+            <Property Name="Image" Value="" />
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0,-2},{0,2},{0,58},{0,68}}" />
+        </Window>    
 
 	<Window Type="TaharezLook/ImageButton" Name="btncomicon">
 		<Property Name="UnifiedPosition" Value="{{1.0,-595},{0,0}}" />
