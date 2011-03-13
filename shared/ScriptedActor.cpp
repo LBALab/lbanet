@@ -369,7 +369,7 @@ bool RotateFromPointScriptPart::Process(double tnow, float tdiff, boost::shared_
 {
 	actor->Process(tnow, tdiff);
 
-	if(fabs(_doneAngle) >= abs(_Angle))
+	if(fabs(_doneAngle) >= fabs(_Angle))
 		return true;
 
 
@@ -386,7 +386,7 @@ bool RotateFromPointScriptPart::Process(double tnow, float tdiff, boost::shared_
 
 
 	_doneAngle += move;
-	if(fabs(_doneAngle) > abs(_Angle))
+	if(fabs(_doneAngle) > fabs(_Angle))
 	{
 		float diff = (_doneAngle-_Angle);
 		_doneAngle = _Angle;
@@ -495,7 +495,7 @@ bool FollowWaypointScriptPart::Process(double tnow, float tdiff, boost::shared_p
 	actor->Process(tnow, tdiff);
 
 	// check if we arrive at destination
-	if(fabs(_distance) <= abs(_distancedone))
+	if(fabs(_distance) <= fabs(_distancedone))
 		return true;
 
 
