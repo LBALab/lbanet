@@ -75,6 +75,16 @@ int WorldToDisplayObjectSynchronizer::Process(double time, float tdiff)
 }
 
 
+
+/***********************************************************
+sync display and physic
+***********************************************************/
+void WorldToDisplayObjectSynchronizer::Synchronize()
+{
+	StraightSync();
+}
+
+
 /***********************************************************
 directly synchronize value between physic and display
 ***********************************************************/

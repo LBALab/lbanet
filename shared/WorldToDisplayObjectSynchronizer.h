@@ -55,6 +55,8 @@ public:
 	virtual int Process(double time, float tdiff);
 
 
+	//! sync display and physic
+	virtual void Synchronize();
 
 protected:
 	//! directly synchronize value between physic and display

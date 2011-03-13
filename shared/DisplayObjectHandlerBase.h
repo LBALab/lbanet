@@ -94,6 +94,12 @@ public:
 
 	// restore previously saved model state
 	virtual void RestoreState(){}
+
+	//! save object to file
+	virtual void SaveToFile(const std::string & filename){}
+
+	//! tore object copy
+	virtual void StoreObjectCopy(){}
 };
 
 

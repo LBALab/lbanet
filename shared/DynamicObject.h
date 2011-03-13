@@ -54,6 +54,10 @@ public:
 	//! process function - will be called at each frame
 	virtual int Process(double time, float tdiff) = 0;
 
+	//! sync display and physic
+	virtual void Synchronize(){}
+
+
 
 	//! get physical object
 	boost::shared_ptr<PhysicalObjectHandlerBase> GetPhysicalObject()

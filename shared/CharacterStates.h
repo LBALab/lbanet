@@ -108,6 +108,9 @@ public:
 	//! 0 -> No     1 -> Yes with hand      2 -> Yes with weapon
 	virtual int HurtActorsOnMove(){return 0;}
 
+	//! modify U velocity
+	virtual void ModifyYVelocity(float &vY){}
+
 };
 
 
@@ -735,7 +738,7 @@ class StateJumping : public CharacterStateBase
 public:
 	//! constructor
 	StateJumping(void)
-		: _switchstate(false)
+		: _switchstate(false), _cumuY(0)
 	{}
 
 	//! destructor
@@ -773,8 +776,19 @@ public:
 	//! check if we can change state from this state
 	virtual bool ChangeLegal(LbaNet::ModelState NewState){return true;}
 
+
+	//! modify U velocity
+	virtual void ModifyYVelocity(float &vY)
+	{
+		// jump is too high without this
+		_cumuY += vY;
+		if(_cumuY > 2.0f)
+			vY = 0;
+	}
+
 private:
 	bool	_switchstate;
+	float	_cumuY;
 };
 
 
