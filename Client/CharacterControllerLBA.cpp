@@ -627,7 +627,8 @@ void CharacterController::Process(double tnow, float tdiff,
 	if(_pressedkeys._keyweapon)
 		WeaponUsed();
 	else
-		StopUseWeapon();
+		if(!_projectilelaunched) // stop weapon except if magic ball already launched
+			StopUseWeapon();
 
 
 	// update server if needed

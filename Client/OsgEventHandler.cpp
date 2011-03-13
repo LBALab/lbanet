@@ -208,6 +208,47 @@
       }
 	  
 
+	  case '0':
+	  {
+		return CEGUI::Key::Zero;	
+	  }
+	  case '1':
+	  {
+		return CEGUI::Key::One;	
+	  }
+	  case '2':
+	  {
+		return CEGUI::Key::Two;	
+	  }
+	  case '3':
+	  {
+		return CEGUI::Key::Three;	
+	  }
+	  case '4':
+	  {
+		return CEGUI::Key::Four;	
+	  }
+	  case '5':
+	  {
+		return CEGUI::Key::Five;	
+	  }
+	  case '6':
+	  {
+		return CEGUI::Key::Six;	
+	  }
+	  case '7':
+	  {
+		return CEGUI::Key::Seven;	
+	  }
+	  case '8':
+	  {
+		return CEGUI::Key::Eight;	
+	  }
+	  case '9':
+	  {
+		return CEGUI::Key::Nine;	
+	  }
+
      }
      return key;
  }
@@ -362,11 +403,15 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 		case(osgGA::GUIEventAdapter::KEYDOWN):
 		{
 			int kkk = ea.getKey();
+			int convertedk = OSGKeyToCEGUIKey(kkk);
 
 			// for check if CEGUI handle the event
-			if(CEGUI::System::getSingleton().injectKeyDown( static_cast<CEGUI::uint>(OSGKeyToCEGUIKey(kkk)) )
-			|| CEGUI::System::getSingleton().injectChar( static_cast<CEGUI::utf32>( kkk ) ))
+			if(CEGUI::System::getSingleton().injectKeyDown( static_cast<CEGUI::uint>(convertedk) )
+				|| CEGUI::System::getSingleton().injectChar( static_cast<CEGUI::utf32>( kkk )))
+			{
 				return true;
+			}
+
 
 			{
 				// enter key
