@@ -160,6 +160,9 @@ public:
 		mr = _additionalMoveRotation;
 	}
 
+	long GetId()
+	{ return _id; }
+
 protected:
 	
 	//! handler to physical object

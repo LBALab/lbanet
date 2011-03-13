@@ -261,6 +261,8 @@ protected:
 	float	_Angle;
 	float	_doneAngle;
 
+	long	_actorid;
+
 };
 
 

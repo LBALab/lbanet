@@ -26,6 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "PhysicalObjectHandlerBase.h"
 #include "DynamicObject.h"
 #include "ScriptEnvironmentBase.h"
+#include "LogHandler.h"
+
 
 #include <fstream>
 #include <iostream>
@@ -342,7 +344,8 @@ constructor
 RotateFromPointScriptPart::RotateFromPointScriptPart(int scriptid, bool asynchronus, float ArrivalAngle, 
 														float PosX, float PosY, float PosZ,
 														float Speed, boost::shared_ptr<DynamicObject> actor)
-: ScriptPartBase(scriptid, asynchronus), _PosX(PosX), _PosZ(PosZ), _Speed(Speed), _doneAngle(0)
+: ScriptPartBase(scriptid, asynchronus), _PosX(PosX), _PosZ(PosZ), _Speed(Speed), _doneAngle(0),
+	_actorid(actor->GetId())
 		
 {
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo = actor->GetPhysicalObject();
@@ -350,6 +353,7 @@ RotateFromPointScriptPart::RotateFromPointScriptPart(int scriptid, bool asynchro
 
 	float currY = physo->GetRotationYAxis();
 	_Angle = ArrivalAngle - currY;
+
 	while(_Angle < -180)
 		_Angle += 360;
 	while(_Angle > 180)
@@ -376,26 +380,36 @@ bool RotateFromPointScriptPart::Process(double tnow, float tdiff, boost::shared_
 	float mx, my, mz, mr;
 	actor->GetAdditionalMoves(mx, my, mz, mr);
 
-	float move = fabs(_Speed) * tdiff+mr;
+	float move = fabs(_Speed) * tdiff/*+mr*/;
 	if(_Angle < 0)
 		move = -move;
 
+
 	_doneAngle += move;
+	if(abs(_doneAngle) > abs(_Angle))
+	{
+		float diff = (_doneAngle-_Angle);
+		_doneAngle = _Angle;
+		move += diff;
+	}
+
+
+
 
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo = actor->GetPhysicalObject();
-	physo->RotateYAxis(-move);
+	physo->RotateYAxis(move);
 
 
 	//take care of translation
 	float startvecX = _startPosX - _PosX;
 	float startvecZ = _startPosZ - _PosZ;
 
-	float rad = _doneAngle * M_PI / 180.0f;
+	float rad = -_doneAngle * M_PI / 180.0f;
 
 	float endvecX = (startvecX * cos(rad)) - (startvecZ * sin(rad));
 	float endvecZ = (startvecX * sin(rad)) + (startvecZ * cos(rad));
 
-	physo->MoveTo(endvecX+_PosX+mx, _startPosY+my, endvecZ+_PosZ+mz);
+	physo->MoveTo(endvecX+_PosX/*+mx*/, _startPosY/*+my*/, endvecZ+_PosZ/*+mz*/);
 
 	return false;
 }
