@@ -75,7 +75,7 @@ bool StraightWalkToScriptPart::Process(double tnow, float tdiff, boost::shared_p
 
 
 	// check if we arrive at destination
-	if(abs(_distance-_distanceDone) < 0.01)
+	if(fabs(_distance-_distanceDone) < 0.01)
 		return true;
 
 	// set moved flag
@@ -208,21 +208,21 @@ bool RotateScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<Dynam
 	moved = true;
 
 	double distance = (currAngle-_Angle);
-	if(abs(distance) > 2.0)
+	if(fabs(distance) > 2.0)
 	{
 		if((distance > 0 && distance < 180) || (distance < -180))
 		{
 			if(_ManageAnimation)
 				actor->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate("TurnRight"), false);
 
-			physo->RotateYAxis(std::max((-_RotationSpeedPerSec*tdiff)+mr, (-(float)abs(distance))));
+			physo->RotateYAxis(std::max((-_RotationSpeedPerSec*tdiff)+mr, (-(float)fabs(distance))));
 		}
 		else
 		{
 			if(_ManageAnimation)
 				actor->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate("TurnLeft"), false);
 
-			physo->RotateYAxis(std::min((_RotationSpeedPerSec*tdiff)+mr, ((float)abs(distance))));
+			physo->RotateYAxis(std::min((_RotationSpeedPerSec*tdiff)+mr, ((float)fabs(distance))));
 		}
 	}
 	else
@@ -272,7 +272,7 @@ bool GoToScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<Dynamic
 
 
 	// check if we arrive at destination
-	if(abs(_distance-_distanceDone) < 0.01)
+	if(fabs(_distance-_distanceDone) < 0.01)
 		return true;
 
 
@@ -369,7 +369,7 @@ bool RotateFromPointScriptPart::Process(double tnow, float tdiff, boost::shared_
 {
 	actor->Process(tnow, tdiff);
 
-	if(abs(_doneAngle) >= abs(_Angle))
+	if(fabs(_doneAngle) >= abs(_Angle))
 		return true;
 
 
@@ -386,7 +386,7 @@ bool RotateFromPointScriptPart::Process(double tnow, float tdiff, boost::shared_
 
 
 	_doneAngle += move;
-	if(abs(_doneAngle) > abs(_Angle))
+	if(fabs(_doneAngle) > abs(_Angle))
 	{
 		float diff = (_doneAngle-_Angle);
 		_doneAngle = _Angle;
@@ -426,12 +426,8 @@ FollowWaypointScriptPart::FollowWaypointScriptPart(int scriptid, bool asynchronu
 													boost::shared_ptr<DynamicObject> actor)
 : ScriptPartBase(scriptid, asynchronus), _distance(0), _distancedone(0)
 {
-	LogHandler::getInstance()->LogToFile("Follow waypoint start", actor->GetId());
-
 	std::vector<LbaVec3> waypoints = actor->GetWaypoints(waypointindex1);
-	LogHandler::getInstance()->LogToFile("Nb waypoints: ", (int)waypoints.size());
-
-
+	
 	if(waypointindex2 < (int)waypoints.size())
 	{
 		_P2 =  waypoints[waypointindex2];
@@ -466,11 +462,6 @@ FollowWaypointScriptPart::FollowWaypointScriptPart(int scriptid, bool asynchronu
 
 		_distance = GetArcLength(_P0, _P1, _P2, _P3, 100);
 	}
-
-
-	std::stringstream strs;
-	strs<<"Calculated distance: "<<_distance;
-	LogHandler::getInstance()->LogToFile(strs.str(), actor->GetId());
 }
 
 /***********************************************************
@@ -504,7 +495,7 @@ bool FollowWaypointScriptPart::Process(double tnow, float tdiff, boost::shared_p
 	actor->Process(tnow, tdiff);
 
 	// check if we arrive at destination
-	if(abs(_distance) <= abs(_distancedone))
+	if(fabs(_distance) <= abs(_distancedone))
 		return true;
 
 
@@ -522,7 +513,7 @@ bool FollowWaypointScriptPart::Process(double tnow, float tdiff, boost::shared_p
 	float speedZ = disso->GetCurrentAssociatedSpeedZ();
 
 	float move = (speedX+speedY+speedZ) * tdiff;
-	_distancedone += abs(move);
+	_distancedone += fabs(move);
 
 
 	if(_distancedone > _distance)
