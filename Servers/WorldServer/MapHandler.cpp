@@ -49,8 +49,6 @@ MapHandler::MapHandler(const std::string & worldname, const MapInfo & mapinfo,
 	m_luaHandler->LoadFile(mapluafilename);
 
 	m_luaHandler->CallLua("InitMap", this);
-
-
 }
 
 /***********************************************************
