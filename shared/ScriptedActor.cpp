@@ -519,9 +519,9 @@ bool FollowWaypointScriptPart::Process(double tnow, float tdiff, boost::shared_p
 	if(_distancedone > _distance)
 		_distancedone = _distance;
 
-	//std::stringstream strs;
-	//strs<<"Follow waypoint: "<<" "<<move<<" "<<_distancedone<<" "<<_distance;
-	//LogHandler::getInstance()->LogToFile(strs.str(), actor->GetId());
+	std::stringstream strs;
+	strs<<"Follow waypoint: "<<" "<<move<<" "<<_distancedone<<" "<<_distance<<" "<<tdiff;
+	LogHandler::getInstance()->LogToFile(strs.str(), actor->GetId());
 
 
 	// calculate move on spline
