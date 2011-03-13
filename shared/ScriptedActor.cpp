@@ -493,8 +493,6 @@ FollowWaypointScriptPart::FollowWaypointScriptPart(int scriptid, bool asynchronu
 ***********************************************************/
 bool FollowWaypointScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor, bool & moved)
 {
-	LogHandler::getInstance()->LogToFile("Follow waypoint Process", actor->GetId());
-
 	actor->Process(tnow, tdiff);
 
 	// check if we arrive at destination
@@ -521,6 +519,11 @@ bool FollowWaypointScriptPart::Process(double tnow, float tdiff, boost::shared_p
 
 	if(_distancedone > _distance)
 		_distancedone = _distance;
+
+	std::stringstream strs;
+	strs<<"Follow waypoint Process: "<<animation<<" "<<speedX<<" "<<speedY<<" "<<speedZ<<" "<<move<<" "<<_distancedone;
+	LogHandler::getInstance()->LogToFile(strs.str(), actor->GetId());
+
 
 	// calculate move on spline
 	float ratio = _distancedone/_distance;
