@@ -25,7 +25,7 @@
 /***********************************************************
 constructor
 ***********************************************************/
-MapHandler::MapHandler(const std::string & worldname, const MapInfo & mapinfo, 
+MapHandler::MapHandler(const std::string & worldname, const MapInfo & mapinfo,
 						const std::string & mapluafilename,
 						const std::string & customluafilename)
 : _Trunning(false), _mapinfo(mapinfo), _worldname(worldname)
@@ -49,6 +49,7 @@ MapHandler::MapHandler(const std::string & worldname, const MapInfo & mapinfo,
 	m_luaHandler->LoadFile(mapluafilename);
 
 	m_luaHandler->CallLua("InitMap", this);
+
 }
 
 /***********************************************************
@@ -153,7 +154,7 @@ void MapHandler::run()
 				for(size_t veci=0; veci < evta.size(); ++veci)
 					_tosendevts.push_back(evta[veci]);
 			}
-		}	
+		}
 
 
 		// inform triggers
@@ -262,7 +263,7 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 	// player updated position
 	if(info == typeid(LbaNet::PlayerMovedEvent))
 	{
-		LbaNet::PlayerMovedEvent* castedptr = 
+		LbaNet::PlayerMovedEvent* castedptr =
 			dynamic_cast<LbaNet::PlayerMovedEvent *>(&obj);
 
 		PlayerMoved(id, castedptr->Time, castedptr->info);
@@ -273,7 +274,7 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 	// UpdateGameGUIEvent
 	if(info == typeid(LbaNet::UpdateGameGUIEvent))
 	{
-		LbaNet::UpdateGameGUIEvent* castedptr = 
+		LbaNet::UpdateGameGUIEvent* castedptr =
 			dynamic_cast<LbaNet::UpdateGameGUIEvent *>(&obj);
 
 		GuiUpdate(id, castedptr->GUIId, castedptr->Updates);
@@ -283,7 +284,7 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 	// TeleportEvent
 	if(info == typeid(LbaNet::TeleportEvent))
 	{
-		LbaNet::TeleportEvent* castedptr = 
+		LbaNet::TeleportEvent* castedptr =
 			dynamic_cast<LbaNet::TeleportEvent *>(&obj);
 
 		LbaNet::PlayerPosition newpos = SharedDataHandler::getInstance()->GetTeleportPos(this, (long)id,
@@ -296,9 +297,9 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 	// ChangeStanceEvent
 	if(info == typeid(LbaNet::ChangeStanceEvent))
 	{
-		LbaNet::ChangeStanceEvent* castedptr = 
+		LbaNet::ChangeStanceEvent* castedptr =
 			dynamic_cast<LbaNet::ChangeStanceEvent *>(&obj);
-		
+
 		ChangeStance(id, castedptr->NewStance);
 		return;
 	}
@@ -307,7 +308,7 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 	// PressedActionKeyEvent
 	if(info == typeid(LbaNet::PressedActionKeyEvent))
 	{
-		LbaNet::PressedActionKeyEvent* castedptr = 
+		LbaNet::PressedActionKeyEvent* castedptr =
 			dynamic_cast<LbaNet::PressedActionKeyEvent *>(&obj);
 
 		ProcessPlayerAction(id, castedptr->ForcedNormalAction);
@@ -327,7 +328,7 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 	// UpdateStateEvent
 	if(info == typeid(LbaNet::UpdateStateEvent))
 	{
-		LbaNet::UpdateStateEvent* castedptr = 
+		LbaNet::UpdateStateEvent* castedptr =
 			dynamic_cast<LbaNet::UpdateStateEvent *>(&obj);
 
 		ChangePlayerState(id, castedptr->NewState, castedptr->FallingSize, 5, -1);
@@ -344,7 +345,7 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 	//NewClientExtraInfoEvent
 	if(info == typeid(LbaNet::NewClientExtraInfoEvent))
 	{
-		LbaNet::NewClientExtraInfoEvent* castedptr = 
+		LbaNet::NewClientExtraInfoEvent* castedptr =
 			dynamic_cast<LbaNet::NewClientExtraInfoEvent *>(&obj);
 
 		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
@@ -363,7 +364,7 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 	//ScriptExecutionFinishedEvent
 	if(info == typeid(LbaNet::ScriptExecutionFinishedEvent))
 	{
-		LbaNet::ScriptExecutionFinishedEvent* castedptr = 
+		LbaNet::ScriptExecutionFinishedEvent* castedptr =
 			dynamic_cast<LbaNet::ScriptExecutionFinishedEvent *>(&obj);
 
 		FinishedScript((long)id, castedptr->ScriptName);
@@ -375,7 +376,7 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 	#ifdef _USE_QT_EDITOR_
 	if(info == typeid(EditorEvent))
 	{
-		EditorEvent* castedptr = 
+		EditorEvent* castedptr =
 			static_cast<EditorEvent *>(&obj);
 
 		ProcessEditorUpdate(castedptr->_update);
@@ -391,7 +392,7 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 	//PlayerItemUsedEvent
 	if(info == typeid(LbaNet::PlayerItemUsedEvent))
 	{
-		LbaNet::PlayerItemUsedEvent* castedptr = 
+		LbaNet::PlayerItemUsedEvent* castedptr =
 			dynamic_cast<LbaNet::PlayerItemUsedEvent *>(&obj);
 
 		PlayerItemUsed((long)id, (long)castedptr->ItemId);
@@ -402,7 +403,7 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 	//ShowHideEvent
 	if(info == typeid(LbaNet::ShowHideEvent))
 	{
-		LbaNet::ShowHideEvent* castedptr = 
+		LbaNet::ShowHideEvent* castedptr =
 			dynamic_cast<LbaNet::ShowHideEvent *>(&obj);
 
 		// only allowed on scripted event
@@ -422,8 +423,8 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 		EventsSeq toplayer;
 		GuiParamsSeq seq;
 		seq.push_back(new TeleportGuiParameter(tpseq));
-		toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-													"TeleportBox", seq, true, false)); 
+		toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+													"TeleportBox", seq, true, false));
 
 		SendEvents((long)id, toplayer);
 		return;
@@ -432,10 +433,10 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 	// UpdatePlayerColorEvent
 	if(info == typeid(LbaNet::UpdatePlayerColorEvent))
 	{
-		LbaNet::UpdatePlayerColorEvent* castedptr = 
+		LbaNet::UpdatePlayerColorEvent* castedptr =
 			dynamic_cast<LbaNet::UpdatePlayerColorEvent *>(&obj);
 
-		ChangePlayerColor((long)id, castedptr->SkinColor, castedptr->EyesColor, 
+		ChangePlayerColor((long)id, castedptr->SkinColor, castedptr->EyesColor,
 								castedptr->HairColor, -2, -2, -2, -2);
 		return;
 	}
@@ -443,10 +444,10 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 	// DestroyProjectileEvent
 	if(info == typeid(LbaNet::DestroyProjectileEvent))
 	{
-		LbaNet::DestroyProjectileEvent* castedptr = 
+		LbaNet::DestroyProjectileEvent* castedptr =
 			dynamic_cast<LbaNet::DestroyProjectileEvent *>(&obj);
 
-		DestroyProjectile((long)id, (long)castedptr->Id, 
+		DestroyProjectile((long)id, (long)castedptr->Id,
 							castedptr->TouchedActorType, (long)castedptr->TouchedActorId);
 		return;
 	}
@@ -454,10 +455,10 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 	// ProjectileHittedActorEvent
 	if(info == typeid(LbaNet::ProjectileHittedActorEvent))
 	{
-		LbaNet::ProjectileHittedActorEvent* castedptr = 
+		LbaNet::ProjectileHittedActorEvent* castedptr =
 			dynamic_cast<LbaNet::ProjectileHittedActorEvent *>(&obj);
 
-		HittedProjectile((long)id, (long)castedptr->Id, 
+		HittedProjectile((long)id, (long)castedptr->Id,
 							castedptr->TouchedActorType, (long)castedptr->TouchedActorId);
 		return;
 	}
@@ -465,10 +466,10 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 	// PlayerHittedContactActorEvent
 	if(info == typeid(LbaNet::PlayerHittedContactActorEvent))
 	{
-		LbaNet::PlayerHittedContactActorEvent* castedptr = 
+		LbaNet::PlayerHittedContactActorEvent* castedptr =
 			dynamic_cast<LbaNet::PlayerHittedContactActorEvent *>(&obj);
 
-		PlayerHittedContact((long)id, castedptr->WithWeapon, 
+		PlayerHittedContact((long)id, castedptr->WithWeapon,
 							castedptr->TouchedActorType, (long)castedptr->TouchedActorId);
 		return;
 	}
@@ -568,13 +569,13 @@ void MapHandler::PlayerEntered(Ice::Long id)
 
 	std::string clluafile = "Worlds/" + _worldname + "/Lua/";
 	clluafile += _mapinfo.Name + "_client.lua";
-	
+
 
 	// inform client he enter a new map
-	toplayer.push_back(new NewMapEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-											_mapinfo.Name, clluafile, 
-											_mapinfo.AutoCameraType, _mapinfo.Music, _mapinfo.Repeat)); 
-	
+	toplayer.push_back(new NewMapEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+											_mapinfo.Name, clluafile,
+											_mapinfo.AutoCameraType, _mapinfo.Music, _mapinfo.Repeat));
+
 	// player inventory
 	{
 	GuiParamsSeq seq;
@@ -599,7 +600,7 @@ void MapHandler::PlayerEntered(Ice::Long id)
 	{
 		ObjectPhysicDesc	PhysicDesc;
 		PhysicDesc.Pos = GetPlayerPosition(id);
-		PhysicDesc.TypePhysO = KynematicAType;	
+		PhysicDesc.TypePhysO = KynematicAType;
 		PhysicDesc.TypeShape = CapsuleShape;
 		PhysicDesc.Collidable = true;
 		PhysicDesc.Density = 1;
@@ -608,9 +609,9 @@ void MapHandler::PlayerEntered(Ice::Long id)
 		GetPlayerPhysicalSize(id, sizeX, sizeY, sizeZ);
 		PhysicDesc.SizeX = sizeX;
 		PhysicDesc.SizeY = sizeY;
-		
-		_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-													2, id, GetPlayerModelInfo(id), PhysicDesc, 
+
+		_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+													2, id, GetPlayerModelInfo(id), PhysicDesc,
 													GetPlayerLifeInfo(id), GetPlayerExtraInfo(id)));
 	}
 
@@ -663,7 +664,7 @@ void MapHandler::PlayerLeft(Ice::Long id)
 
 
 	// inform all players that player left
-	_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+	_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 												2, id));
 
 	// destroy projectiles
@@ -777,7 +778,7 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 		std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endact = _Actors.end();
 		for(; itact != endact; ++itact)
 		{
-			
+
 			const ActorObjectInfo & actinfo = itact->second->GetActorInfo();
 
 			// check if objects are visible by the player ( depends of condition)
@@ -798,8 +799,8 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 					xinfo.NameColorB = 1.0;
 				#endif
 
-				toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-					1, itact->first, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo, 
+				toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+					1, itact->first, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo,
 					xinfo));
 
 				LbaNet::ClientServerEventBasePtr lastevent = itact->second->GetLastEvent();
@@ -823,14 +824,14 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 			ActorObjectInfo & actinfo = itact->second;
 			actinfo.LifeInfo.Display = false;
 
-			toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-				4, itact->first, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo , 
+			toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+				4, itact->first, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo ,
 				actinfo.ExtraInfo));
 		}
 	}
 	#endif
 
-	
+
 	// current players in map
 	{
 		std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itact = _players.begin();
@@ -839,7 +840,7 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 		{
 			ObjectPhysicDesc	PhysicDesc;
 			PhysicDesc.Pos = itact->second->GetPlayerPosition();
-			PhysicDesc.TypePhysO = KynematicAType;	
+			PhysicDesc.TypePhysO = KynematicAType;
 			PhysicDesc.TypeShape = CapsuleShape;
 			PhysicDesc.Collidable = true;
 			PhysicDesc.Density = 1;
@@ -849,9 +850,9 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 			PhysicDesc.SizeX = sizeX;
 			PhysicDesc.SizeY = sizeY;
 
-			toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-														2, itact->first, 
-														itact->second->GetModelInfo(), PhysicDesc, 
+			toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+														2, itact->first,
+														itact->second->GetModelInfo(), PhysicDesc,
 														itact->second->GetLifeManaInfo(),
 														itact->second->GetExtraInfo()));
 		}
@@ -880,8 +881,8 @@ void MapHandler::ChangeStance(Ice::Long id, LbaNet::ModelStance NewStance, bool 
 		// update physical info as well
 		float sizeX, sizeY, sizeZ;
 		GetPlayerPhysicalSize(id, sizeX, sizeY, sizeZ);
-		_tosendevts.push_back(new UpdatePhysicObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-													2, id,  
+		_tosendevts.push_back(new UpdatePhysicObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+													2, id,
 													new SizeUpdate(sizeX, sizeY, sizeZ)));
 
 	}
@@ -1002,7 +1003,7 @@ void MapHandler::RaiseFromDeadEvent(Ice::Long id)
 			_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 									2, id, new ObjectLifeInfoUpdate(GetPlayerLifeInfo(id))));
 
-			_tosendevts.push_back(new LbaNet::PlayerMovedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+			_tosendevts.push_back(new LbaNet::PlayerMovedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 																id, moveinfo, true));
 		}
 	}
@@ -1031,7 +1032,7 @@ void MapHandler::Teleport(int ObjectType, long ObjectId,
 {
 	if(ObjectType == 2)
 	{
-		LbaNet::PlayerPosition newpos = 
+		LbaNet::PlayerPosition newpos =
 			SharedDataHandler::getInstance()->GetSpawnPos(NewMapName, SpawningId, GetPlayerRotation(ObjectId));
 		newpos.X += offsetX;
 		newpos.Y += offsetY;
@@ -1070,11 +1071,11 @@ void MapHandler::AddTrigger(boost::shared_ptr<TriggerBase> trigger)
 			_editorObjects[edobjid] = ainfo;
 
 			// reset the object display on client
-			_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+			_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 																			4, edobjid));
 
-			_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-					4, edobjid, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo, 
+			_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+					4, edobjid, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo,
 					ainfo.ExtraInfo));
 		}
 		else
@@ -1082,8 +1083,8 @@ void MapHandler::AddTrigger(boost::shared_ptr<TriggerBase> trigger)
 			// object does not exist - add it
 			_editorObjects[edobjid] = ainfo;
 
-			_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-					4, edobjid, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo , 
+			_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+					4, edobjid, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo ,
 					ainfo.ExtraInfo));
 		}
 		#endif
@@ -1132,15 +1133,15 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 	// spawning update
 	if(info == typeid(UpdateEditor_AddOrModSpawning))
 	{
-		UpdateEditor_AddOrModSpawning* castedptr = 
+		UpdateEditor_AddOrModSpawning* castedptr =
 			dynamic_cast<UpdateEditor_AddOrModSpawning *>(&obj);
 
 		Editor_AddOrModSpawning(castedptr->_SpawningId,
 									castedptr->_spawningname,
 									castedptr->_PosX,
-									castedptr->_PosY, 
+									castedptr->_PosY,
 									castedptr->_PosZ,
-									castedptr->_Rotation, 
+									castedptr->_Rotation,
 									castedptr->_forcedrotation);
 
 		return;
@@ -1150,7 +1151,7 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 	// spawning remove
 	if(info == typeid(UpdateEditor_RemoveSpawning))
 	{
-		UpdateEditor_RemoveSpawning* castedptr = 
+		UpdateEditor_RemoveSpawning* castedptr =
 			dynamic_cast<UpdateEditor_RemoveSpawning *>(&obj);
 
 		Editor_RemoveSpawning(castedptr->_SpawningId);
@@ -1161,7 +1162,7 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 	// trigger update
 	if(info == typeid(UpdateEditor_AddOrModTrigger))
 	{
-		UpdateEditor_AddOrModTrigger* castedptr = 
+		UpdateEditor_AddOrModTrigger* castedptr =
 			dynamic_cast<UpdateEditor_AddOrModTrigger *>(&obj);
 
 		AddTrigger(castedptr->_trigger);
@@ -1172,7 +1173,7 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 	// trigger remove
 	if(info == typeid(UpdateEditor_RemoveTrigger))
 	{
-		UpdateEditor_RemoveTrigger* castedptr = 
+		UpdateEditor_RemoveTrigger* castedptr =
 			dynamic_cast<UpdateEditor_RemoveTrigger *>(&obj);
 
 		Editor_RemoveTrigger(castedptr->_TriggerId);
@@ -1182,7 +1183,7 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 	// map info modified
 	if(info == typeid(UpdateEditor_AddOrModMap))
 	{
-		UpdateEditor_AddOrModMap* castedptr = 
+		UpdateEditor_AddOrModMap* castedptr =
 			dynamic_cast<UpdateEditor_AddOrModMap *>(&obj);
 
 		_mapinfo = castedptr->_mapinfo;
@@ -1194,7 +1195,7 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 	// actor update
 	if(info == typeid(UpdateEditor_AddOrModActor))
 	{
-		UpdateEditor_AddOrModActor* castedptr = 
+		UpdateEditor_AddOrModActor* castedptr =
 			dynamic_cast<UpdateEditor_AddOrModActor *>(&obj);
 
 		Editor_AddModActor(castedptr->_actor);
@@ -1205,7 +1206,7 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 	// actor remove
 	if(info == typeid(UpdateEditor_RemoveActor))
 	{
-		UpdateEditor_RemoveActor* castedptr = 
+		UpdateEditor_RemoveActor* castedptr =
 			dynamic_cast<UpdateEditor_RemoveActor *>(&obj);
 
 		Editor_RemoveActor(castedptr->_id);
@@ -1215,10 +1216,10 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 	// color change
 	if(info == typeid(ChangeColorEvent))
 	{
-		ChangeColorEvent* castedptr = 
+		ChangeColorEvent* castedptr =
 			static_cast<ChangeColorEvent *>(&obj);
 
-		ChangePlayerColor(1, castedptr->_skinidx, castedptr->_eyesidx, 
+		ChangePlayerColor(1, castedptr->_skinidx, castedptr->_eyesidx,
 								castedptr->_hairidx, castedptr->_outfitidx,
 								castedptr->_weaponidx, castedptr->_mountidx,
 								castedptr->_mountidx2);
@@ -1229,7 +1230,7 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 	// player tp
 	if(info == typeid(EditorTeleportPlayerEvent))
 	{
-		EditorTeleportPlayerEvent* castedptr = 
+		EditorTeleportPlayerEvent* castedptr =
 			dynamic_cast<EditorTeleportPlayerEvent *>(&obj);
 
 		TeleportPlayer(castedptr->_playerid, castedptr->_newpos);
@@ -1279,7 +1280,7 @@ void MapHandler::Editor_RemoveSpawning(long SpawningId)
 		{
 			_editorObjects.erase(itm);
 
-			_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+			_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 																			4, edobjid));
 		}
 	}
@@ -1308,7 +1309,7 @@ void MapHandler::Editor_RemoveTrigger(long TriggerId)
 		{
 			_editorObjects.erase(itm);
 
-			_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+			_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 																			4, edobjid));
 		}
 	}
@@ -1319,7 +1320,7 @@ void MapHandler::Editor_RemoveTrigger(long TriggerId)
 /***********************************************************
 create display object for spawning
 ***********************************************************/
-ActorObjectInfo MapHandler::CreateSpawningDisplay(long id, float PosX, float PosY, float PosZ, 
+ActorObjectInfo MapHandler::CreateSpawningDisplay(long id, float PosX, float PosY, float PosZ,
 												  const std::string & name)
 {
 	ActorObjectInfo ainfo(id);
@@ -1360,7 +1361,7 @@ void MapHandler::Editor_AddModActor(boost::shared_ptr<ActorHandler> actor)
 
 
 	// update client
-	_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+	_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 																	1, actor->GetId()));
 
 
@@ -1374,11 +1375,11 @@ void MapHandler::Editor_AddModActor(boost::shared_ptr<ActorHandler> actor)
 	xinfo.NameColorB = 1.0;
 
 
-	_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-														1, actor->GetId(), 
-														actor->GetActorInfo().DisplayDesc, 
-														actor->GetActorInfo().PhysicDesc, 
-														actor->GetActorInfo().LifeInfo, 
+	_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+														1, actor->GetId(),
+														actor->GetActorInfo().DisplayDesc,
+														actor->GetActorInfo().PhysicDesc,
+														actor->GetActorInfo().LifeInfo,
 														xinfo));
 
 }
@@ -1398,7 +1399,7 @@ void MapHandler::Editor_RemoveActor(long Id)
 		_Actors.erase(it);
 
 		// update client
-		_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+		_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 																		1, Id));
 	}
 }
@@ -1510,7 +1511,7 @@ void MapHandler::DisplayTxtAction(int ObjectType, long ObjectId,
 
 
 	// send text request to player
-	_guihandlers["TextBox"]->ShowGUI(clientid, GetPlayerPosition(clientid), 
+	_guihandlers["TextBox"]->ShowGUI(clientid, GetPlayerPosition(clientid),
 					boost::shared_ptr<ShowGuiParamBase>(new TextBoxParam(TextId)));
 }
 
@@ -1520,7 +1521,7 @@ void MapHandler::DisplayTxtAction(int ObjectType, long ObjectId,
 /***********************************************************
 send error message to client
 ***********************************************************/
-void MapHandler::SendErrorMessage(long clientid, const std::string & messagetitle, 
+void MapHandler::SendErrorMessage(long clientid, const std::string & messagetitle,
 									const std::string &  messagecontent)
 {
 	if(clientid >= 0)
@@ -1528,7 +1529,7 @@ void MapHandler::SendErrorMessage(long clientid, const std::string & messagetitl
 		LbaNet::EventsSeq toplayer;
 		LbaNet::GuiUpdatesSeq paramseq;
 		paramseq.push_back(new LbaNet::SystemMessageUpdate(messagetitle, messagecontent));
-		toplayer.push_back(new LbaNet::UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+		toplayer.push_back(new LbaNet::UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 												"main", paramseq));
 
 		/// send evens to player
@@ -1548,7 +1549,7 @@ void MapHandler::OpenContainer(long clientid, boost::shared_ptr<ContainerSharedI
 		int size = GetInventorySize(clientid);
 
 		// send container to player
-		_guihandlers["ContainerBox"]->ShowGUI(clientid, GetPlayerPosition(clientid), 
+		_guihandlers["ContainerBox"]->ShowGUI(clientid, GetPlayerPosition(clientid),
 						boost::shared_ptr<ShowGuiParamBase>(new ContainerParam(sharedinfo, inventory, size)));
 	}
 }
@@ -1560,7 +1561,7 @@ called when a script is finished on a client
 ***********************************************************/
 void MapHandler::FinishedScript(long id, const std::string & ScriptName)
 {
-	// check if script was running 
+	// check if script was running
 	LbaNet::ModelInfo  modelinfo = GetPlayerModelInfo(id);
 	if(modelinfo.State != LbaNet::StScripted)
 		return;
@@ -1645,11 +1646,11 @@ void MapHandler::PlayerItemUsed(Ice::Long clientid, long ItemId)
 					LbaNet::LetterInfo linfo = dbh->GetLetterInfo(itinfo.Info.Id-_CUSTOM_OFFSET_);
 					if(linfo.LetterId >= 0)
 					{
-						EventsSeq toplayer;		
+						EventsSeq toplayer;
 						GuiParamsSeq seq;
 						seq.push_back(new LetterViewerGuiParameter(linfo));
 						toplayer.push_back(
-							new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+							new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 														"LetterViewerBox", seq, true, false));
 
 						/// send evens to player
@@ -1841,7 +1842,7 @@ void MapHandler::SendSignalToActor(long ActorId, int Signalnumber)
 	if(ActorId < 0)
 	{
 		//inform players
-		_tosendevts.push_back(new SendSignalEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+		_tosendevts.push_back(new SendSignalEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 																						Signalnumber));
 	}
 	else
@@ -1899,21 +1900,21 @@ void MapHandler::ActorShowHide(long ActorId, bool Show)
 	//! used by lua to move an actor or player
 	//! the actor will move using speed
 ***********************************************************/
-void MapHandler::InternalActorGoTo(int ScriptId, long ActorId, const LbaVec3 &Position, 
+void MapHandler::InternalActorGoTo(int ScriptId, long ActorId, const LbaVec3 &Position,
 										float Speed, bool asynchronus)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
 		itact->second->ActorGoTo(ScriptId, Position.x, Position.y, Position.z, Speed, asynchronus);
 }
-	
+
 
 
 /***********************************************************
 	//! used by lua to move an actor or player
 	//! the actor will wait for signal
 ***********************************************************/
-void MapHandler::InternalActorWaitForSignal(int ScriptId, long ActorId, int Signalnumber, 
+void MapHandler::InternalActorWaitForSignal(int ScriptId, long ActorId, int Signalnumber,
 												bool asynchronus)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
@@ -1930,13 +1931,13 @@ void MapHandler::InternalActorWaitForSignal(int ScriptId, long ActorId, int Sign
 	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
 	//! if ManageAnimation is true then the animation will be changed to suit the rotation
 ***********************************************************/
-void MapHandler::InternalActorRotateFromPoint(int ScriptId, long ActorId, float Angle, const LbaVec3 &Position, 
+void MapHandler::InternalActorRotateFromPoint(int ScriptId, long ActorId, float Angle, const LbaVec3 &Position,
 												float RotationSpeedPerSec, bool asynchronus)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
-		itact->second->ActorRotateFromPoint(ScriptId, Angle, 
-													Position.x, Position.y, Position.z, RotationSpeedPerSec, 
+		itact->second->ActorRotateFromPoint(ScriptId, Angle,
+													Position.x, Position.y, Position.z, RotationSpeedPerSec,
 													asynchronus);
 }
 
@@ -1944,7 +1945,7 @@ void MapHandler::InternalActorRotateFromPoint(int ScriptId, long ActorId, float 
 /***********************************************************
  used by lua to make actor follow waypoint
 ***********************************************************/
-void MapHandler::InternalActorFollowWaypoint(int ScriptId, long ActorId, int waypointindex1, 
+void MapHandler::InternalActorFollowWaypoint(int ScriptId, long ActorId, int waypointindex1,
 												int waypointindex2, bool asynchronus)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
@@ -2103,14 +2104,14 @@ void MapHandler::RevertActorModel(long ActorId)
 /***********************************************************
 open dialog with player
 ***********************************************************/
-void MapHandler::StartDialog(long PlayerId, long NpcId, long npcnametextid, bool simpledialog, 
+void MapHandler::StartDialog(long PlayerId, long NpcId, long npcnametextid, bool simpledialog,
 												boost::shared_ptr<DialogPart> dialogroot)
 {
 	if(PlayerId >= 0)
 	{
 		// send container to player
-		_guihandlers["DialogBox"]->ShowGUI(PlayerId, GetPlayerPosition(PlayerId), 
-						boost::shared_ptr<ShowGuiParamBase>(new DialogParam(NpcId, npcnametextid, 
+		_guihandlers["DialogBox"]->ShowGUI(PlayerId, GetPlayerPosition(PlayerId),
+						boost::shared_ptr<ShowGuiParamBase>(new DialogParam(NpcId, npcnametextid,
 																	simpledialog, dialogroot)));
 	}
 }
@@ -2131,20 +2132,20 @@ void MapHandler::NpcUntargetPlayer(long NpcId, long PlayerId)
 /***********************************************************
 open shop
 ***********************************************************/
-void MapHandler::OpenShop(long PlayerId, const LbaNet::ItemsMap &items, 
+void MapHandler::OpenShop(long PlayerId, const LbaNet::ItemsMap &items,
 									const LbaNet::ItemInfo & currencyitem)
 {
 	if(PlayerId >= 0)
 	{
 		// send container to player
-		_guihandlers["ShopBox"]->ShowGUI(PlayerId, GetPlayerPosition(PlayerId), 
+		_guihandlers["ShopBox"]->ShowGUI(PlayerId, GetPlayerPosition(PlayerId),
 						boost::shared_ptr<ShowGuiParamBase>(new ShopParam(items, currencyitem)));
 	}
 }
 
 /***********************************************************
 add spawn
-***********************************************************/					
+***********************************************************/
 void MapHandler::AddSpawn(boost::shared_ptr<Spawn> spawn)
 {
 	if(spawn)
@@ -2165,21 +2166,21 @@ void MapHandler::AddSpawn(boost::shared_ptr<Spawn> spawn)
 		strs << "Spawn-"<<spawn->GetId()<<": " << spawn->GetName();
 		itm->second.ExtraInfo.Name = strs.str();
 
-		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 				4, edobjid, new ObjectExtraInfoUpdate(itm->second.ExtraInfo)));
 
-		_tosendevts.push_back(new UpdatePhysicObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+		_tosendevts.push_back(new UpdatePhysicObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 				4, edobjid, new PositionUpdate(itm->second.PhysicDesc.Pos)));
 	}
 	else
 	{
 		// object does not exist - add it
-		ActorObjectInfo ainfo = CreateSpawningDisplay(edobjid, 
+		ActorObjectInfo ainfo = CreateSpawningDisplay(edobjid,
 					spawn->GetPosX(), spawn->GetPosY(), spawn->GetPosZ(), spawn->GetName());
 		_editorObjects[edobjid] = ainfo;
 
-		_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-				4, edobjid, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo , 
+		_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+				4, edobjid, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo ,
 				ainfo.ExtraInfo));
 	}
 #endif
@@ -2256,7 +2257,7 @@ void MapHandler::OpenMailbox(long PlayerId)
 	if(PlayerId >= 0)
 	{
 		// send container to player
-		_guihandlers["MailBox"]->ShowGUI(PlayerId, GetPlayerPosition(PlayerId), 
+		_guihandlers["MailBox"]->ShowGUI(PlayerId, GetPlayerPosition(PlayerId),
 						boost::shared_ptr<ShowGuiParamBase>());
 	}
 }
@@ -2279,7 +2280,7 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 		newProj.Comeback = true;
 		newProj.Power = weaponinfo.Info.Effect;
 		newProj.OwnerActorType = 2;
-		newProj.OwnerActorId = PlayerId;	
+		newProj.OwnerActorId = PlayerId;
 		newProj.Id = ((_launchedprojectiles.size() > 0) ? (_launchedprojectiles.rbegin()->first+1): 0);
 
 		newProj.DisplayDesc.TypeRenderer = LbaNet::RenderSphere;
@@ -2324,18 +2325,18 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 
 
 		newProj.ManagingClientId = PlayerId;
-		
+
 		newProj.IgnoreGravity = false;
 
 		newProj.ForceX = 0;
-		newProj.ForceY = 0;		
+		newProj.ForceY = 0;
 		newProj.ForceYOnImpact = 0;
 		bool launch = false;
 
 		if(mode == "Normal" || mode == "Protopack")
 		{
 			newProj.ForceX = 0.15f;
-			newProj.ForceY = 0.1f;		
+			newProj.ForceY = 0.1f;
 			newProj.ForceYOnImpact = 0.1f;
 			launch = true;
 			newProj.LifeTime = 5000;
@@ -2344,7 +2345,7 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 		if(mode == "Sport")
 		{
 			newProj.ForceX = 0.17f;
-			newProj.ForceY = 0;		
+			newProj.ForceY = 0;
 			newProj.ForceYOnImpact = 0.05f;
 			launch = true;
 			newProj.LifeTime = 5000;
@@ -2353,7 +2354,7 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 		if(mode == "Angry")
 		{
 			newProj.ForceX = 0.17f;
-			newProj.ForceY = 0;		
+			newProj.ForceY = 0;
 			newProj.ForceYOnImpact = 0.05f;
 			launch = true;
 			newProj.LifeTime = 5000;
@@ -2362,7 +2363,7 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 		if(mode == "Discrete")
 		{
 			newProj.ForceX = 0.06f;
-			newProj.ForceY = 0.15f;		
+			newProj.ForceY = 0.15f;
 			newProj.ForceYOnImpact = 0.1f;
 			launch = true;
 			newProj.LifeTime = 8000;
@@ -2403,7 +2404,7 @@ void MapHandler::DestroyProjectile(long PlayerId, long ProjectileId, int	Touched
 			//todo - hurt actors
 			if(TouchedActorId >= 0)
 				HittedProjectile(PlayerId, ProjectileId, TouchedActorType, TouchedActorId);
-		
+
 
 			//destroy projectile
 			_launchedprojectiles.erase(itp);
@@ -2412,7 +2413,7 @@ void MapHandler::DestroyProjectile(long PlayerId, long ProjectileId, int	Touched
 			std::map<long, std::vector<long> >::iterator itplayer = _playerprojectiles.find(PlayerId);
 			if(itplayer != _playerprojectiles.end())
 			{
-				std::vector<long>::iterator itpp = 
+				std::vector<long>::iterator itpp =
 					std::find(itplayer->second.begin(), itplayer->second.end(), ProjectileId);
 				if(itpp != itplayer->second.end())
 					itplayer->second.erase(itpp);
@@ -2422,7 +2423,7 @@ void MapHandler::DestroyProjectile(long PlayerId, long ProjectileId, int	Touched
 			}
 
 			_tosendevts.push_back(new DestroyProjectileEvent(
-							SynchronizedTimeHandler::GetCurrentTimeDouble(), ProjectileId, 
+							SynchronizedTimeHandler::GetCurrentTimeDouble(), ProjectileId,
 															TouchedActorType, TouchedActorId));
 		}
 
@@ -2567,7 +2568,7 @@ get player proxy
 ***********************************************************/
 ClientProxyBasePtr MapHandler::GetProxy(Ice::Long clientid)
 {
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it =	_players.find(clientid);	
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it =	_players.find(clientid);
 	if(it != _players.end())
 		return it->second->GetProxy();
 
@@ -2920,7 +2921,7 @@ LbaNet::ItemPosInfo MapHandler::GetCurrentWeaponInfo(Ice::Long clientid)
 	return res;
 }
 
-	
+
 /***********************************************************
 get player hit contact power
 ***********************************************************/
@@ -2933,10 +2934,10 @@ float MapHandler::GetPlayerHitContactPower(Ice::Long clientid, bool withweapon)
 	return -1;
 }
 
-	
+
 /***********************************************************
 get player armor
-***********************************************************/	
+***********************************************************/
 float MapHandler::GetPlayerArmor(Ice::Long clientid)
 {
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
@@ -2985,7 +2986,7 @@ bool MapHandler::DeltaUpdateLife(Ice::Long clientid, float update, int updatetyp
 	{
 		res = itplayer->second->DeltaUpdateLife(update);
 
-		// give life update to everybody	
+		// give life update to everybody
 		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 								2, clientid, new ObjectLifeInfoUpdate(GetPlayerLifeInfo(clientid))));
 	}
@@ -3011,7 +3012,7 @@ bool MapHandler::DeltaUpdateMana(Ice::Long clientid, float update)
 	{
 		res = itplayer->second->DeltaUpdateMana(update);
 
-		// give life update to everybody	
+		// give life update to everybody
 		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 								2, clientid, new ObjectLifeInfoUpdate(GetPlayerLifeInfo(clientid))));
 	}
@@ -3031,7 +3032,7 @@ int MapHandler::GetNbPlayers()
 /***********************************************************
 update player inventory
 ***********************************************************/
-void MapHandler::UpdateInventory(Ice::Long clientid, LbaNet::ItemList Taken, LbaNet::ItemList Put, 
+void MapHandler::UpdateInventory(Ice::Long clientid, LbaNet::ItemList Taken, LbaNet::ItemList Put,
 										LbaNet::ItemClientInformType informtype)
 {
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
@@ -3115,7 +3116,7 @@ bool MapHandler::ChapterStarted(long PlayerId, int Chapter)
 /***********************************************************
 //! change player color
 ***********************************************************/
-void MapHandler::ChangePlayerColor(long clientid, int skinidx, int eyesidx, int hairidx, int outfitidx, 
+void MapHandler::ChangePlayerColor(long clientid, int skinidx, int eyesidx, int hairidx, int outfitidx,
 								   int weaponidx, int mountidx, int mountidx2)
 {
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
@@ -3289,8 +3290,8 @@ bool MapHandler::TeleportPlayer(long playerid, const LbaNet::PlayerPosition &new
 			moveinfo.CurrentSpeedZ = 0;
 			moveinfo.CurrentSpeedRotation = 0;
 			_tosendevts.push_back(new LbaNet::PlayerMovedEvent(
-													SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-													playerid, moveinfo, true));	
+													SynchronizedTimeHandler::GetCurrentTimeDouble(),
+													playerid, moveinfo, true));
 		}
 		return false;
 	}
