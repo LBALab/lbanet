@@ -19,8 +19,9 @@ void Spawn::SaveToLuaFile(std::ofstream & file)
 	if(_ForceRotation)
 	{
 		file<<"\t"<<names.str()<<":SetForceRotation(true)"<<std::endl;
-		file<<"\t"<<names.str()<<":SetRotation("<<_Rotation<<")"<<std::endl;	
+		file<<"\t"<<names.str()<<":SetRotation("<<_Rotation<<")"<<std::endl;
 	}
 
 	file<<"\tenvironment:AddSpawn("<<names.str()<<")"<<std::endl<<std::endl;
+
 }
