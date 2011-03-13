@@ -429,6 +429,9 @@ FollowWaypointScriptPart::FollowWaypointScriptPart(int scriptid, bool asynchronu
 	LogHandler::getInstance()->LogToFile("Follow waypoint start", actor->GetId());
 
 	std::vector<LbaVec3> waypoints = actor->GetWaypoints(waypointindex1);
+	LogHandler::getInstance()->LogToFile("Nb waypoints: ", (int)waypoints.size());
+
+
 	if(waypointindex2 < (int)waypoints.size())
 	{
 		_P2 =  waypoints[waypointindex2];
@@ -463,6 +466,11 @@ FollowWaypointScriptPart::FollowWaypointScriptPart(int scriptid, bool asynchronu
 
 		_distance = GetArcLength(_P0, _P1, _P2, _P3, 100);
 	}
+
+
+	std::stringstream strs;
+	strs<<"Calculated distance: "<<_distance;
+	LogHandler::getInstance()->LogToFile(strs.str(), actor->GetId());
 }
 
 /***********************************************************
@@ -520,9 +528,9 @@ bool FollowWaypointScriptPart::Process(double tnow, float tdiff, boost::shared_p
 	if(_distancedone > _distance)
 		_distancedone = _distance;
 
-	std::stringstream strs;
-	strs<<"Follow waypoint Process: "<<animation<<" "<<speedX<<" "<<speedY<<" "<<speedZ<<" "<<move<<" "<<_distancedone;
-	LogHandler::getInstance()->LogToFile(strs.str(), actor->GetId());
+	//std::stringstream strs;
+	//strs<<"Follow waypoint: "<<" "<<move<<" "<<_distancedone<<" "<<_distance;
+	//LogHandler::getInstance()->LogToFile(strs.str(), actor->GetId());
 
 
 	// calculate move on spline
