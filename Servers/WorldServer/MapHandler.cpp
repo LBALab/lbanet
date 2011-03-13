@@ -13,6 +13,7 @@
 #include "ActorHandler.h"
 #include "InventoryItemHandler.h"
 #include "Spawn.h"
+#include "LogHandler.h"
 
 #include <math.h>
 
@@ -1717,7 +1718,10 @@ void MapHandler::UpdateActorAnimation(long ActorId, const std::string & Animatio
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
+	{
+		LogHandler::getInstance()->LogToFile("Actor update anim: "+AnimationString, ActorId);
 		itact->second->UpdateActorAnimation(AnimationString);
+	}
 }
 
 
@@ -1945,7 +1949,10 @@ void MapHandler::InternalActorFollowWaypoint(int ScriptId, long ActorId, int way
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
+	{
+		LogHandler::getInstance()->LogToFile("Actor follow waypoint: ", ActorId);
 		itact->second->ActorFollowWaypoint(ScriptId, waypointindex1, waypointindex2, asynchronus);
+	}
 }
 
 
