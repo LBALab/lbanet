@@ -300,4 +300,25 @@ public:
 };
 
 
+
+/*
+************************************************************************************************************************
+*                                                  class FocusChatEvent
+*
+*	used to focus chat box edit line
+************************************************************************************************************************
+*/
+class UpdateExtraInfoEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	UpdateExtraInfoEvent(const LbaNet::ObjectExtraInfo& extrainfo)
+		: _extrainfo(extrainfo)
+	{
+	}
+
+	LbaNet::ObjectExtraInfo _extrainfo;
+};
+
+
 #endif

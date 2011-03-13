@@ -840,6 +840,7 @@ update client extra info
 ***********************************************************/
 void SharedDataHandler::UpdateClientExtraInfo(Ice::Long clientid, const LbaNet::ObjectExtraInfo& extrainfo)
 {
-	EventsSeq seq;//todo
+	EventsSeq seq;
+	seq.push_back(new UpdateExtraInfoEvent(extrainfo));
 	ClientEvents(clientid, seq);
 }

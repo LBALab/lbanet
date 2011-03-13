@@ -473,6 +473,19 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 							castedptr->TouchedActorType, (long)castedptr->TouchedActorId);
 		return;
 	}
+
+	// UpdateExtraInfoEvent
+	if(info == typeid(UpdateExtraInfoEvent))
+	{
+		UpdateExtraInfoEvent* castedptr =
+			dynamic_cast<UpdateExtraInfoEvent *>(&obj);
+
+		std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find((long)id);
+		if(it != _players.end())
+			it->second->SetExtraInfo(castedptr->_extrainfo);
+		return;
+	}
+	
 }
 
 
