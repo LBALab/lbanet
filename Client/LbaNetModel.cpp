@@ -198,7 +198,8 @@ add object to the scene
 void LbaNetModel::AddObject(int OType, const ObjectInfo &desc, 
 								const LbaNet::ModelInfo &DisplayDesc,
 								const LbaNet::ObjectExtraInfo &extrainfo,
-								const LbaNet::LifeManaInfo &lifeinfo)
+								const LbaNet::LifeManaInfo &lifeinfo,
+								bool movable, bool freemove)
 {
 	switch(OType)
 	{
@@ -206,7 +207,16 @@ void LbaNetModel::AddObject(int OType, const ObjectInfo &desc,
 		case 1:
 			{
 				boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
-				_npcObjects[desc.Id] = boost::shared_ptr<ExternalActor>(new ExternalActor(tmpobj, DisplayDesc));
+				boost::shared_ptr<PhysicalObjectHandlerBase> physo = tmpobj->GetPhysicalObject();
+				if(physo)
+				{
+					boost::shared_ptr<ActorUserData> udata = physo->GetUserData();
+					if(udata)
+						udata->SetAllowFreeMove(freemove);
+				}
+				
+
+				_npcObjects[desc.Id] = boost::shared_ptr<ExternalActor>(new ExternalActor(tmpobj, DisplayDesc, movable));
 				if(tmpobj->GetDisplayObject())
 				{
 					std::stringstream strs;
@@ -699,6 +709,8 @@ ObjectInfo LbaNetModel::CreateObject(int OType, Ice::Long ObjectId,
 		break;
 
 	}
+
+
 #ifdef _USE_QT_EDITOR_
 	ObjectInfo obj(OType, (long)ObjectId, DInfo, PInfo, false); // make all objects dynamic in editor as we can change them
 #else
@@ -723,7 +735,8 @@ void LbaNetModel::AddObject(int OType, Ice::Long ObjectId,
 					const LbaNet::LifeManaInfo &lifeinfo)
 {
 	ObjectInfo obj = CreateObject(OType, ObjectId, DisplayDesc, PhysicDesc, extrainfo, lifeinfo);
-	AddObject(OType, obj, DisplayDesc, extrainfo, lifeinfo);
+	AddObject(OType, obj, DisplayDesc, extrainfo, lifeinfo, 
+					(PhysicDesc.TypePhysO == LbaNet::CharControlAType), PhysicDesc.AllowFreeMove);
 }
 
 
@@ -1785,6 +1798,7 @@ refresh player portrait
 ***********************************************************/
 void LbaNetModel::RefreshPlayerPortrait()
 {
+#ifndef _USE_QT_EDITOR_
 	//save player image
 	if(m_controllerChar)
 		m_controllerChar->SavePlayerDisplayToFile("Data/GUI/imagesets/charportrait.png");
@@ -1794,6 +1808,7 @@ void LbaNetModel::RefreshPlayerPortrait()
 	updseq.push_back(new RefreshCharPortraitUpdate());
 	EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
 		SynchronizedTimeHandler::GetCurrentTimeDouble(), "main", updseq));
+#endif
 }
 
 

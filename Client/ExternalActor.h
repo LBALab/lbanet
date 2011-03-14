@@ -38,7 +38,8 @@ class ExternalActor : public ExternalPlayer
 public:
 	//constructor
 	ExternalActor(boost::shared_ptr<DynamicObject> obje, 
-								const LbaNet::ModelInfo &Info);
+								const LbaNet::ModelInfo &Info,
+								bool movable);
 
 	//destructor
 	~ExternalActor();
@@ -69,6 +70,15 @@ public:
 	//! server attach actor
 	void ServerAttachActor(boost::shared_ptr<DynamicObject> actor);
 
+
+protected:
+
+	//! check if we need to send update to server
+	void UpdateServer(double tnow, float tdiff);
+
+	//! check if we should force the update
+	bool ShouldforceUpdate();
+
 private:
 	boost::shared_ptr<ScriptPartBase>			_currentScripts;
 	float										_differencePosX;
@@ -85,6 +95,12 @@ private:
 
 	boost::shared_ptr<DynamicObject>			_externalattachedactor;
 
+	bool										_movable;
+
+	LbaNet::PlayerMoveInfo						_lastupdate;
+	LbaNet::PlayerMoveInfo						_currentupdate;
+	double										_lastupdatetime;
+	float										_oldtdiff;
 };
 
 

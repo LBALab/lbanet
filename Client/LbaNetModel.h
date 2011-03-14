@@ -411,7 +411,8 @@ protected:
 	void AddObject(int OType, const ObjectInfo &desc,
 					const LbaNet::ModelInfo &DisplayDesc,
 					const LbaNet::ObjectExtraInfo &extrainfo,
-					const LbaNet::LifeManaInfo &lifeinfo);
+					const LbaNet::LifeManaInfo &lifeinfo,
+					bool movable, bool freemove);
 
 
 	//! remove object from the scene

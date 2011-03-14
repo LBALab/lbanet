@@ -1107,6 +1107,8 @@ update Mode
 ***********************************************************/
 void CharacterController::UpdateActorMode( const std::string & Mode )
 {
+	UpdateModeAndState(Mode, _currentplayerstate, SynchronizedTimeHandler::GetCurrentTimeDouble(), 0);
+
 	LbaNet::ModelInfo model = _character->GetDisplayObject()->GetCurrentModel(false);
 	model.Mode = Mode;
 	_character->GetDisplayObject()->Update(new LbaNet::ModelUpdate(model, false), false);
@@ -1260,6 +1262,5 @@ void CharacterController::SavePlayerDisplayToFile(const std::string & filename)
 		diso->SetPosition(X, Y, Z);
 		diso->SaveToFile(filename);
 	}		
-	
 }
 

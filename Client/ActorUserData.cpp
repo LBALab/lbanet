@@ -34,7 +34,8 @@ ActorUserData::ActorUserData(LbaNet::PhysicalActorType ActType, int ActObj, long
 	: ActorType(ActType), ActObjType(ActObj), Materials(NULL), Rotation(0), 
 		MaterialsSize(0), released(false), ActorId(index), MovingObject(false),
 		AllowedMovingX(false), AllowedMovingZ(false), TouchingGround(false),
-		CurrentMoveX(0), CurrentMoveY(0), CurrentMoveZ(0), AllowFreeMove(false)
+		CurrentMoveX(0), CurrentMoveY(0), CurrentMoveZ(0), AllowFreeMove(false),
+		AddedMoveX(0), AddedMoveY(0), AddedMoveZ(0)
 		
 {
 	m_mutex = new IceUtil::RecMutex();
@@ -292,6 +293,34 @@ void				ActorUserData::SetMove(float X, float Y, float Z)
 }
 
 
+
+
+/***********************************************************
+accessor thread safe
+***********************************************************/
+void				ActorUserData::GetAddedMove(float &X, float &Y, float &Z)
+{
+	IceUtil::RecMutex::Lock lock(*m_mutex);
+	X = AddedMoveX;
+	Y = AddedMoveY;
+	Z = AddedMoveZ;
+
+	AddedMoveX = 0;
+	AddedMoveY = 0;
+	AddedMoveZ = 0;
+}
+
+
+/***********************************************************
+accessor thread safe
+***********************************************************/
+void				ActorUserData::SetAddedMove(float X, float Y, float Z)
+{
+	IceUtil::RecMutex::Lock lock(*m_mutex);
+	AddedMoveX = X;
+	AddedMoveY = Y;
+	AddedMoveZ = Z;
+}
 
 
 /***********************************************************

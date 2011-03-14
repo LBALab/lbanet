@@ -160,42 +160,69 @@ public:
 			characterdatamain->AddActorHitted(hinfo);
 		}
 
-		if(characterdatamain)
+		if(characterdatamain && characterdata)
 		{
-			if(characterdatamain->GetAllowedMovingX() || characterdatamain->GetAllowedMovingZ())
-			{
-				float mox, moy, moz;
-				characterdatamain->GetMove(mox, moy, moz);
-				mox = characterdatamain->GetAllowedMovingX() ? mox : 0;
-				moy = 0;
-				moz = characterdatamain->GetAllowedMovingZ() ? moz : 0;
+			NxExtendedVec3 vecmain = cont->getPosition();
+			NxExtendedVec3 vecother = hit.other->getPosition();
+			NxVec3 diff = (vecother - vecmain);
 
-				characterdatamain->SetMovingObject(true);
+			bool freemove = characterdata->GetAllowFreeMove();
+			bool movex = false, movez = false;
+
+			characterdatamain->SetMovingObject(true);
+			if(abs(diff.x) > abs(diff.z))
+			{
+				movex = true;
 			}
 			else
 			{
-				NxExtendedVec3 vecmain = cont->getPosition();
-				NxExtendedVec3 vecother = hit.other->getPosition();
-				NxVec3 diff = (vecother - vecmain);
-
-				characterdatamain->SetMovingObject(true);
-				if(characterdata)
-					characterdatamain->SetAllowFreeMove(characterdata->GetAllowFreeMove());
-				if(abs(diff.x) > abs(diff.z))
-				{
-					if(diff.x < 0)
-						characterdatamain->SetMovingDirection(2);
-					else
-						characterdatamain->SetMovingDirection(1);
-				}
-				else
-				{
-					if(diff.z < 0)
-						characterdatamain->SetMovingDirection(4);
-					else
-						characterdatamain->SetMovingDirection(3);
-				}
+				movez = true;
 			}
+
+			float mox, moy, moz;
+			characterdatamain->GetMove(mox, moy, moz);
+			mox = ((freemove || movex) ? mox : 0);
+			moy = 0;
+			moz = ((freemove || movez) ? moz : 0);
+
+			characterdatamain->SetMovingObject(true);
+			characterdata->SetAddedMove(mox, moy, moz);
+
+
+			//if(characterdatamain->GetAllowedMovingX() || characterdatamain->GetAllowedMovingZ())
+			//{
+			//	float mox, moy, moz;
+			//	characterdatamain->GetMove(mox, moy, moz);
+			//	mox = characterdatamain->GetAllowedMovingX() ? mox : 0;
+			//	moy = 0;
+			//	moz = characterdatamain->GetAllowedMovingZ() ? moz : 0;
+
+			//	characterdatamain->SetMovingObject(true);
+			//}
+			//else
+			//{
+			//	NxExtendedVec3 vecmain = cont->getPosition();
+			//	NxExtendedVec3 vecother = hit.other->getPosition();
+			//	NxVec3 diff = (vecother - vecmain);
+
+			//	characterdatamain->SetMovingObject(true);
+			//	if(characterdata)
+			//		characterdatamain->SetAllowFreeMove(characterdata->GetAllowFreeMove());
+			//	if(abs(diff.x) > abs(diff.z))
+			//	{
+			//		if(diff.x < 0)
+			//			characterdatamain->SetMovingDirection(2);
+			//		else
+			//			characterdatamain->SetMovingDirection(1);
+			//	}
+			//	else
+			//	{
+			//		if(diff.z < 0)
+			//			characterdatamain->SetMovingDirection(4);
+			//		else
+			//			characterdatamain->SetMovingDirection(3);
+			//	}
+			//}
 		}
 
 

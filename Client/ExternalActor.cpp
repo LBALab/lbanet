@@ -27,7 +27,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "LogHandler.h"
 #include "SharedDataHandler.h"
 #include "ScriptEnvironmentBase.h"
-
+#include "EventsQueue.h"
+#include "ActorUserData.h"
 
 #include <math.h>
 
@@ -36,10 +37,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	Constructor
 ***********************************************************/
 ExternalActor::ExternalActor(boost::shared_ptr<DynamicObject> obje, 
-											const LbaNet::ModelInfo &Info)
-: ExternalPlayer(obje, Info), _shouldreset(true), _targetting(false)
+											const LbaNet::ModelInfo &Info,
+											bool movable)
+: ExternalPlayer(obje, Info), _shouldreset(true), _targetting(false),
+	_movable(movable), _lastupdatetime(0)
 {
+	if(_movable)
+	{
+		// update last position
+		_character->GetPhysicalObject()->GetPosition(_lastupdate.CurrentPos.X,
+							_lastupdate.CurrentPos.Y,
+							_lastupdate.CurrentPos.Z);
 
+		_lastupdate.CurrentSpeedX = 0;
+		_lastupdate.CurrentSpeedY = 0;
+		_lastupdate.CurrentSpeedZ = 0;
+	}
 }
 
 /***********************************************************
@@ -261,6 +274,23 @@ void ExternalActor::Process(double tnow, float tdiff,
 				}
 			}
 		}
+
+		if(_movable)
+		{
+			boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+			if(physo)
+			{
+				boost::shared_ptr<ActorUserData> udata = physo->GetUserData();
+				if(udata)
+				{
+					float mx, my, mz;
+					udata->GetAddedMove(mx, my, mz);
+					physo->Move(mx, my, mz);
+				}
+			}
+
+			UpdateServer(tnow, tdiff);
+		}
 	}
 	else
 	{
@@ -344,4 +374,87 @@ server attach actor
 void ExternalActor::ServerAttachActor(boost::shared_ptr<DynamicObject> actor)
 {
 	_externalattachedactor = actor;
+}
+
+
+/***********************************************************
+check if we need to send update to server
+***********************************************************/
+void ExternalActor::UpdateServer(double tnow, float tdiff)
+{
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+
+	// get current position
+	physo->GetPosition(_currentupdate.CurrentPos.X,
+							_currentupdate.CurrentPos.Y,
+							_currentupdate.CurrentPos.Z);
+
+
+	// get current rotation
+	_currentupdate.CurrentPos.Rotation = 0;
+
+
+	// set speed
+	_currentupdate.CurrentSpeedX = (_currentupdate.CurrentPos.X-_lastupdate.CurrentPos.X) / _oldtdiff;
+	_currentupdate.CurrentSpeedY = (_currentupdate.CurrentPos.Y-_lastupdate.CurrentPos.Y) / _oldtdiff;
+	_currentupdate.CurrentSpeedZ = (_currentupdate.CurrentPos.Z-_lastupdate.CurrentPos.Z) / _oldtdiff;
+	float sumspeed = _currentupdate.CurrentSpeedX + _currentupdate.CurrentSpeedY + _currentupdate.CurrentSpeedZ;
+
+	//calculate angle speed
+	_currentupdate.CurrentSpeedRotation = 0;
+
+
+	_oldtdiff = tdiff;
+
+
+	// check if we should force the update
+	_currentupdate.ForcedChange = ShouldforceUpdate();
+
+
+	//else send regular update every seconds when moving
+	bool updatebytime = false;
+	if(!_currentupdate.ForcedChange && fabs(sumspeed) > 0)
+	{
+		if((tnow - _lastupdatetime) > 1000) // if more than 1 second
+			updatebytime = true;
+	}
+
+
+	//send to server if needed
+	if(_currentupdate.ForcedChange || updatebytime)
+	{
+		EventsQueue::getSenderQueue()->AddEvent(new LbaNet::GhostMovedEvent(tnow, _character->GetId(), 
+																					_currentupdate, false));
+		_lastupdatetime = tnow;
+	}
+
+
+	_lastupdate = _currentupdate;
+}
+
+
+
+/***********************************************************
+check if we should force the update
+***********************************************************/
+bool ExternalActor::ShouldforceUpdate()
+{
+	if(abs(_lastupdate.CurrentSpeedX - _currentupdate.CurrentSpeedX) > 0.00001f)
+		return true;
+
+	if(abs(_lastupdate.CurrentSpeedY - _currentupdate.CurrentSpeedY) > 0.00001f)
+		return true;
+
+	if(abs(_lastupdate.CurrentSpeedZ - _currentupdate.CurrentSpeedZ) > 0.00001f)
+		return true;
+
+
+	float diffpos = abs(_lastupdate.CurrentPos.X - _currentupdate.CurrentPos.X)
+					+ abs(_lastupdate.CurrentPos.Y - _currentupdate.CurrentPos.Y)
+					+  abs(_lastupdate.CurrentPos.Z - _currentupdate.CurrentPos.Z);
+	if(diffpos > 10)
+		return true;
+
+
+	return false;
 }

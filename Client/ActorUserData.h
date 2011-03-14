@@ -121,6 +121,10 @@ public:
 	bool				GetTouchingGround();
 	void				SetTouchingGround(bool newv);  
 
+
+	void				GetAddedMove(float &X, float &Y, float &Z);
+	void				SetAddedMove(float X, float Y, float Z);
+
 private:
 	IceUtil::RecMutex *	m_mutex;
 
@@ -136,28 +140,33 @@ private:
 	LbaNet::PhysicalActorType		ActorType;
 	long							ActorId; 
 
-	size_t				MaterialsSize;
-	short *				Materials; 
+	size_t							MaterialsSize;
+	short *							Materials; 
 
 
-	bool				TouchingGround;
+	bool							TouchingGround;
 
-	bool				released;
-	bool				MovingObject;
-	int					MovingDirection;
+	bool							released;
+	bool							MovingObject;
+	int								MovingDirection;
 
 
-	bool				AllowedMovingX;
-	bool				AllowedMovingZ;
-	bool				AllowFreeMove;
+	bool							AllowedMovingX;
+	bool							AllowedMovingZ;
+	bool							AllowFreeMove;
 
-	float				CurrentMoveX;
-	float				CurrentMoveY;
-	float				CurrentMoveZ;
+	float							CurrentMoveX;
+	float							CurrentMoveY;
+	float							CurrentMoveZ;
 
-	float				Rotation;
+	float							Rotation;
 
-	std::vector<HitInfo>	HittedActors;
+	std::vector<HitInfo>			HittedActors;
+
+
+	float							AddedMoveX;
+	float							AddedMoveY;
+	float							AddedMoveZ;
 };
 
 

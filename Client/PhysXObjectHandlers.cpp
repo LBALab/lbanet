@@ -681,7 +681,7 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionBox::BuildSelf(i
 	else
 	{
 		NxController* controller = PhysXEngine::getInstance()->CreateCharacterBox(NxVec3(positionX, positionY + sizeY/2, positionZ), 
-															NxVec3(sizeX, sizeY, sizeZ), udata.get());
+															NxVec3(sizeX/2, sizeY/2, sizeZ/2), udata.get());
 
 		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXControllerHandler(udata, controller, 
 								boost::shared_ptr<SimpleRotationHandler>(new SimpleRotationHandler(rotation)), sizeY, self));
