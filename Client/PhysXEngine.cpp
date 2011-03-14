@@ -139,6 +139,8 @@ public:
 
 	virtual NxControllerAction  onControllerHit(const NxControllersHit& hit)
 	{
+		//used for movable objects
+
 		NxController* cont = hit.controller;
 		ActorUserData * characterdatamain = NULL;
 		if(cont->getActor())
