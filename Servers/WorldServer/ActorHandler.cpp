@@ -608,6 +608,7 @@ void ActorHandler::SaveToLuaFile(std::ofstream & file)
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.SizeX = "<<m_actorinfo.PhysicDesc.SizeX<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.SizeY = "<<m_actorinfo.PhysicDesc.SizeY<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.SizeZ = "<<m_actorinfo.PhysicDesc.SizeZ<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.AllowFreeMove = "<<(m_actorinfo.PhysicDesc.AllowFreeMove?"true":"false")<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.Filename = \""<<m_actorinfo.PhysicDesc.Filename<<"\""<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<":SetPhysicalActorType("<<m_actorinfo.GetPhysicalActorType()<<")"<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<":SetPhysicalShape("<<m_actorinfo.GetPhysicalShape()<<")"<<std::endl;

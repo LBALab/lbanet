@@ -150,6 +150,8 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectE
 	if(_dbH)
 		savedinfo = _dbH->ChangeWorld(_worldinfo.Description.WorldName, 
 								(long)clientid, _worldinfo.StartingInfo.InventorySize);
+	else
+		return;
 
 	// check if first time arrival in world
 	if(savedinfo.ppos.MapName == "")

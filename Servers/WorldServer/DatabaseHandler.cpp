@@ -96,31 +96,16 @@ LbaNet::SavedWorldInfo DatabaseHandler::ChangeWorld(const std::string& NewWorldN
 
 	Lock sync(*this);
 
-	bool connected = true;
-	for(int i=0; i<5; ++i)
+	
+	if(!_mysqlH || !_mysqlH->connected())
 	{
-		if(!_mysqlH || !_mysqlH->connected())
+		Connect();
+		if(!_mysqlH->connected())
 		{
-			Connect();
-			if(!_mysqlH->connected())
-			{
-				Clear();
-				connected = false;	
-
-				#ifdef WIN32
-					Sleep(300);
-				#else
-					sleep(1);
-				#endif
-			}
+			Clear();
+			throw dbconnectexception();
 		}
-
-		if(connected)
-			break;
 	}
-
-	if(!connected)
-		throw dbconnectexception();
 
 
 

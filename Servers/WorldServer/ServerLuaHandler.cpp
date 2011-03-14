@@ -178,7 +178,11 @@ ServerLuaHandler::ServerLuaHandler()
 		.def_readwrite("SizeX", &LbaNet::ObjectPhysicDesc::SizeX)
 		.def_readwrite("SizeY", &LbaNet::ObjectPhysicDesc::SizeY)
 		.def_readwrite("SizeZ", &LbaNet::ObjectPhysicDesc::SizeZ)
-		.def_readwrite("Filename", &LbaNet::ObjectPhysicDesc::Filename),
+		.def_readwrite("Filename", &LbaNet::ObjectPhysicDesc::Filename)
+		.def_readwrite("AllowFreeMove", &LbaNet::ObjectPhysicDesc::AllowFreeMove)
+		.def_readwrite("Bounciness", &LbaNet::ObjectPhysicDesc::Bounciness)
+		.def_readwrite("StaticFriction", &LbaNet::ObjectPhysicDesc::StaticFriction)
+		.def_readwrite("DynamicFriction", &LbaNet::ObjectPhysicDesc::DynamicFriction),
 
 
 		luabind::class_<LbaNet::LifeManaInfo>("LifeManaInfo")
@@ -382,7 +386,9 @@ ServerLuaHandler::ServerLuaHandler()
 		luabind::class_<ZoneTrigger, TriggerBase, boost::shared_ptr<TriggerBase> >("ZoneTrigger")
 		.def(luabind::constructor<TriggerInfo, float, float, float, bool>())
 		.def("SetStayUpdateFrequency", &ZoneTrigger::SetStayUpdateFrequency)
-		.def("GetStayUpdateFrequency", &ZoneTrigger::GetStayUpdateFrequency),
+		.def("GetStayUpdateFrequency", &ZoneTrigger::GetStayUpdateFrequency)
+		.def("SetActivateOnJump", &ZoneTrigger::SetActivateOnJump)
+		.def("GetActivateOnJump", &ZoneTrigger::GetActivateOnJump),
 
 		luabind::class_<ActivationTrigger, TriggerBase, boost::shared_ptr<TriggerBase> >("ActivationTrigger")
 		.def(luabind::constructor<TriggerInfo, float, const std::string &, const std::string &>())
