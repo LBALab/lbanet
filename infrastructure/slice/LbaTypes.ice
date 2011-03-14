@@ -388,7 +388,11 @@ module LbaNet
 		
 		float			Bounciness;
 		float			StaticFriction; 
-		float			DynamicFriction; 		
+		float			DynamicFriction; 
+		
+		
+		// used by movable object
+		bool			AllowFreeMove;
 	};
 
 
