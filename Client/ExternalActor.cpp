@@ -255,6 +255,12 @@ void ExternalActor::Process(double tnow, float tdiff,
 		else
 		{
 			_character->Process(tnow, tdiff);
+
+			if(_movable)
+			{
+				ProcessMovable(tnow, tdiff, scripthandler);
+				moved = true;
+			}
 		}
 
 		if(!moved)
@@ -273,23 +279,6 @@ void ExternalActor::Process(double tnow, float tdiff,
 					physo->Move(addspeedX, addspeedY, addspeedZ);
 				}
 			}
-		}
-
-		if(_movable)
-		{
-			boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
-			if(physo)
-			{
-				boost::shared_ptr<ActorUserData> udata = physo->GetUserData();
-				if(udata)
-				{
-					float mx, my, mz;
-					udata->GetAddedMove(mx, my, mz);
-					physo->Move(mx, my, mz);
-				}
-			}
-
-			UpdateServer(tnow, tdiff);
 		}
 	}
 	else
@@ -424,7 +413,7 @@ void ExternalActor::UpdateServer(double tnow, float tdiff)
 	if(_currentupdate.ForcedChange || updatebytime)
 	{
 		EventsQueue::getSenderQueue()->AddEvent(new LbaNet::GhostMovedEvent(tnow, _character->GetId(), 
-																					_currentupdate, false));
+																					_currentupdate));
 		_lastupdatetime = tnow;
 	}
 
@@ -457,4 +446,87 @@ bool ExternalActor::ShouldforceUpdate()
 
 
 	return false;
+}
+
+
+
+/***********************************************************
+do all check to be done when idle
+***********************************************************/
+void ExternalActor::ProcessMovable(double tnow, float tdiff, 
+								ScriptEnvironmentBase* scripthandler)
+{
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+	if(!physo)
+		return;
+
+
+	float admx=0, admy=0, admz=0;
+	boost::shared_ptr<ActorUserData> udata = physo->GetUserData();
+	if(udata)
+		udata->GetAddedMove(admx, admy, admz);
+
+
+	admy = (0.05f * tdiff); //TODO - make the gravity configurable?
+
+
+	// get additional speed in case we are on lift
+	if(_attachedactor)
+	{
+		float addspeedX=0, addspeedY=0, addspeedZ=0;
+
+		boost::shared_ptr<PhysicalObjectHandlerBase> attchedphys = _attachedactor->GetPhysicalObject();
+		if(attchedphys)
+			attchedphys->GetLastMove(addspeedX, addspeedY, addspeedZ);
+		
+		admx+=addspeedX;
+		admz+=addspeedZ;
+
+		if(addspeedY <= 0)
+		{
+			admy += addspeedY;
+			_attachedactor = boost::shared_ptr<DynamicObject>(); // dettach actor afterwards
+		}
+		else
+		{
+			//check if we are still on the actor
+			if(physo->OnTopOff(attchedphys.get()))
+			{
+				admy = addspeedY;
+			}
+			else
+			{
+				_attachedactor = boost::shared_ptr<DynamicObject>(); // dettach actor
+			}
+		}
+	}
+
+
+	// move actor
+	physo->Move(admx, admy, admz);
+
+
+
+	// check for attached actor
+	if(udata)
+	{
+		if(udata->GetTouchingGround())
+		{
+			std::vector<HitInfo> hitvec;
+			udata->GetHittedActors(hitvec);
+			for(size_t i=0; i< hitvec.size(); ++i)
+			{
+				HitInfo &hi = hitvec[i];
+				if(hi.HitBottom)
+				{
+					if(scripthandler)
+						_attachedactor = scripthandler->GetActor(hi.ActorObjType, hi.ActorId);
+				}
+			}
+		}
+	}
+
+
+	// update server
+	UpdateServer(tnow, tdiff);
 }

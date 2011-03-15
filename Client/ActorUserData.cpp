@@ -33,7 +33,7 @@ constructor
 ActorUserData::ActorUserData(LbaNet::PhysicalActorType ActType, int ActObj, long index)
 	: ActorType(ActType), ActObjType(ActObj), Materials(NULL), Rotation(0), 
 		MaterialsSize(0), released(false), ActorId(index), MovingObject(false),
-		AllowedMovingX(false), AllowedMovingZ(false), TouchingGround(false),
+		TouchingGround(false),
 		CurrentMoveX(0), CurrentMoveY(0), CurrentMoveZ(0), AllowFreeMove(false),
 		AddedMoveX(0), AddedMoveY(0), AddedMoveZ(0)
 		
@@ -175,7 +175,9 @@ accessor thread safe
 bool				ActorUserData::GetMovingObject()
 {
 	IceUtil::RecMutex::Lock lock(*m_mutex);
-	return MovingObject;
+	bool res = MovingObject;
+	MovingObject = false;
+	return res;
 }
 
 /***********************************************************
@@ -188,63 +190,8 @@ void				ActorUserData::SetMovingObject(bool newv)
 }
   
 
-/***********************************************************
-accessor thread safe
-***********************************************************/
-int					ActorUserData::GetMovingDirection()
-{
-	IceUtil::RecMutex::Lock lock(*m_mutex);
-	return MovingDirection;
-}
-
-/***********************************************************
-accessor thread safe
-***********************************************************/
-void				ActorUserData::SetMovingDirection(int newv)
-{
-	IceUtil::RecMutex::Lock lock(*m_mutex);
-	MovingDirection = newv;
-}
-  
 
 
-/***********************************************************
-accessor thread safe
-***********************************************************/
-bool				ActorUserData::GetAllowedMovingX()
-{
-	IceUtil::RecMutex::Lock lock(*m_mutex);
-	return AllowedMovingX;
-}
-
-/***********************************************************
-accessor thread safe
-***********************************************************/
-void				ActorUserData::SetAllowedMovingX(bool newv)
-{
-	IceUtil::RecMutex::Lock lock(*m_mutex);
-	AllowedMovingX = newv;
-}
- 
-
-/***********************************************************
-accessor thread safe
-***********************************************************/
-bool				ActorUserData::GetAllowedMovingZ()
-{
-	IceUtil::RecMutex::Lock lock(*m_mutex);
-	return AllowedMovingZ;
-}
-
-
-/***********************************************************
-accessor thread safe
-***********************************************************/
-void				ActorUserData::SetAllowedMovingZ(bool newv)
-{
-	IceUtil::RecMutex::Lock lock(*m_mutex);
-	AllowedMovingZ = newv;
-}
   
 
 

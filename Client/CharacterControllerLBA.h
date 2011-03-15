@@ -188,6 +188,7 @@ private:
 	float										_ycheckiffall;
 
 	bool										_projectilelaunched;
+	int											_countmovingobj;
 
 
 

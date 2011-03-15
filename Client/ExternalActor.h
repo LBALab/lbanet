@@ -79,6 +79,12 @@ protected:
 	//! check if we should force the update
 	bool ShouldforceUpdate();
 
+
+	// do all check to be done when idle
+	virtual void ProcessMovable(double tnow, float tdiff, 
+								ScriptEnvironmentBase* scripthandler);
+
+
 private:
 	boost::shared_ptr<ScriptPartBase>			_currentScripts;
 	float										_differencePosX;

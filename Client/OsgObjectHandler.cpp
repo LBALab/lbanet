@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <osg/AutoTransform>
 #include <osgText/Text>
 #include <osg/LineWidth>
-
+#include <osg/Material>
 
 static  osg::Node* findNamedNode(const std::string& searchName,  osg::Node* currNode)
 {
@@ -358,6 +358,11 @@ int OsgObjectHandler::Update(LbaNet::DisplayObjectUpdateBasePtr update,
 			colors[3] = castedptr->A;
 			draw->setColor(colors);
 		}
+		else
+		{
+			SetTransparency(castedptr->A);
+		}
+
 		return 0;
 	}
 
@@ -464,7 +469,7 @@ void OsgObjectHandler::RefreshText()
 			stateSet->setMode(GL_DEPTH_TEST,osg::StateAttribute::OFF);
 			stateSet->setMode(GL_LIGHTING,osg::StateAttribute::OFF);
 			stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-			stateSet->setRenderBinDetails( 100000, "RenderBin");
+			stateSet->setRenderBinDetails( 1000, "SpecialBin");
 
 			_textgroup->addChild(_textgeode);
 			root->addChild(_textgroup);
@@ -671,7 +676,7 @@ void OsgObjectHandler::RefreshLifeManaBars()
 		stateSet->setMode(GL_DEPTH_TEST,osg::StateAttribute::OFF);
 		stateSet->setMode(GL_TEXTURE_2D,osg::StateAttribute::OFF);
 		stateSet->setMode(GL_LIGHTING,osg::StateAttribute::OFF);
-		stateSet->setRenderBinDetails( 100000, "RenderBin");
+		stateSet->setRenderBinDetails( 1000, "SpecialBin");
 
 		_barsgroup->addChild(barsgeode);
 		root->addChild(_barsgroup);
@@ -779,4 +784,40 @@ void OsgObjectHandler::StoreObjectCopy()
 		_ObjectCopy = (osg::MatrixTransform*)_OsgObject->clone(cpo);
 	else if(_OsgObjectNoLight)
 		_ObjectCopy = (osg::MatrixTransform*)_OsgObjectNoLight->clone(cpo);
+}
+
+
+
+/***********************************************************
+set transparency
+***********************************************************/
+void OsgObjectHandler::SetTransparency(float alpha)
+{
+	osg::ref_ptr<osg::Node> node;
+	if(_OsgObject)
+		node = _OsgObject;
+	else if(_OsgObjectNoLight)
+		node = _OsgObjectNoLight;
+
+	if(node)
+	{
+		if(alpha < 1)
+		{
+			osg::Material* material = new osg::Material;
+			material->setAlpha(osg::Material::FRONT, alpha); 
+			osg::StateSet* stateset = node->getOrCreateStateSet();
+			stateset->setAttributeAndModes(material, 
+							osg::StateAttribute::OVERRIDE|osg::StateAttribute::ON); 
+
+			stateset->setMode( GL_BLEND, osg::StateAttribute::ON );
+			stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+			//stateset->setRenderBinDetails( 3000, "DepthSortedBin");
+		}
+		else
+		{
+			osg::StateSet* stateset = node->getOrCreateStateSet();
+			stateset->removeAttribute(osg::StateAttribute::MATERIAL);
+			stateset->setRenderingHint( osg::StateSet::DEFAULT_BIN );
+		}
+	}
 }

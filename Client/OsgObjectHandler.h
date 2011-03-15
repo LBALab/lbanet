@@ -92,6 +92,8 @@ public:
 	//! tore object copy
 	virtual void StoreObjectCopy();
 
+	//! set transparency
+	void SetTransparency(float alpha);
 
 protected:
 	// update matrix

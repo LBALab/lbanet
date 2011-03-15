@@ -95,17 +95,6 @@ public:
 	bool				GetMovingObject();
 	void				SetMovingObject(bool newv);  
 
-	int					GetMovingDirection();
-	void				SetMovingDirection(int newv);  
-
-
-	bool				GetAllowedMovingX();
-	void				SetAllowedMovingX(bool newv);  
-
-	bool				GetAllowedMovingZ();
-	void				SetAllowedMovingZ(bool newv);  
-
-
 	void				GetMove(float &X, float &Y, float &Z);
 	void				SetMove(float X, float Y, float Z);
 
@@ -148,11 +137,6 @@ private:
 
 	bool							released;
 	bool							MovingObject;
-	int								MovingDirection;
-
-
-	bool							AllowedMovingX;
-	bool							AllowedMovingZ;
 	bool							AllowFreeMove;
 
 	float							CurrentMoveX;

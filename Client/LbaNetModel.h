@@ -123,6 +123,10 @@ public:
 									const LbaNet::PlayerMoveInfo &info,
 									bool teleport);
 
+	//! when update player position
+	void GhostMovedUpdate(Ice::Long GhostId, double updatetime, 
+									const LbaNet::PlayerMoveInfo &info);
+
 	//! when update npc position
 	void NpcChangedUpdate(Ice::Long NpcId, double updatetime, 
 									float CurrPosX, float CurrPosY, float CurrPosZ,
@@ -486,7 +490,7 @@ private:
 	// ghosts objects - replication of other movable objects
 	std::map<long, boost::shared_ptr<ExternalActor> >	_npcObjects;
 	std::map<long, boost::shared_ptr<ExternalPlayer> >	_playerObjects;
-	std::map<long, boost::shared_ptr<DynamicObject> >	_ghostObjects;
+	std::map<long, boost::shared_ptr<ExternalPlayer> >	_ghostObjects;
 
 	std::map<long, boost::shared_ptr<ProjectileHandler> >	_projectileObjects;
 	

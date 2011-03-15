@@ -81,8 +81,6 @@ void DataLoader::SetWorldName(std::string WorldName)
 		_currentworldname = WorldName;
 
 		Localizer::getInstance()->SetWorldName(WorldName);
-
-		// TODO - process reading all necessary data
 	}
 }
 

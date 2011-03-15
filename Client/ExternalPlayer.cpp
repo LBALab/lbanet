@@ -388,11 +388,6 @@ void ExternalPlayer::UpdateModeAndState(const std::string &newmode,
 			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateMovingObject());						
 		}
 		break; 
-		case LbaNet::StRestrictedMovingObject:
-		{
-			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateRestrictedMovingObject());						
-		}
-		break; 
 		case LbaNet::StUseWeapon:
 		{
 			_currentstate = boost::shared_ptr<CharacterStateBase>(new StateUseWeapon());						

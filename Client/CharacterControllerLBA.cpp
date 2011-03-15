@@ -277,7 +277,7 @@ void CharacterController::Process(double tnow, float tdiff,
 	bool IsIdle = true;
 	bool allowedmoving = false;
 	int allowedrotating = 0;
-	bool standoniddle = false;
+	int standoniddle = 0;
 	bool canfly = false;
 	bool checkgravity = true;
 	bool checkwater = true;
@@ -381,11 +381,12 @@ void CharacterController::Process(double tnow, float tdiff,
 
 
 	// update to standing pose if needed
-	if(IsIdle && standoniddle)
+	if(IsIdle && standoniddle > 0)
 	{
-		//update animation
-		if(diso)
-			diso->Update(new LbaNet::AnimationStringUpdate("Stand"), false);
+		if(standoniddle == 2) //change to normal state
+			UpdateModeAndState(_currentmodestr, LbaNet::StNormal, tnow);			
+		else if(diso)
+			diso->Update(new LbaNet::AnimationStringUpdate("Stand"), false); //update animation
 	}
 
 
@@ -454,7 +455,7 @@ void CharacterController::Process(double tnow, float tdiff,
 		}
 		else
 		{
-			//todo - check if we are still on the actor
+			//check if we are still on the actor
 			if(physo->OnTopOff(attchedphys.get()))
 			{
 				checkgravity = false;
@@ -510,6 +511,26 @@ void CharacterController::Process(double tnow, float tdiff,
 					}
 				}
 			}
+
+			// only move object when moving forward
+			if(udata->GetMovingObject() && _pressedkeys._keyforward)
+			{
+				_countmovingobj = 0;
+
+				//only move object if we can
+				if(_currentstate && _currentstate->CanPlayMovingObject())
+					UpdateModeAndState(_currentmodestr, LbaNet::StMovingObject, tnow);
+			}
+			else
+			{
+				// stop moving object after a while if we dont touch anything
+				if(_currentplayerstate == LbaNet::StMovingObject)
+				{
+					++_countmovingobj;
+					if(_countmovingobj >= 50)
+						UpdateModeAndState(_currentmodestr, LbaNet::StNormal, tnow);
+				}
+			}
 		}
 	}
 
@@ -524,7 +545,7 @@ void CharacterController::Process(double tnow, float tdiff,
 
 
 		// if the actor does not touch the ground it means he is falling down
-		if(!touchground /*&& !_player->IsAttached()*/) // TODO attach system
+		if(!touchground)
 		{
 			if(!_chefkiffall)
 			{
@@ -960,11 +981,6 @@ void CharacterController::UpdateModeAndState(const std::string &newmode,
 			case LbaNet::StMovingObject:
 			{
 				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateMovingObject());
-			}
-			break;
-			case LbaNet::StRestrictedMovingObject:
-			{
-				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateRestrictedMovingObject());
 			}
 			break;
 			case LbaNet::StUseWeapon:

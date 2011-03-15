@@ -138,10 +138,10 @@ void LbaNetModel::Process(double tnow, float tdiff)
 
 	// process all _ghostObjects
 	{
-	std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _ghostObjects.begin();
-	std::map<long, boost::shared_ptr<DynamicObject> >::iterator end = _ghostObjects.end();
+	std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _ghostObjects.begin();
+	std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator end = _ghostObjects.end();
 	for(; it != end; ++it)
-		it->second->Process(tnow, tdiff);
+		it->second->Process(tnow, tdiff, this);
 	}
 
 	//process projectiles
@@ -256,12 +256,6 @@ void LbaNetModel::AddObject(int OType, const ObjectInfo &desc,
 			}
 			else
 			{
-				std::stringstream strs;
-				strs<<"New player object "<<DisplayDesc.ModelName<<" "<<DisplayDesc.Outfit<<" "<<DisplayDesc.Weapon<<" "<<DisplayDesc.Mode<<" ";
-				strs<<" Display name: "<<extrainfo.Name<<" "<<(extrainfo.Display?"Yes":"No");
-				strs<<" Display life: "<<(lifeinfo.Display?"Yes":"No");
-				LogHandler::getInstance()->LogToFile(strs.str(), desc.Id);
-
 				boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
 				_playerObjects[desc.Id] = boost::shared_ptr<ExternalPlayer>(new ExternalPlayer(tmpobj, DisplayDesc));
 				if(tmpobj->GetDisplayObject())
@@ -279,7 +273,8 @@ void LbaNetModel::AddObject(int OType, const ObjectInfo &desc,
 		case 3:
 			{
 				boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
-				_ghostObjects[desc.Id] = tmpobj;
+				_ghostObjects[desc.Id] = boost::shared_ptr<ExternalPlayer>(new ExternalPlayer(tmpobj, DisplayDesc));
+
 				if(tmpobj->GetDisplayObject())
 				{
 					std::stringstream strs;
@@ -347,7 +342,7 @@ void LbaNetModel::RemObject(int OType, long id)
 		// 3 -> ghost object
 		case 3:
 			{
-			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _ghostObjects.find(id);
+			std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _ghostObjects.find(id);
 			if(it != _ghostObjects.end())
 				_ghostObjects.erase(it);
 			}
@@ -462,7 +457,8 @@ ObjectInfo LbaNetModel::CreateObject(int OType, Ice::Long ObjectId,
 			{
 				boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
 					(new OsgSimpleObjectDescription(DisplayDesc.ModelName, 
-								DisplayDesc.UseLight, DisplayDesc.CastShadow, extrainfo, lifeinfo));
+								DisplayDesc.UseLight, DisplayDesc.CastShadow, extrainfo, lifeinfo,
+								DisplayDesc.ColorA));
 
 				boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
 				tr->translationX = DisplayDesc.TransX;
@@ -790,9 +786,9 @@ void LbaNetModel::UpdateObjectDisplay(int OType, Ice::Long ObjectId,
 		// 3 -> ghost object
 		case 3:
 			{
-			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _ghostObjects.find((long)ObjectId);
+			std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _ghostObjects.find((long)ObjectId);
 			if(it != _ghostObjects.end())
-				it->second->GetDisplayObject()->Update(update, false);
+				it->second->UpdateDisplay(update, false);
 			}
 		break;
 
@@ -846,9 +842,9 @@ void LbaNetModel::UpdateObjectPhysic(int OType, Ice::Long ObjectId,
 		// 3 -> ghost object
 		case 3:
 			{
-			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _ghostObjects.find((long)ObjectId);
+			std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _ghostObjects.find((long)ObjectId);
 			if(it != _ghostObjects.end())
-				it->second->GetPhysicalObject()->Update(update);
+				it->second->UpdatePhysic(update);
 			}
 		break;
 
@@ -1444,9 +1440,9 @@ void LbaNetModel::ShowHideActor(int ObjectType, long ObjectId, bool SHow)
 		// 3 -> ghost object
 		case 3:
 			{
-				std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _ghostObjects.find((long)ObjectId);
-				//if(it != _ghostObjects.end())
-					//todo - GhostObject
+				std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _ghostObjects.find((long)ObjectId);
+				if(it != _ghostObjects.end())
+					it->second->ShowHide(SHow);
 			}
 		break;
 
@@ -1729,9 +1725,9 @@ boost::shared_ptr<DynamicObject> LbaNetModel::GetActor(int ObjectType, long Obje
 		// 3 -> ghost object
 		case 3:
 			{
-				std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _ghostObjects.find((long)ObjectId);
-				//if(it != _ghostObjects.end())
-					//todo - GhostObject
+				std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _ghostObjects.find((long)ObjectId);
+				if(it != _ghostObjects.end())
+					return it->second->GetActor();
 			}
 		break;
 
@@ -1810,6 +1806,23 @@ void LbaNetModel::RefreshPlayerPortrait()
 		SynchronizedTimeHandler::GetCurrentTimeDouble(), "main", updseq));
 #endif
 }
+
+
+/***********************************************************
+when update player position
+***********************************************************/
+void LbaNetModel::GhostMovedUpdate(Ice::Long GhostId, double updatetime, 
+									const LbaNet::PlayerMoveInfo &info)
+{
+	std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _ghostObjects.find((long)GhostId);
+	if(it != _ghostObjects.end())
+	{
+		it->second->UpdateMove(updatetime, info, false);
+	}
+}
+
+
+
 
 
 

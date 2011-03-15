@@ -2868,7 +2868,7 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow, bool 
 		if(addtransparent)
 		{
 			osg::StateSet* stateset = m_myGeometry->getOrCreateStateSet();
-			stateset->setRenderBinDetails( 4100, "RenderBin");
+			stateset->setRenderBinDetails( 50, "RenderBin");
 
 			m_myGeometrytransp->setVertexArray( myVerticesPoly ); 
 			m_myGeometrytransp->setUseDisplayList( false );
@@ -2881,7 +2881,7 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow, bool 
 			stateset2->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
 			stateset2->setMode( GL_BLEND, osg::StateAttribute::ON );
 			stateset2->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-			stateset2->setRenderBinDetails( 4000, "RenderBin");
+			//stateset2->setRenderBinDetails( 4000, "DepthSortedBin");
 		}
 	}
 
@@ -2941,7 +2941,7 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow, bool 
 		stateset->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 
 		if(addtransparent)
-			stateset->setRenderBinDetails( 4100, "RenderBin");
+			stateset->setRenderBinDetails( 50, "RenderBin");
 	}
 
 
@@ -2974,7 +2974,7 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow, bool 
 		if(addtransparent)
 		{
 			osg::StateSet* stateset = Geodesphere->getOrCreateStateSet();
-			stateset->setRenderBinDetails( 4100, "RenderBin");
+			stateset->setRenderBinDetails( 50, "RenderBin");
 		}
 	}
 

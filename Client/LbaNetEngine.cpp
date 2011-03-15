@@ -847,7 +847,19 @@ void LbaNetEngine::HandleGameEvents()
 
 			continue;
 		}
-		
+	
+		// PlayerKeyReleasedEvent
+		if(info == typeid(LbaNet::GhostMovedEvent))
+		{
+			LbaNet::GhostMovedEvent* castedptr = 
+				dynamic_cast<LbaNet::GhostMovedEvent *>(&obj);
+
+			m_lbaNetModel->GhostMovedUpdate(castedptr->GhostId, castedptr->Time, 
+												castedptr->info);
+
+			continue;
+		}
+
 	}
 }
 

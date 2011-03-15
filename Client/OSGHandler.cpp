@@ -603,7 +603,7 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 														osg::StateAttribute::OFF);
     _HUDcam->getOrCreateStateSet()->setRenderingHint(osg::StateSet::TRANSPARENT_BIN);
 
-    _HUDcam->getOrCreateStateSet()->setRenderBinDetails(100,"RenderBin");
+    _HUDcam->getOrCreateStateSet()->setRenderBinDetails(100,"DepthSortedBin");
     _HUDcam->getOrCreateStateSet()->setMode(GL_BLEND,osg::StateAttribute::OVERRIDE|osg::StateAttribute::ON);
     _HUDcam->getOrCreateStateSet()->setTextureMode(0, GL_TEXTURE_2D, osg::StateAttribute::OVERRIDE|
 																			osg::StateAttribute::ON);
@@ -1613,7 +1613,7 @@ osg::ref_ptr<osg::MatrixTransform> OsgHandler::CreateSpriteObject(const std::str
 	{
 		stateSet->setMode( GL_BLEND, osg::StateAttribute::ON );
 		stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-		stateSet->setRenderBinDetails( 5000, "RenderBin");
+		//stateSet->setRenderBinDetails( 5000, "DepthSortedBin");
 	}
 
 	//specify normal:
@@ -1688,10 +1688,14 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSimpleObject(const
 														boost::shared_ptr<DisplayTransformation> Tr,
 														bool UseLight, bool CastShadow,
 														const LbaNet::ObjectExtraInfo &extrainfo,
-														const LbaNet::LifeManaInfo &lifeinfo)
+														const LbaNet::LifeManaInfo &lifeinfo,
+														float colorA)
 {
 	osg::ref_ptr<osg::MatrixTransform> resnode = CreateSimpleObject(filename, Tr,	UseLight, CastShadow);
-	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(resnode, UseLight, extrainfo, lifeinfo));
+	OsgObjectHandler * objh = new OsgObjectHandler(resnode, UseLight, extrainfo, lifeinfo);
+	if(colorA < 1)
+		objh->SetTransparency(colorA);
+	return boost::shared_ptr<DisplayObjectHandlerBase>(objh);
 }
 
 
@@ -1720,7 +1724,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSphereObject(float
 	osg::StateSet* stateset = capsuleGeode->getOrCreateStateSet();
 	stateset->setMode(GL_BLEND, osg::StateAttribute::ON);
 	stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-	stateset->setRenderBinDetails( 9000, "RenderBin");
+	//stateset->setRenderBinDetails( 9000, "DepthSortedBin");
 
 	if(Tr)
 	{
@@ -1762,7 +1766,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCapsuleObject(floa
 	osg::StateSet* stateset = capsuleGeode->getOrCreateStateSet();
 	stateset->setMode(GL_BLEND, osg::StateAttribute::ON);
 	stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-	stateset->setRenderBinDetails( 9000, "RenderBin");
+	//stateset->setRenderBinDetails( 9000, "DepthSortedBin");
 
 	if(Tr)
 	{
@@ -1803,7 +1807,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateBoxObject(float si
     osg::StateSet* stateset = capsuleGeode->getOrCreateStateSet();
 	stateset->setMode(GL_BLEND, osg::StateAttribute::ON);
 	stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-	stateset->setRenderBinDetails( 9000, "RenderBin");
+	//stateset->setRenderBinDetails( 9000, "DepthSortedBin");
 
 	if(Tr)
 	{
@@ -1867,7 +1871,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCrossObject(float 
 	stateset->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 	stateset->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
 	stateset->setRenderingHint( osg::StateSet::OPAQUE_BIN );
-	stateset->setRenderBinDetails( 9000, "RenderBin");
+	stateset->setRenderBinDetails( 60, "RenderBin");
 
 	if(Tr)
 	{
