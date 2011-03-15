@@ -330,9 +330,6 @@ module LbaNet
 	{
 		long			GhostId;
 		PlayerMoveInfo		info;
-		
-		// indicate if the server teleport the object
-		bool			ServerTeleport;	
 	};	
 };	
 
