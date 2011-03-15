@@ -6918,6 +6918,20 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 		}
 
 
+		if(type == "Movable")
+		{
+			// free move
+			{
+
+				QVector<QVariant> data;
+				data<<"Free move"<<it->second->GetActorInfo().PhysicDesc.AllowFreeMove;
+				_objectmodel->AppendRow(data, parent);
+
+				++index;
+			}
+		}
+
+
 		UpdateSelectedActorDisplay(ainfo.PhysicDesc, it->second);
 		osg::Vec3 center = _actornode->computeBound().center();
 		DrawArrows(center.x(), center.y(), center.z());
@@ -7381,6 +7395,15 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 				}
 			}
 
+			if(it->second->ActorType() == "Movable")
+			{
+				// free move
+				{
+					ainfo.PhysicDesc.AllowFreeMove = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
+					++index;
+				}
+			}
+
 			if(it->second->ActorType() == "Npc")
 			{
 				NPCHandler* actorh = static_cast<NPCHandler*>(it->second.get());
@@ -7713,7 +7736,7 @@ void EditorHandler::UpdateSelectedActorDisplay(LbaNet::ObjectPhysicDesc desc,
 			stateset->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 			stateset->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
 			stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-			stateset->setRenderBinDetails( 8000, "RenderBin");
+			stateset->setRenderBinDetails( 50, "DepthSortedBin");
 
 
 		}
@@ -7731,7 +7754,7 @@ void EditorHandler::UpdateSelectedActorDisplay(LbaNet::ObjectPhysicDesc desc,
 			stateset->setMode(GL_BLEND, osg::StateAttribute::ON);
 			stateset->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
 			stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-			stateset->setRenderBinDetails( 8000, "RenderBin");	
+			stateset->setRenderBinDetails( 50, "DepthSortedBin");	
 		}
 		break;
 		case CapsuleShape:
@@ -7754,7 +7777,7 @@ void EditorHandler::UpdateSelectedActorDisplay(LbaNet::ObjectPhysicDesc desc,
 			stateset->setMode(GL_BLEND, osg::StateAttribute::ON);
 			stateset->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
 			stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-			stateset->setRenderBinDetails( 8000, "RenderBin");	
+			stateset->setRenderBinDetails( 50, "DepthSortedBin");	
 		}
 		break;
 		case SphereShape:
@@ -7770,7 +7793,7 @@ void EditorHandler::UpdateSelectedActorDisplay(LbaNet::ObjectPhysicDesc desc,
 			stateset->setMode(GL_BLEND, osg::StateAttribute::ON);
 			stateset->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
 			stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-			stateset->setRenderBinDetails( 8000, "RenderBin");	
+			stateset->setRenderBinDetails( 50, "DepthSortedBin");	
 		}
 		break;
 		case TriangleMeshShape:
@@ -7822,7 +7845,7 @@ void EditorHandler::UpdateSelectedActorDisplay(LbaNet::ObjectPhysicDesc desc,
 			stateset->setMode(GL_BLEND, osg::StateAttribute::ON);
 			stateset->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
 			stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-			stateset->setRenderBinDetails( 8000, "RenderBin");	
+			stateset->setRenderBinDetails( 50, "DepthSortedBin");	
 
 		}
 		break;
@@ -7842,7 +7865,7 @@ void EditorHandler::UpdateSelectedActorDisplay(LbaNet::ObjectPhysicDesc desc,
 
 			EventsQueue::getReceiverQueue()->AddEvent(
 					new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-					4, ainfo.ObjectId, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo, 
+					4, ainfo.ObjectId, -1, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo, 
 					ainfo.ExtraInfo));
 		}
 	}
@@ -7942,7 +7965,7 @@ void EditorHandler::UpdateSelectedZoneTriggerDisplay(float PosX, float PosY, flo
 	stateset->setMode(GL_BLEND, osg::StateAttribute::ON);
 	stateset->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
 	stateset->setRenderingHint( osg::StateSet::OPAQUE_BIN );
-	stateset->setRenderBinDetails( 9100, "RenderBin");	
+	stateset->setRenderBinDetails( 50, "DepthSortedBin");	
 
 	osg::PolygonMode* polymode = new osg::PolygonMode;
 	polymode->setMode(osg::PolygonMode::FRONT_AND_BACK,osg::PolygonMode::LINE);
@@ -7975,7 +7998,7 @@ void EditorHandler::UpdateSelectedDistanceTriggerDisplay(float PosX, float PosY,
 	stateset->setMode(GL_BLEND, osg::StateAttribute::ON);
 	stateset->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
 	stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-	stateset->setRenderBinDetails( 9100, "RenderBin");	
+	stateset->setRenderBinDetails( 50, "DepthSortedBin");	
 }
 
 
@@ -8468,7 +8491,7 @@ void EditorHandler::UpdateSelectedGoUpLadderScriptDisplay( float posX, float pos
 	stateset->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 	stateset->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
 	stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-	stateset->setRenderBinDetails( 8000, "RenderBin");
+	stateset->setRenderBinDetails( 50, "DepthSortedBin");
 
 }
 
