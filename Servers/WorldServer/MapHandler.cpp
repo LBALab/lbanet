@@ -486,6 +486,17 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 		return;
 	}
 	
+
+	// ghost updated position
+	if(info == typeid(LbaNet::GhostMovedEvent))
+	{
+		LbaNet::GhostMovedEvent* castedptr =
+			dynamic_cast<LbaNet::GhostMovedEvent *>(&obj);
+
+		GhostMoved(id, castedptr->GhostId, castedptr->Time, castedptr->info);
+		return;
+	}
+
 }
 
 
@@ -685,6 +696,16 @@ void MapHandler::PlayerLeft(Ice::Long id)
 
 	// remove ephemere item
 	RemoveEphemere(id);
+
+
+	// remove ghosts
+	std::map<Ice::Long, std::vector<Ice::Long> >::iterator itghost = _playerghosts.find(id);
+	if(itghost != _playerghosts.end())
+	{
+		std::vector<Ice::Long> ghs = itghost->second;
+		for(size_t i=0; i< ghs.size(); ++i)
+			RemoveGhost(ghs[i]);
+	}
 }
 
 
@@ -773,8 +794,6 @@ void MapHandler::PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMove
 	{
 		// catch exception when player leave map with trigger
 	}
-
-
 }
 
 
@@ -872,6 +891,29 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 														itact->second->GetExtraInfo()));
 		}
 	}
+
+	// current ghosts in map
+	{
+		std::map<Ice::Long, GhostInfo>::iterator itgh = _ghosts.begin();
+		std::map<Ice::Long, GhostInfo>::iterator endgh = _ghosts.end();
+		for(; itgh != endgh; ++itgh)
+		{
+			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	
+															_Actors.find(itgh->second.ActorId);
+			if(itact != _Actors.end())
+			{
+				ActorObjectInfo ainfo = itact->second->GetActorInfo();
+				ainfo.PhysicDesc.Pos = itgh->second.CurrentPos;
+				ainfo.PhysicDesc.Collidable = false;
+				ainfo.DisplayDesc.ColorA = 0.3f;
+				toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+															3, itgh->first, ainfo.DisplayDesc, 
+															ainfo.PhysicDesc,
+															ainfo.LifeInfo, ainfo.ExtraInfo));
+			}
+		}
+	}
+
 
 
 	toplayer.push_back(new RefreshEndEvent(SynchronizedTimeHandler::GetCurrentTimeDouble()));
@@ -1446,7 +1488,7 @@ void MapHandler::ExecuteClientScript(int ObjectType, long ObjectId,
 	// on object moved by player
 	if(ObjectType == 3)
 	{
-		// todo - find attached player
+		clientid = GetGhostOwnerPlayer((long)ObjectId);
 	}
 
 	// check if client found - else return
@@ -1517,7 +1559,7 @@ void MapHandler::DisplayTxtAction(int ObjectType, long ObjectId,
 	// on object moved by player
 	if(ObjectType == 3)
 	{
-		// todo - find attached player
+		clientid = GetGhostOwnerPlayer((long)ObjectId);
 	}
 
 	// check if client found - else return
@@ -2036,7 +2078,8 @@ void MapHandler::HurtActor(int ObjectType, long ObjectId, float HurtValue, bool 
 
 		case 3: // moved object
 		{
-			// todo - find attached player
+			long clientid = GetGhostOwnerPlayer((long)ObjectId);
+			HurtActor(2, clientid, HurtValue, HurtLife, PlayedAnimation);
 		}
 		break;
 	}
@@ -2068,7 +2111,8 @@ void MapHandler::KillActor(int ObjectType, long ObjectId)
 
 		case 3: // moved object
 		{
-			// todo - find attached player
+			long clientid = GetGhostOwnerPlayer((long)ObjectId);
+			KillActor(2, clientid);
 		}
 		break;
 	}
@@ -3349,4 +3393,210 @@ boost::shared_ptr<PlayerHandler> MapHandler::GetPlayerInfo(long playerid)
 		return itplayer->second;
 
 	return boost::shared_ptr<PlayerHandler>();
+}
+
+
+
+/***********************************************************
+called when a player moved
+***********************************************************/
+void MapHandler::GhostMoved(Ice::Long id, Ice::Long ghostid, 
+							double time, const LbaNet::PlayerMoveInfo &info)
+{
+	// check if player ready to play - else do nothing as this may be old move form other maps
+	if(!IsReady(id))
+		return;
+
+	long gid = -1;
+
+	//check if ghost already exist - if not create it
+	{
+		std::map<std::pair<Ice::Long, Ice::Long>, Ice::Long>::iterator itg = 
+			_revertghosts.find(std::make_pair<Ice::Long, Ice::Long>(id,ghostid));
+
+		if(itg == _revertghosts.end())
+			gid = AddGhost(id, ghostid, info.CurrentPos);
+		else
+			gid = itg->second;
+	}
+
+	//do a sweep test and check for triggers
+	try
+	{
+		PlayerPosition lastpos = GetGhostPosition(gid);
+		lastpos.Y += 0.2f; // small offset to make sure object is inside zone and not online a bit lower
+		PlayerPosition currPos = info.CurrentPos;
+		currPos.Y += 0.2f;
+
+		// inform triggers
+		{
+			std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
+			std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
+			for(; ittr != endtr; ++ittr)
+			{
+				ittr->second->ObjectMoved(this, 3, gid, lastpos, currPos, LbaNet::NoState);
+
+				//check if player left map
+				if(_players.find((long)id) == _players.end())
+					throw 1;
+			}
+		}
+
+
+		// update player position
+		PlayerPosition pos(info.CurrentPos);
+		pos.MapName = _mapinfo.Name;
+
+		// check if position could be updated
+		if(UpdateGhostPosition(gid, pos))
+		{
+			if(info.ForcedChange)
+			{
+				// inform all of player move
+				_tosendevts.push_back(new LbaNet::GhostMovedEvent(time, gid, info));
+			}
+		}
+	}
+	catch(int)
+	{
+		// catch exception when player leave map with trigger
+	}
+}
+
+
+
+/***********************************************************
+add a new ghost
+***********************************************************/
+Ice::Long MapHandler::AddGhost(Ice::Long playerid, Ice::Long actorid, const LbaNet::PlayerPosition &info)
+{
+	// generate uid
+	Ice::Long gid = 0;
+	if(_ghosts.size() > 0)
+		gid = _ghosts.rbegin()->first + 1;
+
+
+	// add to maps
+	_revertghosts[std::make_pair<Ice::Long, Ice::Long>(playerid, actorid)] = gid;
+	_playerghosts[playerid].push_back(gid);
+
+	GhostInfo ginfo;
+	ginfo.Id = gid;
+	ginfo.OwnerPlayerId = playerid;
+	ginfo.ActorId = actorid;
+	ginfo.CurrentPos = info;
+	_ghosts[ginfo.Id] = ginfo;
+
+
+	//inform triggers
+	{
+		std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
+		std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
+		for(; ittr != endtr; ++ittr)			
+			ittr->second->ObjectEnterMap(this, 3, gid);
+	}
+
+	// inform players
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(actorid);
+	if(itact != _Actors.end())
+	{
+		ActorObjectInfo ainfo = itact->second->GetActorInfo();
+		ainfo.PhysicDesc.Pos = info;
+		ainfo.PhysicDesc.Collidable = false;
+		ainfo.DisplayDesc.ColorA = 0.3f;
+		_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+													3, gid, ainfo.DisplayDesc, ainfo.PhysicDesc,
+													ainfo.LifeInfo, ainfo.ExtraInfo));
+	}
+
+
+	return gid;
+}
+
+
+/***********************************************************
+remove a  ghost
+***********************************************************/
+void MapHandler::RemoveGhost(Ice::Long ghostid)
+{
+	std::map<Ice::Long, GhostInfo>::iterator it=_ghosts.find(ghostid);
+	if(it != _ghosts.end())
+	{
+		// inform players
+		_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+														3, ghostid));
+
+
+		//inform triggers
+		{
+			std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
+			std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
+			for(; ittr != endtr; ++ittr)			
+				ittr->second->ObjectLeaveMap(this, 3, ghostid);
+		}
+
+		//remove from maps
+		std::map<std::pair<Ice::Long, Ice::Long>, Ice::Long>::iterator itrev = 
+								_revertghosts.find(std::make_pair<Ice::Long, Ice::Long>
+								(it->second.OwnerPlayerId, it->second.ActorId));
+		if(itrev != _revertghosts.end())
+			_revertghosts.erase(itrev);
+
+		std::map<Ice::Long, std::vector<Ice::Long> >::iterator itp = _playerghosts.find(it->second.OwnerPlayerId);
+		if(itp != _playerghosts.end())
+		{
+			std::vector<Ice::Long>::iterator itv = std::find(itp->second.begin(), itp->second.end(), ghostid);
+			if(itv != itp->second.end())
+				itp->second.erase(itv);
+
+			if(itp->second.size() == 0)
+				_playerghosts.erase(itp);
+		}
+
+		_ghosts.erase(it);
+	}
+}
+
+
+/***********************************************************
+get ghost position
+***********************************************************/
+LbaNet::PlayerPosition  MapHandler::GetGhostPosition(Ice::Long ghostid)
+{
+	std::map<Ice::Long, GhostInfo>::iterator it=_ghosts.find(ghostid);
+	if(it != _ghosts.end())
+		return it->second.CurrentPos;
+
+	return LbaNet::PlayerPosition();
+
+}
+
+
+/***********************************************************
+update ghost position
+***********************************************************/
+bool MapHandler::UpdateGhostPosition(Ice::Long ghostid, const LbaNet::PlayerPosition &info)
+{
+	std::map<Ice::Long, GhostInfo>::iterator it=_ghosts.find(ghostid);
+	if(it != _ghosts.end())
+	{
+		it->second.CurrentPos = info;
+		return true;
+	}
+
+	return false;
+}
+
+
+
+/***********************************************************
+return ghost owner player
+***********************************************************/
+long MapHandler::GetGhostOwnerPlayer(long ghostid)
+{
+	std::map<Ice::Long, GhostInfo>::iterator it=_ghosts.find(ghostid);
+	if(it != _ghosts.end())
+		return ((long)it->second.OwnerPlayerId);
+
+	return -1;
 }

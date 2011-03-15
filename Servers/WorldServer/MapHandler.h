@@ -46,6 +46,14 @@ class PlayerHandler;
 class EditorUpdateBase;
 class Spawn;
 
+struct GhostInfo
+{
+	Ice::Long					Id;
+	Ice::Long					OwnerPlayerId;
+	Ice::Long					ActorId;
+	LbaNet::PlayerPosition		CurrentPos;
+};
+
 
 //! take care of a map of the world
 class MapHandler : public Runnable, public ScriptEnvironmentBase, public DelayedExecutionHandler
@@ -330,6 +338,10 @@ public:
 	virtual int GetInventoryItemCount(long PlayerId, long Itemid);
 
 
+	//! return ghost owner player
+	virtual long GetGhostOwnerPlayer(long ghostid);
+
+
 protected:
 
 	// process events
@@ -352,6 +364,10 @@ protected:
 
 	//! called when a player moved
 	void PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMoveInfo &info);
+
+	//! called when a ghost moved
+	void GhostMoved(Ice::Long id, Ice::Long ghostid, double time, const LbaNet::PlayerMoveInfo &info);
+	
 
 
 	//! refresh player objects
@@ -629,7 +645,18 @@ protected:
 	//! make player leave the map
 	void MakePlayerLeaveMap(long playerid);
 
+	//! add a new ghost
+	Ice::Long AddGhost(Ice::Long playerid, Ice::Long actorid, const LbaNet::PlayerPosition &info);
 
+	//! remove a  ghost
+	void RemoveGhost(Ice::Long ghostid);
+
+	//! get ghost position
+	LbaNet::PlayerPosition GetGhostPosition(Ice::Long ghostid);
+
+	//! update ghost position
+	bool UpdateGhostPosition(Ice::Long ghostid, const LbaNet::PlayerPosition &info);
+	
 
 private:
 	// threading and mutex stuff
@@ -672,6 +699,11 @@ private:
 
 	std::map<long, LbaNet::ProjectileInfo>						_launchedprojectiles;
 	std::map<long, std::vector<long> >							_playerprojectiles;
+
+	std::map<Ice::Long, GhostInfo>								_ghosts;
+	std::map<std::pair<Ice::Long, Ice::Long>, Ice::Long>		_revertghosts;
+	std::map<Ice::Long, std::vector<Ice::Long> >				_playerghosts;
+
 };
 
 

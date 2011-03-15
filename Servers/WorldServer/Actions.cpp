@@ -373,7 +373,8 @@ void OpenContainerAction::Execute(ScriptEnvironmentBase * owner, int ObjectType,
 	// on object moved by player
 	if(ObjectType == 3)
 	{
-		// todo - find attached player
+		if(owner)
+			clientid = owner->GetGhostOwnerPlayer((long)ObjectId);
 	}
 
 	// check if client found - else return
@@ -571,7 +572,8 @@ void AddRemoveItemAction::Execute(ScriptEnvironmentBase * owner, int ObjectType,
 	// on object moved by player
 	if(ObjectType == 3)
 	{
-		// todo - find attached player
+		if(owner)
+			clientid = owner->GetGhostOwnerPlayer((long)ObjectId);
 	}
 
 	// check if client found - else return
@@ -863,7 +865,8 @@ void StartQuestAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ic
 	// on object moved by player
 	if(ObjectType == 3)
 	{
-		// todo - find attached player
+		if(owner)
+			clientid = owner->GetGhostOwnerPlayer((long)ObjectId);
 	}
 
 	// check if client found - else return
@@ -902,7 +905,8 @@ void FinishQuestAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, I
 	// on object moved by player
 	if(ObjectType == 3)
 	{
-		// todo - find attached player
+		if(owner)
+			clientid = owner->GetGhostOwnerPlayer((long)ObjectId);
 	}
 
 	// check if client found - else return
@@ -943,7 +947,8 @@ void OpenShopAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice:
 	// on object moved by player
 	if(ObjectType == 3)
 	{
-		// todo - find attached player
+		if(owner)
+			clientid = owner->GetGhostOwnerPlayer((long)ObjectId);
 	}
 
 	// check if client found - else return
@@ -1059,7 +1064,8 @@ void CutMapAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::L
 	// on object moved by player
 	if(ObjectType == 3)
 	{
-		// todo - find attached player
+		if(owner)
+			clientid = owner->GetGhostOwnerPlayer((long)ObjectId);
 	}
 
 	// check if client found - else return
@@ -1102,7 +1108,8 @@ void OpenLetterWritterAction::Execute(ScriptEnvironmentBase * owner, int ObjectT
 	// on object moved by player
 	if(ObjectType == 3)
 	{
-		// todo - find attached player
+		if(owner)
+			clientid = owner->GetGhostOwnerPlayer((long)ObjectId);
 	}
 
 	// check if client found - else return
@@ -1145,7 +1152,8 @@ void OpenMailboxAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, I
 	// on object moved by player
 	if(ObjectType == 3)
 	{
-		// todo - find attached player
+		if(owner)
+			clientid = owner->GetGhostOwnerPlayer((long)ObjectId);
 	}
 
 	// check if client found - else return

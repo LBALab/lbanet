@@ -88,7 +88,8 @@ bool ItemInInventoryCondition::Passed(ScriptEnvironmentBase * owner,
 	// on object moved by player
 	if(ObjectType == 3)
 	{
-		// todo - find attached player
+		if(owner)
+			clientid = owner->GetGhostOwnerPlayer((long)ObjectId);
 	}
 
 	// check if client found - else return
@@ -136,7 +137,8 @@ bool QuestStartedCondition::Passed(ScriptEnvironmentBase * owner,
 	// on object moved by player
 	if(ObjectType == 3)
 	{
-		// todo - find attached player
+		if(owner)
+			clientid = owner->GetGhostOwnerPlayer((long)ObjectId);
 	}
 
 	// check if client found - else return
@@ -176,7 +178,8 @@ bool QuestFinishedCondition::Passed(ScriptEnvironmentBase * owner,
 	// on object moved by player
 	if(ObjectType == 3)
 	{
-		// todo - find attached player
+		if(owner)
+			clientid = owner->GetGhostOwnerPlayer((long)ObjectId);
 	}
 
 	// check if client found - else return
@@ -216,7 +219,8 @@ bool ChapterStartedCondition::Passed(ScriptEnvironmentBase * owner,
 	// on object moved by player
 	if(ObjectType == 3)
 	{
-		// todo - find attached player
+		if(owner)
+			clientid = owner->GetGhostOwnerPlayer((long)ObjectId);
 	}
 
 	// check if client found - else return
