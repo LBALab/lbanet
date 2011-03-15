@@ -38,6 +38,7 @@ function InitMap(environment)
 	Actor_1.PhysicDesc.SizeX = 0
 	Actor_1.PhysicDesc.SizeY = 0
 	Actor_1.PhysicDesc.SizeZ = 0
+	Actor_1.PhysicDesc.AllowFreeMove = true
 	Actor_1.PhysicDesc.Filename = "Worlds/Lba1Original/Grids/Map35.phy"
 	Actor_1:SetPhysicalActorType(1)
 	Actor_1:SetPhysicalShape(5)
@@ -82,6 +83,7 @@ function InitMap(environment)
 	Actor_4.PhysicDesc.SizeX = 0.5
 	Actor_4.PhysicDesc.SizeY = 2
 	Actor_4.PhysicDesc.SizeZ = 0.6
+	Actor_4.PhysicDesc.AllowFreeMove = true
 	Actor_4.PhysicDesc.Filename = ""
 	Actor_4:SetPhysicalActorType(2)
 	Actor_4:SetPhysicalShape(2)
@@ -99,10 +101,191 @@ function InitMap(environment)
 	Actor_4H:SetSimpleDialog(false)
 	environment:AddActorObject(Actor_4H)
 
+	Actor_5 = ActorObjectInfo(5)
+	Actor_5:SetRenderType(1)
+	Actor_5.DisplayDesc.ModelId = 0
+	Actor_5.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite047.osgb"
+	Actor_5.DisplayDesc.Outfit = ""
+	Actor_5.DisplayDesc.Weapon = ""
+	Actor_5.DisplayDesc.Mode = ""
+	Actor_5.DisplayDesc.UseLight = true
+	Actor_5.DisplayDesc.CastShadow = true
+	Actor_5.DisplayDesc.ColorR = 1
+	Actor_5.DisplayDesc.ColorG = 1
+	Actor_5.DisplayDesc.ColorB = 1
+	Actor_5.DisplayDesc.ColorA = 1
+	Actor_5.DisplayDesc.TransX = 0
+	Actor_5.DisplayDesc.TransY = 0
+	Actor_5.DisplayDesc.TransZ = 0
+	Actor_5.DisplayDesc.ScaleX = 1
+	Actor_5.DisplayDesc.ScaleY = 1
+	Actor_5.DisplayDesc.ScaleZ = 1
+	Actor_5.DisplayDesc.RotX = 0
+	Actor_5.DisplayDesc.RotY = 0
+	Actor_5.DisplayDesc.RotZ = 0
+	Actor_5:SetModelState(2)
+	Actor_5.PhysicDesc.Pos.X = 50
+	Actor_5.PhysicDesc.Pos.Y = 0.0001
+	Actor_5.PhysicDesc.Pos.Z = 36
+	Actor_5.PhysicDesc.Pos.Rotation = 0
+	Actor_5.PhysicDesc.Density = 1
+	Actor_5.PhysicDesc.Collidable = true
+	Actor_5.PhysicDesc.SizeX = 1.99
+	Actor_5.PhysicDesc.SizeY = 4
+	Actor_5.PhysicDesc.SizeZ = 1.99
+	Actor_5.PhysicDesc.AllowFreeMove = false
+	Actor_5.PhysicDesc.Filename = ""
+	Actor_5:SetPhysicalActorType(4)
+	Actor_5:SetPhysicalShape(3)
+	Actor_5.ExtraInfo.Name = ""
+	Actor_5.ExtraInfo.NameColorR = 1
+	Actor_5.ExtraInfo.NameColorG = 1
+	Actor_5.ExtraInfo.NameColorB = 1
+	Actor_5.ExtraInfo.Display = false
+	Actor_5.LifeInfo.Display = false
+	Actor_5H = ActorHandler(Actor_5)
+	environment:AddActorObject(Actor_5H)
+
+	Actor_6 = ActorObjectInfo(6)
+	Actor_6:SetRenderType(1)
+	Actor_6.DisplayDesc.ModelId = 0
+	Actor_6.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite047.osgb"
+	Actor_6.DisplayDesc.Outfit = ""
+	Actor_6.DisplayDesc.Weapon = ""
+	Actor_6.DisplayDesc.Mode = ""
+	Actor_6.DisplayDesc.UseLight = true
+	Actor_6.DisplayDesc.CastShadow = true
+	Actor_6.DisplayDesc.ColorR = 1
+	Actor_6.DisplayDesc.ColorG = 1
+	Actor_6.DisplayDesc.ColorB = 1
+	Actor_6.DisplayDesc.ColorA = 1
+	Actor_6.DisplayDesc.TransX = 0
+	Actor_6.DisplayDesc.TransY = 0
+	Actor_6.DisplayDesc.TransZ = 0
+	Actor_6.DisplayDesc.ScaleX = 1
+	Actor_6.DisplayDesc.ScaleY = 1
+	Actor_6.DisplayDesc.ScaleZ = 1
+	Actor_6.DisplayDesc.RotX = 0
+	Actor_6.DisplayDesc.RotY = 0
+	Actor_6.DisplayDesc.RotZ = 0
+	Actor_6:SetModelState(2)
+	Actor_6.PhysicDesc.Pos.X = 46
+	Actor_6.PhysicDesc.Pos.Y = 0.0001
+	Actor_6.PhysicDesc.Pos.Z = 40
+	Actor_6.PhysicDesc.Pos.Rotation = 0
+	Actor_6.PhysicDesc.Density = 1
+	Actor_6.PhysicDesc.Collidable = true
+	Actor_6.PhysicDesc.SizeX = 1.99
+	Actor_6.PhysicDesc.SizeY = 4
+	Actor_6.PhysicDesc.SizeZ = 1.99
+	Actor_6.PhysicDesc.AllowFreeMove = false
+	Actor_6.PhysicDesc.Filename = ""
+	Actor_6:SetPhysicalActorType(4)
+	Actor_6:SetPhysicalShape(3)
+	Actor_6.ExtraInfo.Name = ""
+	Actor_6.ExtraInfo.NameColorR = 1
+	Actor_6.ExtraInfo.NameColorG = 1
+	Actor_6.ExtraInfo.NameColorB = 1
+	Actor_6.ExtraInfo.Display = false
+	Actor_6.LifeInfo.Display = false
+	Actor_6H = ActorHandler(Actor_6)
+	environment:AddActorObject(Actor_6H)
+
+	Actor_7 = ActorObjectInfo(7)
+	Actor_7:SetRenderType(1)
+	Actor_7.DisplayDesc.ModelId = 0
+	Actor_7.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite047.osgb"
+	Actor_7.DisplayDesc.Outfit = ""
+	Actor_7.DisplayDesc.Weapon = ""
+	Actor_7.DisplayDesc.Mode = ""
+	Actor_7.DisplayDesc.UseLight = true
+	Actor_7.DisplayDesc.CastShadow = true
+	Actor_7.DisplayDesc.ColorR = 1
+	Actor_7.DisplayDesc.ColorG = 1
+	Actor_7.DisplayDesc.ColorB = 1
+	Actor_7.DisplayDesc.ColorA = 1
+	Actor_7.DisplayDesc.TransX = 0
+	Actor_7.DisplayDesc.TransY = 0
+	Actor_7.DisplayDesc.TransZ = 0
+	Actor_7.DisplayDesc.ScaleX = 1
+	Actor_7.DisplayDesc.ScaleY = 1
+	Actor_7.DisplayDesc.ScaleZ = 1
+	Actor_7.DisplayDesc.RotX = 0
+	Actor_7.DisplayDesc.RotY = 0
+	Actor_7.DisplayDesc.RotZ = 0
+	Actor_7:SetModelState(2)
+	Actor_7.PhysicDesc.Pos.X = 46
+	Actor_7.PhysicDesc.Pos.Y = 0.0001
+	Actor_7.PhysicDesc.Pos.Z = 46
+	Actor_7.PhysicDesc.Pos.Rotation = 0
+	Actor_7.PhysicDesc.Density = 1
+	Actor_7.PhysicDesc.Collidable = true
+	Actor_7.PhysicDesc.SizeX = 1.99
+	Actor_7.PhysicDesc.SizeY = 4
+	Actor_7.PhysicDesc.SizeZ = 1.99
+	Actor_7.PhysicDesc.AllowFreeMove = false
+	Actor_7.PhysicDesc.Filename = ""
+	Actor_7:SetPhysicalActorType(4)
+	Actor_7:SetPhysicalShape(3)
+	Actor_7.ExtraInfo.Name = ""
+	Actor_7.ExtraInfo.NameColorR = 1
+	Actor_7.ExtraInfo.NameColorG = 1
+	Actor_7.ExtraInfo.NameColorB = 1
+	Actor_7.ExtraInfo.Display = false
+	Actor_7.LifeInfo.Display = false
+	Actor_7H = ActorHandler(Actor_7)
+	environment:AddActorObject(Actor_7H)
+
+	Actor_8 = ActorObjectInfo(8)
+	Actor_8:SetRenderType(1)
+	Actor_8.DisplayDesc.ModelId = 0
+	Actor_8.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite047.osgb"
+	Actor_8.DisplayDesc.Outfit = ""
+	Actor_8.DisplayDesc.Weapon = ""
+	Actor_8.DisplayDesc.Mode = ""
+	Actor_8.DisplayDesc.UseLight = true
+	Actor_8.DisplayDesc.CastShadow = true
+	Actor_8.DisplayDesc.ColorR = 1
+	Actor_8.DisplayDesc.ColorG = 1
+	Actor_8.DisplayDesc.ColorB = 1
+	Actor_8.DisplayDesc.ColorA = 1
+	Actor_8.DisplayDesc.TransX = 0
+	Actor_8.DisplayDesc.TransY = 0
+	Actor_8.DisplayDesc.TransZ = 0
+	Actor_8.DisplayDesc.ScaleX = 1
+	Actor_8.DisplayDesc.ScaleY = 1
+	Actor_8.DisplayDesc.ScaleZ = 1
+	Actor_8.DisplayDesc.RotX = 0
+	Actor_8.DisplayDesc.RotY = 0
+	Actor_8.DisplayDesc.RotZ = 0
+	Actor_8:SetModelState(2)
+	Actor_8.PhysicDesc.Pos.X = 54
+	Actor_8.PhysicDesc.Pos.Y = 0.0001
+	Actor_8.PhysicDesc.Pos.Z = 50
+	Actor_8.PhysicDesc.Pos.Rotation = 0
+	Actor_8.PhysicDesc.Density = 1
+	Actor_8.PhysicDesc.Collidable = true
+	Actor_8.PhysicDesc.SizeX = 1.99
+	Actor_8.PhysicDesc.SizeY = 4
+	Actor_8.PhysicDesc.SizeZ = 1.99
+	Actor_8.PhysicDesc.AllowFreeMove = false
+	Actor_8.PhysicDesc.Filename = ""
+	Actor_8:SetPhysicalActorType(4)
+	Actor_8:SetPhysicalShape(3)
+	Actor_8.ExtraInfo.Name = ""
+	Actor_8.ExtraInfo.NameColorR = 1
+	Actor_8.ExtraInfo.NameColorG = 1
+	Actor_8.ExtraInfo.NameColorB = 1
+	Actor_8.ExtraInfo.Display = false
+	Actor_8.LifeInfo.Display = false
+	Actor_8H = ActorHandler(Actor_8)
+	environment:AddActorObject(Actor_8H)
+
 	Trigger_1_info = TriggerInfo(1, "exit0", true, false, false)
 	Trigger_1 = ZoneTrigger(Trigger_1_info, 3, 4, 1, true)
 	Trigger_1:SetPosition(53.5, 0, 63.5)
 	Trigger_1:SetStayUpdateFrequency(-1)
+	Trigger_1:SetActivateOnJump(true)
 	Trigger_1_act1 = TeleportAction()
 	Trigger_1_act1:SetMapName("Map006_1")
 	Trigger_1_act1:SetSpawning(3)
@@ -113,6 +296,7 @@ function InitMap(environment)
 	Trigger_2 = ZoneTrigger(Trigger_2_info, 1, 1, 1, true)
 	Trigger_2:SetPosition(3.5, 0, 33.5)
 	Trigger_2:SetStayUpdateFrequency(-1)
+	Trigger_2:SetActivateOnJump(true)
 	Trigger_2_act1 = TeleportAction()
 	Trigger_2_act1:SetMapName("Map000_1")
 	Trigger_2_act1:SetSpawning(9)
