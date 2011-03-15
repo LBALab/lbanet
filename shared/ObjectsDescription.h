@@ -146,9 +146,9 @@ public:
 	//! constructor
 	OsgSimpleObjectDescription(const std::string & filename, bool UseLight, bool CastShadow,
 								const LbaNet::ObjectExtraInfo &extrainfo,
-								const LbaNet::LifeManaInfo & lifeinfo)
+								const LbaNet::LifeManaInfo & lifeinfo, float colorA)
 		: _filename(filename), _UseLight(UseLight), _CastShadow(CastShadow), 
-			_extrainfo(extrainfo), _lifeinfo(lifeinfo)
+			_extrainfo(extrainfo), _lifeinfo(lifeinfo), _colorA(colorA)
 	{}
 
 	//! destructor
@@ -167,6 +167,7 @@ private:
 	LbaNet::ObjectExtraInfo	_extrainfo;
 	LbaNet::LifeManaInfo	_lifeinfo;
 
+	float				_colorA;
 };
 
 

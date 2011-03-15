@@ -361,6 +361,9 @@ public:
 	//! send event to player
 	virtual int GetInventoryItemCount(long PlayerId, long Itemid) = 0;
 
+	//! return ghost owner player
+	virtual long GetGhostOwnerPlayer(long ghostid){return -1;}
+
 protected:
 
 	//! used by lua to move an actor or player

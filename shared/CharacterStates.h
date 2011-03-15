@@ -60,7 +60,10 @@ public:
 	virtual bool AnimationFinished(){return false;}
 
 	//! tell if we should play stand anim when iddle on this mode
-	virtual bool StandOnIddle(){return false;}
+	//! 0 -> no
+	//! 1 -> yes
+	//! 2 -> yes but change state to normal
+	virtual int StandOnIddle(){return 0;}
 	
 
 	//! tell state that player is moving
@@ -111,6 +114,8 @@ public:
 	//! modify U velocity
 	virtual void ModifyYVelocity(float &vY){}
 
+	//! check if can play move object
+	virtual bool CanPlayMovingObject(){return false;}
 };
 
 
@@ -141,7 +146,7 @@ public:
 	virtual int AllowedRotating(){return 1;}
 
 	//! tell if we should play stand anim when iddle on this mode
-	virtual bool StandOnIddle(){return true;}
+	virtual int StandOnIddle(){return 1;}
 
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
@@ -158,6 +163,9 @@ public:
 
 	//! check if can use weapon in this state
 	virtual bool CanUseWeapon(){return true;}
+
+	//! check if can play move object
+	virtual bool CanPlayMovingObject(){return true;}
 };
 
 
@@ -177,14 +185,14 @@ public:
 	//! destructor
 	virtual ~StateMovingObject(void){}
 
-	//! ask if we are allowed to move in this mode
-	virtual bool AllowedMoving(){return true;}
+	//! tell if we should play stand anim when iddle on this mode
+	//virtual int StandOnIddle(){return 2;}
 
 	//! ask if we are allowed to rotate in this mode
 	//! 0 -> no
 	//! 1 -> yes
 	//! 2 -> yes but no turning animation
-	virtual int AllowedRotating(){return 1;}
+	virtual int AllowedRotating(){return 2;}
 
 	//! ask state if we need to play animation at start
 	virtual bool PlayAnimationAtStart(std::string & animstring)
@@ -197,44 +205,6 @@ public:
 	virtual bool ChangeLegal(LbaNet::ModelState NewState){return true;}
 };
 
-
-
-//*************************************************************************************************
-//*                               class StMovingObject
-//*************************************************************************************************
-/**
-* @brief Base class representing a certain state of a character
-*
-*/
-class StateRestrictedMovingObject : public CharacterStateBase
-{
-public:
-	//! constructor
-	StateRestrictedMovingObject()
-	{}
-
-	//! destructor
-	virtual ~StateRestrictedMovingObject(void){}
-
-	//! ask if we are allowed to move in this mode
-	virtual bool AllowedMoving(){return true;}
-
-	//! ask if we are allowed to rotate in this mode
-	//! 0 -> no
-	//! 1 -> yes
-	//! 2 -> yes but no turning animation
-	virtual int AllowedRotating(){return 0;}
-
-	//! ask state if we need to play animation at start
-	virtual bool PlayAnimationAtStart(std::string & animstring)
-	{
-		animstring = "PushContainer";
-		return true;
-	}
-
-	//! check if we can change state from this state
-	virtual bool ChangeLegal(LbaNet::ModelState NewState){return true;}
-};
 
 
 
@@ -279,7 +249,7 @@ public:
 	virtual bool ShouldBlinkOnScreen(){return true;}
 
 	//! tell if we should play stand anim when iddle on this mode
-	virtual bool StandOnIddle(){return true;}
+	virtual int StandOnIddle(){return 1;}
 
 
 	//! ask state if we need to play animation at start
@@ -332,7 +302,7 @@ public:
 	virtual bool IsImmuneHurt(){return true;}
 
 	//! tell if we should play stand anim when iddle on this mode
-	virtual bool StandOnIddle(){return true;}
+	virtual int StandOnIddle(){return 1;}
 
 	//! check if we can change mode from this state
 	virtual bool AllowChangeMode(){return true;}

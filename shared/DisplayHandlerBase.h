@@ -69,7 +69,8 @@ public:
 															boost::shared_ptr<DisplayTransformation> Tr,
 															bool UseLight, bool CastShadow,
 															const LbaNet::ObjectExtraInfo &extrainfo,
-															const LbaNet::LifeManaInfo &lifeinfo) = 0;
+															const LbaNet::LifeManaInfo &lifeinfo,
+															float colorA) = 0;
 
 	//! create sphere object
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateSphereObject(float radius, 
