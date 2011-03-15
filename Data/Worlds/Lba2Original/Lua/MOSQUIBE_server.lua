@@ -15,10 +15,10 @@ function InitMap(environment)
 	Actor_1.DisplayDesc.Mode = ""
 	Actor_1.DisplayDesc.UseLight = false
 	Actor_1.DisplayDesc.CastShadow = true
-	Actor_1.DisplayDesc.ColorR = 0
-	Actor_1.DisplayDesc.ColorG = 0
-	Actor_1.DisplayDesc.ColorB = 0
-	Actor_1.DisplayDesc.ColorA = 0
+	Actor_1.DisplayDesc.ColorR = 1
+	Actor_1.DisplayDesc.ColorG = 1
+	Actor_1.DisplayDesc.ColorB = 1
+	Actor_1.DisplayDesc.ColorA = 1
 	Actor_1:SetModelState(1)
 	Actor_1.PhysicDesc.Pos.X = 0
 	Actor_1.PhysicDesc.Pos.Y = 0
@@ -81,7 +81,7 @@ function InitMap(environment)
 	Actor_3.DisplayDesc.Mode = ""
 	Actor_3.DisplayDesc.UseLight = false
 	Actor_3.DisplayDesc.CastShadow = false
-	Actor_3.DisplayDesc.ColorR = 0
+	Actor_3.DisplayDesc.ColorR = 1
 	Actor_3.DisplayDesc.ColorG = 2.45407e-024
 	Actor_3.DisplayDesc.ColorB = 3.51563
 	Actor_3.DisplayDesc.ColorA = 3.51563
@@ -114,10 +114,10 @@ function InitMap(environment)
 	Actor_4.DisplayDesc.Mode = ""
 	Actor_4.DisplayDesc.UseLight = false
 	Actor_4.DisplayDesc.CastShadow = false
-	Actor_4.DisplayDesc.ColorR = 0
+	Actor_4.DisplayDesc.ColorR = 1
 	Actor_4.DisplayDesc.ColorG = 7.43541e-023
-	Actor_4.DisplayDesc.ColorB = 0
-	Actor_4.DisplayDesc.ColorA = 0
+	Actor_4.DisplayDesc.ColorB = 1
+	Actor_4.DisplayDesc.ColorA = 1
 	Actor_4:SetModelState(1)
 	Actor_4.PhysicDesc.Pos.X = 466.713
 	Actor_4.PhysicDesc.Pos.Y = 25.5547
@@ -147,7 +147,7 @@ function InitMap(environment)
 	Actor_5.DisplayDesc.Mode = ""
 	Actor_5.DisplayDesc.UseLight = false
 	Actor_5.DisplayDesc.CastShadow = false
-	Actor_5.DisplayDesc.ColorR = 0
+	Actor_5.DisplayDesc.ColorR = 1
 	Actor_5.DisplayDesc.ColorG = 3.12122e-031
 	Actor_5.DisplayDesc.ColorB = -2.00001
 	Actor_5.DisplayDesc.ColorA = 1.01019e-039
@@ -180,10 +180,10 @@ function InitMap(environment)
 	Actor_6.DisplayDesc.Mode = ""
 	Actor_6.DisplayDesc.UseLight = false
 	Actor_6.DisplayDesc.CastShadow = false
-	Actor_6.DisplayDesc.ColorR = 0
+	Actor_6.DisplayDesc.ColorR = 1
 	Actor_6.DisplayDesc.ColorG = 7.14545e-031
-	Actor_6.DisplayDesc.ColorB = 0
-	Actor_6.DisplayDesc.ColorA = 0
+	Actor_6.DisplayDesc.ColorB = 1
+	Actor_6.DisplayDesc.ColorA = 1
 	Actor_6:SetModelState(1)
 	Actor_6.PhysicDesc.Pos.X = 477.375
 	Actor_6.PhysicDesc.Pos.Y = 0
@@ -213,7 +213,7 @@ function InitMap(environment)
 	Actor_7.DisplayDesc.Mode = ""
 	Actor_7.DisplayDesc.UseLight = false
 	Actor_7.DisplayDesc.CastShadow = false
-	Actor_7.DisplayDesc.ColorR = 0
+	Actor_7.DisplayDesc.ColorR = 1
 	Actor_7.DisplayDesc.ColorG = 2.02049e-023
 	Actor_7.DisplayDesc.ColorB = 5.60519e-045
 	Actor_7.DisplayDesc.ColorA = 9.80909e-045
@@ -246,10 +246,10 @@ function InitMap(environment)
 	Actor_8.DisplayDesc.Mode = ""
 	Actor_8.DisplayDesc.UseLight = false
 	Actor_8.DisplayDesc.CastShadow = false
-	Actor_8.DisplayDesc.ColorR = 0
+	Actor_8.DisplayDesc.ColorR = 1
 	Actor_8.DisplayDesc.ColorG = 1.83426e-031
-	Actor_8.DisplayDesc.ColorB = 0
-	Actor_8.DisplayDesc.ColorA = 0
+	Actor_8.DisplayDesc.ColorB = 1
+	Actor_8.DisplayDesc.ColorA = 1
 	Actor_8:SetModelState(1)
 	Actor_8.PhysicDesc.Pos.X = 476
 	Actor_8.PhysicDesc.Pos.Y = 0
@@ -279,7 +279,7 @@ function InitMap(environment)
 	Actor_9.DisplayDesc.Mode = ""
 	Actor_9.DisplayDesc.UseLight = false
 	Actor_9.DisplayDesc.CastShadow = false
-	Actor_9.DisplayDesc.ColorR = 0
+	Actor_9.DisplayDesc.ColorR = 1
 	Actor_9.DisplayDesc.ColorG = 7.30015e-031
 	Actor_9.DisplayDesc.ColorB = 7.375
 	Actor_9.DisplayDesc.ColorA = 14.25
@@ -312,10 +312,10 @@ function InitMap(environment)
 	Actor_10.DisplayDesc.Mode = ""
 	Actor_10.DisplayDesc.UseLight = false
 	Actor_10.DisplayDesc.CastShadow = false
-	Actor_10.DisplayDesc.ColorR = 0
+	Actor_10.DisplayDesc.ColorR = 1
 	Actor_10.DisplayDesc.ColorG = 9.00502e-024
 	Actor_10.DisplayDesc.ColorB = -0.962998
-	Actor_10.DisplayDesc.ColorA = 0
+	Actor_10.DisplayDesc.ColorA = 1
 	Actor_10:SetModelState(1)
 	Actor_10.PhysicDesc.Pos.X = 476
 	Actor_10.PhysicDesc.Pos.Y = 0
@@ -345,7 +345,7 @@ function InitMap(environment)
 	Actor_11.DisplayDesc.Mode = ""
 	Actor_11.DisplayDesc.UseLight = false
 	Actor_11.DisplayDesc.CastShadow = false
-	Actor_11.DisplayDesc.ColorR = 0
+	Actor_11.DisplayDesc.ColorR = 1
 	Actor_11.DisplayDesc.ColorG = 3.12863e-024
 	Actor_11.DisplayDesc.ColorB = -0
 	Actor_11.DisplayDesc.ColorA = -1.36719
@@ -378,7 +378,7 @@ function InitMap(environment)
 	Actor_12.DisplayDesc.Mode = ""
 	Actor_12.DisplayDesc.UseLight = false
 	Actor_12.DisplayDesc.CastShadow = false
-	Actor_12.DisplayDesc.ColorR = 0
+	Actor_12.DisplayDesc.ColorR = 1
 	Actor_12.DisplayDesc.ColorG = 2.1863e-024
 	Actor_12.DisplayDesc.ColorB = 5.60519e-045
 	Actor_12.DisplayDesc.ColorA = 9.80909e-045
@@ -411,7 +411,7 @@ function InitMap(environment)
 	Actor_13.DisplayDesc.Mode = ""
 	Actor_13.DisplayDesc.UseLight = false
 	Actor_13.DisplayDesc.CastShadow = false
-	Actor_13.DisplayDesc.ColorR = 0
+	Actor_13.DisplayDesc.ColorR = 1
 	Actor_13.DisplayDesc.ColorG = 3.12809e-024
 	Actor_13.DisplayDesc.ColorB = 5.60519e-045
 	Actor_13.DisplayDesc.ColorA = 9.80909e-045
@@ -444,7 +444,7 @@ function InitMap(environment)
 	Actor_14.DisplayDesc.Mode = ""
 	Actor_14.DisplayDesc.UseLight = false
 	Actor_14.DisplayDesc.CastShadow = false
-	Actor_14.DisplayDesc.ColorR = 0
+	Actor_14.DisplayDesc.ColorR = 1
 	Actor_14.DisplayDesc.ColorG = 7.42718e-031
 	Actor_14.DisplayDesc.ColorB = 6.44597e-044
 	Actor_14.DisplayDesc.ColorA = 2.24208e-044
@@ -477,10 +477,10 @@ function InitMap(environment)
 	Actor_15.DisplayDesc.Mode = ""
 	Actor_15.DisplayDesc.UseLight = false
 	Actor_15.DisplayDesc.CastShadow = false
-	Actor_15.DisplayDesc.ColorR = 0
+	Actor_15.DisplayDesc.ColorR = 1
 	Actor_15.DisplayDesc.ColorG = 1.79133e-031
 	Actor_15.DisplayDesc.ColorB = 5.5908e-039
-	Actor_15.DisplayDesc.ColorA = 0
+	Actor_15.DisplayDesc.ColorA = 1
 	Actor_15:SetModelState(1)
 	Actor_15.PhysicDesc.Pos.X = 466.713
 	Actor_15.PhysicDesc.Pos.Y = 25.5547
@@ -513,7 +513,7 @@ function InitMap(environment)
 	Actor_16.DisplayDesc.ColorR = 1.8743e-031
 	Actor_16.DisplayDesc.ColorG = 1.65305e-039
 	Actor_16.DisplayDesc.ColorB = 2.68959e-035
-	Actor_16.DisplayDesc.ColorA = 0
+	Actor_16.DisplayDesc.ColorA = 1
 	Actor_16:SetModelState(1)
 	Actor_16.PhysicDesc.Pos.X = 466.713
 	Actor_16.PhysicDesc.Pos.Y = 25.5547
@@ -543,7 +543,7 @@ function InitMap(environment)
 	Actor_17.DisplayDesc.Mode = ""
 	Actor_17.DisplayDesc.UseLight = false
 	Actor_17.DisplayDesc.CastShadow = false
-	Actor_17.DisplayDesc.ColorR = 0
+	Actor_17.DisplayDesc.ColorR = 1
 	Actor_17.DisplayDesc.ColorG = 2.26316e-020
 	Actor_17.DisplayDesc.ColorB = 6.44597e-044
 	Actor_17.DisplayDesc.ColorA = 2.24208e-044
@@ -576,7 +576,7 @@ function InitMap(environment)
 	Actor_18.DisplayDesc.Mode = ""
 	Actor_18.DisplayDesc.UseLight = false
 	Actor_18.DisplayDesc.CastShadow = false
-	Actor_18.DisplayDesc.ColorR = 0
+	Actor_18.DisplayDesc.ColorR = 1
 	Actor_18.DisplayDesc.ColorG = 4.88203e-034
 	Actor_18.DisplayDesc.ColorB = 6.44597e-044
 	Actor_18.DisplayDesc.ColorA = 2.24208e-044
@@ -708,7 +708,7 @@ function InitMap(environment)
 	Actor_22.DisplayDesc.Mode = ""
 	Actor_22.DisplayDesc.UseLight = false
 	Actor_22.DisplayDesc.CastShadow = false
-	Actor_22.DisplayDesc.ColorR = 0
+	Actor_22.DisplayDesc.ColorR = 1
 	Actor_22.DisplayDesc.ColorG = 5.87909e-023
 	Actor_22.DisplayDesc.ColorB = 3.22299e-044
 	Actor_22.DisplayDesc.ColorA = 1.74489e-039
@@ -741,7 +741,7 @@ function InitMap(environment)
 	Actor_23.DisplayDesc.Mode = ""
 	Actor_23.DisplayDesc.UseLight = false
 	Actor_23.DisplayDesc.CastShadow = false
-	Actor_23.DisplayDesc.ColorR = 0
+	Actor_23.DisplayDesc.ColorR = 1
 	Actor_23.DisplayDesc.ColorG = 3.09629e-023
 	Actor_23.DisplayDesc.ColorB = 6.44597e-044
 	Actor_23.DisplayDesc.ColorA = 2.24208e-044
@@ -807,7 +807,7 @@ function InitMap(environment)
 	Actor_25.DisplayDesc.Mode = ""
 	Actor_25.DisplayDesc.UseLight = false
 	Actor_25.DisplayDesc.CastShadow = false
-	Actor_25.DisplayDesc.ColorR = 0
+	Actor_25.DisplayDesc.ColorR = 1
 	Actor_25.DisplayDesc.ColorG = 9.25876e-024
 	Actor_25.DisplayDesc.ColorB = 1.05328e-034
 	Actor_25.DisplayDesc.ColorA = 3.13351e-024
@@ -840,7 +840,7 @@ function InitMap(environment)
 	Actor_26.DisplayDesc.Mode = ""
 	Actor_26.DisplayDesc.UseLight = false
 	Actor_26.DisplayDesc.CastShadow = false
-	Actor_26.DisplayDesc.ColorR = 0
+	Actor_26.DisplayDesc.ColorR = 1
 	Actor_26.DisplayDesc.ColorG = 1.31412e-020
 	Actor_26.DisplayDesc.ColorB = 6.44597e-044
 	Actor_26.DisplayDesc.ColorA = 2.24208e-044
@@ -906,10 +906,10 @@ function InitMap(environment)
 	Actor_28.DisplayDesc.Mode = ""
 	Actor_28.DisplayDesc.UseLight = false
 	Actor_28.DisplayDesc.CastShadow = false
-	Actor_28.DisplayDesc.ColorR = 0
-	Actor_28.DisplayDesc.ColorG = 0
-	Actor_28.DisplayDesc.ColorB = 0
-	Actor_28.DisplayDesc.ColorA = 0
+	Actor_28.DisplayDesc.ColorR = 1
+	Actor_28.DisplayDesc.ColorG = 1
+	Actor_28.DisplayDesc.ColorB = 1
+	Actor_28.DisplayDesc.ColorA = 1
 	Actor_28:SetModelState(1)
 	Actor_28.PhysicDesc.Pos.X = 437.125
 	Actor_28.PhysicDesc.Pos.Y = 35.5742
@@ -973,9 +973,9 @@ function InitMap(environment)
 	Actor_30.DisplayDesc.UseLight = false
 	Actor_30.DisplayDesc.CastShadow = false
 	Actor_30.DisplayDesc.ColorR = 5.625
-	Actor_30.DisplayDesc.ColorG = 0
-	Actor_30.DisplayDesc.ColorB = 0
-	Actor_30.DisplayDesc.ColorA = 0
+	Actor_30.DisplayDesc.ColorG = 1
+	Actor_30.DisplayDesc.ColorB = 1
+	Actor_30.DisplayDesc.ColorA = 1
 	Actor_30:SetModelState(1)
 	Actor_30.PhysicDesc.Pos.X = 438.125
 	Actor_30.PhysicDesc.Pos.Y = 35.6445
@@ -1006,7 +1006,7 @@ function InitMap(environment)
 	Actor_31.DisplayDesc.UseLight = false
 	Actor_31.DisplayDesc.CastShadow = false
 	Actor_31.DisplayDesc.ColorR = -1
-	Actor_31.DisplayDesc.ColorG = 0
+	Actor_31.DisplayDesc.ColorG = 1
 	Actor_31.DisplayDesc.ColorB = -3.17383
 	Actor_31.DisplayDesc.ColorA = 4.39453
 	Actor_31:SetModelState(1)
@@ -1038,10 +1038,10 @@ function InitMap(environment)
 	Actor_32.DisplayDesc.Mode = ""
 	Actor_32.DisplayDesc.UseLight = false
 	Actor_32.DisplayDesc.CastShadow = false
-	Actor_32.DisplayDesc.ColorR = 0
-	Actor_32.DisplayDesc.ColorG = 0
-	Actor_32.DisplayDesc.ColorB = 0
-	Actor_32.DisplayDesc.ColorA = 0
+	Actor_32.DisplayDesc.ColorR = 1
+	Actor_32.DisplayDesc.ColorG = 1
+	Actor_32.DisplayDesc.ColorB = 1
+	Actor_32.DisplayDesc.ColorA = 1
 	Actor_32:SetModelState(1)
 	Actor_32.PhysicDesc.Pos.X = 441.625
 	Actor_32.PhysicDesc.Pos.Y = 43.5547
@@ -1071,10 +1071,10 @@ function InitMap(environment)
 	Actor_33.DisplayDesc.Mode = ""
 	Actor_33.DisplayDesc.UseLight = false
 	Actor_33.DisplayDesc.CastShadow = true
-	Actor_33.DisplayDesc.ColorR = 0
+	Actor_33.DisplayDesc.ColorR = 1
 	Actor_33.DisplayDesc.ColorG = 1.00626e-038
 	Actor_33.DisplayDesc.ColorB = 1.05711e-030
-	Actor_33.DisplayDesc.ColorA = 0
+	Actor_33.DisplayDesc.ColorA = 1
 	Actor_33:SetModelState(1)
 	Actor_33.PhysicDesc.Pos.X = 441.625
 	Actor_33.PhysicDesc.Pos.Y = 43.5547
@@ -1104,10 +1104,10 @@ function InitMap(environment)
 	Actor_34.DisplayDesc.Mode = ""
 	Actor_34.DisplayDesc.UseLight = false
 	Actor_34.DisplayDesc.CastShadow = false
-	Actor_34.DisplayDesc.ColorR = 0
+	Actor_34.DisplayDesc.ColorR = 1
 	Actor_34.DisplayDesc.ColorG = 8.0879e-023
-	Actor_34.DisplayDesc.ColorB = 0
-	Actor_34.DisplayDesc.ColorA = 0
+	Actor_34.DisplayDesc.ColorB = 1
+	Actor_34.DisplayDesc.ColorA = 1
 	Actor_34:SetModelState(1)
 	Actor_34.PhysicDesc.Pos.X = 441.625
 	Actor_34.PhysicDesc.Pos.Y = 43.5547
@@ -1137,10 +1137,10 @@ function InitMap(environment)
 	Actor_35.DisplayDesc.Mode = ""
 	Actor_35.DisplayDesc.UseLight = false
 	Actor_35.DisplayDesc.CastShadow = true
-	Actor_35.DisplayDesc.ColorR = 0
+	Actor_35.DisplayDesc.ColorR = 1
 	Actor_35.DisplayDesc.ColorG = 4.59785e-024
-	Actor_35.DisplayDesc.ColorB = 0
-	Actor_35.DisplayDesc.ColorA = 0
+	Actor_35.DisplayDesc.ColorB = 1
+	Actor_35.DisplayDesc.ColorA = 1
 	Actor_35:SetModelState(1)
 	Actor_35.PhysicDesc.Pos.X = 441.625
 	Actor_35.PhysicDesc.Pos.Y = 43.5547
@@ -1170,7 +1170,7 @@ function InitMap(environment)
 	Actor_36.DisplayDesc.Mode = ""
 	Actor_36.DisplayDesc.UseLight = false
 	Actor_36.DisplayDesc.CastShadow = false
-	Actor_36.DisplayDesc.ColorR = 0
+	Actor_36.DisplayDesc.ColorR = 1
 	Actor_36.DisplayDesc.ColorG = 1.82468e-031
 	Actor_36.DisplayDesc.ColorB = 13.2679
 	Actor_36.DisplayDesc.ColorA = 1.53666e+019
@@ -1203,10 +1203,10 @@ function InitMap(environment)
 	Actor_37.DisplayDesc.Mode = ""
 	Actor_37.DisplayDesc.UseLight = false
 	Actor_37.DisplayDesc.CastShadow = false
-	Actor_37.DisplayDesc.ColorR = 0
+	Actor_37.DisplayDesc.ColorR = 1
 	Actor_37.DisplayDesc.ColorG = 7.91187e-023
 	Actor_37.DisplayDesc.ColorB = -0.519531
-	Actor_37.DisplayDesc.ColorA = 0.519531
+	Actor_37.DisplayDesc.ColorA = 1.519531
 	Actor_37:SetModelState(1)
 	Actor_37.PhysicDesc.Pos.X = 451
 	Actor_37.PhysicDesc.Pos.Y = 43.5547
@@ -1239,7 +1239,7 @@ function InitMap(environment)
 	Actor_38.DisplayDesc.ColorR = 1.4013e-045
 	Actor_38.DisplayDesc.ColorG = 4.66651e-034
 	Actor_38.DisplayDesc.ColorB = 1.4013e-045
-	Actor_38.DisplayDesc.ColorA = 0
+	Actor_38.DisplayDesc.ColorA = 1
 	Actor_38:SetModelState(1)
 	Actor_38.PhysicDesc.Pos.X = 451
 	Actor_38.PhysicDesc.Pos.Y = 43.5547
@@ -1272,7 +1272,7 @@ function InitMap(environment)
 	Actor_39.DisplayDesc.ColorR = 9.01884e-023
 	Actor_39.DisplayDesc.ColorG = 5.90704e-023
 	Actor_39.DisplayDesc.ColorB = 9.25651e-024
-	Actor_39.DisplayDesc.ColorA = 0
+	Actor_39.DisplayDesc.ColorA = 1
 	Actor_39:SetModelState(1)
 	Actor_39.PhysicDesc.Pos.X = 440.125
 	Actor_39.PhysicDesc.Pos.Y = 35.7422
@@ -1302,7 +1302,7 @@ function InitMap(environment)
 	Actor_40.DisplayDesc.Mode = ""
 	Actor_40.DisplayDesc.UseLight = false
 	Actor_40.DisplayDesc.CastShadow = false
-	Actor_40.DisplayDesc.ColorR = 0
+	Actor_40.DisplayDesc.ColorR = 1
 	Actor_40.DisplayDesc.ColorG = 7.68688e-031
 	Actor_40.DisplayDesc.ColorB = 2.10195e-044
 	Actor_40.DisplayDesc.ColorA = 1.05053e-030
@@ -1338,7 +1338,7 @@ function InitMap(environment)
 	Actor_41.DisplayDesc.ColorR = 2.02063e-038
 	Actor_41.DisplayDesc.ColorG = 1.74509e-038
 	Actor_41.DisplayDesc.ColorB = 1.53394e-038
-	Actor_41.DisplayDesc.ColorA = 0
+	Actor_41.DisplayDesc.ColorA = 1
 	Actor_41:SetModelState(1)
 	Actor_41.PhysicDesc.Pos.X = 442.125
 	Actor_41.PhysicDesc.Pos.Y = 35.7422
@@ -1369,8 +1369,8 @@ function InitMap(environment)
 	Actor_42.DisplayDesc.UseLight = false
 	Actor_42.DisplayDesc.CastShadow = true
 	Actor_42.DisplayDesc.ColorR = -3.40282e+038
-	Actor_42.DisplayDesc.ColorG = 0
-	Actor_42.DisplayDesc.ColorB = 0
+	Actor_42.DisplayDesc.ColorG = 1
+	Actor_42.DisplayDesc.ColorB = 1
 	Actor_42.DisplayDesc.ColorA = 3.29655e-024
 	Actor_42:SetModelState(1)
 	Actor_42.PhysicDesc.Pos.X = 443.125
@@ -1401,10 +1401,10 @@ function InitMap(environment)
 	Actor_43.DisplayDesc.Mode = ""
 	Actor_43.DisplayDesc.UseLight = false
 	Actor_43.DisplayDesc.CastShadow = false
-	Actor_43.DisplayDesc.ColorR = 0
+	Actor_43.DisplayDesc.ColorR = 1
 	Actor_43.DisplayDesc.ColorG = 1.06458e-030
 	Actor_43.DisplayDesc.ColorB = -1
-	Actor_43.DisplayDesc.ColorA = 0
+	Actor_43.DisplayDesc.ColorA = 1
 	Actor_43:SetModelState(1)
 	Actor_43.PhysicDesc.Pos.X = 454.5
 	Actor_43.PhysicDesc.Pos.Y = 36.5234
@@ -1467,7 +1467,7 @@ function InitMap(environment)
 	Actor_45.DisplayDesc.Mode = ""
 	Actor_45.DisplayDesc.UseLight = false
 	Actor_45.DisplayDesc.CastShadow = false
-	Actor_45.DisplayDesc.ColorR = 0
+	Actor_45.DisplayDesc.ColorR = 1
 	Actor_45.DisplayDesc.ColorG = 7.42972e-031
 	Actor_45.DisplayDesc.ColorB = 1.4708e-041
 	Actor_45.DisplayDesc.ColorA = 1.36332e-041
@@ -1500,7 +1500,7 @@ function InitMap(environment)
 	Actor_46.DisplayDesc.Mode = ""
 	Actor_46.DisplayDesc.UseLight = false
 	Actor_46.DisplayDesc.CastShadow = false
-	Actor_46.DisplayDesc.ColorR = 0
+	Actor_46.DisplayDesc.ColorR = 1
 	Actor_46.DisplayDesc.ColorG = 8.98769e-024
 	Actor_46.DisplayDesc.ColorB = 1.02319e-034
 	Actor_46.DisplayDesc.ColorA = 1.94401e-031
@@ -1534,8 +1534,8 @@ function InitMap(environment)
 	Actor_47.DisplayDesc.UseLight = false
 	Actor_47.DisplayDesc.CastShadow = true
 	Actor_47.DisplayDesc.ColorR = 2.36943e-038
-	Actor_47.DisplayDesc.ColorG = 0
-	Actor_47.DisplayDesc.ColorB = 0
+	Actor_47.DisplayDesc.ColorG = 1
+	Actor_47.DisplayDesc.ColorB = 1
 	Actor_47.DisplayDesc.ColorA = 3.00393e-024
 	Actor_47:SetModelState(1)
 	Actor_47.PhysicDesc.Pos.X = 451
@@ -1566,9 +1566,9 @@ function InitMap(environment)
 	Actor_48.DisplayDesc.Mode = ""
 	Actor_48.DisplayDesc.UseLight = false
 	Actor_48.DisplayDesc.CastShadow = false
-	Actor_48.DisplayDesc.ColorR = 0
-	Actor_48.DisplayDesc.ColorG = 0
-	Actor_48.DisplayDesc.ColorB = 0
+	Actor_48.DisplayDesc.ColorR = 1
+	Actor_48.DisplayDesc.ColorG = 1
+	Actor_48.DisplayDesc.ColorB = 1
 	Actor_48.DisplayDesc.ColorA = 5.28579e-023
 	Actor_48:SetModelState(1)
 	Actor_48.PhysicDesc.Pos.X = 441.625
@@ -1632,10 +1632,10 @@ function InitMap(environment)
 	Actor_50.DisplayDesc.Mode = ""
 	Actor_50.DisplayDesc.UseLight = false
 	Actor_50.DisplayDesc.CastShadow = false
-	Actor_50.DisplayDesc.ColorR = 0
-	Actor_50.DisplayDesc.ColorG = 0
-	Actor_50.DisplayDesc.ColorB = 0
-	Actor_50.DisplayDesc.ColorA = 0
+	Actor_50.DisplayDesc.ColorR = 1
+	Actor_50.DisplayDesc.ColorG = 1
+	Actor_50.DisplayDesc.ColorB = 1
+	Actor_50.DisplayDesc.ColorA = 1
 	Actor_50:SetModelState(1)
 	Actor_50.PhysicDesc.Pos.X = 451
 	Actor_50.PhysicDesc.Pos.Y = 43.5547
@@ -1797,10 +1797,10 @@ function InitMap(environment)
 	Actor_55.DisplayDesc.Mode = ""
 	Actor_55.DisplayDesc.UseLight = false
 	Actor_55.DisplayDesc.CastShadow = false
-	Actor_55.DisplayDesc.ColorR = 0
-	Actor_55.DisplayDesc.ColorG = 0
-	Actor_55.DisplayDesc.ColorB = 0
-	Actor_55.DisplayDesc.ColorA = 0
+	Actor_55.DisplayDesc.ColorR = 1
+	Actor_55.DisplayDesc.ColorG = 1
+	Actor_55.DisplayDesc.ColorB = 1
+	Actor_55.DisplayDesc.ColorA = 1
 	Actor_55:SetModelState(1)
 	Actor_55.PhysicDesc.Pos.X = 456.5
 	Actor_55.PhysicDesc.Pos.Y = 43.5547
@@ -1896,7 +1896,7 @@ function InitMap(environment)
 	Actor_58.DisplayDesc.Mode = ""
 	Actor_58.DisplayDesc.UseLight = false
 	Actor_58.DisplayDesc.CastShadow = false
-	Actor_58.DisplayDesc.ColorR = 0
+	Actor_58.DisplayDesc.ColorR = 1
 	Actor_58.DisplayDesc.ColorG = 6.08541e-023
 	Actor_58.DisplayDesc.ColorB = 4.50481e-034
 	Actor_58.DisplayDesc.ColorA = 1.83706e-040
@@ -1962,7 +1962,7 @@ function InitMap(environment)
 	Actor_60.DisplayDesc.Mode = ""
 	Actor_60.DisplayDesc.UseLight = false
 	Actor_60.DisplayDesc.CastShadow = false
-	Actor_60.DisplayDesc.ColorR = 0
+	Actor_60.DisplayDesc.ColorR = 1
 	Actor_60.DisplayDesc.ColorG = 1.77032e-031
 	Actor_60.DisplayDesc.ColorB = 1.4708e-041
 	Actor_60.DisplayDesc.ColorA = 1.36332e-041
@@ -1996,9 +1996,9 @@ function InitMap(environment)
 	Actor_61.DisplayDesc.UseLight = false
 	Actor_61.DisplayDesc.CastShadow = false
 	Actor_61.DisplayDesc.ColorR = 1.88319e-031
-	Actor_61.DisplayDesc.ColorG = 0
-	Actor_61.DisplayDesc.ColorB = 0
-	Actor_61.DisplayDesc.ColorA = 0
+	Actor_61.DisplayDesc.ColorG = 1
+	Actor_61.DisplayDesc.ColorB = 1
+	Actor_61.DisplayDesc.ColorA = 1
 	Actor_61:SetModelState(1)
 	Actor_61.PhysicDesc.Pos.X = 461
 	Actor_61.PhysicDesc.Pos.Y = 37.3047
@@ -2029,8 +2029,8 @@ function InitMap(environment)
 	Actor_62.DisplayDesc.UseLight = false
 	Actor_62.DisplayDesc.CastShadow = false
 	Actor_62.DisplayDesc.ColorR = 1.47094e-041
-	Actor_62.DisplayDesc.ColorG = 0
-	Actor_62.DisplayDesc.ColorB = 0
+	Actor_62.DisplayDesc.ColorG = 1
+	Actor_62.DisplayDesc.ColorB = 1
 	Actor_62.DisplayDesc.ColorA = 1.4013e-045
 	Actor_62:SetModelState(1)
 	Actor_62.PhysicDesc.Pos.X = 461
@@ -2095,9 +2095,9 @@ function InitMap(environment)
 	Actor_64.DisplayDesc.UseLight = false
 	Actor_64.DisplayDesc.CastShadow = false
 	Actor_64.DisplayDesc.ColorR = 7.60851e-031
-	Actor_64.DisplayDesc.ColorG = 0
-	Actor_64.DisplayDesc.ColorB = 0
-	Actor_64.DisplayDesc.ColorA = 0
+	Actor_64.DisplayDesc.ColorG = 1
+	Actor_64.DisplayDesc.ColorB = 1
+	Actor_64.DisplayDesc.ColorA = 1
 	Actor_64:SetModelState(1)
 	Actor_64.PhysicDesc.Pos.X = 453.5
 	Actor_64.PhysicDesc.Pos.Y = 36.5234
@@ -2127,10 +2127,10 @@ function InitMap(environment)
 	Actor_65.DisplayDesc.Mode = ""
 	Actor_65.DisplayDesc.UseLight = false
 	Actor_65.DisplayDesc.CastShadow = false
-	Actor_65.DisplayDesc.ColorR = 0
-	Actor_65.DisplayDesc.ColorG = 0
-	Actor_65.DisplayDesc.ColorB = 0
-	Actor_65.DisplayDesc.ColorA = 0
+	Actor_65.DisplayDesc.ColorR = 1
+	Actor_65.DisplayDesc.ColorG = 1
+	Actor_65.DisplayDesc.ColorB = 1
+	Actor_65.DisplayDesc.ColorA = 1
 	Actor_65:SetModelState(1)
 	Actor_65.PhysicDesc.Pos.X = 454.5
 	Actor_65.PhysicDesc.Pos.Y = 36.5234
@@ -2160,10 +2160,10 @@ function InitMap(environment)
 	Actor_66.DisplayDesc.Mode = ""
 	Actor_66.DisplayDesc.UseLight = false
 	Actor_66.DisplayDesc.CastShadow = false
-	Actor_66.DisplayDesc.ColorR = 0
+	Actor_66.DisplayDesc.ColorR = 1
 	Actor_66.DisplayDesc.ColorG = 4.57567e-034
-	Actor_66.DisplayDesc.ColorB = 0
-	Actor_66.DisplayDesc.ColorA = 0
+	Actor_66.DisplayDesc.ColorB = 1
+	Actor_66.DisplayDesc.ColorA = 1
 	Actor_66:SetModelState(1)
 	Actor_66.PhysicDesc.Pos.X = 455.5
 	Actor_66.PhysicDesc.Pos.Y = 37.3047
@@ -2226,10 +2226,10 @@ function InitMap(environment)
 	Actor_68.DisplayDesc.Mode = ""
 	Actor_68.DisplayDesc.UseLight = false
 	Actor_68.DisplayDesc.CastShadow = false
-	Actor_68.DisplayDesc.ColorR = 0
+	Actor_68.DisplayDesc.ColorR = 1
 	Actor_68.DisplayDesc.ColorG = 1.07035e-030
-	Actor_68.DisplayDesc.ColorB = 0
-	Actor_68.DisplayDesc.ColorA = 0
+	Actor_68.DisplayDesc.ColorB = 1
+	Actor_68.DisplayDesc.ColorA = 1
 	Actor_68:SetModelState(1)
 	Actor_68.PhysicDesc.Pos.X = 457.5
 	Actor_68.PhysicDesc.Pos.Y = 34.4727
@@ -2259,10 +2259,10 @@ function InitMap(environment)
 	Actor_69.DisplayDesc.Mode = ""
 	Actor_69.DisplayDesc.UseLight = false
 	Actor_69.DisplayDesc.CastShadow = false
-	Actor_69.DisplayDesc.ColorR = 0
-	Actor_69.DisplayDesc.ColorG = 0
+	Actor_69.DisplayDesc.ColorR = 1
+	Actor_69.DisplayDesc.ColorG = 1
 	Actor_69.DisplayDesc.ColorB = 3.62489e-031
-	Actor_69.DisplayDesc.ColorA = 0
+	Actor_69.DisplayDesc.ColorA = 1
 	Actor_69:SetModelState(1)
 	Actor_69.PhysicDesc.Pos.X = 457.5
 	Actor_69.PhysicDesc.Pos.Y = 35.8398
@@ -2293,9 +2293,9 @@ function InitMap(environment)
 	Actor_70.DisplayDesc.UseLight = false
 	Actor_70.DisplayDesc.CastShadow = false
 	Actor_70.DisplayDesc.ColorR = 1.4013e-045
-	Actor_70.DisplayDesc.ColorG = 0
-	Actor_70.DisplayDesc.ColorB = 0
-	Actor_70.DisplayDesc.ColorA = 0
+	Actor_70.DisplayDesc.ColorG = 1
+	Actor_70.DisplayDesc.ColorB = 1
+	Actor_70.DisplayDesc.ColorA = 1
 	Actor_70:SetModelState(1)
 	Actor_70.PhysicDesc.Pos.X = 458.25
 	Actor_70.PhysicDesc.Pos.Y = 34.543
@@ -2327,8 +2327,8 @@ function InitMap(environment)
 	Actor_71.DisplayDesc.CastShadow = false
 	Actor_71.DisplayDesc.ColorR = 3.08286e-044
 	Actor_71.DisplayDesc.ColorG = 2.52234e-044
-	Actor_71.DisplayDesc.ColorB = 0
-	Actor_71.DisplayDesc.ColorA = 0
+	Actor_71.DisplayDesc.ColorB = 1
+	Actor_71.DisplayDesc.ColorA = 1
 	Actor_71:SetModelState(1)
 	Actor_71.PhysicDesc.Pos.X = 458.5
 	Actor_71.PhysicDesc.Pos.Y = 35.7422
@@ -2359,8 +2359,8 @@ function InitMap(environment)
 	Actor_72.DisplayDesc.UseLight = false
 	Actor_72.DisplayDesc.CastShadow = false
 	Actor_72.DisplayDesc.ColorR = 1.4013e-045
-	Actor_72.DisplayDesc.ColorG = 0
-	Actor_72.DisplayDesc.ColorB = 0
+	Actor_72.DisplayDesc.ColorG = 1
+	Actor_72.DisplayDesc.ColorB = 1
 	Actor_72.DisplayDesc.ColorA = 1.4013e-045
 	Actor_72:SetModelState(1)
 	Actor_72.PhysicDesc.Pos.X = 459.25
@@ -2391,7 +2391,7 @@ function InitMap(environment)
 	Actor_73.DisplayDesc.Mode = ""
 	Actor_73.DisplayDesc.UseLight = false
 	Actor_73.DisplayDesc.CastShadow = false
-	Actor_73.DisplayDesc.ColorR = 0
+	Actor_73.DisplayDesc.ColorR = 1
 	Actor_73.DisplayDesc.ColorG = 9.21956e-041
 	Actor_73.DisplayDesc.ColorB = 5.4888e-034
 	Actor_73.DisplayDesc.ColorA = 1.03696e-043
@@ -2457,7 +2457,7 @@ function InitMap(environment)
 	Actor_75.DisplayDesc.Mode = ""
 	Actor_75.DisplayDesc.UseLight = false
 	Actor_75.DisplayDesc.CastShadow = false
-	Actor_75.DisplayDesc.ColorR = 0
+	Actor_75.DisplayDesc.ColorR = 1
 	Actor_75.DisplayDesc.ColorG = 9.21956e-041
 	Actor_75.DisplayDesc.ColorB = 2.81267e-023
 	Actor_75.DisplayDesc.ColorA = 1.4013e-045
@@ -2490,7 +2490,7 @@ function InitMap(environment)
 	Actor_76.DisplayDesc.Mode = ""
 	Actor_76.DisplayDesc.UseLight = false
 	Actor_76.DisplayDesc.CastShadow = false
-	Actor_76.DisplayDesc.ColorR = 0
+	Actor_76.DisplayDesc.ColorR = 1
 	Actor_76.DisplayDesc.ColorG = 9.21956e-041
 	Actor_76.DisplayDesc.ColorB = 8.79401e-031
 	Actor_76.DisplayDesc.ColorA = 1.35926e-043
@@ -2523,7 +2523,7 @@ function InitMap(environment)
 	Actor_77.DisplayDesc.Mode = ""
 	Actor_77.DisplayDesc.UseLight = false
 	Actor_77.DisplayDesc.CastShadow = true
-	Actor_77.DisplayDesc.ColorR = 0
+	Actor_77.DisplayDesc.ColorR = 1
 	Actor_77.DisplayDesc.ColorG = 9.21956e-041
 	Actor_77.DisplayDesc.ColorB = 7.64416e-023
 	Actor_77.DisplayDesc.ColorA = 1.83671e-040
@@ -2556,7 +2556,7 @@ function InitMap(environment)
 	Actor_78.DisplayDesc.Mode = ""
 	Actor_78.DisplayDesc.UseLight = false
 	Actor_78.DisplayDesc.CastShadow = false
-	Actor_78.DisplayDesc.ColorR = 0
+	Actor_78.DisplayDesc.ColorR = 1
 	Actor_78.DisplayDesc.ColorG = 9.21956e-041
 	Actor_78.DisplayDesc.ColorB = 2.8143e-023
 	Actor_78.DisplayDesc.ColorA = -0.390625
@@ -2589,10 +2589,10 @@ function InitMap(environment)
 	Actor_79.DisplayDesc.Mode = ""
 	Actor_79.DisplayDesc.UseLight = false
 	Actor_79.DisplayDesc.CastShadow = true
-	Actor_79.DisplayDesc.ColorR = 0
+	Actor_79.DisplayDesc.ColorR = 1
 	Actor_79.DisplayDesc.ColorG = 9.21956e-041
 	Actor_79.DisplayDesc.ColorB = 1.38127e-023
-	Actor_79.DisplayDesc.ColorA = 0
+	Actor_79.DisplayDesc.ColorA = 1
 	Actor_79:SetModelState(1)
 	Actor_79.PhysicDesc.Pos.X = 439.375
 	Actor_79.PhysicDesc.Pos.Y = 36.5234
@@ -2622,7 +2622,7 @@ function InitMap(environment)
 	Actor_80.DisplayDesc.Mode = ""
 	Actor_80.DisplayDesc.UseLight = false
 	Actor_80.DisplayDesc.CastShadow = true
-	Actor_80.DisplayDesc.ColorR = 0
+	Actor_80.DisplayDesc.ColorR = 1
 	Actor_80.DisplayDesc.ColorG = 9.21956e-041
 	Actor_80.DisplayDesc.ColorB = 5.87876e-038
 	Actor_80.DisplayDesc.ColorA = 1.93204e-031
@@ -2655,10 +2655,10 @@ function InitMap(environment)
 	Actor_81.DisplayDesc.Mode = ""
 	Actor_81.DisplayDesc.UseLight = false
 	Actor_81.DisplayDesc.CastShadow = true
-	Actor_81.DisplayDesc.ColorR = 0
+	Actor_81.DisplayDesc.ColorR = 1
 	Actor_81.DisplayDesc.ColorG = 9.21956e-041
 	Actor_81.DisplayDesc.ColorB = 4.87808e-034
-	Actor_81.DisplayDesc.ColorA = 0.712234
+	Actor_81.DisplayDesc.ColorA = 1.712234
 	Actor_81:SetModelState(1)
 	Actor_81.PhysicDesc.Pos.X = 447.125
 	Actor_81.PhysicDesc.Pos.Y = 43.5547
@@ -2688,10 +2688,10 @@ function InitMap(environment)
 	Actor_82.DisplayDesc.Mode = ""
 	Actor_82.DisplayDesc.UseLight = false
 	Actor_82.DisplayDesc.CastShadow = false
-	Actor_82.DisplayDesc.ColorR = 0
+	Actor_82.DisplayDesc.ColorR = 1
 	Actor_82.DisplayDesc.ColorG = 9.21956e-041
 	Actor_82.DisplayDesc.ColorB = 9.78376e-024
-	Actor_82.DisplayDesc.ColorA = 0
+	Actor_82.DisplayDesc.ColorA = 1
 	Actor_82:SetModelState(1)
 	Actor_82.PhysicDesc.Pos.X = 447.125
 	Actor_82.PhysicDesc.Pos.Y = 43.5547
@@ -2721,7 +2721,7 @@ function InitMap(environment)
 	Actor_83.DisplayDesc.Mode = ""
 	Actor_83.DisplayDesc.UseLight = false
 	Actor_83.DisplayDesc.CastShadow = true
-	Actor_83.DisplayDesc.ColorR = 0
+	Actor_83.DisplayDesc.ColorR = 1
 	Actor_83.DisplayDesc.ColorG = 9.21956e-041
 	Actor_83.DisplayDesc.ColorB = 1.65625e-023
 	Actor_83.DisplayDesc.ColorA = 8.98438
@@ -2754,9 +2754,9 @@ function InitMap(environment)
 	Actor_84.DisplayDesc.Mode = ""
 	Actor_84.DisplayDesc.UseLight = false
 	Actor_84.DisplayDesc.CastShadow = false
-	Actor_84.DisplayDesc.ColorR = 0
+	Actor_84.DisplayDesc.ColorR = 1
 	Actor_84.DisplayDesc.ColorG = 1.85836e-031
-	Actor_84.DisplayDesc.ColorB = 0
+	Actor_84.DisplayDesc.ColorB = 1
 	Actor_84.DisplayDesc.ColorA = 1.62192e-023
 	Actor_84:SetModelState(1)
 	Actor_84.PhysicDesc.Pos.X = 447.125
@@ -2787,9 +2787,9 @@ function InitMap(environment)
 	Actor_85.DisplayDesc.Mode = ""
 	Actor_85.DisplayDesc.UseLight = false
 	Actor_85.DisplayDesc.CastShadow = false
-	Actor_85.DisplayDesc.ColorR = 0
+	Actor_85.DisplayDesc.ColorR = 1
 	Actor_85.DisplayDesc.ColorG = 5.92085e-031
-	Actor_85.DisplayDesc.ColorB = 0
+	Actor_85.DisplayDesc.ColorB = 1
 	Actor_85.DisplayDesc.ColorA = 1.05053e-030
 	Actor_85:SetModelState(1)
 	Actor_85.PhysicDesc.Pos.X = 447.125
@@ -2886,10 +2886,10 @@ function InitMap(environment)
 	Actor_88.DisplayDesc.Mode = ""
 	Actor_88.DisplayDesc.UseLight = false
 	Actor_88.DisplayDesc.CastShadow = false
-	Actor_88.DisplayDesc.ColorR = 0
+	Actor_88.DisplayDesc.ColorR = 1
 	Actor_88.DisplayDesc.ColorG = 5.49164e-034
-	Actor_88.DisplayDesc.ColorB = 0
-	Actor_88.DisplayDesc.ColorA = 0
+	Actor_88.DisplayDesc.ColorB = 1
+	Actor_88.DisplayDesc.ColorA = 1
 	Actor_88:SetModelState(1)
 	Actor_88.PhysicDesc.Pos.X = 451
 	Actor_88.PhysicDesc.Pos.Y = 37.3047
@@ -2919,9 +2919,9 @@ function InitMap(environment)
 	Actor_89.DisplayDesc.Mode = ""
 	Actor_89.DisplayDesc.UseLight = false
 	Actor_89.DisplayDesc.CastShadow = false
-	Actor_89.DisplayDesc.ColorR = 0
+	Actor_89.DisplayDesc.ColorR = 1
 	Actor_89.DisplayDesc.ColorG = 1.64528e-023
-	Actor_89.DisplayDesc.ColorB = 0
+	Actor_89.DisplayDesc.ColorB = 1
 	Actor_89.DisplayDesc.ColorA = 1.26117e-044
 	Actor_89:SetModelState(1)
 	Actor_89.PhysicDesc.Pos.X = 451.5
@@ -3018,10 +3018,10 @@ function InitMap(environment)
 	Actor_92.DisplayDesc.Mode = ""
 	Actor_92.DisplayDesc.UseLight = false
 	Actor_92.DisplayDesc.CastShadow = false
-	Actor_92.DisplayDesc.ColorR = 0
+	Actor_92.DisplayDesc.ColorR = 1
 	Actor_92.DisplayDesc.ColorG = 9.21956e-041
 	Actor_92.DisplayDesc.ColorB = 4.46726e-024
-	Actor_92.DisplayDesc.ColorA = 0
+	Actor_92.DisplayDesc.ColorA = 1
 	Actor_92:SetModelState(1)
 	Actor_92.PhysicDesc.Pos.X = 437.5
 	Actor_92.PhysicDesc.Pos.Y = 36.5234
@@ -3051,7 +3051,7 @@ function InitMap(environment)
 	Actor_93.DisplayDesc.Mode = ""
 	Actor_93.DisplayDesc.UseLight = false
 	Actor_93.DisplayDesc.CastShadow = true
-	Actor_93.DisplayDesc.ColorR = 0
+	Actor_93.DisplayDesc.ColorR = 1
 	Actor_93.DisplayDesc.ColorG = 9.21956e-041
 	Actor_93.DisplayDesc.ColorB = 4.12685e-023
 	Actor_93.DisplayDesc.ColorA = 3.26559e-024
@@ -3084,7 +3084,7 @@ function InitMap(environment)
 	Actor_94.DisplayDesc.Mode = ""
 	Actor_94.DisplayDesc.UseLight = false
 	Actor_94.DisplayDesc.CastShadow = false
-	Actor_94.DisplayDesc.ColorR = 0
+	Actor_94.DisplayDesc.ColorR = 1
 	Actor_94.DisplayDesc.ColorG = 9.21956e-041
 	Actor_94.DisplayDesc.ColorB = 1.93655e-031
 	Actor_94.DisplayDesc.ColorA = 9.21956e-041
@@ -3117,7 +3117,7 @@ function InitMap(environment)
 	Actor_95.DisplayDesc.Mode = ""
 	Actor_95.DisplayDesc.UseLight = false
 	Actor_95.DisplayDesc.CastShadow = true
-	Actor_95.DisplayDesc.ColorR = 0
+	Actor_95.DisplayDesc.ColorR = 1
 	Actor_95.DisplayDesc.ColorG = 9.21956e-041
 	Actor_95.DisplayDesc.ColorB = 9.85676e-031
 	Actor_95.DisplayDesc.ColorA = 9.19426e-031
@@ -3150,7 +3150,7 @@ function InitMap(environment)
 	Actor_96.DisplayDesc.Mode = ""
 	Actor_96.DisplayDesc.UseLight = false
 	Actor_96.DisplayDesc.CastShadow = true
-	Actor_96.DisplayDesc.ColorR = 0
+	Actor_96.DisplayDesc.ColorR = 1
 	Actor_96.DisplayDesc.ColorG = 9.21956e-041
 	Actor_96.DisplayDesc.ColorB = 3.14006e-024
 	Actor_96.DisplayDesc.ColorA = -0.0257118
@@ -3315,7 +3315,7 @@ function InitMap(environment)
 	Actor_101.DisplayDesc.Mode = ""
 	Actor_101.DisplayDesc.UseLight = false
 	Actor_101.DisplayDesc.CastShadow = true
-	Actor_101.DisplayDesc.ColorR = 0
+	Actor_101.DisplayDesc.ColorR = 1
 	Actor_101.DisplayDesc.ColorG = 8.40779e-045
 	Actor_101.DisplayDesc.ColorB = 5.91563e-031
 	Actor_101.DisplayDesc.ColorA = 2.33533e-023
@@ -3381,7 +3381,7 @@ function InitMap(environment)
 	Actor_103.DisplayDesc.Mode = ""
 	Actor_103.DisplayDesc.UseLight = false
 	Actor_103.DisplayDesc.CastShadow = false
-	Actor_103.DisplayDesc.ColorR = 0
+	Actor_103.DisplayDesc.ColorR = 1
 	Actor_103.DisplayDesc.ColorG = 9.21956e-041
 	Actor_103.DisplayDesc.ColorB = 1.0222e-023
 	Actor_103.DisplayDesc.ColorA = 2.47042e-023
@@ -3414,7 +3414,7 @@ function InitMap(environment)
 	Actor_104.DisplayDesc.Mode = ""
 	Actor_104.DisplayDesc.UseLight = false
 	Actor_104.DisplayDesc.CastShadow = false
-	Actor_104.DisplayDesc.ColorR = 0
+	Actor_104.DisplayDesc.ColorR = 1
 	Actor_104.DisplayDesc.ColorG = 9.21956e-041
 	Actor_104.DisplayDesc.ColorB = 8.81755e-031
 	Actor_104.DisplayDesc.ColorA = 1.62192e-023
@@ -3447,7 +3447,7 @@ function InitMap(environment)
 	Actor_105.DisplayDesc.Mode = ""
 	Actor_105.DisplayDesc.UseLight = false
 	Actor_105.DisplayDesc.CastShadow = false
-	Actor_105.DisplayDesc.ColorR = 0
+	Actor_105.DisplayDesc.ColorR = 1
 	Actor_105.DisplayDesc.ColorG = 9.21956e-041
 	Actor_105.DisplayDesc.ColorB = 2.29148e-024
 	Actor_105.DisplayDesc.ColorA = 7.64234e-031
@@ -3480,7 +3480,7 @@ function InitMap(environment)
 	Actor_106.DisplayDesc.Mode = ""
 	Actor_106.DisplayDesc.UseLight = false
 	Actor_106.DisplayDesc.CastShadow = false
-	Actor_106.DisplayDesc.ColorR = 0
+	Actor_106.DisplayDesc.ColorR = 1
 	Actor_106.DisplayDesc.ColorG = 9.21956e-041
 	Actor_106.DisplayDesc.ColorB = 7.87233e-024
 	Actor_106.DisplayDesc.ColorA = 1.4013e-045
@@ -3513,7 +3513,7 @@ function InitMap(environment)
 	Actor_107.DisplayDesc.Mode = ""
 	Actor_107.DisplayDesc.UseLight = false
 	Actor_107.DisplayDesc.CastShadow = false
-	Actor_107.DisplayDesc.ColorR = 0
+	Actor_107.DisplayDesc.ColorR = 1
 	Actor_107.DisplayDesc.ColorG = 9.21956e-041
 	Actor_107.DisplayDesc.ColorB = 2.62752e-023
 	Actor_107.DisplayDesc.ColorA = 34.1797
@@ -3546,7 +3546,7 @@ function InitMap(environment)
 	Actor_108.DisplayDesc.Mode = ""
 	Actor_108.DisplayDesc.UseLight = false
 	Actor_108.DisplayDesc.CastShadow = false
-	Actor_108.DisplayDesc.ColorR = 0
+	Actor_108.DisplayDesc.ColorR = 1
 	Actor_108.DisplayDesc.ColorG = 9.21956e-041
 	Actor_108.DisplayDesc.ColorB = 3.12087e-024
 	Actor_108.DisplayDesc.ColorA = 1
@@ -3579,7 +3579,7 @@ function InitMap(environment)
 	Actor_109.DisplayDesc.Mode = ""
 	Actor_109.DisplayDesc.UseLight = false
 	Actor_109.DisplayDesc.CastShadow = false
-	Actor_109.DisplayDesc.ColorR = 0
+	Actor_109.DisplayDesc.ColorR = 1
 	Actor_109.DisplayDesc.ColorG = 9.21956e-041
 	Actor_109.DisplayDesc.ColorB = 1.71344e-023
 	Actor_109.DisplayDesc.ColorA = 7.23736e-024
@@ -3612,7 +3612,7 @@ function InitMap(environment)
 	Actor_110.DisplayDesc.Mode = ""
 	Actor_110.DisplayDesc.UseLight = false
 	Actor_110.DisplayDesc.CastShadow = false
-	Actor_110.DisplayDesc.ColorR = 0
+	Actor_110.DisplayDesc.ColorR = 1
 	Actor_110.DisplayDesc.ColorG = 9.21956e-041
 	Actor_110.DisplayDesc.ColorB = 2.54624e-024
 	Actor_110.DisplayDesc.ColorA = 1
@@ -3645,7 +3645,7 @@ function InitMap(environment)
 	Actor_111.DisplayDesc.Mode = ""
 	Actor_111.DisplayDesc.UseLight = false
 	Actor_111.DisplayDesc.CastShadow = false
-	Actor_111.DisplayDesc.ColorR = 0
+	Actor_111.DisplayDesc.ColorR = 1
 	Actor_111.DisplayDesc.ColorG = 9.21956e-041
 	Actor_111.DisplayDesc.ColorB = 6.84491e-023
 	Actor_111.DisplayDesc.ColorA = 5.875
@@ -3678,7 +3678,7 @@ function InitMap(environment)
 	Actor_112.DisplayDesc.Mode = ""
 	Actor_112.DisplayDesc.UseLight = false
 	Actor_112.DisplayDesc.CastShadow = false
-	Actor_112.DisplayDesc.ColorR = 0
+	Actor_112.DisplayDesc.ColorR = 1
 	Actor_112.DisplayDesc.ColorG = 9.21956e-041
 	Actor_112.DisplayDesc.ColorB = 1.02231e-023
 	Actor_112.DisplayDesc.ColorA = 1.83672e-040
@@ -3711,10 +3711,10 @@ function InitMap(environment)
 	Actor_113.DisplayDesc.Mode = ""
 	Actor_113.DisplayDesc.UseLight = false
 	Actor_113.DisplayDesc.CastShadow = false
-	Actor_113.DisplayDesc.ColorR = 0
+	Actor_113.DisplayDesc.ColorR = 1
 	Actor_113.DisplayDesc.ColorG = 9.21956e-041
 	Actor_113.DisplayDesc.ColorB = 3.0713e-031
-	Actor_113.DisplayDesc.ColorA = 0
+	Actor_113.DisplayDesc.ColorA = 1
 	Actor_113:SetModelState(1)
 	Actor_113.PhysicDesc.Pos.X = 493.285
 	Actor_113.PhysicDesc.Pos.Y = 25.5586
@@ -3744,10 +3744,10 @@ function InitMap(environment)
 	Actor_114.DisplayDesc.Mode = ""
 	Actor_114.DisplayDesc.UseLight = false
 	Actor_114.DisplayDesc.CastShadow = false
-	Actor_114.DisplayDesc.ColorR = 0
+	Actor_114.DisplayDesc.ColorR = 1
 	Actor_114.DisplayDesc.ColorG = 9.21956e-041
 	Actor_114.DisplayDesc.ColorB = 5.19624e-023
-	Actor_114.DisplayDesc.ColorA = 0
+	Actor_114.DisplayDesc.ColorA = 1
 	Actor_114:SetModelState(1)
 	Actor_114.PhysicDesc.Pos.X = 493.285
 	Actor_114.PhysicDesc.Pos.Y = 25.5586
@@ -3777,7 +3777,7 @@ function InitMap(environment)
 	Actor_115.DisplayDesc.Mode = ""
 	Actor_115.DisplayDesc.UseLight = false
 	Actor_115.DisplayDesc.CastShadow = true
-	Actor_115.DisplayDesc.ColorR = 0
+	Actor_115.DisplayDesc.ColorR = 1
 	Actor_115.DisplayDesc.ColorG = 9.21956e-041
 	Actor_115.DisplayDesc.ColorB = 2.11304e-023
 	Actor_115.DisplayDesc.ColorA = 7.82831e-023
@@ -3810,7 +3810,7 @@ function InitMap(environment)
 	Actor_116.DisplayDesc.Mode = ""
 	Actor_116.DisplayDesc.UseLight = false
 	Actor_116.DisplayDesc.CastShadow = false
-	Actor_116.DisplayDesc.ColorR = 0
+	Actor_116.DisplayDesc.ColorR = 1
 	Actor_116.DisplayDesc.ColorG = 9.21956e-041
 	Actor_116.DisplayDesc.ColorB = 7.48973e-031
 	Actor_116.DisplayDesc.ColorA = 1.4013e-045
@@ -3843,10 +3843,10 @@ function InitMap(environment)
 	Actor_117.DisplayDesc.Mode = ""
 	Actor_117.DisplayDesc.UseLight = false
 	Actor_117.DisplayDesc.CastShadow = true
-	Actor_117.DisplayDesc.ColorR = 0
-	Actor_117.DisplayDesc.ColorG = 0
-	Actor_117.DisplayDesc.ColorB = 0
-	Actor_117.DisplayDesc.ColorA = 0
+	Actor_117.DisplayDesc.ColorR = 1
+	Actor_117.DisplayDesc.ColorG = 1
+	Actor_117.DisplayDesc.ColorB = 1
+	Actor_117.DisplayDesc.ColorA = 1
 	Actor_117:SetModelState(1)
 	Actor_117.PhysicDesc.Pos.X = 493.285
 	Actor_117.PhysicDesc.Pos.Y = 25.5586
@@ -3879,7 +3879,7 @@ function InitMap(environment)
 	Actor_118.DisplayDesc.ColorR = 5.47883e-023
 	Actor_118.DisplayDesc.ColorG = 3.29769e-024
 	Actor_118.DisplayDesc.ColorB = 9.80909e-045
-	Actor_118.DisplayDesc.ColorA = 0
+	Actor_118.DisplayDesc.ColorA = 1
 	Actor_118:SetModelState(1)
 	Actor_118.PhysicDesc.Pos.X = 513
 	Actor_118.PhysicDesc.Pos.Y = 2.92969
@@ -3942,7 +3942,7 @@ function InitMap(environment)
 	Actor_120.DisplayDesc.Mode = ""
 	Actor_120.DisplayDesc.UseLight = false
 	Actor_120.DisplayDesc.CastShadow = false
-	Actor_120.DisplayDesc.ColorR = 0
+	Actor_120.DisplayDesc.ColorR = 1
 	Actor_120.DisplayDesc.ColorG = 9.21956e-041
 	Actor_120.DisplayDesc.ColorB = 1.83815e-031
 	Actor_120.DisplayDesc.ColorA = 4.4746e-024
@@ -4076,8 +4076,8 @@ function InitMap(environment)
 	Actor_124.DisplayDesc.CastShadow = false
 	Actor_124.DisplayDesc.ColorR = 6.44597e-044
 	Actor_124.DisplayDesc.ColorG = 5.88545e-044
-	Actor_124.DisplayDesc.ColorB = 0
-	Actor_124.DisplayDesc.ColorA = 0
+	Actor_124.DisplayDesc.ColorB = 1
+	Actor_124.DisplayDesc.ColorA = 1
 	Actor_124:SetModelState(1)
 	Actor_124.PhysicDesc.Pos.X = 511.125
 	Actor_124.PhysicDesc.Pos.Y = 36.0625
@@ -4107,10 +4107,10 @@ function InitMap(environment)
 	Actor_125.DisplayDesc.Mode = ""
 	Actor_125.DisplayDesc.UseLight = false
 	Actor_125.DisplayDesc.CastShadow = false
-	Actor_125.DisplayDesc.ColorR = 0
+	Actor_125.DisplayDesc.ColorR = 1
 	Actor_125.DisplayDesc.ColorG = 9.21956e-041
 	Actor_125.DisplayDesc.ColorB = 8.82782e-031
-	Actor_125.DisplayDesc.ColorA = 0
+	Actor_125.DisplayDesc.ColorA = 1
 	Actor_125:SetModelState(1)
 	Actor_125.PhysicDesc.Pos.X = 514.5
 	Actor_125.PhysicDesc.Pos.Y = 32.3477
@@ -4140,10 +4140,10 @@ function InitMap(environment)
 	Actor_126.DisplayDesc.Mode = ""
 	Actor_126.DisplayDesc.UseLight = false
 	Actor_126.DisplayDesc.CastShadow = false
-	Actor_126.DisplayDesc.ColorR = 0
+	Actor_126.DisplayDesc.ColorR = 1
 	Actor_126.DisplayDesc.ColorG = 9.21956e-041
 	Actor_126.DisplayDesc.ColorB = 9.82889e-031
-	Actor_126.DisplayDesc.ColorA = 0
+	Actor_126.DisplayDesc.ColorA = 1
 	Actor_126:SetModelState(1)
 	Actor_126.PhysicDesc.Pos.X = 509.5
 	Actor_126.PhysicDesc.Pos.Y = 24.8047
@@ -4173,7 +4173,7 @@ function InitMap(environment)
 	Actor_127.DisplayDesc.Mode = ""
 	Actor_127.DisplayDesc.UseLight = false
 	Actor_127.DisplayDesc.CastShadow = false
-	Actor_127.DisplayDesc.ColorR = 0
+	Actor_127.DisplayDesc.ColorR = 1
 	Actor_127.DisplayDesc.ColorG = 9.21956e-041
 	Actor_127.DisplayDesc.ColorB = 7.44859e-031
 	Actor_127.DisplayDesc.ColorA = 3.64338e-044
@@ -4206,7 +4206,7 @@ function InitMap(environment)
 	Actor_128.DisplayDesc.Mode = ""
 	Actor_128.DisplayDesc.UseLight = false
 	Actor_128.DisplayDesc.CastShadow = false
-	Actor_128.DisplayDesc.ColorR = 0
+	Actor_128.DisplayDesc.ColorR = 1
 	Actor_128.DisplayDesc.ColorG = 9.21956e-041
 	Actor_128.DisplayDesc.ColorB = 2.03222e-023
 	Actor_128.DisplayDesc.ColorA = 3.36312e-044
@@ -4239,7 +4239,7 @@ function InitMap(environment)
 	Actor_129.DisplayDesc.Mode = ""
 	Actor_129.DisplayDesc.UseLight = false
 	Actor_129.DisplayDesc.CastShadow = true
-	Actor_129.DisplayDesc.ColorR = 0
+	Actor_129.DisplayDesc.ColorR = 1
 	Actor_129.DisplayDesc.ColorG = 9.21956e-041
 	Actor_129.DisplayDesc.ColorB = 7.87892e-031
 	Actor_129.DisplayDesc.ColorA = 2.10195e-044
@@ -4272,10 +4272,10 @@ function InitMap(environment)
 	Actor_130.DisplayDesc.Mode = ""
 	Actor_130.DisplayDesc.UseLight = false
 	Actor_130.DisplayDesc.CastShadow = true
-	Actor_130.DisplayDesc.ColorR = 0
+	Actor_130.DisplayDesc.ColorR = 1
 	Actor_130.DisplayDesc.ColorG = 9.21956e-041
 	Actor_130.DisplayDesc.ColorB = 3.36893e-024
-	Actor_130.DisplayDesc.ColorA = 0
+	Actor_130.DisplayDesc.ColorA = 1
 	Actor_130:SetModelState(1)
 	Actor_130.PhysicDesc.Pos.X = 519.125
 	Actor_130.PhysicDesc.Pos.Y = 2.90625
@@ -4305,7 +4305,7 @@ function InitMap(environment)
 	Actor_131.DisplayDesc.Mode = ""
 	Actor_131.DisplayDesc.UseLight = false
 	Actor_131.DisplayDesc.CastShadow = false
-	Actor_131.DisplayDesc.ColorR = 0
+	Actor_131.DisplayDesc.ColorR = 1
 	Actor_131.DisplayDesc.ColorG = 9.21956e-041
 	Actor_131.DisplayDesc.ColorB = 3.05879e-024
 	Actor_131.DisplayDesc.ColorA = 5.04467e-044
@@ -4338,7 +4338,7 @@ function InitMap(environment)
 	Actor_132.DisplayDesc.Mode = ""
 	Actor_132.DisplayDesc.UseLight = false
 	Actor_132.DisplayDesc.CastShadow = false
-	Actor_132.DisplayDesc.ColorR = 0
+	Actor_132.DisplayDesc.ColorR = 1
 	Actor_132.DisplayDesc.ColorG = 9.21956e-041
 	Actor_132.DisplayDesc.ColorB = 5.87963e-023
 	Actor_132.DisplayDesc.ColorA = 7.18306e-042
@@ -4437,10 +4437,10 @@ function InitMap(environment)
 	Actor_135.DisplayDesc.Mode = ""
 	Actor_135.DisplayDesc.UseLight = false
 	Actor_135.DisplayDesc.CastShadow = false
-	Actor_135.DisplayDesc.ColorR = 0
+	Actor_135.DisplayDesc.ColorR = 1
 	Actor_135.DisplayDesc.ColorG = 5.05105e-039
 	Actor_135.DisplayDesc.ColorB = 4.37508e-034
-	Actor_135.DisplayDesc.ColorA = 0
+	Actor_135.DisplayDesc.ColorA = 1
 	Actor_135:SetModelState(1)
 	Actor_135.PhysicDesc.Pos.X = 514.5
 	Actor_135.PhysicDesc.Pos.Y = 4.10156
@@ -4470,7 +4470,7 @@ function InitMap(environment)
 	Actor_136.DisplayDesc.Mode = ""
 	Actor_136.DisplayDesc.UseLight = false
 	Actor_136.DisplayDesc.CastShadow = false
-	Actor_136.DisplayDesc.ColorR = 0
+	Actor_136.DisplayDesc.ColorR = 1
 	Actor_136.DisplayDesc.ColorG = 4.10059
 	Actor_136.DisplayDesc.ColorB = 4.2039e-045
 	Actor_136.DisplayDesc.ColorA = 6.9108e-039
@@ -4504,9 +4504,9 @@ function InitMap(environment)
 	Actor_137.DisplayDesc.UseLight = false
 	Actor_137.DisplayDesc.CastShadow = false
 	Actor_137.DisplayDesc.ColorR = 6.7083e-041
-	Actor_137.DisplayDesc.ColorG = 0
+	Actor_137.DisplayDesc.ColorG = 1
 	Actor_137.DisplayDesc.ColorB = 5.60519e-045
-	Actor_137.DisplayDesc.ColorA = 0
+	Actor_137.DisplayDesc.ColorA = 1
 	Actor_137:SetModelState(1)
 	Actor_137.PhysicDesc.Pos.X = 516.342
 	Actor_137.PhysicDesc.Pos.Y = 2.93359
@@ -4536,7 +4536,7 @@ function InitMap(environment)
 	Actor_138.DisplayDesc.Mode = ""
 	Actor_138.DisplayDesc.UseLight = false
 	Actor_138.DisplayDesc.CastShadow = false
-	Actor_138.DisplayDesc.ColorR = 0
+	Actor_138.DisplayDesc.ColorR = 1
 	Actor_138.DisplayDesc.ColorG = 6.30584e-044
 	Actor_138.DisplayDesc.ColorB = 8.12753e-044
 	Actor_138.DisplayDesc.ColorA = 8.26766e-044
@@ -4570,9 +4570,9 @@ function InitMap(environment)
 	Actor_139.DisplayDesc.UseLight = false
 	Actor_139.DisplayDesc.CastShadow = false
 	Actor_139.DisplayDesc.ColorR = 8.1791e-041
-	Actor_139.DisplayDesc.ColorG = 0
+	Actor_139.DisplayDesc.ColorG = 1
 	Actor_139.DisplayDesc.ColorB = 2.10195e-044
-	Actor_139.DisplayDesc.ColorA = 0
+	Actor_139.DisplayDesc.ColorA = 1
 	Actor_139:SetModelState(1)
 	Actor_139.PhysicDesc.Pos.X = 511.5
 	Actor_139.PhysicDesc.Pos.Y = 3.61328
@@ -4602,9 +4602,9 @@ function InitMap(environment)
 	Actor_140.DisplayDesc.Mode = ""
 	Actor_140.DisplayDesc.UseLight = false
 	Actor_140.DisplayDesc.CastShadow = false
-	Actor_140.DisplayDesc.ColorR = 0
-	Actor_140.DisplayDesc.ColorG = 0
-	Actor_140.DisplayDesc.ColorB = 0
+	Actor_140.DisplayDesc.ColorR = 1
+	Actor_140.DisplayDesc.ColorG = 1
+	Actor_140.DisplayDesc.ColorB = 1
 	Actor_140.DisplayDesc.ColorA = 2.10195e-044
 	Actor_140:SetModelState(1)
 	Actor_140.PhysicDesc.Pos.X = 491.375
@@ -4670,7 +4670,7 @@ function InitMap(environment)
 	Actor_142.DisplayDesc.CastShadow = true
 	Actor_142.DisplayDesc.ColorR = 1.71105e-039
 	Actor_142.DisplayDesc.ColorG = 5.60519e-045
-	Actor_142.DisplayDesc.ColorB = 0
+	Actor_142.DisplayDesc.ColorB = 1
 	Actor_142.DisplayDesc.ColorA = 2.10195e-044
 	Actor_142:SetModelState(1)
 	Actor_142.PhysicDesc.Pos.X = 527.5
@@ -4703,7 +4703,7 @@ function InitMap(environment)
 	Actor_143.DisplayDesc.CastShadow = false
 	Actor_143.DisplayDesc.ColorR = 3.35156
 	Actor_143.DisplayDesc.ColorG = 4.2039e-045
-	Actor_143.DisplayDesc.ColorB = 0
+	Actor_143.DisplayDesc.ColorB = 1
 	Actor_143.DisplayDesc.ColorA = 2.10195e-044
 	Actor_143:SetModelState(1)
 	Actor_143.PhysicDesc.Pos.X = 527.25
@@ -4735,7 +4735,7 @@ function InitMap(environment)
 	Actor_144.DisplayDesc.UseLight = false
 	Actor_144.DisplayDesc.CastShadow = false
 	Actor_144.DisplayDesc.ColorR = 3.83844e-041
-	Actor_144.DisplayDesc.ColorG = 0
+	Actor_144.DisplayDesc.ColorG = 1
 	Actor_144.DisplayDesc.ColorB = 9.80909e-045
 	Actor_144.DisplayDesc.ColorA = 1.875
 	Actor_144:SetModelState(1)
@@ -4767,7 +4767,7 @@ function InitMap(environment)
 	Actor_145.DisplayDesc.Mode = ""
 	Actor_145.DisplayDesc.UseLight = false
 	Actor_145.DisplayDesc.CastShadow = true
-	Actor_145.DisplayDesc.ColorR = 0
+	Actor_145.DisplayDesc.ColorR = 1
 	Actor_145.DisplayDesc.ColorG = 1.4013e-045
 	Actor_145.DisplayDesc.ColorB = 1.1755e-038
 	Actor_145.DisplayDesc.ColorA = -0.273438
@@ -4801,7 +4801,7 @@ function InitMap(environment)
 	Actor_146.DisplayDesc.UseLight = false
 	Actor_146.DisplayDesc.CastShadow = false
 	Actor_146.DisplayDesc.ColorR = 7.70107e-031
-	Actor_146.DisplayDesc.ColorG = 0
+	Actor_146.DisplayDesc.ColorG = 1
 	Actor_146.DisplayDesc.ColorB = 9.80909e-045
 	Actor_146.DisplayDesc.ColorA = 174.388
 	Actor_146:SetModelState(1)

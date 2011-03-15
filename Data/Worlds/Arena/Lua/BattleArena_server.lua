@@ -15,10 +15,10 @@ function InitMap(environment)
 	Actor_1.DisplayDesc.Mode = ""
 	Actor_1.DisplayDesc.UseLight = true
 	Actor_1.DisplayDesc.CastShadow = false
-	Actor_1.DisplayDesc.ColorR = -0.00132704
-	Actor_1.DisplayDesc.ColorG = -0.00132704
-	Actor_1.DisplayDesc.ColorB = -0.00132704
-	Actor_1.DisplayDesc.ColorA = -0.00132704
+	Actor_1.DisplayDesc.ColorR = 1
+	Actor_1.DisplayDesc.ColorG = 1
+	Actor_1.DisplayDesc.ColorB = 1
+	Actor_1.DisplayDesc.ColorA = 1
 	Actor_1.DisplayDesc.TransX = 0
 	Actor_1.DisplayDesc.TransY = 0
 	Actor_1.DisplayDesc.TransZ = 0

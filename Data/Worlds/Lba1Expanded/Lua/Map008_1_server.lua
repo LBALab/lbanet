@@ -22,10 +22,10 @@ function InitMap(environment)
 	Actor_1.DisplayDesc.Mode = ""
 	Actor_1.DisplayDesc.UseLight = true
 	Actor_1.DisplayDesc.CastShadow = false
-	Actor_1.DisplayDesc.ColorR = 0
-	Actor_1.DisplayDesc.ColorG = 0
-	Actor_1.DisplayDesc.ColorB = 0
-	Actor_1.DisplayDesc.ColorA = 0
+	Actor_1.DisplayDesc.ColorR = 1
+	Actor_1.DisplayDesc.ColorG = 1
+	Actor_1.DisplayDesc.ColorB = 1
+	Actor_1.DisplayDesc.ColorA = 1
 	Actor_1.DisplayDesc.TransX = 0
 	Actor_1.DisplayDesc.TransY = 0
 	Actor_1.DisplayDesc.TransZ = 0
@@ -45,6 +45,7 @@ function InitMap(environment)
 	Actor_1.PhysicDesc.SizeX = 0
 	Actor_1.PhysicDesc.SizeY = 0
 	Actor_1.PhysicDesc.SizeZ = 0
+	Actor_1.PhysicDesc.AllowFreeMove = true
 	Actor_1.PhysicDesc.Filename = "Worlds/Lba1Original/Grids/Map8.phy"
 	Actor_1:SetPhysicalActorType(1)
 	Actor_1:SetPhysicalShape(5)
@@ -66,10 +67,10 @@ function InitMap(environment)
 	Actor_14.DisplayDesc.Mode = "Normal"
 	Actor_14.DisplayDesc.UseLight = true
 	Actor_14.DisplayDesc.CastShadow = true
-	Actor_14.DisplayDesc.ColorR = 0
-	Actor_14.DisplayDesc.ColorG = 0
-	Actor_14.DisplayDesc.ColorB = 0
-	Actor_14.DisplayDesc.ColorA = 0
+	Actor_14.DisplayDesc.ColorR = 1
+	Actor_14.DisplayDesc.ColorG = 1
+	Actor_14.DisplayDesc.ColorB = 1
+	Actor_14.DisplayDesc.ColorA = 1
 	Actor_14.DisplayDesc.TransX = 0
 	Actor_14.DisplayDesc.TransY = 0
 	Actor_14.DisplayDesc.TransZ = 0
@@ -89,6 +90,7 @@ function InitMap(environment)
 	Actor_14.PhysicDesc.SizeX = 1
 	Actor_14.PhysicDesc.SizeY = 5
 	Actor_14.PhysicDesc.SizeZ = 1
+	Actor_14.PhysicDesc.AllowFreeMove = true
 	Actor_14.PhysicDesc.Filename = ""
 	Actor_14:SetPhysicalActorType(2)
 	Actor_14:SetPhysicalShape(2)
@@ -115,10 +117,10 @@ function InitMap(environment)
 	Actor_15.DisplayDesc.Mode = "Normal"
 	Actor_15.DisplayDesc.UseLight = true
 	Actor_15.DisplayDesc.CastShadow = true
-	Actor_15.DisplayDesc.ColorR = 0
-	Actor_15.DisplayDesc.ColorG = 0
-	Actor_15.DisplayDesc.ColorB = 0
-	Actor_15.DisplayDesc.ColorA = 0
+	Actor_15.DisplayDesc.ColorR = 1
+	Actor_15.DisplayDesc.ColorG = 1
+	Actor_15.DisplayDesc.ColorB = 1
+	Actor_15.DisplayDesc.ColorA = 1
 	Actor_15.DisplayDesc.TransX = 0
 	Actor_15.DisplayDesc.TransY = 0
 	Actor_15.DisplayDesc.TransZ = 0
@@ -138,6 +140,7 @@ function InitMap(environment)
 	Actor_15.PhysicDesc.SizeX = 0.5
 	Actor_15.PhysicDesc.SizeY = 10
 	Actor_15.PhysicDesc.SizeZ = 1.5
+	Actor_15.PhysicDesc.AllowFreeMove = true
 	Actor_15.PhysicDesc.Filename = ""
 	Actor_15:SetPhysicalActorType(2)
 	Actor_15:SetPhysicalShape(2)
@@ -164,10 +167,10 @@ function InitMap(environment)
 	Actor_16.DisplayDesc.Mode = "Normal"
 	Actor_16.DisplayDesc.UseLight = true
 	Actor_16.DisplayDesc.CastShadow = true
-	Actor_16.DisplayDesc.ColorR = 0
-	Actor_16.DisplayDesc.ColorG = 0
-	Actor_16.DisplayDesc.ColorB = 0
-	Actor_16.DisplayDesc.ColorA = 0
+	Actor_16.DisplayDesc.ColorR = 1
+	Actor_16.DisplayDesc.ColorG = 1
+	Actor_16.DisplayDesc.ColorB = 1
+	Actor_16.DisplayDesc.ColorA = 1
 	Actor_16.DisplayDesc.TransX = 0
 	Actor_16.DisplayDesc.TransY = 0
 	Actor_16.DisplayDesc.TransZ = 0
@@ -187,6 +190,7 @@ function InitMap(environment)
 	Actor_16.PhysicDesc.SizeX = 0.5
 	Actor_16.PhysicDesc.SizeY = 10
 	Actor_16.PhysicDesc.SizeZ = 1.5
+	Actor_16.PhysicDesc.AllowFreeMove = true
 	Actor_16.PhysicDesc.Filename = ""
 	Actor_16:SetPhysicalActorType(2)
 	Actor_16:SetPhysicalShape(2)
@@ -213,10 +217,10 @@ function InitMap(environment)
 	Actor_17.DisplayDesc.Mode = "Normal"
 	Actor_17.DisplayDesc.UseLight = true
 	Actor_17.DisplayDesc.CastShadow = true
-	Actor_17.DisplayDesc.ColorR = 0
-	Actor_17.DisplayDesc.ColorG = 0
-	Actor_17.DisplayDesc.ColorB = 0
-	Actor_17.DisplayDesc.ColorA = 0
+	Actor_17.DisplayDesc.ColorR = 1
+	Actor_17.DisplayDesc.ColorG = 1
+	Actor_17.DisplayDesc.ColorB = 1
+	Actor_17.DisplayDesc.ColorA = 1
 	Actor_17.DisplayDesc.TransX = 0
 	Actor_17.DisplayDesc.TransY = 0
 	Actor_17.DisplayDesc.TransZ = 0
@@ -236,6 +240,7 @@ function InitMap(environment)
 	Actor_17.PhysicDesc.SizeX = 2
 	Actor_17.PhysicDesc.SizeY = 2
 	Actor_17.PhysicDesc.SizeZ = 1
+	Actor_17.PhysicDesc.AllowFreeMove = true
 	Actor_17.PhysicDesc.Filename = ""
 	Actor_17:SetPhysicalActorType(2)
 	Actor_17:SetPhysicalShape(2)
@@ -262,10 +267,10 @@ function InitMap(environment)
 	Actor_18.DisplayDesc.Mode = "Normal"
 	Actor_18.DisplayDesc.UseLight = true
 	Actor_18.DisplayDesc.CastShadow = true
-	Actor_18.DisplayDesc.ColorR = 0
-	Actor_18.DisplayDesc.ColorG = 0
-	Actor_18.DisplayDesc.ColorB = 0
-	Actor_18.DisplayDesc.ColorA = 0
+	Actor_18.DisplayDesc.ColorR = 1
+	Actor_18.DisplayDesc.ColorG = 1
+	Actor_18.DisplayDesc.ColorB = 1
+	Actor_18.DisplayDesc.ColorA = 1
 	Actor_18.DisplayDesc.TransX = 0
 	Actor_18.DisplayDesc.TransY = 0
 	Actor_18.DisplayDesc.TransZ = 0
@@ -285,6 +290,7 @@ function InitMap(environment)
 	Actor_18.PhysicDesc.SizeX = 1
 	Actor_18.PhysicDesc.SizeY = 5
 	Actor_18.PhysicDesc.SizeZ = 1
+	Actor_18.PhysicDesc.AllowFreeMove = true
 	Actor_18.PhysicDesc.Filename = ""
 	Actor_18:SetPhysicalActorType(2)
 	Actor_18:SetPhysicalShape(2)
@@ -311,10 +317,10 @@ function InitMap(environment)
 	Actor_19.DisplayDesc.Mode = "Normal"
 	Actor_19.DisplayDesc.UseLight = true
 	Actor_19.DisplayDesc.CastShadow = true
-	Actor_19.DisplayDesc.ColorR = 0
-	Actor_19.DisplayDesc.ColorG = 0
-	Actor_19.DisplayDesc.ColorB = 0
-	Actor_19.DisplayDesc.ColorA = 0
+	Actor_19.DisplayDesc.ColorR = 1
+	Actor_19.DisplayDesc.ColorG = 1
+	Actor_19.DisplayDesc.ColorB = 1
+	Actor_19.DisplayDesc.ColorA = 1
 	Actor_19.DisplayDesc.TransX = 0
 	Actor_19.DisplayDesc.TransY = 0
 	Actor_19.DisplayDesc.TransZ = 0
@@ -334,6 +340,7 @@ function InitMap(environment)
 	Actor_19.PhysicDesc.SizeX = 1
 	Actor_19.PhysicDesc.SizeY = 5
 	Actor_19.PhysicDesc.SizeZ = 1
+	Actor_19.PhysicDesc.AllowFreeMove = true
 	Actor_19.PhysicDesc.Filename = ""
 	Actor_19:SetPhysicalActorType(2)
 	Actor_19:SetPhysicalShape(2)
@@ -360,10 +367,10 @@ function InitMap(environment)
 	Actor_20.DisplayDesc.Mode = ""
 	Actor_20.DisplayDesc.UseLight = true
 	Actor_20.DisplayDesc.CastShadow = true
-	Actor_20.DisplayDesc.ColorR = 0
-	Actor_20.DisplayDesc.ColorG = 0
-	Actor_20.DisplayDesc.ColorB = 0
-	Actor_20.DisplayDesc.ColorA = 0
+	Actor_20.DisplayDesc.ColorR = 1
+	Actor_20.DisplayDesc.ColorG = 1
+	Actor_20.DisplayDesc.ColorB = 1
+	Actor_20.DisplayDesc.ColorA = 1
 	Actor_20.DisplayDesc.TransX = 0
 	Actor_20.DisplayDesc.TransY = 0
 	Actor_20.DisplayDesc.TransZ = 0
@@ -383,6 +390,7 @@ function InitMap(environment)
 	Actor_20.PhysicDesc.SizeX = 1
 	Actor_20.PhysicDesc.SizeY = 5
 	Actor_20.PhysicDesc.SizeZ = 1
+	Actor_20.PhysicDesc.AllowFreeMove = true
 	Actor_20.PhysicDesc.Filename = ""
 	Actor_20:SetPhysicalActorType(2)
 	Actor_20:SetPhysicalShape(2)
@@ -409,10 +417,10 @@ function InitMap(environment)
 	Actor_21.DisplayDesc.Mode = ""
 	Actor_21.DisplayDesc.UseLight = true
 	Actor_21.DisplayDesc.CastShadow = true
-	Actor_21.DisplayDesc.ColorR = 0
-	Actor_21.DisplayDesc.ColorG = 0
-	Actor_21.DisplayDesc.ColorB = 0
-	Actor_21.DisplayDesc.ColorA = 0
+	Actor_21.DisplayDesc.ColorR = 1
+	Actor_21.DisplayDesc.ColorG = 1
+	Actor_21.DisplayDesc.ColorB = 1
+	Actor_21.DisplayDesc.ColorA = 1
 	Actor_21.DisplayDesc.TransX = 0
 	Actor_21.DisplayDesc.TransY = 0
 	Actor_21.DisplayDesc.TransZ = 0
@@ -432,6 +440,7 @@ function InitMap(environment)
 	Actor_21.PhysicDesc.SizeX = 1
 	Actor_21.PhysicDesc.SizeY = 5
 	Actor_21.PhysicDesc.SizeZ = 1
+	Actor_21.PhysicDesc.AllowFreeMove = true
 	Actor_21.PhysicDesc.Filename = ""
 	Actor_21:SetPhysicalActorType(2)
 	Actor_21:SetPhysicalShape(2)
@@ -458,10 +467,10 @@ function InitMap(environment)
 	Actor_22.DisplayDesc.Mode = ""
 	Actor_22.DisplayDesc.UseLight = true
 	Actor_22.DisplayDesc.CastShadow = true
-	Actor_22.DisplayDesc.ColorR = 0
-	Actor_22.DisplayDesc.ColorG = 0
-	Actor_22.DisplayDesc.ColorB = 0
-	Actor_22.DisplayDesc.ColorA = 0
+	Actor_22.DisplayDesc.ColorR = 1
+	Actor_22.DisplayDesc.ColorG = 1
+	Actor_22.DisplayDesc.ColorB = 1
+	Actor_22.DisplayDesc.ColorA = 1
 	Actor_22.DisplayDesc.TransX = 0
 	Actor_22.DisplayDesc.TransY = 0
 	Actor_22.DisplayDesc.TransZ = 0
@@ -481,6 +490,7 @@ function InitMap(environment)
 	Actor_22.PhysicDesc.SizeX = 1
 	Actor_22.PhysicDesc.SizeY = 5
 	Actor_22.PhysicDesc.SizeZ = 1
+	Actor_22.PhysicDesc.AllowFreeMove = true
 	Actor_22.PhysicDesc.Filename = ""
 	Actor_22:SetPhysicalActorType(2)
 	Actor_22:SetPhysicalShape(2)
@@ -507,10 +517,10 @@ function InitMap(environment)
 	Actor_23.DisplayDesc.Mode = ""
 	Actor_23.DisplayDesc.UseLight = true
 	Actor_23.DisplayDesc.CastShadow = true
-	Actor_23.DisplayDesc.ColorR = 0
-	Actor_23.DisplayDesc.ColorG = 0
-	Actor_23.DisplayDesc.ColorB = 0
-	Actor_23.DisplayDesc.ColorA = 0
+	Actor_23.DisplayDesc.ColorR = 1
+	Actor_23.DisplayDesc.ColorG = 1
+	Actor_23.DisplayDesc.ColorB = 1
+	Actor_23.DisplayDesc.ColorA = 1
 	Actor_23.DisplayDesc.TransX = 0
 	Actor_23.DisplayDesc.TransY = 0
 	Actor_23.DisplayDesc.TransZ = 0
@@ -530,6 +540,7 @@ function InitMap(environment)
 	Actor_23.PhysicDesc.SizeX = 1
 	Actor_23.PhysicDesc.SizeY = 5
 	Actor_23.PhysicDesc.SizeZ = 1
+	Actor_23.PhysicDesc.AllowFreeMove = true
 	Actor_23.PhysicDesc.Filename = ""
 	Actor_23:SetPhysicalActorType(2)
 	Actor_23:SetPhysicalShape(2)
@@ -556,10 +567,10 @@ function InitMap(environment)
 	Actor_24.DisplayDesc.Mode = ""
 	Actor_24.DisplayDesc.UseLight = true
 	Actor_24.DisplayDesc.CastShadow = true
-	Actor_24.DisplayDesc.ColorR = 0
-	Actor_24.DisplayDesc.ColorG = 0
-	Actor_24.DisplayDesc.ColorB = 0
-	Actor_24.DisplayDesc.ColorA = 0
+	Actor_24.DisplayDesc.ColorR = 1
+	Actor_24.DisplayDesc.ColorG = 1
+	Actor_24.DisplayDesc.ColorB = 1
+	Actor_24.DisplayDesc.ColorA = 1
 	Actor_24.DisplayDesc.TransX = 0
 	Actor_24.DisplayDesc.TransY = 0
 	Actor_24.DisplayDesc.TransZ = 0
@@ -579,6 +590,7 @@ function InitMap(environment)
 	Actor_24.PhysicDesc.SizeX = 1
 	Actor_24.PhysicDesc.SizeY = 5
 	Actor_24.PhysicDesc.SizeZ = 1
+	Actor_24.PhysicDesc.AllowFreeMove = true
 	Actor_24.PhysicDesc.Filename = ""
 	Actor_24:SetPhysicalActorType(2)
 	Actor_24:SetPhysicalShape(2)
@@ -605,10 +617,10 @@ function InitMap(environment)
 	Actor_25.DisplayDesc.Mode = ""
 	Actor_25.DisplayDesc.UseLight = true
 	Actor_25.DisplayDesc.CastShadow = true
-	Actor_25.DisplayDesc.ColorR = 0
-	Actor_25.DisplayDesc.ColorG = 0
-	Actor_25.DisplayDesc.ColorB = 0
-	Actor_25.DisplayDesc.ColorA = 0
+	Actor_25.DisplayDesc.ColorR = 1
+	Actor_25.DisplayDesc.ColorG = 1
+	Actor_25.DisplayDesc.ColorB = 1
+	Actor_25.DisplayDesc.ColorA = 1
 	Actor_25.DisplayDesc.TransX = 0
 	Actor_25.DisplayDesc.TransY = 0
 	Actor_25.DisplayDesc.TransZ = 0
@@ -628,6 +640,7 @@ function InitMap(environment)
 	Actor_25.PhysicDesc.SizeX = 1
 	Actor_25.PhysicDesc.SizeY = 5
 	Actor_25.PhysicDesc.SizeZ = 1
+	Actor_25.PhysicDesc.AllowFreeMove = true
 	Actor_25.PhysicDesc.Filename = ""
 	Actor_25:SetPhysicalActorType(2)
 	Actor_25:SetPhysicalShape(2)
@@ -654,10 +667,10 @@ function InitMap(environment)
 	Actor_26.DisplayDesc.Mode = ""
 	Actor_26.DisplayDesc.UseLight = true
 	Actor_26.DisplayDesc.CastShadow = true
-	Actor_26.DisplayDesc.ColorR = 0
-	Actor_26.DisplayDesc.ColorG = 0
-	Actor_26.DisplayDesc.ColorB = 0
-	Actor_26.DisplayDesc.ColorA = 0
+	Actor_26.DisplayDesc.ColorR = 1
+	Actor_26.DisplayDesc.ColorG = 1
+	Actor_26.DisplayDesc.ColorB = 1
+	Actor_26.DisplayDesc.ColorA = 1
 	Actor_26.DisplayDesc.TransX = 0
 	Actor_26.DisplayDesc.TransY = 0
 	Actor_26.DisplayDesc.TransZ = 0
@@ -677,6 +690,7 @@ function InitMap(environment)
 	Actor_26.PhysicDesc.SizeX = 1
 	Actor_26.PhysicDesc.SizeY = 5
 	Actor_26.PhysicDesc.SizeZ = 1
+	Actor_26.PhysicDesc.AllowFreeMove = true
 	Actor_26.PhysicDesc.Filename = ""
 	Actor_26:SetPhysicalActorType(2)
 	Actor_26:SetPhysicalShape(2)
@@ -703,10 +717,10 @@ function InitMap(environment)
 	Actor_27.DisplayDesc.Mode = "Normal"
 	Actor_27.DisplayDesc.UseLight = true
 	Actor_27.DisplayDesc.CastShadow = true
-	Actor_27.DisplayDesc.ColorR = 0
-	Actor_27.DisplayDesc.ColorG = 0
-	Actor_27.DisplayDesc.ColorB = 0
-	Actor_27.DisplayDesc.ColorA = 0
+	Actor_27.DisplayDesc.ColorR = 1
+	Actor_27.DisplayDesc.ColorG = 1
+	Actor_27.DisplayDesc.ColorB = 1
+	Actor_27.DisplayDesc.ColorA = 1
 	Actor_27.DisplayDesc.TransX = 0
 	Actor_27.DisplayDesc.TransY = 0
 	Actor_27.DisplayDesc.TransZ = 0
@@ -726,6 +740,7 @@ function InitMap(environment)
 	Actor_27.PhysicDesc.SizeX = 0.3
 	Actor_27.PhysicDesc.SizeY = 0.5
 	Actor_27.PhysicDesc.SizeZ = 0.3
+	Actor_27.PhysicDesc.AllowFreeMove = true
 	Actor_27.PhysicDesc.Filename = ""
 	Actor_27:SetPhysicalActorType(2)
 	Actor_27:SetPhysicalShape(2)
@@ -752,10 +767,10 @@ function InitMap(environment)
 	Actor_28.DisplayDesc.Mode = ""
 	Actor_28.DisplayDesc.UseLight = true
 	Actor_28.DisplayDesc.CastShadow = true
-	Actor_28.DisplayDesc.ColorR = 0
-	Actor_28.DisplayDesc.ColorG = 0
-	Actor_28.DisplayDesc.ColorB = 0
-	Actor_28.DisplayDesc.ColorA = 0
+	Actor_28.DisplayDesc.ColorR = 1
+	Actor_28.DisplayDesc.ColorG = 1
+	Actor_28.DisplayDesc.ColorB = 1
+	Actor_28.DisplayDesc.ColorA = 1
 	Actor_28.DisplayDesc.TransX = 0
 	Actor_28.DisplayDesc.TransY = 0
 	Actor_28.DisplayDesc.TransZ = 0
@@ -775,6 +790,7 @@ function InitMap(environment)
 	Actor_28.PhysicDesc.SizeX = 0.3
 	Actor_28.PhysicDesc.SizeY = 0.5
 	Actor_28.PhysicDesc.SizeZ = 0.3
+	Actor_28.PhysicDesc.AllowFreeMove = true
 	Actor_28.PhysicDesc.Filename = ""
 	Actor_28:SetPhysicalActorType(2)
 	Actor_28:SetPhysicalShape(2)
@@ -801,10 +817,10 @@ function InitMap(environment)
 	Actor_29.DisplayDesc.Mode = "Normal"
 	Actor_29.DisplayDesc.UseLight = true
 	Actor_29.DisplayDesc.CastShadow = true
-	Actor_29.DisplayDesc.ColorR = 0
-	Actor_29.DisplayDesc.ColorG = 0
-	Actor_29.DisplayDesc.ColorB = 0
-	Actor_29.DisplayDesc.ColorA = 0
+	Actor_29.DisplayDesc.ColorR = 1
+	Actor_29.DisplayDesc.ColorG = 1
+	Actor_29.DisplayDesc.ColorB = 1
+	Actor_29.DisplayDesc.ColorA = 1
 	Actor_29.DisplayDesc.TransX = 0
 	Actor_29.DisplayDesc.TransY = 0
 	Actor_29.DisplayDesc.TransZ = 0
@@ -824,6 +840,7 @@ function InitMap(environment)
 	Actor_29.PhysicDesc.SizeX = 0.5
 	Actor_29.PhysicDesc.SizeY = 2
 	Actor_29.PhysicDesc.SizeZ = 0.6
+	Actor_29.PhysicDesc.AllowFreeMove = true
 	Actor_29.PhysicDesc.Filename = ""
 	Actor_29:SetPhysicalActorType(2)
 	Actor_29:SetPhysicalShape(2)
@@ -850,10 +867,10 @@ function InitMap(environment)
 	Actor_30.DisplayDesc.Mode = ""
 	Actor_30.DisplayDesc.UseLight = true
 	Actor_30.DisplayDesc.CastShadow = false
-	Actor_30.DisplayDesc.ColorR = 0
-	Actor_30.DisplayDesc.ColorG = 0
-	Actor_30.DisplayDesc.ColorB = 0
-	Actor_30.DisplayDesc.ColorA = 0
+	Actor_30.DisplayDesc.ColorR = 1
+	Actor_30.DisplayDesc.ColorG = 1
+	Actor_30.DisplayDesc.ColorB = 1
+	Actor_30.DisplayDesc.ColorA = 1
 	Actor_30.DisplayDesc.TransX = 0
 	Actor_30.DisplayDesc.TransY = 0
 	Actor_30.DisplayDesc.TransZ = 0
@@ -873,6 +890,7 @@ function InitMap(environment)
 	Actor_30.PhysicDesc.SizeX = 2
 	Actor_30.PhysicDesc.SizeY = 0.5
 	Actor_30.PhysicDesc.SizeZ = 2
+	Actor_30.PhysicDesc.AllowFreeMove = true
 	Actor_30.PhysicDesc.Filename = ""
 	Actor_30:SetPhysicalActorType(2)
 	Actor_30:SetPhysicalShape(2)
@@ -896,16 +914,16 @@ function InitMap(environment)
 	Actor_31 = ActorObjectInfo(31)
 	Actor_31:SetRenderType(1)
 	Actor_31.DisplayDesc.ModelId = 0
-	Actor_31.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite055.osgb"
+	Actor_31.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite119.osgb"
 	Actor_31.DisplayDesc.Outfit = ""
 	Actor_31.DisplayDesc.Weapon = ""
 	Actor_31.DisplayDesc.Mode = ""
 	Actor_31.DisplayDesc.UseLight = true
 	Actor_31.DisplayDesc.CastShadow = false
-	Actor_31.DisplayDesc.ColorR = 0
-	Actor_31.DisplayDesc.ColorG = 0
-	Actor_31.DisplayDesc.ColorB = 0
-	Actor_31.DisplayDesc.ColorA = 0
+	Actor_31.DisplayDesc.ColorR = 1
+	Actor_31.DisplayDesc.ColorG = 1
+	Actor_31.DisplayDesc.ColorB = 1
+	Actor_31.DisplayDesc.ColorA = 1
 	Actor_31.DisplayDesc.TransX = 0
 	Actor_31.DisplayDesc.TransY = 0
 	Actor_31.DisplayDesc.TransZ = 0
@@ -925,6 +943,7 @@ function InitMap(environment)
 	Actor_31.PhysicDesc.SizeX = 0.8
 	Actor_31.PhysicDesc.SizeY = 3
 	Actor_31.PhysicDesc.SizeZ = 0.8
+	Actor_31.PhysicDesc.AllowFreeMove = true
 	Actor_31.PhysicDesc.Filename = ""
 	Actor_31:SetPhysicalActorType(1)
 	Actor_31:SetPhysicalShape(2)
@@ -946,10 +965,10 @@ function InitMap(environment)
 	Actor_34.DisplayDesc.Mode = ""
 	Actor_34.DisplayDesc.UseLight = true
 	Actor_34.DisplayDesc.CastShadow = false
-	Actor_34.DisplayDesc.ColorR = 0
-	Actor_34.DisplayDesc.ColorG = 0
-	Actor_34.DisplayDesc.ColorB = 0
-	Actor_34.DisplayDesc.ColorA = 0
+	Actor_34.DisplayDesc.ColorR = 1
+	Actor_34.DisplayDesc.ColorG = 1
+	Actor_34.DisplayDesc.ColorB = 1
+	Actor_34.DisplayDesc.ColorA = 1
 	Actor_34.DisplayDesc.TransX = 0
 	Actor_34.DisplayDesc.TransY = 0
 	Actor_34.DisplayDesc.TransZ = 0
@@ -969,6 +988,7 @@ function InitMap(environment)
 	Actor_34.PhysicDesc.SizeX = 4
 	Actor_34.PhysicDesc.SizeY = 6
 	Actor_34.PhysicDesc.SizeZ = 0.6
+	Actor_34.PhysicDesc.AllowFreeMove = true
 	Actor_34.PhysicDesc.Filename = ""
 	Actor_34:SetPhysicalActorType(2)
 	Actor_34:SetPhysicalShape(2)
@@ -978,16 +998,65 @@ function InitMap(environment)
 	Actor_34.ExtraInfo.NameColorB = 0
 	Actor_34.ExtraInfo.Display = false
 	Actor_34.LifeInfo.Display = false
-	Actor_34H = DoorHandler(Actor_34,0,1,0,0,false)
+	Actor_34H = DoorHandler(Actor_34,1,0,-90,0.1,false)
 	Actor_34_Sc0 = ASPWaitForSignal(1)
 	Actor_34H:AddScriptPart(Actor_34_Sc0)
-	Actor_34_Sc1 = ASPGoTo(51.5,8,62.2,0)
+	Actor_34_Sc1 = ASPRotateFromPoint(-90,49.5,8,62.2,0.1)
 	Actor_34H:AddScriptPart(Actor_34_Sc1)
 	Actor_34_Sc2 = ASPWaitForSignal(2)
 	Actor_34H:AddScriptPart(Actor_34_Sc2)
-	Actor_34_Sc3 = ASPGoTo(51.5,8,62.2,0)
+	Actor_34_Sc3 = ASPRotateFromPoint(0,49.5,8,62.2,0.1)
 	Actor_34H:AddScriptPart(Actor_34_Sc3)
+	Actor_34_Sc4 = ASPTeleportTo(51.5,8,62.2)
+	Actor_34H:AddScriptPart(Actor_34_Sc4)
+	Actor_34_Sc5 = ASPSetRotation(0)
+	Actor_34H:AddScriptPart(Actor_34_Sc5)
 	environment:AddActorObject(Actor_34H)
+
+	Actor_35 = ActorObjectInfo(35)
+	Actor_35:SetRenderType(1)
+	Actor_35.DisplayDesc.ModelId = 0
+	Actor_35.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite049.osgb"
+	Actor_35.DisplayDesc.Outfit = ""
+	Actor_35.DisplayDesc.Weapon = ""
+	Actor_35.DisplayDesc.Mode = ""
+	Actor_35.DisplayDesc.UseLight = true
+	Actor_35.DisplayDesc.CastShadow = true
+	Actor_35.DisplayDesc.ColorR = 1
+	Actor_35.DisplayDesc.ColorG = 1
+	Actor_35.DisplayDesc.ColorB = 1
+	Actor_35.DisplayDesc.ColorA = 1
+	Actor_35.DisplayDesc.TransX = 0
+	Actor_35.DisplayDesc.TransY = 0
+	Actor_35.DisplayDesc.TransZ = 0
+	Actor_35.DisplayDesc.ScaleX = 1
+	Actor_35.DisplayDesc.ScaleY = 1
+	Actor_35.DisplayDesc.ScaleZ = 1
+	Actor_35.DisplayDesc.RotX = 0
+	Actor_35.DisplayDesc.RotY = 0
+	Actor_35.DisplayDesc.RotZ = 0
+	Actor_35:SetModelState(2)
+	Actor_35.PhysicDesc.Pos.X = 53.6
+	Actor_35.PhysicDesc.Pos.Y = 8.1
+	Actor_35.PhysicDesc.Pos.Z = 11
+	Actor_35.PhysicDesc.Pos.Rotation = 0
+	Actor_35.PhysicDesc.Density = 1
+	Actor_35.PhysicDesc.Collidable = true
+	Actor_35.PhysicDesc.SizeX = 1
+	Actor_35.PhysicDesc.SizeY = 4
+	Actor_35.PhysicDesc.SizeZ = 1
+	Actor_35.PhysicDesc.AllowFreeMove = true
+	Actor_35.PhysicDesc.Filename = ""
+	Actor_35:SetPhysicalActorType(4)
+	Actor_35:SetPhysicalShape(2)
+	Actor_35.ExtraInfo.Name = ""
+	Actor_35.ExtraInfo.NameColorR = 1
+	Actor_35.ExtraInfo.NameColorG = 1
+	Actor_35.ExtraInfo.NameColorB = 1
+	Actor_35.ExtraInfo.Display = false
+	Actor_35.LifeInfo.Display = false
+	Actor_35H = ActorHandler(Actor_35)
+	environment:AddActorObject(Actor_35H)
 
 	Trigger_1_info = TriggerInfo(1, "exit31", true, false, false)
 	Trigger_1 = ZoneTrigger(Trigger_1_info, 3, 3.5, 1, true)
@@ -1232,5 +1301,18 @@ function InitMap(environment)
 	Trigger_15_act2:SetActorId(34)
 	Trigger_15:SetAction2(Trigger_15_act2)
 	environment:AddTrigger(Trigger_15)
+
+	Trigger_16_info = TriggerInfo(16, "opendoor", true, true, true)
+	Trigger_16 = ZoneTrigger(Trigger_16_info, 1, 1, 1, true)
+	Trigger_16:SetPosition(51.6, 9, 51.5)
+	Trigger_16:SetStayUpdateFrequency(-1)
+	Trigger_16:SetActivateOnJump(true)
+	Trigger_16_act1 = OpenDoorAction()
+	Trigger_16_act1:SetActorId(34)
+	Trigger_16:SetAction1(Trigger_16_act1)
+	Trigger_16_act2 = CloseDoorAction()
+	Trigger_16_act2:SetActorId(34)
+	Trigger_16:SetAction2(Trigger_16_act2)
+	environment:AddTrigger(Trigger_16)
 
 end

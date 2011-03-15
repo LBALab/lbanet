@@ -22,7 +22,7 @@ function InitMap(environment)
 	Actor_1.DisplayDesc.Mode = ""
 	Actor_1.DisplayDesc.UseLight = true
 	Actor_1.DisplayDesc.CastShadow = false
-	Actor_1.DisplayDesc.ColorR = 0
+	Actor_1.DisplayDesc.ColorR = 1
 	Actor_1.DisplayDesc.ColorG = 7.30015e-031
 	Actor_1.DisplayDesc.ColorB = 7.375
 	Actor_1.DisplayDesc.ColorA = 14.25
