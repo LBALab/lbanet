@@ -61,6 +61,7 @@ struct ActorObjectInfo
 		DisplayDesc.ColorB = 0;
 		DisplayDesc.ColorA = 0;
 
+		PhysicDesc.AllowFreeMove = false;
 		PhysicDesc.Density = 0;
 		PhysicDesc.SizeX = 0;
 		PhysicDesc.SizeY = 0;
@@ -290,8 +291,8 @@ public:
 	virtual void ActorFollowWaypoint(int ScriptId, int waypointindex1, int waypointindex2, bool asynchronus);
 
 	//! return actor type
-	virtual std::string ActorType()
-	{ return "Scripted";}
+	virtual std::string ActorType();
+
 
 
 	//! switch actor model

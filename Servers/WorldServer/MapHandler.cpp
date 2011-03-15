@@ -635,7 +635,7 @@ void MapHandler::PlayerEntered(Ice::Long id)
 		PhysicDesc.SizeY = sizeY;
 
 		_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-													2, id, GetPlayerModelInfo(id), PhysicDesc,
+													2, id, -1, GetPlayerModelInfo(id), PhysicDesc,
 													GetPlayerLifeInfo(id), GetPlayerExtraInfo(id)));
 	}
 
@@ -834,7 +834,7 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 				#endif
 
 				toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-					1, itact->first, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo,
+					1, itact->first, -1, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo,
 					xinfo));
 
 				LbaNet::ClientServerEventBasePtr lastevent = itact->second->GetLastEvent();
@@ -859,7 +859,7 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 			actinfo.LifeInfo.Display = false;
 
 			toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-				4, itact->first, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo ,
+				4, itact->first, -1, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo ,
 				actinfo.ExtraInfo));
 		}
 	}
@@ -885,7 +885,7 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 			PhysicDesc.SizeY = sizeY;
 
 			toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-														2, itact->first,
+														2, itact->first, -1, 
 														itact->second->GetModelInfo(), PhysicDesc,
 														itact->second->GetLifeManaInfo(),
 														itact->second->GetExtraInfo()));
@@ -905,9 +905,10 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 				ActorObjectInfo ainfo = itact->second->GetActorInfo();
 				ainfo.PhysicDesc.Pos = itgh->second.CurrentPos;
 				ainfo.PhysicDesc.Collidable = false;
+				ainfo.PhysicDesc.TypePhysO = LbaNet::KynematicAType;
 				ainfo.DisplayDesc.ColorA = 0.3f;
 				toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-															3, itgh->first, ainfo.DisplayDesc, 
+															3, itgh->first, -1, ainfo.DisplayDesc, 
 															ainfo.PhysicDesc,
 															ainfo.LifeInfo, ainfo.ExtraInfo));
 			}
@@ -1132,7 +1133,7 @@ void MapHandler::AddTrigger(boost::shared_ptr<TriggerBase> trigger)
 																			4, edobjid));
 
 			_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-					4, edobjid, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo,
+					4, edobjid, -1, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo,
 					ainfo.ExtraInfo));
 		}
 		else
@@ -1141,7 +1142,7 @@ void MapHandler::AddTrigger(boost::shared_ptr<TriggerBase> trigger)
 			_editorObjects[edobjid] = ainfo;
 
 			_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-					4, edobjid, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo ,
+					4, edobjid, -1, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo ,
 					ainfo.ExtraInfo));
 		}
 		#endif
@@ -1433,7 +1434,7 @@ void MapHandler::Editor_AddModActor(boost::shared_ptr<ActorHandler> actor)
 
 
 	_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-														1, actor->GetId(),
+														1, actor->GetId(), -1, 
 														actor->GetActorInfo().DisplayDesc,
 														actor->GetActorInfo().PhysicDesc,
 														actor->GetActorInfo().LifeInfo,
@@ -2237,7 +2238,7 @@ void MapHandler::AddSpawn(boost::shared_ptr<Spawn> spawn)
 		_editorObjects[edobjid] = ainfo;
 
 		_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-				4, edobjid, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo ,
+				4, edobjid, -1, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo ,
 				ainfo.ExtraInfo));
 	}
 #endif
@@ -3502,10 +3503,11 @@ Ice::Long MapHandler::AddGhost(Ice::Long playerid, Ice::Long actorid, const LbaN
 	{
 		ActorObjectInfo ainfo = itact->second->GetActorInfo();
 		ainfo.PhysicDesc.Pos = info;
+		ainfo.PhysicDesc.TypePhysO = LbaNet::KynematicAType;
 		ainfo.PhysicDesc.Collidable = false;
 		ainfo.DisplayDesc.ColorA = 0.3f;
 		_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-													3, gid, ainfo.DisplayDesc, ainfo.PhysicDesc,
+													3, gid, playerid, ainfo.DisplayDesc, ainfo.PhysicDesc,
 													ainfo.LifeInfo, ainfo.ExtraInfo));
 	}
 

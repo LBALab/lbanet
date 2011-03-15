@@ -37,10 +37,10 @@ ActorObjectInfo::ActorObjectInfo(long id)
 	DisplayDesc.MountHairColor = -1;
 
 	DisplayDesc.ModelId = 0;
-	DisplayDesc.ColorR = 0;
-	DisplayDesc.ColorG = 0;
-	DisplayDesc.ColorB = 0;
-	DisplayDesc.ColorA = 0;
+	DisplayDesc.ColorR = 1;
+	DisplayDesc.ColorG = 1;
+	DisplayDesc.ColorB = 1;
+	DisplayDesc.ColorA = 1;
 	PhysicDesc.Density = 1;
 	PhysicDesc.SizeX = 0;
 	PhysicDesc.SizeY = 0;
@@ -1626,4 +1626,23 @@ LbaNet::ClientServerEventBasePtr ActorHandler::AttachActorEvent()
 							m_actorinfo.ObjectId, m_attachedactortype, m_attachedactorid);
 
 	return LbaNet::ClientServerEventBasePtr();
+}
+
+/***********************************************************
+return actor type
+***********************************************************/
+std::string ActorHandler::ActorType()
+{ 
+	switch(m_actorinfo.PhysicDesc.TypePhysO)
+	{
+		case LbaNet::KynematicAType:
+			return "Scripted";
+		break;
+
+		case LbaNet::CharControlAType:
+			return "Movable";
+		break;
+	}
+
+	return "Static";
 }
