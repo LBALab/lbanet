@@ -482,7 +482,13 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 
 		std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find((long)id);
 		if(it != _players.end())
+		{
 			it->second->SetExtraInfo(castedptr->_extrainfo);
+
+			// inform player
+			_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+								2, id, new ObjectExtraInfoUpdate(castedptr->_extrainfo)));
+		}
 		return;
 	}
 	
@@ -906,7 +912,7 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 				ainfo.PhysicDesc.Pos = itgh->second.CurrentPos;
 				ainfo.PhysicDesc.Collidable = false;
 				ainfo.PhysicDesc.TypePhysO = LbaNet::KynematicAType;
-				ainfo.DisplayDesc.ColorA = 0.3f;
+				ainfo.DisplayDesc.ColorA = 0.5f;
 				toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 															3, itgh->first, -1, ainfo.DisplayDesc, 
 															ainfo.PhysicDesc,
@@ -3505,7 +3511,7 @@ Ice::Long MapHandler::AddGhost(Ice::Long playerid, Ice::Long actorid, const LbaN
 		ainfo.PhysicDesc.Pos = info;
 		ainfo.PhysicDesc.TypePhysO = LbaNet::KynematicAType;
 		ainfo.PhysicDesc.Collidable = false;
-		ainfo.DisplayDesc.ColorA = 0.3f;
+		ainfo.DisplayDesc.ColorA = 0.5f;
 		_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 													3, gid, playerid, ainfo.DisplayDesc, ainfo.PhysicDesc,
 													ainfo.LifeInfo, ainfo.ExtraInfo));
