@@ -278,7 +278,7 @@
 			<server-instance template="RoomManager" index="1" IceStorm="IceStormLbaNet" />	
 			<server-instance template="ConnectedTracker" index="1" />			
 			<server-instance template="PollingChatServer" index="1" RoomManager="LBANetServer1-RoomManager" ConnectedTracker="LBANetServer1-ConnectedTracker" ReaperTimeout="10"/>
-			<server-instance template="LoginServer" index="1" ServVersion="ver. 1.0b" RoomManager="LBANetServer1-RoomManager" ConnectedTracker="LBANetServer1-ConnectedTracker"/>
+			<server-instance template="LoginServer" index="1" ServVersion="ver. 1.01b" RoomManager="LBANetServer1-RoomManager" ConnectedTracker="LBANetServer1-ConnectedTracker"/>
 			<server-instance template="WorldServer" WorldName="Lba1Original" IceStorm="IceStormLbaNet" LoginServer="LoginServer1-WorldRegister"/>	
 			<server-instance template="WorldServer" WorldName="Lba2Original" IceStorm="IceStormLbaNet" LoginServer="LoginServer1-WorldRegister"/>	
 			<server-instance template="WorldServer" WorldName="Lba1Expanded" IceStorm="IceStormLbaNet" LoginServer="LoginServer1-WorldRegister"/>	
