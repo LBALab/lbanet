@@ -527,7 +527,7 @@ void CharacterController::Process(double tnow, float tdiff,
 				if(_currentplayerstate == LbaNet::StMovingObject)
 				{
 					++_countmovingobj;
-					if(_countmovingobj >= 50)
+					if(!_pressedkeys._keyforward || _countmovingobj >= 20)
 						UpdateModeAndState(_currentmodestr, LbaNet::StNormal, tnow);
 				}
 			}

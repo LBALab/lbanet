@@ -195,7 +195,7 @@ void LbaNetModel::Process(double tnow, float tdiff)
 /***********************************************************
 add object to the scene
 ***********************************************************/
-void LbaNetModel::AddObject(int OType, const ObjectInfo &desc, 
+void LbaNetModel::AddObject(int OType, Ice::Long OwnerId, const ObjectInfo &desc, 
 								const LbaNet::ModelInfo &DisplayDesc,
 								const LbaNet::ObjectExtraInfo &extrainfo,
 								const LbaNet::LifeManaInfo &lifeinfo,
@@ -271,6 +271,7 @@ void LbaNetModel::AddObject(int OType, const ObjectInfo &desc,
 
 		// 3 -> ghost object
 		case 3:
+			if(m_playerObjectId != OwnerId)
 			{
 				boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
 				_ghostObjects[desc.Id] = boost::shared_ptr<ExternalPlayer>(new ExternalPlayer(tmpobj, DisplayDesc));
@@ -724,14 +725,14 @@ ObjectInfo LbaNetModel::CreateObject(int OType, Ice::Long ObjectId,
 2 -> player object
 3 -> ghost object
 ***********************************************************/
-void LbaNetModel::AddObject(int OType, Ice::Long ObjectId, 
+void LbaNetModel::AddObject(int OType, Ice::Long ObjectId, Ice::Long OwnerId,
 					const LbaNet::ModelInfo &DisplayDesc, 
 					const LbaNet::ObjectPhysicDesc &PhysicDesc,
 					const LbaNet::ObjectExtraInfo &extrainfo,
 					const LbaNet::LifeManaInfo &lifeinfo)
 {
 	ObjectInfo obj = CreateObject(OType, ObjectId, DisplayDesc, PhysicDesc, extrainfo, lifeinfo);
-	AddObject(OType, obj, DisplayDesc, extrainfo, lifeinfo, 
+	AddObject(OType, OwnerId, obj, DisplayDesc, extrainfo, lifeinfo, 
 					(PhysicDesc.TypePhysO == LbaNet::CharControlAType), PhysicDesc.AllowFreeMove);
 }
 

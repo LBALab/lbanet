@@ -2881,7 +2881,7 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow, bool 
 			stateset2->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
 			stateset2->setMode( GL_BLEND, osg::StateAttribute::ON );
 			stateset2->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-			//stateset2->setRenderBinDetails( 4000, "DepthSortedBin");
+			stateset2->setRenderBinDetails( 40, "DepthSortedBin");
 		}
 	}
 

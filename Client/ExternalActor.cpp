@@ -467,7 +467,7 @@ void ExternalActor::ProcessMovable(double tnow, float tdiff,
 		udata->GetAddedMove(admx, admy, admz);
 
 
-	admy = (0.05f * tdiff); //TODO - make the gravity configurable?
+	admy = (-0.05f * tdiff); //TODO - make the gravity configurable?
 
 
 	// get additional speed in case we are on lift

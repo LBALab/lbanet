@@ -483,7 +483,7 @@ void LbaNetEngine::HandleGameEvents()
 			LbaNet::AddObjectEvent * castedptr = 
 				dynamic_cast<LbaNet::AddObjectEvent *>(&obj);
 
-			m_lbaNetModel->AddObject(castedptr->TypeO, castedptr->ObjectId, 
+			m_lbaNetModel->AddObject(castedptr->TypeO, castedptr->ObjectId, castedptr->OwnerId,
 									castedptr->DisplayDesc, castedptr->PhysicDesc,
 									castedptr->ExtraInfo, castedptr->LifeInfo);
 

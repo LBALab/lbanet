@@ -1613,7 +1613,7 @@ osg::ref_ptr<osg::MatrixTransform> OsgHandler::CreateSpriteObject(const std::str
 	{
 		stateSet->setMode( GL_BLEND, osg::StateAttribute::ON );
 		stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-		//stateSet->setRenderBinDetails( 5000, "DepthSortedBin");
+		stateSet->setRenderBinDetails( 30, "DepthSortedBin");
 	}
 
 	//specify normal:
@@ -1693,7 +1693,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSimpleObject(const
 {
 	osg::ref_ptr<osg::MatrixTransform> resnode = CreateSimpleObject(filename, Tr,	UseLight, CastShadow);
 	OsgObjectHandler * objh = new OsgObjectHandler(resnode, UseLight, extrainfo, lifeinfo);
-	if(colorA < 1)
+	if(colorA >= 0 && colorA < 1)
 		objh->SetTransparency(colorA);
 	return boost::shared_ptr<DisplayObjectHandlerBase>(objh);
 }
@@ -1724,7 +1724,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSphereObject(float
 	osg::StateSet* stateset = capsuleGeode->getOrCreateStateSet();
 	stateset->setMode(GL_BLEND, osg::StateAttribute::ON);
 	stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-	//stateset->setRenderBinDetails( 9000, "DepthSortedBin");
+	stateset->setRenderBinDetails( 40, "DepthSortedBin");
 
 	if(Tr)
 	{
@@ -1766,7 +1766,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCapsuleObject(floa
 	osg::StateSet* stateset = capsuleGeode->getOrCreateStateSet();
 	stateset->setMode(GL_BLEND, osg::StateAttribute::ON);
 	stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-	//stateset->setRenderBinDetails( 9000, "DepthSortedBin");
+	stateset->setRenderBinDetails( 40, "DepthSortedBin");
 
 	if(Tr)
 	{
@@ -1807,7 +1807,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateBoxObject(float si
     osg::StateSet* stateset = capsuleGeode->getOrCreateStateSet();
 	stateset->setMode(GL_BLEND, osg::StateAttribute::ON);
 	stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-	//stateset->setRenderBinDetails( 9000, "DepthSortedBin");
+	stateset->setRenderBinDetails( 40, "DepthSortedBin");
 
 	if(Tr)
 	{
@@ -1871,7 +1871,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCrossObject(float 
 	stateset->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 	stateset->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
 	stateset->setRenderingHint( osg::StateSet::OPAQUE_BIN );
-	stateset->setRenderBinDetails( 60, "RenderBin");
+	stateset->setRenderBinDetails( 50, "RenderBin");
 
 	if(Tr)
 	{

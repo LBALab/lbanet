@@ -169,7 +169,6 @@ public:
 			bool freemove = characterdata->GetAllowFreeMove();
 			bool movex = false, movez = false;
 
-			characterdatamain->SetMovingObject(true);
 			if(abs(diff.x) > abs(diff.z))
 			{
 				movex = true;

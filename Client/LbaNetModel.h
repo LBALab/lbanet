@@ -89,7 +89,7 @@ public:
 	// 2 -> player object
 	// 3 -> ghost object
 	// 4 -> editor object
-	void AddObject(int OType, Ice::Long ObjectId, 
+	void AddObject(int OType, Ice::Long ObjectId, Ice::Long OwnerId,
 						const LbaNet::ModelInfo &DisplayDesc, 
 						const LbaNet::ObjectPhysicDesc &PhysicDesc,
 						const LbaNet::ObjectExtraInfo &extrainfo,
@@ -412,7 +412,7 @@ protected:
 
 	//! add object to the scene
 	//! if IsMainPlayer then treat this object as the player object
-	void AddObject(int OType, const ObjectInfo &desc,
+	void AddObject(int OType, Ice::Long OwnerId, const ObjectInfo &desc,
 					const LbaNet::ModelInfo &DisplayDesc,
 					const LbaNet::ObjectExtraInfo &extrainfo,
 					const LbaNet::LifeManaInfo &lifeinfo,

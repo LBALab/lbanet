@@ -469,7 +469,7 @@ void OsgObjectHandler::RefreshText()
 			stateSet->setMode(GL_DEPTH_TEST,osg::StateAttribute::OFF);
 			stateSet->setMode(GL_LIGHTING,osg::StateAttribute::OFF);
 			stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-			stateSet->setRenderBinDetails( 1000, "SpecialBin");
+			stateSet->setRenderBinDetails( 500, "SpecialBin");
 
 			_textgroup->addChild(_textgeode);
 			root->addChild(_textgroup);
@@ -676,7 +676,7 @@ void OsgObjectHandler::RefreshLifeManaBars()
 		stateSet->setMode(GL_DEPTH_TEST,osg::StateAttribute::OFF);
 		stateSet->setMode(GL_TEXTURE_2D,osg::StateAttribute::OFF);
 		stateSet->setMode(GL_LIGHTING,osg::StateAttribute::OFF);
-		stateSet->setRenderBinDetails( 1000, "SpecialBin");
+		stateSet->setRenderBinDetails( 500, "SpecialBin");
 
 		_barsgroup->addChild(barsgeode);
 		root->addChild(_barsgroup);
@@ -811,7 +811,7 @@ void OsgObjectHandler::SetTransparency(float alpha)
 
 			stateset->setMode( GL_BLEND, osg::StateAttribute::ON );
 			stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-			//stateset->setRenderBinDetails( 3000, "DepthSortedBin");
+			stateset->setRenderBinDetails( 30, "DepthSortedBin");
 		}
 		else
 		{
