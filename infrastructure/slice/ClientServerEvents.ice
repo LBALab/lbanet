@@ -78,6 +78,7 @@ module LbaNet
 	{
 		int			TypeO;
 		long			ObjectId;
+		long			OwnerId;		
 		ModelInfo		DisplayDesc;
 		ObjectPhysicDesc	PhysicDesc;
 		LifeManaInfo		LifeInfo;
