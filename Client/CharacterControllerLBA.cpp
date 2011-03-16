@@ -515,7 +515,7 @@ void CharacterController::Process(double tnow, float tdiff,
 			// only move object when moving forward
 			if(udata->GetMovingObject() && _pressedkeys._keyforward)
 			{
-				_countmovingobj = 0;
+				_movingstarttime = tnow;
 
 				//only move object if we can
 				if(_currentstate && _currentstate->CanPlayMovingObject())
@@ -526,8 +526,7 @@ void CharacterController::Process(double tnow, float tdiff,
 				// stop moving object after a while if we dont touch anything
 				if(_currentplayerstate == LbaNet::StMovingObject)
 				{
-					++_countmovingobj;
-					if(!_pressedkeys._keyforward || _countmovingobj >= 20)
+					if(!_pressedkeys._keyforward || (tnow-_movingstarttime) >= 2000)
 						UpdateModeAndState(_currentmodestr, LbaNet::StNormal, tnow);
 				}
 			}
