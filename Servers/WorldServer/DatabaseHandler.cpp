@@ -251,6 +251,7 @@ LbaNet::SavedWorldInfo DatabaseHandler::ChangeWorld(const std::string& NewWorldN
 	else
 	{
 		Clear();
+		throw dbconnectexception();
 	}
 
 
