@@ -167,6 +167,14 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectE
 		savedinfo.lifemana.CurrentMana = _worldinfo.StartingInfo.StartingMana;
 		savedinfo.lifemana.MaxMana = _worldinfo.StartingInfo.StartingMana;
 		savedinfo.inventory.InventoryStructure = _worldinfo.StartingInfo.StartingInventory;
+		savedinfo.inventory.InventorySize = _worldinfo.StartingInfo.InventorySize;
+
+		LbaNet::ItemInfo itm;
+		itm.Id = -1;
+		for(int i=0; i<10; ++i)
+			savedinfo.inventory.UsedShorcuts.push_back(itm);
+
+
 		savedinfo.model = _worldinfo.StartingInfo.StartingModel;
 
 
