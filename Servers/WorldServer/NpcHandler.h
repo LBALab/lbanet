@@ -83,6 +83,23 @@ public:
 	virtual void PlayerAction(Ice::Long PlayerId, const LbaNet::PlayerPosition &info,
 									const std::string &ObjectMode);
 
+
+	//! hurt life
+	virtual void HurtLife(float amount, bool UseArmor, Ice::Long HurtingPlayerId);
+
+	//! hurt mana
+	virtual void HurtMana(float amount);
+
+	//! kill actor
+	virtual void Kill();
+
+
+	//! check trigger on player leave map
+	virtual void PlayerLeaveMap(Ice::Long PlayerId);
+
+	//! check trigger on player dead
+	virtual void PlayerDead(Ice::Long PlayerId);
+
 protected:
 
 	//! return the build class
@@ -97,13 +114,54 @@ protected:
 	//! stop target player
 	void StopTarget();
 
+	//! start fight
+	void StartFight(Ice::Long TargetedPlayerId);
 
-private:
+	//! die
+	void Die();
+
+	//! respawn
+	void Respawn();
+
+	//! process child
+	virtual void ProcessChild(double tnow, float tdiff);
+
+	//! target player
+	void TargetAttackPlayer(Ice::Long PlayerId);
+
+	//! stop target player
+	void StopAttackTarget(Ice::Long PlayerId);
+
+
+
+protected:
 	long						_npcnametextid;
 	bool						_simpledialog;
 	DialogPartPtr				_rootdialog;
 
 	std::vector<Ice::Long>		_targetedplayers;
+	std::vector<Ice::Long>		_hurtingplayers;
+
+
+	bool						_killable;
+	bool						_fighting;
+	bool						_dead;
+	LbaNet::LifeManaInfo		_lifeinfo;
+
+	float						_armor;
+	float						_weapon1power;
+	float						_weapon2power;
+
+	float						_attack_activation_distance;
+	float						_attack_activation_distance_discrete;
+	float						_attack_activation_distance_hidden;
+	ConditionBasePtr			_attack_activation_condition;
+	ActionBasePtr				_action_on_attack_activation;
+
+	float						_respwantime;
+	double						_dietime;
+
+	std::vector<std::pair<long, int> >	_itemsgivenatdeath;
 };
 
 #endif

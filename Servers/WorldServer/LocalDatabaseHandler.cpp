@@ -858,6 +858,39 @@ void LocalDatabaseHandler::RecordKill(const std::string& WorldName, long KilledI
 	}
 }
 
+/***********************************************************
+record npc kill by player
+***********************************************************/
+void LocalDatabaseHandler::RecordNPCKill(const std::string& WorldName, long KilledId, long PlayerKillerId)
+{
+	Lock sync(*this);
+	if(!_db)
+		return;
+
+	if(KilledId < 0 || PlayerKillerId < 0)
+		return;
+
+	if(WorldName != "")
+	{
+		std::stringstream query;
+		query << "UPDATE lba_usertoworld ";
+		query << "SET MonsterKill = MonsterKill + 1";
+		query << " WHERE userid = '"<<PlayerKillerId<<"'";
+		query << " AND worldid = (SELECT id FROM lba_worlds WHERE name = '"<<WorldName<<"')";
+
+
+		char *zErrMsg = 0;
+		int dbres = dbres = sqlite3_exec(_db, query.str().c_str(), 0, 0, &zErrMsg);
+		if(dbres != SQLITE_OK)
+		{
+			// record error
+			std::cerr<<IceUtil::Time::now()<<": LBA_Server - RecordKiller failed for user id "<<PlayerKillerId<<" : "<<zErrMsg<<std::endl;
+			sqlite3_free(zErrMsg);
+		}
+	}
+}
+
+
 
 /***********************************************************
 send a pm to someone

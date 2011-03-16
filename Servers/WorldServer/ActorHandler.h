@@ -303,6 +303,9 @@ public:
 
 
 
+	//! check trigger on player dead
+	virtual void PlayerDead(Ice::Long PlayerId){}
+
 	//! check trigger on player leave map
 	virtual void PlayerLeaveMap(Ice::Long PlayerId){}
 
@@ -331,6 +334,17 @@ public:
 
 	//! get last actor event
 	LbaNet::ClientServerEventBasePtr AttachActorEvent();
+
+
+	//! hurt life
+	virtual void HurtLife(float amount, bool UseArmor, Ice::Long HurtingPlayerId){}
+
+	//! hurt mana
+	virtual void HurtMana(float amount){}
+
+	//! kill actor
+	virtual void Kill(){}
+
 
 
 
@@ -374,6 +388,16 @@ protected:
 
 	//! write extra lua
 	virtual void ExtraLua(std::ofstream & file, const std::string & name){}
+
+	//! reset actor
+	void ResetActor();
+
+	//! show hide actor
+	void ShowHideInternal(bool show);
+
+	//! process child
+	virtual void ProcessChild(double tnow, float tdiff){}
+
 
 protected:
 	ActorObjectInfo										m_actorinfo;

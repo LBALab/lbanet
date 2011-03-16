@@ -109,6 +109,9 @@ public:
 	// record player kill
 	void RecordKill(const std::string& WorldName, long KilledId, int Reason, long KillerId);
 
+	// record npc kill by player
+	virtual void RecordNPCKill(const std::string& WorldName, long KilledId, long PlayerKillerId);
+
 
 
     // send a pm to someone

@@ -1014,6 +1014,13 @@ void MapHandler::ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, fl
 				boost::shared_ptr<DatabaseHandlerBase> dbh = SharedDataHandler::getInstance()->GetDatabase();
 				if(dbh)
 					dbh->RecordKill(_worldname, (long)id, EventType, ActorId);
+
+
+				// tell npcs that player is dead
+				std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.begin();
+				std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endact = _Actors.end();
+				for(; itact != endact; ++itact)
+					itact->second->PlayerDead(id);
 			}
 
 
@@ -2063,7 +2070,14 @@ void MapHandler::HurtActor(int ObjectType, long ObjectId, float HurtValue, bool 
 	{
 		case 1: // actor
 		{
-			//Todo - hurt NPC
+			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ita = _Actors.find(ObjectId);
+			if(ita != _Actors.end())
+			{
+				if(HurtLife)
+					ita->second->HurtLife(-HurtValue, false, -1);
+				else
+					ita->second->HurtMana(-HurtValue);
+			}
 		}
 		break;
 
@@ -2106,7 +2120,9 @@ void MapHandler::KillActor(int ObjectType, long ObjectId)
 	{
 		case 1: // actor
 		{
-			//Todo - kill NPC
+			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ita = _Actors.find(ObjectId);
+			if(ita != _Actors.end())
+				ita->second->Kill();
 		}
 		break;
 
@@ -2507,7 +2523,10 @@ void MapHandler::HittedProjectile(long PlayerId, long ProjectileId, int	TouchedA
 		{
 			if(TouchedActorType == 1)
 			{
-				//todo - hurt actors
+				std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ita = _Actors.find(TouchedActorId);
+				if(ita != _Actors.end())
+					ita->second->HurtLife(-itp->second.Power, true, PlayerId);
+
 			}
 
 			if(TouchedActorType == 2)
@@ -2531,7 +2550,9 @@ void MapHandler::PlayerHittedContact(long PlayerId, bool WithWeapon, int	Touched
 	{
 		if(TouchedActorType == 1)
 		{
-			//todo - hurt actors
+			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ita = _Actors.find(TouchedActorId);
+			if(ita != _Actors.end())
+				ita->second->HurtLife(-power, true, PlayerId);
 		}
 
 		if(TouchedActorType == 2)
@@ -3422,9 +3443,9 @@ void MapHandler::GhostMoved(Ice::Long id, Ice::Long ghostid,
 			_revertghosts.find(std::make_pair<Ice::Long, Ice::Long>(id,ghostid));
 
 		if(itg == _revertghosts.end())
-			gid = AddGhost(id, ghostid, info.CurrentPos);
+			gid = (long)AddGhost(id, ghostid, info.CurrentPos);
 		else
-			gid = itg->second;
+			gid = (long)itg->second;
 	}
 
 	//do a sweep test and check for triggers

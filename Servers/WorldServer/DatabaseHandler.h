@@ -124,6 +124,8 @@ public:
 	//! Reason : 1 - environment, 2 - fall down, 3 - npc, 4 - player, 5 - other, 6 - drown
 	void RecordKill(const std::string& WorldName, long KilledId, int Reason, long KillerId);
 
+	// record npc kill by player
+	virtual void RecordNPCKill(const std::string& WorldName, long KilledId, long PlayerKillerId);
 
 
     // send a pm to someone

@@ -925,12 +925,7 @@ void ActorHandler::ShowHide(bool Show)
 	}
 	else
 	{
-		_character->ShowOrHide(Show);
-
-		// inform clients
-		_events.push_back(new LbaNet::ShowHideEvent(
-							SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-							1, m_actorinfo.ObjectId, Show));
+		ShowHideInternal(Show);
 	}
 }
 
@@ -954,10 +949,7 @@ process actor
 ***********************************************************/
 std::vector<LbaNet::ClientServerEventBasePtr> ActorHandler::Process(double tnow, float tdiff)
 {
-	//TODO - monster -> target player
-
-
-	if(m_scripthandler)
+	if(m_scripthandler && !m_paused)
 	{
 		if(m_launchedscript < 0 && m_script.size() > 0)
 		{
@@ -966,7 +958,7 @@ std::vector<LbaNet::ClientServerEventBasePtr> ActorHandler::Process(double tnow,
 		}
 
 		// process script in normal case
-		if(m_launchedscript >= 0 && !m_paused)
+		if(m_launchedscript >= 0)
 		{
 			// process script
 			if(!ProcessScript(tnow, tdiff, m_scripthandler))
@@ -989,6 +981,11 @@ std::vector<LbaNet::ClientServerEventBasePtr> ActorHandler::Process(double tnow,
 		}
 	}
 
+	// process child
+	ProcessChild(tnow, tdiff);
+
+
+	//send events
 	std::vector<LbaNet::ClientServerEventBasePtr> res;
 	res.swap(_events);
 	return res;
@@ -1074,6 +1071,7 @@ void ActorHandler::Pause()
 }
 
 
+
 /***********************************************************
 resume the playing script
 ***********************************************************/
@@ -1105,18 +1103,10 @@ void ActorHandler::Resume()
 
 				m_resetposition = true;
 				m_resetrotation = true;
-
 			}
 
-			if(m_savedshow != _character->IsShown())
-			{
-				_character->ShowOrHide(m_savedshow);
-
-				// inform clients of restoration
-				_events.push_back(new LbaNet::ShowHideEvent(
-									SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-									1, m_actorinfo.ObjectId, m_savedshow));
-			}
+			// restore hidden/show state
+			ShowHideInternal(m_savedshow);
 		}
 	}
 }
@@ -1646,3 +1636,52 @@ std::string ActorHandler::ActorType()
 
 	return "Static";
 }
+
+
+/***********************************************************
+show hide actor
+***********************************************************/
+void ActorHandler::ShowHideInternal(bool show)
+{
+	if(show != _character->IsShown())
+	{
+		_character->ShowOrHide(show);
+
+		// inform clients of restoration
+		_events.push_back(new LbaNet::ShowHideEvent(
+							SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+							1, m_actorinfo.ObjectId, show));
+	}
+}
+
+
+/***********************************************************
+reset actor
+***********************************************************/
+void ActorHandler::ResetActor()
+{
+	// resume if paused
+	Resume();
+
+	// reset position
+	if(_character)
+	{
+		boost::shared_ptr<PhysicalObjectHandlerBase> physO = _character->GetPhysicalObject();
+		if(physO)
+		{
+			physO->SetPosition(m_actorinfo.PhysicDesc.Pos.X, 
+								m_actorinfo.PhysicDesc.Pos.Y,
+								m_actorinfo.PhysicDesc.Pos.Z);
+
+			LbaQuaternion Q(m_actorinfo.PhysicDesc.Pos.Rotation, LbaVec3(0, 1, 0));
+			physO->SetRotation(Q);	
+
+			m_resetposition = true;
+			m_resetrotation = true;
+		}
+	}
+
+	// reset script
+	ClearRunningScript();
+}
+
