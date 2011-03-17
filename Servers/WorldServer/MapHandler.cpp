@@ -14,6 +14,7 @@
 #include "InventoryItemHandler.h"
 #include "Spawn.h"
 #include "LogHandler.h"
+#include "Randomizer.h"
 
 #include <math.h>
 
@@ -225,8 +226,8 @@ void MapHandler::run()
 			else
 			{
 				double currtime = SynchronizedTimeHandler::GetCurrentTimeDouble();
-				double tdiff = currtime - _stopstarttime;
-				if(tdiff > 60000) // stop after 1min
+				double tdiff2 = currtime - _stopstarttime;
+				if(tdiff2 > 60000) // stop after 1min
 					_Trunning = false;
 			}
 		}
@@ -503,6 +504,17 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 		return;
 	}
 
+	// ItemLootEvent
+	if(info == typeid(LbaNet::ItemLootEvent))
+	{
+		LbaNet::ItemLootEvent* castedptr =
+			dynamic_cast<LbaNet::ItemLootEvent *>(&obj);
+
+		PlayerLootItem(id, castedptr->ItemId);
+		return;
+	}
+	
+
 }
 
 
@@ -712,6 +724,12 @@ void MapHandler::PlayerLeft(Ice::Long id)
 		for(size_t i=0; i< ghs.size(); ++i)
 			RemoveGhost(ghs[i]);
 	}
+
+
+	// remove items	
+	std::map<Ice::Long, std::map< ::Ice::Long, ::LbaNet::ItemPosInfo> >::iterator ititem = _playeritems.find(id);
+	if(ititem != _playeritems.end())
+		_playeritems.erase(ititem);
 }
 
 
@@ -1791,7 +1809,7 @@ void MapHandler::UpdateActorAnimation(long ActorId, const std::string & Animatio
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
 	{
-		itact->second->UpdateActorAnimation(AnimationString);
+		itact->second->UpdateActorAnimation(AnimationString, true);
 	}
 }
 
@@ -2373,7 +2391,7 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 		newProj.DisplayDesc.TransY=0;
 		newProj.DisplayDesc.TransZ=0;
 		newProj.DisplayDesc.ScaleX=1;
-		newProj.DisplayDesc.ScaleY=1;
+		newProj.DisplayDesc.ScaleY=0.2f;
 		newProj.DisplayDesc.ScaleZ=1;
 		newProj.DisplayDesc.ColorR=0.9f;
 		newProj.DisplayDesc.ColorG=0.788f;
@@ -3628,4 +3646,120 @@ long MapHandler::GetGhostOwnerPlayer(long ghostid)
 		return ((long)it->second.OwnerPlayerId);
 
 	return -1;
+}
+
+
+/***********************************************************
+record player killed npc
+***********************************************************/
+void MapHandler::PlayerKilledNpc(long PlayerId, long NpcId, const LbaNet::ItemsMap & givenitems)
+{
+	if(PlayerId < 0 || NpcId < 0)
+		return;
+
+	// record kill in DB
+	boost::shared_ptr<DatabaseHandlerBase> dbh = SharedDataHandler::getInstance()->GetDatabase();
+	if(dbh)
+		dbh->RecordNPCKill(_worldname, NpcId, PlayerId);	
+
+
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact = _Actors.find(NpcId);
+	if(itact == _Actors.end())
+		return;
+
+	// prepare items for player
+	if(givenitems.size() > 0)
+	{
+		EventsSeq toplayer;
+
+		LbaNet::ItemsMap::const_iterator iti = givenitems.begin();
+		LbaNet::ItemsMap::const_iterator endi = givenitems.end();
+		for(; iti != endi; ++iti)
+		{
+			InventoryItemDefPtr itptr = InventoryItemHandler::getInstance()->GetItem((long)iti->first);
+			if(itptr)
+			{
+				long itiid = 1;
+				std::map<Ice::Long, std::map< ::Ice::Long, ::LbaNet::ItemPosInfo> >::iterator ititem = _playeritems.find(PlayerId);
+				if(ititem != _playeritems.end())
+				{
+					if(ititem->second.size() > 0)
+						itiid = (long)ititem->second.rbegin()->first + 1;
+				}
+
+				LbaNet::ModelInfo modelinfo = itptr->GetDisplayInfo();
+				if(modelinfo.TypeRenderer == LbaNet::NoRender)
+				{
+					modelinfo.TypeRenderer = LbaNet::RenderSprite;
+					modelinfo.ColorR = 1;
+					modelinfo.ColorG = 1;
+					modelinfo.ColorB = 1;
+					modelinfo.ColorA = 0.9f;
+					modelinfo.CastShadow = true;
+					modelinfo.UseLight = true;
+					modelinfo.ScaleX = 0.2f;
+					modelinfo.ScaleY = 0.2f;
+					modelinfo.ScaleZ = 0.2f;
+					modelinfo.RotY = 45;
+					modelinfo.ModelName = "Data/" + itptr->GetIconName();
+				}
+				
+				ObjectPhysicDesc	PhysicDesc;
+				PhysicDesc.Pos = itact->second->GetCurrentPosition();
+				PhysicDesc.Pos.X += (float)Randomizer::getInstance()->Rand()*2 - 1;
+				PhysicDesc.Pos.Y += 2;
+				PhysicDesc.Pos.Z += (float)Randomizer::getInstance()->Rand()*2 - 1;
+				PhysicDesc.Pos.MapName = _mapinfo.Name;
+				PhysicDesc.Pos.Rotation = 0;
+
+				PhysicDesc.TypePhysO = CharControlAType;
+				PhysicDesc.TypeShape = BoxShape;
+				PhysicDesc.Collidable = true;
+				PhysicDesc.Density = 1;
+				PhysicDesc.SizeX = 0.05f;
+				PhysicDesc.SizeY = 0.5f;
+				PhysicDesc.SizeZ = 0.05f;
+
+				LbaNet::LifeManaInfo		LifeInfo;
+				LifeInfo.Display = false;
+				LbaNet::ObjectExtraInfo		ExtraInfo;
+				ExtraInfo.Display = false;
+
+				toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+												5, itiid, -1, modelinfo, PhysicDesc, LifeInfo, ExtraInfo));	
+
+				_playeritems[PlayerId][itiid] = iti->second;
+			}
+		}
+
+		/// send evens to player
+		SendEvents(PlayerId, toplayer);
+	}
+}
+
+
+/***********************************************************
+player loot item
+***********************************************************/
+void MapHandler::PlayerLootItem(Ice::Long playerid, Ice::Long ItemId)
+{
+	std::map<Ice::Long, std::map< Ice::Long, LbaNet::ItemPosInfo> >::iterator ititem = _playeritems.find(playerid);
+	if(ititem != _playeritems.end())
+	{
+		std::map< Ice::Long, LbaNet::ItemPosInfo>::iterator it2 = ititem->second.find(ItemId);
+		if(it2 != ititem->second.end())
+		{
+			//add item to player inventory
+			AddOrRemoveItem((long)playerid, (long)it2->second.Info.Id, it2->second.Count, 1);
+			
+			//inform client
+			EventsSeq toplayer;
+			toplayer.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+														5, ItemId));	
+			SendEvents((long)playerid, toplayer);
+
+			//remove item from loot list
+			ititem->second.erase(it2);
+		}
+	}	
 }

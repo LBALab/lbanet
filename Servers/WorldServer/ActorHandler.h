@@ -193,7 +193,7 @@ public:
 	LbaQuaternion GetActorRotationQuat();
 
 	//! used by lua to update an actor animation
-	void UpdateActorAnimation(const std::string & AnimationString);
+	void UpdateActorAnimation(const std::string & AnimationString, bool updatefromlua);
 
 	//! used by lua to update an actor mode
 	void UpdateActorMode(const std::string & Mode, bool updatefromlua);
@@ -345,6 +345,8 @@ public:
 	//! kill actor
 	virtual void Kill(){}
 
+	//! return actor current position
+	LbaNet::PlayerPosition GetCurrentPosition();
 
 
 

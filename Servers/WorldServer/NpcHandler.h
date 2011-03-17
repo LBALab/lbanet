@@ -100,6 +100,123 @@ public:
 	//! check trigger on player dead
 	virtual void PlayerDead(Ice::Long PlayerId);
 
+
+
+
+	//! accessor
+	bool GetAggresive()
+	{return _aggresive;}
+
+	//! accessor
+	void SetAggresive(bool v)
+	{_aggresive = v;}
+
+
+	//! accessor
+	float GetLife()
+	{return _lifeinfo.MaxLife;}
+
+	//! accessor
+	void SetLife(float v)
+	{_lifeinfo.MaxLife = _lifeinfo.CurrentLife = v;}
+
+	//! accessor
+	float GetMana()
+	{return _lifeinfo.MaxMana;}
+
+	//! accessor
+	void SetMana(float v)
+	{_lifeinfo.MaxMana = _lifeinfo.CurrentMana = v;}
+
+	//! accessor
+	float GetArmor()
+	{return _armor;}
+
+	//! accessor
+	void SetArmor(float v)
+	{_armor = v;}
+
+	//! accessor
+	float GetWeapon1Power()
+	{return _weapon1power;}
+
+	//! accessor
+	void SetWeapon1Power(float v)
+	{_weapon1power = v;}
+
+	//! accessor
+	float GetWeapon2Power()
+	{return _weapon2power;}
+
+	//! accessor
+	void SetWeapon2Power(float v)
+	{_weapon2power = v;}
+
+	//! accessor
+	float GetAttackActiDist()
+	{return _attack_activation_distance;}
+
+	//! accessor
+	void SetAttackActiDist(float v)
+	{_attack_activation_distance = v;}
+
+	//! accessor
+	float GetAttackActiDistDiscrete()
+	{return _attack_activation_distance_discrete;}
+
+	//! accessor
+	void SetAttackActiDistDiscrete(float v)
+	{_attack_activation_distance_discrete = v;}
+
+	//! accessor
+	float GetAttackActiDistHidden()
+	{return _attack_activation_distance_hidden;}
+
+	//! accessor
+	void SetAttackActiDistHidden(float v)
+	{_attack_activation_distance_hidden = v;}
+
+	//! accessor
+	float GetAttackStopDist()
+	{return _stop_attack_distance;}
+
+	//! accessor
+	void SetAttackStopDist(float v)
+	{_stop_attack_distance = v;}
+
+	//! accessor
+	float GetRespawnTimeInSec()
+	{return _respwantime;}
+
+	//! accessor
+	void SetRespawnTimeInSec(float v)
+	{_respwantime = v;}
+
+
+	//! accessor
+	ConditionBasePtr GetAttackActivationCondition()
+	{return _attack_activation_condition;}
+
+	//! accessor
+	void SetAttackActivationCondition(ConditionBasePtr v)
+	{_attack_activation_condition = v;}
+
+
+	//! accessor
+	ActionBasePtr GetActionOnAttackActivation()
+	{return _action_on_attack_activation;}
+
+	//! accessor
+	void SetActionOnAttackActivation(ActionBasePtr v)
+	{_action_on_attack_activation = v;}
+
+	//! accessor
+	void AddGivenItem(long id, int min, int max, float proba, int group);
+
+	//! accessor
+	LbaNet::ContainedItemList &GetGivenItemList()
+	{return _itemsgivenatdeath;}
+
 protected:
 
 	//! return the build class
@@ -133,6 +250,11 @@ protected:
 	void StopAttackTarget(Ice::Long PlayerId);
 
 
+	//! play hurt animation
+	void PlayHurt(int hurttype);
+
+	//! get given items
+	LbaNet::ItemsMap GetGivenItems();
 
 protected:
 	long						_npcnametextid;
@@ -143,10 +265,11 @@ protected:
 	std::vector<Ice::Long>		_hurtingplayers;
 
 
-	bool						_killable;
+	bool						_aggresive;
 	bool						_fighting;
 	bool						_dead;
 	LbaNet::LifeManaInfo		_lifeinfo;
+	bool						_hurt;
 
 	float						_armor;
 	float						_weapon1power;
@@ -155,13 +278,15 @@ protected:
 	float						_attack_activation_distance;
 	float						_attack_activation_distance_discrete;
 	float						_attack_activation_distance_hidden;
+	float						_stop_attack_distance;
+
 	ConditionBasePtr			_attack_activation_condition;
 	ActionBasePtr				_action_on_attack_activation;
 
 	float						_respwantime;
 	double						_dietime;
 
-	std::vector<std::pair<long, int> >	_itemsgivenatdeath;
+	LbaNet::ContainedItemList	_itemsgivenatdeath;
 };
 
 #endif

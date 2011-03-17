@@ -98,6 +98,9 @@ public:
 	//! get current model
 	virtual LbaNet::ModelInfo GetCurrentModel(bool storedstate);
 
+	//! check if can play animation
+	virtual bool CanPlayAnimation(const std::string & anim);
+
 protected:
 	// refresh model
 	int RefreshModel(bool forcecolor = false);

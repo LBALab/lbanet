@@ -198,6 +198,8 @@ void ServerLBA1ModelClass::LoadAnim(entitiesTableStruct* entitiesData, int animN
 	currentY =0;
 	currentZ =0;
 
+	cumutime = 0;
+
 	setAnimAtKeyFrame(0,(unsigned char*)localAnim,Elements,true);
 
 	animPtr=(unsigned char*)localAnim;

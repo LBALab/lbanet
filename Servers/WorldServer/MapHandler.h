@@ -342,6 +342,9 @@ public:
 	virtual long GetGhostOwnerPlayer(long ghostid);
 
 
+	//! record player killed npc
+	virtual void PlayerKilledNpc(long PlayerId, long NpcId, const LbaNet::ItemsMap & givenitems);
+
 protected:
 
 	// process events
@@ -657,6 +660,8 @@ protected:
 	//! update ghost position
 	bool UpdateGhostPosition(Ice::Long ghostid, const LbaNet::PlayerPosition &info);
 	
+	//! player loot item
+	void PlayerLootItem(Ice::Long playerid, Ice::Long ItemId);
 
 private:
 	// threading and mutex stuff
@@ -703,6 +708,8 @@ private:
 	std::map<Ice::Long, GhostInfo>								_ghosts;
 	std::map<std::pair<Ice::Long, Ice::Long>, Ice::Long>		_revertghosts;
 	std::map<Ice::Long, std::vector<Ice::Long> >				_playerghosts;
+
+	std::map<Ice::Long, std::map< ::Ice::Long, ::LbaNet::ItemPosInfo> >	_playeritems;
 
 };
 

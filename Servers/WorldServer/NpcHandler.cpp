@@ -2,6 +2,9 @@
 #include "DynamicObject.h"
 #include "ScriptEnvironmentBase.h"
 #include "SynchronizedTimeHandler.h"
+#include "Randomizer.h"
+#include "InventoryItemHandler.h"
+
 
 #include <math.h>
 #include <fstream>
@@ -13,10 +16,11 @@ update position of the script
 NPCHandler::NPCHandler(const ActorObjectInfo & actorinfo)
 	: ActorHandler(actorinfo), _rootdialog(new DialogPart()),
 		_simpledialog(false), _npcnametextid(-1),
-		_killable(false), _fighting(false), _attack_activation_distance(0),
+		_aggresive(false), _fighting(false), _attack_activation_distance(0),
 		_attack_activation_distance_discrete(0), _dead(false),
 		_attack_activation_distance_hidden(0), _respwantime(-1),
-		_armor(0), _weapon1power(0), _weapon2power(0)
+		_armor(0), _weapon1power(0), _weapon2power(0), _stop_attack_distance(0),
+		_hurt(false)
 {
 	_lifeinfo.MaxLife = 0;
 	_lifeinfo.MaxMana = 0;
@@ -49,6 +53,49 @@ void NPCHandler::ExtraLua(std::ofstream & file, const std::string & name)
 	file<<"\t"<<name<<":SetRootDialog("<<named.str()<<")"<<std::endl;
 	file<<"\t"<<name<<":SetNpcName("<<_npcnametextid<<")"<<std::endl;
 	file<<"\t"<<name<<":SetSimpleDialog("<<(_simpledialog?"true":"false")<<")"<<std::endl;
+
+
+	if(_aggresive)
+	{
+		file<<"\t"<<name<<":SetAggresive("<<"true"<<")"<<std::endl;
+		file<<"\t"<<name<<":SetLife("<<_lifeinfo.MaxLife<<")"<<std::endl;
+		file<<"\t"<<name<<":SetMana("<<_lifeinfo.MaxMana<<")"<<std::endl;
+		file<<"\t"<<name<<":SetArmor("<<_armor<<")"<<std::endl;
+		file<<"\t"<<name<<":SetWeapon1Power("<<_weapon1power<<")"<<std::endl;
+		file<<"\t"<<name<<":SetWeapon2Power("<<_weapon2power<<")"<<std::endl;
+		file<<"\t"<<name<<":SetAttackActiDist("<<_attack_activation_distance<<")"<<std::endl;
+		file<<"\t"<<name<<":SetAttackActiDistDiscrete("<<_attack_activation_distance_discrete<<")"<<std::endl;
+		file<<"\t"<<name<<":SetAttackActiDistHidden("<<_attack_activation_distance_hidden<<")"<<std::endl;
+		file<<"\t"<<name<<":SetAttackStopDist("<<_stop_attack_distance<<")"<<std::endl;
+		file<<"\t"<<name<<":SetRespawnTimeInSec("<<_respwantime<<")"<<std::endl;
+
+		if(_attack_activation_condition)
+		{
+			std::stringstream condname;
+			condname<<name<<"_condAttack";
+			_attack_activation_condition->SaveToLuaFile(file, condname.str());
+
+			file<<"\t"<<name<<":SetAttackActivationCondition("<<condname.str()<<")"<<std::endl;
+		}
+
+		if(_action_on_attack_activation)
+		{
+			std::stringstream aname;
+			aname<<name<<"_actAttack";
+			_action_on_attack_activation->SaveToLuaFile(file, aname.str());
+
+			file<<"\t"<<name<<":SetActionOnAttackActivation("<<aname.str()<<")"<<std::endl;
+		}
+
+		LbaNet::ContainedItemList::iterator iti = _itemsgivenatdeath.begin();
+		LbaNet::ContainedItemList::iterator endi = _itemsgivenatdeath.end();
+		for(; iti != endi; ++iti)
+		{
+			file<<"\t"<<name<<":AddGivenItem("<<iti->Id<<","<<iti->Min<<","<<iti->Max
+				<<","<<iti->Probability<<","<<iti->Group<<")"<<std::endl;
+		}
+
+	}
 }
 
 
@@ -240,9 +287,9 @@ void NPCHandler::Die()
 
 	if(_hurtingplayers.size() > 0)
 	{
-		//todo - record player kill
-
-		//todo - give item to player
+		//record player kill - and give item to player
+		if(m_scripthandler)
+		m_scripthandler->PlayerKilledNpc((long)_hurtingplayers[0], GetId(), GetGivenItems());
 	}
 
 	// clear target
@@ -261,9 +308,15 @@ void NPCHandler::Respawn()
 
 	//reset dead flag
 	_dead = false;
+	_hurt = false;
 
 	// remove fighting flag
 	_fighting = false;
+
+	// reset life
+	_lifeinfo.CurrentLife = _lifeinfo.MaxLife;
+	_lifeinfo.CurrentMana = _lifeinfo.MaxMana;
+
 
 	// reset position - reset and start script
 	ResetActor();
@@ -278,16 +331,33 @@ process child
 ***********************************************************/
 void NPCHandler::ProcessChild(double tnow, float tdiff)
 {
-	if(_killable && !_fighting)
+	bool animfinished = false;
+
+	//process char in case we are not scripted
+	if(m_paused || m_launchedscript < 0)
+	{
+		int pout = _character->Process(tnow, tdiff);
+		animfinished = (pout == 1);
+	}
+
+
+	if(_aggresive && !_fighting)
 	{
 		//todo - target player that are too close
+	}
+
+	if(animfinished && _hurt)
+	{
+		//stop animation at end
+		UpdateActorAnimation("Stand", false);		
+		_hurt = false;
 	}
 
 
 	//if dead - respawn
 	if(_dead && _respwantime >= 0)
 	{
-		if((tnow - _dietime) > _respwantime)
+		if((tnow - _dietime) > (_respwantime*1000))
 		{
 			Respawn();
 		}
@@ -300,7 +370,7 @@ hurt life
 ***********************************************************/
 void NPCHandler::HurtLife(float amount, bool UseArmor, Ice::Long HurtingPlayerId)
 {
-	if(!_killable)
+	if(!_aggresive || _hurt) // check if already hurt
 		return;
 
 	//remove armor
@@ -333,8 +403,15 @@ void NPCHandler::HurtLife(float amount, bool UseArmor, Ice::Long HurtingPlayerId
 			_lifeinfo.CurrentLife = 0;
 			Die();
 		}
-
-		//todo - play hurt animation
+		else
+		{
+			if(amount < -19.9)
+				PlayHurt(3);
+			else if(amount < -9.9)
+				PlayHurt(2);
+			else
+				PlayHurt(1);
+		}
 	}
 }
 
@@ -343,7 +420,7 @@ hurt mana
 ***********************************************************/
 void NPCHandler::HurtMana(float amount)
 {
-	if(!_killable)
+	if(!_aggresive)
 		return;
 
 	// if not invincible
@@ -362,7 +439,7 @@ kill actor
 ***********************************************************/
 void NPCHandler::Kill()
 {
-	if(!_killable)
+	if(!_aggresive)
 		return;
 
 	Die();
@@ -375,7 +452,7 @@ check trigger on player leave map
 ***********************************************************/
 void NPCHandler::PlayerLeaveMap(Ice::Long PlayerId)
 {
-	if(!_killable || !_fighting)
+	if(!_aggresive || !_fighting)
 		return;
 
 	// remove from hurt list
@@ -431,4 +508,139 @@ stop target player
 void NPCHandler::StopAttackTarget(Ice::Long PlayerId)
 {
 	//todo - inform client that npc stop target player
+}
+
+
+
+/***********************************************************
+play hurt animation
+***********************************************************/
+void NPCHandler::PlayHurt(int hurttype)
+{
+	boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
+	if(!disO)
+		return;
+
+	std::string hurtanimstring;
+
+
+	// check if we can play animation - if not try smaller hurt
+	for(; hurttype > 0; --hurttype)
+	{
+		if(hurttype == 3)
+		{
+			if(disO->CanPlayAnimation("HurtBig"))
+			{
+				hurtanimstring = "HurtBig";
+				break;
+			}
+		}
+
+		if(hurttype == 2)
+		{
+			if(disO->CanPlayAnimation("HurtMedium"))
+			{
+				hurtanimstring = "HurtMedium";
+				break;
+			}
+		}
+
+		if(hurttype == 1)
+		{
+			if(disO->CanPlayAnimation("HurtSmall"))
+			{
+				hurtanimstring = "HurtSmall";
+				break;
+			}
+		}
+	}
+
+	if(hurtanimstring != "")
+	{
+		UpdateActorAnimation(hurtanimstring, false);
+		_hurt = true;
+	}
+}
+
+
+/***********************************************************
+accessor
+***********************************************************/
+void NPCHandler::AddGivenItem(long id, int min, int max, float proba, int group)
+{
+	LbaNet::ItemGroupElement elem;
+    elem.Id = id;
+    elem.Min = min;
+    elem.Max = max;
+    elem.Probability = proba;
+    elem.Group = group;
+	_itemsgivenatdeath.push_back(elem);
+}
+
+
+/***********************************************************
+get given items
+***********************************************************/	
+LbaNet::ItemsMap NPCHandler::GetGivenItems()
+{
+	LbaNet::ItemsMap res;
+
+	//fill container with items
+	std::vector<LbaNet::ItemGroupElement>::const_iterator itc = _itemsgivenatdeath.begin();
+	std::vector<LbaNet::ItemGroupElement>::const_iterator endc = _itemsgivenatdeath.end();
+
+	std::map<int, std::vector<LbaNet::ItemGroupElement> > groups;
+	for(; itc != endc; ++itc)
+	{
+		if(itc->Group < 0)
+		{
+			bool add = true;
+			if(itc->Probability < 1)
+				if(Randomizer::getInstance()->Rand() > itc->Probability)
+					add = false;
+
+			if(add)
+			{
+				LbaNet::ItemPosInfo newitem;
+				newitem.Position = -1;
+				newitem.Info = InventoryItemHandler::getInstance()->GetItemInfo((long)itc->Id);
+				newitem.Count = Randomizer::getInstance()->RandInt(itc->Min, itc->Max);
+				res[itc->Id] = newitem;
+			}
+		}
+		else
+		{
+			//item part of a group
+			groups[itc->Group].push_back(*itc);
+		}
+	}
+
+
+	// take care of the groups
+	std::map<int, std::vector<LbaNet::ItemGroupElement> >::iterator itm = groups.begin();
+	std::map<int, std::vector<LbaNet::ItemGroupElement> >::iterator endm = groups.end();
+	for(; itm != endm; ++itm)
+	{
+		float currp = 0;
+		float proba = (float)Randomizer::getInstance()->Rand();
+		std::vector<LbaNet::ItemGroupElement>::iterator itcc = itm->second.begin();
+		std::vector<LbaNet::ItemGroupElement>::iterator endcc = itm->second.end();
+		for(; itcc != endcc; ++itcc)
+		{
+			currp += itcc->Probability;
+			if(currp > proba)
+			{
+				// add item
+				LbaNet::ItemPosInfo newitem;
+				newitem.Position = -1;
+				newitem.Info = InventoryItemHandler::getInstance()->GetItemInfo((long)itcc->Id);
+				newitem.Count = Randomizer::getInstance()->RandInt(itcc->Min, itcc->Max);
+				res[itcc->Id] = newitem;
+
+				break;
+			}
+		}
+	}
+
+	return res;
 }

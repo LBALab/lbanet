@@ -74,6 +74,32 @@ void InventoryItemDef::SaveToLuaFile(std::ofstream & file) const
 	file<<"\t"<<name.str()<<":SetColor2("<<_info.Color2<<")"<<std::endl;
 	file<<"\t"<<name.str()<<":SetReplacedItem("<<_info.ReplaceItem<<")"<<std::endl;
 
+	int rtype = GetRenderType();
+	if(rtype > 0)
+	{
+		file<<"\t"<<name.str()<<":SetRenderType("<<rtype<<")"<<std::endl;
+		file<<"\t"<<name.str()<<".DisplayDesc.ModelId = "<<_displayinfo.ModelId<<std::endl;
+		file<<"\t"<<name.str()<<".DisplayDesc.ModelName = \""<<_displayinfo.ModelName<<"\""<<std::endl;
+		file<<"\t"<<name.str()<<".DisplayDesc.Outfit = \""<<_displayinfo.Outfit<<"\""<<std::endl;
+		file<<"\t"<<name.str()<<".DisplayDesc.Weapon = \""<<_displayinfo.Weapon<<"\""<<std::endl;
+		file<<"\t"<<name.str()<<".DisplayDesc.Mode = \""<<_displayinfo.Mode<<"\""<<std::endl;
+		file<<"\t"<<name.str()<<".DisplayDesc.UseLight = "<<(_displayinfo.UseLight?"true":"false")<<std::endl;
+		file<<"\t"<<name.str()<<".DisplayDesc.CastShadow = "<<(_displayinfo.CastShadow?"true":"false")<<std::endl;
+		file<<"\t"<<name.str()<<".DisplayDesc.ColorR = "<<_displayinfo.ColorR<<std::endl;
+		file<<"\t"<<name.str()<<".DisplayDesc.ColorG = "<<_displayinfo.ColorG<<std::endl;
+		file<<"\t"<<name.str()<<".DisplayDesc.ColorB = "<<_displayinfo.ColorB<<std::endl;
+		file<<"\t"<<name.str()<<".DisplayDesc.ColorA = "<<_displayinfo.ColorA<<std::endl;
+		file<<"\t"<<name.str()<<".DisplayDesc.TransX = "<<_displayinfo.TransX<<std::endl;
+		file<<"\t"<<name.str()<<".DisplayDesc.TransY = "<<_displayinfo.TransY<<std::endl;
+		file<<"\t"<<name.str()<<".DisplayDesc.TransZ = "<<_displayinfo.TransZ<<std::endl;
+		file<<"\t"<<name.str()<<".DisplayDesc.ScaleX = "<<_displayinfo.ScaleX<<std::endl;
+		file<<"\t"<<name.str()<<".DisplayDesc.ScaleY = "<<_displayinfo.ScaleY<<std::endl;
+		file<<"\t"<<name.str()<<".DisplayDesc.ScaleZ = "<<_displayinfo.ScaleZ<<std::endl;
+		file<<"\t"<<name.str()<<".DisplayDesc.RotX = "<<_displayinfo.RotX<<std::endl;
+		file<<"\t"<<name.str()<<".DisplayDesc.RotY = "<<_displayinfo.RotY<<std::endl;
+		file<<"\t"<<name.str()<<".DisplayDesc.RotZ = "<<_displayinfo.RotZ<<std::endl;
+	}
+
 	if(_action)
 	{
 		std::stringstream aname;
@@ -95,6 +121,87 @@ void InventoryItemDef::SaveToLuaFile(std::ofstream & file) const
 
 	file<<"\tenvironment:AddInventoryItem("<<name.str()<<")"<<std::endl<<std::endl;
 }
+
+
+
+
+/***********************************************************
+	// set enum for render type as lua does not map enum
+	//1 - RenderOsgModel
+	//2 - RenderSprite
+	//3 - RenderLba1M
+	//4 - RenderLba2M
+***********************************************************/
+void InventoryItemDef::SetRenderType(int rtype)
+{
+	switch(rtype)
+	{
+		case 0:
+			_displayinfo.TypeRenderer = LbaNet::NoRender;
+		break;
+		case 1:
+			_displayinfo.TypeRenderer = LbaNet::RenderOsgModel;
+		break;
+		case 2:
+			_displayinfo.TypeRenderer = LbaNet::RenderSprite;
+		break;
+		case 3:
+			_displayinfo.TypeRenderer = LbaNet::RenderLba1M;
+		break;
+		case 4:
+			_displayinfo.TypeRenderer = LbaNet::RenderLba2M;
+		break;
+		case 5:
+			_displayinfo.TypeRenderer = LbaNet::RenderCross;
+		break;
+		case 6:
+			_displayinfo.TypeRenderer = LbaNet::RenderBox;
+		break;
+		case 7:
+			_displayinfo.TypeRenderer = LbaNet::RenderCapsule;
+		break;
+	}
+}
+
+
+/***********************************************************
+accessor
+***********************************************************/
+int InventoryItemDef::GetRenderType() const
+{
+	switch(_displayinfo.TypeRenderer)
+	{
+		case LbaNet::RenderOsgModel:
+			return 1;
+		break;
+		case LbaNet::RenderSprite:
+			return 2;
+		break;
+		case LbaNet::RenderLba1M:
+			return 3;
+		break;
+		case LbaNet::RenderLba2M:
+			return 4;
+		break;
+		case LbaNet::RenderCross:
+			return 5;
+		break;
+		case LbaNet::RenderBox:
+			return 6;
+		break;
+		case LbaNet::RenderCapsule:
+			return 7;
+		break;
+	}
+
+	return 0;
+}
+
+
+
+
+
+
 
 
 

@@ -314,3 +314,18 @@ LbaNet::ModelInfo ServerLba1ModelHandler::GetCurrentModel(bool storedstate)
 	else
 		return _currentmodelinfo;
 }
+
+
+
+
+/***********************************************************
+check if can play animation
+***********************************************************/
+bool ServerLba1ModelHandler::CanPlayAnimation(const std::string & anim)
+{
+	return Lba1ModelMapHandler::getInstance()->CanPlayAnimation(	_currentmodelinfo.ModelName,
+																	_currentmodelinfo.Outfit,
+																	_currentmodelinfo.Weapon,
+																	_currentmodelinfo.Mode,
+																	anim);
+}

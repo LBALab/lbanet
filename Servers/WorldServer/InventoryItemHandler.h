@@ -45,12 +45,52 @@ public:
 		_info.Id = id;
 		_info.ReplaceItem = -1;
 		_info.Effect2 = 0;
+
+		_displayinfo.TypeRenderer = LbaNet::NoRender;
+		_displayinfo.ModelId = 0;
+
+		_displayinfo.RotX = 0;
+		_displayinfo.RotY = 0;
+		_displayinfo.RotZ = 0;
+
+		_displayinfo.TransX = 0;
+		_displayinfo.TransY = 0;
+		_displayinfo.TransZ = 0;
+
+		_displayinfo.ScaleX = 1;
+		_displayinfo.ScaleY = 1;
+		_displayinfo.ScaleZ = 1;	
+
+		_displayinfo.ColorR = 0;
+		_displayinfo.ColorG = 0;
+		_displayinfo.ColorB = 0;
+		_displayinfo.ColorA = 0;
 	}
 
 	//! constructor
 	InventoryItemDef(const LbaNet::ItemInfo &info)
 		: _info(info)
-	{}
+	{
+		_displayinfo.TypeRenderer = LbaNet::NoRender;
+		_displayinfo.ModelId = 0;
+
+		_displayinfo.RotX = 0;
+		_displayinfo.RotY = 0;
+		_displayinfo.RotZ = 0;
+
+		_displayinfo.TransX = 0;
+		_displayinfo.TransY = 0;
+		_displayinfo.TransZ = 0;
+
+		_displayinfo.ScaleX = 1;
+		_displayinfo.ScaleY = 1;
+		_displayinfo.ScaleZ = 1;	
+
+		_displayinfo.ColorR = 0;
+		_displayinfo.ColorG = 0;
+		_displayinfo.ColorB = 0;
+		_displayinfo.ColorA = 0;
+	}
 
 	//! get info
 	LbaNet::ItemInfo GetInfo()
@@ -116,10 +156,34 @@ public:
 	void SaveToLuaFile(std::ofstream & file) const;
 
 
-private:
-	LbaNet::ItemInfo _info;
 
-	ActionBasePtr	_action;
+	//! get display info
+	void SetDisplayInfo(const LbaNet::ModelInfo & ainfo)
+	{_displayinfo = ainfo;}
+
+	//! set display info
+	LbaNet::ModelInfo &GetDisplayInfo()
+	{ return _displayinfo;}
+
+	// set enum for render type as lua does not map enum
+	//1 - RenderOsgModel
+	//2 - RenderSprite
+	//3 - RenderLba1M
+	//4 - RenderLba2M
+	void SetRenderType(int rtype);
+
+	// accessor
+	int GetRenderType() const;
+
+	// public for LUA
+	LbaNet::ModelInfo		_displayinfo;
+
+private:
+	LbaNet::ItemInfo		_info;
+
+	bool					_hasdisplayinfo;
+
+	ActionBasePtr			_action;
 };
 
 

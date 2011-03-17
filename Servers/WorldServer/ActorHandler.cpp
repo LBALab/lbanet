@@ -739,13 +739,21 @@ LbaQuaternion ActorHandler::GetActorRotationQuat()
 /***********************************************************
 used by lua to update an actor animation
 ***********************************************************/
-void ActorHandler::UpdateActorAnimation(const std::string & AnimationString)
+void ActorHandler::UpdateActorAnimation(const std::string & AnimationString, bool updatefromlua)
 {
 	if(_character)
 	{
 		boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
 		if(disO)
-			disO->Update(new LbaNet::AnimationStringUpdate(AnimationString), m_paused);
+		{
+			disO->Update(new LbaNet::AnimationStringUpdate(AnimationString), updatefromlua && m_paused);
+
+			if(!updatefromlua)
+				_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
+									SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+									1, m_actorinfo.ObjectId,
+									new LbaNet::AnimationStringUpdate(AnimationString)));
+		}
 	}
 }
 
@@ -759,9 +767,9 @@ void ActorHandler::UpdateActorMode(const std::string & Mode, bool updatefromlua)
 		boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
 		if(disO)
 		{
-			LbaNet::ModelInfo model = disO->GetCurrentModel(m_paused);
+			LbaNet::ModelInfo model = disO->GetCurrentModel(updatefromlua && m_paused);
 			model.Mode = Mode;
-			disO->Update(new LbaNet::ModelUpdate(model, false), m_paused);
+			disO->Update(new LbaNet::ModelUpdate(model, false), updatefromlua && m_paused);
 
 			if(!updatefromlua || !m_paused)
 				_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
@@ -784,9 +792,9 @@ void ActorHandler::UpdateActorModel(const std::string & Model, bool updatefromlu
 		boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
 		if(disO)
 		{
-			LbaNet::ModelInfo model = disO->GetCurrentModel(m_paused);
+			LbaNet::ModelInfo model = disO->GetCurrentModel(updatefromlua && m_paused);
 			model.ModelName = Model;
-			disO->Update(new LbaNet::ModelUpdate(model, false), m_paused);
+			disO->Update(new LbaNet::ModelUpdate(model, false), updatefromlua && m_paused);
 
 			if(!updatefromlua || !m_paused)
 				_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
@@ -808,9 +816,9 @@ void ActorHandler::UpdateActorOutfit(const std::string & Outfit, bool updatefrom
 		boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
 		if(disO)
 		{
-			LbaNet::ModelInfo model = disO->GetCurrentModel(m_paused);
+			LbaNet::ModelInfo model = disO->GetCurrentModel(updatefromlua && m_paused);
 			model.Outfit = Outfit;
-			disO->Update(new LbaNet::ModelUpdate(model, false), m_paused);
+			disO->Update(new LbaNet::ModelUpdate(model, false), updatefromlua && m_paused);
 
 			if(!updatefromlua || !m_paused)
 				_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
@@ -832,9 +840,9 @@ void ActorHandler::UpdateActorWeapon(const std::string & Weapon, bool updatefrom
 		boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
 		if(disO)
 		{
-			LbaNet::ModelInfo model = disO->GetCurrentModel(m_paused);
+			LbaNet::ModelInfo model = disO->GetCurrentModel(updatefromlua && m_paused);
 			model.Weapon = Weapon;
-			disO->Update(new LbaNet::ModelUpdate(model, false), m_paused);
+			disO->Update(new LbaNet::ModelUpdate(model, false), updatefromlua && m_paused);
 
 			if(!updatefromlua || !m_paused)
 				_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
@@ -1685,3 +1693,20 @@ void ActorHandler::ResetActor()
 	ClearRunningScript();
 }
 
+
+/***********************************************************
+return actor current position
+***********************************************************/
+LbaNet::PlayerPosition ActorHandler::GetCurrentPosition()
+{
+	LbaNet::PlayerPosition res;
+
+	boost::shared_ptr<PhysicalObjectHandlerBase> actphys = GetActor()->GetPhysicalObject();
+	if(!actphys)
+		return res;
+
+	actphys->GetPosition(res.X, res.Y, res.Z);
+	res.Rotation = actphys->GetRotationYAxis();
+
+	return res;
+}

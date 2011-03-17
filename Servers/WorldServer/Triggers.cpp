@@ -257,9 +257,9 @@ ActorObjectInfo ZoneTrigger::GetDisplayObject()
 	ainfo.PhysicDesc.Pos.Y = _posY;
 	ainfo.PhysicDesc.Pos.Z = _posZ;
 	ainfo.PhysicDesc.Pos.Rotation = 0;
-	ainfo.PhysicDesc.SizeX = _sizeX*2;
-	ainfo.PhysicDesc.SizeY = _sizeY;
-	ainfo.PhysicDesc.SizeZ = _sizeZ*2;
+	ainfo.DisplayDesc.ScaleX = _sizeX*2;
+	ainfo.DisplayDesc.ScaleY = _sizeY;
+	ainfo.DisplayDesc.ScaleZ = _sizeZ*2;
 
 	std::stringstream strs;
 	strs << "ZoneTrigger-"<<GetId()<<": " << GetName();
@@ -458,9 +458,9 @@ ActorObjectInfo ActivationTrigger::GetDisplayObject()
 	ainfo.PhysicDesc.Pos.Y = _posY;
 	ainfo.PhysicDesc.Pos.Z = _posZ;
 	ainfo.PhysicDesc.Pos.Rotation = 0;
-	ainfo.PhysicDesc.SizeX = GetDistance();
-	ainfo.PhysicDesc.SizeY = 0;
-	ainfo.PhysicDesc.SizeZ = 0;
+	ainfo.DisplayDesc.ScaleX = GetDistance();
+	ainfo.DisplayDesc.ScaleY = 0;
+
 
 	std::stringstream strs;
 	strs << "ActivationTrigger-"<<GetId()<<": " << GetName();
@@ -616,9 +616,9 @@ ActorObjectInfo ZoneActionTrigger::GetDisplayObject()
 	ainfo.PhysicDesc.Pos.Y = _posY;
 	ainfo.PhysicDesc.Pos.Z = _posZ;
 	ainfo.PhysicDesc.Pos.Rotation = 0;
-	ainfo.PhysicDesc.SizeX = _sizeX*2;
-	ainfo.PhysicDesc.SizeY = _sizeY;
-	ainfo.PhysicDesc.SizeZ = _sizeZ*2;
+	ainfo.DisplayDesc.ScaleX = _sizeX*2;
+	ainfo.DisplayDesc.ScaleY = _sizeY;
+	ainfo.DisplayDesc.ScaleZ = _sizeZ*2;
 
 	std::stringstream strs;
 	strs << "ZoneActionTrigger-"<<GetId()<<": " << GetName();
