@@ -331,6 +331,12 @@ module LbaNet
 	{
 		long			GhostId;
 		PlayerMoveInfo		info;
+	};
+	
+	// client inform server that it loot an item
+	class ItemLootEvent extends ClientServerEventBase
+	{
+		long			ItemId;
 	};	
 };	
 
