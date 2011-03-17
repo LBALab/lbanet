@@ -364,6 +364,11 @@ public:
 	//! return ghost owner player
 	virtual long GetGhostOwnerPlayer(long ghostid){return -1;}
 
+
+	//! record player killed npc
+	virtual void PlayerKilledNpc(long PlayerId, long NpcId, const LbaNet::ItemsMap & givenitems){}
+
+
 protected:
 
 	//! used by lua to move an actor or player

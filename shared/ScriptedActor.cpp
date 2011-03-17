@@ -683,7 +683,6 @@ bool TargetScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<Dynam
 
 
 
-
 /***********************************************************
 	Constructor
 ***********************************************************/

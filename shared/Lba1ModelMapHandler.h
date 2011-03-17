@@ -154,6 +154,15 @@ public:
 	std::map<std::string, ModelData> & GetData()
 	{ return _data; }
 
+
+	// check if can play given animation
+	bool CanPlayAnimation(	const std::string & modelname,
+							const std::string & outfit,
+							const std::string & weapon,
+							const std::string & mode,
+							const std::string & animation);
+
+
 private:
 	// singleton
 	static Lba1ModelMapHandler *	_singletonInstance;

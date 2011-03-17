@@ -100,6 +100,9 @@ public:
 
 	//! tore object copy
 	virtual void StoreObjectCopy(){}
+
+	//! check if can play animation
+	virtual bool CanPlayAnimation(const std::string & anim) = 0;
 };
 
 

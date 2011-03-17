@@ -213,6 +213,31 @@ Lba1ModelMapHandler::~Lba1ModelMapHandler()
 
 
 /***********************************************************
+check if can play given animation
+***********************************************************/
+bool Lba1ModelMapHandler::CanPlayAnimation(	const std::string & modelname,
+											const std::string & outfit,
+											const std::string & weapon,
+											const std::string & mode,
+											const std::string & animation)
+{
+	if(modelname == "" || outfit == "" || weapon == "" || mode == "" || animation == "")
+		return false;
+
+	std::map<std::string, std::vector<int> > & anims = 
+		_data[modelname].outfits[outfit].weapons[weapon].modes[mode].animations;
+
+	std::map<std::string, std::vector<int> >::iterator it = anims.find(animation);
+	if(it != anims.end())
+		if(it->second.size() > 0)
+			return (it->second[0] >= 0);
+		 
+
+	return false;
+}
+
+
+/***********************************************************
 get model number and body number
 ***********************************************************/
 int Lba1ModelMapHandler::GetModelInfo(	const std::string & modelname,
