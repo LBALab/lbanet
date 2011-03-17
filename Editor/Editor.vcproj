@@ -368,6 +368,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Client\ItemObject.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Client\JournalBox.cpp"
 				>
 			</File>
@@ -903,6 +907,10 @@
 			</File>
 			<File
 				RelativePath="..\Servers\WorldServer\InventoryBoxHandler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Client\ItemObject.h"
 				>
 			</File>
 			<File

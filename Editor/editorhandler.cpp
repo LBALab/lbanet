@@ -6915,6 +6915,185 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 			
 				_uieditor.treeView_object->setExpanded(idx, true); // expand 
 			}
+
+			//add aggresive
+			bool aggresive = actorh->GetAggresive();
+			{
+				QVector<QVariant> data;
+				data<<"Aggresive"<<aggresive;
+				_objectmodel->AppendRow(data, parent);
+				++index;
+			}
+
+			if(aggresive)
+			{
+				{
+					QVector<QVariant> data;
+					data<<"Life"<<(double)actorh->GetLife();
+					_objectmodel->AppendRow(data, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data;
+					data<<"Mana"<<(double)actorh->GetMana();
+					_objectmodel->AppendRow(data, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data;
+					data<<"Armor"<<(double)actorh->GetArmor();
+					_objectmodel->AppendRow(data, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data;
+					data<<"Weapon 1 Power"<<(double)actorh->GetWeapon1Power();
+					_objectmodel->AppendRow(data, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data;
+					data<<"Weapon 2 Power"<<(double)actorh->GetWeapon2Power();
+					_objectmodel->AppendRow(data, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data;
+					data<<"Chassing start distance"<<(double)actorh->GetAttackActiDist();
+					_objectmodel->AppendRow(data, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data;
+					data<<"Chassing start distance - discrete"<<(double)actorh->GetAttackActiDistDiscrete();
+					_objectmodel->AppendRow(data, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data;
+					data<<"Chassing start distance - hidden"<<(double)actorh->GetAttackActiDistHidden();
+					_objectmodel->AppendRow(data, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data;
+					data<<"Chassing stop distance"<<(double)actorh->GetAttackStopDist();
+					_objectmodel->AppendRow(data, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data;
+					data<<"Respawn time (seconds)"<<(double)actorh->GetRespawnTimeInSec();
+					_objectmodel->AppendRow(data, parent);
+					++index;
+				}
+				{
+					ConditionBasePtr condptr = actorh->GetAttackActivationCondition();
+
+					QVector<QVariant> data;
+					data << "Attack condition" << GetConditionType(condptr).c_str();
+					QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+					if(condptr)
+						SelectCondition(condptr, idx);
+
+					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), _conditiontypeList);
+					++index;
+				}
+
+				// add action 
+				{
+					ActionBasePtr actptr = actorh->GetActionOnAttackActivation();
+					std::string acttype = GetActionType(actptr);
+
+					QVector<QVariant> data;
+					data << "Action On Attack" << acttype.c_str();
+					QModelIndex idx = _objectmodel->AppendRow(data, parent);
+					
+					if(actptr)
+						SelectAction(actptr.get(), idx);
+
+					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), _actiontypeList);
+					++index;
+				}
+
+				// add items
+				{
+					QVector<QVariant> data;
+					data << "Given Item list" << "";
+					QModelIndex idx = _objectmodel->AppendRow(data, parent, true);	
+
+					const std::vector<LbaNet::ItemGroupElement> & items = actorh->GetGivenItemList();
+					for(size_t i=0; i<items.size(); ++i)
+					{
+						std::stringstream txtwithid;
+						txtwithid<<items[i].Id<<": "<<InventoryItemHandler::getInstance()->GetItemInfo(items[i].Id).Name;
+
+						QVector<QVariant> datait;
+						datait << "Item" << txtwithid.str().c_str();
+						QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+
+						//add min
+						{
+							QVector<QVariant> datachild;
+							datachild << "Min" << items[i].Min;
+							QModelIndex idx1 = _objectmodel->AppendRow(datachild, idxit);	
+
+							// add tooltip
+							_objectmodel->setTooltip(idx1, "Minimum number of item to spawn");
+							QModelIndex idx2 = _objectmodel->GetIndex(1, idx1.row(), idx1.parent());
+							_objectmodel->setTooltip(idx2, "Minimum number of item to spawn");
+						}
+
+						//add max
+						{
+							QVector<QVariant> datachild;
+							datachild << "Max" << items[i].Max;
+							QModelIndex idx1 = _objectmodel->AppendRow(datachild, idxit);		
+
+							// add tooltip
+							_objectmodel->setTooltip(idx1, "Maximum number of item to spawn");
+							QModelIndex idx2 = _objectmodel->GetIndex(1, idx1.row(), idx1.parent());
+							_objectmodel->setTooltip(idx2, "Maximum number of item to spawn");
+						}
+
+						//add probability
+						{
+							QVector<QVariant> datachild;
+							datachild << "Probability" << (double)items[i].Probability;
+							QModelIndex idx1 = _objectmodel->AppendRow(datachild, idxit);			
+
+							// add tooltip
+							_objectmodel->setTooltip(idx1, "Probability of the item to spawn (1 = 100%)");
+							QModelIndex idx2 = _objectmodel->GetIndex(1, idx1.row(), idx1.parent());
+							_objectmodel->setTooltip(idx2, "Probability of the item to spawn (1 = 100%)");
+						}
+
+						//add group
+						{
+							QVector<QVariant> datachild;
+							datachild << "Group" << items[i].Group;
+							QModelIndex idx1 = _objectmodel->AppendRow(datachild, idxit);				
+
+							// add tooltip
+							_objectmodel->setTooltip(idx1, "The items part of the same group are mutually exclusive");
+							QModelIndex idx2 = _objectmodel->GetIndex(1, idx1.row(), idx1.parent());
+							_objectmodel->setTooltip(idx2, "The items part of the same group are mutually exclusive");
+						}
+
+						_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _itemNameList);	
+					}
+
+					// add new item
+					QVector<QVariant> datait;
+					datait << "Item" << "Add item...";
+					QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _itemNameList);	
+						
+					_uieditor.treeView_object->setExpanded(idx, true); // expand 
+				}	
+
+			}
 		}
 
 
@@ -7440,6 +7619,7 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 				{
 					QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
 					int curridx = 0;
+					++index;
 
 					DialogPartPtr dialptr = actorh->GetRootDialog();
 					if(dialptr)
@@ -7512,6 +7692,159 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 						}
 					}
 				}
+
+				// aggresive
+				bool wasaggresive = actorh->GetAggresive();
+				bool aggresive = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
+				++index;
+
+				if(wasaggresive)
+				{
+					actorh->SetLife(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
+					++index;
+
+					actorh->SetMana(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
+					++index;
+
+					actorh->SetArmor(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
+					++index;
+
+					actorh->SetWeapon1Power(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
+					++index;
+
+					actorh->SetWeapon2Power(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
+					++index;
+
+					actorh->SetAttackActiDist(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
+					++index;
+
+					actorh->SetAttackActiDistDiscrete(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
+					++index;
+
+					actorh->SetAttackActiDistHidden(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
+					++index;
+
+					actorh->SetAttackStopDist(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
+					++index;
+
+					actorh->SetRespawnTimeInSec(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
+					++index;
+
+					// check condition part
+					{
+						std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+						std::string currcond = GetConditionType(actorh->GetAttackActivationCondition());
+
+						if(condition != currcond)
+						{
+							ConditionBasePtr ptrtmp = CreateCondition(condition);
+							actorh->SetAttackActivationCondition(ptrtmp);
+
+							QModelIndex curidx = _objectmodel->GetIndex(0, index, parentIdx);
+							_objectmodel->Clear(curidx);
+							if(ptrtmp)
+							{
+								SelectCondition(ptrtmp, curidx);
+								_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+							}
+
+						}
+
+						++index;
+					}
+
+					// check action part
+					{
+						std::string action1 = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+						std::string curract = GetActionType(actorh->GetActionOnAttackActivation());
+
+						if(action1 != curract)
+						{
+							ActionBasePtr ptrtmp = CreateAction(action1);
+							actorh->SetActionOnAttackActivation(ptrtmp);
+
+							QModelIndex curidx = _objectmodel->GetIndex(0, index, parentIdx);
+							_objectmodel->Clear(curidx);
+							if(ptrtmp)
+							{
+								SelectAction(ptrtmp.get(), curidx);
+								_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+							}
+
+						}
+
+						++index;
+					}
+
+					// take care of items
+					{
+						QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
+						int curridx = 0;
+
+						//take care of the items
+						std::vector<LbaNet::ItemGroupElement> &items = actorh->GetGivenItemList();
+						std::vector<LbaNet::ItemGroupElement>::iterator itit = items.begin();
+						for(;itit != items.end(); ++itit)
+						{
+							QModelIndex childidx = _objectmodel->GetIndex(0, curridx, itemparent);
+							std::string id = _objectmodel->data(_objectmodel->GetIndex(1, curridx, itemparent))
+																					.toString().toAscii().data();
+							++curridx;
+
+							if(id == "No item")
+							{
+								// need to remove the item
+								items.erase(itit);
+
+								updateobj = true;
+								break;
+							}
+
+							std::string tmp = id.substr(0, id.find(":"));
+							itit->Id = atol(tmp.c_str());
+							itit->Min = _objectmodel->data(_objectmodel->GetIndex(1, 0, childidx)).toInt();
+							itit->Max = _objectmodel->data(_objectmodel->GetIndex(1, 1, childidx)).toInt();
+							itit->Probability = _objectmodel->data(_objectmodel->GetIndex(1, 2, childidx)).toFloat();
+							itit->Group = _objectmodel->data(_objectmodel->GetIndex(1, 3, childidx)).toInt();
+						}
+
+						QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+						std::string id = _objectmodel->data(childidx).toString().toAscii().data();
+						if(id != "Add item...")
+						{
+							if(id == "No item")
+							{
+								_objectmodel->setData(childidx, "Add item...");
+							}
+							else
+							{
+								// add new item
+								std::string tmp = id.substr(0, id.find(":"));
+								long itmid = atol(tmp.c_str());
+
+								LbaNet::ItemGroupElement newitem;
+								newitem.Id = itmid;
+								newitem.Min = 1;
+								newitem.Max = 1;
+								newitem.Probability = 1;
+								newitem.Group = -1;
+								items.push_back(newitem);
+
+								updateobj = true;
+							}
+						}
+
+					}
+
+
+				}
+
+				if(aggresive != wasaggresive)
+				{
+					actorh->SetAggresive(aggresive);
+					updateobj = true;
+				}
+
 			}
 		}
 
@@ -9971,6 +10304,7 @@ void EditorHandler::SelectItem(boost::shared_ptr<InventoryItemDef> item, const Q
 				QVector<QVariant> data;
 				data << "Item list" << "";
 				QModelIndex idx = _objectmodel->AppendRow(data, parent, true);	
+				++index;
 
 				const std::vector<LbaNet::ItemGroupElement> & items = item->GetContainedItemList();
 				for(size_t i=0; i<items.size(); ++i)
@@ -10045,6 +10379,171 @@ void EditorHandler::SelectItem(boost::shared_ptr<InventoryItemDef> item, const Q
 		break;
 	}
 
+	const LbaNet::ModelInfo &mdisinfo = item->GetDisplayInfo();
+	std::string dtype = "No";
+	switch(mdisinfo.TypeRenderer)
+	{
+		case LbaNet::RenderOsgModel:
+			dtype = "Osg Model";
+		break;
+
+		case RenderSprite:
+			dtype = "Sprite";
+		break;
+
+		case RenderLba1M:
+			dtype = "Lba1 Model";
+		break;
+
+		case RenderLba2M:
+			dtype = "Lba2 Model";
+		break;
+
+		case RenderCross:
+			dtype = "Cross";
+		break;
+
+		case RenderBox:
+			dtype = "Box";
+		break;
+
+		case RenderCapsule:
+			dtype = "Capsule";
+		break;
+	}
+	{
+		QVector<QVariant> data;
+		data<<"Map Display Type"<<dtype.c_str();
+		_objectmodel->AppendRow(data, parent);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _actordtypeList);
+		++index;
+	}
+	
+
+	if(dtype != "No")
+	{
+		{
+			QVector<QVariant> data;
+			data<<"Use Light"<<mdisinfo.UseLight;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Cast shadow"<<mdisinfo.CastShadow;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+
+		{
+			QVector<QVariant> data;
+			data<<"Display translation X"<<(double)mdisinfo.TransX;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Display translation Y"<<(double)mdisinfo.TransY;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Display translation Z"<<(double)mdisinfo.TransZ;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Display rotation X"<<(double)mdisinfo.RotX;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Display rotation Y"<<(double)mdisinfo.RotY;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Display rotation Z"<<(double)mdisinfo.RotZ;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Display scale X"<<(double)mdisinfo.ScaleX;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Display scale Y"<<(double)mdisinfo.ScaleY;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Display scale Z"<<(double)mdisinfo.ScaleZ;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+
+
+		if(mdisinfo.TypeRenderer == RenderOsgModel )
+		{
+			QVector<QVariant> data;
+			data<<"Display model file"<<mdisinfo.ModelName.c_str();
+			_objectmodel->AppendRow(data, parent);
+
+			boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
+			filefilter->Title = "Select a model file";
+			filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Models").c_str();;
+			filefilter->FileFilter = "Model Files (*.osg *.osgb *.osgt)";
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
+			++index;
+		}
+
+		if(mdisinfo.TypeRenderer == RenderSprite )
+		{
+			QVector<QVariant> data;
+			data<<"Display sprite file"<<mdisinfo.ModelName.c_str();
+			_objectmodel->AppendRow(data, parent);
+
+			boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
+			filefilter->Title = "Select an image";
+			filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Sprites").c_str();;
+			filefilter->FileFilter = "Image Files (*.png *.bmp *.jpg *.gif)";
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
+			++index;
+
+			{
+				QVector<QVariant> data1;
+				data1<<"Color R"<<(double)mdisinfo.ColorR;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data1;
+				data1<<"Color G"<<(double)mdisinfo.ColorG;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data1;
+				data1<<"Color B"<<(double)mdisinfo.ColorB;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data1;
+				data1<<"Color A"<<(double)mdisinfo.ColorA;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+		}
+	}
 
 }
 
@@ -10055,6 +10554,8 @@ item object changed
 void EditorHandler::ItemChanged(long id, const std::string & category, const QModelIndex &parentIdx)
 {
 	LbaNet::ItemInfo olditeminfo = InventoryItemHandler::getInstance()->GetItemInfo(id);
+	InventoryItemDefPtr olditem = InventoryItemHandler::getInstance()->GetItem(id);
+
 	
 	InventoryItemDefPtr newiteminfo(new InventoryItemDef(olditeminfo));
 	newiteminfo->SetAction(InventoryItemHandler::getInstance()->GetItemAction(id));
@@ -10227,6 +10728,7 @@ void EditorHandler::ItemChanged(long id, const std::string & category, const QMo
 		{
 			QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
 			int curridx = 0;
+			++index;
 
 			//take care of the items
 			std::vector<LbaNet::ItemGroupElement> &items = newiteminfo->GetContainedItemList();
@@ -10286,6 +10788,82 @@ void EditorHandler::ItemChanged(long id, const std::string & category, const QMo
 		}
 		break;
 	}
+
+	LbaNet::ModelInfo & olddisinfo = olditem->GetDisplayInfo();
+	LbaNet::ModelInfo & newdisinfo = newiteminfo->GetDisplayInfo();
+
+	std::string dtype = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+	++index;
+	if(dtype == "Osg Model") 
+		newdisinfo.TypeRenderer = LbaNet::RenderOsgModel;
+	if(dtype == "Sprite") 
+		newdisinfo.TypeRenderer = LbaNet::RenderSprite;
+	if(dtype == "Lba1 Model") 
+		newdisinfo.TypeRenderer = LbaNet::RenderLba1M;
+	if(dtype == "Lba2 Model") 
+		newdisinfo.TypeRenderer = LbaNet::RenderLba2M;
+
+	if(olddisinfo.TypeRenderer != newdisinfo.TypeRenderer)
+		refresh = true;
+
+
+	
+	if(olddisinfo.TypeRenderer != LbaNet::NoRender)
+	{
+		newdisinfo.UseLight = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
+		++index;
+		newdisinfo.CastShadow = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
+		++index;
+
+		newdisinfo.TransX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+		++index;
+		newdisinfo.TransY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+		++index;
+		newdisinfo.TransZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+		++index;
+
+		newdisinfo.RotX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+		++index;
+		newdisinfo.RotY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+		++index;
+		newdisinfo.RotZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+		++index;
+
+		newdisinfo.ScaleX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+		++index;
+		newdisinfo.ScaleY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+		++index;
+		newdisinfo.ScaleZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+		++index;
+
+
+		if(olddisinfo.TypeRenderer == RenderOsgModel )
+		{
+			newdisinfo.ModelName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+			++index;
+		}
+
+		if(olddisinfo.TypeRenderer == RenderSprite )
+		{
+			newdisinfo.ModelName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+			++index;	
+
+			newdisinfo.ColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+			++index;	
+
+			newdisinfo.ColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+			++index;		
+
+			newdisinfo.ColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+			++index;		
+
+			newdisinfo.ColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+			++index;			
+		}
+	}
+
+
+
 
 	InventoryItemHandler::getInstance()->SetItem(newiteminfo);
 	SetModified();
