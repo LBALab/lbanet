@@ -493,3 +493,16 @@ void Lba1ModelHandler::RestoreState()
 	AnimatedObjectHandlerBase::RestoreState();
 	RefreshModel();
 }
+
+
+/***********************************************************
+check if can play animation
+***********************************************************/
+bool Lba1ModelHandler::CanPlayAnimation(const std::string & anim)
+{
+	return Lba1ModelMapHandler::getInstance()->CanPlayAnimation(	_currentmodelinfo.ModelName,
+																	_currentmodelinfo.Outfit,
+																	_currentmodelinfo.Weapon,
+																	_currentmodelinfo.Mode,
+																	anim);
+}

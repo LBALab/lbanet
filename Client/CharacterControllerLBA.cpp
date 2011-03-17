@@ -488,25 +488,35 @@ void CharacterController::Process(double tnow, float tdiff,
 			for(size_t i=0; i< hitvec.size(); ++i)
 			{
 				HitInfo &hi = hitvec[i];
-				if(hi.HitBottom)
+				if(hi.ActorObjType == 5)
 				{
-					touchedfloormaterial = hi.FloorMaterial;
-
-					if(scripthandler)
-						_attachedactor = scripthandler->GetActor(hi.ActorObjType, hi.ActorId);
+					// hitted an object - loot it
+					EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ItemLootEvent(
+													SynchronizedTimeHandler::GetCurrentTimeDouble(),
+													hi.ActorId));	
 				}
 				else
 				{
-					//if we go forward
-					if(speedX > 0)
+					if(hi.HitBottom)
 					{
-						int hittedAct = _currentstate->HurtActorsOnMove();
-						if(hittedAct > 0)
+						touchedfloormaterial = hi.FloorMaterial;
+
+						if(scripthandler)
+							_attachedactor = scripthandler->GetActor(hi.ActorObjType, hi.ActorId);
+					}
+					else
+					{
+						//if we go forward
+						if(speedX > 0)
 						{
-							//we touched an actor - hit him
-							EventsQueue::getSenderQueue()->AddEvent(new LbaNet::PlayerHittedContactActorEvent(
-															SynchronizedTimeHandler::GetCurrentTimeDouble(),
-															(hittedAct==2), hi.ActorObjType, hi.ActorId));	
+							int hittedAct = _currentstate->HurtActorsOnMove();
+							if(hittedAct > 0)
+							{
+								//we touched an actor - hit him
+								EventsQueue::getSenderQueue()->AddEvent(new LbaNet::PlayerHittedContactActorEvent(
+																SynchronizedTimeHandler::GetCurrentTimeDouble(),
+																(hittedAct==2), hi.ActorObjType, hi.ActorId));	
+							}
 						}
 					}
 				}

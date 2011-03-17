@@ -38,6 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ExternalActor.h"
 #include "ProjectileHandler.h"
 #include "ClientExtendedTypes.h"
+#include "ItemObject.h"
 
 
 #define	_LBA1_MODEL_ANIMATION_SPEED_	1.8f
@@ -143,6 +144,16 @@ void LbaNetModel::Process(double tnow, float tdiff)
 	for(; it != end; ++it)
 		it->second->Process(tnow, tdiff, this);
 	}
+
+	// process all _itemsObjects
+	{
+	std::map<long, boost::shared_ptr<ItemObject> >::iterator it = _itemsObjects.begin();
+	std::map<long, boost::shared_ptr<ItemObject> >::iterator end = _itemsObjects.end();
+	for(; it != end; ++it)
+		it->second->Process(tnow, tdiff);
+	}
+
+	
 
 	//process projectiles
 	std::map<long, boost::shared_ptr<ProjectileHandler> >::iterator itproj = _projectileObjects.begin();
@@ -305,6 +316,33 @@ void LbaNetModel::AddObject(int OType, Ice::Long OwnerId, const ObjectInfo &desc
 			}
 		break;
 		#endif
+
+
+		// 5 -> item object
+		case 5:
+			if(m_playerObjectId != OwnerId)
+			{
+				boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
+				boost::shared_ptr<PhysicalObjectHandlerBase> physo = tmpobj->GetPhysicalObject();
+				if(physo)
+				{
+					boost::shared_ptr<ActorUserData> udata = physo->GetUserData();
+					if(udata)
+						udata->SetAllowFreeMove(true);
+				}
+
+				_itemsObjects[desc.Id] = boost::shared_ptr<ItemObject>(new ItemObject(tmpobj));
+
+				if(tmpobj->GetDisplayObject())
+				{
+					std::stringstream strs;
+					strs << "I_" << desc.Id;
+					tmpobj->GetDisplayObject()->SetName(strs.str());
+					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo), false);
+					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo), false);
+				}
+			}
+		break;
 	}
 }
 
@@ -359,6 +397,16 @@ void LbaNetModel::RemObject(int OType, long id)
 			}
 		break;
 		#endif
+
+
+		// 5 -> item object
+		case 5:
+			{
+			std::map<long, boost::shared_ptr<ItemObject> >::iterator it = _itemsObjects.find(id);
+			if(it != _itemsObjects.end())
+				_itemsObjects.erase(it);
+			}
+		break;
 	}
 }
 
@@ -374,6 +422,7 @@ void LbaNetModel::CleanupMap()
 	_npcObjects.clear();
 	_playerObjects.clear();
 	_ghostObjects.clear();
+	_itemsObjects.clear();
 
 	//clear scripts
 	m_playingscriptactors.clear();
@@ -568,7 +617,7 @@ ObjectInfo LbaNetModel::CreateObject(int OType, Ice::Long ObjectId,
 		case LbaNet::RenderBox:
 		{
 			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
-				(new OsgBoxDescription(PhysicDesc.SizeX, PhysicDesc.SizeY, PhysicDesc.SizeZ, 
+				(new OsgBoxDescription(DisplayDesc.ScaleX, DisplayDesc.ScaleY, DisplayDesc.ScaleZ, 
 				DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA, extrainfo, lifeinfo));
 
 
@@ -579,9 +628,9 @@ ObjectInfo LbaNetModel::CreateObject(int OType, Ice::Long ObjectId,
 
 			tr->rotation = LbaQuaternion(DisplayDesc.RotX, DisplayDesc.RotY, DisplayDesc.RotZ);
 
-			tr->scaleX = DisplayDesc.ScaleX;
-			tr->scaleY = DisplayDesc.ScaleY;
-			tr->scaleZ = DisplayDesc.ScaleZ;
+			tr->scaleX = 1;
+			tr->scaleY = 1;
+			tr->scaleZ = 1;
 
 			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
 		}
@@ -591,7 +640,7 @@ ObjectInfo LbaNetModel::CreateObject(int OType, Ice::Long ObjectId,
 		case LbaNet::RenderCapsule:
 		{
 			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
-				(new OsgOrientedCapsuleDescription(PhysicDesc.SizeY, PhysicDesc.SizeX, 
+				(new OsgOrientedCapsuleDescription(DisplayDesc.ScaleY, DisplayDesc.ScaleX, 
 				DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA, extrainfo, lifeinfo));
 
 			boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
@@ -601,8 +650,8 @@ ObjectInfo LbaNetModel::CreateObject(int OType, Ice::Long ObjectId,
 
 			tr->rotation = LbaQuaternion(DisplayDesc.RotX, DisplayDesc.RotY, DisplayDesc.RotZ);
 
-			tr->scaleX = DisplayDesc.ScaleX;
-			tr->scaleY = DisplayDesc.ScaleY;
+			tr->scaleX = 1;
+			tr->scaleY = 1;
 			tr->scaleZ = DisplayDesc.ScaleZ;
 
 			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
@@ -613,7 +662,7 @@ ObjectInfo LbaNetModel::CreateObject(int OType, Ice::Long ObjectId,
 		case LbaNet::RenderSphere:
 		{
 			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
-				(new OsgSphereDescription(PhysicDesc.SizeY, 
+				(new OsgSphereDescription(DisplayDesc.ScaleY, 
 						DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, 
 						DisplayDesc.ColorA, extrainfo, lifeinfo));
 
@@ -625,7 +674,7 @@ ObjectInfo LbaNetModel::CreateObject(int OType, Ice::Long ObjectId,
 			tr->rotation = LbaQuaternion(DisplayDesc.RotX, DisplayDesc.RotY, DisplayDesc.RotZ);
 
 			tr->scaleX = DisplayDesc.ScaleX;
-			tr->scaleY = DisplayDesc.ScaleY;
+			tr->scaleY = 1;
 			tr->scaleZ = DisplayDesc.ScaleZ;
 
 			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
@@ -859,6 +908,7 @@ void LbaNetModel::UpdateObjectPhysic(int OType, Ice::Long ObjectId,
 			}
 		break;
 		#endif
+	
 	}
 }
 
@@ -1446,7 +1496,6 @@ void LbaNetModel::ShowHideActor(int ObjectType, long ObjectId, bool SHow)
 					it->second->ShowHide(SHow);
 			}
 		break;
-
 	}
 }
 

@@ -822,6 +822,9 @@ inform user of item update
 void InventoryBox::InformChat(long itemId, int count, const std::string & name, const std::string & Description,
 								const std::string & LongDescription, const std::string & iconname)
 {
+	if(count == 0)
+		return;
+
 	std::stringstream strs;
 	if(count > 0)
 		strs<<Localizer::getInstance()->GetText(Localizer::GUI, 93)<<" "<<count;
@@ -849,6 +852,9 @@ inform user of item update
 void InventoryBox::InformHappy(long itemId, int count,	const std::string & name, const std::string & Description,
 									const std::string & LongDescription, const std::string & iconname)
 {
+	if(count == 0)
+		return;
+
 	EventsQueue::getReceiverQueue()->AddEvent(new InternalUpdateStateEvent(LbaNet::StHappy));
 
 	try

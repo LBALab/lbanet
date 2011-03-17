@@ -95,6 +95,9 @@ public:
 	//! set transparency
 	void SetTransparency(float alpha);
 
+	//! check if can play animation
+	virtual bool CanPlayAnimation(const std::string & anim){return false;}
+
 protected:
 	// update matrix
 	void UpdateMatrix();

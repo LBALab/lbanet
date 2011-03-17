@@ -90,6 +90,9 @@ public:
 	// restore previously saved model state
 	virtual void RestoreState();
 
+	//! check if can play animation
+	virtual bool CanPlayAnimation(const std::string & anim);
+
 
 protected:
 	// refresh model

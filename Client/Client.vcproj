@@ -372,6 +372,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ItemObject.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\JournalBox.cpp"
 				>
 			</File>
@@ -783,6 +787,10 @@
 			</File>
 			<File
 				RelativePath=".\InventoryBox.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ItemObject.h"
 				>
 			</File>
 			<File

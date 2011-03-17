@@ -47,6 +47,7 @@ class ExternalPlayer;
 class ClientLuaHandler;
 class ExternalActor;
 class ProjectileHandler;
+class ItemObject;
 
 /***********************************************************************
  * Module:  LbaNetModel.h
@@ -488,9 +489,13 @@ private:
 	// npc objects - server controlled
 	// player objects - will move randomly - get info from server
 	// ghosts objects - replication of other movable objects
+	// _itemsObjects - items to loot
 	std::map<long, boost::shared_ptr<ExternalActor> >	_npcObjects;
 	std::map<long, boost::shared_ptr<ExternalPlayer> >	_playerObjects;
 	std::map<long, boost::shared_ptr<ExternalPlayer> >	_ghostObjects;
+	std::map<long, boost::shared_ptr<ItemObject> >		_itemsObjects;
+
+
 
 	std::map<long, boost::shared_ptr<ProjectileHandler> >	_projectileObjects;
 	
