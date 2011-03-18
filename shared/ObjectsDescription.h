@@ -105,10 +105,10 @@ public:
 	SpriteDescription(const std::string & spritefile, bool UseLight, bool CastShadow,
 							float colorR, float colorG, float colorB, float colorA,
 							const LbaNet::ObjectExtraInfo &extrainfo,
-							const LbaNet::LifeManaInfo &lifeinfo)
+							const LbaNet::LifeManaInfo &lifeinfo, bool UseBillboard)
 		: _spritefile(spritefile), _UseLight(UseLight), _CastShadow(CastShadow),
 				_colorR(colorR), _colorG(colorG), _colorB(colorB), _colorA(colorA), 
-					_extrainfo(extrainfo), _lifeinfo(lifeinfo)
+					_extrainfo(extrainfo), _lifeinfo(lifeinfo), _UseBillboard(UseBillboard)
 	{}
 
 	//! destructor
@@ -124,6 +124,7 @@ private:
 	std::string					_spritefile;
 	bool						_UseLight;
 	bool						_CastShadow;
+	bool						_UseBillboard;
 
 	float						_colorR;
 	float						_colorG;
@@ -146,9 +147,9 @@ public:
 	//! constructor
 	OsgSimpleObjectDescription(const std::string & filename, bool UseLight, bool CastShadow,
 								const LbaNet::ObjectExtraInfo &extrainfo,
-								const LbaNet::LifeManaInfo & lifeinfo, float colorA)
+								const LbaNet::LifeManaInfo & lifeinfo)
 		: _filename(filename), _UseLight(UseLight), _CastShadow(CastShadow), 
-			_extrainfo(extrainfo), _lifeinfo(lifeinfo), _colorA(colorA)
+			_extrainfo(extrainfo), _lifeinfo(lifeinfo)
 	{}
 
 	//! destructor
@@ -166,8 +167,6 @@ private:
 
 	LbaNet::ObjectExtraInfo	_extrainfo;
 	LbaNet::LifeManaInfo	_lifeinfo;
-
-	float				_colorA;
 };
 
 

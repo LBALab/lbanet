@@ -103,6 +103,31 @@ public:
 
 	//! check if can play animation
 	virtual bool CanPlayAnimation(const std::string & anim) = 0;
+
+
+	//! set transparency material
+	virtual void SetTransparencyMaterial(bool OnOff, float Alpha) = 0;
+
+
+	//! set color material
+	virtual void SetColorMaterial(	int MaterialType, 		
+							float	MatAmbientColorR,
+							float	MatAmbientColorG,
+							float	MatAmbientColorB,
+							float	MatAmbientColorA,			
+							float	MatDiffuseColorR,
+							float	MatDiffuseColorG,
+							float	MatDiffuseColorB,
+							float	MatDiffuseColorA,
+							float	MatSpecularColorR,
+							float	MatSpecularColorG,
+							float	MatSpecularColorB,
+							float	MatSpecularColorA,	
+							float	MatEmissionColorR,
+							float	MatEmissionColorG,
+							float	MatEmissionColorB,
+							float	MatEmissionColorA,
+							float	MatShininess) = 0;
 };
 
 
