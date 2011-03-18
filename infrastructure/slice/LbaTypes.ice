@@ -166,6 +166,35 @@ module LbaNet
 		
 		int			MountSkinColor;
 		int			MountHairColor;
+		
+		bool			UseBillboard;
+		
+		bool			UseTransparentMaterial;
+		float			MatAlpha;
+		
+		int			ColorMaterialType;  //0 -> OFF    1 -> AMBIENT   2 -> DIFFUSE   3 -> SPECULAR   4 -> EMISSION    5 -> AMBIENT_AND_DIFFUSE
+		
+		float			MatAmbientColorR;
+		float			MatAmbientColorG;
+		float			MatAmbientColorB;
+		float			MatAmbientColorA;			
+		
+		float			MatDiffuseColorR;
+		float			MatDiffuseColorG;
+		float			MatDiffuseColorB;
+		float			MatDiffuseColorA;
+		
+		float			MatSpecularColorR;
+		float			MatSpecularColorG;
+		float			MatSpecularColorB;
+		float			MatSpecularColorA;		
+		
+		float			MatEmissionColorR;
+		float			MatEmissionColorG;
+		float			MatEmissionColorB;
+		float			MatEmissionColorA;
+		
+		float			MatShininess;	
 	};
 
 	struct PlayerStartingInfo
