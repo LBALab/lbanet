@@ -1106,7 +1106,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	_actorscriptparttypeList(new CustomStringListModel()),_dorropeningtypeList(new CustomStringListModel()),
 	_dorropeningdirectionList(new CustomStringListModel()), _hurtanimationList(new CustomStringListModel()),
 	_iteminformclientList(new CustomStringListModel()), _addList(new CustomStringListModel()),
-	_removeList(new CustomStringListModel())
+	_removeList(new CustomStringListModel()), _materialtypeList(new CustomStringListModel())
 {											 
 	QStringList actlist;
 	actlist << "Static" << "Scripted" << "Door" << "Npc" <<"Movable";
@@ -1120,6 +1120,11 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	QStringList actmodelist;
 	actmodelist << "None" << "Normal" << "Sport" << "Angry" << "Discrete" << "Protopack" << "Horse" << "Dinofly";
 	_actormodeList->setStringList(actmodelist);
+
+	QStringList materiallist;
+	materiallist << "Off" << "Ambient" << "Diffuse" << "Specular" << "Emission" << "Ambient_And_Diffuse";
+	_materialtypeList->setStringList(materiallist);
+	
 
 	QStringList addrlist;
 	addrlist << "" << "Add";
@@ -6703,6 +6708,12 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 					_objectmodel->AppendRow(data1, parent);
 					++index;
 				}
+				{
+					QVector<QVariant> data1;
+					data1<<"Use Billboard"<<ainfo.DisplayDesc.UseBillboard;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
 			}
 
 			if(ainfo.DisplayDesc.TypeRenderer == RenderLba1M ||
@@ -6773,6 +6784,157 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 
 				RefreshActorModelName(modelaidx, parent, false, it->second);
 			}
+
+			// add materials
+			{
+				QVector<QVariant> data;
+				data<<"Use alpha material"<<ainfo.DisplayDesc.UseTransparentMaterial;
+				_objectmodel->AppendRow(data, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data;
+				data<<"Alpha"<<ainfo.DisplayDesc.MatAlpha;
+				_objectmodel->AppendRow(data, parent);
+				++index;
+			}
+
+			int matcolortype = ainfo.DisplayDesc.ColorMaterialType;
+			{
+				std::string mattypestring = "Off";
+				switch(matcolortype)
+				{
+					case 1:
+						mattypestring = "Ambient";
+					break;
+					case 2:
+						mattypestring = "Diffuse";
+					break;
+					case 3:
+						mattypestring = "Specular";
+					break;
+					case 4:
+						mattypestring = "Emission";
+					break;
+					case 5:
+						mattypestring = "Ambient_And_Diffuse";
+					break;
+				}
+				QVector<QVariant> data;
+				data<<"Color material type"<<mattypestring.c_str();
+				_objectmodel->AppendRow(data, parent);
+					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _materialtypeList);
+				++index;	
+			}
+
+			if(matcolortype > 0)
+			{
+				{
+				QVector<QVariant> data;
+				data<<"Mat Ambient ColorR"<<(double)ainfo.DisplayDesc.MatAmbientColorR;
+				_objectmodel->AppendRow(data, parent);
+				++index;	
+				}
+				{
+				QVector<QVariant> data;
+				data<<"Mat Ambient ColorG"<<(double)ainfo.DisplayDesc.MatAmbientColorG;
+				_objectmodel->AppendRow(data, parent);
+				++index;	
+				}
+				{
+				QVector<QVariant> data;
+				data<<"Mat Ambient ColorB"<<(double)ainfo.DisplayDesc.MatAmbientColorB;
+				_objectmodel->AppendRow(data, parent);
+				++index;	
+				}
+				{
+				QVector<QVariant> data;
+				data<<"Mat Ambient ColorA"<<(double)ainfo.DisplayDesc.MatAmbientColorA;
+				_objectmodel->AppendRow(data, parent);
+				++index;	
+				}
+
+				{
+				QVector<QVariant> data;
+				data<<"Mat Diffuse ColorR"<<(double)ainfo.DisplayDesc.MatDiffuseColorR;
+				_objectmodel->AppendRow(data, parent);
+				++index;	
+				}
+				{
+				QVector<QVariant> data;
+				data<<"Mat Diffuse ColorG"<<(double)ainfo.DisplayDesc.MatDiffuseColorG;
+				_objectmodel->AppendRow(data, parent);
+				++index;	
+				}
+				{
+				QVector<QVariant> data;
+				data<<"Mat Diffuse ColorB"<<(double)ainfo.DisplayDesc.MatDiffuseColorB;
+				_objectmodel->AppendRow(data, parent);
+				++index;	
+				}
+				{
+				QVector<QVariant> data;
+				data<<"Mat Diffuse ColorA"<<(double)ainfo.DisplayDesc.MatDiffuseColorA;
+				_objectmodel->AppendRow(data, parent);
+				++index;	
+				}
+
+				{
+				QVector<QVariant> data;
+				data<<"Mat Specular ColorR"<<(double)ainfo.DisplayDesc.MatSpecularColorR;
+				_objectmodel->AppendRow(data, parent);
+				++index;	
+				}
+				{
+				QVector<QVariant> data;
+				data<<"Mat Specular ColorG"<<(double)ainfo.DisplayDesc.MatSpecularColorG;
+				_objectmodel->AppendRow(data, parent);
+				++index;	
+				}
+				{
+				QVector<QVariant> data;
+				data<<"Mat Specular ColorB"<<(double)ainfo.DisplayDesc.MatSpecularColorB;
+				_objectmodel->AppendRow(data, parent);
+				++index;	
+				}
+				{
+				QVector<QVariant> data;
+				data<<"Mat Specular ColorA"<<(double)ainfo.DisplayDesc.MatSpecularColorA;
+				_objectmodel->AppendRow(data, parent);
+				++index;	
+				}
+
+				{
+				QVector<QVariant> data;
+				data<<"Mat Emission ColorR"<<(double)ainfo.DisplayDesc.MatEmissionColorR;
+				_objectmodel->AppendRow(data, parent);
+				++index;	
+				}
+				{
+				QVector<QVariant> data;
+				data<<"Mat Emission ColorG"<<(double)ainfo.DisplayDesc.MatEmissionColorG;
+				_objectmodel->AppendRow(data, parent);
+				++index;	
+				}
+				{
+				QVector<QVariant> data;
+				data<<"Mat Emission ColorB"<<(double)ainfo.DisplayDesc.MatEmissionColorB;
+				_objectmodel->AppendRow(data, parent);
+				++index;	
+				}
+				{
+				QVector<QVariant> data;
+				data<<"Mat Emission ColorA"<<(double)ainfo.DisplayDesc.MatEmissionColorA;
+				_objectmodel->AppendRow(data, parent);
+				++index;	
+				}
+				{
+				QVector<QVariant> data;
+				data<<"Mat Shininess"<<(double)ainfo.DisplayDesc.MatShininess;
+				_objectmodel->AppendRow(data, parent);
+				++index;	
+				}
+			}	
 		}
 
 
@@ -7253,7 +7415,11 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 
 				if(updatedrow == index)
 					ainfo.DisplayDesc.ColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
-				++index;			
+				++index;
+
+				if(updatedrow == index)
+					ainfo.DisplayDesc.UseBillboard = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
+				++index;
 			}
 
 			if(ainfo.DisplayDesc.TypeRenderer == RenderLba1M ||
@@ -7393,6 +7559,72 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 				}
 	
 			}
+
+			// check materials
+			ainfo.DisplayDesc.UseTransparentMaterial = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();		
+			++index;
+			ainfo.DisplayDesc.MatAlpha = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		
+			++index;
+
+			int oldmatcolortype = ainfo.DisplayDesc.ColorMaterialType;
+
+			std::string matstringtype = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();	
+			++index;
+
+			ainfo.DisplayDesc.ColorMaterialType = 0;
+			if(matstringtype == "Ambient")
+				ainfo.DisplayDesc.ColorMaterialType = 1;
+			if(matstringtype == "Diffuse")
+				ainfo.DisplayDesc.ColorMaterialType = 2;
+			if(matstringtype == "Specular")
+				ainfo.DisplayDesc.ColorMaterialType = 3;
+			if(matstringtype == "Emission")
+				ainfo.DisplayDesc.ColorMaterialType = 4;
+			if(matstringtype == "Ambient_And_Diffuse")
+				ainfo.DisplayDesc.ColorMaterialType = 5;
+
+			if(ainfo.DisplayDesc.ColorMaterialType != oldmatcolortype)
+				updateobj = true;
+
+	
+			if(oldmatcolortype > 0)
+			{
+				ainfo.DisplayDesc.MatAmbientColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ainfo.DisplayDesc.MatAmbientColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ainfo.DisplayDesc.MatAmbientColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ainfo.DisplayDesc.MatAmbientColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ainfo.DisplayDesc.MatDiffuseColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ainfo.DisplayDesc.MatDiffuseColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ainfo.DisplayDesc.MatDiffuseColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ainfo.DisplayDesc.MatDiffuseColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ainfo.DisplayDesc.MatSpecularColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ainfo.DisplayDesc.MatSpecularColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ainfo.DisplayDesc.MatSpecularColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ainfo.DisplayDesc.MatSpecularColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;	
+				ainfo.DisplayDesc.MatEmissionColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ainfo.DisplayDesc.MatEmissionColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ainfo.DisplayDesc.MatEmissionColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ainfo.DisplayDesc.MatEmissionColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;	
+				ainfo.DisplayDesc.MatShininess = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;				
+			}	
+
 		}
 
 		if(!updateobj)
@@ -10542,7 +10774,164 @@ void EditorHandler::SelectItem(boost::shared_ptr<InventoryItemDef> item, const Q
 				_objectmodel->AppendRow(data1, parent);
 				++index;
 			}
+			{
+				QVector<QVariant> data1;
+				data1<<"Use Billboard"<<mdisinfo.UseBillboard;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
 		}
+
+		// add materials
+		{
+			QVector<QVariant> data;
+			data<<"Use alpha material"<<mdisinfo.UseTransparentMaterial;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Alpha"<<mdisinfo.MatAlpha;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+
+		int matcolortype = mdisinfo.ColorMaterialType;
+		{
+			std::string mattypestring = "Off";
+			switch(matcolortype)
+			{
+				case 1:
+					mattypestring = "Ambient";
+				break;
+				case 2:
+					mattypestring = "Diffuse";
+				break;
+				case 3:
+					mattypestring = "Specular";
+				break;
+				case 4:
+					mattypestring = "Emission";
+				break;
+				case 5:
+					mattypestring = "Ambient_And_Diffuse";
+				break;
+			}
+			QVector<QVariant> data;
+			data<<"Color material type"<<mattypestring.c_str();
+			_objectmodel->AppendRow(data, parent);
+				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _materialtypeList);
+			++index;	
+		}
+
+		if(matcolortype > 0)
+		{
+			{
+			QVector<QVariant> data;
+			data<<"Mat Ambient ColorR"<<(double)mdisinfo.MatAmbientColorR;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Ambient ColorG"<<(double)mdisinfo.MatAmbientColorG;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Ambient ColorB"<<(double)mdisinfo.MatAmbientColorB;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Ambient ColorA"<<(double)mdisinfo.MatAmbientColorA;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+
+			{
+			QVector<QVariant> data;
+			data<<"Mat Diffuse ColorR"<<(double)mdisinfo.MatDiffuseColorR;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Diffuse ColorG"<<(double)mdisinfo.MatDiffuseColorG;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Diffuse ColorB"<<(double)mdisinfo.MatDiffuseColorB;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Diffuse ColorA"<<(double)mdisinfo.MatDiffuseColorA;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+
+			{
+			QVector<QVariant> data;
+			data<<"Mat Specular ColorR"<<(double)mdisinfo.MatSpecularColorR;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Specular ColorG"<<(double)mdisinfo.MatSpecularColorG;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Specular ColorB"<<(double)mdisinfo.MatSpecularColorB;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Specular ColorA"<<(double)mdisinfo.MatSpecularColorA;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+
+			{
+			QVector<QVariant> data;
+			data<<"Mat Emission ColorR"<<(double)mdisinfo.MatEmissionColorR;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Emission ColorG"<<(double)mdisinfo.MatEmissionColorG;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Emission ColorB"<<(double)mdisinfo.MatEmissionColorB;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Emission ColorA"<<(double)mdisinfo.MatEmissionColorA;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Shininess"<<(double)mdisinfo.MatShininess;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+		}	
 	}
 
 }
@@ -10858,8 +11247,76 @@ void EditorHandler::ItemChanged(long id, const std::string & category, const QMo
 			++index;		
 
 			newdisinfo.ColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
-			++index;			
+			++index;	
+
+			newdisinfo.UseBillboard = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
+			++index;	
 		}
+
+		// check materials
+		newdisinfo.UseTransparentMaterial = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();		
+		++index;
+		newdisinfo.MatAlpha = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		
+		++index;
+
+		int oldmatcolortype = olddisinfo.ColorMaterialType;
+
+		std::string matstringtype = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();	
+		++index;
+
+		newdisinfo.ColorMaterialType = 0;
+		if(matstringtype == "Ambient")
+			newdisinfo.ColorMaterialType = 1;
+		if(matstringtype == "Diffuse")
+			newdisinfo.ColorMaterialType = 2;
+		if(matstringtype == "Specular")
+			newdisinfo.ColorMaterialType = 3;
+		if(matstringtype == "Emission")
+			newdisinfo.ColorMaterialType = 4;
+		if(matstringtype == "Ambient_And_Diffuse")
+			newdisinfo.ColorMaterialType = 5;
+
+		if(newdisinfo.ColorMaterialType != oldmatcolortype)
+			refresh = true;
+
+
+		if(oldmatcolortype > 0)
+		{
+			newdisinfo.MatAmbientColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+			++index;			
+			newdisinfo.MatAmbientColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+			++index;			
+			newdisinfo.MatAmbientColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+			++index;			
+			newdisinfo.MatAmbientColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+			++index;			
+			newdisinfo.MatDiffuseColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+			++index;			
+			newdisinfo.MatDiffuseColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+			++index;			
+			newdisinfo.MatDiffuseColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+			++index;			
+			newdisinfo.MatDiffuseColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+			++index;			
+			newdisinfo.MatSpecularColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+			++index;			
+			newdisinfo.MatSpecularColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+			++index;			
+			newdisinfo.MatSpecularColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+			++index;			
+			newdisinfo.MatSpecularColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+			++index;	
+			newdisinfo.MatEmissionColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+			++index;			
+			newdisinfo.MatEmissionColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+			++index;			
+			newdisinfo.MatEmissionColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+			++index;			
+			newdisinfo.MatEmissionColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+			++index;	
+			newdisinfo.MatShininess = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+			++index;				
+		}	
 	}
 
 

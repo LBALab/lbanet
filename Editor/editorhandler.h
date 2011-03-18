@@ -1165,6 +1165,7 @@ private:
 
 	boost::shared_ptr<CustomStringListModel>							_addList;
 	boost::shared_ptr<CustomStringListModel>							_removeList;
+	boost::shared_ptr<CustomStringListModel>							_materialtypeList;
 
 
 	GraphicsWindowQt *									_osgwindow;
