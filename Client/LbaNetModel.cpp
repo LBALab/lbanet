@@ -212,13 +212,41 @@ void LbaNetModel::AddObject(int OType, Ice::Long OwnerId, const ObjectInfo &desc
 								const LbaNet::LifeManaInfo &lifeinfo,
 								bool movable, bool freemove)
 {
+	boost::shared_ptr<DynamicObject> createobj = desc.BuildSelf(OsgHandler::getInstance());
+
+	// add materials
+	boost::shared_ptr<DisplayObjectHandlerBase> matdisobj = createobj->GetDisplayObject();
+	if(matdisobj)
+	{
+		matdisobj->SetTransparencyMaterial(DisplayDesc.UseTransparentMaterial, DisplayDesc.MatAlpha);
+		matdisobj->SetColorMaterial(DisplayDesc.ColorMaterialType, 
+									DisplayDesc.MatAmbientColorR, 
+									DisplayDesc.MatAmbientColorG, 
+									DisplayDesc.MatAmbientColorB, 
+									DisplayDesc.MatAmbientColorA, 
+									DisplayDesc.MatDiffuseColorR, 
+									DisplayDesc.MatDiffuseColorG, 
+									DisplayDesc.MatDiffuseColorB, 
+									DisplayDesc.MatDiffuseColorA, 
+									DisplayDesc.MatSpecularColorR, 
+									DisplayDesc.MatSpecularColorG, 
+									DisplayDesc.MatSpecularColorB, 
+									DisplayDesc.MatSpecularColorA, 
+									DisplayDesc.MatEmissionColorR, 
+									DisplayDesc.MatEmissionColorG, 
+									DisplayDesc.MatEmissionColorB, 
+									DisplayDesc.MatEmissionColorA, 
+									DisplayDesc.MatShininess);
+	}
+
+
 	switch(OType)
 	{
 		// 1 -> npc object
 		case 1:
 			{
-				boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
-				boost::shared_ptr<PhysicalObjectHandlerBase> physo = tmpobj->GetPhysicalObject();
+
+				boost::shared_ptr<PhysicalObjectHandlerBase> physo = createobj->GetPhysicalObject();
 				if(physo)
 				{
 					boost::shared_ptr<ActorUserData> udata = physo->GetUserData();
@@ -227,14 +255,14 @@ void LbaNetModel::AddObject(int OType, Ice::Long OwnerId, const ObjectInfo &desc
 				}
 				
 
-				_npcObjects[desc.Id] = boost::shared_ptr<ExternalActor>(new ExternalActor(tmpobj, DisplayDesc, movable));
-				if(tmpobj->GetDisplayObject())
+				_npcObjects[desc.Id] = boost::shared_ptr<ExternalActor>(new ExternalActor(createobj, DisplayDesc, movable));
+				if(createobj->GetDisplayObject())
 				{
 					std::stringstream strs;
 					strs << "A_" << desc.Id;
-					tmpobj->GetDisplayObject()->SetName(strs.str());
-					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo), false);
-					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo), false);
+					createobj->GetDisplayObject()->SetName(strs.str());
+					_npcObjects[desc.Id]->UpdateDisplay(new LbaNet::ObjectExtraInfoUpdate(extrainfo), false);
+					_npcObjects[desc.Id]->UpdateDisplay(new LbaNet::ObjectLifeInfoUpdate(lifeinfo), false);
 				}
 			}
 		break;
@@ -249,33 +277,30 @@ void LbaNetModel::AddObject(int OType, Ice::Long OwnerId, const ObjectInfo &desc
 				ObjectInfo tmp(desc);
 				static_cast<PhysicalDescriptionWithShape *>(tmp.PhysInfo.get())->ActorType = LbaNet::CharControlAType;
 
-				boost::shared_ptr<DynamicObject> playerObject = tmp.BuildSelf(OsgHandler::getInstance());
-
 				if(m_controllerChar)
-					m_controllerChar->SetPhysicalCharacter(playerObject, DisplayDesc);
+					m_controllerChar->SetPhysicalCharacter(createobj, DisplayDesc);
 				if(m_controllerCam)
-					m_controllerCam->SetCharacter(playerObject);
+					m_controllerCam->SetCharacter(createobj);
 
-				if(playerObject->GetDisplayObject())
+				if(createobj->GetDisplayObject())
 				{
 					std::stringstream strs;
 					strs << "M_" << desc.Id;
-					playerObject->GetDisplayObject()->SetName(strs.str());
+					createobj->GetDisplayObject()->SetName(strs.str());
 					m_controllerChar->UpdateDisplay(new LbaNet::ObjectExtraInfoUpdate(extrainfo));
 					m_controllerChar->UpdateDisplay(new LbaNet::ObjectLifeInfoUpdate(lifeinfo));
 				}
 			}
 			else
 			{
-				boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
-				_playerObjects[desc.Id] = boost::shared_ptr<ExternalPlayer>(new ExternalPlayer(tmpobj, DisplayDesc));
-				if(tmpobj->GetDisplayObject())
+				_playerObjects[desc.Id] = boost::shared_ptr<ExternalPlayer>(new ExternalPlayer(createobj, DisplayDesc));
+				if(createobj->GetDisplayObject())
 				{
 					std::stringstream strs;
 					strs << "P_" << desc.Id;
-					tmpobj->GetDisplayObject()->SetName(strs.str());
-					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo), false);
-					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo), false);
+					createobj->GetDisplayObject()->SetName(strs.str());
+					_playerObjects[desc.Id]->UpdateDisplay(new LbaNet::ObjectExtraInfoUpdate(extrainfo), false);
+					_playerObjects[desc.Id]->UpdateDisplay(new LbaNet::ObjectLifeInfoUpdate(lifeinfo), false);
 				}
 			}
 		break;
@@ -284,16 +309,15 @@ void LbaNetModel::AddObject(int OType, Ice::Long OwnerId, const ObjectInfo &desc
 		case 3:
 			if(m_playerObjectId != OwnerId)
 			{
-				boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
-				_ghostObjects[desc.Id] = boost::shared_ptr<ExternalPlayer>(new ExternalPlayer(tmpobj, DisplayDesc));
+				_ghostObjects[desc.Id] = boost::shared_ptr<ExternalPlayer>(new ExternalPlayer(createobj, DisplayDesc));
 
-				if(tmpobj->GetDisplayObject())
+				if(createobj->GetDisplayObject())
 				{
 					std::stringstream strs;
 					strs << "G_" << desc.Id;
-					tmpobj->GetDisplayObject()->SetName(strs.str());
-					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo), false);
-					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo), false);
+					createobj->GetDisplayObject()->SetName(strs.str());
+					_ghostObjects[desc.Id]->UpdateDisplay(new LbaNet::ObjectExtraInfoUpdate(extrainfo), false);
+					_ghostObjects[desc.Id]->UpdateDisplay(new LbaNet::ObjectLifeInfoUpdate(lifeinfo), false);
 				}
 			}
 		break;
@@ -303,15 +327,14 @@ void LbaNetModel::AddObject(int OType, Ice::Long OwnerId, const ObjectInfo &desc
 		#ifdef _USE_QT_EDITOR_
 		case 4:
 			{
-				boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
-				_editorObjects[desc.Id] = tmpobj;
-				if(tmpobj->GetDisplayObject())
+				_editorObjects[desc.Id] = createobj;
+				if(createobj->GetDisplayObject())
 				{
 					std::stringstream strs;
 					strs << "E_" << desc.Id;
-					tmpobj->GetDisplayObject()->SetName(strs.str());
-					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo), false);
-					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo), false);
+					createobj->GetDisplayObject()->SetName(strs.str());
+					createobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo), false);
+					createobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo), false);
 				}
 			}
 		break;
@@ -322,8 +345,7 @@ void LbaNetModel::AddObject(int OType, Ice::Long OwnerId, const ObjectInfo &desc
 		case 5:
 			if(m_playerObjectId != OwnerId)
 			{
-				boost::shared_ptr<DynamicObject> tmpobj = desc.BuildSelf(OsgHandler::getInstance());
-				boost::shared_ptr<PhysicalObjectHandlerBase> physo = tmpobj->GetPhysicalObject();
+				boost::shared_ptr<PhysicalObjectHandlerBase> physo = createobj->GetPhysicalObject();
 				if(physo)
 				{
 					boost::shared_ptr<ActorUserData> udata = physo->GetUserData();
@@ -331,15 +353,15 @@ void LbaNetModel::AddObject(int OType, Ice::Long OwnerId, const ObjectInfo &desc
 						udata->SetAllowFreeMove(true);
 				}
 
-				_itemsObjects[desc.Id] = boost::shared_ptr<ItemObject>(new ItemObject(tmpobj));
+				_itemsObjects[desc.Id] = boost::shared_ptr<ItemObject>(new ItemObject(createobj));
 
-				if(tmpobj->GetDisplayObject())
+				if(createobj->GetDisplayObject())
 				{
 					std::stringstream strs;
 					strs << "I_" << desc.Id;
-					tmpobj->GetDisplayObject()->SetName(strs.str());
-					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo), false);
-					tmpobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo), false);
+					createobj->GetDisplayObject()->SetName(strs.str());
+					createobj->GetDisplayObject()->Update(new LbaNet::ObjectExtraInfoUpdate(extrainfo), false);
+					createobj->GetDisplayObject()->Update(new LbaNet::ObjectLifeInfoUpdate(lifeinfo), false);
 				}
 			}
 		break;
@@ -507,8 +529,7 @@ ObjectInfo LbaNetModel::CreateObject(int OType, Ice::Long ObjectId,
 			{
 				boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
 					(new OsgSimpleObjectDescription(DisplayDesc.ModelName, 
-								DisplayDesc.UseLight, DisplayDesc.CastShadow, extrainfo, lifeinfo,
-								DisplayDesc.ColorA));
+								DisplayDesc.UseLight, DisplayDesc.CastShadow, extrainfo, lifeinfo));
 
 				boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
 				tr->translationX = DisplayDesc.TransX;
@@ -535,7 +556,7 @@ ObjectInfo LbaNetModel::CreateObject(int OType, Ice::Long ObjectId,
 				boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
 					(new SpriteDescription(DisplayDesc.ModelName, DisplayDesc.UseLight, DisplayDesc.CastShadow, 
 								DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA,
-								extrainfo, lifeinfo));
+								extrainfo, lifeinfo, DisplayDesc.UseBillboard));
 
 				boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
 				tr->translationX = DisplayDesc.TransX;
@@ -681,6 +702,8 @@ ObjectInfo LbaNetModel::CreateObject(int OType, Ice::Long ObjectId,
 		}
 		break;
 	}
+
+
 
 	float sizeX=PhysicDesc.SizeX, sizeY=PhysicDesc.SizeY, sizeZ=PhysicDesc.SizeZ;
 	if(sizeX < 0)

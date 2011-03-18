@@ -205,15 +205,15 @@ public:
 															boost::shared_ptr<DisplayTransformation> Tr,
 															bool UseLight, bool CastShadow,
 															const LbaNet::ObjectExtraInfo &extrainfo,
-															const LbaNet::LifeManaInfo &lifeinfo);
+															const LbaNet::LifeManaInfo &lifeinfo,
+															bool UseBillboard);
 
 	//! create simple display object
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateSimpleObject(const std::string & filename,
 															boost::shared_ptr<DisplayTransformation> Tr,
 															bool UseLight, bool CastShadow,
 															const LbaNet::ObjectExtraInfo &extrainfo,
-															const LbaNet::LifeManaInfo &lifeinfo,
-															float colorA);
+															const LbaNet::LifeManaInfo &lifeinfo);
 
 	//! create sphere object
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateSphereObject(float radius, 
@@ -262,7 +262,8 @@ public:
 	osg::ref_ptr<osg::MatrixTransform> CreateSpriteObject(const std::string & spritefile, 
 												float colorR, float colorG, float colorB, float colorA,
 												boost::shared_ptr<DisplayTransformation> Tr,
-												bool UseLight, bool CastShadow);
+												bool UseLight, bool CastShadow,
+												bool UseBillboard);
 
 	//! create simple display object
 	osg::ref_ptr<osg::MatrixTransform> CreateSimpleObject(const std::string & filename,

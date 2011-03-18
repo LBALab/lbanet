@@ -92,11 +92,34 @@ public:
 	//! tore object copy
 	virtual void StoreObjectCopy();
 
-	//! set transparency
-	void SetTransparency(float alpha);
-
 	//! check if can play animation
 	virtual bool CanPlayAnimation(const std::string & anim){return false;}
+
+
+	//! set transparency material
+	virtual void SetTransparencyMaterial(bool OnOff, float Alpha);
+
+
+	//! set color material
+	virtual void SetColorMaterial(	int MaterialType, 		
+							float	MatAmbientColorR,
+							float	MatAmbientColorG,
+							float	MatAmbientColorB,
+							float	MatAmbientColorA,			
+							float	MatDiffuseColorR,
+							float	MatDiffuseColorG,
+							float	MatDiffuseColorB,
+							float	MatDiffuseColorA,
+							float	MatSpecularColorR,
+							float	MatSpecularColorG,
+							float	MatSpecularColorB,
+							float	MatSpecularColorA,
+							float	MatEmissionColorR,
+							float	MatEmissionColorG,
+							float	MatEmissionColorB,
+							float	MatEmissionColorA,
+							float	MatShininess);
+
 
 protected:
 	// update matrix
@@ -133,6 +156,10 @@ protected:
 	//! find shapdrawable
 	osg::ShapeDrawable* findShapeDrawable();
 
+	//! refresh object material
+	void RefreshMaterial();
+
+
 protected:
 	float											_posX;
 	float											_posY; 
@@ -154,6 +181,29 @@ private:
 	osg::ref_ptr<osg::PositionAttitudeTransform>	_osgpatNoLight;
 
 	osg::ref_ptr<osg::MatrixTransform>				_ObjectCopy;
+
+
+	bool											_useTransparentMaterial;
+	float											_materialAlpha;
+
+	int												_MaterialType; 		
+	float											_MatAmbientColorR;
+	float											_MatAmbientColorG;
+	float											_MatAmbientColorB;
+	float											_MatAmbientColorA;			
+	float											_MatDiffuseColorR;
+	float											_MatDiffuseColorG;
+	float											_MatDiffuseColorB;
+	float											_MatDiffuseColorA;
+	float											_MatSpecularColorR;
+	float											_MatSpecularColorG;
+	float											_MatSpecularColorB;
+	float											_MatSpecularColorA;	
+	float											_MatEmissionColorR;
+	float											_MatEmissionColorG;
+	float											_MatEmissionColorB;
+	float											_MatEmissionColorA;
+	float											_MatShininess;
 };
 
 

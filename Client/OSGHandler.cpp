@@ -37,6 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <osg/ShapeDrawable>
 #include <osg/CullFace>
 #include <osg/LineWidth>
+#include <osg/Billboard>
 
 #include <osgViewer/Viewer>
 #include <osgViewer/ViewerEventHandlers>
@@ -1544,10 +1545,11 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSpriteObject(const
 															boost::shared_ptr<DisplayTransformation> Tr,
 															bool UseLight, bool CastShadow,
 															const LbaNet::ObjectExtraInfo &extrainfo,
-															const LbaNet::LifeManaInfo &lifeinfo)
+															const LbaNet::LifeManaInfo &lifeinfo,
+															bool UseBillboard)
 {
 	osg::ref_ptr<osg::MatrixTransform> resnode = CreateSpriteObject(spritefile, 
-												colorR, colorG, colorB, colorA, Tr,	UseLight, CastShadow);
+												colorR, colorG, colorB, colorA, Tr,	UseLight, CastShadow, UseBillboard);
 
 	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(resnode, UseLight, extrainfo, lifeinfo));
 }
@@ -1562,10 +1564,24 @@ create simple display object
 osg::ref_ptr<osg::MatrixTransform> OsgHandler::CreateSpriteObject(const std::string & spritefile, 
 											float colorR, float colorG, float colorB, float colorA,
 											boost::shared_ptr<DisplayTransformation> Tr,
-											bool UseLight, bool CastShadow)
+											bool UseLight, bool CastShadow,
+											bool UseBillboard)
 {
 	// create geode
-	osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+	osg::ref_ptr<osg::Geode> geode;
+	
+	if(UseBillboard)
+	{
+		osg::Billboard* geodeBillBoard = new osg::Billboard();
+		geodeBillBoard->setMode(osg::Billboard::AXIAL_ROT);
+		geodeBillBoard->setAxis(osg::Vec3(0.0f,1.0f,0.0f));
+		geodeBillBoard->setNormal(osg::Vec3(-1.0f,0.0f,0.0f));	
+		geode = geodeBillBoard;
+	}
+	else
+		geode = new osg::Geode();
+	
+	
 	osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 	geode->addDrawable(geometry); 
 
@@ -1688,13 +1704,10 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSimpleObject(const
 														boost::shared_ptr<DisplayTransformation> Tr,
 														bool UseLight, bool CastShadow,
 														const LbaNet::ObjectExtraInfo &extrainfo,
-														const LbaNet::LifeManaInfo &lifeinfo,
-														float colorA)
+														const LbaNet::LifeManaInfo &lifeinfo)
 {
 	osg::ref_ptr<osg::MatrixTransform> resnode = CreateSimpleObject(filename, Tr,	UseLight, CastShadow);
 	OsgObjectHandler * objh = new OsgObjectHandler(resnode, UseLight, extrainfo, lifeinfo);
-	if(colorA >= 0 && colorA < 1)
-		objh->SetTransparency(colorA);
 	return boost::shared_ptr<DisplayObjectHandlerBase>(objh);
 }
 

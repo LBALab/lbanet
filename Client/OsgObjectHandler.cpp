@@ -135,7 +135,7 @@ OsgObjectHandler::OsgObjectHandler(boost::shared_ptr<DisplayTransformation> Tr,
 									const LbaNet::ObjectExtraInfo &extrainfo,
 									const LbaNet::LifeManaInfo &lifeinfo)
 :  _posX(0), _posY(0), _posZ(0), _displayed(true), _extrainfo(extrainfo), _uselight(true),
-		_lifeinfo(lifeinfo)
+		_lifeinfo(lifeinfo), _useTransparentMaterial(false), _MaterialType(0)
 {
 	#ifdef _DEBUG
 		LogHandler::getInstance()->LogToFile("Created empty Osg object.");
@@ -357,10 +357,6 @@ int OsgObjectHandler::Update(LbaNet::DisplayObjectUpdateBasePtr update,
 			osg::Vec4 colors = draw->getColor();	
 			colors[3] = castedptr->A;
 			draw->setColor(colors);
-		}
-		else
-		{
-			SetTransparency(castedptr->A);
 		}
 
 		return 0;
@@ -714,7 +710,8 @@ void OsgObjectHandler::UpdateModel(const LbaNet::ModelInfo &mInfo)
 	{
 		node = OsgHandler::getInstance()->CreateSpriteObject(mInfo.ModelName, 
 											mInfo.ColorR, mInfo.ColorG, mInfo.ColorB, mInfo.ColorA,
-											Tr,	mInfo.UseLight,	mInfo.CastShadow);
+											Tr,	mInfo.UseLight,	mInfo.CastShadow,
+											mInfo.UseBillboard);
 	}
 	else
 	{
@@ -789,9 +786,152 @@ void OsgObjectHandler::StoreObjectCopy()
 
 
 /***********************************************************
-set transparency
+set transparency material
 ***********************************************************/
-void OsgObjectHandler::SetTransparency(float alpha)
+void OsgObjectHandler::SetTransparencyMaterial(bool OnOff, float Alpha)
+{
+	_useTransparentMaterial = OnOff;
+	_materialAlpha = Alpha;
+
+	RefreshMaterial();
+}
+
+
+
+/***********************************************************
+set color material
+***********************************************************/
+void OsgObjectHandler::SetColorMaterial(	int MaterialType, 		
+											float	MatAmbientColorR,
+											float	MatAmbientColorG,
+											float	MatAmbientColorB,
+											float	MatAmbientColorA,			
+											float	MatDiffuseColorR,
+											float	MatDiffuseColorG,
+											float	MatDiffuseColorB,
+											float	MatDiffuseColorA,
+											float	MatSpecularColorR,
+											float	MatSpecularColorG,
+											float	MatSpecularColorB,
+											float	MatSpecularColorA,	
+											float	MatEmissionColorR,
+											float	MatEmissionColorG,
+											float	MatEmissionColorB,
+											float	MatEmissionColorA,
+											float	MatShininess)
+{
+	_MaterialType = MaterialType;
+	_MatAmbientColorR = MatAmbientColorR;
+	if(_MatAmbientColorR < -1)
+		_MatAmbientColorR = -1;
+	if(_MatAmbientColorR > 1)
+		_MatAmbientColorR = 1;
+
+	_MatAmbientColorG = MatAmbientColorG;
+	if(_MatAmbientColorG < -1)
+		_MatAmbientColorG = -1;
+	if(_MatAmbientColorG > 1)
+		_MatAmbientColorG = 1;
+
+	_MatAmbientColorB = MatAmbientColorB;
+	if(_MatAmbientColorB < -1)
+		_MatAmbientColorB = -1;
+	if(_MatAmbientColorB > 1)
+		_MatAmbientColorB = 1;
+
+	_MatAmbientColorA = MatAmbientColorA;
+	if(_MatAmbientColorA < -1)
+		_MatAmbientColorA = -1;
+	if(_MatAmbientColorA > 1)
+		_MatAmbientColorA = 1;
+			
+	_MatDiffuseColorR = MatDiffuseColorR;
+	if(_MatDiffuseColorR < -1)
+		_MatDiffuseColorR = -1;
+	if(_MatDiffuseColorR > 1)
+		_MatDiffuseColorR = 1;
+
+	_MatDiffuseColorG = MatDiffuseColorG;
+	if(_MatDiffuseColorG < -1)
+		_MatDiffuseColorG = -1;
+	if(_MatDiffuseColorG > 1)
+		_MatDiffuseColorG = 1;
+
+	_MatDiffuseColorB = MatDiffuseColorB;
+	if(_MatDiffuseColorB < -1)
+		_MatDiffuseColorB = -1;
+	if(_MatDiffuseColorB > 1)
+		_MatDiffuseColorB = 1;
+
+	_MatDiffuseColorA = MatDiffuseColorA;
+	if(_MatDiffuseColorA < -1)
+		_MatDiffuseColorA = -1;
+	if(_MatDiffuseColorA > 1)
+		_MatDiffuseColorA = 1;
+
+	_MatSpecularColorR = MatSpecularColorR;
+	if(_MatSpecularColorR < -1)
+		_MatSpecularColorR = -1;
+	if(_MatSpecularColorR > 1)
+		_MatSpecularColorR = 1;
+
+	_MatSpecularColorG = MatSpecularColorG;
+	if(_MatSpecularColorG < -1)
+		_MatSpecularColorG = -1;
+	if(_MatSpecularColorG > 1)
+		_MatSpecularColorG = 1;
+
+	_MatSpecularColorB = MatSpecularColorB;
+	if(_MatSpecularColorB < -1)
+		_MatSpecularColorB = -1;
+	if(_MatSpecularColorB > 1)
+		_MatSpecularColorB = 1;
+
+	_MatSpecularColorA = MatSpecularColorA;
+	if(_MatSpecularColorA < -1)
+		_MatSpecularColorA = -1;
+	if(_MatSpecularColorA > 1)
+		_MatSpecularColorA = 1;
+
+	_MatEmissionColorR = MatEmissionColorR;
+	if(_MatEmissionColorR < -1)
+		_MatEmissionColorR = -1;
+	if(_MatEmissionColorR > 1)
+		_MatEmissionColorR = 1;
+
+	_MatEmissionColorG = MatEmissionColorG;
+	if(_MatEmissionColorG < -1)
+		_MatEmissionColorG = -1;
+	if(_MatEmissionColorG > 1)
+		_MatEmissionColorG = 1;
+
+	_MatEmissionColorB = MatEmissionColorB;
+	if(_MatEmissionColorB < -1)
+		_MatEmissionColorB = -1;
+	if(_MatEmissionColorB > 1)
+		_MatEmissionColorB = 1;
+
+	_MatEmissionColorA = MatEmissionColorA;
+	if(_MatEmissionColorA < -1)
+		_MatEmissionColorA = -1;
+	if(_MatEmissionColorA > 1)
+		_MatEmissionColorA = 1;
+
+	_MatShininess = MatShininess;
+	if(_MatShininess < 0)
+		_MatShininess = 0;
+	if(_MatShininess > 128)
+		_MatShininess = 128;
+
+
+	RefreshMaterial();
+}
+
+
+/***********************************************************
+refresh object material
+***********************************************************/
+void OsgObjectHandler::RefreshMaterial()
 {
 	osg::ref_ptr<osg::Node> node;
 	if(_OsgObject)
@@ -801,22 +941,62 @@ void OsgObjectHandler::SetTransparency(float alpha)
 
 	if(node)
 	{
-		if(alpha < 1)
+		if(_useTransparentMaterial || _MaterialType > 0)
 		{
-			osg::Material* material = new osg::Material;
-			material->setAlpha(osg::Material::FRONT, alpha); 
 			osg::StateSet* stateset = node->getOrCreateStateSet();
+			osg::Material* material = new osg::Material;
+
+			if(_useTransparentMaterial)
+			{
+				material->setAlpha(osg::Material::FRONT_AND_BACK, _materialAlpha); 
+
+				stateset->setMode( GL_BLEND, osg::StateAttribute::ON );
+				stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+				stateset->setRenderBinDetails( 30, "DepthSortedBin");
+			}
+
+			if(_MaterialType > 0)
+			{
+				stateset->setMode(GL_COLOR_MATERIAL, osg::StateAttribute::ON); 
+
+				material->setAmbient(osg::Material::FRONT_AND_BACK, osg::Vec4(_MatAmbientColorR, _MatAmbientColorG, _MatAmbientColorB, _MatAmbientColorA)); 
+				material->setDiffuse(osg::Material::FRONT_AND_BACK, osg::Vec4(_MatDiffuseColorR, _MatDiffuseColorG, _MatDiffuseColorB, _MatDiffuseColorA)); 
+				material->setSpecular(osg::Material::FRONT_AND_BACK, osg::Vec4(_MatSpecularColorR, _MatSpecularColorG, _MatSpecularColorB, _MatSpecularColorA)); 
+				material->setEmission(osg::Material::FRONT_AND_BACK, osg::Vec4(_MatEmissionColorR, _MatEmissionColorG, _MatEmissionColorB, _MatEmissionColorA)); 			
+				material->setShininess(osg::Material::FRONT_AND_BACK, _MatShininess); 
+
+				osg::Material::ColorMode colormode;
+				switch(_MaterialType)
+				{
+					case 1:
+						colormode = osg::Material::AMBIENT;
+					break;
+					case 2:
+						colormode = osg::Material::DIFFUSE;
+					break;
+					case 3:
+						colormode = osg::Material::SPECULAR;
+					break;
+					case 4:
+						colormode = osg::Material::EMISSION;
+					break;
+					case 5:
+						colormode = osg::Material::AMBIENT_AND_DIFFUSE;
+					break;
+				}
+				material->setColorMode(colormode); 
+
+			}
+
 			stateset->setAttributeAndModes(material, 
 							osg::StateAttribute::OVERRIDE|osg::StateAttribute::ON); 
-
-			stateset->setMode( GL_BLEND, osg::StateAttribute::ON );
-			stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-			stateset->setRenderBinDetails( 30, "DepthSortedBin");
 		}
 		else
 		{
 			osg::StateSet* stateset = node->getOrCreateStateSet();
 			stateset->removeAttribute(osg::StateAttribute::MATERIAL);
+
+			stateset->setMode(GL_COLOR_MATERIAL, osg::StateAttribute::OFF); 
 			stateset->setRenderingHint( osg::StateSet::DEFAULT_BIN );
 		}
 	}
