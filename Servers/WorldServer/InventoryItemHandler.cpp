@@ -98,6 +98,35 @@ void InventoryItemDef::SaveToLuaFile(std::ofstream & file) const
 		file<<"\t"<<name.str()<<".DisplayDesc.RotX = "<<_displayinfo.RotX<<std::endl;
 		file<<"\t"<<name.str()<<".DisplayDesc.RotY = "<<_displayinfo.RotY<<std::endl;
 		file<<"\t"<<name.str()<<".DisplayDesc.RotZ = "<<_displayinfo.RotZ<<std::endl;
+		file<<"\t"<<name.str()<<".DisplayDesc.UseBillboard = "<<(_displayinfo.UseBillboard?"true":"false")<<std::endl;
+
+		if(_displayinfo.UseTransparentMaterial)
+		{
+			file<<"\t"<<name.str()<<".DisplayDesc.UseTransparentMaterial = true"<<std::endl;
+			file<<"\t"<<name.str()<<".DisplayDesc.MatAlpha = "<<_displayinfo.MatAlpha<<std::endl;
+		}
+
+		if(_displayinfo.ColorMaterialType > 0)
+		{
+			file<<"\t"<<name.str()<<".DisplayDesc.ColorMaterialType = "<<_displayinfo.ColorMaterialType<<std::endl;
+			file<<"\t"<<name.str()<<".DisplayDesc.MatAmbientColorR = "<<_displayinfo.MatAmbientColorR<<std::endl;
+			file<<"\t"<<name.str()<<".DisplayDesc.MatAmbientColorG = "<<_displayinfo.MatAmbientColorG<<std::endl;
+			file<<"\t"<<name.str()<<".DisplayDesc.MatAmbientColorB = "<<_displayinfo.MatAmbientColorB<<std::endl;
+			file<<"\t"<<name.str()<<".DisplayDesc.MatAmbientColorA = "<<_displayinfo.MatAmbientColorA<<std::endl;
+			file<<"\t"<<name.str()<<".DisplayDesc.MatDiffuseColorR = "<<_displayinfo.MatDiffuseColorR<<std::endl;
+			file<<"\t"<<name.str()<<".DisplayDesc.MatDiffuseColorG = "<<_displayinfo.MatDiffuseColorG<<std::endl;
+			file<<"\t"<<name.str()<<".DisplayDesc.MatDiffuseColorB = "<<_displayinfo.MatDiffuseColorB<<std::endl;
+			file<<"\t"<<name.str()<<".DisplayDesc.MatDiffuseColorA = "<<_displayinfo.MatDiffuseColorA<<std::endl;
+			file<<"\t"<<name.str()<<".DisplayDesc.MatSpecularColorR = "<<_displayinfo.MatSpecularColorR<<std::endl;
+			file<<"\t"<<name.str()<<".DisplayDesc.MatSpecularColorG = "<<_displayinfo.MatSpecularColorG<<std::endl;
+			file<<"\t"<<name.str()<<".DisplayDesc.MatSpecularColorB = "<<_displayinfo.MatSpecularColorB<<std::endl;
+			file<<"\t"<<name.str()<<".DisplayDesc.MatSpecularColorA = "<<_displayinfo.MatSpecularColorA<<std::endl;
+			file<<"\t"<<name.str()<<".DisplayDesc.MatEmissionColorR = "<<_displayinfo.MatEmissionColorR<<std::endl;
+			file<<"\t"<<name.str()<<".DisplayDesc.MatEmissionColorG = "<<_displayinfo.MatEmissionColorG<<std::endl;
+			file<<"\t"<<name.str()<<".DisplayDesc.MatEmissionColorB = "<<_displayinfo.MatEmissionColorB<<std::endl;
+			file<<"\t"<<name.str()<<".DisplayDesc.MatEmissionColorA = "<<_displayinfo.MatEmissionColorA<<std::endl;
+			file<<"\t"<<name.str()<<".DisplayDesc.MatShininess = "<<_displayinfo.MatShininess<<std::endl;
+		}
 	}
 
 	if(_action)

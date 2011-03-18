@@ -65,6 +65,31 @@ public:
 		_displayinfo.ColorG = 0;
 		_displayinfo.ColorB = 0;
 		_displayinfo.ColorA = 0;
+
+
+		_displayinfo.UseBillboard = false;
+
+		_displayinfo.UseTransparentMaterial = false;
+		_displayinfo.MatAlpha = 1;
+			
+		_displayinfo.ColorMaterialType = 0;
+		_displayinfo.MatAmbientColorR = 0.2f;
+		_displayinfo.MatAmbientColorG = 0.2f;
+		_displayinfo.MatAmbientColorB = 0.2f;
+		_displayinfo.MatAmbientColorA = 1;			
+		_displayinfo.MatDiffuseColorR = 0.8f;
+		_displayinfo.MatDiffuseColorG = 0.8f;
+		_displayinfo.MatDiffuseColorB = 0.8f;
+		_displayinfo.MatDiffuseColorA = 1;
+		_displayinfo.MatSpecularColorR = 0;
+		_displayinfo.MatSpecularColorG = 0;
+		_displayinfo.MatSpecularColorB = 0;
+		_displayinfo.MatSpecularColorA = 1;	
+		_displayinfo.MatEmissionColorR = 0;
+		_displayinfo.MatEmissionColorG = 0;
+		_displayinfo.MatEmissionColorB = 0;
+		_displayinfo.MatEmissionColorA = 1;
+		_displayinfo.MatShininess = 0;
 	}
 
 	//! constructor

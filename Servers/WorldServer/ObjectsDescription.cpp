@@ -236,7 +236,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> SpriteDescription::BuildSelf(boost::
 {
 	if(disH)
 		return disH->CreateSpriteObject(_spritefile, _colorR, _colorG, _colorB, _colorA, 
-											Tr, _UseLight, _CastShadow, _extrainfo, _lifeinfo);
+											Tr, _UseLight, _CastShadow, _extrainfo, _lifeinfo, _UseBillboard);
 
 	return boost::shared_ptr<DisplayObjectHandlerBase> ();
 }
@@ -253,7 +253,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgSimpleObjectDescription::BuildSel
 															DisplayHandlerBase * disH) const
 {
 	if(disH)
-		return disH->CreateSimpleObject(_filename, Tr, _UseLight, _CastShadow, _extrainfo, _lifeinfo, _colorA);
+		return disH->CreateSimpleObject(_filename, Tr, _UseLight, _CastShadow, _extrainfo, _lifeinfo);
 
 	return boost::shared_ptr<DisplayObjectHandlerBase> ();
 }

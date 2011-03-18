@@ -3550,7 +3550,8 @@ Ice::Long MapHandler::AddGhost(Ice::Long playerid, Ice::Long actorid, const LbaN
 		ainfo.PhysicDesc.Pos = info;
 		ainfo.PhysicDesc.TypePhysO = LbaNet::KynematicAType;
 		ainfo.PhysicDesc.Collidable = false;
-		ainfo.DisplayDesc.ColorA = 0.5f;
+		ainfo.DisplayDesc.UseTransparentMaterial = true;
+		ainfo.DisplayDesc.MatAlpha = 0.5f;
 		_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 													3, gid, playerid, ainfo.DisplayDesc, ainfo.PhysicDesc,
 													ainfo.LifeInfo, ainfo.ExtraInfo));
@@ -3700,8 +3701,8 @@ void MapHandler::PlayerKilledNpc(long PlayerId, long NpcId, const LbaNet::ItemsM
 					modelinfo.ScaleX = 0.2f;
 					modelinfo.ScaleY = 0.2f;
 					modelinfo.ScaleZ = 0.2f;
-					modelinfo.RotY = 45;
 					modelinfo.ModelName = "Data/" + itptr->GetIconName();
+					modelinfo.UseBillboard = true;
 				}
 				
 				ObjectPhysicDesc	PhysicDesc;

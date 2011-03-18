@@ -41,10 +41,40 @@ ActorObjectInfo::ActorObjectInfo(long id)
 	DisplayDesc.ColorG = 1;
 	DisplayDesc.ColorB = 1;
 	DisplayDesc.ColorA = 1;
+
+	DisplayDesc.UseBillboard = false;
+
+	DisplayDesc.UseTransparentMaterial = false;
+	DisplayDesc.MatAlpha = 1;
+		
+	DisplayDesc.ColorMaterialType = 0;
+	DisplayDesc.MatAmbientColorR = 0.2f;
+	DisplayDesc.MatAmbientColorG = 0.2f;
+	DisplayDesc.MatAmbientColorB = 0.2f;
+	DisplayDesc.MatAmbientColorA = 1;			
+	DisplayDesc.MatDiffuseColorR = 0.8f;
+	DisplayDesc.MatDiffuseColorG = 0.8f;
+	DisplayDesc.MatDiffuseColorB = 0.8f;
+	DisplayDesc.MatDiffuseColorA = 1;
+	DisplayDesc.MatSpecularColorR = 0;
+	DisplayDesc.MatSpecularColorG = 0;
+	DisplayDesc.MatSpecularColorB = 0;
+	DisplayDesc.MatSpecularColorA = 1;	
+	DisplayDesc.MatEmissionColorR = 0;
+	DisplayDesc.MatEmissionColorG = 0;
+	DisplayDesc.MatEmissionColorB = 0;
+	DisplayDesc.MatEmissionColorA = 1;
+	DisplayDesc.MatShininess = 0;	
+
+
+
 	PhysicDesc.Density = 1;
 	PhysicDesc.SizeX = 0;
 	PhysicDesc.SizeY = 0;
 	PhysicDesc.SizeZ = 0;
+
+
+
 	ExtraInfo.NameColorR = 0;
 	ExtraInfo.NameColorG = 0;
 	ExtraInfo.NameColorB = 0;
@@ -571,6 +601,36 @@ void ActorHandler::SaveToLuaFile(std::ofstream & file)
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.RotY = "<<m_actorinfo.DisplayDesc.RotY<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.RotZ = "<<m_actorinfo.DisplayDesc.RotZ<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<":SetModelState("<<m_actorinfo.GetModelState()<<")"<<std::endl;
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.UseBillboard = "<<(m_actorinfo.DisplayDesc.UseBillboard?"true":"false")<<std::endl;
+	
+	if(m_actorinfo.DisplayDesc.UseTransparentMaterial)
+	{
+		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.UseTransparentMaterial = true"<<std::endl;
+		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatAlpha = "<<m_actorinfo.DisplayDesc.MatAlpha<<std::endl;
+	}
+
+	if(m_actorinfo.DisplayDesc.ColorMaterialType > 0)
+	{
+		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ColorMaterialType = "<<m_actorinfo.DisplayDesc.ColorMaterialType<<std::endl;
+		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatAmbientColorR = "<<m_actorinfo.DisplayDesc.MatAmbientColorR<<std::endl;
+		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatAmbientColorG = "<<m_actorinfo.DisplayDesc.MatAmbientColorG<<std::endl;
+		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatAmbientColorB = "<<m_actorinfo.DisplayDesc.MatAmbientColorB<<std::endl;
+		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatAmbientColorA = "<<m_actorinfo.DisplayDesc.MatAmbientColorA<<std::endl;
+		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatDiffuseColorR = "<<m_actorinfo.DisplayDesc.MatDiffuseColorR<<std::endl;
+		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatDiffuseColorG = "<<m_actorinfo.DisplayDesc.MatDiffuseColorG<<std::endl;
+		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatDiffuseColorB = "<<m_actorinfo.DisplayDesc.MatDiffuseColorB<<std::endl;
+		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatDiffuseColorA = "<<m_actorinfo.DisplayDesc.MatDiffuseColorA<<std::endl;
+		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatSpecularColorR = "<<m_actorinfo.DisplayDesc.MatSpecularColorR<<std::endl;
+		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatSpecularColorG = "<<m_actorinfo.DisplayDesc.MatSpecularColorG<<std::endl;
+		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatSpecularColorB = "<<m_actorinfo.DisplayDesc.MatSpecularColorB<<std::endl;
+		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatSpecularColorA = "<<m_actorinfo.DisplayDesc.MatSpecularColorA<<std::endl;
+		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatEmissionColorR = "<<m_actorinfo.DisplayDesc.MatEmissionColorR<<std::endl;
+		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatEmissionColorG = "<<m_actorinfo.DisplayDesc.MatEmissionColorG<<std::endl;
+		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatEmissionColorB = "<<m_actorinfo.DisplayDesc.MatEmissionColorB<<std::endl;
+		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatEmissionColorA = "<<m_actorinfo.DisplayDesc.MatEmissionColorA<<std::endl;
+		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatShininess = "<<m_actorinfo.DisplayDesc.MatShininess<<std::endl;
+	}
+
 
 	// add color swaps
 	{
