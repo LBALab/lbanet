@@ -73,6 +73,7 @@ function InitMap(environment)
 	Actor_1.PhysicDesc.SizeX = 0
 	Actor_1.PhysicDesc.SizeY = 0
 	Actor_1.PhysicDesc.SizeZ = 0
+	Actor_1.PhysicDesc.AllowFreeMove = true
 	Actor_1.PhysicDesc.Filename = "Worlds/Lba1Original/Grids/Map6.phy"
 	Actor_1:SetPhysicalActorType(1)
 	Actor_1:SetPhysicalShape(5)
@@ -117,6 +118,7 @@ function InitMap(environment)
 	Actor_7.PhysicDesc.SizeX = 1
 	Actor_7.PhysicDesc.SizeY = 5
 	Actor_7.PhysicDesc.SizeZ = 3.2
+	Actor_7.PhysicDesc.AllowFreeMove = true
 	Actor_7.PhysicDesc.Filename = ""
 	Actor_7:SetPhysicalActorType(2)
 	Actor_7:SetPhysicalShape(2)
@@ -169,6 +171,7 @@ function InitMap(environment)
 	Actor_8.PhysicDesc.SizeX = 1
 	Actor_8.PhysicDesc.SizeY = 5
 	Actor_8.PhysicDesc.SizeZ = 3.2
+	Actor_8.PhysicDesc.AllowFreeMove = true
 	Actor_8.PhysicDesc.Filename = ""
 	Actor_8:SetPhysicalActorType(2)
 	Actor_8:SetPhysicalShape(2)
@@ -221,6 +224,7 @@ function InitMap(environment)
 	Actor_9.PhysicDesc.SizeX = 3.2
 	Actor_9.PhysicDesc.SizeY = 8
 	Actor_9.PhysicDesc.SizeZ = 1
+	Actor_9.PhysicDesc.AllowFreeMove = true
 	Actor_9.PhysicDesc.Filename = ""
 	Actor_9:SetPhysicalActorType(2)
 	Actor_9:SetPhysicalShape(2)
@@ -273,6 +277,7 @@ function InitMap(environment)
 	Actor_10.PhysicDesc.SizeX = 5
 	Actor_10.PhysicDesc.SizeY = 10
 	Actor_10.PhysicDesc.SizeZ = 15
+	Actor_10.PhysicDesc.AllowFreeMove = true
 	Actor_10.PhysicDesc.Filename = ""
 	Actor_10:SetPhysicalActorType(2)
 	Actor_10:SetPhysicalShape(2)
@@ -325,6 +330,7 @@ function InitMap(environment)
 	Actor_11.PhysicDesc.SizeX = 1.5
 	Actor_11.PhysicDesc.SizeY = 5
 	Actor_11.PhysicDesc.SizeZ = 1.5
+	Actor_11.PhysicDesc.AllowFreeMove = true
 	Actor_11.PhysicDesc.Filename = ""
 	Actor_11:SetPhysicalActorType(2)
 	Actor_11:SetPhysicalShape(2)
@@ -365,15 +371,16 @@ function InitMap(environment)
 	Actor_12.DisplayDesc.RotY = 0
 	Actor_12.DisplayDesc.RotZ = 0
 	Actor_12:SetModelState(1)
-	Actor_12.PhysicDesc.Pos.X = 49.7188
+	Actor_12.PhysicDesc.Pos.X = 51.8
 	Actor_12.PhysicDesc.Pos.Y = 4
 	Actor_12.PhysicDesc.Pos.Z = 45.4688
-	Actor_12.PhysicDesc.Pos.Rotation = 247
+	Actor_12.PhysicDesc.Pos.Rotation = 40
 	Actor_12.PhysicDesc.Density = 1
 	Actor_12.PhysicDesc.Collidable = true
 	Actor_12.PhysicDesc.SizeX = 1.5
 	Actor_12.PhysicDesc.SizeY = 5
 	Actor_12.PhysicDesc.SizeZ = 1.5
+	Actor_12.PhysicDesc.AllowFreeMove = true
 	Actor_12.PhysicDesc.Filename = ""
 	Actor_12:SetPhysicalActorType(2)
 	Actor_12:SetPhysicalShape(2)
@@ -384,11 +391,40 @@ function InitMap(environment)
 	Actor_12.ExtraInfo.Display = false
 	Actor_12.LifeInfo.Display = false
 	Actor_12H = NPCHandler(Actor_12)
+	Actor_12_Sc0 = ASPStartWaypoint(55,4,44.5,true)
+	Actor_12H:AddScriptPart(Actor_12_Sc0)
+	Actor_12_Sc1 = ASPFollowWaypoint(55,4,52)
+	Actor_12H:AddScriptPart(Actor_12_Sc1)
+	Actor_12_Sc2 = ASPFollowWaypoint(50.5,4,51)
+	Actor_12H:AddScriptPart(Actor_12_Sc2)
+	Actor_12_Sc3 = ASPFollowWaypoint(50,4,44.5)
+	Actor_12H:AddScriptPart(Actor_12_Sc3)
 	Actor_12H_dia = DialogPart()
 	Actor_12H_dia:SetResetDialog(false)
+	Actor_12H_dia_c0 = DialogPart()
+	Actor_12H_dia_c0:SetResetDialog(false)
+	Actor_12H_dia_c0:AddText(0)
+	Actor_12H_dia_c0_c0 = DialogPart()
+	Actor_12H_dia_c0_c0:SetResetDialog(false)
+	Actor_12H_dia_c0_c0:AddText(52)
+	Actor_12H_dia_c0:AddChild(Actor_12H_dia_c0_c0)
+	Actor_12H_dia:AddChild(Actor_12H_dia_c0)
 	Actor_12H:SetRootDialog(Actor_12H_dia)
 	Actor_12H:SetNpcName(-1)
 	Actor_12H:SetSimpleDialog(false)
+	Actor_12H:SetAggresive(true)
+	Actor_12H:SetLife(50)
+	Actor_12H:SetMana(50)
+	Actor_12H:SetArmor(0)
+	Actor_12H:SetWeapon1Power(0)
+	Actor_12H:SetWeapon2Power(0)
+	Actor_12H:SetAttackActiDist(0)
+	Actor_12H:SetAttackActiDistDiscrete(0)
+	Actor_12H:SetAttackActiDistHidden(0)
+	Actor_12H:SetAttackStopDist(0)
+	Actor_12H:SetRespawnTimeInSec(10)
+	Actor_12H:AddGivenItem(1,1,1,1,-1)
+	Actor_12H:AddGivenItem(2,1,1,1,-1)
 	environment:AddActorObject(Actor_12H)
 
 	Actor_13 = ActorObjectInfo(13)
@@ -423,6 +459,7 @@ function InitMap(environment)
 	Actor_13.PhysicDesc.SizeX = 1.5
 	Actor_13.PhysicDesc.SizeY = 5
 	Actor_13.PhysicDesc.SizeZ = 1.5
+	Actor_13.PhysicDesc.AllowFreeMove = true
 	Actor_13.PhysicDesc.Filename = ""
 	Actor_13:SetPhysicalActorType(2)
 	Actor_13:SetPhysicalShape(2)
@@ -472,6 +509,7 @@ function InitMap(environment)
 	Actor_14.PhysicDesc.SizeX = 1
 	Actor_14.PhysicDesc.SizeY = 5
 	Actor_14.PhysicDesc.SizeZ = 1
+	Actor_14.PhysicDesc.AllowFreeMove = true
 	Actor_14.PhysicDesc.Filename = ""
 	Actor_14:SetPhysicalActorType(2)
 	Actor_14:SetPhysicalShape(2)
@@ -521,6 +559,7 @@ function InitMap(environment)
 	Actor_15.PhysicDesc.SizeX = 1
 	Actor_15.PhysicDesc.SizeY = 5
 	Actor_15.PhysicDesc.SizeZ = 1
+	Actor_15.PhysicDesc.AllowFreeMove = true
 	Actor_15.PhysicDesc.Filename = ""
 	Actor_15:SetPhysicalActorType(2)
 	Actor_15:SetPhysicalShape(2)
@@ -570,6 +609,7 @@ function InitMap(environment)
 	Actor_16.PhysicDesc.SizeX = 3
 	Actor_16.PhysicDesc.SizeY = 7
 	Actor_16.PhysicDesc.SizeZ = 7
+	Actor_16.PhysicDesc.AllowFreeMove = true
 	Actor_16.PhysicDesc.Filename = ""
 	Actor_16:SetPhysicalActorType(2)
 	Actor_16:SetPhysicalShape(2)
@@ -619,6 +659,7 @@ function InitMap(environment)
 	Actor_17.PhysicDesc.SizeX = 0.5
 	Actor_17.PhysicDesc.SizeY = 2
 	Actor_17.PhysicDesc.SizeZ = 0.6
+	Actor_17.PhysicDesc.AllowFreeMove = true
 	Actor_17.PhysicDesc.Filename = ""
 	Actor_17:SetPhysicalActorType(2)
 	Actor_17:SetPhysicalShape(2)
@@ -640,6 +681,7 @@ function InitMap(environment)
 	Trigger_1 = ZoneTrigger(Trigger_1_info, 1, 5, 8, true)
 	Trigger_1:SetPosition(63.5, 0, 49)
 	Trigger_1:SetStayUpdateFrequency(-1)
+	Trigger_1:SetActivateOnJump(true)
 	Trigger_1_act1 = TeleportAction()
 	Trigger_1_act1:SetMapName("Map002_1")
 	Trigger_1_act1:SetSpawning(8)
@@ -650,6 +692,7 @@ function InitMap(environment)
 	Trigger_2 = ZoneTrigger(Trigger_2_info, 4, 4, 1, true)
 	Trigger_2:SetPosition(39, 4, 23.5)
 	Trigger_2:SetStayUpdateFrequency(-1)
+	Trigger_2:SetActivateOnJump(true)
 	Trigger_2_act1 = TeleportAction()
 	Trigger_2_act1:SetMapName("Map035_1")
 	Trigger_2_act1:SetSpawning(1)
@@ -660,6 +703,7 @@ function InitMap(environment)
 	Trigger_3 = ZoneTrigger(Trigger_3_info, 1, 3, 2, true)
 	Trigger_3:SetPosition(0.5, 3, 1)
 	Trigger_3:SetStayUpdateFrequency(-1)
+	Trigger_3:SetActivateOnJump(true)
 	Trigger_3_act1 = TeleportAction()
 	Trigger_3_act1:SetMapName("Map011_1")
 	Trigger_3_act1:SetSpawning(1)
@@ -670,6 +714,7 @@ function InitMap(environment)
 	Trigger_4 = ZoneTrigger(Trigger_4_info, 3, 3, 1, true)
 	Trigger_4:SetPosition(57.5, 4, 24.5)
 	Trigger_4:SetStayUpdateFrequency(-1)
+	Trigger_4:SetActivateOnJump(true)
 	Trigger_4_act1 = TeleportAction()
 	Trigger_4_act1:SetMapName("Map104_1")
 	Trigger_4_act1:SetSpawning(1)
@@ -757,6 +802,7 @@ function InitMap(environment)
 	Trigger_10 = ZoneTrigger(Trigger_10_info, 4, 5, 6, false)
 	Trigger_10:SetPosition(47.5, 4, 46)
 	Trigger_10:SetStayUpdateFrequency(-1)
+	Trigger_10:SetActivateOnJump(true)
 	Trigger_10_act1 = MultiAction()
 	Trigger_10_act1_act0 = OpenDoorAction()
 	Trigger_10_act1_act0:SetActorId(8)
@@ -779,6 +825,7 @@ function InitMap(environment)
 	Trigger_12 = ZoneTrigger(Trigger_12_info, 4.6, 8, 5, false)
 	Trigger_12:SetPosition(57.5, 4, 24.5)
 	Trigger_12:SetStayUpdateFrequency(-1)
+	Trigger_12:SetActivateOnJump(true)
 	Trigger_12_act1 = OpenDoorAction()
 	Trigger_12_act1:SetActorId(9)
 	Trigger_12:SetAction1(Trigger_12_act1)
