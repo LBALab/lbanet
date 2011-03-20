@@ -39,7 +39,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/D _USE_QT_EDITOR_"
-				AdditionalIncludeDirectories=".\GeneratedFiles;&quot;$(QTDIR)\include&quot;;&quot;.\GeneratedFiles\$(ConfigurationName)&quot;;&quot;$(QTDIR)\include\qtmain&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtOpenGL&quot;;.\;..\dependencies\OSG\include;..\dependencies\CEGUI\cegui\include;..\dependencies\3rdParty\include;..\dependencies\libconfig\include;..\shared;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Foundation/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Physics/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Cooking/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/PhysXLoader/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/NxCharacter/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot;;..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\dependencies\fmod\include;..\dependencies\CrashReport\crashrpt\include;..\Servers\WorldServer;..\dependencies\sqlite;..\dependencies\LUA\include;..\dependencies\luabind\include;..\Client"
+				AdditionalIncludeDirectories=".\GeneratedFiles;&quot;$(QTDIR)\include&quot;;&quot;.\GeneratedFiles\$(ConfigurationName)&quot;;&quot;$(QTDIR)\include\qtmain&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtOpenGL&quot;;.\;..\dependencies\OSG\include;..\dependencies\CEGUI\cegui\include;..\dependencies\3rdParty\include;..\dependencies\libconfig\include;..\shared;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Foundation/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Physics/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Cooking/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/PhysXLoader/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/NxCharacter/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot;;..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\dependencies\fmod\include;..\dependencies\CrashReport\crashrpt\include;..\Servers\WorldServer;..\dependencies\sqlite;..\dependencies\LUA\include;..\dependencies\luabind\include;..\Client;..\dependencies\recast\Recast\Include;..\dependencies\recast\Detour\Include"
 				PreprocessorDefinitions=",UNICODE,WIN32,QT_LARGEFILE_SUPPORT;QT_THREAD_SUPPORT;QT_NO_DEBUG,NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_OPENGL_LIB"
 				RuntimeLibrary="2"
 				TreatWChar_tAsBuiltInType="false"
@@ -109,7 +109,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/D _USE_QT_EDITOR_"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\GeneratedFiles;&quot;$(QTDIR)\include&quot;;&quot;.\GeneratedFiles\$(ConfigurationName)&quot;;&quot;$(QTDIR)\include\qtmain&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtOpenGL&quot;;.\;..\dependencies\OSG\include;..\dependencies\CEGUI\cegui\include;..\dependencies\3rdParty\include;..\dependencies\libconfig\include;..\shared;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Foundation/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Physics/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Cooking/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/PhysXLoader/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/NxCharacter/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot;;..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\dependencies\fmod\include;..\dependencies\CrashReport\crashrpt\include;..\Servers\WorldServer;..\dependencies\sqlite;..\dependencies\LUA\include;..\dependencies\luabind\include;..\Client"
+				AdditionalIncludeDirectories=".\GeneratedFiles;&quot;$(QTDIR)\include&quot;;&quot;.\GeneratedFiles\$(ConfigurationName)&quot;;&quot;$(QTDIR)\include\qtmain&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtOpenGL&quot;;.\;..\dependencies\OSG\include;..\dependencies\CEGUI\cegui\include;..\dependencies\3rdParty\include;..\dependencies\libconfig\include;..\shared;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Foundation/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Physics/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/Cooking/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/PhysXLoader/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs/NxCharacter/include&quot;;&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot;;..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\dependencies\fmod\include;..\dependencies\CrashReport\crashrpt\include;..\Servers\WorldServer;..\dependencies\sqlite;..\dependencies\LUA\include;..\dependencies\luabind\include;..\Client;..\dependencies\recast\Recast\Include;..\dependencies\recast\Detour\Include"
 				PreprocessorDefinitions=",UNICODE,WIN32,QT_LARGEFILE_SUPPORT;QT_THREAD_SUPPORT;QT_CORE_LIB;QT_GUI_LIB;QT_OPENGL_LIB"
 				RuntimeLibrary="3"
 				TreatWChar_tAsBuiltInType="false"
@@ -277,6 +277,30 @@
 			</File>
 			<File
 				RelativePath="..\Client\DataLoader.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dependencies\recast\Detour\Source\DetourAlloc.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dependencies\recast\Detour\Source\DetourCommon.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dependencies\recast\Detour\Source\DetourNavMesh.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dependencies\recast\Detour\Source\DetourNavMeshBuilder.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dependencies\recast\Detour\Source\DetourNavMeshQuery.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dependencies\recast\Detour\Source\DetourNode.cpp"
 				>
 			</File>
 			<File
@@ -468,6 +492,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\shared\NaviMeshHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Servers\WorldServer\NpcHandler.cpp"
 				>
 			</File>
@@ -517,6 +545,46 @@
 			</File>
 			<File
 				RelativePath="..\shared\Randomizer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dependencies\recast\Recast\Source\Recast.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dependencies\recast\Recast\Source\RecastAlloc.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dependencies\recast\Recast\Source\RecastArea.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dependencies\recast\Recast\Source\RecastContour.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dependencies\recast\Recast\Source\RecastFilter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dependencies\recast\Recast\Source\RecastLayers.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dependencies\recast\Recast\Source\RecastMesh.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dependencies\recast\Recast\Source\RecastMeshDetail.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dependencies\recast\Recast\Source\RecastRasterization.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\dependencies\recast\Recast\Source\RecastRegion.cpp"
 				>
 			</File>
 			<File
@@ -802,7 +870,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB  -I&quot;.\GeneratedFiles&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)&quot; -I&quot;$(QTDIR)\include\qtmain&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtOpenGL&quot; -I&quot;.&quot; -I&quot;.\..\dependencies\OSG\include&quot; -I&quot;.\..\dependencies\CEGUI\cegui\include&quot; -I&quot;.\..\dependencies\3rdParty\include&quot; -I&quot;.\..\dependencies\libconfig\include&quot; -I&quot;.\..\shared&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Foundation\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Physics\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Cooking\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\PhysXLoader\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\NxCharacter\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot; -I&quot;.\..\infrastructure\include&quot; -I&quot;$(ICE_HOME)\include&quot; -I&quot;.\..\dependencies\fmod\include&quot; -I&quot;.\..\dependencies\CrashReport\crashrpt\include&quot; -I&quot;.\..\Servers\WorldServer&quot; -I&quot;.\..\dependencies\sqlite&quot; -I&quot;.\..\dependencies\LUA\include&quot; -I&quot;.\..\dependencies\luabind\include&quot; -I&quot;.\..\Client&quot; &quot;.\editor.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB  -I&quot;.\GeneratedFiles&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)&quot; -I&quot;$(QTDIR)\include\qtmain&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtOpenGL&quot; -I&quot;.&quot; -I&quot;.\..\dependencies\OSG\include&quot; -I&quot;.\..\dependencies\CEGUI\cegui\include&quot; -I&quot;.\..\dependencies\3rdParty\include&quot; -I&quot;.\..\dependencies\libconfig\include&quot; -I&quot;.\..\shared&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Foundation\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Physics\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Cooking\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\PhysXLoader\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\NxCharacter\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot; -I&quot;.\..\infrastructure\include&quot; -I&quot;$(ICE_HOME)\include&quot; -I&quot;.\..\dependencies\fmod\include&quot; -I&quot;.\..\dependencies\CrashReport\crashrpt\include&quot; -I&quot;.\..\Servers\WorldServer&quot; -I&quot;.\..\dependencies\sqlite&quot; -I&quot;.\..\dependencies\LUA\include&quot; -I&quot;.\..\dependencies\luabind\include&quot; -I&quot;.\..\Client&quot; -I&quot;.\..\dependencies\recast\Recast\Include&quot; -I&quot;.\..\dependencies\recast\Detour\Include&quot; &quot;.\editor.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
@@ -813,7 +881,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB  -I&quot;.\GeneratedFiles&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)&quot; -I&quot;$(QTDIR)\include\qtmain&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtOpenGL&quot; -I&quot;.&quot; -I&quot;.\..\dependencies\OSG\include&quot; -I&quot;.\..\dependencies\CEGUI\cegui\include&quot; -I&quot;.\..\dependencies\3rdParty\include&quot; -I&quot;.\..\dependencies\libconfig\include&quot; -I&quot;.\..\shared&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Foundation\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Physics\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Cooking\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\PhysXLoader\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\NxCharacter\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot; -I&quot;.\..\infrastructure\include&quot; -I&quot;$(ICE_HOME)\include&quot; -I&quot;.\..\dependencies\fmod\include&quot; -I&quot;.\..\dependencies\CrashReport\crashrpt\include&quot; -I&quot;.\..\Servers\WorldServer&quot; -I&quot;.\..\dependencies\sqlite&quot; -I&quot;.\..\dependencies\LUA\include&quot; -I&quot;.\..\dependencies\luabind\include&quot; -I&quot;.\..\Client&quot; &quot;.\editor.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB  -I&quot;.\GeneratedFiles&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)&quot; -I&quot;$(QTDIR)\include\qtmain&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtOpenGL&quot; -I&quot;.&quot; -I&quot;.\..\dependencies\OSG\include&quot; -I&quot;.\..\dependencies\CEGUI\cegui\include&quot; -I&quot;.\..\dependencies\3rdParty\include&quot; -I&quot;.\..\dependencies\libconfig\include&quot; -I&quot;.\..\shared&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Foundation\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Physics\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Cooking\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\PhysXLoader\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\NxCharacter\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot; -I&quot;.\..\infrastructure\include&quot; -I&quot;$(ICE_HOME)\include&quot; -I&quot;.\..\dependencies\fmod\include&quot; -I&quot;.\..\dependencies\CrashReport\crashrpt\include&quot; -I&quot;.\..\Servers\WorldServer&quot; -I&quot;.\..\dependencies\sqlite&quot; -I&quot;.\..\dependencies\LUA\include&quot; -I&quot;.\..\dependencies\luabind\include&quot; -I&quot;.\..\Client&quot; -I&quot;.\..\dependencies\recast\Recast\Include&quot; -I&quot;.\..\dependencies\recast\Detour\Include&quot; &quot;.\editor.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
@@ -828,7 +896,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB  -I&quot;.\GeneratedFiles&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)&quot; -I&quot;$(QTDIR)\include\qtmain&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtOpenGL&quot; -I&quot;.&quot; -I&quot;.\..\dependencies\OSG\include&quot; -I&quot;.\..\dependencies\CEGUI\cegui\include&quot; -I&quot;.\..\dependencies\3rdParty\include&quot; -I&quot;.\..\dependencies\libconfig\include&quot; -I&quot;.\..\shared&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Foundation\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Physics\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Cooking\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\PhysXLoader\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\NxCharacter\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot; -I&quot;.\..\infrastructure\include&quot; -I&quot;$(ICE_HOME)\include&quot; -I&quot;.\..\dependencies\fmod\include&quot; -I&quot;.\..\dependencies\CrashReport\crashrpt\include&quot; -I&quot;.\..\Servers\WorldServer&quot; -I&quot;.\..\dependencies\sqlite&quot; -I&quot;.\..\dependencies\LUA\include&quot; -I&quot;.\..\dependencies\luabind\include&quot; -I&quot;.\..\Client&quot; &quot;.\editorhandler.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB  -I&quot;.\GeneratedFiles&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)&quot; -I&quot;$(QTDIR)\include\qtmain&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtOpenGL&quot; -I&quot;.&quot; -I&quot;.\..\dependencies\OSG\include&quot; -I&quot;.\..\dependencies\CEGUI\cegui\include&quot; -I&quot;.\..\dependencies\3rdParty\include&quot; -I&quot;.\..\dependencies\libconfig\include&quot; -I&quot;.\..\shared&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Foundation\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Physics\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Cooking\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\PhysXLoader\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\NxCharacter\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot; -I&quot;.\..\infrastructure\include&quot; -I&quot;$(ICE_HOME)\include&quot; -I&quot;.\..\dependencies\fmod\include&quot; -I&quot;.\..\dependencies\CrashReport\crashrpt\include&quot; -I&quot;.\..\Servers\WorldServer&quot; -I&quot;.\..\dependencies\sqlite&quot; -I&quot;.\..\dependencies\LUA\include&quot; -I&quot;.\..\dependencies\luabind\include&quot; -I&quot;.\..\Client&quot; -I&quot;.\..\dependencies\recast\Recast\Include&quot; -I&quot;.\..\dependencies\recast\Detour\Include&quot; &quot;.\editorhandler.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
@@ -839,7 +907,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB  -I&quot;.\GeneratedFiles&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)&quot; -I&quot;$(QTDIR)\include\qtmain&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtOpenGL&quot; -I&quot;.&quot; -I&quot;.\..\dependencies\OSG\include&quot; -I&quot;.\..\dependencies\CEGUI\cegui\include&quot; -I&quot;.\..\dependencies\3rdParty\include&quot; -I&quot;.\..\dependencies\libconfig\include&quot; -I&quot;.\..\shared&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Foundation\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Physics\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Cooking\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\PhysXLoader\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\NxCharacter\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot; -I&quot;.\..\infrastructure\include&quot; -I&quot;$(ICE_HOME)\include&quot; -I&quot;.\..\dependencies\fmod\include&quot; -I&quot;.\..\dependencies\CrashReport\crashrpt\include&quot; -I&quot;.\..\Servers\WorldServer&quot; -I&quot;.\..\dependencies\sqlite&quot; -I&quot;.\..\dependencies\LUA\include&quot; -I&quot;.\..\dependencies\luabind\include&quot; -I&quot;.\..\Client&quot; &quot;.\editorhandler.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB  -I&quot;.\GeneratedFiles&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)&quot; -I&quot;$(QTDIR)\include\qtmain&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtOpenGL&quot; -I&quot;.&quot; -I&quot;.\..\dependencies\OSG\include&quot; -I&quot;.\..\dependencies\CEGUI\cegui\include&quot; -I&quot;.\..\dependencies\3rdParty\include&quot; -I&quot;.\..\dependencies\libconfig\include&quot; -I&quot;.\..\shared&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Foundation\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Physics\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Cooking\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\PhysXLoader\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\NxCharacter\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot; -I&quot;.\..\infrastructure\include&quot; -I&quot;$(ICE_HOME)\include&quot; -I&quot;.\..\dependencies\fmod\include&quot; -I&quot;.\..\dependencies\CrashReport\crashrpt\include&quot; -I&quot;.\..\Servers\WorldServer&quot; -I&quot;.\..\dependencies\sqlite&quot; -I&quot;.\..\dependencies\LUA\include&quot; -I&quot;.\..\dependencies\luabind\include&quot; -I&quot;.\..\Client&quot; -I&quot;.\..\dependencies\recast\Recast\Include&quot; -I&quot;.\..\dependencies\recast\Detour\Include&quot; &quot;.\editorhandler.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
@@ -1003,6 +1071,10 @@
 			</File>
 			<File
 				RelativePath="..\Client\MusicHandler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\shared\NaviMeshHandler.h"
 				>
 			</File>
 			<File
@@ -1190,7 +1262,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB  -I&quot;.\GeneratedFiles&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)&quot; -I&quot;$(QTDIR)\include\qtmain&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtOpenGL&quot; -I&quot;.&quot; -I&quot;.\..\dependencies\OSG\include&quot; -I&quot;.\..\dependencies\CEGUI\cegui\include&quot; -I&quot;.\..\dependencies\3rdParty\include&quot; -I&quot;.\..\dependencies\libconfig\include&quot; -I&quot;.\..\shared&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Foundation\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Physics\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Cooking\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\PhysXLoader\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\NxCharacter\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot; -I&quot;.\..\infrastructure\include&quot; -I&quot;$(ICE_HOME)\include&quot; -I&quot;.\..\dependencies\fmod\include&quot; -I&quot;.\..\dependencies\CrashReport\crashrpt\include&quot; -I&quot;.\..\Servers\WorldServer&quot; -I&quot;.\..\dependencies\sqlite&quot; -I&quot;.\..\dependencies\LUA\include&quot; -I&quot;.\..\dependencies\luabind\include&quot; -I&quot;.\..\Client&quot; &quot;.\treemodel.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB  -I&quot;.\GeneratedFiles&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)&quot; -I&quot;$(QTDIR)\include\qtmain&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtOpenGL&quot; -I&quot;.&quot; -I&quot;.\..\dependencies\OSG\include&quot; -I&quot;.\..\dependencies\CEGUI\cegui\include&quot; -I&quot;.\..\dependencies\3rdParty\include&quot; -I&quot;.\..\dependencies\libconfig\include&quot; -I&quot;.\..\shared&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Foundation\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Physics\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Cooking\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\PhysXLoader\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\NxCharacter\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot; -I&quot;.\..\infrastructure\include&quot; -I&quot;$(ICE_HOME)\include&quot; -I&quot;.\..\dependencies\fmod\include&quot; -I&quot;.\..\dependencies\CrashReport\crashrpt\include&quot; -I&quot;.\..\Servers\WorldServer&quot; -I&quot;.\..\dependencies\sqlite&quot; -I&quot;.\..\dependencies\LUA\include&quot; -I&quot;.\..\dependencies\luabind\include&quot; -I&quot;.\..\Client&quot; -I&quot;.\..\dependencies\recast\Recast\Include&quot; -I&quot;.\..\dependencies\recast\Detour\Include&quot; &quot;.\treemodel.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
@@ -1201,7 +1273,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB  -I&quot;.\GeneratedFiles&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)&quot; -I&quot;$(QTDIR)\include\qtmain&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtOpenGL&quot; -I&quot;.&quot; -I&quot;.\..\dependencies\OSG\include&quot; -I&quot;.\..\dependencies\CEGUI\cegui\include&quot; -I&quot;.\..\dependencies\3rdParty\include&quot; -I&quot;.\..\dependencies\libconfig\include&quot; -I&quot;.\..\shared&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Foundation\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Physics\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Cooking\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\PhysXLoader\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\NxCharacter\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot; -I&quot;.\..\infrastructure\include&quot; -I&quot;$(ICE_HOME)\include&quot; -I&quot;.\..\dependencies\fmod\include&quot; -I&quot;.\..\dependencies\CrashReport\crashrpt\include&quot; -I&quot;.\..\Servers\WorldServer&quot; -I&quot;.\..\dependencies\sqlite&quot; -I&quot;.\..\dependencies\LUA\include&quot; -I&quot;.\..\dependencies\luabind\include&quot; -I&quot;.\..\Client&quot; &quot;.\treemodel.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB  -I&quot;.\GeneratedFiles&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)&quot; -I&quot;$(QTDIR)\include\qtmain&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtOpenGL&quot; -I&quot;.&quot; -I&quot;.\..\dependencies\OSG\include&quot; -I&quot;.\..\dependencies\CEGUI\cegui\include&quot; -I&quot;.\..\dependencies\3rdParty\include&quot; -I&quot;.\..\dependencies\libconfig\include&quot; -I&quot;.\..\shared&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Foundation\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Physics\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\Cooking\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\PhysXLoader\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\SDKs\NxCharacter\include&quot; -I&quot;C:\Program Files\NVIDIA Corporation\NVIDIA PhysX SDK\v2.8.3\Tools\NxuStream2&quot; -I&quot;.\..\infrastructure\include&quot; -I&quot;$(ICE_HOME)\include&quot; -I&quot;.\..\dependencies\fmod\include&quot; -I&quot;.\..\dependencies\CrashReport\crashrpt\include&quot; -I&quot;.\..\Servers\WorldServer&quot; -I&quot;.\..\dependencies\sqlite&quot; -I&quot;.\..\dependencies\LUA\include&quot; -I&quot;.\..\dependencies\luabind\include&quot; -I&quot;.\..\Client&quot; -I&quot;.\..\dependencies\recast\Recast\Include&quot; -I&quot;.\..\dependencies\recast\Detour\Include&quot; &quot;.\treemodel.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>

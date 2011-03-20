@@ -42,6 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Spawn.h"
 #include "MusicHandler.h"
 #include "ConfigurationManager.h"
+#include "NaviMeshHandler.h"
 
 #include <qdir.h>
 #include <QErrorMessage>
@@ -1372,6 +1373,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.actionCustom_Lua_for_server, SIGNAL(triggered()), this, SLOT(OpenCustomServerLua())); 
 	connect(_uieditor.actionCustom_Lua_for_client, SIGNAL(triggered()), this, SLOT(OpenCustomClientLua())); 
 	connect(_uieditor.actionRefresh_client_script, SIGNAL(triggered()), this, SLOT(RefreshClientScript())); 
+	connect(_uieditor.actionGenerate_navimesh, SIGNAL(triggered()), this, SLOT(GenerateNavimesh())); 
+	connect(_uieditor.actionDisplay_Navimesh, SIGNAL(triggered()), this, SLOT(ToggleNavimeshDisplay())); 
 
 	connect(_uieditor.pushButton_info_go, SIGNAL(clicked()) , this, SLOT(info_go_clicked()));
 	connect(_uieditor.radioButton_info_player, SIGNAL(toggled(bool)) , this, SLOT(info_camera_toggled(bool)));
@@ -6093,6 +6096,7 @@ void EditorHandler::addworld_accepted()
 	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/Sprites");}catch(...){}
 	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/Music");}catch(...){}
 	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/Grid");}catch(...){}
+	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/AI");}catch(...){}
 
 	// save new world
 	DataLoader::getInstance()->SaveWorldInformation(wname, winfo);
@@ -6300,6 +6304,8 @@ void EditorHandler::ActorAdd_button_accepted()
 	ainfo.DisplayDesc.RotY = 0;
 	ainfo.DisplayDesc.RotZ = 0;
 	ainfo.DisplayDesc.State = LbaNet::StNormal;
+	ainfo.DisplayDesc.UseTransparentMaterial = false;
+	ainfo.DisplayDesc.MatAlpha = 1;
 
 	ainfo.PhysicDesc.Pos.X = _posX;
 	ainfo.PhysicDesc.Pos.Y = _posY;
@@ -6318,6 +6324,14 @@ void EditorHandler::ActorAdd_button_accepted()
 		ainfo.DisplayDesc.Weapon = "No";
 		ainfo.DisplayDesc.Mode = "Normal";
 		ainfo.DisplayDesc.Outfit = "No";
+		ainfo.DisplayDesc.ColorMaterialType = 4;
+		ainfo.DisplayDesc.MatAmbientColorR = -0.2;
+		ainfo.DisplayDesc.MatAmbientColorG = -0.2;
+		ainfo.DisplayDesc.MatAmbientColorB = -0.2;
+		ainfo.DisplayDesc.MatDiffuseColorR = 0.4;
+		ainfo.DisplayDesc.MatDiffuseColorG = 0.4;
+		ainfo.DisplayDesc.MatDiffuseColorB = 0.4;
+
 
 		ainfo.PhysicDesc.TypeShape = LbaNet::BoxShape;
 		ainfo.PhysicDesc.SizeX = 2;
@@ -6794,7 +6808,7 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 			}
 			{
 				QVector<QVariant> data;
-				data<<"Alpha"<<ainfo.DisplayDesc.MatAlpha;
+				data<<"Alpha"<<(double)ainfo.DisplayDesc.MatAlpha;
 				_objectmodel->AppendRow(data, parent);
 				++index;
 			}
@@ -7561,69 +7575,72 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 			}
 
 			// check materials
-			ainfo.DisplayDesc.UseTransparentMaterial = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();		
-			++index;
-			ainfo.DisplayDesc.MatAlpha = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		
-			++index;
-
-			int oldmatcolortype = ainfo.DisplayDesc.ColorMaterialType;
-
-			std::string matstringtype = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();	
-			++index;
-
-			ainfo.DisplayDesc.ColorMaterialType = 0;
-			if(matstringtype == "Ambient")
-				ainfo.DisplayDesc.ColorMaterialType = 1;
-			if(matstringtype == "Diffuse")
-				ainfo.DisplayDesc.ColorMaterialType = 2;
-			if(matstringtype == "Specular")
-				ainfo.DisplayDesc.ColorMaterialType = 3;
-			if(matstringtype == "Emission")
-				ainfo.DisplayDesc.ColorMaterialType = 4;
-			if(matstringtype == "Ambient_And_Diffuse")
-				ainfo.DisplayDesc.ColorMaterialType = 5;
-
-			if(ainfo.DisplayDesc.ColorMaterialType != oldmatcolortype)
-				updateobj = true;
-
-	
-			if(oldmatcolortype > 0)
+			if(!updateobj)
 			{
-				ainfo.DisplayDesc.MatAmbientColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-				++index;			
-				ainfo.DisplayDesc.MatAmbientColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-				++index;			
-				ainfo.DisplayDesc.MatAmbientColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-				++index;			
-				ainfo.DisplayDesc.MatAmbientColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-				++index;			
-				ainfo.DisplayDesc.MatDiffuseColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-				++index;			
-				ainfo.DisplayDesc.MatDiffuseColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-				++index;			
-				ainfo.DisplayDesc.MatDiffuseColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-				++index;			
-				ainfo.DisplayDesc.MatDiffuseColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-				++index;			
-				ainfo.DisplayDesc.MatSpecularColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-				++index;			
-				ainfo.DisplayDesc.MatSpecularColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-				++index;			
-				ainfo.DisplayDesc.MatSpecularColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-				++index;			
-				ainfo.DisplayDesc.MatSpecularColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-				++index;	
-				ainfo.DisplayDesc.MatEmissionColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-				++index;			
-				ainfo.DisplayDesc.MatEmissionColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-				++index;			
-				ainfo.DisplayDesc.MatEmissionColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-				++index;			
-				ainfo.DisplayDesc.MatEmissionColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-				++index;	
-				ainfo.DisplayDesc.MatShininess = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-				++index;				
-			}	
+				ainfo.DisplayDesc.UseTransparentMaterial = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();		
+				++index;
+				ainfo.DisplayDesc.MatAlpha = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		
+				++index;
+
+				int oldmatcolortype = ainfo.DisplayDesc.ColorMaterialType;
+
+				std::string matstringtype = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();	
+				++index;
+
+				ainfo.DisplayDesc.ColorMaterialType = 0;
+				if(matstringtype == "Ambient")
+					ainfo.DisplayDesc.ColorMaterialType = 1;
+				if(matstringtype == "Diffuse")
+					ainfo.DisplayDesc.ColorMaterialType = 2;
+				if(matstringtype == "Specular")
+					ainfo.DisplayDesc.ColorMaterialType = 3;
+				if(matstringtype == "Emission")
+					ainfo.DisplayDesc.ColorMaterialType = 4;
+				if(matstringtype == "Ambient_And_Diffuse")
+					ainfo.DisplayDesc.ColorMaterialType = 5;
+
+				if(ainfo.DisplayDesc.ColorMaterialType != oldmatcolortype)
+					updateobj = true;
+
+		
+				if(oldmatcolortype > 0)
+				{
+					ainfo.DisplayDesc.MatAmbientColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+					++index;			
+					ainfo.DisplayDesc.MatAmbientColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+					++index;			
+					ainfo.DisplayDesc.MatAmbientColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+					++index;			
+					ainfo.DisplayDesc.MatAmbientColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+					++index;			
+					ainfo.DisplayDesc.MatDiffuseColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+					++index;			
+					ainfo.DisplayDesc.MatDiffuseColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+					++index;			
+					ainfo.DisplayDesc.MatDiffuseColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+					++index;			
+					ainfo.DisplayDesc.MatDiffuseColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+					++index;			
+					ainfo.DisplayDesc.MatSpecularColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+					++index;			
+					ainfo.DisplayDesc.MatSpecularColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+					++index;			
+					ainfo.DisplayDesc.MatSpecularColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+					++index;			
+					ainfo.DisplayDesc.MatSpecularColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+					++index;	
+					ainfo.DisplayDesc.MatEmissionColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+					++index;			
+					ainfo.DisplayDesc.MatEmissionColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+					++index;			
+					ainfo.DisplayDesc.MatEmissionColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+					++index;			
+					ainfo.DisplayDesc.MatEmissionColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+					++index;	
+					ainfo.DisplayDesc.MatShininess = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+					++index;				
+				}
+			}
 
 		}
 
@@ -10791,7 +10808,7 @@ void EditorHandler::SelectItem(boost::shared_ptr<InventoryItemDef> item, const Q
 		}
 		{
 			QVector<QVariant> data;
-			data<<"Alpha"<<mdisinfo.MatAlpha;
+			data<<"Alpha"<<(double)mdisinfo.MatAlpha;
 			_objectmodel->AppendRow(data, parent);
 			++index;
 		}
@@ -12358,3 +12375,44 @@ void EditorHandler::Notice_closed(int v)
 		Notice_rejected();
 }
 	
+
+	
+/***********************************************************
+GenerateNavimesh
+***********************************************************/
+void EditorHandler::GenerateNavimesh()
+{
+	NaviMeshHandler::getInstance()->Reset();
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ita = _Actors.begin();	
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator enda = _Actors.end();	
+	for(; ita != enda; ++ita)
+	{
+		const ActorObjectInfo & ainfo = ita->second->GetActorInfo();
+		// only add static type to mesh - dynamic actors are handled differently
+		if(ainfo.PhysicDesc.TypePhysO == LbaNet::StaticAType) 
+			NaviMeshHandler::getInstance()->AddActor(ainfo.PhysicDesc);
+	}
+
+	NaviMeshHandler::getInstance()->GenerateMesh();
+	NaviMeshHandler::getInstance()->SaveToFile("./Data/Worlds/" + _winfo.Description.WorldName + "/AI/" 
+											+ _uieditor.label_mapname->text().toAscii().data() + ".nmesh");
+
+	RefreshNaviMeshDisplay();
+}
+	
+/***********************************************************
+ToggleNavimeshDisplay
+***********************************************************/
+void EditorHandler::ToggleNavimeshDisplay()
+{
+	RefreshNaviMeshDisplay();
+} 
+
+	
+/***********************************************************
+refresh navimeshdisplay
+***********************************************************/
+void EditorHandler::RefreshNaviMeshDisplay()
+{
+	//todo
+}

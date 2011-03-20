@@ -803,6 +803,13 @@ public slots:
 	void Notice_closed(int v);
 	
 	
+	//! GenerateNavimesh
+	void GenerateNavimesh(); 	
+
+	//! ToggleNavimeshDisplay
+	void ToggleNavimeshDisplay(); 
+
+	
 
 protected:
 	//! override close event
@@ -1068,6 +1075,9 @@ protected:
 
 	//! display conditions
 	void DisplayConditions(std::vector<ConditionBasePtr> conds, const QModelIndex &parent);
+
+	//! refresh navimeshdisplay
+	void RefreshNaviMeshDisplay();
 
 private:
 	Ui::EditorClass										_uieditor;

@@ -2311,8 +2311,16 @@
     <addaction name="actionCustom_Lua_for_client"/>
     <addaction name="actionRefresh_client_script"/>
    </widget>
+   <widget class="QMenu" name="menuAI">
+    <property name="title">
+     <string>AI</string>
+    </property>
+    <addaction name="actionGenerate_navimesh"/>
+    <addaction name="actionDisplay_Navimesh"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuLua"/>
+   <addaction name="menuAI"/>
   </widget>
   <action name="actionNew_World">
    <property name="icon">
@@ -2384,6 +2392,22 @@
    </property>
    <property name="text">
     <string>Refresh client script</string>
+   </property>
+  </action>
+  <action name="actionGenerate_navimesh">
+   <property name="text">
+    <string>Generate Navimesh</string>
+   </property>
+  </action>
+  <action name="actionDisplay_Navimesh">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Display Navimesh</string>
    </property>
   </action>
  </widget>
