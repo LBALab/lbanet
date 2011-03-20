@@ -3,12 +3,10 @@
 	<name>Lba2Original</name>
 	<description>Reconstruction of the LBA2 original world.</description>
 	<news>11/10/2010: First release.</news>
-
 	<PlayerStartingInfo>
 		<InventorySize>30</InventorySize>
 		<StartingLife>50</StartingLife>
 		<StartingMana>50</StartingMana>
-		<StartingArmor>0</StartingArmor>
 		<StartingMap>CITABAU</StartingMap>
 		<SpawningId>1</SpawningId>
 		<StartingModel>
@@ -20,11 +18,6 @@
 		</StartingModel>
 		<StartingInventory>
 			<object>
-				<ObjectId>27</ObjectId>
-				<Number>1</Number>
-				<Position>-1</Position>
-			</object>
-			<object>
 				<ObjectId>22</ObjectId>
 				<Number>1</Number>
 				<Position>-1</Position>
@@ -33,459 +26,464 @@
 				<ObjectId>23</ObjectId>
 				<Number>1</Number>
 				<Position>-1</Position>
-			</object>				
+			</object>
+			<object>
+				<ObjectId>27</ObjectId>
+				<Number>1</Number>
+				<Position>-1</Position>
+			</object>
 		</StartingInventory>
 	</PlayerStartingInfo>
 	<maps>
-		<Map name="ASCENCE" type="exterior" AutoCameraType="3" IsInstance="false">
+		<Map name="ASCENCE" type="exterior" AutoCameraType="3" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>ASCENCE island</description>
-					</Map>
-		<Map name="CELEBRA2" type="exterior" AutoCameraType="3" IsInstance="false">
+		</Map>
+		<Map name="CELEBRA2" type="exterior" AutoCameraType="3" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>CELEBRA2 island</description>
-					</Map>
-		<Map name="CELEBRAT" type="exterior" AutoCameraType="3" IsInstance="false">
+		</Map>
+		<Map name="CELEBRAT" type="exterior" AutoCameraType="3" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>CELEBRAT island</description>
-					</Map>
-		<Map name="CITABAU" type="exterior" AutoCameraType="3" IsInstance="false">
+		</Map>
+		<Map name="CITABAU" type="exterior" AutoCameraType="3" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>CITABAU island</description>
-					</Map>
-		<Map name="CITADEL" type="exterior" AutoCameraType="3" IsInstance="false">
+		</Map>
+		<Map name="CITADEL" type="exterior" AutoCameraType="3" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>CITADEL island</description>
-					</Map>
-		<Map name="DESERT" type="exterior" AutoCameraType="3" IsInstance="false">
+		</Map>
+		<Map name="DESERT" type="exterior" AutoCameraType="3" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>DESERT island</description>
-					</Map>
-		<Map name="EMERAUDE" type="exterior" AutoCameraType="3" IsInstance="false">
+		</Map>
+		<Map name="EMERAUDE" type="exterior" AutoCameraType="3" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>EMERAUDE island</description>
-					</Map>
-		<Map name="ILOTCX" type="exterior" AutoCameraType="3" IsInstance="false">
+		</Map>
+		<Map name="ILOTCX" type="exterior" AutoCameraType="3" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>ILOTCX island</description>
-					</Map>
-		<Map name="KNARTAS" type="exterior" AutoCameraType="3" IsInstance="false">
+		</Map>
+		<Map name="KNARTAS" type="exterior" AutoCameraType="3" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>KNARTAS island</description>
-					</Map>
-		<Map name="MOSQUIBE" type="exterior" AutoCameraType="3" IsInstance="false">
+		</Map>
+		<Map name="MOSQUIBE" type="exterior" AutoCameraType="3" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>MOSQUIBE island</description>
-					</Map>
-		<Map name="Map001_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map001_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Citadel Island, Twinsen&apos;s house</description>
-					</Map>
-		<Map name="Map002_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map002_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Citadel Island, Twinsen&apos;s house Secret room</description>
-					</Map>
-		<Map name="Map003_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map003_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Citadel Island, Tralu 1st scene</description>
-					</Map>
-		<Map name="Map004_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map004_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Citadel Island, Tavern</description>
-					</Map>
-		<Map name="Map005_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map005_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Citadel Island, Cellar of the Tavern</description>
-					</Map>
-		<Map name="Map006_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map006_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Citadel Island, Baggage claim building, 1st room</description>
-					</Map>
-		<Map name="Map007_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map007_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Citadel Island, Baggage claim building, 2st room</description>
-					</Map>
-		<Map name="Map008_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map008_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Citadel Island, Mr. Paul House</description>
-					</Map>
-		<Map name="Map009_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map009_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Citadel Island, Ticket office</description>
-					</Map>
-		<Map name="Map010_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map010_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Citadel Island, Neighbor house</description>
-					</Map>
-		<Map name="Map011_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map011_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>White Leaf Desert, Temple of Bú, 1st room</description>
-					</Map>
-		<Map name="Map012_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map012_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>White Leaf Desert, Temple of Bú, 2nd room</description>
-					</Map>
-		<Map name="Map013_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map013_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>White Leaf Desert, Esmer Base</description>
-					</Map>
-		<Map name="Map014_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map014_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Emerald Moon, Outside Baldino&apos;s cell</description>
-					</Map>
-		<Map name="Map015_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map015_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Citadel Island, Shop</description>
-					</Map>
-		<Map name="Map016_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map016_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Citadel Island, Miss Bloop&apos;s Private Museum</description>
-					</Map>
-		<Map name="Map017_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map017_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Citadel Island, Baggage claim building Secret room, 3st room</description>
-					</Map>
-		<Map name="Map018_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map018_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Citadel Island, Sewer (below Downtown)</description>
-					</Map>
-		<Map name="Map019_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map019_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Citadel Island, Sewer Secret room</description>
-					</Map>
-		<Map name="Map020_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map020_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Citadel Island, Tralu 2nd room</description>
-					</Map>
-		<Map name="Map021_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map021_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Citadel Island, Tralu 3rd room</description>
-					</Map>
-		<Map name="Map022_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map022_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Citadel Island, Tent of the Weather Wizard</description>
-					</Map>
-		<Map name="Map023_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map023_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Citadel Island, Downtown Pharmacy</description>
-					</Map>
-		<Map name="Map024_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map024_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Emerald Moon, next to outside Baldino&apos;s cell</description>
-					</Map>
-		<Map name="Map025_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map025_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>White Leaf Desert, Hacienda, 1st room</description>
-					</Map>
-		<Map name="Map026_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map026_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>White Leaf Desert, Turkish bath (women)</description>
-					</Map>
-		<Map name="Map027_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map027_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Citadel Island, Dome of the Slate</description>
-					</Map>
-		<Map name="Map028_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map028_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>White Leaf Desert, School of Magic, 2nd room</description>
-					</Map>
-		<Map name="Map029_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map029_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>White Leaf Desert, School of Magic, 1st room</description>
-					</Map>
-		<Map name="Map030_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map030_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>White Leaf Desert, Hacienda, 2nd room</description>
-					</Map>
-		<Map name="Map031_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map031_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>White Leaf Desert, Turkish bath (men)</description>
-					</Map>
-		<Map name="Map032_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map032_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Emerald Moon, diamond shape room</description>
-					</Map>
-		<Map name="Map033_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map033_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>White Leaf Desert, Secret passage in Turkish bath (mans)</description>
-					</Map>
-		<Map name="Map034_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map034_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>White Leaf Desert, School of Magic training room</description>
-					</Map>
-		<Map name="Map035_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map035_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Citadel Island, Sendell&apos;s ball room</description>
-					</Map>
-		<Map name="Map036_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map036_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>White Leaf Desert, House of Ker&apos;aooc the Healer</description>
-					</Map>
-		<Map name="Map037_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map037_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>White Leaf Desert, Bazaar</description>
-					</Map>
-		<Map name="Map038_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map038_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Citadel Island, School</description>
-					</Map>
-		<Map name="Map039_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map039_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>White Leaf Desert, J. Baldino&apos;s House</description>
-					</Map>
-		<Map name="Map040_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map040_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>White Leaf Desert, Bar</description>
-					</Map>
-		<Map name="Map041_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map041_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>White Leaf Desert, Ticket office</description>
-					</Map>
-		<Map name="Map042_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map042_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>White Leaf Desert, Esmer shuttle</description>
-					</Map>
-		<Map name="Map043_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map043_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Citadel Island, Spider Cave</description>
-					</Map>
-		<Map name="Map044_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map044_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Emerald Moon, entrance circle symbol room</description>
-					</Map>
-		<Map name="Map045_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map045_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Emerald Moon, entrance X symbol room</description>
-					</Map>
-		<Map name="Map046_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map046_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Emerald Moon, Baldino&apos;s cell</description>
-					</Map>
-		<Map name="Map047_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map047_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, Emperor&apos;s palace departure room</description>
-					</Map>
-		<Map name="Map048_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map048_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, Emperor&apos;s palace 1st room</description>
-					</Map>
-		<Map name="Map049_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map049_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, Emperor&apos;s palace last room</description>
-					</Map>
-		<Map name="Map050_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map050_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, the Imperial Hotel</description>
-					</Map>
-		<Map name="Map051_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map051_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, the elevators to the Lower City</description>
-					</Map>
-		<Map name="Map052_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map052_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, Prison entrance</description>
-					</Map>
-		<Map name="Map053_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map053_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, Prison</description>
-					</Map>
-		<Map name="Map054_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map054_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, control tower entrance</description>
-					</Map>
-		<Map name="Map055_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map055_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, the space port</description>
-					</Map>
-		<Map name="Map056_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map056_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Celebration Island, inside the temple</description>
 		</Map>
-		<Map name="Map057_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map057_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Wannies Island, the mine, 2nd room</description>
 		</Map>
-		<Map name="Map058_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map058_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Wannies Island, the house of the firefly tart-giving family</description>
 		</Map>
-		<Map name="Map059_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map059_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Mosquibees Island, the Mosquibee Queen&apos;s throne</description>
 		</Map>
-		<Map name="Map060_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map060_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Mosquibees Island, the maze</description>
 		</Map>
-		<Map name="Map061_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map061_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Wannies Island, the mine, 3rd room</description>
 		</Map>
-		<Map name="Map062_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map062_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Wannies Island, near the temple on the main</description>
 		</Map>
-		<Map name="Map063_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map063_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>White Leaf Desert, Pearl of Incandescence room</description>
 		</Map>
-		<Map name="Map064_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map064_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>White Leaf Desert, Esmer shuttle</description>
 		</Map>
-		<Map name="Map065_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map065_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Emerald Moon, Esmer shuttle</description>
 		</Map>
-		<Map name="Map066_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map066_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Wannies Island, the monk house</description>
 		</Map>
-		<Map name="Map067_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map067_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Wannies Island, mine temple</description>
 		</Map>
-		<Map name="Map068_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map068_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Wannies Island, the city</description>
 		</Map>
-		<Map name="Map069_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map069_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Wannies Island, the way to the city temple</description>
 		</Map>
-		<Map name="Map070_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map070_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Wannies Island, the city temple</description>
 		</Map>
-		<Map name="Map071_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map071_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Wannies Island, the mine, 1st room</description>
 		</Map>
-		<Map name="Map072_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map072_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Wannies Island, inside the elevator</description>
 		</Map>
-		<Map name="Map073_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map073_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Wannies Island, the box transport building</description>
 		</Map>
-		<Map name="Map074_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map074_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Wannies Island, Building Company</description>
 		</Map>
-		<Map name="Map075_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map075_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Wannies Island, Warehouse</description>
 		</Map>
-		<Map name="Map076_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map076_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>White Leaf Desert, Temple of Bù Secret passage</description>
-					</Map>
-		<Map name="Map077_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map077_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Mosquibees Island, Bee test room</description>
 		</Map>
-		<Map name="Map078_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map078_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Island Under Celebration, the hide out</description>
 		</Map>
-		<Map name="Map079_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map079_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, Casino jackpot room</description>
-					</Map>
-		<Map name="Map080_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map080_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, Bar backstage</description>
-					</Map>
-		<Map name="Map081_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map081_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, Casino entrance</description>
-					</Map>
-		<Map name="Map082_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map082_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, Bar entrance</description>
-					</Map>
-		<Map name="Map083_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map083_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, Bar - Rick&apos;s room</description>
-					</Map>
-		<Map name="Map084_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map084_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, the lowest elevators</description>
-					</Map>
-		<Map name="Map085_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map085_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Francos gazogem factory, 1st room</description>
 		</Map>
-		<Map name="Map086_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map086_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Francos gazogem factory, 2nd room</description>
 		</Map>
-		<Map name="Map087_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map087_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Francos gazogem factory, 3rd room</description>
 		</Map>
-		<Map name="Map088_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map088_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Francos gazogem factory, 4th room</description>
 		</Map>
-		<Map name="Map089_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map089_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Francos Island, passage to the docks</description>
 		</Map>
-		<Map name="Map090_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map090_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Francos gazogem factory, 1st secret room</description>
 		</Map>
-		<Map name="Map091_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map091_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Francos gazogem factory, 2nd secret room</description>
 		</Map>
-		<Map name="Map092_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map092_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, the Twinsunian souvenir shop</description>
-					</Map>
-		<Map name="Map093_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map093_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, the Dissidents&apos; hide out</description>
-					</Map>
-		<Map name="Map094_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map094_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Mosquibees Island, the passage to the fragment</description>
 		</Map>
-		<Map name="Map095_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map095_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, the elevator to the Upper City</description>
-					</Map>
-		<Map name="Map096_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map096_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, one of the rooms in the Emperor&apos;s palace(1)</description>
-					</Map>
-		<Map name="Map097_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map097_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, one of the rooms in the Emperor&apos;s palace(2)</description>
-					</Map>
-		<Map name="Map098_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map098_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, one of the rooms in the Emperor&apos;s palace(3)</description>
-					</Map>
-		<Map name="Map099_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map099_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, one of the rooms in the Emperor&apos;s palace(4)</description>
-					</Map>
-		<Map name="Map100_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map100_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, one of the rooms in the Emperor&apos;s palace(5)</description>
-					</Map>
-		<Map name="Map101_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map101_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, one of the rooms in the Emperor&apos;s palace(6)</description>
-					</Map>
-		<Map name="Map102_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map102_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, one of the rooms in the Emperor&apos;s palace(7)</description>
-					</Map>
-		<Map name="Map103_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map103_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, one of the rooms in the Emperor&apos;s palace(8)</description>
-					</Map>
-		<Map name="Map104_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map104_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, one of the rooms in the Emperor&apos;s palace(9)</description>
-					</Map>
-		<Map name="Map105_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map105_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, one of the rooms in the Emperor&apos;s palace(10)</description>
-					</Map>
-		<Map name="Map106_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map106_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, one of the rooms in the Emperor&apos;s palace(11)</description>
-					</Map>
-		<Map name="Map107_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map107_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, one of the rooms in the Emperor&apos;s palace(12)</description>
-					</Map>
-		<Map name="Map108_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map108_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, one of the rooms in the Emperor&apos;s palace(13)</description>
-					</Map>
-		<Map name="Map109_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map109_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, one of the rooms in the Emperor&apos;s palace(14)</description>
-					</Map>
-		<Map name="Map110_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map110_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, one of the rooms in the Emperor&apos;s palace(15)</description>
-					</Map>
-		<Map name="Map111_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map111_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, one of the rooms in the Emperor&apos;s palace(16)</description>
-					</Map>
-		<Map name="Map112_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map112_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Emerald Moon, entrance triangle symbol room</description>
-					</Map>
-		<Map name="Map113_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map113_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Emerald Moon, entrance square symbol room</description>
-					</Map>
-		<Map name="Map114_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map114_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, Bathroom in the Imperial Hotel</description>
-					</Map>
-		<Map name="Map115_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map115_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Otringal, Imperial Hotel, 2nd room</description>
-					</Map>
-		<Map name="Map116_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map116_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Francos Island, Shop</description>
-					</Map>
-		<Map name="Map117_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map117_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Francos Island, Tavern</description>
-					</Map>
-		<Map name="Map118_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map118_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Francos Island, Scientist&apos;s house</description>
 		</Map>
-		<Map name="Map119_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map119_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Francos Island, Nursery</description>
 		</Map>
-		<Map name="Map120_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map120_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Francos Island, Burgermaster&apos;s house</description>
 		</Map>
-		<Map name="Map121_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map121_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Mosquibees Island, the passage to Island CX</description>
 		</Map>
-		<Map name="Map122_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map122_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Island CX, Top of the control tower</description>
-					</Map>
-		<Map name="Map123_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map123_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Island CX, Control tower, room 2</description>
-					</Map>
-		<Map name="Map124_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map124_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Island CX, Control tower, room 1</description>
 		</Map>
-		<Map name="Map125_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map125_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Island CX, Secret passage</description>
 		</Map>
-		<Map name="Map126_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map126_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Island CX, Emperor&apos;s room</description>
 		</Map>
-		<Map name="Map127_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map127_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Island CX, Esmer shuttle</description>
-					</Map>
-		<Map name="Map128_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map128_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>The protection spell cave, 1st room</description>
-					</Map>
-		<Map name="Map129_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map129_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>The protection spell cave, 2nd room</description>
-					</Map>
-		<Map name="Map130_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map130_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>The Dark Monk statue, the wizards, 1st room</description>
-					</Map>
-		<Map name="Map131_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map131_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>The Dark Monk statue, the top, 2nd room</description>
-					</Map>
-		<Map name="Map132_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map132_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>The Dark Monk statue, 3rd room</description>
 		</Map>
-		<Map name="Map133_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map133_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>The Dark Monk statue, 4th room</description>
 		</Map>
-		<Map name="Map134_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map134_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Esmer shuttle (same as from Island CX)</description>
 		</Map>
-		<Map name="Map135_2" type="interior" AutoCameraType="1" IsInstance="false">
+		<Map name="Map135_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>Unfinished room</description>
-					</Map>
-		<Map name="Map136_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map136_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>White Leaf Desert and Otringal, Esmer shuttle</description>
-					</Map>
-		<Map name="Map137_2" type="interior" AutoCameraType="1" IsInstance="false">
+		</Map>
+		<Map name="Map137_2" type="interior" AutoCameraType="1" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>The Dark Monk statue Secret room</description>
-					</Map>
-		<Map name="OTRINGAL" type="exterior" AutoCameraType="3" IsInstance="false">
+		</Map>
+		<Map name="OTRINGAL" type="exterior" AutoCameraType="3" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>OTRINGAL island</description>
-					</Map>
-		<Map name="PLATFORM" type="exterior" AutoCameraType="3" IsInstance="false">
+		</Map>
+		<Map name="PLATFORM" type="exterior" AutoCameraType="3" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>PLATFORM island</description>
-					</Map>
-		<Map name="SOUSCELB" type="exterior" AutoCameraType="3" IsInstance="false">
+		</Map>
+		<Map name="SOUSCELB" type="exterior" AutoCameraType="3" IsInstance="false" HurtFallFactor="2" music="" repeatmusic="0">
 			<description>SOUSCELB island</description>
-					</Map>
+		</Map>
 	</maps>
 </World>

@@ -131,7 +131,7 @@ function InitMap(environment)
 	Actor_1.DisplayDesc.ColorR = 3.05469
 	Actor_1.DisplayDesc.ColorG = 4.2039e-045
 	Actor_1.DisplayDesc.ColorB = 1.77243e-038
-	Actor_1.DisplayDesc.ColorA = 1.00111875
+	Actor_1.DisplayDesc.ColorA = 1.00112
 	Actor_1.DisplayDesc.TransX = 0
 	Actor_1.DisplayDesc.TransY = 0
 	Actor_1.DisplayDesc.TransZ = 0
@@ -142,6 +142,7 @@ function InitMap(environment)
 	Actor_1.DisplayDesc.RotY = 0
 	Actor_1.DisplayDesc.RotZ = 0
 	Actor_1:SetModelState(1)
+	Actor_1.DisplayDesc.UseBillboard = false
 	Actor_1.PhysicDesc.Pos.X = 0
 	Actor_1.PhysicDesc.Pos.Y = 0
 	Actor_1.PhysicDesc.Pos.Z = 0
@@ -151,6 +152,7 @@ function InitMap(environment)
 	Actor_1.PhysicDesc.SizeX = 4.88058e-034
 	Actor_1.PhysicDesc.SizeY = 0
 	Actor_1.PhysicDesc.SizeZ = 5.60519e-045
+	Actor_1.PhysicDesc.AllowFreeMove = true
 	Actor_1.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU.phy"
 	Actor_1:SetPhysicalActorType(1)
 	Actor_1:SetPhysicalShape(5)
@@ -158,6 +160,8 @@ function InitMap(environment)
 	Actor_1.ExtraInfo.NameColorR = 3.25
 	Actor_1.ExtraInfo.NameColorG = 4.2039e-045
 	Actor_1.ExtraInfo.NameColorB = 1.78621e-038
+	Actor_1.ExtraInfo.Display = false
+	Actor_1.LifeInfo.Display = false
 	Actor_1H = ActorHandler(Actor_1)
 	environment:AddActorObject(Actor_1H)
 
@@ -184,6 +188,7 @@ function InitMap(environment)
 	Actor_2.DisplayDesc.RotY = 0
 	Actor_2.DisplayDesc.RotZ = 0
 	Actor_2:SetModelState(1)
+	Actor_2.DisplayDesc.UseBillboard = false
 	Actor_2.PhysicDesc.Pos.X = 462.75
 	Actor_2.PhysicDesc.Pos.Y = 33.6914
 	Actor_2.PhysicDesc.Pos.Z = 437.75
@@ -193,6 +198,7 @@ function InitMap(environment)
 	Actor_2.PhysicDesc.SizeX = 0
 	Actor_2.PhysicDesc.SizeY = 5.49135e-034
 	Actor_2.PhysicDesc.SizeZ = 4.44439e-034
+	Actor_2.PhysicDesc.AllowFreeMove = true
 	Actor_2.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_1.phy"
 	Actor_2:SetPhysicalActorType(1)
 	Actor_2:SetPhysicalShape(5)
@@ -200,6 +206,8 @@ function InitMap(environment)
 	Actor_2.ExtraInfo.NameColorR = 0
 	Actor_2.ExtraInfo.NameColorG = 4.91355e-034
 	Actor_2.ExtraInfo.NameColorB = 0
+	Actor_2.ExtraInfo.Display = false
+	Actor_2.LifeInfo.Display = false
 	Actor_2H = ActorHandler(Actor_2)
 	environment:AddActorObject(Actor_2H)
 
@@ -226,6 +234,7 @@ function InitMap(environment)
 	Actor_3.DisplayDesc.RotY = 0
 	Actor_3.DisplayDesc.RotZ = 0
 	Actor_3:SetModelState(1)
+	Actor_3.DisplayDesc.UseBillboard = false
 	Actor_3.PhysicDesc.Pos.X = 469.125
 	Actor_3.PhysicDesc.Pos.Y = 31.7383
 	Actor_3.PhysicDesc.Pos.Z = 453.5
@@ -235,6 +244,7 @@ function InitMap(environment)
 	Actor_3.PhysicDesc.SizeX = 0
 	Actor_3.PhysicDesc.SizeY = 4.52308e-039
 	Actor_3.PhysicDesc.SizeZ = 2.3602e-038
+	Actor_3.PhysicDesc.AllowFreeMove = true
 	Actor_3.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_1.phy"
 	Actor_3:SetPhysicalActorType(1)
 	Actor_3:SetPhysicalShape(5)
@@ -242,6 +252,8 @@ function InitMap(environment)
 	Actor_3.ExtraInfo.NameColorR = 4.63779e-039
 	Actor_3.ExtraInfo.NameColorG = 1.78392e-038
 	Actor_3.ExtraInfo.NameColorB = 4.61882e-041
+	Actor_3.ExtraInfo.Display = false
+	Actor_3.LifeInfo.Display = false
 	Actor_3H = ActorHandler(Actor_3)
 	environment:AddActorObject(Actor_3H)
 
@@ -268,6 +280,7 @@ function InitMap(environment)
 	Actor_4.DisplayDesc.RotY = 0
 	Actor_4.DisplayDesc.RotZ = 0
 	Actor_4:SetModelState(1)
+	Actor_4.DisplayDesc.UseBillboard = false
 	Actor_4.PhysicDesc.Pos.X = 464.75
 	Actor_4.PhysicDesc.Pos.Y = 32.957
 	Actor_4.PhysicDesc.Pos.Z = 444.25
@@ -277,6 +290,7 @@ function InitMap(environment)
 	Actor_4.PhysicDesc.SizeX = 0
 	Actor_4.PhysicDesc.SizeY = 5.99245e-039
 	Actor_4.PhysicDesc.SizeZ = -2.47484e-032
+	Actor_4.PhysicDesc.AllowFreeMove = true
 	Actor_4.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_2.phy"
 	Actor_4:SetPhysicalActorType(1)
 	Actor_4:SetPhysicalShape(5)
@@ -284,6 +298,8 @@ function InitMap(environment)
 	Actor_4.ExtraInfo.NameColorR = -1.88815e-037
 	Actor_4.ExtraInfo.NameColorG = 6.03828e-039
 	Actor_4.ExtraInfo.NameColorB = 1.77243e-038
+	Actor_4.ExtraInfo.Display = false
+	Actor_4.LifeInfo.Display = false
 	Actor_4H = ActorHandler(Actor_4)
 	environment:AddActorObject(Actor_4H)
 
@@ -310,6 +326,7 @@ function InitMap(environment)
 	Actor_5.DisplayDesc.RotY = 0
 	Actor_5.DisplayDesc.RotZ = 0
 	Actor_5:SetModelState(1)
+	Actor_5.DisplayDesc.UseBillboard = false
 	Actor_5.PhysicDesc.Pos.X = 459.5
 	Actor_5.PhysicDesc.Pos.Y = 32.2266
 	Actor_5.PhysicDesc.Pos.Z = 451.5
@@ -319,6 +336,7 @@ function InitMap(environment)
 	Actor_5.PhysicDesc.SizeX = 0
 	Actor_5.PhysicDesc.SizeY = 0
 	Actor_5.PhysicDesc.SizeZ = 0
+	Actor_5.PhysicDesc.AllowFreeMove = true
 	Actor_5.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_2.phy"
 	Actor_5:SetPhysicalActorType(1)
 	Actor_5:SetPhysicalShape(5)
@@ -326,6 +344,8 @@ function InitMap(environment)
 	Actor_5.ExtraInfo.NameColorR = 0
 	Actor_5.ExtraInfo.NameColorG = 0
 	Actor_5.ExtraInfo.NameColorB = 0
+	Actor_5.ExtraInfo.Display = false
+	Actor_5.LifeInfo.Display = false
 	Actor_5H = ActorHandler(Actor_5)
 	environment:AddActorObject(Actor_5H)
 
@@ -352,6 +372,7 @@ function InitMap(environment)
 	Actor_6.DisplayDesc.RotY = 0
 	Actor_6.DisplayDesc.RotZ = 0
 	Actor_6:SetModelState(1)
+	Actor_6.DisplayDesc.UseBillboard = false
 	Actor_6.PhysicDesc.Pos.X = 476.5
 	Actor_6.PhysicDesc.Pos.Y = 30.5195
 	Actor_6.PhysicDesc.Pos.Z = 456.5
@@ -361,6 +382,7 @@ function InitMap(environment)
 	Actor_6.PhysicDesc.SizeX = 1.76908e-031
 	Actor_6.PhysicDesc.SizeY = 0
 	Actor_6.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_6.PhysicDesc.AllowFreeMove = true
 	Actor_6.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_2.phy"
 	Actor_6:SetPhysicalActorType(1)
 	Actor_6:SetPhysicalShape(5)
@@ -368,6 +390,8 @@ function InitMap(environment)
 	Actor_6.ExtraInfo.NameColorR = 0
 	Actor_6.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_6.ExtraInfo.NameColorB = 5.11993e-039
+	Actor_6.ExtraInfo.Display = false
+	Actor_6.LifeInfo.Display = false
 	Actor_6H = ActorHandler(Actor_6)
 	environment:AddActorObject(Actor_6H)
 
@@ -394,6 +418,7 @@ function InitMap(environment)
 	Actor_7.DisplayDesc.RotY = 0
 	Actor_7.DisplayDesc.RotZ = 0
 	Actor_7:SetModelState(1)
+	Actor_7.DisplayDesc.UseBillboard = false
 	Actor_7.PhysicDesc.Pos.X = 446.289
 	Actor_7.PhysicDesc.Pos.Y = 33.8984
 	Actor_7.PhysicDesc.Pos.Z = 446.5
@@ -403,6 +428,7 @@ function InitMap(environment)
 	Actor_7.PhysicDesc.SizeX = 4.37508e-034
 	Actor_7.PhysicDesc.SizeY = 0
 	Actor_7.PhysicDesc.SizeZ = 8.40779e-045
+	Actor_7.PhysicDesc.AllowFreeMove = true
 	Actor_7.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_4.phy"
 	Actor_7:SetPhysicalActorType(1)
 	Actor_7:SetPhysicalShape(5)
@@ -410,6 +436,8 @@ function InitMap(environment)
 	Actor_7.ExtraInfo.NameColorR = 0
 	Actor_7.ExtraInfo.NameColorG = 5.60519e-045
 	Actor_7.ExtraInfo.NameColorB = 1.76367e-031
+	Actor_7.ExtraInfo.Display = false
+	Actor_7.LifeInfo.Display = false
 	Actor_7H = ActorHandler(Actor_7)
 	environment:AddActorObject(Actor_7H)
 
@@ -436,6 +464,7 @@ function InitMap(environment)
 	Actor_8.DisplayDesc.RotY = 0
 	Actor_8.DisplayDesc.RotZ = 0
 	Actor_8:SetModelState(1)
+	Actor_8.DisplayDesc.UseBillboard = false
 	Actor_8.PhysicDesc.Pos.X = 434.5
 	Actor_8.PhysicDesc.Pos.Y = 32.2266
 	Actor_8.PhysicDesc.Pos.Z = 431.5
@@ -445,6 +474,7 @@ function InitMap(environment)
 	Actor_8.PhysicDesc.SizeX = 5.50109e-034
 	Actor_8.PhysicDesc.SizeY = 0
 	Actor_8.PhysicDesc.SizeZ = 5.60519e-045
+	Actor_8.PhysicDesc.AllowFreeMove = true
 	Actor_8.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_5.phy"
 	Actor_8:SetPhysicalActorType(1)
 	Actor_8:SetPhysicalShape(5)
@@ -452,6 +482,8 @@ function InitMap(environment)
 	Actor_8.ExtraInfo.NameColorR = 3.61133
 	Actor_8.ExtraInfo.NameColorG = 4.2039e-045
 	Actor_8.ExtraInfo.NameColorB = 0
+	Actor_8.ExtraInfo.Display = false
+	Actor_8.LifeInfo.Display = false
 	Actor_8H = ActorHandler(Actor_8)
 	environment:AddActorObject(Actor_8H)
 
@@ -478,6 +510,7 @@ function InitMap(environment)
 	Actor_9.DisplayDesc.RotY = 0
 	Actor_9.DisplayDesc.RotZ = 0
 	Actor_9:SetModelState(1)
+	Actor_9.DisplayDesc.UseBillboard = false
 	Actor_9.PhysicDesc.Pos.X = 424.5
 	Actor_9.PhysicDesc.Pos.Y = 32.2266
 	Actor_9.PhysicDesc.Pos.Z = 442.5
@@ -487,6 +520,7 @@ function InitMap(environment)
 	Actor_9.PhysicDesc.SizeX = 0
 	Actor_9.PhysicDesc.SizeY = 0
 	Actor_9.PhysicDesc.SizeZ = 0
+	Actor_9.PhysicDesc.AllowFreeMove = true
 	Actor_9.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_5.phy"
 	Actor_9:SetPhysicalActorType(1)
 	Actor_9:SetPhysicalShape(5)
@@ -494,6 +528,8 @@ function InitMap(environment)
 	Actor_9.ExtraInfo.NameColorR = 0
 	Actor_9.ExtraInfo.NameColorG = 0
 	Actor_9.ExtraInfo.NameColorB = 0
+	Actor_9.ExtraInfo.Display = false
+	Actor_9.LifeInfo.Display = false
 	Actor_9H = ActorHandler(Actor_9)
 	environment:AddActorObject(Actor_9H)
 
@@ -520,6 +556,7 @@ function InitMap(environment)
 	Actor_10.DisplayDesc.RotY = 0
 	Actor_10.DisplayDesc.RotZ = 0
 	Actor_10:SetModelState(1)
+	Actor_10.DisplayDesc.UseBillboard = false
 	Actor_10.PhysicDesc.Pos.X = 457.125
 	Actor_10.PhysicDesc.Pos.Y = 33.2031
 	Actor_10.PhysicDesc.Pos.Z = 449.5
@@ -529,6 +566,7 @@ function InitMap(environment)
 	Actor_10.PhysicDesc.SizeX = 0
 	Actor_10.PhysicDesc.SizeY = 0
 	Actor_10.PhysicDesc.SizeZ = 0
+	Actor_10.PhysicDesc.AllowFreeMove = true
 	Actor_10.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_6.phy"
 	Actor_10:SetPhysicalActorType(1)
 	Actor_10:SetPhysicalShape(5)
@@ -536,6 +574,8 @@ function InitMap(environment)
 	Actor_10.ExtraInfo.NameColorR = 0
 	Actor_10.ExtraInfo.NameColorG = 0
 	Actor_10.ExtraInfo.NameColorB = 0
+	Actor_10.ExtraInfo.Display = false
+	Actor_10.LifeInfo.Display = false
 	Actor_10H = ActorHandler(Actor_10)
 	environment:AddActorObject(Actor_10H)
 
@@ -562,6 +602,7 @@ function InitMap(environment)
 	Actor_11.DisplayDesc.RotY = 0
 	Actor_11.DisplayDesc.RotZ = 0
 	Actor_11:SetModelState(1)
+	Actor_11.DisplayDesc.UseBillboard = false
 	Actor_11.PhysicDesc.Pos.X = 474
 	Actor_11.PhysicDesc.Pos.Y = 21.9727
 	Actor_11.PhysicDesc.Pos.Z = 439.484
@@ -571,6 +612,7 @@ function InitMap(environment)
 	Actor_11.PhysicDesc.SizeX = 0
 	Actor_11.PhysicDesc.SizeY = 0
 	Actor_11.PhysicDesc.SizeZ = 0
+	Actor_11.PhysicDesc.AllowFreeMove = true
 	Actor_11.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_3.phy"
 	Actor_11:SetPhysicalActorType(1)
 	Actor_11:SetPhysicalShape(5)
@@ -578,6 +620,8 @@ function InitMap(environment)
 	Actor_11.ExtraInfo.NameColorR = 0
 	Actor_11.ExtraInfo.NameColorG = 0
 	Actor_11.ExtraInfo.NameColorB = 0
+	Actor_11.ExtraInfo.Display = false
+	Actor_11.LifeInfo.Display = false
 	Actor_11H = ActorHandler(Actor_11)
 	environment:AddActorObject(Actor_11H)
 
@@ -604,6 +648,7 @@ function InitMap(environment)
 	Actor_12.DisplayDesc.RotY = 0
 	Actor_12.DisplayDesc.RotZ = 0
 	Actor_12:SetModelState(1)
+	Actor_12.DisplayDesc.UseBillboard = false
 	Actor_12.PhysicDesc.Pos.X = 459.75
 	Actor_12.PhysicDesc.Pos.Y = 33.6914
 	Actor_12.PhysicDesc.Pos.Z = 431.5
@@ -613,6 +658,7 @@ function InitMap(environment)
 	Actor_12.PhysicDesc.SizeX = 1.76926e-031
 	Actor_12.PhysicDesc.SizeY = 0
 	Actor_12.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_12.PhysicDesc.AllowFreeMove = true
 	Actor_12.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_7.phy"
 	Actor_12:SetPhysicalActorType(1)
 	Actor_12:SetPhysicalShape(5)
@@ -620,6 +666,8 @@ function InitMap(environment)
 	Actor_12.ExtraInfo.NameColorR = 0
 	Actor_12.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_12.ExtraInfo.NameColorB = 1.78851e-038
+	Actor_12.ExtraInfo.Display = false
+	Actor_12.LifeInfo.Display = false
 	Actor_12H = ActorHandler(Actor_12)
 	environment:AddActorObject(Actor_12H)
 
@@ -646,6 +694,7 @@ function InitMap(environment)
 	Actor_13.DisplayDesc.RotY = 0
 	Actor_13.DisplayDesc.RotZ = 0
 	Actor_13:SetModelState(1)
+	Actor_13.DisplayDesc.UseBillboard = false
 	Actor_13.PhysicDesc.Pos.X = 458
 	Actor_13.PhysicDesc.Pos.Y = 32.7148
 	Actor_13.PhysicDesc.Pos.Z = 430.75
@@ -655,6 +704,7 @@ function InitMap(environment)
 	Actor_13.PhysicDesc.SizeX = 9.80909e-045
 	Actor_13.PhysicDesc.SizeY = 0
 	Actor_13.PhysicDesc.SizeZ = 1.82608e-031
+	Actor_13.PhysicDesc.AllowFreeMove = true
 	Actor_13.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_7.phy"
 	Actor_13:SetPhysicalActorType(1)
 	Actor_13:SetPhysicalShape(5)
@@ -662,6 +712,8 @@ function InitMap(environment)
 	Actor_13.ExtraInfo.NameColorR = 0
 	Actor_13.ExtraInfo.NameColorG = 1.82615e-031
 	Actor_13.ExtraInfo.NameColorB = 0
+	Actor_13.ExtraInfo.Display = false
+	Actor_13.LifeInfo.Display = false
 	Actor_13H = ActorHandler(Actor_13)
 	environment:AddActorObject(Actor_13H)
 
@@ -688,6 +740,7 @@ function InitMap(environment)
 	Actor_14.DisplayDesc.RotY = 0
 	Actor_14.DisplayDesc.RotZ = 0
 	Actor_14:SetModelState(1)
+	Actor_14.DisplayDesc.UseBillboard = false
 	Actor_14.PhysicDesc.Pos.X = 537.5
 	Actor_14.PhysicDesc.Pos.Y = 34.1797
 	Actor_14.PhysicDesc.Pos.Z = 456.125
@@ -697,6 +750,7 @@ function InitMap(environment)
 	Actor_14.PhysicDesc.SizeX = 0
 	Actor_14.PhysicDesc.SizeY = 0
 	Actor_14.PhysicDesc.SizeZ = 0
+	Actor_14.PhysicDesc.AllowFreeMove = true
 	Actor_14.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_8.phy"
 	Actor_14:SetPhysicalActorType(1)
 	Actor_14:SetPhysicalShape(5)
@@ -704,6 +758,8 @@ function InitMap(environment)
 	Actor_14.ExtraInfo.NameColorR = 0
 	Actor_14.ExtraInfo.NameColorG = 0
 	Actor_14.ExtraInfo.NameColorB = 0
+	Actor_14.ExtraInfo.Display = false
+	Actor_14.LifeInfo.Display = false
 	Actor_14H = ActorHandler(Actor_14)
 	environment:AddActorObject(Actor_14H)
 
@@ -730,6 +786,7 @@ function InitMap(environment)
 	Actor_15.DisplayDesc.RotY = 0
 	Actor_15.DisplayDesc.RotZ = 0
 	Actor_15:SetModelState(1)
+	Actor_15.DisplayDesc.UseBillboard = false
 	Actor_15.PhysicDesc.Pos.X = 533.5
 	Actor_15.PhysicDesc.Pos.Y = 34.1797
 	Actor_15.PhysicDesc.Pos.Z = 462.5
@@ -739,6 +796,7 @@ function InitMap(environment)
 	Actor_15.PhysicDesc.SizeX = 0
 	Actor_15.PhysicDesc.SizeY = 0
 	Actor_15.PhysicDesc.SizeZ = 0
+	Actor_15.PhysicDesc.AllowFreeMove = true
 	Actor_15.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_8.phy"
 	Actor_15:SetPhysicalActorType(1)
 	Actor_15:SetPhysicalShape(5)
@@ -746,6 +804,8 @@ function InitMap(environment)
 	Actor_15.ExtraInfo.NameColorR = 0
 	Actor_15.ExtraInfo.NameColorG = 0
 	Actor_15.ExtraInfo.NameColorB = 0
+	Actor_15.ExtraInfo.Display = false
+	Actor_15.LifeInfo.Display = false
 	Actor_15H = ActorHandler(Actor_15)
 	environment:AddActorObject(Actor_15H)
 
@@ -772,6 +832,7 @@ function InitMap(environment)
 	Actor_16.DisplayDesc.RotY = 0
 	Actor_16.DisplayDesc.RotZ = 0
 	Actor_16:SetModelState(1)
+	Actor_16.DisplayDesc.UseBillboard = false
 	Actor_16.PhysicDesc.Pos.X = 529.5
 	Actor_16.PhysicDesc.Pos.Y = 34.1797
 	Actor_16.PhysicDesc.Pos.Z = 460.5
@@ -781,6 +842,7 @@ function InitMap(environment)
 	Actor_16.PhysicDesc.SizeX = 0
 	Actor_16.PhysicDesc.SizeY = 0
 	Actor_16.PhysicDesc.SizeZ = 0
+	Actor_16.PhysicDesc.AllowFreeMove = true
 	Actor_16.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_8.phy"
 	Actor_16:SetPhysicalActorType(1)
 	Actor_16:SetPhysicalShape(5)
@@ -788,6 +850,8 @@ function InitMap(environment)
 	Actor_16.ExtraInfo.NameColorR = 0
 	Actor_16.ExtraInfo.NameColorG = 0
 	Actor_16.ExtraInfo.NameColorB = 0
+	Actor_16.ExtraInfo.Display = false
+	Actor_16.LifeInfo.Display = false
 	Actor_16H = ActorHandler(Actor_16)
 	environment:AddActorObject(Actor_16H)
 
@@ -814,6 +878,7 @@ function InitMap(environment)
 	Actor_17.DisplayDesc.RotY = 0
 	Actor_17.DisplayDesc.RotZ = 0
 	Actor_17:SetModelState(1)
+	Actor_17.DisplayDesc.UseBillboard = false
 	Actor_17.PhysicDesc.Pos.X = 524.5
 	Actor_17.PhysicDesc.Pos.Y = 34.1797
 	Actor_17.PhysicDesc.Pos.Z = 453.5
@@ -823,6 +888,7 @@ function InitMap(environment)
 	Actor_17.PhysicDesc.SizeX = 0
 	Actor_17.PhysicDesc.SizeY = 0
 	Actor_17.PhysicDesc.SizeZ = 0
+	Actor_17.PhysicDesc.AllowFreeMove = true
 	Actor_17.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_8.phy"
 	Actor_17:SetPhysicalActorType(1)
 	Actor_17:SetPhysicalShape(5)
@@ -830,6 +896,8 @@ function InitMap(environment)
 	Actor_17.ExtraInfo.NameColorR = 0
 	Actor_17.ExtraInfo.NameColorG = 0
 	Actor_17.ExtraInfo.NameColorB = 0
+	Actor_17.ExtraInfo.Display = false
+	Actor_17.LifeInfo.Display = false
 	Actor_17H = ActorHandler(Actor_17)
 	environment:AddActorObject(Actor_17H)
 
@@ -856,6 +924,7 @@ function InitMap(environment)
 	Actor_18.DisplayDesc.RotY = 0
 	Actor_18.DisplayDesc.RotZ = 0
 	Actor_18:SetModelState(1)
+	Actor_18.DisplayDesc.UseBillboard = false
 	Actor_18.PhysicDesc.Pos.X = 529.5
 	Actor_18.PhysicDesc.Pos.Y = 34.1797
 	Actor_18.PhysicDesc.Pos.Z = 449.5
@@ -865,6 +934,7 @@ function InitMap(environment)
 	Actor_18.PhysicDesc.SizeX = 0
 	Actor_18.PhysicDesc.SizeY = 0
 	Actor_18.PhysicDesc.SizeZ = 0
+	Actor_18.PhysicDesc.AllowFreeMove = true
 	Actor_18.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_8.phy"
 	Actor_18:SetPhysicalActorType(1)
 	Actor_18:SetPhysicalShape(5)
@@ -872,6 +942,8 @@ function InitMap(environment)
 	Actor_18.ExtraInfo.NameColorR = 0
 	Actor_18.ExtraInfo.NameColorG = 0
 	Actor_18.ExtraInfo.NameColorB = 0
+	Actor_18.ExtraInfo.Display = false
+	Actor_18.LifeInfo.Display = false
 	Actor_18H = ActorHandler(Actor_18)
 	environment:AddActorObject(Actor_18H)
 
@@ -898,6 +970,7 @@ function InitMap(environment)
 	Actor_19.DisplayDesc.RotY = 0
 	Actor_19.DisplayDesc.RotZ = 0
 	Actor_19:SetModelState(1)
+	Actor_19.DisplayDesc.UseBillboard = false
 	Actor_19.PhysicDesc.Pos.X = 493.625
 	Actor_19.PhysicDesc.Pos.Y = 24.5977
 	Actor_19.PhysicDesc.Pos.Z = 470.875
@@ -907,6 +980,7 @@ function InitMap(environment)
 	Actor_19.PhysicDesc.SizeX = 0
 	Actor_19.PhysicDesc.SizeY = 0
 	Actor_19.PhysicDesc.SizeZ = 0
+	Actor_19.PhysicDesc.AllowFreeMove = true
 	Actor_19.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_8.phy"
 	Actor_19:SetPhysicalActorType(1)
 	Actor_19:SetPhysicalShape(5)
@@ -914,6 +988,8 @@ function InitMap(environment)
 	Actor_19.ExtraInfo.NameColorR = 0
 	Actor_19.ExtraInfo.NameColorG = 0
 	Actor_19.ExtraInfo.NameColorB = 0
+	Actor_19.ExtraInfo.Display = false
+	Actor_19.LifeInfo.Display = false
 	Actor_19H = ActorHandler(Actor_19)
 	environment:AddActorObject(Actor_19H)
 
@@ -940,6 +1016,7 @@ function InitMap(environment)
 	Actor_20.DisplayDesc.RotY = 0
 	Actor_20.DisplayDesc.RotZ = 0
 	Actor_20:SetModelState(1)
+	Actor_20.DisplayDesc.UseBillboard = false
 	Actor_20.PhysicDesc.Pos.X = 498.5
 	Actor_20.PhysicDesc.Pos.Y = 24.9023
 	Actor_20.PhysicDesc.Pos.Z = 474.25
@@ -949,6 +1026,7 @@ function InitMap(environment)
 	Actor_20.PhysicDesc.SizeX = 0
 	Actor_20.PhysicDesc.SizeY = 0
 	Actor_20.PhysicDesc.SizeZ = 0
+	Actor_20.PhysicDesc.AllowFreeMove = true
 	Actor_20.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_10.phy"
 	Actor_20:SetPhysicalActorType(1)
 	Actor_20:SetPhysicalShape(5)
@@ -956,6 +1034,8 @@ function InitMap(environment)
 	Actor_20.ExtraInfo.NameColorR = 0
 	Actor_20.ExtraInfo.NameColorG = 0
 	Actor_20.ExtraInfo.NameColorB = 0
+	Actor_20.ExtraInfo.Display = false
+	Actor_20.LifeInfo.Display = false
 	Actor_20H = ActorHandler(Actor_20)
 	environment:AddActorObject(Actor_20H)
 
@@ -982,6 +1062,7 @@ function InitMap(environment)
 	Actor_21.DisplayDesc.RotY = 0
 	Actor_21.DisplayDesc.RotZ = 0
 	Actor_21:SetModelState(1)
+	Actor_21.DisplayDesc.UseBillboard = false
 	Actor_21.PhysicDesc.Pos.X = 525.5
 	Actor_21.PhysicDesc.Pos.Y = 34
 	Actor_21.PhysicDesc.Pos.Z = 459.375
@@ -991,6 +1072,7 @@ function InitMap(environment)
 	Actor_21.PhysicDesc.SizeX = 7.56343e+028
 	Actor_21.PhysicDesc.SizeY = 6.83981e+025
 	Actor_21.PhysicDesc.SizeZ = 1.35663e-014
+	Actor_21.PhysicDesc.AllowFreeMove = true
 	Actor_21.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_10.phy"
 	Actor_21:SetPhysicalActorType(1)
 	Actor_21:SetPhysicalShape(5)
@@ -998,6 +1080,8 @@ function InitMap(environment)
 	Actor_21.ExtraInfo.NameColorR = 5.19888e-008
 	Actor_21.ExtraInfo.NameColorG = 696.753
 	Actor_21.ExtraInfo.NameColorB = 1.16275e+027
+	Actor_21.ExtraInfo.Display = false
+	Actor_21.LifeInfo.Display = false
 	Actor_21H = ActorHandler(Actor_21)
 	environment:AddActorObject(Actor_21H)
 
@@ -1024,6 +1108,7 @@ function InitMap(environment)
 	Actor_22.DisplayDesc.RotY = 0
 	Actor_22.DisplayDesc.RotZ = 0
 	Actor_22:SetModelState(1)
+	Actor_22.DisplayDesc.UseBillboard = false
 	Actor_22.PhysicDesc.Pos.X = 531.5
 	Actor_22.PhysicDesc.Pos.Y = 34.1797
 	Actor_22.PhysicDesc.Pos.Z = 455.5
@@ -1033,6 +1118,7 @@ function InitMap(environment)
 	Actor_22.PhysicDesc.SizeX = 1.76417e-031
 	Actor_22.PhysicDesc.SizeY = 0
 	Actor_22.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_22.PhysicDesc.AllowFreeMove = true
 	Actor_22.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_10.phy"
 	Actor_22:SetPhysicalActorType(1)
 	Actor_22:SetPhysicalShape(5)
@@ -1040,6 +1126,8 @@ function InitMap(environment)
 	Actor_22.ExtraInfo.NameColorR = 0
 	Actor_22.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_22.ExtraInfo.NameColorB = 0
+	Actor_22.ExtraInfo.Display = false
+	Actor_22.LifeInfo.Display = false
 	Actor_22H = ActorHandler(Actor_22)
 	environment:AddActorObject(Actor_22H)
 
@@ -1066,6 +1154,7 @@ function InitMap(environment)
 	Actor_23.DisplayDesc.RotY = 0
 	Actor_23.DisplayDesc.RotZ = 0
 	Actor_23:SetModelState(1)
+	Actor_23.DisplayDesc.UseBillboard = false
 	Actor_23.PhysicDesc.Pos.X = 538.5
 	Actor_23.PhysicDesc.Pos.Y = 34.1797
 	Actor_23.PhysicDesc.Pos.Z = 464.5
@@ -1075,6 +1164,7 @@ function InitMap(environment)
 	Actor_23.PhysicDesc.SizeX = 1.78676e-031
 	Actor_23.PhysicDesc.SizeY = 0
 	Actor_23.PhysicDesc.SizeZ = 9.80909e-045
+	Actor_23.PhysicDesc.AllowFreeMove = true
 	Actor_23.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_10.phy"
 	Actor_23:SetPhysicalActorType(1)
 	Actor_23:SetPhysicalShape(5)
@@ -1082,6 +1172,8 @@ function InitMap(environment)
 	Actor_23.ExtraInfo.NameColorR = 0
 	Actor_23.ExtraInfo.NameColorG = 2.8026e-045
 	Actor_23.ExtraInfo.NameColorB = 0
+	Actor_23.ExtraInfo.Display = false
+	Actor_23.LifeInfo.Display = false
 	Actor_23H = ActorHandler(Actor_23)
 	environment:AddActorObject(Actor_23H)
 
@@ -1108,6 +1200,7 @@ function InitMap(environment)
 	Actor_24.DisplayDesc.RotY = 0
 	Actor_24.DisplayDesc.RotZ = 0
 	Actor_24:SetModelState(1)
+	Actor_24.DisplayDesc.UseBillboard = false
 	Actor_24.PhysicDesc.Pos.X = 522.5
 	Actor_24.PhysicDesc.Pos.Y = 34.1797
 	Actor_24.PhysicDesc.Pos.Z = 448.5
@@ -1117,6 +1210,7 @@ function InitMap(environment)
 	Actor_24.PhysicDesc.SizeX = 5.60519e-045
 	Actor_24.PhysicDesc.SizeY = 1.78605e-031
 	Actor_24.PhysicDesc.SizeZ = 1.78564e-031
+	Actor_24.PhysicDesc.AllowFreeMove = true
 	Actor_24.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_10.phy"
 	Actor_24:SetPhysicalActorType(1)
 	Actor_24:SetPhysicalShape(5)
@@ -1124,6 +1218,8 @@ function InitMap(environment)
 	Actor_24.ExtraInfo.NameColorR = 0
 	Actor_24.ExtraInfo.NameColorG = 4.87687e-034
 	Actor_24.ExtraInfo.NameColorB = 1.71105e-039
+	Actor_24.ExtraInfo.Display = false
+	Actor_24.LifeInfo.Display = false
 	Actor_24H = ActorHandler(Actor_24)
 	environment:AddActorObject(Actor_24H)
 
@@ -1150,6 +1246,7 @@ function InitMap(environment)
 	Actor_25.DisplayDesc.RotY = 0
 	Actor_25.DisplayDesc.RotZ = 0
 	Actor_25:SetModelState(1)
+	Actor_25.DisplayDesc.UseBillboard = false
 	Actor_25.PhysicDesc.Pos.X = 540.5
 	Actor_25.PhysicDesc.Pos.Y = 28.8086
 	Actor_25.PhysicDesc.Pos.Z = 450.875
@@ -1159,6 +1256,7 @@ function InitMap(environment)
 	Actor_25.PhysicDesc.SizeX = 4.2039e-045
 	Actor_25.PhysicDesc.SizeY = 1.19531e-042
 	Actor_25.PhysicDesc.SizeZ = 0
+	Actor_25.PhysicDesc.AllowFreeMove = true
 	Actor_25.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_11.phy"
 	Actor_25:SetPhysicalActorType(1)
 	Actor_25:SetPhysicalShape(5)
@@ -1166,6 +1264,8 @@ function InitMap(environment)
 	Actor_25.ExtraInfo.NameColorR = 1.76678e-031
 	Actor_25.ExtraInfo.NameColorG = 0
 	Actor_25.ExtraInfo.NameColorB = 4.49121
+	Actor_25.ExtraInfo.Display = false
+	Actor_25.LifeInfo.Display = false
 	Actor_25H = ActorHandler(Actor_25)
 	environment:AddActorObject(Actor_25H)
 
@@ -1192,6 +1292,7 @@ function InitMap(environment)
 	Actor_26.DisplayDesc.RotY = 0
 	Actor_26.DisplayDesc.RotZ = 0
 	Actor_26:SetModelState(1)
+	Actor_26.DisplayDesc.UseBillboard = false
 	Actor_26.PhysicDesc.Pos.X = 538.5
 	Actor_26.PhysicDesc.Pos.Y = 21.9727
 	Actor_26.PhysicDesc.Pos.Z = 428.875
@@ -1201,6 +1302,7 @@ function InitMap(environment)
 	Actor_26.PhysicDesc.SizeX = 4.79266e-034
 	Actor_26.PhysicDesc.SizeY = 0
 	Actor_26.PhysicDesc.SizeZ = 5.60519e-045
+	Actor_26.PhysicDesc.AllowFreeMove = true
 	Actor_26.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_11.phy"
 	Actor_26:SetPhysicalActorType(1)
 	Actor_26:SetPhysicalShape(5)
@@ -1208,6 +1310,8 @@ function InitMap(environment)
 	Actor_26.ExtraInfo.NameColorR = 4.19922
 	Actor_26.ExtraInfo.NameColorG = 4.2039e-045
 	Actor_26.ExtraInfo.NameColorB = 1.39429e-042
+	Actor_26.ExtraInfo.Display = false
+	Actor_26.LifeInfo.Display = false
 	Actor_26H = ActorHandler(Actor_26)
 	environment:AddActorObject(Actor_26H)
 
@@ -1234,6 +1338,7 @@ function InitMap(environment)
 	Actor_27.DisplayDesc.RotY = 0
 	Actor_27.DisplayDesc.RotZ = 0
 	Actor_27:SetModelState(1)
+	Actor_27.DisplayDesc.UseBillboard = false
 	Actor_27.PhysicDesc.Pos.X = 501.5
 	Actor_27.PhysicDesc.Pos.Y = 33.1992
 	Actor_27.PhysicDesc.Pos.Z = 457.5
@@ -1243,6 +1348,7 @@ function InitMap(environment)
 	Actor_27.PhysicDesc.SizeX = 5.60519e-045
 	Actor_27.PhysicDesc.SizeY = 0
 	Actor_27.PhysicDesc.SizeZ = 0
+	Actor_27.PhysicDesc.AllowFreeMove = true
 	Actor_27.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_12.phy"
 	Actor_27:SetPhysicalActorType(1)
 	Actor_27:SetPhysicalShape(5)
@@ -1250,6 +1356,8 @@ function InitMap(environment)
 	Actor_27.ExtraInfo.NameColorR = 1.58487e-042
 	Actor_27.ExtraInfo.NameColorG = 5.99295e-038
 	Actor_27.ExtraInfo.NameColorB = 0
+	Actor_27.ExtraInfo.Display = false
+	Actor_27.LifeInfo.Display = false
 	Actor_27H = ActorHandler(Actor_27)
 	environment:AddActorObject(Actor_27H)
 
@@ -1276,6 +1384,7 @@ function InitMap(environment)
 	Actor_28.DisplayDesc.RotY = 0
 	Actor_28.DisplayDesc.RotZ = 0
 	Actor_28:SetModelState(1)
+	Actor_28.DisplayDesc.UseBillboard = false
 	Actor_28.PhysicDesc.Pos.X = 539.5
 	Actor_28.PhysicDesc.Pos.Y = 33.082
 	Actor_28.PhysicDesc.Pos.Z = 471.25
@@ -1285,6 +1394,7 @@ function InitMap(environment)
 	Actor_28.PhysicDesc.SizeX = 0
 	Actor_28.PhysicDesc.SizeY = 4.09375
 	Actor_28.PhysicDesc.SizeZ = 4.2039e-045
+	Actor_28.PhysicDesc.AllowFreeMove = true
 	Actor_28.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_12.phy"
 	Actor_28:SetPhysicalActorType(1)
 	Actor_28:SetPhysicalShape(5)
@@ -1292,6 +1402,8 @@ function InitMap(environment)
 	Actor_28.ExtraInfo.NameColorR = 0
 	Actor_28.ExtraInfo.NameColorG = 5.60519e-045
 	Actor_28.ExtraInfo.NameColorB = 0
+	Actor_28.ExtraInfo.Display = false
+	Actor_28.LifeInfo.Display = false
 	Actor_28H = ActorHandler(Actor_28)
 	environment:AddActorObject(Actor_28H)
 
@@ -1318,6 +1430,7 @@ function InitMap(environment)
 	Actor_29.DisplayDesc.RotY = 0
 	Actor_29.DisplayDesc.RotZ = 0
 	Actor_29:SetModelState(1)
+	Actor_29.DisplayDesc.UseBillboard = false
 	Actor_29.PhysicDesc.Pos.X = 510.5
 	Actor_29.PhysicDesc.Pos.Y = 33.9375
 	Actor_29.PhysicDesc.Pos.Z = 453.5
@@ -1327,6 +1440,7 @@ function InitMap(environment)
 	Actor_29.PhysicDesc.SizeX = 4.2039e-045
 	Actor_29.PhysicDesc.SizeY = 1.71105e-039
 	Actor_29.PhysicDesc.SizeZ = 0
+	Actor_29.PhysicDesc.AllowFreeMove = true
 	Actor_29.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_8.phy"
 	Actor_29:SetPhysicalActorType(1)
 	Actor_29:SetPhysicalShape(5)
@@ -1334,6 +1448,8 @@ function InitMap(environment)
 	Actor_29.ExtraInfo.NameColorR = 0
 	Actor_29.ExtraInfo.NameColorG = 0
 	Actor_29.ExtraInfo.NameColorB = 3.79102
+	Actor_29.ExtraInfo.Display = false
+	Actor_29.LifeInfo.Display = false
 	Actor_29H = ActorHandler(Actor_29)
 	environment:AddActorObject(Actor_29H)
 
@@ -1360,6 +1476,7 @@ function InitMap(environment)
 	Actor_30.DisplayDesc.RotY = 0
 	Actor_30.DisplayDesc.RotZ = 0
 	Actor_30:SetModelState(1)
+	Actor_30.DisplayDesc.UseBillboard = false
 	Actor_30.PhysicDesc.Pos.X = 503.859
 	Actor_30.PhysicDesc.Pos.Y = 29.7852
 	Actor_30.PhysicDesc.Pos.Z = 462
@@ -1369,6 +1486,7 @@ function InitMap(environment)
 	Actor_30.PhysicDesc.SizeX = 0
 	Actor_30.PhysicDesc.SizeY = 3.94287
 	Actor_30.PhysicDesc.SizeZ = 4.2039e-045
+	Actor_30.PhysicDesc.AllowFreeMove = true
 	Actor_30.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_12.phy"
 	Actor_30:SetPhysicalActorType(1)
 	Actor_30:SetPhysicalShape(5)
@@ -1376,6 +1494,8 @@ function InitMap(environment)
 	Actor_30.ExtraInfo.NameColorR = 4.25195
 	Actor_30.ExtraInfo.NameColorG = 4.2039e-045
 	Actor_30.ExtraInfo.NameColorB = 1.71105e-039
+	Actor_30.ExtraInfo.Display = false
+	Actor_30.LifeInfo.Display = false
 	Actor_30H = ActorHandler(Actor_30)
 	environment:AddActorObject(Actor_30H)
 
@@ -1402,6 +1522,7 @@ function InitMap(environment)
 	Actor_31.DisplayDesc.RotY = 0
 	Actor_31.DisplayDesc.RotZ = 0
 	Actor_31:SetModelState(1)
+	Actor_31.DisplayDesc.UseBillboard = false
 	Actor_31.PhysicDesc.Pos.X = 538.5
 	Actor_31.PhysicDesc.Pos.Y = 28.8086
 	Actor_31.PhysicDesc.Pos.Z = 449.5
@@ -1411,6 +1532,7 @@ function InitMap(environment)
 	Actor_31.PhysicDesc.SizeX = 5.60519e-045
 	Actor_31.PhysicDesc.SizeY = 1.76626e-031
 	Actor_31.PhysicDesc.SizeZ = 0
+	Actor_31.PhysicDesc.AllowFreeMove = true
 	Actor_31.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_9.phy"
 	Actor_31:SetPhysicalActorType(1)
 	Actor_31:SetPhysicalShape(5)
@@ -1418,6 +1540,8 @@ function InitMap(environment)
 	Actor_31.ExtraInfo.NameColorR = 4.02393
 	Actor_31.ExtraInfo.NameColorG = 4.7905e-034
 	Actor_31.ExtraInfo.NameColorB = 0
+	Actor_31.ExtraInfo.Display = false
+	Actor_31.LifeInfo.Display = false
 	Actor_31H = ActorHandler(Actor_31)
 	environment:AddActorObject(Actor_31H)
 
@@ -1444,6 +1568,7 @@ function InitMap(environment)
 	Actor_32.DisplayDesc.RotY = 0
 	Actor_32.DisplayDesc.RotZ = 0
 	Actor_32:SetModelState(1)
+	Actor_32.DisplayDesc.UseBillboard = false
 	Actor_32.PhysicDesc.Pos.X = 525.5
 	Actor_32.PhysicDesc.Pos.Y = 33.2031
 	Actor_32.PhysicDesc.Pos.Z = 434.5
@@ -1453,6 +1578,7 @@ function InitMap(environment)
 	Actor_32.PhysicDesc.SizeX = 0
 	Actor_32.PhysicDesc.SizeY = 4.38672
 	Actor_32.PhysicDesc.SizeZ = 4.2039e-045
+	Actor_32.PhysicDesc.AllowFreeMove = true
 	Actor_32.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_13.phy"
 	Actor_32:SetPhysicalActorType(1)
 	Actor_32:SetPhysicalShape(5)
@@ -1460,6 +1586,8 @@ function InitMap(environment)
 	Actor_32.ExtraInfo.NameColorR = 0
 	Actor_32.ExtraInfo.NameColorG = 5.60519e-045
 	Actor_32.ExtraInfo.NameColorB = 0
+	Actor_32.ExtraInfo.Display = false
+	Actor_32.LifeInfo.Display = false
 	Actor_32H = ActorHandler(Actor_32)
 	environment:AddActorObject(Actor_32H)
 
@@ -1486,6 +1614,7 @@ function InitMap(environment)
 	Actor_33.DisplayDesc.RotY = 0
 	Actor_33.DisplayDesc.RotZ = 0
 	Actor_33:SetModelState(1)
+	Actor_33.DisplayDesc.UseBillboard = false
 	Actor_33.PhysicDesc.Pos.X = 532.5
 	Actor_33.PhysicDesc.Pos.Y = 34.1797
 	Actor_33.PhysicDesc.Pos.Z = 430.5
@@ -1495,6 +1624,7 @@ function InitMap(environment)
 	Actor_33.PhysicDesc.SizeX = 4.2039e-045
 	Actor_33.PhysicDesc.SizeY = 1.71105e-039
 	Actor_33.PhysicDesc.SizeZ = -1.42227e+035
+	Actor_33.PhysicDesc.AllowFreeMove = true
 	Actor_33.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_13.phy"
 	Actor_33:SetPhysicalActorType(1)
 	Actor_33:SetPhysicalShape(5)
@@ -1502,6 +1632,8 @@ function InitMap(environment)
 	Actor_33.ExtraInfo.NameColorR = 1.7671e-031
 	Actor_33.ExtraInfo.NameColorG = 0
 	Actor_33.ExtraInfo.NameColorB = 3.97754
+	Actor_33.ExtraInfo.Display = false
+	Actor_33.LifeInfo.Display = false
 	Actor_33H = ActorHandler(Actor_33)
 	environment:AddActorObject(Actor_33H)
 
@@ -1528,6 +1660,7 @@ function InitMap(environment)
 	Actor_34.DisplayDesc.RotY = 0
 	Actor_34.DisplayDesc.RotZ = 0
 	Actor_34:SetModelState(1)
+	Actor_34.DisplayDesc.UseBillboard = false
 	Actor_34.PhysicDesc.Pos.X = 519.5
 	Actor_34.PhysicDesc.Pos.Y = 34.1797
 	Actor_34.PhysicDesc.Pos.Z = 432.5
@@ -1537,6 +1670,7 @@ function InitMap(environment)
 	Actor_34.PhysicDesc.SizeX = 5.60519e-045
 	Actor_34.PhysicDesc.SizeY = 3.98206
 	Actor_34.PhysicDesc.SizeZ = 0
+	Actor_34.PhysicDesc.AllowFreeMove = true
 	Actor_34.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_13.phy"
 	Actor_34:SetPhysicalActorType(1)
 	Actor_34:SetPhysicalShape(5)
@@ -1544,6 +1678,8 @@ function InitMap(environment)
 	Actor_34.ExtraInfo.NameColorR = 3.64063
 	Actor_34.ExtraInfo.NameColorG = 1.77111e-031
 	Actor_34.ExtraInfo.NameColorB = 5.96814e-039
+	Actor_34.ExtraInfo.Display = false
+	Actor_34.LifeInfo.Display = false
 	Actor_34H = ActorHandler(Actor_34)
 	environment:AddActorObject(Actor_34H)
 
@@ -1570,6 +1706,7 @@ function InitMap(environment)
 	Actor_35.DisplayDesc.RotY = 0
 	Actor_35.DisplayDesc.RotZ = 0
 	Actor_35:SetModelState(1)
+	Actor_35.DisplayDesc.UseBillboard = false
 	Actor_35.PhysicDesc.Pos.X = 522.5
 	Actor_35.PhysicDesc.Pos.Y = 24.9023
 	Actor_35.PhysicDesc.Pos.Z = 476.5
@@ -1579,6 +1716,7 @@ function InitMap(environment)
 	Actor_35.PhysicDesc.SizeX = 0
 	Actor_35.PhysicDesc.SizeY = 3.59961
 	Actor_35.PhysicDesc.SizeZ = 4.2039e-045
+	Actor_35.PhysicDesc.AllowFreeMove = true
 	Actor_35.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_13.phy"
 	Actor_35:SetPhysicalActorType(1)
 	Actor_35:SetPhysicalShape(5)
@@ -1586,6 +1724,8 @@ function InitMap(environment)
 	Actor_35.ExtraInfo.NameColorR = 1.71105e-039
 	Actor_35.ExtraInfo.NameColorG = 5.60519e-045
 	Actor_35.ExtraInfo.NameColorB = 0
+	Actor_35.ExtraInfo.Display = false
+	Actor_35.LifeInfo.Display = false
 	Actor_35H = ActorHandler(Actor_35)
 	environment:AddActorObject(Actor_35H)
 
@@ -1612,6 +1752,7 @@ function InitMap(environment)
 	Actor_36.DisplayDesc.RotY = 0
 	Actor_36.DisplayDesc.RotZ = 0
 	Actor_36:SetModelState(1)
+	Actor_36.DisplayDesc.UseBillboard = false
 	Actor_36.PhysicDesc.Pos.X = 514.5
 	Actor_36.PhysicDesc.Pos.Y = 33.2031
 	Actor_36.PhysicDesc.Pos.Z = 462.5
@@ -1621,6 +1762,7 @@ function InitMap(environment)
 	Actor_36.PhysicDesc.SizeX = 0
 	Actor_36.PhysicDesc.SizeY = 0
 	Actor_36.PhysicDesc.SizeZ = 0
+	Actor_36.PhysicDesc.AllowFreeMove = true
 	Actor_36.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_14.phy"
 	Actor_36:SetPhysicalActorType(1)
 	Actor_36:SetPhysicalShape(5)
@@ -1628,6 +1770,8 @@ function InitMap(environment)
 	Actor_36.ExtraInfo.NameColorR = 0
 	Actor_36.ExtraInfo.NameColorG = 0
 	Actor_36.ExtraInfo.NameColorB = 0
+	Actor_36.ExtraInfo.Display = false
+	Actor_36.LifeInfo.Display = false
 	Actor_36H = ActorHandler(Actor_36)
 	environment:AddActorObject(Actor_36H)
 
@@ -1654,6 +1798,7 @@ function InitMap(environment)
 	Actor_37.DisplayDesc.RotY = 0
 	Actor_37.DisplayDesc.RotZ = 0
 	Actor_37:SetModelState(1)
+	Actor_37.DisplayDesc.UseBillboard = false
 	Actor_37.PhysicDesc.Pos.X = 518.5
 	Actor_37.PhysicDesc.Pos.Y = 33.2031
 	Actor_37.PhysicDesc.Pos.Z = 463.5
@@ -1663,6 +1808,7 @@ function InitMap(environment)
 	Actor_37.PhysicDesc.SizeX = 0
 	Actor_37.PhysicDesc.SizeY = 0
 	Actor_37.PhysicDesc.SizeZ = 0
+	Actor_37.PhysicDesc.AllowFreeMove = true
 	Actor_37.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_15.phy"
 	Actor_37:SetPhysicalActorType(1)
 	Actor_37:SetPhysicalShape(5)
@@ -1670,6 +1816,8 @@ function InitMap(environment)
 	Actor_37.ExtraInfo.NameColorR = 0
 	Actor_37.ExtraInfo.NameColorG = 0
 	Actor_37.ExtraInfo.NameColorB = 0
+	Actor_37.ExtraInfo.Display = false
+	Actor_37.LifeInfo.Display = false
 	Actor_37H = ActorHandler(Actor_37)
 	environment:AddActorObject(Actor_37H)
 
@@ -1696,6 +1844,7 @@ function InitMap(environment)
 	Actor_38.DisplayDesc.RotY = 0
 	Actor_38.DisplayDesc.RotZ = 0
 	Actor_38:SetModelState(1)
+	Actor_38.DisplayDesc.UseBillboard = false
 	Actor_38.PhysicDesc.Pos.X = 518.5
 	Actor_38.PhysicDesc.Pos.Y = 34.1797
 	Actor_38.PhysicDesc.Pos.Z = 458.5
@@ -1705,6 +1854,7 @@ function InitMap(environment)
 	Actor_38.PhysicDesc.SizeX = 0
 	Actor_38.PhysicDesc.SizeY = 0
 	Actor_38.PhysicDesc.SizeZ = 0
+	Actor_38.PhysicDesc.AllowFreeMove = true
 	Actor_38.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_16.phy"
 	Actor_38:SetPhysicalActorType(1)
 	Actor_38:SetPhysicalShape(5)
@@ -1712,6 +1862,8 @@ function InitMap(environment)
 	Actor_38.ExtraInfo.NameColorR = 0
 	Actor_38.ExtraInfo.NameColorG = 0
 	Actor_38.ExtraInfo.NameColorB = 0
+	Actor_38.ExtraInfo.Display = false
+	Actor_38.LifeInfo.Display = false
 	Actor_38H = ActorHandler(Actor_38)
 	environment:AddActorObject(Actor_38H)
 
@@ -1738,6 +1890,7 @@ function InitMap(environment)
 	Actor_39.DisplayDesc.RotY = 0
 	Actor_39.DisplayDesc.RotZ = 0
 	Actor_39:SetModelState(1)
+	Actor_39.DisplayDesc.UseBillboard = false
 	Actor_39.PhysicDesc.Pos.X = 514.5
 	Actor_39.PhysicDesc.Pos.Y = 33.9336
 	Actor_39.PhysicDesc.Pos.Z = 456.5
@@ -1747,6 +1900,7 @@ function InitMap(environment)
 	Actor_39.PhysicDesc.SizeX = 0
 	Actor_39.PhysicDesc.SizeY = 0
 	Actor_39.PhysicDesc.SizeZ = 0
+	Actor_39.PhysicDesc.AllowFreeMove = true
 	Actor_39.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_9.phy"
 	Actor_39:SetPhysicalActorType(1)
 	Actor_39:SetPhysicalShape(5)
@@ -1754,6 +1908,8 @@ function InitMap(environment)
 	Actor_39.ExtraInfo.NameColorR = 0
 	Actor_39.ExtraInfo.NameColorG = 0
 	Actor_39.ExtraInfo.NameColorB = 0
+	Actor_39.ExtraInfo.Display = false
+	Actor_39.LifeInfo.Display = false
 	Actor_39H = ActorHandler(Actor_39)
 	environment:AddActorObject(Actor_39H)
 
@@ -1780,6 +1936,7 @@ function InitMap(environment)
 	Actor_40.DisplayDesc.RotY = 0
 	Actor_40.DisplayDesc.RotZ = 0
 	Actor_40:SetModelState(1)
+	Actor_40.DisplayDesc.UseBillboard = false
 	Actor_40.PhysicDesc.Pos.X = 514.5
 	Actor_40.PhysicDesc.Pos.Y = 33.2031
 	Actor_40.PhysicDesc.Pos.Z = 462.5
@@ -1789,6 +1946,7 @@ function InitMap(environment)
 	Actor_40.PhysicDesc.SizeX = 0
 	Actor_40.PhysicDesc.SizeY = 0
 	Actor_40.PhysicDesc.SizeZ = 0
+	Actor_40.PhysicDesc.AllowFreeMove = true
 	Actor_40.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_17.phy"
 	Actor_40:SetPhysicalActorType(1)
 	Actor_40:SetPhysicalShape(5)
@@ -1796,6 +1954,8 @@ function InitMap(environment)
 	Actor_40.ExtraInfo.NameColorR = 0
 	Actor_40.ExtraInfo.NameColorG = 0
 	Actor_40.ExtraInfo.NameColorB = 0
+	Actor_40.ExtraInfo.Display = false
+	Actor_40.LifeInfo.Display = false
 	Actor_40H = ActorHandler(Actor_40)
 	environment:AddActorObject(Actor_40H)
 
@@ -1822,6 +1982,7 @@ function InitMap(environment)
 	Actor_41.DisplayDesc.RotY = 0
 	Actor_41.DisplayDesc.RotZ = 0
 	Actor_41:SetModelState(1)
+	Actor_41.DisplayDesc.UseBillboard = false
 	Actor_41.PhysicDesc.Pos.X = 514.5
 	Actor_41.PhysicDesc.Pos.Y = 33.2031
 	Actor_41.PhysicDesc.Pos.Z = 462.5
@@ -1831,6 +1992,7 @@ function InitMap(environment)
 	Actor_41.PhysicDesc.SizeX = 0
 	Actor_41.PhysicDesc.SizeY = 0
 	Actor_41.PhysicDesc.SizeZ = 0
+	Actor_41.PhysicDesc.AllowFreeMove = true
 	Actor_41.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_18.phy"
 	Actor_41:SetPhysicalActorType(1)
 	Actor_41:SetPhysicalShape(5)
@@ -1838,6 +2000,8 @@ function InitMap(environment)
 	Actor_41.ExtraInfo.NameColorR = 0
 	Actor_41.ExtraInfo.NameColorG = 0
 	Actor_41.ExtraInfo.NameColorB = 0
+	Actor_41.ExtraInfo.Display = false
+	Actor_41.LifeInfo.Display = false
 	Actor_41H = ActorHandler(Actor_41)
 	environment:AddActorObject(Actor_41H)
 
@@ -1864,6 +2028,7 @@ function InitMap(environment)
 	Actor_42.DisplayDesc.RotY = 0
 	Actor_42.DisplayDesc.RotZ = 0
 	Actor_42:SetModelState(1)
+	Actor_42.DisplayDesc.UseBillboard = false
 	Actor_42.PhysicDesc.Pos.X = 495.5
 	Actor_42.PhysicDesc.Pos.Y = 31.0078
 	Actor_42.PhysicDesc.Pos.Z = 453.5
@@ -1873,6 +2038,7 @@ function InitMap(environment)
 	Actor_42.PhysicDesc.SizeX = 0
 	Actor_42.PhysicDesc.SizeY = 0
 	Actor_42.PhysicDesc.SizeZ = 0
+	Actor_42.PhysicDesc.AllowFreeMove = true
 	Actor_42.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_19.phy"
 	Actor_42:SetPhysicalActorType(1)
 	Actor_42:SetPhysicalShape(5)
@@ -1880,6 +2046,8 @@ function InitMap(environment)
 	Actor_42.ExtraInfo.NameColorR = 0
 	Actor_42.ExtraInfo.NameColorG = 0
 	Actor_42.ExtraInfo.NameColorB = 0
+	Actor_42.ExtraInfo.Display = false
+	Actor_42.LifeInfo.Display = false
 	Actor_42H = ActorHandler(Actor_42)
 	environment:AddActorObject(Actor_42H)
 
@@ -1906,6 +2074,7 @@ function InitMap(environment)
 	Actor_43.DisplayDesc.RotY = 0
 	Actor_43.DisplayDesc.RotZ = 0
 	Actor_43:SetModelState(1)
+	Actor_43.DisplayDesc.UseBillboard = false
 	Actor_43.PhysicDesc.Pos.X = 493.5
 	Actor_43.PhysicDesc.Pos.Y = 30.7617
 	Actor_43.PhysicDesc.Pos.Z = 436.125
@@ -1915,6 +2084,7 @@ function InitMap(environment)
 	Actor_43.PhysicDesc.SizeX = 0
 	Actor_43.PhysicDesc.SizeY = 0
 	Actor_43.PhysicDesc.SizeZ = 0
+	Actor_43.PhysicDesc.AllowFreeMove = true
 	Actor_43.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_20.phy"
 	Actor_43:SetPhysicalActorType(1)
 	Actor_43:SetPhysicalShape(5)
@@ -1922,6 +2092,8 @@ function InitMap(environment)
 	Actor_43.ExtraInfo.NameColorR = 0
 	Actor_43.ExtraInfo.NameColorG = 0
 	Actor_43.ExtraInfo.NameColorB = 0
+	Actor_43.ExtraInfo.Display = false
+	Actor_43.LifeInfo.Display = false
 	Actor_43H = ActorHandler(Actor_43)
 	environment:AddActorObject(Actor_43H)
 
@@ -1948,6 +2120,7 @@ function InitMap(environment)
 	Actor_44.DisplayDesc.RotY = 0
 	Actor_44.DisplayDesc.RotZ = 0
 	Actor_44:SetModelState(1)
+	Actor_44.DisplayDesc.UseBillboard = false
 	Actor_44.PhysicDesc.Pos.X = 507.5
 	Actor_44.PhysicDesc.Pos.Y = 29.2969
 	Actor_44.PhysicDesc.Pos.Z = 479.25
@@ -1957,6 +2130,7 @@ function InitMap(environment)
 	Actor_44.PhysicDesc.SizeX = 0
 	Actor_44.PhysicDesc.SizeY = 0
 	Actor_44.PhysicDesc.SizeZ = 0
+	Actor_44.PhysicDesc.AllowFreeMove = true
 	Actor_44.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_21.phy"
 	Actor_44:SetPhysicalActorType(1)
 	Actor_44:SetPhysicalShape(5)
@@ -1964,6 +2138,8 @@ function InitMap(environment)
 	Actor_44.ExtraInfo.NameColorR = 0
 	Actor_44.ExtraInfo.NameColorG = 0
 	Actor_44.ExtraInfo.NameColorB = 0
+	Actor_44.ExtraInfo.Display = false
+	Actor_44.LifeInfo.Display = false
 	Actor_44H = ActorHandler(Actor_44)
 	environment:AddActorObject(Actor_44H)
 
@@ -1990,6 +2166,7 @@ function InitMap(environment)
 	Actor_45.DisplayDesc.RotY = 0
 	Actor_45.DisplayDesc.RotZ = 0
 	Actor_45:SetModelState(1)
+	Actor_45.DisplayDesc.UseBillboard = false
 	Actor_45.PhysicDesc.Pos.X = 575.5
 	Actor_45.PhysicDesc.Pos.Y = 33.2031
 	Actor_45.PhysicDesc.Pos.Z = 431.5
@@ -1999,6 +2176,7 @@ function InitMap(environment)
 	Actor_45.PhysicDesc.SizeX = 0
 	Actor_45.PhysicDesc.SizeY = 0
 	Actor_45.PhysicDesc.SizeZ = 0
+	Actor_45.PhysicDesc.AllowFreeMove = true
 	Actor_45.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_5.phy"
 	Actor_45:SetPhysicalActorType(1)
 	Actor_45:SetPhysicalShape(5)
@@ -2006,6 +2184,8 @@ function InitMap(environment)
 	Actor_45.ExtraInfo.NameColorR = 0
 	Actor_45.ExtraInfo.NameColorG = 0
 	Actor_45.ExtraInfo.NameColorB = 0
+	Actor_45.ExtraInfo.Display = false
+	Actor_45.LifeInfo.Display = false
 	Actor_45H = ActorHandler(Actor_45)
 	environment:AddActorObject(Actor_45H)
 
@@ -2032,6 +2212,7 @@ function InitMap(environment)
 	Actor_46.DisplayDesc.RotY = 0
 	Actor_46.DisplayDesc.RotZ = 0
 	Actor_46:SetModelState(1)
+	Actor_46.DisplayDesc.UseBillboard = false
 	Actor_46.PhysicDesc.Pos.X = 578.5
 	Actor_46.PhysicDesc.Pos.Y = 33.2031
 	Actor_46.PhysicDesc.Pos.Z = 433.5
@@ -2041,6 +2222,7 @@ function InitMap(environment)
 	Actor_46.PhysicDesc.SizeX = 1.82126e-031
 	Actor_46.PhysicDesc.SizeY = 0
 	Actor_46.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_46.PhysicDesc.AllowFreeMove = true
 	Actor_46.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_1.phy"
 	Actor_46:SetPhysicalActorType(1)
 	Actor_46:SetPhysicalShape(5)
@@ -2048,6 +2230,8 @@ function InitMap(environment)
 	Actor_46.ExtraInfo.NameColorR = 0
 	Actor_46.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_46.ExtraInfo.NameColorB = 8.14744e-033
+	Actor_46.ExtraInfo.Display = false
+	Actor_46.LifeInfo.Display = false
 	Actor_46H = ActorHandler(Actor_46)
 	environment:AddActorObject(Actor_46H)
 
@@ -2074,6 +2258,7 @@ function InitMap(environment)
 	Actor_47.DisplayDesc.RotY = 0
 	Actor_47.DisplayDesc.RotZ = 0
 	Actor_47:SetModelState(1)
+	Actor_47.DisplayDesc.UseBillboard = false
 	Actor_47.PhysicDesc.Pos.X = 574.5
 	Actor_47.PhysicDesc.Pos.Y = 33.2031
 	Actor_47.PhysicDesc.Pos.Z = 438.5
@@ -2083,6 +2268,7 @@ function InitMap(environment)
 	Actor_47.PhysicDesc.SizeX = 2.8026e-045
 	Actor_47.PhysicDesc.SizeY = 1.76609e-031
 	Actor_47.PhysicDesc.SizeZ = 1.82615e-031
+	Actor_47.PhysicDesc.AllowFreeMove = true
 	Actor_47.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_5.phy"
 	Actor_47:SetPhysicalActorType(1)
 	Actor_47:SetPhysicalShape(5)
@@ -2090,6 +2276,8 @@ function InitMap(environment)
 	Actor_47.ExtraInfo.NameColorR = 0
 	Actor_47.ExtraInfo.NameColorG = 1.82773e-031
 	Actor_47.ExtraInfo.NameColorB = 0
+	Actor_47.ExtraInfo.Display = false
+	Actor_47.LifeInfo.Display = false
 	Actor_47H = ActorHandler(Actor_47)
 	environment:AddActorObject(Actor_47H)
 
@@ -2116,6 +2304,7 @@ function InitMap(environment)
 	Actor_48.DisplayDesc.RotY = 0
 	Actor_48.DisplayDesc.RotZ = 0
 	Actor_48:SetModelState(1)
+	Actor_48.DisplayDesc.UseBillboard = false
 	Actor_48.PhysicDesc.Pos.X = 547.5
 	Actor_48.PhysicDesc.Pos.Y = 32.7148
 	Actor_48.PhysicDesc.Pos.Z = 462.5
@@ -2125,6 +2314,7 @@ function InitMap(environment)
 	Actor_48.PhysicDesc.SizeX = 1.767e-031
 	Actor_48.PhysicDesc.SizeY = 0
 	Actor_48.PhysicDesc.SizeZ = 9.80909e-045
+	Actor_48.PhysicDesc.AllowFreeMove = true
 	Actor_48.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_2.phy"
 	Actor_48:SetPhysicalActorType(1)
 	Actor_48:SetPhysicalShape(5)
@@ -2132,6 +2322,8 @@ function InitMap(environment)
 	Actor_48.ExtraInfo.NameColorR = 0
 	Actor_48.ExtraInfo.NameColorG = 2.8026e-045
 	Actor_48.ExtraInfo.NameColorB = 1.76614e-031
+	Actor_48.ExtraInfo.Display = false
+	Actor_48.LifeInfo.Display = false
 	Actor_48H = ActorHandler(Actor_48)
 	environment:AddActorObject(Actor_48H)
 
@@ -2158,6 +2350,7 @@ function InitMap(environment)
 	Actor_49.DisplayDesc.RotY = 0
 	Actor_49.DisplayDesc.RotZ = 0
 	Actor_49:SetModelState(1)
+	Actor_49.DisplayDesc.UseBillboard = false
 	Actor_49.PhysicDesc.Pos.X = 563.5
 	Actor_49.PhysicDesc.Pos.Y = 30.5195
 	Actor_49.PhysicDesc.Pos.Z = 454.5
@@ -2167,6 +2360,7 @@ function InitMap(environment)
 	Actor_49.PhysicDesc.SizeX = 9.80909e-045
 	Actor_49.PhysicDesc.SizeY = 1.86373e-043
 	Actor_49.PhysicDesc.SizeZ = 1.82846e-031
+	Actor_49.PhysicDesc.AllowFreeMove = true
 	Actor_49.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_6.phy"
 	Actor_49:SetPhysicalActorType(1)
 	Actor_49:SetPhysicalShape(5)
@@ -2174,6 +2368,8 @@ function InitMap(environment)
 	Actor_49.ExtraInfo.NameColorR = 1.76603e-031
 	Actor_49.ExtraInfo.NameColorG = 1.77084e-031
 	Actor_49.ExtraInfo.NameColorB = 0
+	Actor_49.ExtraInfo.Display = false
+	Actor_49.LifeInfo.Display = false
 	Actor_49H = ActorHandler(Actor_49)
 	environment:AddActorObject(Actor_49H)
 
@@ -2200,6 +2396,7 @@ function InitMap(environment)
 	Actor_50.DisplayDesc.RotY = 0
 	Actor_50.DisplayDesc.RotZ = 0
 	Actor_50:SetModelState(1)
+	Actor_50.DisplayDesc.UseBillboard = false
 	Actor_50.PhysicDesc.Pos.X = 554.5
 	Actor_50.PhysicDesc.Pos.Y = 26.3672
 	Actor_50.PhysicDesc.Pos.Z = 467.5
@@ -2209,6 +2406,7 @@ function InitMap(environment)
 	Actor_50.PhysicDesc.SizeX = 1.76793e-031
 	Actor_50.PhysicDesc.SizeY = 0
 	Actor_50.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_50.PhysicDesc.AllowFreeMove = true
 	Actor_50.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_1.phy"
 	Actor_50:SetPhysicalActorType(1)
 	Actor_50:SetPhysicalShape(5)
@@ -2216,6 +2414,8 @@ function InitMap(environment)
 	Actor_50.ExtraInfo.NameColorR = 0
 	Actor_50.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_50.ExtraInfo.NameColorB = 4.16186e-043
+	Actor_50.ExtraInfo.Display = false
+	Actor_50.LifeInfo.Display = false
 	Actor_50H = ActorHandler(Actor_50)
 	environment:AddActorObject(Actor_50H)
 
@@ -2242,6 +2442,7 @@ function InitMap(environment)
 	Actor_51.DisplayDesc.RotY = 0
 	Actor_51.DisplayDesc.RotZ = 0
 	Actor_51:SetModelState(1)
+	Actor_51.DisplayDesc.UseBillboard = false
 	Actor_51.PhysicDesc.Pos.X = 551.5
 	Actor_51.PhysicDesc.Pos.Y = 32.2266
 	Actor_51.PhysicDesc.Pos.Z = 441.5
@@ -2251,6 +2452,7 @@ function InitMap(environment)
 	Actor_51.PhysicDesc.SizeX = 2.8026e-045
 	Actor_51.PhysicDesc.SizeY = 0
 	Actor_51.PhysicDesc.SizeZ = 1.76878e-031
+	Actor_51.PhysicDesc.AllowFreeMove = true
 	Actor_51.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_22.phy"
 	Actor_51:SetPhysicalActorType(1)
 	Actor_51:SetPhysicalShape(5)
@@ -2258,6 +2460,8 @@ function InitMap(environment)
 	Actor_51.ExtraInfo.NameColorR = 1.09021e-042
 	Actor_51.ExtraInfo.NameColorG = 1.78628e-031
 	Actor_51.ExtraInfo.NameColorB = 0
+	Actor_51.ExtraInfo.Display = false
+	Actor_51.LifeInfo.Display = false
 	Actor_51H = ActorHandler(Actor_51)
 	environment:AddActorObject(Actor_51H)
 
@@ -2284,6 +2488,7 @@ function InitMap(environment)
 	Actor_52.DisplayDesc.RotY = 0
 	Actor_52.DisplayDesc.RotZ = 0
 	Actor_52:SetModelState(1)
+	Actor_52.DisplayDesc.UseBillboard = false
 	Actor_52.PhysicDesc.Pos.X = 564.25
 	Actor_52.PhysicDesc.Pos.Y = 33.2031
 	Actor_52.PhysicDesc.Pos.Z = 435
@@ -2293,6 +2498,7 @@ function InitMap(environment)
 	Actor_52.PhysicDesc.SizeX = 1.82714e-031
 	Actor_52.PhysicDesc.SizeY = 0
 	Actor_52.PhysicDesc.SizeZ = 9.80909e-045
+	Actor_52.PhysicDesc.AllowFreeMove = true
 	Actor_52.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_23.phy"
 	Actor_52:SetPhysicalActorType(1)
 	Actor_52:SetPhysicalShape(5)
@@ -2300,6 +2506,8 @@ function InitMap(environment)
 	Actor_52.ExtraInfo.NameColorR = 0
 	Actor_52.ExtraInfo.NameColorG = 2.8026e-045
 	Actor_52.ExtraInfo.NameColorB = 1.76621e-031
+	Actor_52.ExtraInfo.Display = false
+	Actor_52.LifeInfo.Display = false
 	Actor_52H = ActorHandler(Actor_52)
 	environment:AddActorObject(Actor_52H)
 
@@ -2326,6 +2534,7 @@ function InitMap(environment)
 	Actor_53.DisplayDesc.RotY = 0
 	Actor_53.DisplayDesc.RotZ = 0
 	Actor_53:SetModelState(1)
+	Actor_53.DisplayDesc.UseBillboard = false
 	Actor_53.PhysicDesc.Pos.X = 564.25
 	Actor_53.PhysicDesc.Pos.Y = 33.2031
 	Actor_53.PhysicDesc.Pos.Z = 435
@@ -2335,6 +2544,7 @@ function InitMap(environment)
 	Actor_53.PhysicDesc.SizeX = 9.80909e-045
 	Actor_53.PhysicDesc.SizeY = 1.04537e-042
 	Actor_53.PhysicDesc.SizeZ = 1.77497e-031
+	Actor_53.PhysicDesc.AllowFreeMove = true
 	Actor_53.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_24.phy"
 	Actor_53:SetPhysicalActorType(1)
 	Actor_53:SetPhysicalShape(5)
@@ -2342,6 +2552,8 @@ function InitMap(environment)
 	Actor_53.ExtraInfo.NameColorR = 0
 	Actor_53.ExtraInfo.NameColorG = 1.82603e-031
 	Actor_53.ExtraInfo.NameColorB = 0
+	Actor_53.ExtraInfo.Display = false
+	Actor_53.LifeInfo.Display = false
 	Actor_53H = ActorHandler(Actor_53)
 	environment:AddActorObject(Actor_53H)
 
@@ -2368,6 +2580,7 @@ function InitMap(environment)
 	Actor_54.DisplayDesc.RotY = 0
 	Actor_54.DisplayDesc.RotZ = 0
 	Actor_54:SetModelState(1)
+	Actor_54.DisplayDesc.UseBillboard = false
 	Actor_54.PhysicDesc.Pos.X = 564.25
 	Actor_54.PhysicDesc.Pos.Y = 33.2031
 	Actor_54.PhysicDesc.Pos.Z = 435
@@ -2377,6 +2590,7 @@ function InitMap(environment)
 	Actor_54.PhysicDesc.SizeX = 0
 	Actor_54.PhysicDesc.SizeY = 0
 	Actor_54.PhysicDesc.SizeZ = 0
+	Actor_54.PhysicDesc.AllowFreeMove = true
 	Actor_54.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_25.phy"
 	Actor_54:SetPhysicalActorType(1)
 	Actor_54:SetPhysicalShape(5)
@@ -2384,6 +2598,8 @@ function InitMap(environment)
 	Actor_54.ExtraInfo.NameColorR = 0
 	Actor_54.ExtraInfo.NameColorG = 0
 	Actor_54.ExtraInfo.NameColorB = 0
+	Actor_54.ExtraInfo.Display = false
+	Actor_54.LifeInfo.Display = false
 	Actor_54H = ActorHandler(Actor_54)
 	environment:AddActorObject(Actor_54H)
 
@@ -2410,6 +2626,7 @@ function InitMap(environment)
 	Actor_55.DisplayDesc.RotY = 0
 	Actor_55.DisplayDesc.RotZ = 0
 	Actor_55:SetModelState(1)
+	Actor_55.DisplayDesc.UseBillboard = false
 	Actor_55.PhysicDesc.Pos.X = 564.25
 	Actor_55.PhysicDesc.Pos.Y = 33.2031
 	Actor_55.PhysicDesc.Pos.Z = 435
@@ -2419,6 +2636,7 @@ function InitMap(environment)
 	Actor_55.PhysicDesc.SizeX = 4.44526e-034
 	Actor_55.PhysicDesc.SizeY = 1.71105e-039
 	Actor_55.PhysicDesc.SizeZ = 5.60519e-045
+	Actor_55.PhysicDesc.AllowFreeMove = true
 	Actor_55.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_26.phy"
 	Actor_55:SetPhysicalActorType(1)
 	Actor_55:SetPhysicalShape(5)
@@ -2426,6 +2644,8 @@ function InitMap(environment)
 	Actor_55.ExtraInfo.NameColorR = 0
 	Actor_55.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_55.ExtraInfo.NameColorB = 0
+	Actor_55.ExtraInfo.Display = false
+	Actor_55.LifeInfo.Display = false
 	Actor_55H = ActorHandler(Actor_55)
 	environment:AddActorObject(Actor_55H)
 
@@ -2452,6 +2672,7 @@ function InitMap(environment)
 	Actor_56.DisplayDesc.RotY = 0
 	Actor_56.DisplayDesc.RotZ = 0
 	Actor_56:SetModelState(1)
+	Actor_56.DisplayDesc.UseBillboard = false
 	Actor_56.PhysicDesc.Pos.X = 564.25
 	Actor_56.PhysicDesc.Pos.Y = 33.2031
 	Actor_56.PhysicDesc.Pos.Z = 435
@@ -2461,6 +2682,7 @@ function InitMap(environment)
 	Actor_56.PhysicDesc.SizeX = 5.60519e-045
 	Actor_56.PhysicDesc.SizeY = 1.82697e-031
 	Actor_56.PhysicDesc.SizeZ = 1.76777e-031
+	Actor_56.PhysicDesc.AllowFreeMove = true
 	Actor_56.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_27.phy"
 	Actor_56:SetPhysicalActorType(1)
 	Actor_56:SetPhysicalShape(5)
@@ -2468,6 +2690,8 @@ function InitMap(environment)
 	Actor_56.ExtraInfo.NameColorR = 0
 	Actor_56.ExtraInfo.NameColorG = 1.76055e-031
 	Actor_56.ExtraInfo.NameColorB = 0
+	Actor_56.ExtraInfo.Display = false
+	Actor_56.LifeInfo.Display = false
 	Actor_56H = ActorHandler(Actor_56)
 	environment:AddActorObject(Actor_56H)
 
@@ -2494,6 +2718,7 @@ function InitMap(environment)
 	Actor_57.DisplayDesc.RotY = 0
 	Actor_57.DisplayDesc.RotZ = 0
 	Actor_57:SetModelState(1)
+	Actor_57.DisplayDesc.UseBillboard = false
 	Actor_57.PhysicDesc.Pos.X = 560.5
 	Actor_57.PhysicDesc.Pos.Y = 33.2031
 	Actor_57.PhysicDesc.Pos.Z = 448.5
@@ -2503,6 +2728,7 @@ function InitMap(environment)
 	Actor_57.PhysicDesc.SizeX = 0
 	Actor_57.PhysicDesc.SizeY = 0
 	Actor_57.PhysicDesc.SizeZ = 0
+	Actor_57.PhysicDesc.AllowFreeMove = true
 	Actor_57.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_28.phy"
 	Actor_57:SetPhysicalActorType(1)
 	Actor_57:SetPhysicalShape(5)
@@ -2510,6 +2736,8 @@ function InitMap(environment)
 	Actor_57.ExtraInfo.NameColorR = 0
 	Actor_57.ExtraInfo.NameColorG = 0
 	Actor_57.ExtraInfo.NameColorB = 0
+	Actor_57.ExtraInfo.Display = false
+	Actor_57.LifeInfo.Display = false
 	Actor_57H = ActorHandler(Actor_57)
 	environment:AddActorObject(Actor_57H)
 
@@ -2536,6 +2764,7 @@ function InitMap(environment)
 	Actor_58.DisplayDesc.RotY = 0
 	Actor_58.DisplayDesc.RotZ = 0
 	Actor_58:SetModelState(1)
+	Actor_58.DisplayDesc.UseBillboard = false
 	Actor_58.PhysicDesc.Pos.X = 564.428
 	Actor_58.PhysicDesc.Pos.Y = 33.2031
 	Actor_58.PhysicDesc.Pos.Z = 447
@@ -2545,6 +2774,7 @@ function InitMap(environment)
 	Actor_58.PhysicDesc.SizeX = 0
 	Actor_58.PhysicDesc.SizeY = 0
 	Actor_58.PhysicDesc.SizeZ = 0
+	Actor_58.PhysicDesc.AllowFreeMove = true
 	Actor_58.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_23.phy"
 	Actor_58:SetPhysicalActorType(1)
 	Actor_58:SetPhysicalShape(5)
@@ -2552,6 +2782,8 @@ function InitMap(environment)
 	Actor_58.ExtraInfo.NameColorR = 0
 	Actor_58.ExtraInfo.NameColorG = 0
 	Actor_58.ExtraInfo.NameColorB = 0
+	Actor_58.ExtraInfo.Display = false
+	Actor_58.LifeInfo.Display = false
 	Actor_58H = ActorHandler(Actor_58)
 	environment:AddActorObject(Actor_58H)
 
@@ -2578,6 +2810,7 @@ function InitMap(environment)
 	Actor_59.DisplayDesc.RotY = 0
 	Actor_59.DisplayDesc.RotZ = 0
 	Actor_59:SetModelState(1)
+	Actor_59.DisplayDesc.UseBillboard = false
 	Actor_59.PhysicDesc.Pos.X = 564.428
 	Actor_59.PhysicDesc.Pos.Y = 33.2031
 	Actor_59.PhysicDesc.Pos.Z = 447
@@ -2587,6 +2820,7 @@ function InitMap(environment)
 	Actor_59.PhysicDesc.SizeX = 0
 	Actor_59.PhysicDesc.SizeY = 0
 	Actor_59.PhysicDesc.SizeZ = 0
+	Actor_59.PhysicDesc.AllowFreeMove = true
 	Actor_59.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_25.phy"
 	Actor_59:SetPhysicalActorType(1)
 	Actor_59:SetPhysicalShape(5)
@@ -2594,6 +2828,8 @@ function InitMap(environment)
 	Actor_59.ExtraInfo.NameColorR = 0
 	Actor_59.ExtraInfo.NameColorG = 0
 	Actor_59.ExtraInfo.NameColorB = 0
+	Actor_59.ExtraInfo.Display = false
+	Actor_59.LifeInfo.Display = false
 	Actor_59H = ActorHandler(Actor_59)
 	environment:AddActorObject(Actor_59H)
 
@@ -2620,6 +2856,7 @@ function InitMap(environment)
 	Actor_60.DisplayDesc.RotY = 0
 	Actor_60.DisplayDesc.RotZ = 0
 	Actor_60:SetModelState(1)
+	Actor_60.DisplayDesc.UseBillboard = false
 	Actor_60.PhysicDesc.Pos.X = 564.428
 	Actor_60.PhysicDesc.Pos.Y = 33.2031
 	Actor_60.PhysicDesc.Pos.Z = 447
@@ -2629,6 +2866,7 @@ function InitMap(environment)
 	Actor_60.PhysicDesc.SizeX = 0
 	Actor_60.PhysicDesc.SizeY = 0
 	Actor_60.PhysicDesc.SizeZ = 0
+	Actor_60.PhysicDesc.AllowFreeMove = true
 	Actor_60.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_27.phy"
 	Actor_60:SetPhysicalActorType(1)
 	Actor_60:SetPhysicalShape(5)
@@ -2636,6 +2874,8 @@ function InitMap(environment)
 	Actor_60.ExtraInfo.NameColorR = 0
 	Actor_60.ExtraInfo.NameColorG = 0
 	Actor_60.ExtraInfo.NameColorB = 0
+	Actor_60.ExtraInfo.Display = false
+	Actor_60.LifeInfo.Display = false
 	Actor_60H = ActorHandler(Actor_60)
 	environment:AddActorObject(Actor_60H)
 
@@ -2662,6 +2902,7 @@ function InitMap(environment)
 	Actor_61.DisplayDesc.RotY = 0
 	Actor_61.DisplayDesc.RotZ = 0
 	Actor_61:SetModelState(1)
+	Actor_61.DisplayDesc.UseBillboard = false
 	Actor_61.PhysicDesc.Pos.X = 564.428
 	Actor_61.PhysicDesc.Pos.Y = 33.2031
 	Actor_61.PhysicDesc.Pos.Z = 447
@@ -2671,6 +2912,7 @@ function InitMap(environment)
 	Actor_61.PhysicDesc.SizeX = 0
 	Actor_61.PhysicDesc.SizeY = 0
 	Actor_61.PhysicDesc.SizeZ = 0
+	Actor_61.PhysicDesc.AllowFreeMove = true
 	Actor_61.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_24.phy"
 	Actor_61:SetPhysicalActorType(1)
 	Actor_61:SetPhysicalShape(5)
@@ -2678,6 +2920,8 @@ function InitMap(environment)
 	Actor_61.ExtraInfo.NameColorR = 0
 	Actor_61.ExtraInfo.NameColorG = 0
 	Actor_61.ExtraInfo.NameColorB = 0
+	Actor_61.ExtraInfo.Display = false
+	Actor_61.LifeInfo.Display = false
 	Actor_61H = ActorHandler(Actor_61)
 	environment:AddActorObject(Actor_61H)
 
@@ -2704,6 +2948,7 @@ function InitMap(environment)
 	Actor_62.DisplayDesc.RotY = 0
 	Actor_62.DisplayDesc.RotZ = 0
 	Actor_62:SetModelState(1)
+	Actor_62.DisplayDesc.UseBillboard = false
 	Actor_62.PhysicDesc.Pos.X = 564.428
 	Actor_62.PhysicDesc.Pos.Y = 33.2031
 	Actor_62.PhysicDesc.Pos.Z = 447
@@ -2713,6 +2958,7 @@ function InitMap(environment)
 	Actor_62.PhysicDesc.SizeX = 0
 	Actor_62.PhysicDesc.SizeY = 0
 	Actor_62.PhysicDesc.SizeZ = 0
+	Actor_62.PhysicDesc.AllowFreeMove = true
 	Actor_62.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_26.phy"
 	Actor_62:SetPhysicalActorType(1)
 	Actor_62:SetPhysicalShape(5)
@@ -2720,6 +2966,8 @@ function InitMap(environment)
 	Actor_62.ExtraInfo.NameColorR = 0
 	Actor_62.ExtraInfo.NameColorG = 0
 	Actor_62.ExtraInfo.NameColorB = 0
+	Actor_62.ExtraInfo.Display = false
+	Actor_62.LifeInfo.Display = false
 	Actor_62H = ActorHandler(Actor_62)
 	environment:AddActorObject(Actor_62H)
 
@@ -2746,6 +2994,7 @@ function InitMap(environment)
 	Actor_63.DisplayDesc.RotY = 0
 	Actor_63.DisplayDesc.RotZ = 0
 	Actor_63:SetModelState(1)
+	Actor_63.DisplayDesc.UseBillboard = false
 	Actor_63.PhysicDesc.Pos.X = 560.5
 	Actor_63.PhysicDesc.Pos.Y = 33.2031
 	Actor_63.PhysicDesc.Pos.Z = 448.5
@@ -2755,6 +3004,7 @@ function InitMap(environment)
 	Actor_63.PhysicDesc.SizeX = 0
 	Actor_63.PhysicDesc.SizeY = 0
 	Actor_63.PhysicDesc.SizeZ = 0
+	Actor_63.PhysicDesc.AllowFreeMove = true
 	Actor_63.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_29.phy"
 	Actor_63:SetPhysicalActorType(1)
 	Actor_63:SetPhysicalShape(5)
@@ -2762,6 +3012,8 @@ function InitMap(environment)
 	Actor_63.ExtraInfo.NameColorR = 0
 	Actor_63.ExtraInfo.NameColorG = 0
 	Actor_63.ExtraInfo.NameColorB = 0
+	Actor_63.ExtraInfo.Display = false
+	Actor_63.LifeInfo.Display = false
 	Actor_63H = ActorHandler(Actor_63)
 	environment:AddActorObject(Actor_63H)
 
@@ -2788,6 +3040,7 @@ function InitMap(environment)
 	Actor_64.DisplayDesc.RotY = 0
 	Actor_64.DisplayDesc.RotZ = 0
 	Actor_64:SetModelState(1)
+	Actor_64.DisplayDesc.UseBillboard = false
 	Actor_64.PhysicDesc.Pos.X = 382.25
 	Actor_64.PhysicDesc.Pos.Y = 28.3203
 	Actor_64.PhysicDesc.Pos.Z = 513.625
@@ -2797,6 +3050,7 @@ function InitMap(environment)
 	Actor_64.PhysicDesc.SizeX = 0
 	Actor_64.PhysicDesc.SizeY = 0
 	Actor_64.PhysicDesc.SizeZ = 0
+	Actor_64.PhysicDesc.AllowFreeMove = true
 	Actor_64.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_30.phy"
 	Actor_64:SetPhysicalActorType(1)
 	Actor_64:SetPhysicalShape(5)
@@ -2804,6 +3058,8 @@ function InitMap(environment)
 	Actor_64.ExtraInfo.NameColorR = 0
 	Actor_64.ExtraInfo.NameColorG = 0
 	Actor_64.ExtraInfo.NameColorB = 0
+	Actor_64.ExtraInfo.Display = false
+	Actor_64.LifeInfo.Display = false
 	Actor_64H = ActorHandler(Actor_64)
 	environment:AddActorObject(Actor_64H)
 
@@ -2830,6 +3086,7 @@ function InitMap(environment)
 	Actor_65.DisplayDesc.RotY = 0
 	Actor_65.DisplayDesc.RotZ = 0
 	Actor_65:SetModelState(1)
+	Actor_65.DisplayDesc.UseBillboard = false
 	Actor_65.PhysicDesc.Pos.X = 383.5
 	Actor_65.PhysicDesc.Pos.Y = 18.0664
 	Actor_65.PhysicDesc.Pos.Z = 497.875
@@ -2839,6 +3096,7 @@ function InitMap(environment)
 	Actor_65.PhysicDesc.SizeX = 0
 	Actor_65.PhysicDesc.SizeY = 0
 	Actor_65.PhysicDesc.SizeZ = 0
+	Actor_65.PhysicDesc.AllowFreeMove = true
 	Actor_65.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_31.phy"
 	Actor_65:SetPhysicalActorType(1)
 	Actor_65:SetPhysicalShape(5)
@@ -2846,6 +3104,8 @@ function InitMap(environment)
 	Actor_65.ExtraInfo.NameColorR = 0
 	Actor_65.ExtraInfo.NameColorG = 0
 	Actor_65.ExtraInfo.NameColorB = 0
+	Actor_65.ExtraInfo.Display = false
+	Actor_65.LifeInfo.Display = false
 	Actor_65H = ActorHandler(Actor_65)
 	environment:AddActorObject(Actor_65H)
 
@@ -2872,6 +3132,7 @@ function InitMap(environment)
 	Actor_66.DisplayDesc.RotY = 0
 	Actor_66.DisplayDesc.RotZ = 0
 	Actor_66:SetModelState(1)
+	Actor_66.DisplayDesc.UseBillboard = false
 	Actor_66.PhysicDesc.Pos.X = 379.5
 	Actor_66.PhysicDesc.Pos.Y = 28.3203
 	Actor_66.PhysicDesc.Pos.Z = 525.5
@@ -2881,6 +3142,7 @@ function InitMap(environment)
 	Actor_66.PhysicDesc.SizeX = 0
 	Actor_66.PhysicDesc.SizeY = 0
 	Actor_66.PhysicDesc.SizeZ = 0
+	Actor_66.PhysicDesc.AllowFreeMove = true
 	Actor_66.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_6.phy"
 	Actor_66:SetPhysicalActorType(1)
 	Actor_66:SetPhysicalShape(5)
@@ -2888,6 +3150,8 @@ function InitMap(environment)
 	Actor_66.ExtraInfo.NameColorR = 0
 	Actor_66.ExtraInfo.NameColorG = 0
 	Actor_66.ExtraInfo.NameColorB = 0
+	Actor_66.ExtraInfo.Display = false
+	Actor_66.LifeInfo.Display = false
 	Actor_66H = ActorHandler(Actor_66)
 	environment:AddActorObject(Actor_66H)
 
@@ -2914,6 +3178,7 @@ function InitMap(environment)
 	Actor_67.DisplayDesc.RotY = 0
 	Actor_67.DisplayDesc.RotZ = 0
 	Actor_67:SetModelState(1)
+	Actor_67.DisplayDesc.UseBillboard = false
 	Actor_67.PhysicDesc.Pos.X = 385
 	Actor_67.PhysicDesc.Pos.Y = 28.3203
 	Actor_67.PhysicDesc.Pos.Z = 529
@@ -2923,6 +3188,7 @@ function InitMap(environment)
 	Actor_67.PhysicDesc.SizeX = 0
 	Actor_67.PhysicDesc.SizeY = 0
 	Actor_67.PhysicDesc.SizeZ = 0
+	Actor_67.PhysicDesc.AllowFreeMove = true
 	Actor_67.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_32.phy"
 	Actor_67:SetPhysicalActorType(1)
 	Actor_67:SetPhysicalShape(5)
@@ -2930,6 +3196,8 @@ function InitMap(environment)
 	Actor_67.ExtraInfo.NameColorR = 0
 	Actor_67.ExtraInfo.NameColorG = 0
 	Actor_67.ExtraInfo.NameColorB = 0
+	Actor_67.ExtraInfo.Display = false
+	Actor_67.LifeInfo.Display = false
 	Actor_67H = ActorHandler(Actor_67)
 	environment:AddActorObject(Actor_67H)
 
@@ -2956,6 +3224,7 @@ function InitMap(environment)
 	Actor_68.DisplayDesc.RotY = 0
 	Actor_68.DisplayDesc.RotZ = 0
 	Actor_68:SetModelState(1)
+	Actor_68.DisplayDesc.UseBillboard = false
 	Actor_68.PhysicDesc.Pos.X = 520.125
 	Actor_68.PhysicDesc.Pos.Y = 2.44141
 	Actor_68.PhysicDesc.Pos.Z = 520.125
@@ -2965,6 +3234,7 @@ function InitMap(environment)
 	Actor_68.PhysicDesc.SizeX = 0
 	Actor_68.PhysicDesc.SizeY = 0
 	Actor_68.PhysicDesc.SizeZ = 0
+	Actor_68.PhysicDesc.AllowFreeMove = true
 	Actor_68.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_33.phy"
 	Actor_68:SetPhysicalActorType(1)
 	Actor_68:SetPhysicalShape(5)
@@ -2972,6 +3242,8 @@ function InitMap(environment)
 	Actor_68.ExtraInfo.NameColorR = 0
 	Actor_68.ExtraInfo.NameColorG = 0
 	Actor_68.ExtraInfo.NameColorB = 0
+	Actor_68.ExtraInfo.Display = false
+	Actor_68.LifeInfo.Display = false
 	Actor_68H = ActorHandler(Actor_68)
 	environment:AddActorObject(Actor_68H)
 
@@ -2998,6 +3270,7 @@ function InitMap(environment)
 	Actor_69.DisplayDesc.RotY = 0
 	Actor_69.DisplayDesc.RotZ = 0
 	Actor_69:SetModelState(1)
+	Actor_69.DisplayDesc.UseBillboard = false
 	Actor_69.PhysicDesc.Pos.X = 514.5
 	Actor_69.PhysicDesc.Pos.Y = 0.976563
 	Actor_69.PhysicDesc.Pos.Z = 535.5
@@ -3007,6 +3280,7 @@ function InitMap(environment)
 	Actor_69.PhysicDesc.SizeX = 0
 	Actor_69.PhysicDesc.SizeY = 0
 	Actor_69.PhysicDesc.SizeZ = 0
+	Actor_69.PhysicDesc.AllowFreeMove = true
 	Actor_69.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_34.phy"
 	Actor_69:SetPhysicalActorType(1)
 	Actor_69:SetPhysicalShape(5)
@@ -3014,6 +3288,8 @@ function InitMap(environment)
 	Actor_69.ExtraInfo.NameColorR = 0
 	Actor_69.ExtraInfo.NameColorG = 0
 	Actor_69.ExtraInfo.NameColorB = 0
+	Actor_69.ExtraInfo.Display = false
+	Actor_69.LifeInfo.Display = false
 	Actor_69H = ActorHandler(Actor_69)
 	environment:AddActorObject(Actor_69H)
 
@@ -3040,6 +3316,7 @@ function InitMap(environment)
 	Actor_70.DisplayDesc.RotY = 0
 	Actor_70.DisplayDesc.RotZ = 0
 	Actor_70:SetModelState(1)
+	Actor_70.DisplayDesc.UseBillboard = false
 	Actor_70.PhysicDesc.Pos.X = 515.5
 	Actor_70.PhysicDesc.Pos.Y = 0.976563
 	Actor_70.PhysicDesc.Pos.Z = 535.5
@@ -3049,6 +3326,7 @@ function InitMap(environment)
 	Actor_70.PhysicDesc.SizeX = 0
 	Actor_70.PhysicDesc.SizeY = 0
 	Actor_70.PhysicDesc.SizeZ = 0
+	Actor_70.PhysicDesc.AllowFreeMove = true
 	Actor_70.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_34.phy"
 	Actor_70:SetPhysicalActorType(1)
 	Actor_70:SetPhysicalShape(5)
@@ -3056,6 +3334,8 @@ function InitMap(environment)
 	Actor_70.ExtraInfo.NameColorR = 0
 	Actor_70.ExtraInfo.NameColorG = 0
 	Actor_70.ExtraInfo.NameColorB = 0
+	Actor_70.ExtraInfo.Display = false
+	Actor_70.LifeInfo.Display = false
 	Actor_70H = ActorHandler(Actor_70)
 	environment:AddActorObject(Actor_70H)
 
@@ -3082,6 +3362,7 @@ function InitMap(environment)
 	Actor_71.DisplayDesc.RotY = 0
 	Actor_71.DisplayDesc.RotZ = 0
 	Actor_71:SetModelState(1)
+	Actor_71.DisplayDesc.UseBillboard = false
 	Actor_71.PhysicDesc.Pos.X = 516.5
 	Actor_71.PhysicDesc.Pos.Y = 0.976563
 	Actor_71.PhysicDesc.Pos.Z = 535.5
@@ -3091,6 +3372,7 @@ function InitMap(environment)
 	Actor_71.PhysicDesc.SizeX = 0
 	Actor_71.PhysicDesc.SizeY = 0
 	Actor_71.PhysicDesc.SizeZ = 0
+	Actor_71.PhysicDesc.AllowFreeMove = true
 	Actor_71.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_34.phy"
 	Actor_71:SetPhysicalActorType(1)
 	Actor_71:SetPhysicalShape(5)
@@ -3098,6 +3380,8 @@ function InitMap(environment)
 	Actor_71.ExtraInfo.NameColorR = 0
 	Actor_71.ExtraInfo.NameColorG = 0
 	Actor_71.ExtraInfo.NameColorB = 0
+	Actor_71.ExtraInfo.Display = false
+	Actor_71.LifeInfo.Display = false
 	Actor_71H = ActorHandler(Actor_71)
 	environment:AddActorObject(Actor_71H)
 
@@ -3124,6 +3408,7 @@ function InitMap(environment)
 	Actor_72.DisplayDesc.RotY = 0
 	Actor_72.DisplayDesc.RotZ = 0
 	Actor_72:SetModelState(1)
+	Actor_72.DisplayDesc.UseBillboard = false
 	Actor_72.PhysicDesc.Pos.X = 517.5
 	Actor_72.PhysicDesc.Pos.Y = 0.976563
 	Actor_72.PhysicDesc.Pos.Z = 535.5
@@ -3133,6 +3418,7 @@ function InitMap(environment)
 	Actor_72.PhysicDesc.SizeX = 0
 	Actor_72.PhysicDesc.SizeY = 0
 	Actor_72.PhysicDesc.SizeZ = 0
+	Actor_72.PhysicDesc.AllowFreeMove = true
 	Actor_72.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_34.phy"
 	Actor_72:SetPhysicalActorType(1)
 	Actor_72:SetPhysicalShape(5)
@@ -3140,6 +3426,8 @@ function InitMap(environment)
 	Actor_72.ExtraInfo.NameColorR = 0
 	Actor_72.ExtraInfo.NameColorG = 0
 	Actor_72.ExtraInfo.NameColorB = 0
+	Actor_72.ExtraInfo.Display = false
+	Actor_72.LifeInfo.Display = false
 	Actor_72H = ActorHandler(Actor_72)
 	environment:AddActorObject(Actor_72H)
 
@@ -3166,6 +3454,7 @@ function InitMap(environment)
 	Actor_73.DisplayDesc.RotY = 0
 	Actor_73.DisplayDesc.RotZ = 0
 	Actor_73:SetModelState(1)
+	Actor_73.DisplayDesc.UseBillboard = false
 	Actor_73.PhysicDesc.Pos.X = 521.5
 	Actor_73.PhysicDesc.Pos.Y = 0.976563
 	Actor_73.PhysicDesc.Pos.Z = 535.5
@@ -3175,6 +3464,7 @@ function InitMap(environment)
 	Actor_73.PhysicDesc.SizeX = 0
 	Actor_73.PhysicDesc.SizeY = 0
 	Actor_73.PhysicDesc.SizeZ = 0
+	Actor_73.PhysicDesc.AllowFreeMove = true
 	Actor_73.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_34.phy"
 	Actor_73:SetPhysicalActorType(1)
 	Actor_73:SetPhysicalShape(5)
@@ -3182,6 +3472,8 @@ function InitMap(environment)
 	Actor_73.ExtraInfo.NameColorR = 0
 	Actor_73.ExtraInfo.NameColorG = 0
 	Actor_73.ExtraInfo.NameColorB = 0
+	Actor_73.ExtraInfo.Display = false
+	Actor_73.LifeInfo.Display = false
 	Actor_73H = ActorHandler(Actor_73)
 	environment:AddActorObject(Actor_73H)
 
@@ -3208,6 +3500,7 @@ function InitMap(environment)
 	Actor_74.DisplayDesc.RotY = 0
 	Actor_74.DisplayDesc.RotZ = 0
 	Actor_74:SetModelState(1)
+	Actor_74.DisplayDesc.UseBillboard = false
 	Actor_74.PhysicDesc.Pos.X = 522.5
 	Actor_74.PhysicDesc.Pos.Y = 0.976563
 	Actor_74.PhysicDesc.Pos.Z = 535.5
@@ -3217,6 +3510,7 @@ function InitMap(environment)
 	Actor_74.PhysicDesc.SizeX = 0
 	Actor_74.PhysicDesc.SizeY = 0
 	Actor_74.PhysicDesc.SizeZ = 0
+	Actor_74.PhysicDesc.AllowFreeMove = true
 	Actor_74.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_34.phy"
 	Actor_74:SetPhysicalActorType(1)
 	Actor_74:SetPhysicalShape(5)
@@ -3224,6 +3518,8 @@ function InitMap(environment)
 	Actor_74.ExtraInfo.NameColorR = 0
 	Actor_74.ExtraInfo.NameColorG = 0
 	Actor_74.ExtraInfo.NameColorB = 0
+	Actor_74.ExtraInfo.Display = false
+	Actor_74.LifeInfo.Display = false
 	Actor_74H = ActorHandler(Actor_74)
 	environment:AddActorObject(Actor_74H)
 
@@ -3250,6 +3546,7 @@ function InitMap(environment)
 	Actor_75.DisplayDesc.RotY = 0
 	Actor_75.DisplayDesc.RotZ = 0
 	Actor_75:SetModelState(1)
+	Actor_75.DisplayDesc.UseBillboard = false
 	Actor_75.PhysicDesc.Pos.X = 523.5
 	Actor_75.PhysicDesc.Pos.Y = 0.976563
 	Actor_75.PhysicDesc.Pos.Z = 535.5
@@ -3259,6 +3556,7 @@ function InitMap(environment)
 	Actor_75.PhysicDesc.SizeX = 0
 	Actor_75.PhysicDesc.SizeY = 0
 	Actor_75.PhysicDesc.SizeZ = 0
+	Actor_75.PhysicDesc.AllowFreeMove = true
 	Actor_75.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_34.phy"
 	Actor_75:SetPhysicalActorType(1)
 	Actor_75:SetPhysicalShape(5)
@@ -3266,6 +3564,8 @@ function InitMap(environment)
 	Actor_75.ExtraInfo.NameColorR = 0
 	Actor_75.ExtraInfo.NameColorG = 0
 	Actor_75.ExtraInfo.NameColorB = 0
+	Actor_75.ExtraInfo.Display = false
+	Actor_75.LifeInfo.Display = false
 	Actor_75H = ActorHandler(Actor_75)
 	environment:AddActorObject(Actor_75H)
 
@@ -3292,6 +3592,7 @@ function InitMap(environment)
 	Actor_76.DisplayDesc.RotY = 0
 	Actor_76.DisplayDesc.RotZ = 0
 	Actor_76:SetModelState(1)
+	Actor_76.DisplayDesc.UseBillboard = false
 	Actor_76.PhysicDesc.Pos.X = 524.5
 	Actor_76.PhysicDesc.Pos.Y = 0.976563
 	Actor_76.PhysicDesc.Pos.Z = 535.5
@@ -3301,6 +3602,7 @@ function InitMap(environment)
 	Actor_76.PhysicDesc.SizeX = 0
 	Actor_76.PhysicDesc.SizeY = 0
 	Actor_76.PhysicDesc.SizeZ = 0
+	Actor_76.PhysicDesc.AllowFreeMove = true
 	Actor_76.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_34.phy"
 	Actor_76:SetPhysicalActorType(1)
 	Actor_76:SetPhysicalShape(5)
@@ -3308,6 +3610,8 @@ function InitMap(environment)
 	Actor_76.ExtraInfo.NameColorR = 0
 	Actor_76.ExtraInfo.NameColorG = 0
 	Actor_76.ExtraInfo.NameColorB = 0
+	Actor_76.ExtraInfo.Display = false
+	Actor_76.LifeInfo.Display = false
 	Actor_76H = ActorHandler(Actor_76)
 	environment:AddActorObject(Actor_76H)
 
@@ -3334,6 +3638,7 @@ function InitMap(environment)
 	Actor_77.DisplayDesc.RotY = 0
 	Actor_77.DisplayDesc.RotZ = 0
 	Actor_77:SetModelState(1)
+	Actor_77.DisplayDesc.UseBillboard = false
 	Actor_77.PhysicDesc.Pos.X = 496.5
 	Actor_77.PhysicDesc.Pos.Y = 0.976563
 	Actor_77.PhysicDesc.Pos.Z = 536.5
@@ -3343,6 +3648,7 @@ function InitMap(environment)
 	Actor_77.PhysicDesc.SizeX = 0
 	Actor_77.PhysicDesc.SizeY = 0
 	Actor_77.PhysicDesc.SizeZ = 0
+	Actor_77.PhysicDesc.AllowFreeMove = true
 	Actor_77.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_5.phy"
 	Actor_77:SetPhysicalActorType(1)
 	Actor_77:SetPhysicalShape(5)
@@ -3350,6 +3656,8 @@ function InitMap(environment)
 	Actor_77.ExtraInfo.NameColorR = 0
 	Actor_77.ExtraInfo.NameColorG = 0
 	Actor_77.ExtraInfo.NameColorB = 0
+	Actor_77.ExtraInfo.Display = false
+	Actor_77.LifeInfo.Display = false
 	Actor_77H = ActorHandler(Actor_77)
 	environment:AddActorObject(Actor_77H)
 
@@ -3376,6 +3684,7 @@ function InitMap(environment)
 	Actor_78.DisplayDesc.RotY = 0
 	Actor_78.DisplayDesc.RotZ = 0
 	Actor_78:SetModelState(1)
+	Actor_78.DisplayDesc.UseBillboard = false
 	Actor_78.PhysicDesc.Pos.X = 525.5
 	Actor_78.PhysicDesc.Pos.Y = 1.95313
 	Actor_78.PhysicDesc.Pos.Z = 515.5
@@ -3385,6 +3694,7 @@ function InitMap(environment)
 	Actor_78.PhysicDesc.SizeX = 0
 	Actor_78.PhysicDesc.SizeY = 0
 	Actor_78.PhysicDesc.SizeZ = 0
+	Actor_78.PhysicDesc.AllowFreeMove = true
 	Actor_78.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_35.phy"
 	Actor_78:SetPhysicalActorType(1)
 	Actor_78:SetPhysicalShape(5)
@@ -3392,6 +3702,8 @@ function InitMap(environment)
 	Actor_78.ExtraInfo.NameColorR = 0
 	Actor_78.ExtraInfo.NameColorG = 0
 	Actor_78.ExtraInfo.NameColorB = 0
+	Actor_78.ExtraInfo.Display = false
+	Actor_78.LifeInfo.Display = false
 	Actor_78H = ActorHandler(Actor_78)
 	environment:AddActorObject(Actor_78H)
 
@@ -3418,6 +3730,7 @@ function InitMap(environment)
 	Actor_79.DisplayDesc.RotY = 0
 	Actor_79.DisplayDesc.RotZ = 0
 	Actor_79:SetModelState(1)
+	Actor_79.DisplayDesc.UseBillboard = false
 	Actor_79.PhysicDesc.Pos.X = 525.5
 	Actor_79.PhysicDesc.Pos.Y = 1.95313
 	Actor_79.PhysicDesc.Pos.Z = 524.5
@@ -3427,6 +3740,7 @@ function InitMap(environment)
 	Actor_79.PhysicDesc.SizeX = 0
 	Actor_79.PhysicDesc.SizeY = 0
 	Actor_79.PhysicDesc.SizeZ = 0
+	Actor_79.PhysicDesc.AllowFreeMove = true
 	Actor_79.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_35.phy"
 	Actor_79:SetPhysicalActorType(1)
 	Actor_79:SetPhysicalShape(5)
@@ -3434,6 +3748,8 @@ function InitMap(environment)
 	Actor_79.ExtraInfo.NameColorR = 0
 	Actor_79.ExtraInfo.NameColorG = 0
 	Actor_79.ExtraInfo.NameColorB = 0
+	Actor_79.ExtraInfo.Display = false
+	Actor_79.LifeInfo.Display = false
 	Actor_79H = ActorHandler(Actor_79)
 	environment:AddActorObject(Actor_79H)
 
@@ -3460,6 +3776,7 @@ function InitMap(environment)
 	Actor_80.DisplayDesc.RotY = 0
 	Actor_80.DisplayDesc.RotZ = 0
 	Actor_80:SetModelState(1)
+	Actor_80.DisplayDesc.UseBillboard = false
 	Actor_80.PhysicDesc.Pos.X = 514.5
 	Actor_80.PhysicDesc.Pos.Y = 1.95313
 	Actor_80.PhysicDesc.Pos.Z = 524.5
@@ -3469,6 +3786,7 @@ function InitMap(environment)
 	Actor_80.PhysicDesc.SizeX = 0
 	Actor_80.PhysicDesc.SizeY = 0
 	Actor_80.PhysicDesc.SizeZ = 0
+	Actor_80.PhysicDesc.AllowFreeMove = true
 	Actor_80.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_35.phy"
 	Actor_80:SetPhysicalActorType(1)
 	Actor_80:SetPhysicalShape(5)
@@ -3476,6 +3794,8 @@ function InitMap(environment)
 	Actor_80.ExtraInfo.NameColorR = 0
 	Actor_80.ExtraInfo.NameColorG = 0
 	Actor_80.ExtraInfo.NameColorB = 0
+	Actor_80.ExtraInfo.Display = false
+	Actor_80.LifeInfo.Display = false
 	Actor_80H = ActorHandler(Actor_80)
 	environment:AddActorObject(Actor_80H)
 
@@ -3502,6 +3822,7 @@ function InitMap(environment)
 	Actor_81.DisplayDesc.RotY = 0
 	Actor_81.DisplayDesc.RotZ = 0
 	Actor_81:SetModelState(1)
+	Actor_81.DisplayDesc.UseBillboard = false
 	Actor_81.PhysicDesc.Pos.X = 514.5
 	Actor_81.PhysicDesc.Pos.Y = 1.95313
 	Actor_81.PhysicDesc.Pos.Z = 515.5
@@ -3511,6 +3832,7 @@ function InitMap(environment)
 	Actor_81.PhysicDesc.SizeX = 0
 	Actor_81.PhysicDesc.SizeY = 0
 	Actor_81.PhysicDesc.SizeZ = 0
+	Actor_81.PhysicDesc.AllowFreeMove = true
 	Actor_81.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_35.phy"
 	Actor_81:SetPhysicalActorType(1)
 	Actor_81:SetPhysicalShape(5)
@@ -3518,6 +3840,8 @@ function InitMap(environment)
 	Actor_81.ExtraInfo.NameColorR = 0
 	Actor_81.ExtraInfo.NameColorG = 0
 	Actor_81.ExtraInfo.NameColorB = 0
+	Actor_81.ExtraInfo.Display = false
+	Actor_81.LifeInfo.Display = false
 	Actor_81H = ActorHandler(Actor_81)
 	environment:AddActorObject(Actor_81H)
 
@@ -3544,6 +3868,7 @@ function InitMap(environment)
 	Actor_82.DisplayDesc.RotY = 0
 	Actor_82.DisplayDesc.RotZ = 0
 	Actor_82:SetModelState(1)
+	Actor_82.DisplayDesc.UseBillboard = false
 	Actor_82.PhysicDesc.Pos.X = 481.5
 	Actor_82.PhysicDesc.Pos.Y = 9.76563
 	Actor_82.PhysicDesc.Pos.Z = 496
@@ -3553,6 +3878,7 @@ function InitMap(environment)
 	Actor_82.PhysicDesc.SizeX = 0
 	Actor_82.PhysicDesc.SizeY = 0
 	Actor_82.PhysicDesc.SizeZ = 0
+	Actor_82.PhysicDesc.AllowFreeMove = true
 	Actor_82.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_36.phy"
 	Actor_82:SetPhysicalActorType(1)
 	Actor_82:SetPhysicalShape(5)
@@ -3560,6 +3886,8 @@ function InitMap(environment)
 	Actor_82.ExtraInfo.NameColorR = 0
 	Actor_82.ExtraInfo.NameColorG = 0
 	Actor_82.ExtraInfo.NameColorB = 0
+	Actor_82.ExtraInfo.Display = false
+	Actor_82.LifeInfo.Display = false
 	Actor_82H = ActorHandler(Actor_82)
 	environment:AddActorObject(Actor_82H)
 
@@ -3586,6 +3914,7 @@ function InitMap(environment)
 	Actor_83.DisplayDesc.RotY = 0
 	Actor_83.DisplayDesc.RotZ = 0
 	Actor_83:SetModelState(1)
+	Actor_83.DisplayDesc.UseBillboard = false
 	Actor_83.PhysicDesc.Pos.X = 481.5
 	Actor_83.PhysicDesc.Pos.Y = 9.76563
 	Actor_83.PhysicDesc.Pos.Z = 507
@@ -3595,6 +3924,7 @@ function InitMap(environment)
 	Actor_83.PhysicDesc.SizeX = 0
 	Actor_83.PhysicDesc.SizeY = 0
 	Actor_83.PhysicDesc.SizeZ = 0
+	Actor_83.PhysicDesc.AllowFreeMove = true
 	Actor_83.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_36.phy"
 	Actor_83:SetPhysicalActorType(1)
 	Actor_83:SetPhysicalShape(5)
@@ -3602,6 +3932,8 @@ function InitMap(environment)
 	Actor_83.ExtraInfo.NameColorR = 0
 	Actor_83.ExtraInfo.NameColorG = 0
 	Actor_83.ExtraInfo.NameColorB = 0
+	Actor_83.ExtraInfo.Display = false
+	Actor_83.LifeInfo.Display = false
 	Actor_83H = ActorHandler(Actor_83)
 	environment:AddActorObject(Actor_83H)
 
@@ -3628,6 +3960,7 @@ function InitMap(environment)
 	Actor_84.DisplayDesc.RotY = 0
 	Actor_84.DisplayDesc.RotZ = 0
 	Actor_84:SetModelState(1)
+	Actor_84.DisplayDesc.UseBillboard = false
 	Actor_84.PhysicDesc.Pos.X = 481.5
 	Actor_84.PhysicDesc.Pos.Y = 9.76563
 	Actor_84.PhysicDesc.Pos.Z = 518
@@ -3637,6 +3970,7 @@ function InitMap(environment)
 	Actor_84.PhysicDesc.SizeX = 0
 	Actor_84.PhysicDesc.SizeY = 0
 	Actor_84.PhysicDesc.SizeZ = 0
+	Actor_84.PhysicDesc.AllowFreeMove = true
 	Actor_84.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_36.phy"
 	Actor_84:SetPhysicalActorType(1)
 	Actor_84:SetPhysicalShape(5)
@@ -3644,6 +3978,8 @@ function InitMap(environment)
 	Actor_84.ExtraInfo.NameColorR = 0
 	Actor_84.ExtraInfo.NameColorG = 0
 	Actor_84.ExtraInfo.NameColorB = 0
+	Actor_84.ExtraInfo.Display = false
+	Actor_84.LifeInfo.Display = false
 	Actor_84H = ActorHandler(Actor_84)
 	environment:AddActorObject(Actor_84H)
 
@@ -3670,6 +4006,7 @@ function InitMap(environment)
 	Actor_85.DisplayDesc.RotY = 0
 	Actor_85.DisplayDesc.RotZ = 0
 	Actor_85:SetModelState(1)
+	Actor_85.DisplayDesc.UseBillboard = false
 	Actor_85.PhysicDesc.Pos.X = 481.5
 	Actor_85.PhysicDesc.Pos.Y = 9.76563
 	Actor_85.PhysicDesc.Pos.Z = 529
@@ -3679,6 +4016,7 @@ function InitMap(environment)
 	Actor_85.PhysicDesc.SizeX = 0
 	Actor_85.PhysicDesc.SizeY = 0
 	Actor_85.PhysicDesc.SizeZ = 0
+	Actor_85.PhysicDesc.AllowFreeMove = true
 	Actor_85.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_36.phy"
 	Actor_85:SetPhysicalActorType(1)
 	Actor_85:SetPhysicalShape(5)
@@ -3686,6 +4024,8 @@ function InitMap(environment)
 	Actor_85.ExtraInfo.NameColorR = 0
 	Actor_85.ExtraInfo.NameColorG = 0
 	Actor_85.ExtraInfo.NameColorB = 0
+	Actor_85.ExtraInfo.Display = false
+	Actor_85.LifeInfo.Display = false
 	Actor_85H = ActorHandler(Actor_85)
 	environment:AddActorObject(Actor_85H)
 
@@ -3712,6 +4052,7 @@ function InitMap(environment)
 	Actor_86.DisplayDesc.RotY = 0
 	Actor_86.DisplayDesc.RotZ = 0
 	Actor_86:SetModelState(1)
+	Actor_86.DisplayDesc.UseBillboard = false
 	Actor_86.PhysicDesc.Pos.X = 481.5
 	Actor_86.PhysicDesc.Pos.Y = 9.76563
 	Actor_86.PhysicDesc.Pos.Z = 540
@@ -3721,6 +4062,7 @@ function InitMap(environment)
 	Actor_86.PhysicDesc.SizeX = 0
 	Actor_86.PhysicDesc.SizeY = 0
 	Actor_86.PhysicDesc.SizeZ = 0
+	Actor_86.PhysicDesc.AllowFreeMove = true
 	Actor_86.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_36.phy"
 	Actor_86:SetPhysicalActorType(1)
 	Actor_86:SetPhysicalShape(5)
@@ -3728,6 +4070,8 @@ function InitMap(environment)
 	Actor_86.ExtraInfo.NameColorR = 0
 	Actor_86.ExtraInfo.NameColorG = 0
 	Actor_86.ExtraInfo.NameColorB = 0
+	Actor_86.ExtraInfo.Display = false
+	Actor_86.LifeInfo.Display = false
 	Actor_86H = ActorHandler(Actor_86)
 	environment:AddActorObject(Actor_86H)
 
@@ -3754,6 +4098,7 @@ function InitMap(environment)
 	Actor_87.DisplayDesc.RotY = 0
 	Actor_87.DisplayDesc.RotZ = 0
 	Actor_87:SetModelState(1)
+	Actor_87.DisplayDesc.UseBillboard = false
 	Actor_87.PhysicDesc.Pos.X = 518.5
 	Actor_87.PhysicDesc.Pos.Y = 13.6719
 	Actor_87.PhysicDesc.Pos.Z = 498.5
@@ -3763,6 +4108,7 @@ function InitMap(environment)
 	Actor_87.PhysicDesc.SizeX = 0
 	Actor_87.PhysicDesc.SizeY = 0
 	Actor_87.PhysicDesc.SizeZ = 0
+	Actor_87.PhysicDesc.AllowFreeMove = true
 	Actor_87.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_38.phy"
 	Actor_87:SetPhysicalActorType(1)
 	Actor_87:SetPhysicalShape(5)
@@ -3770,6 +4116,8 @@ function InitMap(environment)
 	Actor_87.ExtraInfo.NameColorR = 0
 	Actor_87.ExtraInfo.NameColorG = 0
 	Actor_87.ExtraInfo.NameColorB = 0
+	Actor_87.ExtraInfo.Display = false
+	Actor_87.LifeInfo.Display = false
 	Actor_87H = ActorHandler(Actor_87)
 	environment:AddActorObject(Actor_87H)
 
@@ -3796,6 +4144,7 @@ function InitMap(environment)
 	Actor_88.DisplayDesc.RotY = 0
 	Actor_88.DisplayDesc.RotZ = 0
 	Actor_88:SetModelState(1)
+	Actor_88.DisplayDesc.UseBillboard = false
 	Actor_88.PhysicDesc.Pos.X = 503.5
 	Actor_88.PhysicDesc.Pos.Y = 13.6719
 	Actor_88.PhysicDesc.Pos.Z = 498.5
@@ -3805,6 +4154,7 @@ function InitMap(environment)
 	Actor_88.PhysicDesc.SizeX = 0
 	Actor_88.PhysicDesc.SizeY = 0
 	Actor_88.PhysicDesc.SizeZ = 0
+	Actor_88.PhysicDesc.AllowFreeMove = true
 	Actor_88.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_38.phy"
 	Actor_88:SetPhysicalActorType(1)
 	Actor_88:SetPhysicalShape(5)
@@ -3812,6 +4162,8 @@ function InitMap(environment)
 	Actor_88.ExtraInfo.NameColorR = 0
 	Actor_88.ExtraInfo.NameColorG = 0
 	Actor_88.ExtraInfo.NameColorB = 0
+	Actor_88.ExtraInfo.Display = false
+	Actor_88.LifeInfo.Display = false
 	Actor_88H = ActorHandler(Actor_88)
 	environment:AddActorObject(Actor_88H)
 
@@ -3838,6 +4190,7 @@ function InitMap(environment)
 	Actor_89.DisplayDesc.RotY = 0
 	Actor_89.DisplayDesc.RotZ = 0
 	Actor_89:SetModelState(1)
+	Actor_89.DisplayDesc.UseBillboard = false
 	Actor_89.PhysicDesc.Pos.X = 498.5
 	Actor_89.PhysicDesc.Pos.Y = 9.76563
 	Actor_89.PhysicDesc.Pos.Z = 498.5
@@ -3847,6 +4200,7 @@ function InitMap(environment)
 	Actor_89.PhysicDesc.SizeX = 0
 	Actor_89.PhysicDesc.SizeY = 0
 	Actor_89.PhysicDesc.SizeZ = 0
+	Actor_89.PhysicDesc.AllowFreeMove = true
 	Actor_89.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_38.phy"
 	Actor_89:SetPhysicalActorType(1)
 	Actor_89:SetPhysicalShape(5)
@@ -3854,6 +4208,8 @@ function InitMap(environment)
 	Actor_89.ExtraInfo.NameColorR = 0
 	Actor_89.ExtraInfo.NameColorG = 0
 	Actor_89.ExtraInfo.NameColorB = 0
+	Actor_89.ExtraInfo.Display = false
+	Actor_89.LifeInfo.Display = false
 	Actor_89H = ActorHandler(Actor_89)
 	environment:AddActorObject(Actor_89H)
 
@@ -3880,6 +4236,7 @@ function InitMap(environment)
 	Actor_90.DisplayDesc.RotY = 0
 	Actor_90.DisplayDesc.RotZ = 0
 	Actor_90:SetModelState(1)
+	Actor_90.DisplayDesc.UseBillboard = false
 	Actor_90.PhysicDesc.Pos.X = 513.5
 	Actor_90.PhysicDesc.Pos.Y = 0.976563
 	Actor_90.PhysicDesc.Pos.Z = 540.75
@@ -3889,6 +4246,7 @@ function InitMap(environment)
 	Actor_90.PhysicDesc.SizeX = 1.76843e-031
 	Actor_90.PhysicDesc.SizeY = 0
 	Actor_90.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_90.PhysicDesc.AllowFreeMove = true
 	Actor_90.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_1.phy"
 	Actor_90:SetPhysicalActorType(1)
 	Actor_90:SetPhysicalShape(5)
@@ -3896,6 +4254,8 @@ function InitMap(environment)
 	Actor_90.ExtraInfo.NameColorR = 0
 	Actor_90.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_90.ExtraInfo.NameColorB = 0
+	Actor_90.ExtraInfo.Display = false
+	Actor_90.LifeInfo.Display = false
 	Actor_90H = ActorHandler(Actor_90)
 	environment:AddActorObject(Actor_90H)
 
@@ -3922,6 +4282,7 @@ function InitMap(environment)
 	Actor_91.DisplayDesc.RotY = 0
 	Actor_91.DisplayDesc.RotZ = 0
 	Actor_91:SetModelState(1)
+	Actor_91.DisplayDesc.UseBillboard = false
 	Actor_91.PhysicDesc.Pos.X = 526.375
 	Actor_91.PhysicDesc.Pos.Y = 9.76563
 	Actor_91.PhysicDesc.Pos.Z = 504.375
@@ -3931,6 +4292,7 @@ function InitMap(environment)
 	Actor_91.PhysicDesc.SizeX = 1.79525e-031
 	Actor_91.PhysicDesc.SizeY = 0
 	Actor_91.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_91.PhysicDesc.AllowFreeMove = true
 	Actor_91.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_38.phy"
 	Actor_91:SetPhysicalActorType(1)
 	Actor_91:SetPhysicalShape(5)
@@ -3938,6 +4300,8 @@ function InitMap(environment)
 	Actor_91.ExtraInfo.NameColorR = 0
 	Actor_91.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_91.ExtraInfo.NameColorB = 0
+	Actor_91.ExtraInfo.Display = false
+	Actor_91.LifeInfo.Display = false
 	Actor_91H = ActorHandler(Actor_91)
 	environment:AddActorObject(Actor_91H)
 
@@ -3964,6 +4328,7 @@ function InitMap(environment)
 	Actor_92.DisplayDesc.RotY = 0
 	Actor_92.DisplayDesc.RotZ = 0
 	Actor_92:SetModelState(1)
+	Actor_92.DisplayDesc.UseBillboard = false
 	Actor_92.PhysicDesc.Pos.X = 496.859
 	Actor_92.PhysicDesc.Pos.Y = 0.976563
 	Actor_92.PhysicDesc.Pos.Z = 514.75
@@ -3973,6 +4338,7 @@ function InitMap(environment)
 	Actor_92.PhysicDesc.SizeX = 1.82712e-031
 	Actor_92.PhysicDesc.SizeY = 0
 	Actor_92.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_92.PhysicDesc.AllowFreeMove = true
 	Actor_92.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_41.phy"
 	Actor_92:SetPhysicalActorType(1)
 	Actor_92:SetPhysicalShape(5)
@@ -3980,6 +4346,8 @@ function InitMap(environment)
 	Actor_92.ExtraInfo.NameColorR = 0
 	Actor_92.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_92.ExtraInfo.NameColorB = 0
+	Actor_92.ExtraInfo.Display = false
+	Actor_92.LifeInfo.Display = false
 	Actor_92H = ActorHandler(Actor_92)
 	environment:AddActorObject(Actor_92H)
 
@@ -4006,6 +4374,7 @@ function InitMap(environment)
 	Actor_93.DisplayDesc.RotY = 0
 	Actor_93.DisplayDesc.RotZ = 0
 	Actor_93:SetModelState(1)
+	Actor_93.DisplayDesc.UseBillboard = false
 	Actor_93.PhysicDesc.Pos.X = 496.859
 	Actor_93.PhysicDesc.Pos.Y = 0.976563
 	Actor_93.PhysicDesc.Pos.Z = 514.75
@@ -4015,6 +4384,7 @@ function InitMap(environment)
 	Actor_93.PhysicDesc.SizeX = 1.76556e-031
 	Actor_93.PhysicDesc.SizeY = 0
 	Actor_93.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_93.PhysicDesc.AllowFreeMove = true
 	Actor_93.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_42.phy"
 	Actor_93:SetPhysicalActorType(1)
 	Actor_93:SetPhysicalShape(5)
@@ -4022,6 +4392,8 @@ function InitMap(environment)
 	Actor_93.ExtraInfo.NameColorR = 0
 	Actor_93.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_93.ExtraInfo.NameColorB = 0
+	Actor_93.ExtraInfo.Display = false
+	Actor_93.LifeInfo.Display = false
 	Actor_93H = ActorHandler(Actor_93)
 	environment:AddActorObject(Actor_93H)
 
@@ -4048,6 +4420,7 @@ function InitMap(environment)
 	Actor_94.DisplayDesc.RotY = 0
 	Actor_94.DisplayDesc.RotZ = 0
 	Actor_94:SetModelState(1)
+	Actor_94.DisplayDesc.UseBillboard = false
 	Actor_94.PhysicDesc.Pos.X = 488.5
 	Actor_94.PhysicDesc.Pos.Y = 0.976563
 	Actor_94.PhysicDesc.Pos.Z = 538.508
@@ -4057,6 +4430,7 @@ function InitMap(environment)
 	Actor_94.PhysicDesc.SizeX = 1.76653e-031
 	Actor_94.PhysicDesc.SizeY = 0
 	Actor_94.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_94.PhysicDesc.AllowFreeMove = true
 	Actor_94.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_39.phy"
 	Actor_94:SetPhysicalActorType(1)
 	Actor_94:SetPhysicalShape(5)
@@ -4064,6 +4438,8 @@ function InitMap(environment)
 	Actor_94.ExtraInfo.NameColorR = 0
 	Actor_94.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_94.ExtraInfo.NameColorB = 0
+	Actor_94.ExtraInfo.Display = false
+	Actor_94.LifeInfo.Display = false
 	Actor_94H = ActorHandler(Actor_94)
 	environment:AddActorObject(Actor_94H)
 
@@ -4090,6 +4466,7 @@ function InitMap(environment)
 	Actor_95.DisplayDesc.RotY = 0
 	Actor_95.DisplayDesc.RotZ = 0
 	Actor_95:SetModelState(1)
+	Actor_95.DisplayDesc.UseBillboard = false
 	Actor_95.PhysicDesc.Pos.X = 488.5
 	Actor_95.PhysicDesc.Pos.Y = 0.976563
 	Actor_95.PhysicDesc.Pos.Z = 538.508
@@ -4099,6 +4476,7 @@ function InitMap(environment)
 	Actor_95.PhysicDesc.SizeX = 1.76846e-031
 	Actor_95.PhysicDesc.SizeY = 0
 	Actor_95.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_95.PhysicDesc.AllowFreeMove = true
 	Actor_95.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_40.phy"
 	Actor_95:SetPhysicalActorType(1)
 	Actor_95:SetPhysicalShape(5)
@@ -4106,6 +4484,8 @@ function InitMap(environment)
 	Actor_95.ExtraInfo.NameColorR = 0
 	Actor_95.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_95.ExtraInfo.NameColorB = 0
+	Actor_95.ExtraInfo.Display = false
+	Actor_95.LifeInfo.Display = false
 	Actor_95H = ActorHandler(Actor_95)
 	environment:AddActorObject(Actor_95H)
 
@@ -4132,6 +4512,7 @@ function InitMap(environment)
 	Actor_96.DisplayDesc.RotY = 0
 	Actor_96.DisplayDesc.RotZ = 0
 	Actor_96:SetModelState(1)
+	Actor_96.DisplayDesc.UseBillboard = false
 	Actor_96.PhysicDesc.Pos.X = 499.5
 	Actor_96.PhysicDesc.Pos.Y = 0.976563
 	Actor_96.PhysicDesc.Pos.Z = 525.5
@@ -4141,6 +4522,7 @@ function InitMap(environment)
 	Actor_96.PhysicDesc.SizeX = 1.76558e-031
 	Actor_96.PhysicDesc.SizeY = 0
 	Actor_96.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_96.PhysicDesc.AllowFreeMove = true
 	Actor_96.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_6.phy"
 	Actor_96:SetPhysicalActorType(1)
 	Actor_96:SetPhysicalShape(5)
@@ -4148,6 +4530,8 @@ function InitMap(environment)
 	Actor_96.ExtraInfo.NameColorR = 0
 	Actor_96.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_96.ExtraInfo.NameColorB = 0
+	Actor_96.ExtraInfo.Display = false
+	Actor_96.LifeInfo.Display = false
 	Actor_96H = ActorHandler(Actor_96)
 	environment:AddActorObject(Actor_96H)
 
@@ -4174,6 +4558,7 @@ function InitMap(environment)
 	Actor_97.DisplayDesc.RotY = 0
 	Actor_97.DisplayDesc.RotZ = 0
 	Actor_97:SetModelState(1)
+	Actor_97.DisplayDesc.UseBillboard = false
 	Actor_97.PhysicDesc.Pos.X = 494.5
 	Actor_97.PhysicDesc.Pos.Y = 0.976563
 	Actor_97.PhysicDesc.Pos.Z = 520.5
@@ -4183,6 +4568,7 @@ function InitMap(environment)
 	Actor_97.PhysicDesc.SizeX = 1.82716e-031
 	Actor_97.PhysicDesc.SizeY = 0
 	Actor_97.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_97.PhysicDesc.AllowFreeMove = true
 	Actor_97.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_43.phy"
 	Actor_97:SetPhysicalActorType(1)
 	Actor_97:SetPhysicalShape(5)
@@ -4190,6 +4576,8 @@ function InitMap(environment)
 	Actor_97.ExtraInfo.NameColorR = 0
 	Actor_97.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_97.ExtraInfo.NameColorB = 0
+	Actor_97.ExtraInfo.Display = false
+	Actor_97.LifeInfo.Display = false
 	Actor_97H = ActorHandler(Actor_97)
 	environment:AddActorObject(Actor_97H)
 
@@ -4216,6 +4604,7 @@ function InitMap(environment)
 	Actor_98.DisplayDesc.RotY = 0
 	Actor_98.DisplayDesc.RotZ = 0
 	Actor_98:SetModelState(1)
+	Actor_98.DisplayDesc.UseBillboard = false
 	Actor_98.PhysicDesc.Pos.X = 531.734
 	Actor_98.PhysicDesc.Pos.Y = 0.976563
 	Actor_98.PhysicDesc.Pos.Z = 495.891
@@ -4225,6 +4614,7 @@ function InitMap(environment)
 	Actor_98.PhysicDesc.SizeX = 1.82813e-031
 	Actor_98.PhysicDesc.SizeY = 0
 	Actor_98.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_98.PhysicDesc.AllowFreeMove = true
 	Actor_98.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_44.phy"
 	Actor_98:SetPhysicalActorType(1)
 	Actor_98:SetPhysicalShape(5)
@@ -4232,6 +4622,8 @@ function InitMap(environment)
 	Actor_98.ExtraInfo.NameColorR = 0
 	Actor_98.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_98.ExtraInfo.NameColorB = 0
+	Actor_98.ExtraInfo.Display = false
+	Actor_98.LifeInfo.Display = false
 	Actor_98H = ActorHandler(Actor_98)
 	environment:AddActorObject(Actor_98H)
 
@@ -4258,6 +4650,7 @@ function InitMap(environment)
 	Actor_99.DisplayDesc.RotY = 0
 	Actor_99.DisplayDesc.RotZ = 0
 	Actor_99:SetModelState(1)
+	Actor_99.DisplayDesc.UseBillboard = false
 	Actor_99.PhysicDesc.Pos.X = 542.43
 	Actor_99.PhysicDesc.Pos.Y = 0.976563
 	Actor_99.PhysicDesc.Pos.Z = 500.867
@@ -4267,6 +4660,7 @@ function InitMap(environment)
 	Actor_99.PhysicDesc.SizeX = 1.76657e-031
 	Actor_99.PhysicDesc.SizeY = 0
 	Actor_99.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_99.PhysicDesc.AllowFreeMove = true
 	Actor_99.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_45.phy"
 	Actor_99:SetPhysicalActorType(1)
 	Actor_99:SetPhysicalShape(5)
@@ -4274,6 +4668,8 @@ function InitMap(environment)
 	Actor_99.ExtraInfo.NameColorR = 0
 	Actor_99.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_99.ExtraInfo.NameColorB = 0
+	Actor_99.ExtraInfo.Display = false
+	Actor_99.LifeInfo.Display = false
 	Actor_99H = ActorHandler(Actor_99)
 	environment:AddActorObject(Actor_99H)
 
@@ -4300,6 +4696,7 @@ function InitMap(environment)
 	Actor_100.DisplayDesc.RotY = 0
 	Actor_100.DisplayDesc.RotZ = 0
 	Actor_100:SetModelState(1)
+	Actor_100.DisplayDesc.UseBillboard = false
 	Actor_100.PhysicDesc.Pos.X = 538.719
 	Actor_100.PhysicDesc.Pos.Y = 0.976563
 	Actor_100.PhysicDesc.Pos.Z = 504.578
@@ -4309,6 +4706,7 @@ function InitMap(environment)
 	Actor_100.PhysicDesc.SizeX = 1.82622e-031
 	Actor_100.PhysicDesc.SizeY = 0
 	Actor_100.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_100.PhysicDesc.AllowFreeMove = true
 	Actor_100.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_45.phy"
 	Actor_100:SetPhysicalActorType(1)
 	Actor_100:SetPhysicalShape(5)
@@ -4316,6 +4714,8 @@ function InitMap(environment)
 	Actor_100.ExtraInfo.NameColorR = 0
 	Actor_100.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_100.ExtraInfo.NameColorB = 0
+	Actor_100.ExtraInfo.Display = false
+	Actor_100.LifeInfo.Display = false
 	Actor_100H = ActorHandler(Actor_100)
 	environment:AddActorObject(Actor_100H)
 
@@ -4342,6 +4742,7 @@ function InitMap(environment)
 	Actor_101.DisplayDesc.RotY = 0
 	Actor_101.DisplayDesc.RotZ = 0
 	Actor_101:SetModelState(1)
+	Actor_101.DisplayDesc.UseBillboard = false
 	Actor_101.PhysicDesc.Pos.X = 529.547
 	Actor_101.PhysicDesc.Pos.Y = 0.976563
 	Actor_101.PhysicDesc.Pos.Z = 504.813
@@ -4351,6 +4752,7 @@ function InitMap(environment)
 	Actor_101.PhysicDesc.SizeX = 1.76562e-031
 	Actor_101.PhysicDesc.SizeY = 0
 	Actor_101.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_101.PhysicDesc.AllowFreeMove = true
 	Actor_101.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_46.phy"
 	Actor_101:SetPhysicalActorType(1)
 	Actor_101:SetPhysicalShape(5)
@@ -4358,6 +4760,8 @@ function InitMap(environment)
 	Actor_101.ExtraInfo.NameColorR = 0
 	Actor_101.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_101.ExtraInfo.NameColorB = 0
+	Actor_101.ExtraInfo.Display = false
+	Actor_101.LifeInfo.Display = false
 	Actor_101H = ActorHandler(Actor_101)
 	environment:AddActorObject(Actor_101H)
 
@@ -4384,6 +4788,7 @@ function InitMap(environment)
 	Actor_102.DisplayDesc.RotY = 0
 	Actor_102.DisplayDesc.RotZ = 0
 	Actor_102:SetModelState(1)
+	Actor_102.DisplayDesc.UseBillboard = false
 	Actor_102.PhysicDesc.Pos.X = 542.43
 	Actor_102.PhysicDesc.Pos.Y = 0.976563
 	Actor_102.PhysicDesc.Pos.Z = 496.57
@@ -4393,6 +4798,7 @@ function InitMap(environment)
 	Actor_102.PhysicDesc.SizeX = 1.79545e-031
 	Actor_102.PhysicDesc.SizeY = 0
 	Actor_102.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_102.PhysicDesc.AllowFreeMove = true
 	Actor_102.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_46.phy"
 	Actor_102:SetPhysicalActorType(1)
 	Actor_102:SetPhysicalShape(5)
@@ -4400,6 +4806,8 @@ function InitMap(environment)
 	Actor_102.ExtraInfo.NameColorR = 0
 	Actor_102.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_102.ExtraInfo.NameColorB = 0
+	Actor_102.ExtraInfo.Display = false
+	Actor_102.LifeInfo.Display = false
 	Actor_102H = ActorHandler(Actor_102)
 	environment:AddActorObject(Actor_102H)
 
@@ -4426,6 +4834,7 @@ function InitMap(environment)
 	Actor_103.DisplayDesc.RotY = 0
 	Actor_103.DisplayDesc.RotZ = 0
 	Actor_103:SetModelState(1)
+	Actor_103.DisplayDesc.UseBillboard = false
 	Actor_103.PhysicDesc.Pos.X = 538.719
 	Actor_103.PhysicDesc.Pos.Y = 0.976563
 	Actor_103.PhysicDesc.Pos.Z = 504.578
@@ -4435,6 +4844,7 @@ function InitMap(environment)
 	Actor_103.PhysicDesc.SizeX = 1.79354e-031
 	Actor_103.PhysicDesc.SizeY = 0
 	Actor_103.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_103.PhysicDesc.AllowFreeMove = true
 	Actor_103.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_47.phy"
 	Actor_103:SetPhysicalActorType(1)
 	Actor_103:SetPhysicalShape(5)
@@ -4442,6 +4852,8 @@ function InitMap(environment)
 	Actor_103.ExtraInfo.NameColorR = 0
 	Actor_103.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_103.ExtraInfo.NameColorB = 0
+	Actor_103.ExtraInfo.Display = false
+	Actor_103.LifeInfo.Display = false
 	Actor_103H = ActorHandler(Actor_103)
 	environment:AddActorObject(Actor_103H)
 
@@ -4468,6 +4880,7 @@ function InitMap(environment)
 	Actor_104.DisplayDesc.RotY = 0
 	Actor_104.DisplayDesc.RotZ = 0
 	Actor_104:SetModelState(1)
+	Actor_104.DisplayDesc.UseBillboard = false
 	Actor_104.PhysicDesc.Pos.X = 537.5
 	Actor_104.PhysicDesc.Pos.Y = 0.976563
 	Actor_104.PhysicDesc.Pos.Z = 503.5
@@ -4477,6 +4890,7 @@ function InitMap(environment)
 	Actor_104.PhysicDesc.SizeX = 1.79162e-031
 	Actor_104.PhysicDesc.SizeY = 0
 	Actor_104.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_104.PhysicDesc.AllowFreeMove = true
 	Actor_104.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_48.phy"
 	Actor_104:SetPhysicalActorType(1)
 	Actor_104:SetPhysicalShape(5)
@@ -4484,6 +4898,8 @@ function InitMap(environment)
 	Actor_104.ExtraInfo.NameColorR = 0
 	Actor_104.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_104.ExtraInfo.NameColorB = 0
+	Actor_104.ExtraInfo.Display = false
+	Actor_104.LifeInfo.Display = false
 	Actor_104H = ActorHandler(Actor_104)
 	environment:AddActorObject(Actor_104H)
 
@@ -4510,6 +4926,7 @@ function InitMap(environment)
 	Actor_105.DisplayDesc.RotY = 0
 	Actor_105.DisplayDesc.RotZ = 0
 	Actor_105:SetModelState(1)
+	Actor_105.DisplayDesc.UseBillboard = false
 	Actor_105.PhysicDesc.Pos.X = 540.5
 	Actor_105.PhysicDesc.Pos.Y = 0.976563
 	Actor_105.PhysicDesc.Pos.Z = 502.5
@@ -4519,6 +4936,7 @@ function InitMap(environment)
 	Actor_105.PhysicDesc.SizeX = 1.82799e-031
 	Actor_105.PhysicDesc.SizeY = 0
 	Actor_105.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_105.PhysicDesc.AllowFreeMove = true
 	Actor_105.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_2.phy"
 	Actor_105:SetPhysicalActorType(1)
 	Actor_105:SetPhysicalShape(5)
@@ -4526,6 +4944,8 @@ function InitMap(environment)
 	Actor_105.ExtraInfo.NameColorR = 0
 	Actor_105.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_105.ExtraInfo.NameColorB = 0
+	Actor_105.ExtraInfo.Display = false
+	Actor_105.LifeInfo.Display = false
 	Actor_105H = ActorHandler(Actor_105)
 	environment:AddActorObject(Actor_105H)
 
@@ -4552,6 +4972,7 @@ function InitMap(environment)
 	Actor_106.DisplayDesc.RotY = 0
 	Actor_106.DisplayDesc.RotZ = 0
 	Actor_106:SetModelState(1)
+	Actor_106.DisplayDesc.UseBillboard = false
 	Actor_106.PhysicDesc.Pos.X = 527.875
 	Actor_106.PhysicDesc.Pos.Y = 17.5781
 	Actor_106.PhysicDesc.Pos.Z = 491.75
@@ -4561,6 +4982,7 @@ function InitMap(environment)
 	Actor_106.PhysicDesc.SizeX = 0
 	Actor_106.PhysicDesc.SizeY = 0
 	Actor_106.PhysicDesc.SizeZ = 0
+	Actor_106.PhysicDesc.AllowFreeMove = true
 	Actor_106.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_49.phy"
 	Actor_106:SetPhysicalActorType(1)
 	Actor_106:SetPhysicalShape(5)
@@ -4568,6 +4990,8 @@ function InitMap(environment)
 	Actor_106.ExtraInfo.NameColorR = 0
 	Actor_106.ExtraInfo.NameColorG = 0
 	Actor_106.ExtraInfo.NameColorB = 0
+	Actor_106.ExtraInfo.Display = false
+	Actor_106.LifeInfo.Display = false
 	Actor_106H = ActorHandler(Actor_106)
 	environment:AddActorObject(Actor_106H)
 
@@ -4594,6 +5018,7 @@ function InitMap(environment)
 	Actor_107.DisplayDesc.RotY = 0
 	Actor_107.DisplayDesc.RotZ = 0
 	Actor_107:SetModelState(1)
+	Actor_107.DisplayDesc.UseBillboard = false
 	Actor_107.PhysicDesc.Pos.X = 482
 	Actor_107.PhysicDesc.Pos.Y = 9.76563
 	Actor_107.PhysicDesc.Pos.Z = 535.25
@@ -4603,6 +5028,7 @@ function InitMap(environment)
 	Actor_107.PhysicDesc.SizeX = 0
 	Actor_107.PhysicDesc.SizeY = 0
 	Actor_107.PhysicDesc.SizeZ = 0
+	Actor_107.PhysicDesc.AllowFreeMove = true
 	Actor_107.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_37.phy"
 	Actor_107:SetPhysicalActorType(1)
 	Actor_107:SetPhysicalShape(5)
@@ -4610,6 +5036,8 @@ function InitMap(environment)
 	Actor_107.ExtraInfo.NameColorR = 0
 	Actor_107.ExtraInfo.NameColorG = 0
 	Actor_107.ExtraInfo.NameColorB = 0
+	Actor_107.ExtraInfo.Display = false
+	Actor_107.LifeInfo.Display = false
 	Actor_107H = ActorHandler(Actor_107)
 	environment:AddActorObject(Actor_107H)
 
@@ -4636,6 +5064,7 @@ function InitMap(environment)
 	Actor_108.DisplayDesc.RotY = 0
 	Actor_108.DisplayDesc.RotZ = 0
 	Actor_108:SetModelState(1)
+	Actor_108.DisplayDesc.UseBillboard = false
 	Actor_108.PhysicDesc.Pos.X = 482
 	Actor_108.PhysicDesc.Pos.Y = 9.76563
 	Actor_108.PhysicDesc.Pos.Z = 533.5
@@ -4645,6 +5074,7 @@ function InitMap(environment)
 	Actor_108.PhysicDesc.SizeX = 0
 	Actor_108.PhysicDesc.SizeY = 0
 	Actor_108.PhysicDesc.SizeZ = 0
+	Actor_108.PhysicDesc.AllowFreeMove = true
 	Actor_108.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_37.phy"
 	Actor_108:SetPhysicalActorType(1)
 	Actor_108:SetPhysicalShape(5)
@@ -4652,6 +5082,8 @@ function InitMap(environment)
 	Actor_108.ExtraInfo.NameColorR = 0
 	Actor_108.ExtraInfo.NameColorG = 0
 	Actor_108.ExtraInfo.NameColorB = 0
+	Actor_108.ExtraInfo.Display = false
+	Actor_108.LifeInfo.Display = false
 	Actor_108H = ActorHandler(Actor_108)
 	environment:AddActorObject(Actor_108H)
 
@@ -4678,6 +5110,7 @@ function InitMap(environment)
 	Actor_109.DisplayDesc.RotY = 0
 	Actor_109.DisplayDesc.RotZ = 0
 	Actor_109:SetModelState(1)
+	Actor_109.DisplayDesc.UseBillboard = false
 	Actor_109.PhysicDesc.Pos.X = 482
 	Actor_109.PhysicDesc.Pos.Y = 9.76563
 	Actor_109.PhysicDesc.Pos.Z = 524.25
@@ -4687,6 +5120,7 @@ function InitMap(environment)
 	Actor_109.PhysicDesc.SizeX = 0
 	Actor_109.PhysicDesc.SizeY = 0
 	Actor_109.PhysicDesc.SizeZ = 0
+	Actor_109.PhysicDesc.AllowFreeMove = true
 	Actor_109.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_37.phy"
 	Actor_109:SetPhysicalActorType(1)
 	Actor_109:SetPhysicalShape(5)
@@ -4694,6 +5128,8 @@ function InitMap(environment)
 	Actor_109.ExtraInfo.NameColorR = 0
 	Actor_109.ExtraInfo.NameColorG = 0
 	Actor_109.ExtraInfo.NameColorB = 0
+	Actor_109.ExtraInfo.Display = false
+	Actor_109.LifeInfo.Display = false
 	Actor_109H = ActorHandler(Actor_109)
 	environment:AddActorObject(Actor_109H)
 
@@ -4720,6 +5156,7 @@ function InitMap(environment)
 	Actor_110.DisplayDesc.RotY = 0
 	Actor_110.DisplayDesc.RotZ = 0
 	Actor_110:SetModelState(1)
+	Actor_110.DisplayDesc.UseBillboard = false
 	Actor_110.PhysicDesc.Pos.X = 482
 	Actor_110.PhysicDesc.Pos.Y = 9.76563
 	Actor_110.PhysicDesc.Pos.Z = 522.5
@@ -4729,6 +5166,7 @@ function InitMap(environment)
 	Actor_110.PhysicDesc.SizeX = 0
 	Actor_110.PhysicDesc.SizeY = 0
 	Actor_110.PhysicDesc.SizeZ = 0
+	Actor_110.PhysicDesc.AllowFreeMove = true
 	Actor_110.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_37.phy"
 	Actor_110:SetPhysicalActorType(1)
 	Actor_110:SetPhysicalShape(5)
@@ -4736,6 +5174,8 @@ function InitMap(environment)
 	Actor_110.ExtraInfo.NameColorR = 0
 	Actor_110.ExtraInfo.NameColorG = 0
 	Actor_110.ExtraInfo.NameColorB = 0
+	Actor_110.ExtraInfo.Display = false
+	Actor_110.LifeInfo.Display = false
 	Actor_110H = ActorHandler(Actor_110)
 	environment:AddActorObject(Actor_110H)
 
@@ -4762,6 +5202,7 @@ function InitMap(environment)
 	Actor_111.DisplayDesc.RotY = 0
 	Actor_111.DisplayDesc.RotZ = 0
 	Actor_111:SetModelState(1)
+	Actor_111.DisplayDesc.UseBillboard = false
 	Actor_111.PhysicDesc.Pos.X = 482
 	Actor_111.PhysicDesc.Pos.Y = 9.76563
 	Actor_111.PhysicDesc.Pos.Z = 513.25
@@ -4771,6 +5212,7 @@ function InitMap(environment)
 	Actor_111.PhysicDesc.SizeX = 0
 	Actor_111.PhysicDesc.SizeY = 0
 	Actor_111.PhysicDesc.SizeZ = 0
+	Actor_111.PhysicDesc.AllowFreeMove = true
 	Actor_111.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_37.phy"
 	Actor_111:SetPhysicalActorType(1)
 	Actor_111:SetPhysicalShape(5)
@@ -4778,6 +5220,8 @@ function InitMap(environment)
 	Actor_111.ExtraInfo.NameColorR = 0
 	Actor_111.ExtraInfo.NameColorG = 0
 	Actor_111.ExtraInfo.NameColorB = 0
+	Actor_111.ExtraInfo.Display = false
+	Actor_111.LifeInfo.Display = false
 	Actor_111H = ActorHandler(Actor_111)
 	environment:AddActorObject(Actor_111H)
 
@@ -4804,6 +5248,7 @@ function InitMap(environment)
 	Actor_112.DisplayDesc.RotY = 0
 	Actor_112.DisplayDesc.RotZ = 0
 	Actor_112:SetModelState(1)
+	Actor_112.DisplayDesc.UseBillboard = false
 	Actor_112.PhysicDesc.Pos.X = 482
 	Actor_112.PhysicDesc.Pos.Y = 9.76563
 	Actor_112.PhysicDesc.Pos.Z = 511.5
@@ -4813,6 +5258,7 @@ function InitMap(environment)
 	Actor_112.PhysicDesc.SizeX = 0
 	Actor_112.PhysicDesc.SizeY = 0
 	Actor_112.PhysicDesc.SizeZ = 0
+	Actor_112.PhysicDesc.AllowFreeMove = true
 	Actor_112.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_37.phy"
 	Actor_112:SetPhysicalActorType(1)
 	Actor_112:SetPhysicalShape(5)
@@ -4820,6 +5266,8 @@ function InitMap(environment)
 	Actor_112.ExtraInfo.NameColorR = 0
 	Actor_112.ExtraInfo.NameColorG = 0
 	Actor_112.ExtraInfo.NameColorB = 0
+	Actor_112.ExtraInfo.Display = false
+	Actor_112.LifeInfo.Display = false
 	Actor_112H = ActorHandler(Actor_112)
 	environment:AddActorObject(Actor_112H)
 
@@ -4846,6 +5294,7 @@ function InitMap(environment)
 	Actor_113.DisplayDesc.RotY = 0
 	Actor_113.DisplayDesc.RotZ = 0
 	Actor_113:SetModelState(1)
+	Actor_113.DisplayDesc.UseBillboard = false
 	Actor_113.PhysicDesc.Pos.X = 482
 	Actor_113.PhysicDesc.Pos.Y = 9.76563
 	Actor_113.PhysicDesc.Pos.Z = 502.25
@@ -4855,6 +5304,7 @@ function InitMap(environment)
 	Actor_113.PhysicDesc.SizeX = 0
 	Actor_113.PhysicDesc.SizeY = 0
 	Actor_113.PhysicDesc.SizeZ = 0
+	Actor_113.PhysicDesc.AllowFreeMove = true
 	Actor_113.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_37.phy"
 	Actor_113:SetPhysicalActorType(1)
 	Actor_113:SetPhysicalShape(5)
@@ -4862,6 +5312,8 @@ function InitMap(environment)
 	Actor_113.ExtraInfo.NameColorR = 0
 	Actor_113.ExtraInfo.NameColorG = 0
 	Actor_113.ExtraInfo.NameColorB = 0
+	Actor_113.ExtraInfo.Display = false
+	Actor_113.LifeInfo.Display = false
 	Actor_113H = ActorHandler(Actor_113)
 	environment:AddActorObject(Actor_113H)
 
@@ -4888,6 +5340,7 @@ function InitMap(environment)
 	Actor_114.DisplayDesc.RotY = 0
 	Actor_114.DisplayDesc.RotZ = 0
 	Actor_114:SetModelState(1)
+	Actor_114.DisplayDesc.UseBillboard = false
 	Actor_114.PhysicDesc.Pos.X = 482
 	Actor_114.PhysicDesc.Pos.Y = 9.76563
 	Actor_114.PhysicDesc.Pos.Z = 500.5
@@ -4897,6 +5350,7 @@ function InitMap(environment)
 	Actor_114.PhysicDesc.SizeX = 0
 	Actor_114.PhysicDesc.SizeY = 0
 	Actor_114.PhysicDesc.SizeZ = 0
+	Actor_114.PhysicDesc.AllowFreeMove = true
 	Actor_114.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_37.phy"
 	Actor_114:SetPhysicalActorType(1)
 	Actor_114:SetPhysicalShape(5)
@@ -4904,6 +5358,8 @@ function InitMap(environment)
 	Actor_114.ExtraInfo.NameColorR = 0
 	Actor_114.ExtraInfo.NameColorG = 0
 	Actor_114.ExtraInfo.NameColorB = 0
+	Actor_114.ExtraInfo.Display = false
+	Actor_114.LifeInfo.Display = false
 	Actor_114H = ActorHandler(Actor_114)
 	environment:AddActorObject(Actor_114H)
 
@@ -4930,6 +5386,7 @@ function InitMap(environment)
 	Actor_115.DisplayDesc.RotY = 0
 	Actor_115.DisplayDesc.RotZ = 0
 	Actor_115:SetModelState(1)
+	Actor_115.DisplayDesc.UseBillboard = false
 	Actor_115.PhysicDesc.Pos.X = 482
 	Actor_115.PhysicDesc.Pos.Y = 9.76563
 	Actor_115.PhysicDesc.Pos.Z = 491.25
@@ -4939,6 +5396,7 @@ function InitMap(environment)
 	Actor_115.PhysicDesc.SizeX = 0
 	Actor_115.PhysicDesc.SizeY = 0
 	Actor_115.PhysicDesc.SizeZ = 0
+	Actor_115.PhysicDesc.AllowFreeMove = true
 	Actor_115.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_37.phy"
 	Actor_115:SetPhysicalActorType(1)
 	Actor_115:SetPhysicalShape(5)
@@ -4946,6 +5404,8 @@ function InitMap(environment)
 	Actor_115.ExtraInfo.NameColorR = 0
 	Actor_115.ExtraInfo.NameColorG = 0
 	Actor_115.ExtraInfo.NameColorB = 0
+	Actor_115.ExtraInfo.Display = false
+	Actor_115.LifeInfo.Display = false
 	Actor_115H = ActorHandler(Actor_115)
 	environment:AddActorObject(Actor_115H)
 
@@ -4972,6 +5432,7 @@ function InitMap(environment)
 	Actor_116.DisplayDesc.RotY = 0
 	Actor_116.DisplayDesc.RotZ = 0
 	Actor_116:SetModelState(1)
+	Actor_116.DisplayDesc.UseBillboard = false
 	Actor_116.PhysicDesc.Pos.X = 482
 	Actor_116.PhysicDesc.Pos.Y = 9.76563
 	Actor_116.PhysicDesc.Pos.Z = 489.5
@@ -4981,6 +5442,7 @@ function InitMap(environment)
 	Actor_116.PhysicDesc.SizeX = 0
 	Actor_116.PhysicDesc.SizeY = 0
 	Actor_116.PhysicDesc.SizeZ = 0
+	Actor_116.PhysicDesc.AllowFreeMove = true
 	Actor_116.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_37.phy"
 	Actor_116:SetPhysicalActorType(1)
 	Actor_116:SetPhysicalShape(5)
@@ -4988,6 +5450,8 @@ function InitMap(environment)
 	Actor_116.ExtraInfo.NameColorR = 0
 	Actor_116.ExtraInfo.NameColorG = 0
 	Actor_116.ExtraInfo.NameColorB = 0
+	Actor_116.ExtraInfo.Display = false
+	Actor_116.LifeInfo.Display = false
 	Actor_116H = ActorHandler(Actor_116)
 	environment:AddActorObject(Actor_116H)
 
@@ -5014,6 +5478,7 @@ function InitMap(environment)
 	Actor_117.DisplayDesc.RotY = 0
 	Actor_117.DisplayDesc.RotZ = 0
 	Actor_117:SetModelState(1)
+	Actor_117.DisplayDesc.UseBillboard = false
 	Actor_117.PhysicDesc.Pos.X = 501.5
 	Actor_117.PhysicDesc.Pos.Y = 0.976563
 	Actor_117.PhysicDesc.Pos.Z = 517.5
@@ -5023,6 +5488,7 @@ function InitMap(environment)
 	Actor_117.PhysicDesc.SizeX = 0
 	Actor_117.PhysicDesc.SizeY = 0
 	Actor_117.PhysicDesc.SizeZ = 0
+	Actor_117.PhysicDesc.AllowFreeMove = true
 	Actor_117.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_50.phy"
 	Actor_117:SetPhysicalActorType(1)
 	Actor_117:SetPhysicalShape(5)
@@ -5030,6 +5496,8 @@ function InitMap(environment)
 	Actor_117.ExtraInfo.NameColorR = 0
 	Actor_117.ExtraInfo.NameColorG = 0
 	Actor_117.ExtraInfo.NameColorB = 0
+	Actor_117.ExtraInfo.Display = false
+	Actor_117.LifeInfo.Display = false
 	Actor_117H = ActorHandler(Actor_117)
 	environment:AddActorObject(Actor_117H)
 
@@ -5056,6 +5524,7 @@ function InitMap(environment)
 	Actor_118.DisplayDesc.RotY = 0
 	Actor_118.DisplayDesc.RotZ = 0
 	Actor_118:SetModelState(1)
+	Actor_118.DisplayDesc.UseBillboard = false
 	Actor_118.PhysicDesc.Pos.X = 520.5
 	Actor_118.PhysicDesc.Pos.Y = 17.5781
 	Actor_118.PhysicDesc.Pos.Z = 487.5
@@ -5065,6 +5534,7 @@ function InitMap(environment)
 	Actor_118.PhysicDesc.SizeX = 0
 	Actor_118.PhysicDesc.SizeY = 0
 	Actor_118.PhysicDesc.SizeZ = 0
+	Actor_118.PhysicDesc.AllowFreeMove = true
 	Actor_118.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_22.phy"
 	Actor_118:SetPhysicalActorType(1)
 	Actor_118:SetPhysicalShape(5)
@@ -5072,6 +5542,8 @@ function InitMap(environment)
 	Actor_118.ExtraInfo.NameColorR = 0
 	Actor_118.ExtraInfo.NameColorG = 0
 	Actor_118.ExtraInfo.NameColorB = 0
+	Actor_118.ExtraInfo.Display = false
+	Actor_118.LifeInfo.Display = false
 	Actor_118H = ActorHandler(Actor_118)
 	environment:AddActorObject(Actor_118H)
 
@@ -5098,6 +5570,7 @@ function InitMap(environment)
 	Actor_119.DisplayDesc.RotY = 0
 	Actor_119.DisplayDesc.RotZ = 0
 	Actor_119:SetModelState(1)
+	Actor_119.DisplayDesc.UseBillboard = false
 	Actor_119.PhysicDesc.Pos.X = 504.5
 	Actor_119.PhysicDesc.Pos.Y = 13.6719
 	Actor_119.PhysicDesc.Pos.Z = 491.5
@@ -5107,6 +5580,7 @@ function InitMap(environment)
 	Actor_119.PhysicDesc.SizeX = 0
 	Actor_119.PhysicDesc.SizeY = 0
 	Actor_119.PhysicDesc.SizeZ = 0
+	Actor_119.PhysicDesc.AllowFreeMove = true
 	Actor_119.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_22.phy"
 	Actor_119:SetPhysicalActorType(1)
 	Actor_119:SetPhysicalShape(5)
@@ -5114,6 +5588,8 @@ function InitMap(environment)
 	Actor_119.ExtraInfo.NameColorR = 0
 	Actor_119.ExtraInfo.NameColorG = 0
 	Actor_119.ExtraInfo.NameColorB = 0
+	Actor_119.ExtraInfo.Display = false
+	Actor_119.LifeInfo.Display = false
 	Actor_119H = ActorHandler(Actor_119)
 	environment:AddActorObject(Actor_119H)
 
@@ -5140,6 +5616,7 @@ function InitMap(environment)
 	Actor_120.DisplayDesc.RotY = 0
 	Actor_120.DisplayDesc.RotZ = 0
 	Actor_120:SetModelState(1)
+	Actor_120.DisplayDesc.UseBillboard = false
 	Actor_120.PhysicDesc.Pos.X = 488.508
 	Actor_120.PhysicDesc.Pos.Y = 0.976563
 	Actor_120.PhysicDesc.Pos.Z = 538.508
@@ -5149,6 +5626,7 @@ function InitMap(environment)
 	Actor_120.PhysicDesc.SizeX = 0
 	Actor_120.PhysicDesc.SizeY = 0
 	Actor_120.PhysicDesc.SizeZ = 0
+	Actor_120.PhysicDesc.AllowFreeMove = true
 	Actor_120.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_51.phy"
 	Actor_120:SetPhysicalActorType(1)
 	Actor_120:SetPhysicalShape(5)
@@ -5156,6 +5634,8 @@ function InitMap(environment)
 	Actor_120.ExtraInfo.NameColorR = 0
 	Actor_120.ExtraInfo.NameColorG = 0
 	Actor_120.ExtraInfo.NameColorB = 0
+	Actor_120.ExtraInfo.Display = false
+	Actor_120.LifeInfo.Display = false
 	Actor_120H = ActorHandler(Actor_120)
 	environment:AddActorObject(Actor_120H)
 
@@ -5182,6 +5662,7 @@ function InitMap(environment)
 	Actor_121.DisplayDesc.RotY = 0
 	Actor_121.DisplayDesc.RotZ = 0
 	Actor_121:SetModelState(1)
+	Actor_121.DisplayDesc.UseBillboard = false
 	Actor_121.PhysicDesc.Pos.X = 541
 	Actor_121.PhysicDesc.Pos.Y = 17.5781
 	Actor_121.PhysicDesc.Pos.Z = 487
@@ -5191,6 +5672,7 @@ function InitMap(environment)
 	Actor_121.PhysicDesc.SizeX = 0
 	Actor_121.PhysicDesc.SizeY = 0
 	Actor_121.PhysicDesc.SizeZ = 0
+	Actor_121.PhysicDesc.AllowFreeMove = true
 	Actor_121.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_52.phy"
 	Actor_121:SetPhysicalActorType(1)
 	Actor_121:SetPhysicalShape(5)
@@ -5198,6 +5680,8 @@ function InitMap(environment)
 	Actor_121.ExtraInfo.NameColorR = 0
 	Actor_121.ExtraInfo.NameColorG = 0
 	Actor_121.ExtraInfo.NameColorB = 0
+	Actor_121.ExtraInfo.Display = false
+	Actor_121.LifeInfo.Display = false
 	Actor_121H = ActorHandler(Actor_121)
 	environment:AddActorObject(Actor_121H)
 
@@ -5224,6 +5708,7 @@ function InitMap(environment)
 	Actor_122.DisplayDesc.RotY = 0
 	Actor_122.DisplayDesc.RotZ = 0
 	Actor_122:SetModelState(1)
+	Actor_122.DisplayDesc.UseBillboard = false
 	Actor_122.PhysicDesc.Pos.X = 541
 	Actor_122.PhysicDesc.Pos.Y = 17.5781
 	Actor_122.PhysicDesc.Pos.Z = 487
@@ -5233,6 +5718,7 @@ function InitMap(environment)
 	Actor_122.PhysicDesc.SizeX = 4.49276e-034
 	Actor_122.PhysicDesc.SizeY = 5.96814e-039
 	Actor_122.PhysicDesc.SizeZ = 5.60519e-045
+	Actor_122.PhysicDesc.AllowFreeMove = true
 	Actor_122.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_53.phy"
 	Actor_122:SetPhysicalActorType(1)
 	Actor_122:SetPhysicalShape(5)
@@ -5240,6 +5726,8 @@ function InitMap(environment)
 	Actor_122.ExtraInfo.NameColorR = 1.875
 	Actor_122.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_122.ExtraInfo.NameColorB = 0
+	Actor_122.ExtraInfo.Display = false
+	Actor_122.LifeInfo.Display = false
 	Actor_122H = ActorHandler(Actor_122)
 	environment:AddActorObject(Actor_122H)
 
@@ -5266,6 +5754,7 @@ function InitMap(environment)
 	Actor_123.DisplayDesc.RotY = 0
 	Actor_123.DisplayDesc.RotZ = 0
 	Actor_123:SetModelState(1)
+	Actor_123.DisplayDesc.UseBillboard = false
 	Actor_123.PhysicDesc.Pos.X = 541
 	Actor_123.PhysicDesc.Pos.Y = 17.5781
 	Actor_123.PhysicDesc.Pos.Z = 487
@@ -5275,6 +5764,7 @@ function InitMap(environment)
 	Actor_123.PhysicDesc.SizeX = 5.60519e-045
 	Actor_123.PhysicDesc.SizeY = 0
 	Actor_123.PhysicDesc.SizeZ = 1.79265e-031
+	Actor_123.PhysicDesc.AllowFreeMove = true
 	Actor_123.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_54.phy"
 	Actor_123:SetPhysicalActorType(1)
 	Actor_123:SetPhysicalShape(5)
@@ -5282,6 +5772,8 @@ function InitMap(environment)
 	Actor_123.ExtraInfo.NameColorR = 0
 	Actor_123.ExtraInfo.NameColorG = 5.65185e-038
 	Actor_123.ExtraInfo.NameColorB = 1.71105e-039
+	Actor_123.ExtraInfo.Display = false
+	Actor_123.LifeInfo.Display = false
 	Actor_123H = ActorHandler(Actor_123)
 	environment:AddActorObject(Actor_123H)
 
@@ -5308,6 +5800,7 @@ function InitMap(environment)
 	Actor_124.DisplayDesc.RotY = 0
 	Actor_124.DisplayDesc.RotZ = 0
 	Actor_124:SetModelState(1)
+	Actor_124.DisplayDesc.UseBillboard = false
 	Actor_124.PhysicDesc.Pos.X = 541
 	Actor_124.PhysicDesc.Pos.Y = 17.5781
 	Actor_124.PhysicDesc.Pos.Z = 487
@@ -5317,6 +5810,7 @@ function InitMap(environment)
 	Actor_124.PhysicDesc.SizeX = 5.60519e-045
 	Actor_124.PhysicDesc.SizeY = 0
 	Actor_124.PhysicDesc.SizeZ = 1.76706e-031
+	Actor_124.PhysicDesc.AllowFreeMove = true
 	Actor_124.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_55.phy"
 	Actor_124:SetPhysicalActorType(1)
 	Actor_124:SetPhysicalShape(5)
@@ -5324,6 +5818,8 @@ function InitMap(environment)
 	Actor_124.ExtraInfo.NameColorR = 0
 	Actor_124.ExtraInfo.NameColorG = 5.76765e-038
 	Actor_124.ExtraInfo.NameColorB = 1.71105e-039
+	Actor_124.ExtraInfo.Display = false
+	Actor_124.LifeInfo.Display = false
 	Actor_124H = ActorHandler(Actor_124)
 	environment:AddActorObject(Actor_124H)
 
@@ -5350,6 +5846,7 @@ function InitMap(environment)
 	Actor_125.DisplayDesc.RotY = 0
 	Actor_125.DisplayDesc.RotZ = 0
 	Actor_125:SetModelState(1)
+	Actor_125.DisplayDesc.UseBillboard = false
 	Actor_125.PhysicDesc.Pos.X = 542.5
 	Actor_125.PhysicDesc.Pos.Y = 17.5781
 	Actor_125.PhysicDesc.Pos.Z = 487.875
@@ -5359,6 +5856,7 @@ function InitMap(environment)
 	Actor_125.PhysicDesc.SizeX = 5.60519e-045
 	Actor_125.PhysicDesc.SizeY = 0
 	Actor_125.PhysicDesc.SizeZ = 1.78856e-031
+	Actor_125.PhysicDesc.AllowFreeMove = true
 	Actor_125.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_36.phy"
 	Actor_125:SetPhysicalActorType(1)
 	Actor_125:SetPhysicalShape(5)
@@ -5366,6 +5864,8 @@ function InitMap(environment)
 	Actor_125.ExtraInfo.NameColorR = 0
 	Actor_125.ExtraInfo.NameColorG = 5.97258e-038
 	Actor_125.ExtraInfo.NameColorB = 5.96814e-039
+	Actor_125.ExtraInfo.Display = false
+	Actor_125.LifeInfo.Display = false
 	Actor_125H = ActorHandler(Actor_125)
 	environment:AddActorObject(Actor_125H)
 
@@ -5392,6 +5892,7 @@ function InitMap(environment)
 	Actor_126.DisplayDesc.RotY = 0
 	Actor_126.DisplayDesc.RotZ = 0
 	Actor_126:SetModelState(1)
+	Actor_126.DisplayDesc.UseBillboard = false
 	Actor_126.PhysicDesc.Pos.X = 539.125
 	Actor_126.PhysicDesc.Pos.Y = 17.5781
 	Actor_126.PhysicDesc.Pos.Z = 492.5
@@ -5401,6 +5902,7 @@ function InitMap(environment)
 	Actor_126.PhysicDesc.SizeX = 0
 	Actor_126.PhysicDesc.SizeY = 0
 	Actor_126.PhysicDesc.SizeZ = 0
+	Actor_126.PhysicDesc.AllowFreeMove = true
 	Actor_126.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_36.phy"
 	Actor_126:SetPhysicalActorType(1)
 	Actor_126:SetPhysicalShape(5)
@@ -5408,6 +5910,8 @@ function InitMap(environment)
 	Actor_126.ExtraInfo.NameColorR = 0
 	Actor_126.ExtraInfo.NameColorG = 0
 	Actor_126.ExtraInfo.NameColorB = 0
+	Actor_126.ExtraInfo.Display = false
+	Actor_126.LifeInfo.Display = false
 	Actor_126H = ActorHandler(Actor_126)
 	environment:AddActorObject(Actor_126H)
 
@@ -5434,6 +5938,7 @@ function InitMap(environment)
 	Actor_127.DisplayDesc.RotY = 0
 	Actor_127.DisplayDesc.RotZ = 0
 	Actor_127:SetModelState(1)
+	Actor_127.DisplayDesc.UseBillboard = false
 	Actor_127.PhysicDesc.Pos.X = 532
 	Actor_127.PhysicDesc.Pos.Y = 17.5781
 	Actor_127.PhysicDesc.Pos.Z = 492.5
@@ -5443,6 +5948,7 @@ function InitMap(environment)
 	Actor_127.PhysicDesc.SizeX = 0
 	Actor_127.PhysicDesc.SizeY = 0
 	Actor_127.PhysicDesc.SizeZ = 0
+	Actor_127.PhysicDesc.AllowFreeMove = true
 	Actor_127.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_36.phy"
 	Actor_127:SetPhysicalActorType(1)
 	Actor_127:SetPhysicalShape(5)
@@ -5450,6 +5956,8 @@ function InitMap(environment)
 	Actor_127.ExtraInfo.NameColorR = 0
 	Actor_127.ExtraInfo.NameColorG = 0
 	Actor_127.ExtraInfo.NameColorB = 0
+	Actor_127.ExtraInfo.Display = false
+	Actor_127.LifeInfo.Display = false
 	Actor_127H = ActorHandler(Actor_127)
 	environment:AddActorObject(Actor_127H)
 
@@ -5476,6 +5984,7 @@ function InitMap(environment)
 	Actor_128.DisplayDesc.RotY = 0
 	Actor_128.DisplayDesc.RotZ = 0
 	Actor_128:SetModelState(1)
+	Actor_128.DisplayDesc.UseBillboard = false
 	Actor_128.PhysicDesc.Pos.X = 505.764
 	Actor_128.PhysicDesc.Pos.Y = 0.976563
 	Actor_128.PhysicDesc.Pos.Z = 543.25
@@ -5485,6 +5994,7 @@ function InitMap(environment)
 	Actor_128.PhysicDesc.SizeX = 0
 	Actor_128.PhysicDesc.SizeY = 0
 	Actor_128.PhysicDesc.SizeZ = 0
+	Actor_128.PhysicDesc.AllowFreeMove = true
 	Actor_128.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_56.phy"
 	Actor_128:SetPhysicalActorType(1)
 	Actor_128:SetPhysicalShape(5)
@@ -5492,6 +6002,8 @@ function InitMap(environment)
 	Actor_128.ExtraInfo.NameColorR = 0
 	Actor_128.ExtraInfo.NameColorG = 0
 	Actor_128.ExtraInfo.NameColorB = 0
+	Actor_128.ExtraInfo.Display = false
+	Actor_128.LifeInfo.Display = false
 	Actor_128H = ActorHandler(Actor_128)
 	environment:AddActorObject(Actor_128H)
 
@@ -5518,6 +6030,7 @@ function InitMap(environment)
 	Actor_129.DisplayDesc.RotY = 0
 	Actor_129.DisplayDesc.RotZ = 0
 	Actor_129:SetModelState(1)
+	Actor_129.DisplayDesc.UseBillboard = false
 	Actor_129.PhysicDesc.Pos.X = 504.074
 	Actor_129.PhysicDesc.Pos.Y = 0.976563
 	Actor_129.PhysicDesc.Pos.Z = 543.375
@@ -5527,6 +6040,7 @@ function InitMap(environment)
 	Actor_129.PhysicDesc.SizeX = 0
 	Actor_129.PhysicDesc.SizeY = 0
 	Actor_129.PhysicDesc.SizeZ = 0
+	Actor_129.PhysicDesc.AllowFreeMove = true
 	Actor_129.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_57.phy"
 	Actor_129:SetPhysicalActorType(1)
 	Actor_129:SetPhysicalShape(5)
@@ -5534,6 +6048,8 @@ function InitMap(environment)
 	Actor_129.ExtraInfo.NameColorR = 0
 	Actor_129.ExtraInfo.NameColorG = 0
 	Actor_129.ExtraInfo.NameColorB = 0
+	Actor_129.ExtraInfo.Display = false
+	Actor_129.LifeInfo.Display = false
 	Actor_129H = ActorHandler(Actor_129)
 	environment:AddActorObject(Actor_129H)
 
@@ -5560,6 +6076,7 @@ function InitMap(environment)
 	Actor_130.DisplayDesc.RotY = 0
 	Actor_130.DisplayDesc.RotZ = 0
 	Actor_130:SetModelState(1)
+	Actor_130.DisplayDesc.UseBillboard = false
 	Actor_130.PhysicDesc.Pos.X = 502.318
 	Actor_130.PhysicDesc.Pos.Y = 0.976563
 	Actor_130.PhysicDesc.Pos.Z = 543.252
@@ -5569,6 +6086,7 @@ function InitMap(environment)
 	Actor_130.PhysicDesc.SizeX = 0
 	Actor_130.PhysicDesc.SizeY = 0
 	Actor_130.PhysicDesc.SizeZ = 0
+	Actor_130.PhysicDesc.AllowFreeMove = true
 	Actor_130.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_56.phy"
 	Actor_130:SetPhysicalActorType(1)
 	Actor_130:SetPhysicalShape(5)
@@ -5576,6 +6094,8 @@ function InitMap(environment)
 	Actor_130.ExtraInfo.NameColorR = 0
 	Actor_130.ExtraInfo.NameColorG = 0
 	Actor_130.ExtraInfo.NameColorB = 0
+	Actor_130.ExtraInfo.Display = false
+	Actor_130.LifeInfo.Display = false
 	Actor_130H = ActorHandler(Actor_130)
 	environment:AddActorObject(Actor_130H)
 
@@ -5602,6 +6122,7 @@ function InitMap(environment)
 	Actor_131.DisplayDesc.RotY = 0
 	Actor_131.DisplayDesc.RotZ = 0
 	Actor_131:SetModelState(1)
+	Actor_131.DisplayDesc.UseBillboard = false
 	Actor_131.PhysicDesc.Pos.X = 501.375
 	Actor_131.PhysicDesc.Pos.Y = 0.976563
 	Actor_131.PhysicDesc.Pos.Z = 543.25
@@ -5611,6 +6132,7 @@ function InitMap(environment)
 	Actor_131.PhysicDesc.SizeX = 0
 	Actor_131.PhysicDesc.SizeY = 0
 	Actor_131.PhysicDesc.SizeZ = 0
+	Actor_131.PhysicDesc.AllowFreeMove = true
 	Actor_131.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_56.phy"
 	Actor_131:SetPhysicalActorType(1)
 	Actor_131:SetPhysicalShape(5)
@@ -5618,6 +6140,8 @@ function InitMap(environment)
 	Actor_131.ExtraInfo.NameColorR = 0
 	Actor_131.ExtraInfo.NameColorG = 0
 	Actor_131.ExtraInfo.NameColorB = 0
+	Actor_131.ExtraInfo.Display = false
+	Actor_131.LifeInfo.Display = false
 	Actor_131H = ActorHandler(Actor_131)
 	environment:AddActorObject(Actor_131H)
 
@@ -5644,6 +6168,7 @@ function InitMap(environment)
 	Actor_132.DisplayDesc.RotY = 0
 	Actor_132.DisplayDesc.RotZ = 0
 	Actor_132:SetModelState(1)
+	Actor_132.DisplayDesc.UseBillboard = false
 	Actor_132.PhysicDesc.Pos.X = 497.93
 	Actor_132.PhysicDesc.Pos.Y = 0.976563
 	Actor_132.PhysicDesc.Pos.Z = 543.25
@@ -5653,6 +6178,7 @@ function InitMap(environment)
 	Actor_132.PhysicDesc.SizeX = 0
 	Actor_132.PhysicDesc.SizeY = 0
 	Actor_132.PhysicDesc.SizeZ = 0
+	Actor_132.PhysicDesc.AllowFreeMove = true
 	Actor_132.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_56.phy"
 	Actor_132:SetPhysicalActorType(1)
 	Actor_132:SetPhysicalShape(5)
@@ -5660,6 +6186,8 @@ function InitMap(environment)
 	Actor_132.ExtraInfo.NameColorR = 0
 	Actor_132.ExtraInfo.NameColorG = 0
 	Actor_132.ExtraInfo.NameColorB = 0
+	Actor_132.ExtraInfo.Display = false
+	Actor_132.LifeInfo.Display = false
 	Actor_132H = ActorHandler(Actor_132)
 	environment:AddActorObject(Actor_132H)
 
@@ -5686,6 +6214,7 @@ function InitMap(environment)
 	Actor_133.DisplayDesc.RotY = 0
 	Actor_133.DisplayDesc.RotZ = 0
 	Actor_133:SetModelState(1)
+	Actor_133.DisplayDesc.UseBillboard = false
 	Actor_133.PhysicDesc.Pos.X = 499.686
 	Actor_133.PhysicDesc.Pos.Y = 0.976563
 	Actor_133.PhysicDesc.Pos.Z = 543.375
@@ -5695,6 +6224,7 @@ function InitMap(environment)
 	Actor_133.PhysicDesc.SizeX = 0
 	Actor_133.PhysicDesc.SizeY = 0
 	Actor_133.PhysicDesc.SizeZ = 0
+	Actor_133.PhysicDesc.AllowFreeMove = true
 	Actor_133.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_57.phy"
 	Actor_133:SetPhysicalActorType(1)
 	Actor_133:SetPhysicalShape(5)
@@ -5702,6 +6232,8 @@ function InitMap(environment)
 	Actor_133.ExtraInfo.NameColorR = 0
 	Actor_133.ExtraInfo.NameColorG = 0
 	Actor_133.ExtraInfo.NameColorB = 0
+	Actor_133.ExtraInfo.Display = false
+	Actor_133.LifeInfo.Display = false
 	Actor_133H = ActorHandler(Actor_133)
 	environment:AddActorObject(Actor_133H)
 
@@ -5728,6 +6260,7 @@ function InitMap(environment)
 	Actor_134.DisplayDesc.RotY = 0
 	Actor_134.DisplayDesc.RotZ = 0
 	Actor_134:SetModelState(1)
+	Actor_134.DisplayDesc.UseBillboard = false
 	Actor_134.PhysicDesc.Pos.X = 496.939
 	Actor_134.PhysicDesc.Pos.Y = 0.976563
 	Actor_134.PhysicDesc.Pos.Z = 543.25
@@ -5737,6 +6270,7 @@ function InitMap(environment)
 	Actor_134.PhysicDesc.SizeX = 0
 	Actor_134.PhysicDesc.SizeY = 0
 	Actor_134.PhysicDesc.SizeZ = 0
+	Actor_134.PhysicDesc.AllowFreeMove = true
 	Actor_134.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_56.phy"
 	Actor_134:SetPhysicalActorType(1)
 	Actor_134:SetPhysicalShape(5)
@@ -5744,6 +6278,8 @@ function InitMap(environment)
 	Actor_134.ExtraInfo.NameColorR = 0
 	Actor_134.ExtraInfo.NameColorG = 0
 	Actor_134.ExtraInfo.NameColorB = 0
+	Actor_134.ExtraInfo.Display = false
+	Actor_134.LifeInfo.Display = false
 	Actor_134H = ActorHandler(Actor_134)
 	environment:AddActorObject(Actor_134H)
 
@@ -5770,6 +6306,7 @@ function InitMap(environment)
 	Actor_135.DisplayDesc.RotY = 0
 	Actor_135.DisplayDesc.RotZ = 0
 	Actor_135:SetModelState(1)
+	Actor_135.DisplayDesc.UseBillboard = false
 	Actor_135.PhysicDesc.Pos.X = 493.494
 	Actor_135.PhysicDesc.Pos.Y = 0.976563
 	Actor_135.PhysicDesc.Pos.Z = 543.25
@@ -5779,6 +6316,7 @@ function InitMap(environment)
 	Actor_135.PhysicDesc.SizeX = 0
 	Actor_135.PhysicDesc.SizeY = 0
 	Actor_135.PhysicDesc.SizeZ = 0
+	Actor_135.PhysicDesc.AllowFreeMove = true
 	Actor_135.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_56.phy"
 	Actor_135:SetPhysicalActorType(1)
 	Actor_135:SetPhysicalShape(5)
@@ -5786,6 +6324,8 @@ function InitMap(environment)
 	Actor_135.ExtraInfo.NameColorR = 0
 	Actor_135.ExtraInfo.NameColorG = 0
 	Actor_135.ExtraInfo.NameColorB = 0
+	Actor_135.ExtraInfo.Display = false
+	Actor_135.LifeInfo.Display = false
 	Actor_135H = ActorHandler(Actor_135)
 	environment:AddActorObject(Actor_135H)
 
@@ -5812,6 +6352,7 @@ function InitMap(environment)
 	Actor_136.DisplayDesc.RotY = 0
 	Actor_136.DisplayDesc.RotZ = 0
 	Actor_136:SetModelState(1)
+	Actor_136.DisplayDesc.UseBillboard = false
 	Actor_136.PhysicDesc.Pos.X = 495.25
 	Actor_136.PhysicDesc.Pos.Y = 0.976563
 	Actor_136.PhysicDesc.Pos.Z = 543.375
@@ -5821,6 +6362,7 @@ function InitMap(environment)
 	Actor_136.PhysicDesc.SizeX = 0
 	Actor_136.PhysicDesc.SizeY = 0
 	Actor_136.PhysicDesc.SizeZ = 0
+	Actor_136.PhysicDesc.AllowFreeMove = true
 	Actor_136.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_57.phy"
 	Actor_136:SetPhysicalActorType(1)
 	Actor_136:SetPhysicalShape(5)
@@ -5828,6 +6370,8 @@ function InitMap(environment)
 	Actor_136.ExtraInfo.NameColorR = 0
 	Actor_136.ExtraInfo.NameColorG = 0
 	Actor_136.ExtraInfo.NameColorB = 0
+	Actor_136.ExtraInfo.Display = false
+	Actor_136.LifeInfo.Display = false
 	Actor_136H = ActorHandler(Actor_136)
 	environment:AddActorObject(Actor_136H)
 
@@ -5854,6 +6398,7 @@ function InitMap(environment)
 	Actor_137.DisplayDesc.RotY = 0
 	Actor_137.DisplayDesc.RotZ = 0
 	Actor_137:SetModelState(1)
+	Actor_137.DisplayDesc.UseBillboard = false
 	Actor_137.PhysicDesc.Pos.X = 523.375
 	Actor_137.PhysicDesc.Pos.Y = 17.5781
 	Actor_137.PhysicDesc.Pos.Z = 492.5
@@ -5863,6 +6408,7 @@ function InitMap(environment)
 	Actor_137.PhysicDesc.SizeX = 0
 	Actor_137.PhysicDesc.SizeY = 0
 	Actor_137.PhysicDesc.SizeZ = 0
+	Actor_137.PhysicDesc.AllowFreeMove = true
 	Actor_137.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_36.phy"
 	Actor_137:SetPhysicalActorType(1)
 	Actor_137:SetPhysicalShape(5)
@@ -5870,6 +6416,8 @@ function InitMap(environment)
 	Actor_137.ExtraInfo.NameColorR = 0
 	Actor_137.ExtraInfo.NameColorG = 0
 	Actor_137.ExtraInfo.NameColorB = 0
+	Actor_137.ExtraInfo.Display = false
+	Actor_137.LifeInfo.Display = false
 	Actor_137H = ActorHandler(Actor_137)
 	environment:AddActorObject(Actor_137H)
 
@@ -5896,6 +6444,7 @@ function InitMap(environment)
 	Actor_138.DisplayDesc.RotY = 0
 	Actor_138.DisplayDesc.RotZ = 0
 	Actor_138:SetModelState(1)
+	Actor_138.DisplayDesc.UseBillboard = false
 	Actor_138.PhysicDesc.Pos.X = 517.5
 	Actor_138.PhysicDesc.Pos.Y = 1.95313
 	Actor_138.PhysicDesc.Pos.Z = 524.5
@@ -5905,6 +6454,7 @@ function InitMap(environment)
 	Actor_138.PhysicDesc.SizeX = 0
 	Actor_138.PhysicDesc.SizeY = 0
 	Actor_138.PhysicDesc.SizeZ = 0
+	Actor_138.PhysicDesc.AllowFreeMove = true
 	Actor_138.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_58.phy"
 	Actor_138:SetPhysicalActorType(1)
 	Actor_138:SetPhysicalShape(5)
@@ -5912,6 +6462,8 @@ function InitMap(environment)
 	Actor_138.ExtraInfo.NameColorR = 0
 	Actor_138.ExtraInfo.NameColorG = 0
 	Actor_138.ExtraInfo.NameColorB = 0
+	Actor_138.ExtraInfo.Display = false
+	Actor_138.LifeInfo.Display = false
 	Actor_138H = ActorHandler(Actor_138)
 	environment:AddActorObject(Actor_138H)
 
@@ -5938,6 +6490,7 @@ function InitMap(environment)
 	Actor_139.DisplayDesc.RotY = 0
 	Actor_139.DisplayDesc.RotZ = 0
 	Actor_139:SetModelState(1)
+	Actor_139.DisplayDesc.UseBillboard = false
 	Actor_139.PhysicDesc.Pos.X = 522.5
 	Actor_139.PhysicDesc.Pos.Y = 1.95313
 	Actor_139.PhysicDesc.Pos.Z = 524.5
@@ -5947,6 +6500,7 @@ function InitMap(environment)
 	Actor_139.PhysicDesc.SizeX = 0
 	Actor_139.PhysicDesc.SizeY = 0
 	Actor_139.PhysicDesc.SizeZ = 0
+	Actor_139.PhysicDesc.AllowFreeMove = true
 	Actor_139.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_58.phy"
 	Actor_139:SetPhysicalActorType(1)
 	Actor_139:SetPhysicalShape(5)
@@ -5954,6 +6508,8 @@ function InitMap(environment)
 	Actor_139.ExtraInfo.NameColorR = 0
 	Actor_139.ExtraInfo.NameColorG = 0
 	Actor_139.ExtraInfo.NameColorB = 0
+	Actor_139.ExtraInfo.Display = false
+	Actor_139.LifeInfo.Display = false
 	Actor_139H = ActorHandler(Actor_139)
 	environment:AddActorObject(Actor_139H)
 
@@ -5980,6 +6536,7 @@ function InitMap(environment)
 	Actor_140.DisplayDesc.RotY = 0
 	Actor_140.DisplayDesc.RotZ = 0
 	Actor_140:SetModelState(1)
+	Actor_140.DisplayDesc.UseBillboard = false
 	Actor_140.PhysicDesc.Pos.X = 516.6
 	Actor_140.PhysicDesc.Pos.Y = 4.81641
 	Actor_140.PhysicDesc.Pos.Z = 524.016
@@ -5989,6 +6546,7 @@ function InitMap(environment)
 	Actor_140.PhysicDesc.SizeX = 0
 	Actor_140.PhysicDesc.SizeY = 0
 	Actor_140.PhysicDesc.SizeZ = 0
+	Actor_140.PhysicDesc.AllowFreeMove = true
 	Actor_140.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_59.phy"
 	Actor_140:SetPhysicalActorType(1)
 	Actor_140:SetPhysicalShape(5)
@@ -5996,6 +6554,8 @@ function InitMap(environment)
 	Actor_140.ExtraInfo.NameColorR = 0
 	Actor_140.ExtraInfo.NameColorG = 0
 	Actor_140.ExtraInfo.NameColorB = 0
+	Actor_140.ExtraInfo.Display = false
+	Actor_140.LifeInfo.Display = false
 	Actor_140H = ActorHandler(Actor_140)
 	environment:AddActorObject(Actor_140H)
 
@@ -6022,6 +6582,7 @@ function InitMap(environment)
 	Actor_141.DisplayDesc.RotY = 0
 	Actor_141.DisplayDesc.RotZ = 0
 	Actor_141:SetModelState(1)
+	Actor_141.DisplayDesc.UseBillboard = false
 	Actor_141.PhysicDesc.Pos.X = 518.5
 	Actor_141.PhysicDesc.Pos.Y = 4.81641
 	Actor_141.PhysicDesc.Pos.Z = 524.578
@@ -6031,6 +6592,7 @@ function InitMap(environment)
 	Actor_141.PhysicDesc.SizeX = 0
 	Actor_141.PhysicDesc.SizeY = 0
 	Actor_141.PhysicDesc.SizeZ = 0
+	Actor_141.PhysicDesc.AllowFreeMove = true
 	Actor_141.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_60.phy"
 	Actor_141:SetPhysicalActorType(1)
 	Actor_141:SetPhysicalShape(5)
@@ -6038,6 +6600,8 @@ function InitMap(environment)
 	Actor_141.ExtraInfo.NameColorR = 0
 	Actor_141.ExtraInfo.NameColorG = 0
 	Actor_141.ExtraInfo.NameColorB = 0
+	Actor_141.ExtraInfo.Display = false
+	Actor_141.LifeInfo.Display = false
 	Actor_141H = ActorHandler(Actor_141)
 	environment:AddActorObject(Actor_141H)
 
@@ -6064,6 +6628,7 @@ function InitMap(environment)
 	Actor_142.DisplayDesc.RotY = 0
 	Actor_142.DisplayDesc.RotZ = 0
 	Actor_142:SetModelState(1)
+	Actor_142.DisplayDesc.UseBillboard = false
 	Actor_142.PhysicDesc.Pos.X = 518.25
 	Actor_142.PhysicDesc.Pos.Y = 4.81641
 	Actor_142.PhysicDesc.Pos.Z = 523.605
@@ -6073,6 +6638,7 @@ function InitMap(environment)
 	Actor_142.PhysicDesc.SizeX = 0
 	Actor_142.PhysicDesc.SizeY = 0
 	Actor_142.PhysicDesc.SizeZ = 0
+	Actor_142.PhysicDesc.AllowFreeMove = true
 	Actor_142.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_60.phy"
 	Actor_142:SetPhysicalActorType(1)
 	Actor_142:SetPhysicalShape(5)
@@ -6080,6 +6646,8 @@ function InitMap(environment)
 	Actor_142.ExtraInfo.NameColorR = 0
 	Actor_142.ExtraInfo.NameColorG = 0
 	Actor_142.ExtraInfo.NameColorB = 0
+	Actor_142.ExtraInfo.Display = false
+	Actor_142.LifeInfo.Display = false
 	Actor_142H = ActorHandler(Actor_142)
 	environment:AddActorObject(Actor_142H)
 
@@ -6106,6 +6674,7 @@ function InitMap(environment)
 	Actor_143.DisplayDesc.RotY = 0
 	Actor_143.DisplayDesc.RotZ = 0
 	Actor_143:SetModelState(1)
+	Actor_143.DisplayDesc.UseBillboard = false
 	Actor_143.PhysicDesc.Pos.X = 518.873
 	Actor_143.PhysicDesc.Pos.Y = 4.81641
 	Actor_143.PhysicDesc.Pos.Z = 524.375
@@ -6115,6 +6684,7 @@ function InitMap(environment)
 	Actor_143.PhysicDesc.SizeX = 0
 	Actor_143.PhysicDesc.SizeY = 0
 	Actor_143.PhysicDesc.SizeZ = 0
+	Actor_143.PhysicDesc.AllowFreeMove = true
 	Actor_143.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_60.phy"
 	Actor_143:SetPhysicalActorType(1)
 	Actor_143:SetPhysicalShape(5)
@@ -6122,6 +6692,8 @@ function InitMap(environment)
 	Actor_143.ExtraInfo.NameColorR = 0
 	Actor_143.ExtraInfo.NameColorG = 0
 	Actor_143.ExtraInfo.NameColorB = 0
+	Actor_143.ExtraInfo.Display = false
+	Actor_143.LifeInfo.Display = false
 	Actor_143H = ActorHandler(Actor_143)
 	environment:AddActorObject(Actor_143H)
 
@@ -6148,6 +6720,7 @@ function InitMap(environment)
 	Actor_144.DisplayDesc.RotY = 0
 	Actor_144.DisplayDesc.RotZ = 0
 	Actor_144:SetModelState(1)
+	Actor_144.DisplayDesc.UseBillboard = false
 	Actor_144.PhysicDesc.Pos.X = 520.125
 	Actor_144.PhysicDesc.Pos.Y = 1.95313
 	Actor_144.PhysicDesc.Pos.Z = 524.5
@@ -6157,6 +6730,7 @@ function InitMap(environment)
 	Actor_144.PhysicDesc.SizeX = 0
 	Actor_144.PhysicDesc.SizeY = 0
 	Actor_144.PhysicDesc.SizeZ = 0
+	Actor_144.PhysicDesc.AllowFreeMove = true
 	Actor_144.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_61.phy"
 	Actor_144:SetPhysicalActorType(1)
 	Actor_144:SetPhysicalShape(5)
@@ -6164,6 +6738,8 @@ function InitMap(environment)
 	Actor_144.ExtraInfo.NameColorR = 0
 	Actor_144.ExtraInfo.NameColorG = 0
 	Actor_144.ExtraInfo.NameColorB = 0
+	Actor_144.ExtraInfo.Display = false
+	Actor_144.LifeInfo.Display = false
 	Actor_144H = ActorHandler(Actor_144)
 	environment:AddActorObject(Actor_144H)
 
@@ -6190,6 +6766,7 @@ function InitMap(environment)
 	Actor_145.DisplayDesc.RotY = 0
 	Actor_145.DisplayDesc.RotZ = 0
 	Actor_145:SetModelState(1)
+	Actor_145.DisplayDesc.UseBillboard = false
 	Actor_145.PhysicDesc.Pos.X = 520
 	Actor_145.PhysicDesc.Pos.Y = 1.95313
 	Actor_145.PhysicDesc.Pos.Z = 515.5
@@ -6199,6 +6776,7 @@ function InitMap(environment)
 	Actor_145.PhysicDesc.SizeX = 0
 	Actor_145.PhysicDesc.SizeY = 0
 	Actor_145.PhysicDesc.SizeZ = 0
+	Actor_145.PhysicDesc.AllowFreeMove = true
 	Actor_145.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_61.phy"
 	Actor_145:SetPhysicalActorType(1)
 	Actor_145:SetPhysicalShape(5)
@@ -6206,6 +6784,8 @@ function InitMap(environment)
 	Actor_145.ExtraInfo.NameColorR = 0
 	Actor_145.ExtraInfo.NameColorG = 0
 	Actor_145.ExtraInfo.NameColorB = 0
+	Actor_145.ExtraInfo.Display = false
+	Actor_145.LifeInfo.Display = false
 	Actor_145H = ActorHandler(Actor_145)
 	environment:AddActorObject(Actor_145H)
 
@@ -6232,6 +6812,7 @@ function InitMap(environment)
 	Actor_146.DisplayDesc.RotY = 0
 	Actor_146.DisplayDesc.RotZ = 0
 	Actor_146:SetModelState(1)
+	Actor_146.DisplayDesc.UseBillboard = false
 	Actor_146.PhysicDesc.Pos.X = 521.5
 	Actor_146.PhysicDesc.Pos.Y = 4.81641
 	Actor_146.PhysicDesc.Pos.Z = 524.5
@@ -6241,6 +6822,7 @@ function InitMap(environment)
 	Actor_146.PhysicDesc.SizeX = 0
 	Actor_146.PhysicDesc.SizeY = 0
 	Actor_146.PhysicDesc.SizeZ = 0
+	Actor_146.PhysicDesc.AllowFreeMove = true
 	Actor_146.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_62.phy"
 	Actor_146:SetPhysicalActorType(1)
 	Actor_146:SetPhysicalShape(5)
@@ -6248,6 +6830,8 @@ function InitMap(environment)
 	Actor_146.ExtraInfo.NameColorR = 0
 	Actor_146.ExtraInfo.NameColorG = 0
 	Actor_146.ExtraInfo.NameColorB = 0
+	Actor_146.ExtraInfo.Display = false
+	Actor_146.LifeInfo.Display = false
 	Actor_146H = ActorHandler(Actor_146)
 	environment:AddActorObject(Actor_146H)
 
@@ -6274,6 +6858,7 @@ function InitMap(environment)
 	Actor_147.DisplayDesc.RotY = 0
 	Actor_147.DisplayDesc.RotZ = 0
 	Actor_147:SetModelState(1)
+	Actor_147.DisplayDesc.UseBillboard = false
 	Actor_147.PhysicDesc.Pos.X = 519.5
 	Actor_147.PhysicDesc.Pos.Y = 0.976563
 	Actor_147.PhysicDesc.Pos.Z = 538.5
@@ -6283,6 +6868,7 @@ function InitMap(environment)
 	Actor_147.PhysicDesc.SizeX = 0
 	Actor_147.PhysicDesc.SizeY = 0
 	Actor_147.PhysicDesc.SizeZ = 0
+	Actor_147.PhysicDesc.AllowFreeMove = true
 	Actor_147.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_58.phy"
 	Actor_147:SetPhysicalActorType(1)
 	Actor_147:SetPhysicalShape(5)
@@ -6290,6 +6876,8 @@ function InitMap(environment)
 	Actor_147.ExtraInfo.NameColorR = 0
 	Actor_147.ExtraInfo.NameColorG = 0
 	Actor_147.ExtraInfo.NameColorB = 0
+	Actor_147.ExtraInfo.Display = false
+	Actor_147.LifeInfo.Display = false
 	Actor_147H = ActorHandler(Actor_147)
 	environment:AddActorObject(Actor_147H)
 
@@ -6316,6 +6904,7 @@ function InitMap(environment)
 	Actor_148.DisplayDesc.RotY = 0
 	Actor_148.DisplayDesc.RotZ = 0
 	Actor_148:SetModelState(1)
+	Actor_148.DisplayDesc.UseBillboard = false
 	Actor_148.PhysicDesc.Pos.X = 519.25
 	Actor_148.PhysicDesc.Pos.Y = 3.83984
 	Actor_148.PhysicDesc.Pos.Z = 539.75
@@ -6325,6 +6914,7 @@ function InitMap(environment)
 	Actor_148.PhysicDesc.SizeX = 0
 	Actor_148.PhysicDesc.SizeY = 0
 	Actor_148.PhysicDesc.SizeZ = 0
+	Actor_148.PhysicDesc.AllowFreeMove = true
 	Actor_148.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_63.phy"
 	Actor_148:SetPhysicalActorType(1)
 	Actor_148:SetPhysicalShape(5)
@@ -6332,6 +6922,8 @@ function InitMap(environment)
 	Actor_148.ExtraInfo.NameColorR = 0
 	Actor_148.ExtraInfo.NameColorG = 0
 	Actor_148.ExtraInfo.NameColorB = 0
+	Actor_148.ExtraInfo.Display = false
+	Actor_148.LifeInfo.Display = false
 	Actor_148H = ActorHandler(Actor_148)
 	environment:AddActorObject(Actor_148H)
 
@@ -6358,6 +6950,7 @@ function InitMap(environment)
 	Actor_149.DisplayDesc.RotY = 0
 	Actor_149.DisplayDesc.RotZ = 0
 	Actor_149:SetModelState(1)
+	Actor_149.DisplayDesc.UseBillboard = false
 	Actor_149.PhysicDesc.Pos.X = 526.5
 	Actor_149.PhysicDesc.Pos.Y = 1.71094
 	Actor_149.PhysicDesc.Pos.Z = 520.625
@@ -6367,6 +6960,7 @@ function InitMap(environment)
 	Actor_149.PhysicDesc.SizeX = 0
 	Actor_149.PhysicDesc.SizeY = 0
 	Actor_149.PhysicDesc.SizeZ = 0
+	Actor_149.PhysicDesc.AllowFreeMove = true
 	Actor_149.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_64.phy"
 	Actor_149:SetPhysicalActorType(1)
 	Actor_149:SetPhysicalShape(5)
@@ -6374,6 +6968,8 @@ function InitMap(environment)
 	Actor_149.ExtraInfo.NameColorR = 0
 	Actor_149.ExtraInfo.NameColorG = 0
 	Actor_149.ExtraInfo.NameColorB = 0
+	Actor_149.ExtraInfo.Display = false
+	Actor_149.LifeInfo.Display = false
 	Actor_149H = ActorHandler(Actor_149)
 	environment:AddActorObject(Actor_149H)
 
@@ -6400,6 +6996,7 @@ function InitMap(environment)
 	Actor_150.DisplayDesc.RotY = 0
 	Actor_150.DisplayDesc.RotZ = 0
 	Actor_150:SetModelState(1)
+	Actor_150.DisplayDesc.UseBillboard = false
 	Actor_150.PhysicDesc.Pos.X = 539.5
 	Actor_150.PhysicDesc.Pos.Y = 17.75
 	Actor_150.PhysicDesc.Pos.Z = 488.508
@@ -6409,6 +7006,7 @@ function InitMap(environment)
 	Actor_150.PhysicDesc.SizeX = 0
 	Actor_150.PhysicDesc.SizeY = 0
 	Actor_150.PhysicDesc.SizeZ = 0
+	Actor_150.PhysicDesc.AllowFreeMove = true
 	Actor_150.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_65.phy"
 	Actor_150:SetPhysicalActorType(1)
 	Actor_150:SetPhysicalShape(5)
@@ -6416,6 +7014,8 @@ function InitMap(environment)
 	Actor_150.ExtraInfo.NameColorR = 0
 	Actor_150.ExtraInfo.NameColorG = 0
 	Actor_150.ExtraInfo.NameColorB = 0
+	Actor_150.ExtraInfo.Display = false
+	Actor_150.LifeInfo.Display = false
 	Actor_150H = ActorHandler(Actor_150)
 	environment:AddActorObject(Actor_150H)
 
@@ -6442,6 +7042,7 @@ function InitMap(environment)
 	Actor_151.DisplayDesc.RotY = 0
 	Actor_151.DisplayDesc.RotZ = 0
 	Actor_151:SetModelState(1)
+	Actor_151.DisplayDesc.UseBillboard = false
 	Actor_151.PhysicDesc.Pos.X = 524.5
 	Actor_151.PhysicDesc.Pos.Y = 1.95313
 	Actor_151.PhysicDesc.Pos.Z = 520.5
@@ -6451,6 +7052,7 @@ function InitMap(environment)
 	Actor_151.PhysicDesc.SizeX = 0
 	Actor_151.PhysicDesc.SizeY = 0
 	Actor_151.PhysicDesc.SizeZ = 0
+	Actor_151.PhysicDesc.AllowFreeMove = true
 	Actor_151.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_58.phy"
 	Actor_151:SetPhysicalActorType(1)
 	Actor_151:SetPhysicalShape(5)
@@ -6458,6 +7060,8 @@ function InitMap(environment)
 	Actor_151.ExtraInfo.NameColorR = 0
 	Actor_151.ExtraInfo.NameColorG = 0
 	Actor_151.ExtraInfo.NameColorB = 0
+	Actor_151.ExtraInfo.Display = false
+	Actor_151.LifeInfo.Display = false
 	Actor_151H = ActorHandler(Actor_151)
 	environment:AddActorObject(Actor_151H)
 
@@ -6484,6 +7088,7 @@ function InitMap(environment)
 	Actor_152.DisplayDesc.RotY = 0
 	Actor_152.DisplayDesc.RotZ = 0
 	Actor_152:SetModelState(1)
+	Actor_152.DisplayDesc.UseBillboard = false
 	Actor_152.PhysicDesc.Pos.X = 525
 	Actor_152.PhysicDesc.Pos.Y = 4.81641
 	Actor_152.PhysicDesc.Pos.Z = 521.375
@@ -6493,6 +7098,7 @@ function InitMap(environment)
 	Actor_152.PhysicDesc.SizeX = 0
 	Actor_152.PhysicDesc.SizeY = 0
 	Actor_152.PhysicDesc.SizeZ = 0
+	Actor_152.PhysicDesc.AllowFreeMove = true
 	Actor_152.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_66.phy"
 	Actor_152:SetPhysicalActorType(1)
 	Actor_152:SetPhysicalShape(5)
@@ -6500,6 +7106,8 @@ function InitMap(environment)
 	Actor_152.ExtraInfo.NameColorR = 0
 	Actor_152.ExtraInfo.NameColorG = 0
 	Actor_152.ExtraInfo.NameColorB = 0
+	Actor_152.ExtraInfo.Display = false
+	Actor_152.LifeInfo.Display = false
 	Actor_152H = ActorHandler(Actor_152)
 	environment:AddActorObject(Actor_152H)
 
@@ -6526,6 +7134,7 @@ function InitMap(environment)
 	Actor_153.DisplayDesc.RotY = 0
 	Actor_153.DisplayDesc.RotZ = 0
 	Actor_153:SetModelState(1)
+	Actor_153.DisplayDesc.UseBillboard = false
 	Actor_153.PhysicDesc.Pos.X = 519.5
 	Actor_153.PhysicDesc.Pos.Y = 3.83984
 	Actor_153.PhysicDesc.Pos.Z = 537.875
@@ -6535,6 +7144,7 @@ function InitMap(environment)
 	Actor_153.PhysicDesc.SizeX = 0
 	Actor_153.PhysicDesc.SizeY = 0
 	Actor_153.PhysicDesc.SizeZ = 0
+	Actor_153.PhysicDesc.AllowFreeMove = true
 	Actor_153.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_67.phy"
 	Actor_153:SetPhysicalActorType(1)
 	Actor_153:SetPhysicalShape(5)
@@ -6542,6 +7152,8 @@ function InitMap(environment)
 	Actor_153.ExtraInfo.NameColorR = 0
 	Actor_153.ExtraInfo.NameColorG = 0
 	Actor_153.ExtraInfo.NameColorB = 0
+	Actor_153.ExtraInfo.Display = false
+	Actor_153.LifeInfo.Display = false
 	Actor_153H = ActorHandler(Actor_153)
 	environment:AddActorObject(Actor_153H)
 
@@ -6568,6 +7180,7 @@ function InitMap(environment)
 	Actor_154.DisplayDesc.RotY = 0
 	Actor_154.DisplayDesc.RotZ = 0
 	Actor_154:SetModelState(1)
+	Actor_154.DisplayDesc.UseBillboard = false
 	Actor_154.PhysicDesc.Pos.X = 519.5
 	Actor_154.PhysicDesc.Pos.Y = 3.83984
 	Actor_154.PhysicDesc.Pos.Z = 537.875
@@ -6577,6 +7190,7 @@ function InitMap(environment)
 	Actor_154.PhysicDesc.SizeX = 0
 	Actor_154.PhysicDesc.SizeY = 0
 	Actor_154.PhysicDesc.SizeZ = 0
+	Actor_154.PhysicDesc.AllowFreeMove = true
 	Actor_154.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_68.phy"
 	Actor_154:SetPhysicalActorType(1)
 	Actor_154:SetPhysicalShape(5)
@@ -6584,6 +7198,8 @@ function InitMap(environment)
 	Actor_154.ExtraInfo.NameColorR = 0
 	Actor_154.ExtraInfo.NameColorG = 0
 	Actor_154.ExtraInfo.NameColorB = 0
+	Actor_154.ExtraInfo.Display = false
+	Actor_154.LifeInfo.Display = false
 	Actor_154H = ActorHandler(Actor_154)
 	environment:AddActorObject(Actor_154H)
 
@@ -6610,6 +7226,7 @@ function InitMap(environment)
 	Actor_155.DisplayDesc.RotY = 0
 	Actor_155.DisplayDesc.RotZ = 0
 	Actor_155:SetModelState(1)
+	Actor_155.DisplayDesc.UseBillboard = false
 	Actor_155.PhysicDesc.Pos.X = 523
 	Actor_155.PhysicDesc.Pos.Y = 4.87109
 	Actor_155.PhysicDesc.Pos.Z = 524.75
@@ -6619,6 +7236,7 @@ function InitMap(environment)
 	Actor_155.PhysicDesc.SizeX = 0
 	Actor_155.PhysicDesc.SizeY = 0
 	Actor_155.PhysicDesc.SizeZ = 0
+	Actor_155.PhysicDesc.AllowFreeMove = true
 	Actor_155.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_69.phy"
 	Actor_155:SetPhysicalActorType(1)
 	Actor_155:SetPhysicalShape(5)
@@ -6626,6 +7244,8 @@ function InitMap(environment)
 	Actor_155.ExtraInfo.NameColorR = 0
 	Actor_155.ExtraInfo.NameColorG = 0
 	Actor_155.ExtraInfo.NameColorB = 0
+	Actor_155.ExtraInfo.Display = false
+	Actor_155.LifeInfo.Display = false
 	Actor_155H = ActorHandler(Actor_155)
 	environment:AddActorObject(Actor_155H)
 
@@ -6652,6 +7272,7 @@ function InitMap(environment)
 	Actor_156.DisplayDesc.RotY = 0
 	Actor_156.DisplayDesc.RotZ = 0
 	Actor_156:SetModelState(1)
+	Actor_156.DisplayDesc.UseBillboard = false
 	Actor_156.PhysicDesc.Pos.X = 516.5
 	Actor_156.PhysicDesc.Pos.Y = 4.81641
 	Actor_156.PhysicDesc.Pos.Z = 525.5
@@ -6661,6 +7282,7 @@ function InitMap(environment)
 	Actor_156.PhysicDesc.SizeX = 0
 	Actor_156.PhysicDesc.SizeY = 0
 	Actor_156.PhysicDesc.SizeZ = 0
+	Actor_156.PhysicDesc.AllowFreeMove = true
 	Actor_156.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_70.phy"
 	Actor_156:SetPhysicalActorType(1)
 	Actor_156:SetPhysicalShape(5)
@@ -6668,6 +7290,8 @@ function InitMap(environment)
 	Actor_156.ExtraInfo.NameColorR = 0
 	Actor_156.ExtraInfo.NameColorG = 0
 	Actor_156.ExtraInfo.NameColorB = 0
+	Actor_156.ExtraInfo.Display = false
+	Actor_156.LifeInfo.Display = false
 	Actor_156H = ActorHandler(Actor_156)
 	environment:AddActorObject(Actor_156H)
 
@@ -6694,6 +7318,7 @@ function InitMap(environment)
 	Actor_157.DisplayDesc.RotY = 0
 	Actor_157.DisplayDesc.RotZ = 0
 	Actor_157:SetModelState(1)
+	Actor_157.DisplayDesc.UseBillboard = false
 	Actor_157.PhysicDesc.Pos.X = 517.625
 	Actor_157.PhysicDesc.Pos.Y = 4.81641
 	Actor_157.PhysicDesc.Pos.Z = 523.5
@@ -6703,6 +7328,7 @@ function InitMap(environment)
 	Actor_157.PhysicDesc.SizeX = 0
 	Actor_157.PhysicDesc.SizeY = 0
 	Actor_157.PhysicDesc.SizeZ = 0
+	Actor_157.PhysicDesc.AllowFreeMove = true
 	Actor_157.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_70.phy"
 	Actor_157:SetPhysicalActorType(1)
 	Actor_157:SetPhysicalShape(5)
@@ -6710,6 +7336,8 @@ function InitMap(environment)
 	Actor_157.ExtraInfo.NameColorR = 0
 	Actor_157.ExtraInfo.NameColorG = 0
 	Actor_157.ExtraInfo.NameColorB = 0
+	Actor_157.ExtraInfo.Display = false
+	Actor_157.LifeInfo.Display = false
 	Actor_157H = ActorHandler(Actor_157)
 	environment:AddActorObject(Actor_157H)
 
@@ -6736,6 +7364,7 @@ function InitMap(environment)
 	Actor_158.DisplayDesc.RotY = 0
 	Actor_158.DisplayDesc.RotZ = 0
 	Actor_158:SetModelState(1)
+	Actor_158.DisplayDesc.UseBillboard = false
 	Actor_158.PhysicDesc.Pos.X = 517.5
 	Actor_158.PhysicDesc.Pos.Y = 4.81641
 	Actor_158.PhysicDesc.Pos.Z = 525.125
@@ -6745,6 +7374,7 @@ function InitMap(environment)
 	Actor_158.PhysicDesc.SizeX = 0
 	Actor_158.PhysicDesc.SizeY = 0
 	Actor_158.PhysicDesc.SizeZ = 0
+	Actor_158.PhysicDesc.AllowFreeMove = true
 	Actor_158.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_71.phy"
 	Actor_158:SetPhysicalActorType(1)
 	Actor_158:SetPhysicalShape(5)
@@ -6752,6 +7382,8 @@ function InitMap(environment)
 	Actor_158.ExtraInfo.NameColorR = 0
 	Actor_158.ExtraInfo.NameColorG = 0
 	Actor_158.ExtraInfo.NameColorB = 0
+	Actor_158.ExtraInfo.Display = false
+	Actor_158.LifeInfo.Display = false
 	Actor_158H = ActorHandler(Actor_158)
 	environment:AddActorObject(Actor_158H)
 
@@ -6778,6 +7410,7 @@ function InitMap(environment)
 	Actor_159.DisplayDesc.RotY = 0
 	Actor_159.DisplayDesc.RotZ = 0
 	Actor_159:SetModelState(1)
+	Actor_159.DisplayDesc.UseBillboard = false
 	Actor_159.PhysicDesc.Pos.X = 518.5
 	Actor_159.PhysicDesc.Pos.Y = 4.81641
 	Actor_159.PhysicDesc.Pos.Z = 525.25
@@ -6787,6 +7420,7 @@ function InitMap(environment)
 	Actor_159.PhysicDesc.SizeX = 0
 	Actor_159.PhysicDesc.SizeY = 0
 	Actor_159.PhysicDesc.SizeZ = 0
+	Actor_159.PhysicDesc.AllowFreeMove = true
 	Actor_159.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_72.phy"
 	Actor_159:SetPhysicalActorType(1)
 	Actor_159:SetPhysicalShape(5)
@@ -6794,6 +7428,8 @@ function InitMap(environment)
 	Actor_159.ExtraInfo.NameColorR = 0
 	Actor_159.ExtraInfo.NameColorG = 0
 	Actor_159.ExtraInfo.NameColorB = 0
+	Actor_159.ExtraInfo.Display = false
+	Actor_159.LifeInfo.Display = false
 	Actor_159H = ActorHandler(Actor_159)
 	environment:AddActorObject(Actor_159H)
 
@@ -6820,6 +7456,7 @@ function InitMap(environment)
 	Actor_160.DisplayDesc.RotY = 0
 	Actor_160.DisplayDesc.RotZ = 0
 	Actor_160:SetModelState(1)
+	Actor_160.DisplayDesc.UseBillboard = false
 	Actor_160.PhysicDesc.Pos.X = 517.625
 	Actor_160.PhysicDesc.Pos.Y = 4.81641
 	Actor_160.PhysicDesc.Pos.Z = 524.25
@@ -6829,6 +7466,7 @@ function InitMap(environment)
 	Actor_160.PhysicDesc.SizeX = 0
 	Actor_160.PhysicDesc.SizeY = 0
 	Actor_160.PhysicDesc.SizeZ = 0
+	Actor_160.PhysicDesc.AllowFreeMove = true
 	Actor_160.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_73.phy"
 	Actor_160:SetPhysicalActorType(1)
 	Actor_160:SetPhysicalShape(5)
@@ -6836,6 +7474,8 @@ function InitMap(environment)
 	Actor_160.ExtraInfo.NameColorR = 0
 	Actor_160.ExtraInfo.NameColorG = 0
 	Actor_160.ExtraInfo.NameColorB = 0
+	Actor_160.ExtraInfo.Display = false
+	Actor_160.LifeInfo.Display = false
 	Actor_160H = ActorHandler(Actor_160)
 	environment:AddActorObject(Actor_160H)
 
@@ -6862,6 +7502,7 @@ function InitMap(environment)
 	Actor_161.DisplayDesc.RotY = 0
 	Actor_161.DisplayDesc.RotZ = 0
 	Actor_161:SetModelState(1)
+	Actor_161.DisplayDesc.UseBillboard = false
 	Actor_161.PhysicDesc.Pos.X = 524
 	Actor_161.PhysicDesc.Pos.Y = 4.81641
 	Actor_161.PhysicDesc.Pos.Z = 519.25
@@ -6871,6 +7512,7 @@ function InitMap(environment)
 	Actor_161.PhysicDesc.SizeX = 0
 	Actor_161.PhysicDesc.SizeY = 0
 	Actor_161.PhysicDesc.SizeZ = 0
+	Actor_161.PhysicDesc.AllowFreeMove = true
 	Actor_161.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_74.phy"
 	Actor_161:SetPhysicalActorType(1)
 	Actor_161:SetPhysicalShape(5)
@@ -6878,6 +7520,8 @@ function InitMap(environment)
 	Actor_161.ExtraInfo.NameColorR = 0
 	Actor_161.ExtraInfo.NameColorG = 0
 	Actor_161.ExtraInfo.NameColorB = 0
+	Actor_161.ExtraInfo.Display = false
+	Actor_161.LifeInfo.Display = false
 	Actor_161H = ActorHandler(Actor_161)
 	environment:AddActorObject(Actor_161H)
 
@@ -6904,6 +7548,7 @@ function InitMap(environment)
 	Actor_162.DisplayDesc.RotY = 0
 	Actor_162.DisplayDesc.RotZ = 0
 	Actor_162:SetModelState(1)
+	Actor_162.DisplayDesc.UseBillboard = false
 	Actor_162.PhysicDesc.Pos.X = 523.5
 	Actor_162.PhysicDesc.Pos.Y = 4.81641
 	Actor_162.PhysicDesc.Pos.Z = 520.5
@@ -6913,6 +7558,7 @@ function InitMap(environment)
 	Actor_162.PhysicDesc.SizeX = 0
 	Actor_162.PhysicDesc.SizeY = 0
 	Actor_162.PhysicDesc.SizeZ = 0
+	Actor_162.PhysicDesc.AllowFreeMove = true
 	Actor_162.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_72.phy"
 	Actor_162:SetPhysicalActorType(1)
 	Actor_162:SetPhysicalShape(5)
@@ -6920,6 +7566,8 @@ function InitMap(environment)
 	Actor_162.ExtraInfo.NameColorR = 0
 	Actor_162.ExtraInfo.NameColorG = 0
 	Actor_162.ExtraInfo.NameColorB = 0
+	Actor_162.ExtraInfo.Display = false
+	Actor_162.LifeInfo.Display = false
 	Actor_162H = ActorHandler(Actor_162)
 	environment:AddActorObject(Actor_162H)
 
@@ -6946,6 +7594,7 @@ function InitMap(environment)
 	Actor_163.DisplayDesc.RotY = 0
 	Actor_163.DisplayDesc.RotZ = 0
 	Actor_163:SetModelState(1)
+	Actor_163.DisplayDesc.UseBillboard = false
 	Actor_163.PhysicDesc.Pos.X = 523.5
 	Actor_163.PhysicDesc.Pos.Y = 4.81641
 	Actor_163.PhysicDesc.Pos.Z = 521.375
@@ -6955,6 +7604,7 @@ function InitMap(environment)
 	Actor_163.PhysicDesc.SizeX = 0
 	Actor_163.PhysicDesc.SizeY = 0
 	Actor_163.PhysicDesc.SizeZ = 0
+	Actor_163.PhysicDesc.AllowFreeMove = true
 	Actor_163.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_60.phy"
 	Actor_163:SetPhysicalActorType(1)
 	Actor_163:SetPhysicalShape(5)
@@ -6962,6 +7612,8 @@ function InitMap(environment)
 	Actor_163.ExtraInfo.NameColorR = 0
 	Actor_163.ExtraInfo.NameColorG = 0
 	Actor_163.ExtraInfo.NameColorB = 0
+	Actor_163.ExtraInfo.Display = false
+	Actor_163.LifeInfo.Display = false
 	Actor_163H = ActorHandler(Actor_163)
 	environment:AddActorObject(Actor_163H)
 
@@ -6988,6 +7640,7 @@ function InitMap(environment)
 	Actor_164.DisplayDesc.RotY = 0
 	Actor_164.DisplayDesc.RotZ = 0
 	Actor_164:SetModelState(1)
+	Actor_164.DisplayDesc.UseBillboard = false
 	Actor_164.PhysicDesc.Pos.X = 523.75
 	Actor_164.PhysicDesc.Pos.Y = 4.81641
 	Actor_164.PhysicDesc.Pos.Z = 520.875
@@ -6997,6 +7650,7 @@ function InitMap(environment)
 	Actor_164.PhysicDesc.SizeX = 0
 	Actor_164.PhysicDesc.SizeY = 0
 	Actor_164.PhysicDesc.SizeZ = 0
+	Actor_164.PhysicDesc.AllowFreeMove = true
 	Actor_164.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_60.phy"
 	Actor_164:SetPhysicalActorType(1)
 	Actor_164:SetPhysicalShape(5)
@@ -7004,6 +7658,8 @@ function InitMap(environment)
 	Actor_164.ExtraInfo.NameColorR = 0
 	Actor_164.ExtraInfo.NameColorG = 0
 	Actor_164.ExtraInfo.NameColorB = 0
+	Actor_164.ExtraInfo.Display = false
+	Actor_164.LifeInfo.Display = false
 	Actor_164H = ActorHandler(Actor_164)
 	environment:AddActorObject(Actor_164H)
 
@@ -7030,6 +7686,7 @@ function InitMap(environment)
 	Actor_165.DisplayDesc.RotY = 0
 	Actor_165.DisplayDesc.RotZ = 0
 	Actor_165:SetModelState(1)
+	Actor_165.DisplayDesc.UseBillboard = false
 	Actor_165.PhysicDesc.Pos.X = 523.875
 	Actor_165.PhysicDesc.Pos.Y = 4.81641
 	Actor_165.PhysicDesc.Pos.Z = 523.875
@@ -7039,6 +7696,7 @@ function InitMap(environment)
 	Actor_165.PhysicDesc.SizeX = 0
 	Actor_165.PhysicDesc.SizeY = 0
 	Actor_165.PhysicDesc.SizeZ = 0
+	Actor_165.PhysicDesc.AllowFreeMove = true
 	Actor_165.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_75.phy"
 	Actor_165:SetPhysicalActorType(1)
 	Actor_165:SetPhysicalShape(5)
@@ -7046,6 +7704,8 @@ function InitMap(environment)
 	Actor_165.ExtraInfo.NameColorR = 0
 	Actor_165.ExtraInfo.NameColorG = 0
 	Actor_165.ExtraInfo.NameColorB = 0
+	Actor_165.ExtraInfo.Display = false
+	Actor_165.LifeInfo.Display = false
 	Actor_165H = ActorHandler(Actor_165)
 	environment:AddActorObject(Actor_165H)
 
@@ -7072,6 +7732,7 @@ function InitMap(environment)
 	Actor_166.DisplayDesc.RotY = 0
 	Actor_166.DisplayDesc.RotZ = 0
 	Actor_166:SetModelState(1)
+	Actor_166.DisplayDesc.UseBillboard = false
 	Actor_166.PhysicDesc.Pos.X = 518.5
 	Actor_166.PhysicDesc.Pos.Y = 3.83984
 	Actor_166.PhysicDesc.Pos.Z = 540
@@ -7081,6 +7742,7 @@ function InitMap(environment)
 	Actor_166.PhysicDesc.SizeX = 0
 	Actor_166.PhysicDesc.SizeY = 0
 	Actor_166.PhysicDesc.SizeZ = 0
+	Actor_166.PhysicDesc.AllowFreeMove = true
 	Actor_166.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_70.phy"
 	Actor_166:SetPhysicalActorType(1)
 	Actor_166:SetPhysicalShape(5)
@@ -7088,6 +7750,8 @@ function InitMap(environment)
 	Actor_166.ExtraInfo.NameColorR = 0
 	Actor_166.ExtraInfo.NameColorG = 0
 	Actor_166.ExtraInfo.NameColorB = 0
+	Actor_166.ExtraInfo.Display = false
+	Actor_166.LifeInfo.Display = false
 	Actor_166H = ActorHandler(Actor_166)
 	environment:AddActorObject(Actor_166H)
 
@@ -7114,6 +7778,7 @@ function InitMap(environment)
 	Actor_167.DisplayDesc.RotY = 0
 	Actor_167.DisplayDesc.RotZ = 0
 	Actor_167:SetModelState(1)
+	Actor_167.DisplayDesc.UseBillboard = false
 	Actor_167.PhysicDesc.Pos.X = 520.5
 	Actor_167.PhysicDesc.Pos.Y = 3.83984
 	Actor_167.PhysicDesc.Pos.Z = 539.25
@@ -7123,6 +7788,7 @@ function InitMap(environment)
 	Actor_167.PhysicDesc.SizeX = 0
 	Actor_167.PhysicDesc.SizeY = 0
 	Actor_167.PhysicDesc.SizeZ = 0
+	Actor_167.PhysicDesc.AllowFreeMove = true
 	Actor_167.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_70.phy"
 	Actor_167:SetPhysicalActorType(1)
 	Actor_167:SetPhysicalShape(5)
@@ -7130,6 +7796,8 @@ function InitMap(environment)
 	Actor_167.ExtraInfo.NameColorR = 0
 	Actor_167.ExtraInfo.NameColorG = 0
 	Actor_167.ExtraInfo.NameColorB = 0
+	Actor_167.ExtraInfo.Display = false
+	Actor_167.LifeInfo.Display = false
 	Actor_167H = ActorHandler(Actor_167)
 	environment:AddActorObject(Actor_167H)
 
@@ -7156,6 +7824,7 @@ function InitMap(environment)
 	Actor_168.DisplayDesc.RotY = 0
 	Actor_168.DisplayDesc.RotZ = 0
 	Actor_168:SetModelState(1)
+	Actor_168.DisplayDesc.UseBillboard = false
 	Actor_168.PhysicDesc.Pos.X = 506.5
 	Actor_168.PhysicDesc.Pos.Y = 0.976563
 	Actor_168.PhysicDesc.Pos.Z = 534.5
@@ -7165,6 +7834,7 @@ function InitMap(environment)
 	Actor_168.PhysicDesc.SizeX = 0
 	Actor_168.PhysicDesc.SizeY = 0
 	Actor_168.PhysicDesc.SizeZ = 0
+	Actor_168.PhysicDesc.AllowFreeMove = true
 	Actor_168.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_76.phy"
 	Actor_168:SetPhysicalActorType(1)
 	Actor_168:SetPhysicalShape(5)
@@ -7172,6 +7842,8 @@ function InitMap(environment)
 	Actor_168.ExtraInfo.NameColorR = 0
 	Actor_168.ExtraInfo.NameColorG = 0
 	Actor_168.ExtraInfo.NameColorB = 0
+	Actor_168.ExtraInfo.Display = false
+	Actor_168.LifeInfo.Display = false
 	Actor_168H = ActorHandler(Actor_168)
 	environment:AddActorObject(Actor_168H)
 
@@ -7198,6 +7870,7 @@ function InitMap(environment)
 	Actor_169.DisplayDesc.RotY = 0
 	Actor_169.DisplayDesc.RotZ = 0
 	Actor_169:SetModelState(1)
+	Actor_169.DisplayDesc.UseBillboard = false
 	Actor_169.PhysicDesc.Pos.X = 519.5
 	Actor_169.PhysicDesc.Pos.Y = 0.976563
 	Actor_169.PhysicDesc.Pos.Z = 542.5
@@ -7207,6 +7880,7 @@ function InitMap(environment)
 	Actor_169.PhysicDesc.SizeX = 0
 	Actor_169.PhysicDesc.SizeY = 0
 	Actor_169.PhysicDesc.SizeZ = 0
+	Actor_169.PhysicDesc.AllowFreeMove = true
 	Actor_169.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_58.phy"
 	Actor_169:SetPhysicalActorType(1)
 	Actor_169:SetPhysicalShape(5)
@@ -7214,6 +7888,8 @@ function InitMap(environment)
 	Actor_169.ExtraInfo.NameColorR = 0
 	Actor_169.ExtraInfo.NameColorG = 0
 	Actor_169.ExtraInfo.NameColorB = 0
+	Actor_169.ExtraInfo.Display = false
+	Actor_169.LifeInfo.Display = false
 	Actor_169H = ActorHandler(Actor_169)
 	environment:AddActorObject(Actor_169H)
 
@@ -7240,6 +7916,7 @@ function InitMap(environment)
 	Actor_170.DisplayDesc.RotY = 0
 	Actor_170.DisplayDesc.RotZ = 0
 	Actor_170:SetModelState(1)
+	Actor_170.DisplayDesc.UseBillboard = false
 	Actor_170.PhysicDesc.Pos.X = 518.5
 	Actor_170.PhysicDesc.Pos.Y = 3.89453
 	Actor_170.PhysicDesc.Pos.Z = 542.5
@@ -7249,6 +7926,7 @@ function InitMap(environment)
 	Actor_170.PhysicDesc.SizeX = 0
 	Actor_170.PhysicDesc.SizeY = 0
 	Actor_170.PhysicDesc.SizeZ = 0
+	Actor_170.PhysicDesc.AllowFreeMove = true
 	Actor_170.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_69.phy"
 	Actor_170:SetPhysicalActorType(1)
 	Actor_170:SetPhysicalShape(5)
@@ -7256,6 +7934,8 @@ function InitMap(environment)
 	Actor_170.ExtraInfo.NameColorR = 0
 	Actor_170.ExtraInfo.NameColorG = 0
 	Actor_170.ExtraInfo.NameColorB = 0
+	Actor_170.ExtraInfo.Display = false
+	Actor_170.LifeInfo.Display = false
 	Actor_170H = ActorHandler(Actor_170)
 	environment:AddActorObject(Actor_170H)
 
@@ -7282,6 +7962,7 @@ function InitMap(environment)
 	Actor_171.DisplayDesc.RotY = 0
 	Actor_171.DisplayDesc.RotZ = 0
 	Actor_171:SetModelState(1)
+	Actor_171.DisplayDesc.UseBillboard = false
 	Actor_171.PhysicDesc.Pos.X = 519.5
 	Actor_171.PhysicDesc.Pos.Y = 3.83984
 	Actor_171.PhysicDesc.Pos.Z = 541.5
@@ -7291,6 +7972,7 @@ function InitMap(environment)
 	Actor_171.PhysicDesc.SizeX = 0
 	Actor_171.PhysicDesc.SizeY = 0
 	Actor_171.PhysicDesc.SizeZ = 0
+	Actor_171.PhysicDesc.AllowFreeMove = true
 	Actor_171.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_70.phy"
 	Actor_171:SetPhysicalActorType(1)
 	Actor_171:SetPhysicalShape(5)
@@ -7298,6 +7980,8 @@ function InitMap(environment)
 	Actor_171.ExtraInfo.NameColorR = 0
 	Actor_171.ExtraInfo.NameColorG = 0
 	Actor_171.ExtraInfo.NameColorB = 0
+	Actor_171.ExtraInfo.Display = false
+	Actor_171.LifeInfo.Display = false
 	Actor_171H = ActorHandler(Actor_171)
 	environment:AddActorObject(Actor_171H)
 
@@ -7324,6 +8008,7 @@ function InitMap(environment)
 	Actor_172.DisplayDesc.RotY = 0
 	Actor_172.DisplayDesc.RotZ = 0
 	Actor_172:SetModelState(1)
+	Actor_172.DisplayDesc.UseBillboard = false
 	Actor_172.PhysicDesc.Pos.X = 519.5
 	Actor_172.PhysicDesc.Pos.Y = 3.83984
 	Actor_172.PhysicDesc.Pos.Z = 542.375
@@ -7333,6 +8018,7 @@ function InitMap(environment)
 	Actor_172.PhysicDesc.SizeX = 0
 	Actor_172.PhysicDesc.SizeY = 0
 	Actor_172.PhysicDesc.SizeZ = 0
+	Actor_172.PhysicDesc.AllowFreeMove = true
 	Actor_172.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_75.phy"
 	Actor_172:SetPhysicalActorType(1)
 	Actor_172:SetPhysicalShape(5)
@@ -7340,6 +8026,8 @@ function InitMap(environment)
 	Actor_172.ExtraInfo.NameColorR = 0
 	Actor_172.ExtraInfo.NameColorG = 0
 	Actor_172.ExtraInfo.NameColorB = 0
+	Actor_172.ExtraInfo.Display = false
+	Actor_172.LifeInfo.Display = false
 	Actor_172H = ActorHandler(Actor_172)
 	environment:AddActorObject(Actor_172H)
 
@@ -7366,6 +8054,7 @@ function InitMap(environment)
 	Actor_173.DisplayDesc.RotY = 0
 	Actor_173.DisplayDesc.RotZ = 0
 	Actor_173:SetModelState(1)
+	Actor_173.DisplayDesc.UseBillboard = false
 	Actor_173.PhysicDesc.Pos.X = 520.25
 	Actor_173.PhysicDesc.Pos.Y = 3.83984
 	Actor_173.PhysicDesc.Pos.Z = 541.5
@@ -7375,6 +8064,7 @@ function InitMap(environment)
 	Actor_173.PhysicDesc.SizeX = 1.82609e-031
 	Actor_173.PhysicDesc.SizeY = 0
 	Actor_173.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_173.PhysicDesc.AllowFreeMove = true
 	Actor_173.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_60.phy"
 	Actor_173:SetPhysicalActorType(1)
 	Actor_173:SetPhysicalShape(5)
@@ -7382,6 +8072,8 @@ function InitMap(environment)
 	Actor_173.ExtraInfo.NameColorR = 0
 	Actor_173.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_173.ExtraInfo.NameColorB = 0
+	Actor_173.ExtraInfo.Display = false
+	Actor_173.LifeInfo.Display = false
 	Actor_173H = ActorHandler(Actor_173)
 	environment:AddActorObject(Actor_173H)
 
@@ -7408,6 +8100,7 @@ function InitMap(environment)
 	Actor_174.DisplayDesc.RotY = 0
 	Actor_174.DisplayDesc.RotZ = 0
 	Actor_174:SetModelState(1)
+	Actor_174.DisplayDesc.UseBillboard = false
 	Actor_174.PhysicDesc.Pos.X = 521
 	Actor_174.PhysicDesc.Pos.Y = 3.83984
 	Actor_174.PhysicDesc.Pos.Z = 541.875
@@ -7417,6 +8110,7 @@ function InitMap(environment)
 	Actor_174.PhysicDesc.SizeX = 1.83572e-031
 	Actor_174.PhysicDesc.SizeY = 0
 	Actor_174.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_174.PhysicDesc.AllowFreeMove = true
 	Actor_174.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_60.phy"
 	Actor_174:SetPhysicalActorType(1)
 	Actor_174:SetPhysicalShape(5)
@@ -7424,6 +8118,8 @@ function InitMap(environment)
 	Actor_174.ExtraInfo.NameColorR = 0
 	Actor_174.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_174.ExtraInfo.NameColorB = 0
+	Actor_174.ExtraInfo.Display = false
+	Actor_174.LifeInfo.Display = false
 	Actor_174H = ActorHandler(Actor_174)
 	environment:AddActorObject(Actor_174H)
 
@@ -7450,6 +8146,7 @@ function InitMap(environment)
 	Actor_175.DisplayDesc.RotY = 0
 	Actor_175.DisplayDesc.RotZ = 0
 	Actor_175:SetModelState(1)
+	Actor_175.DisplayDesc.UseBillboard = false
 	Actor_175.PhysicDesc.Pos.X = 518.625
 	Actor_175.PhysicDesc.Pos.Y = 3.83984
 	Actor_175.PhysicDesc.Pos.Z = 543.25
@@ -7459,6 +8156,7 @@ function InitMap(environment)
 	Actor_175.PhysicDesc.SizeX = 1.83188e-031
 	Actor_175.PhysicDesc.SizeY = 0
 	Actor_175.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_175.PhysicDesc.AllowFreeMove = true
 	Actor_175.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_60.phy"
 	Actor_175:SetPhysicalActorType(1)
 	Actor_175:SetPhysicalShape(5)
@@ -7466,6 +8164,8 @@ function InitMap(environment)
 	Actor_175.ExtraInfo.NameColorR = 0
 	Actor_175.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_175.ExtraInfo.NameColorB = 0
+	Actor_175.ExtraInfo.Display = false
+	Actor_175.LifeInfo.Display = false
 	Actor_175H = ActorHandler(Actor_175)
 	environment:AddActorObject(Actor_175H)
 
@@ -7492,6 +8192,7 @@ function InitMap(environment)
 	Actor_176.DisplayDesc.RotY = 0
 	Actor_176.DisplayDesc.RotZ = 0
 	Actor_176:SetModelState(1)
+	Actor_176.DisplayDesc.UseBillboard = false
 	Actor_176.PhysicDesc.Pos.X = 504.75
 	Actor_176.PhysicDesc.Pos.Y = 5.73828
 	Actor_176.PhysicDesc.Pos.Z = 499.75
@@ -7501,6 +8202,7 @@ function InitMap(environment)
 	Actor_176.PhysicDesc.SizeX = 1.82419e-031
 	Actor_176.PhysicDesc.SizeY = 0
 	Actor_176.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_176.PhysicDesc.AllowFreeMove = true
 	Actor_176.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_77.phy"
 	Actor_176:SetPhysicalActorType(1)
 	Actor_176:SetPhysicalShape(5)
@@ -7508,6 +8210,8 @@ function InitMap(environment)
 	Actor_176.ExtraInfo.NameColorR = 0
 	Actor_176.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_176.ExtraInfo.NameColorB = 0
+	Actor_176.ExtraInfo.Display = false
+	Actor_176.LifeInfo.Display = false
 	Actor_176H = ActorHandler(Actor_176)
 	environment:AddActorObject(Actor_176H)
 
@@ -7534,6 +8238,7 @@ function InitMap(environment)
 	Actor_177.DisplayDesc.RotY = 0
 	Actor_177.DisplayDesc.RotZ = 0
 	Actor_177:SetModelState(1)
+	Actor_177.DisplayDesc.UseBillboard = false
 	Actor_177.PhysicDesc.Pos.X = 508.5
 	Actor_177.PhysicDesc.Pos.Y = 5.73828
 	Actor_177.PhysicDesc.Pos.Z = 499.75
@@ -7543,6 +8248,7 @@ function InitMap(environment)
 	Actor_177.PhysicDesc.SizeX = 1.82339e-031
 	Actor_177.PhysicDesc.SizeY = 0
 	Actor_177.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_177.PhysicDesc.AllowFreeMove = true
 	Actor_177.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_77.phy"
 	Actor_177:SetPhysicalActorType(1)
 	Actor_177:SetPhysicalShape(5)
@@ -7550,6 +8256,8 @@ function InitMap(environment)
 	Actor_177.ExtraInfo.NameColorR = 0
 	Actor_177.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_177.ExtraInfo.NameColorB = 0
+	Actor_177.ExtraInfo.Display = false
+	Actor_177.LifeInfo.Display = false
 	Actor_177H = ActorHandler(Actor_177)
 	environment:AddActorObject(Actor_177H)
 
@@ -7576,6 +8284,7 @@ function InitMap(environment)
 	Actor_178.DisplayDesc.RotY = 0
 	Actor_178.DisplayDesc.RotZ = 0
 	Actor_178:SetModelState(1)
+	Actor_178.DisplayDesc.UseBillboard = false
 	Actor_178.PhysicDesc.Pos.X = 512
 	Actor_178.PhysicDesc.Pos.Y = 5.73828
 	Actor_178.PhysicDesc.Pos.Z = 499.75
@@ -7585,6 +8294,7 @@ function InitMap(environment)
 	Actor_178.PhysicDesc.SizeX = 1.82613e-031
 	Actor_178.PhysicDesc.SizeY = 0
 	Actor_178.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_178.PhysicDesc.AllowFreeMove = true
 	Actor_178.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_77.phy"
 	Actor_178:SetPhysicalActorType(1)
 	Actor_178:SetPhysicalShape(5)
@@ -7592,6 +8302,8 @@ function InitMap(environment)
 	Actor_178.ExtraInfo.NameColorR = 0
 	Actor_178.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_178.ExtraInfo.NameColorB = 0
+	Actor_178.ExtraInfo.Display = false
+	Actor_178.LifeInfo.Display = false
 	Actor_178H = ActorHandler(Actor_178)
 	environment:AddActorObject(Actor_178H)
 
@@ -7618,6 +8330,7 @@ function InitMap(environment)
 	Actor_179.DisplayDesc.RotY = 0
 	Actor_179.DisplayDesc.RotZ = 0
 	Actor_179:SetModelState(1)
+	Actor_179.DisplayDesc.UseBillboard = false
 	Actor_179.PhysicDesc.Pos.X = 506.75
 	Actor_179.PhysicDesc.Pos.Y = 3.375
 	Actor_179.PhysicDesc.Pos.Z = 499.875
@@ -7627,6 +8340,7 @@ function InitMap(environment)
 	Actor_179.PhysicDesc.SizeX = 1.83658e-031
 	Actor_179.PhysicDesc.SizeY = 0
 	Actor_179.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_179.PhysicDesc.AllowFreeMove = true
 	Actor_179.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_78.phy"
 	Actor_179:SetPhysicalActorType(1)
 	Actor_179:SetPhysicalShape(5)
@@ -7634,6 +8348,8 @@ function InitMap(environment)
 	Actor_179.ExtraInfo.NameColorR = 0
 	Actor_179.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_179.ExtraInfo.NameColorB = 0
+	Actor_179.ExtraInfo.Display = false
+	Actor_179.LifeInfo.Display = false
 	Actor_179H = ActorHandler(Actor_179)
 	environment:AddActorObject(Actor_179H)
 
@@ -7660,6 +8376,7 @@ function InitMap(environment)
 	Actor_180.DisplayDesc.RotY = 0
 	Actor_180.DisplayDesc.RotZ = 0
 	Actor_180:SetModelState(1)
+	Actor_180.DisplayDesc.UseBillboard = false
 	Actor_180.PhysicDesc.Pos.X = 510.25
 	Actor_180.PhysicDesc.Pos.Y = 3.375
 	Actor_180.PhysicDesc.Pos.Z = 499.875
@@ -7669,6 +8386,7 @@ function InitMap(environment)
 	Actor_180.PhysicDesc.SizeX = 1.79594e-031
 	Actor_180.PhysicDesc.SizeY = 0
 	Actor_180.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_180.PhysicDesc.AllowFreeMove = true
 	Actor_180.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_78.phy"
 	Actor_180:SetPhysicalActorType(1)
 	Actor_180:SetPhysicalShape(5)
@@ -7676,6 +8394,8 @@ function InitMap(environment)
 	Actor_180.ExtraInfo.NameColorR = 0
 	Actor_180.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_180.ExtraInfo.NameColorB = 0
+	Actor_180.ExtraInfo.Display = false
+	Actor_180.LifeInfo.Display = false
 	Actor_180H = ActorHandler(Actor_180)
 	environment:AddActorObject(Actor_180H)
 
@@ -7702,6 +8422,7 @@ function InitMap(environment)
 	Actor_181.DisplayDesc.RotY = 0
 	Actor_181.DisplayDesc.RotZ = 0
 	Actor_181:SetModelState(1)
+	Actor_181.DisplayDesc.UseBillboard = false
 	Actor_181.PhysicDesc.Pos.X = 513.875
 	Actor_181.PhysicDesc.Pos.Y = 3.375
 	Actor_181.PhysicDesc.Pos.Z = 499.875
@@ -7711,6 +8432,7 @@ function InitMap(environment)
 	Actor_181.PhysicDesc.SizeX = 1.83441e-031
 	Actor_181.PhysicDesc.SizeY = 0
 	Actor_181.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_181.PhysicDesc.AllowFreeMove = true
 	Actor_181.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_78.phy"
 	Actor_181:SetPhysicalActorType(1)
 	Actor_181:SetPhysicalShape(5)
@@ -7718,6 +8440,8 @@ function InitMap(environment)
 	Actor_181.ExtraInfo.NameColorR = 0
 	Actor_181.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_181.ExtraInfo.NameColorB = 0
+	Actor_181.ExtraInfo.Display = false
+	Actor_181.LifeInfo.Display = false
 	Actor_181H = ActorHandler(Actor_181)
 	environment:AddActorObject(Actor_181H)
 
@@ -7744,6 +8468,7 @@ function InitMap(environment)
 	Actor_182.DisplayDesc.RotY = 0
 	Actor_182.DisplayDesc.RotZ = 0
 	Actor_182:SetModelState(1)
+	Actor_182.DisplayDesc.UseBillboard = false
 	Actor_182.PhysicDesc.Pos.X = 502.875
 	Actor_182.PhysicDesc.Pos.Y = 3.375
 	Actor_182.PhysicDesc.Pos.Z = 499.875
@@ -7753,6 +8478,7 @@ function InitMap(environment)
 	Actor_182.PhysicDesc.SizeX = 1.76648e-031
 	Actor_182.PhysicDesc.SizeY = 0
 	Actor_182.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_182.PhysicDesc.AllowFreeMove = true
 	Actor_182.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_78.phy"
 	Actor_182:SetPhysicalActorType(1)
 	Actor_182:SetPhysicalShape(5)
@@ -7760,6 +8486,8 @@ function InitMap(environment)
 	Actor_182.ExtraInfo.NameColorR = 0
 	Actor_182.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_182.ExtraInfo.NameColorB = 0
+	Actor_182.ExtraInfo.Display = false
+	Actor_182.LifeInfo.Display = false
 	Actor_182H = ActorHandler(Actor_182)
 	environment:AddActorObject(Actor_182H)
 
@@ -7786,6 +8514,7 @@ function InitMap(environment)
 	Actor_183.DisplayDesc.RotY = 0
 	Actor_183.DisplayDesc.RotZ = 0
 	Actor_183:SetModelState(1)
+	Actor_183.DisplayDesc.UseBillboard = false
 	Actor_183.PhysicDesc.Pos.X = 515.514
 	Actor_183.PhysicDesc.Pos.Y = 5.73828
 	Actor_183.PhysicDesc.Pos.Z = 499.75
@@ -7795,6 +8524,7 @@ function InitMap(environment)
 	Actor_183.PhysicDesc.SizeX = 1.82617e-031
 	Actor_183.PhysicDesc.SizeY = 0
 	Actor_183.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_183.PhysicDesc.AllowFreeMove = true
 	Actor_183.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_77.phy"
 	Actor_183:SetPhysicalActorType(1)
 	Actor_183:SetPhysicalShape(5)
@@ -7802,6 +8532,8 @@ function InitMap(environment)
 	Actor_183.ExtraInfo.NameColorR = 0
 	Actor_183.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_183.ExtraInfo.NameColorB = 0
+	Actor_183.ExtraInfo.Display = false
+	Actor_183.LifeInfo.Display = false
 	Actor_183H = ActorHandler(Actor_183)
 	environment:AddActorObject(Actor_183H)
 
@@ -7828,6 +8560,7 @@ function InitMap(environment)
 	Actor_184.DisplayDesc.RotY = 0
 	Actor_184.DisplayDesc.RotZ = 0
 	Actor_184:SetModelState(1)
+	Actor_184.DisplayDesc.UseBillboard = false
 	Actor_184.PhysicDesc.Pos.X = 501.25
 	Actor_184.PhysicDesc.Pos.Y = 5.73828
 	Actor_184.PhysicDesc.Pos.Z = 499.625
@@ -7837,6 +8570,7 @@ function InitMap(environment)
 	Actor_184.PhysicDesc.SizeX = 1.8314e-031
 	Actor_184.PhysicDesc.SizeY = 0
 	Actor_184.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_184.PhysicDesc.AllowFreeMove = true
 	Actor_184.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_77.phy"
 	Actor_184:SetPhysicalActorType(1)
 	Actor_184:SetPhysicalShape(5)
@@ -7844,6 +8578,8 @@ function InitMap(environment)
 	Actor_184.ExtraInfo.NameColorR = 0
 	Actor_184.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_184.ExtraInfo.NameColorB = 0
+	Actor_184.ExtraInfo.Display = false
+	Actor_184.LifeInfo.Display = false
 	Actor_184H = ActorHandler(Actor_184)
 	environment:AddActorObject(Actor_184H)
 
@@ -7870,6 +8606,7 @@ function InitMap(environment)
 	Actor_185.DisplayDesc.RotY = 0
 	Actor_185.DisplayDesc.RotZ = 0
 	Actor_185:SetModelState(1)
+	Actor_185.DisplayDesc.UseBillboard = false
 	Actor_185.PhysicDesc.Pos.X = 521.5
 	Actor_185.PhysicDesc.Pos.Y = 3.17578
 	Actor_185.PhysicDesc.Pos.Z = 505.75
@@ -7879,6 +8616,7 @@ function InitMap(environment)
 	Actor_185.PhysicDesc.SizeX = 1.79215e-031
 	Actor_185.PhysicDesc.SizeY = 0
 	Actor_185.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_185.PhysicDesc.AllowFreeMove = true
 	Actor_185.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_78.phy"
 	Actor_185:SetPhysicalActorType(1)
 	Actor_185:SetPhysicalShape(5)
@@ -7886,6 +8624,8 @@ function InitMap(environment)
 	Actor_185.ExtraInfo.NameColorR = 0
 	Actor_185.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_185.ExtraInfo.NameColorB = 0
+	Actor_185.ExtraInfo.Display = false
+	Actor_185.LifeInfo.Display = false
 	Actor_185H = ActorHandler(Actor_185)
 	environment:AddActorObject(Actor_185H)
 
@@ -7912,6 +8652,7 @@ function InitMap(environment)
 	Actor_186.DisplayDesc.RotY = 0
 	Actor_186.DisplayDesc.RotZ = 0
 	Actor_186:SetModelState(1)
+	Actor_186.DisplayDesc.UseBillboard = false
 	Actor_186.PhysicDesc.Pos.X = 523.25
 	Actor_186.PhysicDesc.Pos.Y = 5.66406
 	Actor_186.PhysicDesc.Pos.Z = 505.625
@@ -7921,6 +8662,7 @@ function InitMap(environment)
 	Actor_186.PhysicDesc.SizeX = 1.82289e-031
 	Actor_186.PhysicDesc.SizeY = 0
 	Actor_186.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_186.PhysicDesc.AllowFreeMove = true
 	Actor_186.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_77.phy"
 	Actor_186:SetPhysicalActorType(1)
 	Actor_186:SetPhysicalShape(5)
@@ -7928,6 +8670,8 @@ function InitMap(environment)
 	Actor_186.ExtraInfo.NameColorR = 0
 	Actor_186.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_186.ExtraInfo.NameColorB = 0
+	Actor_186.ExtraInfo.Display = false
+	Actor_186.LifeInfo.Display = false
 	Actor_186H = ActorHandler(Actor_186)
 	environment:AddActorObject(Actor_186H)
 
@@ -7954,6 +8698,7 @@ function InitMap(environment)
 	Actor_187.DisplayDesc.RotY = 0
 	Actor_187.DisplayDesc.RotZ = 0
 	Actor_187:SetModelState(1)
+	Actor_187.DisplayDesc.UseBillboard = false
 	Actor_187.PhysicDesc.Pos.X = 525.125
 	Actor_187.PhysicDesc.Pos.Y = 3.17578
 	Actor_187.PhysicDesc.Pos.Z = 505.875
@@ -7963,6 +8708,7 @@ function InitMap(environment)
 	Actor_187.PhysicDesc.SizeX = 1.76652e-031
 	Actor_187.PhysicDesc.SizeY = 0
 	Actor_187.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_187.PhysicDesc.AllowFreeMove = true
 	Actor_187.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_78.phy"
 	Actor_187:SetPhysicalActorType(1)
 	Actor_187:SetPhysicalShape(5)
@@ -7970,6 +8716,8 @@ function InitMap(environment)
 	Actor_187.ExtraInfo.NameColorR = 0
 	Actor_187.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_187.ExtraInfo.NameColorB = 0
+	Actor_187.ExtraInfo.Display = false
+	Actor_187.LifeInfo.Display = false
 	Actor_187H = ActorHandler(Actor_187)
 	environment:AddActorObject(Actor_187H)
 
@@ -7996,6 +8744,7 @@ function InitMap(environment)
 	Actor_188.DisplayDesc.RotY = 0
 	Actor_188.DisplayDesc.RotZ = 0
 	Actor_188:SetModelState(1)
+	Actor_188.DisplayDesc.UseBillboard = false
 	Actor_188.PhysicDesc.Pos.X = 526.75
 	Actor_188.PhysicDesc.Pos.Y = 5.37109
 	Actor_188.PhysicDesc.Pos.Z = 505.625
@@ -8005,6 +8754,7 @@ function InitMap(environment)
 	Actor_188.PhysicDesc.SizeX = 1.80708e-031
 	Actor_188.PhysicDesc.SizeY = 0
 	Actor_188.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_188.PhysicDesc.AllowFreeMove = true
 	Actor_188.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_77.phy"
 	Actor_188:SetPhysicalActorType(1)
 	Actor_188:SetPhysicalShape(5)
@@ -8012,6 +8762,8 @@ function InitMap(environment)
 	Actor_188.ExtraInfo.NameColorR = 0
 	Actor_188.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_188.ExtraInfo.NameColorB = 0
+	Actor_188.ExtraInfo.Display = false
+	Actor_188.LifeInfo.Display = false
 	Actor_188H = ActorHandler(Actor_188)
 	environment:AddActorObject(Actor_188H)
 
@@ -8038,6 +8790,7 @@ function InitMap(environment)
 	Actor_189.DisplayDesc.RotY = 0
 	Actor_189.DisplayDesc.RotZ = 0
 	Actor_189:SetModelState(1)
+	Actor_189.DisplayDesc.UseBillboard = false
 	Actor_189.PhysicDesc.Pos.X = 519.5
 	Actor_189.PhysicDesc.Pos.Y = 4.88281
 	Actor_189.PhysicDesc.Pos.Z = 505.375
@@ -8047,6 +8800,7 @@ function InitMap(environment)
 	Actor_189.PhysicDesc.SizeX = 1.80657e-031
 	Actor_189.PhysicDesc.SizeY = 0
 	Actor_189.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_189.PhysicDesc.AllowFreeMove = true
 	Actor_189.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_77.phy"
 	Actor_189:SetPhysicalActorType(1)
 	Actor_189:SetPhysicalShape(5)
@@ -8054,6 +8808,8 @@ function InitMap(environment)
 	Actor_189.ExtraInfo.NameColorR = 0
 	Actor_189.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_189.ExtraInfo.NameColorB = 0
+	Actor_189.ExtraInfo.Display = false
+	Actor_189.LifeInfo.Display = false
 	Actor_189H = ActorHandler(Actor_189)
 	environment:AddActorObject(Actor_189H)
 
@@ -8080,6 +8836,7 @@ function InitMap(environment)
 	Actor_190.DisplayDesc.RotY = 0
 	Actor_190.DisplayDesc.RotZ = 0
 	Actor_190:SetModelState(1)
+	Actor_190.DisplayDesc.UseBillboard = false
 	Actor_190.PhysicDesc.Pos.X = 502.141
 	Actor_190.PhysicDesc.Pos.Y = 8.58203
 	Actor_190.PhysicDesc.Pos.Z = 511.5
@@ -8089,6 +8846,7 @@ function InitMap(environment)
 	Actor_190.PhysicDesc.SizeX = 1.80889e-031
 	Actor_190.PhysicDesc.SizeY = 0
 	Actor_190.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_190.PhysicDesc.AllowFreeMove = true
 	Actor_190.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_77.phy"
 	Actor_190:SetPhysicalActorType(1)
 	Actor_190:SetPhysicalShape(5)
@@ -8096,6 +8854,8 @@ function InitMap(environment)
 	Actor_190.ExtraInfo.NameColorR = 0
 	Actor_190.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_190.ExtraInfo.NameColorB = 0
+	Actor_190.ExtraInfo.Display = false
+	Actor_190.LifeInfo.Display = false
 	Actor_190H = ActorHandler(Actor_190)
 	environment:AddActorObject(Actor_190H)
 
@@ -8122,6 +8882,7 @@ function InitMap(environment)
 	Actor_191.DisplayDesc.RotY = 0
 	Actor_191.DisplayDesc.RotZ = 0
 	Actor_191:SetModelState(1)
+	Actor_191.DisplayDesc.UseBillboard = false
 	Actor_191.PhysicDesc.Pos.X = 502.158
 	Actor_191.PhysicDesc.Pos.Y = 6.20703
 	Actor_191.PhysicDesc.Pos.Z = 509.75
@@ -8131,6 +8892,7 @@ function InitMap(environment)
 	Actor_191.PhysicDesc.SizeX = 1.82238e-031
 	Actor_191.PhysicDesc.SizeY = 0
 	Actor_191.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_191.PhysicDesc.AllowFreeMove = true
 	Actor_191.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_78.phy"
 	Actor_191:SetPhysicalActorType(1)
 	Actor_191:SetPhysicalShape(5)
@@ -8138,6 +8900,8 @@ function InitMap(environment)
 	Actor_191.ExtraInfo.NameColorR = 0
 	Actor_191.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_191.ExtraInfo.NameColorB = 0
+	Actor_191.ExtraInfo.Display = false
+	Actor_191.LifeInfo.Display = false
 	Actor_191H = ActorHandler(Actor_191)
 	environment:AddActorObject(Actor_191H)
 
@@ -8164,6 +8928,7 @@ function InitMap(environment)
 	Actor_192.DisplayDesc.RotY = 0
 	Actor_192.DisplayDesc.RotZ = 0
 	Actor_192:SetModelState(1)
+	Actor_192.DisplayDesc.UseBillboard = false
 	Actor_192.PhysicDesc.Pos.X = 502.141
 	Actor_192.PhysicDesc.Pos.Y = 8.58203
 	Actor_192.PhysicDesc.Pos.Z = 508.25
@@ -8173,6 +8938,7 @@ function InitMap(environment)
 	Actor_192.PhysicDesc.SizeX = 1.76656e-031
 	Actor_192.PhysicDesc.SizeY = 0
 	Actor_192.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_192.PhysicDesc.AllowFreeMove = true
 	Actor_192.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_77.phy"
 	Actor_192:SetPhysicalActorType(1)
 	Actor_192:SetPhysicalShape(5)
@@ -8180,6 +8946,8 @@ function InitMap(environment)
 	Actor_192.ExtraInfo.NameColorR = 0
 	Actor_192.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_192.ExtraInfo.NameColorB = 0
+	Actor_192.ExtraInfo.Display = false
+	Actor_192.LifeInfo.Display = false
 	Actor_192H = ActorHandler(Actor_192)
 	environment:AddActorObject(Actor_192H)
 
@@ -8206,6 +8974,7 @@ function InitMap(environment)
 	Actor_193.DisplayDesc.RotY = 0
 	Actor_193.DisplayDesc.RotZ = 0
 	Actor_193:SetModelState(1)
+	Actor_193.DisplayDesc.UseBillboard = false
 	Actor_193.PhysicDesc.Pos.X = 500.188
 	Actor_193.PhysicDesc.Pos.Y = 8.58203
 	Actor_193.PhysicDesc.Pos.Z = 517
@@ -8215,6 +8984,7 @@ function InitMap(environment)
 	Actor_193.PhysicDesc.SizeX = 1.79352e-031
 	Actor_193.PhysicDesc.SizeY = 0
 	Actor_193.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_193.PhysicDesc.AllowFreeMove = true
 	Actor_193.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_77.phy"
 	Actor_193:SetPhysicalActorType(1)
 	Actor_193:SetPhysicalShape(5)
@@ -8222,6 +8992,8 @@ function InitMap(environment)
 	Actor_193.ExtraInfo.NameColorR = 0
 	Actor_193.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_193.ExtraInfo.NameColorB = 0
+	Actor_193.ExtraInfo.Display = false
+	Actor_193.LifeInfo.Display = false
 	Actor_193H = ActorHandler(Actor_193)
 	environment:AddActorObject(Actor_193H)
 
@@ -8248,6 +9020,7 @@ function InitMap(environment)
 	Actor_194.DisplayDesc.RotY = 0
 	Actor_194.DisplayDesc.RotZ = 0
 	Actor_194:SetModelState(1)
+	Actor_194.DisplayDesc.UseBillboard = false
 	Actor_194.PhysicDesc.Pos.X = 500.188
 	Actor_194.PhysicDesc.Pos.Y = 8.58203
 	Actor_194.PhysicDesc.Pos.Z = 513.518
@@ -8257,6 +9030,7 @@ function InitMap(environment)
 	Actor_194.PhysicDesc.SizeX = 1.80508e-031
 	Actor_194.PhysicDesc.SizeY = 0
 	Actor_194.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_194.PhysicDesc.AllowFreeMove = true
 	Actor_194.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_77.phy"
 	Actor_194:SetPhysicalActorType(1)
 	Actor_194:SetPhysicalShape(5)
@@ -8264,6 +9038,8 @@ function InitMap(environment)
 	Actor_194.ExtraInfo.NameColorR = 0
 	Actor_194.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_194.ExtraInfo.NameColorB = 0
+	Actor_194.ExtraInfo.Display = false
+	Actor_194.LifeInfo.Display = false
 	Actor_194H = ActorHandler(Actor_194)
 	environment:AddActorObject(Actor_194H)
 
@@ -8290,6 +9066,7 @@ function InitMap(environment)
 	Actor_195.DisplayDesc.RotY = 0
 	Actor_195.DisplayDesc.RotZ = 0
 	Actor_195:SetModelState(1)
+	Actor_195.DisplayDesc.UseBillboard = false
 	Actor_195.PhysicDesc.Pos.X = 500.205
 	Actor_195.PhysicDesc.Pos.Y = 6.20703
 	Actor_195.PhysicDesc.Pos.Z = 515.125
@@ -8299,6 +9076,7 @@ function InitMap(environment)
 	Actor_195.PhysicDesc.SizeX = 1.83973e-031
 	Actor_195.PhysicDesc.SizeY = 0
 	Actor_195.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_195.PhysicDesc.AllowFreeMove = true
 	Actor_195.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_78.phy"
 	Actor_195:SetPhysicalActorType(1)
 	Actor_195:SetPhysicalShape(5)
@@ -8306,6 +9084,8 @@ function InitMap(environment)
 	Actor_195.ExtraInfo.NameColorR = 0
 	Actor_195.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_195.ExtraInfo.NameColorB = 0
+	Actor_195.ExtraInfo.Display = false
+	Actor_195.LifeInfo.Display = false
 	Actor_195H = ActorHandler(Actor_195)
 	environment:AddActorObject(Actor_195H)
 
@@ -8332,6 +9112,7 @@ function InitMap(environment)
 	Actor_196.DisplayDesc.RotY = 0
 	Actor_196.DisplayDesc.RotZ = 0
 	Actor_196:SetModelState(1)
+	Actor_196.DisplayDesc.UseBillboard = false
 	Actor_196.PhysicDesc.Pos.X = 470.375
 	Actor_196.PhysicDesc.Pos.Y = 2.92969
 	Actor_196.PhysicDesc.Pos.Z = 555
@@ -8341,6 +9122,7 @@ function InitMap(environment)
 	Actor_196.PhysicDesc.SizeX = 1.82241e-031
 	Actor_196.PhysicDesc.SizeY = 0
 	Actor_196.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_196.PhysicDesc.AllowFreeMove = true
 	Actor_196.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_79.phy"
 	Actor_196:SetPhysicalActorType(1)
 	Actor_196:SetPhysicalShape(5)
@@ -8348,6 +9130,8 @@ function InitMap(environment)
 	Actor_196.ExtraInfo.NameColorR = 0
 	Actor_196.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_196.ExtraInfo.NameColorB = 0
+	Actor_196.ExtraInfo.Display = false
+	Actor_196.LifeInfo.Display = false
 	Actor_196H = ActorHandler(Actor_196)
 	environment:AddActorObject(Actor_196H)
 
@@ -8374,6 +9158,7 @@ function InitMap(environment)
 	Actor_197.DisplayDesc.RotY = 0
 	Actor_197.DisplayDesc.RotZ = 0
 	Actor_197:SetModelState(1)
+	Actor_197.DisplayDesc.UseBillboard = false
 	Actor_197.PhysicDesc.Pos.X = 451
 	Actor_197.PhysicDesc.Pos.Y = 2.92969
 	Actor_197.PhysicDesc.Pos.Z = 556.125
@@ -8383,6 +9168,7 @@ function InitMap(environment)
 	Actor_197.PhysicDesc.SizeX = 1.83205e-031
 	Actor_197.PhysicDesc.SizeY = 0
 	Actor_197.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_197.PhysicDesc.AllowFreeMove = true
 	Actor_197.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_80.phy"
 	Actor_197:SetPhysicalActorType(1)
 	Actor_197:SetPhysicalShape(5)
@@ -8390,6 +9176,8 @@ function InitMap(environment)
 	Actor_197.ExtraInfo.NameColorR = 0
 	Actor_197.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_197.ExtraInfo.NameColorB = 0
+	Actor_197.ExtraInfo.Display = false
+	Actor_197.LifeInfo.Display = false
 	Actor_197H = ActorHandler(Actor_197)
 	environment:AddActorObject(Actor_197H)
 
@@ -8416,6 +9204,7 @@ function InitMap(environment)
 	Actor_198.DisplayDesc.RotY = 0
 	Actor_198.DisplayDesc.RotZ = 0
 	Actor_198:SetModelState(1)
+	Actor_198.DisplayDesc.UseBillboard = false
 	Actor_198.PhysicDesc.Pos.X = 467.5
 	Actor_198.PhysicDesc.Pos.Y = 2.92969
 	Actor_198.PhysicDesc.Pos.Z = 579.25
@@ -8425,6 +9214,7 @@ function InitMap(environment)
 	Actor_198.PhysicDesc.SizeX = 1.76468e-031
 	Actor_198.PhysicDesc.SizeY = 0
 	Actor_198.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_198.PhysicDesc.AllowFreeMove = true
 	Actor_198.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_38.phy"
 	Actor_198:SetPhysicalActorType(1)
 	Actor_198:SetPhysicalShape(5)
@@ -8432,6 +9222,8 @@ function InitMap(environment)
 	Actor_198.ExtraInfo.NameColorR = 0
 	Actor_198.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_198.ExtraInfo.NameColorB = 0
+	Actor_198.ExtraInfo.Display = false
+	Actor_198.LifeInfo.Display = false
 	Actor_198H = ActorHandler(Actor_198)
 	environment:AddActorObject(Actor_198H)
 
@@ -8458,6 +9250,7 @@ function InitMap(environment)
 	Actor_199.DisplayDesc.RotY = 0
 	Actor_199.DisplayDesc.RotZ = 0
 	Actor_199:SetModelState(1)
+	Actor_199.DisplayDesc.UseBillboard = false
 	Actor_199.PhysicDesc.Pos.X = 473.5
 	Actor_199.PhysicDesc.Pos.Y = 2.92969
 	Actor_199.PhysicDesc.Pos.Z = 571.5
@@ -8467,6 +9260,7 @@ function InitMap(environment)
 	Actor_199.PhysicDesc.SizeX = 1.80511e-031
 	Actor_199.PhysicDesc.SizeY = 0
 	Actor_199.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_199.PhysicDesc.AllowFreeMove = true
 	Actor_199.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_2.phy"
 	Actor_199:SetPhysicalActorType(1)
 	Actor_199:SetPhysicalShape(5)
@@ -8474,6 +9268,8 @@ function InitMap(environment)
 	Actor_199.ExtraInfo.NameColorR = 0
 	Actor_199.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_199.ExtraInfo.NameColorB = 0
+	Actor_199.ExtraInfo.Display = false
+	Actor_199.LifeInfo.Display = false
 	Actor_199H = ActorHandler(Actor_199)
 	environment:AddActorObject(Actor_199H)
 
@@ -8500,6 +9296,7 @@ function InitMap(environment)
 	Actor_200.DisplayDesc.RotY = 0
 	Actor_200.DisplayDesc.RotZ = 0
 	Actor_200:SetModelState(1)
+	Actor_200.DisplayDesc.UseBillboard = false
 	Actor_200.PhysicDesc.Pos.X = 462.875
 	Actor_200.PhysicDesc.Pos.Y = 2.92969
 	Actor_200.PhysicDesc.Pos.Z = 560.875
@@ -8509,6 +9306,7 @@ function InitMap(environment)
 	Actor_200.PhysicDesc.SizeX = 1.83977e-031
 	Actor_200.PhysicDesc.SizeY = 0
 	Actor_200.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_200.PhysicDesc.AllowFreeMove = true
 	Actor_200.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_37.phy"
 	Actor_200:SetPhysicalActorType(1)
 	Actor_200:SetPhysicalShape(5)
@@ -8516,6 +9314,8 @@ function InitMap(environment)
 	Actor_200.ExtraInfo.NameColorR = 0
 	Actor_200.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_200.ExtraInfo.NameColorB = 0
+	Actor_200.ExtraInfo.Display = false
+	Actor_200.LifeInfo.Display = false
 	Actor_200H = ActorHandler(Actor_200)
 	environment:AddActorObject(Actor_200H)
 
@@ -8542,6 +9342,7 @@ function InitMap(environment)
 	Actor_201.DisplayDesc.RotY = 0
 	Actor_201.DisplayDesc.RotZ = 0
 	Actor_201:SetModelState(1)
+	Actor_201.DisplayDesc.UseBillboard = false
 	Actor_201.PhysicDesc.Pos.X = 467.75
 	Actor_201.PhysicDesc.Pos.Y = 2.92969
 	Actor_201.PhysicDesc.Pos.Z = 560.875
@@ -8551,6 +9352,7 @@ function InitMap(environment)
 	Actor_201.PhysicDesc.SizeX = 1.83593e-031
 	Actor_201.PhysicDesc.SizeY = 0
 	Actor_201.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_201.PhysicDesc.AllowFreeMove = true
 	Actor_201.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_37.phy"
 	Actor_201:SetPhysicalActorType(1)
 	Actor_201:SetPhysicalShape(5)
@@ -8558,6 +9360,8 @@ function InitMap(environment)
 	Actor_201.ExtraInfo.NameColorR = 0
 	Actor_201.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_201.ExtraInfo.NameColorB = 0
+	Actor_201.ExtraInfo.Display = false
+	Actor_201.LifeInfo.Display = false
 	Actor_201H = ActorHandler(Actor_201)
 	environment:AddActorObject(Actor_201H)
 
@@ -8584,6 +9388,7 @@ function InitMap(environment)
 	Actor_202.DisplayDesc.RotY = 0
 	Actor_202.DisplayDesc.RotZ = 0
 	Actor_202:SetModelState(1)
+	Actor_202.DisplayDesc.UseBillboard = false
 	Actor_202.PhysicDesc.Pos.X = 457.5
 	Actor_202.PhysicDesc.Pos.Y = 2.92969
 	Actor_202.PhysicDesc.Pos.Z = 555.25
@@ -8593,6 +9398,7 @@ function InitMap(environment)
 	Actor_202.PhysicDesc.SizeX = 1.83209e-031
 	Actor_202.PhysicDesc.SizeY = 0
 	Actor_202.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_202.PhysicDesc.AllowFreeMove = true
 	Actor_202.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_1.phy"
 	Actor_202:SetPhysicalActorType(1)
 	Actor_202:SetPhysicalShape(5)
@@ -8600,6 +9406,8 @@ function InitMap(environment)
 	Actor_202.ExtraInfo.NameColorR = 0
 	Actor_202.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_202.ExtraInfo.NameColorB = 0
+	Actor_202.ExtraInfo.Display = false
+	Actor_202.LifeInfo.Display = false
 	Actor_202H = ActorHandler(Actor_202)
 	environment:AddActorObject(Actor_202H)
 
@@ -8626,6 +9434,7 @@ function InitMap(environment)
 	Actor_203.DisplayDesc.RotY = 0
 	Actor_203.DisplayDesc.RotZ = 0
 	Actor_203:SetModelState(1)
+	Actor_203.DisplayDesc.UseBillboard = false
 	Actor_203.PhysicDesc.Pos.X = 458.5
 	Actor_203.PhysicDesc.Pos.Y = 2.92969
 	Actor_203.PhysicDesc.Pos.Z = 560.75
@@ -8635,6 +9444,7 @@ function InitMap(environment)
 	Actor_203.PhysicDesc.SizeX = 1.76472e-031
 	Actor_203.PhysicDesc.SizeY = 0
 	Actor_203.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_203.PhysicDesc.AllowFreeMove = true
 	Actor_203.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_82.phy"
 	Actor_203:SetPhysicalActorType(1)
 	Actor_203:SetPhysicalShape(5)
@@ -8642,6 +9452,8 @@ function InitMap(environment)
 	Actor_203.ExtraInfo.NameColorR = 0
 	Actor_203.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_203.ExtraInfo.NameColorB = 0
+	Actor_203.ExtraInfo.Display = false
+	Actor_203.LifeInfo.Display = false
 	Actor_203H = ActorHandler(Actor_203)
 	environment:AddActorObject(Actor_203H)
 
@@ -8668,6 +9480,7 @@ function InitMap(environment)
 	Actor_204.DisplayDesc.RotY = 0
 	Actor_204.DisplayDesc.RotZ = 0
 	Actor_204:SetModelState(1)
+	Actor_204.DisplayDesc.UseBillboard = false
 	Actor_204.PhysicDesc.Pos.X = 457.5
 	Actor_204.PhysicDesc.Pos.Y = 2.92969
 	Actor_204.PhysicDesc.Pos.Z = 563.5
@@ -8677,6 +9490,7 @@ function InitMap(environment)
 	Actor_204.PhysicDesc.SizeX = 1.80515e-031
 	Actor_204.PhysicDesc.SizeY = 0
 	Actor_204.PhysicDesc.SizeZ = 2.8026e-045
+	Actor_204.PhysicDesc.AllowFreeMove = true
 	Actor_204.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_34.phy"
 	Actor_204:SetPhysicalActorType(1)
 	Actor_204:SetPhysicalShape(5)
@@ -8684,6 +9498,8 @@ function InitMap(environment)
 	Actor_204.ExtraInfo.NameColorR = 0
 	Actor_204.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_204.ExtraInfo.NameColorB = 0
+	Actor_204.ExtraInfo.Display = false
+	Actor_204.LifeInfo.Display = false
 	Actor_204H = ActorHandler(Actor_204)
 	environment:AddActorObject(Actor_204H)
 
@@ -8710,6 +9526,7 @@ function InitMap(environment)
 	Actor_205.DisplayDesc.RotY = 0
 	Actor_205.DisplayDesc.RotZ = 0
 	Actor_205:SetModelState(1)
+	Actor_205.DisplayDesc.UseBillboard = false
 	Actor_205.PhysicDesc.Pos.X = 458.5
 	Actor_205.PhysicDesc.Pos.Y = 2.92969
 	Actor_205.PhysicDesc.Pos.Z = 563.5
@@ -8719,6 +9536,7 @@ function InitMap(environment)
 	Actor_205.PhysicDesc.SizeX = 0
 	Actor_205.PhysicDesc.SizeY = 0
 	Actor_205.PhysicDesc.SizeZ = 0
+	Actor_205.PhysicDesc.AllowFreeMove = true
 	Actor_205.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_34.phy"
 	Actor_205:SetPhysicalActorType(1)
 	Actor_205:SetPhysicalShape(5)
@@ -8726,6 +9544,8 @@ function InitMap(environment)
 	Actor_205.ExtraInfo.NameColorR = 0
 	Actor_205.ExtraInfo.NameColorG = 0
 	Actor_205.ExtraInfo.NameColorB = 0
+	Actor_205.ExtraInfo.Display = false
+	Actor_205.LifeInfo.Display = false
 	Actor_205H = ActorHandler(Actor_205)
 	environment:AddActorObject(Actor_205H)
 
@@ -8752,6 +9572,7 @@ function InitMap(environment)
 	Actor_206.DisplayDesc.RotY = 0
 	Actor_206.DisplayDesc.RotZ = 0
 	Actor_206:SetModelState(1)
+	Actor_206.DisplayDesc.UseBillboard = false
 	Actor_206.PhysicDesc.Pos.X = 459.5
 	Actor_206.PhysicDesc.Pos.Y = 2.92969
 	Actor_206.PhysicDesc.Pos.Z = 563.5
@@ -8761,6 +9582,7 @@ function InitMap(environment)
 	Actor_206.PhysicDesc.SizeX = 0
 	Actor_206.PhysicDesc.SizeY = 0
 	Actor_206.PhysicDesc.SizeZ = 0
+	Actor_206.PhysicDesc.AllowFreeMove = true
 	Actor_206.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_34.phy"
 	Actor_206:SetPhysicalActorType(1)
 	Actor_206:SetPhysicalShape(5)
@@ -8768,6 +9590,8 @@ function InitMap(environment)
 	Actor_206.ExtraInfo.NameColorR = 0
 	Actor_206.ExtraInfo.NameColorG = 0
 	Actor_206.ExtraInfo.NameColorB = 0
+	Actor_206.ExtraInfo.Display = false
+	Actor_206.LifeInfo.Display = false
 	Actor_206H = ActorHandler(Actor_206)
 	environment:AddActorObject(Actor_206H)
 
@@ -8794,6 +9618,7 @@ function InitMap(environment)
 	Actor_207.DisplayDesc.RotY = 0
 	Actor_207.DisplayDesc.RotZ = 0
 	Actor_207:SetModelState(1)
+	Actor_207.DisplayDesc.UseBillboard = false
 	Actor_207.PhysicDesc.Pos.X = 460.375
 	Actor_207.PhysicDesc.Pos.Y = 2.92969
 	Actor_207.PhysicDesc.Pos.Z = 575.125
@@ -8803,6 +9628,7 @@ function InitMap(environment)
 	Actor_207.PhysicDesc.SizeX = 0
 	Actor_207.PhysicDesc.SizeY = 0
 	Actor_207.PhysicDesc.SizeZ = 0
+	Actor_207.PhysicDesc.AllowFreeMove = true
 	Actor_207.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_81.phy"
 	Actor_207:SetPhysicalActorType(1)
 	Actor_207:SetPhysicalShape(5)
@@ -8810,6 +9636,8 @@ function InitMap(environment)
 	Actor_207.ExtraInfo.NameColorR = 0
 	Actor_207.ExtraInfo.NameColorG = 0
 	Actor_207.ExtraInfo.NameColorB = 0
+	Actor_207.ExtraInfo.Display = false
+	Actor_207.LifeInfo.Display = false
 	Actor_207H = ActorHandler(Actor_207)
 	environment:AddActorObject(Actor_207H)
 
@@ -8836,6 +9664,7 @@ function InitMap(environment)
 	Actor_208.DisplayDesc.RotY = 0
 	Actor_208.DisplayDesc.RotZ = 0
 	Actor_208:SetModelState(1)
+	Actor_208.DisplayDesc.UseBillboard = false
 	Actor_208.PhysicDesc.Pos.X = 454.375
 	Actor_208.PhysicDesc.Pos.Y = 2.92969
 	Actor_208.PhysicDesc.Pos.Z = 575.125
@@ -8845,6 +9674,7 @@ function InitMap(environment)
 	Actor_208.PhysicDesc.SizeX = 0
 	Actor_208.PhysicDesc.SizeY = 0
 	Actor_208.PhysicDesc.SizeZ = 0
+	Actor_208.PhysicDesc.AllowFreeMove = true
 	Actor_208.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_81.phy"
 	Actor_208:SetPhysicalActorType(1)
 	Actor_208:SetPhysicalShape(5)
@@ -8852,6 +9682,8 @@ function InitMap(environment)
 	Actor_208.ExtraInfo.NameColorR = 0
 	Actor_208.ExtraInfo.NameColorG = 0
 	Actor_208.ExtraInfo.NameColorB = 0
+	Actor_208.ExtraInfo.Display = false
+	Actor_208.LifeInfo.Display = false
 	Actor_208H = ActorHandler(Actor_208)
 	environment:AddActorObject(Actor_208H)
 
@@ -8878,6 +9710,7 @@ function InitMap(environment)
 	Actor_209.DisplayDesc.RotY = 0
 	Actor_209.DisplayDesc.RotZ = 0
 	Actor_209:SetModelState(1)
+	Actor_209.DisplayDesc.UseBillboard = false
 	Actor_209.PhysicDesc.Pos.X = 442.625
 	Actor_209.PhysicDesc.Pos.Y = 2.92969
 	Actor_209.PhysicDesc.Pos.Z = 575.125
@@ -8887,6 +9720,7 @@ function InitMap(environment)
 	Actor_209.PhysicDesc.SizeX = 0
 	Actor_209.PhysicDesc.SizeY = 0
 	Actor_209.PhysicDesc.SizeZ = 0
+	Actor_209.PhysicDesc.AllowFreeMove = true
 	Actor_209.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_81.phy"
 	Actor_209:SetPhysicalActorType(1)
 	Actor_209:SetPhysicalShape(5)
@@ -8894,6 +9728,8 @@ function InitMap(environment)
 	Actor_209.ExtraInfo.NameColorR = 0
 	Actor_209.ExtraInfo.NameColorG = 0
 	Actor_209.ExtraInfo.NameColorB = 0
+	Actor_209.ExtraInfo.Display = false
+	Actor_209.LifeInfo.Display = false
 	Actor_209H = ActorHandler(Actor_209)
 	environment:AddActorObject(Actor_209H)
 
@@ -8920,6 +9756,7 @@ function InitMap(environment)
 	Actor_210.DisplayDesc.RotY = 0
 	Actor_210.DisplayDesc.RotZ = 0
 	Actor_210:SetModelState(1)
+	Actor_210.DisplayDesc.UseBillboard = false
 	Actor_210.PhysicDesc.Pos.X = 436.625
 	Actor_210.PhysicDesc.Pos.Y = 2.92969
 	Actor_210.PhysicDesc.Pos.Z = 575.125
@@ -8929,6 +9766,7 @@ function InitMap(environment)
 	Actor_210.PhysicDesc.SizeX = 0
 	Actor_210.PhysicDesc.SizeY = 0
 	Actor_210.PhysicDesc.SizeZ = 0
+	Actor_210.PhysicDesc.AllowFreeMove = true
 	Actor_210.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_81.phy"
 	Actor_210:SetPhysicalActorType(1)
 	Actor_210:SetPhysicalShape(5)
@@ -8936,6 +9774,8 @@ function InitMap(environment)
 	Actor_210.ExtraInfo.NameColorR = 0
 	Actor_210.ExtraInfo.NameColorG = 0
 	Actor_210.ExtraInfo.NameColorB = 0
+	Actor_210.ExtraInfo.Display = false
+	Actor_210.LifeInfo.Display = false
 	Actor_210H = ActorHandler(Actor_210)
 	environment:AddActorObject(Actor_210H)
 
@@ -8962,6 +9802,7 @@ function InitMap(environment)
 	Actor_211.DisplayDesc.RotY = 0
 	Actor_211.DisplayDesc.RotZ = 0
 	Actor_211:SetModelState(1)
+	Actor_211.DisplayDesc.UseBillboard = false
 	Actor_211.PhysicDesc.Pos.X = 430.875
 	Actor_211.PhysicDesc.Pos.Y = 2.92969
 	Actor_211.PhysicDesc.Pos.Z = 571.875
@@ -8971,6 +9812,7 @@ function InitMap(environment)
 	Actor_211.PhysicDesc.SizeX = 0
 	Actor_211.PhysicDesc.SizeY = 0
 	Actor_211.PhysicDesc.SizeZ = 0
+	Actor_211.PhysicDesc.AllowFreeMove = true
 	Actor_211.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_37.phy"
 	Actor_211:SetPhysicalActorType(1)
 	Actor_211:SetPhysicalShape(5)
@@ -8978,6 +9820,8 @@ function InitMap(environment)
 	Actor_211.ExtraInfo.NameColorR = 0
 	Actor_211.ExtraInfo.NameColorG = 0
 	Actor_211.ExtraInfo.NameColorB = 0
+	Actor_211.ExtraInfo.Display = false
+	Actor_211.LifeInfo.Display = false
 	Actor_211H = ActorHandler(Actor_211)
 	environment:AddActorObject(Actor_211H)
 
@@ -9004,6 +9848,7 @@ function InitMap(environment)
 	Actor_212.DisplayDesc.RotY = 0
 	Actor_212.DisplayDesc.RotZ = 0
 	Actor_212:SetModelState(1)
+	Actor_212.DisplayDesc.UseBillboard = false
 	Actor_212.PhysicDesc.Pos.X = 446.875
 	Actor_212.PhysicDesc.Pos.Y = 2.92969
 	Actor_212.PhysicDesc.Pos.Z = 571.875
@@ -9013,6 +9858,7 @@ function InitMap(environment)
 	Actor_212.PhysicDesc.SizeX = 0
 	Actor_212.PhysicDesc.SizeY = 0
 	Actor_212.PhysicDesc.SizeZ = 0
+	Actor_212.PhysicDesc.AllowFreeMove = true
 	Actor_212.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_37.phy"
 	Actor_212:SetPhysicalActorType(1)
 	Actor_212:SetPhysicalShape(5)
@@ -9020,6 +9866,8 @@ function InitMap(environment)
 	Actor_212.ExtraInfo.NameColorR = 0
 	Actor_212.ExtraInfo.NameColorG = 0
 	Actor_212.ExtraInfo.NameColorB = 0
+	Actor_212.ExtraInfo.Display = false
+	Actor_212.LifeInfo.Display = false
 	Actor_212H = ActorHandler(Actor_212)
 	environment:AddActorObject(Actor_212H)
 
@@ -9046,6 +9894,7 @@ function InitMap(environment)
 	Actor_213.DisplayDesc.RotY = 0
 	Actor_213.DisplayDesc.RotZ = 0
 	Actor_213:SetModelState(1)
+	Actor_213.DisplayDesc.UseBillboard = false
 	Actor_213.PhysicDesc.Pos.X = 430.875
 	Actor_213.PhysicDesc.Pos.Y = 2.92969
 	Actor_213.PhysicDesc.Pos.Z = 582.5
@@ -9055,6 +9904,7 @@ function InitMap(environment)
 	Actor_213.PhysicDesc.SizeX = 0
 	Actor_213.PhysicDesc.SizeY = 0
 	Actor_213.PhysicDesc.SizeZ = 0
+	Actor_213.PhysicDesc.AllowFreeMove = true
 	Actor_213.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_37.phy"
 	Actor_213:SetPhysicalActorType(1)
 	Actor_213:SetPhysicalShape(5)
@@ -9062,6 +9912,8 @@ function InitMap(environment)
 	Actor_213.ExtraInfo.NameColorR = 0
 	Actor_213.ExtraInfo.NameColorG = 0
 	Actor_213.ExtraInfo.NameColorB = 0
+	Actor_213.ExtraInfo.Display = false
+	Actor_213.LifeInfo.Display = false
 	Actor_213H = ActorHandler(Actor_213)
 	environment:AddActorObject(Actor_213H)
 
@@ -9088,6 +9940,7 @@ function InitMap(environment)
 	Actor_214.DisplayDesc.RotY = 0
 	Actor_214.DisplayDesc.RotZ = 0
 	Actor_214:SetModelState(1)
+	Actor_214.DisplayDesc.UseBillboard = false
 	Actor_214.PhysicDesc.Pos.X = 470.5
 	Actor_214.PhysicDesc.Pos.Y = 2.92969
 	Actor_214.PhysicDesc.Pos.Z = 564.5
@@ -9097,6 +9950,7 @@ function InitMap(environment)
 	Actor_214.PhysicDesc.SizeX = 0
 	Actor_214.PhysicDesc.SizeY = 0
 	Actor_214.PhysicDesc.SizeZ = 0
+	Actor_214.PhysicDesc.AllowFreeMove = true
 	Actor_214.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_6.phy"
 	Actor_214:SetPhysicalActorType(1)
 	Actor_214:SetPhysicalShape(5)
@@ -9104,6 +9958,8 @@ function InitMap(environment)
 	Actor_214.ExtraInfo.NameColorR = 0
 	Actor_214.ExtraInfo.NameColorG = 0
 	Actor_214.ExtraInfo.NameColorB = 0
+	Actor_214.ExtraInfo.Display = false
+	Actor_214.LifeInfo.Display = false
 	Actor_214H = ActorHandler(Actor_214)
 	environment:AddActorObject(Actor_214H)
 
@@ -9130,6 +9986,7 @@ function InitMap(environment)
 	Actor_215.DisplayDesc.RotY = 0
 	Actor_215.DisplayDesc.RotZ = 0
 	Actor_215:SetModelState(1)
+	Actor_215.DisplayDesc.UseBillboard = false
 	Actor_215.PhysicDesc.Pos.X = 479
 	Actor_215.PhysicDesc.Pos.Y = 2.92969
 	Actor_215.PhysicDesc.Pos.Z = 563.969
@@ -9139,6 +9996,7 @@ function InitMap(environment)
 	Actor_215.PhysicDesc.SizeX = 0
 	Actor_215.PhysicDesc.SizeY = 0
 	Actor_215.PhysicDesc.SizeZ = 0
+	Actor_215.PhysicDesc.AllowFreeMove = true
 	Actor_215.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_81.phy"
 	Actor_215:SetPhysicalActorType(1)
 	Actor_215:SetPhysicalShape(5)
@@ -9146,6 +10004,8 @@ function InitMap(environment)
 	Actor_215.ExtraInfo.NameColorR = 0
 	Actor_215.ExtraInfo.NameColorG = 0
 	Actor_215.ExtraInfo.NameColorB = 0
+	Actor_215.ExtraInfo.Display = false
+	Actor_215.LifeInfo.Display = false
 	Actor_215H = ActorHandler(Actor_215)
 	environment:AddActorObject(Actor_215H)
 
@@ -9172,6 +10032,7 @@ function InitMap(environment)
 	Actor_216.DisplayDesc.RotY = 0
 	Actor_216.DisplayDesc.RotZ = 0
 	Actor_216:SetModelState(1)
+	Actor_216.DisplayDesc.UseBillboard = false
 	Actor_216.PhysicDesc.Pos.X = 479
 	Actor_216.PhysicDesc.Pos.Y = 2.92969
 	Actor_216.PhysicDesc.Pos.Z = 570
@@ -9181,6 +10042,7 @@ function InitMap(environment)
 	Actor_216.PhysicDesc.SizeX = 0
 	Actor_216.PhysicDesc.SizeY = 0
 	Actor_216.PhysicDesc.SizeZ = 0
+	Actor_216.PhysicDesc.AllowFreeMove = true
 	Actor_216.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_81.phy"
 	Actor_216:SetPhysicalActorType(1)
 	Actor_216:SetPhysicalShape(5)
@@ -9188,6 +10050,8 @@ function InitMap(environment)
 	Actor_216.ExtraInfo.NameColorR = 0
 	Actor_216.ExtraInfo.NameColorG = 0
 	Actor_216.ExtraInfo.NameColorB = 0
+	Actor_216.ExtraInfo.Display = false
+	Actor_216.LifeInfo.Display = false
 	Actor_216H = ActorHandler(Actor_216)
 	environment:AddActorObject(Actor_216H)
 
@@ -9214,6 +10078,7 @@ function InitMap(environment)
 	Actor_217.DisplayDesc.RotY = 0
 	Actor_217.DisplayDesc.RotZ = 0
 	Actor_217:SetModelState(1)
+	Actor_217.DisplayDesc.UseBillboard = false
 	Actor_217.PhysicDesc.Pos.X = 478.992
 	Actor_217.PhysicDesc.Pos.Y = 2.92969
 	Actor_217.PhysicDesc.Pos.Z = 576
@@ -9223,6 +10088,7 @@ function InitMap(environment)
 	Actor_217.PhysicDesc.SizeX = 0
 	Actor_217.PhysicDesc.SizeY = 0
 	Actor_217.PhysicDesc.SizeZ = 0
+	Actor_217.PhysicDesc.AllowFreeMove = true
 	Actor_217.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_81.phy"
 	Actor_217:SetPhysicalActorType(1)
 	Actor_217:SetPhysicalShape(5)
@@ -9230,6 +10096,8 @@ function InitMap(environment)
 	Actor_217.ExtraInfo.NameColorR = 0
 	Actor_217.ExtraInfo.NameColorG = 0
 	Actor_217.ExtraInfo.NameColorB = 0
+	Actor_217.ExtraInfo.Display = false
+	Actor_217.LifeInfo.Display = false
 	Actor_217H = ActorHandler(Actor_217)
 	environment:AddActorObject(Actor_217H)
 
@@ -9256,6 +10124,7 @@ function InitMap(environment)
 	Actor_218.DisplayDesc.RotY = 0
 	Actor_218.DisplayDesc.RotZ = 0
 	Actor_218:SetModelState(1)
+	Actor_218.DisplayDesc.UseBillboard = false
 	Actor_218.PhysicDesc.Pos.X = 478.5
 	Actor_218.PhysicDesc.Pos.Y = 2.92969
 	Actor_218.PhysicDesc.Pos.Z = 561
@@ -9265,6 +10134,7 @@ function InitMap(environment)
 	Actor_218.PhysicDesc.SizeX = 0
 	Actor_218.PhysicDesc.SizeY = 0
 	Actor_218.PhysicDesc.SizeZ = 0
+	Actor_218.PhysicDesc.AllowFreeMove = true
 	Actor_218.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_37.phy"
 	Actor_218:SetPhysicalActorType(1)
 	Actor_218:SetPhysicalShape(5)
@@ -9272,6 +10142,8 @@ function InitMap(environment)
 	Actor_218.ExtraInfo.NameColorR = 0
 	Actor_218.ExtraInfo.NameColorG = 0
 	Actor_218.ExtraInfo.NameColorB = 0
+	Actor_218.ExtraInfo.Display = false
+	Actor_218.LifeInfo.Display = false
 	Actor_218H = ActorHandler(Actor_218)
 	environment:AddActorObject(Actor_218H)
 
@@ -9298,6 +10170,7 @@ function InitMap(environment)
 	Actor_219.DisplayDesc.RotY = 0
 	Actor_219.DisplayDesc.RotZ = 0
 	Actor_219:SetModelState(1)
+	Actor_219.DisplayDesc.UseBillboard = false
 	Actor_219.PhysicDesc.Pos.X = 458.5
 	Actor_219.PhysicDesc.Pos.Y = 2.92969
 	Actor_219.PhysicDesc.Pos.Z = 560.75
@@ -9307,6 +10180,7 @@ function InitMap(environment)
 	Actor_219.PhysicDesc.SizeX = 0
 	Actor_219.PhysicDesc.SizeY = 0
 	Actor_219.PhysicDesc.SizeZ = 0
+	Actor_219.PhysicDesc.AllowFreeMove = true
 	Actor_219.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_83.phy"
 	Actor_219:SetPhysicalActorType(1)
 	Actor_219:SetPhysicalShape(5)
@@ -9314,6 +10188,8 @@ function InitMap(environment)
 	Actor_219.ExtraInfo.NameColorR = 0
 	Actor_219.ExtraInfo.NameColorG = 0
 	Actor_219.ExtraInfo.NameColorB = 0
+	Actor_219.ExtraInfo.Display = false
+	Actor_219.LifeInfo.Display = false
 	Actor_219H = ActorHandler(Actor_219)
 	environment:AddActorObject(Actor_219H)
 
@@ -9340,6 +10216,7 @@ function InitMap(environment)
 	Actor_220.DisplayDesc.RotY = 0
 	Actor_220.DisplayDesc.RotZ = 0
 	Actor_220:SetModelState(1)
+	Actor_220.DisplayDesc.UseBillboard = false
 	Actor_220.PhysicDesc.Pos.X = 459.188
 	Actor_220.PhysicDesc.Pos.Y = 2.92969
 	Actor_220.PhysicDesc.Pos.Z = 550.5
@@ -9349,6 +10226,7 @@ function InitMap(environment)
 	Actor_220.PhysicDesc.SizeX = 0
 	Actor_220.PhysicDesc.SizeY = 0
 	Actor_220.PhysicDesc.SizeZ = 0
+	Actor_220.PhysicDesc.AllowFreeMove = true
 	Actor_220.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_84.phy"
 	Actor_220:SetPhysicalActorType(1)
 	Actor_220:SetPhysicalShape(5)
@@ -9356,6 +10234,8 @@ function InitMap(environment)
 	Actor_220.ExtraInfo.NameColorR = 0
 	Actor_220.ExtraInfo.NameColorG = 0
 	Actor_220.ExtraInfo.NameColorB = 0
+	Actor_220.ExtraInfo.Display = false
+	Actor_220.LifeInfo.Display = false
 	Actor_220H = ActorHandler(Actor_220)
 	environment:AddActorObject(Actor_220H)
 
@@ -9382,6 +10262,7 @@ function InitMap(environment)
 	Actor_221.DisplayDesc.RotY = 0
 	Actor_221.DisplayDesc.RotZ = 0
 	Actor_221:SetModelState(1)
+	Actor_221.DisplayDesc.UseBillboard = false
 	Actor_221.PhysicDesc.Pos.X = 457.234
 	Actor_221.PhysicDesc.Pos.Y = 2.92969
 	Actor_221.PhysicDesc.Pos.Z = 550.5
@@ -9391,6 +10272,7 @@ function InitMap(environment)
 	Actor_221.PhysicDesc.SizeX = 0
 	Actor_221.PhysicDesc.SizeY = 0
 	Actor_221.PhysicDesc.SizeZ = 0
+	Actor_221.PhysicDesc.AllowFreeMove = true
 	Actor_221.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_84.phy"
 	Actor_221:SetPhysicalActorType(1)
 	Actor_221:SetPhysicalShape(5)
@@ -9398,6 +10280,8 @@ function InitMap(environment)
 	Actor_221.ExtraInfo.NameColorR = 0
 	Actor_221.ExtraInfo.NameColorG = 0
 	Actor_221.ExtraInfo.NameColorB = 0
+	Actor_221.ExtraInfo.Display = false
+	Actor_221.LifeInfo.Display = false
 	Actor_221H = ActorHandler(Actor_221)
 	environment:AddActorObject(Actor_221H)
 
@@ -9424,6 +10308,7 @@ function InitMap(environment)
 	Actor_222.DisplayDesc.RotY = 0
 	Actor_222.DisplayDesc.RotZ = 0
 	Actor_222:SetModelState(1)
+	Actor_222.DisplayDesc.UseBillboard = false
 	Actor_222.PhysicDesc.Pos.X = 455.281
 	Actor_222.PhysicDesc.Pos.Y = 2.92969
 	Actor_222.PhysicDesc.Pos.Z = 550.5
@@ -9433,6 +10318,7 @@ function InitMap(environment)
 	Actor_222.PhysicDesc.SizeX = 0
 	Actor_222.PhysicDesc.SizeY = 0
 	Actor_222.PhysicDesc.SizeZ = 0
+	Actor_222.PhysicDesc.AllowFreeMove = true
 	Actor_222.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_84.phy"
 	Actor_222:SetPhysicalActorType(1)
 	Actor_222:SetPhysicalShape(5)
@@ -9440,6 +10326,8 @@ function InitMap(environment)
 	Actor_222.ExtraInfo.NameColorR = 0
 	Actor_222.ExtraInfo.NameColorG = 0
 	Actor_222.ExtraInfo.NameColorB = 0
+	Actor_222.ExtraInfo.Display = false
+	Actor_222.LifeInfo.Display = false
 	Actor_222H = ActorHandler(Actor_222)
 	environment:AddActorObject(Actor_222H)
 
@@ -9466,6 +10354,7 @@ function InitMap(environment)
 	Actor_223.DisplayDesc.RotY = 0
 	Actor_223.DisplayDesc.RotZ = 0
 	Actor_223:SetModelState(1)
+	Actor_223.DisplayDesc.UseBillboard = false
 	Actor_223.PhysicDesc.Pos.X = 461.031
 	Actor_223.PhysicDesc.Pos.Y = 2.92969
 	Actor_223.PhysicDesc.Pos.Z = 550.5
@@ -9475,6 +10364,7 @@ function InitMap(environment)
 	Actor_223.PhysicDesc.SizeX = 0
 	Actor_223.PhysicDesc.SizeY = 0
 	Actor_223.PhysicDesc.SizeZ = 0
+	Actor_223.PhysicDesc.AllowFreeMove = true
 	Actor_223.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_85.phy"
 	Actor_223:SetPhysicalActorType(1)
 	Actor_223:SetPhysicalShape(5)
@@ -9482,6 +10372,8 @@ function InitMap(environment)
 	Actor_223.ExtraInfo.NameColorR = 0
 	Actor_223.ExtraInfo.NameColorG = 0
 	Actor_223.ExtraInfo.NameColorB = 0
+	Actor_223.ExtraInfo.Display = false
+	Actor_223.LifeInfo.Display = false
 	Actor_223H = ActorHandler(Actor_223)
 	environment:AddActorObject(Actor_223H)
 
@@ -9508,6 +10400,7 @@ function InitMap(environment)
 	Actor_224.DisplayDesc.RotY = 0
 	Actor_224.DisplayDesc.RotZ = 0
 	Actor_224:SetModelState(1)
+	Actor_224.DisplayDesc.UseBillboard = false
 	Actor_224.PhysicDesc.Pos.X = 432.008
 	Actor_224.PhysicDesc.Pos.Y = 0.015625
 	Actor_224.PhysicDesc.Pos.Z = 584.992
@@ -9517,6 +10410,7 @@ function InitMap(environment)
 	Actor_224.PhysicDesc.SizeX = 0
 	Actor_224.PhysicDesc.SizeY = 0
 	Actor_224.PhysicDesc.SizeZ = 0
+	Actor_224.PhysicDesc.AllowFreeMove = true
 	Actor_224.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_86.phy"
 	Actor_224:SetPhysicalActorType(1)
 	Actor_224:SetPhysicalShape(5)
@@ -9524,6 +10418,8 @@ function InitMap(environment)
 	Actor_224.ExtraInfo.NameColorR = 0
 	Actor_224.ExtraInfo.NameColorG = 0
 	Actor_224.ExtraInfo.NameColorB = 0
+	Actor_224.ExtraInfo.Display = false
+	Actor_224.LifeInfo.Display = false
 	Actor_224H = ActorHandler(Actor_224)
 	environment:AddActorObject(Actor_224H)
 
@@ -9550,6 +10446,7 @@ function InitMap(environment)
 	Actor_225.DisplayDesc.RotY = 0
 	Actor_225.DisplayDesc.RotZ = 0
 	Actor_225:SetModelState(1)
+	Actor_225.DisplayDesc.UseBillboard = false
 	Actor_225.PhysicDesc.Pos.X = 433.656
 	Actor_225.PhysicDesc.Pos.Y = 0
 	Actor_225.PhysicDesc.Pos.Z = 589.25
@@ -9559,6 +10456,7 @@ function InitMap(environment)
 	Actor_225.PhysicDesc.SizeX = 0
 	Actor_225.PhysicDesc.SizeY = 0
 	Actor_225.PhysicDesc.SizeZ = 0
+	Actor_225.PhysicDesc.AllowFreeMove = true
 	Actor_225.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_87.phy"
 	Actor_225:SetPhysicalActorType(1)
 	Actor_225:SetPhysicalShape(5)
@@ -9566,6 +10464,8 @@ function InitMap(environment)
 	Actor_225.ExtraInfo.NameColorR = 0
 	Actor_225.ExtraInfo.NameColorG = 0
 	Actor_225.ExtraInfo.NameColorB = 0
+	Actor_225.ExtraInfo.Display = false
+	Actor_225.LifeInfo.Display = false
 	Actor_225H = ActorHandler(Actor_225)
 	environment:AddActorObject(Actor_225H)
 
@@ -9592,6 +10492,7 @@ function InitMap(environment)
 	Actor_226.DisplayDesc.RotY = 0
 	Actor_226.DisplayDesc.RotZ = 0
 	Actor_226:SetModelState(1)
+	Actor_226.DisplayDesc.UseBillboard = false
 	Actor_226.PhysicDesc.Pos.X = 506.5
 	Actor_226.PhysicDesc.Pos.Y = 2.44141
 	Actor_226.PhysicDesc.Pos.Z = 583.5
@@ -9601,6 +10502,7 @@ function InitMap(environment)
 	Actor_226.PhysicDesc.SizeX = 0
 	Actor_226.PhysicDesc.SizeY = 0
 	Actor_226.PhysicDesc.SizeZ = 0
+	Actor_226.PhysicDesc.AllowFreeMove = true
 	Actor_226.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_34.phy"
 	Actor_226:SetPhysicalActorType(1)
 	Actor_226:SetPhysicalShape(5)
@@ -9608,6 +10510,8 @@ function InitMap(environment)
 	Actor_226.ExtraInfo.NameColorR = 0
 	Actor_226.ExtraInfo.NameColorG = 0
 	Actor_226.ExtraInfo.NameColorB = 0
+	Actor_226.ExtraInfo.Display = false
+	Actor_226.LifeInfo.Display = false
 	Actor_226H = ActorHandler(Actor_226)
 	environment:AddActorObject(Actor_226H)
 
@@ -9634,6 +10538,7 @@ function InitMap(environment)
 	Actor_227.DisplayDesc.RotY = 0
 	Actor_227.DisplayDesc.RotZ = 0
 	Actor_227:SetModelState(1)
+	Actor_227.DisplayDesc.UseBillboard = false
 	Actor_227.PhysicDesc.Pos.X = 507.5
 	Actor_227.PhysicDesc.Pos.Y = 2.44141
 	Actor_227.PhysicDesc.Pos.Z = 583.5
@@ -9643,6 +10548,7 @@ function InitMap(environment)
 	Actor_227.PhysicDesc.SizeX = 0
 	Actor_227.PhysicDesc.SizeY = 0
 	Actor_227.PhysicDesc.SizeZ = 0
+	Actor_227.PhysicDesc.AllowFreeMove = true
 	Actor_227.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_34.phy"
 	Actor_227:SetPhysicalActorType(1)
 	Actor_227:SetPhysicalShape(5)
@@ -9650,6 +10556,8 @@ function InitMap(environment)
 	Actor_227.ExtraInfo.NameColorR = 0
 	Actor_227.ExtraInfo.NameColorG = 0
 	Actor_227.ExtraInfo.NameColorB = 0
+	Actor_227.ExtraInfo.Display = false
+	Actor_227.LifeInfo.Display = false
 	Actor_227H = ActorHandler(Actor_227)
 	environment:AddActorObject(Actor_227H)
 
@@ -9676,6 +10584,7 @@ function InitMap(environment)
 	Actor_228.DisplayDesc.RotY = 0
 	Actor_228.DisplayDesc.RotZ = 0
 	Actor_228:SetModelState(1)
+	Actor_228.DisplayDesc.UseBillboard = false
 	Actor_228.PhysicDesc.Pos.X = 508.5
 	Actor_228.PhysicDesc.Pos.Y = 2.92969
 	Actor_228.PhysicDesc.Pos.Z = 583.5
@@ -9685,6 +10594,7 @@ function InitMap(environment)
 	Actor_228.PhysicDesc.SizeX = 0
 	Actor_228.PhysicDesc.SizeY = 0
 	Actor_228.PhysicDesc.SizeZ = 0
+	Actor_228.PhysicDesc.AllowFreeMove = true
 	Actor_228.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_34.phy"
 	Actor_228:SetPhysicalActorType(1)
 	Actor_228:SetPhysicalShape(5)
@@ -9692,6 +10602,8 @@ function InitMap(environment)
 	Actor_228.ExtraInfo.NameColorR = 0
 	Actor_228.ExtraInfo.NameColorG = 0
 	Actor_228.ExtraInfo.NameColorB = 0
+	Actor_228.ExtraInfo.Display = false
+	Actor_228.LifeInfo.Display = false
 	Actor_228H = ActorHandler(Actor_228)
 	environment:AddActorObject(Actor_228H)
 
@@ -9718,6 +10630,7 @@ function InitMap(environment)
 	Actor_229.DisplayDesc.RotY = 0
 	Actor_229.DisplayDesc.RotZ = 0
 	Actor_229:SetModelState(1)
+	Actor_229.DisplayDesc.UseBillboard = false
 	Actor_229.PhysicDesc.Pos.X = 513.5
 	Actor_229.PhysicDesc.Pos.Y = 2.44141
 	Actor_229.PhysicDesc.Pos.Z = 583.5
@@ -9727,6 +10640,7 @@ function InitMap(environment)
 	Actor_229.PhysicDesc.SizeX = 0
 	Actor_229.PhysicDesc.SizeY = 0
 	Actor_229.PhysicDesc.SizeZ = 0
+	Actor_229.PhysicDesc.AllowFreeMove = true
 	Actor_229.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_34.phy"
 	Actor_229:SetPhysicalActorType(1)
 	Actor_229:SetPhysicalShape(5)
@@ -9734,6 +10648,8 @@ function InitMap(environment)
 	Actor_229.ExtraInfo.NameColorR = 0
 	Actor_229.ExtraInfo.NameColorG = 0
 	Actor_229.ExtraInfo.NameColorB = 0
+	Actor_229.ExtraInfo.Display = false
+	Actor_229.LifeInfo.Display = false
 	Actor_229H = ActorHandler(Actor_229)
 	environment:AddActorObject(Actor_229H)
 
@@ -9760,6 +10676,7 @@ function InitMap(environment)
 	Actor_230.DisplayDesc.RotY = 0
 	Actor_230.DisplayDesc.RotZ = 0
 	Actor_230:SetModelState(1)
+	Actor_230.DisplayDesc.UseBillboard = false
 	Actor_230.PhysicDesc.Pos.X = 512.5
 	Actor_230.PhysicDesc.Pos.Y = 2.6875
 	Actor_230.PhysicDesc.Pos.Z = 583.5
@@ -9769,6 +10686,7 @@ function InitMap(environment)
 	Actor_230.PhysicDesc.SizeX = 0
 	Actor_230.PhysicDesc.SizeY = 0
 	Actor_230.PhysicDesc.SizeZ = 0
+	Actor_230.PhysicDesc.AllowFreeMove = true
 	Actor_230.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_34.phy"
 	Actor_230:SetPhysicalActorType(1)
 	Actor_230:SetPhysicalShape(5)
@@ -9776,6 +10694,8 @@ function InitMap(environment)
 	Actor_230.ExtraInfo.NameColorR = 0
 	Actor_230.ExtraInfo.NameColorG = 0
 	Actor_230.ExtraInfo.NameColorB = 0
+	Actor_230.ExtraInfo.Display = false
+	Actor_230.LifeInfo.Display = false
 	Actor_230H = ActorHandler(Actor_230)
 	environment:AddActorObject(Actor_230H)
 
@@ -9802,6 +10722,7 @@ function InitMap(environment)
 	Actor_231.DisplayDesc.RotY = 0
 	Actor_231.DisplayDesc.RotZ = 0
 	Actor_231:SetModelState(1)
+	Actor_231.DisplayDesc.UseBillboard = false
 	Actor_231.PhysicDesc.Pos.X = 511.5
 	Actor_231.PhysicDesc.Pos.Y = 2.44141
 	Actor_231.PhysicDesc.Pos.Z = 583.5
@@ -9811,6 +10732,7 @@ function InitMap(environment)
 	Actor_231.PhysicDesc.SizeX = 0
 	Actor_231.PhysicDesc.SizeY = 0
 	Actor_231.PhysicDesc.SizeZ = 0
+	Actor_231.PhysicDesc.AllowFreeMove = true
 	Actor_231.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_34.phy"
 	Actor_231:SetPhysicalActorType(1)
 	Actor_231:SetPhysicalShape(5)
@@ -9818,6 +10740,8 @@ function InitMap(environment)
 	Actor_231.ExtraInfo.NameColorR = 0
 	Actor_231.ExtraInfo.NameColorG = 0
 	Actor_231.ExtraInfo.NameColorB = 0
+	Actor_231.ExtraInfo.Display = false
+	Actor_231.LifeInfo.Display = false
 	Actor_231H = ActorHandler(Actor_231)
 	environment:AddActorObject(Actor_231H)
 
@@ -9844,6 +10768,7 @@ function InitMap(environment)
 	Actor_232.DisplayDesc.RotY = 0
 	Actor_232.DisplayDesc.RotZ = 0
 	Actor_232:SetModelState(1)
+	Actor_232.DisplayDesc.UseBillboard = false
 	Actor_232.PhysicDesc.Pos.X = 509.5
 	Actor_232.PhysicDesc.Pos.Y = 0.976563
 	Actor_232.PhysicDesc.Pos.Z = 595.5
@@ -9853,6 +10778,7 @@ function InitMap(environment)
 	Actor_232.PhysicDesc.SizeX = 0
 	Actor_232.PhysicDesc.SizeY = 0
 	Actor_232.PhysicDesc.SizeZ = 0
+	Actor_232.PhysicDesc.AllowFreeMove = true
 	Actor_232.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_36.phy"
 	Actor_232:SetPhysicalActorType(1)
 	Actor_232:SetPhysicalShape(5)
@@ -9860,6 +10786,8 @@ function InitMap(environment)
 	Actor_232.ExtraInfo.NameColorR = 0
 	Actor_232.ExtraInfo.NameColorG = 0
 	Actor_232.ExtraInfo.NameColorB = 0
+	Actor_232.ExtraInfo.Display = false
+	Actor_232.LifeInfo.Display = false
 	Actor_232H = ActorHandler(Actor_232)
 	environment:AddActorObject(Actor_232H)
 
@@ -9886,6 +10814,7 @@ function InitMap(environment)
 	Actor_233.DisplayDesc.RotY = 0
 	Actor_233.DisplayDesc.RotZ = 0
 	Actor_233:SetModelState(1)
+	Actor_233.DisplayDesc.UseBillboard = false
 	Actor_233.PhysicDesc.Pos.X = 502.375
 	Actor_233.PhysicDesc.Pos.Y = 0.976563
 	Actor_233.PhysicDesc.Pos.Z = 595.5
@@ -9895,6 +10824,7 @@ function InitMap(environment)
 	Actor_233.PhysicDesc.SizeX = 0
 	Actor_233.PhysicDesc.SizeY = 0
 	Actor_233.PhysicDesc.SizeZ = 0
+	Actor_233.PhysicDesc.AllowFreeMove = true
 	Actor_233.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_36.phy"
 	Actor_233:SetPhysicalActorType(1)
 	Actor_233:SetPhysicalShape(5)
@@ -9902,6 +10832,8 @@ function InitMap(environment)
 	Actor_233.ExtraInfo.NameColorR = 0
 	Actor_233.ExtraInfo.NameColorG = 0
 	Actor_233.ExtraInfo.NameColorB = 0
+	Actor_233.ExtraInfo.Display = false
+	Actor_233.LifeInfo.Display = false
 	Actor_233H = ActorHandler(Actor_233)
 	environment:AddActorObject(Actor_233H)
 
@@ -9928,6 +10860,7 @@ function InitMap(environment)
 	Actor_234.DisplayDesc.RotY = 0
 	Actor_234.DisplayDesc.RotZ = 0
 	Actor_234:SetModelState(1)
+	Actor_234.DisplayDesc.UseBillboard = false
 	Actor_234.PhysicDesc.Pos.X = 516.625
 	Actor_234.PhysicDesc.Pos.Y = 0.976563
 	Actor_234.PhysicDesc.Pos.Z = 595.5
@@ -9937,6 +10870,7 @@ function InitMap(environment)
 	Actor_234.PhysicDesc.SizeX = 0
 	Actor_234.PhysicDesc.SizeY = 0
 	Actor_234.PhysicDesc.SizeZ = 0
+	Actor_234.PhysicDesc.AllowFreeMove = true
 	Actor_234.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_36.phy"
 	Actor_234:SetPhysicalActorType(1)
 	Actor_234:SetPhysicalShape(5)
@@ -9944,6 +10878,8 @@ function InitMap(environment)
 	Actor_234.ExtraInfo.NameColorR = 0
 	Actor_234.ExtraInfo.NameColorG = 0
 	Actor_234.ExtraInfo.NameColorB = 0
+	Actor_234.ExtraInfo.Display = false
+	Actor_234.LifeInfo.Display = false
 	Actor_234H = ActorHandler(Actor_234)
 	environment:AddActorObject(Actor_234H)
 
@@ -9970,6 +10906,7 @@ function InitMap(environment)
 	Actor_235.DisplayDesc.RotY = 0
 	Actor_235.DisplayDesc.RotZ = 0
 	Actor_235:SetModelState(1)
+	Actor_235.DisplayDesc.UseBillboard = false
 	Actor_235.PhysicDesc.Pos.X = 501.5
 	Actor_235.PhysicDesc.Pos.Y = 0.976563
 	Actor_235.PhysicDesc.Pos.Z = 598.5
@@ -9979,6 +10916,7 @@ function InitMap(environment)
 	Actor_235.PhysicDesc.SizeX = 0
 	Actor_235.PhysicDesc.SizeY = 0
 	Actor_235.PhysicDesc.SizeZ = 0
+	Actor_235.PhysicDesc.AllowFreeMove = true
 	Actor_235.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_6.phy"
 	Actor_235:SetPhysicalActorType(1)
 	Actor_235:SetPhysicalShape(5)
@@ -9986,6 +10924,8 @@ function InitMap(environment)
 	Actor_235.ExtraInfo.NameColorR = 0
 	Actor_235.ExtraInfo.NameColorG = 0
 	Actor_235.ExtraInfo.NameColorB = 0
+	Actor_235.ExtraInfo.Display = false
+	Actor_235.LifeInfo.Display = false
 	Actor_235H = ActorHandler(Actor_235)
 	environment:AddActorObject(Actor_235H)
 
@@ -10012,6 +10952,7 @@ function InitMap(environment)
 	Actor_236.DisplayDesc.RotY = 0
 	Actor_236.DisplayDesc.RotZ = 0
 	Actor_236:SetModelState(1)
+	Actor_236.DisplayDesc.UseBillboard = false
 	Actor_236.PhysicDesc.Pos.X = 506.5
 	Actor_236.PhysicDesc.Pos.Y = 2.44141
 	Actor_236.PhysicDesc.Pos.Z = 574.625
@@ -10021,6 +10962,7 @@ function InitMap(environment)
 	Actor_236.PhysicDesc.SizeX = 0
 	Actor_236.PhysicDesc.SizeY = 0
 	Actor_236.PhysicDesc.SizeZ = 0
+	Actor_236.PhysicDesc.AllowFreeMove = true
 	Actor_236.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_1.phy"
 	Actor_236:SetPhysicalActorType(1)
 	Actor_236:SetPhysicalShape(5)
@@ -10028,6 +10970,8 @@ function InitMap(environment)
 	Actor_236.ExtraInfo.NameColorR = 0
 	Actor_236.ExtraInfo.NameColorG = 0
 	Actor_236.ExtraInfo.NameColorB = 0
+	Actor_236.ExtraInfo.Display = false
+	Actor_236.LifeInfo.Display = false
 	Actor_236H = ActorHandler(Actor_236)
 	environment:AddActorObject(Actor_236H)
 
@@ -10054,6 +10998,7 @@ function InitMap(environment)
 	Actor_237.DisplayDesc.RotY = 0
 	Actor_237.DisplayDesc.RotZ = 0
 	Actor_237:SetModelState(1)
+	Actor_237.DisplayDesc.UseBillboard = false
 	Actor_237.PhysicDesc.Pos.X = 512.5
 	Actor_237.PhysicDesc.Pos.Y = 2.44141
 	Actor_237.PhysicDesc.Pos.Z = 574.375
@@ -10063,6 +11008,7 @@ function InitMap(environment)
 	Actor_237.PhysicDesc.SizeX = 0
 	Actor_237.PhysicDesc.SizeY = 0
 	Actor_237.PhysicDesc.SizeZ = 0
+	Actor_237.PhysicDesc.AllowFreeMove = true
 	Actor_237.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_1.phy"
 	Actor_237:SetPhysicalActorType(1)
 	Actor_237:SetPhysicalShape(5)
@@ -10070,6 +11016,8 @@ function InitMap(environment)
 	Actor_237.ExtraInfo.NameColorR = 0
 	Actor_237.ExtraInfo.NameColorG = 0
 	Actor_237.ExtraInfo.NameColorB = 0
+	Actor_237.ExtraInfo.Display = false
+	Actor_237.LifeInfo.Display = false
 	Actor_237H = ActorHandler(Actor_237)
 	environment:AddActorObject(Actor_237H)
 
@@ -10096,6 +11044,7 @@ function InitMap(environment)
 	Actor_238.DisplayDesc.RotY = 0
 	Actor_238.DisplayDesc.RotZ = 0
 	Actor_238:SetModelState(1)
+	Actor_238.DisplayDesc.UseBillboard = false
 	Actor_238.PhysicDesc.Pos.X = 509.5
 	Actor_238.PhysicDesc.Pos.Y = 2.44141
 	Actor_238.PhysicDesc.Pos.Z = 579.875
@@ -10105,6 +11054,7 @@ function InitMap(environment)
 	Actor_238.PhysicDesc.SizeX = 0
 	Actor_238.PhysicDesc.SizeY = 0
 	Actor_238.PhysicDesc.SizeZ = 0
+	Actor_238.PhysicDesc.AllowFreeMove = true
 	Actor_238.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_1.phy"
 	Actor_238:SetPhysicalActorType(1)
 	Actor_238:SetPhysicalShape(5)
@@ -10112,6 +11062,8 @@ function InitMap(environment)
 	Actor_238.ExtraInfo.NameColorR = 0
 	Actor_238.ExtraInfo.NameColorG = 0
 	Actor_238.ExtraInfo.NameColorB = 0
+	Actor_238.ExtraInfo.Display = false
+	Actor_238.LifeInfo.Display = false
 	Actor_238H = ActorHandler(Actor_238)
 	environment:AddActorObject(Actor_238H)
 
@@ -10138,6 +11090,7 @@ function InitMap(environment)
 	Actor_239.DisplayDesc.RotY = 0
 	Actor_239.DisplayDesc.RotZ = 0
 	Actor_239:SetModelState(1)
+	Actor_239.DisplayDesc.UseBillboard = false
 	Actor_239.PhysicDesc.Pos.X = 512.5
 	Actor_239.PhysicDesc.Pos.Y = 0.976563
 	Actor_239.PhysicDesc.Pos.Z = 552.5
@@ -10147,6 +11100,7 @@ function InitMap(environment)
 	Actor_239.PhysicDesc.SizeX = 0
 	Actor_239.PhysicDesc.SizeY = 0
 	Actor_239.PhysicDesc.SizeZ = 0
+	Actor_239.PhysicDesc.AllowFreeMove = true
 	Actor_239.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_88.phy"
 	Actor_239:SetPhysicalActorType(1)
 	Actor_239:SetPhysicalShape(5)
@@ -10154,6 +11108,8 @@ function InitMap(environment)
 	Actor_239.ExtraInfo.NameColorR = 0
 	Actor_239.ExtraInfo.NameColorG = 0
 	Actor_239.ExtraInfo.NameColorB = 0
+	Actor_239.ExtraInfo.Display = false
+	Actor_239.LifeInfo.Display = false
 	Actor_239H = ActorHandler(Actor_239)
 	environment:AddActorObject(Actor_239H)
 
@@ -10180,6 +11136,7 @@ function InitMap(environment)
 	Actor_240.DisplayDesc.RotY = 0
 	Actor_240.DisplayDesc.RotZ = 0
 	Actor_240:SetModelState(1)
+	Actor_240.DisplayDesc.UseBillboard = false
 	Actor_240.PhysicDesc.Pos.X = 512.5
 	Actor_240.PhysicDesc.Pos.Y = 0.976563
 	Actor_240.PhysicDesc.Pos.Z = 552.5
@@ -10189,6 +11146,7 @@ function InitMap(environment)
 	Actor_240.PhysicDesc.SizeX = 0
 	Actor_240.PhysicDesc.SizeY = 0
 	Actor_240.PhysicDesc.SizeZ = 0
+	Actor_240.PhysicDesc.AllowFreeMove = true
 	Actor_240.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_89.phy"
 	Actor_240:SetPhysicalActorType(1)
 	Actor_240:SetPhysicalShape(5)
@@ -10196,6 +11154,8 @@ function InitMap(environment)
 	Actor_240.ExtraInfo.NameColorR = 0
 	Actor_240.ExtraInfo.NameColorG = 0
 	Actor_240.ExtraInfo.NameColorB = 0
+	Actor_240.ExtraInfo.Display = false
+	Actor_240.LifeInfo.Display = false
 	Actor_240H = ActorHandler(Actor_240)
 	environment:AddActorObject(Actor_240H)
 
@@ -10222,6 +11182,7 @@ function InitMap(environment)
 	Actor_241.DisplayDesc.RotY = 0
 	Actor_241.DisplayDesc.RotZ = 0
 	Actor_241:SetModelState(1)
+	Actor_241.DisplayDesc.UseBillboard = false
 	Actor_241.PhysicDesc.Pos.X = 520.625
 	Actor_241.PhysicDesc.Pos.Y = 2.19531
 	Actor_241.PhysicDesc.Pos.Z = 550.75
@@ -10231,6 +11192,7 @@ function InitMap(environment)
 	Actor_241.PhysicDesc.SizeX = 0
 	Actor_241.PhysicDesc.SizeY = 0
 	Actor_241.PhysicDesc.SizeZ = 0
+	Actor_241.PhysicDesc.AllowFreeMove = true
 	Actor_241.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_1.phy"
 	Actor_241:SetPhysicalActorType(1)
 	Actor_241:SetPhysicalShape(5)
@@ -10238,6 +11200,8 @@ function InitMap(environment)
 	Actor_241.ExtraInfo.NameColorR = 0
 	Actor_241.ExtraInfo.NameColorG = 0
 	Actor_241.ExtraInfo.NameColorB = 0
+	Actor_241.ExtraInfo.Display = false
+	Actor_241.LifeInfo.Display = false
 	Actor_241H = ActorHandler(Actor_241)
 	environment:AddActorObject(Actor_241H)
 
@@ -10264,6 +11228,7 @@ function InitMap(environment)
 	Actor_242.DisplayDesc.RotY = 0
 	Actor_242.DisplayDesc.RotZ = 0
 	Actor_242:SetModelState(1)
+	Actor_242.DisplayDesc.UseBillboard = false
 	Actor_242.PhysicDesc.Pos.X = 504
 	Actor_242.PhysicDesc.Pos.Y = 0.976563
 	Actor_242.PhysicDesc.Pos.Z = 549.75
@@ -10273,6 +11238,7 @@ function InitMap(environment)
 	Actor_242.PhysicDesc.SizeX = 0
 	Actor_242.PhysicDesc.SizeY = 0
 	Actor_242.PhysicDesc.SizeZ = 0
+	Actor_242.PhysicDesc.AllowFreeMove = true
 	Actor_242.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_1.phy"
 	Actor_242:SetPhysicalActorType(1)
 	Actor_242:SetPhysicalShape(5)
@@ -10280,6 +11246,8 @@ function InitMap(environment)
 	Actor_242.ExtraInfo.NameColorR = 0
 	Actor_242.ExtraInfo.NameColorG = 0
 	Actor_242.ExtraInfo.NameColorB = 0
+	Actor_242.ExtraInfo.Display = false
+	Actor_242.LifeInfo.Display = false
 	Actor_242H = ActorHandler(Actor_242)
 	environment:AddActorObject(Actor_242H)
 
@@ -10306,6 +11274,7 @@ function InitMap(environment)
 	Actor_243.DisplayDesc.RotY = 0
 	Actor_243.DisplayDesc.RotZ = 0
 	Actor_243:SetModelState(1)
+	Actor_243.DisplayDesc.UseBillboard = false
 	Actor_243.PhysicDesc.Pos.X = 526.5
 	Actor_243.PhysicDesc.Pos.Y = 1.95313
 	Actor_243.PhysicDesc.Pos.Z = 548
@@ -10315,6 +11284,7 @@ function InitMap(environment)
 	Actor_243.PhysicDesc.SizeX = 0
 	Actor_243.PhysicDesc.SizeY = 0
 	Actor_243.PhysicDesc.SizeZ = 0
+	Actor_243.PhysicDesc.AllowFreeMove = true
 	Actor_243.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_1.phy"
 	Actor_243:SetPhysicalActorType(1)
 	Actor_243:SetPhysicalShape(5)
@@ -10322,6 +11292,8 @@ function InitMap(environment)
 	Actor_243.ExtraInfo.NameColorR = 0
 	Actor_243.ExtraInfo.NameColorG = 0
 	Actor_243.ExtraInfo.NameColorB = 0
+	Actor_243.ExtraInfo.Display = false
+	Actor_243.LifeInfo.Display = false
 	Actor_243H = ActorHandler(Actor_243)
 	environment:AddActorObject(Actor_243H)
 
@@ -10348,6 +11320,7 @@ function InitMap(environment)
 	Actor_244.DisplayDesc.RotY = 0
 	Actor_244.DisplayDesc.RotZ = 0
 	Actor_244:SetModelState(1)
+	Actor_244.DisplayDesc.UseBillboard = false
 	Actor_244.PhysicDesc.Pos.X = 505.5
 	Actor_244.PhysicDesc.Pos.Y = 0.976563
 	Actor_244.PhysicDesc.Pos.Z = 559.5
@@ -10357,6 +11330,7 @@ function InitMap(environment)
 	Actor_244.PhysicDesc.SizeX = 0
 	Actor_244.PhysicDesc.SizeY = 0
 	Actor_244.PhysicDesc.SizeZ = 0
+	Actor_244.PhysicDesc.AllowFreeMove = true
 	Actor_244.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_6.phy"
 	Actor_244:SetPhysicalActorType(1)
 	Actor_244:SetPhysicalShape(5)
@@ -10364,6 +11338,8 @@ function InitMap(environment)
 	Actor_244.ExtraInfo.NameColorR = 0
 	Actor_244.ExtraInfo.NameColorG = 0
 	Actor_244.ExtraInfo.NameColorB = 0
+	Actor_244.ExtraInfo.Display = false
+	Actor_244.LifeInfo.Display = false
 	Actor_244H = ActorHandler(Actor_244)
 	environment:AddActorObject(Actor_244H)
 
@@ -10390,6 +11366,7 @@ function InitMap(environment)
 	Actor_245.DisplayDesc.RotY = 0
 	Actor_245.DisplayDesc.RotZ = 0
 	Actor_245:SetModelState(1)
+	Actor_245.DisplayDesc.UseBillboard = false
 	Actor_245.PhysicDesc.Pos.X = 517.375
 	Actor_245.PhysicDesc.Pos.Y = 0.976563
 	Actor_245.PhysicDesc.Pos.Z = 586.25
@@ -10399,6 +11376,7 @@ function InitMap(environment)
 	Actor_245.PhysicDesc.SizeX = 0
 	Actor_245.PhysicDesc.SizeY = 0
 	Actor_245.PhysicDesc.SizeZ = 0
+	Actor_245.PhysicDesc.AllowFreeMove = true
 	Actor_245.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_35.phy"
 	Actor_245:SetPhysicalActorType(1)
 	Actor_245:SetPhysicalShape(5)
@@ -10406,6 +11384,8 @@ function InitMap(environment)
 	Actor_245.ExtraInfo.NameColorR = 0
 	Actor_245.ExtraInfo.NameColorG = 0
 	Actor_245.ExtraInfo.NameColorB = 0
+	Actor_245.ExtraInfo.Display = false
+	Actor_245.LifeInfo.Display = false
 	Actor_245H = ActorHandler(Actor_245)
 	environment:AddActorObject(Actor_245H)
 
@@ -10432,6 +11412,7 @@ function InitMap(environment)
 	Actor_246.DisplayDesc.RotY = 0
 	Actor_246.DisplayDesc.RotZ = 0
 	Actor_246:SetModelState(1)
+	Actor_246.DisplayDesc.UseBillboard = false
 	Actor_246.PhysicDesc.Pos.X = 502.625
 	Actor_246.PhysicDesc.Pos.Y = 0.976563
 	Actor_246.PhysicDesc.Pos.Z = 586.25
@@ -10441,6 +11422,7 @@ function InitMap(environment)
 	Actor_246.PhysicDesc.SizeX = 0
 	Actor_246.PhysicDesc.SizeY = 0
 	Actor_246.PhysicDesc.SizeZ = 0
+	Actor_246.PhysicDesc.AllowFreeMove = true
 	Actor_246.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_35.phy"
 	Actor_246:SetPhysicalActorType(1)
 	Actor_246:SetPhysicalShape(5)
@@ -10448,6 +11430,8 @@ function InitMap(environment)
 	Actor_246.ExtraInfo.NameColorR = 0
 	Actor_246.ExtraInfo.NameColorG = 0
 	Actor_246.ExtraInfo.NameColorB = 0
+	Actor_246.ExtraInfo.Display = false
+	Actor_246.LifeInfo.Display = false
 	Actor_246H = ActorHandler(Actor_246)
 	environment:AddActorObject(Actor_246H)
 
@@ -10474,6 +11458,7 @@ function InitMap(environment)
 	Actor_247.DisplayDesc.RotY = 0
 	Actor_247.DisplayDesc.RotZ = 0
 	Actor_247:SetModelState(1)
+	Actor_247.DisplayDesc.UseBillboard = false
 	Actor_247.PhysicDesc.Pos.X = 502.625
 	Actor_247.PhysicDesc.Pos.Y = 0.976563
 	Actor_247.PhysicDesc.Pos.Z = 565.75
@@ -10483,6 +11468,7 @@ function InitMap(environment)
 	Actor_247.PhysicDesc.SizeX = 0
 	Actor_247.PhysicDesc.SizeY = 0
 	Actor_247.PhysicDesc.SizeZ = 0
+	Actor_247.PhysicDesc.AllowFreeMove = true
 	Actor_247.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_35.phy"
 	Actor_247:SetPhysicalActorType(1)
 	Actor_247:SetPhysicalShape(5)
@@ -10490,6 +11476,8 @@ function InitMap(environment)
 	Actor_247.ExtraInfo.NameColorR = 0
 	Actor_247.ExtraInfo.NameColorG = 0
 	Actor_247.ExtraInfo.NameColorB = 0
+	Actor_247.ExtraInfo.Display = false
+	Actor_247.LifeInfo.Display = false
 	Actor_247H = ActorHandler(Actor_247)
 	environment:AddActorObject(Actor_247H)
 
@@ -10516,6 +11504,7 @@ function InitMap(environment)
 	Actor_248.DisplayDesc.RotY = 0
 	Actor_248.DisplayDesc.RotZ = 0
 	Actor_248:SetModelState(1)
+	Actor_248.DisplayDesc.UseBillboard = false
 	Actor_248.PhysicDesc.Pos.X = 517.375
 	Actor_248.PhysicDesc.Pos.Y = 0.976563
 	Actor_248.PhysicDesc.Pos.Z = 565.75
@@ -10525,6 +11514,7 @@ function InitMap(environment)
 	Actor_248.PhysicDesc.SizeX = 0
 	Actor_248.PhysicDesc.SizeY = 0
 	Actor_248.PhysicDesc.SizeZ = 0
+	Actor_248.PhysicDesc.AllowFreeMove = true
 	Actor_248.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_35.phy"
 	Actor_248:SetPhysicalActorType(1)
 	Actor_248:SetPhysicalShape(5)
@@ -10532,6 +11522,8 @@ function InitMap(environment)
 	Actor_248.ExtraInfo.NameColorR = 0
 	Actor_248.ExtraInfo.NameColorG = 0
 	Actor_248.ExtraInfo.NameColorB = 0
+	Actor_248.ExtraInfo.Display = false
+	Actor_248.LifeInfo.Display = false
 	Actor_248H = ActorHandler(Actor_248)
 	environment:AddActorObject(Actor_248H)
 
@@ -10558,6 +11550,7 @@ function InitMap(environment)
 	Actor_249.DisplayDesc.RotY = 0
 	Actor_249.DisplayDesc.RotZ = 0
 	Actor_249:SetModelState(1)
+	Actor_249.DisplayDesc.UseBillboard = false
 	Actor_249.PhysicDesc.Pos.X = 517.5
 	Actor_249.PhysicDesc.Pos.Y = 0.976563
 	Actor_249.PhysicDesc.Pos.Z = 558.5
@@ -10567,6 +11560,7 @@ function InitMap(environment)
 	Actor_249.PhysicDesc.SizeX = 0
 	Actor_249.PhysicDesc.SizeY = 0
 	Actor_249.PhysicDesc.SizeZ = 0
+	Actor_249.PhysicDesc.AllowFreeMove = true
 	Actor_249.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_50.phy"
 	Actor_249:SetPhysicalActorType(1)
 	Actor_249:SetPhysicalShape(5)
@@ -10574,6 +11568,8 @@ function InitMap(environment)
 	Actor_249.ExtraInfo.NameColorR = 0
 	Actor_249.ExtraInfo.NameColorG = 0
 	Actor_249.ExtraInfo.NameColorB = 0
+	Actor_249.ExtraInfo.Display = false
+	Actor_249.LifeInfo.Display = false
 	Actor_249H = ActorHandler(Actor_249)
 	environment:AddActorObject(Actor_249H)
 
@@ -10600,6 +11596,7 @@ function InitMap(environment)
 	Actor_250.DisplayDesc.RotY = 0
 	Actor_250.DisplayDesc.RotZ = 0
 	Actor_250:SetModelState(1)
+	Actor_250.DisplayDesc.UseBillboard = false
 	Actor_250.PhysicDesc.Pos.X = 512.5
 	Actor_250.PhysicDesc.Pos.Y = 0.976563
 	Actor_250.PhysicDesc.Pos.Z = 558.5
@@ -10609,6 +11606,7 @@ function InitMap(environment)
 	Actor_250.PhysicDesc.SizeX = 0
 	Actor_250.PhysicDesc.SizeY = 0
 	Actor_250.PhysicDesc.SizeZ = 0
+	Actor_250.PhysicDesc.AllowFreeMove = true
 	Actor_250.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_50.phy"
 	Actor_250:SetPhysicalActorType(1)
 	Actor_250:SetPhysicalShape(5)
@@ -10616,6 +11614,8 @@ function InitMap(environment)
 	Actor_250.ExtraInfo.NameColorR = 0
 	Actor_250.ExtraInfo.NameColorG = 0
 	Actor_250.ExtraInfo.NameColorB = 0
+	Actor_250.ExtraInfo.Display = false
+	Actor_250.LifeInfo.Display = false
 	Actor_250H = ActorHandler(Actor_250)
 	environment:AddActorObject(Actor_250H)
 
@@ -10642,6 +11642,7 @@ function InitMap(environment)
 	Actor_251.DisplayDesc.RotY = 0
 	Actor_251.DisplayDesc.RotZ = 0
 	Actor_251:SetModelState(1)
+	Actor_251.DisplayDesc.UseBillboard = false
 	Actor_251.PhysicDesc.Pos.X = 484.5
 	Actor_251.PhysicDesc.Pos.Y = 0.976563
 	Actor_251.PhysicDesc.Pos.Z = 575.25
@@ -10651,6 +11652,7 @@ function InitMap(environment)
 	Actor_251.PhysicDesc.SizeX = 5.42956e-034
 	Actor_251.PhysicDesc.SizeY = 1.71105e-039
 	Actor_251.PhysicDesc.SizeZ = 5.60519e-045
+	Actor_251.PhysicDesc.AllowFreeMove = true
 	Actor_251.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_90.phy"
 	Actor_251:SetPhysicalActorType(1)
 	Actor_251:SetPhysicalShape(5)
@@ -10658,6 +11660,8 @@ function InitMap(environment)
 	Actor_251.ExtraInfo.NameColorR = 0
 	Actor_251.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_251.ExtraInfo.NameColorB = 0
+	Actor_251.ExtraInfo.Display = false
+	Actor_251.LifeInfo.Display = false
 	Actor_251H = ActorHandler(Actor_251)
 	environment:AddActorObject(Actor_251H)
 
@@ -10684,6 +11688,7 @@ function InitMap(environment)
 	Actor_252.DisplayDesc.RotY = 0
 	Actor_252.DisplayDesc.RotZ = 0
 	Actor_252:SetModelState(1)
+	Actor_252.DisplayDesc.UseBillboard = false
 	Actor_252.PhysicDesc.Pos.X = 484.5
 	Actor_252.PhysicDesc.Pos.Y = 0.976563
 	Actor_252.PhysicDesc.Pos.Z = 575.25
@@ -10693,6 +11698,7 @@ function InitMap(environment)
 	Actor_252.PhysicDesc.SizeX = 4.79243e-034
 	Actor_252.PhysicDesc.SizeY = 1.71105e-039
 	Actor_252.PhysicDesc.SizeZ = 5.60519e-045
+	Actor_252.PhysicDesc.AllowFreeMove = true
 	Actor_252.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_91.phy"
 	Actor_252:SetPhysicalActorType(1)
 	Actor_252:SetPhysicalShape(5)
@@ -10700,6 +11706,8 @@ function InitMap(environment)
 	Actor_252.ExtraInfo.NameColorR = 0
 	Actor_252.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_252.ExtraInfo.NameColorB = 0
+	Actor_252.ExtraInfo.Display = false
+	Actor_252.LifeInfo.Display = false
 	Actor_252H = ActorHandler(Actor_252)
 	environment:AddActorObject(Actor_252H)
 
@@ -10726,6 +11734,7 @@ function InitMap(environment)
 	Actor_253.DisplayDesc.RotY = 0
 	Actor_253.DisplayDesc.RotZ = 0
 	Actor_253:SetModelState(1)
+	Actor_253.DisplayDesc.UseBillboard = false
 	Actor_253.PhysicDesc.Pos.X = 484.5
 	Actor_253.PhysicDesc.Pos.Y = 0.976563
 	Actor_253.PhysicDesc.Pos.Z = 575.25
@@ -10735,6 +11744,7 @@ function InitMap(environment)
 	Actor_253.PhysicDesc.SizeX = 5.4793e-034
 	Actor_253.PhysicDesc.SizeY = 1.71105e-039
 	Actor_253.PhysicDesc.SizeZ = 5.60519e-045
+	Actor_253.PhysicDesc.AllowFreeMove = true
 	Actor_253.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_92.phy"
 	Actor_253:SetPhysicalActorType(1)
 	Actor_253:SetPhysicalShape(5)
@@ -10742,6 +11752,8 @@ function InitMap(environment)
 	Actor_253.ExtraInfo.NameColorR = 0
 	Actor_253.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_253.ExtraInfo.NameColorB = 0
+	Actor_253.ExtraInfo.Display = false
+	Actor_253.LifeInfo.Display = false
 	Actor_253H = ActorHandler(Actor_253)
 	environment:AddActorObject(Actor_253H)
 
@@ -10768,6 +11780,7 @@ function InitMap(environment)
 	Actor_254.DisplayDesc.RotY = 0
 	Actor_254.DisplayDesc.RotZ = 0
 	Actor_254:SetModelState(1)
+	Actor_254.DisplayDesc.UseBillboard = false
 	Actor_254.PhysicDesc.Pos.X = 489.125
 	Actor_254.PhysicDesc.Pos.Y = 1.16016
 	Actor_254.PhysicDesc.Pos.Z = 562.625
@@ -10777,6 +11790,7 @@ function InitMap(environment)
 	Actor_254.PhysicDesc.SizeX = 4.57502e-034
 	Actor_254.PhysicDesc.SizeY = 1.71105e-039
 	Actor_254.PhysicDesc.SizeZ = 5.60519e-045
+	Actor_254.PhysicDesc.AllowFreeMove = true
 	Actor_254.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_43.phy"
 	Actor_254:SetPhysicalActorType(1)
 	Actor_254:SetPhysicalShape(5)
@@ -10784,6 +11798,8 @@ function InitMap(environment)
 	Actor_254.ExtraInfo.NameColorR = 1.875
 	Actor_254.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_254.ExtraInfo.NameColorB = 0
+	Actor_254.ExtraInfo.Display = false
+	Actor_254.LifeInfo.Display = false
 	Actor_254H = ActorHandler(Actor_254)
 	environment:AddActorObject(Actor_254H)
 
@@ -10810,6 +11826,7 @@ function InitMap(environment)
 	Actor_255.DisplayDesc.RotY = 0
 	Actor_255.DisplayDesc.RotZ = 0
 	Actor_255:SetModelState(1)
+	Actor_255.DisplayDesc.UseBillboard = false
 	Actor_255.PhysicDesc.Pos.X = 494.75
 	Actor_255.PhysicDesc.Pos.Y = 0.976563
 	Actor_255.PhysicDesc.Pos.Z = 564.625
@@ -10819,6 +11836,7 @@ function InitMap(environment)
 	Actor_255.PhysicDesc.SizeX = 1.76994e-031
 	Actor_255.PhysicDesc.SizeY = 5.96814e-039
 	Actor_255.PhysicDesc.SizeZ = 5.60519e-045
+	Actor_255.PhysicDesc.AllowFreeMove = true
 	Actor_255.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_50.phy"
 	Actor_255:SetPhysicalActorType(1)
 	Actor_255:SetPhysicalShape(5)
@@ -10826,6 +11844,8 @@ function InitMap(environment)
 	Actor_255.ExtraInfo.NameColorR = 1.875
 	Actor_255.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_255.ExtraInfo.NameColorB = 0
+	Actor_255.ExtraInfo.Display = false
+	Actor_255.LifeInfo.Display = false
 	Actor_255H = ActorHandler(Actor_255)
 	environment:AddActorObject(Actor_255H)
 
@@ -10852,6 +11872,7 @@ function InitMap(environment)
 	Actor_256.DisplayDesc.RotY = 0
 	Actor_256.DisplayDesc.RotZ = 0
 	Actor_256:SetModelState(1)
+	Actor_256.DisplayDesc.UseBillboard = false
 	Actor_256.PhysicDesc.Pos.X = 492
 	Actor_256.PhysicDesc.Pos.Y = 0.976563
 	Actor_256.PhysicDesc.Pos.Z = 575.875
@@ -10861,6 +11882,7 @@ function InitMap(environment)
 	Actor_256.PhysicDesc.SizeX = 4.8819e-034
 	Actor_256.PhysicDesc.SizeY = 5.96814e-039
 	Actor_256.PhysicDesc.SizeZ = 5.60519e-045
+	Actor_256.PhysicDesc.AllowFreeMove = true
 	Actor_256.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_50.phy"
 	Actor_256:SetPhysicalActorType(1)
 	Actor_256:SetPhysicalShape(5)
@@ -10868,6 +11890,8 @@ function InitMap(environment)
 	Actor_256.ExtraInfo.NameColorR = 0
 	Actor_256.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_256.ExtraInfo.NameColorB = 0
+	Actor_256.ExtraInfo.Display = false
+	Actor_256.LifeInfo.Display = false
 	Actor_256H = ActorHandler(Actor_256)
 	environment:AddActorObject(Actor_256H)
 
@@ -10894,6 +11918,7 @@ function InitMap(environment)
 	Actor_257.DisplayDesc.RotY = 0
 	Actor_257.DisplayDesc.RotZ = 0
 	Actor_257:SetModelState(1)
+	Actor_257.DisplayDesc.UseBillboard = false
 	Actor_257.PhysicDesc.Pos.X = 484.5
 	Actor_257.PhysicDesc.Pos.Y = 0.976563
 	Actor_257.PhysicDesc.Pos.Z = 575.25
@@ -10903,6 +11928,7 @@ function InitMap(environment)
 	Actor_257.PhysicDesc.SizeX = 4.56914e-034
 	Actor_257.PhysicDesc.SizeY = 1.71105e-039
 	Actor_257.PhysicDesc.SizeZ = 5.60519e-045
+	Actor_257.PhysicDesc.AllowFreeMove = true
 	Actor_257.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_93.phy"
 	Actor_257:SetPhysicalActorType(1)
 	Actor_257:SetPhysicalShape(5)
@@ -10910,6 +11936,8 @@ function InitMap(environment)
 	Actor_257.ExtraInfo.NameColorR = 1.875
 	Actor_257.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_257.ExtraInfo.NameColorB = 0
+	Actor_257.ExtraInfo.Display = false
+	Actor_257.LifeInfo.Display = false
 	Actor_257H = ActorHandler(Actor_257)
 	environment:AddActorObject(Actor_257H)
 
@@ -10936,6 +11964,7 @@ function InitMap(environment)
 	Actor_258.DisplayDesc.RotY = 0
 	Actor_258.DisplayDesc.RotZ = 0
 	Actor_258:SetModelState(1)
+	Actor_258.DisplayDesc.UseBillboard = false
 	Actor_258.PhysicDesc.Pos.X = 494.5
 	Actor_258.PhysicDesc.Pos.Y = 0.976563
 	Actor_258.PhysicDesc.Pos.Z = 555.875
@@ -10945,6 +11974,7 @@ function InitMap(environment)
 	Actor_258.PhysicDesc.SizeX = 5.47318e-034
 	Actor_258.PhysicDesc.SizeY = 1.71105e-039
 	Actor_258.PhysicDesc.SizeZ = 5.60519e-045
+	Actor_258.PhysicDesc.AllowFreeMove = true
 	Actor_258.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_35.phy"
 	Actor_258:SetPhysicalActorType(1)
 	Actor_258:SetPhysicalShape(5)
@@ -10952,6 +11982,8 @@ function InitMap(environment)
 	Actor_258.ExtraInfo.NameColorR = 1.875
 	Actor_258.ExtraInfo.NameColorG = 9.80909e-045
 	Actor_258.ExtraInfo.NameColorB = 0
+	Actor_258.ExtraInfo.Display = false
+	Actor_258.LifeInfo.Display = false
 	Actor_258H = ActorHandler(Actor_258)
 	environment:AddActorObject(Actor_258H)
 
@@ -10978,6 +12010,7 @@ function InitMap(environment)
 	Actor_259.DisplayDesc.RotY = 0
 	Actor_259.DisplayDesc.RotZ = 0
 	Actor_259:SetModelState(1)
+	Actor_259.DisplayDesc.UseBillboard = false
 	Actor_259.PhysicDesc.Pos.X = 489.508
 	Actor_259.PhysicDesc.Pos.Y = 1.22656
 	Actor_259.PhysicDesc.Pos.Z = 558.5
@@ -10987,6 +12020,7 @@ function InitMap(environment)
 	Actor_259.PhysicDesc.SizeX = 0
 	Actor_259.PhysicDesc.SizeY = 0
 	Actor_259.PhysicDesc.SizeZ = 0
+	Actor_259.PhysicDesc.AllowFreeMove = true
 	Actor_259.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_82.phy"
 	Actor_259:SetPhysicalActorType(1)
 	Actor_259:SetPhysicalShape(5)
@@ -10994,6 +12028,8 @@ function InitMap(environment)
 	Actor_259.ExtraInfo.NameColorR = 0
 	Actor_259.ExtraInfo.NameColorG = 0
 	Actor_259.ExtraInfo.NameColorB = 0
+	Actor_259.ExtraInfo.Display = false
+	Actor_259.LifeInfo.Display = false
 	Actor_259H = ActorHandler(Actor_259)
 	environment:AddActorObject(Actor_259H)
 
@@ -11020,6 +12056,7 @@ function InitMap(environment)
 	Actor_260.DisplayDesc.RotY = 0
 	Actor_260.DisplayDesc.RotZ = 0
 	Actor_260:SetModelState(1)
+	Actor_260.DisplayDesc.UseBillboard = false
 	Actor_260.PhysicDesc.Pos.X = 489.125
 	Actor_260.PhysicDesc.Pos.Y = 9.94531
 	Actor_260.PhysicDesc.Pos.Z = 547.125
@@ -11029,6 +12066,7 @@ function InitMap(environment)
 	Actor_260.PhysicDesc.SizeX = 0
 	Actor_260.PhysicDesc.SizeY = 0
 	Actor_260.PhysicDesc.SizeZ = 0
+	Actor_260.PhysicDesc.AllowFreeMove = true
 	Actor_260.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_81.phy"
 	Actor_260:SetPhysicalActorType(1)
 	Actor_260:SetPhysicalShape(5)
@@ -11036,6 +12074,8 @@ function InitMap(environment)
 	Actor_260.ExtraInfo.NameColorR = 0
 	Actor_260.ExtraInfo.NameColorG = 0
 	Actor_260.ExtraInfo.NameColorB = 0
+	Actor_260.ExtraInfo.Display = false
+	Actor_260.LifeInfo.Display = false
 	Actor_260H = ActorHandler(Actor_260)
 	environment:AddActorObject(Actor_260H)
 
@@ -11062,6 +12102,7 @@ function InitMap(environment)
 	Actor_261.DisplayDesc.RotY = 0
 	Actor_261.DisplayDesc.RotZ = 0
 	Actor_261:SetModelState(1)
+	Actor_261.DisplayDesc.UseBillboard = false
 	Actor_261.PhysicDesc.Pos.X = 483.75
 	Actor_261.PhysicDesc.Pos.Y = 9.94531
 	Actor_261.PhysicDesc.Pos.Z = 547.125
@@ -11071,6 +12112,7 @@ function InitMap(environment)
 	Actor_261.PhysicDesc.SizeX = 0
 	Actor_261.PhysicDesc.SizeY = 0
 	Actor_261.PhysicDesc.SizeZ = 0
+	Actor_261.PhysicDesc.AllowFreeMove = true
 	Actor_261.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_81.phy"
 	Actor_261:SetPhysicalActorType(1)
 	Actor_261:SetPhysicalShape(5)
@@ -11078,6 +12120,8 @@ function InitMap(environment)
 	Actor_261.ExtraInfo.NameColorR = 0
 	Actor_261.ExtraInfo.NameColorG = 0
 	Actor_261.ExtraInfo.NameColorB = 0
+	Actor_261.ExtraInfo.Display = false
+	Actor_261.LifeInfo.Display = false
 	Actor_261H = ActorHandler(Actor_261)
 	environment:AddActorObject(Actor_261H)
 
@@ -11104,6 +12148,7 @@ function InitMap(environment)
 	Actor_262.DisplayDesc.RotY = 0
 	Actor_262.DisplayDesc.RotZ = 0
 	Actor_262:SetModelState(1)
+	Actor_262.DisplayDesc.UseBillboard = false
 	Actor_262.PhysicDesc.Pos.X = 484.5
 	Actor_262.PhysicDesc.Pos.Y = 0.976563
 	Actor_262.PhysicDesc.Pos.Z = 575.25
@@ -11113,6 +12158,7 @@ function InitMap(environment)
 	Actor_262.PhysicDesc.SizeX = 0
 	Actor_262.PhysicDesc.SizeY = 0
 	Actor_262.PhysicDesc.SizeZ = 0
+	Actor_262.PhysicDesc.AllowFreeMove = true
 	Actor_262.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_94.phy"
 	Actor_262:SetPhysicalActorType(1)
 	Actor_262:SetPhysicalShape(5)
@@ -11120,6 +12166,8 @@ function InitMap(environment)
 	Actor_262.ExtraInfo.NameColorR = 0
 	Actor_262.ExtraInfo.NameColorG = 0
 	Actor_262.ExtraInfo.NameColorB = 0
+	Actor_262.ExtraInfo.Display = false
+	Actor_262.LifeInfo.Display = false
 	Actor_262H = ActorHandler(Actor_262)
 	environment:AddActorObject(Actor_262H)
 
@@ -11146,6 +12194,7 @@ function InitMap(environment)
 	Actor_263.DisplayDesc.RotY = 0
 	Actor_263.DisplayDesc.RotZ = 0
 	Actor_263:SetModelState(1)
+	Actor_263.DisplayDesc.UseBillboard = false
 	Actor_263.PhysicDesc.Pos.X = 484.5
 	Actor_263.PhysicDesc.Pos.Y = 0.976563
 	Actor_263.PhysicDesc.Pos.Z = 575.25
@@ -11155,6 +12204,7 @@ function InitMap(environment)
 	Actor_263.PhysicDesc.SizeX = 0
 	Actor_263.PhysicDesc.SizeY = 0
 	Actor_263.PhysicDesc.SizeZ = 0
+	Actor_263.PhysicDesc.AllowFreeMove = true
 	Actor_263.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_96.phy"
 	Actor_263:SetPhysicalActorType(1)
 	Actor_263:SetPhysicalShape(5)
@@ -11162,6 +12212,8 @@ function InitMap(environment)
 	Actor_263.ExtraInfo.NameColorR = 0
 	Actor_263.ExtraInfo.NameColorG = 0
 	Actor_263.ExtraInfo.NameColorB = 0
+	Actor_263.ExtraInfo.Display = false
+	Actor_263.LifeInfo.Display = false
 	Actor_263H = ActorHandler(Actor_263)
 	environment:AddActorObject(Actor_263H)
 
@@ -11188,6 +12240,7 @@ function InitMap(environment)
 	Actor_264.DisplayDesc.RotY = 0
 	Actor_264.DisplayDesc.RotZ = 0
 	Actor_264:SetModelState(1)
+	Actor_264.DisplayDesc.UseBillboard = false
 	Actor_264.PhysicDesc.Pos.X = 484.5
 	Actor_264.PhysicDesc.Pos.Y = 0.976563
 	Actor_264.PhysicDesc.Pos.Z = 575.25
@@ -11197,6 +12250,7 @@ function InitMap(environment)
 	Actor_264.PhysicDesc.SizeX = 0
 	Actor_264.PhysicDesc.SizeY = 0
 	Actor_264.PhysicDesc.SizeZ = 0
+	Actor_264.PhysicDesc.AllowFreeMove = true
 	Actor_264.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_95.phy"
 	Actor_264:SetPhysicalActorType(1)
 	Actor_264:SetPhysicalShape(5)
@@ -11204,6 +12258,8 @@ function InitMap(environment)
 	Actor_264.ExtraInfo.NameColorR = 0
 	Actor_264.ExtraInfo.NameColorG = 0
 	Actor_264.ExtraInfo.NameColorB = 0
+	Actor_264.ExtraInfo.Display = false
+	Actor_264.LifeInfo.Display = false
 	Actor_264H = ActorHandler(Actor_264)
 	environment:AddActorObject(Actor_264H)
 
@@ -11230,6 +12286,7 @@ function InitMap(environment)
 	Actor_265.DisplayDesc.RotY = 0
 	Actor_265.DisplayDesc.RotZ = 0
 	Actor_265:SetModelState(1)
+	Actor_265.DisplayDesc.UseBillboard = false
 	Actor_265.PhysicDesc.Pos.X = 506.5
 	Actor_265.PhysicDesc.Pos.Y = 0.976563
 	Actor_265.PhysicDesc.Pos.Z = 565.5
@@ -11239,6 +12296,7 @@ function InitMap(environment)
 	Actor_265.PhysicDesc.SizeX = 0
 	Actor_265.PhysicDesc.SizeY = 0
 	Actor_265.PhysicDesc.SizeZ = 0
+	Actor_265.PhysicDesc.AllowFreeMove = true
 	Actor_265.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_82.phy"
 	Actor_265:SetPhysicalActorType(1)
 	Actor_265:SetPhysicalShape(5)
@@ -11246,6 +12304,8 @@ function InitMap(environment)
 	Actor_265.ExtraInfo.NameColorR = 0
 	Actor_265.ExtraInfo.NameColorG = 0
 	Actor_265.ExtraInfo.NameColorB = 0
+	Actor_265.ExtraInfo.Display = false
+	Actor_265.LifeInfo.Display = false
 	Actor_265H = ActorHandler(Actor_265)
 	environment:AddActorObject(Actor_265H)
 
@@ -11272,6 +12332,7 @@ function InitMap(environment)
 	Actor_266.DisplayDesc.RotY = 0
 	Actor_266.DisplayDesc.RotZ = 0
 	Actor_266:SetModelState(1)
+	Actor_266.DisplayDesc.UseBillboard = false
 	Actor_266.PhysicDesc.Pos.X = 513.5
 	Actor_266.PhysicDesc.Pos.Y = 0.976563
 	Actor_266.PhysicDesc.Pos.Z = 565.5
@@ -11281,6 +12342,7 @@ function InitMap(environment)
 	Actor_266.PhysicDesc.SizeX = 0
 	Actor_266.PhysicDesc.SizeY = 0
 	Actor_266.PhysicDesc.SizeZ = 0
+	Actor_266.PhysicDesc.AllowFreeMove = true
 	Actor_266.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_82.phy"
 	Actor_266:SetPhysicalActorType(1)
 	Actor_266:SetPhysicalShape(5)
@@ -11288,6 +12350,8 @@ function InitMap(environment)
 	Actor_266.ExtraInfo.NameColorR = 0
 	Actor_266.ExtraInfo.NameColorG = 0
 	Actor_266.ExtraInfo.NameColorB = 0
+	Actor_266.ExtraInfo.Display = false
+	Actor_266.LifeInfo.Display = false
 	Actor_266H = ActorHandler(Actor_266)
 	environment:AddActorObject(Actor_266H)
 
@@ -11314,6 +12378,7 @@ function InitMap(environment)
 	Actor_267.DisplayDesc.RotY = 0
 	Actor_267.DisplayDesc.RotZ = 0
 	Actor_267:SetModelState(1)
+	Actor_267.DisplayDesc.UseBillboard = false
 	Actor_267.PhysicDesc.Pos.X = 539.25
 	Actor_267.PhysicDesc.Pos.Y = 1.46484
 	Actor_267.PhysicDesc.Pos.Z = 601.5
@@ -11323,6 +12388,7 @@ function InitMap(environment)
 	Actor_267.PhysicDesc.SizeX = 0
 	Actor_267.PhysicDesc.SizeY = 0
 	Actor_267.PhysicDesc.SizeZ = 0
+	Actor_267.PhysicDesc.AllowFreeMove = true
 	Actor_267.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_5.phy"
 	Actor_267:SetPhysicalActorType(1)
 	Actor_267:SetPhysicalShape(5)
@@ -11330,6 +12396,8 @@ function InitMap(environment)
 	Actor_267.ExtraInfo.NameColorR = 0
 	Actor_267.ExtraInfo.NameColorG = 0
 	Actor_267.ExtraInfo.NameColorB = 0
+	Actor_267.ExtraInfo.Display = false
+	Actor_267.LifeInfo.Display = false
 	Actor_267H = ActorHandler(Actor_267)
 	environment:AddActorObject(Actor_267H)
 
@@ -11356,6 +12424,7 @@ function InitMap(environment)
 	Actor_268.DisplayDesc.RotY = 0
 	Actor_268.DisplayDesc.RotZ = 0
 	Actor_268:SetModelState(1)
+	Actor_268.DisplayDesc.UseBillboard = false
 	Actor_268.PhysicDesc.Pos.X = 481.625
 	Actor_268.PhysicDesc.Pos.Y = 9.76563
 	Actor_268.PhysicDesc.Pos.Z = 544.75
@@ -11365,6 +12434,7 @@ function InitMap(environment)
 	Actor_268.PhysicDesc.SizeX = 0
 	Actor_268.PhysicDesc.SizeY = 0
 	Actor_268.PhysicDesc.SizeZ = 0
+	Actor_268.PhysicDesc.AllowFreeMove = true
 	Actor_268.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_37.phy"
 	Actor_268:SetPhysicalActorType(1)
 	Actor_268:SetPhysicalShape(5)
@@ -11372,6 +12442,8 @@ function InitMap(environment)
 	Actor_268.ExtraInfo.NameColorR = 0
 	Actor_268.ExtraInfo.NameColorG = 0
 	Actor_268.ExtraInfo.NameColorB = 0
+	Actor_268.ExtraInfo.Display = false
+	Actor_268.LifeInfo.Display = false
 	Actor_268H = ActorHandler(Actor_268)
 	environment:AddActorObject(Actor_268H)
 
@@ -11398,6 +12470,7 @@ function InitMap(environment)
 	Actor_269.DisplayDesc.RotY = 0
 	Actor_269.DisplayDesc.RotZ = 0
 	Actor_269:SetModelState(1)
+	Actor_269.DisplayDesc.UseBillboard = false
 	Actor_269.PhysicDesc.Pos.X = 481.625
 	Actor_269.PhysicDesc.Pos.Y = 9.76563
 	Actor_269.PhysicDesc.Pos.Z = 546.25
@@ -11407,6 +12480,7 @@ function InitMap(environment)
 	Actor_269.PhysicDesc.SizeX = 0
 	Actor_269.PhysicDesc.SizeY = 0
 	Actor_269.PhysicDesc.SizeZ = 0
+	Actor_269.PhysicDesc.AllowFreeMove = true
 	Actor_269.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_37.phy"
 	Actor_269:SetPhysicalActorType(1)
 	Actor_269:SetPhysicalShape(5)
@@ -11414,6 +12488,8 @@ function InitMap(environment)
 	Actor_269.ExtraInfo.NameColorR = 0
 	Actor_269.ExtraInfo.NameColorG = 0
 	Actor_269.ExtraInfo.NameColorB = 0
+	Actor_269.ExtraInfo.Display = false
+	Actor_269.LifeInfo.Display = false
 	Actor_269H = ActorHandler(Actor_269)
 	environment:AddActorObject(Actor_269H)
 
@@ -11440,6 +12516,7 @@ function InitMap(environment)
 	Actor_270.DisplayDesc.RotY = 0
 	Actor_270.DisplayDesc.RotZ = 0
 	Actor_270:SetModelState(1)
+	Actor_270.DisplayDesc.UseBillboard = false
 	Actor_270.PhysicDesc.Pos.X = 513.5
 	Actor_270.PhysicDesc.Pos.Y = 0.976563
 	Actor_270.PhysicDesc.Pos.Z = 565.5
@@ -11449,6 +12526,7 @@ function InitMap(environment)
 	Actor_270.PhysicDesc.SizeX = 0
 	Actor_270.PhysicDesc.SizeY = 0
 	Actor_270.PhysicDesc.SizeZ = 0
+	Actor_270.PhysicDesc.AllowFreeMove = true
 	Actor_270.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_83.phy"
 	Actor_270:SetPhysicalActorType(1)
 	Actor_270:SetPhysicalShape(5)
@@ -11456,6 +12534,8 @@ function InitMap(environment)
 	Actor_270.ExtraInfo.NameColorR = 0
 	Actor_270.ExtraInfo.NameColorG = 0
 	Actor_270.ExtraInfo.NameColorB = 0
+	Actor_270.ExtraInfo.Display = false
+	Actor_270.LifeInfo.Display = false
 	Actor_270H = ActorHandler(Actor_270)
 	environment:AddActorObject(Actor_270H)
 
@@ -11482,6 +12562,7 @@ function InitMap(environment)
 	Actor_271.DisplayDesc.RotY = 0
 	Actor_271.DisplayDesc.RotZ = 0
 	Actor_271:SetModelState(1)
+	Actor_271.DisplayDesc.UseBillboard = false
 	Actor_271.PhysicDesc.Pos.X = 506.5
 	Actor_271.PhysicDesc.Pos.Y = 0.976563
 	Actor_271.PhysicDesc.Pos.Z = 565.5
@@ -11491,6 +12572,7 @@ function InitMap(environment)
 	Actor_271.PhysicDesc.SizeX = 0
 	Actor_271.PhysicDesc.SizeY = 0
 	Actor_271.PhysicDesc.SizeZ = 0
+	Actor_271.PhysicDesc.AllowFreeMove = true
 	Actor_271.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_83.phy"
 	Actor_271:SetPhysicalActorType(1)
 	Actor_271:SetPhysicalShape(5)
@@ -11498,6 +12580,8 @@ function InitMap(environment)
 	Actor_271.ExtraInfo.NameColorR = 0
 	Actor_271.ExtraInfo.NameColorG = 0
 	Actor_271.ExtraInfo.NameColorB = 0
+	Actor_271.ExtraInfo.Display = false
+	Actor_271.LifeInfo.Display = false
 	Actor_271H = ActorHandler(Actor_271)
 	environment:AddActorObject(Actor_271H)
 
@@ -11524,6 +12608,7 @@ function InitMap(environment)
 	Actor_272.DisplayDesc.RotY = 0
 	Actor_272.DisplayDesc.RotZ = 0
 	Actor_272:SetModelState(1)
+	Actor_272.DisplayDesc.UseBillboard = false
 	Actor_272.PhysicDesc.Pos.X = 489.508
 	Actor_272.PhysicDesc.Pos.Y = 1.22656
 	Actor_272.PhysicDesc.Pos.Z = 558.5
@@ -11533,6 +12618,7 @@ function InitMap(environment)
 	Actor_272.PhysicDesc.SizeX = 0
 	Actor_272.PhysicDesc.SizeY = 0
 	Actor_272.PhysicDesc.SizeZ = 0
+	Actor_272.PhysicDesc.AllowFreeMove = true
 	Actor_272.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_83.phy"
 	Actor_272:SetPhysicalActorType(1)
 	Actor_272:SetPhysicalShape(5)
@@ -11540,6 +12626,8 @@ function InitMap(environment)
 	Actor_272.ExtraInfo.NameColorR = 0
 	Actor_272.ExtraInfo.NameColorG = 0
 	Actor_272.ExtraInfo.NameColorB = 0
+	Actor_272.ExtraInfo.Display = false
+	Actor_272.LifeInfo.Display = false
 	Actor_272H = ActorHandler(Actor_272)
 	environment:AddActorObject(Actor_272H)
 
@@ -11566,6 +12654,7 @@ function InitMap(environment)
 	Actor_273.DisplayDesc.RotY = 0
 	Actor_273.DisplayDesc.RotZ = 0
 	Actor_273:SetModelState(1)
+	Actor_273.DisplayDesc.UseBillboard = false
 	Actor_273.PhysicDesc.Pos.X = 487.5
 	Actor_273.PhysicDesc.Pos.Y = 0.976563
 	Actor_273.PhysicDesc.Pos.Z = 591.5
@@ -11575,6 +12664,7 @@ function InitMap(environment)
 	Actor_273.PhysicDesc.SizeX = 0
 	Actor_273.PhysicDesc.SizeY = 0
 	Actor_273.PhysicDesc.SizeZ = 0
+	Actor_273.PhysicDesc.AllowFreeMove = true
 	Actor_273.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_5.phy"
 	Actor_273:SetPhysicalActorType(1)
 	Actor_273:SetPhysicalShape(5)
@@ -11582,6 +12672,8 @@ function InitMap(environment)
 	Actor_273.ExtraInfo.NameColorR = 0
 	Actor_273.ExtraInfo.NameColorG = 0
 	Actor_273.ExtraInfo.NameColorB = 0
+	Actor_273.ExtraInfo.Display = false
+	Actor_273.LifeInfo.Display = false
 	Actor_273H = ActorHandler(Actor_273)
 	environment:AddActorObject(Actor_273H)
 
@@ -11608,6 +12700,7 @@ function InitMap(environment)
 	Actor_274.DisplayDesc.RotY = 0
 	Actor_274.DisplayDesc.RotZ = 0
 	Actor_274:SetModelState(1)
+	Actor_274.DisplayDesc.UseBillboard = false
 	Actor_274.PhysicDesc.Pos.X = 502.5
 	Actor_274.PhysicDesc.Pos.Y = 0.976563
 	Actor_274.PhysicDesc.Pos.Z = 554.5
@@ -11617,6 +12710,7 @@ function InitMap(environment)
 	Actor_274.PhysicDesc.SizeX = 0
 	Actor_274.PhysicDesc.SizeY = 0
 	Actor_274.PhysicDesc.SizeZ = 0
+	Actor_274.PhysicDesc.AllowFreeMove = true
 	Actor_274.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_22.phy"
 	Actor_274:SetPhysicalActorType(1)
 	Actor_274:SetPhysicalShape(5)
@@ -11624,6 +12718,8 @@ function InitMap(environment)
 	Actor_274.ExtraInfo.NameColorR = 0
 	Actor_274.ExtraInfo.NameColorG = 0
 	Actor_274.ExtraInfo.NameColorB = 0
+	Actor_274.ExtraInfo.Display = false
+	Actor_274.LifeInfo.Display = false
 	Actor_274H = ActorHandler(Actor_274)
 	environment:AddActorObject(Actor_274H)
 
@@ -11650,6 +12746,7 @@ function InitMap(environment)
 	Actor_275.DisplayDesc.RotY = 0
 	Actor_275.DisplayDesc.RotZ = 0
 	Actor_275:SetModelState(1)
+	Actor_275.DisplayDesc.UseBillboard = false
 	Actor_275.PhysicDesc.Pos.X = 502.5
 	Actor_275.PhysicDesc.Pos.Y = 0.976563
 	Actor_275.PhysicDesc.Pos.Z = 556.5
@@ -11659,6 +12756,7 @@ function InitMap(environment)
 	Actor_275.PhysicDesc.SizeX = 0
 	Actor_275.PhysicDesc.SizeY = 0
 	Actor_275.PhysicDesc.SizeZ = 0
+	Actor_275.PhysicDesc.AllowFreeMove = true
 	Actor_275.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_22.phy"
 	Actor_275:SetPhysicalActorType(1)
 	Actor_275:SetPhysicalShape(5)
@@ -11666,6 +12764,8 @@ function InitMap(environment)
 	Actor_275.ExtraInfo.NameColorR = 0
 	Actor_275.ExtraInfo.NameColorG = 0
 	Actor_275.ExtraInfo.NameColorB = 0
+	Actor_275.ExtraInfo.Display = false
+	Actor_275.LifeInfo.Display = false
 	Actor_275H = ActorHandler(Actor_275)
 	environment:AddActorObject(Actor_275H)
 
@@ -11692,6 +12792,7 @@ function InitMap(environment)
 	Actor_276.DisplayDesc.RotY = 0
 	Actor_276.DisplayDesc.RotZ = 0
 	Actor_276:SetModelState(1)
+	Actor_276.DisplayDesc.UseBillboard = false
 	Actor_276.PhysicDesc.Pos.X = 525.5
 	Actor_276.PhysicDesc.Pos.Y = 0.976563
 	Actor_276.PhysicDesc.Pos.Z = 607.25
@@ -11701,6 +12802,7 @@ function InitMap(environment)
 	Actor_276.PhysicDesc.SizeX = 0
 	Actor_276.PhysicDesc.SizeY = 0
 	Actor_276.PhysicDesc.SizeZ = 0
+	Actor_276.PhysicDesc.AllowFreeMove = true
 	Actor_276.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_34.phy"
 	Actor_276:SetPhysicalActorType(1)
 	Actor_276:SetPhysicalShape(5)
@@ -11708,6 +12810,8 @@ function InitMap(environment)
 	Actor_276.ExtraInfo.NameColorR = 0
 	Actor_276.ExtraInfo.NameColorG = 0
 	Actor_276.ExtraInfo.NameColorB = 0
+	Actor_276.ExtraInfo.Display = false
+	Actor_276.LifeInfo.Display = false
 	Actor_276H = ActorHandler(Actor_276)
 	environment:AddActorObject(Actor_276H)
 
@@ -11734,6 +12838,7 @@ function InitMap(environment)
 	Actor_277.DisplayDesc.RotY = 0
 	Actor_277.DisplayDesc.RotZ = 0
 	Actor_277:SetModelState(1)
+	Actor_277.DisplayDesc.UseBillboard = false
 	Actor_277.PhysicDesc.Pos.X = 523.75
 	Actor_277.PhysicDesc.Pos.Y = 0.976563
 	Actor_277.PhysicDesc.Pos.Z = 607.25
@@ -11743,6 +12848,7 @@ function InitMap(environment)
 	Actor_277.PhysicDesc.SizeX = 0
 	Actor_277.PhysicDesc.SizeY = 0
 	Actor_277.PhysicDesc.SizeZ = 0
+	Actor_277.PhysicDesc.AllowFreeMove = true
 	Actor_277.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_34.phy"
 	Actor_277:SetPhysicalActorType(1)
 	Actor_277:SetPhysicalShape(5)
@@ -11750,6 +12856,8 @@ function InitMap(environment)
 	Actor_277.ExtraInfo.NameColorR = 0
 	Actor_277.ExtraInfo.NameColorG = 0
 	Actor_277.ExtraInfo.NameColorB = 0
+	Actor_277.ExtraInfo.Display = false
+	Actor_277.LifeInfo.Display = false
 	Actor_277H = ActorHandler(Actor_277)
 	environment:AddActorObject(Actor_277H)
 
@@ -11776,6 +12884,7 @@ function InitMap(environment)
 	Actor_278.DisplayDesc.RotY = 0
 	Actor_278.DisplayDesc.RotZ = 0
 	Actor_278:SetModelState(1)
+	Actor_278.DisplayDesc.UseBillboard = false
 	Actor_278.PhysicDesc.Pos.X = 527.25
 	Actor_278.PhysicDesc.Pos.Y = 0.976563
 	Actor_278.PhysicDesc.Pos.Z = 607.25
@@ -11785,6 +12894,7 @@ function InitMap(environment)
 	Actor_278.PhysicDesc.SizeX = 0
 	Actor_278.PhysicDesc.SizeY = 0
 	Actor_278.PhysicDesc.SizeZ = 0
+	Actor_278.PhysicDesc.AllowFreeMove = true
 	Actor_278.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_34.phy"
 	Actor_278:SetPhysicalActorType(1)
 	Actor_278:SetPhysicalShape(5)
@@ -11792,6 +12902,8 @@ function InitMap(environment)
 	Actor_278.ExtraInfo.NameColorR = 0
 	Actor_278.ExtraInfo.NameColorG = 0
 	Actor_278.ExtraInfo.NameColorB = 0
+	Actor_278.ExtraInfo.Display = false
+	Actor_278.LifeInfo.Display = false
 	Actor_278H = ActorHandler(Actor_278)
 	environment:AddActorObject(Actor_278H)
 
@@ -11818,6 +12930,7 @@ function InitMap(environment)
 	Actor_279.DisplayDesc.RotY = 0
 	Actor_279.DisplayDesc.RotZ = 0
 	Actor_279:SetModelState(1)
+	Actor_279.DisplayDesc.UseBillboard = false
 	Actor_279.PhysicDesc.Pos.X = 529
 	Actor_279.PhysicDesc.Pos.Y = 0.976563
 	Actor_279.PhysicDesc.Pos.Z = 607.25
@@ -11827,6 +12940,7 @@ function InitMap(environment)
 	Actor_279.PhysicDesc.SizeX = 0
 	Actor_279.PhysicDesc.SizeY = 0
 	Actor_279.PhysicDesc.SizeZ = 0
+	Actor_279.PhysicDesc.AllowFreeMove = true
 	Actor_279.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_34.phy"
 	Actor_279:SetPhysicalActorType(1)
 	Actor_279:SetPhysicalShape(5)
@@ -11834,6 +12948,8 @@ function InitMap(environment)
 	Actor_279.ExtraInfo.NameColorR = 0
 	Actor_279.ExtraInfo.NameColorG = 0
 	Actor_279.ExtraInfo.NameColorB = 0
+	Actor_279.ExtraInfo.Display = false
+	Actor_279.LifeInfo.Display = false
 	Actor_279H = ActorHandler(Actor_279)
 	environment:AddActorObject(Actor_279H)
 
@@ -11860,6 +12976,7 @@ function InitMap(environment)
 	Actor_280.DisplayDesc.RotY = 0
 	Actor_280.DisplayDesc.RotZ = 0
 	Actor_280:SetModelState(1)
+	Actor_280.DisplayDesc.UseBillboard = false
 	Actor_280.PhysicDesc.Pos.X = 530.75
 	Actor_280.PhysicDesc.Pos.Y = 0.976563
 	Actor_280.PhysicDesc.Pos.Z = 607.25
@@ -11869,6 +12986,7 @@ function InitMap(environment)
 	Actor_280.PhysicDesc.SizeX = 0
 	Actor_280.PhysicDesc.SizeY = 0
 	Actor_280.PhysicDesc.SizeZ = 0
+	Actor_280.PhysicDesc.AllowFreeMove = true
 	Actor_280.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_34.phy"
 	Actor_280:SetPhysicalActorType(1)
 	Actor_280:SetPhysicalShape(5)
@@ -11876,6 +12994,8 @@ function InitMap(environment)
 	Actor_280.ExtraInfo.NameColorR = 0
 	Actor_280.ExtraInfo.NameColorG = 0
 	Actor_280.ExtraInfo.NameColorB = 0
+	Actor_280.ExtraInfo.Display = false
+	Actor_280.LifeInfo.Display = false
 	Actor_280H = ActorHandler(Actor_280)
 	environment:AddActorObject(Actor_280H)
 
@@ -11902,6 +13022,7 @@ function InitMap(environment)
 	Actor_281.DisplayDesc.RotY = 0
 	Actor_281.DisplayDesc.RotZ = 0
 	Actor_281:SetModelState(1)
+	Actor_281.DisplayDesc.UseBillboard = false
 	Actor_281.PhysicDesc.Pos.X = 522
 	Actor_281.PhysicDesc.Pos.Y = 0.976563
 	Actor_281.PhysicDesc.Pos.Z = 607.25
@@ -11911,6 +13032,7 @@ function InitMap(environment)
 	Actor_281.PhysicDesc.SizeX = 0
 	Actor_281.PhysicDesc.SizeY = 0
 	Actor_281.PhysicDesc.SizeZ = 0
+	Actor_281.PhysicDesc.AllowFreeMove = true
 	Actor_281.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_34.phy"
 	Actor_281:SetPhysicalActorType(1)
 	Actor_281:SetPhysicalShape(5)
@@ -11918,6 +13040,8 @@ function InitMap(environment)
 	Actor_281.ExtraInfo.NameColorR = 0
 	Actor_281.ExtraInfo.NameColorG = 0
 	Actor_281.ExtraInfo.NameColorB = 0
+	Actor_281.ExtraInfo.Display = false
+	Actor_281.LifeInfo.Display = false
 	Actor_281H = ActorHandler(Actor_281)
 	environment:AddActorObject(Actor_281H)
 
@@ -11944,6 +13068,7 @@ function InitMap(environment)
 	Actor_282.DisplayDesc.RotY = 0
 	Actor_282.DisplayDesc.RotZ = 0
 	Actor_282:SetModelState(1)
+	Actor_282.DisplayDesc.UseBillboard = false
 	Actor_282.PhysicDesc.Pos.X = 520.25
 	Actor_282.PhysicDesc.Pos.Y = 0.976563
 	Actor_282.PhysicDesc.Pos.Z = 607.25
@@ -11953,6 +13078,7 @@ function InitMap(environment)
 	Actor_282.PhysicDesc.SizeX = 0
 	Actor_282.PhysicDesc.SizeY = 0
 	Actor_282.PhysicDesc.SizeZ = 0
+	Actor_282.PhysicDesc.AllowFreeMove = true
 	Actor_282.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_34.phy"
 	Actor_282:SetPhysicalActorType(1)
 	Actor_282:SetPhysicalShape(5)
@@ -11960,6 +13086,8 @@ function InitMap(environment)
 	Actor_282.ExtraInfo.NameColorR = 0
 	Actor_282.ExtraInfo.NameColorG = 0
 	Actor_282.ExtraInfo.NameColorB = 0
+	Actor_282.ExtraInfo.Display = false
+	Actor_282.LifeInfo.Display = false
 	Actor_282H = ActorHandler(Actor_282)
 	environment:AddActorObject(Actor_282H)
 
@@ -11986,6 +13114,7 @@ function InitMap(environment)
 	Actor_283.DisplayDesc.RotY = 0
 	Actor_283.DisplayDesc.RotZ = 0
 	Actor_283:SetModelState(1)
+	Actor_283.DisplayDesc.UseBillboard = false
 	Actor_283.PhysicDesc.Pos.X = 532.5
 	Actor_283.PhysicDesc.Pos.Y = 0.976563
 	Actor_283.PhysicDesc.Pos.Z = 607.258
@@ -11995,6 +13124,7 @@ function InitMap(environment)
 	Actor_283.PhysicDesc.SizeX = 0
 	Actor_283.PhysicDesc.SizeY = 0
 	Actor_283.PhysicDesc.SizeZ = 0
+	Actor_283.PhysicDesc.AllowFreeMove = true
 	Actor_283.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_34.phy"
 	Actor_283:SetPhysicalActorType(1)
 	Actor_283:SetPhysicalShape(5)
@@ -12002,6 +13132,8 @@ function InitMap(environment)
 	Actor_283.ExtraInfo.NameColorR = 0
 	Actor_283.ExtraInfo.NameColorG = 0
 	Actor_283.ExtraInfo.NameColorB = 0
+	Actor_283.ExtraInfo.Display = false
+	Actor_283.LifeInfo.Display = false
 	Actor_283H = ActorHandler(Actor_283)
 	environment:AddActorObject(Actor_283H)
 
@@ -12028,6 +13160,7 @@ function InitMap(environment)
 	Actor_284.DisplayDesc.RotY = 0
 	Actor_284.DisplayDesc.RotZ = 0
 	Actor_284:SetModelState(1)
+	Actor_284.DisplayDesc.UseBillboard = false
 	Actor_284.PhysicDesc.Pos.X = 537
 	Actor_284.PhysicDesc.Pos.Y = 0.976563
 	Actor_284.PhysicDesc.Pos.Z = 556
@@ -12037,6 +13170,7 @@ function InitMap(environment)
 	Actor_284.PhysicDesc.SizeX = 0
 	Actor_284.PhysicDesc.SizeY = 0
 	Actor_284.PhysicDesc.SizeZ = 0
+	Actor_284.PhysicDesc.AllowFreeMove = true
 	Actor_284.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_97.phy"
 	Actor_284:SetPhysicalActorType(1)
 	Actor_284:SetPhysicalShape(5)
@@ -12044,6 +13178,8 @@ function InitMap(environment)
 	Actor_284.ExtraInfo.NameColorR = 0
 	Actor_284.ExtraInfo.NameColorG = 0
 	Actor_284.ExtraInfo.NameColorB = 0
+	Actor_284.ExtraInfo.Display = false
+	Actor_284.LifeInfo.Display = false
 	Actor_284H = ActorHandler(Actor_284)
 	environment:AddActorObject(Actor_284H)
 
@@ -12070,6 +13206,7 @@ function InitMap(environment)
 	Actor_285.DisplayDesc.RotY = 0
 	Actor_285.DisplayDesc.RotZ = 0
 	Actor_285:SetModelState(1)
+	Actor_285.DisplayDesc.UseBillboard = false
 	Actor_285.PhysicDesc.Pos.X = 537
 	Actor_285.PhysicDesc.Pos.Y = 0.976563
 	Actor_285.PhysicDesc.Pos.Z = 556
@@ -12079,6 +13216,7 @@ function InitMap(environment)
 	Actor_285.PhysicDesc.SizeX = 0
 	Actor_285.PhysicDesc.SizeY = 0
 	Actor_285.PhysicDesc.SizeZ = 0
+	Actor_285.PhysicDesc.AllowFreeMove = true
 	Actor_285.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_98.phy"
 	Actor_285:SetPhysicalActorType(1)
 	Actor_285:SetPhysicalShape(5)
@@ -12086,6 +13224,8 @@ function InitMap(environment)
 	Actor_285.ExtraInfo.NameColorR = 0
 	Actor_285.ExtraInfo.NameColorG = 0
 	Actor_285.ExtraInfo.NameColorB = 0
+	Actor_285.ExtraInfo.Display = false
+	Actor_285.LifeInfo.Display = false
 	Actor_285H = ActorHandler(Actor_285)
 	environment:AddActorObject(Actor_285H)
 
@@ -12112,6 +13252,7 @@ function InitMap(environment)
 	Actor_286.DisplayDesc.RotY = 0
 	Actor_286.DisplayDesc.RotZ = 0
 	Actor_286:SetModelState(1)
+	Actor_286.DisplayDesc.UseBillboard = false
 	Actor_286.PhysicDesc.Pos.X = 537
 	Actor_286.PhysicDesc.Pos.Y = 0.976563
 	Actor_286.PhysicDesc.Pos.Z = 556
@@ -12121,6 +13262,7 @@ function InitMap(environment)
 	Actor_286.PhysicDesc.SizeX = 0
 	Actor_286.PhysicDesc.SizeY = 0
 	Actor_286.PhysicDesc.SizeZ = 0
+	Actor_286.PhysicDesc.AllowFreeMove = true
 	Actor_286.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_99.phy"
 	Actor_286:SetPhysicalActorType(1)
 	Actor_286:SetPhysicalShape(5)
@@ -12128,6 +13270,8 @@ function InitMap(environment)
 	Actor_286.ExtraInfo.NameColorR = 0
 	Actor_286.ExtraInfo.NameColorG = 0
 	Actor_286.ExtraInfo.NameColorB = 0
+	Actor_286.ExtraInfo.Display = false
+	Actor_286.LifeInfo.Display = false
 	Actor_286H = ActorHandler(Actor_286)
 	environment:AddActorObject(Actor_286H)
 
@@ -12154,6 +13298,7 @@ function InitMap(environment)
 	Actor_287.DisplayDesc.RotY = 0
 	Actor_287.DisplayDesc.RotZ = 0
 	Actor_287:SetModelState(1)
+	Actor_287.DisplayDesc.UseBillboard = false
 	Actor_287.PhysicDesc.Pos.X = 537
 	Actor_287.PhysicDesc.Pos.Y = 0.976563
 	Actor_287.PhysicDesc.Pos.Z = 556
@@ -12163,6 +13308,7 @@ function InitMap(environment)
 	Actor_287.PhysicDesc.SizeX = 0
 	Actor_287.PhysicDesc.SizeY = 0
 	Actor_287.PhysicDesc.SizeZ = 0
+	Actor_287.PhysicDesc.AllowFreeMove = true
 	Actor_287.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_100.phy"
 	Actor_287:SetPhysicalActorType(1)
 	Actor_287:SetPhysicalShape(5)
@@ -12170,6 +13316,8 @@ function InitMap(environment)
 	Actor_287.ExtraInfo.NameColorR = 0
 	Actor_287.ExtraInfo.NameColorG = 0
 	Actor_287.ExtraInfo.NameColorB = 0
+	Actor_287.ExtraInfo.Display = false
+	Actor_287.LifeInfo.Display = false
 	Actor_287H = ActorHandler(Actor_287)
 	environment:AddActorObject(Actor_287H)
 
@@ -12196,6 +13344,7 @@ function InitMap(environment)
 	Actor_288.DisplayDesc.RotY = 0
 	Actor_288.DisplayDesc.RotZ = 0
 	Actor_288:SetModelState(1)
+	Actor_288.DisplayDesc.UseBillboard = false
 	Actor_288.PhysicDesc.Pos.X = 505.375
 	Actor_288.PhysicDesc.Pos.Y = 0.976563
 	Actor_288.PhysicDesc.Pos.Z = 546.064
@@ -12205,6 +13354,7 @@ function InitMap(environment)
 	Actor_288.PhysicDesc.SizeX = 0
 	Actor_288.PhysicDesc.SizeY = 0
 	Actor_288.PhysicDesc.SizeZ = 0
+	Actor_288.PhysicDesc.AllowFreeMove = true
 	Actor_288.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_57.phy"
 	Actor_288:SetPhysicalActorType(1)
 	Actor_288:SetPhysicalShape(5)
@@ -12212,6 +13362,8 @@ function InitMap(environment)
 	Actor_288.ExtraInfo.NameColorR = 0
 	Actor_288.ExtraInfo.NameColorG = 0
 	Actor_288.ExtraInfo.NameColorB = 0
+	Actor_288.ExtraInfo.Display = false
+	Actor_288.LifeInfo.Display = false
 	Actor_288H = ActorHandler(Actor_288)
 	environment:AddActorObject(Actor_288H)
 
@@ -12238,6 +13390,7 @@ function InitMap(environment)
 	Actor_289.DisplayDesc.RotY = 0
 	Actor_289.DisplayDesc.RotZ = 0
 	Actor_289:SetModelState(1)
+	Actor_289.DisplayDesc.UseBillboard = false
 	Actor_289.PhysicDesc.Pos.X = 505.375
 	Actor_289.PhysicDesc.Pos.Y = 0.976563
 	Actor_289.PhysicDesc.Pos.Z = 544.375
@@ -12247,6 +13400,7 @@ function InitMap(environment)
 	Actor_289.PhysicDesc.SizeX = 0
 	Actor_289.PhysicDesc.SizeY = 0
 	Actor_289.PhysicDesc.SizeZ = 0
+	Actor_289.PhysicDesc.AllowFreeMove = true
 	Actor_289.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_56.phy"
 	Actor_289:SetPhysicalActorType(1)
 	Actor_289:SetPhysicalShape(5)
@@ -12254,6 +13408,8 @@ function InitMap(environment)
 	Actor_289.ExtraInfo.NameColorR = 0
 	Actor_289.ExtraInfo.NameColorG = 0
 	Actor_289.ExtraInfo.NameColorB = 0
+	Actor_289.ExtraInfo.Display = false
+	Actor_289.LifeInfo.Display = false
 	Actor_289H = ActorHandler(Actor_289)
 	environment:AddActorObject(Actor_289H)
 
@@ -12280,6 +13436,7 @@ function InitMap(environment)
 	Actor_290.DisplayDesc.RotY = 0
 	Actor_290.DisplayDesc.RotZ = 0
 	Actor_290:SetModelState(1)
+	Actor_290.DisplayDesc.UseBillboard = false
 	Actor_290.PhysicDesc.Pos.X = 505.375
 	Actor_290.PhysicDesc.Pos.Y = 0.976563
 	Actor_290.PhysicDesc.Pos.Z = 547.82
@@ -12289,6 +13446,7 @@ function InitMap(environment)
 	Actor_290.PhysicDesc.SizeX = 0
 	Actor_290.PhysicDesc.SizeY = 0
 	Actor_290.PhysicDesc.SizeZ = 0
+	Actor_290.PhysicDesc.AllowFreeMove = true
 	Actor_290.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_56.phy"
 	Actor_290:SetPhysicalActorType(1)
 	Actor_290:SetPhysicalShape(5)
@@ -12296,6 +13454,8 @@ function InitMap(environment)
 	Actor_290.ExtraInfo.NameColorR = 0
 	Actor_290.ExtraInfo.NameColorG = 0
 	Actor_290.ExtraInfo.NameColorB = 0
+	Actor_290.ExtraInfo.Display = false
+	Actor_290.LifeInfo.Display = false
 	Actor_290H = ActorHandler(Actor_290)
 	environment:AddActorObject(Actor_290H)
 
@@ -12322,6 +13482,7 @@ function InitMap(environment)
 	Actor_291.DisplayDesc.RotY = 0
 	Actor_291.DisplayDesc.RotZ = 0
 	Actor_291:SetModelState(1)
+	Actor_291.DisplayDesc.UseBillboard = false
 	Actor_291.PhysicDesc.Pos.X = 484.5
 	Actor_291.PhysicDesc.Pos.Y = 0.976563
 	Actor_291.PhysicDesc.Pos.Z = 575.25
@@ -12331,6 +13492,7 @@ function InitMap(environment)
 	Actor_291.PhysicDesc.SizeX = 0
 	Actor_291.PhysicDesc.SizeY = 0
 	Actor_291.PhysicDesc.SizeZ = 0
+	Actor_291.PhysicDesc.AllowFreeMove = true
 	Actor_291.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_101.phy"
 	Actor_291:SetPhysicalActorType(1)
 	Actor_291:SetPhysicalShape(5)
@@ -12338,6 +13500,8 @@ function InitMap(environment)
 	Actor_291.ExtraInfo.NameColorR = 0
 	Actor_291.ExtraInfo.NameColorG = 0
 	Actor_291.ExtraInfo.NameColorB = 0
+	Actor_291.ExtraInfo.Display = false
+	Actor_291.LifeInfo.Display = false
 	Actor_291H = ActorHandler(Actor_291)
 	environment:AddActorObject(Actor_291H)
 
@@ -12364,6 +13528,7 @@ function InitMap(environment)
 	Actor_292.DisplayDesc.RotY = 0
 	Actor_292.DisplayDesc.RotZ = 0
 	Actor_292:SetModelState(1)
+	Actor_292.DisplayDesc.UseBillboard = false
 	Actor_292.PhysicDesc.Pos.X = 526.875
 	Actor_292.PhysicDesc.Pos.Y = 0.976563
 	Actor_292.PhysicDesc.Pos.Z = 569.5
@@ -12373,6 +13538,7 @@ function InitMap(environment)
 	Actor_292.PhysicDesc.SizeX = 0
 	Actor_292.PhysicDesc.SizeY = 0
 	Actor_292.PhysicDesc.SizeZ = 0
+	Actor_292.PhysicDesc.AllowFreeMove = true
 	Actor_292.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_102.phy"
 	Actor_292:SetPhysicalActorType(1)
 	Actor_292:SetPhysicalShape(5)
@@ -12380,6 +13546,8 @@ function InitMap(environment)
 	Actor_292.ExtraInfo.NameColorR = 0
 	Actor_292.ExtraInfo.NameColorG = 0
 	Actor_292.ExtraInfo.NameColorB = 0
+	Actor_292.ExtraInfo.Display = false
+	Actor_292.LifeInfo.Display = false
 	Actor_292H = ActorHandler(Actor_292)
 	environment:AddActorObject(Actor_292H)
 
@@ -12406,6 +13574,7 @@ function InitMap(environment)
 	Actor_293.DisplayDesc.RotY = 0
 	Actor_293.DisplayDesc.RotZ = 0
 	Actor_293:SetModelState(1)
+	Actor_293.DisplayDesc.UseBillboard = false
 	Actor_293.PhysicDesc.Pos.X = 529.756
 	Actor_293.PhysicDesc.Pos.Y = 1.46484
 	Actor_293.PhysicDesc.Pos.Z = 574.5
@@ -12415,6 +13584,7 @@ function InitMap(environment)
 	Actor_293.PhysicDesc.SizeX = 0
 	Actor_293.PhysicDesc.SizeY = 0
 	Actor_293.PhysicDesc.SizeZ = 0
+	Actor_293.PhysicDesc.AllowFreeMove = true
 	Actor_293.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_57.phy"
 	Actor_293:SetPhysicalActorType(1)
 	Actor_293:SetPhysicalShape(5)
@@ -12422,6 +13592,8 @@ function InitMap(environment)
 	Actor_293.ExtraInfo.NameColorR = 0
 	Actor_293.ExtraInfo.NameColorG = 0
 	Actor_293.ExtraInfo.NameColorB = 0
+	Actor_293.ExtraInfo.Display = false
+	Actor_293.LifeInfo.Display = false
 	Actor_293H = ActorHandler(Actor_293)
 	environment:AddActorObject(Actor_293H)
 
@@ -12448,6 +13620,7 @@ function InitMap(environment)
 	Actor_294.DisplayDesc.RotY = 0
 	Actor_294.DisplayDesc.RotZ = 0
 	Actor_294:SetModelState(1)
+	Actor_294.DisplayDesc.UseBillboard = false
 	Actor_294.PhysicDesc.Pos.X = 525.256
 	Actor_294.PhysicDesc.Pos.Y = 1.09766
 	Actor_294.PhysicDesc.Pos.Z = 574.5
@@ -12457,6 +13630,7 @@ function InitMap(environment)
 	Actor_294.PhysicDesc.SizeX = 0
 	Actor_294.PhysicDesc.SizeY = 0
 	Actor_294.PhysicDesc.SizeZ = 0
+	Actor_294.PhysicDesc.AllowFreeMove = true
 	Actor_294.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_57.phy"
 	Actor_294:SetPhysicalActorType(1)
 	Actor_294:SetPhysicalShape(5)
@@ -12464,6 +13638,8 @@ function InitMap(environment)
 	Actor_294.ExtraInfo.NameColorR = 0
 	Actor_294.ExtraInfo.NameColorG = 0
 	Actor_294.ExtraInfo.NameColorB = 0
+	Actor_294.ExtraInfo.Display = false
+	Actor_294.LifeInfo.Display = false
 	Actor_294H = ActorHandler(Actor_294)
 	environment:AddActorObject(Actor_294H)
 
@@ -12490,6 +13666,7 @@ function InitMap(environment)
 	Actor_295.DisplayDesc.RotY = 0
 	Actor_295.DisplayDesc.RotZ = 0
 	Actor_295:SetModelState(1)
+	Actor_295.DisplayDesc.UseBillboard = false
 	Actor_295.PhysicDesc.Pos.X = 531.445
 	Actor_295.PhysicDesc.Pos.Y = 1.46484
 	Actor_295.PhysicDesc.Pos.Z = 574.5
@@ -12499,6 +13676,7 @@ function InitMap(environment)
 	Actor_295.PhysicDesc.SizeX = 0
 	Actor_295.PhysicDesc.SizeY = 0
 	Actor_295.PhysicDesc.SizeZ = 0
+	Actor_295.PhysicDesc.AllowFreeMove = true
 	Actor_295.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_56.phy"
 	Actor_295:SetPhysicalActorType(1)
 	Actor_295:SetPhysicalShape(5)
@@ -12506,6 +13684,8 @@ function InitMap(environment)
 	Actor_295.ExtraInfo.NameColorR = 0
 	Actor_295.ExtraInfo.NameColorG = 0
 	Actor_295.ExtraInfo.NameColorB = 0
+	Actor_295.ExtraInfo.Display = false
+	Actor_295.LifeInfo.Display = false
 	Actor_295H = ActorHandler(Actor_295)
 	environment:AddActorObject(Actor_295H)
 
@@ -12532,6 +13712,7 @@ function InitMap(environment)
 	Actor_296.DisplayDesc.RotY = 0
 	Actor_296.DisplayDesc.RotZ = 0
 	Actor_296:SetModelState(1)
+	Actor_296.DisplayDesc.UseBillboard = false
 	Actor_296.PhysicDesc.Pos.X = 528
 	Actor_296.PhysicDesc.Pos.Y = 1.95313
 	Actor_296.PhysicDesc.Pos.Z = 574.5
@@ -12541,6 +13722,7 @@ function InitMap(environment)
 	Actor_296.PhysicDesc.SizeX = 0
 	Actor_296.PhysicDesc.SizeY = 0
 	Actor_296.PhysicDesc.SizeZ = 0
+	Actor_296.PhysicDesc.AllowFreeMove = true
 	Actor_296.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_56.phy"
 	Actor_296:SetPhysicalActorType(1)
 	Actor_296:SetPhysicalShape(5)
@@ -12548,6 +13730,8 @@ function InitMap(environment)
 	Actor_296.ExtraInfo.NameColorR = 0
 	Actor_296.ExtraInfo.NameColorG = 0
 	Actor_296.ExtraInfo.NameColorB = 0
+	Actor_296.ExtraInfo.Display = false
+	Actor_296.LifeInfo.Display = false
 	Actor_296H = ActorHandler(Actor_296)
 	environment:AddActorObject(Actor_296H)
 
@@ -12574,6 +13758,7 @@ function InitMap(environment)
 	Actor_297.DisplayDesc.RotY = 0
 	Actor_297.DisplayDesc.RotZ = 0
 	Actor_297:SetModelState(1)
+	Actor_297.DisplayDesc.UseBillboard = false
 	Actor_297.PhysicDesc.Pos.X = 526.945
 	Actor_297.PhysicDesc.Pos.Y = 1.68359
 	Actor_297.PhysicDesc.Pos.Z = 574.5
@@ -12583,6 +13768,7 @@ function InitMap(environment)
 	Actor_297.PhysicDesc.SizeX = 0
 	Actor_297.PhysicDesc.SizeY = 0
 	Actor_297.PhysicDesc.SizeZ = 0
+	Actor_297.PhysicDesc.AllowFreeMove = true
 	Actor_297.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_56.phy"
 	Actor_297:SetPhysicalActorType(1)
 	Actor_297:SetPhysicalShape(5)
@@ -12590,6 +13776,8 @@ function InitMap(environment)
 	Actor_297.ExtraInfo.NameColorR = 0
 	Actor_297.ExtraInfo.NameColorG = 0
 	Actor_297.ExtraInfo.NameColorB = 0
+	Actor_297.ExtraInfo.Display = false
+	Actor_297.LifeInfo.Display = false
 	Actor_297H = ActorHandler(Actor_297)
 	environment:AddActorObject(Actor_297H)
 
@@ -12616,6 +13804,7 @@ function InitMap(environment)
 	Actor_298.DisplayDesc.RotY = 0
 	Actor_298.DisplayDesc.RotZ = 0
 	Actor_298:SetModelState(1)
+	Actor_298.DisplayDesc.UseBillboard = false
 	Actor_298.PhysicDesc.Pos.X = 523.5
 	Actor_298.PhysicDesc.Pos.Y = 1.21875
 	Actor_298.PhysicDesc.Pos.Z = 574.5
@@ -12625,6 +13814,7 @@ function InitMap(environment)
 	Actor_298.PhysicDesc.SizeX = 0
 	Actor_298.PhysicDesc.SizeY = 0
 	Actor_298.PhysicDesc.SizeZ = 0
+	Actor_298.PhysicDesc.AllowFreeMove = true
 	Actor_298.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_56.phy"
 	Actor_298:SetPhysicalActorType(1)
 	Actor_298:SetPhysicalShape(5)
@@ -12632,6 +13822,8 @@ function InitMap(environment)
 	Actor_298.ExtraInfo.NameColorR = 0
 	Actor_298.ExtraInfo.NameColorG = 0
 	Actor_298.ExtraInfo.NameColorB = 0
+	Actor_298.ExtraInfo.Display = false
+	Actor_298.LifeInfo.Display = false
 	Actor_298H = ActorHandler(Actor_298)
 	environment:AddActorObject(Actor_298H)
 
@@ -12658,6 +13850,7 @@ function InitMap(environment)
 	Actor_299.DisplayDesc.RotY = 0
 	Actor_299.DisplayDesc.RotZ = 0
 	Actor_299:SetModelState(1)
+	Actor_299.DisplayDesc.UseBillboard = false
 	Actor_299.PhysicDesc.Pos.X = 535.006
 	Actor_299.PhysicDesc.Pos.Y = 1.22656
 	Actor_299.PhysicDesc.Pos.Z = 581.5
@@ -12667,6 +13860,7 @@ function InitMap(environment)
 	Actor_299.PhysicDesc.SizeX = 0
 	Actor_299.PhysicDesc.SizeY = 0
 	Actor_299.PhysicDesc.SizeZ = 0
+	Actor_299.PhysicDesc.AllowFreeMove = true
 	Actor_299.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_57.phy"
 	Actor_299:SetPhysicalActorType(1)
 	Actor_299:SetPhysicalShape(5)
@@ -12674,6 +13868,8 @@ function InitMap(environment)
 	Actor_299.ExtraInfo.NameColorR = 0
 	Actor_299.ExtraInfo.NameColorG = 0
 	Actor_299.ExtraInfo.NameColorB = 0
+	Actor_299.ExtraInfo.Display = false
+	Actor_299.LifeInfo.Display = false
 	Actor_299H = ActorHandler(Actor_299)
 	environment:AddActorObject(Actor_299H)
 
@@ -12700,6 +13896,7 @@ function InitMap(environment)
 	Actor_300.DisplayDesc.RotY = 0
 	Actor_300.DisplayDesc.RotZ = 0
 	Actor_300:SetModelState(1)
+	Actor_300.DisplayDesc.UseBillboard = false
 	Actor_300.PhysicDesc.Pos.X = 536.695
 	Actor_300.PhysicDesc.Pos.Y = 1.80078
 	Actor_300.PhysicDesc.Pos.Z = 581.5
@@ -12709,6 +13906,7 @@ function InitMap(environment)
 	Actor_300.PhysicDesc.SizeX = 0
 	Actor_300.PhysicDesc.SizeY = 0
 	Actor_300.PhysicDesc.SizeZ = 0
+	Actor_300.PhysicDesc.AllowFreeMove = true
 	Actor_300.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_56.phy"
 	Actor_300:SetPhysicalActorType(1)
 	Actor_300:SetPhysicalShape(5)
@@ -12716,6 +13914,8 @@ function InitMap(environment)
 	Actor_300.ExtraInfo.NameColorR = 0
 	Actor_300.ExtraInfo.NameColorG = 0
 	Actor_300.ExtraInfo.NameColorB = 0
+	Actor_300.ExtraInfo.Display = false
+	Actor_300.LifeInfo.Display = false
 	Actor_300H = ActorHandler(Actor_300)
 	environment:AddActorObject(Actor_300H)
 
@@ -12742,6 +13942,7 @@ function InitMap(environment)
 	Actor_301.DisplayDesc.RotY = 0
 	Actor_301.DisplayDesc.RotZ = 0
 	Actor_301:SetModelState(1)
+	Actor_301.DisplayDesc.UseBillboard = false
 	Actor_301.PhysicDesc.Pos.X = 533.25
 	Actor_301.PhysicDesc.Pos.Y = 1.46484
 	Actor_301.PhysicDesc.Pos.Z = 581.5
@@ -12751,6 +13952,7 @@ function InitMap(environment)
 	Actor_301.PhysicDesc.SizeX = 0
 	Actor_301.PhysicDesc.SizeY = 0
 	Actor_301.PhysicDesc.SizeZ = 0
+	Actor_301.PhysicDesc.AllowFreeMove = true
 	Actor_301.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_56.phy"
 	Actor_301:SetPhysicalActorType(1)
 	Actor_301:SetPhysicalShape(5)
@@ -12758,6 +13960,8 @@ function InitMap(environment)
 	Actor_301.ExtraInfo.NameColorR = 0
 	Actor_301.ExtraInfo.NameColorG = 0
 	Actor_301.ExtraInfo.NameColorB = 0
+	Actor_301.ExtraInfo.Display = false
+	Actor_301.LifeInfo.Display = false
 	Actor_301H = ActorHandler(Actor_301)
 	environment:AddActorObject(Actor_301H)
 
@@ -12784,6 +13988,7 @@ function InitMap(environment)
 	Actor_302.DisplayDesc.RotY = 0
 	Actor_302.DisplayDesc.RotZ = 0
 	Actor_302:SetModelState(1)
+	Actor_302.DisplayDesc.UseBillboard = false
 	Actor_302.PhysicDesc.Pos.X = 524.256
 	Actor_302.PhysicDesc.Pos.Y = 0.976563
 	Actor_302.PhysicDesc.Pos.Z = 586.5
@@ -12793,6 +13998,7 @@ function InitMap(environment)
 	Actor_302.PhysicDesc.SizeX = 0
 	Actor_302.PhysicDesc.SizeY = 0
 	Actor_302.PhysicDesc.SizeZ = 0
+	Actor_302.PhysicDesc.AllowFreeMove = true
 	Actor_302.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_57.phy"
 	Actor_302:SetPhysicalActorType(1)
 	Actor_302:SetPhysicalShape(5)
@@ -12800,6 +14006,8 @@ function InitMap(environment)
 	Actor_302.ExtraInfo.NameColorR = 0
 	Actor_302.ExtraInfo.NameColorG = 0
 	Actor_302.ExtraInfo.NameColorB = 0
+	Actor_302.ExtraInfo.Display = false
+	Actor_302.LifeInfo.Display = false
 	Actor_302H = ActorHandler(Actor_302)
 	environment:AddActorObject(Actor_302H)
 
@@ -12826,6 +14034,7 @@ function InitMap(environment)
 	Actor_303.DisplayDesc.RotY = 0
 	Actor_303.DisplayDesc.RotZ = 0
 	Actor_303:SetModelState(1)
+	Actor_303.DisplayDesc.UseBillboard = false
 	Actor_303.PhysicDesc.Pos.X = 528.881
 	Actor_303.PhysicDesc.Pos.Y = 0.976563
 	Actor_303.PhysicDesc.Pos.Z = 586.5
@@ -12835,6 +14044,7 @@ function InitMap(environment)
 	Actor_303.PhysicDesc.SizeX = 0
 	Actor_303.PhysicDesc.SizeY = 0
 	Actor_303.PhysicDesc.SizeZ = 0
+	Actor_303.PhysicDesc.AllowFreeMove = true
 	Actor_303.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_57.phy"
 	Actor_303:SetPhysicalActorType(1)
 	Actor_303:SetPhysicalShape(5)
@@ -12842,6 +14052,8 @@ function InitMap(environment)
 	Actor_303.ExtraInfo.NameColorR = 0
 	Actor_303.ExtraInfo.NameColorG = 0
 	Actor_303.ExtraInfo.NameColorB = 0
+	Actor_303.ExtraInfo.Display = false
+	Actor_303.LifeInfo.Display = false
 	Actor_303H = ActorHandler(Actor_303)
 	environment:AddActorObject(Actor_303H)
 
@@ -12868,6 +14080,7 @@ function InitMap(environment)
 	Actor_304.DisplayDesc.RotY = 0
 	Actor_304.DisplayDesc.RotZ = 0
 	Actor_304:SetModelState(1)
+	Actor_304.DisplayDesc.UseBillboard = false
 	Actor_304.PhysicDesc.Pos.X = 530.57
 	Actor_304.PhysicDesc.Pos.Y = 0.976563
 	Actor_304.PhysicDesc.Pos.Z = 586.5
@@ -12877,6 +14090,7 @@ function InitMap(environment)
 	Actor_304.PhysicDesc.SizeX = 0
 	Actor_304.PhysicDesc.SizeY = 0
 	Actor_304.PhysicDesc.SizeZ = 0
+	Actor_304.PhysicDesc.AllowFreeMove = true
 	Actor_304.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_56.phy"
 	Actor_304:SetPhysicalActorType(1)
 	Actor_304:SetPhysicalShape(5)
@@ -12884,6 +14098,8 @@ function InitMap(environment)
 	Actor_304.ExtraInfo.NameColorR = 0
 	Actor_304.ExtraInfo.NameColorG = 0
 	Actor_304.ExtraInfo.NameColorB = 0
+	Actor_304.ExtraInfo.Display = false
+	Actor_304.LifeInfo.Display = false
 	Actor_304H = ActorHandler(Actor_304)
 	environment:AddActorObject(Actor_304H)
 
@@ -12910,6 +14126,7 @@ function InitMap(environment)
 	Actor_305.DisplayDesc.RotY = 0
 	Actor_305.DisplayDesc.RotZ = 0
 	Actor_305:SetModelState(1)
+	Actor_305.DisplayDesc.UseBillboard = false
 	Actor_305.PhysicDesc.Pos.X = 527.125
 	Actor_305.PhysicDesc.Pos.Y = 0.976563
 	Actor_305.PhysicDesc.Pos.Z = 586.5
@@ -12919,6 +14136,7 @@ function InitMap(environment)
 	Actor_305.PhysicDesc.SizeX = 0
 	Actor_305.PhysicDesc.SizeY = 0
 	Actor_305.PhysicDesc.SizeZ = 0
+	Actor_305.PhysicDesc.AllowFreeMove = true
 	Actor_305.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_56.phy"
 	Actor_305:SetPhysicalActorType(1)
 	Actor_305:SetPhysicalShape(5)
@@ -12926,6 +14144,8 @@ function InitMap(environment)
 	Actor_305.ExtraInfo.NameColorR = 0
 	Actor_305.ExtraInfo.NameColorG = 0
 	Actor_305.ExtraInfo.NameColorB = 0
+	Actor_305.ExtraInfo.Display = false
+	Actor_305.LifeInfo.Display = false
 	Actor_305H = ActorHandler(Actor_305)
 	environment:AddActorObject(Actor_305H)
 
@@ -12952,6 +14172,7 @@ function InitMap(environment)
 	Actor_306.DisplayDesc.RotY = 0
 	Actor_306.DisplayDesc.RotZ = 0
 	Actor_306:SetModelState(1)
+	Actor_306.DisplayDesc.UseBillboard = false
 	Actor_306.PhysicDesc.Pos.X = 525.945
 	Actor_306.PhysicDesc.Pos.Y = 0.976563
 	Actor_306.PhysicDesc.Pos.Z = 586.5
@@ -12961,6 +14182,7 @@ function InitMap(environment)
 	Actor_306.PhysicDesc.SizeX = 0
 	Actor_306.PhysicDesc.SizeY = 0
 	Actor_306.PhysicDesc.SizeZ = 0
+	Actor_306.PhysicDesc.AllowFreeMove = true
 	Actor_306.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_56.phy"
 	Actor_306:SetPhysicalActorType(1)
 	Actor_306:SetPhysicalShape(5)
@@ -12968,6 +14190,8 @@ function InitMap(environment)
 	Actor_306.ExtraInfo.NameColorR = 0
 	Actor_306.ExtraInfo.NameColorG = 0
 	Actor_306.ExtraInfo.NameColorB = 0
+	Actor_306.ExtraInfo.Display = false
+	Actor_306.LifeInfo.Display = false
 	Actor_306H = ActorHandler(Actor_306)
 	environment:AddActorObject(Actor_306H)
 
@@ -12994,6 +14218,7 @@ function InitMap(environment)
 	Actor_307.DisplayDesc.RotY = 0
 	Actor_307.DisplayDesc.RotZ = 0
 	Actor_307:SetModelState(1)
+	Actor_307.DisplayDesc.UseBillboard = false
 	Actor_307.PhysicDesc.Pos.X = 522.5
 	Actor_307.PhysicDesc.Pos.Y = 0.976563
 	Actor_307.PhysicDesc.Pos.Z = 586.5
@@ -13003,6 +14228,7 @@ function InitMap(environment)
 	Actor_307.PhysicDesc.SizeX = 0
 	Actor_307.PhysicDesc.SizeY = 0
 	Actor_307.PhysicDesc.SizeZ = 0
+	Actor_307.PhysicDesc.AllowFreeMove = true
 	Actor_307.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_56.phy"
 	Actor_307:SetPhysicalActorType(1)
 	Actor_307:SetPhysicalShape(5)
@@ -13010,6 +14236,8 @@ function InitMap(environment)
 	Actor_307.ExtraInfo.NameColorR = 0
 	Actor_307.ExtraInfo.NameColorG = 0
 	Actor_307.ExtraInfo.NameColorB = 0
+	Actor_307.ExtraInfo.Display = false
+	Actor_307.LifeInfo.Display = false
 	Actor_307H = ActorHandler(Actor_307)
 	environment:AddActorObject(Actor_307H)
 
@@ -13036,6 +14264,7 @@ function InitMap(environment)
 	Actor_308.DisplayDesc.RotY = 0
 	Actor_308.DisplayDesc.RotZ = 0
 	Actor_308:SetModelState(1)
+	Actor_308.DisplayDesc.UseBillboard = false
 	Actor_308.PhysicDesc.Pos.X = 535.5
 	Actor_308.PhysicDesc.Pos.Y = 1.14844
 	Actor_308.PhysicDesc.Pos.Z = 557.5
@@ -13045,6 +14274,7 @@ function InitMap(environment)
 	Actor_308.PhysicDesc.SizeX = 0
 	Actor_308.PhysicDesc.SizeY = 0
 	Actor_308.PhysicDesc.SizeZ = 0
+	Actor_308.PhysicDesc.AllowFreeMove = true
 	Actor_308.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_65.phy"
 	Actor_308:SetPhysicalActorType(1)
 	Actor_308:SetPhysicalShape(5)
@@ -13052,6 +14282,8 @@ function InitMap(environment)
 	Actor_308.ExtraInfo.NameColorR = 0
 	Actor_308.ExtraInfo.NameColorG = 0
 	Actor_308.ExtraInfo.NameColorB = 0
+	Actor_308.ExtraInfo.Display = false
+	Actor_308.LifeInfo.Display = false
 	Actor_308H = ActorHandler(Actor_308)
 	environment:AddActorObject(Actor_308H)
 
@@ -13078,6 +14310,7 @@ function InitMap(environment)
 	Actor_309.DisplayDesc.RotY = 0
 	Actor_309.DisplayDesc.RotZ = 0
 	Actor_309:SetModelState(1)
+	Actor_309.DisplayDesc.UseBillboard = false
 	Actor_309.PhysicDesc.Pos.X = 431.75
 	Actor_309.PhysicDesc.Pos.Y = 2.92969
 	Actor_309.PhysicDesc.Pos.Z = 634
@@ -13087,6 +14320,7 @@ function InitMap(environment)
 	Actor_309.PhysicDesc.SizeX = 0
 	Actor_309.PhysicDesc.SizeY = 0
 	Actor_309.PhysicDesc.SizeZ = 0
+	Actor_309.PhysicDesc.AllowFreeMove = true
 	Actor_309.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_82.phy"
 	Actor_309:SetPhysicalActorType(1)
 	Actor_309:SetPhysicalShape(5)
@@ -13094,6 +14328,8 @@ function InitMap(environment)
 	Actor_309.ExtraInfo.NameColorR = 0
 	Actor_309.ExtraInfo.NameColorG = 0
 	Actor_309.ExtraInfo.NameColorB = 0
+	Actor_309.ExtraInfo.Display = false
+	Actor_309.LifeInfo.Display = false
 	Actor_309H = ActorHandler(Actor_309)
 	environment:AddActorObject(Actor_309H)
 
@@ -13120,6 +14356,7 @@ function InitMap(environment)
 	Actor_310.DisplayDesc.RotY = 0
 	Actor_310.DisplayDesc.RotZ = 0
 	Actor_310:SetModelState(1)
+	Actor_310.DisplayDesc.UseBillboard = false
 	Actor_310.PhysicDesc.Pos.X = 444.5
 	Actor_310.PhysicDesc.Pos.Y = 3.90625
 	Actor_310.PhysicDesc.Pos.Z = 649.5
@@ -13129,6 +14366,7 @@ function InitMap(environment)
 	Actor_310.PhysicDesc.SizeX = 0
 	Actor_310.PhysicDesc.SizeY = 0
 	Actor_310.PhysicDesc.SizeZ = 0
+	Actor_310.PhysicDesc.AllowFreeMove = true
 	Actor_310.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_5.phy"
 	Actor_310:SetPhysicalActorType(1)
 	Actor_310:SetPhysicalShape(5)
@@ -13136,6 +14374,8 @@ function InitMap(environment)
 	Actor_310.ExtraInfo.NameColorR = 0
 	Actor_310.ExtraInfo.NameColorG = 0
 	Actor_310.ExtraInfo.NameColorB = 0
+	Actor_310.ExtraInfo.Display = false
+	Actor_310.LifeInfo.Display = false
 	Actor_310H = ActorHandler(Actor_310)
 	environment:AddActorObject(Actor_310H)
 
@@ -13162,6 +14402,7 @@ function InitMap(environment)
 	Actor_311.DisplayDesc.RotY = 0
 	Actor_311.DisplayDesc.RotZ = 0
 	Actor_311:SetModelState(1)
+	Actor_311.DisplayDesc.UseBillboard = false
 	Actor_311.PhysicDesc.Pos.X = 447.5
 	Actor_311.PhysicDesc.Pos.Y = 3.90625
 	Actor_311.PhysicDesc.Pos.Z = 650.5
@@ -13171,6 +14412,7 @@ function InitMap(environment)
 	Actor_311.PhysicDesc.SizeX = 0
 	Actor_311.PhysicDesc.SizeY = 0
 	Actor_311.PhysicDesc.SizeZ = 0
+	Actor_311.PhysicDesc.AllowFreeMove = true
 	Actor_311.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_5.phy"
 	Actor_311:SetPhysicalActorType(1)
 	Actor_311:SetPhysicalShape(5)
@@ -13178,6 +14420,8 @@ function InitMap(environment)
 	Actor_311.ExtraInfo.NameColorR = 0
 	Actor_311.ExtraInfo.NameColorG = 0
 	Actor_311.ExtraInfo.NameColorB = 0
+	Actor_311.ExtraInfo.Display = false
+	Actor_311.LifeInfo.Display = false
 	Actor_311H = ActorHandler(Actor_311)
 	environment:AddActorObject(Actor_311H)
 
@@ -13204,6 +14448,7 @@ function InitMap(environment)
 	Actor_312.DisplayDesc.RotY = 0
 	Actor_312.DisplayDesc.RotZ = 0
 	Actor_312:SetModelState(1)
+	Actor_312.DisplayDesc.UseBillboard = false
 	Actor_312.PhysicDesc.Pos.X = 437.25
 	Actor_312.PhysicDesc.Pos.Y = 3.41797
 	Actor_312.PhysicDesc.Pos.Z = 641
@@ -13213,6 +14458,7 @@ function InitMap(environment)
 	Actor_312.PhysicDesc.SizeX = 0
 	Actor_312.PhysicDesc.SizeY = 0
 	Actor_312.PhysicDesc.SizeZ = 0
+	Actor_312.PhysicDesc.AllowFreeMove = true
 	Actor_312.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_43.phy"
 	Actor_312:SetPhysicalActorType(1)
 	Actor_312:SetPhysicalShape(5)
@@ -13220,6 +14466,8 @@ function InitMap(environment)
 	Actor_312.ExtraInfo.NameColorR = 0
 	Actor_312.ExtraInfo.NameColorG = 0
 	Actor_312.ExtraInfo.NameColorB = 0
+	Actor_312.ExtraInfo.Display = false
+	Actor_312.LifeInfo.Display = false
 	Actor_312H = ActorHandler(Actor_312)
 	environment:AddActorObject(Actor_312H)
 
@@ -13246,6 +14494,7 @@ function InitMap(environment)
 	Actor_313.DisplayDesc.RotY = 0
 	Actor_313.DisplayDesc.RotZ = 0
 	Actor_313:SetModelState(1)
+	Actor_313.DisplayDesc.UseBillboard = false
 	Actor_313.PhysicDesc.Pos.X = 461.5
 	Actor_313.PhysicDesc.Pos.Y = 1.95313
 	Actor_313.PhysicDesc.Pos.Z = 640.5
@@ -13255,6 +14504,7 @@ function InitMap(environment)
 	Actor_313.PhysicDesc.SizeX = 0
 	Actor_313.PhysicDesc.SizeY = 0
 	Actor_313.PhysicDesc.SizeZ = 0
+	Actor_313.PhysicDesc.AllowFreeMove = true
 	Actor_313.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_6.phy"
 	Actor_313:SetPhysicalActorType(1)
 	Actor_313:SetPhysicalShape(5)
@@ -13262,6 +14512,8 @@ function InitMap(environment)
 	Actor_313.ExtraInfo.NameColorR = 0
 	Actor_313.ExtraInfo.NameColorG = 0
 	Actor_313.ExtraInfo.NameColorB = 0
+	Actor_313.ExtraInfo.Display = false
+	Actor_313.LifeInfo.Display = false
 	Actor_313H = ActorHandler(Actor_313)
 	environment:AddActorObject(Actor_313H)
 
@@ -13288,6 +14540,7 @@ function InitMap(environment)
 	Actor_314.DisplayDesc.RotY = 0
 	Actor_314.DisplayDesc.RotZ = 0
 	Actor_314:SetModelState(1)
+	Actor_314.DisplayDesc.UseBillboard = false
 	Actor_314.PhysicDesc.Pos.X = 443.25
 	Actor_314.PhysicDesc.Pos.Y = 12.6953
 	Actor_314.PhysicDesc.Pos.Z = 631
@@ -13297,6 +14550,7 @@ function InitMap(environment)
 	Actor_314.PhysicDesc.SizeX = 0
 	Actor_314.PhysicDesc.SizeY = 0
 	Actor_314.PhysicDesc.SizeZ = 0
+	Actor_314.PhysicDesc.AllowFreeMove = true
 	Actor_314.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_103.phy"
 	Actor_314:SetPhysicalActorType(1)
 	Actor_314:SetPhysicalShape(5)
@@ -13304,6 +14558,8 @@ function InitMap(environment)
 	Actor_314.ExtraInfo.NameColorR = 0
 	Actor_314.ExtraInfo.NameColorG = 0
 	Actor_314.ExtraInfo.NameColorB = 0
+	Actor_314.ExtraInfo.Display = false
+	Actor_314.LifeInfo.Display = false
 	Actor_314H = ActorHandler(Actor_314)
 	environment:AddActorObject(Actor_314H)
 
@@ -13330,6 +14586,7 @@ function InitMap(environment)
 	Actor_315.DisplayDesc.RotY = 0
 	Actor_315.DisplayDesc.RotZ = 0
 	Actor_315:SetModelState(1)
+	Actor_315.DisplayDesc.UseBillboard = false
 	Actor_315.PhysicDesc.Pos.X = 443.25
 	Actor_315.PhysicDesc.Pos.Y = 12.6953
 	Actor_315.PhysicDesc.Pos.Z = 631
@@ -13339,6 +14596,7 @@ function InitMap(environment)
 	Actor_315.PhysicDesc.SizeX = 0
 	Actor_315.PhysicDesc.SizeY = 0
 	Actor_315.PhysicDesc.SizeZ = 0
+	Actor_315.PhysicDesc.AllowFreeMove = true
 	Actor_315.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_104.phy"
 	Actor_315:SetPhysicalActorType(1)
 	Actor_315:SetPhysicalShape(5)
@@ -13346,6 +14604,8 @@ function InitMap(environment)
 	Actor_315.ExtraInfo.NameColorR = 0
 	Actor_315.ExtraInfo.NameColorG = 0
 	Actor_315.ExtraInfo.NameColorB = 0
+	Actor_315.ExtraInfo.Display = false
+	Actor_315.LifeInfo.Display = false
 	Actor_315H = ActorHandler(Actor_315)
 	environment:AddActorObject(Actor_315H)
 
@@ -13372,6 +14632,7 @@ function InitMap(environment)
 	Actor_316.DisplayDesc.RotY = 0
 	Actor_316.DisplayDesc.RotZ = 0
 	Actor_316:SetModelState(1)
+	Actor_316.DisplayDesc.UseBillboard = false
 	Actor_316.PhysicDesc.Pos.X = 431.75
 	Actor_316.PhysicDesc.Pos.Y = 2.92969
 	Actor_316.PhysicDesc.Pos.Z = 634
@@ -13381,6 +14642,7 @@ function InitMap(environment)
 	Actor_316.PhysicDesc.SizeX = 0
 	Actor_316.PhysicDesc.SizeY = 0
 	Actor_316.PhysicDesc.SizeZ = 0
+	Actor_316.PhysicDesc.AllowFreeMove = true
 	Actor_316.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_83.phy"
 	Actor_316:SetPhysicalActorType(1)
 	Actor_316:SetPhysicalShape(5)
@@ -13388,6 +14650,8 @@ function InitMap(environment)
 	Actor_316.ExtraInfo.NameColorR = 0
 	Actor_316.ExtraInfo.NameColorG = 0
 	Actor_316.ExtraInfo.NameColorB = 0
+	Actor_316.ExtraInfo.Display = false
+	Actor_316.LifeInfo.Display = false
 	Actor_316H = ActorHandler(Actor_316)
 	environment:AddActorObject(Actor_316H)
 
@@ -13414,6 +14678,7 @@ function InitMap(environment)
 	Actor_317.DisplayDesc.RotY = 0
 	Actor_317.DisplayDesc.RotZ = 0
 	Actor_317:SetModelState(1)
+	Actor_317.DisplayDesc.UseBillboard = false
 	Actor_317.PhysicDesc.Pos.X = 443.25
 	Actor_317.PhysicDesc.Pos.Y = 12.6953
 	Actor_317.PhysicDesc.Pos.Z = 631
@@ -13423,6 +14688,7 @@ function InitMap(environment)
 	Actor_317.PhysicDesc.SizeX = 0
 	Actor_317.PhysicDesc.SizeY = 0
 	Actor_317.PhysicDesc.SizeZ = 0
+	Actor_317.PhysicDesc.AllowFreeMove = true
 	Actor_317.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_105.phy"
 	Actor_317:SetPhysicalActorType(1)
 	Actor_317:SetPhysicalShape(5)
@@ -13430,6 +14696,8 @@ function InitMap(environment)
 	Actor_317.ExtraInfo.NameColorR = 0
 	Actor_317.ExtraInfo.NameColorG = 0
 	Actor_317.ExtraInfo.NameColorB = 0
+	Actor_317.ExtraInfo.Display = false
+	Actor_317.LifeInfo.Display = false
 	Actor_317H = ActorHandler(Actor_317)
 	environment:AddActorObject(Actor_317H)
 
@@ -13456,6 +14724,7 @@ function InitMap(environment)
 	Actor_318.DisplayDesc.RotY = 0
 	Actor_318.DisplayDesc.RotZ = 0
 	Actor_318:SetModelState(1)
+	Actor_318.DisplayDesc.UseBillboard = false
 	Actor_318.PhysicDesc.Pos.X = 443.25
 	Actor_318.PhysicDesc.Pos.Y = 12.6953
 	Actor_318.PhysicDesc.Pos.Z = 631
@@ -13465,6 +14734,7 @@ function InitMap(environment)
 	Actor_318.PhysicDesc.SizeX = 0
 	Actor_318.PhysicDesc.SizeY = 0
 	Actor_318.PhysicDesc.SizeZ = 0
+	Actor_318.PhysicDesc.AllowFreeMove = true
 	Actor_318.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_106.phy"
 	Actor_318:SetPhysicalActorType(1)
 	Actor_318:SetPhysicalShape(5)
@@ -13472,6 +14742,8 @@ function InitMap(environment)
 	Actor_318.ExtraInfo.NameColorR = 0
 	Actor_318.ExtraInfo.NameColorG = 0
 	Actor_318.ExtraInfo.NameColorB = 0
+	Actor_318.ExtraInfo.Display = false
+	Actor_318.LifeInfo.Display = false
 	Actor_318H = ActorHandler(Actor_318)
 	environment:AddActorObject(Actor_318H)
 
@@ -13498,6 +14770,7 @@ function InitMap(environment)
 	Actor_319.DisplayDesc.RotY = 0
 	Actor_319.DisplayDesc.RotZ = 0
 	Actor_319:SetModelState(1)
+	Actor_319.DisplayDesc.UseBillboard = false
 	Actor_319.PhysicDesc.Pos.X = 443.25
 	Actor_319.PhysicDesc.Pos.Y = 12.6953
 	Actor_319.PhysicDesc.Pos.Z = 631
@@ -13507,6 +14780,7 @@ function InitMap(environment)
 	Actor_319.PhysicDesc.SizeX = 0
 	Actor_319.PhysicDesc.SizeY = 0
 	Actor_319.PhysicDesc.SizeZ = 0
+	Actor_319.PhysicDesc.AllowFreeMove = true
 	Actor_319.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_107.phy"
 	Actor_319:SetPhysicalActorType(1)
 	Actor_319:SetPhysicalShape(5)
@@ -13514,6 +14788,8 @@ function InitMap(environment)
 	Actor_319.ExtraInfo.NameColorR = 0
 	Actor_319.ExtraInfo.NameColorG = 0
 	Actor_319.ExtraInfo.NameColorB = 0
+	Actor_319.ExtraInfo.Display = false
+	Actor_319.LifeInfo.Display = false
 	Actor_319H = ActorHandler(Actor_319)
 	environment:AddActorObject(Actor_319H)
 
@@ -13540,6 +14816,7 @@ function InitMap(environment)
 	Actor_320.DisplayDesc.RotY = 0
 	Actor_320.DisplayDesc.RotZ = 0
 	Actor_320:SetModelState(1)
+	Actor_320.DisplayDesc.UseBillboard = false
 	Actor_320.PhysicDesc.Pos.X = 443.25
 	Actor_320.PhysicDesc.Pos.Y = 12.6953
 	Actor_320.PhysicDesc.Pos.Z = 631
@@ -13549,6 +14826,7 @@ function InitMap(environment)
 	Actor_320.PhysicDesc.SizeX = 0
 	Actor_320.PhysicDesc.SizeY = 0
 	Actor_320.PhysicDesc.SizeZ = 0
+	Actor_320.PhysicDesc.AllowFreeMove = true
 	Actor_320.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_108.phy"
 	Actor_320:SetPhysicalActorType(1)
 	Actor_320:SetPhysicalShape(5)
@@ -13556,6 +14834,8 @@ function InitMap(environment)
 	Actor_320.ExtraInfo.NameColorR = 0
 	Actor_320.ExtraInfo.NameColorG = 0
 	Actor_320.ExtraInfo.NameColorB = 0
+	Actor_320.ExtraInfo.Display = false
+	Actor_320.LifeInfo.Display = false
 	Actor_320H = ActorHandler(Actor_320)
 	environment:AddActorObject(Actor_320H)
 
@@ -13582,6 +14862,7 @@ function InitMap(environment)
 	Actor_321.DisplayDesc.RotY = 0
 	Actor_321.DisplayDesc.RotZ = 0
 	Actor_321:SetModelState(1)
+	Actor_321.DisplayDesc.UseBillboard = false
 	Actor_321.PhysicDesc.Pos.X = 443.25
 	Actor_321.PhysicDesc.Pos.Y = 12.6953
 	Actor_321.PhysicDesc.Pos.Z = 631
@@ -13591,6 +14872,7 @@ function InitMap(environment)
 	Actor_321.PhysicDesc.SizeX = 0
 	Actor_321.PhysicDesc.SizeY = 0
 	Actor_321.PhysicDesc.SizeZ = 0
+	Actor_321.PhysicDesc.AllowFreeMove = true
 	Actor_321.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_109.phy"
 	Actor_321:SetPhysicalActorType(1)
 	Actor_321:SetPhysicalShape(5)
@@ -13598,6 +14880,8 @@ function InitMap(environment)
 	Actor_321.ExtraInfo.NameColorR = 0
 	Actor_321.ExtraInfo.NameColorG = 0
 	Actor_321.ExtraInfo.NameColorB = 0
+	Actor_321.ExtraInfo.Display = false
+	Actor_321.LifeInfo.Display = false
 	Actor_321H = ActorHandler(Actor_321)
 	environment:AddActorObject(Actor_321H)
 
@@ -13624,6 +14908,7 @@ function InitMap(environment)
 	Actor_322.DisplayDesc.RotY = 0
 	Actor_322.DisplayDesc.RotZ = 0
 	Actor_322:SetModelState(1)
+	Actor_322.DisplayDesc.UseBillboard = false
 	Actor_322.PhysicDesc.Pos.X = 489.5
 	Actor_322.PhysicDesc.Pos.Y = 5.85938
 	Actor_322.PhysicDesc.Pos.Z = 651.5
@@ -13633,6 +14918,7 @@ function InitMap(environment)
 	Actor_322.PhysicDesc.SizeX = 0
 	Actor_322.PhysicDesc.SizeY = 0
 	Actor_322.PhysicDesc.SizeZ = 0
+	Actor_322.PhysicDesc.AllowFreeMove = true
 	Actor_322.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_1.phy"
 	Actor_322:SetPhysicalActorType(1)
 	Actor_322:SetPhysicalShape(5)
@@ -13640,6 +14926,8 @@ function InitMap(environment)
 	Actor_322.ExtraInfo.NameColorR = 0
 	Actor_322.ExtraInfo.NameColorG = 0
 	Actor_322.ExtraInfo.NameColorB = 0
+	Actor_322.ExtraInfo.Display = false
+	Actor_322.LifeInfo.Display = false
 	Actor_322H = ActorHandler(Actor_322)
 	environment:AddActorObject(Actor_322H)
 
@@ -13666,6 +14954,7 @@ function InitMap(environment)
 	Actor_323.DisplayDesc.RotY = 0
 	Actor_323.DisplayDesc.RotZ = 0
 	Actor_323:SetModelState(1)
+	Actor_323.DisplayDesc.UseBillboard = false
 	Actor_323.PhysicDesc.Pos.X = 529.5
 	Actor_323.PhysicDesc.Pos.Y = 0.976563
 	Actor_323.PhysicDesc.Pos.Z = 613.25
@@ -13675,6 +14964,7 @@ function InitMap(environment)
 	Actor_323.PhysicDesc.SizeX = 0
 	Actor_323.PhysicDesc.SizeY = 0
 	Actor_323.PhysicDesc.SizeZ = 0
+	Actor_323.PhysicDesc.AllowFreeMove = true
 	Actor_323.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_110.phy"
 	Actor_323:SetPhysicalActorType(1)
 	Actor_323:SetPhysicalShape(5)
@@ -13682,6 +14972,8 @@ function InitMap(environment)
 	Actor_323.ExtraInfo.NameColorR = 0
 	Actor_323.ExtraInfo.NameColorG = 0
 	Actor_323.ExtraInfo.NameColorB = 0
+	Actor_323.ExtraInfo.Display = false
+	Actor_323.LifeInfo.Display = false
 	Actor_323H = ActorHandler(Actor_323)
 	environment:AddActorObject(Actor_323H)
 
@@ -13708,6 +15000,7 @@ function InitMap(environment)
 	Actor_324.DisplayDesc.RotY = 0
 	Actor_324.DisplayDesc.RotZ = 0
 	Actor_324:SetModelState(1)
+	Actor_324.DisplayDesc.UseBillboard = false
 	Actor_324.PhysicDesc.Pos.X = 534.5
 	Actor_324.PhysicDesc.Pos.Y = 10.2539
 	Actor_324.PhysicDesc.Pos.Z = 649.5
@@ -13717,6 +15010,7 @@ function InitMap(environment)
 	Actor_324.PhysicDesc.SizeX = 0
 	Actor_324.PhysicDesc.SizeY = 0
 	Actor_324.PhysicDesc.SizeZ = 0
+	Actor_324.PhysicDesc.AllowFreeMove = true
 	Actor_324.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_5.phy"
 	Actor_324:SetPhysicalActorType(1)
 	Actor_324:SetPhysicalShape(5)
@@ -13724,6 +15018,8 @@ function InitMap(environment)
 	Actor_324.ExtraInfo.NameColorR = 0
 	Actor_324.ExtraInfo.NameColorG = 0
 	Actor_324.ExtraInfo.NameColorB = 0
+	Actor_324.ExtraInfo.Display = false
+	Actor_324.LifeInfo.Display = false
 	Actor_324H = ActorHandler(Actor_324)
 	environment:AddActorObject(Actor_324H)
 
@@ -13750,6 +15046,7 @@ function InitMap(environment)
 	Actor_325.DisplayDesc.RotY = 0
 	Actor_325.DisplayDesc.RotZ = 0
 	Actor_325:SetModelState(1)
+	Actor_325.DisplayDesc.UseBillboard = false
 	Actor_325.PhysicDesc.Pos.X = 525.5
 	Actor_325.PhysicDesc.Pos.Y = 4.14844
 	Actor_325.PhysicDesc.Pos.Z = 622.5
@@ -13759,6 +15056,7 @@ function InitMap(environment)
 	Actor_325.PhysicDesc.SizeX = 0
 	Actor_325.PhysicDesc.SizeY = 0
 	Actor_325.PhysicDesc.SizeZ = 0
+	Actor_325.PhysicDesc.AllowFreeMove = true
 	Actor_325.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_2.phy"
 	Actor_325:SetPhysicalActorType(1)
 	Actor_325:SetPhysicalShape(5)
@@ -13766,6 +15064,8 @@ function InitMap(environment)
 	Actor_325.ExtraInfo.NameColorR = 0
 	Actor_325.ExtraInfo.NameColorG = 0
 	Actor_325.ExtraInfo.NameColorB = 0
+	Actor_325.ExtraInfo.Display = false
+	Actor_325.LifeInfo.Display = false
 	Actor_325H = ActorHandler(Actor_325)
 	environment:AddActorObject(Actor_325H)
 
@@ -13792,6 +15092,7 @@ function InitMap(environment)
 	Actor_326.DisplayDesc.RotY = 0
 	Actor_326.DisplayDesc.RotZ = 0
 	Actor_326:SetModelState(1)
+	Actor_326.DisplayDesc.UseBillboard = false
 	Actor_326.PhysicDesc.Pos.X = 511.125
 	Actor_326.PhysicDesc.Pos.Y = 0.976563
 	Actor_326.PhysicDesc.Pos.Z = 613
@@ -13801,6 +15102,7 @@ function InitMap(environment)
 	Actor_326.PhysicDesc.SizeX = 0
 	Actor_326.PhysicDesc.SizeY = 0
 	Actor_326.PhysicDesc.SizeZ = 0
+	Actor_326.PhysicDesc.AllowFreeMove = true
 	Actor_326.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_82.phy"
 	Actor_326:SetPhysicalActorType(1)
 	Actor_326:SetPhysicalShape(5)
@@ -13808,6 +15110,8 @@ function InitMap(environment)
 	Actor_326.ExtraInfo.NameColorR = 0
 	Actor_326.ExtraInfo.NameColorG = 0
 	Actor_326.ExtraInfo.NameColorB = 0
+	Actor_326.ExtraInfo.Display = false
+	Actor_326.LifeInfo.Display = false
 	Actor_326H = ActorHandler(Actor_326)
 	environment:AddActorObject(Actor_326H)
 
@@ -13834,6 +15138,7 @@ function InitMap(environment)
 	Actor_327.DisplayDesc.RotY = 0
 	Actor_327.DisplayDesc.RotZ = 0
 	Actor_327:SetModelState(1)
+	Actor_327.DisplayDesc.UseBillboard = false
 	Actor_327.PhysicDesc.Pos.X = 522.5
 	Actor_327.PhysicDesc.Pos.Y = 7.8125
 	Actor_327.PhysicDesc.Pos.Z = 666.5
@@ -13843,6 +15148,7 @@ function InitMap(environment)
 	Actor_327.PhysicDesc.SizeX = 0
 	Actor_327.PhysicDesc.SizeY = 0
 	Actor_327.PhysicDesc.SizeZ = 0
+	Actor_327.PhysicDesc.AllowFreeMove = true
 	Actor_327.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_5.phy"
 	Actor_327:SetPhysicalActorType(1)
 	Actor_327:SetPhysicalShape(5)
@@ -13850,6 +15156,8 @@ function InitMap(environment)
 	Actor_327.ExtraInfo.NameColorR = 0
 	Actor_327.ExtraInfo.NameColorG = 0
 	Actor_327.ExtraInfo.NameColorB = 0
+	Actor_327.ExtraInfo.Display = false
+	Actor_327.LifeInfo.Display = false
 	Actor_327H = ActorHandler(Actor_327)
 	environment:AddActorObject(Actor_327H)
 
@@ -13876,6 +15184,7 @@ function InitMap(environment)
 	Actor_328.DisplayDesc.RotY = 0
 	Actor_328.DisplayDesc.RotZ = 0
 	Actor_328:SetModelState(1)
+	Actor_328.DisplayDesc.UseBillboard = false
 	Actor_328.PhysicDesc.Pos.X = 509
 	Actor_328.PhysicDesc.Pos.Y = 0.976563
 	Actor_328.PhysicDesc.Pos.Z = 621
@@ -13885,6 +15194,7 @@ function InitMap(environment)
 	Actor_328.PhysicDesc.SizeX = 0
 	Actor_328.PhysicDesc.SizeY = 0
 	Actor_328.PhysicDesc.SizeZ = 0
+	Actor_328.PhysicDesc.AllowFreeMove = true
 	Actor_328.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_111.phy"
 	Actor_328:SetPhysicalActorType(1)
 	Actor_328:SetPhysicalShape(5)
@@ -13892,6 +15202,8 @@ function InitMap(environment)
 	Actor_328.ExtraInfo.NameColorR = 0
 	Actor_328.ExtraInfo.NameColorG = 3.49047e-039
 	Actor_328.ExtraInfo.NameColorB = 2.40859e-035
+	Actor_328.ExtraInfo.Display = false
+	Actor_328.LifeInfo.Display = false
 	Actor_328H = ActorHandler(Actor_328)
 	environment:AddActorObject(Actor_328H)
 
@@ -13918,6 +15230,7 @@ function InitMap(environment)
 	Actor_329.DisplayDesc.RotY = 0
 	Actor_329.DisplayDesc.RotZ = 0
 	Actor_329:SetModelState(1)
+	Actor_329.DisplayDesc.UseBillboard = false
 	Actor_329.PhysicDesc.Pos.X = 509
 	Actor_329.PhysicDesc.Pos.Y = 0.976563
 	Actor_329.PhysicDesc.Pos.Z = 621
@@ -13927,6 +15240,7 @@ function InitMap(environment)
 	Actor_329.PhysicDesc.SizeX = 0
 	Actor_329.PhysicDesc.SizeY = 0
 	Actor_329.PhysicDesc.SizeZ = 0
+	Actor_329.PhysicDesc.AllowFreeMove = true
 	Actor_329.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_112.phy"
 	Actor_329:SetPhysicalActorType(1)
 	Actor_329:SetPhysicalShape(5)
@@ -13934,6 +15248,8 @@ function InitMap(environment)
 	Actor_329.ExtraInfo.NameColorR = 0
 	Actor_329.ExtraInfo.NameColorG = 0
 	Actor_329.ExtraInfo.NameColorB = 0
+	Actor_329.ExtraInfo.Display = false
+	Actor_329.LifeInfo.Display = false
 	Actor_329H = ActorHandler(Actor_329)
 	environment:AddActorObject(Actor_329H)
 
@@ -13960,6 +15276,7 @@ function InitMap(environment)
 	Actor_330.DisplayDesc.RotY = 0
 	Actor_330.DisplayDesc.RotZ = 0
 	Actor_330:SetModelState(1)
+	Actor_330.DisplayDesc.UseBillboard = false
 	Actor_330.PhysicDesc.Pos.X = 509
 	Actor_330.PhysicDesc.Pos.Y = 0.976563
 	Actor_330.PhysicDesc.Pos.Z = 621
@@ -13969,6 +15286,7 @@ function InitMap(environment)
 	Actor_330.PhysicDesc.SizeX = 0
 	Actor_330.PhysicDesc.SizeY = 0
 	Actor_330.PhysicDesc.SizeZ = 0
+	Actor_330.PhysicDesc.AllowFreeMove = true
 	Actor_330.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_113.phy"
 	Actor_330:SetPhysicalActorType(1)
 	Actor_330:SetPhysicalShape(5)
@@ -13976,6 +15294,8 @@ function InitMap(environment)
 	Actor_330.ExtraInfo.NameColorR = 0
 	Actor_330.ExtraInfo.NameColorG = 0
 	Actor_330.ExtraInfo.NameColorB = 0
+	Actor_330.ExtraInfo.Display = false
+	Actor_330.LifeInfo.Display = false
 	Actor_330H = ActorHandler(Actor_330)
 	environment:AddActorObject(Actor_330H)
 
@@ -14002,6 +15322,7 @@ function InitMap(environment)
 	Actor_331.DisplayDesc.RotY = 0
 	Actor_331.DisplayDesc.RotZ = 0
 	Actor_331:SetModelState(1)
+	Actor_331.DisplayDesc.UseBillboard = false
 	Actor_331.PhysicDesc.Pos.X = 509
 	Actor_331.PhysicDesc.Pos.Y = 0.976563
 	Actor_331.PhysicDesc.Pos.Z = 621
@@ -14011,6 +15332,7 @@ function InitMap(environment)
 	Actor_331.PhysicDesc.SizeX = 0
 	Actor_331.PhysicDesc.SizeY = 0
 	Actor_331.PhysicDesc.SizeZ = 0
+	Actor_331.PhysicDesc.AllowFreeMove = true
 	Actor_331.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_114.phy"
 	Actor_331:SetPhysicalActorType(1)
 	Actor_331:SetPhysicalShape(5)
@@ -14018,6 +15340,8 @@ function InitMap(environment)
 	Actor_331.ExtraInfo.NameColorR = 0
 	Actor_331.ExtraInfo.NameColorG = 0
 	Actor_331.ExtraInfo.NameColorB = 0
+	Actor_331.ExtraInfo.Display = false
+	Actor_331.LifeInfo.Display = false
 	Actor_331H = ActorHandler(Actor_331)
 	environment:AddActorObject(Actor_331H)
 
@@ -14044,6 +15368,7 @@ function InitMap(environment)
 	Actor_332.DisplayDesc.RotY = 0
 	Actor_332.DisplayDesc.RotZ = 0
 	Actor_332:SetModelState(1)
+	Actor_332.DisplayDesc.UseBillboard = false
 	Actor_332.PhysicDesc.Pos.X = 506.5
 	Actor_332.PhysicDesc.Pos.Y = 0.976563
 	Actor_332.PhysicDesc.Pos.Z = 615.5
@@ -14053,6 +15378,7 @@ function InitMap(environment)
 	Actor_332.PhysicDesc.SizeX = 0
 	Actor_332.PhysicDesc.SizeY = 0
 	Actor_332.PhysicDesc.SizeZ = 0
+	Actor_332.PhysicDesc.AllowFreeMove = true
 	Actor_332.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_50.phy"
 	Actor_332:SetPhysicalActorType(1)
 	Actor_332:SetPhysicalShape(5)
@@ -14060,6 +15386,8 @@ function InitMap(environment)
 	Actor_332.ExtraInfo.NameColorR = 0
 	Actor_332.ExtraInfo.NameColorG = 0
 	Actor_332.ExtraInfo.NameColorB = 0
+	Actor_332.ExtraInfo.Display = false
+	Actor_332.LifeInfo.Display = false
 	Actor_332H = ActorHandler(Actor_332)
 	environment:AddActorObject(Actor_332H)
 
@@ -14086,6 +15414,7 @@ function InitMap(environment)
 	Actor_333.DisplayDesc.RotY = 0
 	Actor_333.DisplayDesc.RotZ = 0
 	Actor_333:SetModelState(1)
+	Actor_333.DisplayDesc.UseBillboard = false
 	Actor_333.PhysicDesc.Pos.X = 495
 	Actor_333.PhysicDesc.Pos.Y = 6.83594
 	Actor_333.PhysicDesc.Pos.Z = 647.5
@@ -14095,6 +15424,7 @@ function InitMap(environment)
 	Actor_333.PhysicDesc.SizeX = 0
 	Actor_333.PhysicDesc.SizeY = 0
 	Actor_333.PhysicDesc.SizeZ = 0
+	Actor_333.PhysicDesc.AllowFreeMove = true
 	Actor_333.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_6.phy"
 	Actor_333:SetPhysicalActorType(1)
 	Actor_333:SetPhysicalShape(5)
@@ -14102,6 +15432,8 @@ function InitMap(environment)
 	Actor_333.ExtraInfo.NameColorR = 0
 	Actor_333.ExtraInfo.NameColorG = 0
 	Actor_333.ExtraInfo.NameColorB = 0
+	Actor_333.ExtraInfo.Display = false
+	Actor_333.LifeInfo.Display = false
 	Actor_333H = ActorHandler(Actor_333)
 	environment:AddActorObject(Actor_333H)
 
@@ -14128,6 +15460,7 @@ function InitMap(environment)
 	Actor_334.DisplayDesc.RotY = 0
 	Actor_334.DisplayDesc.RotZ = 0
 	Actor_334:SetModelState(1)
+	Actor_334.DisplayDesc.UseBillboard = false
 	Actor_334.PhysicDesc.Pos.X = 489.5
 	Actor_334.PhysicDesc.Pos.Y = 1.95313
 	Actor_334.PhysicDesc.Pos.Z = 636
@@ -14137,6 +15470,7 @@ function InitMap(environment)
 	Actor_334.PhysicDesc.SizeX = 0
 	Actor_334.PhysicDesc.SizeY = 0
 	Actor_334.PhysicDesc.SizeZ = 0
+	Actor_334.PhysicDesc.AllowFreeMove = true
 	Actor_334.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_22.phy"
 	Actor_334:SetPhysicalActorType(1)
 	Actor_334:SetPhysicalShape(5)
@@ -14144,6 +15478,8 @@ function InitMap(environment)
 	Actor_334.ExtraInfo.NameColorR = 0
 	Actor_334.ExtraInfo.NameColorG = 0
 	Actor_334.ExtraInfo.NameColorB = 0
+	Actor_334.ExtraInfo.Display = false
+	Actor_334.LifeInfo.Display = false
 	Actor_334H = ActorHandler(Actor_334)
 	environment:AddActorObject(Actor_334H)
 
@@ -14170,6 +15506,7 @@ function InitMap(environment)
 	Actor_335.DisplayDesc.RotY = 0
 	Actor_335.DisplayDesc.RotZ = 0
 	Actor_335:SetModelState(1)
+	Actor_335.DisplayDesc.UseBillboard = false
 	Actor_335.PhysicDesc.Pos.X = 492.5
 	Actor_335.PhysicDesc.Pos.Y = 1.95313
 	Actor_335.PhysicDesc.Pos.Z = 613.5
@@ -14179,6 +15516,7 @@ function InitMap(environment)
 	Actor_335.PhysicDesc.SizeX = 0
 	Actor_335.PhysicDesc.SizeY = 0
 	Actor_335.PhysicDesc.SizeZ = 0
+	Actor_335.PhysicDesc.AllowFreeMove = true
 	Actor_335.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_5.phy"
 	Actor_335:SetPhysicalActorType(1)
 	Actor_335:SetPhysicalShape(5)
@@ -14186,6 +15524,8 @@ function InitMap(environment)
 	Actor_335.ExtraInfo.NameColorR = 0
 	Actor_335.ExtraInfo.NameColorG = 0
 	Actor_335.ExtraInfo.NameColorB = 0
+	Actor_335.ExtraInfo.Display = false
+	Actor_335.LifeInfo.Display = false
 	Actor_335H = ActorHandler(Actor_335)
 	environment:AddActorObject(Actor_335H)
 
@@ -14212,6 +15552,7 @@ function InitMap(environment)
 	Actor_336.DisplayDesc.RotY = 0
 	Actor_336.DisplayDesc.RotZ = 0
 	Actor_336:SetModelState(1)
+	Actor_336.DisplayDesc.UseBillboard = false
 	Actor_336.PhysicDesc.Pos.X = 511.125
 	Actor_336.PhysicDesc.Pos.Y = 0.976563
 	Actor_336.PhysicDesc.Pos.Z = 613
@@ -14221,6 +15562,7 @@ function InitMap(environment)
 	Actor_336.PhysicDesc.SizeX = 0
 	Actor_336.PhysicDesc.SizeY = 0
 	Actor_336.PhysicDesc.SizeZ = 0
+	Actor_336.PhysicDesc.AllowFreeMove = true
 	Actor_336.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_83.phy"
 	Actor_336:SetPhysicalActorType(1)
 	Actor_336:SetPhysicalShape(5)
@@ -14228,6 +15570,8 @@ function InitMap(environment)
 	Actor_336.ExtraInfo.NameColorR = 0
 	Actor_336.ExtraInfo.NameColorG = 0
 	Actor_336.ExtraInfo.NameColorB = 0
+	Actor_336.ExtraInfo.Display = false
+	Actor_336.LifeInfo.Display = false
 	Actor_336H = ActorHandler(Actor_336)
 	environment:AddActorObject(Actor_336H)
 
@@ -14254,6 +15598,7 @@ function InitMap(environment)
 	Actor_337.DisplayDesc.RotY = 0
 	Actor_337.DisplayDesc.RotZ = 0
 	Actor_337:SetModelState(1)
+	Actor_337.DisplayDesc.UseBillboard = false
 	Actor_337.PhysicDesc.Pos.X = 514.5
 	Actor_337.PhysicDesc.Pos.Y = 0.976563
 	Actor_337.PhysicDesc.Pos.Z = 614.25
@@ -14263,6 +15608,7 @@ function InitMap(environment)
 	Actor_337.PhysicDesc.SizeX = 0
 	Actor_337.PhysicDesc.SizeY = 0
 	Actor_337.PhysicDesc.SizeZ = 0
+	Actor_337.PhysicDesc.AllowFreeMove = true
 	Actor_337.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_22.phy"
 	Actor_337:SetPhysicalActorType(1)
 	Actor_337:SetPhysicalShape(5)
@@ -14270,6 +15616,8 @@ function InitMap(environment)
 	Actor_337.ExtraInfo.NameColorR = 0
 	Actor_337.ExtraInfo.NameColorG = 0
 	Actor_337.ExtraInfo.NameColorB = 0
+	Actor_337.ExtraInfo.Display = false
+	Actor_337.LifeInfo.Display = false
 	Actor_337H = ActorHandler(Actor_337)
 	environment:AddActorObject(Actor_337H)
 
@@ -14296,6 +15644,7 @@ function InitMap(environment)
 	Actor_338.DisplayDesc.RotY = 0
 	Actor_338.DisplayDesc.RotZ = 0
 	Actor_338:SetModelState(1)
+	Actor_338.DisplayDesc.UseBillboard = false
 	Actor_338.PhysicDesc.Pos.X = 499.75
 	Actor_338.PhysicDesc.Pos.Y = 1.10156
 	Actor_338.PhysicDesc.Pos.Z = 610.75
@@ -14305,6 +15654,7 @@ function InitMap(environment)
 	Actor_338.PhysicDesc.SizeX = 0
 	Actor_338.PhysicDesc.SizeY = 0
 	Actor_338.PhysicDesc.SizeZ = 0
+	Actor_338.PhysicDesc.AllowFreeMove = true
 	Actor_338.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_22.phy"
 	Actor_338:SetPhysicalActorType(1)
 	Actor_338:SetPhysicalShape(5)
@@ -14312,6 +15662,8 @@ function InitMap(environment)
 	Actor_338.ExtraInfo.NameColorR = 0
 	Actor_338.ExtraInfo.NameColorG = 0
 	Actor_338.ExtraInfo.NameColorB = 0
+	Actor_338.ExtraInfo.Display = false
+	Actor_338.LifeInfo.Display = false
 	Actor_338H = ActorHandler(Actor_338)
 	environment:AddActorObject(Actor_338H)
 
@@ -14338,6 +15690,7 @@ function InitMap(environment)
 	Actor_339.DisplayDesc.RotY = 0
 	Actor_339.DisplayDesc.RotZ = 0
 	Actor_339:SetModelState(1)
+	Actor_339.DisplayDesc.UseBillboard = false
 	Actor_339.PhysicDesc.Pos.X = 529.742
 	Actor_339.PhysicDesc.Pos.Y = 0.976563
 	Actor_339.PhysicDesc.Pos.Z = 608.125
@@ -14347,6 +15700,7 @@ function InitMap(environment)
 	Actor_339.PhysicDesc.SizeX = 0
 	Actor_339.PhysicDesc.SizeY = 0
 	Actor_339.PhysicDesc.SizeZ = 0
+	Actor_339.PhysicDesc.AllowFreeMove = true
 	Actor_339.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_84.phy"
 	Actor_339:SetPhysicalActorType(1)
 	Actor_339:SetPhysicalShape(5)
@@ -14354,6 +15708,8 @@ function InitMap(environment)
 	Actor_339.ExtraInfo.NameColorR = 0
 	Actor_339.ExtraInfo.NameColorG = 0
 	Actor_339.ExtraInfo.NameColorB = 0
+	Actor_339.ExtraInfo.Display = false
+	Actor_339.LifeInfo.Display = false
 	Actor_339H = ActorHandler(Actor_339)
 	environment:AddActorObject(Actor_339H)
 
@@ -14380,6 +15736,7 @@ function InitMap(environment)
 	Actor_340.DisplayDesc.RotY = 0
 	Actor_340.DisplayDesc.RotZ = 0
 	Actor_340:SetModelState(1)
+	Actor_340.DisplayDesc.UseBillboard = false
 	Actor_340.PhysicDesc.Pos.X = 527.797
 	Actor_340.PhysicDesc.Pos.Y = 0.976563
 	Actor_340.PhysicDesc.Pos.Z = 608.125
@@ -14389,6 +15746,7 @@ function InitMap(environment)
 	Actor_340.PhysicDesc.SizeX = 0
 	Actor_340.PhysicDesc.SizeY = 0
 	Actor_340.PhysicDesc.SizeZ = 0
+	Actor_340.PhysicDesc.AllowFreeMove = true
 	Actor_340.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_84.phy"
 	Actor_340:SetPhysicalActorType(1)
 	Actor_340:SetPhysicalShape(5)
@@ -14396,6 +15754,8 @@ function InitMap(environment)
 	Actor_340.ExtraInfo.NameColorR = 0
 	Actor_340.ExtraInfo.NameColorG = 0
 	Actor_340.ExtraInfo.NameColorB = 0
+	Actor_340.ExtraInfo.Display = false
+	Actor_340.LifeInfo.Display = false
 	Actor_340H = ActorHandler(Actor_340)
 	environment:AddActorObject(Actor_340H)
 
@@ -14422,6 +15782,7 @@ function InitMap(environment)
 	Actor_341.DisplayDesc.RotY = 0
 	Actor_341.DisplayDesc.RotZ = 0
 	Actor_341:SetModelState(1)
+	Actor_341.DisplayDesc.UseBillboard = false
 	Actor_341.PhysicDesc.Pos.X = 525.852
 	Actor_341.PhysicDesc.Pos.Y = 0.976563
 	Actor_341.PhysicDesc.Pos.Z = 608.125
@@ -14431,6 +15792,7 @@ function InitMap(environment)
 	Actor_341.PhysicDesc.SizeX = 0
 	Actor_341.PhysicDesc.SizeY = 0
 	Actor_341.PhysicDesc.SizeZ = 0
+	Actor_341.PhysicDesc.AllowFreeMove = true
 	Actor_341.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_84.phy"
 	Actor_341:SetPhysicalActorType(1)
 	Actor_341:SetPhysicalShape(5)
@@ -14438,6 +15800,8 @@ function InitMap(environment)
 	Actor_341.ExtraInfo.NameColorR = 0
 	Actor_341.ExtraInfo.NameColorG = 0
 	Actor_341.ExtraInfo.NameColorB = 0
+	Actor_341.ExtraInfo.Display = false
+	Actor_341.LifeInfo.Display = false
 	Actor_341H = ActorHandler(Actor_341)
 	environment:AddActorObject(Actor_341H)
 
@@ -14464,6 +15828,7 @@ function InitMap(environment)
 	Actor_342.DisplayDesc.RotY = 0
 	Actor_342.DisplayDesc.RotZ = 0
 	Actor_342:SetModelState(1)
+	Actor_342.DisplayDesc.UseBillboard = false
 	Actor_342.PhysicDesc.Pos.X = 523.906
 	Actor_342.PhysicDesc.Pos.Y = 0.976563
 	Actor_342.PhysicDesc.Pos.Z = 608.125
@@ -14473,6 +15838,7 @@ function InitMap(environment)
 	Actor_342.PhysicDesc.SizeX = 0
 	Actor_342.PhysicDesc.SizeY = 0
 	Actor_342.PhysicDesc.SizeZ = 0
+	Actor_342.PhysicDesc.AllowFreeMove = true
 	Actor_342.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_84.phy"
 	Actor_342:SetPhysicalActorType(1)
 	Actor_342:SetPhysicalShape(5)
@@ -14480,6 +15846,8 @@ function InitMap(environment)
 	Actor_342.ExtraInfo.NameColorR = 0
 	Actor_342.ExtraInfo.NameColorG = 0
 	Actor_342.ExtraInfo.NameColorB = 0
+	Actor_342.ExtraInfo.Display = false
+	Actor_342.LifeInfo.Display = false
 	Actor_342H = ActorHandler(Actor_342)
 	environment:AddActorObject(Actor_342H)
 
@@ -14506,6 +15874,7 @@ function InitMap(environment)
 	Actor_343.DisplayDesc.RotY = 0
 	Actor_343.DisplayDesc.RotZ = 0
 	Actor_343:SetModelState(1)
+	Actor_343.DisplayDesc.UseBillboard = false
 	Actor_343.PhysicDesc.Pos.X = 521.961
 	Actor_343.PhysicDesc.Pos.Y = 0.976563
 	Actor_343.PhysicDesc.Pos.Z = 608.125
@@ -14515,6 +15884,7 @@ function InitMap(environment)
 	Actor_343.PhysicDesc.SizeX = 0
 	Actor_343.PhysicDesc.SizeY = 0
 	Actor_343.PhysicDesc.SizeZ = 0
+	Actor_343.PhysicDesc.AllowFreeMove = true
 	Actor_343.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_84.phy"
 	Actor_343:SetPhysicalActorType(1)
 	Actor_343:SetPhysicalShape(5)
@@ -14522,6 +15892,8 @@ function InitMap(environment)
 	Actor_343.ExtraInfo.NameColorR = 0
 	Actor_343.ExtraInfo.NameColorG = 0
 	Actor_343.ExtraInfo.NameColorB = 0
+	Actor_343.ExtraInfo.Display = false
+	Actor_343.LifeInfo.Display = false
 	Actor_343H = ActorHandler(Actor_343)
 	environment:AddActorObject(Actor_343H)
 
@@ -14548,6 +15920,7 @@ function InitMap(environment)
 	Actor_344.DisplayDesc.RotY = 0
 	Actor_344.DisplayDesc.RotZ = 0
 	Actor_344:SetModelState(1)
+	Actor_344.DisplayDesc.UseBillboard = false
 	Actor_344.PhysicDesc.Pos.X = 520.016
 	Actor_344.PhysicDesc.Pos.Y = 0.976563
 	Actor_344.PhysicDesc.Pos.Z = 608.125
@@ -14557,6 +15930,7 @@ function InitMap(environment)
 	Actor_344.PhysicDesc.SizeX = 0
 	Actor_344.PhysicDesc.SizeY = 0
 	Actor_344.PhysicDesc.SizeZ = 0
+	Actor_344.PhysicDesc.AllowFreeMove = true
 	Actor_344.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_84.phy"
 	Actor_344:SetPhysicalActorType(1)
 	Actor_344:SetPhysicalShape(5)
@@ -14564,6 +15938,8 @@ function InitMap(environment)
 	Actor_344.ExtraInfo.NameColorR = 0
 	Actor_344.ExtraInfo.NameColorG = 0
 	Actor_344.ExtraInfo.NameColorB = 0
+	Actor_344.ExtraInfo.Display = false
+	Actor_344.LifeInfo.Display = false
 	Actor_344H = ActorHandler(Actor_344)
 	environment:AddActorObject(Actor_344H)
 
@@ -14590,6 +15966,7 @@ function InitMap(environment)
 	Actor_345.DisplayDesc.RotY = 0
 	Actor_345.DisplayDesc.RotZ = 0
 	Actor_345:SetModelState(1)
+	Actor_345.DisplayDesc.UseBillboard = false
 	Actor_345.PhysicDesc.Pos.X = 531.57
 	Actor_345.PhysicDesc.Pos.Y = 0.976563
 	Actor_345.PhysicDesc.Pos.Z = 608.125
@@ -14599,6 +15976,7 @@ function InitMap(environment)
 	Actor_345.PhysicDesc.SizeX = 0
 	Actor_345.PhysicDesc.SizeY = 0
 	Actor_345.PhysicDesc.SizeZ = 0
+	Actor_345.PhysicDesc.AllowFreeMove = true
 	Actor_345.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_85.phy"
 	Actor_345:SetPhysicalActorType(1)
 	Actor_345:SetPhysicalShape(5)
@@ -14606,6 +15984,8 @@ function InitMap(environment)
 	Actor_345.ExtraInfo.NameColorR = 0
 	Actor_345.ExtraInfo.NameColorG = 0
 	Actor_345.ExtraInfo.NameColorB = 0
+	Actor_345.ExtraInfo.Display = false
+	Actor_345.LifeInfo.Display = false
 	Actor_345H = ActorHandler(Actor_345)
 	environment:AddActorObject(Actor_345H)
 
@@ -14632,6 +16012,7 @@ function InitMap(environment)
 	Actor_346.DisplayDesc.RotY = 0
 	Actor_346.DisplayDesc.RotZ = 0
 	Actor_346:SetModelState(1)
+	Actor_346.DisplayDesc.UseBillboard = false
 	Actor_346.PhysicDesc.Pos.X = 519.906
 	Actor_346.PhysicDesc.Pos.Y = 0.976563
 	Actor_346.PhysicDesc.Pos.Z = 610.07
@@ -14641,6 +16022,7 @@ function InitMap(environment)
 	Actor_346.PhysicDesc.SizeX = 0
 	Actor_346.PhysicDesc.SizeY = 0
 	Actor_346.PhysicDesc.SizeZ = 0
+	Actor_346.PhysicDesc.AllowFreeMove = true
 	Actor_346.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_84.phy"
 	Actor_346:SetPhysicalActorType(1)
 	Actor_346:SetPhysicalShape(5)
@@ -14648,6 +16030,8 @@ function InitMap(environment)
 	Actor_346.ExtraInfo.NameColorR = 0
 	Actor_346.ExtraInfo.NameColorG = 0
 	Actor_346.ExtraInfo.NameColorB = 0
+	Actor_346.ExtraInfo.Display = false
+	Actor_346.LifeInfo.Display = false
 	Actor_346H = ActorHandler(Actor_346)
 	environment:AddActorObject(Actor_346H)
 
@@ -14674,6 +16058,7 @@ function InitMap(environment)
 	Actor_347.DisplayDesc.RotY = 0
 	Actor_347.DisplayDesc.RotZ = 0
 	Actor_347:SetModelState(1)
+	Actor_347.DisplayDesc.UseBillboard = false
 	Actor_347.PhysicDesc.Pos.X = 519.906
 	Actor_347.PhysicDesc.Pos.Y = 0.976563
 	Actor_347.PhysicDesc.Pos.Z = 612.016
@@ -14683,6 +16068,7 @@ function InitMap(environment)
 	Actor_347.PhysicDesc.SizeX = 0
 	Actor_347.PhysicDesc.SizeY = 0
 	Actor_347.PhysicDesc.SizeZ = 0
+	Actor_347.PhysicDesc.AllowFreeMove = true
 	Actor_347.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_84.phy"
 	Actor_347:SetPhysicalActorType(1)
 	Actor_347:SetPhysicalShape(5)
@@ -14690,6 +16076,8 @@ function InitMap(environment)
 	Actor_347.ExtraInfo.NameColorR = 0
 	Actor_347.ExtraInfo.NameColorG = 0
 	Actor_347.ExtraInfo.NameColorB = 0
+	Actor_347.ExtraInfo.Display = false
+	Actor_347.LifeInfo.Display = false
 	Actor_347H = ActorHandler(Actor_347)
 	environment:AddActorObject(Actor_347H)
 
@@ -14716,6 +16104,7 @@ function InitMap(environment)
 	Actor_348.DisplayDesc.RotY = 0
 	Actor_348.DisplayDesc.RotZ = 0
 	Actor_348:SetModelState(1)
+	Actor_348.DisplayDesc.UseBillboard = false
 	Actor_348.PhysicDesc.Pos.X = 519.906
 	Actor_348.PhysicDesc.Pos.Y = 0.976563
 	Actor_348.PhysicDesc.Pos.Z = 613.961
@@ -14725,6 +16114,7 @@ function InitMap(environment)
 	Actor_348.PhysicDesc.SizeX = 0
 	Actor_348.PhysicDesc.SizeY = 0
 	Actor_348.PhysicDesc.SizeZ = 0
+	Actor_348.PhysicDesc.AllowFreeMove = true
 	Actor_348.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_84.phy"
 	Actor_348:SetPhysicalActorType(1)
 	Actor_348:SetPhysicalShape(5)
@@ -14732,6 +16122,8 @@ function InitMap(environment)
 	Actor_348.ExtraInfo.NameColorR = 0
 	Actor_348.ExtraInfo.NameColorG = 0
 	Actor_348.ExtraInfo.NameColorB = 0
+	Actor_348.ExtraInfo.Display = false
+	Actor_348.LifeInfo.Display = false
 	Actor_348H = ActorHandler(Actor_348)
 	environment:AddActorObject(Actor_348H)
 
@@ -14758,6 +16150,7 @@ function InitMap(environment)
 	Actor_349.DisplayDesc.RotY = 0
 	Actor_349.DisplayDesc.RotZ = 0
 	Actor_349:SetModelState(1)
+	Actor_349.DisplayDesc.UseBillboard = false
 	Actor_349.PhysicDesc.Pos.X = 519.898
 	Actor_349.PhysicDesc.Pos.Y = 0.976563
 	Actor_349.PhysicDesc.Pos.Z = 615.906
@@ -14767,6 +16160,7 @@ function InitMap(environment)
 	Actor_349.PhysicDesc.SizeX = 0
 	Actor_349.PhysicDesc.SizeY = 0
 	Actor_349.PhysicDesc.SizeZ = 0
+	Actor_349.PhysicDesc.AllowFreeMove = true
 	Actor_349.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_84.phy"
 	Actor_349:SetPhysicalActorType(1)
 	Actor_349:SetPhysicalShape(5)
@@ -14774,6 +16168,8 @@ function InitMap(environment)
 	Actor_349.ExtraInfo.NameColorR = 0
 	Actor_349.ExtraInfo.NameColorG = 0
 	Actor_349.ExtraInfo.NameColorB = 0
+	Actor_349.ExtraInfo.Display = false
+	Actor_349.LifeInfo.Display = false
 	Actor_349H = ActorHandler(Actor_349)
 	environment:AddActorObject(Actor_349H)
 
@@ -14800,6 +16196,7 @@ function InitMap(environment)
 	Actor_350.DisplayDesc.RotY = 0
 	Actor_350.DisplayDesc.RotZ = 0
 	Actor_350:SetModelState(1)
+	Actor_350.DisplayDesc.UseBillboard = false
 	Actor_350.PhysicDesc.Pos.X = 521.844
 	Actor_350.PhysicDesc.Pos.Y = 0.976563
 	Actor_350.PhysicDesc.Pos.Z = 616.016
@@ -14809,6 +16206,7 @@ function InitMap(environment)
 	Actor_350.PhysicDesc.SizeX = 0
 	Actor_350.PhysicDesc.SizeY = 0
 	Actor_350.PhysicDesc.SizeZ = 0
+	Actor_350.PhysicDesc.AllowFreeMove = true
 	Actor_350.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_84.phy"
 	Actor_350:SetPhysicalActorType(1)
 	Actor_350:SetPhysicalShape(5)
@@ -14816,6 +16214,8 @@ function InitMap(environment)
 	Actor_350.ExtraInfo.NameColorR = 0
 	Actor_350.ExtraInfo.NameColorG = 0
 	Actor_350.ExtraInfo.NameColorB = 0
+	Actor_350.ExtraInfo.Display = false
+	Actor_350.LifeInfo.Display = false
 	Actor_350H = ActorHandler(Actor_350)
 	environment:AddActorObject(Actor_350H)
 
@@ -14842,6 +16242,7 @@ function InitMap(environment)
 	Actor_351.DisplayDesc.RotY = 0
 	Actor_351.DisplayDesc.RotZ = 0
 	Actor_351:SetModelState(1)
+	Actor_351.DisplayDesc.UseBillboard = false
 	Actor_351.PhysicDesc.Pos.X = 523.789
 	Actor_351.PhysicDesc.Pos.Y = 0.976563
 	Actor_351.PhysicDesc.Pos.Z = 616.016
@@ -14851,6 +16252,7 @@ function InitMap(environment)
 	Actor_351.PhysicDesc.SizeX = 0
 	Actor_351.PhysicDesc.SizeY = 0
 	Actor_351.PhysicDesc.SizeZ = 0
+	Actor_351.PhysicDesc.AllowFreeMove = true
 	Actor_351.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_84.phy"
 	Actor_351:SetPhysicalActorType(1)
 	Actor_351:SetPhysicalShape(5)
@@ -14858,6 +16260,8 @@ function InitMap(environment)
 	Actor_351.ExtraInfo.NameColorR = 0
 	Actor_351.ExtraInfo.NameColorG = 0
 	Actor_351.ExtraInfo.NameColorB = 0
+	Actor_351.ExtraInfo.Display = false
+	Actor_351.LifeInfo.Display = false
 	Actor_351H = ActorHandler(Actor_351)
 	environment:AddActorObject(Actor_351H)
 
@@ -14884,6 +16288,7 @@ function InitMap(environment)
 	Actor_352.DisplayDesc.RotY = 0
 	Actor_352.DisplayDesc.RotZ = 0
 	Actor_352:SetModelState(1)
+	Actor_352.DisplayDesc.UseBillboard = false
 	Actor_352.PhysicDesc.Pos.X = 522.25
 	Actor_352.PhysicDesc.Pos.Y = 0.976563
 	Actor_352.PhysicDesc.Pos.Z = 613.25
@@ -14893,6 +16298,7 @@ function InitMap(environment)
 	Actor_352.PhysicDesc.SizeX = 0
 	Actor_352.PhysicDesc.SizeY = 0
 	Actor_352.PhysicDesc.SizeZ = 0
+	Actor_352.PhysicDesc.AllowFreeMove = true
 	Actor_352.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_1.phy"
 	Actor_352:SetPhysicalActorType(1)
 	Actor_352:SetPhysicalShape(5)
@@ -14900,6 +16306,8 @@ function InitMap(environment)
 	Actor_352.ExtraInfo.NameColorR = 0
 	Actor_352.ExtraInfo.NameColorG = 0
 	Actor_352.ExtraInfo.NameColorB = 0
+	Actor_352.ExtraInfo.Display = false
+	Actor_352.LifeInfo.Display = false
 	Actor_352H = ActorHandler(Actor_352)
 	environment:AddActorObject(Actor_352H)
 
@@ -14926,6 +16334,7 @@ function InitMap(environment)
 	Actor_353.DisplayDesc.RotY = 0
 	Actor_353.DisplayDesc.RotZ = 0
 	Actor_353:SetModelState(1)
+	Actor_353.DisplayDesc.UseBillboard = false
 	Actor_353.PhysicDesc.Pos.X = 512.125
 	Actor_353.PhysicDesc.Pos.Y = 0.976563
 	Actor_353.PhysicDesc.Pos.Z = 622.75
@@ -14935,6 +16344,7 @@ function InitMap(environment)
 	Actor_353.PhysicDesc.SizeX = 0
 	Actor_353.PhysicDesc.SizeY = 0
 	Actor_353.PhysicDesc.SizeZ = 0
+	Actor_353.PhysicDesc.AllowFreeMove = true
 	Actor_353.PhysicDesc.Filename = "Worlds/Lba2Original/Models/CITABAU_OBJ_115.phy"
 	Actor_353:SetPhysicalActorType(1)
 	Actor_353:SetPhysicalShape(5)
@@ -14942,12 +16352,16 @@ function InitMap(environment)
 	Actor_353.ExtraInfo.NameColorR = 0
 	Actor_353.ExtraInfo.NameColorG = 0
 	Actor_353.ExtraInfo.NameColorB = 0
+	Actor_353.ExtraInfo.Display = false
+	Actor_353.LifeInfo.Display = false
 	Actor_353H = ActorHandler(Actor_353)
 	environment:AddActorObject(Actor_353H)
 
 	Trigger_1_info = TriggerInfo(1, "to_twinsenH", true, true, false)
 	Trigger_1 = ZoneTrigger(Trigger_1_info, 1, 6, 2, true)
 	Trigger_1:SetPosition(515.4, 1, 618.5)
+	Trigger_1:SetStayUpdateFrequency(-1)
+	Trigger_1:SetActivateOnJump(true)
 	Trigger_1_act1 = TeleportAction()
 	Trigger_1_act1:SetMapName("Map001_2")
 	Trigger_1_act1:SetSpawning(2)
@@ -14957,6 +16371,8 @@ function InitMap(environment)
 	Trigger_2_info = TriggerInfo(2, "to_architect", true, true, false)
 	Trigger_2 = ZoneTrigger(Trigger_2_info, 1, 6, 2, true)
 	Trigger_2:SetPosition(533, 1, 613.25)
+	Trigger_2:SetStayUpdateFrequency(-1)
+	Trigger_2:SetActivateOnJump(true)
 	Trigger_2_act1 = TeleportAction()
 	Trigger_2_act1:SetMapName("Map010_2")
 	Trigger_2_act1:SetSpawning(0)
@@ -14966,6 +16382,8 @@ function InitMap(environment)
 	Trigger_3_info = TriggerInfo(3, "to_ticket", true, true, false)
 	Trigger_3 = ZoneTrigger(Trigger_3_info, 2, 6, 1, true)
 	Trigger_3:SetPosition(465, 3, 560.7)
+	Trigger_3:SetStayUpdateFrequency(-1)
+	Trigger_3:SetActivateOnJump(true)
 	Trigger_3_act1 = TeleportAction()
 	Trigger_3_act1:SetMapName("Map009_2")
 	Trigger_3_act1:SetSpawning(0)
@@ -14975,6 +16393,8 @@ function InitMap(environment)
 	Trigger_4_info = TriggerInfo(4, "tp_cita_mrpaul", true, true, false)
 	Trigger_4 = ZoneTrigger(Trigger_4_info, 2, 6, 1, true)
 	Trigger_4:SetPosition(453, 3, 561)
+	Trigger_4:SetStayUpdateFrequency(-1)
+	Trigger_4:SetActivateOnJump(true)
 	Trigger_4_act1 = TeleportAction()
 	Trigger_4_act1:SetMapName("Map008_2")
 	Trigger_4_act1:SetSpawning(0)
@@ -14984,6 +16404,8 @@ function InitMap(environment)
 	Trigger_5_info = TriggerInfo(5, "to_shop", true, true, false)
 	Trigger_5 = ZoneTrigger(Trigger_5_info, 1, 6, 2, true)
 	Trigger_5:SetPosition(491.5, 1, 573.3)
+	Trigger_5:SetStayUpdateFrequency(-1)
+	Trigger_5:SetActivateOnJump(true)
 	Trigger_5_act1 = TeleportAction()
 	Trigger_5_act1:SetMapName("Map015_2")
 	Trigger_5_act1:SetSpawning(0)
@@ -14993,6 +16415,8 @@ function InitMap(environment)
 	Trigger_6_info = TriggerInfo(6, "to_tave", true, true, false)
 	Trigger_6 = ZoneTrigger(Trigger_6_info, 2, 6, 1, true)
 	Trigger_6:SetPosition(515, 1, 557.8)
+	Trigger_6:SetStayUpdateFrequency(-1)
+	Trigger_6:SetActivateOnJump(true)
 	Trigger_6_act1 = TeleportAction()
 	Trigger_6_act1:SetMapName("Map004_2")
 	Trigger_6_act1:SetSpawning(0)
@@ -15002,6 +16426,8 @@ function InitMap(environment)
 	Trigger_7_info = TriggerInfo(7, "to_muse", true, true, false)
 	Trigger_7 = ZoneTrigger(Trigger_7_info, 1, 6, 2, true)
 	Trigger_7:SetPosition(492.5, 1, 538.1)
+	Trigger_7:SetStayUpdateFrequency(-1)
+	Trigger_7:SetActivateOnJump(true)
 	Trigger_7_act1 = TeleportAction()
 	Trigger_7_act1:SetMapName("Map016_2")
 	Trigger_7_act1:SetSpawning(0)
@@ -15011,6 +16437,8 @@ function InitMap(environment)
 	Trigger_10_info = TriggerInfo(10, "to_pharmacy3", true, true, false)
 	Trigger_10 = ZoneTrigger(Trigger_10_info, 1, 6, 2, true)
 	Trigger_10:SetPosition(500.6, 1, 515.05)
+	Trigger_10:SetStayUpdateFrequency(-1)
+	Trigger_10:SetActivateOnJump(true)
 	Trigger_10_act1 = TeleportAction()
 	Trigger_10_act1:SetMapName("Map023_2")
 	Trigger_10_act1:SetSpawning(1)
@@ -15020,6 +16448,8 @@ function InitMap(environment)
 	Trigger_11_info = TriggerInfo(11, "to_bag", true, true, false)
 	Trigger_11 = ZoneTrigger(Trigger_11_info, 1, 6, 2, true)
 	Trigger_11:SetPosition(502.5, 1, 509.65)
+	Trigger_11:SetStayUpdateFrequency(-1)
+	Trigger_11:SetActivateOnJump(true)
 	Trigger_11_act1 = TeleportAction()
 	Trigger_11_act1:SetMapName("Map006_2")
 	Trigger_11_act1:SetSpawning(1)
@@ -15029,6 +16459,8 @@ function InitMap(environment)
 	Trigger_12_info = TriggerInfo(12, "to_school", true, true, false)
 	Trigger_12 = ZoneTrigger(Trigger_12_info, 2, 6, 1, true)
 	Trigger_12:SetPosition(533.8, 1, 500)
+	Trigger_12:SetStayUpdateFrequency(-1)
+	Trigger_12:SetActivateOnJump(true)
 	Trigger_12_act1 = TeleportAction()
 	Trigger_12_act1:SetMapName("Map038_2")
 	Trigger_12_act1:SetSpawning(1)
@@ -15038,6 +16470,8 @@ function InitMap(environment)
 	Trigger_13_info = TriggerInfo(13, "to_magician", true, true, false)
 	Trigger_13 = ZoneTrigger(Trigger_13_info, 1, 7, 3, true)
 	Trigger_13:SetPosition(449.5, 32, 446.5)
+	Trigger_13:SetStayUpdateFrequency(-1)
+	Trigger_13:SetActivateOnJump(true)
 	Trigger_13_act1 = TeleportAction()
 	Trigger_13_act1:SetMapName("Map022_2")
 	Trigger_13_act1:SetSpawning(1)
@@ -15047,6 +16481,8 @@ function InitMap(environment)
 	Trigger_14_info = TriggerInfo(14, "to_spider", true, true, false)
 	Trigger_14 = ZoneTrigger(Trigger_14_info, 2, 8, 1, true)
 	Trigger_14:SetPosition(540.4, 28.4, 451.6)
+	Trigger_14:SetStayUpdateFrequency(-1)
+	Trigger_14:SetActivateOnJump(true)
 	Trigger_14_act1 = TeleportAction()
 	Trigger_14_act1:SetMapName("Map043_2")
 	Trigger_14_act1:SetSpawning(1)
@@ -15056,6 +16492,8 @@ function InitMap(environment)
 	Trigger_15_info = TriggerInfo(15, "to_spidersecond", true, true, false)
 	Trigger_15 = ZoneTrigger(Trigger_15_info, 2, 8, 1, true)
 	Trigger_15:SetPosition(538.6, 22, 429.6)
+	Trigger_15:SetStayUpdateFrequency(-1)
+	Trigger_15:SetActivateOnJump(true)
 	Trigger_15_act1 = TeleportAction()
 	Trigger_15_act1:SetMapName("Map043_2")
 	Trigger_15_act1:SetSpawning(2)
@@ -15065,6 +16503,8 @@ function InitMap(environment)
 	Trigger_16_info = TriggerInfo(16, "to_tralumain", true, true, false)
 	Trigger_16 = ZoneTrigger(Trigger_16_info, 1, 8, 2, true)
 	Trigger_16:SetPosition(473.3, 21.8, 439.3)
+	Trigger_16:SetStayUpdateFrequency(-1)
+	Trigger_16:SetActivateOnJump(true)
 	Trigger_16_act1 = TeleportAction()
 	Trigger_16_act1:SetMapName("Map003_2")
 	Trigger_16_act1:SetSpawning(1)
@@ -15074,10 +16514,12 @@ function InitMap(environment)
 	Trigger_17_info = TriggerInfo(17, "to_museum_window", true, true, false)
 	Trigger_17 = ZoneTrigger(Trigger_17_info, 2, 6, 1, true)
 	Trigger_17:SetPosition(488.7, 10, 536.8)
+	Trigger_17:SetStayUpdateFrequency(-1)
+	Trigger_17:SetActivateOnJump(true)
 	Trigger_17_act1 = TeleportAction()
 	Trigger_17_act1:SetMapName("Map016_2")
 	Trigger_17_act1:SetSpawning(1)
 	Trigger_17:SetAction1(Trigger_17_act1)
 	environment:AddTrigger(Trigger_17)
-end
 
+end

@@ -52,6 +52,13 @@ function InitMap(environment)
 
 	Actor_2 = ActorObjectInfo(2)
 	Actor_2:SetRenderType(3)
+	Actor_2.DisplayDesc.ColorMaterialType = 4
+	Actor_2.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_2.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_2.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_2.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_2.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_2.DisplayDesc.MatDiffuseColorB = 0.4
 	Actor_2.DisplayDesc.ModelId = 0
 	Actor_2.DisplayDesc.ModelName = "Rabbibunny"
 	Actor_2.DisplayDesc.Outfit = "FemaleOrange"
@@ -101,6 +108,13 @@ function InitMap(environment)
 
 	Actor_3 = ActorObjectInfo(3)
 	Actor_3:SetRenderType(3)
+	Actor_3.DisplayDesc.ColorMaterialType = 4
+	Actor_3.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_3.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_3.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_3.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_3.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_3.DisplayDesc.MatDiffuseColorB = 0.4
 	Actor_3.DisplayDesc.ModelId = 0
 	Actor_3.DisplayDesc.ModelName = "Object"
 	Actor_3.DisplayDesc.Outfit = "MekaPingouin"

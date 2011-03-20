@@ -52,6 +52,13 @@ function InitMap(environment)
 
 	Actor_2 = ActorObjectInfo(2)
 	Actor_2:SetRenderType(3)
+	Actor_2.DisplayDesc.ColorMaterialType = 4
+	Actor_2.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_2.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_2.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_2.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_2.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_2.DisplayDesc.MatDiffuseColorB = 0.4
 	Actor_2.DisplayDesc.ModelId = 0
 	Actor_2.DisplayDesc.ModelName = "SpheroClone"
 	Actor_2.DisplayDesc.Outfit = "Yellow"
@@ -101,6 +108,13 @@ function InitMap(environment)
 
 	Actor_3 = ActorObjectInfo(3)
 	Actor_3:SetRenderType(3)
+	Actor_3.DisplayDesc.ColorMaterialType = 4
+	Actor_3.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_3.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_3.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_3.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_3.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_3.DisplayDesc.MatDiffuseColorB = 0.4
 	Actor_3.DisplayDesc.ModelId = 0
 	Actor_3.DisplayDesc.ModelName = "Object"
 	Actor_3.DisplayDesc.Outfit = "MekaPingouin"
@@ -150,6 +164,13 @@ function InitMap(environment)
 
 	Actor_4 = ActorObjectInfo(4)
 	Actor_4:SetRenderType(3)
+	Actor_4.DisplayDesc.ColorMaterialType = 4
+	Actor_4.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_4.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_4.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_4.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_4.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_4.DisplayDesc.MatDiffuseColorB = 0.4
 	Actor_4.DisplayDesc.ModelId = 0
 	Actor_4.DisplayDesc.ModelName = ""
 	Actor_4.DisplayDesc.Outfit = ""
@@ -199,6 +220,13 @@ function InitMap(environment)
 
 	Actor_5 = ActorObjectInfo(5)
 	Actor_5:SetRenderType(3)
+	Actor_5.DisplayDesc.ColorMaterialType = 4
+	Actor_5.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_5.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_5.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_5.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_5.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_5.DisplayDesc.MatDiffuseColorB = 0.4
 	Actor_5.DisplayDesc.ModelId = 0
 	Actor_5.DisplayDesc.ModelName = "SpheroClone"
 	Actor_5.DisplayDesc.Outfit = "Yellow"
@@ -248,6 +276,13 @@ function InitMap(environment)
 
 	Actor_6 = ActorObjectInfo(6)
 	Actor_6:SetRenderType(3)
+	Actor_6.DisplayDesc.ColorMaterialType = 4
+	Actor_6.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_6.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_6.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_6.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_6.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_6.DisplayDesc.MatDiffuseColorB = 0.4
 	Actor_6.DisplayDesc.ModelId = 0
 	Actor_6.DisplayDesc.ModelName = "SpheroClone"
 	Actor_6.DisplayDesc.Outfit = "Yellow"

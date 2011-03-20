@@ -330,6 +330,13 @@ function InitMap(environment)
 
 	Actor_25 = ActorObjectInfo(25)
 	Actor_25:SetRenderType(3)
+	Actor_25.DisplayDesc.ColorMaterialType = 4
+	Actor_25.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_25.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_25.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_25.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_25.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_25.DisplayDesc.MatDiffuseColorB = 0.4
 	Actor_25.DisplayDesc.ModelId = 0
 	Actor_25.DisplayDesc.ModelName = "Snake"
 	Actor_25.DisplayDesc.Outfit = "No"
@@ -379,6 +386,13 @@ function InitMap(environment)
 
 	Actor_26 = ActorObjectInfo(26)
 	Actor_26:SetRenderType(3)
+	Actor_26.DisplayDesc.ColorMaterialType = 4
+	Actor_26.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_26.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_26.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_26.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_26.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_26.DisplayDesc.MatDiffuseColorB = 0.4
 	Actor_26.DisplayDesc.ModelId = 0
 	Actor_26.DisplayDesc.ModelName = "Snake"
 	Actor_26.DisplayDesc.Outfit = "No"
@@ -428,6 +442,13 @@ function InitMap(environment)
 
 	Actor_27 = ActorObjectInfo(27)
 	Actor_27:SetRenderType(3)
+	Actor_27.DisplayDesc.ColorMaterialType = 4
+	Actor_27.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_27.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_27.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_27.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_27.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_27.DisplayDesc.MatDiffuseColorB = 0.4
 	Actor_27.DisplayDesc.ModelId = 0
 	Actor_27.DisplayDesc.ModelName = "Snake"
 	Actor_27.DisplayDesc.Outfit = "No"
@@ -477,6 +498,13 @@ function InitMap(environment)
 
 	Actor_28 = ActorObjectInfo(28)
 	Actor_28:SetRenderType(3)
+	Actor_28.DisplayDesc.ColorMaterialType = 4
+	Actor_28.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_28.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_28.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_28.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_28.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_28.DisplayDesc.MatDiffuseColorB = 0.4
 	Actor_28.DisplayDesc.ModelId = 0
 	Actor_28.DisplayDesc.ModelName = "Snake"
 	Actor_28.DisplayDesc.Outfit = "No"
@@ -526,6 +554,13 @@ function InitMap(environment)
 
 	Actor_29 = ActorObjectInfo(29)
 	Actor_29:SetRenderType(3)
+	Actor_29.DisplayDesc.ColorMaterialType = 4
+	Actor_29.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_29.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_29.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_29.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_29.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_29.DisplayDesc.MatDiffuseColorB = 0.4
 	Actor_29.DisplayDesc.ModelId = 0
 	Actor_29.DisplayDesc.ModelName = "Object"
 	Actor_29.DisplayDesc.Outfit = "MekaPingouin"

@@ -59,6 +59,13 @@ function InitMap(environment)
 
 	Actor_3 = ActorObjectInfo(3)
 	Actor_3:SetRenderType(3)
+	Actor_3.DisplayDesc.ColorMaterialType = 4
+	Actor_3.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_3.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_3.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_3.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_3.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_3.DisplayDesc.MatDiffuseColorB = 0.4
 	Actor_3.DisplayDesc.ModelId = 0
 	Actor_3.DisplayDesc.ModelName = "Quetch"
 	Actor_3.DisplayDesc.Outfit = "Zoe"
@@ -108,6 +115,13 @@ function InitMap(environment)
 
 	Actor_4 = ActorObjectInfo(4)
 	Actor_4:SetRenderType(3)
+	Actor_4.DisplayDesc.ColorMaterialType = 4
+	Actor_4.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_4.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_4.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_4.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_4.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_4.DisplayDesc.MatDiffuseColorB = 0.4
 	Actor_4.DisplayDesc.ModelId = 0
 	Actor_4.DisplayDesc.ModelName = "Soldier"
 	Actor_4.DisplayDesc.Outfit = "Grass"
@@ -157,6 +171,13 @@ function InitMap(environment)
 
 	Actor_5 = ActorObjectInfo(5)
 	Actor_5:SetRenderType(3)
+	Actor_5.DisplayDesc.ColorMaterialType = 4
+	Actor_5.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_5.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_5.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_5.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_5.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_5.DisplayDesc.MatDiffuseColorB = 0.4
 	Actor_5.DisplayDesc.ModelId = 0
 	Actor_5.DisplayDesc.ModelName = "FunFrock"
 	Actor_5.DisplayDesc.Outfit = "No"
@@ -206,6 +227,13 @@ function InitMap(environment)
 
 	Actor_6 = ActorObjectInfo(6)
 	Actor_6:SetRenderType(3)
+	Actor_6.DisplayDesc.ColorMaterialType = 4
+	Actor_6.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_6.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_6.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_6.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_6.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_6.DisplayDesc.MatDiffuseColorB = 0.4
 	Actor_6.DisplayDesc.ModelId = 0
 	Actor_6.DisplayDesc.ModelName = "Object"
 	Actor_6.DisplayDesc.Outfit = "MekaPingouin"

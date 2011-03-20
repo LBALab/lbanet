@@ -163,6 +163,13 @@ function InitMap(environment)
 
 	Actor_10 = ActorObjectInfo(10)
 	Actor_10:SetRenderType(3)
+	Actor_10.DisplayDesc.ColorMaterialType = 4
+	Actor_10.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_10.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_10.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_10.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_10.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_10.DisplayDesc.MatDiffuseColorB = 0.4
 	Actor_10.DisplayDesc.ModelId = 0
 	Actor_10.DisplayDesc.ModelName = "Object"
 	Actor_10.DisplayDesc.Outfit = "BuCor"
@@ -212,6 +219,13 @@ function InitMap(environment)
 
 	Actor_11 = ActorObjectInfo(11)
 	Actor_11:SetRenderType(3)
+	Actor_11.DisplayDesc.ColorMaterialType = 4
+	Actor_11.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_11.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_11.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_11.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_11.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_11.DisplayDesc.MatDiffuseColorB = 0.4
 	Actor_11.DisplayDesc.ModelId = 0
 	Actor_11.DisplayDesc.ModelName = "Object"
 	Actor_11.DisplayDesc.Outfit = "BuMedaillon"
@@ -261,6 +275,13 @@ function InitMap(environment)
 
 	Actor_12 = ActorObjectInfo(12)
 	Actor_12:SetRenderType(3)
+	Actor_12.DisplayDesc.ColorMaterialType = 4
+	Actor_12.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_12.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_12.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_12.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_12.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_12.DisplayDesc.MatDiffuseColorB = 0.4
 	Actor_12.DisplayDesc.ModelId = 0
 	Actor_12.DisplayDesc.ModelName = "Object"
 	Actor_12.DisplayDesc.Outfit = "MekaPingouin"

@@ -52,6 +52,13 @@ function InitMap(environment)
 
 	Actor_15 = ActorObjectInfo(15)
 	Actor_15:SetRenderType(3)
+	Actor_15.DisplayDesc.ColorMaterialType = 4
+	Actor_15.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_15.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_15.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_15.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_15.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_15.DisplayDesc.MatDiffuseColorB = 0.4
 	Actor_15.DisplayDesc.ModelId = 0
 	Actor_15.DisplayDesc.ModelName = "Object"
 	Actor_15.DisplayDesc.Outfit = "MekaPingouin"
