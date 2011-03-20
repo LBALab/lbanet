@@ -32,6 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Stream.h"
 #include "PhysXErrorStream.h"
 #include "CommonTypes.h"
+#include "DataLoader.h"
 
 #include <limits>
 #include <fstream>
@@ -747,44 +748,19 @@ NxActor* PhysXEngine::LoadTriangleMeshFile(const NxVec3 & StartPosition, const s
 												ActorUserData * userdata, 
 												const LbaQuaternion& rotation, bool collidable)
 {
-	// load data from binary file and set it into a triangle mesh
-	std::ifstream file(Filename.c_str(), std::ifstream::binary);
-	if(!file.is_open())
-	{
+	TriangleMeshInfo triinfo(Filename, false);
+	if(triinfo._buffervertex == NULL)
 		return NULL;
-	}
 
-	unsigned int sizevertex;
-	unsigned int sizeindices;
-	unsigned int sizematerials;
-	//unsigned int tmp;
-
-	file.read((char*)&sizevertex, sizeof(unsigned int));
-	file.read((char*)&sizeindices, sizeof(unsigned int));
-	file.read((char*)&sizematerials, sizeof(unsigned int));
-	//file.read((char*)&tmp, sizeof(unsigned int));
-	//file.read((char*)&tmp, sizeof(unsigned int));
-
-
-	float *buffervertex = new float[sizevertex];
-	unsigned int *bufferindices = new unsigned int[sizeindices];
-	file.read((char*)buffervertex, sizevertex*sizeof(float));
-	file.read((char*)bufferindices, sizeindices*sizeof(unsigned int));
-
-	if(sizematerials > 0)
+	if(triinfo._sizematerials > 0)
 	{
-		short *buffermaterials = new short[sizematerials];
-		file.read((char*)buffermaterials, sizematerials*sizeof(short));
-
-		userdata->SetMaterialsSize(sizematerials);
-		userdata->SetMaterials(buffermaterials);
+		userdata->SetMaterialsSize(triinfo._sizematerials);
+		userdata->SetMaterials(triinfo._buffermaterials);
 	}
 
-	NxActor* actor = CreateTriangleMesh(StartPosition, buffervertex, sizevertex, bufferindices, sizeindices, 
+	NxActor* actor = CreateTriangleMesh(StartPosition, triinfo._buffervertex, triinfo._sizevertex, 
+											triinfo._bufferindices, triinfo._sizeindices, 
 											userdata, rotation, collidable);
-	//NxActor* act = NULL;
-	delete[] buffervertex;
-	delete[] bufferindices;
 
 
 	return actor;

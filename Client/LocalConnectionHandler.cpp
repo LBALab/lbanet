@@ -93,6 +93,7 @@ void LocalConnectionHandler::Disconnect()
 	_Trunning = false;
 	_monitor.notifyAll();
 
+	SharedDataHandler::getInstance()->UnregisterClient(1);
 	SharedDataHandler::getInstance()->CleanUp();
 }
 
@@ -103,6 +104,7 @@ ask server to change world
 void LocalConnectionHandler::ChangeWorld(const std::string & NewWorld)
 {
 	// clean up old world
+	SharedDataHandler::getInstance()->UnregisterClient(1);
 	SharedDataHandler::getInstance()->CleanUp();
 
 	// register new world information

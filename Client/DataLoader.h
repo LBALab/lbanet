@@ -29,9 +29,44 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <vector>
 #include <map>
-#include <LbaTypes.h>
+
 
 struct entitiesTableStruct;
+
+namespace LbaNet
+{
+	struct WorldInformation;
+	struct WorldDesc;
+};
+
+
+
+/***********************************************************************
+ * TriangleMeshInfo
+ ***********************************************************************/
+class TriangleMeshInfo
+{
+public:
+
+	//constructor
+	TriangleMeshInfo(const std::string & filename, bool deletematerial);
+
+	//destructor
+	~TriangleMeshInfo();
+
+	unsigned int	_sizevertex;
+	unsigned int	_sizeindices;
+	unsigned int	_sizematerials;
+
+	float *			_buffervertex;
+	unsigned int *	_bufferindices;
+	short *			_buffermaterials;
+
+protected:
+	bool			_deletematerial;
+};
+
+
 
 /***********************************************************************
  * Module:  DataLoader.h

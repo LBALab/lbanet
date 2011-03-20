@@ -948,8 +948,7 @@ void OsgObjectHandler::RefreshMaterial()
 
 			if(_useTransparentMaterial)
 			{
-				material->setAlpha(osg::Material::FRONT_AND_BACK, _materialAlpha); 
-
+				material->setAlpha(osg::Material::FRONT, _materialAlpha); 
 				stateset->setMode( GL_BLEND, osg::StateAttribute::ON );
 				stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
 				stateset->setRenderBinDetails( 30, "DepthSortedBin");
@@ -957,8 +956,6 @@ void OsgObjectHandler::RefreshMaterial()
 
 			if(_MaterialType > 0)
 			{
-				stateset->setMode(GL_COLOR_MATERIAL, osg::StateAttribute::ON); 
-
 				material->setAmbient(osg::Material::FRONT_AND_BACK, osg::Vec4(_MatAmbientColorR, _MatAmbientColorG, _MatAmbientColorB, _MatAmbientColorA)); 
 				material->setDiffuse(osg::Material::FRONT_AND_BACK, osg::Vec4(_MatDiffuseColorR, _MatDiffuseColorG, _MatDiffuseColorB, _MatDiffuseColorA)); 
 				material->setSpecular(osg::Material::FRONT_AND_BACK, osg::Vec4(_MatSpecularColorR, _MatSpecularColorG, _MatSpecularColorB, _MatSpecularColorA)); 

@@ -212,7 +212,19 @@ void LbaNetModel::AddObject(int OType, Ice::Long OwnerId, const ObjectInfo &desc
 								const LbaNet::LifeManaInfo &lifeinfo,
 								bool movable, bool freemove)
 {
-	boost::shared_ptr<DynamicObject> createobj = desc.BuildSelf(OsgHandler::getInstance());
+	boost::shared_ptr<DynamicObject> createobj;
+
+	//special case for main player
+	if(OType ==2 && (m_playerObjectId == desc.Id))
+	{
+		// change to character controller
+		ObjectInfo tmp(desc);
+		static_cast<PhysicalDescriptionWithShape *>(tmp.PhysInfo.get())->ActorType = LbaNet::CharControlAType;
+		createobj = tmp.BuildSelf(OsgHandler::getInstance());
+	}
+	else
+		createobj = desc.BuildSelf(OsgHandler::getInstance());
+
 
 	// add materials
 	boost::shared_ptr<DisplayObjectHandlerBase> matdisobj = createobj->GetDisplayObject();
@@ -273,10 +285,6 @@ void LbaNetModel::AddObject(int OType, Ice::Long OwnerId, const ObjectInfo &desc
 			//special treatment if main player
 			if(m_playerObjectId == desc.Id)
 			{
-				// change to character controller
-				ObjectInfo tmp(desc);
-				static_cast<PhysicalDescriptionWithShape *>(tmp.PhysInfo.get())->ActorType = LbaNet::CharControlAType;
-
 				if(m_controllerChar)
 					m_controllerChar->SetPhysicalCharacter(createobj, DisplayDesc);
 				if(m_controllerCam)
@@ -1700,6 +1708,31 @@ void LbaNetModel::CreateProjectile(const LbaNet::ProjectileInfo & Info)
 								Info.DisplayDesc, Info.PhysicDesc, extrainfo, lifeinfo);
 
 	boost::shared_ptr<DynamicObject> dynobj = obj.BuildSelf(OsgHandler::getInstance());
+	
+	// add materials
+	boost::shared_ptr<DisplayObjectHandlerBase> matdisobj = dynobj->GetDisplayObject();
+	if(matdisobj)
+	{
+		matdisobj->SetTransparencyMaterial(Info.DisplayDesc.UseTransparentMaterial, Info.DisplayDesc.MatAlpha);
+		matdisobj->SetColorMaterial(Info.DisplayDesc.ColorMaterialType, 
+									Info.DisplayDesc.MatAmbientColorR, 
+									Info.DisplayDesc.MatAmbientColorG, 
+									Info.DisplayDesc.MatAmbientColorB, 
+									Info.DisplayDesc.MatAmbientColorA, 
+									Info.DisplayDesc.MatDiffuseColorR, 
+									Info.DisplayDesc.MatDiffuseColorG, 
+									Info.DisplayDesc.MatDiffuseColorB, 
+									Info.DisplayDesc.MatDiffuseColorA, 
+									Info.DisplayDesc.MatSpecularColorR, 
+									Info.DisplayDesc.MatSpecularColorG, 
+									Info.DisplayDesc.MatSpecularColorB, 
+									Info.DisplayDesc.MatSpecularColorA, 
+									Info.DisplayDesc.MatEmissionColorR, 
+									Info.DisplayDesc.MatEmissionColorG, 
+									Info.DisplayDesc.MatEmissionColorB, 
+									Info.DisplayDesc.MatEmissionColorA, 
+									Info.DisplayDesc.MatShininess);
+	}
 
 
 	// projectile should not touch creator

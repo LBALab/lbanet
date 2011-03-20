@@ -1575,7 +1575,7 @@ osg::ref_ptr<osg::MatrixTransform> OsgHandler::CreateSpriteObject(const std::str
 		osg::Billboard* geodeBillBoard = new osg::Billboard();
 		geodeBillBoard->setMode(osg::Billboard::AXIAL_ROT);
 		geodeBillBoard->setAxis(osg::Vec3(0.0f,1.0f,0.0f));
-		geodeBillBoard->setNormal(osg::Vec3(-1.0f,0.0f,0.0f));	
+		geodeBillBoard->setNormal(osg::Vec3(0.0f,0.0f,1.0f));	
 		geode = geodeBillBoard;
 	}
 	else
