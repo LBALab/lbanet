@@ -43,7 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ui_additemdialog.h"
 #include "ui_addstartitemdialog.h"
 #include "ui_ImportantNotice.h"
-
+#include "ui_NavMeshOption.h"
 
 #include "GraphicsWindowQt"
 #include "ScriptEnvironmentBase.h"
@@ -61,6 +61,7 @@ class QTableWidgetItem;
 class ServerLuaHandler;
 class DialogPart;
 class InventoryItemDef;
+class NaviMeshHandler;
 
 namespace osgManipulator
 {
@@ -330,7 +331,7 @@ public:
 						float offsetX, float offsetY, float offsetZ);
 
 	// called when an object is picked
-	void PickedObject(const std::string & name);
+	void PickedObject(const std::string & name, float px, float py, float pz);
 
 	//! when an editor arrow was dragged by mouse
 	void PickedArrowMoved(int pickedarrow);
@@ -560,6 +561,10 @@ public:
 
 	//! send event to player
 	virtual int GetInventoryItemCount(long PlayerId, long Itemid){return 0;}
+
+	//! inform that map Finished Loaded();
+	void MapFinishedLoaded();
+
 
 public slots:
 	 //! ui button clicked
@@ -809,7 +814,11 @@ public slots:
 	//! ToggleNavimeshDisplay
 	void ToggleNavimeshDisplay(); 
 
-	
+	//! option navimesh
+	void OptionNavimesh();
+
+	//! test find path
+	void TestFindPath();
 
 protected:
 	//! override close event
@@ -1079,6 +1088,18 @@ protected:
 	//! refresh navimeshdisplay
 	void RefreshNaviMeshDisplay();
 
+	//! display start path
+	void DisplayStartPath(const LbaVec3 & position);
+
+	//! display end path
+	void DisplayEndPath(const LbaVec3 & position);
+
+	//! hide start path
+	void HideStartPath();
+
+	//! hide end path
+	void HideEndPath();
+
 private:
 	Ui::EditorClass										_uieditor;
 
@@ -1115,6 +1136,10 @@ private:
 
 	Ui::NoticeDialog									_ui_NoticeDialog;
 	QDialog *											_NoticeDialogdialog;
+
+	Ui::NavMeshOptionD									_ui_NavMeshDialog;
+	QDialog *											_NavMeshdialog;
+
 
 	StringTableModel *									_maplistmodel;
 	StringTableModel *									_tplistmodel;
@@ -1212,6 +1237,8 @@ private:
 	osg::ref_ptr<osg::MatrixTransform>					_arrownode;
 	osg::ref_ptr<osg::MatrixTransform>					_scriptnode;
 
+	osg::ref_ptr<osg::MatrixTransform>					_startpathO;
+	osg::ref_ptr<osg::MatrixTransform>					_endpathO;
 
 	osg::ref_ptr<osgManipulator::Translate1DDragger>	_draggerX;
 	osg::ref_ptr<osgManipulator::Translate1DDragger>	_draggerY;
@@ -1224,6 +1251,12 @@ private:
 
 	std::map<Ice::Long, ActorObjectInfo >				_editorObjects;
 
+
+	boost::shared_ptr<NaviMeshHandler>					_navimesh;
+
+	bool												_pickfindpathstarted;
+	bool												_startpathpicked;
+	LbaVec3												_startpath;
 
 };
 

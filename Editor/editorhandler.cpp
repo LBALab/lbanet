@@ -43,12 +43,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "MusicHandler.h"
 #include "ConfigurationManager.h"
 #include "NaviMeshHandler.h"
+#include "FileUtil.h"
 
 #include <qdir.h>
 #include <QErrorMessage>
 #include <QMessageBox>
 #include <QFileDialog>
-#include <boost/filesystem.hpp>
 #include <QImage>
 
 #include <fstream>
@@ -65,12 +65,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <osg/PolygonMode>
 #include <osgManipulator/TranslateAxisDragger>
 #include <osgManipulator/Command>
+#include <osg/AutoTransform>
+#include <osgText/Text>
+
 
 #ifdef WIN32
 #include "windows.h"
 #endif
 
-namespace fs = boost::filesystem;
 
 class DraggerCustomCallback : public osgManipulator::DraggerCallback
 {
@@ -616,25 +618,7 @@ QString FileDialogOptionsModel::PostManagement(const QString & selectedfile)
 				QString filenoext = selectedfile.section('/', -1);
 				filenoext = filenoext.section('.', 0, 0);
 
-
-				fs::path full_path( fpath.toAscii().data() );
-
-				if( fs::exists( full_path ) )
-				{
-					if ( fs::is_directory( full_path ) )
-					{
-						fs::directory_iterator end_iter;
-						for ( fs::directory_iterator dir_itr( full_path ); 
-											dir_itr != end_iter; ++dir_itr )
-						{
-							if ( fs::is_regular_file( dir_itr->status() ) )
-							{
-								if(dir_itr->path().stem() == filenoext.toAscii().data())
-									files.push_back(dir_itr->path().filename());
-							}
-						}
-					}
-				}
+				FileUtil::ListFilesInDir(fpath.toAscii().data(), files, filenoext.toAscii().data());
 			}
 
 			for(size_t curs=0; curs<files.size(); ++curs)
@@ -643,7 +627,7 @@ QString FileDialogOptionsModel::PostManagement(const QString & selectedfile)
 				tmp += files[curs].c_str();
 				QString tmp2 = StartingDirectory + "/";
 				tmp2 += files[curs].c_str();
-				boost::filesystem::copy_file(tmp.toAscii().data(), tmp2.toAscii().data());
+				FileUtil::MakeFileCopy(tmp.toAscii().data(), tmp2.toAscii().data());
 			}
 
 			QString filename = StartingDirectory + "/" + selectedfile.section('/', -1);
@@ -1107,8 +1091,11 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	_actorscriptparttypeList(new CustomStringListModel()),_dorropeningtypeList(new CustomStringListModel()),
 	_dorropeningdirectionList(new CustomStringListModel()), _hurtanimationList(new CustomStringListModel()),
 	_iteminformclientList(new CustomStringListModel()), _addList(new CustomStringListModel()),
-	_removeList(new CustomStringListModel()), _materialtypeList(new CustomStringListModel())
-{											 
+	_removeList(new CustomStringListModel()), _materialtypeList(new CustomStringListModel()),
+	_pickfindpathstarted(false)
+{	
+	_navimesh = boost::shared_ptr<NaviMeshHandler>(new NaviMeshHandler());
+
 	QStringList actlist;
 	actlist << "Static" << "Scripted" << "Door" << "Npc" <<"Movable";
 	_actortypeList->setStringList(actlist);
@@ -1229,6 +1216,10 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	_addstartitemdialog = new QDialog(this);
 	_ui_addstartitemdialog.setupUi(_addstartitemdialog);
 	_ui_addstartitemdialog.comboBox_itemname->setModel(_itemNameList.get());
+
+	_NavMeshdialog = new QDialog(this);
+	_ui_NavMeshDialog.setupUi(_NavMeshdialog);
+
 
 
 	// set model for map list
@@ -1375,6 +1366,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.actionRefresh_client_script, SIGNAL(triggered()), this, SLOT(RefreshClientScript())); 
 	connect(_uieditor.actionGenerate_navimesh, SIGNAL(triggered()), this, SLOT(GenerateNavimesh())); 
 	connect(_uieditor.actionDisplay_Navimesh, SIGNAL(triggered()), this, SLOT(ToggleNavimeshDisplay())); 
+	connect(_uieditor.actionNavimesh_Generation_Options, SIGNAL(triggered()), this, SLOT(OptionNavimesh())); 
+	connect(_uieditor.actionTest_Find_Path, SIGNAL(triggered()), this, SLOT(TestFindPath())); 
 
 	connect(_uieditor.pushButton_info_go, SIGNAL(clicked()) , this, SLOT(info_go_clicked()));
 	connect(_uieditor.radioButton_info_player, SIGNAL(toggled(bool)) , this, SLOT(info_camera_toggled(bool)));
@@ -1438,7 +1431,6 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.tableView_TextList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selecttext_double_clicked(const QModelIndex&)));
 	connect(_uieditor.tableView_ItemList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectitem_double_clicked(const QModelIndex&)));
 	connect(_uieditor.tableView_QuestList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectquest_double_clicked(const QModelIndex&)));
-
 
 
 	connect(_objectmodel, SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)) , 
@@ -2078,6 +2070,10 @@ void EditorHandler::ResetMap()
 	_Actors.clear();
 
 	ResetObject();
+
+	_navimesh->Reset();
+	HideStartPath();
+	HideEndPath();
 }
 
 
@@ -2350,6 +2346,12 @@ void EditorHandler::SetMapInfo(const std::string & mapname)
 			EditorUpdateBasePtr update = new UpdateEditor_AddOrModTrigger(it->second);
 			SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
 		}
+	}
+
+	std::string navimeshfile = "./Data/Worlds/" + _winfo.Description.WorldName + "/AI/" + mapname + ".nmesh";
+	if(FileUtil::FileExist(navimeshfile, false))
+	{
+		_navimesh->LoadFromFile(navimeshfile);
 	}
 }
 
@@ -6088,15 +6090,16 @@ void EditorHandler::addworld_accepted()
 
 
 	//create directories
-	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname );}catch(...){}
-	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/Lua");}catch(...){}
-	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/Models");}catch(...){}
-	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/Texts");}catch(...){}
-	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/InventoryImages");}catch(...){}
-	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/Sprites");}catch(...){}
-	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/Music");}catch(...){}
-	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/Grid");}catch(...){}
-	try	{boost::filesystem::create_directory( "./Data/Worlds/" + wname + "/AI");}catch(...){}
+	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname);
+	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Lua");
+	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Models");
+	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Texts");
+	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/InventoryImages");
+	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Sprites");
+	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Music");
+	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Grid");
+	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/AI");
+
 
 	// save new world
 	DataLoader::getInstance()->SaveWorldInformation(wname, winfo);
@@ -8483,7 +8486,7 @@ void EditorHandler::RemoveSelectedActorDislay()
 /***********************************************************
 called when an object is picked
 ***********************************************************/
-void EditorHandler::PickedObject(const std::string & name)
+void EditorHandler::PickedObject(const std::string & name, float px, float py, float pz)
 {
 	if(_draggerX && _draggerX->getDraggerActive())
 		return;
@@ -8493,6 +8496,37 @@ void EditorHandler::PickedObject(const std::string & name)
 
 	if(_draggerZ && _draggerZ->getDraggerActive())
 		return;
+
+
+	if(_pickfindpathstarted)
+	{
+		if(!_startpathpicked)
+		{
+			_startpath.x = px;
+			_startpath.y = py;
+			_startpath.z = pz;
+			_startpathpicked = true;
+			DisplayStartPath(_startpath);
+			return;
+		}
+		else
+		{
+			LbaVec3	endpath;
+			endpath.x = px;
+			endpath.y = py;
+			endpath.z = pz;
+			DisplayEndPath(endpath);
+
+			if(_navimesh->CalculatePath(_startpath, endpath))
+				_navimesh->DrawLastPath();
+
+			_pickfindpathstarted = false;
+			return;
+		}
+	}
+
+
+
 
 	if(name == "")
 	{
@@ -12329,7 +12363,7 @@ void EditorHandler::MapMusicFile_clicked()
 				QString newfilename = "Data/Worlds/";
 				newfilename += _winfo.Description.WorldName.c_str(); 
 				newfilename	+= "/Music/" + selected.section('/', -1);
-				boost::filesystem::copy_file(selected.toAscii().data(), newfilename.toAscii().data());
+				FileUtil::MakeFileCopy(selected.toAscii().data(), newfilename.toAscii().data());
 
 				selected = newfilename.section('/', 1);
 			}
@@ -12382,7 +12416,7 @@ GenerateNavimesh
 ***********************************************************/
 void EditorHandler::GenerateNavimesh()
 {
-	NaviMeshHandler::getInstance()->Reset();
+	_navimesh->Reset();
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ita = _Actors.begin();	
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator enda = _Actors.end();	
 	for(; ita != enda; ++ita)
@@ -12390,11 +12424,11 @@ void EditorHandler::GenerateNavimesh()
 		const ActorObjectInfo & ainfo = ita->second->GetActorInfo();
 		// only add static type to mesh - dynamic actors are handled differently
 		if(ainfo.PhysicDesc.TypePhysO == LbaNet::StaticAType) 
-			NaviMeshHandler::getInstance()->AddActor(ainfo.PhysicDesc);
+			_navimesh->AddActor(ainfo.PhysicDesc);
 	}
 
-	NaviMeshHandler::getInstance()->GenerateMesh();
-	NaviMeshHandler::getInstance()->SaveToFile("./Data/Worlds/" + _winfo.Description.WorldName + "/AI/" 
+	_navimesh->GenerateMesh();
+	_navimesh->SaveToFile("./Data/Worlds/" + _winfo.Description.WorldName + "/AI/" 
 											+ _uieditor.label_mapname->text().toAscii().data() + ".nmesh");
 
 	RefreshNaviMeshDisplay();
@@ -12414,5 +12448,286 @@ refresh navimeshdisplay
 ***********************************************************/
 void EditorHandler::RefreshNaviMeshDisplay()
 {
-	//todo
+	//! toogle debug display
+	_navimesh->ToogleDebugDisplay(_uieditor.actionDisplay_Navimesh->isChecked());
+}
+
+/***********************************************************
+inform that map Finished Loaded()
+***********************************************************/
+void EditorHandler::MapFinishedLoaded()
+{
+	RefreshNaviMeshDisplay();
+}
+
+
+/***********************************************************
+option navimesh
+***********************************************************/
+void EditorHandler::OptionNavimesh()
+{
+	NavMeshConfig nvc = _navimesh->GetConfig();
+
+	_ui_NavMeshDialog.sp_cellSize->setValue(nvc.m_cellSize);
+	_ui_NavMeshDialog.sp_cellHeight->setValue(nvc.m_cellHeight);
+	_ui_NavMeshDialog.sp_agentHeight->setValue(nvc.m_agentHeight);
+	_ui_NavMeshDialog.sp_agentRadius->setValue(nvc.m_agentRadius);
+	_ui_NavMeshDialog.sp_agentMaxClimb->setValue(nvc.m_agentMaxClimb);
+	_ui_NavMeshDialog.sp_agentMaxSlope->setValue(nvc.m_agentMaxSlope);
+	_ui_NavMeshDialog.sp_regionMinSize->setValue(nvc.m_regionMinSize);
+	_ui_NavMeshDialog.sp_regionMergeSize->setValue(nvc.m_regionMergeSize);
+	_ui_NavMeshDialog.cb_monotonePartitioning->setChecked (nvc.m_monotonePartitioning);
+	_ui_NavMeshDialog.sp_edgeMaxLen->setValue(nvc.m_edgeMaxLen);
+	_ui_NavMeshDialog.sp_edgeMaxError->setValue(nvc.m_edgeMaxError);
+	_ui_NavMeshDialog.sp_vertsPerPoly->setValue(nvc.m_vertsPerPoly);
+	_ui_NavMeshDialog.sp_detailSampleDist->setValue(nvc.m_detailSampleDist);
+	_ui_NavMeshDialog.sp_detailSampleMaxError->setValue(nvc.m_detailSampleMaxError);
+	
+
+	int result = _NavMeshdialog->exec();
+	if(result == QDialog::Accepted)
+	{
+		nvc.m_cellSize = _ui_NavMeshDialog.sp_cellSize->value();
+		nvc.m_cellHeight = _ui_NavMeshDialog.sp_cellHeight->value();
+		nvc.m_agentHeight = _ui_NavMeshDialog.sp_agentHeight->value();
+		nvc.m_agentRadius = _ui_NavMeshDialog.sp_agentRadius->value();
+		nvc.m_agentMaxClimb = _ui_NavMeshDialog.sp_agentMaxClimb->value();
+		nvc.m_agentMaxSlope = _ui_NavMeshDialog.sp_agentMaxSlope->value();
+		nvc.m_regionMinSize = _ui_NavMeshDialog.sp_regionMinSize->value();
+		nvc.m_regionMergeSize = _ui_NavMeshDialog.sp_regionMergeSize->value();
+		nvc.m_monotonePartitioning = _ui_NavMeshDialog.cb_monotonePartitioning->isChecked();
+		nvc.m_edgeMaxLen = _ui_NavMeshDialog.sp_edgeMaxLen->value();
+		nvc.m_edgeMaxError = _ui_NavMeshDialog.sp_edgeMaxError->value();
+		nvc.m_vertsPerPoly = _ui_NavMeshDialog.sp_vertsPerPoly->value();
+		nvc.m_detailSampleDist = _ui_NavMeshDialog.sp_detailSampleDist->value();
+		nvc.m_detailSampleMaxError = _ui_NavMeshDialog.sp_detailSampleMaxError->value();	
+
+		_navimesh->SetConfig(nvc);
+	}
+}
+
+
+/***********************************************************
+test find path
+***********************************************************/
+void EditorHandler::TestFindPath()
+{
+	if(!_pickfindpathstarted)
+	{
+		_pickfindpathstarted = true;
+		_startpathpicked = false;
+	}
+}
+
+/***********************************************************
+display start path
+***********************************************************/
+void EditorHandler::DisplayStartPath(const LbaVec3 & position)
+{
+	HideStartPath();
+
+	_startpathO = OsgHandler::getInstance()->AddEmptyActorNode(false);
+	osg::Matrixd Trans;
+	osg::Matrixd Rotation;
+	Trans.makeTranslate(position.x, position.y, position.z);
+	LbaQuaternion Q(0, LbaVec3(0,1,0));
+	Rotation.makeRotate(osg::Quat(Q.X, Q.Y, Q.Z, Q.W));
+	_startpathO->setMatrix(Rotation * Trans);
+
+
+	{
+	// create orientation line
+	osg::Geode* lineGeode = new osg::Geode();
+	osg::Geometry* lineGeometry = new osg::Geometry();
+	lineGeode->addDrawable(lineGeometry); 
+
+	float size = 2;
+	osg::Vec3Array* lineVertices = new osg::Vec3Array();
+	lineVertices->push_back( osg::Vec3( -size/2, 0, 0) );
+	lineVertices->push_back( osg::Vec3(size/2, 0, 0) );
+	lineVertices->push_back( osg::Vec3(0 , 0, -size/2) );
+	lineVertices->push_back( osg::Vec3(0 , 0, size/2) );
+	lineGeometry->setVertexArray( lineVertices ); 
+
+	osg::Vec4Array* linecolor = new osg::Vec4Array();
+	linecolor->push_back( osg::Vec4( 200/255.0f,48/255.0f,64/255.0f, 1) );
+	lineGeometry->setColorArray(linecolor);
+	lineGeometry->setColorBinding(osg::Geometry::BIND_OVERALL);
+
+	osg::DrawElementsUInt* dunit = new osg::DrawElementsUInt(osg::PrimitiveSet::LINES, 0);
+	dunit->push_back(0);
+	dunit->push_back(1);
+	dunit->push_back(2);
+	dunit->push_back(3);
+	lineGeometry->addPrimitiveSet(dunit); 
+
+
+    osg::StateSet* stateset = lineGeometry->getOrCreateStateSet();
+    osg::LineWidth* linewidth = new osg::LineWidth();
+
+    linewidth->setWidth(5.0f);
+    stateset->setAttributeAndModes(linewidth,osg::StateAttribute::ON);
+	stateset->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
+	stateset->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
+	stateset->setRenderBinDetails( 50, "RenderBin");
+
+	_startpathO->addChild(lineGeode);
+	}
+
+
+	{
+	osg::Vec3 posT(0, 3, 0);
+	 osg::AutoTransform *_textgroup = new osg::AutoTransform();
+	_textgroup->setPosition(posT);
+	_textgroup->setAutoRotateMode(osg::AutoTransform::ROTATE_TO_SCREEN);
+	_textgroup->setMinimumScale(0.01);
+	_textgroup->setMaximumScale(0.5);
+	_textgroup->setAutoScaleToScreen(true);
+
+	osg::ref_ptr<osg::Geode> _textgeode = new osg::Geode();
+	osg::ref_ptr<osgText::Text> textd = new osgText::Text();
+	textd->setText("Start");
+	textd->setColor(osg::Vec4(200/255.0f,48/255.0f,64/255.0f, 1));
+	textd->setCharacterSize(/*0.4f*/10);
+	textd->setFont("Tahoma.ttf");
+	textd->setAlignment(osgText::Text::CENTER_CENTER);
+
+
+
+	textd->setBackdropColor(osg::Vec4(0, 0, 0, 1));
+	textd->setBackdropType(osgText::Text::OUTLINE);
+	textd->setBackdropImplementation(osgText::Text::NO_DEPTH_BUFFER);
+	textd->setBackdropOffset(0.1f);
+
+	_textgeode->addDrawable(textd);
+
+	osg::StateSet* stateSet = _textgeode->getOrCreateStateSet();
+	stateSet->setMode(GL_BLEND, osg::StateAttribute::ON);
+	stateSet->setMode(GL_DEPTH_TEST,osg::StateAttribute::OFF);
+	stateSet->setMode(GL_LIGHTING,osg::StateAttribute::OFF);
+	stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+	stateSet->setRenderBinDetails( 500, "SpecialBin");
+
+	_textgroup->addChild(_textgeode);
+	_startpathO->addChild(_textgroup);
+	}
+
+}
+
+/***********************************************************
+display end path
+***********************************************************/
+void EditorHandler::DisplayEndPath(const LbaVec3 & position)
+{
+	HideEndPath();
+
+	_endpathO = OsgHandler::getInstance()->AddEmptyActorNode(false);
+	osg::Matrixd Trans;
+	osg::Matrixd Rotation;
+	Trans.makeTranslate(position.x, position.y, position.z);
+	LbaQuaternion Q(0, LbaVec3(0,1,0));
+	Rotation.makeRotate(osg::Quat(Q.X, Q.Y, Q.Z, Q.W));
+	_endpathO->setMatrix(Rotation * Trans);
+
+
+	{
+	// create orientation line
+	osg::Geode* lineGeode = new osg::Geode();
+	osg::Geometry* lineGeometry = new osg::Geometry();
+	lineGeode->addDrawable(lineGeometry); 
+
+	float size = 2;
+	osg::Vec3Array* lineVertices = new osg::Vec3Array();
+	lineVertices->push_back( osg::Vec3( -size/2, 0, 0) );
+	lineVertices->push_back( osg::Vec3(size/2, 0, 0) );
+	lineVertices->push_back( osg::Vec3(0 , 0, -size/2) );
+	lineVertices->push_back( osg::Vec3(0 , 0, size/2) );
+	lineGeometry->setVertexArray( lineVertices ); 
+
+	osg::Vec4Array* linecolor = new osg::Vec4Array();
+	linecolor->push_back( osg::Vec4(200/255.0f,48/255.0f,64/255.0f, 1) );
+	lineGeometry->setColorArray(linecolor);
+	lineGeometry->setColorBinding(osg::Geometry::BIND_OVERALL);
+
+	osg::DrawElementsUInt* dunit = new osg::DrawElementsUInt(osg::PrimitiveSet::LINES, 0);
+	dunit->push_back(0);
+	dunit->push_back(1);
+	dunit->push_back(2);
+	dunit->push_back(3);
+	lineGeometry->addPrimitiveSet(dunit); 
+
+
+    osg::StateSet* stateset = lineGeometry->getOrCreateStateSet();
+    osg::LineWidth* linewidth = new osg::LineWidth();
+
+    linewidth->setWidth(5.0f);
+    stateset->setAttributeAndModes(linewidth,osg::StateAttribute::ON);
+	stateset->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
+	stateset->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
+	stateset->setRenderBinDetails( 50, "RenderBin");
+
+	_endpathO->addChild(lineGeode);
+	}
+
+
+	{
+	osg::Vec3 posT(0, 3, 0);
+	 osg::AutoTransform* _textgroup = new osg::AutoTransform();
+	_textgroup->setPosition(posT);
+	_textgroup->setAutoRotateMode(osg::AutoTransform::ROTATE_TO_SCREEN);
+	_textgroup->setMinimumScale(0.01);
+	_textgroup->setMaximumScale(0.5);
+	_textgroup->setAutoScaleToScreen(true);
+
+	osg::ref_ptr<osg::Geode> _textgeode = new osg::Geode();
+	osg::ref_ptr<osgText::Text> textd = new osgText::Text();
+	textd->setText("End");
+	textd->setColor(osg::Vec4(200/255.0f,48/255.0f,64/255.0f, 1));
+	textd->setCharacterSize(/*0.4f*/10);
+	textd->setFont("Tahoma.ttf");
+	textd->setAlignment(osgText::Text::CENTER_CENTER);
+
+
+
+	textd->setBackdropColor(osg::Vec4(0, 0, 0, 1));
+	textd->setBackdropType(osgText::Text::OUTLINE);
+	textd->setBackdropImplementation(osgText::Text::NO_DEPTH_BUFFER);
+	textd->setBackdropOffset(0.1f);
+
+	_textgeode->addDrawable(textd);
+
+	osg::StateSet* stateSet = _textgeode->getOrCreateStateSet();
+	stateSet->setMode(GL_BLEND, osg::StateAttribute::ON);
+	stateSet->setMode(GL_DEPTH_TEST,osg::StateAttribute::OFF);
+	stateSet->setMode(GL_LIGHTING,osg::StateAttribute::OFF);
+	stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+	stateSet->setRenderBinDetails( 500, "SpecialBin");
+
+	_textgroup->addChild(_textgeode);
+	_endpathO->addChild(_textgroup);
+	}
+}
+
+/***********************************************************
+hide start path
+***********************************************************/
+void EditorHandler::HideStartPath()
+{
+	if(_startpathO)
+	{
+		OsgHandler::getInstance()->RemoveActorNode(_startpathO, false);
+		_startpathO = 0;
+	}
+}
+
+/***********************************************************
+hide end path
+***********************************************************/
+void EditorHandler::HideEndPath()
+{
+	if(_endpathO)
+	{
+		OsgHandler::getInstance()->RemoveActorNode(_endpathO, false);
+		_endpathO = 0;
+	}
 }
