@@ -833,3 +833,23 @@ void ScriptedActor::ActorFollowWaypoint(int ScriptId, int waypointindex1, int wa
 						new FollowWaypointScriptPart(ScriptId, asynchronus, waypointindex1, 
 						waypointindex2, _character)));
 }
+
+
+
+/***********************************************************
+//! store current script
+***********************************************************/
+void ScriptedActor::StoreScript()
+{
+	_storedScripts.clear();
+	_storedScripts.swap(_currentScripts);
+}
+
+/***********************************************************
+//! restore current script
+***********************************************************/
+void ScriptedActor::RestoreScript()
+{
+	_storedScripts.swap(_currentScripts);
+	_storedScripts.clear();
+}

@@ -84,9 +84,8 @@ public:
 class NaviMeshHandler
 {
 public:
-
-	// singleton pattern
-	static NaviMeshHandler * getInstance();
+	//! constructor
+	NaviMeshHandler(void);
 
 	//! destructor
 	~NaviMeshHandler(void);
@@ -116,9 +115,18 @@ public:
 	{ _config = cfg;}
 
 
+	//! toogle debug display
+	void ToogleDebugDisplay(bool Display);
+
+	//! calculate path
+	//! return path size
+	int CalculatePath(const LbaVec3 & Start, const LbaVec3 & End);
+
+	//! draw last calculated path
+	void DrawLastPath();
+
 protected:
-	//! constructor
-	NaviMeshHandler(void);
+
 
 	NaviMeshHandler(const NaviMeshHandler &);
 	const NaviMeshHandler & operator=(const NaviMeshHandler &);
@@ -150,7 +158,7 @@ protected:
 
 	// debug draw
 	void drawPolyBoundaries(const dtMeshTile* tile,
-							   const unsigned int col, const float linew,
+							    const float linew,
 							   bool inner, osg::Group * root);
 	// debug draw
 	void drawMeshTile(const dtNavMesh* mesh, const dtNavMeshQuery* query,
@@ -159,9 +167,8 @@ protected:
 	void drawNavMesh();
 
 
-private:
-	static NaviMeshHandler *	_Instance;
 
+private:
 	std::vector<float>			_vertexes;
 	std::vector<int>			_indices;
 
@@ -182,6 +189,14 @@ private:
 	NavMeshConfig				_config;
 
 	osg::ref_ptr<osg::MatrixTransform>	_root;
+	osg::ref_ptr<osg::MatrixTransform>	_rootpath;
+
+	static const int			MAX_POLYS = 256;
+	static const int			MAX_SMOOTH = 2048;
+	unsigned int				m_polys[MAX_POLYS];
+	float						m_smoothPath[MAX_SMOOTH*3];
+	int							m_nsmoothPath;
+
 };
 
 #endif

@@ -426,10 +426,16 @@ public:
 	boost::shared_ptr<DynamicObject> GetActor()
 	{return _character;}
 
+	//! store current script
+	void StoreScript();
+
+	//! restore current script
+	void RestoreScript();
+
 protected:
 	boost::shared_ptr<DynamicObject>						_character;
 	std::list<boost::shared_ptr<ScriptPartBase> >			_currentScripts;
-
+	std::list<boost::shared_ptr<ScriptPartBase> >			_storedScripts;
 
 	boost::shared_ptr<DynamicObject>						_attachedactor;
 };
