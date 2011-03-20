@@ -35,7 +35,7 @@
 		</StartingInventory>
 	</PlayerStartingInfo>
 	<maps>
-		<Map name="BattleArena" type="interior" AutoCameraType="2" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba2Original/Music/JADPCM18.mp3" repeatmusic="0">
+		<Map name="BattleArena" type="interior" AutoCameraType="2" IsInstance="false" HurtFallFactor="2" music="Worlds/Lba2Original/Music/JADPCM03.mp3" repeatmusic="-1">
 			<description>The Complex - Battle Arena</description>
 		</Map>
 	</maps>

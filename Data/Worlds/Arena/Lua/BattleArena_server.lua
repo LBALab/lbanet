@@ -29,6 +29,7 @@ function InitMap(environment)
 	Actor_1.DisplayDesc.RotY = 0
 	Actor_1.DisplayDesc.RotZ = 0
 	Actor_1:SetModelState(1)
+	Actor_1.DisplayDesc.UseBillboard = false
 	Actor_1.PhysicDesc.Pos.X = 0
 	Actor_1.PhysicDesc.Pos.Y = 0
 	Actor_1.PhysicDesc.Pos.Z = 0
@@ -38,6 +39,7 @@ function InitMap(environment)
 	Actor_1.PhysicDesc.SizeX = -0.00132704
 	Actor_1.PhysicDesc.SizeY = -0.00132704
 	Actor_1.PhysicDesc.SizeZ = -0.00132704
+	Actor_1.PhysicDesc.AllowFreeMove = true
 	Actor_1.PhysicDesc.Filename = "Worlds/Arena/Grids/TheComplexPvpArena.phy"
 	Actor_1:SetPhysicalActorType(1)
 	Actor_1:SetPhysicalShape(5)
