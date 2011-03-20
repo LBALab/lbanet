@@ -2398,7 +2398,8 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 		newProj.DisplayDesc.ColorB=0.376f;
 		newProj.DisplayDesc.ColorA=1.0f;
 		newProj.DisplayDesc.State = LbaNet::NoState;
-
+		newProj.DisplayDesc.UseTransparentMaterial = false;
+		newProj.DisplayDesc.ColorMaterialType = 0;
 
 		PlayerPosition playerpos = GetPlayerPosition(PlayerId);
 
@@ -3551,7 +3552,7 @@ Ice::Long MapHandler::AddGhost(Ice::Long playerid, Ice::Long actorid, const LbaN
 		ainfo.PhysicDesc.TypePhysO = LbaNet::KynematicAType;
 		ainfo.PhysicDesc.Collidable = false;
 		ainfo.DisplayDesc.UseTransparentMaterial = true;
-		ainfo.DisplayDesc.MatAlpha = 0.5f;
+		ainfo.DisplayDesc.MatAlpha = 0.6f;
 		_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 													3, gid, playerid, ainfo.DisplayDesc, ainfo.PhysicDesc,
 													ainfo.LifeInfo, ainfo.ExtraInfo));
@@ -3696,13 +3697,15 @@ void MapHandler::PlayerKilledNpc(long PlayerId, long NpcId, const LbaNet::ItemsM
 					modelinfo.ColorG = 1;
 					modelinfo.ColorB = 1;
 					modelinfo.ColorA = 0.9f;
-					modelinfo.CastShadow = true;
-					modelinfo.UseLight = true;
+					modelinfo.CastShadow = false;
+					modelinfo.UseLight = false;
 					modelinfo.ScaleX = 0.2f;
 					modelinfo.ScaleY = 0.2f;
 					modelinfo.ScaleZ = 0.2f;
 					modelinfo.ModelName = "Data/" + itptr->GetIconName();
 					modelinfo.UseBillboard = true;
+					modelinfo.UseTransparentMaterial = false;
+					modelinfo.ColorMaterialType = 0;
 				}
 				
 				ObjectPhysicDesc	PhysicDesc;

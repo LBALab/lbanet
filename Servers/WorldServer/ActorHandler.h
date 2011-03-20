@@ -61,6 +61,11 @@ struct ActorObjectInfo
 		DisplayDesc.ColorB = 0;
 		DisplayDesc.ColorA = 0;
 
+		DisplayDesc.ColorMaterialType = 0;
+		DisplayDesc.UseBillboard = false;
+		DisplayDesc.UseTransparentMaterial = false;
+		DisplayDesc.MatAlpha = 1;
+
 		PhysicDesc.AllowFreeMove = false;
 		PhysicDesc.Density = 0;
 		PhysicDesc.SizeX = 0;

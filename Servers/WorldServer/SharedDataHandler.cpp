@@ -524,6 +524,8 @@ void SharedDataHandler::CleanUp()
 	_currentplayermaps.clear();
 
 	_dbH = boost::shared_ptr<DatabaseHandlerBase>();
+
+	m_mainplayerH = boost::shared_ptr<PlayerHandler>(); 
 }
 
 
