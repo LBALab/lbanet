@@ -26,14 +26,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "LogHandler.h"
 #include "XmlReader.h"
 #include "Localizer.h"
+#include "FileUtil.h"
 
 #include <LbaTypes.h>
 #include <fstream>
 
-
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem/operations.hpp>
-namespace fs = boost::filesystem;
 
 
 /***********************************************************
@@ -150,27 +147,12 @@ void DataLoader::GetAvailableWorlds(std::vector<LbaNet::WorldDesc> & list)
 {
 	// get all xml file of the directory
 	std::vector<std::string> files;
+	if(!FileUtil::ListDirsInDir("./Data/Worlds", files, "/WorldDescription.xml"))
 	{
-		fs::path full_path( fs::system_complete( "./Data/Worlds" ) );
-
-		if ( !fs::exists( full_path ) )
-		{
-			LogHandler::getInstance()->LogToFile(std::string("\nData/Worlds directory Not found: ") + full_path.file_string());
-			return;
-		}
-
-		if ( fs::is_directory( full_path ) )
-		{
-			fs::directory_iterator end_iter;
-			for ( fs::directory_iterator dir_itr( full_path ); dir_itr != end_iter;	++dir_itr )
-			{
-				if ( fs::is_directory( dir_itr->status() ) )
-				{
-					files.push_back(dir_itr->path().string() + "/WorldDescription.xml");
-				}
-			}
-		}
+		LogHandler::getInstance()->LogToFile(std::string("\nData/Worlds directory Not found!"));
+		return;
 	}
+
 
 	// for each file add an entry
 	for(size_t i=0; i< files.size(); ++i)

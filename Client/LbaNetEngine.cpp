@@ -579,6 +579,11 @@ void LbaNetEngine::HandleGameEvents()
 		if(info == typeid(LbaNet::RefreshEndEvent))
 		{
 			m_lbaNetModel->RefreshEnd();
+
+			#ifdef _USE_QT_EDITOR_
+			m_editor_handler->MapFinishedLoaded();
+			#endif
+
 			continue;
 		}
 
@@ -668,7 +673,7 @@ void LbaNetEngine::HandleGameEvents()
 				dynamic_cast<ObjectPickedEvent *>(&obj);
 
 			#ifdef _USE_QT_EDITOR_
-			m_editor_handler->PickedObject(castedptr->_name);
+			m_editor_handler->PickedObject(castedptr->_name, castedptr->_px, castedptr->_py, castedptr->_pz);
 			#endif
 
 			continue;

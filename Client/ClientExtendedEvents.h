@@ -416,12 +416,13 @@ class ObjectPickedEvent : public LbaNet::ClientServerEventBase
 {
 public:
 	//! constructor
-	ObjectPickedEvent(const std::string & name)
-		: _name(name)
+	ObjectPickedEvent(const std::string & name, float px, float py, float pz)
+		: _name(name), _px(px), _py(py), _pz(pz)
 	{
 	}
 
 	std::string _name;
+	float _px, _py, _pz;
 };
 
 

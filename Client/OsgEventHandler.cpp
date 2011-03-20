@@ -818,6 +818,7 @@ void OsgEventHandler::pick(osgViewer::View* view, const osgGA::GUIEventAdapter& 
     view->getCamera()->accept(iv);
 
 	std::string keepname;
+	float px=0, py=0, pz=0;
 
     if (picker->containsIntersections())
     {
@@ -834,19 +835,32 @@ void OsgEventHandler::pick(osgViewer::View* view, const osgGA::GUIEventAdapter& 
 				if(name.size() > 2 && name[1] == '_')
 				{
 					if(keepname == "")
+					{
 						keepname = name;
+						px = hitr->localIntersectionPoint.x();
+						py = hitr->localIntersectionPoint.y();
+						pz = hitr->localIntersectionPoint.z();
+					}
 					else
 					{
 						// take editor stuff before actors
 						char c1 = keepname[0];
 						char c2 = name[0];
 						if(c2 == 'E' && c1 == 'A')
+						{
 							keepname = name;
+							px = hitr->localIntersectionPoint.x();
+							py = hitr->localIntersectionPoint.y();
+							pz = hitr->localIntersectionPoint.z();
+						}
 
 						// always take player stuff before anything
 						if(c2 == 'M' || c1 == 'P')
 						{
-							EventsQueue::getReceiverQueue()->AddEvent(new ObjectPickedEvent(name)); 
+							px = hitr->localIntersectionPoint.x();
+							py = hitr->localIntersectionPoint.y();
+							pz = hitr->localIntersectionPoint.z();
+							EventsQueue::getReceiverQueue()->AddEvent(new ObjectPickedEvent(name, px, py, pz)); 
 							return;
 						}
 					}
@@ -855,5 +869,5 @@ void OsgEventHandler::pick(osgViewer::View* view, const osgGA::GUIEventAdapter& 
         }
     }
 
-	EventsQueue::getReceiverQueue()->AddEvent(new ObjectPickedEvent(keepname));      
+	EventsQueue::getReceiverQueue()->AddEvent(new ObjectPickedEvent(keepname, px, py, pz));      
 }
