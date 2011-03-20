@@ -1135,6 +1135,9 @@ void ActorHandler::Pause()
 				m_savedshow = _character->IsShown();
 			}
 		}
+
+		//store running script
+		StoreScript();
 	}
 }
 
@@ -1176,6 +1179,9 @@ void ActorHandler::Resume()
 			// restore hidden/show state
 			ShowHideInternal(m_savedshow);
 		}
+
+		//store running script
+		RestoreScript();
 	}
 }
 
