@@ -2393,7 +2393,13 @@
      <normaloff>:/Editor/Resources/icons/PNG/onebit_49.png</normaloff>:/Editor/Resources/icons/PNG/onebit_49.png</iconset>
    </property>
    <property name="text">
-    <string>Refresh client script</string>
+    <string>Refresh scripts</string>
+   </property>
+   <property name="iconText">
+    <string>Refresh scripts</string>
+   </property>
+   <property name="toolTip">
+    <string>Refresh scripts</string>
    </property>
   </action>
   <action name="actionGenerate_navimesh">

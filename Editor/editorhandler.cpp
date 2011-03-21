@@ -1126,7 +1126,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	QStringList condlist;
 	condlist << "No" << "AlwaysTrueCondition" << "NegateCondition" << "AndCondition" << "OrCondition" 
 				<< "ItemInInventoryCondition" << "QuestStartedCondition" << "QuestFinishedCondition"
-				<< "ChapterStartedCondition";
+				<< "QuestAvailableCondition" << "ChapterStartedCondition" << "CustomCondition";
 	_conditiontypeList->setStringList(condlist);
 	
 	QStringList cslist;
@@ -1138,7 +1138,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 			<< "DisplayTextAction" << "ConditionalAction" << "OpenContainerAction" << "SendSignalAction"
 			<< "OpenDoorAction" << "CloseDoorAction" << "AddRemoveItemAction" << "HurtAction"
 			 << "KillAction"  << "MultiAction" << "SwitchAction" << "StartQuestAction" << "FinishQuestAction"
-			 << "OpenShopAction"<< "CutMapAction"<< "OpenLetterWritterAction"<< "OpenMailboxAction";
+			 << "OpenShopAction"<< "CutMapAction"<< "OpenLetterWritterAction"<< "OpenMailboxAction"
+			 << "PlaySoundAction";
 
 	_actiontypeList->setStringList(actilist);
 
@@ -3626,7 +3627,7 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 		PlaySoundAction* ptr = static_cast<PlaySoundAction*>(action);
 		{
 			QVector<QVariant> data;
-			data << "Sound path" << ptr->GetSoundPath();
+			data << "Sound path" << ptr->GetSoundPath().c_str();
 			QModelIndex idx = _objectmodel->AppendRow(data, parent);
 
 			boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
@@ -9473,6 +9474,34 @@ void EditorHandler::SelectCondition(ConditionBasePtr cond, const QModelIndex &pa
 
 		return;
 	}
+
+	if(type == "QuestAvailableCondition")
+	{
+		QuestAvailableCondition* ptr = static_cast<QuestAvailableCondition*>(cond.get());
+
+		{
+		QVector<QVariant> data;
+		data << "Quest Id" << (int)ptr->GetQuestId();
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+
+		return;
+	}
+
+	if(type == "CustomCondition")
+	{
+		CustomCondition* ptr = static_cast<CustomCondition*>(cond.get());
+
+		{
+		QVector<QVariant> data;
+		data << "Lua function" << ptr->GetLuaFunction().c_str();
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+
+		return;
+	}
+
+	
 }
 
 /***********************************************************
@@ -9501,9 +9530,14 @@ ConditionBasePtr EditorHandler::CreateCondition(const std::string & type)
 	if(type == "QuestFinishedCondition")
 		return ConditionBasePtr(new QuestFinishedCondition());
 
+	if(type == "QuestAvailableCondition")
+		return ConditionBasePtr(new QuestAvailableCondition());
+
 	if(type == "ChapterStartedCondition")
 		return ConditionBasePtr(new ChapterStartedCondition());
-	
+
+	if(type == "CustomCondition")
+		return ConditionBasePtr(new CustomCondition());	
 
 	return ConditionBasePtr();
 }
@@ -9692,6 +9726,9 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 
 				++index;
 				cond->SetItemNumber(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt());
+
+				// need to save as something changed
+				SetModified();
 			}
 
 			if(category == "QuestStartedCondition")
@@ -9699,7 +9736,10 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 				QuestStartedCondition* cond = static_cast<QuestStartedCondition*>(ptr);
 				
 				long id = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
-				cond->SetQuestId(id);				
+				cond->SetQuestId(id);		
+
+				// need to save as something changed
+				SetModified();		
 			}
 
 			if(category == "QuestFinishedCondition")
@@ -9707,7 +9747,10 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 				QuestFinishedCondition* cond = static_cast<QuestFinishedCondition*>(ptr);
 				
 				long id = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
-				cond->SetQuestId(id);				
+				cond->SetQuestId(id);
+
+				// need to save as something changed
+				SetModified();				
 			}
 
 			if(category == "ChapterStartedCondition")
@@ -9715,7 +9758,32 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 				ChapterStartedCondition* cond = static_cast<ChapterStartedCondition*>(ptr);
 				
 				int id = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
-				cond->SetChapter(id);				
+				cond->SetChapter(id);		
+
+				// need to save as something changed
+				SetModified();		
+			}
+
+			if(category == "QuestAvailableCondition")
+			{
+				QuestAvailableCondition* cond = static_cast<QuestAvailableCondition*>(ptr);
+				
+				long id = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
+				cond->SetQuestId(id);	
+
+				// need to save as something changed
+				SetModified();			
+			}
+
+			if(category == "CustomCondition")
+			{
+				CustomCondition* cond = static_cast<CustomCondition*>(ptr);
+				
+				std::string fct = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+				cond->SetLuaFunction(fct);	
+
+				// need to save as something changed
+				SetModified();			
 			}
 		}
 	}
@@ -10099,6 +10167,7 @@ RefreshClientScript
 void EditorHandler::RefreshClientScript()
 {
 	EventsQueue::getReceiverQueue()->AddEvent(new RefreshLuaEvent());
+	SharedDataHandler::getInstance()->EditorUpdate("", new UpdateEditor_Refreshscript());
 }
 
 
