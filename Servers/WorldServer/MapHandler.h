@@ -260,6 +260,9 @@ public:
 	virtual bool QuestFinished(long PlayerId, long Questid);
 
 	//! condition
+	virtual bool QuestAvailable(long PlayerId, long Questid);
+
+	//! condition
 	virtual bool ChapterStarted(long PlayerId, int Chapter);
 
 	//! open shop
@@ -344,6 +347,18 @@ public:
 
 	//! record player killed npc
 	virtual void PlayerKilledNpc(long PlayerId, long NpcId, const LbaNet::ItemsMap & givenitems);
+
+	// execute custom lua function
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual bool CheckCustomCondition(int ObjectType, long ObjectId,
+										const std::string & FunctionName);
+
+
+	//! used by lua to get an actor Position
+	virtual LbaVec3 GetGhostPosition(long PlayerId, long ActorId);
 
 protected:
 
@@ -710,6 +725,9 @@ private:
 	std::map<Ice::Long, std::vector<Ice::Long> >				_playerghosts;
 
 	std::map<Ice::Long, std::map< ::Ice::Long, ::LbaNet::ItemPosInfo> >	_playeritems;
+
+
+	std::string													_customluafilename;
 
 };
 

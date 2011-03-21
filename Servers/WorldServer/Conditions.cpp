@@ -240,3 +240,71 @@ void ChapterStartedCondition::SaveToLuaFile(std::ofstream & file, const std::str
 	file<<"\t"<<conditionname<<":SetTextid("<<_textid <<")"<<std::endl;
 	file<<"\t"<<conditionname<<":SetChapter("<<_chapter <<")"<<std::endl;
 }
+
+
+
+/***********************************************************
+check if the condition is true or not
+***********************************************************/	
+bool QuestAvailableCondition::Passed(ScriptEnvironmentBase * owner, 
+							int ObjectType, Ice::Long ObjectId)
+{
+	if(_questid < 0)
+		return false;
+
+	long clientid = -1;
+
+	if(ObjectType == 2)
+		clientid = (long)ObjectId;
+
+	// on object moved by player
+	if(ObjectType == 3)
+	{
+		if(owner)
+			clientid = owner->GetGhostOwnerPlayer((long)ObjectId);
+	}
+
+	// check if client found - else return
+	if(clientid < 0)
+		return false;
+
+	return owner->QuestAvailable(clientid, _questid);
+}
+	
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void QuestAvailableCondition::SaveToLuaFile(std::ofstream & file, const std::string & conditionname)
+{
+	file<<"\t"<<conditionname<<" = QuestAvailableCondition()"<<std::endl;
+	file<<"\t"<<conditionname<<":SetTextid("<<_textid <<")"<<std::endl;
+	file<<"\t"<<conditionname<<":SetQuestId("<<_questid <<")"<<std::endl;
+}
+
+
+
+
+
+/***********************************************************
+check if the condition is true or not
+***********************************************************/	
+bool CustomCondition::Passed(ScriptEnvironmentBase * owner, 
+							int ObjectType, Ice::Long ObjectId)
+{
+	if(owner)
+		return owner->CheckCustomCondition(ObjectType, (long)ObjectId, _luafunction);
+
+	return false;
+}
+	
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void CustomCondition::SaveToLuaFile(std::ofstream & file, const std::string & conditionname)
+{
+	file<<"\t"<<conditionname<<" = CustomCondition()"<<std::endl;
+	file<<"\t"<<conditionname<<":SetTextid("<<_textid <<")"<<std::endl;
+	file<<"\t"<<conditionname<<":SetLuaFunction(\""<<_luafunction <<"\")"<<std::endl;
+}

@@ -1091,7 +1091,7 @@ public:
 	{ return _toeveryone;}
 
 	// acessor
-	void SetToEveryone(float v)
+	void SetToEveryone(bool v)
 	{ _toeveryone = v;}
 
 	// acessor

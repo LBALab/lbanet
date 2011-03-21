@@ -321,4 +321,22 @@ public:
 };
 
 
+/*
+************************************************************************************************************************
+*                                                  class UpdateEditor_AddOrModSpawning
+*
+*	base class for all editor update
+************************************************************************************************************************
+*/
+class UpdateEditor_Refreshscript : public LbaNet::EditorUpdateBase
+{
+public:
+	//! constructor
+	UpdateEditor_Refreshscript()
+	{
+	}
+};
+
+
+
 #endif

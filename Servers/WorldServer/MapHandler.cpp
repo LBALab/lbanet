@@ -29,7 +29,8 @@ constructor
 MapHandler::MapHandler(const std::string & worldname, const MapInfo & mapinfo,
 						const std::string & mapluafilename,
 						const std::string & customluafilename)
-: _Trunning(false), _mapinfo(mapinfo), _worldname(worldname)
+: _Trunning(false), _mapinfo(mapinfo), _worldname(worldname),
+	_customluafilename(customluafilename)
 {
 	// initialize the gui handlers
 	_guihandlers["CommunityBox"] = boost::shared_ptr<ServerGUIBase>(new CommunityBoxHandler(this));
@@ -46,7 +47,7 @@ MapHandler::MapHandler(const std::string & worldname, const MapInfo & mapinfo,
 	//script part
 	m_luaHandler = boost::shared_ptr<ServerLuaHandler>(new  ServerLuaHandler());
 	m_luaHandler->LoadFile("LuaCommon/ClientHelperFunctions.lua");
-	m_luaHandler->LoadFile(customluafilename);
+	m_luaHandler->LoadFile(_customluafilename);
 	m_luaHandler->LoadFile(mapluafilename);
 
 	m_luaHandler->CallLua("InitMap", this);
@@ -513,7 +514,7 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 		PlayerLootItem(id, castedptr->ItemId);
 		return;
 	}
-	
+
 
 }
 
@@ -1325,6 +1326,16 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 		TeleportPlayer(castedptr->_playerid, castedptr->_newpos);
 		return;
 	}
+	
+	// UpdateEditor_Refreshscript
+	if(info == typeid(UpdateEditor_Refreshscript))
+	{
+		if(m_luaHandler)
+			m_luaHandler->LoadFile(_customluafilename);		
+		return;
+	}
+	
+
 
 }
 #endif
@@ -3204,6 +3215,20 @@ bool MapHandler::QuestFinished(long PlayerId, long Questid)
 	return false;
 }
 
+
+/***********************************************************
+condition
+***********************************************************/
+bool MapHandler::QuestAvailable(long PlayerId, long Questid)
+{
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(PlayerId);
+	if(itplayer != _players.end())
+		return itplayer->second->QuestAvailable(Questid);
+
+	return false;
+}
+
+
 /***********************************************************
 condition
 ***********************************************************/
@@ -3775,4 +3800,36 @@ void MapHandler::PlayerLootItem(Ice::Long playerid, Ice::Long ItemId)
 			ititem->second.erase(it2);
 		}
 	}	
+}
+
+/***********************************************************
+execute custom lua function
+***********************************************************/
+bool MapHandler::CheckCustomCondition(int ObjectType, long ObjectId, const std::string & FunctionName)
+{
+	if(m_luaHandler)
+		return m_luaHandler->CallLuaCondition(FunctionName, this, ObjectType, ObjectId);
+
+	return false;
+}
+
+
+/***********************************************************
+used by lua to get an actor Position
+***********************************************************/
+LbaVec3 MapHandler::GetGhostPosition(long PlayerId, long ActorId)
+{	
+	//check if ghost already exist
+	std::map<std::pair<Ice::Long, Ice::Long>, Ice::Long>::iterator itg = 
+		_revertghosts.find(std::make_pair<Ice::Long, Ice::Long>(PlayerId,ActorId));
+
+	if(itg != _revertghosts.end())
+	{
+		LbaNet::PlayerPosition ppos = GetGhostPosition(itg->second);
+		if(ppos.MapName != "")
+			return LbaVec3(ppos.X, ppos.Y, ppos.Z);
+	}
+
+
+	return LbaVec3(-1, -1, -1);
 }

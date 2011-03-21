@@ -195,3 +195,24 @@ void LuaHandlerBase::StopThread(int ThreadIdx)
 	if(it != m_RunningThreads.end())
 		m_RunningThreads.erase(it);
 }
+
+
+
+
+/***********************************************************
+call lua function
+***********************************************************/
+bool LuaHandlerBase::CallLuaCondition(const std::string & functioname, ScriptEnvironmentBase* env, 
+											int objecttype, long objectid)
+{
+	try
+	{
+		return luabind::call_function<bool>(m_LuaState, functioname.c_str(), env, objecttype, objectid);
+	}
+	catch(const std::exception &error)
+	{
+		LogHandler::getInstance()->LogToFile(std::string("Exception calling lua condition ") + functioname + std::string(" : ") + error.what() + std::string(" : ") + lua_tostring(m_LuaState, -1), 0);
+	}
+
+	return false;
+}

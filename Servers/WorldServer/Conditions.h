@@ -362,4 +362,66 @@ private:
 };
 
 
+
+//! condition is always true
+class QuestAvailableCondition : public ConditionBase
+{
+public:
+	//! constructor
+	QuestAvailableCondition()
+		: _questid(-1)
+	{}
+
+	//! check if the condition is true or not
+	virtual bool Passed(ScriptEnvironmentBase * owner, 
+							int ObjectType, Ice::Long ObjectId);
+	
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & conditionname);
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName(){ return "QuestAvailableCondition";}
+
+	//! accessors
+	long GetQuestId()
+	{ return _questid;}
+	void SetQuestId(long id)
+	{ _questid = id;}
+
+
+private:
+	long	_questid;
+};
+
+
+
+//! condition is always true
+class CustomCondition : public ConditionBase
+{
+public:
+	//! constructor
+	CustomCondition()
+	{}
+
+	//! check if the condition is true or not
+	virtual bool Passed(ScriptEnvironmentBase * owner, 
+							int ObjectType, Ice::Long ObjectId);
+	
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & conditionname);
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName(){ return "CustomCondition";}
+
+	//! accessors
+	std::string GetLuaFunction()
+	{ return _luafunction;}
+	void SetLuaFunction(const std::string & v)
+	{ _luafunction = v;}
+
+
+private:
+	std::string	_luafunction;
+};
+
 #endif

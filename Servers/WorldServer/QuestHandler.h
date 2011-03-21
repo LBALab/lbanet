@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <map>
 #include <boost/shared_ptr.hpp>
-#include <IceUtil/Mutex.h>
+#include <IceUtil/RecMutex.h>
 
 class ScriptEnvironmentBase;
 class Quest;
@@ -35,7 +35,7 @@ typedef boost::shared_ptr<Quest>	QuestPtr;
 
 
 //! take care of shared data between process
-class QuestHandler : public IceUtil::Mutex
+class QuestHandler : public IceUtil::RecMutex
 {
 public:
 	// singleton pattern

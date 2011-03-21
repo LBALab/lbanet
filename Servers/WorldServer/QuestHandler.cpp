@@ -27,7 +27,7 @@ add quest
 ***********************************************************/
 void QuestHandler::AddQuest(QuestPtr quest)
 {
-	Lock sync(*this);
+	IceUtil::RecMutex::Lock sync(*this);
 	_quests[quest->GetId()] = quest;
 }
 
@@ -37,7 +37,7 @@ remove quest
 ***********************************************************/
 void QuestHandler::RemoveQuest(long id)
 {
-	Lock sync(*this);
+	IceUtil::RecMutex::Lock sync(*this);
 	std::map<long, QuestPtr>::iterator it = _quests.find(id);
 	if(it != _quests.end())
 		_quests.erase(it);
@@ -50,7 +50,7 @@ get quest
 ***********************************************************/
 QuestPtr QuestHandler::GetQuest(long id)
 {
-	Lock sync(*this);
+	IceUtil::RecMutex::Lock sync(*this);
 	std::map<long, QuestPtr>::iterator it = _quests.find(id);
 	if(it != _quests.end())
 		return it->second;
@@ -66,7 +66,7 @@ quest list
 ***********************************************************/
 std::map<long, QuestPtr> QuestHandler::GetQuests()
 {
-	Lock sync(*this);
+	IceUtil::RecMutex::Lock sync(*this);
 	return _quests;
 }
 
@@ -76,7 +76,7 @@ start quest for player
 ***********************************************************/
 bool QuestHandler::StartQuest(ScriptEnvironmentBase * owner, long id, long playerid)
 {
-	Lock sync(*this);
+	IceUtil::RecMutex::Lock sync(*this);
 	std::map<long, QuestPtr>::iterator it = _quests.find(id);
 	if(it != _quests.end())
 	{
@@ -92,7 +92,7 @@ check if quest is done for player
 ***********************************************************/
 bool QuestHandler::QuestFinished(ScriptEnvironmentBase * owner, long id, long playerid)
 {
-	Lock sync(*this);
+	IceUtil::RecMutex::Lock sync(*this);
 	std::map<long, QuestPtr>::iterator it = _quests.find(id);
 	if(it != _quests.end())
 		return it->second->QuestFinished(owner, playerid);
@@ -106,7 +106,7 @@ return quest chapter
 ***********************************************************/
 int QuestHandler::GetQuestChapter(long id)
 {
-	Lock sync(*this);
+	IceUtil::RecMutex::Lock sync(*this);
 	std::map<long, QuestPtr>::iterator it = _quests.find(id);
 	if(it != _quests.end())
 		return it->second->GetChapter();
@@ -120,7 +120,7 @@ generate quest id
 ***********************************************************/
 long QuestHandler::GenerateQuestid()
 {
-	Lock sync(*this);
+	IceUtil::RecMutex::Lock sync(*this);
 	if(_quests.size() == 0)
 		return 1;
 

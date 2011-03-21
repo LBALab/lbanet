@@ -100,6 +100,11 @@ public:
 	//! check if quest finished
 	bool QuestFinished(long questid);
 
+	//! check if quest finished
+	bool QuestAvailable(long questid);
+
+
+
 	//! return current chapter
 	int GetCurrentChapter()
 	{ return _currentchapter;}

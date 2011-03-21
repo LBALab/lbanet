@@ -112,11 +112,20 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetQuestId", &QuestFinishedCondition::GetQuestId)
 		.def("SetQuestId", &QuestFinishedCondition::SetQuestId),
 
+		luabind::class_<QuestAvailableCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("QuestAvailableCondition")
+		.def(luabind::constructor<>())
+		.def("GetQuestId", &QuestAvailableCondition::GetQuestId)
+		.def("SetQuestId", &QuestAvailableCondition::SetQuestId),
+
 		luabind::class_<ChapterStartedCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("ChapterStartedCondition")
 		.def(luabind::constructor<>())
 		.def("GetChapter", &ChapterStartedCondition::GetChapter)
 		.def("SetChapter", &ChapterStartedCondition::SetChapter),
 
+		luabind::class_<CustomCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("CustomCondition")
+		.def(luabind::constructor<>())
+		.def("GetLuaFunction", &CustomCondition::GetLuaFunction)
+		.def("SetLuaFunction", &CustomCondition::SetLuaFunction),
 
 
 		luabind::class_<ContainerItemGroupElement>("ContainerItemGroupElement")
@@ -397,12 +406,17 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("TriggerQuestEnd", &ScriptEnvironmentBase::TriggerQuestEnd)
 		.def("QuestStarted", &ScriptEnvironmentBase::QuestStarted)
 		.def("QuestFinished", &ScriptEnvironmentBase::QuestFinished)
+		.def("QuestAvailable", &ScriptEnvironmentBase::QuestAvailable)
 		.def("ChapterStarted", &ScriptEnvironmentBase::ChapterStarted)
 		.def("OpenShop", &ScriptEnvironmentBase::OpenShop)
 		.def("AddSpawn", &ScriptEnvironmentBase::AddSpawn)
 		.def("OpenMailbox", &ScriptEnvironmentBase::OpenMailbox)
 		.def("AttachActor", &ScriptEnvironmentBase::AttachActor)
-		.def("DettachActor", &ScriptEnvironmentBase::DettachActor),
+		.def("DettachActor", &ScriptEnvironmentBase::DettachActor)
+		.def("CheckCustomCondition", &ScriptEnvironmentBase::CheckCustomCondition)
+		.def("GetGhostPosition", &ScriptEnvironmentBase::GetGhostPosition)
+		.def("GetGhostOwnerPlayer", &ScriptEnvironmentBase::GetGhostOwnerPlayer)
+		.def("LogToFile", &ScriptEnvironmentBase::LogToFile),
 
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),
@@ -777,5 +791,4 @@ destructor
 ServerLuaHandler::~ServerLuaHandler(void)
 {
 }
-
 

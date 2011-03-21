@@ -376,6 +376,17 @@ bool PlayerHandler::QuestFinished(long questid)
 }
 
 
+
+/***********************************************************
+check if quest available
+***********************************************************/
+bool PlayerHandler::QuestAvailable(long questid)
+{
+	return (!QuestStarted(questid) && !QuestFinished(questid));
+}
+
+
+
 /***********************************************************
 save current info in database
 ***********************************************************/
