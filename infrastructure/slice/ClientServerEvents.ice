@@ -337,7 +337,14 @@ module LbaNet
 	class ItemLootEvent extends ClientServerEventBase
 	{
 		long			ItemId;
-	};	
+	};
+	
+	// client inform server that it loot an item
+	class PlaySoundEvent extends ClientServerEventBase
+	{
+		SoundInfo		Sound;
+	};
+		
 };	
 
 #endif

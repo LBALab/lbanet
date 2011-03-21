@@ -923,6 +923,22 @@ module LbaNet
 		bool			IsSalve;
 		float			Frequency;
 	};
+	
+
+	struct SoundInfo
+	{
+		string			SoundPath;
+		bool			Use3d;
+		
+		float			PosX;
+		float			PosY;
+		float			PosZ;	
+		
+		float			SpeedX;
+		float			SpeedY;
+		float			SpeedZ;			
+		
+	};	
 };	
 
 #endif
