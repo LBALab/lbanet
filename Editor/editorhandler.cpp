@@ -3620,7 +3620,30 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 		}
 		return;
 	}
-	
+		
+	if(actiontype == "PlaySoundAction")
+	{
+		PlaySoundAction* ptr = static_cast<PlaySoundAction*>(action);
+		{
+			QVector<QVariant> data;
+			data << "Sound path" << ptr->GetSoundPath();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+			boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
+			filefilter->Title = "Select an sound file";
+			filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Sound").c_str();;
+			filefilter->FileFilter = "Sound Files (*.mp3 *.midi *.Ogg)";
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), filefilter);
+
+		}
+
+		{
+			QVector<QVariant> data;
+			data << "play to everyone" << ptr->GetToEveryone();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+		return;
+	}
 
 }
 		
@@ -4310,7 +4333,24 @@ void EditorHandler::ActionObjectChanged(const std::string & category, const QMod
 
 				return;
 			}
-			
+
+			if(category == "PlaySoundAction")
+			{
+				// get info
+				std::string spath = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();
+				bool everyone = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toFloat();
+
+				// created modified action and replace old one
+				PlaySoundAction* modifiedact = (PlaySoundAction*)ptr;
+				modifiedact->SetSoundPath(spath);
+				modifiedact->SetToEveryone(everyone);
+
+				// need to save as something changed
+				SetModified();
+
+				return;
+			}
+					
 		}
 	}
 
@@ -6099,6 +6139,7 @@ void EditorHandler::addworld_accepted()
 	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Music");
 	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Grid");
 	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/AI");
+	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Sound");
 
 
 	// save new world
@@ -9801,6 +9842,10 @@ ActionBasePtr EditorHandler::CreateAction(const std::string & type)
 	if(type == "OpenMailboxAction")
 		return ActionBasePtr(new OpenMailboxAction());
 	
+	if(type == "PlaySoundAction")
+		return ActionBasePtr(new PlaySoundAction());
+	
+	
 	return ActionBasePtr();
 }
 
@@ -12343,7 +12388,7 @@ void EditorHandler::MapMusicFile_clicked()
 
 	QStringList selectedfile = 
 		QFileDialog::getOpenFileNames (this, "Select a music file", currfile, 
-										"Music (*.mp3 *.midi *.Ogg)");
+										"Sound (*.mp3 *.midi *.Ogg)");
 
 	if(selectedfile.size() > 0)
 	{
