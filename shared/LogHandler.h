@@ -44,11 +44,11 @@ public:
    static LogHandler * getInstance();
 
 	// log a text into file
-   void LogToFile(const std::string text, int category = 0);
+   void LogToFile(const std::string &text, int category = 0);
 
 
 	// inform the use of something
-   void InformUser(const std::string text);
+   void InformUser(const std::string &text);
 
    // get log file name
    const std::string &GetFilename()

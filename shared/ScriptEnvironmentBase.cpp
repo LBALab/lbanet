@@ -263,3 +263,11 @@ void ScriptEnvironmentBase::StropThread(int scriptid)
 	if(m_luaHandler)
 		m_luaHandler->StopThread(scriptid);
 }
+
+/***********************************************************
+used by lua to log into file
+***********************************************************/
+void ScriptEnvironmentBase::LogToFile(const std::string &text)
+{
+	LogHandler::getInstance()->LogToFile(text);
+}

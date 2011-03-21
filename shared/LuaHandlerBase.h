@@ -82,6 +82,10 @@ public:
 										ScriptEnvironmentBase* env);
 
 
+	//! call lua function
+	bool CallLuaCondition(const std::string & functioname, ScriptEnvironmentBase* env, 
+							int objecttype, long objectid);
+
 protected:
 	lua_State *													m_LuaState;
 

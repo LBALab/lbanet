@@ -87,7 +87,7 @@ void LogHandler::CloseFile()
 /***********************************************************
 log a text into file
 ***********************************************************/
-void LogHandler::LogToFile(const std::string text, int category)
+void LogHandler::LogToFile(const std::string &text, int category)
 {
 	IceUtil::StaticMutex::Lock lock(myStaticMutex);
 	if(_logfile.is_open())
@@ -99,7 +99,7 @@ void LogHandler::LogToFile(const std::string text, int category)
 /***********************************************************
 inform the use of something
 ***********************************************************/
-void LogHandler::InformUser(const std::string text)
+void LogHandler::InformUser(const std::string &text)
 {
 	IceUtil::StaticMutex::Lock lock(myStaticMutex);
 	std::cout<<text<<std::endl;
