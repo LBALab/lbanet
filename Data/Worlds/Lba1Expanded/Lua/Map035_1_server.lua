@@ -29,6 +29,7 @@ function InitMap(environment)
 	Actor_1.DisplayDesc.RotY = 0
 	Actor_1.DisplayDesc.RotZ = 0
 	Actor_1:SetModelState(1)
+	Actor_1.DisplayDesc.UseBillboard = false
 	Actor_1.PhysicDesc.Pos.X = 0
 	Actor_1.PhysicDesc.Pos.Y = 0
 	Actor_1.PhysicDesc.Pos.Z = 0
@@ -53,13 +54,6 @@ function InitMap(environment)
 
 	Actor_4 = ActorObjectInfo(4)
 	Actor_4:SetRenderType(3)
-	Actor_4.DisplayDesc.ColorMaterialType = 4
-	Actor_4.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_4.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_4.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_4.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_4.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_4.DisplayDesc.MatDiffuseColorB = 0.4
 	Actor_4.DisplayDesc.ModelId = 0
 	Actor_4.DisplayDesc.ModelName = "Object"
 	Actor_4.DisplayDesc.Outfit = "MekaPingouin"
@@ -81,6 +75,25 @@ function InitMap(environment)
 	Actor_4.DisplayDesc.RotY = 0
 	Actor_4.DisplayDesc.RotZ = 0
 	Actor_4:SetModelState(1)
+	Actor_4.DisplayDesc.UseBillboard = false
+	Actor_4.DisplayDesc.ColorMaterialType = 4
+	Actor_4.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_4.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_4.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_4.DisplayDesc.MatAmbientColorA = 1
+	Actor_4.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_4.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_4.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_4.DisplayDesc.MatDiffuseColorA = 1
+	Actor_4.DisplayDesc.MatSpecularColorR = 0
+	Actor_4.DisplayDesc.MatSpecularColorG = 0
+	Actor_4.DisplayDesc.MatSpecularColorB = 0
+	Actor_4.DisplayDesc.MatSpecularColorA = 1
+	Actor_4.DisplayDesc.MatEmissionColorR = 0
+	Actor_4.DisplayDesc.MatEmissionColorG = 0
+	Actor_4.DisplayDesc.MatEmissionColorB = 0
+	Actor_4.DisplayDesc.MatEmissionColorA = 1
+	Actor_4.DisplayDesc.MatShininess = 0
 	Actor_4.PhysicDesc.Pos.X = 0
 	Actor_4.PhysicDesc.Pos.Y = -1
 	Actor_4.PhysicDesc.Pos.Z = 0
@@ -131,6 +144,7 @@ function InitMap(environment)
 	Actor_5.DisplayDesc.RotY = 0
 	Actor_5.DisplayDesc.RotZ = 0
 	Actor_5:SetModelState(2)
+	Actor_5.DisplayDesc.UseBillboard = false
 	Actor_5.PhysicDesc.Pos.X = 50
 	Actor_5.PhysicDesc.Pos.Y = 0.0001
 	Actor_5.PhysicDesc.Pos.Z = 36
@@ -176,6 +190,7 @@ function InitMap(environment)
 	Actor_6.DisplayDesc.RotY = 0
 	Actor_6.DisplayDesc.RotZ = 0
 	Actor_6:SetModelState(2)
+	Actor_6.DisplayDesc.UseBillboard = false
 	Actor_6.PhysicDesc.Pos.X = 46
 	Actor_6.PhysicDesc.Pos.Y = 0.0001
 	Actor_6.PhysicDesc.Pos.Z = 40
@@ -221,6 +236,7 @@ function InitMap(environment)
 	Actor_7.DisplayDesc.RotY = 0
 	Actor_7.DisplayDesc.RotZ = 0
 	Actor_7:SetModelState(2)
+	Actor_7.DisplayDesc.UseBillboard = false
 	Actor_7.PhysicDesc.Pos.X = 46
 	Actor_7.PhysicDesc.Pos.Y = 0.0001
 	Actor_7.PhysicDesc.Pos.Z = 46
@@ -266,6 +282,7 @@ function InitMap(environment)
 	Actor_8.DisplayDesc.RotY = 0
 	Actor_8.DisplayDesc.RotZ = 0
 	Actor_8:SetModelState(2)
+	Actor_8.DisplayDesc.UseBillboard = false
 	Actor_8.PhysicDesc.Pos.X = 54
 	Actor_8.PhysicDesc.Pos.Y = 0.0001
 	Actor_8.PhysicDesc.Pos.Z = 50
@@ -343,5 +360,21 @@ function InitMap(environment)
 	Trigger_4:SetAction1(Trigger_4_act1)
 	Trigger_4:SetPlayAnimation(true)
 	environment:AddTrigger(Trigger_4)
+
+	Trigger_5_info = TriggerInfo(5, "crateplacetrigger1", false, false, true)
+	Trigger_5 = ZoneTrigger(Trigger_5_info, 1, 1, 1, true)
+	Trigger_5:SetPosition(46.1, 0, 36)
+	Trigger_5:SetStayUpdateFrequency(1)
+	Trigger_5:SetActivateOnJump(true)
+	Trigger_5_act3 = ConditionalAction()
+	Trigger_5_act3_act1 = FinishQuestAction()
+	Trigger_5_act3_act1:SetQuestId(4)
+	Trigger_5_act3:SetActionTrue(Trigger_5_act3_act1)
+	Trigger_5_act3_cond = QuestStartedCondition()
+	Trigger_5_act3_cond:SetTextid(-1)
+	Trigger_5_act3_cond:SetQuestId(4)
+	Trigger_5_act3:SetCondition(Trigger_5_act3_cond)
+	Trigger_5:SetAction3(Trigger_5_act3)
+	environment:AddTrigger(Trigger_5)
 
 end
