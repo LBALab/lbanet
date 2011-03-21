@@ -83,6 +83,7 @@ ClientLuaHandler::ClientLuaHandler()
 		.def("ActorShowHide", &ScriptEnvironmentBase::ActorShowHide)
 		.def("AttachActor", &ScriptEnvironmentBase::AttachActor)
 		.def("DettachActor", &ScriptEnvironmentBase::DettachActor)
+		.def("LogToFile", &ScriptEnvironmentBase::LogToFile)
 		];
 	}
 	catch(const std::exception &error)

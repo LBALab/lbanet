@@ -352,6 +352,9 @@ public:
 	virtual bool QuestFinished(long PlayerId, long Questid){return false;}
 
 	//! condition
+	virtual bool QuestAvailable(long PlayerId, long Questid){return false;}
+
+	//! condition
 	virtual bool ChapterStarted(long PlayerId, int Chapter){return false;}
 
 	//! open shop

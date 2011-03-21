@@ -35,7 +35,7 @@ namespace FMOD
 	class Channel;
 }
 
-struct SoundInfo
+struct MHSoundInfo
 {
 	std::string path;
 	FMOD::Sound * fsound;
@@ -120,7 +120,7 @@ private:
 
 	std::string					_current_music;
 
-	std::map<unsigned long, SoundInfo>	_played_sounds;
+	std::map<unsigned long, MHSoundInfo>	_played_sounds;
 
 
 	float						_generalvolume;

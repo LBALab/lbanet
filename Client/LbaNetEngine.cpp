@@ -871,7 +871,7 @@ void LbaNetEngine::HandleGameEvents()
 			LbaNet::PlaySoundEvent* castedptr = 
 				dynamic_cast<LbaNet::PlaySoundEvent *>(&obj);
 
-			MusicHandler::getInstance()->PlaySample(castedptr->Sound.SoundPath, 1);
+			MusicHandler::getInstance()->PlaySample("Data/"+castedptr->Sound.SoundPath, 0);
 
 			continue;
 		}

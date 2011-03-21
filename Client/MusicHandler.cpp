@@ -213,7 +213,7 @@ unsigned long MusicHandler::PlaySample(const std::string & samplepath, int nbTim
 {
 	cleanupsound();
 
-	SoundInfo si;
+	MHSoundInfo si;
 	si.path = samplepath;
 
 	FMOD_RESULT result = _fsystem->createSound(samplepath.c_str(),
@@ -244,11 +244,11 @@ stop of played sample
 ***********************************************************/
 void MusicHandler::StopSample(unsigned long sampleid)
 {
-	std::map<unsigned long, SoundInfo>::iterator it = _played_sounds.find(sampleid);
+	std::map<unsigned long, MHSoundInfo>::iterator it = _played_sounds.find(sampleid);
 
 	if(it !=  _played_sounds.end())
 	{
-		SoundInfo &si = it->second;
+		MHSoundInfo &si = it->second;
 		if(si.channel)
 		{
 			si.channel->stop();
@@ -270,10 +270,10 @@ clean finished sound
 ***********************************************************/
 void MusicHandler::cleanupsound(bool forced)
 {
-	std::map<unsigned long, SoundInfo>::iterator it = _played_sounds.begin();
+	std::map<unsigned long, MHSoundInfo>::iterator it = _played_sounds.begin();
 	while(it != _played_sounds.end())
 	{
-		SoundInfo &si = it->second;
+		MHSoundInfo &si = it->second;
 		bool isplaying;
 		si.channel->isPlaying(&isplaying);
 
