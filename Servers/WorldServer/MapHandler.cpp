@@ -3335,6 +3335,15 @@ void MapHandler::UpdatePlayerShortcut(Ice::Long clientid, int Position, long Ite
 ***********************************************************/
 void MapHandler::SendEvents(long PlayerId, const LbaNet::EventsSeq & evts)
 {
+	// check if send to everybody
+	if(PlayerId == -2)
+	{
+		for(size_t i=0; i<evts.size(); ++i)
+		_tosendevts.push_back(evts[i]);
+		return;
+	}
+
+
 	ClientProxyBasePtr proxy = GetProxy(PlayerId);
 	if(proxy)
 	{

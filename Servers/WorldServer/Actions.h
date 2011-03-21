@@ -1055,4 +1055,59 @@ public:
 
 
 
+//! use to display a text on client
+class PlaySoundAction : public ActionBase
+{
+public:
+	//! constructor
+	PlaySoundAction()
+		: _toeveryone(false)
+	{}
+	
+	//! destructor
+	virtual ~PlaySoundAction(void){}
+
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args);
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "PlaySoundAction"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+
+
+	// acessor
+	bool GetToEveryone()
+	{ return _toeveryone;}
+
+	// acessor
+	void SetToEveryone(float v)
+	{ _toeveryone = v;}
+
+	// acessor
+	std::string GetSoundPath()
+	{ return _soundpath;}
+
+	// acessor
+	void SetSoundPath(const std::string& v)
+	{ _soundpath = v;}
+
+
+private:
+	std::string			_soundpath;
+	bool				_toeveryone;
+};
+
+
+
 #endif

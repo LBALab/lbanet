@@ -585,6 +585,14 @@ ServerLuaHandler::ServerLuaHandler()
 		luabind::class_<OpenMailboxAction, ActionBase, boost::shared_ptr<ActionBase> >("OpenMailboxAction")
 		.def(luabind::constructor<>()),
 
+		luabind::class_<PlaySoundAction, ActionBase, boost::shared_ptr<ActionBase> >("PlaySoundAction")
+		.def(luabind::constructor<>())
+		.def("GetToEveryone", &PlaySoundAction::GetToEveryone)
+		.def("SetToEveryone", &PlaySoundAction::SetToEveryone)
+		.def("GetSoundPath", &PlaySoundAction::GetSoundPath)
+		.def("SetSoundPath", &PlaySoundAction::SetSoundPath),
+
+
 
 		luabind::class_<ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("ClientScriptBase")
 		.def(luabind::constructor<>())

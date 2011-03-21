@@ -1175,3 +1175,57 @@ void OpenMailboxAction::SaveToLuaFile(std::ofstream & file, const std::string & 
 	file<<"\t"<<name<<" = OpenMailboxAction()"<<std::endl;
 }
 
+
+
+
+/***********************************************************
+execute the action
+***********************************************************/
+void PlaySoundAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+										ActionArgumentBase* args)
+{
+	long clientid = -2;
+	if(!_toeveryone)
+	{
+		if(ObjectType == 2)
+			clientid = (long)ObjectId;
+
+		// on object moved by player
+		if(ObjectType == 3)
+		{
+			if(owner)
+				clientid = owner->GetGhostOwnerPlayer((long)ObjectId);
+		}
+
+		// check if client found - else return
+		if(clientid < 0)
+			return;
+	}
+
+
+	if(owner && _soundpath != "")
+	{
+		LbaNet::SoundInfo sinfo;
+		sinfo.SoundPath = _soundpath;
+
+		EventsSeq toplayer;
+		toplayer.push_back(
+			new PlaySoundEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), sinfo));
+		owner->SendEvents(clientid, toplayer);
+	}
+}
+
+
+
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/
+void PlaySoundAction::SaveToLuaFile(std::ofstream & file, const std::string & name)
+{
+	file<<"\t"<<name<<" = PlaySoundAction()"<<std::endl;
+	file<<"\t"<<name<<":SetToEveryone("<<(_toeveryone?"true":"false")<<")"<<std::endl;
+	if(_soundpath != "")
+		file<<"\t"<<name<<":SetSoundPath(\""<<_soundpath<<"\")"<<std::endl;
+}
