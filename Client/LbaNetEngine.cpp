@@ -853,7 +853,7 @@ void LbaNetEngine::HandleGameEvents()
 			continue;
 		}
 	
-		// PlayerKeyReleasedEvent
+		// GhostMovedEvent
 		if(info == typeid(LbaNet::GhostMovedEvent))
 		{
 			LbaNet::GhostMovedEvent* castedptr = 
@@ -864,6 +864,18 @@ void LbaNetEngine::HandleGameEvents()
 
 			continue;
 		}
+	
+		// PlaySoundEvent
+		if(info == typeid(LbaNet::PlaySoundEvent))
+		{
+			LbaNet::PlaySoundEvent* castedptr = 
+				dynamic_cast<LbaNet::PlaySoundEvent *>(&obj);
+
+			MusicHandler::getInstance()->PlaySample(castedptr->Sound.SoundPath, 1);
+
+			continue;
+		}
+
 
 	}
 }
