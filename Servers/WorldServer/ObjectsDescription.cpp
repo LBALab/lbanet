@@ -30,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Lba1ModelHandler.h"
 #endif
 #include "ServerLba1ModelHandler.h"
-
+#include "NavMeshObjectHandlers.h"
 
 
 /***********************************************************
@@ -332,12 +332,12 @@ boost::shared_ptr<DisplayObjectHandlerBase> Lba1ModelObjectDescription::BuildSel
  build description into a reald physic object
 ***********************************************************/
 boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionBase::BuildServer(long id,
-												boost::shared_ptr<PhysicalDescriptionBase> self) const
+												boost::shared_ptr<PhysicalDescriptionBase> self,
+												boost::shared_ptr<NavMeshAgent> NavMAgent) const
 {
 	return boost::shared_ptr<PhysicalObjectHandlerBase>( 
 				new SimplePhysicalObjectHandler(positionX, positionY, positionZ, rotation));
 }
-
 
 
 /***********************************************************
@@ -350,18 +350,35 @@ boost::shared_ptr<DisplayObjectHandlerBase> Lba1ModelObjectDescription::BuildSer
 }
 
 
+
 /***********************************************************
 build description into dynamic object for server
 ***********************************************************/
-boost::shared_ptr<DynamicObject> ObjectInfo::BuildServer() const
+boost::shared_ptr<DynamicObject> ObjectInfo::BuildServer(boost::shared_ptr<NavMeshAgent> NavMAgent) const
 {
 	boost::shared_ptr<PhysicalObjectHandlerBase> phH;
 	boost::shared_ptr<DisplayObjectHandlerBase> disoH;
 	if(PhysInfo)
-		phH = PhysInfo->BuildServer(Id, PhysInfo);
+		phH = PhysInfo->BuildServer(Id, PhysInfo, NavMAgent);
 	if(DisInfo)
 		disoH = DisInfo->BuildServer();
 
 
 	return boost::shared_ptr<DynamicObject>(new StaticObject(phH, disoH, Id));
+}
+
+
+/***********************************************************
+ build description into a reald physic object
+***********************************************************/
+boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionWithShape::BuildServer(long id,
+													boost::shared_ptr<PhysicalDescriptionBase> self,
+													boost::shared_ptr<NavMeshAgent> NavMAgent) const
+{
+	if(NavMAgent && ActorType != LbaNet::StaticAType)
+		return boost::shared_ptr<PhysicalObjectHandlerBase>( 
+				new NavMeshObjectHandler(NavMAgent, positionX, positionY, positionZ, rotation));
+	else
+		return boost::shared_ptr<PhysicalObjectHandlerBase>( 
+				new SimplePhysicalObjectHandler(positionX, positionY, positionZ, rotation));
 }

@@ -45,9 +45,27 @@ public:
 	//! destructor
 	~NavMeshAgent(void);
 
+
+	//! get object position in the world
+	void GetPosition(float &X, float &Y, float &Z);
+
+	//! set object position in the world
+	void SetPosition(float X, float Y, float Z);
+
+	//! show or hide the object
+	void ShowOrHide(bool Show);
+
+	//! UpdateSpeed
+	void UpdateSpeed(float SpeedX, float SpeeY, float SpeedZ);
+
+	//! UpdateMaxSpeed
+	void UpdateMaxSpeed(float Speed);
+
+
 private:
 	boost::shared_ptr<dtCrowd>		m_crowdmanager;
 	int								m_crowdagentid;
+	float							m_lastSpeed;
 };
 
 #endif

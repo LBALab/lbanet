@@ -165,6 +165,10 @@ PlayerHandler::PlayerHandler(long clientid, ClientProxyBasePtr proxy,
 	_currentinfo.lifemana.Display = true;
 	_extrainfo.Display = true;
 
+	// fix issues when player is dead and disconnect
+	if(_currentinfo.lifemana.CurrentLife <= 0)
+		_currentinfo.lifemana.CurrentLife = _currentinfo.lifemana.MaxLife; 
+
 
 	// reinit model colors
 	_currentinfo.model.OutfitColor = -1;

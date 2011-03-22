@@ -33,6 +33,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ActorScriptPart.h"
 #include <ClientServerEvents.h>
 
+class NaviMeshHandler;
+class NavMeshAgent;
+
+
 /***********************************************************************
 class used by lua to add objects on the map
  ***********************************************************************/
@@ -169,6 +173,10 @@ public:
 
 	//! set script handler
 	void SetScriptHandler(ScriptEnvironmentBase* scripthandler);
+
+	//! set NavMesh handler
+	void SetNavMeshHandler(boost::shared_ptr<NaviMeshHandler> navmeshH);
+			
 
 	//! get actor info
 	const ActorObjectInfo & GetActorInfo()
@@ -438,6 +446,9 @@ protected:
 	int													m_attachedactortype;
 	long												m_attachedactorid;
 
+
+	boost::shared_ptr<NaviMeshHandler>					m_navimesh;
+	boost::shared_ptr<NavMeshAgent>						m_NavMAgent;
 };
 
 #endif

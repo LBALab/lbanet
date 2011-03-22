@@ -6,6 +6,8 @@
 #include "SynchronizedTimeHandler.h"
 #include <math.h>
 #include "LogHandler.h"
+#include "NaviMeshHandler.h"
+#include "NavMeshAgent.h"
 
 #define	_LBA1_MODEL_ANIMATION_SPEED_	1.8f
 
@@ -500,6 +502,15 @@ ActorHandler::~ActorHandler(void)
 	m_scripthandler = NULL;
 }
 
+
+/***********************************************************
+set NavMesh handler
+***********************************************************/
+void ActorHandler::SetNavMeshHandler(boost::shared_ptr<NaviMeshHandler> navmeshH)
+{
+	m_navimesh = navmeshH;
+	CreateActor();
+}
 
 
 /***********************************************************
@@ -1095,16 +1106,31 @@ void ActorHandler::CreateActor()
 	}
 
 	// create physic object
-	boost::shared_ptr<PhysicalDescriptionBase> PInfo(new 
+	boost::shared_ptr<PhysicalDescriptionBase> PInfo;
+	if(m_actorinfo.PhysicDesc.TypeShape == LbaNet::NoShape)
+		PInfo = boost::shared_ptr<PhysicalDescriptionBase>(new 
 					PhysicalDescriptionNoShape(m_actorinfo.PhysicDesc.Pos.X, m_actorinfo.PhysicDesc.Pos.Y, 
 													m_actorinfo.PhysicDesc.Pos.Z, 
 										LbaQuaternion(m_actorinfo.PhysicDesc.Pos.Rotation, LbaVec3(0, 1, 0))));
+	else
+		PInfo = boost::shared_ptr<PhysicalDescriptionBase>(new 
+					PhysicalDescriptionWithShape(m_actorinfo.PhysicDesc.Pos.X, m_actorinfo.PhysicDesc.Pos.Y, 
+													m_actorinfo.PhysicDesc.Pos.Z, 
+													m_actorinfo.PhysicDesc.TypePhysO,
+													m_actorinfo.PhysicDesc.Density,
+										LbaQuaternion(m_actorinfo.PhysicDesc.Pos.Rotation, LbaVec3(0, 1, 0)),
+											m_actorinfo.PhysicDesc.Collidable));
 
 
 	ObjectInfo obj(4, (long)m_actorinfo.ObjectId, DInfo, PInfo, 
 			(m_actorinfo.PhysicDesc.TypePhysO == LbaNet::StaticAType));
 
-	_character = obj.BuildServer();
+
+	m_NavMAgent = boost::shared_ptr<NavMeshAgent>();
+	if(m_navimesh && m_actorinfo.PhysicDesc.TypePhysO != LbaNet::StaticAType)
+		m_NavMAgent = m_navimesh->AddAgent(m_actorinfo.PhysicDesc);
+
+	_character = obj.BuildServer(m_NavMAgent);
 }
 
 

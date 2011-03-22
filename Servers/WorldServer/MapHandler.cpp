@@ -200,6 +200,10 @@ void MapHandler::run()
 			}
 		}
 
+		//process nav mesh
+		if(_navimesh)
+			_navimesh->Process(timetodiff, tdiff);
+
 		// refresh lua stuff
 		CheckFinishedAsynScripts();
 
@@ -1114,6 +1118,7 @@ function used by LUA to add actor
 void MapHandler::AddActorObject(boost::shared_ptr<ActorHandler> actor)
 {
 	actor->SetScriptHandler(this);
+	actor->SetNavMeshHandler(_navimesh);
 	_Actors[actor->GetId()] = actor;
 }
 
