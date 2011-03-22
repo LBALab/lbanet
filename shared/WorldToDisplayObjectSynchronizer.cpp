@@ -65,8 +65,20 @@ int WorldToDisplayObjectSynchronizer::Process(double time, float tdiff)
 {
 	StraightSync();
 
+	float animX=0, animY=0, animZ=0;
+	if(_disH)
+	{
+		animX = _disH->GetCurrentAssociatedSpeedX();
+		animY = _disH->GetCurrentAssociatedSpeedY();
+		animZ = _disH->GetCurrentAssociatedSpeedZ();
+	}
+
+
 	if(_phH)
+	{
 		_phH->ResetMove();
+		_phH->Process(time, tdiff, animX, animY, animZ);
+	}
 
 	if(_disH)
 		return _disH->Process(time, tdiff);

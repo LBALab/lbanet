@@ -53,6 +53,10 @@ public:
 	//! destructor
 	virtual ~PhysicalObjectHandlerBase(){}
 
+	//! process physic
+	virtual void Process(double tnow, float tdiff,
+							float animSpeedX, float animSpeedY, float animSpeedZ){}
+
 	//! get object position in the world
 	virtual void GetPosition(float &X, float &Y, float &Z) = 0;
 
@@ -362,7 +366,7 @@ public:
 	//! enable or disable the gravity
 	virtual void EnableDisableGravity(bool enabled){}
 
-private:
+protected:
 	float _PosX;
 	float _PosY;
 	float _PosZ;

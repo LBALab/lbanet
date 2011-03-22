@@ -1622,3 +1622,13 @@ boost::shared_ptr<NavMeshAgent> NaviMeshHandler::AddAgent(const LbaNet::ObjectPh
 	else
 		return boost::shared_ptr<NavMeshAgent>();
 }
+
+
+/***********************************************************
+process
+***********************************************************/
+void NaviMeshHandler::Process(double time, float tdiff)
+{
+	if(m_crowdmanager)
+		m_crowdmanager->update(tdiff, NULL);
+}

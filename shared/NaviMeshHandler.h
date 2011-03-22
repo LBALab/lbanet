@@ -135,6 +135,8 @@ public:
 	//! add agent to crowd
 	boost::shared_ptr<NavMeshAgent>	AddAgent(const LbaNet::ObjectPhysicDesc & agentinfo);
 
+	//! process
+	void Process(double time, float tdiff);
 
 protected:
 

@@ -38,6 +38,7 @@ class PhysXEngine;
 class DynamicObject;
 class NxActor;
 class NxController;
+class NavMeshAgent;
 
 /***********************************************************************
 This class describe the tranformation applied by the display object
@@ -429,7 +430,8 @@ public:
 
 	//! build description into dynamic object
 	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildServer(long id,
-										boost::shared_ptr<PhysicalDescriptionBase> self) const;
+										boost::shared_ptr<PhysicalDescriptionBase> self,
+										boost::shared_ptr<NavMeshAgent> NavMAgent) const;
 
 public:
 	//position of the object in the world
@@ -476,6 +478,15 @@ public:
 	//! destructor
 	virtual ~PhysicalDescriptionWithShape();
 
+	//! build description into a reald physic object
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildSelf(int type, long id,
+									boost::shared_ptr<PhysicalDescriptionBase> self) const
+	{return boost::shared_ptr<PhysicalObjectHandlerBase>();}
+
+	//! build description into dynamic object
+	virtual boost::shared_ptr<PhysicalObjectHandlerBase> BuildServer(long id,
+										boost::shared_ptr<PhysicalDescriptionBase> self,
+										boost::shared_ptr<NavMeshAgent> NavMAgent) const;
 public:
 
 	// type of physical shape
@@ -661,7 +672,7 @@ public:
 	boost::shared_ptr<DynamicObject> BuildSelf(DisplayHandlerBase * disH) const;
 
 	//! build description into dynamic object
-	boost::shared_ptr<DynamicObject> BuildServer() const;
+	boost::shared_ptr<DynamicObject> BuildServer(boost::shared_ptr<NavMeshAgent> NavMAgent) const;
 
 
 	//get object id
