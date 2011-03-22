@@ -1,6 +1,6 @@
 function InitMap(environment)
 	Spawn_1 = Spawn(1)
-	Spawn_1:SetPosX(8.5)
+	Spawn_1:SetPosX(6.5)
 	Spawn_1:SetPosY(0.01)
 	Spawn_1:SetPosZ(8)
 	Spawn_1:SetName("spawning0")
