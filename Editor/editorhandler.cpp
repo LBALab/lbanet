@@ -12541,11 +12541,16 @@ void EditorHandler::GenerateNavimesh()
 			_navimesh->AddActor(ainfo.PhysicDesc);
 	}
 
+	std::string mapname = _uieditor.label_mapname->text().toAscii().data();
+
 	_navimesh->GenerateMesh();
 	_navimesh->SaveToFile("./Data/Worlds/" + _winfo.Description.WorldName + "/AI/" 
-											+ _uieditor.label_mapname->text().toAscii().data() + ".nmesh");
+											+ mapname + ".nmesh");
 
 	RefreshNaviMeshDisplay();
+
+	// refresh server
+	SharedDataHandler::getInstance()->EditorUpdate(mapname, new UpdateEditor_RefreshNavMesh());
 }
 	
 /***********************************************************
