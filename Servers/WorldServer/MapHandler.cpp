@@ -15,6 +15,9 @@
 #include "Spawn.h"
 #include "LogHandler.h"
 #include "Randomizer.h"
+#include "NaviMeshHandler.h"
+#include "FileUtil.h"
+
 
 #include <math.h>
 
@@ -32,6 +35,10 @@ MapHandler::MapHandler(const std::string & worldname, const MapInfo & mapinfo,
 : _Trunning(false), _mapinfo(mapinfo), _worldname(worldname),
 	_customluafilename(customluafilename)
 {
+	// initialize navigation mesh
+	_navimesh = boost::shared_ptr<NaviMeshHandler>(new NaviMeshHandler());
+	RefreshNaviMesh();
+
 	// initialize the gui handlers
 	_guihandlers["CommunityBox"] = boost::shared_ptr<ServerGUIBase>(new CommunityBoxHandler(this));
 	_guihandlers["ShortcutBox"] = boost::shared_ptr<ServerGUIBase>(new ShortcutBoxHandler(this));
@@ -1334,7 +1341,13 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 			m_luaHandler->LoadFile(_customluafilename);		
 		return;
 	}
-	
+		
+	// UpdateEditor_RefreshNavMesh
+	if(info == typeid(UpdateEditor_RefreshNavMesh))
+	{
+		RefreshNaviMesh();		
+		return;
+	}
 
 
 }
@@ -3832,4 +3845,19 @@ LbaVec3 MapHandler::GetGhostPosition(long PlayerId, long ActorId)
 
 
 	return LbaVec3(-1, -1, -1);
+}
+
+
+
+/***********************************************************
+refresh navimesh
+***********************************************************/
+void MapHandler::RefreshNaviMesh()
+{
+	_navimesh->Reset();
+	std::string navimeshfile = "./Data/Worlds/" + _worldname + "/AI/" + _mapinfo.Name + ".nmesh";
+	if(FileUtil::FileExist(navimeshfile, false))
+	{
+		_navimesh->LoadFromFile(navimeshfile);
+	}
 }

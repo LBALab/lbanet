@@ -339,4 +339,21 @@ public:
 
 
 
+/*
+************************************************************************************************************************
+*                                                  class UpdateEditor_RefreshNavMesh
+*
+*	base class for all editor update
+************************************************************************************************************************
+*/
+class UpdateEditor_RefreshNavMesh : public LbaNet::EditorUpdateBase
+{
+public:
+	//! constructor
+	UpdateEditor_RefreshNavMesh()
+	{
+	}
+};
+
+
 #endif

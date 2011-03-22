@@ -45,6 +45,8 @@ using namespace LbaNet;
 class PlayerHandler;
 class EditorUpdateBase;
 class Spawn;
+class NaviMeshHandler;
+
 
 struct GhostInfo
 {
@@ -678,6 +680,10 @@ protected:
 	//! player loot item
 	void PlayerLootItem(Ice::Long playerid, Ice::Long ItemId);
 
+
+	//! refresh navimesh
+	void RefreshNaviMesh();
+
 private:
 	// threading and mutex stuff
 	IceUtil::Monitor<IceUtil::Mutex>							_monitor;
@@ -728,6 +734,8 @@ private:
 
 
 	std::string													_customluafilename;
+
+	boost::shared_ptr<NaviMeshHandler>							_navimesh;
 
 };
 
