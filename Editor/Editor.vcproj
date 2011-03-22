@@ -528,6 +528,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Servers\WorldServer\NavMeshObjectHandlers.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Servers\WorldServer\NpcHandler.cpp"
 				>
 			</File>
@@ -1115,6 +1119,10 @@
 			</File>
 			<File
 				RelativePath="..\Servers\WorldServer\NavMeshAgent.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Servers\WorldServer\NavMeshObjectHandlers.h"
 				>
 			</File>
 			<File
