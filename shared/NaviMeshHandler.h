@@ -28,7 +28,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string>
 #include <vector>
+#include <boost/shared_ptr.hpp>
+
+#ifndef _LBANET_SERVER_SIDE_
 #include <osg/ref_ptr>
+#endif
 
 namespace LbaNet
 {
@@ -52,6 +56,9 @@ class rcCompactHeightfield;
 class rcContourSet;
 class rcPolyMesh;
 class rcPolyMeshDetail;
+class dtCrowd;
+class NavMeshAgent;
+
 
 
 class NavMeshConfig
@@ -125,6 +132,10 @@ public:
 	//! draw last calculated path
 	void DrawLastPath();
 
+	//! add agent to crowd
+	boost::shared_ptr<NavMeshAgent>	AddAgent(const LbaNet::ObjectPhysicDesc & agentinfo);
+
+
 protected:
 
 
@@ -155,7 +166,7 @@ protected:
 					bool rotate);
 
 
-
+#ifndef _LBANET_SERVER_SIDE_
 	// debug draw
 	void drawPolyBoundaries(const dtMeshTile* tile,
 							    const float linew,
@@ -165,8 +176,12 @@ protected:
 							const dtMeshTile* tile, osg::Group * root);
 	// debug draw
 	void drawNavMesh();
+#endif
 
+	void CleanNavMeshDisplay();
+	void CleanPathisplay();
 
+	void InitCrowd();
 
 private:
 	std::vector<float>			_vertexes;
@@ -185,17 +200,21 @@ private:
 	dtNavMesh*					m_navMesh;
 	dtNavMeshQuery*				m_navQuery;
 
+	boost::shared_ptr<dtCrowd>	m_crowdmanager;
+
 
 	NavMeshConfig				_config;
-
-	osg::ref_ptr<osg::MatrixTransform>	_root;
-	osg::ref_ptr<osg::MatrixTransform>	_rootpath;
 
 	static const int			MAX_POLYS = 256;
 	static const int			MAX_SMOOTH = 2048;
 	unsigned int				m_polys[MAX_POLYS];
 	float						m_smoothPath[MAX_SMOOTH*3];
 	int							m_nsmoothPath;
+
+#ifndef _LBANET_SERVER_SIDE_
+	osg::ref_ptr<osg::MatrixTransform>	_root;
+	osg::ref_ptr<osg::MatrixTransform>	_rootpath;
+#endif
 
 };
 

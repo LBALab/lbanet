@@ -11,10 +11,13 @@
 #include "DetourNavMeshBuilder.h"
 #include "DetourNavMeshQuery.h"
 #include "DetourCommon.h"
-
+#include "DetourCrowd.h"
+#include "DetourObstacleAvoidance.h"
+#include "NavMeshAgent.h"
 
 #include "LogHandler.h"
 
+#ifndef _LBANET_SERVER_SIDE_
 #include <osg/Node>
 #include <osg/MatrixTransform>
 #include <osg/PolygonMode>
@@ -26,10 +29,13 @@
 #include <osgUtil/SmoothingVisitor>
 #include "OSGHandler.h"
 #include <osg/LineStipple>
+#endif
 
 
 static const int NAVMESHSET_MAGIC = 'M'<<24 | 'S'<<16 | 'E'<<8 | 'T'; //'MSET';
 static const int NAVMESHSET_VERSION = 1;
+static const int MAX_AGENTS = 128;
+
 
 struct NavMeshSetHeader
 {
@@ -239,9 +245,13 @@ NaviMeshHandler::NaviMeshHandler(void)
 	m_dmesh(0),
 	m_navMesh(0), 
 	m_navQuery(0),
-	_root(0),
 	m_nsmoothPath(0)
 {
+#ifndef _LBANET_SERVER_SIDE_
+	_root = 0;
+	_rootpath = 0;
+#endif
+
 	Reset();
 }
 
@@ -252,16 +262,8 @@ NaviMeshHandler::~NaviMeshHandler(void)
 {
 	cleanup();
 
-	if(_root)
-	{
-		OsgHandler::getInstance()->RemoveActorNode(_root, false);
-		_root = 0;
-	}
-	if(_rootpath)
-	{
-		OsgHandler::getInstance()->RemoveActorNode(_rootpath, false);
-		_rootpath = 0;
-	}
+	CleanNavMeshDisplay();
+	CleanPathisplay();
 }
 
 
@@ -284,6 +286,8 @@ void NaviMeshHandler::cleanup()
 	m_dmesh = 0;
 	dtFreeNavMesh(m_navMesh);
 	m_navMesh = 0;
+
+	m_crowdmanager = boost::shared_ptr<dtCrowd>();
 }
 
 
@@ -295,17 +299,8 @@ reset mesh
 ***********************************************************/
 void NaviMeshHandler::Reset()
 {
-	if(_root)
-	{
-		OsgHandler::getInstance()->RemoveActorNode(_root, false);
-		_root = 0;
-	}
-	if(_rootpath)
-	{
-		OsgHandler::getInstance()->RemoveActorNode(_rootpath, false);
-		_rootpath = 0;
-	}
-
+	CleanNavMeshDisplay();
+	CleanPathisplay();
 
 	_vertexes.clear();
 	_indices.clear();
@@ -616,7 +611,7 @@ bool NaviMeshHandler::GenerateMesh()
 		params.detailTris = m_dmesh->tris;
 		params.detailTriCount = m_dmesh->ntris;
 
-		//TODO
+		//TODO - offmesh
 		params.offMeshConVerts = 0;
 		params.offMeshConRad = 0;
 		params.offMeshConDir = 0;
@@ -664,6 +659,8 @@ bool NaviMeshHandler::GenerateMesh()
 			m_ctx.log(RC_LOG_ERROR, "Could not init Detour navmesh query");
 			return false;
 		}
+
+		InitCrowd();
 	}
 
 
@@ -796,6 +793,9 @@ void NaviMeshHandler::LoadFromFile(const std::string & filename)
 		m_ctx.log(RC_LOG_ERROR, "Could not init Detour navmesh query");
 		return;
 	}
+
+	//! load crowd
+	InitCrowd();
 
 }
 
@@ -978,14 +978,12 @@ toogle debug display
 ***********************************************************/
 void NaviMeshHandler::ToogleDebugDisplay(bool Display)
 {
-	if(_root)
-	{
-		OsgHandler::getInstance()->RemoveActorNode(_root, false);
-		_root = 0;
-	}
+#ifndef _LBANET_SERVER_SIDE_
+	CleanNavMeshDisplay();
 
 	if(Display)
 		drawNavMesh();
+#endif
 }
 
 	
@@ -1167,11 +1165,9 @@ draw last calculated path
 ***********************************************************/
 void NaviMeshHandler::DrawLastPath()
 {
-	if(_rootpath)
-	{
-		OsgHandler::getInstance()->RemoveActorNode(_rootpath, false);
-		_rootpath = 0;
-	}
+#ifndef _LBANET_SERVER_SIDE_
+
+	CleanPathisplay();
 
 	if(m_nsmoothPath <= 0)
 		return;
@@ -1226,9 +1222,42 @@ void NaviMeshHandler::DrawLastPath()
 
 	stateset->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 	stateset->setRenderBinDetails( 50, "RenderBin");
+
+#endif
 }
 
 
+
+/***********************************************************
+CleanNavMeshDisplay
+***********************************************************/
+void NaviMeshHandler::CleanNavMeshDisplay()
+{
+#ifndef _LBANET_SERVER_SIDE_
+	if(_root)
+	{
+		OsgHandler::getInstance()->RemoveActorNode(_root, false);
+		_root = 0;
+	}
+#endif
+}
+
+/***********************************************************
+CleanPathisplay
+***********************************************************/
+void NaviMeshHandler::CleanPathisplay()
+{
+#ifndef _LBANET_SERVER_SIDE_
+	if(_rootpath)
+	{
+		OsgHandler::getInstance()->RemoveActorNode(_rootpath, false);
+		_rootpath = 0;
+	}
+#endif
+}
+
+
+#ifndef _LBANET_SERVER_SIDE_
 
 /***********************************************************
 draw debug
@@ -1486,4 +1515,110 @@ void NaviMeshHandler::drawNavMesh()
 
 		drawMeshTile(m_navMesh, 0, tile, _root.get());
 	}
+}
+
+#endif
+
+
+
+
+/***********************************************************
+InitCrowd
+***********************************************************/
+void NaviMeshHandler::InitCrowd()
+{
+	if(!m_navMesh)
+		return;
+
+	m_crowdmanager = boost::shared_ptr<dtCrowd>(new dtCrowd());
+	m_crowdmanager->init(MAX_AGENTS, 8, m_navMesh);
+
+	
+	// Setup local avoidance params to different qualities.
+	dtObstacleAvoidanceParams params;
+	// Use mostly default settings, copy from dtCrowd.
+	memcpy(&params, m_crowdmanager->getObstacleAvoidanceParams(0), sizeof(dtObstacleAvoidanceParams));
+	
+	// Low (11)
+	params.velBias = 0.5f;
+	params.adaptiveDivs = 5;
+	params.adaptiveRings = 2;
+	params.adaptiveDepth = 1;
+	m_crowdmanager->setObstacleAvoidanceParams(0, &params);
+
+	// Medium (22)
+	params.velBias = 0.5f;
+	params.adaptiveDivs = 5;
+	params.adaptiveRings = 2;
+	params.adaptiveDepth = 2;
+	m_crowdmanager->setObstacleAvoidanceParams(1, &params);
+	
+	// Good (45)
+	params.velBias = 0.5f;
+	params.adaptiveDivs = 7;
+	params.adaptiveRings = 2;
+	params.adaptiveDepth = 3;
+	m_crowdmanager->setObstacleAvoidanceParams(2, &params);
+	
+	// High (66)
+	params.velBias = 0.5f;
+	params.adaptiveDivs = 7;
+	params.adaptiveRings = 3;
+	params.adaptiveDepth = 3;
+	m_crowdmanager->setObstacleAvoidanceParams(3, &params);	
+}
+
+
+/***********************************************************
+add agent to crowd
+***********************************************************/
+boost::shared_ptr<NavMeshAgent> NaviMeshHandler::AddAgent(const LbaNet::ObjectPhysicDesc & agentinfo)
+{
+	if(!m_crowdmanager)
+		return boost::shared_ptr<NavMeshAgent>();
+
+	dtCrowdAgentParams ap;
+	memset(&ap, 0, sizeof(ap));
+
+	// set radius
+	switch(agentinfo.TypeShape)
+	{
+		case LbaNet::BoxShape:
+			ap.radius = std::max(agentinfo.SizeX, agentinfo.SizeZ) / 2.0f;
+		break;
+		case LbaNet::CapsuleShape:
+			ap.radius = agentinfo.SizeX / 2.0f;
+		break;
+		case LbaNet::SphereShape:
+			ap.radius = agentinfo.SizeY / 2.0f;
+		break;
+	}
+
+	ap.height = agentinfo.SizeY;
+	ap.maxAcceleration = 8.0f;
+	ap.maxSpeed = 3.5f;
+	ap.collisionQueryRange = ap.radius * 8.0f;
+	ap.pathOptimizationRange = ap.radius * 30.0f;
+
+	ap.updateFlags = 0; 
+	ap.updateFlags |= DT_CROWD_ANTICIPATE_TURNS;
+	ap.updateFlags |= DT_CROWD_OPTIMIZE_VIS;
+	ap.updateFlags |= DT_CROWD_OPTIMIZE_TOPO;
+	ap.updateFlags |= DT_CROWD_OBSTACLE_AVOIDANCE;
+	//ap.updateFlags |= DT_CROWD_SEPARATION;
+
+	ap.obstacleAvoidanceType = (unsigned char)3;
+	ap.separationWeight = 2.0f;
+	
+
+	float pos[3];
+	pos[0] = agentinfo.Pos.X;
+	pos[1] = agentinfo.Pos.Y;
+	pos[2] = agentinfo.Pos.Z;
+	int agentid = m_crowdmanager->addAgent(pos, &ap);
+
+	if(agentid >= 0)
+		return boost::shared_ptr<NavMeshAgent>(new NavMeshAgent(m_crowdmanager, agentid));
+	else
+		return boost::shared_ptr<NavMeshAgent>();
 }
