@@ -363,6 +363,13 @@ public:
 
 
 
+	//! target player
+	virtual void ForceTargetAttackPlayer(Ice::Long PlayerId){}
+
+	//! stop target player
+	virtual void ForceStopAttackTarget(Ice::Long PlayerId){}
+
+
 #ifdef _USE_QT_EDITOR_
 public:
 	std::vector<int>		initpolycolors;

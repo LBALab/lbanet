@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ActorHandler.h"
 #include "DialogPart.h"
 
+class CharacterStateBase;
 
 /***********************************************************************
 class taking care of the maping between lua and the server interfaces
@@ -99,6 +100,10 @@ public:
 
 	//! check trigger on player dead
 	virtual void PlayerDead(Ice::Long PlayerId);
+
+	//! check trigger on player move
+	virtual void PlayerMoved(Ice::Long PlayerId, const LbaNet::PlayerPosition &startposition,
+										const LbaNet::PlayerPosition &endposition);
 
 
 
@@ -217,6 +222,14 @@ public:
 	LbaNet::ContainedItemList &GetGivenItemList()
 	{return _itemsgivenatdeath;}
 
+
+	//! target player
+	virtual void ForceTargetAttackPlayer(Ice::Long PlayerId);
+
+	//! stop target player
+	virtual void ForceStopAttackTarget(Ice::Long PlayerId);
+
+
 protected:
 
 	//! return the build class
@@ -243,6 +256,14 @@ protected:
 	//! process child
 	virtual void ProcessChild(double tnow, float tdiff);
 
+
+	//! play hurt animation
+	void PlayHurt(int hurttype);
+
+	//! get given items
+	LbaNet::ItemsMap GetGivenItems();
+
+
 	//! target player
 	void TargetAttackPlayer(Ice::Long PlayerId);
 
@@ -250,11 +271,15 @@ protected:
 	void StopAttackTarget(Ice::Long PlayerId);
 
 
-	//! play hurt animation
-	void PlayHurt(int hurttype);
+	//! change NPC state
+	//! 1-> Normal, 2-> hurt, 3-> dead, 4-> chasing, 5-> come back
+	//! return true if change was succesfull
+	bool ChangeState(int newstate);
 
-	//! get given items
-	LbaNet::ItemsMap GetGivenItems();
+
+	//! agent come back to normal
+	void EndChasing();
+
 
 protected:
 	long						_npcnametextid;
@@ -266,10 +291,8 @@ protected:
 
 
 	bool						_aggresive;
-	bool						_fighting;
-	bool						_dead;
+
 	LbaNet::LifeManaInfo		_lifeinfo;
-	bool						_hurt;
 
 	float						_armor;
 	float						_weapon1power;
@@ -287,6 +310,13 @@ protected:
 	double						_dietime;
 
 	LbaNet::ContainedItemList	_itemsgivenatdeath;
+
+	boost::shared_ptr<CharacterStateBase>		_agentState;
+	int											_agentstatenum;
+	int											_savedstate;
+	std::string									_savedanim;
+
+	Ice::Long									_targetedattackplayer;
 };
 
 #endif

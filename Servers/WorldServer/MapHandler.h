@@ -362,6 +362,9 @@ public:
 	//! used by lua to get an actor Position
 	virtual LbaVec3 GetGhostPosition(long PlayerId, long ActorId);
 
+	//! used by lua to get an player Position
+	virtual LbaVec3 GetPlayerPositionVec(long PlayerId);
+
 protected:
 
 	// process events

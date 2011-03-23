@@ -4,7 +4,8 @@
 #include "SynchronizedTimeHandler.h"
 #include "Randomizer.h"
 #include "InventoryItemHandler.h"
-
+#include "CharacterStates.h"
+#include "NavMeshAgent.h"
 
 #include <math.h>
 #include <fstream>
@@ -16,16 +17,18 @@ update position of the script
 NPCHandler::NPCHandler(const ActorObjectInfo & actorinfo)
 	: ActorHandler(actorinfo), _rootdialog(new DialogPart()),
 		_simpledialog(false), _npcnametextid(-1),
-		_aggresive(false), _fighting(false), _attack_activation_distance(0),
-		_attack_activation_distance_discrete(0), _dead(false),
+		_aggresive(false), _attack_activation_distance(0),
+		_attack_activation_distance_discrete(0), 
 		_attack_activation_distance_hidden(0), _respwantime(-1),
 		_armor(0), _weapon1power(0), _weapon2power(0), _stop_attack_distance(0),
-		_hurt(false)
+		_agentstatenum(1), _targetedattackplayer(-1)
 {
 	_lifeinfo.MaxLife = 0;
 	_lifeinfo.MaxMana = 0;
 	_lifeinfo.CurrentLife = 0;
 	_lifeinfo.CurrentMana = 0;
+
+	_agentState = boost::shared_ptr<CharacterStateBase>(new StateNormal());
 }
 
 /***********************************************************
@@ -104,7 +107,7 @@ UntargetPlayer
 ***********************************************************/
 void NPCHandler::UntargetPlayer(Ice::Long PlayerId)
 {
-	if(_fighting) // should not happen when fighting
+	if(!_agentState->CanTalk())
 		return;
 
 	std::vector<Ice::Long>::iterator it = _targetedplayers.begin();
@@ -135,7 +138,7 @@ check trigger on object action
 void NPCHandler::PlayerAction(Ice::Long PlayerId, const LbaNet::PlayerPosition &info,
 									const std::string &ObjectMode)
 {
-	if(_fighting) // cant activate if fighting
+	if(!_agentState->CanTalk())
 		return;
 
 	if(ObjectMode != "Normal")
@@ -235,11 +238,8 @@ start fight
 void NPCHandler::StartFight(Ice::Long TargetedPlayerId)
 {
 	// check if already fighting
-	if(!_fighting) 
+	if(ChangeState(4)) 
 	{
-		// set fighting flag
-		_fighting = true;
-
 		// pause script
 		Pause();
 
@@ -262,7 +262,7 @@ void NPCHandler::StartFight(Ice::Long TargetedPlayerId)
 	if(std::find(_targetedplayers.begin(), _targetedplayers.end(), TargetedPlayerId) == _targetedplayers.end())
 		_targetedplayers.push_back(TargetedPlayerId);
 
-	// inform clients
+	// start target player
 	if(_targetedplayers.size() == 1)
 		TargetAttackPlayer(TargetedPlayerId);
 }
@@ -273,11 +273,8 @@ die
 ***********************************************************/
 void NPCHandler::Die()
 {
-	if(_dead)
+	if(!ChangeState(3)) 
 		return;
-
-	//set dead flag
-	_dead = true;
 
 	//set die time
 	_dietime = SynchronizedTimeHandler::GetCurrentTimeDouble();
@@ -295,6 +292,9 @@ void NPCHandler::Die()
 	// clear target
 	_targetedplayers.clear();
 	_hurtingplayers.clear();
+
+	// reset target
+	_targetedattackplayer = -1;
 }
 
 
@@ -303,15 +303,12 @@ respawn
 ***********************************************************/
 void NPCHandler::Respawn()
 {
-	if(!_dead)
+	if(!_agentState->IsDead())
 		return;
 
-	//reset dead flag
-	_dead = false;
-	_hurt = false;
+	if(!ChangeState(1)) 
+		return;
 
-	// remove fighting flag
-	_fighting = false;
 
 	// reset life
 	_lifeinfo.CurrentLife = _lifeinfo.MaxLife;
@@ -341,25 +338,68 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 	}
 
 
-	if(_aggresive && !_fighting)
+	if(_aggresive && _agentState->CanChase())
 	{
 		//todo - target player that are too close
 	}
 
-	if(animfinished && _hurt)
+
+	//in case of hurt
+	if(_agentState->IsHurt())
 	{
-		//stop animation at end
-		UpdateActorAnimation("Stand", false);		
-		_hurt = false;
+		if(animfinished)
+		{
+			// revert back to previous state
+			if(ChangeState(_savedstate))
+				UpdateActorAnimation(_savedanim, false);		
+		}
+		else
+		{
+			// move agent depending of animation
+			boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+			boost::shared_ptr<DisplayObjectHandlerBase> disso = _character->GetDisplayObject();
+
+			// get animation speed
+			float speedX = disso->GetCurrentAssociatedSpeedX();
+			float speedY = disso->GetCurrentAssociatedSpeedY();
+			float speedZ = disso->GetCurrentAssociatedSpeedZ();
+
+			LbaQuaternion Q;
+			physo->GetRotation(Q);
+			LbaVec3 current_directionX(Q.GetDirection(LbaVec3(0, 0, 1)));
+			LbaVec3 current_directionZ(Q.GetDirection(LbaVec3(1, 0, 0)));
+			float ajustedspeedx = speedX*current_directionX.x + speedZ*current_directionZ.x;
+			float ajustedspeedZ = speedX*current_directionX.z + speedZ*current_directionZ.z;
+
+			if(speedX != 0 || speedY != 0 || speedZ != 0)
+				physo->Move(ajustedspeedx*tdiff, speedY*tdiff, ajustedspeedZ*tdiff, false);
+		}
 	}
 
 
 	//if dead - respawn
-	if(_dead && _respwantime >= 0)
+	if(_agentState->IsDead() && _respwantime >= 0)
 	{
 		if((tnow - _dietime) > (_respwantime*1000))
 		{
 			Respawn();
+		}
+	}
+
+	//if coming back
+	if(_agentState->IsComingBack())
+	{
+		//check if we arrived
+		boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+		if(physo)
+		{
+			float curX, curY, curZ;
+			physo->GetPosition(curX, curY, curZ);
+			float diff = fabs(m_saved_X-curX) + fabs(m_saved_Y-curY) + fabs(m_saved_Z-curZ);
+			if(diff <= 0.01)
+			{
+				EndChasing();
+			}
 		}
 	}
 }
@@ -370,15 +410,7 @@ hurt life
 ***********************************************************/
 void NPCHandler::HurtLife(float amount, bool UseArmor, Ice::Long HurtingPlayerId)
 {
-	if(!_aggresive || _hurt) // check if already hurt
-		return;
-
-	//remove armor
-	if(UseArmor)
-		amount += _armor;
-
-	// if no hit then do nothing
-	if(amount >= 0)
+	if(!_aggresive)
 		return;
 
 
@@ -392,6 +424,17 @@ void NPCHandler::HurtLife(float amount, bool UseArmor, Ice::Long HurtingPlayerId
 			_hurtingplayers.push_back(HurtingPlayerId);	
 	}
 
+
+	if(!ChangeState(2)) // check if already hurt
+		return;
+
+	//remove armor
+	if(UseArmor)
+		amount += _armor;
+
+	// if no hit then do nothing
+	if(amount >= 0)
+		return;
 
 	// if not invincible
 	if(_lifeinfo.MaxLife > 0)
@@ -452,7 +495,7 @@ check trigger on player leave map
 ***********************************************************/
 void NPCHandler::PlayerLeaveMap(Ice::Long PlayerId)
 {
-	if(!_aggresive || !_fighting)
+	if(!_aggresive)
 		return;
 
 	// remove from hurt list
@@ -497,8 +540,22 @@ void NPCHandler::PlayerDead(Ice::Long PlayerId)
 target player
 ***********************************************************/
 void NPCHandler::TargetAttackPlayer(Ice::Long PlayerId)
-{
+{	
+	//change anim to walking
+	UpdateActorAnimation("MoveForward", false);
+
+	// tell agent to follow player
+	if(m_NavMAgent && m_scripthandler)
+	{
+		LbaVec3 pos = m_scripthandler->GetPlayerPositionVec(PlayerId);
+		m_NavMAgent->SetTargetPosition(true, pos.x, pos.y, pos.z);
+	}
+
+	_targetedattackplayer = PlayerId;
+
 	//todo - inform client that npc target player
+
+
 }
 
 
@@ -507,9 +564,37 @@ stop target player
 ***********************************************************/
 void NPCHandler::StopAttackTarget(Ice::Long PlayerId)
 {
-	//todo - inform client that npc stop target player
-}
+	if(PlayerId != _targetedattackplayer)
+		return;
 
+	_targetedattackplayer = -1;
+
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+	if(physo)
+	{
+		float curX, curY, curZ;
+		physo->GetPosition(curX, curY, curZ);
+		float diff = fabs(m_saved_X-curX) + fabs(m_saved_Y-curY) + fabs(m_saved_Z-curZ);
+
+		if(diff > 0.001)
+		{
+			//come back to starting point
+			if(ChangeState(5))
+			{
+				//change anim to walking
+				UpdateActorAnimation("MoveForward", false);
+
+				// tell agent to go move back to starting point
+				if(m_NavMAgent)
+					m_NavMAgent->SetTargetPosition(true, m_saved_X, m_saved_Y, m_saved_Z);
+			}
+		}
+		else
+		{
+			EndChasing();
+		}
+	}
+}
 
 
 /***********************************************************
@@ -555,11 +640,11 @@ void NPCHandler::PlayHurt(int hurttype)
 		}
 	}
 
-	if(hurtanimstring != "")
-	{
-		UpdateActorAnimation(hurtanimstring, false);
-		_hurt = true;
-	}
+	if(hurtanimstring == "")
+		ChangeState(_savedstate); // cant play hurt - go back to normal
+	else
+		UpdateActorAnimation(hurtanimstring, false); // update to hurt animation
+
 }
 
 
@@ -643,4 +728,126 @@ LbaNet::ItemsMap NPCHandler::GetGivenItems()
 	}
 
 	return res;
+}
+
+
+/***********************************************************
+target player
+***********************************************************/
+void NPCHandler::ForceTargetAttackPlayer(Ice::Long PlayerId)
+{
+	StartFight(PlayerId);
+}
+
+/***********************************************************
+stop target player
+***********************************************************/
+void NPCHandler::ForceStopAttackTarget(Ice::Long PlayerId)
+{
+	StopAttackTarget(PlayerId);
+}
+
+
+/***********************************************************
+change NPC state
+***********************************************************/
+bool NPCHandler::ChangeState(int newstate)
+{
+	if(_agentstatenum == newstate)
+		return false;
+
+	switch(newstate)
+	{
+		// normal state
+		case 1:
+		{
+			_agentState = boost::shared_ptr<CharacterStateBase>(new StateNormal());
+			if(m_NavMAgent)
+				m_NavMAgent->SetResetTarget(false);
+		}
+		break;
+
+		// hurt state
+		case 2:
+		{
+			// save state and animation
+			_savedstate = _agentstatenum;
+			boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
+			if(disO)
+				_savedanim = disO->GetCurrentAnimation();
+
+			_agentState = boost::shared_ptr<CharacterStateBase>(new StateSmallHurt());
+
+			if(m_NavMAgent)
+				m_NavMAgent->SetResetTarget(false);
+		}
+		break;
+
+		//die state
+		case 3:
+		{
+			_agentState = boost::shared_ptr<CharacterStateBase>(new StateDying());
+
+			if(m_NavMAgent)
+				m_NavMAgent->SetResetTarget(false);
+		}
+		break;
+
+		// chase state
+		case 4:
+		{
+			_agentState = boost::shared_ptr<CharacterStateBase>(new StateChasing());
+
+			if(m_NavMAgent)
+				m_NavMAgent->SetResetTarget(true);
+		}
+		break;
+
+		// come back state
+		case 5:
+		{
+			_agentState = boost::shared_ptr<CharacterStateBase>(new StateComingBack());
+
+			if(m_NavMAgent)
+				m_NavMAgent->SetResetTarget(true);
+		}
+		break;
+	}
+
+
+
+	_agentstatenum = newstate;
+	return true;
+}
+
+
+/***********************************************************
+check trigger on player move
+***********************************************************/
+void NPCHandler::PlayerMoved(Ice::Long PlayerId, const LbaNet::PlayerPosition &startposition,
+									const LbaNet::PlayerPosition &endposition)
+{
+	if(_aggresive && _agentState->CanChase())
+	{
+		//todo - target player that are too close
+	}
+
+	//move chasing target
+	if(_targetedattackplayer == PlayerId)
+	{
+		if(m_NavMAgent)
+			m_NavMAgent->SetTargetPosition(true, endposition.X, endposition.Y, endposition.Z);
+	}
+}
+
+
+/***********************************************************
+agent come back to normal
+***********************************************************/
+void NPCHandler::EndChasing()
+{
+	//todo - maybe tell client?
+
+	//reset script
+	Resume();
 }

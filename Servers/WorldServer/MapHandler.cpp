@@ -3866,3 +3866,19 @@ void MapHandler::RefreshNaviMesh()
 		_navimesh->LoadFromFile(navimeshfile);
 	}
 }
+
+
+
+/***********************************************************
+used by lua to get an player Position
+***********************************************************/
+LbaVec3 MapHandler::GetPlayerPositionVec(long PlayerId)
+{	
+	//!  get player position
+	PlayerPosition ppos = GetPlayerPosition(PlayerId);
+	if(ppos.MapName == _mapinfo.Name)
+		return LbaVec3(ppos.X, ppos.Y, ppos.Z);
+
+
+	return LbaVec3(-1, -1, -1);
+}

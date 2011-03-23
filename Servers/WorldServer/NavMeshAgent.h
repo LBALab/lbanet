@@ -61,6 +61,11 @@ public:
 	//! UpdateMaxSpeed
 	void UpdateMaxSpeed(float Speed);
 
+	//! set/reset target
+	void SetResetTarget(bool set);
+
+	//! set target position
+	void SetTargetPosition(bool update, float pX, float pY, float pZ);
 
 private:
 	boost::shared_ptr<dtCrowd>		m_crowdmanager;
