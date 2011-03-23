@@ -387,6 +387,10 @@ public:
 	//! used by lua to log into file
 	void LogToFile(const std::string &text);
 
+	//! used by lua to get an player Position
+	virtual LbaVec3 GetPlayerPositionVec(long PlayerId)
+	{return LbaVec3(-1, -1, -1);}
+
 protected:
 
 	//! used by lua to move an actor or player

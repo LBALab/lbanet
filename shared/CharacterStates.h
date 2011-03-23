@@ -116,6 +116,18 @@ public:
 
 	//! check if can play move object
 	virtual bool CanPlayMovingObject(){return false;}
+
+	//! check if can talk
+	virtual bool CanTalk(){return false;}
+
+	//! check if can chase
+	virtual bool CanChase(){return false;}
+
+	//! check if is hurt
+	virtual bool IsHurt(){return false;}
+
+	//! check if is coming back
+	virtual bool IsComingBack(){return false;}
 };
 
 
@@ -166,6 +178,12 @@ public:
 
 	//! check if can play move object
 	virtual bool CanPlayMovingObject(){return true;}
+
+	//! check if can talk
+	virtual bool CanTalk(){return true;}
+
+	//! check if can chase
+	virtual bool CanChase(){return true;}
 };
 
 
@@ -560,6 +578,8 @@ public:
 	//! check if we can change state from this state
 	virtual bool ChangeLegal(LbaNet::ModelState NewState){return true;}
 
+	//! check if is hurt
+	virtual bool IsHurt(){return true;}
 
 private:
 	bool	_switchstate;
@@ -1100,6 +1120,90 @@ public:
 private:
 	bool	_switchstate;
 
+};	
+
+
+
+	
+
+//*************************************************************************************************
+//*                               class StateChasing
+//*************************************************************************************************
+/**
+* @brief Base class representing a certain state of a character
+*
+*/
+class StateChasing: public CharacterStateBase
+{
+public:
+	//! constructor
+	StateChasing(void)
+	{}
+
+	//! destructor
+	virtual ~StateChasing(void){}
+
+
+	//! check if we can change state from this state
+	virtual bool ChangeLegal(LbaNet::ModelState NewState){return true;}
+
+
+
+	//! ask if we are allowed to move in this mode
+	virtual bool AllowedMoving(){return true;}
+
+	//! ask if we are allowed to rotate in this mode
+	//! 0 -> no
+	//! 1 -> yes
+	//! 2 -> yes but no turning animation
+	virtual int AllowedRotating(){return 1;}
+
+
+	//! check if can use weapon in this state
+	virtual bool CanUseWeapon(){return true;}
+
+};	
+
+	
+
+//*************************************************************************************************
+//*                               class StateComingBack
+//*************************************************************************************************
+/**
+* @brief Base class representing a certain state of a character
+*
+*/
+class StateComingBack: public CharacterStateBase
+{
+public:
+	//! constructor
+	StateComingBack(void)
+	{}
+
+	//! destructor
+	virtual ~StateComingBack(void){}
+
+
+	//! check if we can change state from this state
+	virtual bool ChangeLegal(LbaNet::ModelState NewState){return true;}
+
+
+
+	//! ask if we are allowed to move in this mode
+	virtual bool AllowedMoving(){return true;}
+
+	//! ask if we are allowed to rotate in this mode
+	//! 0 -> no
+	//! 1 -> yes
+	//! 2 -> yes but no turning animation
+	virtual int AllowedRotating(){return 1;}
+
+
+	//! check if can use weapon in this state
+	virtual bool CanUseWeapon(){return true;}
+
+	//! check if is coming back
+	virtual bool IsComingBack(){return true;}
 };	
 
 
