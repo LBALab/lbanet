@@ -324,9 +324,16 @@ module LbaNet
 		int			TouchedActorType;
 		long			TouchedActorId;
 	};
+
+
+	// client/server inform other that a NPC moved
+	class NPCMovedEvent extends ClientServerEventBase
+	{
+		long			ActorId;
+		PlayerMoveInfo		info;
+	};	
 	
-	
-	// client/server inform other that a player moved
+	// client/server inform other that a ghost moved
 	class GhostMovedEvent extends ClientServerEventBase
 	{
 		long			GhostId;
