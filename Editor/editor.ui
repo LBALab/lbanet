@@ -2319,6 +2319,8 @@
     <addaction name="actionDisplay_Navimesh"/>
     <addaction name="actionNavimesh_Generation_Options"/>
     <addaction name="actionTest_Find_Path"/>
+    <addaction name="actionNPC_attack_player"/>
+    <addaction name="actionNPC_stop_attack"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuLua"/>
@@ -2426,6 +2428,16 @@
   <action name="actionTest_Find_Path">
    <property name="text">
     <string>Test Find Path</string>
+   </property>
+  </action>
+  <action name="actionNPC_attack_player">
+   <property name="text">
+    <string>NPC attack player</string>
+   </property>
+  </action>
+  <action name="actionNPC_stop_attack">
+   <property name="text">
+    <string>NPC stop attack</string>
    </property>
   </action>
  </widget>

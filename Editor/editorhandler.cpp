@@ -1092,7 +1092,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	_dorropeningdirectionList(new CustomStringListModel()), _hurtanimationList(new CustomStringListModel()),
 	_iteminformclientList(new CustomStringListModel()), _addList(new CustomStringListModel()),
 	_removeList(new CustomStringListModel()), _materialtypeList(new CustomStringListModel()),
-	_pickfindpathstarted(false)
+	_pickfindpathstarted(false), _selectedid(-1)
 {	
 	_navimesh = boost::shared_ptr<NaviMeshHandler>(new NaviMeshHandler());
 
@@ -1369,6 +1369,10 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.actionDisplay_Navimesh, SIGNAL(triggered()), this, SLOT(ToggleNavimeshDisplay())); 
 	connect(_uieditor.actionNavimesh_Generation_Options, SIGNAL(triggered()), this, SLOT(OptionNavimesh())); 
 	connect(_uieditor.actionTest_Find_Path, SIGNAL(triggered()), this, SLOT(TestFindPath())); 
+	connect(_uieditor.actionNPC_attack_player, SIGNAL(triggered()), this, SLOT(TestNPCAttack())); 
+	connect(_uieditor.actionNPC_stop_attack, SIGNAL(triggered()), this, SLOT(TestNPCStopAttack())); 
+
+
 
 	connect(_uieditor.pushButton_info_go, SIGNAL(clicked()) , this, SLOT(info_go_clicked()));
 	connect(_uieditor.radioButton_info_player, SIGNAL(toggled(bool)) , this, SLOT(info_camera_toggled(bool)));
@@ -2090,6 +2094,8 @@ void EditorHandler::ResetObject()
 	RemoveSelectedActorDislay();
 	RemoveSelectedScriptDislay();
 	RemoveArrows();
+
+	_selectedid = -1;
 }
 
 
@@ -6264,6 +6270,7 @@ void EditorHandler::ActorAdd_button_accepted()
 
 	// add the actor to internal
 	ActorObjectInfo ainfo(_curractoridx+1);
+	ainfo.ExcludeFromNavMesh = false;
 	ainfo.ExtraInfo.Name = "";
 	ainfo.ExtraInfo.NameColorR = 1.0;
 	ainfo.ExtraInfo.NameColorG = 1.0;
@@ -6449,6 +6456,8 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 		if(parent == QModelIndex())
 			ResetObject();
 
+		_selectedid = id;
+
 		const ActorObjectInfo & ainfo = it->second->GetActorInfo();
 		
 
@@ -6602,6 +6611,12 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 			{
 				QVector<QVariant> data;
 				data<<"Collidable"<<ainfo.PhysicDesc.Collidable;
+				_objectmodel->AppendRow(data, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data;
+				data<<"Exclude from Navmesh"<<ainfo.ExcludeFromNavMesh;
 				_objectmodel->AppendRow(data, parent);
 				++index;
 			}
@@ -7385,6 +7400,11 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 			if(updatedrow == index)
 				ainfo.PhysicDesc.Collidable = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
 			++index;
+
+			if(updatedrow == index)
+				ainfo.ExcludeFromNavMesh = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
+			++index;
+
 
 			if(ainfo.PhysicDesc.TypeShape != LbaNet::TriangleMeshShape)
 			{
@@ -12849,4 +12869,29 @@ void EditorHandler::HideEndPath()
 		OsgHandler::getInstance()->RemoveActorNode(_endpathO, false);
 		_endpathO = 0;
 	}
+}
+
+
+/***********************************************************
+TestNPCAttack
+***********************************************************/
+void EditorHandler::TestNPCAttack()
+{
+	std::string mapname = _uieditor.label_mapname->text().toAscii().data();
+
+	// refresh server
+	if(_selectedid >= 0)
+		SharedDataHandler::getInstance()->EditorUpdate(mapname, new UpdateEditor_NPCAttack(true, _selectedid, 1));
+}
+
+/***********************************************************
+TestNPCStopAttack
+***********************************************************/
+void EditorHandler::TestNPCStopAttack()
+{
+	std::string mapname = _uieditor.label_mapname->text().toAscii().data();
+
+	// refresh server
+	if(_selectedid >= 0)
+		SharedDataHandler::getInstance()->EditorUpdate(mapname, new UpdateEditor_NPCAttack(false, _selectedid, 1));
 }

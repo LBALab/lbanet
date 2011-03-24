@@ -824,6 +824,14 @@ public slots:
 	//! test find path
 	void TestFindPath();
 
+	//! TestNPCAttack
+	void TestNPCAttack(); 
+
+	//! TestNPCStopAttack
+	void TestNPCStopAttack();
+
+
+
 protected:
 	//! override close event
 	virtual void closeEvent(QCloseEvent* event);
@@ -1226,6 +1234,8 @@ private:
 	long												_currtriggeridx;
 	long												_currteleportidx;
 	long												_curractoridx;
+
+	long												_selectedid;
 
 
 	int													_updatetriggerdialogonnewaction;
