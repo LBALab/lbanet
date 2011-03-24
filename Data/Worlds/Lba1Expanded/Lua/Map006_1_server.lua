@@ -43,6 +43,7 @@ function InitMap(environment)
 
 	Actor_1 = ActorObjectInfo(1)
 	Actor_1:SetRenderType(1)
+	Actor_1.ExcludeFromNavMesh = false
 	Actor_1.DisplayDesc.ModelId = 0
 	Actor_1.DisplayDesc.ModelName = "Worlds/Lba1Original/Grids/Map6.osgb"
 	Actor_1.DisplayDesc.Outfit = ""
@@ -89,6 +90,7 @@ function InitMap(environment)
 
 	Actor_7 = ActorObjectInfo(7)
 	Actor_7:SetRenderType(1)
+	Actor_7.ExcludeFromNavMesh = false
 	Actor_7.DisplayDesc.ModelId = 0
 	Actor_7.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite023.osgb"
 	Actor_7.DisplayDesc.Outfit = ""
@@ -143,6 +145,7 @@ function InitMap(environment)
 
 	Actor_8 = ActorObjectInfo(8)
 	Actor_8:SetRenderType(1)
+	Actor_8.ExcludeFromNavMesh = false
 	Actor_8.DisplayDesc.ModelId = 0
 	Actor_8.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite022.osgb"
 	Actor_8.DisplayDesc.Outfit = ""
@@ -197,6 +200,7 @@ function InitMap(environment)
 
 	Actor_9 = ActorObjectInfo(9)
 	Actor_9:SetRenderType(1)
+	Actor_9.ExcludeFromNavMesh = false
 	Actor_9.DisplayDesc.ModelId = 0
 	Actor_9.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite012.osgb"
 	Actor_9.DisplayDesc.Outfit = ""
@@ -251,6 +255,7 @@ function InitMap(environment)
 
 	Actor_10 = ActorObjectInfo(10)
 	Actor_10:SetRenderType(3)
+	Actor_10.ExcludeFromNavMesh = true
 	Actor_10.DisplayDesc.ModelId = 0
 	Actor_10.DisplayDesc.ModelName = "Boat"
 	Actor_10.DisplayDesc.Outfit = "Ferry"
@@ -323,6 +328,7 @@ function InitMap(environment)
 
 	Actor_11 = ActorObjectInfo(11)
 	Actor_11:SetRenderType(3)
+	Actor_11.ExcludeFromNavMesh = false
 	Actor_11.DisplayDesc.ModelId = 0
 	Actor_11.DisplayDesc.ModelName = "Grobo"
 	Actor_11.DisplayDesc.Outfit = "Sailor"
@@ -426,6 +432,7 @@ function InitMap(environment)
 
 	Actor_12 = ActorObjectInfo(12)
 	Actor_12:SetRenderType(3)
+	Actor_12.ExcludeFromNavMesh = false
 	Actor_12.DisplayDesc.ModelId = 0
 	Actor_12.DisplayDesc.ModelName = "GroboClone"
 	Actor_12.DisplayDesc.Outfit = "Yellow"
@@ -524,6 +531,7 @@ function InitMap(environment)
 
 	Actor_13 = ActorObjectInfo(13)
 	Actor_13:SetRenderType(3)
+	Actor_13.ExcludeFromNavMesh = false
 	Actor_13.DisplayDesc.ModelId = 0
 	Actor_13.DisplayDesc.ModelName = "GroboClone"
 	Actor_13.DisplayDesc.Outfit = "Yellow"
@@ -593,6 +601,7 @@ function InitMap(environment)
 
 	Actor_14 = ActorObjectInfo(14)
 	Actor_14:SetRenderType(3)
+	Actor_14.ExcludeFromNavMesh = false
 	Actor_14.DisplayDesc.ModelId = 0
 	Actor_14.DisplayDesc.ModelName = "Rabbibunny"
 	Actor_14.DisplayDesc.Outfit = "FerryOwner"
@@ -662,6 +671,7 @@ function InitMap(environment)
 
 	Actor_15 = ActorObjectInfo(15)
 	Actor_15:SetRenderType(3)
+	Actor_15.ExcludeFromNavMesh = false
 	Actor_15.DisplayDesc.ModelId = 0
 	Actor_15.DisplayDesc.ModelName = "Rabbibunny"
 	Actor_15.DisplayDesc.Outfit = "Orange"
@@ -731,6 +741,7 @@ function InitMap(environment)
 
 	Actor_16 = ActorObjectInfo(16)
 	Actor_16:SetRenderType(3)
+	Actor_16.ExcludeFromNavMesh = true
 	Actor_16.DisplayDesc.ModelId = 0
 	Actor_16.DisplayDesc.ModelName = "Boat"
 	Actor_16.DisplayDesc.Outfit = "FishBoat"
@@ -800,6 +811,7 @@ function InitMap(environment)
 
 	Actor_17 = ActorObjectInfo(17)
 	Actor_17:SetRenderType(3)
+	Actor_17.ExcludeFromNavMesh = false
 	Actor_17.DisplayDesc.ModelId = 0
 	Actor_17.DisplayDesc.ModelName = "Object"
 	Actor_17.DisplayDesc.Outfit = "MekaPingouin"
