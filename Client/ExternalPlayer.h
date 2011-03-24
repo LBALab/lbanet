@@ -195,6 +195,7 @@ protected:
 	boost::shared_ptr<CharacterModeBase>		_currentmode;
 	boost::shared_ptr<CharacterStateBase>		_currentstate;
 	bool										_playingscript;
+	bool										_freemove;
 };
 
 

@@ -73,6 +73,9 @@ void ExternalActor::NpcChangedUpdate(double updatetime,
 									LbaNet::NpcUpdateBasePtr Update, 
 									ScriptEnvironmentBase* scripthandler)
 {
+	// reset free move
+	_freemove = false;
+
 	// update only newest info
 	if(updatetime < _last_update)
 		return;
@@ -233,72 +236,55 @@ do all check to be done when idle
 void ExternalActor::Process(double tnow, float tdiff, 
 								ScriptEnvironmentBase* scripthandler)
 {
-	if(!_playingscript)
+	if(_freemove || _playingscript)
 	{
-		bool moved = false;
-
-		if(_currentScripts)	
-		{
-			_character->SetAdditionalMoves(_differencePosX/10, _differencePosY/10, 
-												_differencePosZ/10, _differenceRotation/5);
-
-			_differencePosX -= _differencePosX/10;
-			_differencePosY -= _differencePosY/10;
-			_differencePosZ -= _differencePosZ/10;
-			_differenceRotation -= _differenceRotation/5;
+		ExternalPlayer::Process(tnow, tdiff, scripthandler);
+		return;
+	}
 
 
-			bool finished = _currentScripts->Process(tnow, tdiff, _character, moved);
-			if(finished)
-				_currentScripts = boost::shared_ptr<ScriptPartBase>();
-		}
-		else
-		{
-			_character->Process(tnow, tdiff);
+	bool moved = false;
 
-			if(_movable)
-			{
-				ProcessMovable(tnow, tdiff, scripthandler);
-				moved = true;
-			}
-		}
+	if(_currentScripts)	
+	{
+		_character->SetAdditionalMoves(_differencePosX/10, _differencePosY/10, 
+											_differencePosZ/10, _differenceRotation/5);
 
-		if(!moved)
-		{
-			// move with attached actor
-			if(_externalattachedactor)
-			{
-				boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
-				boost::shared_ptr<PhysicalObjectHandlerBase> attchedphys = _externalattachedactor->GetPhysicalObject();
-				if(physo && attchedphys)
-				{
-					physo->RotateYAxis(attchedphys->GetLastRotation());
+		_differencePosX -= _differencePosX/10;
+		_differencePosY -= _differencePosY/10;
+		_differencePosZ -= _differencePosZ/10;
+		_differenceRotation -= _differenceRotation/5;
 
-					float addspeedX=0, addspeedY=0, addspeedZ=0;
-					attchedphys->GetLastMove(addspeedX, addspeedY, addspeedZ);
-					physo->Move(addspeedX, addspeedY, addspeedZ);
-				}
-			}
-		}
+
+		bool finished = _currentScripts->Process(tnow, tdiff, _character, moved);
+		if(finished)
+			_currentScripts = boost::shared_ptr<ScriptPartBase>();
 	}
 	else
 	{
-		// process script
-		if(!ProcessScript(tnow, tdiff, scripthandler))
-		{
-			// if not moved check attached
-			if(_attachedactor)
-			{
-				boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
-				boost::shared_ptr<PhysicalObjectHandlerBase> attchedphys = _attachedactor->GetPhysicalObject();
-				if(physo && attchedphys)
-				{
-					physo->RotateYAxis(attchedphys->GetLastRotation());
+		_character->Process(tnow, tdiff);
 
-					float addspeedX=0, addspeedY=0, addspeedZ=0;
-					attchedphys->GetLastMove(addspeedX, addspeedY, addspeedZ);
-					physo->Move(addspeedX, addspeedY, addspeedZ);
-				}
+		if(_movable)
+		{
+			ProcessMovable(tnow, tdiff, scripthandler);
+			moved = true;
+		}
+	}
+
+	if(!moved)
+	{
+		// move with attached actor
+		if(_externalattachedactor)
+		{
+			boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+			boost::shared_ptr<PhysicalObjectHandlerBase> attchedphys = _externalattachedactor->GetPhysicalObject();
+			if(physo && attchedphys)
+			{
+				physo->RotateYAxis(attchedphys->GetLastRotation());
+
+				float addspeedX=0, addspeedY=0, addspeedZ=0;
+				attchedphys->GetLastMove(addspeedX, addspeedY, addspeedZ);
+				physo->Move(addspeedX, addspeedY, addspeedZ);
 			}
 		}
 	}
@@ -438,9 +424,9 @@ bool ExternalActor::ShouldforceUpdate()
 		return true;
 
 
-	float diffpos = abs(_lastupdate.CurrentPos.X - _currentupdate.CurrentPos.X)
-					+ abs(_lastupdate.CurrentPos.Y - _currentupdate.CurrentPos.Y)
-					+  abs(_lastupdate.CurrentPos.Z - _currentupdate.CurrentPos.Z);
+	float diffpos = fabs(_lastupdate.CurrentPos.X - _currentupdate.CurrentPos.X)
+					+ fabs(_lastupdate.CurrentPos.Y - _currentupdate.CurrentPos.Y)
+					+  fabs(_lastupdate.CurrentPos.Z - _currentupdate.CurrentPos.Z);
 	if(diffpos > 10)
 		return true;
 

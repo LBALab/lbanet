@@ -25,13 +25,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DataLoader.h"
 #include "LogHandler.h"
 #include "XmlReader.h"
-#include "Localizer.h"
+
 #include "FileUtil.h"
 
 #include <LbaTypes.h>
 #include <fstream>
 
-
+#ifndef  _LBANET_SERVER_SIDE_
+#include "Localizer.h"
+#endif
 
 /***********************************************************
 constructor
@@ -134,7 +136,9 @@ void DataLoader::SetWorldName(std::string WorldName)
 	{
 		_currentworldname = WorldName;
 
+#ifndef  _LBANET_SERVER_SIDE_
 		Localizer::getInstance()->SetWorldName(WorldName);
+#endif
 	}
 }
 

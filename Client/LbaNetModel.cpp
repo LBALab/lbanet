@@ -1927,6 +1927,18 @@ void LbaNetModel::GhostMovedUpdate(Ice::Long GhostId, double updatetime,
 	}
 }
 
+/***********************************************************
+when update player position
+***********************************************************/
+void LbaNetModel::NPCMovedUpdate(Ice::Long NpcId, double updatetime, 
+									const LbaNet::PlayerMoveInfo &info)
+{
+	std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find((long)NpcId);
+	if(it != _npcObjects.end())
+	{
+		it->second->UpdateMove(updatetime, info, false);
+	}
+}
 
 
 

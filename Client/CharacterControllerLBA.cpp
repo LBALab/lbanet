@@ -777,14 +777,14 @@ bool CharacterController::ShouldforceUpdate()
 
 
 
-	float diffpos = abs(_lastupdate.CurrentPos.X - _currentupdate.CurrentPos.X)
-					+ abs(_lastupdate.CurrentPos.Y - _currentupdate.CurrentPos.Y)
-					+  abs(_lastupdate.CurrentPos.Z - _currentupdate.CurrentPos.Z);
+	float diffpos = fabs(_lastupdate.CurrentPos.X - _currentupdate.CurrentPos.X)
+					+ fabs(_lastupdate.CurrentPos.Y - _currentupdate.CurrentPos.Y)
+					+  fabs(_lastupdate.CurrentPos.Z - _currentupdate.CurrentPos.Z);
 	if(diffpos > 10)
 		return true;
 
 
-	double diffrot = abs(_lastupdate.CurrentPos.Rotation - _currentupdate.CurrentPos.Rotation);
+	double diffrot = fabs(_lastupdate.CurrentPos.Rotation - _currentupdate.CurrentPos.Rotation);
 	if(diffrot > 10)
 		return true;
 

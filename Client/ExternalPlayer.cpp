@@ -35,7 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ***********************************************************/
 ExternalPlayer::ExternalPlayer(boost::shared_ptr<DynamicObject> obje, 
 											const LbaNet::ModelInfo &Info)
-: _last_update(0), _shouldupdate(false), _playingscript(false)
+: _last_update(0), _shouldupdate(false), _playingscript(false), _freemove(false)
 {
 
 	_character = obje;
@@ -69,6 +69,9 @@ ExternalPlayer::~ExternalPlayer()
 ***********************************************************/
 void ExternalPlayer::UpdateMove(double updatetime, const LbaNet::PlayerMoveInfo &info, bool teleport)
 {
+	// set free move
+	_freemove = true;
+
 	if(updatetime > _last_update)
 	{
 		std::stringstream strs;
@@ -132,7 +135,24 @@ void ExternalPlayer::Process(double tnow, float tdiff,
 {
 	if(_playingscript)
 	{
-		ProcessScript(tnow, tdiff, scripthandler);
+		// process script
+		if(!ProcessScript(tnow, tdiff, scripthandler))
+		{
+			// if not moved - move with attached actor
+			if(_attachedactor)
+			{
+				boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+				boost::shared_ptr<PhysicalObjectHandlerBase> attchedphys = _attachedactor->GetPhysicalObject();
+				if(physo && attchedphys)
+				{
+					physo->RotateYAxis(attchedphys->GetLastRotation());
+
+					float addspeedX=0, addspeedY=0, addspeedZ=0;
+					attchedphys->GetLastMove(addspeedX, addspeedY, addspeedZ);
+					physo->Move(addspeedX, addspeedY, addspeedZ);
+				}
+			}
+		}
 
 		//still update dead recon
 		_dr.Update(tnow, tdiff);

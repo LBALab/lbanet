@@ -128,6 +128,11 @@ public:
 	void GhostMovedUpdate(Ice::Long GhostId, double updatetime, 
 									const LbaNet::PlayerMoveInfo &info);
 
+
+	//! when update player position
+	void NPCMovedUpdate(Ice::Long NpcId, double updatetime, 
+									const LbaNet::PlayerMoveInfo &info);
+	
 	//! when update npc position
 	void NpcChangedUpdate(Ice::Long NpcId, double updatetime, 
 									float CurrPosX, float CurrPosY, float CurrPosZ,

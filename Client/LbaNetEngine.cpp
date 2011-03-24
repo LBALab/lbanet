@@ -875,7 +875,18 @@ void LbaNetEngine::HandleGameEvents()
 
 			continue;
 		}
+	
+		// NPCMovedEvent
+		if(info == typeid(LbaNet::NPCMovedEvent))
+		{
+			LbaNet::NPCMovedEvent* castedptr = 
+				dynamic_cast<LbaNet::NPCMovedEvent *>(&obj);
 
+			m_lbaNetModel->NPCMovedUpdate(castedptr->ActorId, castedptr->Time, 
+												castedptr->info);
+
+			continue;
+		}
 
 	}
 }
