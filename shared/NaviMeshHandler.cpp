@@ -1572,7 +1572,8 @@ void NaviMeshHandler::InitCrowd()
 /***********************************************************
 add agent to crowd
 ***********************************************************/
-boost::shared_ptr<NavMeshAgent> NaviMeshHandler::AddAgent(const LbaNet::ObjectPhysicDesc & agentinfo)
+boost::shared_ptr<NavMeshAgent> NaviMeshHandler::AddAgent(const LbaNet::ObjectPhysicDesc & agentinfo,
+															boost::shared_ptr<NaviMeshHandler> self)
 {
 	if(!m_crowdmanager)
 		return boost::shared_ptr<NavMeshAgent>();
@@ -1605,7 +1606,7 @@ boost::shared_ptr<NavMeshAgent> NaviMeshHandler::AddAgent(const LbaNet::ObjectPh
 	ap.updateFlags |= DT_CROWD_OPTIMIZE_VIS;
 	ap.updateFlags |= DT_CROWD_OPTIMIZE_TOPO;
 	ap.updateFlags |= DT_CROWD_OBSTACLE_AVOIDANCE;
-	//ap.updateFlags |= DT_CROWD_SEPARATION;
+	ap.updateFlags |= DT_CROWD_SEPARATION;
 
 	ap.obstacleAvoidanceType = (unsigned char)3;
 	ap.separationWeight = 2.0f;
@@ -1618,7 +1619,7 @@ boost::shared_ptr<NavMeshAgent> NaviMeshHandler::AddAgent(const LbaNet::ObjectPh
 	int agentid = m_crowdmanager->addAgent(pos, &ap);
 
 	if(agentid >= 0)
-		return boost::shared_ptr<NavMeshAgent>(new NavMeshAgent(m_crowdmanager, agentid));
+		return boost::shared_ptr<NavMeshAgent>(new NavMeshAgent(m_crowdmanager, self, agentid));
 	else
 		return boost::shared_ptr<NavMeshAgent>();
 }
@@ -1630,5 +1631,14 @@ process
 void NaviMeshHandler::Process(double time, float tdiff)
 {
 	if(m_crowdmanager)
-		m_crowdmanager->update(tdiff, NULL);
+		m_crowdmanager->update(tdiff/1000, NULL);
+}
+
+
+/***********************************************************
+return nav mesh query
+***********************************************************/
+dtNavMeshQuery* NaviMeshHandler::getNavMeshQuery()
+{
+	return m_navQuery;
 }

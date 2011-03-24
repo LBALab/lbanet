@@ -127,6 +127,9 @@ public:
 	virtual bool IsHurt(){return false;}
 
 	//! check if is coming back
+	virtual bool IsChasing(){return false;}
+
+	//! check if is coming back
 	virtual bool IsComingBack(){return false;}
 };
 
@@ -1162,6 +1165,8 @@ public:
 	//! check if can use weapon in this state
 	virtual bool CanUseWeapon(){return true;}
 
+	//! check if is coming back
+	virtual bool IsChasing(){return true;}
 };	
 
 	

@@ -50,12 +50,12 @@ class LbaVec3;
 
 class dtNavMesh;
 class dtNavMeshQuery;
-class dtMeshTile;
-class rcHeightfield;
-class rcCompactHeightfield;
-class rcContourSet;
-class rcPolyMesh;
-class rcPolyMeshDetail;
+struct dtMeshTile;
+struct rcHeightfield;
+struct rcCompactHeightfield;
+struct rcContourSet;
+struct rcPolyMesh;
+struct rcPolyMeshDetail;
 class dtCrowd;
 class NavMeshAgent;
 
@@ -133,10 +133,14 @@ public:
 	void DrawLastPath();
 
 	//! add agent to crowd
-	boost::shared_ptr<NavMeshAgent>	AddAgent(const LbaNet::ObjectPhysicDesc & agentinfo);
+	boost::shared_ptr<NavMeshAgent>	AddAgent(const LbaNet::ObjectPhysicDesc & agentinfo,
+												boost::shared_ptr<NaviMeshHandler> self);
 
 	//! process
 	void Process(double time, float tdiff);
+
+	//! return nav mesh query
+	dtNavMeshQuery* getNavMeshQuery();
 
 protected:
 
