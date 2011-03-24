@@ -16,7 +16,7 @@
 constructor
 ***********************************************************/
 ActorObjectInfo::ActorObjectInfo(long id)
-: ObjectId(id)
+: ObjectId(id), ExcludeFromNavMesh(false)
 {
 	DisplayDesc.RotX = 0;
 	DisplayDesc.RotY = 0;
@@ -591,6 +591,7 @@ void ActorHandler::SaveToLuaFile(std::ofstream & file)
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<" = ActorObjectInfo("<<m_actorinfo.ObjectId<<")"<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<":SetRenderType("<<m_actorinfo.GetRenderType()<<")"<<std::endl;
 
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".ExcludeFromNavMesh = "<<(m_actorinfo.ExcludeFromNavMesh?"true":"false")<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ModelId = "<<m_actorinfo.DisplayDesc.ModelId<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ModelName = \""<<m_actorinfo.DisplayDesc.ModelName<<"\""<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.Outfit = \""<<m_actorinfo.DisplayDesc.Outfit<<"\""<<std::endl;
@@ -1127,8 +1128,10 @@ void ActorHandler::CreateActor()
 
 
 	m_NavMAgent = boost::shared_ptr<NavMeshAgent>();
-	if(m_navimesh && m_actorinfo.PhysicDesc.TypePhysO != LbaNet::StaticAType)
-		m_NavMAgent = m_navimesh->AddAgent(m_actorinfo.PhysicDesc);
+	if(m_actorinfo.PhysicDesc.TypeShape != LbaNet::NoShape && 
+		!m_actorinfo.ExcludeFromNavMesh && 
+		m_navimesh && m_actorinfo.PhysicDesc.TypePhysO != LbaNet::StaticAType)
+		m_NavMAgent = m_navimesh->AddAgent(m_actorinfo.PhysicDesc, m_navimesh);
 
 	_character = obj.BuildServer(m_NavMAgent);
 }

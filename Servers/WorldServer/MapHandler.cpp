@@ -1031,7 +1031,8 @@ void MapHandler::ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, fl
 			}
 
 			// record death by drowning
-			if(NewState == LbaNet::StDrowning || NewState == LbaNet::StDrowningGas || NewState == LbaNet::StBurning)
+			if(NewState == LbaNet::StDrowning || NewState == LbaNet::StDrowningGas 
+				|| NewState == LbaNet::StBurning)
 			{
 				boost::shared_ptr<DatabaseHandlerBase> dbh = SharedDataHandler::getInstance()->GetDatabase();
 				if(dbh)
@@ -1044,8 +1045,11 @@ void MapHandler::ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, fl
 				boost::shared_ptr<DatabaseHandlerBase> dbh = SharedDataHandler::getInstance()->GetDatabase();
 				if(dbh)
 					dbh->RecordKill(_worldname, (long)id, EventType, ActorId);
+			}
 
-
+			if(NewState == LbaNet::StDying || NewState == LbaNet::StDrowning 
+				|| NewState == LbaNet::StDrowningGas || NewState == LbaNet::StBurning)
+			{
 				// tell npcs that player is dead
 				std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.begin();
 				std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endact = _Actors.end();
@@ -1117,9 +1121,11 @@ function used by LUA to add actor
 ***********************************************************/
 void MapHandler::AddActorObject(boost::shared_ptr<ActorHandler> actor)
 {
+#ifndef _USE_QT_EDITOR_
 	actor->SetScriptHandler(this);
 	actor->SetNavMeshHandler(_navimesh);
 	_Actors[actor->GetId()] = actor;
+#endif
 }
 
 
@@ -1354,6 +1360,26 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 		return;
 	}
 
+		
+	// UpdateEditor_RefreshNavMesh
+	if(info == typeid(UpdateEditor_NPCAttack))
+	{
+		UpdateEditor_NPCAttack* castedptr =
+			dynamic_cast<UpdateEditor_NPCAttack *>(&obj);
+
+		std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itac = _Actors.find(castedptr->_npcid);
+		if(itac != _Actors.end())
+		{
+			if(castedptr->_attack)
+				itac->second->ForceTargetAttackPlayer(castedptr->_playerid);
+			else
+				itac->second->ForceStopAttackTarget(castedptr->_playerid);
+		}
+
+	
+		return;
+	}
+	
 
 }
 #endif
@@ -1475,7 +1501,9 @@ add an actor
 #ifdef _USE_QT_EDITOR_
 void MapHandler::Editor_AddModActor(boost::shared_ptr<ActorHandler> actor)
 {
-	AddActorObject(actor);
+	actor->SetScriptHandler(this);
+	actor->SetNavMeshHandler(_navimesh);
+	_Actors[actor->GetId()] = actor;
 
 
 	// update client

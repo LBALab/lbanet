@@ -21,7 +21,7 @@ NPCHandler::NPCHandler(const ActorObjectInfo & actorinfo)
 		_attack_activation_distance_discrete(0), 
 		_attack_activation_distance_hidden(0), _respwantime(-1),
 		_armor(0), _weapon1power(0), _weapon2power(0), _stop_attack_distance(0),
-		_agentstatenum(1), _targetedattackplayer(-1)
+		_agentstatenum(1), _targetedattackplayer(-1), _oldtdiff(1), _freemove(false)
 {
 	_lifeinfo.MaxLife = 0;
 	_lifeinfo.MaxMana = 0;
@@ -386,6 +386,42 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 		}
 	}
 
+	//if chasing
+	if(_agentState->IsChasing())
+	{
+		//check if did not get stuck
+		if((tnow-_lastchasingchecktime) > 1000)
+		{
+			boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+			if(physo)
+			{
+				float checkX, checkY, checkZ;
+				physo->GetPosition(checkX, checkY, checkZ);
+
+				float diff =	fabs(checkX-_lastchasingcheckposX) +
+								fabs(checkY-_lastchasingcheckposY) +
+								fabs(checkZ-_lastchasingcheckposZ);
+
+				if(diff < 0.1)
+				{
+					//reset target
+					if(_targetedattackplayer > 0 && m_NavMAgent && m_scripthandler)
+					{
+						LbaVec3 pos = m_scripthandler->GetPlayerPositionVec((long)_targetedattackplayer);
+						m_NavMAgent->SetTargetPosition(false, pos.x, pos.y, pos.z);
+					}
+				}
+
+				_lastchasingcheckposX = checkX;
+				_lastchasingcheckposY = checkY;
+				_lastchasingcheckposZ = checkZ;
+			}
+
+			_lastchasingchecktime = tnow;
+		}
+
+	}
+
 	//if coming back
 	if(_agentState->IsComingBack())
 	{
@@ -396,12 +432,16 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 			float curX, curY, curZ;
 			physo->GetPosition(curX, curY, curZ);
 			float diff = fabs(m_saved_X-curX) + fabs(m_saved_Y-curY) + fabs(m_saved_Z-curZ);
-			if(diff <= 0.01)
+			if(diff <= 0.5f)
 			{
 				EndChasing();
 			}
 		}
 	}
+
+	//check if update clients
+	if(_freemove)
+		UpdateClients(tnow, tdiff);
 }
 
 
@@ -547,15 +587,17 @@ void NPCHandler::TargetAttackPlayer(Ice::Long PlayerId)
 	// tell agent to follow player
 	if(m_NavMAgent && m_scripthandler)
 	{
-		LbaVec3 pos = m_scripthandler->GetPlayerPositionVec(PlayerId);
-		m_NavMAgent->SetTargetPosition(true, pos.x, pos.y, pos.z);
+		LbaVec3 pos = m_scripthandler->GetPlayerPositionVec((long)PlayerId);
+		m_NavMAgent->SetTargetPosition(false, pos.x, pos.y, pos.z);
 	}
 
 	_targetedattackplayer = PlayerId;
 
-	//todo - inform client that npc target player
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+	if(physo)
+		physo->GetPosition(_lastchasingcheckposX, _lastchasingcheckposY, _lastchasingcheckposZ);
 
-
+	_lastchasingchecktime = SynchronizedTimeHandler::GetCurrentTimeDouble();
 }
 
 
@@ -586,7 +628,7 @@ void NPCHandler::StopAttackTarget(Ice::Long PlayerId)
 
 				// tell agent to go move back to starting point
 				if(m_NavMAgent)
-					m_NavMAgent->SetTargetPosition(true, m_saved_X, m_saved_Y, m_saved_Z);
+					m_NavMAgent->SetTargetPosition(false, m_saved_X, m_saved_Y, m_saved_Z);
 			}
 		}
 		else
@@ -764,6 +806,9 @@ bool NPCHandler::ChangeState(int newstate)
 			_agentState = boost::shared_ptr<CharacterStateBase>(new StateNormal());
 			if(m_NavMAgent)
 				m_NavMAgent->SetResetTarget(false);
+
+			_freemove = false;
+			_lastupdate.AnimationIdx  = "";
 		}
 		break;
 
@@ -780,6 +825,9 @@ bool NPCHandler::ChangeState(int newstate)
 
 			if(m_NavMAgent)
 				m_NavMAgent->SetResetTarget(false);
+
+			_freemove = true;
+			_lastupdate.AnimationIdx  = "";
 		}
 		break;
 
@@ -790,6 +838,9 @@ bool NPCHandler::ChangeState(int newstate)
 
 			if(m_NavMAgent)
 				m_NavMAgent->SetResetTarget(false);
+
+			_freemove = false;
+			_lastupdate.AnimationIdx  = "";
 		}
 		break;
 
@@ -800,6 +851,9 @@ bool NPCHandler::ChangeState(int newstate)
 
 			if(m_NavMAgent)
 				m_NavMAgent->SetResetTarget(true);
+
+			_freemove = true;
+			_lastupdate.AnimationIdx  = "";
 		}
 		break;
 
@@ -810,6 +864,9 @@ bool NPCHandler::ChangeState(int newstate)
 
 			if(m_NavMAgent)
 				m_NavMAgent->SetResetTarget(true);
+
+			_freemove = true;
+			_lastupdate.AnimationIdx  = "";
 		}
 		break;
 	}
@@ -835,7 +892,11 @@ void NPCHandler::PlayerMoved(Ice::Long PlayerId, const LbaNet::PlayerPosition &s
 	//move chasing target
 	if(_targetedattackplayer == PlayerId)
 	{
-		if(m_NavMAgent)
+		float diff = fabs(startposition.X - endposition.X) +
+					fabs(startposition.Y - endposition.Y) +
+					fabs(startposition.Z - endposition.Z);
+
+		if(diff > 0.001 && m_NavMAgent)
 			m_NavMAgent->SetTargetPosition(true, endposition.X, endposition.Y, endposition.Z);
 	}
 }
@@ -846,8 +907,107 @@ agent come back to normal
 ***********************************************************/
 void NPCHandler::EndChasing()
 {
-	//todo - maybe tell client?
-
 	//reset script
 	Resume();
+}
+
+
+/***********************************************************
+check if we need to send update to server
+***********************************************************/
+void NPCHandler::UpdateClients(double tnow, float tdiff)
+{
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+	if(!physo)
+		return;
+
+	// get current position
+	physo->GetPosition(_currentupdate.CurrentPos.X,
+							_currentupdate.CurrentPos.Y,
+							_currentupdate.CurrentPos.Z);
+
+
+	// get current rotation
+	_currentupdate.CurrentPos.Rotation = physo->GetRotationYAxis();
+
+
+	// set speed
+	_currentupdate.CurrentSpeedX = (_currentupdate.CurrentPos.X-_lastupdate.CurrentPos.X) / _oldtdiff;
+	_currentupdate.CurrentSpeedY = (_currentupdate.CurrentPos.Y-_lastupdate.CurrentPos.Y) / _oldtdiff;
+	_currentupdate.CurrentSpeedZ = (_currentupdate.CurrentPos.Z-_lastupdate.CurrentPos.Z) / _oldtdiff;
+
+	//calculate angle speed
+	_currentupdate.CurrentSpeedRotation = (_currentupdate.CurrentPos.Rotation-
+													_lastupdate.CurrentPos.Rotation);
+	while(_currentupdate.CurrentSpeedRotation < -180)
+		_currentupdate.CurrentSpeedRotation += 360;
+	while(_currentupdate.CurrentSpeedRotation > 180)
+		_currentupdate.CurrentSpeedRotation -= 360;
+
+
+	_currentupdate.CurrentSpeedRotation /= tdiff;
+
+
+	_oldtdiff = tdiff;
+
+
+	boost::shared_ptr<DisplayObjectHandlerBase> diso = _character->GetDisplayObject();
+
+	// set animation
+	if(diso)
+		_currentupdate.AnimationIdx = diso->GetCurrentAnimation();
+
+
+
+	// check if we should force the update
+	_currentupdate.ForcedChange = ShouldforceUpdate();
+
+
+	//send to server if needed
+	if(_currentupdate.ForcedChange && m_scripthandler)
+	{
+		LbaNet::EventsSeq evseq;
+		evseq.push_back(new LbaNet::NPCMovedEvent(tnow, GetId(), _currentupdate));
+		m_scripthandler->SendEvents(-2, evseq);
+	}
+
+	_lastupdate = _currentupdate;
+}
+
+
+/***********************************************************
+check if we should force the update
+***********************************************************/
+bool NPCHandler::ShouldforceUpdate()
+{
+	if(_lastupdate.AnimationIdx != _currentupdate.AnimationIdx)
+		return true;
+
+	if(abs(_lastupdate.CurrentSpeedX - _currentupdate.CurrentSpeedX) > 0.00001f)
+		return true;
+
+	if(abs(_lastupdate.CurrentSpeedY - _currentupdate.CurrentSpeedY) > 0.00001f)
+		return true;
+
+	if(abs(_lastupdate.CurrentSpeedZ - _currentupdate.CurrentSpeedZ) > 0.00001f)
+		return true;
+
+	if(abs(_lastupdate.CurrentSpeedRotation - _currentupdate.CurrentSpeedRotation) > 0.1f)
+		return true;
+
+
+
+	float diffpos = fabs(_lastupdate.CurrentPos.X - _currentupdate.CurrentPos.X)
+					+ fabs(_lastupdate.CurrentPos.Y - _currentupdate.CurrentPos.Y)
+					+  fabs(_lastupdate.CurrentPos.Z - _currentupdate.CurrentPos.Z);
+	if(diffpos > 10)
+		return true;
+
+
+	double diffrot = fabs(_lastupdate.CurrentPos.Rotation - _currentupdate.CurrentPos.Rotation);
+	if(diffrot > 10)
+		return true;
+
+
+	return false;
 }

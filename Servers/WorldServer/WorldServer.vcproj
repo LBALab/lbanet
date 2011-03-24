@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/D _LBANET_SERVER_SIDE_ /D _CRT_SECURE_NO_WARNINGS"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ICE_HOME)\include&quot;;..\..\infrastructure\include;..\..\shared;&quot;..\..\dependencies\MySQL++\include&quot;;..\..\dependencies\mysql\include;..\..\dependencies\sqlite;..\..\dependencies\3rdParty\include;..\..\dependencies\LUA\include;..\..\dependencies\luabind\include;..\..\Client;."
+				AdditionalIncludeDirectories="&quot;$(ICE_HOME)\include&quot;;..\..\infrastructure\include;..\..\shared;&quot;..\..\dependencies\MySQL++\include&quot;;..\..\dependencies\mysql\include;..\..\dependencies\sqlite;..\..\dependencies\3rdParty\include;..\..\dependencies\LUA\include;..\..\dependencies\luabind\include;..\..\Client;.;..\..\dependencies\recast\Detour\Include;..\..\dependencies\recast\Recast\Include;..\..\dependencies\recast\DetourCrowd\Include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;TIXML_USE_STL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -119,7 +119,7 @@
 				AdditionalOptions="/D _LBANET_SERVER_SIDE_ /D _CRT_SECURE_NO_WARNINGS"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(ICE_HOME)\include&quot;;..\..\infrastructure\include;..\..\shared;&quot;..\..\dependencies\MySQL++\include&quot;;..\..\dependencies\mysql\include;..\..\dependencies\sqlite;..\..\dependencies\3rdParty\include;..\..\dependencies\LUA\include;..\..\dependencies\luabind\include;..\..\Client;."
+				AdditionalIncludeDirectories="&quot;$(ICE_HOME)\include&quot;;..\..\infrastructure\include;..\..\shared;&quot;..\..\dependencies\MySQL++\include&quot;;..\..\dependencies\mysql\include;..\..\dependencies\sqlite;..\..\dependencies\3rdParty\include;..\..\dependencies\LUA\include;..\..\dependencies\luabind\include;..\..\Client;.;..\..\dependencies\recast\Detour\Include;..\..\dependencies\recast\Recast\Include;..\..\dependencies\recast\DetourCrowd\Include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;TIXML_USE_STL"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -241,6 +241,58 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\Client\DataLoader.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\dependencies\recast\Detour\Source\DetourAlloc.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\dependencies\recast\Detour\Source\DetourCommon.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\dependencies\recast\DetourCrowd\Source\DetourCrowd.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\dependencies\recast\DetourCrowd\Source\DetourLocalBoundary.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\dependencies\recast\Detour\Source\DetourNavMesh.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\dependencies\recast\Detour\Source\DetourNavMeshBuilder.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\dependencies\recast\Detour\Source\DetourNavMeshQuery.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\dependencies\recast\Detour\Source\DetourNode.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\dependencies\recast\DetourCrowd\Source\DetourObstacleAvoidance.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\dependencies\recast\DetourCrowd\Source\DetourPathCorridor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\dependencies\recast\DetourCrowd\Source\DetourPathQueue.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\dependencies\recast\DetourCrowd\Source\DetourProximityGrid.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\DialogBoxHandler.cpp"
 				>
 			</File>
@@ -254,6 +306,10 @@
 			</File>
 			<File
 				RelativePath="..\..\shared\Entities.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\shared\FileUtil.cpp"
 				>
 			</File>
 			<File
@@ -313,6 +369,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\shared\NaviMeshHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\NavMeshAgent.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\NavMeshObjectHandlers.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\NpcHandler.cpp"
 				>
 			</File>
@@ -334,6 +402,46 @@
 			</File>
 			<File
 				RelativePath="..\..\shared\Randomizer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\dependencies\recast\Recast\Source\Recast.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\dependencies\recast\Recast\Source\RecastAlloc.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\dependencies\recast\Recast\Source\RecastArea.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\dependencies\recast\Recast\Source\RecastContour.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\dependencies\recast\Recast\Source\RecastFilter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\dependencies\recast\Recast\Source\RecastLayers.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\dependencies\recast\Recast\Source\RecastMesh.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\dependencies\recast\Recast\Source\RecastMeshDetail.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\dependencies\recast\Recast\Source\RecastRasterization.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\dependencies\recast\Recast\Source\RecastRegion.cpp"
 				>
 			</File>
 			<File

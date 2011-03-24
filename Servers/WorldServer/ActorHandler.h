@@ -82,6 +82,7 @@ struct ActorObjectInfo
 
 		LifeInfo.Display = false;
 		ExtraInfo.Display = false;
+		ExcludeFromNavMesh = false;
 	}
 
 	//constructor
@@ -155,6 +156,8 @@ struct ActorObjectInfo
 	LbaNet::ObjectPhysicDesc	PhysicDesc;
 	LbaNet::LifeManaInfo		LifeInfo;
 	LbaNet::ObjectExtraInfo		ExtraInfo;
+
+	bool						ExcludeFromNavMesh;
 };
 
 

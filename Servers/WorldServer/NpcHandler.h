@@ -280,6 +280,11 @@ protected:
 	//! agent come back to normal
 	void EndChasing();
 
+	//! check if update client
+	void UpdateClients(double tnow, float tdiff);
+	bool ShouldforceUpdate();
+
+
 
 protected:
 	long						_npcnametextid;
@@ -317,6 +322,16 @@ protected:
 	std::string									_savedanim;
 
 	Ice::Long									_targetedattackplayer;
+
+	LbaNet::PlayerMoveInfo						_lastupdate;
+	LbaNet::PlayerMoveInfo						_currentupdate;
+	float										_oldtdiff;
+	bool										_freemove;
+
+	double										_lastchasingchecktime;
+	float										_lastchasingcheckposX;
+	float										_lastchasingcheckposY;
+	float										_lastchasingcheckposZ;
 };
 
 #endif

@@ -356,4 +356,27 @@ public:
 };
 
 
+
+/*
+************************************************************************************************************************
+*                                                  class UpdateEditor_RefreshNavMesh
+*
+*	base class for all editor update
+************************************************************************************************************************
+*/
+class UpdateEditor_NPCAttack : public LbaNet::EditorUpdateBase
+{
+public:
+	//! constructor
+	UpdateEditor_NPCAttack(bool attack, long npcid, long playerid)
+		: _attack(attack), _npcid(npcid), _playerid(playerid)
+	{
+	}
+
+	bool	_attack;
+	long	_npcid;
+	long	_playerid;
+};
+
+
 #endif

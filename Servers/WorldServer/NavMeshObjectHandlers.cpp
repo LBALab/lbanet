@@ -28,6 +28,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "NavMeshAgent.h"
 
 #include <Math.h>
+#include <fstream>
+
+//std::ofstream checkangle("checkangldde.csv");
+
 
 /***********************************************************
 	Constructor
@@ -111,7 +115,21 @@ void NavMeshObjectHandler::Process(double tnow, float tdiff,
 
 	if(_agent)
 	{
-		_agent->UpdateSpeed(0, 0, 0);
+		if(!_agent->IsTargeting())
+			_agent->UpdateSpeed(0, 0, 0);
+		else
+		{
+			//update rotation
+			float gangle = _agent->GetAngle();
+
+			//checkangle<<_rotH.GetRotationYAxis()<<","<<gangle<<",";
+			_rotH.SetRotation(LbaQuaternion(gangle, LbaVec3(0, 1, 0)));
+
+			//LbaQuaternion Q;
+			//_rotH.GetRotation(Q);
+			//checkangle<<_rotH.GetRotationYAxis()<<","<<Q.X<<","<<Q.Y<<","<<Q.Z<<","<<Q.W<<std::endl;
+		}
+
 		_agent->UpdateMaxSpeed(fabs(animSpeedX+animSpeedY+animSpeedZ));
 	}
 }

@@ -69,12 +69,12 @@ PlayerHandler::PlayerHandler(long clientid, ClientProxyBasePtr proxy,
 	_currentinfo.model.UseTransparentMaterial = false;
 
 	_currentinfo.model.ColorMaterialType = 4;
-	_currentinfo.model.MatAmbientColorR = -0.2;
-	_currentinfo.model.MatAmbientColorG = -0.2;
-	_currentinfo.model.MatAmbientColorB = -0.2;
-	_currentinfo.model.MatDiffuseColorR = 0.4;
-	_currentinfo.model.MatDiffuseColorG = 0.4;
-	_currentinfo.model.MatDiffuseColorB = 0.4;
+	_currentinfo.model.MatAmbientColorR = -0.2f;
+	_currentinfo.model.MatAmbientColorG = -0.2f;
+	_currentinfo.model.MatAmbientColorB = -0.2f;
+	_currentinfo.model.MatDiffuseColorR = 0.4f;
+	_currentinfo.model.MatDiffuseColorG = 0.4f;
+	_currentinfo.model.MatDiffuseColorB = 0.4f;
 
 	//unfold inventory information and shortcut information
 	{

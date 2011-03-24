@@ -239,12 +239,12 @@ ServerLuaHandler::ServerLuaHandler()
 		.def_readwrite("LifeInfo", &ActorObjectInfo::LifeInfo)
 		.def_readwrite("ExtraInfo", &ActorObjectInfo::ExtraInfo)
 		.def_readwrite("Condition", &ActorObjectInfo::Condition)
+		.def_readwrite("ExcludeFromNavMesh", &ActorObjectInfo::ExcludeFromNavMesh)
 		.def("SetRenderType", &ActorObjectInfo::SetRenderType)
 		.def("SetPhysicalShape", &ActorObjectInfo::SetPhysicalShape)
 		.def("SetPhysicalActorType", &ActorObjectInfo::SetPhysicalActorType)
 		.def("SetModelState", &ActorObjectInfo::SetModelState)
-		.def("AddColorSwap", &ActorObjectInfo::AddColorSwap)
-		,
+		.def("AddColorSwap", &ActorObjectInfo::AddColorSwap),
 
 
 		luabind::class_<ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ActorScriptPartBase")

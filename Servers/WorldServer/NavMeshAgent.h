@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <boost/shared_ptr.hpp>
 
 class dtCrowd;
-
+class NaviMeshHandler;
 
 //! take care of navigation mesh agents
 class NavMeshAgent
@@ -40,6 +40,7 @@ class NavMeshAgent
 public:
 	//! constructor
 	NavMeshAgent(boost::shared_ptr<dtCrowd> crowdcontroller,
+					boost::shared_ptr<NaviMeshHandler>	navimesh,
 					int agentid);
 
 	//! destructor
@@ -51,6 +52,9 @@ public:
 
 	//! set object position in the world
 	void SetPosition(float X, float Y, float Z);
+
+	//! return agent angle
+	float GetAngle();
 
 	//! show or hide the object
 	void ShowOrHide(bool Show);
@@ -67,10 +71,16 @@ public:
 	//! set target position
 	void SetTargetPosition(bool update, float pX, float pY, float pZ);
 
+	//! is targeting
+	bool IsTargeting()
+	{ return m_targeting;}
+
 private:
-	boost::shared_ptr<dtCrowd>		m_crowdmanager;
-	int								m_crowdagentid;
-	float							m_lastSpeed;
+	boost::shared_ptr<NaviMeshHandler>		m_navimesh;
+	boost::shared_ptr<dtCrowd>				m_crowdmanager;
+	int										m_crowdagentid;
+	float									m_lastSpeed;
+	bool									m_targeting;
 };
 
 #endif
