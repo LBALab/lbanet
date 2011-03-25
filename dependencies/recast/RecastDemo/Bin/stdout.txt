@@ -1,0 +1,28 @@
+Build log CITABAU.nmesh.obj:
+Building navigation:
+ - 920 x 1024 cells
+ - 247.3K verts, 92.5K tris
+delaunayHull: Removing dangling face 13 [10,7,-1].
+delaunayHull: Removing dangling face 33 [23,15,-1].
+delaunayHull: Removing dangling face 35 [14,16,-1].
+Build Times
+- Rasterize:               831.87ms(30.2%)
+- Build Compact:           100.00ms(3.6%)
+- Filter Border:           81.14ms (2.9%)
+- Filter Walkable:         9.37ms  (0.3%)
+- Erode Area:              61.58ms (2.2%)
+- Build Disntace Field:    85.07ms (3.1%)
+    - Distance:            63.85ms (2.3%)
+    - Blur:                21.17ms (0.8%)
+- Build Regions:           1096.73ms       (39.8%)
+    - Watershed:           1064.91ms       (38.6%)
+      - Expand:            650.58ms(23.6%)
+      - Find Basins:       402.31ms(14.6%)
+    - Filter:              30.50ms (1.1%)
+- Build Contours:          60.30ms (2.2%)
+    - Trace:               17.08ms (0.6%)
+    - Simplify:            43.17ms (1.6%)
+- Build Polymesh:          118.45ms(4.3%)
+- Build Polymesh Detail:   273.52ms(9.9%)
+=== TOTAL:                 2756.29ms
+>> Polymesh: 3544 vertices  1766 polygons
