@@ -286,7 +286,7 @@ void NPCHandler::Die()
 	{
 		//record player kill - and give item to player
 		if(m_scripthandler)
-		m_scripthandler->PlayerKilledNpc((long)_hurtingplayers[0], GetId(), GetGivenItems());
+			m_scripthandler->PlayerKilledNpc((long)_hurtingplayers[0], GetId(), GetGivenItems());
 	}
 
 	// clear target
@@ -451,6 +451,11 @@ hurt life
 void NPCHandler::HurtLife(float amount, bool UseArmor, Ice::Long HurtingPlayerId)
 {
 	if(!_aggresive)
+		return;
+
+
+	//check if can be hurt
+	if(_agentState->IsImmuneHurt())
 		return;
 
 
