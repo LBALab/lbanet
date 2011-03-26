@@ -491,9 +491,7 @@ void CharacterController::Process(double tnow, float tdiff,
 				if(hi.ActorObjType == 5)
 				{
 					// hitted an object - loot it
-					EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ItemLootEvent(
-													SynchronizedTimeHandler::GetCurrentTimeDouble(),
-													hi.ActorId));	
+					EventsQueue::getReceiverQueue()->AddEvent(new PlayerLootItemEvent(hi.ActorId));
 				}
 				else
 				{

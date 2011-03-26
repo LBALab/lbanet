@@ -519,5 +519,23 @@ public:
 	}
 };
 
+/*
+************************************************************************************************************************
+*                                                  class PlayerLootItemEvent
+*
+************************************************************************************************************************
+*/
+class PlayerLootItemEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	PlayerLootItemEvent(long itemid)
+		: _itemid(itemid)
+	{
+	}
+
+long _itemid;
+};
+
 
 #endif

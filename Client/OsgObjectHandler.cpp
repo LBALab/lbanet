@@ -781,6 +781,15 @@ void OsgObjectHandler::StoreObjectCopy()
 		_ObjectCopy = (osg::MatrixTransform*)_OsgObject->clone(cpo);
 	else if(_OsgObjectNoLight)
 		_ObjectCopy = (osg::MatrixTransform*)_OsgObjectNoLight->clone(cpo);
+
+	if(_ObjectCopy)
+	{
+		osg::StateSet* stateset = _ObjectCopy->getOrCreateStateSet();
+		stateset->removeAttribute(osg::StateAttribute::MATERIAL);
+
+		stateset->setMode(GL_COLOR_MATERIAL, osg::StateAttribute::OVERRIDE|osg::StateAttribute::OFF); 
+		stateset->setRenderingHint( osg::StateSet::DEFAULT_BIN );
+	}
 }
 
 

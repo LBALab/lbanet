@@ -1941,6 +1941,21 @@ void LbaNetModel::NPCMovedUpdate(Ice::Long NpcId, double updatetime,
 }
 
 
+/***********************************************************
+called when item looted by player
+***********************************************************/
+void LbaNetModel::ItemLooted(long itemid)
+{
+	//hide item
+	std::map<long, boost::shared_ptr<ItemObject> >::iterator it = _itemsObjects.find(itemid);
+	if(it != _itemsObjects.end())
+		it->second->Hide();
+
+	// send to server
+	EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ItemLootEvent(
+										SynchronizedTimeHandler::GetCurrentTimeDouble(),
+										itemid));	
+}
 
 
 

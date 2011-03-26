@@ -64,3 +64,12 @@ void ItemObject::Process(double tnow, float tdiff)
 	float gravity = (-0.01f * tdiff); //TODO - make the gravity configurable?
 	physo->Move(0, gravity, 0);
 }
+
+/***********************************************************
+hide item
+***********************************************************/
+void ItemObject::Hide()
+{
+	if(_obje)
+		_obje->ShowOrHide(false);
+}

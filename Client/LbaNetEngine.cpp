@@ -887,6 +887,19 @@ void LbaNetEngine::HandleGameEvents()
 
 			continue;
 		}
+	
+		// PlayerLootItemEvent
+		if(info == typeid(PlayerLootItemEvent))
+		{
+			PlayerLootItemEvent* castedptr = 
+				static_cast<PlayerLootItemEvent *>(&obj);
+
+			m_lbaNetModel->ItemLooted(castedptr->_itemid);
+
+			continue;
+		}
+
+
 
 	}
 }

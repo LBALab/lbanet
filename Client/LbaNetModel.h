@@ -408,6 +408,10 @@ public:
 	//! refresh player portrait
 	void RefreshPlayerPortrait();
 
+
+	//! called when item looted by player
+	void ItemLooted(long itemid);
+
 protected:
 
 	//! clean up map

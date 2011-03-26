@@ -50,6 +50,8 @@ public:
 	// return true if projectile should be destroyed
 	void Process(double tnow, float tdiff);
 
+	// hide item
+	void Hide();
 
 private:
 	boost::shared_ptr<DynamicObject>				_obje;
