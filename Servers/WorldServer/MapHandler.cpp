@@ -3786,6 +3786,7 @@ void MapHandler::PlayerKilledNpc(long PlayerId, long NpcId, const LbaNet::ItemsM
 					modelinfo.UseBillboard = true;
 					modelinfo.UseTransparentMaterial = false;
 					modelinfo.ColorMaterialType = 0;
+					modelinfo.State = LbaNet::NoState;
 				}
 				
 				ObjectPhysicDesc	PhysicDesc;
