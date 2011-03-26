@@ -81,6 +81,10 @@ private:
 	int										m_crowdagentid;
 	float									m_lastSpeed;
 	bool									m_targeting;
+
+	float									m_lasttx;
+	float									m_lastty;
+	float									m_lasttz;
 };
 
 #endif

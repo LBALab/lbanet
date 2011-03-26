@@ -895,7 +895,7 @@ void NPCHandler::PlayerMoved(Ice::Long PlayerId, const LbaNet::PlayerPosition &s
 	}
 
 	//move chasing target
-	if(_targetedattackplayer == PlayerId)
+	if(_agentState->IsChasing() && _targetedattackplayer == PlayerId)
 	{
 		float diff = fabs(startposition.X - endposition.X) +
 					fabs(startposition.Y - endposition.Y) +

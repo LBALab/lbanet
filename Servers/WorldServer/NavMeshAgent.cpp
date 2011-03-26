@@ -14,7 +14,8 @@ NavMeshAgent::NavMeshAgent(boost::shared_ptr<dtCrowd> crowdcontroller,
 							boost::shared_ptr<NaviMeshHandler>	navimesh,
 							int agentid)
 : m_crowdmanager(crowdcontroller), m_navimesh(navimesh),
-	m_crowdagentid(agentid), m_lastSpeed(-1), m_targeting(false)
+	m_crowdagentid(agentid), m_lastSpeed(-1), m_targeting(false),
+	m_lasttx(0), m_lastty(0), m_lasttz(0)
 {
 
 }
@@ -130,6 +131,8 @@ void NavMeshAgent::SetResetTarget(bool set)
 	{
 		m_crowdmanager->requestSetResetTarget(m_crowdagentid, set);
 		m_targeting = set;
+
+		SetTargetPosition(false, m_lasttx, m_lastty, m_lasttz);
 	}
 }
 
@@ -141,6 +144,10 @@ void NavMeshAgent::SetTargetPosition(bool update, float pX, float pY, float pZ)
 {
 	if(m_crowdmanager)
 	{
+		m_lasttx = pX;
+		m_lastty = pY;
+		m_lasttz = pZ;
+
 		float pos[3], respos[3];
 		pos[0] = pX;
 		pos[1] = pY;

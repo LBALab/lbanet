@@ -29,8 +29,15 @@ LuaHandlerBase::LuaHandlerBase()
 		// Connect LuaBind to this lua state
 		luabind::open(m_LuaState);
 
-		luaL_openlibs(m_LuaState);
+		//open standard libs
+		luaopen_base(m_LuaState);
+		luaopen_table(m_LuaState);
+		luaopen_string(m_LuaState);
+		luaopen_math(m_LuaState);
+		luaopen_debug(m_LuaState);
+		//luaopen_package(m_LuaState);
 
+		//luaL_openlibs(m_LuaState);
 	}
 	catch(const std::exception &error)
 	{
