@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommonTypes.h"
 
 #include <math.h>
-
+#include <vector>
 
 #ifndef M_PI
 #define M_PI    3.14159265358979323846f
@@ -64,6 +64,29 @@ void LbaVec3::Normalize()
 	z /= L;
 }
 
+/***********************************************************
+cross product
+***********************************************************/
+void LbaVec3::cross(const LbaVec3 &left, const LbaVec3 & right)
+{
+	float a = (left.y * right.z) - (left.z * right.y);
+	float b = (left.z * right.x) - (left.x * right.z);
+	float c = (left.x * right.y) - (left.y * right.x);
+
+	x = a;
+	y = b;
+	z = c;
+}
+
+
+/***********************************************************
+operator !=
+***********************************************************/
+bool LbaVec3::operator !=(const LbaVec3 & q) const
+{
+	float diff = (x-q.x) + (y-q.y) + (z-q.z);
+	return (fabs(diff) > 0.01f);
+}
 
 
 /***********************************************************
@@ -203,7 +226,7 @@ float LbaQuaternion::GetSignedAngleFromVector(const LbaVec3 &vec)
 /***********************************************************
 operator *
 ***********************************************************/
-LbaQuaternion LbaQuaternion::operator *(const LbaQuaternion & q)
+LbaQuaternion LbaQuaternion::operator *(const LbaQuaternion & q) const
 {
 	return LbaQuaternion(	W*q.X + q.W*X + Y*q.Z - q.Y*Z,
 							W*q.Y + q.W*Y + Z*q.X - q.Z*X,
@@ -239,3 +262,5 @@ void LbaQuaternion::multiply(const LbaQuaternion& left, const LbaVec3& right)
 	Y =   left.W*right.y + left.Z*right.x - right.z*left.X;
 	Z =   left.W*right.z + left.X*right.y - right.x*left.Y;
 }
+
+

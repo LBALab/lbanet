@@ -54,9 +54,19 @@ public:
 	//! get vector length
 	float Length();
 
-	float x;
-	float y;
-	float z;
+	//! cros product
+	void cross(const LbaVec3 &left, const LbaVec3 & right);
+
+	//! dot product
+	float dot(const LbaVec3 &v) const
+	{
+		return x * v.x + y * v.y + z * v.z;
+	}
+
+	//! operator !=
+	bool operator !=(const LbaVec3 & q) const;
+
+	float x, y, z;
 };
 
 
@@ -92,7 +102,7 @@ public:
 	float GetRotationSingleAngle() const;
 
 	//! operator *
-	LbaQuaternion operator *(const LbaQuaternion & q);
+	LbaQuaternion operator *(const LbaQuaternion & q) const;
 
 	//! get the angle between a vector and the 0 angle
 	static float GetAngleFromVector(const LbaVec3 &vec);
@@ -108,10 +118,7 @@ public:
 	void multiply(const LbaQuaternion& left, const LbaVec3& right);
 
 
-	float X;
-	float Y;
-	float Z;
-	float W;
+	float X, Y, Z, W;
 };
 
 
