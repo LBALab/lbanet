@@ -58,8 +58,15 @@ void ZoneTrigger::ObjectMoved(DelayedExecutionHandler * delayedactH, int ObjectT
 		if(SweepTest(StartPosition, EndPosition, collisionpos))
 		{
 			if(!wasinside)
+			{
+				if(ObjectType == 1)
+				{
+					std::cout<<"OK"<<std::endl;
+				}
+
 				Entered(ObjectType, ObjectId, (collisionpos.X-_posX), (collisionpos.Y-_posY), 
-																		(collisionpos.Z-_posZ));	
+																		(collisionpos.Z-_posZ));
+			}
 
 			wasinside = true;
 		}

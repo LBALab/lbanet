@@ -162,6 +162,30 @@ void MapHandler::run()
 				std::vector<LbaNet::ClientServerEventBasePtr> evta = ita->second->Process(timetodiff, tdiff);
 				for(size_t veci=0; veci < evta.size(); ++veci)
 					_tosendevts.push_back(evta[veci]);
+
+				if(ita->second->IsNPC())
+				{
+					LbaVec3 pos = ita->second->GetActorPosition();
+					LbaVec3 lastpos = ita->second->GetLastRecordPos();
+					if(lastpos != pos)
+					{
+						ita->second->SetLastRecordPos(pos);
+						LbaNet::PlayerPosition StartPosition;
+						StartPosition.X = lastpos.x;
+						StartPosition.Y = lastpos.y+0.1f;
+						StartPosition.Z = lastpos.z;
+						LbaNet::PlayerPosition EndPosition;
+						EndPosition.X = pos.x;
+						EndPosition.Y = pos.y+0.1f;
+						EndPosition.Z = pos.z;
+						
+						// activate triggers
+						std::map<long, boost::shared_ptr<TriggerBase> >::iterator ittr = _triggers.begin();
+						std::map<long, boost::shared_ptr<TriggerBase> >::iterator endtr = _triggers.end();
+						for(; ittr != endtr; ++ittr)
+							ittr->second->ObjectMoved(this, 1, ita->first, StartPosition, EndPosition, LbaNet::StNormal);
+					}
+				}
 			}
 		}
 

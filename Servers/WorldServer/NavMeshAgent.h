@@ -33,6 +33,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class dtCrowd;
 class NaviMeshHandler;
+class LbaQuaternion;
+class LbaVec3;
 
 //! take care of navigation mesh agents
 class NavMeshAgent
@@ -54,7 +56,10 @@ public:
 	void SetPosition(float X, float Y, float Z);
 
 	//! return agent angle
-	float GetAngle();
+	bool GetAngle(float &angle);
+
+	//! return current velocity
+	LbaVec3 GetVelocity();
 
 	//! show or hide the object
 	void ShowOrHide(bool Show);

@@ -200,7 +200,7 @@ public:
 
 
 	//! used by lua to get an actor Position
-	LbaVec3 GetActorPosition();
+	virtual LbaVec3 GetActorPosition();
 
 	//! used by lua to get an actor Rotation
 	float GetActorRotation();
@@ -309,6 +309,9 @@ public:
 	//! return actor type
 	virtual std::string ActorType();
 
+	//! check if is NPC
+	virtual bool IsNPC(){return false;}
+
 
 
 	//! switch actor model
@@ -372,6 +375,13 @@ public:
 	//! stop target player
 	virtual void ForceStopAttackTarget(Ice::Long PlayerId){}
 
+	//! get last recorded pos
+	LbaVec3 GetLastRecordPos()
+	{ return m_lastrecordedpos;}
+
+	//! set last recorded pos
+	void SetLastRecordPos(LbaVec3 pos)
+	{ m_lastrecordedpos = pos;}
 
 #ifdef _USE_QT_EDITOR_
 public:
@@ -459,6 +469,8 @@ protected:
 
 	boost::shared_ptr<NaviMeshHandler>					m_navimesh;
 	boost::shared_ptr<NavMeshAgent>						m_NavMAgent;
+
+	LbaVec3												m_lastrecordedpos;
 };
 
 #endif

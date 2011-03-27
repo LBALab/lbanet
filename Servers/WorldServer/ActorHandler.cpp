@@ -490,6 +490,9 @@ ActorHandler::ActorHandler(const ActorObjectInfo & actorinfo)
 	m_resetposition(false), m_resetrotation(false)
 {
 	SetActorInfo(actorinfo);
+	m_lastrecordedpos = LbaVec3(m_actorinfo.PhysicDesc.Pos.X,
+								m_actorinfo.PhysicDesc.Pos.Y,
+								m_actorinfo.PhysicDesc.Pos.Z);
 }
 
 

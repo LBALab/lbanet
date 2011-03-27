@@ -5,7 +5,13 @@
 #include "CommonTypes.h"
 
 #include <Math.h>
+#include <fstream>
+#include <sstream>
+#include <iostream>
 
+#ifndef M_PI
+#define M_PI    3.14159265358979323846f
+#endif
 
 /***********************************************************
 constructor
@@ -174,7 +180,7 @@ void NavMeshAgent::SetTargetPosition(bool update, float pX, float pY, float pZ)
 /***********************************************************
 return agent angle
 ***********************************************************/
-float NavMeshAgent::GetAngle()
+bool NavMeshAgent::GetAngle(float &angle)
 {
 	if(m_crowdmanager)
 	{
@@ -182,9 +188,39 @@ float NavMeshAgent::GetAngle()
 		if(agent)
 		{
 			LbaVec3 velvec(agent->vel[0], agent->vel[1], agent->vel[2]);
-			return LbaQuaternion::GetAngleFromVector(velvec);
+			float vel = fabs(agent->vel[0]) + fabs(agent->vel[2]);
+			if(vel > 0.0001f)
+			{
+				velvec.y = 0;
+				velvec.Normalize();
+				float angleInRadians = atan2(velvec.x, velvec.z);
+				float angleInDegrees = angleInRadians * 180 / M_PI;
+				angle = angleInDegrees;
+				if(angle < 0)
+					angle += 360;
+			}
+			return true;
 		}
 	}
 	
-	return 0;
+	return false;
+}
+
+
+/***********************************************************
+return current velocity
+***********************************************************/
+LbaVec3 NavMeshAgent::GetVelocity()
+{	
+	if(m_crowdmanager)
+	{
+		const dtCrowdAgent* agent = m_crowdmanager->getAgent(m_crowdagentid);
+		if(agent)
+		{
+			LbaVec3 res(agent->vel[0], agent->vel[1], agent->vel[2]);
+			return res;
+		}
+	}
+
+	return LbaVec3(0, 0, 0);
 }

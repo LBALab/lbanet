@@ -230,6 +230,11 @@ public:
 	virtual void ForceStopAttackTarget(Ice::Long PlayerId);
 
 
+	//! check if is NPC
+	virtual bool IsNPC(){return true;}
+
+	//! used by lua to get an actor Position
+	virtual LbaVec3 GetActorPosition();
 protected:
 
 	//! return the build class

@@ -988,16 +988,16 @@ bool NPCHandler::ShouldforceUpdate()
 	if(_lastupdate.AnimationIdx != _currentupdate.AnimationIdx)
 		return true;
 
-	if(abs(_lastupdate.CurrentSpeedX - _currentupdate.CurrentSpeedX) > 0.00001f)
+	if(fabs(_lastupdate.CurrentSpeedX - _currentupdate.CurrentSpeedX) > 0.00001f)
 		return true;
 
-	if(abs(_lastupdate.CurrentSpeedY - _currentupdate.CurrentSpeedY) > 0.00001f)
+	if(fabs(_lastupdate.CurrentSpeedY - _currentupdate.CurrentSpeedY) > 0.00001f)
 		return true;
 
-	if(abs(_lastupdate.CurrentSpeedZ - _currentupdate.CurrentSpeedZ) > 0.00001f)
+	if(fabs(_lastupdate.CurrentSpeedZ - _currentupdate.CurrentSpeedZ) > 0.00001f)
 		return true;
 
-	if(abs(_lastupdate.CurrentSpeedRotation - _currentupdate.CurrentSpeedRotation) > 0.1f)
+	if(fabs(_lastupdate.CurrentSpeedRotation - _currentupdate.CurrentSpeedRotation) > 0.01f)
 		return true;
 
 
@@ -1015,4 +1015,29 @@ bool NPCHandler::ShouldforceUpdate()
 
 
 	return false;
+}
+
+
+/***********************************************************
+used by lua to get an actor Position
+***********************************************************/
+LbaVec3 NPCHandler::GetActorPosition()
+{
+	if(_freemove)
+	{
+		if(_character)
+		{
+			boost::shared_ptr<PhysicalObjectHandlerBase> physO = _character->GetPhysicalObject();
+			if(physO)
+			{
+				float X, Y, Z;
+				physO->GetPosition(X, Y, Z);
+				return LbaVec3(X, Y, Z);
+			}
+		}
+
+		return LbaVec3();
+	}
+	else
+		return ActorHandler::GetActorPosition();
 }
