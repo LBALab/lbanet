@@ -62,7 +62,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <osg/LineWidth>
 #include <osgUtil/SmoothingVisitor>
 #include <osg/Texture2D>
-
+#include <osg/Material>
 
 static float factormul_lba1_toosg = 32;
 static float factortransY_lba1_toosg = 0;//-0.1;
@@ -2878,10 +2878,21 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow, bool 
 			m_myGeometrytransp->setColorBinding(osg::Geometry::BIND_PER_PRIMITIVE_SET);
 
 			osg::StateSet* stateset2 = m_myGeometrytransp->getOrCreateStateSet();
-			stateset2->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
-			stateset2->setMode( GL_BLEND, osg::StateAttribute::ON );
+
+			osg::Material* material = new osg::Material;
+			material->setColorMode(osg::Material::AMBIENT_AND_DIFFUSE); 
+			stateset2->setAttributeAndModes(material, 
+						osg::StateAttribute::PROTECTED|osg::StateAttribute::OFF); 
+
+			//stateset2->removeAttribute(osg::StateAttribute::MATERIAL);
+			stateset2->setMode(GL_COLOR_MATERIAL, osg::StateAttribute::PROTECTED|osg::StateAttribute::OFF); 
+			stateset2->setMode(osg::StateAttribute::MATERIAL, osg::StateAttribute::PROTECTED|osg::StateAttribute::OFF); 	
+		
+			stateset2->setMode(GL_DEPTH_TEST, osg::StateAttribute::PROTECTED|osg::StateAttribute::OFF);
+			stateset2->setMode( GL_BLEND, osg::StateAttribute::PROTECTED|osg::StateAttribute::ON );
 			stateset2->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
 			stateset2->setRenderBinDetails( 20, "DepthSortedBin");
+
 		}
 	}
 

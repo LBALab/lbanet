@@ -504,16 +504,19 @@ void CharacterController::Process(double tnow, float tdiff,
 					}
 					else
 					{
-						//if we go forward
-						if(speedX > 0)
+						if(hi.ActorPhysType == LbaNet::KynematicAType)
 						{
-							int hittedAct = _currentstate->HurtActorsOnMove();
-							if(hittedAct > 0)
+							//if we go forward
+							if(speedX > 0)
 							{
-								//we touched an actor - hit him
-								EventsQueue::getSenderQueue()->AddEvent(new LbaNet::PlayerHittedContactActorEvent(
-																SynchronizedTimeHandler::GetCurrentTimeDouble(),
-																(hittedAct==2), hi.ActorObjType, hi.ActorId));	
+								int hittedAct = _currentstate->HurtActorsOnMove();
+								if(hittedAct > 0)
+								{
+									//we touched an actor - hit him
+									EventsQueue::getSenderQueue()->AddEvent(new LbaNet::PlayerHittedContactActorEvent(
+																	SynchronizedTimeHandler::GetCurrentTimeDouble(),
+																	(hittedAct==2), hi.ActorObjType, hi.ActorId));	
+								}
 							}
 						}
 					}
@@ -761,16 +764,16 @@ bool CharacterController::ShouldforceUpdate()
 
 
 
-	if(abs(_lastupdate.CurrentSpeedX - _currentupdate.CurrentSpeedX) > 0.00001f)
+	if(fabs(_lastupdate.CurrentSpeedX - _currentupdate.CurrentSpeedX) > 0.00001f)
 		return true;
 
-	if(abs(_lastupdate.CurrentSpeedY - _currentupdate.CurrentSpeedY) > 0.00001f)
+	if(fabs(_lastupdate.CurrentSpeedY - _currentupdate.CurrentSpeedY) > 0.00001f)
 		return true;
 
-	if(abs(_lastupdate.CurrentSpeedZ - _currentupdate.CurrentSpeedZ) > 0.00001f)
+	if(fabs(_lastupdate.CurrentSpeedZ - _currentupdate.CurrentSpeedZ) > 0.00001f)
 		return true;
 
-	if(abs(_lastupdate.CurrentSpeedRotation - _currentupdate.CurrentSpeedRotation) > 0.1f)
+	if(fabs(_lastupdate.CurrentSpeedRotation - _currentupdate.CurrentSpeedRotation) > 0.01f)
 		return true;
 
 
