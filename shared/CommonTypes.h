@@ -58,13 +58,16 @@ public:
 	void cross(const LbaVec3 &left, const LbaVec3 & right);
 
 	//! dot product
-	float dot(const LbaVec3 &v) const
+	inline float dot(const LbaVec3 &v) const
 	{
-		return x * v.x + y * v.y + z * v.z;
+		return (x * v.x) + (y * v.y) + (z * v.z);
 	}
 
 	//! operator !=
 	bool operator !=(const LbaVec3 & q) const;
+
+	//! operator -
+	LbaVec3 operator -(const LbaVec3 & q) const;
 
 	float x, y, z;
 };
@@ -191,6 +194,42 @@ public:
 
 
 
+/***********************************************************************
+CollisionTester
+Code inspired from gamasutra - Miguel Gomez
+http://www.gamasutra.com/view/feature/3383/simple_intersection_tests_for_games.php
+ ***********************************************************************/
+class CollisionTester
+{
+public:
+	//!constructor
+	CollisionTester(){}
 
+
+	// sphere sphere sweep test
+	static bool SphereSphereSweep(const float ra, //radius of sphere A
+									const LbaVec3& A0, //previous position of sphere A
+									const LbaVec3& A1, //current position of sphere A
+									const float rb, //radius of sphere B
+									const LbaVec3& B0, //previous position of sphere B
+									const LbaVec3& B1, //current position of sphere B
+									float& u0, //normalized time of first collision
+									float& u1 //normalized time of second collision
+									);
+
+	// quadratic formula
+	static bool QuadraticFormula(const float a, const float b, const float c,
+									float& r1, //first
+									float& r2 //and second roots
+									); 
+
+	//swap the values of a and b
+	template< class T > static inline void SWAP(T& a, T& b)
+	{
+		const T temp = a;
+		a = b;
+		b = temp; 
+	} 
+};
 
 #endif

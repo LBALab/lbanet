@@ -32,6 +32,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 
+
+
 /***********************************************************
 distance between 2 vectors
 ***********************************************************/
@@ -87,6 +89,16 @@ bool LbaVec3::operator !=(const LbaVec3 & q) const
 	float diff = (x-q.x) + (y-q.y) + (z-q.z);
 	return (fabs(diff) > 0.01f);
 }
+
+
+/***********************************************************
+operator -
+***********************************************************/
+LbaVec3 LbaVec3::operator -(const LbaVec3 & q) const
+{
+	return LbaVec3(x-q.x, y-q.y, z-q.z);
+}
+
 
 
 /***********************************************************
@@ -264,3 +276,96 @@ void LbaQuaternion::multiply(const LbaQuaternion& left, const LbaVec3& right)
 }
 
 
+
+/***********************************************************
+Return true if r1 and r2 are real
+***********************************************************/
+bool CollisionTester::QuadraticFormula(const float a, const float b, const float c,
+									float& r1, //first
+									float& r2 //and second roots
+									)
+{
+    const float q = b*b - 4*a*c;
+    if( q >= 0 )
+    {
+        const float sq = sqrt(q);
+        const float d = 1 / (2*a);
+        r1 = ( -b + sq ) * d;
+        r2 = ( -b - sq ) * d;
+        return true;//real roots
+    }
+
+	return false;//complex roots
+}
+
+/***********************************************************
+sphere sphere sweep test
+***********************************************************/
+bool CollisionTester::SphereSphereSweep(const float ra, //radius of sphere A
+											const LbaVec3& A0, //previous position of sphere A
+											const LbaVec3& A1, //current position of sphere A
+											const float rb, //radius of sphere B
+											const LbaVec3& B0, //previous position of sphere B
+											const LbaVec3& B1, //current position of sphere B
+											float& u0, //normalized time of first collision
+											float& u1 //normalized time of second collision
+											)
+{
+    //vector from A0 to A1
+    const LbaVec3 va = A1 - A0;
+
+    //vector from B0 to B1
+    const LbaVec3 vb = B1 - B0;
+
+    //vector from A0 to B0
+    const LbaVec3 AB = B0 - A0;
+
+
+     //relative velocity (in normalized time)
+	const LbaVec3 vab = vb - va;
+
+
+    const float rab = ra + rb;
+	const float ab2 = AB.dot(AB);
+	const float rab2 = rab*rab;
+	const float fpdot2 = AB.dot(LbaVec3(0,0,0)-vab);
+
+
+    //check if they're currently overlapping
+    if( ab2 <= rab2 )
+    {
+        u0 = 0;
+        u1 = 0;
+        return true;
+    }
+
+
+	//TODO - doesnt work...
+  //  //u*u coefficient
+  //  const float a = vab.dot(vab);
+
+  //  //u coefficient
+  //  const float b = 2*fpdot2;//vab.dot(AB);
+
+  //  //constant term 
+  //  const float c = ab2 - rab2;
+
+
+  //  //check if they hit each other
+  //  // during the frame
+  //  if( QuadraticFormula( a, b, c, u0, u1 ) )
+  //  {
+  //      if( u0 > u1 )
+		//	SWAP( u0, u1 );
+
+		//if(u1 > 1)
+		//	return false;
+
+		//if(u0 < 0)
+		//	return false;
+
+  //      return true;
+  //  }
+
+    return false;
+} 
