@@ -6339,6 +6339,7 @@ void EditorHandler::ActorAdd_button_accepted()
 		break;
 	}
 
+	ainfo.HitPowerOnTouch = -1;
 	ainfo.DisplayDesc.ModelId = 0;
 	ainfo.DisplayDesc.UseLight = true;
 	ainfo.DisplayDesc.CastShadow = true;
@@ -6617,6 +6618,12 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 			{
 				QVector<QVariant> data;
 				data<<"Exclude from Navmesh"<<ainfo.ExcludeFromNavMesh;
+				_objectmodel->AppendRow(data, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data;
+				data<<"Hurt life on hit"<<(double)ainfo.HitPowerOnTouch;
 				_objectmodel->AppendRow(data, parent);
 				++index;
 			}
@@ -7403,6 +7410,10 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 
 			if(updatedrow == index)
 				ainfo.ExcludeFromNavMesh = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
+			++index;
+
+			if(updatedrow == index)
+				ainfo.HitPowerOnTouch = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
 			++index;
 
 
