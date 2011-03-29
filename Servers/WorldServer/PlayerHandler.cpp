@@ -238,6 +238,10 @@ void PlayerHandler::UpdatePositionInWorld(const LbaNet::PlayerPosition& Position
 	if(_currentinfo.ppos.MapName != Position.MapName)
 		return;
 
+	// keep track of last position
+	SetLastPosition(LbaVec3(_currentinfo.ppos.X, _currentinfo.ppos.Y, _currentinfo.ppos.Z));
+
+
 	_currentinfo.ppos = Position;
 }
 
@@ -1663,3 +1667,47 @@ float PlayerHandler::GetHitContactPower(bool withweapon)
 	return res;
 }
 
+
+
+/***********************************************************
+return current position - centered on Y
+***********************************************************/
+LbaVec3 PlayerHandler::GetCurrentPhysPosition()
+{
+	float sX, sY, sZ;
+	GetPlayerPhysicalSize(sX, sY, sZ);
+
+	return LbaVec3(_currentinfo.ppos.X, _currentinfo.ppos.Y+sY/2, _currentinfo.ppos.Z);
+}
+
+ /***********************************************************
+return last position - centered on Y
+***********************************************************/
+LbaVec3 PlayerHandler::GetLastPhysPosition()
+{
+	return _lastposition;
+}
+
+ /***********************************************************
+set last position
+***********************************************************/
+void PlayerHandler::SetLastPosition(const LbaVec3 & pos)
+{
+	float sX, sY, sZ;
+	GetPlayerPhysicalSize(sX, sY, sZ);
+
+	_lastposition = pos;
+	_lastposition.y += sY/2;
+}
+
+
+ /***********************************************************
+get player physical radius
+***********************************************************/
+float PlayerHandler::GetPhysRadius()
+{
+	float sX, sY, sZ;
+	GetPlayerPhysicalSize(sX, sY, sZ);
+
+	return (sX + sZ)/4;
+}

@@ -80,6 +80,8 @@ ActorObjectInfo::ActorObjectInfo(long id)
 	ExtraInfo.NameColorR = 0;
 	ExtraInfo.NameColorG = 0;
 	ExtraInfo.NameColorB = 0;
+
+	HitPowerOnTouch = -1;
 }
 
 
@@ -594,6 +596,7 @@ void ActorHandler::SaveToLuaFile(std::ofstream & file)
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<" = ActorObjectInfo("<<m_actorinfo.ObjectId<<")"<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<":SetRenderType("<<m_actorinfo.GetRenderType()<<")"<<std::endl;
 
+	file<<"\tActor_"<<m_actorinfo.ObjectId<<".HitPowerOnTouch = "<<m_actorinfo.HitPowerOnTouch<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".ExcludeFromNavMesh = "<<(m_actorinfo.ExcludeFromNavMesh?"true":"false")<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ModelId = "<<m_actorinfo.DisplayDesc.ModelId<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ModelName = \""<<m_actorinfo.DisplayDesc.ModelName<<"\""<<std::endl;
@@ -1807,4 +1810,14 @@ LbaNet::PlayerPosition ActorHandler::GetCurrentPosition()
 	res.Rotation = actphys->GetRotationYAxis();
 
 	return res;
+}
+
+
+/***********************************************************
+return touch hit power - used to make plqyer loose life if actor touch him/hit him
+***********************************************************/
+float ActorHandler::GetTouchHitPower(bool & IgnoreArmor)
+{
+	IgnoreArmor = true;
+	return m_actorinfo.HitPowerOnTouch;
 }

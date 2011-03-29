@@ -337,6 +337,9 @@ protected:
 	float										_lastchasingcheckposX;
 	float										_lastchasingcheckposY;
 	float										_lastchasingcheckposZ;
+
+
+	int											m_launchedattackscript;
 };
 
 #endif

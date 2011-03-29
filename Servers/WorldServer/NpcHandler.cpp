@@ -21,7 +21,8 @@ NPCHandler::NPCHandler(const ActorObjectInfo & actorinfo)
 		_attack_activation_distance_discrete(0), 
 		_attack_activation_distance_hidden(0), _respwantime(-1),
 		_armor(0), _weapon1power(0), _weapon2power(0), _stop_attack_distance(0),
-		_agentstatenum(1), _targetedattackplayer(-1), _oldtdiff(1), _freemove(false)
+		_agentstatenum(1), _targetedattackplayer(-1), _oldtdiff(1), _freemove(false),
+		m_launchedattackscript(-1)
 {
 	_lifeinfo.MaxLife = 0;
 	_lifeinfo.MaxMana = 0;
@@ -330,15 +331,23 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 {
 	bool animfinished = false;
 
-	//process char in case we are not scripted
-	if(m_paused || m_launchedscript < 0)
+	// process attack script
+	if((m_launchedattackscript >= 0) && (_currentScripts.size() > 0))
 	{
-		int pout = _character->Process(tnow, tdiff);
-		animfinished = (pout == 1);
+		ProcessScript(tnow, tdiff, m_scripthandler);
+	}
+	else
+	{
+		//process char in case we are not scripted
+		if(m_paused || m_launchedscript < 0)
+		{
+			int pout = _character->Process(tnow, tdiff);
+			animfinished = (pout == 1);
+		}
 	}
 
-
-	if(_aggresive && _agentState->CanChase())
+	//target players that are too close
+	if(_aggresive && _targetedattackplayer < 0)
 	{
 		//todo - target player that are too close
 	}
@@ -402,7 +411,7 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 								fabs(checkY-_lastchasingcheckposY) +
 								fabs(checkZ-_lastchasingcheckposZ);
 
-				if(diff < 0.1)
+				if(diff < 0.1f)
 				{
 					//reset target
 					if(_targetedattackplayer > 0 && m_NavMAgent && m_scripthandler)
@@ -419,7 +428,6 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 
 			_lastchasingchecktime = tnow;
 		}
-
 	}
 
 	//if coming back

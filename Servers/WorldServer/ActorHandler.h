@@ -83,6 +83,8 @@ struct ActorObjectInfo
 		LifeInfo.Display = false;
 		ExtraInfo.Display = false;
 		ExcludeFromNavMesh = false;
+
+		HitPowerOnTouch = -1;
 	}
 
 	//constructor
@@ -156,6 +158,8 @@ struct ActorObjectInfo
 	LbaNet::ObjectPhysicDesc	PhysicDesc;
 	LbaNet::LifeManaInfo		LifeInfo;
 	LbaNet::ObjectExtraInfo		ExtraInfo;
+
+	float						HitPowerOnTouch;
 
 	bool						ExcludeFromNavMesh;
 };
@@ -383,6 +387,13 @@ public:
 	void SetLastRecordPos(LbaVec3 pos)
 	{ m_lastrecordedpos = pos;}
 
+
+	//! return touch hit power - used to make plqyer loose life if actor touch him/hit him
+	virtual float GetTouchHitPower(bool & IgnoreArmor);
+
+
+
+
 #ifdef _USE_QT_EDITOR_
 public:
 	std::vector<int>		initpolycolors;
@@ -402,7 +413,6 @@ public:
 	{ SetActorInfo(m_actorinfo); }
 
 #endif
-
 
 protected:
 

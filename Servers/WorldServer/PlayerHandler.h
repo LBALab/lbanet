@@ -33,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "CharacterStates.h"
 #include "CharacterModes.h"
 #include "ClientProxyHandler.h"
+#include "CommonTypes.h"
 
 
 //! take care of a specific player inside the server
@@ -237,6 +238,15 @@ public:
 	float GetHitContactPower(bool withweapon);
 
 
+	//! return current position - centered on Y
+	LbaVec3 GetCurrentPhysPosition();
+
+	//! return last position - centered on Y
+	LbaVec3 GetLastPhysPosition();
+
+	//! get player physical radius
+	float GetPhysRadius();
+
 protected:
 	// update state and mode class from modelinfo
 	void UpdateStateModeClass();
@@ -246,6 +256,9 @@ protected:
 
 	//! reset weapon if needed
 	void ResetWeapon();
+
+	//! set last position
+	void SetLastPosition(const LbaVec3 & pos);
 
 private:
 	long										_clientid;
@@ -269,6 +282,8 @@ private:
 	LbaNet::ModelState							_savedState;
 
 	int											_currentchapter;
+
+	LbaVec3										_lastposition;
 };
 
 #endif
