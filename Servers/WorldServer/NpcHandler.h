@@ -235,6 +235,20 @@ public:
 
 	//! used by lua to get an actor Position
 	virtual LbaVec3 GetActorPosition();
+
+
+	//! get attack function name
+	std::string GetAttackFunction()
+	{return m_attackfunctionname;}
+
+	//! set attack function name
+	void SetAttackFunction(const std::string & fctname)
+	{m_attackfunctionname = fctname;}
+
+
+	//! npc follow player
+	virtual void FollowPlayer(int ScriptId, Ice::Long PlayerId, float DistanceStopFollow, bool asynchronus);
+
 protected:
 
 	//! return the build class
@@ -290,6 +304,12 @@ protected:
 	bool ShouldforceUpdate();
 
 
+	//! start attack script
+	void StartAttackScript();
+
+	//! stop attack script
+	void StopAttackScript();
+
 
 protected:
 	long						_npcnametextid;
@@ -340,6 +360,7 @@ protected:
 
 
 	int											m_launchedattackscript;
+	std::string									m_attackfunctionname;
 };
 
 #endif

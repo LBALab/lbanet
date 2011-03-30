@@ -392,6 +392,8 @@ public:
 	virtual float GetTouchHitPower(bool & IgnoreArmor);
 
 
+	//! npc follow player
+	virtual void FollowPlayer(int ScriptId, Ice::Long PlayerId, float DistanceStopFollow, bool asynchronus){}
 
 
 #ifdef _USE_QT_EDITOR_

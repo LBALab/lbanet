@@ -594,23 +594,7 @@ target player
 ***********************************************************/
 void NPCHandler::TargetAttackPlayer(Ice::Long PlayerId)
 {	
-	//change anim to walking
-	UpdateActorAnimation("MoveForward", false);
-
-	// tell agent to follow player
-	if(m_NavMAgent && m_scripthandler)
-	{
-		LbaVec3 pos = m_scripthandler->GetPlayerPositionVec((long)PlayerId);
-		m_NavMAgent->SetTargetPosition(false, pos.x, pos.y, pos.z);
-	}
-
-	_targetedattackplayer = PlayerId;
-
-	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
-	if(physo)
-		physo->GetPosition(_lastchasingcheckposX, _lastchasingcheckposY, _lastchasingcheckposZ);
-
-	_lastchasingchecktime = SynchronizedTimeHandler::GetCurrentTimeDouble();
+	StartAttackScript();
 }
 
 
@@ -1048,4 +1032,54 @@ LbaVec3 NPCHandler::GetActorPosition()
 	}
 	else
 		return ActorHandler::GetActorPosition();
+}
+
+
+/***********************************************************
+start attack script
+***********************************************************/
+void NPCHandler::StartAttackScript()
+{
+	if(m_launchedattackscript > 0)
+		StopAttackScript();	//stop old script
+
+	// start the script
+	if(m_attackfunctionname != "" && m_scripthandler)
+		m_launchedattackscript = m_scripthandler->StartScript(m_attackfunctionname, false);
+}
+
+/***********************************************************
+stop attack script
+***********************************************************/
+void NPCHandler::StopAttackScript()
+{
+	if(m_launchedattackscript > 0 && m_scripthandler)
+		m_scripthandler->StropThread(m_launchedattackscript);	
+
+	m_launchedattackscript = -1;
+}
+
+
+/***********************************************************
+npc follow player
+***********************************************************/
+void NPCHandler::FollowPlayer(int ScriptId, Ice::Long PlayerId, float DistanceStopFollow, bool asynchronus)
+{
+	//change anim to walking
+	UpdateActorAnimation("MoveForward", false);
+
+	// tell agent to follow player
+	if(m_NavMAgent && m_scripthandler)
+	{
+		LbaVec3 pos = m_scripthandler->GetPlayerPositionVec((long)PlayerId);
+		m_NavMAgent->SetTargetPosition(false, pos.x, pos.y, pos.z);
+	}
+
+	_targetedattackplayer = PlayerId;
+
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+	if(physo)
+		physo->GetPosition(_lastchasingcheckposX, _lastchasingcheckposY, _lastchasingcheckposZ);
+
+	_lastchasingchecktime = SynchronizedTimeHandler::GetCurrentTimeDouble();
 }
