@@ -54,6 +54,10 @@ public:
 	//! get vector length
 	float Length();
 
+	//! get vector fast length
+	float FastLength();
+
+
 	//! cros product
 	void cross(const LbaVec3 &left, const LbaVec3 & right);
 

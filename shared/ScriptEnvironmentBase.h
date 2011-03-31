@@ -391,6 +391,11 @@ public:
 	virtual LbaVec3 GetPlayerPositionVec(long PlayerId)
 	{return LbaVec3(-1, -1, -1);}
 
+	//!  used by lua to get player position
+	virtual LbaNet::PlayerPosition GetPlayerPosition(Ice::Long clientid)
+	{return LbaNet::PlayerPosition();}
+
+
 protected:
 
 	//! used by lua to move an actor or player

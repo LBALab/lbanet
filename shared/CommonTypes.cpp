@@ -47,13 +47,20 @@ float LbaVec3::Distance(const LbaVec3 & v) const
 
 
 /***********************************************************
-normalize vector
+vector length
 ***********************************************************/
 float LbaVec3::Length()
 {
 	return sqrt(x * x + y * y + z * z);
 }
 
+/***********************************************************
+vector fast length
+***********************************************************/
+float LbaVec3::FastLength()
+{
+	return (x * x + y * y + z * z);
+}
 
 /***********************************************************
 normalize vector
