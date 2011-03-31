@@ -241,3 +241,30 @@ function TakeExitDown(ScriptId, ActorId, ExitPosition, ExitDirection, Environmen
 	Environment:ActorAnimate(ScriptId, ActorId, true)	
 	Environment:ActorAnimate(ScriptId, ActorId, true)	
 end
+
+
+-- go to player and attack him with contact weapon
+function ActorAttackContactPlayer(ScriptId, ActorId, Environment)
+
+	TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
+	while TargetedPlayer > -1 do
+	
+		tinrange = Environment:IsTargetInRange(1.0, ActorId)
+		if tinrange == false then
+			-- follow player until we reach him
+			Environment:FollowTargettedPlayer(ScriptId, ActorId, 1.0)
+		else
+			rotationdiff = Environment:GetTargetRotationDiff(ActorId)
+			if rotationdiff > 10 then
+				-- rotate to face player
+				Environment:RotateToTargettedPlayer(ScriptId, ActorId, 10, 0.2)	
+			else
+				-- attack player
+				Environment:UseWeapon(ScriptId, ActorId, 1)
+			end
+		end
+	
+	
+		TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
+	end
+end
