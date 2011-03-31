@@ -4021,3 +4021,75 @@ LbaVec3 MapHandler::GetPlayerPositionVec(long PlayerId)
 
 	return LbaVec3(-1, -1, -1);
 }
+
+
+
+/***********************************************************
+npc rotate to player
+***********************************************************/
+void MapHandler::RotateToTargettedPlayer(int ScriptId, long ActorId, float ToleranceAngle, float speed)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact = _Actors.find(ActorId);
+	if(itact != _Actors.end())
+		itact->second->RotateToTargettedPlayer(ScriptId, ToleranceAngle, speed);
+}
+
+
+/***********************************************************
+npc follow player
+***********************************************************/
+void MapHandler::FollowTargettedPlayer(int ScriptId, long ActorId, float DistanceStopFollow)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact = _Actors.find(ActorId);
+	if(itact != _Actors.end())
+		itact->second->FollowTargettedPlayer(ScriptId, DistanceStopFollow);
+}
+
+
+/***********************************************************
+npc use weapon
+***********************************************************/
+void MapHandler::UseWeapon(int ScriptId, long ActorId, int WeaponNumber)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact = _Actors.find(ActorId);
+	if(itact != _Actors.end())
+		itact->second->UseWeapon(ScriptId, WeaponNumber);
+}
+
+
+/***********************************************************
+return targeted player
+***********************************************************/
+long MapHandler::GetTargettedAttackPlayer(long ActorId)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact = _Actors.find(ActorId);
+	if(itact != _Actors.end())
+		return itact->second->GetTargettedAttackPlayer();
+
+	return -1;
+}
+
+
+/***********************************************************
+check if target is in range
+***********************************************************/
+bool MapHandler::IsTargetInRange(float MaxDistance, long ActorId)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact = _Actors.find(ActorId);
+	if(itact != _Actors.end())
+		return itact->second->IsTargetInRange(MaxDistance);
+
+	return false;
+}
+
+/***********************************************************
+check if target is in rotation range
+***********************************************************/
+float MapHandler::GetTargetRotationDiff(long ActorId)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact = _Actors.find(ActorId);
+	if(itact != _Actors.end())
+		return itact->second->GetTargetRotationDiff();
+
+	return 360;
+}

@@ -248,13 +248,17 @@ public:
 	virtual void UseWeapon(int ScriptId, int WeaponNumber);
 
 	//! return targeted player
-	virtual long GetTargettedAttackPlayer(){return -_targetedattackplayer;}
+	virtual long GetTargettedAttackPlayer(){return _targetedattackplayer;}
 
 	//! check if target is in range
 	virtual bool IsTargetInRange(float MaxDistance);
 
 	//! check if target is in rotation range
 	virtual float GetTargetRotationDiff();
+
+	//! return touch hit power - used to make player loose life if actor touch him/hit him
+	virtual float GetTouchHitPower(bool & IgnoreArmor);
+
 
 
 	//! get attack function name
@@ -308,8 +312,6 @@ public:
 	void SetWeapon2Type(int v)
 	{m_weapon2type = v;}
 
-	//! return touch hit power - used to make player loose life if actor touch him/hit him
-	virtual float GetTouchHitPower(bool & IgnoreArmor);
 
 protected:
 

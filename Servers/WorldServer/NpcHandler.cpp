@@ -21,9 +21,10 @@ NPCHandler::NPCHandler(const ActorObjectInfo & actorinfo)
 		_attack_activation_distance_discrete(0), 
 		_attack_activation_distance_hidden(0), _respwantime(-1),
 		_armor(0), _weapon1power(0), _weapon2power(0), _stop_attack_distance(0),
-		_agentstatenum(1), _targetedattackplayer(-1), _oldtdiff(1), 
+		_agentstatenum(0), _targetedattackplayer(-1), _oldtdiff(1), 
 		m_launchedattackscript(-1), m_runningscript(-1),
-		m_weapon1type(-1), m_weapon2type(-1), m_minimalchasingdistance(1)
+		m_weapon2type(-1), m_minimalchasingdistance(1),
+		m_useweapon1animation("UseWeapon"), m_weapon1type(1)
 {
 	_lifeinfo.MaxLife = 0;
 	_lifeinfo.MaxMana = 0;
@@ -73,6 +74,23 @@ void NPCHandler::ExtraLua(std::ofstream & file, const std::string & name)
 		file<<"\t"<<name<<":SetAttackActiDistHidden("<<_attack_activation_distance_hidden<<")"<<std::endl;
 		file<<"\t"<<name<<":SetAttackStopDist("<<_stop_attack_distance<<")"<<std::endl;
 		file<<"\t"<<name<<":SetRespawnTimeInSec("<<_respwantime<<")"<<std::endl;
+
+		if(m_attackfunctionname != "")
+			file<<"\t"<<name<<":SetAttackFunction(\""<<m_attackfunctionname<<"\")"<<std::endl;
+
+		if(m_chasinganimation != "")
+			file<<"\t"<<name<<":Setchasinganimation(\""<<m_chasinganimation<<"\")"<<std::endl;
+
+		if(m_useweapon1animation != "")
+			file<<"\t"<<name<<":Setuseweapon1animation(\""<<m_useweapon1animation<<"\")"<<std::endl;
+
+		if(m_useweapon2animation != "")
+			file<<"\t"<<name<<":Setuseweapon2animation(\""<<m_useweapon2animation<<"\")"<<std::endl;
+
+		file<<"\t"<<name<<":SetWeapon1Type("<<m_weapon1type<<")"<<std::endl;
+		file<<"\t"<<name<<":SetWeapon2Type("<<m_weapon2type<<")"<<std::endl;
+
+
 
 		if(_attack_activation_condition)
 		{
@@ -436,7 +454,7 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 	}
 
 	//if chasing
-	if(_agentState->IsChasing())
+	if(_agentstatenum == 4)
 	{
 		// check if we arrive at destination
 		if(IsTargetInRange(m_minimalchasingdistance))
@@ -480,7 +498,7 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 	}
 
 	//if coming back
-	if(_agentState->IsComingBack())
+	if(_agentstatenum == 5)
 	{
 		//check if we arrived
 		boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
@@ -1145,7 +1163,7 @@ void NPCHandler::StartAttackScript()
 
 	// start the script
 	if(m_attackfunctionname != "" && m_scripthandler)
-		m_launchedattackscript = m_scripthandler->StartScript(m_attackfunctionname, false);
+		m_launchedattackscript = m_scripthandler->StartScript(m_attackfunctionname, GetId(), false);
 }
 
 /***********************************************************
@@ -1172,6 +1190,7 @@ void NPCHandler::FollowTargettedPlayer(int ScriptId, float DistanceStopFollow)
 
 	if(_targetedattackplayer < 0)
 	{
+		ChangeState(1);
 		YieldRunningScript();
 		return;
 	}
@@ -1211,6 +1230,7 @@ void NPCHandler::RotateToTargettedPlayer(int ScriptId, float ToleranceAngle, flo
 
 	if(_targetedattackplayer < 0)
 	{
+		ChangeState(1);
 		YieldRunningScript();
 		return;
 	}
@@ -1232,6 +1252,7 @@ void NPCHandler::UseWeapon(int ScriptId, int WeaponNumber)
 
 	if(_targetedattackplayer < 0)
 	{
+		ChangeState(1);
 		YieldRunningScript();
 		return;
 	}
@@ -1255,7 +1276,11 @@ void NPCHandler::UseWeapon(int ScriptId, int WeaponNumber)
 	}
 
 	if(weapontype < 0)
-		return; // no weapon found
+	{
+		ChangeState(1);
+		YieldRunningScript(); // no weapon found
+		return;
+	}
 
 
 	// change state to use weapon
@@ -1293,9 +1318,11 @@ void NPCHandler::YieldRunningScript()
 
 	//tell script handler that script part is finished
 	if(m_scripthandler)
-		m_scripthandler->ScriptFinished(m_runningscript, false);
-
-	m_runningscript = -1;
+	{
+		int scriptid = m_runningscript;
+		m_runningscript = -1;
+		m_scripthandler->ScriptFinished(scriptid, false);
+	}
 }
 
 

@@ -66,6 +66,64 @@ LuaThreadHandler::LuaThreadHandler(lua_State * mainstate, const std::string & Fu
 	}
 }
 
+
+
+
+/***********************************************************
+constructor with actor id
+***********************************************************/
+LuaThreadHandler::LuaThreadHandler(lua_State * mainstate, long actorid, const std::string & FunctionName, 
+								   bool inlinefunction, ScriptEnvironmentBase* env)
+: m_FunctionName(FunctionName), m_LuaMainState(mainstate), m_started(false)
+{
+	try
+	{
+		m_LuaThreadState = lua_newthread(m_LuaMainState);
+		m_refKey = luaL_ref(m_LuaMainState, LUA_REGISTRYINDEX);
+
+		if(inlinefunction)
+		{
+			++m_idgenerator;
+
+			std::stringstream fctname;
+			fctname<<"LTH"<<m_idgenerator;
+
+			std::stringstream inlinefct;
+			inlinefct<<"function "<<fctname.str()<<"(ScriptId, ActorId, Environment)"<<std::endl;
+			inlinefct<<FunctionName;
+			inlinefct<<"end"<<std::endl;
+
+			std::string check = inlinefct.str();
+			luaL_dostring(m_LuaMainState, inlinefct.str().c_str());
+
+			luabind::resume_function<void>(m_LuaThreadState, fctname.str().c_str(), m_refKey, actorid, env);
+			m_started = true;
+		}
+		else
+		{
+			// check if function exist
+			lua_getglobal(m_LuaMainState, m_FunctionName.c_str());
+			if (lua_isfunction(m_LuaMainState, lua_gettop(m_LuaMainState)))
+			{
+				luabind::resume_function<void>(m_LuaThreadState, m_FunctionName.c_str(), m_refKey, actorid, env);
+				m_started = true;
+				LogHandler::getInstance()->LogToFile("Script started: "+m_FunctionName, m_refKey);
+			}
+			else
+			{
+				LogHandler::getInstance()->LogToFile(std::string("Trying to execute an undefined LUA function: ") 
+																					+ m_FunctionName, 0);		
+			}
+		}
+	}
+	catch(const std::exception &error)
+	{
+		LogHandler::getInstance()->LogToFile(std::string("Exception initializing LUA thread: ") 
+																					+ error.what(), 0);
+	}
+}
+
+
 /***********************************************************
 destructor
 ***********************************************************/	

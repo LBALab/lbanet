@@ -38,7 +38,10 @@ public:
 	//! constructor
 	LuaThreadHandler(lua_State * mainstate, const std::string & FunctionName, 
 					bool inlinefunction, ScriptEnvironmentBase* env);
-	
+
+	//! constructor with actor id
+	LuaThreadHandler(lua_State * mainstate, long actorid, const std::string & FunctionName, 
+					bool inlinefunction, ScriptEnvironmentBase* env);
 	//! destructor
 	~LuaThreadHandler(void);
 

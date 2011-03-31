@@ -8,6 +8,8 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <float.h>
+
 
 #ifndef M_PI
 #define M_PI    3.14159265358979323846f
@@ -248,11 +250,15 @@ bool NavMeshAgent::RaycastTarget(const LbaVec3 &target)
 			targetpos[1] = target.y;
 			targetpos[2] = target.z;
 
+			static const int MAX_RES = 32;
+			dtPolyRef res[MAX_RES];
+			int nres = 0;
+
 			float m_hitNormal[3];
 			float t = 0;
 
-			navquery->raycast(m_targetRef, agent->npos, targetpos, filter, &t, m_hitNormal, NULL, NULL, 0);
-			return (t <= 1);
+			navquery->raycast(m_targetRef, agent->npos, targetpos, filter, &t, m_hitNormal, res, &nres, MAX_RES);
+			return (t == FLT_MAX || t <= 1);
 		}
 	}
 

@@ -367,6 +367,25 @@ public:
 	//! used by lua to get an player Position
 	virtual LbaVec3 GetPlayerPositionVec(long PlayerId);
 
+
+	//! npc rotate to player
+	virtual void RotateToTargettedPlayer(int ScriptId, long ActorId, float ToleranceAngle, float speed);
+
+	//! npc follow player
+	virtual void FollowTargettedPlayer(int ScriptId, long ActorId, float DistanceStopFollow);
+
+	//! npc use weapon
+	virtual void UseWeapon(int ScriptId, long ActorId, int WeaponNumber);
+
+	//! return targeted player
+	virtual long GetTargettedAttackPlayer(long ActorId);
+
+	//! check if target is in range
+	virtual bool IsTargetInRange(float MaxDistance, long ActorId);
+
+	//! check if target is in rotation range
+	virtual float GetTargetRotationDiff(long ActorId);
+
 protected:
 
 	// process events

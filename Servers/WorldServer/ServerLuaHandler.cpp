@@ -355,7 +355,19 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("SetAttackActivationCondition", &NPCHandler::SetAttackActivationCondition)
 		.def("GetActionOnAttackActivation", &NPCHandler::GetActionOnAttackActivation)
 		.def("SetActionOnAttackActivation", &NPCHandler::SetActionOnAttackActivation)
-		.def("AddGivenItem", &NPCHandler::AddGivenItem),
+		.def("AddGivenItem", &NPCHandler::AddGivenItem)
+		.def("GetAttackFunction", &NPCHandler::GetAttackFunction)
+		.def("SetAttackFunction", &NPCHandler::SetAttackFunction)
+		.def("Getchasinganimation", &NPCHandler::Getchasinganimation)
+		.def("Setchasinganimation", &NPCHandler::Setchasinganimation)
+		.def("Getuseweapon1animation", &NPCHandler::Getuseweapon1animation)
+		.def("Setuseweapon1animation", &NPCHandler::Setuseweapon1animation)
+		.def("Getuseweapon2animation", &NPCHandler::Getuseweapon2animation)
+		.def("Setuseweapon2animation", &NPCHandler::Setuseweapon2animation)
+		.def("GetWeapon1Type", &NPCHandler::GetWeapon1Type)
+		.def("SetWeapon1Type", &NPCHandler::SetWeapon1Type)
+		.def("GetWeapon2Type", &NPCHandler::GetWeapon2Type)
+		.def("SetWeapon2Type", &NPCHandler::SetWeapon2Type),
 
 
 
@@ -417,7 +429,13 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("CheckCustomCondition", &ScriptEnvironmentBase::CheckCustomCondition)
 		.def("GetGhostPosition", &ScriptEnvironmentBase::GetGhostPosition)
 		.def("GetGhostOwnerPlayer", &ScriptEnvironmentBase::GetGhostOwnerPlayer)
-		.def("LogToFile", &ScriptEnvironmentBase::LogToFile),
+		.def("LogToFile", &ScriptEnvironmentBase::LogToFile)
+		.def("RotateToTargettedPlayer", &ScriptEnvironmentBase::RotateToTargettedPlayer, luabind::yield)
+		.def("FollowTargettedPlayer", &ScriptEnvironmentBase::FollowTargettedPlayer, luabind::yield)
+		.def("UseWeapon", &ScriptEnvironmentBase::UseWeapon, luabind::yield)
+		.def("GetTargettedAttackPlayer", &ScriptEnvironmentBase::GetTargettedAttackPlayer)
+		.def("IsTargetInRange", &ScriptEnvironmentBase::IsTargetInRange)
+		.def("GetTargetRotationDiff", &ScriptEnvironmentBase::GetTargetRotationDiff),
 
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),
