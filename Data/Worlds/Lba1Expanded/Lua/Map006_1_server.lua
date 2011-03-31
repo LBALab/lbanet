@@ -43,6 +43,7 @@ function InitMap(environment)
 
 	Actor_1 = ActorObjectInfo(1)
 	Actor_1:SetRenderType(1)
+	Actor_1.HitPowerOnTouch = -1
 	Actor_1.ExcludeFromNavMesh = false
 	Actor_1.DisplayDesc.ModelId = 0
 	Actor_1.DisplayDesc.ModelName = "Worlds/Lba1Original/Grids/Map6.osgb"
@@ -90,7 +91,8 @@ function InitMap(environment)
 
 	Actor_7 = ActorObjectInfo(7)
 	Actor_7:SetRenderType(1)
-	Actor_7.ExcludeFromNavMesh = false
+	Actor_7.HitPowerOnTouch = -1
+	Actor_7.ExcludeFromNavMesh = true
 	Actor_7.DisplayDesc.ModelId = 0
 	Actor_7.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite023.osgb"
 	Actor_7.DisplayDesc.Outfit = ""
@@ -145,7 +147,8 @@ function InitMap(environment)
 
 	Actor_8 = ActorObjectInfo(8)
 	Actor_8:SetRenderType(1)
-	Actor_8.ExcludeFromNavMesh = false
+	Actor_8.HitPowerOnTouch = -1
+	Actor_8.ExcludeFromNavMesh = true
 	Actor_8.DisplayDesc.ModelId = 0
 	Actor_8.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite022.osgb"
 	Actor_8.DisplayDesc.Outfit = ""
@@ -200,6 +203,7 @@ function InitMap(environment)
 
 	Actor_9 = ActorObjectInfo(9)
 	Actor_9:SetRenderType(1)
+	Actor_9.HitPowerOnTouch = -1
 	Actor_9.ExcludeFromNavMesh = false
 	Actor_9.DisplayDesc.ModelId = 0
 	Actor_9.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite012.osgb"
@@ -255,6 +259,7 @@ function InitMap(environment)
 
 	Actor_10 = ActorObjectInfo(10)
 	Actor_10:SetRenderType(3)
+	Actor_10.HitPowerOnTouch = -1
 	Actor_10.ExcludeFromNavMesh = true
 	Actor_10.DisplayDesc.ModelId = 0
 	Actor_10.DisplayDesc.ModelName = "Boat"
@@ -328,6 +333,7 @@ function InitMap(environment)
 
 	Actor_11 = ActorObjectInfo(11)
 	Actor_11:SetRenderType(3)
+	Actor_11.HitPowerOnTouch = -1
 	Actor_11.ExcludeFromNavMesh = false
 	Actor_11.DisplayDesc.ModelId = 0
 	Actor_11.DisplayDesc.ModelName = "Grobo"
@@ -432,6 +438,7 @@ function InitMap(environment)
 
 	Actor_12 = ActorObjectInfo(12)
 	Actor_12:SetRenderType(3)
+	Actor_12.HitPowerOnTouch = -1
 	Actor_12.ExcludeFromNavMesh = false
 	Actor_12.DisplayDesc.ModelId = 0
 	Actor_12.DisplayDesc.ModelName = "GroboClone"
@@ -525,12 +532,17 @@ function InitMap(environment)
 	Actor_12H:SetAttackActiDistHidden(0)
 	Actor_12H:SetAttackStopDist(0)
 	Actor_12H:SetRespawnTimeInSec(10)
+	Actor_12H:SetAttackFunction("ActorAttackContactPlayer")
+	Actor_12H:Setuseweapon1animation("UseWeapon")
+	Actor_12H:SetWeapon1Type(1)
+	Actor_12H:SetWeapon2Type(-1)
 	Actor_12H:AddGivenItem(1,1,1,1,-1)
 	Actor_12H:AddGivenItem(2,1,1,1,-1)
 	environment:AddActorObject(Actor_12H)
 
 	Actor_13 = ActorObjectInfo(13)
 	Actor_13:SetRenderType(3)
+	Actor_13.HitPowerOnTouch = -1
 	Actor_13.ExcludeFromNavMesh = false
 	Actor_13.DisplayDesc.ModelId = 0
 	Actor_13.DisplayDesc.ModelName = "GroboClone"
@@ -601,6 +613,7 @@ function InitMap(environment)
 
 	Actor_14 = ActorObjectInfo(14)
 	Actor_14:SetRenderType(3)
+	Actor_14.HitPowerOnTouch = -1
 	Actor_14.ExcludeFromNavMesh = false
 	Actor_14.DisplayDesc.ModelId = 0
 	Actor_14.DisplayDesc.ModelName = "Rabbibunny"
@@ -671,6 +684,7 @@ function InitMap(environment)
 
 	Actor_15 = ActorObjectInfo(15)
 	Actor_15:SetRenderType(3)
+	Actor_15.HitPowerOnTouch = -1
 	Actor_15.ExcludeFromNavMesh = false
 	Actor_15.DisplayDesc.ModelId = 0
 	Actor_15.DisplayDesc.ModelName = "Rabbibunny"
@@ -741,6 +755,7 @@ function InitMap(environment)
 
 	Actor_16 = ActorObjectInfo(16)
 	Actor_16:SetRenderType(3)
+	Actor_16.HitPowerOnTouch = -1
 	Actor_16.ExcludeFromNavMesh = true
 	Actor_16.DisplayDesc.ModelId = 0
 	Actor_16.DisplayDesc.ModelName = "Boat"
@@ -811,6 +826,7 @@ function InitMap(environment)
 
 	Actor_17 = ActorObjectInfo(17)
 	Actor_17:SetRenderType(3)
+	Actor_17.HitPowerOnTouch = -1
 	Actor_17.ExcludeFromNavMesh = false
 	Actor_17.DisplayDesc.ModelId = 0
 	Actor_17.DisplayDesc.ModelName = "Object"
@@ -1000,7 +1016,7 @@ function InitMap(environment)
 	Trigger_9:SetPlayAnimation(false)
 	environment:AddTrigger(Trigger_9)
 
-	Trigger_10_info = TriggerInfo(10, "DoorTri_10", true, false, false)
+	Trigger_10_info = TriggerInfo(10, "DoorTri_10", true, true, false)
 	Trigger_10 = ZoneTrigger(Trigger_10_info, 4, 5, 6, false)
 	Trigger_10:SetPosition(47.5, 4, 46)
 	Trigger_10:SetStayUpdateFrequency(-1)

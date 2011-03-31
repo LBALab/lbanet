@@ -78,6 +78,8 @@ function InitMap(environment)
 
 	Actor_1 = ActorObjectInfo(1)
 	Actor_1:SetRenderType(1)
+	Actor_1.HitPowerOnTouch = -1
+	Actor_1.ExcludeFromNavMesh = false
 	Actor_1.DisplayDesc.ModelId = 0
 	Actor_1.DisplayDesc.ModelName = "Worlds/Lba1Original/Grids/Map2.osgb"
 	Actor_1.DisplayDesc.Outfit = ""
@@ -124,6 +126,8 @@ function InitMap(environment)
 
 	Actor_12 = ActorObjectInfo(12)
 	Actor_12:SetRenderType(1)
+	Actor_12.HitPowerOnTouch = -1
+	Actor_12.ExcludeFromNavMesh = false
 	Actor_12.DisplayDesc.ModelId = 0
 	Actor_12.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite012.osgb"
 	Actor_12.DisplayDesc.Outfit = ""
@@ -178,6 +182,8 @@ function InitMap(environment)
 
 	Actor_13 = ActorObjectInfo(13)
 	Actor_13:SetRenderType(1)
+	Actor_13.HitPowerOnTouch = -1
+	Actor_13.ExcludeFromNavMesh = false
 	Actor_13.DisplayDesc.ModelId = 0
 	Actor_13.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite011.osgb"
 	Actor_13.DisplayDesc.Outfit = ""
@@ -232,6 +238,8 @@ function InitMap(environment)
 
 	Actor_14 = ActorObjectInfo(14)
 	Actor_14:SetRenderType(1)
+	Actor_14.HitPowerOnTouch = -1
+	Actor_14.ExcludeFromNavMesh = false
 	Actor_14.DisplayDesc.ModelId = 0
 	Actor_14.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite011.osgb"
 	Actor_14.DisplayDesc.Outfit = ""
@@ -286,6 +294,8 @@ function InitMap(environment)
 
 	Actor_15 = ActorObjectInfo(15)
 	Actor_15:SetRenderType(1)
+	Actor_15.HitPowerOnTouch = -1
+	Actor_15.ExcludeFromNavMesh = false
 	Actor_15.DisplayDesc.ModelId = 0
 	Actor_15.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite018.osgb"
 	Actor_15.DisplayDesc.Outfit = ""
@@ -340,6 +350,8 @@ function InitMap(environment)
 
 	Actor_16 = ActorObjectInfo(16)
 	Actor_16:SetRenderType(3)
+	Actor_16.HitPowerOnTouch = -1
+	Actor_16.ExcludeFromNavMesh = false
 	Actor_16.DisplayDesc.ModelId = 0
 	Actor_16.DisplayDesc.ModelName = "Robot"
 	Actor_16.DisplayDesc.Outfit = "Scan"
@@ -427,6 +439,8 @@ function InitMap(environment)
 
 	Actor_17 = ActorObjectInfo(17)
 	Actor_17:SetRenderType(3)
+	Actor_17.HitPowerOnTouch = -1
+	Actor_17.ExcludeFromNavMesh = false
 	Actor_17.DisplayDesc.ModelId = 0
 	Actor_17.DisplayDesc.ModelName = "Grobo"
 	Actor_17.DisplayDesc.Outfit = "Baldino"
@@ -496,6 +510,8 @@ function InitMap(environment)
 
 	Actor_18 = ActorObjectInfo(18)
 	Actor_18:SetRenderType(3)
+	Actor_18.HitPowerOnTouch = -1
+	Actor_18.ExcludeFromNavMesh = false
 	Actor_18.DisplayDesc.ModelId = 0
 	Actor_18.DisplayDesc.ModelName = "Quetch"
 	Actor_18.DisplayDesc.Outfit = "Salesman"
@@ -565,6 +581,8 @@ function InitMap(environment)
 
 	Actor_19 = ActorObjectInfo(19)
 	Actor_19:SetRenderType(3)
+	Actor_19.HitPowerOnTouch = -1
+	Actor_19.ExcludeFromNavMesh = false
 	Actor_19.DisplayDesc.ModelId = 0
 	Actor_19.DisplayDesc.ModelName = "Soldier"
 	Actor_19.DisplayDesc.Outfit = "Grass"
@@ -641,10 +659,16 @@ function InitMap(environment)
 	Actor_19H:SetAttackActiDistHidden(0)
 	Actor_19H:SetAttackStopDist(0)
 	Actor_19H:SetRespawnTimeInSec(-1)
+	Actor_19H:SetAttackFunction("ActorAttackContactPlayer")
+	Actor_19H:Setuseweapon1animation("UseWeapon")
+	Actor_19H:SetWeapon1Type(1)
+	Actor_19H:SetWeapon2Type(-1)
 	environment:AddActorObject(Actor_19H)
 
 	Actor_20 = ActorObjectInfo(20)
 	Actor_20:SetRenderType(3)
+	Actor_20.HitPowerOnTouch = -1
+	Actor_20.ExcludeFromNavMesh = false
 	Actor_20.DisplayDesc.ModelId = 0
 	Actor_20.DisplayDesc.ModelName = "Rabbibunny"
 	Actor_20.DisplayDesc.Outfit = "Orange"
@@ -714,6 +738,8 @@ function InitMap(environment)
 
 	Actor_21 = ActorObjectInfo(21)
 	Actor_21:SetRenderType(3)
+	Actor_21.HitPowerOnTouch = -1
+	Actor_21.ExcludeFromNavMesh = false
 	Actor_21.DisplayDesc.ModelId = 0
 	Actor_21.DisplayDesc.ModelName = "Rabbibunny"
 	Actor_21.DisplayDesc.Outfit = "Orange"
@@ -783,6 +809,8 @@ function InitMap(environment)
 
 	Actor_22 = ActorObjectInfo(22)
 	Actor_22:SetRenderType(3)
+	Actor_22.HitPowerOnTouch = -1
+	Actor_22.ExcludeFromNavMesh = false
 	Actor_22.DisplayDesc.ModelId = 0
 	Actor_22.DisplayDesc.ModelName = "GroboClone"
 	Actor_22.DisplayDesc.Outfit = "Yellow"
@@ -852,6 +880,8 @@ function InitMap(environment)
 
 	Actor_23 = ActorObjectInfo(23)
 	Actor_23:SetRenderType(3)
+	Actor_23.HitPowerOnTouch = -1
+	Actor_23.ExcludeFromNavMesh = false
 	Actor_23.DisplayDesc.ModelId = 0
 	Actor_23.DisplayDesc.ModelName = "RabbiClone"
 	Actor_23.DisplayDesc.Outfit = "Yellow"
@@ -921,6 +951,8 @@ function InitMap(environment)
 
 	Actor_24 = ActorObjectInfo(24)
 	Actor_24:SetRenderType(3)
+	Actor_24.HitPowerOnTouch = -1
+	Actor_24.ExcludeFromNavMesh = false
 	Actor_24.DisplayDesc.ModelId = 0
 	Actor_24.DisplayDesc.ModelName = "GroboClone"
 	Actor_24.DisplayDesc.Outfit = "Yellow"
@@ -990,6 +1022,8 @@ function InitMap(environment)
 
 	Actor_25 = ActorObjectInfo(25)
 	Actor_25:SetRenderType(3)
+	Actor_25.HitPowerOnTouch = -1
+	Actor_25.ExcludeFromNavMesh = false
 	Actor_25.DisplayDesc.ModelId = 0
 	Actor_25.DisplayDesc.ModelName = "Object"
 	Actor_25.DisplayDesc.Outfit = "MekaPingouin"
@@ -1059,6 +1093,8 @@ function InitMap(environment)
 
 	Actor_26 = ActorObjectInfo(26)
 	Actor_26:SetRenderType(3)
+	Actor_26.HitPowerOnTouch = -1
+	Actor_26.ExcludeFromNavMesh = false
 	Actor_26.DisplayDesc.ModelId = 0
 	Actor_26.DisplayDesc.ModelName = ""
 	Actor_26.DisplayDesc.Outfit = ""
