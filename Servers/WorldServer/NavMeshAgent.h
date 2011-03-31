@@ -80,6 +80,9 @@ public:
 	bool IsTargeting()
 	{ return m_targeting;}
 
+	//! check if target is in line of sight
+	bool RaycastTarget(const LbaVec3 &target);
+
 private:
 	boost::shared_ptr<NaviMeshHandler>		m_navimesh;
 	boost::shared_ptr<dtCrowd>				m_crowdmanager;

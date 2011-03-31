@@ -388,12 +388,36 @@ public:
 	{ m_lastrecordedpos = pos;}
 
 
-	//! return touch hit power - used to make plqyer loose life if actor touch him/hit him
+	//! return touch hit power - used to make player loose life if actor touch him/hit him
 	virtual float GetTouchHitPower(bool & IgnoreArmor);
 
 
+	//! npc rotate to player
+	virtual void RotateToTargettedPlayer(int ScriptId, float ToleranceAngle, float speed){}
+
 	//! npc follow player
-	virtual void FollowPlayer(int ScriptId, Ice::Long PlayerId, float DistanceStopFollow, bool asynchronus){}
+	virtual void FollowTargettedPlayer(int ScriptId, float DistanceStopFollow){}
+
+	//! return targeted player
+	virtual long GetTargettedAttackPlayer(){return -1;}
+
+	//! npc use weapon
+	virtual void UseWeapon(int ScriptId, int WeaponNumber){}
+
+	//! check if target is in range
+	virtual bool IsTargetInRange(float MaxDistance){return false;}
+
+	//! check if target is in rotation range
+	virtual float GetTargetRotationDiff(){return 360;}
+
+
+
+	//! change actor state
+	//! 1-> Normal, 2-> hurt, 3-> dead, 4-> chasing, 5-> come back, 6 -> use weapon
+	//! return true if change was succesfull
+	virtual bool ChangeState(int newstate){return false;}
+
+
 
 
 #ifdef _USE_QT_EDITOR_
@@ -478,7 +502,7 @@ protected:
 	int													m_attachedactortype;
 	long												m_attachedactorid;
 
-
+	bool												_freemove;
 	boost::shared_ptr<NaviMeshHandler>					m_navimesh;
 	boost::shared_ptr<NavMeshAgent>						m_NavMAgent;
 

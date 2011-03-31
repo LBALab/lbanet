@@ -21,15 +21,16 @@ NPCHandler::NPCHandler(const ActorObjectInfo & actorinfo)
 		_attack_activation_distance_discrete(0), 
 		_attack_activation_distance_hidden(0), _respwantime(-1),
 		_armor(0), _weapon1power(0), _weapon2power(0), _stop_attack_distance(0),
-		_agentstatenum(1), _targetedattackplayer(-1), _oldtdiff(1), _freemove(false),
-		m_launchedattackscript(-1)
+		_agentstatenum(1), _targetedattackplayer(-1), _oldtdiff(1), 
+		m_launchedattackscript(-1), m_runningscript(-1),
+		m_weapon1type(-1), m_weapon2type(-1), m_minimalchasingdistance(1)
 {
 	_lifeinfo.MaxLife = 0;
 	_lifeinfo.MaxMana = 0;
 	_lifeinfo.CurrentLife = 0;
 	_lifeinfo.CurrentMana = 0;
 
-	_agentState = boost::shared_ptr<CharacterStateBase>(new StateNormal());
+	ChangeState(1);
 }
 
 /***********************************************************
@@ -238,25 +239,17 @@ start fight
 ***********************************************************/
 void NPCHandler::StartFight(Ice::Long TargetedPlayerId)
 {
-	// check if already fighting
-	if(ChangeState(4)) 
+	// pause script
+	Pause();
+
+	// if was talking to player, reset that
+	if(_targetedplayers.size() > 0)
 	{
-		// pause script
-		Pause();
+		_events.push_back(new LbaNet::NpcUnTargetPlayerEvent(
+							SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+							_targetedplayers[0]));
 
-		// if was talking to player, reset that
-		if(_targetedplayers.size() > 0)
-		{
-			_events.push_back(new LbaNet::NpcUnTargetPlayerEvent(
-								SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-								_targetedplayers[0]));
-
-			_targetedplayers.clear();
-		}
-
-		// start action
-		if(_action_on_attack_activation)
-			_action_on_attack_activation->Execute(m_scripthandler, 2, TargetedPlayerId, NULL);
+		_targetedplayers.clear();
 	}
 
 	// add player to target vector
@@ -296,6 +289,7 @@ void NPCHandler::Die()
 
 	// reset target
 	_targetedattackplayer = -1;
+	StopAttackScript();
 }
 
 
@@ -352,9 +346,11 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 		//todo - target player that are too close
 	}
 
+	//flag saying if we should move according to animations
+	bool movewithanimation = false;
 
 	//in case of hurt
-	if(_agentState->IsHurt())
+	if(_agentstatenum == 2)
 	{
 		if(animfinished)
 		{
@@ -363,26 +359,70 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 				UpdateActorAnimation(_savedanim, false);		
 		}
 		else
+			movewithanimation = true;
+	}
+
+	// in case of use weapon
+	if(_agentstatenum == 6)
+	{
+		if(animfinished)
 		{
-			// move agent depending of animation
-			boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
-			boost::shared_ptr<DisplayObjectHandlerBase> disso = _character->GetDisplayObject();
+			//stop hurt player
+			m_currenthitpower = -1;
 
-			// get animation speed
-			float speedX = disso->GetCurrentAssociatedSpeedX();
-			float speedY = disso->GetCurrentAssociatedSpeedY();
-			float speedZ = disso->GetCurrentAssociatedSpeedZ();
-
-			LbaQuaternion Q;
-			physo->GetRotation(Q);
-			LbaVec3 current_directionX(Q.GetDirection(LbaVec3(0, 0, 1)));
-			LbaVec3 current_directionZ(Q.GetDirection(LbaVec3(1, 0, 0)));
-			float ajustedspeedx = speedX*current_directionX.x + speedZ*current_directionZ.x;
-			float ajustedspeedZ = speedX*current_directionX.z + speedZ*current_directionZ.z;
-
-			if(speedX != 0 || speedY != 0 || speedZ != 0)
-				physo->Move(ajustedspeedx*tdiff, speedY*tdiff, ajustedspeedZ*tdiff, false);
+			// inform script
+			YieldRunningScript();	
 		}
+		else
+			movewithanimation = true;
+	}
+
+	// in case we rotate to target
+	if(_agentstatenum == 7)
+	{
+		float rotdiff = GetTargetRotationDiff();
+		if(rotdiff <= m_rotationtargettolerance)
+		{
+			// inform script
+			YieldRunningScript();
+		}
+		else
+		{
+			//rotate to direction
+			boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+			if(physo)
+			{
+				if((rotdiff > 0 && rotdiff < 180) || (rotdiff < -180))
+					physo->RotateYAxis(std::max((-m_rotationtargetspeed*tdiff), (-fabs(rotdiff))));
+				else
+					physo->RotateYAxis(std::min((m_rotationtargetspeed*tdiff), (fabs(rotdiff))));
+			}
+		}
+	}
+
+
+
+
+	// move agent depending of animation
+	if(movewithanimation)
+	{
+		boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+		boost::shared_ptr<DisplayObjectHandlerBase> disso = _character->GetDisplayObject();
+
+		// get animation speed
+		float speedX = disso->GetCurrentAssociatedSpeedX();
+		float speedY = disso->GetCurrentAssociatedSpeedY();
+		float speedZ = disso->GetCurrentAssociatedSpeedZ();
+
+		LbaQuaternion Q;
+		physo->GetRotation(Q);
+		LbaVec3 current_directionX(Q.GetDirection(LbaVec3(0, 0, 1)));
+		LbaVec3 current_directionZ(Q.GetDirection(LbaVec3(1, 0, 0)));
+		float ajustedspeedx = speedX*current_directionX.x + speedZ*current_directionZ.x;
+		float ajustedspeedZ = speedX*current_directionX.z + speedZ*current_directionZ.z;
+
+		if(speedX != 0 || speedY != 0 || speedZ != 0)
+			physo->Move(ajustedspeedx*tdiff, speedY*tdiff, ajustedspeedZ*tdiff, false);
 	}
 
 
@@ -398,35 +438,44 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 	//if chasing
 	if(_agentState->IsChasing())
 	{
-		//check if did not get stuck
-		if((tnow-_lastchasingchecktime) > 1000)
+		// check if we arrive at destination
+		if(IsTargetInRange(m_minimalchasingdistance))
 		{
-			boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
-			if(physo)
+			// inform script
+			YieldRunningScript();	
+		}
+		else
+		{
+			//check if did not get stuck
+			if((tnow-_lastchasingchecktime) > 1000)
 			{
-				float checkX, checkY, checkZ;
-				physo->GetPosition(checkX, checkY, checkZ);
-
-				float diff =	fabs(checkX-_lastchasingcheckposX) +
-								fabs(checkY-_lastchasingcheckposY) +
-								fabs(checkZ-_lastchasingcheckposZ);
-
-				if(diff < 0.1f)
+				boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+				if(physo)
 				{
-					//reset target
-					if(_targetedattackplayer > 0 && m_NavMAgent && m_scripthandler)
+					float checkX, checkY, checkZ;
+					physo->GetPosition(checkX, checkY, checkZ);
+
+					float diff =	fabs(checkX-_lastchasingcheckposX) +
+									fabs(checkY-_lastchasingcheckposY) +
+									fabs(checkZ-_lastchasingcheckposZ);
+
+					if(diff < 0.1f)
 					{
-						LbaVec3 pos = m_scripthandler->GetPlayerPositionVec((long)_targetedattackplayer);
-						m_NavMAgent->SetTargetPosition(false, pos.x, pos.y, pos.z);
+						//reset target
+						if(_targetedattackplayer > 0 && m_NavMAgent && m_scripthandler)
+						{
+							LbaVec3 pos = m_scripthandler->GetPlayerPositionVec((long)_targetedattackplayer);
+							m_NavMAgent->SetTargetPosition(false, pos.x, pos.y, pos.z);
+						}
 					}
+
+					_lastchasingcheckposX = checkX;
+					_lastchasingcheckposY = checkY;
+					_lastchasingcheckposZ = checkZ;
 				}
 
-				_lastchasingcheckposX = checkX;
-				_lastchasingcheckposY = checkY;
-				_lastchasingcheckposZ = checkZ;
+				_lastchasingchecktime = tnow;
 			}
-
-			_lastchasingchecktime = tnow;
 		}
 	}
 
@@ -594,6 +643,19 @@ target player
 ***********************************************************/
 void NPCHandler::TargetAttackPlayer(Ice::Long PlayerId)
 {	
+	// record target
+	_targetedattackplayer = PlayerId;
+
+	// get target position
+	if(m_scripthandler)
+		_lasttargetposition = m_scripthandler->GetPlayerPosition(_targetedattackplayer);
+
+
+	// start action before attack
+	if(_action_on_attack_activation)
+		_action_on_attack_activation->Execute(m_scripthandler, 2, PlayerId, NULL);
+
+	// start script
 	StartAttackScript();
 }
 
@@ -607,6 +669,7 @@ void NPCHandler::StopAttackTarget(Ice::Long PlayerId)
 		return;
 
 	_targetedattackplayer = -1;
+	StopAttackScript();
 
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
 	if(physo)
@@ -618,15 +681,11 @@ void NPCHandler::StopAttackTarget(Ice::Long PlayerId)
 		if(diff > 0.001)
 		{
 			//come back to starting point
-			if(ChangeState(5))
-			{
-				//change anim to walking
-				UpdateActorAnimation("MoveForward", false);
+			ChangeState(5);
 
-				// tell agent to go move back to starting point
-				if(m_NavMAgent)
-					m_NavMAgent->SetTargetPosition(false, m_saved_X, m_saved_Y, m_saved_Z);
-			}
+			// tell agent to go move back to starting point
+			if(m_NavMAgent)
+				m_NavMAgent->SetTargetPosition(false, m_saved_X, m_saved_Y, m_saved_Z);
 		}
 		else
 		{
@@ -851,6 +910,12 @@ bool NPCHandler::ChangeState(int newstate)
 
 			_freemove = true;
 			_lastupdate.AnimationIdx  = "";
+
+			//change anim to chasing anim
+			if(m_chasinganimation != "")
+				UpdateActorAnimation(m_chasinganimation, false);
+			else
+				UpdateActorAnimation("MoveForward", false);
 		}
 		break;
 
@@ -861,6 +926,35 @@ bool NPCHandler::ChangeState(int newstate)
 
 			if(m_NavMAgent)
 				m_NavMAgent->SetResetTarget(true);
+
+			_freemove = true;
+			_lastupdate.AnimationIdx  = "";
+
+			//change anim to walking
+			UpdateActorAnimation("MoveForward", false);
+		}
+		break;
+
+		// use weapon state
+		case 6:
+		{
+			_agentState = boost::shared_ptr<CharacterStateBase>(new StateUseWeapon());
+
+			if(m_NavMAgent)
+				m_NavMAgent->SetResetTarget(false);
+
+			_freemove = true;
+			_lastupdate.AnimationIdx  = "";
+		}
+		break;
+
+		// rotate to target state
+		case 7:
+		{
+			_agentState = boost::shared_ptr<CharacterStateBase>(new StateNormal());
+
+			if(m_NavMAgent)
+				m_NavMAgent->SetResetTarget(false);
 
 			_freemove = true;
 			_lastupdate.AnimationIdx  = "";
@@ -886,15 +980,21 @@ void NPCHandler::PlayerMoved(Ice::Long PlayerId, const LbaNet::PlayerPosition &s
 		//todo - target player that are too close
 	}
 
-	//move chasing target
-	if(_agentState->IsChasing() && _targetedattackplayer == PlayerId)
+	if(_targetedattackplayer == PlayerId)
 	{
-		float diff = fabs(startposition.X - endposition.X) +
-					fabs(startposition.Y - endposition.Y) +
-					fabs(startposition.Z - endposition.Z);
+		// record last position
+		_lasttargetposition = endposition;
 
-		if(diff > 0.001 && m_NavMAgent)
-			m_NavMAgent->SetTargetPosition(true, endposition.X, endposition.Y, endposition.Z);
+		//move chasing target
+		if(_agentState->IsChasing())
+		{
+			float diff =	fabs(startposition.X - endposition.X) +
+							fabs(startposition.Y - endposition.Y) +
+							fabs(startposition.Z - endposition.Z);
+
+			if(diff > 0.001 && m_NavMAgent)
+				m_NavMAgent->SetTargetPosition(true, endposition.X, endposition.Y, endposition.Z);
+		}
 	}
 }
 
@@ -904,7 +1004,7 @@ agent come back to normal
 ***********************************************************/
 void NPCHandler::EndChasing()
 {
-	//reset script
+	//reset normal behavior
 	Resume();
 }
 
@@ -1053,6 +1153,8 @@ stop attack script
 ***********************************************************/
 void NPCHandler::StopAttackScript()
 {
+	YieldRunningScript();
+
 	if(m_launchedattackscript > 0 && m_scripthandler)
 		m_scripthandler->StropThread(m_launchedattackscript);	
 
@@ -1063,23 +1165,201 @@ void NPCHandler::StopAttackScript()
 /***********************************************************
 npc follow player
 ***********************************************************/
-void NPCHandler::FollowPlayer(int ScriptId, Ice::Long PlayerId, float DistanceStopFollow, bool asynchronus)
+void NPCHandler::FollowTargettedPlayer(int ScriptId, float DistanceStopFollow)
 {
-	//change anim to walking
-	UpdateActorAnimation("MoveForward", false);
+	YieldRunningScript();
+	m_runningscript = ScriptId;
+
+	if(_targetedattackplayer < 0)
+	{
+		YieldRunningScript();
+		return;
+	}
+
+	// set minimal distance
+	m_minimalchasingdistance = DistanceStopFollow*DistanceStopFollow;
+
+
+	// change state to chasing
+	ChangeState(4);
+
 
 	// tell agent to follow player
 	if(m_NavMAgent && m_scripthandler)
 	{
-		LbaVec3 pos = m_scripthandler->GetPlayerPositionVec((long)PlayerId);
+		LbaVec3 pos = m_scripthandler->GetPlayerPositionVec((long)_targetedattackplayer);
 		m_NavMAgent->SetTargetPosition(false, pos.x, pos.y, pos.z);
 	}
 
-	_targetedattackplayer = PlayerId;
-
+	// record last chasing position and time
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
 	if(physo)
 		physo->GetPosition(_lastchasingcheckposX, _lastchasingcheckposY, _lastchasingcheckposZ);
 
 	_lastchasingchecktime = SynchronizedTimeHandler::GetCurrentTimeDouble();
+}
+
+
+
+/***********************************************************
+npc rotate to player
+***********************************************************/
+void NPCHandler::RotateToTargettedPlayer(int ScriptId, float ToleranceAngle, float speed)
+{
+	YieldRunningScript();
+	m_runningscript = ScriptId;
+
+	if(_targetedattackplayer < 0)
+	{
+		YieldRunningScript();
+		return;
+	}
+
+	m_rotationtargetspeed = speed;
+	m_rotationtargettolerance = ToleranceAngle;
+
+	ChangeState(7);
+}
+
+
+/***********************************************************
+npc use weapon
+***********************************************************/
+void NPCHandler::UseWeapon(int ScriptId, int WeaponNumber)
+{
+	YieldRunningScript();
+	m_runningscript = ScriptId;
+
+	if(_targetedattackplayer < 0)
+	{
+		YieldRunningScript();
+		return;
+	}
+
+
+	int weapontype = -1;
+	std::string useanim;
+
+
+	switch(WeaponNumber)
+	{
+		case 1:
+			weapontype = m_weapon1type;
+			useanim = m_useweapon1animation;
+		break;
+
+		case 2:
+			weapontype = m_weapon1type;
+			useanim = m_useweapon1animation;
+		break;
+	}
+
+	if(weapontype < 0)
+		return; // no weapon found
+
+
+	// change state to use weapon
+	ChangeState(6);
+
+	// start weapon use anim
+	if(useanim != "")
+		UpdateActorAnimation(useanim, false);
+		
+
+	// do specific weapon actions
+	switch(weapontype)
+	{
+		case 1: // contact weapon
+			//todo - set hurt life amount
+			// m_currenthitpower = ?
+		break;
+
+		case 2: // ditance weapon
+			//todo - launch projectile
+		break;
+	}
+
+}
+
+
+
+/***********************************************************
+yield running script
+***********************************************************/
+void NPCHandler::YieldRunningScript()
+{
+	if(m_runningscript < 0)
+		return;
+
+	//tell script handler that script part is finished
+	if(m_scripthandler)
+		m_scripthandler->ScriptFinished(m_runningscript, false);
+
+	m_runningscript = -1;
+}
+
+
+/***********************************************************
+return touch hit power - used to make player loose life if actor touch him/hit him
+***********************************************************/
+float NPCHandler::GetTouchHitPower(bool & IgnoreArmor)
+{
+	IgnoreArmor = false;
+	if(m_currenthitpower > 0)
+		return m_currenthitpower;
+
+	return ActorHandler::GetTouchHitPower(IgnoreArmor);
+}
+
+
+/***********************************************************
+check if target is in range
+***********************************************************/
+bool NPCHandler::IsTargetInRange(float MaxDistance)
+{
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+	if(physo)
+	{
+		LbaVec3 Npcpos;
+		physo->GetPosition(Npcpos.x, Npcpos.y, Npcpos.z);
+
+		LbaVec3 Targetpos(_lasttargetposition.X, _lasttargetposition.Y, _lasttargetposition.Z);
+		LbaVec3 diff = Targetpos-Npcpos;
+		if(diff.FastLength() <= MaxDistance)
+		{
+			//check if in line of sight
+			if(m_NavMAgent && m_NavMAgent->RaycastTarget(Targetpos))
+				return true;
+		}
+	}
+
+	return false;
+}
+
+
+/***********************************************************
+check if target is in rotation range
+***********************************************************/
+float NPCHandler::GetTargetRotationDiff()
+{
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+	if(physo)
+	{
+		LbaVec3 Npcpos;
+		physo->GetPosition(Npcpos.x, Npcpos.y, Npcpos.z);
+		LbaVec3 Targetpos(_lasttargetposition.X, _lasttargetposition.Y, _lasttargetposition.Z);
+		LbaVec3 diffvec = Targetpos-Npcpos;
+
+		float YTarget = LbaQuaternion::GetAngleFromVector(diffvec);
+		float YNPC = physo->GetRotationYAxis();
+
+
+		float diff = fmod(fabs(YTarget - YNPC),360);
+		if(diff > 180)
+			diff = 360 - diff;
+
+		return diff;
+	}
+
+	return 360;
 }

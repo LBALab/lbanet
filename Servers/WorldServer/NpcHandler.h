@@ -237,6 +237,26 @@ public:
 	virtual LbaVec3 GetActorPosition();
 
 
+
+	//! npc rotate to player
+	virtual void RotateToTargettedPlayer(int ScriptId, float ToleranceAngle, float speed);
+
+	//! npc follow player
+	virtual void FollowTargettedPlayer(int ScriptId, float DistanceStopFollow);
+
+	//! npc use weapon
+	virtual void UseWeapon(int ScriptId, int WeaponNumber);
+
+	//! return targeted player
+	virtual long GetTargettedAttackPlayer(){return -_targetedattackplayer;}
+
+	//! check if target is in range
+	virtual bool IsTargetInRange(float MaxDistance);
+
+	//! check if target is in rotation range
+	virtual float GetTargetRotationDiff();
+
+
 	//! get attack function name
 	std::string GetAttackFunction()
 	{return m_attackfunctionname;}
@@ -246,8 +266,50 @@ public:
 	{m_attackfunctionname = fctname;}
 
 
-	//! npc follow player
-	virtual void FollowPlayer(int ScriptId, Ice::Long PlayerId, float DistanceStopFollow, bool asynchronus);
+	//! get chasinganimation
+	std::string Getchasinganimation()
+	{return m_chasinganimation;}
+
+	//! set chasinganimation
+	void Setchasinganimation(const std::string & v)
+	{m_chasinganimation = v;}
+
+
+	//! get useweapon1animation
+	std::string Getuseweapon1animation()
+	{return m_useweapon1animation;}
+
+	//! set useweapon1animation
+	void Setuseweapon1animation(const std::string & v)
+	{m_useweapon1animation = v;}
+
+	//! get useweapon2animation
+	std::string Getuseweapon2animation()
+	{return m_useweapon2animation;}
+
+	//! set useweapon2animation
+	void Setuseweapon2animation(const std::string & v)
+	{m_useweapon2animation = v;}
+
+
+	//! GetWeapon1Type
+	int GetWeapon1Type()
+	{return m_weapon1type;}
+
+	//! SetWeapon1Type
+	void SetWeapon1Type(int v)
+	{m_weapon1type = v;}
+
+	//! GetWeapon2Type
+	int GetWeapon2Type()
+	{return m_weapon2type;}
+
+	//! SetWeapon2Type
+	void SetWeapon2Type(int v)
+	{m_weapon2type = v;}
+
+	//! return touch hit power - used to make player loose life if actor touch him/hit him
+	virtual float GetTouchHitPower(bool & IgnoreArmor);
 
 protected:
 
@@ -290,10 +352,10 @@ protected:
 	void StopAttackTarget(Ice::Long PlayerId);
 
 
-	//! change NPC state
-	//! 1-> Normal, 2-> hurt, 3-> dead, 4-> chasing, 5-> come back
+	//! change actor state
+	//! 1-> Normal, 2-> hurt, 3-> dead, 4-> chasing, 5-> come back, 6 -> use weapon
 	//! return true if change was succesfull
-	bool ChangeState(int newstate);
+	virtual bool ChangeState(int newstate);
 
 
 	//! agent come back to normal
@@ -310,6 +372,8 @@ protected:
 	//! stop attack script
 	void StopAttackScript();
 
+	//! yield running script
+	void YieldRunningScript();
 
 protected:
 	long						_npcnametextid;
@@ -347,11 +411,12 @@ protected:
 	std::string									_savedanim;
 
 	Ice::Long									_targetedattackplayer;
+	LbaNet::PlayerPosition						_lasttargetposition;
 
 	LbaNet::PlayerMoveInfo						_lastupdate;
 	LbaNet::PlayerMoveInfo						_currentupdate;
 	float										_oldtdiff;
-	bool										_freemove;
+
 
 	double										_lastchasingchecktime;
 	float										_lastchasingcheckposX;
@@ -359,8 +424,24 @@ protected:
 	float										_lastchasingcheckposZ;
 
 
+	int											m_runningscript;
 	int											m_launchedattackscript;
 	std::string									m_attackfunctionname;
+
+	std::string									m_chasinganimation;
+
+	int											m_weapon1type;
+	std::string									m_useweapon1animation;
+
+	int											m_weapon2type;
+	std::string									m_useweapon2animation;
+
+	float										m_currenthitpower;
+	float										m_minimalchasingdistance;
+
+	float										m_rotationtargetspeed;
+	float										m_rotationtargettolerance;
+
 };
 
 #endif

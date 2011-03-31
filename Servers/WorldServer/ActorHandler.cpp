@@ -489,7 +489,7 @@ constructor
 ***********************************************************/
 ActorHandler::ActorHandler(const ActorObjectInfo & actorinfo)
 : m_launchedscript(-1), m_paused(false), m_scripthandler(NULL),
-	m_resetposition(false), m_resetrotation(false)
+	m_resetposition(false), m_resetrotation(false), _freemove(false)
 {
 	SetActorInfo(actorinfo);
 	m_lastrecordedpos = LbaVec3(m_actorinfo.PhysicDesc.Pos.X,
@@ -1343,6 +1343,7 @@ the actor will move using animation speed
 ***********************************************************/
 void ActorHandler::ActorStraightWalkTo(int ScriptId, bool asynchronus, float PosX, float PosY, float PosZ)
 {
+	ChangeState(1);
 	ScriptedActor::ActorStraightWalkTo(ScriptId, asynchronus, PosX, PosY, PosZ);
 
 
@@ -1379,6 +1380,7 @@ void ActorHandler::ActorStraightWalkTo(int ScriptId, bool asynchronus, float Pos
 void ActorHandler::ActorRotate(int ScriptId, bool asynchronus, float Angle, float RotationSpeedPerSec, 
 								bool ManageAnimation)
 {
+	ChangeState(1);
 	ScriptedActor::ActorRotate(ScriptId, asynchronus, Angle, RotationSpeedPerSec, ManageAnimation);
 
 
@@ -1411,6 +1413,7 @@ void ActorHandler::ActorRotate(int ScriptId, bool asynchronus, float Angle, floa
 ***********************************************************/
 void ActorHandler::ActorAnimate(int ScriptId, bool asynchronus, bool AnimationMove)
 {
+	ChangeState(1);
 	ScriptedActor::ActorAnimate(ScriptId, asynchronus, AnimationMove);
 
 
@@ -1444,6 +1447,7 @@ void ActorHandler::ActorAnimate(int ScriptId, bool asynchronus, bool AnimationMo
 ***********************************************************/
 void ActorHandler::ActorGoTo(int ScriptId, float PosX, float PosY, float PosZ, float Speed, bool asynchronus)
 {
+	ChangeState(1);
 	ScriptedActor::ActorGoTo(ScriptId, PosX, PosY, PosZ, Speed, asynchronus);
 
 
@@ -1478,6 +1482,7 @@ void ActorHandler::ActorGoTo(int ScriptId, float PosX, float PosY, float PosZ, f
 ***********************************************************/
 void ActorHandler::ActorWaitForSignal(int ScriptId, int Signalnumber, bool asynchronus)
 {
+	ChangeState(1);
 	ScriptedActor::ActorWaitForSignal(ScriptId, Signalnumber, asynchronus);
 
 
@@ -1515,6 +1520,7 @@ void ActorHandler::ActorWaitForSignal(int ScriptId, int Signalnumber, bool async
 void ActorHandler::ActorRotateFromPoint(int ScriptId, float Angle, float PosX, float PosY, 
 													float PosZ, float Speed, bool asynchronus)
 {
+	ChangeState(1);
 	ScriptedActor::ActorRotateFromPoint(ScriptId, Angle, PosX, PosY, PosZ, Speed, asynchronus);
 
 
@@ -1549,6 +1555,7 @@ void ActorHandler::ActorRotateFromPoint(int ScriptId, float Angle, float PosX, f
 ***********************************************************/
 void ActorHandler::ActorFollowWaypoint(int ScriptId, int waypointindex1, int waypointindex2, bool asynchronus)
 {
+	ChangeState(1);
 	ScriptedActor::ActorFollowWaypoint(ScriptId, waypointindex1, waypointindex2, asynchronus);
 
 

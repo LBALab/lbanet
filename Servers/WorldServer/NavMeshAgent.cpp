@@ -109,7 +109,7 @@ void NavMeshAgent::UpdateMaxSpeed(float Speed)
 {
 	//only update if changed
 	float diff = fabs(m_lastSpeed-Speed);
-	if(diff < 0.00001)
+	if(diff < 0.00001f)
 		return;
 
 	m_lastSpeed = Speed;
@@ -223,4 +223,38 @@ LbaVec3 NavMeshAgent::GetVelocity()
 	}
 
 	return LbaVec3(0, 0, 0);
+}
+
+
+/***********************************************************
+check if target is in line of sight
+***********************************************************/
+bool NavMeshAgent::RaycastTarget(const LbaVec3 &target)
+{
+	const dtCrowdAgent* agent = m_crowdmanager->getAgent(m_crowdagentid);
+	if(agent)
+	{
+		dtNavMeshQuery* navquery = m_navimesh->getNavMeshQuery();
+		if(navquery)
+		{
+			const dtQueryFilter* filter = m_crowdmanager->getFilter();
+			const float* ext = m_crowdmanager->getQueryExtents();
+
+			dtPolyRef m_targetRef;
+			navquery->findNearestPoly(agent->npos, ext, filter, &m_targetRef, NULL);
+
+			float targetpos[3];
+			targetpos[0] = target.x;
+			targetpos[1] = target.y;
+			targetpos[2] = target.z;
+
+			float m_hitNormal[3];
+			float t = 0;
+
+			navquery->raycast(m_targetRef, agent->npos, targetpos, filter, &t, m_hitNormal, NULL, NULL, 0);
+			return (t <= 1);
+		}
+	}
+
+	return false;
 }

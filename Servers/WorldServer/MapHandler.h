@@ -155,6 +155,8 @@ public:
 	virtual void OpenContainer(long clientid, boost::shared_ptr<ContainerSharedInfo> sharedinfo);
 
 
+	//!  used by lua to get player position
+	virtual PlayerPosition GetPlayerPosition(Ice::Long clientid);
 
 	//! used by lua to get an actor Position
 	virtual LbaVec3 GetActorPosition(long ActorId);
@@ -430,9 +432,6 @@ protected:
 
 	// return shortcuts
 	ShortcutsSeq GetShorcuts(Ice::Long clientid);
-
-	//!  get player position
-	PlayerPosition GetPlayerPosition(Ice::Long clientid);
 
 	//!  get player rotation
 	float GetPlayerRotation(Ice::Long clientid);
