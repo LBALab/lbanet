@@ -236,6 +236,10 @@ public:
 	//! return script id if successed or -1 else
 	int StartScript(const std::string & FunctionName, bool inlinefunction);
 
+	//! start lua script in a separate thread
+	//! return script id if successed or -1 else
+	int StartScript(const std::string & FunctionName, long ActorId, bool inlinefunction);
+
 
 	//! wait until script part is finished
 	void WaitForAsyncScript(int ScriptId, int ScriptPartId);
@@ -394,6 +398,26 @@ public:
 	//!  used by lua to get player position
 	virtual LbaNet::PlayerPosition GetPlayerPosition(Ice::Long clientid)
 	{return LbaNet::PlayerPosition();}
+
+
+
+	//! npc rotate to player
+	virtual void RotateToTargettedPlayer(int ScriptId, long ActorId, float ToleranceAngle, float speed){}
+
+	//! npc follow player
+	virtual void FollowTargettedPlayer(int ScriptId, long ActorId, float DistanceStopFollow){}
+
+	//! npc use weapon
+	virtual void UseWeapon(int ScriptId, long ActorId, int WeaponNumber){}
+
+	//! return targeted player
+	virtual long GetTargettedAttackPlayer(long ActorId){return -1;}
+
+	//! check if target is in range
+	virtual bool IsTargetInRange(float MaxDistance, long ActorId){return false;}
+
+	//! check if target is in rotation range
+	virtual float GetTargetRotationDiff(long ActorId){return 360;}
 
 
 protected:

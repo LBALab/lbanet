@@ -38,6 +38,16 @@ int ScriptEnvironmentBase::StartScript(const std::string & FunctionName, bool in
 	return -1;
 }
 
+/***********************************************************
+start lua script in a separate thread
+***********************************************************/
+int ScriptEnvironmentBase::StartScript(const std::string & FunctionName, long ActorId, bool inlinefunction)
+{
+	if(m_luaHandler)
+		return  m_luaHandler->StartScript(FunctionName, ActorId, inlinefunction, this);
+
+	return -1;
+}
 
 /***********************************************************
 execute lua script given as a string
