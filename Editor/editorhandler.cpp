@@ -7190,6 +7190,12 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 				}
 				{
 					QVector<QVariant> data;
+					data<<"Attack script"<<actorh->GetAttackFunction().c_str();
+					_objectmodel->AppendRow(data, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data;
 					data<<"Weapon 1 Power"<<(double)actorh->GetWeapon1Power();
 					_objectmodel->AppendRow(data, parent);
 					++index;
@@ -8032,6 +8038,9 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 					++index;
 
 					actorh->SetArmor(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
+					++index;
+
+					actorh->SetAttackFunction(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data());
 					++index;
 
 					actorh->SetWeapon1Power(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
