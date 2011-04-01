@@ -572,6 +572,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Servers\WorldServer\ProjectileObjectDef.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Servers\WorldServer\Quest.cpp"
 				>
 			</File>
@@ -1175,6 +1179,10 @@
 			</File>
 			<File
 				RelativePath="..\Client\ProjectileHandler.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Servers\WorldServer\ProjectileObjectDef.h"
 				>
 			</File>
 			<File

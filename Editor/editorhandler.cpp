@@ -1092,7 +1092,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	_dorropeningdirectionList(new CustomStringListModel()), _hurtanimationList(new CustomStringListModel()),
 	_iteminformclientList(new CustomStringListModel()), _addList(new CustomStringListModel()),
 	_removeList(new CustomStringListModel()), _materialtypeList(new CustomStringListModel()),
-	_pickfindpathstarted(false), _selectedid(-1)
+	_pickfindpathstarted(false), _selectedid(-1), _weapontypeList(new CustomStringListModel())
 {	
 	_navimesh = boost::shared_ptr<NaviMeshHandler>(new NaviMeshHandler());
 
@@ -1113,6 +1113,10 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	materiallist << "Off" << "Ambient" << "Diffuse" << "Specular" << "Emission" << "Ambient_And_Diffuse";
 	_materialtypeList->setStringList(materiallist);
 	
+	QStringList weaponlist;
+	weaponlist << "No" << "Contact" << "Distance";
+	_weapontypeList->setStringList(weaponlist);
+
 
 	QStringList addrlist;
 	addrlist << "" << "Add";
@@ -7194,18 +7198,85 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 					_objectmodel->AppendRow(data, parent);
 					++index;
 				}
+
+				int weapon1Type = actorh->GetWeapon1Type();
 				{
+					std::string weapontypestring = "No";
+					switch(weapon1Type)
+					{
+						case 1:
+							weapontypestring = "Contact";
+						break;
+						case 2:
+							weapontypestring = "Distance";
+						break;
+					}
+
 					QVector<QVariant> data;
-					data<<"Weapon 1 Power"<<(double)actorh->GetWeapon1Power();
-					_objectmodel->AppendRow(data, parent);
+					data<<"Weapon 1 Type"<<weapontypestring.c_str();
+					QModelIndex idx = _objectmodel->AppendRow(data, parent);
+					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), _weapontypeList);
 					++index;
+
+					if(weapon1Type > 0)
+					{
+						int internindex = 0;
+
+						{
+							QVector<QVariant> data;
+							data<<"Weapon 1 Power"<<(double)actorh->GetWeapon1Power();
+							_objectmodel->AppendRow(data, idx);
+							++internindex;
+						}
+						{
+							QVector<QVariant> data;
+							data<<"Weapon 1 Animation"<<actorh->Getuseweapon1animation().c_str();
+							_objectmodel->AppendRow(data, idx);
+							++internindex;
+						}
+					}
 				}
+
+				int weapon2Type = actorh->GetWeapon2Type();
 				{
+					std::string weapontypestring = "No";
+					switch(weapon2Type)
+					{
+						case 1:
+							weapontypestring = "Contact";
+						break;
+						case 2:
+							weapontypestring = "Distance";
+						break;
+					}
+
 					QVector<QVariant> data;
-					data<<"Weapon 2 Power"<<(double)actorh->GetWeapon2Power();
-					_objectmodel->AppendRow(data, parent);
+					data<<"Weapon 2 Type"<<weapontypestring.c_str();
+					QModelIndex idx = _objectmodel->AppendRow(data, parent);
+					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), _weapontypeList);
 					++index;
+				
+
+					if(weapon2Type > 0)
+					{
+						int internindex = 0;
+
+						{
+							QVector<QVariant> data;
+							data<<"Weapon 2 Power"<<(double)actorh->GetWeapon2Power();
+							_objectmodel->AppendRow(data, idx);
+							++internindex;
+						}
+						{
+							QVector<QVariant> data;
+							data<<"Weapon 2 Animation"<<actorh->Getuseweapon2animation().c_str();
+							_objectmodel->AppendRow(data, idx);
+							++internindex;
+						}
+					}
 				}
+
+
 				{
 					QVector<QVariant> data;
 					data<<"Chassing start distance"<<(double)actorh->GetAttackActiDist();
@@ -8043,11 +8114,49 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 					actorh->SetAttackFunction(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data());
 					++index;
 
-					actorh->SetWeapon1Power(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
-					++index;
+					int lastweapon1type = actorh->GetWeapon1Type();
+					int currentweapon1type = -1;
+					std::string weapon1typestr = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+					if(weapon1typestr == "Contact")
+						currentweapon1type = 1;
+					if(weapon1typestr == "Distance")
+						currentweapon1type = 2;
+					{
+						QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
+						int curridx = 0;
+						++index;
 
-					actorh->SetWeapon2Power(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
-					++index;
+						if(lastweapon1type > 0)
+						{
+							actorh->SetWeapon1Power(_objectmodel->data(_objectmodel->GetIndex(1, curridx, itemparent)).toString().toFloat());
+							++curridx;
+
+							actorh->Setuseweapon1animation(_objectmodel->data(_objectmodel->GetIndex(1, curridx, itemparent)).toString().toAscii().data());
+							++curridx;
+						}
+					}
+
+					int lastweapon2type = actorh->GetWeapon2Type();
+					int currentweapon2type = -1;
+					std::string weapon2typestr = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+					if(weapon2typestr == "Contact")
+						currentweapon2type = 1;
+					if(weapon2typestr == "Distance")
+						currentweapon2type = 2;				
+					{
+						QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
+						int curridx = 0;
+						++index;
+
+						if(lastweapon2type > 0)
+						{
+							actorh->SetWeapon2Power(_objectmodel->data(_objectmodel->GetIndex(1, curridx, itemparent)).toString().toFloat());
+							++curridx;
+
+							actorh->Setuseweapon2animation(_objectmodel->data(_objectmodel->GetIndex(1, curridx, itemparent)).toString().toAscii().data());
+							++curridx;
+						}
+					}
 
 					actorh->SetAttackActiDist(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
 					++index;
@@ -8171,6 +8280,16 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 					}
 
 
+					if(lastweapon1type != currentweapon1type)
+					{
+						actorh->SetWeapon1Type(currentweapon1type);
+						updateobj = true;
+					}
+					if(lastweapon2type != currentweapon2type)
+					{
+						actorh->SetWeapon2Type(currentweapon2type);
+						updateobj = true;
+					}
 				}
 
 				if(aggresive != wasaggresive)
@@ -8178,7 +8297,6 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 					actorh->SetAggresive(aggresive);
 					updateobj = true;
 				}
-
 			}
 		}
 
