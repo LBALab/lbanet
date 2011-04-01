@@ -922,6 +922,13 @@ module LbaNet
 		float			Delay;
 		bool			IsSalve;
 		float			Frequency;
+		
+		float			AngleOffset;
+		
+		string			SoundAtStart;
+		string			SoundOnBounce;
+		
+		bool			ForceHurt;
 	};
 	
 
