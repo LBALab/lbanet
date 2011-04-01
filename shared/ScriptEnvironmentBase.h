@@ -408,6 +408,8 @@ public:
 	virtual void FollowTargettedPlayer(int ScriptId, long ActorId, float DistanceStopFollow){}
 
 	//! npc use weapon
+	//! 1-> first contact weapon, 2 -> first distance weapon
+	//! 3-> second contact weapon, 4 -> second distance weapon
 	virtual void UseWeapon(int ScriptId, long ActorId, int WeaponNumber){}
 
 	//! return targeted player
