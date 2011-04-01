@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <boost/shared_ptr.hpp>
 
 #include "Actions.h"
+#include "ProjectileObjectDef.h"
 
 /***********************************
 *	InventoryItemDef
@@ -181,6 +182,14 @@ public:
 	void SaveToLuaFile(std::ofstream & file) const;
 
 
+	// add projectile
+	void AddProjectile(ProjectileObjectDefPtr proj)
+	{_projectiles.push_back(proj);}
+
+	//! get projectiles
+	std::vector<ProjectileObjectDefPtr> & GetProjectiles()
+	{return _projectiles;}
+
 
 	//! get display info
 	void SetDisplayInfo(const LbaNet::ModelInfo & ainfo)
@@ -209,6 +218,8 @@ private:
 	bool					_hasdisplayinfo;
 
 	ActionBasePtr			_action;
+	
+	std::vector<ProjectileObjectDefPtr>	_projectiles;
 };
 
 

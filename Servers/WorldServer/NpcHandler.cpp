@@ -23,8 +23,7 @@ NPCHandler::NPCHandler(const ActorObjectInfo & actorinfo)
 		_armor(0), _weapon1power(0), _weapon2power(0), _stop_attack_distance(0),
 		_agentstatenum(0), _targetedattackplayer(-1), _oldtdiff(1), 
 		m_launchedattackscript(-1), m_runningscript(-1),
-		m_weapon2type(-1), m_minimalchasingdistance(1),
-		m_useweapon1animation("UseWeapon"), m_weapon1type(1)
+		m_minimalchasingdistance(1), m_weapon1type(-1), m_weapon2type(-1)
 {
 	_lifeinfo.MaxLife = 0;
 	_lifeinfo.MaxMana = 0;
@@ -67,28 +66,58 @@ void NPCHandler::ExtraLua(std::ofstream & file, const std::string & name)
 		file<<"\t"<<name<<":SetLife("<<_lifeinfo.MaxLife<<")"<<std::endl;
 		file<<"\t"<<name<<":SetMana("<<_lifeinfo.MaxMana<<")"<<std::endl;
 		file<<"\t"<<name<<":SetArmor("<<_armor<<")"<<std::endl;
-		file<<"\t"<<name<<":SetWeapon1Power("<<_weapon1power<<")"<<std::endl;
-		file<<"\t"<<name<<":SetWeapon2Power("<<_weapon2power<<")"<<std::endl;
+
+
 		file<<"\t"<<name<<":SetAttackActiDist("<<_attack_activation_distance<<")"<<std::endl;
 		file<<"\t"<<name<<":SetAttackActiDistDiscrete("<<_attack_activation_distance_discrete<<")"<<std::endl;
 		file<<"\t"<<name<<":SetAttackActiDistHidden("<<_attack_activation_distance_hidden<<")"<<std::endl;
 		file<<"\t"<<name<<":SetAttackStopDist("<<_stop_attack_distance<<")"<<std::endl;
 		file<<"\t"<<name<<":SetRespawnTimeInSec("<<_respwantime<<")"<<std::endl;
 
+		if(m_weapon1type > 0)
+		{
+			file<<"\t"<<name<<":SetWeapon1Type("<<m_weapon1type<<")"<<std::endl;
+
+			file<<"\t"<<name<<":SetWeapon1Power("<<_weapon1power<<")"<<std::endl;
+
+			if(m_useweapon1animation != "")
+				file<<"\t"<<name<<":Setuseweapon1animation(\""<<m_useweapon1animation<<"\")"<<std::endl;
+
+			for(size_t i=0; i< _projectilesweapon1.size(); ++i)
+			{
+				std::stringstream aname;
+				aname<<name<<"_weapon1proj"<<i;
+				_projectilesweapon1[i]->SaveToLuaFile(file, aname.str());
+
+				file<<"\t"<<name<<":AddProjectileWeapon1("<<aname.str()<<")"<<std::endl;
+			}
+		}
+
+		if(m_weapon2type > 0)
+		{
+			file<<"\t"<<name<<":SetWeapon2Type("<<m_weapon2type<<")"<<std::endl;
+
+			file<<"\t"<<name<<":SetWeapon2Power("<<_weapon2power<<")"<<std::endl;
+
+			if(m_useweapon2animation != "")
+				file<<"\t"<<name<<":Setuseweapon2animation(\""<<m_useweapon2animation<<"\")"<<std::endl;
+
+			for(size_t i=0; i< _projectilesweapon2.size(); ++i)
+			{
+				std::stringstream aname;
+				aname<<name<<"_weapon2proj"<<i;
+				_projectilesweapon2[i]->SaveToLuaFile(file, aname.str());
+
+				file<<"\t"<<name<<":AddProjectileWeapon2("<<aname.str()<<")"<<std::endl;
+			}
+		}
+
+
 		if(m_attackfunctionname != "")
 			file<<"\t"<<name<<":SetAttackFunction(\""<<m_attackfunctionname<<"\")"<<std::endl;
 
 		if(m_chasinganimation != "")
 			file<<"\t"<<name<<":Setchasinganimation(\""<<m_chasinganimation<<"\")"<<std::endl;
-
-		if(m_useweapon1animation != "")
-			file<<"\t"<<name<<":Setuseweapon1animation(\""<<m_useweapon1animation<<"\")"<<std::endl;
-
-		if(m_useweapon2animation != "")
-			file<<"\t"<<name<<":Setuseweapon2animation(\""<<m_useweapon2animation<<"\")"<<std::endl;
-
-		file<<"\t"<<name<<":SetWeapon1Type("<<m_weapon1type<<")"<<std::endl;
-		file<<"\t"<<name<<":SetWeapon2Type("<<m_weapon2type<<")"<<std::endl;
 
 
 
@@ -1264,14 +1293,50 @@ void NPCHandler::UseWeapon(int ScriptId, int WeaponNumber)
 
 	switch(WeaponNumber)
 	{
+		// first contact weapon
 		case 1:
-			weapontype = m_weapon1type;
-			useanim = m_useweapon1animation;
+			if(m_weapon1type == 1)
+			{
+				weapontype = m_weapon1type;
+				useanim = m_useweapon1animation;				
+			}
+			else if (m_weapon2type == 1)
+			{
+				weapontype = m_weapon2type;
+				useanim = m_useweapon2animation;				
+			}
 		break;
 
+		// first distance weapon
 		case 2:
-			weapontype = m_weapon1type;
-			useanim = m_useweapon1animation;
+			if(m_weapon1type == 2)
+			{
+				weapontype = m_weapon1type;
+				useanim = m_useweapon1animation;				
+			}
+			else if (m_weapon2type == 2)
+			{
+				weapontype = m_weapon2type;
+				useanim = m_useweapon2animation;				
+			}
+		break;
+
+		// second contact weapon
+		case 3:
+			if(m_weapon2type == 1)
+			{
+				weapontype = m_weapon2type;
+				useanim = m_useweapon2animation;				
+			}
+		break;
+
+		// second distance weapon
+		case 4:
+			if(m_weapon2type == 2)
+			{
+				weapontype = m_weapon2type;
+				useanim = m_useweapon2animation;				
+			}
 		break;
 	}
 

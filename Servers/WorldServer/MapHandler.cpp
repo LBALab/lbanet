@@ -2536,121 +2536,42 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 	if(weaponinfo.Info.Id < 0)
 		return;
 
-	if(weaponinfo.Info.StringFlag.find("MagicBall") != std::string::npos)//todo - not static -> add projectile to item
+	std::string mode = GetPlayerModelInfo(PlayerId).Mode;
+
+	InventoryItemDefPtr itptr = InventoryItemHandler::getInstance()->GetItem((long)weaponinfo.Info.Id);
+	std::vector<ProjectileObjectDefPtr> & projectiles = itptr->GetProjectiles();
+
+	// launch projectiles if any
+	for(size_t i=0; i< projectiles.size(); ++i)
 	{
-		std::string mode = GetPlayerModelInfo(PlayerId).Mode;
-
 		LbaNet::ProjectileInfo newProj;
-
-		newProj.Comeback = true;
-		newProj.Power = weaponinfo.Info.Effect;
-		newProj.OwnerActorType = 2;
-		newProj.OwnerActorId = PlayerId;
-		newProj.Id = ((_launchedprojectiles.size() > 0) ? (_launchedprojectiles.rbegin()->first+1): 0);
-
-		newProj.DisplayDesc.TypeRenderer = LbaNet::RenderSphere;
-		newProj.DisplayDesc.UseLight = true;
-		newProj.DisplayDesc.CastShadow = true;
-		newProj.DisplayDesc.RotX=0;
-		newProj.DisplayDesc.RotY=0;
-		newProj.DisplayDesc.RotZ=0;
-		newProj.DisplayDesc.TransX=0;
-		newProj.DisplayDesc.TransY=0;
-		newProj.DisplayDesc.TransZ=0;
-		newProj.DisplayDesc.ScaleX=1;
-		newProj.DisplayDesc.ScaleY=0.2f;
-		newProj.DisplayDesc.ScaleZ=1;
-		newProj.DisplayDesc.ColorR=0.9f;
-		newProj.DisplayDesc.ColorG=0.788f;
-		newProj.DisplayDesc.ColorB=0.376f;
-		newProj.DisplayDesc.ColorA=1.0f;
-		newProj.DisplayDesc.State = LbaNet::NoState;
-		newProj.DisplayDesc.UseTransparentMaterial = false;
-		newProj.DisplayDesc.ColorMaterialType = 0;
-
-		PlayerPosition playerpos = GetPlayerPosition(PlayerId);
-
-		newProj.OffsetX = 1.0f;
-		newProj.OffsetY = 4;
-		newProj.Delay = 500;
-
-
-	    newProj.PhysicDesc.Pos.X = playerpos.X;
-	    newProj.PhysicDesc.Pos.Y = playerpos.Y;
-	    newProj.PhysicDesc.Pos.Z = playerpos.Z;
-		newProj.PhysicDesc.TypeShape = LbaNet::SphereShape;
-		newProj.PhysicDesc.TypePhysO = LbaNet::DynamicAType;
-		newProj.PhysicDesc.Density = 1.8f;
-		newProj.PhysicDesc.Collidable = false;
-		newProj.PhysicDesc.SizeX = 0;
-		newProj.PhysicDesc.SizeY = 0.2f;
-		newProj.PhysicDesc.SizeZ = 0;
-		newProj.PhysicDesc.Bounciness = 0.999f;
-		newProj.PhysicDesc.StaticFriction = 0.1f;
-		newProj.PhysicDesc.DynamicFriction = 0.1f;
-
-
-		newProj.ManagingClientId = PlayerId;
-
-		newProj.IgnoreGravity = false;
-
-		newProj.ForceX = 0;
-		newProj.ForceY = 0;
-		newProj.ForceYOnImpact = 0;
-		bool launch = false;
-
-		if(mode == "Normal" || mode == "Protopack")
+		if(projectiles[i]->GetProjectileInfo(mode, GetPlayerLifeInfo(PlayerId).CurrentMana, newProj))
 		{
-			newProj.ForceX = 0.15f;
-			newProj.ForceY = 0.1f;
-			newProj.ForceYOnImpact = 0.1f;
-			launch = true;
-			newProj.LifeTime = 5000;
-		}
+			// update projectile ids
+			newProj.Id = ((_launchedprojectiles.size() > 0) ? (_launchedprojectiles.rbegin()->first+1): 0);
+			newProj.ManagingClientId = PlayerId;
+			newProj.OwnerActorType = 2;
+			newProj.OwnerActorId = PlayerId;
 
-		if(mode == "Sport")
-		{
-			newProj.ForceX = 0.17f;
-			newProj.ForceY = 0;
-			newProj.ForceYOnImpact = 0.05f;
-			launch = true;
-			newProj.LifeTime = 5000;
-		}
+			// update projectile position
+			PlayerPosition playerpos = GetPlayerPosition(PlayerId);
+			newProj.PhysicDesc.Pos.X = playerpos.X;
+			newProj.PhysicDesc.Pos.Y = playerpos.Y;
+			newProj.PhysicDesc.Pos.Z = playerpos.Z;
 
-		if(mode == "Angry")
-		{
-			newProj.ForceX = 0.17f;
-			newProj.ForceY = 0;
-			newProj.ForceYOnImpact = 0.05f;
-			launch = true;
-			newProj.LifeTime = 5000;
-		}
+			//update mana left
+			DeltaUpdateMana(PlayerId, -projectiles[i]->UseMana);
 
-		if(mode == "Discrete")
-		{
-			newProj.ForceX = 0.06f;
-			newProj.ForceY = 0.15f;
-			newProj.ForceYOnImpact = 0.1f;
-			launch = true;
-			newProj.LifeTime = 8000;
-		}
 
-		bool nomana = DeltaUpdateMana(PlayerId, -5);
-		newProj.NbBounce = (nomana ? 1 : 3);
-
-		if(launch)
-		{
+			// send to clients
 			_launchedprojectiles[(long)newProj.Id] = newProj;
 			_playerprojectiles[(long)PlayerId].push_back((long)newProj.Id);
 
 			_tosendevts.push_back(new CreateProjectileEvent(
 							SynchronizedTimeHandler::GetCurrentTimeDouble(), newProj));
 		}
-
 	}
 
-
-	// todo - other weapons
 }
 
 

@@ -148,6 +148,16 @@ void InventoryItemDef::SaveToLuaFile(std::ofstream & file) const
 			<<_info.List[i].Group<<")"<<std::endl;
 	}
 
+
+	for(size_t i=0; i< _projectiles.size(); ++i)
+	{
+		std::stringstream aname;
+		aname<<name.str()<<"_proj"<<i;
+		_projectiles[i]->SaveToLuaFile(file, aname.str());
+
+		file<<"\t"<<name.str()<<":AddProjectile("<<aname.str()<<")"<<std::endl;
+	}
+
 	file<<"\tenvironment:AddInventoryItem("<<name.str()<<")"<<std::endl<<std::endl;
 }
 

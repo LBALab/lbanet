@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "ActorHandler.h"
 #include "DialogPart.h"
+#include "ProjectileObjectDef.h"
 
 class CharacterStateBase;
 
@@ -245,6 +246,8 @@ public:
 	virtual void FollowTargettedPlayer(int ScriptId, float DistanceStopFollow);
 
 	//! npc use weapon
+	//! 1-> first contact weapon, 2 -> first distance weapon
+	//! 3-> second contact weapon, 4 -> second distance weapon
 	virtual void UseWeapon(int ScriptId, int WeaponNumber);
 
 	//! return targeted player
@@ -311,6 +314,23 @@ public:
 	//! SetWeapon2Type
 	void SetWeapon2Type(int v)
 	{m_weapon2type = v;}
+
+
+	// add projectile
+	void AddProjectileWeapon1(ProjectileObjectDefPtr proj)
+	{_projectilesweapon1.push_back(proj);}
+
+	//! get projectiles
+	std::vector<ProjectileObjectDefPtr> & GetProjectilesWeapon1()
+	{return _projectilesweapon1;}
+
+	// add projectile
+	void AddProjectileWeapon2(ProjectileObjectDefPtr proj)
+	{_projectilesweapon2.push_back(proj);}
+
+	//! get projectiles
+	std::vector<ProjectileObjectDefPtr> & GetProjectilesWeapon2()
+	{return _projectilesweapon2;}
 
 
 protected:
@@ -443,6 +463,10 @@ protected:
 
 	float										m_rotationtargetspeed;
 	float										m_rotationtargettolerance;
+
+	
+	std::vector<ProjectileObjectDefPtr>			_projectilesweapon1;
+	std::vector<ProjectileObjectDefPtr>			_projectilesweapon2;
 
 };
 

@@ -23,6 +23,8 @@ extern "C"
 #include "SharedDataHandler.h"
 #include "InventoryItemHandler.h"
 #include "Spawn.h"
+#include "ProjectileObjectDef.h"
+
 
 #ifdef _USE_QT_EDITOR_
 #include "editorhandler.h"
@@ -367,7 +369,9 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetWeapon1Type", &NPCHandler::GetWeapon1Type)
 		.def("SetWeapon1Type", &NPCHandler::SetWeapon1Type)
 		.def("GetWeapon2Type", &NPCHandler::GetWeapon2Type)
-		.def("SetWeapon2Type", &NPCHandler::SetWeapon2Type),
+		.def("SetWeapon2Type", &NPCHandler::SetWeapon2Type)
+		.def("AddProjectileWeapon1", &NPCHandler::AddProjectileWeapon1)
+		.def("AddProjectileWeapon2", &NPCHandler::AddProjectileWeapon2),
 
 
 
@@ -778,7 +782,8 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetDisplayInfo", &InventoryItemDef::GetDisplayInfo)
 		.def("SetRenderType", &InventoryItemDef::SetRenderType)
 		.def("GetRenderType", &InventoryItemDef::GetRenderType)
-		.def_readwrite("DisplayDesc", &InventoryItemDef::_displayinfo),
+		.def_readwrite("DisplayDesc", &InventoryItemDef::_displayinfo)
+		.def("AddProjectile", &InventoryItemDef::AddProjectile),
 
 		luabind::class_<Spawn, boost::shared_ptr<Spawn> >("Spawn")
 		.def(luabind::constructor<long>())
@@ -794,7 +799,34 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetRotation", &Spawn::GetRotation)
 		.def("SetRotation", &Spawn::SetRotation)
 		.def("GetName", &Spawn::GetName)
-		.def("SetName", &Spawn::SetName)
+		.def("SetName", &Spawn::SetName),
+
+		luabind::class_<ProjectileObjectDef, boost::shared_ptr<ProjectileObjectDef> >("ProjectileObjectDef")
+		.def(luabind::constructor<>())
+		.def_readwrite("DisplayDesc", &ProjectileObjectDef::DisplayDesc)
+		.def_readwrite("PhysicDesc", &ProjectileObjectDef::PhysicDesc)
+		.def("SetRenderType", &ProjectileObjectDef::SetRenderType)
+		.def("SetPhysicalShape", &ProjectileObjectDef::SetPhysicalShape)
+		.def("SetPhysicalActorType", &ProjectileObjectDef::SetPhysicalActorType)
+		.def_readwrite("UsableMode", &ProjectileObjectDef::UsableMode)
+		.def_readwrite("Power", &ProjectileObjectDef::Power)
+		.def_readwrite("UseMana", &ProjectileObjectDef::UseMana)
+		.def_readwrite("OffsetX", &ProjectileObjectDef::OffsetX)
+		.def_readwrite("OffsetY", &ProjectileObjectDef::OffsetY)
+		.def_readwrite("ForceX", &ProjectileObjectDef::ForceX)
+		.def_readwrite("ForceY", &ProjectileObjectDef::ForceY)
+		.def_readwrite("ForceYOnImpact", &ProjectileObjectDef::ForceYOnImpact)
+		.def_readwrite("NbBounce", &ProjectileObjectDef::NbBounce)
+		.def_readwrite("IgnoreGravity", &ProjectileObjectDef::IgnoreGravity)
+		.def_readwrite("LifeTime", &ProjectileObjectDef::LifeTime)
+		.def_readwrite("Comeback", &ProjectileObjectDef::Comeback)
+		.def_readwrite("Delay", &ProjectileObjectDef::Delay)
+		.def_readwrite("IsSalve", &ProjectileObjectDef::IsSalve)
+		.def_readwrite("Frequency", &ProjectileObjectDef::Frequency)
+		.def_readwrite("AngleOffset", &ProjectileObjectDef::AngleOffset)
+		.def_readwrite("SoundAtStart", &ProjectileObjectDef::SoundAtStart)
+		.def_readwrite("SoundOnBounce", &ProjectileObjectDef::SoundOnBounce)
+		.def_readwrite("ForceHurt", &ProjectileObjectDef::ForceHurt)
 		];
 
 	}
