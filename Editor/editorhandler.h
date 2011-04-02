@@ -34,7 +34,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ui_addtriggerdialog.h"
 #include "ui_openworlddialog.h"
 #include "ui_addspawning.h"
-#include "ui_addaction.h"
 #include "ui_addmapdialog.h"
 #include "ui_addteleportdialog.h"
 #include "ui_addworlddialog.h"
