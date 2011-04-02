@@ -1289,7 +1289,8 @@ void NPCHandler::UseWeapon(int ScriptId, int WeaponNumber)
 
 	int weapontype = -1;
 	std::string useanim;
-
+	std::vector<ProjectileObjectDefPtr>* projectiles = NULL;
+	float weaponpower = 0;
 
 	switch(WeaponNumber)
 	{
@@ -1298,12 +1299,16 @@ void NPCHandler::UseWeapon(int ScriptId, int WeaponNumber)
 			if(m_weapon1type == 1)
 			{
 				weapontype = m_weapon1type;
-				useanim = m_useweapon1animation;				
+				useanim = m_useweapon1animation;		
+				projectiles = &_projectilesweapon1;
+				weaponpower = _weapon1power;
 			}
 			else if (m_weapon2type == 1)
 			{
 				weapontype = m_weapon2type;
-				useanim = m_useweapon2animation;				
+				useanim = m_useweapon2animation;		
+				projectiles = &_projectilesweapon2;		
+				weaponpower = _weapon2power;		
 			}
 		break;
 
@@ -1312,12 +1317,16 @@ void NPCHandler::UseWeapon(int ScriptId, int WeaponNumber)
 			if(m_weapon1type == 2)
 			{
 				weapontype = m_weapon1type;
-				useanim = m_useweapon1animation;				
+				useanim = m_useweapon1animation;		
+				projectiles = &_projectilesweapon1;		
+				weaponpower = _weapon1power;		
 			}
 			else if (m_weapon2type == 2)
 			{
 				weapontype = m_weapon2type;
-				useanim = m_useweapon2animation;				
+				useanim = m_useweapon2animation;			
+				projectiles = &_projectilesweapon2;		
+				weaponpower = _weapon2power;	
 			}
 		break;
 
@@ -1326,7 +1335,9 @@ void NPCHandler::UseWeapon(int ScriptId, int WeaponNumber)
 			if(m_weapon2type == 1)
 			{
 				weapontype = m_weapon2type;
-				useanim = m_useweapon2animation;				
+				useanim = m_useweapon2animation;			
+				projectiles = &_projectilesweapon2;	
+				weaponpower = _weapon2power;				
 			}
 		break;
 
@@ -1335,7 +1346,9 @@ void NPCHandler::UseWeapon(int ScriptId, int WeaponNumber)
 			if(m_weapon2type == 2)
 			{
 				weapontype = m_weapon2type;
-				useanim = m_useweapon2animation;				
+				useanim = m_useweapon2animation;			
+				projectiles = &_projectilesweapon2;	
+				weaponpower = _weapon2power;				
 			}
 		break;
 	}
@@ -1360,11 +1373,41 @@ void NPCHandler::UseWeapon(int ScriptId, int WeaponNumber)
 	switch(weapontype)
 	{
 		case 1: // contact weapon
-			//todo - set hurt life amount
-			// m_currenthitpower = ?
+			m_currenthitpower = weaponpower;
 		break;
 
 		case 2: // ditance weapon
+			if(projectiles)
+			{
+				std::vector<ProjectileObjectDefPtr>::iterator itp = projectiles->begin();
+				std::vector<ProjectileObjectDefPtr>::iterator endp = projectiles->end();
+				for(;itp != endp; ++itp)
+				{
+					LbaNet::ProjectileInfo newProj;
+					if((*itp)->GetProjectileInfo("", _lifeinfo.CurrentMana, newProj))
+					{
+						// update projectile ids
+						newProj.ManagingClientId = _targetedattackplayer;
+						newProj.OwnerActorType = 1;
+						newProj.OwnerActorId = GetId();
+
+						// update projectile position
+						boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+						if(physo)
+							physo->GetPosition(	newProj.PhysicDesc.Pos.X, 
+												newProj.PhysicDesc.Pos.Y, 
+												newProj.PhysicDesc.Pos.Z);
+
+						//update mana left
+						DeltaUpdateMana(-(*itp)->UseMana);
+
+						// launch projectile
+						if( m_scripthandler)
+							m_scripthandler->LaunchProjectile(newProj);
+					}		
+				}
+			}
+
 			//todo - launch projectile
 		break;
 	}
@@ -1454,4 +1497,18 @@ float NPCHandler::GetTargetRotationDiff()
 	}
 
 	return 360;
+}
+
+
+/***********************************************************
+delta update mana
+***********************************************************/
+void NPCHandler::DeltaUpdateMana(float deltamana)
+{
+	_lifeinfo.CurrentMana += deltamana;
+	if(_lifeinfo.CurrentMana < 0)
+		_lifeinfo.CurrentMana = 0;
+
+	if(_lifeinfo.CurrentMana > _lifeinfo.MaxMana)
+		_lifeinfo.CurrentMana = _lifeinfo.MaxMana;
 }

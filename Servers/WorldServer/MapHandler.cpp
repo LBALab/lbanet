@@ -2548,7 +2548,6 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 		if(projectiles[i]->GetProjectileInfo(mode, GetPlayerLifeInfo(PlayerId).CurrentMana, newProj))
 		{
 			// update projectile ids
-			newProj.Id = ((_launchedprojectiles.size() > 0) ? (_launchedprojectiles.rbegin()->first+1): 0);
 			newProj.ManagingClientId = PlayerId;
 			newProj.OwnerActorType = 2;
 			newProj.OwnerActorId = PlayerId;
@@ -2562,18 +2561,30 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 			//update mana left
 			DeltaUpdateMana(PlayerId, -projectiles[i]->UseMana);
 
-
-			// send to clients
-			_launchedprojectiles[(long)newProj.Id] = newProj;
-			_playerprojectiles[(long)PlayerId].push_back((long)newProj.Id);
-
-			_tosendevts.push_back(new CreateProjectileEvent(
-							SynchronizedTimeHandler::GetCurrentTimeDouble(), newProj));
+			// launch projectile
+			LaunchProjectile(newProj);
 		}
 	}
 
 }
 
+
+
+/***********************************************************
+launch projectile
+***********************************************************/
+void MapHandler::LaunchProjectile(LbaNet::ProjectileInfo pinfo)
+{
+	//update id
+	pinfo.Id = ((_launchedprojectiles.size() > 0) ? (_launchedprojectiles.rbegin()->first+1): 0);
+
+	// send to clients
+	_launchedprojectiles[(long)pinfo.Id] = pinfo;
+	_playerprojectiles[(long)pinfo.ManagingClientId].push_back((long)pinfo.Id);
+
+	_tosendevts.push_back(new CreateProjectileEvent(
+					SynchronizedTimeHandler::GetCurrentTimeDouble(), pinfo));
+}
 
 
 

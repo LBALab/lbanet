@@ -142,21 +142,18 @@ public:
 
 	//! used by lua to move an actor or player
 	//! the actor will move using animation speed
-	void ActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position)
-	{InternalActorStraightWalkTo(ScriptId, ActorId, Position, false);}
+	void ActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position);
 
 	//! used by lua to rotate an actor
 	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
 	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
 	//! if ManageAnimation is true then the animation will be changed to suit the rotation
 	void ActorRotate(int ScriptId, long ActorId, float Angle, float RotationSpeedPerSec,
-									bool ManageAnimation)
-	{InternalActorRotate(ScriptId, ActorId, Angle, RotationSpeedPerSec, ManageAnimation, false);}
+									bool ManageAnimation);
 
 	//! used by lua to wait until an actor animation is finished
 	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
-	void ActorAnimate(int ScriptId, long ActorId, bool AnimationMove)
-	{InternalActorAnimate(ScriptId, ActorId, AnimationMove, false);}
+	void ActorAnimate(int ScriptId, long ActorId, bool AnimationMove);
 
 	//! used by lua to tell that the actor should be reserved for the script
 	virtual void ReserveActor(int ScriptId, long ActorId) = 0;
@@ -165,8 +162,7 @@ public:
 
 	//! used by lua to move an actor or player
 	//! the actor will move using animation speed
-	void ActorGoTo(int ScriptId, long ActorId, const LbaVec3 &Position, float Speed)
-	{InternalActorGoTo(ScriptId, ActorId, Position, Speed, false);}
+	void ActorGoTo(int ScriptId, long ActorId, const LbaVec3 &Position, float Speed);
 
 
 	//! used by lua to move an actor or player
@@ -184,8 +180,7 @@ public:
 
 	//! used by lua to move an actor or player
 	//! the actor will move using animation speed
-	void ActorWaitForSignal(int ScriptId, long ActorId, int Signalnumber)
-	{InternalActorWaitForSignal(ScriptId, ActorId, Signalnumber, false);}
+	void ActorWaitForSignal(int ScriptId, long ActorId, int Signalnumber);
 
 	//! used by lua to move an actor or player
 	//! the actor will change mode
@@ -207,16 +202,14 @@ public:
 	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
 	//! if ManageAnimation is true then the animation will be changed to suit the rotation
 	void ActorRotateFromPoint(int ScriptId, long ActorId, float Angle, const LbaVec3 &Position, 
-									float RotationSpeedPerSec)
-	{InternalActorRotateFromPoint(ScriptId, ActorId, Angle, Position, RotationSpeedPerSec, false);}
+									float RotationSpeedPerSec);
 
 
 	//! used by lua to rotate an actor
 	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
 	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
 	//! if ManageAnimation is true then the animation will be changed to suit the rotation
-	void ActorFollowWaypoint(int ScriptId, long ActorId, int waypointindex1, int waypointindex2)
-	{InternalActorFollowWaypoint(ScriptId, ActorId, waypointindex1, waypointindex2, false);}
+	void ActorFollowWaypoint(int ScriptId, long ActorId, int waypointindex1, int waypointindex2);
 
 
 	//! used by lua to move an actor or player
@@ -420,6 +413,9 @@ public:
 
 	//! check if target is in rotation range
 	virtual float GetTargetRotationDiff(long ActorId){return 360;}
+
+	//! launch projectile
+	virtual void LaunchProjectile(LbaNet::ProjectileInfo pinfo){}
 
 
 protected:

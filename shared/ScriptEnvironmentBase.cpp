@@ -281,3 +281,67 @@ void ScriptEnvironmentBase::LogToFile(const std::string &text)
 {
 	LogHandler::getInstance()->LogToFile(text);
 }
+
+
+
+//! used by lua to move an actor or player
+//! the actor will move using animation speed
+void ScriptEnvironmentBase::ActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position)
+{
+	InternalActorStraightWalkTo(ScriptId, ActorId, Position, false);
+}
+
+//! used by lua to rotate an actor
+//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
+//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
+//! if ManageAnimation is true then the animation will be changed to suit the rotation
+void ScriptEnvironmentBase::ActorRotate(int ScriptId, long ActorId, float Angle, float RotationSpeedPerSec,
+								bool ManageAnimation)
+{
+	InternalActorRotate(ScriptId, ActorId, Angle, RotationSpeedPerSec, ManageAnimation, false);
+}
+
+//! used by lua to wait until an actor animation is finished
+//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
+void ScriptEnvironmentBase::ActorAnimate(int ScriptId, long ActorId, bool AnimationMove)
+{
+	InternalActorAnimate(ScriptId, ActorId, AnimationMove, false);
+}
+
+
+
+//! used by lua to move an actor or player
+//! the actor will move using animation speed
+void ScriptEnvironmentBase::ActorGoTo(int ScriptId, long ActorId, const LbaVec3 &Position, float Speed)
+{
+	InternalActorGoTo(ScriptId, ActorId, Position, Speed, false);
+}
+
+
+//! used by lua to move an actor or player
+//! the actor will move using animation speed
+void ScriptEnvironmentBase::ActorWaitForSignal(int ScriptId, long ActorId, int Signalnumber)
+{
+	InternalActorWaitForSignal(ScriptId, ActorId, Signalnumber, false);
+}
+
+
+//! used by lua to rotate an actor
+//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
+//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
+//! if ManageAnimation is true then the animation will be changed to suit the rotation
+void ScriptEnvironmentBase::ActorRotateFromPoint(int ScriptId, long ActorId, float Angle, const LbaVec3 &Position, 
+								float RotationSpeedPerSec)
+{
+	InternalActorRotateFromPoint(ScriptId, ActorId, Angle, Position, RotationSpeedPerSec, false);
+}
+
+
+//! used by lua to rotate an actor
+//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
+//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
+//! if ManageAnimation is true then the animation will be changed to suit the rotation
+void ScriptEnvironmentBase::ActorFollowWaypoint(int ScriptId, long ActorId, int waypointindex1, int waypointindex2)
+{
+	InternalActorFollowWaypoint(ScriptId, ActorId, waypointindex1, waypointindex2, false);
+}

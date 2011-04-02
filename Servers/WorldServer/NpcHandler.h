@@ -397,6 +397,9 @@ protected:
 	//! yield running script
 	void YieldRunningScript();
 
+	//! delta update mana
+	void DeltaUpdateMana(float deltamana);
+
 protected:
 	long						_npcnametextid;
 	bool						_simpledialog;

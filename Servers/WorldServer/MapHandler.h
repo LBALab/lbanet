@@ -386,6 +386,11 @@ public:
 	//! check if target is in rotation range
 	virtual float GetTargetRotationDiff(long ActorId);
 
+
+	//! launch projectile
+	virtual void LaunchProjectile(LbaNet::ProjectileInfo pinfo);
+
+
 protected:
 
 	// process events
