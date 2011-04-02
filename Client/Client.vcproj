@@ -576,6 +576,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Servers\WorldServer\ProjectileObjectDef.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Servers\WorldServer\Quest.cpp"
 				>
 			</File>
