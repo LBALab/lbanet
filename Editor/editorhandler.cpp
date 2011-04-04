@@ -2759,7 +2759,13 @@ void EditorHandler::objectdatachanged(const QModelIndex &index1, const QModelInd
 			long objid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toLong();
 			QuestChanged(objid, parentIdx);
 			return;
-		}	
+		}
+
+		if(type == "Projectile")
+		{
+			ProjectileChanged(parentIdx);
+			return;
+		}
 	}
 }
 
@@ -7234,6 +7240,34 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 							_objectmodel->AppendRow(data, idx);
 							++internindex;
 						}
+
+		
+						// add projectiles
+						{
+							QVector<QVariant> data;
+							data << "Projectiles" << "";
+							QModelIndex idx = _objectmodel->AppendRow(data, parent, true);	
+							++index;
+
+							std::vector<ProjectileObjectDefPtr> & projs = actorh->GetProjectilesWeapon1();
+							for(size_t p=0; p< projs.size(); ++p)
+							{
+								{
+									QVector<QVariant> datait;
+									datait << "Projectile" << "";
+									QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+									_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _removeList);
+
+									SelectProjectile(projs[p].get(), idxit);
+								}
+							}
+
+							// add new item
+							QVector<QVariant> datait;
+							datait << "Projectile" << "Add new...";
+							QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+							_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _addList);	
+						}
 					}
 				}
 
@@ -7272,6 +7306,33 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 							data<<"Weapon 2 Animation"<<actorh->Getuseweapon2animation().c_str();
 							_objectmodel->AppendRow(data, idx);
 							++internindex;
+						}
+		
+						// add projectiles
+						{
+							QVector<QVariant> data;
+							data << "Projectiles" << "";
+							QModelIndex idx = _objectmodel->AppendRow(data, parent, true);	
+							++index;
+
+							std::vector<ProjectileObjectDefPtr> & projs = actorh->GetProjectilesWeapon2();
+							for(size_t p=0; p< projs.size(); ++p)
+							{
+								{
+									QVector<QVariant> datait;
+									datait << "Projectile" << "";
+									QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+									_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _removeList);
+
+									SelectProjectile(projs[p].get(), idxit);
+								}
+							}
+
+							// add new item
+							QVector<QVariant> datait;
+							datait << "Projectile" << "Add new...";
+							QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+							_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _addList);	
 						}
 					}
 				}
@@ -8121,18 +8182,71 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 						currentweapon1type = 1;
 					if(weapon1typestr == "Distance")
 						currentweapon1type = 2;
+
 					{
 						QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
-						int curridx = 0;
+						int curridx1 = 0;
 						++index;
 
 						if(lastweapon1type > 0)
 						{
-							actorh->SetWeapon1Power(_objectmodel->data(_objectmodel->GetIndex(1, curridx, itemparent)).toString().toFloat());
-							++curridx;
+							actorh->SetWeapon1Power(_objectmodel->data(_objectmodel->GetIndex(1, curridx1, itemparent)).toString().toFloat());
+							++curridx1;
 
-							actorh->Setuseweapon1animation(_objectmodel->data(_objectmodel->GetIndex(1, curridx, itemparent)).toString().toAscii().data());
-							++curridx;
+							actorh->Setuseweapon1animation(_objectmodel->data(_objectmodel->GetIndex(1, curridx1, itemparent)).toString().toAscii().data());
+							++curridx1;
+
+
+							// projectiles
+							{
+								QModelIndex itemparent = _objectmodel->GetIndex(0, curridx1, parentIdx);
+								++curridx1;
+								int curridx = 0;
+
+								std::vector<ProjectileObjectDefPtr> & childs = actorh->GetProjectilesWeapon1();
+								for(size_t gg=0; gg< childs.size(); ++gg)
+								{
+									QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+									std::string check = _objectmodel->data(childidx).toString().toAscii().data();
+									++curridx;
+
+									if(check == "Remove")
+									{
+										actorh->RemoveProjectileWeapon1(childs[gg]);
+										updateobj = true;
+										break;
+									}
+								}
+
+								if(!updateobj)
+								{
+									QModelIndex childidx0 = _objectmodel->GetIndex(0, curridx, itemparent);
+									QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+									std::string check = _objectmodel->data(childidx).toString().toAscii().data();
+									if(check == "Add")
+									{
+										ProjectileObjectDefPtr newd(new ProjectileObjectDef());
+										actorh->AddProjectileWeapon1(newd);
+
+										{
+										// add new item
+										QVector<QVariant> datait;
+										datait << "Projectile" << "Add new...";
+										QModelIndex idxit = _objectmodel->AppendRow(datait, itemparent);	
+										_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _addList);	
+										}
+
+										{
+										SelectProjectile(newd.get(), childidx0);
+										_objectmodel->SetCustomIndex(childidx, _removeList);
+										_objectmodel->setData(childidx, "");
+										_uieditor.treeView_object->setExpanded(childidx0, true); // expand 
+										}
+
+										return;
+									}
+								}
+							}
 						}
 					}
 
@@ -8142,141 +8256,196 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 					if(weapon2typestr == "Contact")
 						currentweapon2type = 1;
 					if(weapon2typestr == "Distance")
-						currentweapon2type = 2;				
+						currentweapon2type = 2;		
+
 					{
 						QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
-						int curridx = 0;
+						int curridx1 = 0;
 						++index;
 
 						if(lastweapon2type > 0)
 						{
-							actorh->SetWeapon2Power(_objectmodel->data(_objectmodel->GetIndex(1, curridx, itemparent)).toString().toFloat());
-							++curridx;
+							actorh->SetWeapon2Power(_objectmodel->data(_objectmodel->GetIndex(1, curridx1, itemparent)).toString().toFloat());
+							++curridx1;
 
-							actorh->Setuseweapon2animation(_objectmodel->data(_objectmodel->GetIndex(1, curridx, itemparent)).toString().toAscii().data());
-							++curridx;
+							actorh->Setuseweapon2animation(_objectmodel->data(_objectmodel->GetIndex(1, curridx1, itemparent)).toString().toAscii().data());
+							++curridx1;
+
+							// projectiles
+							{
+								QModelIndex itemparent = _objectmodel->GetIndex(0, curridx1, parentIdx);
+								++curridx1;
+								int curridx = 0;
+
+								std::vector<ProjectileObjectDefPtr> & childs = actorh->GetProjectilesWeapon2();
+								for(size_t gg=0; gg< childs.size(); ++gg)
+								{
+									QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+									std::string check = _objectmodel->data(childidx).toString().toAscii().data();
+									++curridx;
+
+									if(check == "Remove")
+									{
+										actorh->RemoveProjectileWeapon2(childs[gg]);
+										updateobj = true;
+										break;
+									}
+								}
+
+								if(!updateobj)
+								{
+									QModelIndex childidx0 = _objectmodel->GetIndex(0, curridx, itemparent);
+									QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+									std::string check = _objectmodel->data(childidx).toString().toAscii().data();
+									if(check == "Add")
+									{
+										ProjectileObjectDefPtr newd(new ProjectileObjectDef());
+										actorh->AddProjectileWeapon2(newd);
+
+										{
+										// add new item
+										QVector<QVariant> datait;
+										datait << "Projectile" << "Add new...";
+										QModelIndex idxit = _objectmodel->AppendRow(datait, itemparent);	
+										_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _addList);	
+										}
+
+										{
+										SelectProjectile(newd.get(), childidx0);
+										_objectmodel->SetCustomIndex(childidx, _removeList);
+										_objectmodel->setData(childidx, "");
+										_uieditor.treeView_object->setExpanded(childidx0, true); // expand 
+										}
+
+										return;
+									}
+								}
+							}
 						}
 					}
 
-					actorh->SetAttackActiDist(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
-					++index;
-
-					actorh->SetAttackActiDistDiscrete(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
-					++index;
-
-					actorh->SetAttackActiDistHidden(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
-					++index;
-
-					actorh->SetAttackStopDist(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
-					++index;
-
-					actorh->SetRespawnTimeInSec(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
-					++index;
-
-					// check condition part
+					if(!updateobj)
 					{
-						std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
-						std::string currcond = GetConditionType(actorh->GetAttackActivationCondition());
-
-						if(condition != currcond)
-						{
-							ConditionBasePtr ptrtmp = CreateCondition(condition);
-							actorh->SetAttackActivationCondition(ptrtmp);
-
-							QModelIndex curidx = _objectmodel->GetIndex(0, index, parentIdx);
-							_objectmodel->Clear(curidx);
-							if(ptrtmp)
-							{
-								SelectCondition(ptrtmp, curidx);
-								_uieditor.treeView_object->setExpanded(curidx, true); // expand 
-							}
-
-						}
-
+						actorh->SetAttackActiDist(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
 						++index;
-					}
 
-					// check action part
-					{
-						std::string action1 = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
-						std::string curract = GetActionType(actorh->GetActionOnAttackActivation());
-
-						if(action1 != curract)
-						{
-							ActionBasePtr ptrtmp = CreateAction(action1);
-							actorh->SetActionOnAttackActivation(ptrtmp);
-
-							QModelIndex curidx = _objectmodel->GetIndex(0, index, parentIdx);
-							_objectmodel->Clear(curidx);
-							if(ptrtmp)
-							{
-								SelectAction(ptrtmp.get(), curidx);
-								_uieditor.treeView_object->setExpanded(curidx, true); // expand 
-							}
-
-						}
-
+						actorh->SetAttackActiDistDiscrete(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
 						++index;
-					}
 
-					// take care of items
-					{
-						QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
-						int curridx = 0;
+						actorh->SetAttackActiDistHidden(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
+						++index;
 
-						//take care of the items
-						std::vector<LbaNet::ItemGroupElement> &items = actorh->GetGivenItemList();
-						std::vector<LbaNet::ItemGroupElement>::iterator itit = items.begin();
-						for(;itit != items.end(); ++itit)
+						actorh->SetAttackStopDist(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
+						++index;
+
+						actorh->SetRespawnTimeInSec(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
+						++index;
+
+						// check condition part
 						{
-							QModelIndex childidx = _objectmodel->GetIndex(0, curridx, itemparent);
-							std::string id = _objectmodel->data(_objectmodel->GetIndex(1, curridx, itemparent))
-																					.toString().toAscii().data();
-							++curridx;
+							std::string condition = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+							std::string currcond = GetConditionType(actorh->GetAttackActivationCondition());
 
-							if(id == "No item")
+							if(condition != currcond)
 							{
-								// need to remove the item
-								items.erase(itit);
+								ConditionBasePtr ptrtmp = CreateCondition(condition);
+								actorh->SetAttackActivationCondition(ptrtmp);
 
-								updateobj = true;
-								break;
+								QModelIndex curidx = _objectmodel->GetIndex(0, index, parentIdx);
+								_objectmodel->Clear(curidx);
+								if(ptrtmp)
+								{
+									SelectCondition(ptrtmp, curidx);
+									_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+								}
+
 							}
 
-							std::string tmp = id.substr(0, id.find(":"));
-							itit->Id = atol(tmp.c_str());
-							itit->Min = _objectmodel->data(_objectmodel->GetIndex(1, 0, childidx)).toInt();
-							itit->Max = _objectmodel->data(_objectmodel->GetIndex(1, 1, childidx)).toInt();
-							itit->Probability = _objectmodel->data(_objectmodel->GetIndex(1, 2, childidx)).toFloat();
-							itit->Group = _objectmodel->data(_objectmodel->GetIndex(1, 3, childidx)).toInt();
+							++index;
 						}
 
-						QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
-						std::string id = _objectmodel->data(childidx).toString().toAscii().data();
-						if(id != "Add item...")
+						// check action part
 						{
-							if(id == "No item")
+							std::string action1 = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+							std::string curract = GetActionType(actorh->GetActionOnAttackActivation());
+
+							if(action1 != curract)
 							{
-								_objectmodel->setData(childidx, "Add item...");
+								ActionBasePtr ptrtmp = CreateAction(action1);
+								actorh->SetActionOnAttackActivation(ptrtmp);
+
+								QModelIndex curidx = _objectmodel->GetIndex(0, index, parentIdx);
+								_objectmodel->Clear(curidx);
+								if(ptrtmp)
+								{
+									SelectAction(ptrtmp.get(), curidx);
+									_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+								}
+
 							}
-							else
+
+							++index;
+						}
+
+						// take care of items
+						{
+							QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
+							int curridx = 0;
+
+							//take care of the items
+							std::vector<LbaNet::ItemGroupElement> &items = actorh->GetGivenItemList();
+							std::vector<LbaNet::ItemGroupElement>::iterator itit = items.begin();
+							for(;itit != items.end(); ++itit)
 							{
-								// add new item
+								QModelIndex childidx = _objectmodel->GetIndex(0, curridx, itemparent);
+								std::string id = _objectmodel->data(_objectmodel->GetIndex(1, curridx, itemparent))
+																						.toString().toAscii().data();
+								++curridx;
+
+								if(id == "No item")
+								{
+									// need to remove the item
+									items.erase(itit);
+
+									updateobj = true;
+									break;
+								}
+
 								std::string tmp = id.substr(0, id.find(":"));
-								long itmid = atol(tmp.c_str());
-
-								LbaNet::ItemGroupElement newitem;
-								newitem.Id = itmid;
-								newitem.Min = 1;
-								newitem.Max = 1;
-								newitem.Probability = 1;
-								newitem.Group = -1;
-								items.push_back(newitem);
-
-								updateobj = true;
+								itit->Id = atol(tmp.c_str());
+								itit->Min = _objectmodel->data(_objectmodel->GetIndex(1, 0, childidx)).toInt();
+								itit->Max = _objectmodel->data(_objectmodel->GetIndex(1, 1, childidx)).toInt();
+								itit->Probability = _objectmodel->data(_objectmodel->GetIndex(1, 2, childidx)).toFloat();
+								itit->Group = _objectmodel->data(_objectmodel->GetIndex(1, 3, childidx)).toInt();
 							}
-						}
 
+							QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+							std::string id = _objectmodel->data(childidx).toString().toAscii().data();
+							if(id != "Add item...")
+							{
+								if(id == "No item")
+								{
+									_objectmodel->setData(childidx, "Add item...");
+								}
+								else
+								{
+									// add new item
+									std::string tmp = id.substr(0, id.find(":"));
+									long itmid = atol(tmp.c_str());
+
+									LbaNet::ItemGroupElement newitem;
+									newitem.Id = itmid;
+									newitem.Min = 1;
+									newitem.Max = 1;
+									newitem.Probability = 1;
+									newitem.Group = -1;
+									items.push_back(newitem);
+
+									updateobj = true;
+								}
+							}
+
+						}
 					}
 
 
@@ -8959,21 +9128,21 @@ void EditorHandler::PickedArrowMoved(int pickedarrow)
 			{
 				if(pickedarrow == 1)
 				{
-					_objectmodel->setData(_objectmodel->GetIndex(1, 10), floor(_draggerX->getMatrix().getTrans().x()*10)/10);
+					_objectmodel->setData(_objectmodel->GetIndex(1, 10), floor(_draggerX->getMatrix().getTrans().x()*10.0)/10.0);
 					_draggerY->setMatrix(_draggerX->getMatrix());
 					_draggerZ->setMatrix(_draggerX->getMatrix());
 				}
 
 				if(pickedarrow == 2)
 				{	
-					_objectmodel->setData(_objectmodel->GetIndex(1, 11), floor(_draggerY->getMatrix().getTrans().y()*10)/10);
+					_objectmodel->setData(_objectmodel->GetIndex(1, 11), floor(_draggerY->getMatrix().getTrans().y()*10.0)/10.0);
 					_draggerX->setMatrix(_draggerY->getMatrix());
 					_draggerZ->setMatrix(_draggerY->getMatrix());
 				}
 
 				if(pickedarrow == 3)
 				{
-					_objectmodel->setData(_objectmodel->GetIndex(1, 12), floor(_draggerZ->getMatrix().getTrans().z()*10)/10);
+					_objectmodel->setData(_objectmodel->GetIndex(1, 12), floor(_draggerZ->getMatrix().getTrans().z()*10.0)/10.0);
 					_draggerX->setMatrix(_draggerZ->getMatrix());
 					_draggerY->setMatrix(_draggerZ->getMatrix());
 				}
@@ -8985,21 +9154,21 @@ void EditorHandler::PickedArrowMoved(int pickedarrow)
 			{
 				if(pickedarrow == 1)
 				{
-					_objectmodel->setData(_objectmodel->GetIndex(1, 5), floor(_draggerX->getMatrix().getTrans().x()*10)/10);
+					_objectmodel->setData(_objectmodel->GetIndex(1, 5), floor(_draggerX->getMatrix().getTrans().x()*10.0)/10.0);
 					_draggerY->setMatrix(_draggerX->getMatrix());
 					_draggerZ->setMatrix(_draggerX->getMatrix());
 				}
 
 				if(pickedarrow == 2)
 				{	
-					_objectmodel->setData(_objectmodel->GetIndex(1, 6), floor(_draggerY->getMatrix().getTrans().y()*10)/10);
+					_objectmodel->setData(_objectmodel->GetIndex(1, 6), floor(_draggerY->getMatrix().getTrans().y()*10.0)/10.0);
 					_draggerX->setMatrix(_draggerY->getMatrix());
 					_draggerZ->setMatrix(_draggerY->getMatrix());
 				}
 
 				if(pickedarrow == 3)
 				{
-					_objectmodel->setData(_objectmodel->GetIndex(1, 7), floor(_draggerZ->getMatrix().getTrans().z()*10)/10);
+					_objectmodel->setData(_objectmodel->GetIndex(1, 7), floor(_draggerZ->getMatrix().getTrans().z()*10.0)/10.0);
 					_draggerX->setMatrix(_draggerZ->getMatrix());
 					_draggerY->setMatrix(_draggerZ->getMatrix());
 				}
@@ -9011,21 +9180,21 @@ void EditorHandler::PickedArrowMoved(int pickedarrow)
 			{
 				if(pickedarrow == 1)
 				{
-					_objectmodel->setData(_objectmodel->GetIndex(1, 5), floor(_draggerX->getMatrix().getTrans().x()*10)/10);
+					_objectmodel->setData(_objectmodel->GetIndex(1, 5), floor(_draggerX->getMatrix().getTrans().x()*10.0)/10.0);
 					_draggerY->setMatrix(_draggerX->getMatrix());
 					_draggerZ->setMatrix(_draggerX->getMatrix());
 				}
 
 				if(pickedarrow == 2)
 				{	
-					_objectmodel->setData(_objectmodel->GetIndex(1, 6), floor(_draggerY->getMatrix().getTrans().y()*10)/10);
+					_objectmodel->setData(_objectmodel->GetIndex(1, 6), floor(_draggerY->getMatrix().getTrans().y()*10.0)/10.0);
 					_draggerX->setMatrix(_draggerY->getMatrix());
 					_draggerZ->setMatrix(_draggerY->getMatrix());
 				}
 
 				if(pickedarrow == 3)
 				{
-					_objectmodel->setData(_objectmodel->GetIndex(1, 7), floor(_draggerZ->getMatrix().getTrans().z()*10)/10);
+					_objectmodel->setData(_objectmodel->GetIndex(1, 7), floor(_draggerZ->getMatrix().getTrans().z()*10.0)/10.0);
 					_draggerX->setMatrix(_draggerZ->getMatrix());
 					_draggerY->setMatrix(_draggerZ->getMatrix());
 				}
@@ -9043,7 +9212,7 @@ void EditorHandler::PickedArrowMoved(int pickedarrow)
 			{
 				float nX = _objectmodel->data(_objectmodel->GetIndex(1, 7)).toString().toFloat();
 				nX += floor(_draggerX->getMatrix().getTrans().x()*10)/10 - center.x();
-				_objectmodel->setData(_objectmodel->GetIndex(1, 7), nX);
+				_objectmodel->setData(_objectmodel->GetIndex(1, 7), (double)nX);
 				_draggerY->setMatrix(_draggerX->getMatrix());
 				_draggerZ->setMatrix(_draggerX->getMatrix());
 			}
@@ -9052,7 +9221,7 @@ void EditorHandler::PickedArrowMoved(int pickedarrow)
 			{	
 				float nY = _objectmodel->data(_objectmodel->GetIndex(1, 8)).toString().toFloat();
 				nY += floor(_draggerY->getMatrix().getTrans().y()*10)/10 - center.y();
-				_objectmodel->setData(_objectmodel->GetIndex(1, 8), nY);
+				_objectmodel->setData(_objectmodel->GetIndex(1, 8), (double)nY);
 				_draggerX->setMatrix(_draggerY->getMatrix());
 				_draggerZ->setMatrix(_draggerY->getMatrix());
 			}
@@ -9061,7 +9230,7 @@ void EditorHandler::PickedArrowMoved(int pickedarrow)
 			{
 				float nZ = _objectmodel->data(_objectmodel->GetIndex(1, 9)).toString().toFloat();
 				nZ += floor(_draggerZ->getMatrix().getTrans().z()*10)/10 - center.z();
-				_objectmodel->setData(_objectmodel->GetIndex(1, 9), nZ);
+				_objectmodel->setData(_objectmodel->GetIndex(1, 9), (double)nZ);
 				_draggerX->setMatrix(_draggerZ->getMatrix());
 				_draggerY->setMatrix(_draggerZ->getMatrix());
 			}
@@ -10802,6 +10971,33 @@ void EditorHandler::SelectItem(boost::shared_ptr<InventoryItemDef> item, const Q
 			data1<<"Weapon color"<<item->GetColor1();
 			_objectmodel->AppendRow(data1, parent);
 			++index;
+		
+			// add projectiles
+			{
+				QVector<QVariant> data;
+				data << "Projectiles" << "";
+				QModelIndex idx = _objectmodel->AppendRow(data, parent, true);	
+				++index;
+
+				std::vector<ProjectileObjectDefPtr> & projs = item->GetProjectiles();
+				for(size_t p=0; p< projs.size(); ++p)
+				{
+					{
+						QVector<QVariant> datait;
+						datait << "Projectile" << "";
+						QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+						_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _removeList);
+
+						SelectProjectile(projs[p].get(), idxit);
+					}
+				}
+
+				// add new item
+				QVector<QVariant> datait;
+				datait << "Projectile" << "Add new...";
+				QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _addList);	
+			}
 		}
 		break;
 
@@ -11265,6 +11461,8 @@ item object changed
 ***********************************************************/
 void EditorHandler::ItemChanged(long id, const std::string & category, const QModelIndex &parentIdx)
 {
+	SetModified();
+
 	LbaNet::ItemInfo olditeminfo = InventoryItemHandler::getInstance()->GetItemInfo(id);
 	InventoryItemDefPtr olditem = InventoryItemHandler::getInstance()->GetItem(id);
 
@@ -11272,6 +11470,8 @@ void EditorHandler::ItemChanged(long id, const std::string & category, const QMo
 	InventoryItemDefPtr newiteminfo(new InventoryItemDef(olditeminfo));
 	newiteminfo->SetAction(InventoryItemHandler::getInstance()->GetItemAction(id));
 	newiteminfo->SetName(_objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString().toAscii().data());
+	newiteminfo->GetProjectiles().swap(olditem->GetProjectiles());
+
 
 	// check if name changed
 	if(newiteminfo->GetName() != olditeminfo.Name)
@@ -11393,6 +11593,58 @@ void EditorHandler::ItemChanged(long id, const std::string & category, const QMo
 
 			newiteminfo->SetColor1(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt());
 			++index;
+
+
+			// projectiles
+			{
+				QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
+				++index;
+				int curridx = 0;
+
+				std::vector<ProjectileObjectDefPtr> & childs = newiteminfo->GetProjectiles();
+				for(size_t gg=0; gg< childs.size(); ++gg)
+				{
+					QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+					std::string check = _objectmodel->data(childidx).toString().toAscii().data();
+					++curridx;
+
+					if(check == "Remove")
+					{
+						newiteminfo->RemoveProjectile(childs[gg]);
+						refresh = true;
+						break;
+					}
+				}
+
+				if(!refresh)
+				{
+					QModelIndex childidx0 = _objectmodel->GetIndex(0, curridx, itemparent);
+					QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+					std::string check = _objectmodel->data(childidx).toString().toAscii().data();
+					if(check == "Add")
+					{
+						ProjectileObjectDefPtr newd(new ProjectileObjectDef());
+						newiteminfo->AddProjectile(newd);
+
+						{
+						// add new item
+						QVector<QVariant> datait;
+						datait << "Projectile" << "Add new...";
+						QModelIndex idxit = _objectmodel->AppendRow(datait, itemparent);	
+						_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _addList);	
+						}
+
+						{
+						SelectProjectile(newd.get(), childidx0);
+						_objectmodel->SetCustomIndex(childidx, _removeList);
+						_objectmodel->setData(childidx, "");
+						_uieditor.treeView_object->setExpanded(childidx0, true); // expand 
+						}
+
+						return;
+					}
+				}
+			}
 		}
 		break;
 
@@ -11519,134 +11771,133 @@ void EditorHandler::ItemChanged(long id, const std::string & category, const QMo
 		refresh = true;
 
 
-	
-	if(olddisinfo.TypeRenderer != LbaNet::NoRender)
+	if(!refresh)	
 	{
-		newdisinfo.UseLight = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
-		++index;
-		newdisinfo.CastShadow = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
-		++index;
-
-		newdisinfo.TransX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
-		++index;
-		newdisinfo.TransY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
-		++index;
-		newdisinfo.TransZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
-		++index;
-
-		newdisinfo.RotX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
-		++index;
-		newdisinfo.RotY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
-		++index;
-		newdisinfo.RotZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
-		++index;
-
-		newdisinfo.ScaleX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
-		++index;
-		newdisinfo.ScaleY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
-		++index;
-		newdisinfo.ScaleZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
-		++index;
-
-
-		if(olddisinfo.TypeRenderer == RenderOsgModel )
+		if(olddisinfo.TypeRenderer != LbaNet::NoRender)
 		{
-			newdisinfo.ModelName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+			newdisinfo.UseLight = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
 			++index;
+			newdisinfo.CastShadow = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
+			++index;
+
+			newdisinfo.TransX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+			newdisinfo.TransY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+			newdisinfo.TransZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+
+			newdisinfo.RotX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+			newdisinfo.RotY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+			newdisinfo.RotZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+
+			newdisinfo.ScaleX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+			newdisinfo.ScaleY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+			newdisinfo.ScaleZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+
+
+			if(olddisinfo.TypeRenderer == RenderOsgModel )
+			{
+				newdisinfo.ModelName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+				++index;
+			}
+
+			if(olddisinfo.TypeRenderer == RenderSprite )
+			{
+				newdisinfo.ModelName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+				++index;	
+
+				newdisinfo.ColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;	
+
+				newdisinfo.ColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;		
+
+				newdisinfo.ColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;		
+
+				newdisinfo.ColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;	
+
+				newdisinfo.UseBillboard = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
+				++index;	
+			}
+
+			// check materials
+			newdisinfo.UseTransparentMaterial = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();		
+			++index;
+			newdisinfo.MatAlpha = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		
+			++index;
+
+			int oldmatcolortype = olddisinfo.ColorMaterialType;
+
+			std::string matstringtype = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();	
+			++index;
+
+			newdisinfo.ColorMaterialType = 0;
+			if(matstringtype == "Ambient")
+				newdisinfo.ColorMaterialType = 1;
+			if(matstringtype == "Diffuse")
+				newdisinfo.ColorMaterialType = 2;
+			if(matstringtype == "Specular")
+				newdisinfo.ColorMaterialType = 3;
+			if(matstringtype == "Emission")
+				newdisinfo.ColorMaterialType = 4;
+			if(matstringtype == "Ambient_And_Diffuse")
+				newdisinfo.ColorMaterialType = 5;
+
+			if(newdisinfo.ColorMaterialType != oldmatcolortype)
+				refresh = true;
+
+
+			if(oldmatcolortype > 0)
+			{
+				newdisinfo.MatAmbientColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatAmbientColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatAmbientColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatAmbientColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatDiffuseColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatDiffuseColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatDiffuseColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatDiffuseColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatSpecularColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatSpecularColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatSpecularColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatSpecularColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;	
+				newdisinfo.MatEmissionColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatEmissionColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatEmissionColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatEmissionColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;	
+				newdisinfo.MatShininess = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;				
+			}	
 		}
-
-		if(olddisinfo.TypeRenderer == RenderSprite )
-		{
-			newdisinfo.ModelName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
-			++index;	
-
-			newdisinfo.ColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
-			++index;	
-
-			newdisinfo.ColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
-			++index;		
-
-			newdisinfo.ColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
-			++index;		
-
-			newdisinfo.ColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
-			++index;	
-
-			newdisinfo.UseBillboard = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
-			++index;	
-		}
-
-		// check materials
-		newdisinfo.UseTransparentMaterial = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();		
-		++index;
-		newdisinfo.MatAlpha = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		
-		++index;
-
-		int oldmatcolortype = olddisinfo.ColorMaterialType;
-
-		std::string matstringtype = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();	
-		++index;
-
-		newdisinfo.ColorMaterialType = 0;
-		if(matstringtype == "Ambient")
-			newdisinfo.ColorMaterialType = 1;
-		if(matstringtype == "Diffuse")
-			newdisinfo.ColorMaterialType = 2;
-		if(matstringtype == "Specular")
-			newdisinfo.ColorMaterialType = 3;
-		if(matstringtype == "Emission")
-			newdisinfo.ColorMaterialType = 4;
-		if(matstringtype == "Ambient_And_Diffuse")
-			newdisinfo.ColorMaterialType = 5;
-
-		if(newdisinfo.ColorMaterialType != oldmatcolortype)
-			refresh = true;
-
-
-		if(oldmatcolortype > 0)
-		{
-			newdisinfo.MatAmbientColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-			++index;			
-			newdisinfo.MatAmbientColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-			++index;			
-			newdisinfo.MatAmbientColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-			++index;			
-			newdisinfo.MatAmbientColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-			++index;			
-			newdisinfo.MatDiffuseColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-			++index;			
-			newdisinfo.MatDiffuseColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-			++index;			
-			newdisinfo.MatDiffuseColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-			++index;			
-			newdisinfo.MatDiffuseColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-			++index;			
-			newdisinfo.MatSpecularColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-			++index;			
-			newdisinfo.MatSpecularColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-			++index;			
-			newdisinfo.MatSpecularColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-			++index;			
-			newdisinfo.MatSpecularColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-			++index;	
-			newdisinfo.MatEmissionColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-			++index;			
-			newdisinfo.MatEmissionColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-			++index;			
-			newdisinfo.MatEmissionColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-			++index;			
-			newdisinfo.MatEmissionColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-			++index;	
-			newdisinfo.MatShininess = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
-			++index;				
-		}	
 	}
 
 
-
-
 	InventoryItemHandler::getInstance()->SetItem(newiteminfo);
-	SetModified();
 
 	if(refresh || ((newiteminfo->GetType() == 1) && (newiteminfo->GetFlag() != olditeminfo.Flag)))
 		SelectItem(newiteminfo, parentIdx);
@@ -13032,4 +13283,824 @@ void EditorHandler::TestNPCStopAttack()
 	// refresh server
 	if(_selectedid >= 0)
 		SharedDataHandler::getInstance()->EditorUpdate(mapname, new UpdateEditor_NPCAttack(false, _selectedid, 1));
+}
+
+
+/***********************************************************
+select a Projectile
+***********************************************************/
+void EditorHandler::SelectProjectile(ProjectileObjectDef* cond, const QModelIndex &parent)
+{
+	if(parent == QModelIndex())
+		ResetObject();
+
+	if(!cond)
+		return;
+
+	// add pointer for later change
+	_modelidxdatamap[parent] = (void*)cond;
+
+	{
+		QVector<QVariant> data;
+		data<<"Type"<<"Projectile";
+		_objectmodel->AppendRow(data, parent, true);
+	}
+
+
+
+	std::string dtype = "No";
+	switch(cond->DisplayDesc.TypeRenderer)
+	{
+		case LbaNet::RenderOsgModel:
+			dtype = "Osg Model";
+		break;
+
+		case RenderSprite:
+			dtype = "Sprite";
+		break;
+
+		case RenderCross:
+			dtype = "Cross";
+		break;
+
+		case RenderBox:
+			dtype = "Box";
+		break;
+
+		case RenderCapsule:
+			dtype = "Capsule";
+		break;
+	}
+	{
+		QVector<QVariant> data;
+		data<<"Display Type"<<dtype.c_str();
+		_objectmodel->AppendRow(data, parent);
+	}
+
+	std::string ptype;
+	switch(cond->PhysicDesc.TypeShape)
+	{
+		case LbaNet::NoShape:
+			ptype = "No Shape";
+		break;
+		case BoxShape:
+			ptype = "Box";
+		break;
+		case CapsuleShape:
+			ptype = "Capsule";
+		break;
+		case SphereShape:
+			ptype = "Sphere";
+		break;
+		case TriangleMeshShape:
+			ptype = "Triangle Mesh";
+		break;
+	}
+	{
+		QVector<QVariant> data;
+		data<<"Physical Type"<<ptype.c_str();
+		_objectmodel->AppendRow(data, parent);
+	}
+
+
+	_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 1, parent), _actordtypeList);
+	_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _actorptypeList);		
+
+	int index = 3;
+
+	if(cond->PhysicDesc.TypeShape != LbaNet::NoShape)
+	{
+		if(cond->PhysicDesc.TypeShape != LbaNet::TriangleMeshShape)
+		{
+			{
+				QVector<QVariant> data;
+				data<<"Size X"<<(double)cond->PhysicDesc.SizeX;
+				_objectmodel->AppendRow(data, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data;
+				data<<"Size Y"<<(double)cond->PhysicDesc.SizeY;
+				_objectmodel->AppendRow(data, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data;
+				data<<"Size Z"<<(double)cond->PhysicDesc.SizeZ;
+				_objectmodel->AppendRow(data, parent);
+				++index;
+			}
+		}
+		else
+		{
+			{
+				QVector<QVariant> data;
+				data<<"Physic filename"<<cond->PhysicDesc.Filename.c_str();
+				_objectmodel->AppendRow(data, parent);
+
+				boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
+				filefilter->Title = "Select physic file";
+				filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Models").c_str();
+				filefilter->FileFilter = "Physic Files (*.phy)";
+				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
+
+				++index;
+			}
+		}
+	}
+
+	if(dtype != "No")
+	{
+		{
+			QVector<QVariant> data;
+			data<<"Use Light"<<cond->DisplayDesc.UseLight;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Cast shadow"<<cond->DisplayDesc.CastShadow;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+
+		{
+			QVector<QVariant> data;
+			data<<"Display translation X"<<(double)cond->DisplayDesc.TransX;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Display translation Y"<<(double)cond->DisplayDesc.TransY;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Display translation Z"<<(double)cond->DisplayDesc.TransZ;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Display rotation X"<<(double)cond->DisplayDesc.RotX;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Display rotation Y"<<(double)cond->DisplayDesc.RotY;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Display rotation Z"<<(double)cond->DisplayDesc.RotZ;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Display scale X"<<(double)cond->DisplayDesc.ScaleX;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Display scale Y"<<(double)cond->DisplayDesc.ScaleY;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Display scale Z"<<(double)cond->DisplayDesc.ScaleZ;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+
+
+		if(cond->DisplayDesc.TypeRenderer == RenderOsgModel )
+		{
+			QVector<QVariant> data;
+			data<<"Display model file"<<cond->DisplayDesc.ModelName.c_str();
+			_objectmodel->AppendRow(data, parent);
+
+			boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
+			filefilter->Title = "Select a model file";
+			filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Models").c_str();;
+			filefilter->FileFilter = "Model Files (*.osg *.osgb *.osgt)";
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
+			++index;
+		}
+
+		if(cond->DisplayDesc.TypeRenderer == RenderSprite )
+		{
+			QVector<QVariant> data;
+			data<<"Display sprite file"<<cond->DisplayDesc.ModelName.c_str();
+			_objectmodel->AppendRow(data, parent);
+
+			boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
+			filefilter->Title = "Select an image";
+			filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Sprites").c_str();;
+			filefilter->FileFilter = "Image Files (*.png *.bmp *.jpg *.gif)";
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
+			++index;
+
+			{
+				QVector<QVariant> data1;
+				data1<<"Color R"<<(double)cond->DisplayDesc.ColorR;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data1;
+				data1<<"Color G"<<(double)cond->DisplayDesc.ColorG;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data1;
+				data1<<"Color B"<<(double)cond->DisplayDesc.ColorB;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data1;
+				data1<<"Color A"<<(double)cond->DisplayDesc.ColorA;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data1;
+				data1<<"Use Billboard"<<cond->DisplayDesc.UseBillboard;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+		}
+
+		// add materials
+		{
+			QVector<QVariant> data;
+			data<<"Use alpha material"<<cond->DisplayDesc.UseTransparentMaterial;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Alpha"<<(double)cond->DisplayDesc.MatAlpha;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+
+		int matcolortype = cond->DisplayDesc.ColorMaterialType;
+		{
+			std::string mattypestring = "Off";
+			switch(matcolortype)
+			{
+				case 1:
+					mattypestring = "Ambient";
+				break;
+				case 2:
+					mattypestring = "Diffuse";
+				break;
+				case 3:
+					mattypestring = "Specular";
+				break;
+				case 4:
+					mattypestring = "Emission";
+				break;
+				case 5:
+					mattypestring = "Ambient_And_Diffuse";
+				break;
+			}
+			QVector<QVariant> data;
+			data<<"Color material type"<<mattypestring.c_str();
+			_objectmodel->AppendRow(data, parent);
+				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _materialtypeList);
+			++index;	
+		}
+
+		if(matcolortype > 0)
+		{
+			{
+			QVector<QVariant> data;
+			data<<"Mat Ambient ColorR"<<(double)cond->DisplayDesc.MatAmbientColorR;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Ambient ColorG"<<(double)cond->DisplayDesc.MatAmbientColorG;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Ambient ColorB"<<(double)cond->DisplayDesc.MatAmbientColorB;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Ambient ColorA"<<(double)cond->DisplayDesc.MatAmbientColorA;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+
+			{
+			QVector<QVariant> data;
+			data<<"Mat Diffuse ColorR"<<(double)cond->DisplayDesc.MatDiffuseColorR;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Diffuse ColorG"<<(double)cond->DisplayDesc.MatDiffuseColorG;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Diffuse ColorB"<<(double)cond->DisplayDesc.MatDiffuseColorB;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Diffuse ColorA"<<(double)cond->DisplayDesc.MatDiffuseColorA;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+
+			{
+			QVector<QVariant> data;
+			data<<"Mat Specular ColorR"<<(double)cond->DisplayDesc.MatSpecularColorR;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Specular ColorG"<<(double)cond->DisplayDesc.MatSpecularColorG;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Specular ColorB"<<(double)cond->DisplayDesc.MatSpecularColorB;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Specular ColorA"<<(double)cond->DisplayDesc.MatSpecularColorA;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+
+			{
+			QVector<QVariant> data;
+			data<<"Mat Emission ColorR"<<(double)cond->DisplayDesc.MatEmissionColorR;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Emission ColorG"<<(double)cond->DisplayDesc.MatEmissionColorG;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Emission ColorB"<<(double)cond->DisplayDesc.MatEmissionColorB;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Emission ColorA"<<(double)cond->DisplayDesc.MatEmissionColorA;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Shininess"<<(double)cond->DisplayDesc.MatShininess;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+		}	
+	}
+
+
+	{
+		QVector<QVariant> data;
+		data<<"Usable Mode"<<cond->UsableMode.c_str();
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		++index;	
+	}
+	{
+		QVector<QVariant> data;
+		data<<"Power"<<(double)cond->Power;
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		++index;
+	}
+	{
+		QVector<QVariant> data;
+		data<<"Mana used"<<(double)cond->UseMana;
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		++index;
+	}		
+	{
+		QVector<QVariant> data;
+		data<<"OffsetX"<<(double)cond->OffsetX;
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		++index;
+	}	
+	{
+		QVector<QVariant> data;
+		data<<"OffsetY"<<(double)cond->OffsetY;
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		++index;
+	}
+	{
+		QVector<QVariant> data;
+		data<<"ForceX"<<(double)cond->ForceX;
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		++index;
+	}
+	{
+		QVector<QVariant> data;
+		data<<"ForceY"<<(double)cond->ForceY;
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		++index;
+	}
+	{
+		QVector<QVariant> data;
+		data<<"ForceYOnImpact"<<(double)cond->ForceYOnImpact;
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		++index;
+	}
+	{
+		QVector<QVariant> data;
+		data<<"Number of bounce"<<cond->NbBounce;
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		++index;
+	}
+	{
+		QVector<QVariant> data;
+		data<<"Ignore gravity"<<cond->IgnoreGravity;
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		++index;
+	}
+	{
+		QVector<QVariant> data;
+		data<<"Life time (seconds)"<<(double)cond->LifeTime;
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		++index;
+	}
+	{
+		QVector<QVariant> data;
+		data<<"Projectile come back"<<cond->Comeback;
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		++index;
+	}
+	{
+		QVector<QVariant> data;
+		data<<"Launch delay (seconds)"<<(double)cond->Delay;
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		++index;
+	}
+	{
+		QVector<QVariant> data;
+		data<<"Multi fire"<<cond->IsSalve;
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		++index;
+	}
+	{
+		QVector<QVariant> data;
+		data<<"Fire frequency (seconds)"<<(double)cond->Frequency;
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		++index;
+	}	
+	{
+		QVector<QVariant> data;
+		data<<"Angle offset"<<(double)cond->AngleOffset;
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		++index;
+	}	
+	{
+		QVector<QVariant> data;
+		data<<"Sound At Start"<<cond->SoundAtStart.c_str();
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		++index;
+
+		boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
+		filefilter->Title = "Select an sound file";
+		filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Sound").c_str();
+		filefilter->FileFilter = "Sound Files (*.mp3 *.midi *.Ogg)";
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), filefilter);
+	}	
+	{
+		QVector<QVariant> data;
+		data<<"Sound On Bounce"<<cond->SoundOnBounce.c_str();
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		++index;
+
+		boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
+		filefilter->Title = "Select an sound file";
+		filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Sound").c_str();
+		filefilter->FileFilter = "Sound Files (*.mp3 *.midi *.Ogg)";
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), filefilter);
+	}
+	{
+		QVector<QVariant> data;
+		data<<"Force loose life"<<cond->ForceHurt;
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		++index;
+	}
+}
+
+/***********************************************************
+called when Projectile changed
+***********************************************************/
+void EditorHandler::ProjectileChanged(const QModelIndex &parentIdx)
+{
+	std::map<QModelIndex, void *>::iterator it = _modelidxdatamap.find(parentIdx);
+	if(it == _modelidxdatamap.end())
+		return;
+
+	ProjectileObjectDef * ptr = static_cast<ProjectileObjectDef*>(it->second);
+	if(!ptr)
+		return;
+
+	bool updateobj = false;
+	int index = 3;
+
+	if(ptr->PhysicDesc.TypeShape != LbaNet::NoShape)
+	{
+		if(ptr->PhysicDesc.TypeShape != LbaNet::TriangleMeshShape)
+		{
+	
+				ptr->PhysicDesc.SizeX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+	
+				ptr->PhysicDesc.SizeY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+	
+				ptr->PhysicDesc.SizeZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+		}
+		else
+		{
+	
+				ptr->PhysicDesc.Filename = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+			++index;
+		}
+	}
+
+	if(ptr->DisplayDesc.TypeRenderer != LbaNet::NoRender)
+	{
+
+			ptr->DisplayDesc.UseLight = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
+		++index;
+
+
+			ptr->DisplayDesc.CastShadow = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
+		++index;
+
+
+			ptr->DisplayDesc.TransX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+		++index;
+
+			ptr->DisplayDesc.TransY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+		++index;
+
+			ptr->DisplayDesc.TransZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+		++index;
+
+
+			ptr->DisplayDesc.RotX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+		++index;
+
+			ptr->DisplayDesc.RotY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+		++index;
+
+			ptr->DisplayDesc.RotZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+		++index;
+
+
+			ptr->DisplayDesc.ScaleX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+		++index;
+
+			ptr->DisplayDesc.ScaleY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+		++index;
+
+			ptr->DisplayDesc.ScaleZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+		++index;
+
+
+		if(ptr->DisplayDesc.TypeRenderer == RenderOsgModel )
+		{
+	
+				ptr->DisplayDesc.ModelName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+			++index;
+		}
+
+		if(ptr->DisplayDesc.TypeRenderer == RenderSprite )
+		{
+	
+				ptr->DisplayDesc.ModelName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+			++index;	
+
+	
+				ptr->DisplayDesc.ColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+			++index;	
+
+	
+				ptr->DisplayDesc.ColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+			++index;		
+
+	
+				ptr->DisplayDesc.ColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+			++index;		
+
+	
+				ptr->DisplayDesc.ColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+			++index;
+
+	
+				ptr->DisplayDesc.UseBillboard = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
+			++index;
+		}
+
+		// check materials
+		if(!updateobj)
+		{
+			ptr->DisplayDesc.UseTransparentMaterial = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();		
+			++index;
+			ptr->DisplayDesc.MatAlpha = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		
+			++index;
+
+			int oldmatcolortype = ptr->DisplayDesc.ColorMaterialType;
+
+			std::string matstringtype = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();	
+			++index;
+
+			ptr->DisplayDesc.ColorMaterialType = 0;
+			if(matstringtype == "Ambient")
+				ptr->DisplayDesc.ColorMaterialType = 1;
+			if(matstringtype == "Diffuse")
+				ptr->DisplayDesc.ColorMaterialType = 2;
+			if(matstringtype == "Specular")
+				ptr->DisplayDesc.ColorMaterialType = 3;
+			if(matstringtype == "Emission")
+				ptr->DisplayDesc.ColorMaterialType = 4;
+			if(matstringtype == "Ambient_And_Diffuse")
+				ptr->DisplayDesc.ColorMaterialType = 5;
+
+			if(ptr->DisplayDesc.ColorMaterialType != oldmatcolortype)
+				updateobj = true;
+
+	
+			if(oldmatcolortype > 0)
+			{
+				ptr->DisplayDesc.MatAmbientColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ptr->DisplayDesc.MatAmbientColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ptr->DisplayDesc.MatAmbientColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ptr->DisplayDesc.MatAmbientColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ptr->DisplayDesc.MatDiffuseColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ptr->DisplayDesc.MatDiffuseColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ptr->DisplayDesc.MatDiffuseColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ptr->DisplayDesc.MatDiffuseColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ptr->DisplayDesc.MatSpecularColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ptr->DisplayDesc.MatSpecularColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ptr->DisplayDesc.MatSpecularColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ptr->DisplayDesc.MatSpecularColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;	
+				ptr->DisplayDesc.MatEmissionColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ptr->DisplayDesc.MatEmissionColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ptr->DisplayDesc.MatEmissionColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				ptr->DisplayDesc.MatEmissionColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;	
+				ptr->DisplayDesc.MatShininess = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;				
+			}
+		}
+
+	}
+
+	{
+		LbaNet::RenderTypeEnum befored = ptr->DisplayDesc.TypeRenderer;
+		ptr->DisplayDesc.TypeRenderer = LbaNet::NoRender;
+		
+		std::string dtype = _objectmodel->data(_objectmodel->GetIndex(1, 1, parentIdx)).toString().toAscii().data();
+		if(dtype == "Osg Model") 
+			ptr->DisplayDesc.TypeRenderer = LbaNet::RenderOsgModel;
+		if(dtype == "Sprite") 
+			ptr->DisplayDesc.TypeRenderer = LbaNet::RenderSprite;
+		if(dtype == "Lba1 Model") 
+			ptr->DisplayDesc.TypeRenderer = LbaNet::RenderLba1M;
+		if(dtype == "Lba2 Model") 
+			ptr->DisplayDesc.TypeRenderer = LbaNet::RenderLba2M;
+
+		if(befored != ptr->DisplayDesc.TypeRenderer)
+			updateobj = true;
+
+		LbaNet::PhysicalShapeEnum beforep = ptr->PhysicDesc.TypeShape;
+		std::string ptype = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();
+		if(ptype == "No Shape") 
+			ptr->PhysicDesc.TypeShape = LbaNet::NoShape;
+		if(ptype == "Box") 
+			ptr->PhysicDesc.TypeShape = LbaNet::BoxShape;
+		if(ptype == "Capsule") 
+			ptr->PhysicDesc.TypeShape = LbaNet::CapsuleShape;
+		if(ptype == "Sphere") 
+			ptr->PhysicDesc.TypeShape = LbaNet::SphereShape;
+		if(ptype == "Triangle Mesh") 
+			ptr->PhysicDesc.TypeShape = LbaNet::TriangleMeshShape;
+
+		if(beforep != ptr->PhysicDesc.TypeShape)
+			updateobj = true;
+	}
+
+
+
+	ptr->UsableMode = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data(); 
+	++index;	
+
+	ptr->Power = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+	++index;	
+
+	ptr->UseMana = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+	++index;	
+
+	ptr->OffsetX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+	++index;	
+
+	ptr->OffsetY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+	++index;	
+
+	ptr->ForceX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+	++index;	
+
+	ptr->ForceY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+	++index;	
+
+	ptr->ForceYOnImpact = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+	++index;	
+
+	ptr->NbBounce = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();		 
+	++index;	
+
+	ptr->IgnoreGravity = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();		 
+	++index;	
+
+	ptr->LifeTime = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+	++index;	
+
+	ptr->Comeback = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();		 
+	++index;	
+
+	ptr->Delay = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+	++index;	
+
+	ptr->IsSalve = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();		 
+	++index;	
+
+	ptr->Frequency = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+	++index;		
+
+	ptr->AngleOffset = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+	++index;		
+
+	ptr->SoundAtStart = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data(); 
+	++index;	
+
+	ptr->SoundOnBounce = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data(); 
+	++index;	
+
+	ptr->ForceHurt = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();		 
+	++index;
+
+
+	SetMapModified();
+
+
+	//refresh object
+	if(updateobj)
+		SelectProjectile(ptr);
 }

@@ -52,6 +52,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Actions.h"
 #include "Localizer.h"
 #include "ActorHandler.h"
+#include "ProjectileObjectDef.h"
 
 #include <LbaTypes.h>
 #include <boost/shared_ptr.hpp>
@@ -1110,6 +1111,15 @@ protected:
 
 	//! hide end path
 	void HideEndPath();
+
+
+
+	//! select a Projectile
+	void SelectProjectile(ProjectileObjectDef* cond, const QModelIndex &parent = QModelIndex());
+
+	//! called when Projectile changed
+	void ProjectileChanged(const QModelIndex &parentIdx);
+
 
 private:
 	Ui::EditorClass										_uieditor;
