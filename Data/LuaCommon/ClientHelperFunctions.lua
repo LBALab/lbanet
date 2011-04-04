@@ -248,11 +248,12 @@ function ActorAttackContactPlayer(ScriptId, ActorId, Environment)
 
 	TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
 	while TargetedPlayer > -1 do
+		weaponrange = Environment:GetNpcWeaponReachDistance(ActorId, 1)
 	
-		tinrange = Environment:IsTargetInRange(1.0, ActorId)
+		tinrange = Environment:IsTargetInRange(weaponrange, ActorId)
 		if tinrange == false then
 			-- follow player until we reach him
-			Environment:FollowTargettedPlayer(ScriptId, ActorId, 1.0)
+			Environment:FollowTargettedPlayer(ScriptId, ActorId, weaponrange)
 		else
 			rotationdiff = Environment:GetTargetRotationDiff(ActorId)
 			if rotationdiff > 10 then
@@ -261,6 +262,34 @@ function ActorAttackContactPlayer(ScriptId, ActorId, Environment)
 			else
 				-- attack player
 				Environment:UseWeapon(ScriptId, ActorId, 1)
+			end
+		end
+	
+	
+		TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
+	end
+end
+
+
+-- go to player and attack him with contact weapon
+function ActorFollowAttackDistancePlayer(ScriptId, ActorId, Environment)
+
+	TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
+	while TargetedPlayer > -1 do
+		weaponrange = Environment:GetNpcWeaponReachDistance(ActorId, 2)
+	
+		tinrange = Environment:IsTargetInRange(weaponrange, ActorId)
+		if tinrange == false then
+			-- follow player until we reach him
+			Environment:FollowTargettedPlayer(ScriptId, ActorId, weaponrange)
+		else
+			rotationdiff = Environment:GetTargetRotationDiff(ActorId)
+			if rotationdiff > 10 then
+				-- rotate to face player
+				Environment:RotateToTargettedPlayer(ScriptId, ActorId, 10, 0.2)	
+			else
+				-- attack player
+				Environment:UseWeapon(ScriptId, ActorId, 2)
 			end
 		end
 	
