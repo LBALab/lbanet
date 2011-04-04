@@ -142,21 +142,6 @@ public:
 	void SetArmor(float v)
 	{_armor = v;}
 
-	//! accessor
-	float GetWeapon1Power()
-	{return _weapon1power;}
-
-	//! accessor
-	void SetWeapon1Power(float v)
-	{_weapon1power = v;}
-
-	//! accessor
-	float GetWeapon2Power()
-	{return _weapon2power;}
-
-	//! accessor
-	void SetWeapon2Power(float v)
-	{_weapon2power = v;}
 
 	//! accessor
 	float GetAttackActiDist()
@@ -251,7 +236,7 @@ public:
 	virtual void UseWeapon(int ScriptId, int WeaponNumber);
 
 	//! return targeted player
-	virtual long GetTargettedAttackPlayer(){return _targetedattackplayer;}
+	virtual long GetTargettedAttackPlayer(){return (long)_targetedattackplayer;}
 
 	//! check if target is in range
 	virtual bool IsTargetInRange(float MaxDistance);
@@ -337,7 +322,43 @@ public:
 	void RemoveProjectileWeapon2(ProjectileObjectDefPtr proj);
 
 
+	//! accessor
+	float GetWeapon1Power()
+	{return _weapon1power;}
 
+	//! accessor
+	void SetWeapon1Power(float v)
+	{_weapon1power = v;}
+
+	//! accessor
+	float GetWeapon2Power()
+	{return _weapon2power;}
+
+	//! accessor
+	void SetWeapon2Power(float v)
+	{_weapon2power = v;}
+
+
+	//! accessor
+	float GetWeapon1ReachDistance()
+	{return _weapon1reachdistance;}
+
+	//! accessor
+	void SetWeapon1ReachDistance(float v)
+	{_weapon1reachdistance = v;}
+
+	//! accessor
+	float GetWeapon2ReachDistance()
+	{return _weapon2reachdistance;}
+
+	//! accessor
+	void SetWeapon2ReachDistance(float v)
+	{_weapon2reachdistance = v;}
+
+	//! get weapon distance
+	//! 1-> first contact weapon, 2 -> first distance weapon
+	//! 3-> second contact weapon, 4 -> second distance weapon
+	virtual float GetWeaponReachDistance(int WeaponNumber);
 
 protected:
 
@@ -420,8 +441,7 @@ protected:
 	LbaNet::LifeManaInfo		_lifeinfo;
 
 	float						_armor;
-	float						_weapon1power;
-	float						_weapon2power;
+
 
 	float						_attack_activation_distance;
 	float						_attack_activation_distance_discrete;
@@ -461,10 +481,15 @@ protected:
 
 	std::string									m_chasinganimation;
 
+
 	int											m_weapon1type;
+	float										_weapon1power;
+	float										_weapon1reachdistance;
 	std::string									m_useweapon1animation;
 
 	int											m_weapon2type;
+	float										_weapon2power;
+	float										_weapon2reachdistance;
 	std::string									m_useweapon2animation;
 
 	float										m_currenthitpower;

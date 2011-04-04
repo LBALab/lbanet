@@ -41,6 +41,7 @@ ProjectileObjectDef::ProjectileObjectDef()
 	DisplayDesc.UseTransparentMaterial = false;
 	DisplayDesc.MatAlpha = 1;
 		
+	DisplayDesc.TypeRenderer = LbaNet::NoRender;
 	DisplayDesc.ColorMaterialType = 0;
 	DisplayDesc.MatAmbientColorR = 0.2f;
 	DisplayDesc.MatAmbientColorG = 0.2f;
@@ -63,14 +64,15 @@ ProjectileObjectDef::ProjectileObjectDef()
 
 	PhysicDesc.TypePhysO = LbaNet::DynamicAType;
 	PhysicDesc.Density = 1;
-	PhysicDesc.SizeX = 0;
-	PhysicDesc.SizeY = 0;
-	PhysicDesc.SizeZ = 0;
+	PhysicDesc.SizeX = 0.5f;
+	PhysicDesc.SizeY = 0.5f;
+	PhysicDesc.SizeZ = 0.5f;
 	PhysicDesc.Pos.X = 0;
 	PhysicDesc.Pos.Y = 0;
 	PhysicDesc.Pos.Z = 0;
 	PhysicDesc.Pos.Rotation = 0;
 	PhysicDesc.Collidable = false;
+	PhysicDesc.TypeShape = LbaNet::SphereShape;
 
 
 	Power = 0;
@@ -136,6 +138,9 @@ void ProjectileObjectDef::SetRenderType(int rtype)
 		break;
 		case 7:
 			DisplayDesc.TypeRenderer = LbaNet::RenderCapsule;
+		break;
+		case 8:
+			DisplayDesc.TypeRenderer = LbaNet::RenderSphere;
 		break;
 	}
 }
@@ -227,6 +232,9 @@ int ProjectileObjectDef::GetRenderType()
 		break;
 		case LbaNet::RenderCapsule:
 			return 7;
+		break;
+		case LbaNet::RenderSphere:
+			return 8;
 		break;
 	}
 
@@ -372,13 +380,13 @@ void ProjectileObjectDef::SaveToLuaFile(std::ofstream & file, const std::string 
 	file<<"\t"<<nname<<".ForceYOnImpact = "<<ForceYOnImpact<<std::endl;
 	
 	file<<"\t"<<nname<<".NbBounce = "<<NbBounce<<std::endl;
-	file<<"\t"<<nname<<".IgnoreGravity = "<<IgnoreGravity<<std::endl;
+	file<<"\t"<<nname<<".IgnoreGravity = "<<(IgnoreGravity?"true":"false")<<std::endl;
 	
 	file<<"\t"<<nname<<".LifeTime = "<<LifeTime<<std::endl;
-	file<<"\t"<<nname<<".Comeback = "<<Comeback<<std::endl;
+	file<<"\t"<<nname<<".Comeback = "<<(Comeback?"true":"false")<<std::endl;
 	
 	file<<"\t"<<nname<<".Delay = "<<Delay<<std::endl;
-	file<<"\t"<<nname<<".IsSalve = "<<IsSalve<<std::endl;
+	file<<"\t"<<nname<<".IsSalve = "<<(IsSalve?"true":"false")<<std::endl;
 	file<<"\t"<<nname<<".Frequency = "<<Frequency<<std::endl;
 	
 	file<<"\t"<<nname<<".AngleOffset = "<<AngleOffset<<std::endl;
@@ -386,7 +394,7 @@ void ProjectileObjectDef::SaveToLuaFile(std::ofstream & file, const std::string 
 	file<<"\t"<<nname<<".SoundAtStart = \""<<SoundAtStart<<"\""<<std::endl;
 	file<<"\t"<<nname<<".SoundOnBounce = \""<<SoundOnBounce<<"\""<<std::endl;
 	
-	file<<"\t"<<nname<<".ForceHurt = "<<ForceHurt<<std::endl;
+	file<<"\t"<<nname<<".ForceHurt = "<<(ForceHurt?"true":"false")<<std::endl;
 }
 
 

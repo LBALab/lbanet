@@ -10,7 +10,6 @@
 #include <math.h>
 #include <fstream>
 
-
 /***********************************************************
 update position of the script
 ***********************************************************/
@@ -23,7 +22,8 @@ NPCHandler::NPCHandler(const ActorObjectInfo & actorinfo)
 		_armor(0), _weapon1power(0), _weapon2power(0), _stop_attack_distance(0),
 		_agentstatenum(0), _targetedattackplayer(-1), _oldtdiff(1), 
 		m_launchedattackscript(-1), m_runningscript(-1),
-		m_minimalchasingdistance(1), m_weapon1type(-1), m_weapon2type(-1)
+		m_minimalchasingdistance(1), m_weapon1type(-1), m_weapon2type(-1),
+		_weapon1reachdistance(1), _weapon2reachdistance(1)
 {
 	_lifeinfo.MaxLife = 0;
 	_lifeinfo.MaxMana = 0;
@@ -80,6 +80,8 @@ void NPCHandler::ExtraLua(std::ofstream & file, const std::string & name)
 
 			file<<"\t"<<name<<":SetWeapon1Power("<<_weapon1power<<")"<<std::endl;
 
+			file<<"\t"<<name<<":SetWeapon1ReachDistance("<<_weapon1reachdistance<<")"<<std::endl;
+
 			if(m_useweapon1animation != "")
 				file<<"\t"<<name<<":Setuseweapon1animation(\""<<m_useweapon1animation<<"\")"<<std::endl;
 
@@ -98,6 +100,8 @@ void NPCHandler::ExtraLua(std::ofstream & file, const std::string & name)
 			file<<"\t"<<name<<":SetWeapon2Type("<<m_weapon2type<<")"<<std::endl;
 
 			file<<"\t"<<name<<":SetWeapon2Power("<<_weapon2power<<")"<<std::endl;
+
+			file<<"\t"<<name<<":SetWeapon2ReachDistance("<<_weapon2reachdistance<<")"<<std::endl;
 
 			if(m_useweapon2animation != "")
 				file<<"\t"<<name<<":Setuseweapon2animation(\""<<m_useweapon2animation<<"\")"<<std::endl;
@@ -428,7 +432,7 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 	if(_agentstatenum == 7)
 	{
 		float rotdiff = GetTargetRotationDiff();
-		if(rotdiff <= m_rotationtargettolerance)
+		if(fabs(rotdiff) <= m_rotationtargettolerance)
 		{
 			// inform script
 			YieldRunningScript();
@@ -440,9 +444,9 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 			if(physo)
 			{
 				if((rotdiff > 0 && rotdiff < 180) || (rotdiff < -180))
-					physo->RotateYAxis(std::max((-m_rotationtargetspeed*tdiff), (-fabs(rotdiff))));
+					physo->RotateYAxis(std::min((m_rotationtargetspeed*tdiff), (fabs(rotdiff))));	
 				else
-					physo->RotateYAxis(std::min((m_rotationtargetspeed*tdiff), (fabs(rotdiff))));
+					physo->RotateYAxis(std::max((-m_rotationtargetspeed*tdiff), (-fabs(rotdiff))));
 			}
 		}
 	}
@@ -1225,7 +1229,7 @@ void NPCHandler::FollowTargettedPlayer(int ScriptId, float DistanceStopFollow)
 	}
 
 	// set minimal distance
-	m_minimalchasingdistance = DistanceStopFollow*DistanceStopFollow;
+	m_minimalchasingdistance = DistanceStopFollow;
 
 
 	// change state to chasing
@@ -1487,11 +1491,15 @@ float NPCHandler::GetTargetRotationDiff()
 
 		float YTarget = LbaQuaternion::GetAngleFromVector(diffvec);
 		float YNPC = physo->GetRotationYAxis();
+		if(YNPC < 0)
+			YNPC += 360;
 
 
-		float diff = fmod(fabs(YTarget - YNPC),360);
+		float diff = fmod((YTarget - YNPC),360);
 		if(diff > 180)
-			diff = 360 - diff;
+			diff = diff - 360;
+		if(diff < -180)
+			diff = diff + 360;
 
 		return diff;
 	}
@@ -1532,4 +1540,59 @@ void NPCHandler::RemoveProjectileWeapon2(ProjectileObjectDefPtr proj)
 	std::vector<ProjectileObjectDefPtr>::iterator it = std::find(_projectilesweapon2.begin(), _projectilesweapon2.end(), proj);
 	if(it != _projectilesweapon2.end())
 		_projectilesweapon2.erase(it);
+}
+
+
+
+/***********************************************************
+//! get weapon distance
+//! 1-> first contact weapon, 2 -> first distance weapon
+//! 3-> second contact weapon, 4 -> second distance weapon
+***********************************************************/
+float NPCHandler::GetWeaponReachDistance(int WeaponNumber)
+{
+	switch(WeaponNumber)
+	{
+		// first contact weapon
+		case 1:
+			if(m_weapon1type == 1)
+			{
+				return (_weapon1reachdistance*_weapon1reachdistance);
+			}
+			else if (m_weapon2type == 1)
+			{
+				return (_weapon2reachdistance*_weapon2reachdistance);	
+			}
+		break;
+
+		// first distance weapon
+		case 2:
+			if(m_weapon1type == 2)
+			{
+				return (_weapon1reachdistance*_weapon1reachdistance);
+			}
+			else if (m_weapon2type == 2)
+			{
+				return (_weapon2reachdistance*_weapon2reachdistance);	
+			}
+		break;
+
+		// second contact weapon
+		case 3:
+			if(m_weapon2type == 1)
+			{
+				return (_weapon2reachdistance*_weapon2reachdistance);				
+			}
+		break;
+
+		// second distance weapon
+		case 4:
+			if(m_weapon2type == 2)
+			{
+				return (_weapon2reachdistance*_weapon2reachdistance);			
+			}
+		break;
+	}
+
+	return 0;
 }

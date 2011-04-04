@@ -1100,7 +1100,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	actlist << "Static" << "Scripted" << "Door" << "Npc" <<"Movable";
 	_actortypeList->setStringList(actlist);
 	QStringList acttypelist;
-	acttypelist << "No" << "Osg Model" << "Sprite" << "Lba1 Model" << "Lba2 Model";
+	acttypelist << "No" << "Osg Model" << "Sprite" << "Lba1 Model" << "Lba2 Model" << "Sphere" << "Capsule" << "Box";
 	_actordtypeList->setStringList(acttypelist);
 	QStringList actptypelist;
 	actptypelist << "No Shape" << "Box" << "Capsule" << "Sphere" << "Triangle Mesh";
@@ -6553,6 +6553,10 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 				dtype = "Box";
 			break;
 
+			case RenderSphere:
+				dtype = "Sphere";
+			break;
+
 			case RenderCapsule:
 				dtype = "Capsule";
 			break;
@@ -7236,6 +7240,12 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 						}
 						{
 							QVector<QVariant> data;
+							data<<"Weapon 1 Range"<<(double)actorh->GetWeapon1ReachDistance();
+							_objectmodel->AppendRow(data, idx);
+							++internindex;
+						}
+						{
+							QVector<QVariant> data;
 							data<<"Weapon 1 Animation"<<actorh->Getuseweapon1animation().c_str();
 							_objectmodel->AppendRow(data, idx);
 							++internindex;
@@ -7246,7 +7256,7 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 						{
 							QVector<QVariant> data;
 							data << "Projectiles" << "";
-							QModelIndex idx = _objectmodel->AppendRow(data, parent, true);	
+							QModelIndex idx2 = _objectmodel->AppendRow(data, idx, true);	
 							++index;
 
 							std::vector<ProjectileObjectDefPtr> & projs = actorh->GetProjectilesWeapon1();
@@ -7255,7 +7265,7 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 								{
 									QVector<QVariant> datait;
 									datait << "Projectile" << "";
-									QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+									QModelIndex idxit = _objectmodel->AppendRow(datait, idx2);	
 									_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _removeList);
 
 									SelectProjectile(projs[p].get(), idxit);
@@ -7265,7 +7275,7 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 							// add new item
 							QVector<QVariant> datait;
 							datait << "Projectile" << "Add new...";
-							QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+							QModelIndex idxit = _objectmodel->AppendRow(datait, idx2);	
 							_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _addList);	
 						}
 					}
@@ -7303,6 +7313,12 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 						}
 						{
 							QVector<QVariant> data;
+							data<<"Weapon 2 Range"<<(double)actorh->GetWeapon2ReachDistance();
+							_objectmodel->AppendRow(data, idx);
+							++internindex;
+						}
+						{
+							QVector<QVariant> data;
 							data<<"Weapon 2 Animation"<<actorh->Getuseweapon2animation().c_str();
 							_objectmodel->AppendRow(data, idx);
 							++internindex;
@@ -7312,7 +7328,7 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 						{
 							QVector<QVariant> data;
 							data << "Projectiles" << "";
-							QModelIndex idx = _objectmodel->AppendRow(data, parent, true);	
+							QModelIndex idx2 = _objectmodel->AppendRow(data, idx, true);	
 							++index;
 
 							std::vector<ProjectileObjectDefPtr> & projs = actorh->GetProjectilesWeapon2();
@@ -7321,7 +7337,7 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 								{
 									QVector<QVariant> datait;
 									datait << "Projectile" << "";
-									QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+									QModelIndex idxit = _objectmodel->AppendRow(datait, idx2);	
 									_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _removeList);
 
 									SelectProjectile(projs[p].get(), idxit);
@@ -7331,7 +7347,7 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 							// add new item
 							QVector<QVariant> datait;
 							datait << "Projectile" << "Add new...";
-							QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+							QModelIndex idxit = _objectmodel->AppendRow(datait, idx2);	
 							_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _addList);	
 						}
 					}
@@ -8192,21 +8208,22 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 						{
 							actorh->SetWeapon1Power(_objectmodel->data(_objectmodel->GetIndex(1, curridx1, itemparent)).toString().toFloat());
 							++curridx1;
-
+							actorh->SetWeapon1ReachDistance(_objectmodel->data(_objectmodel->GetIndex(1, curridx1, itemparent)).toString().toFloat());
+							++curridx1;
 							actorh->Setuseweapon1animation(_objectmodel->data(_objectmodel->GetIndex(1, curridx1, itemparent)).toString().toAscii().data());
 							++curridx1;
 
 
 							// projectiles
 							{
-								QModelIndex itemparent = _objectmodel->GetIndex(0, curridx1, parentIdx);
+								QModelIndex itemparent2 = _objectmodel->GetIndex(0, curridx1, itemparent);
 								++curridx1;
 								int curridx = 0;
 
 								std::vector<ProjectileObjectDefPtr> & childs = actorh->GetProjectilesWeapon1();
 								for(size_t gg=0; gg< childs.size(); ++gg)
 								{
-									QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+									QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent2);
 									std::string check = _objectmodel->data(childidx).toString().toAscii().data();
 									++curridx;
 
@@ -8220,8 +8237,8 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 
 								if(!updateobj)
 								{
-									QModelIndex childidx0 = _objectmodel->GetIndex(0, curridx, itemparent);
-									QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+									QModelIndex childidx0 = _objectmodel->GetIndex(0, curridx, itemparent2);
+									QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent2);
 									std::string check = _objectmodel->data(childidx).toString().toAscii().data();
 									if(check == "Add")
 									{
@@ -8232,7 +8249,7 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 										// add new item
 										QVector<QVariant> datait;
 										datait << "Projectile" << "Add new...";
-										QModelIndex idxit = _objectmodel->AppendRow(datait, itemparent);	
+										QModelIndex idxit = _objectmodel->AppendRow(datait, itemparent2);	
 										_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _addList);	
 										}
 
@@ -8242,8 +8259,6 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 										_objectmodel->setData(childidx, "");
 										_uieditor.treeView_object->setExpanded(childidx0, true); // expand 
 										}
-
-										return;
 									}
 								}
 							}
@@ -8267,20 +8282,21 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 						{
 							actorh->SetWeapon2Power(_objectmodel->data(_objectmodel->GetIndex(1, curridx1, itemparent)).toString().toFloat());
 							++curridx1;
-
+							actorh->SetWeapon2ReachDistance(_objectmodel->data(_objectmodel->GetIndex(1, curridx1, itemparent)).toString().toFloat());
+							++curridx1;
 							actorh->Setuseweapon2animation(_objectmodel->data(_objectmodel->GetIndex(1, curridx1, itemparent)).toString().toAscii().data());
 							++curridx1;
 
 							// projectiles
 							{
-								QModelIndex itemparent = _objectmodel->GetIndex(0, curridx1, parentIdx);
+								QModelIndex itemparent2 = _objectmodel->GetIndex(0, curridx1, itemparent);
 								++curridx1;
 								int curridx = 0;
 
 								std::vector<ProjectileObjectDefPtr> & childs = actorh->GetProjectilesWeapon2();
 								for(size_t gg=0; gg< childs.size(); ++gg)
 								{
-									QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+									QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent2);
 									std::string check = _objectmodel->data(childidx).toString().toAscii().data();
 									++curridx;
 
@@ -8294,8 +8310,8 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 
 								if(!updateobj)
 								{
-									QModelIndex childidx0 = _objectmodel->GetIndex(0, curridx, itemparent);
-									QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+									QModelIndex childidx0 = _objectmodel->GetIndex(0, curridx, itemparent2);
+									QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent2);
 									std::string check = _objectmodel->data(childidx).toString().toAscii().data();
 									if(check == "Add")
 									{
@@ -8306,7 +8322,7 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 										// add new item
 										QVector<QVariant> datait;
 										datait << "Projectile" << "Add new...";
-										QModelIndex idxit = _objectmodel->AppendRow(datait, itemparent);	
+										QModelIndex idxit = _objectmodel->AppendRow(datait, itemparent2);	
 										_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _addList);	
 										}
 
@@ -8316,8 +8332,6 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 										_objectmodel->setData(childidx, "");
 										_uieditor.treeView_object->setExpanded(childidx0, true); // expand 
 										}
-
-										return;
 									}
 								}
 							}
@@ -8512,6 +8526,12 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderLba1M;
 		if(dtype == "Lba2 Model") 
 			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderLba2M;
+		if(dtype == "Box") 
+			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderBox;
+		if(dtype == "Sphere") 
+			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderSphere;
+		if(dtype == "Capsule") 
+			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderCapsule;
 
 		if(befored != ainfo.DisplayDesc.TypeRenderer)
 			updateobj = true;
@@ -11640,8 +11660,6 @@ void EditorHandler::ItemChanged(long id, const std::string & category, const QMo
 						_objectmodel->setData(childidx, "");
 						_uieditor.treeView_object->setExpanded(childidx0, true); // expand 
 						}
-
-						return;
 					}
 				}
 			}
@@ -13327,6 +13345,10 @@ void EditorHandler::SelectProjectile(ProjectileObjectDef* cond, const QModelInde
 			dtype = "Box";
 		break;
 
+		case RenderSphere:
+			dtype = "Sphere";
+		break;
+
 		case RenderCapsule:
 			dtype = "Capsule";
 		break;
@@ -13406,6 +13428,13 @@ void EditorHandler::SelectProjectile(ProjectileObjectDef* cond, const QModelInde
 
 				++index;
 			}
+		}
+
+		{
+			QVector<QVariant> data;
+			data<<"Density"<<(double)cond->PhysicDesc.Density;
+			_objectmodel->AppendRow(data, parent);
+			++index;
 		}
 	}
 
@@ -13538,6 +13567,38 @@ void EditorHandler::SelectProjectile(ProjectileObjectDef* cond, const QModelInde
 				++index;
 			}
 		}
+
+ 
+		if(cond->DisplayDesc.TypeRenderer == RenderBox
+			|| cond->DisplayDesc.TypeRenderer == RenderCapsule
+			|| cond->DisplayDesc.TypeRenderer == RenderSphere)
+		{
+			{
+				QVector<QVariant> data1;
+				data1<<"Color R"<<(double)cond->DisplayDesc.ColorR;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data1;
+				data1<<"Color G"<<(double)cond->DisplayDesc.ColorG;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data1;
+				data1<<"Color B"<<(double)cond->DisplayDesc.ColorB;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data1;
+				data1<<"Color A"<<(double)cond->DisplayDesc.ColorA;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+		}
+
 
 		// add materials
 		{
@@ -13841,21 +13902,24 @@ void EditorHandler::ProjectileChanged(const QModelIndex &parentIdx)
 		if(ptr->PhysicDesc.TypeShape != LbaNet::TriangleMeshShape)
 		{
 	
-				ptr->PhysicDesc.SizeX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			ptr->PhysicDesc.SizeX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
 			++index;
 	
-				ptr->PhysicDesc.SizeY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			ptr->PhysicDesc.SizeY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
 			++index;
 	
-				ptr->PhysicDesc.SizeZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			ptr->PhysicDesc.SizeZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
 			++index;
 		}
 		else
 		{
 	
-				ptr->PhysicDesc.Filename = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+			ptr->PhysicDesc.Filename = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
 			++index;
 		}
+
+		ptr->PhysicDesc.Density = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+		++index;
 	}
 
 	if(ptr->DisplayDesc.TypeRenderer != LbaNet::NoRender)
@@ -13932,6 +13996,25 @@ void EditorHandler::ProjectileChanged(const QModelIndex &parentIdx)
 				ptr->DisplayDesc.UseBillboard = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
 			++index;
 		}
+ 
+		if(ptr->DisplayDesc.TypeRenderer == RenderBox
+			|| ptr->DisplayDesc.TypeRenderer == RenderCapsule
+			|| ptr->DisplayDesc.TypeRenderer == RenderSphere)
+		{
+
+			ptr->DisplayDesc.ColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+			++index;	
+
+			ptr->DisplayDesc.ColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+			++index;		
+
+			ptr->DisplayDesc.ColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+			++index;		
+
+			ptr->DisplayDesc.ColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+			++index;
+		}
+
 
 		// check materials
 		if(!updateobj)
@@ -14003,41 +14086,6 @@ void EditorHandler::ProjectileChanged(const QModelIndex &parentIdx)
 
 	}
 
-	{
-		LbaNet::RenderTypeEnum befored = ptr->DisplayDesc.TypeRenderer;
-		ptr->DisplayDesc.TypeRenderer = LbaNet::NoRender;
-		
-		std::string dtype = _objectmodel->data(_objectmodel->GetIndex(1, 1, parentIdx)).toString().toAscii().data();
-		if(dtype == "Osg Model") 
-			ptr->DisplayDesc.TypeRenderer = LbaNet::RenderOsgModel;
-		if(dtype == "Sprite") 
-			ptr->DisplayDesc.TypeRenderer = LbaNet::RenderSprite;
-		if(dtype == "Lba1 Model") 
-			ptr->DisplayDesc.TypeRenderer = LbaNet::RenderLba1M;
-		if(dtype == "Lba2 Model") 
-			ptr->DisplayDesc.TypeRenderer = LbaNet::RenderLba2M;
-
-		if(befored != ptr->DisplayDesc.TypeRenderer)
-			updateobj = true;
-
-		LbaNet::PhysicalShapeEnum beforep = ptr->PhysicDesc.TypeShape;
-		std::string ptype = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();
-		if(ptype == "No Shape") 
-			ptr->PhysicDesc.TypeShape = LbaNet::NoShape;
-		if(ptype == "Box") 
-			ptr->PhysicDesc.TypeShape = LbaNet::BoxShape;
-		if(ptype == "Capsule") 
-			ptr->PhysicDesc.TypeShape = LbaNet::CapsuleShape;
-		if(ptype == "Sphere") 
-			ptr->PhysicDesc.TypeShape = LbaNet::SphereShape;
-		if(ptype == "Triangle Mesh") 
-			ptr->PhysicDesc.TypeShape = LbaNet::TriangleMeshShape;
-
-		if(beforep != ptr->PhysicDesc.TypeShape)
-			updateobj = true;
-	}
-
-
 
 	ptr->UsableMode = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data(); 
 	++index;	
@@ -14100,7 +14148,47 @@ void EditorHandler::ProjectileChanged(const QModelIndex &parentIdx)
 	SetMapModified();
 
 
+	{
+		LbaNet::RenderTypeEnum befored = ptr->DisplayDesc.TypeRenderer;
+		ptr->DisplayDesc.TypeRenderer = LbaNet::NoRender;
+		
+		std::string dtype = _objectmodel->data(_objectmodel->GetIndex(1, 1, parentIdx)).toString().toAscii().data();
+		if(dtype == "Osg Model") 
+			ptr->DisplayDesc.TypeRenderer = LbaNet::RenderOsgModel;
+		if(dtype == "Sprite") 
+			ptr->DisplayDesc.TypeRenderer = LbaNet::RenderSprite;
+		if(dtype == "Sphere") 
+			ptr->DisplayDesc.TypeRenderer = LbaNet::RenderSphere;
+		if(dtype == "Capsule") 
+			ptr->DisplayDesc.TypeRenderer = LbaNet::RenderCapsule;
+		if(dtype == "Box") 
+			ptr->DisplayDesc.TypeRenderer = LbaNet::RenderBox;
+
+		if(befored != ptr->DisplayDesc.TypeRenderer)
+			updateobj = true;
+
+		LbaNet::PhysicalShapeEnum beforep = ptr->PhysicDesc.TypeShape;
+		std::string ptype = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();
+		if(ptype == "No Shape") 
+			ptr->PhysicDesc.TypeShape = LbaNet::NoShape;
+		if(ptype == "Box") 
+			ptr->PhysicDesc.TypeShape = LbaNet::BoxShape;
+		if(ptype == "Capsule") 
+			ptr->PhysicDesc.TypeShape = LbaNet::CapsuleShape;
+		if(ptype == "Sphere") 
+			ptr->PhysicDesc.TypeShape = LbaNet::SphereShape;
+		if(ptype == "Triangle Mesh") 
+			ptr->PhysicDesc.TypeShape = LbaNet::TriangleMeshShape;
+
+		if(beforep != ptr->PhysicDesc.TypeShape)
+			updateobj = true;
+	}
+
+
 	//refresh object
 	if(updateobj)
-		SelectProjectile(ptr);
+	{
+		_objectmodel->Clear(parentIdx);
+		SelectProjectile(ptr, parentIdx);
+	}
 }

@@ -123,6 +123,9 @@ void ActorObjectInfo::SetRenderType(int rtype)
 		case 7:
 			DisplayDesc.TypeRenderer = LbaNet::RenderCapsule;
 		break;
+		case 8:
+			DisplayDesc.TypeRenderer = LbaNet::RenderSphere;
+		break;
 	}
 }
 
@@ -307,6 +310,9 @@ int ActorObjectInfo::GetRenderType()
 		break;
 		case LbaNet::RenderCapsule:
 			return 7;
+		break;
+		case LbaNet::RenderSphere:
+			return 8;
 		break;
 	}
 

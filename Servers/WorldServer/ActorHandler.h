@@ -417,8 +417,11 @@ public:
 	//! return true if change was succesfull
 	virtual bool ChangeState(int newstate){return false;}
 
-
-
+	//! get weapon distance
+	//! 1-> first contact weapon, 2 -> first distance weapon
+	//! 3-> second contact weapon, 4 -> second distance weapon
+	virtual float GetWeaponReachDistance(int WeaponNumber){return 0;}
+	
 
 #ifdef _USE_QT_EDITOR_
 public:

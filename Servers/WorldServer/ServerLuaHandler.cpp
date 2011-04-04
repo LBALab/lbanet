@@ -371,7 +371,11 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetWeapon2Type", &NPCHandler::GetWeapon2Type)
 		.def("SetWeapon2Type", &NPCHandler::SetWeapon2Type)
 		.def("AddProjectileWeapon1", &NPCHandler::AddProjectileWeapon1)
-		.def("AddProjectileWeapon2", &NPCHandler::AddProjectileWeapon2),
+		.def("AddProjectileWeapon2", &NPCHandler::AddProjectileWeapon2)
+		.def("GetWeapon1ReachDistance", &NPCHandler::GetWeapon1ReachDistance)
+		.def("SetWeapon1ReachDistance", &NPCHandler::SetWeapon1ReachDistance)	
+		.def("GetWeapon2ReachDistance", &NPCHandler::GetWeapon2ReachDistance)
+		.def("SetWeapon2ReachDistance", &NPCHandler::SetWeapon2ReachDistance),
 
 
 
@@ -439,7 +443,8 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("UseWeapon", &ScriptEnvironmentBase::UseWeapon, luabind::yield)
 		.def("GetTargettedAttackPlayer", &ScriptEnvironmentBase::GetTargettedAttackPlayer)
 		.def("IsTargetInRange", &ScriptEnvironmentBase::IsTargetInRange)
-		.def("GetTargetRotationDiff", &ScriptEnvironmentBase::GetTargetRotationDiff),
+		.def("GetTargetRotationDiff", &ScriptEnvironmentBase::GetTargetRotationDiff)
+		.def("GetNpcWeaponReachDistance", &ScriptEnvironmentBase::GetNpcWeaponReachDistance),
 
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),

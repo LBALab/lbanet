@@ -229,7 +229,7 @@ void MapHandler::run()
 								float range1s = angleNpc - 60;
 								float range1b = angleNpc + 60;
 								float range2s = range1s;
-								float range2b = range2b;
+								float range2b = range1b;
 
 								if(range1s < 0)
 								{
@@ -256,7 +256,7 @@ void MapHandler::run()
 									if(hitlife < 0)
 									{
 										// hurt the player
-										if(!DeltaUpdateLife(itp->first, hitlife, 3, ita->first, false))
+										if(!DeltaUpdateLife(itp->first, hitlife, 3, (long)ita->first, false))
 										{
 											//only play hurt if not dead
 											if(hitlife < -19.9)
@@ -4025,4 +4025,17 @@ float MapHandler::GetTargetRotationDiff(long ActorId)
 		return itact->second->GetTargetRotationDiff();
 
 	return 360;
+}
+
+
+/***********************************************************
+get weapon distance
+***********************************************************/
+float MapHandler::GetNpcWeaponReachDistance(long ActorId, int WeaponNumber)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact = _Actors.find(ActorId);
+	if(itact != _Actors.end())
+		return itact->second->GetWeaponReachDistance(WeaponNumber);
+
+	return 0;
 }

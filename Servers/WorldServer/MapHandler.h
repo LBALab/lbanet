@@ -390,6 +390,10 @@ public:
 	//! launch projectile
 	virtual void LaunchProjectile(LbaNet::ProjectileInfo pinfo);
 
+	//! get weapon distance
+	//! 1-> first contact weapon, 2 -> first distance weapon
+	//! 3-> second contact weapon, 4 -> second distance weapon
+	virtual float GetNpcWeaponReachDistance(long ActorId, int WeaponNumber);
 
 protected:
 

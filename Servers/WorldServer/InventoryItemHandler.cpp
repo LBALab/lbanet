@@ -199,6 +199,9 @@ void InventoryItemDef::SetRenderType(int rtype)
 		case 7:
 			_displayinfo.TypeRenderer = LbaNet::RenderCapsule;
 		break;
+		case 8:
+			_displayinfo.TypeRenderer = LbaNet::RenderSphere;
+		break;
 	}
 }
 
@@ -230,6 +233,9 @@ int InventoryItemDef::GetRenderType() const
 		break;
 		case LbaNet::RenderCapsule:
 			return 7;
+		break;
+		case LbaNet::RenderSphere:
+			return 8;
 		break;
 	}
 
