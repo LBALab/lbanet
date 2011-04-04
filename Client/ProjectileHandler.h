@@ -43,7 +43,9 @@ public:
 	ProjectileHandler(boost::shared_ptr<DynamicObject> obje,
 						const LbaNet::ProjectileInfo & Info,
 						bool Manage,
-						boost::shared_ptr<PhysicalObjectHandlerBase> ownerobj);
+						boost::shared_ptr<PhysicalObjectHandlerBase> ownerobj,
+						float AngleOffset, const std::string &SoundAtStart,
+						const std::string &SoundOnBounce);
 
 	//destructor
 	~ProjectileHandler();
@@ -64,6 +66,11 @@ private:
 	int												_bounced;
 	bool											_comingback;
 	double											_startedball;
+
+	float											_AngleOffset;
+	
+	std::string										_SoundAtStart;
+	std::string										_SoundOnBounce;
 
 	boost::shared_ptr<PhysicalObjectHandlerBase>	_ownerobj;
 };

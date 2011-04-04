@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DynamicObject.h"
 #include "PhysicalObjectHandlerBase.h"
 #include "ActorUserData.h"
+#include "MusicHandler.h"
 
 #include <math.h>
 
@@ -39,9 +40,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ProjectileHandler::ProjectileHandler(boost::shared_ptr<DynamicObject> obje,
 										const LbaNet::ProjectileInfo & Info,
 										bool Manage,
-										boost::shared_ptr<PhysicalObjectHandlerBase> ownerobj)
+										boost::shared_ptr<PhysicalObjectHandlerBase> ownerobj,
+										float AngleOffset, const std::string &SoundAtStart,
+										const std::string &SoundOnBounce)
 : _obje(obje), _projInfo(Info), _Manage(Manage), _bounced(0), _ownerobj(ownerobj),
-	_comingback(false), _launched(false)
+	_comingback(false), _launched(false), _AngleOffset(AngleOffset),
+	_SoundAtStart(SoundAtStart), _SoundOnBounce(SoundOnBounce)
 {
 	//add force to object
 	boost::shared_ptr<PhysicalObjectHandlerBase> physobj = _obje->GetPhysicalObject();
@@ -94,6 +98,8 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 			{
 				LbaQuaternion Q;
 				_ownerobj->GetRotation(Q);
+				Q.AddSingleRotation(_AngleOffset, LbaVec3(0, 0, 1));
+
 				LbaVec3 current_directionX(Q.GetDirection(LbaVec3(0, 0, 1)));
 
 				float ajustedoffsetx = _projInfo.OffsetX*current_directionX.x;
@@ -107,6 +113,10 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 					physobj->EnableDisableGravity(true);
 
 				physobj->AddForce(_projInfo.ForceX*current_directionX.x, _projInfo.ForceY, _projInfo.ForceX*current_directionX.z);
+			
+				//TODO - change to 3d sound
+				if(_SoundAtStart != "")
+					MusicHandler::getInstance()->PlaySample(_SoundAtStart, 0);
 			}
 		}
 
@@ -212,7 +222,14 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 				}
 			}
 
-			physobj->AddForce(0, _projInfo.ForceYOnImpact, 0);
+			if(!destroy)
+			{
+				//TODO - change to 3d sound
+				if(_SoundOnBounce != "")
+					MusicHandler::getInstance()->PlaySample(_SoundOnBounce, 0);
+
+				physobj->AddForce(0, _projInfo.ForceYOnImpact, 0);
+			}
 		}
 	} 
 

@@ -1780,7 +1780,8 @@ void LbaNetModel::CreateProjectile(const LbaNet::ProjectileInfo & Info)
 
 	//create projectile handler
 	_projectileObjects[(long)Info.Id] = boost::shared_ptr<ProjectileHandler>(
-		new ProjectileHandler(dynobj, Info, Info.ManagingClientId == m_playerObjectId, ownerobj));
+		new ProjectileHandler(dynobj, Info, Info.ManagingClientId == m_playerObjectId, ownerobj,
+								Info.AngleOffset, Info.SoundAtStart, Info.SoundOnBounce ));
 }
 
 
