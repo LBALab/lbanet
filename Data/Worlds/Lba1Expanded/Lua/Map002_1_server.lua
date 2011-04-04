@@ -663,7 +663,7 @@ function InitMap(environment)
 	Actor_19H:Setuseweapon1animation("Use1Weapon")
 	Actor_19H:SetWeapon2Type(2)
 	Actor_19H:SetWeapon2Power(0)
-	Actor_19H:SetWeapon2ReachDistance(10)
+	Actor_19H:SetWeapon2ReachDistance(8)
 	Actor_19H:Setuseweapon2animation("UseWeapon")
 	Actor_19H_weapon2proj0 = ProjectileObjectDef()
 	Actor_19H_weapon2proj0:SetRenderType(2)
@@ -672,8 +672,8 @@ function InitMap(environment)
 	Actor_19H_weapon2proj0.DisplayDesc.Outfit = ""
 	Actor_19H_weapon2proj0.DisplayDesc.Weapon = ""
 	Actor_19H_weapon2proj0.DisplayDesc.Mode = ""
-	Actor_19H_weapon2proj0.DisplayDesc.UseLight = false
-	Actor_19H_weapon2proj0.DisplayDesc.CastShadow = false
+	Actor_19H_weapon2proj0.DisplayDesc.UseLight = true
+	Actor_19H_weapon2proj0.DisplayDesc.CastShadow = true
 	Actor_19H_weapon2proj0.DisplayDesc.ColorR = 1
 	Actor_19H_weapon2proj0.DisplayDesc.ColorG = 1
 	Actor_19H_weapon2proj0.DisplayDesc.ColorB = 1
@@ -681,9 +681,9 @@ function InitMap(environment)
 	Actor_19H_weapon2proj0.DisplayDesc.TransX = 0
 	Actor_19H_weapon2proj0.DisplayDesc.TransY = 0
 	Actor_19H_weapon2proj0.DisplayDesc.TransZ = 0
-	Actor_19H_weapon2proj0.DisplayDesc.ScaleX = 0.08
-	Actor_19H_weapon2proj0.DisplayDesc.ScaleY = 0.08
-	Actor_19H_weapon2proj0.DisplayDesc.ScaleZ = 0.08
+	Actor_19H_weapon2proj0.DisplayDesc.ScaleX = 0.05
+	Actor_19H_weapon2proj0.DisplayDesc.ScaleY = 0.05
+	Actor_19H_weapon2proj0.DisplayDesc.ScaleZ = 0.05
 	Actor_19H_weapon2proj0.DisplayDesc.RotX = 0
 	Actor_19H_weapon2proj0.DisplayDesc.RotY = 0
 	Actor_19H_weapon2proj0.DisplayDesc.RotZ = 0
@@ -705,7 +705,7 @@ function InitMap(environment)
 	Actor_19H_weapon2proj0.Power = 10
 	Actor_19H_weapon2proj0.UseMana = 0
 	Actor_19H_weapon2proj0.OffsetX = 3
-	Actor_19H_weapon2proj0.OffsetY = 3
+	Actor_19H_weapon2proj0.OffsetY = 2.5
 	Actor_19H_weapon2proj0.ForceX = 0.0012
 	Actor_19H_weapon2proj0.ForceY = 0
 	Actor_19H_weapon2proj0.ForceYOnImpact = 0
