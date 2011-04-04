@@ -212,8 +212,6 @@ void PhysXActorsHandler::RotateYAxis(float deltaY)
 {
 	// get current Y
 	NxQuat quat = _Actor->getGlobalOrientationQuat();
-	float Yangle;
-	quat.getAngleAxis(Yangle, NxVec3(0, 1, 0));
 
 	if(_UserData)
 		_UserData->SetRotation(deltaY);

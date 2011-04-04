@@ -98,7 +98,16 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 			{
 				LbaQuaternion Q;
 				_ownerobj->GetRotation(Q);
-				Q.AddSingleRotation(_AngleOffset, LbaVec3(0, 0, 1));
+
+				//Q.AddSingleRotation(_AngleOffset, LbaVec3(0, 1, 0));
+
+				//// in the case the quaternion is inversed
+				//if(Q.W < 0)
+				//	Q = LbaQuaternion(Q.X, -Q.Y, Q.Z, -Q.W);
+
+				std::cout<<Q.GetRotationSingleAngle()<<" "<<Q.W<<" "<<Q.Y<<std::endl;
+
+
 
 				LbaVec3 current_directionX(Q.GetDirection(LbaVec3(0, 0, 1)));
 
