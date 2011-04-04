@@ -659,11 +659,69 @@ function InitMap(environment)
 	Actor_19H:SetRespawnTimeInSec(-1)
 	Actor_19H:SetWeapon1Type(1)
 	Actor_19H:SetWeapon1Power(10)
+	Actor_19H:SetWeapon1ReachDistance(1)
 	Actor_19H:Setuseweapon1animation("Use1Weapon")
 	Actor_19H:SetWeapon2Type(2)
 	Actor_19H:SetWeapon2Power(0)
+	Actor_19H:SetWeapon2ReachDistance(10)
 	Actor_19H:Setuseweapon2animation("UseWeapon")
-	Actor_19H:SetAttackFunction("ActorAttackContactPlayer")
+	Actor_19H_weapon2proj0 = ProjectileObjectDef()
+	Actor_19H_weapon2proj0:SetRenderType(2)
+	Actor_19H_weapon2proj0.DisplayDesc.ModelId = 0
+	Actor_19H_weapon2proj0.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite064.png"
+	Actor_19H_weapon2proj0.DisplayDesc.Outfit = ""
+	Actor_19H_weapon2proj0.DisplayDesc.Weapon = ""
+	Actor_19H_weapon2proj0.DisplayDesc.Mode = ""
+	Actor_19H_weapon2proj0.DisplayDesc.UseLight = false
+	Actor_19H_weapon2proj0.DisplayDesc.CastShadow = false
+	Actor_19H_weapon2proj0.DisplayDesc.ColorR = 1
+	Actor_19H_weapon2proj0.DisplayDesc.ColorG = 1
+	Actor_19H_weapon2proj0.DisplayDesc.ColorB = 1
+	Actor_19H_weapon2proj0.DisplayDesc.ColorA = 0.9
+	Actor_19H_weapon2proj0.DisplayDesc.TransX = 0
+	Actor_19H_weapon2proj0.DisplayDesc.TransY = 0
+	Actor_19H_weapon2proj0.DisplayDesc.TransZ = 0
+	Actor_19H_weapon2proj0.DisplayDesc.ScaleX = 0.08
+	Actor_19H_weapon2proj0.DisplayDesc.ScaleY = 0.08
+	Actor_19H_weapon2proj0.DisplayDesc.ScaleZ = 0.08
+	Actor_19H_weapon2proj0.DisplayDesc.RotX = 0
+	Actor_19H_weapon2proj0.DisplayDesc.RotY = 0
+	Actor_19H_weapon2proj0.DisplayDesc.RotZ = 0
+	Actor_19H_weapon2proj0.DisplayDesc.UseBillboard = true
+	Actor_19H_weapon2proj0.PhysicDesc.Pos.X = 0
+	Actor_19H_weapon2proj0.PhysicDesc.Pos.Y = 0
+	Actor_19H_weapon2proj0.PhysicDesc.Pos.Z = 0
+	Actor_19H_weapon2proj0.PhysicDesc.Pos.Rotation = 0
+	Actor_19H_weapon2proj0.PhysicDesc.Density = 1
+	Actor_19H_weapon2proj0.PhysicDesc.Collidable = false
+	Actor_19H_weapon2proj0.PhysicDesc.SizeX = 0.05
+	Actor_19H_weapon2proj0.PhysicDesc.SizeY = 0.05
+	Actor_19H_weapon2proj0.PhysicDesc.SizeZ = 0.05
+	Actor_19H_weapon2proj0.PhysicDesc.AllowFreeMove = true
+	Actor_19H_weapon2proj0.PhysicDesc.Filename = ""
+	Actor_19H_weapon2proj0:SetPhysicalActorType(3)
+	Actor_19H_weapon2proj0:SetPhysicalShape(4)
+	Actor_19H_weapon2proj0.UsableMode = ""
+	Actor_19H_weapon2proj0.Power = 10
+	Actor_19H_weapon2proj0.UseMana = 0
+	Actor_19H_weapon2proj0.OffsetX = 3
+	Actor_19H_weapon2proj0.OffsetY = 3
+	Actor_19H_weapon2proj0.ForceX = 0.0012
+	Actor_19H_weapon2proj0.ForceY = 0
+	Actor_19H_weapon2proj0.ForceYOnImpact = 0
+	Actor_19H_weapon2proj0.NbBounce = 1
+	Actor_19H_weapon2proj0.IgnoreGravity = false
+	Actor_19H_weapon2proj0.LifeTime = 4000
+	Actor_19H_weapon2proj0.Comeback = false
+	Actor_19H_weapon2proj0.Delay = 0
+	Actor_19H_weapon2proj0.IsSalve = false
+	Actor_19H_weapon2proj0.Frequency = 1
+	Actor_19H_weapon2proj0.AngleOffset = 0
+	Actor_19H_weapon2proj0.SoundAtStart = ""
+	Actor_19H_weapon2proj0.SoundOnBounce = ""
+	Actor_19H_weapon2proj0.ForceHurt = false
+	Actor_19H:AddProjectileWeapon2(Actor_19H_weapon2proj0)
+	Actor_19H:SetAttackFunction("ActorFollowAttackDistancePlayer")
 	environment:AddActorObject(Actor_19H)
 
 	Actor_20 = ActorObjectInfo(20)

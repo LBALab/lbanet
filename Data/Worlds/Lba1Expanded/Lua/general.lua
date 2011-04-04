@@ -734,7 +734,7 @@ function Init(environment)
 	Item_22_proj1.SoundAtStart = ""
 	Item_22_proj1.SoundOnBounce = ""
 	Item_22_proj1.ForceHurt = false
-	Item_22:AddProjectile(Item_22_proj1)	
+	Item_22:AddProjectile(Item_22_proj1)
 	Item_22_proj2 = ProjectileObjectDef()
 	Item_22_proj2:SetRenderType(8)
 	Item_22_proj2.DisplayDesc.ModelId = 0
@@ -846,7 +846,7 @@ function Init(environment)
 	Item_22_proj3.SoundAtStart = ""
 	Item_22_proj3.SoundOnBounce = ""
 	Item_22_proj3.ForceHurt = false
-	Item_22:AddProjectile(Item_22_proj3)	
+	Item_22:AddProjectile(Item_22_proj3)
 	environment:AddInventoryItem(Item_22)
 
 	Item_23 = InventoryItemDef(23)
