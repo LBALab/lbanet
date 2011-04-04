@@ -256,7 +256,7 @@ function ActorAttackContactPlayer(ScriptId, ActorId, Environment)
 			Environment:FollowTargettedPlayer(ScriptId, ActorId, weaponrange)
 		else
 			rotationdiff = Environment:GetTargetRotationDiff(ActorId)
-			if rotationdiff > 10 then
+			if math.abs(rotationdiff) > 10 then
 				-- rotate to face player
 				Environment:RotateToTargettedPlayer(ScriptId, ActorId, 10, 0.2)	
 			else
@@ -284,7 +284,7 @@ function ActorFollowAttackDistancePlayer(ScriptId, ActorId, Environment)
 			Environment:FollowTargettedPlayer(ScriptId, ActorId, weaponrange)
 		else
 			rotationdiff = Environment:GetTargetRotationDiff(ActorId)
-			if rotationdiff > 5 then
+			if math.abs(rotationdiff) > 5 then
 				-- rotate to face player
 				Environment:RotateToTargettedPlayer(ScriptId, ActorId, 5, 0.2)	
 			else
