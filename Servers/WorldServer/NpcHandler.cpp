@@ -552,14 +552,14 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 /***********************************************************
 hurt life
 ***********************************************************/
-void NPCHandler::HurtLife(float amount, bool UseArmor, Ice::Long HurtingPlayerId)
+void NPCHandler::HurtLife(float amount, bool UseArmor, Ice::Long HurtingPlayerId, bool forcelooselife)
 {
 	if(!_aggresive)
 		return;
 
-
 	//check if can be hurt
-	if(_agentState->IsImmuneHurt())
+	bool force = forcelooselife && _agentState->IsHurt();
+	if(!force && _agentState->IsImmuneHurt())
 		return;
 
 
@@ -1511,4 +1511,25 @@ void NPCHandler::DeltaUpdateMana(float deltamana)
 
 	if(_lifeinfo.CurrentMana > _lifeinfo.MaxMana)
 		_lifeinfo.CurrentMana = _lifeinfo.MaxMana;
+}
+
+
+/***********************************************************
+remove projectile
+***********************************************************/
+void NPCHandler::RemoveProjectileWeapon1(ProjectileObjectDefPtr proj)
+{
+	std::vector<ProjectileObjectDefPtr>::iterator it = std::find(_projectilesweapon1.begin(), _projectilesweapon1.end(), proj);
+	if(it != _projectilesweapon1.end())
+		_projectilesweapon1.erase(it);
+}
+
+/***********************************************************
+remove projectile
+***********************************************************/
+void NPCHandler::RemoveProjectileWeapon2(ProjectileObjectDefPtr proj)
+{
+	std::vector<ProjectileObjectDefPtr>::iterator it = std::find(_projectilesweapon2.begin(), _projectilesweapon2.end(), proj);
+	if(it != _projectilesweapon2.end())
+		_projectilesweapon2.erase(it);
 }

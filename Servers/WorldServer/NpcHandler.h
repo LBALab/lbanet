@@ -87,7 +87,7 @@ public:
 
 
 	//! hurt life
-	virtual void HurtLife(float amount, bool UseArmor, Ice::Long HurtingPlayerId);
+	virtual void HurtLife(float amount, bool UseArmor, Ice::Long HurtingPlayerId, bool forcelooselife);
 
 	//! hurt mana
 	virtual void HurtMana(float amount);
@@ -331,6 +331,12 @@ public:
 	//! get projectiles
 	std::vector<ProjectileObjectDefPtr> & GetProjectilesWeapon2()
 	{return _projectilesweapon2;}
+
+	// remove projectile
+	void RemoveProjectileWeapon1(ProjectileObjectDefPtr proj);
+	void RemoveProjectileWeapon2(ProjectileObjectDefPtr proj);
+
+
 
 
 protected:

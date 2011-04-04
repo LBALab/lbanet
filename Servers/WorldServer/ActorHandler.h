@@ -360,7 +360,7 @@ public:
 
 
 	//! hurt life
-	virtual void HurtLife(float amount, bool UseArmor, Ice::Long HurtingPlayerId){}
+	virtual void HurtLife(float amount, bool UseArmor, Ice::Long HurtingPlayerId, bool forcelooselife){}
 
 	//! hurt mana
 	virtual void HurtMana(float amount){}

@@ -256,7 +256,7 @@ void MapHandler::run()
 									if(hitlife < 0)
 									{
 										// hurt the player
-										if(!DeltaUpdateLife(itp->first, hitlife, 3, ita->first))
+										if(!DeltaUpdateLife(itp->first, hitlife, 3, ita->first, false))
 										{
 											//only play hurt if not dead
 											if(hitlife < -19.9)
@@ -1137,7 +1137,7 @@ void MapHandler::ChangePlayerState(Ice::Long id, LbaNet::ModelState NewState, fl
 			if(NewState == LbaNet::StHurtFall)
 			{
 				if(FallingSize > 0)
-					DeltaUpdateLife(id, -FallingSize*_mapinfo.HurtFallFactor, 2, -1);
+					DeltaUpdateLife(id, -FallingSize*_mapinfo.HurtFallFactor, 2, -1, false);
 			}
 
 			// record death by drowning
@@ -2259,7 +2259,7 @@ void MapHandler::HurtActor(int ObjectType, long ObjectId, float HurtValue, bool 
 			if(ita != _Actors.end())
 			{
 				if(HurtLife)
-					ita->second->HurtLife(-HurtValue, false, -1);
+					ita->second->HurtLife(-HurtValue, false, -1, false);
 				else
 					ita->second->HurtMana(-HurtValue);
 			}
@@ -2269,7 +2269,7 @@ void MapHandler::HurtActor(int ObjectType, long ObjectId, float HurtValue, bool 
 		case 2: // player
 		{
 			if(HurtLife)
-				DeltaUpdateLife(ObjectId, -HurtValue, 1, -1);
+				DeltaUpdateLife(ObjectId, -HurtValue, 1, -1, false);
 			else
 				DeltaUpdateMana(ObjectId, -HurtValue);
 
@@ -2643,13 +2643,13 @@ void MapHandler::HittedProjectile(long PlayerId, long ProjectileId, int	TouchedA
 			{
 				std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ita = _Actors.find(TouchedActorId);
 				if(ita != _Actors.end())
-					ita->second->HurtLife(-itp->second.Power, true, PlayerId);
+					ita->second->HurtLife(-itp->second.Power, true, PlayerId, itp->second.ForceHurt);
 
 			}
 
 			if(TouchedActorType == 2)
 			{
-				PlayerHitPlayer(PlayerId, TouchedActorId, itp->second.Power);
+				PlayerHitPlayer(PlayerId, TouchedActorId, itp->second.Power, itp->second.ForceHurt);
 			}
 		}
 
@@ -2670,12 +2670,12 @@ void MapHandler::PlayerHittedContact(long PlayerId, bool WithWeapon, int	Touched
 		{
 			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ita = _Actors.find(TouchedActorId);
 			if(ita != _Actors.end())
-				ita->second->HurtLife(-power, true, PlayerId);
+				ita->second->HurtLife(-power, true, PlayerId, false);
 		}
 
 		if(TouchedActorType == 2)
 		{
-			PlayerHitPlayer(PlayerId, TouchedActorId, power);
+			PlayerHitPlayer(PlayerId, TouchedActorId, power, false);
 		}
 	}
 }
@@ -2684,7 +2684,7 @@ void MapHandler::PlayerHittedContact(long PlayerId, bool WithWeapon, int	Touched
 /***********************************************************
 playr hit player
 ***********************************************************/
-void MapHandler::PlayerHitPlayer(long hitterId, long hittedid, float hitpower)
+void MapHandler::PlayerHitPlayer(long hitterId, long hittedid, float hitpower, bool forcelooselife)
 {
 	// reduce it by armor
 	float armor = GetPlayerArmor(hittedid);
@@ -2692,7 +2692,7 @@ void MapHandler::PlayerHitPlayer(long hitterId, long hittedid, float hitpower)
 	if(hitlife < 0)
 	{
 		// hurt the player
-		if(!DeltaUpdateLife(hittedid, hitlife, 4, hitterId))
+		if(!DeltaUpdateLife(hittedid, hitlife, 4, hitterId, forcelooselife))
 		{
 			//only play hurt if not dead
 			if(hitlife < -19.9)
@@ -3180,14 +3180,15 @@ void MapHandler::RemoveEphemere(Ice::Long clientid)
 //! update player life
 //! return true if no life
 ***********************************************************/
-bool MapHandler::DeltaUpdateLife(Ice::Long clientid, float update, int updatetype, long actorid)
+bool MapHandler::DeltaUpdateLife(Ice::Long clientid, float update, int updatetype, long actorid,
+									bool forcelooselife)
 {
 	bool res = false;
 
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator itplayer = _players.find(clientid);
 	if(itplayer != _players.end())
 	{
-		res = itplayer->second->DeltaUpdateLife(update);
+		res = itplayer->second->DeltaUpdateLife(update, forcelooselife);
 
 		// give life update to everybody
 		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),

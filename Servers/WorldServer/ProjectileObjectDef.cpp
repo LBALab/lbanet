@@ -61,10 +61,17 @@ ProjectileObjectDef::ProjectileObjectDef()
 	DisplayDesc.MatShininess = 0;	
 
 
+	PhysicDesc.TypePhysO = LbaNet::DynamicAType;
 	PhysicDesc.Density = 1;
 	PhysicDesc.SizeX = 0;
 	PhysicDesc.SizeY = 0;
 	PhysicDesc.SizeZ = 0;
+	PhysicDesc.Pos.X = 0;
+	PhysicDesc.Pos.Y = 0;
+	PhysicDesc.Pos.Z = 0;
+	PhysicDesc.Pos.Rotation = 0;
+	PhysicDesc.Collidable = false;
+
 
 	Power = 0;
 	UseMana = 0;

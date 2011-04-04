@@ -239,6 +239,16 @@ int InventoryItemDef::GetRenderType() const
 
 
 
+/***********************************************************
+remove projectile
+***********************************************************/
+void InventoryItemDef::RemoveProjectile(ProjectileObjectDefPtr proj)
+{	
+	std::vector<ProjectileObjectDefPtr>::iterator it = std::find(_projectiles.begin(), _projectiles.end(), proj);
+	if(it != _projectiles.end())
+		_projectiles.erase(it);
+}
+
 
 
 

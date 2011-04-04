@@ -587,7 +587,8 @@ protected:
 	//! update player life
 	//! return true if no life
 	//! updatetype : 0 - potion, 1 - environment, 2 - fall down, 3 - npc, 4 - player, 5 - other
-	bool DeltaUpdateLife(Ice::Long clientid, float update, int updatetype, long actorid);
+	bool DeltaUpdateLife(Ice::Long clientid, float update, int updatetype, long actorid,
+							bool forcelooselife);
 
 	//! update player mana
 	//! return true if no mana
@@ -678,7 +679,7 @@ protected:
 
 
 	//! playr hit player
-	void PlayerHitPlayer(long hitterId, long hittedid, float hitpower);
+	void PlayerHitPlayer(long hitterId, long hittedid, float hitpower, bool forcelooselife);
 
 
 	//! teleport a player

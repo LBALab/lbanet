@@ -190,6 +190,10 @@ public:
 	std::vector<ProjectileObjectDefPtr> & GetProjectiles()
 	{return _projectiles;}
 
+	// remove projectile
+	void RemoveProjectile(ProjectileObjectDefPtr proj);
+
+
 
 	//! get display info
 	void SetDisplayInfo(const LbaNet::ModelInfo & ainfo)

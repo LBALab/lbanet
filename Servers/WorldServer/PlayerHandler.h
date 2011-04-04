@@ -206,7 +206,7 @@ public:
 
 	//! update player life
 	//! return true if no life
-	bool DeltaUpdateLife(float update);
+	bool DeltaUpdateLife(float update, bool forcelooselife = false);
 
 	//! update player mana
 	//! return true if no mana

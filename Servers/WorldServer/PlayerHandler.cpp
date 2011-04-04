@@ -1219,10 +1219,11 @@ void PlayerHandler::RemoveEphemere()
 /***********************************************************
 update player life
 ***********************************************************/
-bool PlayerHandler::DeltaUpdateLife(float update)
+bool PlayerHandler::DeltaUpdateLife(float update, bool forcelooselife)
 {
 	//dont do anything on immune
-	if(update < 0 && _currentstate && _currentstate->IsImmuneHurt())
+	bool force = forcelooselife && _currentstate && _currentstate->IsHurt();
+	if(!force && update < 0 && _currentstate && _currentstate->IsImmuneHurt())
 		return false;
 
 	_currentinfo.lifemana.CurrentLife += update;
