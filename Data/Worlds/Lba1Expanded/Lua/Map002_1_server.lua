@@ -713,7 +713,7 @@ function InitMap(environment)
 	Actor_19H_weapon2proj0.IgnoreGravity = false
 	Actor_19H_weapon2proj0.LifeTime = 4000
 	Actor_19H_weapon2proj0.Comeback = false
-	Actor_19H_weapon2proj0.Delay = 0
+	Actor_19H_weapon2proj0.StartAnimFrame = 5
 	Actor_19H_weapon2proj0.IsSalve = false
 	Actor_19H_weapon2proj0.Frequency = 1
 	Actor_19H_weapon2proj0.AngleOffset = 0
