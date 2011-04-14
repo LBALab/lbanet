@@ -506,3 +506,15 @@ bool Lba1ModelHandler::CanPlayAnimation(const std::string & anim)
 																	_currentmodelinfo.Mode,
 																	anim);
 }
+
+
+/***********************************************************
+return animation key frame
+***********************************************************/
+int Lba1ModelHandler::GetCurrentKeyFrame()
+{
+	if(_model)
+		return _model->getKeyframe();
+
+	return -1;
+}

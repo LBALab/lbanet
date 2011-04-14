@@ -81,6 +81,11 @@ public:
 	// get current associated speed
 	virtual float GetCurrentAssociatedSpeedZ() {return 0;}
 
+	//! only for animated model
+	//! return animation key frame
+	virtual int GetCurrentKeyFrame() {return -1;}
+
+
 	//! get current model
 	virtual LbaNet::ModelInfo GetCurrentModel(bool storedstate) {return LbaNet::ModelInfo();}
 

@@ -91,7 +91,7 @@ ProjectileObjectDef::ProjectileObjectDef()
 	LifeTime = 1;
 	Comeback = false;
 	
-	Delay = 0;
+	StartAnimFrame = -1;
 	IsSalve = false;
 	Frequency = 1;
 	
@@ -385,7 +385,7 @@ void ProjectileObjectDef::SaveToLuaFile(std::ofstream & file, const std::string 
 	file<<"\t"<<nname<<".LifeTime = "<<LifeTime<<std::endl;
 	file<<"\t"<<nname<<".Comeback = "<<(Comeback?"true":"false")<<std::endl;
 	
-	file<<"\t"<<nname<<".Delay = "<<Delay<<std::endl;
+	file<<"\t"<<nname<<".StartAnimFrame = "<<StartAnimFrame<<std::endl;
 	file<<"\t"<<nname<<".IsSalve = "<<(IsSalve?"true":"false")<<std::endl;
 	file<<"\t"<<nname<<".Frequency = "<<Frequency<<std::endl;
 	
@@ -414,7 +414,7 @@ bool ProjectileObjectDef::GetProjectileInfo(const std::string & mode, float mana
 	info.Power = Power;
 	info.OffsetX = OffsetX;
 	info.OffsetY = OffsetY;
-	info.Delay = Delay;
+	info.StartAnimFrame = StartAnimFrame;
 	info.IgnoreGravity = IgnoreGravity;
 	info.ForceX = ForceX;
 	info.ForceY = ForceY;

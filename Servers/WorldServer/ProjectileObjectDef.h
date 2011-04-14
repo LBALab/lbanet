@@ -97,7 +97,7 @@ public:
 	float						LifeTime;
 	bool						Comeback;
 	
-	float						Delay;
+	int							StartAnimFrame;
 	bool						IsSalve;
 	float						Frequency;
 	

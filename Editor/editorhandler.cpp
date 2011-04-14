@@ -13827,7 +13827,7 @@ void EditorHandler::SelectProjectile(ProjectileObjectDef* cond, const QModelInde
 	}
 	{
 		QVector<QVariant> data;
-		data<<"Launch delay (seconds)"<<(double)cond->Delay;
+		data<<"Launch anim keyframe "<<cond->StartAnimFrame;
 		QModelIndex idx = _objectmodel->AppendRow(data, parent);
 		++index;
 	}
@@ -14123,7 +14123,7 @@ void EditorHandler::ProjectileChanged(const QModelIndex &parentIdx)
 	ptr->Comeback = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();		 
 	++index;	
 
-	ptr->Delay = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+	ptr->StartAnimFrame = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();		 
 	++index;	
 
 	ptr->IsSalve = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();		 

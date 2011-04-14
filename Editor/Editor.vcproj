@@ -746,6 +746,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\shared\ActionOnAnimationHandlerBase.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Servers\WorldServer\Actions.h"
 				>
 			</File>
@@ -895,10 +899,6 @@
 			</File>
 			<File
 				RelativePath="..\Servers\WorldServer\DoorHandler.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Client\DynamicObject.h"
 				>
 			</File>
 			<File

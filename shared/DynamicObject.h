@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "PhysicalObjectHandlerBase.h"
 #include "DisplayObjectHandlerBase.h"
-
+#include "ActionOnAnimationHandlerBase.h"
 
 /***********************************************************************
  * Module:  DynamicObject.h
@@ -167,7 +167,41 @@ public:
 	long GetId()
 	{ return _id; }
 
+
+	//! add action to be executed on key frame
+	void AddActionOnAnimation(int executionkeyframe, boost::shared_ptr<ActionOnAnimationHandlerBase> action)
+	{
+		_actionsonanimation.push_back(std::make_pair<int, boost::shared_ptr<ActionOnAnimationHandlerBase> >(executionkeyframe, action));
+	}
+
+
 protected:
+
+	//verify actions
+	void VerifyActionOnAnim()
+	{
+		if(_actionsonanimation.size() > 0)
+		{
+			if(_disH)
+			{
+				int currkey = _disH->GetCurrentKeyFrame();
+				std::vector<std::pair<int, boost::shared_ptr<ActionOnAnimationHandlerBase> > >::iterator it = _actionsonanimation.begin();
+				while(it != _actionsonanimation.end())
+				{
+					if(currkey >= it->first)
+					{
+						it->second->Execute();
+						it = _actionsonanimation.erase(it);
+					}
+					else
+						++it;
+				}
+			}
+		}
+	}
+
+
+
 	
 	//! handler to physical object
 	boost::shared_ptr<PhysicalObjectHandlerBase> _phH;
@@ -189,6 +223,9 @@ protected:
 	float										_additionalMoveRotation;
 
 	bool										_show;
+
+
+	std::vector<std::pair<int, boost::shared_ptr<ActionOnAnimationHandlerBase> > >	_actionsonanimation;
 };
 
 #endif

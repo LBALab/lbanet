@@ -87,47 +87,10 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 	// check for delay launch
 	if(!_launched)
 	{
-		if((_projInfo.Delay < 0) || ((tnow-_startedball) >= _projInfo.Delay))
-		{
-			_launched = true;
-			_startedball = SynchronizedTimeHandler::GetCurrentTimeDouble();
-			_obje->ShowOrHide(true);
-
-			boost::shared_ptr<PhysicalObjectHandlerBase> physobj = _obje->GetPhysicalObject();
-			if(physobj && _ownerobj)
-			{
-				LbaQuaternion Q;
-				_ownerobj->GetRotation(Q);
-
-				//Q.AddSingleRotation(_AngleOffset, LbaVec3(0, 1, 0));
-
-				//// in the case the quaternion is inversed
-				//if(Q.W < 0)
-				//	Q = LbaQuaternion(Q.X, -Q.Y, Q.Z, -Q.W);
-
-				std::cout<<Q.GetRotationSingleAngle()<<" "<<Q.W<<" "<<Q.Y<<std::endl;
-
-
-
-				LbaVec3 current_directionX(Q.GetDirection(LbaVec3(0, 0, 1)));
-
-				float ajustedoffsetx = _projInfo.OffsetX*current_directionX.x;
-				float ajustedoffsetz = _projInfo.OffsetX*current_directionX.z;
-
-				float X, Y, Z;
-				_ownerobj->GetPosition(X, Y, Z);
-				physobj->SetPosition(X+ajustedoffsetx, Y+_projInfo.OffsetY, Z+ajustedoffsetz);
-
-				if(!_projInfo.IgnoreGravity)
-					physobj->EnableDisableGravity(true);
-
-				physobj->AddForce(_projInfo.ForceX*current_directionX.x, _projInfo.ForceY, _projInfo.ForceX*current_directionX.z);
-			
-				//TODO - change to 3d sound
-				if(_SoundAtStart != "")
-					MusicHandler::getInstance()->PlaySample(_SoundAtStart, 0);
-			}
-		}
+		//if((_projInfo.Delay < 0) || ((tnow-_startedball) >= _projInfo.Delay))
+		//{
+		//	Launch();
+		//}
 
 		return false;
 	}
@@ -309,4 +272,59 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 
 
 	return false;
+}
+
+/***********************************************************
+check if player is the owner
+***********************************************************/
+void ProjectileHandler::Launch()
+{
+	_launched = true;
+	_startedball = SynchronizedTimeHandler::GetCurrentTimeDouble();
+	_obje->ShowOrHide(true);
+
+	boost::shared_ptr<PhysicalObjectHandlerBase> physobj = _obje->GetPhysicalObject();
+	if(physobj && _ownerobj)
+	{
+		LbaQuaternion Q;
+		_ownerobj->GetRotation(Q);
+
+		//Q.AddSingleRotation(_AngleOffset, LbaVec3(0, 1, 0));
+
+		//// in the case the quaternion is inversed
+		//if(Q.W < 0)
+		//	Q = LbaQuaternion(Q.X, -Q.Y, Q.Z, -Q.W);
+
+		//std::cout<<Q.GetRotationSingleAngle()<<" "<<Q.W<<" "<<Q.Y<<std::endl;
+
+
+
+		LbaVec3 current_directionX(Q.GetDirection(LbaVec3(0, 0, 1)));
+
+		float ajustedoffsetx = _projInfo.OffsetX*current_directionX.x;
+		float ajustedoffsetz = _projInfo.OffsetX*current_directionX.z;
+
+		float X, Y, Z;
+		_ownerobj->GetPosition(X, Y, Z);
+		physobj->SetPosition(X+ajustedoffsetx, Y+_projInfo.OffsetY, Z+ajustedoffsetz);
+
+		if(!_projInfo.IgnoreGravity)
+			physobj->EnableDisableGravity(true);
+
+		physobj->AddForce(_projInfo.ForceX*current_directionX.x, _projInfo.ForceY, _projInfo.ForceX*current_directionX.z);
+	
+		//TODO - change to 3d sound
+		if(_SoundAtStart != "")
+			MusicHandler::getInstance()->PlaySample(_SoundAtStart, 0);
+	}
+}
+
+
+/***********************************************************
+execute the action
+***********************************************************/
+void ProjectileHandler::Execute()
+{
+	if(!_launched)
+		Launch();
 }

@@ -30,13 +30,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class DynamicObject;
 class PhysicalObjectHandlerBase;
 
-
+#include "ActionOnAnimationHandlerBase.h"
 /*
 ************************************************************************************************************************
 *                                                 class ProjectileHandler
 ************************************************************************************************************************
 */
-class ProjectileHandler
+class ProjectileHandler : public ActionOnAnimationHandlerBase
 {
 public:
 	//constructor
@@ -57,6 +57,16 @@ public:
 
 	//! check if player is the owner
 	bool IsPlayerOwner(long id);
+
+
+	// execute the action
+	virtual void Execute();
+
+
+
+protected:
+	//! launch proj
+	void Launch();
 
 private:
 	bool											_launched;

@@ -93,6 +93,9 @@ public:
 	//! check if can play animation
 	virtual bool CanPlayAnimation(const std::string & anim);
 
+	//! return animation key frame
+	virtual int GetCurrentKeyFrame();
+
 
 protected:
 	// refresh model

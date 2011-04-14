@@ -2022,7 +2022,7 @@ bool LBA1ModelClass::AnimateModel(float tdiff)
 	//long int oldTick;
 
 	//oldTick = lastTick;
- //	lastTick=clock();
+	//lastTick=clock();
 
 	//globalTime += (lastTick - oldTick)/10;
 	cumutime += tdiff;
@@ -2036,7 +2036,7 @@ bool LBA1ModelClass::AnimateModel(float tdiff)
 
 
 
-        // CALCULATE STEP SIZE -----
+    // CALCULATE STEP SIZE -----
  	int angle1;
 	int angle2;
 
@@ -2054,164 +2054,165 @@ bool LBA1ModelClass::AnimateModel(float tdiff)
 		stepY= (currentZ * angle2 - currentX * angle1) >> 14;
 	}
 
-        currentX = stepX;
-       	currentZ = stepY;
+    currentX = stepX;
+   	currentZ = stepY;
 
-		//m_currentSpeed = (currentZ /512.) - m_cumuSpeed;
-		//m_cumuSpeed = (currentZ /512.);
+	//m_currentSpeed = (currentZ /512.) - m_cumuSpeed;
+	//m_cumuSpeed = (currentZ /512.);
 
-		//m_currentSpeedY = (currentY /256.) - m_cumuSpeedY;
-		//m_cumuSpeedY = (currentY /256.);
-		
+	//m_currentSpeedY = (currentY /256.) - m_cumuSpeedY;
+	//m_cumuSpeedY = (currentY /256.);
+	
 
-        if(m_useAnimSteps)
-        {
-            currentX = currentX/5 + lastCurrentX;
-  	        currentY = currentY/5 + lastCurrentY;
-            currentZ = currentZ/5 + lastCurrentZ;
-        }
-        else
-        {
-            currentX = 0;//lastCurrentX;
-  	        currentY = 0;//lastCurrentY;
-            currentZ = 0;//lastCurrentZ;
-        }
+    if(m_useAnimSteps)
+    {
+        currentX = currentX/5 + lastCurrentX;
+        currentY = currentY/5 + lastCurrentY;
+        currentZ = currentZ/5 + lastCurrentZ;
 
-        if(abs(currentX)>=7816 || abs(currentY)>=3908 || abs(currentZ)>=7816)
-        {
-                setAtKeyFrame(0,true);
-        }
-
-
-
-		//update geometry
+		if(abs(currentX)>=7816 || abs(currentY)>=3908 || abs(currentZ)>=7816)
 		{
-			memset(matrixList,0,sizeof(TMatrix)*100);
+				setAtKeyFrame(0,true);
+		}
+    }
+    else
+    {
+        currentX = 0;//lastCurrentX;
+        currentY = 0;//lastCurrentY;
+        currentZ = 0;//lastCurrentZ;
+    }
 
-			baseModelPosition[0]=0;
-			baseModelPosition[1]=0;
-			baseModelPosition[2]=0;
 
-			TElement* elementPtr=Elements->ElementsData;
 
-			ProcessRotatedElement(globalAngleX,globalAngleZ,globalAngleY,elementPtr,matrixList,0);
-			ProcessTranslatedElement(globalAngleX,globalAngleZ,globalAngleY,elementPtr++,matrixList,0);
 
-			for(int i=1;i<Elements->NumberOfElements;i++)
+	//update geometry
+	{
+		memset(matrixList,0,sizeof(TMatrix)*100);
+
+		baseModelPosition[0]=0;
+		baseModelPosition[1]=0;
+		baseModelPosition[2]=0;
+
+		TElement* elementPtr=Elements->ElementsData;
+
+		ProcessRotatedElement(globalAngleX,globalAngleZ,globalAngleY,elementPtr,matrixList,0);
+		ProcessTranslatedElement(globalAngleX,globalAngleZ,globalAngleY,elementPtr++,matrixList,0);
+
+		for(int i=1;i<Elements->NumberOfElements;i++)
+		{
+			if(elementPtr->ElementFlag==0)
+				ProcessRotatedElement(elementPtr->RotateX,elementPtr->RotateZ,elementPtr->RotateY,elementPtr,matrixList,i);
+			else if(elementPtr->ElementFlag==1)
+				ProcessTranslatedElement(elementPtr->RotateX,elementPtr->RotateZ,elementPtr->RotateY,elementPtr,matrixList,i);
+
+			elementPtr++;
+		}
+
+		// POINTS CALCULATIONS -----------
+		float* tempPtrX=dividedPointsX;
+		float* tempPtrY=dividedPointsY;
+		float* tempPtrZ=dividedPointsZ;
+
+		TBodyPoint* tempPoint=computedPoints;
+
+		for(int i=0;i<Points->NumberOfPoints;i++)
+		{
+			*(tempPtrX++)=(((float)tempPoint->X)/16384)*factormul_lba1_toosg;
+			*(tempPtrY++)=((((float)tempPoint->Y)/16384)*factormul_lba1_toosg) + factortransY_lba1_toosg;
+			*(tempPtrZ++)=(((float)tempPoint->Z)/16384)*factormul_lba1_toosg;
+
+			tempPoint++;
+		}
+
+		if(m_myGeometry)
+		{
+			osg::Vec3Array* myVertices = new osg::Vec3Array;
+			for(int i=0; i<Points->NumberOfPoints; ++i)
 			{
-				if(elementPtr->ElementFlag==0)
-    				ProcessRotatedElement(elementPtr->RotateX,elementPtr->RotateZ,elementPtr->RotateY,elementPtr,matrixList,i);
-				else if(elementPtr->ElementFlag==1)
-					ProcessTranslatedElement(elementPtr->RotateX,elementPtr->RotateZ,elementPtr->RotateY,elementPtr,matrixList,i);
-
-				elementPtr++;
+				myVertices->push_back(osg::Vec3(dividedPointsX[i],dividedPointsY[i],dividedPointsZ[i]));
 			}
 
-			// POINTS CALCULATIONS -----------
-			float* tempPtrX=dividedPointsX;
-			float* tempPtrY=dividedPointsY;
-			float* tempPtrZ=dividedPointsZ;
+			m_myGeometry->setVertexArray( myVertices ); 
+			osgUtil::SmoothingVisitor::smooth(*(m_myGeometry.get()));
 
-			TBodyPoint* tempPoint=computedPoints;
-
-			for(int i=0;i<Points->NumberOfPoints;i++)
+			if(m_myGeometrytransp)
 			{
-				*(tempPtrX++)=(((float)tempPoint->X)/16384)*factormul_lba1_toosg;
-				*(tempPtrY++)=((((float)tempPoint->Y)/16384)*factormul_lba1_toosg) + factortransY_lba1_toosg;
-				*(tempPtrZ++)=(((float)tempPoint->Z)/16384)*factormul_lba1_toosg;
-
-				tempPoint++;
-			}
-
-			if(m_myGeometry)
-			{
-				osg::Vec3Array* myVertices = new osg::Vec3Array;
-				for(int i=0; i<Points->NumberOfPoints; ++i)
-				{
-					myVertices->push_back(osg::Vec3(dividedPointsX[i],dividedPointsY[i],dividedPointsZ[i]));
-				}
-
-				m_myGeometry->setVertexArray( myVertices ); 
-				osgUtil::SmoothingVisitor::smooth(*(m_myGeometry.get()));
-
-				if(m_myGeometrytransp)
-				{
-					m_myGeometrytransp->setVertexArray( myVertices ); 
-					osgUtil::SmoothingVisitor::smooth(*(m_myGeometrytransp.get()));
-				}
-
-
-				//osg::Vec3Array* norms = (osg::Vec3Array*) m_myGeometry->getNormalArray();
-				//osg::Vec3Array* myVerticesnormas = new osg::Vec3Array;
-				//for( size_t ccc=0; ccc<myVertices->size(); ++ccc)
-				//{
-				//	myVerticesnormas->push_back((*myVertices)[ccc]);
-				//	myVerticesnormas->push_back((*myVertices)[ccc] + (*norms)[ccc]);
-				//}	
-				//m_myGeometrynorms->setVertexArray( myVerticesnormas ); 
-			}
-
-			if(m_myGeometrylines)
-			{
-				osg::Vec3Array* myVerticesPoints = new osg::Vec3Array;
-				for(int i=0;i<Lines->NumberOfLines;i++)
-				{
-					int p1 = Lines->LinesData[i].PointNum1/6;
-					int p2 = Lines->LinesData[i].PointNum2/6;
-
-					myVerticesPoints->push_back(osg::Vec3(dividedPointsX[p1],dividedPointsY[p1],dividedPointsZ[p1]));
-					myVerticesPoints->push_back(osg::Vec3(dividedPointsX[p2],dividedPointsY[p2],dividedPointsZ[p2]));
-				}
-				m_myGeometrylines->setVertexArray( myVerticesPoints ); 
+				m_myGeometrytransp->setVertexArray( myVertices ); 
+				osgUtil::SmoothingVisitor::smooth(*(m_myGeometrytransp.get()));
 			}
 
 
+			//osg::Vec3Array* norms = (osg::Vec3Array*) m_myGeometry->getNormalArray();
+			//osg::Vec3Array* myVerticesnormas = new osg::Vec3Array;
+			//for( size_t ccc=0; ccc<myVertices->size(); ++ccc)
+			//{
+			//	myVerticesnormas->push_back((*myVertices)[ccc]);
+			//	myVerticesnormas->push_back((*myVertices)[ccc] + (*norms)[ccc]);
+			//}	
+			//m_myGeometrynorms->setVertexArray( myVerticesnormas ); 
+		}
 
-			// MODEL SPHERES ----
-			for(size_t i=0; i<m_Spheres.size(); i++)
+		if(m_myGeometrylines)
+		{
+			osg::Vec3Array* myVerticesPoints = new osg::Vec3Array;
+			for(int i=0;i<Lines->NumberOfLines;i++)
 			{
-				m_Spheres[i]->setPosition (osg::Vec3(dividedPointsX[Spheres->SpheresData[i].Center/6],
-														dividedPointsY[Spheres->SpheresData[i].Center/6],
-														dividedPointsZ[Spheres->SpheresData[i].Center/6]));
+				int p1 = Lines->LinesData[i].PointNum1/6;
+				int p2 = Lines->LinesData[i].PointNum2/6;
+
+				myVerticesPoints->push_back(osg::Vec3(dividedPointsX[p1],dividedPointsY[p1],dividedPointsZ[p1]));
+				myVerticesPoints->push_back(osg::Vec3(dividedPointsX[p2],dividedPointsY[p2],dividedPointsZ[p2]));
 			}
+			m_myGeometrylines->setVertexArray( myVerticesPoints ); 
 		}
 
 
-		//{
-		//	int count = 0;
-		//	TPolygon* polyPtr;
-		//	TVertex* vertexPtr;
-		//	polyPtr=Polygons->PolygonsData;
-		//	for(int i=0;i<Polygons->NumberOfPolygons;i++)
-		//	{
-		//		vertexPtr=polyPtr->VertexsData;
-		//		for(int j=0;j<polyPtr->NumberOfVertexs;j++)
-		//		{
-		//			++count;
-		//			vertexPtr++;
-		//		}
-		//		polyPtr++;
-		//	}
 
-		//	std::cout<<count<<std::endl;
-		//}
+		// MODEL SPHERES ----
+		for(size_t i=0; i<m_Spheres.size(); i++)
+		{
+			m_Spheres[i]->setPosition (osg::Vec3(dividedPointsX[Spheres->SpheresData[i].Center/6],
+													dividedPointsY[Spheres->SpheresData[i].Center/6],
+													dividedPointsZ[Spheres->SpheresData[i].Center/6]));
+		}
+	}
 
 
+	//{
+	//	int count = 0;
+	//	TPolygon* polyPtr;
+	//	TVertex* vertexPtr;
+	//	polyPtr=Polygons->PolygonsData;
+	//	for(int i=0;i<Polygons->NumberOfPolygons;i++)
+	//	{
+	//		vertexPtr=polyPtr->VertexsData;
+	//		for(int j=0;j<polyPtr->NumberOfVertexs;j++)
+	//		{
+	//			++count;
+	//			vertexPtr++;
+	//		}
+	//		polyPtr++;
+	//	}
+
+	//	std::cout<<count<<std::endl;
+	//}
 
 
-        if(keyFrameState)
- 	    {
-			//m_cumuSpeed = 0;
-			//m_cumuSpeedY = 0;
-  		    currentKeyFrame++;
-      		if(currentKeyFrame==getAnimMaxIndex((char*)animPtr))
-  	    	{
- 		    	currentKeyFrame=getAnimStartIndex((char*)animPtr);
-				return true;
-     		}
-	    }
 
-		return false;
+
+    if(keyFrameState)
+    {
+		//m_cumuSpeed = 0;
+		//m_cumuSpeedY = 0;
+	    currentKeyFrame++;
+  		if(currentKeyFrame==getAnimMaxIndex((char*)animPtr))
+    	{
+	    	currentKeyFrame=getAnimStartIndex((char*)animPtr);
+			return true;
+ 		}
+    }
+
+	return false;
 }
 
 //---------------------------------------------------------------------------

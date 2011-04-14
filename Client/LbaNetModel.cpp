@@ -1738,6 +1738,8 @@ void LbaNetModel::CreateProjectile(const LbaNet::ProjectileInfo & Info)
 	// projectile should not touch creator
 	boost::shared_ptr<PhysicalObjectHandlerBase> physobj = dynobj->GetPhysicalObject();
 	boost::shared_ptr<PhysicalObjectHandlerBase> ownerobj;
+	boost::shared_ptr<DynamicObject> ownerdynobj;
+
 	if(physobj)
 	{
 		if(Info.OwnerActorId >= 0)
@@ -1749,7 +1751,10 @@ void LbaNetModel::CreateProjectile(const LbaNet::ProjectileInfo & Info)
 				{
 					std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find((long)Info.OwnerActorId);
 					if(it != _npcObjects.end())
+					{
 						ownerobj = it->second->GetPhysicalObject();
+						ownerdynobj = it->second->GetActor();
+					}
 				}
 				break;
 
@@ -1765,13 +1770,17 @@ void LbaNetModel::CreateProjectile(const LbaNet::ProjectileInfo & Info)
 								m_controllerChar->SetProjectileLaunched(true);
 
 							ownerobj = m_controllerChar->GetPhysicalObject();
+							ownerdynobj = m_controllerChar->GetActor();
 						}
 					}
 					else
 					{
 						std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _playerObjects.find((long)Info.OwnerActorId);
 						if(it != _playerObjects.end())
+						{
 							ownerobj = it->second->GetPhysicalObject();
+							ownerdynobj = it->second->GetActor();
+						}
 					}
 				break;
 			}
@@ -1779,9 +1788,17 @@ void LbaNetModel::CreateProjectile(const LbaNet::ProjectileInfo & Info)
 	}
 
 	//create projectile handler
-	_projectileObjects[(long)Info.Id] = boost::shared_ptr<ProjectileHandler>(
+	boost::shared_ptr<ProjectileHandler> projh = boost::shared_ptr<ProjectileHandler>(
 		new ProjectileHandler(dynobj, Info, Info.ManagingClientId == m_playerObjectId, ownerobj,
 								Info.AngleOffset, Info.SoundAtStart, Info.SoundOnBounce ));
+
+	if(Info.StartAnimFrame > 0 && ownerdynobj)
+		ownerdynobj->AddActionOnAnimation(Info.StartAnimFrame, projh); //wait for anim to launch
+	else
+		projh->Execute(); // launch directly
+
+	
+	_projectileObjects[(long)Info.Id] = projh;
 }
 
 

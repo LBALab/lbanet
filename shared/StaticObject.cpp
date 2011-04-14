@@ -75,6 +75,10 @@ synchronization function - will typically be called on every frames
 ***********************************************************/
 int StaticObject::Process(double time, float tdiff)
 {
+	//check if we have action on animation to execute
+	VerifyActionOnAnim();
+
+
 	float animX=0, animY=0, animZ=0;
 	if(_disH)
 	{
