@@ -10,6 +10,10 @@
 #include <math.h>
 #include <fstream>
 
+#ifdef _DEBUG_NPC_
+std::ofstream filecheck("checknpc.txt");
+#endif
+
 /***********************************************************
 update position of the script
 ***********************************************************/
@@ -290,6 +294,10 @@ start fight
 ***********************************************************/
 void NPCHandler::StartFight(Ice::Long TargetedPlayerId)
 {
+#ifdef _DEBUG_NPC_
+	filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"Start fight"<<std::endl;
+#endif
+
 	// pause script
 	Pause();
 
@@ -379,6 +387,9 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 	// process attack script
 	if((m_launchedattackscript >= 0) && (_currentScripts.size() > 0))
 	{
+		#ifdef _DEBUG_NPC_
+		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"Process attack script"<<std::endl;
+		#endif
 		ProcessScript(tnow, tdiff, m_scripthandler);
 	}
 	else
@@ -405,6 +416,10 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 	{
 		if(animfinished)
 		{
+			#ifdef _DEBUG_NPC_
+			filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"hurt finished"<<std::endl;
+			#endif
+
 			// revert back to previous state
 			if(ChangeState(_savedstate))
 				UpdateActorAnimation(_savedanim, false);		
@@ -418,6 +433,10 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 	{
 		if(animfinished)
 		{
+			#ifdef _DEBUG_NPC_
+			filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"use weapon finished"<<std::endl;
+			#endif
+
 			//stop hurt player
 			m_currenthitpower = -1;
 
@@ -434,6 +453,10 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 		float rotdiff = GetTargetRotationDiff();
 		if(fabs(rotdiff) <= m_rotationtargettolerance)
 		{
+			#ifdef _DEBUG_NPC_
+			filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"rotate finished"<<std::endl;
+			#endif
+
 			// inform script
 			YieldRunningScript();
 		}
@@ -566,6 +589,9 @@ void NPCHandler::HurtLife(float amount, bool UseArmor, Ice::Long HurtingPlayerId
 	if(!force && _agentState->IsImmuneHurt())
 		return;
 
+	#ifdef _DEBUG_NPC_
+	filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"hurted by player"<<std::endl;
+	#endif
 
 	//target hurting player
 	if(HurtingPlayerId >= 0)
@@ -705,6 +731,10 @@ void NPCHandler::TargetAttackPlayer(Ice::Long PlayerId)
 	// start action before attack
 	if(_action_on_attack_activation)
 		_action_on_attack_activation->Execute(m_scripthandler, 2, PlayerId, NULL);
+
+	#ifdef _DEBUG_NPC_
+	filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"start script"<<std::endl;
+	#endif
 
 	// start script
 	StartAttackScript();
@@ -905,6 +935,10 @@ bool NPCHandler::ChangeState(int newstate)
 	if(_agentstatenum == newstate)
 		return false;
 
+	#ifdef _DEBUG_NPC_
+	filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"change state to "<<newstate<<std::endl;
+	#endif
+
 	// clear current projectiles
 	if((_agentstatenum == 6) && (newstate != 7)) // exception for rotate as we still want to fire during rotating
 	{
@@ -923,6 +957,10 @@ bool NPCHandler::ChangeState(int newstate)
 
 			_freemove = false;
 			_lastupdate.AnimationIdx  = "";
+
+			#ifdef _DEBUG_NPC_
+			filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"change state to normal"<<std::endl;
+			#endif
 		}
 		break;
 
@@ -942,6 +980,10 @@ bool NPCHandler::ChangeState(int newstate)
 
 			_freemove = true;
 			_lastupdate.AnimationIdx  = "";
+
+			#ifdef _DEBUG_NPC_
+			filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"change state to hurt"<<std::endl;
+			#endif
 		}
 		break;
 
@@ -955,6 +997,10 @@ bool NPCHandler::ChangeState(int newstate)
 
 			_freemove = false;
 			_lastupdate.AnimationIdx  = "";
+
+			#ifdef _DEBUG_NPC_
+			filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"change state to die"<<std::endl;
+			#endif
 		}
 		break;
 
@@ -974,6 +1020,11 @@ bool NPCHandler::ChangeState(int newstate)
 				UpdateActorAnimation(m_chasinganimation, false);
 			else
 				UpdateActorAnimation("MoveForward", false);
+
+
+			#ifdef _DEBUG_NPC_
+			filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"change state to chase"<<std::endl;
+			#endif
 		}
 		break;
 
@@ -990,6 +1041,10 @@ bool NPCHandler::ChangeState(int newstate)
 
 			//change anim to walking
 			UpdateActorAnimation("MoveForward", false);
+
+			#ifdef _DEBUG_NPC_
+			filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"change state to come back"<<std::endl;
+			#endif
 		}
 		break;
 
@@ -1003,6 +1058,10 @@ bool NPCHandler::ChangeState(int newstate)
 
 			_freemove = true;
 			_lastupdate.AnimationIdx  = "";
+
+			#ifdef _DEBUG_NPC_
+			filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"change state to use weapon"<<std::endl;
+			#endif
 		}
 		break;
 
@@ -1016,6 +1075,10 @@ bool NPCHandler::ChangeState(int newstate)
 
 			_freemove = true;
 			_lastupdate.AnimationIdx  = "";
+
+			#ifdef _DEBUG_NPC_
+			filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"change state to rotate to target"<<std::endl;
+			#endif
 		}
 		break;
 	}
@@ -1121,6 +1184,11 @@ void NPCHandler::UpdateClients(double tnow, float tdiff)
 	//send to server if needed
 	if(_currentupdate.ForcedChange && m_scripthandler)
 	{
+		#ifdef _DEBUG_NPC_
+		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"forced update to client"<<std::endl;
+		#endif
+
+
 		LbaNet::EventsSeq evseq;
 		evseq.push_back(new LbaNet::NPCMovedEvent(tnow, GetId(), _currentupdate));
 		m_scripthandler->SendEvents(-2, evseq);
@@ -1136,19 +1204,44 @@ check if we should force the update
 bool NPCHandler::ShouldforceUpdate()
 {
 	if(_lastupdate.AnimationIdx != _currentupdate.AnimationIdx)
+	{
+		#ifdef _DEBUG_NPC_
+		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"forced update animation"<<std::endl;
+		#endif
 		return true;
+	}
 
 	if(fabs(_lastupdate.CurrentSpeedX - _currentupdate.CurrentSpeedX) > 0.00001f)
+	{
+		#ifdef _DEBUG_NPC_
+		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"forced update speedx"<<std::endl;
+		#endif
 		return true;
+	}
 
 	if(fabs(_lastupdate.CurrentSpeedY - _currentupdate.CurrentSpeedY) > 0.00001f)
+	{
+		#ifdef _DEBUG_NPC_
+		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"forced update speedy"<<std::endl;
+		#endif
 		return true;
+	}
 
 	if(fabs(_lastupdate.CurrentSpeedZ - _currentupdate.CurrentSpeedZ) > 0.00001f)
+	{
+		#ifdef _DEBUG_NPC_
+		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"forced update speedz"<<std::endl;
+		#endif
 		return true;
+	}
 
 	if(fabs(_lastupdate.CurrentSpeedRotation - _currentupdate.CurrentSpeedRotation) > 0.0001f)
+	{
+		#ifdef _DEBUG_NPC_
+		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"forced update speed rotation"<<std::endl;
+		#endif
 		return true;
+	}
 
 
 
@@ -1156,12 +1249,22 @@ bool NPCHandler::ShouldforceUpdate()
 					+ fabs(_lastupdate.CurrentPos.Y - _currentupdate.CurrentPos.Y)
 					+  fabs(_lastupdate.CurrentPos.Z - _currentupdate.CurrentPos.Z);
 	if(diffpos > 10)
+	{
+		#ifdef _DEBUG_NPC_
+		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"forced update position"<<std::endl;
+		#endif
 		return true;
+	}
 
 
 	double diffrot = fabs(_lastupdate.CurrentPos.Rotation - _currentupdate.CurrentPos.Rotation);
 	if(diffrot > 10)
+	{
+		#ifdef _DEBUG_NPC_
+		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"forced update angle"<<std::endl;
+		#endif
 		return true;
+	}
 
 
 	return false;
@@ -1198,6 +1301,10 @@ start attack script
 ***********************************************************/
 void NPCHandler::StartAttackScript()
 {
+	#ifdef _DEBUG_NPC_
+	filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"start atack script"<<std::endl;
+	#endif
+
 	if(m_launchedattackscript > 0)
 		StopAttackScript();	//stop old script
 
@@ -1211,6 +1318,10 @@ stop attack script
 ***********************************************************/
 void NPCHandler::StopAttackScript()
 {
+	#ifdef _DEBUG_NPC_
+	filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"stop atack script"<<std::endl;
+	#endif
+
 	YieldRunningScript();
 
 	if(m_launchedattackscript > 0 && m_scripthandler)
@@ -1225,6 +1336,10 @@ npc follow player
 ***********************************************************/
 void NPCHandler::FollowTargettedPlayer(int ScriptId, float DistanceStopFollow)
 {
+	#ifdef _DEBUG_NPC_
+	filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"start follow player"<<std::endl;
+	#endif
+
 	YieldRunningScript();
 	m_runningscript = ScriptId;
 
@@ -1265,6 +1380,10 @@ npc rotate to player
 ***********************************************************/
 void NPCHandler::RotateToTargettedPlayer(int ScriptId, float ToleranceAngle, float speed)
 {
+	#ifdef _DEBUG_NPC_
+	filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"start rotate to player"<<std::endl;
+	#endif
+
 	YieldRunningScript();
 	m_runningscript = ScriptId;
 
@@ -1287,6 +1406,10 @@ npc use weapon
 ***********************************************************/
 void NPCHandler::UseWeapon(int ScriptId, int WeaponNumber, bool multishot)
 {
+	#ifdef _DEBUG_NPC_
+	filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"use weapon"<<std::endl;
+	#endif
+
 	YieldRunningScript();
 	m_runningscript = ScriptId;
 
