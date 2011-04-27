@@ -838,7 +838,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\DynamicObject.h"
+				RelativePath="..\shared\DynamicObject.h"
 				>
 			</File>
 			<File

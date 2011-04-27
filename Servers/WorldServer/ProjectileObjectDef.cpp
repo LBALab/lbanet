@@ -92,7 +92,8 @@ ProjectileObjectDef::ProjectileObjectDef()
 	Comeback = false;
 	
 	StartAnimFrame = -1;
-	IsSalve = false;
+	MultiShoot = false;
+	UseTimer = false;
 	Frequency = 1;
 	
 	AngleOffset = 0;
@@ -386,8 +387,6 @@ void ProjectileObjectDef::SaveToLuaFile(std::ofstream & file, const std::string 
 	file<<"\t"<<nname<<".Comeback = "<<(Comeback?"true":"false")<<std::endl;
 	
 	file<<"\t"<<nname<<".StartAnimFrame = "<<StartAnimFrame<<std::endl;
-	file<<"\t"<<nname<<".IsSalve = "<<(IsSalve?"true":"false")<<std::endl;
-	file<<"\t"<<nname<<".Frequency = "<<Frequency<<std::endl;
 	
 	file<<"\t"<<nname<<".AngleOffset = "<<AngleOffset<<std::endl;
 	
@@ -395,6 +394,11 @@ void ProjectileObjectDef::SaveToLuaFile(std::ofstream & file, const std::string 
 	file<<"\t"<<nname<<".SoundOnBounce = \""<<SoundOnBounce<<"\""<<std::endl;
 	
 	file<<"\t"<<nname<<".ForceHurt = "<<(ForceHurt?"true":"false")<<std::endl;
+
+	file<<"\t"<<nname<<".MultiShoot = "<<(MultiShoot?"true":"false")<<std::endl;
+
+	file<<"\t"<<nname<<".UseTimer = "<<(UseTimer?"true":"false")<<std::endl;
+	file<<"\t"<<nname<<".Frequency = "<<Frequency<<std::endl;
 }
 
 
@@ -422,14 +426,17 @@ bool ProjectileObjectDef::GetProjectileInfo(const std::string & mode, float mana
 	info.LifeTime = LifeTime;
 	info.NbBounce = ((manaleft<UseMana) ? 1 : NbBounce);
 
-	info.IsSalve = IsSalve;
-	info.Frequency = Frequency;
-	
 	info.AngleOffset = AngleOffset;
 	
 	info.SoundAtStart = SoundAtStart;
 	info.SoundOnBounce = SoundOnBounce;
 	info.ForceHurt = ForceHurt;
+
+	info.MultiShoot = MultiShoot;
+
+	info.UseTimer = UseTimer;
+	info.Frequency = Frequency;
+
 
 	return true;
 }

@@ -167,6 +167,7 @@ void LbaNetModel::Process(double tnow, float tdiff)
 					m_controllerChar->SetProjectileLaunched(false);
 			}
 
+			itproj->second->Clear();
 			itproj = _projectileObjects.erase(itproj);
 		}
 		else
@@ -1699,106 +1700,59 @@ create projectile
 ***********************************************************/
 void LbaNetModel::CreateProjectile(const LbaNet::ProjectileInfo & Info)
 {
-	LbaNet::ObjectExtraInfo extrainfo;
-	extrainfo.Display = false;
-	LbaNet::LifeManaInfo lifeinfo;
-	lifeinfo.Display = false;
-
-	ObjectInfo obj = CreateObject(5, Info.Id, 
-								Info.DisplayDesc, Info.PhysicDesc, extrainfo, lifeinfo);
-
-	boost::shared_ptr<DynamicObject> dynobj = obj.BuildSelf(OsgHandler::getInstance());
-	
-	// add materials
-	boost::shared_ptr<DisplayObjectHandlerBase> matdisobj = dynobj->GetDisplayObject();
-	if(matdisobj)
-	{
-		matdisobj->SetTransparencyMaterial(Info.DisplayDesc.UseTransparentMaterial, Info.DisplayDesc.MatAlpha);
-		matdisobj->SetColorMaterial(Info.DisplayDesc.ColorMaterialType, 
-									Info.DisplayDesc.MatAmbientColorR, 
-									Info.DisplayDesc.MatAmbientColorG, 
-									Info.DisplayDesc.MatAmbientColorB, 
-									Info.DisplayDesc.MatAmbientColorA, 
-									Info.DisplayDesc.MatDiffuseColorR, 
-									Info.DisplayDesc.MatDiffuseColorG, 
-									Info.DisplayDesc.MatDiffuseColorB, 
-									Info.DisplayDesc.MatDiffuseColorA, 
-									Info.DisplayDesc.MatSpecularColorR, 
-									Info.DisplayDesc.MatSpecularColorG, 
-									Info.DisplayDesc.MatSpecularColorB, 
-									Info.DisplayDesc.MatSpecularColorA, 
-									Info.DisplayDesc.MatEmissionColorR, 
-									Info.DisplayDesc.MatEmissionColorG, 
-									Info.DisplayDesc.MatEmissionColorB, 
-									Info.DisplayDesc.MatEmissionColorA, 
-									Info.DisplayDesc.MatShininess);
-	}
-
-
-	// projectile should not touch creator
-	boost::shared_ptr<PhysicalObjectHandlerBase> physobj = dynobj->GetPhysicalObject();
-	boost::shared_ptr<PhysicalObjectHandlerBase> ownerobj;
+	// get projectile owner object
 	boost::shared_ptr<DynamicObject> ownerdynobj;
 
-	if(physobj)
+	if(Info.OwnerActorId >= 0)
 	{
-		if(Info.OwnerActorId >= 0)
+		switch(Info.OwnerActorType)
 		{
-			switch(Info.OwnerActorType)
+			// 1 -> npc object
+			case 1:
 			{
-				// 1 -> npc object
-				case 1:
+				std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find((long)Info.OwnerActorId);
+				if(it != _npcObjects.end())
 				{
-					std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find((long)Info.OwnerActorId);
-					if(it != _npcObjects.end())
+					ownerdynobj = it->second->GetActor();
+				}
+			}
+			break;
+
+
+			// 2 -> player object
+			case 2:
+				//special treatment if main player
+				if(m_playerObjectId == (long)Info.OwnerActorId)
+				{
+					if(m_controllerChar)
 					{
-						ownerobj = it->second->GetPhysicalObject();
+						if(Info.Comeback)
+							m_controllerChar->SetProjectileLaunched(true);
+
+						ownerdynobj = m_controllerChar->GetActor();
+					}
+				}
+				else
+				{
+					std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _playerObjects.find((long)Info.OwnerActorId);
+					if(it != _playerObjects.end())
+					{
 						ownerdynobj = it->second->GetActor();
 					}
 				}
-				break;
-
-
-				// 2 -> player object
-				case 2:
-					//special treatment if main player
-					if(m_playerObjectId == (long)Info.OwnerActorId)
-					{
-						if(m_controllerChar)
-						{
-							if(Info.Comeback)
-								m_controllerChar->SetProjectileLaunched(true);
-
-							ownerobj = m_controllerChar->GetPhysicalObject();
-							ownerdynobj = m_controllerChar->GetActor();
-						}
-					}
-					else
-					{
-						std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _playerObjects.find((long)Info.OwnerActorId);
-						if(it != _playerObjects.end())
-						{
-							ownerobj = it->second->GetPhysicalObject();
-							ownerdynobj = it->second->GetActor();
-						}
-					}
-				break;
-			}
+			break;
 		}
 	}
 
-	//create projectile handler
-	boost::shared_ptr<ProjectileHandler> projh = boost::shared_ptr<ProjectileHandler>(
-		new ProjectileHandler(dynobj, Info, Info.ManagingClientId == m_playerObjectId, ownerobj,
-								Info.AngleOffset, Info.SoundAtStart, Info.SoundOnBounce ));
-
-	if(Info.StartAnimFrame > 0 && ownerdynobj)
-		ownerdynobj->AddActionOnAnimation(Info.StartAnimFrame, projh); //wait for anim to launch
-	else
-		projh->Execute(); // launch directly
-
-	
-	_projectileObjects[(long)Info.Id] = projh;
+	if(ownerdynobj)
+	{
+		//create projectile handler
+		boost::shared_ptr<ProjectileHandler> projh = boost::shared_ptr<ProjectileHandler>(
+			new ProjectileHandler(this, Info, Info.ManagingClientId == m_playerObjectId, ownerdynobj,
+									Info.AngleOffset, Info.SoundAtStart, Info.SoundOnBounce));
+		
+		_projectileObjects[(long)Info.Id] = projh;
+	}
 }
 
 
@@ -1809,7 +1763,7 @@ void LbaNetModel::DestroyProjectile(long Id)
 {
 	std::map<long, boost::shared_ptr<ProjectileHandler> >::iterator it = _projectileObjects.find(Id);
 	if(it != _projectileObjects.end())
-		_projectileObjects.erase(it);
+		it->second->Destroy();
 }
 
 
@@ -1973,6 +1927,51 @@ void LbaNetModel::ItemLooted(long itemid)
 	EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ItemLootEvent(
 										SynchronizedTimeHandler::GetCurrentTimeDouble(),
 										itemid));	
+}
+
+
+
+/***********************************************************
+create projectile object
+***********************************************************/
+boost::shared_ptr<DynamicObject> LbaNetModel::CreateProjectileObject(const LbaNet::ProjectileInfo & Info)
+{
+	LbaNet::ObjectExtraInfo extrainfo;
+	extrainfo.Display = false;
+	LbaNet::LifeManaInfo lifeinfo;
+	lifeinfo.Display = false;
+
+	ObjectInfo obj = CreateObject(5, Info.Id, 
+								Info.DisplayDesc, Info.PhysicDesc, extrainfo, lifeinfo);
+
+	boost::shared_ptr<DynamicObject> dynobj = obj.BuildSelf(OsgHandler::getInstance());
+	
+	// add materials
+	boost::shared_ptr<DisplayObjectHandlerBase> matdisobj = dynobj->GetDisplayObject();
+	if(matdisobj)
+	{
+		matdisobj->SetTransparencyMaterial(Info.DisplayDesc.UseTransparentMaterial, Info.DisplayDesc.MatAlpha);
+		matdisobj->SetColorMaterial(Info.DisplayDesc.ColorMaterialType, 
+									Info.DisplayDesc.MatAmbientColorR, 
+									Info.DisplayDesc.MatAmbientColorG, 
+									Info.DisplayDesc.MatAmbientColorB, 
+									Info.DisplayDesc.MatAmbientColorA, 
+									Info.DisplayDesc.MatDiffuseColorR, 
+									Info.DisplayDesc.MatDiffuseColorG, 
+									Info.DisplayDesc.MatDiffuseColorB, 
+									Info.DisplayDesc.MatDiffuseColorA, 
+									Info.DisplayDesc.MatSpecularColorR, 
+									Info.DisplayDesc.MatSpecularColorG, 
+									Info.DisplayDesc.MatSpecularColorB, 
+									Info.DisplayDesc.MatSpecularColorA, 
+									Info.DisplayDesc.MatEmissionColorR, 
+									Info.DisplayDesc.MatEmissionColorG, 
+									Info.DisplayDesc.MatEmissionColorB, 
+									Info.DisplayDesc.MatEmissionColorA, 
+									Info.DisplayDesc.MatShininess);
+	}
+
+	return dynobj;
 }
 
 

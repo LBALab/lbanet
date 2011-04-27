@@ -377,6 +377,10 @@ public:
 	//! npc use weapon
 	virtual void UseWeapon(int ScriptId, long ActorId, int WeaponNumber);
 
+	//! npc start use weapon - will not stop until changing state - only usefull for distance weapon
+	virtual void StartUseWeapon(int ScriptId, long ActorId, int WeaponNumber);
+
+
 	//! return targeted player
 	virtual long GetTargettedAttackPlayer(long ActorId);
 
@@ -388,7 +392,11 @@ public:
 
 
 	//! launch projectile
-	virtual void LaunchProjectile(LbaNet::ProjectileInfo pinfo);
+	virtual long LaunchProjectile(LbaNet::ProjectileInfo pinfo);
+
+	//! destroy projectile
+	virtual void DestroyProjectile(long projectileid);
+
 
 	//! get weapon distance
 	//! 1-> first contact weapon, 2 -> first distance weapon

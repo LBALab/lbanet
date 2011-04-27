@@ -2573,7 +2573,7 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 /***********************************************************
 launch projectile
 ***********************************************************/
-void MapHandler::LaunchProjectile(LbaNet::ProjectileInfo pinfo)
+long MapHandler::LaunchProjectile(LbaNet::ProjectileInfo pinfo)
 {
 	//update id
 	pinfo.Id = ((_launchedprojectiles.size() > 0) ? (_launchedprojectiles.rbegin()->first+1): 0);
@@ -2584,6 +2584,20 @@ void MapHandler::LaunchProjectile(LbaNet::ProjectileInfo pinfo)
 
 	_tosendevts.push_back(new CreateProjectileEvent(
 					SynchronizedTimeHandler::GetCurrentTimeDouble(), pinfo));
+
+	return (long)pinfo.Id;
+}
+
+
+/***********************************************************
+destroy projectile
+***********************************************************/
+void MapHandler::DestroyProjectile(long projectileid)
+{
+	std::map<long, LbaNet::ProjectileInfo>::iterator itp =	_launchedprojectiles.find(projectileid);
+	if(itp != _launchedprojectiles.end())
+		_tosendevts.push_back(new DestroyProjectileEvent(
+				SynchronizedTimeHandler::GetCurrentTimeDouble(), projectileid, -1, -1));
 }
 
 
@@ -3986,8 +4000,21 @@ void MapHandler::UseWeapon(int ScriptId, long ActorId, int WeaponNumber)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact = _Actors.find(ActorId);
 	if(itact != _Actors.end())
-		itact->second->UseWeapon(ScriptId, WeaponNumber);
+		itact->second->UseWeapon(ScriptId, WeaponNumber, false);
 }
+
+/***********************************************************
+npc start use weapon - will not stop until changing state - only usefull for distance weapon
+***********************************************************/
+void MapHandler::StartUseWeapon(int ScriptId, long ActorId, int WeaponNumber)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact = _Actors.find(ActorId);
+	if(itact != _Actors.end())
+		itact->second->UseWeapon(ScriptId, WeaponNumber, true);
+}
+
+
+
 
 
 /***********************************************************

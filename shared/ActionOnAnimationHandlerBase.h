@@ -47,7 +47,8 @@ public:
 	virtual ~ActionOnAnimationHandlerBase(){}
 
 	// execute the action
-	virtual void Execute() = 0;
+	// return true if should destroy
+	virtual bool Execute() = 0;
 
 };
 

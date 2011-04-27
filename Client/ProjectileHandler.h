@@ -28,9 +28,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <boost/shared_ptr.hpp>
 #include <LbaTypes.h>
 class DynamicObject;
-class PhysicalObjectHandlerBase;
+class LbaNetModel;
+
 
 #include "ActionOnAnimationHandlerBase.h"
+
+
+struct LaunchedProjectile
+{
+	boost::shared_ptr<DynamicObject>		projobject;
+	int										bounced;
+	bool									comingback;
+
+	double									launchedtime;
+};
+
+
 /*
 ************************************************************************************************************************
 *                                                 class ProjectileHandler
@@ -40,10 +53,9 @@ class ProjectileHandler : public ActionOnAnimationHandlerBase
 {
 public:
 	//constructor
-	ProjectileHandler(boost::shared_ptr<DynamicObject> obje,
-						const LbaNet::ProjectileInfo & Info,
-						bool Manage,
-						boost::shared_ptr<PhysicalObjectHandlerBase> ownerobj,
+	ProjectileHandler(LbaNetModel *	lbanetmodelH,
+						const LbaNet::ProjectileInfo & Info, bool Manage,
+						boost::shared_ptr<DynamicObject> ownerobj,
 						float AngleOffset, const std::string &SoundAtStart,
 						const std::string &SoundOnBounce);
 
@@ -60,8 +72,13 @@ public:
 
 
 	// execute the action
-	virtual void Execute();
+	virtual bool Execute();
 
+	//! destroy projectile at next cycle
+	void Destroy();
+
+	//! clear projectile
+	void Clear();
 
 
 protected:
@@ -69,20 +86,20 @@ protected:
 	void Launch();
 
 private:
-	bool											_launched;
-	boost::shared_ptr<DynamicObject>				_obje;
 	LbaNet::ProjectileInfo							_projInfo;
 	bool											_Manage;
-	int												_bounced;
-	bool											_comingback;
-	double											_startedball;
+	bool											_destroy;
 
 	float											_AngleOffset;
 	
 	std::string										_SoundAtStart;
 	std::string										_SoundOnBounce;
 
-	boost::shared_ptr<PhysicalObjectHandlerBase>	_ownerobj;
+	boost::shared_ptr<DynamicObject>				_ownerobj;
+
+	std::vector<LaunchedProjectile>					_launchedobjects;
+
+	LbaNetModel *									_lbanetmodelH;
 };
 
 

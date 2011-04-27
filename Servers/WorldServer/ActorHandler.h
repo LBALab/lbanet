@@ -402,7 +402,7 @@ public:
 	virtual long GetTargettedAttackPlayer(){return -1;}
 
 	//! npc use weapon
-	virtual void UseWeapon(int ScriptId, int WeaponNumber){}
+	virtual void UseWeapon(int ScriptId, int WeaponNumber, bool multishot){}
 
 	//! check if target is in range
 	virtual bool IsTargetInRange(float MaxDistance){return false;}

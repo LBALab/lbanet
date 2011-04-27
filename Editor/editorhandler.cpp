@@ -13833,7 +13833,7 @@ void EditorHandler::SelectProjectile(ProjectileObjectDef* cond, const QModelInde
 	}
 	{
 		QVector<QVariant> data;
-		data<<"Multi fire"<<cond->IsSalve;
+		data<<"Fire on Timer"<<cond->UseTimer;
 		QModelIndex idx = _objectmodel->AppendRow(data, parent);
 		++index;
 	}
@@ -14126,7 +14126,7 @@ void EditorHandler::ProjectileChanged(const QModelIndex &parentIdx)
 	ptr->StartAnimFrame = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();		 
 	++index;	
 
-	ptr->IsSalve = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();		 
+	ptr->UseTimer = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();		 
 	++index;	
 
 	ptr->Frequency = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 

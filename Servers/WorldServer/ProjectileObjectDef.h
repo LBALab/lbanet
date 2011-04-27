@@ -98,8 +98,7 @@ public:
 	bool						Comeback;
 	
 	int							StartAnimFrame;
-	bool						IsSalve;
-	float						Frequency;
+
 	
 	float						AngleOffset;
 	
@@ -107,6 +106,12 @@ public:
 	std::string					SoundOnBounce;
 	
 	bool						ForceHurt;
+
+		
+	bool						MultiShoot;
+		
+	bool						UseTimer;
+	float						Frequency;
 };
 
 typedef boost::shared_ptr<ProjectileObjectDef>	ProjectileObjectDefPtr;

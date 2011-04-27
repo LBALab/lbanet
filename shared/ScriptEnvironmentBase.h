@@ -405,6 +405,12 @@ public:
 	//! 3-> second contact weapon, 4 -> second distance weapon
 	virtual void UseWeapon(int ScriptId, long ActorId, int WeaponNumber){}
 
+	//! npc start use weapon - will not stop until changing state - only usefull for distance weapon
+	//! 1-> first contact weapon, 2 -> first distance weapon
+	//! 3-> second contact weapon, 4 -> second distance weapon
+	virtual void StartUseWeapon(int ScriptId, long ActorId, int WeaponNumber){}
+
+
 	//! return targeted player
 	virtual long GetTargettedAttackPlayer(long ActorId){return -1;}
 
@@ -415,7 +421,10 @@ public:
 	virtual float GetTargetRotationDiff(long ActorId){return 360;}
 
 	//! launch projectile
-	virtual void LaunchProjectile(LbaNet::ProjectileInfo pinfo){}
+	virtual long LaunchProjectile(LbaNet::ProjectileInfo pinfo){return -1;}
+
+	//! destroy projectile
+	virtual void DestroyProjectile(long projectileid){}
 
 	//! get weapon distance
 	//! 1-> first contact weapon, 2 -> first distance weapon

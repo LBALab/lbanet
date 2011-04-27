@@ -412,6 +412,10 @@ public:
 	//! called when item looted by player
 	void ItemLooted(long itemid);
 
+	//! create projectile object
+	boost::shared_ptr<DynamicObject> CreateProjectileObject(const LbaNet::ProjectileInfo & Info);
+
+
 protected:
 
 	//! clean up map

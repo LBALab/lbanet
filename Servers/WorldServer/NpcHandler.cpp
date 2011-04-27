@@ -905,6 +905,13 @@ bool NPCHandler::ChangeState(int newstate)
 	if(_agentstatenum == newstate)
 		return false;
 
+	// clear current projectiles
+	if((_agentstatenum == 6) && (newstate != 7)) // exception for rotate as we still want to fire during rotating
+	{
+		ClearProjectiles();
+		m_currenthitpower = -1;
+	}
+
 	switch(newstate)
 	{
 		// normal state
@@ -1140,7 +1147,7 @@ bool NPCHandler::ShouldforceUpdate()
 	if(fabs(_lastupdate.CurrentSpeedZ - _currentupdate.CurrentSpeedZ) > 0.00001f)
 		return true;
 
-	if(fabs(_lastupdate.CurrentSpeedRotation - _currentupdate.CurrentSpeedRotation) > 0.01f)
+	if(fabs(_lastupdate.CurrentSpeedRotation - _currentupdate.CurrentSpeedRotation) > 0.0001f)
 		return true;
 
 
@@ -1278,7 +1285,7 @@ void NPCHandler::RotateToTargettedPlayer(int ScriptId, float ToleranceAngle, flo
 /***********************************************************
 npc use weapon
 ***********************************************************/
-void NPCHandler::UseWeapon(int ScriptId, int WeaponNumber)
+void NPCHandler::UseWeapon(int ScriptId, int WeaponNumber, bool multishot)
 {
 	YieldRunningScript();
 	m_runningscript = ScriptId;
@@ -1383,6 +1390,9 @@ void NPCHandler::UseWeapon(int ScriptId, int WeaponNumber)
 		case 2: // ditance weapon
 			if(projectiles)
 			{
+				if(multishot && _launchedprojs.size() > 0)
+					return; // do nothing if multishot and already launched
+
 				std::vector<ProjectileObjectDefPtr>::iterator itp = projectiles->begin();
 				std::vector<ProjectileObjectDefPtr>::iterator endp = projectiles->end();
 				for(;itp != endp; ++itp)
@@ -1394,6 +1404,7 @@ void NPCHandler::UseWeapon(int ScriptId, int WeaponNumber)
 						newProj.ManagingClientId = _targetedattackplayer;
 						newProj.OwnerActorType = 1;
 						newProj.OwnerActorId = GetId();
+						newProj.MultiShoot = multishot;
 
 						// update projectile position
 						boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
@@ -1407,12 +1418,14 @@ void NPCHandler::UseWeapon(int ScriptId, int WeaponNumber)
 
 						// launch projectile
 						if( m_scripthandler)
-							m_scripthandler->LaunchProjectile(newProj);
+						{
+							long projid = m_scripthandler->LaunchProjectile(newProj);
+							if(multishot)
+								_launchedprojs.push_back(projid);
+						}
 					}		
 				}
 			}
-
-			//todo - launch projectile
 		break;
 	}
 
@@ -1595,4 +1608,22 @@ float NPCHandler::GetWeaponReachDistance(int WeaponNumber)
 	}
 
 	return 0;
+}
+
+
+/***********************************************************
+clear launched projectiles
+***********************************************************/
+void NPCHandler::ClearProjectiles()
+{
+	if(!m_scripthandler)
+		return;
+
+	std::vector<long>::iterator it = _launchedprojs.begin();
+	std::vector<long>::iterator end = _launchedprojs.end();
+	for(; it!= end; ++it)
+		m_scripthandler->DestroyProjectile(*it);	
+
+
+	_launchedprojs.clear();
 }

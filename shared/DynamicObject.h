@@ -45,7 +45,7 @@ public:
 					long id)
 		: _phH(phH), _disH(disH), _id(id), _additionalMoveX(0),
 			_additionalMoveY(0), _additionalMoveZ(0), _additionalMoveRotation(0),
-			_show(true)
+			_show(true), _lastkey(-1)
 	{}
 
 	//!destructor
@@ -169,9 +169,19 @@ public:
 
 
 	//! add action to be executed on key frame
-	void AddActionOnAnimation(int executionkeyframe, boost::shared_ptr<ActionOnAnimationHandlerBase> action)
+	void AddActionOnAnimation(int executionkeyframe, ActionOnAnimationHandlerBase* action)
 	{
-		_actionsonanimation.push_back(std::make_pair<int, boost::shared_ptr<ActionOnAnimationHandlerBase> >(executionkeyframe, action));
+		_actionsonanimation.push_back(std::make_pair<int, ActionOnAnimationHandlerBase* >(executionkeyframe, action));
+	}
+
+	void RemoveActionOnAnimation(int executionkeyframe, ActionOnAnimationHandlerBase* action)
+	{
+		std::pair<int, ActionOnAnimationHandlerBase* > searcho(executionkeyframe, action);
+		std::vector<std::pair<int, ActionOnAnimationHandlerBase* > >::iterator it =
+			std::find(_actionsonanimation.begin(), _actionsonanimation.end(), searcho);
+
+		if(it != _actionsonanimation.end())
+			_actionsonanimation.erase(it);
 	}
 
 
@@ -185,16 +195,23 @@ protected:
 			if(_disH)
 			{
 				int currkey = _disH->GetCurrentKeyFrame();
-				std::vector<std::pair<int, boost::shared_ptr<ActionOnAnimationHandlerBase> > >::iterator it = _actionsonanimation.begin();
-				while(it != _actionsonanimation.end())
+				if(_lastkey != currkey)
 				{
-					if(currkey >= it->first)
+					std::vector<std::pair<int, ActionOnAnimationHandlerBase* > >::iterator it = _actionsonanimation.begin();
+					while(it != _actionsonanimation.end())
 					{
-						it->second->Execute();
-						it = _actionsonanimation.erase(it);
+						if(currkey == it->first)
+						{
+							if(it->second->Execute())
+								it = _actionsonanimation.erase(it);
+							else
+								++it;
+						}
+						else
+							++it;
 					}
-					else
-						++it;
+
+					_lastkey = currkey;
 				}
 			}
 		}
@@ -225,7 +242,8 @@ protected:
 	bool										_show;
 
 
-	std::vector<std::pair<int, boost::shared_ptr<ActionOnAnimationHandlerBase> > >	_actionsonanimation;
+	std::vector<std::pair<int, ActionOnAnimationHandlerBase* > >	_actionsonanimation;
+	int																_lastkey;
 };
 
 #endif

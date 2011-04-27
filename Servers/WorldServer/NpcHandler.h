@@ -233,7 +233,7 @@ public:
 	//! npc use weapon
 	//! 1-> first contact weapon, 2 -> first distance weapon
 	//! 3-> second contact weapon, 4 -> second distance weapon
-	virtual void UseWeapon(int ScriptId, int WeaponNumber);
+	virtual void UseWeapon(int ScriptId, int WeaponNumber, bool multishot);
 
 	//! return targeted player
 	virtual long GetTargettedAttackPlayer(){return (long)_targetedattackplayer;}
@@ -427,6 +427,9 @@ protected:
 	//! delta update mana
 	void DeltaUpdateMana(float deltamana);
 
+	//! clear launched projectiles
+	void ClearProjectiles();
+
 protected:
 	long						_npcnametextid;
 	bool						_simpledialog;
@@ -501,6 +504,8 @@ protected:
 	
 	std::vector<ProjectileObjectDefPtr>			_projectilesweapon1;
 	std::vector<ProjectileObjectDefPtr>			_projectilesweapon2;
+
+	std::vector<long>							_launchedprojs;
 
 };
 

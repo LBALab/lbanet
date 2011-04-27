@@ -920,8 +920,6 @@ module LbaNet
 		bool			Comeback;
 		
 		int			StartAnimFrame;
-		bool			IsSalve;
-		float			Frequency;
 		
 		float			AngleOffset;
 		
@@ -929,6 +927,11 @@ module LbaNet
 		string			SoundOnBounce;
 		
 		bool			ForceHurt;
+		
+		bool			MultiShoot;
+		
+		bool			UseTimer;
+		float			Frequency;
 	};
 	
 

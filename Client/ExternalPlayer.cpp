@@ -102,10 +102,10 @@ void ExternalPlayer::UpdateMove(double updatetime, const LbaNet::PlayerMoveInfo 
 				physo->SetPosition(info.CurrentPos.X,  info.CurrentPos.Y, info.CurrentPos.Z);
 			}
 
-			if(teleport || (abs(_velocityR) < 0.001f))
+			if(teleport || (abs(_velocityR) < 0.00001f))
 			{
-				//LbaQuaternion Q(info.CurrentPos.Rotation, LbaVec3(0,1,0));
-				//physo->RotateTo(Q);
+				LbaQuaternion Q(info.CurrentPos.Rotation, LbaVec3(0,1,0));
+				physo->RotateTo(Q);
 
 				// do not need to update if no rotation and no rotation
 				if(finishedmove)
