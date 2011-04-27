@@ -256,9 +256,9 @@ function ActorAttackContactPlayer(ScriptId, ActorId, Environment)
 			Environment:FollowTargettedPlayer(ScriptId, ActorId, weaponrange)
 		else
 			rotationdiff = Environment:GetTargetRotationDiff(ActorId)
-			if math.abs(rotationdiff) > 10 then
+			if math.abs(rotationdiff) > 5 then
 				-- rotate to face player
-				Environment:RotateToTargettedPlayer(ScriptId, ActorId, 10, 0.2)	
+				Environment:RotateToTargettedPlayer(ScriptId, ActorId, 4.9, 0.2)	
 			else
 				-- attack player
 				Environment:UseWeapon(ScriptId, ActorId, 1)
@@ -284,14 +284,44 @@ function ActorFollowAttackDistancePlayer(ScriptId, ActorId, Environment)
 			Environment:FollowTargettedPlayer(ScriptId, ActorId, weaponrange)
 		else
 			rotationdiff = Environment:GetTargetRotationDiff(ActorId)
-			if math.abs(rotationdiff) > 5 then
+			if math.abs(rotationdiff) > 3 then
 				-- rotate to face player
-				Environment:RotateToTargettedPlayer(ScriptId, ActorId, 5, 0.2)	
+				Environment:RotateToTargettedPlayer(ScriptId, ActorId, 2.9, 0.2)	
 			else
 				-- attack player
-				Environment:UseWeapon(ScriptId, ActorId, 2)
+				Environment:StartUseWeapon(ScriptId, ActorId, 2)
 			end
 		end
+	
+	
+		TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
+	end
+end
+
+
+-- go to player and attack him with contact weapon
+function ActorRotateAttackDistanceAndContactPlayer(ScriptId, ActorId, Environment)
+
+	TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
+	while TargetedPlayer > -1 do
+		weaponrange1 = Environment:GetNpcWeaponReachDistance(ActorId, 1)
+
+		rotationdiff = Environment:GetTargetRotationDiff(ActorId)
+		if math.abs(rotationdiff) > 2 then
+			-- rotate to face player
+			Environment:RotateToTargettedPlayer(ScriptId, ActorId, 1.9, 0.2)	
+		else
+		
+			tinrange = Environment:IsTargetInRange(weaponrange1, ActorId)
+			if tinrange == true then		
+				-- attack player contact
+				Environment:StartUseWeapon(ScriptId, ActorId, 1)
+			else
+				-- attack player distance
+				Environment:StartUseWeapon(ScriptId, ActorId, 2)	
+			end
+		end
+
 	
 	
 		TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)

@@ -629,9 +629,9 @@ function InitMap(environment)
 	Actor_19.PhysicDesc.Pos.Rotation = 25
 	Actor_19.PhysicDesc.Density = 1
 	Actor_19.PhysicDesc.Collidable = true
-	Actor_19.PhysicDesc.SizeX = 1
+	Actor_19.PhysicDesc.SizeX = 2
 	Actor_19.PhysicDesc.SizeY = 5
-	Actor_19.PhysicDesc.SizeZ = 1
+	Actor_19.PhysicDesc.SizeZ = 2
 	Actor_19.PhysicDesc.AllowFreeMove = true
 	Actor_19.PhysicDesc.Filename = ""
 	Actor_19:SetPhysicalActorType(2)
@@ -649,7 +649,7 @@ function InitMap(environment)
 	Actor_19H:SetNpcName(-1)
 	Actor_19H:SetSimpleDialog(false)
 	Actor_19H:SetAggresive(true)
-	Actor_19H:SetLife(0)
+	Actor_19H:SetLife(50)
 	Actor_19H:SetMana(0)
 	Actor_19H:SetArmor(0)
 	Actor_19H:SetAttackActiDist(0)
@@ -659,11 +659,11 @@ function InitMap(environment)
 	Actor_19H:SetRespawnTimeInSec(-1)
 	Actor_19H:SetWeapon1Type(1)
 	Actor_19H:SetWeapon1Power(10)
-	Actor_19H:SetWeapon1ReachDistance(1)
+	Actor_19H:SetWeapon1ReachDistance(2)
 	Actor_19H:Setuseweapon1animation("Use1Weapon")
 	Actor_19H:SetWeapon2Type(2)
 	Actor_19H:SetWeapon2Power(0)
-	Actor_19H:SetWeapon2ReachDistance(8)
+	Actor_19H:SetWeapon2ReachDistance(7)
 	Actor_19H:Setuseweapon2animation("UseWeapon")
 	Actor_19H_weapon2proj0 = ProjectileObjectDef()
 	Actor_19H_weapon2proj0:SetRenderType(2)
@@ -704,24 +704,139 @@ function InitMap(environment)
 	Actor_19H_weapon2proj0.UsableMode = ""
 	Actor_19H_weapon2proj0.Power = 10
 	Actor_19H_weapon2proj0.UseMana = 0
-	Actor_19H_weapon2proj0.OffsetX = 3
+	Actor_19H_weapon2proj0.OffsetX = 2.5
 	Actor_19H_weapon2proj0.OffsetY = 2.5
-	Actor_19H_weapon2proj0.ForceX = 0.0012
-	Actor_19H_weapon2proj0.ForceY = 0
+	Actor_19H_weapon2proj0.ForceX = 0.0005
+	Actor_19H_weapon2proj0.ForceY = -0.0002
 	Actor_19H_weapon2proj0.ForceYOnImpact = 0
 	Actor_19H_weapon2proj0.NbBounce = 1
-	Actor_19H_weapon2proj0.IgnoreGravity = false
+	Actor_19H_weapon2proj0.IgnoreGravity = true
 	Actor_19H_weapon2proj0.LifeTime = 4000
 	Actor_19H_weapon2proj0.Comeback = false
-	Actor_19H_weapon2proj0.StartAnimFrame = 5
-	Actor_19H_weapon2proj0.IsSalve = false
+	Actor_19H_weapon2proj0.StartAnimFrame = 4
+	Actor_19H_weapon2proj0.MultiShoot = false
+	Actor_19H_weapon2proj0.UseTimer = false
 	Actor_19H_weapon2proj0.Frequency = 1
 	Actor_19H_weapon2proj0.AngleOffset = 0
 	Actor_19H_weapon2proj0.SoundAtStart = ""
 	Actor_19H_weapon2proj0.SoundOnBounce = ""
 	Actor_19H_weapon2proj0.ForceHurt = false
 	Actor_19H:AddProjectileWeapon2(Actor_19H_weapon2proj0)
-	Actor_19H:SetAttackFunction("ActorFollowAttackDistancePlayer")
+	Actor_19H_weapon2proj1 = ProjectileObjectDef()
+	Actor_19H_weapon2proj1:SetRenderType(2)
+	Actor_19H_weapon2proj1.DisplayDesc.ModelId = 0
+	Actor_19H_weapon2proj1.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite064.png"
+	Actor_19H_weapon2proj1.DisplayDesc.Outfit = ""
+	Actor_19H_weapon2proj1.DisplayDesc.Weapon = ""
+	Actor_19H_weapon2proj1.DisplayDesc.Mode = ""
+	Actor_19H_weapon2proj1.DisplayDesc.UseLight = true
+	Actor_19H_weapon2proj1.DisplayDesc.CastShadow = true
+	Actor_19H_weapon2proj1.DisplayDesc.ColorR = 1
+	Actor_19H_weapon2proj1.DisplayDesc.ColorG = 1
+	Actor_19H_weapon2proj1.DisplayDesc.ColorB = 1
+	Actor_19H_weapon2proj1.DisplayDesc.ColorA = 0.9
+	Actor_19H_weapon2proj1.DisplayDesc.TransX = 0
+	Actor_19H_weapon2proj1.DisplayDesc.TransY = 0
+	Actor_19H_weapon2proj1.DisplayDesc.TransZ = 0
+	Actor_19H_weapon2proj1.DisplayDesc.ScaleX = 0.05
+	Actor_19H_weapon2proj1.DisplayDesc.ScaleY = 0.05
+	Actor_19H_weapon2proj1.DisplayDesc.ScaleZ = 0.05
+	Actor_19H_weapon2proj1.DisplayDesc.RotX = 0
+	Actor_19H_weapon2proj1.DisplayDesc.RotY = 0
+	Actor_19H_weapon2proj1.DisplayDesc.RotZ = 0
+	Actor_19H_weapon2proj1.DisplayDesc.UseBillboard = true
+	Actor_19H_weapon2proj1.PhysicDesc.Pos.X = 0
+	Actor_19H_weapon2proj1.PhysicDesc.Pos.Y = 0
+	Actor_19H_weapon2proj1.PhysicDesc.Pos.Z = 0
+	Actor_19H_weapon2proj1.PhysicDesc.Pos.Rotation = 0
+	Actor_19H_weapon2proj1.PhysicDesc.Density = 1
+	Actor_19H_weapon2proj1.PhysicDesc.Collidable = false
+	Actor_19H_weapon2proj1.PhysicDesc.SizeX = 0.05
+	Actor_19H_weapon2proj1.PhysicDesc.SizeY = 0.05
+	Actor_19H_weapon2proj1.PhysicDesc.SizeZ = 0.05
+	Actor_19H_weapon2proj1.PhysicDesc.AllowFreeMove = true
+	Actor_19H_weapon2proj1.PhysicDesc.Filename = ""
+	Actor_19H_weapon2proj1:SetPhysicalActorType(3)
+	Actor_19H_weapon2proj1:SetPhysicalShape(4)
+	Actor_19H_weapon2proj1.UsableMode = ""
+	Actor_19H_weapon2proj1.Power = 10
+	Actor_19H_weapon2proj1.UseMana = 0
+	Actor_19H_weapon2proj1.OffsetX = 2.5
+	Actor_19H_weapon2proj1.OffsetY = 2.5
+	Actor_19H_weapon2proj1.ForceX = 0.0005
+	Actor_19H_weapon2proj1.ForceY = -0.0002
+	Actor_19H_weapon2proj1.ForceYOnImpact = 0
+	Actor_19H_weapon2proj1.NbBounce = 1
+	Actor_19H_weapon2proj1.IgnoreGravity = true
+	Actor_19H_weapon2proj1.LifeTime = 4000
+	Actor_19H_weapon2proj1.Comeback = false
+	Actor_19H_weapon2proj1.StartAnimFrame = 4
+	Actor_19H_weapon2proj1.MultiShoot = false
+	Actor_19H_weapon2proj1.UseTimer = false
+	Actor_19H_weapon2proj1.Frequency = 1
+	Actor_19H_weapon2proj1.AngleOffset = 4
+	Actor_19H_weapon2proj1.SoundAtStart = ""
+	Actor_19H_weapon2proj1.SoundOnBounce = ""
+	Actor_19H_weapon2proj1.ForceHurt = false
+	Actor_19H:AddProjectileWeapon2(Actor_19H_weapon2proj1)	
+	Actor_19H_weapon2proj2 = ProjectileObjectDef()
+	Actor_19H_weapon2proj2:SetRenderType(2)
+	Actor_19H_weapon2proj2.DisplayDesc.ModelId = 0
+	Actor_19H_weapon2proj2.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite064.png"
+	Actor_19H_weapon2proj2.DisplayDesc.Outfit = ""
+	Actor_19H_weapon2proj2.DisplayDesc.Weapon = ""
+	Actor_19H_weapon2proj2.DisplayDesc.Mode = ""
+	Actor_19H_weapon2proj2.DisplayDesc.UseLight = true
+	Actor_19H_weapon2proj2.DisplayDesc.CastShadow = true
+	Actor_19H_weapon2proj2.DisplayDesc.ColorR = 1
+	Actor_19H_weapon2proj2.DisplayDesc.ColorG = 1
+	Actor_19H_weapon2proj2.DisplayDesc.ColorB = 1
+	Actor_19H_weapon2proj2.DisplayDesc.ColorA = 0.9
+	Actor_19H_weapon2proj2.DisplayDesc.TransX = 0
+	Actor_19H_weapon2proj2.DisplayDesc.TransY = 0
+	Actor_19H_weapon2proj2.DisplayDesc.TransZ = 0
+	Actor_19H_weapon2proj2.DisplayDesc.ScaleX = 0.05
+	Actor_19H_weapon2proj2.DisplayDesc.ScaleY = 0.05
+	Actor_19H_weapon2proj2.DisplayDesc.ScaleZ = 0.05
+	Actor_19H_weapon2proj2.DisplayDesc.RotX = 0
+	Actor_19H_weapon2proj2.DisplayDesc.RotY = 0
+	Actor_19H_weapon2proj2.DisplayDesc.RotZ = 0
+	Actor_19H_weapon2proj2.DisplayDesc.UseBillboard = true
+	Actor_19H_weapon2proj2.PhysicDesc.Pos.X = 0
+	Actor_19H_weapon2proj2.PhysicDesc.Pos.Y = 0
+	Actor_19H_weapon2proj2.PhysicDesc.Pos.Z = 0
+	Actor_19H_weapon2proj2.PhysicDesc.Pos.Rotation = 0
+	Actor_19H_weapon2proj2.PhysicDesc.Density = 1
+	Actor_19H_weapon2proj2.PhysicDesc.Collidable = false
+	Actor_19H_weapon2proj2.PhysicDesc.SizeX = 0.05
+	Actor_19H_weapon2proj2.PhysicDesc.SizeY = 0.05
+	Actor_19H_weapon2proj2.PhysicDesc.SizeZ = 0.05
+	Actor_19H_weapon2proj2.PhysicDesc.AllowFreeMove = true
+	Actor_19H_weapon2proj2.PhysicDesc.Filename = ""
+	Actor_19H_weapon2proj2:SetPhysicalActorType(3)
+	Actor_19H_weapon2proj2:SetPhysicalShape(4)
+	Actor_19H_weapon2proj2.UsableMode = ""
+	Actor_19H_weapon2proj2.Power = 10
+	Actor_19H_weapon2proj2.UseMana = 0
+	Actor_19H_weapon2proj2.OffsetX = 2.5
+	Actor_19H_weapon2proj2.OffsetY = 2.5
+	Actor_19H_weapon2proj2.ForceX = 0.0005
+	Actor_19H_weapon2proj2.ForceY = -0.0002
+	Actor_19H_weapon2proj2.ForceYOnImpact = 0
+	Actor_19H_weapon2proj2.NbBounce = 1
+	Actor_19H_weapon2proj2.IgnoreGravity = true
+	Actor_19H_weapon2proj2.LifeTime = 4000
+	Actor_19H_weapon2proj2.Comeback = false
+	Actor_19H_weapon2proj2.StartAnimFrame = 4
+	Actor_19H_weapon2proj2.MultiShoot = false
+	Actor_19H_weapon2proj2.UseTimer = false
+	Actor_19H_weapon2proj2.Frequency = 1
+	Actor_19H_weapon2proj2.AngleOffset = -4
+	Actor_19H_weapon2proj2.SoundAtStart = ""
+	Actor_19H_weapon2proj2.SoundOnBounce = ""
+	Actor_19H_weapon2proj2.ForceHurt = false
+	Actor_19H:AddProjectileWeapon2(Actor_19H_weapon2proj2)
+	Actor_19H:SetAttackFunction("ActorRotateAttackDistanceAndContactPlayer")
 	environment:AddActorObject(Actor_19H)
 
 	Actor_20 = ActorObjectInfo(20)
