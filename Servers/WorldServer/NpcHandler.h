@@ -430,6 +430,9 @@ protected:
 	//! clear launched projectiles
 	void ClearProjectiles();
 
+	//! stop targetting player
+	void UntargetAttackPlayer(Ice::Long PlayerId);
+
 protected:
 	long						_npcnametextid;
 	bool						_simpledialog;

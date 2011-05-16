@@ -684,6 +684,16 @@ void NPCHandler::PlayerLeaveMap(Ice::Long PlayerId)
 		_hurtingplayers.erase(ith);	
 
 
+	//stop target player
+	UntargetAttackPlayer(PlayerId);
+}
+
+
+/***********************************************************
+stop targetting player
+***********************************************************/
+void NPCHandler::UntargetAttackPlayer(Ice::Long PlayerId)
+{
 	// remove from target list
 	std::vector<Ice::Long>::iterator it = _targetedplayers.begin();
 	std::vector<Ice::Long>::iterator end = _targetedplayers.end();
@@ -1109,6 +1119,32 @@ void NPCHandler::PlayerMoved(Ice::Long PlayerId, const LbaNet::PlayerPosition &s
 		//move chasing target
 		if(_agentState->IsChasing())
 		{
+			// check if target out of reach
+			if(_stop_attack_distance > 0)
+			{
+				boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+				if(!physo)
+					return;
+
+				// get current position
+				float px, py, pz;
+				physo->GetPosition(px, py, pz);
+
+				float dx = (endposition.X - px);
+				float dy = (endposition.Y - py);
+				float dz = (endposition.Z - pz);
+
+				float diff = dx*dx + dy*dy + dz*dz;
+				if(diff >= (_stop_attack_distance*_stop_attack_distance))
+				{
+					//stop target player
+					UntargetAttackPlayer(PlayerId);
+
+					return;
+				}
+			}
+
+
 			float diff =	fabs(startposition.X - endposition.X) +
 							fabs(startposition.Y - endposition.Y) +
 							fabs(startposition.Z - endposition.Z);
