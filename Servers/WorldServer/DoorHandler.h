@@ -97,7 +97,7 @@ protected:
 	void RefreshScript();
 
 	//! return the build class
-	virtual std::string LuaBuildClass();
+	virtual std::string LuaBuildClass(const std::string & actorid);
 
 private:
 	int				_openingcounter;

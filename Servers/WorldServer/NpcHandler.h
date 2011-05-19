@@ -365,7 +365,7 @@ public:
 protected:
 
 	//! return the build class
-	virtual std::string LuaBuildClass();
+	virtual std::string LuaBuildClass(const std::string & actorid);
 
 	//! write extra lua
 	virtual void ExtraLua(std::ostream & file, const std::string & name);

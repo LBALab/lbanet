@@ -45,11 +45,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "NaviMeshHandler.h"
 #include "FileUtil.h"
 
+
 #include <qdir.h>
 #include <QErrorMessage>
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QImage>
+ #include <QClipboard>
 
 #include <fstream>
 #include <math.h>
@@ -1375,6 +1377,11 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.actionTest_Find_Path, SIGNAL(triggered()), this, SLOT(TestFindPath())); 
 	connect(_uieditor.actionNPC_attack_player, SIGNAL(triggered()), this, SLOT(TestNPCAttack())); 
 	connect(_uieditor.actionNPC_stop_attack, SIGNAL(triggered()), this, SLOT(TestNPCStopAttack())); 
+
+	connect(_uieditor.actionCopy, SIGNAL(triggered()), this, SLOT(CopyObjectClicked())); 
+	connect(_uieditor.actionPaste, SIGNAL(triggered()), this, SLOT(PasteObjectClicked())); 
+	connect(_uieditor.actionCut, SIGNAL(triggered()), this, SLOT(CutObjectClicked())); 
+	connect(_uieditor.actionDelete, SIGNAL(triggered()), this, SLOT(DeleteObjectClicked())); 
 
 
 
@@ -14202,3 +14209,260 @@ void EditorHandler::ProjectileChanged(const QModelIndex &parentIdx)
 		SelectProjectile(ptr, parentIdx);
 	}
 }
+
+
+/***********************************************************
+edition slots
+***********************************************************/
+void EditorHandler::CopyObjectClicked()
+{
+	EditSelectedObject(EditObjCopy);
+}
+
+/***********************************************************
+edition slots
+***********************************************************/
+void EditorHandler::PasteObjectClicked()
+{
+	QClipboard * clipboard = QApplication::clipboard();
+	const QMimeData * mdata = clipboard->mimeData();
+	if(mdata)
+	{
+		if(mdata->hasFormat("lbanet/actor"))
+		{
+			QByteArray data = mdata->data("lbanet/actor");
+			std::string scriptobj(data.constData());
+			if(scriptobj != "")
+			{
+				long actid = _curractoridx+1;
+
+				std::stringstream strsid;
+				strsid<<actid;
+
+				scriptobj = StringHelper::replaceall(scriptobj, "%##%", strsid.str());
+
+				// paste copied object
+				scriptobj = "function PasteObject(environment) \n" + scriptobj + "end";
+				_luaH->ExecuteScriptString(scriptobj);
+				_luaH->CallLua("PasteObject", this);
+
+				std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator it = _Actors.find(actid);
+				if(it != _Actors.end())
+				{
+					//move actor to player position
+					ActorObjectInfo ainfo = it->second->GetActorInfo();
+					ainfo.PhysicDesc.Pos.X = _posX;
+					ainfo.PhysicDesc.Pos.Y = _posY;
+					ainfo.PhysicDesc.Pos.Z = _posZ;
+					it->second->SetActorInfo(ainfo);
+
+					//inform server
+					std::string mapname = _uieditor.label_mapname->text().toAscii().data();
+					EditorUpdateBasePtr update = new UpdateEditor_AddOrModActor(it->second);
+					SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
+
+				}
+
+				//select actor
+				SelectActor(actid);
+
+				SetMapModified();
+			}
+		}
+
+		if(mdata->hasFormat("lbanet/spawn"))
+		{
+			QByteArray data = mdata->data("lbanet/spawn");
+			std::string scriptobj(data.constData());
+			if(scriptobj != "")
+			{
+				long actid = _currspawningidx+1;
+
+				std::stringstream strsid;
+				strsid<<actid;
+
+				scriptobj = StringHelper::replaceall(scriptobj, "%##%", strsid.str());
+
+				// paste copied object
+				scriptobj = "function PasteObject(environment) \n" + scriptobj + "end";
+				_luaH->ExecuteScriptString(scriptobj);
+				_luaH->CallLua("PasteObject", this);
+
+				std::map<long, boost::shared_ptr<Spawn> >::iterator it = _spawns.find(actid);
+				if(it != _spawns.end())
+				{
+					//move actor to player position
+					boost::shared_ptr<Spawn> newspawn = it->second;
+					newspawn->SetPosX(_posX);
+					newspawn->SetPosY(_posY);
+					newspawn->SetPosZ(_posZ);
+
+					//inform server
+					std::string mapname = _uieditor.label_mapname->text().toAscii().data();
+					EditorUpdateBasePtr update = new UpdateEditor_AddOrModSpawning(	actid, newspawn->GetName(),
+																				_posX, _posY, _posZ,
+																				newspawn->GetRotation(), 
+																				newspawn->GetForceRotation());
+
+					SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
+				}
+
+				//select spawn
+				SelectSpawning(actid);
+
+				SetMapModified();
+			}
+		}
+
+		if(mdata->hasFormat("lbanet/trigger"))
+		{
+			QByteArray data = mdata->data("lbanet/trigger");
+			std::string scriptobj(data.constData());
+			if(scriptobj != "")
+			{
+				long actid = _currtriggeridx+1;
+
+				std::stringstream strsid;
+				strsid<<actid;
+
+				scriptobj = StringHelper::replaceall(scriptobj, "%##%", strsid.str());
+
+				// paste copied object
+				scriptobj = "function PasteObject(environment) \n" + scriptobj + "end";
+				_luaH->ExecuteScriptString(scriptobj);
+				_luaH->CallLua("PasteObject", this);
+
+				std::map<long, boost::shared_ptr<TriggerBase> >::iterator it = _triggers.find(actid);
+				if(it != _triggers.end())
+				{
+					//move actor to player position
+					it->second->SetPosition(_posX, _posY, _posZ);
+
+					//inform server
+					std::string mapname = _uieditor.label_mapname->text().toAscii().data();
+					EditorUpdateBasePtr update = new UpdateEditor_AddOrModTrigger(it->second);
+					SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
+				}
+
+				//select spawn
+				SelectTrigger(actid);
+
+				SetMapModified();
+			}
+		}
+	}
+}
+ 
+/***********************************************************
+edition slots
+***********************************************************/
+void EditorHandler::CutObjectClicked()
+{
+	EditSelectedObject(EditObjCut);
+}
+ 
+/***********************************************************
+edition slots
+***********************************************************/
+void EditorHandler::DeleteObjectClicked()
+{
+	EditSelectedObject(EditObjDelete);
+}
+
+
+/***********************************************************
+edition slots
+***********************************************************/
+void EditorHandler::EditSelectedObject(ObjectEditType edittype)
+{
+	QModelIndex parentIdx = QModelIndex();
+
+	if(_objectmodel->rowCount() > 2)
+	{
+		// only interested in parent objects
+		if(_objectmodel->data(_objectmodel->GetIndex(0, 0, parentIdx)).toString() != "Type")
+			return;
+
+		std::string tocopy;
+		std::string copytype;
+
+		QString type = _objectmodel->data(_objectmodel->GetIndex(1, 0, parentIdx)).toString();
+		if(type == "Spawn")
+		{
+			long objid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toLong();
+			std::map<long, boost::shared_ptr<Spawn> >::iterator it = _spawns.find(objid);
+			if(it != _spawns.end())	
+			{
+				if(edittype == EditObjCut ||  edittype == EditObjCopy)
+				{
+					//copy object to clipboard
+					std::stringstream objcontent;
+					it->second->SaveToLuaFile(objcontent, "%##%");
+					tocopy = objcontent.str();
+
+					copytype = "lbanet/spawn";
+				}
+
+				if(edittype == EditObjCut ||  edittype == EditObjDelete)
+				{
+					std::string mapname = _uieditor.label_mapname->text().toAscii().data();
+					RemoveSpawning(mapname, objid);
+				}
+			}
+		}
+
+		if(type == "Trigger")
+		{
+			long objid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toLong();
+			std::map<long, boost::shared_ptr<TriggerBase> >::iterator it = _triggers.find(objid);
+			if(it != _triggers.end())	
+			{
+				if(edittype == EditObjCut ||  edittype == EditObjCopy)
+				{
+					//copy object to clipboard
+					std::stringstream objcontent;
+					it->second->SaveToLuaFile(objcontent, "%##%");
+					tocopy = objcontent.str();
+
+					copytype = "lbanet/trigger";
+				}
+
+				if(edittype == EditObjCut ||  edittype == EditObjDelete)
+					RemoveTrigger(objid);
+			}
+		}
+
+		if(type == "Actor")
+		{
+			long objid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toLong();
+			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator it = _Actors.find(objid);
+			if(it != _Actors.end())
+			{
+				if(edittype == EditObjCut ||  edittype == EditObjCopy)
+				{
+					//copy object to clipboard
+					std::stringstream objcontent;
+					it->second->SaveToLuaFile(objcontent, "%##%");
+					tocopy = objcontent.str();
+
+					copytype = "lbanet/actor";
+				}
+
+				if(edittype == EditObjCut ||  edittype == EditObjDelete)
+					RemoveActor(objid);	
+			}
+		}
+
+		if(tocopy != "")
+		{
+			QMimeData *mimeData = new QMimeData;
+			QByteArray output(tocopy.c_str());
+			mimeData->setData(copytype.c_str(), output);
+
+			QClipboard * clipboard = QApplication::clipboard();
+			clipboard->setMimeData(mimeData);
+		}
+
+	}
+}
+

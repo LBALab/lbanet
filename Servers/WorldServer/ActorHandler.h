@@ -193,7 +193,7 @@ public:
 	void SetActorInfo(const ActorObjectInfo & ainfo);
 
 	// save actor to lua file
-	virtual void SaveToLuaFile(std::ostream & file);
+	virtual void SaveToLuaFile(std::ostream & file, std::string forcedid = "");
 
 	//! get actor id
 	long GetId()
@@ -460,7 +460,7 @@ protected:
 	void StartScript();
 
 	//! return the build class
-	virtual std::string LuaBuildClass();
+	virtual std::string LuaBuildClass(const std::string & actorid);
 
 	//! write extra lua
 	virtual void ExtraLua(std::ostream & file, const std::string & name){}

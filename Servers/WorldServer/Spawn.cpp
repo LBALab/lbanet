@@ -6,16 +6,28 @@
 /***********************************************************
 save trigger to lua file
 ***********************************************************/
-void Spawn::SaveToLuaFile(std::ostream & file)
+void Spawn::SaveToLuaFile(std::ostream & file, std::string forcedid)
 {
-	std::stringstream names;
-	names<<"Spawn_"<<GetId();
+	std::string namesp = _Name;
 
-	file<<"\t"<<names.str()<<" = Spawn("<<GetId()<<")"<<std::endl;
+	std::stringstream spid;
+	if(forcedid != "")
+	{
+		spid<<forcedid;
+		namesp = "spawning"+forcedid;
+	}
+	else
+		spid<<GetId();
+
+	std::stringstream names;
+	names<<"Spawn_"<<spid.str();
+
+
+	file<<"\t"<<names.str()<<" = Spawn("<<spid.str()<<")"<<std::endl;
 	file<<"\t"<<names.str()<<":SetPosX("<<_PosX<<")"<<std::endl;
 	file<<"\t"<<names.str()<<":SetPosY("<<_PosY<<")"<<std::endl;
 	file<<"\t"<<names.str()<<":SetPosZ("<<_PosZ<<")"<<std::endl;
-	file<<"\t"<<names.str()<<":SetName(\""<<_Name<<"\")"<<std::endl;
+	file<<"\t"<<names.str()<<":SetName(\""<<namesp<<"\")"<<std::endl;
 	if(_ForceRotation)
 	{
 		file<<"\t"<<names.str()<<":SetForceRotation(true)"<<std::endl;

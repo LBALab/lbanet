@@ -40,10 +40,10 @@ NPCHandler::NPCHandler(const ActorObjectInfo & actorinfo)
 /***********************************************************
 return the build class
 ***********************************************************/
-std::string NPCHandler::LuaBuildClass()
+std::string NPCHandler::LuaBuildClass(const std::string & actorid)
 {
 	std::stringstream res;
-	res<<"NPCHandler(Actor_"<<m_actorinfo.ObjectId<<")";
+	res<<"NPCHandler(Actor_"<<actorid<<")";
 
 	return res.str();
 }

@@ -63,6 +63,8 @@ class DialogPart;
 class InventoryItemDef;
 class NaviMeshHandler;
 
+
+
 namespace osgManipulator
 {
 	class Translate1DDragger;
@@ -569,6 +571,8 @@ public:
 	//! inform that map Finished Loaded();
 	void MapFinishedLoaded();
 
+private:
+	enum ObjectEditType {EditObjCopy, EditObjCut, EditObjDelete};
 
 public slots:
 	 //! ui button clicked
@@ -830,6 +834,11 @@ public slots:
 	//! TestNPCStopAttack
 	void TestNPCStopAttack();
 
+	//! edition slots
+	void CopyObjectClicked(); 
+	void PasteObjectClicked(); 
+	void CutObjectClicked(); 
+	void DeleteObjectClicked(); 
 
 
 protected:
@@ -1120,6 +1129,8 @@ protected:
 	//! called when Projectile changed
 	void ProjectileChanged(const QModelIndex &parentIdx);
 
+	//! edit selected object
+	void EditSelectedObject(ObjectEditType edittype);
 
 private:
 	Ui::EditorClass										_uieditor;

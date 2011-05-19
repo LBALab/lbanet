@@ -284,44 +284,56 @@ ActorObjectInfo ZoneTrigger::GetDisplayObject()
 /***********************************************************
 save trigger to lua file
 ***********************************************************/
-void ZoneTrigger::SaveToLuaFile(std::ostream & file)
+void ZoneTrigger::SaveToLuaFile(std::ostream & file, std::string forcedid)
 {
-	file<<"\tTrigger_"<<GetId()<<"_info = TriggerInfo("<<GetId()<<", \""<<GetName()<<"\", "<<
+	std::string namesp = GetName();
+
+	std::stringstream objidstrs;
+	objidstrs<<GetId();
+
+	std::string objidstr = objidstrs.str();
+	if(forcedid != "")
+	{
+		objidstr = forcedid;
+		namesp = "trigger" + forcedid;
+	}
+
+	file<<"\tTrigger_"<<objidstr<<"_info = TriggerInfo("<<objidstr<<", \""<<namesp<<"\", "<<
 			(CheckPlayer()?"true":"false")<<", "<<(CheckNpcs()?"true":"false")<<", "<<(CheckMovableObjects()?"true":"false")<<")"<<std::endl;
-	file<<"\tTrigger_"<<GetId()<<" = ZoneTrigger(Trigger_"<<GetId()<<"_info, "
+	file<<"\tTrigger_"<<objidstr<<" = ZoneTrigger(Trigger_"<<objidstr<<"_info, "
 		<<(_sizeX*2)<<", "<<_sizeY<<", "<<(_sizeZ*2)<<", "<<(_AllowMultiActivation?"true":"false")<<")"<<std::endl;
-	file<<"\tTrigger_"<<GetId()<<":SetPosition("<<GetPosX()<<", "<<GetPosY()<<", "<<GetPosZ()<<")"<<std::endl;
-	file<<"\tTrigger_"<<GetId()<<":SetStayUpdateFrequency("<<_StayUpdateFrequency<<")"<<std::endl;
-	file<<"\tTrigger_"<<GetId()<<":SetActivateOnJump("<<(_activateOnJump?"true":"false")<<")"<<std::endl;
+	file<<"\tTrigger_"<<objidstr<<":SetPosition("<<GetPosX()<<", "<<GetPosY()<<", "<<GetPosZ()<<")"<<std::endl;
+	file<<"\tTrigger_"<<objidstr<<":SetStayUpdateFrequency("<<_StayUpdateFrequency<<")"<<std::endl;
+	file<<"\tTrigger_"<<objidstr<<":SetActivateOnJump("<<(_activateOnJump?"true":"false")<<")"<<std::endl;
 
 	if(_action1)
 	{
 		std::stringstream aname;
-		aname<<"Trigger_"<<GetId()<<"_act1";
+		aname<<"Trigger_"<<objidstr<<"_act1";
 		_action1->SaveToLuaFile(file, aname.str());
 
-		file<<"\tTrigger_"<<GetId()<<":SetAction1("<<aname.str()<<")"<<std::endl;
+		file<<"\tTrigger_"<<objidstr<<":SetAction1("<<aname.str()<<")"<<std::endl;
 	}
 
 	if(_action2)
 	{
 		std::stringstream aname;
-		aname<<"Trigger_"<<GetId()<<"_act2";
+		aname<<"Trigger_"<<objidstr<<"_act2";
 		_action2->SaveToLuaFile(file, aname.str());
 
-		file<<"\tTrigger_"<<GetId()<<":SetAction2("<<aname.str()<<")"<<std::endl;
+		file<<"\tTrigger_"<<objidstr<<":SetAction2("<<aname.str()<<")"<<std::endl;
 	}
 
 	if(_action3)
 	{
 		std::stringstream aname;
-		aname<<"Trigger_"<<GetId()<<"_act3";
+		aname<<"Trigger_"<<objidstr<<"_act3";
 		_action3->SaveToLuaFile(file, aname.str());
 
-		file<<"\tTrigger_"<<GetId()<<":SetAction3("<<aname.str()<<")"<<std::endl;
+		file<<"\tTrigger_"<<objidstr<<":SetAction3("<<aname.str()<<")"<<std::endl;
 	}
 
-	file<<"\tenvironment:AddTrigger(Trigger_"<<GetId()<<")"<<std::endl<<std::endl;
+	file<<"\tenvironment:AddTrigger(Trigger_"<<objidstr<<")"<<std::endl<<std::endl;
 }
 
 
@@ -485,45 +497,57 @@ ActorObjectInfo ActivationTrigger::GetDisplayObject()
 /***********************************************************
 save trigger to lua file
 ***********************************************************/
-void ActivationTrigger::SaveToLuaFile(std::ostream & file)
+void ActivationTrigger::SaveToLuaFile(std::ostream & file, std::string forcedid)
 {
-	file<<"\tTrigger_"<<GetId()<<"_info = TriggerInfo("<<GetId()<<", \""<<GetName()<<"\", "<<
+	std::string namesp = GetName();
+
+	std::stringstream objidstrs;
+	objidstrs<<GetId();
+
+	std::string objidstr = objidstrs.str();
+	if(forcedid != "")
+	{
+		objidstr = forcedid;
+		namesp = "trigger" + forcedid;
+	}
+
+	file<<"\tTrigger_"<<objidstr<<"_info = TriggerInfo("<<objidstr<<", \""<<namesp<<"\", "<<
 		(CheckPlayer()?"true":"false")<<", "<<(CheckNpcs()?"true":"false")<<", "<<(CheckMovableObjects()?"true":"false")<<")"<<std::endl;
-	file<<"\tTrigger_"<<GetId()<<" = ActivationTrigger(Trigger_"<<GetId()<<"_info, "
+	file<<"\tTrigger_"<<objidstr<<" = ActivationTrigger(Trigger_"<<objidstr<<"_info, "
 		<<GetDistance()<<", \""<<_AcceptedMode1<<"\", \""<<_AcceptedMode2<<"\")"<<std::endl;
-	file<<"\tTrigger_"<<GetId()<<":SetPosition("<<GetPosX()<<", "<<GetPosY()<<", "<<GetPosZ()<<")"<<std::endl;
+	file<<"\tTrigger_"<<objidstr<<":SetPosition("<<GetPosX()<<", "<<GetPosY()<<", "<<GetPosZ()<<")"<<std::endl;
 
 	if(_action1)
 	{
 		std::stringstream aname;
-		aname<<"Trigger_"<<GetId()<<"_act1";
+		aname<<"Trigger_"<<objidstr<<"_act1";
 		_action1->SaveToLuaFile(file, aname.str());
 
-		file<<"\tTrigger_"<<GetId()<<":SetAction1("<<aname.str()<<")"<<std::endl;
+		file<<"\tTrigger_"<<objidstr<<":SetAction1("<<aname.str()<<")"<<std::endl;
 	}
 
 	if(_action2)
 	{
 		std::stringstream aname;
-		aname<<"Trigger_"<<GetId()<<"_act2";
+		aname<<"Trigger_"<<objidstr<<"_act2";
 		_action2->SaveToLuaFile(file, aname.str());
 
-		file<<"\tTrigger_"<<GetId()<<":SetAction2("<<aname.str()<<")"<<std::endl;
+		file<<"\tTrigger_"<<objidstr<<":SetAction2("<<aname.str()<<")"<<std::endl;
 	}
 
 	if(_action3)
 	{
 		std::stringstream aname;
-		aname<<"Trigger_"<<GetId()<<"_act3";
+		aname<<"Trigger_"<<objidstr<<"_act3";
 		_action3->SaveToLuaFile(file, aname.str());
 
-		file<<"\tTrigger_"<<GetId()<<":SetAction3("<<aname.str()<<")"<<std::endl;
+		file<<"\tTrigger_"<<objidstr<<":SetAction3("<<aname.str()<<")"<<std::endl;
 	}
 
-	file<<"\tTrigger_"<<GetId()<<":SetPlayAnimation("<<(_PlayAnimation?"true":"false")<<")"<<std::endl;
+	file<<"\tTrigger_"<<objidstr<<":SetPlayAnimation("<<(_PlayAnimation?"true":"false")<<")"<<std::endl;
 	
 
-	file<<"\tenvironment:AddTrigger(Trigger_"<<GetId()<<")"<<std::endl<<std::endl;
+	file<<"\tenvironment:AddTrigger(Trigger_"<<objidstr<<")"<<std::endl<<std::endl;
 }
 
 
@@ -643,44 +667,56 @@ ActorObjectInfo ZoneActionTrigger::GetDisplayObject()
 /***********************************************************
 save trigger to lua file
 ***********************************************************/
-void ZoneActionTrigger::SaveToLuaFile(std::ostream & file)
+void ZoneActionTrigger::SaveToLuaFile(std::ostream & file, std::string forcedid)
 {
-	file<<"\tTrigger_"<<GetId()<<"_info = TriggerInfo("<<GetId()<<", \""<<GetName()<<"\", "<<
+	std::string namesp = GetName();
+
+	std::stringstream objidstrs;
+	objidstrs<<GetId();
+
+	std::string objidstr = objidstrs.str();
+	if(forcedid != "")
+	{
+		objidstr = forcedid;
+		namesp = "trigger" + forcedid;
+	}
+
+	file<<"\tTrigger_"<<objidstr<<"_info = TriggerInfo("<<objidstr<<", \""<<namesp<<"\", "<<
 		(CheckPlayer()?"true":"false")<<", "<<(CheckNpcs()?"true":"false")<<", "<<(CheckMovableObjects()?"true":"false")<<")"<<std::endl;
-	file<<"\tTrigger_"<<GetId()<<" = ZoneActionTrigger(Trigger_"<<GetId()<<"_info, "
+	file<<"\tTrigger_"<<objidstr<<" = ZoneActionTrigger(Trigger_"<<objidstr<<"_info, "
 		<<(_sizeX*2)<<", "<<_sizeY<<", "<<(_sizeZ*2)<<", \""<<_AcceptedMode1<<"\", \""<<_AcceptedMode2<<"\")"<<std::endl;
-	file<<"\tTrigger_"<<GetId()<<":SetPosition("<<GetPosX()<<", "<<GetPosY()<<", "<<GetPosZ()<<")"<<std::endl;
+	file<<"\tTrigger_"<<objidstr<<":SetPosition("<<GetPosX()<<", "<<GetPosY()<<", "<<GetPosZ()<<")"<<std::endl;
 
 	if(_action1)
 	{
 		std::stringstream aname;
-		aname<<"Trigger_"<<GetId()<<"_act1";
+		aname<<"Trigger_"<<objidstr<<"_act1";
 		_action1->SaveToLuaFile(file, aname.str());
 
-		file<<"\tTrigger_"<<GetId()<<":SetAction1("<<aname.str()<<")"<<std::endl;
+		file<<"\tTrigger_"<<objidstr<<":SetAction1("<<aname.str()<<")"<<std::endl;
 	}
 
 	if(_action2)
 	{
 		std::stringstream aname;
-		aname<<"Trigger_"<<GetId()<<"_act2";
+		aname<<"Trigger_"<<objidstr<<"_act2";
 		_action2->SaveToLuaFile(file, aname.str());
 
-		file<<"\tTrigger_"<<GetId()<<":SetAction2("<<aname.str()<<")"<<std::endl;
+		file<<"\tTrigger_"<<objidstr<<":SetAction2("<<aname.str()<<")"<<std::endl;
 	}
 
 	if(_action3)
 	{
 		std::stringstream aname;
-		aname<<"Trigger_"<<GetId()<<"_act3";
+		aname<<"Trigger_"<<objidstr<<"_act3";
 		_action3->SaveToLuaFile(file, aname.str());
 
-		file<<"\tTrigger_"<<GetId()<<":SetAction3("<<aname.str()<<")"<<std::endl;
+		file<<"\tTrigger_"<<objidstr<<":SetAction3("<<aname.str()<<")"<<std::endl;
 	}
 
-	file<<"\tTrigger_"<<GetId()<<":SetPlayAnimation("<<(_PlayAnimation?"true":"false")<<")"<<std::endl;
+	file<<"\tTrigger_"<<objidstr<<":SetPlayAnimation("<<(_PlayAnimation?"true":"false")<<")"<<std::endl;
 
-	file<<"\tenvironment:AddTrigger(Trigger_"<<GetId()<<")"<<std::endl<<std::endl;
+	file<<"\tenvironment:AddTrigger(Trigger_"<<objidstr<<")"<<std::endl<<std::endl;
 }
 
 
@@ -740,16 +776,28 @@ void TimerTrigger::NewFrame(DelayedExecutionHandler * delayedactH, double tnow, 
 /***********************************************************
 save trigger to lua file
 ***********************************************************/
-void TimerTrigger::SaveToLuaFile(std::ostream & file)
+void TimerTrigger::SaveToLuaFile(std::ostream & file, std::string forcedid)
 {
-	file<<"\tTrigger_"<<GetId()<<"_info = TriggerInfo("<<GetId()<<", \""<<GetName()<<"\", "<<
+	std::string namesp = GetName();
+
+	std::stringstream objidstrs;
+	objidstrs<<GetId();
+
+	std::string objidstr = objidstrs.str();
+	if(forcedid != "")
+	{
+		objidstr = forcedid;
+		namesp = "trigger" + forcedid;
+	}
+
+	file<<"\tTrigger_"<<objidstr<<"_info = TriggerInfo("<<objidstr<<", \""<<namesp<<"\", "<<
 		(CheckPlayer()?"true":"false")<<", "<<(CheckNpcs()?"true":"false")<<", "<<(CheckMovableObjects()?"true":"false")<<")"<<std::endl;
-	file<<"\tTrigger_"<<GetId()<<" = TimerTrigger(Trigger_"<<GetId()<<"_info, "
+	file<<"\tTrigger_"<<objidstr<<" = TimerTrigger(Trigger_"<<objidstr<<"_info, "
 		<<_TimeInMillisecond<<"\")"<<std::endl;
-	file<<"\tTrigger_"<<GetId()<<":SetAction1("<<GetAction1()<<")"<<std::endl;
-	file<<"\tTrigger_"<<GetId()<<":SetAction2("<<GetAction2()<<")"<<std::endl;
-	file<<"\tTrigger_"<<GetId()<<":SetAction3("<<GetAction3()<<")"<<std::endl;
-	file<<"\tenvironment:AddTrigger(Trigger_"<<GetId()<<")"<<std::endl<<std::endl;
+	file<<"\tTrigger_"<<objidstr<<":SetAction1("<<GetAction1()<<")"<<std::endl;
+	file<<"\tTrigger_"<<objidstr<<":SetAction2("<<GetAction2()<<")"<<std::endl;
+	file<<"\tTrigger_"<<objidstr<<":SetAction3("<<GetAction3()<<")"<<std::endl;
+	file<<"\tenvironment:AddTrigger(Trigger_"<<objidstr<<")"<<std::endl<<std::endl;
 }
 
 

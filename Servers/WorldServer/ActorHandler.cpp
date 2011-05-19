@@ -597,62 +597,70 @@ void ActorHandler::SetActorInfo(const ActorObjectInfo & ainfo)
 /***********************************************************
 save actor to lua file
 ***********************************************************/
-void ActorHandler::SaveToLuaFile(std::ostream & file)
+void ActorHandler::SaveToLuaFile(std::ostream & file, std::string forcedid)
 {
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<" = ActorObjectInfo("<<m_actorinfo.ObjectId<<")"<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<":SetRenderType("<<m_actorinfo.GetRenderType()<<")"<<std::endl;
+	std::stringstream objidstrs;
+	objidstrs<<m_actorinfo.ObjectId;
 
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".HitPowerOnTouch = "<<m_actorinfo.HitPowerOnTouch<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".ExcludeFromNavMesh = "<<(m_actorinfo.ExcludeFromNavMesh?"true":"false")<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ModelId = "<<m_actorinfo.DisplayDesc.ModelId<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ModelName = \""<<m_actorinfo.DisplayDesc.ModelName<<"\""<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.Outfit = \""<<m_actorinfo.DisplayDesc.Outfit<<"\""<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.Weapon = \""<<m_actorinfo.DisplayDesc.Weapon<<"\""<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.Mode = \""<<m_actorinfo.DisplayDesc.Mode<<"\""<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.UseLight = "<<(m_actorinfo.DisplayDesc.UseLight?"true":"false")<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.CastShadow = "<<(m_actorinfo.DisplayDesc.CastShadow?"true":"false")<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ColorR = "<<m_actorinfo.DisplayDesc.ColorR<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ColorG = "<<m_actorinfo.DisplayDesc.ColorG<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ColorB = "<<m_actorinfo.DisplayDesc.ColorB<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ColorA = "<<m_actorinfo.DisplayDesc.ColorA<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.TransX = "<<m_actorinfo.DisplayDesc.TransX<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.TransY = "<<m_actorinfo.DisplayDesc.TransY<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.TransZ = "<<m_actorinfo.DisplayDesc.TransZ<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ScaleX = "<<m_actorinfo.DisplayDesc.ScaleX<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ScaleY = "<<m_actorinfo.DisplayDesc.ScaleY<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ScaleZ = "<<m_actorinfo.DisplayDesc.ScaleZ<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.RotX = "<<m_actorinfo.DisplayDesc.RotX<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.RotY = "<<m_actorinfo.DisplayDesc.RotY<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.RotZ = "<<m_actorinfo.DisplayDesc.RotZ<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<":SetModelState("<<m_actorinfo.GetModelState()<<")"<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.UseBillboard = "<<(m_actorinfo.DisplayDesc.UseBillboard?"true":"false")<<std::endl;
+	std::string objidstr = objidstrs.str();
+	if(forcedid != "")
+		objidstr = forcedid;
+
+
+	file<<"\tActor_"<<objidstr<<" = ActorObjectInfo("<<objidstr<<")"<<std::endl;
+	file<<"\tActor_"<<objidstr<<":SetRenderType("<<m_actorinfo.GetRenderType()<<")"<<std::endl;
+
+	file<<"\tActor_"<<objidstr<<".HitPowerOnTouch = "<<m_actorinfo.HitPowerOnTouch<<std::endl;
+	file<<"\tActor_"<<objidstr<<".ExcludeFromNavMesh = "<<(m_actorinfo.ExcludeFromNavMesh?"true":"false")<<std::endl;
+	file<<"\tActor_"<<objidstr<<".DisplayDesc.ModelId = "<<m_actorinfo.DisplayDesc.ModelId<<std::endl;
+	file<<"\tActor_"<<objidstr<<".DisplayDesc.ModelName = \""<<m_actorinfo.DisplayDesc.ModelName<<"\""<<std::endl;
+	file<<"\tActor_"<<objidstr<<".DisplayDesc.Outfit = \""<<m_actorinfo.DisplayDesc.Outfit<<"\""<<std::endl;
+	file<<"\tActor_"<<objidstr<<".DisplayDesc.Weapon = \""<<m_actorinfo.DisplayDesc.Weapon<<"\""<<std::endl;
+	file<<"\tActor_"<<objidstr<<".DisplayDesc.Mode = \""<<m_actorinfo.DisplayDesc.Mode<<"\""<<std::endl;
+	file<<"\tActor_"<<objidstr<<".DisplayDesc.UseLight = "<<(m_actorinfo.DisplayDesc.UseLight?"true":"false")<<std::endl;
+	file<<"\tActor_"<<objidstr<<".DisplayDesc.CastShadow = "<<(m_actorinfo.DisplayDesc.CastShadow?"true":"false")<<std::endl;
+	file<<"\tActor_"<<objidstr<<".DisplayDesc.ColorR = "<<m_actorinfo.DisplayDesc.ColorR<<std::endl;
+	file<<"\tActor_"<<objidstr<<".DisplayDesc.ColorG = "<<m_actorinfo.DisplayDesc.ColorG<<std::endl;
+	file<<"\tActor_"<<objidstr<<".DisplayDesc.ColorB = "<<m_actorinfo.DisplayDesc.ColorB<<std::endl;
+	file<<"\tActor_"<<objidstr<<".DisplayDesc.ColorA = "<<m_actorinfo.DisplayDesc.ColorA<<std::endl;
+	file<<"\tActor_"<<objidstr<<".DisplayDesc.TransX = "<<m_actorinfo.DisplayDesc.TransX<<std::endl;
+	file<<"\tActor_"<<objidstr<<".DisplayDesc.TransY = "<<m_actorinfo.DisplayDesc.TransY<<std::endl;
+	file<<"\tActor_"<<objidstr<<".DisplayDesc.TransZ = "<<m_actorinfo.DisplayDesc.TransZ<<std::endl;
+	file<<"\tActor_"<<objidstr<<".DisplayDesc.ScaleX = "<<m_actorinfo.DisplayDesc.ScaleX<<std::endl;
+	file<<"\tActor_"<<objidstr<<".DisplayDesc.ScaleY = "<<m_actorinfo.DisplayDesc.ScaleY<<std::endl;
+	file<<"\tActor_"<<objidstr<<".DisplayDesc.ScaleZ = "<<m_actorinfo.DisplayDesc.ScaleZ<<std::endl;
+	file<<"\tActor_"<<objidstr<<".DisplayDesc.RotX = "<<m_actorinfo.DisplayDesc.RotX<<std::endl;
+	file<<"\tActor_"<<objidstr<<".DisplayDesc.RotY = "<<m_actorinfo.DisplayDesc.RotY<<std::endl;
+	file<<"\tActor_"<<objidstr<<".DisplayDesc.RotZ = "<<m_actorinfo.DisplayDesc.RotZ<<std::endl;
+	file<<"\tActor_"<<objidstr<<":SetModelState("<<m_actorinfo.GetModelState()<<")"<<std::endl;
+	file<<"\tActor_"<<objidstr<<".DisplayDesc.UseBillboard = "<<(m_actorinfo.DisplayDesc.UseBillboard?"true":"false")<<std::endl;
 	
 	if(m_actorinfo.DisplayDesc.UseTransparentMaterial)
 	{
-		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.UseTransparentMaterial = true"<<std::endl;
-		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatAlpha = "<<m_actorinfo.DisplayDesc.MatAlpha<<std::endl;
+		file<<"\tActor_"<<objidstr<<".DisplayDesc.UseTransparentMaterial = true"<<std::endl;
+		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatAlpha = "<<m_actorinfo.DisplayDesc.MatAlpha<<std::endl;
 	}
 
 	if(m_actorinfo.DisplayDesc.ColorMaterialType > 0)
 	{
-		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.ColorMaterialType = "<<m_actorinfo.DisplayDesc.ColorMaterialType<<std::endl;
-		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatAmbientColorR = "<<m_actorinfo.DisplayDesc.MatAmbientColorR<<std::endl;
-		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatAmbientColorG = "<<m_actorinfo.DisplayDesc.MatAmbientColorG<<std::endl;
-		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatAmbientColorB = "<<m_actorinfo.DisplayDesc.MatAmbientColorB<<std::endl;
-		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatAmbientColorA = "<<m_actorinfo.DisplayDesc.MatAmbientColorA<<std::endl;
-		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatDiffuseColorR = "<<m_actorinfo.DisplayDesc.MatDiffuseColorR<<std::endl;
-		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatDiffuseColorG = "<<m_actorinfo.DisplayDesc.MatDiffuseColorG<<std::endl;
-		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatDiffuseColorB = "<<m_actorinfo.DisplayDesc.MatDiffuseColorB<<std::endl;
-		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatDiffuseColorA = "<<m_actorinfo.DisplayDesc.MatDiffuseColorA<<std::endl;
-		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatSpecularColorR = "<<m_actorinfo.DisplayDesc.MatSpecularColorR<<std::endl;
-		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatSpecularColorG = "<<m_actorinfo.DisplayDesc.MatSpecularColorG<<std::endl;
-		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatSpecularColorB = "<<m_actorinfo.DisplayDesc.MatSpecularColorB<<std::endl;
-		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatSpecularColorA = "<<m_actorinfo.DisplayDesc.MatSpecularColorA<<std::endl;
-		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatEmissionColorR = "<<m_actorinfo.DisplayDesc.MatEmissionColorR<<std::endl;
-		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatEmissionColorG = "<<m_actorinfo.DisplayDesc.MatEmissionColorG<<std::endl;
-		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatEmissionColorB = "<<m_actorinfo.DisplayDesc.MatEmissionColorB<<std::endl;
-		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatEmissionColorA = "<<m_actorinfo.DisplayDesc.MatEmissionColorA<<std::endl;
-		file<<"\tActor_"<<m_actorinfo.ObjectId<<".DisplayDesc.MatShininess = "<<m_actorinfo.DisplayDesc.MatShininess<<std::endl;
+		file<<"\tActor_"<<objidstr<<".DisplayDesc.ColorMaterialType = "<<m_actorinfo.DisplayDesc.ColorMaterialType<<std::endl;
+		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatAmbientColorR = "<<m_actorinfo.DisplayDesc.MatAmbientColorR<<std::endl;
+		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatAmbientColorG = "<<m_actorinfo.DisplayDesc.MatAmbientColorG<<std::endl;
+		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatAmbientColorB = "<<m_actorinfo.DisplayDesc.MatAmbientColorB<<std::endl;
+		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatAmbientColorA = "<<m_actorinfo.DisplayDesc.MatAmbientColorA<<std::endl;
+		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatDiffuseColorR = "<<m_actorinfo.DisplayDesc.MatDiffuseColorR<<std::endl;
+		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatDiffuseColorG = "<<m_actorinfo.DisplayDesc.MatDiffuseColorG<<std::endl;
+		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatDiffuseColorB = "<<m_actorinfo.DisplayDesc.MatDiffuseColorB<<std::endl;
+		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatDiffuseColorA = "<<m_actorinfo.DisplayDesc.MatDiffuseColorA<<std::endl;
+		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatSpecularColorR = "<<m_actorinfo.DisplayDesc.MatSpecularColorR<<std::endl;
+		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatSpecularColorG = "<<m_actorinfo.DisplayDesc.MatSpecularColorG<<std::endl;
+		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatSpecularColorB = "<<m_actorinfo.DisplayDesc.MatSpecularColorB<<std::endl;
+		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatSpecularColorA = "<<m_actorinfo.DisplayDesc.MatSpecularColorA<<std::endl;
+		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatEmissionColorR = "<<m_actorinfo.DisplayDesc.MatEmissionColorR<<std::endl;
+		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatEmissionColorG = "<<m_actorinfo.DisplayDesc.MatEmissionColorG<<std::endl;
+		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatEmissionColorB = "<<m_actorinfo.DisplayDesc.MatEmissionColorB<<std::endl;
+		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatEmissionColorA = "<<m_actorinfo.DisplayDesc.MatEmissionColorA<<std::endl;
+		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatShininess = "<<m_actorinfo.DisplayDesc.MatShininess<<std::endl;
 	}
 
 
@@ -678,71 +686,71 @@ void ActorHandler::SaveToLuaFile(std::ostream & file)
 				break;
 			}
 
-			file<<"\tActor_"<<m_actorinfo.ObjectId<<":AddColorSwap("<<swaptype<<","<<itsw->first.Color<<","<<itsw->second<<")"<<std::endl;
+			file<<"\tActor_"<<objidstr<<":AddColorSwap("<<swaptype<<","<<itsw->first.Color<<","<<itsw->second<<")"<<std::endl;
 		}
 	}
 
 
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.Pos.X = "<<m_actorinfo.PhysicDesc.Pos.X<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.Pos.Y = "<<m_actorinfo.PhysicDesc.Pos.Y<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.Pos.Z = "<<m_actorinfo.PhysicDesc.Pos.Z<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.Pos.Rotation = "<<m_actorinfo.PhysicDesc.Pos.Rotation<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.Density = "<<m_actorinfo.PhysicDesc.Density<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.Collidable = "<<(m_actorinfo.PhysicDesc.Collidable?"true":"false")<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.SizeX = "<<m_actorinfo.PhysicDesc.SizeX<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.SizeY = "<<m_actorinfo.PhysicDesc.SizeY<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.SizeZ = "<<m_actorinfo.PhysicDesc.SizeZ<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.AllowFreeMove = "<<(m_actorinfo.PhysicDesc.AllowFreeMove?"true":"false")<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".PhysicDesc.Filename = \""<<m_actorinfo.PhysicDesc.Filename<<"\""<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<":SetPhysicalActorType("<<m_actorinfo.GetPhysicalActorType()<<")"<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<":SetPhysicalShape("<<m_actorinfo.GetPhysicalShape()<<")"<<std::endl;
+	file<<"\tActor_"<<objidstr<<".PhysicDesc.Pos.X = "<<m_actorinfo.PhysicDesc.Pos.X<<std::endl;
+	file<<"\tActor_"<<objidstr<<".PhysicDesc.Pos.Y = "<<m_actorinfo.PhysicDesc.Pos.Y<<std::endl;
+	file<<"\tActor_"<<objidstr<<".PhysicDesc.Pos.Z = "<<m_actorinfo.PhysicDesc.Pos.Z<<std::endl;
+	file<<"\tActor_"<<objidstr<<".PhysicDesc.Pos.Rotation = "<<m_actorinfo.PhysicDesc.Pos.Rotation<<std::endl;
+	file<<"\tActor_"<<objidstr<<".PhysicDesc.Density = "<<m_actorinfo.PhysicDesc.Density<<std::endl;
+	file<<"\tActor_"<<objidstr<<".PhysicDesc.Collidable = "<<(m_actorinfo.PhysicDesc.Collidable?"true":"false")<<std::endl;
+	file<<"\tActor_"<<objidstr<<".PhysicDesc.SizeX = "<<m_actorinfo.PhysicDesc.SizeX<<std::endl;
+	file<<"\tActor_"<<objidstr<<".PhysicDesc.SizeY = "<<m_actorinfo.PhysicDesc.SizeY<<std::endl;
+	file<<"\tActor_"<<objidstr<<".PhysicDesc.SizeZ = "<<m_actorinfo.PhysicDesc.SizeZ<<std::endl;
+	file<<"\tActor_"<<objidstr<<".PhysicDesc.AllowFreeMove = "<<(m_actorinfo.PhysicDesc.AllowFreeMove?"true":"false")<<std::endl;
+	file<<"\tActor_"<<objidstr<<".PhysicDesc.Filename = \""<<m_actorinfo.PhysicDesc.Filename<<"\""<<std::endl;
+	file<<"\tActor_"<<objidstr<<":SetPhysicalActorType("<<m_actorinfo.GetPhysicalActorType()<<")"<<std::endl;
+	file<<"\tActor_"<<objidstr<<":SetPhysicalShape("<<m_actorinfo.GetPhysicalShape()<<")"<<std::endl;
 
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".ExtraInfo.Name = \""<<m_actorinfo.ExtraInfo.Name<<"\""<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".ExtraInfo.NameColorR = "<<m_actorinfo.ExtraInfo.NameColorR<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".ExtraInfo.NameColorG = "<<m_actorinfo.ExtraInfo.NameColorG<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".ExtraInfo.NameColorB = "<<m_actorinfo.ExtraInfo.NameColorB<<std::endl;
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".ExtraInfo.Display = "<<(m_actorinfo.ExtraInfo.Display?"true":"false")<<std::endl;
+	file<<"\tActor_"<<objidstr<<".ExtraInfo.Name = \""<<m_actorinfo.ExtraInfo.Name<<"\""<<std::endl;
+	file<<"\tActor_"<<objidstr<<".ExtraInfo.NameColorR = "<<m_actorinfo.ExtraInfo.NameColorR<<std::endl;
+	file<<"\tActor_"<<objidstr<<".ExtraInfo.NameColorG = "<<m_actorinfo.ExtraInfo.NameColorG<<std::endl;
+	file<<"\tActor_"<<objidstr<<".ExtraInfo.NameColorB = "<<m_actorinfo.ExtraInfo.NameColorB<<std::endl;
+	file<<"\tActor_"<<objidstr<<".ExtraInfo.Display = "<<(m_actorinfo.ExtraInfo.Display?"true":"false")<<std::endl;
 
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<".LifeInfo.Display = "<<(m_actorinfo.LifeInfo.Display?"true":"false")<<std::endl;
+	file<<"\tActor_"<<objidstr<<".LifeInfo.Display = "<<(m_actorinfo.LifeInfo.Display?"true":"false")<<std::endl;
 
 	if(m_actorinfo.Condition)
 	{
 		std::stringstream condname;
-		condname<<"Actor_"<<m_actorinfo.ObjectId<<"_cond";
+		condname<<"Actor_"<<objidstr<<"_cond";
 		m_actorinfo.Condition->SaveToLuaFile(file, condname.str());
 
-		file<<"\tActor_"<<m_actorinfo.ObjectId<<".Condition = "<<condname.str()<<std::endl;
+		file<<"\tActor_"<<objidstr<<".Condition = "<<condname.str()<<std::endl;
 	}
 
 
-	file<<"\tActor_"<<m_actorinfo.ObjectId<<"H = "<<LuaBuildClass()<<std::endl;
+	file<<"\tActor_"<<objidstr<<"H = "<<LuaBuildClass(objidstr)<<std::endl;
 
 
 	// register script
 	for(size_t i=0; i< m_script.size(); ++i)
 	{
 		std::stringstream scname;
-		scname<<"Actor_"<<m_actorinfo.ObjectId<<"_Sc"<<i;
+		scname<<"Actor_"<<objidstr<<"_Sc"<<i;
 
 		m_script[i]->SaveToLuaFile(file, scname.str());
-		file<<"\tActor_"<<m_actorinfo.ObjectId<<"H:AddScriptPart("<<scname.str()<<")"<<std::endl;
+		file<<"\tActor_"<<objidstr<<"H:AddScriptPart("<<scname.str()<<")"<<std::endl;
 	}
 
 	std::stringstream actorname;
-	actorname<<"Actor_"<<m_actorinfo.ObjectId<<"H";
+	actorname<<"Actor_"<<objidstr<<"H";
 	ExtraLua(file, actorname.str());
 
-	file<<"\tenvironment:AddActorObject(Actor_"<<m_actorinfo.ObjectId<<"H)"<<std::endl<<std::endl;
+	file<<"\tenvironment:AddActorObject(Actor_"<<objidstr<<"H)"<<std::endl<<std::endl;
 }
 
 
 /***********************************************************
 return the build class
 ***********************************************************/
-std::string ActorHandler::LuaBuildClass()
+std::string ActorHandler::LuaBuildClass(const std::string & actorid)
 {
 	std::stringstream res;
-	res<<"ActorHandler(Actor_"<<m_actorinfo.ObjectId<<")";
+	res<<"ActorHandler(Actor_"<<actorid<<")";
 	return res.str();
 }
 
