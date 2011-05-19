@@ -652,10 +652,10 @@ function InitMap(environment)
 	Actor_19H:SetLife(50)
 	Actor_19H:SetMana(0)
 	Actor_19H:SetArmor(0)
-	Actor_19H:SetAttackActiDist(0)
-	Actor_19H:SetAttackActiDistDiscrete(0)
-	Actor_19H:SetAttackActiDistHidden(0)
-	Actor_19H:SetAttackStopDist(0)
+	Actor_19H:SetAttackActiDist(7)
+	Actor_19H:SetAttackActiDistDiscrete(4)
+	Actor_19H:SetAttackActiDistHidden(2)
+	Actor_19H:SetAttackStopDist(10)
 	Actor_19H:SetRespawnTimeInSec(-1)
 	Actor_19H:SetWeapon1Type(1)
 	Actor_19H:SetWeapon1Power(10)
@@ -718,7 +718,7 @@ function InitMap(environment)
 	Actor_19H_weapon2proj0.UseTimer = false
 	Actor_19H_weapon2proj0.Frequency = 1
 	Actor_19H_weapon2proj0.AngleOffset = 0
-	Actor_19H_weapon2proj0.SoundAtStart = ""
+	Actor_19H_weapon2proj0.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES027.voc.MP3"
 	Actor_19H_weapon2proj0.SoundOnBounce = ""
 	Actor_19H_weapon2proj0.ForceHurt = false
 	Actor_19H:AddProjectileWeapon2(Actor_19H_weapon2proj0)
