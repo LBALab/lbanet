@@ -49,7 +49,7 @@ void InventoryItemDef::AddContainedItem(long id, int min, int max, float proba, 
 /***********************************************************
 save quest to lua file
 ***********************************************************/
-void InventoryItemDef::SaveToLuaFile(std::ofstream & file) const
+void InventoryItemDef::SaveToLuaFile(std::ostream & file) const
 {
 	std::stringstream name;
 	name<<"Item_"<<GetId();

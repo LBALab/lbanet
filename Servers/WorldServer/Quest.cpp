@@ -78,7 +78,7 @@ bool Quest::QuestFinished(ScriptEnvironmentBase * owner, long playerid)
 /***********************************************************
 save quest to lua file
 ***********************************************************/
-void Quest::SaveToLuaFile(std::ofstream & file)
+void Quest::SaveToLuaFile(std::ostream & file)
 {
 	std::stringstream name;
 	name<<"Quest_"<<GetId();

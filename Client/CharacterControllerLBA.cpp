@@ -810,6 +810,8 @@ void CharacterController::UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr updat
 		// do not use update coming from the client trough the server as this could create endless loop
 		if(!castedptr->UpdateFromPlayer)
 		{
+			bool updateportrait = (_currentmodestr == castedptr->Info.Mode);
+
 			UpdateModeAndState(castedptr->Info.Mode, castedptr->Info.State,
 								SynchronizedTimeHandler::GetCurrentTimeDouble(), 0);
 
@@ -817,7 +819,8 @@ void CharacterController::UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr updat
 			EventsQueue::getReceiverQueue()->AddEvent(new GuiRefreshPlayerColorEvent(
 				castedptr->Info.SkinColor, castedptr->Info.EyesColor, castedptr->Info.HairColor));
 
-			EventsQueue::getReceiverQueue()->AddEvent(new RefreshPlayerPortraitEvent());
+			if(updateportrait)
+				EventsQueue::getReceiverQueue()->AddEvent(new RefreshPlayerPortraitEvent());
 		}
 	}
 

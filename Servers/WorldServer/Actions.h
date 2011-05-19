@@ -62,7 +62,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name){}
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name){}
 
 };
 
@@ -94,7 +94,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// acessor
 	std::string GetMapName()
@@ -147,7 +147,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// accessor
 	ClientScriptBasePtr GetScript()
@@ -189,7 +189,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// accessor
 	std::string GetLuaFunctionName()
@@ -231,7 +231,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// acessor
 	long GetTextId()
@@ -274,7 +274,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	//accessors
 	void SetCondition(ConditionBasePtr	condition)
@@ -353,7 +353,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// acessor
 	double GetTimeToReset()
@@ -419,7 +419,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// acessor
 	long GetActorId()
@@ -464,7 +464,7 @@ public:
 	{return "OpenDoorAction"; }
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 };
 
 
@@ -487,7 +487,7 @@ public:
 	{return "CloseDoorAction"; }
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 };
 
 
@@ -522,7 +522,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// acessor
 	long GetItemId()
@@ -592,7 +592,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// acessor
 	float GetHurtValue()
@@ -662,7 +662,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 };
 
@@ -696,7 +696,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 
 	//! add action
@@ -747,7 +747,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// get actor id
 	long GetActorId()
@@ -821,7 +821,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// acessor
 	long GetQuestId()
@@ -866,7 +866,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// acessor
 	long GetQuestId()
@@ -914,7 +914,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 
 	//add item to container start
@@ -973,7 +973,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// acessor
 	float GetY()
@@ -1017,7 +1017,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 };
 
@@ -1049,7 +1049,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 };
 
@@ -1083,7 +1083,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 
 	// acessor

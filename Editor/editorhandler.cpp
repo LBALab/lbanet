@@ -7380,6 +7380,13 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 				}
 				{
 					QVector<QVariant> data;
+					data<<"Chassing animation"<<actorh->Getchasinganimation().c_str();
+					_objectmodel->AppendRow(data, parent);
+					++index;
+				}
+
+				{
+					QVector<QVariant> data;
 					data<<"Respawn time (seconds)"<<(double)actorh->GetRespawnTimeInSec();
 					_objectmodel->AppendRow(data, parent);
 					++index;
@@ -8350,6 +8357,9 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 						++index;
 
 						actorh->SetAttackStopDist(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());
+						++index;
+
+						actorh->Setchasinganimation(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data());
 						++index;
 
 						actorh->SetRespawnTimeInSec(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat());

@@ -70,7 +70,7 @@ public:
 
 
 	// save to lua file
-	void SaveToLuaFile(std::ofstream & file, const std::string & nname);
+	void SaveToLuaFile(std::ostream & file, const std::string & nname);
 
 	// get projectile info
 	bool GetProjectileInfo(const std::string & mode, float manaleft, LbaNet::ProjectileInfo & info);

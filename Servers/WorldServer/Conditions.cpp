@@ -7,7 +7,7 @@
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void AlwaysTrueCondition::SaveToLuaFile(std::ofstream & file, const std::string & conditionname)
+void AlwaysTrueCondition::SaveToLuaFile(std::ostream & file, const std::string & conditionname)
 {
 	file<<"\t"<<conditionname<<" = AlwaysTrueCondition()"<<std::endl;
 	file<<"\t"<<conditionname<<":SetTextid("<<_textid <<")"<<std::endl;
@@ -17,7 +17,7 @@ void AlwaysTrueCondition::SaveToLuaFile(std::ofstream & file, const std::string 
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void NegateCondition::SaveToLuaFile(std::ofstream & file, const std::string & conditionname)
+void NegateCondition::SaveToLuaFile(std::ostream & file, const std::string & conditionname)
 {
 	file<<"\t"<<conditionname<<" = NegateCondition()"<<std::endl;
 	file<<"\t"<<conditionname<<":SetTextid("<<_textid <<")"<<std::endl;
@@ -32,7 +32,7 @@ void NegateCondition::SaveToLuaFile(std::ofstream & file, const std::string & co
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void AndCondition::SaveToLuaFile(std::ofstream & file, const std::string & conditionname)
+void AndCondition::SaveToLuaFile(std::ostream & file, const std::string & conditionname)
 {
 	file<<"\t"<<conditionname<<" = AndCondition()"<<std::endl;
 	file<<"\t"<<conditionname<<":SetTextid("<<_textid <<")"<<std::endl;
@@ -52,7 +52,7 @@ void AndCondition::SaveToLuaFile(std::ofstream & file, const std::string & condi
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void OrCondition::SaveToLuaFile(std::ofstream & file, const std::string & conditionname)
+void OrCondition::SaveToLuaFile(std::ostream & file, const std::string & conditionname)
 {
 	file<<"\t"<<conditionname<<" = OrCondition()"<<std::endl;
 	file<<"\t"<<conditionname<<":SetTextid("<<_textid <<")"<<std::endl;
@@ -109,7 +109,7 @@ bool ItemInInventoryCondition::Passed(ScriptEnvironmentBase * owner,
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ItemInInventoryCondition::SaveToLuaFile(std::ofstream & file, const std::string & conditionname)
+void ItemInInventoryCondition::SaveToLuaFile(std::ostream & file, const std::string & conditionname)
 {
 	file<<"\t"<<conditionname<<" = ItemInInventoryCondition()"<<std::endl;
 	file<<"\t"<<conditionname<<":SetTextid("<<_textid <<")"<<std::endl;
@@ -152,7 +152,7 @@ bool QuestStartedCondition::Passed(ScriptEnvironmentBase * owner,
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void QuestStartedCondition::SaveToLuaFile(std::ofstream & file, const std::string & conditionname)
+void QuestStartedCondition::SaveToLuaFile(std::ostream & file, const std::string & conditionname)
 {
 	file<<"\t"<<conditionname<<" = QuestStartedCondition()"<<std::endl;
 	file<<"\t"<<conditionname<<":SetTextid("<<_textid <<")"<<std::endl;
@@ -193,7 +193,7 @@ bool QuestFinishedCondition::Passed(ScriptEnvironmentBase * owner,
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void QuestFinishedCondition::SaveToLuaFile(std::ofstream & file, const std::string & conditionname)
+void QuestFinishedCondition::SaveToLuaFile(std::ostream & file, const std::string & conditionname)
 {
 	file<<"\t"<<conditionname<<" = QuestFinishedCondition()"<<std::endl;
 	file<<"\t"<<conditionname<<":SetTextid("<<_textid <<")"<<std::endl;
@@ -234,7 +234,7 @@ bool ChapterStartedCondition::Passed(ScriptEnvironmentBase * owner,
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ChapterStartedCondition::SaveToLuaFile(std::ofstream & file, const std::string & conditionname)
+void ChapterStartedCondition::SaveToLuaFile(std::ostream & file, const std::string & conditionname)
 {
 	file<<"\t"<<conditionname<<" = ChapterStartedCondition()"<<std::endl;
 	file<<"\t"<<conditionname<<":SetTextid("<<_textid <<")"<<std::endl;
@@ -275,7 +275,7 @@ bool QuestAvailableCondition::Passed(ScriptEnvironmentBase * owner,
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void QuestAvailableCondition::SaveToLuaFile(std::ofstream & file, const std::string & conditionname)
+void QuestAvailableCondition::SaveToLuaFile(std::ostream & file, const std::string & conditionname)
 {
 	file<<"\t"<<conditionname<<" = QuestAvailableCondition()"<<std::endl;
 	file<<"\t"<<conditionname<<":SetTextid("<<_textid <<")"<<std::endl;
@@ -302,7 +302,7 @@ bool CustomCondition::Passed(ScriptEnvironmentBase * owner,
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void CustomCondition::SaveToLuaFile(std::ofstream & file, const std::string & conditionname)
+void CustomCondition::SaveToLuaFile(std::ostream & file, const std::string & conditionname)
 {
 	file<<"\t"<<conditionname<<" = CustomCondition()"<<std::endl;
 	file<<"\t"<<conditionname<<":SetTextid("<<_textid <<")"<<std::endl;

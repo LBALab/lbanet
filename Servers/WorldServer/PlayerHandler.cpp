@@ -1712,3 +1712,13 @@ float PlayerHandler::GetPhysRadius()
 
 	return (sX + sZ)/4;
 }
+
+
+
+ /***********************************************************
+return true if player can be targeted
+***********************************************************/
+bool PlayerHandler::CanBeTarget()
+{
+	return _currentstate->CanBeTarget();
+}

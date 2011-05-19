@@ -190,7 +190,7 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 					{
 						//TODO - change to 3d sound
 						if(_SoundOnBounce != "")
-							MusicHandler::getInstance()->PlaySample(_SoundOnBounce, 0);
+							MusicHandler::getInstance()->PlaySample("Data/"+_SoundOnBounce, 0);
 
 						physobj->AddForce(0, _projInfo.ForceYOnImpact, 0);
 					}
@@ -313,12 +313,6 @@ void ProjectileHandler::Launch()
 		LbaQuaternion Qoffset(_AngleOffset, LbaVec3(0, 1, 0));
 		LbaQuaternion resQ(Q*Qoffset);
 
-		//Q.AddSingleRotation(_AngleOffset, LbaVec3(0, 1, 0));
-
-		//// in the case the quaternion is inversed
-		//if(Q.W < 0)
-		//	Q = LbaQuaternion(Q.X, -Q.Y, Q.Z, -Q.W);
-
 		//std::cout<<Q.GetRotationSingleAngle()<<" "<<Q.W<<" "<<Q.Y<<std::endl;
 
 		LbaVec3 current_directionX(resQ.GetDirection(LbaVec3(0, 0, 1)));
@@ -335,7 +329,7 @@ void ProjectileHandler::Launch()
 	
 		//TODO - change to 3d sound
 		if(_SoundAtStart != "")
-			MusicHandler::getInstance()->PlaySample(_SoundAtStart, 0);
+			MusicHandler::getInstance()->PlaySample("Data/"+_SoundAtStart, 0);
 	}
 
 	// add to projs list

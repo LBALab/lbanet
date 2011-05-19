@@ -66,7 +66,7 @@ ActorScriptPart_WalkStraightTo::ActorScriptPart_WalkStraightTo(float PosX, float
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_WalkStraightTo::SaveToLuaFile(std::ofstream & file, const std::string & name)
+void ActorScriptPart_WalkStraightTo::SaveToLuaFile(std::ostream & file, const std::string & name)
 {	
 	file<<"\t"<<name<<" = ASPWalkStraightTo("<<_PosX<<","<<_PosY<<","<<_PosZ<<")"<<std::endl;
 }
@@ -94,7 +94,7 @@ ActorScriptPart_GoTo::ActorScriptPart_GoTo(float PosX, float PosY, float PosZ, f
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_GoTo::SaveToLuaFile(std::ofstream & file, const std::string & name)
+void ActorScriptPart_GoTo::SaveToLuaFile(std::ostream & file, const std::string & name)
 {	
 	file<<"\t"<<name<<" = ASPGoTo("<<_PosX<<","<<_PosY<<","<<_PosZ<<","<<_Speed<<")"<<std::endl;
 }
@@ -121,7 +121,7 @@ ActorScriptPart_PlayAnimation::ActorScriptPart_PlayAnimation(bool AnimationMove)
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_PlayAnimation::SaveToLuaFile(std::ofstream & file, const std::string & name)
+void ActorScriptPart_PlayAnimation::SaveToLuaFile(std::ostream & file, const std::string & name)
 {	
 	file<<"\t"<<name<<" = ASPPlayAnimation("<<(_AnimationMove?"true":"false")<<")"<<std::endl;
 }
@@ -148,7 +148,7 @@ ActorScriptPart_Rotate::ActorScriptPart_Rotate(float Angle,
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_Rotate::SaveToLuaFile(std::ofstream & file, const std::string & name)
+void ActorScriptPart_Rotate::SaveToLuaFile(std::ostream & file, const std::string & name)
 {	
 	file<<"\t"<<name<<" = ASPRotate("<<_Angle<<","<<_RotationSpeedPerSec
 					<<","<<(_ManageAnimation?"true":"false")<<")"<<std::endl;
@@ -176,7 +176,7 @@ ActorScriptPart_ChangeAnimation::ActorScriptPart_ChangeAnimation(const std::stri
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_ChangeAnimation::SaveToLuaFile(std::ofstream & file, const std::string & name)
+void ActorScriptPart_ChangeAnimation::SaveToLuaFile(std::ostream & file, const std::string & name)
 {	
 	file<<"\t"<<name<<" = ASPChangeAnimation(\""<<_Animationstring<<"\")"<<std::endl;
 }
@@ -203,7 +203,7 @@ ActorScriptPart_ChangeModel::ActorScriptPart_ChangeModel(const std::string & Nam
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_ChangeModel::SaveToLuaFile(std::ofstream & file, const std::string & name)
+void ActorScriptPart_ChangeModel::SaveToLuaFile(std::ostream & file, const std::string & name)
 {	
 	file<<"\t"<<name<<" = ASPChangeModel(\""<<_Name<<"\")"<<std::endl;
 }
@@ -230,7 +230,7 @@ ActorScriptPart_ChangeOutfit::ActorScriptPart_ChangeOutfit(const std::string & N
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_ChangeOutfit::SaveToLuaFile(std::ofstream & file, const std::string & name)
+void ActorScriptPart_ChangeOutfit::SaveToLuaFile(std::ostream & file, const std::string & name)
 {	
 	file<<"\t"<<name<<" = ASPChangeOutfit(\""<<_Name<<"\")"<<std::endl;
 }
@@ -257,7 +257,7 @@ ActorScriptPart_ChangeWeapon::ActorScriptPart_ChangeWeapon(const std::string & N
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_ChangeWeapon::SaveToLuaFile(std::ofstream & file, const std::string & name)
+void ActorScriptPart_ChangeWeapon::SaveToLuaFile(std::ostream & file, const std::string & name)
 {	
 	file<<"\t"<<name<<" = ASPChangeWeapon(\""<<_Name<<"\")"<<std::endl;
 }
@@ -284,7 +284,7 @@ ActorScriptPart_ChangeMode::ActorScriptPart_ChangeMode(const std::string & Name)
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_ChangeMode::SaveToLuaFile(std::ofstream & file, const std::string & name)
+void ActorScriptPart_ChangeMode::SaveToLuaFile(std::ostream & file, const std::string & name)
 {	
 	file<<"\t"<<name<<" = ASPChangeMode(\""<<_Name<<"\")"<<std::endl;
 }
@@ -311,7 +311,7 @@ ActorScriptPart_WaitForSignal::ActorScriptPart_WaitForSignal(int Signalnumber)
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_WaitForSignal::SaveToLuaFile(std::ofstream & file, const std::string & name)
+void ActorScriptPart_WaitForSignal::SaveToLuaFile(std::ostream & file, const std::string & name)
 {	
 	file<<"\t"<<name<<" = ASPWaitForSignal("<<_Signalnumber<<")"<<std::endl;
 }
@@ -337,7 +337,7 @@ ActorScriptPart_SendSignal::ActorScriptPart_SendSignal(int Signalnumber, long Ac
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_SendSignal::SaveToLuaFile(std::ofstream & file, const std::string & name)
+void ActorScriptPart_SendSignal::SaveToLuaFile(std::ostream & file, const std::string & name)
 {	
 	file<<"\t"<<name<<" = ASPSendSignal("<<_Signalnumber<<","<<_ActorId<<")"<<std::endl;
 }
@@ -363,7 +363,7 @@ ActorScriptPart_Custom::ActorScriptPart_Custom(const std::string & fctName)
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_Custom::SaveToLuaFile(std::ofstream & file, const std::string & name)
+void ActorScriptPart_Custom::SaveToLuaFile(std::ostream & file, const std::string & name)
 {	
 	file<<"\t"<<name<<" = ASPCustom(\""<<_fctName<<"\")"<<std::endl;
 }
@@ -390,7 +390,7 @@ ActorScriptPart_TeleportTo::ActorScriptPart_TeleportTo(float PosX, float PosY, f
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_TeleportTo::SaveToLuaFile(std::ofstream & file, const std::string & name)
+void ActorScriptPart_TeleportTo::SaveToLuaFile(std::ostream & file, const std::string & name)
 {	
 	file<<"\t"<<name<<" = ASPTeleportTo("<<_PosX<<","<<_PosY<<","<<_PosZ<<")"<<std::endl;
 }
@@ -409,7 +409,7 @@ void ActorScriptPart_TeleportTo::WriteExecutionScript(std::ostream & file, long 
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_SetRotation::SaveToLuaFile(std::ofstream & file, const std::string & name)
+void ActorScriptPart_SetRotation::SaveToLuaFile(std::ostream & file, const std::string & name)
 {	
 	file<<"\t"<<name<<" = ASPSetRotation("<<_Angle<<")"<<std::endl;
 }
@@ -429,7 +429,7 @@ void ActorScriptPart_SetRotation::WriteExecutionScript(std::ostream & file, long
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_RotateFromPoint::SaveToLuaFile(std::ofstream & file, const std::string & name)
+void ActorScriptPart_RotateFromPoint::SaveToLuaFile(std::ostream & file, const std::string & name)
 {	
 	file<<"\t"<<name<<" = ASPRotateFromPoint("<<_Angle<<","<<_PosX<<","<<_PosY<<","
 													<<_PosZ<<","<<_Speed<<")"<<std::endl;
@@ -449,7 +449,7 @@ void ActorScriptPart_RotateFromPoint::WriteExecutionScript(std::ostream & file, 
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_FollowWaypoint::SaveToLuaFile(std::ofstream & file, const std::string & name)
+void ActorScriptPart_FollowWaypoint::SaveToLuaFile(std::ostream & file, const std::string & name)
 {	
 	file<<"\t"<<name<<" = ASPFollowWaypoint("<<_PosX<<","<<_PosY<<","<<_PosZ<<")"<<std::endl;
 }
@@ -470,7 +470,7 @@ void ActorScriptPart_FollowWaypoint::WriteExecutionScript(std::ostream & file, l
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_StartWaypoint::SaveToLuaFile(std::ofstream & file, const std::string & name)
+void ActorScriptPart_StartWaypoint::SaveToLuaFile(std::ostream & file, const std::string & name)
 {	
 	file<<"\t"<<name<<" = ASPStartWaypoint("<<_PosX<<","<<_PosY<<","<<_PosZ
 										<<","<<(_Forward?"true":"false")<<")"<<std::endl;
@@ -496,7 +496,7 @@ void ActorScriptPart_StartWaypoint::WriteExecutionScript(std::ostream & file, lo
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_ShowHide::SaveToLuaFile(std::ofstream & file, const std::string & name)
+void ActorScriptPart_ShowHide::SaveToLuaFile(std::ostream & file, const std::string & name)
 {
 	file<<"\t"<<name<<" = ASPShowHide("<<(_Show?"true":"false")<<")"<<std::endl;
 }
@@ -515,7 +515,7 @@ void ActorScriptPart_ShowHide::WriteExecutionScript(std::ostream & file, long ac
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_AttachToActor::SaveToLuaFile(std::ofstream & file, const std::string & name)
+void ActorScriptPart_AttachToActor::SaveToLuaFile(std::ostream & file, const std::string & name)
 {
 	file<<"\t"<<name<<" = ASPAttachToActor("<<_actortype<<","<<_actorid<<")"<<std::endl;
 }
@@ -533,7 +533,7 @@ void ActorScriptPart_AttachToActor::WriteExecutionScript(std::ostream & file, lo
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void ActorScriptPart_DetachFromActor::SaveToLuaFile(std::ofstream & file, const std::string & name)
+void ActorScriptPart_DetachFromActor::SaveToLuaFile(std::ostream & file, const std::string & name)
 {
 	file<<"\t"<<name<<" = ASPDetachFromActor("<<_actorid<<")"<<std::endl;
 }

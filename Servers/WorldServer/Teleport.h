@@ -79,7 +79,7 @@ public:
 	{ return _condition; }
 
 	// save Teleport to lua file
-	void SaveToLuaFile(std::ofstream & file);
+	void SaveToLuaFile(std::ostream & file);
 
 	//! check if tp valid for player
 	bool ValidForPlayer(ScriptEnvironmentBase * owner, long playerid) const;

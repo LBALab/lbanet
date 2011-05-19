@@ -198,7 +198,7 @@ public:
 	}
 
 	// save trigger to lua file
-	virtual void SaveToLuaFile(std::ofstream & file){}
+	virtual void SaveToLuaFile(std::ostream & file){}
 
 protected:
 	TriggerInfo							_triggerinfo;
@@ -292,7 +292,7 @@ public:
 	virtual ActorObjectInfo GetDisplayObject();
 
 	// save trigger to lua file
-	virtual void SaveToLuaFile(std::ofstream & file);
+	virtual void SaveToLuaFile(std::ostream & file);
 
 
 	void SetStayUpdateFrequency(double StayUpdateFrequency)
@@ -414,7 +414,7 @@ public:
 	virtual ActorObjectInfo GetDisplayObject();
 
 	// save trigger to lua file
-	virtual void SaveToLuaFile(std::ofstream & file);
+	virtual void SaveToLuaFile(std::ostream & file);
 
 	//! accessor
 	bool GetPlayAnimation()
@@ -500,7 +500,7 @@ public:
 	virtual ActorObjectInfo GetDisplayObject();
 
 	// save trigger to lua file
-	virtual void SaveToLuaFile(std::ofstream & file);
+	virtual void SaveToLuaFile(std::ostream & file);
 
 	//! accessor
 	bool GetPlayAnimation()
@@ -543,7 +543,7 @@ public:
 
 
 	// save trigger to lua file
-	virtual void SaveToLuaFile(std::ofstream & file);
+	virtual void SaveToLuaFile(std::ostream & file);
 
 	// acessor
 	long GetTimeinMs()

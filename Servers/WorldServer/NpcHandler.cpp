@@ -53,7 +53,7 @@ std::string NPCHandler::LuaBuildClass()
 /***********************************************************
 write extra lua
 ***********************************************************/
-void NPCHandler::ExtraLua(std::ofstream & file, const std::string & name)
+void NPCHandler::ExtraLua(std::ostream & file, const std::string & name)
 {
 	std::stringstream named;
 	named<<name<<"_dia";
@@ -565,10 +565,42 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 			float diff = fabs(m_saved_X-curX) + fabs(m_saved_Y-curY) + fabs(m_saved_Z-curZ);
 			if(diff <= 0.5f)
 			{
-				EndChasing();
+				//rotate back to starting point
+				ChangeState(8);
 			}
 		}
 	}
+
+	//if rotating back
+	if(_agentstatenum == 8)
+	{
+		//check if we arrived
+		boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+		if(physo)
+		{
+			float currrot = physo->GetRotationYAxis();
+
+			float rdiff = fmod((m_saved_rot - currrot), 360);
+			if(rdiff > 180)
+				rdiff = rdiff - 360;
+			if(rdiff < -180)
+				rdiff = rdiff + 360;
+
+			if(fabs(rdiff) <= 4)
+			{
+				EndChasing();
+			}
+			else
+			{
+				//rotate to direction
+				if((rdiff > 0 && rdiff < 180) || (rdiff < -180))
+					physo->RotateYAxis(std::min((0.1f*tdiff), (fabs(rdiff))));	
+				else
+					physo->RotateYAxis(std::max((-0.1f*tdiff), (-fabs(rdiff))));
+			}
+		}
+	}
+					
 
 	//check if update clients
 	if(_freemove)
@@ -709,6 +741,10 @@ void NPCHandler::UntargetAttackPlayer(Ice::Long PlayerId)
 					TargetAttackPlayer(_targetedplayers[0]);
 				else
 					StopAttackTarget(PlayerId);
+
+				//stop shooting bullets
+				ClearProjectiles();
+				m_currenthitpower = -1;
 			}
 			break;
 		}
@@ -730,6 +766,10 @@ target player
 ***********************************************************/
 void NPCHandler::TargetAttackPlayer(Ice::Long PlayerId)
 {	
+	//stop old script
+	_targetedattackplayer = -1;
+	StopAttackScript();
+
 	// record target
 	_targetedattackplayer = PlayerId;
 
@@ -780,7 +820,11 @@ void NPCHandler::StopAttackTarget(Ice::Long PlayerId)
 		}
 		else
 		{
-			EndChasing();
+			//change state back to normal
+			ChangeState(1);
+
+			//rotate back to starting point
+			ChangeState(8);
 		}
 	}
 }
@@ -1091,6 +1135,27 @@ bool NPCHandler::ChangeState(int newstate)
 			#endif
 		}
 		break;
+
+
+		// rotate back state
+		case 8:
+		{
+			_agentState = boost::shared_ptr<CharacterStateBase>(new StateRotatingBack());
+
+			if(m_NavMAgent)
+				m_NavMAgent->SetResetTarget(false);
+
+			_freemove = true;
+			_lastupdate.AnimationIdx  = "";
+
+			//change anim to walking
+			UpdateActorAnimation("TurnLeft", false);
+
+			#ifdef _DEBUG_NPC_
+			filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"change state to rotate back"<<std::endl;
+			#endif
+		}
+		break;
 	}
 
 
@@ -1104,11 +1169,24 @@ bool NPCHandler::ChangeState(int newstate)
 check trigger on player move
 ***********************************************************/
 void NPCHandler::PlayerMoved(Ice::Long PlayerId, const LbaNet::PlayerPosition &startposition,
-									const LbaNet::PlayerPosition &endposition)
+									const LbaNet::PlayerPosition &endposition,
+									const LbaNet::ModelState & state,
+									const std::string & mode, bool cantarget)
 {
-	if(_aggresive && _agentState->CanChase())
+	if(_aggresive && _agentState->CanChase() && cantarget)
 	{
-		//todo - target player that are too close
+		boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+		if(!physo)
+			return;
+
+		// get current position
+		float px, py, pz;
+		physo->GetPosition(px, py, pz);
+
+		bool target = ShouldAttackPlayer(px, py, pz, endposition.X, endposition.Y, endposition.Z, state, mode);
+
+		if(target)
+			StartFight(PlayerId);
 	}
 
 	if(_targetedattackplayer == PlayerId)
@@ -1116,35 +1194,35 @@ void NPCHandler::PlayerMoved(Ice::Long PlayerId, const LbaNet::PlayerPosition &s
 		// record last position
 		_lasttargetposition = endposition;
 
+		// check if target out of reach
+		if(_stop_attack_distance > 0)
+		{
+			boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+			if(!physo)
+				return;
+
+			// get current position
+			float px, py, pz;
+			physo->GetPosition(px, py, pz);
+
+			float dx = (endposition.X - px);
+			float dy = (endposition.Y - py);
+			float dz = (endposition.Z - pz);
+
+			float diff = dx*dx + dy*dy + dz*dz;
+			if(diff >= (_stop_attack_distance*_stop_attack_distance))
+			{
+				//stop target player
+				UntargetAttackPlayer(PlayerId);
+
+				return;
+			}
+		}
+
+
 		//move chasing target
 		if(_agentState->IsChasing())
 		{
-			// check if target out of reach
-			if(_stop_attack_distance > 0)
-			{
-				boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
-				if(!physo)
-					return;
-
-				// get current position
-				float px, py, pz;
-				physo->GetPosition(px, py, pz);
-
-				float dx = (endposition.X - px);
-				float dy = (endposition.Y - py);
-				float dz = (endposition.Z - pz);
-
-				float diff = dx*dx + dy*dy + dz*dz;
-				if(diff >= (_stop_attack_distance*_stop_attack_distance))
-				{
-					//stop target player
-					UntargetAttackPlayer(PlayerId);
-
-					return;
-				}
-			}
-
-
 			float diff =	fabs(startposition.X - endposition.X) +
 							fabs(startposition.Y - endposition.Y) +
 							fabs(startposition.Z - endposition.Z);
@@ -1785,4 +1863,50 @@ void NPCHandler::ClearProjectiles()
 
 
 	_launchedprojs.clear();
+}
+
+
+/***********************************************************
+check if should attack player
+***********************************************************/
+bool NPCHandler::ShouldAttackPlayer(float px, float py, float pz, 
+										float playerposx, float playerposy, float playerposz, 
+										const LbaNet::ModelState & playerstate,
+										const std::string & playermode)
+{
+	float dx = playerposx-px;
+	float dy = playerposy-py;
+	float dz = playerposz-pz;
+	float dist = dx*dx + dy*dy + dz*dz;
+
+	if(playerstate == LbaNet::StHidden)
+	{
+		if(_attack_activation_distance_hidden > 0)
+		{
+			return (dist < (_attack_activation_distance_hidden*_attack_activation_distance_hidden) );
+		}
+		else
+			return false;
+	}
+	else
+	{
+		if(playermode == "Discrete")
+		{
+			if(_attack_activation_distance_discrete > 0)
+			{
+				return (dist < (_attack_activation_distance_discrete*_attack_activation_distance_discrete) );
+			}
+			else
+				return false;
+		}
+		else
+		{
+			if(_attack_activation_distance > 0)
+			{
+				return (dist < (_attack_activation_distance*_attack_activation_distance) );
+			}
+			else
+				return false;
+		}	
+	}
 }

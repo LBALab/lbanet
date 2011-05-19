@@ -50,7 +50,7 @@ public:
 
 
 	// save script to lua file
-	virtual void SaveToLuaFile(std::ofstream & editorfile, const std::string & name){}
+	virtual void SaveToLuaFile(std::ostream & editorfile, const std::string & name){}
 
 
 	//! execute the script
@@ -81,7 +81,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & editorfile, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & editorfile, const std::string & name);
 
 	//! execute the script
 	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId);
@@ -128,7 +128,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & editorfile, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & editorfile, const std::string & name);
 
 	//! execute the script
 	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId);
@@ -172,7 +172,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & editorfile, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & editorfile, const std::string & name);
 
 	//! execute the script
 	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId);
@@ -214,7 +214,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & editorfile, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & editorfile, const std::string & name);
 
 	// accessors
 	std::string GetLuaFunctionName() const { return _luafunctionname; }

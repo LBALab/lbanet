@@ -113,7 +113,7 @@ public:
 
 
 	// save quest to lua file
-	void SaveToLuaFile(std::ofstream & file);
+	void SaveToLuaFile(std::ostream & file);
 
 
 	//! get chapter number

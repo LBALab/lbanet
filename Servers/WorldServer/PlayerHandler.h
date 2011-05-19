@@ -182,6 +182,9 @@ public:
 	bool IsReady()
 	{return _ready;}
 
+	//! return true if player can be targeted
+	bool CanBeTarget();
+
 
 	//! player switch item
 	void SwitchItem(long ItemId, int NewPosition);

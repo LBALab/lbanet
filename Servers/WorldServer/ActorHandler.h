@@ -193,7 +193,7 @@ public:
 	void SetActorInfo(const ActorObjectInfo & ainfo);
 
 	// save actor to lua file
-	virtual void SaveToLuaFile(std::ofstream & file);
+	virtual void SaveToLuaFile(std::ostream & file);
 
 	//! get actor id
 	long GetId()
@@ -334,7 +334,9 @@ public:
 
 	//! check trigger on player move
 	virtual void PlayerMoved(Ice::Long PlayerId, const LbaNet::PlayerPosition &startposition,
-										const LbaNet::PlayerPosition &endposition){}
+										const LbaNet::PlayerPosition &endposition,
+										const LbaNet::ModelState & state,
+										const std::string & mode, bool cantarget){}
 
 
 	//! check trigger on object action
@@ -461,7 +463,7 @@ protected:
 	virtual std::string LuaBuildClass();
 
 	//! write extra lua
-	virtual void ExtraLua(std::ofstream & file, const std::string & name){}
+	virtual void ExtraLua(std::ostream & file, const std::string & name){}
 
 	//! reset actor
 	void ResetActor();

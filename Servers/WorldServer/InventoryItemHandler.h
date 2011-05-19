@@ -179,7 +179,7 @@ public:
 
 
 	// save item to lua file
-	void SaveToLuaFile(std::ofstream & file) const;
+	void SaveToLuaFile(std::ostream & file) const;
 
 
 	// add projectile

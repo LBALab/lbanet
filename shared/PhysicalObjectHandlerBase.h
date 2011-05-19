@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define _LBANET_PHYSICAL_OBJECT_HANDLER_BASE_H_
 
 #include "CommonTypes.h"
+#include "LogHandler.h"
 #include <LbaTypes.h>
 
 class ActorUserData;
@@ -256,6 +257,24 @@ public:
 	//! move object in the world
 	virtual void Move(float deltaX, float deltaY, float deltaZ, bool checkcollision = true)
 	{
+		if(!(deltaX == deltaX))
+		{
+			LogHandler::getInstance()->LogToFile("Issue QNAN when moving actor", -1);
+			return;
+		}
+
+		if(!(deltaY == deltaY))
+		{
+			LogHandler::getInstance()->LogToFile("Issue QNAN when moving actor", -1);
+			return;
+		}
+
+		if(!(deltaZ == deltaZ))
+		{
+			LogHandler::getInstance()->LogToFile("Issue QNAN when moving actor", -1);
+			return;
+		}
+
 		_PosX += deltaX;
 		_PosY += deltaY;
 		_PosZ += deltaZ;
@@ -281,6 +300,12 @@ public:
 	//! set object rotation on all axis
 	virtual void SetRotation(const LbaQuaternion& Q)
 	{
+		if(!(Q.X == Q.X))
+		{
+			LogHandler::getInstance()->LogToFile("Issue QNAN when rotating actor", -1);
+			return;
+		}
+
 		_rotH.SetRotation(Q);
 		_resetted = true;
 	}
@@ -301,6 +326,12 @@ public:
 	//! rotate object in the world
 	virtual void RotateTo(const LbaQuaternion& Q)
 	{
+		if(!(Q.X == Q.X))
+		{
+			LogHandler::getInstance()->LogToFile("Issue QNAN when rotating actor", -1);
+			return;
+		}
+
 		_rotH.RotateTo(Q);
 	}
 

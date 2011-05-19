@@ -141,7 +141,7 @@ std::vector<DialogPartPtr>  DialogPart::GetPlayerNextDialog(ScriptEnvironmentBas
 /***********************************************************
 save action to lua file
 ***********************************************************/
-void DialogPart::SaveToLuaFile(std::ofstream & file, const std::string & name)
+void DialogPart::SaveToLuaFile(std::ostream & file, const std::string & name)
 {
 	file<<"\t"<<name<<" = DialogPart()"<<std::endl;
 

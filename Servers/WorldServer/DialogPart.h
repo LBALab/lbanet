@@ -114,7 +114,7 @@ public:
 	std::vector<DialogPartPtr> GetPlayerNextDialog(ScriptEnvironmentBase * owner, long PlayerId);
 
 	// save action to lua file
-	void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// return child size
 	boost::shared_ptr<int> GetChildSize()

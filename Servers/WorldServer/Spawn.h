@@ -91,7 +91,7 @@ public:
 	{_Rotation = v;}
 
 	// save trigger to lua file
-	virtual void SaveToLuaFile(std::ofstream & file);
+	virtual void SaveToLuaFile(std::ostream & file);
 
 	//! span name
 	std::string GetName()

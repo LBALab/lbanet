@@ -597,7 +597,7 @@ void ActorHandler::SetActorInfo(const ActorObjectInfo & ainfo)
 /***********************************************************
 save actor to lua file
 ***********************************************************/
-void ActorHandler::SaveToLuaFile(std::ofstream & file)
+void ActorHandler::SaveToLuaFile(std::ostream & file)
 {
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<" = ActorObjectInfo("<<m_actorinfo.ObjectId<<")"<<std::endl;
 	file<<"\tActor_"<<m_actorinfo.ObjectId<<":SetRenderType("<<m_actorinfo.GetRenderType()<<")"<<std::endl;
@@ -1194,6 +1194,7 @@ void ActorHandler::Resume()
 		m_paused = false;
 		if(_character)
 		{
+			//restore display info
 			boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
 			if(disO)
 			{
@@ -1204,6 +1205,11 @@ void ActorHandler::Resume()
 									SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 									1, m_actorinfo.ObjectId,
 									new LbaNet::ModelUpdate(disO->GetCurrentModel(false), false)));
+
+				_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
+									SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+									1, m_actorinfo.ObjectId,
+									new LbaNet::AnimationStringUpdate(disO->GetCurrentAnimation())));
 			}
 
 			// restore physical info

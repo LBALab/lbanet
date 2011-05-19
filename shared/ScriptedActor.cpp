@@ -427,40 +427,42 @@ FollowWaypointScriptPart::FollowWaypointScriptPart(int scriptid, bool asynchronu
 : ScriptPartBase(scriptid, asynchronus), _distance(0), _distancedone(0)
 {
 	std::vector<LbaVec3> waypoints = actor->GetWaypoints(waypointindex1);
-	
-	if(waypointindex2 < (int)waypoints.size())
+	if(waypoints.size() > 0)
 	{
-		_P2 =  waypoints[waypointindex2];
+		if(waypointindex2 < (int)waypoints.size())
+		{
+			_P2 =  waypoints[waypointindex2];
 
-		if((waypointindex2+1) < (int)waypoints.size())
-			_P3 = waypoints[waypointindex2+1];
-		else
-			_P3 = _P2;
+			if((waypointindex2+1) < (int)waypoints.size())
+				_P3 = waypoints[waypointindex2+1];
+			else
+				_P3 = _P2;
 
-		if((waypointindex2+2) < (int)waypoints.size())
-			_P4 = waypoints[waypointindex2+2];
-		else
-			_P4 = _P2;
+			if((waypointindex2+2) < (int)waypoints.size())
+				_P4 = waypoints[waypointindex2+2];
+			else
+				_P4 = _P2;
 
-		--waypointindex2;
-		if(waypointindex2 >= 0)
-			_P1 =  waypoints[waypointindex2];
-		else
-			actor->GetPhysicalObject()->GetPosition(_P1.x, _P1.y, _P1.z);
+			--waypointindex2;
+			if(waypointindex2 >= 0)
+				_P1 =  waypoints[waypointindex2];
+			else
+				actor->GetPhysicalObject()->GetPosition(_P1.x, _P1.y, _P1.z);
 
-		--waypointindex2;
-		if(waypointindex2 >= 0)
-			_P0 =  waypoints[waypointindex2];
-		else
-			_P0 =  _P1;
+			--waypointindex2;
+			if(waypointindex2 >= 0)
+				_P0 =  waypoints[waypointindex2];
+			else
+				_P0 =  _P1;
 
-		--waypointindex2;
-		if(waypointindex2 >= 0)
-			_Pm1 =  waypoints[waypointindex2];
-		else
-			_Pm1 =  _P1;
+			--waypointindex2;
+			if(waypointindex2 >= 0)
+				_Pm1 =  waypoints[waypointindex2];
+			else
+				_Pm1 =  _P1;
 
-		_distance = GetArcLength(_P0, _P1, _P2, _P3, 100);
+			_distance = GetArcLength(_P0, _P1, _P2, _P3, 100);
+		}
 	}
 }
 

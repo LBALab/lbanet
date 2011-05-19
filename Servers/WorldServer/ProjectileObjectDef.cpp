@@ -297,7 +297,7 @@ int ProjectileObjectDef::GetPhysicalActorType()
 /***********************************************************
 save to lua file
 ***********************************************************/
-void ProjectileObjectDef::SaveToLuaFile(std::ofstream & file, const std::string & nname)
+void ProjectileObjectDef::SaveToLuaFile(std::ostream & file, const std::string & nname)
 {
 	file<<"\t"<<nname<<" = ProjectileObjectDef()"<<std::endl;
 

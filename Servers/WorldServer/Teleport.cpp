@@ -4,7 +4,7 @@
 /***********************************************************
 save to lua
 ***********************************************************/
-void TeleportDef::SaveToLuaFile(std::ofstream & file)
+void TeleportDef::SaveToLuaFile(std::ostream & file)
 {
 	std::stringstream names;
 	names<<"Teleport_"<<GetId();

@@ -59,7 +59,7 @@ public:
 		int ObjectType, Ice::Long ObjectId){return false;}
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & conditionname){}
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & conditionname){}
 	
 
 	//! get type of the action in string form
@@ -91,7 +91,7 @@ public:
 	{ return true;}
 	
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & conditionname);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & conditionname);
 
 	//! get type of the action in string form
 	virtual std::string GetTypeName(){ return "AlwaysTrueCondition";}
@@ -115,7 +115,7 @@ public:
 	{ return !(_tonegate && _tonegate->Passed(owner, ObjectType, ObjectId));}
 	
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & conditionname);	
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & conditionname);	
 
 	// set condition to negate
 	void SetCondition(ConditionBasePtr tonegate)
@@ -153,7 +153,7 @@ public:
 	}
 	
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & conditionname);	
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & conditionname);	
 
 	// set conditions
 	void SetCondition1(ConditionBasePtr cond1)
@@ -201,7 +201,7 @@ public:
 	}
 		
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & conditionname);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & conditionname);
 
 
 	// set conditions
@@ -245,7 +245,7 @@ public:
 							int ObjectType, Ice::Long ObjectId);
 	
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & conditionname);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & conditionname);
 
 	//! get type of the action in string form
 	virtual std::string GetTypeName(){ return "ItemInInventoryCondition";}
@@ -282,7 +282,7 @@ public:
 							int ObjectType, Ice::Long ObjectId);
 	
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & conditionname);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & conditionname);
 
 	//! get type of the action in string form
 	virtual std::string GetTypeName(){ return "QuestStartedCondition";}
@@ -313,7 +313,7 @@ public:
 							int ObjectType, Ice::Long ObjectId);
 	
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & conditionname);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & conditionname);
 
 	//! get type of the action in string form
 	virtual std::string GetTypeName(){ return "QuestFinishedCondition";}
@@ -345,7 +345,7 @@ public:
 							int ObjectType, Ice::Long ObjectId);
 	
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & conditionname);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & conditionname);
 
 	//! get type of the action in string form
 	virtual std::string GetTypeName(){ return "ChapterStartedCondition";}
@@ -377,7 +377,7 @@ public:
 							int ObjectType, Ice::Long ObjectId);
 	
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & conditionname);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & conditionname);
 
 	//! get type of the action in string form
 	virtual std::string GetTypeName(){ return "QuestAvailableCondition";}
@@ -408,7 +408,7 @@ public:
 							int ObjectType, Ice::Long ObjectId);
 	
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & conditionname);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & conditionname);
 
 	//! get type of the action in string form
 	virtual std::string GetTypeName(){ return "CustomCondition";}

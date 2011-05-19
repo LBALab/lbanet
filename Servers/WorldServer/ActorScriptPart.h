@@ -63,7 +63,7 @@ public:
 
 
 	// save script to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name){}
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name){}
 
 
 	// save script to lua file
@@ -103,7 +103,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
@@ -144,7 +144,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
@@ -186,7 +186,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
@@ -225,7 +225,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
@@ -265,7 +265,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
@@ -301,7 +301,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
@@ -337,7 +337,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
@@ -373,7 +373,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
@@ -410,7 +410,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
@@ -447,7 +447,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
@@ -487,7 +487,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
@@ -525,7 +525,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
@@ -569,7 +569,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
@@ -610,7 +610,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
@@ -650,7 +650,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
@@ -693,7 +693,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
@@ -735,7 +735,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
@@ -779,7 +779,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
@@ -818,7 +818,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
@@ -857,7 +857,7 @@ public:
 
 
 	// save action to lua file
-	virtual void SaveToLuaFile(std::ofstream & file, const std::string & name);
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
 
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);

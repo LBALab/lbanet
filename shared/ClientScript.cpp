@@ -25,7 +25,7 @@ GoUpLadderScript::~GoUpLadderScript(void)
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void GoUpLadderScript::SaveToLuaFile(std::ofstream & editorfile, const std::string & name)
+void GoUpLadderScript::SaveToLuaFile(std::ostream & editorfile, const std::string & name)
 {
 	editorfile<<"\t"<<name<<" = GoUpLadderScript()"<<std::endl;
 	editorfile<<"\t"<<name<<":SetLadderPositionX("<<_LadderPositionX<<")"<<std::endl;
@@ -76,7 +76,7 @@ TakeExitUpScript::~TakeExitUpScript(void)
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void TakeExitUpScript::SaveToLuaFile(std::ofstream & editorfile, const std::string & name)
+void TakeExitUpScript::SaveToLuaFile(std::ostream & editorfile, const std::string & name)
 {
 	editorfile<<"\t"<<name<<" = TakeExitUpScript()"<<std::endl;
 	editorfile<<"\t"<<name<<":SetExitPositionX("<<_ExitPositionX<<")"<<std::endl;
@@ -126,7 +126,7 @@ TakeExitDownScript::~TakeExitDownScript(void)
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void TakeExitDownScript::SaveToLuaFile(std::ofstream & editorfile, const std::string & name)
+void TakeExitDownScript::SaveToLuaFile(std::ostream & editorfile, const std::string & name)
 {
 	editorfile<<"\t"<<name<<" = TakeExitDownScript()"<<std::endl;
 	editorfile<<"\t"<<name<<":SetExitPositionX("<<_ExitPositionX<<")"<<std::endl;
@@ -176,7 +176,7 @@ CustomScript::~CustomScript(void)
 /***********************************************************
 save action to lua file
 ***********************************************************/	
-void CustomScript::SaveToLuaFile(std::ofstream & editorfile, const std::string & name)
+void CustomScript::SaveToLuaFile(std::ostream & editorfile, const std::string & name)
 {
 	editorfile<<"\t"<<name<<" = CustomScript()"<<std::endl;
 	editorfile<<"\t"<<name<<":SetLuaFunctionName(\""<<_luafunctionname<<"\")"<<std::endl;

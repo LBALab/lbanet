@@ -284,7 +284,7 @@ ActorObjectInfo ZoneTrigger::GetDisplayObject()
 /***********************************************************
 save trigger to lua file
 ***********************************************************/
-void ZoneTrigger::SaveToLuaFile(std::ofstream & file)
+void ZoneTrigger::SaveToLuaFile(std::ostream & file)
 {
 	file<<"\tTrigger_"<<GetId()<<"_info = TriggerInfo("<<GetId()<<", \""<<GetName()<<"\", "<<
 			(CheckPlayer()?"true":"false")<<", "<<(CheckNpcs()?"true":"false")<<", "<<(CheckMovableObjects()?"true":"false")<<")"<<std::endl;
@@ -485,7 +485,7 @@ ActorObjectInfo ActivationTrigger::GetDisplayObject()
 /***********************************************************
 save trigger to lua file
 ***********************************************************/
-void ActivationTrigger::SaveToLuaFile(std::ofstream & file)
+void ActivationTrigger::SaveToLuaFile(std::ostream & file)
 {
 	file<<"\tTrigger_"<<GetId()<<"_info = TriggerInfo("<<GetId()<<", \""<<GetName()<<"\", "<<
 		(CheckPlayer()?"true":"false")<<", "<<(CheckNpcs()?"true":"false")<<", "<<(CheckMovableObjects()?"true":"false")<<")"<<std::endl;
@@ -643,7 +643,7 @@ ActorObjectInfo ZoneActionTrigger::GetDisplayObject()
 /***********************************************************
 save trigger to lua file
 ***********************************************************/
-void ZoneActionTrigger::SaveToLuaFile(std::ofstream & file)
+void ZoneActionTrigger::SaveToLuaFile(std::ostream & file)
 {
 	file<<"\tTrigger_"<<GetId()<<"_info = TriggerInfo("<<GetId()<<", \""<<GetName()<<"\", "<<
 		(CheckPlayer()?"true":"false")<<", "<<(CheckNpcs()?"true":"false")<<", "<<(CheckMovableObjects()?"true":"false")<<")"<<std::endl;
@@ -740,7 +740,7 @@ void TimerTrigger::NewFrame(DelayedExecutionHandler * delayedactH, double tnow, 
 /***********************************************************
 save trigger to lua file
 ***********************************************************/
-void TimerTrigger::SaveToLuaFile(std::ofstream & file)
+void TimerTrigger::SaveToLuaFile(std::ostream & file)
 {
 	file<<"\tTrigger_"<<GetId()<<"_info = TriggerInfo("<<GetId()<<", \""<<GetName()<<"\", "<<
 		(CheckPlayer()?"true":"false")<<", "<<(CheckNpcs()?"true":"false")<<", "<<(CheckMovableObjects()?"true":"false")<<")"<<std::endl;

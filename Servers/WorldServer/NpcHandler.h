@@ -104,7 +104,9 @@ public:
 
 	//! check trigger on player move
 	virtual void PlayerMoved(Ice::Long PlayerId, const LbaNet::PlayerPosition &startposition,
-										const LbaNet::PlayerPosition &endposition);
+										const LbaNet::PlayerPosition &endposition,
+										const LbaNet::ModelState & state,
+										const std::string & mode, bool cantarget);
 
 
 
@@ -366,7 +368,7 @@ protected:
 	virtual std::string LuaBuildClass();
 
 	//! write extra lua
-	virtual void ExtraLua(std::ofstream & file, const std::string & name);
+	virtual void ExtraLua(std::ostream & file, const std::string & name);
 
 	//! target player
 	void TargetPlayer(Ice::Long PlayerId);
@@ -432,6 +434,13 @@ protected:
 
 	//! stop targetting player
 	void UntargetAttackPlayer(Ice::Long PlayerId);
+
+	//! check if should attack player
+	bool ShouldAttackPlayer(float px, float py, float pz, 
+								float playerposx, float playerposy, float playerposz, 
+								const LbaNet::ModelState & playerstate,
+								const std::string & playermode);
+
 
 protected:
 	long						_npcnametextid;

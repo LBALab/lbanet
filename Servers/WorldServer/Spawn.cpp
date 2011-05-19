@@ -6,7 +6,7 @@
 /***********************************************************
 save trigger to lua file
 ***********************************************************/
-void Spawn::SaveToLuaFile(std::ofstream & file)
+void Spawn::SaveToLuaFile(std::ostream & file)
 {
 	std::stringstream names;
 	names<<"Spawn_"<<GetId();

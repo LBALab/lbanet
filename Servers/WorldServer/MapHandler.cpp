@@ -891,7 +891,8 @@ void MapHandler::PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMove
 		PlayerPosition currPos = info.CurrentPos;
 		currPos.Y += 0.2f;
 
-		ModelState state = GetPlayerModelInfo(id).State;
+		LbaNet::ModelInfo pinfo = GetPlayerModelInfo(id);
+		ModelState state = pinfo.State;
 
 		// inform triggers
 		{
@@ -910,10 +911,16 @@ void MapHandler::PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMove
 
 		// inform npcs
 		{
+			bool cantarget = false;
+			std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(id);
+			if(it != _players.end())
+				cantarget = it->second->CanBeTarget();
+
 			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ittr = _Actors.begin();
 			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator endtr = _Actors.end();
 			for(; ittr != endtr; ++ittr)
-				ittr->second->PlayerMoved(id, lastpos, currPos);
+				ittr->second->PlayerMoved(id, lastpos, currPos, state, pinfo.Mode, cantarget);
+
 		}
 
 		// update player position
