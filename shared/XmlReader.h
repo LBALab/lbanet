@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #include <LbaTypes.h>
+#include "CommonTypes.h"
 
 using namespace LbaNet;
 
@@ -52,6 +53,13 @@ public:
 
 	// save text in file
 	static void SaveTextFile(const std::string &Filename, const std::map<long, std::string> &text);
+
+	// get object template from file
+	static std::vector<EditorTemplateObject> LoadObjectTemplateFile(const std::string &Filename);
+
+	// save object template in file
+	static void SaveObjectTemplateFile(const std::string &Filename, 
+										const std::map<int, EditorTemplateObject> &content);
 };
 
 

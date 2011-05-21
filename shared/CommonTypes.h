@@ -28,6 +28,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string>
 
+class QAction;
+
 
 /***********************************************************************
 Internal vector 3 class
@@ -194,6 +196,21 @@ public:
 	float Spot_exponent;                    // exponent
 	float Spot_cutoff;                      // spread
 
+};
+
+
+/***********************************************************************
+This class store object template info for the editor
+ ***********************************************************************/
+struct EditorTemplateObject
+{
+	int				id;
+	std::string		type;
+	std::string		category;
+	std::string		name;
+	std::string		content;
+
+	QAction*		associatedaction;
 };
 
 

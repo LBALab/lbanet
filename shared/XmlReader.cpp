@@ -324,3 +324,83 @@ void XmlReader::SaveTextFile(const std::string &Filename, const std::map<long, s
 	}
 }
 
+
+/***********************************************************
+get object template from file
+***********************************************************/
+std::vector<EditorTemplateObject> XmlReader::LoadObjectTemplateFile(const std::string &Filename)
+{
+	std::vector<EditorTemplateObject> res;
+
+
+	// Create an empty property tree object
+	using boost::property_tree::ptree;
+	ptree pt;
+
+	// Load the XML file into the property tree
+	try
+	{
+		read_xml(Filename, pt);
+	}
+	catch(...)
+	{
+		return res;
+	}
+
+	// get text info
+	try
+	{
+		BOOST_FOREACH(ptree::value_type &v, pt.get_child("templates"))
+		{
+			EditorTemplateObject tmp;
+			tmp.id = v.second.get<int>("Id");
+			tmp.type = v.second.get<std::string>("Type");
+			tmp.category = v.second.get<std::string>("Category");
+			tmp.name = v.second.get<std::string>("Name");
+			tmp.content = v.second.get<std::string>("Content");
+			tmp.associatedaction = NULL;
+
+			res.push_back(tmp);
+		}
+	}
+	catch(...){} // no text
+
+
+	return res;
+}
+
+/***********************************************************
+save object template in file
+***********************************************************/
+void XmlReader::SaveObjectTemplateFile(const std::string &Filename, 
+										const std::map<int, EditorTemplateObject> &content)
+{
+	// Create an empty property tree object
+	using boost::property_tree::ptree;
+	ptree pt;
+
+	typedef std::map<long, EditorTemplateObject> textseq;
+
+	// get teleport info
+    BOOST_FOREACH(const textseq::value_type &txt, content)
+	{
+		ptree &tmp = pt.add("templates.template","");
+		tmp.put("Id", txt.first);
+		tmp.put("Type", txt.second.type);
+		tmp.put("Category", txt.second.category);
+		tmp.put("Name", txt.second.name);
+		tmp.put("Content", txt.second.content);
+	}
+
+
+	// Write the property tree into the XML file 
+	try
+	{
+		const boost::property_tree::xml_parser::xml_writer_settings<char> settings('	', 1);
+		write_xml(Filename, pt, std::locale(), settings);
+	}
+	catch(...)
+	{
+	}
+}
+

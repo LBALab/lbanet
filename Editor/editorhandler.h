@@ -43,6 +43,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ui_addstartitemdialog.h"
 #include "ui_ImportantNotice.h"
 #include "ui_NavMeshOption.h"
+#include "ui_addtemplate.h"
+#include "ui_edittemplatesdialog.h"
+
 
 #include "GraphicsWindowQt"
 #include "ScriptEnvironmentBase.h"
@@ -62,7 +65,7 @@ class ServerLuaHandler;
 class DialogPart;
 class InventoryItemDef;
 class NaviMeshHandler;
-
+class QSignalMapper;
 
 
 namespace osgManipulator
@@ -840,6 +843,18 @@ public slots:
 	void CutObjectClicked(); 
 	void DeleteObjectClicked(); 
 
+	//! add template object
+	void AddTemplateObject();
+
+	//! template object clicked
+	void TemplateMenuClicked(int templateid);
+
+	//! edit templates
+	void EditTemplates();
+
+	//! TemplateRemove_button
+	void TemplateRemove_button();	
+
 
 protected:
 	//! override close event
@@ -1132,6 +1147,23 @@ protected:
 	//! edit selected object
 	void EditSelectedObject(ObjectEditType edittype);
 
+
+	//! add new tempalte object
+	void AddNewTemplate(const EditorTemplateObject & templ);
+
+
+	//! paste spawn
+	void PasteSpawn(std::string content);
+
+	//! paste actor
+	void PasteActor(std::string content);
+
+	//! paste trigger
+	void PasteTrigger(std::string content);
+
+	//! remove template
+	void RemoveTemplate(int id);
+
 private:
 	Ui::EditorClass										_uieditor;
 
@@ -1172,6 +1204,12 @@ private:
 	Ui::NavMeshOptionD									_ui_NavMeshDialog;
 	QDialog *											_NavMeshdialog;
 
+	Ui::Dialog_addtemplate								_ui_addtemplateDialog;
+	QDialog *											_addtemplatedialog;
+
+	Ui::EditTemplatesDialog								_ui_edittemplateDialog;
+	QDialog *											_edittemplatedialog;
+
 
 	StringTableModel *									_maplistmodel;
 	StringTableModel *									_tplistmodel;
@@ -1189,10 +1227,12 @@ private:
 	StringTableModel *									_startitemlistmodel;
 
 	StringTableModel *									_questlistmodel;
-
+	StringTableModel *									_templatelistmodel;
 
 	TreeModel *											_objectmodel;
 	CustomDelegate *									_objectcustomdelegate;
+
+	QSignalMapper *										_signalMapper;
 
 	boost::shared_ptr<CustomStringListModel>							_mapNameList;
 	boost::shared_ptr<CustomStringListModel>							_triggerNameList;
@@ -1293,6 +1333,9 @@ private:
 	bool												_pickfindpathstarted;
 	bool												_startpathpicked;
 	LbaVec3												_startpath;
+
+
+	std::map<int, EditorTemplateObject>					_objecttemplates;
 
 };
 

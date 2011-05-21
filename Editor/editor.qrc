@@ -1,5 +1,8 @@
 <RCC>
   <qresource prefix="Editor">
+    <file>Resources/icons/PNG/copy.png</file>
+    <file>Resources/icons/PNG/cut.png</file>
+    <file>Resources/icons/PNG/paste.png</file>
     <file>Resources/icons/PNG/onebit_01.png</file>
     <file>Resources/icons/PNG/onebit_02.png</file>
     <file>Resources/icons/PNG/onebit_03.png</file>

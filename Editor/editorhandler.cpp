@@ -44,14 +44,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ConfigurationManager.h"
 #include "NaviMeshHandler.h"
 #include "FileUtil.h"
-
+#include "XmlReader.h"
 
 #include <qdir.h>
 #include <QErrorMessage>
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QImage>
- #include <QClipboard>
+#include <QClipboard>
+#include <QSignalMapper>
 
 #include <fstream>
 #include <math.h>
@@ -1227,6 +1228,16 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	_NavMeshdialog = new QDialog(this);
 	_ui_NavMeshDialog.setupUi(_NavMeshdialog);
 
+	_addtemplatedialog = new QDialog(this);
+	_ui_addtemplateDialog.setupUi(_addtemplatedialog);
+
+	_edittemplatedialog = new QDialog(this);
+	_ui_edittemplateDialog.setupUi(_edittemplatedialog);
+
+
+	_signalMapper = new QSignalMapper(this);
+	 connect(_signalMapper, SIGNAL(mapped(int)), this, SLOT(TemplateMenuClicked(int)));
+
 
 
 	// set model for map list
@@ -1354,6 +1365,17 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 		mpheaders->setResizeMode(QHeaderView::Stretch);
 	}
 	
+	// set model for templates
+	{
+		 QStringList header;
+		 header << "Type" << "Category" << "Name";
+		_templatelistmodel = new StringTableModel(header);
+		_ui_edittemplateDialog.tableView->setModel(_templatelistmodel);
+		QHeaderView * mpheaders = _ui_edittemplateDialog.tableView->horizontalHeader();
+		mpheaders->setResizeMode(QHeaderView::Stretch);
+	}
+	
+
 
 
 	// reset world info
@@ -1383,6 +1405,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.actionCut, SIGNAL(triggered()), this, SLOT(CutObjectClicked())); 
 	connect(_uieditor.actionDelete, SIGNAL(triggered()), this, SLOT(DeleteObjectClicked())); 
 
+	connect(_uieditor.actionAdd_selected_as_template, SIGNAL(triggered()), this, SLOT(AddTemplateObject())); 
+	connect(_uieditor.actionEdit_existing_templates, SIGNAL(triggered()), this, SLOT(EditTemplates())); 
 
 
 	connect(_uieditor.pushButton_info_go, SIGNAL(clicked()) , this, SLOT(info_go_clicked()));
@@ -1435,7 +1459,6 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.textEdit_worlddescription, SIGNAL(textChanged()) , this, SLOT(WorldDescriptionChanged()));	
 	connect(_uieditor.textEdit_worldnews, SIGNAL(textChanged()) , this, SLOT(WorldNewsChanged()));	
 
-	
 	connect(_uieditor.pushButton_goto_tp, SIGNAL(clicked()) , this, SLOT(goto_tp_button_clicked()));
 	connect(_uieditor.pushButton_goto_map, SIGNAL(clicked()) , this, SLOT(goto_map_button_clicked()));
 
@@ -1463,6 +1486,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_ui_addtextdialog.buttonBox, SIGNAL(accepted()) , this, SLOT(TextAdd_button_accepted()));
 	connect(_ui_additemdialog.buttonBox, SIGNAL(accepted()) , this, SLOT(ItemAdd_button_accepted()));
 	connect(_ui_addstartitemdialog.buttonBox, SIGNAL(accepted()) , this, SLOT(StartItemAdd_button_accepted()));
+
 
 	connect(_uieditor.comboBox_startingmap, SIGNAL(activated(int)) , this, SLOT(StartingMapModified(int)));		
 	connect(_uieditor.comboBox_startingspawning, SIGNAL(activated(int)) , this, SLOT(StartingSpawnModified(int)));	
@@ -1494,7 +1518,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.spinBox_cweapon, SIGNAL(valueChanged(int)) , this, SLOT(colorModified(int)));	
 	connect(_uieditor.spinBox_cmount, SIGNAL(valueChanged(int)) , this, SLOT(colorModified(int)));	
 	connect(_uieditor.spinBox_cmount2, SIGNAL(valueChanged(int)) , this, SLOT(colorModified(int)));	
-
+	
+	connect(_ui_edittemplateDialog.pushButton_delete, SIGNAL(clicked()) , this, SLOT(TemplateRemove_button()));
 
 
 	// read notice
@@ -1778,6 +1803,9 @@ void EditorHandler::SaveWorldAction(std::string mapname)
 		// save general
 		SharedDataHandler::getInstance()->SaveToLua();
 
+		// save templates
+		XmlReader::SaveObjectTemplateFile("./Data/Worlds/" + _winfo.Description.WorldName + "/Editorconfig.xml", _objecttemplates);
+
 		SetSaved();
 	}
 }
@@ -2032,8 +2060,14 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 	}
 
 	// add lua stuff
-	std::string luafile = "Worlds/" + _winfo.Description.WorldName + "/Lua/";
 	_luaH = boost::shared_ptr<ServerLuaHandler>(new ServerLuaHandler());
+
+
+	// add templates
+	std::string templatefile = "Data/Worlds/" + _winfo.Description.WorldName + "/Editorconfig.xml";
+	std::vector<EditorTemplateObject> temps = XmlReader::LoadObjectTemplateFile(templatefile);
+	for(size_t i=0; i< temps.size(); ++i)
+		AddNewTemplate(temps[i]);
 }
 
 
@@ -14233,41 +14267,7 @@ void EditorHandler::PasteObjectClicked()
 			QByteArray data = mdata->data("lbanet/actor");
 			std::string scriptobj(data.constData());
 			if(scriptobj != "")
-			{
-				long actid = _curractoridx+1;
-
-				std::stringstream strsid;
-				strsid<<actid;
-
-				scriptobj = StringHelper::replaceall(scriptobj, "%##%", strsid.str());
-
-				// paste copied object
-				scriptobj = "function PasteObject(environment) \n" + scriptobj + "end";
-				_luaH->ExecuteScriptString(scriptobj);
-				_luaH->CallLua("PasteObject", this);
-
-				std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator it = _Actors.find(actid);
-				if(it != _Actors.end())
-				{
-					//move actor to player position
-					ActorObjectInfo ainfo = it->second->GetActorInfo();
-					ainfo.PhysicDesc.Pos.X = _posX;
-					ainfo.PhysicDesc.Pos.Y = _posY;
-					ainfo.PhysicDesc.Pos.Z = _posZ;
-					it->second->SetActorInfo(ainfo);
-
-					//inform server
-					std::string mapname = _uieditor.label_mapname->text().toAscii().data();
-					EditorUpdateBasePtr update = new UpdateEditor_AddOrModActor(it->second);
-					SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
-
-				}
-
-				//select actor
-				SelectActor(actid);
-
-				SetMapModified();
-			}
+				PasteActor(scriptobj);
 		}
 
 		if(mdata->hasFormat("lbanet/spawn"))
@@ -14275,43 +14275,7 @@ void EditorHandler::PasteObjectClicked()
 			QByteArray data = mdata->data("lbanet/spawn");
 			std::string scriptobj(data.constData());
 			if(scriptobj != "")
-			{
-				long actid = _currspawningidx+1;
-
-				std::stringstream strsid;
-				strsid<<actid;
-
-				scriptobj = StringHelper::replaceall(scriptobj, "%##%", strsid.str());
-
-				// paste copied object
-				scriptobj = "function PasteObject(environment) \n" + scriptobj + "end";
-				_luaH->ExecuteScriptString(scriptobj);
-				_luaH->CallLua("PasteObject", this);
-
-				std::map<long, boost::shared_ptr<Spawn> >::iterator it = _spawns.find(actid);
-				if(it != _spawns.end())
-				{
-					//move actor to player position
-					boost::shared_ptr<Spawn> newspawn = it->second;
-					newspawn->SetPosX(_posX);
-					newspawn->SetPosY(_posY);
-					newspawn->SetPosZ(_posZ);
-
-					//inform server
-					std::string mapname = _uieditor.label_mapname->text().toAscii().data();
-					EditorUpdateBasePtr update = new UpdateEditor_AddOrModSpawning(	actid, newspawn->GetName(),
-																				_posX, _posY, _posZ,
-																				newspawn->GetRotation(), 
-																				newspawn->GetForceRotation());
-
-					SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
-				}
-
-				//select spawn
-				SelectSpawning(actid);
-
-				SetMapModified();
-			}
+				PasteSpawn(scriptobj);
 		}
 
 		if(mdata->hasFormat("lbanet/trigger"))
@@ -14319,36 +14283,7 @@ void EditorHandler::PasteObjectClicked()
 			QByteArray data = mdata->data("lbanet/trigger");
 			std::string scriptobj(data.constData());
 			if(scriptobj != "")
-			{
-				long actid = _currtriggeridx+1;
-
-				std::stringstream strsid;
-				strsid<<actid;
-
-				scriptobj = StringHelper::replaceall(scriptobj, "%##%", strsid.str());
-
-				// paste copied object
-				scriptobj = "function PasteObject(environment) \n" + scriptobj + "end";
-				_luaH->ExecuteScriptString(scriptobj);
-				_luaH->CallLua("PasteObject", this);
-
-				std::map<long, boost::shared_ptr<TriggerBase> >::iterator it = _triggers.find(actid);
-				if(it != _triggers.end())
-				{
-					//move actor to player position
-					it->second->SetPosition(_posX, _posY, _posZ);
-
-					//inform server
-					std::string mapname = _uieditor.label_mapname->text().toAscii().data();
-					EditorUpdateBasePtr update = new UpdateEditor_AddOrModTrigger(it->second);
-					SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
-				}
-
-				//select spawn
-				SelectTrigger(actid);
-
-				SetMapModified();
-			}
+				PasteTrigger(scriptobj);
 		}
 	}
 }
@@ -14462,7 +14397,349 @@ void EditorHandler::EditSelectedObject(ObjectEditType edittype)
 			QClipboard * clipboard = QApplication::clipboard();
 			clipboard->setMimeData(mimeData);
 		}
-
 	}
 }
 
+
+/***********************************************************
+add template object
+***********************************************************/
+void EditorHandler::AddTemplateObject()
+{
+	QModelIndex parentIdx = QModelIndex();
+
+	if(_objectmodel->rowCount() > 2)
+	{
+		// only interested in parent objects
+		if(_objectmodel->data(_objectmodel->GetIndex(0, 0, parentIdx)).toString() != "Type")
+			return;
+
+		std::string tocopy;
+		std::string copytype;
+
+		QString type = _objectmodel->data(_objectmodel->GetIndex(1, 0, parentIdx)).toString();
+		if(type == "Spawn")
+		{
+			long objid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toLong();
+			std::map<long, boost::shared_ptr<Spawn> >::iterator it = _spawns.find(objid);
+			if(it != _spawns.end())	
+			{
+				std::stringstream objcontent;
+				it->second->SaveToLuaFile(objcontent, "%##%");
+				tocopy = objcontent.str();
+
+				copytype = "Spawn";
+			}
+		}
+
+		if(type == "Trigger")
+		{
+			long objid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toLong();
+			std::map<long, boost::shared_ptr<TriggerBase> >::iterator it = _triggers.find(objid);
+			if(it != _triggers.end())	
+			{
+				std::stringstream objcontent;
+				it->second->SaveToLuaFile(objcontent, "%##%");
+				tocopy = objcontent.str();
+
+				copytype = "Trigger";
+			}
+		}
+
+		if(type == "Actor")
+		{
+			long objid = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toLong();
+			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator it = _Actors.find(objid);
+			if(it != _Actors.end())
+			{
+				std::stringstream objcontent;
+				it->second->SaveToLuaFile(objcontent, "%##%");
+				tocopy = objcontent.str();
+
+				copytype = "Actor";
+			}
+		}
+
+		if(tocopy != "")
+		{
+			_ui_addtemplateDialog.lineEdit_template_name->setText("");
+			_ui_addtemplateDialog.lineEdit_template_category->setText("");
+			if(_addtemplatedialog->exec() == QDialog::Accepted)
+			{
+				EditorTemplateObject tmpobj;
+				tmpobj.type = copytype;
+				tmpobj.category = _ui_addtemplateDialog.lineEdit_template_category->text().toAscii().data();
+				tmpobj.name = _ui_addtemplateDialog.lineEdit_template_name->text().toAscii().data();
+				tmpobj.content = tocopy;
+
+				if(tmpobj.category == "")
+					tmpobj.category = "No category";
+
+				tmpobj.id = 0;
+				if(_objecttemplates.size() > 0)
+					tmpobj.id = (_objecttemplates.rbegin()->first + 1);
+
+				AddNewTemplate(tmpobj);
+				SetModified();
+			}
+		}
+	}
+}
+
+
+/***********************************************************
+add template object
+***********************************************************/
+void EditorHandler::AddNewTemplate(const EditorTemplateObject & templ)
+{
+	// add to list
+	_objecttemplates[templ.id] = templ;
+
+
+	// add to menu
+	QMenu * parentmenu = NULL;
+
+	if(templ.type == "Spawn")
+		parentmenu = _uieditor.menuSpawns;
+	if(templ.type == "Actor")
+		parentmenu = _uieditor.menuActors;
+	if(templ.type == "Trigger")
+		parentmenu = _uieditor.menuTriggers;	
+
+	if(parentmenu)
+	{
+		QMenu * categorymenu = NULL;
+
+		//check if category menu is already created
+		QList<QAction *> lactions = parentmenu->actions();
+		for (int i = 0; i < lactions.size(); ++i)
+		{
+			QAction * tmpa = lactions[i];
+			QMenu * tmpmenu = tmpa->menu();
+			if(tmpmenu && tmpmenu->title() == templ.category.c_str())
+			{
+				categorymenu = tmpmenu;
+				break;
+			}
+		}
+
+		if(!categorymenu)
+			categorymenu = 	parentmenu->addMenu(templ.category.c_str());
+
+		//add action to menu
+		if(categorymenu)
+		{
+			std::stringstream stractname;
+			stractname<<templ.id<<": "<<templ.name;
+			QAction * act = categorymenu->addAction(stractname.str().c_str());
+
+			_signalMapper->setMapping(act, templ.id);
+			connect(act, SIGNAL(triggered()), _signalMapper, SLOT(map()));
+
+			_objecttemplates[templ.id].associatedaction = act;
+		}
+	}
+}
+
+
+/***********************************************************
+template object clicked
+***********************************************************/
+void EditorHandler::TemplateMenuClicked(int templateid)
+{
+	std::map<int, EditorTemplateObject>::iterator it = _objecttemplates.find(templateid);
+	if(it != _objecttemplates.end())
+	{
+		std::string type = it->second.type;
+
+		if(type == "Actor")
+			PasteActor(it->second.content);
+
+		if(type == "Spawn")
+			PasteSpawn(it->second.content);
+
+		if(type == "Trigger")
+			PasteTrigger(it->second.content);
+	}
+}
+
+
+/***********************************************************
+paste spawn
+***********************************************************/
+void EditorHandler::PasteSpawn(std::string content)
+{
+	long actid = _currspawningidx+1;
+
+	std::stringstream strsid;
+	strsid<<actid;
+
+	content = StringHelper::replaceall(content, "%##%", strsid.str());
+
+	// paste copied object
+	content = "function PasteObject(environment) \n" + content + "end";
+	_luaH->ExecuteScriptString(content);
+	_luaH->CallLua("PasteObject", this);
+
+	std::map<long, boost::shared_ptr<Spawn> >::iterator it = _spawns.find(actid);
+	if(it != _spawns.end())
+	{
+		//move actor to player position
+		boost::shared_ptr<Spawn> newspawn = it->second;
+		newspawn->SetPosX(_posX);
+		newspawn->SetPosY(_posY);
+		newspawn->SetPosZ(_posZ);
+
+		//inform server
+		std::string mapname = _uieditor.label_mapname->text().toAscii().data();
+		EditorUpdateBasePtr update = new UpdateEditor_AddOrModSpawning(	actid, newspawn->GetName(),
+																	_posX, _posY, _posZ,
+																	newspawn->GetRotation(), 
+																	newspawn->GetForceRotation());
+
+		SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
+	}
+
+	//select spawn
+	SelectSpawning(actid);
+
+	SetMapModified();
+}
+
+
+/***********************************************************
+paste actor
+***********************************************************/
+void EditorHandler::PasteActor(std::string content)
+{
+	long actid = _curractoridx+1;
+
+	std::stringstream strsid;
+	strsid<<actid;
+
+	content = StringHelper::replaceall(content, "%##%", strsid.str());
+
+	// paste copied object
+	content = "function PasteObject(environment) \n" + content + "end";
+	_luaH->ExecuteScriptString(content);
+	_luaH->CallLua("PasteObject", this);
+
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator it = _Actors.find(actid);
+	if(it != _Actors.end())
+	{
+		//move actor to player position
+		ActorObjectInfo ainfo = it->second->GetActorInfo();
+		ainfo.PhysicDesc.Pos.X = _posX;
+		ainfo.PhysicDesc.Pos.Y = _posY;
+		ainfo.PhysicDesc.Pos.Z = _posZ;
+		it->second->SetActorInfo(ainfo);
+
+		//inform server
+		std::string mapname = _uieditor.label_mapname->text().toAscii().data();
+		EditorUpdateBasePtr update = new UpdateEditor_AddOrModActor(it->second);
+		SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
+
+	}
+
+	//select actor
+	SelectActor(actid);
+
+	SetMapModified();
+}
+
+
+/***********************************************************
+paste trigger
+***********************************************************/
+void EditorHandler::PasteTrigger(std::string content)
+{
+	long actid = _currtriggeridx+1;
+
+	std::stringstream strsid;
+	strsid<<actid;
+
+	content = StringHelper::replaceall(content, "%##%", strsid.str());
+
+	// paste copied object
+	content = "function PasteObject(environment) \n" + content + "end";
+	_luaH->ExecuteScriptString(content);
+	_luaH->CallLua("PasteObject", this);
+
+	std::map<long, boost::shared_ptr<TriggerBase> >::iterator it = _triggers.find(actid);
+	if(it != _triggers.end())
+	{
+		//move actor to player position
+		it->second->SetPosition(_posX, _posY, _posZ);
+
+		//inform server
+		std::string mapname = _uieditor.label_mapname->text().toAscii().data();
+		EditorUpdateBasePtr update = new UpdateEditor_AddOrModTrigger(it->second);
+		SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
+	}
+
+	//select spawn
+	SelectTrigger(actid);
+
+	SetMapModified();
+}
+
+
+/***********************************************************
+edit templates
+***********************************************************/
+void EditorHandler::EditTemplates()
+{
+	_templatelistmodel->Clear();
+
+	std::map<int, EditorTemplateObject>::iterator it = _objecttemplates.begin();
+	std::map<int, EditorTemplateObject>::iterator end = _objecttemplates.end();
+	for(; it != end; ++it)
+	{
+		QStringList data;
+		data<<it->second.type.c_str()<<it->second.category.c_str()<<it->second.name.c_str();
+		_templatelistmodel->AddOrUpdateRow(it->first, data);
+	}
+
+	_edittemplatedialog->exec();
+}
+
+
+/***********************************************************
+TemplateRemove_button
+***********************************************************/
+void EditorHandler::TemplateRemove_button()
+{
+	QItemSelectionModel *selectionModel = _ui_edittemplateDialog.tableView->selectionModel();
+	QModelIndexList indexes = selectionModel->selectedIndexes();
+	if(indexes.size() > 2)
+	{
+		// remove template from menu
+		long id = _templatelistmodel->GetId(indexes[0]);
+		RemoveTemplate(id);
+
+
+		// remove row from table
+		_templatelistmodel->removeRows(indexes[0].row(), 1);
+	}
+}
+
+
+/***********************************************************
+remove template
+***********************************************************/
+void EditorHandler::RemoveTemplate(int id)
+{
+	std::map<int, EditorTemplateObject>::iterator it = _objecttemplates.find(id);
+	if(it != _objecttemplates.end())
+	{
+		//remove from menu
+		QAction* acttmp = it->second.associatedaction;
+		if(acttmp)
+			acttmp->parentWidget()->removeAction(acttmp);
+
+		//remove from map
+		_objecttemplates.erase(it);
+
+		SetModified();
+	}
+}

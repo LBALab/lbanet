@@ -2318,7 +2318,9 @@
     <addaction name="actionGenerate_navimesh"/>
     <addaction name="actionDisplay_Navimesh"/>
     <addaction name="actionNavimesh_Generation_Options"/>
+    <addaction name="separator"/>
     <addaction name="actionTest_Find_Path"/>
+    <addaction name="separator"/>
     <addaction name="actionNPC_attack_player"/>
     <addaction name="actionNPC_stop_attack"/>
    </widget>
@@ -2332,10 +2334,43 @@
     <addaction name="actionDelete"/>
     <addaction name="separator"/>
    </widget>
+   <widget class="QMenu" name="menuTemplates">
+    <property name="title">
+     <string>Templates</string>
+    </property>
+    <widget class="QMenu" name="menuAdd_from_template">
+     <property name="title">
+      <string>Add template object</string>
+     </property>
+     <widget class="QMenu" name="menuSpawns">
+      <property name="title">
+       <string>Spawns</string>
+      </property>
+     </widget>
+     <widget class="QMenu" name="menuActors">
+      <property name="title">
+       <string>Actors</string>
+      </property>
+     </widget>
+     <widget class="QMenu" name="menuTriggers">
+      <property name="title">
+       <string>Triggers</string>
+      </property>
+     </widget>
+     <addaction name="menuSpawns"/>
+     <addaction name="menuActors"/>
+     <addaction name="menuTriggers"/>
+    </widget>
+    <addaction name="actionAdd_selected_as_template"/>
+    <addaction name="actionEdit_existing_templates"/>
+    <addaction name="separator"/>
+    <addaction name="menuAdd_from_template"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuLua"/>
    <addaction name="menuAI"/>
+   <addaction name="menuTemplates"/>
   </widget>
   <action name="actionNew_World">
    <property name="icon">
@@ -2452,21 +2487,37 @@
    </property>
   </action>
   <action name="actionCopy">
+   <property name="icon">
+    <iconset resource="editor.qrc">
+     <normaloff>:/Editor/Resources/icons/PNG/copy.png</normaloff>:/Editor/Resources/icons/PNG/copy.png</iconset>
+   </property>
    <property name="text">
     <string>Copy</string>
    </property>
   </action>
   <action name="actionPaste">
+   <property name="icon">
+    <iconset resource="editor.qrc">
+     <normaloff>:/Editor/Resources/icons/PNG/paste.png</normaloff>:/Editor/Resources/icons/PNG/paste.png</iconset>
+   </property>
    <property name="text">
     <string>Paste</string>
    </property>
   </action>
   <action name="actionCut">
+   <property name="icon">
+    <iconset resource="editor.qrc">
+     <normaloff>:/Editor/Resources/icons/PNG/cut.png</normaloff>:/Editor/Resources/icons/PNG/cut.png</iconset>
+   </property>
    <property name="text">
     <string>Cut</string>
    </property>
   </action>
   <action name="actionDelete">
+   <property name="icon">
+    <iconset resource="editor.qrc">
+     <normaloff>:/Editor/Resources/icons/PNG/onebit_33.png</normaloff>:/Editor/Resources/icons/PNG/onebit_33.png</iconset>
+   </property>
    <property name="text">
     <string>Delete</string>
    </property>
@@ -2479,6 +2530,46 @@
   <action name="actionRedo">
    <property name="text">
     <string>Redo</string>
+   </property>
+  </action>
+  <action name="actionAdd_selected_as_template">
+   <property name="text">
+    <string>Set selected as template</string>
+   </property>
+  </action>
+  <action name="actionNpcs">
+   <property name="text">
+    <string>Npc actors</string>
+   </property>
+  </action>
+  <action name="actionDoors">
+   <property name="text">
+    <string>Door actors</string>
+   </property>
+  </action>
+  <action name="actionStatics">
+   <property name="text">
+    <string>Static actors</string>
+   </property>
+  </action>
+  <action name="actionPp">
+   <property name="text">
+    <string>pp</string>
+   </property>
+  </action>
+  <action name="actionPpp">
+   <property name="text">
+    <string>ppp</string>
+   </property>
+  </action>
+  <action name="actionPppp">
+   <property name="text">
+    <string>pppp</string>
+   </property>
+  </action>
+  <action name="actionEdit_existing_templates">
+   <property name="text">
+    <string>Edit existing templates</string>
    </property>
   </action>
  </widget>
