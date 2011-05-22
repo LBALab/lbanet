@@ -111,9 +111,11 @@ void LuaHandlerBase::CallLua(const std::string & functioname, ScriptInitHandler*
 /***********************************************************
 start script in a new thread
 ***********************************************************/
-int LuaHandlerBase::StartScript(const std::string & FunctionName, bool inlinefunction,
-									ScriptEnvironmentBase* env)
+void LuaHandlerBase::StartScript(const std::string & FunctionName, bool inlinefunction,
+									ScriptEnvironmentBase* env, int &ThreadReference)
 {
+	ThreadReference = -1;
+
 	//try
 	//{
 	//	luabind::call_function<void>(m_LuaState, FunctionName.c_str(), 1, env);
@@ -125,23 +127,22 @@ int LuaHandlerBase::StartScript(const std::string & FunctionName, bool inlinefun
 
 
 	boost::shared_ptr<LuaThreadHandler> Th(new LuaThreadHandler(m_LuaState, FunctionName,
-												inlinefunction, env));
+												inlinefunction, env, ThreadReference));
 	if(Th->IsStarted())
-	{
-		m_RunningThreads[Th->GetReference()] = Th;
-		return Th->GetReference();
-	}
-
-	return -1;
+		m_RunningThreads[ThreadReference] = Th;
+	else
+		ThreadReference = -1;
 }
 
 
 /***********************************************************
 start script in a new thread
 ***********************************************************/
-int LuaHandlerBase::StartScript(const std::string & FunctionName, long ActorId, bool inlinefunction,
-									ScriptEnvironmentBase* env)
+void LuaHandlerBase::StartScript(const std::string & FunctionName, long ActorId, bool inlinefunction,
+									ScriptEnvironmentBase* env, int &ThreadReference)
 {
+	ThreadReference = -1;
+
 	//try
 	//{
 	//	luabind::call_function<void>(m_LuaState, FunctionName.c_str(), 1, env);
@@ -153,14 +154,11 @@ int LuaHandlerBase::StartScript(const std::string & FunctionName, long ActorId, 
 
 
 	boost::shared_ptr<LuaThreadHandler> Th(new LuaThreadHandler(m_LuaState, ActorId, FunctionName,
-												inlinefunction, env));
+												inlinefunction, env, ThreadReference));
 	if(Th->IsStarted())
-	{
-		m_RunningThreads[Th->GetReference()] = Th;
-		return Th->GetReference();
-	}
-
-	return -1;
+		m_RunningThreads[ThreadReference] = Th;
+	else
+		ThreadReference = -1;
 }
 
 

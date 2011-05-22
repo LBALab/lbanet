@@ -57,13 +57,13 @@ public:
 
 	//! start script in a new thread
 	//! return script id if successed or -1 else
-	int StartScript(const std::string & FunctionName, bool inlinefunction,
-							ScriptEnvironmentBase* env);
+	void StartScript(const std::string & FunctionName, bool inlinefunction,
+							ScriptEnvironmentBase* env, int &ThreadReference);
 
 	//! start script in a new thread
 	//! return script id if successed or -1 else
-	int StartScript(const std::string & FunctionName, long ActorId, bool inlinefunction,
-							ScriptEnvironmentBase* env);
+	void StartScript(const std::string & FunctionName, long ActorId, bool inlinefunction,
+							ScriptEnvironmentBase* env, int &ThreadReference);
 
 	//! resume yield thread
 	//! return true if finished

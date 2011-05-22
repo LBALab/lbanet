@@ -159,20 +159,20 @@ public:
 	virtual PlayerPosition GetPlayerPosition(Ice::Long clientid);
 
 	//! used by lua to get an actor Position
-	virtual LbaVec3 GetActorPosition(long ActorId);
+	virtual LbaVec3 GetActorPosition(int ScriptId, long ActorId);
 
 	//! used by lua to get an actor Rotation
-	virtual float GetActorRotation(long ActorId);
+	virtual float GetActorRotation(int ScriptId, long ActorId);
 
 	//! used by lua to get an actor Rotation
 	//! if id < 1 then it get player position
-	virtual LbaQuaternion GetActorRotationQuat(long ActorId);
+	virtual LbaQuaternion GetActorRotationQuat(int ScriptId, long ActorId);
 
 	//! used by lua to update an actor animation
-	virtual void UpdateActorAnimation(long ActorId, const std::string & AnimationString);
+	virtual void UpdateActorAnimation(int ScriptId, long ActorId, const std::string & AnimationString);
 
 	//! used by lua to update an actor mode
-	virtual void UpdateActorMode(long ActorId, const std::string & Mode);
+	virtual void UpdateActorMode(int ScriptId, long ActorId, const std::string & Mode);
 
 
 	//! used by lua to tell that the actor should be reserved for the script
@@ -185,15 +185,15 @@ public:
 
 	//! used by lua to move an actor or player
 	//! the actor will change model
-	virtual void UpdateActorModel(long ActorId, const std::string & Name);
+	virtual void UpdateActorModel(int ScriptId, long ActorId, const std::string & Name);
 
 	//! used by lua to move an actor or player
 	//! the actor will change outfit
-	virtual void UpdateActorOutfit(long ActorId, const std::string & Name);
+	virtual void UpdateActorOutfit(int ScriptId, long ActorId, const std::string & Name);
 
 	//! used by lua to move an actor or player
 	//! the actor will change weapon
-	virtual void UpdateActorWeapon(long ActorId, const std::string & Name);
+	virtual void UpdateActorWeapon(int ScriptId, long ActorId, const std::string & Name);
 
 	//! used by lua to move an actor or player
 	//! the actor will change mode
@@ -206,12 +206,12 @@ public:
 
 	//! used by lua to move an actor or player
 	//! the actor change rotation
-	void SetActorRotation(long ActorId, float Angle);
+	void SetActorRotation(int ScriptId, long ActorId, float Angle);
 
 
 	//! used by lua to move an actor or player
 	//! the actor show/hide
-	virtual void ActorShowHide(long ActorId, bool Show);
+	virtual void ActorShowHide(int ScriptId, long ActorId, bool Show);
 
 
 	//! add/remove item from player inventory

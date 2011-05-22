@@ -1083,7 +1083,7 @@ void LbaNetModel::CenterCamera()
 used by lua to get an actor Position
 if id < 1 then it get player position
 ***********************************************************/
-LbaVec3 LbaNetModel::GetActorPosition(long ActorId)
+LbaVec3 LbaNetModel::GetActorPosition(int ScriptId, long ActorId)
 {
 	LbaVec3 res;
 
@@ -1108,7 +1108,7 @@ LbaVec3 LbaNetModel::GetActorPosition(long ActorId)
 used by lua to get an actor Rotation
 if id < 1 then it get player position
 ***********************************************************/
-float LbaNetModel::GetActorRotation(long ActorId)
+float LbaNetModel::GetActorRotation(int ScriptId, long ActorId)
 {
 	if(ActorId >= 0)
 	{
@@ -1131,7 +1131,7 @@ float LbaNetModel::GetActorRotation(long ActorId)
 used by lua to get an actor Rotation
 if id < 1 then it get player position
 ***********************************************************/
-LbaQuaternion LbaNetModel::GetActorRotationQuat(long ActorId)
+LbaQuaternion LbaNetModel::GetActorRotationQuat(int ScriptId, long ActorId)
 {
 	if(ActorId >= 0)
 	{
@@ -1159,7 +1159,7 @@ LbaQuaternion LbaNetModel::GetActorRotationQuat(long ActorId)
  used by lua to update an actor animation
  if id < 1 then it get player position
 ***********************************************************/
-void LbaNetModel::UpdateActorAnimation(long ActorId, const std::string & AnimationString)
+void LbaNetModel::UpdateActorAnimation(int ScriptId, long ActorId, const std::string & AnimationString)
 {
 	if(ActorId >= 0)
 	{
@@ -1181,7 +1181,7 @@ void LbaNetModel::UpdateActorAnimation(long ActorId, const std::string & Animati
 //! used by lua to update an actor mode
 //! if id < 1 then it get player position
 ***********************************************************/
-void LbaNetModel::UpdateActorMode(long ActorId, const std::string & Mode)
+void LbaNetModel::UpdateActorMode(int ScriptId, long ActorId, const std::string & Mode)
 {
 	if(ActorId >= 0)
 	{
@@ -1331,7 +1331,7 @@ void LbaNetModel::ReleaseActorFromScript(int scriptid)
 	//! used by lua to move an actor or player
 	//! the actor will change model
 ***********************************************************/
-void LbaNetModel::UpdateActorModel(long ActorId, const std::string & Name)
+void LbaNetModel::UpdateActorModel(int ScriptId, long ActorId, const std::string & Name)
 {
 	if(ActorId >= 0)
 	{
@@ -1353,7 +1353,7 @@ void LbaNetModel::UpdateActorModel(long ActorId, const std::string & Name)
 	//! used by lua to move an actor or player
 	//! the actor will change outfit
 ***********************************************************/
-void LbaNetModel::UpdateActorOutfit(long ActorId, const std::string & Name)
+void LbaNetModel::UpdateActorOutfit(int ScriptId, long ActorId, const std::string & Name)
 {
 	if(ActorId >= 0)
 	{
@@ -1375,7 +1375,7 @@ void LbaNetModel::UpdateActorOutfit(long ActorId, const std::string & Name)
 	//! used by lua to move an actor or player
 	//! the actor will change weapon
 ***********************************************************/
-void LbaNetModel::UpdateActorWeapon(long ActorId, const std::string & Name)
+void LbaNetModel::UpdateActorWeapon(int ScriptId, long ActorId, const std::string & Name)
 {
 	if(ActorId >= 0)
 	{
@@ -1445,7 +1445,7 @@ void LbaNetModel::TeleportActorTo(int ScriptId, long ActorId, const LbaVec3 &Pos
 //! used by lua to move an actor or player
 //! the actor change rotation
 ***********************************************************/
-void LbaNetModel::SetActorRotation(long ActorId, float Angle)
+void LbaNetModel::SetActorRotation(int ScriptId, long ActorId, float Angle)
 {
 	if(ActorId >= 0)
 	{
@@ -1466,7 +1466,7 @@ void LbaNetModel::SetActorRotation(long ActorId, float Angle)
 //! used by lua to move an actor or player
 //! the actor show/hide
 ***********************************************************/
-void LbaNetModel::ActorShowHide(long ActorId, bool Show)
+void LbaNetModel::ActorShowHide(int ScriptId, long ActorId, bool Show)
 {
 	if(ActorId >= 0)
 	{

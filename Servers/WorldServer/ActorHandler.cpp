@@ -769,9 +769,9 @@ void ActorHandler::ClearColorSwap()
 /***********************************************************
 used by lua to get an actor Position
 ***********************************************************/
-LbaVec3 ActorHandler::GetActorPosition()
+LbaVec3 ActorHandler::GetActorPosition(bool fromattackscript)
 {
-	if(m_paused)
+	if(!fromattackscript && m_paused)
 		return LbaVec3(m_saved_X, m_saved_Y, m_saved_Z);
 
 	if(_character)
@@ -791,9 +791,9 @@ LbaVec3 ActorHandler::GetActorPosition()
 /***********************************************************
 used by lua to get an actor Rotation
 ***********************************************************/
-float ActorHandler::GetActorRotation()
+float ActorHandler::GetActorRotation(bool fromattackscript)
 {
-	if(m_paused)
+	if(!fromattackscript && m_paused)
 		return m_saved_rot;
 
 	if(_character)
@@ -809,9 +809,9 @@ float ActorHandler::GetActorRotation()
 /***********************************************************
 used by lua to get an actor Rotation
 ***********************************************************/
-LbaQuaternion ActorHandler::GetActorRotationQuat()
+LbaQuaternion ActorHandler::GetActorRotationQuat(bool fromattackscript)
 {
-	if(m_paused)
+	if(!fromattackscript && m_paused)
 		return m_saved_Q;
 
 	if(_character)
@@ -831,14 +831,16 @@ LbaQuaternion ActorHandler::GetActorRotationQuat()
 /***********************************************************
 used by lua to update an actor animation
 ***********************************************************/
-void ActorHandler::UpdateActorAnimation(const std::string & AnimationString, bool updatefromlua)
+void ActorHandler::UpdateActorAnimation(const std::string & AnimationString, bool updatefromlua, 
+																	bool fromattackscript)
 {
 	if(_character)
 	{
 		boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
 		if(disO)
 		{
-			disO->Update(new LbaNet::AnimationStringUpdate(AnimationString), updatefromlua && m_paused);
+			disO->Update(new LbaNet::AnimationStringUpdate(AnimationString), 
+										updatefromlua && m_paused && !fromattackscript);
 
 			if(!updatefromlua)
 				_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
@@ -852,16 +854,16 @@ void ActorHandler::UpdateActorAnimation(const std::string & AnimationString, boo
 /***********************************************************
 used by lua to update an actor mode
 ***********************************************************/
-void ActorHandler::UpdateActorMode(const std::string & Mode, bool updatefromlua)
+void ActorHandler::UpdateActorMode(const std::string & Mode, bool updatefromlua, bool fromattackscript)
 {
 	if(_character)
 	{
 		boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
 		if(disO)
 		{
-			LbaNet::ModelInfo model = disO->GetCurrentModel(updatefromlua && m_paused);
+			LbaNet::ModelInfo model = disO->GetCurrentModel(updatefromlua && m_paused && !fromattackscript);
 			model.Mode = Mode;
-			disO->Update(new LbaNet::ModelUpdate(model, false), updatefromlua && m_paused);
+			disO->Update(new LbaNet::ModelUpdate(model, false), updatefromlua && m_paused && !fromattackscript);
 
 			if(!updatefromlua || !m_paused)
 				_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
@@ -877,16 +879,16 @@ void ActorHandler::UpdateActorMode(const std::string & Mode, bool updatefromlua)
 /***********************************************************
 update Model
 ***********************************************************/
-void ActorHandler::UpdateActorModel(const std::string & Model, bool updatefromlua)
+void ActorHandler::UpdateActorModel(const std::string & Model, bool updatefromlua, bool fromattackscript)
 {
 	if(_character)
 	{
 		boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
 		if(disO)
 		{
-			LbaNet::ModelInfo model = disO->GetCurrentModel(updatefromlua && m_paused);
+			LbaNet::ModelInfo model = disO->GetCurrentModel(updatefromlua && m_paused && !fromattackscript);
 			model.ModelName = Model;
-			disO->Update(new LbaNet::ModelUpdate(model, false), updatefromlua && m_paused);
+			disO->Update(new LbaNet::ModelUpdate(model, false), updatefromlua && m_paused && !fromattackscript);
 
 			if(!updatefromlua || !m_paused)
 				_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
@@ -901,16 +903,16 @@ void ActorHandler::UpdateActorModel(const std::string & Model, bool updatefromlu
 /***********************************************************
 update outfit
 ***********************************************************/
-void ActorHandler::UpdateActorOutfit(const std::string & Outfit, bool updatefromlua)
+void ActorHandler::UpdateActorOutfit(const std::string & Outfit, bool updatefromlua, bool fromattackscript)
 {
 	if(_character)
 	{
 		boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
 		if(disO)
 		{
-			LbaNet::ModelInfo model = disO->GetCurrentModel(updatefromlua && m_paused);
+			LbaNet::ModelInfo model = disO->GetCurrentModel(updatefromlua && m_paused && !fromattackscript);
 			model.Outfit = Outfit;
-			disO->Update(new LbaNet::ModelUpdate(model, false), updatefromlua && m_paused);
+			disO->Update(new LbaNet::ModelUpdate(model, false), updatefromlua && m_paused && !fromattackscript);
 
 			if(!updatefromlua || !m_paused)
 				_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
@@ -925,16 +927,16 @@ void ActorHandler::UpdateActorOutfit(const std::string & Outfit, bool updatefrom
 /***********************************************************
 update weapon
 ***********************************************************/
-void ActorHandler::UpdateActorWeapon(const std::string & Weapon, bool updatefromlua)
+void ActorHandler::UpdateActorWeapon(const std::string & Weapon, bool updatefromlua, bool fromattackscript)
 {
 	if(_character)
 	{
 		boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
 		if(disO)
 		{
-			LbaNet::ModelInfo model = disO->GetCurrentModel(updatefromlua && m_paused);
+			LbaNet::ModelInfo model = disO->GetCurrentModel(updatefromlua && m_paused && !fromattackscript);
 			model.Weapon = Weapon;
-			disO->Update(new LbaNet::ModelUpdate(model, false), updatefromlua && m_paused);
+			disO->Update(new LbaNet::ModelUpdate(model, false), updatefromlua && m_paused && !fromattackscript);
 
 			if(!updatefromlua || !m_paused)
 				_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
@@ -990,9 +992,9 @@ void ActorHandler::TeleportTo(float PosX, float PosY, float PosZ)
 /***********************************************************
 set rotation
 ***********************************************************/
-void ActorHandler::SetRotation(float angle)
+void ActorHandler::SetRotation(float angle, bool fromattackscript)
 {
-	if(m_paused)
+	if(m_paused && !fromattackscript)
 	{
 		m_saved_Q = LbaQuaternion();
 		m_saved_Q.AddSingleRotation(angle, LbaVec3(0, 1, 0));
@@ -1017,9 +1019,9 @@ void ActorHandler::SetRotation(float angle)
 /***********************************************************
 show/hide
 ***********************************************************/
-void ActorHandler::ShowHide(bool Show)
+void ActorHandler::ShowHide(bool Show, bool fromattackscript)
 {
-	if(m_paused)
+	if(m_paused && !fromattackscript)
 	{
 		m_savedshow = Show;
 	}
@@ -1346,11 +1348,13 @@ void ActorHandler::StartScript()
 	//file<<scripts.str();
 	//file.close();
 
+	std::ofstream checkscript("checksc.txt");
+	checkscript<<scripts.str()<<std::endl;
 	// register it
 	m_scripthandler->ExecuteScriptString(scripts.str());
 
 	// start the script
-	m_launchedscript = m_scripthandler->StartScript(fctname.str(), false);
+	 m_scripthandler->StartScript(fctname.str(), false, m_launchedscript);
 }
 
 

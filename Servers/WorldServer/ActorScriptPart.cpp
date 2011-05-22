@@ -187,7 +187,7 @@ save action to lua file
 void ActorScriptPart_ChangeAnimation::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
 	if(_Animationstring != "")
-		file<<"Environment:UpdateActorAnimation("<<actid<<",\""<<_Animationstring<<"\")"<<std::endl;
+		file<<"Environment:UpdateActorAnimation(ScriptId,"<<actid<<",\""<<_Animationstring<<"\")"<<std::endl;
 }
 
 
@@ -214,7 +214,7 @@ save action to lua file
 void ActorScriptPart_ChangeModel::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
 	if(_Name != "")
-		file<<"Environment:UpdateActorModel("<<actid<<",\""<<_Name<<"\")"<<std::endl;
+		file<<"Environment:UpdateActorModel(ScriptId,"<<actid<<",\""<<_Name<<"\")"<<std::endl;
 }
 
 
@@ -241,7 +241,7 @@ save action to lua file
 void ActorScriptPart_ChangeOutfit::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
 	if(_Name != "")
-		file<<"Environment:UpdateActorOutfit("<<actid<<",\""<<_Name<<"\")"<<std::endl;
+		file<<"Environment:UpdateActorOutfit(ScriptId,"<<actid<<",\""<<_Name<<"\")"<<std::endl;
 }
 
 
@@ -268,7 +268,7 @@ save action to lua file
 void ActorScriptPart_ChangeWeapon::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
 	if(_Name != "")
-		file<<"Environment:UpdateActorWeapon("<<actid<<",\""<<_Name<<"\")"<<std::endl;
+		file<<"Environment:UpdateActorWeapon(ScriptId,"<<actid<<",\""<<_Name<<"\")"<<std::endl;
 }
 
 
@@ -295,7 +295,7 @@ save action to lua file
 void ActorScriptPart_ChangeMode::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
 	if(_Name != "")
-		file<<"Environment:UpdateActorMode("<<actid<<",\""<<_Name<<"\")"<<std::endl;
+		file<<"Environment:UpdateActorMode(ScriptId,"<<actid<<",\""<<_Name<<"\")"<<std::endl;
 }
 
 
@@ -419,7 +419,7 @@ save action to lua file
 ***********************************************************/	
 void ActorScriptPart_SetRotation::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
-	file<<"Environment:SetActorRotation("<<actid<<","<<_Angle<<")"<<std::endl;
+	file<<"Environment:SetActorRotation(ScriptId,"<<actid<<","<<_Angle<<")"<<std::endl;
 }
 
 
@@ -485,7 +485,7 @@ void ActorScriptPart_StartWaypoint::WriteExecutionScript(std::ostream & file, lo
 
 	if(indexes.first >= 0)
 	{
-		file<<"Environment:UpdateActorAnimation("<<actid<<",\""<<(_Forward?"MoveForward":"MoveBackward")<<"\")"<<std::endl;
+		file<<"Environment:UpdateActorAnimation(ScriptId,"<<actid<<",\""<<(_Forward?"MoveForward":"MoveBackward")<<"\")"<<std::endl;
 		file<<"Environment:ActorFollowWaypoint(ScriptId,"<<actid<<","<<indexes.first<<","<<indexes.second<<")"<<std::endl;
 	}
 }
@@ -506,7 +506,7 @@ save action to lua file
 ***********************************************************/	
 void ActorScriptPart_ShowHide::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {
-	file<<"Environment:ActorShowHide("<<actid<<","<<(_Show?"true":"false")<<")"<<std::endl;
+	file<<"Environment:ActorShowHide(ScriptId,"<<actid<<","<<(_Show?"true":"false")<<")"<<std::endl;
 }
 
 

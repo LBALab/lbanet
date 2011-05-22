@@ -30,23 +30,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /***********************************************************
 start lua script in a separate thread
 ***********************************************************/
-int ScriptEnvironmentBase::StartScript(const std::string & FunctionName, bool inlinefunction)
+void ScriptEnvironmentBase::StartScript(const std::string & FunctionName, 
+										bool inlinefunction, int &ThreadReference)
 {
-	if(m_luaHandler)
-		return  m_luaHandler->StartScript(FunctionName, inlinefunction, this);
+	ThreadReference = -1;
 
-	return -1;
+	if(m_luaHandler)
+		m_luaHandler->StartScript(FunctionName, inlinefunction, this, ThreadReference);
 }
 
 /***********************************************************
 start lua script in a separate thread
 ***********************************************************/
-int ScriptEnvironmentBase::StartScript(const std::string & FunctionName, long ActorId, bool inlinefunction)
+void ScriptEnvironmentBase::StartScript(const std::string & FunctionName, long ActorId, 
+										bool inlinefunction, int &ThreadReference)
 {
-	if(m_luaHandler)
-		return  m_luaHandler->StartScript(FunctionName, ActorId, inlinefunction, this);
+	ThreadReference = -1;
 
-	return -1;
+	if(m_luaHandler)
+		 m_luaHandler->StartScript(FunctionName, ActorId, inlinefunction, this, ThreadReference);
 }
 
 /***********************************************************

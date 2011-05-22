@@ -422,7 +422,7 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 
 			// revert back to previous state
 			if(ChangeState(_savedstate))
-				UpdateActorAnimation(_savedanim, false);		
+				UpdateActorAnimation(_savedanim, false, false);		
 		}
 		else
 			movewithanimation = true;
@@ -872,7 +872,7 @@ void NPCHandler::PlayHurt(int hurttype)
 	if(hurtanimstring == "")
 		ChangeState(_savedstate); // cant play hurt - go back to normal
 	else
-		UpdateActorAnimation(hurtanimstring, false); // update to hurt animation
+		UpdateActorAnimation(hurtanimstring, false, false); // update to hurt animation
 
 }
 
@@ -1067,9 +1067,9 @@ bool NPCHandler::ChangeState(int newstate)
 
 			//change anim to chasing anim
 			if(m_chasinganimation != "")
-				UpdateActorAnimation(m_chasinganimation, false);
+				UpdateActorAnimation(m_chasinganimation, false, false);
 			else
-				UpdateActorAnimation("MoveForward", false);
+				UpdateActorAnimation("MoveForward", false, false);
 
 
 			#ifdef _DEBUG_NPC_
@@ -1090,7 +1090,7 @@ bool NPCHandler::ChangeState(int newstate)
 			_lastupdate.AnimationIdx  = "";
 
 			//change anim to walking
-			UpdateActorAnimation("MoveForward", false);
+			UpdateActorAnimation("MoveForward", false, false);
 
 			#ifdef _DEBUG_NPC_
 			filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"change state to come back"<<std::endl;
@@ -1145,7 +1145,7 @@ bool NPCHandler::ChangeState(int newstate)
 			_lastupdate.AnimationIdx  = "";
 
 			//change anim to walking
-			UpdateActorAnimation("TurnLeft", false);
+			UpdateActorAnimation("TurnLeft", false, false);
 
 			#ifdef _DEBUG_NPC_
 			filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"change state to rotate back"<<std::endl;
@@ -1384,9 +1384,9 @@ bool NPCHandler::ShouldforceUpdate()
 /***********************************************************
 used by lua to get an actor Position
 ***********************************************************/
-LbaVec3 NPCHandler::GetActorPosition()
+LbaVec3 NPCHandler::GetActorPosition(bool fromattackscript)
 {
-	if(_freemove)
+	if(fromattackscript && _freemove)
 	{
 		if(_character)
 		{
@@ -1402,7 +1402,7 @@ LbaVec3 NPCHandler::GetActorPosition()
 		return LbaVec3();
 	}
 	else
-		return ActorHandler::GetActorPosition();
+		return ActorHandler::GetActorPosition(fromattackscript);
 }
 
 
@@ -1418,9 +1418,10 @@ void NPCHandler::StartAttackScript()
 	if(m_launchedattackscript > 0)
 		StopAttackScript();	//stop old script
 
+
 	// start the script
 	if(m_attackfunctionname != "" && m_scripthandler)
-		m_launchedattackscript = m_scripthandler->StartScript(m_attackfunctionname, GetId(), false);
+		m_scripthandler->StartScript(m_attackfunctionname, GetId(), false, m_launchedattackscript);
 }
 
 /***********************************************************
@@ -1610,7 +1611,7 @@ void NPCHandler::UseWeapon(int ScriptId, int WeaponNumber, bool multishot)
 
 	// start weapon use anim
 	if(useanim != "")
-		UpdateActorAnimation(useanim, false);
+		UpdateActorAnimation(useanim, false, false);
 		
 
 	// do specific weapon actions
@@ -1905,4 +1906,13 @@ bool NPCHandler::ShouldAttackPlayer(float px, float py, float pz,
 				return false;
 		}	
 	}
+}
+
+	
+/***********************************************************
+check if script is attack script
+***********************************************************/
+bool NPCHandler::IsAttackScript(int ScriptId) 
+{
+	return ScriptId == m_launchedattackscript;
 }

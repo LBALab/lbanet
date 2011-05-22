@@ -614,7 +614,9 @@ void LbaNetEngine::HandleGameEvents()
 				dynamic_cast<LbaNet::StartClientScriptEvent *>(&obj);
 
 
-			if(m_lbaNetModel->StartScript(castedptr->ScriptName, castedptr->InlineFunction) < 0)
+			int scriptid = -1;
+			m_lbaNetModel->StartScript(castedptr->ScriptName, castedptr->InlineFunction, scriptid);
+			if(scriptid < 0)
 			{
 				// send back to server if script failed
 				EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ScriptExecutionFinishedEvent(

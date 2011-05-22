@@ -16,13 +16,14 @@ unsigned long LuaThreadHandler::m_idgenerator = 0;
 constructor
 ***********************************************************/
 LuaThreadHandler::LuaThreadHandler(lua_State * mainstate, const std::string & FunctionName, 
-								   bool inlinefunction, ScriptEnvironmentBase* env)
+								   bool inlinefunction, ScriptEnvironmentBase* env, int &ThreadReference)
 : m_FunctionName(FunctionName), m_LuaMainState(mainstate), m_started(false)
 {
 	try
 	{
 		m_LuaThreadState = lua_newthread(m_LuaMainState);
 		m_refKey = luaL_ref(m_LuaMainState, LUA_REGISTRYINDEX);
+		ThreadReference = m_refKey;
 
 		if(inlinefunction)
 		{
@@ -73,13 +74,14 @@ LuaThreadHandler::LuaThreadHandler(lua_State * mainstate, const std::string & Fu
 constructor with actor id
 ***********************************************************/
 LuaThreadHandler::LuaThreadHandler(lua_State * mainstate, long actorid, const std::string & FunctionName, 
-								   bool inlinefunction, ScriptEnvironmentBase* env)
+								   bool inlinefunction, ScriptEnvironmentBase* env, int &ThreadReference)
 : m_FunctionName(FunctionName), m_LuaMainState(mainstate), m_started(false)
 {
 	try
 	{
 		m_LuaThreadState = lua_newthread(m_LuaMainState);
 		m_refKey = luaL_ref(m_LuaMainState, LUA_REGISTRYINDEX);
+		ThreadReference = m_refKey;
 
 		if(inlinefunction)
 		{

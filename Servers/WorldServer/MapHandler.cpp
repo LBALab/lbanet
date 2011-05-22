@@ -163,7 +163,7 @@ void MapHandler::run()
 				for(size_t veci=0; veci < evta.size(); ++veci)
 					_tosendevts.push_back(evta[veci]);
 
-				LbaVec3 pos = ita->second->GetActorPosition();
+				LbaVec3 pos = ita->second->GetActorPosition(false);
 				LbaVec3 lastpos = ita->second->GetLastRecordPos();
 
 				if(lastpos != pos)
@@ -1938,11 +1938,11 @@ void MapHandler::PlayerItemUsed(Ice::Long clientid, long ItemId)
 /***********************************************************
 used by lua to get an actor Position
 ***********************************************************/
-LbaVec3 MapHandler::GetActorPosition(long ActorId)
+LbaVec3 MapHandler::GetActorPosition(int ScriptId, long ActorId)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
-		return itact->second->GetActorPosition();
+		return itact->second->GetActorPosition(itact->second->IsAttackScript(ScriptId));
 
 	return LbaVec3();
 }
@@ -1951,11 +1951,11 @@ LbaVec3 MapHandler::GetActorPosition(long ActorId)
 /***********************************************************
 used by lua to get an actor Rotation
 ***********************************************************/
-float MapHandler::GetActorRotation(long ActorId)
+float MapHandler::GetActorRotation(int ScriptId, long ActorId)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
-		return itact->second->GetActorRotation();
+		return itact->second->GetActorRotation(itact->second->IsAttackScript(ScriptId));
 
 	return 0;
 }
@@ -1964,11 +1964,11 @@ float MapHandler::GetActorRotation(long ActorId)
  /***********************************************************
 used by lua to get an actor Rotation
 ***********************************************************/
-LbaQuaternion MapHandler::GetActorRotationQuat(long ActorId)
+LbaQuaternion MapHandler::GetActorRotationQuat(int ScriptId, long ActorId)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
-		return itact->second->GetActorRotationQuat();
+		return itact->second->GetActorRotationQuat(itact->second->IsAttackScript(ScriptId));
 
 	return LbaQuaternion();
 }
@@ -1978,12 +1978,12 @@ LbaQuaternion MapHandler::GetActorRotationQuat(long ActorId)
 /***********************************************************
  used by lua to update an actor animation
 ***********************************************************/
-void MapHandler::UpdateActorAnimation(long ActorId, const std::string & AnimationString)
+void MapHandler::UpdateActorAnimation(int ScriptId, long ActorId, const std::string & AnimationString)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
 	{
-		itact->second->UpdateActorAnimation(AnimationString, true);
+		itact->second->UpdateActorAnimation(AnimationString, true, itact->second->IsAttackScript(ScriptId));
 	}
 }
 
@@ -1992,11 +1992,11 @@ void MapHandler::UpdateActorAnimation(long ActorId, const std::string & Animatio
 /***********************************************************
 //! used by lua to update an actor mode
 ***********************************************************/
-void MapHandler::UpdateActorMode(long ActorId, const std::string & Mode)
+void MapHandler::UpdateActorMode(int ScriptId, long ActorId, const std::string & Mode)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
-		itact->second->UpdateActorMode(Mode, true);
+		itact->second->UpdateActorMode(Mode, true, itact->second->IsAttackScript(ScriptId));
 }
 
 
@@ -2060,11 +2060,11 @@ void MapHandler::ScriptFinished(int scriptid, const std::string & functioname)
 	//! used by lua to move an actor or player
 	//! the actor will change model
 ***********************************************************/
-void MapHandler::UpdateActorModel(long ActorId, const std::string & Name)
+void MapHandler::UpdateActorModel(int ScriptId, long ActorId, const std::string & Name)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
-		itact->second->UpdateActorModel(Name, true);
+		itact->second->UpdateActorModel(Name, true, itact->second->IsAttackScript(ScriptId));
 }
 
 
@@ -2073,11 +2073,11 @@ void MapHandler::UpdateActorModel(long ActorId, const std::string & Name)
 	//! used by lua to move an actor or player
 	//! the actor will change outfit
 ***********************************************************/
-void MapHandler::UpdateActorOutfit(long ActorId, const std::string & Name)
+void MapHandler::UpdateActorOutfit(int ScriptId, long ActorId, const std::string & Name)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
-		itact->second->UpdateActorOutfit(Name, true);
+		itact->second->UpdateActorOutfit(Name, true, itact->second->IsAttackScript(ScriptId));
 }
 
 
@@ -2086,11 +2086,11 @@ void MapHandler::UpdateActorOutfit(long ActorId, const std::string & Name)
 	//! used by lua to move an actor or player
 	//! the actor will change weapon
 ***********************************************************/
-void MapHandler::UpdateActorWeapon(long ActorId, const std::string & Name)
+void MapHandler::UpdateActorWeapon(int ScriptId, long ActorId, const std::string & Name)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
-		itact->second->UpdateActorWeapon(Name, true);
+		itact->second->UpdateActorWeapon(Name, true, itact->second->IsAttackScript(ScriptId));
 }
 
 
@@ -2135,11 +2135,11 @@ void MapHandler::TeleportActorTo(int ScriptId, long ActorId, const LbaVec3 &Posi
 //! used by lua to move an actor or player
 //! the actor change rotation
 ***********************************************************/
-void MapHandler::SetActorRotation(long ActorId, float Angle)
+void MapHandler::SetActorRotation(int ScriptId, long ActorId, float Angle)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
-		itact->second->SetRotation(Angle);
+		itact->second->SetRotation(Angle, itact->second->IsAttackScript(ScriptId));
 }
 
 
@@ -2148,11 +2148,11 @@ void MapHandler::SetActorRotation(long ActorId, float Angle)
 //! used by lua to move an actor or player
 //! the actor show/hide
 ***********************************************************/
-void MapHandler::ActorShowHide(long ActorId, bool Show)
+void MapHandler::ActorShowHide(int ScriptId, long ActorId, bool Show)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
-			itact->second->ShowHide(Show);
+			itact->second->ShowHide(Show, itact->second->IsAttackScript(ScriptId));
 
 }
 

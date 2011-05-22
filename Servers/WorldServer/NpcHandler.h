@@ -29,6 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DialogPart.h"
 #include "ProjectileObjectDef.h"
 
+#include <IceUtil/Mutex.h>
+
 class CharacterStateBase;
 
 /***********************************************************************
@@ -222,7 +224,7 @@ public:
 	virtual bool IsNPC(){return true;}
 
 	//! used by lua to get an actor Position
-	virtual LbaVec3 GetActorPosition();
+	virtual LbaVec3 GetActorPosition(bool fromattackscript);
 
 
 
@@ -362,6 +364,10 @@ public:
 	//! 3-> second contact weapon, 4 -> second distance weapon
 	virtual float GetWeaponReachDistance(int WeaponNumber);
 
+	
+	//! check if script is attack script
+	virtual bool IsAttackScript(int ScriptId);
+
 protected:
 
 	//! return the build class
@@ -441,8 +447,8 @@ protected:
 								const LbaNet::ModelState & playerstate,
 								const std::string & playermode);
 
-
 protected:
+
 	long						_npcnametextid;
 	bool						_simpledialog;
 	DialogPartPtr				_rootdialog;

@@ -204,32 +204,32 @@ public:
 
 
 	//! used by lua to get an actor Position
-	virtual LbaVec3 GetActorPosition();
+	virtual LbaVec3 GetActorPosition(bool fromattackscript);
 
 	//! used by lua to get an actor Rotation
-	float GetActorRotation();
+	float GetActorRotation(bool fromattackscript);
 
 	//! used by lua to get an actor Rotation
-	LbaQuaternion GetActorRotationQuat();
+	LbaQuaternion GetActorRotationQuat(bool fromattackscript);
 
 	//! used by lua to update an actor animation
-	void UpdateActorAnimation(const std::string & AnimationString, bool updatefromlua);
+	void UpdateActorAnimation(const std::string & AnimationString, bool updatefromlua, bool fromattackscript);
 
 	//! used by lua to update an actor mode
-	void UpdateActorMode(const std::string & Mode, bool updatefromlua);
+	void UpdateActorMode(const std::string & Mode, bool updatefromlua, bool fromattackscript);
 
 	//! called when a script has finished
 	void ScriptFinished(int scriptid, const std::string & functioname);
 
 
 	//! update Model
-	void UpdateActorModel(const std::string & Model, bool updatefromlua);
+	void UpdateActorModel(const std::string & Model, bool updatefromlua, bool fromattackscript);
 
 	//! update Model
-	void UpdateActorOutfit(const std::string & Outfit, bool updatefromlua);
+	void UpdateActorOutfit(const std::string & Outfit, bool updatefromlua, bool fromattackscript);
 
 	//! update Model
-	void UpdateActorWeapon(const std::string & Weapon, bool updatefromlua);
+	void UpdateActorWeapon(const std::string & Weapon, bool updatefromlua, bool fromattackscript);
 
 	//! update Model
 	virtual void SendSignal(int Signalnumber);
@@ -238,10 +238,10 @@ public:
 	void TeleportTo(float PosX, float PosY, float PosZ);
 
 	//! set rotation
-	void SetRotation(float angle);
+	void SetRotation(float angle, bool fromattackscript);
 
 	//! show/hide
-	void ShowHide(bool Show);
+	void ShowHide(bool Show, bool fromattackscript);
 
 
 	//! process actor
@@ -424,6 +424,8 @@ public:
 	//! 3-> second contact weapon, 4 -> second distance weapon
 	virtual float GetWeaponReachDistance(int WeaponNumber){return 0;}
 	
+	//! check if script is attack script
+	virtual bool IsAttackScript(int ScriptId) {return false;}
 
 #ifdef _USE_QT_EDITOR_
 public:
