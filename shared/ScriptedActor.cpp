@@ -855,3 +855,19 @@ void ScriptedActor::RestoreScript()
 	_storedScripts.swap(_currentScripts);
 	_storedScripts.clear();
 }
+
+
+/***********************************************************
+//! restore current script
+***********************************************************/
+bool ScriptedActor::CanPlayAnimation(const std::string & anim)
+{
+	if(_character)
+	{
+		boost::shared_ptr<DisplayObjectHandlerBase> dyso = _character->GetDisplayObject();
+		if(dyso)
+			return dyso->CanPlayAnimation(anim);
+	}
+
+	return false;
+}

@@ -415,6 +415,12 @@ public:
 	//! create projectile object
 	boost::shared_ptr<DynamicObject> CreateProjectileObject(const LbaNet::ProjectileInfo & Info);
 
+	// check if actor can play animation
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual bool CanPlayAnimation(int ObjectType, long ObjectId, const std::string & anim);
 
 protected:
 

@@ -1974,6 +1974,55 @@ boost::shared_ptr<DynamicObject> LbaNetModel::CreateProjectileObject(const LbaNe
 	return dynobj;
 }
 
+/***********************************************************
+// check if actor can play animation
+// ObjectType ==>
+//! 1 -> npc object
+//! 2 -> player object
+//! 3 -> movable object
+***********************************************************/
+bool LbaNetModel::CanPlayAnimation(int ObjectType, long ObjectId, const std::string & anim)
+{
+	switch(ObjectType)
+	{
+		// 1 -> npc object
+		case 1:
+			{
+			std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find((long)ObjectId);
+			if(it != _npcObjects.end())
+				return it->second->CanPlayAnimation(anim);
+			}
+		break;
+
+
+		// 2 -> player object
+		case 2:
+			//special treatment if main player
+			if(m_playerObjectId == (long)ObjectId)
+			{
+				return m_controllerChar->CanPlayAnimation(anim);
+			}
+			else
+			{
+				std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _playerObjects.find((long)ObjectId);
+				if(it != _playerObjects.end())
+					return it->second->CanPlayAnimation(anim);
+			}
+		break;
+
+		// 3 -> ghost object
+		case 3:
+			{
+			std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _ghostObjects.find((long)ObjectId);
+			if(it != _ghostObjects.end())
+				return it->second->CanPlayAnimation(anim);
+			}
+		break;
+	}
+
+	return false;
+}
+
 
 
 

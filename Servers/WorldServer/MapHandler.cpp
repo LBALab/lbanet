@@ -4073,3 +4073,27 @@ float MapHandler::GetNpcWeaponReachDistance(long ActorId, int WeaponNumber)
 
 	return 0;
 }
+
+
+/***********************************************************
+// check if actor can play animation
+// ObjectType ==>
+//! 1 -> npc object
+//! 2 -> player object
+//! 3 -> movable object
+***********************************************************/
+bool MapHandler::CanPlayAnimation(int ObjectType, long ObjectId, const std::string & anim)
+{
+	switch(ObjectType)
+	{
+		case 1: // actor
+		{
+			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ita = _Actors.find(ObjectId);
+			if(ita != _Actors.end())
+				return ita->second->CanPlayAnimation(anim);
+		}
+		break;
+	}
+
+	return false;
+}

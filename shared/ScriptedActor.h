@@ -432,6 +432,9 @@ public:
 	//! restore current script
 	void RestoreScript();
 
+	//! check if can play animation
+	bool CanPlayAnimation(const std::string & anim);
+
 protected:
 	boost::shared_ptr<DynamicObject>						_character;
 	std::list<boost::shared_ptr<ScriptPartBase> >			_currentScripts;

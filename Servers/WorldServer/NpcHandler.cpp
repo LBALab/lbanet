@@ -835,10 +835,6 @@ play hurt animation
 ***********************************************************/
 void NPCHandler::PlayHurt(int hurttype)
 {
-	boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
-	if(!disO)
-		return;
-
 	std::string hurtanimstring;
 
 
@@ -847,7 +843,7 @@ void NPCHandler::PlayHurt(int hurttype)
 	{
 		if(hurttype == 3)
 		{
-			if(disO->CanPlayAnimation("HurtBig"))
+			if(CanPlayAnimation("HurtBig"))
 			{
 				hurtanimstring = "HurtBig";
 				break;
@@ -856,7 +852,7 @@ void NPCHandler::PlayHurt(int hurttype)
 
 		if(hurttype == 2)
 		{
-			if(disO->CanPlayAnimation("HurtMedium"))
+			if(CanPlayAnimation("HurtMedium"))
 			{
 				hurtanimstring = "HurtMedium";
 				break;
@@ -865,7 +861,7 @@ void NPCHandler::PlayHurt(int hurttype)
 
 		if(hurttype == 1)
 		{
-			if(disO->CanPlayAnimation("HurtSmall"))
+			if(CanPlayAnimation("HurtSmall"))
 			{
 				hurtanimstring = "HurtSmall";
 				break;
@@ -1173,7 +1169,7 @@ void NPCHandler::PlayerMoved(Ice::Long PlayerId, const LbaNet::PlayerPosition &s
 									const LbaNet::ModelState & state,
 									const std::string & mode, bool cantarget)
 {
-	if(_aggresive && _agentState->CanChase() && cantarget)
+	if(m_launchedattackscript <= 0 && _aggresive && _agentState->CanChase() && cantarget)
 	{
 		boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
 		if(!physo)

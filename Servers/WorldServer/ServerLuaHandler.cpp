@@ -445,7 +445,8 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetTargettedAttackPlayer", &ScriptEnvironmentBase::GetTargettedAttackPlayer)
 		.def("IsTargetInRange", &ScriptEnvironmentBase::IsTargetInRange)
 		.def("GetTargetRotationDiff", &ScriptEnvironmentBase::GetTargetRotationDiff)
-		.def("GetNpcWeaponReachDistance", &ScriptEnvironmentBase::GetNpcWeaponReachDistance),
+		.def("GetNpcWeaponReachDistance", &ScriptEnvironmentBase::GetNpcWeaponReachDistance)
+		.def("CanPlayAnimation", &ScriptEnvironmentBase::CanPlayAnimation),
 
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),

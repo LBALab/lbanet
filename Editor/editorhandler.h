@@ -574,6 +574,13 @@ public:
 	//! inform that map Finished Loaded();
 	void MapFinishedLoaded();
 
+	// check if actor can play animation
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual bool CanPlayAnimation(int ObjectType, long ObjectId, const std::string & anim){ return false;}
+
 private:
 	enum ObjectEditType {EditObjCopy, EditObjCut, EditObjDelete};
 

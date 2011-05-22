@@ -403,6 +403,13 @@ public:
 	//! 3-> second contact weapon, 4 -> second distance weapon
 	virtual float GetNpcWeaponReachDistance(long ActorId, int WeaponNumber);
 
+	// check if actor can play animation
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual bool CanPlayAnimation(int ObjectType, long ObjectId, const std::string & anim);
+
 protected:
 
 	// process events
