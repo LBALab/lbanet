@@ -611,7 +611,8 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 /***********************************************************
 hurt life
 ***********************************************************/
-void NPCHandler::HurtLife(float amount, bool UseArmor, Ice::Long HurtingPlayerId, bool forcelooselife)
+void NPCHandler::HurtLife(float amount, bool UseArmor, int HurtingActorType, 
+							Ice::Long HurtingActorId, bool forcelooselife)
 {
 	if(!_aggresive)
 		return;
@@ -626,13 +627,13 @@ void NPCHandler::HurtLife(float amount, bool UseArmor, Ice::Long HurtingPlayerId
 	#endif
 
 	//target hurting player
-	if(HurtingPlayerId >= 0)
+	if((HurtingActorType == 4) && (HurtingActorId >= 0))
 	{
-		StartFight(HurtingPlayerId);
+		StartFight(HurtingActorId);
 
 		// add to hurt list
-		if(std::find(_hurtingplayers.begin(), _hurtingplayers.end(), HurtingPlayerId) == _hurtingplayers.end())
-			_hurtingplayers.push_back(HurtingPlayerId);	
+		if(std::find(_hurtingplayers.begin(), _hurtingplayers.end(), HurtingActorId) == _hurtingplayers.end())
+			_hurtingplayers.push_back(HurtingActorId);	
 	}
 
 
@@ -1915,4 +1916,13 @@ check if script is attack script
 bool NPCHandler::IsAttackScript(int ScriptId) 
 {
 	return ScriptId == m_launchedattackscript;
+}
+
+		
+/***********************************************************
+check if script is attack script
+***********************************************************/
+bool NPCHandler::IsAttacking() 
+{
+	return (m_launchedattackscript > 0);
 }

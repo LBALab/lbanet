@@ -163,7 +163,7 @@ void MapHandler::run()
 				for(size_t veci=0; veci < evta.size(); ++veci)
 					_tosendevts.push_back(evta[veci]);
 
-				LbaVec3 pos = ita->second->GetActorPosition(false);
+				LbaVec3 pos = ita->second->GetActorPosition(ita->second->IsAttacking());
 				LbaVec3 lastpos = ita->second->GetLastRecordPos();
 
 				if(lastpos != pos)
@@ -998,6 +998,11 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 				if(attachevent)
 					toplayer.push_back(attachevent);
 
+				//hide actor
+				if(itact->second->IsHidden())
+					toplayer.push_back(new LbaNet::ShowHideEvent(
+										SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+										1, itact->first, false));
 			}
 		}
 	}
@@ -2266,7 +2271,7 @@ void MapHandler::HurtActor(int ObjectType, long ObjectId, float HurtValue, bool 
 			if(ita != _Actors.end())
 			{
 				if(HurtLife)
-					ita->second->HurtLife(-HurtValue, false, -1, false);
+					ita->second->HurtLife(-HurtValue, false, 1, -1, false);
 				else
 					ita->second->HurtMana(-HurtValue);
 			}
@@ -2664,13 +2669,16 @@ void MapHandler::HittedProjectile(long PlayerId, long ProjectileId, int	TouchedA
 			{
 				std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ita = _Actors.find(TouchedActorId);
 				if(ita != _Actors.end())
-					ita->second->HurtLife(-itp->second.Power, true, PlayerId, itp->second.ForceHurt);
+					ita->second->HurtLife(-itp->second.Power, true, 
+												itp->second.OwnerActorType, itp->second.OwnerActorId, 
+												itp->second.ForceHurt);
 
 			}
 
 			if(TouchedActorType == 2)
 			{
-				PlayerHitPlayer(PlayerId, TouchedActorId, itp->second.Power, itp->second.ForceHurt);
+				ProjectileHitPlayer(itp->second.OwnerActorType, (long)itp->second.OwnerActorId, TouchedActorId, 
+					itp->second.Power, itp->second.ForceHurt);
 			}
 		}
 
@@ -2691,12 +2699,12 @@ void MapHandler::PlayerHittedContact(long PlayerId, bool WithWeapon, int	Touched
 		{
 			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ita = _Actors.find(TouchedActorId);
 			if(ita != _Actors.end())
-				ita->second->HurtLife(-power, true, PlayerId, false);
+				ita->second->HurtLife(-power, true, 4, PlayerId, false);
 		}
 
 		if(TouchedActorType == 2)
 		{
-			PlayerHitPlayer(PlayerId, TouchedActorId, power, false);
+			ProjectileHitPlayer(4, PlayerId, TouchedActorId, power, false);
 		}
 	}
 }
@@ -2705,7 +2713,7 @@ void MapHandler::PlayerHittedContact(long PlayerId, bool WithWeapon, int	Touched
 /***********************************************************
 playr hit player
 ***********************************************************/
-void MapHandler::PlayerHitPlayer(long hitterId, long hittedid, float hitpower, bool forcelooselife)
+void MapHandler::ProjectileHitPlayer(long hitterType, long hitterId, long hittedid, float hitpower, bool forcelooselife)
 {
 	// reduce it by armor
 	float armor = GetPlayerArmor(hittedid);
@@ -2713,7 +2721,7 @@ void MapHandler::PlayerHitPlayer(long hitterId, long hittedid, float hitpower, b
 	if(hitlife < 0)
 	{
 		// hurt the player
-		if(!DeltaUpdateLife(hittedid, hitlife, 4, hitterId, forcelooselife))
+		if(!DeltaUpdateLife(hittedid, hitlife, hitterType, hitterId, forcelooselife))
 		{
 			//only play hurt if not dead
 			if(hitlife < -19.9)

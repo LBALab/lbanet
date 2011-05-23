@@ -362,7 +362,8 @@ public:
 
 
 	//! hurt life
-	virtual void HurtLife(float amount, bool UseArmor, Ice::Long HurtingPlayerId, bool forcelooselife){}
+	virtual void HurtLife(float amount, bool UseArmor, int HurtingActorType, 
+							Ice::Long HurtingActorId, bool forcelooselife){}
 
 	//! hurt mana
 	virtual void HurtMana(float amount){}
@@ -426,6 +427,13 @@ public:
 	
 	//! check if script is attack script
 	virtual bool IsAttackScript(int ScriptId) {return false;}
+
+	//! return true if actor is hidden
+	bool IsHidden();
+	
+	//! check if actor is attacking
+	virtual bool IsAttacking() {return false;}
+
 
 #ifdef _USE_QT_EDITOR_
 public:

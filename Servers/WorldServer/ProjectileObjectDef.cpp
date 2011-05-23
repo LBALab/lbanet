@@ -10,6 +10,8 @@ constructor
 ***********************************************************/
 ProjectileObjectDef::ProjectileObjectDef()
 {
+	DisplayDesc.State = LbaNet::NoState;
+
 	DisplayDesc.RotX = 0;
 	DisplayDesc.RotY = 0;
 	DisplayDesc.RotZ = 0;

@@ -1348,8 +1348,8 @@ void ActorHandler::StartScript()
 	//file<<scripts.str();
 	//file.close();
 
-	std::ofstream checkscript("checksc.txt");
-	checkscript<<scripts.str()<<std::endl;
+	//std::ofstream checkscript("checksc.txt");
+	//checkscript<<scripts.str()<<std::endl;
 	// register it
 	m_scripthandler->ExecuteScriptString(scripts.str());
 
@@ -1792,6 +1792,14 @@ void ActorHandler::ShowHideInternal(bool show)
 							SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 							1, m_actorinfo.ObjectId, show));
 	}
+}
+
+/***********************************************************
+return true if actor is hidden
+***********************************************************/
+bool ActorHandler::IsHidden()
+{
+	return !_character->IsShown();
 }
 
 

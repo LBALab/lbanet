@@ -698,7 +698,7 @@ protected:
 
 
 	//! playr hit player
-	void PlayerHitPlayer(long hitterId, long hittedid, float hitpower, bool forcelooselife);
+	void ProjectileHitPlayer(long hitterType, long hitterId, long hittedid, float hitpower, bool forcelooselife);
 
 
 	//! teleport a player

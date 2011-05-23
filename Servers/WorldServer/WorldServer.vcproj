@@ -393,6 +393,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ProjectileObjectDef.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Quest.cpp"
 				>
 			</File>
