@@ -908,7 +908,8 @@ module LbaNet
 		
 		float			OffsetX;
 		float			OffsetY;
-	
+		float			OffsetZ;
+		\
 		float			ForceX;
 		float			ForceY;		
 		float			ForceYOnImpact;
