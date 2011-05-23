@@ -80,6 +80,7 @@ ProjectileObjectDef::ProjectileObjectDef()
 	
 	OffsetX = 0;
 	OffsetY = 0;
+	OffsetZ = 0;
 
 	ForceX = 0;
 	ForceY = 0;		
@@ -375,6 +376,7 @@ void ProjectileObjectDef::SaveToLuaFile(std::ostream & file, const std::string &
 	
 	file<<"\t"<<nname<<".OffsetX = "<<OffsetX<<std::endl;
 	file<<"\t"<<nname<<".OffsetY = "<<OffsetY<<std::endl;
+	file<<"\t"<<nname<<".OffsetZ = "<<OffsetY<<std::endl;
 
 	file<<"\t"<<nname<<".ForceX = "<<ForceX<<std::endl;
 	file<<"\t"<<nname<<".ForceY = "<<ForceY<<std::endl;		
@@ -418,6 +420,7 @@ bool ProjectileObjectDef::GetProjectileInfo(const std::string & mode, float mana
 	info.Power = Power;
 	info.OffsetX = OffsetX;
 	info.OffsetY = OffsetY;
+	info.OffsetZ = OffsetZ;
 	info.StartAnimFrame = StartAnimFrame;
 	info.IgnoreGravity = IgnoreGravity;
 	info.ForceX = ForceX;

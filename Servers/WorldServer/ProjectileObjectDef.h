@@ -86,6 +86,7 @@ public:
 	
 	float						OffsetX;
 	float						OffsetY;
+	float						OffsetZ;
 
 	float						ForceX;
 	float						ForceY;		
