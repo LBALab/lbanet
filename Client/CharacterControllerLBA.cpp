@@ -609,24 +609,33 @@ void CharacterController::Process(double tnow, float tdiff,
 	}
 
 	// check if we touch water
+	bool changedstate = false;
 	if(checkwater)
 	{
 		if(touchground)
 		{
 			if(touchedfloormaterial == 17)	// water
+			{
 				UpdateModeAndState(_currentmodestr, LbaNet::StDrowning, tnow);
+				changedstate = true;
+			}
 
 			if(touchedfloormaterial == 18)	// gaz
+			{
 				UpdateModeAndState(_currentmodestr, LbaNet::StDrowningGas, tnow);
+				changedstate = true;
+			}
 
 			if(touchedfloormaterial == 19)	// lava
+			{
 				UpdateModeAndState(_currentmodestr, LbaNet::StBurning, tnow);
+				changedstate = true;
+			}
 		}
 	}
 
 
 	// do last check for state
-	bool changedstate = false;
 	if(_currentstate)
 	{
 		// inform state if animation is finished
@@ -650,11 +659,15 @@ void CharacterController::Process(double tnow, float tdiff,
 	}
 
 
+
 	// check if state should be changed by mode
 	LbaNet::ModelState newstate;
 	if(!_chefkiffall && !changedstate && _currentmode && 
 		_currentmode->ChangeState(_currentplayerstate, _pressedkeys, newstate))
-		UpdateModeAndState(_currentmodestr, newstate, tnow);
+	{
+		if(_currentstate->ChangeLegal(newstate))
+			UpdateModeAndState(_currentmodestr, newstate, tnow);
+	}
 
 
 	// process weapon

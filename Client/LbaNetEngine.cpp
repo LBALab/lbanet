@@ -957,6 +957,7 @@ void LbaNetEngine::SwitchGuiToChooseWorld()
 	m_lbaNetModel->Pause();
 
 	PlayMenuMusic();
+
 	m_gui_handler->SwitchGUI(1);
 	m_oldstate = m_currentstate;
 	m_currentstate = EChoosingWorld;
@@ -1009,6 +1010,8 @@ void LbaNetEngine::SwitchGuiToMenu()
 		m_gui_handler->SwitchGUI(3);
 		m_oldstate = m_currentstate;
 		m_currentstate = EMenu;
+
+		PlayMenuMusic();
 	}
 
 	if(m_gui_handler)
@@ -1027,6 +1030,8 @@ void LbaNetEngine::SwitchGuiToOption()
 	m_gui_handler->SwitchGUI(4);
 	m_oldstate = m_currentstate;
 	m_currentstate = EOption;
+
+	PlayMenuMusic();
 
 	if(m_gui_handler)
 		m_gui_handler->SetDrawOverlay(false);

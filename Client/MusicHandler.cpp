@@ -59,7 +59,8 @@ MusicHandler * MusicHandler::getInstance()
 ***********************************************************/
 MusicHandler::MusicHandler()
 : _fsystem(NULL), _fsound(NULL), _channel(NULL),
-	_current_music(""), _soundEnabled(true), _counter(1)
+	_current_music(""), _soundEnabled(true), _counter(1),
+	_current_music_nbTimes(-1)
 {
 	System_Create(&_fsystem);
 
@@ -88,7 +89,16 @@ MusicHandler::~MusicHandler()
 void MusicHandler::PlayMusic(const std::string & musicPath, int nbTimes)
 {
 	if(_current_music == musicPath)
+	{
+		if((_current_music_nbTimes != nbTimes) && _channel)
+		{
+			_channel->setLoopCount(nbTimes);
+			_current_music_nbTimes = nbTimes;
+		}
+
 		return;
+	}
+
 
 	StopMusic();
 
@@ -100,6 +110,7 @@ void MusicHandler::PlayMusic(const std::string & musicPath, int nbTimes)
 		_fsound->setLoopCount(nbTimes);
 		_fsystem->playSound(FMOD_CHANNEL_FREE, _fsound, false, &_channel);
 		_current_music = musicPath;
+		_current_music_nbTimes = nbTimes;
 
 		if(!_soundEnabled)
 			_channel->setPaused(true);

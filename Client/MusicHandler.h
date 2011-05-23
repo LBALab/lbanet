@@ -119,6 +119,7 @@ private:
 	bool						_soundEnabled;
 
 	std::string					_current_music;
+	int							_current_music_nbTimes;
 
 	std::map<unsigned long, MHSoundInfo>	_played_sounds;
 
