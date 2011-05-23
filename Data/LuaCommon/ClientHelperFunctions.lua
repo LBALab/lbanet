@@ -1,7 +1,10 @@
 function ActorRotateAndMoveForwardTo(ScriptId, ActorId, ArrivalPosition, RotationSpeed, Environment)
+		
+	-- reserve the actor for the script
+	Environment:ReserveActor(ScriptId, ActorId)
 	
 	-- get current position
-	CurrentPosition = Environment:GetActorPosition(ActorId)	
+	CurrentPosition = Environment:GetActorPosition(ScriptId, ActorId)	
 	
 	-- calculate rotation angle
 	TDistance = LbaVec3(ArrivalPosition)
@@ -15,7 +18,7 @@ function ActorRotateAndMoveForwardTo(ScriptId, ActorId, ArrivalPosition, Rotatio
 	
 	
 	-- add translation
-	Environment:UpdateActorAnimation(ActorId, "MoveForward")	
+	Environment:UpdateActorAnimation(ScriptId, ActorId, "MoveForward")	
 	Environment:ActorStraightWalkTo(ScriptId, ActorId, ArrivalPosition)
 end
 
@@ -30,10 +33,10 @@ function ActorGoUpLadder(ScriptId, ActorId, LadderPosition, LadderHeight, Ladder
 	Environment:ReserveActor(ScriptId, ActorId)
 
 	-- change actor mode to normal
-	Environment:UpdateActorMode(ActorId, "Normal")
+	Environment:UpdateActorMode(ScriptId, ActorId, "Normal")
 
 	-- get current position
-	CurrentPosition = Environment:GetActorPosition(ActorId)
+	CurrentPosition = Environment:GetActorPosition(ScriptId, ActorId)
 	
 	-- calculate offsets depending of ladder direction
 	remX=0
@@ -82,7 +85,7 @@ function ActorGoUpLadder(ScriptId, ActorId, LadderPosition, LadderHeight, Ladder
 	
 	-- add translation up the ladder
 	if(LadderHeight > 4.7) then
-		Environment:UpdateActorAnimation(ActorId, "GoUpLadder")
+		Environment:UpdateActorAnimation(ScriptId, ActorId, "GoUpLadder")
 		TranslationPosition = LbaVec3(LadderPosition)
 		TranslationPosition.x = TranslationPosition.x +remX
 		TranslationPosition.y = TranslationPosition.y +LadderHeight - 4.7
@@ -92,12 +95,12 @@ function ActorGoUpLadder(ScriptId, ActorId, LadderPosition, LadderHeight, Ladder
 
 
 	-- add action up the ladder
-	Environment:UpdateActorAnimation(ActorId, "ArriveLadder")
+	Environment:UpdateActorAnimation(ScriptId, ActorId, "ArriveLadder")
 	Environment:ActorAnimate(ScriptId, ActorId, true)
 
 
 	-- add translation to exit the ladder
-	Environment:UpdateActorAnimation(ActorId, "MoveForward")
+	Environment:UpdateActorAnimation(ScriptId, ActorId, "MoveForward")
 	TranslationPosition = LbaVec3(LadderPosition)
 	TranslationPosition.x = TranslationPosition.x +remX + dX
 	TranslationPosition.y = TranslationPosition.y +LadderHeight + 0.1	
@@ -113,10 +116,10 @@ function TakeExitUp(ScriptId, ActorId, ExitPosition, ExitDirection, Environment)
 	Environment:ReserveActor(ScriptId, ActorId)
 	
 	-- change actor mode to normal
-	Environment:UpdateActorMode(ActorId, "Normal")
+	Environment:UpdateActorMode(ScriptId, ActorId, "Normal")
 
 	-- get current position
-	CurrentPosition = Environment:GetActorPosition(ActorId)
+	CurrentPosition = Environment:GetActorPosition(ScriptId, ActorId)
 	
 	-- calculate offsets depending of ladder direction
 	remX=0
@@ -163,11 +166,11 @@ function TakeExitUp(ScriptId, ActorId, ExitPosition, ExitDirection, Environment)
 	
 
 	-- add exit animation
-	Environment:UpdateActorAnimation(ActorId, "Climb")
+	Environment:UpdateActorAnimation(ScriptId, ActorId, "Climb")
 	Environment:ActorAnimate(ScriptId, ActorId, true)
 	
 	-- go up to activate trigger
-	NewPosition = Environment:GetActorPosition(ActorId)
+	NewPosition = Environment:GetActorPosition(ScriptId, ActorId)
 	NewPosition.x = NewPosition.x - remX
 	NewPosition.y = NewPosition.y + 2.5
 	NewPosition.z = NewPosition.z - remZ
@@ -184,10 +187,10 @@ function TakeExitDown(ScriptId, ActorId, ExitPosition, ExitDirection, Environmen
 	Environment:ReserveActor(ScriptId, ActorId)
 	
 	-- change actor mode to normal
-	Environment:UpdateActorMode(ActorId, "Normal")
+	Environment:UpdateActorMode(ScriptId, ActorId, "Normal")
 
 	-- get current position
-	CurrentPosition = Environment:GetActorPosition(ActorId)
+	CurrentPosition = Environment:GetActorPosition(ScriptId, ActorId)
 	
 	-- calculate offsets depending of ladder direction
 	remX=0
@@ -234,7 +237,7 @@ function TakeExitDown(ScriptId, ActorId, ExitPosition, ExitDirection, Environmen
 	
 
 	-- add exit animation
-	Environment:UpdateActorAnimation(ActorId, "Crawl")
+	Environment:UpdateActorAnimation(ScriptId, ActorId, "Crawl")
 	Environment:ActorAnimate(ScriptId, ActorId, true)
 	Environment:ActorAnimate(ScriptId, ActorId, true)
 	Environment:ActorAnimate(ScriptId, ActorId, true)
@@ -274,6 +277,11 @@ end
 -- go to player and attack him with contact weapon
 function ActorFollowAttackDistancePlayer(ScriptId, ActorId, Environment)
 
+	if Environment:CanPlayAnimation(1, ActorId, "PrepareWeapon") then
+		Environment:UpdateActorAnimation(ActorId, "PrepareWeapon")
+		Environment:ActorAnimate(ScriptId, ActorId, true)
+	end
+	
 	TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
 	while TargetedPlayer > -1 do
 		weaponrange = Environment:GetNpcWeaponReachDistance(ActorId, 2)
@@ -301,6 +309,11 @@ end
 
 -- go to player and attack him with contact weapon
 function ActorRotateAttackDistanceAndContactPlayer(ScriptId, ActorId, Environment)
+
+	if Environment:CanPlayAnimation(1, ActorId, "PrepareWeapon") then
+		Environment:UpdateActorAnimation(ScriptId, ActorId, "PrepareWeapon")
+		Environment:ActorAnimate(ScriptId, ActorId, true)
+	end
 
 	TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
 	while TargetedPlayer > -1 do

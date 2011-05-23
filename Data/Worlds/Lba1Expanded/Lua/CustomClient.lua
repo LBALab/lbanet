@@ -31,14 +31,14 @@ function UseTrashTruck(ScriptId, Environment)
 	Environment:ActorRotate(ScriptId, -1, 0, 0.15, true)
 	
 	-- change animation
-	Environment:UpdateActorAnimation(-1, "DoAction")
+	Environment:UpdateActorAnimation(ScriptId, -1, "DoAction")
 	Environment:ActorAnimate(ScriptId, -1, true)	
 	
 	-- wait for truck
 	Environment:ActorWaitForSignal(ScriptId, -1, 20)
 	
 	-- hide in truck and attach to truck
-	Environment:ActorShowHide(-1, false)
+	Environment:ActorShowHide(ScriptId, -1, false)
 	Environment:AttachActor(-1, 1, 16)
 	
 	
@@ -51,5 +51,5 @@ function UseTrashTruck(ScriptId, Environment)
 	--show player
 	TeleportPos = LbaVec3(5.8, 8, 43.6)	
 	Environment:TeleportActorTo(ScriptId, -1, TeleportPos)		
-	Environment:ActorShowHide(-1, true)	
+	Environment:ActorShowHide(ScriptId, -1, true)	
 end

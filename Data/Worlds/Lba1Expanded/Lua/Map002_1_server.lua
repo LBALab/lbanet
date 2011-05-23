@@ -665,10 +665,6 @@ function InitMap(environment)
 	Actor_19H:SetWeapon2Power(0)
 	Actor_19H:SetWeapon2ReachDistance(7)
 	Actor_19H:Setuseweapon2animation("UseWeapon")
-	Actor_19H:AddGivenItem(1,1,1,0.3,1)
-	Actor_19H:AddGivenItem(2,1,1,0.3,1)
-	Actor_19H:AddGivenItem(8,2,2,0.4,1)	
-	Actor_19H:AddGivenItem(3,1,1,0.05,2)
 	Actor_19H_weapon2proj0 = ProjectileObjectDef()
 	Actor_19H_weapon2proj0:SetRenderType(2)
 	Actor_19H_weapon2proj0.DisplayDesc.ModelId = 0
@@ -718,13 +714,13 @@ function InitMap(environment)
 	Actor_19H_weapon2proj0.LifeTime = 4000
 	Actor_19H_weapon2proj0.Comeback = false
 	Actor_19H_weapon2proj0.StartAnimFrame = 4
-	Actor_19H_weapon2proj0.MultiShoot = false
-	Actor_19H_weapon2proj0.UseTimer = false
-	Actor_19H_weapon2proj0.Frequency = 1
 	Actor_19H_weapon2proj0.AngleOffset = 0
 	Actor_19H_weapon2proj0.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES027.voc.MP3"
 	Actor_19H_weapon2proj0.SoundOnBounce = ""
 	Actor_19H_weapon2proj0.ForceHurt = false
+	Actor_19H_weapon2proj0.MultiShoot = false
+	Actor_19H_weapon2proj0.UseTimer = false
+	Actor_19H_weapon2proj0.Frequency = 1
 	Actor_19H:AddProjectileWeapon2(Actor_19H_weapon2proj0)
 	Actor_19H_weapon2proj1 = ProjectileObjectDef()
 	Actor_19H_weapon2proj1:SetRenderType(2)
@@ -775,14 +771,14 @@ function InitMap(environment)
 	Actor_19H_weapon2proj1.LifeTime = 4000
 	Actor_19H_weapon2proj1.Comeback = false
 	Actor_19H_weapon2proj1.StartAnimFrame = 4
-	Actor_19H_weapon2proj1.MultiShoot = false
-	Actor_19H_weapon2proj1.UseTimer = false
-	Actor_19H_weapon2proj1.Frequency = 1
 	Actor_19H_weapon2proj1.AngleOffset = 4
 	Actor_19H_weapon2proj1.SoundAtStart = ""
 	Actor_19H_weapon2proj1.SoundOnBounce = ""
 	Actor_19H_weapon2proj1.ForceHurt = false
-	Actor_19H:AddProjectileWeapon2(Actor_19H_weapon2proj1)	
+	Actor_19H_weapon2proj1.MultiShoot = false
+	Actor_19H_weapon2proj1.UseTimer = false
+	Actor_19H_weapon2proj1.Frequency = 1
+	Actor_19H:AddProjectileWeapon2(Actor_19H_weapon2proj1)
 	Actor_19H_weapon2proj2 = ProjectileObjectDef()
 	Actor_19H_weapon2proj2:SetRenderType(2)
 	Actor_19H_weapon2proj2.DisplayDesc.ModelId = 0
@@ -832,15 +828,19 @@ function InitMap(environment)
 	Actor_19H_weapon2proj2.LifeTime = 4000
 	Actor_19H_weapon2proj2.Comeback = false
 	Actor_19H_weapon2proj2.StartAnimFrame = 4
-	Actor_19H_weapon2proj2.MultiShoot = false
-	Actor_19H_weapon2proj2.UseTimer = false
-	Actor_19H_weapon2proj2.Frequency = 1
 	Actor_19H_weapon2proj2.AngleOffset = -4
 	Actor_19H_weapon2proj2.SoundAtStart = ""
 	Actor_19H_weapon2proj2.SoundOnBounce = ""
 	Actor_19H_weapon2proj2.ForceHurt = false
+	Actor_19H_weapon2proj2.MultiShoot = false
+	Actor_19H_weapon2proj2.UseTimer = false
+	Actor_19H_weapon2proj2.Frequency = 1
 	Actor_19H:AddProjectileWeapon2(Actor_19H_weapon2proj2)
 	Actor_19H:SetAttackFunction("ActorRotateAttackDistanceAndContactPlayer")
+	Actor_19H:AddGivenItem(1,1,1,0.3,1)
+	Actor_19H:AddGivenItem(2,1,1,0.3,1)
+	Actor_19H:AddGivenItem(8,2,2,0.4,1)
+	Actor_19H:AddGivenItem(3,1,1,0.05,2)
 	environment:AddActorObject(Actor_19H)
 
 	Actor_20 = ActorObjectInfo(20)

@@ -672,13 +672,13 @@ function Init(environment)
 	Item_22_proj0.LifeTime = 5000
 	Item_22_proj0.Comeback = true
 	Item_22_proj0.StartAnimFrame = 5
-	Item_22_proj0.MultiShoot = false
-	Item_22_proj0.UseTimer = false
-	Item_22_proj0.Frequency = 1
 	Item_22_proj0.AngleOffset = 0
 	Item_22_proj0.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES024.voc.MP3"
 	Item_22_proj0.SoundOnBounce = ""
 	Item_22_proj0.ForceHurt = false
+	Item_22_proj0.MultiShoot = false
+	Item_22_proj0.UseTimer = false
+	Item_22_proj0.Frequency = 1
 	Item_22:AddProjectile(Item_22_proj0)
 	Item_22_proj1 = ProjectileObjectDef()
 	Item_22_proj1:SetRenderType(8)
@@ -729,13 +729,13 @@ function Init(environment)
 	Item_22_proj1.LifeTime = 5000
 	Item_22_proj1.Comeback = true
 	Item_22_proj1.StartAnimFrame = 5
-	Item_22_proj1.MultiShoot = false
-	Item_22_proj1.UseTimer = false
-	Item_22_proj1.Frequency = 1
 	Item_22_proj1.AngleOffset = 0
 	Item_22_proj1.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES024.voc.MP3"
 	Item_22_proj1.SoundOnBounce = ""
 	Item_22_proj1.ForceHurt = false
+	Item_22_proj1.MultiShoot = false
+	Item_22_proj1.UseTimer = false
+	Item_22_proj1.Frequency = 1
 	Item_22:AddProjectile(Item_22_proj1)
 	Item_22_proj2 = ProjectileObjectDef()
 	Item_22_proj2:SetRenderType(8)
@@ -786,13 +786,13 @@ function Init(environment)
 	Item_22_proj2.LifeTime = 5000
 	Item_22_proj2.Comeback = true
 	Item_22_proj2.StartAnimFrame = 5
-	Item_22_proj2.MultiShoot = false
-	Item_22_proj2.UseTimer = false
-	Item_22_proj2.Frequency = 1
 	Item_22_proj2.AngleOffset = 0
 	Item_22_proj2.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES024.voc.MP3"
 	Item_22_proj2.SoundOnBounce = ""
 	Item_22_proj2.ForceHurt = false
+	Item_22_proj2.MultiShoot = false
+	Item_22_proj2.UseTimer = false
+	Item_22_proj2.Frequency = 1
 	Item_22:AddProjectile(Item_22_proj2)
 	Item_22_proj3 = ProjectileObjectDef()
 	Item_22_proj3:SetRenderType(8)
@@ -843,13 +843,13 @@ function Init(environment)
 	Item_22_proj3.LifeTime = 8000
 	Item_22_proj3.Comeback = true
 	Item_22_proj3.StartAnimFrame = 5
-	Item_22_proj3.MultiShoot = false
-	Item_22_proj3.UseTimer = false
-	Item_22_proj3.Frequency = 1
 	Item_22_proj3.AngleOffset = 0
 	Item_22_proj3.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES024.voc.MP3"
 	Item_22_proj3.SoundOnBounce = ""
 	Item_22_proj3.ForceHurt = false
+	Item_22_proj3.MultiShoot = false
+	Item_22_proj3.UseTimer = false
+	Item_22_proj3.Frequency = 1
 	Item_22:AddProjectile(Item_22_proj3)
 	environment:AddInventoryItem(Item_22)
 
