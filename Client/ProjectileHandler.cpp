@@ -316,9 +316,10 @@ void ProjectileHandler::Launch()
 		//std::cout<<Q.GetRotationSingleAngle()<<" "<<Q.W<<" "<<Q.Y<<std::endl;
 
 		LbaVec3 current_directionX(resQ.GetDirection(LbaVec3(0, 0, 1)));
+		LbaVec3 current_directionZ(resQ.GetDirection(LbaVec3(1, 0, 0)));
 
-		float ajustedoffsetx = _projInfo.OffsetX*current_directionX.x;
-		float ajustedoffsetz = _projInfo.OffsetX*current_directionX.z;
+		float ajustedoffsetx = _projInfo.OffsetX*current_directionX.x + _projInfo.OffsetZ*current_directionZ.x;
+		float ajustedoffsetz = _projInfo.OffsetX*current_directionX.z + _projInfo.OffsetZ*current_directionZ.z;
 
 		float X, Y, Z;
 		ownerphysobj->GetPosition(X, Y, Z);
