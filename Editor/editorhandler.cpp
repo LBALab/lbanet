@@ -13836,6 +13836,12 @@ void EditorHandler::SelectProjectile(ProjectileObjectDef* cond, const QModelInde
 	}
 	{
 		QVector<QVariant> data;
+		data<<"OffsetZ"<<(double)cond->OffsetZ;
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		++index;
+	}
+	{
+		QVector<QVariant> data;
 		data<<"ForceX"<<(double)cond->ForceX;
 		QModelIndex idx = _objectmodel->AppendRow(data, parent);
 		++index;
@@ -14152,6 +14158,9 @@ void EditorHandler::ProjectileChanged(const QModelIndex &parentIdx)
 
 	ptr->OffsetY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
 	++index;	
+
+	ptr->OffsetZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+	++index;
 
 	ptr->ForceX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
 	++index;	
