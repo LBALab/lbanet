@@ -158,44 +158,100 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 			long touchedactorid = -1;
 			float posYP = 0;
 
-			//check user data for collision
-			boost::shared_ptr<ActorUserData> userdata;
-			if(physobj)
+			if(_lbanetmodelH && _projInfo.FollowTargetType >= 0 && _projInfo.FollowTargetId >= 0)
 			{
-				float tmp1, tmp2;
-				userdata = physobj->GetUserData();
-				physobj->GetPosition(tmp1, posYP, tmp2);
-			}
+				//move projectile manually to target
+				float myposX, myposY, myposZ;
+				physobj->GetPosition(myposX, myposY, myposZ);
+				
+				boost::shared_ptr<PhysicalObjectHandlerBase> targetobj = 
+				_lbanetmodelH->GetActor(_projInfo.FollowTargetType, _projInfo.FollowTargetId)->GetPhysicalObject();
+				float targetposX = -10, targetposY = -10, targetposZ = -10;
+				if(targetobj)
+					targetobj->GetPosition(targetposX, targetposY, targetposZ);
 
-			if(userdata)
-			{
-				std::vector<HitInfo> hitted;
-				userdata->GetHittedActors(hitted);	
-				for(size_t cc=0; cc<hitted.size(); ++cc)
+				float diffX = (targetposX - myposX);
+				float diffY = (targetposY - myposY);
+				float diffZ = (targetposZ - myposZ);
+
+				LbaVec3 moveV(diffX, diffY, diffZ);
+				moveV.Normalize();
+
+				float movex = moveV.x * tdiff * _projInfo.ForceX;
+				float movey = moveV.y * tdiff * _projInfo.ForceX;
+				float movez = moveV.z * tdiff * _projInfo.ForceX;	
+
+				bool finishedx=false, finishedy=false, finishedz=false;
+
+				if(abs(movex) >= abs(diffX))
 				{
-					++itp->bounced;
-					HitInfo &hiti = hitted[cc];
-					if(hiti.ActorObjType == 1 || hiti.ActorObjType == 2)	
+					movex = diffX;
+					finishedx = true;
+				}
+
+				if(abs(movey) >= abs(diffY))
+				{
+					movey = diffY;
+					finishedy = true;
+				}
+
+				if(abs(movez) >= abs(diffZ))
+				{
+					movez = diffZ;
+					finishedz = true;
+				}
+
+				physobj->Move(movex, movey, movez, false);	
+
+				if(finishedx && finishedy && finishedz)
+				{
+					//hitted target - destroy and inform hit
+					destroy = true;
+					touchedactortype = _projInfo.FollowTargetType;
+					touchedactorid = _projInfo.FollowTargetId;
+				}
+			}
+			else
+			{
+				//check user data for collision
+				boost::shared_ptr<ActorUserData> userdata;
+				if(physobj)
+				{
+					float tmp1, tmp2;
+					userdata = physobj->GetUserData();
+					physobj->GetPosition(tmp1, posYP, tmp2);
+				}
+
+				if(userdata)
+				{
+					std::vector<HitInfo> hitted;
+					userdata->GetHittedActors(hitted);	
+					for(size_t cc=0; cc<hitted.size(); ++cc)
 					{
-						if(hiti.ActorPhysType != LbaNet::StaticAType)
+						++itp->bounced;
+						HitInfo &hiti = hitted[cc];
+						if(hiti.ActorObjType == 1 || hiti.ActorObjType == 2)	
 						{
-							//hitted something - destroy and inform hit
-							destroy = true;
-							touchedactortype = hiti.ActorObjType;
-							touchedactorid = hiti.ActorId;
+							if(hiti.ActorPhysType != LbaNet::StaticAType)
+							{
+								//hitted something - destroy and inform hit
+								destroy = true;
+								touchedactortype = hiti.ActorObjType;
+								touchedactorid = hiti.ActorId;
+							}
+						}
+
+						if(!destroy)
+						{
+							//TODO - change to 3d sound
+							if(_SoundOnBounce != "")
+								MusicHandler::getInstance()->PlaySample("Data/"+_SoundOnBounce, 0);
+
+							physobj->AddForce(0, _projInfo.ForceYOnImpact, 0);
 						}
 					}
-
-					if(!destroy)
-					{
-						//TODO - change to 3d sound
-						if(_SoundOnBounce != "")
-							MusicHandler::getInstance()->PlaySample("Data/"+_SoundOnBounce, 0);
-
-						physobj->AddForce(0, _projInfo.ForceYOnImpact, 0);
-					}
-				}
-			} 
+				} 
+			}
 
 
 			// if bounced too much then destroy
@@ -305,9 +361,6 @@ void ProjectileHandler::Launch()
 	boost::shared_ptr<PhysicalObjectHandlerBase> ownerphysobj = _ownerobj->GetPhysicalObject();
 	if(physobj && ownerphysobj)
 	{
-		physobj->IgnoreCollisionWith(ownerphysobj.get());
-		physobj->EnableDisableGravity(!_projInfo.IgnoreGravity);
-
 		LbaQuaternion Q;
 		ownerphysobj->GetRotation(Q);
 		LbaQuaternion Qoffset(_AngleOffset, LbaVec3(0, 1, 0));
@@ -323,11 +376,26 @@ void ProjectileHandler::Launch()
 
 		float X, Y, Z;
 		ownerphysobj->GetPosition(X, Y, Z);
-		physobj->SetPosition(X+ajustedoffsetx, Y+_projInfo.OffsetY, Z+ajustedoffsetz);
 
 
-		physobj->AddForce(_projInfo.ForceX*current_directionX.x, _projInfo.ForceY, _projInfo.ForceX*current_directionX.z);
-	
+		//replace physic by ghost if following target
+		if(_projInfo.FollowTargetType >= 0 && _projInfo.FollowTargetId >= 0)
+		{
+			LbaQuaternion Qproj;
+			physobj->GetRotation(Qproj);
+			newproj.projobject->SetPhysicalObject(
+			boost::shared_ptr<PhysicalObjectHandlerBase>(
+			new SimplePhysicalObjectHandler(X+ajustedoffsetx, Y+_projInfo.OffsetY, Z+ajustedoffsetz, Qproj)));
+		}
+		else // else add force
+		{
+			physobj->IgnoreCollisionWith(ownerphysobj.get());
+			physobj->EnableDisableGravity(!_projInfo.IgnoreGravity);
+
+			physobj->SetPosition(X+ajustedoffsetx, Y+_projInfo.OffsetY, Z+ajustedoffsetz);
+			physobj->AddForce(_projInfo.ForceX*current_directionX.x, _projInfo.ForceY, _projInfo.ForceX*current_directionX.z);
+		}
+
 		//TODO - change to 3d sound
 		if(_SoundAtStart != "")
 			MusicHandler::getInstance()->PlaySample("Data/"+_SoundAtStart, 0);
