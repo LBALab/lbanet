@@ -13936,6 +13936,12 @@ void EditorHandler::SelectProjectile(ProjectileObjectDef* cond, const QModelInde
 		QModelIndex idx = _objectmodel->AppendRow(data, parent);
 		++index;
 	}
+	{
+		QVector<QVariant> data;
+		data<<"Follow Target"<<cond->FollowTarget;
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		++index;
+	}
 }
 
 /***********************************************************
@@ -14204,6 +14210,8 @@ void EditorHandler::ProjectileChanged(const QModelIndex &parentIdx)
 	ptr->ForceHurt = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();		 
 	++index;
 
+	ptr->FollowTarget = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();		 
+	++index;
 
 	SetMapModified();
 
