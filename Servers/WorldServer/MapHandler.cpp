@@ -207,64 +207,73 @@ void MapHandler::run()
 							boost::shared_ptr<PlayerHandler> player = itp->second;
 							LbaVec3 lastposP = player->GetLastPhysPosition();
 							LbaVec3 posP = player->GetCurrentPhysPosition();
-							float u1, u2;
 
-							if(CollisionTester::SphereSphereSweep(player->GetPhysRadius(), lastposP, posP,
-																			npcradius, lastpos, pos, u1, u2))
+							if(fabs(posP.y-pos.y) < (sizeY*1.5f))
 							{
-								//check if player is in front of npc - only hit from front
-								LbaVec3 npcposcolli(lastpos.x + (pos.x-lastpos.x)*u1,
-													lastpos.y + (pos.y-lastpos.y)*u1,
-													lastpos.z + (pos.z-lastpos.z)*u1);
+								lastposP.y = 1;
+								posP.y = 1;
+								lastpos.y = 1;
+								pos.y = 1;
 
-								LbaVec3 playerposcolli(lastposP.x + (posP.x-lastposP.x)*u1,
-													lastposP.y + (posP.y-lastposP.y)*u1,
-													lastposP.z + (posP.z-lastposP.z)*u1);
+								float u1, u2;
 
-								LbaVec3 playerdir = (playerposcolli-npcposcolli);
-								LbaVec3 npcdir = pos-lastpos;
-								float angleNpc = LbaQuaternion::GetAngleFromVector(npcdir);
-								float anglePlayer = LbaQuaternion::GetAngleFromVector(playerdir);
-
-								float range1s = angleNpc - 60;
-								float range1b = angleNpc + 60;
-								float range2s = range1s;
-								float range2b = range1b;
-
-								if(range1s < 0)
+								if(CollisionTester::SphereSphereSweep(player->GetPhysRadius(), lastposP, posP,
+																				npcradius, lastpos, pos, u1, u2))
 								{
-									range2s = 360 + range1s;
-									range2b = 360;
-									range1s = 0;
-								}
-								if(range1b > 360)
-								{
-									range2s = 0;
-									range2b = range1b - 360;
-									range1b = 360;
-								}
+									//check if player is in front of npc - only hit from front
+									LbaVec3 npcposcolli(lastpos.x + (pos.x-lastpos.x)*u1,
+														lastpos.y + (pos.y-lastpos.y)*u1,
+														lastpos.z + (pos.z-lastpos.z)*u1);
 
-								if( ((anglePlayer <= range1b) && (anglePlayer >= range1s))
-									|| ((anglePlayer <= range2b) && (anglePlayer >= range2s)) )
-								{
-									// player hurt from font - loose life
-									
-									float hitlife = -hitpower;
-									if(!IgnoreArmor) // reduce it by armor
-										hitlife += GetPlayerArmor(itp->first);
+									LbaVec3 playerposcolli(lastposP.x + (posP.x-lastposP.x)*u1,
+														lastposP.y + (posP.y-lastposP.y)*u1,
+														lastposP.z + (posP.z-lastposP.z)*u1);
 
-									if(hitlife < 0)
+									LbaVec3 playerdir = (playerposcolli-npcposcolli);
+									LbaVec3 npcdir = pos-lastpos;
+									float angleNpc = LbaQuaternion::GetAngleFromVector(npcdir);
+									float anglePlayer = LbaQuaternion::GetAngleFromVector(playerdir);
+
+									float range1s = angleNpc - 60;
+									float range1b = angleNpc + 60;
+									float range2s = range1s;
+									float range2b = range1b;
+
+									if(range1s < 0)
 									{
-										// hurt the player
-										if(!DeltaUpdateLife(itp->first, hitlife, 3, (long)ita->first, false))
+										range2s = 360 + range1s;
+										range2b = 360;
+										range1s = 0;
+									}
+									if(range1b > 360)
+									{
+										range2s = 0;
+										range2b = range1b - 360;
+										range1b = 360;
+									}
+
+									if( ((anglePlayer <= range1b) && (anglePlayer >= range1s))
+										|| ((anglePlayer <= range2b) && (anglePlayer >= range2s)) )
+									{
+										// player hurt from font - loose life
+										
+										float hitlife = -hitpower;
+										if(!IgnoreArmor) // reduce it by armor
+											hitlife += GetPlayerArmor(itp->first);
+
+										if(hitlife < 0)
 										{
-											//only play hurt if not dead
-											if(hitlife < -19.9)
-												ChangePlayerState(itp->first, LbaNet::StBigHurt, 0, 1, -1, true);
-											else if(hitlife < -9.9)
-												ChangePlayerState(itp->first, LbaNet::StMediumHurt, 0, 1, -1, true);
-											else
-												ChangePlayerState(itp->first, LbaNet::StSmallHurt, 0, 1, -1, true);
+											// hurt the player
+											if(!DeltaUpdateLife(itp->first, hitlife, 3, (long)ita->first, false))
+											{
+												//only play hurt if not dead
+												if(hitlife < -19.9)
+													ChangePlayerState(itp->first, LbaNet::StBigHurt, 0, 1, -1, true);
+												else if(hitlife < -9.9)
+													ChangePlayerState(itp->first, LbaNet::StMediumHurt, 0, 1, -1, true);
+												else
+													ChangePlayerState(itp->first, LbaNet::StSmallHurt, 0, 1, -1, true);
+											}
 										}
 									}
 								}

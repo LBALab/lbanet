@@ -627,7 +627,7 @@ void NPCHandler::HurtLife(float amount, bool UseArmor, int HurtingActorType,
 	#endif
 
 	//target hurting player
-	if((HurtingActorType == 4) && (HurtingActorId >= 0))
+	if((HurtingActorType == 2) && (HurtingActorId >= 0))
 	{
 		StartFight(HurtingActorId);
 
@@ -812,12 +812,12 @@ void NPCHandler::StopAttackTarget(Ice::Long PlayerId)
 
 		if(diff > 0.001)
 		{
-			//come back to starting point
-			ChangeState(5);
-
 			// tell agent to go move back to starting point
 			if(m_NavMAgent)
 				m_NavMAgent->SetTargetPosition(false, m_saved_X, m_saved_Y, m_saved_Z);
+
+			//come back to starting point
+			ChangeState(5);
 		}
 		else
 		{
