@@ -917,6 +917,9 @@ module LbaNet
 		int			NbBounce;
 		bool			IgnoreGravity;
 		
+		int			FollowTargetType; // -1 if following no target	
+		long			FollowTargetId;
+		
 		float			LifeTime;
 		bool			Comeback;
 		
