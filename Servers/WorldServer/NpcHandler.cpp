@@ -1633,7 +1633,8 @@ void NPCHandler::UseWeapon(int ScriptId, int WeaponNumber, bool multishot)
 				for(;itp != endp; ++itp)
 				{
 					LbaNet::ProjectileInfo newProj;
-					if((*itp)->GetProjectileInfo("", _lifeinfo.CurrentMana, newProj))
+					if((*itp)->GetProjectileInfo("", _lifeinfo.CurrentMana, 
+													4, _targetedattackplayer, newProj))
 					{
 						// update projectile ids
 						newProj.ManagingClientId = _targetedattackplayer;

@@ -836,6 +836,7 @@ ServerLuaHandler::ServerLuaHandler()
 		.def_readwrite("MultiShoot", &ProjectileObjectDef::MultiShoot)
 		.def_readwrite("UseTimer", &ProjectileObjectDef::UseTimer)
 		.def_readwrite("Frequency", &ProjectileObjectDef::Frequency)
+		.def_readwrite("FollowTarget", &ProjectileObjectDef::FollowTarget)
 		];
 
 	}

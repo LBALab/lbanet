@@ -2557,7 +2557,7 @@ void MapHandler::UseWeapon(Ice::Long PlayerId)
 	for(size_t i=0; i< projectiles.size(); ++i)
 	{
 		LbaNet::ProjectileInfo newProj;
-		if(projectiles[i]->GetProjectileInfo(mode, GetPlayerLifeInfo(PlayerId).CurrentMana, newProj))
+		if(projectiles[i]->GetProjectileInfo(mode, GetPlayerLifeInfo(PlayerId).CurrentMana, -1, -1, newProj))
 		{
 			// update projectile ids
 			newProj.ManagingClientId = PlayerId;

@@ -73,7 +73,9 @@ public:
 	void SaveToLuaFile(std::ostream & file, const std::string & nname);
 
 	// get projectile info
-	bool GetProjectileInfo(const std::string & mode, float manaleft, LbaNet::ProjectileInfo & info);
+	bool GetProjectileInfo(const std::string & mode, float manaleft, 
+							int TargetType, long	TargetId,
+							LbaNet::ProjectileInfo & info);
 
 
 	LbaNet::ModelInfo			DisplayDesc;
@@ -91,6 +93,9 @@ public:
 	float						ForceX;
 	float						ForceY;		
 	float						ForceYOnImpact;
+
+	bool						FollowTarget;
+
 	
 	int							NbBounce;
 	bool						IgnoreGravity;

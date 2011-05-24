@@ -102,6 +102,8 @@ ProjectileObjectDef::ProjectileObjectDef()
 	AngleOffset = 0;
 	
 	ForceHurt = false;
+
+	FollowTarget = false;
 }
 
 
@@ -403,6 +405,8 @@ void ProjectileObjectDef::SaveToLuaFile(std::ostream & file, const std::string &
 
 	file<<"\t"<<nname<<".UseTimer = "<<(UseTimer?"true":"false")<<std::endl;
 	file<<"\t"<<nname<<".Frequency = "<<Frequency<<std::endl;
+
+	file<<"\t"<<nname<<".FollowTarget = "<<(FollowTarget?"true":"false")<<std::endl;
 }
 
 
@@ -410,7 +414,8 @@ void ProjectileObjectDef::SaveToLuaFile(std::ostream & file, const std::string &
 get projectile info
 ***********************************************************/
 bool ProjectileObjectDef::GetProjectileInfo(const std::string & mode, float manaleft, 
-											LbaNet::ProjectileInfo & info)
+												int TargetType, long TargetId,
+												LbaNet::ProjectileInfo & info)
 {
 	if(mode != UsableMode)
 		return false;
@@ -442,6 +447,16 @@ bool ProjectileObjectDef::GetProjectileInfo(const std::string & mode, float mana
 	info.UseTimer = UseTimer;
 	info.Frequency = Frequency;
 
+	if(FollowTarget)
+	{
+		info.FollowTargetType = TargetType;
+		info.FollowTargetId = TargetId;
+	}
+	else
+	{
+		info.FollowTargetType = -1;
+		info.FollowTargetId = -1;
+	}
 
 	return true;
 }
