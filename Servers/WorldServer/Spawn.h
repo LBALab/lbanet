@@ -29,6 +29,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <map>
 #include <string>
 #include <vector>
+#include <boost/shared_ptr.hpp>
+
+class ActionBase;
 
 
 //! take care of shared data between process
@@ -101,6 +104,13 @@ public:
 	void SetName(const std::string & name)
 	{_Name = name;}
 
+
+	void SetActionAtArrival(boost::shared_ptr<ActionBase> act)
+	{_actionAtArrival = act;}
+
+	boost::shared_ptr<ActionBase> GetActionAtArrival()
+	{ return _actionAtArrival; }
+
 private:
 	long							_Id;
 	std::string 					_Name;
@@ -109,6 +119,9 @@ private:
 	float 							_PosZ;
 	bool							_ForceRotation;
 	float 							_Rotation;
+
+
+	boost::shared_ptr<ActionBase>	_actionAtArrival;
 };
 
 #endif

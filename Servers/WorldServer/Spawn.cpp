@@ -1,4 +1,6 @@
 #include "Spawn.h"
+#include "Actions.h"
+
 #include <fstream>
 #include <sstream>
 
@@ -32,6 +34,16 @@ void Spawn::SaveToLuaFile(std::ostream & file, std::string forcedid)
 	{
 		file<<"\t"<<names.str()<<":SetForceRotation(true)"<<std::endl;
 		file<<"\t"<<names.str()<<":SetRotation("<<_Rotation<<")"<<std::endl;
+	}
+
+
+	if(_actionAtArrival)
+	{
+		std::stringstream aname;
+		aname<<names.str()<<"_act1";
+		_actionAtArrival->SaveToLuaFile(file, aname.str());
+
+		file<<"\t"<<names.str()<<":SetActionAtArrival("<<aname.str()<<")"<<std::endl;
 	}
 
 	file<<"\tenvironment:AddSpawn("<<names.str()<<")"<<std::endl<<std::endl;

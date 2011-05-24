@@ -214,7 +214,7 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectE
 #endif
 
 	// teleport player to correct map
-	TeleportPlayerInternal((long)clientid, player, savedinfo.ppos);
+	TeleportPlayerInternal((long)clientid, player, savedinfo.ppos, -1);
 
 
 
@@ -445,7 +445,7 @@ LbaNet::PlayerPosition SharedDataHandler::GetSpawnPosInternal(const std::string 
 teleport the player
 ***********************************************************/
 void SharedDataHandler::TeleportPlayerInternal(long playerid, boost::shared_ptr<PlayerHandler> pinfo, 
-												const LbaNet::PlayerPosition &newpos)
+												const LbaNet::PlayerPosition &newpos, long spawnid)
 {
 	// teleport player
 	if(pinfo)
@@ -494,7 +494,7 @@ void SharedDataHandler::TeleportPlayerInternal(long playerid, boost::shared_ptr<
 		mapH->StartThread();
 
 		// add proxies to the map
-		mapH->ExtAddPlayer(playerid, pinfo);
+		mapH->ExtAddPlayer(playerid, pinfo, spawnid);
 	}
 #endif
 
@@ -504,10 +504,10 @@ void SharedDataHandler::TeleportPlayerInternal(long playerid, boost::shared_ptr<
 teleport the player
 ***********************************************************/
 void SharedDataHandler::TeleportPlayer(long playerid, boost::shared_ptr<PlayerHandler> pinfo, 
-										const LbaNet::PlayerPosition &newpos)
+										const LbaNet::PlayerPosition &newpos, long spawnid)
 {
 	Lock sync(*this);
-	TeleportPlayerInternal(playerid, pinfo, newpos);
+	TeleportPlayerInternal(playerid, pinfo, newpos, spawnid);
 }
 
 
@@ -652,7 +652,7 @@ void SharedDataHandler::EditorUpdate(const std::string &mapname,
 			EditorTeleportPlayerEvent* castedptr = 
 				dynamic_cast<EditorTeleportPlayerEvent *>(&obj);
 
-			TeleportPlayerInternal(castedptr->_playerid, m_mainplayerH, castedptr->_newpos);
+			TeleportPlayerInternal(castedptr->_playerid, m_mainplayerH, castedptr->_newpos, -1);
 		}
 	}	
 

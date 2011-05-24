@@ -806,7 +806,9 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetRotation", &Spawn::GetRotation)
 		.def("SetRotation", &Spawn::SetRotation)
 		.def("GetName", &Spawn::GetName)
-		.def("SetName", &Spawn::SetName),
+		.def("SetName", &Spawn::SetName)
+		.def("SetActionAtArrival", &Spawn::SetActionAtArrival)
+		.def("GetActionAtArrival", &Spawn::GetActionAtArrival),
 
 		luabind::class_<ProjectileObjectDef, boost::shared_ptr<ProjectileObjectDef> >("ProjectileObjectDef")
 		.def(luabind::constructor<>())

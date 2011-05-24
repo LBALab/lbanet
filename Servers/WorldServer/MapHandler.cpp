@@ -130,11 +130,11 @@ void MapHandler::run()
 		_tosendevts.clear();
 
 		//add and remove players
-		std::vector<std::pair<Ice::Long, boost::shared_ptr<PlayerHandler> > > toadd;
+		std::vector<PlayerToAddInfo> toadd;
 		std::vector<Ice::Long> toremove;
 		GetToAddRemove(toadd, toremove);
 		for(size_t pp=0; pp<toadd.size(); ++pp)
-			MakePlayerEnterMap((long)toadd[pp].first, toadd[pp].second);
+			MakePlayerEnterMap((long)toadd[pp].Id, toadd[pp].Phandler, toadd[pp].SpawnId);
 		for(size_t pp=0; pp<toremove.size(); ++pp)
 			MakePlayerLeaveMap((long)toremove[pp]);
 
@@ -413,7 +413,7 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 		LbaNet::PlayerPosition newpos = SharedDataHandler::getInstance()->GetTeleportPos(this, (long)id,
 																			(long)castedptr->TeleportId,
 																			GetPlayerRotation(id));
-		TeleportPlayer((long)id, newpos);
+		TeleportPlayer((long)id, newpos, -1);
 		return;
 	}
 
@@ -694,10 +694,16 @@ void MapHandler::GetEvents(std::map<Ice::Long, EventsSeq> & evts)
 /***********************************************************
 add player from external
 ***********************************************************/
-void MapHandler::ExtAddPlayer(Ice::Long PlayerId, boost::shared_ptr<PlayerHandler> pinfo)
+void MapHandler::ExtAddPlayer(Ice::Long PlayerId, boost::shared_ptr<PlayerHandler> pinfo,
+									long spawnid)
 {
+	PlayerToAddInfo toadd;
+	toadd.Id = PlayerId;
+	toadd.Phandler = pinfo;
+	toadd.SpawnId = spawnid;
+
 	IceUtil::Mutex::Lock sync(_mutex_events);
-	_toadd.push_back(std::make_pair<Ice::Long, boost::shared_ptr<PlayerHandler> >(PlayerId, pinfo));
+	_toadd.push_back(toadd);
 }
 
 
@@ -714,7 +720,7 @@ void MapHandler::ExtRemovePlayer(Ice::Long PlayerId)
 /***********************************************************
 get player to add and remove
 ***********************************************************/
-void MapHandler::GetToAddRemove(std::vector<std::pair<Ice::Long, boost::shared_ptr<PlayerHandler> > > &toadd,
+void MapHandler::GetToAddRemove(std::vector<PlayerToAddInfo> &toadd,
 										std::vector<Ice::Long> &toremove)
 {
 	IceUtil::Mutex::Lock sync(_mutex_events);
@@ -1212,7 +1218,7 @@ void MapHandler::RaiseFromDeadEvent(Ice::Long id)
 	{
 		// if so change state and teleport to raising area
 		LbaNet::PlayerPosition pos = GetSpawningPlace(id);
-		if(!TeleportPlayer((long)id, pos))
+		if(!TeleportPlayer((long)id, pos, -1))
 		{
 			//only do that if player is not teleported in another map
 			LbaNet::PlayerMoveInfo moveinfo;
@@ -1267,7 +1273,7 @@ void MapHandler::Teleport(int ObjectType, long ObjectId,
 		newpos.X += offsetX;
 		newpos.Y += offsetY;
 		newpos.Z += offsetZ;
-		TeleportPlayer(ObjectId, newpos);
+		TeleportPlayer(ObjectId, newpos, SpawningId);
 	}
 
 
@@ -1366,13 +1372,7 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 		UpdateEditor_AddOrModSpawning* castedptr =
 			dynamic_cast<UpdateEditor_AddOrModSpawning *>(&obj);
 
-		Editor_AddOrModSpawning(castedptr->_SpawningId,
-									castedptr->_spawningname,
-									castedptr->_PosX,
-									castedptr->_PosY,
-									castedptr->_PosZ,
-									castedptr->_Rotation,
-									castedptr->_forcedrotation);
+		Editor_AddOrModSpawning(castedptr->_spawn);
 
 		return;
 	}
@@ -1463,7 +1463,7 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 		EditorTeleportPlayerEvent* castedptr =
 			dynamic_cast<EditorTeleportPlayerEvent *>(&obj);
 
-		TeleportPlayer(castedptr->_playerid, castedptr->_newpos);
+		TeleportPlayer(castedptr->_playerid, castedptr->_newpos, -1);
 		return;
 	}
 	
@@ -1511,19 +1511,9 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 add a spawning to the map
 ***********************************************************/
 #ifdef _USE_QT_EDITOR_
-void MapHandler::Editor_AddOrModSpawning(	long SpawningId, const std::string &spawningname,
-											float PosX, float PosY, float PosZ,
-											float Rotation, bool forcedrotation)
+void MapHandler::Editor_AddOrModSpawning(boost::shared_ptr<Spawn> spawn)
 {
-	boost::shared_ptr<Spawn> newspan(new Spawn(SpawningId));
-	newspan->SetName(spawningname);
-	newspan->SetPosX(PosX);
-	newspan->SetPosY(PosY);
-	newspan->SetPosZ(PosZ);
-	newspan->SetRotation(Rotation);
-	newspan->SetForceRotation(forcedrotation);
-	AddSpawn(newspan);
-
+	AddSpawn(spawn);
 }
 #endif
 
@@ -3512,7 +3502,7 @@ void MapHandler::SendEvents(long PlayerId, const LbaNet::EventsSeq & evts)
 //! teleport a player
 //! return true if player left the map
 ***********************************************************/
-bool MapHandler::TeleportPlayer(long playerid, const LbaNet::PlayerPosition &newpos)
+bool MapHandler::TeleportPlayer(long playerid, const LbaNet::PlayerPosition &newpos, long spawnid)
 {
 	if(newpos.MapName == "")	//something wrong happened
 		return false;
@@ -3528,7 +3518,7 @@ bool MapHandler::TeleportPlayer(long playerid, const LbaNet::PlayerPosition &new
 		MakePlayerLeaveMap(playerid);
 
 		//! teleport player to other map
-		SharedDataHandler::getInstance()->TeleportPlayer(playerid, pinfo, newpos);
+		SharedDataHandler::getInstance()->TeleportPlayer(playerid, pinfo, newpos, spawnid);
 
 		return true;
 	}
@@ -3557,10 +3547,23 @@ bool MapHandler::TeleportPlayer(long playerid, const LbaNet::PlayerPosition &new
 /***********************************************************
 //! make player enter the map
 ***********************************************************/
-void MapHandler::MakePlayerEnterMap(long playerid, boost::shared_ptr<PlayerHandler> info)
+void MapHandler::MakePlayerEnterMap(long playerid, boost::shared_ptr<PlayerHandler> info, long SpawnId)
 {
 	_players[playerid] = info;
 	PlayerEntered(playerid);
+
+	// check for action on spawn arrival
+	if(SpawnId >= 0)
+	{
+		std::map<long, boost::shared_ptr<Spawn> >::iterator it = _spawns.find(SpawnId);
+		if(it != _spawns.end())
+		{
+			//check for action
+			boost::shared_ptr<ActionBase> act = it->second->GetActionAtArrival();
+			if(act)
+				act->Execute(this, 4, playerid, NULL);
+		}
+	}
 }
 
 /***********************************************************

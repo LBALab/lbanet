@@ -113,7 +113,7 @@ public:
 
 	//! teleport the player
 	void TeleportPlayer(long playerid, boost::shared_ptr<PlayerHandler> pinfo, 
-							 const LbaNet::PlayerPosition &newpos);
+							 const LbaNet::PlayerPosition &newpos, long spawnid);
 
 
 	//*************
@@ -196,7 +196,7 @@ protected:
 
 	//! teleport the player
 	void TeleportPlayerInternal(long playerid, boost::shared_ptr<PlayerHandler> pinfo, 
-												const LbaNet::PlayerPosition &newpos);
+												const LbaNet::PlayerPosition &newpos, long spawnid);
 
 private:
 	static SharedDataHandler *											_Instance;

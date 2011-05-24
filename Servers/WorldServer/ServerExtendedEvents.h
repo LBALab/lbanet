@@ -29,6 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <ClientServerEvents.h>
 #include <boost/shared_ptr.hpp>
 
+
+class Spawn;
 class ActionBase;
 class TriggerBase;
 class ActorHandler;
@@ -45,20 +47,12 @@ class UpdateEditor_AddOrModSpawning : public LbaNet::EditorUpdateBase
 {
 public:
 	//! constructor
-	UpdateEditor_AddOrModSpawning(long SpawningId, const std::string &spawningname,
-									float PosX, float PosY, float PosZ,
-									float Rotation, bool forcedrotation)
-	: _SpawningId(SpawningId), _spawningname(spawningname), _PosX(PosX), _PosY(PosY), _PosZ(PosZ),
-		_Rotation(Rotation), _forcedrotation(forcedrotation)
+	UpdateEditor_AddOrModSpawning(boost::shared_ptr<Spawn> spawn)
+	: _spawn(spawn)
 	{
 	}
-	long 			_SpawningId;
-	std::string		_spawningname;
-	float			_PosX;
-	float			_PosY;
-	float			_PosZ;
-	float			_Rotation;
-	bool			_forcedrotation;
+
+	boost::shared_ptr<Spawn> _spawn;
 };
 
 

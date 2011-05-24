@@ -56,6 +56,13 @@ struct GhostInfo
 	LbaNet::PlayerPosition		CurrentPos;
 };
 
+struct PlayerToAddInfo
+{
+	Ice::Long							Id;
+	boost::shared_ptr<PlayerHandler>	Phandler;
+	long								SpawnId;
+};
+
 
 //! take care of a map of the world
 class MapHandler : public Runnable, public ScriptEnvironmentBase, public DelayedExecutionHandler
@@ -87,14 +94,14 @@ public:
 
 	
 	//! add player from external
-	void ExtAddPlayer(Ice::Long PlayerId, boost::shared_ptr<PlayerHandler> pinfo);
+	void ExtAddPlayer(Ice::Long PlayerId, boost::shared_ptr<PlayerHandler> pinfo,
+						long spawnid);
 	
 	//! remove player from external
 	void ExtRemovePlayer(Ice::Long PlayerId);
 
 	//! get player to add and remove
-	void GetToAddRemove(std::vector<std::pair<Ice::Long, boost::shared_ptr<PlayerHandler> > > &toadd,
-							std::vector<Ice::Long> &toremove);
+	void GetToAddRemove(std::vector<PlayerToAddInfo> &toadd, std::vector<Ice::Long> &toremove);
 
 
 	// function used by LUA to add actor
@@ -557,9 +564,7 @@ protected:
 
 
 	//! add a spawning to the map
-	void Editor_AddOrModSpawning(	long SpawningId, const std::string &spawningname,
-									float PosX, float PosY, float PosZ,
-									float Rotation, bool forcedrotation);
+	void Editor_AddOrModSpawning(boost::shared_ptr<Spawn> spawn);
 
 	//! remove a spawning
 	void Editor_RemoveSpawning(long SpawningId);
@@ -703,10 +708,10 @@ protected:
 
 	//! teleport a player
 	//! return true if player left the map
-	bool TeleportPlayer(long playerid, const LbaNet::PlayerPosition &newpos);
+	bool TeleportPlayer(long playerid, const LbaNet::PlayerPosition &newpos, long spawnid);
 
 	//! make player enter the map
-	void MakePlayerEnterMap(long playerid, boost::shared_ptr<PlayerHandler> info);
+	void MakePlayerEnterMap(long playerid, boost::shared_ptr<PlayerHandler> info, long SpawnId);
 
 	//! make player leave the map
 	void MakePlayerLeaveMap(long playerid);
@@ -746,7 +751,7 @@ private:
 	EventsSeq													_tosendevts;
 	std::map<Ice::Long, EventsSeq>								_events;
 
-	std::vector<std::pair<Ice::Long, boost::shared_ptr<PlayerHandler> > >	_toadd;
+	std::vector<PlayerToAddInfo>								_toadd;
 	std::vector<Ice::Long>										_toremove;
 
 
