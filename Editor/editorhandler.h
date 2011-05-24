@@ -904,6 +904,7 @@ protected:
 							const std::string &spawningname,
 							float PosX, float PosY, float PosZ,
 							float Rotation, bool forcedrotation,
+							ActionBasePtr actionatarrival,
 							long modifyid = -1);
 
 	//! remove a spawning from the map

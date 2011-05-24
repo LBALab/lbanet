@@ -2504,7 +2504,8 @@ void EditorHandler::AddSpawning_clicked()
 				(float)_uiaddspawningdialog.doubleSpinBox_posy->value(), 
 				(float)_uiaddspawningdialog.doubleSpinBox_posz->value(),
 				(float)_uiaddspawningdialog.doubleSpinBox_rotation->value(), 
-				_uiaddspawningdialog.checkBox_forcerotation->isChecked());
+				_uiaddspawningdialog.checkBox_forcerotation->isChecked(),
+				ActionBasePtr());
 
 
 
@@ -2522,6 +2523,7 @@ long EditorHandler::AddOrModSpawning(const std::string &mapname,
 										const std::string &spawningname,
 										float PosX, float PosY, float PosZ,
 										float Rotation, bool forcedrotation,
+										ActionBasePtr actionatarrival,
 										long modifyid)
 {
 
@@ -2533,6 +2535,7 @@ long EditorHandler::AddOrModSpawning(const std::string &mapname,
 	newspawn->SetPosZ(PosZ);
 	newspawn->SetRotation(Rotation);
 	newspawn->SetForceRotation(forcedrotation);
+	newspawn->SetActionAtArrival(actionatarrival);
 
 
 	QString currmap = _uieditor.label_mapname->text();
@@ -2542,9 +2545,7 @@ long EditorHandler::AddOrModSpawning(const std::string &mapname,
 
 
 	// then inform the server
-	EditorUpdateBasePtr update = new UpdateEditor_AddOrModSpawning(	spid, spawningname,
-																	PosX, PosY, PosZ,
-																	Rotation, forcedrotation);
+	EditorUpdateBasePtr update = new UpdateEditor_AddOrModSpawning(newspawn);
 
 	SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
 
@@ -2633,6 +2634,7 @@ void EditorHandler::SelectSpawning(long id, const QModelIndex &parent)
 	float PosZ = it->second->GetPosZ();
 	float Rotation = it->second->GetRotation();
 	bool forcedrotation = it->second->GetForceRotation();
+	ActionBasePtr actptr = it->second->GetActionAtArrival();
 
 	if(parent == QModelIndex())
 		ResetObject();
@@ -2690,6 +2692,18 @@ void EditorHandler::SelectSpawning(long id, const QModelIndex &parent)
 		QVector<QVariant> data;
 		data<<"Rotation"<<(double)Rotation;
 		_objectmodel->AppendRow(data, parent);
+	}
+
+	// add action 
+	{
+		std::string acttype = GetActionType(actptr);
+
+		QVector<QVariant> data;
+		data << "Action On Arrival" << acttype.c_str();
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		
+		if(actptr)
+			SelectAction(actptr.get(), idx);
 	}
 }
 
@@ -2824,7 +2838,7 @@ void EditorHandler::SpawningObjectChanged(long id, const QModelIndex &parentIdx)
 	if(!oldspawn)
 		return;
 
-	if(_objectmodel->rowCount() > 8)
+	if(_objectmodel->rowCount() > 9)
 	{
 		QString name = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toString();
 		float PosX = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toFloat();
@@ -2834,6 +2848,27 @@ void EditorHandler::SpawningObjectChanged(long id, const QModelIndex &parentIdx)
 		float Rotation = _objectmodel->data(_objectmodel->GetIndex(1, 8, parentIdx)).toFloat();
 		std::string mapname = _uieditor.label_mapname->text().toAscii().data();
 		std::string oldname = oldspawn->GetName();
+
+		//action
+		ActionBasePtr spawnaction = oldspawn->GetActionAtArrival();
+		std::string action = _objectmodel->data(_objectmodel->GetIndex(1, 9, parentIdx)).toString().toAscii().data();
+		{
+			std::string curract = GetActionType(spawnaction);
+			if(action != curract)
+			{
+				//create new action
+				spawnaction = CreateAction(action);
+
+				QModelIndex curidx = _objectmodel->GetIndex(0, 9, parentIdx);
+				_objectmodel->Clear(curidx);
+				if(spawnaction)
+				{
+					SelectAction(spawnaction.get(), curidx);
+					_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+				}
+			}
+		}
+
 
 		// check if name changed already exist
 		if(name != oldname.c_str())
@@ -2855,8 +2890,8 @@ void EditorHandler::SpawningObjectChanged(long id, const QModelIndex &parentIdx)
 
 		AddOrModSpawning(mapname, name.toAscii().data(),
 									PosX, PosY, PosZ,
-									Rotation, forcedrotation,
-									id);
+									Rotation, forcedrotation, 
+									spawnaction, id);
 
 		UpdateTpSpanName(mapname, id, name.toAscii().data());
 
@@ -5904,7 +5939,7 @@ tp to default spawning of map
 void EditorHandler::CreateDefaultSpawningAndTp(const std::string & mapname)
 {
 	// add a default spawning
-	long spid = AddOrModSpawning(mapname, "DefaultSpawn", 0, 0, 0, 0, true, 0);
+	long spid = AddOrModSpawning(mapname, "DefaultSpawn", 0, 0, 0, 0, true, ActionBasePtr(), 0);
 	SaveWorldAction(mapname);
 	ChangeMap(mapname, spid);
 	SetModified();
@@ -14609,10 +14644,7 @@ void EditorHandler::PasteSpawn(std::string content)
 
 		//inform server
 		std::string mapname = _uieditor.label_mapname->text().toAscii().data();
-		EditorUpdateBasePtr update = new UpdateEditor_AddOrModSpawning(	actid, newspawn->GetName(),
-																	_posX, _posY, _posZ,
-																	newspawn->GetRotation(), 
-																	newspawn->GetForceRotation());
+		EditorUpdateBasePtr update = new UpdateEditor_AddOrModSpawning(newspawn);
 
 		SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
 	}
