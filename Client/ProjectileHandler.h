@@ -95,8 +95,6 @@ private:
 	std::string										_SoundAtStart;
 	std::string										_SoundOnBounce;
 
-	boost::shared_ptr<DynamicObject>				_ownerobj;
-
 	std::vector<LaunchedProjectile>					_launchedobjects;
 
 	LbaNetModel *									_lbanetmodelH;

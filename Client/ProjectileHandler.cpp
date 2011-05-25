@@ -44,12 +44,12 @@ ProjectileHandler::ProjectileHandler(LbaNetModel *	lbanetmodelH,
 										boost::shared_ptr<DynamicObject> ownerobj,
 										float AngleOffset, const std::string &SoundAtStart,
 										const std::string &SoundOnBounce)
-: _projInfo(Info), _Manage(Manage), _ownerobj(ownerobj), _AngleOffset(AngleOffset),
+: _projInfo(Info), _Manage(Manage), _AngleOffset(AngleOffset),
 	_SoundAtStart(SoundAtStart), _SoundOnBounce(SoundOnBounce), _lbanetmodelH(lbanetmodelH),
 	_destroy(false)
 {
-	if(Info.StartAnimFrame > 0 && _ownerobj)
-		_ownerobj->AddActionOnAnimation(Info.StartAnimFrame, this); //wait for anim to launch
+	if(Info.StartAnimFrame > 0 && ownerobj)
+		ownerobj->AddActionOnAnimation(Info.StartAnimFrame, this); //wait for anim to launch
 	else
 		Execute(); // launch directly
 }
@@ -91,50 +91,67 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 		itp->projobject->Process(tnow, tdiff);
 
 		boost::shared_ptr<PhysicalObjectHandlerBase> physobj = itp->projobject->GetPhysicalObject();
-		boost::shared_ptr<PhysicalObjectHandlerBase> ownerphysobj = _ownerobj->GetPhysicalObject();
 		if(itp->comingback)
 		{
-			float myposX, myposY, myposZ;
-			physobj->GetPosition(myposX, myposY, myposZ);
-			
-			float ownerposX, ownerposY, ownerposZ;
-			ownerphysobj->GetPosition(ownerposX, ownerposY, ownerposZ);
-			ownerposY += _projInfo.OffsetY;
+			bool destroyfinishedproj = false;
 
-			float diffX = (ownerposX - myposX);
-			float diffY = (ownerposY - myposY);
-			float diffZ = (ownerposZ - myposZ);
-
-			LbaVec3 moveV(diffX, diffY, diffZ);
-			moveV.Normalize();
-
-			float movex = moveV.x * tdiff * speedcomeback;
-			float movey = moveV.y * tdiff * speedcomeback;
-			float movez = moveV.z * tdiff * speedcomeback;	
-
-			bool finishedx=false, finishedy=false, finishedz=false;
-
-			if(abs(movex) >= abs(diffX))
+			boost::shared_ptr<DynamicObject> ownerdyn = 
+				_lbanetmodelH->GetActor(_projInfo.OwnerActorType,  _projInfo.OwnerActorId);
+			if(ownerdyn)
 			{
-				movex = diffX;
-				finishedx = true;
+				boost::shared_ptr<PhysicalObjectHandlerBase> ownerphysobj = ownerdyn->GetPhysicalObject();
+				if(ownerphysobj)
+				{
+					float myposX, myposY, myposZ;
+					physobj->GetPosition(myposX, myposY, myposZ);
+					
+					float ownerposX, ownerposY, ownerposZ;
+					ownerphysobj->GetPosition(ownerposX, ownerposY, ownerposZ);
+					ownerposY += _projInfo.OffsetY;
+
+					float diffX = (ownerposX - myposX);
+					float diffY = (ownerposY - myposY);
+					float diffZ = (ownerposZ - myposZ);
+
+					LbaVec3 moveV(diffX, diffY, diffZ);
+					moveV.Normalize();
+
+					float movex = moveV.x * tdiff * speedcomeback;
+					float movey = moveV.y * tdiff * speedcomeback;
+					float movez = moveV.z * tdiff * speedcomeback;	
+
+					bool finishedx=false, finishedy=false, finishedz=false;
+
+					if(abs(movex) >= abs(diffX))
+					{
+						movex = diffX;
+						finishedx = true;
+					}
+
+					if(abs(movey) >= abs(diffY))
+					{
+						movey = diffY;
+						finishedy = true;
+					}
+
+					if(abs(movez) >= abs(diffZ))
+					{
+						movez = diffZ;
+						finishedz = true;
+					}
+
+					physobj->Move(movex, movey, movez, false);	
+
+					if(finishedx && finishedy && finishedz)
+						destroyfinishedproj = true;
+				}
+				else
+					destroyfinishedproj = true;
 			}
+			else
+				destroyfinishedproj = true;
 
-			if(abs(movey) >= abs(diffY))
-			{
-				movey = diffY;
-				finishedy = true;
-			}
-
-			if(abs(movez) >= abs(diffZ))
-			{
-				movez = diffZ;
-				finishedz = true;
-			}
-
-			physobj->Move(movex, movey, movez, false);	
-
-			if(finishedx && finishedy && finishedz)
+			if(destroyfinishedproj)
 			{
 				// inform server of destroy
 				if(_Manage && ((_destroy && (_launchedobjects.size() == 1)) || !_projInfo.MultiShoot))
@@ -163,53 +180,61 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 				//move projectile manually to target
 				float myposX, myposY, myposZ;
 				physobj->GetPosition(myposX, myposY, myposZ);
-				
-				boost::shared_ptr<PhysicalObjectHandlerBase> targetobj = 
-				_lbanetmodelH->GetActor(_projInfo.FollowTargetType, _projInfo.FollowTargetId)->GetPhysicalObject();
-				float targetposX = -10, targetposY = -10, targetposZ = -10;
-				if(targetobj)
-					targetobj->GetPosition(targetposX, targetposY, targetposZ);
 
-				float diffX = (targetposX - myposX);
-				float diffY = (targetposY - myposY);
-				float diffZ = (targetposZ - myposZ);
-
-				LbaVec3 moveV(diffX, diffY, diffZ);
-				moveV.Normalize();
-
-				float movex = moveV.x * tdiff * _projInfo.ForceX;
-				float movey = moveV.y * tdiff * _projInfo.ForceX;
-				float movez = moveV.z * tdiff * _projInfo.ForceX;	
-
-				bool finishedx=false, finishedy=false, finishedz=false;
-
-				if(abs(movex) >= abs(diffX))
+			
+				boost::shared_ptr<DynamicObject> targetdyn = 
+					_lbanetmodelH->GetActor(_projInfo.FollowTargetType, _projInfo.FollowTargetId);
+				if(targetdyn)
 				{
-					movex = diffX;
-					finishedx = true;
-				}
+					float targetposX = -10, targetposY = -10, targetposZ = -10;		
 
-				if(abs(movey) >= abs(diffY))
-				{
-					movey = diffY;
-					finishedy = true;
-				}
+					boost::shared_ptr<PhysicalObjectHandlerBase> targetobj = targetdyn->GetPhysicalObject();
+					if(targetobj)
+						targetobj->GetPosition(targetposX, targetposY, targetposZ);
 
-				if(abs(movez) >= abs(diffZ))
-				{
-					movez = diffZ;
-					finishedz = true;
-				}
+					float diffX = (targetposX - myposX);
+					float diffY = (targetposY - myposY);
+					float diffZ = (targetposZ - myposZ);
 
-				physobj->Move(movex, movey, movez, false);	
+					LbaVec3 moveV(diffX, diffY, diffZ);
+					moveV.Normalize();
 
-				if(finishedx && finishedy && finishedz)
-				{
-					//hitted target - destroy and inform hit
-					destroy = true;
-					touchedactortype = _projInfo.FollowTargetType;
-					touchedactorid = _projInfo.FollowTargetId;
+					float movex = moveV.x * tdiff * _projInfo.ForceX;
+					float movey = moveV.y * tdiff * _projInfo.ForceX;
+					float movez = moveV.z * tdiff * _projInfo.ForceX;	
+
+					bool finishedx=false, finishedy=false, finishedz=false;
+
+					if(abs(movex) >= abs(diffX))
+					{
+						movex = diffX;
+						finishedx = true;
+					}
+
+					if(abs(movey) >= abs(diffY))
+					{
+						movey = diffY;
+						finishedy = true;
+					}
+
+					if(abs(movez) >= abs(diffZ))
+					{
+						movez = diffZ;
+						finishedz = true;
+					}
+
+					physobj->Move(movex, movey, movez, false);	
+
+					if(finishedx && finishedy && finishedz)
+					{
+						//hitted target - destroy and inform hit
+						destroy = true;
+						touchedactortype = _projInfo.FollowTargetType;
+						touchedactorid = _projInfo.FollowTargetId;
+					}
 				}
+				else
+					destroy = true; // no more target
 			}
 			else
 			{
@@ -346,7 +371,16 @@ check if player is the owner
 ***********************************************************/
 void ProjectileHandler::Launch()
 {
-	if(!_lbanetmodelH|| !_ownerobj)
+	if(!_lbanetmodelH)
+		return;
+
+	boost::shared_ptr<DynamicObject> ownerdyn = 
+		_lbanetmodelH->GetActor(_projInfo.OwnerActorType,  _projInfo.OwnerActorId);
+	if(!ownerdyn)
+		return;
+
+	boost::shared_ptr<PhysicalObjectHandlerBase> ownerphysobj = ownerdyn->GetPhysicalObject();
+	if(!ownerphysobj)
 		return;
 
 	// create new proj
@@ -358,8 +392,7 @@ void ProjectileHandler::Launch()
 
 	//add force to object
 	boost::shared_ptr<PhysicalObjectHandlerBase> physobj = newproj.projobject->GetPhysicalObject();
-	boost::shared_ptr<PhysicalObjectHandlerBase> ownerphysobj = _ownerobj->GetPhysicalObject();
-	if(physobj && ownerphysobj)
+	if(physobj)
 	{
 		LbaQuaternion Q;
 		ownerphysobj->GetRotation(Q);
@@ -425,15 +458,16 @@ clear projectile
 ***********************************************************/
 void ProjectileHandler::Clear()
 {
+	boost::shared_ptr<DynamicObject> ownerdyn = 
+		_lbanetmodelH->GetActor(_projInfo.OwnerActorType,  _projInfo.OwnerActorId);
+
 	// stop owner to spawn projectiles
-	if(_projInfo.StartAnimFrame > 0 && _ownerobj)
-		_ownerobj->RemoveActionOnAnimation(_projInfo.StartAnimFrame, this);
+	if(_projInfo.StartAnimFrame > 0 && ownerdyn)
+		ownerdyn->RemoveActionOnAnimation(_projInfo.StartAnimFrame, this);
 
 	// clear launched projs
 	_launchedobjects.clear();
 
-	// clear owner object
-	_ownerobj = boost::shared_ptr<DynamicObject>();
 }
 
 
