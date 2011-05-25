@@ -181,7 +181,25 @@ public:
 			std::find(_actionsonanimation.begin(), _actionsonanimation.end(), searcho);
 
 		if(it != _actionsonanimation.end())
+		{
+			if(it->second)
+				it->second->Destroy();
+
 			_actionsonanimation.erase(it);
+		}
+	}
+
+	void ClearActionsOnAnimation()
+	{
+		std::vector<std::pair<int, ActionOnAnimationHandlerBase* > > actionsonanimationtmp;
+		actionsonanimationtmp.swap(_actionsonanimation);
+
+		for(size_t i=0; i< actionsonanimationtmp.size(); ++i)
+		{
+			ActionOnAnimationHandlerBase* tmp = actionsonanimationtmp[i].second;
+			if(tmp)
+				tmp->Destroy();	
+		}
 	}
 
 

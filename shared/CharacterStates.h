@@ -131,6 +131,11 @@ public:
 
 	//! check if can be a target
 	virtual bool CanBeTarget(){return false;}
+
+	//! check if this state cancel projectile launch
+	virtual bool CancelProjectile(){return true;}
+
+
 };
 
 
@@ -190,6 +195,9 @@ public:
 
 	//! check if can be a target
 	virtual bool CanBeTarget(){return true;}
+
+	//! check if this state cancel projectile launch
+	virtual bool CancelProjectile(){return false;}
 };
 
 
@@ -879,6 +887,9 @@ public:
 
 	//! check if can be a target
 	virtual bool CanBeTarget(){return true;}
+
+	//! check if this state cancel projectile launch
+	virtual bool CancelProjectile(){return false;}
 
 private:
 	bool	_switchstate;

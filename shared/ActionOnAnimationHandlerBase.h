@@ -50,6 +50,11 @@ public:
 	// return true if should destroy
 	virtual bool Execute() = 0;
 
+	// execute the action
+	// return true if should destroy
+	virtual void Destroy() = 0;
+
+
 };
 
 
