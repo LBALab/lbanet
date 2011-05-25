@@ -1078,6 +1078,10 @@ void CharacterController::UpdateModeAndState(const std::string &newmode,
 				if(diso)
 					diso->Update(new LbaNet::AnimationStringUpdate(animstring), false);
 			}
+
+			// cancel projectiles if needed
+			if(_currentstate->CancelProjectile() && _character)
+				_character->ClearActionsOnAnimation();
 		}
 
 		// inform mode that state changed

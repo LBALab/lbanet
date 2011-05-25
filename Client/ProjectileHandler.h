@@ -75,7 +75,7 @@ public:
 	virtual bool Execute();
 
 	//! destroy projectile at next cycle
-	void Destroy();
+	virtual void Destroy();
 
 	//! clear projectile
 	void Clear();
@@ -89,6 +89,7 @@ private:
 	LbaNet::ProjectileInfo							_projInfo;
 	bool											_Manage;
 	bool											_destroy;
+	bool											_forcedclear;
 
 	float											_AngleOffset;
 	

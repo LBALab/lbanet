@@ -76,6 +76,11 @@ void ExternalActor::NpcChangedUpdate(double updatetime,
 	// reset free move
 	_freemove = false;
 
+	// reset projectiles
+	if(_character)
+		_character->ClearActionsOnAnimation();
+
+
 	// update only newest info
 	if(updatetime < _last_update)
 		return;

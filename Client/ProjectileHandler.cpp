@@ -46,7 +46,7 @@ ProjectileHandler::ProjectileHandler(LbaNetModel *	lbanetmodelH,
 										const std::string &SoundOnBounce)
 : _projInfo(Info), _Manage(Manage), _AngleOffset(AngleOffset),
 	_SoundAtStart(SoundAtStart), _SoundOnBounce(SoundOnBounce), _lbanetmodelH(lbanetmodelH),
-	_destroy(false)
+	_destroy(false), _forcedclear(false)
 {
 	if(Info.StartAnimFrame > 0 && ownerobj)
 		ownerobj->AddActionOnAnimation(Info.StartAnimFrame, this); //wait for anim to launch
@@ -335,26 +335,25 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 				else
 				{
 					// inform server of destroy
-					if(_Manage)
+					if(_projInfo.MultiShoot && (!_destroy || (_launchedobjects.size() > 1)))
 					{
-						if(_projInfo.MultiShoot && (!_destroy || (_launchedobjects.size() > 1)))
-						{
+						if(_Manage)
 							EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ProjectileHittedActorEvent(
-															SynchronizedTimeHandler::GetCurrentTimeDouble(),
-															_projInfo.Id, touchedactortype, touchedactorid));
+														SynchronizedTimeHandler::GetCurrentTimeDouble(),
+														_projInfo.Id, touchedactortype, touchedactorid));
 
-							itp = _launchedobjects.erase(itp);	
-						}
-						else
-						{
+						itp = _launchedobjects.erase(itp);	
+					}
+					else
+					{
+						if(_Manage)
 							EventsQueue::getSenderQueue()->AddEvent(new LbaNet::DestroyProjectileEvent(
-															SynchronizedTimeHandler::GetCurrentTimeDouble(),
-															_projInfo.Id, touchedactortype, touchedactorid));
+														SynchronizedTimeHandler::GetCurrentTimeDouble(),
+														_projInfo.Id, touchedactortype, touchedactorid));
 
-							itp = _launchedobjects.erase(itp);	
-							return true;
-						}
-					}					
+						itp = _launchedobjects.erase(itp);	
+						return true;
+					}		
 				}
 			}
 			else
@@ -363,7 +362,7 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 	}
 
 
-	return !_projInfo.MultiShoot && _destroy;
+	return (!_projInfo.MultiShoot || _forcedclear) && _destroy;
 }
 
 /***********************************************************
@@ -371,7 +370,7 @@ check if player is the owner
 ***********************************************************/
 void ProjectileHandler::Launch()
 {
-	if(!_lbanetmodelH)
+	if(!_lbanetmodelH || _destroy)
 		return;
 
 	boost::shared_ptr<DynamicObject> ownerdyn = 
@@ -476,5 +475,35 @@ destroy projectile at next cycle
 ***********************************************************/
 void ProjectileHandler::Destroy()
 {
-	_destroy = true;
+	if(!_destroy)
+	{
+		_destroy = true;
+
+		// special case where there is no current projectiles launched
+		if(_projInfo.MultiShoot && (_launchedobjects.size() == 0))
+		{
+			_forcedclear = true;
+
+			// inform server if needed
+			if(_Manage)
+				EventsQueue::getSenderQueue()->AddEvent(new LbaNet::DestroyProjectileEvent(
+											SynchronizedTimeHandler::GetCurrentTimeDouble(),
+											_projInfo.Id, -1, -1));
+		}
+		else
+		{
+			// inform server if needed
+			if(_Manage)
+				EventsQueue::getSenderQueue()->AddEvent(new LbaNet::DestroyProjectileEvent(
+											SynchronizedTimeHandler::GetCurrentTimeDouble(),
+											_projInfo.Id, -1, -1));
+		}
+
+		boost::shared_ptr<DynamicObject> ownerdyn = 
+			_lbanetmodelH->GetActor(_projInfo.OwnerActorType,  _projInfo.OwnerActorId);
+
+		// stop owner to spawn projectiles
+		if(_projInfo.StartAnimFrame > 0 && ownerdyn)
+			ownerdyn->RemoveActionOnAnimation(_projInfo.StartAnimFrame, this);
+	}
 }
