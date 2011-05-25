@@ -374,7 +374,7 @@ void PhysXEngine::GetPhysicsResults()
 	NxU32 maxIter;
 	NxU32 numSubSteps;
 	gScene->getTiming(maxTimestep, maxIter, method, &numSubSteps);
-	if(numSubSteps)	
+	if(gManager && numSubSteps)	
 		gManager->updateControllers();
 }
 

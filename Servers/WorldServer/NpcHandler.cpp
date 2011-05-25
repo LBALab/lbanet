@@ -312,11 +312,11 @@ void NPCHandler::StartFight(Ice::Long TargetedPlayerId)
 	}
 
 	// add player to target vector
-	if(std::find(_targetedplayers.begin(), _targetedplayers.end(), TargetedPlayerId) == _targetedplayers.end())
-		_targetedplayers.push_back(TargetedPlayerId);
+	if(std::find(_targetedattackplayers.begin(), _targetedattackplayers.end(), TargetedPlayerId) == _targetedattackplayers.end())
+		_targetedattackplayers.push_back(TargetedPlayerId);
 
 	// start target player
-	if(_targetedplayers.size() == 1)
+	if(_targetedattackplayers.size() == 1 && m_launchedattackscript < 0)
 		TargetAttackPlayer(TargetedPlayerId);
 }
 
@@ -344,6 +344,7 @@ void NPCHandler::Die()
 
 	// clear target
 	_targetedplayers.clear();
+	_targetedattackplayers.clear();
 	_hurtingplayers.clear();
 
 	// reset target
@@ -728,18 +729,19 @@ stop targetting player
 void NPCHandler::UntargetAttackPlayer(Ice::Long PlayerId)
 {
 	// remove from target list
-	std::vector<Ice::Long>::iterator it = _targetedplayers.begin();
-	std::vector<Ice::Long>::iterator end = _targetedplayers.end();
-	for(int cc=0; it != end; ++it, ++cc)
+	int cc=0;
+	std::vector<Ice::Long>::iterator it = _targetedattackplayers.begin();
+	std::vector<Ice::Long>::iterator end = _targetedattackplayers.end();
+	for(; it != end; ++it, ++cc)
 	{
 		if(*it == PlayerId)
 		{
-			_targetedplayers.erase(it);
+			_targetedattackplayers.erase(it);
 
 			if(cc == 0)
 			{
-				if(_targetedplayers.size() > 0)
-					TargetAttackPlayer(_targetedplayers[0]);
+				if(_targetedattackplayers.size() > 0)
+					TargetAttackPlayer(_targetedattackplayers[0]);
 				else
 					StopAttackTarget(PlayerId);
 
@@ -747,6 +749,7 @@ void NPCHandler::UntargetAttackPlayer(Ice::Long PlayerId)
 				ClearProjectiles();
 				m_currenthitpower = -1;
 			}
+
 			break;
 		}
 	}
@@ -985,6 +988,10 @@ bool NPCHandler::ChangeState(int newstate)
 {
 	if(_agentstatenum == newstate)
 		return false;
+
+	// only can change to normal state from dead state
+	//if(_agentstatenum == 3 && newstate != 1)
+	//	return false;
 
 	#ifdef _DEBUG_NPC_
 	filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"change state to "<<newstate<<std::endl;
@@ -1634,7 +1641,7 @@ void NPCHandler::UseWeapon(int ScriptId, int WeaponNumber, bool multishot)
 				{
 					LbaNet::ProjectileInfo newProj;
 					if((*itp)->GetProjectileInfo("", _lifeinfo.CurrentMana, 
-													4, _targetedattackplayer, newProj))
+													4, (long)_targetedattackplayer, newProj))
 					{
 						// update projectile ids
 						newProj.ManagingClientId = _targetedattackplayer;

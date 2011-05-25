@@ -77,12 +77,7 @@ do all check to be done when idle
 ***********************************************************/
 bool ProjectileHandler::Process(double tnow, float tdiff)
 {
-	// do nothing if no launched projectiles
-	if(_launchedobjects.size() == 0)
-		return false;
-
 	float speedcomeback = 0.02f;
-
 
 	std::vector<LaunchedProjectile>::iterator itp = _launchedobjects.begin();
 
@@ -457,6 +452,8 @@ clear projectile
 ***********************************************************/
 void ProjectileHandler::Clear()
 {
+	_destroy = true;
+
 	boost::shared_ptr<DynamicObject> ownerdyn = 
 		_lbanetmodelH->GetActor(_projInfo.OwnerActorType,  _projInfo.OwnerActorId);
 

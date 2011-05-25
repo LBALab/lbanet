@@ -458,6 +458,7 @@ protected:
 	DialogPartPtr				_rootdialog;
 
 	std::vector<Ice::Long>		_targetedplayers;
+	std::vector<Ice::Long>		_targetedattackplayers;
 	std::vector<Ice::Long>		_hurtingplayers;
 
 

@@ -465,7 +465,7 @@ void SharedDataHandler::TeleportPlayerInternal(long playerid, boost::shared_ptr<
 		it->second->StartThread();
 
 		// add proxies to the map
-		it->second->ExtAddPlayer(playerid, pinfo);
+		it->second->ExtAddPlayer(playerid, pinfo, spawnid);
 	}
 	else
 	{
