@@ -635,6 +635,7 @@ void ExternalPlayer::ShowHide(bool Show)
 	if(!Show && _character)
 		_character->ClearActionsOnAnimation();
 
+
 	std::stringstream strs;
 	strs<<"Updating external player "<<(Show?"Show":"Hide");
 	LogHandler::getInstance()->LogToFile(strs.str(), _character->GetId());

@@ -534,7 +534,7 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 									fabs(checkY-_lastchasingcheckposY) +
 									fabs(checkZ-_lastchasingcheckposZ);
 
-					if(diff < 0.1f)
+					if(diff < 0.3f)
 					{
 						//reset target
 						if(_targetedattackplayer > 0 && m_NavMAgent && m_scripthandler)
@@ -568,6 +568,23 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 			{
 				//rotate back to starting point
 				ChangeState(8);
+			}
+			else if((tnow-_lastchasingchecktime) > 1000)//check if did not get stuck
+			{
+				float difftt =	fabs(curX-_lastchasingcheckposX) +
+								fabs(curY-_lastchasingcheckposY) +
+								fabs(curZ-_lastchasingcheckposZ);
+
+				//reset target
+				if(difftt < 0.3f && m_NavMAgent)
+					m_NavMAgent->SetTargetPosition(false, m_saved_X, m_saved_Y, m_saved_Z);
+
+				_lastchasingcheckposX = curX;
+				_lastchasingcheckposY = curY;
+				_lastchasingcheckposZ = curZ;
+
+
+				_lastchasingchecktime = tnow;
 			}
 		}
 	}
@@ -1933,4 +1950,14 @@ check if script is attack script
 bool NPCHandler::IsAttacking() 
 {
 	return (m_launchedattackscript > 0);
+}
+
+
+		
+/***********************************************************
+check if reset position
+***********************************************************/
+bool NPCHandler::IsDead()
+{
+	return (_agentstatenum == 3);
 }

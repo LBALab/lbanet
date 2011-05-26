@@ -372,6 +372,9 @@ public:
 	//! check if actor is attacking
 	virtual bool IsAttacking();
 
+	//! check if reset position
+	virtual bool IsDead();
+
 protected:
 
 	//! return the build class

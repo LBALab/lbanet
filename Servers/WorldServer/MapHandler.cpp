@@ -170,7 +170,7 @@ void MapHandler::run()
 				{
 					ita->second->SetLastRecordPos(pos);
 
-					if(ita->second->IsNPC())
+					if(ita->second->IsNPC() && !ita->second->ResetPosition() && !ita->second->IsDead())
 					{
 						LbaNet::PlayerPosition StartPosition;
 						StartPosition.X = lastpos.x;

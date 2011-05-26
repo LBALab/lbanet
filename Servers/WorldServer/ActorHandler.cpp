@@ -1159,8 +1159,6 @@ void ActorHandler::CreateActor()
 }
 
 
-
-
 /***********************************************************
 pause the playing script
 ***********************************************************/
@@ -1231,6 +1229,9 @@ void ActorHandler::Resume()
 
 				m_resetposition = true;
 				m_resetrotation = true;
+
+				
+				SetLastRecordPos(LbaVec3(m_saved_X, m_saved_Y, m_saved_Z));
 			}
 
 			// restore hidden/show state
@@ -1239,6 +1240,19 @@ void ActorHandler::Resume()
 
 		//store running script
 		RestoreScript();
+
+
+		// update to last position
+		if(_currentScripts.size() == 0) // if no script played reset to default
+		{
+			boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
+			if(disO)
+				_events.push_back(new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+														m_actorinfo.ObjectId, m_saved_X, m_saved_Y, m_saved_Z, 
+														m_saved_Q.GetRotationSingleAngle(), 
+														disO->GetCurrentAnimation(), 
+														true, true, NULL));
+		}
 	}
 }
 
@@ -1708,6 +1722,9 @@ LbaNet::ClientServerEventBasePtr ActorHandler::GetLastEvent()
 			m_lastevent->CurrAnimation = disO->GetCurrentAnimation();
 	}
 
+
+
+
 	return m_lastevent;
 }
 
@@ -1826,6 +1843,10 @@ void ActorHandler::ResetActor()
 
 			m_resetposition = true;
 			m_resetrotation = true;
+
+			SetLastRecordPos(LbaVec3(	m_actorinfo.PhysicDesc.Pos.X, 
+										m_actorinfo.PhysicDesc.Pos.Y, 
+										m_actorinfo.PhysicDesc.Pos.Z));
 		}
 	}
 

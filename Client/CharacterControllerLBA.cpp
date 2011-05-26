@@ -823,7 +823,8 @@ void CharacterController::UpdateDisplay(LbaNet::DisplayObjectUpdateBasePtr updat
 		// do not use update coming from the client trough the server as this could create endless loop
 		if(!castedptr->UpdateFromPlayer)
 		{
-			bool updateportrait = (_currentmodestr == castedptr->Info.Mode);
+			bool updateportrait = (_currentmodestr == castedptr->Info.Mode 
+								&& _currentplayerstate == castedptr->Info.State);
 
 			UpdateModeAndState(castedptr->Info.Mode, castedptr->Info.State,
 								SynchronizedTimeHandler::GetCurrentTimeDouble(), 0);

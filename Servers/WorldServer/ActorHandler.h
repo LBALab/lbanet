@@ -434,6 +434,11 @@ public:
 	//! check if actor is attacking
 	virtual bool IsAttacking() {return false;}
 
+	//! check if reset position
+	bool ResetPosition(){return m_resetposition;}
+
+	//! check if reset position
+	virtual bool IsDead(){return false;}
 
 #ifdef _USE_QT_EDITOR_
 public:
