@@ -306,6 +306,30 @@ function ActorFollowAttackDistancePlayer(ScriptId, ActorId, Environment)
 	end
 end
 
+-- go to player and attack him with contact weapon
+function ActorRotateAttackDistancePlayer(ScriptId, ActorId, Environment)
+
+	if Environment:CanPlayAnimation(1, ActorId, "PrepareWeapon") then
+		Environment:UpdateActorAnimation(ScriptId, ActorId, "PrepareWeapon")
+		Environment:ActorAnimate(ScriptId, ActorId, true)
+	end
+
+	TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
+	while TargetedPlayer > -1 do
+
+		rotationdiff = Environment:GetTargetRotationDiff(ActorId)
+		if math.abs(rotationdiff) > 2 then
+			-- rotate to face player
+			Environment:RotateToTargettedPlayer(ScriptId, ActorId, 1.9, 0.2)	
+		else		
+			-- attack player contact
+			Environment:StartUseWeapon(ScriptId, ActorId, 1)
+
+		end
+	
+		TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
+	end
+end
 
 -- go to player and attack him with contact weapon
 function ActorRotateAttackDistanceAndContactPlayer(ScriptId, ActorId, Environment)
