@@ -350,7 +350,7 @@ function InitMap(environment)
 
 	Actor_16 = ActorObjectInfo(16)
 	Actor_16:SetRenderType(3)
-	Actor_16.HitPowerOnTouch = -1
+	Actor_16.HitPowerOnTouch = 10
 	Actor_16.ExcludeFromNavMesh = false
 	Actor_16.DisplayDesc.ModelId = 0
 	Actor_16.DisplayDesc.ModelName = "Robot"
@@ -400,7 +400,7 @@ function InitMap(environment)
 	Actor_16.PhysicDesc.Collidable = true
 	Actor_16.PhysicDesc.SizeX = 2
 	Actor_16.PhysicDesc.SizeY = 6
-	Actor_16.PhysicDesc.SizeZ = 2
+	Actor_16.PhysicDesc.SizeZ = 3
 	Actor_16.PhysicDesc.AllowFreeMove = true
 	Actor_16.PhysicDesc.Filename = ""
 	Actor_16:SetPhysicalActorType(2)
@@ -435,6 +435,141 @@ function InitMap(environment)
 	Actor_16H:SetRootDialog(Actor_16H_dia)
 	Actor_16H:SetNpcName(-1)
 	Actor_16H:SetSimpleDialog(false)
+	Actor_16H:SetAggresive(true)
+	Actor_16H:SetLife(50)
+	Actor_16H:SetMana(0)
+	Actor_16H:SetArmor(0)
+	Actor_16H:SetAttackActiDist(10)
+	Actor_16H:SetAttackActiDistDiscrete(5)
+	Actor_16H:SetAttackActiDistHidden(0)
+	Actor_16H:SetAttackStopDist(18)
+	Actor_16H:SetRespawnTimeInSec(-1)
+	Actor_16H:SetWeapon1Type(2)
+	Actor_16H:SetWeapon1Power(10)
+	Actor_16H:SetWeapon1ReachDistance(10)
+	Actor_16H:Setuseweapon1animation("UseWeapon")
+	Actor_16H_weapon1proj0 = ProjectileObjectDef()
+	Actor_16H_weapon1proj0:SetRenderType(2)
+	Actor_16H_weapon1proj0.DisplayDesc.ModelId = 0
+	Actor_16H_weapon1proj0.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite000.png"
+	Actor_16H_weapon1proj0.DisplayDesc.Outfit = ""
+	Actor_16H_weapon1proj0.DisplayDesc.Weapon = ""
+	Actor_16H_weapon1proj0.DisplayDesc.Mode = ""
+	Actor_16H_weapon1proj0.DisplayDesc.UseLight = true
+	Actor_16H_weapon1proj0.DisplayDesc.CastShadow = true
+	Actor_16H_weapon1proj0.DisplayDesc.ColorR = 1
+	Actor_16H_weapon1proj0.DisplayDesc.ColorG = 1
+	Actor_16H_weapon1proj0.DisplayDesc.ColorB = 1
+	Actor_16H_weapon1proj0.DisplayDesc.ColorA = 0.9
+	Actor_16H_weapon1proj0.DisplayDesc.TransX = 0
+	Actor_16H_weapon1proj0.DisplayDesc.TransY = 0
+	Actor_16H_weapon1proj0.DisplayDesc.TransZ = 0
+	Actor_16H_weapon1proj0.DisplayDesc.ScaleX = 0.2
+	Actor_16H_weapon1proj0.DisplayDesc.ScaleY = 0.2
+	Actor_16H_weapon1proj0.DisplayDesc.ScaleZ = 0.2
+	Actor_16H_weapon1proj0.DisplayDesc.RotX = 0
+	Actor_16H_weapon1proj0.DisplayDesc.RotY = 0
+	Actor_16H_weapon1proj0.DisplayDesc.RotZ = 0
+	Actor_16H_weapon1proj0.DisplayDesc.UseBillboard = true
+	Actor_16H_weapon1proj0.PhysicDesc.Pos.X = 0
+	Actor_16H_weapon1proj0.PhysicDesc.Pos.Y = 0
+	Actor_16H_weapon1proj0.PhysicDesc.Pos.Z = 0
+	Actor_16H_weapon1proj0.PhysicDesc.Pos.Rotation = 0
+	Actor_16H_weapon1proj0.PhysicDesc.Density = 1
+	Actor_16H_weapon1proj0.PhysicDesc.Collidable = false
+	Actor_16H_weapon1proj0.PhysicDesc.SizeX = 0.5
+	Actor_16H_weapon1proj0.PhysicDesc.SizeY = 0.5
+	Actor_16H_weapon1proj0.PhysicDesc.SizeZ = 0.5
+	Actor_16H_weapon1proj0.PhysicDesc.AllowFreeMove = true
+	Actor_16H_weapon1proj0.PhysicDesc.Filename = ""
+	Actor_16H_weapon1proj0:SetPhysicalActorType(3)
+	Actor_16H_weapon1proj0:SetPhysicalShape(4)
+	Actor_16H_weapon1proj0.UsableMode = ""
+	Actor_16H_weapon1proj0.Power = 3
+	Actor_16H_weapon1proj0.UseMana = 0
+	Actor_16H_weapon1proj0.OffsetX = 1.1
+	Actor_16H_weapon1proj0.OffsetY = 3
+	Actor_16H_weapon1proj0.OffsetZ = 0.6
+	Actor_16H_weapon1proj0.ForceX = 0.006
+	Actor_16H_weapon1proj0.ForceY = 0
+	Actor_16H_weapon1proj0.ForceYOnImpact = 0
+	Actor_16H_weapon1proj0.NbBounce = 1
+	Actor_16H_weapon1proj0.IgnoreGravity = false
+	Actor_16H_weapon1proj0.LifeTime = 15000
+	Actor_16H_weapon1proj0.Comeback = false
+	Actor_16H_weapon1proj0.StartAnimFrame = 4
+	Actor_16H_weapon1proj0.AngleOffset = 0
+	Actor_16H_weapon1proj0.SoundAtStart = ""
+	Actor_16H_weapon1proj0.SoundOnBounce = ""
+	Actor_16H_weapon1proj0.ForceHurt = true
+	Actor_16H_weapon1proj0.MultiShoot = false
+	Actor_16H_weapon1proj0.UseTimer = false
+	Actor_16H_weapon1proj0.Frequency = 1
+	Actor_16H_weapon1proj0.FollowTarget = true
+	Actor_16H:AddProjectileWeapon1(Actor_16H_weapon1proj0)
+	Actor_16H_weapon1proj1 = ProjectileObjectDef()
+	Actor_16H_weapon1proj1:SetRenderType(2)
+	Actor_16H_weapon1proj1.DisplayDesc.ModelId = 0
+	Actor_16H_weapon1proj1.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite000.png"
+	Actor_16H_weapon1proj1.DisplayDesc.Outfit = ""
+	Actor_16H_weapon1proj1.DisplayDesc.Weapon = ""
+	Actor_16H_weapon1proj1.DisplayDesc.Mode = ""
+	Actor_16H_weapon1proj1.DisplayDesc.UseLight = true
+	Actor_16H_weapon1proj1.DisplayDesc.CastShadow = true
+	Actor_16H_weapon1proj1.DisplayDesc.ColorR = 1
+	Actor_16H_weapon1proj1.DisplayDesc.ColorG = 1
+	Actor_16H_weapon1proj1.DisplayDesc.ColorB = 1
+	Actor_16H_weapon1proj1.DisplayDesc.ColorA = 0.9
+	Actor_16H_weapon1proj1.DisplayDesc.TransX = 0
+	Actor_16H_weapon1proj1.DisplayDesc.TransY = 0
+	Actor_16H_weapon1proj1.DisplayDesc.TransZ = 0
+	Actor_16H_weapon1proj1.DisplayDesc.ScaleX = 0.2
+	Actor_16H_weapon1proj1.DisplayDesc.ScaleY = 0.2
+	Actor_16H_weapon1proj1.DisplayDesc.ScaleZ = 0.2
+	Actor_16H_weapon1proj1.DisplayDesc.RotX = 0
+	Actor_16H_weapon1proj1.DisplayDesc.RotY = 0
+	Actor_16H_weapon1proj1.DisplayDesc.RotZ = 0
+	Actor_16H_weapon1proj1.DisplayDesc.UseBillboard = true
+	Actor_16H_weapon1proj1.PhysicDesc.Pos.X = 0
+	Actor_16H_weapon1proj1.PhysicDesc.Pos.Y = 0
+	Actor_16H_weapon1proj1.PhysicDesc.Pos.Z = 0
+	Actor_16H_weapon1proj1.PhysicDesc.Pos.Rotation = 0
+	Actor_16H_weapon1proj1.PhysicDesc.Density = 1
+	Actor_16H_weapon1proj1.PhysicDesc.Collidable = false
+	Actor_16H_weapon1proj1.PhysicDesc.SizeX = 0.5
+	Actor_16H_weapon1proj1.PhysicDesc.SizeY = 0.5
+	Actor_16H_weapon1proj1.PhysicDesc.SizeZ = 0.5
+	Actor_16H_weapon1proj1.PhysicDesc.AllowFreeMove = true
+	Actor_16H_weapon1proj1.PhysicDesc.Filename = ""
+	Actor_16H_weapon1proj1:SetPhysicalActorType(3)
+	Actor_16H_weapon1proj1:SetPhysicalShape(4)
+	Actor_16H_weapon1proj1.UsableMode = ""
+	Actor_16H_weapon1proj1.Power = 3
+	Actor_16H_weapon1proj1.UseMana = 0
+	Actor_16H_weapon1proj1.OffsetX = 1.1
+	Actor_16H_weapon1proj1.OffsetY = 3
+	Actor_16H_weapon1proj1.OffsetZ = -0.6
+	Actor_16H_weapon1proj1.ForceX = 0.006
+	Actor_16H_weapon1proj1.ForceY = 0
+	Actor_16H_weapon1proj1.ForceYOnImpact = 0
+	Actor_16H_weapon1proj1.NbBounce = 1
+	Actor_16H_weapon1proj1.IgnoreGravity = false
+	Actor_16H_weapon1proj1.LifeTime = 15000
+	Actor_16H_weapon1proj1.Comeback = false
+	Actor_16H_weapon1proj1.StartAnimFrame = 4
+	Actor_16H_weapon1proj1.AngleOffset = 0
+	Actor_16H_weapon1proj1.SoundAtStart = ""
+	Actor_16H_weapon1proj1.SoundOnBounce = ""
+	Actor_16H_weapon1proj1.ForceHurt = true
+	Actor_16H_weapon1proj1.MultiShoot = false
+	Actor_16H_weapon1proj1.UseTimer = false
+	Actor_16H_weapon1proj1.Frequency = 1
+	Actor_16H_weapon1proj1.FollowTarget = true
+	Actor_16H:AddProjectileWeapon1(Actor_16H_weapon1proj1)
+	Actor_16H:SetAttackFunction("ActorRotateAttackDistancePlayer")
+	Actor_16H_condAttack = ActorMovingCondition()
+	Actor_16H_condAttack:SetTextid(-1)
+	Actor_16H:SetAttackActivationCondition(Actor_16H_condAttack)
 	environment:AddActorObject(Actor_16H)
 
 	Actor_17 = ActorObjectInfo(17)
