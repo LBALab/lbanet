@@ -1133,7 +1133,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	QStringList condlist;
 	condlist << "No" << "AlwaysTrueCondition" << "NegateCondition" << "AndCondition" << "OrCondition" 
 				<< "ItemInInventoryCondition" << "QuestStartedCondition" << "QuestFinishedCondition"
-				<< "QuestAvailableCondition" << "ChapterStartedCondition" << "CustomCondition";
+				<< "QuestAvailableCondition" << "ChapterStartedCondition" << "ActorMovingCondition"
+				<< "CustomCondition";
 	_conditiontypeList->setStringList(condlist);
 	
 	QStringList cslist;
@@ -9933,7 +9934,7 @@ void EditorHandler::SelectCondition(ConditionBasePtr cond, const QModelIndex &pa
 
 		return;
 	}
-
+	
 	
 }
 
@@ -9971,6 +9972,11 @@ ConditionBasePtr EditorHandler::CreateCondition(const std::string & type)
 
 	if(type == "CustomCondition")
 		return ConditionBasePtr(new CustomCondition());	
+
+	if(type == "ActorMovingCondition")
+		return ConditionBasePtr(new ActorMovingCondition());	
+
+
 
 	return ConditionBasePtr();
 }
@@ -10218,6 +10224,8 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 				// need to save as something changed
 				SetModified();			
 			}
+
+			SetModified();
 		}
 	}
 }

@@ -902,7 +902,7 @@ void MapHandler::PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMove
 	try
 	{
 		PlayerPosition lastpos = GetPlayerPosition(id);
-		lastpos.Y += 0.2f; // small offset to make sure object is inside zone and not online a bit lower
+		lastpos.Y += 0.2f; // small offset to make sure object is inside zone and not only a bit lower
 		PlayerPosition currPos = info.CurrentPos;
 		currPos.Y += 0.2f;
 
@@ -943,7 +943,7 @@ void MapHandler::PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMove
 		pos.MapName = _mapinfo.Name;
 
 		// check if position could be updated
-		if(UpdatePlayerPosition(id, pos))
+		if(UpdatePlayerPosition(id, pos, info.CurrentSpeedX, info.CurrentSpeedY, info.CurrentSpeedZ))
 		{
 			if(info.ForcedChange)
 			{
@@ -2722,13 +2722,18 @@ void MapHandler::ProjectileHitPlayer(long hitterType, long hitterId, long hitted
 		// hurt the player
 		if(!DeltaUpdateLife(hittedid, hitlife, hitterType, hitterId, forcelooselife))
 		{
-			//only play hurt if not dead
-			if(hitlife < -19.9)
-				ChangePlayerState(hittedid, LbaNet::StBigHurt, 0, 1, -1, true);
-			else if(hitlife < -9.9)
+			if(forcelooselife) // in case of forced then always play medium hurt as the hits are adding up
 				ChangePlayerState(hittedid, LbaNet::StMediumHurt, 0, 1, -1, true);
 			else
-				ChangePlayerState(hittedid, LbaNet::StSmallHurt, 0, 1, -1, true);
+			{
+				//only play hurt if not dead
+				if(hitlife < -19.9)
+					ChangePlayerState(hittedid, LbaNet::StBigHurt, 0, 1, -1, true);
+				else if(hitlife < -9.9)
+					ChangePlayerState(hittedid, LbaNet::StMediumHurt, 0, 1, -1, true);
+				else
+					ChangePlayerState(hittedid, LbaNet::StSmallHurt, 0, 1, -1, true);
+			}
 		}
 	}
 }
@@ -2981,7 +2986,8 @@ LbaNet::PlayerPosition MapHandler::GetSpawningPlace(Ice::Long clientid)
 /***********************************************************
 update player position
 ***********************************************************/
-bool MapHandler::UpdatePlayerPosition(Ice::Long clientid, const PlayerPosition & pos, bool teleport)
+bool MapHandler::UpdatePlayerPosition(Ice::Long clientid, const PlayerPosition & pos, 
+									  float speedX, float speedY, float speedZ, bool teleport)
 {
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
@@ -2989,7 +2995,7 @@ bool MapHandler::UpdatePlayerPosition(Ice::Long clientid, const PlayerPosition &
 		if(teleport)
 			it->second->Teleport(pos);
 		else
-			it->second->UpdatePositionInWorld(pos);
+			it->second->UpdatePositionInWorld(pos, speedX, speedY, speedZ);
 		return true;
 	}
 
@@ -3534,7 +3540,7 @@ bool MapHandler::TeleportPlayer(long playerid, const LbaNet::PlayerPosition &new
 	else
 	{
 		// update player position
-		if(UpdatePlayerPosition(playerid, newpos, true))
+		if(UpdatePlayerPosition(playerid, newpos, 0, 0, 0, true))
 		{
 			// inform all of player move
 			LbaNet::PlayerMoveInfo moveinfo;
@@ -4111,6 +4117,46 @@ bool MapHandler::CanPlayAnimation(int ObjectType, long ObjectId, const std::stri
 			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ita = _Actors.find(ObjectId);
 			if(ita != _Actors.end())
 				return ita->second->CanPlayAnimation(anim);
+		}
+		break;
+	}
+
+	return false;
+}
+
+
+
+/***********************************************************
+// check if actor is moving
+// ObjectType ==>
+//! 1 -> npc object
+//! 2 -> player object
+//! 3 -> movable object
+***********************************************************/
+bool MapHandler::ActorMoving(int ObjectType, long ObjectId)
+{
+	switch(ObjectType)
+	{
+		case 1: // actor
+		{
+			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ita = _Actors.find(ObjectId);
+			if(ita != _Actors.end())
+			{
+				LbaVec3 pos = ita->second->GetActorPosition(ita->second->IsAttacking());
+				LbaVec3 lastpos = ita->second->GetLastRecordPos();
+
+				float diff = fabs(pos.x-lastpos.x) + fabs(pos.y-lastpos.y) + fabs(pos.z-lastpos.z);
+				return (diff > 0.0001f);
+			}
+				
+		}
+		break;
+
+		case 2: // player
+		{
+			std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator ita = _players.find(ObjectId);
+			if(ita != _players.end())
+				return ita->second->IsMoving();
 		}
 		break;
 	}

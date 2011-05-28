@@ -380,7 +380,7 @@ void ProjectileObjectDef::SaveToLuaFile(std::ostream & file, const std::string &
 	
 	file<<"\t"<<nname<<".OffsetX = "<<OffsetX<<std::endl;
 	file<<"\t"<<nname<<".OffsetY = "<<OffsetY<<std::endl;
-	file<<"\t"<<nname<<".OffsetZ = "<<OffsetY<<std::endl;
+	file<<"\t"<<nname<<".OffsetZ = "<<OffsetZ<<std::endl;
 
 	file<<"\t"<<nname<<".ForceX = "<<ForceX<<std::endl;
 	file<<"\t"<<nname<<".ForceY = "<<ForceY<<std::endl;		

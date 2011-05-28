@@ -35,6 +35,7 @@
 static const int NAVMESHSET_MAGIC = 'M'<<24 | 'S'<<16 | 'E'<<8 | 'T'; //'MSET';
 static const int NAVMESHSET_VERSION = 1;
 static const int MAX_AGENTS = 128;
+static const int _MAX_AGENT_RADIUS_ = 3;
 
 
 struct NavMeshSetHeader
@@ -1531,7 +1532,7 @@ void NaviMeshHandler::InitCrowd()
 		return;
 
 	m_crowdmanager = boost::shared_ptr<dtCrowd>(new dtCrowd());
-	m_crowdmanager->init(MAX_AGENTS, 8, m_navMesh);
+	m_crowdmanager->init(MAX_AGENTS, _MAX_AGENT_RADIUS_, m_navMesh);
 
 	
 	// Setup local avoidance params to different qualities.

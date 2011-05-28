@@ -129,6 +129,9 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetLuaFunction", &CustomCondition::GetLuaFunction)
 		.def("SetLuaFunction", &CustomCondition::SetLuaFunction),
 
+		luabind::class_<ActorMovingCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("ActorMovingCondition")
+		.def(luabind::constructor<>()),
+
 
 		luabind::class_<ContainerItemGroupElement>("ContainerItemGroupElement")
 		.def(luabind::constructor<long, int, int, float, int>())
@@ -446,7 +449,8 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("IsTargetInRange", &ScriptEnvironmentBase::IsTargetInRange)
 		.def("GetTargetRotationDiff", &ScriptEnvironmentBase::GetTargetRotationDiff)
 		.def("GetNpcWeaponReachDistance", &ScriptEnvironmentBase::GetNpcWeaponReachDistance)
-		.def("CanPlayAnimation", &ScriptEnvironmentBase::CanPlayAnimation),
+		.def("CanPlayAnimation", &ScriptEnvironmentBase::CanPlayAnimation)
+		.def("ActorMoving", &ScriptEnvironmentBase::ActorMoving),
 
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),

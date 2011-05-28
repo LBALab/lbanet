@@ -522,7 +522,7 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 		else
 		{
 			//check if did not get stuck
-			if((tnow-_lastchasingchecktime) > 1000)
+			if((tnow-_lastchasingchecktime) > 500)
 			{
 				boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
 				if(physo)
@@ -564,12 +564,12 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 			float curX, curY, curZ;
 			physo->GetPosition(curX, curY, curZ);
 			float diff = fabs(m_saved_X-curX) + fabs(m_saved_Y-curY) + fabs(m_saved_Z-curZ);
-			if(diff <= 0.5f)
+			if(diff <= 0.6f)
 			{
 				//rotate back to starting point
 				ChangeState(8);
 			}
-			else if((tnow-_lastchasingchecktime) > 1000)//check if did not get stuck
+			else if((tnow-_lastchasingchecktime) > 500)//check if did not get stuck
 			{
 				float difftt =	fabs(curX-_lastchasingcheckposX) +
 								fabs(curY-_lastchasingcheckposY) +
@@ -577,7 +577,16 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 
 				//reset target
 				if(difftt < 0.3f && m_NavMAgent)
-					m_NavMAgent->SetTargetPosition(false, m_saved_X, m_saved_Y, m_saved_Z);
+				{
+					++_counterresetchasing;
+					if(_counterresetchasing >= 8)
+					{
+						//stop chasing if we get stuck too long
+						ChangeState(8);
+					}
+					else
+						m_NavMAgent->SetTargetPosition(false, m_saved_X, m_saved_Y, m_saved_Z);
+				}
 
 				_lastchasingcheckposX = curX;
 				_lastchasingcheckposY = curY;
@@ -1089,6 +1098,7 @@ bool NPCHandler::ChangeState(int newstate)
 
 			_freemove = true;
 			_lastupdate.AnimationIdx  = "";
+			_counterresetchasing = 0;
 
 			//change anim to chasing anim
 			if(m_chasinganimation != "")
@@ -1113,6 +1123,7 @@ bool NPCHandler::ChangeState(int newstate)
 
 			_freemove = true;
 			_lastupdate.AnimationIdx  = "";
+			_counterresetchasing = 0;
 
 			//change anim to walking
 			UpdateActorAnimation("MoveForward", false, false);
@@ -1204,10 +1215,17 @@ void NPCHandler::PlayerMoved(Ice::Long PlayerId, const LbaNet::PlayerPosition &s
 		float px, py, pz;
 		physo->GetPosition(px, py, pz);
 
-		bool target = ShouldAttackPlayer(px, py, pz, endposition.X, endposition.Y, endposition.Z, state, mode);
+		bool conditionpassed = true;
+		if(_attack_activation_condition && m_scripthandler)
+			conditionpassed = _attack_activation_condition->Passed(m_scripthandler, 2, PlayerId);
 
-		if(target)
-			StartFight(PlayerId);
+		if(conditionpassed)
+		{
+			bool target = ShouldAttackPlayer(px, py, pz, endposition.X, endposition.Y, endposition.Z, state, mode);
+
+			if(target)
+				StartFight(PlayerId);
+		}
 	}
 
 	if(_targetedattackplayer == PlayerId)
@@ -1490,9 +1508,6 @@ void NPCHandler::FollowTargettedPlayer(int ScriptId, float DistanceStopFollow)
 	m_minimalchasingdistance = DistanceStopFollow;
 
 
-	// change state to chasing
-	ChangeState(4);
-
 
 	// tell agent to follow player
 	if(m_NavMAgent && m_scripthandler)
@@ -1500,6 +1515,11 @@ void NPCHandler::FollowTargettedPlayer(int ScriptId, float DistanceStopFollow)
 		LbaVec3 pos = m_scripthandler->GetPlayerPositionVec((long)_targetedattackplayer);
 		m_NavMAgent->SetTargetPosition(false, pos.x, pos.y, pos.z);
 	}
+
+
+	// change state to chasing
+	ChangeState(4);
+
 
 	// record last chasing position and time
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
@@ -1658,7 +1678,7 @@ void NPCHandler::UseWeapon(int ScriptId, int WeaponNumber, bool multishot)
 				{
 					LbaNet::ProjectileInfo newProj;
 					if((*itp)->GetProjectileInfo("", _lifeinfo.CurrentMana, 
-													4, (long)_targetedattackplayer, newProj))
+													2, (long)_targetedattackplayer, newProj))
 					{
 						// update projectile ids
 						newProj.ManagingClientId = _targetedattackplayer;

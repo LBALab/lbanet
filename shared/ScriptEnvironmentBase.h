@@ -438,6 +438,15 @@ public:
 	//! 3 -> movable object
 	virtual bool CanPlayAnimation(int ObjectType, long ObjectId, const std::string & anim) = 0;
 
+
+	// check if actor is moving
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual bool ActorMoving(int ObjectType, long ObjectId) = 0;
+
+
 protected:
 
 	//! used by lua to move an actor or player

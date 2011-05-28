@@ -502,6 +502,7 @@ protected:
 	float										_lastchasingcheckposX;
 	float										_lastchasingcheckposY;
 	float										_lastchasingcheckposZ;
+	int											_counterresetchasing;
 
 
 	int											m_runningscript;

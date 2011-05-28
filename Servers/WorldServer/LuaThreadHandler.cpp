@@ -156,7 +156,6 @@ bool LuaThreadHandler::ResumeThread()
 		// if not then resume thread
 		luabind::resume<void>(m_LuaThreadState);
 
-
 		// check thread status after resume
 		int status = lua_status(m_LuaThreadState);
 		if(status == LUA_YIELD)

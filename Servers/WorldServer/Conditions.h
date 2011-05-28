@@ -424,4 +424,28 @@ private:
 	std::string	_luafunction;
 };
 
+
+
+
+//! condition is always true
+class ActorMovingCondition : public ConditionBase
+{
+public:
+	//! constructor
+	ActorMovingCondition()
+	{}
+
+	//! check if the condition is true or not
+	virtual bool Passed(ScriptEnvironmentBase * owner, 
+							int ObjectType, Ice::Long ObjectId);
+	
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & conditionname);
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName(){ return "ActorMovingCondition";}
+
+};
+
+
 #endif

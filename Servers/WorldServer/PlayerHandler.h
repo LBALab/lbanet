@@ -84,7 +84,8 @@ public:
 	void UpdateLifeMana(const LbaNet::LifeManaInfo & lifeinfo);
 
 	// update current position in the world
-	void UpdatePositionInWorld(const LbaNet::PlayerPosition& Position);
+	void UpdatePositionInWorld(const LbaNet::PlayerPosition& Position,
+									float speedX, float speedY, float speedZ);
 
 	// update current position in the world
 	void Teleport(const LbaNet::PlayerPosition& Position);
@@ -250,6 +251,9 @@ public:
 	//! get player physical radius
 	float GetPhysRadius();
 
+	//! check if player is moving
+	bool IsMoving();
+
 protected:
 	// update state and mode class from modelinfo
 	void UpdateStateModeClass();
@@ -287,6 +291,10 @@ private:
 	int											_currentchapter;
 
 	LbaVec3										_lastposition;
+
+	float										_currentspeedX;
+	float										_currentspeedY;
+	float										_currentspeedZ;
 };
 
 #endif

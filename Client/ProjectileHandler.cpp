@@ -187,6 +187,7 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 					if(targetobj)
 						targetobj->GetPosition(targetposX, targetposY, targetposZ);
 
+					targetposY += 2.5;
 					float diffX = (targetposX - myposX);
 					float diffY = (targetposY - myposY);
 					float diffZ = (targetposZ - myposZ);
@@ -477,9 +478,10 @@ void ProjectileHandler::Destroy()
 		_destroy = true;
 
 		// special case where there is no current projectiles launched
-		if(_projInfo.MultiShoot && (_launchedobjects.size() == 0))
+		if(_launchedobjects.size() == 0)
 		{
-			_forcedclear = true;
+			if(_projInfo.MultiShoot)
+				_forcedclear = true;
 
 			// inform server if needed
 			if(_Manage)
@@ -487,14 +489,7 @@ void ProjectileHandler::Destroy()
 											SynchronizedTimeHandler::GetCurrentTimeDouble(),
 											_projInfo.Id, -1, -1));
 		}
-		else
-		{
-			// inform server if needed
-			if(_Manage)
-				EventsQueue::getSenderQueue()->AddEvent(new LbaNet::DestroyProjectileEvent(
-											SynchronizedTimeHandler::GetCurrentTimeDouble(),
-											_projInfo.Id, -1, -1));
-		}
+
 
 		boost::shared_ptr<DynamicObject> ownerdyn = 
 			_lbanetmodelH->GetActor(_projInfo.OwnerActorType,  _projInfo.OwnerActorId);

@@ -308,3 +308,28 @@ void CustomCondition::SaveToLuaFile(std::ostream & file, const std::string & con
 	file<<"\t"<<conditionname<<":SetTextid("<<_textid <<")"<<std::endl;
 	file<<"\t"<<conditionname<<":SetLuaFunction(\""<<_luafunction <<"\")"<<std::endl;
 }
+
+
+
+
+/***********************************************************
+check if the condition is true or not
+***********************************************************/	
+bool ActorMovingCondition::Passed(ScriptEnvironmentBase * owner, 
+							int ObjectType, Ice::Long ObjectId)
+{
+	if(owner)
+		return owner->ActorMoving(ObjectType, (long)ObjectId);
+
+	return false;
+}
+	
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void ActorMovingCondition::SaveToLuaFile(std::ostream & file, const std::string & conditionname)
+{
+	file<<"\t"<<conditionname<<" = ActorMovingCondition()"<<std::endl;
+	file<<"\t"<<conditionname<<":SetTextid("<<_textid <<")"<<std::endl;
+}

@@ -21,7 +21,8 @@ PlayerHandler::PlayerHandler(long clientid, ClientProxyBasePtr proxy,
 						const LbaNet::ObjectExtraInfo& extrainfo)
 	: _clientid(clientid), _proxy(proxy), 
 		_dbH(dbH), _currentinfo(savedinfo), _worldname(worldname),
-		_extrainfo(extrainfo), _ready(false), _saved(false), _currentchapter(1)
+		_extrainfo(extrainfo), _ready(false), _saved(false), _currentchapter(1),
+		_currentspeedX(0), _currentspeedY(0), _currentspeedZ(0)
 {
 	// get quest information
 	if(_dbH) 
@@ -232,7 +233,8 @@ void PlayerHandler::UpdateLifeMana(const LbaNet::LifeManaInfo & lifeinfo)
 /***********************************************************
 update current position in the world
 ***********************************************************/
-void PlayerHandler::UpdatePositionInWorld(const LbaNet::PlayerPosition& Position)
+void PlayerHandler::UpdatePositionInWorld(const LbaNet::PlayerPosition& Position,
+											float speedX, float speedY, float speedZ)
 {
 	// only update when on same map
 	if(_currentinfo.ppos.MapName != Position.MapName)
@@ -243,6 +245,10 @@ void PlayerHandler::UpdatePositionInWorld(const LbaNet::PlayerPosition& Position
 
 
 	_currentinfo.ppos = Position;
+
+	_currentspeedX = speedX;
+	_currentspeedY = speedY;
+	_currentspeedZ = speedZ;
 }
 
 /***********************************************************
@@ -1721,4 +1727,13 @@ return true if player can be targeted
 bool PlayerHandler::CanBeTarget()
 {
 	return _currentstate->CanBeTarget();
+}
+
+ /***********************************************************
+check if player is moving
+***********************************************************/
+bool PlayerHandler::IsMoving()
+{
+	float speed = _currentspeedX + _currentspeedY + _currentspeedZ;
+	return (fabs(speed) > 0.0001f);
 }

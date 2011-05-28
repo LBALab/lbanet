@@ -417,6 +417,14 @@ public:
 	//! 3 -> movable object
 	virtual bool CanPlayAnimation(int ObjectType, long ObjectId, const std::string & anim);
 
+	// check if actor is moving
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual bool ActorMoving(int ObjectType, long ObjectId);
+
+
 protected:
 
 	// process events
@@ -513,7 +521,8 @@ protected:
 
 
 	//!  update player position
-	bool UpdatePlayerPosition(Ice::Long clientid, const PlayerPosition & pos, bool teleport = false);
+	bool UpdatePlayerPosition(Ice::Long clientid, const PlayerPosition & pos, 
+								float speedX, float speedY, float speedZ, bool teleport = false);
 
 	//!  update player stance
 	//! return true if state has been updated
