@@ -664,6 +664,7 @@ function Init(environment)
 	Item_22_proj0.UseMana = 5
 	Item_22_proj0.OffsetX = 1
 	Item_22_proj0.OffsetY = 4
+	Item_22_proj0.OffsetZ = 0
 	Item_22_proj0.ForceX = 0.15
 	Item_22_proj0.ForceY = 0.1
 	Item_22_proj0.ForceYOnImpact = 0.1
@@ -679,6 +680,7 @@ function Init(environment)
 	Item_22_proj0.MultiShoot = false
 	Item_22_proj0.UseTimer = false
 	Item_22_proj0.Frequency = 1
+	Item_22_proj0.FollowTarget = false
 	Item_22:AddProjectile(Item_22_proj0)
 	Item_22_proj1 = ProjectileObjectDef()
 	Item_22_proj1:SetRenderType(8)
@@ -721,6 +723,7 @@ function Init(environment)
 	Item_22_proj1.UseMana = 5
 	Item_22_proj1.OffsetX = 1
 	Item_22_proj1.OffsetY = 4
+	Item_22_proj1.OffsetZ = 0
 	Item_22_proj1.ForceX = 0.17
 	Item_22_proj1.ForceY = 0
 	Item_22_proj1.ForceYOnImpact = 0.05
@@ -736,6 +739,7 @@ function Init(environment)
 	Item_22_proj1.MultiShoot = false
 	Item_22_proj1.UseTimer = false
 	Item_22_proj1.Frequency = 1
+	Item_22_proj1.FollowTarget = false
 	Item_22:AddProjectile(Item_22_proj1)
 	Item_22_proj2 = ProjectileObjectDef()
 	Item_22_proj2:SetRenderType(8)
@@ -778,6 +782,7 @@ function Init(environment)
 	Item_22_proj2.UseMana = 5
 	Item_22_proj2.OffsetX = 1
 	Item_22_proj2.OffsetY = 4
+	Item_22_proj2.OffsetZ = 0
 	Item_22_proj2.ForceX = 0.17
 	Item_22_proj2.ForceY = 0
 	Item_22_proj2.ForceYOnImpact = 0.05
@@ -793,6 +798,7 @@ function Init(environment)
 	Item_22_proj2.MultiShoot = false
 	Item_22_proj2.UseTimer = false
 	Item_22_proj2.Frequency = 1
+	Item_22_proj2.FollowTarget = false
 	Item_22:AddProjectile(Item_22_proj2)
 	Item_22_proj3 = ProjectileObjectDef()
 	Item_22_proj3:SetRenderType(8)
@@ -835,6 +841,7 @@ function Init(environment)
 	Item_22_proj3.UseMana = 5
 	Item_22_proj3.OffsetX = 1
 	Item_22_proj3.OffsetY = 4
+	Item_22_proj3.OffsetZ = 0
 	Item_22_proj3.ForceX = 0.06
 	Item_22_proj3.ForceY = 0.15
 	Item_22_proj3.ForceYOnImpact = 0.1
@@ -850,6 +857,7 @@ function Init(environment)
 	Item_22_proj3.MultiShoot = false
 	Item_22_proj3.UseTimer = false
 	Item_22_proj3.Frequency = 1
+	Item_22_proj3.FollowTarget = false
 	Item_22:AddProjectile(Item_22_proj3)
 	environment:AddInventoryItem(Item_22)
 

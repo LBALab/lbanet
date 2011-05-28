@@ -50,6 +50,8 @@ function InitMap(environment)
 
 	Actor_1 = ActorObjectInfo(1)
 	Actor_1:SetRenderType(1)
+	Actor_1.HitPowerOnTouch = -1
+	Actor_1.ExcludeFromNavMesh = false
 	Actor_1.DisplayDesc.ModelId = 0
 	Actor_1.DisplayDesc.ModelName = "Worlds/Lba1Original/Grids/Map3.osgb"
 	Actor_1.DisplayDesc.Outfit = ""
@@ -71,6 +73,7 @@ function InitMap(environment)
 	Actor_1.DisplayDesc.RotY = 0
 	Actor_1.DisplayDesc.RotZ = 0
 	Actor_1:SetModelState(1)
+	Actor_1.DisplayDesc.UseBillboard = false
 	Actor_1.PhysicDesc.Pos.X = 0
 	Actor_1.PhysicDesc.Pos.Y = 0
 	Actor_1.PhysicDesc.Pos.Z = 0
@@ -80,6 +83,7 @@ function InitMap(environment)
 	Actor_1.PhysicDesc.SizeX = 0
 	Actor_1.PhysicDesc.SizeY = 0
 	Actor_1.PhysicDesc.SizeZ = 0
+	Actor_1.PhysicDesc.AllowFreeMove = false
 	Actor_1.PhysicDesc.Filename = "Worlds/Lba1Original/Grids/Map3.phy"
 	Actor_1:SetPhysicalActorType(1)
 	Actor_1:SetPhysicalShape(5)
@@ -94,6 +98,8 @@ function InitMap(environment)
 
 	Actor_12 = ActorObjectInfo(12)
 	Actor_12:SetRenderType(1)
+	Actor_12.HitPowerOnTouch = -1
+	Actor_12.ExcludeFromNavMesh = false
 	Actor_12.DisplayDesc.ModelId = 0
 	Actor_12.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite012.osgb"
 	Actor_12.DisplayDesc.Outfit = ""
@@ -115,6 +121,7 @@ function InitMap(environment)
 	Actor_12.DisplayDesc.RotY = 0
 	Actor_12.DisplayDesc.RotZ = 0
 	Actor_12:SetModelState(1)
+	Actor_12.DisplayDesc.UseBillboard = false
 	Actor_12.PhysicDesc.Pos.X = 10.5
 	Actor_12.PhysicDesc.Pos.Y = 7
 	Actor_12.PhysicDesc.Pos.Z = 11.4
@@ -124,6 +131,7 @@ function InitMap(environment)
 	Actor_12.PhysicDesc.SizeX = 3.2
 	Actor_12.PhysicDesc.SizeY = 8
 	Actor_12.PhysicDesc.SizeZ = 1
+	Actor_12.PhysicDesc.AllowFreeMove = true
 	Actor_12.PhysicDesc.Filename = ""
 	Actor_12:SetPhysicalActorType(2)
 	Actor_12:SetPhysicalShape(2)
@@ -146,6 +154,8 @@ function InitMap(environment)
 
 	Actor_13 = ActorObjectInfo(13)
 	Actor_13:SetRenderType(1)
+	Actor_13.HitPowerOnTouch = -1
+	Actor_13.ExcludeFromNavMesh = false
 	Actor_13.DisplayDesc.ModelId = 0
 	Actor_13.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite011.osgb"
 	Actor_13.DisplayDesc.Outfit = ""
@@ -167,6 +177,7 @@ function InitMap(environment)
 	Actor_13.DisplayDesc.RotY = 0
 	Actor_13.DisplayDesc.RotZ = 0
 	Actor_13:SetModelState(1)
+	Actor_13.DisplayDesc.UseBillboard = false
 	Actor_13.PhysicDesc.Pos.X = 18.5
 	Actor_13.PhysicDesc.Pos.Y = 0
 	Actor_13.PhysicDesc.Pos.Z = 28.5
@@ -176,6 +187,7 @@ function InitMap(environment)
 	Actor_13.PhysicDesc.SizeX = 1
 	Actor_13.PhysicDesc.SizeY = 8
 	Actor_13.PhysicDesc.SizeZ = 3.2
+	Actor_13.PhysicDesc.AllowFreeMove = true
 	Actor_13.PhysicDesc.Filename = ""
 	Actor_13:SetPhysicalActorType(2)
 	Actor_13:SetPhysicalShape(2)
@@ -198,6 +210,8 @@ function InitMap(environment)
 
 	Actor_14 = ActorObjectInfo(14)
 	Actor_14:SetRenderType(1)
+	Actor_14.HitPowerOnTouch = -1
+	Actor_14.ExcludeFromNavMesh = false
 	Actor_14.DisplayDesc.ModelId = 0
 	Actor_14.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite011.osgb"
 	Actor_14.DisplayDesc.Outfit = ""
@@ -219,6 +233,7 @@ function InitMap(environment)
 	Actor_14.DisplayDesc.RotY = 0
 	Actor_14.DisplayDesc.RotZ = 0
 	Actor_14:SetModelState(1)
+	Actor_14.DisplayDesc.UseBillboard = false
 	Actor_14.PhysicDesc.Pos.X = 15.5
 	Actor_14.PhysicDesc.Pos.Y = 0
 	Actor_14.PhysicDesc.Pos.Z = 41.5
@@ -228,6 +243,7 @@ function InitMap(environment)
 	Actor_14.PhysicDesc.SizeX = 1
 	Actor_14.PhysicDesc.SizeY = 8
 	Actor_14.PhysicDesc.SizeZ = 3.2
+	Actor_14.PhysicDesc.AllowFreeMove = true
 	Actor_14.PhysicDesc.Filename = ""
 	Actor_14:SetPhysicalActorType(2)
 	Actor_14:SetPhysicalShape(2)
@@ -250,6 +266,8 @@ function InitMap(environment)
 
 	Actor_15 = ActorObjectInfo(15)
 	Actor_15:SetRenderType(1)
+	Actor_15.HitPowerOnTouch = -1
+	Actor_15.ExcludeFromNavMesh = false
 	Actor_15.DisplayDesc.ModelId = 0
 	Actor_15.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite018.osgb"
 	Actor_15.DisplayDesc.Outfit = ""
@@ -271,6 +289,7 @@ function InitMap(environment)
 	Actor_15.DisplayDesc.RotY = 0
 	Actor_15.DisplayDesc.RotZ = 0
 	Actor_15:SetModelState(1)
+	Actor_15.DisplayDesc.UseBillboard = false
 	Actor_15.PhysicDesc.Pos.X = 2.5
 	Actor_15.PhysicDesc.Pos.Y = 5
 	Actor_15.PhysicDesc.Pos.Z = 63.5
@@ -280,6 +299,7 @@ function InitMap(environment)
 	Actor_15.PhysicDesc.SizeX = 3.2
 	Actor_15.PhysicDesc.SizeY = 5
 	Actor_15.PhysicDesc.SizeZ = 1
+	Actor_15.PhysicDesc.AllowFreeMove = true
 	Actor_15.PhysicDesc.Filename = ""
 	Actor_15:SetPhysicalActorType(2)
 	Actor_15:SetPhysicalShape(2)
@@ -302,6 +322,8 @@ function InitMap(environment)
 
 	Actor_16 = ActorObjectInfo(16)
 	Actor_16:SetRenderType(1)
+	Actor_16.HitPowerOnTouch = -1
+	Actor_16.ExcludeFromNavMesh = false
 	Actor_16.DisplayDesc.ModelId = 0
 	Actor_16.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite029.osgb"
 	Actor_16.DisplayDesc.Outfit = ""
@@ -323,6 +345,7 @@ function InitMap(environment)
 	Actor_16.DisplayDesc.RotY = 0
 	Actor_16.DisplayDesc.RotZ = 0
 	Actor_16:SetModelState(1)
+	Actor_16.DisplayDesc.UseBillboard = false
 	Actor_16.PhysicDesc.Pos.X = 38
 	Actor_16.PhysicDesc.Pos.Y = 14
 	Actor_16.PhysicDesc.Pos.Z = 7
@@ -332,6 +355,7 @@ function InitMap(environment)
 	Actor_16.PhysicDesc.SizeX = 2
 	Actor_16.PhysicDesc.SizeY = 1
 	Actor_16.PhysicDesc.SizeZ = 2
+	Actor_16.PhysicDesc.AllowFreeMove = false
 	Actor_16.PhysicDesc.Filename = ""
 	Actor_16:SetPhysicalActorType(2)
 	Actor_16:SetPhysicalShape(2)
@@ -350,71 +374,10 @@ function InitMap(environment)
 	Actor_16H:AddScriptPart(Actor_16_Sc2)
 	environment:AddActorObject(Actor_16H)
 
-	Actor_18 = ActorObjectInfo(18)
-	Actor_18:SetRenderType(3)
-	Actor_18.DisplayDesc.ColorMaterialType = 4
-	Actor_18.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_18.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_18.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_18.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_18.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_18.DisplayDesc.MatDiffuseColorB = 0.4
-	Actor_18.DisplayDesc.ModelId = 0
-	Actor_18.DisplayDesc.ModelName = "GroboClone"
-	Actor_18.DisplayDesc.Outfit = "Yellow"
-	Actor_18.DisplayDesc.Weapon = "No"
-	Actor_18.DisplayDesc.Mode = "Normal"
-	Actor_18.DisplayDesc.UseLight = true
-	Actor_18.DisplayDesc.CastShadow = true
-	Actor_18.DisplayDesc.ColorR = 1
-	Actor_18.DisplayDesc.ColorG = 1
-	Actor_18.DisplayDesc.ColorB = 1
-	Actor_18.DisplayDesc.ColorA = 1
-	Actor_18.DisplayDesc.TransX = 0
-	Actor_18.DisplayDesc.TransY = 0
-	Actor_18.DisplayDesc.TransZ = 0
-	Actor_18.DisplayDesc.ScaleX = 1
-	Actor_18.DisplayDesc.ScaleY = 1
-	Actor_18.DisplayDesc.ScaleZ = 1
-	Actor_18.DisplayDesc.RotX = 0
-	Actor_18.DisplayDesc.RotY = 0
-	Actor_18.DisplayDesc.RotZ = 0
-	Actor_18:SetModelState(1)
-	Actor_18.PhysicDesc.Pos.X = 2.78125
-	Actor_18.PhysicDesc.Pos.Y = 5
-	Actor_18.PhysicDesc.Pos.Z = 57.0352
-	Actor_18.PhysicDesc.Pos.Rotation = 165
-	Actor_18.PhysicDesc.Density = 1
-	Actor_18.PhysicDesc.Collidable = true
-	Actor_18.PhysicDesc.SizeX = 1.5
-	Actor_18.PhysicDesc.SizeY = 5
-	Actor_18.PhysicDesc.SizeZ = 1.5
-	Actor_18.PhysicDesc.Filename = ""
-	Actor_18:SetPhysicalActorType(2)
-	Actor_18:SetPhysicalShape(2)
-	Actor_18.ExtraInfo.Name = ""
-	Actor_18.ExtraInfo.NameColorR = 0
-	Actor_18.ExtraInfo.NameColorG = 0
-	Actor_18.ExtraInfo.NameColorB = 0
-	Actor_18.ExtraInfo.Display = false
-	Actor_18.LifeInfo.Display = false
-	Actor_18H = NPCHandler(Actor_18)
-	Actor_18H_dia = DialogPart()
-	Actor_18H_dia:SetResetDialog(false)
-	Actor_18H:SetRootDialog(Actor_18H_dia)
-	Actor_18H:SetNpcName(-1)
-	Actor_18H:SetSimpleDialog(false)
-	environment:AddActorObject(Actor_18H)
-
 	Actor_19 = ActorObjectInfo(19)
 	Actor_19:SetRenderType(3)
-	Actor_19.DisplayDesc.ColorMaterialType = 4
-	Actor_19.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_19.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_19.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_19.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_19.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_19.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_19.HitPowerOnTouch = -1
+	Actor_19.ExcludeFromNavMesh = false
 	Actor_19.DisplayDesc.ModelId = 0
 	Actor_19.DisplayDesc.ModelName = "Robot"
 	Actor_19.DisplayDesc.Outfit = "SpheroClosed"
@@ -436,6 +399,25 @@ function InitMap(environment)
 	Actor_19.DisplayDesc.RotY = 0
 	Actor_19.DisplayDesc.RotZ = 0
 	Actor_19:SetModelState(1)
+	Actor_19.DisplayDesc.UseBillboard = false
+	Actor_19.DisplayDesc.ColorMaterialType = 4
+	Actor_19.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_19.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_19.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_19.DisplayDesc.MatAmbientColorA = 1
+	Actor_19.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_19.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_19.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_19.DisplayDesc.MatDiffuseColorA = 1
+	Actor_19.DisplayDesc.MatSpecularColorR = 0
+	Actor_19.DisplayDesc.MatSpecularColorG = 0
+	Actor_19.DisplayDesc.MatSpecularColorB = 0
+	Actor_19.DisplayDesc.MatSpecularColorA = 1
+	Actor_19.DisplayDesc.MatEmissionColorR = 0
+	Actor_19.DisplayDesc.MatEmissionColorG = 0
+	Actor_19.DisplayDesc.MatEmissionColorB = 0
+	Actor_19.DisplayDesc.MatEmissionColorA = 1
+	Actor_19.DisplayDesc.MatShininess = 0
 	Actor_19.PhysicDesc.Pos.X = 53.6406
 	Actor_19.PhysicDesc.Pos.Y = 0
 	Actor_19.PhysicDesc.Pos.Z = 8
@@ -445,6 +427,7 @@ function InitMap(environment)
 	Actor_19.PhysicDesc.SizeX = 2
 	Actor_19.PhysicDesc.SizeY = 5
 	Actor_19.PhysicDesc.SizeZ = 2
+	Actor_19.PhysicDesc.AllowFreeMove = false
 	Actor_19.PhysicDesc.Filename = ""
 	Actor_19:SetPhysicalActorType(2)
 	Actor_19:SetPhysicalShape(2)
@@ -464,13 +447,8 @@ function InitMap(environment)
 
 	Actor_20 = ActorObjectInfo(20)
 	Actor_20:SetRenderType(3)
-	Actor_20.DisplayDesc.ColorMaterialType = 4
-	Actor_20.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_20.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_20.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_20.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_20.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_20.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_20.HitPowerOnTouch = -1
+	Actor_20.ExcludeFromNavMesh = false
 	Actor_20.DisplayDesc.ModelId = 0
 	Actor_20.DisplayDesc.ModelName = "Grobo"
 	Actor_20.DisplayDesc.Outfit = "Baldino"
@@ -492,6 +470,25 @@ function InitMap(environment)
 	Actor_20.DisplayDesc.RotY = 0
 	Actor_20.DisplayDesc.RotZ = 0
 	Actor_20:SetModelState(1)
+	Actor_20.DisplayDesc.UseBillboard = false
+	Actor_20.DisplayDesc.ColorMaterialType = 4
+	Actor_20.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_20.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_20.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_20.DisplayDesc.MatAmbientColorA = 1
+	Actor_20.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_20.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_20.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_20.DisplayDesc.MatDiffuseColorA = 1
+	Actor_20.DisplayDesc.MatSpecularColorR = 0
+	Actor_20.DisplayDesc.MatSpecularColorG = 0
+	Actor_20.DisplayDesc.MatSpecularColorB = 0
+	Actor_20.DisplayDesc.MatSpecularColorA = 1
+	Actor_20.DisplayDesc.MatEmissionColorR = 0
+	Actor_20.DisplayDesc.MatEmissionColorG = 0
+	Actor_20.DisplayDesc.MatEmissionColorB = 0
+	Actor_20.DisplayDesc.MatEmissionColorA = 1
+	Actor_20.DisplayDesc.MatShininess = 0
 	Actor_20.PhysicDesc.Pos.X = 51
 	Actor_20.PhysicDesc.Pos.Y = 0
 	Actor_20.PhysicDesc.Pos.Z = 11
@@ -501,6 +498,7 @@ function InitMap(environment)
 	Actor_20.PhysicDesc.SizeX = 1.5
 	Actor_20.PhysicDesc.SizeY = 5
 	Actor_20.PhysicDesc.SizeZ = 1.5
+	Actor_20.PhysicDesc.AllowFreeMove = false
 	Actor_20.PhysicDesc.Filename = ""
 	Actor_20:SetPhysicalActorType(2)
 	Actor_20:SetPhysicalShape(2)
@@ -520,13 +518,8 @@ function InitMap(environment)
 
 	Actor_21 = ActorObjectInfo(21)
 	Actor_21:SetRenderType(3)
-	Actor_21.DisplayDesc.ColorMaterialType = 4
-	Actor_21.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_21.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_21.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_21.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_21.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_21.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_21.HitPowerOnTouch = -1
+	Actor_21.ExcludeFromNavMesh = false
 	Actor_21.DisplayDesc.ModelId = 0
 	Actor_21.DisplayDesc.ModelName = "RabbiClone"
 	Actor_21.DisplayDesc.Outfit = "Yellow"
@@ -548,6 +541,25 @@ function InitMap(environment)
 	Actor_21.DisplayDesc.RotY = 0
 	Actor_21.DisplayDesc.RotZ = 0
 	Actor_21:SetModelState(1)
+	Actor_21.DisplayDesc.UseBillboard = false
+	Actor_21.DisplayDesc.ColorMaterialType = 4
+	Actor_21.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_21.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_21.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_21.DisplayDesc.MatAmbientColorA = 1
+	Actor_21.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_21.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_21.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_21.DisplayDesc.MatDiffuseColorA = 1
+	Actor_21.DisplayDesc.MatSpecularColorR = 0
+	Actor_21.DisplayDesc.MatSpecularColorG = 0
+	Actor_21.DisplayDesc.MatSpecularColorB = 0
+	Actor_21.DisplayDesc.MatSpecularColorA = 1
+	Actor_21.DisplayDesc.MatEmissionColorR = 0
+	Actor_21.DisplayDesc.MatEmissionColorG = 0
+	Actor_21.DisplayDesc.MatEmissionColorB = 0
+	Actor_21.DisplayDesc.MatEmissionColorA = 1
+	Actor_21.DisplayDesc.MatShininess = 0
 	Actor_21.PhysicDesc.Pos.X = 19
 	Actor_21.PhysicDesc.Pos.Y = 1
 	Actor_21.PhysicDesc.Pos.Z = 49
@@ -557,6 +569,7 @@ function InitMap(environment)
 	Actor_21.PhysicDesc.SizeX = 1
 	Actor_21.PhysicDesc.SizeY = 6
 	Actor_21.PhysicDesc.SizeZ = 1
+	Actor_21.PhysicDesc.AllowFreeMove = false
 	Actor_21.PhysicDesc.Filename = ""
 	Actor_21:SetPhysicalActorType(2)
 	Actor_21:SetPhysicalShape(2)
@@ -574,71 +587,10 @@ function InitMap(environment)
 	Actor_21H:SetSimpleDialog(false)
 	environment:AddActorObject(Actor_21H)
 
-	Actor_22 = ActorObjectInfo(22)
-	Actor_22:SetRenderType(3)
-	Actor_22.DisplayDesc.ColorMaterialType = 4
-	Actor_22.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_22.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_22.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_22.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_22.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_22.DisplayDesc.MatDiffuseColorB = 0.4
-	Actor_22.DisplayDesc.ModelId = 0
-	Actor_22.DisplayDesc.ModelName = "Soldier"
-	Actor_22.DisplayDesc.Outfit = "Grass"
-	Actor_22.DisplayDesc.Weapon = "rifle"
-	Actor_22.DisplayDesc.Mode = "Normal"
-	Actor_22.DisplayDesc.UseLight = true
-	Actor_22.DisplayDesc.CastShadow = true
-	Actor_22.DisplayDesc.ColorR = 1
-	Actor_22.DisplayDesc.ColorG = 1
-	Actor_22.DisplayDesc.ColorB = 1
-	Actor_22.DisplayDesc.ColorA = 1
-	Actor_22.DisplayDesc.TransX = 0
-	Actor_22.DisplayDesc.TransY = 0
-	Actor_22.DisplayDesc.TransZ = 0
-	Actor_22.DisplayDesc.ScaleX = 1
-	Actor_22.DisplayDesc.ScaleY = 1
-	Actor_22.DisplayDesc.ScaleZ = 1
-	Actor_22.DisplayDesc.RotX = 0
-	Actor_22.DisplayDesc.RotY = 0
-	Actor_22.DisplayDesc.RotZ = 0
-	Actor_22:SetModelState(1)
-	Actor_22.PhysicDesc.Pos.X = 2
-	Actor_22.PhysicDesc.Pos.Y = 7
-	Actor_22.PhysicDesc.Pos.Z = 16
-	Actor_22.PhysicDesc.Pos.Rotation = 25
-	Actor_22.PhysicDesc.Density = 1
-	Actor_22.PhysicDesc.Collidable = true
-	Actor_22.PhysicDesc.SizeX = 1
-	Actor_22.PhysicDesc.SizeY = 5
-	Actor_22.PhysicDesc.SizeZ = 1
-	Actor_22.PhysicDesc.Filename = ""
-	Actor_22:SetPhysicalActorType(2)
-	Actor_22:SetPhysicalShape(2)
-	Actor_22.ExtraInfo.Name = ""
-	Actor_22.ExtraInfo.NameColorR = 0
-	Actor_22.ExtraInfo.NameColorG = 0
-	Actor_22.ExtraInfo.NameColorB = 0
-	Actor_22.ExtraInfo.Display = false
-	Actor_22.LifeInfo.Display = false
-	Actor_22H = NPCHandler(Actor_22)
-	Actor_22H_dia = DialogPart()
-	Actor_22H_dia:SetResetDialog(false)
-	Actor_22H:SetRootDialog(Actor_22H_dia)
-	Actor_22H:SetNpcName(-1)
-	Actor_22H:SetSimpleDialog(false)
-	environment:AddActorObject(Actor_22H)
-
 	Actor_23 = ActorObjectInfo(23)
 	Actor_23:SetRenderType(3)
-	Actor_23.DisplayDesc.ColorMaterialType = 4
-	Actor_23.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_23.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_23.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_23.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_23.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_23.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_23.HitPowerOnTouch = -1
+	Actor_23.ExcludeFromNavMesh = false
 	Actor_23.DisplayDesc.ModelId = 0
 	Actor_23.DisplayDesc.ModelName = "Quetch"
 	Actor_23.DisplayDesc.Outfit = "Salesman"
@@ -660,6 +612,25 @@ function InitMap(environment)
 	Actor_23.DisplayDesc.RotY = 0
 	Actor_23.DisplayDesc.RotZ = 0
 	Actor_23:SetModelState(1)
+	Actor_23.DisplayDesc.UseBillboard = false
+	Actor_23.DisplayDesc.ColorMaterialType = 4
+	Actor_23.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_23.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_23.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_23.DisplayDesc.MatAmbientColorA = 1
+	Actor_23.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_23.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_23.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_23.DisplayDesc.MatDiffuseColorA = 1
+	Actor_23.DisplayDesc.MatSpecularColorR = 0
+	Actor_23.DisplayDesc.MatSpecularColorG = 0
+	Actor_23.DisplayDesc.MatSpecularColorB = 0
+	Actor_23.DisplayDesc.MatSpecularColorA = 1
+	Actor_23.DisplayDesc.MatEmissionColorR = 0
+	Actor_23.DisplayDesc.MatEmissionColorG = 0
+	Actor_23.DisplayDesc.MatEmissionColorB = 0
+	Actor_23.DisplayDesc.MatEmissionColorA = 1
+	Actor_23.DisplayDesc.MatShininess = 0
 	Actor_23.PhysicDesc.Pos.X = 12
 	Actor_23.PhysicDesc.Pos.Y = 7
 	Actor_23.PhysicDesc.Pos.Z = 12.7813
@@ -669,6 +640,7 @@ function InitMap(environment)
 	Actor_23.PhysicDesc.SizeX = 1
 	Actor_23.PhysicDesc.SizeY = 5
 	Actor_23.PhysicDesc.SizeZ = 1
+	Actor_23.PhysicDesc.AllowFreeMove = false
 	Actor_23.PhysicDesc.Filename = ""
 	Actor_23:SetPhysicalActorType(2)
 	Actor_23:SetPhysicalShape(2)
@@ -688,13 +660,8 @@ function InitMap(environment)
 
 	Actor_24 = ActorObjectInfo(24)
 	Actor_24:SetRenderType(3)
-	Actor_24.DisplayDesc.ColorMaterialType = 4
-	Actor_24.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_24.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_24.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_24.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_24.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_24.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_24.HitPowerOnTouch = -1
+	Actor_24.ExcludeFromNavMesh = false
 	Actor_24.DisplayDesc.ModelId = 0
 	Actor_24.DisplayDesc.ModelName = "Tank"
 	Actor_24.DisplayDesc.Outfit = "Grass"
@@ -716,6 +683,25 @@ function InitMap(environment)
 	Actor_24.DisplayDesc.RotY = 0
 	Actor_24.DisplayDesc.RotZ = 0
 	Actor_24:SetModelState(1)
+	Actor_24.DisplayDesc.UseBillboard = false
+	Actor_24.DisplayDesc.ColorMaterialType = 4
+	Actor_24.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_24.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_24.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_24.DisplayDesc.MatAmbientColorA = 1
+	Actor_24.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_24.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_24.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_24.DisplayDesc.MatDiffuseColorA = 1
+	Actor_24.DisplayDesc.MatSpecularColorR = 0
+	Actor_24.DisplayDesc.MatSpecularColorG = 0
+	Actor_24.DisplayDesc.MatSpecularColorB = 0
+	Actor_24.DisplayDesc.MatSpecularColorA = 1
+	Actor_24.DisplayDesc.MatEmissionColorR = 0
+	Actor_24.DisplayDesc.MatEmissionColorG = 0
+	Actor_24.DisplayDesc.MatEmissionColorB = 0
+	Actor_24.DisplayDesc.MatEmissionColorA = 1
+	Actor_24.DisplayDesc.MatShininess = 0
 	Actor_24.PhysicDesc.Pos.X = 34
 	Actor_24.PhysicDesc.Pos.Y = 0
 	Actor_24.PhysicDesc.Pos.Z = 40
@@ -725,6 +711,7 @@ function InitMap(environment)
 	Actor_24.PhysicDesc.SizeX = 2
 	Actor_24.PhysicDesc.SizeY = 5
 	Actor_24.PhysicDesc.SizeZ = 4
+	Actor_24.PhysicDesc.AllowFreeMove = false
 	Actor_24.PhysicDesc.Filename = ""
 	Actor_24:SetPhysicalActorType(2)
 	Actor_24:SetPhysicalShape(2)
@@ -742,71 +729,10 @@ function InitMap(environment)
 	Actor_24H:SetSimpleDialog(false)
 	environment:AddActorObject(Actor_24H)
 
-	Actor_25 = ActorObjectInfo(25)
-	Actor_25:SetRenderType(3)
-	Actor_25.DisplayDesc.ColorMaterialType = 4
-	Actor_25.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_25.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_25.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_25.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_25.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_25.DisplayDesc.MatDiffuseColorB = 0.4
-	Actor_25.DisplayDesc.ModelId = 0
-	Actor_25.DisplayDesc.ModelName = "Soldier"
-	Actor_25.DisplayDesc.Outfit = "Grass"
-	Actor_25.DisplayDesc.Weapon = "rifle"
-	Actor_25.DisplayDesc.Mode = "Normal"
-	Actor_25.DisplayDesc.UseLight = true
-	Actor_25.DisplayDesc.CastShadow = true
-	Actor_25.DisplayDesc.ColorR = 1
-	Actor_25.DisplayDesc.ColorG = 1
-	Actor_25.DisplayDesc.ColorB = 1
-	Actor_25.DisplayDesc.ColorA = 1
-	Actor_25.DisplayDesc.TransX = 0
-	Actor_25.DisplayDesc.TransY = 0
-	Actor_25.DisplayDesc.TransZ = 0
-	Actor_25.DisplayDesc.ScaleX = 1
-	Actor_25.DisplayDesc.ScaleY = 1
-	Actor_25.DisplayDesc.ScaleZ = 1
-	Actor_25.DisplayDesc.RotX = 0
-	Actor_25.DisplayDesc.RotY = 0
-	Actor_25.DisplayDesc.RotZ = 0
-	Actor_25:SetModelState(1)
-	Actor_25.PhysicDesc.Pos.X = 41
-	Actor_25.PhysicDesc.Pos.Y = 7
-	Actor_25.PhysicDesc.Pos.Z = 17
-	Actor_25.PhysicDesc.Pos.Rotation = 25
-	Actor_25.PhysicDesc.Density = 1
-	Actor_25.PhysicDesc.Collidable = true
-	Actor_25.PhysicDesc.SizeX = 1
-	Actor_25.PhysicDesc.SizeY = 5
-	Actor_25.PhysicDesc.SizeZ = 1
-	Actor_25.PhysicDesc.Filename = ""
-	Actor_25:SetPhysicalActorType(2)
-	Actor_25:SetPhysicalShape(2)
-	Actor_25.ExtraInfo.Name = ""
-	Actor_25.ExtraInfo.NameColorR = 0
-	Actor_25.ExtraInfo.NameColorG = 0
-	Actor_25.ExtraInfo.NameColorB = 0
-	Actor_25.ExtraInfo.Display = false
-	Actor_25.LifeInfo.Display = false
-	Actor_25H = NPCHandler(Actor_25)
-	Actor_25H_dia = DialogPart()
-	Actor_25H_dia:SetResetDialog(false)
-	Actor_25H:SetRootDialog(Actor_25H_dia)
-	Actor_25H:SetNpcName(-1)
-	Actor_25H:SetSimpleDialog(false)
-	environment:AddActorObject(Actor_25H)
-
 	Actor_26 = ActorObjectInfo(26)
 	Actor_26:SetRenderType(3)
-	Actor_26.DisplayDesc.ColorMaterialType = 4
-	Actor_26.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_26.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_26.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_26.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_26.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_26.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_26.HitPowerOnTouch = -1
+	Actor_26.ExcludeFromNavMesh = false
 	Actor_26.DisplayDesc.ModelId = 0
 	Actor_26.DisplayDesc.ModelName = "Rabbibunny"
 	Actor_26.DisplayDesc.Outfit = "FemaleOrange"
@@ -828,6 +754,25 @@ function InitMap(environment)
 	Actor_26.DisplayDesc.RotY = 0
 	Actor_26.DisplayDesc.RotZ = 0
 	Actor_26:SetModelState(1)
+	Actor_26.DisplayDesc.UseBillboard = false
+	Actor_26.DisplayDesc.ColorMaterialType = 4
+	Actor_26.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_26.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_26.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_26.DisplayDesc.MatAmbientColorA = 1
+	Actor_26.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_26.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_26.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_26.DisplayDesc.MatDiffuseColorA = 1
+	Actor_26.DisplayDesc.MatSpecularColorR = 0
+	Actor_26.DisplayDesc.MatSpecularColorG = 0
+	Actor_26.DisplayDesc.MatSpecularColorB = 0
+	Actor_26.DisplayDesc.MatSpecularColorA = 1
+	Actor_26.DisplayDesc.MatEmissionColorR = 0
+	Actor_26.DisplayDesc.MatEmissionColorG = 0
+	Actor_26.DisplayDesc.MatEmissionColorB = 0
+	Actor_26.DisplayDesc.MatEmissionColorA = 1
+	Actor_26.DisplayDesc.MatShininess = 0
 	Actor_26.PhysicDesc.Pos.X = 19.875
 	Actor_26.PhysicDesc.Pos.Y = 0
 	Actor_26.PhysicDesc.Pos.Z = 32.375
@@ -837,6 +782,7 @@ function InitMap(environment)
 	Actor_26.PhysicDesc.SizeX = 1
 	Actor_26.PhysicDesc.SizeY = 5
 	Actor_26.PhysicDesc.SizeZ = 1
+	Actor_26.PhysicDesc.AllowFreeMove = false
 	Actor_26.PhysicDesc.Filename = ""
 	Actor_26:SetPhysicalActorType(2)
 	Actor_26:SetPhysicalShape(2)
@@ -854,127 +800,10 @@ function InitMap(environment)
 	Actor_26H:SetSimpleDialog(false)
 	environment:AddActorObject(Actor_26H)
 
-	Actor_27 = ActorObjectInfo(27)
-	Actor_27:SetRenderType(3)
-	Actor_27.DisplayDesc.ColorMaterialType = 4
-	Actor_27.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_27.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_27.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_27.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_27.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_27.DisplayDesc.MatDiffuseColorB = 0.4
-	Actor_27.DisplayDesc.ModelId = 0
-	Actor_27.DisplayDesc.ModelName = "Soldier"
-	Actor_27.DisplayDesc.Outfit = "Grass"
-	Actor_27.DisplayDesc.Weapon = "rifle"
-	Actor_27.DisplayDesc.Mode = "Normal"
-	Actor_27.DisplayDesc.UseLight = true
-	Actor_27.DisplayDesc.CastShadow = true
-	Actor_27.DisplayDesc.ColorR = 1
-	Actor_27.DisplayDesc.ColorG = 1
-	Actor_27.DisplayDesc.ColorB = 1
-	Actor_27.DisplayDesc.ColorA = 1
-	Actor_27.DisplayDesc.TransX = 0
-	Actor_27.DisplayDesc.TransY = 0
-	Actor_27.DisplayDesc.TransZ = 0
-	Actor_27.DisplayDesc.ScaleX = 1
-	Actor_27.DisplayDesc.ScaleY = 1
-	Actor_27.DisplayDesc.ScaleZ = 1
-	Actor_27.DisplayDesc.RotX = 0
-	Actor_27.DisplayDesc.RotY = 0
-	Actor_27.DisplayDesc.RotZ = 0
-	Actor_27:SetModelState(1)
-	Actor_27.PhysicDesc.Pos.X = 24.4063
-	Actor_27.PhysicDesc.Pos.Y = 0
-	Actor_27.PhysicDesc.Pos.Z = 20.6563
-	Actor_27.PhysicDesc.Pos.Rotation = 25
-	Actor_27.PhysicDesc.Density = 1
-	Actor_27.PhysicDesc.Collidable = true
-	Actor_27.PhysicDesc.SizeX = 1
-	Actor_27.PhysicDesc.SizeY = 5
-	Actor_27.PhysicDesc.SizeZ = 1
-	Actor_27.PhysicDesc.Filename = ""
-	Actor_27:SetPhysicalActorType(2)
-	Actor_27:SetPhysicalShape(2)
-	Actor_27.ExtraInfo.Name = ""
-	Actor_27.ExtraInfo.NameColorR = 0
-	Actor_27.ExtraInfo.NameColorG = 0
-	Actor_27.ExtraInfo.NameColorB = 0
-	Actor_27.ExtraInfo.Display = false
-	Actor_27.LifeInfo.Display = false
-	Actor_27H = NPCHandler(Actor_27)
-	Actor_27H_dia = DialogPart()
-	Actor_27H_dia:SetResetDialog(false)
-	Actor_27H:SetRootDialog(Actor_27H_dia)
-	Actor_27H:SetNpcName(-1)
-	Actor_27H:SetSimpleDialog(false)
-	environment:AddActorObject(Actor_27H)
-
-	Actor_28 = ActorObjectInfo(28)
-	Actor_28:SetRenderType(3)
-	Actor_28.DisplayDesc.ColorMaterialType = 4
-	Actor_28.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_28.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_28.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_28.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_28.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_28.DisplayDesc.MatDiffuseColorB = 0.4
-	Actor_28.DisplayDesc.ModelId = 0
-	Actor_28.DisplayDesc.ModelName = "Soldier"
-	Actor_28.DisplayDesc.Outfit = "Grass"
-	Actor_28.DisplayDesc.Weapon = "rifle"
-	Actor_28.DisplayDesc.Mode = "Normal"
-	Actor_28.DisplayDesc.UseLight = true
-	Actor_28.DisplayDesc.CastShadow = true
-	Actor_28.DisplayDesc.ColorR = 1
-	Actor_28.DisplayDesc.ColorG = 1
-	Actor_28.DisplayDesc.ColorB = 1
-	Actor_28.DisplayDesc.ColorA = 1
-	Actor_28.DisplayDesc.TransX = 0
-	Actor_28.DisplayDesc.TransY = 0
-	Actor_28.DisplayDesc.TransZ = 0
-	Actor_28.DisplayDesc.ScaleX = 1
-	Actor_28.DisplayDesc.ScaleY = 1
-	Actor_28.DisplayDesc.ScaleZ = 1
-	Actor_28.DisplayDesc.RotX = 0
-	Actor_28.DisplayDesc.RotY = 0
-	Actor_28.DisplayDesc.RotZ = 0
-	Actor_28:SetModelState(1)
-	Actor_28.PhysicDesc.Pos.X = 54.8789
-	Actor_28.PhysicDesc.Pos.Y = 0
-	Actor_28.PhysicDesc.Pos.Z = 34
-	Actor_28.PhysicDesc.Pos.Rotation = 177
-	Actor_28.PhysicDesc.Density = 1
-	Actor_28.PhysicDesc.Collidable = true
-	Actor_28.PhysicDesc.SizeX = 1
-	Actor_28.PhysicDesc.SizeY = 5
-	Actor_28.PhysicDesc.SizeZ = 1
-	Actor_28.PhysicDesc.Filename = ""
-	Actor_28:SetPhysicalActorType(2)
-	Actor_28:SetPhysicalShape(2)
-	Actor_28.ExtraInfo.Name = ""
-	Actor_28.ExtraInfo.NameColorR = 0
-	Actor_28.ExtraInfo.NameColorG = 0
-	Actor_28.ExtraInfo.NameColorB = 0
-	Actor_28.ExtraInfo.Display = false
-	Actor_28.LifeInfo.Display = false
-	Actor_28H = NPCHandler(Actor_28)
-	Actor_28H_dia = DialogPart()
-	Actor_28H_dia:SetResetDialog(false)
-	Actor_28H:SetRootDialog(Actor_28H_dia)
-	Actor_28H:SetNpcName(-1)
-	Actor_28H:SetSimpleDialog(false)
-	environment:AddActorObject(Actor_28H)
-
 	Actor_29 = ActorObjectInfo(29)
 	Actor_29:SetRenderType(3)
-	Actor_29.DisplayDesc.ColorMaterialType = 4
-	Actor_29.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_29.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_29.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_29.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_29.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_29.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_29.HitPowerOnTouch = -1
+	Actor_29.ExcludeFromNavMesh = false
 	Actor_29.DisplayDesc.ModelId = 0
 	Actor_29.DisplayDesc.ModelName = "GroboClone"
 	Actor_29.DisplayDesc.Outfit = "Yellow"
@@ -996,6 +825,25 @@ function InitMap(environment)
 	Actor_29.DisplayDesc.RotY = 0
 	Actor_29.DisplayDesc.RotZ = 0
 	Actor_29:SetModelState(1)
+	Actor_29.DisplayDesc.UseBillboard = false
+	Actor_29.DisplayDesc.ColorMaterialType = 4
+	Actor_29.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_29.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_29.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_29.DisplayDesc.MatAmbientColorA = 1
+	Actor_29.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_29.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_29.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_29.DisplayDesc.MatDiffuseColorA = 1
+	Actor_29.DisplayDesc.MatSpecularColorR = 0
+	Actor_29.DisplayDesc.MatSpecularColorG = 0
+	Actor_29.DisplayDesc.MatSpecularColorB = 0
+	Actor_29.DisplayDesc.MatSpecularColorA = 1
+	Actor_29.DisplayDesc.MatEmissionColorR = 0
+	Actor_29.DisplayDesc.MatEmissionColorG = 0
+	Actor_29.DisplayDesc.MatEmissionColorB = 0
+	Actor_29.DisplayDesc.MatEmissionColorA = 1
+	Actor_29.DisplayDesc.MatShininess = 0
 	Actor_29.PhysicDesc.Pos.X = 19
 	Actor_29.PhysicDesc.Pos.Y = 1
 	Actor_29.PhysicDesc.Pos.Z = 49
@@ -1005,6 +853,7 @@ function InitMap(environment)
 	Actor_29.PhysicDesc.SizeX = 1.5
 	Actor_29.PhysicDesc.SizeY = 5
 	Actor_29.PhysicDesc.SizeZ = 1.5
+	Actor_29.PhysicDesc.AllowFreeMove = false
 	Actor_29.PhysicDesc.Filename = ""
 	Actor_29:SetPhysicalActorType(2)
 	Actor_29:SetPhysicalShape(2)
@@ -1024,13 +873,8 @@ function InitMap(environment)
 
 	Actor_30 = ActorObjectInfo(30)
 	Actor_30:SetRenderType(3)
-	Actor_30.DisplayDesc.ColorMaterialType = 4
-	Actor_30.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_30.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_30.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_30.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_30.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_30.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_30.HitPowerOnTouch = -1
+	Actor_30.ExcludeFromNavMesh = false
 	Actor_30.DisplayDesc.ModelId = 0
 	Actor_30.DisplayDesc.ModelName = "Object"
 	Actor_30.DisplayDesc.Outfit = "MekaPingouin"
@@ -1052,6 +896,25 @@ function InitMap(environment)
 	Actor_30.DisplayDesc.RotY = 0
 	Actor_30.DisplayDesc.RotZ = 0
 	Actor_30:SetModelState(1)
+	Actor_30.DisplayDesc.UseBillboard = false
+	Actor_30.DisplayDesc.ColorMaterialType = 4
+	Actor_30.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_30.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_30.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_30.DisplayDesc.MatAmbientColorA = 1
+	Actor_30.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_30.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_30.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_30.DisplayDesc.MatDiffuseColorA = 1
+	Actor_30.DisplayDesc.MatSpecularColorR = 0
+	Actor_30.DisplayDesc.MatSpecularColorG = 0
+	Actor_30.DisplayDesc.MatSpecularColorB = 0
+	Actor_30.DisplayDesc.MatSpecularColorA = 1
+	Actor_30.DisplayDesc.MatEmissionColorR = 0
+	Actor_30.DisplayDesc.MatEmissionColorG = 0
+	Actor_30.DisplayDesc.MatEmissionColorB = 0
+	Actor_30.DisplayDesc.MatEmissionColorA = 1
+	Actor_30.DisplayDesc.MatShininess = 0
 	Actor_30.PhysicDesc.Pos.X = 0
 	Actor_30.PhysicDesc.Pos.Y = -1
 	Actor_30.PhysicDesc.Pos.Z = 0
@@ -1061,6 +924,7 @@ function InitMap(environment)
 	Actor_30.PhysicDesc.SizeX = 0.5
 	Actor_30.PhysicDesc.SizeY = 2
 	Actor_30.PhysicDesc.SizeZ = 0.6
+	Actor_30.PhysicDesc.AllowFreeMove = false
 	Actor_30.PhysicDesc.Filename = ""
 	Actor_30:SetPhysicalActorType(2)
 	Actor_30:SetPhysicalShape(2)
@@ -1078,10 +942,1193 @@ function InitMap(environment)
 	Actor_30H:SetSimpleDialog(false)
 	environment:AddActorObject(Actor_30H)
 
+	Actor_31 = ActorObjectInfo(31)
+	Actor_31:SetRenderType(3)
+	Actor_31.HitPowerOnTouch = -1
+	Actor_31.ExcludeFromNavMesh = false
+	Actor_31.DisplayDesc.ModelId = 0
+	Actor_31.DisplayDesc.ModelName = "Soldier"
+	Actor_31.DisplayDesc.Outfit = "Grass"
+	Actor_31.DisplayDesc.Weapon = "rifle"
+	Actor_31.DisplayDesc.Mode = "Normal"
+	Actor_31.DisplayDesc.UseLight = true
+	Actor_31.DisplayDesc.CastShadow = true
+	Actor_31.DisplayDesc.ColorR = 1
+	Actor_31.DisplayDesc.ColorG = 1
+	Actor_31.DisplayDesc.ColorB = 1
+	Actor_31.DisplayDesc.ColorA = 1
+	Actor_31.DisplayDesc.TransX = 0
+	Actor_31.DisplayDesc.TransY = 0
+	Actor_31.DisplayDesc.TransZ = 0
+	Actor_31.DisplayDesc.ScaleX = 1
+	Actor_31.DisplayDesc.ScaleY = 1
+	Actor_31.DisplayDesc.ScaleZ = 1
+	Actor_31.DisplayDesc.RotX = 0
+	Actor_31.DisplayDesc.RotY = 0
+	Actor_31.DisplayDesc.RotZ = 0
+	Actor_31:SetModelState(1)
+	Actor_31.DisplayDesc.UseBillboard = false
+	Actor_31.DisplayDesc.ColorMaterialType = 4
+	Actor_31.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_31.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_31.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_31.DisplayDesc.MatAmbientColorA = 1
+	Actor_31.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_31.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_31.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_31.DisplayDesc.MatDiffuseColorA = 1
+	Actor_31.DisplayDesc.MatSpecularColorR = 0
+	Actor_31.DisplayDesc.MatSpecularColorG = 0
+	Actor_31.DisplayDesc.MatSpecularColorB = 0
+	Actor_31.DisplayDesc.MatSpecularColorA = 1
+	Actor_31.DisplayDesc.MatEmissionColorR = 0
+	Actor_31.DisplayDesc.MatEmissionColorG = 0
+	Actor_31.DisplayDesc.MatEmissionColorB = 0
+	Actor_31.DisplayDesc.MatEmissionColorA = 1
+	Actor_31.DisplayDesc.MatShininess = 0
+	Actor_31.PhysicDesc.Pos.X = 41
+	Actor_31.PhysicDesc.Pos.Y = 7
+	Actor_31.PhysicDesc.Pos.Z = 17
+	Actor_31.PhysicDesc.Pos.Rotation = 25
+	Actor_31.PhysicDesc.Density = 1
+	Actor_31.PhysicDesc.Collidable = true
+	Actor_31.PhysicDesc.SizeX = 2
+	Actor_31.PhysicDesc.SizeY = 5
+	Actor_31.PhysicDesc.SizeZ = 2
+	Actor_31.PhysicDesc.AllowFreeMove = true
+	Actor_31.PhysicDesc.Filename = ""
+	Actor_31:SetPhysicalActorType(2)
+	Actor_31:SetPhysicalShape(2)
+	Actor_31.ExtraInfo.Name = ""
+	Actor_31.ExtraInfo.NameColorR = 0
+	Actor_31.ExtraInfo.NameColorG = 0
+	Actor_31.ExtraInfo.NameColorB = 0
+	Actor_31.ExtraInfo.Display = false
+	Actor_31.LifeInfo.Display = false
+	Actor_31H = NPCHandler(Actor_31)
+	Actor_31H_dia = DialogPart()
+	Actor_31H_dia:SetResetDialog(false)
+	Actor_31H:SetRootDialog(Actor_31H_dia)
+	Actor_31H:SetNpcName(-1)
+	Actor_31H:SetSimpleDialog(false)
+	Actor_31H:SetAggresive(true)
+	Actor_31H:SetLife(50)
+	Actor_31H:SetMana(0)
+	Actor_31H:SetArmor(0)
+	Actor_31H:SetAttackActiDist(7)
+	Actor_31H:SetAttackActiDistDiscrete(4)
+	Actor_31H:SetAttackActiDistHidden(2)
+	Actor_31H:SetAttackStopDist(10)
+	Actor_31H:SetRespawnTimeInSec(10)
+	Actor_31H:SetWeapon1Type(1)
+	Actor_31H:SetWeapon1Power(10)
+	Actor_31H:SetWeapon1ReachDistance(2)
+	Actor_31H:Setuseweapon1animation("Use1Weapon")
+	Actor_31H:SetWeapon2Type(2)
+	Actor_31H:SetWeapon2Power(0)
+	Actor_31H:SetWeapon2ReachDistance(7)
+	Actor_31H:Setuseweapon2animation("UseWeapon")
+	Actor_31H_weapon2proj0 = ProjectileObjectDef()
+	Actor_31H_weapon2proj0:SetRenderType(2)
+	Actor_31H_weapon2proj0.DisplayDesc.ModelId = 0
+	Actor_31H_weapon2proj0.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite064.png"
+	Actor_31H_weapon2proj0.DisplayDesc.Outfit = ""
+	Actor_31H_weapon2proj0.DisplayDesc.Weapon = ""
+	Actor_31H_weapon2proj0.DisplayDesc.Mode = ""
+	Actor_31H_weapon2proj0.DisplayDesc.UseLight = true
+	Actor_31H_weapon2proj0.DisplayDesc.CastShadow = true
+	Actor_31H_weapon2proj0.DisplayDesc.ColorR = 1
+	Actor_31H_weapon2proj0.DisplayDesc.ColorG = 1
+	Actor_31H_weapon2proj0.DisplayDesc.ColorB = 1
+	Actor_31H_weapon2proj0.DisplayDesc.ColorA = 0.9
+	Actor_31H_weapon2proj0.DisplayDesc.TransX = 0
+	Actor_31H_weapon2proj0.DisplayDesc.TransY = 0
+	Actor_31H_weapon2proj0.DisplayDesc.TransZ = 0
+	Actor_31H_weapon2proj0.DisplayDesc.ScaleX = 0.05
+	Actor_31H_weapon2proj0.DisplayDesc.ScaleY = 0.05
+	Actor_31H_weapon2proj0.DisplayDesc.ScaleZ = 0.05
+	Actor_31H_weapon2proj0.DisplayDesc.RotX = 0
+	Actor_31H_weapon2proj0.DisplayDesc.RotY = 0
+	Actor_31H_weapon2proj0.DisplayDesc.RotZ = 0
+	Actor_31H_weapon2proj0.DisplayDesc.UseBillboard = true
+	Actor_31H_weapon2proj0.PhysicDesc.Pos.X = 0
+	Actor_31H_weapon2proj0.PhysicDesc.Pos.Y = 0
+	Actor_31H_weapon2proj0.PhysicDesc.Pos.Z = 0
+	Actor_31H_weapon2proj0.PhysicDesc.Pos.Rotation = 0
+	Actor_31H_weapon2proj0.PhysicDesc.Density = 1
+	Actor_31H_weapon2proj0.PhysicDesc.Collidable = false
+	Actor_31H_weapon2proj0.PhysicDesc.SizeX = 0.05
+	Actor_31H_weapon2proj0.PhysicDesc.SizeY = 0.05
+	Actor_31H_weapon2proj0.PhysicDesc.SizeZ = 0.05
+	Actor_31H_weapon2proj0.PhysicDesc.AllowFreeMove = true
+	Actor_31H_weapon2proj0.PhysicDesc.Filename = ""
+	Actor_31H_weapon2proj0:SetPhysicalActorType(3)
+	Actor_31H_weapon2proj0:SetPhysicalShape(4)
+	Actor_31H_weapon2proj0.UsableMode = ""
+	Actor_31H_weapon2proj0.Power = 10
+	Actor_31H_weapon2proj0.UseMana = 0
+	Actor_31H_weapon2proj0.OffsetX = 2.5
+	Actor_31H_weapon2proj0.OffsetY = 2.5
+	Actor_31H_weapon2proj0.OffsetZ = 0
+	Actor_31H_weapon2proj0.ForceX = 0.0005
+	Actor_31H_weapon2proj0.ForceY = -0.0002
+	Actor_31H_weapon2proj0.ForceYOnImpact = 0
+	Actor_31H_weapon2proj0.NbBounce = 1
+	Actor_31H_weapon2proj0.IgnoreGravity = true
+	Actor_31H_weapon2proj0.LifeTime = 4000
+	Actor_31H_weapon2proj0.Comeback = false
+	Actor_31H_weapon2proj0.StartAnimFrame = 4
+	Actor_31H_weapon2proj0.AngleOffset = 0
+	Actor_31H_weapon2proj0.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES027.voc.MP3"
+	Actor_31H_weapon2proj0.SoundOnBounce = ""
+	Actor_31H_weapon2proj0.ForceHurt = false
+	Actor_31H_weapon2proj0.MultiShoot = false
+	Actor_31H_weapon2proj0.UseTimer = false
+	Actor_31H_weapon2proj0.Frequency = 1
+	Actor_31H_weapon2proj0.FollowTarget = false
+	Actor_31H:AddProjectileWeapon2(Actor_31H_weapon2proj0)
+	Actor_31H_weapon2proj1 = ProjectileObjectDef()
+	Actor_31H_weapon2proj1:SetRenderType(2)
+	Actor_31H_weapon2proj1.DisplayDesc.ModelId = 0
+	Actor_31H_weapon2proj1.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite064.png"
+	Actor_31H_weapon2proj1.DisplayDesc.Outfit = ""
+	Actor_31H_weapon2proj1.DisplayDesc.Weapon = ""
+	Actor_31H_weapon2proj1.DisplayDesc.Mode = ""
+	Actor_31H_weapon2proj1.DisplayDesc.UseLight = true
+	Actor_31H_weapon2proj1.DisplayDesc.CastShadow = true
+	Actor_31H_weapon2proj1.DisplayDesc.ColorR = 1
+	Actor_31H_weapon2proj1.DisplayDesc.ColorG = 1
+	Actor_31H_weapon2proj1.DisplayDesc.ColorB = 1
+	Actor_31H_weapon2proj1.DisplayDesc.ColorA = 0.9
+	Actor_31H_weapon2proj1.DisplayDesc.TransX = 0
+	Actor_31H_weapon2proj1.DisplayDesc.TransY = 0
+	Actor_31H_weapon2proj1.DisplayDesc.TransZ = 0
+	Actor_31H_weapon2proj1.DisplayDesc.ScaleX = 0.05
+	Actor_31H_weapon2proj1.DisplayDesc.ScaleY = 0.05
+	Actor_31H_weapon2proj1.DisplayDesc.ScaleZ = 0.05
+	Actor_31H_weapon2proj1.DisplayDesc.RotX = 0
+	Actor_31H_weapon2proj1.DisplayDesc.RotY = 0
+	Actor_31H_weapon2proj1.DisplayDesc.RotZ = 0
+	Actor_31H_weapon2proj1.DisplayDesc.UseBillboard = true
+	Actor_31H_weapon2proj1.PhysicDesc.Pos.X = 0
+	Actor_31H_weapon2proj1.PhysicDesc.Pos.Y = 0
+	Actor_31H_weapon2proj1.PhysicDesc.Pos.Z = 0
+	Actor_31H_weapon2proj1.PhysicDesc.Pos.Rotation = 0
+	Actor_31H_weapon2proj1.PhysicDesc.Density = 1
+	Actor_31H_weapon2proj1.PhysicDesc.Collidable = false
+	Actor_31H_weapon2proj1.PhysicDesc.SizeX = 0.05
+	Actor_31H_weapon2proj1.PhysicDesc.SizeY = 0.05
+	Actor_31H_weapon2proj1.PhysicDesc.SizeZ = 0.05
+	Actor_31H_weapon2proj1.PhysicDesc.AllowFreeMove = true
+	Actor_31H_weapon2proj1.PhysicDesc.Filename = ""
+	Actor_31H_weapon2proj1:SetPhysicalActorType(3)
+	Actor_31H_weapon2proj1:SetPhysicalShape(4)
+	Actor_31H_weapon2proj1.UsableMode = ""
+	Actor_31H_weapon2proj1.Power = 10
+	Actor_31H_weapon2proj1.UseMana = 0
+	Actor_31H_weapon2proj1.OffsetX = 2.5
+	Actor_31H_weapon2proj1.OffsetY = 2.5
+	Actor_31H_weapon2proj1.OffsetZ = 0
+	Actor_31H_weapon2proj1.ForceX = 0.0005
+	Actor_31H_weapon2proj1.ForceY = -0.0002
+	Actor_31H_weapon2proj1.ForceYOnImpact = 0
+	Actor_31H_weapon2proj1.NbBounce = 1
+	Actor_31H_weapon2proj1.IgnoreGravity = true
+	Actor_31H_weapon2proj1.LifeTime = 4000
+	Actor_31H_weapon2proj1.Comeback = false
+	Actor_31H_weapon2proj1.StartAnimFrame = 4
+	Actor_31H_weapon2proj1.AngleOffset = 4
+	Actor_31H_weapon2proj1.SoundAtStart = ""
+	Actor_31H_weapon2proj1.SoundOnBounce = ""
+	Actor_31H_weapon2proj1.ForceHurt = false
+	Actor_31H_weapon2proj1.MultiShoot = false
+	Actor_31H_weapon2proj1.UseTimer = false
+	Actor_31H_weapon2proj1.Frequency = 1
+	Actor_31H_weapon2proj1.FollowTarget = false
+	Actor_31H:AddProjectileWeapon2(Actor_31H_weapon2proj1)
+	Actor_31H_weapon2proj2 = ProjectileObjectDef()
+	Actor_31H_weapon2proj2:SetRenderType(2)
+	Actor_31H_weapon2proj2.DisplayDesc.ModelId = 0
+	Actor_31H_weapon2proj2.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite064.png"
+	Actor_31H_weapon2proj2.DisplayDesc.Outfit = ""
+	Actor_31H_weapon2proj2.DisplayDesc.Weapon = ""
+	Actor_31H_weapon2proj2.DisplayDesc.Mode = ""
+	Actor_31H_weapon2proj2.DisplayDesc.UseLight = true
+	Actor_31H_weapon2proj2.DisplayDesc.CastShadow = true
+	Actor_31H_weapon2proj2.DisplayDesc.ColorR = 1
+	Actor_31H_weapon2proj2.DisplayDesc.ColorG = 1
+	Actor_31H_weapon2proj2.DisplayDesc.ColorB = 1
+	Actor_31H_weapon2proj2.DisplayDesc.ColorA = 0.9
+	Actor_31H_weapon2proj2.DisplayDesc.TransX = 0
+	Actor_31H_weapon2proj2.DisplayDesc.TransY = 0
+	Actor_31H_weapon2proj2.DisplayDesc.TransZ = 0
+	Actor_31H_weapon2proj2.DisplayDesc.ScaleX = 0.05
+	Actor_31H_weapon2proj2.DisplayDesc.ScaleY = 0.05
+	Actor_31H_weapon2proj2.DisplayDesc.ScaleZ = 0.05
+	Actor_31H_weapon2proj2.DisplayDesc.RotX = 0
+	Actor_31H_weapon2proj2.DisplayDesc.RotY = 0
+	Actor_31H_weapon2proj2.DisplayDesc.RotZ = 0
+	Actor_31H_weapon2proj2.DisplayDesc.UseBillboard = true
+	Actor_31H_weapon2proj2.PhysicDesc.Pos.X = 0
+	Actor_31H_weapon2proj2.PhysicDesc.Pos.Y = 0
+	Actor_31H_weapon2proj2.PhysicDesc.Pos.Z = 0
+	Actor_31H_weapon2proj2.PhysicDesc.Pos.Rotation = 0
+	Actor_31H_weapon2proj2.PhysicDesc.Density = 1
+	Actor_31H_weapon2proj2.PhysicDesc.Collidable = false
+	Actor_31H_weapon2proj2.PhysicDesc.SizeX = 0.05
+	Actor_31H_weapon2proj2.PhysicDesc.SizeY = 0.05
+	Actor_31H_weapon2proj2.PhysicDesc.SizeZ = 0.05
+	Actor_31H_weapon2proj2.PhysicDesc.AllowFreeMove = true
+	Actor_31H_weapon2proj2.PhysicDesc.Filename = ""
+	Actor_31H_weapon2proj2:SetPhysicalActorType(3)
+	Actor_31H_weapon2proj2:SetPhysicalShape(4)
+	Actor_31H_weapon2proj2.UsableMode = ""
+	Actor_31H_weapon2proj2.Power = 10
+	Actor_31H_weapon2proj2.UseMana = 0
+	Actor_31H_weapon2proj2.OffsetX = 2.5
+	Actor_31H_weapon2proj2.OffsetY = 2.5
+	Actor_31H_weapon2proj2.OffsetZ = 0
+	Actor_31H_weapon2proj2.ForceX = 0.0005
+	Actor_31H_weapon2proj2.ForceY = -0.0002
+	Actor_31H_weapon2proj2.ForceYOnImpact = 0
+	Actor_31H_weapon2proj2.NbBounce = 1
+	Actor_31H_weapon2proj2.IgnoreGravity = true
+	Actor_31H_weapon2proj2.LifeTime = 4000
+	Actor_31H_weapon2proj2.Comeback = false
+	Actor_31H_weapon2proj2.StartAnimFrame = 4
+	Actor_31H_weapon2proj2.AngleOffset = -4
+	Actor_31H_weapon2proj2.SoundAtStart = ""
+	Actor_31H_weapon2proj2.SoundOnBounce = ""
+	Actor_31H_weapon2proj2.ForceHurt = false
+	Actor_31H_weapon2proj2.MultiShoot = false
+	Actor_31H_weapon2proj2.UseTimer = false
+	Actor_31H_weapon2proj2.Frequency = 1
+	Actor_31H_weapon2proj2.FollowTarget = false
+	Actor_31H:AddProjectileWeapon2(Actor_31H_weapon2proj2)
+	Actor_31H:SetAttackFunction("ActorRotateAttackDistanceAndContactPlayer")
+	Actor_31H:AddGivenItem(1,1,1,0.3,1)
+	Actor_31H:AddGivenItem(2,1,1,0.3,1)
+	Actor_31H:AddGivenItem(8,2,2,0.4,1)
+	Actor_31H:AddGivenItem(3,1,1,0.05,2)
+	environment:AddActorObject(Actor_31H)
+
+	Actor_32 = ActorObjectInfo(32)
+	Actor_32:SetRenderType(3)
+	Actor_32.HitPowerOnTouch = -1
+	Actor_32.ExcludeFromNavMesh = false
+	Actor_32.DisplayDesc.ModelId = 0
+	Actor_32.DisplayDesc.ModelName = "Soldier"
+	Actor_32.DisplayDesc.Outfit = "Grass"
+	Actor_32.DisplayDesc.Weapon = "rifle"
+	Actor_32.DisplayDesc.Mode = "Normal"
+	Actor_32.DisplayDesc.UseLight = true
+	Actor_32.DisplayDesc.CastShadow = true
+	Actor_32.DisplayDesc.ColorR = 1
+	Actor_32.DisplayDesc.ColorG = 1
+	Actor_32.DisplayDesc.ColorB = 1
+	Actor_32.DisplayDesc.ColorA = 1
+	Actor_32.DisplayDesc.TransX = 0
+	Actor_32.DisplayDesc.TransY = 0
+	Actor_32.DisplayDesc.TransZ = 0
+	Actor_32.DisplayDesc.ScaleX = 1
+	Actor_32.DisplayDesc.ScaleY = 1
+	Actor_32.DisplayDesc.ScaleZ = 1
+	Actor_32.DisplayDesc.RotX = 0
+	Actor_32.DisplayDesc.RotY = 0
+	Actor_32.DisplayDesc.RotZ = 0
+	Actor_32:SetModelState(1)
+	Actor_32.DisplayDesc.UseBillboard = false
+	Actor_32.DisplayDesc.ColorMaterialType = 4
+	Actor_32.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_32.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_32.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_32.DisplayDesc.MatAmbientColorA = 1
+	Actor_32.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_32.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_32.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_32.DisplayDesc.MatDiffuseColorA = 1
+	Actor_32.DisplayDesc.MatSpecularColorR = 0
+	Actor_32.DisplayDesc.MatSpecularColorG = 0
+	Actor_32.DisplayDesc.MatSpecularColorB = 0
+	Actor_32.DisplayDesc.MatSpecularColorA = 1
+	Actor_32.DisplayDesc.MatEmissionColorR = 0
+	Actor_32.DisplayDesc.MatEmissionColorG = 0
+	Actor_32.DisplayDesc.MatEmissionColorB = 0
+	Actor_32.DisplayDesc.MatEmissionColorA = 1
+	Actor_32.DisplayDesc.MatShininess = 0
+	Actor_32.PhysicDesc.Pos.X = 24.5
+	Actor_32.PhysicDesc.Pos.Y = 0
+	Actor_32.PhysicDesc.Pos.Z = 20.5
+	Actor_32.PhysicDesc.Pos.Rotation = 25
+	Actor_32.PhysicDesc.Density = 1
+	Actor_32.PhysicDesc.Collidable = true
+	Actor_32.PhysicDesc.SizeX = 2
+	Actor_32.PhysicDesc.SizeY = 5
+	Actor_32.PhysicDesc.SizeZ = 2
+	Actor_32.PhysicDesc.AllowFreeMove = true
+	Actor_32.PhysicDesc.Filename = ""
+	Actor_32:SetPhysicalActorType(2)
+	Actor_32:SetPhysicalShape(2)
+	Actor_32.ExtraInfo.Name = ""
+	Actor_32.ExtraInfo.NameColorR = 0
+	Actor_32.ExtraInfo.NameColorG = 0
+	Actor_32.ExtraInfo.NameColorB = 0
+	Actor_32.ExtraInfo.Display = false
+	Actor_32.LifeInfo.Display = false
+	Actor_32H = NPCHandler(Actor_32)
+	Actor_32H_dia = DialogPart()
+	Actor_32H_dia:SetResetDialog(false)
+	Actor_32H:SetRootDialog(Actor_32H_dia)
+	Actor_32H:SetNpcName(-1)
+	Actor_32H:SetSimpleDialog(false)
+	Actor_32H:SetAggresive(true)
+	Actor_32H:SetLife(50)
+	Actor_32H:SetMana(0)
+	Actor_32H:SetArmor(0)
+	Actor_32H:SetAttackActiDist(7)
+	Actor_32H:SetAttackActiDistDiscrete(4)
+	Actor_32H:SetAttackActiDistHidden(2)
+	Actor_32H:SetAttackStopDist(10)
+	Actor_32H:SetRespawnTimeInSec(10)
+	Actor_32H:SetWeapon1Type(1)
+	Actor_32H:SetWeapon1Power(10)
+	Actor_32H:SetWeapon1ReachDistance(2)
+	Actor_32H:Setuseweapon1animation("Use1Weapon")
+	Actor_32H:SetWeapon2Type(2)
+	Actor_32H:SetWeapon2Power(0)
+	Actor_32H:SetWeapon2ReachDistance(7)
+	Actor_32H:Setuseweapon2animation("UseWeapon")
+	Actor_32H_weapon2proj0 = ProjectileObjectDef()
+	Actor_32H_weapon2proj0:SetRenderType(2)
+	Actor_32H_weapon2proj0.DisplayDesc.ModelId = 0
+	Actor_32H_weapon2proj0.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite064.png"
+	Actor_32H_weapon2proj0.DisplayDesc.Outfit = ""
+	Actor_32H_weapon2proj0.DisplayDesc.Weapon = ""
+	Actor_32H_weapon2proj0.DisplayDesc.Mode = ""
+	Actor_32H_weapon2proj0.DisplayDesc.UseLight = true
+	Actor_32H_weapon2proj0.DisplayDesc.CastShadow = true
+	Actor_32H_weapon2proj0.DisplayDesc.ColorR = 1
+	Actor_32H_weapon2proj0.DisplayDesc.ColorG = 1
+	Actor_32H_weapon2proj0.DisplayDesc.ColorB = 1
+	Actor_32H_weapon2proj0.DisplayDesc.ColorA = 0.9
+	Actor_32H_weapon2proj0.DisplayDesc.TransX = 0
+	Actor_32H_weapon2proj0.DisplayDesc.TransY = 0
+	Actor_32H_weapon2proj0.DisplayDesc.TransZ = 0
+	Actor_32H_weapon2proj0.DisplayDesc.ScaleX = 0.05
+	Actor_32H_weapon2proj0.DisplayDesc.ScaleY = 0.05
+	Actor_32H_weapon2proj0.DisplayDesc.ScaleZ = 0.05
+	Actor_32H_weapon2proj0.DisplayDesc.RotX = 0
+	Actor_32H_weapon2proj0.DisplayDesc.RotY = 0
+	Actor_32H_weapon2proj0.DisplayDesc.RotZ = 0
+	Actor_32H_weapon2proj0.DisplayDesc.UseBillboard = true
+	Actor_32H_weapon2proj0.PhysicDesc.Pos.X = 0
+	Actor_32H_weapon2proj0.PhysicDesc.Pos.Y = 0
+	Actor_32H_weapon2proj0.PhysicDesc.Pos.Z = 0
+	Actor_32H_weapon2proj0.PhysicDesc.Pos.Rotation = 0
+	Actor_32H_weapon2proj0.PhysicDesc.Density = 1
+	Actor_32H_weapon2proj0.PhysicDesc.Collidable = false
+	Actor_32H_weapon2proj0.PhysicDesc.SizeX = 0.05
+	Actor_32H_weapon2proj0.PhysicDesc.SizeY = 0.05
+	Actor_32H_weapon2proj0.PhysicDesc.SizeZ = 0.05
+	Actor_32H_weapon2proj0.PhysicDesc.AllowFreeMove = true
+	Actor_32H_weapon2proj0.PhysicDesc.Filename = ""
+	Actor_32H_weapon2proj0:SetPhysicalActorType(3)
+	Actor_32H_weapon2proj0:SetPhysicalShape(4)
+	Actor_32H_weapon2proj0.UsableMode = ""
+	Actor_32H_weapon2proj0.Power = 10
+	Actor_32H_weapon2proj0.UseMana = 0
+	Actor_32H_weapon2proj0.OffsetX = 2.5
+	Actor_32H_weapon2proj0.OffsetY = 2.5
+	Actor_32H_weapon2proj0.OffsetZ = 0
+	Actor_32H_weapon2proj0.ForceX = 0.0005
+	Actor_32H_weapon2proj0.ForceY = -0.0002
+	Actor_32H_weapon2proj0.ForceYOnImpact = 0
+	Actor_32H_weapon2proj0.NbBounce = 1
+	Actor_32H_weapon2proj0.IgnoreGravity = true
+	Actor_32H_weapon2proj0.LifeTime = 4000
+	Actor_32H_weapon2proj0.Comeback = false
+	Actor_32H_weapon2proj0.StartAnimFrame = 4
+	Actor_32H_weapon2proj0.AngleOffset = 0
+	Actor_32H_weapon2proj0.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES027.voc.MP3"
+	Actor_32H_weapon2proj0.SoundOnBounce = ""
+	Actor_32H_weapon2proj0.ForceHurt = false
+	Actor_32H_weapon2proj0.MultiShoot = false
+	Actor_32H_weapon2proj0.UseTimer = false
+	Actor_32H_weapon2proj0.Frequency = 1
+	Actor_32H_weapon2proj0.FollowTarget = false
+	Actor_32H:AddProjectileWeapon2(Actor_32H_weapon2proj0)
+	Actor_32H_weapon2proj1 = ProjectileObjectDef()
+	Actor_32H_weapon2proj1:SetRenderType(2)
+	Actor_32H_weapon2proj1.DisplayDesc.ModelId = 0
+	Actor_32H_weapon2proj1.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite064.png"
+	Actor_32H_weapon2proj1.DisplayDesc.Outfit = ""
+	Actor_32H_weapon2proj1.DisplayDesc.Weapon = ""
+	Actor_32H_weapon2proj1.DisplayDesc.Mode = ""
+	Actor_32H_weapon2proj1.DisplayDesc.UseLight = true
+	Actor_32H_weapon2proj1.DisplayDesc.CastShadow = true
+	Actor_32H_weapon2proj1.DisplayDesc.ColorR = 1
+	Actor_32H_weapon2proj1.DisplayDesc.ColorG = 1
+	Actor_32H_weapon2proj1.DisplayDesc.ColorB = 1
+	Actor_32H_weapon2proj1.DisplayDesc.ColorA = 0.9
+	Actor_32H_weapon2proj1.DisplayDesc.TransX = 0
+	Actor_32H_weapon2proj1.DisplayDesc.TransY = 0
+	Actor_32H_weapon2proj1.DisplayDesc.TransZ = 0
+	Actor_32H_weapon2proj1.DisplayDesc.ScaleX = 0.05
+	Actor_32H_weapon2proj1.DisplayDesc.ScaleY = 0.05
+	Actor_32H_weapon2proj1.DisplayDesc.ScaleZ = 0.05
+	Actor_32H_weapon2proj1.DisplayDesc.RotX = 0
+	Actor_32H_weapon2proj1.DisplayDesc.RotY = 0
+	Actor_32H_weapon2proj1.DisplayDesc.RotZ = 0
+	Actor_32H_weapon2proj1.DisplayDesc.UseBillboard = true
+	Actor_32H_weapon2proj1.PhysicDesc.Pos.X = 0
+	Actor_32H_weapon2proj1.PhysicDesc.Pos.Y = 0
+	Actor_32H_weapon2proj1.PhysicDesc.Pos.Z = 0
+	Actor_32H_weapon2proj1.PhysicDesc.Pos.Rotation = 0
+	Actor_32H_weapon2proj1.PhysicDesc.Density = 1
+	Actor_32H_weapon2proj1.PhysicDesc.Collidable = false
+	Actor_32H_weapon2proj1.PhysicDesc.SizeX = 0.05
+	Actor_32H_weapon2proj1.PhysicDesc.SizeY = 0.05
+	Actor_32H_weapon2proj1.PhysicDesc.SizeZ = 0.05
+	Actor_32H_weapon2proj1.PhysicDesc.AllowFreeMove = true
+	Actor_32H_weapon2proj1.PhysicDesc.Filename = ""
+	Actor_32H_weapon2proj1:SetPhysicalActorType(3)
+	Actor_32H_weapon2proj1:SetPhysicalShape(4)
+	Actor_32H_weapon2proj1.UsableMode = ""
+	Actor_32H_weapon2proj1.Power = 10
+	Actor_32H_weapon2proj1.UseMana = 0
+	Actor_32H_weapon2proj1.OffsetX = 2.5
+	Actor_32H_weapon2proj1.OffsetY = 2.5
+	Actor_32H_weapon2proj1.OffsetZ = 0
+	Actor_32H_weapon2proj1.ForceX = 0.0005
+	Actor_32H_weapon2proj1.ForceY = -0.0002
+	Actor_32H_weapon2proj1.ForceYOnImpact = 0
+	Actor_32H_weapon2proj1.NbBounce = 1
+	Actor_32H_weapon2proj1.IgnoreGravity = true
+	Actor_32H_weapon2proj1.LifeTime = 4000
+	Actor_32H_weapon2proj1.Comeback = false
+	Actor_32H_weapon2proj1.StartAnimFrame = 4
+	Actor_32H_weapon2proj1.AngleOffset = 4
+	Actor_32H_weapon2proj1.SoundAtStart = ""
+	Actor_32H_weapon2proj1.SoundOnBounce = ""
+	Actor_32H_weapon2proj1.ForceHurt = false
+	Actor_32H_weapon2proj1.MultiShoot = false
+	Actor_32H_weapon2proj1.UseTimer = false
+	Actor_32H_weapon2proj1.Frequency = 1
+	Actor_32H_weapon2proj1.FollowTarget = false
+	Actor_32H:AddProjectileWeapon2(Actor_32H_weapon2proj1)
+	Actor_32H_weapon2proj2 = ProjectileObjectDef()
+	Actor_32H_weapon2proj2:SetRenderType(2)
+	Actor_32H_weapon2proj2.DisplayDesc.ModelId = 0
+	Actor_32H_weapon2proj2.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite064.png"
+	Actor_32H_weapon2proj2.DisplayDesc.Outfit = ""
+	Actor_32H_weapon2proj2.DisplayDesc.Weapon = ""
+	Actor_32H_weapon2proj2.DisplayDesc.Mode = ""
+	Actor_32H_weapon2proj2.DisplayDesc.UseLight = true
+	Actor_32H_weapon2proj2.DisplayDesc.CastShadow = true
+	Actor_32H_weapon2proj2.DisplayDesc.ColorR = 1
+	Actor_32H_weapon2proj2.DisplayDesc.ColorG = 1
+	Actor_32H_weapon2proj2.DisplayDesc.ColorB = 1
+	Actor_32H_weapon2proj2.DisplayDesc.ColorA = 0.9
+	Actor_32H_weapon2proj2.DisplayDesc.TransX = 0
+	Actor_32H_weapon2proj2.DisplayDesc.TransY = 0
+	Actor_32H_weapon2proj2.DisplayDesc.TransZ = 0
+	Actor_32H_weapon2proj2.DisplayDesc.ScaleX = 0.05
+	Actor_32H_weapon2proj2.DisplayDesc.ScaleY = 0.05
+	Actor_32H_weapon2proj2.DisplayDesc.ScaleZ = 0.05
+	Actor_32H_weapon2proj2.DisplayDesc.RotX = 0
+	Actor_32H_weapon2proj2.DisplayDesc.RotY = 0
+	Actor_32H_weapon2proj2.DisplayDesc.RotZ = 0
+	Actor_32H_weapon2proj2.DisplayDesc.UseBillboard = true
+	Actor_32H_weapon2proj2.PhysicDesc.Pos.X = 0
+	Actor_32H_weapon2proj2.PhysicDesc.Pos.Y = 0
+	Actor_32H_weapon2proj2.PhysicDesc.Pos.Z = 0
+	Actor_32H_weapon2proj2.PhysicDesc.Pos.Rotation = 0
+	Actor_32H_weapon2proj2.PhysicDesc.Density = 1
+	Actor_32H_weapon2proj2.PhysicDesc.Collidable = false
+	Actor_32H_weapon2proj2.PhysicDesc.SizeX = 0.05
+	Actor_32H_weapon2proj2.PhysicDesc.SizeY = 0.05
+	Actor_32H_weapon2proj2.PhysicDesc.SizeZ = 0.05
+	Actor_32H_weapon2proj2.PhysicDesc.AllowFreeMove = true
+	Actor_32H_weapon2proj2.PhysicDesc.Filename = ""
+	Actor_32H_weapon2proj2:SetPhysicalActorType(3)
+	Actor_32H_weapon2proj2:SetPhysicalShape(4)
+	Actor_32H_weapon2proj2.UsableMode = ""
+	Actor_32H_weapon2proj2.Power = 10
+	Actor_32H_weapon2proj2.UseMana = 0
+	Actor_32H_weapon2proj2.OffsetX = 2.5
+	Actor_32H_weapon2proj2.OffsetY = 2.5
+	Actor_32H_weapon2proj2.OffsetZ = 0
+	Actor_32H_weapon2proj2.ForceX = 0.0005
+	Actor_32H_weapon2proj2.ForceY = -0.0002
+	Actor_32H_weapon2proj2.ForceYOnImpact = 0
+	Actor_32H_weapon2proj2.NbBounce = 1
+	Actor_32H_weapon2proj2.IgnoreGravity = true
+	Actor_32H_weapon2proj2.LifeTime = 4000
+	Actor_32H_weapon2proj2.Comeback = false
+	Actor_32H_weapon2proj2.StartAnimFrame = 4
+	Actor_32H_weapon2proj2.AngleOffset = -4
+	Actor_32H_weapon2proj2.SoundAtStart = ""
+	Actor_32H_weapon2proj2.SoundOnBounce = ""
+	Actor_32H_weapon2proj2.ForceHurt = false
+	Actor_32H_weapon2proj2.MultiShoot = false
+	Actor_32H_weapon2proj2.UseTimer = false
+	Actor_32H_weapon2proj2.Frequency = 1
+	Actor_32H_weapon2proj2.FollowTarget = false
+	Actor_32H:AddProjectileWeapon2(Actor_32H_weapon2proj2)
+	Actor_32H:SetAttackFunction("ActorRotateAttackDistanceAndContactPlayer")
+	Actor_32H:AddGivenItem(1,1,1,0.3,1)
+	Actor_32H:AddGivenItem(2,1,1,0.3,1)
+	Actor_32H:AddGivenItem(8,2,2,0.4,1)
+	Actor_32H:AddGivenItem(3,1,1,0.05,2)
+	environment:AddActorObject(Actor_32H)
+
+	Actor_33 = ActorObjectInfo(33)
+	Actor_33:SetRenderType(3)
+	Actor_33.HitPowerOnTouch = -1
+	Actor_33.ExcludeFromNavMesh = false
+	Actor_33.DisplayDesc.ModelId = 0
+	Actor_33.DisplayDesc.ModelName = "Soldier"
+	Actor_33.DisplayDesc.Outfit = "Grass"
+	Actor_33.DisplayDesc.Weapon = "rifle"
+	Actor_33.DisplayDesc.Mode = "Normal"
+	Actor_33.DisplayDesc.UseLight = true
+	Actor_33.DisplayDesc.CastShadow = true
+	Actor_33.DisplayDesc.ColorR = 1
+	Actor_33.DisplayDesc.ColorG = 1
+	Actor_33.DisplayDesc.ColorB = 1
+	Actor_33.DisplayDesc.ColorA = 1
+	Actor_33.DisplayDesc.TransX = 0
+	Actor_33.DisplayDesc.TransY = 0
+	Actor_33.DisplayDesc.TransZ = 0
+	Actor_33.DisplayDesc.ScaleX = 1
+	Actor_33.DisplayDesc.ScaleY = 1
+	Actor_33.DisplayDesc.ScaleZ = 1
+	Actor_33.DisplayDesc.RotX = 0
+	Actor_33.DisplayDesc.RotY = 0
+	Actor_33.DisplayDesc.RotZ = 0
+	Actor_33:SetModelState(1)
+	Actor_33.DisplayDesc.UseBillboard = false
+	Actor_33.DisplayDesc.ColorMaterialType = 4
+	Actor_33.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_33.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_33.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_33.DisplayDesc.MatAmbientColorA = 1
+	Actor_33.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_33.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_33.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_33.DisplayDesc.MatDiffuseColorA = 1
+	Actor_33.DisplayDesc.MatSpecularColorR = 0
+	Actor_33.DisplayDesc.MatSpecularColorG = 0
+	Actor_33.DisplayDesc.MatSpecularColorB = 0
+	Actor_33.DisplayDesc.MatSpecularColorA = 1
+	Actor_33.DisplayDesc.MatEmissionColorR = 0
+	Actor_33.DisplayDesc.MatEmissionColorG = 0
+	Actor_33.DisplayDesc.MatEmissionColorB = 0
+	Actor_33.DisplayDesc.MatEmissionColorA = 1
+	Actor_33.DisplayDesc.MatShininess = 0
+	Actor_33.PhysicDesc.Pos.X = 2
+	Actor_33.PhysicDesc.Pos.Y = 7
+	Actor_33.PhysicDesc.Pos.Z = 16
+	Actor_33.PhysicDesc.Pos.Rotation = 25
+	Actor_33.PhysicDesc.Density = 1
+	Actor_33.PhysicDesc.Collidable = true
+	Actor_33.PhysicDesc.SizeX = 2
+	Actor_33.PhysicDesc.SizeY = 5
+	Actor_33.PhysicDesc.SizeZ = 2
+	Actor_33.PhysicDesc.AllowFreeMove = true
+	Actor_33.PhysicDesc.Filename = ""
+	Actor_33:SetPhysicalActorType(2)
+	Actor_33:SetPhysicalShape(2)
+	Actor_33.ExtraInfo.Name = ""
+	Actor_33.ExtraInfo.NameColorR = 0
+	Actor_33.ExtraInfo.NameColorG = 0
+	Actor_33.ExtraInfo.NameColorB = 0
+	Actor_33.ExtraInfo.Display = false
+	Actor_33.LifeInfo.Display = false
+	Actor_33H = NPCHandler(Actor_33)
+	Actor_33H_dia = DialogPart()
+	Actor_33H_dia:SetResetDialog(false)
+	Actor_33H:SetRootDialog(Actor_33H_dia)
+	Actor_33H:SetNpcName(-1)
+	Actor_33H:SetSimpleDialog(false)
+	Actor_33H:SetAggresive(true)
+	Actor_33H:SetLife(50)
+	Actor_33H:SetMana(0)
+	Actor_33H:SetArmor(0)
+	Actor_33H:SetAttackActiDist(7)
+	Actor_33H:SetAttackActiDistDiscrete(4)
+	Actor_33H:SetAttackActiDistHidden(2)
+	Actor_33H:SetAttackStopDist(10)
+	Actor_33H:SetRespawnTimeInSec(10)
+	Actor_33H:SetWeapon1Type(1)
+	Actor_33H:SetWeapon1Power(10)
+	Actor_33H:SetWeapon1ReachDistance(2)
+	Actor_33H:Setuseweapon1animation("Use1Weapon")
+	Actor_33H:SetWeapon2Type(2)
+	Actor_33H:SetWeapon2Power(0)
+	Actor_33H:SetWeapon2ReachDistance(7)
+	Actor_33H:Setuseweapon2animation("UseWeapon")
+	Actor_33H_weapon2proj0 = ProjectileObjectDef()
+	Actor_33H_weapon2proj0:SetRenderType(2)
+	Actor_33H_weapon2proj0.DisplayDesc.ModelId = 0
+	Actor_33H_weapon2proj0.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite064.png"
+	Actor_33H_weapon2proj0.DisplayDesc.Outfit = ""
+	Actor_33H_weapon2proj0.DisplayDesc.Weapon = ""
+	Actor_33H_weapon2proj0.DisplayDesc.Mode = ""
+	Actor_33H_weapon2proj0.DisplayDesc.UseLight = true
+	Actor_33H_weapon2proj0.DisplayDesc.CastShadow = true
+	Actor_33H_weapon2proj0.DisplayDesc.ColorR = 1
+	Actor_33H_weapon2proj0.DisplayDesc.ColorG = 1
+	Actor_33H_weapon2proj0.DisplayDesc.ColorB = 1
+	Actor_33H_weapon2proj0.DisplayDesc.ColorA = 0.9
+	Actor_33H_weapon2proj0.DisplayDesc.TransX = 0
+	Actor_33H_weapon2proj0.DisplayDesc.TransY = 0
+	Actor_33H_weapon2proj0.DisplayDesc.TransZ = 0
+	Actor_33H_weapon2proj0.DisplayDesc.ScaleX = 0.05
+	Actor_33H_weapon2proj0.DisplayDesc.ScaleY = 0.05
+	Actor_33H_weapon2proj0.DisplayDesc.ScaleZ = 0.05
+	Actor_33H_weapon2proj0.DisplayDesc.RotX = 0
+	Actor_33H_weapon2proj0.DisplayDesc.RotY = 0
+	Actor_33H_weapon2proj0.DisplayDesc.RotZ = 0
+	Actor_33H_weapon2proj0.DisplayDesc.UseBillboard = true
+	Actor_33H_weapon2proj0.PhysicDesc.Pos.X = 0
+	Actor_33H_weapon2proj0.PhysicDesc.Pos.Y = 0
+	Actor_33H_weapon2proj0.PhysicDesc.Pos.Z = 0
+	Actor_33H_weapon2proj0.PhysicDesc.Pos.Rotation = 0
+	Actor_33H_weapon2proj0.PhysicDesc.Density = 1
+	Actor_33H_weapon2proj0.PhysicDesc.Collidable = false
+	Actor_33H_weapon2proj0.PhysicDesc.SizeX = 0.05
+	Actor_33H_weapon2proj0.PhysicDesc.SizeY = 0.05
+	Actor_33H_weapon2proj0.PhysicDesc.SizeZ = 0.05
+	Actor_33H_weapon2proj0.PhysicDesc.AllowFreeMove = true
+	Actor_33H_weapon2proj0.PhysicDesc.Filename = ""
+	Actor_33H_weapon2proj0:SetPhysicalActorType(3)
+	Actor_33H_weapon2proj0:SetPhysicalShape(4)
+	Actor_33H_weapon2proj0.UsableMode = ""
+	Actor_33H_weapon2proj0.Power = 10
+	Actor_33H_weapon2proj0.UseMana = 0
+	Actor_33H_weapon2proj0.OffsetX = 2.5
+	Actor_33H_weapon2proj0.OffsetY = 2.5
+	Actor_33H_weapon2proj0.OffsetZ = 0
+	Actor_33H_weapon2proj0.ForceX = 0.0005
+	Actor_33H_weapon2proj0.ForceY = -0.0002
+	Actor_33H_weapon2proj0.ForceYOnImpact = 0
+	Actor_33H_weapon2proj0.NbBounce = 1
+	Actor_33H_weapon2proj0.IgnoreGravity = true
+	Actor_33H_weapon2proj0.LifeTime = 4000
+	Actor_33H_weapon2proj0.Comeback = false
+	Actor_33H_weapon2proj0.StartAnimFrame = 4
+	Actor_33H_weapon2proj0.AngleOffset = 0
+	Actor_33H_weapon2proj0.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES027.voc.MP3"
+	Actor_33H_weapon2proj0.SoundOnBounce = ""
+	Actor_33H_weapon2proj0.ForceHurt = false
+	Actor_33H_weapon2proj0.MultiShoot = false
+	Actor_33H_weapon2proj0.UseTimer = false
+	Actor_33H_weapon2proj0.Frequency = 1
+	Actor_33H_weapon2proj0.FollowTarget = false
+	Actor_33H:AddProjectileWeapon2(Actor_33H_weapon2proj0)
+	Actor_33H_weapon2proj1 = ProjectileObjectDef()
+	Actor_33H_weapon2proj1:SetRenderType(2)
+	Actor_33H_weapon2proj1.DisplayDesc.ModelId = 0
+	Actor_33H_weapon2proj1.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite064.png"
+	Actor_33H_weapon2proj1.DisplayDesc.Outfit = ""
+	Actor_33H_weapon2proj1.DisplayDesc.Weapon = ""
+	Actor_33H_weapon2proj1.DisplayDesc.Mode = ""
+	Actor_33H_weapon2proj1.DisplayDesc.UseLight = true
+	Actor_33H_weapon2proj1.DisplayDesc.CastShadow = true
+	Actor_33H_weapon2proj1.DisplayDesc.ColorR = 1
+	Actor_33H_weapon2proj1.DisplayDesc.ColorG = 1
+	Actor_33H_weapon2proj1.DisplayDesc.ColorB = 1
+	Actor_33H_weapon2proj1.DisplayDesc.ColorA = 0.9
+	Actor_33H_weapon2proj1.DisplayDesc.TransX = 0
+	Actor_33H_weapon2proj1.DisplayDesc.TransY = 0
+	Actor_33H_weapon2proj1.DisplayDesc.TransZ = 0
+	Actor_33H_weapon2proj1.DisplayDesc.ScaleX = 0.05
+	Actor_33H_weapon2proj1.DisplayDesc.ScaleY = 0.05
+	Actor_33H_weapon2proj1.DisplayDesc.ScaleZ = 0.05
+	Actor_33H_weapon2proj1.DisplayDesc.RotX = 0
+	Actor_33H_weapon2proj1.DisplayDesc.RotY = 0
+	Actor_33H_weapon2proj1.DisplayDesc.RotZ = 0
+	Actor_33H_weapon2proj1.DisplayDesc.UseBillboard = true
+	Actor_33H_weapon2proj1.PhysicDesc.Pos.X = 0
+	Actor_33H_weapon2proj1.PhysicDesc.Pos.Y = 0
+	Actor_33H_weapon2proj1.PhysicDesc.Pos.Z = 0
+	Actor_33H_weapon2proj1.PhysicDesc.Pos.Rotation = 0
+	Actor_33H_weapon2proj1.PhysicDesc.Density = 1
+	Actor_33H_weapon2proj1.PhysicDesc.Collidable = false
+	Actor_33H_weapon2proj1.PhysicDesc.SizeX = 0.05
+	Actor_33H_weapon2proj1.PhysicDesc.SizeY = 0.05
+	Actor_33H_weapon2proj1.PhysicDesc.SizeZ = 0.05
+	Actor_33H_weapon2proj1.PhysicDesc.AllowFreeMove = true
+	Actor_33H_weapon2proj1.PhysicDesc.Filename = ""
+	Actor_33H_weapon2proj1:SetPhysicalActorType(3)
+	Actor_33H_weapon2proj1:SetPhysicalShape(4)
+	Actor_33H_weapon2proj1.UsableMode = ""
+	Actor_33H_weapon2proj1.Power = 10
+	Actor_33H_weapon2proj1.UseMana = 0
+	Actor_33H_weapon2proj1.OffsetX = 2.5
+	Actor_33H_weapon2proj1.OffsetY = 2.5
+	Actor_33H_weapon2proj1.OffsetZ = 0
+	Actor_33H_weapon2proj1.ForceX = 0.0005
+	Actor_33H_weapon2proj1.ForceY = -0.0002
+	Actor_33H_weapon2proj1.ForceYOnImpact = 0
+	Actor_33H_weapon2proj1.NbBounce = 1
+	Actor_33H_weapon2proj1.IgnoreGravity = true
+	Actor_33H_weapon2proj1.LifeTime = 4000
+	Actor_33H_weapon2proj1.Comeback = false
+	Actor_33H_weapon2proj1.StartAnimFrame = 4
+	Actor_33H_weapon2proj1.AngleOffset = 4
+	Actor_33H_weapon2proj1.SoundAtStart = ""
+	Actor_33H_weapon2proj1.SoundOnBounce = ""
+	Actor_33H_weapon2proj1.ForceHurt = false
+	Actor_33H_weapon2proj1.MultiShoot = false
+	Actor_33H_weapon2proj1.UseTimer = false
+	Actor_33H_weapon2proj1.Frequency = 1
+	Actor_33H_weapon2proj1.FollowTarget = false
+	Actor_33H:AddProjectileWeapon2(Actor_33H_weapon2proj1)
+	Actor_33H_weapon2proj2 = ProjectileObjectDef()
+	Actor_33H_weapon2proj2:SetRenderType(2)
+	Actor_33H_weapon2proj2.DisplayDesc.ModelId = 0
+	Actor_33H_weapon2proj2.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite064.png"
+	Actor_33H_weapon2proj2.DisplayDesc.Outfit = ""
+	Actor_33H_weapon2proj2.DisplayDesc.Weapon = ""
+	Actor_33H_weapon2proj2.DisplayDesc.Mode = ""
+	Actor_33H_weapon2proj2.DisplayDesc.UseLight = true
+	Actor_33H_weapon2proj2.DisplayDesc.CastShadow = true
+	Actor_33H_weapon2proj2.DisplayDesc.ColorR = 1
+	Actor_33H_weapon2proj2.DisplayDesc.ColorG = 1
+	Actor_33H_weapon2proj2.DisplayDesc.ColorB = 1
+	Actor_33H_weapon2proj2.DisplayDesc.ColorA = 0.9
+	Actor_33H_weapon2proj2.DisplayDesc.TransX = 0
+	Actor_33H_weapon2proj2.DisplayDesc.TransY = 0
+	Actor_33H_weapon2proj2.DisplayDesc.TransZ = 0
+	Actor_33H_weapon2proj2.DisplayDesc.ScaleX = 0.05
+	Actor_33H_weapon2proj2.DisplayDesc.ScaleY = 0.05
+	Actor_33H_weapon2proj2.DisplayDesc.ScaleZ = 0.05
+	Actor_33H_weapon2proj2.DisplayDesc.RotX = 0
+	Actor_33H_weapon2proj2.DisplayDesc.RotY = 0
+	Actor_33H_weapon2proj2.DisplayDesc.RotZ = 0
+	Actor_33H_weapon2proj2.DisplayDesc.UseBillboard = true
+	Actor_33H_weapon2proj2.PhysicDesc.Pos.X = 0
+	Actor_33H_weapon2proj2.PhysicDesc.Pos.Y = 0
+	Actor_33H_weapon2proj2.PhysicDesc.Pos.Z = 0
+	Actor_33H_weapon2proj2.PhysicDesc.Pos.Rotation = 0
+	Actor_33H_weapon2proj2.PhysicDesc.Density = 1
+	Actor_33H_weapon2proj2.PhysicDesc.Collidable = false
+	Actor_33H_weapon2proj2.PhysicDesc.SizeX = 0.05
+	Actor_33H_weapon2proj2.PhysicDesc.SizeY = 0.05
+	Actor_33H_weapon2proj2.PhysicDesc.SizeZ = 0.05
+	Actor_33H_weapon2proj2.PhysicDesc.AllowFreeMove = true
+	Actor_33H_weapon2proj2.PhysicDesc.Filename = ""
+	Actor_33H_weapon2proj2:SetPhysicalActorType(3)
+	Actor_33H_weapon2proj2:SetPhysicalShape(4)
+	Actor_33H_weapon2proj2.UsableMode = ""
+	Actor_33H_weapon2proj2.Power = 10
+	Actor_33H_weapon2proj2.UseMana = 0
+	Actor_33H_weapon2proj2.OffsetX = 2.5
+	Actor_33H_weapon2proj2.OffsetY = 2.5
+	Actor_33H_weapon2proj2.OffsetZ = 0
+	Actor_33H_weapon2proj2.ForceX = 0.0005
+	Actor_33H_weapon2proj2.ForceY = -0.0002
+	Actor_33H_weapon2proj2.ForceYOnImpact = 0
+	Actor_33H_weapon2proj2.NbBounce = 1
+	Actor_33H_weapon2proj2.IgnoreGravity = true
+	Actor_33H_weapon2proj2.LifeTime = 4000
+	Actor_33H_weapon2proj2.Comeback = false
+	Actor_33H_weapon2proj2.StartAnimFrame = 4
+	Actor_33H_weapon2proj2.AngleOffset = -4
+	Actor_33H_weapon2proj2.SoundAtStart = ""
+	Actor_33H_weapon2proj2.SoundOnBounce = ""
+	Actor_33H_weapon2proj2.ForceHurt = false
+	Actor_33H_weapon2proj2.MultiShoot = false
+	Actor_33H_weapon2proj2.UseTimer = false
+	Actor_33H_weapon2proj2.Frequency = 1
+	Actor_33H_weapon2proj2.FollowTarget = false
+	Actor_33H:AddProjectileWeapon2(Actor_33H_weapon2proj2)
+	Actor_33H:SetAttackFunction("ActorRotateAttackDistanceAndContactPlayer")
+	Actor_33H:AddGivenItem(1,1,1,0.3,1)
+	Actor_33H:AddGivenItem(2,1,1,0.3,1)
+	Actor_33H:AddGivenItem(8,2,2,0.4,1)
+	Actor_33H:AddGivenItem(3,1,1,0.05,2)
+	environment:AddActorObject(Actor_33H)
+
+	Actor_34 = ActorObjectInfo(34)
+	Actor_34:SetRenderType(3)
+	Actor_34.HitPowerOnTouch = -1
+	Actor_34.ExcludeFromNavMesh = false
+	Actor_34.DisplayDesc.ModelId = 0
+	Actor_34.DisplayDesc.ModelName = "Soldier"
+	Actor_34.DisplayDesc.Outfit = "Grass"
+	Actor_34.DisplayDesc.Weapon = "rifle"
+	Actor_34.DisplayDesc.Mode = "Normal"
+	Actor_34.DisplayDesc.UseLight = true
+	Actor_34.DisplayDesc.CastShadow = true
+	Actor_34.DisplayDesc.ColorR = 1
+	Actor_34.DisplayDesc.ColorG = 1
+	Actor_34.DisplayDesc.ColorB = 1
+	Actor_34.DisplayDesc.ColorA = 1
+	Actor_34.DisplayDesc.TransX = 0
+	Actor_34.DisplayDesc.TransY = 0
+	Actor_34.DisplayDesc.TransZ = 0
+	Actor_34.DisplayDesc.ScaleX = 1
+	Actor_34.DisplayDesc.ScaleY = 1
+	Actor_34.DisplayDesc.ScaleZ = 1
+	Actor_34.DisplayDesc.RotX = 0
+	Actor_34.DisplayDesc.RotY = 0
+	Actor_34.DisplayDesc.RotZ = 0
+	Actor_34:SetModelState(1)
+	Actor_34.DisplayDesc.UseBillboard = false
+	Actor_34.DisplayDesc.ColorMaterialType = 4
+	Actor_34.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_34.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_34.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_34.DisplayDesc.MatAmbientColorA = 1
+	Actor_34.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_34.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_34.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_34.DisplayDesc.MatDiffuseColorA = 1
+	Actor_34.DisplayDesc.MatSpecularColorR = 0
+	Actor_34.DisplayDesc.MatSpecularColorG = 0
+	Actor_34.DisplayDesc.MatSpecularColorB = 0
+	Actor_34.DisplayDesc.MatSpecularColorA = 1
+	Actor_34.DisplayDesc.MatEmissionColorR = 0
+	Actor_34.DisplayDesc.MatEmissionColorG = 0
+	Actor_34.DisplayDesc.MatEmissionColorB = 0
+	Actor_34.DisplayDesc.MatEmissionColorA = 1
+	Actor_34.DisplayDesc.MatShininess = 0
+	Actor_34.PhysicDesc.Pos.X = 54.4
+	Actor_34.PhysicDesc.Pos.Y = 0
+	Actor_34.PhysicDesc.Pos.Z = 34
+	Actor_34.PhysicDesc.Pos.Rotation = 270
+	Actor_34.PhysicDesc.Density = 1
+	Actor_34.PhysicDesc.Collidable = true
+	Actor_34.PhysicDesc.SizeX = 2
+	Actor_34.PhysicDesc.SizeY = 5
+	Actor_34.PhysicDesc.SizeZ = 2
+	Actor_34.PhysicDesc.AllowFreeMove = true
+	Actor_34.PhysicDesc.Filename = ""
+	Actor_34:SetPhysicalActorType(2)
+	Actor_34:SetPhysicalShape(2)
+	Actor_34.ExtraInfo.Name = ""
+	Actor_34.ExtraInfo.NameColorR = 0
+	Actor_34.ExtraInfo.NameColorG = 0
+	Actor_34.ExtraInfo.NameColorB = 0
+	Actor_34.ExtraInfo.Display = false
+	Actor_34.LifeInfo.Display = false
+	Actor_34H = NPCHandler(Actor_34)
+	Actor_34H_dia = DialogPart()
+	Actor_34H_dia:SetResetDialog(false)
+	Actor_34H:SetRootDialog(Actor_34H_dia)
+	Actor_34H:SetNpcName(-1)
+	Actor_34H:SetSimpleDialog(false)
+	Actor_34H:SetAggresive(true)
+	Actor_34H:SetLife(50)
+	Actor_34H:SetMana(0)
+	Actor_34H:SetArmor(0)
+	Actor_34H:SetAttackActiDist(7)
+	Actor_34H:SetAttackActiDistDiscrete(4)
+	Actor_34H:SetAttackActiDistHidden(2)
+	Actor_34H:SetAttackStopDist(10)
+	Actor_34H:SetRespawnTimeInSec(10)
+	Actor_34H:SetWeapon1Type(1)
+	Actor_34H:SetWeapon1Power(10)
+	Actor_34H:SetWeapon1ReachDistance(2)
+	Actor_34H:Setuseweapon1animation("Use1Weapon")
+	Actor_34H:SetWeapon2Type(2)
+	Actor_34H:SetWeapon2Power(0)
+	Actor_34H:SetWeapon2ReachDistance(7)
+	Actor_34H:Setuseweapon2animation("UseWeapon")
+	Actor_34H_weapon2proj0 = ProjectileObjectDef()
+	Actor_34H_weapon2proj0:SetRenderType(2)
+	Actor_34H_weapon2proj0.DisplayDesc.ModelId = 0
+	Actor_34H_weapon2proj0.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite064.png"
+	Actor_34H_weapon2proj0.DisplayDesc.Outfit = ""
+	Actor_34H_weapon2proj0.DisplayDesc.Weapon = ""
+	Actor_34H_weapon2proj0.DisplayDesc.Mode = ""
+	Actor_34H_weapon2proj0.DisplayDesc.UseLight = true
+	Actor_34H_weapon2proj0.DisplayDesc.CastShadow = true
+	Actor_34H_weapon2proj0.DisplayDesc.ColorR = 1
+	Actor_34H_weapon2proj0.DisplayDesc.ColorG = 1
+	Actor_34H_weapon2proj0.DisplayDesc.ColorB = 1
+	Actor_34H_weapon2proj0.DisplayDesc.ColorA = 0.9
+	Actor_34H_weapon2proj0.DisplayDesc.TransX = 0
+	Actor_34H_weapon2proj0.DisplayDesc.TransY = 0
+	Actor_34H_weapon2proj0.DisplayDesc.TransZ = 0
+	Actor_34H_weapon2proj0.DisplayDesc.ScaleX = 0.05
+	Actor_34H_weapon2proj0.DisplayDesc.ScaleY = 0.05
+	Actor_34H_weapon2proj0.DisplayDesc.ScaleZ = 0.05
+	Actor_34H_weapon2proj0.DisplayDesc.RotX = 0
+	Actor_34H_weapon2proj0.DisplayDesc.RotY = 0
+	Actor_34H_weapon2proj0.DisplayDesc.RotZ = 0
+	Actor_34H_weapon2proj0.DisplayDesc.UseBillboard = true
+	Actor_34H_weapon2proj0.PhysicDesc.Pos.X = 0
+	Actor_34H_weapon2proj0.PhysicDesc.Pos.Y = 0
+	Actor_34H_weapon2proj0.PhysicDesc.Pos.Z = 0
+	Actor_34H_weapon2proj0.PhysicDesc.Pos.Rotation = 0
+	Actor_34H_weapon2proj0.PhysicDesc.Density = 1
+	Actor_34H_weapon2proj0.PhysicDesc.Collidable = false
+	Actor_34H_weapon2proj0.PhysicDesc.SizeX = 0.05
+	Actor_34H_weapon2proj0.PhysicDesc.SizeY = 0.05
+	Actor_34H_weapon2proj0.PhysicDesc.SizeZ = 0.05
+	Actor_34H_weapon2proj0.PhysicDesc.AllowFreeMove = true
+	Actor_34H_weapon2proj0.PhysicDesc.Filename = ""
+	Actor_34H_weapon2proj0:SetPhysicalActorType(3)
+	Actor_34H_weapon2proj0:SetPhysicalShape(4)
+	Actor_34H_weapon2proj0.UsableMode = ""
+	Actor_34H_weapon2proj0.Power = 10
+	Actor_34H_weapon2proj0.UseMana = 0
+	Actor_34H_weapon2proj0.OffsetX = 2.5
+	Actor_34H_weapon2proj0.OffsetY = 2.5
+	Actor_34H_weapon2proj0.OffsetZ = 0
+	Actor_34H_weapon2proj0.ForceX = 0.0005
+	Actor_34H_weapon2proj0.ForceY = -0.0002
+	Actor_34H_weapon2proj0.ForceYOnImpact = 0
+	Actor_34H_weapon2proj0.NbBounce = 1
+	Actor_34H_weapon2proj0.IgnoreGravity = true
+	Actor_34H_weapon2proj0.LifeTime = 4000
+	Actor_34H_weapon2proj0.Comeback = false
+	Actor_34H_weapon2proj0.StartAnimFrame = 4
+	Actor_34H_weapon2proj0.AngleOffset = 0
+	Actor_34H_weapon2proj0.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES027.voc.MP3"
+	Actor_34H_weapon2proj0.SoundOnBounce = ""
+	Actor_34H_weapon2proj0.ForceHurt = false
+	Actor_34H_weapon2proj0.MultiShoot = false
+	Actor_34H_weapon2proj0.UseTimer = false
+	Actor_34H_weapon2proj0.Frequency = 1
+	Actor_34H_weapon2proj0.FollowTarget = false
+	Actor_34H:AddProjectileWeapon2(Actor_34H_weapon2proj0)
+	Actor_34H_weapon2proj1 = ProjectileObjectDef()
+	Actor_34H_weapon2proj1:SetRenderType(2)
+	Actor_34H_weapon2proj1.DisplayDesc.ModelId = 0
+	Actor_34H_weapon2proj1.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite064.png"
+	Actor_34H_weapon2proj1.DisplayDesc.Outfit = ""
+	Actor_34H_weapon2proj1.DisplayDesc.Weapon = ""
+	Actor_34H_weapon2proj1.DisplayDesc.Mode = ""
+	Actor_34H_weapon2proj1.DisplayDesc.UseLight = true
+	Actor_34H_weapon2proj1.DisplayDesc.CastShadow = true
+	Actor_34H_weapon2proj1.DisplayDesc.ColorR = 1
+	Actor_34H_weapon2proj1.DisplayDesc.ColorG = 1
+	Actor_34H_weapon2proj1.DisplayDesc.ColorB = 1
+	Actor_34H_weapon2proj1.DisplayDesc.ColorA = 0.9
+	Actor_34H_weapon2proj1.DisplayDesc.TransX = 0
+	Actor_34H_weapon2proj1.DisplayDesc.TransY = 0
+	Actor_34H_weapon2proj1.DisplayDesc.TransZ = 0
+	Actor_34H_weapon2proj1.DisplayDesc.ScaleX = 0.05
+	Actor_34H_weapon2proj1.DisplayDesc.ScaleY = 0.05
+	Actor_34H_weapon2proj1.DisplayDesc.ScaleZ = 0.05
+	Actor_34H_weapon2proj1.DisplayDesc.RotX = 0
+	Actor_34H_weapon2proj1.DisplayDesc.RotY = 0
+	Actor_34H_weapon2proj1.DisplayDesc.RotZ = 0
+	Actor_34H_weapon2proj1.DisplayDesc.UseBillboard = true
+	Actor_34H_weapon2proj1.PhysicDesc.Pos.X = 0
+	Actor_34H_weapon2proj1.PhysicDesc.Pos.Y = 0
+	Actor_34H_weapon2proj1.PhysicDesc.Pos.Z = 0
+	Actor_34H_weapon2proj1.PhysicDesc.Pos.Rotation = 0
+	Actor_34H_weapon2proj1.PhysicDesc.Density = 1
+	Actor_34H_weapon2proj1.PhysicDesc.Collidable = false
+	Actor_34H_weapon2proj1.PhysicDesc.SizeX = 0.05
+	Actor_34H_weapon2proj1.PhysicDesc.SizeY = 0.05
+	Actor_34H_weapon2proj1.PhysicDesc.SizeZ = 0.05
+	Actor_34H_weapon2proj1.PhysicDesc.AllowFreeMove = true
+	Actor_34H_weapon2proj1.PhysicDesc.Filename = ""
+	Actor_34H_weapon2proj1:SetPhysicalActorType(3)
+	Actor_34H_weapon2proj1:SetPhysicalShape(4)
+	Actor_34H_weapon2proj1.UsableMode = ""
+	Actor_34H_weapon2proj1.Power = 10
+	Actor_34H_weapon2proj1.UseMana = 0
+	Actor_34H_weapon2proj1.OffsetX = 2.5
+	Actor_34H_weapon2proj1.OffsetY = 2.5
+	Actor_34H_weapon2proj1.OffsetZ = 0
+	Actor_34H_weapon2proj1.ForceX = 0.0005
+	Actor_34H_weapon2proj1.ForceY = -0.0002
+	Actor_34H_weapon2proj1.ForceYOnImpact = 0
+	Actor_34H_weapon2proj1.NbBounce = 1
+	Actor_34H_weapon2proj1.IgnoreGravity = true
+	Actor_34H_weapon2proj1.LifeTime = 4000
+	Actor_34H_weapon2proj1.Comeback = false
+	Actor_34H_weapon2proj1.StartAnimFrame = 4
+	Actor_34H_weapon2proj1.AngleOffset = 4
+	Actor_34H_weapon2proj1.SoundAtStart = ""
+	Actor_34H_weapon2proj1.SoundOnBounce = ""
+	Actor_34H_weapon2proj1.ForceHurt = false
+	Actor_34H_weapon2proj1.MultiShoot = false
+	Actor_34H_weapon2proj1.UseTimer = false
+	Actor_34H_weapon2proj1.Frequency = 1
+	Actor_34H_weapon2proj1.FollowTarget = false
+	Actor_34H:AddProjectileWeapon2(Actor_34H_weapon2proj1)
+	Actor_34H_weapon2proj2 = ProjectileObjectDef()
+	Actor_34H_weapon2proj2:SetRenderType(2)
+	Actor_34H_weapon2proj2.DisplayDesc.ModelId = 0
+	Actor_34H_weapon2proj2.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite064.png"
+	Actor_34H_weapon2proj2.DisplayDesc.Outfit = ""
+	Actor_34H_weapon2proj2.DisplayDesc.Weapon = ""
+	Actor_34H_weapon2proj2.DisplayDesc.Mode = ""
+	Actor_34H_weapon2proj2.DisplayDesc.UseLight = true
+	Actor_34H_weapon2proj2.DisplayDesc.CastShadow = true
+	Actor_34H_weapon2proj2.DisplayDesc.ColorR = 1
+	Actor_34H_weapon2proj2.DisplayDesc.ColorG = 1
+	Actor_34H_weapon2proj2.DisplayDesc.ColorB = 1
+	Actor_34H_weapon2proj2.DisplayDesc.ColorA = 0.9
+	Actor_34H_weapon2proj2.DisplayDesc.TransX = 0
+	Actor_34H_weapon2proj2.DisplayDesc.TransY = 0
+	Actor_34H_weapon2proj2.DisplayDesc.TransZ = 0
+	Actor_34H_weapon2proj2.DisplayDesc.ScaleX = 0.05
+	Actor_34H_weapon2proj2.DisplayDesc.ScaleY = 0.05
+	Actor_34H_weapon2proj2.DisplayDesc.ScaleZ = 0.05
+	Actor_34H_weapon2proj2.DisplayDesc.RotX = 0
+	Actor_34H_weapon2proj2.DisplayDesc.RotY = 0
+	Actor_34H_weapon2proj2.DisplayDesc.RotZ = 0
+	Actor_34H_weapon2proj2.DisplayDesc.UseBillboard = true
+	Actor_34H_weapon2proj2.PhysicDesc.Pos.X = 0
+	Actor_34H_weapon2proj2.PhysicDesc.Pos.Y = 0
+	Actor_34H_weapon2proj2.PhysicDesc.Pos.Z = 0
+	Actor_34H_weapon2proj2.PhysicDesc.Pos.Rotation = 0
+	Actor_34H_weapon2proj2.PhysicDesc.Density = 1
+	Actor_34H_weapon2proj2.PhysicDesc.Collidable = false
+	Actor_34H_weapon2proj2.PhysicDesc.SizeX = 0.05
+	Actor_34H_weapon2proj2.PhysicDesc.SizeY = 0.05
+	Actor_34H_weapon2proj2.PhysicDesc.SizeZ = 0.05
+	Actor_34H_weapon2proj2.PhysicDesc.AllowFreeMove = true
+	Actor_34H_weapon2proj2.PhysicDesc.Filename = ""
+	Actor_34H_weapon2proj2:SetPhysicalActorType(3)
+	Actor_34H_weapon2proj2:SetPhysicalShape(4)
+	Actor_34H_weapon2proj2.UsableMode = ""
+	Actor_34H_weapon2proj2.Power = 10
+	Actor_34H_weapon2proj2.UseMana = 0
+	Actor_34H_weapon2proj2.OffsetX = 2.5
+	Actor_34H_weapon2proj2.OffsetY = 2.5
+	Actor_34H_weapon2proj2.OffsetZ = 0
+	Actor_34H_weapon2proj2.ForceX = 0.0005
+	Actor_34H_weapon2proj2.ForceY = -0.0002
+	Actor_34H_weapon2proj2.ForceYOnImpact = 0
+	Actor_34H_weapon2proj2.NbBounce = 1
+	Actor_34H_weapon2proj2.IgnoreGravity = true
+	Actor_34H_weapon2proj2.LifeTime = 4000
+	Actor_34H_weapon2proj2.Comeback = false
+	Actor_34H_weapon2proj2.StartAnimFrame = 4
+	Actor_34H_weapon2proj2.AngleOffset = -4
+	Actor_34H_weapon2proj2.SoundAtStart = ""
+	Actor_34H_weapon2proj2.SoundOnBounce = ""
+	Actor_34H_weapon2proj2.ForceHurt = false
+	Actor_34H_weapon2proj2.MultiShoot = false
+	Actor_34H_weapon2proj2.UseTimer = false
+	Actor_34H_weapon2proj2.Frequency = 1
+	Actor_34H_weapon2proj2.FollowTarget = false
+	Actor_34H:AddProjectileWeapon2(Actor_34H_weapon2proj2)
+	Actor_34H:SetAttackFunction("ActorRotateAttackDistanceAndContactPlayer")
+	Actor_34H:AddGivenItem(1,1,1,0.3,1)
+	Actor_34H:AddGivenItem(2,1,1,0.3,1)
+	Actor_34H:AddGivenItem(8,2,2,0.4,1)
+	Actor_34H:AddGivenItem(3,1,1,0.05,2)
+	environment:AddActorObject(Actor_34H)
+
+	Actor_35 = ActorObjectInfo(35)
+	Actor_35:SetRenderType(3)
+	Actor_35.HitPowerOnTouch = -1
+	Actor_35.ExcludeFromNavMesh = false
+	Actor_35.DisplayDesc.ModelId = 0
+	Actor_35.DisplayDesc.ModelName = "GroboClone"
+	Actor_35.DisplayDesc.Outfit = "Yellow"
+	Actor_35.DisplayDesc.Weapon = "No"
+	Actor_35.DisplayDesc.Mode = "Normal"
+	Actor_35.DisplayDesc.UseLight = true
+	Actor_35.DisplayDesc.CastShadow = true
+	Actor_35.DisplayDesc.ColorR = 1
+	Actor_35.DisplayDesc.ColorG = 1
+	Actor_35.DisplayDesc.ColorB = 1
+	Actor_35.DisplayDesc.ColorA = 1
+	Actor_35.DisplayDesc.TransX = 0
+	Actor_35.DisplayDesc.TransY = 0
+	Actor_35.DisplayDesc.TransZ = 0
+	Actor_35.DisplayDesc.ScaleX = 1
+	Actor_35.DisplayDesc.ScaleY = 1
+	Actor_35.DisplayDesc.ScaleZ = 1
+	Actor_35.DisplayDesc.RotX = 0
+	Actor_35.DisplayDesc.RotY = 0
+	Actor_35.DisplayDesc.RotZ = 0
+	Actor_35:SetModelState(1)
+	Actor_35.DisplayDesc.UseBillboard = false
+	Actor_35.DisplayDesc.ColorMaterialType = 4
+	Actor_35.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_35.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_35.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_35.DisplayDesc.MatAmbientColorA = 1
+	Actor_35.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_35.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_35.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_35.DisplayDesc.MatDiffuseColorA = 1
+	Actor_35.DisplayDesc.MatSpecularColorR = 0
+	Actor_35.DisplayDesc.MatSpecularColorG = 0
+	Actor_35.DisplayDesc.MatSpecularColorB = 0
+	Actor_35.DisplayDesc.MatSpecularColorA = 1
+	Actor_35.DisplayDesc.MatEmissionColorR = 0
+	Actor_35.DisplayDesc.MatEmissionColorG = 0
+	Actor_35.DisplayDesc.MatEmissionColorB = 0
+	Actor_35.DisplayDesc.MatEmissionColorA = 1
+	Actor_35.DisplayDesc.MatShininess = 0
+	Actor_35.PhysicDesc.Pos.X = 4.5
+	Actor_35.PhysicDesc.Pos.Y = 5
+	Actor_35.PhysicDesc.Pos.Z = 56.5
+	Actor_35.PhysicDesc.Pos.Rotation = 180
+	Actor_35.PhysicDesc.Density = 1
+	Actor_35.PhysicDesc.Collidable = true
+	Actor_35.PhysicDesc.SizeX = 1.5
+	Actor_35.PhysicDesc.SizeY = 5
+	Actor_35.PhysicDesc.SizeZ = 1.5
+	Actor_35.PhysicDesc.AllowFreeMove = true
+	Actor_35.PhysicDesc.Filename = ""
+	Actor_35:SetPhysicalActorType(2)
+	Actor_35:SetPhysicalShape(2)
+	Actor_35.ExtraInfo.Name = ""
+	Actor_35.ExtraInfo.NameColorR = 0
+	Actor_35.ExtraInfo.NameColorG = 0
+	Actor_35.ExtraInfo.NameColorB = 0
+	Actor_35.ExtraInfo.Display = false
+	Actor_35.LifeInfo.Display = false
+	Actor_35H = NPCHandler(Actor_35)
+	Actor_35H_dia = DialogPart()
+	Actor_35H_dia:SetResetDialog(false)
+	Actor_35H_dia_c0 = DialogPart()
+	Actor_35H_dia_c0:SetResetDialog(false)
+	Actor_35H_dia_c0:AddText(0)
+	Actor_35H_dia_c0_c0 = DialogPart()
+	Actor_35H_dia_c0_c0:SetResetDialog(false)
+	Actor_35H_dia_c0_c0:AddText(52)
+	Actor_35H_dia_c0:AddChild(Actor_35H_dia_c0_c0)
+	Actor_35H_dia:AddChild(Actor_35H_dia_c0)
+	Actor_35H:SetRootDialog(Actor_35H_dia)
+	Actor_35H:SetNpcName(-1)
+	Actor_35H:SetSimpleDialog(false)
+	Actor_35H:SetAggresive(true)
+	Actor_35H:SetLife(50)
+	Actor_35H:SetMana(50)
+	Actor_35H:SetArmor(0)
+	Actor_35H:SetAttackActiDist(6)
+	Actor_35H:SetAttackActiDistDiscrete(4)
+	Actor_35H:SetAttackActiDistHidden(2)
+	Actor_35H:SetAttackStopDist(16)
+	Actor_35H:SetRespawnTimeInSec(10)
+	Actor_35H:SetWeapon1Type(1)
+	Actor_35H:SetWeapon1Power(10)
+	Actor_35H:SetWeapon1ReachDistance(2)
+	Actor_35H:Setuseweapon1animation("Use1Weapon")
+	Actor_35H:SetWeapon2Type(2)
+	Actor_35H:SetWeapon2Power(0)
+	Actor_35H:SetWeapon2ReachDistance(1)
+	Actor_35H:Setuseweapon2animation("UseWeapon")
+	Actor_35H:SetAttackFunction("ActorAttackContactPlayer")
+	Actor_35H:Setchasinganimation("Run")
+	Actor_35H:AddGivenItem(1,1,1,0.3,1)
+	Actor_35H:AddGivenItem(2,1,1,0.3,1)
+	Actor_35H:AddGivenItem(8,2,2,0.4,1)
+	Actor_35H:AddGivenItem(3,1,1,0.05,2)
+	environment:AddActorObject(Actor_35H)
+
 	Trigger_1_info = TriggerInfo(1, "exit0", true, false, false)
 	Trigger_1 = ZoneTrigger(Trigger_1_info, 10, 4, 1, true)
 	Trigger_1:SetPosition(32, 15, 0.5)
 	Trigger_1:SetStayUpdateFrequency(-1)
+	Trigger_1:SetActivateOnJump(true)
 	Trigger_1_act1 = TeleportAction()
 	Trigger_1_act1:SetMapName("Map001_1")
 	Trigger_1_act1:SetSpawning(3)
@@ -1092,6 +2139,7 @@ function InitMap(environment)
 	Trigger_2 = ZoneTrigger(Trigger_2_info, 3, 4, 1, true)
 	Trigger_2:SetPosition(2.5, 5, 63.5)
 	Trigger_2:SetStayUpdateFrequency(-1)
+	Trigger_2:SetActivateOnJump(true)
 	Trigger_2_act1 = TeleportAction()
 	Trigger_2_act1:SetMapName("Map002_1")
 	Trigger_2_act1:SetSpawning(1)
@@ -1102,6 +2150,7 @@ function InitMap(environment)
 	Trigger_3 = ZoneTrigger(Trigger_3_info, 11, 5.5, 1, true)
 	Trigger_3:SetPosition(19.5, 0, 63.5)
 	Trigger_3:SetStayUpdateFrequency(-1)
+	Trigger_3:SetActivateOnJump(true)
 	Trigger_3_act1 = TeleportAction()
 	Trigger_3_act1:SetMapName("Map002_1")
 	Trigger_3_act1:SetSpawning(4)
@@ -1112,6 +2161,7 @@ function InitMap(environment)
 	Trigger_4 = ZoneTrigger(Trigger_4_info, 8, 5.5, 1, true)
 	Trigger_4:SetPosition(51, 0, 63.5)
 	Trigger_4:SetStayUpdateFrequency(-1)
+	Trigger_4:SetActivateOnJump(true)
 	Trigger_4_act1 = TeleportAction()
 	Trigger_4_act1:SetMapName("Map002_1")
 	Trigger_4_act1:SetSpawning(5)
@@ -1122,6 +2172,7 @@ function InitMap(environment)
 	Trigger_5 = ZoneTrigger(Trigger_5_info, 1, 4, 3, true)
 	Trigger_5:SetPosition(15.5, 0, 41.5)
 	Trigger_5:SetStayUpdateFrequency(-1)
+	Trigger_5:SetActivateOnJump(true)
 	Trigger_5_act1 = TeleportAction()
 	Trigger_5_act1:SetMapName("Map007_1")
 	Trigger_5_act1:SetSpawning(1)
@@ -1132,6 +2183,7 @@ function InitMap(environment)
 	Trigger_6 = ZoneTrigger(Trigger_6_info, 2, 5, 2, true)
 	Trigger_6:SetPosition(20, 0, 50)
 	Trigger_6:SetStayUpdateFrequency(-1)
+	Trigger_6:SetActivateOnJump(true)
 	Trigger_6_act1 = TeleportAction()
 	Trigger_6_act1:SetMapName("Map099_1")
 	Trigger_6_act1:SetSpawning(2)
@@ -1142,6 +2194,7 @@ function InitMap(environment)
 	Trigger_7 = ZoneTrigger(Trigger_7_info, 3, 2.5, 3, true)
 	Trigger_7:SetPosition(37.5, 8, 7.5)
 	Trigger_7:SetStayUpdateFrequency(-1)
+	Trigger_7:SetActivateOnJump(true)
 	Trigger_7_act1 = TeleportAction()
 	Trigger_7_act1:SetMapName("Map034_1")
 	Trigger_7_act1:SetSpawning(2)
@@ -1284,6 +2337,7 @@ function InitMap(environment)
 	Trigger_19 = ZoneTrigger(Trigger_19_info, 0, 0, 0, false)
 	Trigger_19:SetPosition(10.5, 7, 11.4)
 	Trigger_19:SetStayUpdateFrequency(-1)
+	Trigger_19:SetActivateOnJump(true)
 	Trigger_19_act1 = OpenDoorAction()
 	Trigger_19_act1:SetActorId(12)
 	Trigger_19:SetAction1(Trigger_19_act1)
@@ -1296,6 +2350,7 @@ function InitMap(environment)
 	Trigger_20 = ZoneTrigger(Trigger_20_info, 0, 0, 0, false)
 	Trigger_20:SetPosition(18.5, 0, 28.5)
 	Trigger_20:SetStayUpdateFrequency(-1)
+	Trigger_20:SetActivateOnJump(true)
 	Trigger_20_act1 = OpenDoorAction()
 	Trigger_20_act1:SetActorId(13)
 	Trigger_20:SetAction1(Trigger_20_act1)
@@ -1308,6 +2363,7 @@ function InitMap(environment)
 	Trigger_21 = ZoneTrigger(Trigger_21_info, 4, 8, 4, false)
 	Trigger_21:SetPosition(15.5, 0, 41.5)
 	Trigger_21:SetStayUpdateFrequency(-1)
+	Trigger_21:SetActivateOnJump(true)
 	Trigger_21_act1 = OpenDoorAction()
 	Trigger_21_act1:SetActorId(14)
 	Trigger_21:SetAction1(Trigger_21_act1)
@@ -1320,6 +2376,7 @@ function InitMap(environment)
 	Trigger_22 = ZoneTrigger(Trigger_22_info, 4.4, 5, 5, false)
 	Trigger_22:SetPosition(2.5, 5, 63.5)
 	Trigger_22:SetStayUpdateFrequency(-1)
+	Trigger_22:SetActivateOnJump(true)
 	Trigger_22_act1 = OpenDoorAction()
 	Trigger_22_act1:SetActorId(15)
 	Trigger_22:SetAction1(Trigger_22_act1)
