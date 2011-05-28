@@ -323,7 +323,7 @@ function ActorRotateAttackDistancePlayer(ScriptId, ActorId, Environment)
 			Environment:RotateToTargettedPlayer(ScriptId, ActorId, 1.9, 0.2)	
 		else		
 			-- attack player contact
-			Environment:StartUseWeapon(ScriptId, ActorId, 1)
+			Environment:StartUseWeapon(ScriptId, ActorId, 2)
 
 		end
 	
