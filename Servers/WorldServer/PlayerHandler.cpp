@@ -8,6 +8,8 @@
 #include "QuestHandler.h"
 #include "Quest.h"
 
+#include <math.h>
+
 #define	_CUSTOM_OFFSET_	10000000
 
 
