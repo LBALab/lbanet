@@ -127,7 +127,6 @@ bool FileUtil::ListDirsInDir(const std::string &Path, std::vector<std::string> &
 	return true;
 }
 
-#endif
 
 /***********************************************************
 copy file
@@ -155,3 +154,5 @@ bool FileUtil::CreateNewDirectory(const std::string &Path)
 
 	return true;
 }
+
+#endif
