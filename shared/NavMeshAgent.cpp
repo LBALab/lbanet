@@ -4,7 +4,7 @@
 #include "DetourNavMeshQuery.h"
 #include "CommonTypes.h"
 
-#include <Math.h>
+#include <math.h>
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -204,7 +204,7 @@ bool NavMeshAgent::GetAngle(float &angle)
 			return true;
 		}
 	}
-	
+
 	return false;
 }
 
@@ -213,7 +213,7 @@ bool NavMeshAgent::GetAngle(float &angle)
 return current velocity
 ***********************************************************/
 LbaVec3 NavMeshAgent::GetVelocity()
-{	
+{
 	if(m_crowdmanager)
 	{
 		const dtCrowdAgent* agent = m_crowdmanager->getAgent(m_crowdagentid);
