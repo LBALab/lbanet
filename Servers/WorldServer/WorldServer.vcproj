@@ -373,7 +373,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\NavMeshAgent.cpp"
+				RelativePath="..\..\shared\NavMeshAgent.cpp"
 				>
 			</File>
 			<File

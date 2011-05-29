@@ -91,7 +91,7 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 			bool destroyfinishedproj = false;
 
 			boost::shared_ptr<DynamicObject> ownerdyn = 
-				_lbanetmodelH->GetActor(_projInfo.OwnerActorType,  _projInfo.OwnerActorId);
+				_lbanetmodelH->GetActor(_projInfo.OwnerActorType,  (long)_projInfo.OwnerActorId);
 			if(ownerdyn)
 			{
 				boost::shared_ptr<PhysicalObjectHandlerBase> ownerphysobj = ownerdyn->GetPhysicalObject();
@@ -178,7 +178,7 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 
 			
 				boost::shared_ptr<DynamicObject> targetdyn = 
-					_lbanetmodelH->GetActor(_projInfo.FollowTargetType, _projInfo.FollowTargetId);
+					_lbanetmodelH->GetActor(_projInfo.FollowTargetType, (long)_projInfo.FollowTargetId);
 				if(targetdyn)
 				{
 					float targetposX = -10, targetposY = -10, targetposZ = -10;		
@@ -226,7 +226,7 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 						//hitted target - destroy and inform hit
 						destroy = true;
 						touchedactortype = _projInfo.FollowTargetType;
-						touchedactorid = _projInfo.FollowTargetId;
+						touchedactorid = (long)_projInfo.FollowTargetId;
 					}
 				}
 				else
@@ -370,7 +370,7 @@ void ProjectileHandler::Launch()
 		return;
 
 	boost::shared_ptr<DynamicObject> ownerdyn = 
-		_lbanetmodelH->GetActor(_projInfo.OwnerActorType,  _projInfo.OwnerActorId);
+		_lbanetmodelH->GetActor(_projInfo.OwnerActorType,  (long)_projInfo.OwnerActorId);
 	if(!ownerdyn)
 		return;
 
@@ -456,7 +456,7 @@ void ProjectileHandler::Clear()
 	_destroy = true;
 
 	boost::shared_ptr<DynamicObject> ownerdyn = 
-		_lbanetmodelH->GetActor(_projInfo.OwnerActorType,  _projInfo.OwnerActorId);
+		_lbanetmodelH->GetActor(_projInfo.OwnerActorType,  (long)_projInfo.OwnerActorId);
 
 	// stop owner to spawn projectiles
 	if(_projInfo.StartAnimFrame > 0 && ownerdyn)
@@ -492,7 +492,7 @@ void ProjectileHandler::Destroy()
 
 
 		boost::shared_ptr<DynamicObject> ownerdyn = 
-			_lbanetmodelH->GetActor(_projInfo.OwnerActorType,  _projInfo.OwnerActorId);
+			_lbanetmodelH->GetActor(_projInfo.OwnerActorType,  (long)_projInfo.OwnerActorId);
 
 		// stop owner to spawn projectiles
 		if(_projInfo.StartAnimFrame > 0 && ownerdyn)

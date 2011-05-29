@@ -1,8 +1,8 @@
 #
 # Please replace the ip address by the one of the server 
 #
-Ice.Default.Router=LBANetGlacier2/router:tcp -p 4063 -h viviendelage.dyndns.org
-LbaNetClient.Router=LBANetGlacier2/router:tcp -p 4063 -h viviendelage.dyndns.org
+Ice.Default.Router=LBANetGlacier2/router:tcp -p 4063 -h 88.191.15.204
+LbaNetClient.Router=LBANetGlacier2/router:tcp -p 4063 -h 88.191.15.204
 
 
 #

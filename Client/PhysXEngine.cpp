@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Stream.h"
 #include "PhysXErrorStream.h"
 #include "CommonTypes.h"
-#include "DataLoader.h"
+#include "TriangleMeshInfo.h"
 
 #include <limits>
 #include <fstream>

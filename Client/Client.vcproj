@@ -528,7 +528,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Servers\WorldServer\NavMeshAgent.cpp"
+				RelativePath="..\shared\NavMeshAgent.cpp"
 				>
 			</File>
 			<File
