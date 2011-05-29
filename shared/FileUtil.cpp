@@ -26,31 +26,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "FileUtil.h"
 
 
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem/operations.hpp>
-
-
 //work around different boost version
 #ifndef WIN32
+
+#include <sys/stat.h>
 
 /***********************************************************
 check if file/directory exits
 ***********************************************************/
 bool FileUtil::FileExist(const std::string &Filename, bool Directory)
 {
-	boost::filesystem::path full_path( boost::filesystem::system_complete( Filename ) );
-	if ( !boost::filesystem::exists( full_path ) )
-		return false;
-
-	if(Directory)
-		return ( boost::filesystem::is_directory( full_path ) );
-	else
-		return ( boost::filesystem::is_regular( full_path ) );
-
+	struct stat st;
+	return (stat(Filename.c_str(),&st) == 0);
 }
 
 
 #else
+
+#include <boost/filesystem/path.hpp>
+#include <boost/filesystem/operations.hpp>
 
 
 /***********************************************************

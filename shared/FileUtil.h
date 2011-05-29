@@ -39,6 +39,7 @@ public:
 	// check if file/directory exits
 	static  bool FileExist(const std::string &Filename, bool Directory);
 
+#ifndef WIN32
 	// list files in directory
 	static  bool ListFilesInDir(const std::string &Path, std::vector<std::string> &filelist,
 									std::string filename = "");
@@ -52,6 +53,8 @@ public:
 
 	// create directory
 	static bool CreateNewDirectory(const std::string &Path);
+#endif
+
 };
 
 
