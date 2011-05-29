@@ -28,7 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
-namespace fs = boost::filesystem;
 
 
 
@@ -37,15 +36,15 @@ check if file/directory exits
 ***********************************************************/
 bool FileUtil::FileExist(const std::string &Filename, bool Directory)
 {
-	fs::path full_path( fs::system_complete( Filename ) );
-	if ( !fs::exists( full_path ) )
+	boost::filesystem::path full_path( boost::filesystem::system_complete( Filename ) );
+	if ( !boost::filesystem::exists( full_path ) )
 		return false;
 
 	if(Directory)
-		return ( fs::is_directory( full_path ) );
+		return ( boost::filesystem::is_directory( full_path ) );
 	else
-		return ( fs::is_regular_file( full_path ) );
-		
+		return ( boost::filesystem::is_regular_file( full_path ) );
+
 }
 
 
@@ -56,16 +55,16 @@ bool FileUtil::ListFilesInDir(const std::string &Path, std::vector<std::string> 
 									std::string filename)
 {
 	{
-		fs::path full_path( fs::system_complete( Path ) );
-		if ( !fs::exists( full_path ) )
+		boost::filesystem::path full_path( boost::filesystem::system_complete( Path ) );
+		if ( !boost::filesystem::exists( full_path ) )
 			return false;
 
-		if ( fs::is_directory( full_path ) )
+		if ( boost::filesystem::is_directory( full_path ) )
 		{
-			fs::directory_iterator end_iter;
-			for ( fs::directory_iterator dir_itr( full_path ); dir_itr != end_iter;	++dir_itr )
+			boost::filesystem::directory_iterator end_iter;
+			for ( boost::filesystem::directory_iterator dir_itr( full_path ); dir_itr != end_iter;	++dir_itr )
 			{
-				if ( fs::is_regular_file( dir_itr->status() ) )
+				if ( boost::filesystem::is_regular_file( dir_itr->status() ) )
 				{
 					if(filename == "" || (dir_itr->path().stem() == filename))
 						filelist.push_back(dir_itr->path().filename());
@@ -85,18 +84,18 @@ list dirs in directory
 bool FileUtil::ListDirsInDir(const std::string &Path, std::vector<std::string> &filelist,
 								std::string addfilename)
 {
-	fs::path full_path( fs::system_complete( Path ) );
+	boost::filesystem::path full_path( boost::filesystem::system_complete( Path ) );
 
-	if ( !fs::exists( full_path ) )
+	if ( !boost::filesystem::exists( full_path ) )
 		return false;
 
 
-	if ( fs::is_directory( full_path ) )
+	if ( boost::filesystem::is_directory( full_path ) )
 	{
-		fs::directory_iterator end_iter;
-		for ( fs::directory_iterator dir_itr( full_path ); dir_itr != end_iter;	++dir_itr )
+		boost::filesystem::directory_iterator end_iter;
+		for ( boost::filesystem::directory_iterator dir_itr( full_path ); dir_itr != end_iter;	++dir_itr )
 		{
-			if ( fs::is_directory( dir_itr->status() ) )
+			if ( boost::filesystem::is_directory( dir_itr->status() ) )
 			{
 				filelist.push_back(dir_itr->path().string() + addfilename);
 			}
@@ -122,7 +121,7 @@ create directory
 ***********************************************************/
 bool FileUtil::CreateNewDirectory(const std::string &Path)
 {
-	try	
+	try
 	{
 		boost::filesystem::create_directory( Path );
 	}
