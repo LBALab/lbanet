@@ -39,7 +39,7 @@ public:
 	/***********************************************************
 	constructor
 	***********************************************************/
-	TriangleMeshInfo::TriangleMeshInfo(const std::string & filename, bool deletematerial)
+	TriangleMeshInfo(const std::string & filename, bool deletematerial)
 	: _deletematerial(deletematerial), _sizevertex(0), _sizeindices(0), _sizematerials(0)
 	{
 		_buffervertex = NULL;
@@ -70,7 +70,7 @@ public:
 	/***********************************************************
 	destructor
 	***********************************************************/
-	TriangleMeshInfo::~TriangleMeshInfo()
+	~TriangleMeshInfo()
 	{
 		if(_buffervertex)
 			delete[] _buffervertex;
