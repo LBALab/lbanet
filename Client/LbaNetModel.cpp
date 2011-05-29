@@ -704,7 +704,7 @@ ObjectInfo LbaNetModel::CreateObject(int OType, Ice::Long ObjectId,
 			tr->rotation = LbaQuaternion(DisplayDesc.RotX, DisplayDesc.RotY, DisplayDesc.RotZ);
 
 			tr->scaleX = DisplayDesc.ScaleX;
-			tr->scaleY = 2;
+			tr->scaleY = 1;
 			tr->scaleZ = DisplayDesc.ScaleZ;
 
 			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));

@@ -2698,12 +2698,12 @@ void MapHandler::PlayerHittedContact(long PlayerId, bool WithWeapon, int	Touched
 		{
 			std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ita = _Actors.find(TouchedActorId);
 			if(ita != _Actors.end())
-				ita->second->HurtLife(-power, true, 4, PlayerId, false);
+				ita->second->HurtLife(-power, true, 2, PlayerId, false);
 		}
 
 		if(TouchedActorType == 2)
 		{
-			ProjectileHitPlayer(4, PlayerId, TouchedActorId, power, false);
+			ProjectileHitPlayer(2, PlayerId, TouchedActorId, power, false);
 		}
 	}
 }
