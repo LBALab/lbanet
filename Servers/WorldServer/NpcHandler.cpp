@@ -468,9 +468,9 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 			if(physo)
 			{
 				if((rotdiff > 0 && rotdiff < 180) || (rotdiff < -180))
-					physo->RotateYAxis(std::min((m_rotationtargetspeed*tdiff), (fabs(rotdiff))));	
+					physo->RotateYAxis(std::min((m_rotationtargetspeed*tdiff), (float)(fabs(rotdiff))));	
 				else
-					physo->RotateYAxis(std::max((-m_rotationtargetspeed*tdiff), (-fabs(rotdiff))));
+					physo->RotateYAxis(std::max((-m_rotationtargetspeed*tdiff), (float)(-fabs(rotdiff))));
 			}
 		}
 	}
@@ -621,9 +621,9 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 			{
 				//rotate to direction
 				if((rdiff > 0 && rdiff < 180) || (rdiff < -180))
-					physo->RotateYAxis(std::min((0.1f*tdiff), (fabs(rdiff))));	
+					physo->RotateYAxis(std::min((0.1f*tdiff), (float)(fabs(rdiff))));	
 				else
-					physo->RotateYAxis(std::max((-0.1f*tdiff), (-fabs(rdiff))));
+					physo->RotateYAxis(std::max((-0.1f*tdiff), (float)(-fabs(rdiff))));
 			}
 		}
 	}
