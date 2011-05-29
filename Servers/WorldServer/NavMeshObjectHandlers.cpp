@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "LogHandler.h"
 #include "NavMeshAgent.h"
 
-#include <Math.h>
+#include <math.h>
 
 
 /***********************************************************
@@ -73,7 +73,7 @@ void NavMeshObjectHandler::Move(float deltaX, float deltaY, float deltaZ, bool c
 
 	if(_agent) // crowd manager is multiplying by time already so we nend to remove the time factor
 		_agent->UpdateSpeed(deltaX/_lasttdiff, deltaY/_lasttdiff, deltaZ/_lasttdiff);
-	
+
 }
 
 /***********************************************************
