@@ -1969,7 +1969,7 @@ check if script is attack script
 ***********************************************************/
 bool NPCHandler::IsAttacking() 
 {
-	return (m_launchedattackscript > 0);
+	return (m_launchedattackscript > 0) || (_agentstatenum == 5);
 }
 
 
