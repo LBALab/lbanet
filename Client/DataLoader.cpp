@@ -35,52 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Localizer.h"
 #endif
 
-/***********************************************************
-constructor
-***********************************************************/
-TriangleMeshInfo::TriangleMeshInfo(const std::string & filename, bool deletematerial)
-: _deletematerial(deletematerial), _sizevertex(0), _sizeindices(0), _sizematerials(0)
-{
-	_buffervertex = NULL;
-	_bufferindices = NULL;
-	_buffermaterials = NULL;
 
-	// load data from binary file and set it into a triangle mesh
-	std::ifstream file(filename.c_str(), std::ifstream::binary);
-	if(!file.is_open())
-		return;
-
-	file.read((char*)&_sizevertex, sizeof(unsigned int));
-	file.read((char*)&_sizeindices, sizeof(unsigned int));
-	file.read((char*)&_sizematerials, sizeof(unsigned int));
-
-	_buffervertex = new float[_sizevertex];
-	_bufferindices = new unsigned int[_sizeindices];
-	file.read((char*)_buffervertex, _sizevertex*sizeof(float));
-	file.read((char*)_bufferindices, _sizeindices*sizeof(unsigned int));
-
-	if(_sizematerials > 0)
-	{
-		_buffermaterials = new short[_sizematerials];
-		file.read((char*)_buffermaterials, _sizematerials*sizeof(short));
-	}
-}
-
-/***********************************************************
-destructor
-***********************************************************/
-TriangleMeshInfo::~TriangleMeshInfo()
-{
-	if(_buffervertex)
-		delete[] _buffervertex;
-
-	if(_bufferindices)
-		delete[] _bufferindices;
-
-	if(_deletematerial && _buffermaterials)
-		delete[] _buffermaterials;
-
-}
 
 
 
