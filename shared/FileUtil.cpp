@@ -30,6 +30,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <boost/filesystem/operations.hpp>
 
 
+//work around different boost version
+#ifndef WIN32
+
+/***********************************************************
+check if file/directory exits
+***********************************************************/
+bool FileUtil::FileExist(const std::string &Filename, bool Directory)
+{
+	boost::filesystem::path full_path( boost::filesystem::system_complete( Filename ) );
+	if ( !boost::filesystem::exists( full_path ) )
+		return false;
+
+	if(Directory)
+		return ( boost::filesystem::is_directory( full_path ) );
+	else
+		return ( boost::filesystem::is_regular( full_path ) );
+
+}
+
+
+#else
+
 
 /***********************************************************
 check if file/directory exits
@@ -105,6 +127,7 @@ bool FileUtil::ListDirsInDir(const std::string &Path, std::vector<std::string> &
 	return true;
 }
 
+#endif
 
 /***********************************************************
 copy file
