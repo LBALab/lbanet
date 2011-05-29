@@ -41,31 +41,6 @@ namespace LbaNet
 
 
 
-/***********************************************************************
- * TriangleMeshInfo
- ***********************************************************************/
-class TriangleMeshInfo
-{
-public:
-
-	//constructor
-	TriangleMeshInfo(const std::string & filename, bool deletematerial);
-
-	//destructor
-	~TriangleMeshInfo();
-
-	unsigned int	_sizevertex;
-	unsigned int	_sizeindices;
-	unsigned int	_sizematerials;
-
-	float *			_buffervertex;
-	unsigned int *	_bufferindices;
-	short *			_buffermaterials;
-
-protected:
-	bool			_deletematerial;
-};
-
 
 
 /***********************************************************************
