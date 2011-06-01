@@ -268,7 +268,8 @@ function ActorAttackContactPlayer(ScriptId, ActorId, Environment)
 			end
 		end
 	
-	
+
+		Environment:WaitOneCycle(ScriptId)
 		TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
 	end
 end
@@ -301,7 +302,8 @@ function ActorFollowAttackDistancePlayer(ScriptId, ActorId, Environment)
 			end
 		end
 	
-	
+
+		Environment:WaitOneCycle(ScriptId)
 		TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
 	end
 end
@@ -326,7 +328,8 @@ function ActorRotateAttackDistancePlayer(ScriptId, ActorId, Environment)
 			Environment:StartUseWeapon(ScriptId, ActorId, 2)
 
 		end
-	
+
+		Environment:WaitOneCycle(ScriptId)
 		TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
 	end
 end
@@ -360,7 +363,7 @@ function ActorRotateAttackDistanceAndContactPlayer(ScriptId, ActorId, Environmen
 		end
 
 	
-	
+		Environment:WaitOneCycle(ScriptId)
 		TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
 	end
 end
