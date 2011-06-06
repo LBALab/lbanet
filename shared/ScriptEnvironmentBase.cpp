@@ -73,6 +73,7 @@ void ScriptEnvironmentBase::ScriptFinished(int scriptid, bool wasasynchronus)
 	}
 	else
 	{
+		IceUtil::Mutex::Lock sync(m_mutex);
 		m_asyncscripts[scriptid] = true;
 	}
 }
@@ -84,6 +85,7 @@ wait until script part is finished
 ***********************************************************/
 void ScriptEnvironmentBase::WaitForAsyncScript(int ScriptId, int ScriptPartId)
 {
+	IceUtil::Mutex::Lock sync(m_mutex);
 	m_waitingscripts[ScriptPartId] = ScriptId;
 }
 
@@ -93,6 +95,8 @@ check for finished asynchronus scripts
 ***********************************************************/
 void ScriptEnvironmentBase::CheckFinishedAsynScripts()
 {
+	IceUtil::Mutex::Lock sync(m_mutex);
+
 	// check waiting scripts
 	{
 		std::map<int, bool>::iterator itmap = m_waitingscripts.begin();
@@ -145,14 +149,25 @@ void ScriptEnvironmentBase::CheckFinishedAsynScripts()
 
 
 /***********************************************************
+generate script id
+***********************************************************/
+int ScriptEnvironmentBase::GenerateScriptId()
+{
+	IceUtil::Mutex::Lock sync(m_mutex);
+	return m_generatednumber++;
+}
+
+
+/***********************************************************
 asynchronus version of ActorStraightWalkTo
 ***********************************************************/
 int ScriptEnvironmentBase::Async_ActorStraightWalkTo(long ActorId, const LbaVec3 &Position)
 {
-	int genid = m_generatednumber++;
+	int genid = GenerateScriptId();
 
 	InternalActorStraightWalkTo(genid, ActorId, Position, true);
 
+	IceUtil::Mutex::Lock sync(m_mutex);
 	m_asyncscripts[genid] = false;
 	return genid;
 }
@@ -163,10 +178,11 @@ asynchronus version of ActorRotate
 int ScriptEnvironmentBase::Async_ActorRotate(long ActorId, float Angle, float RotationSpeedPerSec,
 													bool ManageAnimation)
 {
-	int genid = m_generatednumber++;
+	int genid = GenerateScriptId();
 
 	InternalActorRotate(genid, ActorId, Angle, RotationSpeedPerSec, ManageAnimation, true);
 
+	IceUtil::Mutex::Lock sync(m_mutex);
 	m_asyncscripts[genid] = false;
 	return genid;
 }
@@ -176,10 +192,11 @@ asynchronus version of ActorAnimate
 ***********************************************************/
 int ScriptEnvironmentBase::Async_ActorAnimate(long ActorId, bool AnimationMove)
 {
-	int genid = m_generatednumber++;
+	int genid = GenerateScriptId();
 
 	InternalActorAnimate(genid, ActorId, AnimationMove, true);
 
+	IceUtil::Mutex::Lock sync(m_mutex);
 	m_asyncscripts[genid] = false;
 	return genid;
 }
@@ -190,10 +207,11 @@ asynchronus version of ActorGoTo
 ***********************************************************/
 int ScriptEnvironmentBase::Async_ActorGoTo(long ActorId, const LbaVec3 &Position, float Speed)
 {
-	int genid = m_generatednumber++;
+	int genid = GenerateScriptId();
 
 	InternalActorGoTo(genid, ActorId, Position, Speed, true);
 
+	IceUtil::Mutex::Lock sync(m_mutex);
 	m_asyncscripts[genid] = false;
 	return genid;
 }
@@ -203,10 +221,11 @@ asynchronus version of WaitForSignal
 ***********************************************************/
 int ScriptEnvironmentBase::Async_WaitForSignal(long ActorId, int Signalnumber)
 {
-	int genid = m_generatednumber++;
+	int genid = GenerateScriptId();
 
 	InternalActorWaitForSignal(genid, ActorId, Signalnumber, true);
 
+	IceUtil::Mutex::Lock sync(m_mutex);
 	m_asyncscripts[genid] = false;
 	return genid;
 }
@@ -218,10 +237,11 @@ asynchronus version of WaitForSignal
 int ScriptEnvironmentBase::Async_ActorRotateFromPoint(long ActorId, float Angle, const LbaVec3 &Position,
 									float RotationSpeedPerSec)
 {
-	int genid = m_generatednumber++;
+	int genid = GenerateScriptId();
 
 	InternalActorRotateFromPoint(genid, ActorId, Angle, Position, RotationSpeedPerSec, true);
 
+	IceUtil::Mutex::Lock sync(m_mutex);
 	m_asyncscripts[genid] = false;
 	return genid;
 }
@@ -232,10 +252,11 @@ asynchronus version of WaitForSignal
 int ScriptEnvironmentBase::Async_ActorFollowWaypoint(long ActorId,
 												int waypointindex1, int waypointindex2)
 {
-	int genid = m_generatednumber++;
+	int genid = GenerateScriptId();
 
 	InternalActorFollowWaypoint(genid, ActorId, waypointindex1, waypointindex2, true);
 
+	IceUtil::Mutex::Lock sync(m_mutex);
 	m_asyncscripts[genid] = false;
 	return genid;
 }
@@ -247,6 +268,7 @@ make a lua script sleep for one cycle
 ***********************************************************/
 void ScriptEnvironmentBase::WaitOneCycle(int scriptid)
 {
+	IceUtil::Mutex::Lock sync(m_mutex);
 	m_sleepingscripts[scriptid] = 0;
 }
 

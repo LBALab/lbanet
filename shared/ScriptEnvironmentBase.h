@@ -124,98 +124,6 @@ public:
 	virtual void OpenContainer(long clientid, boost::shared_ptr<ContainerSharedInfo> sharedinfo) = 0;
 
 
-	//! used by lua to get an actor Position
-	virtual LbaVec3 GetActorPosition(int ScriptId, long ActorId) = 0;
-
-	//! used by lua to get an actor Rotation
-	virtual float GetActorRotation(int ScriptId, long ActorId) = 0;
-
-	//! used by lua to get an actor Rotation
-	virtual LbaQuaternion GetActorRotationQuat(int ScriptId, long ActorId) = 0;
-
-	//! used by lua to update an actor animation
-	virtual void UpdateActorAnimation(int ScriptId, long ActorId, const std::string & AnimationString) = 0;
-
-	//! used by lua to update an actor mode
-	virtual void UpdateActorMode(int ScriptId, long ActorId, const std::string & Mode) = 0;
-
-
-	//! used by lua to move an actor or player
-	//! the actor will move using animation speed
-	void ActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position);
-
-	//! used by lua to rotate an actor
-	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
-	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
-	//! if ManageAnimation is true then the animation will be changed to suit the rotation
-	void ActorRotate(int ScriptId, long ActorId, float Angle, float RotationSpeedPerSec,
-									bool ManageAnimation);
-
-	//! used by lua to wait until an actor animation is finished
-	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
-	void ActorAnimate(int ScriptId, long ActorId, bool AnimationMove);
-
-	//! used by lua to tell that the actor should be reserved for the script
-	virtual void ReserveActor(int ScriptId, long ActorId) = 0;
-
-
-
-	//! used by lua to move an actor or player
-	//! the actor will move using animation speed
-	void ActorGoTo(int ScriptId, long ActorId, const LbaVec3 &Position, float Speed);
-
-
-	//! used by lua to move an actor or player
-	//! the actor will change model
-	virtual void UpdateActorModel(int ScriptId, long ActorId, const std::string & Name) = 0;
-
-	//! used by lua to move an actor or player
-	//! the actor will change outfit
-	virtual void UpdateActorOutfit(int ScriptId, long ActorId, const std::string & Name) = 0;
-
-	//! used by lua to move an actor or player
-	//! the actor will change weapon
-	virtual void UpdateActorWeapon(int ScriptId, long ActorId, const std::string & Name) = 0;
-
-
-	//! used by lua to move an actor or player
-	//! the actor will move using animation speed
-	void ActorWaitForSignal(int ScriptId, long ActorId, int Signalnumber);
-
-	//! used by lua to move an actor or player
-	//! the actor will change mode
-	virtual void SendSignalToActor(long ActorId, int Signalnumber) = 0;
-
-
-	//! used by lua to move an actor or player
-	//! the actor will move using animation speed
-	virtual void TeleportActorTo(int ScriptId, long ActorId, const LbaVec3 &Position) = 0;
-
-
-	//! used by lua to move an actor or player
-	//! the actor change rotation
-	virtual void SetActorRotation(int ScriptId, long ActorId, float Angle) = 0;
-	
-
-	//! used by lua to rotate an actor
-	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
-	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
-	//! if ManageAnimation is true then the animation will be changed to suit the rotation
-	void ActorRotateFromPoint(int ScriptId, long ActorId, float Angle, const LbaVec3 &Position, 
-									float RotationSpeedPerSec);
-
-
-	//! used by lua to rotate an actor
-	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
-	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
-	//! if ManageAnimation is true then the animation will be changed to suit the rotation
-	void ActorFollowWaypoint(int ScriptId, long ActorId, int waypointindex1, int waypointindex2);
-
-
-	//! used by lua to move an actor or player
-	//! the actor show/hide
-	virtual void ActorShowHide(int ScriptId, long ActorId, bool Show) = 0;
-
 
 	//! execute lua script given as a string
 	void ExecuteScriptString( const std::string &ScriptString );
@@ -233,39 +141,6 @@ public:
 	//! return script id if successed or -1 else
 	void StartScript(const std::string & FunctionName, long ActorId, bool inlinefunction, int &ThreadReference);
 
-
-	//! wait until script part is finished
-	void WaitForAsyncScript(int ScriptId, int ScriptPartId);
-
-	//! check for finished asynchronus scripts
-	void CheckFinishedAsynScripts();
-
-
-	//! asynchronus version of ActorStraightWalkTo
-	int Async_ActorStraightWalkTo(long ActorId, const LbaVec3 &Position);
-
-	//! asynchronus version of ActorRotate
-	int Async_ActorRotate(long ActorId, float Angle, float RotationSpeedPerSec,
-									bool ManageAnimation);
-
-	//! asynchronus version of ActorAnimate
-	int Async_ActorAnimate(long ActorId, bool AnimationMove);
-
-	//! asynchronus version of ActorGoTo
-	int Async_ActorGoTo(long ActorId, const LbaVec3 &Position, float Speed);
-
-	//! asynchronus version of WaitForSignal
-	int Async_WaitForSignal(long ActorId, int Signalnumber);
-
-	//! asynchronus version of ActorRotateFromPoint
-	int Async_ActorRotateFromPoint(long ActorId, float Angle, const LbaVec3 &Position, 
-									float RotationSpeedPerSec);
-
-	//! asynchronus version of ActorFollowWaypoint
-	int Async_ActorFollowWaypoint(long ActorId, int waypointindex1, int waypointindex2);
-
-	//! make a lua script sleep for one cycle
-	void WaitOneCycle(int ScriptId);
 
 
 	//! resume a thread given the id
@@ -294,11 +169,6 @@ public:
 	//! 3 -> movable object
 	virtual void KillActor(int ObjectType, long ObjectId) = 0;
 
-	//! switch the model of an actor
-	virtual void SwitchActorModel(long ActorId, const std::string & newmodelname) = 0;
-
-	//! revert the switch the model of an actor
-	virtual void RevertActorModel(long ActorId) = 0;
 
 
 	//! open dialog with player
@@ -339,21 +209,6 @@ public:
 	virtual boost::shared_ptr<DynamicObject> GetActor(int ObjectType, long ObjectId) = 0;
 
 
-	// AttachActor
-	// ObjectType ==>
-	//! 1 -> npc object
-	//! 2 -> player object
-	//! 3 -> movable object
-	virtual void AttachActor(long ActorId, int AttachedObjectType, long AttachedObjectId) = 0;
-
-	// DettachActor
-	// ObjectType ==>
-	//! 1 -> npc object
-	//! 2 -> player object
-	//! 3 -> movable object
-	virtual void DettachActor(long ActorId, long AttachedObjectId) = 0;
-
-
 	//! send event to player
 	virtual void SendEvents(long PlayerId, const LbaNet::EventsSeq & evts) = 0;
 
@@ -383,6 +238,193 @@ public:
 
 	//! used by lua to log into file
 	void LogToFile(const std::string &text);
+
+
+	//! launch projectile
+	virtual long LaunchProjectile(LbaNet::ProjectileInfo pinfo){return -1;}
+
+	//! destroy projectile
+	virtual void DestroyProjectile(long projectileid){}
+
+	// check if actor is moving
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual bool ActorMoving(int ObjectType, long ObjectId) = 0;
+
+
+
+	//! switch the model of an actor
+	virtual void SwitchActorModel(long ActorId, const std::string & newmodelname) = 0;
+
+	//! revert the switch the model of an actor
+	virtual void RevertActorModel(long ActorId) = 0;
+
+
+
+
+
+
+
+	//! used by lua to move an actor or player
+	//! the actor will move using animation speed
+	void ActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position);
+
+	//! used by lua to rotate an actor
+	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
+	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
+	//! if ManageAnimation is true then the animation will be changed to suit the rotation
+	void ActorRotate(int ScriptId, long ActorId, float Angle, float RotationSpeedPerSec,
+									bool ManageAnimation);
+
+	//! used by lua to wait until an actor animation is finished
+	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
+	void ActorAnimate(int ScriptId, long ActorId, bool AnimationMove);
+
+	//! used by lua to move an actor or player
+	//! the actor will move using animation speed
+	void ActorGoTo(int ScriptId, long ActorId, const LbaVec3 &Position, float Speed);
+
+	//! used by lua to move an actor or player
+	//! the actor will move using animation speed
+	void ActorWaitForSignal(int ScriptId, long ActorId, int Signalnumber);
+
+	//! used by lua to rotate an actor
+	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
+	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
+	//! if ManageAnimation is true then the animation will be changed to suit the rotation
+	void ActorRotateFromPoint(int ScriptId, long ActorId, float Angle, const LbaVec3 &Position, 
+									float RotationSpeedPerSec);
+
+
+	//! used by lua to rotate an actor
+	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
+	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
+	//! if ManageAnimation is true then the animation will be changed to suit the rotation
+	void ActorFollowWaypoint(int ScriptId, long ActorId, int waypointindex1, int waypointindex2);
+
+
+
+	//! asynchronus version of ActorStraightWalkTo
+	int Async_ActorStraightWalkTo(long ActorId, const LbaVec3 &Position);
+
+	//! asynchronus version of ActorRotate
+	int Async_ActorRotate(long ActorId, float Angle, float RotationSpeedPerSec,
+									bool ManageAnimation);
+
+	//! asynchronus version of ActorAnimate
+	int Async_ActorAnimate(long ActorId, bool AnimationMove);
+
+	//! asynchronus version of ActorGoTo
+	int Async_ActorGoTo(long ActorId, const LbaVec3 &Position, float Speed);
+
+	//! asynchronus version of WaitForSignal
+	int Async_WaitForSignal(long ActorId, int Signalnumber);
+
+	//! asynchronus version of ActorRotateFromPoint
+	int Async_ActorRotateFromPoint(long ActorId, float Angle, const LbaVec3 &Position, 
+									float RotationSpeedPerSec);
+
+	//! asynchronus version of ActorFollowWaypoint
+	int Async_ActorFollowWaypoint(long ActorId, int waypointindex1, int waypointindex2);
+
+
+
+
+
+
+	//! make a lua script sleep for one cycle
+	void WaitOneCycle(int ScriptId);
+
+	//! wait until script part is finished
+	void WaitForAsyncScript(int ScriptId, int ScriptPartId);
+
+	//! check for finished asynchronus scripts
+	void CheckFinishedAsynScripts();
+
+
+
+
+	/*****************************************
+	This functions bellow will be called from LUA threads
+	Need to be locked!!!!
+	*****************************************/
+
+	//! used by lua to tell that the actor should be reserved for the script
+	virtual void ReserveActor(int ScriptId, long ActorId) = 0;
+
+
+	//! used by lua to get an actor Position
+	virtual LbaVec3 GetActorPosition(int ScriptId, long ActorId) = 0;
+
+	//! used by lua to get an actor Rotation
+	virtual float GetActorRotation(int ScriptId, long ActorId) = 0;
+
+	//! used by lua to get an actor Rotation
+	virtual LbaQuaternion GetActorRotationQuat(int ScriptId, long ActorId) = 0;
+
+	//! used by lua to update an actor animation
+	virtual void UpdateActorAnimation(int ScriptId, long ActorId, const std::string & AnimationString) = 0;
+
+	//! used by lua to update an actor mode
+	virtual void UpdateActorMode(int ScriptId, long ActorId, const std::string & Mode) = 0;
+
+
+
+
+	//! used by lua to move an actor or player
+	//! the actor will change model
+	virtual void UpdateActorModel(int ScriptId, long ActorId, const std::string & Name) = 0;
+
+	//! used by lua to move an actor or player
+	//! the actor will change outfit
+	virtual void UpdateActorOutfit(int ScriptId, long ActorId, const std::string & Name) = 0;
+
+	//! used by lua to move an actor or player
+	//! the actor will change weapon
+	virtual void UpdateActorWeapon(int ScriptId, long ActorId, const std::string & Name) = 0;
+
+
+
+	//! used by lua to send signal to actor
+	virtual void SendSignalToActor(long ActorId, int Signalnumber) = 0;
+
+
+	//! used by lua to move an actor or player
+	//! the actor will move using animation speed
+	virtual void TeleportActorTo(int ScriptId, long ActorId, const LbaVec3 &Position) = 0;
+
+
+	//! used by lua to move an actor or player
+	//! the actor change rotation
+	virtual void SetActorRotation(int ScriptId, long ActorId, float Angle) = 0;
+	
+
+
+	//! used by lua to move an actor or player
+	//! the actor show/hide
+	virtual void ActorShowHide(int ScriptId, long ActorId, bool Show) = 0;
+
+
+
+
+
+	// AttachActor
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void AttachActor(long ActorId, int AttachedObjectType, long AttachedObjectId) = 0;
+
+	// DettachActor
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void DettachActor(long ActorId, long AttachedObjectId) = 0;
+
+
 
 	//! used by lua to get an player Position
 	virtual LbaVec3 GetPlayerPositionVec(long PlayerId)
@@ -420,12 +462,6 @@ public:
 	//! check if target is in rotation range
 	virtual float GetTargetRotationDiff(long ActorId){return 360;}
 
-	//! launch projectile
-	virtual long LaunchProjectile(LbaNet::ProjectileInfo pinfo){return -1;}
-
-	//! destroy projectile
-	virtual void DestroyProjectile(long projectileid){}
-
 	//! get weapon distance
 	//! 1-> first contact weapon, 2 -> first distance weapon
 	//! 3-> second contact weapon, 4 -> second distance weapon
@@ -439,12 +475,8 @@ public:
 	virtual bool CanPlayAnimation(int ObjectType, long ObjectId, const std::string & anim) = 0;
 
 
-	// check if actor is moving
-	// ObjectType ==>
-	//! 1 -> npc object
-	//! 2 -> player object
-	//! 3 -> movable object
-	virtual bool ActorMoving(int ObjectType, long ObjectId) = 0;
+
+
 
 
 protected:
@@ -494,7 +526,8 @@ protected:
 	virtual void ScriptFinished(int scriptid, const std::string & functioname) = 0;
 
 
-
+	//! generate script id
+	int GenerateScriptId();
 
 protected:
 	boost::shared_ptr<LuaHandlerBase>					m_luaHandler;
@@ -505,6 +538,8 @@ private:
 	std::map<int, bool>									m_waitingscripts;
 
 	std::map<int, int>									m_sleepingscripts;
+
+	IceUtil::Mutex										m_mutex;
 };
 
 
