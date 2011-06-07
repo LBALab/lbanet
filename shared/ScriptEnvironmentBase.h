@@ -38,11 +38,62 @@ class Spawn;
 class DynamicObject;
 
 #include <boost/shared_ptr.hpp>
+#include <boost/function.hpp>
 #include <ClientServerEvents.h>
 
 
 #include "CommonTypes.h"
 #include "LuaHandlerBase.h"
+
+
+class ScriptCallbackBase
+{
+public:
+	ScriptCallbackBase(){}
+	virtual ~ScriptCallbackBase(){}
+};
+
+
+class ScriptCallbackBaseNoYield : public ScriptCallbackBase
+{
+public:
+	ScriptCallbackBaseNoYield(boost::function<void()> f)
+		: _callback(f)
+	{}
+	virtual ~ScriptCallbackBaseNoYield(){}
+
+protected:
+    boost::function<void()> _callback;
+};
+
+class ScriptCallbackBaseYield : public ScriptCallbackBaseNoYield
+{
+public:
+	ScriptCallbackBaseYield(boost::function<void()> f, int ScriptId)
+		: ScriptCallbackBaseNoYield(f), _ScriptId(ScriptId)
+	{}
+	virtual ~ScriptCallbackBaseYield(){}
+
+protected:
+	int						_ScriptId;
+};
+
+template <class T>
+class ScriptCallbackBaseReturnYield : public ScriptCallbackBase
+{
+public:
+	ScriptCallbackBaseReturnYield(boost::function<T()> f, int ScriptId)
+		: _callback(f), _ScriptId(ScriptId)
+	{}
+	virtual ~ScriptCallbackBaseReturnYield(){}
+
+
+protected:
+    boost::function<T()>	_callback;
+	int						_ScriptId;
+};
+
+
 
 //*************************************************************************************************
 //*                               class ScriptEnvironmentBase
@@ -262,10 +313,34 @@ public:
 	virtual void RevertActorModel(long ActorId) = 0;
 
 
+	//! make a lua script sleep for one cycle
+	void WaitOneCycle(int ScriptId);
+
+	//! wait until script part is finished
+	void WaitForAsyncScript(int ScriptId, int ScriptPartId);
+
+	//! check for finished asynchronus scripts
+	void CheckFinishedAsynScripts();
+
+
+	//! used by lua to get an player Position
+	virtual LbaVec3 GetPlayerPositionVec(long PlayerId)
+	{return LbaVec3();}
+
+	//!  used by lua to get player position
+	virtual LbaNet::PlayerPosition GetPlayerPosition(Ice::Long clientid)
+	{return LbaNet::PlayerPosition();}
 
 
 
 
+
+
+
+	/*****************************************
+	This functions bellow will be called from LUA threads
+	Need to be locked!!!!
+	*****************************************/
 
 	//! used by lua to move an actor or player
 	//! the actor will move using animation speed
@@ -306,6 +381,126 @@ public:
 
 
 
+
+
+
+
+
+
+
+	//! used by lua to tell that the actor should be reserved for the script
+	void ReserveActor(int ScriptId, long ActorId);
+
+
+
+	//! used by lua to get an actor Position
+	void GetActorPosition(int ScriptId, long ActorId);
+
+	//! used by lua to get an actor Rotation
+	void GetActorRotation(int ScriptId, long ActorId);
+
+	//! used by lua to get an actor Rotation
+	void GetActorRotationQuat(int ScriptId, long ActorId);
+
+	//! return targeted player
+	void GetTargettedAttackPlayer(int ScriptId, long ActorId);
+
+	//! check if target is in range
+	void IsTargetInRange(int ScriptId, float MaxDistance, long ActorId);
+
+	//! check if target is in rotation range
+	void GetTargetRotationDiff(int ScriptId, long ActorId);
+
+	//! get weapon distance
+	//! 1-> first contact weapon, 2 -> first distance weapon
+	//! 3-> second contact weapon, 4 -> second distance weapon
+	void GetNpcWeaponReachDistance(int ScriptId, long ActorId, int WeaponNumber);
+
+	// check if actor can play animation
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	void CanPlayAnimation(int ScriptId, int ObjectType, long ObjectId, const std::string & anim);
+
+
+
+
+	//! used by lua to update an actor animation
+	void UpdateActorAnimation(int ScriptId, long ActorId, const std::string & AnimationString);
+
+	//! used by lua to update an actor mode
+	void UpdateActorMode(int ScriptId, long ActorId, const std::string & Mode);
+
+	//! used by lua to move an actor or player
+	//! the actor will change model
+	void UpdateActorModel(int ScriptId, long ActorId, const std::string & Name);
+
+	//! used by lua to move an actor or player
+	//! the actor will change outfit
+	void UpdateActorOutfit(int ScriptId, long ActorId, const std::string & Name);
+
+	//! used by lua to move an actor or player
+	//! the actor will change weapon
+	void UpdateActorWeapon(int ScriptId, long ActorId, const std::string & Name);
+
+	//! used by lua to move an actor or player
+	//! the actor will move using animation speed
+	void TeleportActorTo(int ScriptId, long ActorId, const LbaVec3 &Position);
+
+	//! used by lua to move an actor or player
+	//! the actor change rotation
+	void SetActorRotation(int ScriptId, long ActorId, float Angle);
+	
+	//! used by lua to move an actor or player
+	//! the actor show/hide
+	void ActorShowHide(int ScriptId, long ActorId, bool Show);
+
+
+	//! used by lua to send signal to actor
+	void SendSignalToActor(int ScriptId, long ActorId, int Signalnumber);
+
+	// AttachActor
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	void AttachActor(int ScriptId, long ActorId, int AttachedObjectType, long AttachedObjectId);
+
+	// DettachActor
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	void DettachActor(int ScriptId, long ActorId, long AttachedObjectId);
+
+	//! npc use weapon
+	//! 1-> first contact weapon, 2 -> first distance weapon
+	//! 3-> second contact weapon, 4 -> second distance weapon
+	void UseWeapon(int ScriptId, long ActorId, int WeaponNumber);
+
+
+
+
+
+	//! npc rotate to player
+	void RotateToTargettedPlayer(int ScriptId, long ActorId, float ToleranceAngle, float speed);
+
+	//! npc follow player
+	void FollowTargettedPlayer(int ScriptId, long ActorId, float DistanceStopFollow);
+
+	//! npc start use weapon - will not stop until changing state - only usefull for distance weapon
+	//! 1-> first contact weapon, 2 -> first distance weapon
+	//! 3-> second contact weapon, 4 -> second distance weapon
+	void StartUseWeapon(int ScriptId, long ActorId, int WeaponNumber);
+
+
+
+
+
+
+
+
 	//! asynchronus version of ActorStraightWalkTo
 	int Async_ActorStraightWalkTo(long ActorId, const LbaVec3 &Position);
 
@@ -329,150 +524,6 @@ public:
 	//! asynchronus version of ActorFollowWaypoint
 	int Async_ActorFollowWaypoint(long ActorId, int waypointindex1, int waypointindex2);
 
-
-
-
-
-
-	//! make a lua script sleep for one cycle
-	void WaitOneCycle(int ScriptId);
-
-	//! wait until script part is finished
-	void WaitForAsyncScript(int ScriptId, int ScriptPartId);
-
-	//! check for finished asynchronus scripts
-	void CheckFinishedAsynScripts();
-
-
-
-
-	/*****************************************
-	This functions bellow will be called from LUA threads
-	Need to be locked!!!!
-	*****************************************/
-
-	//! used by lua to tell that the actor should be reserved for the script
-	virtual void ReserveActor(int ScriptId, long ActorId) = 0;
-
-
-	//! used by lua to get an actor Position
-	virtual LbaVec3 GetActorPosition(int ScriptId, long ActorId) = 0;
-
-	//! used by lua to get an actor Rotation
-	virtual float GetActorRotation(int ScriptId, long ActorId) = 0;
-
-	//! used by lua to get an actor Rotation
-	virtual LbaQuaternion GetActorRotationQuat(int ScriptId, long ActorId) = 0;
-
-	//! used by lua to update an actor animation
-	virtual void UpdateActorAnimation(int ScriptId, long ActorId, const std::string & AnimationString) = 0;
-
-	//! used by lua to update an actor mode
-	virtual void UpdateActorMode(int ScriptId, long ActorId, const std::string & Mode) = 0;
-
-
-
-
-	//! used by lua to move an actor or player
-	//! the actor will change model
-	virtual void UpdateActorModel(int ScriptId, long ActorId, const std::string & Name) = 0;
-
-	//! used by lua to move an actor or player
-	//! the actor will change outfit
-	virtual void UpdateActorOutfit(int ScriptId, long ActorId, const std::string & Name) = 0;
-
-	//! used by lua to move an actor or player
-	//! the actor will change weapon
-	virtual void UpdateActorWeapon(int ScriptId, long ActorId, const std::string & Name) = 0;
-
-
-
-	//! used by lua to send signal to actor
-	virtual void SendSignalToActor(long ActorId, int Signalnumber) = 0;
-
-
-	//! used by lua to move an actor or player
-	//! the actor will move using animation speed
-	virtual void TeleportActorTo(int ScriptId, long ActorId, const LbaVec3 &Position) = 0;
-
-
-	//! used by lua to move an actor or player
-	//! the actor change rotation
-	virtual void SetActorRotation(int ScriptId, long ActorId, float Angle) = 0;
-	
-
-
-	//! used by lua to move an actor or player
-	//! the actor show/hide
-	virtual void ActorShowHide(int ScriptId, long ActorId, bool Show) = 0;
-
-
-
-
-
-	// AttachActor
-	// ObjectType ==>
-	//! 1 -> npc object
-	//! 2 -> player object
-	//! 3 -> movable object
-	virtual void AttachActor(long ActorId, int AttachedObjectType, long AttachedObjectId) = 0;
-
-	// DettachActor
-	// ObjectType ==>
-	//! 1 -> npc object
-	//! 2 -> player object
-	//! 3 -> movable object
-	virtual void DettachActor(long ActorId, long AttachedObjectId) = 0;
-
-
-
-	//! used by lua to get an player Position
-	virtual LbaVec3 GetPlayerPositionVec(long PlayerId)
-	{return LbaVec3(-1, -1, -1);}
-
-	//!  used by lua to get player position
-	virtual LbaNet::PlayerPosition GetPlayerPosition(Ice::Long clientid)
-	{return LbaNet::PlayerPosition();}
-
-
-
-	//! npc rotate to player
-	virtual void RotateToTargettedPlayer(int ScriptId, long ActorId, float ToleranceAngle, float speed){}
-
-	//! npc follow player
-	virtual void FollowTargettedPlayer(int ScriptId, long ActorId, float DistanceStopFollow){}
-
-	//! npc use weapon
-	//! 1-> first contact weapon, 2 -> first distance weapon
-	//! 3-> second contact weapon, 4 -> second distance weapon
-	virtual void UseWeapon(int ScriptId, long ActorId, int WeaponNumber){}
-
-	//! npc start use weapon - will not stop until changing state - only usefull for distance weapon
-	//! 1-> first contact weapon, 2 -> first distance weapon
-	//! 3-> second contact weapon, 4 -> second distance weapon
-	virtual void StartUseWeapon(int ScriptId, long ActorId, int WeaponNumber){}
-
-
-	//! return targeted player
-	virtual long GetTargettedAttackPlayer(long ActorId){return -1;}
-
-	//! check if target is in range
-	virtual bool IsTargetInRange(float MaxDistance, long ActorId){return false;}
-
-	//! check if target is in rotation range
-	virtual float GetTargetRotationDiff(long ActorId){return 360;}
-
-	//! get weapon distance
-	//! 1-> first contact weapon, 2 -> first distance weapon
-	//! 3-> second contact weapon, 4 -> second distance weapon
-	virtual float GetNpcWeaponReachDistance(long ActorId, int WeaponNumber){return 0;}
-
-	// check if actor can play animation
-	// ObjectType ==>
-	//! 1 -> npc object
-	//! 2 -> player object
-	//! 3 -> movable object
-	virtual bool CanPlayAnimation(int ObjectType, long ObjectId, const std::string & anim) = 0;
 
 
 
@@ -522,6 +573,131 @@ protected:
 
 
 
+
+
+
+
+
+	//! used by lua to tell that the actor should be reserved for the script
+	virtual void InternalReserveActor(int ScriptId, long ActorId) = 0;
+
+
+	//! used by lua to get an actor Position
+	virtual LbaVec3 InternalGetActorPosition(int ScriptId, long ActorId) = 0;
+
+	//! used by lua to get an actor Rotation
+	virtual float InternalGetActorRotation(int ScriptId, long ActorId) = 0;
+
+	//! used by lua to get an actor Rotation
+	virtual LbaQuaternion InternalGetActorRotationQuat(int ScriptId, long ActorId) = 0;
+
+	//! used by lua to update an actor animation
+	virtual void InternalUpdateActorAnimation(int ScriptId, long ActorId, const std::string & AnimationString) = 0;
+
+	//! used by lua to update an actor mode
+	virtual void InternalUpdateActorMode(int ScriptId, long ActorId, const std::string & Mode) = 0;
+
+
+
+
+	//! used by lua to move an actor or player
+	//! the actor will change model
+	virtual void InternalUpdateActorModel(int ScriptId, long ActorId, const std::string & Name) = 0;
+
+	//! used by lua to move an actor or player
+	//! the actor will change outfit
+	virtual void InternalUpdateActorOutfit(int ScriptId, long ActorId, const std::string & Name) = 0;
+
+	//! used by lua to move an actor or player
+	//! the actor will change weapon
+	virtual void InternalUpdateActorWeapon(int ScriptId, long ActorId, const std::string & Name) = 0;
+
+
+
+	//! used by lua to send signal to actor
+	virtual void InternalSendSignalToActor(int ScriptId, long ActorId, int Signalnumber) = 0;
+
+
+	//! used by lua to move an actor or player
+	//! the actor will move using animation speed
+	virtual void InternalTeleportActorTo(int ScriptId, long ActorId, const LbaVec3 &Position) = 0;
+
+
+	//! used by lua to move an actor or player
+	//! the actor change rotation
+	virtual void InternalSetActorRotation(int ScriptId, long ActorId, float Angle) = 0;
+	
+
+
+	//! used by lua to move an actor or player
+	//! the actor show/hide
+	virtual void InternalActorShowHide(int ScriptId, long ActorId, bool Show) = 0;
+
+
+
+
+	// AttachActor
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void InternalAttachActor(long ActorId, int AttachedObjectType, long AttachedObjectId) = 0;
+
+	// DettachActor
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void InternalDettachActor(long ActorId, long AttachedObjectId) = 0;
+
+
+	//! npc rotate to player
+	virtual void InternalRotateToTargettedPlayer(int ScriptId, long ActorId, float ToleranceAngle, float speed) = 0;
+
+	//! npc follow player
+	virtual void InternalFollowTargettedPlayer(int ScriptId, long ActorId, float DistanceStopFollow) = 0;
+
+	//! npc use weapon
+	//! 1-> first contact weapon, 2 -> first distance weapon
+	//! 3-> second contact weapon, 4 -> second distance weapon
+	virtual void InternalUseWeapon(int ScriptId, long ActorId, int WeaponNumber) = 0;
+
+	//! npc start use weapon - will not stop until changing state - only usefull for distance weapon
+	//! 1-> first contact weapon, 2 -> first distance weapon
+	//! 3-> second contact weapon, 4 -> second distance weapon
+	virtual void InternalStartUseWeapon(int ScriptId, long ActorId, int WeaponNumber) = 0;
+
+
+	//! return targeted player
+	virtual long InternalGetTargettedAttackPlayer(int ScriptId, long ActorId) = 0;
+
+	//! check if target is in range
+	virtual bool InternalIsTargetInRange(int ScriptId, float MaxDistance, long ActorId) = 0;
+
+	//! check if target is in rotation range
+	virtual float InternalGetTargetRotationDiff(int ScriptId, long ActorId) = 0;
+
+	//! get weapon distance
+	//! 1-> first contact weapon, 2 -> first distance weapon
+	//! 3-> second contact weapon, 4 -> second distance weapon
+	virtual float InternalGetNpcWeaponReachDistance(int ScriptId, long ActorId, int WeaponNumber) = 0;
+
+	// check if actor can play animation
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual bool InternalCanPlayAnimation(int ScriptId, int ObjectType, long ObjectId, const std::string & anim) = 0;
+
+
+
+
+
+
+
+
+
+
 	//! called when a script has finished
 	virtual void ScriptFinished(int scriptid, const std::string & functioname) = 0;
 
@@ -540,6 +716,9 @@ private:
 	std::map<int, int>									m_sleepingscripts;
 
 	IceUtil::Mutex										m_mutex;
+
+
+	std::vector<boost::shared_ptr<ScriptCallbackBase> >	m_callbacks;
 };
 
 
