@@ -250,7 +250,7 @@ end
 function ActorAttackContactPlayer(ScriptId, ActorId, Environment)
 
 	TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
-	while TargetedPlayer > -1 do
+	while Environment:ThreadRunning(ScriptId) and TargetedPlayer > -1 do
 		weaponrange = Environment:GetNpcWeaponReachDistance(ActorId, 1)
 	
 		tinrange = Environment:IsTargetInRange(weaponrange, ActorId)
@@ -284,7 +284,7 @@ function ActorFollowAttackDistancePlayer(ScriptId, ActorId, Environment)
 	end
 	
 	TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
-	while TargetedPlayer > -1 do
+	while Environment:ThreadRunning(ScriptId) and TargetedPlayer > -1 do
 		weaponrange = Environment:GetNpcWeaponReachDistance(ActorId, 2)
 	
 		tinrange = Environment:IsTargetInRange(weaponrange, ActorId)
@@ -317,7 +317,7 @@ function ActorRotateAttackDistancePlayer(ScriptId, ActorId, Environment)
 	end
 
 	TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
-	while TargetedPlayer > -1 do
+	while Environment:ThreadRunning(ScriptId) and TargetedPlayer > -1 do
 
 		rotationdiff = Environment:GetTargetRotationDiff(ActorId)
 		if math.abs(rotationdiff) > 2 then
@@ -343,7 +343,7 @@ function ActorRotateAttackDistanceAndContactPlayer(ScriptId, ActorId, Environmen
 	end
 
 	TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
-	while TargetedPlayer > -1 do
+	while Environment:ThreadRunning(ScriptId) and TargetedPlayer > -1 do
 		weaponrange1 = Environment:GetNpcWeaponReachDistance(ActorId, 1)
 
 		rotationdiff = Environment:GetTargetRotationDiff(ActorId)
