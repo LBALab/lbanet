@@ -396,14 +396,8 @@ void CommunityBox::UpdateFriend(const LbaNet::FriendInfo & frd)
 
 	std::string dis = "[colour='" + color + "']";
 	if(frd.ToAccept)
-		dis += " (Request)";
-
-
-	dis += frd.Name;
-
-	if(frd.Pending)
 	{
-		dis += " (Pending)";
+		dis += " (Request)";
 
 		// display pending message on chatbox
 		LbaNet::GuiUpdatesSeq updseq;
@@ -411,6 +405,14 @@ void CommunityBox::UpdateFriend(const LbaNet::FriendInfo & frd)
 		updseq.push_back(upd);
 		EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
 			SynchronizedTimeHandler::GetCurrentTimeDouble(), "ChatBox", updseq));
+	}
+
+
+	dis += frd.Name;
+
+	if(frd.Pending)
+	{
+		dis += " (Pending)";
 	}
 
 
