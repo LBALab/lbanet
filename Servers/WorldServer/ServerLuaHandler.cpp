@@ -450,7 +450,8 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetTargetRotationDiff", &ScriptEnvironmentBase::GetTargetRotationDiff)
 		.def("GetNpcWeaponReachDistance", &ScriptEnvironmentBase::GetNpcWeaponReachDistance)
 		.def("CanPlayAnimation", &ScriptEnvironmentBase::CanPlayAnimation)
-		.def("ActorMoving", &ScriptEnvironmentBase::ActorMoving),
+		.def("ActorMoving", &ScriptEnvironmentBase::ActorMoving)
+		.def("ThreadRunning", &ScriptEnvironmentBase::ThreadRunning),
 
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),

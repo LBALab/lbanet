@@ -84,6 +84,7 @@ ClientLuaHandler::ClientLuaHandler()
 		.def("AttachActor", &ScriptEnvironmentBase::AttachActor)
 		.def("DettachActor", &ScriptEnvironmentBase::DettachActor)
 		.def("LogToFile", &ScriptEnvironmentBase::LogToFile)
+		.def("ThreadRunning", &ScriptEnvironmentBase::ThreadRunning)
 		];
 	}
 	catch(const std::exception &error)

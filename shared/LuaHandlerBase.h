@@ -72,6 +72,9 @@ public:
 	//! try to stop lua thread
 	void StopThread(int ThreadIdx);
 
+	//! check if thread is still running
+	bool ThreadRunning(int ThreadIdx);
+
 	//! execute lua script given as a string
 	void ExecuteScriptString( const std::string & ScriptString );
 

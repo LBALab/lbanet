@@ -231,6 +231,18 @@ void LuaHandlerBase::StopThread(int ThreadIdx)
 }
 
 
+/***********************************************************
+check if thread is still running
+***********************************************************/
+bool LuaHandlerBase::ThreadRunning(int ThreadIdx)
+{
+	std::map<int, boost::shared_ptr<LuaThreadHandler> >::iterator it = m_RunningThreads.find(ThreadIdx);
+	if(it != m_RunningThreads.end())
+		return true;
+
+	return false;
+}
+
 
 
 /***********************************************************

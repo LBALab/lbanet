@@ -1349,8 +1349,7 @@ void ActorHandler::StartScript()
 
 	std::stringstream scripts;
 	scripts<<"function "<<fctname.str()<<"(ScriptId, Environment)"<<std::endl;
-	scripts<<"loopstop = 1"<<std::endl;
-	scripts<<"while loopstop > 0 do"<<std::endl;
+	scripts<<"while Environment:ThreadRunning(ScriptId) do"<<std::endl;
 	for(size_t i=0; i< m_script.size(); ++i)
 		m_script[i]->WriteExecutionScript(scripts, m_actorinfo.ObjectId, this);
 

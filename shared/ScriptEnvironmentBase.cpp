@@ -74,7 +74,7 @@ void ScriptEnvironmentBase::ScriptFinished(int scriptid, bool wasasynchronus)
 	}
 	else
 	{
-		IceUtil::Mutex::Lock sync(m_mutex);
+		//IceUtil::Mutex::Lock sync(m_mutex);
 		m_asyncscripts[scriptid] = true;
 	}
 }
@@ -86,7 +86,7 @@ wait until script part is finished
 ***********************************************************/
 void ScriptEnvironmentBase::WaitForAsyncScript(int ScriptId, int ScriptPartId)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Mutex::Lock sync(m_mutex);
 	m_waitingscripts[ScriptPartId] = ScriptId;
 }
 
@@ -96,55 +96,67 @@ check for finished asynchronus scripts
 ***********************************************************/
 void ScriptEnvironmentBase::CheckFinishedAsynScripts()
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
-
-	// check waiting scripts
 	{
-		std::map<int, bool>::iterator itmap = m_waitingscripts.begin();
-		while(itmap != m_waitingscripts.end())
-		{
-			bool erase = false;
+		//IceUtil::Mutex::Lock sync(m_mutex);
 
-			std::map<int, bool>::iterator its =	m_asyncscripts.find(itmap->first);
-			if(its != m_asyncscripts.end())
+		// check waiting scripts
+		{
+			std::map<int, bool>::iterator itmap = m_waitingscripts.begin();
+			while(itmap != m_waitingscripts.end())
 			{
-				if(its->second == true)
+				bool erase = false;
+
+				std::map<int, bool>::iterator its =	m_asyncscripts.find(itmap->first);
+				if(its != m_asyncscripts.end())
 				{
+					if(its->second == true)
+					{
+						erase = true;
+						m_asyncscripts.erase(its);
+					}
+				}
+				else
 					erase = true;
-					m_asyncscripts.erase(its);
+
+				if(erase)
+				{
+					ResumeThread(itmap->first);
+					m_waitingscripts.erase(itmap++);
+				}
+				else
+					++itmap;
+			}
+		}
+
+		// check sleeping scripts
+		{
+			std::map<int, int>::iterator itmaps = m_sleepingscripts.begin();
+			while(itmaps != m_sleepingscripts.end())
+			{
+				itmaps->second++;
+				if(itmaps->second > 3)
+				{
+					ResumeThread(itmaps->first);
+					m_sleepingscripts.erase(itmaps++);
+				}
+				else
+				{
+					++itmaps;
 				}
 			}
-			else
-				erase = true;
-
-			if(erase)
-			{
-				ResumeThread(itmap->first);
-				m_waitingscripts.erase(itmap++);
-			}
-			else
-				++itmap;
 		}
 	}
 
-	// check sleeping scripts
+
+	// do lua calls
 	{
-		std::map<int, int>::iterator itmaps = m_sleepingscripts.begin();
-		while(itmaps != m_sleepingscripts.end())
-		{
-			itmaps->second++;
-			if(itmaps->second > 3)
-			{
-				ResumeThread(itmaps->first);
-				m_sleepingscripts.erase(itmaps++);
-			}
-			else
-			{
-				++itmaps;
-			}
-		}
+		//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+		//while(m_waiting_luacall > 0)
+		//{
+		//	m_monitor.notify();
+		//	m_monitor.wait();
+		//}
 	}
-
 }
 
 
@@ -154,7 +166,7 @@ generate script id
 ***********************************************************/
 int ScriptEnvironmentBase::GenerateScriptId()
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Mutex::Lock sync(m_mutex);
 	return m_generatednumber++;
 }
 
@@ -166,13 +178,17 @@ int ScriptEnvironmentBase::Async_ActorStraightWalkTo(long ActorId, const LbaVec3
 {
 	int genid = GenerateScriptId();
 
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalActorStraightWalkTo, this, genid, ActorId, Position, true)));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
 
+	//--m_waiting_luacall;
+
+	InternalActorStraightWalkTo(genid, ActorId, Position, true);
+
+	//IceUtil::Mutex::Lock sync(m_mutex);
 	m_asyncscripts[genid] = false;
 	return genid;
 }
@@ -185,13 +201,17 @@ int ScriptEnvironmentBase::Async_ActorRotate(long ActorId, float Angle, float Ro
 {
 	int genid = GenerateScriptId();
 
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalActorRotate, this, genid, ActorId, Angle, RotationSpeedPerSec, ManageAnimation, true)));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
 
+	//--m_waiting_luacall;
+
+	InternalActorRotate(genid, ActorId, Angle, RotationSpeedPerSec, ManageAnimation, true);
+
+	//IceUtil::Mutex::Lock sync(m_mutex);
 	m_asyncscripts[genid] = false;
 	return genid;
 }
@@ -203,13 +223,17 @@ int ScriptEnvironmentBase::Async_ActorAnimate(long ActorId, bool AnimationMove)
 {
 	int genid = GenerateScriptId();
 
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalActorAnimate, this, genid, ActorId, AnimationMove, true)));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
 
+	//--m_waiting_luacall;
+
+	InternalActorAnimate(genid, ActorId, AnimationMove, true);
+
+	//IceUtil::Mutex::Lock sync(m_mutex);
 	m_asyncscripts[genid] = false;
 	return genid;
 }
@@ -222,13 +246,17 @@ int ScriptEnvironmentBase::Async_ActorGoTo(long ActorId, const LbaVec3 &Position
 {
 	int genid = GenerateScriptId();
 
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalActorGoTo, this, genid, ActorId, Position, Speed, true)));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
 
+	//--m_waiting_luacall;
+
+	InternalActorGoTo(genid, ActorId, Position, Speed, true);
+
+	//IceUtil::Mutex::Lock sync(m_mutex);
 	m_asyncscripts[genid] = false;
 	return genid;
 }
@@ -240,13 +268,17 @@ int ScriptEnvironmentBase::Async_WaitForSignal(long ActorId, int Signalnumber)
 {
 	int genid = GenerateScriptId();
 
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalActorWaitForSignal, this, genid, ActorId, Signalnumber, true)));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
 
+	//--m_waiting_luacall;
+
+	InternalActorWaitForSignal(genid, ActorId, Signalnumber, true);
+
+	//IceUtil::Mutex::Lock sync(m_mutex);
 	m_asyncscripts[genid] = false;
 	return genid;
 }
@@ -260,13 +292,17 @@ int ScriptEnvironmentBase::Async_ActorRotateFromPoint(long ActorId, float Angle,
 {
 	int genid = GenerateScriptId();
 
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalActorRotateFromPoint, this, genid, ActorId, Angle, Position, RotationSpeedPerSec, true)));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
 
+	//--m_waiting_luacall;
+
+	InternalActorRotateFromPoint(genid, ActorId, Angle, Position, RotationSpeedPerSec, true);
+
+	//IceUtil::Mutex::Lock sync(m_mutex);
 	m_asyncscripts[genid] = false;
 	return genid;
 }
@@ -279,17 +315,20 @@ int ScriptEnvironmentBase::Async_ActorFollowWaypoint(long ActorId,
 {
 	int genid = GenerateScriptId();
 
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalActorFollowWaypoint, this, genid, ActorId, waypointindex1, waypointindex2, true)));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
 
+	//--m_waiting_luacall;
+
+	InternalActorFollowWaypoint(genid, ActorId, waypointindex1, waypointindex2, true);
+
+	//IceUtil::Mutex::Lock sync(m_mutex);
 	m_asyncscripts[genid] = false;
 	return genid;
 }
-
 
 
 /***********************************************************
@@ -297,7 +336,7 @@ make a lua script sleep for one cycle
 ***********************************************************/
 void ScriptEnvironmentBase::WaitOneCycle(int scriptid)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Mutex::Lock sync(m_mutex);
 	m_sleepingscripts[scriptid] = 0;
 }
 
@@ -343,12 +382,15 @@ void ScriptEnvironmentBase::LogToFile(const std::string &text)
 /***********************************************************/
 void ScriptEnvironmentBase::ActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalActorStraightWalkTo, this, ScriptId, ActorId, Position, false)));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	InternalActorStraightWalkTo(ScriptId, ActorId, Position, false);
 }
 
 /***********************************************************/
@@ -360,12 +402,15 @@ void ScriptEnvironmentBase::ActorStraightWalkTo(int ScriptId, long ActorId, cons
 void ScriptEnvironmentBase::ActorRotate(int ScriptId, long ActorId, float Angle, float RotationSpeedPerSec,
 								bool ManageAnimation)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalActorRotate, this, ScriptId, ActorId, Angle, RotationSpeedPerSec, ManageAnimation, false)));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	InternalActorRotate(ScriptId, ActorId, Angle, RotationSpeedPerSec, ManageAnimation, false);
 }
 
 /***********************************************************/
@@ -374,12 +419,15 @@ void ScriptEnvironmentBase::ActorRotate(int ScriptId, long ActorId, float Angle,
 /***********************************************************/
 void ScriptEnvironmentBase::ActorAnimate(int ScriptId, long ActorId, bool AnimationMove)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalActorAnimate, this, ScriptId, ActorId, AnimationMove, false)));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	InternalActorAnimate(ScriptId, ActorId, AnimationMove, false);
 }
 
 
@@ -390,12 +438,15 @@ void ScriptEnvironmentBase::ActorAnimate(int ScriptId, long ActorId, bool Animat
 /***********************************************************/
 void ScriptEnvironmentBase::ActorGoTo(int ScriptId, long ActorId, const LbaVec3 &Position, float Speed)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalActorGoTo, this, ScriptId, ActorId, Position, Speed, false)));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	InternalActorGoTo(ScriptId, ActorId, Position, Speed, false);
 }
 
 
@@ -405,12 +456,15 @@ void ScriptEnvironmentBase::ActorGoTo(int ScriptId, long ActorId, const LbaVec3 
 /***********************************************************/
 void ScriptEnvironmentBase::ActorWaitForSignal(int ScriptId, long ActorId, int Signalnumber)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalActorWaitForSignal, this, ScriptId, ActorId, Signalnumber, false)));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	InternalActorWaitForSignal(ScriptId, ActorId, Signalnumber, false);
 }
 
 
@@ -423,12 +477,15 @@ void ScriptEnvironmentBase::ActorWaitForSignal(int ScriptId, long ActorId, int S
 void ScriptEnvironmentBase::ActorRotateFromPoint(int ScriptId, long ActorId, float Angle, const LbaVec3 &Position, 
 								float RotationSpeedPerSec)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalActorRotateFromPoint, this, ScriptId, ActorId, Angle, Position, RotationSpeedPerSec, false)));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	InternalActorRotateFromPoint(ScriptId, ActorId, Angle, Position, RotationSpeedPerSec, false);
 }
 
 
@@ -440,12 +497,15 @@ void ScriptEnvironmentBase::ActorRotateFromPoint(int ScriptId, long ActorId, flo
 /***********************************************************/
 void ScriptEnvironmentBase::ActorFollowWaypoint(int ScriptId, long ActorId, int waypointindex1, int waypointindex2)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalActorFollowWaypoint, this, ScriptId, ActorId, waypointindex1, waypointindex2, false)));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	InternalActorFollowWaypoint(ScriptId, ActorId, waypointindex1, waypointindex2, false);
 }
 
 
@@ -459,12 +519,15 @@ void ScriptEnvironmentBase::ActorFollowWaypoint(int ScriptId, long ActorId, int 
 /***********************************************************/
 void ScriptEnvironmentBase::ReserveActor(int ScriptId, long ActorId)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalReserveActor, this, ScriptId, ActorId)));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	InternalReserveActor(ScriptId, ActorId);
 }
 
 
@@ -472,28 +535,34 @@ void ScriptEnvironmentBase::ReserveActor(int ScriptId, long ActorId)
 /***********************************************************/
 //! used by lua to get an actor Position
 /***********************************************************/
-void ScriptEnvironmentBase::GetActorPosition(int ScriptId, long ActorId)
+LbaVec3 ScriptEnvironmentBase::GetActorPosition(int ScriptId, long ActorId)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseReturnYield<LbaVec3>(
-		boost::bind(&ScriptEnvironmentBase::InternalGetActorPosition, this, ScriptId, ActorId), ScriptId));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	return InternalGetActorPosition(ScriptId, ActorId);
 }
 
 
 /***********************************************************/
 //! used by lua to get an actor Rotation
 /***********************************************************/
-void ScriptEnvironmentBase::GetActorRotation(int ScriptId, long ActorId)
+float ScriptEnvironmentBase::GetActorRotation(int ScriptId, long ActorId)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseReturnYield<float>(
-		boost::bind(&ScriptEnvironmentBase::InternalGetActorRotation, this, ScriptId, ActorId), ScriptId));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	return InternalGetActorRotation(ScriptId, ActorId);
 }
 
 
@@ -501,14 +570,17 @@ void ScriptEnvironmentBase::GetActorRotation(int ScriptId, long ActorId)
 /***********************************************************/
 //! used by lua to get an actor Rotation
 /***********************************************************/
-void ScriptEnvironmentBase::GetActorRotationQuat(int ScriptId, long ActorId)
+LbaQuaternion ScriptEnvironmentBase::GetActorRotationQuat(int ScriptId, long ActorId)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseReturnYield<LbaQuaternion>(
-		boost::bind(&ScriptEnvironmentBase::InternalGetActorRotationQuat, this, ScriptId, ActorId), ScriptId));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	return InternalGetActorRotationQuat(ScriptId, ActorId);
 }
 
 
@@ -516,28 +588,34 @@ void ScriptEnvironmentBase::GetActorRotationQuat(int ScriptId, long ActorId)
 /***********************************************************/
 //! return targeted player
 /***********************************************************/
-void ScriptEnvironmentBase::GetTargettedAttackPlayer(int ScriptId, long ActorId)
+long ScriptEnvironmentBase::GetTargettedAttackPlayer(long ActorId)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseReturnYield<long>(
-		boost::bind(&ScriptEnvironmentBase::InternalGetTargettedAttackPlayer, this, ScriptId, ActorId), ScriptId));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	return InternalGetTargettedAttackPlayer(ActorId);
 }
 
 
 /***********************************************************/
 //! check if target is in range
 /***********************************************************/
-void ScriptEnvironmentBase::IsTargetInRange(int ScriptId, float MaxDistance, long ActorId)
+bool ScriptEnvironmentBase::IsTargetInRange(float MaxDistance, long ActorId)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseReturnYield<bool>(
-		boost::bind(&ScriptEnvironmentBase::InternalIsTargetInRange, this, ScriptId, MaxDistance, ActorId), ScriptId));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	return InternalIsTargetInRange(MaxDistance, ActorId);
 }
 
 
@@ -545,14 +623,17 @@ void ScriptEnvironmentBase::IsTargetInRange(int ScriptId, float MaxDistance, lon
 /***********************************************************/
 //! check if target is in rotation range
 /***********************************************************/
-void ScriptEnvironmentBase::GetTargetRotationDiff(int ScriptId, long ActorId)
+float ScriptEnvironmentBase::GetTargetRotationDiff(long ActorId)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseReturnYield<float>(
-		boost::bind(&ScriptEnvironmentBase::InternalGetTargetRotationDiff, this, ScriptId, ActorId), ScriptId));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	return InternalGetTargetRotationDiff(ActorId);
 }
 
 
@@ -562,14 +643,17 @@ void ScriptEnvironmentBase::GetTargetRotationDiff(int ScriptId, long ActorId)
 //! 1-> first contact weapon, 2 -> first distance weapon
 //! 3-> second contact weapon, 4 -> second distance weapon
 /***********************************************************/
-void ScriptEnvironmentBase::GetNpcWeaponReachDistance(int ScriptId, long ActorId, int WeaponNumber)
+float ScriptEnvironmentBase::GetNpcWeaponReachDistance(long ActorId, int WeaponNumber)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseReturnYield<float>(
-		boost::bind(&ScriptEnvironmentBase::InternalGetNpcWeaponReachDistance, this, ScriptId, ActorId, WeaponNumber), ScriptId));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	return InternalGetNpcWeaponReachDistance(ActorId, WeaponNumber);
 }
 
 
@@ -581,15 +665,18 @@ void ScriptEnvironmentBase::GetNpcWeaponReachDistance(int ScriptId, long ActorId
 //! 2 -> player object
 //! 3 -> movable object
 /***********************************************************/
-void ScriptEnvironmentBase::CanPlayAnimation(int ScriptId, int ObjectType, long ObjectId, 
+bool ScriptEnvironmentBase::CanPlayAnimation(int ObjectType, long ObjectId, 
 											 const std::string & anim)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseReturnYield<bool>(
-		boost::bind(&ScriptEnvironmentBase::InternalCanPlayAnimation, this, ScriptId, ObjectType, ObjectId, anim), ScriptId));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	return InternalCanPlayAnimation(ObjectType, ObjectId, anim);
 }
 
 
@@ -603,12 +690,15 @@ void ScriptEnvironmentBase::CanPlayAnimation(int ScriptId, int ObjectType, long 
 void ScriptEnvironmentBase::UpdateActorAnimation(int ScriptId, long ActorId, 
 												 const std::string & AnimationString)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalUpdateActorAnimation, this, ScriptId, ActorId, AnimationString)));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	InternalUpdateActorAnimation(ScriptId, ActorId, AnimationString);
 }
 
 
@@ -618,12 +708,15 @@ void ScriptEnvironmentBase::UpdateActorAnimation(int ScriptId, long ActorId,
 /***********************************************************/
 void ScriptEnvironmentBase::UpdateActorMode(int ScriptId, long ActorId, const std::string & Mode)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalUpdateActorMode, this, ScriptId, ActorId, Mode)));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	InternalUpdateActorMode(ScriptId, ActorId, Mode);
 }
 
 
@@ -634,12 +727,15 @@ void ScriptEnvironmentBase::UpdateActorMode(int ScriptId, long ActorId, const st
 /***********************************************************/
 void ScriptEnvironmentBase::UpdateActorModel(int ScriptId, long ActorId, const std::string & Name)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalUpdateActorModel, this, ScriptId, ActorId, Name)));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	InternalUpdateActorModel(ScriptId, ActorId, Name);
 }
 
 
@@ -650,12 +746,15 @@ void ScriptEnvironmentBase::UpdateActorModel(int ScriptId, long ActorId, const s
 /***********************************************************/
 void ScriptEnvironmentBase::UpdateActorOutfit(int ScriptId, long ActorId, const std::string & Name)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalUpdateActorOutfit, this, ScriptId, ActorId, Name)));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	InternalUpdateActorOutfit(ScriptId, ActorId, Name);
 }
 
 
@@ -666,12 +765,15 @@ void ScriptEnvironmentBase::UpdateActorOutfit(int ScriptId, long ActorId, const 
 /***********************************************************/
 void ScriptEnvironmentBase::UpdateActorWeapon(int ScriptId, long ActorId, const std::string & Name)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalUpdateActorWeapon, this, ScriptId, ActorId, Name)));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	InternalUpdateActorWeapon(ScriptId, ActorId, Name);
 }
 
 
@@ -682,12 +784,15 @@ void ScriptEnvironmentBase::UpdateActorWeapon(int ScriptId, long ActorId, const 
 /***********************************************************/
 void ScriptEnvironmentBase::TeleportActorTo(int ScriptId, long ActorId, const LbaVec3 &Position)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalTeleportActorTo, this, ScriptId, ActorId, Position)));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	InternalTeleportActorTo(ScriptId, ActorId, Position);
 }
 
 
@@ -698,12 +803,15 @@ void ScriptEnvironmentBase::TeleportActorTo(int ScriptId, long ActorId, const Lb
 /***********************************************************/
 void ScriptEnvironmentBase::SetActorRotation(int ScriptId, long ActorId, float Angle)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalSetActorRotation, this, ScriptId, ActorId, Angle)));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	InternalSetActorRotation(ScriptId, ActorId, Angle);
 }
 
 
@@ -714,12 +822,15 @@ void ScriptEnvironmentBase::SetActorRotation(int ScriptId, long ActorId, float A
 /***********************************************************/
 void ScriptEnvironmentBase::ActorShowHide(int ScriptId, long ActorId, bool Show)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalActorShowHide, this, ScriptId, ActorId, Show)));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	InternalActorShowHide(ScriptId, ActorId, Show);
 }
 
 
@@ -728,14 +839,17 @@ void ScriptEnvironmentBase::ActorShowHide(int ScriptId, long ActorId, bool Show)
 /***********************************************************/
 //! used by lua to send signal to actor
 /***********************************************************/
-void ScriptEnvironmentBase::SendSignalToActor(int ScriptId, long ActorId, int Signalnumber)
+void ScriptEnvironmentBase::SendSignalToActor(long ActorId, int Signalnumber)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalSendSignalToActor, this, ScriptId, ActorId, Signalnumber)));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	InternalSendSignalToActor(ActorId, Signalnumber);
 }
 
 
@@ -747,16 +861,18 @@ void ScriptEnvironmentBase::SendSignalToActor(int ScriptId, long ActorId, int Si
 //! 2 -> player object
 //! 3 -> movable object
 /***********************************************************/
-void ScriptEnvironmentBase::AttachActor(int ScriptId, long ActorId, int AttachedObjectType, 
+void ScriptEnvironmentBase::AttachActor(long ActorId, int AttachedObjectType, 
 										long AttachedObjectId)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalAttachActor, this, ScriptId, ActorId, 
-															AttachedObjectType, AttachedObjectId)));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	InternalAttachActor(ActorId, AttachedObjectType, AttachedObjectId);
 }
 
 
@@ -768,15 +884,17 @@ void ScriptEnvironmentBase::AttachActor(int ScriptId, long ActorId, int Attached
 //! 2 -> player object
 //! 3 -> movable object
 /***********************************************************/
-void ScriptEnvironmentBase::DettachActor(int ScriptId, long ActorId, long AttachedObjectId)
+void ScriptEnvironmentBase::DettachActor(long ActorId, long AttachedObjectId)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalDettachActor, this, ScriptId, ActorId, 
-															AttachedObjectId));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	InternalDettachActor(ActorId, AttachedObjectId);
 }
 
 
@@ -788,12 +906,15 @@ void ScriptEnvironmentBase::DettachActor(int ScriptId, long ActorId, long Attach
 /***********************************************************/
 void ScriptEnvironmentBase::UseWeapon(int ScriptId, long ActorId, int WeaponNumber)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalUseWeapon, this, ScriptId, ActorId, WeaponNumber));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	InternalUseWeapon(ScriptId, ActorId, WeaponNumber);
 }
 
 
@@ -807,13 +928,15 @@ void ScriptEnvironmentBase::UseWeapon(int ScriptId, long ActorId, int WeaponNumb
 void ScriptEnvironmentBase::RotateToTargettedPlayer(int ScriptId, long ActorId, 
 													float ToleranceAngle, float speed)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalRotateToTargettedPlayer, this, ScriptId, ActorId, 
-																		ToleranceAngle, speed));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	InternalRotateToTargettedPlayer(ScriptId, ActorId, ToleranceAngle, speed);
 }
 
 
@@ -822,13 +945,15 @@ void ScriptEnvironmentBase::RotateToTargettedPlayer(int ScriptId, long ActorId,
 /***********************************************************/
 void ScriptEnvironmentBase::FollowTargettedPlayer(int ScriptId, long ActorId, float DistanceStopFollow)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalFollowTargettedPlayer, this, ScriptId, ActorId, 
-																		DistanceStopFollow));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	InternalFollowTargettedPlayer(ScriptId, ActorId, DistanceStopFollow);
 }
 
 
@@ -839,11 +964,34 @@ void ScriptEnvironmentBase::FollowTargettedPlayer(int ScriptId, long ActorId, fl
 /***********************************************************/
 void ScriptEnvironmentBase::StartUseWeapon(int ScriptId, long ActorId, int WeaponNumber)
 {
-	IceUtil::Mutex::Lock sync(m_mutex);
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
 
-	boost::shared_ptr<ScriptCallbackBase> calb
-		(new ScriptCallbackBaseNoYield(
-		boost::bind(&ScriptEnvironmentBase::InternalStartUseWeapon, this, ScriptId, ActorId, 
-																		WeaponNumber));
-	m_callbacks.push_back(calb);
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	InternalStartUseWeapon(ScriptId, ActorId, WeaponNumber);
+}
+
+
+
+/***********************************************************/
+//! check if thread is still running
+/***********************************************************/
+bool ScriptEnvironmentBase::ThreadRunning(int ScriptId)
+{
+	//IceUtil::Monitor<IceUtil::Mutex>::Lock lock(m_monitor);
+	//++m_waiting_luacall;
+
+	//m_monitor.wait();
+	//m_monitor.notify();
+
+	//--m_waiting_luacall;
+
+	if(m_luaHandler)
+		return m_luaHandler->ThreadRunning(ScriptId);
+
+	return false;
 }

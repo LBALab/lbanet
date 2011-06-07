@@ -46,54 +46,6 @@ class DynamicObject;
 #include "LuaHandlerBase.h"
 
 
-class ScriptCallbackBase
-{
-public:
-	ScriptCallbackBase(){}
-	virtual ~ScriptCallbackBase(){}
-};
-
-
-class ScriptCallbackBaseNoYield : public ScriptCallbackBase
-{
-public:
-	ScriptCallbackBaseNoYield(boost::function<void()> f)
-		: _callback(f)
-	{}
-	virtual ~ScriptCallbackBaseNoYield(){}
-
-protected:
-    boost::function<void()> _callback;
-};
-
-class ScriptCallbackBaseYield : public ScriptCallbackBaseNoYield
-{
-public:
-	ScriptCallbackBaseYield(boost::function<void()> f, int ScriptId)
-		: ScriptCallbackBaseNoYield(f), _ScriptId(ScriptId)
-	{}
-	virtual ~ScriptCallbackBaseYield(){}
-
-protected:
-	int						_ScriptId;
-};
-
-template <class T>
-class ScriptCallbackBaseReturnYield : public ScriptCallbackBase
-{
-public:
-	ScriptCallbackBaseReturnYield(boost::function<T()> f, int ScriptId)
-		: _callback(f), _ScriptId(ScriptId)
-	{}
-	virtual ~ScriptCallbackBaseReturnYield(){}
-
-
-protected:
-    boost::function<T()>	_callback;
-	int						_ScriptId;
-};
-
-
 
 //*************************************************************************************************
 //*                               class ScriptEnvironmentBase
@@ -108,7 +60,7 @@ public:
 
 	//! constructor
 	ScriptEnvironmentBase()
-		: m_generatednumber(0)
+		: m_generatednumber(0), m_waiting_luacall(0)
 	{}
 
 
@@ -394,34 +346,34 @@ public:
 
 
 	//! used by lua to get an actor Position
-	void GetActorPosition(int ScriptId, long ActorId);
+	LbaVec3 GetActorPosition(int ScriptId, long ActorId);
 
 	//! used by lua to get an actor Rotation
-	void GetActorRotation(int ScriptId, long ActorId);
+	float GetActorRotation(int ScriptId, long ActorId);
 
 	//! used by lua to get an actor Rotation
-	void GetActorRotationQuat(int ScriptId, long ActorId);
+	LbaQuaternion GetActorRotationQuat(int ScriptId, long ActorId);
 
 	//! return targeted player
-	void GetTargettedAttackPlayer(int ScriptId, long ActorId);
+	long GetTargettedAttackPlayer(long ActorId);
 
 	//! check if target is in range
-	void IsTargetInRange(int ScriptId, float MaxDistance, long ActorId);
+	bool IsTargetInRange(float MaxDistance, long ActorId);
 
 	//! check if target is in rotation range
-	void GetTargetRotationDiff(int ScriptId, long ActorId);
+	float GetTargetRotationDiff(long ActorId);
 
 	//! get weapon distance
 	//! 1-> first contact weapon, 2 -> first distance weapon
 	//! 3-> second contact weapon, 4 -> second distance weapon
-	void GetNpcWeaponReachDistance(int ScriptId, long ActorId, int WeaponNumber);
+	float GetNpcWeaponReachDistance(long ActorId, int WeaponNumber);
 
 	// check if actor can play animation
 	// ObjectType ==>
 	//! 1 -> npc object
 	//! 2 -> player object
 	//! 3 -> movable object
-	void CanPlayAnimation(int ScriptId, int ObjectType, long ObjectId, const std::string & anim);
+	bool CanPlayAnimation( int ObjectType, long ObjectId, const std::string & anim);
 
 
 
@@ -458,21 +410,21 @@ public:
 
 
 	//! used by lua to send signal to actor
-	void SendSignalToActor(int ScriptId, long ActorId, int Signalnumber);
+	void SendSignalToActor(long ActorId, int Signalnumber);
 
 	// AttachActor
 	// ObjectType ==>
 	//! 1 -> npc object
 	//! 2 -> player object
 	//! 3 -> movable object
-	void AttachActor(int ScriptId, long ActorId, int AttachedObjectType, long AttachedObjectId);
+	void AttachActor(long ActorId, int AttachedObjectType, long AttachedObjectId);
 
 	// DettachActor
 	// ObjectType ==>
 	//! 1 -> npc object
 	//! 2 -> player object
 	//! 3 -> movable object
-	void DettachActor(int ScriptId, long ActorId, long AttachedObjectId);
+	void DettachActor(long ActorId, long AttachedObjectId);
 
 	//! npc use weapon
 	//! 1-> first contact weapon, 2 -> first distance weapon
@@ -493,10 +445,6 @@ public:
 	//! 1-> first contact weapon, 2 -> first distance weapon
 	//! 3-> second contact weapon, 4 -> second distance weapon
 	void StartUseWeapon(int ScriptId, long ActorId, int WeaponNumber);
-
-
-
-
 
 
 
@@ -526,8 +474,8 @@ public:
 
 
 
-
-
+	//! check if thread is still running
+	bool ThreadRunning(int ScriptId);
 
 
 protected:
@@ -615,7 +563,7 @@ protected:
 
 
 	//! used by lua to send signal to actor
-	virtual void InternalSendSignalToActor(int ScriptId, long ActorId, int Signalnumber) = 0;
+	virtual void InternalSendSignalToActor(long ActorId, int Signalnumber) = 0;
 
 
 	//! used by lua to move an actor or player
@@ -669,25 +617,25 @@ protected:
 
 
 	//! return targeted player
-	virtual long InternalGetTargettedAttackPlayer(int ScriptId, long ActorId) = 0;
+	virtual long InternalGetTargettedAttackPlayer(long ActorId) = 0;
 
 	//! check if target is in range
-	virtual bool InternalIsTargetInRange(int ScriptId, float MaxDistance, long ActorId) = 0;
+	virtual bool InternalIsTargetInRange(float MaxDistance, long ActorId) = 0;
 
 	//! check if target is in rotation range
-	virtual float InternalGetTargetRotationDiff(int ScriptId, long ActorId) = 0;
+	virtual float InternalGetTargetRotationDiff(long ActorId) = 0;
 
 	//! get weapon distance
 	//! 1-> first contact weapon, 2 -> first distance weapon
 	//! 3-> second contact weapon, 4 -> second distance weapon
-	virtual float InternalGetNpcWeaponReachDistance(int ScriptId, long ActorId, int WeaponNumber) = 0;
+	virtual float InternalGetNpcWeaponReachDistance(long ActorId, int WeaponNumber) = 0;
 
 	// check if actor can play animation
 	// ObjectType ==>
 	//! 1 -> npc object
 	//! 2 -> player object
 	//! 3 -> movable object
-	virtual bool InternalCanPlayAnimation(int ScriptId, int ObjectType, long ObjectId, const std::string & anim) = 0;
+	virtual bool InternalCanPlayAnimation(int ObjectType, long ObjectId, const std::string & anim) = 0;
 
 
 
@@ -715,10 +663,9 @@ private:
 
 	std::map<int, int>									m_sleepingscripts;
 
-	IceUtil::Mutex										m_mutex;
-
-
-	std::vector<boost::shared_ptr<ScriptCallbackBase> >	m_callbacks;
+	//IceUtil::Mutex									m_mutex;
+	//IceUtil::Monitor<IceUtil::Mutex>					m_monitor;
+	long												m_waiting_luacall;
 };
 
 
