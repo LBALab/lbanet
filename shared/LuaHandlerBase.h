@@ -98,6 +98,7 @@ protected:
 	lua_State *													m_LuaState;
 
 	std::map<int, boost::shared_ptr<LuaThreadHandler> >			m_RunningThreads;
+	int															m_creatingthread;
 };
 
 #endif

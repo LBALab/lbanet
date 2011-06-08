@@ -20,6 +20,7 @@ extern "C"
 constructor
 ***********************************************************/
 LuaHandlerBase::LuaHandlerBase()
+: m_creatingthread(-1)
 {
 	try
 	{
@@ -127,11 +128,13 @@ void LuaHandlerBase::StartScript(const std::string & FunctionName, bool inlinefu
 
 
 	boost::shared_ptr<LuaThreadHandler> Th(new LuaThreadHandler(m_LuaState, FunctionName,
-												inlinefunction, env, ThreadReference));
+												inlinefunction, env, ThreadReference, m_creatingthread));
 	if(Th->IsStarted())
 		m_RunningThreads[ThreadReference] = Th;
 	else
 		ThreadReference = -1;
+
+	m_creatingthread = -1;
 }
 
 
@@ -154,11 +157,13 @@ void LuaHandlerBase::StartScript(const std::string & FunctionName, long ActorId,
 
 
 	boost::shared_ptr<LuaThreadHandler> Th(new LuaThreadHandler(m_LuaState, ActorId, FunctionName,
-												inlinefunction, env, ThreadReference));
+												inlinefunction, env, ThreadReference, m_creatingthread));
 	if(Th->IsStarted())
 		m_RunningThreads[ThreadReference] = Th;
 	else
 		ThreadReference = -1;
+
+	m_creatingthread = -1;
 }
 
 
@@ -236,6 +241,9 @@ check if thread is still running
 ***********************************************************/
 bool LuaHandlerBase::ThreadRunning(int ThreadIdx)
 {
+	if(m_creatingthread == ThreadIdx)
+		return true;
+
 	std::map<int, boost::shared_ptr<LuaThreadHandler> >::iterator it = m_RunningThreads.find(ThreadIdx);
 	if(it != m_RunningThreads.end())
 		return true;
