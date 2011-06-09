@@ -294,6 +294,14 @@ void MapHandler::run()
 		}
 
 
+		//process nav mesh
+		if(_navimesh)
+			_navimesh->Process(timetodiff, tdiff);
+
+		// refresh lua stuff
+		CheckFinishedAsynScripts();
+
+
 
 		// send events to all proxies
 		if(_tosendevts.size() > 0)
@@ -319,12 +327,6 @@ void MapHandler::run()
 			}
 		}
 
-		//process nav mesh
-		if(_navimesh)
-			_navimesh->Process(timetodiff, tdiff);
-
-		// refresh lua stuff
-		CheckFinishedAsynScripts();
 
 
 		// wait for a few milliseconds
@@ -1942,7 +1944,7 @@ void MapHandler::PlayerItemUsed(Ice::Long clientid, long ItemId)
 /***********************************************************
 used by lua to get an actor Position
 ***********************************************************/
-LbaVec3 MapHandler::InternalGetActorPosition(int ScriptId, long ActorId)
+LbaVec3 MapHandler::GetActorPosition(int ScriptId, long ActorId)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
@@ -1955,7 +1957,7 @@ LbaVec3 MapHandler::InternalGetActorPosition(int ScriptId, long ActorId)
 /***********************************************************
 used by lua to get an actor Rotation
 ***********************************************************/
-float MapHandler::InternalGetActorRotation(int ScriptId, long ActorId)
+float MapHandler::GetActorRotation(int ScriptId, long ActorId)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
@@ -1968,7 +1970,7 @@ float MapHandler::InternalGetActorRotation(int ScriptId, long ActorId)
  /***********************************************************
 used by lua to get an actor Rotation
 ***********************************************************/
-LbaQuaternion MapHandler::InternalGetActorRotationQuat(int ScriptId, long ActorId)
+LbaQuaternion MapHandler::GetActorRotationQuat(int ScriptId, long ActorId)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
@@ -1982,7 +1984,7 @@ LbaQuaternion MapHandler::InternalGetActorRotationQuat(int ScriptId, long ActorI
 /***********************************************************
  used by lua to update an actor animation
 ***********************************************************/
-void MapHandler::InternalUpdateActorAnimation(int ScriptId, long ActorId, const std::string & AnimationString)
+void MapHandler::UpdateActorAnimation(int ScriptId, long ActorId, const std::string & AnimationString)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
@@ -1996,7 +1998,7 @@ void MapHandler::InternalUpdateActorAnimation(int ScriptId, long ActorId, const 
 /***********************************************************
 //! used by lua to update an actor mode
 ***********************************************************/
-void MapHandler::InternalUpdateActorMode(int ScriptId, long ActorId, const std::string & Mode)
+void MapHandler::UpdateActorMode(int ScriptId, long ActorId, const std::string & Mode)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
@@ -2064,7 +2066,7 @@ void MapHandler::ScriptFinished(int scriptid, const std::string & functioname)
 	//! used by lua to move an actor or player
 	//! the actor will change model
 ***********************************************************/
-void MapHandler::InternalUpdateActorModel(int ScriptId, long ActorId, const std::string & Name)
+void MapHandler::UpdateActorModel(int ScriptId, long ActorId, const std::string & Name)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
@@ -2077,7 +2079,7 @@ void MapHandler::InternalUpdateActorModel(int ScriptId, long ActorId, const std:
 	//! used by lua to move an actor or player
 	//! the actor will change outfit
 ***********************************************************/
-void MapHandler::InternalUpdateActorOutfit(int ScriptId, long ActorId, const std::string & Name)
+void MapHandler::UpdateActorOutfit(int ScriptId, long ActorId, const std::string & Name)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
@@ -2090,7 +2092,7 @@ void MapHandler::InternalUpdateActorOutfit(int ScriptId, long ActorId, const std
 	//! used by lua to move an actor or player
 	//! the actor will change weapon
 ***********************************************************/
-void MapHandler::InternalUpdateActorWeapon(int ScriptId, long ActorId, const std::string & Name)
+void MapHandler::UpdateActorWeapon(int ScriptId, long ActorId, const std::string & Name)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
@@ -2103,7 +2105,7 @@ void MapHandler::InternalUpdateActorWeapon(int ScriptId, long ActorId, const std
 	//! used by lua to move an actor or player
 	//! the actor will change mode
 ***********************************************************/
-void MapHandler::InternalSendSignalToActor(long ActorId, int Signalnumber)
+void MapHandler::SendSignalToActor(long ActorId, int Signalnumber)
 {
 	if(ActorId < 0)
 	{
@@ -2127,7 +2129,7 @@ void MapHandler::InternalSendSignalToActor(long ActorId, int Signalnumber)
 //! used by lua to move an actor or player
 //! the actor will move using animation speed
 ***********************************************************/
-void MapHandler::InternalTeleportActorTo(int ScriptId, long ActorId, const LbaVec3 &Position)
+void MapHandler::TeleportActorTo(int ScriptId, long ActorId, const LbaVec3 &Position)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
@@ -2139,7 +2141,7 @@ void MapHandler::InternalTeleportActorTo(int ScriptId, long ActorId, const LbaVe
 //! used by lua to move an actor or player
 //! the actor change rotation
 ***********************************************************/
-void MapHandler::InternalSetActorRotation(int ScriptId, long ActorId, float Angle)
+void MapHandler::SetActorRotation(int ScriptId, long ActorId, float Angle)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
@@ -2152,7 +2154,7 @@ void MapHandler::InternalSetActorRotation(int ScriptId, long ActorId, float Angl
 //! used by lua to move an actor or player
 //! the actor show/hide
 ***********************************************************/
-void MapHandler::InternalActorShowHide(int ScriptId, long ActorId, bool Show)
+void MapHandler::ActorShowHide(int ScriptId, long ActorId, bool Show)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
@@ -2775,7 +2777,7 @@ boost::shared_ptr<DynamicObject> MapHandler::GetActor(int ObjectType, long Objec
 /***********************************************************
 AttachActor
 ***********************************************************/
-void MapHandler::InternalAttachActor(long ActorId, int AttachedObjectType, long AttachedObjectId)
+void MapHandler::AttachActor(long ActorId, int AttachedObjectType, long AttachedObjectId)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator it = _Actors.find(ActorId);
 	if(it != _Actors.end())
@@ -2785,7 +2787,7 @@ void MapHandler::InternalAttachActor(long ActorId, int AttachedObjectType, long 
 /***********************************************************
 DettachActor
 ***********************************************************/
-void MapHandler::InternalDettachActor(long ActorId, long AttachedObjectId)
+void MapHandler::DettachActor(long ActorId, long AttachedObjectId)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator it = _Actors.find(ActorId);
 	if(it != _Actors.end())
@@ -2878,7 +2880,7 @@ ShortcutsSeq MapHandler::GetShorcuts(Ice::Long clientid)
 /***********************************************************
 get player position
 ***********************************************************/
-PlayerPosition MapHandler::InternalGetPlayerPosition(Ice::Long clientid)
+PlayerPosition MapHandler::GetPlayerPosition(Ice::Long clientid)
 {
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
@@ -4007,8 +4009,12 @@ LbaVec3 MapHandler::GetPlayerPositionVec(long PlayerId)
 /***********************************************************
 npc rotate to player
 ***********************************************************/
-void MapHandler::InternalRotateToTargettedPlayer(int ScriptId, long ActorId, float ToleranceAngle, float speed)
+void MapHandler::RotateToTargettedPlayer(int ScriptId, long ActorId, float ToleranceAngle, float speed)
 {
+	std::stringstream strs;
+	strs<<"RotateToTargettedPlayer - actor"<<ActorId;
+	LogHandler::getInstance()->LogToFile(strs.str(), ScriptId);
+
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact = _Actors.find(ActorId);
 	if(itact != _Actors.end())
 		itact->second->RotateToTargettedPlayer(ScriptId, ToleranceAngle, speed);
@@ -4018,8 +4024,12 @@ void MapHandler::InternalRotateToTargettedPlayer(int ScriptId, long ActorId, flo
 /***********************************************************
 npc follow player
 ***********************************************************/
-void MapHandler::InternalFollowTargettedPlayer(int ScriptId, long ActorId, float DistanceStopFollow)
+void MapHandler::FollowTargettedPlayer(int ScriptId, long ActorId, float DistanceStopFollow)
 {
+	std::stringstream strs;
+	strs<<"Follow target player - actor"<<ActorId;
+	LogHandler::getInstance()->LogToFile(strs.str(), ScriptId);
+
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact = _Actors.find(ActorId);
 	if(itact != _Actors.end())
 		itact->second->FollowTargettedPlayer(ScriptId, DistanceStopFollow);
@@ -4029,8 +4039,12 @@ void MapHandler::InternalFollowTargettedPlayer(int ScriptId, long ActorId, float
 /***********************************************************
 npc use weapon
 ***********************************************************/
-void MapHandler::InternalUseWeapon(int ScriptId, long ActorId, int WeaponNumber)
+void MapHandler::UseWeapon(int ScriptId, long ActorId, int WeaponNumber)
 {
+	std::stringstream strs;
+	strs<<"UseWeapon - actor"<<ActorId;
+	LogHandler::getInstance()->LogToFile(strs.str(), ScriptId);
+
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact = _Actors.find(ActorId);
 	if(itact != _Actors.end())
 		itact->second->UseWeapon(ScriptId, WeaponNumber, false);
@@ -4039,8 +4053,13 @@ void MapHandler::InternalUseWeapon(int ScriptId, long ActorId, int WeaponNumber)
 /***********************************************************
 npc start use weapon - will not stop until changing state - only usefull for distance weapon
 ***********************************************************/
-void MapHandler::InternalStartUseWeapon(int ScriptId, long ActorId, int WeaponNumber)
+void MapHandler::StartUseWeapon(int ScriptId, long ActorId, int WeaponNumber)
 {
+	std::stringstream strs;
+	strs<<"Start use weapon - actor"<<ActorId;
+	LogHandler::getInstance()->LogToFile(strs.str(), ScriptId);
+
+
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact = _Actors.find(ActorId);
 	if(itact != _Actors.end())
 		itact->second->UseWeapon(ScriptId, WeaponNumber, true);
@@ -4053,7 +4072,7 @@ void MapHandler::InternalStartUseWeapon(int ScriptId, long ActorId, int WeaponNu
 /***********************************************************
 return targeted player
 ***********************************************************/
-long MapHandler::InternalGetTargettedAttackPlayer(long ActorId)
+long MapHandler::GetTargettedAttackPlayer(long ActorId)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact = _Actors.find(ActorId);
 	if(itact != _Actors.end())
@@ -4066,7 +4085,7 @@ long MapHandler::InternalGetTargettedAttackPlayer(long ActorId)
 /***********************************************************
 check if target is in range
 ***********************************************************/
-bool MapHandler::InternalIsTargetInRange(float MaxDistance, long ActorId)
+bool MapHandler::IsTargetInRange(float MaxDistance, long ActorId)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact = _Actors.find(ActorId);
 	if(itact != _Actors.end())
@@ -4078,7 +4097,7 @@ bool MapHandler::InternalIsTargetInRange(float MaxDistance, long ActorId)
 /***********************************************************
 check if target is in rotation range
 ***********************************************************/
-float MapHandler::InternalGetTargetRotationDiff(long ActorId)
+float MapHandler::GetTargetRotationDiff(long ActorId)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact = _Actors.find(ActorId);
 	if(itact != _Actors.end())
@@ -4091,7 +4110,7 @@ float MapHandler::InternalGetTargetRotationDiff(long ActorId)
 /***********************************************************
 get weapon distance
 ***********************************************************/
-float MapHandler::InternalGetNpcWeaponReachDistance(long ActorId, int WeaponNumber)
+float MapHandler::GetNpcWeaponReachDistance(long ActorId, int WeaponNumber)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact = _Actors.find(ActorId);
 	if(itact != _Actors.end())
@@ -4108,7 +4127,7 @@ float MapHandler::InternalGetNpcWeaponReachDistance(long ActorId, int WeaponNumb
 //! 2 -> player object
 //! 3 -> movable object
 ***********************************************************/
-bool MapHandler::InternalCanPlayAnimation(int ObjectType, long ObjectId, const std::string & anim)
+bool MapHandler::CanPlayAnimation(int ObjectType, long ObjectId, const std::string & anim)
 {
 	switch(ObjectType)
 	{

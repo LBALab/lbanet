@@ -1083,7 +1083,7 @@ void LbaNetModel::CenterCamera()
 used by lua to get an actor Position
 if id < 1 then it get player position
 ***********************************************************/
-LbaVec3 LbaNetModel::InternalGetActorPosition(int ScriptId, long ActorId)
+LbaVec3 LbaNetModel::GetActorPosition(int ScriptId, long ActorId)
 {
 	LbaVec3 res;
 
@@ -1108,7 +1108,7 @@ LbaVec3 LbaNetModel::InternalGetActorPosition(int ScriptId, long ActorId)
 used by lua to get an actor Rotation
 if id < 1 then it get player position
 ***********************************************************/
-float LbaNetModel::InternalGetActorRotation(int ScriptId, long ActorId)
+float LbaNetModel::GetActorRotation(int ScriptId, long ActorId)
 {
 	if(ActorId >= 0)
 	{
@@ -1131,7 +1131,7 @@ float LbaNetModel::InternalGetActorRotation(int ScriptId, long ActorId)
 used by lua to get an actor Rotation
 if id < 1 then it get player position
 ***********************************************************/
-LbaQuaternion LbaNetModel::InternalGetActorRotationQuat(int ScriptId, long ActorId)
+LbaQuaternion LbaNetModel::GetActorRotationQuat(int ScriptId, long ActorId)
 {
 	if(ActorId >= 0)
 	{
@@ -1159,7 +1159,7 @@ LbaQuaternion LbaNetModel::InternalGetActorRotationQuat(int ScriptId, long Actor
  used by lua to update an actor animation
  if id < 1 then it get player position
 ***********************************************************/
-void LbaNetModel::InternalUpdateActorAnimation(int ScriptId, long ActorId, const std::string & AnimationString)
+void LbaNetModel::UpdateActorAnimation(int ScriptId, long ActorId, const std::string & AnimationString)
 {
 	if(ActorId >= 0)
 	{
@@ -1181,7 +1181,7 @@ void LbaNetModel::InternalUpdateActorAnimation(int ScriptId, long ActorId, const
 //! used by lua to update an actor mode
 //! if id < 1 then it get player position
 ***********************************************************/
-void LbaNetModel::InternalUpdateActorMode(int ScriptId, long ActorId, const std::string & Mode)
+void LbaNetModel::UpdateActorMode(int ScriptId, long ActorId, const std::string & Mode)
 {
 	if(ActorId >= 0)
 	{
@@ -1292,7 +1292,7 @@ void LbaNetModel::ScriptFinished(int scriptid, const std::string & functioname)
 /***********************************************************
 //! set the actor as playing script
 ***********************************************************/
-void LbaNetModel::InternalReserveActor(int ScriptId, long ActorId)
+void LbaNetModel::ReserveActor(int ScriptId, long ActorId)
 {
 	std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
 	if(it != _npcObjects.end())
@@ -1331,7 +1331,7 @@ void LbaNetModel::ReleaseActorFromScript(int scriptid)
 	//! used by lua to move an actor or player
 	//! the actor will change model
 ***********************************************************/
-void LbaNetModel::InternalUpdateActorModel(int ScriptId, long ActorId, const std::string & Name)
+void LbaNetModel::UpdateActorModel(int ScriptId, long ActorId, const std::string & Name)
 {
 	if(ActorId >= 0)
 	{
@@ -1353,7 +1353,7 @@ void LbaNetModel::InternalUpdateActorModel(int ScriptId, long ActorId, const std
 	//! used by lua to move an actor or player
 	//! the actor will change outfit
 ***********************************************************/
-void LbaNetModel::InternalUpdateActorOutfit(int ScriptId, long ActorId, const std::string & Name)
+void LbaNetModel::UpdateActorOutfit(int ScriptId, long ActorId, const std::string & Name)
 {
 	if(ActorId >= 0)
 	{
@@ -1375,7 +1375,7 @@ void LbaNetModel::InternalUpdateActorOutfit(int ScriptId, long ActorId, const st
 	//! used by lua to move an actor or player
 	//! the actor will change weapon
 ***********************************************************/
-void LbaNetModel::InternalUpdateActorWeapon(int ScriptId, long ActorId, const std::string & Name)
+void LbaNetModel::UpdateActorWeapon(int ScriptId, long ActorId, const std::string & Name)
 {
 	if(ActorId >= 0)
 	{
@@ -1397,7 +1397,7 @@ void LbaNetModel::InternalUpdateActorWeapon(int ScriptId, long ActorId, const st
 	//! used by lua to move an actor or player
 	//! the actor will change mode
 ***********************************************************/
-void LbaNetModel::InternalSendSignalToActor(long ActorId, int Signalnumber)
+void LbaNetModel::SendSignalToActor(long ActorId, int Signalnumber)
 {
 	if(ActorId >= 0)
 	{
@@ -1421,7 +1421,7 @@ void LbaNetModel::InternalSendSignalToActor(long ActorId, int Signalnumber)
 //! used by lua to move an actor or player
 //! the actor will move using animation speed
 ***********************************************************/
-void LbaNetModel::InternalTeleportActorTo(int ScriptId, long ActorId, const LbaVec3 &Position)
+void LbaNetModel::TeleportActorTo(int ScriptId, long ActorId, const LbaVec3 &Position)
 {
 	if(ActorId >= 0)
 	{
@@ -1445,7 +1445,7 @@ void LbaNetModel::InternalTeleportActorTo(int ScriptId, long ActorId, const LbaV
 //! used by lua to move an actor or player
 //! the actor change rotation
 ***********************************************************/
-void LbaNetModel::InternalSetActorRotation(int ScriptId, long ActorId, float Angle)
+void LbaNetModel::SetActorRotation(int ScriptId, long ActorId, float Angle)
 {
 	if(ActorId >= 0)
 	{
@@ -1466,7 +1466,7 @@ void LbaNetModel::InternalSetActorRotation(int ScriptId, long ActorId, float Ang
 //! used by lua to move an actor or player
 //! the actor show/hide
 ***********************************************************/
-void LbaNetModel::InternalActorShowHide(int ScriptId, long ActorId, bool Show)
+void LbaNetModel::ActorShowHide(int ScriptId, long ActorId, bool Show)
 {
 	if(ActorId >= 0)
 	{
@@ -1819,7 +1819,7 @@ boost::shared_ptr<DynamicObject> LbaNetModel::GetActor(int ObjectType, long Obje
 /***********************************************************
 AttachActor
 ***********************************************************/
-void LbaNetModel::InternalAttachActor(long ActorId, int AttachedObjectType, long AttachedObjectId)
+void LbaNetModel::AttachActor(long ActorId, int AttachedObjectType, long AttachedObjectId)
 {
 	//special treatment if main player
 	if(ActorId < 0)
@@ -1837,7 +1837,7 @@ void LbaNetModel::InternalAttachActor(long ActorId, int AttachedObjectType, long
 /***********************************************************
 DettachActor
 ***********************************************************/
-void LbaNetModel::InternalDettachActor(long ActorId, long AttachedObjectId)
+void LbaNetModel::DettachActor(long ActorId, long AttachedObjectId)
 {
 	//special treatment if main player
 	if(ActorId < 0)
@@ -1981,7 +1981,7 @@ boost::shared_ptr<DynamicObject> LbaNetModel::CreateProjectileObject(const LbaNe
 //! 2 -> player object
 //! 3 -> movable object
 ***********************************************************/
-bool LbaNetModel::InternalCanPlayAnimation(int ObjectType, long ObjectId, const std::string & anim)
+bool LbaNetModel::CanPlayAnimation(int ObjectType, long ObjectId, const std::string & anim)
 {
 	switch(ObjectType)
 	{

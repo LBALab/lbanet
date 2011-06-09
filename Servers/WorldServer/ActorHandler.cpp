@@ -839,14 +839,17 @@ void ActorHandler::UpdateActorAnimation(const std::string & AnimationString, boo
 		boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
 		if(disO)
 		{
-			disO->Update(new LbaNet::AnimationStringUpdate(AnimationString), 
-										updatefromlua && m_paused && !fromattackscript);
+			if(disO->GetCurrentAnimation() != AnimationString)
+			{
+				disO->Update(new LbaNet::AnimationStringUpdate(AnimationString), 
+											updatefromlua && m_paused && !fromattackscript);
 
-			if(!updatefromlua)
-				_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
-									SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-									1, m_actorinfo.ObjectId,
-									new LbaNet::AnimationStringUpdate(AnimationString)));
+				if(!updatefromlua)
+					_events.push_back(new LbaNet::UpdateDisplayObjectEvent(
+										SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+										1, m_actorinfo.ObjectId,
+										new LbaNet::AnimationStringUpdate(AnimationString)));
+			}
 		}
 	}
 }
