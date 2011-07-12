@@ -1748,6 +1748,16 @@ void MapHandler::ExecuteCustomAction(int ObjectType, long ObjectId,
 
 
 /***********************************************************
+run attack script
+***********************************************************/
+void MapHandler::RunAttackScript(long ActorId, const std::string & FunctionName)
+{
+	m_luaHandler->RunAttackScript(ActorId, FunctionName, this);
+}
+
+
+
+/***********************************************************
 display text to client window
 ObjectType ==>
  1 -> npc object

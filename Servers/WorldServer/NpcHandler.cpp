@@ -25,9 +25,9 @@ NPCHandler::NPCHandler(const ActorObjectInfo & actorinfo)
 		_attack_activation_distance_hidden(0), _respwantime(-1),
 		_armor(0), _weapon1power(0), _weapon2power(0), _stop_attack_distance(0),
 		_agentstatenum(0), _targetedattackplayer(-1), _oldtdiff(1), 
-		m_launchedattackscript(-1), m_runningscript(-1),
 		m_minimalchasingdistance(1), m_weapon1type(-1), m_weapon2type(-1),
-		_weapon1reachdistance(1), _weapon2reachdistance(1)
+		_weapon1reachdistance(1), _weapon2reachdistance(1),
+		_fightscriptrunning(false), _fightscriptpartrunning(false)
 {
 	_lifeinfo.MaxLife = 0;
 	_lifeinfo.MaxMana = 0;
@@ -316,7 +316,7 @@ void NPCHandler::StartFight(Ice::Long TargetedPlayerId)
 		_targetedattackplayers.push_back(TargetedPlayerId);
 
 	// start target player
-	if(_targetedattackplayers.size() == 1 && m_launchedattackscript < 0)
+	if(_targetedattackplayers.size() == 1 && !_fightscriptrunning)
 		TargetAttackPlayer(TargetedPlayerId);
 }
 
@@ -386,12 +386,10 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 	bool animfinished = false;
 
 	// process attack script
-	if((m_launchedattackscript >= 0) && (_currentScripts.size() > 0))
+	if(_fightscriptrunning)
 	{
-		#ifdef _DEBUG_NPC_
-		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"Process attack script"<<std::endl;
-		#endif
-		ProcessScript(tnow, tdiff, m_scripthandler);
+		if(!_fightscriptpartrunning && m_scripthandler && m_attackfunctionname != "")
+			m_scripthandler->RunAttackScript(GetId(), m_attackfunctionname);
 	}
 	else
 	{
@@ -1205,7 +1203,7 @@ void NPCHandler::PlayerMoved(Ice::Long PlayerId, const LbaNet::PlayerPosition &s
 									const LbaNet::ModelState & state,
 									const std::string & mode, bool cantarget)
 {
-	if(m_launchedattackscript <= 0 && _aggresive && _agentState->CanChase() && cantarget)
+	if(!_fightscriptrunning && _aggresive && _agentState->CanChase() && cantarget)
 	{
 		boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
 		if(!physo)
@@ -1458,13 +1456,14 @@ void NPCHandler::StartAttackScript()
 	filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"start atack script"<<std::endl;
 	#endif
 
-	if(m_launchedattackscript > 0)
+	if(_fightscriptrunning)
 		StopAttackScript();	//stop old script
 
 
 	// start the script
 	if(m_attackfunctionname != "" && m_scripthandler)
-		m_scripthandler->StartScript(m_attackfunctionname, GetId(), false, m_launchedattackscript);
+		_fightscriptrunning = true;
+		//m_scripthandler->StartScript(m_attackfunctionname, GetId(), false, m_launchedattackscript);
 }
 
 /***********************************************************
@@ -1477,11 +1476,7 @@ void NPCHandler::StopAttackScript()
 	#endif
 
 	YieldRunningScript();
-
-	if(m_launchedattackscript > 0 && m_scripthandler)
-		m_scripthandler->StropThread(m_launchedattackscript);	
-
-	m_launchedattackscript = -1;
+	_fightscriptrunning = false;
 }
 
 
@@ -1495,7 +1490,7 @@ void NPCHandler::FollowTargettedPlayer(int ScriptId, float DistanceStopFollow)
 	#endif
 
 	YieldRunningScript();
-	m_runningscript = ScriptId;
+	_fightscriptpartrunning = true;
 
 	if(_targetedattackplayer < 0)
 	{
@@ -1541,7 +1536,7 @@ void NPCHandler::RotateToTargettedPlayer(int ScriptId, float ToleranceAngle, flo
 	#endif
 
 	YieldRunningScript();
-	m_runningscript = ScriptId;
+	_fightscriptpartrunning = true;
 
 	if(_targetedattackplayer < 0)
 	{
@@ -1567,7 +1562,7 @@ void NPCHandler::UseWeapon(int ScriptId, int WeaponNumber, bool multishot)
 	#endif
 
 	YieldRunningScript();
-	m_runningscript = ScriptId;
+	_fightscriptpartrunning = true;
 
 	if(_targetedattackplayer < 0)
 	{
@@ -1718,16 +1713,7 @@ yield running script
 ***********************************************************/
 void NPCHandler::YieldRunningScript()
 {
-	if(m_runningscript < 0)
-		return;
-
-	//tell script handler that script part is finished
-	if(m_scripthandler)
-	{
-		int scriptid = m_runningscript;
-		m_runningscript = -1;
-		m_scripthandler->ScriptFinished(scriptid, false);
-	}
+	_fightscriptpartrunning = false;
 }
 
 
@@ -1960,7 +1946,7 @@ check if script is attack script
 ***********************************************************/
 bool NPCHandler::IsAttackScript(int ScriptId) 
 {
-	return ScriptId == m_launchedattackscript;
+	return ScriptId == -33;
 }
 
 		
@@ -1969,7 +1955,7 @@ check if script is attack script
 ***********************************************************/
 bool NPCHandler::IsAttacking() 
 {
-	return (m_launchedattackscript > 0) || (_agentstatenum == 5);
+	return _fightscriptrunning || (_agentstatenum == 5);
 }
 
 

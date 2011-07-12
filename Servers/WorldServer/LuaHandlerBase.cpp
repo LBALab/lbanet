@@ -270,3 +270,21 @@ bool LuaHandlerBase::CallLuaCondition(const std::string & functioname, ScriptEnv
 
 	return false;
 }
+
+
+/***********************************************************
+RunAttackScript
+***********************************************************/
+void LuaHandlerBase::RunAttackScript(long ActorId,
+									const std::string & FunctionName,
+									ScriptEnvironmentBase* env)
+{
+	try
+	{
+		luabind::call_function<void>(m_LuaState, FunctionName.c_str(), -33, ActorId, env);
+	}
+	catch(const std::exception &error)
+	{
+		LogHandler::getInstance()->LogToFile(std::string("Exception calling lua attack script ") + FunctionName + std::string(" : ") + error.what() + std::string(" : ") + lua_tostring(m_LuaState, -1), 0);
+	}
+}

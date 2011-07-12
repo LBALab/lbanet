@@ -505,8 +505,6 @@ protected:
 	int											_counterresetchasing;
 
 
-	int											m_runningscript;
-	int											m_launchedattackscript;
 	std::string									m_attackfunctionname;
 
 	std::string									m_chasinganimation;
@@ -533,6 +531,9 @@ protected:
 	std::vector<ProjectileObjectDefPtr>			_projectilesweapon2;
 
 	std::vector<long>							_launchedprojs;
+
+	bool										_fightscriptrunning;
+	bool										_fightscriptpartrunning;
 
 };
 
