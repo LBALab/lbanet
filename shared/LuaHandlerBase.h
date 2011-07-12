@@ -94,6 +94,11 @@ public:
 	bool CallLuaCondition(const std::string & functioname, ScriptEnvironmentBase* env, 
 							int objecttype, long objectid);
 
+	// RunAttackScript
+	void RunAttackScript(long ActorId,
+									const std::string & FunctionName,
+									ScriptEnvironmentBase* env);
+
 protected:
 	lua_State *													m_LuaState;
 

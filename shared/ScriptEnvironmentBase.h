@@ -451,6 +451,9 @@ public:
 	//! check if thread is still running
 	bool ThreadRunning(int ScriptId);
 
+	// run attack script
+	virtual void RunAttackScript(long ActorId, const std::string & FunctionName) = 0;
+
 protected:
 
 	//! used by lua to move an actor or player
