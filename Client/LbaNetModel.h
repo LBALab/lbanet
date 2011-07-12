@@ -429,6 +429,10 @@ public:
 	//! 3 -> movable object
 	virtual bool ActorMoving(int ObjectType, long ObjectId){ return false;}
 
+	// run attack script
+	virtual void RunAttackScript(long ActorId, const std::string & FunctionName){}
+
+
 protected:
 
 	//! clean up map
