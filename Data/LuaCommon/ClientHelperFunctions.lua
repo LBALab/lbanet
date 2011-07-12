@@ -250,7 +250,7 @@ end
 function ActorAttackContactPlayer(ScriptId, ActorId, Environment)
 
 	TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
-	while Environment:ThreadRunning(ScriptId) and TargetedPlayer > -1 do
+	if TargetedPlayer > -1 then
 		weaponrange = Environment:GetNpcWeaponReachDistance(ActorId, 1)
 	
 		tinrange = Environment:IsTargetInRange(weaponrange, ActorId)
@@ -267,10 +267,6 @@ function ActorAttackContactPlayer(ScriptId, ActorId, Environment)
 				Environment:UseWeapon(ScriptId, ActorId, 1)
 			end
 		end
-	
-
-		Environment:WaitOneCycle(ScriptId)
-		TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
 	end
 end
 
@@ -278,13 +274,13 @@ end
 -- go to player and attack him with contact weapon
 function ActorFollowAttackDistancePlayer(ScriptId, ActorId, Environment)
 
-	if Environment:CanPlayAnimation(1, ActorId, "PrepareWeapon") then
-		Environment:UpdateActorAnimation(ActorId, "PrepareWeapon")
-		Environment:ActorAnimate(ScriptId, ActorId, true)
-	end
+	-- if Environment:CanPlayAnimation(1, ActorId, "PrepareWeapon") then
+	--	Environment:UpdateActorAnimation(ActorId, "PrepareWeapon")
+	--	Environment:ActorAnimate(ScriptId, ActorId, true)
+	-- end
 	
 	TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
-	while Environment:ThreadRunning(ScriptId) and TargetedPlayer > -1 do
+	if TargetedPlayer > -1 then
 		weaponrange = Environment:GetNpcWeaponReachDistance(ActorId, 2)
 	
 		tinrange = Environment:IsTargetInRange(weaponrange, ActorId)
@@ -301,23 +297,19 @@ function ActorFollowAttackDistancePlayer(ScriptId, ActorId, Environment)
 				Environment:StartUseWeapon(ScriptId, ActorId, 2)
 			end
 		end
-	
-
-		Environment:WaitOneCycle(ScriptId)
-		TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
 	end
 end
 
 -- go to player and attack him with contact weapon
 function ActorRotateAttackDistancePlayer(ScriptId, ActorId, Environment)
 
-	if Environment:CanPlayAnimation(1, ActorId, "PrepareWeapon") then
-		Environment:UpdateActorAnimation(ScriptId, ActorId, "PrepareWeapon")
-		Environment:ActorAnimate(ScriptId, ActorId, true)
-	end
+	-- if Environment:CanPlayAnimation(1, ActorId, "PrepareWeapon") then
+	--	Environment:UpdateActorAnimation(ScriptId, ActorId, "PrepareWeapon")
+	--	Environment:ActorAnimate(ScriptId, ActorId, true)
+	-- end
 
 	TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
-	while Environment:ThreadRunning(ScriptId) and TargetedPlayer > -1 do
+	if TargetedPlayer > -1 then
 
 		rotationdiff = Environment:GetTargetRotationDiff(ActorId)
 		if math.abs(rotationdiff) > 2 then
@@ -328,22 +320,19 @@ function ActorRotateAttackDistancePlayer(ScriptId, ActorId, Environment)
 			Environment:StartUseWeapon(ScriptId, ActorId, 2)
 
 		end
-
-		Environment:WaitOneCycle(ScriptId)
-		TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
 	end
 end
 
 -- go to player and attack him with contact weapon
 function ActorRotateAttackDistanceAndContactPlayer(ScriptId, ActorId, Environment)
 
-	if Environment:CanPlayAnimation(1, ActorId, "PrepareWeapon") then
-		Environment:UpdateActorAnimation(ScriptId, ActorId, "PrepareWeapon")
-		Environment:ActorAnimate(ScriptId, ActorId, true)
-	end
+	-- if Environment:CanPlayAnimation(1, ActorId, "PrepareWeapon") then
+	--	Environment:UpdateActorAnimation(ScriptId, ActorId, "PrepareWeapon")
+	--	Environment:ActorAnimate(ScriptId, ActorId, true)
+	-- end
 
 	TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
-	while Environment:ThreadRunning(ScriptId) and TargetedPlayer > -1 do
+	if TargetedPlayer > -1 then
 		weaponrange1 = Environment:GetNpcWeaponReachDistance(ActorId, 1)
 
 		rotationdiff = Environment:GetTargetRotationDiff(ActorId)
@@ -361,9 +350,5 @@ function ActorRotateAttackDistanceAndContactPlayer(ScriptId, ActorId, Environmen
 				Environment:StartUseWeapon(ScriptId, ActorId, 2)	
 			end
 		end
-
-	
-		Environment:WaitOneCycle(ScriptId)
-		TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
 	end
 end
