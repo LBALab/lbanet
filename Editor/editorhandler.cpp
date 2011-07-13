@@ -7285,6 +7285,12 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 					_objectmodel->AppendRow(data, parent);
 					++index;
 				}
+				{
+					QVector<QVariant> data;
+					data<<"Prepare weapon"<<actorh->GetWeaponAnimAtStart();
+					_objectmodel->AppendRow(data, parent);
+					++index;
+				}
 
 				int weapon1Type = actorh->GetWeapon1Type();
 				{
@@ -8273,6 +8279,9 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 					++index;
 
 					actorh->SetAttackFunction(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data());
+					++index;
+
+					actorh->SetWeaponAnimAtStart(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool());
 					++index;
 
 					int lastweapon1type = actorh->GetWeapon1Type();
