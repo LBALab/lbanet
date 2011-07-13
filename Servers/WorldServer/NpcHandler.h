@@ -375,6 +375,16 @@ public:
 	//! check if reset position
 	virtual bool IsDead();
 
+
+	//! accessor
+	bool GetWeaponAnimAtStart()
+	{return _weaponanimatstart;}
+
+	//! accessor
+	void SetWeaponAnimAtStart(bool v)
+	{_weaponanimatstart = v;}
+
+
 protected:
 
 	//! return the build class
@@ -534,6 +544,10 @@ protected:
 
 	bool										_fightscriptrunning;
 	bool										_fightscriptpartrunning;
+
+
+	bool										_weaponanimatstart;
+	bool										_weaponanimating;
 
 };
 

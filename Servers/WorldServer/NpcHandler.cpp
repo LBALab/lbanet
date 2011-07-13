@@ -27,7 +27,8 @@ NPCHandler::NPCHandler(const ActorObjectInfo & actorinfo)
 		_agentstatenum(0), _targetedattackplayer(-1), _oldtdiff(1), 
 		m_minimalchasingdistance(1), m_weapon1type(-1), m_weapon2type(-1),
 		_weapon1reachdistance(1), _weapon2reachdistance(1),
-		_fightscriptrunning(false), _fightscriptpartrunning(false)
+		_fightscriptrunning(false), _fightscriptpartrunning(false),
+		_weaponanimatstart(true), _weaponanimating(false)
 {
 	_lifeinfo.MaxLife = 0;
 	_lifeinfo.MaxMana = 0;
@@ -77,6 +78,7 @@ void NPCHandler::ExtraLua(std::ostream & file, const std::string & name)
 		file<<"\t"<<name<<":SetAttackActiDistHidden("<<_attack_activation_distance_hidden<<")"<<std::endl;
 		file<<"\t"<<name<<":SetAttackStopDist("<<_stop_attack_distance<<")"<<std::endl;
 		file<<"\t"<<name<<":SetRespawnTimeInSec("<<_respwantime<<")"<<std::endl;
+		file<<"\t"<<name<<":SetWeaponAnimAtStart("<<(_weaponanimatstart?"true":"false")<<")"<<std::endl;
 
 		if(m_weapon1type > 0)
 		{
@@ -388,8 +390,22 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 	// process attack script
 	if(_fightscriptrunning)
 	{
-		if(!_fightscriptpartrunning && m_scripthandler && m_attackfunctionname != "")
-			m_scripthandler->RunAttackScript(GetId(), m_attackfunctionname);
+		//process NPC animation
+		int pout = _character->Process(tnow, tdiff);
+		animfinished = (pout == 1);
+
+
+		if(_weaponanimating)
+		{
+			// wait until prepare weapon anim finished before processing with attack script
+			if(animfinished)
+				_weaponanimating = false;
+		}
+		else
+		{
+			if(!_fightscriptpartrunning && m_scripthandler && m_attackfunctionname != "")
+				m_scripthandler->RunAttackScript(GetId(), m_attackfunctionname);
+		}
 	}
 	else
 	{
@@ -1462,7 +1478,18 @@ void NPCHandler::StartAttackScript()
 
 	// start the script
 	if(m_attackfunctionname != "" && m_scripthandler)
+	{
 		_fightscriptrunning = true;
+
+		if(_weaponanimatstart)
+		{
+			if(CanPlayAnimation("PrepareWeapon"))
+			{
+				UpdateActorAnimation("PrepareWeapon", false, false); 
+				_weaponanimating = true;
+			}
+		}
+	}
 		//m_scripthandler->StartScript(m_attackfunctionname, GetId(), false, m_launchedattackscript);
 }
 

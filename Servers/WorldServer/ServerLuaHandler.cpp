@@ -378,7 +378,8 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetWeapon1ReachDistance", &NPCHandler::GetWeapon1ReachDistance)
 		.def("SetWeapon1ReachDistance", &NPCHandler::SetWeapon1ReachDistance)	
 		.def("GetWeapon2ReachDistance", &NPCHandler::GetWeapon2ReachDistance)
-		.def("SetWeapon2ReachDistance", &NPCHandler::SetWeapon2ReachDistance),
+		.def("SetWeapon2ReachDistance", &NPCHandler::SetWeapon2ReachDistance)
+		.def("SetWeaponAnimAtStart", &NPCHandler::SetWeaponAnimAtStart),
 
 
 
