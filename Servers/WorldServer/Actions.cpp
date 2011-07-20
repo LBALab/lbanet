@@ -1216,9 +1216,6 @@ void PlaySoundAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice
 }
 
 
-
-
-
 /***********************************************************
 save action to lua file
 ***********************************************************/
@@ -1228,4 +1225,42 @@ void PlaySoundAction::SaveToLuaFile(std::ostream & file, const std::string & nam
 	file<<"\t"<<name<<":SetToEveryone("<<(_toeveryone?"true":"false")<<")"<<std::endl;
 	if(_soundpath != "")
 		file<<"\t"<<name<<":SetSoundPath(\""<<_soundpath<<"\")"<<std::endl;
+}
+
+
+
+
+/***********************************************************
+execute the action
+***********************************************************/
+void SetFlagAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+										ActionArgumentBase* args)
+{
+	long clientid = -2;
+	if(ObjectType == 2)
+		clientid = (long)ObjectId;
+
+	// on object moved by player
+	if(ObjectType == 3 && owner)
+		clientid = owner->GetGhostOwnerPlayer((long)ObjectId);
+
+	// check if client found - else return
+	if(clientid < 0)
+		return;
+
+
+	if(owner && _flag != "")
+		owner->SetDBFlag(clientid, _flag, _value);
+}
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/
+void SetFlagAction::SaveToLuaFile(std::ostream & file, const std::string & name)
+{
+	file<<"\t"<<name<<" = SetFlagAction()"<<std::endl;
+	file<<"\t"<<name<<":SetValue("<<_value<<")"<<std::endl;
+	if(_flag != "")
+		file<<"\t"<<name<<":SetFlagName(\""<<_flag<<"\")"<<std::endl;
 }

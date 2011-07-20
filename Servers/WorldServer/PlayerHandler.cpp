@@ -1739,3 +1739,39 @@ bool PlayerHandler::IsMoving()
 	float speed = _currentspeedX + _currentspeedY + _currentspeedZ;
 	return (fabs(speed) > 0.0001f);
 }
+
+
+/***********************************************************
+set DB flag
+***********************************************************/
+void PlayerHandler::SetDBFlag(const std::string & flagid, int value)
+{
+	if(_dbH)
+		_dbH->SetDBFlag(_worldname, _clientid, flagid, value);
+
+	_flagcache[flagid] = value;
+}
+
+
+/***********************************************************
+get DB flag
+***********************************************************/
+int PlayerHandler::GetDBFlag(const std::string & flagid)
+{
+	std::map<std::string, int>::iterator itf = _flagcache.find(flagid);
+	if(itf != _flagcache.end())
+	{
+		return itf->second;
+	}
+	else
+	{
+		if(_dbH)
+		{
+			int v = _dbH->GetDBFlag(_worldname, _clientid, flagid);
+			_flagcache[flagid] = v;
+			return v;
+		}
+		else
+			return -1;
+	}
+}

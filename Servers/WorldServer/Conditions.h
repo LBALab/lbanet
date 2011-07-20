@@ -448,4 +448,45 @@ public:
 };
 
 
+//! condition is always true
+class CheckFlagCondition : public ConditionBase
+{
+public:
+	//! constructor
+	CheckFlagCondition()
+		: _checkvalue(1)
+	{}
+
+	//! check if the condition is true or not
+	virtual bool Passed(ScriptEnvironmentBase * owner, 
+							int ObjectType, Ice::Long ObjectId);
+	
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & conditionname);
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName(){ return "CheckFlagCondition";}
+
+	// acessor
+	int GetValue()
+	{ return _checkvalue;}
+
+	// acessor
+	void SetValue(int v)
+	{ _checkvalue = v;}
+
+	// acessor
+	std::string GetFlagName()
+	{ return _flagname;}
+
+	// acessor
+	void SetFlagName(const std::string& v)
+	{ _flagname = v;}
+
+
+private:
+	std::string		_flagname;
+	int				_checkvalue;
+};
+
 #endif

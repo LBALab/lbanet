@@ -1110,4 +1110,58 @@ private:
 
 
 
+
+//! use to display a text on client
+class SetFlagAction : public ActionBase
+{
+public:
+	//! constructor
+	SetFlagAction()
+		: _value(1)
+	{}
+	
+	//! destructor
+	virtual ~SetFlagAction(void){}
+
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args);
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "SetFlagAction"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
+
+
+	// acessor
+	int GetValue()
+	{ return _value;}
+
+	// acessor
+	void SetValue(int v)
+	{ _value = v;}
+
+	// acessor
+	std::string GetFlagName()
+	{ return _flag;}
+
+	// acessor
+	void SetFlagName(const std::string& v)
+	{ _flag = v;}
+
+
+private:
+	std::string			_flag;
+	int					_value;
+};
+
 #endif

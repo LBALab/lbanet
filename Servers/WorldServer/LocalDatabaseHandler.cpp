@@ -926,3 +926,108 @@ LbaNet::PMsSeq LocalDatabaseHandler::GetInboxPM(long playerid)
 	LbaNet::PMsSeq pmsres;
 	return pmsres;
 }
+
+
+/***********************************************************
+set DB flag
+***********************************************************/
+void LocalDatabaseHandler::SetDBFlag(const std::string& WorldName, long playerid, 
+									 const std::string & flagid, int value)
+{
+	if(WorldName == "")
+		return;
+
+	Lock sync(*this);
+	if(!_db)
+		return;
+
+	std::stringstream query;
+	query << "SELECT id FROM lba_usertoworld";
+	query << " WHERE userid = '"<<playerid<<"'";
+	query << " AND worldid = (SELECT id FROM lba_worlds WHERE name = '"<<WorldName<<"')";
+
+	char *zErrMsg = 0;
+	char **pazResult = 0;
+	int nbrow, nbcollumn;
+	int dbres = sqlite3_get_table(_db, query.str().c_str(), &pazResult, &nbrow, &nbcollumn, &zErrMsg);
+
+	if(dbres != SQLITE_OK)
+	{
+		// record error
+		std::cerr<<IceUtil::Time::now()<<": WorldServer - GetDBFlag failed for user id "<<playerid<<" : "<<zErrMsg<<std::endl;
+		sqlite3_free(zErrMsg);
+	}
+	else
+	{
+		if(nbrow > 0)
+		{
+			// unpack the result
+			int wid = atoi(pazResult[nbcollumn]);
+
+			// free the results
+			sqlite3_free_table(pazResult);
+
+			query.str("");
+			query << "INSERT OR IGNORE INTO lba_playerflag(wid, flagid)";
+			query << " VALUES('"<<wid<<"', '"<<flagid<<"');";
+			query << " UPDATE lba_playerflag SET value = '"<<value<<"'";
+			query << " WHERE wid = '"<<wid<<"' AND flagid = '"<<flagid<<"';";
+		
+			dbres = sqlite3_exec(_db, query.str().c_str(), 0, 0, &zErrMsg);
+			if(dbres != SQLITE_OK)
+			{
+				// record error
+				std::cerr<<IceUtil::Time::now()<<": LBA_Server - SetDBFlag  failed for user id "<<playerid<<" : "<<zErrMsg<<std::endl;
+				sqlite3_free(zErrMsg);
+			}
+		}
+	}
+}
+
+/***********************************************************
+get DB flag
+***********************************************************/
+int LocalDatabaseHandler::GetDBFlag(const std::string& WorldName, long playerid, 
+									const std::string & flagid)
+{
+	if(WorldName == "")
+		return -1;
+
+	Lock sync(*this);
+	if(!_db)
+		return -1;
+
+	std::stringstream query;
+	query << "SELECT value FROM lba_playerflag";
+	query << " WHERE flagid = '"<<flagid<<"' AND wid = (";
+	query << "SELECT id FROM lba_usertoworld";
+	query << " WHERE userid = '"<<playerid<<"'";
+	query << " AND worldid = (SELECT id FROM lba_worlds WHERE name = '"<<WorldName<<"'))";
+
+	char *zErrMsg = 0;
+	char **pazResult = 0;
+	int nbrow, nbcollumn;
+	int dbres = sqlite3_get_table(_db, query.str().c_str(), &pazResult, &nbrow, &nbcollumn, &zErrMsg);
+
+	if(dbres != SQLITE_OK)
+	{
+		// record error
+		std::cerr<<IceUtil::Time::now()<<": WorldServer - GetDBFlag failed for user id "<<playerid<<" : "<<zErrMsg<<std::endl;
+		sqlite3_free(zErrMsg);
+	}
+	else
+	{
+		if(nbrow > 0)
+		{
+			// unpack the result
+			int res = atoi(pazResult[nbcollumn]);
+
+			// free the results
+			sqlite3_free_table(pazResult);
+
+			return res;
+		}
+	}
+
+	return -1;
+}

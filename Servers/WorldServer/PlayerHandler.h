@@ -254,6 +254,13 @@ public:
 	//! check if player is moving
 	bool IsMoving();
 
+	// set DB flag
+	void SetDBFlag(const std::string & flagid, int value);
+
+	// get DB flag
+	int GetDBFlag(const std::string & flagid);
+
+
 protected:
 	// update state and mode class from modelinfo
 	void UpdateStateModeClass();
@@ -295,6 +302,8 @@ private:
 	float										_currentspeedX;
 	float										_currentspeedY;
 	float										_currentspeedZ;
+
+	std::map<std::string, int>					_flagcache;
 };
 
 #endif

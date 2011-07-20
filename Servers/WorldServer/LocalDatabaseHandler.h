@@ -131,6 +131,12 @@ public:
 	void DeleteLetter(Ice::Long LetterId){}
 
 
+	// set DB flag
+	virtual void SetDBFlag(const std::string& WorldName, long playerid, const std::string & flagid, int value);
+
+	// get DB flag
+	virtual int GetDBFlag(const std::string& WorldName, long playerid, const std::string & flagid);
+
 protected:
 	LocalDatabaseHandler(const LocalDatabaseHandler &);
 	const LocalDatabaseHandler & operator=(const LocalDatabaseHandler &);

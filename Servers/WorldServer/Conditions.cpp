@@ -333,3 +333,43 @@ void ActorMovingCondition::SaveToLuaFile(std::ostream & file, const std::string 
 	file<<"\t"<<conditionname<<" = ActorMovingCondition()"<<std::endl;
 	file<<"\t"<<conditionname<<":SetTextid("<<_textid <<")"<<std::endl;
 }
+
+
+
+
+/***********************************************************
+check if the condition is true or not
+***********************************************************/	
+bool CheckFlagCondition::Passed(ScriptEnvironmentBase * owner, 
+							int ObjectType, Ice::Long ObjectId)
+{
+	long clientid = -2;
+	if(ObjectType == 2)
+		clientid = (long)ObjectId;
+
+	// on object moved by player
+	if(ObjectType == 3 && owner)
+		clientid = owner->GetGhostOwnerPlayer((long)ObjectId);
+
+	// check if client found - else return
+	if(clientid < 0)
+		return false;
+
+
+	if(owner)
+		return (owner->GetDBFlag(clientid, _flagname) == _checkvalue);
+
+	return false;
+}
+	
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void CheckFlagCondition::SaveToLuaFile(std::ostream & file, const std::string & conditionname)
+{
+	file<<"\t"<<conditionname<<" = CheckFlagCondition()"<<std::endl;
+	if(_flagname != "")
+		file<<"\t"<<conditionname<<":SetFlagName(\""<<_flagname <<"\")"<<std::endl;
+	file<<"\t"<<conditionname<<":SetValue("<<_checkvalue <<")"<<std::endl;
+}

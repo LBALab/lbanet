@@ -4192,3 +4192,28 @@ bool MapHandler::ActorMoving(int ObjectType, long ObjectId)
 
 	return false;
 }
+
+
+/***********************************************************
+// set DB flag
+***********************************************************/
+void MapHandler::SetDBFlag(long PlayerId, const std::string & flagid, int value)
+{
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator ita = _players.find(PlayerId);
+	if(ita != _players.end())
+		ita->second->SetDBFlag(flagid, value);
+}
+
+
+
+/***********************************************************
+// get DB flag
+***********************************************************/
+int MapHandler::GetDBFlag(long PlayerId, const std::string & flagid)
+{
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator ita = _players.find(PlayerId);
+	if(ita != _players.end())
+		return ita->second->GetDBFlag(flagid);
+	else
+		return -1;
+}

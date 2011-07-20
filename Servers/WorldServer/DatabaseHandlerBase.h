@@ -132,6 +132,11 @@ public:
     //get all pm in your mailbox
     virtual LbaNet::PMsSeq GetInboxPM(long playerid) = 0;
 
+	// set DB flag
+	virtual void SetDBFlag(const std::string& WorldName, long playerid, const std::string & flagid, int value) = 0;
+
+	// get DB flag
+	virtual int GetDBFlag(const std::string& WorldName, long playerid, const std::string & flagid) = 0;
 
 };
 

@@ -96,7 +96,7 @@ LbaNet::SavedWorldInfo DatabaseHandler::ChangeWorld(const std::string& NewWorldN
 
 	Lock sync(*this);
 
-	
+
 	if(!_mysqlH || !_mysqlH->connected())
 	{
 		Connect();
@@ -1290,4 +1290,94 @@ LbaNet::PMsSeq DatabaseHandler::GetInboxPM(long playerid)
 	}
 
 	return pmsres;
+}
+
+/***********************************************************
+set DB flag
+***********************************************************/
+void LocalDatabaseHandler::SetDBFlag(const std::string& WorldName, long playerid,
+									 const std::string & flagid, int value)
+{
+	if(WorldName == "")
+		return;
+
+	Lock sync(*this);
+	if(!_mysqlH || !_mysqlH->connected())
+	{
+		Connect();
+		if(!_mysqlH->connected())
+		{
+			Clear();
+			return;
+		}
+	}
+
+	mysqlpp::Query query(_mysqlH, false);
+	query << "SELECT id FROM lba_usertoworld";
+	query << " WHERE userid = '"<<playerid<<"'";
+	query << " AND worldid = (SELECT id FROM lba_worlds WHERE name = '"<<WorldName<<"')";
+
+	if (mysqlpp::StoreQueryResult res = query.store())
+	{
+		if(res.size() > 0)
+		{
+			int wid = res[0][0];
+
+			query.clear();
+			query << "INSERT INTO lba_playerflag(wid, flagid, value)";
+			query << " VALUES  ('"<<wid<<"', '"<<flagid<<"', '"<<value<<"')";
+			query << " ON DUPLICATE KEY UPDATE value = '"<<value<<"'";
+			if(!query.exec())
+			{
+				std::cerr<<IceUtil::Time::now()<<": LBA_Server - SetDBFlag failed for user id "<<playerid<<" : "<<query.error()<<std::endl;
+			}
+		}
+	}
+	else
+	{
+		std::cerr<<IceUtil::Time::now()<<": LBA_Server - SetDBFlag failed for playerid "<<playerid<<" : "<<query.error()<<std::endl;
+		Clear();
+	}
+}
+
+/***********************************************************
+get DB flag
+***********************************************************/
+int LocalDatabaseHandler::GetDBFlag(const std::string& WorldName, long playerid,
+									const std::string & flagid)
+{
+	if(WorldName == "")
+		return -1;
+
+	Lock sync(*this);
+	if(!_mysqlH || !_mysqlH->connected())
+	{
+		Connect();
+		if(!_mysqlH->connected())
+		{
+			Clear();
+			return -1;
+		}
+	}
+
+	mysqlpp::Query query(_mysqlH, false);
+	query << "SELECT value FROM lba_playerflag";
+	query << " WHERE flagid = '"<<flagid<<"' AND wid = (";
+	query << "SELECT id FROM lba_usertoworld";
+	query << " WHERE userid = '"<<playerid<<"'";
+	query << " AND worldid = (SELECT id FROM lba_worlds WHERE name = '"<<WorldName<<"'))";
+	if (mysqlpp::StoreQueryResult res = query.store())
+	{
+		if(res.size() > 0)
+		{
+			return res[0][0];
+		}
+	}
+	else
+	{
+		std::cerr<<IceUtil::Time::now()<<": LBA_Server - GetDBFlag failed for playerid "<<playerid<<" : "<<query.error()<<std::endl;
+		Clear();
+	}
+
+	return -1;
 }

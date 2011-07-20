@@ -132,6 +132,13 @@ ServerLuaHandler::ServerLuaHandler()
 		luabind::class_<ActorMovingCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("ActorMovingCondition")
 		.def(luabind::constructor<>()),
 
+		luabind::class_<CheckFlagCondition, ConditionBase, boost::shared_ptr<ConditionBase> >("CheckFlagCondition")
+		.def(luabind::constructor<>())
+		.def("GetValue", &CheckFlagCondition::GetValue)
+		.def("SetValue", &CheckFlagCondition::SetValue)
+		.def("GetFlagName", &CheckFlagCondition::GetFlagName)
+		.def("SetFlagName", &CheckFlagCondition::SetFlagName),
+
 
 		luabind::class_<ContainerItemGroupElement>("ContainerItemGroupElement")
 		.def(luabind::constructor<long, int, int, float, int>())
@@ -452,7 +459,9 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetNpcWeaponReachDistance", &ScriptEnvironmentBase::GetNpcWeaponReachDistance)
 		.def("CanPlayAnimation", &ScriptEnvironmentBase::CanPlayAnimation)
 		.def("ActorMoving", &ScriptEnvironmentBase::ActorMoving)
-		.def("ThreadRunning", &ScriptEnvironmentBase::ThreadRunning),
+		.def("ThreadRunning", &ScriptEnvironmentBase::ThreadRunning)
+		.def("SetDBFlag", &ScriptEnvironmentBase::SetDBFlag)
+		.def("GetDBFlag", &ScriptEnvironmentBase::GetDBFlag),
 
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),
@@ -641,6 +650,13 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("SetToEveryone", &PlaySoundAction::SetToEveryone)
 		.def("GetSoundPath", &PlaySoundAction::GetSoundPath)
 		.def("SetSoundPath", &PlaySoundAction::SetSoundPath),
+
+		luabind::class_<SetFlagAction, ActionBase, boost::shared_ptr<ActionBase> >("SetFlagAction")
+		.def(luabind::constructor<>())
+		.def("GetValue", &SetFlagAction::GetValue)
+		.def("SetValue", &SetFlagAction::SetValue)
+		.def("GetFlagName", &SetFlagAction::GetFlagName)
+		.def("SetFlagName", &SetFlagAction::SetFlagName),
 
 
 
