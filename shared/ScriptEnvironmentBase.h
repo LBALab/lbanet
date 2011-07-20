@@ -454,6 +454,14 @@ public:
 	// run attack script
 	virtual void RunAttackScript(long ActorId, const std::string & FunctionName) = 0;
 
+
+	// set DB flag
+	virtual void SetDBFlag(long PlayerId, const std::string & flagid, int value) = 0;
+
+	// get DB flag
+	virtual int GetDBFlag(long PlayerId, const std::string & flagid) = 0;
+
+
 protected:
 
 	//! used by lua to move an actor or player
