@@ -591,6 +591,13 @@ public:
 	// run attack script
 	virtual void RunAttackScript(long ActorId, const std::string & FunctionName){}
 
+	// set DB flag
+	virtual void SetDBFlag(long PlayerId, const std::string & flagid, int value){}
+
+	// get DB flag
+	virtual int GetDBFlag(long PlayerId, const std::string & flagid){return -1;}
+
+
 private:
 	enum ObjectEditType {EditObjCopy, EditObjCut, EditObjDelete};
 

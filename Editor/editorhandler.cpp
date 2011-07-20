@@ -1134,7 +1134,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	condlist << "No" << "AlwaysTrueCondition" << "NegateCondition" << "AndCondition" << "OrCondition" 
 				<< "ItemInInventoryCondition" << "QuestStartedCondition" << "QuestFinishedCondition"
 				<< "QuestAvailableCondition" << "ChapterStartedCondition" << "ActorMovingCondition"
-				<< "CustomCondition";
+				<< "CheckFlagCondition" << "CustomCondition";
 	_conditiontypeList->setStringList(condlist);
 	
 	QStringList cslist;
@@ -1147,7 +1147,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 			<< "OpenDoorAction" << "CloseDoorAction" << "AddRemoveItemAction" << "HurtAction"
 			 << "KillAction"  << "MultiAction" << "SwitchAction" << "StartQuestAction" << "FinishQuestAction"
 			 << "OpenShopAction"<< "CutMapAction"<< "OpenLetterWritterAction"<< "OpenMailboxAction"
-			 << "PlaySoundAction";
+			 << "PlaySoundAction" << "SetFlagAction";
 
 	_actiontypeList->setStringList(actilist);
 
@@ -3738,7 +3738,24 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 		}
 		return;
 	}
+		
+	if(actiontype == "SetFlagAction")
+	{
+		SetFlagAction* ptr = static_cast<SetFlagAction*>(action);
+		{
+			QVector<QVariant> data;
+			data << "Flag name" << ptr->GetFlagName().c_str();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+		{
+			QVector<QVariant> data;
+			data << "Value" << ptr->GetValue();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+		return;
+	}
 
+	
 }
 		
 
@@ -4444,6 +4461,25 @@ void EditorHandler::ActionObjectChanged(const std::string & category, const QMod
 
 				return;
 			}
+
+			if(category == "SetFlagAction")
+			{
+				// get info
+				std::string flagn = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();
+				int value = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toInt();
+
+				// created modified action and replace old one
+				SetFlagAction* modifiedact = (SetFlagAction*)ptr;
+				modifiedact->SetFlagName(flagn);
+				modifiedact->SetValue(value);
+
+				// need to save as something changed
+				SetModified();
+
+				return;
+			}
+
+			
 					
 		}
 	}
@@ -9943,6 +9979,27 @@ void EditorHandler::SelectCondition(ConditionBasePtr cond, const QModelIndex &pa
 
 		return;
 	}
+
+	if(type == "CheckFlagCondition")
+	{
+		CheckFlagCondition* ptr = static_cast<CheckFlagCondition*>(cond.get());
+
+		{
+		QVector<QVariant> data;
+		data << "Flag name" << ptr->GetFlagName().c_str();
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+
+		{
+		QVector<QVariant> data;
+		data << "Value" << ptr->GetValue();
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+
+		return;
+	}
+		
+
 	
 	
 }
@@ -9985,6 +10042,8 @@ ConditionBasePtr EditorHandler::CreateCondition(const std::string & type)
 	if(type == "ActorMovingCondition")
 		return ConditionBasePtr(new ActorMovingCondition());	
 
+	if(type == "CheckFlagCondition")
+		return ConditionBasePtr(new CheckFlagCondition());	
 
 
 	return ConditionBasePtr();
@@ -10234,6 +10293,22 @@ void EditorHandler::ConditionChanged(const std::string & category, const QModelI
 				SetModified();			
 			}
 
+			if(category == "CheckFlagCondition")
+			{
+				CheckFlagCondition* cond = static_cast<CheckFlagCondition*>(ptr);
+				
+				std::string fct = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+				cond->SetFlagName(fct);	
+				++index;
+
+				long value = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
+				cond->SetValue(value);
+
+				// need to save as something changed
+				SetModified();			
+			}
+
+			
 			SetModified();
 		}
 	}
@@ -10362,6 +10437,9 @@ ActionBasePtr EditorHandler::CreateAction(const std::string & type)
 	
 	if(type == "PlaySoundAction")
 		return ActionBasePtr(new PlaySoundAction());
+	
+	if(type == "SetFlagAction")
+		return ActionBasePtr(new SetFlagAction());
 	
 	
 	return ActionBasePtr();
