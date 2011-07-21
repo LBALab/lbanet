@@ -1264,3 +1264,43 @@ void SetFlagAction::SaveToLuaFile(std::ostream & file, const std::string & name)
 	if(_flag != "")
 		file<<"\t"<<name<<":SetFlagName(\""<<_flag<<"\")"<<std::endl;
 }
+
+
+/***********************************************************
+execute the action
+***********************************************************/
+void ShoutTextAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+										ActionArgumentBase* args)
+{
+	if(owner && _textid >= 0)
+	{
+		LbaNet::ShoutTextInfo sinfo;
+		sinfo.TextId = _textid;
+		sinfo.TextSize = _textsize;
+		sinfo.TextcolorR = _textcolorR;
+		sinfo.TextcolorG = _textcolorG;
+		sinfo.TextcolorB = _textcolorB;
+
+		sinfo.ObjectType = ObjectType;
+		sinfo.ObjectId = ObjectId;
+
+		EventsSeq toplayer;
+		toplayer.push_back(
+			new DisplayShoutEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), sinfo));
+		owner->SendEvents(-2, toplayer);
+	}
+}
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/
+void ShoutTextAction::SaveToLuaFile(std::ostream & file, const std::string & name)
+{
+	file<<"\t"<<name<<" = ShoutTextAction()"<<std::endl;
+	file<<"\t"<<name<<":SetTextId("<<_textid<<")"<<std::endl;
+	file<<"\t"<<name<<":SetTextSize("<<_textsize<<")"<<std::endl;
+	file<<"\t"<<name<<":SetColorR("<<_textcolorR<<")"<<std::endl;
+	file<<"\t"<<name<<":SetColorG("<<_textcolorG<<")"<<std::endl;
+	file<<"\t"<<name<<":SetColorB("<<_textcolorB<<")"<<std::endl;	
+}

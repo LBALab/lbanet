@@ -1164,4 +1164,89 @@ private:
 	int					_value;
 };
 
+
+
+
+//! use to display a text on client
+class ShoutTextAction : public ActionBase
+{
+public:
+	//! constructor
+	ShoutTextAction()
+		: _textid(-1), _textsize(10),
+			_textcolorR(1), _textcolorG(1), _textcolorB(1)
+	{}
+	
+	//! destructor
+	virtual ~ShoutTextAction(void){}
+
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args);
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "ShoutTextAction"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
+
+
+	// acessor
+	int GetTextId()
+	{ return _textid;}
+
+	// acessor
+	void SetTextId(int v)
+	{ _textid = v;}
+
+	// acessor
+	float GetTextSize()
+	{ return _textsize;}
+
+	// acessor
+	void SetTextSize(float v)
+	{ _textsize = v;}
+
+	// acessor
+	float GetColorR()
+	{ return _textcolorR;}
+
+	// acessor
+	void SetColorR(float v)
+	{ _textcolorR = v;}
+
+	// acessor
+	float GetColorG()
+	{ return _textcolorG;}
+
+	// acessor
+	void SetColorG(float v)
+	{ _textcolorG = v;}
+
+	// acessor
+	float GetColorB()
+	{ return _textcolorB;}
+
+	// acessor
+	void SetColorB(float v)
+	{ _textcolorB = v;}
+
+
+private:
+	int				_textid;
+	float			_textsize;
+	float			_textcolorR;
+	float			_textcolorG;
+	float			_textcolorB;
+};
+
+
 #endif

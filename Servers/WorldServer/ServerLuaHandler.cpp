@@ -658,6 +658,18 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetFlagName", &SetFlagAction::GetFlagName)
 		.def("SetFlagName", &SetFlagAction::SetFlagName),
 
+		luabind::class_<ShoutTextAction, ActionBase, boost::shared_ptr<ActionBase> >("ShoutTextAction")
+		.def(luabind::constructor<>())
+		.def("GetTextId", &ShoutTextAction::GetTextId)
+		.def("SetTextId", &ShoutTextAction::SetTextId)
+		.def("GetTextSize", &ShoutTextAction::GetTextSize)
+		.def("SetTextSize", &ShoutTextAction::SetTextSize)
+		.def("GetColorR", &ShoutTextAction::GetColorR)
+		.def("SetColorR", &ShoutTextAction::SetColorR)
+		.def("GetColorG", &ShoutTextAction::GetColorG)
+		.def("SetColorG", &ShoutTextAction::SetColorG)	
+		.def("GetColorB", &ShoutTextAction::GetColorB)
+		.def("SetColorB", &ShoutTextAction::SetColorB),
 
 
 		luabind::class_<ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("ClientScriptBase")
