@@ -904,8 +904,8 @@ void LbaNetEngine::HandleGameEvents()
 		// DisplayShoutEvent
 		if(info == typeid(LbaNet::DisplayShoutEvent))
 		{
-			DisplayShoutEvent* castedptr = 
-				static_cast<DisplayShoutEvent *>(&obj);
+			LbaNet::DisplayShoutEvent* castedptr = 
+				dynamic_cast<LbaNet::DisplayShoutEvent *>(&obj);
 
 			m_lbaNetModel->DisplayShout(castedptr->info);
 

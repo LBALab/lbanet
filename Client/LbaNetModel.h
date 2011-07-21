@@ -438,6 +438,9 @@ public:
 	// get DB flag
 	virtual int GetDBFlag(long PlayerId, const std::string & flagid){return -1;}
 
+	//! display shout on screen
+	void DisplayShout(const LbaNet::ShoutTextInfo &shoutinfo);
+
 protected:
 
 	//! clean up map
@@ -520,8 +523,6 @@ protected:
 								const LbaNet::LifeManaInfo &lifeinfo);
 
 
-	//! display shout on screen
-	void DisplayShout(const LbaNet::ShoutTextInfo &shoutinfo);
 
 
 private:
