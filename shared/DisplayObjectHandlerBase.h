@@ -133,6 +133,11 @@ public:
 							float	MatEmissionColorB,
 							float	MatEmissionColorA,
 							float	MatShininess) = 0;
+
+
+	//! set shout text
+	virtual void SetShoutText(const std::string & text, float size, 
+								float colorR, float colorG, float colorB, int TTL) = 0;
 };
 
 
