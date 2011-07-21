@@ -351,6 +351,12 @@ module LbaNet
 	{
 		SoundInfo		Sound;
 	};
+	
+	// client inform server that it loot an item
+	class DisplayShoutEvent extends ClientServerEventBase
+	{
+		ShoutTextInfo		info;
+	};	
 		
 };	
 

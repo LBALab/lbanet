@@ -953,6 +953,21 @@ module LbaNet
 		float			SpeedZ;			
 		
 	};	
+	
+
+	struct ShoutTextInfo
+	{
+		int			TextId;
+		float			TextSize;
+		
+		float			TextcolorR;
+		float			TextcolorG;
+		float			TextcolorB;	
+		
+		long			ObjectType;
+		long			ObjectId;	
+	};	
+	
 };	
 
 #endif
