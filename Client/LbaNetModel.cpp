@@ -39,7 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ProjectileHandler.h"
 #include "ClientExtendedTypes.h"
 #include "ItemObject.h"
-
+#include "Localizer.h"
 
 #define	_LBA1_MODEL_ANIMATION_SPEED_	1.8f
 
@@ -2023,6 +2023,58 @@ bool LbaNetModel::CanPlayAnimation(int ObjectType, long ObjectId, const std::str
 	return false;
 }
 
+
+/***********************************************************
+display shout on screen
+***********************************************************/
+void LbaNetModel::DisplayShout(const LbaNet::ShoutTextInfo &shoutinfo)
+{
+	boost::shared_ptr<DisplayObjectHandlerBase> diso;
+
+
+	switch(shoutinfo.ObjectType)
+	{
+		// 1 -> npc object
+		case 1:
+			{
+			std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find((long)shoutinfo.ObjectId);
+			if(it != _npcObjects.end())
+				diso = it->second->GetActor()->GetDisplayObject();
+			}
+		break;
+
+
+		// 2 -> player object
+		case 2:
+			//special treatment if main player
+			if(m_playerObjectId == (long)shoutinfo.ObjectId)
+			{
+				diso = m_controllerChar->GetActor()->GetDisplayObject();
+			}
+			else
+			{
+				std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _playerObjects.find((long)shoutinfo.ObjectId);
+				if(it != _playerObjects.end())
+					diso = it->second->GetActor()->GetDisplayObject();
+			}
+		break;
+
+		// 3 -> ghost object
+		case 3:
+			{
+			std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _ghostObjects.find((long)shoutinfo.ObjectId);
+			if(it != _ghostObjects.end())
+				diso = it->second->GetActor()->GetDisplayObject();
+			}
+		break;
+	}
+
+	if(diso)
+	{
+		std::string txt = Localizer::getInstance()->GetText(Localizer::Map, shoutinfo.TextId);
+		diso->SetShoutText(txt, shoutinfo.TextSize, shoutinfo.TextcolorR, shoutinfo.TextcolorG, shoutinfo.TextcolorB, 10);
+	}
+}
 
 
 

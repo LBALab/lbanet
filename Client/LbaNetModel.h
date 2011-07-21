@@ -520,6 +520,9 @@ protected:
 								const LbaNet::LifeManaInfo &lifeinfo);
 
 
+	//! display shout on screen
+	void DisplayShout(const LbaNet::ShoutTextInfo &shoutinfo);
+
 
 private:
 	

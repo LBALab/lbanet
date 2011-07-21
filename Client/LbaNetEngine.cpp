@@ -900,7 +900,17 @@ void LbaNetEngine::HandleGameEvents()
 
 			continue;
 		}
+	
+		// DisplayShoutEvent
+		if(info == typeid(LbaNet::DisplayShoutEvent))
+		{
+			DisplayShoutEvent* castedptr = 
+				static_cast<DisplayShoutEvent *>(&obj);
 
+			m_lbaNetModel->DisplayShout(castedptr->info);
+
+			continue;
+		}
 
 
 	}

@@ -121,6 +121,11 @@ public:
 							float	MatShininess);
 
 
+	//! set shout text
+	virtual void SetShoutText(const std::string & text, float size, 
+								float colorR, float colorG, float colorB, int TTL);
+
+
 protected:
 	// update matrix
 	void UpdateMatrix();
