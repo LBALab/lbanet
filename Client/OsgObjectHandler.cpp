@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "OSGHandler.h"
 #include "LogHandler.h"
 #include "Localizer.h"
+#include "SynchronizedTimeHandler.h"
 
 #include <osg/Geode>
 #include <osg/Geometry>
@@ -210,6 +211,13 @@ OsgObjectHandler::~OsgObjectHandler()
 			root->removeChild(_textgroup);
 			_textgroup = NULL;
 		}
+
+		if(_shouttextgroup)
+		{
+			root->removeChild(_shouttextgroup);
+			_shouttextgroup = NULL;
+		}
+		
 	}
 
 }
@@ -289,7 +297,15 @@ update display with current frame - used for animation
 ***********************************************************/
 int OsgObjectHandler::Process(double time, float tdiff)
 {
-	return 0;
+	if(_shouttextgroup && (time >= _ttlshout))
+	{
+		osg::ref_ptr<osg::Group> root = GetRootNoLight();
+		if(root)
+			root->removeChild(_shouttextgroup);
+		_shouttextgroup = NULL;
+	}
+
+	return ProcessInternal(time, tdiff); 
 }
 
 /***********************************************************
@@ -1015,5 +1031,64 @@ set shout text
 void OsgObjectHandler::SetShoutText(const std::string & text, float size, 
 								float colorR, float colorG, float colorB, int TTL)
 {
-	
+	osg::ref_ptr<osg::Group> root = GetRootNoLight();
+	if(root)
+	{
+		if(_shouttextgroup)
+		{
+			root->removeChild(_shouttextgroup);
+			_shouttextgroup = NULL;
+		}
+
+		if(text!= "")
+		{
+			_ttlshout = SynchronizedTimeHandler::GetCurrentTimeDouble() + (TTL*1000);
+
+			osg::Vec3 posT;
+			if(_uselight)
+			{
+				osg::BoundingSphere bs = GetRoot()->computeBound();
+				posT = bs.center()+ osg::Vec3(0,size/5,0);		
+			}
+			else
+			{
+				osg::BoundingSphere bs = GetRootNoLight()->computeBound();
+				posT = bs.center()+ osg::Vec3(0,size/5,0);	
+			}
+
+			_shouttextgroup = new osg::AutoTransform();
+			_shouttextgroup->setPosition(posT);
+			_shouttextgroup->setAutoRotateMode(osg::AutoTransform::ROTATE_TO_SCREEN);
+			_shouttextgroup->setMinimumScale(0.01);
+			_shouttextgroup->setMaximumScale(0.5);
+			_shouttextgroup->setAutoScaleToScreen(true);
+
+			osg::ref_ptr<osg::Geode> _textgeode = new osg::Geode();
+			osg::ref_ptr<osgText::Text> textd = new osgText::Text();
+			textd->setText(text);
+			textd->setColor(osg::Vec4(colorR, colorG, colorB, 1));
+			textd->setCharacterSize(size);
+			textd->setFont("Tahoma.ttf");
+			textd->setAlignment(osgText::Text::CENTER_CENTER);
+
+
+
+			textd->setBackdropColor(osg::Vec4(0, 0, 0, 1));
+			textd->setBackdropType(osgText::Text::OUTLINE);
+			textd->setBackdropImplementation(osgText::Text::NO_DEPTH_BUFFER);
+			textd->setBackdropOffset(0.1f);
+
+			_textgeode->addDrawable(textd);
+
+			osg::StateSet* stateSet = _textgeode->getOrCreateStateSet();
+			stateSet->setMode(GL_BLEND, osg::StateAttribute::ON);
+			stateSet->setMode(GL_DEPTH_TEST,osg::StateAttribute::OFF);
+			stateSet->setMode(GL_LIGHTING,osg::StateAttribute::OFF);
+			stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+			stateSet->setRenderBinDetails( 500, "SpecialBin");
+
+			_shouttextgroup->addChild(_textgeode);
+			root->addChild(_shouttextgroup);
+		}
+	}	
 }

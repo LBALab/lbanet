@@ -62,7 +62,7 @@ public:
 
 	//! update display with current frame - used for animation
 	//! return 1 if current animation finishes - 0 else
-	virtual int Process(double time, float tdiff);
+	virtual int ProcessInternal(double time, float tdiff);
 
 	// get current animation Id
 	virtual std::string GetCurrentAnimation();

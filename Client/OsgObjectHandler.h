@@ -164,8 +164,12 @@ protected:
 	//! refresh object material
 	void RefreshMaterial();
 
+	//! process
+	virtual int ProcessInternal(double time, float tdiff)
+	{return 0;} 
 
 protected:
+
 	float											_posX;
 	float											_posY; 
 	float											_posZ;
@@ -178,6 +182,7 @@ protected:
 
 	osg::ref_ptr<osg::AutoTransform>				_barsgroup;
 	LbaNet::LifeManaInfo							_lifeinfo;
+
 
 private:
 	osg::ref_ptr<osg::MatrixTransform>				_OsgObject;
@@ -209,6 +214,11 @@ private:
 	float											_MatEmissionColorB;
 	float											_MatEmissionColorA;
 	float											_MatShininess;
+
+
+	osg::ref_ptr<osg::AutoTransform>				_shouttextgroup;
+	double											_ttlshout;
+
 };
 
 

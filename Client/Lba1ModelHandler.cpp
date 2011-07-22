@@ -95,7 +95,7 @@ Lba1ModelHandler::~Lba1ModelHandler()
 /***********************************************************
 update display with current frame - used for animation
 ***********************************************************/
-int Lba1ModelHandler::Process(double time, float tdiff)
+int Lba1ModelHandler::ProcessInternal(double time, float tdiff)
 {
 	bool animationfinished = false;
 
