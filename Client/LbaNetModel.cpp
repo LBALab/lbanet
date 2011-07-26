@@ -2072,7 +2072,7 @@ void LbaNetModel::DisplayShout(const LbaNet::ShoutTextInfo &shoutinfo)
 	if(diso)
 	{
 		std::string txt = Localizer::getInstance()->GetText(Localizer::Map, shoutinfo.TextId);
-		diso->SetShoutText(txt, shoutinfo.TextSize, shoutinfo.TextcolorR, shoutinfo.TextcolorG, shoutinfo.TextcolorB, 10);
+		diso->SetShoutText(txt, shoutinfo.TextSize, shoutinfo.TextcolorR, shoutinfo.TextcolorG, shoutinfo.TextcolorB, 5);
 	}
 }
 

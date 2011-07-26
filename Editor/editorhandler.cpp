@@ -1147,7 +1147,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 			<< "OpenDoorAction" << "CloseDoorAction" << "AddRemoveItemAction" << "HurtAction"
 			 << "KillAction"  << "MultiAction" << "SwitchAction" << "StartQuestAction" << "FinishQuestAction"
 			 << "OpenShopAction"<< "CutMapAction"<< "OpenLetterWritterAction"<< "OpenMailboxAction"
-			 << "PlaySoundAction" << "SetFlagAction";
+			 << "PlaySoundAction" << "SetFlagAction" << "ShoutTextAction";
 
 	_actiontypeList->setStringList(actilist);
 
@@ -3754,7 +3754,43 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 		}
 		return;
 	}
+		
+	if(actiontype == "ShoutTextAction")
+	{
+		ShoutTextAction* ptr = static_cast<ShoutTextAction*>(action);
+		{
+			std::string txt = Localizer::getInstance()->GetText(Localizer::Map, ptr->GetTextId());
+			std::stringstream txttmp;
+			txttmp<<ptr->GetTextId()<<": "<<txt;
 
+			QVector<QVariant> data;
+			data << "Text" << QString::fromUtf8(txttmp.str().c_str());
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 2, parent), _text_mapNameList);
+
+		{
+			QVector<QVariant> data;
+			data << "Text size" << (double)ptr->GetTextSize();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+		{
+			QVector<QVariant> data;
+			data << "Text colorR" << (double)ptr->GetColorR();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+		{
+			QVector<QVariant> data;
+			data << "Text colorG" << (double)ptr->GetColorG();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+		{
+			QVector<QVariant> data;
+			data << "Text colorB" << (double)ptr->GetColorB();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+		return;
+	}
 	
 }
 		
@@ -4479,6 +4515,34 @@ void EditorHandler::ActionObjectChanged(const std::string & category, const QMod
 				return;
 			}
 
+			if(category == "ShoutTextAction")
+			{
+				// get info
+				std::string text = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();
+				std::string tmp = text.substr(0, text.find(":"));
+				long textid = atol(tmp.c_str());
+
+				float tsize = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toFloat();
+				float colorR = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toFloat();
+				float colorG = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toFloat();
+				float colorB = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toFloat();
+
+				// created modified action and replace old one
+				ShoutTextAction* modifiedact = (ShoutTextAction*)ptr;
+				modifiedact->SetTextId(textid);
+				modifiedact->SetTextSize(tsize);
+				modifiedact->SetColorR(colorR);
+				modifiedact->SetColorG(colorG);
+				modifiedact->SetColorB(colorB);
+
+
+				// need to save as something changed
+				SetModified();
+
+				return;
+			}
+
+			
 			
 					
 		}
@@ -10440,7 +10504,9 @@ ActionBasePtr EditorHandler::CreateAction(const std::string & type)
 	
 	if(type == "SetFlagAction")
 		return ActionBasePtr(new SetFlagAction());
-	
+		
+	if(type == "ShoutTextAction")
+		return ActionBasePtr(new ShoutTextAction());
 	
 	return ActionBasePtr();
 }

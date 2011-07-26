@@ -1048,12 +1048,12 @@ void OsgObjectHandler::SetShoutText(const std::string & text, float size,
 			if(_uselight)
 			{
 				osg::BoundingSphere bs = GetRoot()->computeBound();
-				posT = bs.center()+ osg::Vec3(0,size/5,0);		
+				posT = bs.center()+ osg::Vec3(0,size/8,0);		
 			}
 			else
 			{
 				osg::BoundingSphere bs = GetRootNoLight()->computeBound();
-				posT = bs.center()+ osg::Vec3(0,size/5,0);	
+				posT = bs.center()+ osg::Vec3(0,size/8,0);	
 			}
 
 			_shouttextgroup = new osg::AutoTransform();

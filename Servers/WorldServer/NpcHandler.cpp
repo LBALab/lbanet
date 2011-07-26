@@ -824,7 +824,7 @@ void NPCHandler::TargetAttackPlayer(Ice::Long PlayerId)
 
 	// start action before attack
 	if(_action_on_attack_activation)
-		_action_on_attack_activation->Execute(m_scripthandler, 2, PlayerId, NULL);
+		_action_on_attack_activation->Execute(m_scripthandler, 1, m_actorinfo.ObjectId, NULL);
 
 	#ifdef _DEBUG_NPC_
 	filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"start script"<<std::endl;
