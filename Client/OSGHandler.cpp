@@ -63,6 +63,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <osgUtil/SmoothingVisitor>
 
 // win32 only
+#include "GraphicsWindowQt"
 #include <osgViewer/api/Win32/GraphicsWindowWin32>
 
 #ifdef _USE_QT_EDITOR_
@@ -533,11 +534,11 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
     traits->y = _posY;
     traits->width = _resX;
     traits->height = _resY;
-#ifdef _USE_QT_EDITOR_
+//#ifdef _USE_QT_EDITOR_
     traits->windowDecoration = false;
-#else
-    traits->windowDecoration = true;
-#endif
+//#else
+//    traits->windowDecoration = true;
+//#endif
     traits->doubleBuffer = true;
     traits->sharedContext = 0;
 	traits->windowName = WindowName;
@@ -552,13 +553,17 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 	}
 #else
 	{
-		osg::ref_ptr<osg::GraphicsContext> gc = osg::GraphicsContext::createGraphicsContext(traits.get());
-		_gw = dynamic_cast<osgViewer::GraphicsWindow*>(gc.get());
-		if (!_gw)
-			return;
-
-		_viewer->getCamera()->setGraphicsContext(gc.get());
+        GraphicsWindowQt *qtwin = new GraphicsWindowQt(traits.get());
+		_viewer->getCamera()->setGraphicsContext(qtwin);
 	}
+	//{
+	//	osg::ref_ptr<osg::GraphicsContext> gc = osg::GraphicsContext::createGraphicsContext(traits.get());
+	//	_gw = dynamic_cast<osgViewer::GraphicsWindow*>(gc.get());
+	//	if (!_gw)
+	//		return;
+
+	//	_viewer->getCamera()->setGraphicsContext(gc.get());
+	//}
 #endif
 
 

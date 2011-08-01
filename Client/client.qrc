@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="Client">
+    <file>LBA-net.ico</file>
+  </qresource>
+</RCC>

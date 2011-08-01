@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------------------------------------------------------------------
 */
 
+#include <QtGui/QApplication>
 
 #include "LbaNetEngine.h"
 #include <Ice/Application.h>
@@ -178,6 +179,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 int main( int argc, char **argv )
 {
 #endif
+
+	QApplication a(argc, argv);
 
 #ifdef WIN32
 	// disable areo on vista+ operating system

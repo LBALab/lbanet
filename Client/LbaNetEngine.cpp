@@ -42,9 +42,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <IceUtil/Thread.h>
 
 
-#ifdef _USE_QT_EDITOR_
+
 #include <QtGui/QApplication>
 #include <QtGui/QtEvents>
+#ifdef _USE_QT_EDITOR_
 #include "editorhandler.h"
 #endif
 
@@ -193,10 +194,10 @@ void LbaNetEngine::run(void)
 			//get physic results
 			PhysXEngine::getInstance()->GetPhysicsResults();
 
-#ifdef _USE_QT_EDITOR_
+//#ifdef _USE_QT_EDITOR_
 			// process Qt events - this handles both events and paints the browser image
             QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-#endif
+//#endif
 
 			// process stuff between frame
 			Process(timetodiff, tdiff);

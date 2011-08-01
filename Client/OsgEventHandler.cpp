@@ -688,11 +688,11 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 		{
 			int width = ea.getWindowWidth();
 			int height = ea.getWindowHeight();
-			#ifdef _USE_QT_EDITOR_
+			//#ifdef _USE_QT_EDITOR_
 			OsgHandler::getInstance()->Resize(width, height);
-			#else
-			OsgHandler::getInstance()->Resized(width, height);
-			#endif
+			//#else
+			//OsgHandler::getInstance()->Resized(width, height);
+			//#endif
 			break;
 		}
 
