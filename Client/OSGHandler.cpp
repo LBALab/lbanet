@@ -66,9 +66,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "GraphicsWindowQt"
 #include <osgViewer/api/Win32/GraphicsWindowWin32>
 
-#ifdef _USE_QT_EDITOR_
-#include "editorhandler.h"
-#endif
+#include "QT_WindowsBase.h"
 
 
 #include <math.h>
@@ -471,14 +469,10 @@ OsgHandler::~OsgHandler()
 /***********************************************************
 initialize
 ***********************************************************/
-#ifdef _USE_QT_EDITOR_
 void OsgHandler::Initialize(const std::string &WindowName, const std::string &DataPath,
 														boost::shared_ptr<GuiHandler> GuiH,
-														boost::shared_ptr<EditorHandler> editorH)
-#else
-void OsgHandler::Initialize(const std::string &WindowName, const std::string &DataPath,
-														boost::shared_ptr<GuiHandler> GuiH)
-#endif
+														boost::shared_ptr<QT_Windows_base> qtH)
+
 {
 	osgDB::setDataFilePathList(DataPath);
 
@@ -544,18 +538,11 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 	traits->windowName = WindowName;
 	traits->useCursor = false;
 
-#ifdef _USE_QT_EDITOR_
-	{
-        GraphicsWindowQt *qtwin = new GraphicsWindowQt(traits.get());
-		_viewer->getCamera()->setGraphicsContext(qtwin);
+    GraphicsWindowQt *qtwin = new GraphicsWindowQt(traits.get());
+	_viewer->getCamera()->setGraphicsContext(qtwin);
+	qtH->SetOsgWindow(qtwin);
 
-		editorH->SetOsgWindow(qtwin);
-	}
-#else
-	{
-        GraphicsWindowQt *qtwin = new GraphicsWindowQt(traits.get());
-		_viewer->getCamera()->setGraphicsContext(qtwin);
-	}
+	
 	//{
 	//	osg::ref_ptr<osg::GraphicsContext> gc = osg::GraphicsContext::createGraphicsContext(traits.get());
 	//	_gw = dynamic_cast<osgViewer::GraphicsWindow*>(gc.get());
@@ -564,7 +551,7 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 
 	//	_viewer->getCamera()->setGraphicsContext(gc.get());
 	//}
-#endif
+
 
 
 	_viewer->getCamera()->setClearColor(osg::Vec4(0, 0, 0, 1));
@@ -835,20 +822,20 @@ void OsgHandler::ResetScreen()
 
 		if(_isFullscreen)
 		{
-			#ifndef _USE_QT_EDITOR_
-			window->setWindowDecoration(false);
-			window->setWindowRectangle(0, 0, screenWidth, screenHeight);
-			#endif
+			//#ifndef _USE_QT_EDITOR_
+			//window->setWindowDecoration(false);
+			//window->setWindowRectangle(0, 0, screenWidth, screenHeight);
+			//#endif
 			_viewportX = screenWidth;
 			_viewportY = screenHeight;
 			
 		}
 		else
 		{
-			#ifndef _USE_QT_EDITOR_
-			window->setWindowDecoration(true);
-			window->setWindowRectangle(_posX, _posY, _resX, _resY);
-			#endif
+			//#ifndef _USE_QT_EDITOR_
+			//window->setWindowDecoration(true);
+			//window->setWindowRectangle(_posX, _posY, _resX, _resY);
+			//#endif
 			_viewportX = _resX;
 			_viewportY = _resY;
 		}

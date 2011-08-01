@@ -137,10 +137,10 @@ public:
 
 
 		// set windows icon in release mode
-		#if (defined(NDEBUG) && defined(WIN32))
-		SendMessage((HWND)OsgHandler::getInstance()->GetWindowsHandle(), 
-			WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(globalInstance,  MAKEINTRESOURCE(IDI_ICON1)));
-		#endif
+		//#if (defined(NDEBUG) && defined(WIN32))
+		//SendMessage((HWND)OsgHandler::getInstance()->GetWindowsHandle(), 
+		//	WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(globalInstance,  MAKEINTRESOURCE(IDI_ICON1)));
+		//#endif
 
 
 
@@ -184,25 +184,25 @@ int main( int argc, char **argv )
 
 #ifdef WIN32
 	// disable areo on vista+ operating system
-    OSVERSIONINFO osvi;
-    ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
-    osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-    GetVersionEx(&osvi);
-	if(osvi.dwMajorVersion > 5)
-	{
-		HINSTANCE LoadMe;
-		LoadMe = LoadLibraryA("Dwmapi.dll");
-		if(LoadMe)
-		{
-			typedef HRESULT (__stdcall *EntryPointfuncPtr)(UINT uCompositionAction );  
-			EntryPointfuncPtr LibMainEntryPoint;            
-			LibMainEntryPoint = (EntryPointfuncPtr)GetProcAddress(LoadMe,"DwmEnableComposition");
-			if(LibMainEntryPoint)
-				LibMainEntryPoint(DWM_EC_DISABLECOMPOSITION);
+ //   OSVERSIONINFO osvi;
+ //   ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
+ //   osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+ //   GetVersionEx(&osvi);
+	//if(osvi.dwMajorVersion > 5)
+	//{
+	//	HINSTANCE LoadMe;
+	//	LoadMe = LoadLibraryA("Dwmapi.dll");
+	//	if(LoadMe)
+	//	{
+	//		typedef HRESULT (__stdcall *EntryPointfuncPtr)(UINT uCompositionAction );  
+	//		EntryPointfuncPtr LibMainEntryPoint;            
+	//		LibMainEntryPoint = (EntryPointfuncPtr)GetProcAddress(LoadMe,"DwmEnableComposition");
+	//		if(LibMainEntryPoint)
+	//			LibMainEntryPoint(DWM_EC_DISABLECOMPOSITION);
 
-			FreeLibrary(LoadMe);
-		}
-	}
+	//		FreeLibrary(LoadMe);
+	//	}
+	//}
 
 	// init crash reporter
 	LPVOID chandler = Install(CrashCallback, NULL, NULL);

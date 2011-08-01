@@ -38,6 +38,7 @@ class GuiHandler;
 class LbaNetModel;
 class ChatServerHandler;
 class EditorHandler;
+class Client;
 
 
 /***********************************************************************
@@ -117,6 +118,8 @@ private:
 
 #ifdef _USE_QT_EDITOR_
 	boost::shared_ptr<EditorHandler>				m_editor_handler;
+#else
+	boost::shared_ptr<Client>						m_client_window;
 #endif
 };
 

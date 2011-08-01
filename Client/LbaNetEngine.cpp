@@ -39,6 +39,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ChatServerHandler.h"
 #include "Localizer.h"
 
+
+
 #include <IceUtil/Thread.h>
 
 
@@ -47,6 +49,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QtEvents>
 #ifdef _USE_QT_EDITOR_
 #include "editorhandler.h"
+#else
+#include "client.h"
 #endif
 
 
@@ -103,6 +107,9 @@ void LbaNetEngine::Initialize(void)
 
 #ifdef _USE_QT_EDITOR_
 	m_editor_handler= boost::shared_ptr<EditorHandler>(new EditorHandler());
+#else
+	m_client_window= boost::shared_ptr<Client>(new Client());
+	m_client_window->show();
 #endif
 
 	// init gui
@@ -125,7 +132,7 @@ void LbaNetEngine::Initialize(void)
 	#ifdef _USE_QT_EDITOR_
 	OsgHandler::getInstance()->Initialize("LBANet", "./Data", m_gui_handler, m_editor_handler);
 	#else
-	OsgHandler::getInstance()->Initialize("LBANet", "./Data", m_gui_handler);
+	OsgHandler::getInstance()->Initialize("LBANet", "./Data", m_gui_handler, m_client_window);
 	#endif
 
 

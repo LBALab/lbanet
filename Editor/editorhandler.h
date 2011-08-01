@@ -56,6 +56,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Localizer.h"
 #include "ActorHandler.h"
 #include "ProjectileObjectDef.h"
+#include "QT_WindowsBase.h"
 
 #include <LbaTypes.h>
 #include <boost/shared_ptr.hpp>
@@ -292,7 +293,7 @@ public slots:
 
 
 //! take care of editor
-class EditorHandler : public QMainWindow, public ScriptEnvironmentBase
+class EditorHandler : public QMainWindow, public ScriptEnvironmentBase, public QT_Windows_base
 {
 	Q_OBJECT
 

@@ -17,7 +17,14 @@
    <iconset resource="client.qrc">
     <normaloff>:/Client/LBA-net.ico</normaloff>:/Client/LBA-net.ico</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout"/>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="margin">
+    <number>0</number>
+   </property>
+  </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>

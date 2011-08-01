@@ -61,7 +61,7 @@ namespace osgShadow
 class GuiHandler;
 class OsgEventHandler;
 class GraphicsWindowQt;
-class EditorHandler;
+class QT_Windows_base;
 
 static int ReceivesShadowTraversalMask = 0x1;
 static int CastsShadowTraversalMask = 0x2;
@@ -84,14 +84,10 @@ public:
 	~OsgHandler();
 
 	//! initialize
-#ifdef _USE_QT_EDITOR_
 	void Initialize(const std::string &WindowName, const std::string &DataPath,
 														boost::shared_ptr<GuiHandler> GuiH,
-														boost::shared_ptr<EditorHandler> editorH);
-#else
-	void Initialize(const std::string &WindowName, const std::string &DataPath,
-														boost::shared_ptr<GuiHandler> GuiH);
-#endif
+														boost::shared_ptr<QT_Windows_base> qtH);
+
 
 
 	//! finalize function
