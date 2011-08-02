@@ -648,6 +648,14 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 	}
 
 
+	// FinishedVideo
+	if(info == typeid(LbaNet::VideoSequenceFinishedEvent))
+	{
+		FinishedVideo(id);
+		return;
+	}
+	
+
 }
 
 
