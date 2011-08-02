@@ -305,3 +305,23 @@ void MusicHandler::cleanupsound(bool forced)
 			++it;
 	}
 }
+
+
+/***********************************************************
+temporary mute the sound
+***********************************************************/
+void MusicHandler::TemporaryMute()
+{
+	_savedsoundenabled = _soundEnabled;
+	_channel->setPaused(true);
+	_soundEnabled = false;
+}
+
+/***********************************************************
+reset muted sound
+***********************************************************/
+void MusicHandler::ResetMute()
+{
+	_channel->setPaused(!_savedsoundenabled);
+	_soundEnabled = _savedsoundenabled;
+}

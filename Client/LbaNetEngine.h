@@ -97,6 +97,13 @@ protected:
 	//! disconnect from server
 	void Disconnect();
 
+	//! resize client window
+	void ResizeClientWindow(int sx, int sy, bool fullscreen);
+
+
+	//! start playing a video sequence
+	void PlayVideoSequence(const std::string & filename);
+
 private:
 	boost::shared_ptr<GuiHandler>					m_gui_handler;				// pointer on gui class
 	boost::shared_ptr<LbaNetModel>					m_lbaNetModel;				// game model

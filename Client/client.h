@@ -16,13 +16,30 @@ public:
 	//! set osg windows
 	virtual void SetOsgWindow(GraphicsWindowQt *wind);
 
+
+	//! play video
+	void PlayVideo(const std::string & filename);
+
+	//! hide video
+	void HideVideo();
+
+public slots:
+	//! called when a video is finished playing
+	void videofinished();
+
+
 protected:
 	//! override close event
 	virtual void closeEvent(QCloseEvent* event);
+
+	//! override keyPressEvent
+	virtual void keyPressEvent (QKeyEvent * event);
+
 private:
 	Ui::ClientClass ui;
 
-	GraphicsWindowQt * _osgwindow;
+	GraphicsWindowQt *		_osgwindow;
+	bool					_Playingvid;
 };
 
 #endif // CLIENT_H

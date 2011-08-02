@@ -83,6 +83,28 @@ public:
 
 /*
 ************************************************************************************************************************
+*                                                  class ResizeEvent
+*
+*	class used during login
+************************************************************************************************************************
+*/
+class ResizeEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	ResizeEvent(int ResX, int ResY, bool Fullscreen)
+		: _ResX(ResX), _ResY(ResY), _Fullscreen(Fullscreen)
+	{
+	}
+
+	int _ResX;
+	int _ResY;
+	bool _Fullscreen;
+};
+
+
+/*
+************************************************************************************************************************
 *                                                  class GuiExitEvent
 *
 *	used when the active gui is being quitted by the user
@@ -113,6 +135,8 @@ public:
 	{
 	}
 };
+
+
 
 
 /*
@@ -235,6 +259,23 @@ public:
 	std::string _text;
 };
 
+
+
+/*
+************************************************************************************************************************
+*                                                  class VideoFinishedEvent
+*
+*	used when player quit the game
+************************************************************************************************************************
+*/
+class VideoFinishedEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	VideoFinishedEvent()
+	{
+	}
+};
 
 
 /*

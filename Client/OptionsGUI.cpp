@@ -387,7 +387,7 @@ void OptionsGUI::Apply()
 
 			if(changeRes)
 			{
-				OsgHandler::getInstance()->Resize(_currScreenX, _currScreenY, _currFullscreen);
+				EventsQueue::getReceiverQueue()->AddEvent(new ResizeEvent(_currScreenX, _currScreenY, _currFullscreen));
 			}
 		#endif
 

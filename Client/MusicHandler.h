@@ -105,6 +105,12 @@ public:
 	//stop of played sample
 	void StopSample(unsigned long sampleid);
 
+	// temporary mute the sound
+	void TemporaryMute();
+
+	// rest muted sound
+	void ResetMute();
+
 protected:
 	//! clean finished sound
 	void cleanupsound(bool forced = false);
@@ -128,6 +134,8 @@ private:
 	float						_musicvolume;
 
 	unsigned long				_counter;
+
+	bool						_savedsoundenabled;
 };
 
 

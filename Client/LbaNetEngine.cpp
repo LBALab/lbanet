@@ -44,7 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <IceUtil/Thread.h>
 
 
-
+#include <QtGui/QDesktopWidget>
 #include <QtGui/QApplication>
 #include <QtGui/QtEvents>
 #ifdef _USE_QT_EDITOR_
@@ -108,8 +108,14 @@ void LbaNetEngine::Initialize(void)
 #ifdef _USE_QT_EDITOR_
 	m_editor_handler= boost::shared_ptr<EditorHandler>(new EditorHandler());
 #else
-	m_client_window= boost::shared_ptr<Client>(new Client());
-	m_client_window->show();
+	m_client_window = boost::shared_ptr<Client>(new Client());
+
+	int resX, resY;
+	bool isFullscreen;
+	ConfigurationManager::GetInstance()->GetInt("Display.Screen.ScreenResolutionX", resX);
+	ConfigurationManager::GetInstance()->GetInt("Display.Screen.ScreenResolutionY", resY);
+	ConfigurationManager::GetInstance()->GetBool("Display.Screen.Fullscreen", isFullscreen);
+	ResizeClientWindow(resX, resY, isFullscreen);
 #endif
 
 	// init gui
@@ -919,7 +925,51 @@ void LbaNetEngine::HandleGameEvents()
 
 			continue;
 		}
+	
+		// ResizeEvent
+		if(info == typeid(ResizeEvent))
+		{
+			ResizeEvent* castedptr = 
+				static_cast<ResizeEvent *>(&obj);
 
+			ResizeClientWindow(castedptr->_ResX, castedptr->_ResY, castedptr->_Fullscreen);
+			OsgHandler::getInstance()->Resize(castedptr->_ResX, castedptr->_ResY, castedptr->_Fullscreen);
+			continue;
+		}
+	
+	
+		// VideoFinishedEvent
+		if(info == typeid(VideoFinishedEvent))
+		{
+#ifndef _USE_QT_EDITOR_
+			if(m_client_window)
+				m_client_window->HideVideo();
+
+			MusicHandler::getInstance()->ResetMute();
+
+			//tell server that video is finished
+			EventsQueue::getSenderQueue()->AddEvent(new LbaNet::VideoSequenceFinishedEvent(
+				SynchronizedTimeHandler::GetCurrentTimeDouble()));
+#endif
+			continue;
+		}
+
+		
+		// PlayVideoSequenceEvent
+		if(info == typeid(LbaNet::PlayVideoSequenceEvent))
+		{
+			LbaNet::PlayVideoSequenceEvent* castedptr = 
+				dynamic_cast<LbaNet::PlayVideoSequenceEvent *>(&obj);
+
+#ifndef _USE_QT_EDITOR_
+			MusicHandler::getInstance()->TemporaryMute();
+
+			if(m_client_window)
+				m_client_window->PlayVideo(castedptr->videopath);
+#endif
+
+			continue;
+		}					
 
 	}
 }
@@ -1198,3 +1248,43 @@ void LbaNetEngine::PlayMenuMusic()
 	}
 }
 
+
+/***********************************************************
+resize client window
+***********************************************************/
+void LbaNetEngine::ResizeClientWindow(int sx, int sy, bool fullscreen)
+{
+#ifndef _USE_QT_EDITOR_
+	if(m_client_window)
+	{
+		if(!fullscreen)
+		{
+			if(m_client_window->isFullScreen())
+				m_client_window->showNormal();
+			else
+				m_client_window->show();
+
+			m_client_window->resize(sx, sy);
+			m_client_window->move(QApplication::desktop()->screen()->rect().center() - m_client_window->rect().center());
+		}
+		else
+		{
+			m_client_window->setGeometry(QApplication::desktop()->screen()->rect());
+			m_client_window->showFullScreen();
+		}
+	}
+#endif
+}
+
+/***********************************************************
+start playing a video sequence
+***********************************************************/
+void LbaNetEngine::PlayVideoSequence(const std::string & filename)
+{
+#ifndef _USE_QT_EDITOR_
+	MusicHandler::getInstance()->TemporaryMute();
+
+	if(m_client_window)
+		m_client_window->PlayVideo(filename);
+#endif
+}

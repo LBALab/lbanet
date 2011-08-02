@@ -441,6 +441,9 @@ public:
 	//! display shout on screen
 	void DisplayShout(const LbaNet::ShoutTextInfo &shoutinfo);
 
+	// PlayClientVideo
+	virtual void PlayClientVideo(long ClientId,	const std::string & VideoPath){}
+
 protected:
 
 	//! clean up map
