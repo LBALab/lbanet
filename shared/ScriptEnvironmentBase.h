@@ -462,6 +462,9 @@ public:
 	virtual int GetDBFlag(long PlayerId, const std::string & flagid) = 0;
 
 
+	// PlayClientVideo
+	virtual void PlayClientVideo(long ClientId,	const std::string & VideoPath) = 0;
+
 protected:
 
 	//! used by lua to move an actor or player
