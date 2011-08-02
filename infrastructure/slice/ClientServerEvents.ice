@@ -346,18 +346,28 @@ module LbaNet
 		long			ItemId;
 	};
 	
-	// client inform server that it loot an item
+	// server inform client to play a sound
 	class PlaySoundEvent extends ClientServerEventBase
 	{
 		SoundInfo		Sound;
 	};
 	
-	// client inform server that it loot an item
+	// server inform client to shout text on screen
 	class DisplayShoutEvent extends ClientServerEventBase
 	{
 		ShoutTextInfo		info;
 	};	
-		
+	
+	// server inform client to play a video
+	class PlayVideoSequenceEvent extends ClientServerEventBase
+	{
+		string			videopath;
+	};
+	
+	// client inform server that video is finished playing
+	class VideoSequenceFinishedEvent extends ClientServerEventBase
+	{
+	};	
 };	
 
 #endif
