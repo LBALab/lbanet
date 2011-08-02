@@ -1147,7 +1147,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 			<< "OpenDoorAction" << "CloseDoorAction" << "AddRemoveItemAction" << "HurtAction"
 			 << "KillAction"  << "MultiAction" << "SwitchAction" << "StartQuestAction" << "FinishQuestAction"
 			 << "OpenShopAction"<< "CutMapAction"<< "OpenLetterWritterAction"<< "OpenMailboxAction"
-			 << "PlaySoundAction" << "SetFlagAction" << "ShoutTextAction";
+			 << "PlaySoundAction" << "SetFlagAction" << "ShoutTextAction" << "PlayVideoAction";
 
 	_actiontypeList->setStringList(actilist);
 
@@ -3792,6 +3792,23 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 		return;
 	}
 	
+	if(actiontype == "PlayVideoAction")
+	{
+		PlayVideoAction* ptr = static_cast<PlayVideoAction*>(action);
+		{
+			QVector<QVariant> data;
+			data << "Video path" << ptr->GetVideoPath().c_str();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+			boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
+			filefilter->Title = "Select an video file";
+			filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Video").c_str();;
+			filefilter->FileFilter = "Video Files (*.avi *.mkv *.mpg *.mpeg *.wmv)";
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), filefilter);
+
+		}
+		return;
+	}
 }
 		
 
@@ -4542,6 +4559,21 @@ void EditorHandler::ActionObjectChanged(const std::string & category, const QMod
 				return;
 			}
 
+			if(category == "PlayVideoAction")
+			{
+				// get info
+				std::string spath = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toString().toAscii().data();
+
+				// created modified action and replace old one
+				PlayVideoAction* modifiedact = (PlayVideoAction*)ptr;
+				modifiedact->SetVideoPath(spath);
+
+
+				// need to save as something changed
+				SetModified();
+
+				return;
+			}
 			
 			
 					
@@ -6334,7 +6366,7 @@ void EditorHandler::addworld_accepted()
 	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Grid");
 	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/AI");
 	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Sound");
-
+	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Video");
 
 	// save new world
 	DataLoader::getInstance()->SaveWorldInformation(wname, winfo);
@@ -10507,7 +10539,10 @@ ActionBasePtr EditorHandler::CreateAction(const std::string & type)
 		
 	if(type == "ShoutTextAction")
 		return ActionBasePtr(new ShoutTextAction());
-	
+			
+	if(type == "PlayVideoAction")
+		return ActionBasePtr(new PlayVideoAction());
+
 	return ActionBasePtr();
 }
 

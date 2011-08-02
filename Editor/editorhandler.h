@@ -599,6 +599,10 @@ public:
 	virtual int GetDBFlag(long PlayerId, const std::string & flagid){return -1;}
 
 
+	// PlayClientVideo
+	virtual void PlayClientVideo(long ClientId,	const std::string & VideoPath){}
+
+
 private:
 	enum ObjectEditType {EditObjCopy, EditObjCut, EditObjDelete};
 
