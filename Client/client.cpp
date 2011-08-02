@@ -29,7 +29,7 @@ set osg windows
 void Client::SetOsgWindow(GraphicsWindowQt *wind)
 {
 	_osgwindow = wind;
-	ui.verticalLayout->addWidget(_osgwindow->getGraphWidget());
+	ui.page_2->layout()->addWidget(_osgwindow->getGraphWidget());
 
 	HideVideo();
 }
@@ -40,6 +40,11 @@ override close event
 ***********************************************************/
 void Client::closeEvent(QCloseEvent* event)
 {
+	event->ignore();
+
+	if(_Playingvid)
+		HideVideo();
+
 	EventsQueue::getReceiverQueue()->AddEvent(new QuitGameEvent());
 }
 
@@ -50,10 +55,12 @@ play video
 ***********************************************************/
 void Client::PlayVideo(const std::string & filename)
 {
-	ui.videoPlayer->show();
+	ui.stackedWidget->setCurrentIndex(0);
+	//ui.videoPlayer->show();
+	//ui.videoPlayer->setFocus();
 
-	if(_osgwindow)
-		_osgwindow->getGraphWidget()->hide();
+	//if(_osgwindow)
+	//	_osgwindow->getGraphWidget()->hide();
 
 
 	Phonon::MediaSource ms(filename.c_str());
@@ -67,10 +74,14 @@ hide video
 ***********************************************************/
 void Client::HideVideo()
 {
-	if(_osgwindow)
-		_osgwindow->getGraphWidget()->show();
+	ui.stackedWidget->setCurrentIndex(1);
+	//if(_osgwindow)
+	//{
+	//	_osgwindow->getGraphWidget()->show();
+	//	ui.videoPlayer->setFocus();
+	//}
 
-	ui.videoPlayer->hide();
+	//ui.videoPlayer->hide();
 
 	_Playingvid = false;
 }
@@ -103,4 +114,13 @@ void Client::keyPressEvent (QKeyEvent * event)
 	}
 
 	QWidget::keyPressEvent(event);
+}
+
+
+/***********************************************************
+check if playing video
+***********************************************************/
+bool Client::Playing()
+{
+	return _Playingvid;
 }

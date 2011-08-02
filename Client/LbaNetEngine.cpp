@@ -544,7 +544,11 @@ void LbaNetEngine::HandleGameEvents()
 			PlayerKeyPressedEvent* castedptr = 
 				dynamic_cast<PlayerKeyPressedEvent *>(&obj);
 
-			m_lbaNetModel->KeyPressed(castedptr->_keyid);
+			// only press key if no video
+#ifndef _USE_QT_EDITOR_
+			if(!m_client_window || !m_client_window->Playing())
+#endif
+				m_lbaNetModel->KeyPressed(castedptr->_keyid);
 
 			continue;
 		}
@@ -961,12 +965,7 @@ void LbaNetEngine::HandleGameEvents()
 			LbaNet::PlayVideoSequenceEvent* castedptr = 
 				dynamic_cast<LbaNet::PlayVideoSequenceEvent *>(&obj);
 
-#ifndef _USE_QT_EDITOR_
-			MusicHandler::getInstance()->TemporaryMute();
-
-			if(m_client_window)
-				m_client_window->PlayVideo(castedptr->videopath);
-#endif
+			PlayVideoSequence("Data/"+castedptr->videopath);
 
 			continue;
 		}					
@@ -1283,6 +1282,9 @@ void LbaNetEngine::PlayVideoSequence(const std::string & filename)
 {
 #ifndef _USE_QT_EDITOR_
 	MusicHandler::getInstance()->TemporaryMute();
+
+	//release all keys
+	m_lbaNetModel->KeyReleased(LbanetKey_All);
 
 	if(m_client_window)
 		m_client_window->PlayVideo(filename);

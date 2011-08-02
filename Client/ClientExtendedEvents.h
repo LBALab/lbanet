@@ -57,7 +57,8 @@ enum LbanetKey
 	LbanetKey_Shortcut6,
 	LbanetKey_Shortcut7,
 	LbanetKey_Shortcut8,
-	LbanetKey_Shortcut9
+	LbanetKey_Shortcut9,
+	LbanetKey_All
 };
 
 /*

@@ -214,6 +214,19 @@ void CharacterController::KeyReleased(LbanetKey keyid)
 			_pressedkeys._keyweapon = false;
 		}
 		break;
+
+		case LbanetKey_All:
+		{
+			_pressedkeys._keyforward = false;
+			_pressedkeys._keybackward = false;
+			_pressedkeys._keyleft = false;
+			_pressedkeys._keyright = false;
+			_pressedkeys._keyup = false;
+			_pressedkeys._keydown = false;
+			_pressedkeys._keyaction = false;
+			_pressedkeys._keyweapon = false;
+		}
+		break;
 	}
 }
 

@@ -23,6 +23,9 @@ public:
 	//! hide video
 	void HideVideo();
 
+	//! check if playing video
+	bool Playing();
+
 public slots:
 	//! called when a video is finished playing
 	void videofinished();
