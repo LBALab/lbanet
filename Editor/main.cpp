@@ -54,25 +54,25 @@ int main( int argc, char **argv )
 
 #ifdef WIN32
 	// disable areo on vista+ operating system
-    OSVERSIONINFO osvi;
-    ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
-    osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-    GetVersionEx(&osvi);
-	if(osvi.dwMajorVersion > 5)
-	{
-		HINSTANCE LoadMe;
-		LoadMe = LoadLibraryA("Dwmapi.dll");
-		if(LoadMe)
-		{
-			typedef HRESULT (__stdcall *EntryPointfuncPtr)(UINT uCompositionAction );  
-			EntryPointfuncPtr LibMainEntryPoint;            
-			LibMainEntryPoint = (EntryPointfuncPtr)GetProcAddress(LoadMe,"DwmEnableComposition");
-			if(LibMainEntryPoint)
-				LibMainEntryPoint(DWM_EC_DISABLECOMPOSITION);
+ //   OSVERSIONINFO osvi;
+ //   ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
+ //   osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+ //   GetVersionEx(&osvi);
+	//if(osvi.dwMajorVersion > 5)
+	//{
+	//	HINSTANCE LoadMe;
+	//	LoadMe = LoadLibraryA("Dwmapi.dll");
+	//	if(LoadMe)
+	//	{
+	//		typedef HRESULT (__stdcall *EntryPointfuncPtr)(UINT uCompositionAction );  
+	//		EntryPointfuncPtr LibMainEntryPoint;            
+	//		LibMainEntryPoint = (EntryPointfuncPtr)GetProcAddress(LoadMe,"DwmEnableComposition");
+	//		if(LibMainEntryPoint)
+	//			LibMainEntryPoint(DWM_EC_DISABLECOMPOSITION);
 
-			FreeLibrary(LoadMe);
-		}
-	}
+	//		FreeLibrary(LoadMe);
+	//	}
+	//}
 
 	// init crash reporter
 	LPVOID chandler = Install(CrashCallback, NULL, NULL);

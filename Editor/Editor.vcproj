@@ -57,7 +57,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="qtmain.lib QtCore4.lib QtGui4.lib QtOpenGL4.lib opengl32.lib glu32.lib CEGUIBase.lib CEGUIOpenGLRenderer.lib osg.lib osgutil.lib osgGA.lib osgViewer.lib osgDB.lib osgText.lib osgShadow.lib osgParticle.lib osgManipulator.lib libconfig++.lib PhysXLoader.lib PhysXCooking.lib NxCharacter.lib ice.lib iceutil.lib glacier2.lib fmodex_vc.lib lua51.lib luabind.lib"
-				OutputFile="$(OutDir)\$(ProjectName).exe"
+				OutputFile="$(OutDir)\LBANetEditor.exe"
 				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;..\dependencies\OSG\lib;..\dependencies\CEGUI\lib;..\dependencies\3rdParty\lib;..\dependencies\libconfig\lib;&quot;$(PHYSX_HOME)\SDKs\lib\Win32&quot;;&quot;$(ICE_HOME)\lib&quot;;..\dependencies\fmod\lib;..\dependencies\CrashReport\crashrpt\lib;..\dependencies\LUA\lib;..\dependencies\luabind\lib"
 				GenerateDebugInformation="false"
 				SubSystem="2"
