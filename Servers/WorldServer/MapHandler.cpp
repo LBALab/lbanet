@@ -1676,6 +1676,38 @@ void MapHandler::Editor_RemoveActor(long Id)
 
 
 /***********************************************************
+PlayClientVideo
+***********************************************************/
+void MapHandler::PlayClientVideo(long ClientId,	const std::string & VideoPath)
+{
+	// check if client found - else return
+	if(ClientId < 0)
+		return;
+
+	// do nothing if we are already on scripted state
+	if(GetPlayerModelInfo(ClientId).State == LbaNet::StScripted)
+		return;
+
+	// change to scripted state and inform player to run video
+	ModelInfo returnmodel;
+	SavePlayerState(ClientId);
+	if(UpdatePlayerState(ClientId, LbaNet::StScripted, returnmodel))
+	{
+		EventsSeq toplayer;
+
+		toplayer.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+					2, ClientId, new ModelUpdate(returnmodel, false)));
+
+		toplayer.push_back(new PlayVideoSequenceEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+									VideoPath));
+
+		/// send evens to player
+		SendEvents(ClientId, toplayer);
+	}
+}
+
+
+/***********************************************************
 execute client script - does not work on npc objects
 ObjectType ==>
  1 -> npc object
@@ -1855,11 +1887,35 @@ void MapHandler::FinishedScript(long id, const std::string & ScriptName)
 		toplayer.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 					2, id, new ModelUpdate(returnmodel, false)));
 
-		/// send evens to player
+		/// send event to player
 		SendEvents(id, toplayer);
 	}
 }
 
+/***********************************************************
+called when a video is finished on a client
+***********************************************************/
+void MapHandler::FinishedVideo(long id)
+{
+	// check if script was running
+	LbaNet::ModelInfo  modelinfo = GetPlayerModelInfo(id);
+	if(modelinfo.State != LbaNet::StScripted)
+		return;
+
+
+	// change state back to before scripted and inform the client
+	ModelInfo returnmodel;
+	if(RestorePlayerState(id, returnmodel))
+	{
+		EventsSeq toplayer;
+
+		toplayer.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+					2, id, new ModelUpdate(returnmodel, false)));
+
+		/// send event to player
+		SendEvents(id, toplayer);
+	}
+}
 
 
 /***********************************************************

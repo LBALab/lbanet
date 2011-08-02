@@ -1304,3 +1304,38 @@ void ShoutTextAction::SaveToLuaFile(std::ostream & file, const std::string & nam
 	file<<"\t"<<name<<":SetColorG("<<_textcolorG<<")"<<std::endl;
 	file<<"\t"<<name<<":SetColorB("<<_textcolorB<<")"<<std::endl;	
 }
+
+
+
+/***********************************************************
+execute the action
+***********************************************************/
+void PlayVideoAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+										ActionArgumentBase* args)
+{
+	long clientid = -1;
+	if(ObjectType == 2)
+		clientid = (long)ObjectId;
+
+	// on object moved by player
+	if(ObjectType == 3 && owner)
+		clientid = owner->GetGhostOwnerPlayer((long)ObjectId);
+
+	// check if client found - else return
+	if(clientid < 0)
+		return;
+
+	if(owner && _videopath != "")
+		owner->PlayClientVideo(clientid, _videopath);
+}
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/
+void PlayVideoAction::SaveToLuaFile(std::ostream & file, const std::string & name)
+{
+	file<<"\t"<<name<<" = PlayVideoAction()"<<std::endl;
+	if(_videopath != "")
+		file<<"\t"<<name<<":SetVideoPath(\""<<_videopath<<"\")"<<std::endl;
+}

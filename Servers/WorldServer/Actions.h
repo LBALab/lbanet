@@ -1249,4 +1249,50 @@ private:
 };
 
 
+
+
+
+//! use to display a text on client
+class PlayVideoAction : public ActionBase
+{
+public:
+	//! constructor
+	PlayVideoAction()
+	{}
+	
+	//! destructor
+	virtual ~PlayVideoAction(void){}
+
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args);
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "PlayVideoAction"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
+
+
+	// acessor
+	std::string GetVideoPath()
+	{ return _videopath;}
+
+	// acessor
+	void SetVideoPath(const std::string& v)
+	{ _videopath = v;}
+
+private:
+	std::string			_videopath;
+};
+
+
 #endif

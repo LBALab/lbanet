@@ -433,6 +433,9 @@ public:
 	// get DB flag
 	virtual int GetDBFlag(long PlayerId, const std::string & flagid);
 
+	// PlayClientVideo
+	virtual void PlayClientVideo(long ClientId,	const std::string & VideoPath);
+
 protected:
 
 	// process events
@@ -604,6 +607,10 @@ protected:
 
 	//! called when a script is finished on a client
 	void FinishedScript(long id, const std::string & ScriptName);
+
+
+	//! called when a video is finished on a client
+	void FinishedVideo(long id);
 
 
 	//! get info about an item

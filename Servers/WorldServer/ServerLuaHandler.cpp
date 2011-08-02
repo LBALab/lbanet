@@ -461,7 +461,8 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("ActorMoving", &ScriptEnvironmentBase::ActorMoving)
 		.def("ThreadRunning", &ScriptEnvironmentBase::ThreadRunning)
 		.def("SetDBFlag", &ScriptEnvironmentBase::SetDBFlag)
-		.def("GetDBFlag", &ScriptEnvironmentBase::GetDBFlag),
+		.def("GetDBFlag", &ScriptEnvironmentBase::GetDBFlag)
+		.def("PlayClientVideo", &ScriptEnvironmentBase::PlayClientVideo),
 
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),
@@ -670,6 +671,12 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("SetColorG", &ShoutTextAction::SetColorG)	
 		.def("GetColorB", &ShoutTextAction::GetColorB)
 		.def("SetColorB", &ShoutTextAction::SetColorB),
+
+		luabind::class_<PlayVideoAction, ActionBase, boost::shared_ptr<ActionBase> >("PlayVideoAction")
+		.def(luabind::constructor<>())
+		.def("GetVideoPath", &PlayVideoAction::GetVideoPath)
+		.def("SetVideoPath", &PlayVideoAction::SetVideoPath),
+		
 
 
 		luabind::class_<ClientScriptBase, boost::shared_ptr<ClientScriptBase> >("ClientScriptBase")
