@@ -2700,7 +2700,7 @@ void MapHandler::DestroyProjectile(long PlayerId, long ProjectileId, int	Touched
 	{
 		if(itp->second.ManagingClientId == PlayerId)
 		{
-			//todo - hurt actors
+			//hurt actors
 			if(TouchedActorId >= 0)
 				HittedProjectile(PlayerId, ProjectileId, TouchedActorType, TouchedActorId);
 

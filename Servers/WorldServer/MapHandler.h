@@ -436,6 +436,10 @@ public:
 	// PlayClientVideo
 	virtual void PlayClientVideo(long ClientId,	const std::string & VideoPath);
 
+	// DisplayImage
+	virtual void DisplayImage(int ScriptId, const std::string & ImagePath, long NumberSecond, 
+								const std::string & OptionalMusicPath){}
+
 protected:
 
 	// process events
