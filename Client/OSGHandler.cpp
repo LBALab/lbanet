@@ -712,11 +712,13 @@ void OsgHandler::Finalize()
 		ConfigurationManager::GetInstance()->SetDouble("Display.Camera.Azimut", _azimut);
 		ConfigurationManager::GetInstance()->SetInt("Display.Camera.CameraType", _cameraType);
 
+#ifndef _USE_QT_EDITOR_
 		ConfigurationManager::GetInstance()->SetInt("Display.Screen.PositionX", _posX);
 		ConfigurationManager::GetInstance()->SetInt("Display.Screen.PositionY", _posY);
 		ConfigurationManager::GetInstance()->SetInt("Display.Screen.ScreenResolutionX", _resX);
 		ConfigurationManager::GetInstance()->SetInt("Display.Screen.ScreenResolutionY", _resY);
 		ConfigurationManager::GetInstance()->SetBool("Display.Screen.Fullscreen", _isFullscreen);
+#endif
 
 		ConfigurationManager::GetInstance()->SetInt("Display.ShadowType", _ShadowType);
 	}
@@ -757,8 +759,11 @@ void OsgHandler::Resize(int resX, int resY, bool fullscreen)
 		ResetScreen();
 
 		#ifndef _USE_QT_EDITOR_
-		ConfigurationManager::GetInstance()->SetInt("Display.Screen.ScreenResolutionX", _resX);
-		ConfigurationManager::GetInstance()->SetInt("Display.Screen.ScreenResolutionY", _resY);
+		if(!_isFullscreen)
+		{
+			ConfigurationManager::GetInstance()->SetInt("Display.Screen.ScreenResolutionX", _resX);
+			ConfigurationManager::GetInstance()->SetInt("Display.Screen.ScreenResolutionY", _resY);
+		}
 		ConfigurationManager::GetInstance()->SetBool("Display.Screen.Fullscreen", _isFullscreen);
 		#endif
 	}
