@@ -4,7 +4,7 @@
 #include <QtGui/QWidget>
 #include "ui_client.h"
 #include "QT_WindowsBase.h"
-
+#include "ExtraGLWindowQt"
 
 enum ClientViewType { CLV_Game = 0, CLV_Video, CLV_FixedImage, CLV_ExtraGL };
 
@@ -32,6 +32,12 @@ public:
 	//! switch to fixed image
 	void SwitchToFixedImage(const std::string & imagepath);
 
+	//! process
+	void Process(double tnow, float tdiff);
+
+	//! switch to text
+	void SwitchToText(long TextId);
+
 
 public slots:
 	//! called when a video is finished playing
@@ -45,10 +51,12 @@ protected:
 	//! override keyPressEvent
 	virtual void keyPressEvent (QKeyEvent * event);
 
+
 private:
 	Ui::ClientClass			ui;
 	GraphicsWindowQt *		_osgwindow;
 	ClientViewType			_currentview;
+	ExtraGLWidget			_glwidget;
 };
 
 #endif // CLIENT_H

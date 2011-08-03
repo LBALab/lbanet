@@ -22,22 +22,62 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------------------------------------------------------------------
 */
 
-#ifndef OSGVIEWER_GRAPHICSWINDOWQT
-#define OSGVIEWER_GRAPHICSWINDOWQT
+#ifndef OSGVIEWER_EXTERNALWINDOWQT
+#define OSGVIEWER_EXTERNALWINDOWQT
 
 #include <QtGui/QWidget>
 #include <QtGui/QInputEvent>
 #include <QtOpenGL/QGLWidget>
 #include <osgViewer/GraphicsWindow>
 
+
+class FONT_FONT;
+
 class ExtraGLWidget : public QGLWidget
 {
 public:
-    ExtraGLWidget(QWidget* parent=0);
+	ExtraGLWidget(QWidget* parent=0);
+
+	virtual ~ExtraGLWidget();
 
 	void initializeGL();
 	void resizeGL(int w, int h);
 	void paintGL();
+
+	void StartScrollingText(long TextId);
+
+	void PressedSpace();
+
+	void Process(double tnow, float tdiff);
+
+protected:
+		
+	void write_line_black(std::string text, FONT_FONT &font, 
+								double x, double y, double space_size, int nbchar);
+
+	void write_line_white(std::string text, FONT_FONT &font, 
+								double x, double y, double space_size, int nbchar);
+
+	void write_text_white(std::string text, FONT_FONT &font, 
+								double x, double y, double maxlenght, int maxchar);
+
+	void write_text_black(std::string text, FONT_FONT &font, 
+								double x, double y, double maxlenght, int maxchar);
+
+
+	void CreateFont(int size);
+
+	void DeleteFont();
+
+private:
+	bool			_loaded;
+	FONT_FONT *		_loadedfont;
+	GLuint			_textureid;
+	int				_windowW;
+	int				_windowH;
+
+	bool			_scrolling;
+	float			_scrollingtimediff;
 };
 
 #endif

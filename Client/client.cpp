@@ -12,6 +12,9 @@ Client::Client(QWidget *parent, Qt::WFlags flags)
 	ui.setupUi(this);
 
 	connect(ui.videoPlayer, SIGNAL(finished()) , this, SLOT(videofinished()));	
+	
+	ui.page_ExtraGL->layout()->addWidget(&_glwidget);
+
 }
 
 /***********************************************************
@@ -104,12 +107,21 @@ void Client::keyPressEvent (QKeyEvent * event)
 			{
 				EventsQueue::getReceiverQueue()->AddEvent(new FixedImageFinishedEvent());
 				return;
-			}
-
-			
+			}	
 		}
 	}
 
+	if(event->key()== Qt::Key_Space)
+	{
+		switch(_currentview)
+		{
+			case CLV_ExtraGL:
+			{
+				_glwidget.PressedSpace();
+				return;
+			}
+		}
+	}
 
 	QWidget::keyPressEvent(event);
 }
@@ -137,3 +149,29 @@ void Client::SwitchToFixedImage(const std::string & imagepath)
 }
 
 
+/***********************************************************
+process
+***********************************************************/
+void Client::Process(double tnow, float tdiff)
+{
+	switch(_currentview)
+	{
+		case CLV_ExtraGL:
+		{
+			_glwidget.Process(tnow, tdiff);
+			return;
+		}
+	}
+}
+
+
+/***********************************************************
+switch to text
+***********************************************************/
+void Client::SwitchToText(long TextId)
+{
+	ui.stackedWidget->setCurrentIndex(3);
+	_currentview = CLV_ExtraGL;
+
+	_glwidget.StartScrollingText(TextId);
+}

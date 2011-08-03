@@ -55,7 +55,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="qtmain.lib QtCore4.lib QtGui4.lib QtOpenGL4.lib opengl32.lib glu32.lib phonon4.lib CEGUIBase.lib CEGUIOpenGLRenderer.lib osg.lib osgutil.lib osgGA.lib osgViewer.lib osgDB.lib osgText.lib osgShadow.lib osgParticle.lib osgManipulator.lib libconfig++.lib PhysXLoader.lib PhysXCooking.lib NxCharacter.lib ice.lib iceutil.lib glacier2.lib fmodex_vc.lib lua51.lib luabind.lib"
+				AdditionalDependencies="qtmain.lib QtCore4.lib QtGui4.lib QtOpenGL4.lib opengl32.lib glu32.lib phonon4.lib CEGUIBase.lib CEGUIOpenGLRenderer.lib osg.lib osgutil.lib osgGA.lib osgViewer.lib osgDB.lib osgText.lib osgShadow.lib osgParticle.lib osgManipulator.lib libconfig++.lib PhysXLoader.lib PhysXCooking.lib NxCharacter.lib ice.lib iceutil.lib glacier2.lib fmodex_vc.lib lua51.lib luabind.lib freetype244.lib"
 				OutputFile="$(OutDir)\LBANetGame.exe"
 				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;..\dependencies\OSG\lib;..\dependencies\CEGUI\lib;..\dependencies\3rdParty\lib;..\dependencies\libconfig\lib;&quot;$(PHYSX_HOME)\SDKs\lib\Win32&quot;;&quot;$(ICE_HOME)\lib&quot;;..\dependencies\fmod\lib;..\dependencies\CrashReport\crashrpt\lib;..\dependencies\LUA\lib;..\dependencies\luabind\lib"
 				GenerateDebugInformation="false"
@@ -124,7 +124,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="qtmaind.lib QtCored4.lib QtGuid4.lib QtOpenGLd4.lib opengl32.lib glu32.lib phonond4.lib CEGUIBase_d.lib CEGUIOpenGLRenderer_d.lib osgd.lib osgutild.lib osgGAd.lib osgViewerd.lib osgDBd.lib osgTextd.lib osgShadowd.lib osgParticled.lib osgManipulatord.lib libconfig++d.lib PhysXLoader.lib PhysXCooking.lib NxCharacter.lib iced.lib iceutild.lib glacier2d.lib fmodex_vc.lib lua51d.lib luabindd.lib"
+				AdditionalDependencies="qtmaind.lib QtCored4.lib QtGuid4.lib QtOpenGLd4.lib opengl32.lib glu32.lib phonond4.lib CEGUIBase_d.lib CEGUIOpenGLRenderer_d.lib osgd.lib osgutild.lib osgGAd.lib osgViewerd.lib osgDBd.lib osgTextd.lib osgShadowd.lib osgParticled.lib osgManipulatord.lib libconfig++d.lib PhysXLoader.lib PhysXCooking.lib NxCharacter.lib iced.lib iceutild.lib glacier2d.lib fmodex_vc.lib lua51d.lib luabindd.lib freetype244D.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;..\dependencies\OSG\lib;..\dependencies\CEGUI\lib;..\dependencies\3rdParty\lib;..\dependencies\libconfig\lib;&quot;$(PHYSX_HOME)\SDKs\lib\Win32&quot;;&quot;$(ICE_HOME)\lib&quot;;..\dependencies\fmod\lib;..\dependencies\CrashReport\crashrpt\lib;..\dependencies\LUA\lib;..\dependencies\luabind\lib"
 				GenerateDebugInformation="true"

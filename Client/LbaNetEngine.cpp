@@ -65,6 +65,8 @@ LbaNetEngine::LbaNetEngine(Ice::CommunicatorPtr communicator, const std::string 
 {
 	Initialize();
 	SwitchGuiToLogin();
+
+	m_client_window->SwitchToText(0);
 }
 
 
@@ -253,6 +255,9 @@ void LbaNetEngine::Process(double tnow, float tdiff)
 {
 	//handle game events
 	HandleGameEvents();
+
+	// process qt client
+	m_client_window->Process(tnow, tdiff);
 
 	// process model (update display stuff)
 	m_lbaNetModel->Process(tnow, tdiff);
