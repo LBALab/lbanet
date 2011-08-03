@@ -7,7 +7,7 @@
 constructor
 ***********************************************************/
 Client::Client(QWidget *parent, Qt::WFlags flags)
-	: QWidget(parent, flags), _osgwindow(NULL), _Playingvid(false)
+	: QWidget(parent, flags), _osgwindow(NULL), _currentview(CLV_Game)
 {
 	ui.setupUi(this);
 
@@ -29,9 +29,9 @@ set osg windows
 void Client::SetOsgWindow(GraphicsWindowQt *wind)
 {
 	_osgwindow = wind;
-	ui.page_2->layout()->addWidget(_osgwindow->getGraphWidget());
+	ui.page_Game->layout()->addWidget(_osgwindow->getGraphWidget());
 
-	HideVideo();
+	ResetToGame();
 }
 
 
@@ -42,9 +42,10 @@ void Client::closeEvent(QCloseEvent* event)
 {
 	event->ignore();
 
-	if(_Playingvid)
-		HideVideo();
+	if(_currentview == CLV_Video)
+		ui.videoPlayer->stop();		
 
+	ResetToGame();
 	EventsQueue::getReceiverQueue()->AddEvent(new QuitGameEvent());
 }
 
@@ -56,34 +57,22 @@ play video
 void Client::PlayVideo(const std::string & filename)
 {
 	ui.stackedWidget->setCurrentIndex(0);
-	//ui.videoPlayer->show();
-	//ui.videoPlayer->setFocus();
-
-	//if(_osgwindow)
-	//	_osgwindow->getGraphWidget()->hide();
-
+	_currentview = CLV_Video;
 
 	Phonon::MediaSource ms(filename.c_str());
 	ui.videoPlayer->play(ms);
-
-	_Playingvid = true;
 }
 
 /***********************************************************
 hide video
 ***********************************************************/
-void Client::HideVideo()
+void Client::ResetToGame()
 {
-	ui.stackedWidget->setCurrentIndex(1);
-	//if(_osgwindow)
-	//{
-	//	_osgwindow->getGraphWidget()->show();
-	//	ui.videoPlayer->setFocus();
-	//}
-
-	//ui.videoPlayer->hide();
-
-	_Playingvid = false;
+	if(_currentview != CLV_Game)
+	{
+		ui.stackedWidget->setCurrentIndex(1);
+		_currentview = CLV_Game;
+	}
 }
 
 
@@ -93,8 +82,6 @@ hide video
 void Client::videofinished()
 {
 	EventsQueue::getReceiverQueue()->AddEvent(new VideoFinishedEvent());
-
-	_Playingvid = false;
 }
 
 
@@ -103,24 +90,50 @@ override keyPressEvent
 ***********************************************************/
 void Client::keyPressEvent (QKeyEvent * event)
 {
-	if(_Playingvid)
+	if(event->key()== Qt::Key_Escape)
 	{
-		if(event->key()== Qt::Key_Escape)
+		switch(_currentview)
 		{
-			ui.videoPlayer->stop();	
-			videofinished();
-			return;
+			case CLV_Video:
+			{
+				ui.videoPlayer->stop();	
+				videofinished();
+				return;
+			}
+			case CLV_FixedImage:
+			{
+				EventsQueue::getReceiverQueue()->AddEvent(new FixedImageFinishedEvent());
+				return;
+			}
+
+			
 		}
 	}
+
 
 	QWidget::keyPressEvent(event);
 }
 
 
 /***********************************************************
-check if playing video
+check the current view
 ***********************************************************/
-bool Client::Playing()
+ClientViewType Client::GetCurrentView()
 {
-	return _Playingvid;
+	return _currentview;
 }
+
+
+/***********************************************************
+switch to fixed image
+***********************************************************/
+void Client::SwitchToFixedImage(const std::string & imagepath)
+{
+	QPixmap image(imagepath.c_str());
+	ui.label_fixedimage->setPixmap(image);
+
+	ui.stackedWidget->setCurrentIndex(2);
+	_currentview = CLV_FixedImage;
+}
+
+

@@ -49,9 +49,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QtEvents>
 #ifdef _USE_QT_EDITOR_
 #include "editorhandler.h"
-#else
-#include "client.h"
 #endif
+#include "client.h"
+
 
 
 #define TIME_PER_FRAME 17
@@ -105,11 +105,12 @@ void LbaNetEngine::Initialize(void)
 	Localizer::getInstance()->SetLanguage(language);
 
 
-#ifdef _USE_QT_EDITOR_
-	m_editor_handler= boost::shared_ptr<EditorHandler>(new EditorHandler());
-#else
 	m_client_window = boost::shared_ptr<Client>(new Client());
 
+#ifdef _USE_QT_EDITOR_
+	m_editor_handler= boost::shared_ptr<EditorHandler>(new EditorHandler());
+	m_editor_handler->SetOsgWindow(m_client_window.get());
+#else
 	int resX, resY;
 	bool isFullscreen;
 	ConfigurationManager::GetInstance()->GetInt("Display.Screen.ScreenResolutionX", resX);
@@ -135,12 +136,7 @@ void LbaNetEngine::Initialize(void)
 
 	// init OSG
 	LogHandler::getInstance()->LogToFile("Initializing display engine...");
-	#ifdef _USE_QT_EDITOR_
-	OsgHandler::getInstance()->Initialize("LBANet", "./Data", m_gui_handler, m_editor_handler);
-	#else
 	OsgHandler::getInstance()->Initialize("LBANet", "./Data", m_gui_handler, m_client_window);
-	#endif
-
 
 	//init physic engine
 	LogHandler::getInstance()->LogToFile("Initialize physic engine...");
@@ -207,10 +203,9 @@ void LbaNetEngine::run(void)
 			//get physic results
 			PhysXEngine::getInstance()->GetPhysicsResults();
 
-//#ifdef _USE_QT_EDITOR_
 			// process Qt events - this handles both events and paints the browser image
             QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-//#endif
+
 
 			// process stuff between frame
 			Process(timetodiff, tdiff);
@@ -544,10 +539,8 @@ void LbaNetEngine::HandleGameEvents()
 			PlayerKeyPressedEvent* castedptr = 
 				dynamic_cast<PlayerKeyPressedEvent *>(&obj);
 
-			// only press key if no video
-#ifndef _USE_QT_EDITOR_
-			if(!m_client_window || !m_client_window->Playing())
-#endif
+			// only press key if in game view
+			if(m_client_window->GetCurrentView() == CLV_Game)
 				m_lbaNetModel->KeyPressed(castedptr->_keyid);
 
 			continue;
@@ -940,24 +933,6 @@ void LbaNetEngine::HandleGameEvents()
 			OsgHandler::getInstance()->Resize(castedptr->_ResX, castedptr->_ResY, castedptr->_Fullscreen);
 			continue;
 		}
-	
-	
-		// VideoFinishedEvent
-		if(info == typeid(VideoFinishedEvent))
-		{
-#ifndef _USE_QT_EDITOR_
-			if(m_client_window)
-				m_client_window->HideVideo();
-
-			MusicHandler::getInstance()->ResetMute();
-
-			//tell server that video is finished
-			EventsQueue::getSenderQueue()->AddEvent(new LbaNet::VideoSequenceFinishedEvent(
-				SynchronizedTimeHandler::GetCurrentTimeDouble()));
-#endif
-			continue;
-		}
-
 		
 		// PlayVideoSequenceEvent
 		if(info == typeid(LbaNet::PlayVideoSequenceEvent))
@@ -968,8 +943,56 @@ void LbaNetEngine::HandleGameEvents()
 			PlayVideoSequence("Data/"+castedptr->videopath);
 
 			continue;
-		}					
+		}	
 
+		// VideoFinishedEvent
+		if(info == typeid(VideoFinishedEvent))
+		{
+			EndVideoSequence();
+			continue;
+		}
+
+
+		// SwitchToFixedImageEvent
+		if(info == typeid(SwitchToFixedImageEvent))
+		{
+			SwitchToFixedImageEvent* castedptr = 
+				static_cast<SwitchToFixedImageEvent *>(&obj);
+
+			m_client_window->SwitchToFixedImage("Data/"+castedptr->_imagepath);
+			continue;
+		}	
+
+		// SwitchToGameEvent
+		if(info == typeid(SwitchToGameEvent))
+		{
+			m_client_window->ResetToGame();
+			continue;
+		}
+
+		// SwitchMusicEvent
+		if(info == typeid(SwitchMusicEvent))
+		{
+			SwitchMusicEvent* castedptr = 
+				static_cast<SwitchMusicEvent *>(&obj);
+
+			SwitchMusic("Data/"+castedptr->_musicpath);
+			continue;
+		}	
+
+		// ResetMusicEvent
+		if(info == typeid(ResetMusicEvent))
+		{
+			ResetMusic();
+			continue;
+		}
+
+		// FixedImageFinishedEvent
+		if(info == typeid(FixedImageFinishedEvent))
+		{
+			m_lbaNetModel->FixedImageDisplayFinished();
+			continue;
+		}
 	}
 }
 
@@ -1038,6 +1061,9 @@ void LbaNetEngine::SwitchGuiToChooseWorld()
 		m_gui_handler->SetDrawOverlay(false);
 }
 
+
+
+
 /***********************************************************
 switch gui helpers
 ***********************************************************/
@@ -1046,8 +1072,7 @@ void LbaNetEngine::SwitchGuiToGame()
 	if(m_currentstate == EGaming)
 		return;
 
-	if(m_lastmusic != "")
-		MusicHandler::getInstance()->PlayMusic(m_lastmusic, 0);
+	ResetMusic();
 
 	m_lbaNetModel->Resume();
 	m_gui_handler->SwitchGUI(2);
@@ -1237,15 +1262,11 @@ called to play the assigned music when menu
 ***********************************************************/
 void LbaNetEngine::PlayMenuMusic()
 {
-	std::string mmusic = "Data/Worlds/Lba1Original/Music/LBA1-Track9.mp3";
-
-	std::string tmp = MusicHandler::getInstance()->GetCurrentMusic();
-	if(tmp != mmusic)
-	{
-		m_lastmusic = tmp;
-		MusicHandler::getInstance()->PlayMusic(mmusic, -1);
-	}
+	SwitchMusic("Worlds/Lba1Original/Music/LBA1-Track9.mp3");
 }
+
+
+
 
 
 /***********************************************************
@@ -1280,7 +1301,6 @@ start playing a video sequence
 ***********************************************************/
 void LbaNetEngine::PlayVideoSequence(const std::string & filename)
 {
-#ifndef _USE_QT_EDITOR_
 	MusicHandler::getInstance()->TemporaryMute();
 
 	//release all keys
@@ -1288,5 +1308,40 @@ void LbaNetEngine::PlayVideoSequence(const std::string & filename)
 
 	if(m_client_window)
 		m_client_window->PlayVideo(filename);
-#endif
+}
+
+/***********************************************************
+end a video sequence
+***********************************************************/
+void LbaNetEngine::EndVideoSequence()
+{
+	if(m_client_window)
+		m_client_window->ResetToGame();
+
+	MusicHandler::getInstance()->ResetMute();
+	m_lbaNetModel->ClientVideoFinished();
+}
+
+
+/***********************************************************
+switch to music
+***********************************************************/
+void LbaNetEngine::SwitchMusic(const std::string &musicpath)
+{
+	std::string tmp = MusicHandler::getInstance()->GetCurrentMusic();
+	if(tmp != musicpath)
+	{
+		m_lastmusic = tmp;
+		MusicHandler::getInstance()->PlayMusic("Data/"+musicpath, -1);
+	}
+}
+
+
+/***********************************************************
+reset to previous music
+***********************************************************/
+void LbaNetEngine::ResetMusic()
+{
+	if(m_lastmusic != "")
+		MusicHandler::getInstance()->PlayMusic(m_lastmusic, 0);
 }

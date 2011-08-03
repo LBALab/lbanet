@@ -47,7 +47,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	Constructor
 ***********************************************************/
 LbaNetModel::LbaNetModel()
-: m_playerObjectId(0), m_paused(false), m_newworld(false)
+: m_playerObjectId(0), m_paused(false), m_newworld(false),
+	m_videoscriptid(-1), m_image_timetoend(-1), m_fixedimagescriptid(-1),
+	m_image_assoc_music(false)
 {
 	LogHandler::getInstance()->LogToFile("Initializing model class...");
 
@@ -119,6 +121,10 @@ void LbaNetModel::Process(double tnow, float tdiff)
 {
 	if(m_paused)
 		return;
+
+	//timer for displaying fixed image
+	if((m_image_timetoend > 0) && (m_image_timetoend <= tnow))
+		FixedImageDisplayFinished();
 
 
 	// process all _npcObjects
@@ -2075,6 +2081,80 @@ void LbaNetModel::DisplayShout(const LbaNet::ShoutTextInfo &shoutinfo)
 		diso->SetShoutText(txt, shoutinfo.TextSize, shoutinfo.TextcolorR, shoutinfo.TextcolorG, shoutinfo.TextcolorB, 5);
 	}
 }
+
+/***********************************************************
+PlayClientVideo
+***********************************************************/
+void LbaNetModel::PlayClientVideo(long ScriptId, const std::string & VideoPath)
+{
+	m_videoscriptid = (int) ScriptId;
+
+	//tell engine to start the video
+	EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::PlayVideoSequenceEvent(
+		SynchronizedTimeHandler::GetCurrentTimeDouble(), VideoPath));
+}
+
+/***********************************************************
+video play finished
+***********************************************************/
+void LbaNetModel::ClientVideoFinished()
+{
+	if(m_videoscriptid >= 0)
+	{
+		ScriptFinished(m_videoscriptid, false);
+		m_videoscriptid = -1;
+	}
+	else
+	{
+		//tell server that video is finished
+		EventsQueue::getSenderQueue()->AddEvent(new LbaNet::VideoSequenceFinishedEvent(
+			SynchronizedTimeHandler::GetCurrentTimeDouble()));
+	}
+}
+
+
+/***********************************************************
+PlayClientVideo
+***********************************************************/
+void LbaNetModel::DisplayImage(int ScriptId, const std::string & ImagePath, long NumberSecond, 
+								const std::string & OptionalMusicPath)
+{
+	m_image_timetoend = SynchronizedTimeHandler::GetCurrentTimeDouble() + (NumberSecond*1000);
+	m_fixedimagescriptid = ScriptId;
+
+	EventsQueue::getReceiverQueue()->AddEvent(new SwitchToFixedImageEvent(ImagePath));
+
+	if(OptionalMusicPath != "")
+	{
+		m_image_assoc_music = true;
+		EventsQueue::getReceiverQueue()->AddEvent(new SwitchMusicEvent(OptionalMusicPath));
+	}
+	else
+		m_image_assoc_music = false;
+}
+
+/***********************************************************
+FixedImageDisplayFinished
+***********************************************************/
+void LbaNetModel::FixedImageDisplayFinished()
+{
+	m_image_timetoend = -1;
+	EventsQueue::getReceiverQueue()->AddEvent(new SwitchToGameEvent());
+
+	if(m_image_assoc_music)
+	{
+		EventsQueue::getReceiverQueue()->AddEvent(new ResetMusicEvent());
+		m_image_assoc_music = false;
+	}
+
+	if(m_fixedimagescriptid >= 0)
+	{
+		ScriptFinished(m_fixedimagescriptid, false);
+		m_fixedimagescriptid = -1;
+	}
+}
+
+
 
 
 

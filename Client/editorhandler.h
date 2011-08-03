@@ -47,7 +47,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ui_edittemplatesdialog.h"
 
 
-#include "GraphicsWindowQt"
 #include "ScriptEnvironmentBase.h"
 #include "treemodel.h"
 #include "Conditions.h"
@@ -56,7 +55,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Localizer.h"
 #include "ActorHandler.h"
 #include "ProjectileObjectDef.h"
-#include "QT_WindowsBase.h"
+
+
+#include <osg/MatrixTransform>
+#include <osgManipulator/Translate1DDragger>
+
 
 #include <LbaTypes.h>
 #include <boost/shared_ptr.hpp>
@@ -86,7 +89,7 @@ public:
 
 	//! add data to the list
 	void AddData(const QString & Data);
-	
+
 	//!m clear the list
 	void Clear();
 
@@ -257,7 +260,7 @@ public:
 
 
 public slots:
-		 
+
 	//! data changed in object view
 	void objmodified(int flag);
 
@@ -293,7 +296,7 @@ public slots:
 
 
 //! take care of editor
-class EditorHandler : public QMainWindow, public ScriptEnvironmentBase, public QT_Windows_base
+class EditorHandler : public QMainWindow, public ScriptEnvironmentBase
 {
 	Q_OBJECT
 
@@ -305,7 +308,7 @@ public:
 	~EditorHandler();
 
 	//! set the osg window
-	void SetOsgWindow(GraphicsWindowQt *osgwindow);
+	void SetOsgWindow(QWidget *osgwindow);
 
 	//! refresh display
 	void RefreshDisplay();
@@ -319,12 +322,12 @@ public:
 
 	// function used by LUA to add actor
 	virtual void AddActorObject(boost::shared_ptr<ActorHandler> actor);
-					
+
 	// add a trigger of moving type to the map
 	virtual void AddTrigger(boost::shared_ptr<TriggerBase> trigger);
-					
+
 	// add spawn
-	virtual void AddSpawn(boost::shared_ptr<Spawn> spawn);				
+	virtual void AddSpawn(boost::shared_ptr<Spawn> spawn);
 
 	// teleport an object
 	// ObjectType ==>
@@ -332,7 +335,7 @@ public:
 	//! 2 -> player object
 	//! 3 -> movable object
 	virtual void Teleport(int ObjectType, long ObjectId,
-						const std::string &NewMapName, 
+						const std::string &NewMapName,
 						long SpawningId,
 						float offsetX, float offsetY, float offsetZ);
 
@@ -370,7 +373,7 @@ public:
 
 
 	// send error message to client
-	virtual void SendErrorMessage(long clientid, const std::string & messagetitle, 
+	virtual void SendErrorMessage(long clientid, const std::string & messagetitle,
 											const std::string &  messagecontent){}
 
 	// open container on client side
@@ -402,7 +405,7 @@ public:
 	//! used by lua to move an actor or player
 	//! if id < 1 then it moves players
 	//! the actor will move using animation speed
-	virtual void InternalActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position, 
+	virtual void InternalActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position,
 										bool asynchronus = false){}
 
 	//! used by lua to rotate an actor
@@ -416,7 +419,7 @@ public:
 	//! used by lua to wait until an actor animation is finished
 	//! if id < 1 then it moves players
 	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
-	virtual void InternalActorAnimate(int ScriptId, long ActorId, bool AnimationMove, 
+	virtual void InternalActorAnimate(int ScriptId, long ActorId, bool AnimationMove,
 										bool asynchronus = false){}
 
 
@@ -453,13 +456,13 @@ public:
 
 	//! used by lua to move an actor or player
 	//! the actor will move using speed
-	virtual void InternalActorGoTo(int ScriptId, long ActorId, const LbaVec3 &Position, 
+	virtual void InternalActorGoTo(int ScriptId, long ActorId, const LbaVec3 &Position,
 										float Speed, bool asynchronus = false){}
-	
+
 
 		//! used by lua to move an actor or player
 	//! the actor will wait for signal
-	virtual void InternalActorWaitForSignal(int ScriptId, long ActorId, int Signalnumber, 
+	virtual void InternalActorWaitForSignal(int ScriptId, long ActorId, int Signalnumber,
 										bool asynchronus = false){}
 
 	//! used by lua to move an actor or player
@@ -471,12 +474,12 @@ public:
 	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
 	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
 	//! if ManageAnimation is true then the animation will be changed to suit the rotation
-	virtual void InternalActorRotateFromPoint(int ScriptId, long ActorId, float Angle, const LbaVec3 &Position, 
+	virtual void InternalActorRotateFromPoint(int ScriptId, long ActorId, float Angle, const LbaVec3 &Position,
 												float RotationSpeedPerSec, bool asynchronus = false){}
 
 
 	//! used by lua to make actor follow waypoint
-	virtual void InternalActorFollowWaypoint(int ScriptId, long ActorId, int waypointindex1, 
+	virtual void InternalActorFollowWaypoint(int ScriptId, long ActorId, int waypointindex1,
 												int waypointindex2, bool asynchronus = false){}
 
 
@@ -513,7 +516,7 @@ public:
 
 
 	//! open dialog with player
-	virtual void StartDialog(long PlayerId, long NpcId, long npcnametextid, bool simpledialog, 
+	virtual void StartDialog(long PlayerId, long NpcId, long npcnametextid, bool simpledialog,
 												boost::shared_ptr<DialogPart> dialogroot){}
 
 	//! stop target player
@@ -539,7 +542,7 @@ public:
 	virtual bool ChapterStarted(long PlayerId, int Chapter){return false;}
 
 	//! open shop
-	virtual void OpenShop(long PlayerId, const LbaNet::ItemsMap &items, 
+	virtual void OpenShop(long PlayerId, const LbaNet::ItemsMap &items,
 									const LbaNet::ItemInfo & currencyitem){}
 
 	//! open mailbox
@@ -602,6 +605,9 @@ public:
 	// PlayClientVideo
 	virtual void PlayClientVideo(long ClientId,	const std::string & VideoPath){}
 
+	// DisplayImage
+	virtual void DisplayImage(int ScriptId, const std::string & ImagePath, long NumberSecond,
+								const std::string & OptionalMusicPath){}
 
 private:
 	enum ObjectEditType {EditObjCopy, EditObjCut, EditObjDelete};
@@ -765,10 +771,10 @@ public slots:
 	void TextAdd_button();
 
 	//! TextRemove_button
-	void TextRemove_button();	
+	void TextRemove_button();
 
 	//! TextEdit_button
-	void TextEdit_button();	
+	void TextEdit_button();
 
 	//! TextAdd_button_accepted
 	void TextAdd_button_accepted();
@@ -795,17 +801,17 @@ public slots:
 
 	//! ItemAdd_button
 	void ItemAdd_button();
-	
+
 	//! ItemRemove_button
 	void ItemRemove_button();
-	
+
 	//! ItemSelect_button
 	void ItemSelect_button();
 
 
 	//! StartItemAdd_button
 	void StartItemAdd_button();
-	
+
 	//! StartItemRemove_button
 	void StartItemRemove_button();
 
@@ -819,10 +825,10 @@ public slots:
 
 	//! QuestAdd_button
 	void QuestAdd_button();
-	
+
 	//! QuestRemove_button
 	void QuestRemove_button();
-	
+
 	//! QuestSelect_button
 	void QuestSelect_button();
 
@@ -834,25 +840,25 @@ public slots:
 
 	//! map music repeat changed
 	void MapMusicRepeatChanged(int newvalue);
-	
+
 	//! map music file clicked
 	void MapMusicFile_clicked();
-	
+
 	//! Notice_accepted
 	void Notice_accepted();
-	
+
 	//! Notice_rejected
 	void Notice_rejected();
-	
+
 	//! Notice_closed
 	void Notice_closed(int v);
-	
-	
+
+
 	//! GenerateNavimesh
-	void GenerateNavimesh(); 	
+	void GenerateNavimesh();
 
 	//! ToggleNavimeshDisplay
-	void ToggleNavimeshDisplay(); 
+	void ToggleNavimeshDisplay();
 
 	//! option navimesh
 	void OptionNavimesh();
@@ -861,16 +867,16 @@ public slots:
 	void TestFindPath();
 
 	//! TestNPCAttack
-	void TestNPCAttack(); 
+	void TestNPCAttack();
 
 	//! TestNPCStopAttack
 	void TestNPCStopAttack();
 
 	//! edition slots
-	void CopyObjectClicked(); 
-	void PasteObjectClicked(); 
-	void CutObjectClicked(); 
-	void DeleteObjectClicked(); 
+	void CopyObjectClicked();
+	void PasteObjectClicked();
+	void CutObjectClicked();
+	void DeleteObjectClicked();
 
 	//! add template object
 	void AddTemplateObject();
@@ -882,7 +888,7 @@ public slots:
 	void EditTemplates();
 
 	//! TemplateRemove_button
-	void TemplateRemove_button();	
+	void TemplateRemove_button();
 
 
 protected:
@@ -968,7 +974,7 @@ protected:
 	void RemoveSpawningName(const std::string & mapname, const std::string & name);
 
 	//! replace an spawning name to the name list
-	void ReplaceSpawningName(const std::string & mapname, const std::string & oldname, 
+	void ReplaceSpawningName(const std::string & mapname, const std::string & oldname,
 															const std::string & newname);
 
 
@@ -1019,11 +1025,11 @@ protected:
 	void UpdateModelOutfit(const std::string & modelname, boost::shared_ptr<CustomStringListModel> toupdate);
 
 	// generate list of possible weapon
-	void UpdateModelWeapon(const std::string & modelname, const std::string & outfit, 
+	void UpdateModelWeapon(const std::string & modelname, const std::string & outfit,
 											boost::shared_ptr<CustomStringListModel> toupdate);
 
 	// generate list of possible mode
-	void UpdateModelMode(const std::string & modelname, const std::string & outfit, const std::string & weapon, 
+	void UpdateModelMode(const std::string & modelname, const std::string & outfit, const std::string & weapon,
 											boost::shared_ptr<CustomStringListModel> toupdate);
 
 	// refresh Actor Model Name
@@ -1041,7 +1047,7 @@ protected:
 
 	// refresh Actor Model Mode
 	void RefreshActorModelMode(int index, QModelIndex parentIdx,
-									const std::string & modelname, const std::string & outfit, 
+									const std::string & modelname, const std::string & outfit,
 									const std::string & weapon, bool resize,
 									boost::shared_ptr<ActorHandler> actor);
 
@@ -1305,9 +1311,6 @@ private:
 	boost::shared_ptr<CustomStringListModel>							_materialtypeList;
 
 	boost::shared_ptr<CustomStringListModel>							_weapontypeList;
-
-
-	GraphicsWindowQt *									_osgwindow;
 
 
 	bool												_modified;

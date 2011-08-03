@@ -442,7 +442,19 @@ public:
 	void DisplayShout(const LbaNet::ShoutTextInfo &shoutinfo);
 
 	// PlayClientVideo
-	virtual void PlayClientVideo(long ClientId,	const std::string & VideoPath){}
+	virtual void PlayClientVideo(long ScriptId,	const std::string & VideoPath);
+
+	// video play finished
+	void ClientVideoFinished();
+
+
+	// DisplayImage
+	virtual void DisplayImage(int ScriptId, const std::string & ImagePath, long NumberSecond, 
+								const std::string & OptionalMusicPath);
+
+	// FixedImageDisplayFinished
+	void FixedImageDisplayFinished();
+
 
 protected:
 
@@ -569,6 +581,11 @@ private:
 
 
 	std::map<int, std::set<long> >						m_playingscriptactors;
+
+	int													m_videoscriptid;
+	double												m_image_timetoend;
+	bool												m_image_assoc_music;
+	int													m_fixedimagescriptid;
 };
 
 #endif

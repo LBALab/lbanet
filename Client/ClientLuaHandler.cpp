@@ -85,6 +85,8 @@ ClientLuaHandler::ClientLuaHandler()
 		.def("DettachActor", &ScriptEnvironmentBase::DettachActor)
 		.def("LogToFile", &ScriptEnvironmentBase::LogToFile)
 		.def("ThreadRunning", &ScriptEnvironmentBase::ThreadRunning)
+		.def("PlayClientVideo", &ScriptEnvironmentBase::PlayClientVideo, luabind::yield)
+		.def("DisplayImage", &ScriptEnvironmentBase::DisplayImage, luabind::yield)
 		];
 	}
 	catch(const std::exception &error)

@@ -580,4 +580,89 @@ long _itemid;
 };
 
 
+/*
+************************************************************************************************************************
+*                                                  class SwitchToFixedImageEvent
+*
+************************************************************************************************************************
+*/
+class SwitchToFixedImageEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	SwitchToFixedImageEvent(const std::string & imagepath)
+		: _imagepath(imagepath)
+	{
+	}
+
+	std::string _imagepath;
+};
+
+/*
+************************************************************************************************************************
+*                                                  class FixedImageFinishedEvent
+*
+************************************************************************************************************************
+*/
+class FixedImageFinishedEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	FixedImageFinishedEvent()
+	{
+	}
+};
+
+
+/*
+************************************************************************************************************************
+*                                                  class SwitchToGameEvent
+*
+************************************************************************************************************************
+*/
+class SwitchToGameEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	SwitchToGameEvent()
+	{
+	}
+};
+
+/*
+************************************************************************************************************************
+*                                                  class SwitchMusicEvent
+*
+************************************************************************************************************************
+*/
+class SwitchMusicEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	SwitchMusicEvent(const std::string & musicpath)
+		: _musicpath(musicpath)
+	{
+	}
+
+	std::string _musicpath;
+};
+
+
+/*
+************************************************************************************************************************
+*                                                  class ResetMusicEvent
+*
+************************************************************************************************************************
+*/
+class ResetMusicEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	ResetMusicEvent()
+	{
+	}
+};
+
+
+
 #endif

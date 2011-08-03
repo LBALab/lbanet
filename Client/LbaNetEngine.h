@@ -104,6 +104,17 @@ protected:
 	//! start playing a video sequence
 	void PlayVideoSequence(const std::string & filename);
 
+	//! end a video sequence
+	void EndVideoSequence();
+
+
+	//! switch to music
+	void SwitchMusic(const std::string &musicpath);
+
+	//! reset to previous music
+	void ResetMusic();
+
+
 private:
 	boost::shared_ptr<GuiHandler>					m_gui_handler;				// pointer on gui class
 	boost::shared_ptr<LbaNetModel>					m_lbaNetModel;				// game model
@@ -125,9 +136,9 @@ private:
 
 #ifdef _USE_QT_EDITOR_
 	boost::shared_ptr<EditorHandler>				m_editor_handler;
-#else
-	boost::shared_ptr<Client>						m_client_window;
 #endif
+	boost::shared_ptr<Client>						m_client_window;
+
 };
 
 #endif

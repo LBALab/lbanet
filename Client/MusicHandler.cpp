@@ -236,7 +236,7 @@ unsigned long MusicHandler::PlaySample(const std::string & samplepath, int nbTim
 		si.fsound->setLoopCount(nbTimes);
 		_fsystem->playSound(FMOD_CHANNEL_FREE, si.fsound, false, &si.channel);
 
-		if(!_soundEnabled)
+		if(!_soundEnabled) //TODO - not good as the sound is created still
 			si.channel->setPaused(true);
 
 		si.channel->setVolume(_generalvolume);

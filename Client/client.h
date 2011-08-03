@@ -5,6 +5,9 @@
 #include "ui_client.h"
 #include "QT_WindowsBase.h"
 
+
+enum ClientViewType { CLV_Game = 0, CLV_Video, CLV_FixedImage, CLV_ExtraGL };
+
 class Client : public QWidget, public QT_Windows_base
 {
 	Q_OBJECT
@@ -20,11 +23,15 @@ public:
 	//! play video
 	void PlayVideo(const std::string & filename);
 
-	//! hide video
-	void HideVideo();
+	//! reset to game screen
+	void ResetToGame();
 
-	//! check if playing video
-	bool Playing();
+	//! check the current view
+	ClientViewType GetCurrentView();
+
+	//! switch to fixed image
+	void SwitchToFixedImage(const std::string & imagepath);
+
 
 public slots:
 	//! called when a video is finished playing
@@ -39,10 +46,9 @@ protected:
 	virtual void keyPressEvent (QKeyEvent * event);
 
 private:
-	Ui::ClientClass ui;
-
+	Ui::ClientClass			ui;
 	GraphicsWindowQt *		_osgwindow;
-	bool					_Playingvid;
+	ClientViewType			_currentview;
 };
 
 #endif // CLIENT_H

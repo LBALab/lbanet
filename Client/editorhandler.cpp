@@ -1566,11 +1566,10 @@ EditorHandler::~EditorHandler()
 /***********************************************************
 set the osg window
 ***********************************************************/
-void EditorHandler::SetOsgWindow(GraphicsWindowQt *osgwindow)
+void EditorHandler::SetOsgWindow(QWidget *osgwindow)
 {
-	_osgwindow = osgwindow;
-	_uieditor.groupBox_game->layout()->addWidget(_osgwindow->getGraphWidget());
-	_osgwindow->getGraphWidget()->show();
+	_uieditor.groupBox_game->layout()->addWidget(osgwindow);
+	osgwindow->show();
 }
 
 
