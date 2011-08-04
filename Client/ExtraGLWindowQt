@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QInputEvent>
 #include <QtOpenGL/QGLWidget>
 #include <osgViewer/GraphicsWindow>
+#include <QVector>
 
 
 enum XtGLw_state {XtGLw_Off, XtGLw_Text, XtGLw_Image};
@@ -61,16 +62,16 @@ public:
 
 protected:
 		
-	void write_line_black(std::string text, FONT_FONT &font, 
+	void write_line_black(const QVector<uint> &text, FONT_FONT &font, 
 								double x, double y, double space_size, int nbchar);
 
-	void write_line_white(std::string text, FONT_FONT &font, 
+	void write_line_white(const QVector<uint> &text, FONT_FONT &font, 
 								double x, double y, double space_size, int nbchar);
 
-	void write_text_white(std::string text, FONT_FONT &font, 
+	void write_text_white(const QVector<uint> &text, FONT_FONT &font, 
 								double x, double y, double maxlenght, int maxchar);
 
-	void write_text_black(std::string text, FONT_FONT &font, 
+	void write_text_black(const QVector<uint> &text, FONT_FONT &font, 
 								double x, double y, double maxlenght, int maxchar);
 
 
@@ -115,7 +116,7 @@ private:
 
 	bool			_scrolling;
 	float			_scrollingtimediff;
-	std::vector<std::string>	_texts;
+	std::vector<QVector<uint> >	_texts;
 	int							_textidx;
 
 	double			_textfinishdisplaytime;

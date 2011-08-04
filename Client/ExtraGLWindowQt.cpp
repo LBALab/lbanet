@@ -34,6 +34,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ClientExtendedEvents.h"
 #include "SynchronizedTimeHandler.h"
 
+#include <QString>
+
 // load font from TTF file
 static bool load_ttf(FONT_FONT	&font, string fontfilename,int average_advance)
 {
@@ -158,13 +160,13 @@ void ExtraGLWidget::initializeGL()
 
 
 
-void ExtraGLWidget::write_line_black(string text, FONT_FONT &font, double x, double y, double space_size, int nbchar)
+void ExtraGLWidget::write_line_black(const QVector<uint> &text, FONT_FONT &font, double x, double y, double space_size, int nbchar)
 {
 	glBegin(GL_QUADS);
 
-	for(int i=0;i<nbchar && i<text.length();i++)
+	for(int i=0;i<nbchar && i<text.size();i++)
 	{
-		unsigned char n=text[i];
+		unsigned int n=text[i];
 		if(n==' ')
 			x+=space_size;
 		else
@@ -187,13 +189,13 @@ void ExtraGLWidget::write_line_black(string text, FONT_FONT &font, double x, dou
 
 
 
-void ExtraGLWidget::write_line_white(string text, FONT_FONT &font, double x, double y, double space_size, int nbchar)
+void ExtraGLWidget::write_line_white(const QVector<uint> &text, FONT_FONT &font, double x, double y, double space_size, int nbchar)
 {
 	glBegin(GL_QUADS);
 
-	for(int i=0;i<nbchar && i<text.length();i++)
+	for(int i=0;i<nbchar && i<text.size();i++)
 	{
-		unsigned char n=text[i];
+		unsigned int n=text[i];
 		if(n==' ')
 			x+=space_size;
 		else
@@ -217,18 +219,18 @@ void ExtraGLWidget::write_line_white(string text, FONT_FONT &font, double x, dou
 }
 
 
-void ExtraGLWidget::write_text_white(string text, FONT_FONT &font, 
+void ExtraGLWidget::write_text_white(const QVector<uint> &text, FONT_FONT &font, 
 									double x, double y, double maxlenght, int maxchar)
 {
     int space_size=font.average_advance;
     int nbwords=0;
-    vector<string>words;
-    vector<int>wordslengthpixel;
+    vector<QVector<uint> > words;
+    vector<int> wordslengthpixel;
     int length=0;
-    string s;
-    for(int i=0;i<text.length();i++)
+    QVector<uint> s;
+    for(int i=0;i<text.size();i++)
     {
-        unsigned char c=text[i];
+        unsigned int c=text[i];
         if(c==' ')
         {
             nbwords++;
@@ -239,63 +241,73 @@ void ExtraGLWidget::write_text_white(string text, FONT_FONT &font,
         }
         else
         {
-            s=s+(char)c;
+            s.append(c);
             length+=font.glyph[c].advance;
         }
     }
     words.push_back(s);
     wordslengthpixel.push_back(length);
 
-    string line;
+    QVector<uint> line;
     line.clear();
     int linelengthchar=0;
     int linelengthpixel=0;
     nbwords=0;
     int nbchar=0;
+	bool returnline = false;
     for(int i=0;i<words.size();i++)
     {
-        if(linelengthpixel+wordslengthpixel[i]+(nbwords)*space_size<=maxlenght)
-        {
-            line.append(words[i]);
-            line+=' ';
-            linelengthpixel+=wordslengthpixel[i];
-            nbwords++;
-            linelengthchar+=words[i].length()+1;
-        }
-        else
-        {
-            write_line_white(line,font,x,y,(maxlenght-linelengthpixel)/(nbwords-1),maxchar-nbchar);
-            line.clear();
-            nbchar+=linelengthchar;
-            linelengthchar=0;
-            linelengthpixel=0;
-            line.append(words[i]);
-            line+=' ';
-            linelengthpixel+=wordslengthpixel[i];
-            linelengthchar=words[i].length()+1;
-            y+=font.average_advance*2.;
-            nbwords=1;
-        }
+		if(words[i].size() == 1 && 	words[i][0] == '@')
+		{
+			returnline = true;
+		}
+		else
+		{
+			if(!returnline && linelengthpixel+wordslengthpixel[i]+(nbwords)*space_size<=maxlenght)
+			{
+				for(int sv=0; sv< words[i].size(); ++sv)
+					line.append(words[i][sv]);
+				line.append(' ');
+				linelengthpixel+=wordslengthpixel[i];
+				nbwords++;
+				linelengthchar+=words[i].size()+1;
+			}
+			else
+			{
+				returnline = false;
+				write_line_white(line,font,x,y,(maxlenght-linelengthpixel)/(nbwords-1),maxchar-nbchar);
+				line.clear();
+				nbchar+=linelengthchar;
+				linelengthchar=0;
+				linelengthpixel=0;
 
+				for(int sv=0; sv< words[i].size(); ++sv)
+					line.append(words[i][sv]);
+				line.append(' ');
+				linelengthpixel+=wordslengthpixel[i];
+				linelengthchar=words[i].size()+1;
+				y+=font.average_advance*2.;
+				nbwords=1;
+			}
+		}
     }
     write_line_white(line, font, x, y, space_size, maxchar-nbchar);
 }
 
-void ExtraGLWidget::write_text_black(string text, FONT_FONT &font, 
+void ExtraGLWidget::write_text_black(const QVector<uint> &text, FONT_FONT &font, 
 									double x, double y, double maxlenght, int maxchar)
 {
     int space_size=font.average_advance;
     int nbwords=0;
-    vector<string>words;
-    vector<int>wordslengthpixel;
+    vector<QVector<uint> >words;
+    vector<int> wordslengthpixel;
     int length=0;
-    string s;
-    for(int i=0;i<text.length();i++)
+    QVector<uint> s;
+    for(int i=0;i<text.size();i++)
     {
-        unsigned char c=text[i];
+        unsigned int c=text[i];
         if(c==' ')
         {
-
             nbwords++;
             wordslengthpixel.push_back(length);
             words.push_back(s);
@@ -305,49 +317,61 @@ void ExtraGLWidget::write_text_black(string text, FONT_FONT &font,
         }
         else
         {
-            s=s+(char)c;
+            s.append(c);
             length+=font.glyph[c].advance;
         }
     }
     words.push_back(s);
     wordslengthpixel.push_back(length);
 
-    string line;
+    QVector<uint> line;
     line.clear();
     int linelengthchar=0;
     int linelengthpixel=0;
     nbwords=0;
     int nbchar=0;
+	bool returnline = false;
     for(int i=0;i<words.size();i++)
     {
-        if(linelengthpixel+wordslengthpixel[i]+(nbwords)*space_size<=maxlenght)
-        {
-            line.append(words[i]);
-            line+=' ';
-            linelengthpixel+=wordslengthpixel[i];
-            nbwords++;
-            linelengthchar+=words[i].length()+1;
-        }
-        else
-        {
-            write_line_black(line,font,x,y,(maxlenght-linelengthpixel)/(nbwords-1),maxchar-nbchar);
-            line.clear();
-            nbchar+=linelengthchar;
-            linelengthchar=0;
-            linelengthpixel=0;
-            line.append(words[i]);
-            line+=' ';
-            linelengthpixel+=wordslengthpixel[i];
-            linelengthchar=words[i].length()+1;
-            y+=font.average_advance*2.;
-            nbwords=1;
-        }
+		if(words[i].size() == 1 && 	words[i][0] == '@')
+		{
+			returnline = true;
+		}
+		else
+		{
+			if(!returnline && linelengthpixel+wordslengthpixel[i]+(nbwords)*space_size<=maxlenght)
+			{
+				for(int sv=0; sv< words[i].size(); ++sv)
+					line.append(words[i][sv]);
+				line.append(' ');
+				linelengthpixel+=wordslengthpixel[i];
+				nbwords++;
+				linelengthchar+=words[i].size()+1;
+			}
+			else
+			{
+				returnline = false;
+				write_line_black(line,font,x,y,(maxlenght-linelengthpixel)/(nbwords-1),maxchar-nbchar);
+				line.clear();
+				nbchar+=linelengthchar;
+				linelengthchar=0;
+				linelengthpixel=0;
+
+				for(int sv=0; sv< words[i].size(); ++sv)
+					line.append(words[i][sv]);
+				line.append(' ');
+				linelengthpixel+=wordslengthpixel[i];
+				linelengthchar=words[i].size()+1;
+				y+=font.average_advance*2.;
+				nbwords=1;
+			}
+		}
 
     }
     write_line_black(line, font, x, y, space_size, maxchar-nbchar);
 	
 	int checkL = (maxchar-nbchar);
-	int checkL2 = line.length();
+	int checkL2 = line.size();
 	if(checkL >= checkL2)
 	{
 		_scrolling = false;
@@ -565,7 +589,8 @@ void ExtraGLWidget::StartScrollingText(const std::string & imagepath, const std:
 	for(size_t i=0; i< textIds.size(); ++i)
 	{
 		std::string tmp = Localizer::getInstance()->GetText(Localizer::Map, textIds[i]);
-		_texts.push_back(tmp);
+		if(tmp != "")
+			_texts.push_back(QString::fromUtf8(tmp.c_str()).toUcs4());
 	}
 }
 

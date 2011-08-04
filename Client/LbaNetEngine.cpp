@@ -65,19 +65,6 @@ LbaNetEngine::LbaNetEngine(Ice::CommunicatorPtr communicator, const std::string 
 {
 	Initialize();
 	SwitchGuiToLogin();
-
-	std::vector<long> texts;
-	for(int i=0; i< 10; ++i)
-		texts.push_back(i);
-
-	Localizer::getInstance()->SetWorldName("Lba1Original");
-	m_client_window->SwitchToText("Data/Worlds/Lba1Original/Video/lba1twinsun.gif", texts);
-
-	//LbaColor fadeinC(1, 1, 1, 1), fadeoutC(0, 0, 0, 1);
-	//m_lbaNetModel->DisplayImage(-1, "Worlds/Lba1Original/Video/lba1title.gif", 10, 
-	//							false, fadeinC,
-	//							false, fadeoutC, "");
-	
 }
 
 
