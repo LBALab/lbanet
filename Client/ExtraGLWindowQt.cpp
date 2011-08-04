@@ -30,6 +30,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Localizer.h"
 #include "LogHandler.h"
 
+#include "EventsQueue.h"
+#include "ClientExtendedEvents.h"
+#include "SynchronizedTimeHandler.h"
 
 // load font from TTF file
 static bool load_ttf(FONT_FONT	&font, string fontfilename,int average_advance)
@@ -101,9 +104,8 @@ static bool load_ttf(FONT_FONT	&font, string fontfilename,int average_advance)
 		if(cursorx+glyph.width>1024)cursorx=0,cursory+=font.char_height;
 		if(cursory>=1024-font.char_height)
 		{
-			printf("cannot export %s in a 1024x1024 texture, try to reduce font average width < %d, will exit...",font.name.c_str(),font.average_advance);
-			getchar();
-			exit(0);
+			LogHandler::getInstance()->LogToFile("cannot export font in a 1024x1024 texture, try to reduce font average width");
+			return false;
 		}
 		for ( int x = 0; x < bitmap->width; x++)
 		{
@@ -114,7 +116,6 @@ static bool load_ttf(FONT_FONT	&font, string fontfilename,int average_advance)
 			  font.map[(cursory+y+dy)*1024+cursorx+x]=bitmap->buffer[y * glyph.width + x];//glyph[n].map[y*glyph[n].width+x];
 			}
 		}
-		printf("texture coordinates of glyph %d : x=%d y=%d\n",n,cursorx,cursory);
 
 		glyph.mapx=cursorx;
 		glyph.mapy=cursory;
@@ -129,86 +130,18 @@ static bool load_ttf(FONT_FONT	&font, string fontfilename,int average_advance)
 
 ExtraGLWidget::ExtraGLWidget(QWidget* parent)
 : QGLWidget(parent), _scrolling(false), _scrollingtimediff(0),
-	_loadedfont(NULL), _loaded(false)
+	_loadedfont(NULL), _fontloaded(false), _imageloaded(false),
+	_currentstate(XtGLw_Off), _textfinishdisplaytime(-1), 
+	_currentfadestate(XtGLw_FDOff), _bgR(0), _bgG(0), _bgB(0), _bgA(1)
 {
-
 }
 
 ExtraGLWidget::~ExtraGLWidget()
 {
 	DeleteFont();
+	CleanImageTexture();
 }
 
-
-
-void ExtraGLWidget::CreateFont(int size)
-{
-	DeleteFont();
-
-	_loadedfont = new FONT_FONT();
-	_loaded = load_ttf(*_loadedfont, "Data/GUI/fonts/lubalingraphstd-demi.otf", size);
-
-    glGenTextures( 1, &_textureid);
-    glBindTexture( GL_TEXTURE_2D, _textureid );
-    char *map=new char[1024*1024*4];
-    for(int i=0;i<_loadedfont->map.size();i++)
-    {
-        map[i*4+0]=_loadedfont->map[i];
-        map[i*4+1]=_loadedfont->map[i];
-        map[i*4+2]=_loadedfont->map[i];
-        map[i*4+3]=_loadedfont->map[i];
-    }
-    glTexImage2D(GL_TEXTURE_2D, 0, 4, 1024,1024, 0, GL_RGBA, GL_UNSIGNED_BYTE,map);
-    delete map;
-}
-
-
-void ExtraGLWidget::DeleteFont()
-{
-	if(_loadedfont)
-	{
-		delete _loadedfont;
-		_loadedfont = false;
-	}
-
-	if(_loaded)
-	{
-		glDeleteTextures(1, &_textureid);
-		_loaded = false;
-	}
-}
-
-void ExtraGLWidget::StartScrollingText(long TextId)
-{
-	_scrolling = true;
-	_scrollingtimediff = 0;
-	//TODO
-}
-
-void ExtraGLWidget::PressedSpace()
-{
-	if(_scrolling)
-	{
-		_scrolling = false;
-		_scrollingtimediff += 100000;
-	}
-	else
-	{
-		//TODO
-		_scrolling = true;
-		_scrollingtimediff = 0;
-	}
-}
-
-void ExtraGLWidget::Process(double tnow, float tdiff)
-{
-	if(_loaded)
-	{
-		if(_scrolling)
-			_scrollingtimediff += tdiff;
-		updateGL();
-	}
-}
 
 
 void ExtraGLWidget::initializeGL()
@@ -412,6 +345,264 @@ void ExtraGLWidget::write_text_black(string text, FONT_FONT &font,
 
     }
     write_line_black(line, font, x, y, space_size, maxchar-nbchar);
+	
+	int checkL = (maxchar-nbchar);
+	int checkL2 = line.length();
+	if(checkL >= checkL2)
+	{
+		_scrolling = false;
+		_scrollingtimediff += 100000;
+	}
+}
+
+
+
+
+
+
+
+
+void ExtraGLWidget::CreateFont(int size)
+{
+	DeleteFont();
+
+	_loadedfont = new FONT_FONT();
+	_fontloaded = load_ttf(*_loadedfont, "Data/GUI/fonts/lubalingraphstd-demi.otf", size);
+
+    glGenTextures( 1, &_textureid);
+    glBindTexture( GL_TEXTURE_2D, _textureid );
+    char *map=new char[1024*1024*4];
+    for(int i=0;i<_loadedfont->map.size();i++)
+    {
+        map[i*4+0]=_loadedfont->map[i];
+        map[i*4+1]=_loadedfont->map[i];
+        map[i*4+2]=_loadedfont->map[i];
+        map[i*4+3]=_loadedfont->map[i];
+    }
+    glTexImage2D(GL_TEXTURE_2D, 0, 4, 1024,1024, 0, GL_RGBA, GL_UNSIGNED_BYTE,map);
+    delete map;
+}
+
+
+void ExtraGLWidget::DeleteFont()
+{
+	if(_loadedfont)
+	{
+		delete _loadedfont;
+		_loadedfont = false;
+	}
+
+	if(_fontloaded)
+	{
+		glDeleteTextures(1, &_textureid);
+		_fontloaded = false;
+	}
+}
+
+
+
+
+ void ExtraGLWidget::LoadGLTextures( const std::string& name )
+{
+	CleanImageTexture();
+	if(name == "")
+		return;
+
+    QImage img;
+    if( ! img.load( name.c_str() ) )
+    {
+		LogHandler::getInstance()->LogToFile("error loading image to texture: " + name);
+        return;
+    }
+
+    QImage GL_formatted_image;
+    GL_formatted_image = QGLWidget::convertToGLFormat(img);
+    if( GL_formatted_image.isNull() )
+    {
+		LogHandler::getInstance()->LogToFile("error loading image to texture: " + name);
+        return;
+    }
+
+    glGenTextures(1, &_imgtextureid);
+    glBindTexture(GL_TEXTURE_2D, _imgtextureid);
+    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA,
+            GL_formatted_image.width(), GL_formatted_image.height(),
+            0, GL_RGBA, GL_UNSIGNED_BYTE, GL_formatted_image.bits() );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR ); 
+	_imageloaded = true;
+}
+
+
+void ExtraGLWidget::CleanImageTexture()
+{
+	if(_imageloaded)
+	{
+		glDeleteTextures(1, &_textureid);
+		_imageloaded = false;
+	}
+}
+
+
+
+void ExtraGLWidget::Process(double tnow, float tdiff)
+{
+	if(_scrolling)
+		_scrollingtimediff += tdiff;
+
+	// do fading/timeout
+	switch(_currentfadestate)
+	{
+		case XtGLw_FDIn:
+		{
+			_bgR=_fiR;
+			_bgG=_fiG;
+			_bgB=_fiB;
+
+			_currentalpha += 0.02f;
+			if(_currentalpha >= 1)
+			{
+				_currentalpha = 1;
+				_currentfadestate = XtGLw_FDOff;
+			}
+		}
+		break;
+
+		case XtGLw_FDOut:
+		{
+			_bgR=_foR;
+			_bgG=_foG;
+			_bgB=_foB;
+
+			_currentalpha -= 0.02f;
+			if(_currentalpha <= 0)
+			{
+				_currentalpha = 0;
+				_currentfadestate = XtGLw_FDOff;
+				CleanAndReport();
+			}
+		}
+		break;
+
+		case XtGLw_FDOff:
+		{
+			//fixed image timeout
+			if((_textfinishdisplaytime > 0) && (_textfinishdisplaytime <= tnow))
+			{
+				if(_fadingout)
+				{
+					_currentalpha = 1;
+					_currentfadestate = XtGLw_FDOut;
+				}
+				else
+					CleanAndReport();
+			}
+		}
+	}
+
+
+	if(_currentstate != XtGLw_Off)
+		updateGL();
+}
+
+// clean up display
+void ExtraGLWidget::CleanUp()
+{
+	_currentstate = XtGLw_Off;
+	_currentfadestate = XtGLw_FDOff;
+	_bgR = 0;
+	_bgG = 0;
+	_bgB = 0;
+	_bgA = 1;
+}
+
+// clean up display and report termination
+void ExtraGLWidget::CleanAndReport()
+{
+	CleanUp();
+	EventsQueue::getReceiverQueue()->AddEvent(new DisplayExtraGLFinishedEvent());
+}
+
+
+void ExtraGLWidget::PressedSpace()
+{
+	if(_currentstate == XtGLw_Text)
+	{
+		if(_scrolling)
+		{
+			_scrolling = false;
+			_scrollingtimediff += 100000;
+		}
+		else
+		{
+			++_textidx;
+			if(_textidx >= _texts.size())
+			{
+				CleanAndReport();
+			}
+			else
+			{
+				_scrolling = true;
+				_scrollingtimediff = 0;
+			}
+		}
+	}
+}
+
+void ExtraGLWidget::StartScrollingText(const std::string & imagepath, const std::vector<long> textIds)
+{
+	//clean up old stuff
+	CleanUp();
+
+	_currentstate = XtGLw_Text;
+	LoadGLTextures(imagepath);
+
+	_scrolling = true;
+	_scrollingtimediff = 0;
+	_textidx = 0;
+	_texts.clear();
+
+	for(size_t i=0; i< textIds.size(); ++i)
+	{
+		std::string tmp = Localizer::getInstance()->GetText(Localizer::Map, textIds[i]);
+		_texts.push_back(tmp);
+	}
+}
+
+
+void ExtraGLWidget::StartFixedImage(const std::string & imagepath, long NbSecondDisplay, 
+							bool FadeIn, float FadeInColorR, float FadeInColorG, float FadeInColorB,
+							bool FadeOut, float FadeOutColorR, float FadeOutColorG, float FadeOutColorB)
+{
+	//clean up old stuff
+	CleanUp();
+
+	_currentstate = XtGLw_Image;
+	LoadGLTextures(imagepath);
+
+	if(NbSecondDisplay > 0)
+		_textfinishdisplaytime = SynchronizedTimeHandler::GetCurrentTimeDouble() + (NbSecondDisplay*1000);
+	else
+		_textfinishdisplaytime = -1;
+
+	_fadingin = FadeIn;
+	_fiR = FadeInColorR;
+	_fiG = FadeInColorG;
+	_fiB = FadeInColorB;
+	_fadingout = FadeOut;
+	_foR = FadeOutColorR;
+	_foG = FadeOutColorG;
+	_foB = FadeOutColorB;
+
+	if(_fadingin)
+	{
+		_currentfadestate = XtGLw_FDIn;
+		_currentalpha = 0;
+	}
+	else
+	{
+		_currentalpha = 1;
+	}
 }
 
 
@@ -419,9 +610,6 @@ void ExtraGLWidget::write_text_black(string text, FONT_FONT &font,
 
  void ExtraGLWidget::paintGL()
  {
-	if(!_loaded)
-		return;
-
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0,_windowW,_windowH,0,1000,-1000);
@@ -429,8 +617,7 @@ void ExtraGLWidget::write_text_black(string text, FONT_FONT &font,
     glLoadIdentity();
     glViewport(0,0,_windowW,_windowH);
 
-
-	glClearColor (1.0, 0.0, 0.0, 0.0);
+	glClearColor(_bgR, _bgG, _bgB, _bgA);
 	glClear(GL_STENCIL_BUFFER_BIT|GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glDisable(GL_FOG);
@@ -438,50 +625,75 @@ void ExtraGLWidget::write_text_black(string text, FONT_FONT &font,
 	glColor3d(1,1,1);
 	glDisable(GL_LIGHTING);
 	glEnable (GL_BLEND);
-	glBlendFunc (GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 	glHint(GL_POLYGON_SMOOTH, GL_NICEST);
-	glDisable(GL_TEXTURE_2D);
 
 
-	glColor4d(0.0,0.0,0.0,0.5);
-	glBegin(GL_QUADS);
-		glVertex2d(	10,10);
-		glVertex2d(	_windowW-10, 10);
-		glVertex2d(	_windowW-10,_windowH-10);
-		glVertex2d(	10,_windowH-10);
-	glEnd();
-
-	glColor4d(1,1,1,1);
-	glBegin(GL_LINE_LOOP);
-		glVertex2d(	10,10);
-		glVertex2d(	_windowW-10,10);
-		glVertex2d(	_windowW-10,_windowH-10);
-		glVertex2d(	10,_windowH-10);
-	glEnd();
-
-	if(!_scrolling)
+	switch(_currentstate)
 	{
-		glBegin(GL_TRIANGLES);
-			glVertex2d(	_windowW-50,_windowH-20);
-			glVertex2d(	_windowW-20,_windowH-20);
-			glVertex2d(	_windowW-20,_windowH-50);
+		case XtGLw_Text:
+		{
+			DrawBGImage(1);
+
+			if(!_scrolling)
+			{
+				glDisable(GL_TEXTURE_2D);
+				glBegin(GL_TRIANGLES);
+					glVertex2d(	_windowW-50,_windowH-20);
+					glVertex2d(	_windowW-20,_windowH-20);
+					glVertex2d(	_windowW-20,_windowH-50);
+				glEnd();
+			}
+
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture( GL_TEXTURE_2D, _textureid );
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+			if(_textidx < _texts.size())
+			{
+				write_text_black(_texts[_textidx], *_loadedfont, _loadedfont->average_advance+2,
+					_loadedfont->origin+22, _windowW-2*_loadedfont->average_advance, (int)(_scrollingtimediff/60));
+
+				write_text_white(_texts[_textidx], *_loadedfont, _loadedfont->average_advance,
+					_loadedfont->origin+20, _windowW-2*_loadedfont->average_advance, (int)(_scrollingtimediff/60));
+			}
+		}
+		break;
+
+		case XtGLw_Image:
+		{
+			DrawBGImage(_currentalpha);
+		}
+		break;
+	}
+ }
+
+
+//! display image if exist
+void ExtraGLWidget::DrawBGImage(float alpha)
+{
+	if(_imageloaded)
+	{
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture( GL_TEXTURE_2D, _imgtextureid );
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+		glColor4d(1.0,1.0,1.0,alpha);
+		glBegin(GL_QUADS);
+			glTexCoord2d(0, 1);
+			glVertex2d(0, 0);
+			glTexCoord2d(1, 1);
+			glVertex2d(_windowW, 0);
+			glTexCoord2d(1, 0);
+			glVertex2d(_windowW, _windowH);
+			glTexCoord2d(0, 0);
+			glVertex2d(0, _windowH);
 		glEnd();
 	}
-
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture( GL_TEXTURE_2D, _textureid );
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+}
 
 
-
-
-	string text="Situé en périphérie d'une galaxie peu fréquentée, Twinsun est un planétoïde récent. Mû d'une lente rotation sur lui-même, c'est un monde stabilisé entre deux soleils. A l'équateur s'est formée une haute chaîne montagneuse, le divisant en deux hémisphères éclairés chacun par un soleil.";
-
-	write_text_black(text, *_loadedfont, _loadedfont->average_advance+2,
-		_loadedfont->origin+22, _windowW-2*_loadedfont->average_advance, (int)(_scrollingtimediff/60));
-
-	write_text_white(text, *_loadedfont, _loadedfont->average_advance,
-		_loadedfont->origin+20, _windowW-2*_loadedfont->average_advance, (int)(_scrollingtimediff/60));
- }

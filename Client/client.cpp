@@ -1,3 +1,28 @@
+/*
+------------------------[ Lbanet Source ]-------------------------
+Copyright (C) 2009
+Author: Vivien Delage [Rincevent_123]
+Email : vdelage@gmail.com
+
+-------------------------------[ GNU License ]-------------------------------
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-----------------------------------------------------------------------------
+*/
+
+
 #include "client.h"
 #include "GraphicsWindowQt"
 #include "EventsQueue.h"
@@ -15,6 +40,7 @@ Client::Client(QWidget *parent, Qt::WFlags flags)
 	
 	ui.page_ExtraGL->layout()->addWidget(&_glwidget);
 
+	ui.stackedWidget->setCurrentIndex(1);
 }
 
 /***********************************************************
@@ -24,6 +50,23 @@ Client::~Client()
 {
 
 }
+
+
+/***********************************************************
+process
+***********************************************************/
+void Client::Process(double tnow, float tdiff)
+{
+	switch(_currentview)
+	{
+		case CLV_ExtraGL:
+		{
+			_glwidget.Process(tnow, tdiff);
+			return;
+		}
+	}
+}
+
 
 
 /***********************************************************
@@ -103,9 +146,9 @@ void Client::keyPressEvent (QKeyEvent * event)
 				videofinished();
 				return;
 			}
-			case CLV_FixedImage:
+			case CLV_ExtraGL:
 			{
-				EventsQueue::getReceiverQueue()->AddEvent(new FixedImageFinishedEvent());
+				EventsQueue::getReceiverQueue()->AddEvent(new DisplayExtraGLFinishedEvent());
 				return;
 			}	
 		}
@@ -136,42 +179,30 @@ ClientViewType Client::GetCurrentView()
 }
 
 
+
+
+
 /***********************************************************
 switch to fixed image
 ***********************************************************/
-void Client::SwitchToFixedImage(const std::string & imagepath)
+void Client::SwitchToFixedImage(const std::string & imagepath, long NbSecondDisplay, 
+								bool FadeIn, float FadeInColorR, float FadeInColorG, float FadeInColorB,
+								bool FadeOut, float FadeOutColorR, float FadeOutColorG, float FadeOutColorB)
 {
-	QPixmap image(imagepath.c_str());
-	ui.label_fixedimage->setPixmap(image);
-
 	ui.stackedWidget->setCurrentIndex(2);
-	_currentview = CLV_FixedImage;
+	_currentview = CLV_ExtraGL;
+
+	_glwidget.StartFixedImage(imagepath, NbSecondDisplay, FadeIn, FadeInColorR, FadeInColorG, FadeInColorB,
+									FadeOut, FadeOutColorR, FadeOutColorG, FadeOutColorB);
 }
-
-
-/***********************************************************
-process
-***********************************************************/
-void Client::Process(double tnow, float tdiff)
-{
-	switch(_currentview)
-	{
-		case CLV_ExtraGL:
-		{
-			_glwidget.Process(tnow, tdiff);
-			return;
-		}
-	}
-}
-
 
 /***********************************************************
 switch to text
 ***********************************************************/
-void Client::SwitchToText(long TextId)
+void Client::SwitchToText(const std::string & imagepath, const std::vector<long> textIds)
 {
-	ui.stackedWidget->setCurrentIndex(3);
+	ui.stackedWidget->setCurrentIndex(2);
 	_currentview = CLV_ExtraGL;
 
-	_glwidget.StartScrollingText(TextId);
+	_glwidget.StartScrollingText(imagepath, textIds);
 }

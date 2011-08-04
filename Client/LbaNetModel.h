@@ -449,11 +449,13 @@ public:
 
 
 	// DisplayImage
-	virtual void DisplayImage(int ScriptId, const std::string & ImagePath, long NumberSecond, 
+	virtual void DisplayImage(int ScriptId, const std::string & imagepath, long NbSecondDisplay, 
+								bool FadeIn, const LbaColor &FadeInColor,
+								bool FadeOut, const LbaColor &FadeOutColor, 
 								const std::string & OptionalMusicPath);
 
 	// FixedImageDisplayFinished
-	void FixedImageDisplayFinished();
+	void DisplayExtraGLFinished();
 
 
 protected:
@@ -583,9 +585,9 @@ private:
 	std::map<int, std::set<long> >						m_playingscriptactors;
 
 	int													m_videoscriptid;
-	double												m_image_timetoend;
-	bool												m_image_assoc_music;
 	int													m_fixedimagescriptid;
+	bool												m_image_assoc_music;
+
 };
 
 #endif

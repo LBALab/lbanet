@@ -48,8 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ***********************************************************/
 LbaNetModel::LbaNetModel()
 : m_playerObjectId(0), m_paused(false), m_newworld(false),
-	m_videoscriptid(-1), m_image_timetoend(-1), m_fixedimagescriptid(-1),
-	m_image_assoc_music(false)
+	m_videoscriptid(-1), m_fixedimagescriptid(-1), m_image_assoc_music(false)
 {
 	LogHandler::getInstance()->LogToFile("Initializing model class...");
 
@@ -121,11 +120,6 @@ void LbaNetModel::Process(double tnow, float tdiff)
 {
 	if(m_paused)
 		return;
-
-	//timer for displaying fixed image
-	if((m_image_timetoend > 0) && (m_image_timetoend <= tnow))
-		FixedImageDisplayFinished();
-
 
 	// process all _npcObjects
 	{
@@ -2116,13 +2110,16 @@ void LbaNetModel::ClientVideoFinished()
 /***********************************************************
 PlayClientVideo
 ***********************************************************/
-void LbaNetModel::DisplayImage(int ScriptId, const std::string & ImagePath, long NumberSecond, 
+void LbaNetModel::DisplayImage(int ScriptId, const std::string & imagepath, long NbSecondDisplay, 
+								bool FadeIn, const LbaColor &FadeInColor,
+								bool FadeOut, const LbaColor &FadeOutColor, 
 								const std::string & OptionalMusicPath)
 {
-	m_image_timetoend = SynchronizedTimeHandler::GetCurrentTimeDouble() + (NumberSecond*1000);
 	m_fixedimagescriptid = ScriptId;
 
-	EventsQueue::getReceiverQueue()->AddEvent(new SwitchToFixedImageEvent(ImagePath));
+	EventsQueue::getReceiverQueue()->AddEvent(new SwitchToFixedImageEvent(imagepath, NbSecondDisplay, 
+																			FadeIn, FadeInColor.R, FadeInColor.G, FadeInColor.B,
+																			FadeOut, FadeOutColor.R, FadeOutColor.G, FadeOutColor.B));
 
 	if(OptionalMusicPath != "")
 	{
@@ -2136,9 +2133,8 @@ void LbaNetModel::DisplayImage(int ScriptId, const std::string & ImagePath, long
 /***********************************************************
 FixedImageDisplayFinished
 ***********************************************************/
-void LbaNetModel::FixedImageDisplayFinished()
+void LbaNetModel::DisplayExtraGLFinished()
 {
-	m_image_timetoend = -1;
 	EventsQueue::getReceiverQueue()->AddEvent(new SwitchToGameEvent());
 
 	if(m_image_assoc_music)

@@ -31,6 +31,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <osgViewer/GraphicsWindow>
 
 
+enum XtGLw_state {XtGLw_Off, XtGLw_Text, XtGLw_Image};
+enum XtGLw_fadingstate {XtGLw_FDOff, XtGLw_FDIn, XtGLw_FDOut};
+
 class FONT_FONT;
 
 class ExtraGLWidget : public QGLWidget
@@ -44,11 +47,17 @@ public:
 	void resizeGL(int w, int h);
 	void paintGL();
 
-	void StartScrollingText(long TextId);
-
 	void PressedSpace();
 
 	void Process(double tnow, float tdiff);
+
+
+	void StartScrollingText(const std::string & imagepath, const std::vector<long> textIds);
+
+
+	void StartFixedImage(const std::string & imagepath, long NbSecondDisplay, 
+								bool FadeIn, float FadeInColorR, float FadeInColorG, float FadeInColorB,
+								bool FadeOut, float FadeOutColorR, float FadeOutColorG, float FadeOutColorB);
 
 protected:
 		
@@ -65,19 +74,60 @@ protected:
 								double x, double y, double maxlenght, int maxchar);
 
 
+
 	void CreateFont(int size);
 
 	void DeleteFont();
 
+	// load image to texture
+	void LoadGLTextures(const std::string& name);
+
+	void CleanImageTexture();
+
+
+	// clean up
+	void CleanUp();
+
+	// clean up display and report terminaison
+	void CleanAndReport();
+
+	//! display image if exist
+	void DrawBGImage(float alpha);
+
 private:
-	bool			_loaded;
+	float			_bgR;
+	float			_bgG;
+	float			_bgB;
+	float			_bgA;
+
+	bool			_fontloaded;
 	FONT_FONT *		_loadedfont;
 	GLuint			_textureid;
+
+	bool			_imageloaded;
+	GLuint			_imgtextureid;
+
 	int				_windowW;
 	int				_windowH;
 
+	XtGLw_state			_currentstate;
+	XtGLw_fadingstate	_currentfadestate;
+
 	bool			_scrolling;
 	float			_scrollingtimediff;
+	std::vector<std::string>	_texts;
+	int							_textidx;
+
+	double			_textfinishdisplaytime;
+	bool			_fadingin;
+	bool			_fadingout;
+	float			_fiR;
+	float			_fiG;
+	float			_fiB;
+	float			_foR;
+	float			_foG;
+	float			_foB;
+	float			_currentalpha;
 };
 
 #endif

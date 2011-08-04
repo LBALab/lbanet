@@ -66,7 +66,18 @@ LbaNetEngine::LbaNetEngine(Ice::CommunicatorPtr communicator, const std::string 
 	Initialize();
 	SwitchGuiToLogin();
 
-	m_client_window->SwitchToText(0);
+	std::vector<long> texts;
+	for(int i=0; i< 10; ++i)
+		texts.push_back(i);
+
+	Localizer::getInstance()->SetWorldName("Lba1Original");
+	m_client_window->SwitchToText("Data/Worlds/Lba1Original/Video/lba1twinsun.gif", texts);
+
+	//LbaColor fadeinC(1, 1, 1, 1), fadeoutC(0, 0, 0, 1);
+	//m_lbaNetModel->DisplayImage(-1, "Worlds/Lba1Original/Video/lba1title.gif", 10, 
+	//							false, fadeinC,
+	//							false, fadeoutC, "");
+	
 }
 
 
@@ -957,17 +968,6 @@ void LbaNetEngine::HandleGameEvents()
 			continue;
 		}
 
-
-		// SwitchToFixedImageEvent
-		if(info == typeid(SwitchToFixedImageEvent))
-		{
-			SwitchToFixedImageEvent* castedptr = 
-				static_cast<SwitchToFixedImageEvent *>(&obj);
-
-			m_client_window->SwitchToFixedImage("Data/"+castedptr->_imagepath);
-			continue;
-		}	
-
 		// SwitchToGameEvent
 		if(info == typeid(SwitchToGameEvent))
 		{
@@ -992,10 +992,43 @@ void LbaNetEngine::HandleGameEvents()
 			continue;
 		}
 
-		// FixedImageFinishedEvent
-		if(info == typeid(FixedImageFinishedEvent))
+
+		// SwitchToFixedImageEvent
+		if(info == typeid(SwitchToFixedImageEvent))
 		{
-			m_lbaNetModel->FixedImageDisplayFinished();
+			SwitchToFixedImageEvent* castedptr = 
+				static_cast<SwitchToFixedImageEvent *>(&obj);
+
+			m_client_window->SwitchToFixedImage(((castedptr->_imagepath=="")?"":"Data/"+castedptr->_imagepath), 
+													castedptr->_NbSecondDisplay,
+													castedptr->_FadeIn,
+													castedptr->_FadeInColorR,
+													castedptr->_FadeInColorG,
+													castedptr->_FadeInColorB,
+													castedptr->_FadeOut,
+													castedptr->_FadeOutColorR,
+													castedptr->_FadeOutColorG,
+													castedptr->_FadeOutColorB);
+			continue;
+		}	
+
+
+		// SwitchBigTextEvent
+		if(info == typeid(SwitchBigTextEvent))
+		{
+			SwitchBigTextEvent* castedptr = 
+				static_cast<SwitchBigTextEvent *>(&obj);
+
+			m_client_window->SwitchToText(((castedptr->_imagepath=="")?"":"Data/"+castedptr->_imagepath), 
+													castedptr->_textIds);
+			continue;
+		}
+
+
+		// DisplayExtraGLFinishedEvent
+		if(info == typeid(DisplayExtraGLFinishedEvent))
+		{
+			m_lbaNetModel->DisplayExtraGLFinished();
 			continue;
 		}
 	}

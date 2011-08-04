@@ -582,40 +582,6 @@ long _itemid;
 
 /*
 ************************************************************************************************************************
-*                                                  class SwitchToFixedImageEvent
-*
-************************************************************************************************************************
-*/
-class SwitchToFixedImageEvent : public LbaNet::ClientServerEventBase
-{
-public:
-	//! constructor
-	SwitchToFixedImageEvent(const std::string & imagepath)
-		: _imagepath(imagepath)
-	{
-	}
-
-	std::string _imagepath;
-};
-
-/*
-************************************************************************************************************************
-*                                                  class FixedImageFinishedEvent
-*
-************************************************************************************************************************
-*/
-class FixedImageFinishedEvent : public LbaNet::ClientServerEventBase
-{
-public:
-	//! constructor
-	FixedImageFinishedEvent()
-	{
-	}
-};
-
-
-/*
-************************************************************************************************************************
 *                                                  class SwitchToGameEvent
 *
 ************************************************************************************************************************
@@ -662,6 +628,77 @@ public:
 	{
 	}
 };
+
+
+
+/*
+************************************************************************************************************************
+*                                                  class SwitchToFixedImageEvent
+*
+************************************************************************************************************************
+*/
+class SwitchToFixedImageEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	SwitchToFixedImageEvent(const std::string & imagepath, long NbSecondDisplay, 
+								bool FadeIn, float FadeInColorR, float FadeInColorG, float FadeInColorB,
+								bool FadeOut, float FadeOutColorR, float FadeOutColorG, float FadeOutColorB)
+		: _imagepath(imagepath), _NbSecondDisplay(NbSecondDisplay),
+			_FadeIn(FadeIn), _FadeInColorR(FadeInColorR), _FadeInColorG(FadeInColorG), _FadeInColorB(FadeInColorB),
+			_FadeOut(FadeOut), _FadeOutColorR(FadeOutColorR), _FadeOutColorG(FadeOutColorG), _FadeOutColorB(FadeOutColorB)
+	{
+	}
+
+	std::string		_imagepath;
+	long			_NbSecondDisplay; 
+	bool			_FadeIn; 
+	float			_FadeInColorR; 
+	float			_FadeInColorG; 
+	float			_FadeInColorB; 
+	bool			_FadeOut; 
+	float			_FadeOutColorR; 
+	float			_FadeOutColorG; 
+	float			_FadeOutColorB;
+};
+
+
+/*
+************************************************************************************************************************
+*                                                  class SwitchBigTextEvent
+*
+************************************************************************************************************************
+*/
+class SwitchBigTextEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	SwitchBigTextEvent(const std::string & imagepath, const std::vector<long> textIds)
+		: _imagepath(imagepath), _textIds(textIds)
+	{
+	}
+
+	std::string			_imagepath;
+	std::vector<long>	_textIds;
+};
+
+
+
+/*
+************************************************************************************************************************
+*                                                  class DisplayExtraGLFinishedEvent
+*
+************************************************************************************************************************
+*/
+class DisplayExtraGLFinishedEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	DisplayExtraGLFinishedEvent()
+	{
+	}
+};
+
 
 
 

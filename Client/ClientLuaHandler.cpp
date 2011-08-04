@@ -25,6 +25,14 @@ ClientLuaHandler::ClientLuaHandler()
 	{
 		luabind::module(m_LuaState) [
 
+		luabind::class_<LbaColor>("LbaColor")
+		.def(luabind::constructor<>())
+		.def(luabind::constructor<float, float, float, float>())
+		.def_readwrite("R", &LbaColor::R)
+		.def_readwrite("G", &LbaColor::G)
+		.def_readwrite("B", &LbaColor::B)
+		.def_readwrite("A", &LbaColor::A),
+
 		luabind::class_<LbaVec3>("LbaVec3")
 		.def(luabind::constructor<>())
 		.def(luabind::constructor<float, float, float>())
