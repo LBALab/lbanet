@@ -466,7 +466,9 @@ public:
 	virtual void PlayClientVideo(long ClientId,	const std::string & VideoPath) = 0;
 
 	// DisplayImage
-	virtual void DisplayImage(int ScriptId, const std::string & ImagePath, long NumberSecond, 
+	virtual void DisplayImage(int ScriptId, const std::string & imagepath, long NbSecondDisplay, 
+								bool FadeIn, const LbaColor &FadeInColor,
+								bool FadeOut, const LbaColor &FadeOutColor, 
 								const std::string & OptionalMusicPath) = 0;
 
 protected:

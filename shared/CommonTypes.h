@@ -32,6 +32,27 @@ class QAction;
 
 
 /***********************************************************************
+Internal color class
+ ***********************************************************************/
+class LbaColor
+{
+public:
+	//! constructor
+	LbaColor()
+		: R(1), G(1), B(1), A(1)
+	{}
+
+	//!constructor
+	LbaColor(float r, float g, float b, float a)
+		: R(r), G(g), B(b), A(a){}
+
+	float R;
+	float G;
+	float B;
+	float A;
+};
+
+/***********************************************************************
 Internal vector 3 class
  ***********************************************************************/
 class LbaVec3
