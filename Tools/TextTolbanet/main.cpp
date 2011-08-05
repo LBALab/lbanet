@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "MapInfoXmlReader.h"
 #include "MapInfoXmlWriter.h"
 #include <vector>
+#include "XmlReader.h"
 
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
@@ -55,6 +56,20 @@ std::vector<std::string> GetFile(const std::string &directory)
 	return files;
 }
 
+
+static std::string replaceall(const std::string & str, const std::string & toreplace, const std::string & with)
+{
+	std::string res = str;
+
+	int len = toreplace.size(), pos;
+	while((pos=res.find(toreplace)) != std::string::npos)
+	{
+		res=res.substr(0,pos)+with+res.substr(pos+len);
+	}
+
+	return res;
+}
+
 void TransformTextLang(const std::vector<std::string> &files, 
 					   const std::string outputfile, size_t start, size_t end)
 {
@@ -67,11 +82,13 @@ void TransformTextLang(const std::vector<std::string> &files,
 		std::map<long, std::string> txts = MapInfoXmlReader::LoadTextFile(files[i]);
 		std::map<long, std::string>::iterator itm = txts.begin();
 		std::map<long, std::string>::iterator endm = txts.end();
+
 		for(; itm != endm; ++itm, ++idx)
 			fulltxts[idx] = itm->second;
 	}
 
-	MapInfoXmlWriter::SaveTexts(outputfile, fulltxts);
+	XmlReader::SaveTextFile(outputfile, fulltxts);
+	//MapInfoXmlWriter::SaveTexts(outputfile, fulltxts);
 }
 
 
@@ -81,26 +98,136 @@ void TransformText(const std::string & directory, const std::string outputfile, 
 	int cc2 = 14;
 
 	std::vector<std::string> files = GetFile(directory);
-	TransformTextLang(files, outputfile+"/en.xml", cc, cc2);
+	TransformTextLang(files, outputfile+"/en/map.xml", cc, cc2);
 	cc = cc2;
 	cc2 += 14;
-	TransformTextLang(files, outputfile+"/fr.xml", cc, cc2);
+	TransformTextLang(files, outputfile+"/fr/map.xml", cc, cc2);
 	cc = cc2;
 	cc2 += 14;
-	TransformTextLang(files, outputfile+"/de.xml", cc, cc2);
+	TransformTextLang(files, outputfile+"/de/map.xml", cc, cc2);
 	cc = cc2;
 	cc2 += 14;
-	TransformTextLang(files, outputfile+"/sp.xml", cc, cc2);
+	TransformTextLang(files, outputfile+"/sp/map.xml", cc, cc2);
 	cc = cc2;
 	cc2 += 14;
-	TransformTextLang(files, outputfile+"/it.xml", cc, cc2);
+	TransformTextLang(files, outputfile+"/it/map.xml", cc, cc2);
 
+}
+
+
+
+void CompareFiles(const std::string & originalf, const std::string & newf,
+				  const std::string outputfile)
+{
+	
+	std::map<long, std::string> origtxt = XmlReader::LoadTextFile(originalf);
+	std::map<long, std::string> newtxt = XmlReader::LoadTextFile(newf);
+
+	//std::map<long, std::string> origtxt = MapInfoXmlReader::LoadTextFileN(originalf);
+	//std::map<long, std::string> newtxt = MapInfoXmlReader::LoadTextFileN(newf);
+
+	std::map<std::string, long> newtxtrev;
+	{
+		std::map<long, std::string>::iterator itmo = newtxt.begin();
+		std::map<long, std::string>::iterator endmo = newtxt.end();
+		for(; itmo != endmo; ++itmo)
+			newtxtrev[itmo->second] = itmo->first;
+	}
+
+	std::ofstream ofile(outputfile.c_str());
+	std::vector<long> notfoundv;
+
+	{
+		std::map<long, std::string>::iterator itmo = origtxt.begin();
+		std::map<long, std::string>::iterator endmo = origtxt.end();
+		for(; itmo != endmo; ++itmo)
+		{
+			std::map<std::string, long>::iterator foundit = newtxtrev.find(itmo->second);
+			if(foundit != newtxtrev.end())
+				ofile<<itmo->first<<" "<<foundit->second<<std::endl;
+			else
+				notfoundv.push_back(itmo->first);
+		}
+	}
+
+
+
+	std::vector<long>::iterator itvec = notfoundv.begin();
+	while(itvec != notfoundv.end())
+	{
+		bool found = false;
+
+		{
+			std::string tmp = origtxt[*itvec];
+			tmp = tmp.substr(0, 30);
+
+
+			std::map<long, std::string>::iterator itmo = newtxt.begin();
+			std::map<long, std::string>::iterator endmo = newtxt.end();
+			for(; itmo != endmo; ++itmo)
+			{
+				if(itmo->second.find(tmp) != std::string::npos)
+				{
+					ofile<<*itvec<<" "<<itmo->first<<std::endl;
+					itvec = notfoundv.erase(itvec);
+					found = true;
+				}
+			}
+		}
+		if(!found && origtxt[*itvec].size() > 30)
+		{
+			std::string tmp = origtxt[*itvec];
+			tmp = tmp.substr(tmp.size()-30);
+
+
+			std::map<long, std::string>::iterator itmo = newtxt.begin();
+			std::map<long, std::string>::iterator endmo = newtxt.end();
+			for(; itmo != endmo; ++itmo)
+			{
+				if(itmo->second.find(tmp) != std::string::npos)
+				{
+					ofile<<*itvec<<" "<<itmo->first<<std::endl;
+					itvec = notfoundv.erase(itvec);
+					found = true;
+				}
+			}
+		}
+
+		//if(!found )
+		//{
+		//	std::string tmp = origtxt[*itvec];
+		//	tmp = replaceall(tmp, "@ @", "@");
+
+		//	std::map<long, std::string>::iterator itmo = newtxt.begin();
+		//	std::map<long, std::string>::iterator endmo = newtxt.end();
+		//	for(; itmo != endmo; ++itmo)
+		//	{
+		//		if(itmo->second.find(tmp) != std::string::npos)
+		//		{
+		//			ofile<<*itvec<<" "<<itmo->first<<std::endl;
+		//			itvec = notfoundv.erase(itvec);
+		//			found = true;
+		//		}
+		//	}
+		//}
+
+		if(!found)
+			++itvec;
+	}
+	ofile<<std::endl<<std::endl<<"not found: "<<std::endl;
+	for(size_t i=0; i< notfoundv.size(); ++i)
+	{
+		ofile<<notfoundv[i]<<" "<<origtxt[notfoundv[i]]<<std::endl;
+	}
 }
 
 int main( int argc, char **argv )
 {
 	TransformText("Data/LBA1", "Data/lba1res", true);
 	TransformText("Data/LBA2", "Data/lba2res", false);
+
+	CompareFiles("Data/Lba1previous/en/map.xml", "Data/lba1res/en/map.xml",
+				  "Data/check.txt");
 
 	return 0;
 }

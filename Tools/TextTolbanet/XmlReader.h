@@ -23,27 +23,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#ifndef __LBA_NET_MAP_INFO_XML_READER_H__
-#define __LBA_NET_MAP_INFO_XML_READER_H__
+#ifndef __LBA_NET_XML_READER_H__
+#define __LBA_NET_XML_READER_H__
 
 #include <string>
 #include <map>
 
-
 //*************************************************************************************************
-//*                                      class MapInfoXmlReader
+//*                                      class XmlReader
 //*************************************************************************************************
 
-class MapInfoXmlReader
+class XmlReader
 {
 public:
 
-	// get a text from file
 	static std::map<long, std::string> LoadTextFile(const std::string &Filename);
 
-
-	// get a text from file
-	static std::map<long, std::string> LoadTextFileN(const std::string &Filename);
+	// save text in file
+	static void SaveTextFile(const std::string &Filename, const std::map<long, std::string> &text);
 
 };
 

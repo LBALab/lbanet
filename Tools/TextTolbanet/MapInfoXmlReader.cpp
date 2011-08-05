@@ -112,3 +112,45 @@ std::map<long, std::string> MapInfoXmlReader::LoadTextFile(const std::string &Fi
 	return res;
 }
 
+
+/*
+--------------------------------------------------------------------------------------------------
+- get a text from file
+--------------------------------------------------------------------------------------------------
+*/
+std::map<long, std::string> MapInfoXmlReader::LoadTextFileN(const std::string &Filename)
+{
+	std::map<long, std::string> res;
+
+	TiXmlDocument doc(Filename);
+	if (!doc.LoadFile())
+		return res;
+
+	TiXmlHandle hDoc(&doc);
+	TiXmlElement* pElem;
+
+	// block: text attributes
+	{
+		pElem=hDoc.FirstChildElement().Element();
+
+		// should always have a valid root but handle gracefully if it does
+		if (!pElem)
+			return res;
+
+
+		// for each text
+		pElem=pElem->FirstChildElement();
+		for(;pElem; pElem=pElem->NextSiblingElement())
+		{
+			long ctid = -1;
+			pElem->QueryValueAttribute("id", &ctid);
+
+			if(pElem->FirstChild())
+				res[ctid] = pElem->FirstChild()->Value();
+		}
+	}
+
+	return res;
+}
+
+

@@ -30,7 +30,7 @@
     <quote id="25" type="0">Halt! You are a wanted escapee!</quote>
     <quote id="26" type="0">If you give me 10 Kashes I'll let you read the poster behind me.</quote>
     <quote id="27" type="0">I saw them a little while ago on Citadel Island. But they left on a fast boat. Destination unknown!</quote>
-    <quote id="28" type="0">Welcome, dear customer! I don't have any more cherry flavored syrup, but there is a pharmacy open on Citadel Island.<linebreak />P Move in front of the item that interests you and use the ACTION command.</quote>
+    <quote id="28" type="0">Welcome, dear customer! I don't have any more cherry flavored syrup, but there is a pharmacy open on Citadel Island. @ P Move in front of the item that interests you and use the ACTION command.</quote>
     <quote id="29" type="0">Mister, Mister! There's a loose stone in the back wall. I might be able to escape!</quote>
     <quote id="30" type="0">A loose stone? Let me see that.</quote>
     <quote id="31" type="0">The passage will only open when you come from my cousin's house. Now stop rummaging everywhere!</quote>
@@ -119,7 +119,7 @@
     <quote id="114" type="0">Not enough Kashes!</quote>
     <quote id="115" type="0">I've got to tell you something. It's awful! My best friend (Beatrice) is in love with Steven. But Paul, Steven's half brother, left Cindy when Linda got out of the clinic after her bobsleigh accident. But not for Linda, for Tatjana! Only Serge (who secretly admires Steven) has been trying for months to win the love of Tatjana who refuses to talk to Christy since she died. All the while Stephanie - who remarried Serge - discovered the letter from Paulina in which she explained where was the box of clover leaves left behind by Roy. So, evidently, Beatrice wonders if Linda knows about the accident. @ You get all that?</quote>
     <quote id="116" type="0">Wake up, I've just found the escapee!</quote>
-    <quote id="117" type="0">Thief!<linebreak /> @ Leave my money box alone!</quote>
+    <quote id="117" type="0">Thief! @ @ Leave my money box alone!</quote>
     <quote id="118" type="0">Sorry dear customer, but all that interests me is my modest concern.</quote>
     <quote id="119" type="0">Fool, don't do that! ANYTHING can happen now!</quote>
     <quote id="120" type="0">Ha, ha! You too are looking for his treasure? Well, I sure once had an old dusty book about LeBorgne, but a customer bought it this morning. It was a rabbibunny. I know that he works over at the library.</quote>
