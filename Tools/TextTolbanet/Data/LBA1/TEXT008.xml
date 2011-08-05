@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>1</game>
+  <quotes>
+    <quote id="1" type="0">What are you doing here? This sector is off limits to the public.</quote>
+    <quote id="2" type="0">Halt!</quote>
+    <quote id="3" type="0">Stop squirming, prisoner Twinsen!</quote>
+    <quote id="4" type="0">Hey, you! You're not one of my nurses! Sound the alarm!</quote>
+    <quote id="5" type="0">Good day, fellow nurse.</quote>
+    <quote id="6" type="0">A prisoner has escaped! @ Sound the alarm!</quote>
+    <quote id="7" type="0">"RULE# 1024-GH : @ Dr. FunFrock reminds you that it is absolutely forbidden to make any allusion whatsoever to the so called Legend."</quote>
+    <quote id="8" type="0">"Long live the venerable Dr. FunFrock, the one who saved us from all the superstitions."</quote>
+    <quote id="9" type="0">Hmmmmm... what if I try to get the guard's attention?</quote>
+    <quote id="10" type="0">Good day</quote>
+    <quote id="11" type="0">You've returned at last, my love! Come inside quickly - all the clones must be looking for you.</quote>
+    <quote id="12" type="0">Twinsen, where were you? I was worried sick!</quote>
+    <quote id="13" type="0">I've just escaped from the asylum. They think that I am a trouble maker because of the strange dreams I have, the ones where Sendell is calling me. I spoke to you about them on several occasions.</quote>
+    <quote id="14" type="0">I rummage around here as there's no one guarding this place. I hide in the truck so that the guards won't see me. You just have to jump into the pile of garbage and be VERY DISCREET about it.</quote>
+    <quote id="15" type="0">Hi! What are you doing there? Did you know that you can read the posters? All you have to do is move in front of one and use the ACTION command while in normal mode.</quote>
+    <quote id="16" type="0">Uhhh ... How's it going? </quote>
+    <quote id="17" type="0">I know where they went and I'll help you if you buy me a drink. Ask the waiter about it.</quote>
+    <quote id="18" type="0">You're being held here because you are a trouble maker. An informant told us that you claim to have prophetic dreams. @ Calm down, we're going to dissect... uh, I mean... take care of you!</quote>
+    <quote id="19" type="0">Ok, I just have to wait for the truck to move into place.</quote>
+    <quote id="20" type="0">It is forbidden to travel outside the Citadel in that kind of attire!</quote>
+    <quote id="21" type="0">Twinsen! What are you doing here? I heard you were arrested only yesterday!</quote>
+    <quote id="22" type="0">They let me out early for good behavior!</quote>
+    <quote id="23" type="0">Impossible! Nobody gets out of the Citadel alive!</quote>
+    <quote id="24" type="0">"ANNOUNCEMENT #357-G: @ A new automatic surveillance device is now operating in the city. All citizens must remain motionless if one of these devices is in their vicinity."</quote>
+    <quote id="25" type="0">It is forbidden to use that robot !</quote>
+    <quote id="26" type="0">You look kind of lost, Mr. Nurse. Use your holomap if you don't know how to get back home!</quote>
+    <quote id="27" type="0">Welcome aboard! You have picked a wonderful day for travelling, the weather is beautiful!</quote>
+    <quote id="28" type="0">I think it's time to make use of what you hid in the house.</quote>
+    <quote id="29" type="0">Open up! We know you're in there!</quote>
+    <quote id="30" type="0">You are charged with aiding an escapee. Follow us!</quote>
+    <quote id="31" type="0">I'm looking for a young girl. She is being escorted by two groboclones.</quote>
+    <quote id="32" type="0">Sound the alarm! It's the escapee!</quote>
+    <quote id="33" type="0">I believe that you can read all the posters. All you have to do is move in front of one and use the ACTION command while in normal mode. I can't really help you out, because I don't know how to read!</quote>
+    <quote id="34" type="0">I haven't seen them. @ Sorry!</quote>
+    <quote id="35" type="0">I saw them at the port a little while ago. They were leaving for another island. It's strange, because prisoners usually stay at the Citadel.</quote>
+    <quote id="36" type="0">You need a ticket to board the ferry. You can buy one next door.</quote>
+    <quote id="37" type="0">Good day, one ticket for... Sound the alarm! It's the escapee!</quote>
+    <quote id="38" type="0">I've had it up to my trunk! There are 4 crates in the warehouse that I cannot seem to arrange on the 4 crosses painted on the ground. I would gladly give a ferry ticket to anyone who could help me out of this mess.</quote>
+    <quote id="39" type="0">Hey! You over there, come here!</quote>
+    <quote id="40" type="0">I can't open this chest with this blasted trick back of mine! Gimme a hand and I'll let you keep some of what's inside. All you have to do is move in front of the chest while in normal mode and use the ACTION command. You can do the same for rummaging through lots of things like cupboards, garbage cans, etc...</quote>
+    <quote id="41" type="0">My son and I fixed the ventilation flap in your chimney. We'll put up a fence later. It's odd that it is so far away from your house! According to my son, who is an architect, there are a lot of strange things about your house!</quote>
+    <quote id="42" type="0">You know, don't worry about putting up a fence around the chimney. I've thought about it and I prefer to keep it as it is.</quote>
+    <quote id="43" type="0">Good day.</quote>
+    <quote id="44" type="0">Try the tavern, you never know...</quote>
+    <quote id="45" type="0">The crates are arranged correctly this time. Thank you, and please accept this ferry ticket as a token of my gratitude.</quote>
+    <quote id="46" type="0">I'm on special assignment for the good Dr. FunFrock, and am looking for the plans of the Teleportation Center.</quote>
+    <quote id="47" type="0">Come in friend! We will look at them together because they are rather complicated.</quote>
+    <quote id="48" type="0">I was put in charge of verifying this building because it was built over ruins that are marked with a strange symbol. It seems that a mad man is attacking different sites also marked with this same symbol. All this extra work has really ruined my weekend! @ We're really worried about the Teleportation Center: it's weak point is situated on the left, right after the first guard post.</quote>
+    <quote id="49" type="0">You will need my card to get into the center. It is on the drawing table. If you do succeed in catching this vandal with his weird Horn, I would appreciate it if you would kick his rear end for me!</quote>
+    <quote id="50" type="0">Go ask my son, he has come home from work. Sorry about your house: the clones came with an attack tank, and they were looking for you!</quote>
+    <quote id="51" type="0">I would like to buy a drink for the grobo upstairs.</quote>
+    <quote id="52" type="0">Very good sir, but that will cost you 10 Kashes per drink.</quote>
+    <quote id="53" type="0">Hide! They have itchy trigger fingers!</quote>
+    <quote id="54" type="0">"Keep the planet clean!"</quote>
+    <quote id="55" type="0">Let's see now, where did I put my key?</quote>
+    <quote id="56" type="0">Dad! Do you have a key with you?</quote>
+    <quote id="57" type="0">All you have to do is ask.</quote>
+    <quote id="58" type="0">I've got to get into the Teleportation Center.</quote>
+    <quote id="59" type="0">You don't have to be aggressive all the time. I don't talk to pushy people!</quote>
+    <quote id="60" type="0">10 Kashes! That's too expensive!</quote>
+    <quote id="61" type="0">You've just got back all the objects that were in your inventory!</quote>
+    <quote id="62" type="0">Don't ever try teleporting yourself - it's very dangerous! Only the clones can do it.</quote>
+    <quote id="63" type="0">"Welcome to Lupin-Burg @ (Citadel Island)."</quote>
+    <quote id="64" type="0">Yeah, the clones already confiscated the key to my cellar, so don't be surprised when they come back to close down the tavern!</quote>
+    <quote id="65" type="0">"Welcome to Citadel Island"</quote>
+    <quote id="66" type="0">We are going to close this tavern down. Get out of here!</quote>
+    <quote id="67" type="0">Good day, this talk about the Legend is strange, don't you think?</quote>
+    <quote id="68" type="0">The 4 crates are not on the 4 crosses, try again!</quote>
+    <quote id="69" type="0">I don't know anything about it, and it is forbidden to talk about it!</quote>
+    <quote id="70" type="0">I saw them! They left for another island, but I don't know which one.</quote>
+    <quote id="71" type="0">It is forbidden to talk about it! </quote>
+    <quote id="72" type="0">Bah! That doesn't interest me. Go see at the library or go drown your sorrows at the tavern; or even better, do it the other way around.</quote>
+    <quote id="73" type="0">What's strange is that you're talking about it. That's forbidden, you know!</quote>
+    <quote id="74" type="0">I don't know. The books that mention it have been confiscated and sent to Principal Island.</quote>
+    <quote id="75" type="0">It is forbidden to talk about that!</quote>
+    <quote id="76" type="0">Prisoner Twinsen, I've already had enough of seeing you here, so don't make any more problems for yourself!</quote>
+    <quote id="77" type="0">A piece of advice: surrender instead of trying to provoke us.</quote>
+    <quote id="78" type="0">You are not going to get away by evoking that subversive propaganda.</quote>
+    <quote id="79" type="0">I'm a bartender, you know, so I've have had my fill of bar jokes and strange stories!</quote>
+    <quote id="80" type="0">I don't know anything about it, but the tavern will soon be closed down. That's been confirmed!</quote>
+    <quote id="81" type="0">Good day</quote>
+    <quote id="82" type="0">Well, I don't know anything about it. But you could offer me a drink anyway?</quote>
+    <quote id="83" type="0">"This room contains information and weapons that were amassed for generations to help the Heir who will, one day, be chosen from our descendants. The key to the room was passed down from generation to generation, but our ancestor Hégésippe was the last family member to retain the key. He was attacked and killed by the ruthless pirate LeBorgne during a sea voyage. Nobody knows where Leborgne's treasure, which undoubtedly contains the golden key to the room, is today." </quote>
+    <quote id="84" type="0">" You who read this text, know that there are 3 Runic Stones in this world. Their locations are now indicated on your Holomap. They are large menhirs with runic text written on them. They will help the Heir in his quest for Sendell. The third stone will show the exact location of the Well of Sendell. In addition to the help provided by the text, each stone conceals a secret."</quote>
+    <quote id="85" type="0">"Bug street @ (Citadel Island)."</quote>
+    <quote id="86" type="0">It's ok, let's go!</quote>
+    <quote id="87" type="0">You don't have enough Kashes, come back later!</quote>
+    <quote id="88" type="0">Good day</quote>
+    <quote id="89" type="0">"Life candy: do you want 10 hearts for 10 Kashes?"</quote>
+    <quote id="90" type="0">Ok, I'll take them.</quote>
+    <quote id="91" type="0">No, thank you.</quote>
+    <quote id="92" type="0">Not enough Kashes!</quote>
+    <quote id="93" type="0">Good day, I would like some information about LeBorgne the pirate.</quote>
+    <quote id="94" type="0">"L.B.A. @ Lupin-Burg sewer service @ Little Vachond street"</quote>
+    <quote id="95" type="0">"L.B.A. @ Lupin-Burg sewer service @ Dr FunFrock Square"</quote>
+    <quote id="96" type="0">Halt!</quote>
+    <quote id="97" type="0">Hey, you! You're not one of my nurses! Sound the alarm!</quote>
+    <quote id="98" type="0">Good day, fellow nurse.</quote>
+    <quote id="99" type="0">Good day, fellow nurse.</quote>
+    <quote id="100" type="0">A prisoner is escaping! @ Sound the alarm!</quote>
+    <quote id="101" type="0">A prisoner is escaping! @ Sound the alarm!</quote>
+    <quote id="102" type="0">A prisoner is escaping! @ Sound the alarm!</quote>
+    <quote id="103" type="0">Good day, neighbor.</quote>
+    <quote id="104" type="0">Good day, neighbor.</quote>
+    <quote id="105" type="0">Good day</quote>
+    <quote id="106" type="0">Good day</quote>
+    <quote id="107" type="0">Good day</quote>
+    <quote id="108" type="0">Hey buddy!</quote>
+    <quote id="109" type="0">Good day</quote>
+    <quote id="110" type="0">Good day</quote>
+    <quote id="111" type="0">You are being held here because you are a trouble maker.</quote>
+    <quote id="112" type="0">Hey, Mr. Nurse! Use your holomap if you're lost.</quote>
+    <quote id="113" type="0">You know, the holomap is activated by the "H" key. And you'd better try to get it back or buy another one at the bazaar on Principal Island.</quote>
+    <quote id="114" type="0">I haven't seen them.<linebreak /> @ Sorry!</quote>
+    <quote id="115" type="0">I'd like to help you, but I haven't seen them.</quote>
+    <quote id="116" type="0">I haven't seen them.<linebreak /> @ Sorry!</quote>
+    <quote id="117" type="0">Didn't see 'em. I ain't budged an inch!</quote>
+    <quote id="118" type="0">I didn't see them. Try at the tavern, you never know...</quote>
+    <quote id="119" type="0">I haven't seen anyone, but ask inside the tavern.</quote>
+    <quote id="120" type="0">You need a ticket to board the ferry. You can buy one next door. </quote>
+    <quote id="121" type="0">Leave me alone, I have nothing to say to you.</quote>
+    <quote id="122" type="0">Try the tavern, you never know.</quote>
+    <quote id="123" type="0">Try the tavern, that sounds like something they would be familiar with.</quote>
+    <quote id="124" type="0">Don't get all excited, son! I prefer talking calmly.</quote>
+    <quote id="125" type="0">Calm down quickly! If you are going to be like that, I won't speak to you any more.</quote>
+    <quote id="126" type="0">Did you know that the telepods are dangerous for all species? Only the clones can use them!</quote>
+    <quote id="127" type="0">A piece of advice: surrender instead of provoking us.</quote>
+    <quote id="128" type="0">Quiet!</quote>
+    <quote id="129" type="0">Thanks, mate!</quote>
+    <quote id="130" type="0">I was trying to dig a tunnel, but the noise tipped them off!</quote>
+    <quote id="131" type="0">Where do you want to go?</quote>
+    <quote id="132" type="0">To Principal Island</quote>
+    <quote id="133" type="0">To the White Leaf Desert</quote>
+    <quote id="134" type="0">To Proxima Island</quote>
+    <quote id="135" type="0">To Rebellion Island</quote>
+    <quote id="136" type="0">I'm staying here!</quote>
+    <quote id="137" type="0">Bah! That doesn't interest me.</quote>
+    <quote id="138" type="0">Hi!</quote>
+    <quote id="139" type="0">Sorry, I haven't seen her!</quote>
+    <quote id="140" type="0">I don't know what those things are!</quote>
+    <quote id="141" type="0">Yes... Hey, stop talking about it, ok? That's a sure way to wind up in the Citadel.</quote>
+    <quote id="142" type="0">I don't know what that is all about.</quote>
+    <quote id="143" type="0">I know that LeBorgne had some kind of a captain's log written for him (he was practically illiterate), and the boss of the tavern on Principal Island knows where it is!</quote>
+    <quote id="144" type="0">They took a fast boat a little while ago. Destination unknown.</quote>
+    <quote id="145" type="0">One day, one of my swabs claimed that LeBorgne was an ancestor of mine and... well, you know how dramatic burials at sea can be!</quote>
+    <quote id="146" type="0">I can't help you out, my friend. Don't know what you're talking about.</quote>
+    <quote id="147" type="0">That's none of your business!</quote>
+    <quote id="148" type="0">Ask the sailor, he would have know who LeBorgne was.</quote>
+    <quote id="149" type="0">Not me!</quote>
+    <quote id="150" type="0">Bah, you think so? And in the first place, I don't know it.</quote>
+    <quote id="151" type="0">Asks one of my colleagues working in the warehouse on the port. He will know about this LeBorgne.</quote>
+    <quote id="152" type="0">There is a library on Principal Island, but I don't know if they have any books about the Legend there.</quote>
+    <quote id="153" type="0">I don't know anything about that story.</quote>
+    <quote id="154" type="0">Sorry, but I don't know what that could be about.</quote>
+    <quote id="155" type="0">Don't know him!</quote>
+    <quote id="156" type="0">I was not informed about this mission!</quote>
+    <quote id="157" type="0">Really! Well that's too bad, but I don't know anything about it.</quote>
+    <quote id="158" type="0">I've never seen those plans.</quote>
+    <quote id="159" type="0">What legend? I don't know about any legend!</quote>
+    <quote id="160" type="0">Good day</quote>
+    <quote id="161" type="0">Ask a sailor that type of question.</quote>
+    <quote id="162" type="0">Sorry, I don't know where they are.</quote>
+    <quote id="163" type="0">Bah! That holds little interest for me.</quote>
+    <quote id="164" type="0">That's in the past now, there are no pirates living today.</quote>
+    <quote id="165" type="0">Sorry, but I don't know what that could be about.</quote>
+    <quote id="166" type="0">I didn't see them, but try asking at the tavern.</quote>
+    <quote id="167" type="0">Never heard anything about it!</quote>
+    <quote id="168" type="0">I'm looking for the plans of the Teleportation Center - I'm on a special assignment!</quote>
+    <quote id="169" type="0">I haven't seen them.<linebreak /> @ Sorry!</quote>
+    <quote id="170" type="0">Sorry neighbor, I don't know what you're talking about.</quote>
+    <quote id="171" type="0">Try over at the port, all the sailors knew that pirate.</quote>
+    <quote id="172" type="0">Good day, I'm looking for a friend. She is escorted by two groboclones.</quote>
+    <quote id="173" type="0">I didn't see her, but if she was arrested, where she is, surely isn't any of your business!</quote>
+    <quote id="174" type="0">I don't know what you are talking about.</quote>
+    <quote id="175" type="0">Can I see your ferry ticket please?</quote>
+    <quote id="176" type="0">Ask a sailor, he might be able to help you.</quote>
+    <quote id="177" type="0">I don't know where they are.</quote>
+    <quote id="178" type="0">I haven't seen them.</quote>
+    <quote id="179" type="0">If you still want to take the ferry, I can sell you some tickets for only 5 kashes each. I print them up myself.</quote>
+    <quote id="180" type="0">You don't have enough Kashes, come back later.</quote>
+    <quote id="181" type="0">No more gas.</quote>
+    <quote id="182" type="0">Sorry, but someone came by for the robot. Apparently, they needed it at a top secret construction site.</quote>
+    <quote id="183" type="0">Thank you for preventing them from closing down my tavern. If you see something of interest in my cellar, please help yourself.</quote>
+    <quote id="184" type="0">Do what I do: gather up the clover leaves and the boxes. You need one box to hold each clover leaf. Each clover leaf will give you another chance when you are in an extremely dangerous situation.</quote>
+    <quote id="185" type="0">I read some extracts from the captain's log - LeBorgne was ruthless! If you're still interested in the log, it's for sale at the Old Burg bazaar on Principal Island.</quote>
+    <quote id="186" type="0">I don't know where they are.</quote>
+    <quote id="187" type="0">I'm not sure, but I seem to remember before, at the library, there were some books that talked about it.</quote>
+    <quote id="188" type="0">Hi </quote>
+    <quote id="189" type="0">On the Hamalayi</quote>
+    <quote id="190" type="0">I can't help you, ask someone else.</quote>
+    <quote id="191" type="0">Mercy!</quote>
+  </quotes>
+</lbatexts>

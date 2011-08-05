@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>1</game>
+  <quotes>
+    <quote id="1" type="0">Montrez-moi vos papiers je vous prie !</quote>
+    <quote id="2" type="0">C'est bizarre ce signe qui apparaît, je repeins par-dessus régulièrement, mais il revient à chaque fois.</quote>
+    <quote id="3" type="0">Bonjour</quote>
+    <quote id="4" type="0">Où veux-tu aller ?</quote>
+    <quote id="5" type="0">Sur l'île Tippett.</quote>
+    <quote id="6" type="0">Sur l'île de la Forteresse.</quote>
+    <quote id="7" type="0">Sur l'Hamalayi.</quote>
+    <quote id="8" type="0">Je reste ici.</quote>
+    <quote id="9" type="0">" Les pédales de déclenchement des télépodes sont fragiles. Arrêtez de sauter dessus ! "</quote>
+    <quote id="10" type="0">Plus de carburant</quote>
+    <quote id="11" type="0">Où veux-tu aller Twinsen ?</quote>
+    <quote id="12" type="0">" Bienvenue sur l'île Brundle. "</quote>
+    <quote id="13" type="0">Alerte !</quote>
+    <quote id="14" type="0">Allez-y !</quote>
+    <quote id="15" type="0">C'est malin, maintenant il n'y a plus de signe sur le mur, évidemment !</quote>
+    <quote id="16" type="0">Sortez d'ici sans rien casser et nous en tiendrons compte !</quote>
+    <quote id="17" type="0">Je cherche les plans du Centre de Téléportation.</quote>
+    <quote id="18" type="0">Je ne sais pas où ils sont.</quote>
+  </quotes>
+</lbatexts>

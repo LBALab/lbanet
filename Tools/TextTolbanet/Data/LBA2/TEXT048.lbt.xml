@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>2</game>
+  <quotes>
+    <quote id="1" type="1">C'est vous qui êtes allé jusqu'à l'îlot CX et qui en êtes revenu vivant ?</quote>
+    <quote id="2" type="1">Qu'est-ce qu'il y a là-bas, qu'est-ce que vous y avez vu ?</quote>
+    <quote id="3" type="1">Comment pourrais-je y aller !</quote>
+    <quote id="4" type="1">Sur Otringal.</quote>
+    <quote id="5" type="1">Sur l'îlot des knartas.</quote>
+    <quote id="6" type="1">Nulle part, je reste ici.</quote>
+    <quote id="7" type="1">Non pas encore. J'aimerais parvenir jusqu'à son bureau. Vous n'auriez pas une idée ?</quote>
+    <quote id="8" type="1">Bonjour.</quote>
+    <quote id="9" type="1">Je n'ai pas assez de zlitos.</quote>
+    <quote id="10" type="1">Pfouuu !! Ce cristal est bien trop lourd. Il me faudrait un outil pour en extraire un morceau.</quote>
+    <quote id="11" type="3">Au commencement, les 2 planètes mères, Zeer (le soleil) et Lich (froid) se rencontrèrent lors du Ogh : le grand cataclysme. Il en naquit Zeelich. La vie apparut et la confrérie des Dieux y envoya le plus jeune des fils de la lumière, nommé Kard N'kom. Hélas, des vapeurs délétères dégagées par la Grande Mine de souffre le défigurèrent. Son visage affreusement mutilé effraya les Dieux et il fut décidé que Kard N'kom devrait se voiler la face à jamais et ne plus paraître devant l'auguste assemblée. Condamné à errer sans fin dans le cosmos, Kard N'kom vit son Nom effacé de la loi divine. Celui qui erre sans visage s'appelait désormais Dark Monk... Zeelich était peuplée de 4 races différentes condamnées, par les Dieux à se combattre sans fin. Mais la vie étant la plus forte, la confrérie divine précipita Zeelich sur le 1er soleil du système Nôvaë. Ce choc créa la planète telle que nous la connaissons : une chape de nuages isola les sommets rocheux de la terre en fusion.</quote>
+    <quote id="12" type="3">Dark Monk revint et annonça le dernier verdict des Dieux. Les races devaient fraterniser et se répartir la tâche pour faire de Zeelich une planète vivable. Il fit voir un grand prodige : du nuage mortel naissaient des monstres hideux qui menaçaient d'envahir la planète. Grâce à sa Clef, Dark Monk fit naître un volcan qui entra en éruption et sculpta dans le basalte une immense statue à son effigie, tenant le Livre de Pierre, le Skroll aux 10 000 Noms. Lors de chaque cérémonie, la foudre allait désormais y inscrire un nouveau Nom de Dieu. Avant de disparaître Dark Monk brisa sa Clef en 4 et révéla la grande prophétie. La réunion des 4 fragments de la Clef, permettra, le jour où le 10 000ème Nom de Dieu sera gravé, de faire disparaître les monstres et le gaz, et de redonner à Zeelich l'aspect paradisiaque de ses origines. La vie pourra alors y renaître comme au temps de l'eden.</quote>
+    <quote id="13" type="1">Et qu'as-tu fait des enfants et des mages ??</quote>
+    <quote id="14" type="1">Tu es ignoble FunFrock et j'empêcherai tout cela !</quote>
+    <quote id="15" type="1">Je sais. Mais où est-il ? Et où sont les enfants ?</quote>
+    <quote id="16" type="1">Je vais aller sauver les enfants et affronter FunFrock. Pendant ce temps, partez ! Allez chercher Baldino sur Otringal !! Nous aurons besoin de son vaisseau pour nous sortir de là !!!"</quote>
+    <quote id="17" type="1">"... et lorsque paraîtra l'étranger, seul capable de réunir les quatre clés, Dark Monk s'opposera... ...dans la célébration ultime les monstres et le gaz disparaîtront... dans l'oubli Dark Monk s'en ira... ... et la vie, Zeelich retrouvera..."</quote>
+    <quote id="18" type="1">Je ne peux rien en faire de cette façon. J'ai besoin d'avoir les quatre fragments pour les utiliser ici.</quote>
+    <quote id="19" type="1">Représentant mosquibee. La race des Mosquibees habite dans le sous-gaz. Leur village est un magnifique cocon accroché au pic rocheux qui supporte l'îlot CX.</quote>
+    <quote id="20" type="1">Représentant blafard. La race des blafards habite dans le sous-gaz. Ce sont les ouvriers de la mine de gemmes, à partir desquelles est fabriqué le gazogem. L'exploitation de la mine est assurée par la Building Company, sous contrôle impérial.</quote>
+    <quote id="21" type="1">Représentant knarta. La race des Knartas habite sur l'îlot des knartas. Il dépasse à peine du gaz infesté de monstres. Les knartas raffinent les gemmes extraites dans le sous-gaz, pour en faire du gazogem, utilisable par tous les véhicules de Zeelich.</quote>
+    <quote id="22" type="1">Représentant Sup's. Les Sup's habitent dans la ville haute d'Otringal. Ils sont l'élite intellectuelle de la planète et occupent toujours les postes les plus élevés.</quote>
+    <quote id="23" type="1">Une vieille connaissance. Il vient de ma planète. C'est le mal incarné... Mais rassurez-vous, je me charge de lui faire comprendre où se trouve la vérité.</quote>
+    <quote id="24" type="1">Pour 5 zlitos, je peux vous conduire quelque part. Où désirez-vous aller ?</quote>
+    <quote id="25" type="1">Le prix de la course est de 5 zlitos. Où désirez-vous aller monsieur ?</quote>
+    <quote id="26" type="1">Voilà mon gars, c'est ici. Tu le trouveras facilement, y vend des souvenirs.</quote>
+    <quote id="27" type="1">Mais, c'est le twinsunien qui s'est évadé !! Alerte ! Alerte !! A l'assassin !!!</quote>
+    <quote id="28" type="9">Halte !!</quote>
+    <quote id="29" type="1">Non non, c'est pas moi, c'est pas moi !! Au secours, police !!! A l'assassin !!!!</quote>
+    <quote id="30" type="1">Je vous reconnais, vous êtes l'assassin, celui que tout le monde recherche ! Police, au secours !!!!</quote>
+    <quote id="31" type="1">Ouais, c'est moi, ou ce qu'il en reste. Qu'est-ce que vous voulez ?</quote>
+    <quote id="32" type="1">Ha ha, ce que j'y ai vu... une forteresse secrète monsieur. Une forteresse construite par le gouvernement, où des navettes de l'armée viennent se poser, et qui tirent sur tout ce qui s'approche. Je ne sais pas ce qu'ils y cachent, mais ils ne veulent pas que ça s'apprenne. Et ils font ce qu'il faut.</quote>
+    <quote id="33" type="1">Vous rigolez. Personne ne peut s'en approcher. Les seuls qui seraient assez fous pour tenter un coup comme ça, ce sont les hommes de Rick. Rick, c'est le patron du café sur le port. Mais il est bien plus que ça, il contrôle toutes les affaires louches d'Otringal. Allez le voir, il vous aidera peut être.</quote>
+    <quote id="34" type="1">Alors, vous avez trouvé Rick ?</quote>
+    <quote id="35" type="1">Non.. peut être par les loges, j'avais entendu parler de quelque chose, mais je ne me souviens plus très bien.</quote>
+    <quote id="36" type="1">Une petite statue de Dark Monk monsieur ? La vraie ne sort du volcan que pendant les cérémonies du culte de Dark Monk. C'est très impressionnant, vous devriez voir ça !</quote>
+    <quote id="37" type="1">C'est... c'est impossible... Alors... Dark Monk n'est pas Dark Monk... Ça n'est qu'un imposteur...</quote>
+    <quote id="38" type="1">Cette prophétie est tellement prometteuse... je passe mon temps à la lire et à la relire. A chaque fois, elle me fait pleurer !!</quote>
+    <quote id="39" type="1">Ce, ce personnage à pris la place de Dark Monk. Il nous a tous dupés. Et nous, pauvres imbéciles, nous l'avons crû !! Mais qui est-il, qui donc est ce FunFrock ???</quote>
+    <quote id="40" type="1">Il paraît que dans le temps, le chemin faisait le tour du cratère et que les gens allaient ramasser des cristaux. Aujourd'hui, la route est coupée, et je crois que personne n'oserait s'y aventurer.</quote>
+    <quote id="41" type="1">Ce temple est dédié à Dark Monk. C'est le Dieu des Zeelichiens. Il paraît qu'il se serait réincarné il y a peu de temps, et qu'il aurait promis de lever la malédiction zeelichienne lors de la prochaine cérémonie du culte.</quote>
+    <quote id="42" type="1">Moi j'dis que ce gars... hips ! J'avais pas trop confiance en lui, hips !! J'savais bien qu'on creusait tous pour rien, hips !! Si j'aurais su, j'aurais passé un peu plus de temps chez Franckie plutôt qu'à piocher, hips !!</quote>
+    <quote id="43" type="1">Enfin Twinsen je te retrouve ! Mais cette fois il est trop tard !! Avec l'aide de l'Empereur, j'ai réussi à duper les Esmers. Quelle ironie, ils me prenaient pour Dark Monk réincarné et m'accordaient des pouvoirs divins que je n'avais pas. Grâce à eux, je vais enfin les obtenir dès que la lune fera exploser Twinsun !!</quote>
+    <quote id="44" type="1">J'avais besoin des mages pour faire fonctionner la machine que j'ai construite dans la statue. Elle attirera l'énergie magique des Sendells contenue au coeur de Twinsun, et qui se dégagera lors de l'explosion ! Les enfants n'étaient qu'un moyen de pression pour que les mages m'obéissent !!</quote>
+    <quote id="45" type="3">Je t'en prie Twinsen, toi aussi tu m'as aidé !! La statue sert d'antenne et j'avais besoin des quatre fragments pour la mettre en position cérémonielle. J'avais bien envoyé mes mercenaires, mais tu as tout de même réussi à leur échapper ! Félicitations !! Maintenant tu vas assister à la destruction de ta planète et à ma consécration ! Dès que j'aurai activé la machine et que le choc cosmique aura lieu, je m'emparerai de l'énergie des Sendells. Elle fera de moi l'égal d'un Dieu !!!</quote>
+    <quote id="46" type="3">Alors tu m'as suivi, misérable petite larve !!! Tu n'as donc pas compris ? Il est trop tard. Dans quelques minutes, ta planète sera détruite, et son énergie fera de moi l'égal d'un Dieu !!! @ Et pour te punir, je vais devant tes yeux sacrifier ces enfants qui te sont si chers !!!</quote>
+    <quote id="47" type="9">Adieu !!!</quote>
+    <quote id="48" type="1">Merci de nous avoir libéré Twinsen. C'est FunFrock qui nous a enchaîné à cette machine. Il est vivant ! Il est revenu !! Il se fait passer pour Dark Monk et il veut détruire Twinsun !!</quote>
+    <quote id="49" type="1">Il les retient prisonniers dans une cage. Il sont en haut, dans la tête de la statue. La grille qui y accède est fermée, mais nous allons t'aider ! Nous allons utiliser tout notre savoir magique pour la briser !!! @ Laisse-nous faire !!!</quote>
+    <quote id="50" type="9">Bravo !!!</quote>
+    <quote id="51" type="9">Prêts ?</quote>
+    <quote id="52" type="9">Allez !!!</quote>
+    <quote id="53" type="1">Alors notre Reine avait raison. L'Empereur nous a tous menti. Il nous a tous manipulés ! Tout cela pour protéger cet imposteur !!!</quote>
+    <quote id="54" type="5">Formidable !!! Merci Sendell, sans ton aide, je n'y serais jamais arrivé !</quote>
+    <quote id="55" type="5">Comment cela ?</quote>
+    <quote id="56" type="5">Ces gens sont extraordinaires, ils sont généreux et honnêtes. Il est temps que les habitants de Zeelich et ceux de Twinsun se rencontrent enfin !!</quote>
+    <quote id="57" type="5">Twinsen, la lune d'émeraude vient de reprendre sa trajectoire normale, Twinsun est sauvée !!!!</quote>
+    <quote id="58" type="5">C'est moi qui doit te remercier, tu nous as sauvées !! N'oublie pas que nous, les Sendells, nous faisons partie intégrante de Twinsun !!! Et puis, je crois que nous devons aussi remercier les Esmers...</quote>
+    <quote id="59" type="5">Et bien, la force du réacteur était beaucoup trop puissante, même pour nous. S'ils n'étaient pas venu le détruire, je crois que nous n'y serions pas arrivés !! Tu as démasqué FunFrock devant leur yeux, lui qu'ils prenaient pour Dark Monk, leur sauveur. Grâce à ton intervention, ils ont compris. C'est pour cela qu'ils sont venus nous aider !!!</quote>
+  </quotes>
+</lbatexts>

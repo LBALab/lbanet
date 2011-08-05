@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>1</game>
+  <quotes>
+    <quote id="1" type="0">You've just rediscovered your Holomap! You can use it by going through your inventory with the (SHIFT) key or access it directly with the (H) key.</quote>
+    <quote id="2" type="0">You've just rediscovered your Magic Ball! Try using it on the clones!</quote>
+    <quote id="3" type="0">You've just stolen Dr. FunFrock's saber!</quote>
+    <quote id="4" type="0">You've just found Gawley's Horn, an object left for you by your ancestors.</quote>
+    <quote id="5" type="0">You've just earned the first level of Magic by finding the Tunic left for you by your ancestors. You will be able to store up magic with it.</quote>
+    <quote id="6" type="0">You've just earned the second level of Magic by finding the Book of Bù.</quote>
+    <quote id="7" type="0">You've just earned the third level of Magic by finding Sendell's Medallion.</quote>
+    <quote id="8" type="0">You've just earned the fourth level of Magic by filling up your flask with Clear Water.</quote>
+    <quote id="9" type="0">You now have the Red Magnetic Card.</quote>
+    <quote id="10" type="0">With this card you are the fourth member of the Elves club. Anyway, its your own business!</quote>
+    <quote id="11" type="0">You've just rediscovered your ID card.</quote>
+    <quote id="12" type="0">You now have the Architect's pass.</quote>
+    <quote id="13" type="0">You now have the Proto-Pack.</quote>
+    <quote id="14" type="0">The Kamis have given you a Snowboard.</quote>
+    <quote id="15" type="0">You have a Meca-Penguin.</quote>
+    <quote id="16" type="0">You've just replenished some of your gas supply.</quote>
+    <quote id="17" type="0">You've just stolen a Pirate's Flag.</quote>
+    <quote id="18" type="0">You've just found a Magic Flute.</quote>
+    <quote id="19" type="0">The wise man gave you the Space Guitar.</quote>
+    <quote id="20" type="0">You've just bought a hair dryer.</quote>
+    <quote id="21" type="0">You've just found the key lost by your ancestor Hégésippe.</quote>
+    <quote id="22" type="0">You've just found a Bottle of Syrup!</quote>
+    <quote id="23" type="0">The bottle is now empty.</quote>
+    <quote id="24" type="0">You have a Ferry Ticket.</quote>
+    <quote id="25" type="0">You just received a keypad that controls a digital locking system.</quote>
+    <quote id="26" type="0">You now possess a coffee pot.</quote>
+    <quote id="27" type="0">M. Lanktir gave you his list. </quote>
+    <quote id="28" type="0">Holomap (H) key. The Holomap shows your position on the planet. The arrows represent important places that were pointed out to you during your quest. They will disappear once you have completed your task in each of the corresponding places. The Holomap rotates by pressing simultaneously (CTRL) and the arrow keys. By pressing only the arrow keys, you can scroll through text corresponding to the arrows visible on the Holomap.</quote>
+    <quote id="29" type="0">Magic Ball (ALT) key. Each time you reach a higher level of magic, the Magic Ball's striking power will increase. Its trajectories will also become more effective with each new level, as long as you have enough magic in stock! The Ball will use up magic each time it is thrown.</quote>
+    <quote id="30" type="0">Magic Saber, once the Saber is in hand (ENTER key), (ALT) key to strike. It is the most powerful weapon on this planet. You can use the Magic Ball again by reselecting it.</quote>
+    <quote id="31" type="0">Gawley's Horn: (ENTER) key. For use on the Seals of Sendell. It will allow you to break them open, which will subsequently allow you to access new places.</quote>
+    <quote id="32" type="0">Tunic. With this magical symbol, you have just earned the first level of power.</quote>
+    <quote id="33" type="0">Book of Bù (and PROPHECY). (ENTER) key. Used to read the prophecy. @ With this magical symbol, you have just earned the second level of power. You can now also read runes and talk to animals.</quote>
+    <quote id="34" type="0">Sendell's Medallion. With this magical symbol, you have just earned the third level of power.</quote>
+    <quote id="35" type="0">Sendell's Medallion. @ It will allow you to earn the third level of power.</quote>
+    <quote id="36" type="0">Flask of Clear Water. With this magical symbol, you have just earned the fourth level of power.</quote>
+    <quote id="37" type="0">Flask of Clear Water. @ It will allow you to earn the fourth level of power.</quote>
+    <quote id="38" type="0">Red Magnetic Card. It will allow you to open the doors with a red lock.</quote>
+    <quote id="39" type="0">The Elves Club Blue Card. This card is coated with star powder and will allow you to open the doors with blue locks.</quote>
+    <quote id="40" type="0">Twinsen's ID card. This card allows you to identify yourself to the authorities. Your smile is especially attractive on the photo!</quote>
+    <quote id="41" type="0">M. Mies van der Rooh's pass. This pass will grant you access to the Teleportation Center. You will still have to use Gawley's Horn on the left, after the first guard post.</quote>
+    <quote id="42" type="0">Proto-Pack. It is controlled with the arrow keys.</quote>
+    <quote id="43" type="0">Snowboard. Can only be used in the Himalayi, near the ski lift. Place yourself in between any two flags before using.</quote>
+    <quote id="44" type="0">Meca-Penguin. Red clones just hate this stupid toy.</quote>
+    <quote id="45" type="0">Gas, extract of molasses. You cannot use vehicles when your gas gauge is at zero.</quote>
+    <quote id="46" type="0">Pirate Flag. You can attach it to a boat.</quote>
+    <quote id="47" type="0">Magic Flute. The enchanted melodies produced by this instrument can melt frozen Clear Water and make flowers grow in the desert.</quote>
+    <quote id="48" type="0">Space Guitar. It was found in the middle of an asteroid that landed in the White Leaf Desert. It brought new harmonics to Twinsun.</quote>
+    <quote id="49" type="0">Hair dryer</quote>
+    <quote id="50" type="0">Ancestral Key. Opens the secret compartment in Twinsen's house.</quote>
+    <quote id="51" type="0">Bottle of Syrup. This bottle contains 50cl of very concentrated red syrup.</quote>
+    <quote id="52" type="0">Empty Bottle</quote>
+    <quote id="53" type="0">Ferry Ticket</quote>
+    <quote id="54" type="0">Keypad that controls a digital locking system. Once placed on one door inside the Teleportation Center, it allows access to a room filled with Meca-Penguins.</quote>
+    <quote id="55" type="0">Coffee Pot. You must return it to one Lanktir who lives next to the bazaar on Proxima island.</quote>
+    <quote id="56" type="0">Bonuses List: (ENTER) key to read it.</quote>
+    <quote id="57" type="0">Lucky Clover Leaf (ENTER) key: using this clover leaf will use up one of your chances to revitalise yourself to a maximum.</quote>
+    <quote id="58" type="0">Empty Space</quote>
+    <quote id="59" type="0">Twinsun is a relatively new planet on the outskirts of a remote galaxy. It's rotational plane has stabilized between two suns. @ There is a huge mountain range running along its equator, that divides the planet in half; each hemisphere is warmed by a single sun. @ The Northern hemisphere, with its orange sky, is warmer than the Southern hemisphere. Except for a polar region, the planet's climate is clement. The formation of life forms on the planet was thus favorable. Four species developed over the course of the centuries: The Spheros, the Rabbibunnies, the Quetches and the Grobos. They all lived in harmony until a tyrant named Dr. FunFrock reared his ugly head.</quote>
+    <quote id="60" type="0">Ever since FunFrock's rise to power, the population has been living under a reign of terror. FunFrock set up a police state where suspicion is omnipresent. He is all powerful and controls the people with an iron fist. He has at his disposal two high tech weapons that insure his power: cloning and teleportation. @ He can clone any of the species at will, and subsequently recruit these clones into his ranks. He can then deploy these clones instantly through a network of telepods that are dispersed over the entire planet.</quote>
+    <quote id="61" type="0">A few years ago, under the guise of protecting the population, Dr. FunFrock herded the planet's habitants into the southern hemisphere. The repression is harsh. Every day brings more and more arrests, and the people slowly begin to lose hope. @ In an effort to keep their spirits up, the people sometimes evoke an ancient legend along with the name of a goddess, Sendell. The mentioning of the legend or Sendell has since been forbidden by Dr. FunFrock. @  @ Meanwhile... a young quetch named Twinsen has been having strange dreams...</quote>
+    <quote id="62" type="0">"The day will come when someone from the present or future species will rise up and say, @ 'This world is mine from now on, and the key to all powers belongs to me!' @ This day will surely come because avarice and violence harbor in the hearts of all species of the universe. If the peril on this day is too great, the Chosen One will come forth. He will rise up against the tyrant and overthrow him. He will free and reunite the people, because throughout the years, the Chosen One's ancestors will have prepared him for his victory. They will have left information and weapons in his dwelling. The Chosen One, also known as the Heir, will, however, have to gather together four magical symbols if he hopes to be victorious: the Tunic, the Book of Bù, Sendell's Medallion and a Flask of Clear Water. On the day of peril Sendell will visit the Heir in his sleep and announce the coming of the final combat. The Heir will then have to go to the Well of Sendell where the goddess will endow her powers on him! "</quote>
+    <quote id="63" type="0">Locations of several clover leaves and boxes: @ There is a box for clover leaves in the sewers of Citadel island, and another in the basement of the tavern; one clover leaf is guarded by a soldier who is located behind sandbags. Another is guarded by a clone in the middle of the ruins on Principal island. Another one is on the roof of the Maritime Museum. Another is guarded by a groboclone to the right of the Teleportation Center's entrance. Another is guarded by a soldier in front of FunFrock's fortress.</quote>
+    <quote id="64" type="0">" To find Captain LeBorgne's treasure, the voyager who arrives at the port of Proxima island must use the closest mooring post as a guide. With his back to the docked boats, he must follow these instructions in DISCREET mode: @ 6 steps to the North (straight ahead), then 6 steps to the East (to his right), following the gradual slope. 2 steps to the North (straight ahead) until he reaches the metal garbage can, 3 steps to the East (to his right) until he arrives at a light post. He must stand EXACTLY between the 2 lamp posts, and then take 8 steps to the North until he arrives at a gate. Captain LeBorgne's treasure is in the building behind the gate."</quote>
+    <quote id="65" type="0">Citadel Island</quote>
+    <quote id="66" type="0">Principal Island</quote>
+    <quote id="67" type="0">White Leaf Desert</quote>
+    <quote id="68" type="0">Proxima Island</quote>
+    <quote id="69" type="0">Rebellion Island</quote>
+    <quote id="70" type="0">Hamalayi Range</quote>
+    <quote id="71" type="0">Tippett Island</quote>
+    <quote id="72" type="0">Brundle Island</quote>
+    <quote id="73" type="0">Fortress Island</quote>
+    <quote id="74" type="0">Polar Island</quote>
+    <quote id="75" type="0">Clear Water Lake @ (The Hamalayi mountains)</quote>
+    <quote id="76" type="0">Water Tower @ (Principal island)</quote>
+    <quote id="77" type="0">Twinsen's house @ (Citadel island)</quote>
+    <quote id="78" type="0">Forger's Cell @ (Principal island)</quote>
+    <quote id="79" type="0">Drug store @ (Citadel island)</quote>
+    <quote id="80" type="0">Forger's house @ (Proxima island)</quote>
+    <quote id="81" type="0">Dr FunFrock's headquarters @ (Principal island)</quote>
+    <quote id="82" type="0">Teleportation Center @ (Brundle island)</quote>
+    <quote id="83" type="0">Maritime Museum @ (Proxima island)</quote>
+    <quote id="84" type="0">Cloning Center & Fortress @ (Fortress island)</quote>
+    <quote id="85" type="0">Runic Stone @ (Proxima island)</quote>
+    <quote id="86" type="0">Drug store @ (Citadel island)</quote>
+    <quote id="87" type="0">Runic Stone</quote>
+    <quote id="88" type="0">Mr. Mies Van der Rooh the architect's house. Bug street @ (Citadel island)</quote>
+    <quote id="89" type="0">Well of Sendell @ (Polar island)</quote>
+    <quote id="90" type="0">Library @ (Principal Island)</quote>
+    <quote id="91" type="0">Port-Belooga @ (Principal Island)</quote>
+    <quote id="92" type="0">Proxim-City @ (Proxima Island)</quote>
+    <quote id="93" type="0">Mutant Factory @ (The Hamalayi mountains)</quote>
+  </quotes>
+</lbatexts>

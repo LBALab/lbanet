@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>1</game>
+  <quotes>
+    <quote id="1" type="0">¡Acabas de encontrar tu Holomapa! Utilízalo moviéndote por el inventario, con la tecla (SHIFT), o directamente con la tecla (H).</quote>
+    <quote id="2" type="0">¡Acabas de encontrar tu Bola Mágica! ¡Pruébala con los clones!</quote>
+    <quote id="3" type="0">¡Acabas de robar el Sable del Dr. FunFrock!</quote>
+    <quote id="4" type="0">Acabas de descubrir la Trompa de Gawley, que tus antepasados habían dejado ahí para ti.</quote>
+    <quote id="5" type="0">Acabas de alcanzar el primer nivel de Magia al encontrar la Túnica legada por tus antepasados. Gracias a ella podrás, de ahora en adelante, almacenar magia.</quote>
+    <quote id="6" type="0">Acabas de alcanzar el segundo nivel de Magia, encontrando el Libro de Bù.</quote>
+    <quote id="7" type="0">Acabas de alcanzar el tercer nivel de Magia encontrando el Medallón de Sendell.</quote>
+    <quote id="8" type="0">Acabas de alcanzar el cuarto nivel de Magia llenando tu frasco de Agua Clara. ¡A partir de este momento podrás neutralizar a los clones más poderosos!</quote>
+    <quote id="9" type="0">De ahora en adelante eres poseedor de la Tarjeta Magnética Roja.</quote>
+    <quote id="10" type="0">Gracias a esta tarjeta eres el cuarto miembro del Club de los Duendes. ¡Ahora depende de tí!</quote>
+    <quote id="11" type="0">Acabas de encontrar tu Tarjeta de Identidad.</quote>
+    <quote id="12" type="0">Ahora tienes el salvoconducto del Arquitecto.</quote>
+    <quote id="13" type="0">Ahora dispones del Proto-Pack.</quote>
+    <quote id="14" type="0">Los Kami te han dado un Monoesquí.</quote>
+    <quote id="15" type="0">Posees un Meca-Pingüino.</quote>
+    <quote id="16" type="0">Acabas de recuperar una parte de tus reservas de combustible.</quote>
+    <quote id="17" type="0">Acabas de robar una Bandera Pirata.</quote>
+    <quote id="18" type="0">Acabas de encontrar una Flauta Mágica.</quote>
+    <quote id="19" type="0">El Sabio te ha dado la Guitarra del Espacio.</quote>
+    <quote id="20" type="0">Acabas de comprar un Secador de Pelo.</quote>
+    <quote id="21" type="0">Acabas de encontrar la llave perdida por tu antepasado Hegésipo.</quote>
+    <quote id="22" type="0">¡Acabas de encontrar un Frasco de Jarabe!</quote>
+    <quote id="23" type="0">Ahora tu frasco está vacío.</quote>
+    <quote id="24" type="0">Posees un Billete para el Ferry.</quote>
+    <quote id="25" type="0">Acaban de darte un teclado numérico.</quote>
+    <quote id="26" type="0">Ahora posees una cafetera.</quote>
+    <quote id="27" type="0">Lanktir te ha dado su lista.</quote>
+    <quote id="28" type="0">Holomapa Tecla (H). El holomapa indica tu posición en el planeta. Durante tu búsqueda, las flechas designan los lugares importantes que te han sido revelados. Desaparecen una vez cumplida la misión. El Holomapa gira sobre sí mismo presionando la tecla (CTRL) más las flechas de dirección. Pulsando las flechas de dirección, puedes hacer desfilar los textos correspondientes a las flechas visibles en el holomapa.</quote>
+    <quote id="29" type="0">Bola Mágica Tecla (ALT). Cuando alcanzas un nuevo nivel de magia, ésta adquiere un nuevo nivel de poder de encantamiento. Sus trayectorias se vuelven también más eficaces en cada nivel, ¡siempre y cuando tengas suficiente magia en reserva! Ya que la Bola consume magia cada vez que es lanzada.</quote>
+    <quote id="30" type="0">Sable Mágico. Con el Sable en mano (Tecla ENTRAR), pulsa la tecla (ALT) para dar una estocada. ¡Esta es el arma más potente de este planeta! Puedes utilizar de nuevo la Bola Mágica reseleccionándola.</quote>
+    <quote id="31" type="0">Trompa de Gawley: Tecla (ENTRAR) para utilizar ante un sello de Sendell. Permite romperlos. Puedes acceder así a nuevos lugares.</quote>
+    <quote id="32" type="0">Túnica. Gracias a este símbolo mágico, acabas de alcanzar el primer nivel de poder.</quote>
+    <quote id="33" type="0">Libro de Bù (y PROFECIA). Tecla (ENTRAR) para leer la profecía. Gracias a este símbolo mágico, acabas de alcanzar el segundo nivel de poder. También, puedes leer las runas y hablarle a los animales.</quote>
+    <quote id="34" type="0">Medallón de Sendell. Gracias a este símbolo mágico, acabas de alcanzar el tercer nivel de poder.</quote>
+    <quote id="35" type="0">Medallón de Sendell. @ Te permitirá alcanzar el tercer nivel de poder.</quote>
+    <quote id="36" type="0">Frasco de Agua Clara. Gracias a este símbolo mágico, acabas de alcanzar el cuarto nivel de poder. ¡Puedes neutralizar hasta los clones más poderosos!</quote>
+    <quote id="37" type="0">Frasco de Agua Clara. @ Te permitirá alcanzar el cuarto nivel de poder.</quote>
+    <quote id="38" type="0">Tarjeta Magnética Roja. Te permite abrir las puertas con una cerradura magnética roja.</quote>
+    <quote id="39" type="0">Tarjeta Azul del Club de los Duendes. Gracias al polvo de estrellas del que está impregnada, esta tarjeta te permite abrir las puertas con cerraduras magnéticas azules.</quote>
+    <quote id="40" type="0">Tarjeta de Identidad de Twinsen. Esta tarjeta te permite identificarte ante las autoridades, no está de más que sepas que ¡ saliste muy bien en la foto !</quote>
+    <quote id="41" type="0">Salvoconducto de Mies van der Rooh. Este salvoconducto debe permitirte entrar en el Centro de Teleportación. Tendrás que utilizar también la Trompa de Gawley a la izquierda después del primer puesto de guardia.</quote>
+    <quote id="42" type="0">Proto-Pack. Se pilota con las flechas de dirección.</quote>
+    <quote id="43" type="0">Monoesquí. Se puede emplear solamente en el Hamalayi, entre dos banderas que marquen el inicio de una pista.</quote>
+    <quote id="44" type="0">Meca-Pingüino. Los clones rojos detestan este juguete idiota.</quote>
+    <quote id="45" type="0">Combustible, extracto de melaza. No puedes utilizar el vehículo cuando el indicador marca cero.</quote>
+    <quote id="46" type="0">Bandera Pirata. Es posible izarla en un barco.</quote>
+    <quote id="47" type="0">Flauta Mágica. Las melodías encantadoras de este instrumento pueden derretir el Agua Clara cuando está congelada, así como hacer que broten flores en el desierto.</quote>
+    <quote id="48" type="0">Guitarra del Espacio. Encontrada en medio de un asteroide que se estrelló en el Desierto de la Hoja Blanca, le aporta a Twinsun nuevas armonías.</quote>
+    <quote id="49" type="0">Secador de Pelo</quote>
+    <quote id="50" type="0">Llave Ancestral. Permite abrir el escondite secreto de Twinsen.</quote>
+    <quote id="51" type="0">Frasco de Jarabe. Este frasco contiene 50 Cl de un jarabe rojo muy concentrado.</quote>
+    <quote id="52" type="0">Frasco vacío</quote>
+    <quote id="53" type="0">Billete de Ferry</quote>
+    <quote id="54" type="0">Teclado Numérico. Una vez colocado en una puerta dentro del Centro de Teleportación, da acceso a una habitación llena de Meca-Pingüinos.</quote>
+    <quote id="55" type="0">Cafetera. Hay que devolverla a un tal Lanktir que vive al lado del bazar en la isla Próxima.</quote>
+    <quote id="56" type="0">Lista de bonos: Tecla (ENTRAR) para leerla.</quote>
+    <quote id="57" type="0">Amuleto Trébol: Tecla (ENTRAR), utilizando este trébol, empleas una de tus posibilidades de recargarte al máximo.</quote>
+    <quote id="58" type="0">Lugar vacío</quote>
+    <quote id="59" type="0">Situado en la periferia de una galaxia poco frecuentada, Twinsun es un planeta reciente . Movido por una lenta rotación sobre sí mismo, es un mundo estabilizado entre dos soles. @ En el ecuador se ha formado una alta cadena montañosa, que lo divide en dos hemisferios iluminados cada uno por un sol. @ El hemisferio norte es más caliente y el cielo toma un tono anaranjado. Pero a excepción del cinturón glacial, el clima del astro es templado, lo que favoreció la aparición de la vida en la superficie. En algunos siglos se desarrollaron principalmente 4 especies: los Burbujos, los Conejunos, los Colines, y los Elefos. Hasta hace poco, estas especies aún vivían en armonía, pero apareció un tirano: el Dr. FunFrock.</quote>
+    <quote id="60" type="0">Desde que tomó el poder, la población vive bajo un régimen dictatorial. El tirano ha implantado una sociedad policial donde reina la sospecha. El es todopoderoso y dirige a la población con mano de hierro gracias al dominio de dos técnicas: el clonaje y la teleportación. @ A partir de un modelo de cada especie, duplica hasta el infinito económicos soldados y serviles. Luego puede desplazarlos instantáneamente, gracias a una red de teléportadores que cubren todo el planeta.</quote>
+    <quote id="61" type="0">Hace algunos años, argumentando la protección de la población, el Dr. FunFrock reagrupó a todos los habitantes en el hemisferio sur. La represión es dura. Cada día tiene su cuota de arrestos, y raros son los resistentes que creen aún en la libertad. @ Para conservar la esperanza, evocan a veces una antigua leyenda, así como el nombre de una diosa: Sendell. Estas dos creencias están prohibidas por el Dr. FunFrock.<linebreak /> @ Mientras tanto ... un joven colines llamado Twinsen tiene extraños sueños ...</quote>
+    <quote id="62" type="0">"El día vendrá en el que de entre las especies presentes o futuras, alguien se levantará y dirá: @ "¡Este mundo será de ahora en adelante mío y las @ "llaves del poder me pertenecerán! @ Ese día llegará ya que la avidez y la violencia son comunes a todas las especies del universo. Si ese día el peligro es demasiado grande, el Elegido se dará a conocer. Se levantará contra el tirano y lo abatirá, liberará y reconciliará a los pueblos. Ya que en el transcurso del tiempo sus antepasados habrán reunido en su casa armas e información para su victoria. Sin embargo, para triunfar deberá poseer 4 símbolos mágicos: la Túnica, el Libro de Bù, el Medallón de Sendell y un Frasco de Agua Clara. El día del peligro, Sendell aparecerá en su sueño para anunciar al Heredero que la hora del combate final ha llegado. ¡Deberá entonces ir al Pozo de Sendell donde ella le confiará sus poderes!"</quote>
+    <quote id="63" type="0">Emplazamientos de ciertos tréboles y cajas: @ En la isla de la Ciudadela hay una caja de trébol en las alcantarillas, y otra en la bodega de la taberna; un trébol está custodiado por un soldado que se encuentra detrás de las bolsas de arena. Otro trébol está custodiado por un clon en medio de las ruinas en la isla Principal. Otro trébol se encuentra en el techo del Museo de la Marina. Otro está custodiado por un elefoclon a la derecha de la entrada del Centro de Teleportación. Otro está custodiado por un soldado delante de la Fortaleza de FunFrock.</quote>
+    <quote id="64" type="0">Isla de la Ciudadela</quote>
+    <quote id="65" type="0">Isla Principal</quote>
+    <quote id="66" type="0">Desierto de la Hoja Blanca</quote>
+    <quote id="67" type="0">Isla Próxima</quote>
+    <quote id="68" type="0">Isla de la Rebelión</quote>
+    <quote id="69" type="0">Cadena del Hamalayi</quote>
+    <quote id="70" type="0">Isla Tippett</quote>
+    <quote id="71" type="0">Isla Brundle</quote>
+    <quote id="72" type="0">Isla de la Fortaleza</quote>
+    <quote id="73" type="0">Isla Polar</quote>
+    <quote id="74" type="0">Lago de Agua Clara @ (Cadena del Hamalayi)</quote>
+    <quote id="75" type="0">Castillo de agua (Isla Principal)</quote>
+    <quote id="76" type="0">Casa de Twinsen @ (Isla de la Ciudadela)</quote>
+    <quote id="77" type="0">Celda del falsificador @ (Isla Principal)</quote>
+    <quote id="78" type="0">Farmacia @ (Isla de la Ciudadela)</quote>
+    <quote id="79" type="0">Casa del falsificador @ (Isla Próxima)</quote>
+    <quote id="80" type="0">Cuartel General del Dr. FunFrock @ (Isla Principal)</quote>
+    <quote id="81" type="0">Centro de Teleportación @ (Isla Brundle)</quote>
+    <quote id="82" type="0">Museo de la Marina @ (Isla Próxima)</quote>
+    <quote id="83" type="0">Centro de Clonaje y Fortaleza @ (Isla de la Fortaleza)</quote>
+    <quote id="84" type="0">Piedra Rúnica @ (Isla Próxima)</quote>
+    <quote id="85" type="0">Farmacia @ (Isla de la Ciudadela)</quote>
+    <quote id="86" type="0">Piedra Rúnica</quote>
+    <quote id="87" type="0">Casa del arquitecto Mies van der Rooh. Calle del Escarabajo @ (Isla de la Ciudadela)</quote>
+    <quote id="88" type="0">Pozo de Sendell @ (Isla Polar)</quote>
+    <quote id="89" type="0">Biblioteca @ (Isla Principal)</quote>
+    <quote id="90" type="0">Puerto-Belooga @ (Isla Principal)</quote>
+    <quote id="91" type="0">Proxim-City @ (Isla Próxima)</quote>
+    <quote id="92" type="0">Fábrica de mutantes @ (Cadena del Hamalayi)</quote>
+    <quote id="93" type="0">"Para encontrar el tesoro del Capitán El Tuerto, el viajero que desembarca en el Puerto de la Isla Próxima debe tomar como referencia el punto de amarre más próximo. Colocándose de espaldas a los barcos amarrados, debe realizar el siguiente recorrido en modo DISCRETO: @ 6 pasos al Norte (de frente), luego 6 pasos al Este (a la derecha) por la pequeña pendiente. 2 pasos al Norte (de frente) hasta el basurero de metal, 3 pasos al Este (a la derecha) para llegar a una lámpara. Debe colocarse EXACTAMENTE entre las dos 2 lámparas, y luego dar 8 pasos al Norte (de frente) para alcanzar un portalón. El tesoro del Capitán El Tuerto se encuentra en el edificio detrás del portalón". </quote>
+  </quotes>
+</lbatexts>

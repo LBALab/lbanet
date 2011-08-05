@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>2</game>
+  <quotes>
+    <quote id="1" type="1">Buongiorno.</quote>
+    <quote id="2" type="1">Grazie Joe ! Ma tu, cosa fai qui ?</quote>
+    <quote id="3" type="1">Cosa dicono i maghi ??</quote>
+    <quote id="4" type="1">D'accordo.</quote>
+    <quote id="5" type="1">Non mi interessa.</quote>
+    <quote id="6" type="1">Vorrei andare sull'isolotto CX. Mi può accompagnare ?</quote>
+    <quote id="7" type="1">Vorrei comprare del gazogem.</quote>
+    <quote id="8" type="1">Sto tentando di andare sull'isolotto CX.</quote>
+    <quote id="9" type="1">Vincete ?</quote>
+    <quote id="10" type="1">Cosa devo fare ?</quote>
+    <quote id="11" type="1">D'accordo !</quote>
+    <quote id="12" type="1">Ma Gerolamo, devo trovare l'isolotto CX e distruggere le macchine che controllano i reattori nucleari !!</quote>
+    <quote id="13" type="1">Non mi interessa.</quote>
+    <quote id="14" type="1">Sull'isola dei Knartas.</quote>
+    <quote id="15" type="1">Sull'Isolotto della Celebrazione.</quote>
+    <quote id="16" type="1">Vorrei vedere Rick, il proprietario.</quote>
+    <quote id="17" type="1">Conoscete Rick? Vorrei vederlo.</quote>
+    <quote id="18" type="1">L'imperatore ha fatto costruire una base segreta sull'isolotto CX. E' da questa base che attiverà i reattori che ha fatto segretamente installare sulla luna . E la luna distruggerà il mio pianeta. Devo andare su questo isolotto per fermarli. Mi può aiutare ad andare laggiù ?</quote>
+    <quote id="19" type="1">Cerco il Signor Johnny Rocket.</quote>
+    <quote id="20" type="1">Lei è il Signor Rocket ?</quote>
+    <quote id="21" type="1">Vengo da parte di Rick, cerco i dissidenti. Devo andare sull'isolotto CX !</quote>
+    <quote id="22" type="1">Non ancora.</quote>
+    <quote id="23" type="1">Sono io. Devo andare sull'isolotto CX e distruggere la base di controllo dei reattori nucleari prima che siano attivati per il lancio della luna su Twinsun.</quote>
+    <quote id="24" type="1">Dove devo andare ?</quote>
+    <quote id="25" type="1">Io resto qui.</quote>
+    <quote id="26" type="1">Non ho abbastanza Kashes.</quote>
+    <quote id="27" type="1">Non ho abbastanza Zlitos.</quote>
+    <quote id="28" type="1">"Siete al Porto di Otringal".</quote>
+    <quote id="29" type="1">"Siete al centro di Otringal".</quote>
+    <quote id="30" type="1">" Siete all'astroporto di Otringal".</quote>
+    <quote id="31" type="1">"IL GAZZETTINO DI ZEELICH ... Johnny Rocket all'Imperial ! La star di Zeelich, il primo ad aver mosso i primi passi su Twinsun, abita adesso su Otringal ..."</quote>
+    <quote id="32" type="1">" L'INQUISITORE : ... gruppo di dissidenti che ha tappezzato la nostra bella città di manifesti sovversivi ... alcuni sono stati arrestati ... la polizia ricerca i fuggiaschi ..."</quote>
+    <quote id="33" type="1">""OTRINGAL NEWS : I maghi twinsuniani in visita ad Otringal.</quote>
+    <quote id="34" type="1">" LE INDISCREZIONI UFFICIALI : L'Imperatore dichiara : la profezia di Dark Monk si avvererà, che i Moschibei accettino o meno di dare il loro frammento !!!"</quote>
+    <quote id="35" type="1">"IL GAZZETTINO DI ZEELICH .: penuria di gazogem, le navi cisterna non forniscono più carburante a Otringal !"</quote>
+    <quote id="36" type="1">" L'INQUISITORE : .Avviso di ricerca ! 10.000 Zlitos di ricompensa !!! Se notate un Twinsuniano in tunica blu, avvertite immediatamente la polizia. E' un criminale pericoloso !!"</quote>
+    <quote id="37" type="1">"OTRINGAL NEWS : Un anarchico twinsuniano cerca di impedire lo svolgimento della cerimonia del Dark Moon. Indossa una tunica blu ed è ricercato attivamente dalla polizia ..."</quote>
+    <quote id="38" type="1">" LE INDISCREZIONI UFFICIALI : Le dichiarazioni dell'Imperatore : Dark Monk mi ha parlato ! Ha annunciato che un Twinsuniano in tunica blu tenterà di ostacolare la nostra cerimonia ..."</quote>
+    <quote id="39" type="1">"Ore14,55, navetta 65 38, destinazione pianeta Zirla per safari-mosca ... ore 15,20 navetta 007, destinazione pianeta rosso ..."</quote>
+    <quote id="40" type="1">Rtergpù er ojf ùj ùjoù jljg ôj ljvb qlùmj lùbj jbljbsjr ùrj.</quote>
+    <quote id="41" type="1">" DARK MONK SI E' REINCARNATO !!! - Assistete numerosi alla prossima celebrazione - nel corso della quale annullerà la maledizione di Zeelich restituendogli il suo vero aspetto paradisiaco !!"</quote>
+    <quote id="42" type="1">"RICERCHIAMO : tale Twinsen, criminale - Tenta di opporsi a Dark Monk e vuole impedire lo svolgimento della grande celebrazione - Indossa una tunica blu - Chiunque lo veda, deve avvisare la polizia - Chiunque fornirà informazioni importanti sarà ricompensato con 10.000 Zlitos".</quote>
+    <quote id="43" type="1">Ho un diploma di mago.</quote>
+    <quote id="44" type="1">Un biglietto per il traghetto.</quote>
+    <quote id="45" type="1">Ho un ombrello.</quote>
+    <quote id="46" type="1">Ho del denaro twinsuniano.</quote>
+    <quote id="47" type="1">Ho già un cristallo, posso quindi utilizzare questa pistola.</quote>
+    <quote id="48" type="1">Ma ... chi ?</quote>
+    <quote id="49" type="1">"Fuori servizio - Gazogem esaurito"</quote>
+    <quote id="50" type="1">Non ho niente da vendere.</quote>
+    <quote id="51" type="1">Un po' strano questo quadro. Porta la firma di un certo Gramitte ...</quote>
+    <quote id="52" type="1">"Siete nella città bassa di Otringal."</quote>
+    <quote id="53" type="1">"HOTEL IMPERIAL - Albergo di lusso, riservato esclusivamente ai membri".</quote>
+    <quote id="54" type="1">"Siete nella città alta di Otringal."</quote>
+    <quote id="55" type="1">Cosa sono questi orrori ?</quote>
+    <quote id="56" type="1">Questo quadro di comando è stato trasformato. A prima vista i dischi di percorso non si inseriscono più qui.</quote>
+    <quote id="57" type="1">Manca un oggetto in questo posto, una specie di disco. Apparentemente, permette alla navetta di decollare.</quote>
+    <quote id="58" type="1">Disegno di Zeelich, il pianeta dalle mille meraviglie !!</quote>
+    <quote id="59" type="1">Fdodik pfdjf dfùl fj ùr ùg lgjjg ldfjgù rjljvg ùdfjùj jj !!</quote>
+    <quote id="60" type="1">Perbacco !! 'sta navetta potrà decollare presto. Sto terminando di riparare le propulsioni di stabilità, io !! Invece, sarà meglio usare un disco di percorso ! Altrimenti ... aspetta e spera che decolli !</quote>
+    <quote id="61" type="1">epduàe fe djkhsùdyty opizef mézefjklf !!</quote>
+    <quote id="62" type="1">Si calmi signor mago e mi segua !!</quote>
+    <quote id="63" type="1">Benvenuto su Zeelich Maestro. Se vuole seguirmi, posso accompagnarla dai suoi colleghi twinsuniani.</quote>
+    <quote id="64" type="9">Ci segua !!</quote>
+    <quote id="65" type="9">Si calmi !!</quote>
+    <quote id="66" type="1">Entri, Maestro.</quote>
+    <quote id="67" type="9">Non i denti !!!</quote>
+    <quote id="68" type="1">Ecco Maestro, siamo in viaggio verso Zeelich ! Si rilassi, il viaggio non sarà lungo.</quote>
+    <quote id="69" type="1">La prego, Maestro.Si sieda comodamente.</quote>
+    <quote id="70" type="1">Ma ... è ... Twinsen !!! Ehi, Twinsen ! Sono io, il folletto Joe ! Il tuo vecchio amico !! Come sono contento di ritrovarti !!!</quote>
+    <quote id="71" type="1">Ah Twinsen, sono veramente contento di vederti !! Dimmi un po', non devi essere molto amico della gente di qui ! Appena hanno sentito il tuo nome, si sono gettati su di te per stordirti e rubarti il tuo abito da mago. Adesso, siamo in prigione.</quote>
+    <quote id="72" type="1">Ero con i maghi quando gli Esmers li hanno invitati a venire su questo pianeta. Adesso sono prigionieri dell'imperatore e dicono che gli Esmers vogliono rapire i bambini di Twinsun. Ho avuto paura e sono andato via, e subito dopo ti ho incontrato.</quote>
+    <quote id="73" type="1">Dicono che gli Esmers sono andati sul nostro pianeta per rapire i bambini di Twinsun !!! Dicono che non c'è più niente da fare ma io ho ancora qualche speranza. Sono sicuro che riuscirai ad andare fino all'astroporto per rubare una navetta e andare a salvare i bambini !!!</quote>
+    <quote id="74" type="1">Non è molto gentile quello lì. Non ho proprio voglia di restare solo accanto a lui !</quote>
+    <quote id="75" type="1">Attenzione ! E' il twinsuniano che cerchiamo ! Arrestiamolo !!</quote>
+    <quote id="76" type="1">Fdoejd hjduiy hjdysuyuyszdf !!"</quote>
+    <quote id="77" type="1">Non ha niente da fare qui, signore !!</quote>
+    <quote id="78" type="1">Ererklergù m mgmoeroz !!</quote>
+    <quote id="79" type="1">No !! Non si tocca !!</quote>
+    <quote id="80" type="1">Zpgjdfuetc jkdu dhjsdgzt dhy s zeyyhsh ??</quote>
+    <quote id="81" type="1">Senta, in questo posto si mettono a punto i piani di volo delle navette. Allora lei non ha niente da fare qui !!</quote>
+    <quote id="82" type="1">KHJopfgi ou dfiyu Heiosdn !!!!</quote>
+    <quote id="83" type="1">La prego di uscire signore, sta disturbando il lavoro dei nostri tecnici.</quote>
+    <quote id="84" type="9">HJGri ??</quote>
+    <quote id="85" type="9">Liberatemi !!</quote>
+    <quote id="86" type="1">fiodu qd ogjq vqdfjovjoqdf ovodjvj kdfjvdf jdv jdf io fbdfj dfovbbofg !!</quote>
+    <quote id="87" type="3">Ti ringrazio di avermi liberato. Sono un dissidente al governo. L'imperatore e il nostro Dio reincarnato Dark Monk manipolano la popolazione di Zeelich, mentendo di continuo.  @ Ma non perdiamo tempo. Se vuoi uscire da qui, non passare attraverso l'entrata principale, i soldati la sorvegliano.</quote>
+    <quote id="88" type="1">Gfgkis pùrtojz fg mùfg p jkgùk p !!</quote>
+    <quote id="89" type="1">Sono innocente, liberatemi !!!</quote>
+    <quote id="90" type="1">Rdjkhd fFu osdfiuIOI.</quote>
+    <quote id="91" type="1">Non può entrare qui. Solo il personale dell'astroporto è autorizzato.</quote>
+    <quote id="92" type="1">Erergioeroerpzer erpfger !!!</quote>
+    <quote id="93" type="1">Ma, è incredibile ! Sono due in questa cella ! Aprite le porte, vado a rimettere il piccolo nelle segrete !!</quote>
+    <quote id="94" type="1">GER ,ioyu zeyz RET zeafizef U zepzçze.</quote>
+    <quote id="95" type="1">Buongiorno Maestro, si sieda. Può consultare la nostra colonnina di informazioni turistiche.</quote>
+    <quote id="96" type="1">OPIhki df fqddqsomf !!</quote>
+    <quote id="97" type="1">No !! Questa macchina non è una colonnina di informazioni turistiche. Per favore, non la tocchi !!</quote>
+    <quote id="98" type="1">Efek gfjiodf jkmfr kn jklm jklm.</quote>
+    <quote id="99" type="1">Anche lei è venuto a prendere il suo disco di percorso ?</quote>
+    <quote id="100" type="1">reloeroui ergjumgumeugioeu gyu gio ugt fqh .</quote>
+    <quote id="101" type="1">Attivazione della guida automatica dei comandi dalla torre di controllo.</quote>
+    <quote id="102" type="5"> @ Benvenuti su Zeelich, il pianeta dalle mille meraviglie !! @  @ La sua bellezza farà brillare i vostri occhi. La gentilezza dei suoi abitanti scalderà il vostro cuore ! @  @ Siamo gli artefici della vostra felicità. @  @ Abbiate fiducia nella nostra amicizia !!</quote>
+    <quote id="103" type="5"> @  @ Nei nostri laboratori, i nostri scienziati stanno perfezionando una tecnologia del futuro, che permetterà di attraversare lo spazio per venirvi incontro. @  @ Venite ! Venite a condividere la nostra scienza !</quote>
+    <quote id="104" type="5"> @ Se non lo incontrerete, potete forse intravedere il nostro grandissimo Imperatore. @  @ Ha il dono di un'incomparabile gentilezza e dirige il nostro pianeta con bravura e dolcezza.</quote>
+    <quote id="105" type="5"> @  @ Alle porte del suo palazzo, scorgerete la sua guardia personale. @  @ E' formata da solenni ussari e la loro sontuosa e eccezionale parata ha luogo tutti i giorni.</quote>
+    <quote id="106" type="5"> @ Dopo, tentate la fortuna in uno dei nostri straordinari casinò, dove vincerete, forse, il "Total Jackpot" !!</quote>
+    <quote id="107" type="5"> @ E non dimenticate di gustare le nostre specialità culinarie. @  @ Riprendete ancora un pezzo della nostra eccezionale torta di lucciole !!</quote>
+    <quote id="108" type="5"> @ Infine, per terminare la serata, potrete iniziarvi alle nostre danze locali in uno dei nostri prestigiosi club !!</quote>
+    <quote id="109" type="5"> @ Ma no !! @  @ Non potrete partire da Zeelich senza aver visto l'unica e incomparabile cerimonia di Dark Monk, il nostro potente Dio !!! @  @ Uscendo dal cratere del vulcano, in mezzo a un riverbero di esplosioni di lava, la sua statua scriverà con lettere di fuoco la Redenzione del nostro popolo !!!</quote>
+    <quote id="110" type="5"> @ Solo allora, lascerete Zeelich dietro di voi, la mente colma di immagini e il cuore pieno di fiamme. @  @ Ma nell'attesa di avervi tra di noi, vi ringraziamo dell'attenzione che avete gentilmente concesso alla nostra presentazione.</quote>
+    <quote id="111" type="1">Inserite 10 Zlitos se desiderate 10 punti di magia.</quote>
+    <quote id="112" type="1">Inserite 10 Zlitos se desiderate 10 punti di vita.</quote>
+    <quote id="113" type="1">Zeoeipefi jfilùjglùbm mjgjgk lgjlgfjljlg jlkjfghklm jfgljljs mj lmfgj !!</quote>
+    <quote id="114" type="1">Ah, ma lei è twinsuniano. Bravo, e grazie per l'aiuto che i suoi maghi hanno deciso di darci !! Tutta la popolazione di Zeelich aspetta la cerimonia con molta impazienza !!</quote>
+    <quote id="115" type="1">Se desidera delle informazioni, le destinazioni e gli orari di partenza delle navette sono indicati sul tabellone centrale.</quote>
+    <quote id="116" type="1">Ah, criminale !! Polizia, polizia, l'ho acciuffato, datemi la ricompensa !!!!</quote>
+    <quote id="117" type="1">Dezp iopjeroùem ùljgù mflk j lfù klfg lùlùjk fjkb lùlf jghùilsfgj.</quote>
+    <quote id="118" type="1">Se ha bisogno di qualcosa, mi chiami pure.</quote>
+    <quote id="119" type="1">E zeoirerj s ldjdfgldjg rgjoùjgo djgdlmgj !</quote>
+    <quote id="120" type="1">Questo pianeta è ben organizzato. I soldati sono ovunque. L'ordine e la sicurezza regnano, almeno !</quote>
+    <quote id="121" type="1">Spero che la mia navetta non ritardi ancora, ho fretta di rientrare a casa.</quote>
+    <quote id="122" type="1">Ereroerirejo kefkkh jkevv hiovkhkv kh kjhjk k vh fjkvh f fj k !!</quote>
+    <quote id="123" type="1">Ne ho fin sopra la macchina fotografica di questi Zeelichiani !! Sono completamente pazzi. Ci sono dei poliziotti ovunque. Se qualcuno fa qualcosa di traverso, si fa subito strapazzare !! Comincio ad averne abbastanza di questa libertà controllata !!</quote>
+    <quote id="124" type="1">Parto per Zirla. Pare che si organizzino degli splendidi safari. Ma sono preoccupato, non vedo gli organizzatori. Spero di non essermi sbagliato di giorno.</quote>
+    <quote id="125" type="1">Twinsen, ho danneggiato il vascello durante l'atterraggio e ho bisogno di un po' di tempo per ripararlo. Sulla luna, ho scoperto il carburante dei Zeelichiani. Si chiama gazogem ed è molto potente. Dovresti andare a prenderne un po'.</quote>
+    <quote id="126" type="1">Certo, ma presto o tardi avrò bisogno di questo gazogem . E poi, se ne avessi, potrei trasformare il tuo Proto-Pack e renderlo più potente.</quote>
+    <quote id="127" type="1">Dovresti andare a prendere del gazogem, così posso finire di riparare il nostro vascello e rendere il tuo Proto-Pack più potente !!</quote>
+    <quote id="128" type="1">Grazie Twinsen, con questo gazogem posso terminare la riparazione del nostro vascello. Userò la radio per chiamarti non appena avrò finito di costruire il pezzo per il tuo Proto-Pack.</quote>
+    <quote id="129" type="33">Pronto !! Twinsen, non dimenticare di andare a cercare il gazogem. Ne ho assolutamente bisogno per riparare il vascello. E ne approfitterò anche per migliorare il tuo Proto-Pack.</quote>
+    <quote id="130" type="1">Ah, grazie Twinsen, potrò costruire per noi un vascello ultrapotente !!! Tieni, avrai di cosa trasformare il tuo Proto-Pack in superjetpack. Adesso puoi volare più in alto !!</quote>
+    <quote id="131" type="1">Avrò bisogno ancora di un bel po' di tempo per finire di riparare il vascello.</quote>
+    <quote id="132" type="33">Pronto ! Twinsen ! Sono io, Baldino ! Ci siamo, ho potenziato il tuo Proto-Pack, puoi venire a prenderlo !</quote>
+    <quote id="133" type="1">Sull'isolotto CX ? Ah, no signore, è troppo pericoloso !!</quote>
+    <quote id="134" type="1">Per 5 Zlitos, posso portarla da qualche parte. Dove vuole andare ?</quote>
+    <quote id="135" type="1">Sicuramente no signore. Da qualche tempo, tutti quelli che ci vanno, non tornano più. La gente racconta che un mostro si aggira da quelle parti. Nessuno l'accompagnerà !</quote>
+    <quote id="136" type="1">Per 5 Zlitos, posso portarla da qualche parte. Dove desidera andare ?</quote>
+    <quote id="137" type="1">Hum... Forse si, forse no... Posso dirle qualcosa .... ma costa caro... forse 100 Zlitos ... e forse solo perchè è lei ...</quote>
+    <quote id="138" type="1">Io conosco un tizio che è riuscito a tornare. Adesso vende dei souvenir sull'isolotto della Celebrazione. Forse posso portarla da lui ... Via, per lei, lo faccio gratis ! Si sieda a bordo di Leontina, il mio taxi !!</quote>
+    <quote id="139" type="1">Ragazzo mio, se vuoi, per 10 Zlitos, puoi salire sulla mia Leontina e ti porto dove ti pare. Eh, allora, dove ?</quote>
+    <quote id="140" type="1">Buongiorno signore. Forse posso aiutarla.</quote>
+    <quote id="141" type="1">Ascolta bello. Fai quello che ti pare, ma non venire qui a creare problemi ! Altrimenti Riri e Momo ti fanno la festa !! Okay ?</quote>
+    <quote id="142" type="1">Il proprietario non riceve nessuno.</quote>
+    <quote id="143" type="1">Dovrebbe godersi lo spettacolo invece di agitarsi.</quote>
+    <quote id="144" type="1">Buongiorno signore.</quote>
+    <quote id="145" type="1">Allora ragazzo mio, hai perso qualcosa, cerchi i tuoi occhiali ? Adesso ti aiutiamo, sta' a vedere !!!</quote>
+    <quote id="146" type="9">Non toccare il capo !</quote>
+    <quote id="147" type="1">Non toccare al capo !</quote>
+    <quote id="148" type="1">Buongiorno signore.</quote>
+    <quote id="149" type="9">Scappa !!</quote>
+    <quote id="150" type="9">Per te !</quote>
+    <quote id="151" type="1">Che pubblico marcio. Una volta si che erano caldi ! Ed erano delle migliaia !!!</quote>
+    <quote id="152" type="1">L'isolotto CX ? Sta scherzando ? Un sacco di gente ha cercato di andare, ma nessuno è tornato. Sarei molto stupito che qualcuno accetti di portarvi !!</quote>
+    <quote id="153" type="1">Si, ho capito chi è. Se vuole un consiglio, non si avvicini a lui. Non soltanto è una persona molto rispettata, ma qui, è casa sua. Allora lasci perdere !</quote>
+    <quote id="154" type="1">Ehm... non sei tu il tipo che la polizia cerca ? Dicono che vuoi impedire a Dark Monk di celebrare l'ultima cerimonia, quella che ci libererà dalla maledizione. Non lo fare, aspettiamo questo momento da mille anni.</quote>
+    <quote id="155" type="1">Ehm ... Nessuno vuole andarci oggi, è troppo pericoloso. Pare che i mostri siano usciti dal gas, là sotto. Provi dal Capitano, è un vecchio pazzo, là in fondo alla banchina. Solo lui può portarla !!</quote>
+    <quote id="156" type="1">Ehm... lei assomiglia molto al tipo ricercato da mezza polizia ... Qui non avrà noie, ma faccia attenzione in altri posti.</quote>
+    <quote id="157" type="1">Io non la porterò. Perchè non va al casinò Gloum, invece ?. Se vince al Jackpot, avrà una bella sorpresa !!</quote>
+    <quote id="158" type="1">Vada a tentare la fortuna al casinò Gloum. Ci sono andato, ci sono sempre delle sorprese laggiù !</quote>
+    <quote id="159" type="1">Allora sei tu il Twinsuniano che cerca di vedermi. Sei in fuga, ragazzo mio, tutte le polizie ti cercano. Parla, cosa vuoi da me ?</quote>
+    <quote id="160" type="1">Preferisco che la gente mi parli francamente. Purtroppo non ho nessuno in grado di portarti laggiù. Esiste invece un gruppo di dissidenti ostili al governo. Vai a trovare Johnny Rocket e digli che ti mando io. Ti porterà dai dissidenti. Alloggia all'Hotel Imperial, nella città alta.</quote>
+    <quote id="161" type="1">E' il nostro grande eroe. E' il primo ad aver messo piede su Twinsun ! E' grazie a lui che abbiamo ottenuto l'aiuto dei maghi twinsuniani !!! E' in fondo, seduto in poltrona con la sua manicurista.</quote>
+    <quote id="162" type="1">Mi piace questo albergo. C'è una specie di club privato ed è sempre ben frequentato.</quote>
+    <quote id="163" type="1">Ne ho abbastanza del marciume di questo locale ! Devo assolutamente cambiare ! Guarda l'Hotel Imperial ! Quello almeno è di classe. Ci sono solo delle persone perbene laggiù e non l'accozzaglia di delinquenti e di marinai che c'è qui.</quote>
+    <quote id="164" type="9">Vattene !!</quote>
+    <quote id="165" type="1">Per fortuna ho finito il mio servizio... devo andare a prendere del gazogem alla stazione di servizio di Otringal.</quote>
+    <quote id="166" type="1">Buongiorno signore e benvenuto nel paradiso del gioco.</quote>
+    <quote id="167" type="1">Può tentare la fortuna al tavolo da gioco a nelle slots machines, come preferisce.</quote>
+    <quote id="168" type="1">Se il signore desidera, posso farla risalire fino all'uscita del casinò.</quote>
+    <quote id="169" type="1">Ah caro signore, le cose vanno e vengono. Io perdo sempre da quando la maledizione di Dark Monk ci condanna a vivere eternalmente sul nostro triste pianeta. Ma verrà il giorno in cui vincerò !</quote>
+    <quote id="170" type="1">Per giocare, mettetevi davanti a una colonnina o ad una macchina e inserite degli Zlitos. Se giocate alle slots machines, potete vincere il super Jackpot della serata. Vi permetterà di accedere alla nostra sala speciale !</quote>
+    <quote id="171" type="1">Stanno succedendo dei fatti strani qui. Sono sicuro che questa sporca bestia è ammaestrata.</quote>
+    <quote id="172" type="9">Imbroglione !!</quote>
+    <quote id="173" type="9">Piccolo, piccolo ...</quote>
+    <quote id="174" type="9">Evviva !!!</quote>
+    <quote id="175" type="1">Mettetevi davanti ad una delle quattro colonnine e puntate.</quote>
+    <quote id="176" type="1">Benvenuto caro signore ! Benvenuto alla nostra ruota della fortuna ! Lei è colui che la sorte ha designato oggi per tentare di vincere il super jackpot !!! Allora, si metta accanto alla ruota, sul piccolo podio, e la faccia girare per vincere, forse, dico bene forse, un bel gruzzoletto !!!</quote>
+    <quote id="177" type="1">E' molto semplice, caro signore. Si metta sul piccolo podio e faccia girare la ruota !!</quote>
+    <quote id="178" type="9">Banzaï !</quote>
+    <quote id="179" type="1">Mettetevi davanti all'articolo che avete scelto e premete su "AZIONE" se volete comprarlo.</quote>
+    <quote id="180" type="1">Vedo che lei è di Twinsun. Avrebbe degli oggetti del suo pianeta da vendermi ?</quote>
+    <quote id="181" type="1">Troverà giù gli altri dissidenti. La aspettano, Johnny ci ha fatto avvertire del suo arrivo.</quote>
+    <quote id="182" type="1">Ci vada, sono giù.</quote>
+    <quote id="183" type="1">20 punti di vita costano 20 zlitos.</quote>
+    <quote id="184" type="1">20 punti di magia costano 20 zlitos.</quote>
+    <quote id="185" type="1">Un robo-pinguino costa 15 zlitos.</quote>
+    <quote id="186" type="1">Lo compro per 25 zlitos.</quote>
+    <quote id="187" type="1">Lo riprendo per 15 zlitos.</quote>
+    <quote id="188" type="1">Lo ricompro per 20 zlitos.</quote>
+    <quote id="189" type="1">Un diploma di mago costa 40 zlitos.</quote>
+    <quote id="190" type="1">Un biglietto per il traghetto costa 30 zlitos.</quote>
+    <quote id="191" type="1">Un'ombrello costa 35 zlitos.</quote>
+    <quote id="192" type="1">Un visore di memoria costa 30 Zlitos.</quote>
+    <quote id="193" type="1">Ehm ... posso riprendere questo rottame per 20 Zlitos.</quote>
+    <quote id="194" type="1">L'accesso al casinò le costerà 5 Zlitos. Desidera entrare ?</quote>
+    <quote id="195" type="1">Spiacente signore, non ne ho più. Aspetto l'arrivo della nave cisterna che deve venire dall'isola dei Knartas. Il gazogem viene prodotto nella loro raffineria, dalle gemme raccolte nel sotto-gas.</quote>
+    <quote id="196" type="1">E' giunta l'ora, ormai. Durante la prossima cerimonia il nostro Dio reincarnato, Dark Monk, riunirà le quattro chiavi delle nostre quattro razze zeelichiane. In quel momento la terra si aprirà, il gas e suoi mostri se ne andranno, e la maledizione sparirà ! Potremo vivere e morire come prima, sul nostro Zeelich ritrovato !!!</quote>
+    <quote id="197" type="1">Sono io, cosa vuole ?</quote>
+    <quote id="198" type="1">Stia zitto !! E' pazzo , Non parli mai dei dissedenti in pubblico ! Mi raggiunga nella mia camera, potremo parlarne senza rischiare.</quote>
+    <quote id="199" type="1">Se è Rick ad inviarlo, è fortunato. I dissidenti sono ricercati dal governo, e lei è estremamente imprudente. Cosa vuole ?</quote>
+    <quote id="200" type="1">La conosco. Lei è Twinsen, l'eroe del suo pianeta. L'imperatore e Dark Monk hanno paura di lei, per questo motivo la fanno ricercare. I dissidenti l'aiuteranno. Prenda questo anello, vada al negozio di souvenir di Twinsun e la mostri all'impiegato. La porterà da loro.</quote>
+    <quote id="201" type="1">Allora, ha visto i dissidenti ?</quote>
+    <quote id="202" type="1">Attenzione, attenzione !! Avviso alla popolazione !! Stiamo cercando un Twinsuniano chiamato Twinsen, indossa una tunica blu. Chiunque lo veda deve avvertire immediatamente le forze dell'ordine !!!</quote>
+    <quote id="203" type="9">Polizia !!</quote>
+    <quote id="204" type="1">Johnny ci ha parlato di un Twinsuniano. Sei tu ?</quote>
+    <quote id="205" type="1">Ascolta Twinsuniano, vai fino al paese dei Moschibei. Si trova nel sotto-gas. La maggior parte dei nostri compagni dissidenti sono nascosti là. Per andare devi prendere l'ascensore, sulla piattaforma dei Knartas.</quote>
+    <quote id="206" type="1">Vai a cercare un cristallo di roccia sull'isolotto della Celebrazione. Ti permetterà di far funzionare la pistolaser di Zarnon.</quote>
+    <quote id="207" type="1">Non so proprio come fare. L'isolotto CX è in una zona impenetrabile. E' impossibile avvicinarsi.</quote>
+    <quote id="208" type="1">Sono sicuro che riuscirai, Twinsuniano.</quote>
+    <quote id="209" type="1">Ho capito tutto ! Dark Monk farà esplodere il vostro pianeta il giorno della grande cerimonia. E' il fuoco del cielo che ci ha promesso. Ma come impedire tutto ciò ? L'isolotto CX è diventato zona proibita !!</quote>
+    <quote id="210" type="1">Devi andare sulla piattaforma dei Knartas e prendere l'ascensore per scendere nel sotto-gas. Quando sarai là dovrai trovare il villaggio dei Moschibei.</quote>
+    <quote id="211" type="1">Devo trovare il modo di andare a quell'isolotto. Ma come ?</quote>
+    <quote id="212" type="1">Non ne sappiamo molto. E' un tipo che l'ha trovato, alla deriva nello spazio. Pare che venga da un pianeta discarica molto lontano ...</quote>
+    <quote id="213" type="1">Io lo so ! Esiste un passaggio tra il sotto-gas e l'isolotto CX. L'entrata è nel villaggio dei Moschibei e permette loro di tenere i soldati del governo fuori dal loro villaggio.</quote>
+    <quote id="214" type="1">Per arrivare all'ascensore, hai bisogno di un'arma potente. Prendi, ecco una pistolaser di Zarnon. Ma dovrai trovare un cristallo per farla funzionare. Lo puoi trovare sul pendio del vulcano della Celebrazione.</quote>
+    <quote id="215" type="1">Il passaggio chre parte dal villaggio dei Moschibei ti permetterà di arrivare direttamente all'isolotto CX.</quote>
+    <quote id="216" type="1">Per quanto ne sappiamo, il passaggio è chiuso da una porta. E' la regina dei Moschibei ad avere la chiave. Dovrai convincerla della tua buona fede. Ma non dimenticare che i nostri compagni sono laggiù !</quote>
+    <quote id="217" type="1">Nessun taxi accetta di andare. Pare che un tipo abbia tentato di avvicinarsi per vincere una scommessa. Ma fino ad oggi nessuno sa dove sia finito.</quote>
+    <quote id="218" type="1">Ho sentito dire che i Zeelichiani vivevano sotto lo strato di gas. Mi chiedo come si può fare per arrivare laggiù.</quote>
+    <quote id="219" type="1">Non avrei dovuto guardare quel film pubblicitario su Zeelich. Tutto è falso. Il cambio di guardia è triste, l'imperatore non si vede mai e il casinò è una grande truffa ... Abbiate fiducia nella nostra amicizia ... Figuriamoci ! ! Una bella banda di corrotti, proprio così !!!</quote>
+    <quote id="220" type="1">Via signore, le mie notizie sono fresche di giornata !! E' l'edizione del giorno !! Via, via !! Non ce ne sarà per tutti !!</quote>
+    <quote id="221" type="1">Ma lei è il Twinsuniano !! Polizia !! Polizia !!!!</quote>
+    <quote id="222" type="9">Buongiorno signore !!</quote>
+    <quote id="223" type="1">Entri e venga a tentare la fortuna nel nostro casinò. Troverà i più raffinati giochi di azzardo e se ne ha voglia, potrà tentare il nostro super jackpot ! ! !</quote>
+    <quote id="224" type="1">Vengo dal sotto-gas. Ho preso l'ascensore che risale fino alla piattaforma dei Knartas per venire fin qui e assistere alla cerimonia del Dark Monk.</quote>
+    <quote id="225" type="1">Non può salire fino alla città alta, signore. Gli ascensori sono fermi per il momento.</quote>
+    <quote id="226" type="1">Criminale !!! Aiuto !!!</quote>
+    <quote id="227" type="1">No grazie, vada a trovare qualcun'altro ! Il posto è pericoloso. E di questi tempi nessuno ne vuole più parlare.</quote>
+    <quote id="228" type="1">Io non ho visto niente. Vada a vedere altrove !</quote>
+    <quote id="229" type="1">Lo vede bene che sono occupato, no ?</quote>
+    <quote id="230" type="1">Qui gli spettacoli sono veramente dei miserabili, ma hanno una sorta di classe da quartiere povero, non trova ?</quote>
+    <quote id="231" type="9">Rimborsatemi !!!</quote>
+    <quote id="232" type="9">Brrravo !!!</quote>
+    <quote id="233" type="1">Non si può entrare. E' chiuso. Solo i soci dell'albergo possono passare. Allora non resti là. Vada via !!</quote>
+    <quote id="234" type="1">Cosa fa qui dentro ? Non ne ha il diritto !! Esca subito !!</quote>
+    <quote id="235" type="1">E' stupido o fa finta ? E' davanti a lei !</quote>
+    <quote id="236" type="1">E' in camera sua.</quote>
+    <quote id="237" type="9">Hiiiiiii !!!</quote>
+    <quote id="238" type="1">Circolare, circolare... non si metta in mezzo signore, potrebbe dar fastidio agli altri pedoni.</quote>
+    <quote id="239" type="9">Alt !!!</quote>
+    <quote id="240" type="1">Buongiorno signore.</quote>
+    <quote id="241" type="9">Stop !</quote>
+    <quote id="242" type="1">Benvenuto su Otringal signore. Le auguro di passare un'eccellente soggiorno.</quote>
+    <quote id="243" type="9">Si fermi !!</quote>
+    <quote id="244" type="9">Alt !!</quote>
+    <quote id="245" type="1">Attenzione signore, non deve correre così. Potremmo scambiarla per chi sa lei.</quote>
+    <quote id="246" type="9">Stop !!</quote>
+    <quote id="247" type="1">Ma, un ladro ovviamente.</quote>
+    <quote id="248" type="1">Buongiorno signore.</quote>
+    <quote id="249" type="9">Si fermi !!</quote>
+    <quote id="250" type="1">Buongiorno signore, le auguro un'eccellente soggiorno nella nostra città.</quote>
+    <quote id="251" type="9">Alt !!</quote>
+    <quote id="252" type="1">Visto che è un turista dovrebbe andare al casinò dei Gloums. Dica che la mando io.</quote>
+    <quote id="253" type="9">Assassino !!</quote>
+    <quote id="254" type="1">Mi dispiace signore, questo articolo non è più in vendita.</quote>
+    <quote id="255" type="1">Buongiorno signore. Non ha un'oggetto o qualcosa da mostrarmi ?</quote>
+    <quote id="256" type="1">Grazie signore ... Polizia !! Polizia !!! E' qui, lo teniamo !!!</quote>
+    <quote id="257" type="1">Allora ti sei sbarazzato dell'imperatore ... Sei veramente forte ... Forse adesso prenderai il suo posto... Sai che sei veramente affascinante tu ...</quote>
+    <quote id="258" type="9">Humm !!!</quote>
+  </quotes>
+</lbatexts>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>1</game>
+  <quotes>
+    <quote id="1" type="0">Buenos días</quote>
+    <quote id="2" type="0">¡Necesitas de mí para acceder al fortín. Espérame!</quote>
+    <quote id="3" type="0">¡Ven conmigo, continuaremos con el tanque!</quote>
+    <quote id="4" type="0">Me quedo cubriéndote, ve a liberar al coronel.</quote>
+    <quote id="5" type="0">No me ocultes nada, mi predecesor murió en el combate. Bueno, así es la vida ¿no? ¿vamos?</quote>
+    <quote id="6" type="0">¡Rápido, libéreme!</quote>
+    <quote id="7" type="0">Escúcheme colines, estoy en deuda con usted. Le daré un buen consejo. Si quiere bajar por la otra vertiente, trate de accionar la trampilla eléctrica al fondo del corredor.</quote>
+    <quote id="8" type="0">Desde este depósito se envía material al otro hemisferio, se utiliza una cápsula que procede del antiguo metro. Yo participé en la construcción, pero ya va para dos años que espero un ferry ¡Dos años!</quote>
+    <quote id="9" type="0">Sí, ya sé, ya sé que Ud. también quiere que ponga la cápsula en marcha. Colóquese delante, ahí voy.</quote>
+    <quote id="10" type="0">No veo de qué se trata.</quote>
+    <quote id="11" type="0">Yo formo parte de los rebeldes que luchan contra FunFrock. Actualmente estamos tratando de franquear el Hamalayi, y, a propósito, nuestro jefe Kroptman ha sido capturado. Si quieres unirte a nuestra lucha, ¡bienvenido! Ve a ver a mis amigos en la isla de la Rebelión, sólo que ellos no te dejarán subir a bordo si no tienes nuestro signo de reconocimiento: una bandera pirata con una calavera.</quote>
+    <quote id="12" type="0">Utiliza la bandera: ízala en tu barco y podrás bajar en la isla de la Rebelión. Sin duda nos puedes ser útil para franquear el Hamalayi.</quote>
+    <quote id="13" type="0">¡Valor! Espera a tu compañero antes de cambiar de zona. Y si tienen dificultades para llegar al fortín, neutralicen primero el radar que está encima de los bunkers, en la zona en la que han desembarcado.</quote>
+    <quote id="14" type="0">¡Te has vuelto más fuerte que la guerra Twinsen! Ah... lo que quiero decir, es gracias por haber liberado al coronel Kroptman.</quote>
+    <quote id="15" type="0">Gracias a ti tenemos ahora contacto con el hemisferio Norte. He escuchado hablar de esta ciudad de tráficantes: Funky-Town. Seguro que podrás encontrar informaciones allí abajo!</quote>
+    <quote id="16" type="0">Valor Twinsen, tu búsqueda llega a su fin.</quote>
+    <quote id="17" type="0">Quedan algunos clones pero con Kroptman al mando del tanque, el fortín está en nuestras manos.</quote>
+    <quote id="18" type="0">Pregúntale al vigía un poco más adelante en el camino, él podrá ayudarte. </quote>
+    <quote id="19" type="0">Nos quedamos sin combustible</quote>
+    <quote id="20" type="0">¡Ah! ignoro dónde están esos planos. En Funky-Town se puede encontrar informaciones sobre todo, pero esta ciudad pronto será arrasada por FunFrock.</quote>
+    <quote id="21" type="0">¡Eh, sácame de aquí! ¡Date prisa y encuentra una llave!</quote>
+    <quote id="22" type="0">Soy Raymond-el-Duende, para agradecertelo te voy a indicar el emplazamiento del Lago de Agua Clara. Está al noroeste de aquí, en el Hamalayi (mira tu Holomapa). Tocando la flauta, encontrarás un elemento importante de la profecía. Y si tienes una tarjeta de miembro del club de los duendes para mostrarme, aún tengo otra cosa para ti.</quote>
+    <quote id="23" type="0">Soy Raymond-el-Duende, para agradecertelo voy a indicarte el emplazamiento del Lago de Agua Clara. Está al noroeste de aquí, en el Hamalayi (mira tu Holomapa). Tocando la flauta encontrarás un elemento importante de la profecía. Y en una gruta cerca del Templo de Bù, podrás encontrar a uno de mis hermanos, éste puede procurarte una tarjeta azul. </quote>
+    <quote id="24" type="0">Hola hermano duende.</quote>
+    <quote id="25" type="0">Nunca lo he visto, no conozco nada de teleportación.</quote>
+    <quote id="26" type="0">¿Adónde quieres ir?</quote>
+    <quote id="27" type="0">A la isla Principal.</quote>
+    <quote id="28" type="0">Al Desierto de la Hoja Blanca.</quote>
+    <quote id="29" type="0">A la isla Próxima.</quote>
+    <quote id="30" type="0">A la isla de la Rebelión.</quote>
+    <quote id="31" type="0">Me quedo aquí.</quote>
+    <quote id="32" type="0">A la isla de la Ciudadela.</quote>
+    <quote id="33" type="0">Busco los planos del Centro de Teleportación.</quote>
+    <quote id="34" type="0">Hola, tú deberías ir a ver a un hermano duende que está en el Desierto de la Hoja Blanca. El puede darte una tarjeta azul.</quote>
+    <quote id="35" type="0">¿Qué hacen ahí? ¡Se entra aquí como en un molino! Hace un rato yo mismo capturé a un duende. No sé que hacer con él, oficialmente no existen.</quote>
+    <quote id="36" type="0">¡Ríndanse!</quote>
+    <quote id="37" type="0">¿Prefieren morir en ayunas o tienen ganas de algo en particular como su última cena?</quote>
+    <quote id="38" type="0">¡Qué pena!</quote>
+    <quote id="39" type="0">¡No tengo hambre!</quote>
+    <quote id="40" type="0">No has alcanzado un nivel de poder suficiente como para vencer a los clones rojos. Esperaremos tu regreso.</quote>
+    <quote id="41" type="0">¡Alerta, un detenido se escapa!</quote>
+    <quote id="42" type="0">Acabas de encontrar todos los objetos que contenía tu inventario!</quote>
+    <quote id="43" type="0">No sé dónde están.</quote>
+    <quote id="44" type="0">Me interesa la historia del pirata ElTuerto.</quote>
+  </quotes>
+</lbatexts>

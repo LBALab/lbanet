@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>2</game>
+  <quotes>
+    <quote id="1" type="1">Veuillez inserer le CD-ROM TWINSEN's ODYSSEY</quote>
+    <quote id="2" type="1">Veuillez inserer le CD-ROM LBA2 TWINSEN's ODYSSEY</quote>
+    <quote id="3" type="1">Ok</quote>
+    <quote id="4" type="1">Annuler</quote>
+    <quote id="5" type="1">Pause</quote>
+    <quote id="6" type="1">Réglage des Volumes</quote>
+    <quote id="7" type="1">Stéréo Inverse OFF</quote>
+    <quote id="8" type="1">Stéréo Inverse ON</quote>
+    <quote id="9" type="1">Configuration Clavier</quote>
+    <quote id="10" type="1">Retour au Jeu</quote>
+    <quote id="11" type="1">Ne pas afficher les textes</quote>
+    <quote id="12" type="1">Afficher les textes</quote>
+    <quote id="13" type="1">Volume des Bruitages</quote>
+    <quote id="14" type="1">Volume des Voix</quote>
+    <quote id="15" type="1">Volume des Musiques</quote>
+    <quote id="16" type="1">Volume du CD</quote>
+    <quote id="17" type="1">Volume Général</quote>
+    <quote id="18" type="1">Annuler</quote>
+    <quote id="19" type="1">Retour au menu précédent</quote>
+    <quote id="20" type="1">Vidéos réduites</quote>
+    <quote id="21" type="1">Vidéos plein écran</quote>
+    <quote id="22" type="1">Partie à charger</quote>
+    <quote id="23" type="1">Tapez votre Nom</quote>
+    <quote id="24" type="1">Joueur déjà existant ! Recommencez.</quote>
+    <quote id="25" type="1">Tapez le nouveau Nom</quote>
+    <quote id="26" type="1">Niveau de détails</quote>
+    <quote id="27" type="1">Caméras Scénarique OFF</quote>
+    <quote id="28" type="1">Caméras Scénarique ON</quote>
+    <quote id="29" type="1">Détruire</quote>
+    <quote id="30" type="1">Transfert des voix.</quote>
+    <quote id="31" type="1">Copie des fichiers voix sur disque dur, veuillez patienter.</quote>
+    <quote id="32" type="1">Reprendre Partie</quote>
+    <quote id="33" type="1">Nouvelle Partie</quote>
+    <quote id="34" type="1">Charger une Partie</quote>
+    <quote id="35" type="1">Sauver la Partie</quote>
+    <quote id="36" type="1">Menu des Options</quote>
+    <quote id="37" type="1">Quitter</quote>
+    <quote id="38" type="1">Normal</quote>
+    <quote id="39" type="1">Sportif</quote>
+    <quote id="40" type="1">Agressif</quote>
+    <quote id="41" type="1">Discret</quote>
+    <quote id="42" type="1">Protopack</quote>
+    <quote id="43" type="1">Twinsen avec Zoé</quote>
+    <quote id="44" type="1">Conque du triton</quote>
+    <quote id="45" type="1">Scaphandre normal</quote>
+    <quote id="46" type="1">SuperJetPack</quote>
+    <quote id="47" type="1">Scaphandre sportif</quote>
+    <quote id="48" type="1">Scaphandre normal</quote>
+    <quote id="49" type="1">Scaphandre sportif</quote>
+    <quote id="50" type="1">Avancer</quote>
+    <quote id="51" type="1">Reculer</quote>
+    <quote id="52" type="1">Tourner à Gauche</quote>
+    <quote id="53" type="1">Tourner à droite</quote>
+    <quote id="54" type="1">Utilisation arme</quote>
+    <quote id="55" type="1">Comportement Menu</quote>
+    <quote id="56" type="1">Inventaire</quote>
+    <quote id="57" type="1">Action du Comportement</quote>
+    <quote id="58" type="1">Dialogue/Fouille</quote>
+    <quote id="59" type="1">Recentrage caméra/Validation</quote>
+    <quote id="60" type="1">Menus</quote>
+    <quote id="61" type="1">Holomap</quote>
+    <quote id="62" type="1">Pause</quote>
+    <quote id="63" type="1">Esquive</quote>
+    <quote id="64" type="1">Comportement Normal</quote>
+    <quote id="65" type="1">Comportement Sportif</quote>
+    <quote id="66" type="1">Comportement Agressif</quote>
+    <quote id="67" type="1">Comportement Discret</quote>
+    <quote id="68" type="1">Aide inventaire/Configuration des touches</quote>
+    <quote id="69" type="1">Sauver</quote>
+    <quote id="70" type="1">Charger</quote>
+    <quote id="71" type="1">Options Menu</quote>
+    <quote id="72" type="1">Tourner la camera</quote>
+    <quote id="73" type="1">Niveau Caméra suivant</quote>
+    <quote id="74" type="1">Niveau Caméra Precedent</quote>
+    <quote id="75" type="1">Arme 1</quote>
+    <quote id="76" type="1">Arme 2</quote>
+    <quote id="77" type="1">Arme 3</quote>
+    <quote id="78" type="1">Arme 4</quote>
+    <quote id="79" type="1">Arme 5</quote>
+    <quote id="80" type="1">Arme 6</quote>
+    <quote id="81" type="1">Arme 7</quote>
+    <quote id="82" type="1">MécaPingouin</quote>
+    <quote id="83" type="1">Jetpack On/Off</quote>
+    <quote id="84" type="1">Sort de Protection</quote>
+    <quote id="85" type="1">Sort de Foudre</quote>
+    <quote id="86" type="1">ESC quitter, ENTER Choisir une touche</quote>
+    <quote id="87" type="1">Presser une touche ou ESC pour annuler ...</quote>
+    <quote id="88" type="1">Erreur: touche déjà définie</quote>
+    <quote id="89" type="1"></quote>
+    <quote id="90" type="1">Action</quote>
+    <quote id="91" type="1">Touche 1</quote>
+    <quote id="92" type="1">Touche 2</quote>
+    <quote id="93" type="1">Configuration Par Défaut</quote>
+    <quote id="94" type="1">Restaurer Configuration Précédente</quote>
+    <quote id="95" type="1">Accepter Configuration</quote>
+    <quote id="96" type="1">Pavé Num 1</quote>
+    <quote id="97" type="1">Pavé Num 2</quote>
+    <quote id="98" type="1">Pavé Num 3</quote>
+    <quote id="99" type="1">Pavé Num 4</quote>
+    <quote id="100" type="1">Pavé Num 5</quote>
+    <quote id="101" type="1">Pavé Num 6</quote>
+    <quote id="102" type="1">Pavé Num 7</quote>
+    <quote id="103" type="1">Pavé Num 8</quote>
+    <quote id="104" type="1">Pavé Num 9</quote>
+    <quote id="105" type="1">Pavé Num 0</quote>
+    <quote id="106" type="1">Pavé Num .</quote>
+    <quote id="107" type="1">Pavé Num Entr</quote>
+    <quote id="108" type="1">Pavé Num Div</quote>
+    <quote id="109" type="1">Pavé Num Mul</quote>
+    <quote id="110" type="1">Pavé Num Plus</quote>
+    <quote id="111" type="1">Pavé Num Moins</quote>
+    <quote id="112" type="1">Haut</quote>
+    <quote id="113" type="1">Bas</quote>
+    <quote id="114" type="1">Gauche</quote>
+    <quote id="115" type="1">Droite</quote>
+    <quote id="116" type="1">Début</quote>
+    <quote id="117" type="1">Fin</quote>
+    <quote id="118" type="1">Page Haut</quote>
+    <quote id="119" type="1">Page Bas</quote>
+    <quote id="120" type="1">Inser</quote>
+    <quote id="121" type="1">Suppr</quote>
+    <quote id="122" type="1">Maj Gauche</quote>
+    <quote id="123" type="1">Maj Droit</quote>
+    <quote id="124" type="1">Ctrl Gauche</quote>
+    <quote id="125" type="1">Ctrl Droit</quote>
+    <quote id="126" type="1">Alt Gauche</quote>
+    <quote id="127" type="1">Alt Droit</quote>
+    <quote id="128" type="1">Tab</quote>
+    <quote id="129" type="1">Vérr Num</quote>
+    <quote id="130" type="1">Vérr Maj</quote>
+    <quote id="131" type="1">F1</quote>
+    <quote id="132" type="1">F2</quote>
+    <quote id="133" type="1">F3</quote>
+    <quote id="134" type="1">F4</quote>
+    <quote id="135" type="1">F5</quote>
+    <quote id="136" type="1">F6</quote>
+    <quote id="137" type="1">F7</quote>
+    <quote id="138" type="1">F8</quote>
+    <quote id="139" type="1">F9</quote>
+    <quote id="140" type="1">F10</quote>
+    <quote id="141" type="1">F11</quote>
+    <quote id="142" type="1">F12</quote>
+    <quote id="143" type="1">1</quote>
+    <quote id="144" type="1">2</quote>
+    <quote id="145" type="1">3</quote>
+    <quote id="146" type="1">4</quote>
+    <quote id="147" type="1">5</quote>
+    <quote id="148" type="1">6</quote>
+    <quote id="149" type="1">7</quote>
+    <quote id="150" type="1">8</quote>
+    <quote id="151" type="1">9</quote>
+    <quote id="152" type="1">0</quote>
+    <quote id="153" type="1">Espace</quote>
+    <quote id="154" type="1">Entrée</quote>
+    <quote id="155" type="1">Windows Gauche</quote>
+    <quote id="156" type="1">Windows Droit</quote>
+    <quote id="157" type="1">Application</quote>
+    <quote id="158" type="1">Retour arrière</quote>
+    <quote id="159" type="1">Pause</quote>
+    <quote id="160" type="1">Arrêt défil</quote>
+    <quote id="161" type="1">Impr écran</quote>
+    <quote id="162" type="1">Maj</quote>
+    <quote id="163" type="1">Ctrl</quote>
+    <quote id="164" type="1">Alt</quote>
+  </quotes>
+</lbatexts>

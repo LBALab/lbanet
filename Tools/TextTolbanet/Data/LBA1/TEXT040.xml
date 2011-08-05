@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>1</game>
+  <quotes>
+    <quote id="1" type="0">Voici votre livre.</quote>
+    <quote id="2" type="0">Bonjour</quote>
+    <quote id="3" type="0">Bonjour, bizarre cette Légende, non ?</quote>
+    <quote id="4" type="0">Bizarre en effet. Je ne suis qu'un vieux fou qui aimerait faire pousser des fleurs dans ce désert, mais ... je connais cette Légende que le Dr FunFrock a proscrit. Je te dirais ce que je sais si tu me rapportes un livre sacré. Il est au coeur du temple de Bù qui fut englouti par une tempête de sable. Tu peux y entrer par un puits d'aération qui subsiste derrière moi, mais attention, le péril est présent à chaque pas !</quote>
+    <quote id="5" type="0">" Ce livre est un gardien du savoir, il permet de lire sur les pierres et de parler aux animaux. "</quote>
+    <quote id="6" type="0">Sur l'île Principale.</quote>
+    <quote id="7" type="0">Je partirai plus tard.</quote>
+    <quote id="8" type="0">Je peux te faire voyager pour 10 Kashes seulement ! Où veux-tu aller ?</quote>
+    <quote id="9" type="0">Désolé, Twinsen, tu n'as pas assez de Kashes.</quote>
+    <quote id="10" type="0">Sur l'île de la Citadelle.</quote>
+    <quote id="11" type="0">Merci d'avoir ouvert la grotte. Je suis Joe-le-Lutin, on m'a enfermé ici parce que je n'étais pas prévu au scénario, cela aurait pu provoquer des bugs.</quote>
+    <quote id="12" type="0">A bientôt et merci encore.</quote>
+    <quote id="13" type="0">Tu es trop agressif ! Reviens quand tu seras calmé.</quote>
+    <quote id="14" type="0">Aïe, ça va pas la tête ! Tu n'es plus digne d'être un lutin, rends-moi ta carte de membre !</quote>
+    <quote id="15" type="0">Où veux-tu aller ?</quote>
+    <quote id="16" type="0">Chez moi </quote>
+    <quote id="17" type="0">Sur l'île Proxima.</quote>
+    <quote id="18" type="0">Sur l'île de la Rébellion.</quote>
+    <quote id="19" type="0">Tu es bien l'Héritier dont parle la prophétie Twinsen ! Retrouve le legs de tes ancêtres qui est chez toi et poursuis ta quête. Reviens me voir à l'occasion. </quote>
+    <quote id="20" type="0">Seul l'Héritier pouvait réussir dans ce Temple ! Tu es bien cet Elu annoncé par la prophétie. Garde le livre de Bù, car tu en es digne Twinsen. Il te permettra de déchiffrer les runes et de parler aux animaux. Tu pourras y relire cette prophétie qu'il faut maintenant accomplir : tu dois anéantir le Dr FunFrock, car ce despote a mis fin à l'harmonie sur cette planète. J'ai vu en rêve qu'il essaie de profaner le Puits de Sendell, cela causerait la destruction immédiate de ce monde. Tu dois te rendre au Puits de Sendell pour nous sauver et nous libérer de FunFrock. J'ignore où se trouve cet endroit, mais tes ancêtres ont forcément laissé chez toi des informations pour le retrouver. </quote>
+    <quote id="21" type="0">Salut frêre lutin. Si tu as toujours ta carte, j'ai un cadeau pour toi.</quote>
+    <quote id="22" type="0">Adios ! Je pense que je vais aller découvrir le monde.</quote>
+    <quote id="23" type="0">Tu m'es sympathique, je te fais lutin honoraire. Voici ta carte ! Elle donne droit à un cadeau.</quote>
+    <quote id="24" type="0">Salut le quetch !</quote>
+    <quote id="25" type="0">Bonjour le cheval.</quote>
+    <quote id="26" type="0">Moi je connais l'histoire de la lune d'émeraude, mais c'est tout.</quote>
+    <quote id="27" type="0">Hii, hi ! Bbbrrrff ! Brf !</quote>
+    <quote id="28" type="0">Je ne vois pas de quoi il s'agit.</quote>
+    <quote id="29" type="0">Tu sais qu'il y a des cris bizarres parfois, vers ce signe qui est sur les rochers ?</quote>
+    <quote id="30" type="0">C'est toi qui a libéré ce gnome avec son bonnet hideux ? Il m'a demandé s'il n'y avait pas une princesse à libérer dans le coin, mais si tu veux mon avis, il n'a pas l'étoffe d'un héros.</quote>
+    <quote id="31" type="0">Plus de carburant.</quote>
+    <quote id="32" type="0">Alors tu devrais visiter le musée de la Marine, c'est sur l'île Proxima.</quote>
+    <quote id="33" type="0">Je ne peux pas t'aider, je regrette.</quote>
+    <quote id="34" type="0">Je cherche les plans du Centre de Téléportation.</quote>
+    <quote id="35" type="0">On dit qu'il y a des trésors cachés dans un temple, dans ce désert.</quote>
+    <quote id="36" type="0">Je m'intéresse à l'histoire du pirate LeBorgne.</quote>
+    <quote id="37" type="0">J'ai lu des passages de son livre de bord, ce LeBorgne était terrible ! Si ça t'intéresse il est en vente au bazar du Vieux Bourg, sur l'île Principale.</quote>
+    <quote id="38" type="0">J'ignore où ils sont.</quote>
+    <quote id="39" type="0">Je n'y connais rien, mais il paraît qu'avant à la bibliothèque, il y avait des ouvrages qui en parlaient.</quote>
+    <quote id="40" type="0">Je ne sais pas où ils sont, mais nous les lutins n'en avons pas besoin. Nous nous téléportons magiquement ! Enfin moi j'ai oublié mais c'est un mauvais exemple.</quote>
+    <quote id="41" type="0">Sur l'Hamalayi.</quote>
+    <quote id="42" type="0">Je te donnerais ma guitare en échange de la flûte que tu possèdes Twinsen, auparavant tu devras en jouer au bord du Lac d'Eau Claire pour obtenir le 4ème symbole magique.</quote>
+    <quote id="43" type="0">Twinsen tu n'auras plus besoin de la flûte, par contre elle peut me permettre de réaliser un vieux rêve. Je te l'échange contre cette guitare que j'ai trouvé au coeur d'un météore.</quote>
+    <quote id="44" type="0">Bonjour</quote>
+  </quotes>
+</lbatexts>

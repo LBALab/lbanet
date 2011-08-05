@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>2</game>
+  <quotes>
+    <quote id="1" type="1">Combinado!</quote>
+    <quote id="2" type="1">Isso nÆo me interessa.</quote>
+    <quote id="3" type="1">Primeiro eu gostaria de curar meu Dino-Fly !</quote>
+    <quote id="4" type="1">" Você está procurando um traje ou acessório de magia ? Chedil Amiradoo está ao seu dispor. Preços competitivos e garantia de qualidade. Atualmente fazendo uma tournê na sua ilha. "</quote>
+    <quote id="5" type="1">" Qwelt ik Mülg'b ¿ ÿoc & ÿæc # %-) ßBig Tsè-steel-jenr, (dulkug) hanfin tuwouah koa xdocd + ¡ "</quote>
+    <quote id="6" type="1">Desapareceram ?? Estou vendo que o assunto é grave, Mestre! Eu farei o que puder para encontrá-los, confie em mim !!</quote>
+    <quote id="7" type="1">" Aprender é também refazer as provas com novos conhecimentos. "</quote>
+    <quote id="8" type="1">" éltimos aprendizes aprovados no exame para mago: Aril van Koow, Hougo Dolphar, Carnogeel. "</quote>
+    <quote id="9" type="1">O que devo fazer Mestre?</quote>
+    <quote id="10" type="1">Olá Jerônimo.</quote>
+    <quote id="11" type="1">" Visite o Parque do Templo. A dois passos do Monte Careca, reviva um episódio da história de Twinsen explorando o Templo de Bu. "</quote>
+    <quote id="12" type="1">" Jerônimo Baldino. @ Aparelhos & Invençäes Diversas. "</quote>
+    <quote id="13" type="1">" Circuito Von Kournil. @ (Ilha do Deserto da Folha Branca) "</quote>
+    <quote id="14" type="1">" Porto Ludo @ (Ilha do Deserto da Folha Branca). "</quote>
+    <quote id="15" type="1">" Você está no Porto @ (Ilha do Deserto da Folha Branca). "</quote>
+    <quote id="16" type="1">" Em direçÆo ao Porto. "</quote>
+    <quote id="17" type="1">" Em direçÆo ao Templo de Bu. "</quote>
+    <quote id="18" type="1">" Em direçÆo à Fazenda do Monte Careca. "</quote>
+    <quote id="19" type="1">"Você está no Monte Careca."</quote>
+    <quote id="20" type="1">"Em direçÆo ao Cemitério."</quote>
+    <quote id="21" type="1">Bom dia</quote>
+    <quote id="22" type="1">Olá</quote>
+    <quote id="23" type="1">Está fechado.</quote>
+    <quote id="24" type="1">Bom dia, Mestre</quote>
+    <quote id="25" type="1">Eu nÆo tenho Kashes suficientes.</quote>
+    <quote id="26" type="1">Eu procuro o Mago Curador. Eu tenho que curar o Dino-Fly.</quote>
+    <quote id="27" type="1">E você sabe onde ele mora ?</quote>
+    <quote id="28" type="1">Mas... o Mago Curador !!</quote>
+    <quote id="29" type="1">Eu procuro a Escola de Magia.</quote>
+    <quote id="30" type="1">Você sabe onde fica a Escola de Magia ?</quote>
+    <quote id="31" type="1">Você viu um mago passar há pouco ?</quote>
+    <quote id="32" type="1">Você sabe onde estÆo os magos ?</quote>
+    <quote id="33" type="1">" éltimos aprendizes aprovados no exame de mago: Aril van Koow, Hougo Dolphar, Carnogeel, Twinsen. "</quote>
+    <quote id="34" type="9">Alô ?</quote>
+    <quote id="35" type="1">Mestre, as crianças de Twinsun foram raptadas pelos Esmers. O senhor pode me ajudar ? NÆo há uma magia que nos permita saber para onde elas foram levadas ?</quote>
+    <quote id="36" type="1">E onde é que eu posso encontrá-la ?</quote>
+    <quote id="37" type="1">Eu recebi uma mensagem do Mago do Tempo. Ele precisa de uma pérola incandescente para terminar um feitiço de raio. Você sabe onde eu posso encontrar uma ?</quote>
+    <quote id="38" type="1">Mestre, eu encontrei uma pérola estranha dentro de uma gruta, perto do Porto Ludo.</quote>
+    <quote id="39" type="1">Na Ilha da Fortaleza.</quote>
+    <quote id="40" type="1">Na Ilhota da Cúpula de Ardósia.</quote>
+    <quote id="41" type="1">Vou ficar aqui.</quote>
+    <quote id="42" type="1">Na Ilhota em frente à Fazenda.</quote>
+    <quote id="43" type="1">No oásis, dentro do deserto.</quote>
+    <quote id="44" type="1">Eu nÆo sei o que Jerônimo está armando, mas tem uma máquina infernal lá embaixo.</quote>
+    <quote id="45" type="1">Parece que Jerônimo está trabalhando no Proto-pack, talvez esteja tentando melhorá-lo.</quote>
+    <quote id="46" type="1">Humm... sÆo exatamente as plantas da nave que estava escondida sob a lona. Deve ter sido com ela que Jerônimo foi para a Lua de Esmeralda.</quote>
+    <quote id="47" type="1">Você está no Parque do Templo, antigo lugar do Templo de Bu.</quote>
+    <quote id="48" type="1">"Você está na Fazenda do Monte Careca."</quote>
+    <quote id="49" type="1">Justamente, estou procurando por ele.</quote>
+    <quote id="50" type="1">Você sabe onde se encontram os magos ?</quote>
+    <quote id="51" type="1">Para onde você está me levando, Moya ?</quote>
+    <quote id="52" type="1">Eu nÆo sabia da existência desta gruta.</quote>
+    <quote id="53" type="1">Na Ilha da Fortaleza.</quote>
+    <quote id="54" type="1">Na Cúpula de Ardósia.</quote>
+    <quote id="55" type="1">Vou ficar aqui.</quote>
+    <quote id="56" type="1">Outro ônibus de turistas. Seja lá o que houve dentro do Templo de Bu, está atraindo bastante gente!</quote>
+    <quote id="57" type="1">Veja, um signo de Sendell. Eles sÆo admirados por todos os magos.</quote>
+    <quote id="58" type="1">NÆo, ainda nÆo.</quote>
+    <quote id="59" type="1">NÆo, eu tenho que encontrar a Escola de Magia.</quote>
+    <quote id="60" type="1">Tendo sido aprovado na Escola de Magia, consegui uma concha para curar o Dino-Fly.</quote>
+    <quote id="61" type="1">Decidi me tornar um mago para curar eu mesmo o Dino-Fly.</quote>
+    <quote id="62" type="1">Ele já me deu. Vou passar aí para deixar com você.</quote>
+    <quote id="63" type="1">Eles dizem que sÆo pacíficos mas eu desconfio, acho que sÆo bastante hostis.</quote>
+    <quote id="64" type="1">Mestre, eu sei porque os magos desapareceram. Os Esmers convidaram eles para o seu planeta para um programa de intercâmbio cultural e científico. Eu me pergunto o que há por trás disso !</quote>
+    <quote id="65" type="1">ER ioergouerg ù erioufmqer onnde você zejkhze jkhqdsqdsl iklds klqdfjn !!</quote>
+    <quote id="66" type="1">AVISO OFICIAL ... todas as naves com destino à base lunar... nova senha... caso contrário os soldados intervirÆo... operaçÆo LUA VERDE!!</quote>
+    <quote id="67" type="1">Está faltando um objeto neste lugar. Um tipo de disco. Parece que a nave precisa dele para decolar.</quote>
+    <quote id="68" type="33">Alô ! Twinsen ! Está pronto, consertei o carro... eu gostaria que você testasse ele... eu te levo à Ilha do Deserto...</quote>
+    <quote id="69" type="1">Twinsen, Eu gostaria que você testasse o carro. Para saber se ele está funcionando bem, basta ir até o circuito ou ao deserto. Já que estou por aqui, vou aproveitar para fazer algumas compras. Nos encontraremos em casa.</quote>
+    <quote id="70" type="33">Twinsen, você encontrou o Mago Curador ?</quote>
+    <quote id="71" type="33">E entÆo Twinsen , encontrou alguma coisa para curar o Dino-Fly ?</quote>
+    <quote id="72" type="33">Será que você pode pedir para o Baldino a peça do carro que ele me prometeu ?</quote>
+    <quote id="73" type="33">Sabe Twinsen, estou preocupada. Acho estes visitantes vindos do céu bastante estranhos. Eles sÆo bonzinhos demais para serem honestos. Além disso às vezes se comportam de modo esquisito. Eu vi eles se esconderem nas latas de lixo.</quote>
+    <quote id="74" type="1">Toma! Aqui está a peça que Zoé precisa para o carro.</quote>
+    <quote id="75" type="1">Toma, aqui está o rádio portátil que eu fiz para você e que tinha esquecido de te dar. Desculpe o mal jeito, mas tenho certeza de que vai ser útil !!</quote>
+    <quote id="76" type="1">Alô, Twinsen.</quote>
+    <quote id="77" type="1">Eu poderia tê-lo chamado de " Talk-Boy " mas rádio portátil é mais simples. A propósito, te aviso assim que o Proto-pack ficar pronto, com ele você poderá voar com toda segurança.</quote>
+    <quote id="78" type="1">Apesar do meu possante telescópio, eu vi passar apenas alguns discos-voadores atrás da Lua. Os Esmers devem viver na face oculta.</quote>
+    <quote id="79" type="1">Bom dia Mestre, mas... Twinsen é você? Você está demais como mago, parabéns.</quote>
+    <quote id="80" type="1">Sabe Twinsen, eu e a magia... Nunca teria imaginado que pudesse existir uma escola para aprender magia!</quote>
+    <quote id="81" type="1">Eu nÆo sei onde eles estÆo, Twinsen.</quote>
+    <quote id="82" type="1">Você precisa de um bilhete para entrar na barca, senhor Twinsen.</quote>
+    <quote id="83" type="1">O seu bilhete está em ordem, senhor Twinsen, você pode embarcar. Faça uma boa viagem!</quote>
+    <quote id="84" type="1">Você pode embarcar Mestre.</quote>
+    <quote id="85" type="1">" Você quer usar o telescópio por 2 Kashes ? "</quote>
+    <quote id="86" type="1">Agora que nÆo há mais nuvens no céu, eu posso aproveitar os nossos dois sóis. Eu ouvi dizer que há um oásis, no Deserto, onde uma tartaruga costuma se arrastar. Talvez eu devesse ir até lá.</quote>
+    <quote id="87" type="1">Uma Escola de Magia ? Você acha que eles estÆo precisando de uma assistente ?</quote>
+    <quote id="88" type="1">NÆo, eu acabei dormindo sob o sol, nÆo vi nenhum mago.</quote>
+    <quote id="89" type="1">Onde você quer ir Twinsen ?</quote>
+    <quote id="90" type="1">Sabe, eu me pergunto se eles nÆo os deixaram por aqui! Com o número de magos e de Esmers que têm freqüentado a Fazenda esses dias!!</quote>
+    <quote id="91" type="1">Eu adoro esses visitantes do céu. Depois dos esgotos da Ilha da Fortaleza , eu devia tomar outro banho a vapor. Mas para comemorar a chegada deles, eles pagaram várias rodadas !!! E cá entre nós, parece que há muitos magos andando por aqui.</quote>
+    <quote id="92" type="1">Ah ! Bom dia, senhor Twinsen !</quote>
+    <quote id="93" type="9">Sim !</quote>
+    <quote id="94" type="1">Ah isso sim. Eles nÆo pararam de desfilar com um bando de Esmers. Aliás eu me pergunto onde todos eles foram parar.</quote>
+    <quote id="95" type="1">Sinto muito, mas eu interditei o acesso ao telhado desde que meu colega da Ilha da Fortaleza teve problemas com um cliente que caiu na adega de seu bar !</quote>
+    <quote id="96" type="1">Mas o que foi que te deu ?</quote>
+    <quote id="97" type="1">Bom dia, moço</quote>
+    <quote id="98" type="9">Para fora e rápido !</quote>
+    <quote id="99" type="1">Faz algum tempo que eles passam pela minha loja sem parar. VÆo todos ao pátio ou ao banho a vapor. Vá lá ver !!</quote>
+    <quote id="100" type="1">Estes Esmers sÆo simpáticos. Eles pagam rodadas para todos. Convidam até os magos. Mas... eu estou tomando conta do banho a vapor das moças... e o primeiro que entrar lá dentro vai ter que se ver comigo !!!</quote>
+    <quote id="101" type="1">Que afliçÆo. NÆo há mais ninguém para vir aqui. Além disso, os Esmers vieram fechar a minha casa de banho. Eu nem sei porque !</quote>
+    <quote id="102" type="1">É incrível, os Esmers acham que podem fazer qualquer coisa. Suas naves espaciais entram e saem pelo Monte Careca como se tivessem cavado um formigueiro lá em baixo !!</quote>
+    <quote id="103" type="1">Ah nÆo, eu nem sabia que existia uma nessa ilha!</quote>
+    <quote id="104" type="3">Existe um programa de intercâmbio ultra-secreto que por enquanto está restrito aos magos. Venha descobrir nossa ciência e nossa civilizaçÆo, e mostre-nos em troca sua Magia. Vocês retornarÆo cheios de sabedoria e experiência. NÆo contem nada disso à sua Escola de Magia, é muito cedo... eles nÆo entenderiam.</quote>
+    <quote id="105" type="1">Vocês estÆo preparados para passar um tempo em nosso planeta ?</quote>
+    <quote id="106" type="1">Bom dia twinsuniano. Somos amigos. Nós viemos em paz. Queremos apenas conhecer vocês e fazer com que desfrutem da nossa sabedoria. @ Confie em nossa amizade!</quote>
+    <quote id="107" type="1">Meu mestre vai sempre procurar rosas da areia para mim. Eu adoro mastigá-las. SÆo super-crocantes.</quote>
+    <quote id="108" type="1">Eu nÆo sei, Twinsen, eu nÆo moro aqui. Fui trazido para cá.</quote>
+    <quote id="109" type="1">Passou um agora mesmo. Acho que devia estar indo procurar rosas da areia.</quote>
+    <quote id="110" type="1">Bom dia.</quote>
+    <quote id="111" type="1">Nossa, faz calor, mas isto faz muito bem!</quote>
+    <quote id="112" type="1">Uma Escola de Magia, isso existe ? De qualquer maneira nÆo é aqui, eu venho todos os dias, saberia disso.</quote>
+    <quote id="113" type="1">Acabaram de passar. Um bom número deles, por sinal. Mas todos desapareceram antes que eu pudesse descobrir para onde estavam indo.</quote>
+    <quote id="114" type="1">Ah obrigado, eu nÆo preciso mais, mas de qualquer maneira agradeço por ter trazido.</quote>
+    <quote id="115" type="1">Você pode levar este frasco, Mestre Ker'aooc nÆo precisa mais dele.</quote>
+    <quote id="116" type="1">Só os magos e os iniciados sabem onde ela fica. Tudo o que eu sei é que está escondida em algum lugar da Ilha.</quote>
+    <quote id="117" type="1">Tudo o que eu sei é que o Mago Ker'aooc viajou com seus companheiros. Foram os Esmers que o convidaram !!</quote>
+    <quote id="118" type="1">Bom dia, senhor</quote>
+    <quote id="119" type="1">Puxa, é você! Bom dia!</quote>
+    <quote id="120" type="1">Sabe, eu estou um pouco preocupada. Desde que partiu, o Mago Ker'aooc nÆo deu sinal de vida. NÆo estou gostando nada disso, ele nÆo é de fazer essas coisas.</quote>
+    <quote id="121" type="1">Espero que o Mago Ker'aooc volte logo, estou ficando preocupada com essas patrulhas de Esmers pelas ruas.</quote>
+    <quote id="122" type="1">Eu sinto muito, o Curador Ker'aooc nÆo está e eu nÆo sei quando ele vai voltar. Se for urgente tente ir à Escola de Magia.</quote>
+    <quote id="123" type="3">Sua reputaçÆo correu de ilha em ilha até chegar a mim, Twinsen. Você é o herói desse planeta e devo avisá-lo que os Esmers estÆo convidando os magos para irem ao planeta de origem deles. Cuidado, tem algo por trás disso.</quote>
+    <quote id="124" type="1">Ela fica no deserto. A entrada fica num cemitério construído para espantar os estrangeiros.</quote>
+    <quote id="125" type="1">Aquele que quiser saber deve sempre ir ver! Agora você deve seguir o teu destino, jovem herói.</quote>
+    <quote id="126" type="1">Bom dia, Twinsen !</quote>
+    <quote id="127" type="1">Faz algum tempo que vejo coisas estranhas por aqui. Mas ainda é muito cedo para ter certeza.</quote>
+    <quote id="128" type="1">Olá, Twinsen. Se você quiser ver Moya, a tartaruga, poderá encontrá-la no pequeno oásis ou do outro lado do porto. Para chamá-la, basta tocar o sino</quote>
+    <quote id="129" type="1">Sinto muito, nÆo posso te ajudar. Tudo que sei dessas histórias de magia é a de um lapichom que teria sido transformado em concha !!</quote>
+    <quote id="130" type="1">Os visitantes vindos do céu sÆo estranhos. Eu os ouvi convidarem os magos para irem ao planeta deles.</quote>
+    <quote id="131" type="1">Os visitantes do céu mostraram quem realmente sÆo. Desde que chegaram, todo mundo tem medo deles.</quote>
+    <quote id="132" type="1">Minhas amigas, as toupeiras, me contaram que todos os Esmers se reuniam embaixo da terra.</quote>
+    <quote id="133" type="1">Caro senhor, saiba que se você nÆo é mago eu nÆo posso te vender nada.</quote>
+    <quote id="134" type="1">Ah, você deve ser Twinsen. Parabéns pelo seu sucesso na prova. Se você quiser uma túnica de mago, ela custa apenas 50 kashes. além disso você ganhará de brinde uma barba falsa... com ela você se parecerá com um velho mago... E entÆo, está interessado ?</quote>
+    <quote id="135" type="1">Agora que você é mago, posso te vender o pó laranja. Ele custa 10 kashes, e recarregará seus pontos de magia e de vida.</quote>
+    <quote id="136" type="9">Ei !! Você está maluco ?</quote>
+    <quote id="137" type="1">Bom dia</quote>
+    <quote id="138" type="1">Eu sei onde ela fica, mas nÆo posso te contar.</quote>
+    <quote id="139" type="1">Eu vi passar Ker'aooc faz algum tempo. Ele me disse que os Esmers o convidaram, mas nÆo sei para onde. De qualquer maneira, ele estava indo para a Fazenda.</quote>
+    <quote id="140" type="1">Bem-vindo, Twinsen. Será uma honra recebê-lo em nosso curso. Mas mesmo que você tenha salvado o nosso mundo, você deverá passar pelas mesmas provas que os outros estudantes.</quote>
+    <quote id="141" type="1">Você gostaria de fazer parte da nossa escola ?</quote>
+    <quote id="142" type="1">A inscriçÆo custa 120 Kashes. Você está pronto para começar agora ?</quote>
+    <quote id="143" type="1">Você obterá o dom da cura completando uma das provas que farÆo com que você se torne um mago. Mas antes você deve se inscrever. E quando se tornar mago, você terá um nível a mais de magia!!</quote>
+    <quote id="144" type="1">Agora você é membro da nossa escola.</quote>
+    <quote id="145" type="1">Para se tornar mago, você deverá completar 3 provas, na ordem que você quiser.</quote>
+    <quote id="146" type="1">Você poderá trazer o resultado de cada prova quando quiser, mas só receberá o diploma de mago e o novo nível de magia quando houver superado as 3 provas!!</quote>
+    <quote id="147" type="1">Assim que você atravessar essa porta, deverá passar pela prova de rapidez e precisÆo. Posicione-se no centro da sala e com a ajuda da bola derrube todos os símbolos mágicos.</quote>
+    <quote id="148" type="1">Tente de novo, Twinsen.</quote>
+    <quote id="149" type="1">Hum, eu adoro o cheiro da Balsamina Impaciente. Em troca da flor, eis a Concha do TritÆo Azul, que fará de você um Curador.</quote>
+    <quote id="150" type="1">Faltam ainda duas provas a serem completadas.</quote>
+    <quote id="151" type="1">Você ainda tem que completar uma prova antes de se tornar um mago.</quote>
+    <quote id="152" type="1">Parabéns, Twinsen, você ganhou essa zarabatana. Com ela você pode dar tiros rápidos e precisos.</quote>
+    <quote id="153" type="3">Parabéns Twinsen. De agora em diante você leva contigo o título de mago. @ NÆo tenho mais nenhuma túnica de gala de mago sobrando. Mas tem um mercador ambulante na ilha. Vou avisá-lo para te entregar uma. Encontre-se com ele, e deixe sua barba crescer.</quote>
+    <quote id="154" type="1">Preste atençÆo, preciso te deixar a par de um assunto grave, quase todos os magos de Twinsun desapareceram e ninguém sabe para onde eles foram. É preciso achá-los de qualquer maneira e você é o único que pode cumprir essa nobre tarefa. A Escola conta com você, Twinsen !!</quote>
+    <quote id="155" type="1">Encontre um mercador ambulante que fica nessa Ilha. Já avisei a ele para te entregar um chapéu e a túnica de gala de mago.</quote>
+    <quote id="156" type="1">Ah, só os magos sÆo capazes de ler isso.</quote>
+    <quote id="157" type="1">É estranho que a Escola nÆo esteja a par ... NÆo estou gostando nada disso. Sem mago, Twinsun nÆo está segura. Você tem que ir encontrá-los, Twinsen !!</quote>
+    <quote id="158" type="1">Para tentar a prova da zarabatana, basta você atravessar a porta, no fundo desta sala. Você terá um tempo limitado para acertar todos os alvos.</quote>
+    <quote id="159" type="1">Para a prova da ardósia, você primeiro tem que ir até a Ilha da Cúpula de Ardósia, que fica depois da Ilha da Fortaleza.</quote>
+    <quote id="160" type="1">Os magos! Você encontrou alguma pista deles ? As pessoas só falam desses visitantes Esmers, mas o desaparecimento deles é um assunto de extrema importância. Sem eles, o equilíbrio e a segurança de Twinsun estÆo ameaçados !!</quote>
+    <quote id="161" type="1">Para a prova da cura, você deverá procurar uma Balsamina. Trata-se de uma planta rara que vive no deserto.</quote>
+    <quote id="162" type="1">NÆo, Twinsen, eu nÆo posso fazer nada. Apenas você pode salvá-los. Mas você precisa reforçar seus poderes para enfrentar os Esmers. Para isso você precisa da Bola de Sendell.</quote>
+    <quote id="163" type="1">Depois do desaparecimento de Funfrock, ela foi escondida na Ilha da Fortaleza pelo Mago do Tempo. Ele a trancou numa gaiola de gelo protegida por um poderoso feitiço. Segundo ele, somente o feitiço do raio é capaz de derreter o gelo e libertar a Bola.</quote>
+    <quote id="164" type="1">Existe uma concha gigante que vive numa gruta marinha presa nas rochas, perto do Porto Ludo. É ela que produz a pérola incandescente.</quote>
+    <quote id="165" type="1">É uma pérola incandescente. O Mago do Tempo me disse um dia que ele a usava para criar o feitiço do raio. Com esse feitiço, você poderá liberar a Bola de Sendell.</quote>
+    <quote id="166" type="1">Você encontrou a Bola de Sendell ? Queria lembrar que ela está na Ilha da Fortaleza e que apenas o feitiço do raio poderá liberá-la.</quote>
+    <quote id="167" type="1">Você deve seguir seu caminho, Twinsen. Há cada vez menos Esmers. Acho que eles estÆo se juntando perto do Templo de Bu, você deveria ir lá verificar.</quote>
+    <quote id="168" type="1">Vá ver no Templo de Bu. Andam falando de um antigo tesouro ainda enterrado.</quote>
+    <quote id="169" type="1">Parabéns Twinsen !! Cuidando desse lugar, você contribui para o crescimento de novas plantas. É uma prova de consideraçÆo com todos os magos que vêm aqui colher a Balsamina.</quote>
+    <quote id="170" type="1">Bom dia.</quote>
+    <quote id="171" type="1">Eu sinto muito calor aqui nessa casa de banho! As vezes faz tanto calor que tenho alucinaçäes... vejo magos por todos os lados!!!</quote>
+    <quote id="172" type="1">NÆo, mas se eles têm algo para abaixar a temperatura dessa casa de banho, eu quero ir vê-los!!</quote>
+    <quote id="173" type="1">Eu nÆo sei onde ela fica, mas nÆo deve ser longe. Porque aqui só vemos passar magos e Esmers, mais ninguém !!!</quote>
+    <quote id="174" type="1">Bom dia</quote>
+    <quote id="175" type="1">Acabei de ver um. Ele levava malas e ia em direçÆo à Fazenda. Estou nervosa por causa dos Esmers. Eles sÆo esquisitos, me pergunto se realmente vieram em paz.</quote>
+    <quote id="176" type="1">NÆo faço a menor idéia.</quote>
+    <quote id="177" type="1">Eu gosto de passear no deserto para procurar rosas das areias. Nelas você sempre acha algum tipo de tesouro.</quote>
+    <quote id="178" type="1">Olá, Twinsen ! Se você quiser dar um passeio no mar, pule nas minhas costas !!</quote>
+    <quote id="179" type="1">Sinto muito, Twinsen, mas eu nÆo sei onde ela fica.</quote>
+    <quote id="180" type="1">NÆo faz muito tempo eu estava do outro lado da Ilha, e vi um entrando na Fazenda.</quote>
+    <quote id="181" type="1">Você vai ver...</quote>
+    <quote id="182" type="1">Olá !!!</quote>
+    <quote id="183" type="1">Esses... hic !Esses estrangeiros sÆo super simpáticos... hic ! Eles nos pagam uma dose atrás da outra!! NÆo é verdade meu velho ?! Hic !!</quote>
+    <quote id="184" type="1">Eu... hic... ahh... eu nÆo tenho nenhuma i... idéia. Maaas você deveria tentar o hic ! O velho sábio que está na varanda... Burp ! Ele conta coisas es... estranhas e hic, ele sabe de coisas zincríveis!! Hic, zincredíveis!!</quote>
+    <quote id="185" type="9">Sim !!</quote>
+    <quote id="186" type="1">Bom dia, twinsuniano. Nós somos amigos. Nós viemos em paz a seu planeta. Queremos apenas conhecer vocês e fazer com que desfrutem da nossa sabedoria. @ Confie em nossa amizade!</quote>
+    <quote id="187" type="1">Bom dia, Mestre. Você deveria ir até a Fazenda perto do Monte Careca, estamos organizando uma pequena reuniÆo para os Magos. Você certamente irá gostar.</quote>
+    <quote id="188" type="1">Olá !! Gostaria de apresentá-lo ao Grande Reitor da Escola de Magia!</quote>
+    <quote id="189" type="1">Tenha uma boa estada na nossa magnífica Escola de Magia!!</quote>
+    <quote id="190" type="1">É horrível, esses malditos Esmers estÆo por toda parte. Felizmente eles nÆo vieram até aqui. Eu acho que eles nÆo conseguiram encontrar a Escola.</quote>
+    <quote id="191" type="1">Bom dia, twinsuniano. Nós somos amigos. Nós viemos em paz a seu planeta. Queremos apenas conhecer vocês e fazer com que desfrutem da nossa sabedoria. @ Confie em nossa amizade!</quote>
+    <quote id="192" type="1">Bom dia, Mestre. Você deveria ir até a Fazenda perto do Monte Careca, estamos organizando uma pequena reuniÆo para os Magos. Você certamente irá gostar.</quote>
+    <quote id="193" type="9">Fora !</quote>
+    <quote id="194" type="9">Tarado !!!</quote>
+    <quote id="195" type="9">Socooorro!!!</quote>
+    <quote id="196" type="1">Todos estÆo falando desses sujeitos vindos do espaço, parece que eles pousaram em várias ilhas. Mas isso nÆo deve atrapalhar a nossa partida.</quote>
+    <quote id="197" type="9">Preocupado!</quote>
+    <quote id="198" type="1">Olha, eu estou perdendo direto desde que você ajudou o meu amigo. Isso é roubo !</quote>
+    <quote id="199" type="1">NÆo sei. Mas, é verdade que faz muito tempo que eu nÆo vejo Ker'aooc o Curador.</quote>
+    <quote id="200" type="1">Eu acho que ela fica no deserto, mas eu nunca a encontrei !!</quote>
+    <quote id="201" type="1">Oi ! Bom dia, senhor Twinsen</quote>
+    <quote id="202" type="9">Trapaceiro !</quote>
+    <quote id="203" type="1">Normalmente eu jogo melhor, mas agora estou com dor nas costas. O Curador Ker'aooc foi embora e esqueceu de me deixar os analgésicos.</quote>
+    <quote id="204" type="1">Aah, obrigado rapaz! Sinto como se tivesse de volta minhas costas de quando era um jovem jogador.</quote>
+    <quote id="205" type="1">Filho, bastou você curar minhas costas para que eu ganhasse todas as partidas !</quote>
+    <quote id="206" type="1">Eu sempre venho ver o Mago Curador por causa das minhas costas... Ela dói de quando em quando.</quote>
+    <quote id="207" type="1">Sabe, eu nÆo sou mais tÆo jovem agora. As costas sÆo importante para jogar bocha !!</quote>
+    <quote id="208" type="1">Quem ?</quote>
+    <quote id="209" type="1">Ah, sim ! Ali, bem no canto da praça...</quote>
+    <quote id="210" type="1">Quê, a Escola de bocha, ahh... de Magia ? Ah sim, quando eu era jovem, diziam que ela ficava no cemitério !</quote>
+    <quote id="211" type="1">Bom dia.</quote>
+    <quote id="212" type="1">Os magos. Ah sim, eu os vi passar algum tempo atrás. Eles estavam falando da Fazenda, no deserto.</quote>
+    <quote id="213" type="1">Eu consegui esse carro no deserto. Francamente, tem gente que acha que tudo é permitido... Aliás, se quiser, eu posso vendê-lo por... 50 Kashes... você quer?</quote>
+    <quote id="214" type="1">Aqui eu sou o melhor. Ninguém consegue me seguir. Tente se quiser.</quote>
+    <quote id="215" type="1">Eu nÆo sei onde ela fica, mas seria bom se tivesse por aqui uma escola de pilotagem. Pelo menos isso seria útil.</quote>
+    <quote id="216" type="1">Os magos ? Ah nÆo, eu quase nÆo os vejo. Eles nÆo costumam vir aqui, você sabe !!</quote>
+    <quote id="217" type="9">Perdido !!</quote>
+    <quote id="218" type="1">Se você acha que pode me seguir posicione-se na linha de partida.</quote>
+    <quote id="219" type="1">Você conseguiu. Eu deveria talvez ir ao Mago Curador. Ele me disse que colocando um pouco de ácido gálico no motor, eu conseguiria andar mais rápido!!</quote>
+    <quote id="220" type="1">Eu vou te contar um pequeno segredo : um mago me contou que ele escondeu um feitiço de proteçÆo na Ilhota em frente à Fazenda.</quote>
+    <quote id="221" type="1">Se você quiser dar algumas voltas no circuito, procure um carro!!</quote>
+    <quote id="222" type="1">Bem-vindo</quote>
+    <quote id="223" type="1">NÆo... mesmo... colhendo no deserto as plantas que eu uso para cozinhar. Eu sempre evito passar num lugar horrível, uma espécie de jardim árido... Deve ser lá.</quote>
+    <quote id="224" type="1">NÆo me espantaria nada se eles tiverem desaparecido no antigo Templo de Bu!! Meu cunhado trabalha lá e conta coisas esquisitas sobre desaparecimentos...</quote>
+    <quote id="225" type="1">Esses visitantes Esmers sÆo extraordinários. Parece que eles vêm da Lua de Esmeralda. Você tem idéia ??</quote>
+    <quote id="226" type="1">Desde que os Esmers revelaram quem eles realmente sÆo, as pessoas voltaram para suas casas. Todos se escondem e apenas algumas lojas foram autorizadas a ficar abertas.</quote>
+    <quote id="227" type="1">Espero que os clientes apareçam. Parece que há cada vez menos Esmers nas ruas de Porto Ludo.</quote>
+    <quote id="228" type="1">Um holomapa custa 10 kashes.</quote>
+    <quote id="229" type="1">Um frasco de ácido gálico custa 50 kashes.</quote>
+    <quote id="230" type="1">Escolha um produto, posicione-se em frente a ele e clique em " AÇÇO".</quote>
+    <quote id="231" type="1">Bom dia senhor, bem-vindo à minha loja.</quote>
+    <quote id="232" type="1">Um Nitro-Méca-Pingüim custa 4 Kashes.</quote>
+    <quote id="233" type="1">Por 15 Kashes, você pode recarregar seus pontos de vida.</quote>
+    <quote id="234" type="1">Por 15 Kashes, você pode recarregar seus pontos de magia.</quote>
+    <quote id="235" type="1">Três dardos custam 4 Kashes.</quote>
+    <quote id="236" type="1">Eu nÆo sei nÆo, mas um cliente me falou de um velho sábio que conhece todos os segredos da ilha. Acho que ele pode ser encontrado perto da Fazenda.</quote>
+    <quote id="237" type="1">Você é o único cliente que aparece aqui em muito tempo.</quote>
+    <quote id="238" type="1">Eu nÆo sei onde eles estÆo senhor. Sabe, eu nÆo entendo nada de magia...</quote>
+    <quote id="239" type="1">Esses estrangeiros sÆo divertidos. Eles têm um bando de fantasias de carnaval. Desde cacto até lata de lixo. Parece que adoram isso, eu vejo eles disfarçados o tempo todo.</quote>
+    <quote id="240" type="1">Bom dia.</quote>
+    <quote id="241" type="1">Eu nÆo sei dizer, senhor, eu nÆo sou daqui.</quote>
+    <quote id="242" type="9">Parabéns</quote>
+    <quote id="243" type="1">He, he, que loucura, eu nÆo sei onde coloquei os bilhetes de entrada e tenho medo que venham checar !! ...É, bem... você acha que podemos nos afastar um pouco ?</quote>
+    <quote id="244" type="1">Oh ! Eeé... bom dia, senhor.</quote>
+    <quote id="245" type="1">Na verdade, dei nossos bilhetes ao meu irmÆo... você sabe, é o guardiÆo do parque... lá em cima... hum !...ali, ali...</quote>
+    <quote id="246" type="1">Eu nÆo sei senhor.</quote>
+    <quote id="247" type="1">Ah nÆo, eu nÆo vi. Por outro lado, os Esmers nÆo param de passar por aqui.</quote>
+    <quote id="248" type="1">Senhor !</quote>
+    <quote id="249" type="1">Se você quiser prosseguir, suba num vagÆo livre. AtençÆo, durante a visita, fique no circuito e nÆo desça. É perigoso, você pode se machucar facilmente.</quote>
+    <quote id="250" type="1">Bom dia, senhor.</quote>
+    <quote id="251" type="1">Eu nunca ouvi falar.</quote>
+    <quote id="252" type="1">Ah nÆo, eu nÆo vi nenhum. Mas vi passar um bando de Esmers. Eles desciam todos para o último subsolo. Dizendo que iam fazer consertos !!</quote>
+    <quote id="253" type="9">Magnífico !</quote>
+    <quote id="254" type="1">Meu filho adora histórias de magia... dissemos para ele que entramos assim ! Por milagre!!</quote>
+    <quote id="255" type="1">Este Templo é absolutamente extraordinário. O que será que vamos ver depois !?</quote>
+    <quote id="256" type="1">Bom dia.</quote>
+    <quote id="257" type="1">Eu nem sabia que existia uma. Se tivermos tempo e se a encontramos, vamos visitá-la</quote>
+    <quote id="258" type="1">Ah nÆo, nÆo os vi passar.</quote>
+    <quote id="259" type="1">Eu nÆo sei. Eu sempre faço um desvio quando passo por lá. Aqui perto tem um jardim assustador com muros de brita.</quote>
+    <quote id="260" type="1">Ah nÆo, eu nÆo sei onde eles estÆo. Faz tempo que eu nÆo os vejo.</quote>
+    <quote id="261" type="1">Olá.</quote>
+    <quote id="262" type="1">Eu gosto de passear no deserto. Uma vez, no Templo de Bu, eu achei vários tesouros pequenos.</quote>
+    <quote id="263" type="3">O acesso aos andares inferiores está temporariamente interditado, nÆo podemos mais garantir a segurança dos visitantes. Os Esmers se ofereceram para fazer o trabalho no último subsolo. NÆo sou eu que vou reclamar !!</quote>
+    <quote id="264" type="1">Oh! Bom dia, senhor Twinsen ! Que honra vê-lo aqui.</quote>
+    <quote id="265" type="1">NÆo sei, parece que ela ficava no deserto.</quote>
+    <quote id="266" type="1">NÆo tenho a menor idéia. Desde que estou aqui, nÆo vi passar sequer um deles!</quote>
+    <quote id="267" type="1">Eh moço!! Meu pai é muito valente, ele conseguiu que nós entrássemos sem bilhete!!</quote>
+    <quote id="268" type="9">Yupiii !!!!</quote>
+    <quote id="269" type="1">Eu nÆo gosto da escola !!</quote>
+    <quote id="270" type="1">Os magos sÆo aqueles homenzinhos com um chapéu engraçado ? Ah nÆo, eu nÆo vi !!</quote>
+    <quote id="271" type="1">Um bilhete moço ? Por 7 Kashes você pode visitar todo o Parque do Templo, inclusive o interior do Templo de Bu.</quote>
+    <quote id="272" type="9">Prendam ele !</quote>
+    <quote id="273" type="1">Agora que o Templo está em reparo, nÆo temos mais muitos clientes. Por outro lado, como temos visitantes Esmers. Principalmente depois que eles se dispuseram a nos ajudar.</quote>
+    <quote id="274" type="1">Ela existe ? Pensei que fosse só uma miragem desse deserto.</quote>
+    <quote id="275" type="1">Sinto muito, nÆo vi nenhum.</quote>
+    <quote id="276" type="1">AtençÆo, senhor, nÆo pise na grama!</quote>
+    <quote id="277" type="1">Eu nÆo sei, senhor. Uma vez, um cliente me falou dela, mas ele nÆo sabia onde ficava. Ou entÆo eu me esqueci.</quote>
+    <quote id="278" type="1">NÆo, senhor, eu nÆo posso ajudar. Quase nÆo vemos magos por aqui.</quote>
+    <quote id="279" type="1">Pfff !! Com todos esses penetras, nÆo sei mais o que fazer.</quote>
+    <quote id="280" type="1">Você quer recuperar 3 dardos e jogar uma partida de Tiro ao alvo? Custa 4 kashes.</quote>
+    <quote id="281" type="1">Parabéns Senhor, você ganhou esses lindos baläes!!!</quote>
+    <quote id="282" type="1">Por 12 Kashes, onde você quer ir?</quote>
+    <quote id="283" type="1">Bem-vindo a Balsa Inter-ilhas, senhor.</quote>
+    <quote id="284" type="1">Nossas barcas nÆo vÆo até esta ilhota, senhor.</quote>
+    <quote id="285" type="1">Eu nÆo sei onde ela fica.</quote>
+    <quote id="286" type="1">NÆo, nÆo os vejo faz um bom tempo.</quote>
+    <quote id="287" type="9">Socorro !!</quote>
+    <quote id="288" type="1">Ah obrigado, Twinsen. Estava começando a ficar cansado desta concha !!</quote>
+    <quote id="289" type="1">Ha Twinsen ! Sou eu Joe !! NÆo estou me sentindo muito bem... Você nÆo poderia me ajudar ?</quote>
+    <quote id="290" type="1">Faz dois meses que eu me inscrevi nesta maldita escola, e nÆo consegui completar uma prova sequer!!!</quote>
+    <quote id="291" type="1">Ah nÆo !! Se eu tivesse visto, teria pedido que me ajudasse a passar em ao menos uma prova !!!</quote>
+    <quote id="292" type="1">Eu nÆo consigo, eu nÆo consigo, eu nÆo consigo !!! Parece que os estrangeiros pousaram em Twinsun, eu nem os vi !! já faz dias que estou tentando vencer essa prova de zarabatana !!!</quote>
+    <quote id="293" type="1">Estou cheio desses estudos. Eu deveria fazer outra coisa... Acho que vou estudar a fundo as populaçäes extra-twinsunianas !!!</quote>
+  </quotes>
+</lbatexts>

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>2</game>
+  <quotes>
+    <quote id="1" type="1">Please insert TWINSEN's ODYSSEY CD-ROM</quote>
+    <quote id="2" type="1">Please insert LBA2 TWINSEN's ODYSSEY CD-ROM</quote>
+    <quote id="3" type="1">Ok</quote>
+    <quote id="4" type="1">Cancel</quote>
+    <quote id="5" type="1">Pause</quote>
+    <quote id="6" type="1">Sound volume</quote>
+    <quote id="7" type="1">Reverse stereo channels OFF</quote>
+    <quote id="8" type="1">Reverse stereo channels ON</quote>
+    <quote id="9" type="1">Configure keyboard</quote>
+    <quote id="10" type="1">Return to the game</quote>
+    <quote id="11" type="1">Don't display text</quote>
+    <quote id="12" type="1">Display text</quote>
+    <quote id="13" type="1">Sound effects volume</quote>
+    <quote id="14" type="1">Voice volume</quote>
+    <quote id="15" type="1">Music volume</quote>
+    <quote id="16" type="1">CD volume</quote>
+    <quote id="17" type="1">General volume</quote>
+    <quote id="18" type="1">Cancel</quote>
+    <quote id="19" type="1">Return to previous menu</quote>
+    <quote id="20" type="1">Small videos</quote>
+    <quote id="21" type="1">Full screen videos</quote>
+    <quote id="22" type="1">Load game</quote>
+    <quote id="23" type="1">Type in your name</quote>
+    <quote id="24" type="1">Player already exists! Start again.</quote>
+    <quote id="25" type="1">Type in the new name</quote>
+    <quote id="26" type="1">Level of detail</quote>
+    <quote id="27" type="1">Movie camera OFF</quote>
+    <quote id="28" type="1">Movie camera ON</quote>
+    <quote id="29" type="1">Destroy</quote>
+    <quote id="30" type="1">Voice file transfer</quote>
+    <quote id="31" type="1">Copying voice files to hard disk, please wait.</quote>
+    <quote id="32" type="1">Resume Game</quote>
+    <quote id="33" type="1">New Game</quote>
+    <quote id="34" type="1">Load Game</quote>
+    <quote id="35" type="1">Save Game</quote>
+    <quote id="36" type="1">Options Menu</quote>
+    <quote id="37" type="1">Quit</quote>
+    <quote id="38" type="1">Normal</quote>
+    <quote id="39" type="1">Sporty</quote>
+    <quote id="40" type="1">Aggressive</quote>
+    <quote id="41" type="1">Discreet</quote>
+    <quote id="42" type="1">Protopack</quote>
+    <quote id="43" type="1">Twinsen with Zoe</quote>
+    <quote id="44" type="1">Triton's Horn</quote>
+    <quote id="45" type="1">Normal Diving Suit</quote>
+    <quote id="46" type="1">SuperJetPack</quote>
+    <quote id="47" type="1">Sporty Space Suit</quote>
+    <quote id="48" type="1">Normal Space Suit</quote>
+    <quote id="49" type="1">Sporty Space Suit</quote>
+    <quote id="50" type="1">Forwards</quote>
+    <quote id="51" type="1">Backwards</quote>
+    <quote id="52" type="1">Turn left</quote>
+    <quote id="53" type="1">Turn right</quote>
+    <quote id="54" type="1">Use weapon</quote>
+    <quote id="55" type="1">Behavior menu</quote>
+    <quote id="56" type="1">Inventory</quote>
+    <quote id="57" type="1">Behavior action</quote>
+    <quote id="58" type="1">Talk/Search</quote>
+    <quote id="59" type="1">Center camera/Select</quote>
+    <quote id="60" type="1">Menus</quote>
+    <quote id="61" type="1">Holomap</quote>
+    <quote id="62" type="1">Pause</quote>
+    <quote id="63" type="1">Sidestep</quote>
+    <quote id="64" type="1">Normal Behavior</quote>
+    <quote id="65" type="1">Sporty Behavior</quote>
+    <quote id="66" type="1">Aggressive Behavior</quote>
+    <quote id="67" type="1">Discreet Behavior</quote>
+    <quote id="68" type="1">Inventory help/Keyboard configuration</quote>
+    <quote id="69" type="1">Save</quote>
+    <quote id="70" type="1">Load</quote>
+    <quote id="71" type="1">Options Menu</quote>
+    <quote id="72" type="1">Turn camera</quote>
+    <quote id="73" type="1">Next cameral level</quote>
+    <quote id="74" type="1">Previous camera level</quote>
+    <quote id="75" type="1">Weapon 1</quote>
+    <quote id="76" type="1">Weapon 2</quote>
+    <quote id="77" type="1">Weapon 3</quote>
+    <quote id="78" type="1">Weapon 4</quote>
+    <quote id="79" type="1">Weapon 5</quote>
+    <quote id="80" type="1">Weapon 6</quote>
+    <quote id="81" type="1">Weapon 7</quote>
+    <quote id="82" type="1">Meca-Pinguin</quote>
+    <quote id="83" type="1">Jetpack On/Off</quote>
+    <quote id="84" type="1">Protection spell</quote>
+    <quote id="85" type="1">Lightning spell</quote>
+    <quote id="86" type="1">ESC exit, ENTER Select a key</quote>
+    <quote id="87" type="1">Press a key or ESC to cancel</quote>
+    <quote id="88" type="1">Error: key already defined</quote>
+    <quote id="89" type="1"></quote>
+    <quote id="90" type="1">Action</quote>
+    <quote id="91" type="1">Key 1</quote>
+    <quote id="92" type="1">Key 2</quote>
+    <quote id="93" type="1">Default Configuration</quote>
+    <quote id="94" type="1">Restore Previous Configuration</quote>
+    <quote id="95" type="1">Accept Configuration</quote>
+    <quote id="96" type="1">Num Pad 1</quote>
+    <quote id="97" type="1">Num Pad 2</quote>
+    <quote id="98" type="1">Num Pad 3</quote>
+    <quote id="99" type="1">Num Pad 4</quote>
+    <quote id="100" type="1">Num Pad 5</quote>
+    <quote id="101" type="1">Num Pad 6</quote>
+    <quote id="102" type="1">Num Pad 7</quote>
+    <quote id="103" type="1">Num Pad 8</quote>
+    <quote id="104" type="1">Num Pad 9</quote>
+    <quote id="105" type="1">Num Pad 0</quote>
+    <quote id="106" type="1">Num Pad .</quote>
+    <quote id="107" type="1">Num Pad Enter</quote>
+    <quote id="108" type="1">Num Pad Div</quote>
+    <quote id="109" type="1">Num Pad Mul</quote>
+    <quote id="110" type="1">Num Pad Plus</quote>
+    <quote id="111" type="1">Num Pad Minus</quote>
+    <quote id="112" type="1">Up</quote>
+    <quote id="113" type="1">Down</quote>
+    <quote id="114" type="1">Left</quote>
+    <quote id="115" type="1">Right</quote>
+    <quote id="116" type="1">Start</quote>
+    <quote id="117" type="1">End</quote>
+    <quote id="118" type="1">Page Up</quote>
+    <quote id="119" type="1">Page Down</quote>
+    <quote id="120" type="1">Insert</quote>
+    <quote id="121" type="1">Del</quote>
+    <quote id="122" type="1">Left shift</quote>
+    <quote id="123" type="1">Right shift</quote>
+    <quote id="124" type="1">Left Ctrl</quote>
+    <quote id="125" type="1">Right Ctrl</quote>
+    <quote id="126" type="1">Left Alt</quote>
+    <quote id="127" type="1">Right Alt</quote>
+    <quote id="128" type="1">Tab</quote>
+    <quote id="129" type="1">Num Lock</quote>
+    <quote id="130" type="1">Caps Lock</quote>
+    <quote id="131" type="1">F1</quote>
+    <quote id="132" type="1">F2</quote>
+    <quote id="133" type="1">F3</quote>
+    <quote id="134" type="1">F4</quote>
+    <quote id="135" type="1">F5</quote>
+    <quote id="136" type="1">F6</quote>
+    <quote id="137" type="1">F7</quote>
+    <quote id="138" type="1">F8</quote>
+    <quote id="139" type="1">F9</quote>
+    <quote id="140" type="1">F10</quote>
+    <quote id="141" type="1">F11</quote>
+    <quote id="142" type="1">F12</quote>
+    <quote id="143" type="1">1</quote>
+    <quote id="144" type="1">2</quote>
+    <quote id="145" type="1">3</quote>
+    <quote id="146" type="1">4</quote>
+    <quote id="147" type="1">5</quote>
+    <quote id="148" type="1">6</quote>
+    <quote id="149" type="1">7</quote>
+    <quote id="150" type="1">8</quote>
+    <quote id="151" type="1">9</quote>
+    <quote id="152" type="1">0</quote>
+    <quote id="153" type="1">Space</quote>
+    <quote id="154" type="1">Enter</quote>
+    <quote id="155" type="1">Windows Left</quote>
+    <quote id="156" type="1">Windows Right</quote>
+    <quote id="157" type="1">Application</quote>
+    <quote id="158" type="1">Backspace</quote>
+    <quote id="159" type="1">Pause</quote>
+    <quote id="160" type="1">Scroll Lock</quote>
+    <quote id="161" type="1">Print Screen</quote>
+    <quote id="162" type="1">Shift</quote>
+    <quote id="163" type="1">Ctrl</quote>
+    <quote id="164" type="1">Alt</quote>
+  </quotes>
+</lbatexts>
+

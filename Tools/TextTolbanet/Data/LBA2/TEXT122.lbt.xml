@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>2</game>
+  <quotes>
+    <quote id="1" type="1">Inserisci il CD-ROM TWINSEN's ODYSSEY</quote>
+    <quote id="2" type="1">Inserisci il CD-ROM LBA2 TWINSEN's ODYSSEY</quote>
+    <quote id="3" type="1">Ok</quote>
+    <quote id="4" type="1">Ritorno</quote>
+    <quote id="5" type="1">Pausa</quote>
+    <quote id="6" type="1">RegolazioneVolume</quote>
+    <quote id="7" type="1">Ribaltare suono stereo OFF</quote>
+    <quote id="8" type="1">Ribaltare suono stereo ON</quote>
+    <quote id="9" type="1">Configurazione tastiera</quote>
+    <quote id="10" type="1">Ritorno al gioco</quote>
+    <quote id="11" type="1">Visualizzare i testi NO</quote>
+    <quote id="12" type="1">Visualizzare i testi SI</quote>
+    <quote id="13" type="1">Volume dei rumori</quote>
+    <quote id="14" type="1">Volume delle voci</quote>
+    <quote id="15" type="1">Volume della musica</quote>
+    <quote id="16" type="1">Volume del CD</quote>
+    <quote id="17" type="1">Volume generale</quote>
+    <quote id="18" type="1">Annullare</quote>
+    <quote id="19" type="1">Ritornare al menu precedente</quote>
+    <quote id="20" type="1">Video in fenestra</quote>
+    <quote id="21" type="1">Video a pieno schermo</quote>
+    <quote id="22" type="1">Partita da lanciare</quote>
+    <quote id="23" type="1">Scrivi il tuo nome</quote>
+    <quote id="24" type="1">Il giocatore esiste già ! Ricomincia.</quote>
+    <quote id="25" type="1">Scrivi il tuo nuovo nome</quote>
+    <quote id="26" type="1">Grado dei dettagli</quote>
+    <quote id="27" type="1">Telecamere piano ravvicinato OFF</quote>
+    <quote id="28" type="1">Telecamere piano ravvicinato ON</quote>
+    <quote id="29" type="1">Distruggere</quote>
+    <quote id="30" type="1">Trasferimento delle voci</quote>
+    <quote id="31" type="1">Copia dei file voce su disco duro, attendere.</quote>
+    <quote id="32" type="1">Riprendere la partita</quote>
+    <quote id="33" type="1">Nuova partita</quote>
+    <quote id="34" type="1">Caricare una partita</quote>
+    <quote id="35" type="1">Salvare la partita</quote>
+    <quote id="36" type="1">Menù delle opzioni</quote>
+    <quote id="37" type="1">Abbandonare</quote>
+    <quote id="38" type="1">Normale</quote>
+    <quote id="39" type="1">Sportivo</quote>
+    <quote id="40" type="1">Aggressivo</quote>
+    <quote id="41" type="1">Discreto</quote>
+    <quote id="42" type="1">Protopack</quote>
+    <quote id="43" type="1">Twinsen con Zoe</quote>
+    <quote id="44" type="1">Conchiglia del tritone</quote>
+    <quote id="45" type="1">Scafandro normale</quote>
+    <quote id="46" type="1">SuperJetPack</quote>
+    <quote id="47" type="1">Scafandro sportivo</quote>
+    <quote id="48" type="1">Scafandro normale</quote>
+    <quote id="49" type="1">Scafandro sportivo</quote>
+    <quote id="50" type="1">Andare avanti</quote>
+    <quote id="51" type="1">Tornare indietro</quote>
+    <quote id="52" type="1">Girare a sinistra</quote>
+    <quote id="53" type="1">Girare a destra</quote>
+    <quote id="54" type="1">Utilizzazione arma</quote>
+    <quote id="55" type="1">Menu comportamento</quote>
+    <quote id="56" type="1">Inventario</quote>
+    <quote id="57" type="1">Azione Comportamento</quote>
+    <quote id="58" type="1">Dialogo/Scavo</quote>
+    <quote id="59" type="1">Ricentrare la telecamera/Select</quote>
+    <quote id="60" type="1">Menu</quote>
+    <quote id="61" type="1">Holomap</quote>
+    <quote id="62" type="1">Pausa</quote>
+    <quote id="63" type="1">Scansare</quote>
+    <quote id="64" type="1">Comportamento Normale</quote>
+    <quote id="65" type="1">Comportamento Sportivo</quote>
+    <quote id="66" type="1">Comportamento Aggressivo</quote>
+    <quote id="67" type="1">Comportamento Discreto</quote>
+    <quote id="68" type="1">Help inventario/Configurazione dei tasti</quote>
+    <quote id="69" type="1">Salvare</quote>
+    <quote id="70" type="1">Lanciare</quote>
+    <quote id="71" type="1">Opzioni Menu</quote>
+    <quote id="72" type="1">Girare la telecamera</quote>
+    <quote id="73" type="1">Posizione telecamera successiva</quote>
+    <quote id="74" type="1">Posizione telecamera precedente</quote>
+    <quote id="75" type="1">Arma 1</quote>
+    <quote id="76" type="1">Arma 2</quote>
+    <quote id="77" type="1">Arma 3</quote>
+    <quote id="78" type="1">Arma 4</quote>
+    <quote id="79" type="1">Arma 5</quote>
+    <quote id="80" type="1">Arma 6</quote>
+    <quote id="81" type="1">Arma 7</quote>
+    <quote id="82" type="1">RoboPinguino</quote>
+    <quote id="83" type="1">Jetpack On/Off</quote>
+    <quote id="84" type="1">Sortilegio protettivo</quote>
+    <quote id="85" type="1">Sortilegio di Fulmini</quote>
+    <quote id="86" type="1">ESC abbandonare, ENTER Scegliere un tasto</quote>
+    <quote id="87" type="1">Spingere su un tasto o ESC per annullare ...</quote>
+    <quote id="88" type="1">Errore: tasto già definito</quote>
+    <quote id="89" type="1"></quote>
+    <quote id="90" type="1">Azione</quote>
+    <quote id="91" type="1">Tasto 1</quote>
+    <quote id="92" type="1">Tasto 2</quote>
+    <quote id="93" type="1">Configurazione valori di default</quote>
+    <quote id="94" type="1">Riconfigurare la precedente configurazione</quote>
+    <quote id="95" type="1">Accettare la configurazione</quote>
+    <quote id="96" type="1">Tast. num. 1</quote>
+    <quote id="97" type="1">Tast. num. 2</quote>
+    <quote id="98" type="1">Tast. num. 3</quote>
+    <quote id="99" type="1">Tast. num. 4</quote>
+    <quote id="100" type="1">Tast. num. 5</quote>
+    <quote id="101" type="1">Tast. num. 6</quote>
+    <quote id="102" type="1">Tast. num. 7</quote>
+    <quote id="103" type="1">Tast. num. 8</quote>
+    <quote id="104" type="1">Tast. num. 9</quote>
+    <quote id="105" type="1">Tast. num. 0</quote>
+    <quote id="106" type="1">Tast. num. "."</quote>
+    <quote id="107" type="1">Tast. num. Enter</quote>
+    <quote id="108" type="1">Tast. num. "/"</quote>
+    <quote id="109" type="1">Tast. num. Mult</quote>
+    <quote id="110" type="1">Tast. num. "+"</quote>
+    <quote id="111" type="1">Tast. num. "-"</quote>
+    <quote id="112" type="1">Up</quote>
+    <quote id="113" type="1">Down</quote>
+    <quote id="114" type="1">Sinistra</quote>
+    <quote id="115" type="1">Destra</quote>
+    <quote id="116" type="1">Home</quote>
+    <quote id="117" type="1">End</quote>
+    <quote id="118" type="1">Page Up</quote>
+    <quote id="119" type="1">Page Down</quote>
+    <quote id="120" type="1">Insert</quote>
+    <quote id="121" type="1">Delete</quote>
+    <quote id="122" type="1">Shift Sinistra</quote>
+    <quote id="123" type="1">Shift Destra</quote>
+    <quote id="124" type="1">Ctrl Sinistra</quote>
+    <quote id="125" type="1">Ctrl Destra</quote>
+    <quote id="126" type="1">Alt Sinistra</quote>
+    <quote id="127" type="1">Alt Destra</quote>
+    <quote id="128" type="1">Tab</quote>
+    <quote id="129" type="1">Num Lock</quote>
+    <quote id="130" type="1">Caps Lock</quote>
+    <quote id="131" type="1">F1</quote>
+    <quote id="132" type="1">F2</quote>
+    <quote id="133" type="1">F3</quote>
+    <quote id="134" type="1">F4</quote>
+    <quote id="135" type="1">F5</quote>
+    <quote id="136" type="1">F6</quote>
+    <quote id="137" type="1">F7</quote>
+    <quote id="138" type="1">F8</quote>
+    <quote id="139" type="1">F9</quote>
+    <quote id="140" type="1">F10</quote>
+    <quote id="141" type="1">F11</quote>
+    <quote id="142" type="1">F12</quote>
+    <quote id="143" type="1">1</quote>
+    <quote id="144" type="1">2</quote>
+    <quote id="145" type="1">3</quote>
+    <quote id="146" type="1">4</quote>
+    <quote id="147" type="1">5</quote>
+    <quote id="148" type="1">6</quote>
+    <quote id="149" type="1">7</quote>
+    <quote id="150" type="1">8</quote>
+    <quote id="151" type="1">9</quote>
+    <quote id="152" type="1">0</quote>
+    <quote id="153" type="1">Barra spaziatrice</quote>
+    <quote id="154" type="1">Enter</quote>
+    <quote id="155" type="1">Tasto Windows Sinistra</quote>
+    <quote id="156" type="1">Tasto Windows Destra</quote>
+    <quote id="157" type="1">Applicazione</quote>
+    <quote id="158" type="1">Backspace</quote>
+    <quote id="159" type="1">Pausa</quote>
+    <quote id="160" type="1">Scroll Lock</quote>
+    <quote id="161" type="1">Print Screen</quote>
+    <quote id="162" type="1">Shift</quote>
+    <quote id="163" type="1">Ctrl</quote>
+    <quote id="164" type="1">Alt</quote>
+  </quotes>
+</lbatexts>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>1</game>
+  <quotes>
+    <quote id="1" type="0">Du hast soeben Dein Holomap wiedergefunden ! Benutze ihn mittels des Inventars (SHIFT) Taste, oder direkt durch die Taste (H).</quote>
+    <quote id="2" type="0">Du hast soeben den Magischen Ball wiedergefunden ! Probiere ihn an den Klonen aus !</quote>
+    <quote id="3" type="0">Du hast den Säbel des Dr FunFrock gestohlen !</quote>
+    <quote id="4" type="0">Du hast soeben das Horn von Gawley entdeckt, das Deine Vorfahren Dir hinterlassen haben.</quote>
+    <quote id="5" type="0">Du hast soeben die erste Magiestufe erreicht, da Du die Tunika wiedergefunden hast, die Deine Vorfahren hinterlassen haben. Dank dieser Tunika kannst Du von nun an Magie speichern.</quote>
+    <quote id="6" type="0">Du hast soeben die zweite Magiestufe erreicht, da Du das Bù Buch wiedergefunden hast.</quote>
+    <quote id="7" type="0">Du hast soeben die dritte Magiestufe erreicht, da Du Sendells Medaillon wiedergefunden hast.</quote>
+    <quote id="8" type="0">Du hast soeben die vierte Magiestufe erreicht, da Du Deine Flasche mit Klarem Wasser gefüllt hast. Von nun an kannst Du die mächtigsten Klone ausschalten !</quote>
+    <quote id="9" type="0">Du besitzt von nun an die rote Magnetkarte.</quote>
+    <quote id="10" type="0">Dank dieser Karte bist Du das vierte Mitglied des Klubs der Kobolde. Im Grunde genommen ist das allein Deine Sache !</quote>
+    <quote id="11" type="0">Du hast soeben Deinen Personalausweis wiedergefunden.</quote>
+    <quote id="12" type="0">Du hast jetzt den Passierschein des Architekten.</quote>
+    <quote id="13" type="0">Du verfügst nun über den Proto-Pack.</quote>
+    <quote id="14" type="0">Die Kami haben Dir ein Snowboard gegeben.</quote>
+    <quote id="15" type="0">Du besitzt einen Meca-Pinguin</quote>
+    <quote id="16" type="0">Du hast soeben einen Teil Deiner Kraftstoffreserven erneuert.</quote>
+    <quote id="17" type="0">Du hast soeben eine Piratenflagge entwendet.</quote>
+    <quote id="18" type="0">Du hast soeben eine Magische Flöte gefunden.</quote>
+    <quote id="19" type="0">Der Weise hat Dir die Gitarre aus dem All gegeben.</quote>
+    <quote id="20" type="0">Du hast soeben einen Fön gekauft.</quote>
+    <quote id="21" type="0">Du hast soeben den von Deinem Vorfahren Hégésippe verlorenen Schlüssel wiedergefunden.</quote>
+    <quote id="22" type="0">Du hast soeben eine Flasche Sirup gefunden !</quote>
+    <quote id="23" type="0">Jetzt ist Deine Flasche leer.</quote>
+    <quote id="24" type="0">Du besitzt einen Fahrschein für die Fähre. </quote>
+    <quote id="25" type="0">Man hat Dir soeben einen Türcode gegeben.</quote>
+    <quote id="26" type="0">Du besitzt jetzt eine Kaffeekanne.</quote>
+    <quote id="27" type="0">Herr Lanktir hat Dir eine Liste gegeben. </quote>
+    <quote id="28" type="0">Holomap (H) Taste. Der Holomap gibt Deine Position auf dem Planeten an. Während Deiner Suche, sind Pfeile auf wichtige Orte gerichtet, die Dir angegeben worden sind. Sie verschwinden, wenn die Tat einmal vollbracht ist. Der Holomap dreht sich durch Druck auf die (CTRL) Taste und die Cursor-Tasten um sich selbst. Wenn Du nur auf die Cursor-Tasten drückst, kannst Du die den Pfeilen - die man im Holomap sehen kann - entsprechenden Texte ablaufen lassen.</quote>
+    <quote id="29" type="0">Magischer Ball (ALT) Taste. Wenn Du eine neue Energiestufe erreichst, erhält sie neue Schlagkraft. Seine Flugbahn wird ebenfalls mit jeder Stufe verbessert, unter der Bedingung daß man über genügend Magie verfügt ! Da der Ball bei jedem Wurf Magie verbraucht. </quote>
+    <quote id="30" type="0">Magischer Säbel, den Säbel einmal in der Hand (ENTER-Taste), (ALT) Taste um zuzuschlagen. Das ist die stärkste Waffe auf diesem Planeten ! Du kannst den Magischen Ball wieder benutzen, wenn Du ihn erneut anwählst. </quote>
+    <quote id="31" type="0">Horn von Gawley : (ENTER) Taste um es vor einem Siegel von Sendell zu benutzen. Es ermöglicht die Siegel zu durchbrechen. Du kannst somit zu neuen Orten gelangen.</quote>
+    <quote id="32" type="0">Tunika. Dank dieses magischen Symbols hast Du soeben die erste Kraftstufe erreicht.</quote>
+    <quote id="33" type="0">Bù Buch (und PROPHEZEIUNG). (ENTER) Taste um die Prophezeiung zu lesen. Dank dieses magischen Symbols hast Du soeben die zweite Kraftstufe erreicht. Du kannst auch die Runenschriften lesen und mit den Tieren sprechen.</quote>
+    <quote id="34" type="0">Sendells Medaillon. Dank dieses magischen Symbols hast Du soeben die dritte Kraftstufe erreicht.</quote>
+    <quote id="35" type="0">Sendells Medaillon. @ Es wird Dir ermöglichen die dritte Kraftstufe zu erreichen.</quote>
+    <quote id="36" type="0">Flasche Klares Wasser. Dank dieses magischen Symbols hast Du soeben die vierte Kraftstufe erreicht. Du kannst selbst die mächtigsten Klone ausschalten !</quote>
+    <quote id="37" type="0">Flasche Klares Wasser. @ Sie wird Dir ermöglichen die vierte Kraftstufe zu erreichen.</quote>
+    <quote id="38" type="0">Rote Magnetkarte. Sie ermöglicht die Türen zu öffnen, die mit einem roten Schloß versehen sind.</quote>
+    <quote id="39" type="0">Blaue Karte des Kobold-Klubs. Dank des Sternenpulvers, mit der sie imprägniert ist, ermöglicht Dir diese Karte die Türen zu öffnen, die mit einem blauen Schloß versehen sind.</quote>
+    <quote id="40" type="0">Twinsens Personalausweis. Mit dieser Karte kannst Du Dich den Ordnungskräften auszuweisen, ganz nebenbei, auf dem Foto siehst Du wirklich super aus !</quote>
+    <quote id="41" type="0">Passierschein von Herrn Mies van der Rooh. Dieser Passierschein soll Dir ermöglichen in das Biemzentrum zu gelangen. Du wirst dann noch das Horn von Gawley links nach dem ersten Wachposten benutzen müssen.</quote>
+    <quote id="42" type="0">Proto-Pack. Dieser wird mit den Cursor-Tasten gesteuert.</quote>
+    <quote id="43" type="0">Snowboard. Das kann nur im Hamalayi benutzt werden, zwischen zwei Fähnchen die den Beginn der Strecke markieren.</quote>
+    <quote id="44" type="0">Meca-Pinguin. Die roten Klone hassen dieses dumme Spielzeug.</quote>
+    <quote id="45" type="0">Kraftstoff, Melasseextrakt. Du kannst kein Fahrzeug mehr benutzen, wenn Deine Kraftstoffanzeige auf Null steht.</quote>
+    <quote id="46" type="0">Piratenflagge. Mann kann sie auf einem Boot hissen.</quote>
+    <quote id="47" type="0">Magische Flöte. Die verzaubernden Melodien dieses Instruments kann das Klare Wasser auftauen, wenn es gefroren ist, sowie Blumen in der Wüste wachsen lassen.</quote>
+    <quote id="48" type="0">Gitarre aus dem All. Mitten in einem Asteroïden gefunden, der in der Wüste des Leeren Blattes einschlug, sie hat neue Harmonien auf Twinsun gebracht.</quote>
+    <quote id="49" type="0">Fön</quote>
+    <quote id="50" type="0">Alter Schlüssel. Er emöglicht das Geheimversteck bei Twinsen zu öffnen.</quote>
+    <quote id="51" type="0">Flasche Sirup. Diese Flasche enthält 50 Cl eines stark konzentrierten Sirups.</quote>
+    <quote id="52" type="0">Leere Flasche</quote>
+    <quote id="53" type="0">Fahrschein für die Fähre</quote>
+    <quote id="54" type="0">Türcode. Neben einer bestimmten Tür im Innern des Biemzentrums gesetzt, gibt er Zugang zu einem Raum voller Meca-Pinguine.</quote>
+    <quote id="55" type="0">Kaffeekanne. Sie muß einem gewissen Lanktir zurückgebracht werden, der neben dem Bazar auf der Insel Proxima wohnt.</quote>
+    <quote id="56" type="0">Boni-liste : (ENTER) Taste um sie zu lesen.</quote>
+    <quote id="57" type="0">Glückskleeblatt (ENTER) Taste : benutzt Du dieses Kleeblatt, gebrauchst Du eine Deiner Chancen um Dich maximal aufzuladen.</quote>
+    <quote id="58" type="0">Leeres Feld</quote>
+    <quote id="59" type="0">Twinsun, am Rand einer kaum besuchten Galaxie gelegen, ist ein junger Planetoïd. Dieser Planetoïd, der sich in einer langsamen Rotation um sich selbst dreht, ist eine zwischen zwei Sonnen gelegene Welt. @ Am Äquator hat sich eine hohe Bergkette gebildet, die den Planetoïden in zwei Halbkugeln aufteilt, jede von einer Sonne erhellt. @ Die Nord-Halbkugel ist wärmer und der Himmel hat dort eine orange Farbe. Aber außer des Gletschergürtels ist das Klima des Gestirns mild. Die Entstehung von Leben an der Oberfläche wurde somit gefördert. Binnen einiger Jahrhunderte haben sich vier Hauptarten entwickelt : die Pummel, die Haasis, die Quetsche und die Dickos. Bis vor kurzem lebten sie noch in Harmonie, bis ein Tyrann auftauchte : Dr FunFrock.</quote>
+    <quote id="60" type="0">Seit seiner Machtübernahme lebt die Bevölkerung unter einer Diktatur. Der Tyrann hat einen Polizeistaat geschaffen, in dem Mißtrauen herrscht. Er ist allmächtig und führt das Volk mit eiserner Hand und dies dank zweier Techniken : das Klonen und das Biemen. @ Anhand eines Modells jeder Art dupliziert er unendlich viele billige und ergebene Soldaten. Er kann sie dann augenblicklich versetzen, dank eines Netzes von Biemzellen, das den gesamten Planetoïden deckt.</quote>
+    <quote id="61" type="0">Vor ein paar Jahren hat Dr FunFrock, das Wohl der Bevölkerung zum Vorwand nehmend, alle Bewohner auf die Süd-Halbkugel geschickt. Es wird hart duchgegriffen. Es vergeht kein Tag ohne Verhaftungen, und selten sind die Widerstandskämpfer, die noch an Freiheit glauben. @ Um weiter Hoffnung zu schöpfen, erwähnen sie manchmal eine alte Legende und den Namen einer Göttin : Sendell. Diese beiden Glauben sind von Dr FunFrock verboten worden. @  @ Während dieser Zeit ... träumt ein junger Quetsch namens Twinsen von seltsamen Dingen ... </quote>
+    <quote id="62" type="0">" Der Tag wird kommen an dem jemand unter den gegenwärtigen oder zukünftigen Arten sich erheben wird und sagt : @ " Diese Welt ist von nun an mein und die @ " Schlüssel der Macht gehören mir ! @ Dieser Tag wird kommen, da Habgier und Gewalt unter allen Arten des Universums herrschen. Sollte an diesem Tag die Gefahr zu groß seint, wird sich der Auserwählte zu erkennen geben. Er wird sich gegen den Tyrann erheben und ihn beseitigen, er wird die Völker befreien und versöhnen. Weil seine Vorfahren im Laufe der Zeit Waffen und Informationen für seinen Sieg bei ihm zusammengetragen haben. Indessen braucht er 4 magische Symbole um zu siegen : die Tunika, das Bù Buch, Sendells Medaillon und eine Flasche Klares Wasser. Am Tag der Gefahr wird Sendell dem Erben in seinem Schlaf ankündigen, daß die Stunde des Endkampfes geschlagen hat. Er wird sich dann zu Sendells Brunnen begeben müssen, wo sie ihm ihre Mächte anvertrauen wird ! " </quote>
+    <quote id="63" type="0">Standorte von bestimmten Kleeblättern und Kästchen : @ Auf der Zitadelleninsel gibt es ein Kleeblattkästchen in der Kanalisation, und eine andere im Keller der Taverne ; ein Kleeblatt wird von einem Soldaten, der sich hinter Sandsäcken befindet, bewacht. Ein anderes Kleeblatt wird von einem Klon inmitten der Ruinen auf der Hauptinsel bewacht. Ein weiteres Kleeblatt befindet sich auf dem Dach des Marinemuseums. Ein anderes wird von einem Dickoklon rechts vom Eingang des Biemzentrums bewacht. Ein anderes wird von einem Soldaten vor FunFrocks Festung bewacht. </quote>
+    <quote id="64" type="0">Zitadelleninsel</quote>
+    <quote id="65" type="0">Hauptinsel</quote>
+    <quote id="66" type="0">Wüste des Leeren Blattes</quote>
+    <quote id="67" type="0">Insel Proxima</quote>
+    <quote id="68" type="0">Rebellion-Insel</quote>
+    <quote id="69" type="0">Hamalayi-Kette</quote>
+    <quote id="70" type="0">Insel Tippett</quote>
+    <quote id="71" type="0">Insel Brundle</quote>
+    <quote id="72" type="0">Festungsinsel</quote>
+    <quote id="73" type="0">Polarinsel</quote>
+    <quote id="74" type="0">See Klares Wasser @ (Hamalayi-Kette)</quote>
+    <quote id="75" type="0">Wasserturm (Hauptinsel)</quote>
+    <quote id="76" type="0">Twinsens Haus @ (Zitadelleninsel)</quote>
+    <quote id="77" type="0">Zelle des Fälschers @ (Hauptinsel)</quote>
+    <quote id="78" type="0">Apotheke @ (Zitadelleninsel)</quote>
+    <quote id="79" type="0">Haus des Fälschers @ (Proxima-Insel)</quote>
+    <quote id="80" type="0">Hauptquartier des Dr FunFrock @ (Hauptinsel)</quote>
+    <quote id="81" type="0">Biemzentrum @ (Insel Brundle)</quote>
+    <quote id="82" type="0">Marinemuseum @ (Insel Proxima)</quote>
+    <quote id="83" type="0">Klonzentrum & Festung @ (Festungsinsel)</quote>
+    <quote id="84" type="0">Runenstein @ (Insel Proxima)</quote>
+    <quote id="85" type="0">Apotheke @ (Zitadelleninsel)</quote>
+    <quote id="86" type="0">Runenstein</quote>
+    <quote id="87" type="0">Haus des Herrn Mies Van der Rooh, der Architekt. Skarabäus Straße @ (Zitadelleninsel)</quote>
+    <quote id="88" type="0">Sendells Brunnen @ (Polarinsel)</quote>
+    <quote id="89" type="0">Bibliothek @ (Hauptinsel)</quote>
+    <quote id="90" type="0">Hafen von Bélooga @ (Hauptinsel)</quote>
+    <quote id="91" type="0">Proxim-City @ (Insel Proxima)</quote>
+    <quote id="92" type="0">Mutantenfabrik @ (Hamalayi-Kette)</quote>
+    <quote id="93" type="0">" Um den Schatz des Kapitäns EinAuge wiederzufinden, muß der Reisende, der auf der Insel Proxima an Land geht, die am nächsten stehende Dukdalbe als Anhaltspunkt nehmen. Mit dem Rücken zu den vertäuten Schiffen muß er folgenden Weg im UNAUFFÄLLIG Modus gehen : @ 6 Schritt nach Norden (geradeaus), dann 6 Schritt nach Osten (nach rechts) auf der leichten Neigung. 2 Schritt nach Norden (geradeaus) bis zum Mülleimer aus Metall, 3 Schritt nach Osten (nach rechts) bis zu einer Laterne. Er muß sich GENAU zwischen die zwei Laternen stellen, und dann 8 Schritt nach Norden (geradeaus) bis zu einem Tor machen. Der Schatz des Kapitäns EinAuge befindet sich im Gebäude hinter dem Tor. "</quote>
+  </quotes>
+</lbatexts>

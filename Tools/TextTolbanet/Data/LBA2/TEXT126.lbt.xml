@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>2</game>
+  <quotes>
+    <quote id="1" type="1">Hai ritrovato la tua Holomap ! Utilizzala passando attraverso l'inventario, premendo il tasto SHIFT, o direttamente il tasto TAB.</quote>
+    <quote id="2" type="1">Hai ritrovato la tua Sfera Magica ! Se indossi la tua Tunica ancestrale potrai lanciare la tua sfera e farla rimbalzare !</quote>
+    <quote id="3" type="1">Hai recuperato tre freccette.</quote>
+    <quote id="4" type="1">Hai recuperato la boccia di Sendell. Grazie ad essa hai ottenuto un nuovo grado di magia : sfera rossa. E inoltre potrai essere contattato da una Sendell in caso di pericolo.</quote>
+    <quote id="5" type="1">Hai ritrovato la tua Tunica ancestrale e il tuo Medaglione di Sendell. Ti permette di immagazzinare della Magia e di lanciare la sfera facendola rimbalzare.</quote>
+    <quote id="6" type="1">Hai trovato la perla d'incandescenza. E' molto ricercata dai maghi e ti permetterà di terminare un sortilegio.</quote>
+    <quote id="7" type="1">Il tuo vicino ti ha dato una chiave a forma di piramide.</quote>
+    <quote id="8" type="1">Gerolamo Baldino ti ha dato il pezzo di ricambio di cui Zoe ha bisogno per riparare la macchina.</quote>
+    <quote id="9" type="1">Vuoto</quote>
+    <quote id="10" type="1">Hai trovato una pistola laser. Per farla funzionare devi avere un cristallo di roccia.</quote>
+    <quote id="11" type="1">Ti sei impossessato della sciabola dell'imperatore. Ti permetterà di affrontare gli ussari di guardia al palazzo dell'imperatore.</quote>
+    <quote id="12" type="1">Hai trovato un guanto di Pallido. Grazie ad esso potrai rimandare indietro le boccie di fuoco che i tuoi nemici ti getteranno.</quote>
+    <quote id="13" type="1">Hai recuperato il Proto-Pack. Ti permette di volare qualche centimetro sopra la terra.</quote>
+    <quote id="14" type="1">Disponi di un biglietto per il traghetto.</quote>
+    <quote id="15" type="1">Hai guadagnato uno splendido Nitro-Robo-Pinguino. Dopo averlo selezionato nell'inventario, hai solo qualche secondo prima che esploda.</quote>
+    <quote id="16" type="1">Hai recuperato un bidone di gazogem. Con questo carburante potrai prendere il tuo nuovo Super Jet-Pack.</quote>
+    <quote id="17" type="1">Hai recuperato l'anello dei dissidenti. E' il loro segno di riconoscimento, ti permetterà di farti identificare da tutti i dissidenti che incontri.</quote>
+    <quote id="18" type="1">Hai trovato un flacone di acido gallico. Viene usato spesso per il restauro di vecchi documenti.</quote>
+    <quote id="19" type="1">Hai imparato la canzone del traghettatore. Potrai quindi andare fino all'isola dei Moschibei.</quote>
+    <quote id="20" type="1"></quote>
+    <quote id="21" type="1">Hai ritrovato l'ombrello della cliente.</quote>
+    <quote id="22" type="1">Hai raccolto una gemma.</quote>
+    <quote id="23" type="1">Hai la Conchiglia del Tritone blu, ti permette di curarti o di curare qualcun'altro.</quote>
+    <quote id="24" type="1">Hai una cerbottana. Ti permetterà di effettuare dei tiri precisi e rapidi.</quote>
+    <quote id="25" type="1">Hai trovato un disco di percorso. Adesso puoi usare una navetta Esmers.</quote>
+    <quote id="26" type="1">Hai recuperato un pezzo di torta !</quote>
+    <quote id="27" type="1">Adesso hai una radio portatile. Ti permetterà di ricevere le chiamate dei tuoi amici.</quote>
+    <quote id="28" type="1">Hai raccolto una pianta di Balsamina Impatiens.</quote>
+    <quote id="29" type="1">Adesso hai un'Ardesia Magica. Ti permette di conservare una traccia di qualsiasi immagine.</quote>
+    <quote id="30" type="1">Hai trovato un traduttore. Grazie ad esso potrai capire automaticamente la lingua degli Esmers.</quote>
+    <quote id="31" type="1">Hai ottenuto un diploma di mago. E hai vinto inoltre un' ulteriore grado di magia : sfera verde.</quote>
+    <quote id="32" type="1">Adesso hai un frammento della chiave dei Knartas.</quote>
+    <quote id="33" type="1">Adesso hai un frammento della chiave dei Sup.</quote>
+    <quote id="34" type="1">Adesso hai un frammento della chiave dei Moschibei.</quote>
+    <quote id="35" type="1">Adesso hai un frammento della chiave dei Pallidi.</quote>
+    <quote id="36" type="1">Hai recuperato la chiave del passaggio che porta all'isolotto CX.</quote>
+    <quote id="37" type="1">Hai comprato una zappa. Ti permetterà di scavare la terra o di estrarre delle pietre o dei pezzi di cristallo.</quote>
+    <quote id="38" type="1">Hai recuperato la chiave del borgomastro Knartas.</quote>
+    <quote id="39" type="1">Hai ritrovato gli appunti del borgomastro Knartas. Ti permetteranno di ritrovare il frammento dei Knartas.</quote>
+    <quote id="40" type="1">Adesso disponi di un sortilegio protettivo.</quote>
+    <quote id="41" type="1">vuoto</quote>
+    <quote id="42" type="1">vuoto</quote>
+    <quote id="43" type="1">vuoto</quote>
+    <quote id="44" type="1">Vuoto</quote>
+    <quote id="45" type="1">Adesso hai la chiave del tempio di Dark Monk. E hai ottenuto anche il tuo ultimo grado di magia : sfera di fuoco.</quote>
+    <quote id="46" type="1">Hai recuperato un visore di memoria.</quote>
+    <quote id="47" type="1">Hai recuperato una cerbotron. Adesso puoi effettuare dei tiri più frequenti e più potenti.</quote>
+    <quote id="48" type="1">Hai recuperato un abito da cerimonia per i maghi. Ti permetterà di assomigliare a un vecchio mago.</quote>
+    <quote id="49" type="1">Gerolamo ti ha dato il Super Jet-Pack. Ti permetterà di andare in luoghi prima inaccessibili con il semplice Proto-Pack.</quote>
+    <quote id="50" type="1">Hai recuperato un pezzo di Cristallo della Celebrazione. Ti permetterà di ricaricare una pistolaser.</quote>
+    <quote id="51" type="1">Adesso hai una pistolaser pronta a funzionare. Ti permette dei tiri a braccia tese e su lunghe distanze. Potrai colpire degli obiettivi impossibili da raggiungere con la sfera magica.</quote>
+    <quote id="52" type="1">Hai recuperato l'Anello dei Fulmini ! Ti permetterà di recuperare la boccia di Sendell.</quote>
+    <quote id="53" type="1">vuoto</quote>
+    <quote id="54" type="1">vuoto</quote>
+    <quote id="55" type="1">vuoto</quote>
+    <quote id="56" type="1">Holomap</quote>
+    <quote id="57" type="1">Sfera Magica.</quote>
+    <quote id="58" type="1">Freccette.</quote>
+    <quote id="59" type="1">Boccia di Sendell</quote>
+    <quote id="60" type="1">Tunica e Medaglione di Sendell</quote>
+    <quote id="61" type="1">Perla d'incandescenza</quote>
+    <quote id="62" type="1">Chiave Piramidale</quote>
+    <quote id="63" type="1">Pezzo di ricambio della macchina</quote>
+    <quote id="64" type="1">Kashes</quote>
+    <quote id="65" type="1">PistoLaser</quote>
+    <quote id="66" type="1">Sciabola dell'imperatore</quote>
+    <quote id="67" type="1">Guanto di Pallido</quote>
+    <quote id="68" type="1">Proto-Pack</quote>
+    <quote id="69" type="1">Biglietto per il traghetto</quote>
+    <quote id="70" type="1">Nitro-Robo-Pinguino</quote>
+    <quote id="71" type="1">Bidone di gazogem</quote>
+    <quote id="72" type="1">Anello dei dissidenti</quote>
+    <quote id="73" type="1">Acido gallico</quote>
+    <quote id="74" type="1">Canzone del traghettatore</quote>
+    <quote id="75" type="1">Anello dei fulmini</quote>
+    <quote id="76" type="1">Ombrello della cliente</quote>
+    <quote id="77" type="1">Gemme</quote>
+    <quote id="78" type="1">Conchiglia del Tritone blu</quote>
+    <quote id="79" type="1">Cerbottana</quote>
+    <quote id="80" type="1">Disco di percorso</quote>
+    <quote id="81" type="1">Pezzo di torta</quote>
+    <quote id="82" type="1">Radio portatile</quote>
+    <quote id="83" type="1">Balsamina Impatiens</quote>
+    <quote id="84" type="1">Ardesia Magica</quote>
+    <quote id="85" type="1">Traduttore</quote>
+    <quote id="86" type="1">Diploma di mago</quote>
+    <quote id="87" type="1">Frammento dei Knartas</quote>
+    <quote id="88" type="1">Frammento dei Sup's</quote>
+    <quote id="89" type="1">Frammento dei Moschibei</quote>
+    <quote id="90" type="1">Frammento dei Pallidi</quote>
+    <quote id="91" type="1">Chiave del passaggio verso CX</quote>
+    <quote id="92" type="1">Zappa</quote>
+    <quote id="93" type="1">Chiave del borgomastro Knarta</quote>
+    <quote id="94" type="1">Appunti del borgomastro Knarta</quote>
+    <quote id="95" type="1">Sortilegio protettivo</quote>
+    <quote id="96" type="1">Sfera Magica Verde</quote>
+    <quote id="97" type="1">Sfera Magica Rossa</quote>
+    <quote id="98" type="1">Sfera Magica di Fuoco</quote>
+    <quote id="99" type="1">Zlitos</quote>
+    <quote id="100" type="1">Chiave di Dark Monk</quote>
+    <quote id="101" type="1">Visore di memoria</quote>
+    <quote id="102" type="1">Cerbotron</quote>
+    <quote id="103" type="1">Tunica da cerimonia dei maghi</quote>
+    <quote id="104" type="1">Super Jet-Pack</quote>
+    <quote id="105" type="1">Pezzo di Cristallo della Celebrazione</quote>
+    <quote id="106" type="1">Pistolaser in funzione</quote>
+    <quote id="107" type="1">Sortilegio di fulmini verdi</quote>
+    <quote id="108" type="1">Sortilegio di fulmini rossi</quote>
+    <quote id="109" type="1">Sortilegio di fulmini grado di fuoco</quote>
+    <quote id="110" type="1">Quadrifoglio</quote>
+    <quote id="111" type="65">L'holomap è un sistema di mappa in 3 dimensioni. Puoi usare dei diversi gradi d'ingrandimento per trovare la tua posizione sul pianeta. Delle frecce possono indicare, inoltre, la posizione delle diverse operazioni da compiere, quando i personaggi ti hanno dato delle informazioni.</quote>
+    <quote id="112" type="65">Puoi lanciare la Sfera Magica facendole fare qualsiasi tipo di rimbalzo : per farlo hai bisogno della Tunica che ti permette di immagazzinare della Magia e la Sfera ne consuma molta tutte le volte che la lanci.</quote>
+    <quote id="113" type="65">Puoi lanciare delle freccette in qualsiasi momento selezionandole nell'inventario. Per recuperarle basta toccarle.</quote>
+    <quote id="114" type="65">Con la boccia di Sendell hai raggiunto il tuo terzo grado di magia : sfera rossa. Grazie a questa sfera una Sendell può venire a parlarti in caso di pericolo.</quote>
+    <quote id="115" type="65">Con questa Tunica ereditata dai tuoi antenati puoi immagazzinare della Magia. Alcuni oggetti magici, come la tua sfera, ne consumano ad ogni utilizzazione. Per riuscire ad usarli devi recuperare e conservare su di te una Magia sufficiente.</quote>
+    <quote id="116" type="65">Introducendo questa perla nella pentola di Papin del Mago Metereologo, potrai creare un anello dei fulmini.</quote>
+    <quote id="117" type="65">Questa piramide è una chiave. Introducendola nel luogo adatto, attiverai un meccanismo che ti permetterà di accedere in un luogo segreto.</quote>
+    <quote id="118" type="65">La macchina sarà pronta per viaggiare dopo una messa a punto e quando il pezzo di ricambio sarà fissato.</quote>
+    <quote id="119" type="65">E' la moneta del tuo pianeta Twinsun. Ti consente di comprare gli articoli che ti interessano.</quote>
+    <quote id="120" type="65">Questa pistola lancia dei raggi orizzontali e a lunga distanza. Ma una volta usata ha bisogno di tempo per ricaricarsi.</quote>
+    <quote id="121" type="65">Con la sciabola dell'imperatore puoi ormai affrontare gli ussari della guardia imperiale.</quote>
+    <quote id="122" type="65">Con questo guanto di Pallido puoi toccare il fuoco e rilanciare le bocce di fuoco che ricevi dai mostri del gas.</quote>
+    <quote id="123" type="65">E' stato ideato da Gerolamo Baldino. Per potere volare sopra l'acqua devi arrivare in un terreno un po' in discesa. Altrimenti affonderai con il tuo Proto-Pack.</quote>
+    <quote id="124" type="65">Questo biglietto ti permette di viaggiare a bordo del traghetto e di percorrere la linea tra l'Isola della Cittadella e il Deserto della Foglia Bianca.</quote>
+    <quote id="125" type="65">Puoi usate i Nitro-Robo-Pinguino mettendoli su una superficie piatta e sgombra di oggetti.</quote>
+    <quote id="126" type="65">Quando avrai dato questo bidone di gazogem a Gerolamo, il tuo amico potrà trasformare il tuo Proto-Pack in Super Jet-pack.</quote>
+    <quote id="127" type="65">Questo anello è creato e portato solo dai dissidenti. E' il loro segno di riconoscimento. Ti permetterà di farti riconoscere come uno dei loro e ti autorizzerà ad entrare in contatto con loro.</quote>
+    <quote id="128" type="65">L'acido gallico è utilizzato per restaurare i vecchi documenti, ti permette di ravvivare le parti in cui l'inchiostro è stato cancellato.</quote>
+    <quote id="129" type="65">Se la canti in fondo al molo del traghettatore, lo vedrai uscire dalla coltre di nebbia e venire verso di te per proporti di portarti su un'altra isola.</quote>
+    <quote id="130" type="65">Attenzione, la potenza devastatrice di questo anello consuma molta Magia.</quote>
+    <quote id="131" type="65">Questo ombrello appartiene ad una cliente della farmacia.</quote>
+    <quote id="132" type="65">Di solito le gemme servono ai Knartas per fabbricare del gazogem. Ma potrai usarle per pagare i servizi del traghettatore.</quote>
+    <quote id="133" type="65">Ti permette di aspirare e immagazzinare dei cuori (Punti di Vita). Puoi servirtene più tardi per curarti o per curare qualcun'altro.</quote>
+    <quote id="134" type="65">La cerbottana permette dei tiri rapidi. Puoi ricaricarla con dei piccoli proiettili, delle bacche per esempio.</quote>
+    <quote id="135" type="65">Il disco di percorso permette di programmare la destinazione di una navetta Esmers. Senza il disco l'apparecchio spaziale non può decollare.</quote>
+    <quote id="136" type="65">Questa torta non ti piace ma puoi darne un pezzo a qualcun'altro che l'apprezzerà più di te.</quote>
+    <quote id="137" type="65">Questa radio portatile ti permette di dialogare con Baldino e Zoe quando sono in ascolto e se non sono fuori portata massima.</quote>
+    <quote id="138" type="65">Devi riportare questo fiore al Rettore della Scuola di Magia.</quote>
+    <quote id="139" type="65">Spingendo sul tasto AZIONE davanti a una mappa, a una stampa o a un'illustrazione, ne puoi creare immediatamente una copia che puoi conservare grazie all'Ardesia Magica. Potrai consultarla più tardi e in qualsiasi momento selezionando l'Ardesia nell'inventario.</quote>
+    <quote id="140" type="65">Questo traduttore ti permette di capire tutto quello che dicono i visitatori dello Spazio. Mettendoti in modo DISCRETO puoi inoltre spiare le conversazioni.</quote>
+    <quote id="141" type="65">Il tuo diploma di mago ti ha permesso di raggiungere un grado di magia boccia verde .</quote>
+    <quote id="142" type="65">Questo frammento di chiave dei Knartas è uno degli elementi per ricostituire la chiave del tempio di Dark Monk.</quote>
+    <quote id="143" type="65">Questo frammento di chiave dei Sup's è uno degli elementi per ricostituire la chiave del tempio di Dark Monk.</quote>
+    <quote id="144" type="65">Questo frammento di chiave dei Moschibei è uno degli elementi per ricostituire la chiave del tempio di Dark Monk.</quote>
+    <quote id="145" type="65">Questo frammento di chiave dei Pallidi è uno degli elementi per ricostituire la chiave del tempio di Dark Monk.</quote>
+    <quote id="146" type="65">Questa chiave ti permetterà di aprire le porte del passaggio che risale fino all' isolotto CX e la cui entrata si trova nel paese dei Moschibei.</quote>
+    <quote id="147" type="65">Questa zappa ti permetterà di scavare la terra o delle matiere più dure e farti ritrovare degli oggetti nascosti sotto terra, oppure estrarre dei materiali.</quote>
+    <quote id="148" type="65">Questa è la chiave che il borgomastro aveva perso prima di farsi divorare da un mostro di gas. Da allora, nessuno l'ha più usata.</quote>
+    <quote id="149" type="65">Questi appunti contengono l'enigma che guida al frammento dei Knartas. Tra le linee è indicato il luogo dove il frammento è stato sotterrato.</quote>
+    <quote id="150" type="65">Questa Tunica ereditata dai tuoi antenati ti permette adesso di proteggerti e di immagazzinare della Magia. Se vuoi usare il sortilegio devi essere nell'Inventario e spingere il tasto ENTER. Questo sortilegio consuma della Magia, così come il lancio della Sfera e l'uso di molti altri oggetti magici.</quote>
+    <quote id="151" type="65">Puoi lanciare la Sfera Magica facendola rimbalzare come vuoi. Il grado boccia verde ti permette di produrre più lesioni ai tuoi nemici.</quote>
+    <quote id="152" type="65">Puoi lanciare la Sfera Magica facendola rimbalzare come vuoi. Il grado boccia rossa ti permette di produrre più lesioni ai tuoi nemici.</quote>
+    <quote id="153" type="65">Puoi lanciare la Sfera Magica facendola rimbalzare come vuoi. Il grado boccia di fuoco ti permette di produrre più lesioni ai tuoi nemici.</quote>
+    <quote id="154" type="65">E' la moneta del tuo pianeta Twinsun. Ti consente di permette di comprare gli articoli che ti interessano sul pianeta Zeelich.</quote>
+    <quote id="155" type="65">Quando riunirai i quattro frammenti avrai la chiave del tempio di Dark Monk. Secondo al profezia, la chiave ti permetterà di far uscire la statua dal cratere del vulcano e di aprire le porte del tempio che vi è stato costruito.</quote>
+    <quote id="156" type="65">Il visore di memoria ti consente di rivedere i momenti più importanti della tua avventura.</quote>
+    <quote id="157" type="65">Con la cerbotron, da questo momento in poi, hai una frequenza di tiro maggiore.</quote>
+    <quote id="158" type="65">Questo abito da cerimonia può essere indossato solo dai maghi diplomati di Twinsun. Possederlo fa di te un mago stimato.</quote>
+    <quote id="159" type="65">E' stato riadattato da Gerolamo Baldino. Ti permette, da questo momento in poi, di accedere a nuovi luoghi e andare su terreni in dislivello non accessibili con il precedente Proto-Pack.</quote>
+    <quote id="160" type="65">Questo pezzo di Cristallo della Celebrazione è di una purezza unica. Ti permetterà di far funzionare una pistolaser.</quote>
+    <quote id="161" type="65">Questa pisolaser tira dei raggi orizzontali. Ti permetteranno di colpire dei nemici che si trovano a una buona distanza.</quote>
+    <quote id="162" type="65">Attenzione, la potenza devastatrice di questo anello consuma molta Magia.</quote>
+    <quote id="163" type="65">Attenzione, la potenza devastatrice di questo anello consuma molta Magia.</quote>
+    <quote id="164" type="65">Attenzione, la potenza devastatrice di questo anello consuma molta Magia.</quote>
+    <quote id="165" type="65">Questo quadrifoglio ti permette di avere una vita in più.</quote>
+    <quote id="166" type="17">Isola della Cittadella.</quote>
+    <quote id="167" type="17">Farmacia del centro.</quote>
+    <quote id="168" type="17">Tenda del Mago Metereologo.</quote>
+    <quote id="169" type="17">Edificio del deposito bagagli.</quote>
+    <quote id="170" type="17">Museo della Signorina Bloop.</quote>
+    <quote id="171" type="17">Casa di Twinsen e Zoe.</quote>
+    <quote id="172" type="17">Duomo dell'ardesia.</quote>
+    <quote id="173" type="17">Dino-Fly.</quote>
+    <quote id="174" type="17">Perla d'incandescenza.</quote>
+    <quote id="175" type="17">vuoto</quote>
+    <quote id="176" type="17">Pozzi di Sendell.</quote>
+    <quote id="177" type="17"></quote>
+    <quote id="178" type="17"></quote>
+    <quote id="179" type="17"></quote>
+    <quote id="180" type="17"></quote>
+    <quote id="181" type="17"></quote>
+    <quote id="182" type="17"></quote>
+    <quote id="183" type="17"></quote>
+    <quote id="184" type="17"></quote>
+    <quote id="185" type="17"></quote>
+    <quote id="186" type="17">Deserto della Foglia Bianca.</quote>
+    <quote id="187" type="17">Casa di G.Baldino.</quote>
+    <quote id="188" type="17">Casa di Ker'aooc il guaritore.</quote>
+    <quote id="189" type="17"></quote>
+    <quote id="190" type="17">Pianta Balsamina.</quote>
+    <quote id="191" type="17">Scuola di Magia.</quote>
+    <quote id="192" type="17">Base esmers.</quote>
+    <quote id="193" type="17"></quote>
+    <quote id="194" type="17"></quote>
+    <quote id="195" type="17"></quote>
+    <quote id="196" type="17">Luna di Smeraldo</quote>
+    <quote id="197" type="17">Cella di Baldino.</quote>
+    <quote id="198" type="17"></quote>
+    <quote id="199" type="17"></quote>
+    <quote id="200" type="17"></quote>
+    <quote id="201" type="17"></quote>
+    <quote id="202" type="17"></quote>
+    <quote id="203" type="17"></quote>
+    <quote id="204" type="17"></quote>
+    <quote id="205" type="17"></quote>
+    <quote id="206" type="17">Otringal.</quote>
+    <quote id="207" type="17">Veicolo spaziale.</quote>
+    <quote id="208" type="17">Il Bar Rick's.</quote>
+    <quote id="209" type="17">Hotel Imperial</quote>
+    <quote id="210" type="17">Negozio di souvenir.</quote>
+    <quote id="211" type="17">Frammento dei Sup's.</quote>
+    <quote id="212" type="17"></quote>
+    <quote id="213" type="17"></quote>
+    <quote id="214" type="17"></quote>
+    <quote id="215" type="17"></quote>
+    <quote id="216" type="17">Celebrazione</quote>
+    <quote id="217" type="17">Cristallo.</quote>
+    <quote id="218" type="17">Tempio di Dark Monk.</quote>
+    <quote id="219" type="17"></quote>
+    <quote id="220" type="17"></quote>
+    <quote id="221" type="17"></quote>
+    <quote id="222" type="17"></quote>
+    <quote id="223" type="17"></quote>
+    <quote id="224" type="17"></quote>
+    <quote id="225" type="17"></quote>
+    <quote id="226" type="17">Pallidi.</quote>
+    <quote id="227" type="17">Frammento dei Pallidi.</quote>
+    <quote id="228" type="17"></quote>
+    <quote id="229" type="17"></quote>
+    <quote id="230" type="17"></quote>
+    <quote id="231" type="17"></quote>
+    <quote id="232" type="17"></quote>
+    <quote id="233" type="17"></quote>
+    <quote id="234" type="17"></quote>
+    <quote id="235" type="17"></quote>
+    <quote id="236" type="17">Isola dei Moschibei.</quote>
+    <quote id="237" type="17">Regina dei Moschibei.</quote>
+    <quote id="238" type="17">Frammento dei Moschibei.</quote>
+    <quote id="239" type="17"></quote>
+    <quote id="240" type="17"></quote>
+    <quote id="241" type="17"></quote>
+    <quote id="242" type="17"></quote>
+    <quote id="243" type="17"></quote>
+    <quote id="244" type="17"></quote>
+    <quote id="245" type="17"></quote>
+    <quote id="246" type="17">Knartas.</quote>
+    <quote id="247" type="17">Raffineria di gazogem.</quote>
+    <quote id="248" type="17">Frammento dei Knartas</quote>
+    <quote id="249" type="17"></quote>
+    <quote id="250" type="17"></quote>
+    <quote id="251" type="17"></quote>
+    <quote id="252" type="17"></quote>
+    <quote id="253" type="17"></quote>
+    <quote id="254" type="17"></quote>
+    <quote id="255" type="17"></quote>
+    <quote id="256" type="17">Isolotto CX</quote>
+    <quote id="257" type="17"></quote>
+    <quote id="258" type="17"></quote>
+    <quote id="259" type="17"></quote>
+    <quote id="260" type="17"></quote>
+    <quote id="261" type="17"></quote>
+    <quote id="262" type="17"></quote>
+    <quote id="263" type="17"></quote>
+    <quote id="264" type="17"></quote>
+    <quote id="265" type="17"></quote>
+    <quote id="266" type="17">Ascensore verso il sotto-gas</quote>
+    <quote id="267" type="17"></quote>
+    <quote id="268" type="17"></quote>
+    <quote id="269" type="17"></quote>
+    <quote id="270" type="17"></quote>
+    <quote id="271" type="17"></quote>
+    <quote id="272" type="17"></quote>
+    <quote id="273" type="17"></quote>
+    <quote id="274" type="17"></quote>
+    <quote id="275" type="17"></quote>
+    <quote id="276" type="17">Sotto Celebrazione.</quote>
+    <quote id="277" type="17"></quote>
+    <quote id="278" type="17"></quote>
+    <quote id="279" type="17"></quote>
+    <quote id="280" type="17"></quote>
+    <quote id="281" type="17"></quote>
+    <quote id="282" type="17"></quote>
+    <quote id="283" type="17"></quote>
+    <quote id="284" type="17"></quote>
+    <quote id="285" type="17"></quote>
+    <quote id="286" type="3">Lo sguardo verso il centro del bazar, la mia schiena è incollata all'ombrellone naturale dove farei volontieri una siesta. Ma devo mantenere uno spirito sportivo. Ci sono abbastanza pali e archi nel paese per contare il buon numero di passi. Una volta là, le barriere alla mia sinistra mi indicano la cattiva direzione. Dall'altra parte, scendendo verso la vasca che si trova vicino al gas, ho sotterrato il mio tesoro.</quote>
+    <quote id="287" type="129">Gioco d'azione/d'avventura per PC CD-ROM Grafica su SVGA/DirectDraw</quote>
+    <quote id="288" type="129">Modalità di rappresentazione interna in 3D isometrica, ricca di particolari.</quote>
+    <quote id="289" type="129">Modalità di rappresentazione esterna rivoluzionaria, veramente in 3D, a trama.</quote>
+    <quote id="290" type="129">220 luoghi circa ripartiti su 3 pianeti da esplorare.</quote>
+    <quote id="291" type="129">Più di 300 personaggi, uno più simpatico dell'altro.</quote>
+    <quote id="292" type="129">Animazione in tempo reale di notevole fluidità con gestione delle trame e degli effetti luminosi.</quote>
+    <quote id="293" type="129">15 minuti di sequenze video di sorprendente bellezza.</quote>
+    <quote id="294" type="129">Migliaia di effetti sonori stereo e due ore e trenta minuti di dialoghi parlati.</quote>
+    <quote id="295" type="129">Voci in Francese, Inglese, Tedesco (sottotitoli in Francese, Inglese, Tedesco, Italiano, Spagnolo)</quote>
+    <quote id="296" type="129">30 minuti di musica dolce ed incantevole</quote>
+    <quote id="297" type="129">Un copione traboccante di humour, per oltre 60 ore di gioco, ripartite su 10 sezioni.</quote>
+  </quotes>
+</lbatexts>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>1</game>
+  <quotes>
+    <quote id="1" type="0">Normal</quote>
+    <quote id="2" type="0">Athletic</quote>
+    <quote id="3" type="0">Aggressive (Manual)</quote>
+    <quote id="4" type="0">Discreet</quote>
+    <quote id="5" type="0">Aggressive (Auto)</quote>
+    <quote id="6" type="0">Fly with the Proto-Pack</quote>
+    <quote id="7" type="0">Put away the Proto-Pack </quote>
+    <quote id="8" type="0">Volume - Music</quote>
+    <quote id="9" type="0">Volume - Sound effects</quote>
+    <quote id="10" type="0">Volume - CD</quote>
+    <quote id="11" type="0">Volume - Line In</quote>
+    <quote id="12" type="0">Volume - Master</quote>
+    <quote id="13" type="0">Return to game</quote>
+    <quote id="14" type="0">Save parameters </quote>
+    <quote id="15" type="0">New game</quote>
+    <quote id="16" type="0">Continue saved game</quote>
+    <quote id="17" type="0">Quit</quote>
+    <quote id="18" type="0">Option menu</quote>
+    <quote id="19" type="0">Cancel</quote>
+    <quote id="20" type="0">Return to previous menu</quote>
+    <quote id="21" type="0">Quit game</quote>
+    <quote id="22" type="0">Continue </quote>
+    <quote id="23" type="0">Volume settings</quote>
+    <quote id="24" type="0">Polygon detail (Full)</quote>
+    <quote id="25" type="0">Shadows (All)</quote>
+    <quote id="26" type="0">Scenery Zoom On </quote>
+    <quote id="27" type="0">Polygon detail (Medium)</quote>
+    <quote id="28" type="0">Character shadows</quote>
+    <quote id="29" type="0">Scenery Zoom On </quote>
+    <quote id="30" type="0">Polygon detail (Low)</quote>
+    <quote id="31" type="0">No shadows</quote>
+    <quote id="32" type="0">No Scenery Zoom </quote>
+    <quote id="33" type="0">Create new player:</quote>
+    <quote id="34" type="0">Copy saved game</quote>
+    <quote id="35" type="0">Type your name:</quote>
+    <quote id="36" type="0">This player already exists! Try again.</quote>
+    <quote id="37" type="0">Enter new name</quote>
+    <quote id="38" type="0">Delete saved game</quote>
+    <quote id="39" type="0">Saved games management</quote>
+    <quote id="40" type="0">Advanced Options</quote>
+    <quote id="41" type="0">Delete</quote>
+    <quote id="42" type="0">Speech files transfer.</quote>
+    <quote id="43" type="0">Copying speech files on hard disk, please wait...</quote>
+  </quotes>
+</lbatexts>

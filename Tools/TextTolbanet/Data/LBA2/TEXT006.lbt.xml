@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>2</game>
+  <quotes>
+    <quote id="1" type="1">You just found your Holomap! To use it, look at the inventory by pressing SHIFT or simply press TAB.</quote>
+    <quote id="2" type="1">You just found your Magic Ball! When you wear your ancestral Tunic you'll be able to bounce it at your enemies!</quote>
+    <quote id="3" type="1">You have found three darts.</quote>
+    <quote id="4" type="1">You just found Sendell's Ball. Now you have reached a new level of magic: Red Ball. It will also enable Sendell to contact you in case of danger.</quote>
+    <quote id="5" type="1">You have just found your ancestral Tunic and Sendell's Medallion. By storing Magic, it will enable you to bounce your ball at your enemies.</quote>
+    <quote id="6" type="1">You just found the Pearl of Incandescent. These Pearls are highly prized by magicians. They will enable you to complete a spell.</quote>
+    <quote id="7" type="1">Your neighbor just gave you a pyramid shaped key.</quote>
+    <quote id="8" type="1">Jerome Baldino just gave you a part that Zoé needs to fix the car.</quote>
+    <quote id="9" type="1">Empty</quote>
+    <quote id="10" type="1">You have found a laser-pistol. It needs a rock crystal to work properly.</quote>
+    <quote id="11" type="1">You just seized the emperor's sword. Now you can face the hussars guarding the Emperor's palace.</quote>
+    <quote id="12" type="1">You just found a Wannie's Glove. Use it to repell the fireballs your enemies throw at you.</quote>
+    <quote id="13" type="1">You just found the Proto-Pack. Put it on and you'll fly a few inches above the ground.</quote>
+    <quote id="14" type="1">You have a ferry ticket.</quote>
+    <quote id="15" type="1">You just acquired a superb Nitro-Meca-Penguin. Select it in the inventory and it'll explode a few seconds later.</quote>
+    <quote id="16" type="1">You just found a can of Gazogem. This fuel will allow you to get your new super jet-pack.</quote>
+    <quote id="17" type="1">You just found the Ring of Dissidents. It's their identification sign, and it will allow you to be identified by all the dissidents that you meet.</quote>
+    <quote id="18" type="1">You just found a flask of gallic acid. It's often used to restore ancient documents.</quote>
+    <quote id="19" type="1">You just learned the ferryman's song. It will help you to get to Mosquibee Island.</quote>
+    <quote id="20" type="1"></quote>
+    <quote id="21" type="1">You just found the customer's umbrella</quote>
+    <quote id="22" type="1">You just picked up a gem.</quote>
+    <quote id="23" type="1">You own the Horn of the Blue Triton, you can use it to heal yourself or someone else.</quote>
+    <quote id="24" type="1">You now have a blowgun. It fires darts fast and accurately.</quote>
+    <quote id="25" type="1">You have found a itinary token. You can now use an Esmer shuttle.</quote>
+    <quote id="26" type="1">You just found a slice of tart!</quote>
+    <quote id="27" type="1">You now own a portable radio. You can now receive calls from your friends.</quote>
+    <quote id="28" type="1">You just picked a Garden Balsam plant.</quote>
+    <quote id="29" type="1">You now own a Magic Slate, which allows you to keep a copy of all kinds of images.</quote>
+    <quote id="30" type="1">You have found a translator. Now you'll be able to understand the Esmer language.</quote>
+    <quote id="31" type="1">You just received your wizard's diploma. Plus you just earned a new level of magic: Green Ball.</quote>
+    <quote id="32" type="1">You now own the Francos key fragment.</quote>
+    <quote id="33" type="1">You now own the Sups key fragment.</quote>
+    <quote id="34" type="1">You now own the Mosquibees key fragment.</quote>
+    <quote id="35" type="1">You now own the Wannies key fragment.</quote>
+    <quote id="36" type="1">You just found the key of the passage which leads to island CX.</quote>
+    <quote id="37" type="1">You just bought a pick-ax. Use it to dig or detach rocks and pieces of crystal.</quote>
+    <quote id="38" type="1">You just found the Francos Burgermaster's key.</quote>
+    <quote id="39" type="1">You just found the Francos Burgermaster's notes. They'll help you find the Francos fragment.</quote>
+    <quote id="40" type="1">You now own a protective spell.</quote>
+    <quote id="41" type="1"></quote>
+    <quote id="42" type="1"></quote>
+    <quote id="43" type="1"></quote>
+    <quote id="44" type="1"></quote>
+    <quote id="45" type="1">You now own the key to Dark Monk's temple. Plus you just reached your last level of magic: Fire Ball.</quote>
+    <quote id="46" type="1">You just found a memory viewer.</quote>
+    <quote id="47" type="1">You just found the blowtron. Use it to shoot faster and more powerfully.</quote>
+    <quote id="48" type="1">You just found a parade outfit for the wizards. It'll make you look like an old wizard.</quote>
+    <quote id="49" type="1">Jerome just gave you the super-jetpack. It will allow you to reach places you couldn't get to using the proto-pack.</quote>
+    <quote id="50" type="1">You just found a piece of the Crystal of Celebration. Now you can reload your laser-pistol.</quote>
+    <quote id="51" type="1">You now own a laser-pistol in working condition. It gives you enough firepower to reach distant targets that your magical ball cannot reach..</quote>
+    <quote id="52" type="1">You just found the Ring of Lightning! Use it to find Sendell's Ball.</quote>
+    <quote id="53" type="1"></quote>
+    <quote id="54" type="1"></quote>
+    <quote id="55" type="1"></quote>
+    <quote id="56" type="1">Holomap</quote>
+    <quote id="57" type="1">Magic Ball</quote>
+    <quote id="58" type="1">Darts</quote>
+    <quote id="59" type="1">Sendell's Ball</quote>
+    <quote id="60" type="1">Tunic and Sendell's Medallion</quote>
+    <quote id="61" type="1">Incandescent pearl</quote>
+    <quote id="62" type="1">Pyramid shaped key</quote>
+    <quote id="63" type="1">Part for the car</quote>
+    <quote id="64" type="1">Kashes</quote>
+    <quote id="65" type="1">Pisto-Laser</quote>
+    <quote id="66" type="1">Emperor's Sword</quote>
+    <quote id="67" type="1">Wannie's glove</quote>
+    <quote id="68" type="1">Proto-Pack</quote>
+    <quote id="69" type="1">Ferry Ticket</quote>
+    <quote id="70" type="1">Nitro-Meca-Penguin</quote>
+    <quote id="71" type="1">Can of GazoGem</quote>
+    <quote id="72" type="1">Dissidents' Ring</quote>
+    <quote id="73" type="1">Gallic acid</quote>
+    <quote id="74" type="1">Ferryman's Song</quote>
+    <quote id="75" type="1">Ring of Lightning</quote>
+    <quote id="76" type="1">Customer's umbrella</quote>
+    <quote id="77" type="1">Gems</quote>
+    <quote id="78" type="1">Horn of the Blue Triton</quote>
+    <quote id="79" type="1">Blowgun</quote>
+    <quote id="80" type="1">Travel Token</quote>
+    <quote id="81" type="1">Slice of Tart</quote>
+    <quote id="82" type="1">Portable Radio</quote>
+    <quote id="83" type="1">Garden Balsam</quote>
+    <quote id="84" type="1">Magic Slate</quote>
+    <quote id="85" type="1">Translator</quote>
+    <quote id="86" type="1">Wizard's Diploma</quote>
+    <quote id="87" type="1">Fragment of the Francos</quote>
+    <quote id="88" type="1">Fragment of the Sups</quote>
+    <quote id="89" type="1">Fragment of the Mosquibees</quote>
+    <quote id="90" type="1">Fragment of the Wannies.</quote>
+    <quote id="91" type="1">Key for the passage to CX</quote>
+    <quote id="92" type="1">Pick-ax</quote>
+    <quote id="93" type="1">Franco Burgermaster's Key</quote>
+    <quote id="94" type="1">Franco Burgermaster's Notes</quote>
+    <quote id="95" type="1">Protective Spell</quote>
+    <quote id="96" type="1">Green Magic Ball</quote>
+    <quote id="97" type="1">Red Magic Ball</quote>
+    <quote id="98" type="1">Fire Magic Ball</quote>
+    <quote id="99" type="1">Zlitos</quote>
+    <quote id="100" type="1">Dark Monk's Key</quote>
+    <quote id="101" type="1">Memory Viewer</quote>
+    <quote id="102" type="1">Blowtron</quote>
+    <quote id="103" type="1">Wizard's Parade Tunic</quote>
+    <quote id="104" type="1">Super Jet-Pack</quote>
+    <quote id="105" type="1">Piece of the Crystal of Celebration.</quote>
+    <quote id="106" type="1">Pisto-Laser in working condition.</quote>
+    <quote id="107" type="1">Green Ring of Lightning</quote>
+    <quote id="108" type="1">Red Ring of Lightning</quote>
+    <quote id="109" type="1">Ring of Lightning, level Fire</quote>
+    <quote id="110" type="1">Lucky Clover Leaf</quote>
+    <quote id="111" type="65">The Holomap is a 3-D map system. You may use several zoom factors to determine your position on the planet. There are also arrows which can point to the location of tasks to be accomplished, after some characters have given you certain information.</quote>
+    <quote id="112" type="65">You can throw the Magic Ball and make it bounce in different ways: For that, you need the Tunic since it allows you to store Magic power that the Ball consumes at each throw.</quote>
+    <quote id="113" type="65">You can throw these darts at any time by selecting them in the inventory. To retrieve them, you only have to touch them.</quote>
+    <quote id="114" type="65">Thanks to Sendell's Ball, you just reached your third level of magic: red ball. With its help, Sendell can come and talk to you in case of danger.</quote>
+    <quote id="115" type="65">This Tunic, bequeathed by your ancestors, will help you store Magic power. Some is consumed each time you use a magical object, such as your ball. In order to use them, you must find enough Magic and carry it with you.</quote>
+    <quote id="116" type="65">By dipping this pearl in the Weather Wizard's cauldron, you will be able to create a ring of lightning.</quote>
+    <quote id="117" type="65">This Pyramid is a key. If you put it in the right place, it will activate a mechanism giving you access to a secret place.</quote>
+    <quote id="118" type="65">After a few adjustmenta and once Zoé fits the part, the car will be ready to go.</quote>
+    <quote id="119" type="65">It is the exchange currency of your planet Twinsun. It allows you to buy the articles you are interested in.</quote>
+    <quote id="120" type="65">This gun shoots straight, far reaching rays. But, after each use, it needs some time to reload.</quote>
+    <quote id="121" type="65">With the emperor's sword, you can now face the hussars of the imperial guard.</quote>
+    <quote id="122" type="65">With this Wannie's glove, you can now touch the fire. This will allow you to throw back the fire balls that the monsters from the gas hurl at you.</quote>
+    <quote id="123" type="65">It was designed by Jerome Baldino. In order to fly above water, you must approach at a low angle. Otherwise, you will sink with your Proto-Pack.</quote>
+    <quote id="124" type="65">This ticket allows you to travel aboard the ferry which links Citadel Island and White Leaf Desert Island.</quote>
+    <quote id="125" type="65">You can use the Nitro-Meca-Penguins by placing them in a level and unencumbered area.</quote>
+    <quote id="126" type="65">After you give it to Jerome, this can of gazogem will allow your friend to turn your proto-pack into a super-jetpack.</quote>
+    <quote id="127" type="65">This ring is made and worn only by the dissidents. It is their identification sign. It will allow you to be recognized as one of them and to make contact with them.</quote>
+    <quote id="128" type="65">Gallic acid is used to restore ancient documents. It allows you to brighten up the areas where the ink has faded.</quote>
+    <quote id="129" type="65">If you sing it at the end of the ferryman's wharf, you will see him emerge from the mist and come to offer to take you to another island.</quote>
+    <quote id="130" type="65">Be careful, the devastating power of this ring consumes a great deal of Magic.</quote>
+    <quote id="131" type="65">This umbrella belongs to a pharmacy customer.</quote>
+    <quote id="132" type="65">The gems are commonly used by the Francos to produce gazogem. But you can use it to pay for the ferryman's services.</quote>
+    <quote id="133" type="65">It lets you draw in hearts (Life points) and store them. You can then use them to treat yourself or someone else.</quote>
+    <quote id="134" type="65">The Blowgun provides rapid firepower. You can reload it with small projectiles, such as berries.</quote>
+    <quote id="135" type="65">The travel token allows to program the destination of an Esmer shuttle. Without it, the spacecraft cannot take off.</quote>
+    <quote id="136" type="65">You don't like this tart, but you must give this slice to someone who appreciates it more than you.</quote>
+    <quote id="137" type="65">This portable radio allows you to dialogue with Baldino and Zoé when they are listening and if they are not out of range.</quote>
+    <quote id="138" type="65">You must bring this flower to the Rector of the School of Magic.</quote>
+    <quote id="139" type="65">By using the Action command in front of a plan, a print or any other illustration, you immediately create a copy with the Magic Slate. You can consult it at any time by selecting the Slate in the inventory.</quote>
+    <quote id="140" type="65">This translator allows you to understand everything said by the visitors from Space. In discreet mode, you can even spy on conversations.</quote>
+    <quote id="141" type="65">Your diploma in magic has allowed you to reach the green ball level of magic.</quote>
+    <quote id="142" type="65">This fragment of the Francos' key is one of the elements which will permit you to piece together the key to Dark Monk's temple.</quote>
+    <quote id="143" type="65">This fragment of the Sups' key is one of the elements which will permit you to piece together the key to Dark Monk's temple.</quote>
+    <quote id="144" type="65">This fragment of the Mosquibees' key is one of the elements which will permit you to piece together the key to Dark Monk's temple.</quote>
+    <quote id="145" type="65">This fragment of the Wannies' key is one of the elements which will permit you to piece together the key to Dark Monk's temple.</quote>
+    <quote id="146" type="65">This key will allow you to open the doors of the passage, whose entrance is in the village of the Mosquibees, and which will allow you to go up to islet CX.</quote>
+    <quote id="147" type="65">This pick-ax will allow you to dig into the ground or harder materials. With it, you can now locate objects buried underground, or extract materials.</quote>
+    <quote id="148" type="65">It is the key that the burgermaster lost before he was eaten by a monster from the gas. Nobody has ever used it since.</quote>
+    <quote id="149" type="65">These notes contain the enigma which leads to the fragment of the Francos. They give a clue to the location where the fragment was buried is revealed.</quote>
+    <quote id="150" type="65">This Tunic, bequeathed by your ancestors, now gives you protection besides storing Magic. To use the shielding spell, press Enter from the Inventory. This spell consumes some Magic, just like throwing the Ball and using several other magic objects.</quote>
+    <quote id="151" type="65">You can throw the Magic Ball and have it bounce in many different ways. The green ball level allows you to inflict more damage upon your enemies.</quote>
+    <quote id="152" type="65">You can throw the Magic Ball and have it bounce in many different ways. The red ball level allows you to inflict more damage upon your enemies.</quote>
+    <quote id="153" type="65">You can throw the Magic Ball and have it bounce in many different ways. The fire ball level allows you to inflict more damage upon your enemies.</quote>
+    <quote id="154" type="65">It is the exchange currency of planet Zeelich. With it, you can buy the articles you are interested in on planet Zeelich.</quote>
+    <quote id="155" type="65">Once the four fragments are reunited, you will have the key to Dark Monk's temple. According to the prophecy, it will allow you to make the statue come out of the volcano's crater, and to open the doors of the temple built in it.</quote>
+    <quote id="156" type="65">The memory viewer allows you to review the sequences which have punctuated your adventure.</quote>
+    <quote id="157" type="65">With the blowtron, you now dispose of a much higher firing rate.</quote>
+    <quote id="158" type="65">This parade outfit is accessible only to Twinsun's graduated wizards. It makes of you a bona fide magician.</quote>
+    <quote id="159" type="65">It was put together by Jerome Baldino. It allows now you to access new locations and to follow some grades that were impracticable with the proto-pack.</quote>
+    <quote id="160" type="65">This piece of the Crystal of Celebration is of unmatched purity. It will allow you to operate a pisto-Laser.</quote>
+    <quote id="161" type="65">This pisto-Laser shoots horizontal rays. They will allow you to hit enemies who are at a great distance.</quote>
+    <quote id="162" type="65">Be careful, the devastating power of this ring consumes a great deal of Magic.</quote>
+    <quote id="163" type="65">Be careful, the devastating power of this ring consumes a great deal of Magic.</quote>
+    <quote id="164" type="65">Be careful, the devastating power of this ring consumes a great deal of Magic.</quote>
+    <quote id="165" type="65">This Lucky Clover Leaf gives you the benefit of an additional life.</quote>
+    <quote id="166" type="17">Citadel Island.</quote>
+    <quote id="167" type="17">Downtown Pharmacy.</quote>
+    <quote id="168" type="17">Tent of the Weather Wizard.</quote>
+    <quote id="169" type="17">Baggage claim building.</quote>
+    <quote id="170" type="17">Miss Bloop's Private Museum.</quote>
+    <quote id="171" type="17">House of Twinsen and Zoé.</quote>
+    <quote id="172" type="17">Dome of the Slate.</quote>
+    <quote id="173" type="17">Dino-Fly.</quote>
+    <quote id="174" type="17">Incandescent Pearl.</quote>
+    <quote id="175" type="17">empty</quote>
+    <quote id="176" type="17">Well of Sendell.</quote>
+    <quote id="177" type="17"></quote>
+    <quote id="178" type="17"></quote>
+    <quote id="179" type="17"></quote>
+    <quote id="180" type="17"></quote>
+    <quote id="181" type="17"></quote>
+    <quote id="182" type="17"></quote>
+    <quote id="183" type="17"></quote>
+    <quote id="184" type="17"></quote>
+    <quote id="185" type="17"></quote>
+    <quote id="186" type="17">White Leaf Desert.</quote>
+    <quote id="187" type="17">J. Baldino's House.</quote>
+    <quote id="188" type="17">House of Ker'aooc the Healer.</quote>
+    <quote id="189" type="17"></quote>
+    <quote id="190" type="17">Balsam Plant.</quote>
+    <quote id="191" type="17">School of Magic.</quote>
+    <quote id="192" type="17">Esmer Base.</quote>
+    <quote id="193" type="17"></quote>
+    <quote id="194" type="17"></quote>
+    <quote id="195" type="17"></quote>
+    <quote id="196" type="17">Emerald Moon.</quote>
+    <quote id="197" type="17">Baldino's Cell.</quote>
+    <quote id="198" type="17"></quote>
+    <quote id="199" type="17"></quote>
+    <quote id="200" type="17"></quote>
+    <quote id="201" type="17"></quote>
+    <quote id="202" type="17"></quote>
+    <quote id="203" type="17"></quote>
+    <quote id="204" type="17"></quote>
+    <quote id="205" type="17"></quote>
+    <quote id="206" type="17">Otringal.</quote>
+    <quote id="207" type="17">Space Shuttle.</quote>
+    <quote id="208" type="17">Rick's Café.</quote>
+    <quote id="209" type="17">Imperial Hotel.</quote>
+    <quote id="210" type="17">Souvenir Shop.</quote>
+    <quote id="211" type="17">Sups' fragment.</quote>
+    <quote id="212" type="17"></quote>
+    <quote id="213" type="17"></quote>
+    <quote id="214" type="17"></quote>
+    <quote id="215" type="17"></quote>
+    <quote id="216" type="17">Celebration.</quote>
+    <quote id="217" type="17">Crystal.</quote>
+    <quote id="218" type="17">Dark Monk's Temple.</quote>
+    <quote id="219" type="17"></quote>
+    <quote id="220" type="17"></quote>
+    <quote id="221" type="17"></quote>
+    <quote id="222" type="17"></quote>
+    <quote id="223" type="17"></quote>
+    <quote id="224" type="17"></quote>
+    <quote id="225" type="17"></quote>
+    <quote id="226" type="17">Wannies.</quote>
+    <quote id="227" type="17">Wannies' fragment.</quote>
+    <quote id="228" type="17"></quote>
+    <quote id="229" type="17"></quote>
+    <quote id="230" type="17"></quote>
+    <quote id="231" type="17"></quote>
+    <quote id="232" type="17"></quote>
+    <quote id="233" type="17"></quote>
+    <quote id="234" type="17"></quote>
+    <quote id="235" type="17"></quote>
+    <quote id="236" type="17">Island of the Mosquibees.</quote>
+    <quote id="237" type="17">Queen of the Mosquibees.</quote>
+    <quote id="238" type="17">Mosquibees' fragment.</quote>
+    <quote id="239" type="17"></quote>
+    <quote id="240" type="17"></quote>
+    <quote id="241" type="17"></quote>
+    <quote id="242" type="17"></quote>
+    <quote id="243" type="17"></quote>
+    <quote id="244" type="17"></quote>
+    <quote id="245" type="17"></quote>
+    <quote id="246" type="17">Francos.</quote>
+    <quote id="247" type="17">Gazogem Refinery.</quote>
+    <quote id="248" type="17">Francos' fragment.</quote>
+    <quote id="249" type="17"></quote>
+    <quote id="250" type="17"></quote>
+    <quote id="251" type="17"></quote>
+    <quote id="252" type="17"></quote>
+    <quote id="253" type="17"></quote>
+    <quote id="254" type="17"></quote>
+    <quote id="255" type="17"></quote>
+    <quote id="256" type="17">Islet CX.</quote>
+    <quote id="257" type="17"></quote>
+    <quote id="258" type="17"></quote>
+    <quote id="259" type="17"></quote>
+    <quote id="260" type="1"></quote>
+    <quote id="261" type="17"></quote>
+    <quote id="262" type="17"></quote>
+    <quote id="263" type="17"></quote>
+    <quote id="264" type="17"></quote>
+    <quote id="265" type="17"></quote>
+    <quote id="266" type="17">Elevator to the under-gas.</quote>
+    <quote id="267" type="17"></quote>
+    <quote id="268" type="17"></quote>
+    <quote id="269" type="17"></quote>
+    <quote id="270" type="17"></quote>
+    <quote id="271" type="17"></quote>
+    <quote id="272" type="17"></quote>
+    <quote id="273" type="17"></quote>
+    <quote id="274" type="17"></quote>
+    <quote id="275" type="17"></quote>
+    <quote id="276" type="17">Under Celebration.</quote>
+    <quote id="277" type="17"></quote>
+    <quote id="278" type="17"></quote>
+    <quote id="279" type="17"></quote>
+    <quote id="280" type="17"></quote>
+    <quote id="281" type="17"></quote>
+    <quote id="282" type="17"></quote>
+    <quote id="283" type="17"></quote>
+    <quote id="284" type="17"></quote>
+    <quote id="285" type="17"></quote>
+    <quote id="286" type="3">With my eyes focused on the center of the bazaar, my back is glued to a natural parasol where I'd love to take a nap, but I must keep a sportive mood. It seems there are enough light posts and arches in the village to count the correct number of steps. Once there, the fences to my left point in the wrong direction. It's on the other side, down in the basin near the gas that my buried treasure lies.</quote>
+    <quote id="287" type="129">An action/adventure game on PC CD_ROM SVGA/DirectDraw graphics</quote>
+    <quote id="288" type="129">Detail-packed 3D isometric interior rendering mode.</quote>
+    <quote id="289" type="129">Revolutionary true 3D texture-mapped exterior rendering mode.</quote>
+    <quote id="290" type="129">Explore over 220 places on 3 different planets.</quote>
+    <quote id="291" type="129">Meet over 300 fascinating characters.</quote>
+    <quote id="292" type="129">Incredibly smooth real-time animation with texture mapping and lighting.</quote>
+    <quote id="293" type="129">15 minutes of stunning movie sequences.</quote>
+    <quote id="294" type="129">Thousands of stereo sound effects and two and a half hours of spoken dialogue.</quote>
+    <quote id="295" type="129">Voices in French, English and German. (Subtitles in French, English, German, Italian and Spanish).</quote>
+    <quote id="296" type="129">30 minutes of soft, enchanting music.</quote>
+    <quote id="297" type="129">Laughter all the way in this storyline that will keep you amused for more than 60 hours of play.</quote>
+  </quotes>
+</lbatexts>

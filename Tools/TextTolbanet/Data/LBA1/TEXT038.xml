@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>1</game>
+  <quotes>
+    <quote id="1" type="0">Halte !</quote>
+    <quote id="2" type="0">Bonjour, je cherche une amie. Elle est escortée de deux groboclones.</quote>
+    <quote id="3" type="0">Navré je ne l'ai pas vue. Mais essayez d'aller chez l'astronome dans le Vieux Bourg, il est au courant de beaucoup de choses.</quote>
+    <quote id="4" type="0">Il est interdit d'en parler.</quote>
+    <quote id="5" type="0">Pour aller voir mon cousin, place-toi devant le lavabo et lave-toi les mains ! Hé hé !</quote>
+    <quote id="6" type="0">J'ai été arrêté pour avoir éternué en public, c'est ridicule ! Par contre un gardien m'a dit qu'il y a un faussaire dans la cellule qui est complètement à droite du Q.G.</quote>
+    <quote id="7" type="0">Je ne peux rien faire pour toi. Sauf peut-être ... vu les risques que tu as pris je peux te faire confiance. J'ai été arrêté sur cette île, mais avant cela j'avais confié une fausse carte rouge à mon frère qui habite l'île Proxima. Il te la donnera si tu lui dis : " Amos " (notre maison est maintenant indiquée sur ton Holomap).</quote>
+    <quote id="8" type="0">" Quartier Général du Dr FUNFROCK. Entrée STRICTEMENT INTERDITE ! "</quote>
+    <quote id="9" type="0">" J.H. quetch cherche J.F. lapichon pour relation amicale (et plus si affinités). "</quote>
+    <quote id="10" type="0">Bof ! Je ne m'y intéresse pas.</quote>
+    <quote id="11" type="0">Tel que tu me vois, je ne bois jamais d'eau, moussaillon. Et il suffit de goûter l'eau de la ville pour comprendre pourquoi !</quote>
+    <quote id="12" type="0">Ce vieux pirate a raison, l'eau de la ville a un drôle de goût. On doit pouvoir l'améliorer d'ailleurs, le château d'eau est situé dans les montagnes, au Nord (regarde sur ton holomap).</quote>
+    <quote id="13" type="0">Cette Légende est une faille dans le pouvoir de FunFrock. Tu dois découvrir pourquoi, c'est ton seul espoir de retrouver ton amie.</quote>
+    <quote id="14" type="0">Bonjour, bizarre cette Légende, non ?</quote>
+    <quote id="15" type="0">" ANNONCE Nø 358-G : Un détenu du nom de Twinsen s'est échappé de la Citadelle. Toute personne l'apercevant doit le dénoncer au clone le plus proche. "</quote>
+    <quote id="16" type="0">" Horaires d'ouvertures de la bibliothèque de l'île Principale : @ En gros, tout le temps. "</quote>
+    <quote id="17" type="0">Nous avons des documents sur la " Légende " dans l'enfer de cette bibliothèque, mais il faut une autorisation spéciale pour les consulter. Montrez-moi votre carte d'identité.</quote>
+    <quote id="18" type="0">Bonjour. Pour aller sur l'île de la Citadelle il faut un ticket d'embarquement.</quote>
+    <quote id="19" type="0">" Très cher et respecté Dr FunFrock, j'ai emporté les plans du Centre de Téléportation chez moi pour travailler ce week-end. Je les rapporterai lundi. Signé : Mies Van der Rooh Architecte, Rue du Scarabée, île de la Citadelle. "</quote>
+    <quote id="20" type="0">Je m'intéresse à l'histoire du pirate LeBorgne.</quote>
+    <quote id="21" type="0">Je cherche les plans du Centre de Téléportation. Mission spéciale !</quote>
+    <quote id="22" type="0">Alerte ! C'est l'évadé !</quote>
+    <quote id="23" type="0">Bonjour</quote>
+    <quote id="24" type="0">Un ticket de ferry coûte 10 Kashes. Mais comme j'ai un avis de recherche dans mon bureau, il me faudra 30 Kashes pour oublier que tu lui ressembles.</quote>
+    <quote id="25" type="0">Halte ! Vous êtes recherché pour évasion.</quote>
+    <quote id="26" type="0">Pour 10 Kashes je te laisse lire cette affiche derrière moi.</quote>
+    <quote id="27" type="0">Je les ai vus tout à l'heure sur l'île de la Citadelle. Mais ils en sont partis sur un bateau rapide, destination : inconnue !</quote>
+    <quote id="28" type="0">Bienvenue cher client. Je n'ai plus de sirop de cerise, mais il y a une pharmacie ouverte sur l'île de la Citadelle.<linebreak />P Mettez-vous devant l'article qui vous intéresse et faites ACTION.</quote>
+    <quote id="29" type="0">M'sieur, m'sieur ! Y'a une pierre bizarre dans le mur du fond. Je risque de m'évader !</quote>
+    <quote id="30" type="0">Une pierre bizarre ? Bon on va voir ça.</quote>
+    <quote id="31" type="0">Le passage ne s'ouvre qu'en venant de chez mon cousin et puis arrête de fouiller partout !</quote>
+    <quote id="32" type="0">Désolé mais tu n'a pas assez de Kashes. Reviens plus tard.</quote>
+    <quote id="33" type="0">On ne parle pas à n'importe qui ici. Prouve-nous que tu n'es pas au service de FunFrock. Je ne sais pas moi, assomme un clone !</quote>
+    <quote id="34" type="0">Pas vue, mais si tu as des problèmes, tu devrais aller voir l'Astronome qui est en résidence surveillée chez lui, tout en haut du Vieux Bourg.</quote>
+    <quote id="35" type="0">Alors c'est toi qui tape sur les clones ? Bravo ! Je n'ai pas vu ton amie, mais tu devrais aller chez l'Astronome, il peut sûrement t'aider.</quote>
+    <quote id="36" type="0">Laissez-moi tranquille, c'est déjà assez dur comme ça ce boulot.</quote>
+    <quote id="37" type="0">Cette jeune fille doit être importante pour que ce tyran de FunFrock la détienne en-dehors de l'île de la Citadelle. De plus, il mijote quelque chose en interdisant toute allusion à la Légende : c'est sûrement une faille dans son pouvoir ! Découvre ce que cache cette Légende, c'est ton seul espoir de retrouver ton amie. Si tu as besoin de quitter l'île, j'ai un allié qui peut t'aider à Port-Bélooga (regarde sur ton holomap). Dis-lui juste que tu viens de ma part. Et sois discret dans ta quête.</quote>
+    <quote id="38" type="0">Je ne sais rien de la Légende et je le regrette, mais j'ai un ami pêcheur qui peut t'aider à voyager si tu lui dis que tu viens de ma part. Il habite à Port-Bélooga (regarde sur ton holomap).</quote>
+    <quote id="39" type="0">Hi hi ! C'est un collègue, il cherche une fiancée.</quote>
+    <quote id="40" type="0">Je n'y connais rien et de plus il est interdit d'en parler.</quote>
+    <quote id="41" type="0">Je ne peux boire que de l'eau de la ville d'après mon médecin. Mais elle a un arrière-goût bizarre. Si quelqu'un améliorait ça, je pourrais lui ouvrir la porte de l'enfer de cette bibliothèque et c'est un privilège.</quote>
+    <quote id="42" type="0">Attendez je vais goûter l'eau.</quote>
+    <quote id="43" type="0">Mmmh parfum cerise, pas mal ... mais j'aurais préféré carotte. Ce n'est pas grave, comme convenu je vous conduis aux documents sur cette " Légende ".</quote>
+    <quote id="44" type="0">Jamais vus ! Seul l'océan m'intéresse. @ Il m'arrive même de transporter des voyageurs sur mon bateau, uniquement des personnes sûres.</quote>
+    <quote id="45" type="0">Si l'Astronome t'envoie, je peux te faire confiance. Seulement, malgré la solidarité dans la résistance à FunFrock, les temps sont durs. Alors pour 10 Kashes, où veux-tu aller ?</quote>
+    <quote id="46" type="0">Je ne sais pas encore.</quote>
+    <quote id="47" type="0">Au Désert de la Feuille Blanche.</quote>
+    <quote id="48" type="0">Je ne pars pas tout de suite.</quote>
+    <quote id="49" type="0">Tu n'as pas assez de Kashes pour que je t'emmène Twinsen, à plus tard.</quote>
+    <quote id="50" type="0">" En des temps reculés, alors que quatre espèces, bouboules, lapichons, quetchs et grobos émergeaient de la boue originelle, des siècles avant le coup d'état du Dr FunFrock, une prophétie fut énoncée. De nos jours peu se souviennent encore de son texte exact, c'est pourquoi elle est connue sous le nom de " Légende ". Tout ce qui a trait à cette Légende concerne la mission de l'Héritier qui, le jour venu, sera appelé pour abattre un tyran. Une source de savoir à propos de la Légende existe encore, au coeur du Désert de la Feuille Blanche. "</quote>
+    <quote id="51" type="0">Tu viens de retrouver tous les objets que contenait ton inventaire !</quote>
+    <quote id="52" type="0">Vous pouvez monter monsieur, nous embarquons.</quote>
+    <quote id="53" type="0">" Bienvenue sur l'Ile Principale. "</quote>
+    <quote id="54" type="0">Je ne l'ai pas vue, mais maintenant je crois qu'on peut te faire confiance. Suis-moi, j'ai un moyen pour aller chez l'Astronome.</quote>
+    <quote id="55" type="0">Mon cousin est serrurier, il t'ouvrira le portail qui n'est pas gardé. Suis-moi !</quote>
+    <quote id="56" type="0">Je ne sais si je peux t'aider. Je suis serrurier et je peux ouvrir bien des portes mais ... juste aux gens de confiance !</quote>
+    <quote id="57" type="0">Si tu connais déjà ce passage je peux t'ouvrir le portail qui n'est pas gardé. Passe devant !</quote>
+    <quote id="58" type="0">Je peux t'aider à te débarrasser du Supergro. Suis-moi, mais attends qu'il s'éloigne des marches pour passer !</quote>
+    <quote id="59" type="0">Voleur ! @ Laisse ma caisse tranquille !</quote>
+    <quote id="60" type="0">Tu es trop agressif ! Sors d'ici et ne reviens que lorsque tu seras calmé !</quote>
+    <quote id="61" type="0">Taisez-vous malheureux, il est interdit d'en parler !</quote>
+    <quote id="62" type="0">" Service de traitement des eaux de l'Ile Principale : BAIGNADE INTERDITE ! "</quote>
+    <quote id="63" type="0">Ou veux-tu aller ?</quote>
+    <quote id="64" type="0">A Port-Bélooga.</quote>
+    <quote id="65" type="0">Au château d'eau.</quote>
+    <quote id="66" type="0">Je paie pour voir !</quote>
+    <quote id="67" type="0">Pas question, ça sent l'arnaque !</quote>
+    <quote id="68" type="0">Je peux vous ouvrir la porte de l'enfer de cette bibliothèque. Il y a là un livre parlant de la Légende. Mais pour cela j'aimerais que vous changiez le goût de l'eau de la ville : c'est la seule que je puisse boire mais elle n'est pas fameuse.</quote>
+    <quote id="69" type="0">" Vieux Bourg @ (Ile Principale) "</quote>
+    <quote id="70" type="0">" Rue du Pied-Bot @ (Ile Principale) "</quote>
+    <quote id="71" type="0">Désolé mais vous n'avez pas assez de Kashes. Revenez plus tard.</quote>
+    <quote id="72" type="0">Sur l'île Proxima.</quote>
+    <quote id="73" type="0">J'ai lu des passages de son livre de bord, ce LeBorgne était terrible ! Si ça t'intéresse il est en vente au bazar du Vieux Bourg, sur cette île.</quote>
+    <quote id="74" type="0">Je suis Bob Vortix, astronome en résidence surveillée. Et toi, que viens-tu faire en ville à part taper sur les clones ?</quote>
+    <quote id="75" type="0">Je viens de la part de l'Astronome.</quote>
+    <quote id="76" type="0">Reviens me voir dès que tu sauras où tu veux aller.</quote>
+    <quote id="77" type="0">" Bonbons à Points d'Vie : voulez-vous 10 coeurs pour 10 Kashes ? "</quote>
+    <quote id="78" type="0">Oui, j'achète.</quote>
+    <quote id="79" type="0">Non merci.</quote>
+    <quote id="80" type="0">Pas assez de Kashes !</quote>
+    <quote id="81" type="0">Bonjour. Venez, je vais vous ouvrir la porte.</quote>
+    <quote id="82" type="0">Alerte ! Un prisonnier s'évade !</quote>
+    <quote id="83" type="0">Mon pauvre ami ! Je ne vois vraiment pas de quoi vous me parlez.</quote>
+    <quote id="84" type="0">Tiens, vous connaissez Julia ? C'est une gentille fille. Elle regarde un peu trop la télé mais il y a du vrai dans son histoire : quelqu'un a oublié une boîte à trêfle sur l'îlot devant ma maison. Le fond est trop haut pour un bateau, alors il faudrait voler pour y aller maintenant que le pont s'est écroulé.</quote>
+    <quote id="85" type="0">Très bien monsieur, restez-là je vous prie.</quote>
+    <quote id="86" type="0">Que faites vous là, qui êtes vous ?</quote>
+    <quote id="87" type="0">Je répare les antennes.</quote>
+    <quote id="88" type="0">Twinsen, je m'évade.</quote>
+    <quote id="89" type="0">Le Père Noël.</quote>
+    <quote id="90" type="0">" Bienvenue à Port-Bélooga @ (Ile Principale) @ Mer calme à agitée, vent faible. "</quote>
+    <quote id="91" type="0">Ca ne m'intéresse pas.</quote>
+    <quote id="92" type="0">J'achète.</quote>
+    <quote id="93" type="0">Bonjour</quote>
+    <quote id="94" type="0">" L.B.A. @ Service des égouts du Vieux Bourg. Rue de la Lune d'Emeraude. "</quote>
+    <quote id="95" type="0">C'est ça fouille dans mes affaires, goujat ! </quote>
+    <quote id="96" type="0">Elle n'est pas là. Je l'aurai remarquée, nous avons peu de lecteurs aujourd'hui.</quote>
+    <quote id="97" type="0">Il se trouve que j'ai visité toute l'île et je ne ai pas vu ces gens.</quote>
+    <quote id="98" type="0">Je ne l'ai pas vue. </quote>
+    <quote id="99" type="0">Je ne l'ai pas vue.</quote>
+    <quote id="100" type="0">Je regrette, j'ai pas vu votre trio.</quote>
+    <quote id="101" type="0">Je ne l'ai pas vue, mais ...</quote>
+    <quote id="102" type="0">L'eau est potable mais c'est vrai qu'elle a un goût bizarre. Il faudrait aller au château d'eau pour y changer quelque chose.</quote>
+    <quote id="103" type="0">Bonjour</quote>
+    <quote id="104" type="0">Bonjour vieux.</quote>
+    <quote id="105" type="0">Salut, embrasse mon cousin quand tu le verras.</quote>
+    <quote id="106" type="0">Bonjour</quote>
+    <quote id="107" type="0">Désolé mais tu n'a pas assez de Kashes. Reviens plus tard.</quote>
+    <quote id="108" type="0">On ne fait pas confiance facilement ici. Prouve-nous que tu n'es pas au service de FunFrock, assomme un clone !</quote>
+    <quote id="109" type="0">Sur l'île de la Citadelle.</quote>
+    <quote id="110" type="0">Sur l'île de la Rébellion.</quote>
+    <quote id="111" type="0">Voilà la merveille : état neuf, maniable et rapide, ce catamaran est à toi pour 200 Kashes.</quote>
+    <quote id="112" type="0">Trop cher pour moi !</quote>
+    <quote id="113" type="0">Superbe, j'achète.</quote>
+    <quote id="114" type="0">Pas assez de Kashes !</quote>
+    <quote id="115" type="0">Il faut que je vous dise quelque chose. C'est terrible ! Ma meilleure amie (Béatrice) est amoureuse de Steven. Or Paul, le demi-frère de Steven, a quitté Cindy lorsque Linda est ressortie de la clinique après son accident de luge. Mais pas pour Linda, pour Tatjana ! Seulement Serge (qui admire secrètement Steven) essaie depuis des mois, de conquérir Tatjana qui refuse de parler à Christy depuis que celle-ci est morte. Pendant ce temps Stephanie - qui s'est remariée avec Serge - a découvert la lettre laissée par Paulina, dans laquelle elle expliquait où se trouvait la boîte de trêfle oubliée par Roy. Alors évidemment, Béatrice se demande si Linda est au courant pour l'accident. @ Vous me suivez ?</quote>
+    <quote id="116" type="0">Réveille-toi, je viens de trouver l'évadé !</quote>
+    <quote id="117" type="0">Voleur !<linebreak /> @ Laisse ma caisse tranquille !</quote>
+    <quote id="118" type="0">Désolé cher client, mais je ne m'intéresse qu'à mon modeste commerce.</quote>
+    <quote id="119" type="0">Malheureux, ne faites pas cela ! TOUT est désormais possible !</quote>
+    <quote id="120" type="0">Hé, hé ! Vous aussi vous recherchez son Trésor ? Bah, j'avais bien un vieux bouquin poussiéreux à propos de LeBorgne, mais un client me l'a acheté ce matin. C'était un lapichon, je sais qu'il travaille à la bibliothèque.</quote>
+    <quote id="121" type="0">Je n'ai pas vu cette jeune personne. Mais allez chez l'astronome : bien qu'il lui soit interdit de sortir de chez lui, il est au courant de tout. Il habite la dernière maison, tout en haut de la ville.</quote>
+    <quote id="122" type="0">Le goût est EXACTEMENT le même qu'avant. Je ne vous mène pas à l'enfer.</quote>
+    <quote id="123" type="0">Figurez-vous qu'un petit malin a versé du sirop dans le réseau d'eau potable de l'île ! J'aimerais bien lui dire deux mots, vous le connaissez ?</quote>
+    <quote id="124" type="0">C'est moi, génial non ?</quote>
+    <quote id="125" type="0">C'est un coup de FunFrock.</quote>
+    <quote id="126" type="0">Bravo ! Ce petit goût de cerise c'est une merveille. Il faut vous dire qu'à cause de mon médecin, je ne peux boire que de l'eau de la ville et ... Bref ! Pour vous remercier je peux vous montrer des ouvrages anciens, je dirais même LEGENDAIRES !</quote>
+    <quote id="127" type="0">Oh, le Dr FunFrock prend soin de nous, pourtant ça m'étonnerait que cela vienne de lui.</quote>
+    <quote id="128" type="0">Je n'ai pas vu cette personne.</quote>
+    <quote id="129" type="0">Mon cher, cela fait des années que nous cherchions le livre de bord du Capitaine Leborgne. Et bien figurez-vous que je viens juste de le trouver en faisant mes courses dans le Vieux Bourg ! Evidemment un tel ouvrage est à consulter sur place. Voyez sur la table du fond, près de la salle de projection.</quote>
+    <quote id="130" type="0">Restez-ici, je vais vous les chercher.</quote>
+    <quote id="131" type="0">On doit avoir quelque chose sur LeBorgne. Voyez avec le bibliothécaire en chef. Vous le connaissez déjà c'est un lapichon, un grand, orange.</quote>
+    <quote id="132" type="0">Bon je vous lis un passage de ce livre de bord si vous me laissez tranquille ensuite. Alors je vous lis un passage sur quoi ?</quote>
+    <quote id="133" type="0">Sur la cuisine pirate.</quote>
+    <quote id="134" type="0">Sur le trésor de Leborgne.</quote>
+    <quote id="135" type="0">Pourquoi LeBorgne ?</quote>
+    <quote id="136" type="0">Vous savez c'est un jeu français, alors par décence autant que par respect pour la Gastronomie, on ne peut pas citer tous les ingrédients qui entrent dans la composition d'une recette de cuisine pirate.</quote>
+    <quote id="137" type="0">Voyons, le trésor ... Ah, on en parle à la fin sur une petite fiche : @ " Pour retrouver le trésor du Capitaine Leborgne, le voyageur qui débarque au port de l'île Proxima doit prendre la borne d'amarrage la plus proche comme repère. En se plaçant dos aux bateaux amarrés, il doit faire le parcours suivant en mode DISCRET : @ 6 pas au Nord (droit devant lui), puis 6 pas à l'Est (sur sa droite) dans la petite pente. 2 pas au Nord (droit devant lui) jusqu'à la poubelle en métal, 3 pas à l'Est (sur sa droite) pour arriver à un lampadaire. Il doit se placer EXACTEMENT entre les 2 lampadaires, puis faire 8 pas au Nord (droit devant lui) pour atteindre un portail. Le trésor du Capitaine Leborgne se trouve dans le bâtiment derrière le portail. "</quote>
+    <quote id="138" type="0">" On l'appelait comme ça parce qu'il avait la manie de mâchouiller un vieux cure-dent à longueur de journée. Un jour au coeur d'un typhon il éternua : il retrouva son cure-dent, mais perdit l'oeil ! "</quote>
+    <quote id="139" type="0">Ca ne sert à rien d'être agressif, j'étais là avant vous !</quote>
+    <quote id="140" type="0">Bonjour !</quote>
+    <quote id="141" type="0">Je ne sais pas où ils peuvent être.</quote>
+    <quote id="142" type="0">C'est de la rébellion, il est interdit de parler de cette Légende !</quote>
+    <quote id="143" type="0">Je ne l'ai pas vue, mais l'Astronome pourra sûrement t'aider.</quote>
+    <quote id="144" type="0">Ce genre d'histoire, tu devrais en parler avec des marins.</quote>
+    <quote id="145" type="0">J'aimerais bien t'aider, mais je ne sais pas où ils sont.</quote>
+    <quote id="146" type="0">Mmmh ! Fameuse crapule ce Leborgne, il a écumé tout l'hémisphère il y a quelques siècles. Je sais par notre ami le pêcheur qu'il y aurait au bazar un objet ayant appartenu à LeBorgne.</quote>
+    <quote id="147" type="0">Je ne sais pas où ils sont.</quote>
+    <quote id="148" type="0">Hiiii hi ! Bbbrrfff !</quote>
+    <quote id="149" type="0">Un de mes collègues galope crinière au vent dans le Désert de la Feuille Blanche. D'après lui il y aurait quelqu'un d'enfermé dans une grotte, derrière un sceau géant.</quote>
+    <quote id="150" type="0">Jamais entendu parler !</quote>
+    <quote id="151" type="0">C'est quoi un Centre de téléportation ?</quote>
+    <quote id="152" type="0">Salut !</quote>
+    <quote id="153" type="0">Ah, ce LeBorgne, quel type !</quote>
+    <quote id="154" type="0">Ha ha, elle est bonne celle-là ! Désolé j'ai pas ça sur moi.</quote>
+    <quote id="155" type="0">Impossible de vendre un seul sèche-cheveux ici. Un de mes collègues est déjà en train de prospecter. Si ça continue, je vais aller essayer sur une autre île.</quote>
+    <quote id="156" type="0">J'ignore où ils sont.</quote>
+    <quote id="157" type="0">Je ne peux rien pour vous mon ami. Vois pas de quoi vous parlez.</quote>
+    <quote id="158" type="0">Prends ça rebelle !</quote>
+    <quote id="159" type="0">Circulez !</quote>
+    <quote id="160" type="0">Bonjour</quote>
+    <quote id="161" type="0">Allez en parler à la taverne, ils adorent les histoires de pirates là-bas !</quote>
+    <quote id="162" type="0">Laissez-moi tranquille, je n'ai rien à vous dire.</quote>
+    <quote id="163" type="0">Bonjour</quote>
+    <quote id="164" type="0">Il est rigoureusement interdit d'en parler !</quote>
+    <quote id="165" type="0">Je n'en ai jamais entendu parler.</quote>
+    <quote id="166" type="0">J'ignore où ils sont.</quote>
+    <quote id="167" type="0">Navré, connais pas !</quote>
+    <quote id="168" type="0">Salut !</quote>
+    <quote id="169" type="0">Du calme !</quote>
+    <quote id="170" type="0">Je ne l'ai pas vue.</quote>
+    <quote id="171" type="0">Ecoute, tu m'es très sympathique, mais tu es grand maintenant. Débrouille-toi tout seul, je suis pas une bibliothèque moi !</quote>
+    <quote id="172" type="0">Je ne vois pas de quoi il s'agit.</quote>
+    <quote id="173" type="0">Je ne l'ai pas vue.</quote>
+    <quote id="174" type="0">Je ne vois pas où ils peuvent être.</quote>
+    <quote id="175" type="0">Des pirates, peuh ! Les marins raconteraient bien n'importe quoi pour se faire payer à boire !</quote>
+    <quote id="176" type="0">Bonjour</quote>
+    <quote id="177" type="0">Un sèche-cheveux pour 30 Kashes ça vous dit ? Normalement je n'ai le droit de les vendre qu'au porte à porte, mais les clients sont rares et vous m'êtes sympathique.</quote>
+    <quote id="178" type="0">Venez à l'intérieur !</quote>
+    <quote id="179" type="0">Bonjour monsieur.</quote>
+    <quote id="180" type="0">Non pas du tout.</quote>
+    <quote id="181" type="0">Allez-voir Béatrice en lui disant que vous venez de la part de Julia, elle vous expliquera ça mieux que moi. Elle habite à la limite du vieux bourg, une maison près de la mer, rue du Pied-Bot.</quote>
+    <quote id="182" type="0">Julia m'a beaucoup parlé de vous.</quote>
+    <quote id="183" type="0">Je n'y connais rien en piraterie, essayez plutôt d'en parler à des marins.</quote>
+    <quote id="184" type="0">J'ignore où ils sont cher monsieur.</quote>
+    <quote id="185" type="0">Bonjour jeune quetch.</quote>
+    <quote id="186" type="0">Je ne l'ai pas vue.</quote>
+    <quote id="187" type="0">Connais pas !</quote>
+    <quote id="188" type="0">Il paraîtrait que le goût de l'eau de la ville est meilleur maintenant. Peuh ! Encore un coup de pub de la ligue anti-alcoolique !</quote>
+    <quote id="189" type="0">Je ne les ai pas vus !</quote>
+    <quote id="190" type="0">Moi je ne la connais pas, mais allez voir Wadbull au bazar. Et faites attention, normalement il est interdit d'en parler !</quote>
+    <quote id="191" type="0">Ah, j'la connais pas celle-là. Mais celle du pirate qui avait des rhumatismes dans une jambe et des termites dans l'autre, elle me fait mourir de rire à chaque fois.</quote>
+    <quote id="192" type="0">Salut moussaillon !</quote>
+    <quote id="193" type="0">J'ignore où ils sont.</quote>
+    <quote id="194" type="0">LeBorgne ! Ne sachant pas lire il faisait rédiger son livre de bord par le cuisinier. Je sais qu'il est en vente au bazar juste à coté.</quote>
+    <quote id="195" type="0">Désolé, connais pas.</quote>
+    <quote id="196" type="0">Cette superbe Holomap coûte 20 Kashes (vous verrez c'est très pratique !).</quote>
+    <quote id="197" type="0">Du carburant pour 10 voyages coûte 30 Kashes.</quote>
+    <quote id="198" type="0">15 coeurs de poudre de vie coûtent 30 Kashes.</quote>
+    <quote id="199" type="0">10 fioles de poudre magique coûtent 30 Kashes.</quote>
+    <quote id="200" type="0">Un méca-pingouin coûte 3 Kashes.</quote>
+    <quote id="201" type="0">Je ne l'ai pas vue.</quote>
+    <quote id="202" type="0">Navré, connais pas.</quote>
+    <quote id="203" type="0">Salut ami.</quote>
+    <quote id="204" type="0">Je ne sais pas où ils sont.</quote>
+    <quote id="205" type="0">Bonjour</quote>
+    <quote id="206" type="0">Demandez au patron ou au marin à la table.</quote>
+    <quote id="207" type="0">Mais il est interdit d'en parler ! Vous avez de la chance, je vous dénoncerai bien, mais ça me priverai du plaisir de vous extorquer des Kashes.</quote>
+    <quote id="208" type="0">Bonjour</quote>
+    <quote id="209" type="0">Je suis un fan de STAR WARS™. Normalement le prochain épisode de la saga doit bientôt sortir, alors j'ai déjà réservé ma place dans la salle de projection !</quote>
+    <quote id="210" type="0">J'aimerais bien t'aider, mais vraiment je n'y connais rien en-dehors du cinéma. Bonne chance !</quote>
+    <quote id="211" type="0">J'ai trouvé cette page arrachée à un livre. Ca dit : " ... Actionnez UNE fois le levier du milieu, puis UNE fois le levier de droite. " C'est sûrement la solution d'un problème !</quote>
+    <quote id="212" type="0">Je ne sais pas où ils sont. Je regrette.</quote>
+    <quote id="213" type="0">Bonjour</quote>
+    <quote id="214" type="0">Demandez au lapichon avec le T-shirt jaune, c'est lui le bibliothécaire.</quote>
+    <quote id="215" type="0">Aïe ! Mais je l'ai trouvée par terre cette page, j'l'ai pas déchirée. Je l'jure !</quote>
+    <quote id="216" type="0">D'après le livre que j'ai là, il y a un lac " d'Eau Claire " dans l'Hamalayi, au Nord-Ouest de l'île Principale. Saviez-vous que cette chaîne de l'Hamalayi est infranchissable ? Elle marque la limite avec l'hémisphère Nord, que le Dr FunFrock a fait évacuer. Là-bas, le soleil serait trop proche : la température est devenue insupportable et les changements climatiques ont fait apparaître des monstres mutants. Dire que malgré ce que le bon docteur fait pour nous, des rebelles le combattent, c'est honteux !</quote>
+    <quote id="217" type="0">Désolé, je ne vois pas de quoi vous parlez.</quote>
+    <quote id="218" type="0">Demandez au bibliothécaire, il s'intéresse aussi à l'histoire de LeBorgne.</quote>
+    <quote id="219" type="0">Saviez-vous que pour nous protéger le Dr FunFrock a fait installer des bustes à son effigie ? Tous ceux qui n'ont pas de socle sont placés sur des sceaux très anciens. Comme ils étaient indestructibles, au moins on ne les voit plus !</quote>
+    <quote id="220" type="0">J'ignore où ils sont.</quote>
+    <quote id="221" type="0">Allez voir le bibliothécaire.</quote>
+    <quote id="222" type="0">Je ne l'ai jamais vu, mais va au Bazar un peu plus haut. Wadbull sait tout et VEND DE TOUT !</quote>
+    <quote id="223" type="0">Plus personne ne s'en souvient maintenant. Même à la bibliothèque je me demande s'ils ont gardé des livres sur la Légende.</quote>
+    <quote id="224" type="0">Je ne la connais pas, désolé.</quote>
+    <quote id="225" type="0">Je n'y connais rien, mais il paraît qu'avant à la bibliothèque, il y avait des ouvrages qui en parlaient.</quote>
+    <quote id="226" type="0">Arrêtez de faire ça, vous allez mettre de la cendre partout !</quote>
+    <quote id="227" type="0">J'sais pas où y sont mais laisse tomber ! Ca donne mal au coeur la téléportation.</quote>
+    <quote id="228" type="0">Beuuhhh ! Ca donne la nausée la téléportation.</quote>
+    <quote id="229" type="0">Plus de carburant.</quote>
+    <quote id="230" type="0">Merci au fait, j'ai la carte rouge !</quote>
+    <quote id="231" type="0">Tu ne peux pas imaginer ce que c'est d'être enfermé ! @ C'est affreux ... affreux, affreux !</quote>
+    <quote id="232" type="0">Ca m'étonnerait qu'elle soit enfermée ici.</quote>
+    <quote id="233" type="0">Jamais entendu parler.</quote>
+    <quote id="234" type="0">Il paraît qu'on ne l'a jamais capturé, lui !</quote>
+    <quote id="235" type="0">Désolé, mais je n'y connais rien.</quote>
+    <quote id="236" type="0">" Service d'eau potable alimentant l'Ile Principale : NE RIEN JETER DANS LA CUVE ! "</quote>
+    <quote id="237" type="0">Désolé cher client, mais ici vous êtes dans un bazar, pas dans une bibliothèque !</quote>
+    <quote id="238" type="0">Plus personne ne s'en souvient, tout ça c'est du flan.</quote>
+    <quote id="239" type="0">Ben ... je ne sais pas, mais pourtant dans le Vieux Bourg certains doivent bien la connaître cette fichue Légende.</quote>
+    <quote id="240" type="0">Elle n'est pas enfermée ici. Mais si tu veux une carte rouge, va voir mon frêre. Notre maison est indiquée sur ton holomap.</quote>
+    <quote id="241" type="0">Je me disais aussi, je l'ai déjà vu quelque part ce quetch !</quote>
+    <quote id="242" type="0">Allez donc voir à la taverne du Vieux Bourg, parlez-en au barman.</quote>
+    <quote id="243" type="0">Salut, je rentre d'un voyage autour de cet hémisphère et je vends mon bateau. Suivez-moi si ça vous intéresse.</quote>
+    <quote id="244" type="0">Bonjour, alors vous avez visité l'hémisphère ? Faites attention aux icebergs vers l'Hamalayi.</quote>
+    <quote id="245" type="0">Avec ce drapeau vous risquez des ennuis avec les autorités. C'est un emblème rebelle.</quote>
+    <quote id="246" type="0">Dans mes bras ! Ca c'est un vrai marin ! LeBorgne tenait un livre de bord dans lequel l'emplacement de son trésor doit figurer d'une manière ou d'une autre.</quote>
+    <quote id="247" type="0">Jamais vus, je ne vois même pas de quoi il s'agit.</quote>
+    <quote id="248" type="0">Tiens, tiens, un petit fouinard ! Twinsen je suppose ? Je serais curieux de savoir ce que tu es venu faire ici. </quote>
+    <quote id="249" type="0">Il y a un trésor sur cette île : il faut souffler dans une trompe magique devant le buste de FunFrock pour y avoir accès.</quote>
+    <quote id="250" type="0">Je ne connais pas cette histoire.</quote>
+    <quote id="251" type="0">Je ne vois pas de quoi il s'agit. </quote>
+    <quote id="252" type="0">Bonjour</quote>
+    <quote id="253" type="0">Bonjour</quote>
+    <quote id="254" type="0">Hello</quote>
+    <quote id="255" type="0">Bonjour cher ami.</quote>
+    <quote id="256" type="0">Ah, il n'y a pas ces plans parmi nos ouvrages.</quote>
+    <quote id="257" type="0">Sur l'Hamalayi.</quote>
+    <quote id="258" type="0">Où que vous partiez, revenez vite. On attend bientôt le retour d'un navigateur solitaire et il va vendre son bateau.</quote>
+    <quote id="259" type="0">Connais pas !</quote>
+    <quote id="260" type="0">C'est sympa de m'aider, mais j'ai réussi à piquer la clef du gardien. Prends-la, je n'en ai plus besoin.</quote>
+    <quote id="261" type="0">Je viens de découvrir un passage secret en faisant ACTION, c'est fou ! Et sinon ma fausse carte rouge, tu en es content ?</quote>
+    <quote id="262" type="0">Ah, impossible d'ouvrir sans carte rouge.</quote>
+    <quote id="263" type="0">Ah, impossible d'ouvrir sans carte bleue.</quote>
+    <quote id="264" type="0">Au camp militaire.</quote>
+    <quote id="265" type="0">Rue du Pied-Bot.</quote>
+    <quote id="266" type="0">Je suis guéri, je ne sais pas ce que vous avez versé cette fois-ci, mais mon calcul rénal s'est volatilisé. Merci !</quote>
+    <quote id="267" type="0">Bonjour</quote>
+    <quote id="268" type="0">Un jour, l'un de mes matelots a prétendu que LeBorgne était mon ancêtre et ... enfin bref ! C'est très émouvant des funérailles en mer !</quote>
+  </quotes>
+</lbatexts>

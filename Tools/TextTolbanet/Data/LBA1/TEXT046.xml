@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>1</game>
+  <quotes>
+    <quote id="1" type="0">Bonjour</quote>
+    <quote id="2" type="0">Tu as besoin de moi pour accéder au fortin. Attends-moi !</quote>
+    <quote id="3" type="0">Viens avec moi, on continue avec le char !</quote>
+    <quote id="4" type="0">Je reste en couverture, va libérer le colonel.</quote>
+    <quote id="5" type="0">Ne me cache rien, mon prédécesseur est mort au combat ! Bon c'est la vie hein, on y va ?</quote>
+    <quote id="6" type="0">Vite, libérez-moi !</quote>
+    <quote id="7" type="0">Vous le quetch, je vous dois une fière chandelle. Si vous voulez redescendre sur l'autre versant, essayez d'actionner la plaque électrique au bout de ce couloir.</quote>
+    <quote id="8" type="0">Depuis cet entrepôt on envoie du matériel dans l'autre hémisphère, on utilise une capsule qui date de l'ancien métro. Moi j'ai participé à la construction, mais ca va faire deux ans que j'attends un ferry ... Deux ans ! !</quote>
+    <quote id="9" type="0">Oui, je sais, vous aussi vous voulez que je vous mette la capsule en route. Placez-vous devant, j'y vais.</quote>
+    <quote id="10" type="0">Je ne vois pas de qui il s'agit.</quote>
+    <quote id="11" type="0">Je fais partie des rebelles qui luttent contre FunFrock. Actuellement nous tentons de franchir l'Hamalayi, d'ailleurs notre chef Kroptman a été capturé. Si tu veux te joindre à notre lutte, sois le bienvenu ! Va voir mes amis sur l'île de la Rébellion, seulement ils ne te laisseront pas aborder si tu n'as pas notre signe de reconnaissance : un drapeau pirate à tête de mort.</quote>
+    <quote id="12" type="0">Utilise le drapeau : accroche-le sur ton bateau et tu pourras aborder sur l'île de la Rébellion. Tu peux sans doute nous être utile pour franchir l'Hamalayi.</quote>
+    <quote id="13" type="0">Courage ! Attends ton équipier avant de changer de zone. Et si vous avez des difficultés pour arriver au fortin, neutralisez d'abord le radar qui est au-dessus des bunkers, dans la zone où vous avez débarqué.</quote>
+    <quote id="14" type="0">Tu es devenu plus fort que la guerre Twinsen ! Enfin euh ... je veux dire, merci d'avoir libéré le colonel Kroptman.</quote>
+    <quote id="15" type="0">Grâce à toi nous avons maintenant des contacts avec l'hémisphère Nord. Et j'ai entendu parler de cette ville de trafics : Funky-Town. Tu peux sûrement trouver des informations là-bas !</quote>
+    <quote id="16" type="0">Courage Twinsen, ta quête touche à sa fin.</quote>
+    <quote id="17" type="0">Il reste quelques clones mais avec Kroptman aux commandes du char, nous tenons le fortin.</quote>
+    <quote id="18" type="0">Demande au guetteur en bas de la route, il doit pouvoir t'aider.</quote>
+    <quote id="19" type="0">Plus de carburant.</quote>
+    <quote id="20" type="0">Ah j'ignore où sont ces plans. A Funky-Town on doit trouver des informations sur tout, mais cette ville sera bientôt rasée par FunFrock.</quote>
+    <quote id="21" type="0">Eh, sors moi d'ici ! Vite trouve une clef !</quote>
+    <quote id="22" type="0">Je suis Raymond-le-Lutin, pour te remercier je vais t'indiquer l'emplacement du lac d'Eau Claire. Il est au Nord-Ouest d'ici, dans l'Hamalayi (regarde ton Holomap). En y jouant de la flûte, tu trouveras un élément important de la prophétie. Et si tu as une carte de membre du club des lutins à me montrer, j'ai encore autre chose pour toi.</quote>
+    <quote id="23" type="0">Je suis Raymond-le-Lutin, pour te remercier je vais t'indiquer l'emplacement du lac d'Eau Claire. Il est au Nord-Ouest d'ici, dans l'Hamalayi (regarde ton Holomap). En y jouant de la flûte, tu trouveras un élément important de la prophétie. Et dans une grotte près du Temple de Bù, tu peux trouver l'un de mes confrêres, il peut te procurer une carte bleue.</quote>
+    <quote id="24" type="0">Salut frère lutin.</quote>
+    <quote id="25" type="0">Jamais vus, je ne connais rien à la téléportation.</quote>
+    <quote id="26" type="0">Où veux-tu aller ?</quote>
+    <quote id="27" type="0">Sur l'île Principale.</quote>
+    <quote id="28" type="0">Au Désert de la Feuille Blanche.</quote>
+    <quote id="29" type="0">Sur l'île Proxima.</quote>
+    <quote id="30" type="0">Sur l'île de la Rébellion.</quote>
+    <quote id="31" type="0">Je reste ici.</quote>
+    <quote id="32" type="0">Sur l'île de la Citadelle.</quote>
+    <quote id="33" type="0">Je cherche les plans du Centre de Téléportation.</quote>
+    <quote id="34" type="0">Dans une grotte près du Temple de Bù, tu peux trouver l'un de mes confrêres, il peut te procurer une carte bleue.</quote>
+    <quote id="35" type="0">Que faites-vous là ? On rentre comme dans un moulin ici ! Tout à l'heure j'ai même capturé un lutin. Je ne sais pas quoi en faire, officiellement ça n'existe pas !</quote>
+    <quote id="36" type="0">Rendez-vous !</quote>
+    <quote id="37" type="0">Vous préferez mourir à jeun, ou vous avez envie de quelque chose de précis pour votre dernier repas ?</quote>
+    <quote id="38" type="0">Tant pis !</quote>
+    <quote id="39" type="0">Pas faim !</quote>
+    <quote id="40" type="0">Tu n'as pas atteint un niveau de puissance suffisant pour vaincre les clones rouges. Nous attendrons ton retour.</quote>
+    <quote id="41" type="0">Alerte un détenu s'évade !</quote>
+    <quote id="42" type="0">Tu viens de retrouver tous les objets que contenait ton inventaire !</quote>
+    <quote id="43" type="0">Je ne sais pas où ils sont.</quote>
+    <quote id="44" type="0">Je m'intéresse à l'histoire du pirate LeBorgne.</quote>
+  </quotes>
+</lbatexts>

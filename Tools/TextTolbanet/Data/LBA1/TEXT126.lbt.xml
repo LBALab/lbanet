@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>1</game>
+  <quotes>
+    <quote id="1" type="0">" Museo della Marina, prezzo dei biglietti: @ Bambini... 3 Kash @ Adulti... 5 Kash. "</quote>
+    <quote id="2" type="0">" Benvenuti a Proxim-City @ (Isola Proxima). "</quote>
+    <quote id="3" type="0">"Posto di guardia 24 ore su 24. Non svegliare..."</quote>
+    <quote id="4" type="0">" E' richiesta una tenuta decente!"</quote>
+    <quote id="5" type="0">Cerco le mappe del Centro di Teletrasporto.</quote>
+    <quote id="6" type="0">Sull'Isola Principale.</quote>
+    <quote id="7" type="0">Sull'isola della Cittadella.</quote>
+    <quote id="8" type="0">Vedremo poi.</quote>
+    <quote id="9" type="0">Per 10 Kash, dove vuoi andare, Twinsen?</quote>
+    <quote id="10" type="0">Spiacente, non hai abbastanza Kash. Sai, ho delle bocche da sfamare!</quote>
+    <quote id="11" type="0">Buongiorno, la visita costa 5 Kash. Desidera un biglietto?</quote>
+    <quote id="12" type="0">Sì, grazie.</quote>
+    <quote id="13" type="0">No, i musei mi annoiano.</quote>
+    <quote id="14" type="0">Spiacente, non ha abbastanza soldi.</quote>
+    <quote id="15" type="0">"Elica posteriore destra del FunFrock 2. Persa in rada all'Isola Principale in occasione del varo. Tre giorni dopo, la nave a corto di carburante cessò di girare in tondo. "</quote>
+    <quote id="16" type="0">"Tesoro del Capitano Guercio. Questo scrigno contiene il frutto di un'intera esistenza di malefatte; venne recuperato dal Fisco, l'unico ad essere riuscito a depredare questo terribile pirata."</quote>
+    <quote id="17" type="0">"Squalo finanziario. Questo esemplare appartiene alla famiglia dei produttori cinematografici. "</quote>
+    <quote id="18" type="0">"Barca-paniere. Imbarcazione primitiva in vimini intrecciato. "</quote>
+    <quote id="19" type="0">"Cannone d'abbordaggio. "</quote>
+    <quote id="20" type="0">"Botte di quercia. Queste botti servivano a distribuire le razioni giornaliere di rum ai marinai. "</quote>
+    <quote id="21" type="0">"Sirena di Bù. Esempio dell'assurdità delle vecchie superstizioni, questa statua di ispirazione marina venne scoperta in pieno deserto. "</quote>
+    <quote id="22" type="0">"Scialuppa di salvataggio. Non forare, bruciare o avvicinare a corpi incandescenti. "</quote>
+    <quote id="23" type="0">"Caramelle, caramell: volete 10 cuori per 10 Kash? "</quote>
+    <quote id="24" type="0">Sì, li compro.</quote>
+    <quote id="25" type="0">No, grazie.</quote>
+    <quote id="26" type="0">Soldi insufficienti!</quote>
+    <quote id="27" type="0">Alt! E' formalmente vietato toccare le opere.</quote>
+    <quote id="28" type="0">Suonate l'allarme! E' l'evaso!</quote>
+    <quote id="29" type="0">"Cantiere. RALLENTARE! "</quote>
+    <quote id="30" type="0">"Sono la Pietra dell'Eclisse. La chiave della Pietra col Sigillo è " BURBS ". Quale parola mi libererà? "</quote>
+    <quote id="31" type="0">"Sono la Pietra col Sigillo. La chiave della Pietra dell'Eclisse è " GIZMO ". Quale parola mi libererà? "</quote>
+    <quote id="32" type="0">Non so.</quote>
+    <quote id="33" type="0">" BURBS "</quote>
+    <quote id="34" type="0">" GIZMO "</quote>
+    <quote id="35" type="0">Mio fratello è stato arrestato e la casa è controllata: traffico di carte rosse false. Ma come hai fatto a entrare, e chi sei?</quote>
+    <quote id="36" type="0">Mi chiamo Twinsen. Ho visto tuo fratello, è in prigione ma sta bene. Mi ha detto di dirti " Amos ".</quote>
+    <quote id="37" type="0">Mi chiamo Twinsen e sono l'Erede... @ ecco, ecco, ecco.</quote>
+    <quote id="38" type="0">Ah ! O.K. Allora forse questa ti servirà.</quote>
+    <quote id="39" type="0">Sono felice per te, Twinsen! Ma mio fratello è imprigionato nel Quartier Generale di FunFrock, la finestra della sua cella dà sulla strada. Se tu potessi darmi sue notizie, ti guadagneresti una carta rossa in cambio.</quote>
+    <quote id="40" type="0">Hai appena ritrovato gli oggetti che conteneva il tuo inventario!</quote>
+    <quote id="41" type="0">" L.B.A. @ Servizio fognario di Proxim-City @ Via della Chiatta"</quote>
+    <quote id="42" type="0">Sto cercando di vendere degli asciugacapelli, sull'isola Principale non ci sono riuscito. Ne compra uno, a 30 Kash?</quote>
+    <quote id="43" type="0">Non ha abbastanza Kash, a più tardi.</quote>
+    <quote id="44" type="0">Non ho più niente da vendere!</quote>
+    <quote id="45" type="0">Oh, anche lei qui sull'Isola Proxima. Si ricorda di me? Vendo asciugacapelli. Gliene vendo uno a 30 Kash, ma solo perché è stata una giornata difficile.</quote>
+    <quote id="46" type="0">Non lo so.</quote>
+    <quote id="47" type="0">Lavoro da giorni su un prototipo di Jet-Pack. E' un piccolo reattore dorsale che consentirà di spostarsi volando. L'unico problema è che gli ultimi esperimenti con il motore hanno un po' sciupato il muro che dà sul giardino... E' difficile regolare la potenza di un motore, avrei bisogno di un reostato, come quelli che ci sono negli asciugacapelli. Puoi procurarmene uno?</quote>
+    <quote id="48" type="0">Hai trovato un asciugacapelli? Fantastico! Un minuto solo, il tempo di installare il reostato.</quote>
+    <quote id="49" type="0">Beh, non è ancora un Jet-Pack, è solo un Proto-Pack. Mi piacerebbe se tu lo provassi per misurare le sue prestazioni. Partendo da una spiaggia in leggera pendenza dovresti essere in grado di volare sopra l'acqua, ma non devi saltare! Accetti di provarlo per 10 Kash?</quote>
+    <quote id="50" type="0">Allora, il Proto-Pack? Continua a provarlo, ho ancora un sacco di calcoli da rivedere. E attenzione quando ti avvicini all'acqua: potrai volare solo partendo da una spiaggia in leggera pendenza.</quote>
+    <quote id="51" type="0">"Vista la recrudescenza della minaccia ribelle, nuovi bombardamenti delle nostre valorose truppe di cloni. "</quote>
+    <quote id="52" type="0">"Bandiera con teschio. Emblema piratesco appartenuto al celebre Capitano Guercio. "</quote>
+    <quote id="53" type="0">Il sistema di allarme del museo è stato attivato: come misura di sicurezza il museo è stato evacuato; le visite riprenderanno più tardi. </quote>
+    <quote id="54" type="0">Falso allarme al museo. La sola uscita possibile era attraverso le fogne, ma la piastra non è stata azionata, l'edificio viene quindi riaperto.</quote>
+    <quote id="55" type="0">Buongiorno.</quote>
+    <quote id="56" type="0">Spiacente, non ha abbastanza Kash.</quote>
+    <quote id="57" type="0">Benvenuto, nobile cliente, e grazie per farmi l'onore di visitare il mio bazaar. Si metta davanti all'articolo che le interessa e prema AZIONE.</quote>
+    <quote id="58" type="0">Ladro!<linebreak /> @ Lasci stare la mia cassetta!</quote>
+    <quote id="59" type="0">Sei troppo aggressivo! Torna quando ti sarai calmato!</quote>
+    <quote id="60" type="0">Dove vuoi andare?</quote>
+    <quote id="61" type="0">Sull'Isola della Cittadella.</quote>
+    <quote id="62" type="0">Nel Deserto della Foglia Bianca.</quote>
+    <quote id="63" type="0">Sull'Isola della Ribellione.</quote>
+    <quote id="64" type="0">Il carburante per 10 viaggi costa 30 Kash.</quote>
+    <quote id="65" type="0">15 cuori di polvere della vita costano 30 Kash.</quote>
+    <quote id="66" type="0">10 fiale di polvere magica costano 30 Kash.</quote>
+    <quote id="67" type="0">Un robo-pinguino costa 3 Kash.</quote>
+    <quote id="68" type="0">Mio fratello è rinchiuso in una delle celle del Quartier Generale che danno sulla strada. Se mi darai sue notizie, ti farò avere una carta rossa.</quote>
+    <quote id="69" type="0">Non mi interessa.</quote>
+    <quote id="70" type="0">Non so dove sono.</quote>
+    <quote id="71" type="0">Non lo so.</quote>
+    <quote id="72" type="0">Non si deve toccare il pulsante di allarme, il grobo lo sta collegando. E poi è vietato toccarlo!</quote>
+    <quote id="73" type="0">Allora, visiti il museo, e si ricordi di non toccare il pulsante di allarme sul muro!</quote>
+    <quote id="74" type="0">E' libero di non crederci, ma il museo è ben protetto! Ho appena collegato questo pulsante al sistema d'allarme: se viene premuto, si procede all'evacuazione dell'edificio. @ Rimangono solo una o due guardie automatiche. Con questo pulsante, poi si attivano numerosi sensori sotto il pavimento in legno che danno l'allarme se captano anche il minimo peso. Per sposatarsi qui dentro bisognerebbe volare!</quote>
+    <quote id="75" type="0">Se continua a giocare con quel pulsante, continuerà a beccarsi randellate!</quote>
+    <quote id="76" type="0">So che c'è qualcosa che lo riguarda, al museo.</quote>
+    <quote id="77" type="0">Quel nome mi dice qualcosa. Visita il Museo della Marina, mi sembra che possiedano due oggetti che sono appartenuti al Guercio.</quote>
+    <quote id="78" type="0">Oh, che splendore!</quote>
+    <quote id="79" type="0">Allora, le tue prove? Non ti pago mica per provare le scarpe!</quote>
+    <quote id="80" type="0">Lavoro da giorni su un prototipo di Jet-Pack. E' un piccolo reattore dorsale che permetterà di spostarsi volando. L'unico problema è che gli ultimi esperimenti con il motore hanno un po' sciupato il muro sud. Mi devi prestare il reostato del tuo asciugacapelli (vista la tua capigliatura, tu non ne hai bisogno). Se funziona, ti farò una proposta.</quote>
+    <quote id="81" type="0">Si direbbe che anche lei ha trovato un'autentica mappa segreta del Capitano Guercio! Mi farebbe un favore? Vada a restituire questa caffettiera a Lankir, che abita vicino al bazaar. E' da tanto che gliela devo rendere, mi vergogno!</quote>
+    <quote id="82" type="0">Al museo.</quote>
+    <quote id="83" type="0">Salve!</quote>
+    <quote id="84" type="0">Sono interessato alla storia del pirata Guercio.</quote>
+    <quote id="85" type="0">Carburante esaurito.</quote>
+    <quote id="86" type="0">Ho letto alcuni brani del suo libro di bordo; era terribile, quel Guercio! Se ti interessa, è in vendita al bazaar del Vecchio Borgo, sull'Isola Principale. Principale.</quote>
+    <quote id="87" type="0">Non so dove sono.</quote>
+    <quote id="88" type="0">Non ne so niente, però sembra che alla biblioteca avessero dei libri che ne parlavano.</quote>
+    <quote id="89" type="0">"Per motivi di sicurezza questa griglia si apre solo dall'interno del Museo della Marina. "</quote>
+    <quote id="90" type="0">Sull'Hamalayi.</quote>
+    <quote id="91" type="0">Sembra che ci sia stato un furto con scasso. Le visite riprenderanno più tardi!</quote>
+    <quote id="92" type="0">Tieni, riprendi le forze!</quote>
+    <quote id="93" type="0">Sembra che ci sia stato un furto con scasso. Purtroppo il ladro è fuggito!</quote>
+    <quote id="94" type="0">Mai vista una tempesta simile, @ mai!</quote>
+    <quote id="95" type="0">Spiacente, ma non so dove sono.</quote>
+    <quote id="96" type="0">Ho chiuso con le carte rosse false, troppo pericoloso, basta. D'ora in poi farò solo false mappe segrete del capitano Guercio.</quote>
+    <quote id="97" type="0">Ah, impossibile aprire senza carta rossa.</quote>
+    <quote id="98" type="0">Verso la Pietra dell'Eclisse.</quote>
+    <quote id="99" type="0">Verso la Pietra col Sigillo.</quote>
+    <quote id="100" type="0">A Proxim-City.</quote>
+    <quote id="101" type="0">Allora, si metta davanti allo scrigno del Guercio, nel museo, e legga la targa!</quote>
+    <quote id="102" type="0">Buongiorno</quote>
+    <quote id="103" type="0">Spiacente, non ne so niente.</quote>
+    <quote id="104" type="0">Buongiorno. Stupefacente, come gli oggetti del Guercio abbiano attraversato gli anni; avete letto l'iscrizione davanti allo scrigno?</quote>
+    <quote id="105" type="0">Buongiorno</quote>
+    <quote id="106" type="0">Non lo so.</quote>
+    <quote id="107" type="0">Non lo so!</quote>
+    <quote id="108" type="0">Buongiorno</quote>
+    <quote id="109" type="0">Allora legga le iscrizioni, ci sono oggetti appartenuti al Guercio, qui!</quote>
+    <quote id="110" type="0">Non posso aiutarla.</quote>
+    <quote id="111" type="0">Qualcuno ha sbagliato indirizzo e mi ha spedito per errore questo oggetto: si tratta di una tastiera per aprire una porta del "Centro di Teletrasporto"; si accede a una stanza piena di robo-pinguini.</quote>
+    <quote id="112" type="0">Se mi restituisce la caffettiera, le do una lista di alcuni luoghi in cui si può trovare una pianta rara e alcune scatole. E non mi chieda dove ho trovato questa lista! </quote>
+    <quote id="113" type="0">Buongiorno</quote>
+    <quote id="114" type="0">Non posso far niente per lei.</quote>
+    <quote id="115" type="0">"Gerolamo Baldino. Gadget & Invenzioni Varie. "</quote>
+    <quote id="116" type="0">Al museo.</quote>
+    <quote id="117" type="0">Mi lasci in pace, non ho nulla da dirle.</quote>
+    <quote id="118" type="0">§</quote>
+  </quotes>
+</lbatexts>

@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>1</game>
+  <quotes>
+    <quote id="1" type="0">Halt!</quote>
+    <quote id="2" type="0">Good day, I'm looking for a friend. She is escorted by two groboclones.</quote>
+    <quote id="3" type="0">Sorry, I didn't see them but try going to the astronomer's house in the Old Burg; he knows a lot about what is going on.</quote>
+    <quote id="4" type="0">It is forbidden to talk about that!</quote>
+    <quote id="5" type="0">If you want to see my cousin, go in front of the sink and wash your hands! Ha ha!</quote>
+    <quote id="6" type="0">I was arrested for sneezing in public, it's ridiculous! There's also, however, a forger in the cell to the right of general headquarters.</quote>
+    <quote id="7" type="0">I can't help you. Except perhaps... considering the risks you've taken, I guess I can trust you. I was arrested on this island, but earlier on I gave a fake red card to my brother who was living on Proxima island. He will give it to you if you say "Amos" to him (the location of the house is now indicated on your Holomap).</quote>
+    <quote id="8" type="0">"Dr. FUNFROCK's headquarters. Access IS FORBIDDEN!"</quote>
+    <quote id="9" type="0">"Young male quetch seeks young female rabbibunny for friendship (and maybe more...)"</quote>
+    <quote id="10" type="0">Bah! Not interested.</quote>
+    <quote id="11" type="0">As I live and breathe, you will never see me drink any tap water in this city, mate. And all you have to do is drink some of it to understand why!</quote>
+    <quote id="12" type="0">That old pirate is right, the tap water tastes funny. They should be able to improve its quality, and by the way the water tower is located in the North mountains (check your holomap).</quote>
+    <quote id="13" type="0">The Legend is a weak spot in FunFrock's power. You must discover why; it's the only way of seeing your friend again.</quote>
+    <quote id="14" type="0">Good day, this talk about the Legend is strange, don't you think?</quote>
+    <quote id="15" type="0">"ANNOUNCEMENT #358-G : A prisoner named Twinsen has escaped from the Citadel. Anyone seeing the escapee must notify the nearest clone."</quote>
+    <quote id="16" type="0">"Opening hours for the Principal Island library: @ More or less, all the time."</quote>
+    <quote id="17" type="0">We have some documents on the "Legend" somewhere in the Censored Publications Department, but you need special authorization to look at them. Let me see your ID card.</quote>
+    <quote id="18" type="0">Good day. You need a boarding ticket to go to Citadel Island.</quote>
+    <quote id="19" type="0">" My dear and respected Dr. FunFrock, I took the plans of the Teleportation Center home with me, to work on them over the week-end. I will bring them back on Monday. Signed: Mies Van der Rooh, Architect, Bug Street, Citadel Island. "</quote>
+    <quote id="20" type="0">I'm interested in the story of LeBorgne the pirate.</quote>
+    <quote id="21" type="0">I'm looking for the plans of the Teleportation Center. I'm on a special assignment!</quote>
+    <quote id="22" type="0">Sound the alarm! It's the escapee!</quote>
+    <quote id="23" type="0">Good day</quote>
+    <quote id="24" type="0">A ferry ticket costs 10 kashes. However as I have a WANTED poster in my office, you will have to pay 30 Kashes to make me overlook the fact that you look a lot like the guy on it.</quote>
+    <quote id="25" type="0">Halt! You are a wanted escapee!</quote>
+    <quote id="26" type="0">If you give me 10 Kashes I'll let you read the poster behind me.</quote>
+    <quote id="27" type="0">I saw them a little while ago on Citadel Island. But they left on a fast boat. Destination unknown!</quote>
+    <quote id="28" type="0">Welcome, dear customer! I don't have any more cherry flavored syrup, but there is a pharmacy open on Citadel Island.<linebreak />P Move in front of the item that interests you and use the ACTION command.</quote>
+    <quote id="29" type="0">Mister, Mister! There's a loose stone in the back wall. I might be able to escape!</quote>
+    <quote id="30" type="0">A loose stone? Let me see that.</quote>
+    <quote id="31" type="0">The passage will only open when you come from my cousin's house. Now stop rummaging everywhere!</quote>
+    <quote id="32" type="0">Sorry, but you don't have enough Kashes. Come back later.</quote>
+    <quote id="33" type="0">Here you can't just talk to just anybody. Prove that you are not working for FunFrock. Go clobber a clone for starters!</quote>
+    <quote id="34" type="0">Didn't see anything, but if you have any problems, you should talk to the Astronomer who is under house arrest, up above the Old Burg.</quote>
+    <quote id="35" type="0">So you're the one that beats up on clones? Good job! I haven't seen your friend but you should go see the Astronomer. He will certainly be able to help you.</quote>
+    <quote id="36" type="0">Leave me alone, this job is already hard enough.</quote>
+    <quote id="37" type="0">This young girl must be someone important if that tyrant FunFrock is holding her outside of Citadel Island. Something funny is going on with this forbidding of any talk about the Legend: this must be some kind of weakness in his power! Find out what is behind this Legend, it's your only hope of seeing your friend again. If you need to leave the island, I know a friend who can help you at Port-Belooga (check your holomap). Tell him that I sent you. And be discreet in your quest.</quote>
+    <quote id="38" type="0">Unfortunately, I don't know anything about the Legend, but I have a fisherman friend who could help you in your travels if you tell him that I sent you. He lives at Port-Belooga (check your holomap).</quote>
+    <quote id="39" type="0">Ha ha! It's a colleague, he's looking for a wife.</quote>
+    <quote id="40" type="0">I don't know anything about it, and anyway, it's a forbidden subject.</quote>
+    <quote id="41" type="0">According to my doctor, I can drink only the city's tap water. But it tastes too bad. If someone could improve its taste, I would be willing to show him the Censored Publication Department, and that would be quite a privilege.</quote>
+    <quote id="42" type="0">Hold on a minute, I'm going to taste the water.</quote>
+    <quote id="43" type="0">Hmmmmm, cherry flavor, not bad... but I would have preferred carrot. But anyway, as promised, I will show you where the documents about the "Legend" are.</quote>
+    <quote id="44" type="0">Never saw 'em! The sea is my only concern. @ Sometimes I even take voyagers on my boat, but only people that I can trust.</quote>
+    <quote id="45" type="0">If the Astronomer sent you, I guess I can trust you. Despite the solidarity in the resistance against FunFrock, you know, times are hard. For 10 Kashes I'll take you where you want to go.</quote>
+    <quote id="46" type="0">I don't know yet.</quote>
+    <quote id="47" type="0">To the White Leaf Desert.</quote>
+    <quote id="48" type="0">I'm not going to leave just yet.</quote>
+    <quote id="49" type="0">You don't have enough Kashes to make the trip Twinsen. See you later!</quote>
+    <quote id="50" type="0">"In the distant past, when the spheros, rabbibunnies, Quetches and grobos emerged from the original primordial soup, centuries before Dr. FunFrock's coup, a prophecy was pronounced. Its text is hardly remembered today and that is why people now refer to it as the "Legend". It explained how "the Heir," when his time had come, would be called to overthrow a tyrant! The secret of the Legend can still be learned somewhere in the White Leaf Desert."</quote>
+    <quote id="51" type="0">You've just got back all the objects that were in your inventory!</quote>
+    <quote id="52" type="0">You can come aboard sir, we were just getting underway.</quote>
+    <quote id="53" type="0">"Welcome to Principal Island."</quote>
+    <quote id="54" type="0">I didn't see her, but I think that I can trust you now. Follow me, I know how to get to the Astronomer's home.</quote>
+    <quote id="55" type="0">My cousin is a locksmith. He will open the unguarded door for you. Follow me!</quote>
+    <quote id="56" type="0">I don't know if I can help you. I am a locksmith and I can open doors... but only for people that I can trust!</quote>
+    <quote id="57" type="0">If you already know about that passage, I can open the unguarded door for you. After you!</quote>
+    <quote id="58" type="0">I can help you get rid of the Supergro. Follow me, but wait until he moves away from the steps before going by!</quote>
+    <quote id="59" type="0">Thief! @ Leave my money box alone!</quote>
+    <quote id="60" type="0">You are too aggressive! Get out of here, and don't come back until you have calmed down!</quote>
+    <quote id="61" type="0">Shut up stupid, it is forbidden to talk about it!</quote>
+    <quote id="62" type="0">" Principal island sanitation department: NO SWIMMING! "</quote>
+    <quote id="63" type="0">Where do you want to go?</quote>
+    <quote id="64" type="0">To Port-Belooga.</quote>
+    <quote id="65" type="0">To the water tower.</quote>
+    <quote id="66" type="0">I'm paying to see!</quote>
+    <quote id="67" type="0">No way, this smells like a scam!</quote>
+    <quote id="68" type="0">I can guide you through the Censored Publications Department. There is one book that talks about the Legend. I could show it to you, but first, I would like you to change the taste of the tap water, here in the city. It is the only type of water that I am allowed to drink, and it is really disgusting.</quote>
+    <quote id="69" type="0">"Old Burg @ (Principal island)"</quote>
+    <quote id="70" type="0">"Peg Leg Street @ (Principal island)"</quote>
+    <quote id="71" type="0">Sorry, but you don't have enough Kashes. Come back later.</quote>
+    <quote id="72" type="0">To Proxima Island.</quote>
+    <quote id="73" type="0">I read some of the Captain's log - LeBorgne was ruthless! If you are still interested, the log is on sale at the Old Burg bazaar, on this island.</quote>
+    <quote id="74" type="0">I am Bob Vortix, astronomer under house arrest. What are you doing in town, apart from beating up clones?</quote>
+    <quote id="75" type="0">The Astronomer sent me.</quote>
+    <quote id="76" type="0">Come back when you know where you want to go.</quote>
+    <quote id="77" type="0">" Life candy: would you like 10 hearts for 10 Kashes? "</quote>
+    <quote id="78" type="0">Ok, I'll buy.</quote>
+    <quote id="79" type="0">No, thank you.</quote>
+    <quote id="80" type="0">Not enough Kashes!</quote>
+    <quote id="81" type="0">Good day. Come this way, I'll open the door for you.</quote>
+    <quote id="82" type="0">Sound the alarm! A prisoner is escaping!</quote>
+    <quote id="83" type="0">My poor friend! I really don't know what you are talking about.</quote>
+    <quote id="84" type="0">You know Julia? She is a nice girl. She watches a bit too much TV, but there is some truth in her story: someone left a box for clover leaves on the islet in front of my house. It is too shallow for a boat to get there by water, and since the bridge leading to the islet has collapsed, the only way to get there is to fly.</quote>
+    <quote id="85" type="0">Very good sir, wait here please.</quote>
+    <quote id="86" type="0">What are you doing there, who are you?</quote>
+    <quote id="87" type="0">I'm fixing the antennas.</quote>
+    <quote id="88" type="0">Twinsen, I'm escaping.</quote>
+    <quote id="89" type="0">Santa Claus.</quote>
+    <quote id="90" type="0">"Welcome to Port-Belooga @ (Principal Island) @ Sea calm to choppy, gusty winds."</quote>
+    <quote id="91" type="0">I'm not interested.</quote>
+    <quote id="92" type="0">I'll buy.</quote>
+    <quote id="93" type="0">Good day</quote>
+    <quote id="94" type="0">"L.B.A. @ Old Burg Sewer service. Emerald Moon Street."</quote>
+    <quote id="95" type="0">Feel free to look through my stuff, creep!</quote>
+    <quote id="96" type="0">She's not here. I would have noticed her. We don't have many readers these days.</quote>
+    <quote id="97" type="0">I've been all over the island today, and I haven't seen those people.</quote>
+    <quote id="98" type="0">I didn't see her.</quote>
+    <quote id="99" type="0">I didn't see her.</quote>
+    <quote id="100" type="0">Sorry. I haven't seen your trio.</quote>
+    <quote id="101" type="0">I didn't see her, but ...</quote>
+    <quote id="102" type="0">The water is drinkable, but it is true that it tastes funny. You'll have to go to the water tower if you want to change something.</quote>
+    <quote id="103" type="0">Good day</quote>
+    <quote id="104" type="0">Good day, mate.</quote>
+    <quote id="105" type="0">Bye, say hi to my cousin when you see him.</quote>
+    <quote id="106" type="0">Good day</quote>
+    <quote id="107" type="0">Sorry, but you don't have enough Kashes. Come back later.</quote>
+    <quote id="108" type="0">We don't trust people easily here. Prove that you don't work for FunFrock, clobber a clone!</quote>
+    <quote id="109" type="0">To Citadel Island.</quote>
+    <quote id="110" type="0">To Rebellion Island.</quote>
+    <quote id="111" type="0">Here it is: like new, good handling and fast, this catamaran is for you!... for 200 Kashes.</quote>
+    <quote id="112" type="0">Too expensive for my blood!</quote>
+    <quote id="113" type="0">Great, I'll take it.</quote>
+    <quote id="114" type="0">Not enough Kashes!</quote>
+    <quote id="115" type="0">I've got to tell you something. It's awful! My best friend (Beatrice) is in love with Steven. But Paul, Steven's half brother, left Cindy when Linda got out of the clinic after her bobsleigh accident. But not for Linda, for Tatjana! Only Serge (who secretly admires Steven) has been trying for months to win the love of Tatjana who refuses to talk to Christy since she died. All the while Stephanie - who remarried Serge - discovered the letter from Paulina in which she explained where was the box of clover leaves left behind by Roy. So, evidently, Beatrice wonders if Linda knows about the accident. @ You get all that?</quote>
+    <quote id="116" type="0">Wake up, I've just found the escapee!</quote>
+    <quote id="117" type="0">Thief!<linebreak /> @ Leave my money box alone!</quote>
+    <quote id="118" type="0">Sorry dear customer, but all that interests me is my modest concern.</quote>
+    <quote id="119" type="0">Fool, don't do that! ANYTHING can happen now!</quote>
+    <quote id="120" type="0">Ha, ha! You too are looking for his treasure? Well, I sure once had an old dusty book about LeBorgne, but a customer bought it this morning. It was a rabbibunny. I know that he works over at the library.</quote>
+    <quote id="121" type="0">I have not seen this young lady. But go over to the Astronomer's house. Even though he is not allowed to leave his own house, he knows everything. He lives in the last house on the hill overlooking the city.</quote>
+    <quote id="122" type="0">It tastes EXACTLY the same as before. I won't guide you through the library.</quote>
+    <quote id="123" type="0">Did you know that a wise guy dumped some syrup into the island's water supply? I'd like to find that guy so that I can give him a piece of my mind. You wouldn't happen to know him, would you?</quote>
+    <quote id="124" type="0">It was me! Not bad, huh?</quote>
+    <quote id="125" type="0">Probably another FunFrock stunt.</quote>
+    <quote id="126" type="0">Bravo! This little twinge of cherry is fantastic. Ever since my doctor told me that I could only drink tap water and... well you know all that. In gratitude, I can show you all the ancient works that are here, even the LEGENDARY ones!</quote>
+    <quote id="127" type="0">Oh, so Dr. FunFrock is taking care of us now. Funny, I find it hard to believe that it was him.</quote>
+    <quote id="128" type="0">I have not seen this person.</quote>
+    <quote id="129" type="0">My dear sir, I have been looking for Captain LeBorgne's log for years now. And would you believe that I found it today while shopping in the Old Burg? Naturally, such a piece should be consulted on site. Go look on the table in the back of the room next to the projection room.</quote>
+    <quote id="130" type="0">Wait here, I'll go get them for you.</quote>
+    <quote id="131" type="0">We must have something about LeBorgne. Go check with the chief librarian. You know him already, he's a rather large, orange rabbibunny.</quote>
+    <quote id="132" type="0">Ok, I'll read you an extract from this book if you promise to leave me alone. What do you want me to read about?</quote>
+    <quote id="133" type="0">Pirate recipes.</quote>
+    <quote id="134" type="0">Leborgne's treasure.</quote>
+    <quote id="135" type="0">Why LeBorgne?</quote>
+    <quote id="136" type="0">As you know, this is a French game, and our respect for the culinary arts prevents us from revealing the ingredients used in pirate recipes. </quote>
+    <quote id="137" type="0">" To find Captain LeBorgne's treasure, the voyager who arrives at the port of Proxima island must use the closest mooring post as a guide. With his back to the docked boats, he must follow these instructions in DISCREET mode: @ 6 steps to the North (straight ahead), then 6 steps to the East (to his right), following the gradual slope. 2 steps to the North (straight ahead) until he reaches the metal garbage can, 3 steps to the East (to his right) until he arrives at a light post. He must stand EXACTLY between the 2 lamp posts, and then take 8 steps to the North until he arrives at a gate. Captain LeBorgne's treasure is in the building behind the gate." </quote>
+    <quote id="138" type="0">"That was his nickname because he was always chewing an old toothpick. One day, during a typhoon, he sneezed: he found his toothpick, but lost an eye!"</quote>
+    <quote id="139" type="0">There's no need to be aggressive, I was here before you!</quote>
+    <quote id="140" type="0">Good day!</quote>
+    <quote id="141" type="0">I don't know where they could be.</quote>
+    <quote id="142" type="0">This is rebellion, it is forbidden to speak of that Legend!</quote>
+    <quote id="143" type="0">I didn't see her, but the Astronomer will certainly be able to help you.</quote>
+    <quote id="144" type="0">You should talk to the sailors about that kind of story.</quote>
+    <quote id="145" type="0">I'd like to help you, but I don't know where they are.</quote>
+    <quote id="146" type="0">Hmmh! Quite a character that LeBorgne, he scoured the entire hemisphere a few hundred years ago. My fisherman friend told me that the Bazaar is selling an object that belonged to LeBorgne.</quote>
+    <quote id="147" type="0">I don't know where they are.</quote>
+    <quote id="148" type="0">Hiiii hi ! Bbbrrfff !</quote>
+    <quote id="149" type="0">One of my colleagues was galloping at full speed across the White Leaf Desert and he said that he saw someone locked up in a grotto, behind a giant symbol of some kind.</quote>
+    <quote id="150" type="0">Never heard anything about it!</quote>
+    <quote id="151" type="0">What's a Teleportation Center?</quote>
+    <quote id="152" type="0">Hi!</quote>
+    <quote id="153" type="0">Ah! That LeBorgne was quite a man!</quote>
+    <quote id="154" type="0">Ha ha, that's a good one! Sorry I don't have any with me.</quote>
+    <quote id="155" type="0">Can't seem to sell a single hair dryer here. One of my colleagues is already out there trying his best. If this keeps up, I'll have to move on to another island.</quote>
+    <quote id="156" type="0">I don't know where they are.</quote>
+    <quote id="157" type="0">I cannot help you, my friend. Don't know what you are talking about.</quote>
+    <quote id="158" type="0">Take that, rebel!</quote>
+    <quote id="159" type="0">Move along!</quote>
+    <quote id="160" type="0">Good day</quote>
+    <quote id="161" type="0">Go to the tavern, they love pirate stories there!</quote>
+    <quote id="162" type="0">Leave me alone, I have nothing to say.</quote>
+    <quote id="163" type="0">Good day</quote>
+    <quote id="164" type="0">It is strictly forbidden to talk about that!</quote>
+    <quote id="165" type="0">Never heard anything about it.</quote>
+    <quote id="166" type="0">I don't know where they are.</quote>
+    <quote id="167" type="0">Sorry, I don't know what you're talking about.</quote>
+    <quote id="168" type="0">Hi!</quote>
+    <quote id="169" type="0">Calm down!</quote>
+    <quote id="170" type="0">I didn't see her.</quote>
+    <quote id="171" type="0">Look, you seem like a nice guy, but you're a big boy now. Figure it out for yourself, I'm not a library!</quote>
+    <quote id="172" type="0">I don't know anything about all that.</quote>
+    <quote id="173" type="0">I didn't see her.</quote>
+    <quote id="174" type="0">I don't know where they could be.</quote>
+    <quote id="175" type="0">Pirates, phooey! Those sailors will say anything to get someone to buy them a drink!</quote>
+    <quote id="176" type="0">Good day</quote>
+    <quote id="177" type="0">30 Kashes for a hair dryer, how about that? I normally sell them door to door, but customers are sparse, and you seem nice enough.</quote>
+    <quote id="178" type="0">Come in!</quote>
+    <quote id="179" type="0">Good day, my good sir.</quote>
+    <quote id="180" type="0">No. Not at all.</quote>
+    <quote id="181" type="0">Go see Beatrice and tell her that Julia sent you. She'll explain all that better than I can. She lives on the outskirts of the Old Burg, in a house next to the sea, on Peg Leg Street.</quote>
+    <quote id="182" type="0">Julia spoke a lot about you.</quote>
+    <quote id="183" type="0">I don't know anything about pirating, try talking to the sailors instead.</quote>
+    <quote id="184" type="0">I don't know where they are, kind sir.</quote>
+    <quote id="185" type="0">Good day, young quetch.</quote>
+    <quote id="186" type="0">I didn't see her.</quote>
+    <quote id="187" type="0">I don't know what you're talking about!</quote>
+    <quote id="188" type="0">They say that the tap water tastes better now. Great! Another publicity stunt from the anti-alcohol foundation.</quote>
+    <quote id="189" type="0">I never saw 'em</quote>
+    <quote id="190" type="0">I don't know her, but go see Wadbull over at the bazaar. And be careful... normally it is forbidden to talk about that!</quote>
+    <quote id="191" type="0">Ah, I never heard that one. But the one about the pirate that had rheumatisms in one leg and termites in the other cracks me up every time!</quote>
+    <quote id="192" type="0">Hi mate!</quote>
+    <quote id="193" type="0">I don't know where they are.</quote>
+    <quote id="194" type="0">LeBorgne! Since he didn't know how to read, he had his cook write the Captain's log. I know that it is for sale at the bazaar next door.</quote>
+    <quote id="195" type="0">Sorry, I don't know anything about that.</quote>
+    <quote id="196" type="0">This super Holomap costs only 20 Kashes (you will find that it is very useful!).</quote>
+    <quote id="197" type="0">Gas for 10 voyages costs 30 Kashes.</quote>
+    <quote id="198" type="0">15 hearts of life powder will cost you 30 Kashes.</quote>
+    <quote id="199" type="0">10 flasks of magic powder will cost you 30 Kashes.</quote>
+    <quote id="200" type="0">A meca-penguin will cost you 3 Kashes.</quote>
+    <quote id="201" type="0">I didn't see her.</quote>
+    <quote id="202" type="0">Sorry, I never heard anything about that.</quote>
+    <quote id="203" type="0">Hi friend.</quote>
+    <quote id="204" type="0">I don't know where they are.</quote>
+    <quote id="205" type="0">Good day</quote>
+    <quote id="206" type="0">Ask the boss or the sailor at the table.</quote>
+    <quote id="207" type="0">You know that it is forbidden to talk about that! But this is your lucky day: I'd most happily turn you in, but that would deprive me of a chance to line my pockets with your Kashes.</quote>
+    <quote id="208" type="0">Good day</quote>
+    <quote id="209" type="0">I'm a huge STAR WARS™ fan. The saga's sequel should be released soon, so I already reserved my seat in the movie theater!</quote>
+    <quote id="210" type="0">I'd like to help you, but I really don't know much, except about movies. Good luck!</quote>
+    <quote id="211" type="0">I found this page ripped out of a book. It says "... pull the middle lever ONCE, then pull the right lever ONCE." This must be the answer to some kind of puzzle!</quote>
+    <quote id="212" type="0">I don't know where they are. Sorry.</quote>
+    <quote id="213" type="0">Good day</quote>
+    <quote id="214" type="0">Ask the rabbibunny with the yellow T-shirt, he's the librarian.</quote>
+    <quote id="215" type="0">Ow! But I found this page on the ground, I didn't rip it out. I promise!</quote>
+    <quote id="216" type="0">According to the book I have, there is a "Clear water" lake in the Hamalayi mountains, somewhere to the North West of Principal Island. Did you know that the Hamalayi range is impossible to cross? It marks the border with the Northern hemisphere, the one that Dr. FunFrock cleared out. The sun is too hot for us over there: the temperature is unbearable, and the changes in climate caused the development of mutant monsters. And despite the fact that the good doctor spared us from all that, there are still rebels out there who want to overthrow him - it's shameful!</quote>
+    <quote id="217" type="0">Sorry, I don't know what you're talking about.</quote>
+    <quote id="218" type="0">Ask the librarian, he knows a lot about the history of LeBorgne.</quote>
+    <quote id="219" type="0">Did you know that Dr. FunFrock installed busts of his effigy to protect us? The ones that don't have a pedestal are placed on ancient seals. Since these symbols were indestructible, at least the busts hide them now!</quote>
+    <quote id="220" type="0">I don't know where they are.</quote>
+    <quote id="221" type="0">Go see the librarian.</quote>
+    <quote id="222" type="0">I never saw him, but try a little further up at the Bazaar. Wadbull knows a lot and he SELLS A BIT OF EVERYTHING!</quote>
+    <quote id="223" type="0">Nobody remembers that nowadays. I even wonder if the library still has books about the Legend.</quote>
+    <quote id="224" type="0">I don't know her. Sorry.</quote>
+    <quote id="225" type="0">I don't know anything about it, but some people say that there used to be some books over at the library that spoke of it.</quote>
+    <quote id="226" type="0">Stop doing that, you're going to put ashes everywhere!</quote>
+    <quote id="227" type="0">Don't know where they are, but forget about it! Teleportation makes me sick.</quote>
+    <quote id="228" type="0">Ewwwww! Teleportation makes me nauseous.</quote>
+    <quote id="229" type="0">No more gas.</quote>
+    <quote id="230" type="0">By the way - thanks, I have the red card!</quote>
+    <quote id="231" type="0">You can't imagine what it's like to be locked up! @ It's awful... just awful!</quote>
+    <quote id="232" type="0">I doubt that she is being held here.</quote>
+    <quote id="233" type="0">Never heard anything about it.</quote>
+    <quote id="234" type="0">They say that he was never captured!</quote>
+    <quote id="235" type="0">Sorry, but I really don't know anything about it.</quote>
+    <quote id="236" type="0">"Drinking water for Principal Island: DO NOT THROW ANYTHING IN THE TANK!"</quote>
+    <quote id="237" type="0">Sorry dear customer, but this is a bazaar here, not a library!</quote>
+    <quote id="238" type="0">No one remembers that stuff today, that's just a lot of bunk.</quote>
+    <quote id="239" type="0">Well ... I don't know, but someone in the Old Burg must know something about this stupid Legend.</quote>
+    <quote id="240" type="0">She's not being held here. But if you want my red card, go and see my brother. Our house's location is marked on your holomap.</quote>
+    <quote id="241" type="0">I was just thinking as well, that I've seen this quetch somewhere before!</quote>
+    <quote id="242" type="0">Go try at the Old Burg tavern, and talk to the bar tender.</quote>
+    <quote id="243" type="0">Hi, I've just returned from a trip around this hemisphere and I'm selling my boat. Follow me if you're interested.</quote>
+    <quote id="244" type="0">Good day, so you've been around the hemisphere? Watch out for the icebergs near the Hamalayi mountains!</quote>
+    <quote id="245" type="0">You might get into trouble with the authorities if you carry this flag. It's a rebel's emblem.</quote>
+    <quote id="246" type="0">Come here! Now that's a real sailor! LeBorgne had a log that must have contained the location of his treasure somewhere.</quote>
+    <quote id="247" type="0">Never seen 'em, don't even know what you're talking about.</quote>
+    <quote id="248" type="0">Well, well, what do we have here? A snooper? Twinsen I presume. I would like to know what you're doing here.</quote>
+    <quote id="249" type="0">There's a treasure on this island: you must blow into a magic horn in front of FunFrock's bust to gain access to it.</quote>
+    <quote id="250" type="0">I am not familiar with that story.</quote>
+    <quote id="251" type="0">I don't know what that could be all about.</quote>
+    <quote id="252" type="0">Good day</quote>
+    <quote id="253" type="0">Good day</quote>
+    <quote id="254" type="0">Hello</quote>
+    <quote id="255" type="0">Good day dear friend.</quote>
+    <quote id="256" type="0">Ah, those plans are not present in our books.</quote>
+    <quote id="257" type="0">To the Hamalayi mountains.</quote>
+    <quote id="258" type="0">Wherever you go, come back soon. We are waiting for the imminent return of a solitary navigator, and he will sell his boat.</quote>
+    <quote id="259" type="0">Don't know anything about it!</quote>
+    <quote id="260" type="0">It's kind of you to help me, but I managed to steal the guard's key. Take it, I don't need it any more.</quote>
+    <quote id="261" type="0">I just discovered a secret passage by using the ACTION command, incredible! Do you like my red card otherwise?</quote>
+    <quote id="262" type="0">Ah, it's impossible to open it without a red card.</quote>
+    <quote id="263" type="0">Ah, it's impossible to open it without a blue card.</quote>
+    <quote id="264" type="0">To the military camp.</quote>
+    <quote id="265" type="0">Peg Leg Street.</quote>
+    <quote id="266" type="0">I am cured. I don't kown what you poured in the water this time but my kidney stone vanished. Thank you!</quote>
+    <quote id="267" type="0">Hello</quote>
+    <quote id="268" type="0">One day, one of my swabs claimed that LeBorgne was an ancestor of mine and... well, you know how dramatic burials at sea can be!</quote>
+  </quotes>
+</lbatexts>

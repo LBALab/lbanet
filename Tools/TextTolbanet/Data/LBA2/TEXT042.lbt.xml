@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>2</game>
+  <quotes>
+    <quote id="1" type="1">C'est d'accord !</quote>
+    <quote id="2" type="1">Ça ne m'intéresse pas.</quote>
+    <quote id="3" type="1">J'aimerais d'abord soigner mon Dino-Fly !</quote>
+    <quote id="4" type="1">" Vous cherchez un costume ou des accessoires de Magie ? Chedil Amiradoo est à votre service. Prix compétitifs et service après-vente. Actuellement en tournée sur votre île. "</quote>
+    <quote id="5" type="1">" Qwelt ik Mülg'b ¿ ÿoc & ÿæc # %-) ßBig Tsè-steel-jenr, (dulkug) hanfin tuwouah koa xdocd § ¡ "</quote>
+    <quote id="6" type="1">Disparus ?? Je comprends que l'affaire soit grave Maître ! Je ferai ce que je peux pour les retrouver, faites-moi confiance !!</quote>
+    <quote id="7" type="1">" Apprendre c'est aussi repasser des épreuves avec de nouveaux moyens. "</quote>
+    <quote id="8" type="1">" Derniers apprentis reçus à l'examen de mage : Aril van Koow, Hougo Dolphar, Carnogeel. "</quote>
+    <quote id="9" type="1">Que dois-je faire Maître ?</quote>
+    <quote id="10" type="1">Salut Jérôme.</quote>
+    <quote id="11" type="1">" Visitez Temple-Park. A deux pas du Mont-Chauve, revivez un épisode de l'histoire de Twinsen en explorant le Temple de Bù. "</quote>
+    <quote id="12" type="1">" Jérôme Baldino. @ Gadgets & Inventions Diverses. "</quote>
+    <quote id="13" type="1">" Circuit Von Kournil. @ (Ile du Désert de la Feuille Blanche) "</quote>
+    <quote id="14" type="1">" Port-Ludo @ (Ile du Désert de la Feuille Blanche). "</quote>
+    <quote id="15" type="1">" Vous êtes au port @ (Ile du Désert de la Feuille Blanche). "</quote>
+    <quote id="16" type="1">" Vers le port. "</quote>
+    <quote id="17" type="1">" Vers le Temple de Bù. "</quote>
+    <quote id="18" type="1">" Vers l'Hacienda del Monte-Pelado. "</quote>
+    <quote id="19" type="1">"Vous êtes au Mont Chauve."</quote>
+    <quote id="20" type="1">"Vers le cimetière."</quote>
+    <quote id="21" type="1">Bonjour.</quote>
+    <quote id="22" type="1">Salut.</quote>
+    <quote id="23" type="1">C'est fermé.</quote>
+    <quote id="24" type="1">Bonjour Maître.</quote>
+    <quote id="25" type="1">Je n'ai pas assez de Kashes.</quote>
+    <quote id="26" type="1">Je cherche le mage guérisseur. Je dois soigner mon Dino-Fly.</quote>
+    <quote id="27" type="1">Et vous savez où il habite ?</quote>
+    <quote id="28" type="1">Mais... le mage guérisseur !!</quote>
+    <quote id="29" type="1">Je cherche l'école de magie.</quote>
+    <quote id="30" type="1">Vous savez où se trouve l'école de magie ?</quote>
+    <quote id="31" type="1">Avez-vous vu passer un mage récemment ?</quote>
+    <quote id="32" type="1">Savez-vous où se trouvent les mages ?</quote>
+    <quote id="33" type="1">" Derniers apprentis reçus à l'examen de mage : Aril van Koow, Hougo Dolphar, Carnogeel, Twinsen. "</quote>
+    <quote id="34" type="9">Allô ?</quote>
+    <quote id="35" type="1">Maître, les enfants de Twinsun ont été enlevés par les Esmers. Pouvez vous m'aider ? N'auriez vous pas un sort qui nous permettrait de savoir où ils ont été emmenés ?</quote>
+    <quote id="36" type="1">Et où puis-je la trouver ?</quote>
+    <quote id="37" type="1">J'ai lu un message laissé par le mage météo. Il a besoin d'une perle d'incandescence pour terminer un sort de foudre. Où puis-je en trouver une ?</quote>
+    <quote id="38" type="1">Maître, j'ai trouvé une perle étrange dans une grotte, près de Port-Ludo.</quote>
+    <quote id="39" type="1">Sur l'île de la citadelle.</quote>
+    <quote id="40" type="1">Sur l'îlot du dôme de l'ardoise.</quote>
+    <quote id="41" type="1">Je reste ici.</quote>
+    <quote id="42" type="1">Sur l'îlot en face de l'hacienda.</quote>
+    <quote id="43" type="1">Sur l'oasis, dans le désert.</quote>
+    <quote id="44" type="1">Je ne sais pas ce que prépare Jérome, mais il y a une machine infernale là-dessous.</quote>
+    <quote id="45" type="1">Tiens, on dirait que Jérome travaille sur le proto-pack, peut-être cherche t-il à l'améliorer.</quote>
+    <quote id="46" type="1">Humm... ce sont sûrement les plans de l'engin qui était caché sous la bâche. C'est sans doute avec lui que Jérôme est parti sur la Lune d'Emeraude.</quote>
+    <quote id="47" type="1">Vous êtes à Temple Park, l'ancien site du Temple de Bù.</quote>
+    <quote id="48" type="1">"Vous êtes à l'hacienda del Monte-Pelado."</quote>
+    <quote id="49" type="1">Justement, je le cherche.</quote>
+    <quote id="50" type="1">Sais-tu où se trouvent les mages ?</quote>
+    <quote id="51" type="1">Où est-ce que tu m'emmène Moya ?</quote>
+    <quote id="52" type="1">Je ne connaissais pas l'existence de cette grotte.</quote>
+    <quote id="53" type="1">Sur l'île de la citadelle.</quote>
+    <quote id="54" type="1">Sur le Dôme de l'ardoise.</quote>
+    <quote id="55" type="1">Je reste ici.</quote>
+    <quote id="56" type="1">Encore un mini-bus de touristes. Décidément, ce qui s'est passé dans le temple de Bù attire du monde !</quote>
+    <quote id="57" type="1">Tiens, un signe de Sendell. Ils sont vénérés par tous les mages.</quote>
+    <quote id="58" type="1">Non toujours pas.</quote>
+    <quote id="59" type="1">Non, je dois trouver l'école de magie.</quote>
+    <quote id="60" type="1">En passant les épreuves de l'école de magie, j'ai obtenu une conque avec laquelle je vais soigner le Dino-Fly.</quote>
+    <quote id="61" type="1">J'ai décidé de devenir mage pour soigner moi-même le Dino-Fly.</quote>
+    <quote id="62" type="1">Il me l'a déjà donnée. Je passerai pour te l'apporter.</quote>
+    <quote id="63" type="1">Ils se disent pacifiques mais je me méfie, je les trouve bien agressifs.</quote>
+    <quote id="64" type="1">Maître, je sais pourquoi les mages ont disparu. Les Esmers les invitent sur leur planète pour un programme d'échange culturel et scientifique. Je me demande ce que cela cache !</quote>
+    <quote id="65" type="1">ER ioergouerg ù erioufmqer oùu tu zejkhze jkhqdsqdsl iklds klqdfjn !!</quote>
+    <quote id="66" type="1">AVIS OFFICIEL ... toutes les navettes allant sur la base lunaire... nouveau mot de passe... sans quoi les soldats interviendront... opération GREEN MOON !!</quote>
+    <quote id="67" type="1">Il manque un objet à cet endroit. Une sorte de disque. Apparemment, c'est lui qui permet à la navette de décoller.</quote>
+    <quote id="68" type="33">Allô ! Twinsen ! Ça y est, j'ai réparé la voiture... j'aimerais que tu l'essayes... je te l'amène sur l'île du désert...</quote>
+    <quote id="69" type="1">Twinsen, j'aimerais que tu essayes la voiture. Pour savoir si elle fonctionne bien, tu n'as qu'à aller sur le circuit ou dans le désert. Puisque je suis ici, je vais en profiter pour faire quelques courses. On se retrouvera à la maison.</quote>
+    <quote id="70" type="33">Twinsen, tu as trouvé le mage guérisseur ?</quote>
+    <quote id="71" type="33">Alors Twinsen , tu as trouvé quelque chose pour soigner le Dino-Fly ?</quote>
+    <quote id="72" type="33">Au fait, peux tu demander à Baldino la pièce de voiture qu'il m'a promise ?</quote>
+    <quote id="73" type="33">Tu sais Twinsen, je suis inquiète. Je trouve ces visiteurs du ciel bien étranges. Ils sont trop aimables pour être honnêtes. En plus ils ont parfois de drôles de comportements. J'en ai vu se dissimuler dans les poubelles.</quote>
+    <quote id="74" type="1">Tiens ! Voici la pièce dont Zoé a besoin pour votre voiture.</quote>
+    <quote id="75" type="1">Tiens, voilà la radio portable que j'ai fabriquée pour toi et que j'avais oublié de te donner. Pardonne-moi pour ma maladresse, mais je suis sûr qu'elle te servira bien !!</quote>
+    <quote id="76" type="1">Hello Twinsen.</quote>
+    <quote id="77" type="1">J'aurais pu l'appeler " Talk-Boy " mais finalement radio portable c'est plus sobre. Au fait je te ferai prévenir dès que le Proto-Pack sera prêt, il te permettra de voler en toute sécurité.</quote>
+    <quote id="78" type="1">Malgré mon puissant télescope, je n'ai vu passer que quelques soucoupes derrière la Lune. Les Esmers doivent vivre sur la face cachée.</quote>
+    <quote id="79" type="1">Bonjour Maître, mais... Twinsen c'est toi ? Mais tu es superbe en mage, félicitations.</quote>
+    <quote id="80" type="1">Tu sais Twinsen, moi et la magie... Je n'aurais même jamais pensé qu'il puisse exister une école pour apprendre la magie !</quote>
+    <quote id="81" type="1">Je ne sais pas où ils sont Twinsen.</quote>
+    <quote id="82" type="1">Il vous faut un ticket pour embarquer sur le ferry, monsieur Twinsen.</quote>
+    <quote id="83" type="1">Votre ticket est en règle monsieur Twinsen, vous pouvez embarquer. Faites un bon voyage !</quote>
+    <quote id="84" type="1">Vous pouvez embarquer Maître.</quote>
+    <quote id="85" type="1">" Voulez-vous utilisez le télescope pour 2 Kashes ? "</quote>
+    <quote id="86" type="1">Maintenant qu'il n'y a plus de nuages, je peux enfin profiter de nos deux soleils. J'ai entendu dire qu'il y avait dans le désert une oasis où vient barboter une tortue. Je devrais peut-être aller là-bas.</quote>
+    <quote id="87" type="1">Une école de magie ? Et vous croyez qu'ils auraient besoin d'une assistante ?</quote>
+    <quote id="88" type="1">Non, je me suis endormie au soleil, je n'ai pas vu de mages.</quote>
+    <quote id="89" type="1">Où veux-tu aller Twinsen ?</quote>
+    <quote id="90" type="1">Vous savez, je me demande s'il ne l'ont pas déménagée par ici ! Avec le nombre de mages et d'Esmers qui fréquentent l'hacienda ces temps-ci !!</quote>
+    <quote id="91" type="1">J'adore ces visiteurs du ciel. Après les égouts de l'île de la citadelle, je devais repeindre le bain de vapeur. Mais pour fêter leur arrivée, ils ont payé pleins de tournées !!! Et pas qu'à moi on dirait, il y a plein de mages qui passent par ici.</quote>
+    <quote id="92" type="1">Ah tiens ! Bonjour monsieur Twinsen !</quote>
+    <quote id="93" type="9">Ouaip !</quote>
+    <quote id="94" type="1">Ah ça oui. Ils n'ont pas arrêté de défiler avec des tas d'Esmers. D'ailleurs je me demande bien où ils sont tous passés.</quote>
+    <quote id="95" type="1">Navré, mais j'ai interdit l'accès au toit depuis que mon collègue de l'île de la citadelle a eu des ennuis avec un client qui est tombé dans la cave de son bar !</quote>
+    <quote id="96" type="1">Et alors, qu'est-ce qui vous a pris ?</quote>
+    <quote id="97" type="1">B'jour monsieur</quote>
+    <quote id="98" type="9">Dehors et vite !</quote>
+    <quote id="99" type="1">Depuis quelques temps, je n'arrête pas d'en voir passer dans mon établissement. Ils vont tous au patio ou aux bains de vapeur. Allez-y voir !!</quote>
+    <quote id="100" type="1">Ces Esmers sont sympas. Ils offrent des verres à tout le monde. Ils invitent même les mages. Mais... je garde un oeil sur le bain de vapeur des femmes... et le premier qui entre là-dedans aura affaire à moi !!!</quote>
+    <quote id="101" type="1">C'est affligeant. Il n'y a plus personne pour venir chez moi. En plus, les Esmers sont venus fermer mon hammam. Je ne sais même pas pourquoi !</quote>
+    <quote id="102" type="1">C'est incroyable, les Esmers se croient tout permis. Leurs navettes spatiales entrent et sortent par le mont chauve, comme s'ils avaient creusé une termitière là-dessous !!</quote>
+    <quote id="103" type="1">Ah non, je ne savais même pas qu'il en existait une sur cette île !</quote>
+    <quote id="104" type="3">Il existe un programme d'échange ultra-secret pour l'instant réservé aux mages. Venez découvrir notre science et notre civilisation, et montrez-nous votre Magie en échange. Vous reviendrez riche de savoir et d'expérience. N'en parlez pas encore à votre Ecole de Magie, c'est trop tôt ... ils ne comprendraient pas.</quote>
+    <quote id="105" type="1">Etes-vous prêts à venir quelques temps sur notre planète ?</quote>
+    <quote id="106" type="1">Bonjour twinsunien. Nous sommes vos amis. Nous venons en paix sur votre planète. Nous ne désirons que vous connaître et vous faire profiter de notre savoir. @ Ayez confiance en notre amitié !</quote>
+    <quote id="107" type="1">Mon maître va souvent me chercher des roses des sables. J'adore en grignoter. C'est drôlement croustillant sous la dent.</quote>
+    <quote id="108" type="1">Je ne sais pas Twinsen, j'habite ailleurs. J'ai été importé jusque ici.</quote>
+    <quote id="109" type="1">J'en ai vu passer un tout à l'heure. Je pense qu'il devait chercher des roses des sables.</quote>
+    <quote id="110" type="1">Bonjour.</quote>
+    <quote id="111" type="1">Pff, on a chaud mais qu'est-ce que ça peut faire comme bien !</quote>
+    <quote id="112" type="1">Une école de magie, ça existe ? En tous cas elle n'est pas ici, je viens tous les jours, je le saurais.</quote>
+    <quote id="113" type="1">J'en ai bien vu passer, et un certain nombre d'ailleurs. Mais ils disparaissent tous avant que j'ai pu comprendre où ils allaient.</quote>
+    <quote id="114" type="1">Ah merci, je n'en ai plus besoin mais c'est gentil de me l'avoir rapporté.</quote>
+    <quote id="115" type="1">Vous pouvez emprunter ce flacon, Maître Ker'aooc n'en a sûrement pas besoin.</quote>
+    <quote id="116" type="1">Seuls les mages et les initiés savent où elle se trouve. Tout ce que je sais, c'est qu'elle est cachée quelque part sur l'île.</quote>
+    <quote id="117" type="1">Tout ce que je sais, c'est que le mage Ker'aooc est parti en voyage avec des collègues à lui. Ce sont les Esmers qui l'ont invité !!</quote>
+    <quote id="118" type="1">Bonjour monsieur</quote>
+    <quote id="119" type="1">Tiens, c'est vous ! Bonjour !</quote>
+    <quote id="120" type="1">Vous savez, je suis un peu inquiète. Depuis qu'il est parti, le mage Ker'aooc n'a pas donné signe de vie. Je n'aime pas ce qui se passe, ça n'est pas dans ses habitudes.</quote>
+    <quote id="121" type="1">J'espère que le mage Ker'aooc rentrera bientôt, car je ne suis pas tranquille avec ces patrouilles d'Esmers dans les rues.</quote>
+    <quote id="122" type="1">Je suis navrée le guérisseur Ker'aooc est absent et je ne sais pas quand il va revenir. En cas d'urgence essayez d'aller à l'Ecole de Magie.</quote>
+    <quote id="123" type="3">Ta réputation est passée d'île en île pour venir jusqu'à moi, Twinsen. Tu es le héros de cette planète et tu dois savoir que les Esmers invitent les mages à venir étudier leur planète d'origine. Reste sur tes gardes, cela cache quelque chose.</quote>
+    <quote id="124" type="1">Elle est dans le désert. L'entrée se trouve dans un cimetière destiné à effrayer les étrangers.</quote>
+    <quote id="125" type="1">Celui qui veut savoir doit toujours aller voir ! Maintenant tu dois accomplir ton destin, jeune héros.</quote>
+    <quote id="126" type="1">Bonjour à toi, Twinsen !</quote>
+    <quote id="127" type="1">Depuis quelques temps, j'observe ici des choses inexpliquées. Mais il est trop tôt pour en être sûr.</quote>
+    <quote id="128" type="1">Salut Twinsen. Si tu veux voir Moya la tortue, tu peux la trouver à la petite oasis ou de l'autre côté du port. Pour l'appeler, il te suffit de faire sonner la cloche</quote>
+    <quote id="129" type="1">Désolé, je ne peux pas t'aider. Tout ce que je connais comme histoire de magie, c'est celle d'un lapichon qui aurait été transformé en coquillage !!</quote>
+    <quote id="130" type="1">Les visiteurs qui viennent du ciel sont bizarres. Je les ai entendus inviter des mages sur leur planète.</quote>
+    <quote id="131" type="1">Les visiteurs du ciel ont révélé leur vrai visage. Depuis qu'ils sont là, tout le monde a peur d'eux.</quote>
+    <quote id="132" type="1">Mes amies les taupes m'ont raconté que les Esmers se regroupaient tous sous la terre.</quote>
+    <quote id="133" type="1">Cher monsieur, sachez que si vous n'êtes pas mage je ne peux rien vous vendre.</quote>
+    <quote id="134" type="1">Ah, vous devez être Twinsen. Félicitations pour votre réussite à l'examen. Si vous désirez une tunique de mage, elle ne coûte que 50 kashes. En plus, vous bénéficiez d'une fausse barbe... elle vous fera ressembler à un vieux mage... Alors, ça vous intéresse ?</quote>
+    <quote id="135" type="1">Maintenant que vous êtes mage, je peux vous vendre de la poudre orange. Elle coûte 10 kashes, et vous rechargera en points de vie et de magie.</quote>
+    <quote id="136" type="9">Hey !! Ça va pas ?</quote>
+    <quote id="137" type="1">Bonjour.</quote>
+    <quote id="138" type="1">Je sais où elle se trouve, mais je n'ai pas le droit de vous le dire.</quote>
+    <quote id="139" type="1">J'ai vu passer Ker'aooc il y a quelques temps. Il m'a dit que les Esmers l'avaient invité je ne sais plus où. En tous cas, il allait à l'hacienda.</quote>
+    <quote id="140" type="1">Bienvenue Twinsen. Je serais honoré que tu viennes suivre nos cours. Mais bien que tu aies un jour sauvé notre monde, tu devras passer le même type d'épreuves que les autres étudiants.</quote>
+    <quote id="141" type="1">Désires-tu faire partie de notre école ?</quote>
+    <quote id="142" type="1">L'inscription coûte 120 Kashes. Es-tu prêt à commencer dès maintenant ?</quote>
+    <quote id="143" type="1">Tu obtiendras le pouvoir de guérison en passant l'une des épreuves qui feront de toi un mage. Mais tu dois d'abord t'inscrire. Et lorsque tu seras mage, tu obtiendras un niveau de magie supplémentaire !!</quote>
+    <quote id="144" type="1">Maintenant, tu es membre de notre école.</quote>
+    <quote id="145" type="1">Pour devenir mage, tu devras accomplir 3 épreuves, dans l'ordre que tu désires.</quote>
+    <quote id="146" type="1">Tu pourras m'apporter le résultat de chaque épreuve quand tu le voudras, mais je ne te donnerai ton diplôme de mage et ton nouveau niveau de magie, que lorsque tu auras surmonté les 3 épreuves !!</quote>
+    <quote id="147" type="1">Une fois cette porte franchie, tu devras faire preuve de rapidité et de précision. Place-toi au centre de la pièce et à l'aide de ta balle renverse tous les symboles magiques.</quote>
+    <quote id="148" type="1">Essaie à nouveau Twinsen.</quote>
+    <quote id="149" type="1">Mmh, j'adore l'odeur de la Balsamine Impatiente. En échange de la fleur voici la Conque du Triton Bleu, elle fait de toi un Guérisseur.</quote>
+    <quote id="150" type="1">Il te reste encore deux épreuves à franchir.</quote>
+    <quote id="151" type="1">Il te faut encore triompher d'une épreuve avant de devenir un mage.</quote>
+    <quote id="152" type="1">Bravo Twinsen, tu as gagné cette sarbacane. Elle permet des tirs précis et rapides.</quote>
+    <quote id="153" type="3">Bravo Twinsen. Tu portes désormais le titre de mage. @ Je n'ai plus de tunique de parade de mage en réserve. Mais il y a un marchand ambulant sur l'île. Je le ferai prévenir pour qu'il t'en remette une. Va le trouver et laisse toi aussi pousser la barbe.</quote>
+    <quote id="154" type="1">Ecoute moi maintenant, je désire t'entretenir d'une affaire grave. Presque tous les mages de Twinsun ont disparu et personne ne sait où ils se trouvent. Il faut absolument les retrouver et tu es le seul qui puisse accomplir cette noble tâche. L'école compte sur toi, Twinsen !!</quote>
+    <quote id="155" type="1">Tu dois retrouver un marchand ambulant qui se trouve sur cette île. Je l'ai fais prévenir pour qu'il te remette un chapeau et ta tunique de parade de mage .</quote>
+    <quote id="156" type="1">Ah, seuls les mages sont capables de lire ceci.</quote>
+    <quote id="157" type="1">C'est étrange que l'école ne soit pas au courant... je n'aime pas cela. Sans mage, Twinsun n'est pas en sécurité. Tu dois aller les chercher Twinsen !!</quote>
+    <quote id="158" type="1">Pour t'essayer à l'épreuve de la sarbacane, il te suffit de passer la porte, au fond de cette pièce. Tu disposeras alors d'un temps limité pour abattre toutes les cibles.</quote>
+    <quote id="159" type="1">Pour l'épreuve de l'ardoise, tu dois d'abord te rendre sur l'îlot du dôme de l'ardoise, au large de l'île de la citadelle.</quote>
+    <quote id="160" type="1">Les mages ! As-tu retrouvé leur trace ? Les gens ne parlent que de ces visiteurs Esmers, mais leur disparition est une affaire très importante. Sans eux, l'équilibre et la sécurité de Twinsun sont menacés !!</quote>
+    <quote id="161" type="1">Pour l'épreuve de la guérison, tu devras aller me chercher une balsamine. Il s'agit d'une plante rare qui vit dans le désert.</quote>
+    <quote id="162" type="1">Non Twinsen, je ne peux rien faire. Toi seul peut les sauver. Mais il te faudra renforcer tes pouvoirs pour affronter les Esmers. Seule la boule de Sendell pourra te les donner.</quote>
+    <quote id="163" type="1">Après la disparition de FunFrock, elle fut cachée sur l'île de la citadelle par le mage météo. Il l'enferma dans une cage de glace qu'il protégea grâce à un sort puissant. D'après lui, seule la puissance de la foudre est capable de faire fondre la glace et de libérer la boule.</quote>
+    <quote id="164" type="1">Il existe un coquillage géant qui vit dans une grotte marine dans les criques, près de Port-Ludo. C'est lui qui donne naissance à la perle d'incandescence.</quote>
+    <quote id="165" type="1">C'est une perle d'incandescence. Le mage météo m'a dit un jour qu'il s'en servait pour fabriquer son sort de foudre. Grâce à lui, tu pourrais libérer la boule de Sendell.</quote>
+    <quote id="166" type="1">As-tu retrouvé la Boule de Sendell ? Je te rappelle qu'elle est sur l'île de la citadelle et que seul le sort de foudre pourra la libérer.</quote>
+    <quote id="167" type="1">Tu dois suivre ton chemin Twinsen. Les Esmers commencent à être moins nombreux. Il me semble qu'ils se regroupent du côté du temple de Bù, tu devrais aller voir par là bas.</quote>
+    <quote id="168" type="1">Va voir au temple de Bù. On y parle d'un vieux trésor encore enfoui.</quote>
+    <quote id="169" type="1">Bravo Twinsen !! En prenant soin de cet endroit, tu permets à de nouveaux plants de pousser. Tu fais preuve de prévoyance pour tous les mages qui viennent cueillir de la Balsamine.</quote>
+    <quote id="170" type="1">Bonjour.</quote>
+    <quote id="171" type="1">Il fait trop chaud pour moi dans ce hammam ! Parfois il y fait tellement chaud que j'en ai des hallucinations... je vois des mages partout !!!</quote>
+    <quote id="172" type="1">Non, mais s'ils ont un truc pour faire baisser la température de ce hammam, je veux bien aller les voir !!</quote>
+    <quote id="173" type="1">Je ne sais pas où elle se trouve, mais elle ne doit pas être loin. Parce qu'ici, on en voit passer des mages, il n'y a plus qu'eux, et des Esmers !!!</quote>
+    <quote id="174" type="1">Bonjour.</quote>
+    <quote id="175" type="1">J'en ai vu un tout à l'heure. Il portait des valises et marchait en direction de l'Hacienda. Je m'inquiète au sujet des Esmers. Ils sont bizarres, je me demande s'ils sont vraiment venus en paix.</quote>
+    <quote id="176" type="1">Non, aucune idée.</quote>
+    <quote id="177" type="1">J'aime bien me balader dans le désert. J'y cherche des roses des sables. Elles contiennent toujours des trésors de toutes natures.</quote>
+    <quote id="178" type="1">Oh salut Twinsen ! Si tu veux faire un petit tour en mer, saute sur mon dos !!</quote>
+    <quote id="179" type="1">Désolé Twinsen, mais je ne sais pas où elle se trouve.</quote>
+    <quote id="180" type="1">Tout à l'heure j'étais de l'autre côté de l'île, et j'en ai vu un qui entrait dans l'hacienda.</quote>
+    <quote id="181" type="1">Tu vas voir ...</quote>
+    <quote id="182" type="1">Salut !!!</quote>
+    <quote id="183" type="1">Ces... hips ! Ces étrangers sont vachement sympas... hips ! Ils arrêtent pas de nous payer un coup !! Pas vrai vieux ?! Hips !!</quote>
+    <quote id="184" type="1">Moi je... hips... euh... je n'en ai aucune i... idée. Meuuu, maiiis vous devriez essayer le Hips ! Le vieux sage sur la terrasse... Burp ! Il raconte des trucs bi... bizarres et hips, il sait des choses Zincroyabes !! Hips, zincoryabes !!</quote>
+    <quote id="185" type="9">Ouaip !!</quote>
+    <quote id="186" type="1">Bonjour twinsunien. Nous sommes vos amis. Nous venons en paix sur votre planète. Nous ne désirons que vous connaître et vous faire profiter de notre savoir. @ Ayez confiance en notre amitié !</quote>
+    <quote id="187" type="1">Bonjour Maître. Vous devriez aller à l'hacienda près du Mont-Chauve, nous organisons là-bas une petite réunion pour les mages. Cela vous intéressera certainement.</quote>
+    <quote id="188" type="1">Hello !! Je vous présente le Grand Recteur de l'Ecole de Magie !</quote>
+    <quote id="189" type="1">Bon séjour dans notre magnifique école de magie !!</quote>
+    <quote id="190" type="1">C'est horrible, ces maudits Esmers sont partout. Heureusement qu'ils ne sont pas venus jusqu'ici. Je crois qu'ils n'ont pas réussi à trouver l'école.</quote>
+    <quote id="191" type="1">Bonjour twinsunien. Nous sommes vos amis. Nous venons en paix sur votre planète. Nous ne désirons que vous connaître et vous faire profiter de notre savoir. @ Ayez confiance en notre amitié !</quote>
+    <quote id="192" type="1">Bonjour Maître. Vous devriez aller à l'hacienda près du Mont-Chauve, nous organisons là-bas une petite réunion pour les mages. Cela vous intéressera certainement.</quote>
+    <quote id="193" type="9">Dehors !</quote>
+    <quote id="194" type="9">Satyre !!!</quote>
+    <quote id="195" type="9">Au secoouuurs !!!</quote>
+    <quote id="196" type="1">Tout le monde parle de ces types venus de l'espace, on dit qu'ils ont atterri sur plusieurs îles. Mais ça ne doit quand même pas arrêter notre partie.</quote>
+    <quote id="197" type="9">Agité !</quote>
+    <quote id="198" type="1">Dites, je perds systématiquement depuis que vous avez aidé mon copain. C'est malin !</quote>
+    <quote id="199" type="1">Je ne sais pas. Mais, c'est vrai que ça fait longtemps que je n'ai pas vu Ker'aooc le guérisseur.</quote>
+    <quote id="200" type="1">Je crois qu'elle se trouve dans le désert, mais je ne l'ai jamais trouvée !!</quote>
+    <quote id="201" type="1">Tiens ! Bonjour monsieur Twinsen</quote>
+    <quote id="202" type="9">Tricheur !</quote>
+    <quote id="203" type="1">D'habitude je joue mieux, mais là j'ai mal au dos. Le guérisseur Ker'aooc s'est absenté en oubliant de me laisser des cataplasmes.</quote>
+    <quote id="204" type="1">Aah, merci gamin ! J'ai l'impression d'avoir retrouvé mon dos de jeune bouboule.</quote>
+    <quote id="205" type="1">Petit, il a suffit que tu soignes mon dos pour que je gagne toutes les parties, oh peuchère !</quote>
+    <quote id="206" type="1">Je vais souvent voir le mage guérisseur à cause de mon dos... Il me fait mal de temps en temps mon dos.</quote>
+    <quote id="207" type="1">Vous savez, je ne suis plus tout jeune maintenant. Et puis, c'est important le dos pour jouer à la pétanque !!</quote>
+    <quote id="208" type="1">Qui ça ?</quote>
+    <quote id="209" type="1">Oh ben oui ! Là, juste à l'angle de la place...</quote>
+    <quote id="210" type="1">Comment, l'école de pétanque, euh... de magie ? Ah oui, quand j'étais jeune, on racontait qu'elle se trouvait dans le cimetière !</quote>
+    <quote id="211" type="1">Bonjour.</quote>
+    <quote id="212" type="1">Les mages. Ah oui, j'en ai vu passer il y a pas mal de temps. Ils parlaient de l'hacienda, dans le désert.</quote>
+    <quote id="213" type="1">J'ai récupéré cette voiture dans le désert. Décidément, y 'en a qui se croient vraiment tout permis... D'ailleurs, si elle vous intéresse, je vous la vends... 50 Kashes... ça vous intéresse ?</quote>
+    <quote id="214" type="1">Ici je suis le meilleur. Personne n'arrive à me suivre. Essaie si tu veux.</quote>
+    <quote id="215" type="1">Je ne sais pas où elle est, mais ça serait bien s'il y avait une école de pilotage. Ça au moins, ça serait utile.</quote>
+    <quote id="216" type="1">Les mages ? Ah ça non, je n'en vois pas beaucoup. Ils n'ont pas l'habitude de venir ici, vous savez !!</quote>
+    <quote id="217" type="9">Perdu !!</quote>
+    <quote id="218" type="1">Si tu crois que tu peux me suivre, place toi sur la ligne de départ.</quote>
+    <quote id="219" type="1">Tu as réussi. Je devrais peut être aller chez le mage guérisseur. Il m'a dit qu'en mettant un peu d'acide gallique dans mon moteur, je parviendrais à aller plus vite !!</quote>
+    <quote id="220" type="1">Je vais te confier un petit secret : un mage m'a raconté qu'il aurait caché un sort de protection sur l'îlot en face de l'hacienda.</quote>
+    <quote id="221" type="1">Si tu veux faire quelques tours de circuit, tu devrais aller te chercher une voiture !!</quote>
+    <quote id="222" type="1">Bienvenue.</quote>
+    <quote id="223" type="1">Non... quoique ... je cueille dans le désert les plantes avec lesquelles je cuisine. Mais j'évite toujours de passer dans un endroit effrayant, une sorte de jardin désolé... C'est peut-être là.</quote>
+    <quote id="224" type="1">Ça ne m'étonnerait pas qu'ils aient disparu dans l'ancien temple de Bù !! Mon beau-frère y travaille et il raconte des choses bizarres à propos de disparitions...</quote>
+    <quote id="225" type="1">Ces visiteurs Esmers sont extraordinaires. Il paraît qu'ils viennent de la lune d'émeraude. Vous vous rendez-compte ??</quote>
+    <quote id="226" type="1">Depuis que les Esmers ont révélé leur véritable nature, les gens sont rentrés chez eux. Tout le monde se cache et seuls quelques commerces ont été autorisés à ouvrir.</quote>
+    <quote id="227" type="1">J'espère que les clients vont revenir. Il semble que les Esmers soient de moins en moins nombreux dans les rues de Port-Ludo.</quote>
+    <quote id="228" type="1">Une holomap coûte 10 kashes.</quote>
+    <quote id="229" type="1">Un flacon d'acide gallique coûte 50 kashes.</quote>
+    <quote id="230" type="1">Placez-vous devant l'article de votre choix et faites " ACTION ".</quote>
+    <quote id="231" type="1">Bonjour monsieur, bienvenue dans mon magasin.</quote>
+    <quote id="232" type="1">Un Nitro-Méca-Pingouin coûte 4 Kashes.</quote>
+    <quote id="233" type="1">Pour 15 Kashes, tu peux te recharger en points de vie.</quote>
+    <quote id="234" type="1">Pour 15 Kashes, tu peux te recharger en points de magie.</quote>
+    <quote id="235" type="1">Trois fléchettes te coûteront 4 Kashes.</quote>
+    <quote id="236" type="1">Je ne sais pas, mais un client m'a parlé d'un vieux sage qui connaîtrait tous les secrets de l'île. Je crois qu'il se trouve du côté de l'hacienda.</quote>
+    <quote id="237" type="1">Vous savez, vous êtes le seul client que j'ai eu depuis bien longtemps.</quote>
+    <quote id="238" type="1">Je ne sais pas où ils sont monsieur. Vous savez, moi et les histoires de magie...</quote>
+    <quote id="239" type="1">Ces étrangers sont des gens amusants. Ils ont toutes un série de costumes de carnaval. Ça va du cactus à la poubelle. Apparemment, ils adorent ça, je n'arrête pas de les voir se déguiser.</quote>
+    <quote id="240" type="1">Bonjour.</quote>
+    <quote id="241" type="1">Je ne peux pas vous répondre Monsieur, je ne suis pas d'ici.</quote>
+    <quote id="242" type="9">Bravo.</quote>
+    <quote id="243" type="1">He, he, c'est bête, je ne sais plus où j'ai mis les tickets d'entrée et j'ai peur qu'on nous contrôle !! ...Et euh... vous croyez qu'on peut aller plus loin ?</quote>
+    <quote id="244" type="1">Oh ! Euh... bonjour monsieur.</quote>
+    <quote id="245" type="1">Et bien en fait, j'ai laissé nos billets à mon frère... vous savez, c'est le gardien du parc... là-haut... hum !...voilà, voilà...</quote>
+    <quote id="246" type="1">Je ne sais pas monsieur.</quote>
+    <quote id="247" type="1">Ah non, je n'en ai pas vu. Par contre, il y a pas mal d'Esmers qui passent par ici.</quote>
+    <quote id="248" type="1">Monsieur !</quote>
+    <quote id="249" type="1">Si vous voulez aller plus loin, vous devez monter sur un wagonnet libre. Attention, pendant la visite, restez sur le circuit et ne descendez pas. C'est dangereux, vous pourriez facilement vous blesser.</quote>
+    <quote id="250" type="1">Bonjour monsieur.</quote>
+    <quote id="251" type="1">J'en ai jamais entendu parler.</quote>
+    <quote id="252" type="1">Ah non, j'en ai vu aucun. Par contre, j'ai vu passer un paquet d'Esmers. Ils descendaient tous vers le dernier sous-sol. Soit disant pour faire des réparations !!</quote>
+    <quote id="253" type="9">Magnifique !</quote>
+    <quote id="254" type="1">Mon fils adore les histoires de magie... on lui a fait croire qu'on était entrés comme ça ! Par miracle !!</quote>
+    <quote id="255" type="1">Ce temple est absolument extraordinaire. Je me demande ce que nous allons voir après !?</quote>
+    <quote id="256" type="1">Bonjour.</quote>
+    <quote id="257" type="1">Je ne savais pas qu'il en existait une. Si jamais on a le temps et qu'on arrive à la trouver, on ira la visiter.</quote>
+    <quote id="258" type="1">Ah non, je n'en ai pas vu passer.</quote>
+    <quote id="259" type="1">Je ne sais pas. Je fais toujours un détour quand je me promène dans le coin. Près d'ici, il y a un jardin effrayant à flanc de rocaille.</quote>
+    <quote id="260" type="1">Ah non, je ne sais pas où ils se trouvent. Ça fait même un moment que je n'en ai pas vu.</quote>
+    <quote id="261" type="1">Salut.</quote>
+    <quote id="262" type="1">J'aime bien me balader dans le désert. Une fois, dans le temple de Bù, j'ai trouvé plein de petits trésors.</quote>
+    <quote id="263" type="3">L'accès aux étages inférieurs est provisoirement interdit, nous ne pouvons plus assurer la sécurité des visiteurs. Les Esmers se sont proposés pour faire les travaux du dernier sous-sol. C'est pas moi qui vais m'en plaindre !!</quote>
+    <quote id="264" type="1">Oh ! Bonjour monsieur Twinsen ! Quel honneur de vous voir ici.</quote>
+    <quote id="265" type="1">Je ne sais pas, il paraît qu'elle se trouverait dans le désert.</quote>
+    <quote id="266" type="1">Aucune idée. Depuis que je suis ici, je n'en ai pas vu passer un seul !</quote>
+    <quote id="267" type="1">Eh m'sieur !! Mon papa il est drôlement fort, il a réussi à nous faire rentrer sans tickets !!</quote>
+    <quote id="268" type="9">Youpiii !!!!</quote>
+    <quote id="269" type="1">Moi j'aime pas l'école !!</quote>
+    <quote id="270" type="1">Les mages c'est les bonhommes avec les chapeaux rigolos ? Ah ben non, j'en ai pas vus !!</quote>
+    <quote id="271" type="1">Un ticket m'sieur ? Pour 7 Kashes vous pouvez visiter tout Temple-Park, y compris l'intérieur du Temple de Bù.</quote>
+    <quote id="272" type="9">Arrêtez-le !</quote>
+    <quote id="273" type="1">Maintenant que le temple est en réparations, on n'a plus beaucoup de clients. Par contre, qu'est-ce qu'on a comme visiteurs Esmers. Surtout depuis qu'ils ont proposé de nous aider.</quote>
+    <quote id="274" type="1">Elle existe ? Je croyais que cela n'était qu'un des mirages de ce désert.</quote>
+    <quote id="275" type="1">Désolé, je n'en ai vu aucun.</quote>
+    <quote id="276" type="1">Attention monsieur, on ne marche pas sur la pelouse !</quote>
+    <quote id="277" type="1">Je ne sais pas monsieur. Une fois, un client m'en a parlé, mais il ne savait pas où elle se trouvait. Ou alors j'ai oublié.</quote>
+    <quote id="278" type="1">Non monsieur, je ne peux pas vous aider. On n'en voit pas souvent par ici des mages.</quote>
+    <quote id="279" type="1">Pfff !! Avec tous ces resquilleurs, je ne sais plus où donner de la tête.</quote>
+    <quote id="280" type="1">Vous désirez récupérer 3 flêchettes et faire une partie de Tir au canard ? Le prix est de 4 kashes.</quote>
+    <quote id="281" type="1">Bravo Monsieur, vous gagnez ces magnifiques ballons !!!</quote>
+    <quote id="282" type="1">Pour 12 Kashes, où désirez vous aller ?</quote>
+    <quote id="283" type="1">Bienvenue à Inter-îles Ferry, monsieur.</quote>
+    <quote id="284" type="1">Nos ferry ne desservent pas cet îlot, monsieur.</quote>
+    <quote id="285" type="1">Je ne sais pas où elle se trouve.</quote>
+    <quote id="286" type="1">Non, je n'en ai pas vu depuis un bon moment.</quote>
+    <quote id="287" type="9">Au secours !!</quote>
+    <quote id="288" type="1">Ah merci Twinsen. Je commençais à en avoir assez de cette coquille !!</quote>
+    <quote id="289" type="1">Ah Twinsen ! C'est moi Joe !! Je ne me sens pas très bien... tu ne pourrais pas faire quelque chose pour moi ?</quote>
+    <quote id="290" type="1">Ça fait deux mois que je me suis inscrit à cette satanée école, et je n'ai pas réussi à passer une seule épreuve !!!</quote>
+    <quote id="291" type="1">Ha non !! Si j'en avais vu, je leur aurais demandé de m'aider à passer ne serait ce qu'une seule épreuve !!!</quote>
+    <quote id="292" type="1">Je n'y arrive pas, je n'y arrive pas, je n'y arrive pas !!! Il paraît que des étrangers se sont posés sur Twinsun, je ne les ai même pas vus !! Ça fait des jours que j'essaye de remporter cette épreuve de la sarbacane !!!</quote>
+    <quote id="293" type="1">J'en ai assez de ces études. Je devrais faire autre chose... Je crois que je vais me lancer dans l'étude des populations extra-twinsuniennes !!!</quote>
+  </quotes>
+</lbatexts>

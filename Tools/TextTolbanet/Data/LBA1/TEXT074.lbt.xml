@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>1</game>
+  <quotes>
+    <quote id="1" type="0">Guten Tag</quote>
+    <quote id="2" type="0">Du brauchst mich um zum Fort zu gelangen. Warte auf mich !</quote>
+    <quote id="3" type="0">Komm mit, wir nehmen den Panzer !</quote>
+    <quote id="4" type="0">Ich gebe Dir Deckung, geh den Oberst befreien.</quote>
+    <quote id="5" type="0">Verheimlich mir nichts, mein Vorgänger ist im Kampf gefallen ! Nun, c'est la vie, gehen wir ?</quote>
+    <quote id="6" type="0">Schnell, befreien Sie mich !</quote>
+    <quote id="7" type="0">Sie der Quetsch, ich bin Ihnen verdammt etwas schuldig. Wenn Sie den anderen Abhang runtersteigen wollen, versuchen Sie die Klappe mit dem Hochspannungszeichen am Ende dieses Korridors zu bewegen.</quote>
+    <quote id="8" type="0">Von diesem Depot aus wird Material zur anderen Halbkugel geschickt, es wird dazu eine Kapsel benutzt, die aus der Zeit der früheren Metro stammt. Ich habe beim Bau mitgewirkt, aber ich warte seit fast zwei Jahren auf eine Fähre ... Zwei Jahre ! !</quote>
+    <quote id="9" type="0">Ja, ich weiß, Sie wollen auch, daß ich die Kapsel für Sie in Gang setze. Stellen Sie sich davor, ich mach schon.</quote>
+    <quote id="10" type="0">Ich weiß nicht worum es geht.</quote>
+    <quote id="11" type="0">Ich gehöre zu den Rebellen, die FunFrock bekämpfen. Zur Zeit versuchen wir über den Hamalayi zu steigen, übrigens ist unser Anführer Kroptman gefangengenommen worden. Wenn Du Dich uns in unserem Kampf anschließen willst, sei willkommen ! Geh zu meinen Freunden auf die Rebellion-Insel, aber sie werden Dich nicht an Land kommen lassen, wenn Du unser Erkennungszeichen nicht hast : eine Piratenflagge mit dem Totenkopfzeichen.</quote>
+    <quote id="12" type="0">Benutz die Flagge : hiß Sie auf Deinem Boot und Du wirst auf der Rebellion-Insel an Land gehen können. Du kannst uns sicher nützlich sein um über den Hamalayi zu steigen.</quote>
+    <quote id="13" type="0">Nur Mut ! Warte auf Deinen Kameraden, bevor Du den Bereich wechselst. Und falls ihr Schwierigkeiten habt, um zum Fort zu gelangen, schaltet zuerst den Radar aus, der sich über den Bunkern in eurem Landungsbereich befindet.</quote>
+    <quote id="14" type="0">Du bist stärker als der Krieg Twinsen ! Nun ööh ... ich meine, danke dafür, daß Du Oberst Kroptman befreit hast.</quote>
+    <quote id="15" type="0">Dank Deiner Hilfe haben wir nun Kontakte zur Nord-Halbkugel. Und ich habe von der Schieberstadt gehört : Funky-Town. Du kannst dort sicher Informationen finden !</quote>
+    <quote id="16" type="0">Nur Mut Twinsen, Deine Suche ist bald vorbei.</quote>
+    <quote id="17" type="0">Es bleiben noch ein paar Klone, aber mit Kroptman an Bord des Panzers halten wir das Fort.</quote>
+    <quote id="18" type="0">Frag den Späher unten an der Straße, er kann Dir bestimmt helfen.</quote>
+    <quote id="19" type="0">Kein Kraftstoff mehr.</quote>
+    <quote id="20" type="0">Ach, ich weiß nicht wo diese Pläne sind. In Funky-Town findet man bestimmt über alles Informationen, aber diese Stadt wird bald von FunFrock ausradiert.</quote>
+    <quote id="21" type="0">He, hol' mich hier raus ! Schnell, find' einen Schlüssel !</quote>
+    <quote id="22" type="0">Ich bin Raymond-der-Kobold, zum Dank werde ich Dir den Standort des Sees Klares Wassers zeigen. Er befindet sich nordwestlich von hier, im Hamalayi (schau auf Deinen Holomap). Spiels Du dort Flöte, findest Du einen wichtigen Teil der Prophezeiung. Und wenn Du mir eine Kobold-Mitgliedskarte zeigst, habe ich noch etwas anderes für Dich. </quote>
+    <quote id="23" type="0">Ich bin Raymond-der-Kobold, zum Dank werde ich Dir den Standort des Sees Klares Wassers zeigen. Er befindet sich nordwestlich von hier, im Hamalayi (schau auf Deinen Holomap). Spiels Du dort Flöte, findest Du einen wichtigen Teil der Prophezeiung. Und in einer Höle in der Nähe des Tempels von Bù kannst Du einen meiner Kollegen antreffen, er kann Dir eine blaue Karte besorgen. </quote>
+    <quote id="24" type="0">Hallo Bruder Kobold.</quote>
+    <quote id="25" type="0">Nie gesehen, ich verstehe nichts vom Biemen.</quote>
+    <quote id="26" type="0">Wo möchtest Du hin ?</quote>
+    <quote id="27" type="0">Auf die Hauptinsel.</quote>
+    <quote id="28" type="0">Zur Wüste des Leeren Blattes.</quote>
+    <quote id="29" type="0">Auf die Insel Proxima.</quote>
+    <quote id="30" type="0">Auf die Rebellion-Insel.</quote>
+    <quote id="31" type="0">Ich bleibe hier.</quote>
+    <quote id="32" type="0">Auf die Zitadelleninsel. </quote>
+    <quote id="33" type="0">Ich suche die Pläne des Biemzentrums.</quote>
+    <quote id="34" type="0">Hallo, Du solltest zu einem Kobold-Kollegen, der sich in der Wüste des Leeren Blattes befindet, gehen. Er kann Dir eine blaue Karte geben.</quote>
+    <quote id="35" type="0">Was machen Sie da ? Das ist hier wie in einem Hotel ! Vorhin habe ich sogar einen Kobold erwischt. Ich weiß nicht was ich damit machen soll, offiziell gibt's das nicht !</quote>
+    <quote id="36" type="0">Ergeben Sie sich !</quote>
+    <quote id="37" type="0">Möchten Sie lieber nüchtern sterben, oder haben Sie einen ganz speziellen Wunsch für Ihre letzte Mahlzeit ?</quote>
+    <quote id="38" type="0">Was soll's !</quote>
+    <quote id="39" type="0">Kein Hunger ! </quote>
+    <quote id="40" type="0">Du hast nicht ein genügendes Leistungsniveau erreicht, um die roten Klone zu besiegen. Wir warten bis Du zurückkommst. </quote>
+    <quote id="41" type="0">Alarm, ein Häftling bricht aus !</quote>
+    <quote id="42" type="0">Du hast soeben alle Gegenstände wiedergefunden, die Dein Inventar beinhaltet hat !</quote>
+    <quote id="43" type="0">Ich weiß nicht wo sie sind.</quote>
+    <quote id="44" type="0">Ich interessiere mich für die Geschichte des Piraten EinAuge.</quote>
+  </quotes>
+</lbatexts>

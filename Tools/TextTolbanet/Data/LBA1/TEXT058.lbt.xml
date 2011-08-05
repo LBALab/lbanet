@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>1</game>
+  <quotes>
+    <quote id="1" type="0">Normal</quote>
+    <quote id="2" type="0">Sportlich</quote>
+    <quote id="3" type="0">Agressiv (Manuel)</quote>
+    <quote id="4" type="0">Unauffällig</quote>
+    <quote id="5" type="0">Agressiv (Auto)</quote>
+    <quote id="6" type="0">Mit dem Proto-Pack fliegen</quote>
+    <quote id="7" type="0">Den Proto-Pack wegräumen </quote>
+    <quote id="8" type="0">Musiklautstärke</quote>
+    <quote id="9" type="0">Lautstärke der Soundeffekte</quote>
+    <quote id="10" type="0">CD-Lautstärke</quote>
+    <quote id="11" type="0">Line In-Lautstärke</quote>
+    <quote id="12" type="0">Allgemeine Lautstärke</quote>
+    <quote id="13" type="0">Zurück</quote>
+    <quote id="14" type="0">Abspeicherung der Einstellungen </quote>
+    <quote id="15" type="0">Neues Spiel</quote>
+    <quote id="16" type="0">Spiel fortsetzen</quote>
+    <quote id="17" type="0">Verlassen</quote>
+    <quote id="18" type="0">Optionsmenü</quote>
+    <quote id="19" type="0">Abbrechen</quote>
+    <quote id="20" type="0">Zurück zum vorigen Menü</quote>
+    <quote id="21" type="0">Spiel aufgeben</quote>
+    <quote id="22" type="0">Fortfahren </quote>
+    <quote id="23" type="0">Einstellung der Tonlautstärken</quote>
+    <quote id="24" type="0">Details der Polygone (Komplett)</quote>
+    <quote id="25" type="0">Schatten (Alle)</quote>
+    <quote id="26" type="0">Szenario-Zoom An </quote>
+    <quote id="27" type="0">Details der Polygone (Mittel)</quote>
+    <quote id="28" type="0">Schatten der Figuren</quote>
+    <quote id="29" type="0">Szenario-Zoom An </quote>
+    <quote id="30" type="0">Details der Polygone (Schwach)</quote>
+    <quote id="31" type="0">Keine Schatten</quote>
+    <quote id="32" type="0">Kein Szenario-Zoom </quote>
+    <quote id="33" type="0">Erschaffung eines neuen Spielers :</quote>
+    <quote id="34" type="0">Sicherheitskopie anfertigen</quote>
+    <quote id="35" type="0">Geben Sie Ihren Namen ein</quote>
+    <quote id="36" type="0">Spieler existiert bereits ! Fangen Sie nochmal an.</quote>
+    <quote id="37" type="0">Geben Sie den neuen Namen ein</quote>
+    <quote id="38" type="0">Sicherheitskopie löschen</quote>
+    <quote id="39" type="0">Gespeicherte Spiele</quote>
+    <quote id="40" type="0">Vorgeschlagene Optionen</quote>
+    <quote id="41" type="0">Löschen</quote>
+    <quote id="42" type="0">Übertragung der Stimmen.</quote>
+    <quote id="43" type="0">Die Stimm-Dateien werden auf die Festplatte geschrieben, bitte warten.</quote>
+  </quotes>
+</lbatexts>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>1</game>
+  <quotes>
+    <quote id="1" type="0">Tu viens de retrouver ton Holomap ! Utilise-la en passant par l'inventaire touche (SHIFT), ou directement par la touche (H).</quote>
+    <quote id="2" type="0">Tu viens de retrouver ta Balle Magique ! Essaie-la sur les clones !</quote>
+    <quote id="3" type="0">Tu viens de voler le Sabre du Dr FunFrock !</quote>
+    <quote id="4" type="0">Tu viens de découvrir la Trompe de Gawley, que tes ancêtres laissèrent là à ton intention.</quote>
+    <quote id="5" type="0">Tu viens d'atteindre le 1er niveau de Magie, en retrouvant la Tunique léguée par tes ancêtres. Grâce à elle, tu peux désormais stocker de la magie.</quote>
+    <quote id="6" type="0">Tu viens d'atteindre le 2nd niveau de Magie, en retrouvant le Livre de Bù.</quote>
+    <quote id="7" type="0">Tu viens d'atteindre le 3ème niveau de Magie en retrouvant le Médaillon de Sendell.</quote>
+    <quote id="8" type="0">Tu viens d'atteindre le 4ème niveau de Magie en remplissant ton flacon d'Eau Claire. Désormais tu peux neutraliser les clones les plus puissants !</quote>
+    <quote id="9" type="0">Tu possèdes désormais la Carte Magnétique Rouge.</quote>
+    <quote id="10" type="0">Grâce à cette carte tu es le 4ème membre du club des Lutins. Après, tout ça te regarde !</quote>
+    <quote id="11" type="0">Tu viens de retrouver ta Carte d'Identité.</quote>
+    <quote id="12" type="0">Tu as maintenant le Laissez-Passer de l'Architecte.</quote>
+    <quote id="13" type="0">Tu disposes maintenant du Proto-Pack.</quote>
+    <quote id="14" type="0">Les Kami t'ont donné un Snowboard.</quote>
+    <quote id="15" type="0">Tu possèdes un Méca-Pingouin</quote>
+    <quote id="16" type="0">Tu viens de refaire une partie de tes réserves en carburant.</quote>
+    <quote id="17" type="0">Tu viens de dérober un Drapeau Pirate.</quote>
+    <quote id="18" type="0">Tu viens de trouver une Flûte Magique.</quote>
+    <quote id="19" type="0">Le Sage t'a donné la Guitare de l'Espace.</quote>
+    <quote id="20" type="0">Tu viens d'acheter un Sèche-Cheveux.</quote>
+    <quote id="21" type="0">Tu viens de retrouver la clef perdue par ton ancêtre Hégésippe.</quote>
+    <quote id="22" type="0">Tu viens de trouver un Flacon de Sirop !</quote>
+    <quote id="23" type="0">Maintenant ton flacon est vide.</quote>
+    <quote id="24" type="0">Tu possèdes un Ticket de Ferry.</quote>
+    <quote id="25" type="0">On vient de te donner un digicode.</quote>
+    <quote id="26" type="0">Tu possèdes maintenant une cafetière.</quote>
+    <quote id="27" type="0">M. Lanktir t'a donné sa liste.</quote>
+    <quote id="28" type="0">Holomap Touche (H). L'holomap indique ta position sur la planète. Durant ta quête, des flêches désignent les endroits importants qui t'ont été indiqués. Elles disparaissent une fois la tâche accomplie. L'Holomap tourne sur elle-même en appuyant sur la Touche (CTRL), plus les flêches de direction. En appuyant sur les flêches de direction seules, tu peux faire défiler les textes correspondant aux flêches visibles dans l'holomap.</quote>
+    <quote id="29" type="0">Balle Magique Touche (ALT). Lorsque tu atteins un nouveau niveau de magie, elle acquiert une nouvelle puissance de frappe. Ses trajectoires deviennent également plus efficaces à chaque niveau, à condition d'avoir assez de magie en réserve ! Car la Balle en consomme à chaque lancé.</quote>
+    <quote id="30" type="0">Sabre Magique, une fois le Sabre en main (Touche ENTREE), Touche (ALT) pour frapper. C'est l'arme la plus puissante de cette planète ! Tu peux utiliser à nouveau la Balle Magique en la sélectionnant.</quote>
+    <quote id="31" type="0">Trompe de Gawley : Touche (ENTREE) pour l'utiliser devant un sceau de Sendell. Elle permet de les briser. Tu peux ainsi accéder à de nouveaux endroits.</quote>
+    <quote id="32" type="0">Tunique. Grâce à ce symbole magique, tu viens d'atteindre le 1er niveau de puissance.</quote>
+    <quote id="33" type="0">Livre de Bù (et PROPHETIE). Touche (ENTREE) pour lire la prophétie. Grâce à ce symbole magique, tu viens d'atteindre le 2nd niveau de puissance. Tu peux aussi lire les runes et parler aux animaux.</quote>
+    <quote id="34" type="0">Médaillon de Sendell. Grâce à ce symbole magique, tu viens d'atteindre le 3ème niveau de puissance.</quote>
+    <quote id="35" type="0">Médaillon de Sendell. @ Il te permettra d'atteindre le 3ème niveau de puissance.</quote>
+    <quote id="36" type="0">Flacon d'Eau Claire. Grâce à ce symbole magique, tu viens d'atteindre le 4ème niveau de puissance. Tu peux neutraliser même les clones les plus puissants !</quote>
+    <quote id="37" type="0">Flacon d'Eau Claire. @ Il te permettra d'atteindre le 4ème niveau de puissance.</quote>
+    <quote id="38" type="0">Carte Magnétique Rouge. Elle te permet d'ouvrir les portes équipées d'une serrure rouge.</quote>
+    <quote id="39" type="0">Carte Bleue du Club des Lutins. Grâce à la poudre d'étoiles dont elle est imprégnée, cette carte te permet d'ouvrir les portes équipées de serrures bleues.</quote>
+    <quote id="40" type="0">Carte d'Identité de Twinsen. Cette carte te permet de t'identifier auprès des autorités, accessoirement tu es superbe sur la photo !</quote>
+    <quote id="41" type="0">Laissez-Passer de M. Mies van der Rooh. Ce laissez-passer doit te permettre d'entrer dans le Centre de Téléportation. Il te faudra encore utiliser la Trompe de Gawley à gauche après le 1er poste de garde.</quote>
+    <quote id="42" type="0">Proto-Pack. Il se pilote avec les flêches de direction.</quote>
+    <quote id="43" type="0">Snowboard. Il ne peut être employé que dans l'Hamalayi, entre deux drapeaux marquant le début d'une piste.</quote>
+    <quote id="44" type="0">Méca-Pingouin. Les clones rouges détestent ce jouet idiot.</quote>
+    <quote id="45" type="0">Carburant, extrait de mélasse. Tu ne peux plus utiliser de véhicule lorsque ta jauge est à zéro.</quote>
+    <quote id="46" type="0">Drapeau Pirate. Il est possible de l'accrocher sur un bateau.</quote>
+    <quote id="47" type="0">Flûte Magique. Les mélodies enchanteresses de cet instrument peuvent faire fondre l'Eau Claire lorsqu'elle est gelée, ainsi que faire pousser des fleurs dans le désert.</quote>
+    <quote id="48" type="0">Guitare de l'Espace. Retrouvée au milieu d'un astéroïde qui s'écrasa au large du Désert de la Feuille Blanche, elle apporta de nouvelles harmoniques sur Twinsun.</quote>
+    <quote id="49" type="0">Sèche-Cheveux</quote>
+    <quote id="50" type="0">Clef Ancestrale. Elle permet d'ouvrir la cache secrète chez Twinsen.</quote>
+    <quote id="51" type="0">Flacon de Sirop. Ce flacon contient 50 Cl d'un sirop rouge très concentré.</quote>
+    <quote id="52" type="0">Flacon vide</quote>
+    <quote id="53" type="0">Ticket de Ferry</quote>
+    <quote id="54" type="0">Digicode. Une fois placé sur une porte à l'intérieur du Centre de Téléportation, il donne accès à une pièce remplie de Méca-Pingouins.</quote>
+    <quote id="55" type="0">Cafetière. Il faut la rendre à un certain Lanktir, qui habite à coté du bazar sur l'île Proxima.</quote>
+    <quote id="56" type="0">Liste de bonus : Touche (ENTREE) pour la lire.</quote>
+    <quote id="57" type="0">Trèfle Porte-Bonheur Touche (ENTREE) : en utilisant ce trèfle, tu emploies une de tes chances pour te recharger au maximum.</quote>
+    <quote id="58" type="0">Emplacement Vide</quote>
+    <quote id="59" type="0">Situé en périphérie d'une galaxie peu fréquentée, Twinsun est un planétoïde récent. Mû d'une lente rotation sur lui-même, c'est un monde stabilisé entre deux soleils. @ A l'équateur s'est formée une haute chaîne montagneuse, le divisant en deux hémisphères éclairés chacun par un soleil. @ L'hémisphère nord est plus chaud et le ciel y prend une teinte orangée. Mais à l'exception de la ceinture glaciaire, le climat de l'astre est tempéré. L'apparition de la vie à sa surface a ainsi été favorisée. En quelques siècles quatre espèces principales se sont développées : les Bouboules, les Lapichons, les Quetchs et les Grobos. Elles vivaient encore en harmonie il y a peu, mais un tyran s'est dressé : le Dr FunFrock.</quote>
+    <quote id="60" type="0">Depuis sa prise de pouvoir, la population vit dans un régime dictatorial. Le tyran a mis en place une société policière où règne la suspicion. Il est tout puissant et dirige la population d'une main de fer grâce à la maîtrise de deux techniques : le clonage et la téléportation. @ A partir d'un modèle de chaque espèce, il duplique à l'infini des soldats bons marchés et serviles. Il peut ensuite les déplacer instantanément, grâce à un réseau de télépodes couvrant l'ensemble du planétoïde.</quote>
+    <quote id="61" type="0">Il y a quelques années, prétextant la protection de la population, le Dr FunFrock a regroupé tous les habitants dans l'hémisphère Sud. La répression est dure. Chaque jour voit son lot d'arrestations et rares sont les résistants qui croient encore à la liberté. @ Pour garder espoir ils évoquent parfois une ancienne légende ainsi que le nom d'une déesse : Sendell. Ces deux croyances étant proscrites par le Dr FunFrock. @  @ Pendant ce temps là ... un jeune quetch nommé Twinsen fait d'étranges rêves ... </quote>
+    <quote id="62" type="0">" Le jour viendra, où parmi les espèces présentes ou futures quelqu'un se lèvera et celui-ci dira : @ " Ce monde est désormais mien et les @ " clefs du pouvoir m'appartiennent ! @ Ce jour viendra car l'avidité et la violence sont communes à toutes les espèces de l'univers. Si ce jour-là le péril est trop grand, l'Elu se fera connaître. Il se dressera contre le tyran et l'abattra, il libérera et réconciliera les peuples. Car au fil du temps ses ancêtres auront rassemblé chez lui des armes et des enseignements pour sa victoire. Toutefois, pour triompher il devra posséder 4 symboles magiques : la Tunique, le Livre de Bù, le médaillon de Sendell et un Flacon d'Eau Claire. Le jour du péril Sendell viendra dans son sommeil annoncer à cet Héritier que l'heure du combat final a sonné. Il devra alors se rendre au Puits de Sendell où elle lui confiera ses pouvoirs ! " </quote>
+    <quote id="63" type="0">Emplacements de certains trèfles et boîtes : @ Sur l'île de la Citadelle il y a une boîte de trèfle dans les égouts et une autre dans la cave de la taverne ; un trèfle est gardé par un soldat qui se trouve derrière des sacs de sable. Un autre trèfle est gardé par un clone au milieu des ruines sur l'île Principale. Un autre trèfle se trouve sur le toit du Musée de la Marine. Un autre est gardé par un groboclone à droite de l'entrée du Centre de Téléportation. Un autre est gardé par un soldat devant la Forteresse de FunFrock. </quote>
+    <quote id="64" type="0">Ile de la Citadelle</quote>
+    <quote id="65" type="0">Ile Principale</quote>
+    <quote id="66" type="0">Désert de la Feuille Blanche</quote>
+    <quote id="67" type="0">Ile Proxima</quote>
+    <quote id="68" type="0">Ile de la Rébellion</quote>
+    <quote id="69" type="0">Chaîne de l'Hamalayi</quote>
+    <quote id="70" type="0">Ile Tippett</quote>
+    <quote id="71" type="0">Ile Brundle</quote>
+    <quote id="72" type="0">Ile de la Forteresse</quote>
+    <quote id="73" type="0">Ile Polaire</quote>
+    <quote id="74" type="0">Lac d'Eau Claire @ (Chaîne de l'Hamalayi)</quote>
+    <quote id="75" type="0">Château d'eau @ (Ile Principale)</quote>
+    <quote id="76" type="0">Maison de Twinsen @ (Ile de la Citadelle)</quote>
+    <quote id="77" type="0">Cellule du faussaire @ (Ile Principale)</quote>
+    <quote id="78" type="0">Pharmacie @ (Ile de la Citadelle)</quote>
+    <quote id="79" type="0">Maison du faussaire @ (Ile Proxima)</quote>
+    <quote id="80" type="0">Quartier Général du Dr FunFrock @ (Ile Principale)</quote>
+    <quote id="81" type="0">Centre de Téléportation @ (Ile Brundle)</quote>
+    <quote id="82" type="0">Musée de la Marine @ (Ile Proxima)</quote>
+    <quote id="83" type="0">Centre de Clonage & Forteresse @ (Ile de la Forteresse)</quote>
+    <quote id="84" type="0">Pierre Runique @ (Ile Proxima)</quote>
+    <quote id="85" type="0">Pharmacie @ (Ile de la Citadelle)</quote>
+    <quote id="86" type="0">Pierre Runique</quote>
+    <quote id="87" type="0">Maison de M. Mies Van der Rooh l'architecte. Rue du Scarabée @ (Ile de la Citadelle)</quote>
+    <quote id="88" type="0">Puits de Sendell @ (Ile Polaire)</quote>
+    <quote id="89" type="0">Bibliothèque @ (Ile Principale)</quote>
+    <quote id="90" type="0">Port-Bélooga @ (Ile Principale)</quote>
+    <quote id="91" type="0">Proxim-City @ (Ile Proxima)</quote>
+    <quote id="92" type="0">Usine de mutants @ (Chaîne de l'Hamalayi)</quote>
+    <quote id="93" type="0">" Pour retrouver le trésor du Capitaine Leborgne, le voyageur qui débarque au port de l'île Proxima doit prendre la borne d'amarrage la plus proche comme repère. En se plaçant dos aux bateaux amarrés, il doit faire le parcours suivant en mode DISCRET : @ 6 pas au Nord (droit devant lui), puis 6 pas à l'Est (sur sa droite) dans la petite pente. 2 pas au Nord (droit devant lui) jusqu'à la poubelle en métal, 3 pas à l'Est (sur sa droite) pour arriver à un lampadaire. Il doit se placer EXACTEMENT entre les 2 lampadaires, puis faire 8 pas au Nord (droit devant lui) pour atteindre un portail. Le trésor du Capitaine Leborgne se trouve dans le bâtiment derrière le portail. "</quote>
+  </quotes>
+</lbatexts>

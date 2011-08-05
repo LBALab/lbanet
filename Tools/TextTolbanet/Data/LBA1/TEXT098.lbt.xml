@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>1</game>
+  <quotes>
+    <quote id="1" type="0">"Museo de la Marina, tarifas: @ Niños ... 3 Kashes @ Adultos ... 5 Kashes."</quote>
+    <quote id="2" type="0">"Bienvenido a Proxim-City @ (Isla Próxima)."</quote>
+    <quote id="3" type="0">"Puesto de guardia 24h/24. No despertar ..."</quote>
+    <quote id="4" type="0">"¡Se exige vestimenta correcta!"</quote>
+    <quote id="5" type="0">Busco los planos del Centro de Teleportación.</quote>
+    <quote id="6" type="0">A la isla Principal.</quote>
+    <quote id="7" type="0">A la isla de la Ciudadela.</quote>
+    <quote id="8" type="0">Nos veremos más tarde.</quote>
+    <quote id="9" type="0">Por 10 Kashes, ¿Adónde quieres ir, Twinsen ?</quote>
+    <quote id="10" type="0">Lo siento, no tienes suficientes Kashes. ¡Sabes que tengo bocas que alimentar!</quote>
+    <quote id="11" type="0">Buenos días, la visita le costará 5 Kashes. ¿Quiere una entrada?</quote>
+    <quote id="12" type="0">Sí, déme una.</quote>
+    <quote id="13" type="0">No, los museos me aburren.</quote>
+    <quote id="14" type="0">Lo siento, pero no tiene suficientes Kashes.</quote>
+    <quote id="15" type="0">"La hélice trasera del FunFrock 2. Perdida en la bahía de la isla Principal en la botadura del navío. Tres días más tarde, el navío por falta de combustible dejó de dar vueltas".</quote>
+    <quote id="16" type="0">"Tesoro del Capitán El Tuerto. Este cofre que contiene el trabajo de toda una vida de deshonestidad, fue recuperado por el Fisco, que sigue siendo el único exterminador conocido de este terrible pirata".</quote>
+    <quote id="17" type="0">"Rapaz financiero. Este espécimen es de la familia de los productores cinematográficos."</quote>
+    <quote id="18" type="0">"Barco-Canastilla o Cufa. Embarcación primitiva hecha de mimbre trenzado."</quote>
+    <quote id="19" type="0">"Cañón de abordaje."</quote>
+    <quote id="20" type="0">"Barrica de roble. Toneles que servían para distribuir las raciones diarias de ron a los marineros."</quote>
+    <quote id="21" type="0">"Sirena de Bù. Ejemplo de la absurdidad de las supersticiones antiguas, esta figura marina fue descubierta en pleno desierto".</quote>
+    <quote id="22" type="0">"Embarcación de salvamento. No perforar, ni quemar o acercar a un cuerpo incandescente."</quote>
+    <quote id="23" type="0">"Caramelos con Puntos de Vida: ¿Desea 10 corazones por 10 Kashes ?"</quote>
+    <quote id="24" type="0">Sí, déme.</quote>
+    <quote id="25" type="0">No, gracias.</quote>
+    <quote id="26" type="0">¡No hay suficientes Kashes!</quote>
+    <quote id="27" type="0">Alto. Está formalmente prohibido tocar las obras.</quote>
+    <quote id="28" type="0">¡Alerta! ¡es el que se ha evadido!</quote>
+    <quote id="29" type="0">"Fin de obras. ¡DISMINUIR LA VELOCIDAD!</quote>
+    <quote id="30" type="0">"Soy la Piedra del Eclipse. La clave de la Piedra Sellada es "BURBS". "¿Cuál es la palabra que debe liberarme?"</quote>
+    <quote id="31" type="0">"Soy la Piedra Sellada. La clave de la Piedra del Eclipse es "GIZMO". ¿Cuál es la palabra que debe liberarme?"</quote>
+    <quote id="32" type="0">No lo sé.</quote>
+    <quote id="33" type="0">"BURBS"</quote>
+    <quote id="34" type="0">"GIZMO"</quote>
+    <quote id="35" type="0">Han arrestado a mi hermano y la casa está vigilada: tráfico de tarjetas rojas falsas. Pero tú ¿cómo has entrado, y quién eres?</quote>
+    <quote id="36" type="0">Me llamo Twinsen. He visto a tu hermano, está en prisión, pero está bien. Me ha dicho que te diga "Amos".</quote>
+    <quote id="37" type="0">Me llamo Twinsen y soy el Heredero ... @ Está bien, está bien, está bien.</quote>
+    <quote id="38" type="0">¡Ah! Entonces puede que necesites esto.</quote>
+    <quote id="39" type="0">¡Estoy feliz por ti Twinsen! Pero mi hermano está prisionero en el C.G. de FunFrock, la ventana de su celda da a la calle. Si tú pudieras darme noticias de él, te ganarías una tarjeta roja a cambio.</quote>
+    <quote id="40" type="0">¡Acabas de encontrar todos los objetos que contenía tu inventario!</quote>
+    <quote id="41" type="0">"L.B.A. @ Servicio de alcantarillado de Proxim-City @ Calle del Bac"</quote>
+    <quote id="42" type="0">¡Trato de vender secadores de pelo desde la isla Principal! Vamos, ¿va a comprarme uno por 30 Kashes ?</quote>
+    <quote id="43" type="0">No tiene sufientes Kashes, hasta mas tarde.</quote>
+    <quote id="44" type="0">¡No tengo más que vender!</quote>
+    <quote id="45" type="0">Mira, finalmente Ud. también ha venido a la isla Próxima. ¿Se acuerda de mí? vendo secadores de pelo. Vamos, le vendo uno a 30 Kashes que no salen bien hoy.</quote>
+    <quote id="46" type="0">Lo desconozco.</quote>
+    <quote id="47" type="0">Trabajo en un prototipo de Jet-Pack desde hace varios días, es un pequeño reactor dorsal que permitirá desplazarse volando. El problema es que mis últimos ensayos de motor han dañado un poco el muro que da al jardín. Es delicado ajustar la potencia de un motor, necesitaría un reostato: como los que hay en los secadores de pelo. ¿Podrías encontrarme uno?</quote>
+    <quote id="48" type="0">¿Has encontrado entonces un secador de pelo? ¡Es magnífico! Sólo me llevará un minuto instalar el reostato.</quote>
+    <quote id="49" type="0">Bueno, todavía no es un Jet-Pack, sólo es un Proto-Pack. Me gustaría que lo probaras para que veas su rendimiento. Aproximándose a una playa en pendiente suave debes poder volar por encima del agua, pero sin saltar! ¿Aceptas ensayarlo por 10 Kashes ?</quote>
+    <quote id="50" type="0">¿Y ese Proto-Pack? Continúa tus ensayos, tengo muchísimos cálculos que revisar y sé prudente al aproximarte al agua: no podrás volar más que al llegar a una playa de pendiente suave.</quote>
+    <quote id="51" type="0">"Frente a las recrudecencias de la amenaza rebelde, nuevos bombardeos de nuestras valerosas tropas clonas."</quote>
+    <quote id="52" type="0">"Bandera con una calavera. Emblema pirata que ha pertenecido al célebre Capitán El Tuerto."</quote>
+    <quote id="53" type="0">Se ha puesto en marcha el sistema de alerta del museo: ha sido evacuado por seguridad. ¡Las visitas se reanudarán más tarde! </quote>
+    <quote id="54" type="0">Ha habido una falsa alerta en el museo. La única salida posible era por las alcantarillas, pero la placa no fue accionada, así que reabramos el edificio.</quote>
+    <quote id="55" type="0">Buenos días.</quote>
+    <quote id="56" type="0">Lo siento, pero no tiene sufcientes Kashes.</quote>
+    <quote id="57" type="0">Bienvenido noble cliente y gracias por honrar mi establecimiento con su visita. Colóquese contra el artículo que desee y pulse ACCION.</quote>
+    <quote id="58" type="0">¡Ladrón!<linebreak /> @ ¡Deja mi caja tranquila!</quote>
+    <quote id="59" type="0">¡Eres demasiado agresivo! ¡Regresa cuando te hayas calmado!</quote>
+    <quote id="60" type="0">¿Adónde quieres ir?</quote>
+    <quote id="61" type="0">A la isla de la Ciudadela.</quote>
+    <quote id="62" type="0">Al Desierto de la Hoja Blanca.</quote>
+    <quote id="63" type="0">A la isla de la Rebelión.</quote>
+    <quote id="64" type="0">El combustible para 10 viajes cuesta 30 Kashes.</quote>
+    <quote id="65" type="0">15 corazones de polvo de vida cuestan 30 Kashes.</quote>
+    <quote id="66" type="0">10 frascos de polvo mágico cuestan 30 Kashes.</quote>
+    <quote id="67" type="0">Un Meca-Pingüino cuesta 3 Kashes.</quote>
+    <quote id="68" type="0">Mi hermano ocupa una de las celdas del C.G. cuya ventana da a la calle. Y sabes, te daré una tarjeta roja si me das noticias de él.</quote>
+    <quote id="69" type="0">No me interesa.</quote>
+    <quote id="70" type="0">Ignoro dónde están.</quote>
+    <quote id="71" type="0">Lo desconozco.</quote>
+    <quote id="72" type="0">Que toque el botón de alerta, el elefos está va a pulsarlo. ¡Y primero que nada está prohibido tocarlo!</quote>
+    <quote id="73" type="0">Entonces va a visitar el museo. Al respecto, ¡no toque el botón de alerta de la pared!</quote>
+    <quote id="74" type="0">¡Créame! ¡El museo está bien protegido! Acabo de conectar este botón al sistema de alarma: apenas se presiona el edificio es evacuado. @ Sólo quedan uno o dos guardias automáticos. Esto activa sobre todo, una multitud de detectores bajo el parquet que dan la alarma apenas detectan el mínimo peso. ¡Habrá que volar para poder desplazarse!</quote>
+    <quote id="75" type="0">¡Yo creo que les van a dar de palos a fuerza de jugar con ese botón!</quote>
+    <quote id="76" type="0">Sé que tienen algo que le concierne en el museo.</quote>
+    <quote id="77" type="0">Ese nombre me dice algo. Vaya a visitar el Museo de la Marina, me parece que poseen dos objetos que han pertenecido a El Tuerto.</quote>
+    <quote id="78" type="0">¡Ah sí, es magnífico!</quote>
+    <quote id="79" type="0">¿Y esos ensayos? ¡No te pago por probar tus zapatos!</quote>
+    <quote id="80" type="0">Estoy trabajando en un prototipo de Jet-Pack desde hace días, es un pequeño reactor dorsal que permitirá desplazarse volando. El problema, es que mis últimos ensayos de motor han dañado un poco la pared Sur. Voy a utilizar el reostato de tu secador de pelo para dosificar la potencia de los motores (en realidad no lo necesitas, a la vista de tu peinado). Y si funciona te haré una propuesta.</quote>
+    <quote id="81" type="0">Mire, se diría que Ud. también encontró una auténtica carta secreta del Capitán El Tuerto! ¿Quisiera hacerme un servicio? Vaya y devuelva esa cafetera a Lanktir que vive al lado del bazar. Debo entregársela desde hace mucho tiempo, ¡me da vergüenza!</quote>
+    <quote id="82" type="0">Pruebe en el Museo.</quote>
+    <quote id="83" type="0">¡Hola!</quote>
+    <quote id="84" type="0">Me interesa la historia del pirata El Tuerto.</quote>
+    <quote id="85" type="0">No hay más combustible.</quote>
+    <quote id="86" type="0">He leído pasajes de su bitácora, y ¡El Tuerto era terrible! Si te interesa, está en venta en el bazar del Viejo Burgo, en la isla Principal.</quote>
+    <quote id="87" type="0"> Ignoro dónde están.</quote>
+    <quote id="88" type="0">No sé nada, pero me parece que antes en la biblioteca había obras que hablaban de eso.</quote>
+    <quote id="89" type="0">"Por medida de seguridad esta rejilla de alcantarilla no se abre mas que desde el interior del Museo de la Marina."</quote>
+    <quote id="90" type="0">Al Hamalayi.</quote>
+    <quote id="91" type="0">Aparentemente ha habido un robo. ¡Las visitas se reanudarán más tarde!</quote>
+    <quote id="92" type="0">¡Mira, retoma fuerzas!</quote>
+    <quote id="93" type="0">Aparentemente ha habido un robo. ¡Lástima, el ladrón se ha escapado!</quote>
+    <quote id="94" type="0">¡Jamás he visto una tempestad igual, @ jamás!</quote>
+    <quote id="95" type="0">Lo siento, pero ignoro dónde están.</quote>
+    <quote id="96" type="0">Se acabaron las falsas tarjetas rojas, demasiado peligroso, paro. De ahora en adelante no haré más que falsas tarjetas secretas del capitán ElTuerto.</quote>
+    <quote id="97" type="0">Ah, es imposible abrir sin tarjeta roja.</quote>
+    <quote id="98" type="0">Hacia la Piedra del Eclipse.</quote>
+    <quote id="99" type="0">Hacia la Piedra Sellada.</quote>
+    <quote id="100" type="0">A Proxim-City.</quote>
+    <quote id="101" type="0">Colóquese entonces delante del cofre de El Tuerto que está en el museo, y ¡lea el cartel!</quote>
+    <quote id="102" type="0">Buenos días</quote>
+    <quote id="103" type="0">Lo siento, no sé nada.</quote>
+    <quote id="104" type="0">Buenos días. Sorprendente ¿no? estos objetos de El Tuerto que han perdurado a través de los tiempos, ¿ha leído la inscripción en el cofre?</quote>
+    <quote id="105" type="0">Buenos días</quote>
+    <quote id="106" type="0">Lo desconozco.</quote>
+    <quote id="107" type="0">¡Lo desconozco!</quote>
+    <quote id="108" type="0">Buenos días</quote>
+    <quote id="109" type="0">Lea las inscripciones, hay objetos que han pertenecido a El Tuerto ¡aquí!</quote>
+    <quote id="110" type="0">No puedo ayudarle.</quote>
+    <quote id="111" type="0">Alguien se ha equivocado de dirección y me ha enviado este objeto por error: se trata de un teclado para abrir una puerta del "Centro de Teleportación". Esto abre una habitación repleta de Meca-Pingüinos.</quote>
+    <quote id="112" type="0">Si me devuelve mi cafetera, le doy una lista de determinados lugares donde puede encontrar una planta rara y ciertas cajas. ¡Y no me pregunte dónde encontré esta lista!</quote>
+    <quote id="113" type="0">Buenos días</quote>
+    <quote id="114" type="0">No puedo hacer nada por Ud.</quote>
+    <quote id="115" type="0">"Jerónimo Baldino. Gadgets e Invenciones Diversas."</quote>
+    <quote id="116" type="0">Vea en el Museo.</quote>
+    <quote id="117" type="0">Déjeme tranquilo, no tengo nada que decirle.</quote>
+    <quote id="118" type="0">§ </quote>
+  </quotes>
+</lbatexts>

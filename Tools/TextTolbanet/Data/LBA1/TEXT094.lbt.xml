@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>1</game>
+  <quotes>
+    <quote id="1" type="0">¡Alto!</quote>
+    <quote id="2" type="0">Buenos días, busco a una amiga. Está escoltada por dos elefoclones.</quote>
+    <quote id="3" type="0">Lo siento, no la he visto. Pero pruebe a ir a la casa del astrónomo en el Viejo Burgo, él está al corriente de muchas cosas.</quote>
+    <quote id="4" type="0">Está prohibido hablar de eso.</quote>
+    <quote id="5" type="0">Para ir a ver a mi primo, ¡colócate delante del lavabo y lávate las manos! ¡Je je!</quote>
+    <quote id="6" type="0">He sido arrestado por haber estornudado en público, ¡es ridículo! Por el contrario, un guardián me ha dicho que hay un falsificador en la celda que se encuentra completamente a la derecha del Cuartel General</quote>
+    <quote id="7" type="0">No puedo hacer nada por ti. Salvo quizá ... en vista de los riesgos que has tomado pueda confiar en ti. Fui arrestado en esta isla, pero antes de ello, le había confiado una falsa tarjeta roja a mi hermano que vive en la isla Próxima. Te la dará si le dices: "Amos" (nuestra casa está ahora indicada en tu Holomapa)</quote>
+    <quote id="8" type="0">"Cuartel General del Dr. FunFROCK. Entrada ¡ESTRICTAMENTE PROHIBIDA!"</quote>
+    <quote id="9" type="0">"H. colines busca M. conejuna para relación amistosa (y más si hay afinidades)."</quote>
+    <quote id="10" type="0">¡Bah! No me interesa.</quote>
+    <quote id="11" type="0">Tal como ves, yo no bebo nunca agua grumetillo. ¡Basta probar el agua de la ciudad para comprender por qué!</quote>
+    <quote id="12" type="0">Este viejo pirata tiene razón, el agua de la ciudad tiene un gusto raro. Además se debe poder mejorar, el castillo de agua está situado en las montañas, al Norte (mira en tu holomapa).</quote>
+    <quote id="13" type="0">Esta Leyenda es una falla en el poder de FunFrock. Debes descubrir por qué, es tu única esperanza de reencontrar a tu amiga.</quote>
+    <quote id="14" type="0">Buenos días, extraña esta Leyenda, ¿no?</quote>
+    <quote id="15" type="0">"ANUNCIO Nø 358-G: Un detenido llamado Twinsen se ha escapado de la Ciudadela. Toda persona que lo viera debe denunciarlo al clon más próximo."</quote>
+    <quote id="16" type="0">"Horarios de apertura de la biblioteca de la isla Principal: @ Más o menos a todas horas".</quote>
+    <quote id="17" type="0">Tenemos documentos sobre la "Leyenda" en el infierno de esta biblioteca, pero hace falta una autorización especial para consultarlos. Muéstreme su tarjeta de identidad.</quote>
+    <quote id="18" type="0">Buenos días. Para ir a la isla de la Ciudadela se necesita un billete de embarque.</quote>
+    <quote id="19" type="0">"Muy estimado y respetado Dr. FunFrock, me he llevado los planos del Centro de Teleportación a casa para trabajar durante este fin de semana. Los traeré de vuelta el lunes. Firmado: Mies Van der Rooh, Arquitecto, Calle del Escarabajo, isla de la Ciudadela".</quote>
+    <quote id="20" type="0">Me interesa la historia del Pirata El Tuerto.</quote>
+    <quote id="21" type="0">Busco los planos del Centro de Teleportación. ¡Misión Especial!</quote>
+    <quote id="22" type="0">¡Alerta! ¡Es el prisionero que se ha evadido!</quote>
+    <quote id="23" type="0">Buenos días</quote>
+    <quote id="24" type="0">Un billete para el ferry cuesta 10 Kashes. Pero como tengo un aviso de búsqueda en mi oficina, me harán falta 30 Kashes para olvidar que te pareces a él.</quote>
+    <quote id="25" type="0">¡Alto! Ud. está buscado por evasión.</quote>
+    <quote id="26" type="0">Por 10 Kashes te dejo leer este cartel que está detrás de mí.</quote>
+    <quote id="27" type="0">Los he visto hace un rato en la isla de la Ciudadela. Pero salieron de allí en un barco rápido con destino: ¡desconocido!</quote>
+    <quote id="28" type="0">Bienvenido estimado cliente. Ya no me queda más jarabe de cereza, pero hay una farmacia abierta en la isla de la Ciudadela.<linebreak />P Póngase delante del artículo que le interesa, y haga ACCION.</quote>
+    <quote id="29" type="0">¡Señor, señor! Hay una piedra rara en la pared del fondo. ¡Podría fugarme!</quote>
+    <quote id="30" type="0">¿Una piedra rara? Bueno, vamos a ver eso.</quote>
+    <quote id="31" type="0">El pasaje sólo se abre viniendo de casa de mi primo, y por favor, ¡deja de husmear por todas partes!</quote>
+    <quote id="32" type="0">Lo siento pero no tienes suficiente dinero. Regresa más tarde.</quote>
+    <quote id="33" type="0">Aquí no se le habla a cualquiera. Pruébanos que no estás al servicio de FunFrock. No sé, por ejemplo, ¡Golpea a un clon!</quote>
+    <quote id="34" type="0">No la he visto, pero si tienes problemas, deberías ir a ver al Astrónomo que está en residencia vigilada, en su casa en lo alto del Viejo Burgo.</quote>
+    <quote id="35" type="0">Entonces, ¿eras tú el que le pegaba a los clones? ¡Bravo! No he visto a tu amiga, pero deberías ir a ver al Astrónomo, seguramente él puede ayudarte.</quote>
+    <quote id="36" type="0">Déjame tranquilo, ya es bastante duro este trabajillo.</quote>
+    <quote id="37" type="0">Esa joven debe ser importante para que ese tirano de FunFrock la retenga fuera de la isla de la Ciudadela. Además, está tramando algo al prohibir toda alusión a la Leyenda: ¡Constituye seguramente una debilidad en su poder! Descubre lo que oculta esta Leyenda, es tu única esperanza para encontrar a tu amiga. Si necesitas salir de la isla, tengo un aliado que puede ayudarte en Puerto-Belooga (mira tu holomapa), Dile solamente que vienes de mi parte. Y sé discreto en tus investigaciones.</quote>
+    <quote id="38" type="0">No sé nada de la Leyenda y lo lamento, pero tengo un amigo pescador que puede ayudarte a viajar si le dices que vienes de mi parte. El vive en Puerto-Belooga (mira en tu holomapa).</quote>
+    <quote id="39" type="0">¡Ja, Ja! Es un colega, busca una novia.</quote>
+    <quote id="40" type="0">Yo no sé nada de eso y además está prohibido hablar de ello.</quote>
+    <quote id="41" type="0">Según mi médico no puedo beber más que agua de la ciudad. Pero deja un gusto raro. Si alguien mejorara eso, podría abrirle la puerta del infierno de esta biblioteca, y es un privilegio.</quote>
+    <quote id="42" type="0">Espere, voy a probar el agua.</quote>
+    <quote id="43" type="0">Mmmh sabor a cereza, no está mal... pero hubiera preferido zanahoria. No es grave, como convenimos, voy a conducirlo a los documentos sobre esa "Leyenda".</quote>
+    <quote id="44" type="0">¡Nunca los he visto! Sólo me interesa el océano. @ Me sucede incluso cuando transporto viajeros en mi barco, pero únicamente personas seguras.</quote>
+    <quote id="45" type="0">Si el Astrónomo te envía puedo confiar en ti. Solo que, a pesar de la solidaridad en la resistencia contra FunFrock, los tiempos son duros. Entonces por 10 Kashes, ¿A dónde quieres ir?</quote>
+    <quote id="46" type="0">No lo sé todavía.</quote>
+    <quote id="47" type="0">Al Desierto de la Hoja Blanca.</quote>
+    <quote id="48" type="0">No parto inmediatamente.</quote>
+    <quote id="49" type="0">No tienes suficiente dinero para que te lleve Twinsen, hasta más tarde.</quote>
+    <quote id="50" type="0">"En tiempos de antaño, cuando 4 especies, burbujos, conejunos, colines y elefos emergían del lodo original, siglos antes del golpe de estado del Dr. FunFrock, una profecía fue anunciada. Actualmente pocos son los que recuerdan su texto original, por ello se le conoce con el nombre de la "Leyenda". Todo lo que se relaciona a esta Leyenda se refiere a la misión del Heredero que, llegado el día, será llamado a vencer a un tirano. Una fuente de saber a propósito la Leyenda existe todavía en el corazón del Desierto de la Hoja Blanca."</quote>
+    <quote id="51" type="0">¡Acabas de encontrar todos los objetos que contenía tu inventario!</quote>
+    <quote id="52" type="0">Puede subir señor, estamos embarcando.</quote>
+    <quote id="53" type="0">"Bienvenido a la Isla Principal."</quote>
+    <quote id="54" type="0">No la he visto, pero ahora creo que se puede confiar en ti. Sígueme, tengo un medio para ir a casa del Astrónomo.</quote>
+    <quote id="55" type="0">Mi primo es cerrajero, te abrirá el portalón que no está custodiado. ¡Sígueme!</quote>
+    <quote id="56" type="0">No sé si puedo ayudarte. Soy cerrajero y puedo abrir muchas puertas, pero ...¡sólo a personas de confianza!</quote>
+    <quote id="57" type="0">Si ya conoces este pasaje, te puedo abrir el portalón que no está custodiado. ¡Ve tú delante!</quote>
+    <quote id="58" type="0">Puedo ayudarte a quitarte de encima al Supergordo. Sígueme, pero ¡espera que se aleje de los peldaños para pasar!</quote>
+    <quote id="59" type="0">Ladrón! @ ¡Deja mi caja tranquila!</quote>
+    <quote id="60" type="0">¡Eres demasiado agresivo! ¡Sal de aquí y regresa cuando estés calmado!</quote>
+    <quote id="61" type="0">¡Cállese infortunado, está prohibido hablar de eso!</quote>
+    <quote id="62" type="0">"Servicio de tratamiento de las aguas de la Isla Principal: ¡PROHIBIDO BAÑARSE!"</quote>
+    <quote id="63" type="0">¿Adónde quieres ir?</quote>
+    <quote id="64" type="0">A Puerto-Belooga.</quote>
+    <quote id="65" type="0">Al castillo de agua.</quote>
+    <quote id="66" type="0">¡Pago por ver!</quote>
+    <quote id="67" type="0">¡Ni hablar, eso me suena a estafa!</quote>
+    <quote id="68" type="0">Puedo abrirle la puerta del infierno de esta biblioteca. Allí hay un libro que habla de la Leyenda. Pero para conseguirlo me gustaría que cambie el sabor del agua de la ciudad: es la única que puedo beber, pero no es buena.</quote>
+    <quote id="69" type="0">"Viejo Burgo @ (Isla Principal) "</quote>
+    <quote id="70" type="0">"Calle Chueca @ (Isla Principal) "</quote>
+    <quote id="71" type="0">Lo siento, pero no tiene suficiente dinero. Regrese más tarde.</quote>
+    <quote id="72" type="0">A la isla Próxima.</quote>
+    <quote id="73" type="0">He leído pasajes de su bitácora, ese El Tuerto ¡era terrible! Si te interesa, está en venta en el bazar del Viejo Burgo, en esta isla.</quote>
+    <quote id="74" type="0">Soy Bob Vortix, astrónomo en residencia vigilada. Y tú, ¿qué vienes a hacer en la ciudad aparte de a golpear a los clones?</quote>
+    <quote id="75" type="0">Vengo de parte del Astrónomo</quote>
+    <quote id="76" type="0">Regresa a verme cuando sepas a dónde quieres ir.</quote>
+    <quote id="77" type="0">"Caramelos con Puntos de Vida: ¿desea 10 corazones por 10 Kashes? "</quote>
+    <quote id="78" type="0">Si, compro.</quote>
+    <quote id="79" type="0">No gracias.</quote>
+    <quote id="80" type="0">¡No tiene suficientes Kashes!</quote>
+    <quote id="81" type="0">Buenos días. Venga, voy a abrirle la puerta.</quote>
+    <quote id="82" type="0">¡Alerta! ¡Se está evadiendo un prisionero!</quote>
+    <quote id="83" type="0">¡Mi pobre amigo! No veo realmente de qué me está hablando.</quote>
+    <quote id="84" type="0">Mire, ¿Conoce Ud. a Julia? Es una muchacha amable. Mira un poco demasiado la tele, pero hay algo verdadero en su historia: alguien olvidó una caja de tréboles en el islote delante de mi casa. El fondo es demasiado alto para un barco, habría que volar para ir ahora que el puente se ha derrumbado.</quote>
+    <quote id="85" type="0">Muy bien señor, quédese allí por favor.</quote>
+    <quote id="86" type="0">¿Qué hace Ud. ahí?, ¿quién es Ud.?</quote>
+    <quote id="87" type="0">Reparo antenas.</quote>
+    <quote id="88" type="0">Twinsen, yo me evado.</quote>
+    <quote id="89" type="0">El Papá Noel.</quote>
+    <quote id="90" type="0">"Bienvenido a Puerto-Belooga @ (Isla Principal) @ Mar calmo a agitado, viento débil"</quote>
+    <quote id="91" type="0">No me interesa.</quote>
+    <quote id="92" type="0">Compro.</quote>
+    <quote id="93" type="0">Buenos días</quote>
+    <quote id="94" type="0">" L.B.A. @ Servicio de alcantarillado del Viejo Burgo. Calle de la Luna de Esmeralda."</quote>
+    <quote id="95" type="0">Sí, sigue rebuscando en mis cosas. ¡tipejo!</quote>
+    <quote id="96" type="0">No está aquí. Me hubiera dado cuenta, tenemos pocos lectores hoy en día.</quote>
+    <quote id="97" type="0">Lo que pasa es que he visitado toda la isla y no he visto a esa gente.</quote>
+    <quote id="98" type="0">No la he visto.</quote>
+    <quote id="99" type="0">No la he visto.</quote>
+    <quote id="100" type="0">Lamento no haber visto a su trío.</quote>
+    <quote id="101" type="0">No la he visto, pero...</quote>
+    <quote id="102" type="0">El agua es potable pero es verdad que tiene un sabor raro. Habría que ir al castillo de agua para cambiar algo.</quote>
+    <quote id="103" type="0">Buenos días</quote>
+    <quote id="104" type="0">Buenos días viejo.</quote>
+    <quote id="105" type="0">Hola, saluda a mi primo cuando lo veas.</quote>
+    <quote id="106" type="0">Buenos días</quote>
+    <quote id="107" type="0">Lo siento, pero no hay suficiente dinero. Regresa más tarde.</quote>
+    <quote id="108" type="0">Aquí no se confía fácilmente. Pruébanos que tú no estás al servicio de FunFrock, ¡golpea a un clon, por ejemplo!</quote>
+    <quote id="109" type="0">A la isla de la Ciudadela.</quote>
+    <quote id="110" type="0">A la isla de la Rebelión.</quote>
+    <quote id="111" type="0">Mira esta maravilla: como nuevo, maniobrable y rápido, este catamarán será tuyo por sólo 200 Kashes.</quote>
+    <quote id="112" type="0">¡Demasiado caro para mí!</quote>
+    <quote id="113" type="0">Magnífico, lo compro.</quote>
+    <quote id="114" type="0">¡No son suficientes Kashes!</quote>
+    <quote id="115" type="0">Tengo que decirle algo. ¡Es terrible! Mi mejor amiga (Beatriz) está enamorada de Steven. Ahora bien, Paúl, el medio hermano de Steven, ha dejado a Cindy cuando Linda salió de la clínica después de su accidente de trineo. ¡Pero no por Linda, sino por Tatjana! Solamente Sergio que (admira secretamente a Steven) trata desde hace meses de conquistar a Tatjana que se niega a hablar de Christy desde que ésta murió. Mientras tanto, Stephanie - que se ha vuelto a casar con Sergio - ha descubierto la carta dejada por Paulina en la cual ella explicaba dónde se encontraba la caja de tréboles olvidada por Roy. Evidentemente, Beatriz se pregunta si Linda está al corriente del accidente. @ ¿Me sigue?</quote>
+    <quote id="116" type="0">¡Despiértate, acabo de encontrar al evadido!</quote>
+    <quote id="117" type="0">¡Ladrón!<linebreak /> @ ¡Deja mi caja tranquila!</quote>
+    <quote id="118" type="0">Lo siento estimado cliente, pero no me interesa mas que mi modesto negocio.</quote>
+    <quote id="119" type="0">¡Desgraciado, no haga eso! ¡Desde ahora TODO es posible!</quote>
+    <quote id="120" type="0">¡Je, je! ¿También Ud. está buscando su Tesoro? Bah, yo tenía un viejo libro polvoriento que hablaba del pirata El Tuerto, pero un cliente me lo compró esta mañana. Era un conejuno, yo sé que trabaja en la biblioteca.</quote>
+    <quote id="121" type="0">No he visto a esa joven persona. Pero vaya a casa del astrónomo: aunque le esté prohibido salir de su casa, está al corriente de todo. Vive en la última casa en lo alto de la ciudad.</quote>
+    <quote id="122" type="0">El sabor es EXACTAMENTE el mismo que antes. Ya no lo llevo al infierno.</quote>
+    <quote id="123" type="0">¡Figúrese que un listo de esos ha vertido jarabe en la red de agua potable de la isla! Me encantaría decirle dos palabras, ¿lo conoce?</quote>
+    <quote id="124" type="0">Soy yo, genial, ¿no ?</quote>
+    <quote id="125" type="0">Es una de las de FunFrock.</quote>
+    <quote id="126" type="0">¡Bravo! Este saborcito a cerezas es una maravilla. Tengo que decirle que a causa de mi médico no puedo beber más que el agua de la ciudad y... bueno, para agradecerselo puedo mostrarle las obras antiguas, incluso diría ¡LEGENDARIAS!</quote>
+    <quote id="127" type="0">Oh, el Dr. FunFrock cuida de nosotros, sin embargo, me asombraría que esto viniera de su parte.</quote>
+    <quote id="128" type="0">No he visto a esa persona.</quote>
+    <quote id="129" type="0">Mi estimado, hace años que buscamos la bitácora del Capitán El Tuerto. Y bien, imagínese que ¡acabo de encontrarlo haciendo mis compras en el Viejo Burgo! Evidentemente una obra como esa hay que consultarla en el sitio. Mire, allí en la mesa del fondo, cerca de la sala de proyección.</quote>
+    <quote id="130" type="0">Quédese aquí, voy a buscárselos.</quote>
+    <quote id="131" type="0">Debe haber algo sobre El Tuerto. Mírelo con el bibliotecario jefe. Ya lo conoce, es un conejuno grande, anaranjado.</quote>
+    <quote id="132" type="0">Bueno, le leo un pasaje de esta bitácora si después me deja tranquilo. ¿Le leo entonces un pasaje? ¿sobre qué?</quote>
+    <quote id="133" type="0">Sobre la cocina pirata.</quote>
+    <quote id="134" type="0">Sobre el tesoro del Capitán El Tuerto.</quote>
+    <quote id="135" type="0">¿Porqué El Tuerto?</quote>
+    <quote id="136" type="0">Sabe Ud., es un juego francés, tanto por decencia como por respeto por la Gastronomía, no se puede citar todos los ingredientes que entran en la composición de una receta de cocina pirata.</quote>
+    <quote id="137" type="0">Veamos, el tesoro... Ah, se habla al final en una pequeña ficha: @ "Para encontrar el tesoro del Capitán El Tuerto, el viajero que desembarca en el Puerto de la Isla Próxima debe tomar como referencia el punto de amarre más próximo. Colocándose de espaldas a los barcos amarrados, debe realizar el siguiente recorrido en modo DISCRETO: @ 6 pasos al Norte (de frente), luego 6 pasos al Este (a la derecha) por la pequeña pendiente. 2 pasos al Norte (de frente) hasta el basurero de metal, 3 pasos al Este (a la derecha) para llegar a una lámpara. Debe colocarse EXACTAMENTE entre las dos 2 lámparas, y luego dar 8 pasos al Norte (de frente) para alcanzar un portalón. El tesoro del Capitán El Tuerto se encuentra en el edificio detrás del portalón".</quote>
+    <quote id="138" type="0">"Se le llamaba así porque tenía la manía de masticar un mondadientes durante todo el día, hasta que una vez, en medio de un tifón, estornudó... recuperó su mondadientes, ¡pero perdió el ojo!"</quote>
+    <quote id="139" type="0">No sirve de nada ser agresivo, ¡yo estaba aquí antes que Ud.!</quote>
+    <quote id="140" type="0">¡Buenos días!</quote>
+    <quote id="141" type="0">No sé dónde pueden estar.</quote>
+    <quote id="142" type="0">¡Es la rebelión, está prohibido hablar de esta Leyenda!</quote>
+    <quote id="143" type="0">No la he visto, pero el Astrónomo seguramente podrá ayudarte.</quote>
+    <quote id="144" type="0">Sobre esa historia mejor habla con los marinos.</quote>
+    <quote id="145" type="0">Me gustaría tanto ayudarte, pero no sé dónde están.</quote>
+    <quote id="146" type="0">Mmmh! Esa famosa rata del pirata El Tuerto saqueó todo el hemisferio hace unos siglos. Yo sé, por nuestro amigo el pescador, que en el bazar debería haber un objeto que perteneció al famoso El Tuerto.</quote>
+    <quote id="147" type="0">No sé donde están.</quote>
+    <quote id="148" type="0">¡Hiiii hi! Bbbrrfff!</quote>
+    <quote id="149" type="0">Uno de mis colegas galopa con las crines al viento en el Desierto de la Hoja Blanca. Según él, debería haber alguien encerrado en una gruta detrás de un sello gigante.</quote>
+    <quote id="150" type="0">¡Jamás he oido hablar de eso!</quote>
+    <quote id="151" type="0">¿Qué es un Centro de Teleportación?</quote>
+    <quote id="152" type="0">¡Hola!</quote>
+    <quote id="153" type="0">¡Ah, qué tipo ese El Tuerto!</quote>
+    <quote id="154" type="0">Ja, Ja, ¡eso si que es bueno! Lo siento no tengo eso conmigo.</quote>
+    <quote id="155" type="0">Es imposible vender un sólo secador de pelo aquí. Uno de mis colegas ya está visitando la clientela potencial. Si esto continúa así, iré a comerciar en otra isla.</quote>
+    <quote id="156" type="0">Ignoro donde están.</quote>
+    <quote id="157" type="0">No puedo hacer nada por Ud. amigo mío. No se de que me habla.</quote>
+    <quote id="158" type="0">¡Toma esto rebelde!</quote>
+    <quote id="159" type="0">¡Circule!</quote>
+    <quote id="160" type="0">Buenos días</quote>
+    <quote id="161" type="0">Vaya a hablar a la taberna, ¡allí adoran las historias de piratas!</quote>
+    <quote id="162" type="0">Déjeme tranquilo, no tengo nada que decirle.</quote>
+    <quote id="163" type="0">Buenos días</quote>
+    <quote id="164" type="0">¡Está rigurosamente prohibido hablar de eso!</quote>
+    <quote id="165" type="0">No he escuchado jamás hablar de eso.</quote>
+    <quote id="166" type="0">Ignoro donde están.</quote>
+    <quote id="167" type="0">¡Lo siento, no conozco!</quote>
+    <quote id="168" type="0">¡Hola!</quote>
+    <quote id="169" type="0">¡Calma!</quote>
+    <quote id="170" type="0">No la he visto.</quote>
+    <quote id="171" type="0">Escucha, me eres muy simpático, pero ya eres mayorcito. Arréglatelas tú sólo. ¡Yo no soy una biblioteca!</quote>
+    <quote id="172" type="0">No veo de qué se trata.</quote>
+    <quote id="173" type="0">No la he visto.</quote>
+    <quote id="174" type="0">No veo dónde pueden estar.</quote>
+    <quote id="175" type="0">¡Tenían que ser piratas, peuh! Los marinos contarían cualquier cosa con tal de hacerse pagar un trago!</quote>
+    <quote id="176" type="0">Buenos días</quote>
+    <quote id="177" type="0">Un secador de pelo por 30 Kashes ¿le parece? Normalmente no tengo permiso para vender más que de puerta en puerta, pero los clientes escasean y Ud. me es simpático.</quote>
+    <quote id="178" type="0">¡Venga, pase al interior!</quote>
+    <quote id="179" type="0">Buenos días señor.</quote>
+    <quote id="180" type="0">No, de ninguna manera.</quote>
+    <quote id="181" type="0">Vaya a ver a Beatriz y dígale que viene de parte de Julia, ella le explicará esto mejor que yo. Vive en el límite del Viejo Burgo en una casa cerca del mar en la Calle Chueca.</quote>
+    <quote id="182" type="0">Julia me ha hablado mucho de Ud.</quote>
+    <quote id="183" type="0">No conozco nada sobre piratería, intente mejor hablar de eso con los marinos.</quote>
+    <quote id="184" type="0">Ignoro donde están, estimado señor.</quote>
+    <quote id="185" type="0">Buenos días joven colines.</quote>
+    <quote id="186" type="0">No la he visto.</quote>
+    <quote id="187" type="0">¡Lo desconozco!</quote>
+    <quote id="188" type="0">Parece que el sabor del agua de la ciudad ha mejorado ¡Puh! ¡Es una de esas publicidades de la liga antialcohólica!</quote>
+    <quote id="189" type="0">¡No los he visto jamás!</quote>
+    <quote id="190" type="0">Yo no la conozco, pero vaya a ver a Wadbull en el bazar. Y ¡tenga cuidado!, normalmente está prohibido hablar de eso.</quote>
+    <quote id="191" type="0">Ah, no conozco esa, pero la del pirata que tenía reumatismo en una pierna y cojera en la otra, me hace morir de risa cada vez que lo pienso.</quote>
+    <quote id="192" type="0">¡Hola grumetillo!</quote>
+    <quote id="193" type="0">Ignoro dánde están.</quote>
+    <quote id="194" type="0">El Tuerto! Como no sabía leer, hizo que el cocinero redactase su bitácora. Yo sé que está en venta en el bazar justo aquí al lado.</quote>
+    <quote id="195" type="0">Lo siento, no conozco.</quote>
+    <quote id="196" type="0">Este extraordinario Holomapa cuesta 20 Kashes (¡Verá, es muy práctico!).</quote>
+    <quote id="197" type="0">El combustible para 10 viajes cuesta 30 Kashes.</quote>
+    <quote id="198" type="0">15 corazones de polvo de vida cuestan 30 Kashes.</quote>
+    <quote id="199" type="0">10 frascos de polvo mágico cuestan 30 Kashes.</quote>
+    <quote id="200" type="0">Un Meca-Pingüino cuesta 3 Kashes.</quote>
+    <quote id="201" type="0">No la he visto.</quote>
+    <quote id="202" type="0">Lo siento, lo desconozco.</quote>
+    <quote id="203" type="0">Hola amigo.</quote>
+    <quote id="204" type="0">No sé dónde están.</quote>
+    <quote id="205" type="0">Buenos días</quote>
+    <quote id="206" type="0">Pregúntele al patrón o al marinero de la mesa.</quote>
+    <quote id="207" type="0">¡Pero está prohibido hablar de eso! Tiene suerte, me gustaría denunciarlo, pero me privaría del placer de extorsionarle algunos Kashes.</quote>
+    <quote id="208" type="0">Buenos días</quote>
+    <quote id="209" type="0">¡Soy un fanático de STAR WARS™. Normalmente el próximo episodio de la saga debe salir pronto, y yo ya he reservado mi butaca en la sala de proyección!</quote>
+    <quote id="210" type="0">Me gustaría ayudarte, pero verdaderamente, no sé nada aparte de cine. ¡Buena suerte!</quote>
+    <quote id="211" type="0">He encontrado esta página arrancada de un libro. Dice así: " ... Accione UNA vez la palanca del medio y luego UNA vez la palanca de la derecha. "¡Es seguramente la solución a un problema!</quote>
+    <quote id="212" type="0">No sé dónde están. Lo siento.</quote>
+    <quote id="213" type="0">Buenos días</quote>
+    <quote id="214" type="0">Pregúntele al conejuno que tiene la camiseta amarilla, es el bibliotecario.</quote>
+    <quote id="215" type="0">¡Ay! Pero yo he encontrado en el suelo esta página, no la he arrancado. ¡Lo juro!</quote>
+    <quote id="216" type="0">Según el libro que tengo aquí, hay un lago de "Agua Clara" en el Hamalayi, al Noroeste de la isla Principal. ¿Sabía que esta cadena del Hamalayi es infranqueable? Marca el límite con el hemisferio Norte, que el FunFrock ha hecho evacuar. Allí, el sol está demasiado cerca: la temperatura se ha vuelto insoportable, y los cambios climáticos han hecho aparecer monstruos mutantes. Decir que a pesar de lo que el buen doctor hace por nosotros, hay rebeldes que lo combaten, ¡es una vergüenza!</quote>
+    <quote id="217" type="0">Lo siento, no sé de qué habla.</quote>
+    <quote id="218" type="0">Pregúntele al bibliotecario, a él le interesa también la historia del pirata El Tuerto.</quote>
+    <quote id="219" type="0">¿Sabía que para protegernos el Dr. FunFrock ha hecho instalar bustos con su efigie? Todos los que no tienen pedestal se colocan sobre sellos muy antiguos. Ya que eran indestructibles, ¡por lo menos no se les ve más!</quote>
+    <quote id="220" type="0">Ignoro dónde están.</quote>
+    <quote id="221" type="0">Vaya a ver al bibliotecario.</quote>
+    <quote id="222" type="0">Nunca lo he visto, pero ve al Bazar un poco más arriba. ¡Wadbull sabe todo y VENDE DE TODO!</quote>
+    <quote id="223" type="0">Ya nadie se acuerda de eso ahora. Incluso me pregunto si en la biblioteca han conservado libros sobre la Leyenda.</quote>
+    <quote id="224" type="0">Lo desconozco, lo siento.</quote>
+    <quote id="225" type="0">No se nada de eso, pero parece que antes en la biblioteca había obras que hablaban de ello.</quote>
+    <quote id="226" type="0">¡Deje de hacer eso! ¡Va a esparcir la ceniza por todas partes!</quote>
+    <quote id="227" type="0">¡No sé dónde están, pero ya no importa! Da náuseas la teleportación.</quote>
+    <quote id="228" type="0">Beuuhhh! Da náuseas la teleportación.</quote>
+    <quote id="229" type="0">No hay más combustible.</quote>
+    <quote id="230" type="0">Gracias, ¡A propósito, tengo la tarjeta roja!</quote>
+    <quote id="231" type="0">¡No puedo imaginar lo que es estar encerrado! @ ¡Es horrible ... horrible, horrible!</quote>
+    <quote id="232" type="0">Me asombraría que estuviese encerrada aquí.</quote>
+    <quote id="233" type="0">Nunca he oido hablar de eso.</quote>
+    <quote id="234" type="0">¡Parece que nunca lo capturaron!</quote>
+    <quote id="235" type="0">Lo siento, pero no conozco nada</quote>
+    <quote id="236" type="0">"Servicio de agua potable que alimenta la isla Principal: ¡NO ARROJAR NADA EN LA CUBA! "</quote>
+    <quote id="237" type="0">¡Lo siento estimado cliente, pero aquí Ud. está en un bazar y no en una biblioteca!</quote>
+    <quote id="238" type="0">Ya nadie se acuerda de eso, todo eso es un camelo.</quote>
+    <quote id="239" type="0">Bah ... no sé, sin embargo en el Viejo Burgo hay algunos que deben conocer esa dichosa Leyenda.</quote>
+    <quote id="240" type="0">No está encerrada aquí, pero si quieres una tarjeta roja, anda a buscar a mi hermano. Nuestra casa está indicada en tu Holomapa.</quote>
+    <quote id="241" type="0">¡Ya decía yo que había visto en alguna parte a ese colines!</quote>
+    <quote id="242" type="0">Entonces prueba en la taberna del Viejo Burgo, hábla con el barman.</quote>
+    <quote id="243" type="0">Hola, regreso de un viaje alrededor de este hemisferio y vendo mi barco. Síganme si les interesa.</quote>
+    <quote id="244" type="0">Buenos días, ¿han visitado entonces el hemisferio? Tengan cuidado con los icebergs que hay hacia el Hamalayi.</quote>
+    <quote id="245" type="0">Con esa bandera corre el riesgo de buscarse problemas con las autoridades. Es un emblema de los rebeldes.</quote>
+    <quote id="246" type="0">¡En mis brazos! ¡Eso es un verdadero marino! El Tuerto tenía una bitácora en la cual debe figurar el emplazamiento de su tesoro de una manera o de otra.</quote>
+    <quote id="247" type="0">Nunca los he visto, no sé ni de qué se trata.</quote>
+    <quote id="248" type="0">¡Mira, mira, un buen rastreador! ¿Twinsen supongo? tengo curiosidad por saber lo que has venido a hacer aquí.</quote>
+    <quote id="249" type="0">Hay un tesoro en esta isla: hay que soplar en una trompa mágica delante del busto de FunFrock para tener acceso.</quote>
+    <quote id="250" type="0">No conozco esa historia.</quote>
+    <quote id="251" type="0">No veo de qué se trata.</quote>
+    <quote id="252" type="0">Buenos días</quote>
+    <quote id="253" type="0">Buenos días</quote>
+    <quote id="254" type="0">Hola</quote>
+    <quote id="255" type="0">Buenos días estimado amigo.</quote>
+    <quote id="256" type="0">Ah, esos planos no se encuentran entre nuestras obras.</quote>
+    <quote id="257" type="0">Al Hamalayi.</quote>
+    <quote id="258" type="0">Donde quiera que vaya, regrese pronto. Esperamos pronto el regreso de un navegante solitario, y va a vender su barco.</quote>
+    <quote id="259" type="0">¡Lo desconozco!</quote>
+    <quote id="260" type="0">¡Qué amable has sido al ayudarme!, pero he logrado robarle la llave al guardia. Tómala, ya no la necesito.</quote>
+    <quote id="261" type="0">Acabo de descubrir un pasaje secreto pulsando ACCION, ¡es increíble! Y si no, mi falsa tarjeta roja, ¿estás contento?</quote>
+    <quote id="262" type="0">Ah, es imposible abrir sin la tarjeta roja.</quote>
+    <quote id="263" type="0">Ah, es imposible abrir sin la tarjeta azul.</quote>
+    <quote id="264" type="0">Al campo militar.</quote>
+    <quote id="265" type="0">Calle Chueca.</quote>
+    <quote id="266" type="0">Estoy curado, no sé lo que ha vertido esta vez, pero mi cáculo renal se ha volatilizado. ¡Gracias!</quote>
+    <quote id="267" type="0">Buenos días</quote>
+    <quote id="268" type="0">Un día uno de mis marineros pretendió que ElTuerto era mi antepasado, y... ¡en fin! Son muy emocionantes los funerales en el mar! </quote>
+  </quotes>
+</lbatexts>

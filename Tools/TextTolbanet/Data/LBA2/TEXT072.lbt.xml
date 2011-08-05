@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>2</game>
+  <quotes>
+    <quote id="1" type="1">Einverstanden!</quote>
+    <quote id="2" type="1">Das interessiert mich nicht.</quote>
+    <quote id="3" type="1">Zuerst möchte ich meinem Dinofly helfen!</quote>
+    <quote id="4" type="1">"Suchen Sie ein Magierkostüm oder eine Magierausrüstung? Chedil Amiradoo stets zu Ihren Diensten. Günstige Preise, Wartungs- und Reparaturarbeiten. Derzeit auf Ihrer Insel."</quote>
+    <quote id="5" type="1">"Qwelt ik Mülg'b ¿ ÿoc & ÿæc # %-) ßBig Tsè-steel-jenr, (dulkug) hanfin tuwouah koa xdocd § ¡"</quote>
+    <quote id="6" type="1">Verschwunden? Das hört sich ernst an, Meister! Ich werde mein möglichstes tun, um sie zu finden, verlassen Sie sich auf mich!</quote>
+    <quote id="7" type="1">"Lernen heißt auch, Prüfungen mit neuen Methoden zu bestehen."</quote>
+    <quote id="8" type="1">"Das Magierexamen haben bestanden: Aril van Koow, Hugo Dolphar, Carnogeel. "</quote>
+    <quote id="9" type="1">Was soll ich tun, Meister?</quote>
+    <quote id="10" type="1">Hallo, Jerome.</quote>
+    <quote id="11" type="1">"Besuchen Sie den Tempelpark direkt am Kahlen Berg. Erleben Sie einen Teil der Geschichte von Twinsen, während Sie den Bü-Tempel kennenlernen."</quote>
+    <quote id="12" type="1">"Jerome Baldino. @ Diverse Gerätschaften & Erfindungen."</quote>
+    <quote id="13" type="1">"Von-Kournil-Rennstrecke. @ (Insel der Wüste des Leeren Blattes)"</quote>
+    <quote id="14" type="1">"Port-Ludo @ (Insel der Wüste des Leeren Blattes). "</quote>
+    <quote id="15" type="1">"Sie sind am Hafen. @ (Insel der Wüste des Leeren Blattes). "</quote>
+    <quote id="16" type="1">"Zum Hafen."</quote>
+    <quote id="17" type="1">"Zum Bü-Tempel."</quote>
+    <quote id="18" type="1">"Zur Hacienda del Monte-Pelado. "</quote>
+    <quote id="19" type="1">"Sie sind am Kahlen Berg. "</quote>
+    <quote id="20" type="1">"Zum Friedhof."</quote>
+    <quote id="21" type="1">Guten Tag.</quote>
+    <quote id="22" type="1">Hallo.</quote>
+    <quote id="23" type="1">Geschlossen.</quote>
+    <quote id="24" type="1">Guten Tag, Meister.</quote>
+    <quote id="25" type="1">Ich habe nicht genug Kashes.</quote>
+    <quote id="26" type="1">Ich suche den Heilmagier. Ich muß meinen Dinofly heilen.</quote>
+    <quote id="27" type="1">Wissen Sie, wo er wohnt?</quote>
+    <quote id="28" type="1">Aber ... der Heilmagier!</quote>
+    <quote id="29" type="1">Ich suche die Zauberschule.</quote>
+    <quote id="30" type="1">Wissen Sie, wo die Zauberschule ist?</quote>
+    <quote id="31" type="1">Haben Sie in letzter Zeit einen Magier vorbeikommen sehen?</quote>
+    <quote id="32" type="1">Wissen Sie, wo die Magier sind?</quote>
+    <quote id="33" type="1">"Das Magierexamen haben bestanden: Aril van Koow, Hugo Dolphar, Carnogeel, Twinsen. "</quote>
+    <quote id="34" type="9">Hallo?</quote>
+    <quote id="35" type="1">Meister, die Kinder von Twinsun sind von den Esmeriern entführt worden. Können Sie mir helfen? Haben Sie eine Ahnung, wie man herausfinden könnte, wo man sie hingebracht hat?</quote>
+    <quote id="36" type="1">Und wo ist sie?</quote>
+    <quote id="37" type="1">Ich habe eine Nachricht vom Wettermagier gelesen. Er braucht eine Leuchtperle, um einen Blitzzauber fertigzustellen. Wo kann ich so eine Perle finden?</quote>
+    <quote id="38" type="1">Meister, ich habe eine seltsame Perle in einer Grotte bei Port-Ludo gefunden.</quote>
+    <quote id="39" type="1">Auf die Zitadelleninsel.</quote>
+    <quote id="40" type="1">Auf das Eiland des Kreidedoms.</quote>
+    <quote id="41" type="1">Ich bleibe hier.</quote>
+    <quote id="42" type="1">Auf das Eiland gegenüber der Hacienda.</quote>
+    <quote id="43" type="1">Zur Oase in der Wüste.</quote>
+    <quote id="44" type="1">Ich weiß nicht, was Jerome da macht, aber da drunter ist eine richtige Höllenmaschine.</quote>
+    <quote id="45" type="1">Sieht so aus, als arbeite Jerome am ProtoPack, vielleicht will er es verbessern.</quote>
+    <quote id="46" type="1">Hmmm ... das sind bestimmt die Pläne von dieser Maschine, die unter der Plane war. Sicher ist Jerome damit auf den Smaragd-Mond gereist.</quote>
+    <quote id="47" type="1">Sie sind im Tempelpark. Hier stand einst der Bü-Tempel.</quote>
+    <quote id="48" type="1">"Sie befinden sich auf der Hacienda del Monte-Pelado."</quote>
+    <quote id="49" type="1">Genau den suche ich.</quote>
+    <quote id="50" type="1">Weißt du, wo die Magier sind?</quote>
+    <quote id="51" type="1">Wohin bringst du mich, Moya?</quote>
+    <quote id="52" type="1">Ich wußte gar nicht, daß diese Grotte existiert.</quote>
+    <quote id="53" type="1">Auf die Zitadelleninsel.</quote>
+    <quote id="54" type="1">Auf den Kreidedom.</quote>
+    <quote id="55" type="1">Ich bleibe hier.</quote>
+    <quote id="56" type="1">Noch so ein Touristenbus! Die Ereignisse im Bü-Tempel scheinen viele zu interessieren!</quote>
+    <quote id="57" type="1">Sieh an, ein Zeichen von Sendell. Alle Magier verehren diese Zeichen.</quote>
+    <quote id="58" type="1">Nein, immer noch nicht.</quote>
+    <quote id="59" type="1">Nein, ich muß die Zauberschule finden.</quote>
+    <quote id="60" type="1">Bei den Aufnahmeprüfungen zur Zauberschule habe ich eine Muschel bekommen, mit der ich den Dinofly heilen kann.</quote>
+    <quote id="61" type="1">Ich habe beschlossen, Magier zu werden. Dann kann ich den Dinofly selbst heilen.</quote>
+    <quote id="62" type="1">Das hat er mir schon gegeben. Ich komme vorbei und bringe es dir.</quote>
+    <quote id="63" type="1">Sie behaupten zwar, sie seien in friedlicher Absicht gekommen, aber ich finde sie ziemlich aggressiv.</quote>
+    <quote id="64" type="1">Meister, ich weiß jetzt, warum die Magier verschwunden sind. Die Esmerier haben sie im Rahmen eines Wissenschafts- und Kulturaustausches auf ihren Planeten eingeladen. Ich frage mich nur, was da wohl dahintersteckt!</quote>
+    <quote id="65" type="1">ER ioergouerg ù erioufmqer oùu tu zejkhze jkhqdsqdsl iklds klqdfjn !!</quote>
+    <quote id="66" type="1">OFFIZIELLE MELDUNG ... an alle Raumschiffe in Richtung Mondstützpunkt ... neues Kennwort ... sonst Angriff ... Operation GREEN MOON!</quote>
+    <quote id="67" type="1">Hier fehlt etwas, eine Art Scheibe. Anscheinend kann das Raumschiff nur damit starten.</quote>
+    <quote id="68" type="33">Hallo! Twinsen! Ich habe das Auto repariert ... kannst du es ausprobieren? ... ich bringe es dir auf die Wüsteninsel ...</quote>
+    <quote id="69" type="1">Twinsen, probier' doch bitte aus, ob das Auto richtig funktioniert. Du kannst ja auf der Rennstrecke oder in der Wüste ein paar Runden drehen. Und wo ich schon mal hier bin, werde ich einige Einkäufe erledigen. Wir sehen uns dann zu Hause.</quote>
+    <quote id="70" type="33">Twinsen, hast du den Heilmagier gefunden?</quote>
+    <quote id="71" type="33">Und, hast du etwas gefunden, um den Dinofly zu heilen?</quote>
+    <quote id="72" type="33">Könntest du Baldino fragen, ob er das versprochene Bauteil fürs Auto hat?</quote>
+    <quote id="73" type="33">Weißt du, Twinsen, ich mache mir Sorgen. Ich finde, diese Besucher vom anderen Stern sind ziemlich seltsam. Sie sind einfach zu freundlich, um ehrlich zu sein. Und außerdem verhalten sie sich manchmal reichlich seltsam. Ich habe gesehen, wie sich einige von ihnen im Mülleimer versteckt haben.</quote>
+    <quote id="74" type="1">Hier ist das Bauteil, das Zoe noch für euer Auto braucht.</quote>
+    <quote id="75" type="1">Und hier ist das Funksprechgerät, das ich für dich gemacht habe. Hatte vergessen, es dir zu geben. Tut mir leid. Aber ich bin mir sicher, daß es dir noch gute Dienste leisten wird!</quote>
+    <quote id="76" type="1">Hallo, Twinsen.</quote>
+    <quote id="77" type="1">Ich hätte es auch "Talk-Boy" oder so nennen können, aber Funksprechgerät ist doch irgendwie sachlicher. Ich sag dir Bescheid, sobald das ProtoPack fertig ist, mit dem kannst du dann gefahrlos fliegen.</quote>
+    <quote id="78" type="1">Auch mit diesem besonders guten Teleskop habe ich nur ein paar fliegende Untertassen hinter dem Mond vorbeihuschen sehen. Die Esmerier müssen wohl auf der anderen Seite leben.</quote>
+    <quote id="79" type="1">Guten Tag Meister, aber ... Twinsen, bist du das? Du machst dich aber gut als Magier, herzlichen Glückwunsch.</quote>
+    <quote id="80" type="1">Weißt du, Twinsen, ich und Magie, das paßt einfach nicht zusammen. Ich hätte mir nicht 'mal im Traum einfallen lassen, daß es eine Schule gibt, in der man Zaubern lernen kann!</quote>
+    <quote id="81" type="1">Ich weiß nicht, wo sie sind, Twinsen.</quote>
+    <quote id="82" type="1">Sie brauchen eine Fahrkarte für die Fähre, Herr Twinsen.</quote>
+    <quote id="83" type="1">Ihre Fahrkarte ist in Ordnung, Herr Twinsen, gehen Sie an Bord. Gute Reise!</quote>
+    <quote id="84" type="1">Gehen Sie an Bord, Meister.</quote>
+    <quote id="85" type="1">"Wollen Sie für zwei Kashes das Teleskop benutzen?"</quote>
+    <quote id="86" type="1">Jetzt, wo keine Wolken mehr da sind, kann ich endlich unsere beiden Sonnen genießen. Ich habe gehört, daß es in der Wüste eine Oase gibt, in der eine Schildkröte baden geht. Vielleicht sollte ich dort mal hin.</quote>
+    <quote id="87" type="1">Eine Zauberschule? Meinen Sie, die brauchen vielleicht einen Assistenten?</quote>
+    <quote id="88" type="1">Nein, ich bin in der Sonne eingeschlafen, ich hab' keine Magier gesehen.</quote>
+    <quote id="89" type="1">Wohin gehst du, Twinsen?</quote>
+    <quote id="90" type="1">Wissen Sie, ich frage mich, ob sie mit der ganzen Schule hierher umgezogen sind! Bei den vielen Magiern und Esmeriern, die derzeit auf der Hacienda ein- und ausgehen, wäre das schon möglich!!</quote>
+    <quote id="91" type="1">Ich liebe diese Besucher aus dem All einfach. Nach der Kanalisation der Zitadelleninsel soll ich das Dampfbad neu streichen. Um ihre Ankunft zu feiern, haben sie viele Runden ausgegeben!!! Hier kommen auch viele Magier vorbei.</quote>
+    <quote id="92" type="1">Ach, sieh mal einer an! Guten Tag, Herr Twinsen !</quote>
+    <quote id="93" type="9">Genau!</quote>
+    <quote id="94" type="1">Oh ja. Die sind regelrecht hierhergeströmt - mit Massen von Esmeriern zusammen. Ich frage mich allerdings, wo die alle abgeblieben sind.</quote>
+    <quote id="95" type="1">Bedaure, aber ich habe den Zugang zum Dach verboten, seit mein Kollege von der Zitadelleninsel Ärger mit einem Kunden hatte, der in den Keller seiner Kneipe gefallen ist!</quote>
+    <quote id="96" type="1">Und, was ist mit Ihnen los?</quote>
+    <quote id="97" type="1">Tag.</quote>
+    <quote id="98" type="9">Raus! Aber schnell!</quote>
+    <quote id="99" type="1">Seit einiger Zeit sehe ich ständig welche, die hier hereinschauen. Sie gehen alle ins Dampfbad oder in den Innenhof. Sehen Sie doch dort einmal nach!</quote>
+    <quote id="100" type="1">Diese Esmerier sind wirklich sympathisch. Sie laden immer alle ein, sogar die Magier. Aber auf das Frauendampfbad passe ich gut auf ... der erste, der dort einen Fuß reinsetzt, bekommt es mit mir zu tun!!!</quote>
+    <quote id="101" type="1">Es ist eine Katastrophe. Keiner kommt mehr in meine Kneipe. Und außerdem haben die Esmerier mein Dampfbad geschlossen - und ich weiß nicht mal, warum!</quote>
+    <quote id="102" type="1">Wirklich unglaublich, diese Esmerier denken wohl, sie dürften alles. Ihre Raumschiffe kommen und gehen am Kahlen Berg, als ob's ein Termitenhaufen wäre!</quote>
+    <quote id="103" type="1">Nein, ich wußte noch nicht 'mal, daß es eine auf dieser Insel gibt!</quote>
+    <quote id="104" type="3">Es gibt ein geheimes Austauschprogramm, das gegenwärtig noch Magiern vorbehalten ist. Kommen Sie, und entdecken Sie unsere Wissenschaft und unsere Zivilisation, und zeigen Sie uns im Austausch dafür Ihre magischen Fähigkeiten. Sie werden reich an Wissen und Erfahrung heimkehren. Aber verraten Sie Ihrer Zauberschule noch nichts davon, es ist einfach noch zu früh ... das würden sie nicht verstehen.</quote>
+    <quote id="105" type="1">Wären Sie bereit, einige Zeit mit auf unseren Planeten zu kommen?</quote>
+    <quote id="106" type="1">Guten Tag, Twinsunier. Wir sind Eure Freunde. Wir sind in friedlicher Absicht zu Euch gekommen. Wir wollen Euch nur kennenlernen und Euch an unserem Wissen teilhaben lassen. @ Ihr könnt uns vertrauen!</quote>
+    <quote id="107" type="1">Mein Herr sucht mir oft Sandrosen. Schmecken einfach herrlich, meine Lieblingsknabberei. Und das knuspert so lustig!</quote>
+    <quote id="108" type="1">Ich weiß es nicht, Twinsen, eigentlich bin ich nicht von hier. Ich bin importiert.</quote>
+    <quote id="109" type="1">Vor kurzem ist hier einer vorbeigekommen. Ich nehme an, er wollte Sandrosen suchen gehen.</quote>
+    <quote id="110" type="1">Guten Tag.</quote>
+    <quote id="111" type="1">Puh, heiß ist es hier drin - aber es tut einfach unglaublich gut!</quote>
+    <quote id="112" type="1">Eine Zauberschule? Sowas gibt's? Na, die ist auf jeden Fall nicht hier, ich komme nämlich jeden Tag hierher, das wüßte ich, wenn hier eine Zauberschule wäre.</quote>
+    <quote id="113" type="1">Ich habe viele von ihnen vorbeigehen sehen. Aber sie waren schon weg, bevor ich sehen konnte, wo sie hin sind.</quote>
+    <quote id="114" type="1">Oh, danke, ich brauche ihn nicht mehr, aber es ist trotzdem nett, daß Sie ihn mir gebracht haben.</quote>
+    <quote id="115" type="1">Sie können das Fläschchen ausleihen, Meister Ker'aooc braucht es bestimmt nicht.</quote>
+    <quote id="116" type="1">Nur Magier und Eingeweihte wissen, wo sie sich befindet. Ich weiß nur, daß sie irgendwo auf der Insel versteckt ist.</quote>
+    <quote id="117" type="1">Ich weiß nur, daß Magier Ker'aooc mit Kollegen verreist ist. Die Esmerier haben sie eingeladen!</quote>
+    <quote id="118" type="1">Guten Tag.</quote>
+    <quote id="119" type="1">Oh, Sie sind's! Guten Tag!</quote>
+    <quote id="120" type="1">Wissen Sie, ich mache mir doch ein wenig Sorgen. Seit er weg ist, habe ich kein Lebenszeichen mehr von Meister Ker'aooc erhalten. Das macht er sonst nie. Irgendwie kommt es mir komisch vor.</quote>
+    <quote id="121" type="1">Ich hoffe, Meister Ker'aooc kommt bald zurück, ich fühle mich einfach nicht sicher mit den ganzen Esmerierpatrouillen auf der Straße.</quote>
+    <quote id="122" type="1">Es tut mir wirklich leid, der Heilmagier Ker'aooc ist verreist, und ich weiß nicht, wann er zurückkommt. Versuchen Sie es mal bei der Zauberschule, wenn es dringend ist.</quote>
+    <quote id="123" type="3">Dein Ruf ist dir von Insel zu Insel bis hin zu mir vorausgeeilt. Du bist unser aller Held und sollst wissen, daß die Esmerier die Magier einladen, ihren Heimatplaneten kennenzulernen. Sei auf der Hut, dahinter steckt irgend etwas.</quote>
+    <quote id="124" type="1">Sie ist in der Wüste. Der Eingang befindet sich auf dem Friedhof, um Fremde abzuschrecken.</quote>
+    <quote id="125" type="1">Wer etwas erfahren will, muß immer auch dorthin gehen, wo er alles mit eigenen Augen sieht. Jetzt mußt du dein Schicksal erfüllen, junger Held.</quote>
+    <quote id="126" type="1">Guten Tag, Twinsen!</quote>
+    <quote id="127" type="1">Seit einiger Zeit habe ich hier unerklärliche Dinge beobachtet. Aber es ist noch zu früh, um sicher zu sein.</quote>
+    <quote id="128" type="1">Hallo, Twinsen. Wenn du zu der Schildkröte Moya willst, die findest du in der kleinen Oase auf der anderen Seite des Hafens. Du kannst sie rufen, indem du die Glocke läutest.</quote>
+    <quote id="129" type="1">Tut mir leid, da kann ich dir nicht helfen. Von Magie weiß ich nur, daß es da einen Haasi gegeben haben soll, der in eine Muschel verwandelt wurde!</quote>
+    <quote id="130" type="1">Diese Besucher aus dem All sind schon seltsam. Ich habe gehört, wie sie Magier auf ihren Planeten eingeladen haben.</quote>
+    <quote id="131" type="1">Die Besucher aus dem All haben ihr wahres Gesicht gezeigt. Seit sie hier sind, fürchten sich alle vor ihnen.</quote>
+    <quote id="132" type="1">Meine Freunde, die Maulwürfe, haben mir erzählt, daß die Esmerier sich unter der Erde treffen.</quote>
+    <quote id="133" type="1">Werter Herr, ich darf Ihnen nichts verkaufen, wenn Sie kein Magier sind.</quote>
+    <quote id="134" type="1">Ah, Sie sind sicher Twinsen. Herzlichen Glückwunsch zum bestandenen Magierexamen. Wenn Sie eine Magiertunika wollen, kann ich Ihnen eine für nur 50 Kashes anbieten.</quote>
+    <quote id="135" type="1">Jetzt, da Sie Magier sind, darf ich Ihnen das orangefarbene Pulver verkaufen. Es kostet 10 Kashes und lädt Ihre Vorräte an Lebens- und Zauberpunkten wieder auf.</quote>
+    <quote id="136" type="9">He! Hast du'n Problem?</quote>
+    <quote id="137" type="1">Guten Tag.</quote>
+    <quote id="138" type="1">Ich weiß zwar, wo sie ist, aber ich darf es Ihnen nicht verraten.</quote>
+    <quote id="139" type="1">Ich habe vor einiger Zeit Ker'aooc vorbeigehen sehen. Er hat gesagt, die Esmerier hätten ihn irgendwohin eingeladen. Auf jeden Fall wollte er zur Hacienda.</quote>
+    <quote id="140" type="1">Willkommen, Twinsen. Es wäre mir eine Ehre, wenn du dich für unsere Schule entscheiden würdest. Aber obwohl du unsere Welt gerettet hast, mußt du genau die gleichen Prüfungen wie die anderen Studenten bestehen.</quote>
+    <quote id="141" type="1">Möchtest du dich bei unserer Schule einschreiben?</quote>
+    <quote id="142" type="1">Die Einschreibgebühr beträgt 120 Kashes. Möchtest du sofort anfangen?</quote>
+    <quote id="143" type="1">Die Macht des Heilens wirst du bei einer der Prüfungen, die Dich zum Magier machen, erhalten. Und sobald du Magier bist, erhältst du die nächsthöhere Magiestufe!</quote>
+    <quote id="144" type="1">Jetzt gehörst du zu unserer Schule.</quote>
+    <quote id="145" type="1">Um Magier zu werden, mußt du 3 Prüfungen in beliebiger Reihenfolge bestehen.</quote>
+    <quote id="146" type="1">Du kannst mir das Ergebnis jeder Prüfung bringen, wenn du willst, aber dein Magierdiplom und deine zusätzliche Magiestufe erhältst du erst, wenn du alle drei Prüfungen bestanden hast!</quote>
+    <quote id="147" type="1">Sobald du durch diese Tür gegangen bist, mußt du flink und präzise arbeiten. Geh in die Mitte des Raumes und wirf alle magischen Symbole um.</quote>
+    <quote id="148" type="1">Versuch's noch mal, Twinsen.</quote>
+    <quote id="149" type="1">Mmmh, ich liebe den Duft der Ungeduldigen Balsamine. Gib mir ein Blütenblatt, und du erhältst die Blaue Tritonmuschel, die dich zum Heilmagier macht.</quote>
+    <quote id="150" type="1">Du mußt noch zwei weitere Prüfungen bestehen.</quote>
+    <quote id="151" type="1">Du mußt noch eine Prüfung bestehen, bevor du Magier wirst.</quote>
+    <quote id="152" type="1">Gratuliere, Twinsen, du hast dir dieses Blasrohr verdient. Damit kannst du schnell und präzise schießen.</quote>
+    <quote id="153" type="3">Gratuliere, Twinsen. Von nun an trägst du den Titel des Magiers. @ Ich habe keine Paradetunika für Magier mehr. Aber auf der Insel gibt es einen fahrenden Händler. Ich werde ihm sagen, daß er dir eine geben soll. Such ihn auf und laß dir einen Bart wachsen.</quote>
+    <quote id="154" type="1">Hör mir bitte zu, ich habe eine sehr ernste Aufgabe für dich. Fast alle Magier von Twinsun sind verschwunden, und niemand weiß, wo sie sind. Wir müssen sie unbedingt wiederfinden, und nur du bist dieser ehrenvollen Aufgabe gewachsen. Die Schule zählt auf dich, Twinsen!</quote>
+    <quote id="155" type="1">Du mußt einen fahrenden Händler ausfindig machen, der auf dieser Insel unterwegs ist. Ich habe ihm gesagt, daß er Dir eine Paradeuniform und einen Magierhut geben solle.</quote>
+    <quote id="156" type="1">Das können nur Magier lesen.</quote>
+    <quote id="157" type="1">Das ist aber seltsam, daß die Schule davon nicht informiert wurde ... das gefällt mir gar nicht. Ohne Magier ist Twinsun nicht sicher. Du mußt sie suchen, Twinsen!</quote>
+    <quote id="158" type="1">Um die Blasrohrprüfung zu bestehen, genügt es, durch die Tür bis ans Ende des Raumes zu gelangen und dann in einer bestimmten Zeit alle Ziele umzuwerfen.</quote>
+    <quote id="159" type="1">Für die Kreideprüfung mußt du zunächst auf das Eiland des Kreidedoms in Höhe der Zitadelleninsel gehen.</quote>
+    <quote id="160" type="1">Die Magier! Hast du ihre Spur entdeckt? Die Menschen reden nur noch über diese Esmerier, aber das Verschwinden der Magier ist wichtig! Ohne sie sind das Gleichgewicht und die Sicherheit von Twinsun in Gefahr!</quote>
+    <quote id="161" type="1">Für die Heilerprüfung mußt du mir eine Balsamine bringen. Die Balsaminpflanze ist sehr selten und kommt nur in der Wüste vor.</quote>
+    <quote id="162" type="1">Nein, Twinsen, ich kann nichts dagegen tun. Nur du kannst sie retten. Aber du mußt deine Macht vergrößern, bevor du dich gegen die Esmerier stellst. Diese Macht erhältst du nur durch die Kugel von Sendell.</quote>
+    <quote id="163" type="1">Nach dem Sieg gegen FunFrock wurde sie vom Wettermagier auf der Zitadelleninsel versteckt. Er hat sie in einen Käfig aus Eis eingesperrt, den er mit einem mächtigen Schutzzauber belegt hat. Nur die Macht des Blitzes kann das Eis zum Schmelzen bringen und die Kugel freisetzen.</quote>
+    <quote id="164" type="1">In der Nähe von Port-Ludo lebt eine Riesenmuschel in einer Bucht. Sie bringt die Leuchtperle hervor.</quote>
+    <quote id="165" type="1">Das ist eine Leuchtmuschel. Der Wettermagier hat mir erzählt, daß er damit eines Tages einen Blitzzauber herstellen würde. Damit könntest du die Kugel von Sendell befreien.</quote>
+    <quote id="166" type="1">Hast du die Kugel von Sendell gefunden? Sie ist auf der Zitadelleninsel, und nur mit dem Blitzzauber kannst du sie freisetzen.</quote>
+    <quote id="167" type="1">Du mußt deinen eigenen Weg gehen, Twinsen. Es werden immer weniger Esmerier hier. Mir scheint, sie treffen sich am Bü-Tempel. Sieh dort einmal nach.</quote>
+    <quote id="168" type="1">Sieh beim Bü-Tempel nach. Dort soll angeblich noch ein alter Schatz vergraben sein.</quote>
+    <quote id="169" type="1">Bravo Twinsen !! Indem Du diesen Ort pflegst, ermöglichst Du das sprießen neuer Pflanzen. Du bereitest das Feld für all die Magier vor, die nach Dir kommen um Balsamine zu sammeln.</quote>
+    <quote id="170" type="1">Guten Tag.</quote>
+    <quote id="171" type="1">Mir ist es in diesem Dampfbad zu heiß! Manchmal ist es hier so heiß, daß ich Halluzinationen bekomme ... dann sehe ich überall Magier!</quote>
+    <quote id="172" type="1">Nein, aber wenn sie die Temperatur hier irgendwie reduzieren können, würde ich ihnen gerne einen Besuch abstatten!</quote>
+    <quote id="173" type="1">Ich weiß nicht, wo sie ist, aber sie kann nicht weit sein. Hier kommen nämlich viele Magier vorbei, immer nur Magier und Esmerier!</quote>
+    <quote id="174" type="1">Guten Tag.</quote>
+    <quote id="175" type="1">Gerade habe ich einen gesehen. Er hatte Koffer dabei und ging zur Hacienda. Aber diese Sache mit den Esmeriern macht mir Sorgen. Sie sind sehr seltsam, ich frage mich langsam, ob sie wirklich in friedlicher Absicht gekommen sind.</quote>
+    <quote id="176" type="1">Nein, keine Ahnung.</quote>
+    <quote id="177" type="1">Ich gehe sehr gern in der Wüste spazieren und suche Sandrosen. In ihnen stecken alle möglichen Schätze.</quote>
+    <quote id="178" type="1">Oh, hallo, Twinsen! Wenn du dich auf meinen Rücken setzt, kann ich dich ein bißchen durchs Meer schaukeln!</quote>
+    <quote id="179" type="1">Tut mir leid, Twinsen, ich weiß nicht, wo sie ist.</quote>
+    <quote id="180" type="1">Vor kurzem war ich auf der anderen Seite der Insel. Da ging gerade einer in die Hacienda.</quote>
+    <quote id="181" type="1">Du wirst schon sehen ...</quote>
+    <quote id="182" type="1">Hallo!!!</quote>
+    <quote id="183" type="1">Die Esmer... hick ... Esmer... hick ... also diese Fremden da ... hick ... die sind echt nett ... geb'n schtändig ein'n aus ... wa' Kumpel ... hick!</quote>
+    <quote id="184" type="1">Also ich ... hick ... ischabe überhaupt ... überhaupt keine Idee. Aber ... hick ... versuchen Schie's doch mal beim ... hick ...alten Weisen, der sitzt auf so 'ner Terrasse. Burp. Der hat .... ganz komische Sssachen gesssagt. Jawoll, gannnz komische Sachen ... hick!</quote>
+    <quote id="185" type="9">Genau ... hick!!</quote>
+    <quote id="186" type="1">Guten Tag, Twinsunier. Wir sind Eure Freunde und in friedlicher Absicht hierhergekommen. Wir möchten Euch kennenlernen und Euch an unserem Wissen teilhaben lassen. @ Auf unsere Freundschaft könnt Ihr euch verlassen.</quote>
+    <quote id="187" type="1">Guten Tag, Meister. Sie sollten zur Hacienda in der Nähe des Kahlen Berges gehen, dort organisieren wir ein kleines Treffen für Magier. Das interessiert Sie doch bestimmt.</quote>
+    <quote id="188" type="1">Der Große Rektor der Zauberschule!!</quote>
+    <quote id="189" type="1">Einen angenehmen Aufenthalt in unserer großartigen Zauberschule wünsche ich Ihnen!!!</quote>
+    <quote id="190" type="1">Es ist einfach gräßlich, diese vermaledeiten Esmerier sind einfach überall. Zum Glück sind sie noch nicht bis hierher gekommen. Ich glaube, sie konnten die Schule nicht finden.</quote>
+    <quote id="191" type="1">Guten Tag, Twinsunier. Wir sind Eure Freunde und in friedlicher Absicht hierhergekommen. Wir möchten Euch kennenlernen und Euch an unserem Wissen teilhaben lassen. @ Auf unsere Freundschaft könnt ihr Euch verlassen!</quote>
+    <quote id="192" type="1">Guten Tag, Meister. Sie sollten zur Hacienda in der Nähe des Kahlen Berges gehen, dort organisieren wir ein kleines Treffen für Magier. Das interessiert Sie doch bestimmt.</quote>
+    <quote id="193" type="9">Raus!</quote>
+    <quote id="194" type="9">Wüstling!!!</quote>
+    <quote id="195" type="9">Hiiilfeeee!!!</quote>
+    <quote id="196" type="1">Alle reden nur noch von diesen Typen aus dem All. Angeblich sind sie gleich auf mehreren Inseln gelandet. Aber von so was lassen wir uns nicht aufhalten.</quote>
+    <quote id="197" type="9">Wahnsinniger!</quote>
+    <quote id="198" type="1">He, seit Sie meinem Freund geholfen haben, verliere ich nur noch! Das ist nicht fair!</quote>
+    <quote id="199" type="1">Ich weiß nicht. Aber wenn ich mir's recht überlege ... Ker'aooc, den Heilmagier, habe ich schon lange nicht mehr gesehen.</quote>
+    <quote id="200" type="1">Ich glaube, sie ist in der Wüste, aber ich habe sie bisher noch nicht gefunden!</quote>
+    <quote id="201" type="1">Hallo! Guten Tag, Herr Twinsen</quote>
+    <quote id="202" type="9">Falschspieler!</quote>
+    <quote id="203" type="1">Normalerweise spiele ich besser, aber heute tut mir der Rücken weh. Der Heilmagier Ker'aooc ist einfach auf und davon und hat vergessen, mir meine Umschläge dazulassen.</quote>
+    <quote id="204" type="1">Aah, danke, mein Junge! Ich fühl' mich wieder richtig jung!</quote>
+    <quote id="205" type="1">Wenn du mir den Rücken wieder in Ordnung bringst, gewinne ich garantiert jedes Spiel!</quote>
+    <quote id="206" type="1">Ich gehe oft wegen meines Rückens zum Heilmagier. Ich habe immer häufiger Rückenschmerzen.</quote>
+    <quote id="207" type="1">Wissen Sie, ich bin auch nicht mehr der Allerjüngste! Und außerdem ist der Rücken wichtig, wenn man Boccia spielt!</quote>
+    <quote id="208" type="1">Wer ist das?</quote>
+    <quote id="209" type="1">Ja, dort, direkt an der Ecke ...</quote>
+    <quote id="210" type="1">Die Boccia ... äh ... ich meine Zauberschule? Hmmm ... ah ja, stimmt, als ich klein war, hat man sich erzählt, daß sie auf dem Friedhof wäre!</quote>
+    <quote id="211" type="1">Guten Tag.</quote>
+    <quote id="212" type="1">Magier ... ja, stimmt, vor einiger Zeit habe ich welche vorbeikommen sehen. Sie haben sich über die Hacienda in der Wüste unterhalten.</quote>
+    <quote id="213" type="1">Das Auto hier habe ich in der Wüste gefunden. Manche Leute denken wirklich, sie könnten einfach tun und lassen, was sie wollen ... Wenn Sie mögen, verkaufe ich Ihnen das Ding für ... sagen wir 50 Kashes ... na, wie wär's?</quote>
+    <quote id="214" type="1">Ich bin der beste hier. Mit mir kann's keiner aufnehmen - kannst es ja versuchen, wenn du willst.</quote>
+    <quote id="215" type="1">Ich weiß nicht wo sie ist, aber 'ne Schule für Rennfahrer wäre 'ne feine Sache. Wär' wenigstens was Nützliches.</quote>
+    <quote id="216" type="1">Die Magier? Nee, davon seh' ich nich' viele. Hier kommen die praktisch nie her.</quote>
+    <quote id="217" type="9">Verloren!</quote>
+    <quote id="218" type="1">Wenn du glaubst, du kannst es mit mir aufnehmen, geh an den Start.</quote>
+    <quote id="219" type="1">Du hast es geschafft. Vielleicht sollte ich zum Heilmagier gehen. Er hat gesagt, wenn ich ein bißchen Gallussäure in den Motor gebe, könnte ich noch schneller fahren!!!</quote>
+    <quote id="220" type="1">Ich vertrau' dir ein Geheimnis an: Ein Magier hat mir gesagt, daß er einen Schutzzauber auf dem Eiland gegenüber der Hacienda versteckt hat.</quote>
+    <quote id="221" type="1">Wenn du Rennen fahren willst, brauchst du erst mal 'n Auto!</quote>
+    <quote id="222" type="1">Willkommen.</quote>
+    <quote id="223" type="1">Nein ... obwohl ... ich sammle in der Wüste immer Pflanzen, die ich zum Kochen nehme. Aber da ist ein ziemlich gruseliger Ort, eine Art verlassener Garten, um den ich immer einen großen Bogen mache. Vielleicht dort.</quote>
+    <quote id="224" type="1">Würde mich nicht überraschen, wenn sie im alten Bü-Tempel verschwunden wären! Mein Schwager arbeitet dort und hat eigenartige Sachen erzählt ... von wegen Verschwinden und so ...</quote>
+    <quote id="225" type="1">Diese Esmerier sind wirklich seltsam. Angeblich kommen sie vom Smaragd-Mond. Kaum zu glauben, was?</quote>
+    <quote id="226" type="1">Seit die Esmerier ihr wahres Gesicht gezeigt haben, haben sich die Leute zu Hause eingeschlossen. Alle verstecken sich, und nur ganz wenige Läden dürfen geöffnet bleiben.</quote>
+    <quote id="227" type="1">Ich hoffe, meine Kunden kommen wieder. Anscheinend gibt es immer weniger Esmerier in den Straßen von Port-Ludo.</quote>
+    <quote id="228" type="1">Eine Holokarte kostet 10 Kashes.</quote>
+    <quote id="229" type="1">Ein Fläschchen mit Gallussäure kostet 50 Kashes.</quote>
+    <quote id="230" type="1">Stellen Sie sich vor den gewünschten Gegenstand und drücken Sie "AKTION".</quote>
+    <quote id="231" type="1">Guten Tag. Willkommen in meinem Laden.</quote>
+    <quote id="232" type="1">Ein Nitro-Meca-Pinguin kostet 4 Kashes.</quote>
+    <quote id="233" type="1">Für 15 Kashes kannst du deinen Vorrat an Lebenspunkten auffüllen.</quote>
+    <quote id="234" type="1">Für 15 Kashes kannst du deinen Vorrat an Zauberpunkten auffüllen.</quote>
+    <quote id="235" type="1">Drei Pfeile kosten 4 Kashes.</quote>
+    <quote id="236" type="1">Ich weiß nicht, aber ein Kunde hat mir von einem Weisen berichtet, der angeblich alle Geheimnisse der Insel kennt. Ich glaube, er lebt neben der Hacienda.</quote>
+    <quote id="237" type="1">Wissen Sie, Sie sind mein erster Kunde seit langem.</quote>
+    <quote id="238" type="1">Ich weiß nicht, wo sie sind. Wissen Sie, mit Magie hab' ich's nicht so ...</quote>
+    <quote id="239" type="1">Diese Außertwinsunier sind ja schon lustig. Die haben Unmengen von Verkleidungen! Manchmal sind sie als Kakteen verkleidet, manchmal als Mülleimer ... Das scheint denen zu gefallen, ständig sieht man sie in anderen Verkleidungen.</quote>
+    <quote id="240" type="1">Guten Tag.</quote>
+    <quote id="241" type="1">Das kann ich Ihnen leider nicht sagen, ich bin nicht von hier.</quote>
+    <quote id="242" type="9">Gratuliere!</quote>
+    <quote id="243" type="1">Oh - das ist jetzt aber dumm, ich weiß nicht mehr, wo ich die Eintrittskarten hingetan habe. Hoffentlich werden wir nicht kontrolliert! ... Äh ... meinen Sie, da kommt man noch weiter rein?</quote>
+    <quote id="244" type="1">Oh! Äh ... Guten Tag.</quote>
+    <quote id="245" type="1">Ja, also ... die Eintrittskarten hab' ich bei meinem Bruder gelassen ... er ist Parkwächter, wissen Sie ... da oben... sie verstehen doch.</quote>
+    <quote id="246" type="1">Ich weiß es nicht, tut mir leid.</quote>
+    <quote id="247" type="1">Nein, habe ich nicht gesehen. Aber dafür kommen hier ständig eine Menge Esmerier vorbei.</quote>
+    <quote id="248" type="1">Aber, aber!!!</quote>
+    <quote id="249" type="1">Weiter kommen Sie nur, wenn Sie in einen freien Wagen einsteigen. Bleiben Sie während des Besuchs auf der Strecke, und steigen Sie auf keinen Fall aus. Das ist gefährlich, Sie könnten sich verletzen.</quote>
+    <quote id="250" type="1">Guten Tag.</quote>
+    <quote id="251" type="1">Davon habe ich noch nie gehört.</quote>
+    <quote id="252" type="1">Nein, ich habe keinen gesehen. Aber einen ganzen Haufen Esmerier dafür. Sie sind alle in den untersten Keller gegangen - um Reparaturen vorzunehmen, natürlich!</quote>
+    <quote id="253" type="9">Herrlich!</quote>
+    <quote id="254" type="1">Mein Sohn liebt Geschichten über Magier ... wir haben ihm erzählt, daß wir so hier hereingekommen wären, durch ein Wunder!</quote>
+    <quote id="255" type="1">Dieser Tempel ist einfach unglaublich. Ich frage mich, was wir als Nächstes besichtigen werden!</quote>
+    <quote id="256" type="1">Guten Tag.</quote>
+    <quote id="257" type="1">Ich wußte ja nicht 'mal, daß es so was gibt. Wenn wir mal Zeit haben und sie finden, werden wir sie aber bestimmt mal besichtigen.</quote>
+    <quote id="258" type="1">Nein, ich habe leider keine vorbeikommen sehen.</quote>
+    <quote id="259" type="1">Ich weiß nicht. Ich mache immer einen Umweg, wenn ich da unterwegs bin. Ganz in der Nähe hier gibt es einen gruseligen Garten neben dem Fels.</quote>
+    <quote id="260" type="1">Nein, ich weiß nicht, wo sie sind. Ich habe auch schon ziemlich lange keinen mehr gesehen.</quote>
+    <quote id="261" type="1">Hi.</quote>
+    <quote id="262" type="1">Ich geh' gern in der Wüste spazieren. Einmal hab' ich ganz viele kleine Kostbarkeiten im Bü-Tempel gefunden.</quote>
+    <quote id="263" type="3">Der Zugang zu den unteren Etagen ist vorübergehend gesperrt. Wir können nicht mehr für die Sicherheit der Besucher garantieren. Die Esmerier haben sich angeboten, die Arbeiten im untersten Keller zu übernehmen. Na, wenn's ihnen Spaß macht - mir soll's recht sein!</quote>
+    <quote id="264" type="1">Oh! Guten Tag, Herr Twinsen! Welch eine Ehre, daß Sie uns einen Besuch abstatten!</quote>
+    <quote id="265" type="1">Ich weiß nicht, angeblich soll sie in der Wüste sein.</quote>
+    <quote id="266" type="1">Keine Ahnung. Seit ich hier bin, habe ich nicht einen einzigen mehr gesehen!</quote>
+    <quote id="267" type="1">He, Sie! Mein Papa ist total stark, der hat uns ohne Eintritt reinbekommen!</quote>
+    <quote id="268" type="9">Yippiieee!!!!</quote>
+    <quote id="269" type="1">Schule mag ich nicht!!!</quote>
+    <quote id="270" type="1">Sind Magier diese lustigen Männer mit den ulkigen Hüten? Nein, dann hab' ich keine gesehen.</quote>
+    <quote id="271" type="1">Karte gefällig, mein Herr? Für nur 7 Kashes können Sie den gesamten Tempelpark anschauen. Ein Besuch im Bü-Tempel ist auch im Preis mit drin.</quote>
+    <quote id="272" type="9">Haltet ihn!</quote>
+    <quote id="273" type="1">Jetzt, wo der Tempel restauriert wird, haben wir nicht mehr viele Kunden. Aber Esmerier kommen massenweise hierher! Besonders, seit sie angeboten haben, uns bei der Arbeit zu helfen.</quote>
+    <quote id="274" type="1">Wie, so was gibt's wirklich? Ich dachte, das wär' bloß so 'ne Fata Morgana, sind ja schließlich in der Wüste hier!</quote>
+    <quote id="275" type="1">Tut mir leid, ich hab' keinen gesehen.</quote>
+    <quote id="276" type="1">He, Sie da, Rasen betreten verboten!</quote>
+    <quote id="277" type="1">Ich weiß es nicht. Irgendwann einmal hat mir ein Kunde davon erzählt. Entweder wußte er nicht, wo sie ist, oder ich habe es vergessen.</quote>
+    <quote id="278" type="1">Nein, ich kann Ihnen leider nicht helfen. Magier kommen nur selten hierher.</quote>
+    <quote id="279" type="1">Mann-O-mann! Bei all den Leuten, die versuchen, ohne Bezahlung reinzukommen, weiß ich gar nicht mehr, wo mir der Kopf steht!</quote>
+    <quote id="280" type="1">3 Pfeile und eine Runde Munition für die Schießbude kosten 4 Kashes.</quote>
+    <quote id="281" type="1">Felicitacióne! Sie haben gewonnen großartige Ballons!!! Bravo, Amigo caro, Bravo! Bravo!</quote>
+    <quote id="282" type="1">Macht 12 Kashes. Wo wollen Sie hin?</quote>
+    <quote id="283" type="1">Willkommen bei den Inselfähren.</quote>
+    <quote id="284" type="1">Unsere Fähren fahren dieses Eiland nicht an.</quote>
+    <quote id="285" type="1">Keine Ahnung, wo die ist.</quote>
+    <quote id="286" type="1">Nein, ich habe schon eine ganze Weile lang keine mehr gesehen.</quote>
+    <quote id="287" type="9">Hilfe!</quote>
+    <quote id="288" type="1">Oh, danke, Twinsen. Ich hatte langsam genug von dieser Muschel!</quote>
+    <quote id="289" type="1">He, Twinsen! Ich bin's, Joe! Sag' mal, ich fühl' mich nicht so wohl ... könntest du mir nicht irgendwie helfen?</quote>
+    <quote id="290" type="1">Vor zwei Monaten habe ich mich bei dieser verfluchten Schule eingeschrieben und bisher nicht eine einzige Prüfung bestanden!!!</quote>
+    <quote id="291" type="1">Ganz bestimmt nicht! Wenn ich welche gesehen hätte, hätte ich sie gebeten, mir zu helfen, wenigstens eine der Prüfungen zu schaffen!!!</quote>
+    <quote id="292" type="1">Ich schaff' es nicht!! Ich kann es einfach nicht!!! Anscheinend sind Außertwinsunische Wesen auf Twinsun gelandet, und ich, ich habe sie nicht mal zu Gesicht bekommen! Seit Tagen versuche ich, diese Blasrohrprüfung zu bestehen!!!</quote>
+    <quote id="293" type="1">Ich habe genug von diesem Studium! Ich sollte mir was anderes suchen ... Ich glaube, ich verleg' mich auf's Erforschen von Außertwinsuniern!!!</quote>
+  </quotes>
+</lbatexts>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>1</game>
+  <quotes>
+    <quote id="1" type="0">Aquí tiene su libro.</quote>
+    <quote id="2" type="0">Buenos días</quote>
+    <quote id="3" type="0">Buenos días, es rara esa Leyenda, ¿no?</quote>
+    <quote id="4" type="0">Rara en efecto. No soy mas que un viejo loco que me gustaría hacer crecer flores en este desierto, pero ... conozco esa Leyenda que el Dr. FunFrock ha prohibido. Te diré lo que sé si me traes un libro sagrado. Está en el corazón del templo de Bù que fue tragado por una tormenta de arena. Puedes entrar ahí por un pozo de ventilación que aun existe, y está trás de mí, pero ¡atención, el peligro está presente en cada paso!</quote>
+    <quote id="5" type="0">"Este libro es un guardián del saber, permite leer las piedras y hablarle a los animales."</quote>
+    <quote id="6" type="0">A la isla Principal.</quote>
+    <quote id="7" type="0">Iré más tarde.</quote>
+    <quote id="8" type="0">¡Ah! Aquí estás otra vez! ¡Puedo hacerte viajar por 10 Kashes solamente! ¿A dónde quieres ir?</quote>
+    <quote id="9" type="0">Lo siento, Twinsen, no tienes suficiente dinero.</quote>
+    <quote id="10" type="0">A la isla de la Ciudadela.</quote>
+    <quote id="11" type="0">Gracias por haber abierto la gruta. Yo soy Joe-el-Duende, y me han encerrado aquí porque no estaba previsto en esta historia, hubiera podido provocar un bug.</quote>
+    <quote id="12" type="0">Hasta pronto y gracias una vez más</quote>
+    <quote id="13" type="0">¡Eres demasiado agresivo! Regresa cuando te hayas calmado.</quote>
+    <quote id="14" type="0">¡Ay! ¿estás loco, no? ¡No eres más digno de ser un duende, devuélveme tu tarjeta de miembro!</quote>
+    <quote id="15" type="0">¿Adónde quieres ir?</quote>
+    <quote id="16" type="0">A casa </quote>
+    <quote id="17" type="0">A la isla Próxima.</quote>
+    <quote id="18" type="0">A la isla de la Rebelión.</quote>
+    <quote id="19" type="0">¡Tú eres verdaderamente el Heredero del que habla la profecía Twinsen! Encuentra el legado de tus antepasados en tu casa y sigue tu búsqueda. Regresa a verme cuando hayas terminado.</quote>
+    <quote id="20" type="0">¡Sólo el Heredero podía triunfar en este Templo! Tú eres realmente ese Elegido anunciado por la profecía. Guarda el libro de Bù ya que eres digno de ello Twinsen. Te permetirá descifrar las runas y hablar a los animales. Allí podrás leer esta profecía que hay que cumplir: debes aniquilar al Dr. FunFrock, ya que ese déspota ha puesto fin a la armonía en este planeta. He visto en sueños que trata de profanar el Pozo de Sendell, eso causaría la destrucción inmediata de este mundo. Debes ir al Pozo de Sendell para salvarnos, y liberarnos de FunFrock. Ignoro dónde se encuentra ese lugar, pero tus antepasados seguro que han dejado en tu casa informaciones para encontrarlo.</quote>
+    <quote id="21" type="0">Hola hermano duende. Si sigues teniendo tu tarjeta, tengo un regalo para ti.</quote>
+    <quote id="22" type="0">¡Adiós! Pienso que voy a ir a descubrir el mundo.</quote>
+    <quote id="23" type="0">Tú me eres simpático, y voy a hacerte duende honorario. ¡Aquí está tu tarjeta! Te da derecho a un regalo.</quote>
+    <quote id="24" type="0">¡Hola colines!</quote>
+    <quote id="25" type="0">Buenos días caballo.</quote>
+    <quote id="26" type="0">Yo conozco la historia de la luna de esmeralda, pero eso es todo.</quote>
+    <quote id="27" type="0">Hii, hi! Bbbrrrff! Brf!</quote>
+    <quote id="28" type="0">No veo de qué se trata.</quote>
+    <quote id="29" type="0">¿Sabes que hay gritos raros a veces, hacia ese signo que está en las rocas?</quote>
+    <quote id="30" type="0">¿Eres tú quien ha liberado a ese gnomo de gorro repelente? Me preguntó si no había una princesa a quién liberar por estos lares, pero si quieres mi opinión, no tienes vena de héroe.</quote>
+    <quote id="31" type="0">No hay más combustible.</quote>
+    <quote id="32" type="0">Entonces tu deberías visitar el Museo de la Marina, que está en la isla Próxima.</quote>
+    <quote id="33" type="0">No puedo ayudarte, lo siento.</quote>
+    <quote id="34" type="0">Estoy buscando los planos del Centro de Teleportación.</quote>
+    <quote id="35" type="0">Dicen que hay tesoros escondidos en un templo, en este desierto.</quote>
+    <quote id="36" type="0">Me interesa la historia del pirata El Tuerto.</quote>
+    <quote id="37" type="0">He leído pasajes de su bitácora y ¡ese El Tuerto era terrible! Si te interesa, está en venta en el bazar del Viejo Burgo, en la isla Principal.</quote>
+    <quote id="38" type="0">Ignoro dónde están.</quote>
+    <quote id="39" type="0">No sé nada, pero parece que antes en la biblioteca había obras que hablaban de eso.</quote>
+    <quote id="40" type="0">No sé dónde están, pero nosotros los duendes no tenemos necesidad de eso. ¡Nos teleportamos mágicamente! En realidad yo lo he olvidado pero soy un mal ejemplo.</quote>
+    <quote id="41" type="0">Al Hamalayi.</quote>
+    <quote id="42" type="0">Te daré mi guitarra a cambio de la flauta que posees Twinsen, antes deberás tocarla a orillas del Lago de Agua Clara para obtener el cuarto símbolo mágico.</quote>
+    <quote id="43" type="0">Twinsen ya no necesitarás más la flauta, por el contrario ella me puede permitir realizar un viejo sueño. Te la cambio por esta guitarra que he encontrado en el corazón de un meteoro.</quote>
+    <quote id="44" type="0">Buenos días </quote>
+  </quotes>
+</lbatexts>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>1</game>
+  <quotes>
+    <quote id="1" type="0">Normal</quote>
+    <quote id="2" type="0">Sportif</quote>
+    <quote id="3" type="0">Agressif (Manuel)</quote>
+    <quote id="4" type="0">Discret</quote>
+    <quote id="5" type="0">Agressif (Auto)</quote>
+    <quote id="6" type="0">Voler avec le Proto-Pack</quote>
+    <quote id="7" type="0">Ranger le Proto-Pack </quote>
+    <quote id="8" type="0">Volume de la Musique</quote>
+    <quote id="9" type="0">Volume des Bruitages</quote>
+    <quote id="10" type="0">Volume du CD</quote>
+    <quote id="11" type="0">Volume Line In</quote>
+    <quote id="12" type="0">Volume Général</quote>
+    <quote id="13" type="0">Retour au Jeu</quote>
+    <quote id="14" type="0">Sauvegarde des Réglages </quote>
+    <quote id="15" type="0">Nouvelle Partie</quote>
+    <quote id="16" type="0">Continuer une Partie</quote>
+    <quote id="17" type="0">Quitter</quote>
+    <quote id="18" type="0">Menu des Options</quote>
+    <quote id="19" type="0">Annuler</quote>
+    <quote id="20" type="0">Retour au menu précédent</quote>
+    <quote id="21" type="0">Abandonner la Partie</quote>
+    <quote id="22" type="0">Continuer </quote>
+    <quote id="23" type="0">Réglage des volumes sonores</quote>
+    <quote id="24" type="0">Détails des Polygones (Complet)</quote>
+    <quote id="25" type="0">Ombres (Toutes)</quote>
+    <quote id="26" type="0">Zoom Scénarique Marche </quote>
+    <quote id="27" type="0">Détails Polygones (Moyen)</quote>
+    <quote id="28" type="0">Ombres des personnages</quote>
+    <quote id="29" type="0">Zoom Scénarique Marche </quote>
+    <quote id="30" type="0">Détails Polygones (Faible)</quote>
+    <quote id="31" type="0">Pas d'ombres</quote>
+    <quote id="32" type="0">Pas de Zoom scénariques </quote>
+    <quote id="33" type="0">Création d'un nouveau Joueur :</quote>
+    <quote id="34" type="0">Copier une sauvegarde</quote>
+    <quote id="35" type="0">Tapez votre Nom</quote>
+    <quote id="36" type="0">Joueur déjà existant ! Recommencez.</quote>
+    <quote id="37" type="0">Tapez le nouveau Nom</quote>
+    <quote id="38" type="0">Détruire une sauvegarde</quote>
+    <quote id="39" type="0">Gestion des parties sauvegardées</quote>
+    <quote id="40" type="0">Options avancées</quote>
+    <quote id="41" type="0">Détruire</quote>
+    <quote id="42" type="0">Transfert des voix.</quote>
+    <quote id="43" type="0">Copie des fichiers voix sur disque dur, veuillez patienter.</quote>
+  </quotes>
+</lbatexts>

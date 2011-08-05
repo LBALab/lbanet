@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>2</game>
+  <quotes>
+    <quote id="1" type="1">É, a família vai aumentar logo.</quote>
+    <quote id="2" type="1">Vamos ao Farol!</quote>
+    <quote id="3" type="1">Você poderia me ajudar a curar meu Dino-Fly que se machucou ?</quote>
+    <quote id="4" type="1">E entÆo Dino, como estÆo as coisas ?</quote>
+    <quote id="5" type="1">Eu estou procurando um remédio para o Dino-Fly que se machucou.</quote>
+    <quote id="6" type="1">Tudo bem, eu compro!</quote>
+    <quote id="7" type="1">NÆo, isso nÆo me interessa.</quote>
+    <quote id="8" type="1">Combinado!</quote>
+    <quote id="9" type="1">10 pontos de Vida!</quote>
+    <quote id="10" type="1">10 pontos de Magia!</quote>
+    <quote id="11" type="1">Vamos Zoé, eu te levo de volta.</quote>
+    <quote id="12" type="9">Alô ?</quote>
+    <quote id="13" type="3">É o texto de uma antiga profecia. Ela é destinada a minha família caso, quando chegar sua vez, meus descendentes sejam chamados por Sendell. Espero nÆo precisar mais disso. @ E pensar que é tudo o que sobrou da casa que FunFrock mandou destruir.</quote>
+    <quote id="14" type="1">Fui eu quem o libertei !</quote>
+    <quote id="15" type="1">Hum, acho que é um mapa. Está completamente ilegível.</quote>
+    <quote id="16" type="1">Devolva meu guarda-chuva!</quote>
+    <quote id="17" type="1">Devolva minha túnica !</quote>
+    <quote id="18" type="1">Hum ... nada. Tchau !</quote>
+    <quote id="19" type="1">Para bater em vocês !</quote>
+    <quote id="20" type="1">" Viva o Dr. FunFrock ". Esse busto é um alvo perfeito.</quote>
+    <quote id="21" type="1">Como você explica que haja uma tempestade nesta estaçÆo, Mestre ?</quote>
+    <quote id="22" type="1">Nada, eu estou só olhando.</quote>
+    <quote id="23" type="1">Em direçÆo à Ilhota da Ponte de Madeira.</quote>
+    <quote id="24" type="1">Eu volto à Cidade de Lupin.</quote>
+    <quote id="25" type="1">No caminho do mago.</quote>
+    <quote id="26" type="1">Eles dizem que sÆo pacíficos mas eu desconfio, acho que eles sÆo bastante hostis.</quote>
+    <quote id="27" type="1">Nós estamos prontos Mestre</quote>
+    <quote id="28" type="1">Bom dia Luc.</quote>
+    <quote id="29" type="1">Bom dia senhorita.</quote>
+    <quote id="30" type="1">" Cúpula de ardósia. "</quote>
+    <quote id="31" type="1">" Ruínas da antiga fortaleza. "</quote>
+    <quote id="32" type="1">" Promontório da praia. "</quote>
+    <quote id="33" type="1">" Cidade de Lupin. "</quote>
+    <quote id="34" type="1">" Crista do Círculo das Flores. "</quote>
+    <quote id="35" type="1">" Penhascos da Ponte de Madeira. "</quote>
+    <quote id="36" type="1">" Farol no extremo da Ilha. "</quote>
+    <quote id="37" type="1">" Porto da Ilha da Fortaleza. "</quote>
+    <quote id="38" type="1">" Caminho do mago. "</quote>
+    <quote id="39" type="1">" Em direçÆo ao Farol no extremo da Ilha. "</quote>
+    <quote id="40" type="1">" Em direçÆo ao Mago do Tempo. "</quote>
+    <quote id="41" type="1">" Em direçÆo aos Penhascos da Ponte de Madeira. "</quote>
+    <quote id="42" type="1">" Em direçÆo ao Centro da Cidade. "</quote>
+    <quote id="43" type="1">" Acesso ao TorreÆo. "</quote>
+    <quote id="44" type="1">" Em direçÆo ao Porto. "</quote>
+    <quote id="45" type="1">"Honey Bee"</quote>
+    <quote id="46" type="1">"LBA's Theme"</quote>
+    <quote id="47" type="1">"The Empire"</quote>
+    <quote id="48" type="1">" Na Ilha do Deserto, visite o Templo de Bu, um episódio agitado da história de Twinsen."</quote>
+    <quote id="49" type="1">" Diploma Básico de Magia do Tempo. O Mago Bersimon demonstrou suas capacidades de controlar os elementos. Ele foi promovido à posiçÆo de Grande Mestre dos furacäes e tornados. "</quote>
+    <quote id="50" type="1">" No quarto secreto, no meio dos esgotos, se encontra um globo encantado. Foi o Mago do Tempo que o colocou ali. Segundo ele, o globo está relacionado com a Profecia de Sendell. Eu preferi trancar esta sala: ela só pode ser aberta com a pequena pirâmide. "</quote>
+    <quote id="51" type="1">" Aos meus futuros descendentes: eu emprestei ao museu particular da Senhorita Bloop o MedalhÆo e a Túnica Ancestral que pertencem a vocês por direito. Assinado Twinsen. "</quote>
+    <quote id="52" type="1">" RepresentaçÆo do nosso planeta Twinsun, em órbita estável entre dois sóis gêmeos. "</quote>
+    <quote id="53" type="1">Eu gosto muito deste retrato do meu fiel Dino-Fly</quote>
+    <quote id="54" type="1">Esse retrato é meu, quando eu possuía o Poder de Sendell.</quote>
+    <quote id="55" type="1">Puxa, um retrato de Sendell! Deve ter sido feito segundo minha descriçÆo.</quote>
+    <quote id="56" type="5">Vista em corte de Twinsun. @  @ 1 : Os Sendells @  @ 2 : Poço de Sendell @  @ 3 : Templo de Bu @ <linebreak /></quote>
+    <quote id="57" type="1">" Acesso restrito aos funcionários. "</quote>
+    <quote id="58" type="1">É o frasco onde eu tinha colocado a Œgua Clara.</quote>
+    <quote id="59" type="1">É uma rocha proveniente do Templo de Bu.</quote>
+    <quote id="60" type="1">É o livro de Bu. Ele me permite falar com os animais de Twinsun.</quote>
+    <quote id="61" type="1">Veja, a Trompa de Gawley.</quote>
+    <quote id="62" type="1">Ah, aqui está o MedalhÆo de Sendell e a Túnica ancestral.</quote>
+    <quote id="63" type="1">" Rua da Salvaguarda "</quote>
+    <quote id="64" type="1">" Rua Círculo-Verde "</quote>
+    <quote id="65" type="1">Bom dia.</quote>
+    <quote id="66" type="1">Olá.</quote>
+    <quote id="67" type="1">Eu procuro o guardiÆo do farol.</quote>
+    <quote id="68" type="1">Está fechado.</quote>
+    <quote id="69" type="1">Bom dia, Mestre</quote>
+    <quote id="70" type="1">Veja, um signo de Sendell. Eles sÆo admirados por todos os magos.</quote>
+    <quote id="71" type="1">Vou ficar por aqui.</quote>
+    <quote id="72" type="1">Eu nÆo tenho Kashes suficientes.</quote>
+    <quote id="73" type="1">Olá pequeno !</quote>
+    <quote id="74" type="1">Bom dia, senhorita Bloop.</quote>
+    <quote id="75" type="1">Bom dia, Tim.</quote>
+    <quote id="76" type="1">Bom dia, senhor Paul.</quote>
+    <quote id="77" type="1">Bom dia, vizinho.</quote>
+    <quote id="78" type="1">Bom dia, senhora Brune.</quote>
+    <quote id="79" type="1">Bom dia, senhor Bazoo.</quote>
+    <quote id="80" type="1">Olá, Félix.</quote>
+    <quote id="81" type="1">Bom dia Bob.</quote>
+    <quote id="82" type="1">Olá, Zed.</quote>
+    <quote id="83" type="1">Bom dia pequena.</quote>
+    <quote id="84" type="1">Você saberia dizer onde está Raph, o guardiÆo do farol ?</quote>
+    <quote id="85" type="1">NÆo estou vendo o meu querido Dino-Fly. Ele deve ter pousado um pouco mais adiante.</quote>
+    <quote id="86" type="1">Este retrato de Zoé é magnífico.</quote>
+    <quote id="87" type="1">Esta estátua homenageia a mim e a Zoé. Sem ela, eu nunca teria conseguido vencer o infame Funfrock.</quote>
+    <quote id="88" type="1">E entÆo senhorita, o Raph nÆo está ?</quote>
+    <quote id="89" type="1">Me recomendaram ir ver o mago curador. Ele mora na Ilha do Deserto e poderia curar o Dino.</quote>
+    <quote id="90" type="1">NÆo, ainda nÆo.</quote>
+    <quote id="91" type="1">Na Ilha do Deserto.</quote>
+    <quote id="92" type="1">Na Ilhota da Cúpula de Ardósia.</quote>
+    <quote id="93" type="1">Leve-me para casa.</quote>
+    <quote id="94" type="1">Na ilhota em frente à fazenda.</quote>
+    <quote id="95" type="1">Mas ninguém fez nada ?</quote>
+    <quote id="96" type="1">Mas o que eu posso fazer ? Eu nÆo sei como descobrir uma pista das crianças.</quote>
+    <quote id="97" type="1">O que aconteceu senhorita ?</quote>
+    <quote id="98" type="1">NÆo se esqueça de terminar a poçÆo de raios. Para isso, vá até a Ilha do Deserto encontrar uma pérola incandescente.</quote>
+    <quote id="99" type="1">Joe ? Mas o que você está fazendo aqui ?</quote>
+    <quote id="100" type="1">NÆo se preocupe senhorita, eu encontrarei as crianças !</quote>
+    <quote id="101" type="1">Ele me aconselhou a encontrar a Bola de Sendell. Disse que ela me ajudará a salvar as crianças.</quote>
+    <quote id="102" type="1">Mas o que eu posso fazer, você partiu a bordo de sua nave espacial e eu nÆo pude acompanhá-lo. Eu nÆo tenho uma nave.</quote>
+    <quote id="103" type="1">O carro ainda nÆo está funcionando. Parece que Zoé precisa de uma peça para terminar de consertá-lo. De acordo com o que ela me disse, ela pediu para o Baldino fabricar uma.</quote>
+    <quote id="104" type="1">Sabe, o bilheteiro é sempre muito esperto, ele nunca me reconhece. Além disso, ele me faz pagar a entrada.</quote>
+    <quote id="105" type="1">Eu queria recuperar minha túnica e meu medalhÆo de Sendell</quote>
+    <quote id="106" type="1">Mas eu vi o guardiÆo !! Ele está preso em uma gruta no penhasco. Tenho que ir libertá-lo !!</quote>
+    <quote id="107" type="1">Eu estou procurando um remédio para ele. NÆo se preocupe, vou acabar encontrando um.</quote>
+    <quote id="108" type="1">Na Ilha do Deserto.</quote>
+    <quote id="109" type="1">Na Cúpula de Ardósia</quote>
+    <quote id="110" type="1">É estranho, parece uma fechadura.</quote>
+    <quote id="111" type="1">NÆo, ainda nÆo.</quote>
+    <quote id="112" type="1">NÆo. Eu tenho primeiro que encontrar a Escola de Magia. Só eles poderÆo me ajudar a curá-lo.</quote>
+    <quote id="113" type="1">Decidi me tornar um mago para poder curar o Dino-Fly.</quote>
+    <quote id="114" type="1">Fazendo as provas da Escola de Magia, consegui uma concha para curar o Dino-Fly.</quote>
+    <quote id="115" type="1">Você poderia me ajudar, eu procuro a Escola de Magia ?</quote>
+    <quote id="116" type="1">Eu tenho que te agradecer. Sem a sua ajuda, Sendell e eu nÆo jamais teríamos conseguido empurrar a lua de volta.</quote>
+    <quote id="117" type="1">O mais importante é que a paz está de volta !!</quote>
+    <quote id="118" type="1">Olá Joe ! E entÆo, você ainda tem problemas com os seus poderes mágicos?</quote>
+    <quote id="119" type="1">Olá !</quote>
+    <quote id="120" type="1">Você precisa de uma permissÆo para recuperar um objeto armazenado.</quote>
+    <quote id="121" type="3">Ah, senhor Twinsen. Seu amigo Baldino deixou uma caixa para você. Está no subsolo. A caixa é marrom com uma etiqueta grande em cima. Traga-a aqui de volta e eu a abrirei. Se você precisar de ajuda, peça aos meus colegas lá em baixo. Mas, em geral, basta seguir as setas.</quote>
+    <quote id="122" type="1">Vá lá, pegue o aparelho senhor Twinsen.</quote>
+    <quote id="123" type="1">Você de novo, senhor Twinsen ? Mas eu nÆo tenho mais nada para te dar agora !</quote>
+    <quote id="124" type="1">Ele abandonou seu posto ? Humm ! Aposto que foi tocar violÆo outra vez perto do penhasco !</quote>
+    <quote id="125" type="9">Saia da frente !!</quote>
+    <quote id="126" type="1">NÆo repare, é apenas um grobo. Ele só sabe fazer gracinhas.</quote>
+    <quote id="127" type="1">Você chegou em boa hora. A porta do alto da escada está bloqueada. É preciso encontrar um meio de ir àquele andar para desbloqueá-la e levantar a redoma que protege a túnica.</quote>
+    <quote id="128" type="1">Obrigado por ter desbloqueado a porta, Twinsen. Faça bom uso da túnica.</quote>
+    <quote id="129" type="1">A propósito, nÆo se esqueça de que a trajetória da bola mágica muda de acordo com seu comportamento !</quote>
+    <quote id="130" type="1">Quem ? O guardiÆo do Farol ? Ah, nÆo ! NÆo, eu nÆo o vi</quote>
+    <quote id="131" type="1">Ah, Twinsen! Você ainda está aí ?</quote>
+    <quote id="132" type="1">Twinsen !! Você fica uma gracinha como mago !!</quote>
+    <quote id="133" type="1">Bom dia !</quote>
+    <quote id="134" type="1">O tíquete para a visita custa 15 Kashes! Você quer um ?</quote>
+    <quote id="135" type="1">Por aqui, senhor ! Temos aqui uma coleçÆo consagrada ao grande Twinsen e ao desenvolvimento da Magia sobre o planeta. Aprenda tudo que puder !</quote>
+    <quote id="136" type="1">Saiba, senhor, que eu sou o único que tem o direito de apertar este botÆo !! Você deve pagar para entrar !</quote>
+    <quote id="137" type="1">Eu nÆo conheço este louco !</quote>
+    <quote id="138" type="1">Engraçado ... Eu acho que você é parecido com o personagem do quadro.</quote>
+    <quote id="139" type="1">Olha, eu nÆo sou daqui... Eu nÆo o conheço.</quote>
+    <quote id="140" type="1">Senhor Twinsen ! Liberte-me, rápido !! Eu sou Raph ! Você sabe, o guardiÆo do farol !! Eu fui pego pelo Tralu, ele quer me transformar em um lapichon-melba.</quote>
+    <quote id="141" type="9">Ajudem !</quote>
+    <quote id="142" type="1">Por favor senhor Twinsen, vá procurar o seu belo traje e a sua bola mágica. Volte a ser nosso herói e volte para me salvar do Tralu. Estou com medo, ele vai me devorar !!</quote>
+    <quote id="143" type="3">Obrigado senhor Twinsen ! Eu estava tocando uma cançÆo quando esse maldito Tralu devorou meu violÆo. Além disso, dizem que ele já pegou outros antes de mim !! Bom, vou voltar para o farol, senÆo eu vou levar uma bronca.</quote>
+    <quote id="144" type="3">Essa tempestade... NÆo posso fazer nada. Eu bem que gostaria de acabar com ela, mas o farol está fechado e eu nÆo encontrei o guardiÆo. Só ele pode me ajudar a subir no topo do farol. Lá de cima, eu poderia lançar um feitiço. É o único meio de neutralizar esta tempestade que isola a ilha. Sem guardiÆo, sem feitiço. NÆo tem jeito.</quote>
+    <quote id="145" type="1">Por favor, nÆo toque no recipiente sobre no fogo. Está bem ? Dentro dele tem uma criatura terrível !</quote>
+    <quote id="146" type="1">Hum ... bem ... prefiro nÆo falar nisso, é apenas uma... enfim uma pequena experiência pessoal.</quote>
+    <quote id="147" type="1">NÆo toque nisso! Eu estou tentando criar um anel encantado e este caldeirÆo nÆo deve ferver. Assim que eu conseguir uma pérola incandescente, eu poderei invocar os raios !</quote>
+    <quote id="148" type="1">Eu acabei de cruzar com o guardiÆo que voltava para o farol. Ele me disse que um verdadeiro herói acabou de resgatá-lo de um monstro voraz.</quote>
+    <quote id="149" type="1">Parabéns ! Bom, agora, se você ama a Grande Arte, vá ao farol. Você terá uma bela surpresa!</quote>
+    <quote id="150" type="1">Ah é ! Ela fica na ilha do deserto. Você a encontrará facilmente, a entrada fica dentro do cemitério !!</quote>
+    <quote id="151" type="9">Siga-me!</quote>
+    <quote id="152" type="1">Incrível esta história de extra-twinsunianos. A tempestade que eu neutralizei permitiu que aterrizassem aqui! Assim que estiver menos ocupado, vou ver o que eles estÆo fazendo.</quote>
+    <quote id="153" type="9">Ah ! NÆo !!</quote>
+    <quote id="154" type="1">Twinsen, corra até a farmácia no centro da cidade e ache um remédio para o Dino-Fly. Ele acabou de se machucar pousando no jardim.</quote>
+    <quote id="155" type="3">" Diário de Zoé @  @ Caro diário, começo hoje a narraçÆo da aventura que Twinsen e eu vivemos, há muito tempo, sob a ditadura do Dr. FunFrock. @ Este Dr. FunFrock, um quetch, oprimia a populaçÆo com uma violência terrível graças as técnicas de clonagem e de mutaçÆo e graças, sobretudo, ao seu poder de teletransporte. Seu poder dominava tudo ! Ele chegou até a evacuar todo o hemisfério norte para colocar seu plano em açÆo. Este plano consistia numa gigantesca perfuraçÆo para atingir o coraçÆo de Twinsun e se apoderar da energia mágica dos Sendell. Sem a intervençÆo providencial de Twinsen que eliminou FunFrock, este projeto maluco teria levado a implosÆo do planeta e a destruiçÆo da Entidade Estelar que vive em seu núcleo. @ Twinsen praticou muito pouca Magia desde este "Dia da Vitória", em que Sendell lhe concedeu excepcionalmente seu imenso Poder ..."<linebreak /></quote>
+    <quote id="156" type="1">Eu vou ver o Dino-Fly, ele aterrizou atrás da casa. NÆo esqueça que você pode mudar o ângulo de visÆo clicando em "ENTRADA".</quote>
+    <quote id="157" type="1">Twinsen, mas afinal, o que você está fazendo ? Estou contando com você para curar o Dino-Fly e ao invés disso você parte para uma aventura no subsolo. Você nÆo consegue se controlar , precisa sempre bancar o herói !</quote>
+    <quote id="158" type="9">Por aí nÆo.</quote>
+    <quote id="159" type="1">NÆo, por aí nÆo. Vamos primeiro ao Farol para ver o Mago do Tempo.</quote>
+    <quote id="160" type="1">Eu nÆo sei onde ele está. Tente ir ao Farol.</quote>
+    <quote id="161" type="1">Sabe, nós estamos muito contentes, é nosso primeiro e ele nÆo deve tardar.</quote>
+    <quote id="162" type="1">Na verdade, eu agradeceria se você pudesse passar no Baldino, me falta uma peça para o carro.</quote>
+    <quote id="163" type="1">Twinsen, encontrei uma senhora encantadora. Ela trabalha para Ker'aooc, o Mago Curador. Ela disse que ele sabe como curar o Dino-Fly. Vá vê-lo, ele mora na Ilha do Deserto.</quote>
+    <quote id="164" type="1">Ah, obrigado Twinsen ! Com esta peça, eu vou poder terminar o conserto do carro. A propósito, Baldino acabou de ligar, ele me disse que tinha esquecido de te dar um rádio portátil. Ele gostaria muito que você passasse lá para pegá-lo.</quote>
+    <quote id="165" type="1">Sabe, Twinsen, estou preocupada. Eu acho estes visitantes do céu bastante estranhos. SÆo bonzinhos demais para serem honestos. Além disso às vezes se comportam de modo esquisito. Eu vi eles se esconderem nas latas de lixo.</quote>
+    <quote id="166" type="33">Alô ! Alô ! Twinsen ! Aqui é Zoé ! Me encontre rápido na casa, há coisas muito sérias acontecendo !!</quote>
+    <quote id="167" type="1">Ah, Twinsen, você está aí ! Foi horrível. Os Esmers levaram a força as crianças a bordo de uma nave. Ninguém sabe onde elas estÆo nem como encontra-las!! Você precisa ir atrás delas !</quote>
+    <quote id="168" type="1">NÆo ! Baldino tinha partido um pouco antes para a Lua de Esmeralda, pois tinha observado fenômenos estranhos nela. Aliás, ele deixou o proto-pack funcionando no armazém no centro da cidade.</quote>
+    <quote id="169" type="1">Você deveria ir a Escola de Magia. Agora que você é um mago, eles certamente poderÆo te ajudar !!</quote>
+    <quote id="170" type="1">Twinsen, você esteve com o diretor da Escola de Magia ?</quote>
+    <quote id="171" type="1">Twinsen, você encontrou alguma pista das crianças ?</quote>
+    <quote id="172" type="9">Parabéns !!</quote>
+    <quote id="173" type="1">Twinsen, você encontrou o Mago Curador ?</quote>
+    <quote id="174" type="1">EntÆo Twinsen , você encontrou alguma coisa para curar o Dino-Fly ?</quote>
+    <quote id="175" type="1">Twinsen, você se tornou um mago ? !</quote>
+    <quote id="176" type="1">Twinsen, assim que eu tiver consertado o carro, eu te chamarei pelo rádio !</quote>
+    <quote id="177" type="1">A propósito, você foi buscar o rádio portátil com o Baldino ?</quote>
+    <quote id="178" type="35">Alô ! Twinsen ? Aqui é o Baldino ! Como você vai ? Parece que este transmissor funciona ! Se você passar aqui, tenho um rádio portátil para te dar. Além disso, logo logo o novo proto-pack estará funcionando, com ele você poderá voar sem problemas. Câmbio e desligo.</quote>
+    <quote id="179" type="35">Twinsen, eu estou na Lua de Esmeralda. Descobri um complô diabólico organizado pelos Esmers !! O rapto dos magos e das crianças era apenas uma pequena parte do plano deles. Eles estÆo a ponto de destruir o nosso planeta!!! Escute, Twinsen, você precisa me encontrar de qualquer maneira !!</quote>
+    <quote id="180" type="33">Os Esmers construíram uma base em algum lugar na Ilha do Deserto. Encontre-a e roube uma nave !! Você é o único que pode salvar Twinsun !!!</quote>
+    <quote id="181" type="1">Isso aqui está uma confusÆo, nÆo mexa em nada e saia daqui !</quote>
+    <quote id="182" type="9">Aiieeee !</quote>
+    <quote id="183" type="1">Ufa, empurrar todas essas caixas me deixa esgotado.</quote>
+    <quote id="184" type="1">âoo moço ! Se você quiser eu posso levar sua caixa até a saída ! E por apenas 102 Kashes !</quote>
+    <quote id="185" type="1">Volte lá para cima. Você vai ver, vou mandar sua caixa direto para o balcÆo da recepçÆo !</quote>
+    <quote id="186" type="1">Olá Twinsen. Tenho muitos clientes por causa dessa chuva e nÆo tenho tempo sequer para respirar.</quote>
+    <quote id="187" type="1">Eu nÆo tenho tempo Twinsen. Pergunte a Luc, o patrÆo !</quote>
+    <quote id="188" type="1">LadrÆo !</quote>
+    <quote id="189" type="9">Obrigado !</quote>
+    <quote id="190" type="1">Twinsen, você nÆo deveria estar aqui !</quote>
+    <quote id="191" type="1">Incrível esses sujeitos vindos da Lua de Esmeralda, mas que coisa !</quote>
+    <quote id="192" type="1">Se você estiver perdido, volte e procure seu holomapa.</quote>
+    <quote id="193" type="1">Se você quiser pontos de vida ou pontos de magia, você pode encontrá-los em um dos dois distribuidores que estÆo no bar.</quote>
+    <quote id="194" type="1">É melhor perguntar a seus amigos Pat ou Fab. Eles estÆo neste andar e nÆo desgrudam daqui desde de que começou a chover.</quote>
+    <quote id="195" type="1">Bom dia, amigo Twinsen.</quote>
+    <quote id="196" type="1">Olá gatinho ! Tudo em cima ?</quote>
+    <quote id="197" type="1">Ele me disse que queria compor uma nova música no violÆo. Ele sempre vai se esconder no torreÆo onde é mais tranqüilo. Mas é raro ele ficar fora tanto tempo assim.</quote>
+    <quote id="198" type="1">Obrigado por ter libertado meu amigo Raph, gatinho. Sem você eu acho que ele teria ido para a panela.</quote>
+    <quote id="199" type="1">Eles parecem simpáticos estes " Esmers ", eles fazem muitas perguntas, se interessam por tudo.</quote>
+    <quote id="200" type="9">Garçom !</quote>
+    <quote id="201" type="1">Uau !! Adoro esse som ! Você nÆo ?</quote>
+    <quote id="202" type="1">Raph ? Eu, ele et Fab formamos um super grupo para compor músicas de rock'n rave funk ! Mas como ele nÆo apareceu no último ensaio, nÆo tenho idéia de onde possa estar agora!</quote>
+    <quote id="203" type="1">É legal que o nosso amigo Raph esteja de volta ao Farol. Por outro lado a chegada destes visitantes, isso é do além.</quote>
+    <quote id="204" type="1">Eu adoro esses " extra-twinsunianos ". A civilizaçÆo deles é superior à nossa, mesmo assim eles sÆo super legais.</quote>
+    <quote id="205" type="1">Argh, está faltando um som aqui!</quote>
+    <quote id="206" type="1">Se você for à adega, preste ahh... preste atençÆo! Hic !! Eu fui lá... queria beber um ou dois goles na paz : mas tem, hic ! tem um buraco bem no meio. Sim senhor, bem no meio!!</quote>
+    <quote id="207" type="1">Ah isso, eu já tinha visto grobos rosas, mas sujeitos verdes vindos do espaço, é a primeira vez!</quote>
+    <quote id="208" type="9">Garçom !</quote>
+    <quote id="209" type="3">Eu que nÆo sou daqui, acho a sua ilha muito estranha. Eu nÆo entendo por que o seu Mago do Tempo nÆo faz nada contra essa tempestade. A propósito, você sabia que é possível revistar as lixeiras, os vasos e os armários se posicionando na frente deles e clicando em " AÇÇO " ?</quote>
+    <quote id="210" type="1">Sinto muito eu nÆo sou daqui.</quote>
+    <quote id="211" type="9">Garçom !</quote>
+    <quote id="212" type="1">Sinto muito, mas nÆo tenho nada para um Dino-Fly.</quote>
+    <quote id="213" type="1">Eu nÆo tenho nada para o seu Dino-Fly, mas a cliente disse que podia te ajudar.</quote>
+    <quote id="214" type="1">Se você se interessar por alguma coisa, posicione-se em frente e clique em " AÇÇO ".</quote>
+    <quote id="215" type="1">NÆo toque na minha caixa!</quote>
+    <quote id="216" type="1">Sabe, mesmo sendo meu irmÆo, estou pouco ligando para onde ele possa estar. Esse preguiçoso só quer saber de tocar violÆo nos penhascos.</quote>
+    <quote id="217" type="1">Sabe, desde que as pessoas ficaram com medo, tem pouquíssimas lojas abertas. Os Esmers estÆo te procurando, eles até mandaram fechar o seu museu !</quote>
+    <quote id="218" type="1">Bem, eu tenho uma cliente que trabalha para um Mago Curador. Ele se chama Ker'aooc e mora na Ilha do Deserto. Segundo ela, ele cura tudo e todo mundo.</quote>
+    <quote id="219" type="1">O mau tempo impede os barcos de saírem do porto. NÆo há nada a ser feito, todas as atividades marítimas estÆo suspensas. Sabe, senhor Twinsen, só o Mago do Tempo consegue resolver isso !!</quote>
+    <quote id="220" type="1">Você precisa de um bilhete para entrar na barca, senhor Twinsen.</quote>
+    <quote id="221" type="1">Quê ?? Ah muito engraçado !! Agora esse incapaz abandona o farol em plena tempestade ! Que vergonha !!</quote>
+    <quote id="222" type="1">O seu bilhete está em ordem, senhor Twinsen, você pode embarcar. Faça uma boa viagem !</quote>
+    <quote id="223" type="1">A propósito, sua mulher estava te procurando agora mesmo. Ela te mandou dizer para ir ver Ker'aooc, o Mago Curador, na Ilha do Deserto. Ele saberá como curar seu Dino-Fly.</quote>
+    <quote id="224" type="1">NÆo há mais transportes marítimos entre as ilhas desde que os Esmers os interditaram. De qualquer modo ninguém mais quer ir de uma ilha para outra. Eles estÆo com muito medo dos Esmers.</quote>
+    <quote id="225" type="1">Ainda nÆo há transportes marítimos, mas tenho a impressÆo de que há menos Esmers em nossa ilha.</quote>
+    <quote id="226" type="1">Deposite 5 Kashes se quiser 10 pontos de Magia.</quote>
+    <quote id="227" type="1">Deposite 5 Kashes se quiser 10 pontos de Vida.</quote>
+    <quote id="228" type="1">Deposite 5 Kashes se quiser escutar uma música :</quote>
+    <quote id="229" type="1">Por 3 Kashes, você gostaria de usar o telescópio ?</quote>
+    <quote id="230" type="1">Olá, Twinsen. Eu gosto muito quando chove. É bom para o pasto e a grama fica com um gosto melhor.</quote>
+    <quote id="231" type="1">Sim, eu o vi passar faz pouco tempo. Ele estava com seu violÆo na mÆo, indo para o torreÆo.</quote>
+    <quote id="232" type="1">Desde que o tempo ficou bom, meus amigos pássaros estÆo mais calmos e bem mais simpáticos. A propósito, cuidado, tem um cara esquisito escondido atrás das árvores.</quote>
+    <quote id="233" type="3">Habitantes do planeta Twinsun, viemos tomados por um espírito de paz. @ Obrigado por ter dissipado essa tempestade que nos impedia de pousar. Há muitos ciclos estamos observamos seu planeta e decidimos vir estudar a sua cultura. Cruzamos o espaço com o objetivo único de descobrir a sua civilizaçÆo.</quote>
+    <quote id="234" type="1">Bom dia twinsuniano. Somos amigos. Nós viemos em paz a seu planeta. Queremos apenas conhecer vocês e fazer com que desfrutem de nossos conhecimentos. @ Confie em nossa amizade !</quote>
+    <quote id="235" type="1">Bom dia Mestre. Você deveria ir até a Ilha do Deserto. Perto da fazenda, junto ao Monte Careca, estamos organizando uma pequena reuniÆo para os Magos. Você certamente irá gostar.</quote>
+    <quote id="236" type="1">Obrigado Twinsen. Sem você, nÆo sei o que teria acontecido com nossos planetas.</quote>
+    <quote id="237" type="1">Era o mínimo. Você cumpriu nossa profecia. Nosso planeta voltou a ser o paraíso que era quando foi criado e você salvou Zeelich da ditadura que nosso Imperador planejava. Mais que isso, impedindo o impostor Funfrock de realizar seus planos, você salvou nossos dois mundos !!!</quote>
+    <quote id="238" type="1">Bom dia, Twinsen</quote>
+    <quote id="239" type="1">Estou atualizando os trabalhos de meu filho que morreu. Algumas plantas datam da época em que ele refez a rede de esgotos da ilha.</quote>
+    <quote id="240" type="1">Há uma planta de esgotos bastante instrutiva. Para consultá-la, você deverá esperar que eu a restaure. Para isso, eu preciso de um frasco de ácido gálico. Infelizmente, nÆo há mais nenhum em nossa ilha.</quote>
+    <quote id="241" type="1">Sim, é exatamente o que eu precisava. Eu vou utilizá-lo na planta de esgotos.</quote>
+    <quote id="242" type="1">O ácido gálico fez aparecer um texto antes invisível. Ele fala de uma pequena pirâmide que eu possuía. Tome ! Agora ela é sua !</quote>
+    <quote id="243" type="1">Ah sei, o irmÆo da moça da farmácia. NÆo, nÆo sei onde ele está.</quote>
+    <quote id="244" type="1">Eu ainda estou atualizando os trabalhos do meu filho que morreu. Todo mundo parece aterrorizado com estes estrangeiros fantasiados. Na minha idade, já vi coisas piores !!</quote>
+    <quote id="245" type="1">Mais uma vez obrigado pela sua ajuda Twinsen. Estas plantas começam a ficar legíveis. Você deveria vê-las, elas tratam de assuntos que te interessam.</quote>
+    <quote id="246" type="1">Bom dia senhor Twinsen.</quote>
+    <quote id="247" type="1">Você viu que chuva ? Os meus filhos que iam fazer um passeio com a escola e meu neto que sempre esquece o seu guarda-chuva... Espero que eles nÆo estejam na rua com esse tempo !</quote>
+    <quote id="248" type="1">Eu nÆo sei onde ele está, mas vá ver na farmácia. Talvez sua irmÆ possa ajudar.</quote>
+    <quote id="249" type="1">O tempo melhorou. Finalmente as crianças vÆo poder fazer seu passeio com a turma.</quote>
+    <quote id="250" type="1">Bem vindo a Barca Inter-ilhas, senhor Twinsen !</quote>
+    <quote id="251" type="1">Você poderá embarcar assim que a tempestade acalmar.</quote>
+    <quote id="252" type="1">Leia os painéis. Se você se interessar por algum lugar, é só me dizer.</quote>
+    <quote id="253" type="1">O que você deseja ?</quote>
+    <quote id="254" type="1">Por 10 Kashes, onde você deseja ir?</quote>
+    <quote id="255" type="1">A última vez em que o vi, estava perambulando pela cidade.</quote>
+    <quote id="256" type="1">Sinto muito senhor, nossas barcas nÆo vÆo até esta ilhota.</quote>
+    <quote id="257" type="1">Se você quiser comprar alguma coisa. Basta se posicionar em frente a ela e clicar em " AÇÇO ".</quote>
+    <quote id="258" type="1">Um Nitro-Méca-Pingüim custa 4 Kashes.</quote>
+    <quote id="259" type="1">Parece que ele sempre procura inspiraçÆo lá pelos " Penhascos da Ponte de Madeira". É perigoso lá com essa história de Tralu. Aliás, até para você. Nunca vá para lá sem armas!</quote>
+    <quote id="260" type="1">Um holomapa custa 10 Kashes.</quote>
+    <quote id="261" type="1">Três dardos custam 4 Kashes.</quote>
+    <quote id="262" type="1">NÆo chegue perto, seu louco, senÆo estoura !</quote>
+    <quote id="263" type="1">Ninguém toca na caixa!</quote>
+    <quote id="264" type="1">Bem vindo, senhor Twinsen !</quote>
+    <quote id="265" type="1">Você viu os visitantes. SÆo Esmers. Parece que sÆo pacíficos e que vêm para nos transmitir seus conhecimentos tecnológicos, em troca da sabedoria de nossos Magos.</quote>
+    <quote id="266" type="1">Oh que queda, me machuquei muito. Se o tempo estivesse bom eu poderia te levar para dar uma volta. Mas nÆo consigo voar, você terá que me curar primeiro.</quote>
+    <quote id="267" type="1">Eu nÆo sei onde ele está. Mas se ele tivesse feito o serviço dele, eu teria visto a luz e nÆo teria me machucado tanto.</quote>
+    <quote id="268" type="1">Aahhh, obrigado ! Eu sinto que posso voar agora e te levar onde você quiser.</quote>
+    <quote id="269" type="1">Onde você quer ir Twinsen ?</quote>
+    <quote id="270" type="1">Twinsen ! Você viu Zoé ? Ela está te procurando ! Ela tem alguma coisa muito importante para te dizer !!</quote>
+    <quote id="271" type="1">A nave voadora desses visitantes é muito bonita, mas parece que é difícil de estacionar.</quote>
+    <quote id="272" type="1">Eu nÆo transporto ninguém em baixo de chuva, eu detesto esse tempo. Aliás por que O Mago do Tempo nÆo resolve isso, hein ? A propósito, você reparou que você pode saltar enquanto corre ?</quote>
+    <quote id="273" type="1">Hum, faz um tempo que eu nÆo o vejo. Também, com essa maldita chuva !!</quote>
+    <quote id="274" type="1">EntÆo, por 8 Kashes, onde você quer ir?</quote>
+    <quote id="275" type="9">Segure firme !</quote>
+    <quote id="276" type="1">Eu nÆo consigo acreditar que estes visitantes possam vir de outro planeta, ainda mais para nos oferecer sua tecnologia !! Eu espero que eles nÆo resolvam me fazer concorrência...</quote>
+    <quote id="277" type="9">Aiieeee !!!!</quote>
+    <quote id="278" type="1">Eu nÆo falo com nervosinhos, senhor Twinsen !!</quote>
+    <quote id="279" type="1">Estes esgotos sÆo insuportáveis! NÆo cheiram bem e me faltam ainda muitas placas para colocar em dia. Argh!! Estou de saco cheio !!</quote>
+    <quote id="280" type="1">Bem, tenho certeza de que nÆo está nos esgotos, eu o teria visto.</quote>
+    <quote id="281" type="1">Bom dia.</quote>
+    <quote id="282" type="1">Mas ... eu sei como você poderia curar o seu amigo!</quote>
+    <quote id="283" type="9">Pega ladrÆo !</quote>
+    <quote id="284" type="1">Escute senhor, eu te digo como curar o seu Dino-Fly, se você trouxer meu guarda-chuva. Se vira, mas lembre-se que, na vida, correr nÆo leva a nada...</quote>
+    <quote id="285" type="1">Ah, é gentileza sua. EntÆo vá ver o Curador Ker'aooc na Ilha do Deserto. Diga que fui eu que te enviei. Eu trabalho lá e acredite-me, ele tem coisas que curam qualquer um, até um Dino-Fly...</quote>
+    <quote id="286" type="1">Eu nÆo sei. Eu moro na Ilha do Deserto.</quote>
+    <quote id="287" type="1">Eu nÆo entendo porque o farol está fechado e apagado. O que está fazendo Raph, meu noivo? A propósito senhor Twinsen, você sabe que você pode saltar por cima das rochas se você estiver bloqueado?</quote>
+    <quote id="288" type="1">Infelizmente ele desapareceu, senhor Twinsen! Espero que ele nÆo tenha ido de novo passear no torreÆo ! Um dia isso vai acabar mal... com essas histórias de Tralu...</quote>
+    <quote id="289" type="1">Meu lapi querido voltou graças a você!! Oh, obrigado senhor Twinsen !!</quote>
+    <quote id="290" type="1">Aiiiie !! Decididamente estas acrobacias nÆo sÆo para minha idade...</quote>
+    <quote id="291" type="1">Agora encontre-me na Escola de Magia. Tenho uma surpresa para você.</quote>
+    <quote id="292" type="1">Você se saiu bem, tome esta ardósia especial como recompensa. Com ela você pode memorizar imagens, como por exemplo plantas.</quote>
+    <quote id="293" type="1">Senhor Twinsen ! Você pode me dizer por que está me seguindo?!</quote>
+    <quote id="294" type="1">Mas é meu guarda-chu... Oh !!! Me desculpe... eu, eu achei que era o meu. Ai ai, estou confus... Cometo muitos enganos...</quote>
+    <quote id="295" type="1">Mas senhor Twinsen, tenho certeza que nÆo estou com sua túnica. Talvez você devesse procurar em casa.</quote>
+    <quote id="296" type="9">Socorro !!</quote>
+    <quote id="297" type="1">Raph ? Ah sim, ele formou um super grupo com seus amigos Pat et Fab. Mas nÆo sei onde ele está.</quote>
+    <quote id="298" type="1">Agora chega. O que mais você quer de mim, senhor Twinsen ?</quote>
+    <quote id="299" type="1">Bom dia twinsuniano. Nós somos amigos. Nós viemos em paz a seu planeta. Queremos apenas conhecer vocês e fazer com que desfrutem de nossos conhecimentos. @ Confie na nossa amizade!</quote>
+    <quote id="300" type="1">Bom dia Mestre. Você deveria ir até a Ilha do Deserto. Perto da fazenda, junto ao Monte Careca, estamos organizando uma pequena reuniÆo para os Magos. Você certamente irá gostar.</quote>
+    <quote id="301" type="1">Bom dia twinsuniano. Somos amigos. Nós viemos em paz a seu planeta. Queremos apenas conhecer vocês e fazer com que desfrutem de nossos conhecimentos. @ Confie em nossa amizade !</quote>
+    <quote id="302" type="1">Bom dia, Mestre. Você deveria ir até a Ilha do Deserto. Perto da fazenda, junto ao Monte Careca, estamos organizando uma pequena reuniÆo para os Magos. Você certamente irá gostar.</quote>
+    <quote id="303" type="1">Olá, senhor Twinsen !</quote>
+    <quote id="304" type="1">Hoje eu nÆo vou à escola. Gostaria de encontrar o Tralu e liqüidá-lo. Se eu acabar com ele, vou virar um herói e vÆo fazer um museu para mim !!</quote>
+    <quote id="305" type="1">Eu nÆo sei onde ele está, mas seus amigos estÆo na taberna " Chez Luc ".</quote>
+    <quote id="306" type="1">Você viu estes caras esquisitos que vêm do céu? Vai ver que sÆo amigos do Tralu !!</quote>
+    <quote id="307" type="1">Fala aí por que você se disfarçou? Está com medo que os amigos do Tralu te peguem ?</quote>
+    <quote id="308" type="9">Simmm !!!</quote>
+    <quote id="309" type="1">Twinsen, você já viu esse tal Tralu ? Dizem que é um monstro que mora nos penhascos, acima da Cidade de Lupin. Se você for passear por lá, nÆo vá sem arma. Pense em levar a bola mágica!</quote>
+    <quote id="310" type="1">Eu o conheço um pouco , mas tente perguntar no" Chez Luc ", ele costuma ir lá.</quote>
+    <quote id="311" type="1">Fala aí, é verdade, você nos livrou do Tralu ? Este monstro existia realmente? Te agradecemos, que sua vida seja próspera e que os Sendell preservem sua descendência!</quote>
+    <quote id="312" type="1">Nós íamos fazer um passeio ao " Círculo das Flores ", mas o tempo está mesmo ruim demais.</quote>
+    <quote id="313" type="1">Eu nÆo sei onde ele está, senhor Twinsen.</quote>
+    <quote id="314" type="1">Olhe para eles, eles gostam muito de cantar neste lugar. Na verdade eles adoram Sendell.</quote>
+    <quote id="315" type="9">Seu grosso !</quote>
+    <quote id="316" type="1">Bom dia, senhor Twinsen !</quote>
+    <quote id="317" type="3">Sniff... as crianças... nós estávamos no Círculo das Flores, sniff... uma nave Esmer chegou bem em cima da gente. Houve um enorme clarÆo e pronto, quando vi estava sozinha, sem as crianças, e a nave tinha partido. Isto é horrível, senhor Twinsen, horrível mesmo !! Você precisa encontrá-los de qualquer maneira !!!</quote>
+    <quote id="318" type="1">Sniff... obrigado senhor Twinsen, sniff...</quote>
+    <quote id="319" type="1">Oh, olá Twinsen !! Você leu minha redaçÆo sobre o que eu vou ser quando crescer. Eu, quando crescer, vou ser marinheiro ! Mais ainda, vou comprar muitos guarda-chuvas para o meu irmÆo!</quote>
+    <quote id="320" type="1">Eu nÆo sei onde ele está, mas o guardiÆo é um cara legal. Uma vez ele me deixou visitar o farol. Você sabe, a vista lá de cima é muito boa.</quote>
+    <quote id="321" type="1">Depois que meu irmÆo mais velho cuidar de você, você ficará menos espertinho.</quote>
+    <quote id="322" type="1">" É Sendell quem nos dá uma mÆo, @ com sua magia do centro do planeta. @ Nós cantamos a cançÆo, @ enquanto tocamos a corneta. @ Mas cuidado FunFrock é o bicho papÆo, @ e com ele nÆo se meta. "</quote>
+    <quote id="323" type="1">Ah, bom dia Twinsen ! A gente aprendeu uma cantiga nova, escute!!</quote>
+    <quote id="324" type="1">" É Sendell quem nos dá uma mÆo, @ com sua magia do centro do planeta. @ Nós cantamos a cançÆo, @ enquanto tocamos a corneta. @ Mas cuidado FunFrock é o bicho papÆo, @ e com ele nÆo se meta. "</quote>
+    <quote id="325" type="1">Eu nÆo conheço ele.</quote>
+    <quote id="326" type="1">Vou contar para o meu irmÆo mais velho, ele vai quebrar sua cara e vai ser bem feito para você.</quote>
+    <quote id="327" type="1">Olá Twinsen ! Esta tempestade está me deixando zonzo. Eu nÆo consigo me acalmar... E nÆo se esqueça que você pode mudar de comportamento.</quote>
+    <quote id="328" type="1">Ah, ele desapareceu ?! Bem feito, eu nÆo gostava dele !! Tomara que o Tralu acabe com ele !!</quote>
+    <quote id="329" type="1">E entÆo Twinsen, o monstrinho chega logo ?</quote>
+    <quote id="330" type="1">O que eles estÆo fazendo aqui, esses Esmers ? NÆo podiam ter ficado em casa ?</quote>
+    <quote id="331" type="1">Como o tempo está muito ruim, a professora me disse que eu podia pular corda dentro da sala.</quote>
+    <quote id="332" type="1">Aiieee ! Meu irmÆo mais velho vai arrancar seu couro !!</quote>
+    <quote id="333" type="1">É, conheço ele, é aquele cara que está sempre tocando violÆo !!</quote>
+    <quote id="334" type="1">" É Sendell quem nos dá uma mÆo, @ com sua magia do centro do planeta. @ Nós cantamos a cançÆo, @ enquanto tocamos a corneta. @ Mas cuidado FunFrock é o bicho papÆo, @ e com ele nÆo se meta. "</quote>
+    <quote id="335" type="1">Olá, senhor Twinsen. Eu estou de castigo porque comi uma caixa inteira de giz.</quote>
+    <quote id="336" type="1">Eu nÆo posso te ajudar, senhor Twinsen.</quote>
+    <quote id="337" type="1">Estou pouco ligando, nem doeu ! Mas meu irmÆo mais velho vai se vingar.</quote>
+    <quote id="338" type="1">" É Sendell quem nos dá uma mÆo, @ com sua magia do centro do planeta. @ Nós cantamos a cançÆo, @ enquanto tocamos a corneta. @ Mas cuidado FunFrock é o bicho papÆo, @ e com ele nÆo se meta. "</quote>
+    <quote id="339" type="1">Como a moça da farmácia é bonita! Eu nÆo sei mais o que comprar para ir vê-la. Um dia eu... eu vou ter a coragem de falar com ela.</quote>
+    <quote id="340" type="1">Eu só tenho olhos para a moça da farmácia, o meu coraçÆo é só dela. Se eu tivesse coragem, eu pularia sobre o torreÆo para dar a ela a música que eu sempre escuto por aqui.</quote>
+    <quote id="341" type="1">Pronto, com a incrível chegada desses visitantes, a moça da farmácia nÆo se arrisca mais a me ver...</quote>
+    <quote id="342" type="1">Ah Twinsen, com essa chuva eu encontrei muitos cogumelos!</quote>
+    <quote id="343" type="1">A última vez que escutei ele tocar violÆo, ele devia estar em cima do torreÆo. Foi enquanto eu estava procurando cogumelos.</quote>
+    <quote id="344" type="1">Os Esmers deviam vir aqui, estamos tÆo bem procurando cogumelos. Aliás, nÆo entre na água, fica fundo MUITO rápido.</quote>
+    <quote id="345" type="1">Eu estava escondido dentro da nave quando você deixou o planeta dos seres estranhos. Mas agora eu queria voltar, porque deixamos os magos lá e eles devem estar chateados por estarem sozinhos lá em cima.</quote>
+    <quote id="346" type="1">NÆo, nÆo, isso se ajeita...</quote>
+    <quote id="347" type="9">Hooooo !!!</quote>
+  </quotes>
+</lbatexts>

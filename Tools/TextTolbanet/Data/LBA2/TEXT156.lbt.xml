@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>2</game>
+  <quotes>
+    <quote id="1" type="1">Você encontrou seu holomapa ! Para pegá-lo selecione-o a partir da Listagem, pressionando a tecla SHIFT, ou diretamente através da tecla TAB.</quote>
+    <quote id="2" type="1">Você encontrou sua bola mágica ! Usando a Túnica ancestral, você poderá lançar a bola fazendo ela quicar !</quote>
+    <quote id="3" type="1">Você adquiriu três dardos.</quote>
+    <quote id="4" type="1">Você adquiriu a bola de Sendell. Com ela, você passou para um novo nível de magia: bola vermelha. Além disso, ela permite que você seja contatado por um Sendell em caso de perigo.</quote>
+    <quote id="5" type="1">Você encontrou sua Túnica ancestral e seu MedalhÆo de Sendell. Com a Magia que a túnica armazena, você poderá lançar a bola fazendo ela quicar.</quote>
+    <quote id="6" type="1">Você acabou de encontrar a pérola incandescente. Ela é bastante procurada pelos magos. Com ela você poderá criar um feitiço.</quote>
+    <quote id="7" type="1">Seu vizinho entregou para você uma chave em forma de pirâmide.</quote>
+    <quote id="8" type="1">Jerônimo Baldino te deu a peça que Zoé precisa para consertar seu carro.</quote>
+    <quote id="9" type="1">Vazio</quote>
+    <quote id="10" type="1">Você encontrou uma pistola a laser. Ela precisa de um cristal de rocha para funcionar.</quote>
+    <quote id="11" type="1">Você se apossou do sabre do Imperador. Com ele, você poderá enfrentar os cavaleiros que guardam o palácio do Imperador.</quote>
+    <quote id="12" type="1">Você achou uma luva de Blafard. Com ela, você pode lançar de volta as bolas de fogo que seus inimigos jogarem em você.</quote>
+    <quote id="13" type="1">Você adquiriu o Proto-Pack. Com ele, você pode voar a uma altura de alguns centímetros sobre o solo.</quote>
+    <quote id="14" type="1">Você tem um bilhete de barca.</quote>
+    <quote id="15" type="1">Você adquiriu um magnífico Nitro-Méca-Pingüim. Depois de selecioná-lo a partir da Listagem, você terá alguns segundos antes que ele exploda.</quote>
+    <quote id="16" type="1">Você adquiriu um galÆo de gasógeno. Com esse combustível, você poderá adquirir seu novo super jet-pack.</quote>
+    <quote id="17" type="1">Você adquiriu o anel de identificaçÆo dos rebeldes. Com ele você será reconhecido por todos os rebeldes que encontrar.</quote>
+    <quote id="18" type="1">Você encontrou um frasco de ácido gálico. Ele é bastante utilizado na restauraçÆo de antigos documentos.</quote>
+    <quote id="19" type="1">Você aprendeu a cançÆo do barqueiro. Com ela, você poderá ir até a Ilha dos mosquibees.</quote>
+    <quote id="20" type="1">vazio</quote>
+    <quote id="21" type="1">Você encontrou o guarda-chuva da cliente.</quote>
+    <quote id="22" type="1">Você pegou uma pedra preciosa.</quote>
+    <quote id="23" type="1">Você possui a Concha do TritÆo Azul, Com ela, você poderá se curar ou curar alguém.</quote>
+    <quote id="24" type="1">Você dispäe de uma zarabatana. Com ela, você poderá dar tiros precisos e rápidos.</quote>
+    <quote id="25" type="1">Você achou um disco de rota. Agora você pode usar uma nave Esmer.</quote>
+    <quote id="26" type="1">Você adquiriu um pedaço da torta !</quote>
+    <quote id="27" type="1">Você agora tem um rádio portátil. Com ele você poderá receber chamadas de seus amigos.</quote>
+    <quote id="28" type="1">Você colheu uma planta Balsamina Impaciente.</quote>
+    <quote id="29" type="1">Você possui agora uma ardósia mágica. Com ela você memorizará qualquer tipo de imagem.</quote>
+    <quote id="30" type="1">Você encontrou um tradutor. Com ele, você entenderá automaticamente a língua dos Esmers.</quote>
+    <quote id="31" type="1">Você recebeu o diploma de mago. E passou para um novo nível de magia: bola verde.</quote>
+    <quote id="32" type="1">Você tem agora a parte da chave dos Knartas.</quote>
+    <quote id="33" type="1">Você tem agora a parte de chave dos Sup's.</quote>
+    <quote id="34" type="1">Você tem agora a parte de chave dos Mosquibees.</quote>
+    <quote id="35" type="1">Você tem agora a parte de chave dos Blafards.</quote>
+    <quote id="36" type="1">Você adquiriu a chave da passagem que leva até a Ilhota CX.</quote>
+    <quote id="37" type="1">Você comprou uma enxada. Com ela você poderá cavar o solo ou soltar pedras ou pedaços de cristal.</quote>
+    <quote id="38" type="1">Você adquiriu a chave do prefeito de Knarta.</quote>
+    <quote id="39" type="1">Você encontrou as notas do prefeito de Knarta. Com elas você poderá encontrar a parte de chave dos Knartas.</quote>
+    <quote id="40" type="1">Você tem agora um feitiço de proteçÆo.</quote>
+    <quote id="41" type="1">vazio</quote>
+    <quote id="42" type="1">vazio</quote>
+    <quote id="43" type="1">vazio</quote>
+    <quote id="44" type="1">vazio</quote>
+    <quote id="45" type="1">Você tem agora a chave do templo de Dark Monk. Você também passou para o o nível mais alto de magia: bola de fogo.</quote>
+    <quote id="46" type="1">Você adquiriu um visualizador de memória.</quote>
+    <quote id="47" type="1">Você adquiriu o zarbatron. Com ele você poderá dar mais tiros e eles serÆo mais poderosos.</quote>
+    <quote id="48" type="1">Você adquiriu uma veste de gala para magos. Com ela você se parecerá com um velho mago.</quote>
+    <quote id="49" type="1">Jerônimo te deu o super-jetpack. Com ele você pode ir a lugares até entÆo inacessíveis com o Proto-Pack.</quote>
+    <quote id="50" type="1">Você adquiriu uma parte do Cristal da CelebraçÆo. Com ele você poderá recarregar uma pistolaser.</quote>
+    <quote id="51" type="1">Sua pistolaser está funcionando. Com ela você poderá dar tiros longos. Também poderá atingir alvos que sua bola mágica nÆo alcança.</quote>
+    <quote id="52" type="1">Você adquiriu o Anel de Raio ! Com ele, você poderá adquirir a bola de Sendell.</quote>
+    <quote id="53" type="1">vazio</quote>
+    <quote id="54" type="1">vazio</quote>
+    <quote id="55" type="1">vazio</quote>
+    <quote id="56" type="1">Holomapa</quote>
+    <quote id="57" type="1">Bola Mágica</quote>
+    <quote id="58" type="1">Dardos</quote>
+    <quote id="59" type="1">Bola de Sendell</quote>
+    <quote id="60" type="1">Túnica e MedalhÆo de Sendell</quote>
+    <quote id="61" type="1">Pérola Incandescente</quote>
+    <quote id="62" type="1">Chave Piramidal</quote>
+    <quote id="63" type="1">Peça do carro</quote>
+    <quote id="64" type="1">Kashes</quote>
+    <quote id="65" type="1">PistoLaser</quote>
+    <quote id="66" type="1">Sabre do Imperador</quote>
+    <quote id="67" type="1">Luva de Blafard</quote>
+    <quote id="68" type="1">Proto-Pack</quote>
+    <quote id="69" type="1">Bilhete de barca</quote>
+    <quote id="70" type="1">Nitro-Méca-Pingüim</quote>
+    <quote id="71" type="1">GalÆo de Gasógeno</quote>
+    <quote id="72" type="1">Anel de rebeldes</quote>
+    <quote id="73" type="1">Acido Gálico</quote>
+    <quote id="74" type="1">CançÆo do barqueiro</quote>
+    <quote id="75" type="1">Anel de Raio</quote>
+    <quote id="76" type="1">Guarda-chuva da cliente</quote>
+    <quote id="77" type="1">Pedras Preciosas</quote>
+    <quote id="78" type="1">Concha do TritÆo Azul</quote>
+    <quote id="79" type="1">Zarabatana</quote>
+    <quote id="80" type="1">Disco de rota</quote>
+    <quote id="81" type="1">Pedaço de torta</quote>
+    <quote id="82" type="1">Rádio portátil</quote>
+    <quote id="83" type="1">Balsamina Impaciente</quote>
+    <quote id="84" type="1">Ardósia Mágica</quote>
+    <quote id="85" type="1">Tradutor</quote>
+    <quote id="86" type="1">Diploma de mago</quote>
+    <quote id="87" type="1">Parte de chave dos Knartas</quote>
+    <quote id="88" type="1">Parte de chave dos Sup's</quote>
+    <quote id="89" type="1">Parte de chave dos Mosquibees</quote>
+    <quote id="90" type="1">Parte de chave dos Blafards</quote>
+    <quote id="91" type="1">Chave da passagem para CX</quote>
+    <quote id="92" type="1">Enxada</quote>
+    <quote id="93" type="1">Chave do prefeito de Knarta</quote>
+    <quote id="94" type="1">Notas do prefeito de Knarta</quote>
+    <quote id="95" type="1">Feitiço de proteçÆo</quote>
+    <quote id="96" type="1">Bola Mágica Verde</quote>
+    <quote id="97" type="1">Bola Mágica Vermelha</quote>
+    <quote id="98" type="1">Bola Mágica de Fogo</quote>
+    <quote id="99" type="1">Zlitos</quote>
+    <quote id="100" type="1">Chave de Dark Monk</quote>
+    <quote id="101" type="1">Visualizador de memória</quote>
+    <quote id="102" type="1">Zarbatron</quote>
+    <quote id="103" type="1">Túnica de gala de mago</quote>
+    <quote id="104" type="1">Super Jet-Pack</quote>
+    <quote id="105" type="1">Pedaço do cristal da CelebraçÆo.</quote>
+    <quote id="106" type="1">Pistolaser funcionando.</quote>
+    <quote id="107" type="1">Feitiço de raio verde</quote>
+    <quote id="108" type="1">Feitiço de raio vermelho</quote>
+    <quote id="109" type="1">Feitiço de raio nível de fogo</quote>
+    <quote id="110" type="1">Trevo</quote>
+    <quote id="111" type="1">O Holomapa é um sistema de mapeamento em 3 dimensäes. Você pode usar diferentes graus de aumento para verificar sua posiçÆo no planeta. Além disso, haverá flechas indicando o lugar das várias tarefas a serem cumpridas, sempre que os personagens tiverem dado as informaçäes necessárias.</quote>
+    <quote id="112" type="1">Você pode lançar a Bola Mágica fazendo ela quicar de qualquer maneira: para isso você precisa da Túnica pois com ela você pode armazenar magia que a Bola consome a cada lançamento.</quote>
+    <quote id="113" type="1">Você pode lançar esses dardos a qualquer hora selecionando-os a partir da Listagem. Para recuperá-los basta tocá-los.</quote>
+    <quote id="114" type="1">Graças à Bola de Sendell, você atingiu o seu terceiro nível de magia: bola vermelha. Graças a ela, um Sendell pode falar com você em caso de perigo.</quote>
+    <quote id="115" type="1">Você pode armazenar Magia graças a essa Túnica herdada de seus ancestrais. Alguns objetos mágicos, como a Bola, consomem magia a cada utilizaçÆo. Para conseguir utilizá-la você deve adquirir e conservar Magia com você.</quote>
+    <quote id="116" type="1">Mergulhando essa pérola no fogo do Mago do Tempo, você poderá criar um anel de raio.</quote>
+    <quote id="117" type="1">Essa pirâmide é uma chave. Colocando ela no devido lugar, você ativará um mecanismo que te dará acesso a um lugar secreto.</quote>
+    <quote id="118" type="1">Depois de uma regulagem e assim que a peça for instalada por Zoé, o carro estará pronto para andar.</quote>
+    <quote id="119" type="1">É a moeda do planeta Twinsun. Com ela você pode comprar os artigos que desejar.</quote>
+    <quote id="120" type="1">Essa pistola lança raios diretos e de longo alcance. Mas após cada utilizaçÆo,</quote>
+    <quote id="121" type="1">Graças ao sabre do Imperador, você pode agora enfrentar os cavaleiros da guarda imperial.</quote>
+    <quote id="122" type="1">Com essa luva de Blafard, você pode agora tocar no fogo. Com ela você pode ainda jogar de volta as bolas de fogo lançadas pelos monstros do gás.</quote>
+    <quote id="123" type="1">Foi feito por Jerônimo Baldino. Para conseguir voar sobre a água você deve chegar até a água por uma encosta suave. Caso contrário você irá afundar com o seu Proto-Pack.</quote>
+    <quote id="124" type="1">Com esse bilhete você pode ir de barca da Ilha da Fortaleza até a Ilha do Deserto da Folha Branca.</quote>
+    <quote id="125" type="1">Você pode usar os Nitro-Méca-Pingüins colocando-os em um lugar plano e isolado.</quote>
+    <quote id="126" type="1">Entregando esse galÆo de gasógeno a Jerônimo, ele poderá transformar seu proto-pack em um super-jetpack.</quote>
+    <quote id="127" type="1">Esse anel é fabricado e usado apenas pelos rebeldes. Esse anel é também um meio de identificaçÆo dos rebeldes. Com ele você será como um deles e poderá entrar em contato com eles.</quote>
+    <quote id="128" type="1">O ácido gálico é usado para recuperar documentos antigos, com ele você pode fazer reaparecer partes cuja tinta estava apagada.</quote>
+    <quote id="129" type="1">Se você a cantar na ponta do píer, ele sairá da neblina virá na sua direçÆo, e se oferecerá para levá-lo até a outra ilha.</quote>
+    <quote id="130" type="1">AtençÆo o poder devastador desse anel consome muita Magia.</quote>
+    <quote id="131" type="1">Esse guarda-chuva pertence a uma cliente da farmácia.</quote>
+    <quote id="132" type="1">As pedras preciosas sÆo usadas pelos knartas para fabricar gasógeno. Mas você pode usá-las para pagar o serviço do barqueiro.</quote>
+    <quote id="133" type="1">Com ele você pode atrair e armazenar coraçäes (pontos de vida). Você também pode usá-lo para se curar ou para curar alguém.</quote>
+    <quote id="134" type="1">A zarabatana dá tiros rápidos. Você pode recarregá-la com pequenas balas, por exemplo frutos.</quote>
+    <quote id="135" type="1">Com o disco de rota você pode programar o destino de uma nave Esmer. Sem ele, a nave nÆo decola.</quote>
+    <quote id="136" type="1">Você nÆo gosta dessa torta, mas você pode dar esse pedaço a alguém que a apreciará mais do que você.</quote>
+    <quote id="137" type="1">Com esse rádio portátil você pode conversar com Baldino e Zoé quando eles estiverem na escuta e se eles nÆo estiverem fora do alcance.</quote>
+    <quote id="138" type="1">Você tem que levar essa flor ao Reitor da Escola de Magia.</quote>
+    <quote id="139" type="1">Ao clicar em AÇÇO em uma planta, uma gravura ou qualquer ilustraçÆo, você você cria uma cópia para guardar com você, com a Ardósia mágica. Você pode depois consultá-la a qualquer hora selecionando a ardósia na Listagem.</quote>
+    <quote id="140" type="1">Com esse tradutor você pode entender tudo que dizem os visitantes do espaço. No modo Discreto, você pode até espionar algumas conversas.</quote>
+    <quote id="141" type="1">O seu diploma de mágico te permitiu atingir o nível de magia da bola verde.</quote>
+    <quote id="142" type="1">Esta parte de chave dos Knartas é uma das partes que te permitirá reconstituir a chave do Templo de Dark Monk.</quote>
+    <quote id="143" type="1">Essa parte de chave dos Sup's é uma das partes que te permitirá reconstituir a chave do Templo de Dark Monk.</quote>
+    <quote id="144" type="1">Esta parte de chave dos Mosquibees é uma das partes que te permitirá reconstituir a chave do Templo de Dark Monk.</quote>
+    <quote id="145" type="1">Esta parte de chave dos Blafards é uma das partes que te permitirá reconstituir a chave do Templo de Dark Monk.</quote>
+    <quote id="146" type="1">Com essa chave você abrirá as portas da passagem que sai da vila dos mosquibees e leva até a Ilhota CX.</quote>
+    <quote id="147" type="1">Com essa enxada você poderá cavar o solo ou lugares mais duros para encontrar objetos enterrados ou extrair materiais.</quote>
+    <quote id="148" type="1">É a chave que o prefeito perdeu antes de ser devorado pelo monstro do gás. Ninguém a usou desde entÆo.</quote>
+    <quote id="149" type="1">Essas notas contêm um enigma que leva à parte da chave dos Knartas. Nas entrelinhas, você descobrirá o lugar onde a parte da chave foi enterrada.</quote>
+    <quote id="150" type="1">Com essa túnica herdada por seus ancestrais você pode se proteger e armazenar Magia. Para usar o feitiço de escudo selecione Entrada na Listagem. Esse feitiço consome magia, assim como lançar a bola ou utilizar vários outros objetos mágicos.</quote>
+    <quote id="151" type="1">Você pode lançar a bola mágica quicando-a de qualquer modo. No nível da bola verde você fará um estrago maior em seus inimigos.</quote>
+    <quote id="152" type="1">Você pode lançar a bola mágica quicando-a de qualquer modo. No nível da bola vermelha você fará um estrago maior em seus inimigos.</quote>
+    <quote id="153" type="1">Você pode lançar a bola mágica quicando-a de qualquer modo. No nível da bola de fogo você fará um estrago maior em seus inimigos.</quote>
+    <quote id="154" type="1">É a moeda do planeta Zeelich. Com ela, você pode comprar os artigos que desejar no planeta Zeelich.</quote>
+    <quote id="155" type="1">Quando as quatro partes de chave forem unidas, você terá a chave do Templo de Dark Monk. Segundo a profecia, com ela você poderá tirar a estátua da cratera do vulcÆo e abrir as portas do Templo que foi construído dentro dele.</quote>
+    <quote id="156" type="1">Com o visualizador de memória você pode rever as seqüências que marcaram sua aventura.</quote>
+    <quote id="157" type="1">Com o zarbatron, você passa a atirar bem mais rápido.</quote>
+    <quote id="158" type="1">Essa túnica de gala só é acessível aos magos diplomados de Twinsun. Ela faz de você um mago reconhecido.</quote>
+    <quote id="159" type="1">Foi alterado por Jerônimo Baldino. Com ele você pode ir a novos lugares e subir elevaçäes que antes eram inatingíveis com seu proto-pack.</quote>
+    <quote id="160" type="1">Esse pedaço do cristal da celebraçÆo é de uma pureza inigualável. Com ele você fará funcionar uma pistolaser.</quote>
+    <quote id="161" type="1">Essa pistolaser atira raios horizontais. Com ela você poderá atingir inimigos a uma boa distância.</quote>
+    <quote id="162" type="1">AtençÆo o poder devastador desse anel consome muita Magia.</quote>
+    <quote id="163" type="1">AtençÆo o poder devastador desse anel consome muita Magia.</quote>
+    <quote id="164" type="1">AtençÆo o poder devastador desse anel consome muita Magia.</quote>
+    <quote id="165" type="1">Com esse trevo você terá uma vida a mais.</quote>
+    <quote id="166" type="17">Ilha da Fortaleza.</quote>
+    <quote id="167" type="17">Farmácia do centro da cidade.</quote>
+    <quote id="168" type="17">Tenda do Mago do Tempo.</quote>
+    <quote id="169" type="17">Prédio do armazém.</quote>
+    <quote id="170" type="17">Museu particular da Senhorita Bloop.</quote>
+    <quote id="171" type="17">Casa de Twinsen e Zoé.</quote>
+    <quote id="172" type="17">Cúpula de Ardósia.</quote>
+    <quote id="173" type="17">Dino-Fly.</quote>
+    <quote id="174" type="17">Pérola incandescente.</quote>
+    <quote id="175" type="17">vazio</quote>
+    <quote id="176" type="17">Poços de Sendell.</quote>
+    <quote id="177" type="17"></quote>
+    <quote id="178" type="17"></quote>
+    <quote id="179" type="17"></quote>
+    <quote id="180" type="17"></quote>
+    <quote id="181" type="17"></quote>
+    <quote id="182" type="17"></quote>
+    <quote id="183" type="17"></quote>
+    <quote id="184" type="17"></quote>
+    <quote id="185" type="17"></quote>
+    <quote id="186" type="17">Deserto da Folha Branca.</quote>
+    <quote id="187" type="17">Casa de J. Baldino.</quote>
+    <quote id="188" type="17">Casa de Ker'aooc, o Curador.</quote>
+    <quote id="189" type="17"></quote>
+    <quote id="190" type="17">Planta Balsamina.</quote>
+    <quote id="191" type="17">Escola de Magia.</quote>
+    <quote id="192" type="17">Base Esmer.</quote>
+    <quote id="193" type="17"></quote>
+    <quote id="194" type="17"></quote>
+    <quote id="195" type="17"></quote>
+    <quote id="196" type="17">Lua de Esmeralda.</quote>
+    <quote id="197" type="17">Cela de Baldino.</quote>
+    <quote id="198" type="17"></quote>
+    <quote id="199" type="17"></quote>
+    <quote id="200" type="17"></quote>
+    <quote id="201" type="17"></quote>
+    <quote id="202" type="17"></quote>
+    <quote id="203" type="17"></quote>
+    <quote id="204" type="17"></quote>
+    <quote id="205" type="17"></quote>
+    <quote id="206" type="17">Otringal.</quote>
+    <quote id="207" type="17">Nave espacial.</quote>
+    <quote id="208" type="17">Rick's Café.</quote>
+    <quote id="209" type="17">Hotel Imperial.</quote>
+    <quote id="210" type="17">Loja de lembranças.</quote>
+    <quote id="211" type="17">Parte de chave dos Sup's.</quote>
+    <quote id="212" type="17"></quote>
+    <quote id="213" type="17"></quote>
+    <quote id="214" type="17"></quote>
+    <quote id="215" type="17"></quote>
+    <quote id="216" type="17">CelebraçÆo.</quote>
+    <quote id="217" type="17">Cristal.</quote>
+    <quote id="218" type="17">Templo de Dark Monk.</quote>
+    <quote id="219" type="17"></quote>
+    <quote id="220" type="17"></quote>
+    <quote id="221" type="17"></quote>
+    <quote id="222" type="17"></quote>
+    <quote id="223" type="17"></quote>
+    <quote id="224" type="17"></quote>
+    <quote id="225" type="17"></quote>
+    <quote id="226" type="17">Blafards.</quote>
+    <quote id="227" type="17">Parte de chave dos blafards.</quote>
+    <quote id="228" type="17"></quote>
+    <quote id="229" type="17"></quote>
+    <quote id="230" type="17"></quote>
+    <quote id="231" type="17"></quote>
+    <quote id="232" type="17"></quote>
+    <quote id="233" type="17"></quote>
+    <quote id="234" type="17"></quote>
+    <quote id="235" type="17"></quote>
+    <quote id="236" type="17">Ilha dos Mosquibees.</quote>
+    <quote id="237" type="17">Rainha dos Mosquibees.</quote>
+    <quote id="238" type="17">Parte de chave dos mosquibees.</quote>
+    <quote id="239" type="17"></quote>
+    <quote id="240" type="17"></quote>
+    <quote id="241" type="17"></quote>
+    <quote id="242" type="17"></quote>
+    <quote id="243" type="17"></quote>
+    <quote id="244" type="17"></quote>
+    <quote id="245" type="17"></quote>
+    <quote id="246" type="17">Knartas.</quote>
+    <quote id="247" type="17">Refinaria de gasógeno.</quote>
+    <quote id="248" type="17">Parte de chave dos knartas.</quote>
+    <quote id="249" type="17"></quote>
+    <quote id="250" type="17"></quote>
+    <quote id="251" type="17"></quote>
+    <quote id="252" type="17"></quote>
+    <quote id="253" type="17"></quote>
+    <quote id="254" type="17"></quote>
+    <quote id="255" type="17"></quote>
+    <quote id="256" type="17">Ilhota CX.</quote>
+    <quote id="257" type="17"></quote>
+    <quote id="258" type="17"></quote>
+    <quote id="259" type="17"></quote>
+    <quote id="260" type="17"></quote>
+    <quote id="261" type="17"></quote>
+    <quote id="262" type="17"></quote>
+    <quote id="263" type="17"></quote>
+    <quote id="264" type="17"></quote>
+    <quote id="265" type="17"></quote>
+    <quote id="266" type="17">Elevador para o sub-gás.</quote>
+    <quote id="267" type="17"></quote>
+    <quote id="268" type="17"></quote>
+    <quote id="269" type="17"></quote>
+    <quote id="270" type="17"></quote>
+    <quote id="271" type="17"></quote>
+    <quote id="272" type="17"></quote>
+    <quote id="273" type="17"></quote>
+    <quote id="274" type="17"></quote>
+    <quote id="275" type="17"></quote>
+    <quote id="276" type="17">Embaixo da CelebraçÆo.</quote>
+    <quote id="277" type="17"></quote>
+    <quote id="278" type="17"></quote>
+    <quote id="279" type="17"></quote>
+    <quote id="280" type="17"></quote>
+    <quote id="281" type="17"></quote>
+    <quote id="282" type="17"></quote>
+    <quote id="283" type="17"></quote>
+    <quote id="284" type="17"></quote>
+    <quote id="285" type="17"></quote>
+    <quote id="286" type="3">Olhando em direçÆo ao centro do bazar, minhas costas coladas na pára-sol natural onde vou tirar uma soneca. Mas tenho que manter o espírito esportivo. Na vila têm postes de luz e archotes suficientes para contar os passos corretamente. Uma vez lá, as barreiras à minha esquerda me indicam que nÆo é por ali. Foi do outro lado, descendo pela reentrância perto do gás, que eu enterrei meu tesouro.</quote>
+    <quote id="287" type="129">Jeu d'action/aventure pour PC CD-ROM Graphisme en SVGA/DirectDraw</quote>
+    <quote id="288" type="129">Mode de représentation Intérieur en 3D Isométrique fourmillant de détails</quote>
+    <quote id="289" type="129">Mode de représentation extérieur révolutionnaire en véritable 3D texturée</quote>
+    <quote id="290" type="129">Près de 220 lieux répartis sur 3 planètes à explorer</quote>
+    <quote id="291" type="129">Plus de 300 personnages plus attachants les uns que les autres</quote>
+    <quote id="292" type="129">Animation en temps réel d'une fluidité remarquable avec gestion des textures et des lumières</quote>
+    <quote id="293" type="129">15 minutes de séquences cinématiques d'une beauté déconcertante</quote>
+    <quote id="294" type="129">Des milliers d'effets sonores stéréo et deux heures trente de dialogues parlés</quote>
+    <quote id="295" type="129">Voix en Français, Anglais, Allemand (sous titrages en Français, Anglais, Allemand, Italien, Espagnol)</quote>
+    <quote id="296" type="129">30 minutes de musique douce et enchanteresse</quote>
+    <quote id="297" type="129">Un scénario débordant d'humour promettant plus de 60 heures de jeu au long des 10 chapitres</quote>
+  </quotes>
+</lbatexts>

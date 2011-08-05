@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>1</game>
+  <quotes>
+    <quote id="1" type="0">" Musée de la Marine, tarifs : @ Enfants ... 3 Kashes @ Adultes ... 5 Kashes. "</quote>
+    <quote id="2" type="0">" Bienvenue à Proxim-City @ (Ile Proxima). "</quote>
+    <quote id="3" type="0">" Poste de garde 24h/24. Ne pas réveiller ... "</quote>
+    <quote id="4" type="0">" Tenue correcte exigée ! "</quote>
+    <quote id="5" type="0">Je cherche les plans du centre de Téléportation.</quote>
+    <quote id="6" type="0">Sur l'île Principale.</quote>
+    <quote id="7" type="0">Sur l'île de la Citadelle.</quote>
+    <quote id="8" type="0">On verra plus tard.</quote>
+    <quote id="9" type="0">Pour 10 Kashes, où veux-tu aller, Twinsen ?</quote>
+    <quote id="10" type="0">Désolé, tu n'as pas assez de Kashes. Tu sais j'ai des bouches à nourrir !</quote>
+    <quote id="11" type="0">Bonjour, la visite vous coûtera 5 Kashes. Voulez-vous une entrée ?</quote>
+    <quote id="12" type="0">Oui j'en prends une.</quote>
+    <quote id="13" type="0">Non, les musées m'ennuient.</quote>
+    <quote id="14" type="0">Désolé, mais vous n'avez pas assez de Kashes.</quote>
+    <quote id="15" type="0">" Hélice arrière droite du FunFrock 2. Perdue en rade de l'île Principale lors du lancement du bâtiment. Trois jours plus tard, le navire à court de carburant arrêta de tourner en rond. "</quote>
+    <quote id="16" type="0">" Trésor du Capitaine LeBorgne. Ce coffre contenant le travail de toute une vie de malhonêteté, fut récupéré par le Fisc, qui reste le seul prédateur connu de ce terrible pirate. "</quote>
+    <quote id="17" type="0">" Requin financier. Ce spécimen de squale est de la famille des producteurs cinématographiques. "</quote>
+    <quote id="18" type="0">" Bateau-Panier ou Quffa. Embarcation primitive faite d'osier tressé. "</quote>
+    <quote id="19" type="0">" Canon d'abordage. "</quote>
+    <quote id="20" type="0">" Barrique en chêne. De tels tonneaux servaient à distribuer les rations quotidiennes de rhum aux matelots. "</quote>
+    <quote id="21" type="0">" Sirène de Bù. Exemple de l'absurdité des superstitions antiques, cette figure marine fut découverte en plein désert. "</quote>
+    <quote id="22" type="0">" Embarcation de sauvetage. Ne pas percer, ni brûler ou approcher d'un corps incandescent. "</quote>
+    <quote id="23" type="0">" Bonbons à Points d'Vie : voulez-vous 10 coeurs pour 10 Kashes ? "</quote>
+    <quote id="24" type="0">Oui, j'achète.</quote>
+    <quote id="25" type="0">Non merci.</quote>
+    <quote id="26" type="0">Pas assez de Kashes !</quote>
+    <quote id="27" type="0">Halte. Il est formellement interdit de toucher aux oeuvres.</quote>
+    <quote id="28" type="0">Alerte ! c'est l'évadé !</quote>
+    <quote id="29" type="0">" Fin de chantier. RALENTIR ! "</quote>
+    <quote id="30" type="0">" Je suis la Pierre de l'Eclipse. La clef de la Pierre Scellée est "BURBS". Quel est le mot qui doit me délivrer ? "</quote>
+    <quote id="31" type="0">"Je suis la Pierre Scellée. La clef de la Pierre de l'Eclipse est "GIZMO". Quel est le mot qui doit me délivrer ? "</quote>
+    <quote id="32" type="0">Je ne sais pas.</quote>
+    <quote id="33" type="0">" BURBS "</quote>
+    <quote id="34" type="0">" GIZMO "</quote>
+    <quote id="35" type="0">Mon frêre a été arrêté et la maison est surveillée : trafic de fausses cartes rouges. Mais toi comment es-tu entré et qui es-tu ?</quote>
+    <quote id="36" type="0">Je me nomme Twinsen. J'ai vu ton frère, il est en prison mais il va bien. Il m'a dit de te dire " Amos ".</quote>
+    <quote id="37" type="0">Je me nomme Twinsen et je suis l'Héritier... @ voilà, voilà, voilà.</quote>
+    <quote id="38" type="0">Ah ! O.K. Alors tu peux avoir besoin de ça.</quote>
+    <quote id="39" type="0">J'en suis ravi pour toi Twinsen ! Mais mon frêre est emprisonné dans le Q.G. de FunFrock, la fenêtre de sa cellule donne sur la rue. Alors si tu pouvais me donner de ses nouvelles, tu gagnerais une carte rouge en échange.</quote>
+    <quote id="40" type="0">Tu viens de retrouver tous les objets que contenait ton inventaire !</quote>
+    <quote id="41" type="0">" L.B.A. @ Service des égouts de Proxim-City @ Rue du Bac "</quote>
+    <quote id="42" type="0">J'essaie de vendre des sèche-cheveux depuis l'île Principale ! Allez, vous m'en prendrez bien un, pour 30 Kashes ?</quote>
+    <quote id="43" type="0">Vous n'avez pas assez de Kashes, à plus tard.</quote>
+    <quote id="44" type="0">Je n'ai plus rien à vendre !</quote>
+    <quote id="45" type="0">Tiens, finalement vous aussi vous êtes venu sur l'île Proxima. Vous vous souvenez de moi, je vends des sèche-cheveux. Allez, je vous en vends un à 30 Kashes parcequ'ils partent mal aujourd'hui.</quote>
+    <quote id="46" type="0">Connais pas.</quote>
+    <quote id="47" type="0">Je travaille sur un prototype de Jet-Pack depuis des jours, c'est un petit réacteur dorsal qui permettra de se déplacer en volant. Le problème, c'est que mes derniers essais de moteur ont un peu abîmé le mur qui donne sur le jardin. C'est délicat à régler la puissance d'un moteur, il me faudrait un rhéostat : comme ceux que l'on trouve dans les sèche-cheveux. Tu pourrais m'en trouver un ?</quote>
+    <quote id="48" type="0">Alors tu as trouvé un sèche-cheveux ? C'est magnifique ! J'en ai pour une minute, le temps d'installer le rhéostat.</quote>
+    <quote id="49" type="0">Bon ce n'est pas encore un Jet-Pack, c'est tout juste un Proto-Pack. J'aimerais que tu le testes pour noter ses performances. En approchant par une plage en pente douce tu dois pouvoir voler au-dessus de l'eau, mais sans sauter ! Tu acceptes de l'essayer pour 10 Kashes ?</quote>
+    <quote id="50" type="0">Alors ce Proto-Pack ? Continue tes essais, j'ai encore plein de calculs à revoir. Et prudence en approchant de l'eau : tu ne pourras voler qu'en arrivant par une plage en pente douce.</quote>
+    <quote id="51" type="0">" Faces aux recrudescences de la menace rebelle, nouveaux bombardements de nos valeureureuses troupes clonées. "</quote>
+    <quote id="52" type="0">" Pavillon à tête de mort. Emblème pirate ayant appartenu au célèbre Capitaine LeBorgne. "</quote>
+    <quote id="53" type="0">Le système d'alerte du musée a été mis en marche : on a fait évacuer par sécurité, les visites reprendront plus tard ! </quote>
+    <quote id="54" type="0">Il y a eu une fausse alerte au musée. La seule issue possible c'était par les égouts, mais la plaque n'a pas été actionnée, alors on rouvre le bâtiment.</quote>
+    <quote id="55" type="0">Bonjour.</quote>
+    <quote id="56" type="0">Désolé, mais vous n'avez pas assez de Kashes.</quote>
+    <quote id="57" type="0">Bienvenue noble client et merci d'honorer mon établissement de votre visite. Placez-vous contre l'article qui vous plaît et faites ACTION.</quote>
+    <quote id="58" type="0">Voleur !<linebreak /> @ Laissez ma caisse tranquille !</quote>
+    <quote id="59" type="0">Tu es trop agressif ! Reviens quand tu seras calmé !</quote>
+    <quote id="60" type="0">Où veux-tu aller ?</quote>
+    <quote id="61" type="0">Sur l'île de la Citadelle.</quote>
+    <quote id="62" type="0">Au Désert de la Feuille Blanche.</quote>
+    <quote id="63" type="0">Sur l'île de la Rébellion.</quote>
+    <quote id="64" type="0">Du carburant pour 10 voyages coûte 30 Kashes.</quote>
+    <quote id="65" type="0">15 coeurs de poudre de vie coûtent 30 Kashes.</quote>
+    <quote id="66" type="0">10 fioles de poudre magique coûtent 30 Kashes.</quote>
+    <quote id="67" type="0">Un méca-pingouin coûte 3 Kashes.</quote>
+    <quote id="68" type="0">Mon frêre occupe l'une des cellules du Q.G. dont la fenêtre donne sur la rue. Et tu sais, tu auras une carte rouge si tu me donnes de ses nouvelles.</quote>
+    <quote id="69" type="0">Ca ne m'intéresse pas.</quote>
+    <quote id="70" type="0">J'ignore où ils sont.</quote>
+    <quote id="71" type="0">Je ne connais pas.</quote>
+    <quote id="72" type="0">Ne touchez pas au bouton d'alerte, le grobo est en train de le raccorder. Et d'abord c'est interdit d'y toucher !</quote>
+    <quote id="73" type="0">Alors allez visiter le musée. Et à ce propos, ne touchez pas au bouton d'alerte sur le mur !</quote>
+    <quote id="74" type="0">Et bien vous me croierez si vous voulez, mais le musée est bien protégé ! Je viens de relier ce bouton au système d'alarme : dès que l'on appuie dessus le bâtiment est évacué. @ Seuls restent un ou deux gardes automatiques. Cela enclenche surtout, une multitude de contacteurs sous le parquet qui donnent l'alarme dès qu'ils détectent le moindre poids. Il faudrait voler pour arriver à s'y déplacer !</quote>
+    <quote id="75" type="0">Je crois que vous allez prendre des coups de matraque à force de jouer avec ce bouton !</quote>
+    <quote id="76" type="0">Je sais qu'ils ont quelque chose le concernant au musée.</quote>
+    <quote id="77" type="0">Ce nom-là me dit quelque chose. Va visiter le Musée de la Marine, il me semble qu'ils possèdent deux objets ayant appartenus à LeBorgne.</quote>
+    <quote id="78" type="0">Oh oui, c'est royal !</quote>
+    <quote id="79" type="0">Et alors ces essais ? Je ne te paies pas pour tester tes chaussures !</quote>
+    <quote id="80" type="0">Je travaille sur un prototype de Jet-Pack depuis des jours, c'est un petit réacteur dorsal qui permettra de se déplacer en volant. Le problème, c'est que mes derniers essais de moteur ont un peu abîmé le mur Sud. Alors je vais t'emprunter le rhéostat de ton sèche-cheveux pour doser la puissance des moteurs (vu ta coiffure, tu n'en a pas vraiment besoin). Et si ça fonctionne j'aurai une proposition à te faire.</quote>
+    <quote id="81" type="0">Tiens, on dirait que vous aussi vous avez trouvé une authentique carte secrète du Capitaine LeBorgne ! Voudriez-vous me rendre service ? Allez rendre cette cafetière à Lanktir qui habite à coté du bazar. Je dois la lui rapporter depuis si longtemps, j'ai honte !</quote>
+    <quote id="82" type="0">Voyez au Musée.</quote>
+    <quote id="83" type="0">Salut !</quote>
+    <quote id="84" type="0">Je m'intéresse à l'histoire du pirate LeBorgne.</quote>
+    <quote id="85" type="0">Plus de carburant.</quote>
+    <quote id="86" type="0">J'ai lu des passages de son livre de bord, ce LeBorgne était terrible ! Si ça t'intéresse il est en vente au bazar du Vieux Bourg, sur l'île Principale.</quote>
+    <quote id="87" type="0">J'ignore où ils sont.</quote>
+    <quote id="88" type="0">Je n'y connais rien, mais il paraît qu'avant à la bibliothèque, il y avait des ouvrages qui en parlaient.</quote>
+    <quote id="89" type="0">" Par mesure de sécurité cette grille d'égout ne s'ouvre que de l'intérieur du Musée de la Marine. "</quote>
+    <quote id="90" type="0">Sur l'Hamalayi.</quote>
+    <quote id="91" type="0">Apparemment il y a eu un cambriolage. Les visites reprendront plus tard !</quote>
+    <quote id="92" type="0">Tiens, reprends des forces !</quote>
+    <quote id="93" type="0">Apparemment il y a eu un cambriolage. Hélas, le voleur s'est échappé !</quote>
+    <quote id="94" type="0">Jamais vu une tempête pareille, @ jamais !</quote>
+    <quote id="95" type="0">Navré mais j'ignore où ils sont.</quote>
+    <quote id="96" type="0">C'est fini les fausses cartes rouges, trop dangereux, j'arrête. Dorénavant je ne fais plus que des fausses cartes secrètes du capitaine LeBorgne.</quote>
+    <quote id="97" type="0">Ah, impossible d'ouvrir sans carte rouge.</quote>
+    <quote id="98" type="0">Vers la Pierre de l'Eclipse.</quote>
+    <quote id="99" type="0">Vers la Pierre Scellée.</quote>
+    <quote id="100" type="0">A Proxim-City.</quote>
+    <quote id="101" type="0">Alors placez-vous devant le coffre de LeBorgne qui est dans le musée et lisez la pancarte !</quote>
+    <quote id="102" type="0">Bonjour</quote>
+    <quote id="103" type="0">Désolé je n'y connais rien.</quote>
+    <quote id="104" type="0">Bonjour. Etonnant non, ces objets de LeBorgne qui ont traversé le temps, vous avez lu l'inscription devant le coffre ?</quote>
+    <quote id="105" type="0">Bonjour</quote>
+    <quote id="106" type="0">Connais pas.</quote>
+    <quote id="107" type="0">Connais pas !</quote>
+    <quote id="108" type="0">Bonjour</quote>
+    <quote id="109" type="0">Alors lisez les inscriptions, il y a des objets ayant appartenu à LeBorgne ici !</quote>
+    <quote id="110" type="0">Je ne peux pas vous aider.</quote>
+    <quote id="111" type="0">Quelqu'un s'est trompé d'adresse et m'a envoyé cet objet par erreur : il s'agit d'un clavier pour ouvrir une porte du " Centre de Téléportation ". Cela ouvre une pièce pleine de méca-pingouins.</quote>
+    <quote id="112" type="0">Si vous me rendez ma cafetière, je vous donne une liste de certains endroits où l'on peut trouver une plante rare et certaines boîtes. Et ne me demandez pas où j'ai trouvé cette liste !</quote>
+    <quote id="113" type="0">Bonjour</quote>
+    <quote id="114" type="0">Je ne peux rien pour vous.</quote>
+    <quote id="115" type="0">" Jérôme Baldino. Gadgets & Inventions Diverses. "</quote>
+    <quote id="116" type="0">Voyez au musée.</quote>
+    <quote id="117" type="0">Laissez-moi tranquille, je n'ai rien à vous dire.</quote>
+    <quote id="118" type="0">§</quote>
+  </quotes>
+</lbatexts>

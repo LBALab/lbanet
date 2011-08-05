@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>1</game>
+  <quotes>
+    <quote id="1" type="0">Que faites vous ici ? Ce secteur est interdit au public.</quote>
+    <quote id="2" type="0">Halte !</quote>
+    <quote id="3" type="0">Détenu Twinsen, cessez de vous agiter !</quote>
+    <quote id="4" type="0">Eh vous ! Vous ne faites pas partie de mes infirmiers ! Déclenchez l'alarme !</quote>
+    <quote id="5" type="0">Salut collègue.</quote>
+    <quote id="6" type="0">Un prisonnier s'évade ! @ Déclenchez l'alarme !</quote>
+    <quote id="7" type="0">" INTERDICTION Nø 1024-GH : @ Le Dr FunFrock rappelle qu'il est formellement interdit de faire allusion à la soi-disant Légende. "</quote>
+    <quote id="8" type="0">" Longue vie et Gloire au vénéré Dr FunFrock, qui nous sauve des superstitions. "</quote>
+    <quote id="9" type="0">Tiens, si j'essayais d'attirer l'attention d'un garde ?</quote>
+    <quote id="10" type="0">Bonjour</quote>
+    <quote id="11" type="0">Ah, enfin te voilà mon amour ! Viens à l'intérieur, tous les clones doivent être à ta recherche.</quote>
+    <quote id="12" type="0">Twinsen où étais-tu ? J'étais folle d'inquiétude !</quote>
+    <quote id="13" type="0">Je viens de m'évader de l'asile. On me prend pour un agitateur, à cause de ces rêves étranges dont je t'ai parlé, ceux où Sendell m'appelait.</quote>
+    <quote id="14" type="0">Je viens fouiner ici comme personne ne garde ce coin. Pour éviter d'être vu par les gardes je me cache dans le camion. Il suffit de se mettre dans les déchets et d'être suffisamment DISCRET.</quote>
+    <quote id="15" type="0">Salut ! Qu'est-ce que tu fais là ? Sais-tu que tu peux lire les affiches ? Il faut se placer devant et faire ACTION en mode normal.</quote>
+    <quote id="16" type="0">Euh ... Salut !</quote>
+    <quote id="17" type="0">Je sais où ils sont allés et je t'aiderai si tu m'offres à boire. Touches-en deux mots au serveur.</quote>
+    <quote id="18" type="0">Vous êtes détenu ici car vous êtes un agitateur. Nous savons par un informateur que vous prétendez avoir fait des rêves prophétiques. @ Calmez-vous, nous allons vous autopsi... euh, je veux dire vous soigner !</quote>
+    <quote id="19" type="0">Voilà, plus qu'à attendre que le camion soit en place.</quote>
+    <quote id="20" type="0">Interdiction de circuler hors de la Citadelle dans cette tenue !</quote>
+    <quote id="21" type="0">Twinsen ! Que fais-tu là ? Je sais très bien que tu as été arrêté hier.</quote>
+    <quote id="22" type="0">J'ai été libéré pour bonne conduite !</quote>
+    <quote id="23" type="0">Impossible ! Nul ne ressort vivant de la Citadelle !</quote>
+    <quote id="24" type="0">" ANNONCE Nø 357-G : @ Un nouveau module automatique de surveillance circule en ville. Tous les citoyens doivent rester immobiles lorsqu'il est à proximité. "</quote>
+    <quote id="25" type="0">Il est interdit d'utiliser ce robot !</quote>
+    <quote id="26" type="0">Eh, z'avez l'air perdu l'infirmier ! Utilisez votre holomap si vous n'savez plus rentrer chez vous.</quote>
+    <quote id="27" type="0">Bienvenue à bord. Vous avez de la chance, on nous annonce un vrai temps de croisière !</quote>
+    <quote id="28" type="0">A mon avis, il est temps d'utiliser ce que tu as caché dans la maison.</quote>
+    <quote id="29" type="0">Ouvrez ! nous savons que vous êtes là !</quote>
+    <quote id="30" type="0">Vous êtes accusé de complicité avec un évadé. Suivez-nous.</quote>
+    <quote id="31" type="0">Je cherche une jeune fille. Elle est escortée de deux groboclones.</quote>
+    <quote id="32" type="0">Alerte c'est l'évadé !</quote>
+    <quote id="33" type="0">Il paraît qu'on peut lire toutes les affiches. En se plaçant devant, puis en faisant ACTION en mode normal. De toute façon j'sais pas lire, moi !</quote>
+    <quote id="34" type="0">Je les ai pas vus. @ Désolé !</quote>
+    <quote id="35" type="0">Je les ai vus au port tout à l'heure. Ils sont partis pour une autre île. C'est bizarre car les prisonniers restent à la Citadelle d'habitude.</quote>
+    <quote id="36" type="0">Il faut un ticket pour embarquer sur le ferry, monsieur. Vous pouvez en acheter un juste à coté.</quote>
+    <quote id="37" type="0">Bonjour, vous désirez un ticket pour le ... Alerte c'est l'évadé !</quote>
+    <quote id="38" type="0">J'en ai ras la trompe ! Il y a 4 caisses dans l'entrepôt et je n'arrive pas à les ranger sur les 4 croix peintes au sol. Je donnerais bien un ticket pour le ferry, à qui sera capable de les ranger à ma place.</quote>
+    <quote id="39" type="0">Hep ! Vous là bas, venez ici !</quote>
+    <quote id="40" type="0">Impossible d'ouvrir ce coffre avec mon dos bloqué ! Aidez-moi et vous pourrez garder une partie de son contenu. Il suffit de se placer devant le coffre - en mode normal - et de faire ACTION. Vous pouvez fouiller plein de choses comme ça : placards, poubelles, etc.</quote>
+    <quote id="41" type="0">Tiens voisin, avec mon fils nous avons réparé la trappe sur votre cheminée. On rajoutera une barrière autour plus tard. C'est étrange qu'elle soit autant à l'écart de votre maison ! @ D'ailleurs, d'après mon fils bien des choses sont étranges chez vous et il s'y connaît, il est architecte !</quote>
+    <quote id="42" type="0">Finalement laissez tomber pour la barrière autour de la cheminée. J'ai réfléchi et je l'aime comme ça.</quote>
+    <quote id="43" type="0">Bonjour</quote>
+    <quote id="44" type="0">Essayez à la taverne, on ne sait jamais.</quote>
+    <quote id="45" type="0">Cette fois les caisses sont bien rangées. Merci et voilà ton ticket de ferry.</quote>
+    <quote id="46" type="0">Je cherche les plans du Centre de Téléportation, mission spéciale pour le bon Dr FunFrock.</quote>
+    <quote id="47" type="0">Entrez donc voisin, nous allons regarder cela ensemble car ils sont très complexes.</quote>
+    <quote id="48" type="0">J'ai été chargé de vérifier ce bâtiment, car il est en partie construit sur des ruines portant un sceau étrange. Figurez-vous qu'un fou s'attaque à différents endroits ayant ce genre de sceau. Alors j'ai eu un travail fou ce week-end à cause de lui. @ On craint pour le Centre de Téléportation : son point faible se situe sur la gauche, après le premier poste de garde.</quote>
+    <quote id="49" type="0">Vous aurez besoin de ma carte pour entrer dans le centre. Elle est sur la table à dessin. Et si vous attrapez ce vandale avec sa Trompe bizarre, bottez-lui l'arrière-train de ma part !</quote>
+    <quote id="50" type="0">Voyez avec mon fils, il est revenu de son travail. A propos, navré pour votre maison : des clones sont venus avec un char d'assaut, ils vous cherchaient !</quote>
+    <quote id="51" type="0">Je voudrais offrir à boire au grobo qui est à l'étage.</quote>
+    <quote id="52" type="0">Bien monseigneur, mais cela fera 10 Kashes la consommation.</quote>
+    <quote id="53" type="0">Cache-toi vite, ils ont la détente facile !</quote>
+    <quote id="54" type="0">" Gardez la planète propre ! "</quote>
+    <quote id="55" type="0">Allons bon ! Qu'est-ce que j'ai fait de ma clef ?</quote>
+    <quote id="56" type="0">Papa ! Tu as une clef sur toi ?</quote>
+    <quote id="57" type="0">Il suffit de demander.</quote>
+    <quote id="58" type="0">Il faut que j'entre dans le centre de téléportation.</quote>
+    <quote id="59" type="0">Il ne faut pas être agressif tout le temps. Je ne parle pas aux agités.</quote>
+    <quote id="60" type="0">10 Kashes ! C'est trop cher !</quote>
+    <quote id="61" type="0">Tu viens de retrouver tous les objets que contenait ton inventaire !</quote>
+    <quote id="62" type="0">N'essayez jamais de vous téléporter, c'est très dangereux, il n'y a que les clones qui puissent le faire !</quote>
+    <quote id="63" type="0">" Bienvenue à Lupin-Bourg @ (Ile de la Citadelle). "</quote>
+    <quote id="64" type="0">Au fait, les clones ont déjà confisqué la clef de ma cave, alors vous étonnez pas, mais bientôt ils reviendront fermer la taverne !</quote>
+    <quote id="65" type="0">" Bienvenue sur l'Ile de la Citadelle. "</quote>
+    <quote id="66" type="0">Nous allons boucler cette taverne, je vous ordonne de sortir !</quote>
+    <quote id="67" type="0">Bonjour, bizarre cette Légende, non ?</quote>
+    <quote id="68" type="0">Les 4 caisses ne sont pas sur les 4 croix, essaie encore !</quote>
+    <quote id="69" type="0">Je n'y connais rien et de plus il est interdit d'en parler.</quote>
+    <quote id="70" type="0">Je les ai vus ! Ils sont partis pour une autre île, mais j'ignore laquelle.</quote>
+    <quote id="71" type="0">Il est interdit d'en parler !</quote>
+    <quote id="72" type="0">Bof ! Je ne m'y intéresse pas. Renseignez-vous à la bibliothèque ou allez chercher l'oubli à la taverne ; ou mieux faites l'inverse.</quote>
+    <quote id="73" type="0">Ce qui est bizarre c'est que vous en parliez, car c'est interdit.</quote>
+    <quote id="74" type="0">Je ne sais pas. Les livres qui en parlaient ont été confisqués et rassemblés sur l'île Principale. </quote>
+    <quote id="75" type="0">Il est interdit d'en parler !</quote>
+    <quote id="76" type="0">Détenu Twinsen j'en ai déjà assez de vous revoir ici, alors n'aggravez pas votre cas !</quote>
+    <quote id="77" type="0">Un conseil : rendez-vous au lieu de nous provoquer.</quote>
+    <quote id="78" type="0">Vous ne vous en tirerez pas en évoquant cette propagande subversive.</quote>
+    <quote id="79" type="0">Vous savez moi je suis barman, alors les blagues de bistrot et les histoires bizarres j'en ai ma claque !</quote>
+    <quote id="80" type="0">Je n'y connais rien, mais la taverne sera bientôt bouclée. C'est confirmé !</quote>
+    <quote id="81" type="0">Bonjour</quote>
+    <quote id="82" type="0">Ah je n'y connais rien. Mais tu peux quand même me payer à boire.</quote>
+    <quote id="83" type="0">" Cette pièce contient des renseignements et des armes collectés au fil des générations, pour venir en aide à l'Héritier qui sera un jour désigné au sein de notre famille. La clef de cette pièce fut transmise de génération en génération, mais notre ancêtre Hégésippe en fut le dernier dépositaire. Au cours d'un voyage il périt en mer, victime du terrible pirate LeBorgne. Aujourd'hui nul ne sait où se trouve le trésor de LeBorgne qui, certainement, contient encore cette clef en or. "</quote>
+    <quote id="84" type="0">" Toi qui lis ce texte, sache que 3 Pierres Runiques existent en ce monde. Leurs emplacements sont maintenant indiqués sur ton Holomap. Ce sont de grandes pierres levées, sur lesquelles sont inscrits des textes en runes devant aider l'Héritier dans sa quête de Sendell. La 3ème pierre indiquant l'emplacement exact du Puits de Sendell. En plus de l'aide donnée par ces textes, chaque pierre recèle un secret. "</quote>
+    <quote id="85" type="0">" Rue du Scarabée @ (Ile de la Citadelle). "</quote>
+    <quote id="86" type="0">C'est bon allez-y !</quote>
+    <quote id="87" type="0">Vous n'avez pas assez de Kashes, revenez plus tard !</quote>
+    <quote id="88" type="0">Bonjour</quote>
+    <quote id="89" type="0">" Bonbons à Points d'Vie : voulez-vous 10 coeurs pour 10 Kashes ? "</quote>
+    <quote id="90" type="0">Oui, j'achète.</quote>
+    <quote id="91" type="0">Non merci.</quote>
+    <quote id="92" type="0">Pas assez de Kashes !</quote>
+    <quote id="93" type="0">Bonjour, je m'intéresse à l'histoire du pirate LeBorgne.</quote>
+    <quote id="94" type="0">" L.B.A. @ Service des égouts de Lupin-Bourg @ Rue du Petit Vachond "</quote>
+    <quote id="95" type="0">" L.B.A. @ Service des égouts de Lupin-Bourg @ Square Dr FunFock "</quote>
+    <quote id="96" type="0">Halte !</quote>
+    <quote id="97" type="0">Eh ! Mais vous ne faites pas partie de mes infirmiers ! Déclenchez l'alarme !</quote>
+    <quote id="98" type="0">Salut collègue.</quote>
+    <quote id="99" type="0">Salut collègue.</quote>
+    <quote id="100" type="0">Un prisonnier s'évade ! @ Déclenchez l'alarme !</quote>
+    <quote id="101" type="0">Un prisonnier s'évade ! @ Déclenchez l'alarme !</quote>
+    <quote id="102" type="0">Un prisonnier s'évade ! @ Déclenchez l'alarme !</quote>
+    <quote id="103" type="0">Bonjour voisin.</quote>
+    <quote id="104" type="0">Bonjour voisin.</quote>
+    <quote id="105" type="0">Bonjour</quote>
+    <quote id="106" type="0">Bonjour</quote>
+    <quote id="107" type="0">Bonjour</quote>
+    <quote id="108" type="0">Salut mon gars !</quote>
+    <quote id="109" type="0">Bonjour</quote>
+    <quote id="110" type="0">Bonjour</quote>
+    <quote id="111" type="0">Vous êtes détenu ici car vous êtes un agitateur.</quote>
+    <quote id="112" type="0">Dis l'infirmier ! Utilise ton holomap si t'es perdu.</quote>
+    <quote id="113" type="0">Au fait l'holomap c'est la touche " H " ! Et il faut penser à la récupérer ou alors à en acheter une au bazar de l'île Principale.</quote>
+    <quote id="114" type="0">Je ne les ai pas vus. @ Désolé !</quote>
+    <quote id="115" type="0">J'aimerais t'aider, mais je les ai jamais vus.</quote>
+    <quote id="116" type="0">Je ne les ai pas vus. @ Désolé !</quote>
+    <quote id="117" type="0">Jamais vus, je n'ai pas bougé d'ici !</quote>
+    <quote id="118" type="0">Ah, je ne les ai pas vus. Essayez à la taverne, on ne sait jamais.</quote>
+    <quote id="119" type="0">Moi je n'ai vu personne, mais demande à l'intérieur de la taverne.</quote>
+    <quote id="120" type="0">Il faut un ticket pour embarquer sur le ferry, monsieur. Vous pouvez en acheter un juste à coté.</quote>
+    <quote id="121" type="0">Laissez-moi tranquille, je n'ai rien à vous dire.</quote>
+    <quote id="122" type="0">Essayez à la taverne, on ne sait jamais.</quote>
+    <quote id="123" type="0">Allez voir à la taverne, c'est bien leur genre d'histoire ça.</quote>
+    <quote id="124" type="0">T'énerve pas fils, je cause pas aux excités !</quote>
+    <quote id="125" type="0">Mais calmez-vous enfin, si c'est comme ça je ne vous parle plus !</quote>
+    <quote id="126" type="0">Saviez vous que les télépodes sont dangereux pour toutes les espèces ? Seuls les clones peuvent les utiliser !</quote>
+    <quote id="127" type="0">Un conseil : rendez-vous au lieu de nous provoquer.</quote>
+    <quote id="128" type="0">Silence !</quote>
+    <quote id="129" type="0">Merci vieux !</quote>
+    <quote id="130" type="0">J'essayais de creuser un tunnel, mais le bruit les a alertés !</quote>
+    <quote id="131" type="0">Où veux-tu aller ?</quote>
+    <quote id="132" type="0">Sur l'île Principale</quote>
+    <quote id="133" type="0">Au Désert de la Feuille Blanche</quote>
+    <quote id="134" type="0">Sur l'île Proxima</quote>
+    <quote id="135" type="0">Sur l'île de la Rébellion</quote>
+    <quote id="136" type="0">Je reste là !</quote>
+    <quote id="137" type="0">Bof ! je ne m'y intéresse pas.</quote>
+    <quote id="138" type="0">Salut !</quote>
+    <quote id="139" type="0">Désolé, je ne l'ai pas vue !</quote>
+    <quote id="140" type="0">Je ne sais pas ce que c'est que ces trucs-là !</quote>
+    <quote id="141" type="0">Oui ben arrêtez d'en parlez hein ! C'est un coup à se retrouver à la Citadelle ça.</quote>
+    <quote id="142" type="0">Je ne vois pas de quoi il s'agit.</quote>
+    <quote id="143" type="0">Je sais que LeBorgne avait fait rédiger pour lui une sorte de livre de bord (ce pirate était pratiquement analphabète). Et le patron de la taverne sur l'île Principale sait où il se trouve !</quote>
+    <quote id="144" type="0">Ils ont pris un bateau rapide tout à l'heure, destination inconnue.</quote>
+    <quote id="145" type="0">Un jour, l'un de mes matelots a prétendu que LeBorgne était mon ancêtre et ... enfin bref ! C'est très émouvant des funérailles en mer !</quote>
+    <quote id="146" type="0">Je ne peux rien pour vous mon ami. Vois pas de quoi vous parlez.</quote>
+    <quote id="147" type="0">Ca ne vous regarde pas !</quote>
+    <quote id="148" type="0">Demandez au marin, il doit connaître votre LeBorgne.</quote>
+    <quote id="149" type="0">Pas moi !</quote>
+    <quote id="150" type="0">Bof, vous trouvez ? Et puis d'abord je ne la connais pas.</quote>
+    <quote id="151" type="0">Demande à l'un de mes collègues qui travaille au port, à l'entrepôt. Il connaît l'histoire de LeBorgne.</quote>
+    <quote id="152" type="0">Il y a une bibliothèque sur l'île Principale, mais je ne sais si l'on y trouve des livres sur la Légende.</quote>
+    <quote id="153" type="0">Je ne sais rien de cette histoire.</quote>
+    <quote id="154" type="0">Désolé, mais je ne vois pas de quoi il s'agit.</quote>
+    <quote id="155" type="0">Connais pas !</quote>
+    <quote id="156" type="0">Je ne suis pas au courant de cette mission !</quote>
+    <quote id="157" type="0">Ah bon ! Et bien c'est dommage, mais je n'y connais rien.</quote>
+    <quote id="158" type="0">J'ai jamais vu ces plans-là.</quote>
+    <quote id="159" type="0">Quelle légende ? Je ne connais aucune légende moi !</quote>
+    <quote id="160" type="0">Bonjour</quote>
+    <quote id="161" type="0">Demandez à un marin pour ce genre d'histoire.</quote>
+    <quote id="162" type="0">Désolé je ne sais pas où ils sont.</quote>
+    <quote id="163" type="0">Bof ! Je ne m'y intéresse pas.</quote>
+    <quote id="164" type="0">C'est du passé ça, il n'y a plus de pirates de nos jours.</quote>
+    <quote id="165" type="0">Désolé, mais je ne vois pas de quoi il s'agit.</quote>
+    <quote id="166" type="0">Je ne les ai pas vus mais essayez de demander à la taverne.</quote>
+    <quote id="167" type="0">Jamais entendu parler !</quote>
+    <quote id="168" type="0">Je cherche les plans du Centre de Téléportation. Mission spéciale !</quote>
+    <quote id="169" type="0">Je ne les ai pas vus. @ Désolé !</quote>
+    <quote id="170" type="0">Navré voisin, je ne vois pas de quoi vous parlez.</quote>
+    <quote id="171" type="0">Essayez au port, tous les marins connaissent ce pirate.</quote>
+    <quote id="172" type="0">Bonjour, je cherche une amie elle est escortée de deux groboclones.</quote>
+    <quote id="173" type="0">Je ne l'ai pas vue, mais si elle a été arrêtée, ça ne vous regarde sûrement pas !</quote>
+    <quote id="174" type="0">Je ne vois même pas de quoi vous parlez.</quote>
+    <quote id="175" type="0">Montrez-moi votre ticket pour le ferry je vous prie.</quote>
+    <quote id="176" type="0">Demandez à un matelot, il pourra peut-être vous aider.</quote>
+    <quote id="177" type="0">J'ignore où ils sont.</quote>
+    <quote id="178" type="0">Je ne les ai pas vus.</quote>
+    <quote id="179" type="0">Si tu as encore envie de prendre le ferry, je te propose des tickets à seulement 5 kashes : je les imprimes moi-même.</quote>
+    <quote id="180" type="0">Tu n'as pas assez de Kashes, reviens plus tard.</quote>
+    <quote id="181" type="0">Plus de carburant.</quote>
+    <quote id="182" type="0">Ah désolé mais on a enlevé le robot, il paraît qu'on en a besoin sur un chantier classé top-secret.</quote>
+    <quote id="183" type="0">Merci d'les avoir empêché de fermer ma taverne. Si quelque chose vous intéresse dans ma cave, servez-vous.</quote>
+    <quote id="184" type="0">Fais comme moi : collectionne les trèfles et les boîtes, il faut une boîte pour contenir chaque trèfle. Et chaque trèfle te donne une nouvelle chance dans les situations périlleuses.</quote>
+    <quote id="185" type="0">J'ai lu des passages de son livre de bord, ce LeBorgne était terrible ! Si ça t'intéresses, il est en vente au bazar du Vieux Bourg, sur l'île Principale.</quote>
+    <quote id="186" type="0">J'ignore où ils sont.</quote>
+    <quote id="187" type="0">Je n'y connais rien, mais il paraît qu'avant à la bibliothèque, il y avait des ouvrages qui en parlaient.</quote>
+    <quote id="188" type="0">Salut</quote>
+    <quote id="189" type="0">Sur l'Hamalayi</quote>
+    <quote id="190" type="0">Je ne peux pas t'aider, demande à quelqu'un d'autre.</quote>
+    <quote id="191" type="0">Pitié !</quote>
+  </quotes>
+</lbatexts>

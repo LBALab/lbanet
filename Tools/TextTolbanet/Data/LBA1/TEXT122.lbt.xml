@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>1</game>
+  <quotes>
+    <quote id="1" type="0">Alt!</quote>
+    <quote id="2" type="0">Buongiorno, cerco un'amica. E' scortata da due grobocloni.</quote>
+    <quote id="3" type="0">Mi spiace, non l'ho vista. Ma provi ad andare dall'astronomo, nel Vecchio Borgo, lui è al corrente di molte cose.</quote>
+    <quote id="4" type="0">E' vietato parlarne.</quote>
+    <quote id="5" type="0">Per andare da mio cugino, mettiti davanti al lavabo e lavati le mani! Eh eh eh!</quote>
+    <quote id="6" type="0">Sono stato arrestato per aver starnutito in pubblico! Assurdo! E intanto un guardiano mi ha detto che c'è un falsario nella cella alla destra del quartier generale.</quote>
+    <quote id="7" type="0">Non posso far niente per te. Forse... visto i rischi che hai corso, posso rivelarti qualcosa. Sono stato arrestato su quest'isola, ma prima di essere imprigionato avevo dato una carta rossa falsa a mio fratello, che abita sull'Isola Proxima. Te la darà se gli dirai "Amos" (ora sulla tua holomap è indicata casa nostra).</quote>
+    <quote id="8" type="0">"Quartier Generale del Dottor FUNFROCK. Ingresso SEVERAMENTE VIETATO! "</quote>
+    <quote id="9" type="0">" Ragazzo quetch cerca ragazza lapinoide per amicizia e con il tempo anche qualcosa di più. "</quote>
+    <quote id="10" type="0">Bah, non mi interessa.</quote>
+    <quote id="11" type="0">Mozzo, io non bevo mai l'acqua di questa città. Basta assaggiarne un po' per capire perché!</quote>
+    <quote id="12" type="0">Il vecchio pirata ha ragione, l'acqua ha un sapore strano. Dovrebbe essere possibile migliorarlo, il serbatoio dell'acqua si trova nelle montagne, a nord (guarda sulla tua holomap).</quote>
+    <quote id="13" type="0">Questa Leggenda è il tallone d'Achille di FunFrock. Devi scoprire perché, è la tua sola speranza di ritrovare la tua amica.</quote>
+    <quote id="14" type="0">Buongiorno, bizzarra questa Leggenda, non è vero?</quote>
+    <quote id="15" type="0">" ANNUNCIO Nø 358-G : Un detenuto chiamato Twinsen è fuggito dalla Cittadella. Chiunque lo scopra deve denunciarlo al clone più vicino. "</quote>
+    <quote id="16" type="0">"Orari d'apertura della biblioteca dell'Isola Principale: @ Sempre, praticamente."</quote>
+    <quote id="17" type="0">Abbiamo della documentazione sulla "Leggenda" fra i libri dell'enfer, ma è necessaria un'autorizzazione speciale per consultarli. Mi mostri la sua carta d'identità.</quote>
+    <quote id="18" type="0">Buongiorno. Per andare all'Isola della Cittadella deve acquistare un biglietto d'imbarco.</quote>
+    <quote id="19" type="0">"Stimatissimo Dottor FunFrock, ho portato le mappe del Centro di Teletrasporto a casa mia per lavorare durante il fine settimana. Le riporterò lunedì. Firmato : Mies Van der Rooh, Architetto, Via dello Scarabeo, Isola della Cittadella."</quote>
+    <quote id="20" type="0">Mi interessa la storia del pirata Guercio.</quote>
+    <quote id="21" type="0">Cerco le mappe del Centro di Teletrasporto. Missione speciale!</quote>
+    <quote id="22" type="0">Suonate l'allarme! E' l'evaso!</quote>
+    <quote id="23" type="0">Buongiorno</quote>
+    <quote id="24" type="0">Un biglietto costa 10 Kash, ma siccome ho un bando di ricerca che ti riguarda nel mio ufficio, mi basteranno 30 Kash per dimenticare che gli assomigli.</quote>
+    <quote id="25" type="0">Alt! Lei è ricercato per evasione.</quote>
+    <quote id="26" type="0">Per 10 Kash ti lascio leggere il manifesto alle mie spalle.</quote>
+    <quote id="27" type="0">Li ho appena visti sull'Isola della Cittadella, ma sono partiti subito, destinazione sconosciuta!</quote>
+    <quote id="28" type="0">Buongiorno, caro cliente. Non ho più sciroppo di ciliegia, ma c'è una farmacia aperta sull'Isola della Cittadella.<linebreak />P Si metta davanti all'articolo che le serve e prema AZIONE.</quote>
+    <quote id="29" type="0">Signore, signore! C'è una strana pietra sulla parete in fondo! Forse riesco ad evadere!</quote>
+    <quote id="30" type="0">Una strana pietra? Vediamo che cos'è.</quote>
+    <quote id="31" type="0">Il passaggio si apre solo venendo dalla cella di mio cugino, e poi piantala di frugare dappertutto!</quote>
+    <quote id="32" type="0">Spiacente, ma non hai abbastanza soldi. Torna più tardi.</quote>
+    <quote id="33" type="0">Non si rivolge la parola agli estranei. Provaci che non sei al servizio di FunFrock. Infastidisci un clone, ad esempio.</quote>
+    <quote id="34" type="0">Non l'ho vista, ma se hai dei problemi, consulta l'Astronomo; vive agli arresti domiciliari, la sua casa è alla sommità del Vecchio Borgo.</quote>
+    <quote id="35" type="0">Ah, sei tu quello che picchia i cloni! Complimenti! Non ho visto la tua amica, ma prova a parlare con l'Astronomo, lui probabilmente potrà aiutarti.</quote>
+    <quote id="36" type="0">Mi lasci in pace, la vita è già abbastanza dura.</quote>
+    <quote id="37" type="0">Se quel tiranno di FunFrock ha deciso di imprigionarla al di fuori dell'isola della cittadella, quella ragazza deve essere importante. Oltretutto, sta tramando qualcosa proibendo qualsiasi cenno alla Leggenda. Il suo potere comincia a vacillare. Scopri cosa nasconde la Leggenda, è la tua sola speranza di ritrovare la tua amica. Se hai bisogno di lasciare l'Isola, ho un amico che ti può aiutare a Porto Beluga (guarda sulla tua holomap). Digli che ti mando io. E cerca di essere discreto nella tua ricerca.</quote>
+    <quote id="38" type="0">Non so nulla sulla Leggenda, mi spiace, ma ho un amico pescatore che può aiutarti a viaggiare; digli che ti mando io. Abita a Porto Beluga (guarda sulla tua holomap).</quote>
+    <quote id="39" type="0">Eh eh eh! E' un collega, cerca una fidanzata.</quote>
+    <quote id="40" type="0">Non ne so niente e poi è vietato parlarne.</quote>
+    <quote id="41" type="0">Il medico mi ha ordinato di bere solo l'acqua della città, ma ha un retrogusto strano; se qualcuno ne migliorasse il sapore, potrei aprirgli la porta dell'enfer di questa biblioteca, un raro privilegio...</quote>
+    <quote id="42" type="0">Un attimo, provo ad assaggiare l'acqua.</quote>
+    <quote id="43" type="0">Mmmh, buono l'aroma di ciliegia, ma avrei preferito la carota... ma non è importante; come stabilito, le mostrerò i documenti che parlano della "Leggenda".</quote>
+    <quote id="44" type="0">Mai visti. Mi interessa solo l'oceano. @ Talvolta trasporto anche passeggeri sulla mia nave, ma solo persone fidate.</quote>
+    <quote id="45" type="0">Se ti manda l'Astronomo, posso fidarmi di te. Ma sotto FunFrock bisogna tirare la cinghia. Per 10 Kash, dove posso portarti?</quote>
+    <quote id="46" type="0">Non so ancora.</quote>
+    <quote id="47" type="0">Al Deserto della Foglia Bianca.</quote>
+    <quote id="48" type="0">Non parto subito.</quote>
+    <quote id="49" type="0">Non hai abbastanza soldi, Twinsen, a più tardi.</quote>
+    <quote id="50" type="0">"In tempi remoti, quando le quattro specie, bobolli, lapinoidi, quetch e grobo emersero dal brodo primordiale, secoli prima del colpo di stato di FunFrock, venne pronunciata una profezia. Ai nostri giorni pochi ricordano ancora il testo esatto, ecco perché essa viene chiamata "Leggenda". La Leggenda parla della missione dell'Erede che, nel giorno stabilito, verrà chiamato per abbattere un tiranno. Una fonte di conoscenza relativa alla Leggenda esiste ancora nel mezzo del Deserto della Foglia Bianca".</quote>
+    <quote id="51" type="0">Hai appena ritrovato tutti gli oggetti contenuti nel tuo inventario!</quote>
+    <quote id="52" type="0">Salga pure, signore, partiamo.</quote>
+    <quote id="53" type="0">"Benvenuti sull'Isola Principale. "</quote>
+    <quote id="54" type="0">Non l'ho vista, ma penso di potermi fidare di te. Seguimi, ho il modo di raggiungere l'Astronomo.</quote>
+    <quote id="55" type="0">Mio cugino è fabbro, ti aprirà il portone che non è custodito. Seguimi !</quote>
+    <quote id="56" type="0">Non so se posso aiutarti. Faccio il fabbro e posso certamente aprire le porte, ma... solo alle persone fidate!</quote>
+    <quote id="57" type="0">Se conosci già questo passaggio, posso aprirti il portone che non è custodito. Vai avanti!</quote>
+    <quote id="58" type="0">Posso aiutarti a sbarazzarti dal Supergro. Seguimi, ma aspetta che si allontani dalle scale prima di passare!</quote>
+    <quote id="59" type="0">Ladro ! @ Lascia stare la mia cassetta!</quote>
+    <quote id="60" type="0">Sei troppo aggressivo! Esci di qui e torna solo quando ti sarai calmato!</quote>
+    <quote id="61" type="0">Stia zitto, idiota, è vietato parlarne!</quote>
+    <quote id="62" type="0">" Servizio di trattamento delle acque dell'Isola principale: DIVIETO DI BALNEAZIONE"</quote>
+    <quote id="63" type="0">Dove vuoi andare?</quote>
+    <quote id="64" type="0">A Porto Beluga.</quote>
+    <quote id="65" type="0">Al serbatoio dell'acqua.</quote>
+    <quote id="66" type="0">Ma pago per vedere!</quote>
+    <quote id="67" type="0">Assolutamente no, puzza di truffa lontano un miglio!</quote>
+    <quote id="68" type="0">Posso aprirle la porta dell'enfer di questa biblioteca. Troverà un libro che parla della Leggenda. Ma in cambio desidero che cambi il sapore dell'acqua della città: è l'unica bevanda che mi sia concessa, e non è certo delle migliori.</quote>
+    <quote id="69" type="0">"Vecchio Borgo @ (Isola Principale) "</quote>
+    <quote id="70" type="0">" Via del Piè-Scarpa @ (Isola Principale) "</quote>
+    <quote id="71" type="0">Spiacente, ma non ha abbastanza soldi. Torni più tardi.</quote>
+    <quote id="72" type="0">Sull'Isola Proxima.</quote>
+    <quote id="73" type="0">Ho letto alcuni brani del suo libro di bordo; era terribile, quel Guercio! Se ti interessa, è in vendita al bazaar del Vecchio Borgo, su quest'isola.</quote>
+    <quote id="74" type="0">Sono Bob Vortix, astronomo agli arresti domiciliari. E tu, cosa fai qui in città, a parte picchiare i cloni?</quote>
+    <quote id="75" type="0">Mi manda l'Astronomo.</quote>
+    <quote id="76" type="0">Torna quando saprai dove vuoi andare.</quote>
+    <quote id="77" type="0">"Caramelle, caramelle: volete 10 cuori per 10 Kash? "</quote>
+    <quote id="78" type="0">Va bene, li compro.</quote>
+    <quote id="79" type="0">No, grazie.</quote>
+    <quote id="80" type="0">Non ha abbastanza Kash!</quote>
+    <quote id="81" type="0">Buongiorno; venga, le apro la porta.</quote>
+    <quote id="82" type="0">Suonate l'allarme! Un prigioniero è evaso!</quote>
+    <quote id="83" type="0">Povero amico mio! Non so di cosa mi stia parlando.</quote>
+    <quote id="84" type="0">Ah sì, conosce Giulia? E' una ragazza a modo. Guarda un po' troppo la tele, ma nella sua storia c'è del vero: qualcuno ha dimenticato una scatola per trifogli sull'isolotto di fronte a casa mia. Il fondale è troppo basso per raggiungerlo con una barca, bisognerebbe poter volare, ora che il ponte è crollato.</quote>
+    <quote id="85" type="0">Molto bene, signore, resti lì, per favore.</quote>
+    <quote id="86" type="0">Cosa fa qui, chi è lei?</quote>
+    <quote id="87" type="0">Riparo le antenne.</quote>
+    <quote id="88" type="0">Sono Twinsen, sto evadendo.</quote>
+    <quote id="89" type="0">Sono Babbo Natale.</quote>
+    <quote id="90" type="0">"Benvenuti a Porto Beluga @ (Isola Principale) @ Mare calmo o poco mosso, venti deboli. "</quote>
+    <quote id="91" type="0">Non mi interessa.</quote>
+    <quote id="92" type="0">Lo compro.</quote>
+    <quote id="93" type="0">Buongiorno</quote>
+    <quote id="94" type="0">" L.B.A. @ Servizio fognario del Vecchio Borgo. Via della Luna di Smeraldo. "</quote>
+    <quote id="95" type="0">Zoticone, come si permette di frugare fra le mie cose? </quote>
+    <quote id="96" type="0">Non c'è. L'avrei notata, oggi ci sono pochi lettori.</quote>
+    <quote id="97" type="0">Ho girato per tutta l'isola e non ho li ho visti.</quote>
+    <quote id="98" type="0">Non l'ho vista. </quote>
+    <quote id="99" type="0">Non l'ho vista.</quote>
+    <quote id="100" type="0">Mi spiace, non ho visto il vostro trio.</quote>
+    <quote id="101" type="0">Non l'ho vista, ma...</quote>
+    <quote id="102" type="0">L'acqua è potabile, ma ha un gusto strano. Bisognerebbe andare al serbatoio dell'acqua e cambiare qualche cosa.</quote>
+    <quote id="103" type="0">Buongiorno</quote>
+    <quote id="104" type="0">Buongiorno, amico.</quote>
+    <quote id="105" type="0">Ciao; saluta mio cugino da parte mia, quando lo vedi.</quote>
+    <quote id="106" type="0">Buongiorno</quote>
+    <quote id="107" type="0">Spiacente, ma non hai abbastanza soldi. Torna più tardi.</quote>
+    <quote id="108" type="0">Qui non ci si fida facilmente della gente. Provaci che non sei al servizio di FunFrock, infastidisci un clone, ad esempio!</quote>
+    <quote id="109" type="0">Sull'Isola della Cittadella.</quote>
+    <quote id="110" type="0">Sull'Isola della Ribellione.</quote>
+    <quote id="111" type="0">Guarda che meraviglia: nuovo, agile e rapido; il catamarano è tuo per soli 200 Kash.</quote>
+    <quote id="112" type="0">Costa troppo per me!</quote>
+    <quote id="113" type="0">Ottimo, lo compro.</quote>
+    <quote id="114" type="0">Non hai abbastanza Kash!</quote>
+    <quote id="115" type="0">Oh, le devo raccontare una cosa! Tremendo! Beatrice, la mia migliore amica, è fidanzata di Steve. Paul, il fratellastro di Steven, ha lasciato Cindy quando Linda è uscita dalla clinica dopo l'incidente in slitta. Ma non per Linda, per Tatiana! Sergio, che ammira segretamente Steven, tenta da mesi di conquistare Tatiana, che rifiuta di parlare a Christy da quando questa è morta. Nel frattempo Stephanie, che si è risposata con Serge, ha scoperto la lettera lasciata da Pauline, in cui spiegava dove si trova la scatola di trifoglio dimenticata da Roy. Ovviamente Beatrice si chiede se Linda sia al corrente dell'incidente. @ Mi segue?</quote>
+    <quote id="116" type="0">Svegliati, ho appena trovato l'evaso!</quote>
+    <quote id="117" type="0">Ladro!<linebreak /> @ Lascia stare la mia cassetta!</quote>
+    <quote id="118" type="0">Spiacente, caro cliente, ma mi interesso solo ai miei modesti affari.</quote>
+    <quote id="119" type="0">Idiota, non lo faccia! Ormai TUTTO è possibile!</quote>
+    <quote id="120" type="0">Eh eh eh! Anche lei cerca il Tesoro? Boh, io avevo un vecchio e polveroso libro sul Guercio, ma un cliente lo ha comprato proprio questa mattina. Era un lapinoide, so che lavora alla biblioteca.</quote>
+    <quote id="121" type="0">Non ho visto la ragazza. Ma provi a a parlare all'Astronomo: anche se non può uscire di casa, è al corrente di tutto. Abita nell'ultima casa, alla sommità della città.</quote>
+    <quote id="122" type="0">Il gusto è IDENTICO a quello di prima. Non le aprirò l'enfer.</quote>
+    <quote id="123" type="0">Si figuri, un furbacchione ha versato dello sciroppo nella rete idrica dell'isola! Mi piacerebbe dirgli due parolette; lo conosce, per caso?</quote>
+    <quote id="124" type="0">Sono stato io. Idea geniale, non è vero?</quote>
+    <quote id="125" type="0">E' un colpo di FunFrock.</quote>
+    <quote id="126" type="0">Complimenti! L'aroma alla ciliegia è veramente ottimo. Le confesso che il mio medico mi ha imposto di bere solo acqua del rubinetto e... Insomma, per ringraziarla le mostrerò opere antiche, se non addirittura LEGGENDARIE!</quote>
+    <quote id="127" type="0">Ah sì, il dottor FunFrock si prende cura di noi? Ma mi sembra strano...</quote>
+    <quote id="128" type="0">Non ho vista questa persona.</quote>
+    <quote id="129" type="0">Caro mio, erano anni che cercavo il libro di bordo del Capitano Guercio. E proprio oggi, mentre facevo la spesa nel Vecchio Borgo, mi è capitato fra le mani! Si tratta ovviamente di un'opera da consultare sul posto. E' là, su quel tavolo, vicino alla sala di proiezione.</quote>
+    <quote id="130" type="0">Rimanga qui, vado a prenderli.</quote>
+    <quote id="131" type="0">Ci deve essere qualcosa sul Guercio. Chieda al capo bibliotecario. Lo ha già visto, è un lapinoide alto, fulvo.</quote>
+    <quote id="132" type="0">Se poi mi lascia in pace, le leggerò un brano del libro di bordo. Cosa vuole che le legga?</quote>
+    <quote id="133" type="0">Un brano sulla cucina dei pirati.</quote>
+    <quote id="134" type="0">Un brano sul tesoro del Guercio.</quote>
+    <quote id="135" type="0">Perché si chiama il Guercio?</quote>
+    <quote id="136" type="0">Questo è un gioco francese, quindi per decenza e per rispetto alla Gastronomia non è possibile rivelare tutti gli ingredienti che servono per le ricette di cucina dei pirati.</quote>
+    <quote id="137" type="0">Dunque, il tesoro... Ah, ne parla alla fine, su un foglietto: @ " Per ritrovare il tesoro del Capitano Guercio, il viaggiatore che sbarca al porto dell'Isola Proxima deve prendere come punto di riferimento l'ormeggio più vicino. Dando le spalle alle navi ormeggiate, deve fare il percorso indicato nel modo DISCRETO: @ 6 passi a nord (diritto davanti a sé), poi 6 passi a est (a destra) sulla piccola discesa. 2 passi a nord (diritto davanti a sé) fino al cestino delle immondizie in metallo, poi 3 passi a est (a destra) finché non arriva a un lampione. Deve mettersi ESATTAMENTE fra due lampioni, poi fare 8 passi a nord (diritto davanti a sé) per raggiungere un portone. Il tesoro del Capitano Guercio si trova nell'edificio dietro al portone."</quote>
+    <quote id="138" type="0">"Lo chiamavano così perché aveva la mania di tenere in bocca lo stuzzicadenti tutto il santo giorno. Un giorno, nel mezzo di un tifone, sternutì. Ritrovò lo stuzzicadenti, ma perse l'occhio!</quote>
+    <quote id="139" type="0">Non serve a niente essere aggressivo. Ero qui prima di lei!</quote>
+    <quote id="140" type="0">Buongiorno!</quote>
+    <quote id="141" type="0">Non so dove possano essere.</quote>
+    <quote id="142" type="0">Questa è ribellione! E' proibito parlare della Leggenda!</quote>
+    <quote id="143" type="0">Non l'ho vista, ma l'Astronomo potrà aiutarti.</quote>
+    <quote id="144" type="0">Dovresti parlare con i marinai di questa storia.</quote>
+    <quote id="145" type="0">Vorrei proprio aiutarti, ma non so dove siano.</quote>
+    <quote id="146" type="0">Mmmh! Famoso mascalzone questo Guercio, qualche secolo fa ha compiuto scorrerie in tutti i mari di questo emisfero. Il mio amico pescatore mi ha raccontato che al bazaar dovrebbe esserci un oggetto appartenuto al Guercio.</quote>
+    <quote id="147" type="0">Non so dove siano.</quote>
+    <quote id="148" type="0">Hiiii hi ! Bbbrrfff !</quote>
+    <quote id="149" type="0">Uno dei miei colleghi galoppa con la criniera al vento nel Deserto della Foglia Bianca. Secondo lui ci sarebbe qualcuno chiuso in una grotta, dietro a un enorme sigillo.</quote>
+    <quote id="150" type="0">Non ne ho mai sentito parlare!</quote>
+    <quote id="151" type="0">Cos'è un Centro di Teletrasporto?</quote>
+    <quote id="152" type="0">Salve!</quote>
+    <quote id="153" type="0">Ah, questo Guercio, che uomo!</quote>
+    <quote id="154" type="0">Ha ha ha, questa è buona! Spiacente, io non ce l'ho.</quote>
+    <quote id="155" type="0">Qui non si riesce a vendere nemmeno un asciugacapelli. Uno dei miei colleghi sta già esaminando altri sbocchi commerciali. Se continua così, proverò su un'altra isola.</quote>
+    <quote id="156" type="0">Non so dove sono.</quote>
+    <quote id="157" type="0">Non posso far niente per lei, amico. Non so cosa intende dire.</quote>
+    <quote id="158" type="0">Prendi questo, ribelle!</quote>
+    <quote id="159" type="0">Circolare!</quote>
+    <quote id="160" type="0">Buongiorno</quote>
+    <quote id="161" type="0">Vada alla taverna a parlarne, là adorano le storie di pirati!</quote>
+    <quote id="162" type="0">Mi lasci in pace, non ho niente da dirle.</quote>
+    <quote id="163" type="0">Buongiorno</quote>
+    <quote id="164" type="0">E' severamente vietato parlarne!</quote>
+    <quote id="165" type="0">Non ne ho mai sentito parlare.</quote>
+    <quote id="166" type="0">Non so dove sono.</quote>
+    <quote id="167" type="0">Mi spiace, non lo so!</quote>
+    <quote id="168" type="0">Salve!</quote>
+    <quote id="169" type="0">Calma!</quote>
+    <quote id="170" type="0">Non l'ho vista.</quote>
+    <quote id="171" type="0">Senti, mi sei molto simpatico, ma adesso sei cresciuto. Arrangiati da solo, non sono mica una biblioteca, io!</quote>
+    <quote id="172" type="0">Non capisco di cosa si tratti.</quote>
+    <quote id="173" type="0">Non l'ho vista.</quote>
+    <quote id="174" type="0">Non so dove potrebbero essere.</quote>
+    <quote id="175" type="0">Pirati? Puah! I marinai racconterebbero qualsiasi cosa pur di farsi offrire da bere!</quote>
+    <quote id="176" type="0">Buongiorno</quote>
+    <quote id="177" type="0">30 kash per un asciugacapelli, che ne dice? Di solito posso venderli solo porta a porta, ma i clienti sono rari e lei mi è simpatico.</quote>
+    <quote id="178" type="0">Entri, presto!</quote>
+    <quote id="179" type="0">Buongiorno, signore.</quote>
+    <quote id="180" type="0">No, assolutamente.</quote>
+    <quote id="181" type="0">Vada da Beatrice, dica che la manda Giulia; glielo spiegherà meglio di me. Abita alla periferia del Vecchio Borgo, in una casa vicina al mare, in via Piè-Scarpa.</quote>
+    <quote id="182" type="0">Giulia mi ha parlato molto di lei.</quote>
+    <quote id="183" type="0">Non so nulla di pirateria; ne parli piuttosto ai marinai.</quote>
+    <quote id="184" type="0">Non so dove sono, caro signore.</quote>
+    <quote id="185" type="0">Buongiorno, signorina quetck.</quote>
+    <quote id="186" type="0">Non l'ho vista.</quote>
+    <quote id="187" type="0">Non ne so niente!</quote>
+    <quote id="188" type="0">Sembra che ora il gusto dell'acqua sia migliore! Puah! Un altro colpo degli alcolisti anonimi!</quote>
+    <quote id="189" type="0">Non li ho mai visti!</quote>
+    <quote id="190" type="0">Io non la conosco, ma vada da Wabdull, al bazaar. E stia attento, è vietato parlarne!</quote>
+    <quote id="191" type="0">Ah, non la conosco quella. Ma quella del pirata che aveva i reumatismi a una gamba e le termiti all'altra, quella mi fa sempre schiattare dal ridere.</quote>
+    <quote id="192" type="0">Salve, mozzo!</quote>
+    <quote id="193" type="0">Non so dove sono.</quote>
+    <quote id="194" type="0">Il Guercio! Non sapeva scrivere, allora faceva redigere il libro di bordo al cuoco. Adesso è in vendita al bazaar qui di fianco.</quote>
+    <quote id="195" type="0">Spiacente, non lo so.</quote>
+    <quote id="196" type="0">Questa magnifica holomap costa solo 20 Kash (come può vedere è molto utile!)</quote>
+    <quote id="197" type="0">Il carburante per 10 viaggi costa 30 Kash.</quote>
+    <quote id="198" type="0">15 cuori di polvere di vita costano 30 Kash.</quote>
+    <quote id="199" type="0">10 fiale di polvere magica costano 30 Kash.</quote>
+    <quote id="200" type="0">Un robo-pinguino costa 3 Kash.</quote>
+    <quote id="201" type="0">Non l'ho vista.</quote>
+    <quote id="202" type="0">Spiacente, non lo so.</quote>
+    <quote id="203" type="0">Salve, amico.</quote>
+    <quote id="204" type="0">Non so dove siano.</quote>
+    <quote id="205" type="0">Buongiorno</quote>
+    <quote id="206" type="0">Chieda all'oste, o al marinaio al banco.</quote>
+    <quote id="207" type="0">Ma è vietato parlarne! E' fortunato, la denuncerei, ma così non potrei estorcerle Kash.</quote>
+    <quote id="208" type="0">Buongiorno</quote>
+    <quote id="209" type="0">Sono un fan di GUERRE STELLARI™. Fra poco uscirà il prossimo episodio della saga, quindi ho già prenotato un posto in sala!</quote>
+    <quote id="210" type="0">Vorrei proprio aiutarti, ma davvero, non conosco gran che, al di fuori dei film, ovviamente. Buona fortuna!</quote>
+    <quote id="211" type="0">Ho trovato questa pagina, strappata da un libro. Dice : "...Azionate UNA volta la leva in centro, poi una volta la leva di destra". Si tratterà della soluzione di un problema!</quote>
+    <quote id="212" type="0">Non so dove siano. Mi spiace.</quote>
+    <quote id="213" type="0">Buongiorno</quote>
+    <quote id="214" type="0">Chieda al lapinoide con la maglietta gialla, è lui il bibliotecario.</quote>
+    <quote id="215" type="0">Ahi! Ma l'ho trovata per terra questa pagina, non l'ho strappata! Giuro!</quote>
+    <quote id="216" type="0">Secondo il libro che sto leggendo, a nord est dell'Isola principale, nell'Hamalayi, esiste un lago di "Acqua Limpida". Lo sapeva che la catena dell'Hamalayi è invalicabile? Segna il confine con l'emisfero settentrionale, che il dottor FunFrock ha fatto evacuare. Là il sole sarebbe troppo vicino alla superficie: la temperatura è diventata insopportabile, e i cambiamenti climatici hanno portato alla comparsa di mostruosi mutanti. E dire che con tutto quello che il buon dottore fa per noi, ci sono dei ribelli che lo osteggiano. E' una vergogna!</quote>
+    <quote id="217" type="0">Spiacente, non so di cosa stia parlando.</quote>
+    <quote id="218" type="0">Chieda al bibliotecario, anche lui è interessato alla storia del Guercio.</quote>
+    <quote id="219" type="0">Sapeva che per proteggerci il Dottor FunFrock ha fatto installare dei busti che lo ritraggono? Quelli senza base sono stati posti su antichi sigilli. Erano indistruttibili, almeno adesso non si vedono più!</quote>
+    <quote id="220" type="0">Non so dove si trovano.</quote>
+    <quote id="221" type="0">Vada dal bibliotecario.</quote>
+    <quote id="222" type="0">Non l'ho mai visto, ma prova ad andare al bazaar. Qui Wadbull sa tutto e VENDE DI TUTTO!</quote>
+    <quote id="223" type="0">Adesso nessuno se ne ricorda più. Anche alla biblioteca mi chiedo se abbiano conservato dei libri sulla Leggenda.</quote>
+    <quote id="224" type="0">Non la conosco, mi spiace.</quote>
+    <quote id="225" type="0">Non ne so niente, però sembra che alla biblioteca avessero dei libri che ne parlavano.</quote>
+    <quote id="226" type="0">La smetta di fare così, spargerà cenere dappertutto!</quote>
+    <quote id="227" type="0">Non so dove siano, ma lascia perdere. Il teletrasporto fa venire la nausea!</quote>
+    <quote id="228" type="0">Buuhhh ! Il teletrasporto fa venire la nausea!</quote>
+    <quote id="229" type="0">Carburante esaurito</quote>
+    <quote id="230" type="0">Grazie, ho la carta rossa!</quote>
+    <quote id="231" type="0">Non sai cosa voglia dire essere prigionieri! @ E' terribile... terribile, terribile!</quote>
+    <quote id="232" type="0">Mi stupirebbe se fosse prigioniera qui.</quote>
+    <quote id="233" type="0">Mai sentito parlare.</quote>
+    <quote id="234" type="0">Sembra che non l'abbiano mai catturata!</quote>
+    <quote id="235" type="0">Spiacente, non ne so niente.</quote>
+    <quote id="236" type="0">"Servizio dell'acqua potabile dell'Isola Principale: NON GETTARE NULLA NELLA CISTERNA!"</quote>
+    <quote id="237" type="0">Spiacente, caro cliente, ma qui siamo in un bazaar, non in una biblioteca!</quote>
+    <quote id="238" type="0">Non se ne ricorda più nessuno. Sono tutte storie.</quote>
+    <quote id="239" type="0">Beh, io non so, eh, ma nel Vecchio Borgo qualcuno deve conoscere questa cavolo di leggenda.</quote>
+    <quote id="240" type="0">Non è detenuta qui. Ma se vuoi una carta rossa, va' da mio fratello. Casa nostra è indicata sulla tua holomap.</quote>
+    <quote id="241" type="0">Mi sembrava, mi dicevo "Io questo quetch l'ho già visto da qualche parte!"</quote>
+    <quote id="242" type="0">Vada alla taverna del Vecchio Borgo, ne parli al barman.</quote>
+    <quote id="243" type="0">Salve, sono appena tornato da un viaggio attorno a questo emisfero, e vendo la mia nave. Mi segua, se le interessa.</quote>
+    <quote id="244" type="0">Buongiorno; allora, faccia attenzione agli iceberg verso l'Hamalayi.</quote>
+    <quote id="245" type="0">Con quella bandiera rischia di avere noie con le autorità. E' un emblema dei ribelli.</quote>
+    <quote id="246" type="0">Eccolo qui un vero marinaio! Il Guercio teneva un libro di bordo in cui deve essere riportata la posizione del suo tesoro.</quote>
+    <quote id="247" type="0">Mai visti, non capisco nemmeno di cosa si tratti.</quote>
+    <quote id="248" type="0">Guarda guarda, un piccolo ficcanaso! Twinsen, suppongo. Vorrei sapere cosa sei venuto a fare qui. </quote>
+    <quote id="249" type="0">Su quest'isola è nascosto un tesoro: bisogna soffiare in una tromba magica davanti al busto di FunFrock per potervi accedere.</quote>
+    <quote id="250" type="0">Non conosco questa storia.</quote>
+    <quote id="251" type="0">Non so di cosa si tratti. </quote>
+    <quote id="252" type="0">Buongiorno</quote>
+    <quote id="253" type="0">Buongiorno</quote>
+    <quote id="254" type="0">Hello</quote>
+    <quote id="255" type="0">Buongiorno, amico mio.</quote>
+    <quote id="256" type="0">Ah, non abbiamo queste mappe fra le nostre opere.</quote>
+    <quote id="257" type="0">Sull'Hamalayi.</quote>
+    <quote id="258" type="0">Ovunque vada, torni alla svelta. Presto tornerà un navigatore solitario che venderà la sua nave.</quote>
+    <quote id="259" type="0">Non lo so! </quote>
+    <quote id="260" type="0">Gentile ad aiutarmi, ma sono riuscito a sgraffignare la chiave del guardiano. Prendila, non mi serve più.</quote>
+    <quote id="261" type="0">Ho appeno scoperto un passaggio segreto premendo AZIONE! E questa è la mia carta rossa falsa; sei contento?</quote>
+    <quote id="262" type="0">Ah, impossibile aprire senza carta rossa.</quote>
+    <quote id="263" type="0">Ah, impossibile aprire senza tessera blu.</quote>
+    <quote id="264" type="0">Al campo militare.</quote>
+    <quote id="265" type="0">Via di Piè-Scarpa.</quote>
+    <quote id="266" type="0">Sono guarito, non so se è per quello che ha versato adesso, ma il mio calcolo renale si è volatilizzato. Grazie!</quote>
+    <quote id="267" type="0">Buongiorno</quote>
+    <quote id="268" type="0">Un giorno uno dei miei marinai mi ha raccontato che il Guercio era mio parente... insomma... i funerali in mare sono molto commoventi!</quote>
+  </quotes>
+</lbatexts>

@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>2</game>
+  <quotes>
+    <quote id="1" type="1">Du hast deine Holokarte wiedergefunden! Um sie zu verwenden, kannst du entweder die Tabulatortaste drücken oder über das Inventar gehen, indem Du die Umschalttaste drückst.</quote>
+    <quote id="2" type="1">Du hast deinen Magischen Ball wiedergefunden! Wenn du die Tunika der Ahnen trägst, kannst du den Ball werfen, und er kommt zu dir zurück!</quote>
+    <quote id="3" type="1">Du hast drei Pfeile wiederbekommen.</quote>
+    <quote id="4" type="1">Du hast gerade die Kugel von Sendell wiedergefunden. Mit ihr hast du eine neue Magiestufe erlangt: Die Stufe "Roter Ball". Außerdem kann bei Gefahr eine Sendell Kontakt mit dir aufnehmen.</quote>
+    <quote id="5" type="1">Du hast gerade die Tunika der Ahnen und dein Medaillon von Sendell wiedergefunden. Die Tunika lädt sich mit Magie auf. Dadurch kannst du von nun an deinen Magischen Ball werfen und zurückprallen lassen.</quote>
+    <quote id="6" type="1">Du hast gerade die Leuchtperle gefunden. Sie ist von Magiern sehr gesucht und ermöglicht Dir, einen Zauber fertigzustellen.</quote>
+    <quote id="7" type="1">Dein Nachbar hat dir gerade einen pyramidenförmigen Schlüssel gegeben.</quote>
+    <quote id="8" type="1">Jerome Baldino hat dir gerade ein Bauteil gegeben, das Zoe für die Reparatur des Autos braucht.</quote>
+    <quote id="9" type="1">Leer</quote>
+    <quote id="10" type="1">Du hast einen PistoLaser gefunden. Er benötigt einen Steinkristall, um zu funktionieren.</quote>
+    <quote id="11" type="1">Du hast dir den Säbel des Kaisers geschnappt. Mit ihm kannst du gegen die Husaren kämpfen, die den Palast des Kaisers bewachen..</quote>
+    <quote id="12" type="1">Du hast gerade einen Bleichlingshandschuh gefunden. Damit kannst du die Feuerkugeln zurückwerfen, mit denen dich deine Feinde beschießen.</quote>
+    <quote id="13" type="1">Du hast das ProtoPack geholt. Mit ihm kannst du einige Zentimeter über dem Boden fliegen.</quote>
+    <quote id="14" type="1">Du besitzt eine Fahrkarte für die Fähre.</quote>
+    <quote id="15" type="1">Du bist gerade auf einen genialen Nitro-Meca-Pinguin gestoßen. Wenn du ihn im Inventar auswählst, hast du noch einige Sekunden lang Zeit, bevor er explodiert.</quote>
+    <quote id="16" type="1">Du hast einen Behälter mit GazoGem bekommen. Damit kannst du dein neues SuperJetPack abholen.</quote>
+    <quote id="17" type="1">Du hast den Rebellenring. Dieser Ring ist ihr Erkennungszeichen. Wenn du einen Rebellen triffst, kannst du dich ihm damit als Freund zu erkennen geben.</quote>
+    <quote id="18" type="1">Du hast soeben ein Fläschchen Gallussäure gefunden. Gallussäure wird häufig zur Restaurierung alter Dokumente verwendet.</quote>
+    <quote id="19" type="1">Du hast gerade das Lied des Fährmanns gelernt. Mit diesem Lied kannst Du zur Insel der Moskibienos gelangen.</quote>
+    <quote id="20" type="1"></quote>
+    <quote id="21" type="1">Du hast gerade den Schirm der Kundin gefunden.</quote>
+    <quote id="22" type="1">Du hast ein Juwel aufgesammelt.</quote>
+    <quote id="23" type="1">Du besitzt die Blaue Tritonmuschel, mit der du dich selbst und andere heilen kannst.</quote>
+    <quote id="24" type="1">Du besitzt ein Blasrohr. Mit ihm kannst Du sehr zielgenau und schnell schießen.</quote>
+    <quote id="25" type="1">Du hast eine Routenscheibe gefunden. Nun kannst du mit einem Esmerier-Raumschiff starten.</quote>
+    <quote id="26" type="1">Du hast gerade ein Stück Kuchen abgestaubt!</quote>
+    <quote id="27" type="1">Du besitzt jetzt ein Funksprechgerät. Mit ihm kannst du Anrufe Deiner Freunde empfangen.</quote>
+    <quote id="28" type="1">Du hast gerade eine Ungeduldige Balsamine gepflückt.</quote>
+    <quote id="29" type="1">Du besitzt jetzt Magische Kreide. Mit ihr kannst du Abbildungen von allen möglichen Sachen machen.</quote>
+    <quote id="30" type="1">Du hast einen Kommunikator gefunden. Mit ihm kannst du die Sprache der Esmerier verstehen.</quote>
+    <quote id="31" type="1">Du hast soeben dein Magierdiplom erhalten. Außerdem hast du damit eine weitere Magiestufe erhalten, die Stufe des Grünen Balls.</quote>
+    <quote id="32" type="1">Du besitzt jetzt das Schlüsselfragment der Bifiden.</quote>
+    <quote id="33" type="1">Du besitzt jetzt das Schlüsselfragment der Elitos.</quote>
+    <quote id="34" type="1">Du besitzt jetzt das Schlüsselfragment der Moskibienos.</quote>
+    <quote id="35" type="1">Du besitzt jetzt das Schlüsselfragment der Bleichlinge.</quote>
+    <quote id="36" type="1">Du hast gerade den Schlüssel für den Gang erhalten, der zur Insel CX führt.</quote>
+    <quote id="37" type="1">Du hast gerade eine Hacke gekauft. Mit ihr kannst du graben oder Kiesel und Kristallstücke lösen.</quote>
+    <quote id="38" type="1">Du hast gerade den Schlüssel des Bürgermeisters der Bifiden erhalten.</quote>
+    <quote id="39" type="1">Du hast gerade die Notizen des Bürgermeisters der Bifiden gefunden. Anhand dieser Notizen kannst du das Schlüsselfragment der Bifiden finden.</quote>
+    <quote id="40" type="1">Du bist jetzt im Besitz eines Schutzzaubers.</quote>
+    <quote id="41" type="1">leer</quote>
+    <quote id="42" type="1">leer</quote>
+    <quote id="43" type="1">leer</quote>
+    <quote id="44" type="1">leer</quote>
+    <quote id="45" type="1">Du besitzt jetzt den Schlüssel zum Tempel von Dark Monk. Außerdem hast du die höchste Magiestufe, die Stufe des Feuerballs, erlangt.</quote>
+    <quote id="46" type="1">Du hast ein Erinnerungssichtgerät bekommen.</quote>
+    <quote id="47" type="1">Du hast eine Blasrohrpistole erhalten. Mit ihr kannst Du mehr Schüsse mit mehr Durchschlagskraft als zuvor abgeben.</quote>
+    <quote id="48" type="1">Du hast eine Paradetunika für Magier erhalten. Mit ihr siehst du aus wie ein alter Magier.</quote>
+    <quote id="49" type="1">Jerome hat dir das SuperJetPack gegeben. Damit kannst du Orte erreichen, die bisher mit dem ProtoPack nicht zugänglich waren.</quote>
+    <quote id="50" type="1">Du hast ein Kristallstück von der Insel der Feste bekommen. Mit ihm kannst du einen PistoLaser erneut aufladen.</quote>
+    <quote id="51" type="1">Du besitzt jetzt einen funktionsfähigen PistoLaser. Mit ihm kannst du kraftvoll und weit schießen und Ziele treffen, die sich außerhalb der Reichweite deines Magischen Balls befinden.</quote>
+    <quote id="52" type="1">Du hast gerade den Blitzring gefunden! Mit ihm kommst du an die Kugel von Sendell.</quote>
+    <quote id="53" type="1">leer</quote>
+    <quote id="54" type="1">leer</quote>
+    <quote id="55" type="1">leer</quote>
+    <quote id="56" type="1">Holokarte</quote>
+    <quote id="57" type="1">Magischer Ball</quote>
+    <quote id="58" type="1">Pfeile</quote>
+    <quote id="59" type="1">Kugel von Sendell</quote>
+    <quote id="60" type="1">Tunika und Medaillon von Sendell</quote>
+    <quote id="61" type="1">Leuchtperle</quote>
+    <quote id="62" type="1">Pyramidenschlüssel</quote>
+    <quote id="63" type="1">Autobauteil</quote>
+    <quote id="64" type="1">Kashes</quote>
+    <quote id="65" type="1">PistoLaser</quote>
+    <quote id="66" type="1">Säbel des Kaisers</quote>
+    <quote id="67" type="1">Bleichlingshandschuh</quote>
+    <quote id="68" type="1">ProtoPack</quote>
+    <quote id="69" type="1">Fahrkarte für Fähre</quote>
+    <quote id="70" type="1">Nitro-Meca-Pinguin</quote>
+    <quote id="71" type="1">Behälter mit GazoGem</quote>
+    <quote id="72" type="1">Rebellenring</quote>
+    <quote id="73" type="1">Gallussäure</quote>
+    <quote id="74" type="1">Lied des Fährmanns</quote>
+    <quote id="75" type="1">Blitzring</quote>
+    <quote id="76" type="1">Regenschirm der Frau</quote>
+    <quote id="77" type="1">Juwelen</quote>
+    <quote id="78" type="1">Blaue Tritonmuschel</quote>
+    <quote id="79" type="1">Blasrohr</quote>
+    <quote id="80" type="1">Routenscheibe</quote>
+    <quote id="81" type="1">Stück Kuchen</quote>
+    <quote id="82" type="1">Funksprechgerät</quote>
+    <quote id="83" type="1">Ungeduldige Balsamine</quote>
+    <quote id="84" type="1">Zauberkreide</quote>
+    <quote id="85" type="1">Kommunikator</quote>
+    <quote id="86" type="1">Magierdiplom</quote>
+    <quote id="87" type="1">Fragment der Bifiden</quote>
+    <quote id="88" type="1">Fragment der Elitos</quote>
+    <quote id="89" type="1">Fragment der Moskibienos</quote>
+    <quote id="90" type="1">Fragment der Bleichlinge</quote>
+    <quote id="91" type="1">Schlüssel für Gang nach CX</quote>
+    <quote id="92" type="1">Hacke</quote>
+    <quote id="93" type="1">Schlüssel des Bürgermeisters der Bifiden</quote>
+    <quote id="94" type="1">Notizen des Bürgermeisters der Bifiden</quote>
+    <quote id="95" type="1">Schutzzauber</quote>
+    <quote id="96" type="1">Grüner Magischer Ball</quote>
+    <quote id="97" type="1">Roter Magischer Ball</quote>
+    <quote id="98" type="1">Magischer Feuerball</quote>
+    <quote id="99" type="1">Zlitos</quote>
+    <quote id="100" type="1">Schlüssel von Dark Monk</quote>
+    <quote id="101" type="1">Erinnerungssichtgerät</quote>
+    <quote id="102" type="1">Blasrohrpistole</quote>
+    <quote id="103" type="1">Paradetunika für Magier</quote>
+    <quote id="104" type="1">SuperJetPack</quote>
+    <quote id="105" type="1">Kristallstück</quote>
+    <quote id="106" type="1">Funktionsfähiger PistoLaser</quote>
+    <quote id="107" type="1">Grüner Blitzzauber</quote>
+    <quote id="108" type="1">Roter Blitzzauber</quote>
+    <quote id="109" type="1">Feuerblitzzauber</quote>
+    <quote id="110" type="1">Kleeblatt</quote>
+    <quote id="111" type="65">Die Holokarte ist ein dreidimensionales Kartensystem. Du kannst sie in verschiedenen Vergrößerungsstufen aufrufen, um festzustellen, an welcher Stelle des Planeten du dich befindest. Außerdem zeigen Pfeile manchmal an, welche Aufgaben zu erledigen sind, wenn dir bestimmte Charaktere die entsprechenden Informationen gegeben haben.</quote>
+    <quote id="112" type="65">Du kannst den Magischen Ball werfen und zurückprallen lassen. Dazu brauchst du die Tunika, da du mit ihr Magie speichern kannst und der Ball bei jedem Wurf Magie verbraucht.</quote>
+    <quote id="113" type="65">Du kannst jederzeit Pfeile werfen, indem du sie im Inventar auswählst. Um sie aufzuheben, genügt es, sie zu berühren.</quote>
+    <quote id="114" type="65">Dank der Kugel von Sendell hast du die dritte Magiestufe, die Stufe des Roten Balls, erreicht. Mit Hilfe der Kugel kann bei Gefahr eine Sendell kommen und mit dir sprechen.</quote>
+    <quote id="115" type="65">Mit dieser Tunika, die dir von deinen Ahnen vermacht wurde, kannst du Magie speichern. Bestimmte Magische Objekte, z. B. Dein Magischer Ball, benötigen diese Magie bei jedem Einsatz. Du kannst sie nur verwenden, wenn du genug Magie sammelst und an dir speicherst.</quote>
+    <quote id="116" type="65">Wenn du diese Perle beim Wettermagier in den Topf wirfst, kannst du einen Blitzring erschaffen.</quote>
+    <quote id="117" type="65">Diese Pyramide ist ein Schlüssel. Wenn du sie an den richtigen Platz stellst, wird dadurch ein Mechanismus aktiviert, der dir Zutritt zu einem geheimen Ort gewährt.</quote>
+    <quote id="118" type="65">Nach einigen Einstellungen und sobald Zoe das Bauteil von Baldino eingebaut hat, ist das Auto fahrbereit.</quote>
+    <quote id="119" type="65">Das sind Tauschobjekte von deinem Planeten, Twinsun. Damit kannst du sehr interessante Dinge kaufen.</quote>
+    <quote id="120" type="65">Diese Pistole schießt gerade, weitreichende Strahlen ab. Aber nach jeder Anwendung benötigt sie Zeit, sich wieder aufzuladen.</quote>
+    <quote id="121" type="65">Mit dem Säbel des Kaisers kannst du dich von nun an den Husaren der kaiserlichen Wache stellen.</quote>
+    <quote id="122" type="65">Mit diesem Bleichlingshandschuh kannst du nun Feuer berühren. Dadurch kannst du die Feuerkugeln zurückwerfen, mit denen dich die Gasmonster bewerfen.</quote>
+    <quote id="123" type="65">Erfinder: Jerome Baldino. Um über Wasser fliegen zu können, mußt du von leicht abschüssigem Gelände aus starten. Ansonsten gehst du mit dem ProtoPack unter.</quote>
+    <quote id="124" type="65">Diese Fahrkarte ermöglicht es dir, die Fähre zu nehmen, die zwischen der Zitadelleninsel und der Insel des Leeren Blattes verkehrt.</quote>
+    <quote id="125" type="65">Nitro-Meca-Pinguine kannst du verwenden, indem du sie in flachem, freiem Gelände aufstellst.</quote>
+    <quote id="126" type="65">Wenn du diesen Behälter mit GazoGem Jerome gibst, kannst du dein ProtoPack in ein SuperJetPack verwandeln.</quote>
+    <quote id="127" type="65">Dieser Ring wird nur von Rebellen hergestellt und getragen. Er ist ihr Erkennungszeichen. Damit kannst du dich ihnen als einer der ihren zu erkennen geben und hast die Möglichkeit, mit ihnen in Kontakt zu treten.</quote>
+    <quote id="128" type="65">Mit Gallussäure kannst du alte Dokumente restaurieren. Damit werden die Teile, in denen die Tinte verblaßt ist, wieder sichtbar.</quote>
+    <quote id="129" type="65">Wenn du dich ans Ende des Landestegs des Fährmanns stellst und dieses Lied singst, kommt der Fährmann aus dem Nebel auf dich zu und bietet dir an, dich auf eine andere Insel zu bringen.</quote>
+    <quote id="130" type="65">Vorsicht: Dieser Ring hat eine enorme zerstörerische Wirkung und benötigt viel Magie.</quote>
+    <quote id="131" type="65">Dieser Regenschirm gehört einer Kundin der Apotheke.</quote>
+    <quote id="132" type="65">Aus den Juwelen stellen die Bifiden normalerweise GazoGem her. Aber du kannst mit ihnen auch die Dienste des Fährmanns bezahlen.</quote>
+    <quote id="133" type="65">Damit kannst du Herzen (Lebenspunkte) aufnehmen und speichern. Später kannst du dich oder andere damit heilen.</quote>
+    <quote id="134" type="65">Mit dem Blasrohr kann man sehr schnell schießen. Du kannst es mit kleinen Geschossen aufladen.</quote>
+    <quote id="135" type="65">Mit der Routenscheibe kannst du das Ziel eines Esmerier-Raumschiffs programmieren. Ohne diese Scheibe kann das Raumschiff nicht starten.</quote>
+    <quote id="136" type="65">Du magst diesen Kuchen zwar nicht, aber du kannst dieses Stück jemandem geben, der es mehr zu schätzen weiß.</quote>
+    <quote id="137" type="65">Mit diesem Funksprechgerät kannst du mit Baldino und Zoe sprechen, vorausgesetzt, die beiden haben ihr Gerät auf Empfang geschaltet und sind nicht außer Reichweite.</quote>
+    <quote id="138" type="65">Diese Blume mußt du dem Direktor der Zauberschule bringen.</quote>
+    <quote id="139" type="65">Wenn du vor einem Plan, einer Gravur oder sonst einem Bild "AKTION" drückst, stellst du eine Kopie davon her, die du auf der Zauberkreide mit dir führst. Später kannst du das Bild jederzeit betrachten, indem du die Zauberkreide im Inventar auswählst.</quote>
+    <quote id="140" type="65">Mit diesem Kommunikator kannst du alles verstehen, was die Besucher aus dem Weltraum sagen. Im Modus "VORSICHTIG" kannst du sie sogar bespitzeln und ihre Unterhaltungen mithören.</quote>
+    <quote id="141" type="65">Mit deinem Magierdiplom hast du die Magiestufe des Grünen Balls erreicht.</quote>
+    <quote id="142" type="65">Dieses Schlüsselfragment der Bifiden ist einer der Teile, mit denen du den Schlüssel zum Tempel von Dark Monk zusammensetzen kannst.</quote>
+    <quote id="143" type="65">Dieses Schlüsselfragment der Elitos ist einer der Teile, mit denen du den Schlüssel zum Tempel von Dark Monk zusammensetzen kannst.</quote>
+    <quote id="144" type="65">Dieses Schlüsselfragment der Moskibienos ist einer der Teile, mit denen du den Schlüssel zum Tempel von Dark Monk zusammensetzen kannst.</quote>
+    <quote id="145" type="65">Dieses Schlüsselfragment der Bleichlinge ist einer der Teile, mit denen du den Schlüssel zum Tempel von Dark Monk zusammensetzen kannst.</quote>
+    <quote id="146" type="65">Mit diesem Schlüssel kannst du die Türen zum Gang öffnen, der zur Insel CX führt. Der Eingang befindet sich im Dorf der Moskibienos.</quote>
+    <quote id="147" type="65">Mit dieser Hacke kannst du im Boden oder in härteren Materialien graben. Damit kannst du nun Objekte finden, die unter der Erde vergraben sind, oder Dinge aus anderen herauslösen.</quote>
+    <quote id="148" type="65">Das ist der Schlüssel, den der Bürgermeister verloren hat, bevor ihn ein Gasmonster gefressen hat. Seither hat ihn niemand mehr verwendet.</quote>
+    <quote id="149" type="65">Diese Notizen enthalten das Rätsel, das zum Fragment der Bifiden führt. Durch die Linien wird angezeigt, wo das Fragment vergraben ist.</quote>
+    <quote id="150" type="65">Diese Tunika, die dir von deinen Vorfahren vermacht wurde, schützt dich und ermöglicht dir das Speichern von Magie. Den Schildzauber kannst du verwenden, indem du im Inventar die Eingabetaste drückst. Dieser Zauber verbraucht - wie auch das Werfen des Magischen Balls und die Verwendung verschiedener anderer Magischer Objekte - Magie.</quote>
+    <quote id="151" type="65">Du kannst den Magischen Ball werfen und abprallen lassen. Mit der Magiestufe des Grünen Balls kannst du deinen Feinden mehr Schaden zufügen.</quote>
+    <quote id="152" type="65">Du kannst den Magischen Ball werfen und abprallen lassen. Mit der Magiestufe des Roten Balls kannst du deinen Feinden mehr Schaden zufügen.</quote>
+    <quote id="153" type="65">Du kannst den Magischen Ball werfen und abprallen lassen. Mit der Magiestufe des Feuerballs kannst du deinen Feinden mehr Schaden zufügen.</quote>
+    <quote id="154" type="65">Das sind die Tauschobjekte des Planeten Zeelich. Damit kannst du auf Zeelich Dinge kaufen, die dich interessieren.</quote>
+    <quote id="155" type="65">Wenn du die vier Fragmente zusammensetzt, besitzt du den Schlüssel zum Tempel von Dark Monk. Laut der Prophezeiung kannst du damit die Statue aus dem Vulkankrater hochsteigen lassen und die Türen des Tempels öffnen, der dort erbaut wurde.</quote>
+    <quote id="156" type="65">Mit dem Erinnerungssichtgerät kannst du Szenen wieder abspielen, die in deinen bisher bestandenen Abenteuern wichtig waren.</quote>
+    <quote id="157" type="65">Mit der Blasrohrpistole kannst du jetzt viel schneller schießen.</quote>
+    <quote id="158" type="65">Diese Paradekleidung dürfen nur diplomierte Magier von Twinsun tragen. Damit wirst du zu einem anerkannten Magier.</quote>
+    <quote id="159" type="65">Wurde von Jerome Baldino gebastelt. Damit kannst du neue Orte erreichen und Höhenunterschiede überwinden, die du mit dem ProtoPack nicht schaffen konntest.</quote>
+    <quote id="160" type="65">Dieses Kristallstück von der Insel des Festes ist von unvergleichlicher Reinheit. Mit ihm kannst du einen PistoLaser funktionsfähig machen.</quote>
+    <quote id="161" type="65">Dieser PistoLaser schießt horizontale Laserstrahlen ab. Damit kannst du Feinde treffen, die ziemlich weit weg sind.</quote>
+    <quote id="162" type="65">Vorsicht: Dieser Ring hat eine enorme zerstörerische Wirkung und benötigt viel Magie.</quote>
+    <quote id="163" type="65">Vorsicht: Dieser Ring hat eine enorme zerstörerische Wirkung und benötigt viel Magie.</quote>
+    <quote id="164" type="65">Vorsicht: Dieser Ring hat eine enorme zerstörerische Wirkung und benötigt viel Magie.</quote>
+    <quote id="165" type="65">Dieses Kleeblatt gibt ein zusätzliches Leben.</quote>
+    <quote id="166" type="17">Zitadelleninsel.</quote>
+    <quote id="167" type="17">Apotheke in der Innenstadt.</quote>
+    <quote id="168" type="17">Zelt der Wettermagiers.</quote>
+    <quote id="169" type="17">Gepäckaufbewahrungsgebäude.</quote>
+    <quote id="170" type="17">Museum von Mademoiselle Bloop.</quote>
+    <quote id="171" type="17">Haus von Twinsen und Zoe.</quote>
+    <quote id="172" type="17">Kreidedom.</quote>
+    <quote id="173" type="17">Dinofly.</quote>
+    <quote id="174" type="17">Leuchtperle.</quote>
+    <quote id="175" type="17">leer</quote>
+    <quote id="176" type="17">Sendell-Höhle.</quote>
+    <quote id="177" type="17"></quote>
+    <quote id="178" type="17"></quote>
+    <quote id="179" type="17"></quote>
+    <quote id="180" type="17"></quote>
+    <quote id="181" type="17"></quote>
+    <quote id="182" type="17"></quote>
+    <quote id="183" type="17"></quote>
+    <quote id="184" type="17"></quote>
+    <quote id="185" type="17"></quote>
+    <quote id="186" type="17">Wüste des Leeren Blattes.</quote>
+    <quote id="187" type="17">Haus von J. Baldino.</quote>
+    <quote id="188" type="17">Haus von Ker'aooc, dem Heiler.</quote>
+    <quote id="189" type="17"></quote>
+    <quote id="190" type="17">Balsaminpflanze.</quote>
+    <quote id="191" type="17">Zauberschule.</quote>
+    <quote id="192" type="17">Esmerier-Stützpunkt.</quote>
+    <quote id="193" type="17"></quote>
+    <quote id="194" type="17"></quote>
+    <quote id="195" type="17"></quote>
+    <quote id="196" type="17">Smaragd-Mond</quote>
+    <quote id="197" type="17">Zelle von Baldino.</quote>
+    <quote id="198" type="17"></quote>
+    <quote id="199" type="17"></quote>
+    <quote id="200" type="17"></quote>
+    <quote id="201" type="17"></quote>
+    <quote id="202" type="17"></quote>
+    <quote id="203" type="17"></quote>
+    <quote id="204" type="17"></quote>
+    <quote id="205" type="17"></quote>
+    <quote id="206" type="17">Otringal.</quote>
+    <quote id="207" type="17">Raumschiff.</quote>
+    <quote id="208" type="17">Ricks Café.</quote>
+    <quote id="209" type="17">Hotel Imperial.</quote>
+    <quote id="210" type="17">Souvenirladen.</quote>
+    <quote id="211" type="17">Fragment der Elitos.</quote>
+    <quote id="212" type="17"></quote>
+    <quote id="213" type="17"></quote>
+    <quote id="214" type="17"></quote>
+    <quote id="215" type="17"></quote>
+    <quote id="216" type="17">Insel der Feste.</quote>
+    <quote id="217" type="17">Kristall.</quote>
+    <quote id="218" type="17">Tempel von Dark Monk.</quote>
+    <quote id="219" type="17"></quote>
+    <quote id="220" type="17"></quote>
+    <quote id="221" type="17"></quote>
+    <quote id="222" type="17"></quote>
+    <quote id="223" type="17"></quote>
+    <quote id="224" type="17"></quote>
+    <quote id="225" type="17"></quote>
+    <quote id="226" type="17">Bleichlinge.</quote>
+    <quote id="227" type="17">Fragment der Bleichlinge.</quote>
+    <quote id="228" type="17"></quote>
+    <quote id="229" type="17"></quote>
+    <quote id="230" type="17"></quote>
+    <quote id="231" type="17"></quote>
+    <quote id="232" type="17"></quote>
+    <quote id="233" type="17"></quote>
+    <quote id="234" type="17"></quote>
+    <quote id="235" type="17"></quote>
+    <quote id="236" type="17">Insel der Moskibienos.</quote>
+    <quote id="237" type="17">Königin der Moskibienos.</quote>
+    <quote id="238" type="17">Fragment der Moskibienos.</quote>
+    <quote id="239" type="17"></quote>
+    <quote id="240" type="17"></quote>
+    <quote id="241" type="17"></quote>
+    <quote id="242" type="17"></quote>
+    <quote id="243" type="17"></quote>
+    <quote id="244" type="17"></quote>
+    <quote id="245" type="17"></quote>
+    <quote id="246" type="17">Insel der Bifiden.</quote>
+    <quote id="247" type="17">GazoGem-Raffinerie.</quote>
+    <quote id="248" type="17">Fragment der Bifiden.</quote>
+    <quote id="249" type="17"></quote>
+    <quote id="250" type="17"></quote>
+    <quote id="251" type="17"></quote>
+    <quote id="252" type="17"></quote>
+    <quote id="253" type="17"></quote>
+    <quote id="254" type="17"></quote>
+    <quote id="255" type="17"></quote>
+    <quote id="256" type="17">Insel CX.</quote>
+    <quote id="257" type="17"></quote>
+    <quote id="258" type="17"></quote>
+    <quote id="259" type="17"></quote>
+    <quote id="260" type="17"></quote>
+    <quote id="261" type="17"></quote>
+    <quote id="262" type="17"></quote>
+    <quote id="263" type="17"></quote>
+    <quote id="264" type="17"></quote>
+    <quote id="265" type="17"></quote>
+    <quote id="266" type="17">Aufzug unter die Gaswolke.</quote>
+    <quote id="267" type="17"></quote>
+    <quote id="268" type="17"></quote>
+    <quote id="269" type="17"></quote>
+    <quote id="270" type="17"></quote>
+    <quote id="271" type="17"></quote>
+    <quote id="272" type="17"></quote>
+    <quote id="273" type="17"></quote>
+    <quote id="274" type="17"></quote>
+    <quote id="275" type="17"></quote>
+    <quote id="276" type="17">Unter der Insel der Feste.</quote>
+    <quote id="277" type="17"></quote>
+    <quote id="278" type="17"></quote>
+    <quote id="279" type="17"></quote>
+    <quote id="280" type="17"></quote>
+    <quote id="281" type="17"></quote>
+    <quote id="282" type="17"></quote>
+    <quote id="283" type="17"></quote>
+    <quote id="284" type="17"></quote>
+    <quote id="285" type="17"></quote>
+    <quote id="286" type="3">Mein Blick ruht auf der Mitte des Ladens, mein Rücken lehnt an einem natürlichen Sonnenschirm, an dem ich gerne eine Siesta machen würde. Aber ich muß einen wachen Geist behalten. Im Dorf gibt es genügend Laternen und Bögen, um die richtige Anzahl Schritte daran abzuzählen, ohne daß man noch welche hinzufügen müßte. Einmal angekommen zeigen die Barrieren zu meiner Linken in die falsche Richtung. Auf der anderen Seite habe ich meinen Schatz vergraben, den man findet, indem man in den Kessel in der Nähe der Gaswolke hinabsteigt.</quote>
+    <quote id="287" type="129">Aktions/Abenteuerspiel für PC CD-ROM Grafiken in SVGA/DirectDraw</quote>
+    <quote id="288" type="129">Darstellungsmodus innen in 3D Isometrisch, vollgespickt mit Details.</quote>
+    <quote id="289" type="129">Revolutionärer Darstellungsmodus außen in echtem strukturiertem 3D</quote>
+    <quote id="290" type="129">Fast 220 Orte über 3 Planeten verteilt zu erforschen.</quote>
+    <quote id="291" type="129">Über 300 Figuren, die man einfach gern haben muß.</quote>
+    <quote id="292" type="129">Eine bemerkenwert flüssige Echtzeitdarstellung mit Struktur- und Lichtverwaltung.</quote>
+    <quote id="293" type="129">15 Minuten kinomäßige Abläufe einer bestechenden Schönheit.</quote>
+    <quote id="294" type="129">Tausende Stereoklangeffekte und 2 1/2 Stunden gesprochene Dialoge.</quote>
+    <quote id="295" type="129">Stimmen in Französisch, Englisch, Deutsch (Untertitel in Französisch, Englisch, Deutsch, Italienisch, Spanisch)</quote>
+    <quote id="296" type="129">30 Minuten sanfte und bezaubernde Musik.</quote>
+    <quote id="297" type="129">Ein Spielablauf mit überschäumendem Humor und mehr als 60 Stunden Spiel über die 10 Kapitel.</quote>
+  </quotes>
+</lbatexts>

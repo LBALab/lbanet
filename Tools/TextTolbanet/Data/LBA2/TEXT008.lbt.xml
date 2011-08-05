@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<lbatexts>
+  <game>2</game>
+  <quotes>
+    <quote id="1" type="1">Yes, the family will soon be larger.</quote>
+    <quote id="2" type="1">Let's go to the lighthouse!</quote>
+    <quote id="3" type="1">Could you help me treat my injured Dino-Fly ?</quote>
+    <quote id="4" type="1">How're you doing, Dino buddy?</quote>
+    <quote id="5" type="1">I'm looking for something to cure my injured Dino-fly.</quote>
+    <quote id="6" type="1">OK, I'll buy it!</quote>
+    <quote id="7" type="1">No, I am not interested.</quote>
+    <quote id="8" type="1">OK!</quote>
+    <quote id="9" type="1">10 Life points! Cool!</quote>
+    <quote id="10" type="1">10 Magic points! All right!</quote>
+    <quote id="11" type="1">All right Zoé, I'll take you back.</quote>
+    <quote id="12" type="9">Hello?</quote>
+    <quote id="13" type="3">This is the text of the ancient prophecy. It is intended for my family, in case my descendants are also called by Sendell. Hopefully, I'll never need it again. @ And that's all I've got left from the house that FunFrock razed.</quote>
+    <quote id="14" type="1">I freed him!</quote>
+    <quote id="15" type="1">Hey, this looks like a map. But I can't read it!</quote>
+    <quote id="16" type="1">The umbrella please.</quote>
+    <quote id="17" type="1">Give me my tunic back!</quote>
+    <quote id="18" type="1">Errr, ... nothing. See ya.</quote>
+    <quote id="19" type="1">To knock you out!</quote>
+    <quote id="20" type="1">"To the glory of Dr. FunFrock.". This bust makes an excellent target.</quote>
+    <quote id="21" type="1">Master, how do you explain a storm in this season?</quote>
+    <quote id="22" type="1">Just looking.</quote>
+    <quote id="23" type="1">To Woodbridge island.</quote>
+    <quote id="24" type="1">I'm going back to Lupin-Bourg.</quote>
+    <quote id="25" type="1">To the wizard's lane.</quote>
+    <quote id="26" type="1">They claim to be peaceful but let's be careful, they look sort of aggressive to me.</quote>
+    <quote id="27" type="1">We are ready, Master.</quote>
+    <quote id="28" type="1">Hello Luc.</quote>
+    <quote id="29" type="1">Hello miss.</quote>
+    <quote id="30" type="1">"Dome of the Slate."</quote>
+    <quote id="31" type="1">"Ruins of the old citadel."</quote>
+    <quote id="32" type="1">"Beach headland."</quote>
+    <quote id="33" type="1">"Lupin-Bourg."</quote>
+    <quote id="34" type="1">"Ridge of the Flowers Circle."</quote>
+    <quote id="35" type="1">"Cliffs of the Woodbridge."</quote>
+    <quote id="36" type="1">"Lighthouse at the end of the island."</quote>
+    <quote id="37" type="1">"Harbor of Citadel Island."</quote>
+    <quote id="38" type="1">"Wizard's lane."</quote>
+    <quote id="39" type="1">"To the lighthouse at the end of the island."</quote>
+    <quote id="40" type="1">"To the Weather Wizard. "</quote>
+    <quote id="41" type="1">"To the cliffs of the Woodbridge."</quote>
+    <quote id="42" type="1">"Downtown."</quote>
+    <quote id="43" type="1">"Access to the cliffs."</quote>
+    <quote id="44" type="1">"To the harbor."</quote>
+    <quote id="45" type="1">"Honey Bee"</quote>
+    <quote id="46" type="1">"LBA's Theme"</quote>
+    <quote id="47" type="1">"The Empire"</quote>
+    <quote id="48" type="1">"When on Desert Island, visit the Temple of Bù, an eventful episode in the history of Twinsen."</quote>
+    <quote id="49" type="1">"Diploma of Elementary-Weather Magic. The Wizard Bersimon has proven his talents as a master of the elements. He has reached the rank of Grand Master of sea winds and tornadoes. "</quote>
+    <quote id="50" type="5">"In the secret room, in the center of the sewers, there is an enchanted globe. The Weather Wizard put it there. According to him, it has to do with the Prophecy of Sendell. I preferred to lock this room : it can be opened only with the small pyramid."</quote>
+    <quote id="51" type="1">"To my future descendants: I have lent to Miss Bloop's private museum, the Medallion and the Ancestral Tunic which rightfully belong to you. Signed: Twinsen."</quote>
+    <quote id="52" type="1">"Representation of our planet Twinsun, in stable orbit between 2 suns."</quote>
+    <quote id="53" type="1">"I really like this image of my trusty Dino-Fly."</quote>
+    <quote id="54" type="1">A portrait of me, back when I was charged with the power of Sendell...</quote>
+    <quote id="55" type="1">Hey, a portrait of Sendell! They must have used my descriptions to make it.</quote>
+    <quote id="56" type="5">"Cross-section of Twinsun. @  @ 1: Sendell @  @ 2: Well of Sendell @  @ 3: Temple of Bù @ <linebreak /></quote>
+    <quote id="57" type="1">"Personnel only."</quote>
+    <quote id="58" type="1">"Vial which once contained the Clear Water. "</quote>
+    <quote id="59" type="1">"Rock from the Temple of Bù."</quote>
+    <quote id="60" type="1">"Book of Bù. It allows me to speak with the animals of Twinsun."</quote>
+    <quote id="61" type="1">"Horn of Gawley."</quote>
+    <quote id="62" type="1">Aha !, Sendell's Medallion and my Ancestral Tunic.</quote>
+    <quote id="63" type="1">"Safeguard Street"</quote>
+    <quote id="64" type="1">"Green Corulla Street"</quote>
+    <quote id="65" type="1">Hello.</quote>
+    <quote id="66" type="1">Hi.</quote>
+    <quote id="67" type="1">I am looking for the lighthouse keeper.</quote>
+    <quote id="68" type="1">It's locked.</quote>
+    <quote id="69" type="1">Good day, Master</quote>
+    <quote id="70" type="1">Aha! a sign from Sendell. They are venerated by all the wizards.</quote>
+    <quote id="71" type="1">I'm staying here.</quote>
+    <quote id="72" type="1">I don't have enough Kashes.</quote>
+    <quote id="73" type="1">Hi kiddo!</quote>
+    <quote id="74" type="1">Hello miss Bloop.</quote>
+    <quote id="75" type="1">Hello Tim.</quote>
+    <quote id="76" type="1">Hello Mr. Paul.</quote>
+    <quote id="77" type="1">Hello neighbor.</quote>
+    <quote id="78" type="1">Hello Mrs. Brune.</quote>
+    <quote id="79" type="1">Hello Mr. Bazoo.</quote>
+    <quote id="80" type="1">Hi Felix.</quote>
+    <quote id="81" type="1">Hello Bob.</quote>
+    <quote id="82" type="1">Hi Zed.</quote>
+    <quote id="83" type="1">Hello little one.</quote>
+    <quote id="84" type="1">Do you know where I can find Raph the lighthouse keeper ?</quote>
+    <quote id="85" type="1">I don't see my buddy Dino-Fly. He must have landed a little further away.</quote>
+    <quote id="86" type="1">This portrait of Zoé is magnificent.</quote>
+    <quote id="87" type="1">This statue pays tribute to Zoé and me. Without her, I could have never defeated the infamous FunFrock.</quote>
+    <quote id="88" type="1">So, miss, Raph is not here?</quote>
+    <quote id="89" type="1">I was told to go see the healing wizard on Desert Island. He'll be able to help my Dino.</quote>
+    <quote id="90" type="1">No, not yet.</quote>
+    <quote id="91" type="1">Desert Island.</quote>
+    <quote id="92" type="1">The island of the Dome of the Slate.</quote>
+    <quote id="93" type="1">Take me back home.</quote>
+    <quote id="94" type="1">The island across from the hacienda.</quote>
+    <quote id="95" type="1">And nobody did anything?</quote>
+    <quote id="96" type="1">But what can I do? How do I find the trail of the lost children?</quote>
+    <quote id="97" type="1">What happened, miss?</quote>
+    <quote id="98" type="1">Don't forget to finish the lightning potion. To do so, go to the Desert Island to find a pearl of incandescence.</quote>
+    <quote id="99" type="1">Joe? What are you doing here?</quote>
+    <quote id="100" type="1">Don't worry miss, I'll find the kids!</quote>
+    <quote id="101" type="1">He told me the ball of Sendell would help me find the children. I've got to find it.</quote>
+    <quote id="102" type="1">But how can I do that, you left on your spaceship and I don't have one.</quote>
+    <quote id="103" type="1">The car's not working. Zoé said there's still a part she needs. She asked Baldino to make it for her.</quote>
+    <quote id="104" type="1">Geez, the counter-clerk is as smart as ever, he never recognizes me. What's more, he always charges me admission.</quote>
+    <quote id="105" type="1">I want to get back my Tunic and my Sendell's Medallion.</quote>
+    <quote id="106" type="1">But I saw the keeper! He's being held prisoner inside a cave under the cliff! I've got to get him free!</quote>
+    <quote id="107" type="1">I'm still looking for a cure. Don't worry, I'll find one.</quote>
+    <quote id="108" type="1">Desert Island.</quote>
+    <quote id="109" type="1">The Dome of the Slate.</quote>
+    <quote id="110" type="1">Strange, this looks like a keyhole.</quote>
+    <quote id="111" type="1">No, not yet.</quote>
+    <quote id="112" type="1">No, I've got to find the school of magic first. They're the only ones who can help me cure him!</quote>
+    <quote id="113" type="1">I've decided to become a wizard so that I can help Dino-Fly myself.</quote>
+    <quote id="114" type="1">By graduating from magic school, I've earned this horn that I can use to treat Dino-Fly.</quote>
+    <quote id="115" type="1">Could you help me find the school of magic?</quote>
+    <quote id="116" type="1">All thanks to you. Without your help, Sendell and I would never have been able to push the moon back.</quote>
+    <quote id="117" type="1">Most important of all, peace is restored ! !</quote>
+    <quote id="118" type="1">Hi there Joe! Still having problems with your magical powers?</quote>
+    <quote id="119" type="1">Hi!</quote>
+    <quote id="120" type="1">You'll need a baggage check to claim anything stored here.</quote>
+    <quote id="121" type="3">Ah, Mr. Twinsen. Your friend Baldino left me a crate for you. It's in the basement, a brown crate with a big label on top. Just follow the arrows, bring it back here, and I'll open it. If you need help, ask my colleagues downstairs.</quote>
+    <quote id="122" type="1">Go ahead, Mr. Twinsen. It's your property, isn't it?</quote>
+    <quote id="123" type="1">You again Mr. Twinsen? But I don't have anything left to give you!</quote>
+    <quote id="124" type="1">He left work? Hmm! I'll bet he went to play his guitar by the cliffs again!</quote>
+    <quote id="125" type="9">Get out of the way!!</quote>
+    <quote id="126" type="1">Excuse him, he is a nice Grobo. You know, he only gives himself airs.</quote>
+    <quote id="127" type="1">You showed up at the right time. The door at the top of the stairs is jammed. We need to find a way to go upstairs to release it and free the bell which protects your tunic.</quote>
+    <quote id="128" type="1">Thank you for releasing the door, Twinsen. Use your tunic with wisdom.</quote>
+    <quote id="129" type="1">By the way, don't forget that the trajectory of your magic ball changes with your behavior!</quote>
+    <quote id="130" type="1">What? The lighthouse keeper? Ah, no! No, no I didn't see him!</quote>
+    <quote id="131" type="1">Ah Twinsen ! Still here?</quote>
+    <quote id="132" type="1">Oh Twinsen !! You look so cute as a wizard!!</quote>
+    <quote id="133" type="1">Hello !</quote>
+    <quote id="134" type="1">The price of admission is 15 Kashes! Interested?</quote>
+    <quote id="135" type="1">Here, sir, we have a collection devoted to the great Twinsen and to the development of Magic on the planet. Don't hesitate to educate yourself!</quote>
+    <quote id="136" type="1">Know, sir, that I alone have the right to press this button!! You must pay to enter!</quote>
+    <quote id="137" type="1">I don't know this character!</quote>
+    <quote id="138" type="1">Hey!... you know, you look like the guy in the picture!</quote>
+    <quote id="139" type="1">I am not from here, you see... I don't know him.</quote>
+    <quote id="140" type="1">Mr. Twinsen! Free me, quick!! I am Raph! You know, the lighthouse keeper!! I've been caught by the Tralü, he wants to turn me into a rabbibunny-melba.</quote>
+    <quote id="141" type="9">Help!</quote>
+    <quote id="142" type="1">Please, Mr. Twinsen, go get your fetching little costume and your magic ball. Be our hero again! Come back to save me from the Tralü. I'm scared he's gonna eat me!!</quote>
+    <quote id="143" type="3">Thank you, Mr. Twinsen! I was rehearsing a new tune when this filthy Tralü chewed up my guitar. Besides, it looks like he got others before me!! Well, back to the lighthouse, otherwise I'll get in hot water.</quote>
+    <quote id="144" type="3">This storm...I wanted to get rid of it but the lighthouse was closed and I can't find the keeper anywhere. Only he could help me reach the top of the building where I have the view I need to utter a conjuration. It's the only way to stop this storm that neutralizes the island. But I need the lighthouse keeper.</quote>
+    <quote id="145" type="1">Please, don't touch the container on the stove. OK? It contains a terrible creature!</quote>
+    <quote id="146" type="1">Hmm...er... don't mention it please, it's only... well just a kind of a small personal experiment.</quote>
+    <quote id="147" type="1">Don't touch that! I 'm trying to create an enchanted ring and this pot must not boil. Once I get myself an pearl of incandescence, I 'll be able to call the lightning!</quote>
+    <quote id="148" type="1">I just bumped into the keeper who was going back to the lighthouse. He told me that a true hero had just saved him from a voracious monster.</quote>
+    <quote id="149" type="1">Bravo! And now, if you appreciate Great Art, let's meet at the lighthouse. You'll see what you'll see!</quote>
+    <quote id="150" type="1">Ah yes! It is on Desert Island. You'll find it easely, the entry is inside the cemetery !</quote>
+    <quote id="151" type="9">Follow me!</quote>
+    <quote id="152" type="1">Unbelievable, this whole extratwinsunians scare. The storm I chased off has let them land here among us. The second I have less work on my hands, I'll have to go see what they're up to.</quote>
+    <quote id="153" type="9">Ah! No!!</quote>
+    <quote id="154" type="1">Twinsen, rush to the downtown pharmacy and find a cure for the Dino-Fly ! He has just crashed in the garden and looks injured.</quote>
+    <quote id="155" type="3">"Zoé's diary @  @ Dear diary: Today, I tell you the story of the Adventure that I had with Twinsen under the dictatorship of Dr. FunFrock: @ It was long, long ago. This Dr. FunFrock, a quetch, was oppressing the populace with terrible violence thanks to the techniques of cloning and mutation, but mostly through his mastery of teleportation. His power dominated everyone! He even had the northern hemisphere evacuated in order to execute his plan. This plan consisted of a gigantic drilling operation aimed at reaching the heart of Twinsun and grabbing the magic energy of the Sendells. Without the providential intervention of Twinsen who eliminated FunFrock, this demented project would have resulted in the implosion of the planet and the destruction of the Stellar Entity living in its center. @ Twinsen had hardly practiced Magic since this "Day of Triumph", when Sendell exceptionally entrusted him with his immense Power ..."<linebreak /></quote>
+    <quote id="156" type="1">I am going to see the Dino-Fly, it just landed behind the house. Don't forget that you can change the perspective by pressing "ENTER".</quote>
+    <quote id="157" type="1">Twinsen, what are you doing? I am counting on you to take care of the Dino-Fly, and milord is seeking adventures in the underground instead. It's beyond your control, you have to play the hero!</quote>
+    <quote id="158" type="9">Not through there.</quote>
+    <quote id="159" type="1">No, not through there. First Let's go over to the lighthouse and visit the Weather Wizard.</quote>
+    <quote id="160" type="1">I don't know where he is. Try the lighthouse.</quote>
+    <quote id="161" type="1">We are so happy you know. It's our first and it should come anytime now.</quote>
+    <quote id="162" type="1">By the way, would you be kind enough to go to Baldino's? I am missing a part for the car.</quote>
+    <quote id="163" type="1">Twinsen, I met that nice lady who works for Ker'aooc, the healing wizard. She said he knows how to cure the Dino-Fly. He lives on the Desert Island. You should go see him.</quote>
+    <quote id="164" type="1">Gee, thanks, Twinsen! Now I'll be able to finish up the car. Oh, Baldino called recently -- he says he forgot to give you a portable radio and he wants you to come by to pick it up.</quote>
+    <quote id="165" type="1">I'm worried, Twinsen. These visitors from the sky look weird to me. They act almost too friendly. And get this, I've seen some of them hide in the garbage cans.</quote>
+    <quote id="166" type="33">Hello! Twinsen ! Zoé here! Come quickly to the house, some very strange things are going on!!</quote>
+    <quote id="167" type="1">Ah Twinsen, you are here! It's horrible. The Esmers have kidnapped the children aboard a shuttle. Nobody knows where they are or how to find them!! You have to go look for them!</quote>
+    <quote id="168" type="1">No, Baldino left a little earlier for the emerald moon, where he'd noticed something was wrong. He left the proto-pack in working order downtown at the baggage claim, where you can pick it up.</quote>
+    <quote id="169" type="1">You should go to the school of magic. Now that you're a wizard, they can probably help you!</quote>
+    <quote id="170" type="1">Twinsen, did you see the dean of the school of magic?</quote>
+    <quote id="171" type="1">Twinsen, did you find the children's trail?</quote>
+    <quote id="172" type="9">Bravo!!</quote>
+    <quote id="173" type="1">Twinsen, did you find the healing wizard?</quote>
+    <quote id="174" type="1">Tell me Twinsen , did you find something to cure the Dino-Fly?</quote>
+    <quote id="175" type="1">Twinsen, is that it, you have become a wizard?!</quote>
+    <quote id="176" type="1">Twinsen, as soon as I fix the car, I'll call you on the walkie-talkie!</quote>
+    <quote id="177" type="1">By the way, did you pick up the portable radio at Baldino's?</quote>
+    <quote id="178" type="35">Hello! Twinsen? Baldino here! How are you? Looks like this transmitter works! If you swing by, I have a portable radio to give you. Also, I will have the proto-pack finished soon. It will allow you to fly in complete safety. Over.</quote>
+    <quote id="179" type="35">Twinsen, I am on Emerald Moon. I have uncovered a diabolical plot organized by the Esmers!! The kidnapping of the wizards and the children was only a small part of their plan. They are about to destroy our planet!!! Listen Twinsen, you must meet me!!</quote>
+    <quote id="180" type="33">The Esmers have set up a base somewhere on Desert Island. Find it and steal a shuttle!! You are the only one who can save Twinsun!!!</quote>
+    <quote id="181" type="1">I've got enough problems without you touching stuff...so get lost!</quote>
+    <quote id="182" type="9">Ouch!</quote>
+    <quote id="183" type="1">Pfew, I'm totally exhausted moving all these crates.</quote>
+    <quote id="184" type="1">Hey mister! If you want, I can carry your crate up to the exit for 102 little Kashes!</quote>
+    <quote id="185" type="1">Go back upstairs. You'll get your crate, I'm sending it directly to the reception!</quote>
+    <quote id="186" type="1">Hi, Twinsen. With this storm, I've got lots of customers and I don't have one minute to myself.</quote>
+    <quote id="187" type="1">I don't have the time, Twinsen. Ask Luc, the boss!</quote>
+    <quote id="188" type="1">Thief!</quote>
+    <quote id="189" type="9">Thank you!</quote>
+    <quote id="190" type="1">Twinsen, you have no business being here!</quote>
+    <quote id="191" type="1">What a story, those guys showing up from the Emerald Moon, what a story!</quote>
+    <quote id="192" type="1">If you are lost, go back and get your holomap.</quote>
+    <quote id="193" type="1">If you want Life or Magic points, you can get some from one of the vending machines on the bar.</quote>
+    <quote id="194" type="1">Better ask his buddies Pat or Fab. They're upstairs. Haven't moved since it started raining.</quote>
+    <quote id="195" type="1">Hello, Twinsen my friend.</quote>
+    <quote id="196" type="1">Howdy kiddo! How goes it?</quote>
+    <quote id="197" type="1">He said he wanted to practice a new piece on his guitar. He usually hides out on the cliffs for peace and quiet. But not this long usually.</quote>
+    <quote id="198" type="1">Thanks for having freed my buddy Raph, kiddo. Without you, his goose was cooked for sure.</quote>
+    <quote id="199" type="1">These "Esmers" look quite nice, they ask lots of questions though. Everything interests them.</quote>
+    <quote id="200" type="9">Waiter!</quote>
+    <quote id="201" type="1">Cool!! That music rocks! Don't you think?</quote>
+    <quote id="202" type="1">Raph? With him and Fab, we put together a killer combo to play some funky rock'n rave! But since he didn't show at the last rehearsal, no way I can tell you where he is now!</quote>
+    <quote id="203" type="1">It's great that our buddy Raph is back at the lighthouse. But the arrival of these space aliens, that's some thin-I-never-seen-before.</quote>
+    <quote id="204" type="1">I sure dig those "extra-twinsunians". Their civilization is more advanced than ours, but they are still way cool.</quote>
+    <quote id="205" type="1">Hey!, we need some music here!</quote>
+    <quote id="206" type="1">If you go to the cellar, be [hic!]... be careful! I been there my own self... just to get in a couple snorts on the sly: well there's a [hic!] there's a hole smack in the middle. Yessir, smack in the middle! Oh, that falllll, yowza!</quote>
+    <quote id="207" type="1">Darn, I had seen some pink grobos before, but green chaps from outer space, that's a first!</quote>
+    <quote id="208" type="9">Waiter!</quote>
+    <quote id="209" type="3">Not being from here, I find your island rather strange. I don't understand why your Weather Wizard does nothing about this storm. By the way, do you know that it's possible to search the garbage cans, the vases and the closets by standing in front of them and doing "ACTION"?</quote>
+    <quote id="210" type="1">Sorry, I am not from here.</quote>
+    <quote id="211" type="9">Waiter!</quote>
+    <quote id="212" type="1">Sorry, but I don't have anything for a Dino-Fly.</quote>
+    <quote id="213" type="1">Personally, I have nothing for your Dino-Fly, but the client said she could help you.</quote>
+    <quote id="214" type="1">If you are interested in an item, stand in front of it and do "ACTION".</quote>
+    <quote id="215" type="1">Don't touch my cash register!</quote>
+    <quote id="216" type="1">You know, even though he is my brother, I don't give a hoot about his whereabouts, this lazy bum thinks about nothing but playing his guitar on the cliffs.</quote>
+    <quote id="217" type="1">You know, since people are scared, there are only a few shops left open. The Esmers are looking for you, they even had your museum closed down!</quote>
+    <quote id="218" type="1">But I have a customer who works for a healing wizard named Ker'aooc. He lives on Desert Island. According to my friend, he treats everybody for everything.</quote>
+    <quote id="219" type="1">The foul weather prevents the boats from leaving the harbor. There's nothing to do, all maritime activity is paralyzed. Let me tell you, Mr. Twinsen, only the Weather Wizard could set things straight!!</quote>
+    <quote id="220" type="1">You need a ticket to board the ferry, Mr. Twinsen.</quote>
+    <quote id="221" type="1">What?? Very funny!! Now this good-for-nothing abandons the lighthouse right in the middle of the storm! What a shame!!</quote>
+    <quote id="222" type="1">Your ticket is in order, Mr. Twinsen, you may board. Have a nice trip!</quote>
+    <quote id="223" type="1">By the way, the missus was looking for you. She tells you to go see Ker'aooc, the healing wizard, on Desert island. He knows how to cure your Dino-Fly.</quote>
+    <quote id="224" type="1">The Esmers have forbidden all maritime service.. There is nobody left to hop from island to island anyway. They are too scared of the Esmers.</quote>
+    <quote id="225" type="1">There is still no maritime service, but I have the impression that there are less Esmers on our island.</quote>
+    <quote id="226" type="1">Insert 5 Kashes if you want 10 Magic points.</quote>
+    <quote id="227" type="1">Insert 5 Kashes if you want 10 Life points.</quote>
+    <quote id="228" type="1">Insert 5 Kashes if you want to listen to a title:</quote>
+    <quote id="229" type="1">For 3 Kashes, do you want to use the telescope?</quote>
+    <quote id="230" type="1">Hi, Twinsen. Far as I'm concerned, I like it when it rains. The grass gets nicely thick. Makes it taste better.</quote>
+    <quote id="231" type="1">Yeah, actually I saw him pass by a while back. He was holding his guitar, heading for the cliffs.</quote>
+    <quote id="232" type="1">Since the good weather's back, my bird friends are much less on edge. Oh, and be careful, there's a weirdo hiding behind the trees.</quote>
+    <quote id="233" type="3">People from the planet Twinsun, we come to you in a spirit of peace. @ Thank you for dispersing this storm which prevented us from landing. We have observed your planet for many cycles now and have decided to come and study your culture on the spot. We have traveled through Space solely with the goal of discovering your civilization.</quote>
+    <quote id="234" type="1">Greetings, Twinsunian. We are your friends. We come in peace to your planet. We wish only to know you and to share our knowledge with you. @ Have trust in our friendship!</quote>
+    <quote id="235" type="1">Greetings, Master. You should go to Desert Island. Towards the hacienda, near the Bald Mountain, we are organizing a little gathering for the wizards. You will probably find it interesting.</quote>
+    <quote id="236" type="1">Thank you, Twinsen. Without you, who knows what would have happened to our planets.</quote>
+    <quote id="237" type="1">Do not mention it. You have realized our prophecy. Our planet is once again the paradise it was at creation, you have saved Zeelich from the dictatorship that our emperor was preparing, and best of all, by preventing the impostor FunFrock from executing his plans, you have saved both our worlds!!!</quote>
+    <quote id="238" type="1">Hello Twinsen!</quote>
+    <quote id="239" type="1">I am updating the works of my defunct son. Certain plans here date back from the time when he rebuilt the island's network of sewers.</quote>
+    <quote id="240" type="1">Here we have a very instructive map of the sewers. Before you can consult it, you must wait until I restore it. For that, I need a vial of gallic acid. Unfortunately, there's none left on the island.</quote>
+    <quote id="241" type="1">Yes, that's exactly what I needed. I am going to use it on the map of the sewers.</quote>
+    <quote id="242" type="1">The gallic acid has revealed a text previously invisible. It mentions a small pyramid that was in my possession. Here! It's yours!</quote>
+    <quote id="243" type="1">Ah yes, the pharmacist's younger brother. No, I don't know where he is.</quote>
+    <quote id="244" type="1">I'm still busy with my son's documents here. Everybody seems to be terrorized by these few costumed strangers. At my age, one has seen worse!!</quote>
+    <quote id="245" type="1">Thanks again for your help, Twinsen. These maps begin to make sense. You should look at them, they talk of things that would interest you.</quote>
+    <quote id="246" type="1">Hello Mr. Twinsen.</quote>
+    <quote id="247" type="1">This rain, will it ever end! Between my kids who were supposed to go on a field trip and my oldest son who keeps forgetting his umbrella...I hope that they're not outside in this weather.</quote>
+    <quote id="248" type="1">Personally, I don't know where he is, but go look at the pharmacy. His sister might be able to help you.</quote>
+    <quote id="249" type="1">The weather's improving. Now the kids can go on their class outing.</quote>
+    <quote id="250" type="1">Welcome to the Inter-islands Ferry, Mr. Twinsen!</quote>
+    <quote id="251" type="1">You can board as soon as the storm is over.</quote>
+    <quote id="252" type="1">Why don't you read the posters. And if you are interested in a destination, you tell me.</quote>
+    <quote id="253" type="1">What can I do for you?</quote>
+    <quote id="254" type="1">For 10 Kashes, wher...where do you want to go?</quote>
+    <quote id="255" type="1">Last time I saw him, he was hanging around in town.</quote>
+    <quote id="256" type="1">Sorry sir, our ferries do not serve that island.</quote>
+    <quote id="257" type="1">If you'd care to purchase something, you just have to stand in front of it and do "ACTION".</quote>
+    <quote id="258" type="1">A Nitro-Meca-Penguin costs 4 Kashes.</quote>
+    <quote id="259" type="1">I heard he likes to "seek inspiration" by "The Cliffs of the Woodbridge". That place is dangerous, if half of what I've heard about the Tralü's for real. Don't go if you are unarmed.</quote>
+    <quote id="260" type="1">A holomap costs 10 kashes.</quote>
+    <quote id="261" type="1">Three darts cost 4 Kashes.</quote>
+    <quote id="262" type="1">Don't do that, you fool, it's going to blow up!</quote>
+    <quote id="263" type="1">Nobody touches the cash register!</quote>
+    <quote id="264" type="1">Welcome, Mr. Twinsen!</quote>
+    <quote id="265" type="1">You've seen the visitors. They are Esmers. Supposedly, they're peaceloving and just want to trade us their technology for some of the wisdom of our wizards.</quote>
+    <quote id="266" type="1">Oh what a fall, I'm hurt badly. Under normal conditions, I could have taken you for a spin in the air. But this time, you will have to treat me first.</quote>
+    <quote id="267" type="1">Oh! I don't know where he is. But if he'd done his job, I'd have seen his light and wouldn't have crashed.</quote>
+    <quote id="268" type="1">Aahhh, thank you! I think I can fly now and take you where you want.</quote>
+    <quote id="269" type="1">Where do you want to go, Twinsen?</quote>
+    <quote id="270" type="1">Twinsen ! Did you see Zoé? She is looking for you everywhere! She has something very important to tell you!!</quote>
+    <quote id="271" type="1">That alien jalopy's easy on the eyes, but it looks difficult to park.</quote>
+    <quote id="272" type="1">I don't take anybody in the storm, I hate this weather. And why doesn't the Weather Wizard intervene, heh? By the way, did you notice that you could jump while you are running?</quote>
+    <quote id="273" type="1">Mmm, it's been a while since I last saw him. Not surprising with this blasted storm!!</quote>
+    <quote id="274" type="1">So, for 8 Kashes, where do I drop you?</quote>
+    <quote id="275" type="9">Hang on!</quote>
+    <quote id="276" type="1">I just can't believe these visitors coming from another planet, let alone just to offer us their technology! I hope they are not going to start competing with me ...</quote>
+    <quote id="277" type="9">Ouch!!!!</quote>
+    <quote id="278" type="1">I don't talk to nutcases, Mr. Twinsen!!</quote>
+    <quote id="279" type="1">What a pain these sewers! What a stink and I still have oodles of manhole covers to update. Phew!! I have had it up to here!!</quote>
+    <quote id="280" type="1">Well, I am certain he is not in the sewers, I would have seen him.</quote>
+    <quote id="281" type="1">Hello.</quote>
+    <quote id="282" type="1">But I have an idea how you can help your friend!</quote>
+    <quote id="283" type="9">Thief!</quote>
+    <quote id="284" type="1">Here's the deal. I will tell you how to treat your Dino-Fly, if you would bring back my umbrella. Use your smarts but remember that, in life, haste makes waste...</quote>
+    <quote id="285" type="1">Ah you are so kind. Go see Ker'aooc the healer on my behalf on Desert Island. I work for him and, believe me, he knows tricks that would cure anything, even a Dino-Fly...</quote>
+    <quote id="286" type="1">I don't know. I live on Desert Island.</quote>
+    <quote id="287" type="1">I don't understand why the lighthouse is closed and turned off. What could my fiancé Raph, be doing? By the way, Mr. Twinsen, did you know you can jump over the rocks if you are trapped ?</quote>
+    <quote id="288" type="1">Infortunately, he's disappeared, Mr. Twinsen! I hope he hasn't gone on another of his strolls on the cliffs! One of these days it might be nasty, with all these rumors about the Tralü...</quote>
+    <quote id="289" type="1">My pretty bunny has come back, thanks to you!! Oh thank you, Mr. Twinsen!!</quote>
+    <quote id="290" type="1">Ohhh...I am definitely getting too old for these acrobatics!</quote>
+    <quote id="291" type="1">Now then, meet me at the School of Magic. I've got a surprise for you.</quote>
+    <quote id="292" type="1">Twinsen, your performance was exemplary; here's your reward, this slate. It allows you to memorize images that you see, such as maps.</quote>
+    <quote id="293" type="1">Mr. Twinsen! Could you tell me why you're following me?!</quote>
+    <quote id="294" type="1">But that's my umb... Oh !!! Excuse me... I thought it was mine. Boohooo, I'm so embarrassed... I keep making mistakes...</quote>
+    <quote id="295" type="1">But, Mr. Twinsen, I assure you that I don't have your tunic. Maybe you should look at home.</quote>
+    <quote id="296" type="9">Help!!</quote>
+    <quote id="297" type="1">Raph ? Ah yeah, he has set up a super combo with his buddies Pat and Fab. But I don't know where he is.</quote>
+    <quote id="298" type="1">Not again. What do you want from me now, Mr. Twinsen?</quote>
+    <quote id="299" type="1">Greetings, Twinsunian. We are your friends. We come in peace to your planet. We only wish to know you and to share our knowledge with you. @ Have trust in our friendship.</quote>
+    <quote id="300" type="1">Greetings, Master. You should go to Desert Island. Towards the hacienda, near the Bald Mountain, we are organizing a little gathering for the wizards. You will certainly be interested should you choose to attend.</quote>
+    <quote id="301" type="1">Greetings, Twinsunian. We are your friends. We come in peace to your planet. We only wish to know you and to share our knowledge with you. @ Have trust in our friendship.</quote>
+    <quote id="302" type="1">Greetings, Master. You should go to Desert Island. Towards the hacienda, near the Bald Mountain, we are organizing a little gathering for the wizards. You will certainly be interested should you choose to attend.</quote>
+    <quote id="303" type="1">Hi Mr. Twinsen!</quote>
+    <quote id="304" type="1">No school for me today. I'd love to find the Tralü and do it in. 'Cause if I make the Tralü disappear, I'll become a hero and they will erect me a whole museum!!</quote>
+    <quote id="305" type="1">I don't know where he is, but his buddies are at the pub "Chez Luc".</quote>
+    <quote id="306" type="1">Did you see those weirdoes from the sky? Mebbe they're some of the Tralü's buddies!</quote>
+    <quote id="307" type="1">Why the disguise? You scared of getting caught by the Tralü's buddies?</quote>
+    <quote id="308" type="9">Waaah!!!</quote>
+    <quote id="309" type="1">Say Twinsen, did you ever see that Tralü? They say it's a monster that lives in the cliffs above Lupin-Bourg. If you take a walk up there, don't forget to carry a weapon. I mean your magic ball!</quote>
+    <quote id="310" type="1">I don't know him very well, but try asking around at "Chez Luc," that's his big hangout.</quote>
+    <quote id="311" type="1">Hey, did you really destroy the Tralü? This monster really existed? Hail to you, may you be prosperous and may the Sendells protect your descendants!</quote>
+    <quote id="312" type="1">I'd like to take the kids to the "Flowers Circle", but the weather's just too bad.</quote>
+    <quote id="313" type="1">I don't know where he is, Mr. Twinsen.</quote>
+    <quote id="314" type="1">Look at that, this place brings out the music in young souls. In fact, they adore Sendell.</quote>
+    <quote id="315" type="9">Brute!</quote>
+    <quote id="316" type="1">Hello, Mr. Twinsen!</quote>
+    <quote id="317" type="3">[Sniff]...the children...we were at the "Flowers Circle" [sniff]...suddenly one of those alien ships showed up right overhead. There was this big white flash, and then...nothing. Next thing I remember, I found myself alone, the children nowhere in sight, and the ship was taking off. It's horrible, Mr. Twinsen! You have to find them! You have to!</quote>
+    <quote id="318" type="1">[Sniff]...thank you, Mr. Twinsen, [sniff]...</quote>
+    <quote id="319" type="1">Oh, hey, Twinsen. Did you check out my essay on my future plans? Here, I will summarize: Phase 1) Grow up. Phase 2) Become a sailor! And Phase 3) Buy a million umbrellas for my brother.</quote>
+    <quote id="320" type="1">I don't know where he might be, but I've always liked him, that Raph. Once he even had me over to the lighthouse. The view was impressive!</quote>
+    <quote id="321" type="1">I think after my big brother cleans your clock, you won't act like such a big shot.</quote>
+    <quote id="322" type="1">" It's Sendell which makes her nest @ In the heart of the planet @ Sendell does her magic well @ But it might make your head swell @ Sendell is the prettiest @ FunFrock is a dirty beast."</quote>
+    <quote id="323" type="1">Hi there, Mr. Twinsen ! Listen to our new nursery rhyme!!</quote>
+    <quote id="324" type="1">" It's Sendell which makes her nest @ In the heart of the planet @ Sendell does her magic well @ But it might make your head swell @ Sendell is the prettiest @ FunFrock is a dirty beast."</quote>
+    <quote id="325" type="1">Never heard it.</quote>
+    <quote id="326" type="1">I'll tell my big brother, he'll beat you up while I laugh, and that'll show you!</quote>
+    <quote id="327" type="1">Nice to see you, Twinsen ! This storm really chaps my hide. I just can't calm down... And you, don't forget that you can change your behavior.</quote>
+    <quote id="328" type="1">Ah, he's disappeared?! Oh, well, I never really liked him! May the Tralü take him away!!</quote>
+    <quote id="329" type="1">So Twinsen, this li'l monster, coming soon?</quote>
+    <quote id="330" type="1">What's up with these Esmers? Couldn't they have stayed home?</quote>
+    <quote id="331" type="1">Since the weather outside is horrible, the teacher said I could jump rope in the classroom. See?</quote>
+    <quote id="332" type="1">Ow! My big brother's gonna take care of you.</quote>
+    <quote id="333" type="1">Oh yeah, I know him, he's the one always playing his guitar!!</quote>
+    <quote id="334" type="1">" It's Sendell which makes her nest @ In the heart of the planet @ Sendell does her magic well @ But it might make your head swell @ Sendell is the prettiest @ FunFrock is a dirty beast."</quote>
+    <quote id="335" type="1">H'lo, Mr. Twinsen. I'm being punished 'cause I ate a whole box of chalk.</quote>
+    <quote id="336" type="1">I can't help you, Mr. Twinsen.</quote>
+    <quote id="337" type="1">Don't care, not at all! But my big brother, he'll avenge me.</quote>
+    <quote id="338" type="1">" It's Sendell which makes her nest @ In the heart of the planet @ Sendell does her magic well @ But it might make your head swell @ Sendell is the prettiest @ FunFrock is a dirty beast."</quote>
+    <quote id="339" type="1">The pharmacist, she is so pretty! I don't know what else to buy in order to see her. One day I ... I'll dare talk to her.</quote>
+    <quote id="340" type="1">My eyes see no one else but the pharmacist, my heart beats for nobody but her. If I dared, I'd scale the cliffs to fetch her the music I have often heard over there.</quote>
+    <quote id="341" type="1">And now, with these aliens showing up in their big fancy ships, there's no way she'll notice me, my beloved pharmacist...</quote>
+    <quote id="342" type="1">Ah Twinsen, with this rain, I found plenty of mushrooms!</quote>
+    <quote id="343" type="1">Last time I heard him play his guitar, he was probably on the Cliffs. I was looking for mushrooms at that time.</quote>
+    <quote id="344" type="1">The Esmers should come here. It feels so good to look for mushrooms. By the way, I wouldn't try to go swimming, it gets deep very rapidly.</quote>
+    <quote id="345" type="1">I had hidden in the shuttle when you left the planet of the strange people. But now, I would like to go back. We left the wizards all alone up there, and they must be getting bored stiff.</quote>
+    <quote id="346" type="1">"No thanks, seems to be OK now..."</quote>
+    <quote id="347" type="9">Hooooo !!!</quote>
+  </quotes>
+</lbatexts>
