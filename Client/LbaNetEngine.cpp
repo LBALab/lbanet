@@ -986,6 +986,10 @@ void LbaNetEngine::HandleGameEvents()
 			SwitchToFixedImageEvent* castedptr = 
 				static_cast<SwitchToFixedImageEvent *>(&obj);
 
+
+			//release all keys
+			m_lbaNetModel->KeyReleased(LbanetKey_All);
+
 			m_client_window->SwitchToFixedImage(((castedptr->_imagepath=="")?"":"Data/"+castedptr->_imagepath), 
 													castedptr->_NbSecondDisplay,
 													castedptr->_FadeIn,
@@ -1005,6 +1009,10 @@ void LbaNetEngine::HandleGameEvents()
 		{
 			SwitchBigTextEvent* castedptr = 
 				static_cast<SwitchBigTextEvent *>(&obj);
+
+
+			//release all keys
+			m_lbaNetModel->KeyReleased(LbanetKey_All);
 
 			m_client_window->SwitchToText(((castedptr->_imagepath=="")?"":"Data/"+castedptr->_imagepath), 
 													castedptr->_textIds);

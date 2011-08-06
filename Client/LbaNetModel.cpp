@@ -2095,8 +2095,9 @@ void LbaNetModel::ClientVideoFinished()
 {
 	if(m_videoscriptid >= 0)
 	{
-		ScriptFinished(m_videoscriptid, false);
+		int tmp = m_videoscriptid;
 		m_videoscriptid = -1;
+		ScriptIsFinished(tmp, false);
 	}
 	else
 	{
@@ -2145,11 +2146,32 @@ void LbaNetModel::DisplayExtraGLFinished()
 
 	if(m_fixedimagescriptid >= 0)
 	{
-		ScriptFinished(m_fixedimagescriptid, false);
+		int tmp = m_fixedimagescriptid;
 		m_fixedimagescriptid = -1;
+		ScriptIsFinished(tmp, false);
 	}
 }
 
+
+/***********************************************************
+DisplayScrollingText
+***********************************************************/
+void LbaNetModel::DisplayScrollingText(int ScriptId, const std::string & imagepath, 
+											const LbaVecLong &textIds, 
+											const std::string & OptionalMusicPath)
+{
+	m_fixedimagescriptid = ScriptId;
+
+	EventsQueue::getReceiverQueue()->AddEvent(new SwitchBigTextEvent(imagepath, textIds.vec));
+
+	if(OptionalMusicPath != "")
+	{
+		m_image_assoc_music = true;
+		EventsQueue::getReceiverQueue()->AddEvent(new SwitchMusicEvent(OptionalMusicPath));
+	}
+	else
+		m_image_assoc_music = false;
+}
 
 
 

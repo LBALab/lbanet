@@ -722,7 +722,7 @@ bool ScriptedActor::ProcessScript(double tnow, float tdiff, ScriptEnvironmentBas
 
 			//tell script handler that script part is finished
 			if(scripthandler)
-				scripthandler->ScriptFinished(scid, asc);
+				scripthandler->ScriptIsFinished(scid, asc);
 
 			// delete script part
 			_currentScripts.pop_front();

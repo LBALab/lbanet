@@ -223,7 +223,7 @@ public:
 
 
 	//! called when a script is finished
-	void ScriptFinished(int scriptid, bool wasasynchronus);
+	void ScriptIsFinished(int scriptid, bool wasasynchronus);
 
 	//! start lua script in a separate thread
 	//! return script id if successed or -1 else
@@ -470,6 +470,11 @@ public:
 								bool FadeIn, const LbaColor &FadeInColor,
 								bool FadeOut, const LbaColor &FadeOutColor, 
 								const std::string & OptionalMusicPath) = 0;
+
+	// DisplayScrollingText
+	virtual void DisplayScrollingText(int ScriptId, const std::string & imagepath, 
+										const LbaVecLong &textIds, 
+										const std::string & OptionalMusicPath) = 0;
 
 protected:
 

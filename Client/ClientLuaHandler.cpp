@@ -15,6 +15,7 @@ extern "C"
 #include "SynchronizedTimeHandler.h"
 #include "ScriptEnvironmentBase.h"
 
+#include <vector>
 
 /***********************************************************
 constructor
@@ -24,6 +25,10 @@ ClientLuaHandler::ClientLuaHandler()
 	try
 	{
 		luabind::module(m_LuaState) [
+
+		luabind::class_<LbaVecLong>("LbaVecLong")
+		.def(luabind::constructor<>())
+        .def("Add", &LbaVecLong::Add),
 
 		luabind::class_<LbaColor>("LbaColor")
 		.def(luabind::constructor<>())
@@ -95,6 +100,7 @@ ClientLuaHandler::ClientLuaHandler()
 		.def("ThreadRunning", &ScriptEnvironmentBase::ThreadRunning)
 		.def("PlayClientVideo", &ScriptEnvironmentBase::PlayClientVideo, luabind::yield)
 		.def("DisplayImage", &ScriptEnvironmentBase::DisplayImage, luabind::yield)
+		.def("DisplayScrollingText", &ScriptEnvironmentBase::DisplayScrollingText, luabind::yield)
 		];
 	}
 	catch(const std::exception &error)

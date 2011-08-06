@@ -457,6 +457,11 @@ public:
 	// FixedImageDisplayFinished
 	void DisplayExtraGLFinished();
 
+	// DisplayScrollingText
+	virtual void DisplayScrollingText(int ScriptId, const std::string & imagepath, 
+										const LbaVecLong &textIds, 
+										const std::string & OptionalMusicPath);
+
 
 protected:
 

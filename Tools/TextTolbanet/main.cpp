@@ -214,11 +214,15 @@ void CompareFiles(const std::string & originalf, const std::string & newf,
 		if(!found)
 			++itvec;
 	}
-	ofile<<std::endl<<std::endl<<"not found: "<<std::endl;
-	for(size_t i=0; i< notfoundv.size(); ++i)
+	long ccc = newtxt.rbegin()->first + 1;
+	//ofile<<std::endl<<std::endl<<"not found: "<<std::endl;
+	for(size_t i=0; i< notfoundv.size(); ++i, ++ccc)
 	{
-		ofile<<notfoundv[i]<<" "<<origtxt[notfoundv[i]]<<std::endl;
+		ofile<<notfoundv[i]<<" "<<ccc<<std::endl;
+		newtxt[ccc] = origtxt[notfoundv[i]];
 	}
+
+	XmlReader::SaveTextFile(newf, newtxt);
 }
 
 int main( int argc, char **argv )
@@ -226,7 +230,7 @@ int main( int argc, char **argv )
 	TransformText("Data/LBA1", "Data/lba1res", true);
 	TransformText("Data/LBA2", "Data/lba2res", false);
 
-	CompareFiles("Data/Lba1previous/en/map.xml", "Data/lba1res/en/map.xml",
+	CompareFiles("Data/map.xml", "Data/lba1res/en/map.xml",
 				  "Data/check.txt");
 
 	return 0;

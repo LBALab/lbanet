@@ -148,14 +148,15 @@ ExtraGLWidget::~ExtraGLWidget()
 
 void ExtraGLWidget::initializeGL()
  {
-
+    glGenTextures( 1, &_textureid);
+	_fontloaded = true;
  }
 
  void ExtraGLWidget::resizeGL(int w, int h)
  {
 	_windowW = w;
 	_windowH = h;
-	CreateFont(min(h/30, 40));
+	CreateLBAFont(min(h/30, 40));
  }
 
 
@@ -386,14 +387,18 @@ void ExtraGLWidget::write_text_black(const QVector<uint> &text, FONT_FONT &font,
 
 
 
-void ExtraGLWidget::CreateFont(int size)
+void ExtraGLWidget::CreateLBAFont(int size)
 {
-	DeleteFont();
+	if(_loadedfont)
+	{
+		delete _loadedfont;
+		_loadedfont = false;
+	}
 
 	_loadedfont = new FONT_FONT();
-	_fontloaded = load_ttf(*_loadedfont, "Data/GUI/fonts/lubalingraphstd-demi.otf", size);
+	load_ttf(*_loadedfont, "Data/GUI/fonts/lubalingraphstd-demi.otf", size);
 
-    glGenTextures( 1, &_textureid);
+
     glBindTexture( GL_TEXTURE_2D, _textureid );
     char *map=new char[1024*1024*4];
     for(int i=0;i<_loadedfont->map.size();i++)
@@ -425,9 +430,9 @@ void ExtraGLWidget::DeleteFont()
 
 
 
-
  void ExtraGLWidget::LoadGLTextures( const std::string& name )
 {
+	makeCurrent();
 	CleanImageTexture();
 	if(name == "")
 		return;
@@ -439,21 +444,8 @@ void ExtraGLWidget::DeleteFont()
         return;
     }
 
-    QImage GL_formatted_image;
-    GL_formatted_image = QGLWidget::convertToGLFormat(img);
-    if( GL_formatted_image.isNull() )
-    {
-		LogHandler::getInstance()->LogToFile("error loading image to texture: " + name);
-        return;
-    }
-
-    glGenTextures(1, &_imgtextureid);
-    glBindTexture(GL_TEXTURE_2D, _imgtextureid);
-    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA,
-            GL_formatted_image.width(), GL_formatted_image.height(),
-            0, GL_RGBA, GL_UNSIGNED_BYTE, GL_formatted_image.bits() );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR ); 
+	_imgtextureid = bindTexture(img, GL_TEXTURE_2D, GL_RGBA, 
+							QGLContext::LinearFilteringBindOption | QGLContext::InvertedYBindOption);
 	_imageloaded = true;
 }
 
@@ -462,7 +454,7 @@ void ExtraGLWidget::CleanImageTexture()
 {
 	if(_imageloaded)
 	{
-		glDeleteTextures(1, &_textureid);
+		deleteTexture (_imgtextureid);
 		_imageloaded = false;
 	}
 }
@@ -513,6 +505,7 @@ void ExtraGLWidget::Process(double tnow, float tdiff)
 			//fixed image timeout
 			if((_textfinishdisplaytime > 0) && (_textfinishdisplaytime <= tnow))
 			{
+				_textfinishdisplaytime = -1;
 				if(_fadingout)
 				{
 					_currentalpha = 1;
@@ -532,12 +525,14 @@ void ExtraGLWidget::Process(double tnow, float tdiff)
 // clean up display
 void ExtraGLWidget::CleanUp()
 {
+	_textfinishdisplaytime = -1;
 	_currentstate = XtGLw_Off;
 	_currentfadestate = XtGLw_FDOff;
 	_bgR = 0;
 	_bgG = 0;
 	_bgB = 0;
 	_bgA = 1;
+	CleanImageTexture();
 }
 
 // clean up display and report termination
@@ -573,7 +568,7 @@ void ExtraGLWidget::PressedSpace()
 	}
 }
 
-void ExtraGLWidget::StartScrollingText(const std::string & imagepath, const std::vector<long> textIds)
+void ExtraGLWidget::StartScrollingText(const std::string & imagepath, const std::vector<long> &textIds)
 {
 	//clean up old stuff
 	CleanUp();
@@ -647,7 +642,6 @@ void ExtraGLWidget::StartFixedImage(const std::string & imagepath, long NbSecond
 
 	glDisable(GL_FOG);
 	glDisable(GL_DEPTH_TEST);
-	glColor3d(1,1,1);
 	glDisable(GL_LIGHTING);
 	glEnable (GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
@@ -674,7 +668,6 @@ void ExtraGLWidget::StartFixedImage(const std::string & imagepath, long NbSecond
 			glBindTexture( GL_TEXTURE_2D, _textureid );
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
 			if(_textidx < _texts.size())
 			{
@@ -705,7 +698,6 @@ void ExtraGLWidget::DrawBGImage(float alpha)
 		glBindTexture( GL_TEXTURE_2D, _imgtextureid );
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
 		glColor4d(1.0,1.0,1.0,alpha);
 		glBegin(GL_QUADS);

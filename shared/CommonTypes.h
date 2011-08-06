@@ -27,9 +27,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define __LBA_NET_COMMON_TYPES_H__
 
 #include <string>
+#include <vector>
 
 class QAction;
 
+/***********************************************************************
+Internal vector for lua
+ ***********************************************************************/
+class LbaVecLong
+{
+public:
+	//! constructor
+	LbaVecLong()
+	{}
+
+	//!push back value
+	void Add(long v)
+	{
+		vec.push_back(v);
+	}
+
+	std::vector<long> vec;
+};
 
 /***********************************************************************
 Internal color class

@@ -611,6 +611,11 @@ public:
 								bool FadeOut, const LbaColor &FadeOutColor,
 								const std::string & OptionalMusicPath){}
 
+	// DisplayScrollingText
+	virtual void DisplayScrollingText(int ScriptId, const std::string & imagepath, 
+										const LbaVecLong &textIds, 
+										const std::string & OptionalMusicPath){}
+
 private:
 	enum ObjectEditType {EditObjCopy, EditObjCut, EditObjDelete};
 

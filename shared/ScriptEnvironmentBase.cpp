@@ -65,7 +65,7 @@ void ScriptEnvironmentBase::ExecuteScriptString( const std::string &ScriptString
 /***********************************************************
 called when a script is finished
 ***********************************************************/
-void ScriptEnvironmentBase::ScriptFinished(int scriptid, bool wasasynchronus)
+void ScriptEnvironmentBase::ScriptIsFinished(int scriptid, bool wasasynchronus)
 {
 	if(!wasasynchronus)
 	{
