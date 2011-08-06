@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "SharedDataHandler.h"
 #include "SynchronizedTimeHandler.h"
 #include "MapHandler.h"
+#include "Localizer.h"
 
 /***********************************************************
 update gui with info from server
@@ -154,6 +155,19 @@ void ShopBoxHandler::BuyItem(long clientid, long ItemId)
 						buy = false;
 				}	
 			}
+			else
+			{
+				buy = false;
+
+				// send no kash message to chatbox
+				LbaNet::GuiUpdatesSeq updseq;
+				LbaNet::ChatTextUpdate * upd = 
+					new LbaNet::ChatTextUpdate("All", "info", Localizer::getInstance()->GetText(Localizer::GUI, 106));
+				updseq.push_back(upd);		
+				EventsSeq toplayer;
+				toplayer.push_back(new LbaNet::UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), "ChatBox", updseq));
+				_owner->SendEvents(clientid, toplayer);
+			}
 
 			if(buy)
 			{
@@ -161,7 +175,7 @@ void ShopBoxHandler::BuyItem(long clientid, long ItemId)
 				LbaNet::ItemList Taken, Put;
 				Taken[ShopItems._currencyitem.Id] = itcont->second.Info.BuyPrice;
 				Put[ItemId] = 1;
-				_owner->UpdateInventory(clientid, Taken, Put, LbaNet::DontInform);
+				_owner->UpdateInventory(clientid, Taken, Put, LbaNet::InformChat);
 
 				if(_owner)
 				{
