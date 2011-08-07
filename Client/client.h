@@ -30,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QWidget>
 #include "ui_client.h"
 #include "QT_WindowsBase.h"
-#include "ExtraGLWindowQt"
+
 
 enum ClientViewType { CLV_Game = 0, CLV_Video, CLV_ExtraGL };
 
@@ -88,7 +88,6 @@ private:
 	Ui::ClientClass			ui;
 	GraphicsWindowQt *		_osgwindow;
 	ClientViewType			_currentview;
-	ExtraGLWidget			_glwidget;
 };
 
 #endif // CLIENT_H

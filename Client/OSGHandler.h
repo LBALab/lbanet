@@ -62,6 +62,7 @@ class GuiHandler;
 class OsgEventHandler;
 class GraphicsWindowQt;
 class QT_Windows_base;
+class CEGUIDrawable;
 
 static int ReceivesShadowTraversalMask = 0x1;
 static int CastsShadowTraversalMask = 0x2;
@@ -271,6 +272,9 @@ public:
 	void RenderObjectToFile(osg::ref_ptr<osg::Group> object, const std::string & filename);
 
 
+	//! get gui drawable
+	osg::ref_ptr<CEGUIDrawable> GetGUIDrawable();
+
 protected:
 	//! constructor
 	OsgHandler();
@@ -343,6 +347,8 @@ private:
 
 	osg::ref_ptr<osg::ClipNode>						_clipNode;
 	osg::ref_ptr<osg::Camera>						_HUDcam;
+
+	osg::ref_ptr<CEGUIDrawable>						_guidraw;
 };
 
 

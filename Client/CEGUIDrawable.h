@@ -27,9 +27,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <osg/Drawable>
 #include <boost/shared_ptr.hpp>
 
-
 class GuiHandler;
 
+enum XtGLw_state {XtGLw_Off, XtGLw_Text, XtGLw_Image};
+enum XtGLw_fadingstate {XtGLw_FDOff, XtGLw_FDIn, XtGLw_FDOut};
+
+class FONT_FONT;
 
 
 
@@ -60,6 +63,62 @@ public:
 
 
 
+	void paintXtraGL() const;
+
+	void PressedSpace();
+
+	void Process(double tnow, float tdiff);
+
+
+	void StartScrollingText(const std::string & imagepath, std::vector<std::vector<unsigned int> > &textIds);
+
+
+	void StartFixedImage(const std::string & imagepath, long NbSecondDisplay, 
+								bool FadeIn, float FadeInColorR, float FadeInColorG, float FadeInColorB,
+								bool FadeOut, float FadeOutColorR, float FadeOutColorG, float FadeOutColorB);
+
+
+	void EndDrawExtraGL();
+
+
+	void resizedGL(int w, int h);
+
+protected:
+		
+	void write_line_black(const std::vector<unsigned int> &text, FONT_FONT &font, 
+								double x, double y, double space_size, int nbchar) const;
+
+	void write_line_white(const std::vector<unsigned int> &text, FONT_FONT &font, 
+								double x, double y, double space_size, int nbchar) const;
+
+	void write_text_white(const std::vector<unsigned int> &text, FONT_FONT &font, 
+								double x, double y, double maxlenght, int maxchar) const;
+
+	void write_text_black(const std::vector<unsigned int> &text, FONT_FONT &font, 
+								double x, double y, double maxlenght, int maxchar) const;
+
+
+
+	void CreateLBAFont(int size);
+
+	void DeleteFont();
+
+	// load image to texture
+	void LoadGLTextures(const std::string& name);
+
+	void CleanImageTexture();
+
+
+	// clean up
+	void CleanUp();
+
+	// clean up display and report terminaison
+	void CleanAndReport();
+
+	//! display image if exist
+	void DrawBGImage(float alpha) const;
+
+
 protected:    
 	//! destructor
     virtual ~CEGUIDrawable();
@@ -67,8 +126,45 @@ protected:
     unsigned int _activeContextID;
 
 private:
-	boost::shared_ptr<GuiHandler>	_GuiH;
+	boost::shared_ptr<GuiHandler>		_GuiH;
 
+	bool								_drawXtraGL;
+
+
+
+	float			_bgR;
+	float			_bgG;
+	float			_bgB;
+	float			_bgA;
+
+	bool			_fontloaded;
+	FONT_FONT *		_loadedfont;
+	GLuint			_textureid;
+
+	bool			_imageloaded;
+	GLuint			_imgtextureid;
+
+	int				_windowW;
+	int				_windowH;
+
+	XtGLw_state			_currentstate;
+	XtGLw_fadingstate	_currentfadestate;
+
+	bool			_scrolling;
+	float			_scrollingtimediff;
+	std::vector<std::vector<unsigned int> >	_texts;
+	int							_textidx;
+
+	double			_textfinishdisplaytime;
+	bool			_fadingin;
+	bool			_fadingout;
+	float			_fiR;
+	float			_fiG;
+	float			_fiB;
+	float			_foR;
+	float			_foG;
+	float			_foB;
+	float			_currentalpha;
 };
 
 

@@ -610,11 +610,11 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 
 
 
-	osg::ref_ptr<CEGUIDrawable> cd = new CEGUIDrawable(_resX, _resY, GuiH);
+	_guidraw = new CEGUIDrawable(_resX, _resY, GuiH);
 	_root->addChild(_rootNode3d.get());
 	_root->addChild(_HUDcam.get());
 
-	guiGeom->addDrawable(cd.get());
+	guiGeom->addDrawable(_guidraw.get());
 	_rootNodeGui->addChild(guiGeom.get());
 
 
@@ -767,6 +767,9 @@ void OsgHandler::Resize(int resX, int resY, bool fullscreen)
 		ConfigurationManager::GetInstance()->SetBool("Display.Screen.Fullscreen", _isFullscreen);
 		#endif
 	}
+
+	if(_guidraw)
+		_guidraw->resizedGL(resX, resY);
 }
 
 
@@ -795,6 +798,7 @@ void OsgHandler::Resized(int resX, int resY)
 
 	ResetCameraProjectiomMatrix();
 	_HUDcam->setProjectionMatrix(osg::Matrix::ortho2D(0, _viewportX, 0, _viewportY));
+
 }
 
 
@@ -1977,4 +1981,13 @@ void OsgHandler::RenderObjectToFile(osg::ref_ptr<osg::Group> object, const std::
 	osgDB::writeImageFile(*shot,filename);
 
 	_root->removeChild(textureCamera);
+}
+
+
+/***********************************************************
+get gui drawable
+***********************************************************/
+osg::ref_ptr<CEGUIDrawable>  OsgHandler::GetGUIDrawable()
+{
+	return _guidraw;
 }

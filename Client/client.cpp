@@ -27,6 +27,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "GraphicsWindowQt"
 #include "EventsQueue.h"
 #include "ClientExtendedEvents.h"
+#include "OSGHandler.h"
+#include "CEGUIDrawable.h"
+
 
 /***********************************************************
 constructor
@@ -37,9 +40,6 @@ Client::Client(QWidget *parent, Qt::WFlags flags)
 	ui.setupUi(this);
 
 	connect(ui.videoPlayer, SIGNAL(finished()) , this, SLOT(videofinished()));	
-	
-	ui.page_ExtraGL->layout()->addWidget(&_glwidget);
-
 	ui.stackedWidget->setCurrentIndex(1);
 }
 
@@ -61,7 +61,9 @@ void Client::Process(double tnow, float tdiff)
 	{
 		case CLV_ExtraGL:
 		{
-			_glwidget.Process(tnow, tdiff);
+			osg::ref_ptr<CEGUIDrawable> guidraw = OsgHandler::getInstance()->GetGUIDrawable();
+			if(guidraw)
+				guidraw->Process(tnow, tdiff);
 			return;
 		}
 	}
@@ -116,10 +118,11 @@ void Client::ResetToGame()
 {
 	if(_currentview != CLV_Game)
 	{
-		ui.stackedWidget->setCurrentIndex(1);
+		osg::ref_ptr<CEGUIDrawable> guidraw = OsgHandler::getInstance()->GetGUIDrawable();
+		if(guidraw)
+			guidraw->EndDrawExtraGL();
 
-		_glwidget.doneCurrent();
-		_osgwindow->getGraphWidget()->makeCurrent();
+		ui.stackedWidget->setCurrentIndex(1);
 		_currentview = CLV_Game;
 	}
 }
@@ -163,7 +166,9 @@ void Client::keyPressEvent (QKeyEvent * event)
 		{
 			case CLV_ExtraGL:
 			{
-				_glwidget.PressedSpace();
+				osg::ref_ptr<CEGUIDrawable> guidraw = OsgHandler::getInstance()->GetGUIDrawable();
+				if(guidraw)
+					guidraw->PressedSpace();
 				return;
 			}
 		}
@@ -192,12 +197,11 @@ void Client::SwitchToFixedImage(const std::string & imagepath, long NbSecondDisp
 								bool FadeIn, float FadeInColorR, float FadeInColorG, float FadeInColorB,
 								bool FadeOut, float FadeOutColorR, float FadeOutColorG, float FadeOutColorB)
 {
-	ui.stackedWidget->setCurrentIndex(2);
 	_currentview = CLV_ExtraGL;
 
-	_osgwindow->getGraphWidget()->doneCurrent();
-	_glwidget.makeCurrent();
-	_glwidget.StartFixedImage(imagepath, NbSecondDisplay, FadeIn, FadeInColorR, FadeInColorG, FadeInColorB,
+	osg::ref_ptr<CEGUIDrawable> guidraw = OsgHandler::getInstance()->GetGUIDrawable();
+	if(guidraw)
+		guidraw->StartFixedImage(imagepath, NbSecondDisplay, FadeIn, FadeInColorR, FadeInColorG, FadeInColorB,
 									FadeOut, FadeOutColorR, FadeOutColorG, FadeOutColorB);
 }
 
@@ -206,10 +210,10 @@ switch to text
 ***********************************************************/
 void Client::SwitchToText(const std::string & imagepath, const std::vector<long> textIds)
 {
-	ui.stackedWidget->setCurrentIndex(2);
 	_currentview = CLV_ExtraGL;
 
-	_osgwindow->getGraphWidget()->doneCurrent();
-	_glwidget.makeCurrent();
-	_glwidget.StartScrollingText(imagepath, textIds);
+	//osg::ref_ptr<CEGUIDrawable> guidraw = OsgHandler::getInstance()->GetGUIDrawable();
+	//if(guidraw)
+	//	guidraw->StartScrollingText(imagepath, textIds);
+	//TODO
 }
