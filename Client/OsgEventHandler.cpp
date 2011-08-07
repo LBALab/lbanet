@@ -404,14 +404,14 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 		{
 			int kkk = ea.getKey();
 			int convertedk = OSGKeyToCEGUIKey(kkk);
+			unsigned int unicode = (unsigned int)ea.getUnmodifiedKey();
 
 			// for check if CEGUI handle the event
-			if(CEGUI::System::getSingleton().injectKeyDown( static_cast<CEGUI::uint>(convertedk) )
-				|| CEGUI::System::getSingleton().injectChar( static_cast<CEGUI::utf32>( kkk )))
-			{
+			bool used = false;
+			used |= CEGUI::System::getSingleton().injectKeyDown( static_cast<CEGUI::uint>(convertedk));
+			used |= CEGUI::System::getSingleton().injectChar( static_cast<CEGUI::utf32>(unicode));
+			if(used)
 				return true;
-			}
-
 
 			{
 				// enter key

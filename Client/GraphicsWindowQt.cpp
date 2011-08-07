@@ -179,14 +179,22 @@ void GraphWidget::keyPressEvent( QKeyEvent* event )
 {
     setKeyboardModifiers( event );
 	int key = remapQtKey(event->key());
-    _gw->getEventQueue()->keyPress( key );
+	int unicode = 0;
+	QVector<uint> unicodev = event->text().toUcs4();
+	if(unicodev.size() >= 1)
+		unicode = (int)unicodev[0];
+    _gw->getEventQueue()->keyPress( key, unicode);
 }
 
 void GraphWidget::keyReleaseEvent( QKeyEvent* event )
 {
     setKeyboardModifiers( event );
 	int key = remapQtKey(event->key());
-    _gw->getEventQueue()->keyRelease( key );
+	int unicode = 0;
+	QVector<uint> unicodev = event->text().toUcs4();
+	if(unicodev.size() >= 1)
+		unicode = (int)unicodev[0];
+    _gw->getEventQueue()->keyRelease( key, unicode);
 }
 
 void GraphWidget::mousePressEvent( QMouseEvent* event )

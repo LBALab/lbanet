@@ -641,7 +641,7 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 	kmap[LbanetKey_Down] = osgGA::GUIEventAdapter::KEY_Page_Down;
 	kmap[LbanetKey_Action] = osgGA::GUIEventAdapter::KEY_Space;
 	kmap[LbanetKey_NAction] = 'w';
-	kmap[LbanetKey_Weapon] = osgGA::GUIEventAdapter::KEY_Alt_L;
+	kmap[LbanetKey_Weapon] = osgGA::GUIEventAdapter::KEY_Alt_R;
 	kmap[LbanetKey_Stance1] = osgGA::GUIEventAdapter::KEY_F1;
 	kmap[LbanetKey_Stance2] = osgGA::GUIEventAdapter::KEY_F2;
 	kmap[LbanetKey_Stance3] = osgGA::GUIEventAdapter::KEY_F3;

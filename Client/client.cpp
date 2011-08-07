@@ -117,6 +117,9 @@ void Client::ResetToGame()
 	if(_currentview != CLV_Game)
 	{
 		ui.stackedWidget->setCurrentIndex(1);
+
+		_glwidget.doneCurrent();
+		_osgwindow->getGraphWidget()->makeCurrent();
 		_currentview = CLV_Game;
 	}
 }
@@ -192,6 +195,8 @@ void Client::SwitchToFixedImage(const std::string & imagepath, long NbSecondDisp
 	ui.stackedWidget->setCurrentIndex(2);
 	_currentview = CLV_ExtraGL;
 
+	_osgwindow->getGraphWidget()->doneCurrent();
+	_glwidget.makeCurrent();
 	_glwidget.StartFixedImage(imagepath, NbSecondDisplay, FadeIn, FadeInColorR, FadeInColorG, FadeInColorB,
 									FadeOut, FadeOutColorR, FadeOutColorG, FadeOutColorB);
 }
@@ -204,5 +209,7 @@ void Client::SwitchToText(const std::string & imagepath, const std::vector<long>
 	ui.stackedWidget->setCurrentIndex(2);
 	_currentview = CLV_ExtraGL;
 
+	_osgwindow->getGraphWidget()->doneCurrent();
+	_glwidget.makeCurrent();
 	_glwidget.StartScrollingText(imagepath, textIds);
 }

@@ -432,7 +432,7 @@ void ExtraGLWidget::DeleteFont()
 
  void ExtraGLWidget::LoadGLTextures( const std::string& name )
 {
-	makeCurrent();
+	
 	CleanImageTexture();
 	if(name == "")
 		return;

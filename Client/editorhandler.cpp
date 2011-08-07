@@ -85,13 +85,11 @@ public:
 		: _pickedarrow(pickedarrow)
 	{}
 
-
 	virtual bool receive(const osgManipulator::MotionCommand& command) 
 	{ 
 		EventsQueue::getReceiverQueue()->AddEvent(new PickedArrowMovedEvent(_pickedarrow));		
 		return true; 
 	}
-
 
 private:
 	int					_pickedarrow;

@@ -48,7 +48,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ***********************************************************/
 LbaNetModel::LbaNetModel()
 : m_playerObjectId(0), m_paused(false), m_newworld(false),
-	m_videoscriptid(-1), m_fixedimagescriptid(-1), m_image_assoc_music(false)
+	m_videoscriptid(-1), m_fixedimagescriptid(-1), m_image_assoc_music(false),
+	m_showing_loading(false)
 {
 	LogHandler::getInstance()->LogToFile("Initializing model class...");
 
@@ -1022,6 +1023,12 @@ called when we enter a new map
 void LbaNetModel::NewMap(const std::string & NewMap, const std::string & Script,
 							int AutoCameraType)
 {
+	//show loading screen
+	m_showing_loading = true;
+	//EventsQueue::getReceiverQueue()->AddEvent(new SwitchToFixedImageEvent("GUI/imagesets/loading_4_3.png", -1, 
+	//																		true, 0, 0, 0, false, 0, 0, 0));
+
+
 	Pause();
 
 	// clean old map
@@ -1062,6 +1069,12 @@ void LbaNetModel::RefreshEnd()
 	{
 		m_newworld = false;
 		RefreshPlayerPortrait();
+	}
+
+	if(m_showing_loading)
+	{
+		m_showing_loading = false;
+		EventsQueue::getReceiverQueue()->AddEvent(new SwitchToGameEvent());
 	}
 }
 

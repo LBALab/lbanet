@@ -593,6 +593,8 @@ private:
 	int													m_fixedimagescriptid;
 	bool												m_image_assoc_music;
 
+	bool												m_showing_loading;
+
 };
 
 #endif
