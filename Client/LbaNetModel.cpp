@@ -1025,8 +1025,8 @@ void LbaNetModel::NewMap(const std::string & NewMap, const std::string & Script,
 {
 	//show loading screen
 	m_showing_loading = true;
-	//EventsQueue::getReceiverQueue()->AddEvent(new SwitchToFixedImageEvent("GUI/imagesets/loading_4_3.png", -1, 
-	//																		true, 0, 0, 0, false, 0, 0, 0));
+	EventsQueue::getReceiverQueue()->AddEvent(new SwitchToFixedImageEvent("GUI/imagesets/loading_4_3.png", -1, 
+																			true, 0, 0, 0, false, 0, 0, 0));
 
 
 	Pause();
