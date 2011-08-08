@@ -207,6 +207,8 @@ module LbaNet
 		ModelInfo		StartingModel;
 		
 		ItemsMap		StartingInventory;
+		
+		string			StartingScript;
 	};
 
 
