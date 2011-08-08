@@ -153,6 +153,31 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectE
 	else
 		return;
 
+
+	// tell client to play starting script when connecting to world
+	if(_worldinfo.StartingInfo.StartingScript != "")
+	{
+		// send to player
+		if(proxy)
+		{
+			EventsSeq toplayer;
+			toplayer.push_back(new StartClientScriptEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+										_worldinfo.StartingInfo.StartingScript, false));
+			try
+			{
+				proxy->ServerEvents(toplayer);
+			}
+			catch(const IceUtil::Exception& ex)
+			{
+				std::cout<<"Exception in sending event to client: "<<ex.what()<<std::endl;
+			}
+			catch(...)
+			{
+				std::cout<<"Unknown exception in sending event to client. "<<std::endl;
+			}
+		}
+	}
+
 	// check if first time arrival in world
 	if(savedinfo.ppos.MapName == "")
 	{
@@ -215,9 +240,6 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectE
 
 	// teleport player to correct map
 	TeleportPlayerInternal((long)clientid, player, savedinfo.ppos, -1);
-
-
-
 
 
 
