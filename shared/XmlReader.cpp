@@ -70,6 +70,7 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
 	res.StartingInfo.StartingModel.Outfit = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.Outfit");
 	res.StartingInfo.StartingModel.Weapon = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.Weapon");
 	res.StartingInfo.StartingModel.Mode = pt.get<std::string>("World.PlayerStartingInfo.StartingModel.Mode");
+	res.StartingInfo.StartingScript = pt.get<std::string>("World.PlayerStartingInfo.StartingScript", "");
 
 	res.StartingInfo.StartingModel.State = LbaNet::StNormal;
 
@@ -163,6 +164,7 @@ bool XmlReader::SaveWorldInfo(const std::string &Filename, const WorldInformatio
 	pt.put("World.PlayerStartingInfo.StartingModel.Outfit", res.StartingInfo.StartingModel.Outfit);
 	pt.put("World.PlayerStartingInfo.StartingModel.Weapon", res.StartingInfo.StartingModel.Weapon);
 	pt.put("World.PlayerStartingInfo.StartingModel.Mode", res.StartingInfo.StartingModel.Mode);
+	pt.put("World.PlayerStartingInfo.StartingScript", res.StartingInfo.StartingScript);
 
 	switch(res.StartingInfo.StartingModel.TypeRenderer)
 	{
