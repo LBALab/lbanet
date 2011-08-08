@@ -695,6 +695,8 @@ public slots:
 	 //! worlds news changed
 	 void WorldNewsChanged();
 
+	 //! WorldStartingScriptChanged
+	 void WorldStartingScriptChanged();
 
 	 //! starting map modified
 	 void StartingMapModified(int index);

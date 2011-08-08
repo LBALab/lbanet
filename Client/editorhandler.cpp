@@ -1457,6 +1457,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 
 	connect(_uieditor.textEdit_worlddescription, SIGNAL(textChanged()) , this, SLOT(WorldDescriptionChanged()));	
 	connect(_uieditor.textEdit_worldnews, SIGNAL(textChanged()) , this, SLOT(WorldNewsChanged()));	
+	connect(_uieditor.lineEdit_startingscript, SIGNAL(textChanged()) , this, SLOT(WorldStartingScriptChanged()));	
+	
 
 	connect(_uieditor.pushButton_goto_tp, SIGNAL(clicked()) , this, SLOT(goto_tp_button_clicked()));
 	connect(_uieditor.pushButton_goto_map, SIGNAL(clicked()) , this, SLOT(goto_map_button_clicked()));
@@ -1960,6 +1962,9 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 	newss.replace(QString(" @ "), QString("\n"));
 	_uieditor.textEdit_worldnews->setText(newss);
 
+	QString startingscript = QString::fromUtf8(_winfo.StartingInfo.StartingScript.c_str());
+	_uieditor.lineEdit_startingscript->setText(startingscript);
+
 
 	// update texts
 	{
@@ -2085,6 +2090,7 @@ void EditorHandler::ResetWorld()
 	_uieditor.label_worldname->setText("");
 	_uieditor.textEdit_worlddescription->setText("");
 	_uieditor.textEdit_worldnews->setText("");
+	_uieditor.lineEdit_startingscript->setText("");
 
 	_currteleportidx = 0;
 
@@ -5475,6 +5481,16 @@ void EditorHandler::WorldNewsChanged()
 	QString descs = _uieditor.textEdit_worldnews->toPlainText();
 	descs.replace(QString("\n"), QString(" @ "));
 	_winfo.Description.News = descs.toUtf8().data();
+	SetModified();
+}
+
+/***********************************************************
+WorldStartingScriptChanged
+***********************************************************/
+void EditorHandler::WorldStartingScriptChanged()
+{
+	QString descs = _uieditor.lineEdit_startingscript->text();
+	_winfo.StartingInfo.StartingScript = descs.toUtf8().data();
 	SetModified();
 }
 

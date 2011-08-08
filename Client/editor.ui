@@ -184,6 +184,16 @@
                      </property>
                     </spacer>
                    </item>
+                   <item row="5" column="2">
+                    <widget class="QLineEdit" name="lineEdit_startingscript"/>
+                   </item>
+                   <item row="5" column="0">
+                    <widget class="QLabel" name="label_startingscript">
+                     <property name="text">
+                      <string>ScriptWhenConnect:</string>
+                     </property>
+                    </widget>
+                   </item>
                   </layout>
                  </widget>
                  <widget class="QWidget" name="tab_starting">
@@ -2289,7 +2299,7 @@
      <x>0</x>
      <y>0</y>
      <width>960</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

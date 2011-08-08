@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ClientExtendedEvents.h"
 #include "OSGHandler.h"
 #include "CEGUIDrawable.h"
+#include "Localizer.h"
 
 
 /***********************************************************
@@ -210,10 +211,20 @@ switch to text
 ***********************************************************/
 void Client::SwitchToText(const std::string & imagepath, const std::vector<long> textIds)
 {
-	_currentview = CLV_ExtraGL;
+	std::vector<std::vector<unsigned int> > _texts;
+	for(size_t i=0; i< textIds.size(); ++i)
+	{
+		std::string tmp = Localizer::getInstance()->GetText(Localizer::Map, textIds[i]);
+		if(tmp != "")
+			_texts.push_back(QString::fromUtf8(tmp.c_str()).toUcs4().toStdVector());
+	}
 
-	//osg::ref_ptr<CEGUIDrawable> guidraw = OsgHandler::getInstance()->GetGUIDrawable();
-	//if(guidraw)
-	//	guidraw->StartScrollingText(imagepath, textIds);
-	//TODO
+	if(_texts.size() > 0)
+	{
+		_currentview = CLV_ExtraGL;
+
+		osg::ref_ptr<CEGUIDrawable> guidraw = OsgHandler::getInstance()->GetGUIDrawable();
+		if(guidraw)
+			guidraw->StartScrollingText(imagepath, _texts);
+	}
 }

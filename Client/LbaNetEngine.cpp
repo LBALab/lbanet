@@ -65,6 +65,8 @@ LbaNetEngine::LbaNetEngine(Ice::CommunicatorPtr communicator, const std::string 
 {
 	Initialize();
 	SwitchGuiToLogin();
+
+	m_client_window->SwitchToText("Data/Worlds/Lba1Original/Video/lba1fortress.gif", const std::vector<long> textIds)
 }
 
 
