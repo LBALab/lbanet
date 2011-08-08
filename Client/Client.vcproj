@@ -362,10 +362,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ExtraGLWindowQt.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\shared\FileUtil.cpp"
 				>
 			</File>
@@ -883,10 +879,6 @@
 			</File>
 			<File
 				RelativePath=".\ExternalPlayer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ExtraGLWindowQt"
 				>
 			</File>
 			<File

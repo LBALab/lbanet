@@ -185,7 +185,8 @@ CEGUIDrawable::CEGUIDrawable()
 : _drawXtraGL(false), _scrolling(false), _scrollingtimediff(0),
 	_loadedfont(NULL), _fontloaded(false), _imageloaded(false),
 	_currentstate(XtGLw_Off), _textfinishdisplaytime(-1), 
-	_currentfadestate(XtGLw_FDOff), _bgR(0), _bgG(0), _bgB(0), _bgA(1)
+	_currentfadestate(XtGLw_FDOff), _bgR(0), _bgG(0), _bgB(0), _bgA(1),
+	_fontsize(10)
 {
 	setSupportsDisplayList(false);
 	setEventCallback(new CEGUIEventCallback(boost::shared_ptr<GuiHandler>()));
@@ -366,15 +367,14 @@ void CEGUIDrawable::write_line_black(const std::vector<unsigned int> &text, FONT
 		else
 		{
 			glColor3d(0,0,0);
-
-			glTexCoord2d((font.glyph[n].mapx/1024.),                                    (font.glyph[n].mapy)/1024.);
-			glVertex3d(	(int)x+font.glyph[n].dx,                                        (int)y-font.origin,10);
-			glTexCoord2d((font.glyph[n].mapx            +font.glyph[n].width)/1024.,    (font.glyph[n].mapy)/1024.);
-			glVertex3d(	(int)x+font.glyph[n].dx         +font.glyph[n].width,           (int)y-font.origin,10);
-			glTexCoord2d((font.glyph[n].mapx            +font.glyph[n].width)/1024.,    (font.glyph[n].mapy     +font.char_height)/1024.);
-			glVertex3d(	(int)x+font.glyph[n].dx         +font.glyph[n].width,           (int)y-font.origin          +font.char_height,10);
 			glTexCoord2d((font.glyph[n].mapx)/1024.,                                    (font.glyph[n].mapy     +font.char_height)/1024.);
-			glVertex3d(	(int)x+font.glyph[n].dx,                                     (int)y-font.origin          +font.char_height,10);
+			glVertex2f(	(int)x+font.glyph[n].dx,                                     (int)y-font.origin          +font.char_height);
+			glTexCoord2d((font.glyph[n].mapx            +font.glyph[n].width)/1024.,    (font.glyph[n].mapy     +font.char_height)/1024.);
+			glVertex2f(	(int)x+font.glyph[n].dx         +font.glyph[n].width,           (int)y-font.origin          +font.char_height);		
+			glTexCoord2d((font.glyph[n].mapx            +font.glyph[n].width)/1024.,    (font.glyph[n].mapy)/1024.);
+			glVertex2f(	(int)x+font.glyph[n].dx         +font.glyph[n].width,           (int)y-font.origin);			
+			glTexCoord2d((font.glyph[n].mapx/1024.),                                    (font.glyph[n].mapy)/1024.);
+			glVertex2f(	(int)x+font.glyph[n].dx,                                        (int)y-font.origin);
 			x+=font.glyph[n].advance;
 		}
 	}
@@ -398,14 +398,15 @@ void CEGUIDrawable::write_line_white(const std::vector<unsigned int> &text, FONT
 					  min(0.8,(nbchar-i)/10.),
 					  min(0.8,(nbchar-i)/10.));
 
-			glTexCoord2d((font.glyph[n].mapx/1024.),                                    (font.glyph[n].mapy)/1024.);
-			glVertex3d(	(int)x+font.glyph[n].dx,                                        (int)y-font.origin,10);
-			glTexCoord2d((font.glyph[n].mapx            +font.glyph[n].width)/1024.,    (font.glyph[n].mapy)/1024.);
-			glVertex3d(	(int)x+font.glyph[n].dx         +font.glyph[n].width,           (int)y-font.origin,10);
-			glTexCoord2d((font.glyph[n].mapx            +font.glyph[n].width)/1024.,    (font.glyph[n].mapy     +font.char_height)/1024.);
-			glVertex3d(	(int)x+font.glyph[n].dx         +font.glyph[n].width,           (int)y-font.origin          +font.char_height,10);
 			glTexCoord2d((font.glyph[n].mapx)/1024.,                                    (font.glyph[n].mapy     +font.char_height)/1024.);
-			glVertex3d(	(int)x+font.glyph[n].dx,                                     (int)y-font.origin          +font.char_height,10);
+			glVertex2f(	(int)x+font.glyph[n].dx,                                     (int)y-font.origin          +font.char_height);
+			glTexCoord2d((font.glyph[n].mapx            +font.glyph[n].width)/1024.,    (font.glyph[n].mapy     +font.char_height)/1024.);
+			glVertex2f(	(int)x+font.glyph[n].dx         +font.glyph[n].width,           (int)y-font.origin          +font.char_height);
+			glTexCoord2d((font.glyph[n].mapx            +font.glyph[n].width)/1024.,    (font.glyph[n].mapy)/1024.);
+			glVertex2f(	(int)x+font.glyph[n].dx         +font.glyph[n].width,           (int)y-font.origin);		
+			glTexCoord2d((font.glyph[n].mapx/1024.),                                    (font.glyph[n].mapy)/1024.);
+			glVertex2f(	(int)x+font.glyph[n].dx,                                        (int)y-font.origin);
+
 			x+=font.glyph[n].advance;
 		}
 	}
@@ -569,7 +570,7 @@ void CEGUIDrawable::write_text_black(const std::vector<unsigned int> &text, FONT
 	if(checkL >= checkL2)
 	{
 		//_scrolling = false;
-		//_scrollingtimediff += 100000;
+		//_scrollingtimediff += 100000; //TODO
 	}
 }
 
@@ -768,6 +769,8 @@ void CEGUIDrawable::StartScrollingText(const std::string & imagepath,
 	//clean up old stuff
 	CleanUp();
 
+	CreateLBAFont(_fontsize);
+
 	_drawXtraGL = true;
 	_currentstate = XtGLw_Text;
 	LoadGLTextures(imagepath);
@@ -826,16 +829,6 @@ void CEGUIDrawable::EndDrawExtraGL()
 
  void CEGUIDrawable::paintXtraGL() const
  {
-    //glMatrixMode(GL_PROJECTION);
-    //glLoadIdentity();
-    //glOrtho(0,_windowW,_windowH,0,1000,-1000);
-    //glMatrixMode(GL_MODELVIEW);
-    //glLoadIdentity();
-    //glViewport(0,0,_windowW,_windowH);
-
-	//glClearColor(_bgR, _bgG, _bgB, _bgA);
-	//glClear(GL_STENCIL_BUFFER_BIT|GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	glColor4f(_bgR, _bgG, _bgB, _bgA);
 	glBegin(GL_QUADS);
 		glVertex2f(0, _windowH);
@@ -917,6 +910,6 @@ void CEGUIDrawable::DrawBGImage(float alpha) const
  {
 	_windowW = w;
 	_windowH = h;
-	CreateLBAFont(min(h/30, 40));
+	_fontsize = min(h/30, 40);
  }
 

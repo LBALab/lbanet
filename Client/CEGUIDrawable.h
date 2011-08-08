@@ -165,6 +165,7 @@ private:
 	float			_foG;
 	float			_foB;
 	float			_currentalpha;
+	int				_fontsize;
 };
 
 

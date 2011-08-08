@@ -125,6 +125,8 @@ void Client::ResetToGame()
 
 		ui.stackedWidget->setCurrentIndex(1);
 		_currentview = CLV_Game;
+
+		_osgwindow->getGraphWidget()->SetHandleKey(true);
 	}
 }
 
@@ -204,6 +206,9 @@ void Client::SwitchToFixedImage(const std::string & imagepath, long NbSecondDisp
 	if(guidraw)
 		guidraw->StartFixedImage(imagepath, NbSecondDisplay, FadeIn, FadeInColorR, FadeInColorG, FadeInColorB,
 									FadeOut, FadeOutColorR, FadeOutColorG, FadeOutColorB);
+
+	_osgwindow->getGraphWidget()->SetHandleKey(false);
+
 }
 
 /***********************************************************
@@ -226,5 +231,7 @@ void Client::SwitchToText(const std::string & imagepath, const std::vector<long>
 		osg::ref_ptr<CEGUIDrawable> guidraw = OsgHandler::getInstance()->GetGUIDrawable();
 		if(guidraw)
 			guidraw->StartScrollingText(imagepath, _texts);
+
+		_osgwindow->getGraphWidget()->SetHandleKey(false);
 	}
 }

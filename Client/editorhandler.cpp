@@ -6084,10 +6084,35 @@ tp to default spawning of map
 ***********************************************************/
 void EditorHandler::CreateDefaultSpawningAndTp(const std::string & mapname)
 {
+	boost::shared_ptr<Spawn> newspawn(new Spawn(0));
+	newspawn->SetName("DefaultSpawn");
+	newspawn->SetPosX(0);
+	newspawn->SetPosY(0);
+	newspawn->SetPosZ(0);
+	newspawn->SetRotation(0);
+	newspawn->SetForceRotation(true);
+	newspawn->SetActionAtArrival(ActionBasePtr());
+
+	// then inform the server
+	EditorUpdateBasePtr update = new UpdateEditor_AddOrModSpawning(newspawn);
+	SharedDataHandler::getInstance()->EditorUpdate(mapname, update);
+
+	// add name to list
+	AddSpawningName(mapname, "DefaultSpawn");
+
+	// save map file with new spawning
+	{
+	std::ofstream file(("./Data/Worlds/" + _winfo.Description.WorldName + "/Lua/" + mapname + "_server.lua").c_str());
+	file<<"function InitMap(environment)"<<std::endl;
+	newspawn->SaveToLuaFile(file);
+	file<<"end"<<std::endl;
+	file.close();
+	}
+
 	// add a default spawning
-	long spid = AddOrModSpawning(mapname, "DefaultSpawn", 0, 0, 0, 0, true, ActionBasePtr(), 0);
-	SaveWorldAction(mapname);
-	ChangeMap(mapname, spid);
+	//long spid = AddOrModSpawning(mapname, , 0, 0, 0, 0, true, ActionBasePtr(), 0);
+	//SaveWorldAction(mapname);
+	ChangeMap(mapname, 0);
 	SetModified();
 	RefreshStartingSpawning();
 }

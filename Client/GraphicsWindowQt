@@ -38,8 +38,11 @@ public:
     virtual void wheelEvent( QWheelEvent* event );
     virtual void closeEvent(QCloseEvent *);
 
+	void SetHandleKey(bool handlek);
+
 protected:
     osgViewer::GraphicsWindow* _gw;
+	bool							_handlekey;
 };
 
 class GraphicsWindowQt : public osgViewer::GraphicsWindow

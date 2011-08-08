@@ -66,7 +66,14 @@ LbaNetEngine::LbaNetEngine(Ice::CommunicatorPtr communicator, const std::string 
 	Initialize();
 	SwitchGuiToLogin();
 
-	m_client_window->SwitchToText("Data/Worlds/Lba1Original/Video/lba1fortress.gif", const std::vector<long> textIds)
+	Localizer::getInstance()->SetWorldName("Lba1Original");
+	std::vector<long> vec;
+	for(int i=0; i<20; ++i)
+		vec.push_back(i);
+	//m_client_window->SwitchToText("Data/Worlds/Lba1Original/Video/lba1fortress.gif", vec);
+
+	//m_client_window->SwitchToFixedImage("Data/Worlds/Lba1Original/Video/lba1fortress.gif", 10, 
+	//							true, 0, 0, 0, true, 1, 1, 1);
 }
 
 

@@ -152,11 +152,17 @@ static int remapQtKey(int key)
 
 
 GraphWidget::GraphWidget( const QGLFormat& format, QWidget* parent, const QGLWidget* shareWidget, Qt::WindowFlags f )
-: QGLWidget(format, parent, shareWidget, f)
+: QGLWidget(format, parent, shareWidget, f), _handlekey(true)
 {
     setAutoBufferSwap( false );
     setMouseTracking( true );
 }
+
+void GraphWidget::SetHandleKey(bool handlek)
+{
+	_handlekey = handlek;
+}
+
 
 void GraphWidget::setKeyboardModifiers( QInputEvent* event )
 {
@@ -177,24 +183,34 @@ void GraphWidget::resizeEvent( QResizeEvent* event )
 
 void GraphWidget::keyPressEvent( QKeyEvent* event )
 {
-    setKeyboardModifiers( event );
-	int key = remapQtKey(event->key());
-	int unicode = 0;
-	QVector<uint> unicodev = event->text().toUcs4();
-	if(unicodev.size() >= 1)
-		unicode = (int)unicodev[0];
-    _gw->getEventQueue()->keyPress( key, unicode);
+	if(_handlekey)
+	{
+		setKeyboardModifiers( event );
+		int key = remapQtKey(event->key());
+		int unicode = 0;
+		QVector<uint> unicodev = event->text().toUcs4();
+		if(unicodev.size() >= 1)
+			unicode = (int)unicodev[0];
+		_gw->getEventQueue()->keyPress( key, unicode);
+	}
+	else
+		QWidget::keyPressEvent(event);
 }
 
 void GraphWidget::keyReleaseEvent( QKeyEvent* event )
 {
-    setKeyboardModifiers( event );
-	int key = remapQtKey(event->key());
-	int unicode = 0;
-	QVector<uint> unicodev = event->text().toUcs4();
-	if(unicodev.size() >= 1)
-		unicode = (int)unicodev[0];
-    _gw->getEventQueue()->keyRelease( key, unicode);
+	if(_handlekey)
+	{
+		setKeyboardModifiers( event );
+		int key = remapQtKey(event->key());
+		int unicode = 0;
+		QVector<uint> unicodev = event->text().toUcs4();
+		if(unicodev.size() >= 1)
+			unicode = (int)unicodev[0];
+		_gw->getEventQueue()->keyRelease( key, unicode);
+	}
+	else
+		QWidget::keyPressEvent(event);
 }
 
 void GraphWidget::mousePressEvent( QMouseEvent* event )
