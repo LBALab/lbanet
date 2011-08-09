@@ -35,6 +35,14 @@ enum XtGLw_fadingstate {XtGLw_FDOff, XtGLw_FDIn, XtGLw_FDOut};
 class FONT_FONT;
 
 
+// linetodraw
+struct linetodraw
+{
+	double						space_size;
+	int							nbchar;
+	std::vector<unsigned int>	text;
+};
+
 
 //*************************************************************************************************
 //*                               class CEGUIDrawable
@@ -84,19 +92,11 @@ public:
 	void resizedGL(int w, int h);
 
 protected:
-		
-	void write_line_black(const std::vector<unsigned int> &text, FONT_FONT &font, 
+
+	void write_text(double x, double y) const;
+
+	void write_line(const std::vector<unsigned int> &text, bool black,
 								double x, double y, double space_size, int nbchar) const;
-
-	void write_line_white(const std::vector<unsigned int> &text, FONT_FONT &font, 
-								double x, double y, double space_size, int nbchar) const;
-
-	void write_text_white(const std::vector<unsigned int> &text, FONT_FONT &font, 
-								double x, double y, double maxlenght, int maxchar) const;
-
-	void write_text_black(const std::vector<unsigned int> &text, FONT_FONT &font, 
-								double x, double y, double maxlenght, int maxchar) const;
-
 
 
 	void CreateLBAFont(int size);
@@ -117,6 +117,10 @@ protected:
 
 	//! display image if exist
 	void DrawBGImage(float alpha) const;
+
+	//! prepare text to be drawn
+	void prepare_text(const std::vector<unsigned int> &text, 
+								double maxlenght, int maxchar);
 
 
 protected:    
@@ -166,6 +170,8 @@ private:
 	float			_foB;
 	float			_currentalpha;
 	int				_fontsize;
+
+	std::vector<linetodraw>	_textstodraw;
 };
 
 

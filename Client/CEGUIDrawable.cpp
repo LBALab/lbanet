@@ -272,33 +272,6 @@ void CEGUIDrawable::drawImplementation(osg::RenderInfo& renderInfo) const
 		glEnable(GL_BLEND);
 		glEnable(GL_TEXTURE_2D);
 
-		//glBindTexture(GL_TEXTURE_2D, m_halo_texture);
-		//glColor3f(246/255.0f,181/255.0f,24/255.0f);
-		//glBegin(GL_QUADS);
-		//	glTexCoord2f(1, 1);
-		//	glVertex2f(60,0);	
-		//	glTexCoord2f(0, 1);
-		//	glVertex2f(0,0);
-		//	glTexCoord2f(0, 0);
-		//	glVertex2f(0,84);	
-		//	glTexCoord2f(1, 0);
-		//	glVertex2f(60,84);	
-		//glEnd();
-
-
-		//glBindTexture(GL_TEXTURE_2D, m_char_texture);
-		//glColor3f(1,1,1);
-		//glBegin(GL_QUADS);
-		//	glTexCoord2f(1, 1);
-		//	glVertex2f(55,0);	
-		//	glTexCoord2f(0, 1);
-		//	glVertex2f(5,0);	
-		//	glTexCoord2f(0, 0);
-		//	glVertex2f(5,69);
-		//	glTexCoord2f(1, 0);
-		//	glVertex2f(55,69);	
-		//glEnd();
-
 		int offsetx = 67;
 		int sizex = 79;
 		glDisable(GL_TEXTURE_2D);
@@ -352,10 +325,9 @@ void CEGUIDrawable::drawImplementation(osg::RenderInfo& renderInfo) const
 }
 
 
-
-
-
-void CEGUIDrawable::write_line_black(const std::vector<unsigned int> &text, FONT_FONT &font, double x, double y, double space_size, int nbchar) const
+		
+void CEGUIDrawable::write_line(const std::vector<unsigned int> &text, bool black,
+									double x, double y, double space_size, int nbchar) const
 {
 	glBegin(GL_QUADS);
 
@@ -366,215 +338,31 @@ void CEGUIDrawable::write_line_black(const std::vector<unsigned int> &text, FONT
 			x+=space_size;
 		else
 		{
-			glColor3d(0,0,0);
-			glTexCoord2d((font.glyph[n].mapx)/1024.,                                    (font.glyph[n].mapy     +font.char_height)/1024.);
-			glVertex2f(	(int)x+font.glyph[n].dx,                                     (int)y-font.origin          +font.char_height);
-			glTexCoord2d((font.glyph[n].mapx            +font.glyph[n].width)/1024.,    (font.glyph[n].mapy     +font.char_height)/1024.);
-			glVertex2f(	(int)x+font.glyph[n].dx         +font.glyph[n].width,           (int)y-font.origin          +font.char_height);		
-			glTexCoord2d((font.glyph[n].mapx            +font.glyph[n].width)/1024.,    (font.glyph[n].mapy)/1024.);
-			glVertex2f(	(int)x+font.glyph[n].dx         +font.glyph[n].width,           (int)y-font.origin);			
-			glTexCoord2d((font.glyph[n].mapx/1024.),                                    (font.glyph[n].mapy)/1024.);
-			glVertex2f(	(int)x+font.glyph[n].dx,                                        (int)y-font.origin);
-			x+=font.glyph[n].advance;
+			if(black)
+			{
+				glColor3d(0,0,0);
+			}
+			else
+			{
+				glColor3d(min(0.8,(nbchar-i)/10.),
+						  min(0.8,(nbchar-i)/10.),
+						  min(0.8,(nbchar-i)/10.));
+			}
+
+
+			glTexCoord2d((_loadedfont->glyph[n].mapx)/1024.,											(_loadedfont->glyph[n].mapy			+_loadedfont->char_height)/1024.);
+			glVertex2f(	(int)x+_loadedfont->glyph[n].dx,												(int)y-_loadedfont->origin          +_loadedfont->char_height);
+			glTexCoord2d((_loadedfont->glyph[n].mapx            +_loadedfont->glyph[n].width)/1024.,    (_loadedfont->glyph[n].mapy			+_loadedfont->char_height)/1024.);
+			glVertex2f(	(int)x+_loadedfont->glyph[n].dx         +_loadedfont->glyph[n].width,           (int)y-_loadedfont->origin          +_loadedfont->char_height);		
+			glTexCoord2d((_loadedfont->glyph[n].mapx            +_loadedfont->glyph[n].width)/1024.,    (_loadedfont->glyph[n].mapy)/1024.);
+			glVertex2f(	(int)x+_loadedfont->glyph[n].dx         +_loadedfont->glyph[n].width,           (int)y-_loadedfont->origin);			
+			glTexCoord2d((_loadedfont->glyph[n].mapx/1024.),											(_loadedfont->glyph[n].mapy)/1024.);
+			glVertex2f(	(int)x+_loadedfont->glyph[n].dx,												(int)y-_loadedfont->origin);
+			x+=_loadedfont->glyph[n].advance;
 		}
 	}
 	glEnd();
 }
-
-
-
-void CEGUIDrawable::write_line_white(const std::vector<unsigned int> &text, FONT_FONT &font, double x, double y, double space_size, int nbchar) const
-{
-	glBegin(GL_QUADS);
-
-	for(int i=0;i<nbchar && i<text.size();i++)
-	{
-		unsigned int n=text[i];
-		if(n==' ')
-			x+=space_size;
-		else
-		{
-			glColor3d(min(0.8,(nbchar-i)/10.),
-					  min(0.8,(nbchar-i)/10.),
-					  min(0.8,(nbchar-i)/10.));
-
-			glTexCoord2d((font.glyph[n].mapx)/1024.,                                    (font.glyph[n].mapy     +font.char_height)/1024.);
-			glVertex2f(	(int)x+font.glyph[n].dx,                                     (int)y-font.origin          +font.char_height);
-			glTexCoord2d((font.glyph[n].mapx            +font.glyph[n].width)/1024.,    (font.glyph[n].mapy     +font.char_height)/1024.);
-			glVertex2f(	(int)x+font.glyph[n].dx         +font.glyph[n].width,           (int)y-font.origin          +font.char_height);
-			glTexCoord2d((font.glyph[n].mapx            +font.glyph[n].width)/1024.,    (font.glyph[n].mapy)/1024.);
-			glVertex2f(	(int)x+font.glyph[n].dx         +font.glyph[n].width,           (int)y-font.origin);		
-			glTexCoord2d((font.glyph[n].mapx/1024.),                                    (font.glyph[n].mapy)/1024.);
-			glVertex2f(	(int)x+font.glyph[n].dx,                                        (int)y-font.origin);
-
-			x+=font.glyph[n].advance;
-		}
-	}
-	glEnd();
-}
-
-
-void CEGUIDrawable::write_text_white(const std::vector<unsigned int> &text, FONT_FONT &font, 
-									double x, double y, double maxlenght, int maxchar) const
-{
-    int space_size=font.average_advance;
-    int nbwords=0;
-    vector<std::vector<unsigned int> > words;
-    vector<int> wordslengthpixel;
-    int length=0;
-    std::vector<unsigned int> s;
-    for(int i=0;i<text.size();i++)
-    {
-        unsigned int c=text[i];
-        if(c==' ')
-        {
-            nbwords++;
-            wordslengthpixel.push_back(length);
-            words.push_back(s);
-            s.clear();
-            length=0;
-        }
-        else
-        {
-            s.push_back(c);
-            length+=font.glyph[c].advance;
-        }
-    }
-    words.push_back(s);
-    wordslengthpixel.push_back(length);
-
-    std::vector<unsigned int> line;
-    line.clear();
-    int linelengthchar=0;
-    int linelengthpixel=0;
-    nbwords=0;
-    int nbchar=0;
-	bool returnline = false;
-    for(int i=0;i<words.size();i++)
-    {
-		if(words[i].size() == 1 && 	words[i][0] == '@')
-		{
-			returnline = true;
-		}
-		else
-		{
-			if(!returnline && linelengthpixel+wordslengthpixel[i]+(nbwords)*space_size<=maxlenght)
-			{
-				for(int sv=0; sv< words[i].size(); ++sv)
-					line.push_back(words[i][sv]);
-				line.push_back(' ');
-				linelengthpixel+=wordslengthpixel[i];
-				nbwords++;
-				linelengthchar+=words[i].size()+1;
-			}
-			else
-			{
-				returnline = false;
-				write_line_white(line,font,x,y,(maxlenght-linelengthpixel)/(nbwords-1),maxchar-nbchar);
-				line.clear();
-				nbchar+=linelengthchar;
-				linelengthchar=0;
-				linelengthpixel=0;
-
-				for(int sv=0; sv< words[i].size(); ++sv)
-					line.push_back(words[i][sv]);
-				line.push_back(' ');
-				linelengthpixel+=wordslengthpixel[i];
-				linelengthchar=words[i].size()+1;
-				y+=font.average_advance*2.;
-				nbwords=1;
-			}
-		}
-    }
-    write_line_white(line, font, x, y, space_size, maxchar-nbchar);
-}
-
-void CEGUIDrawable::write_text_black(const std::vector<unsigned int> &text, FONT_FONT &font, 
-									double x, double y, double maxlenght, int maxchar) const
-{
-    int space_size=font.average_advance;
-    int nbwords=0;
-    vector<std::vector<unsigned int> >words;
-    vector<int> wordslengthpixel;
-    int length=0;
-    std::vector<unsigned int> s;
-    for(int i=0;i<text.size();i++)
-    {
-        unsigned int c=text[i];
-        if(c==' ')
-        {
-            nbwords++;
-            wordslengthpixel.push_back(length);
-            words.push_back(s);
-            s.clear();
-            length=0;
-
-        }
-        else
-        {
-            s.push_back(c);
-            length+=font.glyph[c].advance;
-        }
-    }
-    words.push_back(s);
-    wordslengthpixel.push_back(length);
-
-    std::vector<unsigned int> line;
-    line.clear();
-    int linelengthchar=0;
-    int linelengthpixel=0;
-    nbwords=0;
-    int nbchar=0;
-	bool returnline = false;
-    for(int i=0;i<words.size();i++)
-    {
-		if(words[i].size() == 1 && 	words[i][0] == '@')
-		{
-			returnline = true;
-		}
-		else
-		{
-			if(!returnline && linelengthpixel+wordslengthpixel[i]+(nbwords)*space_size<=maxlenght)
-			{
-				for(int sv=0; sv< words[i].size(); ++sv)
-					line.push_back(words[i][sv]);
-				line.push_back(' ');
-				linelengthpixel+=wordslengthpixel[i];
-				nbwords++;
-				linelengthchar+=words[i].size()+1;
-			}
-			else
-			{
-				returnline = false;
-				write_line_black(line,font,x,y,(maxlenght-linelengthpixel)/(nbwords-1),maxchar-nbchar);
-				line.clear();
-				nbchar+=linelengthchar;
-				linelengthchar=0;
-				linelengthpixel=0;
-
-				for(int sv=0; sv< words[i].size(); ++sv)
-					line.push_back(words[i][sv]);
-				line.push_back(' ');
-				linelengthpixel+=wordslengthpixel[i];
-				linelengthchar=words[i].size()+1;
-				y+=font.average_advance*2.;
-				nbwords=1;
-			}
-		}
-
-    }
-    write_line_black(line, font, x, y, space_size, maxchar-nbchar);
-	
-	int checkL = (maxchar-nbchar);
-	int checkL2 = line.size();
-	if(checkL >= checkL2)
-	{
-		//_scrolling = false;
-		//_scrollingtimediff += 100000; //TODO
-	}
-}
-
-
 
 
 void CEGUIDrawable::CreateLBAFont(int size)
@@ -660,56 +448,64 @@ void CEGUIDrawable::CleanImageTexture()
 
 void CEGUIDrawable::Process(double tnow, float tdiff)
 {
-	if(_scrolling)
-		_scrollingtimediff += tdiff;
-
-	// do fading/timeout
-	switch(_currentfadestate)
+	if(_currentstate == XtGLw_Text)
 	{
-		case XtGLw_FDIn:
+		if(_scrolling)
+			_scrollingtimediff += tdiff;
+
+		if(_textidx < _texts.size())
+			prepare_text(_texts[_textidx], _windowW-2*_loadedfont->average_advance, (int)(_scrollingtimediff/60));
+	}
+	else
+	{
+		// do fading/timeout
+		switch(_currentfadestate)
 		{
-			_bgR=_fiR;
-			_bgG=_fiG;
-			_bgB=_fiB;
-
-			_currentalpha += 0.02f;
-			if(_currentalpha >= 1)
+			case XtGLw_FDIn:
 			{
-				_currentalpha = 1;
-				_currentfadestate = XtGLw_FDOff;
-			}
-		}
-		break;
+				_bgR=_fiR;
+				_bgG=_fiG;
+				_bgB=_fiB;
 
-		case XtGLw_FDOut:
-		{
-			_bgR=_foR;
-			_bgG=_foG;
-			_bgB=_foB;
-
-			_currentalpha -= 0.02f;
-			if(_currentalpha <= 0)
-			{
-				_currentalpha = 0;
-				_currentfadestate = XtGLw_FDOff;
-				CleanAndReport();
-			}
-		}
-		break;
-
-		case XtGLw_FDOff:
-		{
-			//fixed image timeout
-			if((_textfinishdisplaytime > 0) && (_textfinishdisplaytime <= tnow))
-			{
-				_textfinishdisplaytime = -1;
-				if(_fadingout)
+				_currentalpha += 0.02f;
+				if(_currentalpha >= 1)
 				{
 					_currentalpha = 1;
-					_currentfadestate = XtGLw_FDOut;
+					_currentfadestate = XtGLw_FDOff;
 				}
-				else
+			}
+			break;
+
+			case XtGLw_FDOut:
+			{
+				_bgR=_foR;
+				_bgG=_foG;
+				_bgB=_foB;
+
+				_currentalpha -= 0.02f;
+				if(_currentalpha <= 0)
+				{
+					_currentalpha = 0;
+					_currentfadestate = XtGLw_FDOff;
 					CleanAndReport();
+				}
+			}
+			break;
+
+			case XtGLw_FDOff:
+			{
+				//fixed image timeout
+				if((_textfinishdisplaytime > 0) && (_textfinishdisplaytime <= tnow))
+				{
+					_textfinishdisplaytime = -1;
+					if(_fadingout)
+					{
+						_currentalpha = 1;
+						_currentfadestate = XtGLw_FDOut;
+					}
+					else
+						CleanAndReport();
+				}
 			}
 		}
 	}
@@ -862,13 +658,7 @@ void CEGUIDrawable::EndDrawExtraGL()
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 
 			if(_textidx < _texts.size())
-			{
-				write_text_black(_texts[_textidx], *_loadedfont, _loadedfont->average_advance+2,
-					_loadedfont->origin+22, _windowW-2*_loadedfont->average_advance, (int)(_scrollingtimediff/60));
-
-				write_text_white(_texts[_textidx], *_loadedfont, _loadedfont->average_advance,
-					_loadedfont->origin+20, _windowW-2*_loadedfont->average_advance, (int)(_scrollingtimediff/60));
-			}
+				write_text(_loadedfont->average_advance, _loadedfont->origin+20);
 		}
 		break;
 
@@ -914,3 +704,122 @@ void CEGUIDrawable::DrawBGImage(float alpha) const
 	CreateLBAFont(_fontsize);
  }
 
+
+//! prepare text to be drawn
+void CEGUIDrawable::prepare_text(const std::vector<unsigned int> &text,  
+										double maxlenght, int maxchar)
+{
+	_textstodraw.clear();
+
+    int space_size=_loadedfont->average_advance;
+    int nbwords=0;
+    vector<std::vector<unsigned int> >words;
+    vector<int> wordslengthpixel;
+    int length=0;
+    std::vector<unsigned int> s;
+    for(int i=0;i<text.size();i++)
+    {
+        unsigned int c=text[i];
+        if(c==' ')
+        {
+            nbwords++;
+            wordslengthpixel.push_back(length);
+            words.push_back(s);
+            s.clear();
+            length=0;
+
+        }
+        else
+        {
+            s.push_back(c);
+            length+=_loadedfont->glyph[c].advance;
+        }
+    }
+    words.push_back(s);
+    wordslengthpixel.push_back(length);
+
+    std::vector<unsigned int> line;
+    line.clear();
+    int linelengthchar=0;
+    int linelengthpixel=0;
+    nbwords=0;
+    int nbchar=0;
+	bool returnline = false;
+    for(int i=0;i<words.size();i++)
+    {
+		if(words[i].size() == 1 && 	words[i][0] == '@')
+		{
+			returnline = true;
+		}
+		else
+		{
+			if(!returnline && linelengthpixel+wordslengthpixel[i]+(nbwords)*space_size<=maxlenght)
+			{
+				for(int sv=0; sv< words[i].size(); ++sv)
+					line.push_back(words[i][sv]);
+				line.push_back(' ');
+				linelengthpixel+=wordslengthpixel[i];
+				nbwords++;
+				linelengthchar+=words[i].size()+1;
+			}
+			else
+			{
+				returnline = false;
+
+				int chartodraw = maxchar-nbchar;
+				if(chartodraw > 0)
+				{
+					linetodraw tmp;
+					tmp.nbchar = chartodraw;
+					tmp.space_size = (maxlenght-linelengthpixel)/(nbwords-1);
+					tmp.text.swap(line);
+					_textstodraw.push_back(tmp);
+				}
+
+				line.clear();
+				nbchar+=linelengthchar;
+				linelengthchar=0;
+				linelengthpixel=0;
+
+				for(int sv=0; sv< words[i].size(); ++sv)
+					line.push_back(words[i][sv]);
+				line.push_back(' ');
+				linelengthpixel+=wordslengthpixel[i];
+				linelengthchar=words[i].size()+1;
+				nbwords=1;
+			}
+		}
+
+    }
+
+	int chartodraw = maxchar-nbchar;
+	if(chartodraw > 0)
+	{
+		linetodraw tmp;
+		tmp.nbchar = chartodraw;
+		tmp.space_size = space_size;
+		tmp.text.swap(line);
+		_textstodraw.push_back(tmp);
+	}
+	
+
+	int checkL2 = line.size();
+	if(chartodraw >= checkL2)
+	{
+		_scrolling = false;
+		_scrollingtimediff += 100000;
+	}
+}
+
+//! draw text on screen
+void CEGUIDrawable::write_text(double x, double y) const
+{
+	std::vector<linetodraw>::const_iterator it = _textstodraw.begin();
+	std::vector<linetodraw>::const_iterator end = _textstodraw.end();
+	for(; it != end; ++it)
+	{
+		write_line(it->text, true, x+2, y+2, it->space_size, it->nbchar);
+		write_line(it->text, false, x, y, it->space_size, it->nbchar);
+		y+=_loadedfont->average_advance*2.;
+	}
+}
