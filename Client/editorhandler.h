@@ -612,9 +612,13 @@ public:
 								const std::string & OptionalMusicPath){}
 
 	// DisplayScrollingText
-	virtual void DisplayScrollingText(int ScriptId, const std::string & imagepath, 
-										const LbaVecLong &textIds, 
+	virtual void DisplayScrollingText(int ScriptId, const std::string & imagepath,
+										const LbaVecLong &textIds,
 										const std::string & OptionalMusicPath){}
+
+
+	// reset to game screen after displaying extra gl stuff
+	virtual void ResetToGameScreen(){}
 
 private:
 	enum ObjectEditType {EditObjCopy, EditObjCut, EditObjDelete};

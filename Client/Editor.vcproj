@@ -511,10 +511,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ExtraGLWindowQt.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\shared\FileUtil.cpp"
 				>
 			</File>

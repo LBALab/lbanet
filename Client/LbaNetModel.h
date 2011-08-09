@@ -462,6 +462,8 @@ public:
 										const LbaVecLong &textIds, 
 										const std::string & OptionalMusicPath);
 
+	// reset to game screen after displaying extra gl stuff
+	virtual void ResetToGameScreen();
 
 protected:
 

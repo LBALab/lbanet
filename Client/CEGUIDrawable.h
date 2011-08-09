@@ -119,9 +119,11 @@ protected:
 	void DrawBGImage(float alpha) const;
 
 	//! prepare text to be drawn
-	void prepare_text(const std::vector<unsigned int> &text, 
-								double maxlenght, int maxchar);
+	void prepare_text(const std::vector<linetodraw> &texttoprep, int maxchar);
 
+
+	//! precalculate text to display to screen
+	void precalculate_text(double sizeX, double sizeY);
 
 protected:    
 	//! destructor
@@ -157,7 +159,7 @@ private:
 	bool			_scrolling;
 	float			_scrollingtimediff;
 	std::vector<std::vector<unsigned int> >	_texts;
-	int							_textidx;
+
 
 	double			_textfinishdisplaytime;
 	bool			_fadingin;
@@ -172,6 +174,9 @@ private:
 	int				_fontsize;
 
 	std::vector<linetodraw>	_textstodraw;
+
+	std::vector<std::vector<linetodraw> >	_precalculated_text;
+	int										_textpageidx;
 };
 
 

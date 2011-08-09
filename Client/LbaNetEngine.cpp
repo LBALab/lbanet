@@ -1319,19 +1319,32 @@ void LbaNetEngine::ResizeClientWindow(int sx, int sy, bool fullscreen)
 #ifndef _USE_QT_EDITOR_
 	if(m_client_window)
 	{
+		QRect screenR = QApplication::desktop()->screen()->rect();
+
 		if(!fullscreen)
 		{
 			if(m_client_window->isFullScreen())
 				m_client_window->showNormal();
 			else
-				m_client_window->show();
+			{
+				if((sx >= screenR.x()) && ((sy+100) >= screenR.y()))
+				{
+					m_client_window->resize(sx, sy);
+					m_client_window->showMaximized();
+				}
+				else
+				{
+					m_client_window->show();
+					m_client_window->resize(sx, sy);
+					m_client_window->move(screenR.center() - m_client_window->rect().center());
+				}
+			}
 
-			m_client_window->resize(sx, sy);
-			m_client_window->move(QApplication::desktop()->screen()->rect().center() - m_client_window->rect().center());
+
 		}
 		else
 		{
-			m_client_window->setGeometry(QApplication::desktop()->screen()->rect());
+			m_client_window->setGeometry(screenR);
 			m_client_window->showFullScreen();
 		}
 	}
@@ -1357,9 +1370,6 @@ end a video sequence
 ***********************************************************/
 void LbaNetEngine::EndVideoSequence()
 {
-	if(m_client_window)
-		m_client_window->ResetToGame();
-
 	MusicHandler::getInstance()->ResetMute();
 	m_lbaNetModel->ClientVideoFinished();
 }

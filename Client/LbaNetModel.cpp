@@ -2117,7 +2117,17 @@ void LbaNetModel::ClientVideoFinished()
 		//tell server that video is finished
 		EventsQueue::getSenderQueue()->AddEvent(new LbaNet::VideoSequenceFinishedEvent(
 			SynchronizedTimeHandler::GetCurrentTimeDouble()));
+
+		EventsQueue::getReceiverQueue()->AddEvent(new SwitchToGameEvent());
 	}
+}
+
+/***********************************************************
+reset to game screen after displaying extra gl stuff
+***********************************************************/
+void LbaNetModel::ResetToGameScreen()
+{
+	EventsQueue::getReceiverQueue()->AddEvent(new SwitchToGameEvent());
 }
 
 
@@ -2149,8 +2159,6 @@ FixedImageDisplayFinished
 ***********************************************************/
 void LbaNetModel::DisplayExtraGLFinished()
 {
-	EventsQueue::getReceiverQueue()->AddEvent(new SwitchToGameEvent());
-
 	if(m_image_assoc_music)
 	{
 		EventsQueue::getReceiverQueue()->AddEvent(new ResetMusicEvent());

@@ -476,6 +476,9 @@ public:
 										const LbaVecLong &textIds, 
 										const std::string & OptionalMusicPath) = 0;
 
+	// reset to game screen after displaying extra gl stuff
+	virtual void ResetToGameScreen() = 0;
+
 protected:
 
 	//! used by lua to move an actor or player

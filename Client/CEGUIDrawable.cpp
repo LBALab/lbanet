@@ -453,8 +453,8 @@ void CEGUIDrawable::Process(double tnow, float tdiff)
 		if(_scrolling)
 			_scrollingtimediff += tdiff;
 
-		if(_textidx < _texts.size())
-			prepare_text(_texts[_textidx], _windowW-2*_loadedfont->average_advance, (int)(_scrollingtimediff/60));
+		if(_textpageidx < _precalculated_text.size())
+			prepare_text(_precalculated_text[_textpageidx], (int)(_scrollingtimediff/60));
 	}
 	else
 	{
@@ -515,7 +515,6 @@ void CEGUIDrawable::Process(double tnow, float tdiff)
 // clean up display
 void CEGUIDrawable::CleanUp()
 {
-	_drawXtraGL = false;
 	_textfinishdisplaytime = -1;
 	_currentstate = XtGLw_Off;
 	_currentfadestate = XtGLw_FDOff;
@@ -545,8 +544,8 @@ void CEGUIDrawable::PressedSpace()
 		}
 		else
 		{
-			++_textidx;
-			if(_textidx >= _texts.size())
+			++_textpageidx;
+			if(_textpageidx >= _precalculated_text.size())
 			{
 				CleanAndReport();
 			}
@@ -573,9 +572,10 @@ void CEGUIDrawable::StartScrollingText(const std::string & imagepath,
 
 	_scrolling = true;
 	_scrollingtimediff = 0;
-	_textidx = 0;
 	_texts.clear();
 	_texts.swap(textIds);
+
+	precalculate_text(_windowW-2*_loadedfont->average_advance, _windowH);
 }
 
 
@@ -642,13 +642,15 @@ void CEGUIDrawable::EndDrawExtraGL()
 		{
 			DrawBGImage(1);
 
-			if(!_scrolling)
+			if(!_scrolling && (_textpageidx < _precalculated_text.size()-1))
 			{
+				glColor3d(0.8,0.8,0.8);
+
 				glDisable(GL_TEXTURE_2D);
 				glBegin(GL_TRIANGLES);
-					glVertex2f(	_windowW-50,_windowH-20);
-					glVertex2f(	_windowW-20,_windowH-20);
-					glVertex2f(	_windowW-20,_windowH-50);
+					glVertex2f(	_windowW-_loadedfont->average_advance-30,_windowH-_loadedfont->average_advance);
+					glVertex2f(	_windowW-_loadedfont->average_advance,_windowH-_loadedfont->average_advance);
+					glVertex2f(	_windowW-_loadedfont->average_advance,_windowH-_loadedfont->average_advance-30);
 				glEnd();
 			}
 
@@ -657,7 +659,7 @@ void CEGUIDrawable::EndDrawExtraGL()
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 
-			if(_textidx < _texts.size())
+			if(_textpageidx < _precalculated_text.size())
 				write_text(_loadedfont->average_advance, _loadedfont->origin+20);
 		}
 		break;
@@ -700,111 +702,34 @@ void CEGUIDrawable::DrawBGImage(float alpha) const
  {
 	_windowW = w;
 	_windowH = h;
-	_fontsize = min(h/30, 40);
+	_fontsize = min(h/25, 40);
 	CreateLBAFont(_fontsize);
+
+	if(_currentstate == XtGLw_Text)
+		precalculate_text(_windowW-2*_loadedfont->average_advance, _windowH);
  }
 
 
 //! prepare text to be drawn
-void CEGUIDrawable::prepare_text(const std::vector<unsigned int> &text,  
-										double maxlenght, int maxchar)
+void CEGUIDrawable::prepare_text(const std::vector<linetodraw> &texttoprep, int maxchar)
 {
 	_textstodraw.clear();
 
-    int space_size=_loadedfont->average_advance;
-    int nbwords=0;
-    vector<std::vector<unsigned int> >words;
-    vector<int> wordslengthpixel;
-    int length=0;
-    std::vector<unsigned int> s;
-    for(int i=0;i<text.size();i++)
-    {
-        unsigned int c=text[i];
-        if(c==' ')
-        {
-            nbwords++;
-            wordslengthpixel.push_back(length);
-            words.push_back(s);
-            s.clear();
-            length=0;
-
-        }
-        else
-        {
-            s.push_back(c);
-            length+=_loadedfont->glyph[c].advance;
-        }
-    }
-    words.push_back(s);
-    wordslengthpixel.push_back(length);
-
-    std::vector<unsigned int> line;
-    line.clear();
-    int linelengthchar=0;
-    int linelengthpixel=0;
-    nbwords=0;
-    int nbchar=0;
-	bool returnline = false;
-    for(int i=0;i<words.size();i++)
-    {
-		if(words[i].size() == 1 && 	words[i][0] == '@')
-		{
-			returnline = true;
-		}
-		else
-		{
-			if(!returnline && linelengthpixel+wordslengthpixel[i]+(nbwords)*space_size<=maxlenght)
-			{
-				for(int sv=0; sv< words[i].size(); ++sv)
-					line.push_back(words[i][sv]);
-				line.push_back(' ');
-				linelengthpixel+=wordslengthpixel[i];
-				nbwords++;
-				linelengthchar+=words[i].size()+1;
-			}
-			else
-			{
-				returnline = false;
-
-				int chartodraw = maxchar-nbchar;
-				if(chartodraw > 0)
-				{
-					linetodraw tmp;
-					tmp.nbchar = chartodraw;
-					tmp.space_size = (maxlenght-linelengthpixel)/(nbwords-1);
-					tmp.text.swap(line);
-					_textstodraw.push_back(tmp);
-				}
-
-				line.clear();
-				nbchar+=linelengthchar;
-				linelengthchar=0;
-				linelengthpixel=0;
-
-				for(int sv=0; sv< words[i].size(); ++sv)
-					line.push_back(words[i][sv]);
-				line.push_back(' ');
-				linelengthpixel+=wordslengthpixel[i];
-				linelengthchar=words[i].size()+1;
-				nbwords=1;
-			}
-		}
-
-    }
-
-	int chartodraw = maxchar-nbchar;
-	if(chartodraw > 0)
+	int sizedone = 0;
+	std::vector<linetodraw>::const_iterator it = texttoprep.begin();
+	std::vector<linetodraw>::const_iterator end = texttoprep.end();
+	for(; (it != end) && (sizedone < maxchar); ++it)
 	{
 		linetodraw tmp;
-		tmp.nbchar = chartodraw;
-		tmp.space_size = space_size;
-		tmp.text.swap(line);
+		tmp.nbchar = maxchar-sizedone;
+		tmp.space_size = it->space_size;
+		tmp.text = it->text;
 		_textstodraw.push_back(tmp);
-	}
-	
 
-	int checkL2 = line.size();
-	if(chartodraw >= checkL2)
+		sizedone += (int)it->text.size();
+	}
+
+	if(sizedone < maxchar)
 	{
 		_scrolling = false;
 		_scrollingtimediff += 100000;
@@ -821,5 +746,113 @@ void CEGUIDrawable::write_text(double x, double y) const
 		write_line(it->text, true, x+2, y+2, it->space_size, it->nbchar);
 		write_line(it->text, false, x, y, it->space_size, it->nbchar);
 		y+=_loadedfont->average_advance*2.;
+	}
+}
+
+
+//! precalculate text to display to screen
+void CEGUIDrawable::precalculate_text(double sizeX, double sizeY)
+{
+	_precalculated_text.clear();
+	_textpageidx = 0;
+	size_t maxtextpage = (size_t)((sizeY-40) / _loadedfont->char_height);
+
+	std::vector<std::vector<unsigned int> >::iterator it = _texts.begin();
+	std::vector<std::vector<unsigned int> >::iterator end = _texts.end();
+	for(; it != end; ++it)
+	{
+		std::vector<linetodraw> textpage;
+		std::vector<unsigned int>& tmpvec = *it;
+
+		// separate words
+	    int space_size=_loadedfont->average_advance;
+		int nbwords=0;
+		vector<std::vector<unsigned int> >words;
+		vector<int> wordslengthpixel;
+		int length=0;
+		std::vector<unsigned int> s;
+		for(int i=0;i<tmpvec.size();i++)
+		{
+			unsigned int c=tmpvec[i];
+			if(c==' ')
+			{
+				nbwords++;
+				wordslengthpixel.push_back(length);
+				words.push_back(s);
+				s.clear();
+				length=0;
+
+			}
+			else
+			{
+				// avoid problem with undrawable chars
+				if(c >= _loadedfont->glyph.size())
+					c = ' ';
+
+				s.push_back(c);
+				length+=_loadedfont->glyph[c].advance;
+			}
+		}
+		words.push_back(s);
+		wordslengthpixel.push_back(length);
+
+		std::vector<unsigned int> line;
+		int linelengthpixel=0;
+		nbwords=0;
+		int nbchar=0;
+		bool returnline = false;
+		for(int i=0;i<words.size();i++)
+		{
+			if(words[i].size() == 1 && 	words[i][0] == '@')
+			{
+				returnline = true;
+			}
+			else
+			{
+				if(!returnline && linelengthpixel+wordslengthpixel[i]+(nbwords)*space_size<=sizeX)
+				{
+					for(int sv=0; sv< words[i].size(); ++sv)
+						line.push_back(words[i][sv]);
+					line.push_back(' ');
+					linelengthpixel+=wordslengthpixel[i];
+					nbwords++;
+				}
+				else
+				{
+					linetodraw tmp;
+					tmp.space_size = returnline ? space_size : (sizeX-linelengthpixel)/(nbwords-1);
+					tmp.text.swap(line);
+					textpage.push_back(tmp);
+					if(textpage.size() >= maxtextpage)
+					{
+						_precalculated_text.push_back(textpage);
+						textpage.clear();
+					}
+
+					line.clear();
+					linelengthpixel=0;
+
+					for(int sv=0; sv< words[i].size(); ++sv)
+						line.push_back(words[i][sv]);
+					line.push_back(' ');
+					linelengthpixel+=wordslengthpixel[i];
+					nbwords=1;
+
+					returnline = false;
+				}
+			}
+
+		}
+
+		if(line.size() > 0)
+		{
+			linetodraw tmp;
+			tmp.space_size = space_size;
+			tmp.text.swap(line);
+			textpage.push_back(tmp);
+		}
+
+		if(textpage.size() > 0)
+			_precalculated_text.push_back(textpage);
 	}
 }
