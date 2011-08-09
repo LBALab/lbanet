@@ -769,7 +769,7 @@ void CEGUIDrawable::StartScrollingText(const std::string & imagepath,
 	//clean up old stuff
 	CleanUp();
 
-	CreateLBAFont(_fontsize);
+
 
 	_drawXtraGL = true;
 	_currentstate = XtGLw_Text;
@@ -911,5 +911,6 @@ void CEGUIDrawable::DrawBGImage(float alpha) const
 	_windowW = w;
 	_windowH = h;
 	_fontsize = min(h/30, 40);
+	CreateLBAFont(_fontsize);
  }
 
