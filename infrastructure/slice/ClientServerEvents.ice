@@ -367,6 +367,12 @@ module LbaNet
 	// client inform server that video is finished playing
 	class VideoSequenceFinishedEvent extends ClientServerEventBase
 	{
+	};
+	
+	// server inform client to show/hide loading screen
+	class ShowHideLoadingScreenEvent extends ClientServerEventBase
+	{
+		bool			show;
 	};	
 };	
 
