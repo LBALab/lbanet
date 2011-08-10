@@ -65,15 +65,6 @@ LbaNetEngine::LbaNetEngine(Ice::CommunicatorPtr communicator, const std::string 
 {
 	Initialize();
 	SwitchGuiToLogin();
-
-	Localizer::getInstance()->SetWorldName("Lba1Original");
-	std::vector<long> vec;
-	for(int i=0; i<20; ++i)
-		vec.push_back(i);
-	//m_client_window->SwitchToText("Data/Worlds/Lba1Original/Video/lba1fortress.gif", vec);
-
-	//m_client_window->SwitchToFixedImage("Data/Worlds/Lba1Original/Video/lba1fortress.gif", 10, 
-	//							true, 0, 0, 0, true, 1, 1, 1);
 }
 
 
@@ -133,7 +124,7 @@ void LbaNetEngine::Initialize(void)
 
 
 	//int model
-	m_lbaNetModel = boost::shared_ptr<LbaNetModel>(new LbaNetModel());
+	m_lbaNetModel = boost::shared_ptr<LbaNetModel>(new LbaNetModel(this));
 
 
 	LogHandler::getInstance()->LogToFile("Initializing Game...");
@@ -976,8 +967,8 @@ void LbaNetEngine::HandleGameEvents()
 		{
 			SwitchMusicEvent* castedptr = 
 				static_cast<SwitchMusicEvent *>(&obj);
-
-			SwitchMusic("Data/"+castedptr->_musicpath);
+   
+			SwitchMusic(castedptr->_musicpath, 0);
 			continue;
 		}	
 
@@ -995,20 +986,7 @@ void LbaNetEngine::HandleGameEvents()
 			SwitchToFixedImageEvent* castedptr = 
 				static_cast<SwitchToFixedImageEvent *>(&obj);
 
-
-			//release all keys
-			m_lbaNetModel->KeyReleased(LbanetKey_All);
-
-			m_client_window->SwitchToFixedImage(((castedptr->_imagepath=="")?"":"Data/"+castedptr->_imagepath), 
-													castedptr->_NbSecondDisplay,
-													castedptr->_FadeIn,
-													castedptr->_FadeInColorR,
-													castedptr->_FadeInColorG,
-													castedptr->_FadeInColorB,
-													castedptr->_FadeOut,
-													castedptr->_FadeOutColorR,
-													castedptr->_FadeOutColorG,
-													castedptr->_FadeOutColorB);
+			SwitchToFixedImage(castedptr);
 			continue;
 		}	
 
@@ -1035,6 +1013,19 @@ void LbaNetEngine::HandleGameEvents()
 			m_lbaNetModel->DisplayExtraGLFinished();
 			continue;
 		}
+
+	
+		// ShowHideLoadingScreenEvent
+		if(info == typeid(LbaNet::ShowHideLoadingScreenEvent))
+		{
+			LbaNet::ShowHideLoadingScreenEvent* castedptr = 
+				dynamic_cast<LbaNet::ShowHideLoadingScreenEvent *>(&obj);
+
+			m_lbaNetModel->ShowHideLoadingScreen(castedptr->show);
+
+			continue;
+		}	
+		
 	}
 }
 
@@ -1304,7 +1295,7 @@ called to play the assigned music when menu
 ***********************************************************/
 void LbaNetEngine::PlayMenuMusic()
 {
-	SwitchMusic("Worlds/Lba1Original/Music/LBA1-Track9.mp3");
+	SwitchMusic("Worlds/Lba1Original/Music/LBA1-Track9.mp3", -1);
 }
 
 
@@ -1378,13 +1369,13 @@ void LbaNetEngine::EndVideoSequence()
 /***********************************************************
 switch to music
 ***********************************************************/
-void LbaNetEngine::SwitchMusic(const std::string &musicpath)
+void LbaNetEngine::SwitchMusic(const std::string &musicpath, int nbtime)
 {
 	std::string tmp = MusicHandler::getInstance()->GetCurrentMusic();
 	if(tmp != musicpath)
 	{
 		m_lastmusic = tmp;
-		MusicHandler::getInstance()->PlayMusic("Data/"+musicpath, -1);
+		MusicHandler::getInstance()->PlayMusic("Data/"+musicpath, nbtime);
 	}
 }
 
@@ -1397,3 +1388,25 @@ void LbaNetEngine::ResetMusic()
 	if(m_lastmusic != "")
 		MusicHandler::getInstance()->PlayMusic(m_lastmusic, 0);
 }
+
+/***********************************************************
+reset to previous music
+***********************************************************/
+void LbaNetEngine::SwitchToFixedImage(SwitchToFixedImageEvent * evtptr)
+{
+	//release all keys
+	m_lbaNetModel->KeyReleased(LbanetKey_All);
+
+	m_client_window->SwitchToFixedImage(((evtptr->_imagepath=="")?"":"Data/"+evtptr->_imagepath), 
+											evtptr->_NbSecondDisplay,
+											evtptr->_FadeIn,
+											evtptr->_FadeInColorR,
+											evtptr->_FadeInColorG,
+											evtptr->_FadeInColorB,
+											evtptr->_FadeOut,
+											evtptr->_FadeOutColorR,
+											evtptr->_FadeOutColorG,
+											evtptr->_FadeOutColorB);
+}
+
+

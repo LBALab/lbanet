@@ -39,6 +39,8 @@ class LbaNetModel;
 class ChatServerHandler;
 class EditorHandler;
 class Client;
+class SwitchToFixedImageEvent;
+
 
 
 /***********************************************************************
@@ -58,6 +60,9 @@ public:
 
 	//! entry point of the engine
 	void run(void);
+
+	//! switch to fixed image - exception: only there because we are sure it is called from the same thread
+	void SwitchToFixedImage(SwitchToFixedImageEvent * evtptr);
 
 protected:
 	//! process function
@@ -109,7 +114,7 @@ protected:
 
 
 	//! switch to music
-	void SwitchMusic(const std::string &musicpath);
+	void SwitchMusic(const std::string &musicpath, int nbtime);
 
 	//! reset to previous music
 	void ResetMusic();

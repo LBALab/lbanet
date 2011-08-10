@@ -449,7 +449,11 @@ public:
 
 
 	// reset to game screen after displaying extra gl stuff
-	virtual void ResetToGameScreen(){}
+	virtual void StartDisplayExtraScreen(int ScriptId){}
+
+	// reset to game screen after displaying extra gl stuff
+	virtual void EndDisplayExtraScreen(){}
+
 
 protected:
 

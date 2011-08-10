@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include <map>
 #include <set>
-
+#include <list>
 
 #include "ObjectsDescription.h"
 #include "DynamicObject.h"
@@ -48,6 +48,29 @@ class ClientLuaHandler;
 class ExternalActor;
 class ProjectileHandler;
 class ItemObject;
+class LbaNetEngine;
+
+
+struct ObjecToAdd
+{
+	ObjecToAdd(int OType, Ice::Long ObjectId, Ice::Long OwnerId,
+					const LbaNet::ModelInfo &DisplayDesc, 
+					const LbaNet::ObjectPhysicDesc &PhysicDesc,
+					const LbaNet::ObjectExtraInfo &extrainfo,
+					const LbaNet::LifeManaInfo &lifeinfo)
+		:  _OType(OType), _ObjectId(ObjectId), _OwnerId(OwnerId), _DisplayDesc(DisplayDesc), 
+					_PhysicDesc(PhysicDesc), _extrainfo(extrainfo), _lifeinfo(lifeinfo)
+	{}
+
+	int _OType; 
+	Ice::Long _ObjectId; 
+	Ice::Long _OwnerId;
+	LbaNet::ModelInfo _DisplayDesc; 
+	LbaNet::ObjectPhysicDesc _PhysicDesc;
+	LbaNet::ObjectExtraInfo _extrainfo;
+	LbaNet::LifeManaInfo _lifeinfo;
+};
+
 
 /***********************************************************************
  * Module:  LbaNetModel.h
@@ -59,7 +82,7 @@ class LbaNetModel : public ScriptEnvironmentBase
 {
 public:
 	//! constructor
-	LbaNetModel();
+	LbaNetModel(LbaNetEngine * engineptr);
 
 	//! destructor
 	virtual ~LbaNetModel();
@@ -463,7 +486,13 @@ public:
 										const std::string & OptionalMusicPath);
 
 	// reset to game screen after displaying extra gl stuff
-	virtual void ResetToGameScreen();
+	virtual void StartDisplayExtraScreen(int ScriptId);
+
+	// reset to game screen after displaying extra gl stuff
+	virtual void EndDisplayExtraScreen();
+
+	// show or hide loading screen
+	void ShowHideLoadingScreen(bool show);
 
 protected:
 
@@ -596,6 +625,14 @@ private:
 	bool												m_image_assoc_music;
 
 	bool												m_showing_loading;
+
+	bool												m_display_extra_screens;
+	std::list<int>										m_waiting_display_thread;
+	int													m_scripttofinish;
+
+	LbaNetEngine *										m_engineptr;
+
+	std::list<ObjecToAdd>								m_toadd;
 
 };
 

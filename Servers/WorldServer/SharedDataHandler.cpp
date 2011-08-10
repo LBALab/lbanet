@@ -469,6 +469,29 @@ teleport the player
 void SharedDataHandler::TeleportPlayerInternal(long playerid, boost::shared_ptr<PlayerHandler> pinfo, 
 												const LbaNet::PlayerPosition &newpos, long spawnid)
 {
+	// tell client to show loading screen
+	{
+		ClientProxyBasePtr proxy = pinfo->GetProxy();
+		if(proxy)
+		{
+			EventsSeq toplayer;
+			toplayer.push_back(new LbaNet::ShowHideLoadingScreenEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), true));
+			try
+			{
+				proxy->ServerEvents(toplayer);
+			}
+			catch(const IceUtil::Exception& ex)
+			{
+				std::cout<<"Exception in sending loadscreen event to client: "<<ex.what()<<std::endl;
+			}
+			catch(...)
+			{
+				std::cout<<"Unknown exception in sending loadscreen event to client. "<<std::endl;
+			}
+		}
+	}
+
+
 	// teleport player
 	if(pinfo)
 		pinfo->Teleport(newpos);

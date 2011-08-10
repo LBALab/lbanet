@@ -3186,7 +3186,14 @@ void MapHandler::SetReady(Ice::Long clientid)
 {
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
+	{
 		it->second->SetReady();
+
+		// tell client to hide loading screen
+		EventsSeq toplayer;
+		toplayer.push_back(new LbaNet::ShowHideLoadingScreenEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), false));
+		SendEvents(clientid, toplayer);
+	}
 }
 
 

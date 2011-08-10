@@ -101,7 +101,8 @@ ClientLuaHandler::ClientLuaHandler()
 		.def("PlayClientVideo", &ScriptEnvironmentBase::PlayClientVideo, luabind::yield)
 		.def("DisplayImage", &ScriptEnvironmentBase::DisplayImage, luabind::yield)
 		.def("DisplayScrollingText", &ScriptEnvironmentBase::DisplayScrollingText, luabind::yield)
-		.def("ResetToGameScreen", &ScriptEnvironmentBase::ResetToGameScreen)
+		.def("StartDisplayExtraScreen", &ScriptEnvironmentBase::StartDisplayExtraScreen, luabind::yield)
+		.def("EndDisplayExtraScreen", &ScriptEnvironmentBase::EndDisplayExtraScreen)
 		];
 	}
 	catch(const std::exception &error)

@@ -45,6 +45,9 @@ public:
 	//! destructor
 	~EventsQueue(void);
 
+	//! add event to top of the queue (top priority)
+	void AddEventTop(LbaNet::ClientServerEventBasePtr evt);
+
 	//! add event to queue
 	void AddEvent(LbaNet::ClientServerEventBasePtr evt);
 

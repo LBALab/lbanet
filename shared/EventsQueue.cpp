@@ -54,6 +54,19 @@ EventsQueue * EventsQueue::getReceiverQueue()
 
 
 
+/***********************************************************
+add event to top of the queue (top priority)
+***********************************************************/
+void EventsQueue::AddEventTop(LbaNet::ClientServerEventBasePtr evt)
+{
+	IceUtil::Mutex::Lock lock(_mutex);
+
+	if(_currevents.size() > 0)
+		_currevents.insert(_currevents.begin(), evt);
+	else
+		_currevents.push_back(evt);
+}
+
 
 
 
@@ -65,6 +78,7 @@ void EventsQueue::AddEvent(LbaNet::ClientServerEventBasePtr evt)
 	IceUtil::Mutex::Lock lock(_mutex);
 	_currevents.push_back(evt);
 }
+
 
 /***********************************************************
 get all events and clear the queue

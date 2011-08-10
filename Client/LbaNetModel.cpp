@@ -40,16 +40,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ClientExtendedTypes.h"
 #include "ItemObject.h"
 #include "Localizer.h"
+#include "LbaNetEngine.h"
+
 
 #define	_LBA1_MODEL_ANIMATION_SPEED_	1.8f
 
 /***********************************************************
 	Constructor
 ***********************************************************/
-LbaNetModel::LbaNetModel()
+LbaNetModel::LbaNetModel(LbaNetEngine * engineptr)
 : m_playerObjectId(0), m_paused(false), m_newworld(false),
 	m_videoscriptid(-1), m_fixedimagescriptid(-1), m_image_assoc_music(false),
-	m_showing_loading(false)
+	m_showing_loading(false), m_display_extra_screens(false), m_scripttofinish(-1),
+	m_engineptr(engineptr)
 {
 	LogHandler::getInstance()->LogToFile("Initializing model class...");
 
@@ -119,8 +122,32 @@ do all check to be done when idle
 ***********************************************************/
 void LbaNetModel::Process(double tnow, float tdiff)
 {
+
+	// finish lua scripts if needed
+	if(m_scripttofinish >= 0)
+	{
+		int tmp = m_scripttofinish;
+		m_scripttofinish = -1;
+		ScriptIsFinished(tmp, false);
+	}
+
+	// load object one by one not to block the main thread forever
+	//if(m_toadd.size() > 0)
+	//{
+	//	ObjecToAdd &tmp = m_toadd.front();
+	//	ObjectInfo obj = CreateObject(tmp._OType, tmp._ObjectId, tmp._DisplayDesc, 
+	//									tmp._PhysicDesc, tmp._extrainfo, tmp._lifeinfo);
+
+	//	AddObject(tmp._OType, tmp._OwnerId, obj, tmp._DisplayDesc, tmp._extrainfo, tmp._lifeinfo, 
+	//					(tmp._PhysicDesc.TypePhysO == LbaNet::CharControlAType), tmp._PhysicDesc.AllowFreeMove);
+
+	//	m_toadd.pop_front();
+	//}
+
+
 	if(m_paused)
 		return;
+
 
 	// process all _npcObjects
 	{
@@ -813,7 +840,11 @@ void LbaNetModel::AddObject(int OType, Ice::Long ObjectId, Ice::Long OwnerId,
 					const LbaNet::ObjectExtraInfo &extrainfo,
 					const LbaNet::LifeManaInfo &lifeinfo)
 {
-	ObjectInfo obj = CreateObject(OType, ObjectId, DisplayDesc, PhysicDesc, extrainfo, lifeinfo);
+	//m_toadd.push_back(ObjecToAdd(OType, ObjectId, OwnerId, DisplayDesc, PhysicDesc, extrainfo, lifeinfo));
+
+	ObjectInfo obj = CreateObject(OType, ObjectId, DisplayDesc, 
+									PhysicDesc, extrainfo, lifeinfo);
+
 	AddObject(OType, OwnerId, obj, DisplayDesc, extrainfo, lifeinfo, 
 					(PhysicDesc.TypePhysO == LbaNet::CharControlAType), PhysicDesc.AllowFreeMove);
 }
@@ -1023,12 +1054,6 @@ called when we enter a new map
 void LbaNetModel::NewMap(const std::string & NewMap, const std::string & Script,
 							int AutoCameraType)
 {
-	//show loading screen
-	m_showing_loading = true;
-	EventsQueue::getReceiverQueue()->AddEvent(new SwitchToFixedImageEvent("GUI/imagesets/loading_4_3.png", -1, 
-																			true, 0, 0, 0, false, 0, 0, 0));
-
-
 	Pause();
 
 	// clean old map
@@ -1071,11 +1096,7 @@ void LbaNetModel::RefreshEnd()
 		RefreshPlayerPortrait();
 	}
 
-	if(m_showing_loading)
-	{
-		m_showing_loading = false;
-		EventsQueue::getReceiverQueue()->AddEvent(new SwitchToGameEvent());
-	}
+
 }
 
 
@@ -2121,13 +2142,42 @@ void LbaNetModel::ClientVideoFinished()
 		EventsQueue::getReceiverQueue()->AddEvent(new SwitchToGameEvent());
 	}
 }
+/***********************************************************
+reset to game screen after displaying extra gl stuff
+***********************************************************/
+void LbaNetModel::StartDisplayExtraScreen(int ScriptId)
+{
+	if(m_display_extra_screens)
+	{
+		m_waiting_display_thread.push_back(ScriptId);
+	}
+	else
+	{
+		m_display_extra_screens = true;
+		m_scripttofinish = ScriptId;
+	}
+}
+
+
 
 /***********************************************************
 reset to game screen after displaying extra gl stuff
 ***********************************************************/
-void LbaNetModel::ResetToGameScreen()
+void LbaNetModel::EndDisplayExtraScreen()
 {
-	EventsQueue::getReceiverQueue()->AddEvent(new SwitchToGameEvent());
+	if(m_display_extra_screens)
+	{
+		m_display_extra_screens = false;
+		EventsQueue::getReceiverQueue()->AddEvent(new SwitchToGameEvent());
+
+		if(m_waiting_display_thread.size() > 0)
+		{
+			int tmp = m_waiting_display_thread.front();
+			m_waiting_display_thread.pop_front();
+			m_display_extra_screens = true;
+			ScriptIsFinished(tmp, false);
+		}
+	}
 }
 
 
@@ -2194,6 +2244,35 @@ void LbaNetModel::DisplayScrollingText(int ScriptId, const std::string & imagepa
 		m_image_assoc_music = false;
 }
 
+
+
+/***********************************************************
+// show or hide loading screen
+***********************************************************/
+void LbaNetModel::ShowHideLoadingScreen(bool show)
+{
+	// dont do anything is something else is playing on screen
+	if(m_display_extra_screens)
+		return;
+
+	if(show)
+	{
+		//show loading screen
+		m_showing_loading = true;
+
+		SwitchToFixedImageEvent evtptr("GUI/imagesets/loading_4_3.png", -1, 
+										false, 0, 0, 0, false, 0, 0, 0);
+		m_engineptr->SwitchToFixedImage(&evtptr);
+	}
+	else
+	{
+		if(m_showing_loading)
+		{
+			m_showing_loading = false;
+			EventsQueue::getReceiverQueue()->AddEvent(new SwitchToGameEvent());
+		}
+	}
+}
 
 
 

@@ -476,8 +476,13 @@ public:
 										const LbaVecLong &textIds, 
 										const std::string & OptionalMusicPath) = 0;
 
+
 	// reset to game screen after displaying extra gl stuff
-	virtual void ResetToGameScreen() = 0;
+	virtual void StartDisplayExtraScreen(int ScriptId) = 0;
+
+	// reset to game screen after displaying extra gl stuff
+	virtual void EndDisplayExtraScreen() = 0;
+
 
 protected:
 
