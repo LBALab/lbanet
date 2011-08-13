@@ -107,4 +107,7 @@
 <text id="104">Standard shadowmap</text>
 <text id="105">Soft shadowmap</text>
 <text id="106">You do not have enough kashes</text>
+<text id="107">Reset</text>
+<text id="108">Confirmation</text>
+<text id="109">Are you sure you want to reset the world? This will reset all quests and inventory objects and you will restart the game from the beginning. However your achievements will be left untouched.</text>
 </texts>

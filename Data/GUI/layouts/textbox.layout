@@ -15,7 +15,12 @@
             <Window Type="TaharezLook/Button" Name="MessageBoxFrame/bok" >
                 <Property Name="Text" Value="#0" />            
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0.5,-30},{0.85,0},{0.5,30},{0.97,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.5,-70},{0.85,0},{0.5,-10},{0.97,0}}" />
             </Window>
+             <Window Type="TaharezLook/Button" Name="MessageBoxFrame/bcancel" >
+                <Property Name="Text" Value="#1" />            
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.5,10},{0.85,0},{0.5,70},{0.97,0}}" />
+            </Window>           
         </Window>  
 </GUILayout>

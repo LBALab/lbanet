@@ -49,14 +49,18 @@
 		<Window Type="TaharezLook/Button" Name="CWGoB" >   
 		    <Property Name="Text" Value="#9" />
 		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-		    <Property Name="UnifiedAreaRect" Value="{{0.5,-100},{0.85,20},{0.5,-10},{0.85,50}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0.25,-45},{0.85,20},{0.25,45},{0.85,50}}" />
 		</Window>
 		<Window Type="TaharezLook/Button" Name="CWCancelB" >          
 		    <Property Name="Text" Value="#1" />
 		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-		    <Property Name="UnifiedAreaRect" Value="{{0.5,10},{0.85,20},{0.5,100},{0.85,50}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0.5,-45},{0.85,20},{0.5,45},{0.85,50}}" />
 		</Window>
-    
+		<Window Type="TaharezLook/Button" Name="CWResetB" >          
+		    <Property Name="Text" Value="#107" />
+		    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+		    <Property Name="UnifiedAreaRect" Value="{{0.75,-45},{0.85,20},{0.75,45},{0.85,50}}" />
+		</Window>    
 
 
 
