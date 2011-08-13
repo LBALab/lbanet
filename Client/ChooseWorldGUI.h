@@ -63,6 +63,10 @@ public:
 	//! handle cancel button event
 	bool HandleCancel (const CEGUI::EventArgs& e);
 
+	//! handle reset button event
+	bool HandleReset (const CEGUI::EventArgs& e);
+
+	
 	//! handle world selected event
 	bool HandleWorldSelected (const CEGUI::EventArgs& e);
 
@@ -71,6 +75,7 @@ public:
 
 	//! catch key event
 	bool HandleEnterKey (const CEGUI::EventArgs& e);
+
 
 private:
 	std::vector<LbaNet::WorldDesc>	_wlist;

@@ -373,8 +373,17 @@ module LbaNet
 	class ShowHideLoadingScreenEvent extends ClientServerEventBase
 	{
 		bool			show;
+	};
+	
+	
+	
+	// client inform server to reset world
+	class ResetWorldEvent extends ClientServerEventBase
+	{
+		string			Worldname;
 	};	
 };	
+
 
 #endif
 

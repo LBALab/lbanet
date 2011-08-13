@@ -440,7 +440,7 @@ void LocalDatabaseHandler::QuitWorld(const std::string& LastWorldName,long Playe
 	if(LastWorldName != "")
 	{
 		std::stringstream query;
-		query << "UPDATE lba_usertoworld SET timeplayedmin = timeplayedmin + ((strftime('%s','now') - strftime('%s', lastvisited))/60)";
+		query << "UPDATE lba_usertoworld SET timeplayedmin = timeplayedmin + ((strftime('%s','now') - strftime('%s', lastvisited))/60), timeplayedsession = timeplayedsession + ((strftime('%s','now') - strftime('%s', lastvisited))/60)";
 		query << " WHERE userid = '"<<PlayerId<<"'";
 		query << " AND worldid = (SELECT id FROM lba_worlds WHERE name = '"<<LastWorldName<<"')";
 
@@ -1030,4 +1030,98 @@ int LocalDatabaseHandler::GetDBFlag(const std::string& WorldName, long playerid,
 	}
 
 	return -1;
+}
+
+
+/***********************************************************
+reset world
+***********************************************************/
+void LocalDatabaseHandler::ResetWorld(const std::string& WorldName, long playerid)
+{
+	if(WorldName == "")
+		return;
+
+	Lock sync(*this);
+	if(!_db)
+		return;
+
+
+	std::stringstream query;
+	query << "SELECT id FROM lba_usertoworld";
+	query << " WHERE userid = '"<<playerid<<"'";
+	query << " AND worldid = (SELECT id FROM lba_worlds WHERE name = '"<<WorldName<<"')";
+
+	char *zErrMsg = 0;
+	char **pazResult = 0;
+	int nbrow, nbcollumn;
+	int dbres = sqlite3_get_table(_db, query.str().c_str(), &pazResult, &nbrow, &nbcollumn, &zErrMsg);
+
+	if(dbres != SQLITE_OK)
+	{
+		// record error
+		std::cerr<<IceUtil::Time::now()<<": WorldServer - reset world failed for user id "<<playerid<<" : "<<zErrMsg<<std::endl;
+		sqlite3_free(zErrMsg);
+	}
+	else
+	{
+		if(nbrow > 0)
+		{
+			// unpack the result
+			int wid = atoi(pazResult[nbcollumn]);
+
+			// free the results
+			sqlite3_free_table(pazResult);
+
+
+			{
+				query.str("");
+				query << "UPDATE lba_usertoworld";
+				query << " SET  timeplayedsession = 0 , lastmap = \"\"";
+				query << " WHERE id = '"<<wid<<"'";
+				dbres = sqlite3_exec(_db, query.str().c_str(), 0, 0, &zErrMsg);
+				if(dbres != SQLITE_OK)
+				{
+					// record error
+					std::cerr<<IceUtil::Time::now()<<": LBA_Server - reset world  failed for user id "<<playerid<<" : "<<zErrMsg<<std::endl;
+					sqlite3_free(zErrMsg);
+				}
+			}
+
+			{
+				query.str("");
+				query << "DELETE FROM lba_inventory where worldid = '"<<wid<<"'";
+				dbres = sqlite3_exec(_db, query.str().c_str(), 0, 0, &zErrMsg);
+				if(dbres != SQLITE_OK)
+				{
+					// record error
+					std::cerr<<IceUtil::Time::now()<<": LBA_Server - reset world  failed for user id "<<playerid<<" : "<<zErrMsg<<std::endl;
+					sqlite3_free(zErrMsg);
+				}
+			}
+
+			{
+				query.str("");
+				query << "DELETE FROM lba_quests where worldid = '"<<wid<<"'";
+				dbres = sqlite3_exec(_db, query.str().c_str(), 0, 0, &zErrMsg);
+				if(dbres != SQLITE_OK)
+				{
+					// record error
+					std::cerr<<IceUtil::Time::now()<<": LBA_Server - reset world  failed for user id "<<playerid<<" : "<<zErrMsg<<std::endl;
+					sqlite3_free(zErrMsg);
+				}
+			}
+
+			{
+				query.str("");
+				query << "DELETE FROM lba_playerflag where wid = '"<<wid<<"'";
+				dbres = sqlite3_exec(_db, query.str().c_str(), 0, 0, &zErrMsg);
+				if(dbres != SQLITE_OK)
+				{
+					// record error
+					std::cerr<<IceUtil::Time::now()<<": LBA_Server - reset world  failed for user id "<<playerid<<" : "<<zErrMsg<<std::endl;
+					sqlite3_free(zErrMsg);
+				}
+			}
+		}
+	}
 }

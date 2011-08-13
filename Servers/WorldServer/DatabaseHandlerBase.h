@@ -138,6 +138,8 @@ public:
 	// get DB flag
 	virtual int GetDBFlag(const std::string& WorldName, long playerid, const std::string & flagid) = 0;
 
+	// reset world
+	virtual void ResetWorld(const std::string& WorldName, long playerid) = 0;
 };
 
 #endif

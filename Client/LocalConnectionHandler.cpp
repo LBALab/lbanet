@@ -79,6 +79,12 @@ int LocalConnectionHandler::Connect(const std::string &user, const std::string &
 	EventsQueue::getReceiverQueue()->AddEvent(
 		new LbaNet::ClientIdEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 1));
 
+
+	// register local database
+	boost::shared_ptr<DatabaseHandlerBase> dbhandler = 
+		boost::shared_ptr<DatabaseHandlerBase>(new LocalDatabaseHandler("lbanet.sav"));
+	SharedDataHandler::getInstance()->SetDbManager(dbhandler);
+
 	return 1;
 }
 

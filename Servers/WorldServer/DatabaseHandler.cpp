@@ -417,7 +417,7 @@ void DatabaseHandler::QuitWorld(const std::string& LastWorldName,long PlayerId)
 	if(LastWorldName != "")
 	{
 		mysqlpp::Query query(_mysqlH, false);
-		query << "UPDATE lba_usertoworld SET timeplayedmin = timeplayedmin + TIMESTAMPDIFF(MINUTE, lastvisited, UTC_TIMESTAMP())";
+		query << "UPDATE lba_usertoworld SET timeplayedmin = timeplayedmin + TIMESTAMPDIFF(MINUTE, lastvisited, UTC_TIMESTAMP()), timeplayedsession = timeplayedsession + ((strftime('%s','now') - strftime('%s', lastvisited))/60)";
 		query << " WHERE userid = '"<<PlayerId<<"'";
 		query << " AND worldid = (SELECT id FROM lba_worlds WHERE name = '"<<LastWorldName<<"')";
 		if(!query.exec())
@@ -1295,7 +1295,7 @@ LbaNet::PMsSeq DatabaseHandler::GetInboxPM(long playerid)
 /***********************************************************
 set DB flag
 ***********************************************************/
-void LocalDatabaseHandler::SetDBFlag(const std::string& WorldName, long playerid,
+void DatabaseHandler::SetDBFlag(const std::string& WorldName, long playerid,
 									 const std::string & flagid, int value)
 {
 	if(WorldName == "")
@@ -1343,7 +1343,7 @@ void LocalDatabaseHandler::SetDBFlag(const std::string& WorldName, long playerid
 /***********************************************************
 get DB flag
 ***********************************************************/
-int LocalDatabaseHandler::GetDBFlag(const std::string& WorldName, long playerid,
+int DatabaseHandler::GetDBFlag(const std::string& WorldName, long playerid,
 									const std::string & flagid)
 {
 	if(WorldName == "")
@@ -1380,4 +1380,81 @@ int LocalDatabaseHandler::GetDBFlag(const std::string& WorldName, long playerid,
 	}
 
 	return -1;
+}
+
+
+/***********************************************************
+reset world
+***********************************************************/
+void DatabaseHandler::ResetWorld(const std::string& WorldName, long playerid)
+{
+	if(WorldName == "")
+		return;
+
+	Lock sync(*this);
+	if(!_mysqlH || !_mysqlH->connected())
+	{
+		Connect();
+		if(!_mysqlH->connected())
+		{
+			Clear();
+			return;
+		}
+	}
+
+	mysqlpp::Query query(_mysqlH, false);
+	query << "SELECT id FROM lba_usertoworld";
+	query << " WHERE userid = '"<<playerid<<"'";
+	query << " AND worldid = (SELECT id FROM lba_worlds WHERE name = '"<<WorldName<<"')";
+
+	if (mysqlpp::StoreQueryResult res = query.store())
+	{
+		if(res.size() > 0)
+		{
+			int wid = res[0][0];
+
+			{
+				query.clear();
+				query << "UPDATE lba_usertoworld";
+				query << " SET  timeplayedsession = 0 , lastmap = \"\"";
+				query << " WHERE id = '"<<wid<<"'";
+				if(!query.exec())
+				{
+					std::cerr<<IceUtil::Time::now()<<": LBA_Server - reset world failed for user id "<<playerid<<" : "<<query.error()<<std::endl;
+				}
+			}
+
+			{
+				query.clear();
+				query << "DELETE FROM lba_inventory where worldid = '"<<wid<<"'";
+				if(!query.exec())
+				{
+					std::cerr<<IceUtil::Time::now()<<": LBA_Server - reset world failed for user id "<<playerid<<" : "<<query.error()<<std::endl;
+				}
+			}
+
+			{
+				query.clear();
+				query << "DELETE FROM lba_quests where worldid = '"<<wid<<"'";
+				if(!query.exec())
+				{
+					std::cerr<<IceUtil::Time::now()<<": LBA_Server - reset world failed for user id "<<playerid<<" : "<<query.error()<<std::endl;
+				}
+			}
+
+			{
+				query.clear();
+				query << "DELETE FROM lba_playerflag where wid = '"<<wid<<"'";
+				if(!query.exec())
+				{
+					std::cerr<<IceUtil::Time::now()<<": LBA_Server - reset world failed for user id "<<playerid<<" : "<<query.error()<<std::endl;
+				}
+			}
+		}
+	}
+	else
+	{
+		std::cerr<<IceUtil::Time::now()<<": LBA_Server - reset world failed for playerid "<<playerid<<" : "<<query.error()<<std::endl;
+		Clear();
+	}
 }

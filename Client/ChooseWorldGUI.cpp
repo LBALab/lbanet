@@ -29,6 +29,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "EventsQueue.h"
 #include "ClientExtendedEvents.h"
 #include "GUILocalizationCallback.h"
+#include "Localizer.h"
+#include "SynchronizedTimeHandler.h"
+#include <QMessageBox>
 
 class MyListItemCW : public CEGUI::ListboxTextItem
 {
@@ -76,6 +79,11 @@ void ChooseWorldGUI::Initialize(void)
 			CEGUI::PushButton::EventClicked,
 			CEGUI::Event::Subscriber (&ChooseWorldGUI::HandleCancel, this));
 
+		static_cast<CEGUI::PushButton *> (
+			CEGUI::WindowManager::getSingleton().getWindow("CWResetB"))->subscribeEvent (
+			CEGUI::PushButton::EventClicked,
+			CEGUI::Event::Subscriber (&ChooseWorldGUI::HandleReset, this));
+
 		CEGUI::Listbox * lb = static_cast<CEGUI::Listbox *> (
 				CEGUI::WindowManager::getSingleton().getWindow("ChooseWorldList"));
 		lb->subscribeEvent (CEGUI::Listbox::EventSelectionChanged,
@@ -116,6 +124,8 @@ bool ChooseWorldGUI::HandleConnect(const CEGUI::EventArgs& e)
 		std::string samples = "Data/Samples/lba2launcherblob.wav";
 		MusicHandler::getInstance()->PlaySample(samples, 0);
 		EventsQueue::getReceiverQueue()->AddEvent(new ChangeWorldEvent(_selectedworld));
+
+		CEGUI::WindowManager::getSingleton().getWindow("CWResetB")->hide();
 	}
 
 	return true;
@@ -296,4 +306,31 @@ bool ChooseWorldGUI::HandleEnterKey (const CEGUI::EventArgs& e)
 	}
 
 	return false;
+}
+
+
+
+/***********************************************************
+handle reset button event
+***********************************************************/
+bool ChooseWorldGUI::HandleReset (const CEGUI::EventArgs& e)
+{
+	 int ret = QMessageBox::warning(NULL, QString::fromUtf8(Localizer::getInstance()->GetText(Localizer::GUI, 108).c_str()),
+									QString::fromUtf8(Localizer::getInstance()->GetText(Localizer::GUI, 109).c_str()),
+									QMessageBox::Ok | QMessageBox::Cancel,
+									QMessageBox::Ok);
+
+
+	//QMessageBox msgBox;
+	//msgBox.setText(QString::fromUtf8(Localizer::getInstance()->GetText(Localizer::GUI, 108).c_str()));
+	//msgBox.setInformativeText(QString::fromUtf8(Localizer::getInstance()->GetText(Localizer::GUI, 109).c_str()));
+	//msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+	//int ret = msgBox.exec();
+
+	if(ret == QMessageBox::Ok)
+	{
+		EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ResetWorldEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), _selectedworld));
+	}
+
+	return true;
 }

@@ -53,6 +53,7 @@ CGMessageBox * CGMessageBox::getInstance()
 constructor
 ***********************************************************/
 CGMessageBox::CGMessageBox()
+: _callback(NULL)
 {
 }
 
@@ -89,6 +90,10 @@ void CGMessageBox::Initialize(CEGUI::Window* Root)
 			CEGUI::PushButton::EventClicked,
 			CEGUI::Event::Subscriber (&CGMessageBox::HandleOk, this));
 
+		static_cast<CEGUI::PushButton *> (
+			CEGUI::WindowManager::getSingleton().getWindow("MessageBoxFrame/bcancel"))->subscribeEvent (
+			CEGUI::PushButton::EventClicked,
+			CEGUI::Event::Subscriber (&CGMessageBox::HandleCancel, this));
 
 		_myBox->hide();
 	}
@@ -107,15 +112,28 @@ handle event when the channel window is closed
 bool CGMessageBox::HandleOk (const CEGUI::EventArgs& e)
 {
 	_myBox->hide();
+	if(_callback)
+		_callback->MCallback(true);
 	return true;
 }
 	
-
+	
+/***********************************************************
+handle event when the channel window is closed
+***********************************************************/
+bool CGMessageBox::HandleCancel (const CEGUI::EventArgs& e)
+{
+	_myBox->hide();
+	if(_callback)
+		_callback->MCallback(false);
+	return true;
+}
 
 /***********************************************************
 display the chatbox on screen
 ***********************************************************/
-void CGMessageBox::Show(const std::string &Title, const std::string &Message)
+void CGMessageBox::Show(const std::string &Title, const std::string &Message,
+						MessageBCallbackBase * callback)
 {
 	CEGUI::WindowManager::getSingleton().getWindow("MessageBoxFrame")->setText(Title);
 	CEGUI::WindowManager::getSingleton().getWindow("MessageBoxFrame/text")->setText(Message);
@@ -128,6 +146,7 @@ void CGMessageBox::Show(const std::string &Title, const std::string &Message)
 		_myBox->activate();
 	}
 
+	_callback = callback;
 }
 
 

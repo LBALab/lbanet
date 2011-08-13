@@ -67,7 +67,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static float factormul_lba1_toosg = 32;
 static float factortransY_lba1_toosg = 0;//-0.1;
 
-#define		_ALPHA_C_V	0.15f
+#define		_ALPHA_C_V	0.3f
 
 
 LBA1ModelClass::~LBA1ModelClass()
@@ -2874,7 +2874,7 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow, bool 
 			m_myGeometrytransp->setVertexArray( myVerticesPoly ); 
 			m_myGeometrytransp->setUseDisplayList( false );
 			m_myGeometrytransp->setDataVariance(osg::Object::DYNAMIC);
-			osgUtil::SmoothingVisitor::smooth(*(m_myGeometrytransp.get()));
+			//osgUtil::SmoothingVisitor::smooth(*(m_myGeometrytransp.get()));
 			m_myGeometrytransp->setColorArray(colorstransp);
 			m_myGeometrytransp->setColorBinding(osg::Geometry::BIND_PER_PRIMITIVE_SET);
 
@@ -2886,7 +2886,7 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow, bool 
 						osg::StateAttribute::PROTECTED|osg::StateAttribute::OFF); 
 
 			//stateset2->removeAttribute(osg::StateAttribute::MATERIAL);
-			stateset2->setMode(GL_COLOR_MATERIAL, osg::StateAttribute::PROTECTED|osg::StateAttribute::OFF); 
+			//stateset2->setMode(GL_COLOR_MATERIAL, osg::StateAttribute::PROTECTED|osg::StateAttribute::OFF); 
 			stateset2->setMode(osg::StateAttribute::MATERIAL, osg::StateAttribute::PROTECTED|osg::StateAttribute::OFF); 	
 		
 			stateset2->setMode(GL_DEPTH_TEST, osg::StateAttribute::PROTECTED|osg::StateAttribute::OFF);
@@ -2991,21 +2991,21 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow, bool 
 	}
 
     // Create and add fake texture for use with nodes without any texture
-    osg::Image * image = new osg::Image;
-    image->allocateImage( 1, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE );
-    *(osg::Vec4ub*)image->data() = osg::Vec4ub( 0xFF, 0xFF, 0xFF, 0xFF );
-    
-    osg::Texture2D* fakeTex = new osg::Texture2D( image );
-    fakeTex->setWrap(osg::Texture2D::WRAP_S,osg::Texture2D::REPEAT);
-    fakeTex->setWrap(osg::Texture2D::WRAP_T,osg::Texture2D::REPEAT);
-    fakeTex->setFilter(osg::Texture2D::MIN_FILTER,osg::Texture2D::NEAREST);
-    fakeTex->setFilter(osg::Texture2D::MAG_FILTER,osg::Texture2D::NEAREST);
-    
-    osg::StateSet* stateset = root->getOrCreateStateSet();
-    stateset->setTextureAttribute(0,fakeTex,osg::StateAttribute::ON);
-    stateset->setTextureMode(0,GL_TEXTURE_1D,osg::StateAttribute::OFF);
-    stateset->setTextureMode(0,GL_TEXTURE_2D,osg::StateAttribute::ON);
-    stateset->setTextureMode(0,GL_TEXTURE_3D,osg::StateAttribute::OFF);
+    //osg::Image * image = new osg::Image;
+    //image->allocateImage( 1, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE );
+    //*(osg::Vec4ub*)image->data() = osg::Vec4ub( 0xFF, 0xFF, 0xFF, 0xFF );
+    //
+    //osg::Texture2D* fakeTex = new osg::Texture2D( image );
+    //fakeTex->setWrap(osg::Texture2D::WRAP_S,osg::Texture2D::REPEAT);
+    //fakeTex->setWrap(osg::Texture2D::WRAP_T,osg::Texture2D::REPEAT);
+    //fakeTex->setFilter(osg::Texture2D::MIN_FILTER,osg::Texture2D::NEAREST);
+    //fakeTex->setFilter(osg::Texture2D::MAG_FILTER,osg::Texture2D::NEAREST);
+    //
+    //osg::StateSet* stateset = root->getOrCreateStateSet();
+    //stateset->setTextureAttribute(0,fakeTex,osg::StateAttribute::ON);
+    //stateset->setTextureMode(0,GL_TEXTURE_1D,osg::StateAttribute::OFF);
+    //stateset->setTextureMode(0,GL_TEXTURE_2D,osg::StateAttribute::ON);
+    //stateset->setTextureMode(0,GL_TEXTURE_3D,osg::StateAttribute::OFF);
 
 	return root;
 }

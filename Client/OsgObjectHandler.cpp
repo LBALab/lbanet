@@ -481,7 +481,7 @@ void OsgObjectHandler::RefreshText()
 			stateSet->setMode(GL_DEPTH_TEST,osg::StateAttribute::OFF);
 			stateSet->setMode(GL_LIGHTING,osg::StateAttribute::OFF);
 			stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-			stateSet->setRenderBinDetails( 500, "SpecialBin");
+			stateSet->setRenderBinDetails( 500, "DepthSortedBin");
 
 			_textgroup->addChild(_textgeode);
 			root->addChild(_textgroup);
@@ -688,7 +688,7 @@ void OsgObjectHandler::RefreshLifeManaBars()
 		stateSet->setMode(GL_DEPTH_TEST,osg::StateAttribute::OFF);
 		stateSet->setMode(GL_TEXTURE_2D,osg::StateAttribute::OFF);
 		stateSet->setMode(GL_LIGHTING,osg::StateAttribute::OFF);
-		stateSet->setRenderBinDetails( 500, "SpecialBin");
+		stateSet->setRenderBinDetails( 500, "DepthSortedBin");
 
 		_barsgroup->addChild(barsgeode);
 		root->addChild(_barsgroup);
@@ -803,7 +803,7 @@ void OsgObjectHandler::StoreObjectCopy()
 		osg::StateSet* stateset = _ObjectCopy->getOrCreateStateSet();
 		stateset->removeAttribute(osg::StateAttribute::MATERIAL);
 
-		stateset->setMode(GL_COLOR_MATERIAL, osg::StateAttribute::OVERRIDE|osg::StateAttribute::OFF); 
+		//stateset->setMode(GL_COLOR_MATERIAL, osg::StateAttribute::OVERRIDE|osg::StateAttribute::OFF); 
 		stateset->setRenderingHint( osg::StateSet::DEFAULT_BIN );
 	}
 }
@@ -1018,7 +1018,7 @@ void OsgObjectHandler::RefreshMaterial()
 			osg::StateSet* stateset = node->getOrCreateStateSet();
 			stateset->removeAttribute(osg::StateAttribute::MATERIAL);
 
-			stateset->setMode(GL_COLOR_MATERIAL, osg::StateAttribute::OFF); 
+			//stateset->setMode(GL_COLOR_MATERIAL, osg::StateAttribute::OFF); 
 			stateset->setRenderingHint( osg::StateSet::DEFAULT_BIN );
 		}
 	}
@@ -1085,7 +1085,7 @@ void OsgObjectHandler::SetShoutText(const std::string & text, float size,
 			stateSet->setMode(GL_DEPTH_TEST,osg::StateAttribute::OFF);
 			stateSet->setMode(GL_LIGHTING,osg::StateAttribute::OFF);
 			stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-			stateSet->setRenderBinDetails( 500, "SpecialBin");
+			stateSet->setRenderBinDetails( 500, "DepthSortedBin");
 
 			_shouttextgroup->addChild(_textgeode);
 			root->addChild(_shouttextgroup);

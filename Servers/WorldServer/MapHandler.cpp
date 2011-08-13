@@ -654,8 +654,6 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 		FinishedVideo(id);
 		return;
 	}
-	
-
 }
 
 

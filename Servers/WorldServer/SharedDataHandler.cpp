@@ -109,6 +109,27 @@ void SharedDataHandler::ClientEvents(Ice::Long clientid, const EventsSeq &evts)
 	std::map<Ice::Long, std::string>::iterator it = _currentplayermaps.find(clientid);
 	if(it != _currentplayermaps.end())
 		AddEvents(it->second, clientid, evts);
+	else
+	{
+		// process certain events when no map
+		for(size_t i=0; i<evts.size(); ++i)
+		{
+			LbaNet::ClientServerEventBasePtr evt = evts[i];
+			LbaNet::ClientServerEventBase & obj = *evt;
+			const std::type_info& info = typeid(obj);	
+
+			// reset world event
+			if(info == typeid(LbaNet::ResetWorldEvent))
+			{
+				LbaNet::ResetWorldEvent* castedptr =
+					dynamic_cast<LbaNet::ResetWorldEvent *>(&obj);
+
+				if(_dbH)
+					_dbH->ResetWorld(castedptr->Worldname, (long)clientid);
+				continue;
+			}
+		}
+	}
 }
 
 

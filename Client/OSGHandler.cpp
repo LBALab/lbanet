@@ -75,6 +75,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 
+class OsgLogFileHandler : public osg::NotifyHandler
+{
+public:
+   OsgLogFileHandler(){}
+
+   virtual ~OsgLogFileHandler() {}
+
+   virtual void notify(osg::NotifySeverity severity, const char* msg)
+   { 
+	   LogHandler::getInstance()->LogToFile(std::string("OSG: ") + msg, severity);
+   }
+};
+
+
+
 //
 //
 //#include <osgOcean/Version>
@@ -474,6 +489,12 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 														boost::shared_ptr<QT_Windows_base> qtH)
 
 {
+	//osg::setNotifyLevel( osg::WARN );
+	osg::setNotifyHandler( new OsgLogFileHandler() );
+
+
+
+
 	osgDB::setDataFilePathList(DataPath);
 
     // set the osgDB::Registy read file callback to catch all requests for reading files.
@@ -580,7 +601,7 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 
 	_root=new osg::Group;
 	_rootNodeGui=new osg::Group;
-	osg::setNotifyLevel(osg::ALWAYS );
+	//osg::setNotifyLevel(osg::ALWAYS );
 
 	osg::ref_ptr<osg::Geode> guiGeom=new osg::Geode;
 	_HUDcam = new osg::Camera;

@@ -137,6 +137,9 @@ public:
 	// get DB flag
 	virtual int GetDBFlag(const std::string& WorldName, long playerid, const std::string & flagid);
 
+	// reset world
+	virtual void ResetWorld(const std::string& WorldName, long playerid);
+
 protected:
 	LocalDatabaseHandler(const LocalDatabaseHandler &);
 	const LocalDatabaseHandler & operator=(const LocalDatabaseHandler &);

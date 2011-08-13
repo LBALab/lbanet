@@ -309,9 +309,9 @@ void CEGUIDrawable::drawImplementation(osg::RenderInfo& renderInfo) const
 		glDisable(GL_DEPTH_TEST);
 		glEnable(GL_BLEND);
 		glEnable(GL_TEXTURE_2D);
-		glDisable(GL_LIGHTING);
-		glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-		glHint(GL_POLYGON_SMOOTH, GL_NICEST);
+		//glDisable(GL_LIGHTING);
+		//glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+		//glHint(GL_POLYGON_SMOOTH, GL_NICEST);
 
 		paintXtraGL();
 
@@ -575,6 +575,7 @@ void CEGUIDrawable::StartScrollingText(const std::string & imagepath,
 	_texts.clear();
 	_texts.swap(textIds);
 
+	CreateLBAFont(_fontsize);
 	precalculate_text(_windowW-2*_loadedfont->average_advance, _windowH);
 }
 
@@ -703,10 +704,13 @@ void CEGUIDrawable::DrawBGImage(float alpha) const
 	_windowW = w;
 	_windowH = h;
 	_fontsize = min(h/25, 40);
-	CreateLBAFont(_fontsize);
+
 
 	if(_currentstate == XtGLw_Text)
+	{
+		CreateLBAFont(_fontsize);
 		precalculate_text(_windowW-2*_loadedfont->average_advance, _windowH);
+	}
  }
 
 
