@@ -241,7 +241,22 @@
                         <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                         <Property Name="UnifiedAreaRect" Value="{{0.5,20},{0,75},{0.5,200},{0,90}}" />
                     </Window>
-              
+                    
+                     
+                     <Window Type="TaharezLook/StaticText" Name="OptionsTab/Sound/SoundVolumest" >
+                         <Property Name="Text" Value="#110" />
+                         <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                         <Property Name="UnifiedAreaRect" Value="{{0.5,-200},{0,110},{0.5,-20},{0,135}}" />
+                    </Window>  
+                    
+                    <Window Type="TaharezLook/HorizontalScrollbar" Name="OptionsTab/Sound/sbSampleVolume" >
+			 <Property Name="DocumentSize" Value="100" />
+			 <Property Name="PageSize" Value="1" />
+			 <Property Name="StepSize" Value="1" />
+			 <Property Name="OverlapSize" Value="0" />
+                        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.5,20},{0,115},{0.5,200},{0,130}}" />
+                    </Window>             
                     
                 </Window>
                 <Window Type="DefaultWindow" Name="OptionsTab/Gui" >
