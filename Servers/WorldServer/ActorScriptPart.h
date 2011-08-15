@@ -876,4 +876,160 @@ private:
 };
 
 
+
+
+//! use to start a script on client side
+class ActorScriptPart_PlaySound : public ActorScriptPartBase
+{
+public:
+	//! constructor
+	ActorScriptPart_PlaySound(int SoundChannel, const std::string & soundpath, bool loop)
+		: _SoundChannel(SoundChannel), _soundpath(soundpath), _loop(loop)
+	{}
+	
+	//! destructor
+	virtual ~ActorScriptPart_PlaySound(){}
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "ASPPlaySound"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
+
+	// save script to lua file
+	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
+
+#ifdef _USE_QT_EDITOR_
+	// use by the editor
+	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
+
+	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+#endif
+
+
+
+private:
+	int				_SoundChannel;
+	std::string		_soundpath;
+	bool			_loop;
+};
+
+
+//! use to start a script on client side
+class ActorScriptPart_StopSound : public ActorScriptPartBase
+{
+public:
+	//! constructor
+	ActorScriptPart_StopSound(int SoundChannel)
+		: _SoundChannel(SoundChannel)
+	{}
+	
+	//! destructor
+	virtual ~ActorScriptPart_StopSound(){}
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "ASPStopSound"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
+
+	// save script to lua file
+	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
+
+#ifdef _USE_QT_EDITOR_
+	// use by the editor
+	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
+
+	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+#endif
+
+
+
+private:
+	int				_SoundChannel;
+};
+
+
+//! use to start a script on client side
+class ActorScriptPart_PauseSound : public ActorScriptPartBase
+{
+public:
+	//! constructor
+	ActorScriptPart_PauseSound(int SoundChannel)
+		: _SoundChannel(SoundChannel)
+	{}
+	
+	//! destructor
+	virtual ~ActorScriptPart_PauseSound(){}
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "ASPPauseSound"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
+
+	// save script to lua file
+	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
+
+#ifdef _USE_QT_EDITOR_
+	// use by the editor
+	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
+
+	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+#endif
+
+
+
+private:
+	int				_SoundChannel;
+};
+
+
+
+//! use to start a script on client side
+class ActorScriptPart_ResumeSound : public ActorScriptPartBase
+{
+public:
+	//! constructor
+	ActorScriptPart_ResumeSound(int SoundChannel)
+		: _SoundChannel(SoundChannel)
+	{}
+	
+	//! destructor
+	virtual ~ActorScriptPart_ResumeSound(){}
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "ASPResumeSound"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
+
+	// save script to lua file
+	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
+
+#ifdef _USE_QT_EDITOR_
+	// use by the editor
+	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
+
+	virtual void UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx);
+#endif
+
+
+
+private:
+	int				_SoundChannel;
+};
+
 #endif

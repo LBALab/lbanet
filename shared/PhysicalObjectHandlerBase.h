@@ -30,6 +30,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "LogHandler.h"
 #include <LbaTypes.h>
 
+#include <boost/shared_ptr.hpp>
+
 class ActorUserData;
 class NxActor;
 

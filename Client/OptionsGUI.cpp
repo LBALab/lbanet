@@ -463,6 +463,20 @@ void OptionsGUI::Apply()
 					ConfigurationManager::GetInstance()->SetInt("Options.Sound.MusicVolume", _currMusicVolume);
 				}
 			}
+
+			//handle sample sound
+			CEGUI::Scrollbar *sbmss = static_cast<CEGUI::Scrollbar *> (
+			CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/Sound/sbSampleVolume"));
+			if(sbmss)
+			{
+				int sp = (int)sbmss->getScrollPosition ();
+				if(_currSampleVolume != sp)
+				{
+					_currSampleVolume = sp;
+					MusicHandler::getInstance()->SetSampleVolume(_currSampleVolume);
+					ConfigurationManager::GetInstance()->SetInt("Options.Sound.SampleVolume", _currSampleVolume);
+				}
+			}
 		}
 
 
@@ -627,6 +641,14 @@ void OptionsGUI::Cancel()
 			CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/Sound/sbMusicVolume"));
 			if(sbms)
 				sbms->setScrollPosition((float)_currMusicVolume);
+
+
+			//handle sample sound
+			CEGUI::Scrollbar *sbmss = static_cast<CEGUI::Scrollbar *> (
+			CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/Sound/sbSampleVolume"));
+			if(sbmss)
+				sbmss->setScrollPosition((float)_currSampleVolume);
+			
 		}
 
 
@@ -684,6 +706,8 @@ void OptionsGUI::Displayed()
 
 	ConfigurationManager::GetInstance()->GetInt("Options.Sound.GeneralVolume", _currGenVolume);
 	ConfigurationManager::GetInstance()->GetInt("Options.Sound.MusicVolume", _currMusicVolume);
+	ConfigurationManager::GetInstance()->GetInt("Options.Sound.SampleVolume", _currSampleVolume);
+	
 
 	ConfigurationManager::GetInstance()->GetInt("Options.Gui.FontSize", _fontSize);
 

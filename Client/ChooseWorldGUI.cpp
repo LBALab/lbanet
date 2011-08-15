@@ -121,8 +121,8 @@ bool ChooseWorldGUI::HandleConnect(const CEGUI::EventArgs& e)
 {
 	if(_selectedworld != "")
 	{
-		std::string samples = "Data/Samples/lba2launcherblob.wav";
-		MusicHandler::getInstance()->PlaySample(samples, 0);
+		std::string samples = "Data/GUI/lba2launcherblob.wav";
+		MusicHandler::getInstance()->PlaySample2D(samples, false, true);
 		EventsQueue::getReceiverQueue()->AddEvent(new ChangeWorldEvent(_selectedworld));
 
 		CEGUI::WindowManager::getSingleton().getWindow("CWResetB")->hide();

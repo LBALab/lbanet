@@ -56,6 +56,12 @@ namespace osgShadow
 	class ShadowedScene;
 }
 
+namespace osgAudio
+{
+	class SoundRoot;
+}
+
+
 
 
 class GuiHandler;
@@ -247,10 +253,6 @@ public:
 	osg::ref_ptr<osg::PositionAttitudeTransform> CreatePAT(boost::shared_ptr<DisplayTransformation> Tr);
 
 
-	//! get windows handle (win32 only)
-	void* GetWindowsHandle();
-
-
 	//! optimize the scene
 	void OptimizeScene();
 
@@ -274,6 +276,9 @@ public:
 
 	//! get gui drawable
 	osg::ref_ptr<CEGUIDrawable> GetGUIDrawable();
+
+	//! send sound root
+	void SetSoundRoot(osg::ref_ptr<osgAudio::SoundRoot> sound_root);
 
 protected:
 	//! constructor

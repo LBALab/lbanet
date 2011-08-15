@@ -70,6 +70,7 @@ void ExternalActor::NpcChangedUpdate(double updatetime,
 									float CurrPosX, float CurrPosY, float CurrPosZ,
 									float CurrRotation, const std::string &CurrAnimation,
 									bool ResetPosition, bool ResetRotation,
+									const LbaNet::PlayingSoundSequence	&Sounds,
 									LbaNet::NpcUpdateBasePtr Update, 
 									ScriptEnvironmentBase* scripthandler)
 {
@@ -132,6 +133,15 @@ void ExternalActor::NpcChangedUpdate(double updatetime,
 		_character->GetDisplayObject()->Update(new LbaNet::AnimationStringUpdate(CurrAnimation), _playingscript);
 
 	_shouldreset = false;
+
+
+	// update sounds
+	boost::shared_ptr<SoundObjectHandlerBase> soundo = _character->GetSoundObject();
+	if(soundo)
+	{
+		soundo->SetSoundVector(Sounds, false);
+		_character->UpdateSoundPosition();
+	}
 
 
 

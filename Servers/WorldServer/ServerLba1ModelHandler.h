@@ -130,6 +130,8 @@ public:
 	//! set shout text
 	virtual void SetShoutText(const std::string & text, float size, 
 		float colorR, float colorG, float colorB, int TTL){}
+
+
 protected:
 	// refresh model
 	int RefreshModel(bool forcecolor = false);

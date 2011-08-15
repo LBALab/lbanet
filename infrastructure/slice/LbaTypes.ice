@@ -445,6 +445,18 @@ module LbaNet
 	
 	
 
+	// playing sound information
+	struct PlayingSound
+	{
+		int			SoundChannel;
+		string 			SoundPath;
+		bool			Loop;
+		bool 			Paused;
+	};
+	
+	sequence<PlayingSound> 		PlayingSoundSequence;
+	
+
 
 
 
@@ -894,6 +906,24 @@ module LbaNet
 		float P3Z;
 		float P4Z;	
 	};
+	
+		
+	// base class for all sound update
+	class SoundObjectUpdateBase
+	{
+	};
+
+	
+	
+	class PlaySoundUpd extends SoundObjectUpdateBase
+	{
+		PlayingSound Si;
+	};
+	
+	class PlaySoundSeqUpd extends SoundObjectUpdateBase
+	{
+		PlayingSoundSequence Sis;
+	};		
 	
 	
 	struct ProjectileInfo

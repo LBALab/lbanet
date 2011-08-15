@@ -28,7 +28,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "PhysicalObjectHandlerBase.h"
 #include "DisplayObjectHandlerBase.h"
+#include "SoundObjectHandlerBase.h"
 #include "ActionOnAnimationHandlerBase.h"
+
+#include <boost/shared_ptr.hpp>
+
 
 /***********************************************************************
  * Module:  DynamicObject.h
@@ -42,11 +46,8 @@ public:
 	//!constructor
 	DynamicObject(boost::shared_ptr<PhysicalObjectHandlerBase> phH,
 					boost::shared_ptr<DisplayObjectHandlerBase> disH,
-					long id)
-		: _phH(phH), _disH(disH), _id(id), _additionalMoveX(0),
-			_additionalMoveY(0), _additionalMoveZ(0), _additionalMoveRotation(0),
-			_show(true), _lastkey(-1)
-	{}
+					boost::shared_ptr<SoundObjectHandlerBase> soundH,
+					long id);
 
 	//!destructor
    virtual ~DynamicObject(){}
@@ -57,6 +58,8 @@ public:
 	//! sync display and physic
 	virtual void Synchronize(){}
 
+	long GetId()
+	{ return _id; }
 
 
 	//! get physical object
@@ -67,6 +70,10 @@ public:
 	boost::shared_ptr<DisplayObjectHandlerBase> GetDisplayObject()
 	{ return _disH;}
 
+	//! get sound object
+	boost::shared_ptr<SoundObjectHandlerBase> GetSoundObject()
+	{ return _soundH;}
+
 
 	//! get physical object
 	void SetPhysicalObject(boost::shared_ptr<PhysicalObjectHandlerBase> newP)
@@ -74,166 +81,49 @@ public:
 
 
 	//! show or hide the object
-	void ShowOrHide(bool Show)
-	{
-		_show = Show;
-		_phH->ShowOrHide(Show);
-		_disH->ShowOrHide(Show);
-	}
+	void ShowOrHide(bool Show);
 
 	//! check if is shown
-	bool IsShown()
-	{ return _show;}
+	bool IsShown();
 
 	//! clear old signals
-	void ClearSignals()
-	{
-		_signalReceived.clear();
-	}
+	void ClearSignals();
 
 	//! add a signal to object
-	void AddSignal(int Signal)
-	{
-		_signalReceived.push_back(Signal);
-	}
+	void AddSignal(int Signal);
 
 	//! check if signal received and eat it up
-	bool ReceivedSignal(int signal)
-	{
-		std::vector<int>::iterator it = std::find(_signalReceived.begin(), _signalReceived.end(), signal);
-		if(it != _signalReceived.end())
-		{
-			_signalReceived.erase(it);
-			return true;
-		}
-
-		return false;
-	}
+	bool ReceivedSignal(int signal);
 
 
-
-	std::pair<int, int> StartWaypoint(const LbaVec3 &point)
-	{
-		_waypoints.push_back(std::vector<LbaVec3>());
-
-		return AddWaypoint(point);
-	}
+	std::pair<int, int> StartWaypoint(const LbaVec3 &point);
 
 
-	std::pair<int, int> AddWaypoint(const LbaVec3 &point)
-	{
-		if(_waypoints.size() == 0)
-			_waypoints.push_back(std::vector<LbaVec3>());
+	std::pair<int, int> AddWaypoint(const LbaVec3 &point);
 
-		int index1 = _waypoints.size()-1;
+	std::vector<LbaVec3> GetWaypoints(int index);
 
-		_waypoints[index1].push_back(point);
-
-		int index2 = _waypoints[index1].size()-1;
-
-		return std::make_pair<int, int>(index1, index2);
-	}
-
-	std::vector<LbaVec3> GetWaypoints(int index)
-	{
-		if(index >= 0 && index < (int)_waypoints.size())
-			return _waypoints[index];
-
-		return std::vector<LbaVec3>();
-	}
-
-	void ClearWaypoints()
-	{
-		_waypoints.clear();
-	}
+	void ClearWaypoints();
 
 
-	void SetAdditionalMoves(float mx, float my, float mz, float mr)
-	{
-		_additionalMoveX = mx;
-		_additionalMoveY = my;
-		_additionalMoveZ = mz;
-		_additionalMoveRotation = mr;
-	}
+	void SetAdditionalMoves(float mx, float my, float mz, float mr);
 
-	void GetAdditionalMoves(float &mx, float &my, float &mz, float &mr)
-	{
-		mx = _additionalMoveX;
-		my = _additionalMoveY;
-		mz = _additionalMoveZ;
-		mr = _additionalMoveRotation;
-	}
+	void GetAdditionalMoves(float &mx, float &my, float &mz, float &mr);
 
-	long GetId()
-	{ return _id; }
 
 
 	//! add action to be executed on key frame
-	void AddActionOnAnimation(int executionkeyframe, ActionOnAnimationHandlerBase* action)
-	{
-		_actionsonanimation.push_back(std::make_pair<int, ActionOnAnimationHandlerBase* >(executionkeyframe, action));
-	}
+	void AddActionOnAnimation(int executionkeyframe, ActionOnAnimationHandlerBase* action);
+	void RemoveActionOnAnimation(int executionkeyframe, ActionOnAnimationHandlerBase* action);
+	void ClearActionsOnAnimation();
 
-	void RemoveActionOnAnimation(int executionkeyframe, ActionOnAnimationHandlerBase* action)
-	{
-		std::pair<int, ActionOnAnimationHandlerBase* > searcho(executionkeyframe, action);
-		std::vector<std::pair<int, ActionOnAnimationHandlerBase* > >::iterator it =
-			std::find(_actionsonanimation.begin(), _actionsonanimation.end(), searcho);
 
-		if(it != _actionsonanimation.end())
-		{
-			if(it->second)
-				it->second->Destroy();
-
-			_actionsonanimation.erase(it);
-		}
-	}
-
-	void ClearActionsOnAnimation()
-	{
-		std::vector<std::pair<int, ActionOnAnimationHandlerBase* > > actionsonanimationtmp;
-		actionsonanimationtmp.swap(_actionsonanimation);
-
-		for(size_t i=0; i< actionsonanimationtmp.size(); ++i)
-		{
-			ActionOnAnimationHandlerBase* tmp = actionsonanimationtmp[i].second;
-			if(tmp)
-				tmp->Destroy();	
-		}
-	}
-
+	//! update sound with position
+	void UpdateSoundPosition();
 
 protected:
-
 	//verify actions
-	void VerifyActionOnAnim()
-	{
-		if(_actionsonanimation.size() > 0)
-		{
-			if(_disH)
-			{
-				int currkey = _disH->GetCurrentKeyFrame();
-				if(_lastkey != currkey)
-				{
-					std::vector<std::pair<int, ActionOnAnimationHandlerBase* > >::iterator it = _actionsonanimation.begin();
-					while(it != _actionsonanimation.end())
-					{
-						if(currkey == it->first)
-						{
-							if(it->second->Execute())
-								it = _actionsonanimation.erase(it);
-							else
-								++it;
-						}
-						else
-							++it;
-					}
-
-					_lastkey = currkey;
-				}
-			}
-		}
-	}
+	void VerifyActionOnAnim();
 
 
 
@@ -243,6 +133,11 @@ protected:
 
 	//! handler to display object
 	boost::shared_ptr<DisplayObjectHandlerBase> _disH;
+
+	//! handler to sound object
+	boost::shared_ptr<SoundObjectHandlerBase>	_soundH;
+
+	
 
 	//! object id
 	long										_id;
@@ -262,6 +157,7 @@ protected:
 
 	std::vector<std::pair<int, ActionOnAnimationHandlerBase* > >	_actionsonanimation;
 	int																_lastkey;
+
 };
 
 #endif

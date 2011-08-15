@@ -871,3 +871,4 @@ bool ScriptedActor::CanPlayAnimation(const std::string & anim)
 
 	return false;
 }
+

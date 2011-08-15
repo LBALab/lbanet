@@ -28,9 +28,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef _LBANET_SERVER_SIDE_
 #include "Lba1ModelHandler.h"
+#include "SoundObjectHandlerClient.h"
 #endif
 #include "ServerLba1ModelHandler.h"
 #include "NavMeshObjectHandlers.h"
+#include "SoundObjectHandlerServer.h"
 
 
 /***********************************************************
@@ -219,9 +221,11 @@ boost::shared_ptr<DynamicObject> ObjectInfo::BuildSelf(DisplayHandlerBase * disH
 		disoH = DisInfo->BuildSelf(disH);
 
 	if(!IsStatic && phH && disH)
-		return boost::shared_ptr<DynamicObject>(new WorldToDisplayObjectSynchronizer(phH, disoH, Id));
+		return boost::shared_ptr<DynamicObject>(new WorldToDisplayObjectSynchronizer(phH, disoH,
+		boost::shared_ptr<SoundObjectHandlerBase>(new SoundObjectHandlerClient()), Id));
 	else
-		return boost::shared_ptr<DynamicObject>(new StaticObject(phH, disoH, Id));
+		return boost::shared_ptr<DynamicObject>(new StaticObject(phH, disoH,
+		boost::shared_ptr<SoundObjectHandlerBase>(new SoundObjectHandlerClient()), Id));
 }
 
 
@@ -364,7 +368,8 @@ boost::shared_ptr<DynamicObject> ObjectInfo::BuildServer(boost::shared_ptr<NavMe
 		disoH = DisInfo->BuildServer();
 
 
-	return boost::shared_ptr<DynamicObject>(new StaticObject(phH, disoH, Id));
+	return boost::shared_ptr<DynamicObject>(new StaticObject(phH, disoH, 
+		boost::shared_ptr<SoundObjectHandlerBase>(new SoundObjectHandlerServer()), Id));
 }
 
 

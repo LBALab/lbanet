@@ -1186,6 +1186,10 @@ void ActorHandler::Pause()
 
 				m_savedshow = _character->IsShown();
 			}
+
+			boost::shared_ptr<SoundObjectHandlerBase> soundO = _character->GetSoundObject();
+			if(soundO)
+				soundO->SaveState();
 		}
 
 		//store running script
@@ -1223,6 +1227,18 @@ void ActorHandler::Resume()
 									new LbaNet::AnimationStringUpdate(disO->GetCurrentAnimation())));
 			}
 
+
+			boost::shared_ptr<SoundObjectHandlerBase> soundO = _character->GetSoundObject();
+			if(soundO)
+			{
+				soundO->RestoreState();
+
+				_events.push_back(new LbaNet::UpdateSoundObjectEvent(
+									SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+									1, m_actorinfo.ObjectId,
+									new LbaNet::PlaySoundSeqUpd(soundO->GetSoundVector(false))));
+			}
+
 			// restore physical info
 			boost::shared_ptr<PhysicalObjectHandlerBase> physO = _character->GetPhysicalObject();
 			if(physO)
@@ -1254,7 +1270,8 @@ void ActorHandler::Resume()
 														m_actorinfo.ObjectId, m_saved_X, m_saved_Y, m_saved_Z, 
 														m_saved_Q.GetRotationSingleAngle(), 
 														disO->GetCurrentAnimation(), 
-														true, true, NULL));
+														true, true, 
+														_character->GetSoundObject()->GetSoundVector(false), NULL));
 		}
 	}
 }
@@ -1401,7 +1418,7 @@ void ActorHandler::ActorStraightWalkTo(int ScriptId, bool asynchronus, float Pos
 	
 	m_lastevent = new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 						m_actorinfo.ObjectId, posX, posY, posZ, rotation, anim, 
-						m_resetposition, m_resetrotation,
+						m_resetposition, m_resetrotation, _character->GetSoundObject()->GetSoundVector(false), 
 						new LbaNet::StraightWalkToNpcUpd(PosX, PosY, PosZ));
 
 	_events.push_back(m_lastevent);
@@ -1437,7 +1454,7 @@ void ActorHandler::ActorRotate(int ScriptId, bool asynchronus, float Angle, floa
 	// inform clients
 	m_lastevent = new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 						m_actorinfo.ObjectId, posX, posY, posZ, rotation, anim, 
-						m_resetposition, m_resetrotation,
+						m_resetposition, m_resetrotation, _character->GetSoundObject()->GetSoundVector(false), 
 						new LbaNet::RotateNpcUpd(Angle, RotationSpeedPerSec, ManageAnimation));
 
 	_events.push_back(m_lastevent);
@@ -1470,7 +1487,7 @@ void ActorHandler::ActorAnimate(int ScriptId, bool asynchronus, bool AnimationMo
 	// inform clients
 	m_lastevent = new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 						m_actorinfo.ObjectId, posX, posY, posZ, rotation, anim, 
-						m_resetposition, m_resetrotation,
+						m_resetposition, m_resetrotation, _character->GetSoundObject()->GetSoundVector(false), 
 						new LbaNet::AnimateNpcUpd(AnimationMove));
 
 	_events.push_back(m_lastevent);
@@ -1504,7 +1521,7 @@ void ActorHandler::ActorGoTo(int ScriptId, float PosX, float PosY, float PosZ, f
 	// inform clients
 	m_lastevent = new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 						m_actorinfo.ObjectId, posX, posY, posZ, rotation, anim, 
-						m_resetposition, m_resetrotation,
+						m_resetposition, m_resetrotation, _character->GetSoundObject()->GetSoundVector(false), 
 						new LbaNet::GoToNpcUpd(PosX, PosY, PosZ, Speed));
 
 	_events.push_back(m_lastevent);
@@ -1541,7 +1558,8 @@ void ActorHandler::ActorWaitForSignal(int ScriptId, int Signalnumber, bool async
 	{
 		m_lastevent = new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 							m_actorinfo.ObjectId, posX, posY, posZ, rotation, anim, 
-							m_resetposition, m_resetrotation, NULL);
+							m_resetposition, m_resetrotation, 
+							_character->GetSoundObject()->GetSoundVector(false), NULL);
 
 		_events.push_back(m_lastevent);
 	}
@@ -1577,7 +1595,7 @@ void ActorHandler::ActorRotateFromPoint(int ScriptId, float Angle, float PosX, f
 	// inform clients
 	m_lastevent = new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 						m_actorinfo.ObjectId, posX, posY, posZ, rotation, anim, 
-						m_resetposition, m_resetrotation,
+						m_resetposition, m_resetrotation, _character->GetSoundObject()->GetSoundVector(false), 
 						new LbaNet::RotateFromPointNpcUpd(Angle, PosX, PosY, PosZ, Speed));
 
 	_events.push_back(m_lastevent);
@@ -1655,7 +1673,7 @@ void ActorHandler::ActorFollowWaypoint(int ScriptId, int waypointindex1, int way
 		// inform clients
 		m_lastevent = new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 							m_actorinfo.ObjectId, posX, posY, posZ, rotation, anim, 
-							m_resetposition, m_resetrotation,
+							m_resetposition, m_resetrotation, _character->GetSoundObject()->GetSoundVector(false), 
 							new LbaNet::FollowWaypointNpcUpd(
 												_Pm1.x, _P0.x, _P1.x, _P2.x, _P3.x, _P4.x,
 												_Pm1.y, _P0.y, _P1.y, _P2.y, _P3.y, _P4.y,
@@ -1882,4 +1900,115 @@ float ActorHandler::GetTouchHitPower(bool & IgnoreArmor)
 {
 	IgnoreArmor = true;
 	return m_actorinfo.HitPowerOnTouch;
+}
+
+
+/***********************************************************
+make actor play a sound
+***********************************************************/
+void ActorHandler::APlaySound(int SoundChannel, const std::string & soundpath, bool loop, 
+								bool updatefromlua, bool fromattackscript)
+{
+	if(_character)
+	{
+		boost::shared_ptr<SoundObjectHandlerBase> soundO = _character->GetSoundObject();
+		if(soundO)
+		{
+			LbaNet::PlayingSound sound = 
+				soundO->GetSound(SoundChannel, updatefromlua && m_paused && !fromattackscript);
+			sound.SoundPath = soundpath;
+			sound.Paused = false;
+			sound.Loop = loop;
+
+			soundO->Update(new LbaNet::PlaySoundUpd(sound), updatefromlua && m_paused && !fromattackscript);
+
+			if(!updatefromlua || !m_paused)
+				_events.push_back(new LbaNet::UpdateSoundObjectEvent(
+									SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+									1, m_actorinfo.ObjectId,
+									new LbaNet::PlaySoundUpd(sound)));
+
+			//if(!loop)
+			//{
+			//	// remove non looping sounds so that it does not repeat itself
+			//	sound.SoundPath = "";
+			//	soundO->Update(new LbaNet::PlaySoundUpd(sound), updatefromlua && m_paused && !fromattackscript);
+			//}
+		}
+	}
+}
+
+/***********************************************************
+make actor stop a sound
+***********************************************************/
+void ActorHandler::AStopSound(int SoundChannel, bool updatefromlua, bool fromattackscript)
+{
+	if(_character)
+	{
+		boost::shared_ptr<SoundObjectHandlerBase> soundO = _character->GetSoundObject();
+		if(soundO)
+		{
+			LbaNet::PlayingSound sound = 
+				soundO->GetSound(SoundChannel, updatefromlua && m_paused && !fromattackscript);
+			sound.SoundPath = "";
+
+			soundO->Update(new LbaNet::PlaySoundUpd(sound), updatefromlua && m_paused && !fromattackscript);
+
+			if(!updatefromlua || !m_paused)
+				_events.push_back(new LbaNet::UpdateSoundObjectEvent(
+									SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+									1, m_actorinfo.ObjectId,
+									new LbaNet::PlaySoundUpd(sound)));
+		}
+	}
+}
+
+/***********************************************************
+make actor pause a sound
+***********************************************************/
+void ActorHandler::APauseSound(int SoundChannel, bool updatefromlua, bool fromattackscript)
+{
+	if(_character)
+	{
+		boost::shared_ptr<SoundObjectHandlerBase> soundO = _character->GetSoundObject();
+		if(soundO)
+		{
+			LbaNet::PlayingSound sound = 
+				soundO->GetSound(SoundChannel, updatefromlua && m_paused && !fromattackscript);
+			sound.Paused = true;
+
+			soundO->Update(new LbaNet::PlaySoundUpd(sound), updatefromlua && m_paused && !fromattackscript);
+
+			if(!updatefromlua || !m_paused)
+				_events.push_back(new LbaNet::UpdateSoundObjectEvent(
+									SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+									1, m_actorinfo.ObjectId,
+									new LbaNet::PlaySoundUpd(sound)));
+		}
+	}
+}
+
+/***********************************************************
+make actor resume a sound
+***********************************************************/
+void ActorHandler::AResumeSound(int SoundChannel, bool updatefromlua, bool fromattackscript)
+{
+	if(_character)
+	{
+		boost::shared_ptr<SoundObjectHandlerBase> soundO = _character->GetSoundObject();
+		if(soundO)
+		{
+			LbaNet::PlayingSound sound = 
+				soundO->GetSound(SoundChannel, updatefromlua && m_paused && !fromattackscript);
+			sound.Paused = false;
+
+			soundO->Update(new LbaNet::PlaySoundUpd(sound), updatefromlua && m_paused && !fromattackscript);
+
+			if(!updatefromlua || !m_paused)
+				_events.push_back(new LbaNet::UpdateSoundObjectEvent(
+									SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+									1, m_actorinfo.ObjectId,
+									new LbaNet::PlaySoundUpd(sound)));
+		}
+	}
 }

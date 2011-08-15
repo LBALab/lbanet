@@ -323,6 +323,18 @@ ServerLuaHandler::ServerLuaHandler()
 		luabind::class_<ActorScriptPart_DetachFromActor, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPDetachFromActor")
 		.def(luabind::constructor<long>()),
 
+		luabind::class_<ActorScriptPart_PlaySound, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPPlaySound")
+		.def(luabind::constructor<int, const std::string &, bool>()),
+
+		luabind::class_<ActorScriptPart_StopSound, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPStopSound")
+		.def(luabind::constructor<int>()),
+
+		luabind::class_<ActorScriptPart_PauseSound, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPPauseSound")
+		.def(luabind::constructor<int>()),
+
+		luabind::class_<ActorScriptPart_ResumeSound, ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ASPResumeSound")
+		.def(luabind::constructor<int>()),
+
 
 		luabind::class_<ActorHandler, boost::shared_ptr<ActorHandler> >("ActorHandler")
 		.def(luabind::constructor<const ActorObjectInfo &>())
@@ -462,7 +474,11 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("ThreadRunning", &ScriptEnvironmentBase::ThreadRunning)
 		.def("SetDBFlag", &ScriptEnvironmentBase::SetDBFlag)
 		.def("GetDBFlag", &ScriptEnvironmentBase::GetDBFlag)
-		.def("PlayClientVideo", &ScriptEnvironmentBase::PlayClientVideo),
+		.def("PlayClientVideo", &ScriptEnvironmentBase::PlayClientVideo)
+		.def("ActorStartSound", &ScriptEnvironmentBase::ActorStartSound)
+		.def("ActorStopSound", &ScriptEnvironmentBase::ActorStopSound)
+		.def("ActorPauseSound", &ScriptEnvironmentBase::ActorPauseSound)
+		.def("ActorResumeSound", &ScriptEnvironmentBase::ActorResumeSound),
 
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),

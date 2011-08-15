@@ -135,6 +135,11 @@ public:
 	void UpdateObjectPhysic(int OType, Ice::Long ObjectId, 
 									  LbaNet::PhysicObjectUpdateBasePtr update);
 
+	//! update object sound
+	void UpdateObjectSound(int OType, Ice::Long ObjectId, 
+									  LbaNet::SoundObjectUpdateBasePtr update);
+	
+
 	//! key pressed
 	void KeyPressed(LbanetKey keyid);
 
@@ -161,6 +166,7 @@ public:
 									float CurrPosX, float CurrPosY, float CurrPosZ,
 									float CurrRotation, const std::string &CurrAnimation,
 									bool ResetPosition, bool ResetRotation,
+									const LbaNet::PlayingSoundSequence	&Sounds,
 									LbaNet::NpcUpdateBasePtr Update);
 
 
@@ -493,6 +499,23 @@ public:
 
 	// show or hide loading screen
 	void ShowHideLoadingScreen(bool show);
+
+	//! used by lua to make an actor play a sound
+	//! there is 5 available channels (0 to 5)
+	virtual void ActorStartSound(int ScriptId, long ActorId, int SoundChannel, 
+										const std::string & soundpath, bool loop);
+
+	//! used by lua to make an actor stop a sound
+	//! there is 5 available channels (0 to 5)
+	virtual void ActorStopSound(int ScriptId, long ActorId, int SoundChannel);
+
+	//! used by lua to make an actor stop a sound
+	//! there is 5 available channels (0 to 5)
+	virtual void ActorPauseSound(int ScriptId, long ActorId, int SoundChannel);
+
+	//! used by lua to make an actor stop a sound
+	//! there is 5 available channels (0 to 5)
+	virtual void ActorResumeSound(int ScriptId, long ActorId, int SoundChannel);
 
 protected:
 

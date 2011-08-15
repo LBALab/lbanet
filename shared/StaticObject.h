@@ -47,6 +47,7 @@ public:
 	//! constructor
 	StaticObject(boost::shared_ptr<PhysicalObjectHandlerBase> phH,
 								boost::shared_ptr<DisplayObjectHandlerBase> disH,
+								boost::shared_ptr<SoundObjectHandlerBase> soundH,
 								long id);
 
 	//! destructor

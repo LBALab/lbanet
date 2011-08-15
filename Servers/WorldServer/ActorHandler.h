@@ -440,6 +440,21 @@ public:
 	//! check if reset position
 	virtual bool IsDead(){return false;}
 
+
+	//! make actor play a sound
+	void APlaySound(int SoundChannel, const std::string & soundpath, bool loop, 
+						bool updatefromlua, bool fromattackscript);
+
+	//! make actor stop a sound
+	void AStopSound(int SoundChannel, bool updatefromlua, bool fromattackscript);
+
+	//! make actor pause a sound
+	void APauseSound(int SoundChannel, bool updatefromlua, bool fromattackscript);
+
+	//! make actor resume a sound
+	void AResumeSound(int SoundChannel, bool updatefromlua, bool fromattackscript);
+
+
 #ifdef _USE_QT_EDITOR_
 public:
 	std::vector<int>		initpolycolors;
@@ -527,6 +542,8 @@ protected:
 	boost::shared_ptr<NavMeshAgent>						m_NavMAgent;
 
 	LbaVec3												m_lastrecordedpos;
+
+		
 };
 
 #endif

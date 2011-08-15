@@ -121,6 +121,7 @@ private:
 	// sound part
 	int				_currGenVolume;
 	int				_currMusicVolume;
+	int				_currSampleVolume;
 
 
 	// gui part

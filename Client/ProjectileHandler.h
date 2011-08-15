@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <LbaTypes.h>
 class DynamicObject;
 class LbaNetModel;
-
+class PlayingSoundHandler;
 
 #include "ActionOnAnimationHandlerBase.h"
 

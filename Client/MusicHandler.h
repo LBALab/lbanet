@@ -27,21 +27,71 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string>
 #include <map>
+#include <list>
+#include <boost/shared_ptr.hpp>
 
-namespace FMOD
+#include "DisplayObjectHandlerBase.h"
+
+
+namespace osgAudio
 {
-	class System;
-	class Sound;
-	class Channel;
+	class SoundState;
 }
 
-struct MHSoundInfo
+
+//*************************************************************************************************
+//*                               class PlayingSoundHandler
+//*************************************************************************************************
+/**
+* @brief Class keeping track of a plyaing sound
+*
+*/
+class PlayingSoundHandler
 {
-	std::string path;
-	FMOD::Sound * fsound;
-	FMOD::Channel* channel;
-	bool running;
+public:
+	// constructor
+	PlayingSoundHandler(const std::string & filename, 
+							osgAudio::SoundState* sound);
+
+	// destructor
+	~PlayingSoundHandler();
+
+	//pause playing
+	void Pause();
+
+	//resume playing
+	void Resume();
+
+	//set soudn gain (from 0.0 to 1.0)
+	void SetGain(float gain);
+
+	//set sound loop
+	void SetLoop(bool loop);
+
+	// check if paused
+	bool Paused();
+
+	// check if sound is looping
+	bool IsLooping();
+
+
+	// return music filename
+	std::string GetFilename()
+	{ return _filename;}
+
+	// return true if finished playing
+	bool Finished();
+
+	// update sound position and direction
+	void Update(float px, float py, float pz, float dx, float dy, float dz);
+
+private:
+	std::string					_filename;
+	osgAudio::SoundState*		_soundstate;
+	bool						_paused;
+
 };
+
 
 
 //*************************************************************************************************
@@ -55,28 +105,15 @@ class MusicHandler
 {
 public:
 
-	// constructor
-	MusicHandler();
-
 	// destructor
 	~MusicHandler();
 
-	// play a music a number of time
-	// -1 for infinit
-	void PlayMusic(const std::string & musicPath, int nbTimes);
-
-
-	// stop the currently played music
-	void StopMusic();
-
-
-	// music accessor
-	const std::string & GetCurrentMusic()
-	{return _current_music;}
+	// singleton pattern
+	static MusicHandler * getInstance();
 
 
 	// to be called in beginnning and end of program
-	bool Initialize();
+	void Initialize();
 	void Unitialize();
 
 	// need to be called once per frame
@@ -96,14 +133,31 @@ public:
 	//! set the music volume
 	void SetMusicVolume(int vol);
 
-	// singleton pattern
-   static MusicHandler * getInstance();
+	//! set the sample volume / will not update currently playign samples
+	void SetSampleVolume(int vol);
 
-	//play sample - return the id of the sample played if you want to stop it
-   unsigned long PlaySample(const std::string & samplepath, int nbTimes);
 
-	//stop of played sample
-	void StopSample(unsigned long sampleid);
+
+	// play a music (looping or not)
+	void PlayMusic(const std::string & musicPath, bool loop);
+
+	// stop the currently played music
+	void StopMusic();
+
+	// music accessor
+	std::string GetCurrentMusic();
+
+
+	//play 2D sample
+	boost::shared_ptr<PlayingSoundHandler> PlaySample2D(const std::string & samplepath, bool loop,
+															bool temporary);
+
+	//play 3D sample
+	boost::shared_ptr<PlayingSoundHandler> PlaySample3D(const std::string & samplepath, bool loop, 
+															bool temporary,
+															float px, float py, float pz, float dx, float dy, float dz);
+
+
 
 	// temporary mute the sound
 	void TemporaryMute();
@@ -111,31 +165,38 @@ public:
 	// rest muted sound
 	void ResetMute();
 
+	// update listener position and orientation
+	void UpdateListener(float px, float py, float pz, float dx, float dy, float dz);
+
+
 protected:
-	//! clean finished sound
-	void cleanupsound(bool forced = false);
+
+	// constructor
+	MusicHandler();
+
+	//! Enable/disable sounde
+	void EnableDisableSound(bool Enable);
+
+	//! clean temporary sounds
+	void CleanTmpSounds();
+
 
 private:
 
-	static MusicHandler *		_singletonInstance;
+	static MusicHandler *									_singletonInstance;
 
-	FMOD::System *				_fsystem;
-	FMOD::Sound *				_fsound;
-	FMOD::Channel*				_channel;
-	bool						_soundEnabled;
-
-	std::string					_current_music;
-	int							_current_music_nbTimes;
-
-	std::map<unsigned long, MHSoundInfo>	_played_sounds;
+	bool													_soundEnabled;
+	float													_generalvolume;
+	float													_musicvolume;
+	float													_samplevolume;
 
 
-	float						_generalvolume;
-	float						_musicvolume;
+	boost::shared_ptr<PlayingSoundHandler>					_playing_music;
+	std::list<boost::shared_ptr<PlayingSoundHandler> >		_tmp_sounds;
 
-	unsigned long				_counter;
+	unsigned long											_counter;
 
-	bool						_savedsoundenabled;
+	bool													_savedsoundenabled;
 };
 
 

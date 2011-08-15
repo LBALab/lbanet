@@ -34,8 +34,9 @@ constructor
 ***********************************************************/
 WorldToDisplayObjectSynchronizer::WorldToDisplayObjectSynchronizer(boost::shared_ptr<PhysicalObjectHandlerBase> phH,
 																	boost::shared_ptr<DisplayObjectHandlerBase> disH,
+																	boost::shared_ptr<SoundObjectHandlerBase> soundH,
 																	long id)
-	: DynamicObject(phH, disH, id),
+	: DynamicObject(phH, disH, soundH, id),
 		_lastDisplayPositionX(0), _lastDisplayPositionY(0), _lastDisplayPositionZ(0)
 {
 	#ifdef _DEBUG
@@ -140,13 +141,18 @@ void WorldToDisplayObjectSynchronizer::StraightSync()
 
 
 	// check rotations
+	bool directionchanged = false;
 	if(		!equal(Quat.X, _lastDisplayRotation.X)
 		||	!equal(Quat.Y, _lastDisplayRotation.Y)
 		||	!equal(Quat.Z, _lastDisplayRotation.Z)
 		||	!equal(Quat.W, _lastDisplayRotation.W))
 	{
+		directionchanged = true;
 		_lastDisplayRotation = Quat;
 		if(_disH)
 			_disH->SetRotation(_lastDisplayRotation);
 	}
+
+	if(positionchanged || directionchanged)
+		UpdateSoundPosition();
 }

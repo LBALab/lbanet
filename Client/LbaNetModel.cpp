@@ -41,6 +41,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ItemObject.h"
 #include "Localizer.h"
 #include "LbaNetEngine.h"
+#include "SoundObjectHandlerClient.h"
 
 
 #define	_LBA1_MODEL_ANIMATION_SPEED_	1.8f
@@ -527,7 +528,8 @@ reset player object
 void LbaNetModel::ResetPlayerObject()
 {
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo(new SimplePhysicalObjectHandler(0, 0, 0, LbaQuaternion()));
-	boost::shared_ptr<DynamicObject> playerObject = boost::shared_ptr<DynamicObject>(new StaticObject(physo, boost::shared_ptr<DisplayObjectHandlerBase>(), m_playerObjectId));
+	boost::shared_ptr<DynamicObject> playerObject = boost::shared_ptr<DynamicObject>(new StaticObject(physo, boost::shared_ptr<DisplayObjectHandlerBase>(), 
+		boost::shared_ptr<SoundObjectHandlerBase>(new SoundObjectHandlerClient()), m_playerObjectId));
 
 	if(m_controllerChar)
 	{
@@ -977,6 +979,79 @@ void LbaNetModel::UpdateObjectPhysic(int OType, Ice::Long ObjectId,
 }
 
 
+/***********************************************************
+update object sound
+***********************************************************/
+void LbaNetModel::UpdateObjectSound(int OType, Ice::Long ObjectId, 
+								  LbaNet::SoundObjectUpdateBasePtr update)
+{
+	switch(OType)
+	{
+		// 1 -> npc object
+		case 1:
+		{
+			std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find((long)ObjectId);
+			if(it != _npcObjects.end())
+			{
+				it->second->GetActor()->GetSoundObject()->Update(update, false);
+				it->second->GetActor()->UpdateSoundPosition();
+			}
+		}
+		break;
+
+
+		// 2 -> player object
+		case 2:
+		{
+			//special treatment if main player
+			if(m_playerObjectId == (long)ObjectId)
+			{
+				m_controllerChar->GetActor()->GetSoundObject()->Update(update, false);
+				m_controllerChar->GetActor()->UpdateSoundPosition();
+			}
+			else
+			{
+				std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _playerObjects.find((long)ObjectId);
+				if(it != _playerObjects.end())
+				{
+					it->second->GetActor()->GetSoundObject()->Update(update, false);
+					it->second->GetActor()->UpdateSoundPosition();
+				}
+			}
+		}
+		break;
+
+		// 3 -> ghost object
+		case 3:
+		{
+			std::map<long, boost::shared_ptr<ExternalPlayer> >::iterator it = _ghostObjects.find((long)ObjectId);
+			if(it != _ghostObjects.end())
+			{
+				it->second->GetActor()->GetSoundObject()->Update(update, false);
+				it->second->GetActor()->UpdateSoundPosition();
+			}
+		}
+		break;
+
+		// editor object
+		#ifdef _USE_QT_EDITOR_
+		case 4:
+		{
+			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _editorObjects.find((long)ObjectId);
+			if(it != _editorObjects.end())
+			{
+				it->second->GetSoundObject()->Update(update, false);
+				it->second->UpdateSoundPosition();
+			}
+		}
+		break;
+		#endif
+	
+	}
+}
+
+
+
 
 
 /***********************************************************
@@ -1035,13 +1110,14 @@ void LbaNetModel::NpcChangedUpdate(Ice::Long NpcId, double updatetime,
 									float CurrPosX, float CurrPosY, float CurrPosZ,
 									float CurrRotation, const std::string &CurrAnimation,
 									bool ResetPosition, bool ResetRotation,
+									const LbaNet::PlayingSoundSequence	&Sounds,
 									LbaNet::NpcUpdateBasePtr Update)
 {
 	std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find((long)NpcId);
 	if(it != _npcObjects.end())
 	{
 		it->second->NpcChangedUpdate(updatetime, CurrPosX, CurrPosY, CurrPosZ, CurrRotation,
-										CurrAnimation, ResetPosition, ResetRotation, Update, this);
+										CurrAnimation, ResetPosition, ResetRotation, Sounds, Update, this);
 	}
 }
 
@@ -2271,6 +2347,95 @@ void LbaNetModel::ShowHideLoadingScreen(bool show)
 			m_showing_loading = false;
 			EventsQueue::getReceiverQueue()->AddEvent(new SwitchToGameEvent());
 		}
+	}
+}
+
+
+
+
+/***********************************************************
+//! used by lua to make an actor play a sound
+//! there is 5 available channels (0 to 5)
+***********************************************************/
+void LbaNetModel::ActorStartSound(int ScriptId, long ActorId, int SoundChannel, 
+									const std::string & soundpath, bool loop)
+{
+	//special treatment if main player
+	if(ActorId < 0)
+	{
+		m_controllerChar->GetActor()->GetSoundObject()->APlaySound(SoundChannel, soundpath, loop);
+		m_controllerChar->GetActor()->UpdateSoundPosition();
+	}
+	else
+	{
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find((long)ActorId);
+		if(it != _npcObjects.end())
+		{
+			it->second->GetActor()->GetSoundObject()->APlaySound(SoundChannel, soundpath, loop);
+			it->second->GetActor()->UpdateSoundPosition();
+		}
+	}
+}
+
+
+/***********************************************************
+//! used by lua to make an actor stop a sound
+//! there is 5 available channels (0 to 5)
+***********************************************************/
+void LbaNetModel::ActorStopSound(int ScriptId, long ActorId, int SoundChannel)
+{
+	//special treatment if main player
+	if(ActorId < 0)
+	{
+		m_controllerChar->GetActor()->GetSoundObject()->AStopSound(SoundChannel);
+	}
+	else
+	{
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find((long)ActorId);
+		if(it != _npcObjects.end())
+			it->second->GetActor()->GetSoundObject()->AStopSound(SoundChannel);
+	}
+}
+
+
+
+/***********************************************************
+//! used by lua to make an actor stop a sound
+//! there is 5 available channels (0 to 5)
+***********************************************************/
+void LbaNetModel::ActorPauseSound(int ScriptId, long ActorId, int SoundChannel)
+{
+	//special treatment if main player
+	if(ActorId < 0)
+	{
+		m_controllerChar->GetActor()->GetSoundObject()->APauseSound(SoundChannel);
+	}
+	else
+	{
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find((long)ActorId);
+		if(it != _npcObjects.end())
+			it->second->GetActor()->GetSoundObject()->APauseSound(SoundChannel);
+	}
+}
+
+
+
+/***********************************************************
+//! used by lua to make an actor stop a sound
+//! there is 5 available channels (0 to 5)
+***********************************************************/
+void LbaNetModel::ActorResumeSound(int ScriptId, long ActorId, int SoundChannel)
+{
+	//special treatment if main player
+	if(ActorId < 0)
+	{
+		m_controllerChar->GetActor()->GetSoundObject()->AResumeSound(SoundChannel);
+	}
+	else
+	{
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find((long)ActorId);
+		if(it != _npcObjects.end())
+			it->second->GetActor()->GetSoundObject()->AResumeSound(SoundChannel);
 	}
 }
 

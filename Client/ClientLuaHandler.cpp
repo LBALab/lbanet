@@ -103,6 +103,10 @@ ClientLuaHandler::ClientLuaHandler()
 		.def("DisplayScrollingText", &ScriptEnvironmentBase::DisplayScrollingText, luabind::yield)
 		.def("StartDisplayExtraScreen", &ScriptEnvironmentBase::StartDisplayExtraScreen, luabind::yield)
 		.def("EndDisplayExtraScreen", &ScriptEnvironmentBase::EndDisplayExtraScreen)
+		.def("ActorStartSound", &ScriptEnvironmentBase::ActorStartSound)
+		.def("ActorStopSound", &ScriptEnvironmentBase::ActorStopSound)
+		.def("ActorPauseSound", &ScriptEnvironmentBase::ActorPauseSound)
+		.def("ActorResumeSound", &ScriptEnvironmentBase::ActorResumeSound)
 		];
 	}
 	catch(const std::exception &error)

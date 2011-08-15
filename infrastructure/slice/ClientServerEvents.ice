@@ -162,6 +162,14 @@ module LbaNet
 		PhysicObjectUpdateBase		Update;
 	};		
 	
+	// server tell client to update the display of 1 object
+	class UpdateSoundObjectEvent extends ClientServerEventBase
+	{
+		int				TypeO;
+		long				ObjectId;
+		SoundObjectUpdateBase		Update;
+	};
+	
 	// client tell server that player state should be updated
 	class UpdateStateEvent extends ClientServerEventBase
 	{
@@ -222,6 +230,8 @@ module LbaNet
 		
 		bool			ResetPosition;
 		bool			ResetRotation;	
+		
+		PlayingSoundSequence	Sounds;
 		
 		NpcUpdateBase		Update;
 	};

@@ -33,8 +33,9 @@ constructor
 ***********************************************************/
 StaticObject::StaticObject(boost::shared_ptr<PhysicalObjectHandlerBase> phH,
 							boost::shared_ptr<DisplayObjectHandlerBase> disH,
+							boost::shared_ptr<SoundObjectHandlerBase> soundH,
 							long id)
-	: DynamicObject(phH, disH, id)
+	: DynamicObject(phH, disH, soundH, id)
 {
 	#ifdef _DEBUG
 		std::stringstream strs;

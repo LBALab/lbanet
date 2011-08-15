@@ -77,13 +77,15 @@ LbaNetEngine::~LbaNetEngine()
 	m_gui_handler = boost::shared_ptr<GuiHandler>();
 	m_lbaNetModel = boost::shared_ptr<LbaNetModel>();
 
-	// finalize music handler
-	LogHandler::getInstance()->LogToFile("Finalizing sound engine...");
-	MusicHandler::getInstance()->Unitialize();
 
 	// finalize OSG
 	LogHandler::getInstance()->LogToFile("Finalizing Display engine...");
 	OsgHandler::getInstance()->Finalize();
+
+	// finalize music handler
+	LogHandler::getInstance()->LogToFile("Finalizing sound engine...");
+	MusicHandler::getInstance()->Unitialize();
+
 
 	// delete physic engine
 	LogHandler::getInstance()->LogToFile("Finalizing physic engine...");
@@ -129,14 +131,14 @@ void LbaNetEngine::Initialize(void)
 
 	LogHandler::getInstance()->LogToFile("Initializing Game...");
 
+	// init OSG
+	LogHandler::getInstance()->LogToFile("Initializing display engine...");
+	OsgHandler::getInstance()->Initialize("LBANet", "./Data", m_gui_handler, m_client_window);
+
 	// init music handler
 	LogHandler::getInstance()->LogToFile("Initializing sound engine...");
 	MusicHandler::getInstance()->Initialize();
 
-
-	// init OSG
-	LogHandler::getInstance()->LogToFile("Initializing display engine...");
-	OsgHandler::getInstance()->Initialize("LBANet", "./Data", m_gui_handler, m_client_window);
 
 	//init physic engine
 	LogHandler::getInstance()->LogToFile("Initialize physic engine...");
@@ -536,6 +538,17 @@ void LbaNetEngine::HandleGameEvents()
 			continue;
 		}
 
+		// UpdateSoundObjectEvent
+		if(info == typeid(LbaNet::UpdateSoundObjectEvent))
+		{
+			LbaNet::UpdateSoundObjectEvent * castedptr = 
+				dynamic_cast<LbaNet::UpdateSoundObjectEvent *>(&obj);
+
+			m_lbaNetModel->UpdateObjectSound(castedptr->TypeO, castedptr->ObjectId, castedptr->Update);
+
+			continue;
+		}
+
 		// PlayerKeyPressedEvent
 		if(info == typeid(PlayerKeyPressedEvent))
 		{
@@ -583,6 +596,7 @@ void LbaNetEngine::HandleGameEvents()
 												castedptr->CurrPosZ, castedptr->CurrRotation,
 												castedptr->CurrAnimation,
 												castedptr->ResetPosition, castedptr->ResetRotation,
+												castedptr->Sounds,
 												castedptr->Update);
 
 			continue;
@@ -887,7 +901,7 @@ void LbaNetEngine::HandleGameEvents()
 			LbaNet::PlaySoundEvent* castedptr = 
 				dynamic_cast<LbaNet::PlaySoundEvent *>(&obj);
 
-			MusicHandler::getInstance()->PlaySample("Data/"+castedptr->Sound.SoundPath, 0);
+			MusicHandler::getInstance()->PlaySample2D("Data/"+castedptr->Sound.SoundPath, false, true);
 
 			continue;
 		}
@@ -1375,7 +1389,7 @@ void LbaNetEngine::SwitchMusic(const std::string &musicpath, int nbtime)
 	if(tmp != musicpath)
 	{
 		m_lastmusic = tmp;
-		MusicHandler::getInstance()->PlayMusic("Data/"+musicpath, nbtime);
+		MusicHandler::getInstance()->PlayMusic("Data/"+musicpath, (nbtime != 0));
 	}
 }
 

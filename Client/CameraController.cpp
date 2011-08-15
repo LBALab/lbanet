@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "CameraController.h"
 #include "DynamicObject.h"
 #include "OSGHandler.h"
+#include "MusicHandler.h"
 
 #include <iostream>
 #include <math.h>
@@ -198,12 +199,24 @@ void CameraController::Process(double tnow, float tdiff)
 
 
 
-
 	float actX, actY, actZ;
 	phys->GetPosition(actX, actY, actZ);
 	double _targetx, _targety, _targetz;
 	OsgHandler::getInstance()->GetCameraTarget(_targetx, _targety, _targetz);
 	_targety -= _CAM_OFFSET_Y_;
+
+	LbaQuaternion Q;
+	phys->GetRotation(Q);
+	LbaVec3 current_directionX(Q.GetDirection(LbaVec3(0, 0, 1)));
+
+	// update sound listener
+	MusicHandler::getInstance()->UpdateListener(actX, actY, actZ, 
+									current_directionX.x, current_directionX.y, current_directionX.z);
+
+
+
+
+
 
 	if(_isGhost || _forcedghost)
 	{

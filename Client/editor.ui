@@ -1658,19 +1658,6 @@
                      </property>
                     </widget>
                    </item>
-                   <item row="1" column="2">
-                    <widget class="QSpinBox" name="spinBox_mapmusicrepeat">
-                     <property name="minimum">
-                      <number>-1</number>
-                     </property>
-                     <property name="maximum">
-                      <number>100</number>
-                     </property>
-                     <property name="value">
-                      <number>-1</number>
-                     </property>
-                    </widget>
-                   </item>
                    <item row="2" column="2">
                     <spacer name="verticalSpacer_15">
                      <property name="orientation">
@@ -1683,6 +1670,20 @@
                       </size>
                      </property>
                     </spacer>
+                   </item>
+                   <item row="1" column="2">
+                    <widget class="QComboBox" name="comboBox_mapmusicrepeat">
+                     <item>
+                      <property name="text">
+                       <string>Yes</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>No</string>
+                      </property>
+                     </item>
+                    </widget>
                    </item>
                   </layout>
                  </widget>
@@ -2299,7 +2300,7 @@
      <x>0</x>
      <y>0</y>
      <width>960</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

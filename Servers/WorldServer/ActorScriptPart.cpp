@@ -47,6 +47,14 @@ ActorScriptPartBasePtr ActorScriptPartBase::BuildScriptPart(const std::string & 
 		return ActorScriptPartBasePtr(new ActorScriptPart_AttachToActor(1, -1));
 	if(type == "ASPDetachFromActor")
 		return ActorScriptPartBasePtr(new ActorScriptPart_DetachFromActor(-1));
+	if(type == "ASPPlaySound")
+		return ActorScriptPartBasePtr(new ActorScriptPart_PlaySound(0, "", false));
+	if(type == "ASPStopSound")
+		return ActorScriptPartBasePtr(new ActorScriptPart_StopSound(0));
+	if(type == "ASPPauseSound")
+		return ActorScriptPartBasePtr(new ActorScriptPart_PauseSound(0));
+	if(type == "ASPResumeSound")
+		return ActorScriptPartBasePtr(new ActorScriptPart_ResumeSound(0));
 
 	return ActorScriptPartBasePtr();
 }
@@ -548,6 +556,76 @@ void ActorScriptPart_DetachFromActor::WriteExecutionScript(std::ostream & file, 
 
 
 
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void ActorScriptPart_PlaySound::SaveToLuaFile(std::ostream & file, const std::string & name)
+{	
+	file<<"\t"<<name<<" = ASPPlaySound("<<_SoundChannel<<",\""<<_soundpath<<"\","<<(_loop?"true":"false")<<")"<<std::endl;
+}
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void ActorScriptPart_PlaySound::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
+{	
+	if(_soundpath != "")
+		file<<"Environment:ActorStartSound(ScriptId,"<<actid<<","<<_SoundChannel<<",\""<<_soundpath<<"\","<<(_loop?"true":"false")<<")"<<std::endl;
+}
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void ActorScriptPart_StopSound::SaveToLuaFile(std::ostream & file, const std::string & name)
+{	
+	file<<"\t"<<name<<" = ASPStopSound("<<_SoundChannel<<")"<<std::endl;
+}
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void ActorScriptPart_StopSound::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
+{	
+	file<<"Environment:ActorStopSound(ScriptId,"<<actid<<","<<_SoundChannel<<")"<<std::endl;
+}
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void ActorScriptPart_PauseSound::SaveToLuaFile(std::ostream & file, const std::string & name)
+{	
+	file<<"\t"<<name<<" = ASPPauseSound("<<_SoundChannel<<")"<<std::endl;
+}
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void ActorScriptPart_PauseSound::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
+{	
+	file<<"Environment:ActorPauseSound(ScriptId,"<<actid<<","<<_SoundChannel<<")"<<std::endl;
+}
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void ActorScriptPart_ResumeSound::SaveToLuaFile(std::ostream & file, const std::string & name)
+{	
+	file<<"\t"<<name<<" = ASPResumeSound("<<_SoundChannel<<")"<<std::endl;
+}
+
+/***********************************************************
+save action to lua file
+***********************************************************/	
+void ActorScriptPart_ResumeSound::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
+{	
+	file<<"Environment:ActorResumeSound(ScriptId,"<<actid<<","<<_SoundChannel<<")"<<std::endl;
+}
+
+
+
 #ifdef _USE_QT_EDITOR_
 
 
@@ -889,6 +967,69 @@ void ActorScriptPart_DetachFromActor::WriteToQt(TreeModel *	model, const QModelI
 }
 
 
+/***********************************************************
+// use by the editor
+***********************************************************/
+void ActorScriptPart_PlaySound::WriteToQt(TreeModel *	model, const QModelIndex &parentIdx)
+{
+	{
+	QVector<QVariant> datachild;
+	datachild << "Sound channel" << _SoundChannel;
+	model->AppendRow(datachild, parentIdx);	
+	}
+	{
+	QVector<QVariant> datachild;
+	datachild << "Sound path" << _soundpath.c_str();
+	model->AppendRow(datachild, parentIdx);	
+	}
+	{
+	QVector<QVariant> datachild;
+	datachild << "Loop" << _loop;
+	model->AppendRow(datachild, parentIdx);	
+	}
+}
+
+/***********************************************************
+// use by the editor
+***********************************************************/
+void ActorScriptPart_StopSound::WriteToQt(TreeModel *	model, const QModelIndex &parentIdx)
+{
+	{
+	QVector<QVariant> datachild;
+	datachild << "Sound channel" << _SoundChannel;
+	model->AppendRow(datachild, parentIdx);	
+	}
+}
+
+/***********************************************************
+// use by the editor
+***********************************************************/
+void ActorScriptPart_PauseSound::WriteToQt(TreeModel *	model, const QModelIndex &parentIdx)
+{
+	{
+	QVector<QVariant> datachild;
+	datachild << "Sound channel" << _SoundChannel;
+	model->AppendRow(datachild, parentIdx);	
+	}
+}
+
+/***********************************************************
+// use by the editor
+***********************************************************/
+void ActorScriptPart_ResumeSound::WriteToQt(TreeModel *	model, const QModelIndex &parentIdx)
+{
+	{
+	QVector<QVariant> datachild;
+	datachild << "Sound channel" << _SoundChannel;
+	model->AppendRow(datachild, parentIdx);	
+	}
+}
+
+
+
+
+
+
 
 
 
@@ -1108,6 +1249,42 @@ void ActorScriptPart_DetachFromActor::UpdateFromQt(TreeModel *	model, const QMod
 	_actorid = model->data(model->GetIndex(1, rowidx, parentIdx)).toInt();
 }
 
+
+/***********************************************************
+// use by the editor
+***********************************************************/
+void ActorScriptPart_PlaySound::UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx)
+{
+	_SoundChannel = model->data(model->GetIndex(1, rowidx, parentIdx)).toInt();
+	++rowidx;
+	_soundpath = model->data(model->GetIndex(1, rowidx, parentIdx)).toString().toAscii().data();
+	++rowidx;
+	_loop = model->data(model->GetIndex(1, rowidx, parentIdx)).toBool();
+}
+
+/***********************************************************
+// use by the editor
+***********************************************************/
+void ActorScriptPart_StopSound::UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx)
+{
+	_SoundChannel = model->data(model->GetIndex(1, rowidx, parentIdx)).toInt();
+}
+
+/***********************************************************
+// use by the editor
+***********************************************************/
+void ActorScriptPart_PauseSound::UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx)
+{
+	_SoundChannel = model->data(model->GetIndex(1, rowidx, parentIdx)).toInt();
+}
+
+/***********************************************************
+// use by the editor
+***********************************************************/
+void ActorScriptPart_ResumeSound::UpdateFromQt(TreeModel *	model, const QModelIndex &parentIdx, int rowidx)
+{
+	_SoundChannel = model->data(model->GetIndex(1, rowidx, parentIdx)).toInt();
+}
 
 
 

@@ -144,8 +144,8 @@ bool LoginGUI::HandleConnect(const CEGUI::EventArgs& e)
 			std::string txtt = pt->getText().c_str();
 			if((txtl != "") && (txtl.size() <= 20) && (txtt.size() <= 20))
 			{
-				std::string samples = "Data/Samples/lba2launcherblob.wav";
-				MusicHandler::getInstance()->PlaySample(samples, 0);
+				std::string samples = "Data/GUI/lba2launcherblob.wav";
+				MusicHandler::getInstance()->PlaySample2D(samples, false, true);
 				ConfigurationManager::GetInstance()->SetString("Player.Name", txtl);
 				pt->setText("");
 

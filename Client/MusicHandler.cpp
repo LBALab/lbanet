@@ -24,16 +24,138 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "MusicHandler.h"
 #include "ConfigurationManager.h"
+#include "LogHandler.h"
 
 #include <iostream>
-#ifdef _WIN32
-	#include <fmod.hpp>
-#else
-	#include <fmodex/fmod.hpp>
-#endif
+
+#include <osgAudio/FileStream.h>
+#include <osgAudio/SoundUpdateCB.h>
+#include <osgAudio/SoundRoot.h>
+#include <osgAudio/SoundManager.h>
+#include <osgAudio/SoundState.h>
+#include <osgAudio/Version.h>
+#include <osgAudio/SoundNode.h>
+
+#include <osg/Camera>
+
+#include "OSGHandler.h"
 
 
 MusicHandler* MusicHandler::_singletonInstance = NULL;
+
+
+/***********************************************************
+constructor
+***********************************************************/
+PlayingSoundHandler::PlayingSoundHandler(const std::string & filename, 
+											osgAudio::SoundState* sound)
+	: _filename(filename), _soundstate(sound), _paused(false)
+{
+
+}
+
+/***********************************************************
+destructor
+***********************************************************/
+PlayingSoundHandler::~PlayingSoundHandler()
+{
+	if(_soundstate)
+	{
+		_soundstate->setPlay(false);
+		osgAudio::SoundManager::instance()->removeSoundState(_soundstate);
+	}
+		
+}
+
+/***********************************************************
+pause playing
+***********************************************************/
+void PlayingSoundHandler::Pause()
+{
+	if(!_paused)
+	{
+		_paused = true;
+
+		if(_soundstate)
+			_soundstate->setPlay(false);
+	}
+}
+
+/***********************************************************
+resume playing
+***********************************************************/
+void PlayingSoundHandler::Resume()
+{
+	if(_paused)
+	{
+		_paused = false;
+
+		if(_soundstate)
+			_soundstate->setPlay(true);
+	}
+}
+
+/***********************************************************
+set soudn gain (from 0.0 to 1.0)
+***********************************************************/
+void PlayingSoundHandler::SetGain(float gain)
+{
+	if(_soundstate)
+		_soundstate->setGain(gain);
+}
+
+/***********************************************************
+set sound loop
+***********************************************************/
+void PlayingSoundHandler::SetLoop(bool loop)
+{
+	if(_soundstate)
+		_soundstate->setLooping(loop);
+}
+
+/***********************************************************
+check if sound is looping
+***********************************************************/
+bool PlayingSoundHandler::IsLooping()
+{
+	if(_soundstate)
+		return _soundstate->getLooping();
+	else
+		return false;
+}
+
+
+/***********************************************************
+return true if finished playing
+***********************************************************/
+bool PlayingSoundHandler::Finished()
+{
+	return !_paused || !_soundstate || _soundstate->getPlay();
+}
+
+
+
+/***********************************************************
+update sound position and direction
+***********************************************************/
+void PlayingSoundHandler::Update(float px, float py, float pz, float dx, float dy, float dz)
+{
+	if(_soundstate)
+	{
+		_soundstate->setPosition(osg::Vec3(px, py, pz));
+		_soundstate->setDirection(osg::Vec3(dx, dy, dz));
+	}
+}
+
+
+
+/***********************************************************
+check if paused
+***********************************************************/
+bool PlayingSoundHandler::Paused()
+{
+	return _paused;
+}
 
 
 
@@ -58,18 +180,16 @@ MusicHandler * MusicHandler::getInstance()
 	Constructor
 ***********************************************************/
 MusicHandler::MusicHandler()
-: _fsystem(NULL), _fsound(NULL), _channel(NULL),
-	_current_music(""), _soundEnabled(true), _counter(1),
-	_current_music_nbTimes(-1)
+: _soundEnabled(true), _counter(1)
 {
-	System_Create(&_fsystem);
-
-	int volG, volM;
+	int volG, volM, volS;
 	ConfigurationManager::GetInstance()->GetInt("Options.Sound.GeneralVolume", volG);
 	ConfigurationManager::GetInstance()->GetInt("Options.Sound.MusicVolume", volM);
+	ConfigurationManager::GetInstance()->GetInt("Options.Sound.SampleVolume", volS);
 	ConfigurationManager::GetInstance()->GetBool("Options.Sound.SoundEnabled", _soundEnabled);
 	_generalvolume = volG/ 100.0f;
 	_musicvolume = volM / 100.0f;
+	_samplevolume = volS / 100.0f;
 }
 
 
@@ -82,75 +202,21 @@ MusicHandler::~MusicHandler()
 }
 
 
-/***********************************************************
- play a music a number of time
- -1 for infinit
-***********************************************************/
-void MusicHandler::PlayMusic(const std::string & musicPath, int nbTimes)
-{
-	if(_current_music == musicPath)
-	{
-		if((_current_music_nbTimes != nbTimes) && _channel)
-		{
-			_channel->setLoopCount(nbTimes);
-			_current_music_nbTimes = nbTimes;
-		}
-
-		return;
-	}
-
-
-	StopMusic();
-
-	FMOD_RESULT result = _fsystem->createStream(musicPath.c_str(),
-							FMOD_HARDWARE | FMOD_LOOP_NORMAL | FMOD_2D, NULL, &_fsound);
-
-	if (result == FMOD_OK)
-	{
-		_fsound->setLoopCount(nbTimes);
-		_fsystem->playSound(FMOD_CHANNEL_FREE, _fsound, false, &_channel);
-		_current_music = musicPath;
-		_current_music_nbTimes = nbTimes;
-
-		if(!_soundEnabled)
-			_channel->setPaused(true);
-
-		_channel->setVolume(_generalvolume * _musicvolume);
-	}
-	else
-		_fsound = NULL;
-
-
-}
-
-
-/***********************************************************
-stop the music
-***********************************************************/
-void MusicHandler::StopMusic()
-{
-	if(_channel)
-		_channel->stop();
-
-	if(_fsound)
-	{
-		_fsound->release();
-		_fsound = NULL;
-	}
-
-	_current_music = "";
-}
-
-
 
 /***********************************************************
 to be called in beginnning and end of program
 ***********************************************************/
-bool MusicHandler::Initialize()
+void MusicHandler::Initialize()
 {
-	FMOD_RESULT result = _fsystem->init(32, FMOD_INIT_NORMAL, 0);
-	return (result == FMOD_OK);
+    osgAudio::SoundManager::instance()->init(32, true);
+    osgAudio::SoundManager::instance()->getEnvironment()->setDistanceModel(osgAudio::InverseDistance/*Linear*/);
+    osgAudio::SoundManager::instance()->getEnvironment()->setDopplerFactor(0);
+    osgAudio::SoundManager::instance()->getEnvironment()->setUnitScale(1);
+
+	//osg::ref_ptr<osgAudio::SoundRoot> sound_root = new osgAudio::SoundRoot;
+	//OsgHandler::getInstance()->SetSoundRoot(sound_root);
 }
+
 
 
 
@@ -159,9 +225,8 @@ to be called in beginnning and end of program
 ***********************************************************/
 void MusicHandler::Unitialize()
 {
-	StopMusic();
-	cleanupsound(true);
-	_fsystem->close();
+	_tmp_sounds.clear();
+	osgAudio::SoundManager::instance()->shutdown();
 }
 
 
@@ -172,13 +237,23 @@ need to be called once per frame
 ***********************************************************/
 void MusicHandler::Update()
 {
-   //result = system.set3DListenerAttributes(0, listenerPos, velocity, forward, up);
-   // ERRCHECK(result);
-
-	_fsystem->update();
+	osgAudio::SoundManager::instance()->update();
 }
 
 
+
+/***********************************************************
+call to enable or disable sound
+***********************************************************/
+void MusicHandler::EnableDisableSound(bool Enable)
+{
+	_soundEnabled = Enable;
+
+	if(_soundEnabled)
+		osgAudio::SoundManager::instance()->getEnvironment()->setGain(_generalvolume);
+	else
+		osgAudio::SoundManager::instance()->getEnvironment()->setGain(0);
+}
 
 
 /***********************************************************
@@ -186,12 +261,7 @@ call to enable or disable sound
 ***********************************************************/
 void MusicHandler::EnableDisableSound()
 {
-	if(_soundEnabled)
-		_channel->setPaused(true);
-	else
-		_channel->setPaused(false);
-
-	_soundEnabled = !_soundEnabled;
+	EnableDisableSound(!_soundEnabled);
 	ConfigurationManager::GetInstance()->SetBool("Options.Sound.SoundEnabled", _soundEnabled);
 }
 
@@ -202,7 +272,11 @@ set the general sound volume
 void MusicHandler::SetGeneralVolume(int vol)
 {
 	_generalvolume = vol / 100.0f;
-	_channel->setVolume(_generalvolume * _musicvolume);
+
+	if(_soundEnabled)
+		osgAudio::SoundManager::instance()->getEnvironment()->setGain(_generalvolume);
+	else
+		osgAudio::SoundManager::instance()->getEnvironment()->setGain(0);
 }
 
 
@@ -212,99 +286,200 @@ set the music volume
 void MusicHandler::SetMusicVolume(int vol)
 {
 	_musicvolume = vol / 100.0f;
-	_channel->setVolume(_generalvolume * _musicvolume);
+
+	if(_playing_music)
+		_playing_music->SetGain(_musicvolume);
+}
+
+/***********************************************************
+set the sample volume / will not update currently playign samples
+***********************************************************/
+void MusicHandler::SetSampleVolume(int vol)
+{
+	_samplevolume = vol / 100.0f;
 }
 
 
 
+
+
+
+
 /***********************************************************
-play sample - return the id of the sample played if you want to stop it
+ play a music a number of time
+ -1 for infinit
 ***********************************************************/
-unsigned long MusicHandler::PlaySample(const std::string & samplepath, int nbTimes)
+void MusicHandler::PlayMusic(const std::string & musicPath, bool loop)
 {
-	cleanupsound();
-
-	MHSoundInfo si;
-	si.path = samplepath;
-
-	FMOD_RESULT result = _fsystem->createSound(samplepath.c_str(),
-							FMOD_HARDWARE | FMOD_LOOP_NORMAL | FMOD_2D, NULL, &si.fsound);
-
-
-	if (result == FMOD_OK)
+	if(_playing_music && _playing_music->GetFilename() == musicPath)
 	{
-		si.fsound->setLoopCount(nbTimes);
-		_fsystem->playSound(FMOD_CHANNEL_FREE, si.fsound, false, &si.channel);
-
-		if(!_soundEnabled) //TODO - not good as the sound is created still
-			si.channel->setPaused(true);
-
-		si.channel->setVolume(_generalvolume);
-		si.running = true;
-
-		_played_sounds[_counter] = si;
-		++_counter;
-		return (_counter -1);
+		_playing_music->Resume();
+		_playing_music->SetLoop(loop);
+		return;
 	}
 
-	return 0;
-}
+	// reset music
+	_playing_music = boost::shared_ptr<PlayingSoundHandler>();
 
-/***********************************************************
-stop of played sample
-***********************************************************/
-void MusicHandler::StopSample(unsigned long sampleid)
-{
-	std::map<unsigned long, MHSoundInfo>::iterator it = _played_sounds.find(sampleid);
-
-	if(it !=  _played_sounds.end())
+	try
 	{
-		MHSoundInfo &si = it->second;
-		if(si.channel)
+        // Create a new filestream that streams samples from a ogg-file.
+        osgAudio::FileStream *musicStream = new osgAudio::FileStream(musicPath.c_str());
+		if(musicStream)
 		{
-			si.channel->stop();
-			si.channel = NULL;
-		}
+			// Create a named sound state.
+			osgAudio::SoundState* sound_state = new osgAudio::SoundState(musicPath);
+			sound_state->allocateSource(10, false);
+			sound_state->setStream( musicStream );
+			sound_state->setGain(_musicvolume); 
+			sound_state->setAmbient(true);
+			sound_state->setPlay(true);
+			sound_state->setLooping(loop);
+			osgAudio::SoundManager::instance()->addSoundState(sound_state);
 
-		if(si.fsound)
-		{
-			si.fsound->release();
-			si.fsound = NULL;
+			// set the reference pointer to the music
+			_playing_music = boost::shared_ptr<PlayingSoundHandler>(new PlayingSoundHandler(musicPath, sound_state));
 		}
-
-		_played_sounds.erase(it);
+	}
+	catch(osgAudio::Error& ex) 
+	{
+		LogHandler::getInstance()->LogToFile(std::string("Exception playing music:") + ex.what());
+	}
+	catch(std::exception& ex) 
+	{
+		LogHandler::getInstance()->LogToFile(std::string("Exception playing music:") + ex.what());
 	}
 }
 
+
 /***********************************************************
-clean finished sound
+stop the music
 ***********************************************************/
-void MusicHandler::cleanupsound(bool forced)
+void MusicHandler::StopMusic()
 {
-	std::map<unsigned long, MHSoundInfo>::iterator it = _played_sounds.begin();
-	while(it != _played_sounds.end())
+	_playing_music = boost::shared_ptr<PlayingSoundHandler>();
+}
+
+
+/***********************************************************
+music accessor
+***********************************************************/
+std::string MusicHandler::GetCurrentMusic()
+{
+	if(_playing_music)
+		return _playing_music->GetFilename();
+	else
+		return "";
+}
+
+
+/***********************************************************
+play 2D sample
+***********************************************************/
+boost::shared_ptr<PlayingSoundHandler> MusicHandler::PlaySample2D(const std::string & samplepath, bool loop,
+																	bool temporary)
+{
+	try
 	{
-		MHSoundInfo &si = it->second;
-		bool isplaying;
-		si.channel->isPlaying(&isplaying);
+		// Create a sample, load the sound file.
+		osgAudio::Sample* sample = 
+			osgAudio::SoundManager::instance()->getSample(samplepath.c_str(), false);
 
-		if(!isplaying || forced)
+		if(sample)
 		{
-			si.channel->stop();
-			si.channel = NULL;
+			// Create a named sound state.
+			osgAudio::SoundState* sound_state = new osgAudio::SoundState(samplepath);
+			sound_state->allocateSource(10, false);
+			sound_state->setSample(sample);
+			sound_state->setGain(_samplevolume); 
+			sound_state->setAmbient(true);
+			sound_state->setPlay(true);
+			sound_state->setLooping(!temporary && loop);
+			osgAudio::SoundManager::instance()->addSoundState(sound_state);
 
-			if(si.fsound)
+			boost::shared_ptr<PlayingSoundHandler> res(new PlayingSoundHandler(samplepath, sound_state));
+
+			if(temporary)
 			{
-				si.fsound->release();
-				si.fsound = NULL;
+				CleanTmpSounds();
+				_tmp_sounds.push_back(res);
+				return boost::shared_ptr<PlayingSoundHandler>();
 			}
 
-			it = _played_sounds.erase(it);
+			return res;
 		}
-		else
-			++it;
 	}
+	catch(osgAudio::Error& ex) 
+	{
+		LogHandler::getInstance()->LogToFile(std::string("Exception playing sample:") + ex.what());
+	}
+	catch(std::exception& ex) 
+	{
+		LogHandler::getInstance()->LogToFile(std::string("Exception playing sample:") + ex.what());
+	}
+
+	return boost::shared_ptr<PlayingSoundHandler>();
 }
+
+/***********************************************************
+play 3D sample
+***********************************************************/
+boost::shared_ptr<PlayingSoundHandler> MusicHandler::PlaySample3D(const std::string & samplepath, bool loop,
+														bool temporary,
+														float px, float py, float pz, float dx, float dy, float dz)
+{
+	try
+	{
+		// Create a sample, load the sound file.
+		osgAudio::Sample* sample = 
+			osgAudio::SoundManager::instance()->getSample(samplepath.c_str(), false);
+
+
+		if(sample)
+		{
+			// Create a named sound state.
+			osgAudio::SoundState* sound_state = new osgAudio::SoundState(samplepath);
+			sound_state->allocateSource(10, false);
+			sound_state->setSample(sample);
+			sound_state->setGain(_samplevolume); 
+			sound_state->setAmbient(false);
+			sound_state->setReferenceDistance(1);
+			sound_state->setPitch(1);
+			sound_state->setPlay(true);
+			sound_state->setLooping(!temporary && loop);
+			osgAudio::SoundManager::instance()->addSoundState(sound_state);
+
+			//osg::ref_ptr< osgAudio::SoundUpdateCB > soundCB = new osgAudio::SoundUpdateCB();
+			//soundCB->setSoundState(sound_state);
+			//attachednode->AttachSound(soundCB.get());
+
+
+			boost::shared_ptr<PlayingSoundHandler> res(new PlayingSoundHandler(samplepath, sound_state));
+			res->Update(px, py, pz, dx, dy, dz);
+
+			if(temporary)
+			{
+				CleanTmpSounds();
+				_tmp_sounds.push_back(res);
+				return boost::shared_ptr<PlayingSoundHandler>();
+			}
+
+			return res;
+		}
+	}
+	catch(osgAudio::Error& ex) 
+	{
+		LogHandler::getInstance()->LogToFile(std::string("Exception playing sample:") + ex.what());
+	}
+	catch(std::exception& ex) 
+	{
+		LogHandler::getInstance()->LogToFile(std::string("Exception playing sample:") + ex.what());
+	}
+
+	return boost::shared_ptr<PlayingSoundHandler>();
+}
+
+
 
 
 /***********************************************************
@@ -313,8 +488,7 @@ temporary mute the sound
 void MusicHandler::TemporaryMute()
 {
 	_savedsoundenabled = _soundEnabled;
-	_channel->setPaused(true);
-	_soundEnabled = false;
+	EnableDisableSound(false);
 }
 
 /***********************************************************
@@ -322,6 +496,33 @@ reset muted sound
 ***********************************************************/
 void MusicHandler::ResetMute()
 {
-	_channel->setPaused(!_savedsoundenabled);
-	_soundEnabled = _savedsoundenabled;
+	EnableDisableSound(_savedsoundenabled);
 }
+
+
+/***********************************************************
+update listener position and orientation
+***********************************************************/
+void MusicHandler::UpdateListener(float px, float py, float pz, float dx, float dy, float dz)
+{
+    osgAudio::SoundManager::instance()->getListener()->setPosition(px,py,pz);
+	osgAudio::SoundManager::instance()->getListener()->setOrientation(dx,dy,dz,0,1,0);
+}
+
+
+
+/***********************************************************
+clean temporary sounds
+***********************************************************/
+void MusicHandler::CleanTmpSounds()
+{
+	std::list<boost::shared_ptr<PlayingSoundHandler> >::iterator it = _tmp_sounds.begin();
+	while(it != _tmp_sounds.end())
+	{
+		if((*it)->Finished())
+			it = _tmp_sounds.erase(it);
+		else
+			++it;
+	}
+}
+

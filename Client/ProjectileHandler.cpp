@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ActorUserData.h"
 #include "MusicHandler.h"
 #include "LbaNetModel.h"
-
+#include "MusicHandler.h"
 
 #include <math.h>
 
@@ -86,6 +86,8 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 		itp->projobject->Process(tnow, tdiff);
 
 		boost::shared_ptr<PhysicalObjectHandlerBase> physobj = itp->projobject->GetPhysicalObject();
+		boost::shared_ptr<DisplayObjectHandlerBase> disobj = itp->projobject->GetDisplayObject();
+
 		if(itp->comingback)
 		{
 			bool destroyfinishedproj = false;
@@ -264,9 +266,16 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 
 						if(!destroy)
 						{
-							//TODO - change to 3d sound
 							if(_SoundOnBounce != "")
-								MusicHandler::getInstance()->PlaySample("Data/"+_SoundOnBounce, 0);
+							{
+								float lpx, lpy, lpz;
+								LbaQuaternion lQ;
+								physobj->GetPosition(lpx, lpy, lpz);
+								physobj->GetRotation(lQ);
+								LbaVec3 ldX(lQ.GetDirection(LbaVec3(0, 0, 1)));
+								MusicHandler::getInstance()->PlaySample3D("Data/"+_SoundOnBounce, false, true,
+																			lpx, lpy, lpz, ldX.x, ldX.y, ldX.z);
+							}
 
 							physobj->AddForce(0, _projInfo.ForceYOnImpact, 0);
 						}
@@ -307,9 +316,8 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 
 
 					//make display half transparent
-					boost::shared_ptr<DisplayObjectHandlerBase> diso = itp->projobject->GetDisplayObject();
-					if(diso)
-						diso->Update(new LbaNet::ObjectAlphaColorUpdate(0.6f), false);
+					if(disobj)
+						disobj->Update(new LbaNet::ObjectAlphaColorUpdate(0.6f), false);
 
 
 					// set come back flag
@@ -387,6 +395,8 @@ void ProjectileHandler::Launch()
 
 	//add force to object
 	boost::shared_ptr<PhysicalObjectHandlerBase> physobj = newproj.projobject->GetPhysicalObject();
+	boost::shared_ptr<DisplayObjectHandlerBase> disobj = newproj.projobject->GetDisplayObject();
+
 	if(physobj)
 	{
 		LbaQuaternion Q;
@@ -424,9 +434,16 @@ void ProjectileHandler::Launch()
 			physobj->AddForce(_projInfo.ForceX*current_directionX.x, _projInfo.ForceY, _projInfo.ForceX*current_directionX.z);
 		}
 
-		//TODO - change to 3d sound
 		if(_SoundAtStart != "")
-			MusicHandler::getInstance()->PlaySample("Data/"+_SoundAtStart, 0);
+		{
+			float lpx, lpy, lpz;
+			LbaQuaternion lQ;
+			physobj->GetPosition(lpx, lpy, lpz);
+			physobj->GetRotation(lQ);
+			LbaVec3 ldX(lQ.GetDirection(LbaVec3(0, 0, 1)));
+			MusicHandler::getInstance()->PlaySample3D("Data/"+_SoundAtStart, false, true,
+														lpx, lpy, lpz, ldX.x, ldX.y, ldX.z);
+		}
 	}
 
 	// add to projs list

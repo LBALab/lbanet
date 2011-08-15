@@ -1168,7 +1168,9 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 			<< "ASPStartWaypoint" << "ASPFollowWaypoint"
 			<< "ASPChangeAnimation" << "ASPChangeModel" << "ASPChangeOutfit" << "ASPChangeWeapon" 
 			<< "ASPChangeMode" << "ASPWaitForSignal" << "ASPSendSignal"  
-			<< "ASPShowHide" << "ASPCustom" << "ASPAttachToActor" << "ASPDetachFromActor";
+			<< "ASPShowHide" << "ASPCustom" << "ASPAttachToActor" << "ASPDetachFromActor"
+			 << "ASPPlaySound" << "ASPStopSound" << "ASPPauseSound" << "ASPResumeSound";
+
 
 	_actorscriptparttypeList->setStringList(scptypel);
 
@@ -1509,7 +1511,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.comboBox_choosetexttype, SIGNAL(activated(int)) , this, SLOT(TextTypeModified(int)));	
 
 	connect(_uieditor.lineEdit_mapmusic, SIGNAL(textChanged(QString)) , this, SLOT(MapMusicChanged(QString)));
-	connect(_uieditor.spinBox_mapmusicrepeat, SIGNAL(valueChanged(int)) , this, SLOT(MapMusicRepeatChanged(int)));
+	connect(_uieditor.comboBox_mapmusicrepeat, SIGNAL(activated(int)) , this, SLOT(MapMusicRepeatChanged(int)));
 	connect(_uieditor.pushButto_mapmusic, SIGNAL(clicked()) , this, SLOT(MapMusicFile_clicked()));
 
 	connect(_uieditor.spinBox_cskin, SIGNAL(valueChanged(int)) , this, SLOT(colorModified(int)));	
@@ -2255,8 +2257,7 @@ void EditorHandler::SetMapInfo(const std::string & mapname)
 
 	//music part
 	_uieditor.lineEdit_mapmusic->setText(mapinfo.Music.c_str());
-	_uieditor.spinBox_mapmusicrepeat->setValue(mapinfo.Repeat);
-
+	_uieditor.comboBox_mapmusicrepeat->setCurrentIndex((mapinfo.Repeat == 0)?1:0);
 
 	if(_firstmapofworld)
 	{
@@ -13182,7 +13183,7 @@ void EditorHandler::MapMusicRepeatChanged(int newvalue)
 	std::string mapname = _uieditor.label_mapname->text().toAscii().data();
 	if(mapname != "")
 	{
-		int newv = _uieditor.spinBox_mapmusicrepeat->value();
+		int newv = (_uieditor.comboBox_mapmusicrepeat->currentIndex() == 0)?1:0;
 		if(newv != _winfo.Maps[mapname].Repeat)
 		{
 			_winfo.Maps[mapname].Repeat = newv;

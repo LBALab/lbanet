@@ -4286,3 +4286,52 @@ int MapHandler::GetDBFlag(long PlayerId, const std::string & flagid)
 	else
 		return -1;
 }
+
+
+/***********************************************************
+//! used by lua to make an actor play a sound
+//! there is 5 available channels (0 to 5)
+***********************************************************/
+void MapHandler::ActorStartSound(int ScriptId, long ActorId, int SoundChannel, 
+										const std::string & soundpath, bool loop)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
+		itact->second->APlaySound(SoundChannel, soundpath, loop, 
+											true, itact->second->IsAttackScript(ScriptId));
+}
+
+/***********************************************************
+//! used by lua to make an actor strop a sound
+//! there is 5 available channels (0 to 5)
+***********************************************************/
+void MapHandler::ActorStopSound(int ScriptId, long ActorId, int SoundChannel)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
+		itact->second->AStopSound(SoundChannel, true, itact->second->IsAttackScript(ScriptId));
+}
+
+
+/***********************************************************
+//! used by lua to make an actor pause a sound
+//! there is 5 available channels (0 to 5)
+***********************************************************/
+void MapHandler::ActorPauseSound(int ScriptId, long ActorId, int SoundChannel)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
+		itact->second->APauseSound(SoundChannel, true, itact->second->IsAttackScript(ScriptId));
+}
+
+
+/***********************************************************
+//! used by lua to make an actor resume a sound
+//! there is 5 available channels (0 to 5)
+***********************************************************/
+void MapHandler::ActorResumeSound(int ScriptId, long ActorId, int SoundChannel)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
+		itact->second->AResumeSound(SoundChannel, true, itact->second->IsAttackScript(ScriptId));
+}

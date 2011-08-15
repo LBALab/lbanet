@@ -50,6 +50,7 @@ public:
 									float CurrPosX, float CurrPosY, float CurrPosZ,
 									float CurrRotation, const std::string &CurrAnimation,
 									bool ResetPosition, bool ResetRotation,
+									const LbaNet::PlayingSoundSequence	&Sounds,
 									LbaNet::NpcUpdateBasePtr Update, 
 									ScriptEnvironmentBase* scripthandler);
 

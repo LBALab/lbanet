@@ -40,6 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <osg/LineWidth>
 #include <osg/Material>
 
+
 static  osg::Node* findNamedNode(const std::string& searchName,  osg::Node* currNode)
 {
    osg::Group* currGroup;
@@ -1092,3 +1093,4 @@ void OsgObjectHandler::SetShoutText(const std::string & text, float size,
 		}
 	}	
 }
+

@@ -38,6 +38,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <osg/CullFace>
 #include <osg/LineWidth>
 #include <osg/Billboard>
+#include <osg/DeleteHandler>
+
 
 #include <osgViewer/Viewer>
 #include <osgViewer/ViewerEventHandlers>
@@ -62,10 +64,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <osgUtil/Optimizer>
 #include <osgUtil/SmoothingVisitor>
 
-// win32 only
-#include "GraphicsWindowQt"
-#include <osgViewer/api/Win32/GraphicsWindowWin32>
+#include <osgAudio/SoundRoot.h>
 
+#include "GraphicsWindowQt"
 #include "QT_WindowsBase.h"
 
 
@@ -706,18 +707,6 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 	LogHandler::getInstance()->LogToFile("Initializing of graphics window done.");
 }
 
-/***********************************************************
-get windows handle (win32 only)
-***********************************************************/
-void* OsgHandler::GetWindowsHandle()
-{
-	osgViewer::GraphicsWindowWin32* gw32 =  dynamic_cast<osgViewer::GraphicsWindowWin32*>(_gw);
-	if(gw32)
-		return (void*)gw32->getHWND();
-		
-	return NULL;
-}
-
 
 
 /***********************************************************
@@ -755,6 +744,13 @@ void OsgHandler::Finalize()
 	_rootNodeGui =NULL;
 	_lightNode =NULL;
 	_clipNode =NULL;
+
+
+    if (osg::Referenced::getDeleteHandler()) 
+    {
+        osg::Referenced::getDeleteHandler()->setNumFramesToRetainObjects(0);
+        osg::Referenced::getDeleteHandler()->flushAll();
+    }
 }
 
 
@@ -2011,4 +2007,14 @@ get gui drawable
 osg::ref_ptr<CEGUIDrawable>  OsgHandler::GetGUIDrawable()
 {
 	return _guidraw;
+}
+
+
+/***********************************************************
+send sound root
+***********************************************************/
+void OsgHandler::SetSoundRoot(osg::ref_ptr<osgAudio::SoundRoot> sound_root)
+{
+    sound_root->setCamera( NULL );
+    _translNode->addChild(sound_root.get());
 }

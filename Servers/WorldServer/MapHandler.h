@@ -454,6 +454,22 @@ public:
 	// reset to game screen after displaying extra gl stuff
 	virtual void EndDisplayExtraScreen(){}
 
+	//! used by lua to make an actor play a sound
+	//! there is 5 available channels (0 to 5)
+	virtual void ActorStartSound(int ScriptId, long ActorId, int SoundChannel, 
+										const std::string & soundpath, bool loop);
+
+	//! used by lua to make an actor stop a sound
+	//! there is 5 available channels (0 to 5)
+	virtual void ActorStopSound(int ScriptId, long ActorId, int SoundChannel);
+
+	//! used by lua to make an actor stop a sound
+	//! there is 5 available channels (0 to 5)
+	virtual void ActorPauseSound(int ScriptId, long ActorId, int SoundChannel);
+
+	//! used by lua to make an actor stop a sound
+	//! there is 5 available channels (0 to 5)
+	virtual void ActorResumeSound(int ScriptId, long ActorId, int SoundChannel);
 
 protected:
 
