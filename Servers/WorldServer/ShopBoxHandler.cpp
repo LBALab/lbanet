@@ -25,7 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "SharedDataHandler.h"
 #include "SynchronizedTimeHandler.h"
 #include "MapHandler.h"
-#include "Localizer.h"
 
 /***********************************************************
 update gui with info from server
@@ -38,7 +37,7 @@ void ShopBoxHandler::Update(Ice::Long clientid, const LbaNet::GuiUpdateBasePtr &
 	// LbaNet::BuyItemUpdate
 	if(info == typeid(LbaNet::BuyItemUpdate))
 	{
-		LbaNet::BuyItemUpdate * castedptr = 
+		LbaNet::BuyItemUpdate * castedptr =
 			dynamic_cast<LbaNet::BuyItemUpdate *>(ptr);
 
 		BuyItem((long)clientid, (long)castedptr->ItemId);
@@ -59,7 +58,7 @@ void ShopBoxHandler::HideGUI(Ice::Long clientid)
 	if(_owner)
 	{
 		EventsSeq toplayer;
-		toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+		toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 												"ShopBox", GuiParamsSeq(), false, true));
 		_owner->SendEvents((long)clientid, toplayer);
 	}
@@ -81,7 +80,7 @@ void ShopBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition &c
 					boost::shared_ptr<ShowGuiParamBase> params)
 {
 	ShowGuiParamBase * ptr = params.get();
-	ShopParam * castedptr = 
+	ShopParam * castedptr =
 		static_cast<ShopParam *>(params.get());
 
 
@@ -98,7 +97,7 @@ void ShopBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition &c
 			GuiParamsSeq seq;
 			seq.push_back(new ShopGuiParameter(castedptr->_shopinventory,
 														castedptr->_currencyitem.IconName));
-			toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+			toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 													"ShopBox", seq, true, false));
 
 			toplayer.push_back(UpdateMoney((long)castedptr->_currencyitem.Id, (long)clientid));
@@ -128,7 +127,7 @@ void ShopBoxHandler::BuyItem(long clientid, long ItemId)
 	LbaNet::ItemsMap inventory = _owner->GetInventory(clientid, inventorysize);
 	ShopParam &ShopItems = _openedshops[clientid];
 
-			
+
 
 	// check if shop has listed items available
 	LbaNet::ItemsMap::iterator itcont = ShopItems._shopinventory.find(ItemId);
@@ -153,7 +152,7 @@ void ShopBoxHandler::BuyItem(long clientid, long ItemId)
 				{
 					if((int)inventory.size() >= inventorysize) // check if inventory full
 						buy = false;
-				}	
+				}
 			}
 			else
 			{
@@ -161,9 +160,9 @@ void ShopBoxHandler::BuyItem(long clientid, long ItemId)
 
 				// send no kash message to chatbox
 				LbaNet::GuiUpdatesSeq updseq;
-				LbaNet::ChatTextUpdate * upd = 
-					new LbaNet::ChatTextUpdate("All", "info", Localizer::getInstance()->GetText(Localizer::GUI, 106));
-				updseq.push_back(upd);		
+				LbaNet::ChatTextUpdate * upd =
+					new LbaNet::ChatTextUpdate("All", "info", "#106"));
+				updseq.push_back(upd);
 				EventsSeq toplayer;
 				toplayer.push_back(new LbaNet::UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), "ChatBox", updseq));
 				_owner->SendEvents(clientid, toplayer);
@@ -202,9 +201,9 @@ LbaNet::ClientServerEventBase * ShopBoxHandler::UpdateMoney(long currencyid, lon
 		count = it->second.Count;
 
 	LbaNet::GuiUpdatesSeq updseq;
-	LbaNet::PlayerMoneyUpdate * upd = 
+	LbaNet::PlayerMoneyUpdate * upd =
 		new LbaNet::PlayerMoneyUpdate(count);
 	updseq.push_back(upd);
-	return new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+	return new UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 											"ShopBox", updseq);
 }
