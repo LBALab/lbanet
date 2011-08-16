@@ -161,7 +161,7 @@ void ShopBoxHandler::BuyItem(long clientid, long ItemId)
 				// send no kash message to chatbox
 				LbaNet::GuiUpdatesSeq updseq;
 				LbaNet::ChatTextUpdate * upd =
-					new LbaNet::ChatTextUpdate("All", "info", "#106"));
+					new LbaNet::ChatTextUpdate("All", "info", "#106");
 				updseq.push_back(upd);
 				EventsSeq toplayer;
 				toplayer.push_back(new LbaNet::UpdateGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), "ChatBox", updseq));
