@@ -336,6 +336,15 @@ void ChatBox::AddText(std::string channel, std::string Sender, std::string Text)
 	for(size_t i=0; i< _replace_string_map.size(); ++i)
 		ReplaceStringPart(Text, _replace_string_map[i].first, _replace_string_map[i].second);
 
+	if(Sender == "info")
+	{
+		if(Text.size() > 1 && Text[0] == '#')
+		{
+			int textidx = atoi(Text.substr(1).c_str());
+			Text = Localizer::getInstance()->GetText(Localizer::GUI, textidx);
+		}
+	}
+
 	ProtectString(Text);
 
 	std::string namecol = "[colour='";
