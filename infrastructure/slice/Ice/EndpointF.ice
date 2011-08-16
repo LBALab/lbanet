@@ -7,15 +7,18 @@
 //
 // **********************************************************************
 
-#ifndef ICE_IMPLICIT_CONTEXT_F_ICE
-#define ICE_IMPLICIT_CONTEXT_F_ICE
+#ifndef ICE_ENDPOINT_F_ICE
+#define ICE_ENDPOINT_F_ICE
 
 [["cpp:header-ext:h"]]
 
 module Ice
 {
 
-local interface ImplicitContext;
+local class TCPEndpointInfo;
+local class UDPEndpointInfo;
+local interface Endpoint;
+local sequence<Endpoint> EndpointSeq;
 
 };
 
