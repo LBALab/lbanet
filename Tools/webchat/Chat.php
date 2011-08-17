@@ -12,7 +12,7 @@
 //
 // ChatDemo config file
 //
-$config = "./IcePHP/config.phpclient";
+$config = dirname(__FILE__) . "/IcePHP/config.phpclient";
 
 
 //
@@ -39,7 +39,7 @@ if(!extension_loaded("ice"))
     exit(1);
 }
 
-$iceIncludePath = "./IcePHP";
+$iceIncludePath = dirname(__FILE__) . "/IcePHP";
 $includePath = get_include_path();
 if(!in_array($iceIncludePath, explode(PATH_SEPARATOR, get_include_path())))
 {
