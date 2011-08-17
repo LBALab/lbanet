@@ -1,0 +1,309 @@
+/*
+//
+// Copyright (c) 2003-2009 ZeroC, Inc. All rights reserved.
+//
+// This copy of Chat Demo is licensed to you under the terms
+// described in the CHAT_DEMO_LICENSE file included in this
+// distribution.
+//
+*/
+
+/** Common CSS BEGIN **/
+
+
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0; padding:0;}
+table{border-collapse:collapse; border-spacing:0;}
+fieldset,img{border:0;}
+address,caption,cite,code,dfn,em,strong,th,var{font-style:normal; font-weight:normal;}
+li{list-style:none;}
+caption,th{text-align:left;}
+h1,h2,h3,h4,h5,h6{font-size:100%; font-weight:normal;}
+q:before,q:after{content:'';}
+abbr,acronym {border:0; font-variant:normal;}
+sup {vertical-align:text-top;} /* to preserve line-height and selector appearance */
+sub {vertical-align:text-bottom;} /* to preserve line-height and selector appearance */
+input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit;outline:none;} /* to preserve line-height and selector appearance */
+legend{color:rgb(0,0,0);} /*because legend doesn't inherit in IE */
+
+body
+{
+    font-family: tahoma, sans serif; 
+    text-shadow:1px 1px 2px #000000; 
+    font-size: 12px;
+    line-height: 1.5em;
+    color: white;
+    background-color: #070505;   
+    margin:0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    width:100%;
+    height:100%;
+    min-width:300px;
+    min-height:300px;
+}
+
+html
+{
+    height:90%;
+}
+
+p, div
+{
+    font-size:12 px;
+}
+
+h2
+{
+    font-size:16px;
+    font-weight:bold;
+}
+
+#livechat
+{
+    margin-top: 0px;
+    margin-left:0px;
+    margin-right:0px;
+    width:645px;
+    background-color: transparent;
+    min-height:300px;
+    min-width:300px;
+}
+
+
+
+#chatcontent
+{
+    float:left;
+    width:100%;
+    min-width:
+    min-height: 300px;
+    min-width:300px;
+    background-color: transparent;  
+}
+
+#loginContainer
+{
+    float:left;
+    height: 280px;
+    text-align: center;
+    width: 100%;
+    margin-top:10%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+
+#conversationView
+{
+    float:left;
+    margin:0px 0px 0px 0px;
+    margin-top:2px;
+    padding: 0px 0px 0px 0px;
+    border-top: 1px solid #A7FAFA;
+    min-height:300px;
+}
+
+#conversationView:after
+{
+    content: '.';
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+}
+
+#connectingContainer
+{
+    float:left;
+    margin-top:10%;
+    height: 280px;
+    width: 100%;
+    text-align: center;
+}
+
+#loadingContainer
+{
+    float:left;
+    margin-top:50px;
+    height: 280px;
+    width: 100%;
+    text-align: center;
+    display:none;
+}
+
+#connecting
+{
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: red;
+    width: 100px;
+    color: white;
+    padding: 5px 5px 5px 5px;
+    font-size: 1.2 em;
+    font-weight: bold;
+}
+
+#userList
+{
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    float: left;
+    width: 150px;
+    overflow: auto;
+    border-left: 1px solid #A7FAFA;  
+    border-right:1px solid #A7FAFA;
+    list-style:none;
+    outline:none;
+}
+
+#userList li
+{
+    background:url(images/user.png) no-repeat;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    margin-left: 2px;
+    padding-left: 18px;
+    margin-top: 5px;
+    overflow:auto;
+    text-align: left;
+}
+
+#messageView
+{
+    text-align:left;
+    float:right;
+    overflow: hidden;
+    min-height:300px;
+    outline:none;
+    border-right: 1px solid #A7FAFA;
+}
+
+#messageViewSeparator
+{
+    border-top: 1px solid #A7FAFA;
+    height:1px;
+    float:left;
+    width:100%;
+    min-width:100%;
+    overflow:hidden;
+}
+
+#messageView p
+{
+    margin:0;
+    padding:0;
+    word-wrap:break-word;
+}
+
+#messageView div
+{
+    text-align:left;
+}
+
+#sendMessageForm
+{
+    float:left;
+    width: 100%;
+    border: none;
+    border-top: 1px solid #A7FAFA;
+}
+
+#txtMessage
+{
+    color: white;  
+    border: none;
+    float:left;
+    height: 23px;
+    min-width:300px;
+    background: transparent;
+    border: 1px solid #A7FAFA;
+
+    overflow:hidden;
+    resize:none;
+    margin-left:10px;
+    margin-top: 5px;
+    outline:none;
+}
+
+.line
+{
+    margin-top: 3px;
+    float: left;
+    width: 100%;
+}
+
+.lneWrapper
+{
+    position:relative;
+    float:right;
+}
+
+#jsSupportError
+{
+    font-weight:bold;
+    margin-top:50px;
+    color:white;
+}
+
+#errorView
+{
+    margin-top: 3px;
+    width: 560px;
+    height: 150px;
+    overflow: auto;
+    margin-left:auto;
+    margin-right:auto;
+    word-wrap:break-word;
+}
+
+#loginForm:after
+{
+    content: '.';
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+}
+
+/*
+ * Style for chat buttons
+ */
+a
+{
+    color: #C08;
+}
+
+a.button
+{
+    background: transparent url('images/bg_button_a.png') no-repeat scroll top right;
+    color: #444;
+    display: block;
+    float: left;
+    font: normal 12px arial, sans-serif;
+    height: 24px;
+    margin-right: 6px;
+    padding-right: 18px;
+    text-decoration: none;
+}
+
+a.button span
+{
+    background: transparent url('images/bg_button_span.png') no-repeat;
+    display: block;
+    line-height: 14px;
+    padding: 5px 0 5px 18px;
+}
+
+a.button:active
+{
+    background-position: bottom right;
+    color: #000;
+    outline: none;
+}
+
+a.button:active span
+{
+    background-position: bottom left;
+    padding: 6px 0 4px 18px;
+}
+/** Common css end **/
