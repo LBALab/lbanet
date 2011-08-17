@@ -1,18 +1,24 @@
 <?php
 
-// **********************************************************************
+# **********************************************************************
+#
+# Copyright (c) 2003-2010 ZeroC, Inc. All rights reserved.
+#
+# This copy of Chat Demo is licensed to you under the terms described
+# in the CHAT_DEMO_LICENSE file included in this distribution.
+#
+# **********************************************************************
+
 //
-// Copyright (c) 2003-2009 ZeroC, Inc. All rights reserved.
+// ChatDemo config file
 //
-// This copy of Chat Demo is licensed to you under the terms
-// described in the CHAT_DEMO_LICENSE file included in this
-// distribution.
-//
-// **********************************************************************
+$config = "./IcePHP/config.phpclient";
 
 
-require_once 'Session.php';
-require_once 'JSON.php';
+//
+// Required for JSON encoding
+//
+require_once dirname(__FILE__) . '/JSON.php';
 
 //
 // Encode the param $data as Json and send it to the client browser.
@@ -33,41 +39,54 @@ if(!extension_loaded("ice"))
     exit(1);
 }
 
-//
-// Load the Chat profile.
-//
-Ice_loadProfile("IceChat");
-
-//
-// Ensure that `IceChat' profile was loaded or report an error.
-//
-if(!interface_exists("LbaNet_PollingChatSession"))
+$iceIncludePath = "./IcePHP";
+$includePath = get_include_path();
+if(!in_array($iceIncludePath, explode(PATH_SEPARATOR, get_include_path())))
 {
-    printJson("IcePHP profile `IceChat' could not be loaded. Revise your IcePHP configuration for this chat demo.");
-    error_log("IcePHP profile `IceChat' could not be loaded. Revise your IcePHP configuration for this chat demo.");
+    if($includePath != '')
+    {
+        $includePath .= PATH_SEPARATOR;
+    }
+    $includePath .= $iceIncludePath;
+    set_include_path($includePath);
+}
+
+require_once 'Ice.php';
+require_once dirname(__FILE__) . '/Session.php';
+require_once dirname(__FILE__) . '/PollingChat.php';
+
+$ice = Ice_initialize();
+
+if(!is_file($config))
+{
+    printJson("IcePHP 'ChatDemo' config file cannot be found in: `" . $file . "'. Revise your ChatDemo installation.");
+    error_log("IcePHP 'ChatDemo' config file cannot be found in: `" . $file . "'. Revise your ChatDemo installation.");
     exit(1);
 }
+
+$properties = Ice_createProperties();
+$properties->load($config);
 
 //
 // Disable session cookie.
 //
-//ini_set("session.use_cookies", false);
+ini_set("session.use_cookies", false);
 
 //
 // Disable transid in urls.
 //
-//ini_set("session.session.use_transid", false);
+ini_set("session.session.use_transid", false);
 
-//if(isset($_POST['id']))
-//{
-//    session_id($_POST['id']);
-//}
+if(isset($_POST['id']))
+{
+    session_id($_POST['id']);
+}
 
 //
 // Disable caching
 //
-//header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-//header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 
 //
 // Start the session, but do not report any PHP error to the client if it fails.
@@ -87,7 +106,7 @@ if(isset($_SESSION)) // Check that the session started OK
         //
         // Create the session PHP object and pass a reference to $ICE.
         //
-        $session = new Session($ICE);
+        $session = new Session($ice, $properties);
 
         //
         // Process the action.
@@ -135,17 +154,15 @@ if(isset($_SESSION)) // Check that the session started OK
         {
             error_log("Exception: " . $ex);
             $ex->jsontype = "Exception";
-            printJson($ex);
         }
-        else
-        {
-            printJson($ex);
-        }
+        printJson($ex);
     }
 }
 else
 {
-    error_log("Error starting session");
+    $ex = new Exception("Error starting the PHP session");
+    $ex->jsontype = "Exception";
+    error_log($ex->getMessage());
     printJson($ex);
 }
 ?>

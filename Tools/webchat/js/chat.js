@@ -1,6 +1,6 @@
 // **********************************************************************
 //
-// Copyright (c) 2003-2009 ZeroC, Inc. All rights reserved.
+// Copyright (c) 2003-2010 ZeroC, Inc. All rights reserved.
 //
 // This copy of Chat Demo is licensed to you under the terms
 // described in the CHAT_DEMO_LICENSE file included in this
@@ -10,34 +10,6 @@
 
 var maxMessageSize = 1024;
 var coordinator = 0;
-
-// Replaces all instances of the given substring.
-String.prototype.replaceAll = function(
-					strTarget, // The substring you want to replace
-					strSubString // The string you want to replace in.
-					)
-{
-	var strText = this;
-	var intIndexOfMatch = strText.indexOf( strTarget );
-	var count = 0;
-
-	// Keep looping while an instance of the target string
-	// still exists in the string.
-	while (intIndexOfMatch != -1)
-	{
-		// Relace out the current instance.
-		strText = strText.replace( strTarget, strSubString )
-
-		// Get the index of any next matching substring.
-		intIndexOfMatch = strText.indexOf( strTarget );
-		
-		++count;
-	}
- 
-	// Return the updated string with ALL the target strings
-	// replaced out with the new substring.
-	return {strText : strText, count : count};
-}
 
 String.prototype.trim = function()
 {
@@ -59,7 +31,11 @@ function formatDate(timestamp)
 
 function formatUsername(name)
 {
-	return name;
+    if(name.length <= 2)
+    {
+        return name;
+    }
+    return name.substring(0, 1).toUpperCase() + name.substring(1, name.length).toLowerCase();
 }
 
 function clearChilds(id)
@@ -142,7 +118,6 @@ var Coordinator = Class.create(
         this._init = false;
         this.setConnected(false);
         coordinator = this;
-	 this._userscolor = new Hash();
     },
 
     login:function(name, password)
@@ -167,18 +142,18 @@ var Coordinator = Class.create(
                 Element.show('loginContainer');
                 if(transport.status != 200)
                 {
-                    coordinator.setError("Connection with the web server failed:", "HTTP status code: " + transport.status);
+                    coordinator.setError("Connection with the web server failed:", "HTTP status code: " + 
+                                         transport.status);
                     $('txtUserName').focus();
                     return;
                 }
 
                 var response = transport.responseText.evalJSON(true);
-                if( response.jsontype == 'Session')
+                if(response.jsontype == 'Session')
                 {
                     coordinator.setSessionId(response.id);
                     coordinator.setConnected(true);
                     coordinator._username = formatUsername(username);
-		      coordinator._userscolor.set(username, 'FFFFFF');
                     return;
                 }
                 if(response.jsontype == "LbaNet_CannotCreateSessionException")
@@ -187,9 +162,15 @@ var Coordinator = Class.create(
                     $('txtUserName').focus();
                     return;
                 }
+                if(response.jsontype == "Ice_ConnectionRefusedException")
+                {
+                    coordinator._chatView.appendError("Communication with server failed (Ice_ConnectionRefusedException) ", "");
+                    return;
+                }
                 if(response.jsontype == "Ice_UnknownLocalException")
                 {
-                    coordinator._chatView.appendError("Communication with server failed (Ice_UnknownLocalException)", response.unknown);
+                    coordinator._chatView.appendError("Communication with server failed (Ice_UnknownLocalException)", 
+                                                      response.unknown);
                     $('txtUserName').focus();
                     return;
                 }
@@ -241,12 +222,18 @@ var Coordinator = Class.create(
                 {
                     if(transport.status != 200)
                     {
-                        coordinator.connectionLost("<b>Connection with the web server failed: " + transport.status + "</b>");
+                        coordinator.connectionLost("<b>Connection with the web server failed: " + transport.status + 
+                                                   "</b>");
                         return;
                     }
                     var response = transport.responseText.evalJSON(true);
                     if(response.jsontype !== undefined)
                     {
+                        if(response.jsontype == "Ice_ConnectionRefusedException")
+                        {
+                            coordinator.connectionLost("Communication with server failed (Ice_ConnectionRefusedException) ");
+                            return;
+                        }
                         if(response.jsontype == "Ice_UnknownLocalException")
                         {
                             coordinator.connectionLost("(Ice_UnknownLocalException) " + response.unknown);
@@ -264,15 +251,7 @@ var Coordinator = Class.create(
 
                     for(var i = 0; i < response.length; i++)
                     {
-		        var txtuser = "<span style=\"color:#";
-		        txtuser = txtuser + response[i].color.substring(2);              
-		        txtuser = txtuser + "\">" + response[i].name;                        
-		        if (response[i].status.length)
-		        {
-		         	txtuser = txtuser + " (" + response[i].status + ')';
-		        }
-		        txtuser = txtuser + "</span>";                    
-                        var user = new Element('li', { 'id': '_' + response[i].name }).update(txtuser);
+                        var user = new Element('li', { 'id': '_' + response[i] }).update(response[i]);
                         $('userList').insert(user);
                     }
                     coordinator._init = true;
@@ -307,19 +286,26 @@ var Coordinator = Class.create(
                 }
                 if(transport.status != 200)
                 {
-                    coordinator.connectionLost("<b>Could not contact web server. HTTP status code: " + transport.status + "</b>");
+                    coordinator.connectionLost("<b>Could not contact web server. HTTP status code: " + 
+                                               transport.status + "</b>");
                     return;
                 }
-
+                
                 var response = transport.responseText.evalJSON(true);
 
                 if(response.jsontype !== undefined)
                 {
+                    if(response.jsontype == "Ice_ConnectionRefusedException")
+                    {
+                        coordinator.connectionLost("Communication with server failed (Ice_ConnectionRefusedException) ");
+                        return;
+                    }
                     if(response.jsontype == "Ice_UnknownLocalException")
                     {
                         coordinator.connectionLost("(Ice_UnknownLocalException) " + response.unknown);
                         return;
                     }
+                    
                     coordinator.connectionLost(transport.responseText);
                     return;
                 }
@@ -327,6 +313,7 @@ var Coordinator = Class.create(
                 if(!isNumber(response.length))
                 {
                     coordinator.connectionLost(transport.responseText);
+                    
                     return;
                 }
 
@@ -334,19 +321,28 @@ var Coordinator = Class.create(
                 {
                     switch(response[i].jsontype)
                     {
+                        case "LbaNet_InitialUserEvent":
+                            for(var j = 0; j < response[i].users.length; j++)
+                            {
+                                var user = new Element('li', { 'id': '_' + response[i].users[j] }).update(
+                                                       response[i].users[j]);
+                                $('userList').insert(user);
+                            }
+                            break;
+
                         case "LbaNet_UserJoinedEvent":
                             var user = new Element('li', { 'id': '_' + response[i].name }).update(response[i].name);
                             $('userList').insert(user);
-                            coordinator._chatView.addMessage("<p>" + formatDate(response[i].timestamp) + " - &lt;system-message&gt; - "
-                                    + response[i].name + " joined.</p>");
-				coordinator._userscolor.set(response[i].name, 'FFFFFF');
+                            coordinator._chatView.addMessage("<p>" + formatDate(response[i].timestamp) + 
+                                                             " - &lt;system-message&gt; - " + response[i].name + 
+                                                             " joined.</p>");
                             break;
 
                         case "LbaNet_UserLeftEvent":
                             $('_' + response[i].name).remove();
-                            coordinator._chatView.addMessage("<p>" + formatDate(response[i].timestamp) + " - &lt;system-message&gt; - "
-                                    + response[i].name + " left.</p>");
-				coordinator._userscolor.unset(response[i].name);			
+                            coordinator._chatView.addMessage("<p>" + formatDate(response[i].timestamp) + 
+                                                             " - &lt;system-message&gt; - " + response[i].name + 
+                                                             " left.</p>");
                             break;
 
                         case "LbaNet_UserStatusEvent":
@@ -367,13 +363,12 @@ var Coordinator = Class.create(
                         case "LbaNet_MessageEvent":
                             if(response[i].name != coordinator._username)
                             {
-                                coordinator._chatView.addMessage("<p>" + formatDate(response[i].timestamp) + " - <span style=\"color:#"
-                                                                        + coordinator._userscolor.get(response[i].name)
-                                                                        + "\">&lt;" + response[i].name + "&gt; </span>" + response[i].message
-                                                                        + "</p>");
+                                coordinator._chatView.addMessage("<p>" + formatDate(response[i].timestamp) + 
+                                                                 " - &lt;" + response[i].name + "&gt; " + 
+                                                                 response[i].message + "</p>");
                             }
                             break;
- 
+
                     }
                 }
             }
@@ -400,17 +395,23 @@ var Coordinator = Class.create(
 
                 if(transport.status != 200)
                 {
-                    coordinator.connectionLost("<b>Could not contact web server. HTTP status code: " + transport.status + "</b>");
+                    coordinator.connectionLost("<b>Could not contact web server. HTTP status code: " + 
+                                               transport.status + "</b>");
                     return;
                 }
 
-                var response = transport.responseText.evalJSON(true);
+                var response = eval(transport.responseText);
 
                 if(response.jsontype !== undefined)
                 {
                     if(response.jsontype == "Chat_InvalidMessageException")
                     {
                         coordinator._chatView.addMessage("<p>&lt;system-message&gt; - " + response.reason + "</p>");
+                        return;
+                    }
+                    if(response.jsontype == "Ice_ConnectionRefusedException")
+                    {
+                        coordinator.connectionLost("Communication with server failed (Ice_ConnectionRefusedException) ");
                         return;
                     }
                     if(response.jsontype == "Ice_UnknownLocalException")
@@ -424,30 +425,9 @@ var Coordinator = Class.create(
 
                 if(isNumber(parseInt(response)))
                 {
-                	if(messageSend.charAt(0) != '/')
-                	{                                                                                                                    
-			    coordinator._chatView.addMessage("<p>" + formatDate(response) + " - <span style=\"color:#"
-								+ coordinator._userscolor.get(coordinator._username)
-								+ "\">&lt;"
-							    	+ coordinator._username + "&gt; </span>" + stripHtml(messageSend) +
-							     "</p>");
-                	}
-			else
-			{
-				var currentTokens = messageSend.split( " " );
-				if((currentTokens[0] == "/w") && (currentTokens.length > 2))
-				{
-					var messg = "";
-					for ( var i = 2; i < currentTokens.length; i++ )
-  					{
-    						messg = messg + currentTokens[i];
-  					}
-
-			   		coordinator._chatView.addMessage("<p>" + formatDate(response) + " - to "
-							    	+ currentTokens[1] + ": " + stripHtml(messg) +
-							     "</p>");
-				}
-			}
+                    coordinator._chatView.addMessage("<p>" + formatDate(response) + " - &lt;" +
+                                                     coordinator._username + "&gt; " + stripHtml(messageSend) +
+                                                     "</p>");
                 }
             }
         }
@@ -473,8 +453,9 @@ var Coordinator = Class.create(
                 this._updater = 0;
             }
             this._chatView.connectionLost("<p>&lt;system-message&gt;The connection with " +
-                                          "the server was unexpectedly lost.<br/>" + error +
-                                          "<br/><b>Try to refresh the page.</b></p>");
+                                          "the server was unexpectedly lost.<br/>" + error +  "<br/>" +
+                                          "<b>You can try to login again from the Login link in the top menu.</b>" +
+                                          "</p>");
         }
     },
 
@@ -553,8 +534,11 @@ var ChatView = Class.create(
         if(connected)
         {
             warnOnBeforeUnload(true);
+            statusBar('Online');
             $('loginContainer').hide();
+            $('menu').show();
             $('conversationView').show();
+            $('logoutLink').show();
             $('txtMessage').show();
             $('txtMessage').focus();
             this._state = "Online";
@@ -565,7 +549,12 @@ var ChatView = Class.create(
             this.clearConversationView();
             Element.hide('connectingContainer');
             Element.hide('conversationView');
+            Element.hide('logoutLink');
+            Element.hide('loginLink');
+            Element.hide('menu');
+            statusBar('Offline');
             $('loginContainer').show();
+            $('txtUserName').focus();
             this._state = "Offline";
         }
     },
@@ -596,8 +585,7 @@ var ChatView = Class.create(
                 else
                 {
                     this.addMessage("<p>&lt;system-message&gt; - Message length exceeded, " +
-                                                            "maximum length is " + maxMessageSize +
-                                                            " characters. </p>");
+                                    "maximum length is " + maxMessageSize + " characters. </p>");
                 }
             }
             return false;
@@ -708,45 +696,53 @@ var Chat = Class.create(
 
 function warnOnBeforeUnload(warn)
 {
-	//
-	// Remove the event handler for on before unload event.
-	//
-	window.onbeforeunload = function ()
-	    {
-	    }.bind(this);
+    if(warn == true)
+    {
+        //
+        // Setup the event handler for on before unload event.
+        //
+        window.onbeforeunload = function ()
+            {
+                return "If you navigate away from this page, the current chat session will be lost.";
+            }.bind(this);
+    }
+    else
+    {
+        //
+        // Remove the event handler for on before unload event.
+        //
+        window.onbeforeunload = function ()
+            {
+            }.bind(this);
+    }
 }
 
 function passwordFocus(e)
 {
-    // if generated character code is equal to ascii 13 (if enter key)
+    // if event character code is equal to ascii 13 (if enter key)
     if(e.keyCode == 13)
     {
         $('txtPassword').focus();
-        return false
+        return false;
     }
     else
     {
-        return true
+        return true;
     }
 }
 
 function loginOnEnterPressed(chatView, e)
 {
-    // if generated character code is equal to ascii 13 (if enter key)
+    // if event character code is equal to ascii 13 (if enter key)
     if(e.keyCode == 13)
     {
         chatView.login();
-        return false
+        return false;
     }
     else
     {
-        return true
+        return true;
     }
-}
-
-function nosubmit()
-{
-    return false;
 }
 
 function statusBar(msg)

@@ -1,0 +1,4 @@
+#
+# The proxy of the poll chat session factory.
+#
+PollingChatSessionFactory.Proxy=PollingChatSessionFactory:tcp -h 127.0.0.1 -p 10001

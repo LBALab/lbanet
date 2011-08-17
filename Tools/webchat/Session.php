@@ -1,13 +1,13 @@
 <?php
-// **********************************************************************
-//
-// Copyright (c) 2003-2009 ZeroC, Inc. All rights reserved.
-//
-// This copy of Chat Demo is licensed to you under the terms
-// described in the CHAT_DEMO_LICENSE file included in this
-// distribution.
-//
-// **********************************************************************
+
+# **********************************************************************
+#
+# Copyright (c) 2003-2010 ZeroC, Inc. All rights reserved.
+#
+# This copy of Chat Demo is licensed to you under the terms described
+# in the CHAT_DEMO_LICENSE file included in this distribution.
+#
+# **********************************************************************
 
 class JavaScriptSession
 {
@@ -27,7 +27,6 @@ class JavaScriptSession
  * interaction with the chat room.
  *
  **/
-
 class Session
 {
     private $_ice = 0;
@@ -36,9 +35,10 @@ class Session
     //
     // Constructor
     //
-    function __construct($ice)
+    function __construct($ice, $properties)
     {
         $this->_ice = $ice;
+        $this->_properties = $properties;
 
         if($this->isConnected())
         {
@@ -144,11 +144,20 @@ class Session
         try
         {
             $updates = $this->_chatsession->getUpdates();
-            foreach($updates as $update)
+           
+            //
+            // Reindex the array to ensure that JSON treat is as an array
+            // and not like an associative map (Object)
+            //
+            $data = array();
+            $length = count($updates);
+            for($i = 0; $i < $length; $i++)
             {
+                $update = $updates[$i];
                 $update->jsontype = get_class($update);
+                $data[] = $update;
             }
-            return $updates;
+            return $data;
         }
         catch(Ice_Exception $ex)
         {
