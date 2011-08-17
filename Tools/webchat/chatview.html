@@ -1,0 +1,24 @@
+<div id="loginContainer">
+    <div id="errorView"> </div>
+    <script type="text/javascript">
+        $('txtUserName').focus();
+    </script>
+</div>
+
+<div id="connectingContainer">
+    <div id="connecting">Connecting</div>
+</div>
+
+<!-- conversationView BEGIN-->
+<div id="conversationView">
+    <ul id="userList"><li>Users</li></ul>
+    <div id="messageView"></div>
+    <div id="messageViewSeparator"></div>
+    <textarea id="txtMessage"
+              name="txtMessage"
+              onkeydown="chatView.processInputEvent(event)"
+              onkeyup="chatView.clearInputEvent(event)"
+              rows="3" cols="20"
+              tabindex="1" onblur="focusId('txtMessage');"></textarea>
+</div>
+<!-- conversationView END-->
