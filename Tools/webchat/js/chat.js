@@ -59,11 +59,7 @@ function formatDate(timestamp)
 
 function formatUsername(name)
 {
-    if(name.length <= 2)
-    {
-        return name;
-    }
-    return name.substring(0, 1).toUpperCase() + name.substring(1, name.length).toLowerCase();
+	return name;
 }
 
 function clearChilds(id)
@@ -171,14 +167,13 @@ var Coordinator = Class.create(
                 Element.show('loginContainer');
                 if(transport.status != 200)
                 {
-                    coordinator.setError("Connection with the web server failed:", "HTTP status code: " + 
-                                         transport.status);
+                    coordinator.setError("Connection with the web server failed:", "HTTP status code: " + transport.status);
                     $('txtUserName').focus();
                     return;
                 }
 
                 var response = transport.responseText.evalJSON(true);
-                if(response.jsontype == 'Session')
+                if( response.jsontype == 'Session')
                 {
                     coordinator.setSessionId(response.id);
                     coordinator.setConnected(true);
@@ -199,8 +194,7 @@ var Coordinator = Class.create(
                 }
                 if(response.jsontype == "Ice_UnknownLocalException")
                 {
-                    coordinator._chatView.appendError("Communication with server failed (Ice_UnknownLocalException)", 
-                                                      response.unknown);
+                    coordinator._chatView.appendError("Communication with server failed (Ice_UnknownLocalException)", response.unknown);
                     $('txtUserName').focus();
                     return;
                 }
@@ -252,8 +246,7 @@ var Coordinator = Class.create(
                 {
                     if(transport.status != 200)
                     {
-                        coordinator.connectionLost("<b>Connection with the web server failed: " + transport.status + 
-                                                   "</b>");
+                        coordinator.connectionLost("<b>Connection with the web server failed: " + transport.status + "</b>");
                         return;
                     }
                     var response = transport.responseText.evalJSON(true);
@@ -324,11 +317,10 @@ var Coordinator = Class.create(
                 }
                 if(transport.status != 200)
                 {
-                    coordinator.connectionLost("<b>Could not contact web server. HTTP status code: " + 
-                                               transport.status + "</b>");
+                    coordinator.connectionLost("<b>Could not contact web server. HTTP status code: " + transport.status + "</b>");
                     return;
                 }
-                
+
                 var response = transport.responseText.evalJSON(true);
 
                 if(response.jsontype !== undefined)
@@ -343,7 +335,6 @@ var Coordinator = Class.create(
                         coordinator.connectionLost("(Ice_UnknownLocalException) " + response.unknown);
                         return;
                     }
-                    
                     coordinator.connectionLost(transport.responseText);
                     return;
                 }
@@ -351,7 +342,6 @@ var Coordinator = Class.create(
                 if(!isNumber(response.length))
                 {
                     coordinator.connectionLost(transport.responseText);
-                    
                     return;
                 }
 
@@ -425,8 +415,7 @@ var Coordinator = Class.create(
 
                 if(transport.status != 200)
                 {
-                    coordinator.connectionLost("<b>Could not contact web server. HTTP status code: " + 
-                                               transport.status + "</b>");
+                    coordinator.connectionLost("<b>Could not contact web server. HTTP status code: " + transport.status + "</b>");
                     return;
                 }
 
@@ -739,25 +728,12 @@ var Chat = Class.create(
 
 function warnOnBeforeUnload(warn)
 {
-    if(warn == true)
-    {
-        //
-        // Setup the event handler for on before unload event.
-        //
-        window.onbeforeunload = function ()
-            {
-                return "If you navigate away from this page, the current chat session will be lost.";
-            }.bind(this);
-    }
-    else
-    {
-        //
-        // Remove the event handler for on before unload event.
-        //
-        window.onbeforeunload = function ()
-            {
-            }.bind(this);
-    }
+	//
+	// Remove the event handler for on before unload event.
+	//
+	window.onbeforeunload = function ()
+	    {
+	    }.bind(this);
 }
 
 function passwordFocus(e)
@@ -786,6 +762,11 @@ function loginOnEnterPressed(chatView, e)
     {
         return true;
     }
+}
+
+function nosubmit()
+{
+    return false;
 }
 
 function statusBar(msg)
