@@ -52,7 +52,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 #include "client.h"
 
-
+#include <QFileInfo>
+#include <QMessageBox>
+#include <QFileDialog>
 
 #define TIME_PER_FRAME 17
 
@@ -65,6 +67,9 @@ LbaNetEngine::LbaNetEngine(Ice::CommunicatorPtr communicator, const std::string 
 {
 	Initialize();
 	SwitchGuiToLogin();
+
+	//check if LBA1 file files 
+	CheckLBA1Files();
 }
 
 
@@ -1424,3 +1429,71 @@ void LbaNetEngine::SwitchToFixedImage(SwitchToFixedImageEvent * evtptr)
 }
 
 
+
+/***********************************************************
+check if LBA1 file exist 
+***********************************************************/
+void LbaNetEngine::CheckLBA1Files()
+{
+	bool existanim = QFileInfo("Data/Worlds/Lba1Original/Models/ANIM.HQR").exists();
+	bool existbody = QFileInfo("Data/Worlds/Lba1Original/Models/BODY.HQR").exists();
+	bool existfile3d = QFileInfo("Data/Worlds/Lba1Original/Models/FILE3D.HQR").exists();
+	bool existress = QFileInfo("Data/Worlds/Lba1Original/Models/RESS.HQR").exists();
+
+	
+	while(!existanim || !existbody || !existfile3d || !existress)
+	{
+		std::string text = Localizer::getInstance()->GetText(Localizer::GUI, 112);
+		if(!existanim)
+			text+= " ANIM.HQR";
+		if(!existbody)
+			text+= " BODY.HQR";
+		if(!existfile3d)
+			text+= " FILE3D.HQR";
+		if(!existress)
+			text+= " RESS.HQR";
+
+		int ret = QMessageBox::critical(NULL, QString::fromUtf8(Localizer::getInstance()->GetText(Localizer::GUI, 111).c_str()),
+										QString::fromUtf8(text.c_str()),
+										QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Ok);
+
+		if(ret == QMessageBox::Cancel)
+		{
+			exit(1);
+		}
+
+		QString dir = QFileDialog::getExistingDirectory (NULL, QString::fromUtf8(Localizer::getInstance()->GetText(Localizer::GUI, 113).c_str()), 
+						"", 0 );
+
+		if(dir != "")
+		{
+			if(!existanim)
+			{
+				existanim = QFileInfo(dir+"/ANIM.HQR").exists();
+				if(existanim)
+					QFile::copy(dir+"/ANIM.HQR", "Data/Worlds/Lba1Original/Models/ANIM.HQR");
+			}
+
+			if(!existbody)
+			{
+				existbody = QFileInfo(dir+"/BODY.HQR").exists();
+				if(existbody)
+					QFile::copy(dir+"/BODY.HQR", "Data/Worlds/Lba1Original/Models/BODY.HQR");
+			}
+
+			if(!existfile3d)
+			{
+				existfile3d = QFileInfo(dir+"/FILE3D.HQR").exists();
+				if(existfile3d)
+					QFile::copy(dir+"/FILE3D.HQR", "Data/Worlds/Lba1Original/Models/FILE3D.HQR");
+			}
+
+			if(!existress)
+			{
+				existress = QFileInfo(dir+"/RESS.HQR").exists();
+				if(existress)
+					QFile::copy(dir+"/RESS.HQR", "Data/Worlds/Lba1Original/Models/RESS.HQR");
+			}
+		}
+	}
+}

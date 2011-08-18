@@ -392,7 +392,7 @@ void GameGUI::UpdateGUI(const std::string & guiid,const LbaNet::GuiUpdatesSeq &U
 				LbaNet::SystemMessageUpdate * castedptr = 
 					dynamic_cast<LbaNet::SystemMessageUpdate *>(ptr);
 
-				CGMessageBox::getInstance()->Show(castedptr->Title, castedptr->Message, NULL);
+				CGMessageBox::getInstance()->Show(castedptr->Title, castedptr->Message);
 			}
 
 			// RefreshCharPortraitUpdate

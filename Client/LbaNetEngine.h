@@ -119,6 +119,8 @@ protected:
 	//! reset to previous music
 	void ResetMusic();
 
+	//! check if LBA1 file exist 
+	void CheckLBA1Files();
 
 private:
 	boost::shared_ptr<GuiHandler>					m_gui_handler;				// pointer on gui class
@@ -143,6 +145,8 @@ private:
 	boost::shared_ptr<EditorHandler>				m_editor_handler;
 #endif
 	boost::shared_ptr<Client>						m_client_window;
+
+
 
 };
 

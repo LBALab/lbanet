@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <CEGUI.h>
 #include "LogHandler.h"
 #include "GUILocalizationCallback.h"
+#include <QMessageBox>
 
 CGMessageBox* CGMessageBox::_singletonInstance = NULL;
 
@@ -53,7 +54,6 @@ CGMessageBox * CGMessageBox::getInstance()
 constructor
 ***********************************************************/
 CGMessageBox::CGMessageBox()
-: _callback(NULL)
 {
 }
 
@@ -71,36 +71,36 @@ initalize the box
 ***********************************************************/
 void CGMessageBox::Initialize(CEGUI::Window* Root)
 {
-	try
-	{
-		_myBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "textbox.layout",
-								"", "", &MyPropertyCallback);
-		Root->addChildWindow(_myBox);
+	//try
+	//{
+	//	_myBox = CEGUI::WindowManager::getSingleton().loadWindowLayout( "textbox.layout",
+	//							"", "", &MyPropertyCallback);
+	//	Root->addChildWindow(_myBox);
 
 
-		CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
-			CEGUI::WindowManager::getSingleton().getWindow("MessageBoxFrame"));
-		frw->subscribeEvent (
-			CEGUI::FrameWindow::EventCloseClicked,
-			CEGUI::Event::Subscriber (&CGMessageBox::HandleOk, this));
+	//	CEGUI::FrameWindow * frw = static_cast<CEGUI::FrameWindow *> (
+	//		CEGUI::WindowManager::getSingleton().getWindow("MessageBoxFrame"));
+	//	frw->subscribeEvent (
+	//		CEGUI::FrameWindow::EventCloseClicked,
+	//		CEGUI::Event::Subscriber (&CGMessageBox::HandleOk, this));
 
 
-		static_cast<CEGUI::PushButton *> (
-			CEGUI::WindowManager::getSingleton().getWindow("MessageBoxFrame/bok"))->subscribeEvent (
-			CEGUI::PushButton::EventClicked,
-			CEGUI::Event::Subscriber (&CGMessageBox::HandleOk, this));
+	//	static_cast<CEGUI::PushButton *> (
+	//		CEGUI::WindowManager::getSingleton().getWindow("MessageBoxFrame/bok"))->subscribeEvent (
+	//		CEGUI::PushButton::EventClicked,
+	//		CEGUI::Event::Subscriber (&CGMessageBox::HandleOk, this));
 
-		static_cast<CEGUI::PushButton *> (
-			CEGUI::WindowManager::getSingleton().getWindow("MessageBoxFrame/bcancel"))->subscribeEvent (
-			CEGUI::PushButton::EventClicked,
-			CEGUI::Event::Subscriber (&CGMessageBox::HandleCancel, this));
+	//	static_cast<CEGUI::PushButton *> (
+	//		CEGUI::WindowManager::getSingleton().getWindow("MessageBoxFrame/bcancel"))->subscribeEvent (
+	//		CEGUI::PushButton::EventClicked,
+	//		CEGUI::Event::Subscriber (&CGMessageBox::HandleCancel, this));
 
-		_myBox->hide();
-	}
-	catch(CEGUI::Exception &ex)
-	{
-		LogHandler::getInstance()->LogToFile(std::string("Exception init MessageBox: ") + ex.getMessage().c_str());
-	}
+	//	_myBox->hide();
+	//}
+	//catch(CEGUI::Exception &ex)
+	//{
+	//	LogHandler::getInstance()->LogToFile(std::string("Exception init MessageBox: ") + ex.getMessage().c_str());
+	//}
 }
 
 
@@ -112,8 +112,6 @@ handle event when the channel window is closed
 bool CGMessageBox::HandleOk (const CEGUI::EventArgs& e)
 {
 	_myBox->hide();
-	if(_callback)
-		_callback->MCallback(true);
 	return true;
 }
 	
@@ -124,29 +122,29 @@ handle event when the channel window is closed
 bool CGMessageBox::HandleCancel (const CEGUI::EventArgs& e)
 {
 	_myBox->hide();
-	if(_callback)
-		_callback->MCallback(false);
 	return true;
 }
 
 /***********************************************************
 display the chatbox on screen
 ***********************************************************/
-void CGMessageBox::Show(const std::string &Title, const std::string &Message,
-						MessageBCallbackBase * callback)
+void CGMessageBox::Show(const std::string &Title, const std::string &Message)
 {
-	CEGUI::WindowManager::getSingleton().getWindow("MessageBoxFrame")->setText(Title);
-	CEGUI::WindowManager::getSingleton().getWindow("MessageBoxFrame/text")->setText(Message);
+	QMessageBox::information(NULL, QString::fromUtf8(Title.c_str()),
+									QString::fromUtf8(Message.c_str()),
+									QMessageBox::Ok, QMessageBox::Ok);
 
-	if(_myBox->isVisible())
-		_myBox->hide();
-	else
-	{
-		_myBox->show();
-		_myBox->activate();
-	}
 
-	_callback = callback;
+	//CEGUI::WindowManager::getSingleton().getWindow("MessageBoxFrame")->setText(Title);
+	//CEGUI::WindowManager::getSingleton().getWindow("MessageBoxFrame/text")->setText(Message);
+
+	//if(_myBox->isVisible())
+	//	_myBox->hide();
+	//else
+	//{
+	//	_myBox->show();
+	//	_myBox->activate();
+	//}
 }
 
 

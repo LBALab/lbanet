@@ -31,6 +31,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ClientExtendedEvents.h"
 #include "GUILocalizationCallback.h"
 #include "Localizer.h"
+#include <QMessageBox>
+
 
 /***********************************************************
 	Constructor
@@ -215,32 +217,48 @@ void LoginGUI::InformNotLoggedIn(int problem, const std::string & reason)
 {
 	try
 	{
-		CEGUI::MultiLineEditbox * txs =
-		static_cast<CEGUI::MultiLineEditbox *> (CEGUI::WindowManager::getSingleton().getWindow("DisplayLoginErrorFrame/text"));
+		std::string text;
+		//CEGUI::MultiLineEditbox * txs =
+		//static_cast<CEGUI::MultiLineEditbox *> (CEGUI::WindowManager::getSingleton().getWindow("DisplayLoginErrorFrame/text"));
 
 
 		if(problem == 0)	// can not connect to the server
 		{
-			txs->setText("");
-			txs->appendText((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 80).c_str());
-			txs->appendText((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 81).c_str());
+			text += Localizer::getInstance()->GetText(Localizer::GUI, 80) + "\n" +
+						Localizer::getInstance()->GetText(Localizer::GUI, 81).c_str();
+			//txs->setText("");
+			//txs->appendText((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 80).c_str());
+			//txs->appendText((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 81).c_str());
 		}
 
 		if(problem == -1)	// wrong login / password
 		{
-			txs->setText("");
-			txs->appendText((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 80).c_str());
-			txs->appendText((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 82).c_str());
-			txs->appendText(reason);
+			//txs->setText("");
+			//txs->appendText((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 80).c_str());
+			//txs->appendText((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 82).c_str());
+			//txs->appendText(reason);
+
+			text += Localizer::getInstance()->GetText(Localizer::GUI, 80) + "\n" +
+						Localizer::getInstance()->GetText(Localizer::GUI, 82).c_str() + "\n" +
+						reason;
 		}
 
 		if(problem == -2)	// got disconnected
 		{
-			txs->setText("");
-			txs->appendText((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 83).c_str());
+			//txs->setText("");
+			//txs->appendText((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, 83).c_str());
+		
+			text += Localizer::getInstance()->GetText(Localizer::GUI, 83);
 		}
 
-		CEGUI::WindowManager::getSingleton().getWindow("DisplayLoginErrorFrame")->show();
+		//CEGUI::WindowManager::getSingleton().getWindow("DisplayLoginErrorFrame")->show();
+
+		
+
+		QMessageBox::warning(NULL, QString::fromUtf8(Localizer::getInstance()->GetText(Localizer::GUI, 30).c_str()),
+								QString::fromUtf8(text.c_str()), QMessageBox::Ok, QMessageBox::Ok);
+
+
 	}
 	catch(CEGUI::Exception &ex)
 	{

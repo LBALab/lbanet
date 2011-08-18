@@ -37,12 +37,6 @@ namespace CEGUI
 #include <string>
 
 
-class MessageBCallbackBase
-{
-public:
-	// function called when message box buttons are pressed
-	virtual void MCallback(bool ok) = 0;
-};
 
 
 //*************************************************************************************************
@@ -67,8 +61,7 @@ class CGMessageBox
 	void Initialize(CEGUI::Window* Root);
 
 	//! display the chatbox on screen
-	void Show(const std::string &Title, const std::string &Message,
-				MessageBCallbackBase * callback);
+	void Show(const std::string &Title, const std::string &Message);
 
 	//! handle windows closing event
 	bool HandleOk (const CEGUI::EventArgs& e);
@@ -83,7 +76,6 @@ protected:
 private:
 	CEGUI::Window*						_myBox;
 	static CGMessageBox *				_singletonInstance;
-	MessageBCallbackBase *				_callback;
 };
 
 #endif
