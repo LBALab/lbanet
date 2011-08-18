@@ -111,4 +111,7 @@
 <text id="108">Confirmation</text>
 <text id="109">Are you sure you want to reset the world? This will reset all quests and inventory objects and you will restart the game from the beginning. However your achievements will be left untouched.</text>
 <text id="110">Sample volume:</text>
+<text id="111">Missing files</text>
+<text id="112">LBANet can not find the original HQR files of the LBA1 game, please browse to the directory containing these files:</text>
+<text id="113">Select LBA1 HQR directory</text>
 </texts>
