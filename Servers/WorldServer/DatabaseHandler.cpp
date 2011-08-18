@@ -417,7 +417,7 @@ void DatabaseHandler::QuitWorld(const std::string& LastWorldName,long PlayerId)
 	if(LastWorldName != "")
 	{
 		mysqlpp::Query query(_mysqlH, false);
-		query << "UPDATE lba_usertoworld SET timeplayedmin = timeplayedmin + TIMESTAMPDIFF(MINUTE, lastvisited, UTC_TIMESTAMP()), timeplayedsession = timeplayedsession + ((strftime('%s','now') - strftime('%s', lastvisited))/60)";
+		query << "UPDATE lba_usertoworld SET timeplayedmin = timeplayedmin + TIMESTAMPDIFF(MINUTE, lastvisited, UTC_TIMESTAMP()), timeplayedsession = timeplayedsession + TIMESTAMPDIFF(MINUTE, lastvisited, UTC_TIMESTAMP())";
 		query << " WHERE userid = '"<<PlayerId<<"'";
 		query << " AND worldid = (SELECT id FROM lba_worlds WHERE name = '"<<LastWorldName<<"')";
 		if(!query.exec())
