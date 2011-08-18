@@ -743,7 +743,11 @@ var Enumerable = (function() {
     iterator = iterator || Prototype.K;
     var results = [];
     this.each(function(value, index) {
-      results.push(iterator.call(context, value, index));
+	try
+	{
+      		results.push(iterator.call(context, value, index));
+	}
+	catch(e){}
     });
     return results;
   }
