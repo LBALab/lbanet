@@ -62,3 +62,17 @@ function PlayIntro(ScriptId, Environment)
 	
 	Environment:EndDisplayExtraScreen()
 end
+
+
+function PlayBoat(ScriptId, Environment)
+
+	Environment:StartDisplayExtraScreen(ScriptId)
+	
+	if(math.random() > 0.5) then
+		Environment:PlayClientVideo(ScriptId, "Worlds/Lba1Original/Video/BATEAU.avi")
+	else
+		Environment:PlayClientVideo(ScriptId, "Worlds/Lba1Original/Video/BATEAU2.avi")	
+	end
+	
+	Environment:EndDisplayExtraScreen()
+end

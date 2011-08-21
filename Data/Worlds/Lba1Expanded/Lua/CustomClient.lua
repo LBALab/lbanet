@@ -98,3 +98,151 @@ function PlayIntro(ScriptId, Environment)
 	
 	Environment:EndDisplayExtraScreen()
 end
+
+
+function PlayBoat(ScriptId, Environment)
+
+	Environment:StartDisplayExtraScreen(ScriptId)
+	
+	if(math.random() > 0.5) then
+		Environment:PlayClientVideo(ScriptId, "Worlds/Lba1Original/Video/BATEAU.avi")
+	else
+		Environment:PlayClientVideo(ScriptId, "Worlds/Lba1Original/Video/BATEAU2.avi")	
+	end
+	
+	Environment:EndDisplayExtraScreen()
+end
+
+
+-- Player to use trash truck close to citadel prison
+function UseBoatCitadelToPrincipal(ScriptId, Environment)
+
+	-- hide in truck and attach to truck
+	Environment:ActorShowHide(ScriptId, -1, false)
+	Environment:AttachActor(-1, 1, 10)
+	
+	
+	-- get current position
+	CurrentPosition = Environment:GetActorPosition(ScriptId, 10)
+
+	
+	P0 = LbaVec3(18.4,0,36.2)	
+	P1 = LbaVec3(10.7,0,36.3)	
+	P2 = LbaVec3(11.1,0,47.2)
+	
+	P3 = LbaVec3(10.6,0,40)
+	P4 = LbaVec3(10,0,30)
+	P5 = LbaVec3(1,0,27)	
+	
+	Environment:UpdateActorAnimation(ScriptId, 10, "MoveBackward")
+	Environment:ActorFollowGivenWaypoint(ScriptId, 10, CurrentPosition, CurrentPosition, CurrentPosition, P0, P1, P2)
+	Environment:ActorFollowGivenWaypoint(ScriptId, 10, CurrentPosition, CurrentPosition, P0, P1, P2, P2)
+	Environment:ActorFollowGivenWaypoint(ScriptId, 10, CurrentPosition, P0, P1, P2, P2, P2)
+	
+	Environment:UpdateActorAnimation(ScriptId, 10, "MoveForward")	
+	Environment:ActorFollowGivenWaypoint(ScriptId, 10, P2, P2, P2, P3, P4, P5)
+	Environment:ActorFollowGivenWaypoint(ScriptId, 10, P2, P2, P3, P4, P5, P5)
+	Environment:ActorFollowGivenWaypoint(ScriptId, 10, P2, P3, P4, P5, P5, P5)
+	
+	Environment:TeleportPlayerAtEndScript(ScriptId, "Map011_1", 8)
+	PlayBoat(ScriptId, Environment)
+end
+
+-- Player to use trash truck close to citadel prison
+function UseBoatCitadelFromPrincipal(ScriptId, Environment)
+
+	CurrentPosition = LbaVec3(1,0,27)
+
+	-- hide in truck and attach to truck
+	Environment:ActorShowHide(ScriptId, -1, false)
+	Environment:TeleportActorTo(ScriptId, -1, CurrentPosition)
+	Environment:TeleportActorTo(ScriptId, 10, CurrentPosition)		
+	Environment:AttachActor(-1, 1, 10)
+
+	P0 = LbaVec3(3,0,29)	
+	P1 = LbaVec3(8,0,34)	
+	P2 = LbaVec3(21,0,36.4)
+	
+
+	
+	Environment:UpdateActorAnimation(ScriptId, 10, "MoveForward")
+	Environment:ActorFollowGivenWaypoint(ScriptId, 10, CurrentPosition, CurrentPosition, CurrentPosition, P0, P1, P2)
+	Environment:ActorFollowGivenWaypoint(ScriptId, 10, CurrentPosition, CurrentPosition, P0, P1, P2, P2)
+	Environment:ActorFollowGivenWaypoint(ScriptId, 10, CurrentPosition, P0, P1, P2, P2, P2)
+
+	
+	--detach from boat
+	Environment:DettachActor(-1, 10)
+	
+	--show player
+	TeleportPos = LbaVec3(21, 4, 40)	
+	Environment:TeleportActorTo(ScriptId, -1, TeleportPos)		
+	Environment:ActorShowHide(ScriptId, -1, true)	
+end
+
+
+-- Player to use trash truck close to citadel prison
+function UseBoatPrincipalToCitadel(ScriptId, Environment)
+
+	-- hide in truck and attach to truck
+	Environment:ActorShowHide(ScriptId, -1, false)
+	Environment:AttachActor(-1, 1, 25)
+	
+	-- get current position
+	P0 = LbaVec3(31,0,33)	
+	P1 = LbaVec3(31,0,64)
+	
+	Environment:UpdateActorAnimation(ScriptId, 25, "MoveForward")		
+	Environment:ActorGoTo(ScriptId, 25, P0, 0.0012);
+	Environment:ActorGoTo(ScriptId, 25, P1, 0.0025);
+	
+	Environment:TeleportPlayerAtEndScript(ScriptId, "Map006_1", 7)
+	PlayBoat(ScriptId, Environment)
+end
+
+
+-- Player to use trash truck close to citadel prison
+function UseBoatPrincipalFromCitadel(ScriptId, Environment)
+
+	CurrentPosition = LbaVec3(31,0,64)
+
+	-- hide in truck and attach to truck
+	Environment:ActorShowHide(ScriptId, -1, false)
+	Environment:TeleportActorTo(ScriptId, -1, CurrentPosition)
+	Environment:TeleportActorTo(ScriptId, 25, CurrentPosition)		
+	Environment:AttachActor(-1, 1, 25)
+
+		
+	P0 = LbaVec3(34.5,0,57)	
+	P1 = LbaVec3(28,0,54)		
+	P2 = LbaVec3(25,0,53)	
+	
+	P3 = LbaVec3(27,0,53)
+	P4 = LbaVec3(29,0,43)
+	P5 = LbaVec3(28,0,33)	
+	
+	EndPos = LbaVec3(37, 0, 33)
+	
+	
+	Environment:UpdateActorAnimation(ScriptId, 25, "MoveForward")
+	Environment:ActorFollowGivenWaypoint(ScriptId, 25, CurrentPosition, CurrentPosition, CurrentPosition, P0, P1, P2)
+	Environment:ActorFollowGivenWaypoint(ScriptId, 25, CurrentPosition, CurrentPosition, P0, P1, P2, P2)
+	Environment:ActorFollowGivenWaypoint(ScriptId, 25, CurrentPosition, P0, P1, P2, P2, P2)	
+	
+	Environment:UpdateActorAnimation(ScriptId, 25, "MoveBackward")
+	Environment:ActorFollowGivenWaypoint(ScriptId, 25, P2, P2, P2, P3, P4, P5)
+	Environment:ActorFollowGivenWaypoint(ScriptId, 25, P2, P2, P3, P4, P5, P5)
+	Environment:ActorFollowGivenWaypoint(ScriptId, 25, P2, P3, P4, P5, P5, P5)
+	
+	Environment:UpdateActorAnimation(ScriptId, 25, "MoveForward")		
+	Environment:ActorGoTo(ScriptId, 25, EndPos, 0.0012);
+	
+	
+	--detach from boat
+	Environment:DettachActor(-1, 25)
+	
+	--show player
+	TeleportPos = LbaVec3(41, 4, 37)	
+	Environment:TeleportActorTo(ScriptId, -1, TeleportPos)		
+	Environment:ActorShowHide(ScriptId, -1, true)	
+end
