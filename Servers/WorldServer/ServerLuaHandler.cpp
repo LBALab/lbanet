@@ -692,6 +692,14 @@ ServerLuaHandler::ServerLuaHandler()
 		.def(luabind::constructor<>())
 		.def("GetVideoPath", &PlayVideoAction::GetVideoPath)
 		.def("SetVideoPath", &PlayVideoAction::SetVideoPath),
+
+		luabind::class_<RandomAction, ActionBase, boost::shared_ptr<ActionBase> >("RandomAction")
+		.def(luabind::constructor<>())
+		.def("AddAction", &RandomAction::AddAction)
+		.def("RemoveAction", &RandomAction::RemoveAction),
+
+
+
 		
 
 

@@ -1645,7 +1645,7 @@ void ActorHandler::ActorFollowWaypoint(int ScriptId, int waypointindex1, int way
 		if((waypointindex2+2) < (int)waypoints.size())
 			_P4 = waypoints[waypointindex2+2];
 		else
-			_P4 = _P2;
+			_P4 = _P3;
 
 		--waypointindex2;
 		if(waypointindex2 >= 0)

@@ -200,6 +200,8 @@ module LbaNet
 	class ScriptExecutionFinishedEvent extends ClientServerEventBase
 	{
 		string 				ScriptName;
+		string				TeleportToMap;
+		long				TeleportSpawn;
 	};
 	
 	

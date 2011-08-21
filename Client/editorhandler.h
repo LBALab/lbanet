@@ -209,33 +209,6 @@ private:
 
 
 
-class FileDialogOptionsBase
-{
-public:
-	QString Title;
-	QString FileFilter;
-	QString StartingDirectory;
-	QString PreviousFile;
-
-
-	virtual QString PostManagement(const QString & selectedfile) = 0;
-};
-
-
-class FileDialogOptionsModel : public FileDialogOptionsBase
-{
-public:
-
-	virtual QString PostManagement(const QString & selectedfile);
-};
-
-class FileDialogOptionsIcon : public FileDialogOptionsBase
-{
-public:
-	QString OutDirectory;
-
-	virtual QString PostManagement(const QString & selectedfile);
-};
 
 
 
@@ -483,6 +456,13 @@ public:
 												int waypointindex2, bool asynchronus = false){}
 
 
+	//! used by lua to make actor follow waypoint
+	virtual void InternalActorFollowGivenWaypoint(int ScriptId, long ActorId, 
+											const LbaVec3 & Pm1, const LbaVec3 & P0,
+											const LbaVec3 & P1, const LbaVec3 & P2, 
+											const LbaVec3 & P3, const LbaVec3 & P4, 
+											bool asynchronus = false){}
+
 	//! used by lua to move an actor or player
 	//! the actor show/hide
 	virtual void ActorShowHide(int ScriptId, long ActorId, bool Show){}
@@ -642,6 +622,8 @@ public:
 	//! there is 5 available channels (0 to 5)
 	virtual void ActorResumeSound(int ScriptId, long ActorId, int SoundChannel){}
 
+	//! TeleportPlayerAtEndScript
+	virtual void TeleportPlayerAtEndScript(int ScriptId, const std::string &newmap, long newspawn){}
 
 private:
 	enum ObjectEditType {EditObjCopy, EditObjCut, EditObjDelete};

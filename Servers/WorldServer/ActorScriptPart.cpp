@@ -980,7 +980,9 @@ void ActorScriptPart_PlaySound::WriteToQt(TreeModel *	model, const QModelIndex &
 	{
 	QVector<QVariant> datachild;
 	datachild << "Sound path" << _soundpath.c_str();
-	model->AppendRow(datachild, parentIdx);	
+	QModelIndex idx = model->AppendRow(datachild, parentIdx);	
+	model->SetCustomFileDialog(model->GetIndex(1, idx.row(), parentIdx), 
+						"Select an sound file", "Sound", "Sound Files (*.mp3 *.midi *.Ogg)");
 	}
 	{
 	QVector<QVariant> datachild;

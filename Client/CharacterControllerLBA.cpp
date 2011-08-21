@@ -261,7 +261,7 @@ void CharacterController::Process(double tnow, float tdiff,
 
 					float addspeedX=0, addspeedY=0, addspeedZ=0;
 					attchedphys->GetLastMove(addspeedX, addspeedY, addspeedZ);
-					physo->Move(addspeedX, addspeedY, addspeedZ);
+					physo->Move(addspeedX, addspeedY, addspeedZ, false);
 				}
 			}
 		}
@@ -1046,7 +1046,12 @@ void CharacterController::UpdateModeAndState(const std::string &newmode,
 			case LbaNet::StScripted:
 			{
 				// save current display for when we finish script
-				_character->GetDisplayObject()->SaveState();
+				if(_character)
+				{
+					boost::shared_ptr<DisplayObjectHandlerBase> diso = _character->GetDisplayObject();
+					if(diso)
+						diso->SaveState();
+				}
 
 				_currentstate = boost::shared_ptr<CharacterStateBase>(new StateScripted());
 			}

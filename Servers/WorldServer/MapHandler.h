@@ -471,6 +471,9 @@ public:
 	//! there is 5 available channels (0 to 5)
 	virtual void ActorResumeSound(int ScriptId, long ActorId, int SoundChannel);
 
+	//! TeleportPlayerAtEndScript
+	virtual void TeleportPlayerAtEndScript(int ScriptId, const std::string &newmap, long newspawn){}
+
 protected:
 
 	// process events
@@ -641,7 +644,8 @@ protected:
 											const std::string & name);
 
 	//! called when a script is finished on a client
-	void FinishedScript(long id, const std::string & ScriptName);
+	void FinishedScript(long id, const std::string & ScriptName,
+							const std::string & tpnewmap, long tpnewspan);
 
 
 	//! called when a video is finished on a client
@@ -739,6 +743,13 @@ protected:
 												int waypointindex2, bool asynchronus = false);
 
 
+
+	//! used by lua to make actor follow waypoint
+	virtual void InternalActorFollowGivenWaypoint(int ScriptId, long ActorId, 
+											const LbaVec3 & Pm1, const LbaVec3 & P0,
+											const LbaVec3 & P1, const LbaVec3 & P2, 
+											const LbaVec3 & P3, const LbaVec3 & P4, 
+											bool asynchronus = false){}
 
 
 	//! player use weapon

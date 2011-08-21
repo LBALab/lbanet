@@ -594,16 +594,7 @@ teleport
 ***********************************************************/
 void ExternalPlayer::TeleportTo(float PosX, float PosY, float PosZ)
 {
-	PlayerMoveInfo minfo;
-    minfo.CurrentPos.X = PosX;
-    minfo.CurrentPos.Y = PosY;
-    minfo.CurrentPos.Z = PosZ;
-	minfo.CurrentPos.Rotation = _dr._rotation;
-    minfo.CurrentSpeedX = 0;
-    minfo.CurrentSpeedY = 0;
-    minfo.CurrentSpeedZ = 0;
-    minfo.CurrentSpeedRotation = 0;
-	UpdateMove(SynchronizedTimeHandler::GetCurrentTimeDouble(), minfo, true);
+	_character->GetPhysicalObject()->SetPosition(PosX, PosY, PosZ);
 }
 
 

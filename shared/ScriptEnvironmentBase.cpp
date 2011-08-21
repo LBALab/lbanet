@@ -227,7 +227,7 @@ int ScriptEnvironmentBase::Async_ActorRotateFromPoint(long ActorId, float Angle,
 }
 
 /***********************************************************
-asynchronus version of WaitForSignal
+asynchronus version of ActorFollowWaypoint
 ***********************************************************/
 int ScriptEnvironmentBase::Async_ActorFollowWaypoint(long ActorId,
 												int waypointindex1, int waypointindex2)
@@ -240,6 +240,21 @@ int ScriptEnvironmentBase::Async_ActorFollowWaypoint(long ActorId,
 	return genid;
 }
 
+/***********************************************************
+asynchronus version of ActorFollowWaypoint
+***********************************************************/
+int ScriptEnvironmentBase::Async_ActorFollowGivenWaypoint(long ActorId, 
+									const LbaVec3 & Pm1, const LbaVec3 & P0,
+									const LbaVec3 & P1, const LbaVec3 & P2, 
+									const LbaVec3 & P3, const LbaVec3 & P4)
+{
+	int genid = m_generatednumber++;
+
+	InternalActorFollowGivenWaypoint(genid, ActorId, Pm1, P0, P1, P2, P3, P4, true);
+
+	m_asyncscripts[genid] = false;
+	return genid;
+}
 
 
 /***********************************************************
@@ -347,6 +362,19 @@ void ScriptEnvironmentBase::ActorRotateFromPoint(int ScriptId, long ActorId, flo
 void ScriptEnvironmentBase::ActorFollowWaypoint(int ScriptId, long ActorId, int waypointindex1, int waypointindex2)
 {
 	InternalActorFollowWaypoint(ScriptId, ActorId, waypointindex1, waypointindex2, false);
+}
+
+
+//! used by lua to rotate an actor
+//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
+//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
+//! if ManageAnimation is true then the animation will be changed to suit the rotation
+void ScriptEnvironmentBase:: ActorFollowGivenWaypoint(int ScriptId, long ActorId, 
+									const LbaVec3 & Pm1, const LbaVec3 & P0,
+									const LbaVec3 & P1, const LbaVec3 & P2, 
+									const LbaVec3 & P3, const LbaVec3 & P4)
+{
+	InternalActorFollowGivenWaypoint(ScriptId, ActorId, Pm1, P0, P1, P2, P3, P4, false);
 }
 
 

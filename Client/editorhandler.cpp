@@ -1145,7 +1145,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 			<< "OpenDoorAction" << "CloseDoorAction" << "AddRemoveItemAction" << "HurtAction"
 			 << "KillAction"  << "MultiAction" << "SwitchAction" << "StartQuestAction" << "FinishQuestAction"
 			 << "OpenShopAction"<< "CutMapAction"<< "OpenLetterWritterAction"<< "OpenMailboxAction"
-			 << "PlaySoundAction" << "SetFlagAction" << "ShoutTextAction" << "PlayVideoAction";
+			 << "PlaySoundAction" << "SetFlagAction" << "ShoutTextAction" << "RandomAction";
 
 	_actiontypeList->setStringList(actilist);
 
@@ -1968,6 +1968,9 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 	_uieditor.lineEdit_startingscript->setText(startingscript);
 
 
+	_objectmodel->SetWorldName(worldname);
+
+
 	// update texts
 	{
 		Localizer::getInstance()->SetWorldName(worldname);
@@ -2709,6 +2712,8 @@ void EditorHandler::SelectSpawning(long id, const QModelIndex &parent)
 		
 		if(actptr)
 			SelectAction(actptr.get(), idx);
+
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), _actiontypeList);
 	}
 }
 
@@ -3552,6 +3557,40 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 		return;
 	}
 
+	if(actiontype == "RandomAction")
+	{
+		RandomAction* ptr = static_cast<RandomAction*>(action);
+
+		// add actions
+		{
+			QVector<QVariant> data;
+			data << "Actions" << "";
+			QModelIndex idx = _objectmodel->AppendRow(data, parent, true);	
+
+			const std::vector<ActionBasePtr> & items = ptr->GetActions();
+			for(size_t i=0; i<items.size(); ++i)
+			{
+				QVector<QVariant> data;
+				data << "Action" << items[i]->GetTypeName().c_str();
+				QModelIndex idxchild = _objectmodel->AppendRow(data, idx);
+				
+				SelectAction(items[i].get(), idxchild);
+
+				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxchild.row(), idx), _actiontypeList);
+			}
+
+			// add new item
+			QVector<QVariant> datait;
+			datait << "Action" << "Add new...";
+			QModelIndex idxit = _objectmodel->AppendRow(datait, idx);	
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idx), _actiontypeList);	
+		
+		
+			_uieditor.treeView_object->setExpanded(idx, true); // expand 
+		}
+
+		return;
+	}
 
 
 	if(actiontype == "SwitchAction")
@@ -3574,21 +3613,9 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 
 				std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ita = _Actors.find(ptr->GetActorId());
 				if(ita != _Actors.end() && ita->second->GetActorInfo().DisplayDesc.TypeRenderer == RenderSprite)
-				{
-					boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
-					filefilter->Title = "Select an image";
-					filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Sprites").c_str();;
-					filefilter->FileFilter = "Image Files (*.png *.bmp *.jpg *.gif)";
-					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), filefilter);
-				}
+					_objectmodel->SetCustomFileDialog(_objectmodel->GetIndex(1, idx.row(), parent), "Select an image", "Sprites", "Image Files (*.png *.bmp *.jpg *.gif)");
 				else
-				{
-					boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
-					filefilter->Title = "Select a model file";
-					filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Models").c_str();;
-					filefilter->FileFilter = "Model Files (*.osg *.osgb *.osgt)";
-					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), filefilter);
-				}
+					_objectmodel->SetCustomFileDialog(_objectmodel->GetIndex(1, idx.row(), parent), "Select a model file", "Models", "Model Files (*.osg *.osgb *.osgt)");
 			}
 
 
@@ -3726,13 +3753,7 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 			QVector<QVariant> data;
 			data << "Sound path" << ptr->GetSoundPath().c_str();
 			QModelIndex idx = _objectmodel->AppendRow(data, parent);
-
-			boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
-			filefilter->Title = "Select an sound file";
-			filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Sound").c_str();;
-			filefilter->FileFilter = "Sound Files (*.mp3 *.midi *.Ogg)";
-			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), filefilter);
-
+			_objectmodel->SetCustomFileDialog(_objectmodel->GetIndex(1, idx.row(), parent), "Select an sound file", "Sound", "Sound Files (*.mp3 *.midi *.Ogg)");
 		}
 
 		{
@@ -3803,12 +3824,7 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 			QVector<QVariant> data;
 			data << "Video path" << ptr->GetVideoPath().c_str();
 			QModelIndex idx = _objectmodel->AppendRow(data, parent);
-
-			boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
-			filefilter->Title = "Select an video file";
-			filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Video").c_str();;
-			filefilter->FileFilter = "Video Files (*.avi *.mkv *.mpg *.mpeg *.wmv)";
-			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), filefilter);
+			_objectmodel->SetCustomFileDialog(_objectmodel->GetIndex(1, idx.row(), parent), "Select an video file", "Video", "Video Files (*.avi *.mkv *.mpg *.mpeg *.wmv)");
 
 		}
 		return;
@@ -4284,6 +4300,89 @@ void EditorHandler::ActionObjectChanged(const std::string & category, const QMod
 				return;
 			}
 
+			if(category == "RandomAction")
+			{	
+				RandomAction* modifiedact = (RandomAction*)ptr;
+
+				QModelIndex itemparent = _objectmodel->GetIndex(0, 2, parentIdx);
+				int curridx = 0;
+
+				//take care of the items
+				std::vector<ActionBasePtr> &items = modifiedact->GetActions();
+				std::vector<ActionBasePtr>::iterator itit = items.begin();
+				for(;itit != items.end(); ++itit)
+				{
+					std::string oldaction = GetActionType(*itit);
+
+					std::string action = _objectmodel->data(_objectmodel->GetIndex(1, curridx, itemparent)).toString().toAscii().data();
+
+					if(oldaction != action)
+					{
+						if(action == "No")
+						{
+							modifiedact->RemoveAction(*itit);
+
+							_objectmodel->Clear(parentIdx);
+							SelectAction(modifiedact, parentIdx);
+						}
+						else
+						{
+							ActionBasePtr ptrtmp = CreateAction(action);
+							modifiedact->ReplaceAction(*itit, ptrtmp);
+
+							QModelIndex curidx = _objectmodel->GetIndex(0, curridx, itemparent);
+							_objectmodel->Clear(curidx);
+							if(ptrtmp)
+							{
+								SelectAction(ptrtmp.get(), curidx);
+								_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+							}
+						}
+					}
+
+					++curridx;
+				}
+
+				QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+				std::string action = _objectmodel->data(childidx).toString().toAscii().data();
+				if(action != "Add new...")
+				{
+					if(action == "No")
+					{
+						_objectmodel->setData(childidx, "Add new...");
+						return;
+					}
+					else
+					{
+						ActionBasePtr ptrtmp = CreateAction(action);
+						if(ptrtmp)
+						{
+							modifiedact->AddAction(ptrtmp);
+
+							//QModelIndex curidx = _objectmodel->GetIndex(0, curridx, itemparent);
+							//SelectAction(ptrtmp.get(), curidx);
+							//_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+
+							_objectmodel->Clear(parentIdx);
+							SelectAction(modifiedact, parentIdx);
+						}
+						else
+						{
+							_objectmodel->setData(childidx, "Add new...");
+							return;
+						}
+					}
+				}
+
+
+				// need to save as something changed
+				SetModified();
+
+				return;
+			}
+
+
+
 
 			if(category == "SwitchAction")
 			{
@@ -4305,19 +4404,11 @@ void EditorHandler::ActionObjectChanged(const std::string & category, const QMod
 						std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ita = _Actors.find(actor);
 						if(ita != _Actors.end() && ita->second->GetActorInfo().DisplayDesc.TypeRenderer == RenderSprite)
 						{
-							boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
-							filefilter->Title = "Select an image";
-							filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Sprites").c_str();;
-							filefilter->FileFilter = "Image Files (*.png *.bmp *.jpg *.gif)";
-							_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 3, parentIdx), filefilter);
+							_objectmodel->SetCustomFileDialog(_objectmodel->GetIndex(1, 3, parentIdx), "Select an image", "Sprites", "Image Files (*.png *.bmp *.jpg *.gif)");
 						}
 						else
 						{
-							boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
-							filefilter->Title = "Select a model file";
-							filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Models").c_str();;
-							filefilter->FileFilter = "Model Files (*.osg *.osgb *.osgt)";
-							_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 3, parentIdx), filefilter);
+							_objectmodel->SetCustomFileDialog(_objectmodel->GetIndex(1, 3, parentIdx), "Select a model file", "Models", "Model Files (*.osg *.osgb *.osgt)");
 						}
 					}
 
@@ -6918,12 +7009,7 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 					data<<"Physic filename"<<ainfo.PhysicDesc.Filename.c_str();
 					_objectmodel->AppendRow(data, parent);
 
-					boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
-					filefilter->Title = "Select physic file";
-					filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Models").c_str();
-					filefilter->FileFilter = "Physic Files (*.phy)";
-					_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
-
+					_objectmodel->SetCustomFileDialog(_objectmodel->GetIndex(1, index, parent), "Select physic file", "Models", "Physic Files (*.phy)");
 					++index;
 				}
 			}
@@ -7006,11 +7092,7 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 				data<<"Display model file"<<ainfo.DisplayDesc.ModelName.c_str();
 				_objectmodel->AppendRow(data, parent);
 
-				boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
-				filefilter->Title = "Select a model file";
-				filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Models").c_str();;
-				filefilter->FileFilter = "Model Files (*.osg *.osgb *.osgt)";
-				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
+				_objectmodel->SetCustomFileDialog(_objectmodel->GetIndex(1, index, parent), "Select a model file", "Models", "Model Files (*.osg *.osgb *.osgt)");
 				++index;
 			}
 
@@ -7019,12 +7101,8 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 				QVector<QVariant> data;
 				data<<"Display sprite file"<<ainfo.DisplayDesc.ModelName.c_str();
 				_objectmodel->AppendRow(data, parent);
-
-				boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
-				filefilter->Title = "Select an image";
-				filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Sprites").c_str();;
-				filefilter->FileFilter = "Image Files (*.png *.bmp *.jpg *.gif)";
-				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
+				
+				_objectmodel->SetCustomFileDialog(_objectmodel->GetIndex(1, index, parent), "Select an image", "Sprites", "Image Files (*.png *.bmp *.jpg *.gif)");
 				++index;
 
 				{
@@ -10581,6 +10659,10 @@ ActionBasePtr EditorHandler::CreateAction(const std::string & type)
 			
 	if(type == "PlayVideoAction")
 		return ActionBasePtr(new PlayVideoAction());
+			
+	if(type == "RandomAction")
+		return ActionBasePtr(new RandomAction());
+
 
 	return ActionBasePtr();
 }
@@ -11589,11 +11671,7 @@ void EditorHandler::SelectItem(boost::shared_ptr<InventoryItemDef> item, const Q
 			data<<"Display model file"<<mdisinfo.ModelName.c_str();
 			_objectmodel->AppendRow(data, parent);
 
-			boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
-			filefilter->Title = "Select a model file";
-			filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Models").c_str();;
-			filefilter->FileFilter = "Model Files (*.osg *.osgb *.osgt)";
-			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
+			_objectmodel->SetCustomFileDialog(_objectmodel->GetIndex(1, index, parent), "Select a model file", "Models", "Model Files (*.osg *.osgb *.osgt)");
 			++index;
 		}
 
@@ -11603,11 +11681,7 @@ void EditorHandler::SelectItem(boost::shared_ptr<InventoryItemDef> item, const Q
 			data<<"Display sprite file"<<mdisinfo.ModelName.c_str();
 			_objectmodel->AppendRow(data, parent);
 
-			boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
-			filefilter->Title = "Select an image";
-			filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Sprites").c_str();;
-			filefilter->FileFilter = "Image Files (*.png *.bmp *.jpg *.gif)";
-			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
+			_objectmodel->SetCustomFileDialog(_objectmodel->GetIndex(1, index, parent), "Select an image", "Sprites", "Image Files (*.png *.bmp *.jpg *.gif)");
 			++index;
 
 			{
@@ -13741,12 +13815,7 @@ void EditorHandler::SelectProjectile(ProjectileObjectDef* cond, const QModelInde
 				data<<"Physic filename"<<cond->PhysicDesc.Filename.c_str();
 				_objectmodel->AppendRow(data, parent);
 
-				boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
-				filefilter->Title = "Select physic file";
-				filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Models").c_str();
-				filefilter->FileFilter = "Physic Files (*.phy)";
-				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
-
+				_objectmodel->SetCustomFileDialog(_objectmodel->GetIndex(1, index, parent), "Select physic file", "Models", "Physic Files (*.phy)");
 				++index;
 			}
 		}
@@ -13836,11 +13905,7 @@ void EditorHandler::SelectProjectile(ProjectileObjectDef* cond, const QModelInde
 			data<<"Display model file"<<cond->DisplayDesc.ModelName.c_str();
 			_objectmodel->AppendRow(data, parent);
 
-			boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
-			filefilter->Title = "Select a model file";
-			filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Models").c_str();;
-			filefilter->FileFilter = "Model Files (*.osg *.osgb *.osgt)";
-			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
+			_objectmodel->SetCustomFileDialog(_objectmodel->GetIndex(1, index, parent), "Select a model file", "Models", "Model Files (*.osg *.osgb *.osgt)");
 			++index;
 		}
 
@@ -13850,11 +13915,7 @@ void EditorHandler::SelectProjectile(ProjectileObjectDef* cond, const QModelInde
 			data<<"Display sprite file"<<cond->DisplayDesc.ModelName.c_str();
 			_objectmodel->AppendRow(data, parent);
 
-			boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
-			filefilter->Title = "Select an image";
-			filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Sprites").c_str();;
-			filefilter->FileFilter = "Image Files (*.png *.bmp *.jpg *.gif)";
-			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
+			_objectmodel->SetCustomFileDialog(_objectmodel->GetIndex(1, index, parent), "Select an image", "Sprites", "Image Files (*.png *.bmp *.jpg *.gif)");
 			++index;
 
 			{
@@ -14182,11 +14243,7 @@ void EditorHandler::SelectProjectile(ProjectileObjectDef* cond, const QModelInde
 		QModelIndex idx = _objectmodel->AppendRow(data, parent);
 		++index;
 
-		boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
-		filefilter->Title = "Select an sound file";
-		filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Sound").c_str();
-		filefilter->FileFilter = "Sound Files (*.mp3 *.midi *.Ogg)";
-		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), filefilter);
+		_objectmodel->SetCustomFileDialog(_objectmodel->GetIndex(1, idx.row(), parent), "Select an sound file", "Sound", "Sound Files (*.mp3 *.midi *.Ogg)");
 	}	
 	{
 		QVector<QVariant> data;
@@ -14194,11 +14251,7 @@ void EditorHandler::SelectProjectile(ProjectileObjectDef* cond, const QModelInde
 		QModelIndex idx = _objectmodel->AppendRow(data, parent);
 		++index;
 
-		boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
-		filefilter->Title = "Select an sound file";
-		filefilter->StartingDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/Sound").c_str();
-		filefilter->FileFilter = "Sound Files (*.mp3 *.midi *.Ogg)";
-		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), filefilter);
+		_objectmodel->SetCustomFileDialog(_objectmodel->GetIndex(1, idx.row(), parent), "Select an sound file", "Sound", "Sound Files (*.mp3 *.midi *.Ogg)");
 	}
 	{
 		QVector<QVariant> data;

@@ -7,7 +7,7 @@
 #include "ClientProxyHandler.h"
 #include "SharedDataHandler.h"
 #include "MapHandler.h"
-
+#include "Randomizer.h"
 
 /***********************************************************
 constructor
@@ -1338,4 +1338,71 @@ void PlayVideoAction::SaveToLuaFile(std::ostream & file, const std::string & nam
 	file<<"\t"<<name<<" = PlayVideoAction()"<<std::endl;
 	if(_videopath != "")
 		file<<"\t"<<name<<":SetVideoPath(\""<<_videopath<<"\")"<<std::endl;
+}
+
+
+
+
+/***********************************************************
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+***********************************************************/
+void RandomAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args)
+{
+	int rnd = Randomizer::getInstance()->RandInt(_actions.size()-1);
+	_actions[rnd]->Execute(owner, ObjectType, ObjectId, args);
+}
+
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/
+void RandomAction::SaveToLuaFile(std::ostream & file, const std::string & name)
+{
+	file<<"\t"<<name<<" = RandomAction()"<<std::endl;
+	for(size_t i=0; i< _actions.size(); ++i)
+	{
+		std::stringstream aname;
+		aname<<name<<"_act"<<i;
+		_actions[i]->SaveToLuaFile(file, aname.str());
+
+		file<<"\t"<<name<<":AddAction("<<aname.str()<<")"<<std::endl;
+	}
+}
+
+
+
+/***********************************************************
+add action
+***********************************************************/
+void RandomAction::AddAction(ActionBasePtr action)
+{
+	_actions.push_back(action);
+}
+
+/***********************************************************
+remove action
+***********************************************************/
+void RandomAction::RemoveAction(ActionBasePtr action)
+{
+	std::vector<ActionBasePtr>::iterator it = std::find(_actions.begin(), _actions.end(), action);
+	if(it != _actions.end())
+		_actions.erase(it);
+}
+
+
+/***********************************************************
+replace old action by new one
+***********************************************************/
+void RandomAction::ReplaceAction(ActionBasePtr olda, ActionBasePtr newa)
+{
+	std::vector<ActionBasePtr>::iterator it = std::find(_actions.begin(), _actions.end(), olda);
+	if(it != _actions.end())
+		*it = newa;
 }

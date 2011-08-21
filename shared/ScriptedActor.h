@@ -409,6 +409,13 @@ public:
 	//! the actor follow waypoint
 	virtual void ActorFollowWaypoint(int ScriptId, int waypointindex1, int waypointindex2, bool asynchronus);
 
+	//! used by lua to move an actor or player
+	//! the actor follow waypoint
+	virtual void ActorFollowWaypoint(int ScriptId, const LbaVec3 & Pm1, const LbaVec3 & P0,
+											const LbaVec3 & P1, const LbaVec3 & P2, 
+											const LbaVec3 & P3, const LbaVec3 & P4, bool asynchronus);
+
+
 	//! clear all scripts
 	void ClearScripts()
 	{_currentScripts.clear();}

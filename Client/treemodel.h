@@ -32,7 +32,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class TreeItem;
 class CustomStringListModel;
-class FileDialogOptionsBase;
+
+
+
+class FileDialogOptionsBase
+{
+public:
+	QString Title;
+	QString FileFilter;
+	QString StartingDirectory;
+	QString PreviousFile;
+
+
+	virtual QString PostManagement(const QString & selectedfile) = 0;
+};
+
+
+class FileDialogOptionsModel : public FileDialogOptionsBase
+{
+public:
+
+	virtual QString PostManagement(const QString & selectedfile);
+};
+
+class FileDialogOptionsIcon : public FileDialogOptionsBase
+{
+public:
+	QString OutDirectory;
+
+	virtual QString PostManagement(const QString & selectedfile);
+};
+
 
 
 //*************************************************************************************************
@@ -113,11 +143,19 @@ public:
     boost::shared_ptr<FileDialogOptionsBase> CustomIndexFile(const QModelIndex &index) const;
     boost::shared_ptr<int> CustomIndexNumber(const QModelIndex &index) const;
 
+
+	void SetCustomFileDialog(const QModelIndex &index, const std::string & title, 
+								const std::string & directory, const std::string & ffilter);
+
+	void SetWorldName(const std::string & worldname);
+
 private:
 	//! get item
     TreeItem *getItem(const QModelIndex &index) const;
 
     TreeItem *rootItem;
+
+	std::string _Worldname;
 };
 
 

@@ -206,11 +206,15 @@ public:
 
 
 	//! used by lua to rotate an actor
-	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
-	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
-	//! if ManageAnimation is true then the animation will be changed to suit the rotation
+	//! the actor will follow a defined waypoint
 	void ActorFollowWaypoint(int ScriptId, long ActorId, int waypointindex1, int waypointindex2);
 
+
+	//! asynchronus version of ActorFollowWaypoint
+	void ActorFollowGivenWaypoint(int ScriptId, long ActorId, 
+									const LbaVec3 & Pm1, const LbaVec3 & P0,
+									const LbaVec3 & P1, const LbaVec3 & P2, 
+									const LbaVec3 & P3, const LbaVec3 & P4);
 
 	//! used by lua to move an actor or player
 	//! the actor show/hide
@@ -263,6 +267,12 @@ public:
 
 	//! asynchronus version of ActorFollowWaypoint
 	int Async_ActorFollowWaypoint(long ActorId, int waypointindex1, int waypointindex2);
+
+	//! asynchronus version of ActorFollowWaypoint
+	int Async_ActorFollowGivenWaypoint(long ActorId, 
+									const LbaVec3 & Pm1, const LbaVec3 & P0,
+									const LbaVec3 & P1, const LbaVec3 & P2, 
+									const LbaVec3 & P3, const LbaVec3 & P4);
 
 	//! make a lua script sleep for one cycle
 	void WaitOneCycle(int ScriptId);
@@ -500,6 +510,10 @@ public:
 	//! there is 5 available channels (0 to 5)
 	virtual void ActorResumeSound(int ScriptId, long ActorId, int SoundChannel) = 0;
 
+	//! TeleportPlayerAtEndScript
+	virtual void TeleportPlayerAtEndScript(int ScriptId, const std::string &newmap, long newspawn) = 0;
+
+
 protected:
 
 	//! used by lua to move an actor or player
@@ -542,6 +556,12 @@ protected:
 												int waypointindex2, bool asynchronus = false) = 0;
 
 
+	//! used by lua to make actor follow waypoint
+	virtual void InternalActorFollowGivenWaypoint(int ScriptId, long ActorId, 
+											const LbaVec3 & Pm1, const LbaVec3 & P0,
+											const LbaVec3 & P1, const LbaVec3 & P2, 
+											const LbaVec3 & P3, const LbaVec3 & P4, 
+											bool asynchronus = false) = 0;
 
 	//! called when a script has finished
 	virtual void ScriptFinished(int scriptid, const std::string & functioname) = 0;

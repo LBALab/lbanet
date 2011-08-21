@@ -150,6 +150,23 @@ void LbaNetModel::Process(double tnow, float tdiff)
 		return;
 
 
+	//process start client scripts
+	for(size_t i=0; i< m_tostart_scripts.size(); ++i)
+	{
+		int scriptid = -1;
+		StartScript(m_tostart_scripts[i].first, m_tostart_scripts[i].second, scriptid);
+		if(scriptid < 0)
+		{
+			// send back to server if script failed
+			EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ScriptExecutionFinishedEvent(
+				SynchronizedTimeHandler::GetCurrentTimeDouble(), m_tostart_scripts[i].first, "", -1));
+		}
+	}
+	m_tostart_scripts.clear();
+
+
+
+
 	// process all _npcObjects
 	{
 	std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.begin();
@@ -1391,9 +1408,25 @@ void LbaNetModel::InternalActorAnimate(int ScriptId, long ActorId, bool Animatio
 ***********************************************************/
 void LbaNetModel::ScriptFinished(int scriptid, const std::string & functioname)
 {
+	std::string tpend_script_map = "";
+	long tpend_script_spawn = -1;
+
+	std::map<int, std::pair<std::string, long> >::iterator it =	m_tpend_script.find(scriptid);
+	if(it != m_tpend_script.end())
+	{
+		tpend_script_map = it->second.first;
+		tpend_script_spawn = it->second.second;
+		m_tpend_script.erase(it);
+
+		if(tpend_script_map != "")
+			Pause();
+	}
+
+
 	// inform server that script is finished
 	EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ScriptExecutionFinishedEvent(
-		SynchronizedTimeHandler::GetCurrentTimeDouble(), functioname));
+		SynchronizedTimeHandler::GetCurrentTimeDouble(), functioname, tpend_script_map, tpend_script_spawn));
+
 
 	ReleaseActorFromScript(scriptid);
 }
@@ -1749,6 +1782,34 @@ void LbaNetModel::InternalActorFollowWaypoint(int ScriptId, long ActorId, int wa
 			m_controllerChar->ActorFollowWaypoint(ScriptId, waypointindex1, waypointindex2, asynchronus);
 	}
 }
+
+
+/***********************************************************
+ used by lua to make actor follow waypoint
+***********************************************************/
+void LbaNetModel::InternalActorFollowGivenWaypoint(int ScriptId, long ActorId, 
+											const LbaVec3 & Pm1, const LbaVec3 & P0,
+											const LbaVec3 & P1, const LbaVec3 & P2, 
+											const LbaVec3 & P3, const LbaVec3 & P4, 
+											bool asynchronus)
+{
+	if(ActorId >= 0)
+	{
+		ReserveActor(ScriptId, ActorId);
+
+		// on actor
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+			it->second->ActorFollowWaypoint(ScriptId, Pm1, P0, P1, P2, P3, P4, asynchronus);
+	}
+	else
+	{
+		// on player
+		if(m_controllerChar)
+			m_controllerChar->ActorFollowWaypoint(ScriptId, Pm1, P0, P1, P2, P3, P4, asynchronus);
+	}
+}
+
 
 
 /***********************************************************
@@ -2439,6 +2500,22 @@ void LbaNetModel::ActorResumeSound(int ScriptId, long ActorId, int SoundChannel)
 	}
 }
 
+/***********************************************************
+//! TeleportPlayerAtEndScript
+***********************************************************/
+void LbaNetModel::TeleportPlayerAtEndScript(int ScriptId, const std::string &newmap, long newspawn)
+{
+	m_tpend_script[ScriptId] = std::make_pair<std::string, long>(newmap, newspawn);
+}
+
+
+/***********************************************************
+//! start client script
+***********************************************************/
+void LbaNetModel::StartClientScript(const std::string & FunctionName, bool inlinefunction)
+{
+	m_tostart_scripts.push_back(std::make_pair<std::string, bool>(FunctionName, inlinefunction));
+}
 
 
 

@@ -389,3 +389,26 @@ boost::shared_ptr<int> TreeModel::CustomIndexNumber(const QModelIndex &index) co
     return boost::shared_ptr<int>();
 }
 
+
+/***********************************************************
+SetCustomFileDialog
+***********************************************************/
+void TreeModel::SetCustomFileDialog(const QModelIndex &index, const std::string & title, 
+									const std::string & directory, const std::string & ffilter)
+
+{
+	boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
+	filefilter->Title = QString::fromUtf8(title.c_str());
+	filefilter->StartingDirectory = ("Data/Worlds/" + _Worldname + "/" + directory).c_str();
+	filefilter->FileFilter = QString::fromUtf8(ffilter.c_str());
+	SetCustomIndex(index, filefilter);
+}
+
+
+/***********************************************************
+accessor
+***********************************************************/
+void TreeModel::SetWorldName(const std::string & worldname)
+{
+	_Worldname = worldname;
+}

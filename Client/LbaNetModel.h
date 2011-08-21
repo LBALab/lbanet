@@ -517,6 +517,12 @@ public:
 	//! there is 5 available channels (0 to 5)
 	virtual void ActorResumeSound(int ScriptId, long ActorId, int SoundChannel);
 
+	//! TeleportPlayerAtEndScript
+	virtual void TeleportPlayerAtEndScript(int ScriptId, const std::string &newmap, long newspawn);
+
+	//! start client script
+	void StartClientScript(const std::string & FunctionName, bool inlinefunction);
+
 protected:
 
 	//! clean up map
@@ -592,6 +598,15 @@ protected:
 												int waypointindex2, bool asynchronus = false);
 
 
+
+	//! used by lua to make actor follow waypoint
+	virtual void InternalActorFollowGivenWaypoint(int ScriptId, long ActorId, 
+											const LbaVec3 & Pm1, const LbaVec3 & P0,
+											const LbaVec3 & P1, const LbaVec3 & P2, 
+											const LbaVec3 & P3, const LbaVec3 & P4, 
+											bool asynchronus = false);
+
+
 	ObjectInfo CreateObject(int OType, Ice::Long ObjectId, 
 								const LbaNet::ModelInfo &DisplayDesc, 
 								const LbaNet::ObjectPhysicDesc &PhysicDesc,
@@ -657,6 +672,9 @@ private:
 
 	std::list<ObjecToAdd>								m_toadd;
 
+	std::map<int, std::pair<std::string, long> >		m_tpend_script;
+
+	std::vector<std::pair<std::string, bool> >			m_tostart_scripts;
 };
 
 #endif

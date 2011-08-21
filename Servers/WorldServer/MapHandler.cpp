@@ -501,7 +501,7 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 		LbaNet::ScriptExecutionFinishedEvent* castedptr =
 			dynamic_cast<LbaNet::ScriptExecutionFinishedEvent *>(&obj);
 
-		FinishedScript((long)id, castedptr->ScriptName);
+		FinishedScript((long)id, castedptr->ScriptName, castedptr->TeleportToMap, castedptr->TeleportSpawn);
 		return;
 	}
 
@@ -1876,7 +1876,8 @@ void MapHandler::OpenContainer(long clientid, boost::shared_ptr<ContainerSharedI
 /***********************************************************
 called when a script is finished on a client
 ***********************************************************/
-void MapHandler::FinishedScript(long id, const std::string & ScriptName)
+void MapHandler::FinishedScript(long id, const std::string & ScriptName,
+									const std::string & tpnewmap, long tpnewspan)
 {
 	// check if script was running
 	LbaNet::ModelInfo  modelinfo = GetPlayerModelInfo(id);
@@ -1896,6 +1897,10 @@ void MapHandler::FinishedScript(long id, const std::string & ScriptName)
 		/// send event to player
 		SendEvents(id, toplayer);
 	}
+
+	//teleport player if needed
+	if(tpnewmap != "")
+		Teleport(2, id, tpnewmap, tpnewspan, 0, 0, 0);
 }
 
 /***********************************************************
@@ -3657,7 +3662,7 @@ void MapHandler::MakePlayerEnterMap(long playerid, boost::shared_ptr<PlayerHandl
 			//check for action
 			boost::shared_ptr<ActionBase> act = it->second->GetActionAtArrival();
 			if(act)
-				act->Execute(this, 4, playerid, NULL);
+				act->Execute(this, 2, playerid, NULL);
 		}
 	}
 }

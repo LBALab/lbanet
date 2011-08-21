@@ -837,6 +837,20 @@ void ScriptedActor::ActorFollowWaypoint(int ScriptId, int waypointindex1, int wa
 }
 
 
+/***********************************************************
+//! used by lua to move an actor or player
+//! the actor follow waypoint
+***********************************************************/
+void ScriptedActor::ActorFollowWaypoint(int ScriptId, const LbaVec3 & Pm1, const LbaVec3 & P0,
+										const LbaVec3 & P1, const LbaVec3 & P2, 
+										const LbaVec3 & P3, const LbaVec3 & P4, bool asynchronus)
+{
+	_currentScripts.push_back(boost::shared_ptr<ScriptPartBase>(
+						new FollowWaypointScriptPart(ScriptId, asynchronus, Pm1, P0, P1, P2, P3, P4)));
+}
+
+
+
 
 /***********************************************************
 //! store current script

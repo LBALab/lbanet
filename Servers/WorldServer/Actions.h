@@ -1295,4 +1295,57 @@ private:
 };
 
 
+
+
+//! use to display a text on client
+class RandomAction : public ActionBase
+{
+public:
+	//! constructor
+	RandomAction()
+	{}
+	
+	//! destructor
+	virtual ~RandomAction(void){}
+
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args);
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "RandomAction"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
+
+
+	//! add action
+	void AddAction(ActionBasePtr action);
+
+	//! remove action
+	void RemoveAction(ActionBasePtr action);
+
+	//! get action list
+	std::vector<ActionBasePtr> GetActions()
+	{ return _actions;}
+
+	//! replace old action by new one
+	void ReplaceAction(ActionBasePtr olda, ActionBasePtr newa);
+
+private:
+	std::vector<ActionBasePtr>	_actions;
+
+};
+
+
+
+
 #endif
