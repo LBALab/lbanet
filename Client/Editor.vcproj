@@ -2413,6 +2413,10 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath=".\LBANet.rc"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Generated Files"

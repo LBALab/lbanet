@@ -1094,6 +1094,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\resource1.h"
+				>
+			</File>
+			<File
 				RelativePath="..\shared\RotationTable.h"
 				>
 			</File>
@@ -1245,6 +1249,10 @@
 						Outputs=".\GeneratedFiles\qrc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\LBANet.rc"
+				>
 			</File>
 		</Filter>
 		<Filter
