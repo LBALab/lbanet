@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <osgUtil/SmoothingVisitor>
 
 
-entitiesTableStruct* Lba1ModelHandler::_estruct = parseEntities(Lba1ModelDataPath+"FILE3D.HQR");
+entitiesTableStruct* Lba1ModelHandler::_estruct = NULL;
 
 /***********************************************************
 Constructor
@@ -52,6 +52,9 @@ Lba1ModelHandler::Lba1ModelHandler(boost::shared_ptr<DisplayTransformation> Tr,
 	_currAnimation(-1), _currModel(-1), _currBody(-1),
 	_UseLight(UseLight), _CastShadow(CastShadow), _mainchar(mainchar)
 {
+	if(_estruct == NULL)
+		_estruct = parseEntities(Lba1ModelDataPath+"FILE3D.HQR");
+
 	UpdateModel();
 
 	// forbid optimization on this node

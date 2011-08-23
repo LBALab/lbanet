@@ -70,6 +70,9 @@ public:
 	void SwitchToText(const std::string & imagepath, const std::vector<long> textIds);
 
 
+	//! init display
+	void InitDisplay(bool fullscreen, bool maximized);
+
 
 public slots:
 	//! called when a video is finished playing
@@ -88,6 +91,8 @@ private:
 	Ui::ClientClass			ui;
 	GraphicsWindowQt *		_osgwindow;
 	ClientViewType			_currentview;
+
+	bool					_fullscreen;
 };
 
 #endif // CLIENT_H

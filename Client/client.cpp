@@ -31,16 +31,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "CEGUIDrawable.h"
 #include "Localizer.h"
 
+ #include <Phonon/VideoWidget>
+
 
 /***********************************************************
 constructor
 ***********************************************************/
 Client::Client(QWidget *parent, Qt::WFlags flags)
-	: QWidget(parent, flags), _osgwindow(NULL), _currentview(CLV_Game)
+	: QWidget(parent, flags), _osgwindow(NULL), _currentview(CLV_Game),
+	_fullscreen(false)
 {
 	ui.setupUi(this);
 
 	connect(ui.videoPlayer, SIGNAL(finished()) , this, SLOT(videofinished()));	
+
 	ui.stackedWidget->setCurrentIndex(1);
 }
 
@@ -110,6 +114,9 @@ void Client::PlayVideo(const std::string & filename)
 
 	Phonon::MediaSource ms(filename.c_str());
 	ui.videoPlayer->play(ms);
+
+	if(_fullscreen)
+		ui.videoPlayer->videoWidget()->enterFullScreen();
 }
 
 /***********************************************************
@@ -137,6 +144,9 @@ hide video
 void Client::videofinished()
 {
 	EventsQueue::getReceiverQueue()->AddEvent(new VideoFinishedEvent());
+
+	if(_fullscreen)
+		ui.videoPlayer->videoWidget()->exitFullScreen();
 }
 
 
@@ -234,4 +244,39 @@ void Client::SwitchToText(const std::string & imagepath, const std::vector<long>
 
 		_osgwindow->getGraphWidget()->SetHandleKey(false);
 	}
+}
+
+
+
+/***********************************************************
+init display
+***********************************************************/
+void Client::InitDisplay(bool fullscreen, bool maximized)
+{
+	if(fullscreen)
+	{
+		showFullScreen();
+
+		if(_currentview == CLV_Video)
+			ui.videoPlayer->videoWidget()->enterFullScreen();
+	}
+	else
+	{
+		if(maximized)
+		{
+			showMaximized();
+		}
+		else
+		{
+			if(_fullscreen)
+				showNormal();
+			else
+				show();
+		}
+
+		if(_fullscreen && _currentview == CLV_Video)
+			ui.videoPlayer->videoWidget()->exitFullScreen();
+	}
+
+	_fullscreen = fullscreen;
 }

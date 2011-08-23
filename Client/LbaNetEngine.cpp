@@ -65,11 +65,11 @@ LbaNetEngine::LbaNetEngine(Ice::CommunicatorPtr communicator, const std::string 
 : m_currentstate(EGaming), m_oldstate(ELogin), m_clientV(clientV),
 	m_communicator(communicator), m_shouldexit(false)
 {
-	Initialize();
-	SwitchGuiToLogin();
-
 	//check if LBA1 file files 
 	CheckLBA1Files();
+
+	Initialize();
+	SwitchGuiToLogin();
 }
 
 
@@ -1324,29 +1324,23 @@ void LbaNetEngine::ResizeClientWindow(int sx, int sy, bool fullscreen)
 
 		if(!fullscreen)
 		{
-			if(m_client_window->isFullScreen())
-				m_client_window->showNormal();
+			if((sx >= screenR.x()) && ((sy+100) >= screenR.y()))
+			{
+				m_client_window->resize(sx, sy);
+				m_client_window->InitDisplay(false, true);
+			}
 			else
 			{
-				if((sx >= screenR.x()) && ((sy+100) >= screenR.y()))
-				{
-					m_client_window->resize(sx, sy);
-					m_client_window->showMaximized();
-				}
-				else
-				{
-					m_client_window->show();
-					m_client_window->resize(sx, sy);
-					m_client_window->move(screenR.center() - m_client_window->rect().center());
-				}
+				m_client_window->InitDisplay(false, false);
+
+				m_client_window->resize(sx, sy);
+				m_client_window->move(screenR.center() - m_client_window->rect().center());
 			}
-
-
 		}
 		else
 		{
 			m_client_window->setGeometry(screenR);
-			m_client_window->showFullScreen();
+			m_client_window->InitDisplay(true, false);
 		}
 	}
 #endif
