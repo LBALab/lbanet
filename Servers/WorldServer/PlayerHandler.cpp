@@ -78,6 +78,19 @@ PlayerHandler::PlayerHandler(long clientid, ClientProxyBasePtr proxy,
 	_currentinfo.model.MatDiffuseColorR = 0.4f;
 	_currentinfo.model.MatDiffuseColorG = 0.4f;
 	_currentinfo.model.MatDiffuseColorB = 0.4f;
+	_currentinfo.model.MatAlpha = 1;
+	_currentinfo.model.MatAmbientColorA = 1;			
+	_currentinfo.model.MatDiffuseColorA = 1;
+	_currentinfo.model.MatSpecularColorR = 0;
+	_currentinfo.model.MatSpecularColorG = 0;
+	_currentinfo.model.MatSpecularColorB = 0;
+	_currentinfo.model.MatSpecularColorA = 1;	
+	_currentinfo.model.MatEmissionColorR = 0;
+	_currentinfo.model.MatEmissionColorG = 0;
+	_currentinfo.model.MatEmissionColorB = 0;
+	_currentinfo.model.MatEmissionColorA = 1;
+	_currentinfo.model.MatShininess = 0;	
+
 
 	//unfold inventory information and shortcut information
 	{

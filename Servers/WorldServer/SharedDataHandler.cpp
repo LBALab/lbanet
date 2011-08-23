@@ -252,6 +252,18 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectE
 		savedinfo.model.MatDiffuseColorR = 0.4f;
 		savedinfo.model.MatDiffuseColorG = 0.4f;
 		savedinfo.model.MatDiffuseColorB = 0.4f;
+		savedinfo.model.MatAlpha = 1;
+		savedinfo.model.MatAmbientColorA = 1;			
+		savedinfo.model.MatDiffuseColorA = 1;
+		savedinfo.model.MatSpecularColorR = 0;
+		savedinfo.model.MatSpecularColorG = 0;
+		savedinfo.model.MatSpecularColorB = 0;
+		savedinfo.model.MatSpecularColorA = 1;	
+		savedinfo.model.MatEmissionColorR = 0;
+		savedinfo.model.MatEmissionColorG = 0;
+		savedinfo.model.MatEmissionColorB = 0;
+		savedinfo.model.MatEmissionColorA = 1;
+		savedinfo.model.MatShininess = 0;
 	}
 
 	// reset map if needed
