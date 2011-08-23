@@ -2991,21 +2991,21 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow, bool 
 	}
 
     // Create and add fake texture for use with nodes without any texture
-    //osg::Image * image = new osg::Image;
-    //image->allocateImage( 1, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE );
-    //*(osg::Vec4ub*)image->data() = osg::Vec4ub( 0xFF, 0xFF, 0xFF, 0xFF );
-    //
-    //osg::Texture2D* fakeTex = new osg::Texture2D( image );
-    //fakeTex->setWrap(osg::Texture2D::WRAP_S,osg::Texture2D::REPEAT);
-    //fakeTex->setWrap(osg::Texture2D::WRAP_T,osg::Texture2D::REPEAT);
-    //fakeTex->setFilter(osg::Texture2D::MIN_FILTER,osg::Texture2D::NEAREST);
-    //fakeTex->setFilter(osg::Texture2D::MAG_FILTER,osg::Texture2D::NEAREST);
-    //
-    //osg::StateSet* stateset = root->getOrCreateStateSet();
-    //stateset->setTextureAttribute(0,fakeTex,osg::StateAttribute::ON);
-    //stateset->setTextureMode(0,GL_TEXTURE_1D,osg::StateAttribute::OFF);
-    //stateset->setTextureMode(0,GL_TEXTURE_2D,osg::StateAttribute::ON);
-    //stateset->setTextureMode(0,GL_TEXTURE_3D,osg::StateAttribute::OFF);
+    osg::Image * image = new osg::Image;
+    image->allocateImage( 1, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE );
+    *(osg::Vec4ub*)image->data() = osg::Vec4ub( 0xFF, 0xFF, 0xFF, 0xFF );
+    
+    osg::Texture2D* fakeTex = new osg::Texture2D( image );
+    fakeTex->setWrap(osg::Texture2D::WRAP_S,osg::Texture2D::REPEAT);
+    fakeTex->setWrap(osg::Texture2D::WRAP_T,osg::Texture2D::REPEAT);
+    fakeTex->setFilter(osg::Texture2D::MIN_FILTER,osg::Texture2D::NEAREST);
+    fakeTex->setFilter(osg::Texture2D::MAG_FILTER,osg::Texture2D::NEAREST);
+    
+    osg::StateSet* stateset = root->getOrCreateStateSet();
+    stateset->setTextureAttribute(0,fakeTex,osg::StateAttribute::ON);
+    stateset->setTextureMode(0,GL_TEXTURE_1D,osg::StateAttribute::OFF);
+    stateset->setTextureMode(0,GL_TEXTURE_2D,osg::StateAttribute::ON);
+    stateset->setTextureMode(0,GL_TEXTURE_3D,osg::StateAttribute::OFF);
 
 	return root;
 }

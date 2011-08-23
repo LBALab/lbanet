@@ -236,6 +236,22 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectE
 		savedinfo.model.WeaponColor = -1;
 		savedinfo.model.MountSkinColor = -1;
 		savedinfo.model.MountHairColor = -1;
+
+		savedinfo.model.ColorR = 1;
+		savedinfo.model.ColorG = 1;
+		savedinfo.model.ColorB = 1;
+		savedinfo.model.ColorA = 1;
+		savedinfo.model.UseLight = true;
+		savedinfo.model.CastShadow = true;
+		savedinfo.model.UseTransparentMaterial = false;
+
+		savedinfo.model.ColorMaterialType = 4;
+		savedinfo.model.MatAmbientColorR = -0.2f;
+		savedinfo.model.MatAmbientColorG = -0.2f;
+		savedinfo.model.MatAmbientColorB = -0.2f;
+		savedinfo.model.MatDiffuseColorR = 0.4f;
+		savedinfo.model.MatDiffuseColorG = 0.4f;
+		savedinfo.model.MatDiffuseColorB = 0.4f;
 	}
 
 	// reset map if needed

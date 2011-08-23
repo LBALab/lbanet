@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <typeinfo>
 
 
-entitiesTableStruct* ServerLba1ModelHandler::_estruct = parseEntities(Lba1ModelDataPath+"FILE3D.HQR");
+entitiesTableStruct* ServerLba1ModelHandler::_estruct = NULL;
 
 
 /***********************************************************
@@ -42,6 +42,9 @@ ServerLba1ModelHandler::ServerLba1ModelHandler(const LbaNet::ModelInfo & info, f
 	_currAnimation(-1), _currModel(-1), _currBody(-1), _paused(false), 
 	_currentanimationstring("Stand"), _currentmodelinfo(info)
 {
+	if(_estruct == NULL)
+		_estruct = parseEntities(Lba1ModelDataPath+"FILE3D.HQR");
+
 	UpdateModel();
 }
 
