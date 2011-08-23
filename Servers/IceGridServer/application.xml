@@ -192,7 +192,7 @@
 				<property name="dbname" value="joomlalbanet"/>
 				<property name="dbserver" value="localhost"/>	
 				<property name="dbuser" value="lbanetuser"/>
-				<property name="dbpassword" value="lapichonmelba"/>				
+				<property name="dbpassword" value="rbb4287mb"/>				
 			</server>
 		</server-template>			
 		
@@ -235,7 +235,7 @@
 				<property name="dbname" value="joomlalbanet"/>
 				<property name="dbserver" value="localhost"/>	
 				<property name="dbuser" value="lbanetuser"/>
-				<property name="dbpassword" value="lapichonmelba"/>				
+				<property name="dbpassword" value="rbb4287mb"/>				
 			</server>
 		</server-template>		
 	

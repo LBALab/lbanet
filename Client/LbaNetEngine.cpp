@@ -1438,7 +1438,7 @@ void LbaNetEngine::CheckLBA1Files()
 		if(!existress)
 			text+= " RESS.HQR";
 
-		int ret = QMessageBox::critical(NULL, QString::fromUtf8(Localizer::getInstance()->GetText(Localizer::GUI, 111).c_str()),
+		int ret = QMessageBox::warning(NULL, QString::fromUtf8(Localizer::getInstance()->GetText(Localizer::GUI, 111).c_str()),
 										QString::fromUtf8(text.c_str()),
 										QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Ok);
 
