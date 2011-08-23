@@ -282,8 +282,7 @@
 			<server-instance template="WorldServer" WorldName="Lba1Original" IceStorm="IceStormLbaNet" LoginServer="LoginServer1-WorldRegister"/>	
 			<server-instance template="WorldServer" WorldName="Lba2Original" IceStorm="IceStormLbaNet" LoginServer="LoginServer1-WorldRegister"/>	
 			<server-instance template="WorldServer" WorldName="Lba1Expanded" IceStorm="IceStormLbaNet" LoginServer="LoginServer1-WorldRegister"/>	
-			<server-instance template="WorldServer" WorldName="Colozen" IceStorm="IceStormLbaNet" LoginServer="LoginServer1-WorldRegister"/>
-			<server-instance template="WorldServer" WorldName="Arena" IceStorm="IceStormLbaNet" LoginServer="LoginServer1-WorldRegister"/>			
+			<server-instance template="WorldServer" WorldName="Colozen" IceStorm="IceStormLbaNet" LoginServer="LoginServer1-WorldRegister"/>	
 		</node>	
 	</application>
 </icegrid>	
