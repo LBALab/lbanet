@@ -687,6 +687,9 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 
 	osgViewer::StatsHandler *sth = new osgViewer::StatsHandler;
 	sth->setKeyEventTogglesOnScreenStats(osgGA::GUIEventAdapter::KEY_F11);
+    sth->setKeyEventPrintsOutStats(-1);
+    sth->setKeyEventToggleVSync(-1);
+
 	_viewer->addEventHandler(sth);
 
 	osgViewer::ScreenCaptureHandler *screenshoth = new osgViewer::ScreenCaptureHandler;
