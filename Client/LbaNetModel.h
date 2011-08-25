@@ -675,6 +675,11 @@ private:
 	std::map<int, std::pair<std::string, long> >		m_tpend_script;
 
 	std::vector<std::pair<std::string, bool> >			m_tostart_scripts;
+
+
+	bool												m_isafk;
+	bool												m_checkafk;
+	double												m_checkafk_time;
 };
 
 #endif

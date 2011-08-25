@@ -1329,3 +1329,12 @@ void CharacterController::SavePlayerDisplayToFile(const std::string & filename)
 	}		
 }
 
+
+
+/***********************************************************
+check if player is pressing key
+***********************************************************/
+bool CharacterController::PressingAnyKey()
+{
+	return _pressedkeys.PressingAnyKey();
+}

@@ -145,6 +145,8 @@ public:
 	//! save player to file
 	void SavePlayerDisplayToFile(const std::string & filename);
 
+	//! check if player is pressing key
+	bool PressingAnyKey();
 
 protected:
 

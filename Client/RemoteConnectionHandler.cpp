@@ -315,7 +315,7 @@ void RemoteConnectionHandler::run()
 	// stop thread if running is false
 	while(_Trunning)
 	{
-		// TODO - turn afk after a while with no events
+
 		// process events
 		try
 		{

@@ -53,7 +53,7 @@ LbaNetModel::LbaNetModel(LbaNetEngine * engineptr)
 : m_playerObjectId(0), m_paused(false), m_newworld(false),
 	m_videoscriptid(-1), m_fixedimagescriptid(-1), m_image_assoc_music(false),
 	m_showing_loading(false), m_display_extra_screens(false), m_scripttofinish(-1),
-	m_engineptr(engineptr)
+	m_engineptr(engineptr), m_isafk(false), m_checkafk(false)
 {
 	LogHandler::getInstance()->LogToFile("Initializing model class...");
 
@@ -244,6 +244,44 @@ void LbaNetModel::Process(double tnow, float tdiff)
 	// check for finished scripts
 	CheckFinishedAsynScripts();
 
+
+
+	//turn afk after a while with no events
+	if(m_controllerChar)
+	{
+		bool kpress = m_controllerChar->PressingAnyKey();
+
+		if(!kpress)
+		{
+			if(!m_isafk)
+			{
+				if(!m_checkafk)
+				{
+					m_checkafk = true;
+					m_checkafk_time = tnow;
+				}
+				else
+				{
+					if((tnow-m_checkafk_time) > 30000)
+					{
+						//set to afk
+						m_checkafk = false;
+						m_isafk = true;
+						EventsQueue::getReceiverQueue()->AddEvent(new SendChatTextEvent("/afk"));
+					}
+				}
+			}
+		}
+		else
+		{
+			if(m_isafk)
+			{
+				//reset afk
+				m_isafk = false;
+				EventsQueue::getReceiverQueue()->AddEvent(new SendChatTextEvent("/back"));
+			}
+		}
+	}
 }
 
 

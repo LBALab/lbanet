@@ -47,6 +47,12 @@ public:
 		_keyweapon = false;
 	}
 
+	bool PressingAnyKey()
+	{
+		return _keyforward || _keybackward || _keyleft || _keyright ||
+			_keyup || _keydown || _keyaction || _keyweapon;
+	}
+
 	bool										_keyforward;
 	bool										_keybackward;
 	bool										_keyleft;
