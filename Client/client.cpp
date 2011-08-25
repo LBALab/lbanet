@@ -268,9 +268,6 @@ void Client::InitDisplay(bool fullscreen, bool maximized)
 			else
 				show();
 		}
-
-		if(_fullscreen && _currentview == CLV_Video)
-			ui.videoPlayer->videoWidget()->exitFullScreen();
 	}
 
 	_fullscreen = fullscreen;
