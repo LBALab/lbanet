@@ -62,7 +62,7 @@ ChatServerHandler::~ChatServerHandler()
 /***********************************************************
 initialize
 ***********************************************************/
-void ChatServerHandler::Initialize(const std::string PlayerName, 
+void ChatServerHandler::Initialize(const std::string PlayerName,
 								   const Ice::ObjectAdapterPtr& adapter,
 									const LbaNet::ClientSessionPrx& session,
 									const std::string& category)
@@ -256,7 +256,7 @@ void ChatServerHandler::ProcessText(const std::string & Text)
 				if(tok.size() != 2)
 				{
 					LbaNet::GuiUpdatesSeq updseq;
-					LbaNet::ChatTextUpdate * upd = 
+					LbaNet::ChatTextUpdate * upd =
 						new LbaNet::ChatTextUpdate("All", "info", "You need to specify a room to join.");
 					updseq.push_back(upd);
 					EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
@@ -268,7 +268,7 @@ void ChatServerHandler::ProcessText(const std::string & Text)
 				if(FindChatRoom(roomName))
 				{
 					LbaNet::GuiUpdatesSeq updseq;
-					LbaNet::ChatTextUpdate * upd = 
+					LbaNet::ChatTextUpdate * upd =
 						new LbaNet::ChatTextUpdate("All", "info", "You already joined channel "+roomName);
 					updseq.push_back(upd);
 					EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
@@ -285,7 +285,7 @@ void ChatServerHandler::ProcessText(const std::string & Text)
 				if(tok.size() != 2)
 				{
 					LbaNet::GuiUpdatesSeq updseq;
-					LbaNet::ChatTextUpdate * upd = 
+					LbaNet::ChatTextUpdate * upd =
 						new LbaNet::ChatTextUpdate("All", "info", "You need to specify a room to leave.");
 					updseq.push_back(upd);
 					EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
@@ -303,7 +303,7 @@ void ChatServerHandler::ProcessText(const std::string & Text)
 				if(tok.size() < 3)
 				{
 					LbaNet::GuiUpdatesSeq updseq;
-					LbaNet::ChatTextUpdate * upd = 
+					LbaNet::ChatTextUpdate * upd =
 						new LbaNet::ChatTextUpdate("All", "info", "Incorrect command.");
 					updseq.push_back(upd);
 					EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
@@ -319,7 +319,7 @@ void ChatServerHandler::ProcessText(const std::string & Text)
 				if(!Whisper(playername, message))
 				{
 					LbaNet::GuiUpdatesSeq updseq;
-					LbaNet::ChatTextUpdate * upd = 
+					LbaNet::ChatTextUpdate * upd =
 						new LbaNet::ChatTextUpdate("All", "info", "The player " + playername + " is not available.");
 					updseq.push_back(upd);
 					EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
@@ -360,7 +360,7 @@ void ChatServerHandler::ProcessText(const std::string & Text)
 			else
 			{
 					LbaNet::GuiUpdatesSeq updseq;
-					LbaNet::ChatTextUpdate * upd = 
+					LbaNet::ChatTextUpdate * upd =
 						new LbaNet::ChatTextUpdate("All", "info", "Incorrect command: " + tok[0]);
 					updseq.push_back(upd);
 					EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
@@ -371,7 +371,7 @@ void ChatServerHandler::ProcessText(const std::string & Text)
 	}
 	else
 	{
-		LbaNet::ChatRoomParticipantPrx room = FindChatRoom(_current_map);
+		LbaNet::ChatRoomParticipantPrx room = FindChatRoom(_current_world + "_" + _current_map);
 		if(room)
 			SendChat(room, Text);
 	}
@@ -498,4 +498,4 @@ void ChatServerHandler::run()
 		IceUtil::Time t = IceUtil::Time::milliSeconds(_CHAT_THREAD_WAIT_TIME_);
 		_monitor.timedWait(t);
 	}
-}	
+}
