@@ -30,8 +30,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "OSGHandler.h"
 #include "CEGUIDrawable.h"
 #include "Localizer.h"
+#include "vlc_on_qt.h"
 
- #include <Phonon/VideoWidget>
 
 
 /***********************************************************
@@ -43,9 +43,14 @@ Client::Client(QWidget *parent, Qt::WFlags flags)
 {
 	ui.setupUi(this);
 
-	connect(ui.videoPlayer, SIGNAL(finished()) , this, SLOT(videofinished()));	
 
 	ui.stackedWidget->setCurrentIndex(1);
+
+	_videoplayer = new VLCPlayer();
+	ui.page_Video->layout()->addWidget(_videoplayer);
+	_videoplayer->show();
+
+	connect(_videoplayer, SIGNAL(finished()) , this, SLOT(videofinished()));	
 }
 
 /***********************************************************
@@ -53,7 +58,7 @@ destructor
 ***********************************************************/
 Client::~Client()
 {
-
+	delete _videoplayer;
 }
 
 
@@ -96,7 +101,7 @@ void Client::closeEvent(QCloseEvent* event)
 	event->ignore();
 
 	if(_currentview == CLV_Video)
-		ui.videoPlayer->stop();		
+		_videoplayer->stop();		
 
 	ResetToGame();
 	EventsQueue::getReceiverQueue()->AddEvent(new QuitGameEvent());
@@ -112,11 +117,7 @@ void Client::PlayVideo(const std::string & filename)
 	ui.stackedWidget->setCurrentIndex(0);
 	_currentview = CLV_Video;
 
-	Phonon::MediaSource ms(filename.c_str());
-	ui.videoPlayer->play(ms);
-
-	if(_fullscreen)
-		ui.videoPlayer->videoWidget()->enterFullScreen();
+	_videoplayer->playFile(filename.c_str());
 }
 
 /***********************************************************
@@ -144,9 +145,6 @@ hide video
 void Client::videofinished()
 {
 	EventsQueue::getReceiverQueue()->AddEvent(new VideoFinishedEvent());
-
-	if(_fullscreen)
-		ui.videoPlayer->videoWidget()->exitFullScreen();
 }
 
 
@@ -161,7 +159,7 @@ void Client::keyPressEvent (QKeyEvent * event)
 		{
 			case CLV_Video:
 			{
-				ui.videoPlayer->stop();	
+				_videoplayer->stop();	
 				videofinished();
 				return;
 			}
@@ -256,9 +254,6 @@ void Client::InitDisplay(bool fullscreen, bool maximized)
 	if(fullscreen)
 	{
 		showFullScreen();
-
-		if(_currentview == CLV_Video)
-			ui.videoPlayer->videoWidget()->enterFullScreen();
 	}
 	else
 	{

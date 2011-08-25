@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ui_client.h"
 #include "QT_WindowsBase.h"
 
+class VLCPlayer;
 
 enum ClientViewType { CLV_Game = 0, CLV_Video, CLV_ExtraGL };
 
@@ -91,6 +92,7 @@ private:
 	Ui::ClientClass			ui;
 	GraphicsWindowQt *		_osgwindow;
 	ClientViewType			_currentview;
+	VLCPlayer*				_videoplayer;
 
 	bool					_fullscreen;
 };
