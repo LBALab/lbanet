@@ -38,7 +38,8 @@ module LbaNet
 	    	
 		// set status
 		void ChangeStatus(string Status);
-		void ChangeNameColor(string Color);    	
+		void ChangeNameColor(string Color);  
+		void ChangeLocation(string Location);  		
 	};
 
 };

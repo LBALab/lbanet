@@ -13,6 +13,7 @@ module LbaNet
 		void Disconnect(long PlayerId);
 		void ChangeStatus(string Nickname, string NewStatus);
 		void ChangeNameColor(string Nickname, string Color);	
+		void ChangeLocation(string Nickname, string Location);	
 		
 		void SetWebWisperInterface(ChatRoomObserver * winterface);
 		void ConnectFromWebChat(string Nickname);

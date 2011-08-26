@@ -123,6 +123,8 @@ module LbaNet
 	class NewMapEvent extends ClientServerEventBase
 	{
 		string			MapName;
+		string			MapDescription;		
+		
 		string			InitializationScript;
 		int			AutoCameraType;
 		

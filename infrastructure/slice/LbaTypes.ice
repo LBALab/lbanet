@@ -264,6 +264,7 @@ module LbaNet
 		string 			Nickname;
 		string 			Status;
 		string 			Color;
+		string			Location;
 	};
 	
 	sequence<PlayerOnline> 		PlayerOnlinesSeq;
@@ -373,6 +374,7 @@ module LbaNet
 		long 			Id;
 		string 			Status;
 		string 			NameColor;
+		string			Location;
 	};
 
 
