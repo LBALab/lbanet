@@ -57,6 +57,8 @@ ChatPollingSessionServant::ChatPollingSessionServant(const std::string username,
 	{
 		_chatP->Message("info", "#joined " +_name);
 		_ctracker->ConnectFromWebChat(_name);
+
+		UpdateStatus();
 	}
 	catch(Ice::Exception &)	{}
 }
@@ -276,7 +278,7 @@ void ChatPollingSessionServant::UpdateStatus()
 {
 	try
 	{
-		_chatP->Message("info", "#status "+ _name + " " + _currstatus + " " + _currcolor);
+		_chatP->Message("info", "#status "+ _name + " " + _currstatus + " " + _currcolor + " Webchat");
 		_ctracker->ChangeStatus(_name, _currstatus);
 		_ctracker->ChangeNameColor(_name, _currcolor);
 	}

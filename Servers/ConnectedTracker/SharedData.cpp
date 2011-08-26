@@ -125,6 +125,7 @@ void SharedData::ConnectFromWebChat(const std::string& Nickname)
 	LbaNet::PlayerInfo pi;
 	pi.Id = -1;
 	pi.NameColor = "FFFFFFFF";
+	pi.Location = "Webchat";
 	m_connected_users[Nickname] = pi;
 
 	std::cout<<IceUtil::Time::now().toDateTime()<<": "<<Nickname<<" connected from web chat"<<std::endl;
