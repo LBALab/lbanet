@@ -200,7 +200,8 @@ bool CommunityBox::HandleClose (const CEGUI::EventArgs& e)
 add people online
 ***********************************************************/
 void CommunityBox::AddOnline(const std::string &_online,
-							 const std::string &_status, const std::string &color)
+							 const std::string &_status, const std::string &color,
+							const std::string &location)
 {
 	CEGUI::Listbox * lb = static_cast<CEGUI::Listbox *> (
 		CEGUI::WindowManager::getSingleton().getWindow("Community/onlinelist"));
@@ -209,17 +210,25 @@ void CommunityBox::AddOnline(const std::string &_online,
 	if(_status != "")
 		dis += " (" + _status + ")";
 
-	std::map<std::string, CEGUI::ListboxItem *>::iterator itmap = _onlines.find(_online);
+	std::string locsmallfont = "[font='" + ConfigurationManager::GetInstance()->GetSmallFontName() + "'][colour='FF857B61']";
+	locsmallfont += location;
+
+	std::map<std::string, std::pair<CEGUI::ListboxItem *, CEGUI::ListboxItem *> >::iterator 
+																	itmap = _onlines.find(_online);
 	if(itmap != _onlines.end())
 	{
-		itmap->second->setText(dis);
+		itmap->second.first->setText((const unsigned char *)dis.c_str());
+		itmap->second.second->setText((const unsigned char *)locsmallfont.c_str());
 		lb->invalidate();
 	}
 	else
 	{
-		CEGUI::ListboxItem *it = new MyComListItem(dis);
+		CEGUI::ListboxItem *it = new MyComListItem((const unsigned char *)dis.c_str());
 		lb->addItem(it);
-		_onlines[_online] = it;
+		CEGUI::ListboxItem *it2 = new MyComListItem((const unsigned char *)locsmallfont.c_str());
+		lb->addItem(it2);
+
+		_onlines[_online] = std::make_pair<CEGUI::ListboxItem *, CEGUI::ListboxItem *>(it, it2);
 	}
 
 	UpdateFriendOnlineStatus(_online);
@@ -234,10 +243,12 @@ void CommunityBox::RemoveOnline(const std::string &_offline)
 		CEGUI::WindowManager::getSingleton().getWindow("Community/onlinelist"));
 
 
-	std::map<std::string, CEGUI::ListboxItem *>::iterator itmap = _onlines.find(_offline);
+	std::map<std::string, std::pair<CEGUI::ListboxItem *, CEGUI::ListboxItem *> >::iterator 
+																itmap = _onlines.find(_offline);
 	if(itmap != _onlines.end())
 	{
-		lb->removeItem(itmap->second);
+		lb->removeItem(itmap->second.first);
+		lb->removeItem(itmap->second.second);
 		_onlines.erase(itmap);
 	}
 
@@ -387,7 +398,8 @@ void CommunityBox::UpdateFriend(const LbaNet::FriendInfo & frd)
 
 	bool connected = false;
 	std::string color = "FF777777";
-	std::map<std::string, CEGUI::ListboxItem *>::iterator iton = _onlines.find(frd.Name);
+	std::map<std::string, std::pair<CEGUI::ListboxItem *, CEGUI::ListboxItem *> >::iterator 
+																iton = _onlines.find(frd.Name);
 	if(iton != _onlines.end())
 	{
 		connected = true;
@@ -570,7 +582,8 @@ bool CommunityBox::HandleListdblClick (const CEGUI::EventArgs& e)
 		std::string name = it->getText().c_str();
 		name = name.substr(name.find("]")+1);
 	
-		std::map<std::string, CEGUI::ListboxItem *>::iterator iton = _onlines.find(name);
+		std::map<std::string, std::pair<CEGUI::ListboxItem *, CEGUI::ListboxItem *> >::iterator 
+																			iton = _onlines.find(name);
 		if(iton != _onlines.end())
 		{
 			LbaNet::GuiUpdatesSeq updseq;
@@ -658,7 +671,7 @@ void CommunityBox::Refresh(const LbaNet::GuiParamsSeq &Parameters)
 			for(; it != end; ++it)
 			{
 				if(it->Joined)
-					AddOnline(it->Nickname, it->Status, it->Color);
+					AddOnline(it->Nickname, it->Status, it->Color, it->Location);
 				else
 					RemoveOnline(it->Nickname);
 			}
@@ -697,7 +710,8 @@ void CommunityBox::Update(const LbaNet::GuiUpdatesSeq &Updates)
 				dynamic_cast<LbaNet::PlayerStatusChanged *>(ptr);
 
 			if(castedptr->NewInfo.Joined)
-				AddOnline(castedptr->NewInfo.Nickname, castedptr->NewInfo.Status, castedptr->NewInfo.Color);
+				AddOnline(castedptr->NewInfo.Nickname, castedptr->NewInfo.Status, 
+							castedptr->NewInfo.Color, castedptr->NewInfo.Location);
 			else
 				RemoveOnline(castedptr->NewInfo.Nickname);
 

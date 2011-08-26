@@ -34,6 +34,8 @@ enum XtGLw_fadingstate {XtGLw_FDOff, XtGLw_FDIn, XtGLw_FDOut};
 
 class FONT_FONT;
 
+class CEGUIEventCallback;
+
 
 // linetodraw
 struct linetodraw
@@ -91,6 +93,9 @@ public:
 
 	void resizedGL(int w, int h);
 
+	//! release stuff
+	void Release();
+
 protected:
 
 	void write_text(double x, double y) const;
@@ -124,6 +129,7 @@ protected:
 
 	//! precalculate text to display to screen
 	void precalculate_text(double sizeX, double sizeY);
+
 
 protected:    
 	//! destructor
@@ -177,6 +183,8 @@ private:
 
 	std::vector<std::vector<linetodraw> >	_precalculated_text;
 	int										_textpageidx;
+
+	CEGUIEventCallback	* _keepcallbakc;
 };
 
 

@@ -754,6 +754,8 @@ void OsgHandler::Finalize()
         osg::Referenced::getDeleteHandler()->setNumFramesToRetainObjects(0);
         osg::Referenced::getDeleteHandler()->flushAll();
     }
+
+	_guidraw->Release();
 }
 
 

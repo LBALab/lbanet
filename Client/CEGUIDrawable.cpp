@@ -189,7 +189,8 @@ CEGUIDrawable::CEGUIDrawable()
 	_fontsize(10)
 {
 	setSupportsDisplayList(false);
-	setEventCallback(new CEGUIEventCallback(boost::shared_ptr<GuiHandler>()));
+	_keepcallbakc = new CEGUIEventCallback(boost::shared_ptr<GuiHandler>());
+	setEventCallback(_keepcallbakc);
 	_activeContextID = 0;
 }
 
@@ -206,7 +207,9 @@ CEGUIDrawable::CEGUIDrawable(int resX, int resY, boost::shared_ptr<GuiHandler> G
 	try
 	{
 		setSupportsDisplayList(false);
-		setEventCallback(new CEGUIEventCallback(_GuiH));
+
+		_keepcallbakc = new CEGUIEventCallback(_GuiH);
+		setEventCallback(_keepcallbakc);
 
 		if(_GuiH)
 			_GuiH->Initialize(resX, resY);
@@ -228,6 +231,18 @@ CEGUIDrawable::~CEGUIDrawable()
 {
 	DeleteFont();
 	CleanImageTexture();
+}
+
+/***********************************************************
+release stuff
+***********************************************************/
+void CEGUIDrawable::Release()
+{
+	DeleteFont();
+	CleanImageTexture();
+
+	_GuiH = boost::shared_ptr<GuiHandler>();
+	_keepcallbakc->_GuiH = boost::shared_ptr<GuiHandler>();
 }
 
 

@@ -422,3 +422,20 @@ bool ConfigurationManager::SetString(const std::string & path, const std::string
 	return ret;
 }
 
+/***********************************************************
+SetSmallFontName
+***********************************************************/
+void ConfigurationManager::SetSmallFontName(const std::string & fontname)
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+	_smallfontname = fontname;
+}
+
+/***********************************************************
+GetSmallFontName
+***********************************************************/
+std::string ConfigurationManager::GetSmallFontName()
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+	return _smallfontname;
+}

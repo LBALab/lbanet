@@ -262,7 +262,7 @@ void LbaNetModel::Process(double tnow, float tdiff)
 				}
 				else
 				{
-					if((tnow-m_checkafk_time) > 30000)
+					if((tnow-m_checkafk_time) > 60000)
 					{
 						//set to afk
 						m_checkafk = false;
@@ -564,6 +564,7 @@ pause the game
 void LbaNetModel::Pause()
 {
 	m_paused = true;
+	m_checkafk = false;
 }
 
 
@@ -1206,11 +1207,10 @@ void LbaNetModel::NewMap(const std::string & NewMap, const std::string & Script,
 
 	OsgHandler::getInstance()->ToggleAutoCameraType(AutoCameraType);
 
-
 	// update player location in chat
 	std::string location = m_current_world_name + "/";
 	if(MapDescription != "")
-		location += MapDescription.substr(0, MapDescription.find(',')-1);
+		location += MapDescription.substr(0, MapDescription.find(','));
 	else
 		location += m_current_map_name;
 

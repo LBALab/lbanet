@@ -122,7 +122,8 @@ protected:
 
 	//! add people online
 	void AddOnline(const std::string &_online, 
-						const std::string &_status, const std::string &color);
+						const std::string &_status, const std::string &color,
+						const std::string &location);
 
 	//! remove people online
 	void RemoveOnline( const std::string &_offline);
@@ -148,7 +149,7 @@ private:
 	CEGUI::Window*			_myBox;
 	CEGUI::Window*			_myChooseName;
 
-	std::map<std::string, CEGUI::ListboxItem *> _onlines;
+	std::map<std::string, std::pair<CEGUI::ListboxItem *, CEGUI::ListboxItem *> > _onlines;
 
 	typedef std::map<Ice::Long, std::pair<LbaNet::FriendInfo, CEGUI::ListboxItem *> > T_friendmap;
 	T_friendmap				_friends;

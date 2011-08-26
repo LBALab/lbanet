@@ -445,6 +445,17 @@ void GuiHandler::ReloadFontSize()
 	//if(!CEGUI::FontManager::getSingleton().isFontPresent( strs.str() ) )
 	CEGUI::FontManager::getSingleton().create( (const unsigned char *)fontfile.c_str() );
 	CEGUI::System::getSingleton().setDefaultFont( (const unsigned char *)strs.str().c_str() );
+
+	int smallfontsize = (fontsize-2);
+	if(smallfontsize < 3)
+		smallfontsize = 3;
+
+	std::stringstream strs2;
+	strs2<<"DejaVuSans-"<<smallfontsize;
+	std::string fontfile2 = strs2.str() + ".font";
+	CEGUI::FontManager::getSingleton().create( (const unsigned char *)fontfile2.c_str() );
+
+	ConfigurationManager::GetInstance()->SetSmallFontName(strs2.str());
 }
 
 

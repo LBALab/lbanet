@@ -69,6 +69,9 @@ public:
 	bool SetString(const std::string & path, const std::string &res);
 
 
+	void SetSmallFontName(const std::string & fontname);
+	std::string GetSmallFontName();
+
 protected:
 	// constructor
 	ConfigurationManager();
@@ -78,6 +81,8 @@ private:
 	static ConfigurationManager *	_singletonInstance;
 	libconfig::Config *				_configH;
 	bool							_opened;
+
+	std::string						_smallfontname;
 
 	boost::mutex					m_mutex;
 };
