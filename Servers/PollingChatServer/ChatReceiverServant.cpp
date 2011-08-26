@@ -60,7 +60,12 @@ void ChatReceiverServant::Message(const std::string& Sender, const std::string& 
 			tmptxt = tmptxt.substr(tmptxt.find(" ")+1);
 			ev->status = tmptxt.substr(0, tmptxt.find(" "));
 			tmptxt = tmptxt.substr(tmptxt.find(" ")+1);
-			ev->color = tmptxt;
+			ev->color = tmptxt.substr(0, tmptxt.find(" "));
+
+			//todo
+			//tmptxt = tmptxt.substr(tmptxt.find(" ")+1);
+			//ev->location = tmptxt;
+
 
 			PublishStatus(ev);
 			return;
