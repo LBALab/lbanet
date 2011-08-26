@@ -164,6 +164,18 @@ void SharedData::ChangeStatus(const std::string& Nickname, const std::string& Ne
 
 
 /***********************************************************
+change player Location
+***********************************************************/
+void SharedData::ChangeLocation(const std::string& Nickname, const std::string& NewLocation)
+{
+	Lock sync(*this);
+	LbaNet::ConnectedL::iterator it = m_connected_users.find(Nickname);
+	if(it != m_connected_users.end())
+		it->second.Location = NewLocation;
+}
+
+
+/***********************************************************
 change player name display color
 ***********************************************************/
 void SharedData::ChangeNameColor(const std::string& Nickname, const std::string& Color)

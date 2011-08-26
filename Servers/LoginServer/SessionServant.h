@@ -97,6 +97,10 @@ public:
 	virtual void ChangeNameColor(const std::string& Color, const Ice::Current&);
 
 
+	// change player Location
+	virtual void ChangeLocation(const std::string& Location, const Ice::Current&);
+	
+
 protected:
 	// infrom connected world that player left
 	void QuitCurrentWorld();
@@ -107,6 +111,7 @@ private:
 
 	std::string							_currStatus;
 	std::string							_currColor;
+	std::string							_currLocation;
 	ObjectExtraInfo						_currextrainfo;
 
 	std::map<std::string, ChatRoomParticipantPrx>	_chat_rooms;

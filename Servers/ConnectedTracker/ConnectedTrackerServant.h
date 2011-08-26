@@ -67,6 +67,10 @@ public:
     virtual void ChangeStatus(const std::string& Nickname, const std::string& NewStatus, 
 							const Ice::Current&);
 
+	//! change status of one player
+    virtual void ChangeLocation(const std::string& Nickname, const std::string& Location, 
+							const Ice::Current&);
+
 	//! change player name display color
     virtual void ChangeNameColor(const std::string& Nickname, const std::string& Color, 
 									const Ice::Current&);

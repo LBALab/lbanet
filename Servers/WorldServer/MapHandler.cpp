@@ -760,7 +760,7 @@ void MapHandler::PlayerEntered(Ice::Long id)
 
 	// inform client he enter a new map
 	toplayer.push_back(new NewMapEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-											_mapinfo.Name, clluafile,
+											_mapinfo.Name, _mapinfo.Description, clluafile,
 											_mapinfo.AutoCameraType, _mapinfo.Music, _mapinfo.Repeat));
 
 	// player inventory

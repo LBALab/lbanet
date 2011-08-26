@@ -183,6 +183,8 @@ void SessionServant::SetClientInterface(const ClientInterfacePrx& winterface, co
 				po.Nickname = it->first;
 				po.Color = it->second.NameColor;
 				po.Status = it->second.Status;
+				po.Location = it->second.Location;
+
 				onlineps.push_back(po);
 
 				upds.push_back(new LbaNet::NameColorChangedUpdate(it->first, it->second.NameColor));
@@ -472,6 +474,33 @@ void SessionServant::ChangeNameColor(const std::string& Color, const Ice::Curren
 		// exception on shutdown.
 	}
 }
+
+
+
+/***********************************************************
+change player status
+***********************************************************/
+void SessionServant::ChangeLocation(const std::string& Location, const Ice::Current&)
+{
+    Lock sync(*this);
+	try
+	{
+		_currLocation = Location;
+		_ctracker->ChangeLocation(_userName, Location);
+
+		std::map<std::string, ChatRoomParticipantPrx>::iterator worldit = _chat_rooms.find("World");
+		if(worldit != _chat_rooms.end())
+		{
+			worldit->second->Say("info", "#status " + _userName + " " + _currStatus + " " + _currColor + " " + _currLocation);
+		}
+	}
+	catch(...)
+	{
+		// Ignore. The ice mediated invocation can throw an
+		// exception on shutdown.
+	}
+}
+
 
 
 

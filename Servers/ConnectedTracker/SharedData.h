@@ -74,6 +74,11 @@ public:
 	//! change player status
 	void ChangeStatus(const std::string& Nickname, const std::string& NewStatus);
 
+	//! change player location
+	void ChangeLocation(const std::string& Nickname, const std::string& NewLocation);
+
+	
+
 	//! change player name display color
 	void ChangeNameColor(const std::string& Nickname, const std::string& Color);
 
