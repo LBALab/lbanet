@@ -1183,7 +1183,7 @@ void LbaNetModel::NpcChangedUpdate(Ice::Long NpcId, double updatetime,
 called when we enter a new map
 ***********************************************************/
 void LbaNetModel::NewMap(const std::string & NewMap, const std::string & Script,
-							int AutoCameraType)
+							int AutoCameraType, const std::string & MapDescription)
 {
 	Pause();
 
@@ -1205,6 +1205,16 @@ void LbaNetModel::NewMap(const std::string & NewMap, const std::string & Script,
 
 
 	OsgHandler::getInstance()->ToggleAutoCameraType(AutoCameraType);
+
+
+	// update player location in chat
+	std::string location = m_current_world_name + "/";
+	if(MapDescription != "")
+		location += MapDescription.substr(0, MapDescription.find(',')-1);
+	else
+		location += m_current_map_name;
+
+	EventsQueue::getReceiverQueue()->AddEvent(new PlayerLocationChangedEvent(location));
 }
 
 

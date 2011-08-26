@@ -421,6 +421,18 @@ void LbaNetEngine::HandleGameEvents()
 			continue;
 		}
 
+		// PlayerLocationChangedEvent
+		if(info == typeid(PlayerLocationChangedEvent))
+		{
+			PlayerLocationChangedEvent * castedptr = 
+				dynamic_cast<PlayerLocationChangedEvent *>(&obj);
+
+			// inform server
+			if(m_chatH)
+				m_chatH->ChangeLocation(castedptr->_location);
+
+			continue;
+		}
 
 		// SendChatTextEvent
 		if(info == typeid(SendChatTextEvent))
@@ -458,6 +470,7 @@ void LbaNetEngine::HandleGameEvents()
 				NewInfo.Nickname = castedptr->_name;
 				NewInfo.Status = castedptr->_status;
 				NewInfo.Color = castedptr->_color;
+				NewInfo.Location = castedptr->_location;
 				LbaNet::GuiUpdatesSeq updseq;
 				LbaNet::PlayerStatusChanged * upd = new LbaNet::PlayerStatusChanged(NewInfo);
 				updseq.push_back(upd);
@@ -480,7 +493,8 @@ void LbaNetEngine::HandleGameEvents()
 
 			// update model
 			m_lbaNetModel->NewMap(castedptr->MapName, castedptr->InitializationScript, 
-																castedptr->AutoCameraType);
+																castedptr->AutoCameraType,
+																castedptr->MapDescription);
 
 			//set chat map name
 			LbaNet::GuiUpdatesSeq upd;

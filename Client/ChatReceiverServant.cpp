@@ -73,8 +73,10 @@ void ChatReceiverServant::Message(const std::string& Sender, const std::string& 
 			tmptxt = tmptxt.substr(tmptxt.find(" ")+1);
 			std::string Status = tmptxt.substr(0, tmptxt.find(" "));
 			tmptxt = tmptxt.substr(tmptxt.find(" ")+1);
-			std::string Color = tmptxt;
-			EventsQueue::getReceiverQueue()->AddEvent(new PlayerStatusUpdateEvent(Nickname, Status, Color));
+			std::string Color = tmptxt.substr(0, tmptxt.find(" "));
+			tmptxt = tmptxt.substr(tmptxt.find(" ")+1);
+			std::string Location = tmptxt;
+			EventsQueue::getReceiverQueue()->AddEvent(new PlayerStatusUpdateEvent(Nickname, Status, Color, Location));
 			return;
 		}
 

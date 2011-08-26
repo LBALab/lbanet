@@ -239,6 +239,25 @@ public:
 };
 
 
+/*
+************************************************************************************************************************
+*                                                  class PlayerLocationChangedEvent
+*
+*	used when client change color of player name display
+************************************************************************************************************************
+*/
+class PlayerLocationChangedEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	PlayerLocationChangedEvent(const std::string &location)
+		: _location(location)
+	{
+	}
+
+	std::string _location;
+};
+
 
 
 /*
@@ -291,14 +310,16 @@ class PlayerStatusUpdateEvent : public LbaNet::ClientServerEventBase
 public:
 	//! constructor
 	PlayerStatusUpdateEvent(const std::string & name, const std::string & status, 
-															const std::string & color)
-		: _name(name), _status(status), _color(color)
+															const std::string & color,
+															const std::string & location)
+		: _name(name), _status(status), _color(color), _location(location)
 	{
 	}
 
 	std::string _name;
 	std::string _status;
 	std::string _color;
+	std::string _location;
 };
 
 

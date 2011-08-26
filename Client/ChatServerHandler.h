@@ -75,6 +75,10 @@ public:
 	// change name color
 	void ChangeNameColor(const std::string & Color);
 
+	// change Location
+	void ChangeLocation(const std::string & Location);
+
+
 protected:
 	// find a chat room if we already joined
 	LbaNet::ChatRoomParticipantPrx FindChatRoom(const std::string& room) const;

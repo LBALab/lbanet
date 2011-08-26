@@ -172,7 +172,7 @@ public:
 
 	//! called when we enter a new map
 	void NewMap(const std::string & NewMap, const std::string & Script,
-					int AutoCameraType);
+					int AutoCameraType, const std::string & MapDescription);
 
 
 	//! map is fully refreshed

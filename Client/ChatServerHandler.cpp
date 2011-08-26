@@ -440,6 +440,26 @@ void ChatServerHandler::ChangeNameColor(const std::string & Color)
 }
 
 
+/***********************************************************
+change status
+***********************************************************/
+void ChatServerHandler::ChangeLocation(const std::string & Location)
+{
+	try
+	{
+		_session->ChangeLocation(Location);
+	}
+    catch(const IceUtil::Exception& ex)
+    {
+		LogHandler::getInstance()->LogToFile(std::string("Exception on ChangeLocation: ") + ex.what());
+    }
+    catch(...)
+    {
+		LogHandler::getInstance()->LogToFile(std::string("Unknown exception on ChangeLocation"));
+    }
+}
+
+
 
 /***********************************************************
 whisper to a player
