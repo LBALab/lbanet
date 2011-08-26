@@ -416,7 +416,7 @@ void SessionServant::ChangeStatus(const std::string& Status, const Ice::Current&
 		std::map<std::string, ChatRoomParticipantPrx>::iterator worldit = _chat_rooms.find("World");
 		if(worldit != _chat_rooms.end())
 		{
-			worldit->second->Say("info", "#status " + _userName + " " + Status + " " + _currColor);
+			worldit->second->Say("info", "#status " + _userName + " " + Status + " " + _currColor + " " + _currLocation);
 		}
 	}
 	catch(...)
@@ -461,7 +461,7 @@ void SessionServant::ChangeNameColor(const std::string& Color, const Ice::Curren
 		std::map<std::string, ChatRoomParticipantPrx>::iterator worldit = _chat_rooms.find("World");
 		if(worldit != _chat_rooms.end())
 		{
-			worldit->second->Say("info", "#status " + _userName + " " + _currStatus + " " + Color);
+			worldit->second->Say("info", "#status " + _userName + " " + _currStatus + " " + Color + " " + _currLocation);
 		}
 
 
