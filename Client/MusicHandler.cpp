@@ -130,7 +130,11 @@ return true if finished playing
 ***********************************************************/
 bool PlayingSoundHandler::Finished()
 {
-	return !_paused || !_soundstate || _soundstate->getPlay();
+	bool playing = false;
+	if(_soundstate)	
+		playing = _soundstate->isPlaying();
+
+	return !_paused && !playing;
 }
 
 
@@ -143,7 +147,7 @@ void PlayingSoundHandler::Update(float px, float py, float pz, float dx, float d
 	if(_soundstate)
 	{
 		_soundstate->setPosition(osg::Vec3(px, py, pz));
-		_soundstate->setDirection(osg::Vec3(dx, dy, dz));
+		//_soundstate->setDirection(osg::Vec3(dx, dy, dz));
 	}
 }
 
@@ -443,7 +447,10 @@ boost::shared_ptr<PlayingSoundHandler> MusicHandler::PlaySample3D(const std::str
 			sound_state->setSample(sample);
 			sound_state->setGain(_samplevolume); 
 			sound_state->setAmbient(false);
-			sound_state->setReferenceDistance(1);
+			sound_state->setReferenceDistance(10);
+			sound_state->setOccluded(false);
+			sound_state->setRelative(false);
+			sound_state->setRolloffFactor(1);
 			sound_state->setPitch(1);
 			sound_state->setPlay(true);
 			sound_state->setLooping(!temporary && loop);

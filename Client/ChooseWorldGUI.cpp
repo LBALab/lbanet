@@ -163,7 +163,7 @@ void ChooseWorldGUI::SetWorldList(const std::vector<LbaNet::WorldDesc> &list)
 			{
 				MyListItemCW * item = new MyListItemCW(it->WorldName);
 				lb->addItem(item);
-				if(cc == 2)
+				if(cc == 1)
 					lb->setItemSelectState(item, true);
 			}
 		}
