@@ -70,23 +70,23 @@ $properties->load($config);
 //
 // Disable session cookie.
 //
-ini_set("session.use_cookies", false);
+//ini_set("session.use_cookies", false);
 
 //
 // Disable transid in urls.
 //
-ini_set("session.session.use_transid", false);
+//ini_set("session.session.use_transid", false);
 
-if(isset($_POST['id']))
-{
-    session_id($_POST['id']);
-}
+//if(isset($_POST['id']))
+//{
+//    session_id($_POST['id']);
+//}
 
 //
 // Disable caching
 //
-header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+//header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+//header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 
 //
 // Start the session, but do not report any PHP error to the client if it fails.
