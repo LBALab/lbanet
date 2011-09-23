@@ -16,6 +16,7 @@
  * (PHP and Silverlight clients), which cannot use Glacier2 or callbacks.
  *
  **/
+ [["java:package:net.lbanet.generated"]]
 module LbaNet
 {
 	class ChatUserStatus

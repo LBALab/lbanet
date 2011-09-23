@@ -3,6 +3,7 @@
 
 #include <WorldServerInterface.ice>
 
+[["java:package:net.lbanet.generated"]]
 module LbaNet
 {
 	interface WorldRegisterInterface

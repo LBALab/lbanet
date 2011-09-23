@@ -3,6 +3,7 @@
 
 #include <LbaTypes.ice>
 
+[["java:package:net.lbanet.generated"]]
 module LbaNet
 {
 	// base class for all event exchanged between client and server

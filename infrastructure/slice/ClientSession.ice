@@ -6,6 +6,7 @@
 #include <ChatInfo.ice>
 #include <ClientInterface.ice>
 
+[["java:package:net.lbanet.generated"]]
 module LbaNet
 {
 	interface ClientSession extends Glacier2::Session

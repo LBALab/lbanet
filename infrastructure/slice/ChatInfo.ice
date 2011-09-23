@@ -1,6 +1,7 @@
 #ifndef LBANET_CHAT_INFO
 #define LBANET_CHAT_INFO
 
+[["java:package:net.lbanet.generated"]]
 module LbaNet
 {
 	interface ChatRoomObserver

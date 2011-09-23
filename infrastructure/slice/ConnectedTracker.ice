@@ -4,6 +4,7 @@
 #include <LbaTypes.ice>
 #include <ChatInfo.ice>
 
+[["java:package:net.lbanet.generated"]]
 module LbaNet
 {
 	interface ConnectedTracker

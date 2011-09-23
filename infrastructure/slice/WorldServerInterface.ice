@@ -3,6 +3,7 @@
 
 #include <ClientInterface.ice>
 
+[["java:package:net.lbanet.generated"]]
 module LbaNet
 {
 	interface WorldServerInterface

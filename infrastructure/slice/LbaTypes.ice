@@ -1,6 +1,7 @@
 #ifndef LBANET_TYPES
 #define LBANET_TYPES
 
+[["java:package:net.lbanet.generated"]]
 module LbaNet
 {
 	enum ModelStance { StanceNormal, StanceSporty, StanceAggresive, StanceDiscrete, StanceProtopack, StanceHorse, StanceDinofly };		

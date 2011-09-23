@@ -4,6 +4,7 @@
 
 #include <ClientServerEvents.ice>
 
+[["java:package:net.lbanet.generated"]]
 module LbaNet
 {
 	interface ClientInterface
