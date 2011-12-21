@@ -16,7 +16,7 @@
 			<Mode>Normal</Mode>
 			<RendererType>2</RendererType>
 		</StartingModel>
-		<StartingScript>PlayStartSequence</StartingScript>		
+		<StartingScript>PlayStartSequence</StartingScript>
 		<StartingInventory>
 			<object>
 				<ObjectId>24</ObjectId>

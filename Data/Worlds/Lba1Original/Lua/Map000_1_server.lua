@@ -57,6 +57,8 @@ function InitMap(environment)
 
 	Actor_1 = ActorObjectInfo(1)
 	Actor_1:SetRenderType(1)
+	Actor_1.HitPowerOnTouch = -1
+	Actor_1.ExcludeFromNavMesh = false
 	Actor_1.DisplayDesc.ModelId = 0
 	Actor_1.DisplayDesc.ModelName = "Worlds/Lba1Original/Grids/Map0.osgb"
 	Actor_1.DisplayDesc.Outfit = ""
@@ -78,6 +80,7 @@ function InitMap(environment)
 	Actor_1.DisplayDesc.RotY = 0
 	Actor_1.DisplayDesc.RotZ = 0
 	Actor_1:SetModelState(1)
+	Actor_1.DisplayDesc.UseBillboard = false
 	Actor_1.PhysicDesc.Pos.X = 0
 	Actor_1.PhysicDesc.Pos.Y = 0
 	Actor_1.PhysicDesc.Pos.Z = 0
@@ -87,6 +90,7 @@ function InitMap(environment)
 	Actor_1.PhysicDesc.SizeX = 0
 	Actor_1.PhysicDesc.SizeY = 0
 	Actor_1.PhysicDesc.SizeZ = 0
+	Actor_1.PhysicDesc.AllowFreeMove = true
 	Actor_1.PhysicDesc.Filename = "Worlds/Lba1Original/Grids/Map0.phy"
 	Actor_1:SetPhysicalActorType(1)
 	Actor_1:SetPhysicalShape(5)
@@ -101,6 +105,8 @@ function InitMap(environment)
 
 	Actor_11 = ActorObjectInfo(11)
 	Actor_11:SetRenderType(1)
+	Actor_11.HitPowerOnTouch = -1
+	Actor_11.ExcludeFromNavMesh = false
 	Actor_11.DisplayDesc.ModelId = 0
 	Actor_11.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite016.osgb"
 	Actor_11.DisplayDesc.Outfit = ""
@@ -122,6 +128,7 @@ function InitMap(environment)
 	Actor_11.DisplayDesc.RotY = 0
 	Actor_11.DisplayDesc.RotZ = 0
 	Actor_11:SetModelState(1)
+	Actor_11.DisplayDesc.UseBillboard = false
 	Actor_11.PhysicDesc.Pos.X = 34
 	Actor_11.PhysicDesc.Pos.Y = 4
 	Actor_11.PhysicDesc.Pos.Z = 31.5
@@ -131,6 +138,7 @@ function InitMap(environment)
 	Actor_11.PhysicDesc.SizeX = 4
 	Actor_11.PhysicDesc.SizeY = 8
 	Actor_11.PhysicDesc.SizeZ = 1
+	Actor_11.PhysicDesc.AllowFreeMove = true
 	Actor_11.PhysicDesc.Filename = ""
 	Actor_11:SetPhysicalActorType(2)
 	Actor_11:SetPhysicalShape(2)
@@ -153,6 +161,8 @@ function InitMap(environment)
 
 	Actor_12 = ActorObjectInfo(12)
 	Actor_12:SetRenderType(1)
+	Actor_12.HitPowerOnTouch = -1
+	Actor_12.ExcludeFromNavMesh = false
 	Actor_12.DisplayDesc.ModelId = 0
 	Actor_12.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite016.osgb"
 	Actor_12.DisplayDesc.Outfit = ""
@@ -174,6 +184,7 @@ function InitMap(environment)
 	Actor_12.DisplayDesc.RotY = 0
 	Actor_12.DisplayDesc.RotZ = 0
 	Actor_12:SetModelState(1)
+	Actor_12.DisplayDesc.UseBillboard = false
 	Actor_12.PhysicDesc.Pos.X = 3
 	Actor_12.PhysicDesc.Pos.Y = 4
 	Actor_12.PhysicDesc.Pos.Z = 45.5
@@ -183,6 +194,7 @@ function InitMap(environment)
 	Actor_12.PhysicDesc.SizeX = 4
 	Actor_12.PhysicDesc.SizeY = 8
 	Actor_12.PhysicDesc.SizeZ = 1
+	Actor_12.PhysicDesc.AllowFreeMove = true
 	Actor_12.PhysicDesc.Filename = ""
 	Actor_12:SetPhysicalActorType(2)
 	Actor_12:SetPhysicalShape(2)
@@ -205,6 +217,8 @@ function InitMap(environment)
 
 	Actor_13 = ActorObjectInfo(13)
 	Actor_13:SetRenderType(1)
+	Actor_13.HitPowerOnTouch = -1
+	Actor_13.ExcludeFromNavMesh = false
 	Actor_13.DisplayDesc.ModelId = 0
 	Actor_13.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite015.osgb"
 	Actor_13.DisplayDesc.Outfit = ""
@@ -226,6 +240,7 @@ function InitMap(environment)
 	Actor_13.DisplayDesc.RotY = 0
 	Actor_13.DisplayDesc.RotZ = 0
 	Actor_13:SetModelState(1)
+	Actor_13.DisplayDesc.UseBillboard = false
 	Actor_13.PhysicDesc.Pos.X = 44.5
 	Actor_13.PhysicDesc.Pos.Y = 4
 	Actor_13.PhysicDesc.Pos.Z = 35
@@ -235,6 +250,7 @@ function InitMap(environment)
 	Actor_13.PhysicDesc.SizeX = 1
 	Actor_13.PhysicDesc.SizeY = 8
 	Actor_13.PhysicDesc.SizeZ = 4
+	Actor_13.PhysicDesc.AllowFreeMove = true
 	Actor_13.PhysicDesc.Filename = ""
 	Actor_13:SetPhysicalActorType(2)
 	Actor_13:SetPhysicalShape(2)
@@ -257,6 +273,8 @@ function InitMap(environment)
 
 	Actor_14 = ActorObjectInfo(14)
 	Actor_14:SetRenderType(1)
+	Actor_14.HitPowerOnTouch = -1
+	Actor_14.ExcludeFromNavMesh = false
 	Actor_14.DisplayDesc.ModelId = 0
 	Actor_14.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite017.osgb"
 	Actor_14.DisplayDesc.Outfit = ""
@@ -278,6 +296,7 @@ function InitMap(environment)
 	Actor_14.DisplayDesc.RotY = 0
 	Actor_14.DisplayDesc.RotZ = 0
 	Actor_14:SetModelState(1)
+	Actor_14.DisplayDesc.UseBillboard = false
 	Actor_14.PhysicDesc.Pos.X = 37
 	Actor_14.PhysicDesc.Pos.Y = 13
 	Actor_14.PhysicDesc.Pos.Z = 11.25
@@ -287,6 +306,7 @@ function InitMap(environment)
 	Actor_14.PhysicDesc.SizeX = 1
 	Actor_14.PhysicDesc.SizeY = 8
 	Actor_14.PhysicDesc.SizeZ = 2.5
+	Actor_14.PhysicDesc.AllowFreeMove = true
 	Actor_14.PhysicDesc.Filename = ""
 	Actor_14:SetPhysicalActorType(2)
 	Actor_14:SetPhysicalShape(2)
@@ -309,6 +329,8 @@ function InitMap(environment)
 
 	Actor_15 = ActorObjectInfo(15)
 	Actor_15:SetRenderType(1)
+	Actor_15.HitPowerOnTouch = -1
+	Actor_15.ExcludeFromNavMesh = false
 	Actor_15.DisplayDesc.ModelId = 0
 	Actor_15.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite017.osgb"
 	Actor_15.DisplayDesc.Outfit = ""
@@ -330,6 +352,7 @@ function InitMap(environment)
 	Actor_15.DisplayDesc.RotY = 0
 	Actor_15.DisplayDesc.RotZ = 0
 	Actor_15:SetModelState(1)
+	Actor_15.DisplayDesc.UseBillboard = false
 	Actor_15.PhysicDesc.Pos.X = 37
 	Actor_15.PhysicDesc.Pos.Y = 13
 	Actor_15.PhysicDesc.Pos.Z = 13.75
@@ -339,6 +362,7 @@ function InitMap(environment)
 	Actor_15.PhysicDesc.SizeX = 1
 	Actor_15.PhysicDesc.SizeY = 8
 	Actor_15.PhysicDesc.SizeZ = 2.5
+	Actor_15.PhysicDesc.AllowFreeMove = true
 	Actor_15.PhysicDesc.Filename = ""
 	Actor_15:SetPhysicalActorType(2)
 	Actor_15:SetPhysicalShape(2)
@@ -361,6 +385,8 @@ function InitMap(environment)
 
 	Actor_16 = ActorObjectInfo(16)
 	Actor_16:SetRenderType(1)
+	Actor_16.HitPowerOnTouch = -1
+	Actor_16.ExcludeFromNavMesh = false
 	Actor_16.DisplayDesc.ModelId = 0
 	Actor_16.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite034.osgb"
 	Actor_16.DisplayDesc.Outfit = ""
@@ -382,6 +408,7 @@ function InitMap(environment)
 	Actor_16.DisplayDesc.RotY = 0
 	Actor_16.DisplayDesc.RotZ = 0
 	Actor_16:SetModelState(1)
+	Actor_16.DisplayDesc.UseBillboard = false
 	Actor_16.PhysicDesc.Pos.X = 11
 	Actor_16.PhysicDesc.Pos.Y = 0
 	Actor_16.PhysicDesc.Pos.Z = 45.4
@@ -391,6 +418,7 @@ function InitMap(environment)
 	Actor_16.PhysicDesc.SizeX = 0
 	Actor_16.PhysicDesc.SizeY = 0
 	Actor_16.PhysicDesc.SizeZ = 0
+	Actor_16.PhysicDesc.AllowFreeMove = true
 	Actor_16.PhysicDesc.Filename = ""
 	Actor_16:SetPhysicalActorType(2)
 	Actor_16:SetPhysicalShape(2)
@@ -413,6 +441,8 @@ function InitMap(environment)
 
 	Actor_17 = ActorObjectInfo(17)
 	Actor_17:SetRenderType(1)
+	Actor_17.HitPowerOnTouch = -1
+	Actor_17.ExcludeFromNavMesh = false
 	Actor_17.DisplayDesc.ModelId = 0
 	Actor_17.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite085.osgb"
 	Actor_17.DisplayDesc.Outfit = ""
@@ -434,6 +464,7 @@ function InitMap(environment)
 	Actor_17.DisplayDesc.RotY = 0
 	Actor_17.DisplayDesc.RotZ = 0
 	Actor_17:SetModelState(1)
+	Actor_17.DisplayDesc.UseBillboard = false
 	Actor_17.PhysicDesc.Pos.X = 22.5
 	Actor_17.PhysicDesc.Pos.Y = 4
 	Actor_17.PhysicDesc.Pos.Z = 21
@@ -443,6 +474,7 @@ function InitMap(environment)
 	Actor_17.PhysicDesc.SizeX = 0.8
 	Actor_17.PhysicDesc.SizeY = 3
 	Actor_17.PhysicDesc.SizeZ = 0.8
+	Actor_17.PhysicDesc.AllowFreeMove = true
 	Actor_17.PhysicDesc.Filename = ""
 	Actor_17:SetPhysicalActorType(1)
 	Actor_17:SetPhysicalShape(2)
@@ -457,6 +489,8 @@ function InitMap(environment)
 
 	Actor_18 = ActorObjectInfo(18)
 	Actor_18:SetRenderType(1)
+	Actor_18.HitPowerOnTouch = -1
+	Actor_18.ExcludeFromNavMesh = false
 	Actor_18.DisplayDesc.ModelId = 0
 	Actor_18.DisplayDesc.ModelName = "Worlds/Lba1Original/Sprites/sprite016.osgb"
 	Actor_18.DisplayDesc.Outfit = ""
@@ -478,6 +512,7 @@ function InitMap(environment)
 	Actor_18.DisplayDesc.RotY = 0
 	Actor_18.DisplayDesc.RotZ = 0
 	Actor_18:SetModelState(1)
+	Actor_18.DisplayDesc.UseBillboard = false
 	Actor_18.PhysicDesc.Pos.X = 20
 	Actor_18.PhysicDesc.Pos.Y = 4
 	Actor_18.PhysicDesc.Pos.Z = 20.5
@@ -487,6 +522,7 @@ function InitMap(environment)
 	Actor_18.PhysicDesc.SizeX = 4
 	Actor_18.PhysicDesc.SizeY = 8
 	Actor_18.PhysicDesc.SizeZ = 1
+	Actor_18.PhysicDesc.AllowFreeMove = true
 	Actor_18.PhysicDesc.Filename = ""
 	Actor_18:SetPhysicalActorType(2)
 	Actor_18:SetPhysicalShape(2)
@@ -509,13 +545,8 @@ function InitMap(environment)
 
 	Actor_19 = ActorObjectInfo(19)
 	Actor_19:SetRenderType(3)
-	Actor_19.DisplayDesc.ColorMaterialType = 4
-	Actor_19.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_19.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_19.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_19.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_19.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_19.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_19.HitPowerOnTouch = -1
+	Actor_19.ExcludeFromNavMesh = false
 	Actor_19.DisplayDesc.ModelId = 0
 	Actor_19.DisplayDesc.ModelName = "Nurse"
 	Actor_19.DisplayDesc.Outfit = "Tech"
@@ -537,6 +568,25 @@ function InitMap(environment)
 	Actor_19.DisplayDesc.RotY = 0
 	Actor_19.DisplayDesc.RotZ = 0
 	Actor_19:SetModelState(1)
+	Actor_19.DisplayDesc.UseBillboard = false
+	Actor_19.DisplayDesc.ColorMaterialType = 4
+	Actor_19.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_19.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_19.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_19.DisplayDesc.MatAmbientColorA = 1
+	Actor_19.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_19.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_19.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_19.DisplayDesc.MatDiffuseColorA = 1
+	Actor_19.DisplayDesc.MatSpecularColorR = 0
+	Actor_19.DisplayDesc.MatSpecularColorG = 0
+	Actor_19.DisplayDesc.MatSpecularColorB = 0
+	Actor_19.DisplayDesc.MatSpecularColorA = 1
+	Actor_19.DisplayDesc.MatEmissionColorR = 0
+	Actor_19.DisplayDesc.MatEmissionColorG = 0
+	Actor_19.DisplayDesc.MatEmissionColorB = 0
+	Actor_19.DisplayDesc.MatEmissionColorA = 1
+	Actor_19.DisplayDesc.MatShininess = 0
 	Actor_19.PhysicDesc.Pos.X = 58.0742
 	Actor_19.PhysicDesc.Pos.Y = 9
 	Actor_19.PhysicDesc.Pos.Z = 22.75
@@ -546,6 +596,7 @@ function InitMap(environment)
 	Actor_19.PhysicDesc.SizeX = 1
 	Actor_19.PhysicDesc.SizeY = 5
 	Actor_19.PhysicDesc.SizeZ = 1
+	Actor_19.PhysicDesc.AllowFreeMove = true
 	Actor_19.PhysicDesc.Filename = ""
 	Actor_19:SetPhysicalActorType(2)
 	Actor_19:SetPhysicalShape(2)
@@ -565,13 +616,8 @@ function InitMap(environment)
 
 	Actor_20 = ActorObjectInfo(20)
 	Actor_20:SetRenderType(3)
-	Actor_20.DisplayDesc.ColorMaterialType = 4
-	Actor_20.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_20.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_20.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_20.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_20.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_20.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_20.HitPowerOnTouch = -1
+	Actor_20.ExcludeFromNavMesh = false
 	Actor_20.DisplayDesc.ModelId = 0
 	Actor_20.DisplayDesc.ModelName = "Nurse"
 	Actor_20.DisplayDesc.Outfit = "Guard"
@@ -593,6 +639,25 @@ function InitMap(environment)
 	Actor_20.DisplayDesc.RotY = 0
 	Actor_20.DisplayDesc.RotZ = 0
 	Actor_20:SetModelState(1)
+	Actor_20.DisplayDesc.UseBillboard = false
+	Actor_20.DisplayDesc.ColorMaterialType = 4
+	Actor_20.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_20.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_20.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_20.DisplayDesc.MatAmbientColorA = 1
+	Actor_20.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_20.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_20.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_20.DisplayDesc.MatDiffuseColorA = 1
+	Actor_20.DisplayDesc.MatSpecularColorR = 0
+	Actor_20.DisplayDesc.MatSpecularColorG = 0
+	Actor_20.DisplayDesc.MatSpecularColorB = 0
+	Actor_20.DisplayDesc.MatSpecularColorA = 1
+	Actor_20.DisplayDesc.MatEmissionColorR = 0
+	Actor_20.DisplayDesc.MatEmissionColorG = 0
+	Actor_20.DisplayDesc.MatEmissionColorB = 0
+	Actor_20.DisplayDesc.MatEmissionColorA = 1
+	Actor_20.DisplayDesc.MatShininess = 0
 	Actor_20.PhysicDesc.Pos.X = 46.4063
 	Actor_20.PhysicDesc.Pos.Y = 9
 	Actor_20.PhysicDesc.Pos.Z = 24.3438
@@ -602,6 +667,7 @@ function InitMap(environment)
 	Actor_20.PhysicDesc.SizeX = 1
 	Actor_20.PhysicDesc.SizeY = 5
 	Actor_20.PhysicDesc.SizeZ = 1
+	Actor_20.PhysicDesc.AllowFreeMove = true
 	Actor_20.PhysicDesc.Filename = ""
 	Actor_20:SetPhysicalActorType(2)
 	Actor_20:SetPhysicalShape(2)
@@ -621,13 +687,8 @@ function InitMap(environment)
 
 	Actor_21 = ActorObjectInfo(21)
 	Actor_21:SetRenderType(3)
-	Actor_21.DisplayDesc.ColorMaterialType = 4
-	Actor_21.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_21.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_21.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_21.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_21.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_21.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_21.HitPowerOnTouch = -1
+	Actor_21.ExcludeFromNavMesh = false
 	Actor_21.DisplayDesc.ModelId = 0
 	Actor_21.DisplayDesc.ModelName = "Nurse"
 	Actor_21.DisplayDesc.Outfit = "Guard"
@@ -649,6 +710,25 @@ function InitMap(environment)
 	Actor_21.DisplayDesc.RotY = 0
 	Actor_21.DisplayDesc.RotZ = 0
 	Actor_21:SetModelState(1)
+	Actor_21.DisplayDesc.UseBillboard = false
+	Actor_21.DisplayDesc.ColorMaterialType = 4
+	Actor_21.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_21.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_21.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_21.DisplayDesc.MatAmbientColorA = 1
+	Actor_21.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_21.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_21.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_21.DisplayDesc.MatDiffuseColorA = 1
+	Actor_21.DisplayDesc.MatSpecularColorR = 0
+	Actor_21.DisplayDesc.MatSpecularColorG = 0
+	Actor_21.DisplayDesc.MatSpecularColorB = 0
+	Actor_21.DisplayDesc.MatSpecularColorA = 1
+	Actor_21.DisplayDesc.MatEmissionColorR = 0
+	Actor_21.DisplayDesc.MatEmissionColorG = 0
+	Actor_21.DisplayDesc.MatEmissionColorB = 0
+	Actor_21.DisplayDesc.MatEmissionColorA = 1
+	Actor_21.DisplayDesc.MatShininess = 0
 	Actor_21.PhysicDesc.Pos.X = 18
 	Actor_21.PhysicDesc.Pos.Y = 4
 	Actor_21.PhysicDesc.Pos.Z = 22
@@ -658,6 +738,7 @@ function InitMap(environment)
 	Actor_21.PhysicDesc.SizeX = 1
 	Actor_21.PhysicDesc.SizeY = 5
 	Actor_21.PhysicDesc.SizeZ = 1
+	Actor_21.PhysicDesc.AllowFreeMove = true
 	Actor_21.PhysicDesc.Filename = ""
 	Actor_21:SetPhysicalActorType(2)
 	Actor_21:SetPhysicalShape(2)
@@ -677,13 +758,8 @@ function InitMap(environment)
 
 	Actor_22 = ActorObjectInfo(22)
 	Actor_22:SetRenderType(3)
-	Actor_22.DisplayDesc.ColorMaterialType = 4
-	Actor_22.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_22.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_22.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_22.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_22.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_22.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_22.HitPowerOnTouch = -1
+	Actor_22.ExcludeFromNavMesh = false
 	Actor_22.DisplayDesc.ModelId = 0
 	Actor_22.DisplayDesc.ModelName = "Nurse"
 	Actor_22.DisplayDesc.Outfit = "Guard"
@@ -705,6 +781,25 @@ function InitMap(environment)
 	Actor_22.DisplayDesc.RotY = 0
 	Actor_22.DisplayDesc.RotZ = 0
 	Actor_22:SetModelState(1)
+	Actor_22.DisplayDesc.UseBillboard = false
+	Actor_22.DisplayDesc.ColorMaterialType = 4
+	Actor_22.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_22.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_22.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_22.DisplayDesc.MatAmbientColorA = 1
+	Actor_22.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_22.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_22.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_22.DisplayDesc.MatDiffuseColorA = 1
+	Actor_22.DisplayDesc.MatSpecularColorR = 0
+	Actor_22.DisplayDesc.MatSpecularColorG = 0
+	Actor_22.DisplayDesc.MatSpecularColorB = 0
+	Actor_22.DisplayDesc.MatSpecularColorA = 1
+	Actor_22.DisplayDesc.MatEmissionColorR = 0
+	Actor_22.DisplayDesc.MatEmissionColorG = 0
+	Actor_22.DisplayDesc.MatEmissionColorB = 0
+	Actor_22.DisplayDesc.MatEmissionColorA = 1
+	Actor_22.DisplayDesc.MatShininess = 0
 	Actor_22.PhysicDesc.Pos.X = 14
 	Actor_22.PhysicDesc.Pos.Y = 13
 	Actor_22.PhysicDesc.Pos.Z = 5.09375
@@ -714,6 +809,7 @@ function InitMap(environment)
 	Actor_22.PhysicDesc.SizeX = 1
 	Actor_22.PhysicDesc.SizeY = 5
 	Actor_22.PhysicDesc.SizeZ = 1
+	Actor_22.PhysicDesc.AllowFreeMove = true
 	Actor_22.PhysicDesc.Filename = ""
 	Actor_22:SetPhysicalActorType(2)
 	Actor_22:SetPhysicalShape(2)
@@ -733,13 +829,8 @@ function InitMap(environment)
 
 	Actor_23 = ActorObjectInfo(23)
 	Actor_23:SetRenderType(3)
-	Actor_23.DisplayDesc.ColorMaterialType = 4
-	Actor_23.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_23.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_23.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_23.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_23.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_23.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_23.HitPowerOnTouch = -1
+	Actor_23.ExcludeFromNavMesh = false
 	Actor_23.DisplayDesc.ModelId = 0
 	Actor_23.DisplayDesc.ModelName = "Nurse"
 	Actor_23.DisplayDesc.Outfit = "Tech"
@@ -761,6 +852,25 @@ function InitMap(environment)
 	Actor_23.DisplayDesc.RotY = 0
 	Actor_23.DisplayDesc.RotZ = 0
 	Actor_23:SetModelState(1)
+	Actor_23.DisplayDesc.UseBillboard = false
+	Actor_23.DisplayDesc.ColorMaterialType = 4
+	Actor_23.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_23.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_23.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_23.DisplayDesc.MatAmbientColorA = 1
+	Actor_23.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_23.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_23.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_23.DisplayDesc.MatDiffuseColorA = 1
+	Actor_23.DisplayDesc.MatSpecularColorR = 0
+	Actor_23.DisplayDesc.MatSpecularColorG = 0
+	Actor_23.DisplayDesc.MatSpecularColorB = 0
+	Actor_23.DisplayDesc.MatSpecularColorA = 1
+	Actor_23.DisplayDesc.MatEmissionColorR = 0
+	Actor_23.DisplayDesc.MatEmissionColorG = 0
+	Actor_23.DisplayDesc.MatEmissionColorB = 0
+	Actor_23.DisplayDesc.MatEmissionColorA = 1
+	Actor_23.DisplayDesc.MatShininess = 0
 	Actor_23.PhysicDesc.Pos.X = 20.9063
 	Actor_23.PhysicDesc.Pos.Y = 13
 	Actor_23.PhysicDesc.Pos.Z = 4
@@ -770,6 +880,7 @@ function InitMap(environment)
 	Actor_23.PhysicDesc.SizeX = 1
 	Actor_23.PhysicDesc.SizeY = 5
 	Actor_23.PhysicDesc.SizeZ = 1
+	Actor_23.PhysicDesc.AllowFreeMove = true
 	Actor_23.PhysicDesc.Filename = ""
 	Actor_23:SetPhysicalActorType(2)
 	Actor_23:SetPhysicalShape(2)
@@ -789,13 +900,8 @@ function InitMap(environment)
 
 	Actor_24 = ActorObjectInfo(24)
 	Actor_24:SetRenderType(3)
-	Actor_24.DisplayDesc.ColorMaterialType = 4
-	Actor_24.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_24.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_24.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_24.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_24.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_24.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_24.HitPowerOnTouch = -1
+	Actor_24.ExcludeFromNavMesh = false
 	Actor_24.DisplayDesc.ModelId = 0
 	Actor_24.DisplayDesc.ModelName = "Nurse"
 	Actor_24.DisplayDesc.Outfit = "Guard"
@@ -817,6 +923,25 @@ function InitMap(environment)
 	Actor_24.DisplayDesc.RotY = 0
 	Actor_24.DisplayDesc.RotZ = 0
 	Actor_24:SetModelState(1)
+	Actor_24.DisplayDesc.UseBillboard = false
+	Actor_24.DisplayDesc.ColorMaterialType = 4
+	Actor_24.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_24.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_24.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_24.DisplayDesc.MatAmbientColorA = 1
+	Actor_24.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_24.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_24.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_24.DisplayDesc.MatDiffuseColorA = 1
+	Actor_24.DisplayDesc.MatSpecularColorR = 0
+	Actor_24.DisplayDesc.MatSpecularColorG = 0
+	Actor_24.DisplayDesc.MatSpecularColorB = 0
+	Actor_24.DisplayDesc.MatSpecularColorA = 1
+	Actor_24.DisplayDesc.MatEmissionColorR = 0
+	Actor_24.DisplayDesc.MatEmissionColorG = 0
+	Actor_24.DisplayDesc.MatEmissionColorB = 0
+	Actor_24.DisplayDesc.MatEmissionColorA = 1
+	Actor_24.DisplayDesc.MatShininess = 0
 	Actor_24.PhysicDesc.Pos.X = 14.0625
 	Actor_24.PhysicDesc.Pos.Y = 4
 	Actor_24.PhysicDesc.Pos.Z = 11.2813
@@ -826,6 +951,7 @@ function InitMap(environment)
 	Actor_24.PhysicDesc.SizeX = 1
 	Actor_24.PhysicDesc.SizeY = 5
 	Actor_24.PhysicDesc.SizeZ = 1
+	Actor_24.PhysicDesc.AllowFreeMove = true
 	Actor_24.PhysicDesc.Filename = ""
 	Actor_24:SetPhysicalActorType(2)
 	Actor_24:SetPhysicalShape(2)
@@ -845,13 +971,8 @@ function InitMap(environment)
 
 	Actor_25 = ActorObjectInfo(25)
 	Actor_25:SetRenderType(3)
-	Actor_25.DisplayDesc.ColorMaterialType = 4
-	Actor_25.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_25.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_25.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_25.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_25.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_25.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_25.HitPowerOnTouch = -1
+	Actor_25.ExcludeFromNavMesh = false
 	Actor_25.DisplayDesc.ModelId = 0
 	Actor_25.DisplayDesc.ModelName = "Nurse"
 	Actor_25.DisplayDesc.Outfit = "Guard"
@@ -873,6 +994,25 @@ function InitMap(environment)
 	Actor_25.DisplayDesc.RotY = 0
 	Actor_25.DisplayDesc.RotZ = 0
 	Actor_25:SetModelState(1)
+	Actor_25.DisplayDesc.UseBillboard = false
+	Actor_25.DisplayDesc.ColorMaterialType = 4
+	Actor_25.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_25.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_25.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_25.DisplayDesc.MatAmbientColorA = 1
+	Actor_25.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_25.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_25.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_25.DisplayDesc.MatDiffuseColorA = 1
+	Actor_25.DisplayDesc.MatSpecularColorR = 0
+	Actor_25.DisplayDesc.MatSpecularColorG = 0
+	Actor_25.DisplayDesc.MatSpecularColorB = 0
+	Actor_25.DisplayDesc.MatSpecularColorA = 1
+	Actor_25.DisplayDesc.MatEmissionColorR = 0
+	Actor_25.DisplayDesc.MatEmissionColorG = 0
+	Actor_25.DisplayDesc.MatEmissionColorB = 0
+	Actor_25.DisplayDesc.MatEmissionColorA = 1
+	Actor_25.DisplayDesc.MatShininess = 0
 	Actor_25.PhysicDesc.Pos.X = 55
 	Actor_25.PhysicDesc.Pos.Y = 9
 	Actor_25.PhysicDesc.Pos.Z = 25.3438
@@ -882,6 +1022,7 @@ function InitMap(environment)
 	Actor_25.PhysicDesc.SizeX = 1
 	Actor_25.PhysicDesc.SizeY = 5
 	Actor_25.PhysicDesc.SizeZ = 1
+	Actor_25.PhysicDesc.AllowFreeMove = true
 	Actor_25.PhysicDesc.Filename = ""
 	Actor_25:SetPhysicalActorType(2)
 	Actor_25:SetPhysicalShape(2)
@@ -901,13 +1042,8 @@ function InitMap(environment)
 
 	Actor_26 = ActorObjectInfo(26)
 	Actor_26:SetRenderType(3)
-	Actor_26.DisplayDesc.ColorMaterialType = 4
-	Actor_26.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_26.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_26.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_26.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_26.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_26.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_26.HitPowerOnTouch = -1
+	Actor_26.ExcludeFromNavMesh = false
 	Actor_26.DisplayDesc.ModelId = 0
 	Actor_26.DisplayDesc.ModelName = "GroboClone"
 	Actor_26.DisplayDesc.Outfit = "SuperGro"
@@ -929,6 +1065,25 @@ function InitMap(environment)
 	Actor_26.DisplayDesc.RotY = 0
 	Actor_26.DisplayDesc.RotZ = 0
 	Actor_26:SetModelState(1)
+	Actor_26.DisplayDesc.UseBillboard = false
+	Actor_26.DisplayDesc.ColorMaterialType = 4
+	Actor_26.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_26.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_26.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_26.DisplayDesc.MatAmbientColorA = 1
+	Actor_26.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_26.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_26.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_26.DisplayDesc.MatDiffuseColorA = 1
+	Actor_26.DisplayDesc.MatSpecularColorR = 0
+	Actor_26.DisplayDesc.MatSpecularColorG = 0
+	Actor_26.DisplayDesc.MatSpecularColorB = 0
+	Actor_26.DisplayDesc.MatSpecularColorA = 1
+	Actor_26.DisplayDesc.MatEmissionColorR = 0
+	Actor_26.DisplayDesc.MatEmissionColorG = 0
+	Actor_26.DisplayDesc.MatEmissionColorB = 0
+	Actor_26.DisplayDesc.MatEmissionColorA = 1
+	Actor_26.DisplayDesc.MatShininess = 0
 	Actor_26.PhysicDesc.Pos.X = 48
 	Actor_26.PhysicDesc.Pos.Y = 11
 	Actor_26.PhysicDesc.Pos.Z = 22
@@ -938,6 +1093,7 @@ function InitMap(environment)
 	Actor_26.PhysicDesc.SizeX = 1.5
 	Actor_26.PhysicDesc.SizeY = 5
 	Actor_26.PhysicDesc.SizeZ = 1.5
+	Actor_26.PhysicDesc.AllowFreeMove = true
 	Actor_26.PhysicDesc.Filename = ""
 	Actor_26:SetPhysicalActorType(2)
 	Actor_26:SetPhysicalShape(2)
@@ -957,13 +1113,8 @@ function InitMap(environment)
 
 	Actor_27 = ActorObjectInfo(27)
 	Actor_27:SetRenderType(3)
-	Actor_27.DisplayDesc.ColorMaterialType = 4
-	Actor_27.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_27.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_27.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_27.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_27.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_27.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_27.HitPowerOnTouch = -1
+	Actor_27.ExcludeFromNavMesh = false
 	Actor_27.DisplayDesc.ModelId = 0
 	Actor_27.DisplayDesc.ModelName = "GroboClone"
 	Actor_27.DisplayDesc.Outfit = "SuperGro"
@@ -985,6 +1136,25 @@ function InitMap(environment)
 	Actor_27.DisplayDesc.RotY = 0
 	Actor_27.DisplayDesc.RotZ = 0
 	Actor_27:SetModelState(1)
+	Actor_27.DisplayDesc.UseBillboard = false
+	Actor_27.DisplayDesc.ColorMaterialType = 4
+	Actor_27.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_27.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_27.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_27.DisplayDesc.MatAmbientColorA = 1
+	Actor_27.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_27.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_27.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_27.DisplayDesc.MatDiffuseColorA = 1
+	Actor_27.DisplayDesc.MatSpecularColorR = 0
+	Actor_27.DisplayDesc.MatSpecularColorG = 0
+	Actor_27.DisplayDesc.MatSpecularColorB = 0
+	Actor_27.DisplayDesc.MatSpecularColorA = 1
+	Actor_27.DisplayDesc.MatEmissionColorR = 0
+	Actor_27.DisplayDesc.MatEmissionColorG = 0
+	Actor_27.DisplayDesc.MatEmissionColorB = 0
+	Actor_27.DisplayDesc.MatEmissionColorA = 1
+	Actor_27.DisplayDesc.MatShininess = 0
 	Actor_27.PhysicDesc.Pos.X = 16
 	Actor_27.PhysicDesc.Pos.Y = 6
 	Actor_27.PhysicDesc.Pos.Z = 22
@@ -994,6 +1164,7 @@ function InitMap(environment)
 	Actor_27.PhysicDesc.SizeX = 1.5
 	Actor_27.PhysicDesc.SizeY = 5
 	Actor_27.PhysicDesc.SizeZ = 1.5
+	Actor_27.PhysicDesc.AllowFreeMove = true
 	Actor_27.PhysicDesc.Filename = ""
 	Actor_27:SetPhysicalActorType(2)
 	Actor_27:SetPhysicalShape(2)
@@ -1013,13 +1184,8 @@ function InitMap(environment)
 
 	Actor_28 = ActorObjectInfo(28)
 	Actor_28:SetRenderType(3)
-	Actor_28.DisplayDesc.ColorMaterialType = 4
-	Actor_28.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_28.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_28.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_28.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_28.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_28.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_28.HitPowerOnTouch = -1
+	Actor_28.ExcludeFromNavMesh = false
 	Actor_28.DisplayDesc.ModelId = 0
 	Actor_28.DisplayDesc.ModelName = "GroboClone"
 	Actor_28.DisplayDesc.Outfit = "SuperGro"
@@ -1041,6 +1207,25 @@ function InitMap(environment)
 	Actor_28.DisplayDesc.RotY = 0
 	Actor_28.DisplayDesc.RotZ = 0
 	Actor_28:SetModelState(1)
+	Actor_28.DisplayDesc.UseBillboard = false
+	Actor_28.DisplayDesc.ColorMaterialType = 4
+	Actor_28.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_28.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_28.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_28.DisplayDesc.MatAmbientColorA = 1
+	Actor_28.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_28.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_28.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_28.DisplayDesc.MatDiffuseColorA = 1
+	Actor_28.DisplayDesc.MatSpecularColorR = 0
+	Actor_28.DisplayDesc.MatSpecularColorG = 0
+	Actor_28.DisplayDesc.MatSpecularColorB = 0
+	Actor_28.DisplayDesc.MatSpecularColorA = 1
+	Actor_28.DisplayDesc.MatEmissionColorR = 0
+	Actor_28.DisplayDesc.MatEmissionColorG = 0
+	Actor_28.DisplayDesc.MatEmissionColorB = 0
+	Actor_28.DisplayDesc.MatEmissionColorA = 1
+	Actor_28.DisplayDesc.MatShininess = 0
 	Actor_28.PhysicDesc.Pos.X = 2
 	Actor_28.PhysicDesc.Pos.Y = 16
 	Actor_28.PhysicDesc.Pos.Z = 8
@@ -1050,6 +1235,7 @@ function InitMap(environment)
 	Actor_28.PhysicDesc.SizeX = 1.5
 	Actor_28.PhysicDesc.SizeY = 5
 	Actor_28.PhysicDesc.SizeZ = 1.5
+	Actor_28.PhysicDesc.AllowFreeMove = true
 	Actor_28.PhysicDesc.Filename = ""
 	Actor_28:SetPhysicalActorType(2)
 	Actor_28:SetPhysicalShape(2)
@@ -1069,13 +1255,8 @@ function InitMap(environment)
 
 	Actor_29 = ActorObjectInfo(29)
 	Actor_29:SetRenderType(3)
-	Actor_29.DisplayDesc.ColorMaterialType = 4
-	Actor_29.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_29.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_29.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_29.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_29.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_29.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_29.HitPowerOnTouch = -1
+	Actor_29.ExcludeFromNavMesh = false
 	Actor_29.DisplayDesc.ModelId = 0
 	Actor_29.DisplayDesc.ModelName = "GroboClone"
 	Actor_29.DisplayDesc.Outfit = "SuperGro"
@@ -1097,6 +1278,25 @@ function InitMap(environment)
 	Actor_29.DisplayDesc.RotY = 0
 	Actor_29.DisplayDesc.RotZ = 0
 	Actor_29:SetModelState(1)
+	Actor_29.DisplayDesc.UseBillboard = false
+	Actor_29.DisplayDesc.ColorMaterialType = 4
+	Actor_29.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_29.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_29.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_29.DisplayDesc.MatAmbientColorA = 1
+	Actor_29.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_29.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_29.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_29.DisplayDesc.MatDiffuseColorA = 1
+	Actor_29.DisplayDesc.MatSpecularColorR = 0
+	Actor_29.DisplayDesc.MatSpecularColorG = 0
+	Actor_29.DisplayDesc.MatSpecularColorB = 0
+	Actor_29.DisplayDesc.MatSpecularColorA = 1
+	Actor_29.DisplayDesc.MatEmissionColorR = 0
+	Actor_29.DisplayDesc.MatEmissionColorG = 0
+	Actor_29.DisplayDesc.MatEmissionColorB = 0
+	Actor_29.DisplayDesc.MatEmissionColorA = 1
+	Actor_29.DisplayDesc.MatShininess = 0
 	Actor_29.PhysicDesc.Pos.X = 34
 	Actor_29.PhysicDesc.Pos.Y = 15
 	Actor_29.PhysicDesc.Pos.Z = 18
@@ -1106,6 +1306,7 @@ function InitMap(environment)
 	Actor_29.PhysicDesc.SizeX = 1.5
 	Actor_29.PhysicDesc.SizeY = 5
 	Actor_29.PhysicDesc.SizeZ = 1.5
+	Actor_29.PhysicDesc.AllowFreeMove = true
 	Actor_29.PhysicDesc.Filename = ""
 	Actor_29:SetPhysicalActorType(2)
 	Actor_29:SetPhysicalShape(2)
@@ -1125,13 +1326,8 @@ function InitMap(environment)
 
 	Actor_30 = ActorObjectInfo(30)
 	Actor_30:SetRenderType(3)
-	Actor_30.DisplayDesc.ColorMaterialType = 4
-	Actor_30.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_30.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_30.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_30.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_30.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_30.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_30.HitPowerOnTouch = -1
+	Actor_30.ExcludeFromNavMesh = false
 	Actor_30.DisplayDesc.ModelId = 0
 	Actor_30.DisplayDesc.ModelName = "Object"
 	Actor_30.DisplayDesc.Outfit = "NurseOutfit"
@@ -1153,6 +1349,25 @@ function InitMap(environment)
 	Actor_30.DisplayDesc.RotY = 0
 	Actor_30.DisplayDesc.RotZ = 0
 	Actor_30:SetModelState(1)
+	Actor_30.DisplayDesc.UseBillboard = false
+	Actor_30.DisplayDesc.ColorMaterialType = 4
+	Actor_30.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_30.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_30.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_30.DisplayDesc.MatAmbientColorA = 1
+	Actor_30.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_30.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_30.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_30.DisplayDesc.MatDiffuseColorA = 1
+	Actor_30.DisplayDesc.MatSpecularColorR = 0
+	Actor_30.DisplayDesc.MatSpecularColorG = 0
+	Actor_30.DisplayDesc.MatSpecularColorB = 0
+	Actor_30.DisplayDesc.MatSpecularColorA = 1
+	Actor_30.DisplayDesc.MatEmissionColorR = 0
+	Actor_30.DisplayDesc.MatEmissionColorG = 0
+	Actor_30.DisplayDesc.MatEmissionColorB = 0
+	Actor_30.DisplayDesc.MatEmissionColorA = 1
+	Actor_30.DisplayDesc.MatShininess = 0
 	Actor_30.PhysicDesc.Pos.X = 26.5
 	Actor_30.PhysicDesc.Pos.Y = 7.9375
 	Actor_30.PhysicDesc.Pos.Z = 7.9375
@@ -1162,6 +1377,7 @@ function InitMap(environment)
 	Actor_30.PhysicDesc.SizeX = 1
 	Actor_30.PhysicDesc.SizeY = 3
 	Actor_30.PhysicDesc.SizeZ = 0.1
+	Actor_30.PhysicDesc.AllowFreeMove = true
 	Actor_30.PhysicDesc.Filename = ""
 	Actor_30:SetPhysicalActorType(2)
 	Actor_30:SetPhysicalShape(2)
@@ -1181,13 +1397,8 @@ function InitMap(environment)
 
 	Actor_31 = ActorObjectInfo(31)
 	Actor_31:SetRenderType(3)
-	Actor_31.DisplayDesc.ColorMaterialType = 4
-	Actor_31.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_31.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_31.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_31.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_31.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_31.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_31.HitPowerOnTouch = -1
+	Actor_31.ExcludeFromNavMesh = false
 	Actor_31.DisplayDesc.ModelId = 0
 	Actor_31.DisplayDesc.ModelName = "GroboClone"
 	Actor_31.DisplayDesc.Outfit = "SuperGro"
@@ -1209,6 +1420,25 @@ function InitMap(environment)
 	Actor_31.DisplayDesc.RotY = 0
 	Actor_31.DisplayDesc.RotZ = 0
 	Actor_31:SetModelState(1)
+	Actor_31.DisplayDesc.UseBillboard = false
+	Actor_31.DisplayDesc.ColorMaterialType = 4
+	Actor_31.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_31.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_31.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_31.DisplayDesc.MatAmbientColorA = 1
+	Actor_31.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_31.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_31.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_31.DisplayDesc.MatDiffuseColorA = 1
+	Actor_31.DisplayDesc.MatSpecularColorR = 0
+	Actor_31.DisplayDesc.MatSpecularColorG = 0
+	Actor_31.DisplayDesc.MatSpecularColorB = 0
+	Actor_31.DisplayDesc.MatSpecularColorA = 1
+	Actor_31.DisplayDesc.MatEmissionColorR = 0
+	Actor_31.DisplayDesc.MatEmissionColorG = 0
+	Actor_31.DisplayDesc.MatEmissionColorB = 0
+	Actor_31.DisplayDesc.MatEmissionColorA = 1
+	Actor_31.DisplayDesc.MatShininess = 0
 	Actor_31.PhysicDesc.Pos.X = 2
 	Actor_31.PhysicDesc.Pos.Y = 4
 	Actor_31.PhysicDesc.Pos.Z = 46.875
@@ -1218,6 +1448,7 @@ function InitMap(environment)
 	Actor_31.PhysicDesc.SizeX = 1.5
 	Actor_31.PhysicDesc.SizeY = 5
 	Actor_31.PhysicDesc.SizeZ = 1.5
+	Actor_31.PhysicDesc.AllowFreeMove = true
 	Actor_31.PhysicDesc.Filename = ""
 	Actor_31:SetPhysicalActorType(2)
 	Actor_31:SetPhysicalShape(2)
@@ -1237,13 +1468,8 @@ function InitMap(environment)
 
 	Actor_32 = ActorObjectInfo(32)
 	Actor_32:SetRenderType(3)
-	Actor_32.DisplayDesc.ColorMaterialType = 4
-	Actor_32.DisplayDesc.MatAmbientColorR = -0.2
-	Actor_32.DisplayDesc.MatAmbientColorG = -0.2
-	Actor_32.DisplayDesc.MatAmbientColorB = -0.2
-	Actor_32.DisplayDesc.MatDiffuseColorR = 0.4
-	Actor_32.DisplayDesc.MatDiffuseColorG = 0.4
-	Actor_32.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_32.HitPowerOnTouch = -1
+	Actor_32.ExcludeFromNavMesh = false
 	Actor_32.DisplayDesc.ModelId = 0
 	Actor_32.DisplayDesc.ModelName = "Object"
 	Actor_32.DisplayDesc.Outfit = "MekaPingouin"
@@ -1265,6 +1491,25 @@ function InitMap(environment)
 	Actor_32.DisplayDesc.RotY = 0
 	Actor_32.DisplayDesc.RotZ = 0
 	Actor_32:SetModelState(1)
+	Actor_32.DisplayDesc.UseBillboard = false
+	Actor_32.DisplayDesc.ColorMaterialType = 4
+	Actor_32.DisplayDesc.MatAmbientColorR = -0.2
+	Actor_32.DisplayDesc.MatAmbientColorG = -0.2
+	Actor_32.DisplayDesc.MatAmbientColorB = -0.2
+	Actor_32.DisplayDesc.MatAmbientColorA = 1
+	Actor_32.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor_32.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor_32.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor_32.DisplayDesc.MatDiffuseColorA = 1
+	Actor_32.DisplayDesc.MatSpecularColorR = 0
+	Actor_32.DisplayDesc.MatSpecularColorG = 0
+	Actor_32.DisplayDesc.MatSpecularColorB = 0
+	Actor_32.DisplayDesc.MatSpecularColorA = 1
+	Actor_32.DisplayDesc.MatEmissionColorR = 0
+	Actor_32.DisplayDesc.MatEmissionColorG = 0
+	Actor_32.DisplayDesc.MatEmissionColorB = 0
+	Actor_32.DisplayDesc.MatEmissionColorA = 1
+	Actor_32.DisplayDesc.MatShininess = 0
 	Actor_32.PhysicDesc.Pos.X = 0
 	Actor_32.PhysicDesc.Pos.Y = -1
 	Actor_32.PhysicDesc.Pos.Z = 0
@@ -1274,6 +1519,7 @@ function InitMap(environment)
 	Actor_32.PhysicDesc.SizeX = 0.5
 	Actor_32.PhysicDesc.SizeY = 2
 	Actor_32.PhysicDesc.SizeZ = 0.6
+	Actor_32.PhysicDesc.AllowFreeMove = true
 	Actor_32.PhysicDesc.Filename = ""
 	Actor_32:SetPhysicalActorType(2)
 	Actor_32:SetPhysicalShape(2)
@@ -1295,6 +1541,7 @@ function InitMap(environment)
 	Trigger_1 = ZoneTrigger(Trigger_1_info, 1, 4.5, 5, true)
 	Trigger_1:SetPosition(37.5, 13, 12.5)
 	Trigger_1:SetStayUpdateFrequency(-1)
+	Trigger_1:SetActivateOnJump(true)
 	Trigger_1_act1 = TeleportAction()
 	Trigger_1_act1:SetMapName("Map001_1")
 	Trigger_1_act1:SetSpawning(1)
@@ -1305,6 +1552,7 @@ function InitMap(environment)
 	Trigger_2 = ZoneTrigger(Trigger_2_info, 2, 3.5, 1, true)
 	Trigger_2:SetPosition(11, 0, 43.5)
 	Trigger_2:SetStayUpdateFrequency(-1)
+	Trigger_2:SetActivateOnJump(true)
 	Trigger_2_act1 = TeleportAction()
 	Trigger_2_act1:SetMapName("Map001_1")
 	Trigger_2_act1:SetSpawning(2)
@@ -1471,6 +1719,7 @@ function InitMap(environment)
 	Trigger_12 = ZoneTrigger(Trigger_12_info, 5, 8, 4, false)
 	Trigger_12:SetPosition(34, 4, 31.5)
 	Trigger_12:SetStayUpdateFrequency(-1)
+	Trigger_12:SetActivateOnJump(true)
 	Trigger_12_act1 = OpenDoorAction()
 	Trigger_12_act1:SetActorId(11)
 	Trigger_12:SetAction1(Trigger_12_act1)
@@ -1483,6 +1732,7 @@ function InitMap(environment)
 	Trigger_13 = ZoneTrigger(Trigger_13_info, 4.8, 8, 4, false)
 	Trigger_13:SetPosition(3, 4, 45.5)
 	Trigger_13:SetStayUpdateFrequency(-1)
+	Trigger_13:SetActivateOnJump(true)
 	Trigger_13_act1 = OpenDoorAction()
 	Trigger_13_act1:SetActorId(12)
 	Trigger_13:SetAction1(Trigger_13_act1)
@@ -1495,6 +1745,7 @@ function InitMap(environment)
 	Trigger_14 = ZoneTrigger(Trigger_14_info, 4, 8, 5, false)
 	Trigger_14:SetPosition(44.5, 4, 35)
 	Trigger_14:SetStayUpdateFrequency(-1)
+	Trigger_14:SetActivateOnJump(true)
 	Trigger_14_act1 = OpenDoorAction()
 	Trigger_14_act1:SetActorId(13)
 	Trigger_14:SetAction1(Trigger_14_act1)
@@ -1507,6 +1758,7 @@ function InitMap(environment)
 	Trigger_15 = ZoneTrigger(Trigger_15_info, 4, 8, 2.9, false)
 	Trigger_15:SetPosition(37, 13, 11.25)
 	Trigger_15:SetStayUpdateFrequency(-1)
+	Trigger_15:SetActivateOnJump(true)
 	Trigger_15_act1 = OpenDoorAction()
 	Trigger_15_act1:SetActorId(14)
 	Trigger_15:SetAction1(Trigger_15_act1)
@@ -1519,6 +1771,7 @@ function InitMap(environment)
 	Trigger_16 = ZoneTrigger(Trigger_16_info, 4, 8, 2.9, false)
 	Trigger_16:SetPosition(37, 13, 13.75)
 	Trigger_16:SetStayUpdateFrequency(-1)
+	Trigger_16:SetActivateOnJump(true)
 	Trigger_16_act1 = OpenDoorAction()
 	Trigger_16_act1:SetActorId(15)
 	Trigger_16:SetAction1(Trigger_16_act1)
@@ -1531,6 +1784,7 @@ function InitMap(environment)
 	Trigger_17 = ZoneTrigger(Trigger_17_info, 0, 0, 0, false)
 	Trigger_17:SetPosition(11, 0, 45.4)
 	Trigger_17:SetStayUpdateFrequency(-1)
+	Trigger_17:SetActivateOnJump(true)
 	Trigger_17_act1 = OpenDoorAction()
 	Trigger_17_act1:SetActorId(16)
 	Trigger_17:SetAction1(Trigger_17_act1)
@@ -1543,6 +1797,7 @@ function InitMap(environment)
 	Trigger_18 = ZoneTrigger(Trigger_18_info, 0, 0, 0, false)
 	Trigger_18:SetPosition(20, 4, 20.5)
 	Trigger_18:SetStayUpdateFrequency(-1)
+	Trigger_18:SetActivateOnJump(true)
 	Trigger_18_act1 = OpenDoorAction()
 	Trigger_18_act1:SetActorId(18)
 	Trigger_18:SetAction1(Trigger_18_act1)
