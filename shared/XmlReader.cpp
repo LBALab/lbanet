@@ -406,3 +406,89 @@ void XmlReader::SaveObjectTemplateFile(const std::string &Filename,
 	}
 }
 
+
+
+/***********************************************************
+get a voice from file
+***********************************************************/
+std::map<long, std::vector<std::string> > XmlReader::LoadVoiceFile(const std::string &Filename)
+{
+	std::map<long, std::vector<std::string> > res;
+
+
+	// Create an empty property tree object
+	using boost::property_tree::ptree;
+	ptree pt;
+
+	// Load the XML file into the property tree
+	try
+	{
+		read_xml(Filename, pt);
+	}
+	catch(...)
+	{
+		return res;
+	}
+
+	// get text info
+	try
+	{
+		BOOST_FOREACH(ptree::value_type &v, pt.get_child("voices"))
+		{
+			long Id = v.second.get<long>("<xmlattr>.id");
+			std::vector<std::string> files;
+
+			BOOST_FOREACH(ptree::value_type &v2, v.second.get_child("files"))
+			{
+				std::string text = v2.second.data();
+				files.push_back(text);
+			}
+
+			res[Id] = files;
+		}
+	}
+	catch(...){} // no text
+
+
+	return res;
+}
+
+
+
+
+/***********************************************************
+save voice in file
+***********************************************************/
+void XmlReader::SaveVoiceFile(const std::string &Filename, 
+							  const std::map<long, std::vector<std::string> > &voice)
+{
+	// Create an empty property tree object
+	using boost::property_tree::ptree;
+	ptree pt;
+
+	typedef std::map<long, std::vector<std::string> > voiceseq;
+	typedef std::vector<std::string> fileseq;
+
+	// get teleport info
+    BOOST_FOREACH(const voiceseq::value_type &txt, voice)
+	{
+		ptree &tmp = pt.add("voices.voice","");
+		tmp.put("<xmlattr>.id", txt.first);
+
+		BOOST_FOREACH(const fileseq::value_type &fls, txt.second)
+		{
+			tmp.add("files.file", fls);
+		}
+	}
+
+
+	// Write the property tree into the XML file 
+	try
+	{
+		const boost::property_tree::xml_parser::xml_writer_settings<char> settings('	', 1);
+		write_xml(Filename, pt, std::locale(), settings);
+	}
+	catch(...)
+	{
+	}
+}

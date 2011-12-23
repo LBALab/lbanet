@@ -785,14 +785,32 @@ public slots:
 	//! text type modified
 	 void TextTypeModified(int index);
 
+	//! text lang modified
+	 void TextLangModified(int index);
+
+
+
 	//! TextAdd_button
 	void TextAdd_button();
 
 	//! TextRemove_button
 	void TextRemove_button();
 
+
+	//! VoicemAdd_button
+	void VoicemAdd_button();
+
+	//! VoicemRem_button
+	void VoicemRem_button();
+
+
 	//! TextEdit_button
 	void TextEdit_button();
+
+	//! TextPlay_button
+	void TextPlay_button();
+
+
 
 	//! TextAdd_button_accepted
 	void TextAdd_button_accepted();
@@ -1276,6 +1294,7 @@ private:
 	StringTableModel *									_text_inventorylistmodel;
 	StringTableModel *									_text_namelistmodel;
 	Localizer::LocalizeType								_currentchoosentext;
+	std::string											_currentchoosenlang;
 
 	StringTableModel *									_itemlistmodel;
 	StringTableModel *									_startitemlistmodel;
@@ -1342,6 +1361,7 @@ private:
 	std::map<long, boost::shared_ptr<TriggerBase> >			_triggers;
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >	_Actors;
 	std::map<long, boost::shared_ptr<Spawn> >				_spawns;
+
 
 	long												_currspawningidx;
 	long												_currtriggeridx;

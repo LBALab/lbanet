@@ -208,7 +208,7 @@ void MapHandler::run()
 							LbaVec3 lastposP = player->GetLastPhysPosition();
 							LbaVec3 posP = player->GetCurrentPhysPosition();
 
-							if(fabs(posP.y-pos.y) < (sizeY*1.5f))
+							if(fabs(posP.y-pos.y) < (sizeY*1.5f) && !ita->second->PlayerImune(itp->first))
 							{
 								lastposP.y = 1;
 								posP.y = 1;
@@ -264,7 +264,8 @@ void MapHandler::run()
 										if(hitlife < 0)
 										{
 											// hurt the player
-											if(!DeltaUpdateLife(itp->first, hitlife, 3, (long)ita->first, false))
+											bool killed = DeltaUpdateLife(itp->first, hitlife, 3, (long)ita->first, false);
+											if(!killed)
 											{
 												//only play hurt if not dead
 												if(hitlife < -19.9)
@@ -274,6 +275,8 @@ void MapHandler::run()
 												else
 													ChangePlayerState(itp->first, LbaNet::StSmallHurt, 0, 1, -1, true);
 											}
+
+											ita->second->TouchedPlayer(itp->first, killed);
 										}
 									}
 								}

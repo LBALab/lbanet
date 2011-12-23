@@ -884,7 +884,7 @@
                        <item>
                         <widget class="QPushButton" name="pushButton_addtext">
                          <property name="toolTip">
-                          <string>Add Teleport</string>
+                          <string>Add Text</string>
                          </property>
                          <property name="text">
                           <string/>
@@ -907,7 +907,7 @@
                        <item>
                         <widget class="QPushButton" name="pushButton_removetext">
                          <property name="toolTip">
-                          <string>Remove selected teleport</string>
+                          <string>Remove selected text</string>
                          </property>
                          <property name="text">
                           <string/>
@@ -927,7 +927,7 @@
                        <item>
                         <widget class="QPushButton" name="pushButton_edittext">
                          <property name="toolTip">
-                          <string>Edit selected teleport</string>
+                          <string>Edit selected text</string>
                          </property>
                          <property name="text">
                           <string/>
@@ -935,6 +935,26 @@
                          <property name="icon">
                           <iconset resource="editor.qrc">
                            <normaloff>:/Editor/Resources/icons/PNG/onebit_20.png</normaloff>:/Editor/Resources/icons/PNG/onebit_20.png</iconset>
+                         </property>
+                         <property name="iconSize">
+                          <size>
+                           <width>20</width>
+                           <height>20</height>
+                          </size>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="pushButton_play">
+                         <property name="toolTip">
+                          <string>Play selected text voice</string>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                         <property name="icon">
+                          <iconset resource="editor.qrc">
+                           <normaloff>:/Editor/Resources/icons/PNG/onebit_40.png</normaloff>:/Editor/Resources/icons/PNG/onebit_40.png</iconset>
                          </property>
                          <property name="iconSize">
                           <size>
@@ -989,6 +1009,9 @@
                            <number>0</number>
                           </property>
                           <item>
+                           <widget class="QComboBox" name="comboBox_chooselang"/>
+                          </item>
+                          <item>
                            <spacer name="horizontalSpacer_7">
                             <property name="orientation">
                              <enum>Qt::Horizontal</enum>
@@ -998,7 +1021,7 @@
                             </property>
                             <property name="sizeHint" stdset="0">
                              <size>
-                              <width>120</width>
+                              <width>80</width>
                               <height>20</height>
                              </size>
                             </property>
@@ -2277,10 +2300,17 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="11">
+            <item row="0" column="12">
              <widget class="QRadioButton" name="radioButton_info_free">
               <property name="text">
                <string>Free</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="11">
+             <widget class="QRadioButton" name="radioButton_info_fly">
+              <property name="text">
+               <string>Fly</string>
               </property>
              </widget>
             </item>

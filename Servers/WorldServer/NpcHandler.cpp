@@ -454,6 +454,7 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 
 			//stop hurt player
 			m_currenthitpower = -1;
+			_immuneplayers.clear();
 
 			// inform script
 			YieldRunningScript();	
@@ -1685,7 +1686,10 @@ void NPCHandler::UseWeapon(int ScriptId, int WeaponNumber, bool multishot)
 	switch(weapontype)
 	{
 		case 1: // contact weapon
+		{
 			m_currenthitpower = weaponpower;
+			_immuneplayers.clear();
+		}
 		break;
 
 		case 2: // ditance weapon
@@ -1993,4 +1997,21 @@ check if reset position
 bool NPCHandler::IsDead()
 {
 	return (_agentstatenum == 3);
+}
+
+		
+/***********************************************************
+check if player is immune from us
+***********************************************************/
+bool NPCHandler::PlayerImune(long playerid)
+{
+	return (_immuneplayers.find(playerid) != _immuneplayers.end());
+}
+		
+/***********************************************************
+inform that npc touched player
+***********************************************************/
+void NPCHandler::TouchedPlayer(long playerid, bool killed)
+{
+	_immuneplayers.insert(playerid);
 }

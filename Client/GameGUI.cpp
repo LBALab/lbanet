@@ -525,6 +525,16 @@ bool GameGUI::DisplayGameText(long textid, bool show)
 				txs->appendText((const unsigned char *)str.c_str());
 
 
+			//play voice with text
+			std::vector<std::string> voices = Localizer::getInstance()->GetVoices(Localizer::Map, textid);
+			if(voices.size() > 0)
+			{
+				for(size_t vv=0; vv< voices.size(); ++vv)
+					voices[vv] = "Data/" + voices[vv];
+
+				MusicHandler::getInstance()->PlayVoice(voices);
+			}
+
 			if(!CEGUI::WindowManager::getSingleton().getWindow("DisplayGameTextFrame")->isVisible())
 			{
 				CEGUI::WindowManager::getSingleton().getWindow("DisplayGameTextFrame")->show();

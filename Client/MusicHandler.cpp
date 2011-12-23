@@ -68,6 +68,16 @@ PlayingSoundHandler::~PlayingSoundHandler()
 }
 
 /***********************************************************
+Play
+***********************************************************/
+void PlayingSoundHandler::Play()
+{
+	if(_soundstate)
+		_soundstate->setPlay(true);
+}
+
+
+/***********************************************************
 pause playing
 ***********************************************************/
 void PlayingSoundHandler::Pause()
@@ -164,6 +174,67 @@ bool PlayingSoundHandler::Paused()
 
 
 /***********************************************************
+constructor
+***********************************************************/
+VoicesHandler::VoicesHandler(const std::vector<std::string> & voicePath, float Gain)
+: _currentindex(0)
+{
+	for(size_t i=0; i< voicePath.size(); ++i)
+	{
+		try
+		{
+			// Create a new filestream that streams samples from a ogg-file.
+			osgAudio::FileStream *musicStream = new osgAudio::FileStream(voicePath[i].c_str());
+			if(musicStream)
+			{
+				// Create a named sound state.
+				osgAudio::SoundState* sound_state = new osgAudio::SoundState(voicePath[i]);
+				sound_state->allocateSource(10, false);
+				sound_state->setStream( musicStream );
+				sound_state->setGain(Gain); 
+				sound_state->setAmbient(true);
+				if(i==0)
+					sound_state->setPlay(true);
+
+				sound_state->setLooping(false);
+				osgAudio::SoundManager::instance()->addSoundState(sound_state);
+
+				// set the reference pointer to the music
+				_voices.push_back(boost::shared_ptr<PlayingSoundHandler>(new PlayingSoundHandler(voicePath[i], sound_state)));
+			}
+		}
+		catch(osgAudio::Error& ex) 
+		{
+			LogHandler::getInstance()->LogToFile(std::string("Exception playing voice:") + ex.what());
+		}
+		catch(std::exception& ex) 
+		{
+			LogHandler::getInstance()->LogToFile(std::string("Exception playing voice:") + ex.what());
+		}
+	}
+}
+
+/***********************************************************
+need to be called once per frame
+***********************************************************/
+void VoicesHandler::Update()
+{
+	if(_currentindex < _voices.size())
+	{
+		if(_voices[_currentindex]->Finished())
+		{
+			++_currentindex;
+			if(_currentindex < _voices.size())
+				_voices[_currentindex]->Play();
+			else
+				_voices.clear();
+		}
+	}
+}
+
+
+
+/***********************************************************
 singleton pattern
 ***********************************************************/
 MusicHandler * MusicHandler::getInstance()
@@ -217,6 +288,8 @@ void MusicHandler::Initialize()
     osgAudio::SoundManager::instance()->getEnvironment()->setDopplerFactor(0);
     osgAudio::SoundManager::instance()->getEnvironment()->setUnitScale(1);
 
+	EnableDisableSound(_soundEnabled);
+
 	//osg::ref_ptr<osgAudio::SoundRoot> sound_root = new osgAudio::SoundRoot;
 	//OsgHandler::getInstance()->SetSoundRoot(sound_root);
 }
@@ -242,6 +315,9 @@ need to be called once per frame
 void MusicHandler::Update()
 {
 	osgAudio::SoundManager::instance()->update();
+
+	if(_playing_voice)
+		_playing_voice->Update();
 }
 
 
@@ -354,6 +430,18 @@ void MusicHandler::PlayMusic(const std::string & musicPath, bool loop)
 		LogHandler::getInstance()->LogToFile(std::string("Exception playing music:") + ex.what());
 	}
 }
+
+
+
+/***********************************************************
+play voice
+***********************************************************/
+void MusicHandler::PlayVoice(const std::vector<std::string> & voicePath)
+{
+	// set voice
+	_playing_voice = boost::shared_ptr<VoicesHandler>(new VoicesHandler(voicePath, _samplevolume));
+}
+
 
 
 /***********************************************************

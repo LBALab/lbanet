@@ -36,6 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ClientExtendedEvents.h"
 #include "ClientExtendedTypes.h"
 
+#include "MusicHandler.h"
 
 #include <iostream>
 #include <algorithm>
@@ -362,6 +363,11 @@ void NPCDialogBox::BuildDialog(const LbaNet::DialogPartInfo &DialogPart)
 			CEGUI::ListboxItem *it = new MyDialogItem((const unsigned char *)str.c_str(), i);
 			lb->addItem(it);		
 		}
+
+		//play voice from npc
+		std::vector<std::string> _voices = Localizer::getInstance()->GetVoices(Localizer::Map, (long)DialogPart.NpcTextId);
+		if(_voices.size() > 0)
+			MusicHandler::getInstance()->PlayVoice(_voices);
 	}
 }
 

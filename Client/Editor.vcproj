@@ -499,6 +499,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\EditorSharedData.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\shared\Entities.cpp"
 				>
 			</File>
@@ -851,6 +855,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\StringMorphInterpolator.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\shared\SynchronizedTimeHandler.cpp"
 				>
 			</File>
@@ -1155,6 +1163,10 @@
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\EditorSharedData.h"
+				>
 			</File>
 			<File
 				RelativePath="..\shared\Entities.h"
@@ -1486,6 +1498,10 @@
 			</File>
 			<File
 				RelativePath="..\shared\StringHelperFuncs.h"
+				>
+			</File>
+			<File
+				RelativePath=".\StringMorphInterpolator.h"
 				>
 			</File>
 			<File
@@ -2534,6 +2550,30 @@
 				<File
 					RelativePath=".\GeneratedFiles\Release\moc_client.cpp"
 					>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugEditor|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\GeneratedFiles\ReleaseEditor\moc_editor.cpp"
@@ -2606,6 +2646,30 @@
 				<File
 					RelativePath=".\GeneratedFiles\Debug\moc_client.cpp"
 					>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseEditor|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\GeneratedFiles\DebugEditor\moc_editor.cpp"

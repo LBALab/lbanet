@@ -385,6 +385,12 @@ public:
 	{_weaponanimatstart = v;}
 
 
+	//! check if player is immune from us
+	virtual bool PlayerImune(long playerid);
+
+	//! inform that npc touched player
+	virtual void TouchedPlayer(long playerid, bool killed);
+
 protected:
 
 	//! return the build class
@@ -548,6 +554,8 @@ protected:
 
 	bool										_weaponanimatstart;
 	bool										_weaponanimating;
+
+	std::set<long>								_immuneplayers;
 
 };
 

@@ -914,6 +914,10 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionTriangleMesh::Bu
 														"Data/"+MeshInfoDataFileName, udata.get(), 
 														rotation, collidable);
 
-	return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, actor, 0, self));
+	if(actor)
+		return boost::shared_ptr<PhysicalObjectHandlerBase>(new PhysXActorsHandler(udata, actor, 0, self));
+	else
+		return boost::shared_ptr<PhysicalObjectHandlerBase>( 
+				new SimplePhysicalObjectHandler(positionX, positionY, positionZ, rotation));
 }
 

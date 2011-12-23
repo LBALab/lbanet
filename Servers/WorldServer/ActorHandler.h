@@ -454,6 +454,12 @@ public:
 	//! make actor resume a sound
 	void AResumeSound(int SoundChannel, bool updatefromlua, bool fromattackscript);
 
+	//! check if player is immune from us
+	virtual bool PlayerImune(long playerid){return false;}
+
+	//! inform that npc touched player
+	virtual void TouchedPlayer(long playerid, bool killed){}
+
 
 #ifdef _USE_QT_EDITOR_
 public:

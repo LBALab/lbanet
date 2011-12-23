@@ -182,6 +182,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\shared\BlackBox.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CameraController.cpp"
 				>
 			</File>
@@ -757,6 +761,10 @@
 			</File>
 			<File
 				RelativePath=".\AnimatedObjectHandlerBase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\shared\BlackBox.h"
 				>
 			</File>
 			<File

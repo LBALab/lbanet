@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Localizer.h"
 #include "vlc_on_qt.h"
 
-
+#include "MusicHandler.h"
 
 /***********************************************************
 constructor
@@ -225,11 +225,18 @@ switch to text
 void Client::SwitchToText(const std::string & imagepath, const std::vector<long> textIds)
 {
 	std::vector<std::vector<unsigned int> > _texts;
+	std::vector<std::string>	_voices;
 	for(size_t i=0; i< textIds.size(); ++i)
 	{
+		
+
 		std::string tmp = Localizer::getInstance()->GetText(Localizer::Map, textIds[i]);
 		if(tmp != "")
 			_texts.push_back(QString::fromUtf8(tmp.c_str()).toUcs4().toStdVector());
+
+		std::vector<std::string> vcs = Localizer::getInstance()->GetVoices(Localizer::Map, textIds[i]);
+		for(size_t vv=0; vv<vcs.size(); ++vv)
+			_voices.push_back(vcs[vv]);
 	}
 
 	if(_texts.size() > 0)
@@ -241,6 +248,9 @@ void Client::SwitchToText(const std::string & imagepath, const std::vector<long>
 			guidraw->StartScrollingText(imagepath, _texts);
 
 		_osgwindow->getGraphWidget()->SetHandleKey(false);
+
+		if(_voices.size() > 0)
+			MusicHandler::getInstance()->PlayVoice(_voices);
 	}
 }
 

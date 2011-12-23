@@ -60,6 +60,14 @@ public:
 	// save object template in file
 	static void SaveObjectTemplateFile(const std::string &Filename, 
 										const std::map<int, EditorTemplateObject> &content);
+
+
+
+	// get a voice from file
+	static std::map<long, std::vector<std::string> > LoadVoiceFile(const std::string &Filename);
+
+	// save voice in file
+	static void SaveVoiceFile(const std::string &Filename, const std::map<long, std::vector<std::string> > &voice);
 };
 
 

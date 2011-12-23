@@ -45,6 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "NaviMeshHandler.h"
 #include "FileUtil.h"
 #include "XmlReader.h"
+#include "EditorSharedData.h"
 
 #include <qdir.h>
 #include <QErrorMessage>
@@ -1412,6 +1413,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 
 	connect(_uieditor.pushButton_info_go, SIGNAL(clicked()) , this, SLOT(info_go_clicked()));
 	connect(_uieditor.radioButton_info_player, SIGNAL(toggled(bool)) , this, SLOT(info_camera_toggled(bool)));
+	connect(_uieditor.radioButton_info_fly, SIGNAL(toggled(bool)) , this, SLOT(info_camera_toggled(bool)));
+	connect(_uieditor.radioButton_info_free, SIGNAL(toggled(bool)) , this, SLOT(info_camera_toggled(bool)));
 
 	connect(_uieditor.pushButton_addTrigger, SIGNAL(clicked()) , this, SLOT(addtrigger_button_clicked()));
 	connect(_uieditor.pushButton_removeTrigger, SIGNAL(clicked()) , this, SLOT(removetrigger_button_clicked()));	
@@ -1431,7 +1434,9 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.pushButton_addtext, SIGNAL(clicked()) , this, SLOT(TextAdd_button()));
 	connect(_uieditor.pushButton_removetext, SIGNAL(clicked()) , this, SLOT(TextRemove_button()));	
 	connect(_uieditor.pushButton_edittext, SIGNAL(clicked()) , this, SLOT(TextEdit_button()));	
+	connect(_uieditor.pushButton_play, SIGNAL(clicked()) , this, SLOT(TextPlay_button()));	
 
+	
 
 
 	connect(_uieditor.pushButton_addActor, SIGNAL(clicked()) , this, SLOT(ActorAdd_button()));
@@ -1490,6 +1495,9 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_ui_additemdialog.buttonBox, SIGNAL(accepted()) , this, SLOT(ItemAdd_button_accepted()));
 	connect(_ui_addstartitemdialog.buttonBox, SIGNAL(accepted()) , this, SLOT(StartItemAdd_button_accepted()));
 
+	connect(_ui_addtextdialog.pushButton_addvoice, SIGNAL(clicked()) , this, SLOT(VoicemAdd_button()));
+	connect(_ui_addtextdialog.pushButton_removevoice, SIGNAL(clicked()) , this, SLOT(VoicemRem_button()));
+
 
 	connect(_uieditor.comboBox_startingmap, SIGNAL(activated(int)) , this, SLOT(StartingMapModified(int)));		
 	connect(_uieditor.comboBox_startingspawning, SIGNAL(activated(int)) , this, SLOT(StartingSpawnModified(int)));	
@@ -1509,6 +1517,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.radioButton_camtype_3d, SIGNAL(toggled(bool)) , this, SLOT(MapCameraTypeChanged(bool)));
 
 	connect(_uieditor.comboBox_choosetexttype, SIGNAL(activated(int)) , this, SLOT(TextTypeModified(int)));	
+	connect(_uieditor.comboBox_chooselang, SIGNAL(activated(int)) , this, SLOT(TextLangModified(int)));	
 
 	connect(_uieditor.lineEdit_mapmusic, SIGNAL(textChanged(QString)) , this, SLOT(MapMusicChanged(QString)));
 	connect(_uieditor.comboBox_mapmusicrepeat, SIGNAL(activated(int)) , this, SLOT(MapMusicRepeatChanged(int)));
@@ -1975,81 +1984,22 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 	{
 		Localizer::getInstance()->SetWorldName(worldname);
 
-		_text_maplistmodel->Clear();
-		_text_questlistmodel->Clear();
-		_text_inventorylistmodel->Clear();
-		_text_namelistmodel->Clear();
-
-		_text_mapNameList->Clear();
-		_text_questNameList->Clear();
-		_text_inventoryNameList->Clear();
-		_text_nameNameList->Clear();
-		_text_nameNameList->AddData("No");
-
+		//add language to combobox
+		_currentchoosenlang = "";
 		{
-			std::map<long, std::string> tmap = Localizer::getInstance()->GetMap(Localizer::Map);
-			std::map<long, std::string>::iterator it = tmap.begin();
-			std::map<long, std::string>::iterator end = tmap.end();
-			for(; it != end; ++it)
-			{
-				QStringList qlist;
-				qlist <<QString::fromUtf8(it->second.c_str());
-				_text_maplistmodel->AddOrUpdateRow(it->first, qlist);
+			_uieditor.comboBox_chooselang->clear();
+			std::vector<std::string> langs = Localizer::getInstance()->GetLanguages();
+			for(size_t ll=0; ll<langs.size(); ++ll)
+				_uieditor.comboBox_chooselang->addItem (langs[ll].c_str());
 
-				std::stringstream txtwithid;
-				txtwithid<<it->first<<": "<<it->second;
-				_text_mapNameList->AddData(QString::fromUtf8(txtwithid.str().c_str()));
-			}
+			if(langs.size() > 0)
+				_currentchoosenlang = langs[0];
 		}
 
-		{
-			std::map<long, std::string> tmap = Localizer::getInstance()->GetMap(Localizer::Quest);
-			std::map<long, std::string>::iterator it = tmap.begin();
-			std::map<long, std::string>::iterator end = tmap.end();
-			for(; it != end; ++it)
-			{
-				QStringList qlist;
-				qlist <<QString::fromUtf8(it->second.c_str());
-				_text_questlistmodel->AddOrUpdateRow(it->first, qlist);
-
-				std::stringstream txtwithid;
-				txtwithid<<it->first<<": "<<it->second;
-				_text_questNameList->AddData(QString::fromUtf8(txtwithid.str().c_str()));
-			}
-		}
-
-		{
-			std::map<long, std::string> tmap = Localizer::getInstance()->GetMap(Localizer::Inventory);
-			std::map<long, std::string>::iterator it = tmap.begin();
-			std::map<long, std::string>::iterator end = tmap.end();
-			for(; it != end; ++it)
-			{
-				QStringList qlist;
-				qlist <<QString::fromUtf8(it->second.c_str());
-				_text_inventorylistmodel->AddOrUpdateRow(it->first, qlist);
-
-				std::stringstream txtwithid;
-				txtwithid<<it->first<<": "<<it->second;
-				_text_inventoryNameList->AddData(QString::fromUtf8(txtwithid.str().c_str()));
-			}
-		}
-
-		{
-			std::map<long, std::string> tmap = Localizer::getInstance()->GetMap(Localizer::Name);
-			std::map<long, std::string>::iterator it = tmap.begin();
-			std::map<long, std::string>::iterator end = tmap.end();
-			for(; it != end; ++it)
-			{
-				QStringList qlist;
-				qlist <<QString::fromUtf8(it->second.c_str());
-				_text_namelistmodel->AddOrUpdateRow(it->first, qlist);
-
-				std::stringstream txtwithid;
-				txtwithid<<it->first<<": "<<it->second;
-				_text_nameNameList->AddData(QString::fromUtf8(txtwithid.str().c_str()));
-			}
-		}
+		// add text
+		TextLangModified(0);
 	}
+
 
 	// add maps
 	{
@@ -2621,7 +2571,11 @@ camera type toggled in info
 ***********************************************************/
 void EditorHandler::info_camera_toggled(bool checked)
 {
-	EventsQueue::getReceiverQueue()->AddEvent(new EditorCameraChangeEvent(!checked));
+	bool changecam = _uieditor.radioButton_info_free->isChecked();
+	bool fly = _uieditor.radioButton_info_fly->isChecked();
+
+	EventsQueue::getReceiverQueue()->AddEvent(new EditorCameraChangeEvent(changecam));
+	EditorSharedData::GetInstance()->SetFly(fly);
 }
 
 
@@ -5956,18 +5910,18 @@ void EditorHandler::RefreshActorModelMode(int index, QModelIndex parentIdx,
 
 			if(res >= 0)
 			{
-				float csx = _objectmodel->data(_objectmodel->GetIndex(1, 12, parentIdx)).toFloat();
-				float csy = _objectmodel->data(_objectmodel->GetIndex(1, 13, parentIdx)).toFloat();
-				float csz = _objectmodel->data(_objectmodel->GetIndex(1, 14, parentIdx)).toFloat();
+				float csx = _objectmodel->data(_objectmodel->GetIndex(1, 14, parentIdx)).toFloat();
+				float csy = _objectmodel->data(_objectmodel->GetIndex(1, 15, parentIdx)).toFloat();
+				float csz = _objectmodel->data(_objectmodel->GetIndex(1, 16, parentIdx)).toFloat();
 
 				if(csx != size.X)
-					_objectmodel->setData(_objectmodel->GetIndex(1, 12, parentIdx), size.X);
+					_objectmodel->setData(_objectmodel->GetIndex(1, 14, parentIdx), size.X);
 				
 				if(csy != size.Y)
-					_objectmodel->setData(_objectmodel->GetIndex(1, 13, parentIdx), size.Y);
+					_objectmodel->setData(_objectmodel->GetIndex(1, 15, parentIdx), size.Y);
 
 				if(csz != size.Z)
-					_objectmodel->setData(_objectmodel->GetIndex(1, 14, parentIdx), size.Z);
+					_objectmodel->setData(_objectmodel->GetIndex(1, 16, parentIdx), size.Z);
 			}
 		}
 
@@ -6225,6 +6179,13 @@ void EditorHandler::MapDescriptionChanged()
 		if(_winfo.Maps[mapname].Description != descstring)
 		{
 			SetModified();
+			_winfo.Maps[mapname].Description = descstring;
+
+			//QStringList data;
+			//data << mapname.c_str() << descstring.c_str();
+			//_maplistmodel->AddOrUpdateRow(_currmapidx, data);
+
+
 
 			//inform server
 			EditorUpdateBasePtr update = new UpdateEditor_AddOrModMap(_winfo.Maps[mapname]);
@@ -6490,6 +6451,7 @@ void EditorHandler::addworld_accepted()
 	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Lua");
 	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Models");
 	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Texts");
+	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Voices");
 	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/InventoryImages");
 	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Sprites");
 	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Music");
@@ -10708,6 +10670,155 @@ void EditorHandler::TextTypeModified(int index)
 	}
 }
 
+/***********************************************************
+text lang modified
+***********************************************************/
+void EditorHandler::TextLangModified(int index)
+{
+	_currentchoosenlang = _uieditor.comboBox_chooselang->itemText(index).toAscii().data();
+
+	_text_maplistmodel->Clear();
+	_text_questlistmodel->Clear();
+	_text_inventorylistmodel->Clear();
+	_text_namelistmodel->Clear();
+
+	_text_mapNameList->Clear();
+	_text_questNameList->Clear();
+	_text_inventoryNameList->Clear();
+	_text_nameNameList->Clear();
+	_text_nameNameList->AddData("No");
+
+	{
+		std::map<long, std::string> tmap = Localizer::getInstance()->GetMap(Localizer::Map, _currentchoosenlang);
+		std::map<long, std::string>::iterator it = tmap.begin();
+		std::map<long, std::string>::iterator end = tmap.end();
+		for(; it != end; ++it)
+		{
+			QStringList qlist;
+			qlist <<QString::fromUtf8(it->second.c_str());
+			_text_maplistmodel->AddOrUpdateRow(it->first, qlist);
+
+			std::stringstream txtwithid;
+			txtwithid<<it->first<<": "<<it->second;
+			_text_mapNameList->AddData(QString::fromUtf8(txtwithid.str().c_str()));
+		}
+	}
+
+	{
+		std::map<long, std::string> tmap = Localizer::getInstance()->GetMap(Localizer::Quest, _currentchoosenlang);
+		std::map<long, std::string>::iterator it = tmap.begin();
+		std::map<long, std::string>::iterator end = tmap.end();
+		for(; it != end; ++it)
+		{
+			QStringList qlist;
+			qlist <<QString::fromUtf8(it->second.c_str());
+			_text_questlistmodel->AddOrUpdateRow(it->first, qlist);
+
+			std::stringstream txtwithid;
+			txtwithid<<it->first<<": "<<it->second;
+			_text_questNameList->AddData(QString::fromUtf8(txtwithid.str().c_str()));
+		}
+	}
+
+	{
+		std::map<long, std::string> tmap = Localizer::getInstance()->GetMap(Localizer::Inventory, _currentchoosenlang);
+		std::map<long, std::string>::iterator it = tmap.begin();
+		std::map<long, std::string>::iterator end = tmap.end();
+		for(; it != end; ++it)
+		{
+			QStringList qlist;
+			qlist <<QString::fromUtf8(it->second.c_str());
+			_text_inventorylistmodel->AddOrUpdateRow(it->first, qlist);
+
+			std::stringstream txtwithid;
+			txtwithid<<it->first<<": "<<it->second;
+			_text_inventoryNameList->AddData(QString::fromUtf8(txtwithid.str().c_str()));
+		}
+	}
+
+	{
+		std::map<long, std::string> tmap = Localizer::getInstance()->GetMap(Localizer::Name, _currentchoosenlang);
+		std::map<long, std::string>::iterator it = tmap.begin();
+		std::map<long, std::string>::iterator end = tmap.end();
+		for(; it != end; ++it)
+		{
+			QStringList qlist;
+			qlist <<QString::fromUtf8(it->second.c_str());
+			_text_namelistmodel->AddOrUpdateRow(it->first, qlist);
+
+			std::stringstream txtwithid;
+			txtwithid<<it->first<<": "<<it->second;
+			_text_nameNameList->AddData(QString::fromUtf8(txtwithid.str().c_str()));
+		}
+	}
+
+	TextTypeModified(_uieditor.comboBox_choosetexttype->currentIndex ());
+}
+
+
+
+
+/***********************************************************
+VoicemAdd_button
+***********************************************************/
+void EditorHandler::VoicemAdd_button()
+{
+	QString currpath = Localizer::getInstance()->GetVoiceDirPath(_currentchoosenlang).c_str();
+
+	QStringList selectedfile = 
+		QFileDialog::getOpenFileNames (this, "Select a sound file", currpath, 
+										"Sound (*.mp3 *.wav *.Ogg)");
+
+	if(selectedfile.size() > 0)
+	{
+		QString selected = 	selectedfile[0];
+		selected.replace("\\", "/");
+
+		// check if choosen file is in the directory data
+		if(selected.contains(QDir::currentPath()+"/Data/"))
+		{
+			selected = selected.remove(QDir::currentPath()+"/Data/");
+		}
+		else
+		{
+			//copy the file over
+			try
+			{
+				QString newfilename = currpath;
+				newfilename	+= "/" + selected.section('/', -1);
+				FileUtil::MakeFileCopy(selected.toAscii().data(), newfilename.toAscii().data());
+
+				selected = newfilename.section('/', 1);
+			}
+			catch(...)
+			{
+				QErrorMessage msgdial;
+				msgdial.showMessage ( "Error copying the file to the data directory!" );
+				selected = "";
+			}
+		}
+
+		_ui_addtextdialog.listWidget_voice->addItem(selected);
+	}
+}
+
+
+
+/***********************************************************
+VoicemRem_button
+***********************************************************/
+void EditorHandler::VoicemRem_button()
+{
+	int checkc = _ui_addtextdialog.listWidget_voice->count();
+
+	QList<QListWidgetItem *> items = _ui_addtextdialog.listWidget_voice->selectedItems();
+	if(items.size() > 0)
+		delete items[0];
+
+	int checkc2 = _ui_addtextdialog.listWidget_voice->count();
+}
+
+
 
 /***********************************************************
 TextAdd_button
@@ -10716,6 +10827,7 @@ void EditorHandler::TextAdd_button()
 {
 	_ui_addtextdialog.lineEdit_id->setText("");
 	_ui_addtextdialog.textEdit->setPlainText("");
+	_ui_addtextdialog.listWidget_voice->clear();
 	_addtextdialog->show();
 }
 
@@ -10756,7 +10868,8 @@ void EditorHandler::TextRemove_button()
 		long id = model->GetId(indexes[0]);
 		std::string txt = Localizer::getInstance()->GetText(_currentchoosentext, id);
 
-		Localizer::getInstance()->RemoveFromMap(_currentchoosentext, id);
+		Localizer::getInstance()->RemoveFromMap(_currentchoosentext, id, _currentchoosenlang);
+		Localizer::getInstance()->RemoveFromMapVoice(_currentchoosentext, id, _currentchoosenlang);
 
 		model->removeRows(indexes[0].row(), 1);
 
@@ -10799,7 +10912,7 @@ void EditorHandler::TextEdit_button()
 	{
 		long id = model->GetId(indexes[0]);
 
-		std::string txt = Localizer::getInstance()->GetText(_currentchoosentext, id);
+		std::string txt = Localizer::getInstance()->GetText(_currentchoosentext, id, _currentchoosenlang);
 		replaceinstr(txt, " @ ", "\n");
 
 
@@ -10807,9 +10920,59 @@ void EditorHandler::TextEdit_button()
 		idtxt << id;
 		_ui_addtextdialog.lineEdit_id->setText(idtxt.str().c_str());
 		_ui_addtextdialog.textEdit->setPlainText(QString::fromUtf8(txt.c_str()));
+
+		_ui_addtextdialog.listWidget_voice->clear();
+		std::vector<std::string> voices = Localizer::getInstance()->GetVoices(_currentchoosentext, id, _currentchoosenlang);
+		for(size_t vv=0; vv<voices.size(); ++vv)
+			_ui_addtextdialog.listWidget_voice->addItem(voices[vv].c_str());
+
 		_addtextdialog->show();
 	}
 }	
+
+
+
+/***********************************************************
+TextEdit_button
+***********************************************************/
+void EditorHandler::TextPlay_button()
+{
+	QItemSelectionModel *selectionModel = _uieditor.tableView_TextList->selectionModel();
+	QModelIndexList indexes = selectionModel->selectedIndexes();
+
+	StringTableModel *	model = NULL;
+	switch(_currentchoosentext)
+	{
+		case Localizer::Map:
+			model = _text_maplistmodel;
+		break;
+		case Localizer::Quest:
+			model = _text_questlistmodel;
+		break;
+		case Localizer::Inventory:
+			model = _text_inventorylistmodel;
+		break;
+		case Localizer::Name:
+			model = _text_namelistmodel;
+		break;
+	}	
+
+
+	if(model && indexes.size() > 0)
+	{
+		long id = model->GetId(indexes[0]);
+
+		std::vector<std::string> voices = 
+			Localizer::getInstance()->GetVoices(_currentchoosentext, id, _currentchoosenlang);
+		if(voices.size() > 0)
+		{
+			for(size_t vv=0; vv< voices.size(); ++vv)
+				voices[vv] = "Data/" + voices[vv];
+
+			MusicHandler::getInstance()->PlayVoice(voices);
+		}
+	}
+}
 
 
 
@@ -10822,6 +10985,11 @@ void EditorHandler::TextAdd_button_accepted()
 
 	std::string txt = _ui_addtextdialog.textEdit->toPlainText().toUtf8().data();
 	replaceinstr(txt, "\n", " @ ");
+
+	std::vector<std::string> voices;
+	for(int ii=0; ii<_ui_addtextdialog.listWidget_voice->count(); ++ii)
+		voices.push_back(_ui_addtextdialog.listWidget_voice->item(ii)->text().toAscii().data());
+
 
 	StringTableModel *	model = NULL;
 	boost::shared_ptr<CustomStringListModel> modelname;
@@ -10851,7 +11019,10 @@ void EditorHandler::TextAdd_button_accepted()
 		long id = _ui_addtextdialog.lineEdit_id->text().toLong();
 		std::string oldtxt = Localizer::getInstance()->GetText(_currentchoosentext, id);
 
-		Localizer::getInstance()->AddToMap(_currentchoosentext, id, txt);	
+		Localizer::getInstance()->AddToMap(_currentchoosentext, id, txt, _currentchoosenlang);	
+		Localizer::getInstance()->AddToMapVoice(_currentchoosentext, id, voices, _currentchoosenlang);	
+
+
 		QStringList qlist;
 		qlist << QString::fromUtf8(txt.c_str());
 		model->AddOrUpdateRow(id, qlist);
@@ -10868,7 +11039,9 @@ void EditorHandler::TextAdd_button_accepted()
 	else
 	{
 		// new text
-		long newid = Localizer::getInstance()->AddToMap(_currentchoosentext, -1, txt);	
+		long newid = Localizer::getInstance()->AddToMap(_currentchoosentext, -1, txt, _currentchoosenlang);	
+		Localizer::getInstance()->AddToMapVoice(_currentchoosentext, newid, voices, _currentchoosenlang);	
+
 		QStringList qlist;
 		qlist << QString::fromUtf8(txt.c_str());
 		model->AddOrUpdateRow(newid, qlist);

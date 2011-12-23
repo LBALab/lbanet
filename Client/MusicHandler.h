@@ -56,6 +56,9 @@ public:
 	// destructor
 	~PlayingSoundHandler();
 
+	//Play
+	void Play();
+
 	//pause playing
 	void Pause();
 
@@ -90,6 +93,28 @@ private:
 	osgAudio::SoundState*		_soundstate;
 	bool						_paused;
 
+};
+
+
+//*************************************************************************************************
+//*                               class VoicesHandler
+//*************************************************************************************************
+/**
+* @brief Class keeping track of a plyaing voices
+*
+*/
+class VoicesHandler
+{
+public:
+	// constructor
+	VoicesHandler(const std::vector<std::string> & voicePath, float Gain);
+
+	// need to be called once per frame
+	void Update();
+
+private:
+	std::vector<boost::shared_ptr<PlayingSoundHandler> >		_voices;
+	size_t														_currentindex;
 };
 
 
@@ -159,6 +184,10 @@ public:
 
 
 
+	// play voice
+	void PlayVoice(const std::vector<std::string> & voicePath);
+
+
 	// temporary mute the sound
 	void TemporaryMute();
 
@@ -193,6 +222,8 @@ private:
 
 	boost::shared_ptr<PlayingSoundHandler>					_playing_music;
 	std::list<boost::shared_ptr<PlayingSoundHandler> >		_tmp_sounds;
+	boost::shared_ptr<VoicesHandler>						_playing_voice;
+
 
 	unsigned long											_counter;
 

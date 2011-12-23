@@ -23,41 +23,47 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#ifndef __LBA_NET_FILE_UTIL_H__
-#define __LBA_NET_FILE_UTIL_H__
+#ifndef _LBANET_EDITOR_SHARED_DATA_H_
+#define _LBANET_EDITOR_SHARED_DATA_H_
+
+
 
 #include <string>
-#include <vector>
+#include <boost/thread/locks.hpp>
+#include <boost/thread/mutex.hpp>
 
 //*************************************************************************************************
-//*                                      class FileUtil
+//*                               class EditorSharedData
 //*************************************************************************************************
-
-class FileUtil
+/**
+* @brief Class handling configuration file
+*
+*/
+class EditorSharedData
 {
 public:
-	// check if file/directory exits
-	static  bool FileExist(const std::string &Filename, bool Directory);
+	// destructor
+	~EditorSharedData(){}
 
-#ifdef WIN32
-	// list files in directory
-	static  bool ListFilesInDir(const std::string &Path, std::vector<std::string> &filelist,
-									std::string filename = "");
+	// get singleton instance
+	static EditorSharedData *	GetInstance();
 
-	// list dir in directory
-	static  bool ListDirsInDir(const std::string &Path, std::vector<std::string> &filelist,
-									std::string addfilename = "");
+	// set functions
+	bool GetFly();
+	void SetFly(bool fly);
 
-	// list dir in directory
-	static  bool ListDirsNoPathInDir(const std::string &Path, std::vector<std::string> &filelist);
 
-	// copy file
-	static void MakeFileCopy(const std::string &Source, const std::string &Dest);
+protected:
+	// constructor
+	EditorSharedData()
+		: m_editorfly(false){}
 
-	// create directory
-	static bool CreateNewDirectory(const std::string &Path);
-#endif
+private:
 
+	static EditorSharedData *		_singletonInstance;
+	boost::mutex					m_mutex;
+
+	bool							m_editorfly;
 };
 
 

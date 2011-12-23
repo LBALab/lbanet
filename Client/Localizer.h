@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <string>
 #include <map>
-
+#include <vector>
 
 /***********************************************************************
  * Module:  Localizer.h
@@ -51,7 +51,7 @@ public:
 
 
 	//! get the text given a text id
-	std::string GetText(LocalizeType type, long TextId);
+	std::string GetText(LocalizeType type, long TextId, std::string lang="");
 
 
 	//! set game language
@@ -61,17 +61,37 @@ public:
 	std::string GetLanguage()
 	{return _lang;}
 
+	//! get languages available
+	std::vector<std::string> GetLanguages();
 
+
+	//! get the voice given a text id
+	std::vector<std::string> GetVoices(LocalizeType type, long TextId, std::string lang="");
+
+
+	//! get voices dir path
+	std::string GetVoiceDirPath(const std::string &lang);
+
+
+#ifdef _USE_QT_EDITOR_
 
 	//! editor functions
-	std::map<long, std::string> GetMap(LocalizeType texttype);
+	std::map<long, std::string> GetMap(LocalizeType texttype, const std::string &lang);
 
 	//! return new index in case of insertion
-	long AddToMap(LocalizeType texttype, long id, const std::string &text);
+	long AddToMap(LocalizeType texttype, long id, const std::string &text, const std::string &lang);
 
-	void RemoveFromMap(LocalizeType texttype, long id);
+	void RemoveFromMap(LocalizeType texttype, long id, const std::string &lang);
+
+
+	//! return new index in case of insertion
+	long AddToMapVoice(LocalizeType texttype, long id, const std::vector<std::string> &voices, const std::string &lang);
+
+	void RemoveFromMapVoice(LocalizeType texttype, long id, const std::string &lang);
+
 
 	void SaveTexts();
+#endif
 
 
 protected:
@@ -84,6 +104,11 @@ protected:
 	//! refresh text files
 	void RefreshGuiTexts();
 
+#ifdef _USE_QT_EDITOR_
+	//! check map loaded, if not load it
+	void CheckMapPresent(const std::string & lang);
+	void CheckVoiceMapPresent(const std::string & lang);
+#endif
 
 private:
 	static Localizer *		_singletonInstance;
@@ -100,6 +125,25 @@ private:
 	std::map<long, std::string>		_inventory_texts;
 	std::map<long, std::string>		_quest_texts;
 	std::map<long, std::string>		_name_texts;
+
+	// contains preloaded voices
+	std::map<long, std::vector<std::string> >		_map_voices;
+	std::map<long, std::vector<std::string> >		_inventory_voices;
+
+
+#ifdef _USE_QT_EDITOR_
+
+	// contain preloaded text
+	std::map<std::string, std::map<long, std::string> >		_map_texts_ed;
+	std::map<std::string, std::map<long, std::string> >		_inventory_texts_ed;
+	std::map<std::string, std::map<long, std::string> >		_quest_texts_ed;
+	std::map<std::string, std::map<long, std::string> >		_name_texts_ed;
+
+	// contains preloaded voices
+	std::map<std::string, std::map<long, std::vector<std::string> > >		_map_voices_ed;
+	std::map<std::string, std::map<long, std::vector<std::string> > >		_inventory_voices_ed;
+#endif
+
 };
 
 #endif
