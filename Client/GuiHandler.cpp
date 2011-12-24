@@ -33,11 +33,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "OptionsGUI.h"
 #include "ConfigurationManager.h"
 #include "SynchronizedTimeHandler.h"
+#include "StringMorphInterpolator.h"
 
 #include <CEGUI.h>
 #include <RendererModules/OpenGL/CEGUIOpenGLRenderer.h>
 #include <CEGUIDefaultResourceProvider.h>
-
+#include <CEGUIAnimation.h>
 
 
 
@@ -300,6 +301,11 @@ void GuiHandler::Initialize(int screen_size_X, int screen_size_Y)
 	{
 		LogHandler::getInstance()->LogToFile(std::string("Exception init gui: ") + ex.getMessage().c_str());
 	}
+
+
+
+	// add interpolator
+	CEGUI::AnimationManager::getSingleton().addInterpolator(new CEGUI::StringMorphInterpolator);
 
 	//initialize the login gui
 	_login_gui = new LoginGUI();

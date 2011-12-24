@@ -73,7 +73,12 @@ void TextBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition &c
 	if(HasOpenedGui(clientid))
 	{
 		//close already opened box
-		HideGUI(clientid);
+		EventsSeq toplayer;
+		toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+												"TextBox", GuiParamsSeq(), true, true));
+		_owner->SendEvents((long)clientid, toplayer);
+
+		//HideGUI(clientid);
 	}
 	else
 	{

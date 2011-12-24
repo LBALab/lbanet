@@ -47,6 +47,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Localizer.h"
 #include "GUILocalizationCallback.h"
 
+#include <CEGUIAnimation.h>
+
 /***********************************************************
 constructor
 ***********************************************************/
@@ -68,7 +70,14 @@ GameGUI::GameGUI()
 	_gameguis["MailBox"] = boost::shared_ptr<GameGUIBase>(new MailBox(combox));
 	_gameguis["ShopBox"] = boost::shared_ptr<GameGUIBase>(new NPCShopBox(50));
 
+	_textanim = CEGUI::AnimationManager::getSingleton().createAnimation("SignTextAnim");
+	_textanim->setReplayMode(CEGUI::Animation::RM_Once); // when this animation is started, only play it once, then stop
 
+	_textanimaffector = _textanim->createAffector("Text", "StringMorph");
+	_textanimaffector->createKeyFrame(0.0f, "");
+	_textanimaffector->createKeyFrame(1.0f, "");
+
+	_textaniminstance = CEGUI::AnimationManager::getSingleton().instantiateAnimation(_textanim);
 }
 
 
@@ -279,33 +288,31 @@ handle send button event
 ***********************************************************/
 bool GameGUI::HandleCloseTextClicked (const CEGUI::EventArgs& e)
 {
-	try
-	{
+	DisplayGameText(0, true, true);
+	return true;
+}
+
+
+/***********************************************************
+CloseText
+***********************************************************/
+void GameGUI::CloseText()
+{
+	if(CEGUI::WindowManager::getSingleton().getWindow("DisplayGameTextFrame")->isVisible())
 		CEGUI::WindowManager::getSingleton().getWindow("DisplayGameTextFrame")->hide();
-	}
-	catch(CEGUI::Exception &ex)
-	{
-		LogHandler::getInstance()->LogToFile(std::string("Exception hidding text window: ") + ex.getMessage().c_str());
-		_root = NULL;
-	}
 
 
 	// inform server that gui is closed
 	LbaNet::GuiUpdatesSeq updseq;
-	LbaNet::GuiClosedUpdate * upd = 
-		new LbaNet::GuiClosedUpdate();
+	LbaNet::GuiClosedUpdate * upd = new LbaNet::GuiClosedUpdate();
 	updseq.push_back(upd);
 	
 	EventsQueue::getSenderQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
 		SynchronizedTimeHandler::GetCurrentTimeDouble(), "TextBox", updseq));
 
-	return true;
+	//stop voice
+	MusicHandler::getInstance()->PlayVoice(std::vector<std::string>());
 }
-
-
-
-
-
 
 
 /***********************************************************
@@ -328,14 +335,12 @@ void GameGUI::RefreshGUI(const std::string & guiid, const LbaNet::GuiParamsSeq &
 				LbaNet::DisplayGameText * castedptr = 
 					dynamic_cast<LbaNet::DisplayGameText *>(ptr);
 
-				DisplayGameText((long)castedptr->Textid, Show);
+				DisplayGameText((long)castedptr->Textid, Show, Hide);
 			}
 		}
 
-		if(Hide)
-		{
-			DisplayGameText(0, false);
-		}
+		if(Parameters.size() == 0)
+			DisplayGameText(0, Show, Hide);
 	}
 	else
 	{
@@ -481,75 +486,100 @@ void GameGUI::RefreshSOundButton()
 /***********************************************************
 display game text
 ***********************************************************/
-bool GameGUI::DisplayGameText(long textid, bool show)
+bool GameGUI::DisplayGameText(long textid, bool show, bool hide)
 {
 	try
 	{
 		CEGUI::MultiLineEditbox * txs =
 		static_cast<CEGUI::MultiLineEditbox *> (CEGUI::WindowManager::getSingleton().getWindow("DisplayGameTextFrame/text"));
+		
 
 		if(show)
 		{
-			std::string str = Localizer::getInstance()->GetText(Localizer::Map, textid);
-			int idxs = 0;
-			bool firsttime=true;
-			while((idxs = str.find(" @ ")) != std::string::npos)
+			if(hide)
 			{
-				std::string tmp = str.substr(0, idxs);
-				if(tmp == "")
-					tmp = "\n";
+				//hide only if animation is finished, else finish anim
+				if(_textaniminstance && _textaniminstance->isRunning())
+					_textaniminstance->setPosition(_textanim->getDuration());
+				else
+					CloseText();
+
+				return true;
+			}
+			else
+			{
+				std::string fulltext;
+				std::string str = Localizer::getInstance()->GetText(Localizer::Map, textid);
+				int idxs = 0;
+				bool firsttime=true;
+				while((idxs = str.find(" @ ")) != std::string::npos)
+				{
+					std::string tmp = str.substr(0, idxs);
+					if(tmp == "")
+						tmp = '\n';
+
+					if(firsttime)
+					{
+						firsttime = false;
+						fulltext = tmp;
+					}
+					else
+					{
+						fulltext += '\n';
+						fulltext += tmp;
+					}
+
+					while(((idxs+4) < (int)str.size()) && (str[idxs+3] == '@') && (str[idxs+4] == ' '))
+					{
+						fulltext += "\n";
+						idxs+= 2;
+					}
+
+					str = str.substr(idxs+3);
+				}
 
 				if(firsttime)
 				{
 					firsttime = false;
-					txs->setText((const unsigned char *)tmp.c_str());
+					fulltext = str;
 				}
 				else
-					txs->appendText((const unsigned char *)tmp.c_str());
-
-				while(((idxs+4) < (int)str.size()) && (str[idxs+3] == '@') && (str[idxs+4] == ' '))
 				{
-					txs->appendText("\n");
-					idxs+= 2;
+					fulltext += '\n' + str;
 				}
 
-				str = str.substr(idxs+3);
+
+				//start animation
+				_textanim->setDuration(fulltext.size() / 10.0f); // duration in seconds
+				_textanimaffector->destroyKeyFrame(_textanimaffector->getKeyFrameAtIdx(1));
+				_textanimaffector->createKeyFrame(fulltext.size() / 10.0f, (const unsigned char *)fulltext.c_str());
+				_textaniminstance->setTargetWindow(txs);
+				_textaniminstance->start();
+
+
+				//play voice with text
+				std::vector<std::string> voices = Localizer::getInstance()->GetVoices(Localizer::Map, textid);
+				if(voices.size() > 0)
+				{
+					for(size_t vv=0; vv< voices.size(); ++vv)
+						voices[vv] = "Data/" + voices[vv];
+
+					MusicHandler::getInstance()->PlayVoice(voices);
+				}
+
+				if(!CEGUI::WindowManager::getSingleton().getWindow("DisplayGameTextFrame")->isVisible())
+				{
+					CEGUI::WindowManager::getSingleton().getWindow("DisplayGameTextFrame")->show();
+					return true;
+				}
 			}
 
-			if(firsttime)
-			{
-				firsttime = false;
-				txs->setText((const unsigned char *)str.c_str());
-			}
-			else
-				txs->appendText((const unsigned char *)str.c_str());
-
-
-			//play voice with text
-			std::vector<std::string> voices = Localizer::getInstance()->GetVoices(Localizer::Map, textid);
-			if(voices.size() > 0)
-			{
-				for(size_t vv=0; vv< voices.size(); ++vv)
-					voices[vv] = "Data/" + voices[vv];
-
-				MusicHandler::getInstance()->PlayVoice(voices);
-			}
-
-			if(!CEGUI::WindowManager::getSingleton().getWindow("DisplayGameTextFrame")->isVisible())
-			{
-				CEGUI::WindowManager::getSingleton().getWindow("DisplayGameTextFrame")->show();
-				return true;
-			}
 			return false;
 		}
 		else
 		{
-			if(CEGUI::WindowManager::getSingleton().getWindow("DisplayGameTextFrame")->isVisible())
-			{
-				CEGUI::WindowManager::getSingleton().getWindow("DisplayGameTextFrame")->hide();
-				return true;
-			}
-			return false;
+			CloseText();
+			return true;
 		}
 
 	}

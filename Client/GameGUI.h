@@ -40,6 +40,9 @@ namespace CEGUI
 {
 	class Window;
 	class EventArgs;
+	class Animation;
+	class Affector;
+	class AnimationInstance;
 }
 struct TPInfo;
 class Actor;
@@ -129,7 +132,7 @@ protected:
 	void RefreshSOundButton();
 
 	//! display game text
-	bool DisplayGameText(long textid, bool show);
+	bool DisplayGameText(long textid, bool show, bool hide);
 
 	//! set player name
 	void SetPlayerName(const std::string & name);
@@ -138,8 +141,15 @@ protected:
 	//! refresh portrait
 	void RefreshCharPortrait();
 
+	//! CloseText
+	void CloseText();
+
 private:
 	std::map<std::string, boost::shared_ptr<GameGUIBase> > _gameguis;
+
+	CEGUI::Animation*			_textanim;
+	CEGUI::Affector*			_textanimaffector;
+	CEGUI::AnimationInstance*	_textaniminstance;
 };
 
 #endif

@@ -439,7 +439,10 @@ play voice
 void MusicHandler::PlayVoice(const std::vector<std::string> & voicePath)
 {
 	// set voice
-	_playing_voice = boost::shared_ptr<VoicesHandler>(new VoicesHandler(voicePath, _samplevolume));
+	if(voicePath.size() > 0)
+		_playing_voice = boost::shared_ptr<VoicesHandler>(new VoicesHandler(voicePath, _samplevolume));
+	else
+		_playing_voice = boost::shared_ptr<VoicesHandler>();
 }
 
 
