@@ -32,6 +32,9 @@ namespace CEGUI
 	class Window;
 	class EventArgs;
 	class Listbox;
+	class Animation;
+	class Affector;
+	class AnimationInstance;
 }
 
 #include <string>
@@ -39,6 +42,152 @@ namespace CEGUI
 #include <map>
 #include <vector>
 #include "GameGUIBase.h"
+#include "MusicHandler.h"
+
+class NPCDialogBox;
+
+//*************************************************************************************************
+//*                               class NPCDialogActionBase
+//*************************************************************************************************
+/**
+* @brief used when building dialog
+*
+*/
+class NPCDialogActionBase : public VoiceEndCallbackBase
+{
+public:
+	//! constructor
+	NPCDialogActionBase(NPCDialogBox * dialoghandler)
+		: _dialoghandler(dialoghandler){}
+
+	//! destructor
+	virtual ~NPCDialogActionBase(){}
+
+	//! execute function
+	virtual void Execute() = 0;
+
+	//! execute function
+	virtual void ExecuteEndScrollText(){}
+
+	//! voice callback
+	virtual void VoiceFinished()
+	{ Execute(); }
+
+protected:
+	NPCDialogBox * _dialoghandler;
+};
+
+
+class FinishAnimDialogAction : public NPCDialogActionBase
+{
+public:
+	//! constructor
+	FinishAnimDialogAction(NPCDialogBox * dialoghandler, 
+		boost::shared_ptr<NPCDialogActionBase>	nextaction, bool directnext)
+		: NPCDialogActionBase(dialoghandler), _nextaction(nextaction), _directnext(directnext){}
+
+	//! destructor
+	virtual ~FinishAnimDialogAction(){}
+
+	//! execute function
+	virtual void Execute();
+
+	//! execute function
+	virtual void ExecuteEndScrollText(){Execute();}
+
+private:
+	boost::shared_ptr<NPCDialogActionBase>	_nextaction;
+	bool									_directnext;
+};
+
+
+class CloseDialogAction : public NPCDialogActionBase
+{
+public:
+	//! constructor
+	CloseDialogAction(NPCDialogBox * dialoghandler)
+		: NPCDialogActionBase(dialoghandler){}
+
+	//! destructor
+	virtual ~CloseDialogAction(){}
+
+	//! execute function
+	virtual void Execute();
+
+};
+
+
+class ShowPChoiceDialogAction : public NPCDialogActionBase
+{
+public:
+	//! constructor
+	ShowPChoiceDialogAction(NPCDialogBox * dialoghandler,
+		const std::vector<long> & pchoices)
+		: NPCDialogActionBase(dialoghandler), _pchoices(pchoices){}
+
+	//! destructor
+	virtual ~ShowPChoiceDialogAction(){}
+
+	//! execute function
+	virtual void Execute();
+
+private:
+	std::vector<long> _pchoices;
+};
+
+
+class Show1ChoiceDialogAction : public NPCDialogActionBase
+{
+public:
+	//! constructor
+	Show1ChoiceDialogAction(NPCDialogBox * dialoghandler,
+									long pchoice)
+		: NPCDialogActionBase(dialoghandler), _pchoice(pchoice){}
+
+	//! destructor
+	virtual ~Show1ChoiceDialogAction(){}
+
+	//! execute function
+	virtual void Execute();
+
+private:
+	long _pchoice;
+};
+
+
+class PlayerPChoiceVoiceDialogAction : public NPCDialogActionBase
+{
+public:
+	//! constructor
+	PlayerPChoiceVoiceDialogAction(NPCDialogBox * dialoghandler)
+		: NPCDialogActionBase(dialoghandler){}
+
+	//! destructor
+	virtual ~PlayerPChoiceVoiceDialogAction(){}
+
+	//! execute function
+	virtual void Execute();
+};
+
+
+class SendChoiceToServerDialogAction : public NPCDialogActionBase
+{
+public:
+	//! constructor
+	SendChoiceToServerDialogAction(NPCDialogBox * dialoghandler, int choice)
+		: NPCDialogActionBase(dialoghandler), _choice(choice){}
+
+	//! destructor
+	virtual ~SendChoiceToServerDialogAction(){}
+
+	//! execute function
+	virtual void Execute();
+
+private:
+	int _choice;
+};
+
+
 
 
 //*************************************************************************************************
@@ -70,6 +219,8 @@ class NPCDialogBox : public GameGUIBase
 	//! catch mouse event
 	bool HandleMouseEnter (const CEGUI::EventArgs& e);
 
+	//! called when animation is finished
+	bool handleAnimFinished (const CEGUI::EventArgs& e);
 
 
 	//! initalize the box
@@ -100,17 +251,58 @@ class NPCDialogBox : public GameGUIBase
 	//! restore the correct size of the windows
 	virtual void RestoreGUISizes();
 
+
+	//! finish text anim
+	void FinishTextAnim();
+
+	//! set action executed on space bar
+	void SetSpaceAction(boost::shared_ptr<NPCDialogActionBase>  act);
+
+	//! display player choice list
+	void DisplayPChoices(std::vector<long> pchoices);
+
+	//! display player choice 
+	void DisplayPChoice(long pchoice);
+
+	//! play voice of player choice
+	void PlayPChoice();
+
+	//! send selected player choice to server
+	void SendPlayerChoice(int choice);
+
+	//! close dialog window
+	void CloseDialog();
+
+
 protected:
 	//! build dialog depending of the actor
 	void BuildDialog(const LbaNet::DialogPartInfo &DialogPart);
 
-	//! close dialog window
-	void CloseDialog();
+	//! show or hide player answer list from window
+	void ShowHidePlayerList(bool Show);
+
+	//! display scrolling text
+	void DisplayScrollingText(long textid, long actorid);
+
+	//! move player choice selection up/down
+	void ChangeSelection(bool up);
 
 private:
 	CEGUI::Window*			_myBox;
 	std::string				_playername;
 
+	bool					_plist_shown;
+
+	boost::shared_ptr<NPCDialogActionBase>  _space_act;
+
+	std::vector<long>		_currentPchoices;
+
+
+	CEGUI::Animation*			_textanim;
+	CEGUI::Affector*			_textanimaffector;
+	CEGUI::AnimationInstance*	_textaniminstance;
+
+	long						_currentnpcid;
 };
 
 #endif

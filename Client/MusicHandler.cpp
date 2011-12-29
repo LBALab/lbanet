@@ -26,6 +26,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ConfigurationManager.h"
 #include "LogHandler.h"
 
+#include "EventsQueue.h"
+#include "ClientExtendedEvents.h"
+
 #include <iostream>
 
 #include <osgAudio/FileStream.h>
@@ -176,8 +179,10 @@ bool PlayingSoundHandler::Paused()
 /***********************************************************
 constructor
 ***********************************************************/
-VoicesHandler::VoicesHandler(const std::vector<std::string> & voicePath, float Gain)
-: _currentindex(0)
+VoicesHandler::VoicesHandler(const std::vector<std::string> & voicePath, float Gain,
+								boost::shared_ptr<VoiceEndCallbackBase>	callback,
+								long actorid)
+: _currentindex(0), _callback(callback), _actorid(actorid)
 {
 	for(size_t i=0; i< voicePath.size(); ++i)
 	{
@@ -201,6 +206,9 @@ VoicesHandler::VoicesHandler(const std::vector<std::string> & voicePath, float G
 
 				// set the reference pointer to the music
 				_voices.push_back(boost::shared_ptr<PlayingSoundHandler>(new PlayingSoundHandler(voicePath[i], sound_state)));
+
+				if(_actorid > -2)
+					EventsQueue::getReceiverQueue()->AddEvent(new ShowHideVoiceSpriteEvent(_actorid, true, true));
 			}
 		}
 		catch(osgAudio::Error& ex) 
@@ -212,6 +220,16 @@ VoicesHandler::VoicesHandler(const std::vector<std::string> & voicePath, float G
 			LogHandler::getInstance()->LogToFile(std::string("Exception playing voice:") + ex.what());
 		}
 	}
+}
+
+
+/***********************************************************
+destructor
+***********************************************************/
+VoicesHandler::~VoicesHandler()
+{
+	if(_actorid > -2)
+		EventsQueue::getReceiverQueue()->AddEvent(new ShowHideVoiceSpriteEvent(_actorid, false, true));
 }
 
 /***********************************************************
@@ -227,7 +245,17 @@ void VoicesHandler::Update()
 			if(_currentindex < _voices.size())
 				_voices[_currentindex]->Play();
 			else
+			{
 				_voices.clear();
+				if(_callback)
+					_callback->VoiceFinished();
+
+				if(_actorid > -2)
+				{
+					EventsQueue::getReceiverQueue()->AddEvent(new ShowHideVoiceSpriteEvent(_actorid, false, true));
+					_actorid = -2;
+				}
+			}
 		}
 	}
 }
@@ -436,11 +464,13 @@ void MusicHandler::PlayMusic(const std::string & musicPath, bool loop)
 /***********************************************************
 play voice
 ***********************************************************/
-void MusicHandler::PlayVoice(const std::vector<std::string> & voicePath)
+void MusicHandler::PlayVoice(const std::vector<std::string> & voicePath, long actorid,
+					boost::shared_ptr<VoiceEndCallbackBase>	callback)
 {
 	// set voice
 	if(voicePath.size() > 0)
-		_playing_voice = boost::shared_ptr<VoicesHandler>(new VoicesHandler(voicePath, _samplevolume));
+		_playing_voice = boost::shared_ptr<VoicesHandler>
+		(new VoicesHandler(voicePath, _samplevolume, callback, actorid));
 	else
 		_playing_voice = boost::shared_ptr<VoicesHandler>();
 }

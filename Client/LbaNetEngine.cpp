@@ -1049,7 +1049,18 @@ void LbaNetEngine::HandleGameEvents()
 
 			continue;
 		}	
-		
+	
+		// SwitchBigTextEvent
+		if(info == typeid(ShowHideVoiceSpriteEvent))
+		{
+			ShowHideVoiceSpriteEvent* castedptr = 
+				static_cast<ShowHideVoiceSpriteEvent *>(&obj);
+
+
+			//release all keys
+			m_lbaNetModel->ShowHideVoiceSprite(castedptr->_ActorId, castedptr->_Show, castedptr->_Left);
+			continue;
+		}	
 	}
 }
 

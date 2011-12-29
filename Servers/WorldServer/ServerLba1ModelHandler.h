@@ -131,6 +131,8 @@ public:
 	virtual void SetShoutText(const std::string & text, float size, 
 		float colorR, float colorG, float colorB, int TTL){}
 
+	//! display talking icon
+	virtual void DisplayOrHideTalkingIcon(bool display, bool left = true){}
 
 protected:
 	// refresh model

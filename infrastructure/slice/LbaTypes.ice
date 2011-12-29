@@ -549,6 +549,7 @@ module LbaNet
 	// server send dialog to display to client	
 	class DialogGuiParameter extends GuiParameterBase
 	{
+		long			NpcActorId;
 		long			NpcNameTextId;
 		bool			SimpleDialog;
 		DialogPartInfo		DialogPart;

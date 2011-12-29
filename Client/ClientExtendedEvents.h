@@ -722,5 +722,27 @@ public:
 
 
 
+/*
+************************************************************************************************************************
+*                                                  class DisplayExtraGLFinishedEvent
+*
+************************************************************************************************************************
+*/
+class ShowHideVoiceSpriteEvent : public LbaNet::ClientServerEventBase
+{
+public:
+	//! constructor
+	ShowHideVoiceSpriteEvent(long ActorId, 
+								bool Show, bool Left)
+				: _ActorId(ActorId), _Show(Show), _Left(Left)
+	{
+	}
+
+	long			_ActorId; 
+	bool			_Show; 
+	bool			_Left; 
+};
+
+
 
 #endif

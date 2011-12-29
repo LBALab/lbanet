@@ -550,9 +550,9 @@ bool GameGUI::DisplayGameText(long textid, bool show, bool hide)
 
 
 				//start animation
-				_textanim->setDuration(fulltext.size() / 10.0f); // duration in seconds
+				_textanim->setDuration(fulltext.size() / 15.0f); // duration in seconds
 				_textanimaffector->destroyKeyFrame(_textanimaffector->getKeyFrameAtIdx(1));
-				_textanimaffector->createKeyFrame(fulltext.size() / 10.0f, (const unsigned char *)fulltext.c_str());
+				_textanimaffector->createKeyFrame(fulltext.size() / 15.0f, (const unsigned char *)fulltext.c_str());
 				_textaniminstance->setTargetWindow(txs);
 				_textaniminstance->start();
 

@@ -280,6 +280,8 @@ void LbaNetModel::Process(double tnow, float tdiff)
 				m_isafk = false;
 				EventsQueue::getReceiverQueue()->AddEvent(new SendChatTextEvent("/back"));
 			}
+			if(m_checkafk)
+				m_checkafk = false;
 		}
 	}
 }
@@ -2564,6 +2566,27 @@ void LbaNetModel::StartClientScript(const std::string & FunctionName, bool inlin
 {
 	m_tostart_scripts.push_back(std::make_pair<std::string, bool>(FunctionName, inlinefunction));
 }
+
+
+
+/***********************************************************
+//! ShowHideVoiceSprite
+***********************************************************/
+void LbaNetModel::ShowHideVoiceSprite(long ActorId, bool Show, bool Left)
+{
+	//special treatment if main player
+	if(ActorId < 0)
+	{
+		m_controllerChar->GetActor()->GetDisplayObject()->DisplayOrHideTalkingIcon(Show, Left);
+	}
+	else
+	{
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find((long)ActorId);
+		if(it != _npcObjects.end())
+			it->second->GetActor()->GetDisplayObject()->DisplayOrHideTalkingIcon(Show, Left);
+	}
+}
+
 
 
 

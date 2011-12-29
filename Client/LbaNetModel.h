@@ -523,6 +523,9 @@ public:
 	//! start client script
 	void StartClientScript(const std::string & FunctionName, bool inlinefunction);
 
+	//! ShowHideVoiceSprite
+	void ShowHideVoiceSprite(long ActorId, bool Show, bool Left);
+
 protected:
 
 	//! clean up map

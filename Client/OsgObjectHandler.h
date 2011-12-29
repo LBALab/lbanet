@@ -126,6 +126,9 @@ public:
 								float colorR, float colorG, float colorB, int TTL);
 
 
+	//! display talking icon
+	virtual void DisplayOrHideTalkingIcon(bool display, bool left = true);
+
 protected:
 	// update matrix
 	void UpdateMatrix();
@@ -191,6 +194,8 @@ private:
 	osg::ref_ptr<osg::PositionAttitudeTransform>	_osgpatNoLight;
 
 	osg::ref_ptr<osg::MatrixTransform>				_ObjectCopy;
+
+	osg::ref_ptr<osg::MatrixTransform>				_OsgVoiceSprite;
 
 
 	bool											_useTransparentMaterial;

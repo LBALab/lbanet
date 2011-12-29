@@ -148,6 +148,7 @@ protected:
 	//! add a whisper channel
 	void AddWhisperChanel(const std::string & name);
 
+
 private:
 	CEGUI::Window*			_myChat;
 	CEGUI::Listbox*			_lb;
@@ -172,6 +173,7 @@ private:
 	std::vector<std::pair<std::string, std::string> >	_replace_string_map;
 
 	std::map<std::string, std::string>	_name_colors;
+
 };
 
 #endif

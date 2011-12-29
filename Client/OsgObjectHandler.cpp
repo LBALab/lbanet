@@ -1094,3 +1094,46 @@ void OsgObjectHandler::SetShoutText(const std::string & text, float size,
 	}	
 }
 
+/***********************************************************
+display talking icon
+***********************************************************/
+void OsgObjectHandler::DisplayOrHideTalkingIcon(bool display, bool left)
+{
+	osg::ref_ptr<osg::Group> root = GetRootNoLight();
+	if(root)
+	{
+		if(!display)
+		{
+			if(_OsgVoiceSprite)
+			{
+				root->removeChild(_OsgVoiceSprite);
+				_OsgVoiceSprite = NULL;
+			}
+
+			if(_textgroup)
+				root->addChild(_textgroup);
+		}
+		else
+		{
+			std::string spritef = "Worlds/Lba1Original/Sprites/sprite091.png";
+			if(left)
+				spritef = "Worlds/Lba1Original/Sprites/sprite090.png";
+
+			boost::shared_ptr<DisplayTransformation> Tr = 
+				boost::shared_ptr<DisplayTransformation>(new DisplayTransformation());
+
+			Tr->translationY = 3;
+			Tr->scaleX = 0.5f;
+			Tr->scaleY = 0.2f;
+			Tr->scaleZ = 0.5f;
+
+			_OsgVoiceSprite = OsgHandler::getInstance()->CreateSpriteObject(spritef, 1, 1, 1, 0.95f, 
+																Tr, false, false, true);
+			if(_OsgVoiceSprite)
+				root->addChild(_OsgVoiceSprite);
+
+			if(_textgroup)
+				root->removeChild(_textgroup);
+		}
+	}
+}

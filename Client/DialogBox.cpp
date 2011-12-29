@@ -113,10 +113,83 @@ public:
 
 
 
+
+/***********************************************************
+execute function
+***********************************************************/
+void FinishAnimDialogAction::Execute()
+{
+	if(_dialoghandler)
+	{
+		_dialoghandler->FinishTextAnim();
+
+		if(_nextaction)
+		{
+			if(_directnext)
+				_nextaction->Execute();
+			else
+				_dialoghandler->SetSpaceAction(_nextaction);
+		}
+	}
+}
+
+/***********************************************************
+execute function
+***********************************************************/
+void CloseDialogAction::Execute()
+{
+	if(_dialoghandler)
+		_dialoghandler->CloseDialog();
+}
+
+/***********************************************************
+execute function
+***********************************************************/
+void ShowPChoiceDialogAction::Execute()
+{
+	if(_dialoghandler)
+		_dialoghandler->DisplayPChoices(_pchoices);
+}
+
+/***********************************************************
+execute function
+***********************************************************/
+void Show1ChoiceDialogAction::Execute()
+{
+	if(_dialoghandler)
+		_dialoghandler->DisplayPChoice(_pchoice);
+}
+
+
+
+/***********************************************************
+execute function
+***********************************************************/
+void PlayerPChoiceVoiceDialogAction::Execute()
+{
+	if(_dialoghandler)
+		_dialoghandler->PlayPChoice();
+}
+
+
+/***********************************************************
+execute function
+***********************************************************/
+void SendChoiceToServerDialogAction::Execute()
+{
+	if(_dialoghandler)
+		_dialoghandler->SendPlayerChoice(_choice);
+}
+
+
+
+
+
 /***********************************************************
 constructor
 ***********************************************************/
 NPCDialogBox::NPCDialogBox()
+: _plist_shown(true), _currentnpcid(-2)
 {
 
 
@@ -193,6 +266,20 @@ void NPCDialogBox::Initialize(CEGUI::Window* Root)
 		}
 
 		_myBox->hide();
+
+
+		_textanim = CEGUI::AnimationManager::getSingleton().createAnimation("DialogTextAnim");
+		_textanim->setReplayMode(CEGUI::Animation::RM_Once); // when this animation is started, only play it once, then stop
+
+		_textanimaffector = _textanim->createAffector("Text", "StringMorph");
+		_textanimaffector->createKeyFrame(0.0f, "");
+		_textanimaffector->createKeyFrame(1.0f, "");
+
+		_textaniminstance = CEGUI::AnimationManager::getSingleton().instantiateAnimation(_textanim);
+
+		CEGUI::Window* txs = CEGUI::WindowManager::getSingleton().getWindow("DialogFrame/multiline");
+		txs->subscribeEvent(CEGUI::AnimationInstance::EventAnimationEnded,
+										CEGUI::Event::Subscriber (&NPCDialogBox::handleAnimFinished, this));
 	}
 	catch(CEGUI::Exception &ex)
 	{
@@ -223,8 +310,27 @@ bool NPCDialogBox::HandleEnterKey (const CEGUI::EventArgs& e)
 
 	if(we.scancode == CEGUI::Key::Space || we.scancode == CEGUI::Key::W)
 	{
-		CloseDialog();
+		if(_space_act)
+			_space_act->Execute();
 		return true;
+	}
+
+	if(we.scancode == CEGUI::Key::ArrowUp)
+	{
+		if(_plist_shown)
+		{
+			ChangeSelection(true);
+			return true;
+		}
+	}
+
+	if(we.scancode == CEGUI::Key::ArrowDown)
+	{
+		if(_plist_shown)
+		{
+			ChangeSelection(false);
+			return true;
+		}
 	}
 
 	return false;
@@ -252,6 +358,16 @@ bool NPCDialogBox::HandleMouseEnter (const CEGUI::EventArgs& e)
 
 
 
+/***********************************************************
+called when animation is finished
+***********************************************************/
+bool NPCDialogBox::handleAnimFinished (const CEGUI::EventArgs& e)
+{
+	if(_space_act)
+		_space_act->ExecuteEndScrollText();
+
+	return false;
+}
 
 
 /***********************************************************
@@ -259,23 +375,7 @@ handle listbox selected
 ***********************************************************/
 bool NPCDialogBox::Handlelbelected(const CEGUI::EventArgs& e)
 {
-	CEGUI::Listbox * lb = static_cast<CEGUI::Listbox *> (
-		CEGUI::WindowManager::getSingleton().getWindow("DialogFrame/listbox"));
-
-	const MyDialogItem * it = static_cast<const MyDialogItem *>(lb->getFirstSelectedItem());
-	if(it)
-	{
-		LbaNet::GuiUpdatesSeq updseq;
-		LbaNet::DialogSelectedUpdate * upd = 
-			new LbaNet::DialogSelectedUpdate(it->_SelectionIdx);
-		updseq.push_back(upd);
-		
-		EventsQueue::getSenderQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
-			SynchronizedTimeHandler::GetCurrentTimeDouble(), "DialogBox", updseq));
-
-		return true;
-	}
-
+	PlayPChoice();
 	return true;
 }
 
@@ -289,7 +389,7 @@ close dialog and inform actor
 ***********************************************************/
 void NPCDialogBox::CloseDialog()
 {
-	_myBox->hide();
+	Hide();
 
 	LbaNet::GuiUpdatesSeq updseq;
 	LbaNet::GuiClosedUpdate * upd = 
@@ -298,6 +398,7 @@ void NPCDialogBox::CloseDialog()
 	
 	EventsQueue::getSenderQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
 		SynchronizedTimeHandler::GetCurrentTimeDouble(), "DialogBox", updseq));
+
 }
 
 
@@ -308,66 +409,46 @@ build dialog depending of the actor
 ***********************************************************/
 void NPCDialogBox::BuildDialog(const LbaNet::DialogPartInfo &DialogPart)
 {
-	CEGUI::Listbox * lb = static_cast<CEGUI::Listbox *> (
-		CEGUI::WindowManager::getSingleton().getWindow("DialogFrame/listbox"));
-	
-	if(lb)
+	_currentPchoices.clear();
+	long txtid = (long)DialogPart.NpcTextId;
+
+	if(txtid < 0) // special case where no npc talking - direct player talk
 	{
-		lb->resetList();
+		// display first player choice only - mostly used by LBA1 original game
+		if(DialogPart.PlayerTextsId.size() > 0)
+			DisplayPChoice((long)DialogPart.PlayerTextsId[0]);
+		else
+			CloseDialog();
+	}
+	else
+	{
+		for(size_t i=0; i< DialogPart.PlayerTextsId.size(); ++i)
+			_currentPchoices.push_back((long)DialogPart.PlayerTextsId[i]);
 
-		// display NPC dialog text
+		if(_currentPchoices.size() > 1)
 		{
-			CEGUI::Window* txs = CEGUI::WindowManager::getSingleton().getWindow("DialogFrame/multiline");
-			std::string str = Localizer::getInstance()->GetText(Localizer::Map, (long)DialogPart.NpcTextId);
-			str = StringHelper::replaceall(str, "#P#", _playername); // replace with player name
-
-			int idxs = 0;
-			bool firsttime=true;
-			while((idxs = str.find(" @ ")) != std::string::npos)
+			SetSpaceAction(boost::shared_ptr<NPCDialogActionBase>(new FinishAnimDialogAction(this, 
+				boost::shared_ptr<NPCDialogActionBase>(new ShowPChoiceDialogAction(this, _currentPchoices)),
+				true)));
+		}
+		else
+		{
+			if(_currentPchoices.size() > 0)
 			{
-				std::string tmp = str.substr(0, idxs);
-				if(tmp == "")
-					tmp = "\n";
-
-				if(firsttime)
-				{
-					firsttime = false;
-					txs->setText((const unsigned char *)tmp.c_str());
-				}
-				else
-					txs->appendText((const unsigned char *)tmp.c_str());
-
-				while(((idxs+4) < (int)str.size()) && (str[idxs+3] == '@') && (str[idxs+4] == ' '))
-				{
-					txs->appendText("\n");
-					idxs+= 2;
-				}
-
-				str = str.substr(idxs+3);
-			}
-
-			// set left over text
-			if(firsttime)
-			{
-				firsttime = false;
-				txs->setText((const unsigned char *)str.c_str());
+				SetSpaceAction(boost::shared_ptr<NPCDialogActionBase>(new FinishAnimDialogAction(this, 
+					boost::shared_ptr<NPCDialogActionBase>(new Show1ChoiceDialogAction(this, 
+					(long)DialogPart.PlayerTextsId[0])),
+					false)));
 			}
 			else
-				txs->appendText((const unsigned char *)str.c_str());
+			{
+				SetSpaceAction(boost::shared_ptr<NPCDialogActionBase>(new FinishAnimDialogAction(this, 
+					boost::shared_ptr<NPCDialogActionBase>(new CloseDialogAction(this)),
+					false)));
+			}
 		}
 
-
-		for(size_t i=0; i<DialogPart.PlayerTextsId.size(); ++i)
-		{
-			std::string str = Localizer::getInstance()->GetText(Localizer::Map, (long)DialogPart.PlayerTextsId[i]);	
-			CEGUI::ListboxItem *it = new MyDialogItem((const unsigned char *)str.c_str(), i);
-			lb->addItem(it);		
-		}
-
-		//play voice from npc
-		std::vector<std::string> _voices = Localizer::getInstance()->GetVoices(Localizer::Map, (long)DialogPart.NpcTextId);
-		if(_voices.size() > 0)
-			MusicHandler::getInstance()->PlayVoice(_voices);
+		DisplayScrollingText(txtid, _currentnpcid);
 	}
 }
 
@@ -384,15 +465,20 @@ void NPCDialogBox::Refresh(const LbaNet::GuiParamsSeq &Parameters)
 		LbaNet::GuiParameterBase * ptr = Parameters[i].get();
 		const std::type_info& info = typeid(*ptr);
 
-		// shortcut updated
+		// new dialog update
 		if(info == typeid(LbaNet::DialogGuiParameter))
 		{
 			LbaNet::DialogGuiParameter * castedptr = 
 				dynamic_cast<LbaNet::DialogGuiParameter *>(ptr);
 
+			_currentnpcid = (long)castedptr->NpcActorId;
+
 			// set dialog title
-			std::string title = Localizer::getInstance()->GetText(Localizer::GUI, 96)
-				+" "+ Localizer::getInstance()->GetText(Localizer::Name, (long)castedptr->NpcNameTextId);
+			std::string title = Localizer::getInstance()->GetText(Localizer::GUI, 96);
+			std::string npcname = Localizer::getInstance()->GetText(Localizer::Name, (long)castedptr->NpcNameTextId);
+			if(npcname == "")
+				npcname = "NPC";
+			title+=" "+ npcname;
 
 			static_cast<CEGUI::FrameWindow *> (
 				CEGUI::WindowManager::getSingleton().getWindow("DialogFrame"))
@@ -451,6 +537,9 @@ hide GUI
 void NPCDialogBox::Hide()
 {
 	_myBox->hide();
+
+	//stop voice
+	MusicHandler::getInstance()->PlayVoice(std::vector<std::string>());
 }
 
 /***********************************************************
@@ -459,7 +548,7 @@ show/hide GUI
 void NPCDialogBox::ToggleDisplay()
 {
 	if(_myBox->isVisible())
-		_myBox->hide();
+		Hide();
 	else
 	{
 		_myBox->show();
@@ -503,4 +592,252 @@ void NPCDialogBox::RestoreGUISizes()
 	frw->setPosition(CEGUI::UVector2(CEGUI::UDim(_savedPosX, 0), CEGUI::UDim(_savedPosY, 0)));
 	frw->setWidth(CEGUI::UDim(_savedSizeX, 0));
 	frw->setHeight(CEGUI::UDim(_savedSizeY, 0));
+}
+
+
+
+/***********************************************************
+show or hide player answer list from window
+***********************************************************/
+void NPCDialogBox::ShowHidePlayerList(bool Show)
+{
+	if(Show)
+	{
+		if(_plist_shown)
+			return;
+
+		_plist_shown = true;
+
+		CEGUI::WindowManager::getSingleton().getWindow ("DialogFrame/multiline")->setHeight(CEGUI::UDim(0.6, 0));
+		CEGUI::WindowManager::getSingleton().getWindow ("DialogFrame/listbox")->show();	
+	}
+	else
+	{
+		if(!_plist_shown)
+			return;
+
+		_plist_shown = false;
+
+		CEGUI::WindowManager::getSingleton().getWindow ("DialogFrame/listbox")->hide();
+		CEGUI::WindowManager::getSingleton().getWindow ("DialogFrame/multiline")->setHeight(CEGUI::UDim(1, -5));
+	}
+}
+
+
+
+/***********************************************************
+finish text anim
+***********************************************************/
+void NPCDialogBox::FinishTextAnim()
+{
+	if(_textaniminstance && _textaniminstance->isRunning())
+		_textaniminstance->setPosition(_textanim->getDuration());
+}
+
+/***********************************************************
+set action executed on space bar
+***********************************************************/
+void NPCDialogBox::SetSpaceAction(boost::shared_ptr<NPCDialogActionBase> act)
+{
+	_space_act = act;
+}
+
+/***********************************************************
+display player choice list
+***********************************************************/
+void NPCDialogBox::DisplayPChoices(std::vector<long> pchoices)
+{
+	SetSpaceAction(boost::shared_ptr<NPCDialogActionBase>(new PlayerPChoiceVoiceDialogAction(this)));
+
+	CEGUI::Listbox * lb = static_cast<CEGUI::Listbox *> (
+		CEGUI::WindowManager::getSingleton().getWindow("DialogFrame/listbox"));
+	
+	if(lb)
+	{
+		lb->resetList();
+
+		// display player choice
+		for(size_t i=0; i<pchoices.size(); ++i)
+		{
+			std::string str = Localizer::getInstance()->GetText(Localizer::Map, pchoices[i]);
+			CEGUI::ListboxItem *it = new MyDialogItem((const unsigned char *)str.c_str(), i);
+			lb->addItem(it);	
+			if(i == 0)
+				lb->setItemSelectState(it, true);
+		}
+
+		ShowHidePlayerList(true);
+	}
+}
+
+
+/***********************************************************
+display player choice
+***********************************************************/
+void NPCDialogBox::DisplayPChoice(long pchoice)
+{
+	SetSpaceAction(boost::shared_ptr<NPCDialogActionBase>(new FinishAnimDialogAction(this, 
+					boost::shared_ptr<NPCDialogActionBase>(new SendChoiceToServerDialogAction(this, 0)),
+					false)));
+	DisplayScrollingText(pchoice, -1);
+}
+
+
+/***********************************************************
+play voice of player choice
+***********************************************************/
+void NPCDialogBox::PlayPChoice()
+{
+	if(_plist_shown)
+	{
+		CEGUI::Listbox * lb = static_cast<CEGUI::Listbox *> (
+			CEGUI::WindowManager::getSingleton().getWindow("DialogFrame/listbox"));
+
+		const MyDialogItem * it = static_cast<const MyDialogItem *>(lb->getFirstSelectedItem());
+		if(it)
+		{
+			int tosend = it->_SelectionIdx;
+			if((int)_currentPchoices.size() > tosend)
+			{
+				//play voice
+				std::vector<std::string> voices = Localizer::getInstance()->GetVoices(Localizer::Map, _currentPchoices[tosend]);
+				if(voices.size() > 0)
+				{
+					for(size_t vv=0; vv< voices.size(); ++vv)
+						voices[vv] = "Data/" + voices[vv];
+
+					MusicHandler::getInstance()->PlayVoice(voices, -1,
+					boost::shared_ptr<NPCDialogActionBase>(new SendChoiceToServerDialogAction(this, tosend)));
+				
+					SetSpaceAction(boost::shared_ptr<NPCDialogActionBase>(new SendChoiceToServerDialogAction(this, tosend)));
+				}
+				else
+					SendPlayerChoice(tosend);
+			}
+			else
+				SendPlayerChoice(0);
+		}		
+	}
+}
+
+
+/***********************************************************
+send selected player choice to server
+***********************************************************/
+void NPCDialogBox::SendPlayerChoice(int choice)
+{
+	// send to server
+	LbaNet::GuiUpdatesSeq updseq;
+	updseq.push_back(new LbaNet::DialogSelectedUpdate(choice));
+	EventsQueue::getSenderQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
+		SynchronizedTimeHandler::GetCurrentTimeDouble(), "DialogBox", updseq));
+}
+
+	
+/***********************************************************
+display scrolling text
+***********************************************************/
+void NPCDialogBox::DisplayScrollingText(long textid, long actorid)
+{
+	ShowHidePlayerList(false);
+
+	// display NPC dialog text
+	CEGUI::Window* txs = CEGUI::WindowManager::getSingleton().getWindow("DialogFrame/multiline");
+	std::string str = Localizer::getInstance()->GetText(Localizer::Map, textid);
+	str = StringHelper::replaceall(str, "#P#", _playername); // replace with player name
+
+	std::string fulltext;
+	int idxs = 0;
+	bool firsttime=true;
+	while((idxs = str.find(" @ ")) != std::string::npos)
+	{
+		std::string tmp = str.substr(0, idxs);
+		if(tmp == "")
+			tmp = '\n';
+
+		if(firsttime)
+		{
+			firsttime = false;
+			fulltext = tmp;
+		}
+		else
+		{
+			fulltext += '\n';
+			fulltext += tmp;
+		}
+
+		while(((idxs+4) < (int)str.size()) && (str[idxs+3] == '@') && (str[idxs+4] == ' '))
+		{
+			fulltext += "\n";
+			idxs+= 2;
+		}
+
+		str = str.substr(idxs+3);
+	}
+
+	if(firsttime)
+	{
+		firsttime = false;
+		fulltext = str;
+	}
+	else
+	{
+		fulltext += '\n' + str;
+	}
+
+
+	//start animation
+	_textanim->setDuration(fulltext.size() / 15.0f); // duration in seconds
+	_textanimaffector->destroyKeyFrame(_textanimaffector->getKeyFrameAtIdx(1));
+	_textanimaffector->createKeyFrame(fulltext.size() / 15.0f, (const unsigned char *)fulltext.c_str());
+	_textaniminstance->setTargetWindow(txs);
+	_textaniminstance->start();
+
+
+	//play voice
+	std::vector<std::string> voices = Localizer::getInstance()->GetVoices(Localizer::Map, textid);
+	if(voices.size() > 0)
+	{
+		for(size_t vv=0; vv< voices.size(); ++vv)
+			voices[vv] = "Data/" + voices[vv];
+
+		MusicHandler::getInstance()->PlayVoice(voices, actorid);
+	}
+}
+
+	
+/***********************************************************
+move player choice selection up/downt
+***********************************************************/
+void NPCDialogBox::ChangeSelection(bool up)
+{
+	CEGUI::Listbox * lb = static_cast<CEGUI::Listbox *> (
+		CEGUI::WindowManager::getSingleton().getWindow("DialogFrame/listbox"));
+	
+	if(lb)
+	{
+		CEGUI::ListboxItem*	litem = lb->getFirstSelectedItem();
+		if(litem)
+		{
+			int idx = (int)lb->getItemIndex(litem);
+			int count = (int)lb->getItemCount();
+			if(up)
+			{
+				++idx;
+				if(idx >= count)
+					idx = 0;
+			}
+			else
+			{
+				--idx;
+				if(idx < 0)
+					idx = count-1;
+			}
+
+			lb->setItemSelectState(litem, false);
+			CEGUI::ListboxItem*	litem2 = lb->getListboxItemFromIndex(idx);
+			if(litem2)
+				lb->setItemSelectState(litem2, true);
+		}
+	}
 }

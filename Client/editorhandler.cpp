@@ -1988,16 +1988,25 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 		_currentchoosenlang = "";
 		{
 			_uieditor.comboBox_chooselang->clear();
-			std::vector<std::string> langs = Localizer::getInstance()->GetLanguages();
-			for(size_t ll=0; ll<langs.size(); ++ll)
-				_uieditor.comboBox_chooselang->addItem (langs[ll].c_str());
+			int idxlang = 0;
 
+			std::vector<std::string> langs = Localizer::getInstance()->GetLanguages();
 			if(langs.size() > 0)
 				_currentchoosenlang = langs[0];
-		}
 
-		// add text
-		TextLangModified(0);
+			for(size_t ll=0; ll<langs.size(); ++ll)
+			{
+				_uieditor.comboBox_chooselang->addItem (langs[ll].c_str());
+				if(langs[ll] == "en")
+				{
+					_uieditor.comboBox_chooselang->setCurrentIndex(ll);
+					idxlang = ll;
+				}
+			}
+		
+			// add text
+			TextLangModified(idxlang);
+		}
 	}
 
 

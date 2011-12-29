@@ -127,6 +127,9 @@ void Client::ResetToGame()
 {
 	if(_currentview != CLV_Game)
 	{
+		//stop voice
+		MusicHandler::getInstance()->PlayVoice(std::vector<std::string>());
+
 		osg::ref_ptr<CEGUIDrawable> guidraw = OsgHandler::getInstance()->GetGUIDrawable();
 		if(guidraw)
 			guidraw->EndDrawExtraGL();
@@ -236,7 +239,7 @@ void Client::SwitchToText(const std::string & imagepath, const std::vector<long>
 
 		std::vector<std::string> vcs = Localizer::getInstance()->GetVoices(Localizer::Map, textIds[i]);
 		for(size_t vv=0; vv<vcs.size(); ++vv)
-			_voices.push_back(vcs[vv]);
+			_voices.push_back("Data/" + vcs[vv]);
 	}
 
 	if(_texts.size() > 0)

@@ -96,6 +96,24 @@ private:
 };
 
 
+
+//*************************************************************************************************
+//*                               class VoiceEndCallbackBase
+//*************************************************************************************************
+/**
+* @brief Base class used for called back when voice is finished
+*
+*/
+class VoiceEndCallbackBase
+{
+public:
+	virtual ~VoiceEndCallbackBase(){}
+
+	virtual void VoiceFinished() = 0;
+};
+
+
+
 //*************************************************************************************************
 //*                               class VoicesHandler
 //*************************************************************************************************
@@ -107,7 +125,12 @@ class VoicesHandler
 {
 public:
 	// constructor
-	VoicesHandler(const std::vector<std::string> & voicePath, float Gain);
+	VoicesHandler(const std::vector<std::string> & voicePath, float Gain,
+					boost::shared_ptr<VoiceEndCallbackBase>	callback,
+					long actorid);
+
+	// destructor
+	~VoicesHandler();
 
 	// need to be called once per frame
 	void Update();
@@ -115,6 +138,9 @@ public:
 private:
 	std::vector<boost::shared_ptr<PlayingSoundHandler> >		_voices;
 	size_t														_currentindex;
+
+	boost::shared_ptr<VoiceEndCallbackBase>						_callback;
+	long														_actorid;
 };
 
 
@@ -185,7 +211,8 @@ public:
 
 
 	// play voice
-	void PlayVoice(const std::vector<std::string> & voicePath);
+	void PlayVoice(const std::vector<std::string> & voicePath, long actorid = -2,
+					boost::shared_ptr<VoiceEndCallbackBase>	callback = boost::shared_ptr<VoiceEndCallbackBase>());
 
 
 	// temporary mute the sound

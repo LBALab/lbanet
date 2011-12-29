@@ -106,7 +106,7 @@ void DialogBoxHandler::ShowGUI(Ice::Long clientid, const LbaNet::PlayerPosition 
 			for(size_t i=0; i<dials.size(); ++i)
 				dialpart.PlayerTextsId.push_back(dials[i]->PickText());
 
-			seq.push_back(new DialogGuiParameter(castedptr->_npcnametextid, 
+			seq.push_back(new DialogGuiParameter(castedptr->_npcid, castedptr->_npcnametextid, 
 													castedptr->_simpledialog, dialpart));
 
 			toplayer.push_back(new RefreshGameGUIEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
