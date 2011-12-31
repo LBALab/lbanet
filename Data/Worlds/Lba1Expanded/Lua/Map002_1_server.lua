@@ -851,7 +851,7 @@ function InitMap(environment)
 	Actor_19H_weapon2proj0.Comeback = false
 	Actor_19H_weapon2proj0.StartAnimFrame = 4
 	Actor_19H_weapon2proj0.AngleOffset = 0
-	Actor_19H_weapon2proj0.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES027.voc.MP3"
+	Actor_19H_weapon2proj0.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES027.wav"
 	Actor_19H_weapon2proj0.SoundOnBounce = ""
 	Actor_19H_weapon2proj0.ForceHurt = false
 	Actor_19H_weapon2proj0.MultiShoot = false

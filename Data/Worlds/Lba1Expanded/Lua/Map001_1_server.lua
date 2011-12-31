@@ -483,7 +483,7 @@ function InitMap(environment)
 	Actor_16.ExtraInfo.Display = false
 	Actor_16.LifeInfo.Display = false
 	Actor_16H = ActorHandler(Actor_16)
-	Actor_16_Sc0 = ASPPlaySound(0,"Worlds/Lba1Original/Sound/SAMPLES113.voc.MP3",true)
+	Actor_16_Sc0 = ASPPlaySound(0,"Worlds/Lba1Original/Sound/SAMPLES113.wav",true)
 	Actor_16H:AddScriptPart(Actor_16_Sc0)
 	Actor_16_Sc1 = ASPStartWaypoint(28.5,6,44.5,true)
 	Actor_16H:AddScriptPart(Actor_16_Sc1)
@@ -551,7 +551,7 @@ function InitMap(environment)
 	Actor_16H:AddScriptPart(Actor_16_Sc32)
 	Actor_16_Sc33 = ASPChangeAnimation("#3")
 	Actor_16H:AddScriptPart(Actor_16_Sc33)
-	Actor_16_Sc34 = ASPPlaySound(0,"Worlds/Lba1Original/Sound/SAMPLES011.voc.MP3",false)
+	Actor_16_Sc34 = ASPPlaySound(0,"Worlds/Lba1Original/Sound/SAMPLES011.wav",false)
 	Actor_16H:AddScriptPart(Actor_16_Sc34)
 	Actor_16_Sc35 = ASPPlayAnimation(true)
 	Actor_16H:AddScriptPart(Actor_16_Sc35)
@@ -910,7 +910,7 @@ function InitMap(environment)
 	Actor_23H_weapon2proj0.Comeback = false
 	Actor_23H_weapon2proj0.StartAnimFrame = 4
 	Actor_23H_weapon2proj0.AngleOffset = 0
-	Actor_23H_weapon2proj0.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES027.voc.MP3"
+	Actor_23H_weapon2proj0.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES027.wav"
 	Actor_23H_weapon2proj0.SoundOnBounce = ""
 	Actor_23H_weapon2proj0.ForceHurt = false
 	Actor_23H_weapon2proj0.MultiShoot = false
@@ -1181,7 +1181,7 @@ function InitMap(environment)
 	Actor_24H_weapon2proj0.Comeback = false
 	Actor_24H_weapon2proj0.StartAnimFrame = 4
 	Actor_24H_weapon2proj0.AngleOffset = 0
-	Actor_24H_weapon2proj0.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES027.voc.MP3"
+	Actor_24H_weapon2proj0.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES027.wav"
 	Actor_24H_weapon2proj0.SoundOnBounce = ""
 	Actor_24H_weapon2proj0.ForceHurt = false
 	Actor_24H_weapon2proj0.MultiShoot = false
@@ -1452,7 +1452,7 @@ function InitMap(environment)
 	Actor_25H_weapon2proj0.Comeback = false
 	Actor_25H_weapon2proj0.StartAnimFrame = 4
 	Actor_25H_weapon2proj0.AngleOffset = 0
-	Actor_25H_weapon2proj0.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES027.voc.MP3"
+	Actor_25H_weapon2proj0.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES027.wav"
 	Actor_25H_weapon2proj0.SoundOnBounce = ""
 	Actor_25H_weapon2proj0.ForceHurt = false
 	Actor_25H_weapon2proj0.MultiShoot = false

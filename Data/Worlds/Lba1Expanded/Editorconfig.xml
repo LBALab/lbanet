@@ -142,7 +142,7 @@
 	Actor_%##%H_weapon2proj0.Comeback = false
 	Actor_%##%H_weapon2proj0.StartAnimFrame = 4
 	Actor_%##%H_weapon2proj0.AngleOffset = 0
-	Actor_%##%H_weapon2proj0.SoundAtStart = &quot;Worlds/Lba1Original/Sound/SAMPLES027.voc.MP3&quot;
+	Actor_%##%H_weapon2proj0.SoundAtStart = &quot;Worlds/Lba1Original/Sound/SAMPLES027.wav&quot;
 	Actor_%##%H_weapon2proj0.SoundOnBounce = &quot;&quot;
 	Actor_%##%H_weapon2proj0.ForceHurt = false
 	Actor_%##%H_weapon2proj0.MultiShoot = false

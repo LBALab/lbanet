@@ -1079,7 +1079,7 @@ function InitMap(environment)
 	Actor_31H_weapon2proj0.Comeback = false
 	Actor_31H_weapon2proj0.StartAnimFrame = 4
 	Actor_31H_weapon2proj0.AngleOffset = 0
-	Actor_31H_weapon2proj0.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES027.voc.MP3"
+	Actor_31H_weapon2proj0.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES027.wav"
 	Actor_31H_weapon2proj0.SoundOnBounce = ""
 	Actor_31H_weapon2proj0.ForceHurt = false
 	Actor_31H_weapon2proj0.MultiShoot = false
@@ -1349,7 +1349,7 @@ function InitMap(environment)
 	Actor_32H_weapon2proj0.Comeback = false
 	Actor_32H_weapon2proj0.StartAnimFrame = 4
 	Actor_32H_weapon2proj0.AngleOffset = 0
-	Actor_32H_weapon2proj0.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES027.voc.MP3"
+	Actor_32H_weapon2proj0.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES027.wav"
 	Actor_32H_weapon2proj0.SoundOnBounce = ""
 	Actor_32H_weapon2proj0.ForceHurt = false
 	Actor_32H_weapon2proj0.MultiShoot = false
@@ -1619,7 +1619,7 @@ function InitMap(environment)
 	Actor_33H_weapon2proj0.Comeback = false
 	Actor_33H_weapon2proj0.StartAnimFrame = 4
 	Actor_33H_weapon2proj0.AngleOffset = 0
-	Actor_33H_weapon2proj0.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES027.voc.MP3"
+	Actor_33H_weapon2proj0.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES027.wav"
 	Actor_33H_weapon2proj0.SoundOnBounce = ""
 	Actor_33H_weapon2proj0.ForceHurt = false
 	Actor_33H_weapon2proj0.MultiShoot = false
@@ -1889,7 +1889,7 @@ function InitMap(environment)
 	Actor_34H_weapon2proj0.Comeback = false
 	Actor_34H_weapon2proj0.StartAnimFrame = 4
 	Actor_34H_weapon2proj0.AngleOffset = 0
-	Actor_34H_weapon2proj0.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES027.voc.MP3"
+	Actor_34H_weapon2proj0.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES027.wav"
 	Actor_34H_weapon2proj0.SoundOnBounce = ""
 	Actor_34H_weapon2proj0.ForceHurt = false
 	Actor_34H_weapon2proj0.MultiShoot = false

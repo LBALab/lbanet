@@ -144,7 +144,7 @@ function Init(environment)
 	Quest_4 = Quest(4)
 	Quest_4_act2 = PlaySoundAction()
 	Quest_4_act2:SetToEveryone(false)
-	Quest_4_act2:SetSoundPath("Worlds/Lba1Original/Sound/SAMPLES042.voc.MP3")
+	Quest_4_act2:SetSoundPath("Worlds/Lba1Original/Sound/SAMPLES042.wav")
 	Quest_4:SetActionAtComplete(Quest_4_act2)
 	Quest_4:SetChapter(1)
 	Quest_4:SetTitleTextId(-1)
@@ -674,7 +674,7 @@ function Init(environment)
 	Item_22_proj0.Comeback = true
 	Item_22_proj0.StartAnimFrame = 5
 	Item_22_proj0.AngleOffset = 0
-	Item_22_proj0.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES024.voc.MP3"
+	Item_22_proj0.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES024.wav"
 	Item_22_proj0.SoundOnBounce = ""
 	Item_22_proj0.ForceHurt = false
 	Item_22_proj0.MultiShoot = false
@@ -733,7 +733,7 @@ function Init(environment)
 	Item_22_proj1.Comeback = true
 	Item_22_proj1.StartAnimFrame = 5
 	Item_22_proj1.AngleOffset = 0
-	Item_22_proj1.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES024.voc.MP3"
+	Item_22_proj1.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES024.wav"
 	Item_22_proj1.SoundOnBounce = ""
 	Item_22_proj1.ForceHurt = false
 	Item_22_proj1.MultiShoot = false
@@ -792,7 +792,7 @@ function Init(environment)
 	Item_22_proj2.Comeback = true
 	Item_22_proj2.StartAnimFrame = 5
 	Item_22_proj2.AngleOffset = 0
-	Item_22_proj2.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES024.voc.MP3"
+	Item_22_proj2.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES024.wav"
 	Item_22_proj2.SoundOnBounce = ""
 	Item_22_proj2.ForceHurt = false
 	Item_22_proj2.MultiShoot = false
@@ -851,7 +851,7 @@ function Init(environment)
 	Item_22_proj3.Comeback = true
 	Item_22_proj3.StartAnimFrame = 5
 	Item_22_proj3.AngleOffset = 0
-	Item_22_proj3.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES024.voc.MP3"
+	Item_22_proj3.SoundAtStart = "Worlds/Lba1Original/Sound/SAMPLES024.wav"
 	Item_22_proj3.SoundOnBounce = ""
 	Item_22_proj3.ForceHurt = false
 	Item_22_proj3.MultiShoot = false
