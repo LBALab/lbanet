@@ -376,6 +376,23 @@ void PhysXActorsHandler::EnableDisableGravity(bool enabled)
 
 
 /***********************************************************
+check the material of the current floor stepped
+***********************************************************/
+short PhysXActorsHandler::GetFloorMaterial()
+{
+	if(_Actor)
+		return PhysXEngine::getInstance()->GetFloorMaterial(_Actor);
+
+	return 0;
+}
+
+
+
+
+
+
+
+/***********************************************************
 	Constructor
 ***********************************************************/
 PhysXControllerHandler::PhysXControllerHandler(boost::shared_ptr<ActorUserData> UserData,
@@ -384,7 +401,7 @@ PhysXControllerHandler::PhysXControllerHandler(boost::shared_ptr<ActorUserData> 
 												float sizeY,
 												boost::shared_ptr<PhysicalDescriptionBase> desc)
 		: PhysXObjectHandlerBase(UserData), _Controller(Controller), _rotH(rotH),
-			_sizeY(sizeY), _desc(desc)
+			_sizeY(sizeY), _desc(desc), _lastfloor(0)
 {
 	#ifdef _DEBUG
 		LogHandler::getInstance()->LogToFile("Created new PhysXController.");
@@ -483,9 +500,15 @@ void PhysXControllerHandler::Move(float deltaX, float deltaY, float deltaZ, bool
 	if(_UserData)
 	{
 		if((bool)(flags & NXCC_COLLISION_DOWN))
+		{
 			_UserData->SetTouchingGround(true);
+			_lastfloor = _UserData->GetFloorMaterial();
+		}
 		else
+		{
 			_UserData->SetTouchingGround(false);
+			_lastfloor = 0;
+		}
 	}
 }
 

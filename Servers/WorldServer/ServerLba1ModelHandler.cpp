@@ -199,10 +199,13 @@ int ServerLba1ModelHandler::Update(LbaNet::DisplayObjectUpdateBasePtr update,
 	// PauseAnimationUpdate
 	if(info == typeid(LbaNet::PauseAnimationUpdate))
 	{
+		LbaNet::PauseAnimationUpdate * castedptr = 
+			dynamic_cast<LbaNet::PauseAnimationUpdate *>(update.get());	
+		
 		if(updatestoredstate)
-			_savedpaused = true;
+			_savedpaused = castedptr->Pause;
 		else
-			_paused = true;
+			_paused = castedptr->Pause;
 
 		return 0;
 	}

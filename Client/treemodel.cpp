@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "treeitem.h"
 #include "treemodel.h"
-
+#include "FileUtil.h"
 
 
 
@@ -411,4 +411,103 @@ accessor
 void TreeModel::SetWorldName(const std::string & worldname)
 {
 	_Worldname = worldname;
+}
+
+
+/***********************************************************
+PostManagement
+***********************************************************/
+QString FileDialogOptionsModel::PostManagement(const QString & selectedfile)
+{
+	QString outfile;
+
+	// check if choosen file is in the directory data
+	if(selectedfile.contains(QDir::currentPath()+"/Data/"))
+	{
+		outfile = selectedfile;
+		outfile = outfile.remove(QDir::currentPath()+"/Data/");
+	}
+	else
+	{
+		//copy the file over
+		try
+		{
+			// get all files with same name
+			std::vector<std::string> files;
+			QString fpath = selectedfile.section('/', 0, -2 );
+			{
+				QString filenoext = selectedfile.section('/', -1);
+				filenoext = filenoext.section('.', 0, 0);
+
+				FileUtil::ListFilesInDir(fpath.toAscii().data(), files, filenoext.toAscii().data());
+			}
+
+			for(size_t curs=0; curs<files.size(); ++curs)
+			{
+				QString tmp = fpath + "/";
+				tmp += files[curs].c_str();
+				QString tmp2 = StartingDirectory + "/";
+				tmp2 += files[curs].c_str();
+				FileUtil::MakeFileCopy(tmp.toAscii().data(), tmp2.toAscii().data());
+			}
+
+			QString filename = StartingDirectory + "/" + selectedfile.section('/', -1);
+			outfile = filename.section('/', 1);
+		}
+		catch(...)
+		{
+			QErrorMessage msgdial;
+			msgdial.showMessage ( "Error copying the file to the data directory!" );
+			outfile = "";
+		}
+	}
+
+	return outfile;
+}
+
+
+
+/***********************************************************
+PostManagement
+***********************************************************/
+QString FileDialogOptionsIcon::PostManagement(const QString & selectedfile)
+{
+	QString outfile;
+
+	// check if choosen file is in the directory data
+	if(selectedfile.contains(QDir::currentPath()+"/Data/"))
+	{
+		outfile = selectedfile;
+		outfile = outfile.remove(QDir::currentPath()+"/Data/");
+	}
+	else
+	{
+		//copy the file over and resize it
+		try
+		{
+			QString filename = selectedfile.section('/', -1);
+			filename = filename.section('.', 0, 0);
+
+			outfile = OutDirectory + "/" + filename + ".png";
+			QString outfile2 = OutDirectory + "/" + filename + "_mini.png";
+
+
+			QImage image(selectedfile);
+			QImage scaledimg = image.scaled(QSize(100, 100), Qt::KeepAspectRatio, Qt::SmoothTransformation );
+			scaledimg.save(QDir::currentPath()+"/"+outfile);
+
+			QImage smallscaledimg = image.scaled(QSize(25, 25), Qt::KeepAspectRatio, Qt::SmoothTransformation );
+			smallscaledimg.save(QDir::currentPath()+"/"+outfile2);
+
+			outfile = outfile.remove("Data/");
+		}
+		catch(...)
+		{
+			QErrorMessage msgdial;
+			msgdial.showMessage ( "Error copying the file to the data directory!" );
+			outfile = "";
+		}
+	}
+
+	return outfile;
 }

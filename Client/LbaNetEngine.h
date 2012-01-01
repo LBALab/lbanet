@@ -37,9 +37,12 @@ class PhysXEngine;
 class GuiHandler;
 class LbaNetModel;
 class ChatServerHandler;
-class EditorHandler;
 class Client;
 class SwitchToFixedImageEvent;
+
+#ifdef _USE_QT_EDITOR_
+#include "editorhandlerBase.h"
+#endif
 
 
 
@@ -52,8 +55,14 @@ class SwitchToFixedImageEvent;
 class LbaNetEngine
 {
 public:
+
+#ifdef _USE_QT_EDITOR_
 	//!constructor
+	LbaNetEngine(Ice::CommunicatorPtr communicator, const std::string & clientV,
+					boost::shared_ptr<EditorHandlerBase> editH);
+#else
 	LbaNetEngine(Ice::CommunicatorPtr communicator, const std::string & clientV);
+#endif
 
 	//!destructor
    ~LbaNetEngine();
@@ -142,7 +151,7 @@ private:
 	std::string										m_lastmusic;
 
 #ifdef _USE_QT_EDITOR_
-	boost::shared_ptr<EditorHandler>				m_editor_handler;
+	boost::shared_ptr<EditorHandlerBase>			m_editor_handler;
 #endif
 	boost::shared_ptr<Client>						m_client_window;
 

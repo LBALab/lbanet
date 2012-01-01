@@ -27,10 +27,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "AnimatedObjectHandlerBase.h"
-
+#include "Lba1ModelMapHandler.h"
 
 class LBA1ModelClass;
 struct entitiesTableStruct;
+class AnimationObserverBase;
 namespace osg
 {
 	class Node;
@@ -101,6 +102,20 @@ protected:
 	// refresh model
 	int RefreshModel(bool forcecolor = false);
 
+	// RefrehAnimRepeatingSound
+	void RefrehAnimRepeatingSound();
+
+	// play sound
+	void PlaySound(const std::string & path, int channel, bool repeat);
+
+	// retrieve anim info
+	void RetrieveAnimInfo();
+
+	// play sound at keyframe
+	void PlayKeyFrameSound(int keyframe);
+
+	// GetFloorSoundPath
+	std::string GetFloorSoundPath(int id);
 
 private:
 	LBA1ModelClass*									_model;
@@ -113,7 +128,7 @@ private:
 	int												_currModel;
 	int												_currBody;
 	int												_currAnimation;
-
+	int												_currkeyframe;
 
 
 	bool											_UseLight;
@@ -124,6 +139,12 @@ private:
 	std::map<std::pair<LbaNet::Lba1MColorPart, int>, int>	_changedcolors;
 
 	static entitiesTableStruct*						_estruct;
+
+	std::vector<AnimationObserverBase *>			_obvservers;
+
+	AnimationData									_curraniminfo;
+	bool											_togglesoundC;
+
 };
 
 

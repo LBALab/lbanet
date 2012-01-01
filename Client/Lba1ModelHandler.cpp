@@ -26,9 +26,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "LBA1ModelClass.h"
 #include "Entities.h"
 #include "LogHandler.h"
-#include "Lba1ModelMapHandler.h"
 #include "OSGHandler.h"
 #include "Randomizer.h"
+#include "ClientExtendedTypes.h"
+#include "DynamicObject.h"
+#include "SoundObjectHandlerBase.h"
+#include "MusicHandler.h"
 
 #include <osg/Node>
 #include <osg/Group>
@@ -103,7 +106,19 @@ int Lba1ModelHandler::ProcessInternal(double time, float tdiff)
 	bool animationfinished = false;
 
 	if(!_paused && _model)
+	{
 		animationfinished = _model->AnimateModel(tdiff);
+
+		int kf = _model->getKeyframe();
+		if(_currkeyframe != kf)
+		{
+			_currkeyframe = kf;
+			for(size_t oo=0; oo<_obvservers.size(); ++oo)
+				_obvservers[oo]->UpdateCurrentKeyframe(_currkeyframe);
+
+			PlayKeyFrameSound(kf);
+		}
+	}
 
 	if(animationfinished)
 	{
@@ -331,6 +346,62 @@ int Lba1ModelHandler::Update(LbaNet::DisplayObjectUpdateBasePtr update,
 		return 0;
 	}
 
+	// RegisterAnimationObserver
+	if(info == typeid(RegisterAnimationObserver))
+	{
+		RegisterAnimationObserver * castedptr = 
+			static_cast<RegisterAnimationObserver *>(update.get());
+
+		if(castedptr->_observer)
+		{
+			_obvservers.push_back(castedptr->_observer);
+
+			if(_model)
+			{
+				int nbkf = _model->getNumKeyFrames();
+				castedptr->_observer->UpdateNumberKeyframe(nbkf);
+			}
+		}
+
+		_currkeyframe = -1;
+		return 0;
+	}
+
+	// SetAnimationKeyframe
+	if(info == typeid(SetAnimationKeyframe))
+	{
+		SetAnimationKeyframe * castedptr = 
+			static_cast<SetAnimationKeyframe *>(update.get());
+
+		_currkeyframe = castedptr->_keyframe;
+		if(_model)
+		{
+			_model->setAtKeyFrame(_currkeyframe, true);
+			_model->AnimateModel(1);
+		}
+		
+		return 0;
+	}
+	
+	// UpdateAnimationKeyframeInfo
+	if(info == typeid(UpdateAnimationKeyframeInfo))
+	{
+		UpdateAnimationKeyframeInfo * castedptr = 
+			static_cast<UpdateAnimationKeyframeInfo *>(update.get());
+
+		if(castedptr->_frameid < 0)
+		{
+			_curraniminfo.repeatedsoundpath = castedptr->_afd->soundpath;
+			RefrehAnimRepeatingSound();
+		}
+		else
+			_curraniminfo.animationframes[castedptr->_frameid] = *(castedptr->_afd);
+		
+		delete castedptr->_afd;
+		return 0;
+	}
+	
+
 
 
 	return AnimatedObjectHandlerBase::Update(update, updatestoredstate);
@@ -432,6 +503,8 @@ int Lba1ModelHandler::RefreshModel(bool forcecolor)
 		_model->LoadAnim(	_estruct,
 							_estruct->entitiesTable[_currModel].animList[_currAnimation].index);
 
+		RetrieveAnimInfo();
+
 		_osgnode = _model->ExportOSGModel(true, _mainchar);
 
 		if(_CastShadow)
@@ -462,7 +535,13 @@ int Lba1ModelHandler::RefreshModel(bool forcecolor)
 		_model->LoadAnim(	_estruct,
 							_estruct->entitiesTable[_currModel].animList[_currAnimation].index);
 
+		RetrieveAnimInfo();
+
 		_paused = false;
+
+		int nbkf = _model->getNumKeyFrames();
+		for(size_t oo=0; oo<_obvservers.size(); ++oo)
+			_obvservers[oo]->UpdateNumberKeyframe(nbkf);
 	}
 
 	
@@ -520,4 +599,110 @@ int Lba1ModelHandler::GetCurrentKeyFrame()
 		return _model->getKeyframe();
 
 	return -1;
+}
+
+
+/***********************************************************
+RefrehAnimRepeatingSound
+***********************************************************/
+void Lba1ModelHandler::RefrehAnimRepeatingSound()
+{
+	if(_curraniminfo.repeatedsoundpath == "")
+		PlaySound("", 4, false);
+	else
+		PlaySound("Data/"+_curraniminfo.repeatedsoundpath, 4, true);
+}
+
+/***********************************************************
+play sound
+***********************************************************/
+void Lba1ModelHandler::PlaySound(const std::string & path, int channel, bool repeat)
+{
+	if(_parent)
+	{
+		boost::shared_ptr<SoundObjectHandlerBase> soundH = _parent->GetSoundObject();
+		if(soundH)
+		{
+			LbaNet::PlayingSound snd;
+			snd.SoundChannel = channel;
+			snd.SoundPath = "";
+			snd.Loop = repeat;
+			snd.Paused = false;
+			soundH->SetSound(snd, false); // first reset
+
+			snd.SoundPath = path;
+			soundH->SetSound(snd, false); // then play
+		}
+	} 
+}
+
+
+/***********************************************************
+retrieve anim info
+***********************************************************/
+void Lba1ModelHandler::RetrieveAnimInfo()
+{
+	int res = Lba1ModelMapHandler::getInstance()->GetModelAnimationInfo(_currentmodelinfo.ModelName,
+																_currentmodelinfo.Outfit,
+																_currentmodelinfo.Weapon,
+																_currentmodelinfo.Mode,
+																_currentanimationstring,
+																_curraniminfo);
+
+	RefrehAnimRepeatingSound();
+}
+
+
+/***********************************************************
+play sound at keyframe
+***********************************************************/
+void Lba1ModelHandler::PlayKeyFrameSound(int keyframe)
+{
+	std::map<int, AnimationFrameData >::iterator it = _curraniminfo.animationframes.find(keyframe);
+	if(it != _curraniminfo.animationframes.end())
+	{
+		std::string sp = it->second.soundpath;
+
+#ifdef _USE_SOUND_EDITOR
+		if(sp == "#ground1")
+			sp = "Worlds/Lba1Original/Sound/SAMPLES127.wav";
+		if(sp == "#ground2")
+			sp = "Worlds/Lba1Original/Sound/SAMPLES142.wav";
+#else
+		if(sp == "#ground1")
+			sp = GetFloorSoundPath(1);
+		if(sp == "#ground2")
+			sp = GetFloorSoundPath(2);
+#endif
+
+		if(sp != "")
+		{
+			sp="Data/"+sp;
+			PlaySound(sp,( _togglesoundC?2:3), false);
+			_togglesoundC = !_togglesoundC;
+		}
+	}
+	
+}
+
+
+/***********************************************************
+GetFloorSoundPath
+***********************************************************/
+std::string Lba1ModelHandler::GetFloorSoundPath(int id)
+{
+	if(_parent)
+	{
+		boost::shared_ptr<PhysicalObjectHandlerBase> physH = _parent->GetPhysicalObject();
+		if(physH)
+		{
+			short material = physH->GetFloorMaterial();
+			if(material > 0)
+			{
+				return MusicHandler::getInstance()->GetFloorSoundPath(material, id);
+			}
+		}
+	} 
+
+	return "";
 }

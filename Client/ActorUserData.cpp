@@ -216,6 +216,26 @@ bool				ActorUserData::GetTouchingGround()
 }
 
 
+
+/***********************************************************
+accessor thread safe
+***********************************************************/
+short				ActorUserData::GetFloorMaterial()
+{
+	IceUtil::RecMutex::Lock lock(*m_mutex);
+	return FloorMaterial;
+}
+
+/***********************************************************
+accessor thread safe
+***********************************************************/
+void				ActorUserData::SetFloorMaterial(short newv)
+{
+	IceUtil::RecMutex::Lock lock(*m_mutex);
+	FloorMaterial = newv;
+}
+
+
 /***********************************************************
 accessor thread safe
 ***********************************************************/

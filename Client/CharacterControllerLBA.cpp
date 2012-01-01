@@ -658,7 +658,7 @@ void CharacterController::Process(double tnow, float tdiff,
 
 			// pause animation if necessary
 			if(diso && shouldpause)
-				diso->Update(new LbaNet::PauseAnimationUpdate(), false);
+				diso->Update(new LbaNet::PauseAnimationUpdate(true), false);
 		}
 
 

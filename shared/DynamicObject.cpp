@@ -33,7 +33,13 @@ DynamicObject::DynamicObject(boost::shared_ptr<PhysicalObjectHandlerBase> phH,
 	: _phH(phH), _disH(disH), _id(id), _additionalMoveX(0),
 		_additionalMoveY(0), _additionalMoveZ(0), _additionalMoveRotation(0),
 		_show(true), _lastkey(-1), _soundH(soundH)
-{}
+{
+	if(disH)
+		disH->SetParent(this);
+
+	if(soundH)
+		soundH->SetParent(this);
+}
 
 
 

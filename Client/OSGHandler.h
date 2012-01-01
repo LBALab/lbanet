@@ -249,6 +249,10 @@ public:
 															const LbaNet::ObjectExtraInfo &extrainfo,
 															const LbaNet::LifeManaInfo &lifeinfo);
 
+	//! create grid object
+	osg::ref_ptr<osg::MatrixTransform> CreateGridObject(long sizeX, long sizeY,
+															boost::shared_ptr<DisplayTransformation> Tr);
+
 	//! create PAT
 	osg::ref_ptr<osg::PositionAttitudeTransform> CreatePAT(boost::shared_ptr<DisplayTransformation> Tr);
 

@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "CommonTypes.h"
 #include <LbaTypes.h>
-
+class DynamicObject;
 
 //*************************************************************************************************
 //*                               class DisplayObjectHandlerBase
@@ -43,7 +43,9 @@ class DisplayObjectHandlerBase
 public:
 
 	//! constructor
-	DisplayObjectHandlerBase(){}
+	DisplayObjectHandlerBase()
+		: _parent(NULL)
+	{}
 
 	//! destructor
 	virtual ~DisplayObjectHandlerBase(){}
@@ -143,6 +145,14 @@ public:
 
 	//! display talking icon
 	virtual void DisplayOrHideTalkingIcon(bool display, bool left = true) = 0;
+
+
+	//! set parent object
+	void SetParent(DynamicObject * parent)
+	{ _parent = parent; }
+
+protected:
+	DynamicObject	*	_parent;
 };
 
 

@@ -21,25 +21,27 @@ lbanet floor type:
 lbanet floor sound:
 
  0: no sound
- 1: floor
- 2: snow
- 3: wood
- 4: sand
- 5: rock
- 6: metal
- 7: rock (different than 5, used for some blocks in caves)
- 8: carpet
- 9: flowers
- 10: wood (different than 3)
- 11: wet floor
- 12: grass
- 13: rock (different than 5 and 7, used for the labyrinth under the Dome of the Slate)
- 14: very wet floor (used for sewer floors and for the pot of soup in the Rabbibunny village)
- 15: similar to 5, but muffled (used in all caves and the for dwimming pool (Fortress Island))
- 16: rumbling sound (used for some moving platforms in caves and for the rubber pontoon in the museum)
- 17: water
- 18: lava
- 19: gas
+ 1: floor 127/142
+ 2: snow 131/146
+ 3: wood 130/145
+ 4: sand 133/148
+ 5: rock 137/152 
+ 6: metal 129/144
+ 7: rock (different than 5, used for some blocks in caves) 132/147
+ 8: carpet 128/143
+ 9: flowers 136/151
+ 10: wood (different than 3) 130/145
+ 11: wet floor 134/149
+ 12: grass 135/150
+ 13: rock (different than 5 and 7, used for the labyrinth under the Dome of the Slate) todo
+ 14: very wet floor (used for sewer floors and for the pot of soup in the Rabbibunny village) lba2 42/57
+ 15: similar to 5, but muffled (used in all caves and the for dwimming pool (Fortress Island)) 132/147
+ 16: rumbling sound (used for some moving platforms in caves and for the rubber pontoon in the museum) 138/153
+ 17: water 227/228/229
+ 18: lava todo
+ 19: gas todo
+
+
 
 
 lba1 sound conversion:

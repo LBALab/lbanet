@@ -293,6 +293,12 @@ MusicHandler::MusicHandler()
 	_generalvolume = volG/ 100.0f;
 	_musicvolume = volM / 100.0f;
 	_samplevolume = volS / 100.0f;
+
+#ifdef _USE_SOUND_EDITOR
+	_generalvolume = 1;
+	_musicvolume = 0;
+	_samplevolume = 1;
+#endif
 }
 
 
@@ -355,12 +361,14 @@ call to enable or disable sound
 ***********************************************************/
 void MusicHandler::EnableDisableSound(bool Enable)
 {
+#ifndef _USE_SOUND_EDITOR
 	_soundEnabled = Enable;
 
 	if(_soundEnabled)
 		osgAudio::SoundManager::instance()->getEnvironment()->setGain(_generalvolume);
 	else
 		osgAudio::SoundManager::instance()->getEnvironment()->setGain(0);
+#endif
 }
 
 
@@ -379,12 +387,14 @@ set the general sound volume
 ***********************************************************/
 void MusicHandler::SetGeneralVolume(int vol)
 {
+#ifndef _USE_SOUND_EDITOR
 	_generalvolume = vol / 100.0f;
 
 	if(_soundEnabled)
 		osgAudio::SoundManager::instance()->getEnvironment()->setGain(_generalvolume);
 	else
 		osgAudio::SoundManager::instance()->getEnvironment()->setGain(0);
+#endif
 }
 
 
@@ -393,10 +403,12 @@ set the music volume
 ***********************************************************/
 void MusicHandler::SetMusicVolume(int vol)
 {
+#ifndef _USE_SOUND_EDITOR
 	_musicvolume = vol / 100.0f;
 
 	if(_playing_music)
 		_playing_music->SetGain(_musicvolume);
+#endif
 }
 
 /***********************************************************
@@ -404,7 +416,9 @@ set the sample volume / will not update currently playign samples
 ***********************************************************/
 void MusicHandler::SetSampleVolume(int vol)
 {
+#ifndef _USE_SOUND_EDITOR
 	_samplevolume = vol / 100.0f;
+#endif
 }
 
 
@@ -568,7 +582,7 @@ boost::shared_ptr<PlayingSoundHandler> MusicHandler::PlaySample3D(const std::str
 			sound_state->setSample(sample);
 			sound_state->setGain(_samplevolume); 
 			sound_state->setAmbient(false);
-			sound_state->setReferenceDistance(10);
+			sound_state->setReferenceDistance(8);
 			sound_state->setOccluded(false);
 			sound_state->setRelative(false);
 			sound_state->setRolloffFactor(1);
@@ -654,3 +668,31 @@ void MusicHandler::CleanTmpSounds()
 	}
 }
 
+
+/***********************************************************
+get floor sound path
+***********************************************************/
+std::string MusicHandler::GetFloorSoundPath(short floormaterial, int id)
+{
+	switch(floormaterial)
+	{
+		case  1: return ((id==1)?"Worlds/Lba1Original/Sound/SAMPLES127.wav":"Worlds/Lba1Original/Sound/SAMPLES142.wav");
+		case  2: return ((id==1)?"Worlds/Lba1Original/Sound/SAMPLES131.wav":"Worlds/Lba1Original/Sound/SAMPLES146.wav");
+		case  3: return ((id==1)?"Worlds/Lba1Original/Sound/SAMPLES130.wav":"Worlds/Lba1Original/Sound/SAMPLES145.wav");
+		case  4: return ((id==1)?"Worlds/Lba1Original/Sound/SAMPLES133.wav":"Worlds/Lba1Original/Sound/SAMPLES148.wav");
+		case  5: return ((id==1)?"Worlds/Lba1Original/Sound/SAMPLES137.wav":"Worlds/Lba1Original/Sound/SAMPLES152.wav");
+		case  6: return ((id==1)?"Worlds/Lba1Original/Sound/SAMPLES129.wav":"Worlds/Lba1Original/Sound/SAMPLES144.wav");
+		case  7: return ((id==1)?"Worlds/Lba1Original/Sound/SAMPLES132.wav":"Worlds/Lba1Original/Sound/SAMPLES147.wav");
+		case  8: return ((id==1)?"Worlds/Lba1Original/Sound/SAMPLES128.wav":"Worlds/Lba1Original/Sound/SAMPLES143.wav");
+		case  9: return ((id==1)?"Worlds/Lba1Original/Sound/SAMPLES136.wav":"Worlds/Lba1Original/Sound/SAMPLES151.wav");
+		case  10: return ((id==1)?"Worlds/Lba1Original/Sound/SAMPLES130.wav":"Worlds/Lba1Original/Sound/SAMPLES145.wav");
+		case  11: return ((id==1)?"Worlds/Lba1Original/Sound/SAMPLES134.wav":"Worlds/Lba1Original/Sound/SAMPLES149.wav");
+		case  12: return ((id==1)?"Worlds/Lba1Original/Sound/SAMPLES135.wav":"Worlds/Lba1Original/Sound/SAMPLES150.wav");
+		case  13: return ((id==1)?"Worlds/Lba1Original/Sound/SAMPLES132.wav":"Worlds/Lba1Original/Sound/SAMPLES147.wav");
+		case  14: return ((id==1)?"Worlds/Lba2Original/Sound/SAMPLES042.wav":"Worlds/Lba2Original/Sound/SAMPLES057.wav");
+		case  15: return ((id==1)?"Worlds/Lba1Original/Sound/SAMPLES132.wav":"Worlds/Lba1Original/Sound/SAMPLES147.wav");
+		case  16: return ((id==1)?"Worlds/Lba1Original/Sound/SAMPLES138.wav":"Worlds/Lba1Original/Sound/SAMPLES153.wav");
+	}
+
+	return "";
+}

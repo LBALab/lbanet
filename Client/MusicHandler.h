@@ -225,6 +225,9 @@ public:
 	void UpdateListener(float px, float py, float pz, float dx, float dy, float dz);
 
 
+	// get floor sound path
+	std::string GetFloorSoundPath(short floormaterial, int id);
+
 protected:
 
 	// constructor

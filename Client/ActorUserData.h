@@ -114,6 +114,10 @@ public:
 	void				GetAddedMove(float &X, float &Y, float &Z);
 	void				SetAddedMove(float X, float Y, float Z);
 
+
+	short				GetFloorMaterial();
+	void				SetFloorMaterial(short newv);  
+
 private:
 	IceUtil::RecMutex *	m_mutex;
 
@@ -151,6 +155,8 @@ private:
 	float							AddedMoveX;
 	float							AddedMoveY;
 	float							AddedMoveZ;
+
+	short							FloorMaterial;
 };
 
 

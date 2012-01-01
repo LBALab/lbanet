@@ -130,11 +130,15 @@ public:
 	//! enable or disable the gravity
 	virtual void EnableDisableGravity(bool enabled);
 
+	//! check the material of the current floor stepped
+	virtual short GetFloorMaterial();
+
 protected:
 	NxActor*										_Actor;
 	float											_sizeY;
 
 	boost::shared_ptr<PhysicalDescriptionBase>		_desc;
+
 };
 
 
@@ -201,12 +205,18 @@ public:
 	//! enable or disable the gravity
 	virtual void EnableDisableGravity(bool enabled){}
 
+	//! check the material of the current floor stepped
+	virtual short GetFloorMaterial()
+	{ return _lastfloor; }
+
 protected:
 	NxController*									_Controller;
 	boost::shared_ptr<SimpleRotationHandler>		_rotH;
 	float											_sizeY;
 
 	boost::shared_ptr<PhysicalDescriptionBase>		_desc;
+
+	short											_lastfloor;									
 };
 
 #endif

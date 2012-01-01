@@ -55,7 +55,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Localizer.h"
 #include "ActorHandler.h"
 #include "ProjectileObjectDef.h"
-
+#include "editorhandlerBase.h"
 
 #include <osg/MatrixTransform>
 #include <osgManipulator/Translate1DDragger>
@@ -70,7 +70,7 @@ class DialogPart;
 class InventoryItemDef;
 class NaviMeshHandler;
 class QSignalMapper;
-
+class DisplayObjectHandlerBase;
 
 namespace osgManipulator
 {
@@ -269,7 +269,7 @@ public slots:
 
 
 //! take care of editor
-class EditorHandler : public QMainWindow, public ScriptEnvironmentBase
+class EditorHandler : public QMainWindow, public ScriptEnvironmentBase, public EditorHandlerBase
 {
 	Q_OBJECT
 
@@ -278,7 +278,7 @@ public:
 	EditorHandler(QWidget *parent = 0, Qt::WindowFlags flags = 0);
 
 	//! constructor
-	~EditorHandler();
+	virtual ~EditorHandler();
 
 	//! set the osg window
 	void SetOsgWindow(QWidget *osgwindow);
@@ -1390,6 +1390,8 @@ private:
 	osg::ref_ptr<osgManipulator::Translate1DDragger>	_draggerX;
 	osg::ref_ptr<osgManipulator::Translate1DDragger>	_draggerY;
 	osg::ref_ptr<osgManipulator::Translate1DDragger>	_draggerZ;
+
+	boost::shared_ptr<DisplayObjectHandlerBase>			_grid;
 
 
 	// keep selected items in meemory

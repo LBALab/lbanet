@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommonTypes.h"
 #include <LbaTypes.h>
 
+class DynamicObject;
 
 //*************************************************************************************************
 //*                               class SoundObjectHandlerBase
@@ -88,6 +89,13 @@ public:
 
 	// restore previously saved model state
 	virtual void RestoreState(){}
+
+	//! set parent object
+	void SetParent(DynamicObject * parent)
+	{ _parent = parent; }
+
+protected:
+	DynamicObject	*	_parent;
 };
 
 

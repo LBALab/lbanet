@@ -148,6 +148,10 @@ public:
 	//! enable or disable the gravity
 	virtual void EnableDisableGravity(bool enabled) = 0;
 
+	//! check the material of the current floor stepped
+	virtual short GetFloorMaterial() = 0;
+
+
 protected:
 	bool _resetted;
 };
@@ -398,6 +402,9 @@ public:
 
 	//! enable or disable the gravity
 	virtual void EnableDisableGravity(bool enabled){}
+
+	//! check the material of the current floor stepped
+	virtual short GetFloorMaterial(){ return 0;}
 
 protected:
 	float _PosX;

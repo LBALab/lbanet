@@ -91,7 +91,8 @@ public:
 			tokens.push_back(tmp);
 
 			// Skip delimiters.  Note the "not_of"
-			lastPos = str.find_first_not_of(delimiters, pos);
+			//lastPos = str.find_first_not_of(delimiters, pos);
+			lastPos = (pos == std::string::npos) ? pos : pos+1;
 
 			// Find next "non-delimiter"
 			pos = str.find_first_of(delimiters, lastPos);

@@ -142,6 +142,9 @@ public:
 	//! check fi actor 1 is on top of actor2
 	bool CheckOnTopOff(NxActor* actor1, NxActor* actor2);
 
+	//! return the floor the actor is stepping on
+	short GetFloorMaterial(NxActor* actor);
+
 
 protected:
 	//! constructor

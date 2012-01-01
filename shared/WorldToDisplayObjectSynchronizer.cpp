@@ -39,6 +39,7 @@ WorldToDisplayObjectSynchronizer::WorldToDisplayObjectSynchronizer(boost::shared
 	: DynamicObject(phH, disH, soundH, id),
 		_lastDisplayPositionX(0), _lastDisplayPositionY(0), _lastDisplayPositionZ(0)
 {
+
 	#ifdef _DEBUG
 		std::stringstream strs;
 		strs<<"Created new WorldToDisplayObjectSynchronizer of id "<<_id;

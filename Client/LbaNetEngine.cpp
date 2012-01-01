@@ -47,9 +47,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QDesktopWidget>
 #include <QtGui/QApplication>
 #include <QtGui/QtEvents>
-#ifdef _USE_QT_EDITOR_
-#include "editorhandler.h"
-#endif
+
 #include "client.h"
 
 #include <QFileInfo>
@@ -61,10 +59,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /***********************************************************
 	Constructor
 ***********************************************************/
+#ifdef _USE_QT_EDITOR_
+LbaNetEngine::LbaNetEngine(Ice::CommunicatorPtr communicator, const std::string & clientV,
+					boost::shared_ptr<EditorHandlerBase> editH)
+#else
 LbaNetEngine::LbaNetEngine(Ice::CommunicatorPtr communicator, const std::string & clientV)
+#endif
 : m_currentstate(EGaming), m_oldstate(ELogin), m_clientV(clientV),
 	m_communicator(communicator), m_shouldexit(false)
 {
+
+#ifdef _USE_QT_EDITOR_
+	m_editor_handler = editH;
+#endif
+
 	//check if LBA1 file files 
 	CheckLBA1Files();
 
@@ -115,7 +123,6 @@ void LbaNetEngine::Initialize(void)
 	m_client_window = boost::shared_ptr<Client>(new Client());
 
 #ifdef _USE_QT_EDITOR_
-	m_editor_handler= boost::shared_ptr<EditorHandler>(new EditorHandler());
 	m_editor_handler->SetOsgWindow(m_client_window.get());
 #else
 	int resX, resY;
@@ -126,9 +133,10 @@ void LbaNetEngine::Initialize(void)
 	ResizeClientWindow(resX, resY, isFullscreen);
 #endif
 
+#ifndef _USE_SOUND_EDITOR
 	// init gui
 	m_gui_handler = boost::shared_ptr<GuiHandler>(new GuiHandler());
-
+#endif
 
 	//int model
 	m_lbaNetModel = boost::shared_ptr<LbaNetModel>(new LbaNetModel(this));
@@ -156,8 +164,11 @@ void LbaNetEngine::Initialize(void)
 	//check if server is online
 	LogHandler::getInstance()->LogToFile("Test connection with server...");
 	bool serveronline = RemoteConnectionHandler::IsServerOn(m_communicator);
-	m_gui_handler->SetServrOn(serveronline);
-	m_gui_handler->SetClientVersion(m_clientV);
+	if(m_gui_handler)
+	{
+		m_gui_handler->SetServrOn(serveronline);
+		m_gui_handler->SetClientVersion(m_clientV);
+	}
 
 	LogHandler::getInstance()->LogToFile("Initializing Completed.");
 }
@@ -268,7 +279,8 @@ void LbaNetEngine::Process(double tnow, float tdiff)
 	m_lbaNetModel->Process(tnow, tdiff);
 
 	// process GUI
-	m_gui_handler->Process();
+	if(m_gui_handler)
+		m_gui_handler->Process();
 
 	//process sound
 	MusicHandler::getInstance()->Update();
@@ -311,7 +323,8 @@ void LbaNetEngine::HandleGameEvents()
 			LbaNet::AvailableWorldsEvent * castedptr = 
 				dynamic_cast<LbaNet::AvailableWorldsEvent *>(&obj);
 
-			m_gui_handler->SetWorldList(castedptr->Worlds);
+			if(m_gui_handler)
+				m_gui_handler->SetWorldList(castedptr->Worlds);
 			continue;
 		}
 		
@@ -323,7 +336,8 @@ void LbaNetEngine::HandleGameEvents()
 			LbaNet::RefreshGameGUIEvent * castedptr = 
 				dynamic_cast<LbaNet::RefreshGameGUIEvent *>(&obj);
 
-			m_gui_handler->RefreshGameGUI(castedptr->GUIId, castedptr->Parameters, 
+			if(m_gui_handler)
+				m_gui_handler->RefreshGameGUI(castedptr->GUIId, castedptr->Parameters, 
 											castedptr->Show, castedptr->Hide);
 			continue;
 		}
@@ -335,7 +349,8 @@ void LbaNetEngine::HandleGameEvents()
 			LbaNet::UpdateGameGUIEvent * castedptr = 
 				dynamic_cast<LbaNet::UpdateGameGUIEvent *>(&obj);
 
-			m_gui_handler->UpdateGameGUI(castedptr->GUIId, castedptr->Updates);
+			if(m_gui_handler)
+				m_gui_handler->UpdateGameGUI(castedptr->GUIId, castedptr->Updates);
 			continue;
 		}
 
@@ -384,7 +399,8 @@ void LbaNetEngine::HandleGameEvents()
 			FocusChatEvent * castedptr = 
 				dynamic_cast<FocusChatEvent *>(&obj);
 
-			m_gui_handler->FocusGameGUI("ChatBox", castedptr->_focus);
+			if(m_gui_handler)
+				m_gui_handler->FocusGameGUI("ChatBox", castedptr->_focus);
 			continue;
 		}
 
@@ -403,7 +419,8 @@ void LbaNetEngine::HandleGameEvents()
 		// NewFontSizeEvent
 		if(info == typeid(NewFontSizeEvent))
 		{
-			m_gui_handler->ReloadFontSize();
+			if(m_gui_handler)
+				m_gui_handler->ReloadFontSize();
 			continue;
 		}
 
@@ -460,7 +477,8 @@ void LbaNetEngine::HandleGameEvents()
 				LbaNet::NameColorChangedUpdate * upd = 
 					new LbaNet::NameColorChangedUpdate(castedptr->_name, castedptr->_color);
 				updseq.push_back(upd);
-				m_gui_handler->UpdateGameGUI("ChatBox", updseq);
+				if(m_gui_handler)
+					m_gui_handler->UpdateGameGUI("ChatBox", updseq);
 			}
 
 			// update community box
@@ -474,7 +492,8 @@ void LbaNetEngine::HandleGameEvents()
 				LbaNet::GuiUpdatesSeq updseq;
 				LbaNet::PlayerStatusChanged * upd = new LbaNet::PlayerStatusChanged(NewInfo);
 				updseq.push_back(upd);
-				m_gui_handler->UpdateGameGUI("CommunityBox", updseq);
+				if(m_gui_handler)
+					m_gui_handler->UpdateGameGUI("CommunityBox", updseq);
 			}
 
 			continue;
@@ -499,7 +518,8 @@ void LbaNetEngine::HandleGameEvents()
 			//set chat map name
 			LbaNet::GuiUpdatesSeq upd;
 			upd.push_back(new ChatMapNameUpdate(castedptr->MapName));
-			m_gui_handler->UpdateGameGUI("ChatBox", upd);
+			if(m_gui_handler)
+				m_gui_handler->UpdateGameGUI("ChatBox", upd);
 
 			// update music
 			if(castedptr->MusicPath != "")
@@ -1096,7 +1116,9 @@ void LbaNetEngine::SwitchGuiToLogin()
 
 	PlayMenuMusic();
 
-	m_gui_handler->SwitchGUI(0);
+	if(m_gui_handler)
+		m_gui_handler->SwitchGUI(0);
+
 	m_oldstate = m_currentstate;
 	m_currentstate = ELogin;
 
@@ -1116,7 +1138,8 @@ void LbaNetEngine::SwitchGuiToChooseWorld()
 
 	PlayMenuMusic();
 
-	m_gui_handler->SwitchGUI(1);
+	if(m_gui_handler)
+		m_gui_handler->SwitchGUI(1);
 	m_oldstate = m_currentstate;
 	m_currentstate = EChoosingWorld;
 
@@ -1143,8 +1166,12 @@ void LbaNetEngine::SwitchGuiToGame()
 	ResetMusic();
 
 	m_lbaNetModel->Resume();
-	m_gui_handler->SwitchGUI(2);
-	m_gui_handler->RefreshOption();
+
+	if(m_gui_handler)
+	{
+		m_gui_handler->SwitchGUI(2);
+		m_gui_handler->RefreshOption();
+	}
 
 	m_oldstate = m_currentstate;
 	m_currentstate = EGaming;
@@ -1167,7 +1194,9 @@ void LbaNetEngine::SwitchGuiToMenu()
 	if(m_currentstate == EGaming)
 	{
 		m_lbaNetModel->Pause();
-		m_gui_handler->SwitchGUI(3);
+
+		if(m_gui_handler)
+			m_gui_handler->SwitchGUI(3);
 		m_oldstate = m_currentstate;
 		m_currentstate = EMenu;
 
@@ -1187,7 +1216,9 @@ void LbaNetEngine::SwitchGuiToOption()
 		return;
 
 	m_lbaNetModel->Pause();
-	m_gui_handler->SwitchGUI(4);
+
+	if(m_gui_handler)
+		m_gui_handler->SwitchGUI(4);
 	m_oldstate = m_currentstate;
 	m_currentstate = EOption;
 
@@ -1219,20 +1250,26 @@ void LbaNetEngine::TryLogin(const std::string &Name, const std::string &Password
 	// check if connection to server failed
 	if(res < 1)
 	{
-		if(res == 0)
-			m_gui_handler->SetServrOn(false);
+		if(m_gui_handler)
+		{
+			if(res == 0)
+				m_gui_handler->SetServrOn(false);
 
-		m_gui_handler->InformNotLoggedIn(res, reason);
+			m_gui_handler->InformNotLoggedIn(res, reason);
+		}
 		return;
 	}
 
+	if(m_gui_handler)
+	{
+		m_gui_handler->SetServrOn(true);
+		m_gui_handler->RefreshOption();
 
-	m_gui_handler->SetServrOn(true);
-	m_gui_handler->RefreshOption();
+		LbaNet::GuiUpdatesSeq seq;
+		seq.push_back(new SetPlayerNameUpdate(Name));
+		m_gui_handler->UpdateGameGUI("main", seq);
+	}
 
-	LbaNet::GuiUpdatesSeq seq;
-	seq.push_back(new SetPlayerNameUpdate(Name));
-	m_gui_handler->UpdateGameGUI("main", seq);
 
 	// change gui to change world
 	DisplayGUI(1);
@@ -1276,14 +1313,16 @@ void LbaNetEngine::ChangeWorld(const std::string & NewWorld)
 	//set chat world name
 	LbaNet::GuiUpdatesSeq upd;
 	upd.push_back(new ChatWorldNameUpdate(NewWorld));
-	m_gui_handler->UpdateGameGUI("ChatBox", upd);
+	if(m_gui_handler)
+		m_gui_handler->UpdateGameGUI("ChatBox", upd);
 
 
 	//change gui to game gui
 	SwitchGuiToGame();
 
 	// update options
-	m_gui_handler->SetWorldName(NewWorld);
+	if(m_gui_handler)
+		m_gui_handler->SetWorldName(NewWorld);
 
 
 	// inform server
@@ -1300,7 +1339,8 @@ void LbaNetEngine::DisplayGUI(int guinumber)
 	{
 		case -1: // got disconnected from server
 			SwitchGuiToLogin();
-			m_gui_handler->InformNotLoggedIn(-2, "");
+			if(m_gui_handler)
+				m_gui_handler->InformNotLoggedIn(-2, "");
 		break;
 		case 0:
 			SwitchGuiToLogin();
@@ -1319,7 +1359,8 @@ void LbaNetEngine::DisplayGUI(int guinumber)
 		break;
 		case 5: // inventory
 			SwitchGuiToGame();
-			m_gui_handler->ShowGameGUI("InventoryBox");
+			if(m_gui_handler)
+				m_gui_handler->ShowGameGUI("InventoryBox");
 		break;
 	}
 }

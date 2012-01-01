@@ -37,6 +37,7 @@ StaticObject::StaticObject(boost::shared_ptr<PhysicalObjectHandlerBase> phH,
 							long id)
 	: DynamicObject(phH, disH, soundH, id)
 {
+
 	#ifdef _DEBUG
 		std::stringstream strs;
 		strs<<"Created new StaticObject of id "<<id;

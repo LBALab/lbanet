@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "SoundObjectHandlerClient.h"
 #include "MusicHandler.h"
+#include "DynamicObject.h"
 
 
 
@@ -86,7 +87,20 @@ void SoundObjectHandlerClient::APlaySound(boost::shared_ptr<PlayingSoundHandler>
 										  int SoundChannel, const std::string & soundpath, bool loop)
 {
 	if(SoundChannel >= 0 && SoundChannel < 5)
-		buffer[SoundChannel] = MusicHandler::getInstance()->PlaySample3D(soundpath, loop, false, 0, 0, 0, 0, 1, 0);
+	{
+		float posX=0, posY=0, posZ=0;
+
+		//get actor starting position
+		if(_parent)
+		{
+			boost::shared_ptr<PhysicalObjectHandlerBase> _phH = _parent->GetPhysicalObject();
+			if(_phH)
+				_phH->GetPosition(posX, posY, posZ);
+		}
+
+
+		buffer[SoundChannel] = MusicHandler::getInstance()->PlaySample3D(soundpath, loop, false, posX, posY, posZ, 0, 1, 0);
+	}
 }
 
 /***********************************************************

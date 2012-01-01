@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="Client"
-	ProjectGUID="{860F53A3-2B58-415D-A960-2D978E30993F}"
+	Name="EditLBA1AnimSound"
+	ProjectGUID="{F5834E6F-12A6-47BB-A09A-1294C1FBBBFE}"
 	Keyword="Qt4VSv1.0"
 	TargetFrameworkVersion="0"
 	>
@@ -18,7 +18,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)"
 			ConfigurationType="1"
 			>
 			<Tool
@@ -38,8 +38,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".\GeneratedFiles;&quot;$(QTDIR)\include&quot;;&quot;.\GeneratedFiles\$(ConfigurationName)&quot;;&quot;$(QTDIR)\include\qtmain&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtOpenGL&quot;;.\;..\dependencies\OSG\include;..\dependencies\CEGUI\cegui\include;..\dependencies\3rdParty\include;..\dependencies\libconfig\include;..\shared;&quot;$(PHYSX_HOME)\SDKs/Foundation/include&quot;;&quot;$(PHYSX_HOME)\SDKs/Physics/include&quot;;&quot;$(PHYSX_HOME)\SDKs/Cooking/include&quot;;&quot;$(PHYSX_HOME)\SDKs/PhysXLoader/include&quot;;&quot;$(PHYSX_HOME)\SDKs/NxCharacter/include&quot;;&quot;$(PHYSX_HOME)\Tools\NxuStream2&quot;;..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\dependencies\fmod\include;..\dependencies\CrashReport\crashrpt\include;..\Servers\WorldServer;..\dependencies\sqlite;..\dependencies\LUA\include;..\dependencies\luabind\include;..\Client;..\dependencies\recast\Recast\Include;..\dependencies\recast\Detour\Include;..\dependencies\recast\DetourCrowd\Include;..\dependencies\VLC\include"
-				PreprocessorDefinitions="UNICODE;WIN32;QT_LARGEFILE_SUPPORT;QT_THREAD_SUPPORT;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_OPENGL_LIB;QT_DLL"
+				AdditionalIncludeDirectories="&quot;.\GeneratedFiles&quot;;&quot;$(QTDIR)\include&quot;;&quot;.\GeneratedFiles\$(ConfigurationName)&quot;;&quot;$(QTDIR)\include\qtmain&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtOpenGL&quot;;&quot;.&quot;"
+				PreprocessorDefinitions=",UNICODE,WIN32,QT_LARGEFILE_SUPPORT;QT_NO_DEBUG,NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_OPENGL_LIB"
 				RuntimeLibrary="2"
 				TreatWChar_tAsBuiltInType="false"
 				DebugInformationFormat="0"
@@ -55,9 +55,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="qtmain.lib QtCore4.lib QtGui4.lib QtOpenGL4.lib opengl32.lib glu32.lib CEGUIBase.lib CEGUIOpenGLRenderer.lib osg.lib osgutil.lib osgGA.lib osgViewer.lib osgDB.lib osgText.lib osgShadow.lib osgParticle.lib osgManipulator.lib osgAudio.lib libconfig++.lib PhysXLoader.lib PhysXCooking.lib NxCharacter.lib ice.lib iceutil.lib glacier2.lib fmodex_vc.lib lua51.lib luabind.lib freetype244.lib libvlc.lib"
-				OutputFile="$(OutDir)\LBANetGame.exe"
-				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;..\dependencies\OSG\lib;..\dependencies\CEGUI\lib;..\dependencies\3rdParty\lib;..\dependencies\libconfig\lib;&quot;$(PHYSX_HOME)\SDKs\lib\Win32&quot;;&quot;$(ICE_HOME)\lib&quot;;..\dependencies\fmod\lib;..\dependencies\CrashReport\crashrpt\lib;..\dependencies\LUA\lib;..\dependencies\luabind\lib;..\dependencies\VLC\lib"
+				AdditionalDependencies="qtmain.lib QtCore4.lib QtGui4.lib QtOpenGL4.lib opengl32.lib glu32.lib"
+				OutputFile="$(OutDir)\$(ProjectName).exe"
+				AdditionalLibraryDirectories="$(QTDIR)\lib"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 			/>
@@ -86,7 +86,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)"
 			ConfigurationType="1"
 			>
 			<Tool
@@ -107,8 +107,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\GeneratedFiles;&quot;$(QTDIR)\include&quot;;&quot;.\GeneratedFiles\$(ConfigurationName)&quot;;&quot;$(QTDIR)\include\qtmain&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtOpenGL&quot;;.\;..\dependencies\OSG\include;..\dependencies\CEGUI\cegui\include;..\dependencies\3rdParty\include;..\dependencies\libconfig\include;..\shared;&quot;$(PHYSX_HOME)\SDKs/Foundation/include&quot;;&quot;$(PHYSX_HOME)\SDKs/Physics/include&quot;;&quot;$(PHYSX_HOME)\SDKs/Cooking/include&quot;;&quot;$(PHYSX_HOME)\SDKs/PhysXLoader/include&quot;;&quot;$(PHYSX_HOME)\SDKs/NxCharacter/include&quot;;&quot;$(PHYSX_HOME)\Tools\NxuStream2&quot;;..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\dependencies\fmod\include;..\dependencies\CrashReport\crashrpt\include;..\Servers\WorldServer;..\dependencies\sqlite;..\dependencies\LUA\include;..\dependencies\luabind\include;..\Client;..\dependencies\recast\Recast\Include;..\dependencies\recast\Detour\Include;..\dependencies\recast\DetourCrowd\Include;..\dependencies\VLC\include"
-				PreprocessorDefinitions="UNICODE;WIN32;QT_LARGEFILE_SUPPORT;QT_THREAD_SUPPORT;QT_CORE_LIB;QT_GUI_LIB;QT_OPENGL_LIB;QT_DLL"
+				AdditionalIncludeDirectories="&quot;.\GeneratedFiles&quot;;&quot;$(QTDIR)\include&quot;;&quot;.\GeneratedFiles\$(ConfigurationName)&quot;;&quot;$(QTDIR)\include\qtmain&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtOpenGL&quot;;&quot;.&quot;"
+				PreprocessorDefinitions=",UNICODE,WIN32,QT_LARGEFILE_SUPPORT;QT_CORE_LIB;QT_GUI_LIB;QT_OPENGL_LIB"
 				RuntimeLibrary="3"
 				TreatWChar_tAsBuiltInType="false"
 				DebugInformationFormat="3"
@@ -124,10 +124,149 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="qtmaind.lib QtCored4.lib QtGuid4.lib QtOpenGLd4.lib opengl32.lib glu32.lib CEGUIBase_d.lib CEGUIOpenGLRenderer_d.lib osgd.lib osgutild.lib osgGAd.lib osgViewerd.lib osgDBd.lib osgTextd.lib osgShadowd.lib osgParticled.lib osgManipulatord.lib osgAudiod.lib libconfig++d.lib PhysXLoader.lib PhysXCooking.lib NxCharacter.lib iced.lib iceutild.lib glacier2d.lib fmodex_vc.lib lua51d.lib luabindd.lib freetype244d.lib libvlc.lib"
+				AdditionalDependencies="qtmaind.lib QtCored4.lib QtGuid4.lib QtOpenGLd4.lib opengl32.lib glu32.lib"
+				OutputFile="$(OutDir)\$(ProjectName).exe"
+				AdditionalLibraryDirectories="$(QTDIR)\lib"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="DebugEditSound|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalOptions="/D _USE_QT_EDITOR_ /D _USE_SOUND_EDITOR"
+				Optimization="0"
+				AdditionalIncludeDirectories=".\GeneratedFiles;&quot;$(QTDIR)\include&quot;;&quot;.\GeneratedFiles\$(ConfigurationName)&quot;;&quot;$(QTDIR)\include\qtmain&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtOpenGL&quot;;.\;..\dependencies\OSG\include;..\dependencies\CEGUI\cegui\include;..\dependencies\3rdParty\include;..\dependencies\libconfig\include;..\shared;&quot;$(PHYSX_HOME)\SDKs/Foundation/include&quot;;&quot;$(PHYSX_HOME)\SDKs/Physics/include&quot;;&quot;$(PHYSX_HOME)\SDKs/Cooking/include&quot;;&quot;$(PHYSX_HOME)\SDKs/PhysXLoader/include&quot;;&quot;$(PHYSX_HOME)\SDKs/NxCharacter/include&quot;;&quot;$(PHYSX_HOME)\Tools\NxuStream2&quot;;..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\dependencies\fmod\include;..\dependencies\CrashReport\crashrpt\include;..\Servers\WorldServer;..\dependencies\sqlite;..\dependencies\LUA\include;..\dependencies\luabind\include;..\Client;..\dependencies\recast\Recast\Include;..\dependencies\recast\Detour\Include;..\dependencies\recast\DetourCrowd\Include;..\dependencies\VLC\include"
+				PreprocessorDefinitions=",UNICODE,WIN32,QT_LARGEFILE_SUPPORT;QT_CORE_LIB;QT_GUI_LIB;QT_OPENGL_LIB"
+				RuntimeLibrary="3"
+				TreatWChar_tAsBuiltInType="false"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="qtmaind.lib QtCored4.lib QtGuid4.lib QtOpenGLd4.lib opengl32.lib glu32.lib CEGUIBase_d.lib CEGUIOpenGLRenderer_d.lib osgd.lib osgutild.lib osgGAd.lib osgViewerd.lib osgDBd.lib osgTextd.lib osgShadowd.lib osgParticled.lib osgManipulatord.lib osgAudiod.lib libconfig++d.lib PhysXLoader.lib PhysXCooking.lib NxCharacter.lib iced.lib iceutild.lib glacier2d.lib fmodex_vc.lib lua51d.lib luabindd.lib freetype244D.lib libvlc.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;..\dependencies\OSG\lib;..\dependencies\CEGUI\lib;..\dependencies\3rdParty\lib;..\dependencies\libconfig\lib;&quot;$(PHYSX_HOME)\SDKs\lib\Win32&quot;;&quot;$(ICE_HOME)\lib&quot;;..\dependencies\fmod\lib;..\dependencies\CrashReport\crashrpt\lib;..\dependencies\LUA\lib;..\dependencies\luabind\lib;..\dependencies\VLC\lib"
 				GenerateDebugInformation="true"
+				SubSystem="2"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="ReleaseEditSound|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalOptions="/D _USE_QT_EDITOR_ /D _USE_SOUND_EDITOR"
+				AdditionalIncludeDirectories=".\GeneratedFiles;&quot;$(QTDIR)\include&quot;;&quot;.\GeneratedFiles\$(ConfigurationName)&quot;;&quot;$(QTDIR)\include\qtmain&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtOpenGL&quot;;.\;..\dependencies\OSG\include;..\dependencies\CEGUI\cegui\include;..\dependencies\3rdParty\include;..\dependencies\libconfig\include;..\shared;&quot;$(PHYSX_HOME)\SDKs/Foundation/include&quot;;&quot;$(PHYSX_HOME)\SDKs/Physics/include&quot;;&quot;$(PHYSX_HOME)\SDKs/Cooking/include&quot;;&quot;$(PHYSX_HOME)\SDKs/PhysXLoader/include&quot;;&quot;$(PHYSX_HOME)\SDKs/NxCharacter/include&quot;;&quot;$(PHYSX_HOME)\Tools\NxuStream2&quot;;..\infrastructure\include;&quot;$(ICE_HOME)\include&quot;;..\dependencies\fmod\include;..\dependencies\CrashReport\crashrpt\include;..\Servers\WorldServer;..\dependencies\sqlite;..\dependencies\LUA\include;..\dependencies\luabind\include;..\Client;..\dependencies\recast\Recast\Include;..\dependencies\recast\Detour\Include;..\dependencies\recast\DetourCrowd\Include;..\dependencies\VLC\include"
+				PreprocessorDefinitions=",UNICODE,WIN32,QT_LARGEFILE_SUPPORT;QT_NO_DEBUG,NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_OPENGL_LIB"
+				RuntimeLibrary="2"
+				TreatWChar_tAsBuiltInType="false"
+				DebugInformationFormat="0"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="qtmain.lib QtCore4.lib QtGui4.lib QtOpenGL4.lib opengl32.lib glu32.lib CEGUIBase.lib CEGUIOpenGLRenderer.lib osg.lib osgutil.lib osgGA.lib osgViewer.lib osgDB.lib osgText.lib osgShadow.lib osgParticle.lib osgManipulator.lib osgAudio.lib libconfig++.lib PhysXLoader.lib PhysXCooking.lib NxCharacter.lib ice.lib iceutil.lib glacier2.lib fmodex_vc.lib lua51.lib luabind.lib freetype244.lib libvlc.lib"
+				OutputFile="$(OutDir)\$(ProjectName).exe"
+				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;..\dependencies\OSG\lib;..\dependencies\CEGUI\lib;..\dependencies\3rdParty\lib;..\dependencies\libconfig\lib;&quot;$(PHYSX_HOME)\SDKs\lib\Win32&quot;;&quot;$(ICE_HOME)\lib&quot;;..\dependencies\fmod\lib;..\dependencies\CrashReport\crashrpt\lib;..\dependencies\LUA\lib;..\dependencies\luabind\lib;..\dependencies\VLC\lib"
+				GenerateDebugInformation="false"
 				SubSystem="2"
 			/>
 			<Tool
@@ -350,6 +489,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\editlba1animsound.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\EditorSharedData.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\shared\Entities.cpp"
 				>
 			</File>
@@ -494,7 +641,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\main.cpp"
+				RelativePath=".\main_editsound.cpp"
 				>
 			</File>
 			<File
@@ -722,6 +869,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\treeitem.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\treemodel.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Servers\WorldServer\Triggers.cpp"
 				>
 			</File>
@@ -748,67 +903,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\shared\ActionArguments.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\ActionOnAnimationHandlerBase.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ActorUserData.h"
-				>
-			</File>
-			<File
-				RelativePath=".\AnimatedObjectHandlerBase.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\BlackBox.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CameraController.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CEGUIDrawable.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CharacterControllerLBA.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\CharacterModes.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\CharacterStates.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ChatBox.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ChatReceiverServant.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ChatServerHandler.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ChooseNumberBox.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ChooseWorldGUI.h"
-				>
-			</File>
-			<File
-				RelativePath=".\client.h"
+				RelativePath=".\editlba1animsound.h"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -816,7 +911,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB -DQT_DLL  -I&quot;.\GeneratedFiles&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)&quot; -I&quot;$(QTDIR)\include\qtmain&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtOpenGL&quot; -I&quot;.&quot; -I&quot;.\..\dependencies\OSG\include&quot; -I&quot;.\..\dependencies\CEGUI\cegui\include&quot; -I&quot;.\..\dependencies\3rdParty\include&quot; -I&quot;.\..\dependencies\libconfig\include&quot; -I&quot;.\..\shared&quot; -I&quot;$(PHYSX_HOME)\SDKs\Foundation\include&quot; -I&quot;$(PHYSX_HOME)\SDKs\Physics\include&quot; -I&quot;$(PHYSX_HOME)\SDKs\Cooking\include&quot; -I&quot;$(PHYSX_HOME)\SDKs\PhysXLoader\include&quot; -I&quot;$(PHYSX_HOME)\SDKs\NxCharacter\include&quot; -I&quot;$(PHYSX_HOME)\Tools\NxuStream2&quot; -I&quot;.\..\infrastructure\include&quot; -I&quot;$(ICE_HOME)\include&quot; -I&quot;.\..\dependencies\fmod\include&quot; -I&quot;.\..\dependencies\CrashReport\crashrpt\include&quot; -I&quot;.\..\Servers\WorldServer&quot; -I&quot;.\..\dependencies\sqlite&quot; -I&quot;.\..\dependencies\LUA\include&quot; -I&quot;.\..\dependencies\luabind\include&quot; -I&quot;.\..\Client&quot; -I&quot;.\..\dependencies\recast\Recast\Include&quot; -I&quot;.\..\dependencies\recast\Detour\Include&quot; -I&quot;.\..\dependencies\recast\DetourCrowd\Include&quot; -I&quot;.\..\dependencies\VLC\include&quot; &quot;.\client.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtOpenGL&quot; &quot;-I.&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
@@ -827,397 +922,33 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB -DQT_DLL  -I&quot;.\GeneratedFiles&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)&quot; -I&quot;$(QTDIR)\include\qtmain&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtOpenGL&quot; -I&quot;.&quot; -I&quot;.\..\dependencies\OSG\include&quot; -I&quot;.\..\dependencies\CEGUI\cegui\include&quot; -I&quot;.\..\dependencies\3rdParty\include&quot; -I&quot;.\..\dependencies\libconfig\include&quot; -I&quot;.\..\shared&quot; -I&quot;$(PHYSX_HOME)\SDKs\Foundation\include&quot; -I&quot;$(PHYSX_HOME)\SDKs\Physics\include&quot; -I&quot;$(PHYSX_HOME)\SDKs\Cooking\include&quot; -I&quot;$(PHYSX_HOME)\SDKs\PhysXLoader\include&quot; -I&quot;$(PHYSX_HOME)\SDKs\NxCharacter\include&quot; -I&quot;$(PHYSX_HOME)\Tools\NxuStream2&quot; -I&quot;.\..\infrastructure\include&quot; -I&quot;$(ICE_HOME)\include&quot; -I&quot;.\..\dependencies\fmod\include&quot; -I&quot;.\..\dependencies\CrashReport\crashrpt\include&quot; -I&quot;.\..\Servers\WorldServer&quot; -I&quot;.\..\dependencies\sqlite&quot; -I&quot;.\..\dependencies\LUA\include&quot; -I&quot;.\..\dependencies\luabind\include&quot; -I&quot;.\..\Client&quot; -I&quot;.\..\dependencies\recast\Recast\Include&quot; -I&quot;.\..\dependencies\recast\Detour\Include&quot; -I&quot;.\..\dependencies\recast\DetourCrowd\Include&quot; -I&quot;.\..\dependencies\VLC\include&quot; &quot;.\client.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\ClientExtendedEvents.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ClientExtendedTypes.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ClientLuaHandler.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\ClientScript.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\CommonTypes.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CommunityBox.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ConfigurationManager.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ConnectionHandlerBase.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ContainerBox.h"
-				>
-			</File>
-			<File
-				RelativePath=".\DataLoader.h"
-				>
-			</File>
-			<File
-				RelativePath=".\DialogBox.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\DisplayHandlerBase.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\DisplayObjectHandlerBase.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\DynamicObject.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\Entities.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\EventsQueue.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ExternalActor.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ExternalPlayer.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\FileUtil.h"
-				>
-			</File>
-			<File
-				RelativePath=".\GameGUI.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\GameGUIBase.h"
-				>
-			</File>
-			<File
-				RelativePath=".\GraphicsWindowQt"
-				>
-			</File>
-			<File
-				RelativePath=".\GUI.h"
-				>
-			</File>
-			<File
-				RelativePath=".\GuiCallbackableBase.h"
-				>
-			</File>
-			<File
-				RelativePath=".\GuiHandler.h"
-				>
-			</File>
-			<File
-				RelativePath=".\GUILocalizationCallback.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\HQRHandler.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\HQRlib.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ImageSetHandler.h"
-				>
-			</File>
-			<File
-				RelativePath=".\InfosReceiverServant.h"
-				>
-			</File>
-			<File
-				RelativePath=".\InventoryBox.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ItemObject.h"
-				>
-			</File>
-			<File
-				RelativePath=".\JournalBox.h"
-				>
-			</File>
-			<File
-				RelativePath=".\LBA1ModelClass.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Lba1ModelHandler.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\Lba1ModelMapHandler.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\Lba1ModelStructs.h"
-				>
-			</File>
-			<File
-				RelativePath=".\LbaNetEngine.h"
-				>
-			</File>
-			<File
-				RelativePath=".\LbaNetModel.h"
-				>
-			</File>
-			<File
-				RelativePath=".\LetterEditorBox.h"
-				>
-			</File>
-			<File
-				RelativePath=".\LetterViewerBox.h"
-				>
-			</File>
-			<File
-				RelativePath=".\LocalConnectionHandler.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Localizer.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\LogHandler.h"
-				>
-			</File>
-			<File
-				RelativePath=".\LoginGUI.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\LuaHandlerBase.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MailBox.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\md5.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MenuGUI.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MessageBox.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MusicHandler.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\NaviMeshHandler.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\NavMeshAgent.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\ObjectsDescription.h"
-				>
-			</File>
-			<File
-				RelativePath=".\OptionsGUI.h"
-				>
-			</File>
-			<File
-				RelativePath=".\OsgEventHandler.h"
-				>
-			</File>
-			<File
-				RelativePath=".\OSGHandler.h"
-				>
-			</File>
-			<File
-				RelativePath=".\OsgObjectHandler.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\PhysicalObjectHandlerBase.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PhysicCallbackBase.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PhysXEngine.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PhysXErrorStream.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PhysXObjectHandlers.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ProjectileHandler.h"
-				>
-			</File>
-			<File
-				RelativePath=".\QT_WindowsBase.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\Randomizer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\RemoteConnectionHandler.h"
-				>
-			</File>
-			<File
-				RelativePath=".\resource.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\RotationTable.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\RunnableThread.h"
-				>
-			</File>
-			<File
-				RelativePath=".\SampleMutex_WIN.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\ScriptedActor.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\ScriptEnvironmentBase.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\ScriptInitHandler.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ShopBox.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ShortcutBox.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\SoundObjectHandlerBase.h"
-				>
-			</File>
-			<File
-				RelativePath=".\SoundObjectHandlerClient.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Servers\WorldServer\SoundObjectHandlerServer.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\StaticObject.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Stream.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\StreamReader.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\StringHelperFuncs.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\SynchronizedTimeHandler.h"
-				>
-			</File>
-			<File
-				RelativePath=".\TeleportBox.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\TriangleMeshInfo.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\type.h"
-				>
-			</File>
-			<File
-				RelativePath=".\UserAllocator.h"
-				>
-			</File>
-			<File
-				RelativePath=".\vlc_on_qt.h"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB -DQT_DLL  -I&quot;.\GeneratedFiles&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)&quot; -I&quot;$(QTDIR)\include\qtmain&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtOpenGL&quot; -I&quot;.&quot; -I&quot;.\..\dependencies\OSG\include&quot; -I&quot;.\..\dependencies\CEGUI\cegui\include&quot; -I&quot;.\..\dependencies\3rdParty\include&quot; -I&quot;.\..\dependencies\libconfig\include&quot; -I&quot;.\..\shared&quot; -I&quot;$(PHYSX_HOME)\SDKs\Foundation\include&quot; -I&quot;$(PHYSX_HOME)\SDKs\Physics\include&quot; -I&quot;$(PHYSX_HOME)\SDKs\Cooking\include&quot; -I&quot;$(PHYSX_HOME)\SDKs\PhysXLoader\include&quot; -I&quot;$(PHYSX_HOME)\SDKs\NxCharacter\include&quot; -I&quot;$(PHYSX_HOME)\Tools\NxuStream2&quot; -I&quot;.\..\infrastructure\include&quot; -I&quot;$(ICE_HOME)\include&quot; -I&quot;.\..\dependencies\fmod\include&quot; -I&quot;.\..\dependencies\CrashReport\crashrpt\include&quot; -I&quot;.\..\Servers\WorldServer&quot; -I&quot;.\..\dependencies\sqlite&quot; -I&quot;.\..\dependencies\LUA\include&quot; -I&quot;.\..\dependencies\luabind\include&quot; -I&quot;.\..\Client&quot; -I&quot;.\..\dependencies\recast\Recast\Include&quot; -I&quot;.\..\dependencies\recast\Detour\Include&quot; -I&quot;.\..\dependencies\recast\DetourCrowd\Include&quot; -I&quot;.\..\dependencies\VLC\include&quot; &quot;.\vlc_on_qt.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtOpenGL&quot; &quot;-I.&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="DebugEditSound|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB -DQT_DLL  -I&quot;.\GeneratedFiles&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)&quot; -I&quot;$(QTDIR)\include\qtmain&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtOpenGL&quot; -I&quot;.&quot; -I&quot;.\..\dependencies\OSG\include&quot; -I&quot;.\..\dependencies\CEGUI\cegui\include&quot; -I&quot;.\..\dependencies\3rdParty\include&quot; -I&quot;.\..\dependencies\libconfig\include&quot; -I&quot;.\..\shared&quot; -I&quot;$(PHYSX_HOME)\SDKs\Foundation\include&quot; -I&quot;$(PHYSX_HOME)\SDKs\Physics\include&quot; -I&quot;$(PHYSX_HOME)\SDKs\Cooking\include&quot; -I&quot;$(PHYSX_HOME)\SDKs\PhysXLoader\include&quot; -I&quot;$(PHYSX_HOME)\SDKs\NxCharacter\include&quot; -I&quot;$(PHYSX_HOME)\Tools\NxuStream2&quot; -I&quot;.\..\infrastructure\include&quot; -I&quot;$(ICE_HOME)\include&quot; -I&quot;.\..\dependencies\fmod\include&quot; -I&quot;.\..\dependencies\CrashReport\crashrpt\include&quot; -I&quot;.\..\Servers\WorldServer&quot; -I&quot;.\..\dependencies\sqlite&quot; -I&quot;.\..\dependencies\LUA\include&quot; -I&quot;.\..\dependencies\luabind\include&quot; -I&quot;.\..\Client&quot; -I&quot;.\..\dependencies\recast\Recast\Include&quot; -I&quot;.\..\dependencies\recast\Detour\Include&quot; -I&quot;.\..\dependencies\recast\DetourCrowd\Include&quot; -I&quot;.\..\dependencies\VLC\include&quot; &quot;.\vlc_on_qt.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB  &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtOpenGL&quot; &quot;-I.&quot; &quot;-I.\..\dependencies\OSG\include&quot; &quot;-I.\..\dependencies\CEGUI\cegui\include&quot; &quot;-I.\..\dependencies\3rdParty\include&quot; &quot;-I.\..\dependencies\libconfig\include&quot; &quot;-I.\..\shared&quot; &quot;-I$(PHYSX_HOME)\SDKs\Foundation\include&quot; &quot;-I$(PHYSX_HOME)\SDKs\Physics\include&quot; &quot;-I$(PHYSX_HOME)\SDKs\Cooking\include&quot; &quot;-I$(PHYSX_HOME)\SDKs\PhysXLoader\include&quot; &quot;-I$(PHYSX_HOME)\SDKs\NxCharacter\include&quot; &quot;-I$(PHYSX_HOME)\Tools\NxuStream2&quot; &quot;-I.\..\infrastructure\include&quot; &quot;-I$(ICE_HOME)\include&quot; &quot;-I.\..\dependencies\fmod\include&quot; &quot;-I.\..\dependencies\CrashReport\crashrpt\include&quot; &quot;-I.\..\Servers\WorldServer&quot; &quot;-I.\..\dependencies\sqlite&quot; &quot;-I.\..\dependencies\LUA\include&quot; &quot;-I.\..\dependencies\luabind\include&quot; &quot;-I.\..\Client&quot; &quot;-I.\..\dependencies\recast\Recast\Include&quot; &quot;-I.\..\dependencies\recast\Detour\Include&quot; &quot;-I.\..\dependencies\recast\DetourCrowd\Include&quot; &quot;-I.\..\dependencies\VLC\include&quot; &quot;.\editlba1animsound.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\shared\WorldToDisplayObjectSynchronizer.h"
-				>
-			</File>
-			<File
-				RelativePath="..\shared\XmlReader.h"
-				>
+				<FileConfiguration
+					Name="ReleaseEditSound|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB  &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtOpenGL&quot; &quot;-I.&quot; &quot;-I.\..\dependencies\OSG\include&quot; &quot;-I.\..\dependencies\CEGUI\cegui\include&quot; &quot;-I.\..\dependencies\3rdParty\include&quot; &quot;-I.\..\dependencies\libconfig\include&quot; &quot;-I.\..\shared&quot; &quot;-I$(PHYSX_HOME)\SDKs\Foundation\include&quot; &quot;-I$(PHYSX_HOME)\SDKs\Physics\include&quot; &quot;-I$(PHYSX_HOME)\SDKs\Cooking\include&quot; &quot;-I$(PHYSX_HOME)\SDKs\PhysXLoader\include&quot; &quot;-I$(PHYSX_HOME)\SDKs\NxCharacter\include&quot; &quot;-I$(PHYSX_HOME)\Tools\NxuStream2&quot; &quot;-I.\..\infrastructure\include&quot; &quot;-I$(ICE_HOME)\include&quot; &quot;-I.\..\dependencies\fmod\include&quot; &quot;-I.\..\dependencies\CrashReport\crashrpt\include&quot; &quot;-I.\..\Servers\WorldServer&quot; &quot;-I.\..\dependencies\sqlite&quot; &quot;-I.\..\dependencies\LUA\include&quot; &quot;-I.\..\dependencies\luabind\include&quot; &quot;-I.\..\Client&quot; &quot;-I.\..\dependencies\recast\Recast\Include&quot; &quot;-I.\..\dependencies\recast\Detour\Include&quot; &quot;-I.\..\dependencies\recast\DetourCrowd\Include&quot; &quot;-I.\..\dependencies\VLC\include&quot; &quot;.\editlba1animsound.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+					/>
+				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
@@ -1250,6 +981,76 @@
 						Outputs="&quot;.\GeneratedFiles\ui_$(InputName).h&quot;"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugEditSound|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;.\GeneratedFiles\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;.\GeneratedFiles\ui_$(InputName).h&quot;"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseEditSound|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;.\GeneratedFiles\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;.\GeneratedFiles\ui_$(InputName).h&quot;"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\editlba1animsound.ui"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;.\GeneratedFiles\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;.\GeneratedFiles\ui_$(InputName).h&quot;"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;.\GeneratedFiles\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;.\GeneratedFiles\ui_$(InputName).h&quot;"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugEditSound|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;.\GeneratedFiles\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;.\GeneratedFiles\ui_$(InputName).h&quot;"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseEditSound|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;.\GeneratedFiles\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;.\GeneratedFiles\ui_$(InputName).h&quot;"
+					/>
+				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
@@ -1259,7 +1060,7 @@
 			ParseFiles="false"
 			>
 			<File
-				RelativePath=".\client.qrc"
+				RelativePath=".\editlba1animsound.qrc"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1283,10 +1084,28 @@
 						Outputs=".\GeneratedFiles\qrc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\LBANet.rc"
-				>
+				<FileConfiguration
+					Name="DebugEditSound|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Rcc&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\rcc.exe&quot; -name &quot;$(InputName)&quot; -no-compress &quot;$(InputPath)&quot; -o .\GeneratedFiles\qrc_$(InputName).cpp&#x0D;&#x0A;"
+						AdditionalDependencies="$(InputPath)"
+						Outputs=".\GeneratedFiles\qrc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseEditSound|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Rcc&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\rcc.exe&quot; -name &quot;$(InputName)&quot; -no-compress &quot;$(InputPath)&quot; -o .\GeneratedFiles\qrc_$(InputName).cpp&#x0D;&#x0A;"
+						AdditionalDependencies="$(InputPath)"
+						Outputs=".\GeneratedFiles\qrc_$(InputName).cpp"
+					/>
+				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
@@ -1296,7 +1115,7 @@
 			SourceControlFiles="false"
 			>
 			<File
-				RelativePath=".\GeneratedFiles\qrc_client.cpp"
+				RelativePath=".\GeneratedFiles\qrc_editlba1animsound.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1308,6 +1127,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugEditSound|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseEditSound|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1319,55 +1154,21 @@
 				RelativePath=".\GeneratedFiles\ui_client.h"
 				>
 			</File>
-			<Filter
-				Name="Release"
-				Filter="cpp;moc"
-				SourceControlFiles="false"
+			<File
+				RelativePath=".\GeneratedFiles\ui_editlba1animsound.h"
 				>
-				<File
-					RelativePath=".\GeneratedFiles\Release\moc_client.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\GeneratedFiles\Release\moc_vlc_on_qt.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-				</File>
-			</Filter>
+			</File>
 			<Filter
-				Name="Debug"
+				Name="DebugEditSound"
 				Filter="cpp;moc"
 				SourceControlFiles="false"
 				>
 				<File
 					RelativePath=".\GeneratedFiles\Debug\moc_client.cpp"
 					>
-					<FileConfiguration
-						Name="Release|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
-					RelativePath=".\GeneratedFiles\Debug\moc_vlc_on_qt.cpp"
+					RelativePath=".\GeneratedFiles\DebugEditSound\moc_editlba1animsound.cpp"
 					>
 					<FileConfiguration
 						Name="Release|Win32"
@@ -1377,14 +1178,92 @@
 							Name="VCCLCompilerTool"
 						/>
 					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseEditSound|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\GeneratedFiles\DebugEditor\moc_treemodel.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\GeneratedFiles\Debug\moc_vlc_on_qt.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="ReleaseEditSound"
+				Filter="cpp;moc"
+				SourceControlFiles="false"
+				>
+				<File
+					RelativePath=".\GeneratedFiles\Release\moc_client.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\GeneratedFiles\ReleaseEditSound\moc_editlba1animsound.cpp"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="DebugEditSound|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\GeneratedFiles\ReleaseEditor\moc_treemodel.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\GeneratedFiles\Release\moc_vlc_on_qt.cpp"
+					>
 				</File>
 			</Filter>
 		</Filter>
 	</Files>
 	<Globals>
 		<Global
+			Name="lreleaseOptions"
+			Value=""
+		/>
+		<Global
 			Name="lupdateOnBuild"
 			Value="0"
+		/>
+		<Global
+			Name="lupdateOptions"
+			Value=""
 		/>
 		<Global
 			Name="MocDir"
@@ -1396,7 +1275,7 @@
 		/>
 		<Global
 			Name="QtVersion Win32"
-			Value="$(DefaultQtVersion)"
+			Value="4.7.3"
 		/>
 		<Global
 			Name="RccDir"

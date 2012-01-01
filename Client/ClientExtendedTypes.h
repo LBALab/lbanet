@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <LbaTypes.h>
 
-
+struct AnimationFrameData;
 
 
 /*
@@ -168,4 +168,92 @@ public:
 };
 
 
+/*
+************************************************************************************************************************
+*                                                  class AnimationObserverBase
+*
+*	register an observer for object animation
+************************************************************************************************************************
+*/
+class AnimationObserverBase
+{
+public:
+	//! constructor
+	AnimationObserverBase()
+	{
+	}
+
+	//! destructor
+	virtual ~AnimationObserverBase()
+	{
+	}
+
+	//! update the number of keyframe in the anim
+	virtual void UpdateNumberKeyframe(int nb) = 0;
+
+	//! update the current keyframe
+	virtual void UpdateCurrentKeyframe(int keyframe) = 0;
+};
+
+
+
+/*
+************************************************************************************************************************
+*                                                  class RegisterAnimationObserver
+*
+*	register an observer for object animation
+************************************************************************************************************************
+*/
+class RegisterAnimationObserver : public LbaNet::DisplayObjectUpdateBase
+{
+public:
+	//! constructor
+	RegisterAnimationObserver(AnimationObserverBase * observer)
+		: _observer(observer)
+	{
+	}
+
+	AnimationObserverBase * _observer;
+};
+
+
+/*
+************************************************************************************************************************
+*                                                  class SetAnimationKeyframe
+*
+*	set animation current keyframe
+************************************************************************************************************************
+*/
+class SetAnimationKeyframe : public LbaNet::DisplayObjectUpdateBase
+{
+public:
+	//! constructor
+	SetAnimationKeyframe(int keyframe)
+		: _keyframe(keyframe)
+	{
+	}
+
+	int		_keyframe;
+};
+
+
+/*
+************************************************************************************************************************
+*                                                  class UpdateAnimationKeyframeInfo
+*
+*	set animation keyframe info
+************************************************************************************************************************
+*/
+class UpdateAnimationKeyframeInfo : public LbaNet::DisplayObjectUpdateBase
+{
+public:
+	//! constructor
+	UpdateAnimationKeyframeInfo(int frameid, AnimationFrameData * afd)
+		: _frameid(frameid), _afd(afd)
+	{
+	}
+
+	int						_frameid; 
+	AnimationFrameData *	_afd;
+};
 #endif

@@ -774,6 +774,7 @@ module LbaNet
 	// pause the object animation
 	class PauseAnimationUpdate extends DisplayObjectUpdateBase
 	{
+		bool			Pause;
 	};
 	
 	

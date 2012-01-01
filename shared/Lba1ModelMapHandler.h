@@ -51,6 +51,30 @@ struct PossibleColorInfo
 	std::vector<std::vector<int> >			_alternatives;
 };
 
+struct AnimationFrameData
+{
+	//! constructor
+	AnimationFrameData()
+		: starthit(false), endthit(false), startprojectile(false)
+	{}
+
+	bool starthit;
+	bool endthit;
+	bool startprojectile;
+	std::string soundpath;
+};
+
+struct AnimationData
+{
+	//! constructor
+	AnimationData()
+	{}
+
+	std::map<int, AnimationFrameData > animationframes;
+	std::string repeatedsoundpath;
+};
+
+
 struct ModeData
 {
 	//! constructor
@@ -61,6 +85,9 @@ struct ModeData
 	int modelnumber;
 	int bodynumber;
 	std::map<std::string, std::vector<int> > animations;
+	std::map<std::string, AnimationData > animationsD;
+
+	
 	ModelSize Size;
 	int WeaponType;
 
@@ -114,6 +141,16 @@ public:
 						int & resbody,
 						std::vector<int> & resanimation);
 
+	// get model animation info
+	// return 0 if model correct
+	// return -1 if model incorrect
+	int GetModelAnimationInfo(	const std::string & modelname,
+								const std::string & outfit,
+								const std::string & weapon,
+								const std::string & mode,
+								const std::string & animation,
+								AnimationData & animdata);
+
 
 
 	// get model extra info
@@ -150,6 +187,17 @@ public:
 								std::vector<LbaNet::Lba1ColorIndex>	&defaultc,
 								std::vector<int>	&alternativec);
 
+
+	// get model available anims
+	// return 0 if model correct
+	// return -1 if model incorrect
+	int GetModelAvailableAnims(	const std::string & modelname,
+								const std::string & outfit,
+								const std::string & weapon,
+								const std::string & mode,
+								std::vector<std::string> & resanimation);
+
+
 	// get full map info
 	std::map<std::string, ModelData> & GetData()
 	{ return _data; }
@@ -163,11 +211,15 @@ public:
 							const std::string & animation);
 
 
+	// save animation properties to file
+	void SaveAnimationData();
+
 private:
 	// singleton
 	static Lba1ModelMapHandler *	_singletonInstance;
 
 	std::map<std::string, ModelData>	_data;
+	std::vector<std::string>			_header_infos;
 
 };
 

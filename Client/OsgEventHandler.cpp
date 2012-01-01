@@ -268,8 +268,10 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 		{
 			float x = ea.getX();
 			float y = ea.getWindowHeight() - ea.getY();
-
+#ifndef _USE_SOUND_EDITOR
 			CEGUI::System::getSingleton().injectMousePosition(x,y);
+#endif
+
 			break;
 		}
 
@@ -279,9 +281,10 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 		{
 			float x = ea.getX();
 			float y = ea.getWindowHeight() - ea.getY();
-
-			CEGUI::System::getSingleton().injectMousePosition(x, y);
 			bool injectionRetVal = false;
+
+#ifndef _USE_SOUND_EDITOR
+			CEGUI::System::getSingleton().injectMousePosition(x, y);
 
 			if (ea.getButton() == osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON)  // left
 				injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::LeftButton);
@@ -291,6 +294,7 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 
 			else if (ea.getButton() == osgGA::GUIEventAdapter::RIGHT_MOUSE_BUTTON)  // right
 				injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::RightButton);
+#endif
 
 			if(injectionRetVal)
 				return true;
@@ -303,9 +307,10 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 		{
 			float x = ea.getX();
 			float y = ea.getWindowHeight() - ea.getY();
-
-			CEGUI::System::getSingleton().injectMousePosition(x, y);
 			bool injectionRetVal = false;
+
+#ifndef _USE_SOUND_EDITOR
+			CEGUI::System::getSingleton().injectMousePosition(x, y);
 
 			if (ea.getButton() == osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON)  // left
 				injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::LeftButton);
@@ -313,6 +318,7 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 				injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::MiddleButton);
 			else if (ea.getButton() == osgGA::GUIEventAdapter::RIGHT_MOUSE_BUTTON)  // right
 				injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::RightButton);
+#endif
 
 			if(injectionRetVal)
 				return true;
@@ -341,9 +347,10 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 		{
 			float x = ea.getX();
 			float y = ea.getWindowHeight() - ea.getY();
-
-			CEGUI::System::getSingleton().injectMousePosition(x, y);
 			bool injectionRetVal = false;
+
+#ifndef _USE_SOUND_EDITOR
+			CEGUI::System::getSingleton().injectMousePosition(x, y);
 
 			if (ea.getButton() == osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON)  // left
 				injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::LeftButton);
@@ -351,6 +358,7 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 				injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::MiddleButton);
 			else if (ea.getButton() == osgGA::GUIEventAdapter::RIGHT_MOUSE_BUTTON)  // right
 				injectionRetVal = CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::RightButton);
+#endif
 
 			if(injectionRetVal)
 				return true;
@@ -369,7 +377,9 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 			float x = ea.getX();
 			float y = ea.getWindowHeight() - ea.getY();
 
+#ifndef _USE_SOUND_EDITOR
 			CEGUI::System::getSingleton().injectMousePosition(x, y);
+#endif
 
 			if(_right_button_pressed)
 			{
@@ -386,13 +396,17 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 		{
 			if(ea.getScrollingMotion() == osgGA::GUIEventAdapter::SCROLL_DOWN)
 			{
+#ifndef _USE_SOUND_EDITOR
 				if(!(CEGUI::System::getSingleton().injectMouseWheelChange( -1 )))
+#endif
 					OsgHandler::getInstance()->DeltaUpdateCameraDistance(5);
 			}
 
 			if(ea.getScrollingMotion() == osgGA::GUIEventAdapter::SCROLL_UP)
 			{
+#ifndef _USE_SOUND_EDITOR
 				if(!(CEGUI::System::getSingleton().injectMouseWheelChange( 1 )))
+#endif
 					OsgHandler::getInstance()->DeltaUpdateCameraDistance(-5);
 			}
 
@@ -408,8 +422,12 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 
 			// for check if CEGUI handle the event
 			bool used = false;
+
+#ifndef _USE_SOUND_EDITOR
 			used |= CEGUI::System::getSingleton().injectKeyDown( static_cast<CEGUI::uint>(convertedk));
 			used |= CEGUI::System::getSingleton().injectChar( static_cast<CEGUI::utf32>(unicode));
+#endif
+
 			if(used)
 				return true;
 
@@ -704,8 +722,10 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 			int kkk = ea.getKey();
 
 			// for check if CEGUI handle the event
+#ifndef _USE_SOUND_EDITOR
 			if(CEGUI::System::getSingleton().injectKeyUp( static_cast<CEGUI::uint>(OSGKeyToCEGUIKey(kkk)) ))
 				return true;
+#endif
 
 			{
 				// move forward

@@ -44,6 +44,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma comment(lib, "crashrpt.lib")
 
 
+#ifdef _USE_QT_EDITOR_
+#include "editorhandler.h"
+#endif
+
 BOOL WINAPI CrashCallback(LPVOID lpvState)
 {
 	LogHandler::getInstance()->CloseFile();
@@ -54,7 +58,7 @@ BOOL WINAPI CrashCallback(LPVOID lpvState)
 #endif
 
 
-
+#ifndef _USE_QT_EDITOR_
 class IceClient : public Ice::Application
 {
 public:
@@ -80,7 +84,7 @@ public:
 		return EXIT_SUCCESS;
 	}
 };
-
+#endif
 
 
 
@@ -118,7 +122,8 @@ int main( int argc, char **argv )
 #ifdef _USE_QT_EDITOR_
 		// create engine
 		LogHandler::getInstance()->LogToFile("Initializing the game engine...");
-		LbaNetEngine engine(NULL, "editor");
+		boost::shared_ptr<EditorHandlerBase> editH(new EditorHandler);
+		LbaNetEngine engine(NULL, "editor", editH);
 
 		LogHandler::getInstance()->LogToFile("Running the game engine...");
 		engine.run();

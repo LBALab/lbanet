@@ -200,6 +200,84 @@ Lba1ModelMapHandler::Lba1ModelMapHandler()
 			}
 		}
 	}
+
+
+
+	// read the anim properties file and get data
+	{
+		std::ifstream file((Lba1ModelDataPath+"lba1_model_animation_properties.csv").c_str());
+		if(file.is_open())
+		{
+			// read first information line
+			std::string line;
+
+			std::getline(file, line);
+			StringHelper::Tokenize(line, _header_infos, ",");
+
+			while(!file.eof())
+			{
+				std::getline(file, line);
+				std::vector<std::string> tokens;
+				StringHelper::Tokenize(line, tokens, ",");
+
+				if(tokens.size() > 4)
+				{
+					for(size_t i=4; i<tokens.size(); ++i)
+					{
+						std::string anims = tokens[i];
+						if(anims.size() > 0)
+						{
+							AnimationData AD;
+
+							std::string animstring = _header_infos[i];
+							std::vector<std::string> tokens2;
+							StringHelper::Tokenize(anims, tokens2, ";");
+							for(size_t j=0; j<tokens2.size(); ++j)
+							{
+								std::vector<std::string> tokens3;
+								StringHelper::Tokenize(tokens2[j], tokens3, ":");
+								if(tokens3.size() == 2)
+								{
+									int keyframe = atoi(tokens3[0].c_str());
+									if(keyframe < 0)
+									{
+										AD.repeatedsoundpath = tokens3[1];
+									}
+									else
+									{
+										AnimationFrameData afd;
+
+										std::vector<std::string> tokens4;
+										StringHelper::Tokenize(tokens3[1], tokens4, "|");
+										for(size_t k=0; k<tokens4.size(); ++k)
+										{
+											if(tokens4[k] == "S")
+												afd.starthit = true;
+											else if (tokens4[k] == "E")
+												afd.endthit = true;
+											else if (tokens4[k] == "P")
+												afd.startprojectile = true;
+											else
+												afd.soundpath = tokens4[k];
+										}
+
+										AD.animationframes[keyframe] = afd;
+									}
+								}
+							}
+
+							_data[tokens[0]].outfits[tokens[1]].weapons[tokens[2]].modes[tokens[3]].animationsD[animstring] = AD;
+
+
+						}
+					}
+				}
+
+
+			}
+		}
+	}
+
 }
 
 
@@ -234,6 +312,39 @@ bool Lba1ModelMapHandler::CanPlayAnimation(	const std::string & modelname,
 		 
 
 	return false;
+}
+
+
+/***********************************************************
+get model available anims
+***********************************************************/
+int Lba1ModelMapHandler::GetModelAvailableAnims(	const std::string & modelname,
+								const std::string & outfit,
+								const std::string & weapon,
+								const std::string & mode,
+								std::vector<std::string> & resanimation)
+{
+	if(modelname == "" || outfit == "" || weapon == "" || mode == "")
+		return -1;
+
+	std::map<std::string, std::vector<int> > & anims = 
+		_data[modelname].outfits[outfit].weapons[weapon].modes[mode].animations;
+
+	if(anims.size() == 0) // not found
+		return -1;
+
+	resanimation.clear();
+	std::map<std::string, std::vector<int> >::iterator itm = anims.begin();
+	std::map<std::string, std::vector<int> >::iterator endm = anims.end();
+	for(; itm != endm; ++itm)
+	{
+		std::vector<int> &anims = itm->second;
+		if(anims.size() > 0)
+			if(anims[0] >= 0)
+				resanimation.push_back(itm->first);
+	}
+
+	return 0;
 }
 
 
@@ -323,6 +434,38 @@ int Lba1ModelMapHandler::GetModelInfo(	const std::string & modelname,
 
 
 /***********************************************************
+get model animation info
+***********************************************************/
+int Lba1ModelMapHandler::GetModelAnimationInfo(	const std::string & modelname,
+								const std::string & outfit,
+								const std::string & weapon,
+								const std::string & mode,
+								const std::string & animation,
+								AnimationData & animdata)
+{
+	animdata.repeatedsoundpath = "";
+	animdata.animationframes.clear();
+
+	if(modelname == "" || outfit == "" || weapon == "" || mode == "" || animation == "")
+		return -1;
+
+	std::map<std::string, AnimationData > & anims = 
+		_data[modelname].outfits[outfit].weapons[weapon].modes[mode].animationsD;
+
+	std::map<std::string, AnimationData >::iterator it = anims.find(animation);
+	if(it != anims.end())
+	{
+		animdata = it->second;	
+		return 0;
+	}
+
+	// if still no success then no way
+	return -1;
+}
+
+
+
+/***********************************************************
 get model number and extra info
 ***********************************************************/
 int Lba1ModelMapHandler::GetModelExtraInfo(	const std::string & modelname,
@@ -408,4 +551,132 @@ int Lba1ModelMapHandler::GetModelColorAlternative(	const std::string & modelname
 	alternativec = itm->second._alternatives[alternativeindex];
 
 	return 0;
+}
+
+/***********************************************************
+save animation properties to file
+***********************************************************/
+void Lba1ModelMapHandler::SaveAnimationData()
+{
+	std::ofstream file((Lba1ModelDataPath+"lba1_model_animation_properties.csv").c_str());
+	if(file.is_open())
+	{
+		if(_header_infos.size() > 0)
+		{
+			file<<_header_infos[0];
+			for(size_t i=1; i<_header_infos.size(); ++i)
+				file<<","<<_header_infos[i];
+			file<<std::endl;
+		}
+
+		std::map<std::string, ModelData>::iterator itm = _data.begin();
+		std::map<std::string, ModelData>::iterator endm = _data.end();
+		for(; itm != endm; ++itm)
+		{
+			ModelData &md = itm->second;
+
+			std::map<std::string, OutfitData>::iterator itm2 = md.outfits.begin();
+			std::map<std::string, OutfitData>::iterator endm2 =  md.outfits.end();		
+			for(; itm2 != endm2; ++itm2)
+			{
+				OutfitData &od = itm2->second;
+
+				std::map<std::string, WeaponData>::iterator itm3 = od.weapons.begin();
+				std::map<std::string, WeaponData>::iterator endm3 =  od.weapons.end();		
+				for(; itm3 != endm3; ++itm3)
+				{
+					WeaponData &wd = itm3->second;
+
+					std::map<std::string, ModeData>::iterator itm4 = wd.modes.begin();
+					std::map<std::string, ModeData>::iterator endm4 =  wd.modes.end();		
+					for(; itm4 != endm4; ++itm4)
+					{
+						ModeData &md = itm4->second;
+						std::vector<std::string> towrite(_header_infos.size());
+						towrite[0] = itm->first;
+						towrite[1] = itm2->first;
+						towrite[2] = itm3->first;
+						towrite[3] = itm4->first;
+
+						std::map<std::string, AnimationData >::iterator itm5 = md.animationsD.begin();
+						std::map<std::string, AnimationData >::iterator endm5 =  md.animationsD.end();		
+						for(; itm5 != endm5; ++itm5)
+						{
+							AnimationData &ad = itm5->second;
+
+							std::stringstream tw;
+							if(ad.repeatedsoundpath != "")
+								tw << "-1:" << ad.repeatedsoundpath << ";";
+							bool firstl = true;
+
+							std::map<int, AnimationFrameData >::iterator itm6 = ad.animationframes.begin();
+							std::map<int, AnimationFrameData >::iterator endm6 =  ad.animationframes.end();		
+							for(; itm6 != endm6; ++itm6)
+							{
+								AnimationFrameData &afd = itm6->second;
+								if(afd.starthit || afd.endthit || afd.startprojectile || afd.soundpath != "")
+								{
+									if(firstl)
+										firstl = false;
+									else
+										tw << ";";
+
+
+									tw << itm6->first <<":"<<afd.soundpath;
+									bool somwr = (afd.soundpath != "");
+									if(afd.starthit)
+									{
+										if(somwr)
+											tw << "|";
+										else
+											somwr = true;
+
+										tw << "S";
+									}
+									if(afd.endthit)
+									{
+										if(somwr)
+											tw << "|";
+										else
+											somwr = true;
+
+										tw << "E";
+									}
+									if(afd.startprojectile)
+									{
+										if(somwr)
+											tw << "|";
+										else
+											somwr = true;
+
+										tw << "P";
+									}
+								}
+							}
+
+
+							size_t idx = 4;
+							for(size_t cur=4; cur<_header_infos.size();++cur)
+							{
+								if(_header_infos[cur] == itm5->first)
+								{
+									idx = cur;
+									break;
+								}
+							}
+							towrite[idx] = tw.str();
+						}
+
+						file<<towrite[0];
+						for(size_t vv=1; vv<towrite.size(); ++vv)
+							file<<","<<towrite[vv];
+						file<<std::endl;
+					}
+				}
+			}
+		}
+
+		file.flush();
+		file.close();
+	}
 }

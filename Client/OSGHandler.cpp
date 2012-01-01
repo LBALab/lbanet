@@ -558,7 +558,11 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
     traits->doubleBuffer = true;
     traits->sharedContext = 0;
 	traits->windowName = WindowName;
+
+if(GuiH)
 	traits->useCursor = false;
+else
+	traits->useCursor = true;
 
     GraphicsWindowQt *qtwin = new GraphicsWindowQt(traits.get());
 	_viewer->getCamera()->setGraphicsContext(qtwin);
@@ -601,45 +605,46 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 
 
 	_root=new osg::Group;
-	_rootNodeGui=new osg::Group;
-	//osg::setNotifyLevel(osg::ALWAYS );
 
-	osg::ref_ptr<osg::Geode> guiGeom=new osg::Geode;
-	_HUDcam = new osg::Camera;
+	if(GuiH)
+	{
+		_rootNodeGui=new osg::Group;
+		//osg::setNotifyLevel(osg::ALWAYS );
 
-	_HUDcam->setReferenceFrame(osg::Transform::ABSOLUTE_RF);
-	_HUDcam->setClearMask(0);
-	_HUDcam->setRenderOrder(osg::Camera::POST_RENDER, 100000);
+		osg::ref_ptr<osg::Geode> guiGeom=new osg::Geode;
+		_HUDcam = new osg::Camera;
 
-	_HUDcam->setAllowEventFocus(false);
-	_HUDcam->getOrCreateStateSet()->setMode(GL_DEPTH_TEST,osg::StateAttribute::OVERRIDE | 
-														osg::StateAttribute::OFF);
-    _HUDcam->getOrCreateStateSet()->setMode(GL_LIGHTING,osg::StateAttribute::OVERRIDE |
-														osg::StateAttribute::OFF);
-    _HUDcam->getOrCreateStateSet()->setRenderingHint(osg::StateSet::TRANSPARENT_BIN);
+		_HUDcam->setReferenceFrame(osg::Transform::ABSOLUTE_RF);
+		_HUDcam->setClearMask(0);
+		_HUDcam->setRenderOrder(osg::Camera::POST_RENDER, 100000);
 
-    _HUDcam->getOrCreateStateSet()->setRenderBinDetails(100,"DepthSortedBin");
-    _HUDcam->getOrCreateStateSet()->setMode(GL_BLEND,osg::StateAttribute::OVERRIDE|osg::StateAttribute::ON);
-    _HUDcam->getOrCreateStateSet()->setTextureMode(0, GL_TEXTURE_2D, osg::StateAttribute::OVERRIDE|
-																			osg::StateAttribute::ON);
-    _HUDcam->setProjectionMatrix(osg::Matrix::ortho2D(0,_resX,0,_resY));
+		_HUDcam->setAllowEventFocus(false);
+		_HUDcam->getOrCreateStateSet()->setMode(GL_DEPTH_TEST,osg::StateAttribute::OVERRIDE | 
+															osg::StateAttribute::OFF);
+		_HUDcam->getOrCreateStateSet()->setMode(GL_LIGHTING,osg::StateAttribute::OVERRIDE |
+															osg::StateAttribute::OFF);
+		_HUDcam->getOrCreateStateSet()->setRenderingHint(osg::StateSet::TRANSPARENT_BIN);
 
-	osg::CullFace *cull = new osg::CullFace();
-	cull->setMode(osg::CullFace::BACK);
-	_HUDcam->getOrCreateStateSet()->setAttributeAndModes(cull, osg::StateAttribute::ON);
-	_HUDcam->addChild(_rootNodeGui.get());
+		_HUDcam->getOrCreateStateSet()->setRenderBinDetails(100,"DepthSortedBin");
+		_HUDcam->getOrCreateStateSet()->setMode(GL_BLEND,osg::StateAttribute::OVERRIDE|osg::StateAttribute::ON);
+		_HUDcam->getOrCreateStateSet()->setTextureMode(0, GL_TEXTURE_2D, osg::StateAttribute::OVERRIDE|
+																				osg::StateAttribute::ON);
+		_HUDcam->setProjectionMatrix(osg::Matrix::ortho2D(0,_resX,0,_resY));
+
+		osg::CullFace *cull = new osg::CullFace();
+		cull->setMode(osg::CullFace::BACK);
+		_HUDcam->getOrCreateStateSet()->setAttributeAndModes(cull, osg::StateAttribute::ON);
+		_HUDcam->addChild(_rootNodeGui.get());
 
 
+		_guidraw = new CEGUIDrawable(_resX, _resY, GuiH);
+		_root->addChild(_HUDcam.get());
 
+		guiGeom->addDrawable(_guidraw.get());
+		_rootNodeGui->addChild(guiGeom.get());
+	}
 
-	_guidraw = new CEGUIDrawable(_resX, _resY, GuiH);
 	_root->addChild(_rootNode3d.get());
-	_root->addChild(_HUDcam.get());
-
-	guiGeom->addDrawable(_guidraw.get());
-	_rootNodeGui->addChild(guiGeom.get());
-
-
 	_viewer->setSceneData(_root.get());
 	_viewer->setCameraManipulator(NULL);
 
@@ -720,10 +725,13 @@ void OsgHandler::Finalize()
 
 	// write data to configuration file
 	{
+#ifndef _USE_SOUND_EDITOR
 		ConfigurationManager::GetInstance()->SetDouble("Display.Camera.Distance", _distance);
 		ConfigurationManager::GetInstance()->SetDouble("Display.Camera.Zenit", _zenit);
 		ConfigurationManager::GetInstance()->SetDouble("Display.Camera.Azimut", _azimut);
 		ConfigurationManager::GetInstance()->SetInt("Display.Camera.CameraType", _cameraType);
+#endif
+
 
 #ifndef _USE_QT_EDITOR_
 		ConfigurationManager::GetInstance()->SetInt("Display.Screen.PositionX", _posX);
@@ -755,7 +763,8 @@ void OsgHandler::Finalize()
         osg::Referenced::getDeleteHandler()->flushAll();
     }
 
-	_guidraw->Release();
+	if(_guidraw)
+		_guidraw->Release();
 }
 
 
@@ -878,7 +887,8 @@ void OsgHandler::ResetScreen()
 
 	ResetCameraProjectiomMatrix();
 
-	_HUDcam->setProjectionMatrix(osg::Matrix::ortho2D(0,_resX,0,_resY));
+	if(_HUDcam)
+		_HUDcam->setProjectionMatrix(osg::Matrix::ortho2D(0,_resX,0,_resY));
 }
 
 
@@ -972,6 +982,10 @@ set if the view is perspective or ortho
 ***********************************************************/
 void OsgHandler::ToggleCameraType(int cameraType)
 {
+#ifdef _USE_SOUND_EDITOR
+		cameraType = 3;
+#endif
+
 	if(_cameraType != cameraType)
 	{
 		_cameraType = cameraType;
@@ -983,7 +997,9 @@ void OsgHandler::ToggleCameraType(int cameraType)
 			distance = 20;
 		ResetCameraDistances(distance);
 
+#ifndef _USE_SOUND_EDITOR
 		ConfigurationManager::GetInstance()->SetInt("Display.Camera.CameraType", _cameraType);
+#endif
 	}
 }
 
@@ -1401,6 +1417,14 @@ void OsgHandler::ResetDisplayTree()
  //   osgOcean::ShaderManager::instance().enableShaders(true);
  //   osg::ref_ptr<SceneModel> scene = new SceneModel(windDirection, windSpeed, depth, reflectionDamping, scale, isChoppy, choppyFactor, crestFoamHeight);
 	//_sceneNoLightRootNode-> addChild(scene->getScene());
+
+
+// add grid when editor is up
+#ifdef _USE_QT_EDITOR_
+	boost::shared_ptr<DisplayTransformation> Tr = boost::shared_ptr<DisplayTransformation>(new DisplayTransformation);
+	CreateGridObject(200, 200, Tr);
+#endif
+
 }
 
 
@@ -1863,7 +1887,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateBoxObject(float si
 
 
 /***********************************************************
-create box object
+create cross object
 ***********************************************************/
 boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCrossObject(float size,  
 														float colorR, float colorG, float colorB, float colorA,
@@ -1923,6 +1947,101 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCrossObject(float 
 	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, false, false);
 	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat, false, extrainfo, lifeinfo));
 }
+
+/***********************************************************
+create grid object
+***********************************************************/
+osg::ref_ptr<osg::MatrixTransform> OsgHandler::CreateGridObject(long sizeX, long sizeY,
+															boost::shared_ptr<DisplayTransformation> Tr)
+{
+	osg::ref_ptr<osg::Group> resnode = new osg::Group();
+
+
+	// create orientation line
+	osg::Geode* lineGeode = new osg::Geode();
+	osg::Geometry* lineGeometry = new osg::Geometry();
+	lineGeode->addDrawable(lineGeometry); 
+
+	osg::Geometry* lineGeometrygray = new osg::Geometry();
+	lineGeode->addDrawable(lineGeometrygray); 
+
+	osg::Vec3Array* lineVertices = new osg::Vec3Array();
+	osg::Vec3Array* lineVerticesgray = new osg::Vec3Array();
+
+
+
+	for(long c1=0; c1<=sizeX; ++c1)
+	{
+		if(c1 % 5 == 0)
+		{
+			lineVertices->push_back( osg::Vec3(c1, 0, 0) );
+			lineVertices->push_back( osg::Vec3(c1, 0, sizeY) );
+		}
+		else
+		{
+			lineVerticesgray->push_back( osg::Vec3(c1, 0, 0) );
+			lineVerticesgray->push_back( osg::Vec3(c1, 0, sizeY) );
+		}
+	}
+	for(long c2=0; c2<=sizeY; ++c2)
+	{
+		if(c2 % 5 == 0)
+		{
+			lineVertices->push_back( osg::Vec3(0, 0, c2) );
+			lineVertices->push_back( osg::Vec3(sizeX, 0, c2) );
+		}
+		else
+		{
+			lineVerticesgray->push_back( osg::Vec3(0, 0, c2) );
+			lineVerticesgray->push_back( osg::Vec3(sizeX, 0, c2) );
+		}
+	}
+
+	lineGeometry->setVertexArray( lineVertices ); 
+	lineGeometrygray->setVertexArray( lineVerticesgray ); 
+
+	osg::Vec4Array* linecolor = new osg::Vec4Array();
+	linecolor->push_back( osg::Vec4( 1, 1, 1, 1) );
+	lineGeometry->setColorArray(linecolor);
+	lineGeometry->setColorBinding(osg::Geometry::BIND_OVERALL);
+
+	osg::Vec4Array* linecolorgray = new osg::Vec4Array();
+	linecolorgray->push_back( osg::Vec4( 0.5, 0.5, 0.5, 1) );
+	lineGeometrygray->setColorArray(linecolorgray);
+	lineGeometrygray->setColorBinding(osg::Geometry::BIND_OVERALL);
+
+	lineGeometry->addPrimitiveSet( new osg::DrawArrays( GL_LINES, 0, lineVertices->getNumElements() ) );
+	lineGeometrygray->addPrimitiveSet( new osg::DrawArrays( GL_LINES, 0, lineVerticesgray->getNumElements() ) );
+
+	resnode->addChild(lineGeode);
+
+    osg::StateSet* stateset = lineGeometry->getOrCreateStateSet();
+	stateset->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
+	stateset->setRenderingHint( osg::StateSet::OPAQUE_BIN );
+	stateset->setRenderBinDetails( 50, "RenderBin");
+
+    osg::StateSet* stateset2 = lineGeometrygray->getOrCreateStateSet();
+	stateset2->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
+	stateset2->setRenderingHint( osg::StateSet::OPAQUE_BIN );
+	stateset2->setRenderBinDetails( 50, "RenderBin");
+
+
+	if(Tr)
+	{
+		osg::ref_ptr<osg::PositionAttitudeTransform> transform = new osg::PositionAttitudeTransform();
+		transform->setPosition(osg::Vec3d(Tr->translationX, Tr->translationY, Tr->translationZ));
+		transform->setAttitude(osg::Quat(Tr->rotation.X, Tr->rotation.Y, Tr->rotation.Z, Tr->rotation.W));
+		transform->setScale(osg::Vec3d(Tr->scaleX, Tr->scaleY, Tr->scaleZ));
+
+		transform->addChild(resnode);
+		resnode = transform;
+	}
+	
+	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, false, false);
+	return mat;
+}
+
+
 
 
 /***********************************************************

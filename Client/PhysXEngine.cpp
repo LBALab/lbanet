@@ -99,7 +99,7 @@ class ControllerHitReport : public NxUserControllerHitReport
 public:
 	virtual NxControllerAction  onShapeHit(const NxControllerShapeHit& hit)
 	{
-		if(1 && hit.shape)
+		if(hit.shape)
 		{
 			NxActor& actor = hit.shape->getActor();
 			ActorUserData * characterdata = (ActorUserData *)hit.controller->getActor()->userData;
@@ -113,7 +113,6 @@ public:
 				hinfo.HitBottom = false;
 				hinfo.FloorMaterial = 0;
 
-				if(hit.shape)
 				{
 					NxRaycastHit hitinfo;
 					NxVec3 pos((float)hit.worldPos.x,(float)hit.worldPos.y+0.01f,(float)hit.worldPos.z);
@@ -127,7 +126,11 @@ public:
 
 						// check material hit
 						if(hitinfo.faceID < mstorage->GetMaterialsSize())
+						{
 							hinfo.FloorMaterial = mstorage->GetMaterials(hitinfo.faceID);
+
+							characterdata->SetFloorMaterial(hinfo.FloorMaterial); 
+						}
 					}
 				}
 
@@ -959,7 +962,39 @@ bool PhysXEngine::CheckOnTopOff(NxActor* actor1, NxActor* actor2)
 
 	return bound1.intersects2D(bound2, 1);
 }
-	 
+	
+
+/***********************************************************
+return the floor the actor is stepping on
+***********************************************************/
+short PhysXEngine::GetFloorMaterial(NxActor* actor)
+{
+	short res = 0;
+
+	if(actor)
+	{	
+		NxRaycastHit hitinfo;
+		NxVec3 pos = actor->getGlobalPosition();
+		pos.y += 0.01f;
+		NxVec3 vec(0, -1,0);
+
+		NxShape *  touchedshape = gScene->raycastClosestShape(NxRay(pos, vec), 
+			NX_STATIC_SHAPES, hitinfo, COLLIDABLE_MASK, 10.0f, NX_RAYCAST_FACE_INDEX);  
+
+		if(touchedshape)
+		{
+			NxActor& touchedact = hitinfo.shape->getActor();
+			ActorUserData * mstorage = (ActorUserData *) touchedact.userData;
+			if(mstorage && hitinfo.faceID < mstorage->GetMaterialsSize())
+			{
+				// check material hit
+				return mstorage->GetMaterials(hitinfo.faceID);
+			}
+		}
+	}
+
+	return res;
+}
 
 
 
