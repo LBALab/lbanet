@@ -112,6 +112,8 @@ module LbaNet
 		
 		string			Music;
 		int			Repeat;
+		
+		long			LinkedHoloLocation;
 
 	};	
 	dictionary<string, MapInfo> 	MapsSeq;

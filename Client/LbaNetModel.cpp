@@ -42,9 +42,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Localizer.h"
 #include "LbaNetEngine.h"
 #include "SoundObjectHandlerClient.h"
+#include "HolomapHandler.h"
+#include "Holomap.h"
 
-
-#define	_LBA1_MODEL_ANIMATION_SPEED_	1.8f
 
 /***********************************************************
 	Constructor
@@ -100,11 +100,33 @@ void LbaNetModel::ChangeWorld(const std::string & NewWorld)
 	m_luaHandler->LoadFile("LuaCommon/ClientHelperFunctions.lua");
 
 	// custom client file
-	m_luaHandler->LoadFile("Worlds/"+NewWorld+"/Lua/CustomClient.lua");
+	m_luaHandler->LoadFile("Worlds/"+m_current_world_name+"/Lua/CustomClient.lua");
+
+	//init holomap from lua
+	InitHolomap();
+
 
 	// indicate that we changed world
 	m_newworld = true;
 }
+
+
+/***********************************************************
+init holomap from lua
+***********************************************************/
+void LbaNetModel::InitHolomap()
+{
+	//! clear old data
+	HolomapHandler::getInstance()->clear();
+
+	if(m_luaHandler)
+	{
+		m_luaHandler->LoadFile("Worlds/"+m_current_world_name+"/Lua/Holomap.lua");
+		m_luaHandler->CallLua("InitHolomap", this);
+	}
+}
+
+
 
 
 /***********************************************************
@@ -614,194 +636,6 @@ ObjectInfo LbaNetModel::CreateObject(int OType, Ice::Long ObjectId,
 								const LbaNet::ObjectExtraInfo &extrainfo,
 								const LbaNet::LifeManaInfo &lifeinfo)
 {
-	boost::shared_ptr<DisplayInfo> DInfo;
-
-	// create display object
-	switch(DisplayDesc.TypeRenderer)
-	{
-		//0 -> osg model 
-		case LbaNet::RenderOsgModel:
-		{
-			if(DisplayDesc.ModelName != "")
-			{
-				boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
-					(new OsgSimpleObjectDescription(DisplayDesc.ModelName, 
-								DisplayDesc.UseLight, DisplayDesc.CastShadow, extrainfo, lifeinfo));
-
-				boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
-				tr->translationX = DisplayDesc.TransX;
-				tr->translationY = DisplayDesc.TransY;
-				tr->translationZ = DisplayDesc.TransZ;
-
-				tr->rotation = LbaQuaternion(DisplayDesc.RotX, DisplayDesc.RotY, DisplayDesc.RotZ);
-
-				tr->scaleX = DisplayDesc.ScaleX;
-				tr->scaleY = DisplayDesc.ScaleY;
-				tr->scaleZ = DisplayDesc.ScaleZ;
-
-				DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
-			}
-		}
-		break;
-
-		//1 -> sprite 
-		case LbaNet::RenderSprite:
-		{
-
-			if(DisplayDesc.ModelName != "")
-			{
-				boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
-					(new SpriteDescription(DisplayDesc.ModelName, DisplayDesc.UseLight, DisplayDesc.CastShadow, 
-								DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA,
-								extrainfo, lifeinfo, DisplayDesc.UseBillboard));
-
-				boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
-				tr->translationX = DisplayDesc.TransX;
-				tr->translationY = DisplayDesc.TransY;
-				tr->translationZ = DisplayDesc.TransZ;
-
-				tr->rotation = LbaQuaternion(DisplayDesc.RotX, DisplayDesc.RotY, DisplayDesc.RotZ);
-
-				tr->scaleX = DisplayDesc.ScaleX;
-				tr->scaleY = DisplayDesc.ScaleY;
-				tr->scaleZ = DisplayDesc.ScaleZ;
-
-				DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
-			}
-		}
-		break;
-
-		//2 -> LBA1 model 
-		case LbaNet::RenderLba1M:
-		{
-			bool mainchar = false;
-			if(OType == 2)
-				if(ObjectId == m_playerObjectId)
-					mainchar = true;
-
-
-			//TODO animation speed
-			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
-				(new Lba1ModelObjectDescription(DisplayDesc, _LBA1_MODEL_ANIMATION_SPEED_,
-												DisplayDesc.UseLight, DisplayDesc.CastShadow, extrainfo, 
-												lifeinfo, mainchar));
-
-			boost::shared_ptr<DisplayTransformation> tr(new DisplayTransformation());
-			tr->translationX = DisplayDesc.TransX;
-			tr->translationY = DisplayDesc.TransY;
-			tr->translationZ = DisplayDesc.TransZ;
-
-			tr->rotation = LbaQuaternion(DisplayDesc.RotX, DisplayDesc.RotY, DisplayDesc.RotZ);
-
-			tr->scaleX = DisplayDesc.ScaleX;
-			tr->scaleY = DisplayDesc.ScaleY*2;
-			tr->scaleZ = DisplayDesc.ScaleZ;
-
-			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
-		}
-		break;
-
-		//3-> LBA2 model
-		case LbaNet::RenderLba2M:
-		{
-			//TODO - lba2 models
-		}
-		break;
-
-		//RenderCross
-		case LbaNet::RenderCross:
-		{
-			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
-				(new OsgCrossDescription(PhysicDesc.SizeX, 
-				DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA, extrainfo, lifeinfo));
-
-
-			boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
-			tr->translationX = DisplayDesc.TransX;
-			tr->translationY = DisplayDesc.TransY;
-			tr->translationZ = DisplayDesc.TransZ;
-
-			tr->rotation = LbaQuaternion(DisplayDesc.RotX, DisplayDesc.RotY, DisplayDesc.RotZ);
-
-			tr->scaleX = DisplayDesc.ScaleX;
-			tr->scaleY = DisplayDesc.ScaleY;
-			tr->scaleZ = DisplayDesc.ScaleZ;
-
-			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
-		}
-		break;
-
-		//RenderBox
-		case LbaNet::RenderBox:
-		{
-			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
-				(new OsgBoxDescription(DisplayDesc.ScaleX, DisplayDesc.ScaleY, DisplayDesc.ScaleZ, 
-				DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA, extrainfo, lifeinfo));
-
-
-			boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
-			tr->translationX = DisplayDesc.TransX;
-			tr->translationY = DisplayDesc.TransY;
-			tr->translationZ = DisplayDesc.TransZ;
-
-			tr->rotation = LbaQuaternion(DisplayDesc.RotX, DisplayDesc.RotY, DisplayDesc.RotZ);
-
-			tr->scaleX = 1;
-			tr->scaleY = 1;
-			tr->scaleZ = 1;
-
-			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
-		}
-		break;
-
-		//RenderCapsule
-		case LbaNet::RenderCapsule:
-		{
-			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
-				(new OsgOrientedCapsuleDescription(DisplayDesc.ScaleY, DisplayDesc.ScaleX, 
-				DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA, extrainfo, lifeinfo));
-
-			boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
-			tr->translationX = DisplayDesc.TransX;
-			tr->translationY = DisplayDesc.TransY;
-			tr->translationZ = DisplayDesc.TransZ;
-
-			tr->rotation = LbaQuaternion(DisplayDesc.RotX, DisplayDesc.RotY, DisplayDesc.RotZ);
-
-			tr->scaleX = 1;
-			tr->scaleY = 1;
-			tr->scaleZ = DisplayDesc.ScaleZ;
-
-			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
-		}
-		break;
-
-		//RenderCapsule
-		case LbaNet::RenderSphere:
-		{
-			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
-				(new OsgSphereDescription(DisplayDesc.ScaleY, 
-						DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, 
-						DisplayDesc.ColorA, extrainfo, lifeinfo));
-
-			boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
-			tr->translationX = DisplayDesc.TransX;
-			tr->translationY = DisplayDesc.TransY;
-			tr->translationZ = DisplayDesc.TransZ;
-
-			tr->rotation = LbaQuaternion(DisplayDesc.RotX, DisplayDesc.RotY, DisplayDesc.RotZ);
-
-			tr->scaleX = DisplayDesc.ScaleX;
-			tr->scaleY = 1;
-			tr->scaleZ = DisplayDesc.ScaleZ;
-
-			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
-		}
-		break;
-	}
-
-
-
 	float sizeX=PhysicDesc.SizeX, sizeY=PhysicDesc.SizeY, sizeZ=PhysicDesc.SizeZ;
 	if(sizeX < 0)
 		sizeX = 1;
@@ -809,6 +643,17 @@ ObjectInfo LbaNetModel::CreateObject(int OType, Ice::Long ObjectId,
 		sizeY = 1;
 	if(sizeZ < 0)
 		sizeZ = 1;
+
+	bool mainchar = false;
+	if(OType == 2)
+		if(ObjectId == m_playerObjectId)
+			mainchar = true;
+
+	boost::shared_ptr<DisplayInfo> DInfo = 
+		ObjectInfo::ExtractDisplayInfo(DisplayDesc, extrainfo, lifeinfo, mainchar, sizeX);
+
+
+
 
 	// create physic object
 	boost::shared_ptr<PhysicalDescriptionBase> PInfo;
@@ -1197,9 +1042,9 @@ void LbaNetModel::NewMap(const std::string & NewMap, const std::string & Script,
 
 
 	// todo remove that
-	OsgHandler::getInstance()->ResetDisplayTree();
+	OsgHandler::getInstance()->ResetDisplayTree(0);
 	LbaMainLightInfo lightinfo(0, 100, 50);
-	OsgHandler::getInstance()->SetLight(lightinfo);
+	OsgHandler::getInstance()->SetLight(0, lightinfo);
 
 
 	// ask server to get a refresh of all objects
@@ -2586,6 +2431,34 @@ void LbaNetModel::ShowHideVoiceSprite(long ActorId, bool Show, bool Left)
 			it->second->GetActor()->GetDisplayObject()->DisplayOrHideTalkingIcon(Show, Left);
 	}
 }
+
+
+/***********************************************************
+//! AddHolomap
+***********************************************************/
+void LbaNetModel::AddHolomap(boost::shared_ptr<Holomap> holo)
+{
+	HolomapHandler::getInstance()->AddHolomap(holo);
+}
+
+
+/***********************************************************
+//! AddHolomap
+***********************************************************/
+void LbaNetModel::AddHolomapLoc(boost::shared_ptr<HolomapLocation> holo)
+{
+	HolomapHandler::getInstance()->AddHolomapLoc(holo);
+}
+
+
+/***********************************************************
+//! AddHolomap
+***********************************************************/
+void LbaNetModel::AddHolomapPath(boost::shared_ptr<HolomapTravelPath> holo)
+{
+	HolomapHandler::getInstance()->AddHolomapPath(holo);
+}
+
 
 
 

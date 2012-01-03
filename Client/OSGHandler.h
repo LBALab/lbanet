@@ -61,7 +61,24 @@ namespace osgAudio
 	class SoundRoot;
 }
 
+// camera info
+struct OsgHCameraInfo
+{
+	//constructor
+	OsgHCameraInfo()
+		: cameraType(0), targetx(10), targety(10), targetz(10), 
+			fov(0), distance(0), zenit(0), azimut(0)
+	{}
 
+	int		cameraType;
+	double	targetx;
+	double	targety;
+	double	targetz;
+	double	fov;
+	double	distance;
+	double	zenit;
+	double	azimut;
+};
 
 
 class GuiHandler;
@@ -72,6 +89,8 @@ class CEGUIDrawable;
 
 static int ReceivesShadowTraversalMask = 0x1;
 static int CastsShadowTraversalMask = 0x2;
+
+#define		_NB_OSG_SCENES_		2
 
 //*************************************************************************************************
 //*                               class OsgHandler
@@ -144,7 +163,7 @@ public:
 
 	//! get current azimut
 	double GetCameraAzimut()
-	{ return _azimut;}
+	{ return _caminfo.azimut;}
 
 	//! delta update camera zenit
 	void DeltaUpdateCameraAzimut(double delta);
@@ -157,7 +176,7 @@ public:
 	//! clear all nodes of the display tree
 	//! typically called when changing map
 	//! set if new map uses lighning or not
-	void ResetDisplayTree();
+	void ResetDisplayTree(int sceneidx);
 
 	//! update display - returns true if need to terminate
 	bool Update();
@@ -166,21 +185,21 @@ public:
 	osg::ref_ptr<osg::Node> LoadOSGFile(const std::string & filename);
 
 	//! add a actor to the display list - return handler to actor position
-	osg::ref_ptr<osg::MatrixTransform> AddActorNode(osg::ref_ptr<osg::Node> node,
+	osg::ref_ptr<osg::MatrixTransform> AddActorNode(int sceneidx, osg::ref_ptr<osg::Node> node,
 														bool UseLight, bool CastShadow);
 
 
 	//! add an empty actor to the display list - return handler to actor position
-	osg::ref_ptr<osg::MatrixTransform> AddEmptyActorNode(bool WithLight);
+	osg::ref_ptr<osg::MatrixTransform> AddEmptyActorNode(int sceneidx, bool WithLight);
 
 	//! readd a removed actor to the display list
-	void ReAddActorNode(osg::ref_ptr<osg::Node> node, bool WithLight);
+	void ReAddActorNode(int sceneidx, osg::ref_ptr<osg::Node> node, bool WithLight);
 
 	//! remove actor from the graph
-	void RemoveActorNode(osg::ref_ptr<osg::Node> node, bool WithLight);
+	void RemoveActorNode(int sceneidx, osg::ref_ptr<osg::Node> node, bool WithLight);
 
 	//! set light
-	void SetLight(const LbaMainLightInfo &LightInfo);
+	void SetLight(int sceneidx, const LbaMainLightInfo &LightInfo);
 
 
 	//! set clip plane cut layer
@@ -196,14 +215,14 @@ public:
 	//! 2 -> perspective
 	//! 3 -> free 3D
 	int CameraType()
-	{return _cameraType;}
+	{return _caminfo.cameraType;}
 
 	//! toggle shadow
 	void ToggleShadow(int ShadowType);
 
 
 	// create sprite object
-	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateSpriteObject(const std::string & spritefile, 
+	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateSpriteObject(int sceneidx, const std::string & spritefile, 
 															float colorR, float colorG, float colorB, float colorA,
 															boost::shared_ptr<DisplayTransformation> Tr,
 															bool UseLight, bool CastShadow,
@@ -212,21 +231,21 @@ public:
 															bool UseBillboard);
 
 	//! create simple display object
-	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateSimpleObject(const std::string & filename,
+	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateSimpleObject(int sceneidx, const std::string & filename,
 															boost::shared_ptr<DisplayTransformation> Tr,
 															bool UseLight, bool CastShadow,
 															const LbaNet::ObjectExtraInfo &extrainfo,
 															const LbaNet::LifeManaInfo &lifeinfo);
 
 	//! create sphere object
-	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateSphereObject(float radius, 
+	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateSphereObject(int sceneidx, float radius, 
 															float colorR, float colorG, float colorB, float colorA,
 															boost::shared_ptr<DisplayTransformation> Tr,
 															const LbaNet::ObjectExtraInfo &extrainfo,
 															const LbaNet::LifeManaInfo &lifeinfo);
 
 	//! create capsule object
-	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateCapsuleObject(float radius, float height, 
+	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateCapsuleObject(int sceneidx, float radius, float height, 
 															float colorR, float colorG, float colorB, float colorA,
 															boost::shared_ptr<DisplayTransformation> Tr,
 															const LbaNet::ObjectExtraInfo &extrainfo,
@@ -234,7 +253,7 @@ public:
 
 
 	//! create box object
-	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateBoxObject(float sizex, float sizey, float sizez, 
+	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateBoxObject(int sceneidx, float sizex, float sizey, float sizez, 
 															float colorR, float colorG, float colorB, float colorA,
 															boost::shared_ptr<DisplayTransformation> Tr,
 															const LbaNet::ObjectExtraInfo &extrainfo,
@@ -243,14 +262,14 @@ public:
 
 
 	//! create cross object
-	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateCrossObject(float size,
+	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateCrossObject(int sceneidx, float size,
 															float colorR, float colorG, float colorB, float colorA,
 															boost::shared_ptr<DisplayTransformation> Tr,
 															const LbaNet::ObjectExtraInfo &extrainfo,
 															const LbaNet::LifeManaInfo &lifeinfo);
 
 	//! create grid object
-	osg::ref_ptr<osg::MatrixTransform> CreateGridObject(long sizeX, long sizeY,
+	osg::ref_ptr<osg::MatrixTransform> CreateGridObject(int sceneidx, long sizeX, long sizeY,
 															boost::shared_ptr<DisplayTransformation> Tr);
 
 	//! create PAT
@@ -262,14 +281,14 @@ public:
 
 
 	// create sprite object
-	osg::ref_ptr<osg::MatrixTransform> CreateSpriteObject(const std::string & spritefile, 
+	osg::ref_ptr<osg::MatrixTransform> CreateSpriteObject(int sceneidx, const std::string & spritefile, 
 												float colorR, float colorG, float colorB, float colorA,
 												boost::shared_ptr<DisplayTransformation> Tr,
 												bool UseLight, bool CastShadow,
 												bool UseBillboard);
 
 	//! create simple display object
-	osg::ref_ptr<osg::MatrixTransform> CreateSimpleObject(const std::string & filename,
+	osg::ref_ptr<osg::MatrixTransform> CreateSimpleObject(int sceneidx, const std::string & filename,
 															boost::shared_ptr<DisplayTransformation> Tr,
 															bool UseLight, bool CastShadow);
 
@@ -283,6 +302,17 @@ public:
 
 	//! send sound root
 	void SetSoundRoot(osg::ref_ptr<osgAudio::SoundRoot> sound_root);
+
+
+	//! switch between the different scenes
+	void SwitchScene(int newsceneidx);
+
+	//! store camera info
+	void StoreCameraInfo();
+
+	//! reset camera info
+	void ResetCameraInfo();
+
 
 protected:
 	//! constructor
@@ -306,6 +336,23 @@ protected:
 	//! set shadow node
 	osg::ref_ptr<osg::Group> CreateShadowNode();
 
+	//! get scene root node
+	osg::ref_ptr<osg::Group> &GetSceneRootNode(); 
+
+	//! get scene root node
+	osg::ref_ptr<osg::Group> &GetSceneRootNodeNoLight(); 
+
+	//! get scene root node
+	osg::ref_ptr<osg::LightSource> &GetLigthNode(); 
+
+	//! get scene root node
+	osg::ref_ptr<osg::Group> & GetSceneRootNode(int sceneidx); 
+
+	//! get scene root node
+	osg::ref_ptr<osg::Group> & GetSceneRootNodeNoLight(int sceneidx); 
+
+	//! get scene root node
+	osg::ref_ptr<osg::LightSource> &GetLigthNode(int sceneidx); 
 
 private:
 	// singleton
@@ -329,18 +376,12 @@ private:
 	int		_ShadowType;
 
 
-	// camera info
-	int		_cameraType;
-	int		_autoCameraType;
-	double	_targetx;
-	double	_targety;
-	double	_targetz;
-	double	_fov;
-	double	_distance;
-	double	_zenit;
-	double	_azimut;
 	float	_current_clip_layer;
 
+	// camera info
+	OsgHCameraInfo	_caminfo;
+	OsgHCameraInfo	_savedcaminfo;
+	int				_autoCameraType;
 
 	// osg handlers
 	osg::ref_ptr<osgViewer::Viewer>					_viewer;
@@ -350,9 +391,14 @@ private:
 	osg::ref_ptr<osg::Group>						_root;
 	osg::ref_ptr<osg::Group>						_rootNodeGui;
 	osg::ref_ptr<osg::PositionAttitudeTransform>	_translNode;
-	osg::ref_ptr<osg::LightSource>					_lightNode;
-	osg::ref_ptr<osg::Group>						_sceneRootNode;
-	osg::ref_ptr<osg::Group>						_sceneNoLightRootNode;
+
+	osg::ref_ptr<osg::LightSource>									_lightNodes[_NB_OSG_SCENES_];
+	std::pair<osg::ref_ptr<osg::Group>, osg::ref_ptr<osg::Group> >	_sceneroots[_NB_OSG_SCENES_];
+	int																_currentsceneroot;
+
+	//osg::ref_ptr<osg::LightSource>				_lightNode;
+	//osg::ref_ptr<osg::Group>						_sceneRootNode;
+	//osg::ref_ptr<osg::Group>						_sceneNoLightRootNode;
 
 	osg::ref_ptr<osg::ClipNode>						_clipNode;
 	osg::ref_ptr<osg::Camera>						_HUDcam;

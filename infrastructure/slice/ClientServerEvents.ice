@@ -396,6 +396,17 @@ module LbaNet
 	class ResetWorldEvent extends ClientServerEventBase
 	{
 		string			Worldname;
+	};
+	
+
+	sequence<long> HoloIdSeq;	
+	
+	// server inform client to show holomap
+	class DisplayHolomapEvent extends ClientServerEventBase
+	{
+		int			Mode; // 0 -> map only ; 1 -> map + locations; 2 -> map + path; 3 -> map + 1loc editor ; 4 -> map + path editor 
+		long			HolomapLocationOrPathId;
+		HoloIdSeq		QuestsHoloLocIds;		
 	};	
 };	
 

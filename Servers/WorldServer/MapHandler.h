@@ -473,6 +473,19 @@ public:
 
 	//! TeleportPlayerAtEndScript
 	virtual void TeleportPlayerAtEndScript(int ScriptId, const std::string &newmap, long newspawn){}
+	
+	//! AddHolomap
+	virtual void AddHolomap(boost::shared_ptr<Holomap> holo){}
+
+	//! AddHolomap
+	virtual void AddHolomapLoc(boost::shared_ptr<HolomapLocation> holo){}
+
+	//! AddHolomap
+	virtual void AddHolomapPath(boost::shared_ptr<HolomapTravelPath> holo){}
+
+	//! display holomap
+	virtual void DisplayHolomap(long PlayerId, int mode, long holoid);
+
 
 protected:
 

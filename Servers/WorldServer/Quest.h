@@ -39,7 +39,8 @@ public:
 	//! constructor
 	Quest(long id)
 		: _id(id), _chapternumber(1), _titleTextId(-1),
-			_descriptionTextId(-1), _locationtextid(-1), _visible(true)
+			_descriptionTextId(-1), _locationtextid(-1), _visible(true),
+			_linkedholomaplocid(-1)
 	{}
 
 	//! destructor
@@ -133,6 +134,15 @@ public:
 	void SetVisible(bool v)
 	{_visible = v;}
 
+
+	//! get location text id
+	long GetLinkedHoloLocId()
+	{return _linkedholomaplocid;}
+
+	//! set location text id
+	void SetLinkedHoloLocId(long id)
+	{_linkedholomaplocid = id;}
+
 private:
 	long							_id;
 	int								_chapternumber;
@@ -144,6 +154,8 @@ private:
 	long							_titleTextId;
 	long							_descriptionTextId;
 	long							_locationtextid;
+
+	long							_linkedholomaplocid;
 
 	bool							_visible;
 };

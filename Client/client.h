@@ -32,8 +32,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "QT_WindowsBase.h"
 
 class VLCPlayer;
+class LbaVec3;
 
-enum ClientViewType { CLV_Game = 0, CLV_Video, CLV_ExtraGL };
+enum ClientViewType { CLV_Game = 0, CLV_Video, CLV_ExtraGL, CLV_Holomap };
 
 class Client : public QWidget, public QT_Windows_base
 {
@@ -73,6 +74,11 @@ public:
 
 	//! init display
 	void InitDisplay(bool fullscreen, bool maximized);
+
+	//! display holomap
+	void DisplayHolomap(int Mode, long HolomapLocationOrPathId,
+						const std::vector<long> &questholoids, const LbaVec3 &playerpos);
+
 
 
 public slots:

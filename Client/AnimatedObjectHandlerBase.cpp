@@ -27,11 +27,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /***********************************************************
 Constructor
 ***********************************************************/
-AnimatedObjectHandlerBase::AnimatedObjectHandlerBase(boost::shared_ptr<DisplayTransformation> Tr,
+AnimatedObjectHandlerBase::AnimatedObjectHandlerBase(int sceneidx, 
+													 boost::shared_ptr<DisplayTransformation> Tr,
 														const LbaNet::ObjectExtraInfo &extrainfo,
 														const LbaNet::LifeManaInfo &lifeinfo,
 														const LbaNet::ModelInfo & info)
-: OsgObjectHandler(Tr, extrainfo, lifeinfo), 
+: OsgObjectHandler(sceneidx, Tr, extrainfo, lifeinfo), 
 	_currentanimationstring("Stand"), _paused(false), 
 	_currentmodelinfo(info)
 {

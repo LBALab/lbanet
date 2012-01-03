@@ -73,7 +73,7 @@ LbaNetEngine::LbaNetEngine(Ice::CommunicatorPtr communicator, const std::string 
 	m_editor_handler = editH;
 #endif
 
-	//check if LBA1 file files 
+	//check if LBA1 file exist 
 	CheckLBA1Files();
 
 	Initialize();
@@ -192,6 +192,7 @@ void LbaNetEngine::run(void)
 	//m_lbaNetModel->AddObject(1, objinfo);
 
 	//SwitchGuiToGame();
+
 
 	// done in order to solve bug at startup with GUI mouse
 	int resX, resY;
@@ -1081,6 +1082,26 @@ void LbaNetEngine::HandleGameEvents()
 			m_lbaNetModel->ShowHideVoiceSprite(castedptr->_ActorId, castedptr->_Show, castedptr->_Left);
 			continue;
 		}	
+
+
+	
+		// DisplayHolomapEvent
+		if(info == typeid(LbaNet::DisplayHolomapEvent))
+		{
+			LbaNet::DisplayHolomapEvent* castedptr = 
+				dynamic_cast<LbaNet::DisplayHolomapEvent *>(&obj);
+
+			std::vector<long> qhlids;
+			for(size_t qh=0; qh< castedptr->QuestsHoloLocIds.size(); ++qh)
+				qhlids.push_back(castedptr->QuestsHoloLocIds[qh]);
+
+			LbaVec3 ppos = m_lbaNetModel->GetActorPosition(-1, -1);
+
+			m_client_window->DisplayHolomap(castedptr->Mode, castedptr->HolomapLocationOrPathId,
+												qhlids, ppos);
+			continue;
+		}	
+
 	}
 }
 

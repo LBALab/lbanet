@@ -698,7 +698,12 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("AddAction", &RandomAction::AddAction)
 		.def("RemoveAction", &RandomAction::RemoveAction),
 
-
+		luabind::class_<DisplayHolomapAction, ActionBase, boost::shared_ptr<ActionBase> >("DisplayHolomapAction")
+		.def(luabind::constructor<>())
+		.def("GetMode", &DisplayHolomapAction::GetMode)
+		.def("SetMode", &DisplayHolomapAction::SetMode)
+		.def("GetHolomapId", &DisplayHolomapAction::GetHolomapId)
+		.def("SetHolomapId", &DisplayHolomapAction::SetHolomapId),
 
 		
 
@@ -783,7 +788,11 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetChapter", &Quest::GetChapter)
 		.def("SetChapter", &Quest::SetChapter)
 		.def("GetVisible", &Quest::GetVisible)
-		.def("SetVisible", &Quest::SetVisible),
+		.def("SetVisible", &Quest::SetVisible)
+		.def("GetLinkedHoloId", &Quest::GetVisible)
+		.def("SetLinkedHoloId", &Quest::SetVisible)	
+		.def("GetLinkedHoloLocId", &Quest::GetVisible)
+		.def("SetLinkedHoloLocId", &Quest::SetVisible),
 
 		luabind::class_<TeleportDef, boost::shared_ptr<TeleportDef> >("TeleportDef")
 		.def(luabind::constructor<long>())

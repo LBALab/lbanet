@@ -126,6 +126,7 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
 				mapi.HurtFallFactor = v.second.get<float>("<xmlattr>.HurtFallFactor", 2);
 				mapi.Music = v.second.get<std::string>("<xmlattr>.music", "");
 				mapi.Repeat = v.second.get<int>("<xmlattr>.repeatmusic", 0);
+				mapi.LinkedHoloLocation = v.second.get<long>("<xmlattr>.LinkedHoloLocation", -1);
 
 				res.Maps[mapi.Name] = mapi;
 			}
@@ -207,6 +208,7 @@ bool XmlReader::SaveWorldInfo(const std::string &Filename, const WorldInformatio
 		tmp.put("<xmlattr>.HurtFallFactor", mapi.second.HurtFallFactor);
 		tmp.put("<xmlattr>.music", mapi.second.Music);
 		tmp.put("<xmlattr>.repeatmusic", mapi.second.Repeat);
+		tmp.put("<xmlattr>.LinkedHoloLocation", mapi.second.LinkedHoloLocation);
 	}
 
 	// Write the property tree into the XML file 

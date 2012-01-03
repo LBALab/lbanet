@@ -76,7 +76,9 @@ class DisplayObjectDescriptionBase
 {
 public:
 	//! constructor
-	DisplayObjectDescriptionBase(){}
+	DisplayObjectDescriptionBase(int sceneid)
+		: _sceneid(sceneid)
+	{}
 
 	//! destructor
 	virtual ~DisplayObjectDescriptionBase(){}
@@ -91,6 +93,9 @@ public:
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> BuildServer()
 	{return boost::shared_ptr<DisplayObjectHandlerBase>();}
 
+
+protected:
+	int		_sceneid;
 };
 
 
@@ -103,11 +108,12 @@ class SpriteDescription : public DisplayObjectDescriptionBase
 {
 public:
 	//! constructor
-	SpriteDescription(const std::string & spritefile, bool UseLight, bool CastShadow,
+	SpriteDescription(int sceneid, const std::string & spritefile, bool UseLight, bool CastShadow,
 							float colorR, float colorG, float colorB, float colorA,
 							const LbaNet::ObjectExtraInfo &extrainfo,
 							const LbaNet::LifeManaInfo &lifeinfo, bool UseBillboard)
-		: _spritefile(spritefile), _UseLight(UseLight), _CastShadow(CastShadow),
+		: DisplayObjectDescriptionBase(sceneid), _spritefile(spritefile), 
+				_UseLight(UseLight), _CastShadow(CastShadow),
 				_colorR(colorR), _colorG(colorG), _colorB(colorB), _colorA(colorA), 
 					_extrainfo(extrainfo), _lifeinfo(lifeinfo), _UseBillboard(UseBillboard)
 	{}
@@ -115,11 +121,11 @@ public:
 	//! destructor
 	virtual ~SpriteDescription(){}
 
-
+#ifndef _LBANET_SERVER_SIDE_
 	//! build description into dynamic object
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> BuildSelf(boost::shared_ptr<DisplayTransformation> Tr, 
 																				DisplayHandlerBase * disH) const;
-
+#endif
 
 private:
 	std::string					_spritefile;
@@ -146,20 +152,22 @@ class OsgSimpleObjectDescription : public DisplayObjectDescriptionBase
 {
 public:
 	//! constructor
-	OsgSimpleObjectDescription(const std::string & filename, bool UseLight, bool CastShadow,
+	OsgSimpleObjectDescription(int sceneid, const std::string & filename, bool UseLight, bool CastShadow,
 								const LbaNet::ObjectExtraInfo &extrainfo,
 								const LbaNet::LifeManaInfo & lifeinfo)
-		: _filename(filename), _UseLight(UseLight), _CastShadow(CastShadow), 
+		: DisplayObjectDescriptionBase(sceneid), _filename(filename), 
+			_UseLight(UseLight), _CastShadow(CastShadow), 
 			_extrainfo(extrainfo), _lifeinfo(lifeinfo)
 	{}
 
 	//! destructor
 	virtual ~OsgSimpleObjectDescription(){}
 
+#ifndef _LBANET_SERVER_SIDE_
 	//! build description into dynamic object
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> BuildSelf(boost::shared_ptr<DisplayTransformation> Tr, 
 																			DisplayHandlerBase * disH) const;
-
+#endif
 
 private:
 	std::string		_filename;
@@ -180,20 +188,22 @@ class OsgCrossDescription : public DisplayObjectDescriptionBase
 {
 public:
 	//! constructor
-	OsgCrossDescription(float size, float colorR, float colorG, float colorB, float colorA,
+	OsgCrossDescription(int sceneid, float size, float colorR, float colorG, float colorB, float colorA,
 								const LbaNet::ObjectExtraInfo &extrainfo,
 								const LbaNet::LifeManaInfo &lifeinfo)
-		: _size(size), _colorR(colorR), _colorG(colorG), _colorB(colorB), _colorA(colorA), 
+		: DisplayObjectDescriptionBase(sceneid), _size(size), _colorR(colorR), 
+				_colorG(colorG), _colorB(colorB), _colorA(colorA), 
 				_extrainfo(extrainfo), _lifeinfo(lifeinfo)
 	{}
 
 	//! destructor
 	virtual ~OsgCrossDescription(){}
 
-
+#ifndef _LBANET_SERVER_SIDE_
 	//! build description into dynamic object
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> BuildSelf(boost::shared_ptr<DisplayTransformation> Tr, 
 																				DisplayHandlerBase * disH) const;
+#endif
 
 private:
 	float _size;
@@ -216,11 +226,12 @@ class OsgBoxDescription : public DisplayObjectDescriptionBase
 {
 public:
 	//! constructor
-	OsgBoxDescription(float sizex, float sizey, float sizez, 
+	OsgBoxDescription(int sceneid, float sizex, float sizey, float sizez, 
 							float colorR, float colorG, float colorB, float colorA,
 							const LbaNet::ObjectExtraInfo &extrainfo,
 							const LbaNet::LifeManaInfo &lifeinfo)
-		: _sizex(sizex), _sizey(sizey), _sizez(sizez), _colorR(colorR),
+		: DisplayObjectDescriptionBase(sceneid), _sizex(sizex), _sizey(sizey),
+					_sizez(sizez), _colorR(colorR),
 					_colorG(colorG), _colorB(colorB), _colorA(colorA), 
 					_extrainfo(extrainfo), _lifeinfo(lifeinfo)
 	{}
@@ -228,10 +239,11 @@ public:
 	//! destructor
 	virtual ~OsgBoxDescription(){}
 
-
+#ifndef _LBANET_SERVER_SIDE_
 	//! build description into dynamic object
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> BuildSelf(boost::shared_ptr<DisplayTransformation> Tr, 
 																				DisplayHandlerBase * disH) const;
+#endif
 
 private:
 	float _sizex;
@@ -258,11 +270,11 @@ class OsgOrientedCapsuleDescription : public DisplayObjectDescriptionBase
 {
 public:
 	//! constructor
-	OsgOrientedCapsuleDescription(float height, float radius,
+	OsgOrientedCapsuleDescription(int sceneid, float height, float radius,
 									float colorR, float colorG, float colorB, float colorA,
 									const LbaNet::ObjectExtraInfo &extrainfo,
 									const LbaNet::LifeManaInfo &lifeinfo)
-		: _height(height), _radius(radius), _colorR(colorR),
+		: DisplayObjectDescriptionBase(sceneid), _height(height), _radius(radius), _colorR(colorR),
 					_colorG(colorG), _colorB(colorB), _colorA(colorA), 
 					_extrainfo(extrainfo), _lifeinfo(lifeinfo)
 	{}
@@ -270,10 +282,11 @@ public:
 	//! destructor
 	virtual ~OsgOrientedCapsuleDescription(){}
 
-
+#ifndef _LBANET_SERVER_SIDE_
 	//! build description into dynamic object
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> BuildSelf(boost::shared_ptr<DisplayTransformation> Tr, 
 																				DisplayHandlerBase * disH) const;
+#endif
 
 private:
 	float _height;
@@ -298,11 +311,11 @@ class OsgSphereDescription : public DisplayObjectDescriptionBase
 {
 public:
 	//! constructor
-	OsgSphereDescription(float radius,
+	OsgSphereDescription(int sceneid, float radius,
 									float colorR, float colorG, float colorB, float colorA,
 									const LbaNet::ObjectExtraInfo &extrainfo,
 									const LbaNet::LifeManaInfo &lifeinfo)
-		: _radius(radius), _colorR(colorR),
+		: DisplayObjectDescriptionBase(sceneid), _radius(radius), _colorR(colorR),
 					_colorG(colorG), _colorB(colorB), _colorA(colorA), 
 					_extrainfo(extrainfo), _lifeinfo(lifeinfo)
 	{}
@@ -310,10 +323,11 @@ public:
 	//! destructor
 	virtual ~OsgSphereDescription(){}
 
-
+#ifndef _LBANET_SERVER_SIDE_
 	//! build description into dynamic object
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> BuildSelf(boost::shared_ptr<DisplayTransformation> Tr, 
 																				DisplayHandlerBase * disH) const;
+#endif
 
 private:
 	float _radius;
@@ -339,12 +353,12 @@ class Lba1ModelObjectDescription : public DisplayObjectDescriptionBase
 {
 public:
 	//! constructor
-	Lba1ModelObjectDescription(const LbaNet::ModelInfo & info, float animationspeed,
+	Lba1ModelObjectDescription(int sceneid, const LbaNet::ModelInfo & info, float animationspeed,
 								bool UseLight, bool CastShadow,
 								const LbaNet::ObjectExtraInfo &extrainfo,
 								const LbaNet::LifeManaInfo &lifeinfo,
 								bool mainchar)
-		: _info(info), _animationspeed(animationspeed), 
+		: DisplayObjectDescriptionBase(sceneid), _info(info), _animationspeed(animationspeed), 
 				_extrainfo(extrainfo), _lifeinfo(lifeinfo), _UseLight(UseLight),
 				_CastShadow(CastShadow), _mainchar(mainchar)
 	{}
@@ -677,6 +691,12 @@ public:
 
 	//get object id
 	long GetId() const {return Id;}
+
+	// Extract display info
+	static boost::shared_ptr<DisplayInfo> ExtractDisplayInfo(const LbaNet::ModelInfo &DisplayDesc,
+																const LbaNet::ObjectExtraInfo &extrainfo,
+																const LbaNet::LifeManaInfo &lifeinfo,
+																bool mainchar, float SizeX);
 
 public:
 	boost::shared_ptr<DisplayInfo>				DisInfo;

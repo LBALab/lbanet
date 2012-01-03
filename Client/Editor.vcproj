@@ -543,6 +543,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Holomap.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\HolomapHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\shared\HQRHandler.cpp"
 				>
 			</File>
@@ -1258,6 +1266,14 @@
 			</File>
 			<File
 				RelativePath="..\Client\GUILocalizationCallback.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Holomap.h"
+				>
+			</File>
+			<File
+				RelativePath=".\HolomapHandler.h"
 				>
 			</File>
 			<File

@@ -49,7 +49,7 @@ class ExternalActor;
 class ProjectileHandler;
 class ItemObject;
 class LbaNetEngine;
-
+class Holomap;
 
 struct ObjecToAdd
 {
@@ -526,6 +526,18 @@ public:
 	//! ShowHideVoiceSprite
 	void ShowHideVoiceSprite(long ActorId, bool Show, bool Left);
 
+	//! AddHolomap
+	virtual void AddHolomap(boost::shared_ptr<Holomap> holo);
+
+	//! AddHolomap
+	virtual void AddHolomapLoc(boost::shared_ptr<HolomapLocation> holo);
+
+	//! AddHolomap
+	virtual void AddHolomapPath(boost::shared_ptr<HolomapTravelPath> holo);
+
+	//! display holomap
+	virtual void DisplayHolomap(long PlayerId, int mode, long holoid){}
+
 protected:
 
 	//! clean up map
@@ -609,13 +621,16 @@ protected:
 											const LbaVec3 & P3, const LbaVec3 & P4, 
 											bool asynchronus = false);
 
-
+	//iCreateObject
 	ObjectInfo CreateObject(int OType, Ice::Long ObjectId, 
 								const LbaNet::ModelInfo &DisplayDesc, 
 								const LbaNet::ObjectPhysicDesc &PhysicDesc,
 								const LbaNet::ObjectExtraInfo &extrainfo,
 								const LbaNet::LifeManaInfo &lifeinfo);
 
+
+	//init holomap from lua
+	void InitHolomap();
 
 
 

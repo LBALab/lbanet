@@ -14,6 +14,8 @@ extern "C"
 #include "EventsQueue.h"
 #include "SynchronizedTimeHandler.h"
 #include "ScriptEnvironmentBase.h"
+#include "Holomap.h"
+
 
 #include <vector>
 
@@ -62,7 +64,67 @@ ClientLuaHandler::ClientLuaHandler()
 		[
 			luabind::def("GetAngleFromVector", &LbaQuaternion::GetAngleFromVector)
 		],
-		
+
+
+		luabind::class_<HoloCoordinate>("HoloCoordinate")
+		.def(luabind::constructor<>())
+		.def_readwrite("polarcoords", &HoloCoordinate::polarcoords)
+		.def_readwrite("posX", &HoloCoordinate::posX)
+		.def_readwrite("posY", &HoloCoordinate::posY)
+		.def_readwrite("posZ", &HoloCoordinate::posZ)
+		.def_readwrite("dir_cen_X", &HoloCoordinate::dir_cen_X)
+		.def_readwrite("dir_cen_Y", &HoloCoordinate::dir_cen_Y)
+		.def_readwrite("dir_cen_Z", &HoloCoordinate::dir_cen_Z),
+
+		luabind::class_<DisplayInfoHandler>("DisplayInfoHandler")
+		.def(luabind::constructor<>())
+		.def("SetRenderType", &DisplayInfoHandler::SetRenderType)
+		.def_readwrite("Dinfo", &DisplayInfoHandler::Dinfo),
+
+		luabind::class_<HolomapLocation>("HolomapLocation")
+		.def(luabind::constructor<long>())
+		.def("GetId", &HolomapLocation::GetId)
+		.def("GetName", &HolomapLocation::GetName)			
+		.def("SetName", &HolomapLocation::SetName)
+		.def("SetCoordinate", &HolomapLocation::SetCoordinate)
+		.def("GetCoordinate", &HolomapLocation::GetCoordinate)
+		.def("GetTextId", &HolomapLocation::GetTextId)
+		.def("SetTextId", &HolomapLocation::SetTextId)
+		.def("SetParentLocId", &HolomapLocation::SetParentLocId)
+		.def("SetChildHoloId", &HolomapLocation::SetChildHoloId),
+
+
+		luabind::class_<HolomapTravelPath>("HolomapTravelPath")
+		.def(luabind::constructor<long>())
+		.def("GetId", &HolomapTravelPath::GetId)
+		.def("GetName", &HolomapTravelPath::GetName)			
+		.def("SetName", &HolomapTravelPath::SetName)
+		.def("AddCoordinate", &HolomapTravelPath::AddCoordinate)
+		.def("SetVehicleModel", &HolomapTravelPath::SetVehicleModel)
+		.def("GetVehicleModel", &HolomapTravelPath::GetVehicleModel)
+		.def("SetParentHoloId", &HolomapTravelPath::SetParentHoloId),
+
+		luabind::class_<Holomap>("Holomap")
+		.def(luabind::constructor<long>())
+		.def("GetId", &Holomap::GetId)
+		.def("SetMapModel", &Holomap::SetMapModel)
+		.def("SetArrowModel", &Holomap::SetArrowModel)
+		.def("SetPlayerModel", &Holomap::SetPlayerModel)
+		.def("SetArrowPlayerModel", &Holomap::SetArrowPlayerModel)			
+		.def("SetTravelDotModel", &Holomap::SetTravelDotModel)			
+		.def("GetMapModel", &Holomap::GetMapModel)
+		.def("GetArrowModel", &Holomap::GetArrowModel)
+		.def("GetPlayerModel", &Holomap::GetPlayerModel)
+		.def("GetArrowPlayerModel", &Holomap::GetArrowPlayerModel)			
+		.def("GetTravelDotModel", &Holomap::GetTravelDotModel)			
+		.def("GetName", &Holomap::GetName)			
+		.def("SetName", &Holomap::SetName)
+		.def("GetUsePCoordinates", &Holomap::GetUsePCoordinates)			
+		.def("SetUsePCoordinates", &Holomap::SetUsePCoordinates)
+		.def("Set3DMap", &Holomap::Set3DMap)			
+		.def("Get3DMap", &Holomap::Get3DMap),
+
+
 
 		luabind::class_<ScriptEnvironmentBase>("ScriptEnvironmentBase")
 		.def("GetActorPosition", &ScriptEnvironmentBase::GetActorPosition)
@@ -110,6 +172,9 @@ ClientLuaHandler::ClientLuaHandler()
 		.def("ActorPauseSound", &ScriptEnvironmentBase::ActorPauseSound)
 		.def("ActorResumeSound", &ScriptEnvironmentBase::ActorResumeSound)
 		.def("TeleportPlayerAtEndScript", &ScriptEnvironmentBase::TeleportPlayerAtEndScript)
+		.def("AddHolomap", &ScriptEnvironmentBase::AddHolomap)
+		.def("AddHolomapLoc", &ScriptEnvironmentBase::AddHolomapLoc)
+		.def("AddHolomapPath", &ScriptEnvironmentBase::AddHolomapPath)
 		];
 	}
 	catch(const std::exception &error)

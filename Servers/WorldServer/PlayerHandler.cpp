@@ -1788,3 +1788,15 @@ int PlayerHandler::GetDBFlag(const std::string & flagid)
 			return -1;
 	}
 }
+
+
+
+/***********************************************************
+active quests locations
+***********************************************************/
+std::vector<long> PlayerHandler::GetActiveQuestsHoloLocation()
+{
+	std::vector<long> res;
+
+	return res;
+}

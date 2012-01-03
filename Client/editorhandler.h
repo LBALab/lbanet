@@ -624,6 +624,18 @@ public:
 
 	//! TeleportPlayerAtEndScript
 	virtual void TeleportPlayerAtEndScript(int ScriptId, const std::string &newmap, long newspawn){}
+	
+	//! AddHolomap
+	virtual void AddHolomap(boost::shared_ptr<Holomap> holo){}
+
+	//! AddHolomap
+	virtual void AddHolomapLoc(boost::shared_ptr<HolomapLocation> holo){}
+
+	//! AddHolomap
+	virtual void AddHolomapPath(boost::shared_ptr<HolomapTravelPath> holo){}
+
+	//! display holomap
+	virtual void DisplayHolomap(long PlayerId, int mode, long holoid){}
 
 private:
 	enum ObjectEditType {EditObjCopy, EditObjCut, EditObjDelete};
@@ -868,6 +880,36 @@ public slots:
 	//! QuestSelect_button
 	void QuestSelect_button();
 
+
+	//! HoloAdd_button
+	void HoloAdd_button();
+
+	//! HoloRemove_button
+	void HoloRemove_button();
+
+	//! HoloSelect_button
+	void HoloSelect_button();
+
+	//! HoloAdd_button
+	void HoloLocAdd_button();
+
+	//! HoloRemove_button
+	void HoloLocRemove_button();
+
+	//! HoloSelect_button
+	void HoloLocSelect_button();
+
+	//! HoloAdd_button
+	void HoloPathAdd_button();
+
+	//! HoloRemove_button
+	void HoloPathRemove_button();
+
+	//! HoloSelect_button
+	void HoloPathSelect_button();
+
+
+
 	//! on selectitem_double_clicked
 	void selectquest_double_clicked(const QModelIndex & itm);
 
@@ -1035,6 +1077,10 @@ protected:
 
 	//! save current map to file
 	void SaveMap(const std::string & filename);
+
+	//! save holomap to file
+	void SaveHoloMap(const std::string & filename);
+
 
 	// refresh starting info tab
 	void RefreshStartingInfo();
@@ -1235,6 +1281,10 @@ protected:
 
 	//! remove template
 	void RemoveTemplate(int id);
+
+
+	//! show hide map info
+	void ShowHideMapInfo(bool Show);
 
 private:
 	Ui::EditorClass										_uieditor;

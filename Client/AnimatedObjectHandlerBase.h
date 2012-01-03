@@ -37,7 +37,7 @@ class AnimatedObjectHandlerBase : public OsgObjectHandler
 {
 public:
 	//! constructor
-	AnimatedObjectHandlerBase(boost::shared_ptr<DisplayTransformation> Tr,
+	AnimatedObjectHandlerBase(int sceneidx, boost::shared_ptr<DisplayTransformation> Tr,
 									const LbaNet::ObjectExtraInfo &extrainfo,
 									const LbaNet::LifeManaInfo &lifeinfo,
 									const LbaNet::ModelInfo & info);

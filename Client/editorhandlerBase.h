@@ -26,6 +26,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define EDITORHANDLERBASE_H
 
 class QWidget;
+class Holomap;
+
+#include <boost/shared_ptr.hpp>
 
 //! base class to take care of editor
 class EditorHandlerBase

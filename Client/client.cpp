@@ -285,3 +285,14 @@ void Client::InitDisplay(bool fullscreen, bool maximized)
 
 	_fullscreen = fullscreen;
 }
+
+
+
+/***********************************************************
+display holomap
+***********************************************************/
+void Client::DisplayHolomap(int Mode, long HolomapLocationOrPathId,
+					const std::vector<long> &questholoids, const LbaVec3 &playerpos)
+{
+	_currentview = CLV_Holomap;
+}

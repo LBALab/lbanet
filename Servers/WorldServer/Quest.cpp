@@ -107,6 +107,7 @@ void Quest::SaveToLuaFile(std::ostream & file)
 	file<<"\t"<<name.str()<<":SetDescriptionTextId("<<_descriptionTextId<<")"<<std::endl;
 	file<<"\t"<<name.str()<<":SetLocationTextId("<<_locationtextid<<")"<<std::endl;
 	file<<"\t"<<name.str()<<":SetVisible("<<(_visible?"true":"false")<<")"<<std::endl;
+	file<<"\t"<<name.str()<<":SetLinkedHoloLocId("<<_linkedholomaplocid<<")"<<std::endl;
 
 
 	for(size_t i=0; i< _conditions.size(); ++i)

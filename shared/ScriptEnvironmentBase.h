@@ -36,6 +36,9 @@ struct ContainerSharedInfo;
 class DialogPart;
 class Spawn;
 class DynamicObject;
+class Holomap;
+class HolomapLocation;
+class HolomapTravelPath;
 
 #include <boost/shared_ptr.hpp>
 #include <ClientServerEvents.h>
@@ -513,6 +516,18 @@ public:
 	//! TeleportPlayerAtEndScript
 	virtual void TeleportPlayerAtEndScript(int ScriptId, const std::string &newmap, long newspawn) = 0;
 
+
+	//! AddHolomap
+	virtual void AddHolomap(boost::shared_ptr<Holomap> holo) = 0;
+
+	//! AddHolomap
+	virtual void AddHolomapLoc(boost::shared_ptr<HolomapLocation> holo) = 0;
+
+	//! AddHolomap
+	virtual void AddHolomapPath(boost::shared_ptr<HolomapTravelPath> holo) = 0;
+
+	//! display holomap
+	virtual void DisplayHolomap(long PlayerId, int mode, long holoid) = 0;
 
 protected:
 

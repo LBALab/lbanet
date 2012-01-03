@@ -461,10 +461,9 @@ constructor
 ***********************************************************/
 OsgHandler::OsgHandler()
 : _isFullscreen(false), _resX(800), _resY(600),
-	_cameraType(0), _targetx(10), _targety(10), _targetz(10),
-	_viewer(NULL), _root(NULL), _rootNode3d(NULL), _sceneRootNode(NULL), _translNode(NULL),
+	_viewer(NULL), _root(NULL), _rootNode3d(NULL), _translNode(NULL),
 	_viewportX(800), _viewportY(600), _ShadowType(0), 
-	_current_clip_layer(-1), _autoCameraType(1), _azimut(0)
+	_current_clip_layer(-1), _autoCameraType(1), _currentsceneroot(0)
 {
 	SetCameraDistance(30);
 	SetCameraZenit(30);
@@ -709,8 +708,7 @@ else
 	ResetCameraProjectiomMatrix();
 
 	//set default root node
-	ResetDisplayTree();
-
+	ResetDisplayTree(0);
 	// put everything in the right place
 	LogHandler::getInstance()->LogToFile("Initializing of graphics window done.");
 }
@@ -726,10 +724,10 @@ void OsgHandler::Finalize()
 	// write data to configuration file
 	{
 #ifndef _USE_SOUND_EDITOR
-		ConfigurationManager::GetInstance()->SetDouble("Display.Camera.Distance", _distance);
-		ConfigurationManager::GetInstance()->SetDouble("Display.Camera.Zenit", _zenit);
-		ConfigurationManager::GetInstance()->SetDouble("Display.Camera.Azimut", _azimut);
-		ConfigurationManager::GetInstance()->SetInt("Display.Camera.CameraType", _cameraType);
+		ConfigurationManager::GetInstance()->SetDouble("Display.Camera.Distance", _caminfo.distance);
+		ConfigurationManager::GetInstance()->SetDouble("Display.Camera.Zenit", _caminfo.zenit);
+		ConfigurationManager::GetInstance()->SetDouble("Display.Camera.Azimut", _caminfo.azimut);
+		ConfigurationManager::GetInstance()->SetInt("Display.Camera.CameraType", _caminfo.cameraType);
 #endif
 
 
@@ -746,14 +744,18 @@ void OsgHandler::Finalize()
 
 	// clean up everything
 	ResetScreen();
-	_sceneRootNode = NULL;
+	_sceneroots[0].first = NULL;
+	_sceneroots[0].second = NULL;
+	_sceneroots[1].first = NULL;
+	_sceneroots[1].second = NULL;
 	_rootNode3d = NULL;
 	_root = NULL;
 	_viewer = NULL;
 	_translNode =NULL;
 	_HUDcam =NULL;
 	_rootNodeGui =NULL;
-	_lightNode =NULL;
+	_lightNodes[0] =NULL;
+	_lightNodes[1] =NULL;
 	_clipNode =NULL;
 
 
@@ -903,17 +905,17 @@ void OsgHandler::ResetCameraProjectiomMatrix()
 	if(!_viewer)
 		return;
 
-	if(_cameraType > 1 || ((_cameraType == 0) && (_autoCameraType > 1)))
+	if(_caminfo.cameraType > 1 || ((_caminfo.cameraType == 0) && (_autoCameraType > 1)))
 	{
-		_viewer->getCamera()->setProjectionMatrixAsPerspective(_fov,_viewportX/(double)_viewportY, 0.01,2000);
+		_viewer->getCamera()->setProjectionMatrixAsPerspective(_caminfo.fov,_viewportX/(double)_viewportY, 0.01,2000);
 	}
 	else
 	{
 		float factorX = _viewportX * 0.0001;
 		float factorY = _viewportY * 0.0001;
 
-		_viewer->getCamera()->setProjectionMatrixAsOrtho(-factorX*_distance, factorX*_distance,
-															-factorY*_distance, factorY*_distance,
+		_viewer->getCamera()->setProjectionMatrixAsOrtho(-factorX*_caminfo.distance, factorX*_caminfo.distance,
+															-factorY*_caminfo.distance, factorY*_caminfo.distance,
 															-2000, 2000);
 	}
 
@@ -930,13 +932,13 @@ void OsgHandler::ResetCameraTransform()
 	if(_viewer)
 	{
 		osg::Matrixd viewMatrix;
-		if(_cameraType > 1 || ((_cameraType == 0) && (_autoCameraType > 1)))
+		if(_caminfo.cameraType > 1 || ((_caminfo.cameraType == 0) && (_autoCameraType > 1)))
 		{
 			osg::Matrixd cameraRotation1;
 			osg::Matrixd cameraTrans;
 
-			cameraRotation1.makeRotate(osg::DegreesToRadians(_zenit), osg::Vec3(1,0,0));
-			cameraTrans.makeTranslate( 0,0,-_distance );
+			cameraRotation1.makeRotate(osg::DegreesToRadians(_caminfo.zenit), osg::Vec3(1,0,0));
+			cameraTrans.makeTranslate( 0,0,-_caminfo.distance );
 			viewMatrix = cameraRotation1* cameraTrans;
 		}
 		else
@@ -965,9 +967,9 @@ void OsgHandler::ResetCameraAzimut()
 {
 	if(_rootNode3d)
 	{
-		if(_cameraType == 3 || ((_cameraType == 0) && (_autoCameraType == 3)))
+		if(_caminfo.cameraType == 3 || ((_caminfo.cameraType == 0) && (_autoCameraType == 3)))
 		{
-			_rootNode3d->setAttitude(osg::Quat(osg::DegreesToRadians(180-_azimut), osg::Vec3(0,1,0)));
+			_rootNode3d->setAttitude(osg::Quat(osg::DegreesToRadians(180-_caminfo.azimut), osg::Vec3(0,1,0)));
 		}
 		else
 		{
@@ -986,19 +988,19 @@ void OsgHandler::ToggleCameraType(int cameraType)
 		cameraType = 3;
 #endif
 
-	if(_cameraType != cameraType)
+	if(_caminfo.cameraType != cameraType)
 	{
-		_cameraType = cameraType;
+		_caminfo.cameraType = cameraType;
 
 		double distance = 110;
-		if(_cameraType == 2)
+		if(_caminfo.cameraType == 2)
 			distance = 15;
-		if(_cameraType == 3)
+		if(_caminfo.cameraType == 3)
 			distance = 20;
 		ResetCameraDistances(distance);
 
 #ifndef _USE_SOUND_EDITOR
-		ConfigurationManager::GetInstance()->SetInt("Display.Camera.CameraType", _cameraType);
+		ConfigurationManager::GetInstance()->SetInt("Display.Camera.CameraType", _caminfo.cameraType);
 #endif
 	}
 }
@@ -1012,7 +1014,7 @@ void OsgHandler::ToggleAutoCameraType(int cameraType)
 	if(_autoCameraType != cameraType)
 	{
 		_autoCameraType = cameraType;
-		if(_cameraType == 0)
+		if(_caminfo.cameraType == 0)
 		{
 			double distance = 110;
 			if(_autoCameraType == 2)
@@ -1031,7 +1033,7 @@ delta update camera distance
 ***********************************************************/
 void OsgHandler::DeltaUpdateCameraDistance(double delta)
 {
-	SetCameraDistance(_distance+delta);
+	SetCameraDistance(_caminfo.distance+delta);
 }
 
 
@@ -1040,24 +1042,24 @@ set camera distance
 ***********************************************************/
 void OsgHandler::SetCameraDistance(double distance, bool forced)
 {
-	if(forced || _distance != distance)
+	if(forced || _caminfo.distance != distance)
 	{
-		_distance = distance;
+		_caminfo.distance = distance;
 		int maxdistance = 150;
-		if(_cameraType == 1 || ((_cameraType == 0) && (_autoCameraType == 1)))
+		if(_caminfo.cameraType == 1 || ((_caminfo.cameraType == 0) && (_autoCameraType == 1)))
 			maxdistance = 1000;
 
 		int mindistance = 30;
-		if(_cameraType > 1 || ((_cameraType == 0) && (_autoCameraType > 1)))
+		if(_caminfo.cameraType > 1 || ((_caminfo.cameraType == 0) && (_autoCameraType > 1)))
 			mindistance = 4;
 
 
-		if(_distance < mindistance)
-			_distance = mindistance;
-		if(_distance > maxdistance)
-			_distance = maxdistance;
+		if(_caminfo.distance < mindistance)
+			_caminfo.distance = mindistance;
+		if(_caminfo.distance > maxdistance)
+			_caminfo.distance = maxdistance;
 
-		_fov=atan(40./_distance)*180./M_PI;
+		_caminfo.fov=atan(40./_caminfo.distance)*180./M_PI;
 
 		ResetCameraProjectiomMatrix();
 	}
@@ -1069,7 +1071,7 @@ delta update camera zenit
 ***********************************************************/
 void OsgHandler::DeltaUpdateCameraZenit(double delta)
 {
-	SetCameraZenit(_zenit+delta);
+	SetCameraZenit(_caminfo.zenit+delta);
 }
 
 /***********************************************************
@@ -1077,21 +1079,21 @@ set camera zenit
 ***********************************************************/
 void OsgHandler::SetCameraZenit(double zenit, bool forced)
 {
-	if(forced || _zenit != zenit)
+	if(forced || _caminfo.zenit != zenit)
 	{
-		_zenit = zenit;
+		_caminfo.zenit = zenit;
 
 		int maxdistance = 70;
 
 		int mindistance = 10;
-		if(_cameraType > 2 || ((_cameraType == 0) && (_autoCameraType > 2)))
+		if(_caminfo.cameraType > 2 || ((_caminfo.cameraType == 0) && (_autoCameraType > 2)))
 			mindistance = -70;
 
 
-		if(_zenit < mindistance)
-			_zenit = mindistance;
-		if(_zenit > maxdistance)
-			_zenit = maxdistance;
+		if(_caminfo.zenit < mindistance)
+			_caminfo.zenit = mindistance;
+		if(_caminfo.zenit > maxdistance)
+			_caminfo.zenit = maxdistance;
 
 		ResetCameraTransform();
 	}
@@ -1103,13 +1105,13 @@ set camera azimut
 ***********************************************************/
 void OsgHandler::SetCameraAzimut(double azimut, bool forced)
 {
-	if(forced || _azimut != azimut)
+	if(forced || _caminfo.azimut != azimut)
 	{
-		_azimut = azimut;
-		if(_azimut < 0)
-			_azimut += 360;
-		if(_azimut > 360)
-			_azimut -= 360;
+		_caminfo.azimut = azimut;
+		if(_caminfo.azimut < 0)
+			_caminfo.azimut += 360;
+		if(_caminfo.azimut > 360)
+			_caminfo.azimut -= 360;
 
 		ResetCameraAzimut();
 	}
@@ -1121,7 +1123,7 @@ delta update camera zenit
 ***********************************************************/
 void OsgHandler::DeltaUpdateCameraAzimut(double delta)
 {
-	SetCameraAzimut(_azimut+delta);
+	SetCameraAzimut(_caminfo.azimut+delta);
 }
 
 
@@ -1132,8 +1134,8 @@ reset camera distances when changeing cam type
 void OsgHandler::ResetCameraDistances(double distance)
 {
 	SetCameraDistance(distance, true);
-	SetCameraZenit(_zenit, true);
-	SetCameraAzimut(_azimut, true);
+	SetCameraZenit(_caminfo.zenit, true);
+	SetCameraAzimut(_caminfo.azimut, true);
 }
 
 /***********************************************************
@@ -1141,13 +1143,13 @@ set camera target
 ***********************************************************/
 void OsgHandler::SetCameraTarget(double TargetX, double TargetY, double TargetZ)
 {
-	_targetx = TargetX;
-	_targety = TargetY;
-	_targetz = TargetZ;
+	_caminfo.targetx = TargetX;
+	_caminfo.targety = TargetY;
+	_caminfo.targetz = TargetZ;
 
 	//ResetCameraTransform();
 	if(_translNode)
-		_translNode->setPosition(osg::Vec3d( -_targetx,-_targety,-_targetz ));
+		_translNode->setPosition(osg::Vec3d( -_caminfo.targetx,-_caminfo.targety,-_caminfo.targetz ));
 }
 
 /***********************************************************
@@ -1155,18 +1157,19 @@ set camera target
 ***********************************************************/
 void OsgHandler::GetCameraTarget(double &TargetX, double &TargetY, double &TargetZ)
 {
-	TargetX = _targetx;
-	TargetY = _targety;
-	TargetZ = _targetz;
+	TargetX = _caminfo.targetx;
+	TargetY = _caminfo.targety;
+	TargetZ = _caminfo.targetz;
 
 }
 
 /***********************************************************
 set light
 ***********************************************************/
-void OsgHandler::SetLight(const LbaMainLightInfo &LightInfo)
+void OsgHandler::SetLight(int sceneidx, const LbaMainLightInfo &LightInfo)
 {
-	if(!_lightNode)
+	osg::ref_ptr<osg::LightSource> &lightNode = GetLigthNode(sceneidx); 
+	if(!lightNode)
 		return;
 
 	if(LightInfo.UseLight)
@@ -1202,13 +1205,13 @@ void OsgHandler::SetLight(const LbaMainLightInfo &LightInfo)
 			myLight1->setSpotCutoff(LightInfo.Spot_cutoff);
 		}
 
-		_lightNode->setLight(myLight1);
-		_lightNode->setLocalStateSetModes(osg::StateAttribute::ON);
-		_lightNode->setStateSetModes(*_translNode->getOrCreateStateSet(),osg::StateAttribute::ON);
+		lightNode->setLight(myLight1);
+		lightNode->setLocalStateSetModes(osg::StateAttribute::ON);
+		lightNode->setStateSetModes(*_translNode->getOrCreateStateSet(),osg::StateAttribute::ON);
 	}
 	else
 	{
-		_lightNode->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OVERRIDE|osg::StateAttribute::OFF);
+		lightNode->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OVERRIDE|osg::StateAttribute::OFF);
 	}
 
 }
@@ -1221,20 +1224,26 @@ void OsgHandler::ToggleShadow(int ShadowType)
 	if(ShadowType != _ShadowType)
 	{
 		_ShadowType = ShadowType;
-		osg::ref_ptr<osg::Group> newnode = CreateShadowNode();
 
-		//copy childs
-		if(_sceneRootNode)
+		// toggle for all scenes
+		for(int sceneidx = 0; sceneidx< _NB_OSG_SCENES_; ++sceneidx)
 		{
-			 unsigned int nbchilds = _sceneRootNode->getNumChildren();
-			 for(unsigned int i=0; i<nbchilds; ++i)
-			 {
-				osg::Node *node = _sceneRootNode->getChild(i);
-				newnode->addChild(node);
-			}
-		}
+			osg::ref_ptr<osg::Group> newnode = CreateShadowNode();
 
-		_sceneRootNode = newnode;
+			//copy childs
+			osg::ref_ptr<osg::Group> &scenerootnode = GetSceneRootNode(sceneidx);
+			if(scenerootnode)
+			{
+				 unsigned int nbchilds = scenerootnode->getNumChildren();
+				 for(unsigned int i=0; i<nbchilds; ++i)
+				 {
+					osg::Node *node = scenerootnode->getChild(i);
+					newnode->addChild(node);
+				}
+			}
+
+			scenerootnode = newnode;
+		}
 
 		ConfigurationManager::GetInstance()->SetInt("Display.ShadowType", _ShadowType);
 	}
@@ -1287,31 +1296,31 @@ osg::ref_ptr<osg::Group> OsgHandler::CreateShadowNode()
 clear all nodes of the display tree
 typically called when changing map
 ***********************************************************/
-void OsgHandler::ResetDisplayTree()
+void OsgHandler::ResetDisplayTree(int sceneidx)
 {
 	if(!_translNode)
 		return;
 
-	if(_lightNode)
-		_translNode->removeChild(_lightNode);
+	osg::ref_ptr<osg::LightSource> &lightNode = GetLigthNode(sceneidx); 
+	if(lightNode)
+		_translNode->removeChild(lightNode);
 
-	_lightNode = new osg::LightSource();
-	_translNode->addChild(_lightNode);
-	_lightNode->setName("LightNode");
-
-
-	_sceneRootNode = CreateShadowNode();
+	lightNode = new osg::LightSource();
+	_translNode->addChild(lightNode);
+	lightNode->setName("LightNode");
 
 
-	_lightNode->addChild(_sceneRootNode);
+	osg::ref_ptr<osg::Group> &sceneRootNode = GetSceneRootNode(sceneidx);
+	sceneRootNode = CreateShadowNode();
+	lightNode->addChild(sceneRootNode);
 
+	osg::ref_ptr<osg::Group> &sceneRootNodeNoLight = GetSceneRootNodeNoLight(sceneidx);
+	if(sceneRootNodeNoLight)
+		_translNode->removeChild(sceneRootNodeNoLight);
 
-	if(_sceneNoLightRootNode)
-		_translNode->removeChild(_sceneNoLightRootNode);
-
-	_sceneNoLightRootNode = new osg::Group();	
-	_sceneNoLightRootNode->setName("SceneRootNodeNoLight");
-	_translNode->addChild(_sceneNoLightRootNode);
+	sceneRootNodeNoLight = new osg::Group();	
+	sceneRootNodeNoLight->setName("SceneRootNodeNoLight");
+	_translNode->addChild(sceneRootNodeNoLight);
 
  //   osg::ref_ptr<osgParticle::PrecipitationEffect> precipitationEffect = new osgParticle::PrecipitationEffect;
 
@@ -1390,7 +1399,7 @@ void OsgHandler::ResetDisplayTree()
 	//set default light
 	LbaMainLightInfo Linf;
 	Linf.UseLight = false;
-	SetLight(Linf);
+	SetLight(sceneidx, Linf);
 
 
 
@@ -1422,7 +1431,7 @@ void OsgHandler::ResetDisplayTree()
 // add grid when editor is up
 #ifdef _USE_QT_EDITOR_
 	boost::shared_ptr<DisplayTransformation> Tr = boost::shared_ptr<DisplayTransformation>(new DisplayTransformation);
-	CreateGridObject(200, 200, Tr);
+	CreateGridObject(0, 200, 200, Tr);
 #endif
 
 }
@@ -1459,7 +1468,7 @@ osg::ref_ptr<osg::Node> OsgHandler::LoadOSGFile(const std::string & filename)
 /***********************************************************
 add a actor to the display list - return handler to actor position
 ***********************************************************/
-osg::ref_ptr<osg::MatrixTransform> OsgHandler::AddActorNode(osg::ref_ptr<osg::Node> node,
+osg::ref_ptr<osg::MatrixTransform> OsgHandler::AddActorNode(int sceneidx, osg::ref_ptr<osg::Node> node,
 																bool UseLight, bool CastShadow)
 {
 	#ifdef _DEBUG
@@ -1478,11 +1487,14 @@ osg::ref_ptr<osg::MatrixTransform> OsgHandler::AddActorNode(osg::ref_ptr<osg::No
 	osg::ref_ptr<osg::MatrixTransform> transform = new osg::MatrixTransform();
 	transform->addChild(node);
 
-	if(UseLight && _sceneRootNode)
-		_sceneRootNode->addChild(transform);
+	osg::ref_ptr<osg::Group> & scenerootnode = GetSceneRootNode(sceneidx); 
+	osg::ref_ptr<osg::Group> & scenerootnodenolight = GetSceneRootNodeNoLight(sceneidx); 
 
-	if(!UseLight && _sceneNoLightRootNode)
-		_sceneNoLightRootNode->addChild(transform);
+	if(UseLight && scenerootnode)
+		scenerootnode->addChild(transform);
+
+	if(!UseLight && scenerootnodenolight)
+		scenerootnodenolight->addChild(transform);
 
 	return transform;
 }
@@ -1491,7 +1503,7 @@ osg::ref_ptr<osg::MatrixTransform> OsgHandler::AddActorNode(osg::ref_ptr<osg::No
 /***********************************************************
 add an empty actor to the display list - return handler to actor position
 ***********************************************************/
-osg::ref_ptr<osg::MatrixTransform> OsgHandler::AddEmptyActorNode(bool WithLight)
+osg::ref_ptr<osg::MatrixTransform> OsgHandler::AddEmptyActorNode(int sceneidx, bool WithLight)
 {
 	#ifdef _DEBUG
 		LogHandler::getInstance()->LogToFile("Added empty Node to display engine");
@@ -1499,13 +1511,14 @@ osg::ref_ptr<osg::MatrixTransform> OsgHandler::AddEmptyActorNode(bool WithLight)
 
 	osg::ref_ptr<osg::MatrixTransform> transform = new osg::MatrixTransform();
 
-	if(WithLight && _sceneRootNode)
-		_sceneRootNode->addChild(transform);
+	osg::ref_ptr<osg::Group> & scenerootnode = GetSceneRootNode(sceneidx); 
+	osg::ref_ptr<osg::Group> & scenerootnodenolight = GetSceneRootNodeNoLight(sceneidx); 
 
-	if(!WithLight && _sceneNoLightRootNode)
-		_sceneNoLightRootNode->addChild(transform);
+	if(WithLight && scenerootnode)
+		scenerootnode->addChild(transform);
 
-
+	if(!WithLight && scenerootnodenolight)
+		scenerootnodenolight->addChild(transform);
 
 	return transform;
 }
@@ -1514,34 +1527,40 @@ osg::ref_ptr<osg::MatrixTransform> OsgHandler::AddEmptyActorNode(bool WithLight)
 /***********************************************************
 readd a removed actor to the display list
 ***********************************************************/
-void OsgHandler::ReAddActorNode(osg::ref_ptr<osg::Node> node, bool WithLight)
+void OsgHandler::ReAddActorNode(int sceneidx, osg::ref_ptr<osg::Node> node, bool WithLight)
 {
 	#ifdef _DEBUG
 		LogHandler::getInstance()->LogToFile("ReAdded Node to display engine");
 	#endif
 
-	if(WithLight && _sceneRootNode)
-		_sceneRootNode->addChild(node);
+	osg::ref_ptr<osg::Group> & scenerootnode = GetSceneRootNode(sceneidx); 
+	osg::ref_ptr<osg::Group> & scenerootnodenolight = GetSceneRootNodeNoLight(sceneidx); 
 
-	if(!WithLight && _sceneNoLightRootNode)
-		_sceneNoLightRootNode->addChild(node);
+	if(WithLight && scenerootnode)
+		scenerootnode->addChild(node);
+
+	if(!WithLight && scenerootnodenolight)
+		scenerootnodenolight->addChild(node);
 }
 
 
 /***********************************************************
 remove actor from the graph
 ***********************************************************/
-void OsgHandler::RemoveActorNode(osg::ref_ptr<osg::Node> node, bool WithLight)
+void OsgHandler::RemoveActorNode(int sceneidx, osg::ref_ptr<osg::Node> node, bool WithLight)
 {
 	#ifdef _DEBUG
 		LogHandler::getInstance()->LogToFile("Removed Node from display engine");
 	#endif
 
-	if(WithLight && _sceneRootNode)
-		_sceneRootNode->removeChild(node);
+	osg::ref_ptr<osg::Group> & scenerootnode = GetSceneRootNode(sceneidx); 
+	osg::ref_ptr<osg::Group> & scenerootnodenolight = GetSceneRootNodeNoLight(sceneidx); 
 
-	if(!WithLight && _sceneNoLightRootNode)
-		_sceneNoLightRootNode->removeChild(node);
+	if(WithLight && scenerootnode)
+		scenerootnode->removeChild(node);
+
+	if(!WithLight && scenerootnodenolight)
+		scenerootnodenolight->removeChild(node);
 }
 
 
@@ -1587,7 +1606,7 @@ void OsgHandler::GetScreenAttributes(int &resX, int &resY, bool &fullscreen)
 /***********************************************************
 create sprite object
 ***********************************************************/
-boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSpriteObject(const std::string & spritefile, 
+boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSpriteObject(int sceneidx, const std::string & spritefile, 
 															float colorR, float colorG, float colorB, float colorA,
 															boost::shared_ptr<DisplayTransformation> Tr,
 															bool UseLight, bool CastShadow,
@@ -1595,10 +1614,10 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSpriteObject(const
 															const LbaNet::LifeManaInfo &lifeinfo,
 															bool UseBillboard)
 {
-	osg::ref_ptr<osg::MatrixTransform> resnode = CreateSpriteObject(spritefile, 
+	osg::ref_ptr<osg::MatrixTransform> resnode = CreateSpriteObject(sceneidx, spritefile, 
 												colorR, colorG, colorB, colorA, Tr,	UseLight, CastShadow, UseBillboard);
 
-	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(resnode, UseLight, extrainfo, lifeinfo));
+	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(sceneidx, resnode, UseLight, extrainfo, lifeinfo));
 }
 
 
@@ -1608,7 +1627,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSpriteObject(const
 /***********************************************************
 create simple display object
 ***********************************************************/
-osg::ref_ptr<osg::MatrixTransform> OsgHandler::CreateSpriteObject(const std::string & spritefile, 
+osg::ref_ptr<osg::MatrixTransform> OsgHandler::CreateSpriteObject(int sceneidx, const std::string & spritefile, 
 											float colorR, float colorG, float colorB, float colorA,
 											boost::shared_ptr<DisplayTransformation> Tr,
 											bool UseLight, bool CastShadow,
@@ -1712,7 +1731,7 @@ osg::ref_ptr<osg::MatrixTransform> OsgHandler::CreateSpriteObject(const std::str
 		resnode = transform;
 	}
 	
-	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, UseLight, CastShadow);
+	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(sceneidx, resnode, UseLight, CastShadow);
 
 	return mat;
 }
@@ -1721,7 +1740,7 @@ osg::ref_ptr<osg::MatrixTransform> OsgHandler::CreateSpriteObject(const std::str
 /***********************************************************
 create simple display object
 ***********************************************************/
-osg::ref_ptr<osg::MatrixTransform> OsgHandler::CreateSimpleObject(const std::string & filename,
+osg::ref_ptr<osg::MatrixTransform> OsgHandler::CreateSimpleObject(int sceneidx, const std::string & filename,
 														boost::shared_ptr<DisplayTransformation> Tr,
 														bool UseLight, bool CastShadow)
 {
@@ -1738,7 +1757,7 @@ osg::ref_ptr<osg::MatrixTransform> OsgHandler::CreateSimpleObject(const std::str
 		resnode = transform;
 	}
 
-	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, UseLight, CastShadow);
+	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(sceneidx, resnode, UseLight, CastShadow);
 
 	return mat;
 }
@@ -1747,14 +1766,14 @@ osg::ref_ptr<osg::MatrixTransform> OsgHandler::CreateSimpleObject(const std::str
 /***********************************************************
 create simple display object
 ***********************************************************/
-boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSimpleObject(const std::string & filename,
+boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSimpleObject(int sceneidx, const std::string & filename,
 														boost::shared_ptr<DisplayTransformation> Tr,
 														bool UseLight, bool CastShadow,
 														const LbaNet::ObjectExtraInfo &extrainfo,
 														const LbaNet::LifeManaInfo &lifeinfo)
 {
-	osg::ref_ptr<osg::MatrixTransform> resnode = CreateSimpleObject(filename, Tr,	UseLight, CastShadow);
-	OsgObjectHandler * objh = new OsgObjectHandler(resnode, UseLight, extrainfo, lifeinfo);
+	osg::ref_ptr<osg::MatrixTransform> resnode = CreateSimpleObject(sceneidx, filename, Tr,	UseLight, CastShadow);
+	OsgObjectHandler * objh = new OsgObjectHandler(sceneidx, resnode, UseLight, extrainfo, lifeinfo);
 	return boost::shared_ptr<DisplayObjectHandlerBase>(objh);
 }
 
@@ -1764,7 +1783,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSimpleObject(const
 /***********************************************************
 create capsule object
 ***********************************************************/
-boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSphereObject(float radius, 
+boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSphereObject(int sceneidx, float radius, 
 														float colorR, float colorG, float colorB, float colorA,
 														boost::shared_ptr<DisplayTransformation> Tr,
 														const LbaNet::ObjectExtraInfo &extrainfo,
@@ -1797,8 +1816,8 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSphereObject(float
 		resnode = transform;
 	}
 	
-	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, false, false);
-	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat, false, extrainfo, lifeinfo));
+	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(sceneidx, resnode, false, false);
+	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(sceneidx, mat, false, extrainfo, lifeinfo));
 }
 
 
@@ -1806,7 +1825,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateSphereObject(float
 /***********************************************************
 create capsule object
 ***********************************************************/
-boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCapsuleObject(float radius, float height, 
+boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCapsuleObject(int sceneidx, float radius, float height, 
 														float colorR, float colorG, float colorB, float colorA,
 														boost::shared_ptr<DisplayTransformation> Tr,
 														const LbaNet::ObjectExtraInfo &extrainfo,
@@ -1839,15 +1858,15 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCapsuleObject(floa
 		resnode = transform;
 	}
 	
-	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, false, false);
-	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat, false, extrainfo, lifeinfo));
+	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(sceneidx, resnode, false, false);
+	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(sceneidx, mat, false, extrainfo, lifeinfo));
 }
 
 
 /***********************************************************
 create box object
 ***********************************************************/
-boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateBoxObject(float sizex, float sizey, float sizez, 
+boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateBoxObject(int sceneidx, float sizex, float sizey, float sizez, 
 														float colorR, float colorG, float colorB, float colorA,
 														boost::shared_ptr<DisplayTransformation> Tr,
 														const LbaNet::ObjectExtraInfo &extrainfo,
@@ -1880,8 +1899,8 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateBoxObject(float si
 		resnode = transform;
 	}
 	
-	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, false, false);
-	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat, false, extrainfo, lifeinfo));
+	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(sceneidx, resnode, false, false);
+	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(sceneidx, mat, false, extrainfo, lifeinfo));
 }
 
 
@@ -1889,7 +1908,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateBoxObject(float si
 /***********************************************************
 create cross object
 ***********************************************************/
-boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCrossObject(float size,  
+boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCrossObject(int sceneidx, float size,  
 														float colorR, float colorG, float colorB, float colorA,
 														boost::shared_ptr<DisplayTransformation> Tr,
 														const LbaNet::ObjectExtraInfo &extrainfo,
@@ -1944,14 +1963,14 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCrossObject(float 
 		resnode = transform;
 	}
 	
-	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, false, false);
-	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(mat, false, extrainfo, lifeinfo));
+	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(sceneidx, resnode, false, false);
+	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(sceneidx, mat, false, extrainfo, lifeinfo));
 }
 
 /***********************************************************
 create grid object
 ***********************************************************/
-osg::ref_ptr<osg::MatrixTransform> OsgHandler::CreateGridObject(long sizeX, long sizeY,
+osg::ref_ptr<osg::MatrixTransform> OsgHandler::CreateGridObject(int sceneidx, long sizeX, long sizeY,
 															boost::shared_ptr<DisplayTransformation> Tr)
 {
 	osg::ref_ptr<osg::Group> resnode = new osg::Group();
@@ -2037,7 +2056,7 @@ osg::ref_ptr<osg::MatrixTransform> OsgHandler::CreateGridObject(long sizeX, long
 		resnode = transform;
 	}
 	
-	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(resnode, false, false);
+	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(sceneidx, resnode, false, false);
 	return mat;
 }
 
@@ -2141,4 +2160,118 @@ void OsgHandler::SetSoundRoot(osg::ref_ptr<osgAudio::SoundRoot> sound_root)
 {
     sound_root->setCamera( NULL );
     _translNode->addChild(sound_root.get());
+}
+
+
+/***********************************************************
+get scene root node
+***********************************************************/
+osg::ref_ptr<osg::Group> & OsgHandler::GetSceneRootNode()
+{
+	return _sceneroots[_currentsceneroot].first;
+}
+
+/***********************************************************
+get scene root node
+***********************************************************/
+osg::ref_ptr<osg::Group> & OsgHandler::GetSceneRootNodeNoLight()
+{
+	return _sceneroots[_currentsceneroot].second;
+} 
+
+/***********************************************************
+get scene root node
+***********************************************************/
+osg::ref_ptr<osg::Group> & OsgHandler::GetSceneRootNode(int sceneidx)
+{
+	return _sceneroots[sceneidx].first;
+}
+
+/***********************************************************
+get scene root node
+***********************************************************/
+osg::ref_ptr<osg::Group> & OsgHandler::GetSceneRootNodeNoLight(int sceneidx)
+{
+	return _sceneroots[sceneidx].second;
+} 
+
+
+/***********************************************************
+get scene light node
+***********************************************************/
+osg::ref_ptr<osg::LightSource> & OsgHandler::GetLigthNode()
+{
+	return _lightNodes[_currentsceneroot];
+} 
+
+/***********************************************************
+get scene light node
+***********************************************************/
+osg::ref_ptr<osg::LightSource> & OsgHandler::GetLigthNode(int sceneidx)
+{
+	return _lightNodes[sceneidx];
+} 
+
+
+/***********************************************************
+switch between the different scenes
+***********************************************************/
+void OsgHandler::SwitchScene(int newsceneidx)
+{
+	if(newsceneidx < 0 || newsceneidx >= _NB_OSG_SCENES_)
+		return;
+
+	if(newsceneidx == _currentsceneroot)
+		return;
+
+	// first remove current scene from view
+	{
+		osg::ref_ptr<osg::LightSource> &lightNode = GetLigthNode(); 
+		if(lightNode)
+			_translNode->removeChild(lightNode);
+
+		osg::ref_ptr<osg::Group> &sceneRootNode = GetSceneRootNode();
+		if(lightNode && sceneRootNode) 
+		lightNode->removeChild(sceneRootNode);
+
+		osg::ref_ptr<osg::Group> &sceneRootNodeNoLight = GetSceneRootNodeNoLight();
+		if(sceneRootNodeNoLight)
+			_translNode->removeChild(sceneRootNodeNoLight);	
+	}
+
+	// set new scene idx
+	_currentsceneroot = newsceneidx;
+
+	// then add new scene
+	{
+		osg::ref_ptr<osg::LightSource> &lightNode = GetLigthNode(); 
+		if(lightNode)
+			_translNode->addChild(lightNode);
+
+		osg::ref_ptr<osg::Group> &sceneRootNode = GetSceneRootNode();
+		if(lightNode && sceneRootNode) 
+			lightNode->addChild(sceneRootNode);
+
+		osg::ref_ptr<osg::Group> &sceneRootNodeNoLight = GetSceneRootNodeNoLight();
+		if(sceneRootNodeNoLight)
+			_translNode->addChild(sceneRootNodeNoLight);
+	}
+}
+
+
+/***********************************************************
+store camera info
+***********************************************************/
+void OsgHandler::StoreCameraInfo()
+{
+	_savedcaminfo = _caminfo;
+}
+
+/***********************************************************
+reset camera info
+***********************************************************/
+void OsgHandler::ResetCameraInfo()
+{
+	_caminfo = _savedcaminfo;
+	ResetCameraProjectiomMatrix();
 }

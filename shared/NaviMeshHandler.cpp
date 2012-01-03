@@ -1174,7 +1174,7 @@ void NaviMeshHandler::DrawLastPath()
 		return;
 
 
-	_rootpath = OsgHandler::getInstance()->AddEmptyActorNode(false);
+	_rootpath = OsgHandler::getInstance()->AddEmptyActorNode(0, false);
 	osg::Matrixd Trans;
 	osg::Matrixd Rotation;
 	Trans.makeTranslate(0, 0, 0);
@@ -1237,7 +1237,7 @@ void NaviMeshHandler::CleanNavMeshDisplay()
 #ifndef _LBANET_SERVER_SIDE_
 	if(_root)
 	{
-		OsgHandler::getInstance()->RemoveActorNode(_root, false);
+		OsgHandler::getInstance()->RemoveActorNode(0, _root, false);
 		_root = 0;
 	}
 #endif
@@ -1251,7 +1251,7 @@ void NaviMeshHandler::CleanPathisplay()
 #ifndef _LBANET_SERVER_SIDE_
 	if(_rootpath)
 	{
-		OsgHandler::getInstance()->RemoveActorNode(_rootpath, false);
+		OsgHandler::getInstance()->RemoveActorNode(0, _rootpath, false);
 		_rootpath = 0;
 	}
 #endif
@@ -1493,11 +1493,11 @@ void NaviMeshHandler::drawNavMesh()
 
 	if(_root)
 	{
-		OsgHandler::getInstance()->RemoveActorNode(_root, false);
+		OsgHandler::getInstance()->RemoveActorNode(0, _root, false);
 		_root = 0;
 	}
 
-	_root = OsgHandler::getInstance()->AddEmptyActorNode(false);
+	_root = OsgHandler::getInstance()->AddEmptyActorNode(0, false);
 	osg::Matrixd Trans;
 	osg::Matrixd Rotation;
 	Trans.makeTranslate(0, 0, 0);

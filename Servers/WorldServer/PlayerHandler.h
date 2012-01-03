@@ -260,6 +260,9 @@ public:
 	// get DB flag
 	int GetDBFlag(const std::string & flagid);
 
+	// active quests locations
+	std::vector<long> GetActiveQuestsHoloLocation();
+
 
 protected:
 	// update state and mode class from modelinfo

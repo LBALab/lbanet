@@ -46,6 +46,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "FileUtil.h"
 #include "XmlReader.h"
 #include "EditorSharedData.h"
+#include "Holomap.h"
+#include "HolomapHandler.h"
 
 #include <qdir.h>
 #include <QErrorMessage>
@@ -1049,7 +1051,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 			<< "OpenDoorAction" << "CloseDoorAction" << "AddRemoveItemAction" << "HurtAction"
 			 << "KillAction"  << "MultiAction" << "SwitchAction" << "StartQuestAction" << "FinishQuestAction"
 			 << "OpenShopAction"<< "CutMapAction"<< "OpenLetterWritterAction"<< "OpenMailboxAction"
-			 << "PlaySoundAction" << "SetFlagAction" << "ShoutTextAction" << "RandomAction";
+			 << "PlaySoundAction" << "SetFlagAction" << "ShoutTextAction" << "RandomAction" << "DisplayHolomapAction";
 
 	_actiontypeList->setStringList(actilist);
 
@@ -1361,7 +1363,19 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.pushButton_selectquest, SIGNAL(clicked()) , this, SLOT(QuestSelect_button()));
 
 
+	connect(_uieditor.pushButton_addholo, SIGNAL(clicked()) , this, SLOT(HoloAdd_button()));
+	connect(_uieditor.pushButton_removeholo, SIGNAL(clicked()) , this, SLOT(HoloRemove_button()));	
+	connect(_uieditor.pushButton_goto_holo, SIGNAL(clicked()) , this, SLOT(HoloSelect_button()));
 
+	connect(_uieditor.pushButton_addhololoc, SIGNAL(clicked()) , this, SLOT(HoloLocAdd_button()));
+	connect(_uieditor.pushButton_removehololoc, SIGNAL(clicked()) , this, SLOT(HoloLocRemove_button()));	
+	connect(_uieditor.pushButton_goto_hololoc, SIGNAL(clicked()) , this, SLOT(HoloLocSelect_button()));
+
+	connect(_uieditor.pushButton_addholopath, SIGNAL(clicked()) , this, SLOT(HoloPathAdd_button()));
+	connect(_uieditor.pushButton_removeholopath, SIGNAL(clicked()) , this, SLOT(HoloPathRemove_button()));	
+	connect(_uieditor.pushButton_goto_holopath, SIGNAL(clicked()) , this, SLOT(HoloPathSelect_button()));
+
+	
 	connect(_uieditor.textEdit_worlddescription, SIGNAL(textChanged()) , this, SLOT(WorldDescriptionChanged()));	
 	connect(_uieditor.textEdit_worldnews, SIGNAL(textChanged()) , this, SLOT(WorldNewsChanged()));	
 	connect(_uieditor.lineEdit_startingscript, SIGNAL(textChanged()) , this, SLOT(WorldStartingScriptChanged()));	
@@ -1415,6 +1429,9 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.radioButton_camtype_ortho, SIGNAL(toggled(bool)) , this, SLOT(MapCameraTypeChanged(bool)));
 	connect(_uieditor.radioButton_camtype_persp, SIGNAL(toggled(bool)) , this, SLOT(MapCameraTypeChanged(bool)));
 	connect(_uieditor.radioButton_camtype_3d, SIGNAL(toggled(bool)) , this, SLOT(MapCameraTypeChanged(bool)));
+	connect(_uieditor.spinBox_lhololocid, SIGNAL(valueChanged(int)) , this, SLOT(MapInstanceChanged(int)));	
+
+
 
 	connect(_uieditor.comboBox_choosetexttype, SIGNAL(activated(int)) , this, SLOT(TextTypeModified(int)));	
 	connect(_uieditor.comboBox_chooselang, SIGNAL(activated(int)) , this, SLOT(TextLangModified(int)));	
@@ -1716,6 +1733,11 @@ void EditorHandler::SaveWorldAction(std::string mapname)
 
 		// save templates
 		XmlReader::SaveObjectTemplateFile("./Data/Worlds/" + _winfo.Description.WorldName + "/Editorconfig.xml", _objecttemplates);
+
+		// save holomap
+		SaveHoloMap("./Data/Worlds/" + _winfo.Description.WorldName + "/Lua/Holomap.lua");
+
+
 
 		SetSaved();
 	}
@@ -3692,6 +3714,25 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 		}
 		return;
 	}
+	
+	if(actiontype == "DisplayHolomapAction")
+	{
+		DisplayHolomapAction* ptr = static_cast<DisplayHolomapAction*>(action);
+		{
+			QVector<QVariant> data;
+			data << "Mode" << (int)ptr->GetMode();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+		{
+			QVector<QVariant> data;
+			data << "HoloId" << (int)ptr->GetHolomapId();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+		}
+
+		return;
+	}
+
+	
 }
 		
 
@@ -4533,7 +4574,24 @@ void EditorHandler::ActionObjectChanged(const std::string & category, const QMod
 				return;
 			}
 			
-			
+		
+			if(category == "DisplayHolomapAction")
+			{
+				// get info
+				int mode = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toFloat();
+				long holoid = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toFloat();
+
+				// created modified action and replace old one
+				DisplayHolomapAction* modifiedact = (DisplayHolomapAction*)ptr;
+				modifiedact->SetMode(mode);
+				modifiedact->SetHolomapId(holoid);
+
+
+				// need to save as something changed
+				SetModified();
+
+				return;
+			}	
 					
 		}
 	}
@@ -5366,6 +5424,7 @@ void EditorHandler::ChangeMap(const std::string & mapname, long spawningid)
 {
 	if(SaveMapBeforeQuit())
 	{
+		ShowHideMapInfo(true);
 		LbaNet::PlayerPosition ppos = SharedDataHandler::getInstance()->GetSpawnPos(mapname, spawningid, 0);
 		EditorUpdateBasePtr update = new EditorTeleportPlayerEvent(1, ppos);
 		SharedDataHandler::getInstance()->EditorUpdate(_uieditor.label_mapname->text().toAscii().data(), update);
@@ -5379,6 +5438,7 @@ void EditorHandler::ChangeMap(const std::string & mapname, const std::string Spa
 {
 	if(SaveMapBeforeQuit())
 	{
+		ShowHideMapInfo(true);
 		LbaNet::PlayerPosition ppos = SharedDataHandler::getInstance()->GetSpawnPos(mapname, SpawnName, 0);
 		EditorUpdateBasePtr update = new EditorTeleportPlayerEvent(1, ppos);
 		SharedDataHandler::getInstance()->EditorUpdate(_uieditor.label_mapname->text().toAscii().data(), update);
@@ -5415,6 +5475,47 @@ void EditorHandler::SaveMap(const std::string & filename)
 
 	file<<"end"<<std::endl;
 }
+
+/***********************************************************
+save holomap to file
+***********************************************************/
+void EditorHandler::SaveHoloMap(const std::string & filename)
+{
+	std::ofstream file(filename.c_str());
+	file<<"function InitHolomap(environment)"<<std::endl;
+
+	// save holomaps
+	{
+		std::map<long, HolomapPtr> &_holomapptr = HolomapHandler::getInstance()->GetHolomaps();
+		std::map<long, HolomapPtr>::iterator itt = _holomapptr.begin();
+		std::map<long, HolomapPtr>::iterator endt = _holomapptr.end();
+		for(;itt != endt; ++itt)
+			itt->second->SaveToLuaFile(file);
+	}
+	file<<std::endl<<std::endl;
+
+	// save holomaps locations
+	{
+		std::map<long, HolomapLocationPtr> &_holomapptr = HolomapHandler::getInstance()->GetHolomapLocs();
+		std::map<long, HolomapLocationPtr>::iterator itt = _holomapptr.begin();
+		std::map<long, HolomapLocationPtr>::iterator endt = _holomapptr.end();
+		for(;itt != endt; ++itt)
+			itt->second->SaveToLuaFile(file);
+	}
+	file<<std::endl<<std::endl;
+
+	// save holomaps paths
+	{
+		std::map<long, HolomapTravelPathPtr> &_holomapptr = HolomapHandler::getInstance()->GetHolomapPaths();
+		std::map<long, HolomapTravelPathPtr>::iterator itt = _holomapptr.begin();
+		std::map<long, HolomapTravelPathPtr>::iterator endt = _holomapptr.end();
+		for(;itt != endt; ++itt)
+			itt->second->SaveToLuaFile(file);
+	}
+
+	file<<"end"<<std::endl;
+}
+
 
 
 /***********************************************************
@@ -6130,6 +6231,7 @@ void EditorHandler::MapInstanceChanged(int flag)
 	if(mapname != "")
 	{
 		_winfo.Maps[mapname].IsInstance = _uieditor.checkBox_map_instancied->isChecked();
+		_winfo.Maps[mapname].LinkedHoloLocation = _uieditor.spinBox_lhololocid->value();
 
 		SetModified();
 
@@ -8881,7 +8983,7 @@ void EditorHandler::UpdateSelectedActorDisplay(LbaNet::ObjectPhysicDesc desc,
 
 
 
-	_actornode = OsgHandler::getInstance()->AddEmptyActorNode(false);
+	_actornode = OsgHandler::getInstance()->AddEmptyActorNode(0, false);
 
 	osg::Matrixd Trans;
 	osg::Matrixd Rotation;
@@ -9069,7 +9171,7 @@ remove current selected display
 void EditorHandler::RemoveSelectedActorDislay()
 {
 	if(_actornode)
-		OsgHandler::getInstance()->RemoveActorNode(_actornode, false);
+		OsgHandler::getInstance()->RemoveActorNode(0, _actornode, false);
 
 	_actornode = NULL;
 
@@ -9168,7 +9270,7 @@ void EditorHandler::UpdateSelectedZoneTriggerDisplay(float PosX, float PosY, flo
 {
 	RemoveSelectedActorDislay();
 
-	_actornode = OsgHandler::getInstance()->AddEmptyActorNode(false);
+	_actornode = OsgHandler::getInstance()->AddEmptyActorNode(0, false);
 
 	osg::Matrixd Trans;
 	Trans.makeTranslate(PosX, PosY, PosZ);
@@ -9201,7 +9303,7 @@ void EditorHandler::UpdateSelectedDistanceTriggerDisplay(float PosX, float PosY,
 {
 	RemoveSelectedActorDislay();
 
-	_actornode = OsgHandler::getInstance()->AddEmptyActorNode(false);
+	_actornode = OsgHandler::getInstance()->AddEmptyActorNode(0, false);
 
 	osg::Matrixd Trans;
 	Trans.makeTranslate(PosX, PosY, PosZ);
@@ -9233,7 +9335,7 @@ void EditorHandler::DrawArrows(float PosX, float PosY, float PosZ)
 {
 	RemoveArrows();
 
-	_arrownode = OsgHandler::getInstance()->AddEmptyActorNode(false);
+	_arrownode = OsgHandler::getInstance()->AddEmptyActorNode(0, false);
 
 	osg::ref_ptr<osg::Camera> PostRenderCam = new osg::Camera;
 	PostRenderCam->setClearMask(GL_DEPTH_BUFFER_BIT);
@@ -9484,7 +9586,7 @@ void EditorHandler::RemoveArrows()
 {
 	if(_arrownode)
 	{
-		OsgHandler::getInstance()->RemoveActorNode(_arrownode, false);
+		OsgHandler::getInstance()->RemoveActorNode(0, _arrownode, false);
 		_arrownode = NULL;
 		_draggerX = NULL;
 		_draggerY = NULL;
@@ -9662,7 +9764,7 @@ void EditorHandler::UpdateSelectedGoUpLadderScriptDisplay( float posX, float pos
 {
 	RemoveSelectedScriptDislay();
 
-	_scriptnode = OsgHandler::getInstance()->AddEmptyActorNode(false);
+	_scriptnode = OsgHandler::getInstance()->AddEmptyActorNode(0, false);
 
 	osg::Matrixd Trans;
 	osg::Matrixd Rotation;
@@ -9838,7 +9940,7 @@ remove current selected display
 void EditorHandler::RemoveSelectedScriptDislay()
 {
 	if(_scriptnode)
-		OsgHandler::getInstance()->RemoveActorNode(_scriptnode, false);
+		OsgHandler::getInstance()->RemoveActorNode(0, _scriptnode, false);
 
 	_scriptnode = NULL;
 }
@@ -10533,7 +10635,9 @@ ActionBasePtr EditorHandler::CreateAction(const std::string & type)
 			
 	if(type == "RandomAction")
 		return ActionBasePtr(new RandomAction());
-
+			
+	if(type == "DisplayHolomapAction")
+		return ActionBasePtr(new DisplayHolomapAction());
 
 	return ActionBasePtr();
 }
@@ -11142,6 +11246,7 @@ void EditorHandler::ItemSelect_button()
 	if(indexes.size() > 0)
 	{
 		long id = _itemlistmodel->GetId(indexes[0]);
+		ShowHideMapInfo(false);
 		SelectItem(InventoryItemHandler::getInstance()->GetItem(id));
 	}
 }
@@ -12969,6 +13074,7 @@ void EditorHandler::QuestSelect_button()
 	if(indexes.size() > 0)
 	{
 		long id = _questlistmodel->GetId(indexes[0]);
+		ShowHideMapInfo(false);
 		SelectQuest(id);
 	}
 }
@@ -13023,6 +13129,12 @@ void EditorHandler::SelectQuest(long id, const QModelIndex &parent)
 	{
 		QVector<QVariant> data;
 		data<<"Visible"<<qu->GetVisible();
+		_objectmodel->AppendRow(data, parent);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Holomap LocId"<<qu->GetLinkedHoloLocId();
 		_objectmodel->AppendRow(data, parent);
 	}
 
@@ -13161,13 +13273,17 @@ void EditorHandler::QuestChanged(long id, const QModelIndex &parentIdx)
 	qu->SetChapter(chapter);
 	qu->SetVisible(visible);
 
+	long hololocid = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toInt();
+	qu->SetLinkedHoloLocId(hololocid);
+
 	SetModified();
+
 
 
 	// get text
 	QString txtLoc; 
 	{
-		txtLoc =_objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toString();
+		txtLoc =_objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toString();
 		std::string text = txtLoc.toAscii().data();
 		text = text.substr(0, text.find(":"));
 		long textid = atol(text.c_str());
@@ -13175,7 +13291,7 @@ void EditorHandler::QuestChanged(long id, const QModelIndex &parentIdx)
 	}
 	// get text
 	{
-		QString txt = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toString();
+		QString txt = _objectmodel->data(_objectmodel->GetIndex(1, 7, parentIdx)).toString();
 		std::string text = txt.toAscii().data();		
 		text = text.substr(0, text.find(":"));
 		long textid = atol(text.c_str());
@@ -13188,7 +13304,7 @@ void EditorHandler::QuestChanged(long id, const QModelIndex &parentIdx)
 	}
 	// get text
 	{
-		std::string text = _objectmodel->data(_objectmodel->GetIndex(1, 7, parentIdx)).toString().toAscii().data();		
+		std::string text = _objectmodel->data(_objectmodel->GetIndex(1, 8, parentIdx)).toString().toAscii().data();		
 		text = text.substr(0, text.find(":"));
 		long textid = atol(text.c_str());
 		qu->SetDescriptionTextId(textid);
@@ -13197,7 +13313,7 @@ void EditorHandler::QuestChanged(long id, const QModelIndex &parentIdx)
 
 	// get action info
 	{
-		std::string action = _objectmodel->data(_objectmodel->GetIndex(1, 8, parentIdx)).toString().toAscii().data();
+		std::string action = _objectmodel->data(_objectmodel->GetIndex(1, 9, parentIdx)).toString().toAscii().data();
 		std::string curract = GetActionType(qu->GetActionAtStart());
 
 		if(action != curract)
@@ -13205,7 +13321,7 @@ void EditorHandler::QuestChanged(long id, const QModelIndex &parentIdx)
 			ActionBasePtr ptrtmp = CreateAction(action);
 			qu->SetActionAtStart(ptrtmp);
 
-			QModelIndex curidx = _objectmodel->GetIndex(0, 8, parentIdx);
+			QModelIndex curidx = _objectmodel->GetIndex(0, 9, parentIdx);
 			_objectmodel->Clear(curidx);
 			if(ptrtmp)
 			{
@@ -13217,7 +13333,7 @@ void EditorHandler::QuestChanged(long id, const QModelIndex &parentIdx)
 	}
 	// get action info
 	{
-		std::string action = _objectmodel->data(_objectmodel->GetIndex(1, 9, parentIdx)).toString().toAscii().data();
+		std::string action = _objectmodel->data(_objectmodel->GetIndex(1, 10, parentIdx)).toString().toAscii().data();
 		std::string curract = GetActionType(qu->GetActionAtComplete());
 
 		if(action != curract)
@@ -13225,7 +13341,7 @@ void EditorHandler::QuestChanged(long id, const QModelIndex &parentIdx)
 			ActionBasePtr ptrtmp = CreateAction(action);
 			qu->SetActionAtComplete(ptrtmp);
 
-			QModelIndex curidx = _objectmodel->GetIndex(0, 9, parentIdx);
+			QModelIndex curidx = _objectmodel->GetIndex(0, 10, parentIdx);
 			_objectmodel->Clear(curidx);
 			if(ptrtmp)
 			{
@@ -13239,7 +13355,7 @@ void EditorHandler::QuestChanged(long id, const QModelIndex &parentIdx)
 
 	// get child conditions info
 	{
-		QModelIndex itemparent = _objectmodel->GetIndex(0, 10, parentIdx);
+		QModelIndex itemparent = _objectmodel->GetIndex(0, 11, parentIdx);
 		int curridx = 0;
 
 		std::vector<ConditionBasePtr> childs = qu->GetConditions();
@@ -13549,7 +13665,7 @@ void EditorHandler::DisplayStartPath(const LbaVec3 & position)
 {
 	HideStartPath();
 
-	_startpathO = OsgHandler::getInstance()->AddEmptyActorNode(false);
+	_startpathO = OsgHandler::getInstance()->AddEmptyActorNode(0, false);
 	osg::Matrixd Trans;
 	osg::Matrixd Rotation;
 	Trans.makeTranslate(position.x, position.y, position.z);
@@ -13644,7 +13760,7 @@ void EditorHandler::DisplayEndPath(const LbaVec3 & position)
 {
 	HideEndPath();
 
-	_endpathO = OsgHandler::getInstance()->AddEmptyActorNode(false);
+	_endpathO = OsgHandler::getInstance()->AddEmptyActorNode(0, false);
 	osg::Matrixd Trans;
 	osg::Matrixd Rotation;
 	Trans.makeTranslate(position.x, position.y, position.z);
@@ -13738,7 +13854,7 @@ void EditorHandler::HideStartPath()
 {
 	if(_startpathO)
 	{
-		OsgHandler::getInstance()->RemoveActorNode(_startpathO, false);
+		OsgHandler::getInstance()->RemoveActorNode(0, _startpathO, false);
 		_startpathO = 0;
 	}
 }
@@ -13750,7 +13866,7 @@ void EditorHandler::HideEndPath()
 {
 	if(_endpathO)
 	{
-		OsgHandler::getInstance()->RemoveActorNode(_endpathO, false);
+		OsgHandler::getInstance()->RemoveActorNode(0, _endpathO, false);
 		_endpathO = 0;
 	}
 }
@@ -15161,4 +15277,92 @@ void EditorHandler::RemoveTemplate(int id)
 
 		SetModified();
 	}
+}
+
+/***********************************************************
+show hide map info
+***********************************************************/
+void EditorHandler::ShowHideMapInfo(bool Show)
+{
+	//if(Show)
+	//	_uieditor.widget_map->show();
+	//else
+	//	_uieditor.widget_map->hide();
+}
+
+/***********************************************************
+HoloAdd_button
+***********************************************************/
+void EditorHandler::HoloAdd_button()
+{
+	//todo
+}
+
+/***********************************************************
+HoloRemove_button
+***********************************************************/
+void EditorHandler::HoloRemove_button()
+{
+	//todo
+}
+
+/***********************************************************
+HoloSelect_button
+***********************************************************/
+void EditorHandler::HoloSelect_button()
+{
+	//todo
+	ShowHideMapInfo(false);
+}
+
+
+/***********************************************************
+HoloAdd_button
+***********************************************************/
+void EditorHandler::HoloLocAdd_button()
+{
+	//todo
+}
+
+/***********************************************************
+HoloRemove_button
+***********************************************************/
+void EditorHandler::HoloLocRemove_button()
+{
+	//todo
+}
+
+/***********************************************************
+HoloSelect_button
+***********************************************************/
+void EditorHandler::HoloLocSelect_button()
+{
+	//todo
+	ShowHideMapInfo(false);
+}
+
+
+/***********************************************************
+HoloAdd_button
+***********************************************************/
+void EditorHandler::HoloPathAdd_button()
+{
+	//todo
+}
+
+/***********************************************************
+HoloRemove_button
+***********************************************************/
+void EditorHandler::HoloPathRemove_button()
+{
+	//todo
+}
+
+/***********************************************************
+HoloSelect_button
+***********************************************************/
+void EditorHandler::HoloPathSelect_button()
+{
+	//todo
+	ShowHideMapInfo(false);
 }

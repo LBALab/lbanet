@@ -42,6 +42,9 @@ public:
 	//! update the current keyframe
 	virtual void UpdateCurrentKeyframe(int keyframe);
 
+	//! SetHolomapPtr
+	virtual void SetHolomapPtr(std::map<long, boost::shared_ptr<Holomap> > * ptr){}
+
 public slots:
 	 //! quit editor
      void quit();

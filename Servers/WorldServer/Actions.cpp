@@ -1406,3 +1406,44 @@ void RandomAction::ReplaceAction(ActionBasePtr olda, ActionBasePtr newa)
 	if(it != _actions.end())
 		*it = newa;
 }
+
+
+
+
+/***********************************************************
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+***********************************************************/
+void DisplayHolomapAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+										ActionArgumentBase* args)
+{
+	long clientid = -1;
+	if(ObjectType == 2)
+		clientid = (long)ObjectId;
+
+	// on object moved by player
+	if(ObjectType == 3 && owner)
+		clientid = owner->GetGhostOwnerPlayer((long)ObjectId);
+
+	// check if client found - else return
+	if(clientid < 0)
+		return;
+
+	if(owner)
+		owner->DisplayHolomap(clientid, _Mode, _HolomapId);
+}
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/
+void DisplayHolomapAction::SaveToLuaFile(std::ostream & file, const std::string & name)
+{
+	file<<"\t"<<name<<" = DisplayHolomapAction()"<<std::endl;
+	file<<"\t"<<name<<":SetMode("<<_Mode<<")"<<std::endl;
+	file<<"\t"<<name<<":SetHolomapId("<<_HolomapId<<")"<<std::endl;
+}

@@ -133,18 +133,18 @@ osg::ShapeDrawable* OsgObjectHandler::findShapeDrawable()
 /***********************************************************
 default constructor
 ***********************************************************/
-OsgObjectHandler::OsgObjectHandler(boost::shared_ptr<DisplayTransformation> Tr,
+OsgObjectHandler::OsgObjectHandler(int sceneidx, boost::shared_ptr<DisplayTransformation> Tr,
 									const LbaNet::ObjectExtraInfo &extrainfo,
 									const LbaNet::LifeManaInfo &lifeinfo)
 :  _posX(0), _posY(0), _posZ(0), _displayed(true), _extrainfo(extrainfo), _uselight(true),
-		_lifeinfo(lifeinfo), _useTransparentMaterial(false), _MaterialType(0)
+		_lifeinfo(lifeinfo), _useTransparentMaterial(false), _MaterialType(0), _sceneidx(sceneidx)
 {
 	#ifdef _DEBUG
 		LogHandler::getInstance()->LogToFile("Created empty Osg object.");
 	#endif
 
-	_OsgObject = OsgHandler::getInstance()->AddEmptyActorNode(true);
-	_OsgObjectNoLight = OsgHandler::getInstance()->AddEmptyActorNode(false);
+	_OsgObject = OsgHandler::getInstance()->AddEmptyActorNode(_sceneidx, true);
+	_OsgObjectNoLight = OsgHandler::getInstance()->AddEmptyActorNode(_sceneidx,false);
 
 	if(Tr)
 	{
@@ -163,16 +163,16 @@ OsgObjectHandler::OsgObjectHandler(boost::shared_ptr<DisplayTransformation> Tr,
 /***********************************************************
 Constructor
 ***********************************************************/
-OsgObjectHandler::OsgObjectHandler(osg::ref_ptr<osg::MatrixTransform> OsgObject, bool uselight,
+OsgObjectHandler::OsgObjectHandler(int sceneidx, osg::ref_ptr<osg::MatrixTransform> OsgObject, bool uselight,
 										const LbaNet::ObjectExtraInfo &extrainfo,
 										const LbaNet::LifeManaInfo &lifeinfo)
 : _posX(0), _posY(0), _posZ(0), _displayed(true), _extrainfo(extrainfo), _uselight(uselight),
-		_lifeinfo(lifeinfo)
+		_lifeinfo(lifeinfo), _sceneidx(sceneidx)
 {
 	if(uselight)
 	{
 		_OsgObject = OsgObject;
-		_OsgObjectNoLight = OsgHandler::getInstance()->AddEmptyActorNode(false);
+		_OsgObjectNoLight = OsgHandler::getInstance()->AddEmptyActorNode(_sceneidx,false);
 	}
 	else
 		_OsgObjectNoLight = OsgObject;
@@ -198,10 +198,10 @@ OsgObjectHandler::~OsgObjectHandler()
 	if(_displayed)
 	{
 		if(_OsgObject)
-			OsgHandler::getInstance()->RemoveActorNode(_OsgObject, true);
+			OsgHandler::getInstance()->RemoveActorNode(_sceneidx,_OsgObject, true);
 
 		if(_OsgObjectNoLight)
-			OsgHandler::getInstance()->RemoveActorNode(_OsgObjectNoLight, false);
+			OsgHandler::getInstance()->RemoveActorNode(_sceneidx,_OsgObjectNoLight, false);
 	}
 
 	osg::ref_ptr<osg::Group> root = GetRootNoLight();
@@ -275,19 +275,19 @@ void OsgObjectHandler::ShowOrHide(bool Show)
 		if(!Show && _displayed)
 		{
 			_displayed = false;
-			OsgHandler::getInstance()->RemoveActorNode(_OsgObject, true);
+			OsgHandler::getInstance()->RemoveActorNode(_sceneidx, _OsgObject, true);
 
 			if(_OsgObjectNoLight)
-				OsgHandler::getInstance()->RemoveActorNode(_OsgObjectNoLight, false);
+				OsgHandler::getInstance()->RemoveActorNode(_sceneidx, _OsgObjectNoLight, false);
 		}
 
 		if(Show && !_displayed)
 		{
 			_displayed = true;
-			OsgHandler::getInstance()->ReAddActorNode(_OsgObject, true);
+			OsgHandler::getInstance()->ReAddActorNode(_sceneidx, _OsgObject, true);
 
 			if(_OsgObjectNoLight)
-				OsgHandler::getInstance()->ReAddActorNode(_OsgObjectNoLight, false);
+				OsgHandler::getInstance()->ReAddActorNode(_sceneidx, _OsgObjectNoLight, false);
 		}
 	}
 }
@@ -705,12 +705,12 @@ void OsgObjectHandler::UpdateModel(const LbaNet::ModelInfo &mInfo)
 	if(_uselight)
 	{
 		if(_OsgObject)
-			OsgHandler::getInstance()->RemoveActorNode(_OsgObject, true);
+			OsgHandler::getInstance()->RemoveActorNode(_sceneidx, _OsgObject, true);
 	}
 	else
 	{
 		if(_OsgObjectNoLight)
-			OsgHandler::getInstance()->RemoveActorNode(_OsgObjectNoLight, false);
+			OsgHandler::getInstance()->RemoveActorNode(_sceneidx, _OsgObjectNoLight, false);
 	}
 
 	osg::ref_ptr<osg::MatrixTransform> node;
@@ -725,7 +725,7 @@ void OsgObjectHandler::UpdateModel(const LbaNet::ModelInfo &mInfo)
 
 	if(mInfo.TypeRenderer == LbaNet::RenderSprite)
 	{
-		node = OsgHandler::getInstance()->CreateSpriteObject(mInfo.ModelName, 
+		node = OsgHandler::getInstance()->CreateSpriteObject(_sceneidx, mInfo.ModelName, 
 											mInfo.ColorR, mInfo.ColorG, mInfo.ColorB, mInfo.ColorA,
 											Tr,	mInfo.UseLight,	mInfo.CastShadow,
 											mInfo.UseBillboard);
@@ -733,7 +733,7 @@ void OsgObjectHandler::UpdateModel(const LbaNet::ModelInfo &mInfo)
 	else
 	{
 		if(mInfo.ModelName != "")
-			node = OsgHandler::getInstance()->CreateSimpleObject(mInfo.ModelName, Tr,
+			node = OsgHandler::getInstance()->CreateSimpleObject(_sceneidx, mInfo.ModelName, Tr,
 																mInfo.UseLight,	mInfo.CastShadow);
 	}
 
@@ -1115,9 +1115,9 @@ void OsgObjectHandler::DisplayOrHideTalkingIcon(bool display, bool left)
 		}
 		else
 		{
-			std::string spritef = "Worlds/Lba1Original/Sprites/sprite091.png";
-			if(left)
-				spritef = "Worlds/Lba1Original/Sprites/sprite090.png";
+			std::string spritef = "GUI/imagesets/bubble-big.png";
+			//if(left)
+			//	spritef = "Worlds/Lba1Original/Sprites/sprite090.png";
 
 			boost::shared_ptr<DisplayTransformation> Tr = 
 				boost::shared_ptr<DisplayTransformation>(new DisplayTransformation());
@@ -1127,7 +1127,7 @@ void OsgObjectHandler::DisplayOrHideTalkingIcon(bool display, bool left)
 			Tr->scaleY = 0.2f;
 			Tr->scaleZ = 0.5f;
 
-			_OsgVoiceSprite = OsgHandler::getInstance()->CreateSpriteObject(spritef, 1, 1, 1, 0.95f, 
+			_OsgVoiceSprite = OsgHandler::getInstance()->CreateSpriteObject(_sceneidx, spritef, 1, 1, 1, 0.95f, 
 																Tr, false, false, true);
 			if(_OsgVoiceSprite)
 				root->addChild(_OsgVoiceSprite);

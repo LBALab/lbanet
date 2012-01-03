@@ -51,12 +51,12 @@ class OsgObjectHandler : public DisplayObjectHandlerBase
 {
 public:
 	//! default constructor
-	OsgObjectHandler(boost::shared_ptr<DisplayTransformation> Tr,
+	OsgObjectHandler(int sceneidx, boost::shared_ptr<DisplayTransformation> Tr,
 						const LbaNet::ObjectExtraInfo &extrainfo,
 						const LbaNet::LifeManaInfo &lifeinfo);
 
 	//! constructor
-	OsgObjectHandler(osg::ref_ptr<osg::MatrixTransform> OsgObject, bool uselight,
+	OsgObjectHandler(int sceneidx, osg::ref_ptr<osg::MatrixTransform> OsgObject, bool uselight,
 						const LbaNet::ObjectExtraInfo &extrainfo,
 						const LbaNet::LifeManaInfo &lifeinfo);
 
@@ -223,6 +223,7 @@ private:
 
 	osg::ref_ptr<osg::AutoTransform>				_shouttextgroup;
 	double											_ttlshout;
+	int												_sceneidx;
 
 };
 

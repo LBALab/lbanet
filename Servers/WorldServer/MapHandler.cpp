@@ -208,7 +208,7 @@ void MapHandler::run()
 							LbaVec3 lastposP = player->GetLastPhysPosition();
 							LbaVec3 posP = player->GetCurrentPhysPosition();
 
-							if(fabs(posP.y-pos.y) < (sizeY*1.5f) && !ita->second->PlayerImune(itp->first))
+							if(fabs(posP.y-pos.y) < (sizeY*1.5f) && !ita->second->PlayerImune((long)itp->first))
 							{
 								lastposP.y = 1;
 								posP.y = 1;
@@ -276,7 +276,7 @@ void MapHandler::run()
 													ChangePlayerState(itp->first, LbaNet::StSmallHurt, 0, 1, -1, true);
 											}
 
-											ita->second->TouchedPlayer(itp->first, killed);
+											ita->second->TouchedPlayer((long)itp->first, killed);
 										}
 									}
 								}
@@ -504,7 +504,8 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 		LbaNet::ScriptExecutionFinishedEvent* castedptr =
 			dynamic_cast<LbaNet::ScriptExecutionFinishedEvent *>(&obj);
 
-		FinishedScript((long)id, castedptr->ScriptName, castedptr->TeleportToMap, castedptr->TeleportSpawn);
+		FinishedScript((long)id, castedptr->ScriptName, castedptr->TeleportToMap, 
+							(long)castedptr->TeleportSpawn);
 		return;
 	}
 
@@ -654,7 +655,7 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 	// FinishedVideo
 	if(info == typeid(LbaNet::VideoSequenceFinishedEvent))
 	{
-		FinishedVideo(id);
+		FinishedVideo((long)id);
 		return;
 	}
 }
@@ -3198,7 +3199,7 @@ void MapHandler::SetReady(Ice::Long clientid)
 		// tell client to hide loading screen
 		EventsSeq toplayer;
 		toplayer.push_back(new LbaNet::ShowHideLoadingScreenEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), false));
-		SendEvents(clientid, toplayer);
+		SendEvents((long)clientid, toplayer);
 	}
 }
 
@@ -4342,4 +4343,27 @@ void MapHandler::ActorResumeSound(int ScriptId, long ActorId, int SoundChannel)
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
 		itact->second->AResumeSound(SoundChannel, true, itact->second->IsAttackScript(ScriptId));
+}
+
+
+/***********************************************************
+//! display holomap
+***********************************************************/
+void MapHandler::DisplayHolomap(long PlayerId, int mode, long holoid)
+{
+	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator ita = _players.find(PlayerId);
+	if(ita != _players.end())
+	{
+		std::vector<long> questshl = ita->second->GetActiveQuestsHoloLocation();
+
+		LbaNet::HoloIdSeq hlids;
+		for(size_t i=0; i<questshl.size(); ++i)
+			hlids.push_back(questshl[i]);
+
+		//inform client
+		EventsSeq toplayer;
+		toplayer.push_back(new DisplayHolomapEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+													mode, holoid, hlids));	
+		SendEvents(PlayerId, toplayer);
+	}
 }

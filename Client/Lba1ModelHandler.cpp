@@ -45,13 +45,13 @@ entitiesTableStruct* Lba1ModelHandler::_estruct = NULL;
 /***********************************************************
 Constructor
 ***********************************************************/
-Lba1ModelHandler::Lba1ModelHandler(boost::shared_ptr<DisplayTransformation> Tr,
+Lba1ModelHandler::Lba1ModelHandler(int sceneidx, boost::shared_ptr<DisplayTransformation> Tr,
 								   const LbaNet::ModelInfo & info, float animationspeed,
 								   bool UseLight, bool CastShadow,
 									const LbaNet::ObjectExtraInfo &extrainfo,
 									const LbaNet::LifeManaInfo &lifeinfo,
 									bool mainchar)
-: AnimatedObjectHandlerBase(Tr, extrainfo, lifeinfo, info), _model(NULL), _animationspeed(animationspeed),
+: AnimatedObjectHandlerBase(sceneidx, Tr, extrainfo, lifeinfo, info), _model(NULL), _animationspeed(animationspeed),
 	_currAnimation(-1), _currModel(-1), _currBody(-1),
 	_UseLight(UseLight), _CastShadow(CastShadow), _mainchar(mainchar)
 {

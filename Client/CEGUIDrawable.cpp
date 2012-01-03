@@ -253,16 +253,14 @@ drawImplementation
 void CEGUIDrawable::drawImplementation(osg::RenderInfo& renderInfo) const
 {
     osg::State* state = renderInfo.getState();
-
     if (state->getContextID()!=_activeContextID) 
 		return;
 
+	// draw cegui stuff
     glPushAttrib(GL_ALL_ATTRIB_BITS);
-
     state->disableAllVertexArrays();
 
     CEGUI::System::getSingleton().renderGUI();
-
     glPopAttrib();
 
 

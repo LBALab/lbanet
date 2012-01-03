@@ -47,7 +47,7 @@ class Lba1ModelHandler : public AnimatedObjectHandlerBase
 {
 public:
 	//! constructor
-	Lba1ModelHandler(boost::shared_ptr<DisplayTransformation> Tr,
+	Lba1ModelHandler(int sceneidx, boost::shared_ptr<DisplayTransformation> Tr,
 						const LbaNet::ModelInfo & info, float animationspeed,
 						bool UseLight, bool CastShadow,
 						const LbaNet::ObjectExtraInfo &extrainfo,

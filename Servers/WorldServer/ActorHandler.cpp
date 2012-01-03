@@ -1112,7 +1112,7 @@ void ActorHandler::CreateActor()
 		{
 			//TODO configurable animation speed
 			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
-				(new Lba1ModelObjectDescription(m_actorinfo.DisplayDesc, _LBA1_MODEL_ANIMATION_SPEED_,
+				(new Lba1ModelObjectDescription(0, m_actorinfo.DisplayDesc, _LBA1_MODEL_ANIMATION_SPEED_,
 												m_actorinfo.DisplayDesc.UseLight, 
 												m_actorinfo.DisplayDesc.CastShadow, 
 												m_actorinfo.ExtraInfo,

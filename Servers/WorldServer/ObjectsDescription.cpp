@@ -34,6 +34,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "NavMeshObjectHandlers.h"
 #include "SoundObjectHandlerServer.h"
 
+#define	_LBA1_MODEL_ANIMATION_SPEED_	1.8f
+
 
 /***********************************************************
 	Constructor
@@ -239,7 +241,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> SpriteDescription::BuildSelf(boost::
 																				DisplayHandlerBase * disH) const
 {
 	if(disH)
-		return disH->CreateSpriteObject(_spritefile, _colorR, _colorG, _colorB, _colorA, 
+		return disH->CreateSpriteObject(_sceneid, _spritefile, _colorR, _colorG, _colorB, _colorA, 
 											Tr, _UseLight, _CastShadow, _extrainfo, _lifeinfo, _UseBillboard);
 
 	return boost::shared_ptr<DisplayObjectHandlerBase> ();
@@ -257,7 +259,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgSimpleObjectDescription::BuildSel
 															DisplayHandlerBase * disH) const
 {
 	if(disH)
-		return disH->CreateSimpleObject(_filename, Tr, _UseLight, _CastShadow, _extrainfo, _lifeinfo);
+		return disH->CreateSimpleObject(_sceneid, _filename, Tr, _UseLight, _CastShadow, _extrainfo, _lifeinfo);
 
 	return boost::shared_ptr<DisplayObjectHandlerBase> ();
 }
@@ -270,7 +272,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgCrossDescription::BuildSelf(boost
 																				DisplayHandlerBase * disH) const
 {
 	if(disH)
-		return disH->CreateCrossObject(_size, _colorR, _colorG, _colorB, _colorA, Tr, _extrainfo, _lifeinfo);
+		return disH->CreateCrossObject(_sceneid, _size, _colorR, _colorG, _colorB, _colorA, Tr, _extrainfo, _lifeinfo);
 
 	return boost::shared_ptr<DisplayObjectHandlerBase> ();
 }
@@ -283,7 +285,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgBoxDescription::BuildSelf(boost::
 																				DisplayHandlerBase * disH) const
 {
 	if(disH)
-		return disH->CreateBoxObject(_sizex, _sizey, _sizez, _colorR, _colorG, _colorB, _colorA, Tr, _extrainfo, _lifeinfo);
+		return disH->CreateBoxObject(_sceneid, _sizex, _sizey, _sizez, _colorR, _colorG, _colorB, _colorA, Tr, _extrainfo, _lifeinfo);
 
 	return boost::shared_ptr<DisplayObjectHandlerBase> ();
 }
@@ -297,7 +299,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgOrientedCapsuleDescription::Build
 															DisplayHandlerBase * disH) const
 {
 	if(disH)
-		return disH->CreateCapsuleObject(_radius, _height, _colorR, _colorG, _colorB, _colorA, Tr, _extrainfo, _lifeinfo);
+		return disH->CreateCapsuleObject(_sceneid, _radius, _height, _colorR, _colorG, _colorB, _colorA, Tr, _extrainfo, _lifeinfo);
 
 	return boost::shared_ptr<DisplayObjectHandlerBase> ();
 }
@@ -311,7 +313,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgSphereDescription::BuildSelf(
 															DisplayHandlerBase * disH) const
 {
 	if(disH)
-		return disH->CreateSphereObject(_radius, _colorR, _colorG, _colorB, _colorA, Tr, _extrainfo, _lifeinfo);
+		return disH->CreateSphereObject(_sceneid, _radius, _colorR, _colorG, _colorB, _colorA, Tr, _extrainfo, _lifeinfo);
 
 	return boost::shared_ptr<DisplayObjectHandlerBase> ();
 }
@@ -326,7 +328,7 @@ boost::shared_ptr<DisplayObjectHandlerBase> Lba1ModelObjectDescription::BuildSel
 															DisplayHandlerBase * disH) const
 {
 	return boost::shared_ptr<DisplayObjectHandlerBase> (
-					new Lba1ModelHandler( Tr, _info, _animationspeed, _UseLight, 
+					new Lba1ModelHandler(_sceneid, Tr, _info, _animationspeed, _UseLight, 
 												_CastShadow, _extrainfo, _lifeinfo, _mainchar));
 }
 
@@ -386,4 +388,199 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionWithShape::Build
 	else
 		return boost::shared_ptr<PhysicalObjectHandlerBase>( 
 				new SimplePhysicalObjectHandler(positionX, positionY, positionZ, rotation));
+}
+
+
+
+
+/***********************************************************
+Extract display info
+***********************************************************/
+boost::shared_ptr<DisplayInfo> ObjectInfo::ExtractDisplayInfo(const LbaNet::ModelInfo &DisplayDesc,
+																const LbaNet::ObjectExtraInfo &extrainfo,
+																const LbaNet::LifeManaInfo &lifeinfo,
+																bool mainchar, float SizeX)
+{
+	boost::shared_ptr<DisplayInfo> DInfo;
+
+	// create display object
+	switch(DisplayDesc.TypeRenderer)
+	{
+		//0 -> osg model 
+		case LbaNet::RenderOsgModel:
+		{
+			if(DisplayDesc.ModelName != "")
+			{
+				boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
+					(new OsgSimpleObjectDescription(0, DisplayDesc.ModelName, 
+								DisplayDesc.UseLight, DisplayDesc.CastShadow, extrainfo, lifeinfo));
+
+				boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
+				tr->translationX = DisplayDesc.TransX;
+				tr->translationY = DisplayDesc.TransY;
+				tr->translationZ = DisplayDesc.TransZ;
+
+				tr->rotation = LbaQuaternion(DisplayDesc.RotX, DisplayDesc.RotY, DisplayDesc.RotZ);
+
+				tr->scaleX = DisplayDesc.ScaleX;
+				tr->scaleY = DisplayDesc.ScaleY;
+				tr->scaleZ = DisplayDesc.ScaleZ;
+
+				DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
+			}
+		}
+		break;
+
+		//1 -> sprite 
+		case LbaNet::RenderSprite:
+		{
+
+			if(DisplayDesc.ModelName != "")
+			{
+				boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
+					(new SpriteDescription(0, DisplayDesc.ModelName, DisplayDesc.UseLight, DisplayDesc.CastShadow, 
+								DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA,
+								extrainfo, lifeinfo, DisplayDesc.UseBillboard));
+
+				boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
+				tr->translationX = DisplayDesc.TransX;
+				tr->translationY = DisplayDesc.TransY;
+				tr->translationZ = DisplayDesc.TransZ;
+
+				tr->rotation = LbaQuaternion(DisplayDesc.RotX, DisplayDesc.RotY, DisplayDesc.RotZ);
+
+				tr->scaleX = DisplayDesc.ScaleX;
+				tr->scaleY = DisplayDesc.ScaleY;
+				tr->scaleZ = DisplayDesc.ScaleZ;
+
+				DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
+			}
+		}
+		break;
+
+		//2 -> LBA1 model 
+		case LbaNet::RenderLba1M:
+		{
+			//TODO animation speed
+			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
+				(new Lba1ModelObjectDescription(0, DisplayDesc, _LBA1_MODEL_ANIMATION_SPEED_,
+												DisplayDesc.UseLight, DisplayDesc.CastShadow, extrainfo, 
+												lifeinfo, mainchar));
+
+			boost::shared_ptr<DisplayTransformation> tr(new DisplayTransformation());
+			tr->translationX = DisplayDesc.TransX;
+			tr->translationY = DisplayDesc.TransY;
+			tr->translationZ = DisplayDesc.TransZ;
+
+			tr->rotation = LbaQuaternion(DisplayDesc.RotX, DisplayDesc.RotY, DisplayDesc.RotZ);
+
+			tr->scaleX = DisplayDesc.ScaleX;
+			tr->scaleY = DisplayDesc.ScaleY*2;
+			tr->scaleZ = DisplayDesc.ScaleZ;
+
+			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
+		}
+		break;
+
+		//3-> LBA2 model
+		case LbaNet::RenderLba2M:
+		{
+			//TODO - lba2 models
+		}
+		break;
+
+		//RenderCross
+		case LbaNet::RenderCross:
+		{
+			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
+				(new OsgCrossDescription(0, SizeX, 
+								DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, 
+								DisplayDesc.ColorA, extrainfo, lifeinfo));
+
+
+			boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
+			tr->translationX = DisplayDesc.TransX;
+			tr->translationY = DisplayDesc.TransY;
+			tr->translationZ = DisplayDesc.TransZ;
+
+			tr->rotation = LbaQuaternion(DisplayDesc.RotX, DisplayDesc.RotY, DisplayDesc.RotZ);
+
+			tr->scaleX = DisplayDesc.ScaleX;
+			tr->scaleY = DisplayDesc.ScaleY;
+			tr->scaleZ = DisplayDesc.ScaleZ;
+
+			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
+		}
+		break;
+
+		//RenderBox
+		case LbaNet::RenderBox:
+		{
+			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
+				(new OsgBoxDescription(0, DisplayDesc.ScaleX, DisplayDesc.ScaleY, DisplayDesc.ScaleZ, 
+				DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA, extrainfo, lifeinfo));
+
+
+			boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
+			tr->translationX = DisplayDesc.TransX;
+			tr->translationY = DisplayDesc.TransY;
+			tr->translationZ = DisplayDesc.TransZ;
+
+			tr->rotation = LbaQuaternion(DisplayDesc.RotX, DisplayDesc.RotY, DisplayDesc.RotZ);
+
+			tr->scaleX = 1;
+			tr->scaleY = 1;
+			tr->scaleZ = 1;
+
+			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
+		}
+		break;
+
+		//RenderCapsule
+		case LbaNet::RenderCapsule:
+		{
+			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
+				(new OsgOrientedCapsuleDescription(0, DisplayDesc.ScaleY, DisplayDesc.ScaleX, 
+				DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA, extrainfo, lifeinfo));
+
+			boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
+			tr->translationX = DisplayDesc.TransX;
+			tr->translationY = DisplayDesc.TransY;
+			tr->translationZ = DisplayDesc.TransZ;
+
+			tr->rotation = LbaQuaternion(DisplayDesc.RotX, DisplayDesc.RotY, DisplayDesc.RotZ);
+
+			tr->scaleX = 1;
+			tr->scaleY = 1;
+			tr->scaleZ = DisplayDesc.ScaleZ;
+
+			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
+		}
+		break;
+
+		//RenderCapsule
+		case LbaNet::RenderSphere:
+		{
+			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
+				(new OsgSphereDescription(0, DisplayDesc.ScaleY, 
+						DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, 
+						DisplayDesc.ColorA, extrainfo, lifeinfo));
+
+			boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
+			tr->translationX = DisplayDesc.TransX;
+			tr->translationY = DisplayDesc.TransY;
+			tr->translationZ = DisplayDesc.TransZ;
+
+			tr->rotation = LbaQuaternion(DisplayDesc.RotX, DisplayDesc.RotY, DisplayDesc.RotZ);
+
+			tr->scaleX = DisplayDesc.ScaleX;
+			tr->scaleY = 1;
+			tr->scaleZ = DisplayDesc.ScaleZ;
+
+			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
+		}
+		break;
+	}
+
+	return DInfo;
 }

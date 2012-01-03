@@ -1346,6 +1346,58 @@ private:
 };
 
 
+//! use to teleport the object to a new location
+class DisplayHolomapAction : public ActionBase
+{
+public:
+	//! constructor
+	DisplayHolomapAction()
+		: _Mode(1), _HolomapId(-1)
+	{}
+	
+	//! destructor
+	virtual ~DisplayHolomapAction(void){}
+
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args);
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "DisplayHolomapAction"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
+
+	// acessor
+	int GetMode()
+	{ return _Mode;}
+
+	// acessor
+	long GetHolomapId()
+	{ return _HolomapId;}
+
+
+	// acessor
+	void SetMode(int mode)
+	{ _Mode = mode;}
+
+	// acessor
+	void SetHolomapId(long holo)
+	{ _HolomapId = holo;}
+
+
+private:
+	int				_Mode;
+	long			_HolomapId;
+};
 
 
 #endif
