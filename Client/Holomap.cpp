@@ -214,12 +214,13 @@ void HolomapLocation::SaveToLuaFile(std::ostream & file)
 	file<<"\t"<<names.str()<<":SetTextId("<<_textid<<")"<<std::endl;
 	file<<"\t"<<names.str()<<":SetName(\""<<_Name<<"\")"<<std::endl;
 	file<<"\t"<<names.str()<<":SetParentLocId("<<_parentholomaplocid<<")"<<std::endl;
+	file<<"\t"<<names.str()<<":SetParentHoloId("<<_parentholomapid<<")"<<std::endl;
 	file<<"\t"<<names.str()<<":SetChildHoloId("<<_childholomapid<<")"<<std::endl;
 
 	std::stringstream m1name;
 	m1name<<names.str()<<"_coord";
 	file<<"\t"<<m1name.str()<<" = HoloCoordinate()"<<std::endl;
-	file<<"\t\t"<<m1name.str()<<".polarcoords ="<<_coordinate.polarcoords<<std::endl;
+	file<<"\t\t"<<m1name.str()<<".polarcoords ="<<(_coordinate.polarcoords?"true":"false")<<std::endl;
 	file<<"\t\t"<<m1name.str()<<".posX ="<<_coordinate.posX<<std::endl;
 	file<<"\t\t"<<m1name.str()<<".posY ="<<_coordinate.posY<<std::endl;
 	file<<"\t\t"<<m1name.str()<<".posZ ="<<_coordinate.posZ<<std::endl;
@@ -258,7 +259,7 @@ void HolomapTravelPath::SaveToLuaFile(std::ostream & file)
 		std::stringstream m1name;
 		m1name<<names.str()<<"_coord_"<<i;
 		file<<"\t"<<m1name.str()<<" = HoloCoordinate()"<<std::endl;
-		file<<"\t\t"<<m1name.str()<<".polarcoords ="<<_coordinates[i].polarcoords<<std::endl;
+		file<<"\t\t"<<m1name.str()<<".polarcoords ="<<(_coordinates[i].polarcoords?"true":"false")<<std::endl;
 		file<<"\t\t"<<m1name.str()<<".posX ="<<_coordinates[i].posX<<std::endl;
 		file<<"\t\t"<<m1name.str()<<".posY ="<<_coordinates[i].posY<<std::endl;
 		file<<"\t\t"<<m1name.str()<<".posZ ="<<_coordinates[i].posZ<<std::endl;

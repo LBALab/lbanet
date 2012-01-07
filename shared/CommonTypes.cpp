@@ -152,7 +152,7 @@ LbaQuaternion::LbaQuaternion(float anglex, float angley, float anglez)
 	LbaQuaternion qx(anglex, LbaVec3(1, 0, 0));
 	LbaQuaternion qy(angley, LbaVec3(0, 1, 0));
 	LbaQuaternion qz(anglez, LbaVec3(0, 0, 1));
-	LbaQuaternion res = (qx * qy * qz);
+	LbaQuaternion res = (qy * qx * qz);
 
 	X = res.X;
 	Y = res.Y;

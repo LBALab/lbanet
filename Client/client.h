@@ -30,9 +30,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QWidget>
 #include "ui_client.h"
 #include "QT_WindowsBase.h"
+#include <boost/shared_ptr.hpp>
+#include "CommonTypes.h"
+#include <set>
 
 class VLCPlayer;
-class LbaVec3;
+class Holomap;
+typedef boost::shared_ptr<Holomap>	HolomapPtr;
+class HolomapLocation;
+typedef boost::shared_ptr<HolomapLocation>	HolomapLocationPtr;
+class HolomapTravelPath;
+typedef boost::shared_ptr<HolomapTravelPath>	HolomapTravelPathPtr;
+class StaticObject;
+class DynamicObject;
+class HoloCoordinate;
 
 enum ClientViewType { CLV_Game = 0, CLV_Video, CLV_ExtraGL, CLV_Holomap };
 
@@ -93,6 +104,46 @@ protected:
 	//! override keyPressEvent
 	virtual void keyPressEvent (QKeyEvent * event);
 
+	//! draw the current holomap
+	void DrawHolomap();
+
+	//! find nearest location on the current holomap
+	HolomapLocationPtr FindLocationOnHolo(long HolomapId, long LocationId);
+
+	//! find nearest location on the current holomap
+	HolomapLocationPtr FindLocationOnHolo(long HolomapId, HolomapLocationPtr Location);
+
+
+	//! draw location
+	void DrawLocation(HolomapPtr holomap, HolomapLocationPtr location, int arrowtype);
+
+	//! HideHolomap
+	void HideHolomap();
+
+	//! draw location
+	boost::shared_ptr<DynamicObject> DrawLocationModel(HolomapPtr holomap, int modeltype, 
+												float posX, float posY, float posZ, 
+												float rotX, float rotY, float rotZ);
+
+	//! TransformHoloCoordinate
+	void TransformHoloCoordinate(const HoloCoordinate &holoc, 
+										 float &posX, float &posY, float &posZ, 
+										 float &rotX, float &rotY, float &rotZ);
+
+	//! update holomap stuff on frame basis
+	void UpdateHolomap(double tnow, float tdiff);
+
+	//! CameraFollowHoloLocation
+	void CameraFollowHoloLocation(double tnow, float tdiff);
+
+	//! update selected location
+	void UpdateSelectedLocation(bool up);
+
+	//! ChangeHolomapUpDown
+	void ChangeHolomapUpDown(bool up);
+
+	//! generate a location using player 3D position
+	HolomapLocationPtr Generated3DLoc(HolomapPtr holomap, long parentlocid);
 
 private:
 	Ui::ClientClass			ui;
@@ -101,6 +152,22 @@ private:
 	VLCPlayer*				_videoplayer;
 
 	bool					_fullscreen;
+
+
+	int						_currHolomapMode;
+	long					_currHolomapLocationOrPathId;
+	std::vector<long>		_currHolomapquestholoids; 
+	LbaVec3 				_currHolomapplayerpos;
+
+	HolomapPtr						_currHolomapPtr;
+	HolomapLocationPtr				_currHoloLocationPtr;
+	HolomapTravelPathPtr			_currHoloPathPtr;
+	std::set<HolomapLocationPtr>	_drawnlocs;
+
+	HolomapLocationPtr				_currPlayer3DLocPtr;
+
+	std::vector<boost::shared_ptr<StaticObject> >	_holodispobjects;
+	bool							_camerafollowloc;
 };
 
 #endif // CLIENT_H

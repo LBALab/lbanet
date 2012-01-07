@@ -650,7 +650,7 @@ ObjectInfo LbaNetModel::CreateObject(int OType, Ice::Long ObjectId,
 			mainchar = true;
 
 	boost::shared_ptr<DisplayInfo> DInfo = 
-		ObjectInfo::ExtractDisplayInfo(DisplayDesc, extrainfo, lifeinfo, mainchar, sizeX);
+		ObjectInfo::ExtractDisplayInfo(0, DisplayDesc, extrainfo, lifeinfo, mainchar, sizeX);
 
 
 

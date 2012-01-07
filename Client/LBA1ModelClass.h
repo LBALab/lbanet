@@ -174,6 +174,7 @@ private:
 	bool m_usesoftshadow;
 
 	short int *rotTablePtr;
+	bool _fixcoloridx;
 
 public:
 
@@ -202,19 +203,22 @@ public:
 
 	LBA1ModelClass(entitiesTableStruct* entitiesData, const std::string &bodyPath, 
 					const std::string &animPath, int entityNum=0,int bodyNum=0);
+
+	LBA1ModelClass(const std::string & lm1filepath, int palettenumber, bool fixcoloridx);
+
 	~LBA1ModelClass();
 
     void LoadAnim(entitiesTableStruct* entitiesData, int animNum=0);
 
-	void RenderizeModel(unsigned char alphac);
+	//void RenderizeModel(unsigned char alphac);
 
-    void DrawSelectedPolygon(int index, unsigned char alphac);
-    void DrawBones(int index, unsigned char alphac);
-    void DrawPoints(int index, unsigned char alphac);
-    void DrawLines(int index, unsigned char alphac);
-    void DrawSpheres(int index, unsigned char alphac);
-    void DrawColisionBox(unsigned char alphac);
-    void DXFExport(char *fileName);
+    //void DrawSelectedPolygon(int index, unsigned char alphac);
+    //void DrawBones(int index, unsigned char alphac);
+    //void DrawPoints(int index, unsigned char alphac);
+    //void DrawLines(int index, unsigned char alphac);
+    //void DrawSpheres(int index, unsigned char alphac);
+    //void DrawColisionBox(unsigned char alphac);
+    //void DXFExport(char *fileName);
 
     void setBoneIdx(int value);
     void setPolyIdx(int value);

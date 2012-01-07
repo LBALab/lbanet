@@ -4354,11 +4354,19 @@ void MapHandler::DisplayHolomap(long PlayerId, int mode, long holoid)
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator ita = _players.find(PlayerId);
 	if(ita != _players.end())
 	{
-		std::vector<long> questshl = ita->second->GetActiveQuestsHoloLocation();
-
 		LbaNet::HoloIdSeq hlids;
-		for(size_t i=0; i<questshl.size(); ++i)
-			hlids.push_back(questshl[i]);
+
+		// normal holomap mode
+		if(mode == 1)
+		{
+			// get map location info
+			holoid = _mapinfo.LinkedHoloLocation;
+
+			// get quest info
+			std::vector<long> questshl = ita->second->GetActiveQuestsHoloLocation();
+			for(size_t i=0; i<questshl.size(); ++i)
+				hlids.push_back(questshl[i]);
+		}
 
 		//inform client
 		EventsSeq toplayer;

@@ -463,7 +463,8 @@ OsgHandler::OsgHandler()
 : _isFullscreen(false), _resX(800), _resY(600),
 	_viewer(NULL), _root(NULL), _rootNode3d(NULL), _translNode(NULL),
 	_viewportX(800), _viewportY(600), _ShadowType(0), 
-	_current_clip_layer(-1), _autoCameraType(1), _currentsceneroot(0)
+	_current_clip_layer(-1), _autoCameraType(1), _currentsceneroot(0),
+	_fixcamera(false)
 {
 	SetCameraDistance(30);
 	SetCameraZenit(30);
@@ -593,7 +594,7 @@ else
 
 	// create the root node used for camera transformation
 	_rootNode3d = new osg::PositionAttitudeTransform();
-	_rootNode3d->setScale(osg::Vec3d(1, 0.5, 1));
+	_rootNode3d->setScale(osg::Vec3d(1, 1, 1));
 	_rootNode3d->setAttitude(osg::Quat(osg::DegreesToRadians(-45.0), osg::Vec3(0,1,0)));
 	_translNode = new osg::PositionAttitudeTransform();
 	_translNode->setName("TranslationNode");
@@ -1089,11 +1090,20 @@ void OsgHandler::SetCameraZenit(double zenit, bool forced)
 		if(_caminfo.cameraType > 2 || ((_caminfo.cameraType == 0) && (_autoCameraType > 2)))
 			mindistance = -70;
 
-
-		if(_caminfo.zenit < mindistance)
-			_caminfo.zenit = mindistance;
-		if(_caminfo.zenit > maxdistance)
-			_caminfo.zenit = maxdistance;
+		if(!_fixcamera)
+		{
+			if(_caminfo.zenit < mindistance)
+				_caminfo.zenit = mindistance;
+			if(_caminfo.zenit > maxdistance)
+				_caminfo.zenit = maxdistance;
+		}
+		else
+		{
+			while(_caminfo.zenit < -180)
+				_caminfo.zenit += 360;
+			while(_caminfo.zenit > 180)
+				_caminfo.zenit -= 360;
+		}
 
 		ResetCameraTransform();
 	}
@@ -1108,10 +1118,21 @@ void OsgHandler::SetCameraAzimut(double azimut, bool forced)
 	if(forced || _caminfo.azimut != azimut)
 	{
 		_caminfo.azimut = azimut;
-		if(_caminfo.azimut < 0)
-			_caminfo.azimut += 360;
-		if(_caminfo.azimut > 360)
-			_caminfo.azimut -= 360;
+
+		if(!_fixcamera)
+		{
+			if(_caminfo.azimut < 0)
+				_caminfo.azimut += 360;
+			if(_caminfo.azimut > 360)
+				_caminfo.azimut -= 360;
+		}
+		else
+		{
+			while(_caminfo.azimut < -180)
+				_caminfo.azimut += 360;
+			while(_caminfo.azimut > 180)
+				_caminfo.azimut -= 360;
+		}
 
 		ResetCameraAzimut();
 	}
@@ -1141,8 +1162,11 @@ void OsgHandler::ResetCameraDistances(double distance)
 /***********************************************************
 set camera target
 ***********************************************************/
-void OsgHandler::SetCameraTarget(double TargetX, double TargetY, double TargetZ)
+void OsgHandler::SetCameraTarget(double TargetX, double TargetY, double TargetZ, bool force)
 {
+	if(_fixcamera && !force)
+		return;
+
 	_caminfo.targetx = TargetX;
 	_caminfo.targety = TargetY;
 	_caminfo.targetz = TargetZ;
@@ -1431,7 +1455,7 @@ void OsgHandler::ResetDisplayTree(int sceneidx)
 // add grid when editor is up
 #ifdef _USE_QT_EDITOR_
 	boost::shared_ptr<DisplayTransformation> Tr = boost::shared_ptr<DisplayTransformation>(new DisplayTransformation);
-	CreateGridObject(0, 200, 200, Tr);
+	CreateGridObject(sceneidx, 200, 200, Tr);
 #endif
 
 }
@@ -2265,6 +2289,8 @@ store camera info
 void OsgHandler::StoreCameraInfo()
 {
 	_savedcaminfo = _caminfo;
+	SetCameraTarget(0, 0, 0);
+	_fixcamera = true;
 }
 
 /***********************************************************
@@ -2272,6 +2298,8 @@ reset camera info
 ***********************************************************/
 void OsgHandler::ResetCameraInfo()
 {
+	_fixcamera = false;
 	_caminfo = _savedcaminfo;
 	ResetCameraProjectiomMatrix();
+	SetCameraTarget(_caminfo.targetx, _caminfo.targety, _caminfo.targetz);
 }

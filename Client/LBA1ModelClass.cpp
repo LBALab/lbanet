@@ -36,8 +36,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "LBA1ModelClass.h"
 #include "RotationTable.h"
 #include "HQRlib.h"
-#include "LogHandler.h"
-#include "Lba1ModelMapHandler.h"
+//#include "LogHandler.h"
+#include "Lba1ModelPath.h"
 
 
 #include <windows.h>    // Header File For Windows
@@ -63,6 +63,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <osgUtil/SmoothingVisitor>
 #include <osg/Texture2D>
 #include <osg/Material>
+#include <osgUtil/Optimizer>
 
 static float factormul_lba1_toosg = 32;
 static float factortransY_lba1_toosg = 0;//-0.1;
@@ -102,11 +103,76 @@ LBA1ModelClass::~LBA1ModelClass()
 	delete m_paletteRGB;
 }
 
+LBA1ModelClass::LBA1ModelClass(const std::string & lm1filepath, int palettenumber, bool fixcoloridx)
+: bodyPtr(NULL), animPtr(NULL), m_currentSpeedX(0), m_currentSpeedY(0), m_currentSpeedZ(0),
+	m_animationspeed(1), cumutime(0), rotTablePtr(rotTable), _fixcoloridx(fixcoloridx)
+{
+
+	HQRHandler HQH(Lba1ModelDataPath+"RESS.HQR");
+	unsigned int paletteSize;
+	m_paletteRGB = HQH.Load_HQR(palettenumber, paletteSize);
+
+	m_softShade = true;
+	m_wireFrame = 0;
+
+	m_showSelectedPolygon=false;
+	m_showBones=false;
+	m_showPoint=false;
+	m_showLine=false;
+	m_showSphere=false;
+	m_showCollisionBox=false;
+	m_useAnimSteps=false;
+
+	Points=NULL;
+	Elements=NULL;
+	speed=15;
+	angle=0;
+
+	globalAngleX=0;
+	globalAngleY=0;
+	globalAngleZ=0;
+
+	lightPosition[0]=0;
+	lightPosition[1]=40;
+	lightPosition[2]=40;
+
+	currentBone=0;
+
+	// read file
+	unsigned char *bodyPtr  = NULL;
+	{
+		FILE *f=fopen(lm1filepath.c_str(),"rb");
+		fseek (f , 0 , SEEK_END);
+		int fsize=ftell (f);
+		bodyPtr = new unsigned char[fsize+2];
+		rewind (f);
+		fread (bodyPtr,1,fsize,f);
+		bodyPtr[fsize]='\0';
+		fclose(f);
+	}
+
+
+    if(*((short int *)bodyPtr) & 0x02)
+        useAnim = true;
+    else
+        useAnim = false;
+
+    LoadModel(bodyPtr);
+
+    currentEntity=0;
+
+	lastCurrentX =0;
+	lastCurrentY =0;
+	lastCurrentZ =0;
+
+    delete bodyPtr;
+}
+
 
 LBA1ModelClass::LBA1ModelClass(entitiesTableStruct* entitiesData, const std::string &bodyPath,
 								const std::string &animPath, int entityNum,int bodyNum)
 : bodyPtr(NULL), animPtr(NULL), m_currentSpeedX(0), m_currentSpeedY(0), m_currentSpeedZ(0),
-	m_animationspeed(1), cumutime(0), rotTablePtr(rotTable)
+	m_animationspeed(1), cumutime(0), rotTablePtr(rotTable), _fixcoloridx(false)
 {
 
 	HQRHandler HQH(Lba1ModelDataPath+"RESS.HQR");
@@ -144,7 +210,7 @@ LBA1ModelClass::LBA1ModelClass(entitiesTableStruct* entitiesData, const std::str
 
 	if(!entitiesData) // no entities data, can't load model...
 	{
-		LogHandler::getInstance()->LogToFile("No entity data, can not load the model...");
+		//LogHandler::getInstance()->LogToFile("No entity data, can not load the model...");
 		return;
 	}
 
@@ -900,605 +966,605 @@ void LBA1ModelClass::ProcessTranslatedElement(int transX, int transY, int transZ
 }
 
 //---------------------------------------------------------------------------
-
-void LBA1ModelClass::RenderizeModel(unsigned char alphac)
-{
-	memset(matrixList,0,sizeof(TMatrix)*100);
-
-	baseModelPosition[0]=0;
-	baseModelPosition[1]=0;
-	baseModelPosition[2]=0;
-
-	TElement* elementPtr=Elements->ElementsData;
-
-	ProcessRotatedElement(globalAngleX,globalAngleZ,globalAngleY,elementPtr,matrixList,0);
-    ProcessTranslatedElement(globalAngleX,globalAngleZ,globalAngleY,elementPtr++,matrixList,0);
-
-    for(int i=1;i<Elements->NumberOfElements;i++)
-	{
-	    if(elementPtr->ElementFlag==0)
-    		ProcessRotatedElement(elementPtr->RotateX,elementPtr->RotateZ,elementPtr->RotateY,elementPtr,matrixList,i);
-	    else if(elementPtr->ElementFlag==1)
-		    ProcessTranslatedElement(elementPtr->RotateX,elementPtr->RotateZ,elementPtr->RotateY,elementPtr,matrixList,i);
-
-		elementPtr++;
-	}
-
-	char* ptr;
-	TMatrix lightMatrix;
-        int k=0;
-	ptr=Shades->ShadesData;
-
-	for(int i=0;i<Elements->NumberOfElements;i++)
-	{
-		if(Elements->ElementsData[i].NumberOfShades)
-		{
-			double* lightDataPtr=lightMatrix.data;
-			double* matrixPtr=matrixList[i].data;
-			int* lightPositionPtr=lightPosition;
-
-			int lightX=(*lightPositionPtr++);
-			int lightY=(*lightPositionPtr++);
-			int lightZ=(*lightPositionPtr++);
-
-                        for(int j=0; j < 3; j++)
-			    *(lightDataPtr++)=*(matrixPtr++)*lightX;
-
-                        for(int j=0; j < 3; j++)
-			    *(lightDataPtr++)=*(matrixPtr++)*lightY;
-
-                        for(int j=0; j < 3; j++)
-    			*(lightDataPtr++)=*(matrixPtr++)*lightZ;
-
-			for(int j=0;j<Elements->ElementsData[i].NumberOfShades;j++)
-			{
-				int color;
-
-				short int col1;
-				short int col2;
-				short int col3;
-
-				col1=*(short int*)ptr;
-				ptr+=2;
-				col2=*(short int*)ptr;
-				ptr+=2;
-				col3=*(short int*)ptr;
-				ptr+=2;
-
-				double* lightPtr=lightMatrix.data;
-				int var0=(int)*(lightPtr++);
-				int var1=(int)*(lightPtr++);
-				int var2=(int)*(lightPtr++);
-
-				color=var0*col1+var1*col2+var2*col3;
-
-				var0=(int)*(lightPtr++);
-				var1=(int)*(lightPtr++);
-				var2=(int)*(lightPtr++);
-
-				color+=var0*col1+var1*col2+var2*col3;
-
-				var0=(int)*(lightPtr++);
-				var1=(int)*(lightPtr++);
-				var2=(int)*(lightPtr++);
-
-				color+=var0*col1+var1*col2+var2*col3;
-
-				if(color>0)
-				{
-					color>>=14;
-					color/=*(short int*)(ptr);
-
-					shadeTable[k]=(short int)color;
-				}
-				else
-				{
-					shadeTable[k]=0;
-				}
-
-				k++;
-				ptr+=2;
-
-			}
-		}
-	}
-
-    // POINTS CALCULATIONS -----------
-	float* tempPtrX=dividedPointsX;
-	float* tempPtrY=dividedPointsY;
-	float* tempPtrZ=dividedPointsZ;
-
-	TBodyPoint* tempPoint=computedPoints;
-
-	for(int i=0;i<Points->NumberOfPoints;i++)
-	{
-	    *(tempPtrX++)=((float)tempPoint->X)/16384;
-		*(tempPtrY++)=((float)tempPoint->Y)/16384;
-		*(tempPtrZ++)=((float)tempPoint->Z)/16384;
-
-		tempPoint++;
-        }
-
-
-	TPolygon* polyPtr;
-    TVertex* vertexPtr;
-	polyPtr=Polygons->PolygonsData;
-
-	for(int i=0;i<Polygons->NumberOfPolygons;i++)
-	{
-		int shade=0;
-
-		if(polyPtr->RenderType==7 || polyPtr->RenderType==8)
-			shade=1;
-
-		glBegin(GL_POLYGON);
-
-		vertexPtr=polyPtr->VertexsData;
-
-		for(int j=0;j<polyPtr->NumberOfVertexs;j++)
-		{
-			unsigned char* ptr;
-
-			ptr=(unsigned char*)m_paletteRGB+((polyPtr->ColorIdx)&0xFF)*3;
-
-			glColor4ub(*ptr,*(ptr+1),*(ptr+2), alphac);
-
-			if(shade)
-			{
-				if(m_softShade)
-					ptr=(unsigned char*)m_paletteRGB+(((polyPtr->ColorIdx)&0xFF)+shadeTable[vertexPtr->Shade])*3;
-				else
-					ptr=(unsigned char*)m_paletteRGB+(((polyPtr->ColorIdx)&0xFF))*3;
-
-				glColor4ub(*ptr,*(ptr+1),*(ptr+2), alphac);
-			}
-			else
-			{
-				if(polyPtr->Shade!=-1)
-				{
-					if(m_softShade)
-						ptr=(unsigned char*)m_paletteRGB+(((polyPtr->ColorIdx)&0xFF)+shadeTable[polyPtr->Shade])*3;
-					else
-						ptr=(unsigned char*)m_paletteRGB+(((polyPtr->ColorIdx)&0xFF))*3;
-					glColor4ub(*ptr,*(ptr+1),*(ptr+2), alphac);
-				}
-			}
-
-			glVertex3f(dividedPointsX[vertexPtr->PointNum],dividedPointsY[vertexPtr->PointNum],dividedPointsZ[vertexPtr->PointNum]);
-			vertexPtr++;
-		}
-		glEnd();
-		polyPtr++;
-	}
-
-	// MODEL LINES ----
-	for(int i=0;i<Lines->NumberOfLines;i++)
-	{
-		unsigned char* ptr;
-		ptr=(unsigned char*)m_paletteRGB+(((Lines->LinesData[i].Color)&0xFF00)>>8)*3;
-		glColor4ub(*ptr,*(ptr+1),*(ptr+2), alphac);
-
-		glBegin(GL_LINES);
-		glVertex3f(dividedPointsX[Lines->LinesData[i].PointNum1/6],dividedPointsY[Lines->LinesData[i].PointNum1/6],dividedPointsZ[Lines->LinesData[i].PointNum1/6]);
-		glVertex3f(dividedPointsX[Lines->LinesData[i].PointNum2/6],dividedPointsY[Lines->LinesData[i].PointNum2/6],dividedPointsZ[Lines->LinesData[i].PointNum2/6]);
-		glEnd();
-	}
-
-	// MODEL SPHERES ----
-	for(int i=0;i<Spheres->NumberOfSpheres;i++)
-	{
-		unsigned char* ptr;
-		ptr=(unsigned char*)m_paletteRGB+(((Spheres->SpheresData[i].Color)&0xFF00)>>8)*3;
-		glColor4ub(*ptr,*(ptr+1),*(ptr+2), alphac);
-
-		GLUquadric* quadric=gluNewQuadric();
-		glPushMatrix();
-		glTranslatef(dividedPointsX[Spheres->SpheresData[i].Center/6],dividedPointsY[Spheres->SpheresData[i].Center/6],dividedPointsZ[Spheres->SpheresData[i].Center/6]);
-		gluSphere(quadric,((float)Spheres->SpheresData[i].Size)/16384,10,10);
-		glPopMatrix();
-		gluDeleteQuadric(quadric);
-	}
-
-    // RECODE THIS -------------------------------
-    // -------------------------------------------
-
-    // WIREFRAME
-    if(m_wireFrame==1 || m_wireFrame==3)
-    {
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-        TPolygon* PolyPtr;
-	    TVertex* VertexPtr;
-
-	    PolyPtr = Polygons->PolygonsData;
-
-        // POLY WIREFRAME
-        float x,y,z;
-        for(int i=0; i < Polygons->NumberOfPolygons;i++)
-	    {
-		    glBegin(GL_POLYGON);
- 		    VertexPtr=PolyPtr->VertexsData;
-
-		    for(int j=0;j<PolyPtr->NumberOfVertexs;j++)
-		    {
-		   	    glColor4ub(255,255,255, alphac);
-
-                x = dividedPointsX[VertexPtr->PointNum];
-                y = dividedPointsY[VertexPtr->PointNum];
-                z = dividedPointsZ[VertexPtr->PointNum];
-
-			    glVertex3f(x,y,z);
-			    VertexPtr++;
-		    }
-		    glEnd();
-		    PolyPtr++;
-	    }
-
-        // SPHERE WIREFRAME
-        for(int i=0; i < Spheres->NumberOfSpheres;i++)
-	    {
-		    glColor4ub(255,255,255, alphac);
-		    GLUquadric* quadric=gluNewQuadric();
-		    glPushMatrix();
-		    glTranslatef(dividedPointsX[Spheres->SpheresData[i].Center/6],dividedPointsY[Spheres->SpheresData[i].Center/6],dividedPointsZ[Spheres->SpheresData[i].Center/6]);
-		    gluSphere(quadric,((float)Spheres->SpheresData[i].Size)/16384,10,10);
-		    glPopMatrix();
-		    gluDeleteQuadric(quadric);
-	    }
-
-        // DRAW LINES
-	    for(int i=0; i < Lines->NumberOfLines;i++)
-	    {
-		    glColor4ub(255,255,255, alphac);
-		    glBegin(GL_LINES);
-		    glVertex3f(dividedPointsX[Lines->LinesData[i].PointNum1/6],dividedPointsY[Lines->LinesData[i].PointNum1/6],dividedPointsZ[Lines->LinesData[i].PointNum1/6]);
-		    glVertex3f(dividedPointsX[Lines->LinesData[i].PointNum2/6],dividedPointsY[Lines->LinesData[i].PointNum2/6],dividedPointsZ[Lines->LinesData[i].PointNum2/6]);
-		    glEnd();
-	    }
-
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    }
-
-    //---------------------------------------------------------
-    //---------------------------------------------------------
-
-    glDisable(GL_DEPTH_TEST);
-
-    if(m_showSelectedPolygon)
-    {
-        DrawSelectedPolygon(polyIdx, alphac);
-    }
-
-   	if(m_showBones)
-	{
-        DrawBones(boneIdx, alphac);
-	}
-
-    if(m_showPoint)
-    {
-        DrawPoints(pointIdx, alphac);
-    }
-
-    if(m_showLine)
-    {
-        DrawLines(lineIdx, alphac);
-    }
-
-    if(m_showSphere)
-    {
-        DrawSpheres(sphereIdx, alphac);
-    }
-
-	glEnable(GL_DEPTH_TEST);
-
-
-    if(m_showCollisionBox)
-	{
-	    DrawColisionBox(alphac);
-    }
-}
-
-//---------------------------------------------------------------------------
-
-// RECODE THIS
-void LBA1ModelClass::DrawSelectedPolygon(int index, unsigned char alphac)
-{
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    // POLY WIREFRAME
-    float x,y,z;
-    TVertex *VertexPtr;
-
-    glBegin(GL_POLYGON);
-    VertexPtr=Polygons->PolygonsData[index].VertexsData;
-    for(int j=0;j<Polygons->PolygonsData[index].NumberOfVertexs;j++)
-    {
-        //glColor3ub(255,0,0);
-        glColor4ub(255,255,255, alphac);
-
-        x = dividedPointsX[VertexPtr->PointNum];
-        y = dividedPointsY[VertexPtr->PointNum];
-        z = dividedPointsZ[VertexPtr->PointNum];
-
-        glVertex3f(x,y,z);
-        VertexPtr++;
-    }
-    glEnd();
-
-    VertexPtr=Polygons->PolygonsData[index].VertexsData;
-    glPointSize(3);
-    for(int j=0; j < Polygons->PolygonsData[index].NumberOfVertexs;j++)
-    {
-        //glColor3ub(255,255,255);
-        glColor4ub(255,0,0, alphac);
-        glBegin(GL_POINTS);
-            glVertex3f(dividedPointsX[VertexPtr->PointNum],dividedPointsY[VertexPtr->PointNum],dividedPointsZ[VertexPtr->PointNum]);
-        glEnd();
-        VertexPtr++;
-    }
-
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-}
-
-//---------------------------------------------------------------------------
-
-void LBA1ModelClass::DrawBones(int index, unsigned char alphac)
-{
-    int start = Elements->ElementsData[index].FirstPoint/6;
-    int points = Elements->ElementsData[index].NumberOfPoints;
-	for(int i = start; i < points+start; i++)
-	{
-		glPointSize(3);
-        if(m_wireFrame==3)
-		    glColor4ub(0,0,0, alphac);
-        else if (m_wireFrame==1)
-            glColor4ub(255,0,0, alphac);
-        else
-            glColor4ub(255,255,255, alphac);
-		glBegin(GL_POINTS);
-            glVertex3f(dividedPointsX[i],dividedPointsY[i],dividedPointsZ[i]);
-		glEnd();
-	}
-}
-
-//---------------------------------------------------------------------------
-
-void LBA1ModelClass::DrawPoints(int index, unsigned char alphac)
-{
-    glPointSize(4);
-    if(m_wireFrame==3)
-	    glColor4ub(0,0,0, alphac);
-    else if (m_wireFrame==1)
-        glColor4ub(255,0,0, alphac);
-    else
-        glColor4ub(255,255,255, alphac);
-	glBegin(GL_POINTS);
-        glVertex3f(dividedPointsX[index],dividedPointsY[index],dividedPointsZ[index]);
-	glEnd();
-}
-
-//---------------------------------------------------------------------------
-
-void LBA1ModelClass::DrawLines(int index, unsigned char alphac)
-{
-    glPointSize(4);
-    if(m_wireFrame==3)
-	    glColor4ub(0,0,0, alphac);
-    else if (m_wireFrame==1)
-        glColor4ub(255,0,0, alphac);
-    else
-        glColor4ub(255,255,255, alphac);
-
-    int p1 = Lines->LinesData[index].PointNum1/6;
-    int p2 = Lines->LinesData[index].PointNum2/6;
-	glBegin(GL_POINTS);
-        glVertex3f(dividedPointsX[p1],dividedPointsY[p1],dividedPointsZ[p1]);
-        glVertex3f(dividedPointsX[p2],dividedPointsY[p2],dividedPointsZ[p2]);
-	glEnd();
-}
-
-//---------------------------------------------------------------------------
-
-void LBA1ModelClass::DrawSpheres(int index, unsigned char alphac)
-{
-    glPointSize(4);
-    if(m_wireFrame==3)
-	    glColor4ub(0,0,0, alphac);
-    else if (m_wireFrame==1)
-        glColor4ub(255,0,0, alphac);
-    else
-        glColor4ub(255,255,255, alphac);
-
-    int p1 = Spheres->SpheresData[index].Center/6;
-	glBegin(GL_POINTS);
-        glVertex3f(dividedPointsX[p1],dividedPointsY[p1],dividedPointsZ[p1]);
-	glEnd();
-}
-
-//---------------------------------------------------------------------------
-
-void LBA1ModelClass::DrawColisionBox(unsigned char alphac)
-{
-	glPushMatrix();
-	glRotatef(((float)(angle-256)/1024)*360,0,1,0);
-
-	glBegin(GL_LINES);
-	glColor4ub(255,255,255, alphac);
-
-	// vertical lines
-
-	glVertex3f(((float)X1)/16384,((float)Z1)/16384,((float)Y1)/16384);
-	glVertex3f(((float)X1)/16384,((float)Z2)/16384,((float)Y1)/16384);
-
-	glVertex3f(((float)X1)/16384,((float)Z1)/16384,((float)Y2)/16384);
-	glVertex3f(((float)X1)/16384,((float)Z2)/16384,((float)Y2)/16384);
-
-	glVertex3f(((float)X2)/16384,((float)Z1)/16384,((float)Y1)/16384);
-	glVertex3f(((float)X2)/16384,((float)Z2)/16384,((float)Y1)/16384);
-
-	glVertex3f(((float)X2)/16384,((float)Z1)/16384,((float)Y2)/16384);
-	glVertex3f(((float)X2)/16384,((float)Z2)/16384,((float)Y2)/16384);
-
-	// h lines
-
-	glVertex3f(((float)X1)/16384,((float)Z1)/16384,((float)Y1)/16384);
-	glVertex3f(((float)X1)/16384,((float)Z1)/16384,((float)Y2)/16384);
-
-	glVertex3f(((float)X1)/16384,((float)Z2)/16384,((float)Y1)/16384);
-	glVertex3f(((float)X1)/16384,((float)Z2)/16384,((float)Y2)/16384);
-
-	glVertex3f(((float)X2)/16384,((float)Z1)/16384,((float)Y1)/16384);
-	glVertex3f(((float)X2)/16384,((float)Z1)/16384,((float)Y2)/16384);
-
-	glVertex3f(((float)X2)/16384,((float)Z2)/16384,((float)Y1)/16384);
-	glVertex3f(((float)X2)/16384,((float)Z2)/16384,((float)Y2)/16384);
-
-	// h lines 2
-
-	glVertex3f(((float)X1)/16384,((float)Z1)/16384,((float)Y1)/16384);
-	glVertex3f(((float)X2)/16384,((float)Z1)/16384,((float)Y1)/16384);
-
-	glVertex3f(((float)X1)/16384,((float)Z2)/16384,((float)Y1)/16384);
-	glVertex3f(((float)X2)/16384,((float)Z2)/16384,((float)Y1)/16384);
-
-	glVertex3f(((float)X1)/16384,((float)Z1)/16384,((float)Y2)/16384);
-	glVertex3f(((float)X2)/16384,((float)Z1)/16384,((float)Y2)/16384);
-
-	glVertex3f(((float)X1)/16384,((float)Z2)/16384,((float)Y2)/16384);
-	glVertex3f(((float)X2)/16384,((float)Z2)/16384,((float)Y2)/16384);
-
-	glEnd();
-	glPopMatrix();
-}
-
-//---------------------------------------------------------------------------
-
-void LBA1ModelClass::DXFExport(char *fileName)
-{
-	FILE* hFile;
-    TPolygon* PolyPtr;
-	TVertex* VertexPtr;
-
-	hFile=fopen(fileName,"wt+");
-
-	fprintf(hFile,"0\n");
-	fprintf(hFile,"SECTION\n");
-	fprintf(hFile,"2\n");
-	fprintf(hFile,"ENTITIES\n");
-
-	PolyPtr=Polygons->PolygonsData;
-
-	for(int i=0;i<Polygons->NumberOfPolygons;i++)
-	{
-		VertexPtr=Polygons->PolygonsData[i].VertexsData;
-
-		if( PolyPtr->NumberOfVertexs == 3)
-		{
-			fprintf(hFile,"0\n");
-			fprintf(hFile,"3DFACE\n");
-			fprintf(hFile,"8\n");
-			fprintf(hFile,"1\n");
-			fprintf(hFile,"62\n");
-			fprintf(hFile,"1\n");
-			int vertexIndex=0;
-
-			for(int j=0;j<3;j++)
-			{
-				fprintf(hFile,"1%d\n",vertexIndex);
-				fprintf(hFile,"%f\n",dividedPointsX[VertexPtr->PointNum]*500);
-				fprintf(hFile,"2%d\n",vertexIndex);
-				fprintf(hFile,"%f\n",dividedPointsY[VertexPtr->PointNum]*500);
-				fprintf(hFile,"3%d\n",vertexIndex);
-				fprintf(hFile,"%f\n",dividedPointsZ[VertexPtr->PointNum]*500);
-
-				vertexIndex++;
-				VertexPtr++;
-			}
-
-			VertexPtr--;
-
-			fprintf(hFile,"1%d\n",vertexIndex);
-			fprintf(hFile,"%f\n",dividedPointsX[VertexPtr->PointNum]*500);
-			fprintf(hFile,"2%d\n",vertexIndex);
-			fprintf(hFile,"%f\n",dividedPointsY[VertexPtr->PointNum]*500);
-			fprintf(hFile,"3%d\n",vertexIndex);
-			fprintf(hFile,"%f\n",dividedPointsZ[VertexPtr->PointNum]*500);
-		}
-
-		if( PolyPtr->NumberOfVertexs == 4)
-		{
-			fprintf(hFile,"0\n");
-			fprintf(hFile,"3DFACE\n");
-			fprintf(hFile,"8\n");
-			fprintf(hFile,"1\n");
-			fprintf(hFile,"62\n");
-			fprintf(hFile,"1\n");
-			int vertexIndex=0;
-
-			for(int j=0;j<4;j++)
-			{
-				fprintf(hFile,"1%d\n",vertexIndex);
-				fprintf(hFile,"%f\n",dividedPointsX[VertexPtr->PointNum]*500);
-				fprintf(hFile,"2%d\n",vertexIndex);
-				fprintf(hFile,"%f\n",dividedPointsY[VertexPtr->PointNum]*500);
-				fprintf(hFile,"3%d\n",vertexIndex);
-				fprintf(hFile,"%f\n",dividedPointsZ[VertexPtr->PointNum]*500);
-
-				vertexIndex++;
-				VertexPtr++;
-			}
-		}
-
-		if( PolyPtr->NumberOfVertexs >= 5)
-		{
-			for(int j=0;j<PolyPtr->NumberOfVertexs-1;j++)
-			{
-				fprintf(hFile,"0\n");
-				fprintf(hFile,"3DFACE\n");
-				fprintf(hFile,"8\n");
-				fprintf(hFile,"1\n");
-				fprintf(hFile,"62\n");
-				fprintf(hFile,"1\n");
-
-				fprintf(hFile,"10\n");
-				fprintf(hFile,"%f\n",dividedPointsX[VertexPtr[0].PointNum]*500);
-				fprintf(hFile,"20\n");
-				fprintf(hFile,"%f\n",dividedPointsY[VertexPtr[0].PointNum]*500);
-				fprintf(hFile,"30\n");
-				fprintf(hFile,"%f\n",dividedPointsZ[VertexPtr[0].PointNum]*500);
-
-				fprintf(hFile,"11\n");
-				fprintf(hFile,"%f\n",dividedPointsX[VertexPtr[j].PointNum]*500);
-				fprintf(hFile,"21\n");
-				fprintf(hFile,"%f\n",dividedPointsY[VertexPtr[j].PointNum]*500);
-				fprintf(hFile,"31\n");
-				fprintf(hFile,"%f\n",dividedPointsZ[VertexPtr[j].PointNum]*500);
-
-				fprintf(hFile,"12\n");
-				fprintf(hFile,"%f\n",dividedPointsX[VertexPtr[j+1].PointNum]*500);
-				fprintf(hFile,"22\n");
-				fprintf(hFile,"%f\n",dividedPointsY[VertexPtr[j+1].PointNum]*500);
-				fprintf(hFile,"32\n");
-				fprintf(hFile,"%f\n",dividedPointsZ[VertexPtr[j+1].PointNum]*500);
-
-				fprintf(hFile,"13\n");
-				fprintf(hFile,"%f\n",dividedPointsX[VertexPtr[j+1].PointNum]*500);
-				fprintf(hFile,"23\n");
-				fprintf(hFile,"%f\n",dividedPointsY[VertexPtr[j+1].PointNum]*500);
-				fprintf(hFile,"33\n");
-				fprintf(hFile,"%f\n",dividedPointsZ[VertexPtr[j+1].PointNum]*500);
-			}
-		}
-
-		PolyPtr++;
-	}
-
-	fprintf(hFile,"0\n");
-	fprintf(hFile,"ENDSEC\n");
-	fprintf(hFile,"0\n");
-	fprintf(hFile,"EOF\n");
-
-	fclose(hFile);
-}
+//
+//void LBA1ModelClass::RenderizeModel(unsigned char alphac)
+//{
+//	memset(matrixList,0,sizeof(TMatrix)*100);
+//
+//	baseModelPosition[0]=0;
+//	baseModelPosition[1]=0;
+//	baseModelPosition[2]=0;
+//
+//	TElement* elementPtr=Elements->ElementsData;
+//
+//	ProcessRotatedElement(globalAngleX,globalAngleZ,globalAngleY,elementPtr,matrixList,0);
+//    ProcessTranslatedElement(globalAngleX,globalAngleZ,globalAngleY,elementPtr++,matrixList,0);
+//
+//    for(int i=1;i<Elements->NumberOfElements;i++)
+//	{
+//	    if(elementPtr->ElementFlag==0)
+//    		ProcessRotatedElement(elementPtr->RotateX,elementPtr->RotateZ,elementPtr->RotateY,elementPtr,matrixList,i);
+//	    else if(elementPtr->ElementFlag==1)
+//		    ProcessTranslatedElement(elementPtr->RotateX,elementPtr->RotateZ,elementPtr->RotateY,elementPtr,matrixList,i);
+//
+//		elementPtr++;
+//	}
+//
+//	char* ptr;
+//	TMatrix lightMatrix;
+//        int k=0;
+//	ptr=Shades->ShadesData;
+//
+//	for(int i=0;i<Elements->NumberOfElements;i++)
+//	{
+//		if(Elements->ElementsData[i].NumberOfShades)
+//		{
+//			double* lightDataPtr=lightMatrix.data;
+//			double* matrixPtr=matrixList[i].data;
+//			int* lightPositionPtr=lightPosition;
+//
+//			int lightX=(*lightPositionPtr++);
+//			int lightY=(*lightPositionPtr++);
+//			int lightZ=(*lightPositionPtr++);
+//
+//                        for(int j=0; j < 3; j++)
+//			    *(lightDataPtr++)=*(matrixPtr++)*lightX;
+//
+//                        for(int j=0; j < 3; j++)
+//			    *(lightDataPtr++)=*(matrixPtr++)*lightY;
+//
+//                        for(int j=0; j < 3; j++)
+//    			*(lightDataPtr++)=*(matrixPtr++)*lightZ;
+//
+//			for(int j=0;j<Elements->ElementsData[i].NumberOfShades;j++)
+//			{
+//				int color;
+//
+//				short int col1;
+//				short int col2;
+//				short int col3;
+//
+//				col1=*(short int*)ptr;
+//				ptr+=2;
+//				col2=*(short int*)ptr;
+//				ptr+=2;
+//				col3=*(short int*)ptr;
+//				ptr+=2;
+//
+//				double* lightPtr=lightMatrix.data;
+//				int var0=(int)*(lightPtr++);
+//				int var1=(int)*(lightPtr++);
+//				int var2=(int)*(lightPtr++);
+//
+//				color=var0*col1+var1*col2+var2*col3;
+//
+//				var0=(int)*(lightPtr++);
+//				var1=(int)*(lightPtr++);
+//				var2=(int)*(lightPtr++);
+//
+//				color+=var0*col1+var1*col2+var2*col3;
+//
+//				var0=(int)*(lightPtr++);
+//				var1=(int)*(lightPtr++);
+//				var2=(int)*(lightPtr++);
+//
+//				color+=var0*col1+var1*col2+var2*col3;
+//
+//				if(color>0)
+//				{
+//					color>>=14;
+//					color/=*(short int*)(ptr);
+//
+//					shadeTable[k]=(short int)color;
+//				}
+//				else
+//				{
+//					shadeTable[k]=0;
+//				}
+//
+//				k++;
+//				ptr+=2;
+//
+//			}
+//		}
+//	}
+//
+//    // POINTS CALCULATIONS -----------
+//	float* tempPtrX=dividedPointsX;
+//	float* tempPtrY=dividedPointsY;
+//	float* tempPtrZ=dividedPointsZ;
+//
+//	TBodyPoint* tempPoint=computedPoints;
+//
+//	for(int i=0;i<Points->NumberOfPoints;i++)
+//	{
+//	    *(tempPtrX++)=((float)tempPoint->X)/16384;
+//		*(tempPtrY++)=((float)tempPoint->Y)/16384;
+//		*(tempPtrZ++)=((float)tempPoint->Z)/16384;
+//
+//		tempPoint++;
+//        }
+//
+//
+//	TPolygon* polyPtr;
+//    TVertex* vertexPtr;
+//	polyPtr=Polygons->PolygonsData;
+//
+//	for(int i=0;i<Polygons->NumberOfPolygons;i++)
+//	{
+//		int shade=0;
+//
+//		if(polyPtr->RenderType==7 || polyPtr->RenderType==8)
+//			shade=1;
+//
+//		glBegin(GL_POLYGON);
+//
+//		vertexPtr=polyPtr->VertexsData;
+//
+//		for(int j=0;j<polyPtr->NumberOfVertexs;j++)
+//		{
+//			unsigned char* ptr;
+//
+//			ptr=(unsigned char*)m_paletteRGB+((polyPtr->ColorIdx)&0xFF)*3;
+//
+//			glColor4ub(*ptr,*(ptr+1),*(ptr+2), alphac);
+//
+//			if(shade)
+//			{
+//				if(m_softShade)
+//					ptr=(unsigned char*)m_paletteRGB+(((polyPtr->ColorIdx)&0xFF)+shadeTable[vertexPtr->Shade])*3;
+//				else
+//					ptr=(unsigned char*)m_paletteRGB+(((polyPtr->ColorIdx)&0xFF))*3;
+//
+//				glColor4ub(*ptr,*(ptr+1),*(ptr+2), alphac);
+//			}
+//			else
+//			{
+//				if(polyPtr->Shade!=-1)
+//				{
+//					if(m_softShade)
+//						ptr=(unsigned char*)m_paletteRGB+(((polyPtr->ColorIdx)&0xFF)+shadeTable[polyPtr->Shade])*3;
+//					else
+//						ptr=(unsigned char*)m_paletteRGB+(((polyPtr->ColorIdx)&0xFF))*3;
+//					glColor4ub(*ptr,*(ptr+1),*(ptr+2), alphac);
+//				}
+//			}
+//
+//			glVertex3f(dividedPointsX[vertexPtr->PointNum],dividedPointsY[vertexPtr->PointNum],dividedPointsZ[vertexPtr->PointNum]);
+//			vertexPtr++;
+//		}
+//		glEnd();
+//		polyPtr++;
+//	}
+//
+//	// MODEL LINES ----
+//	for(int i=0;i<Lines->NumberOfLines;i++)
+//	{
+//		unsigned char* ptr;
+//		ptr=(unsigned char*)m_paletteRGB+(((Lines->LinesData[i].Color)&0xFF00)>>8)*3;
+//		glColor4ub(*ptr,*(ptr+1),*(ptr+2), alphac);
+//
+//		glBegin(GL_LINES);
+//		glVertex3f(dividedPointsX[Lines->LinesData[i].PointNum1/6],dividedPointsY[Lines->LinesData[i].PointNum1/6],dividedPointsZ[Lines->LinesData[i].PointNum1/6]);
+//		glVertex3f(dividedPointsX[Lines->LinesData[i].PointNum2/6],dividedPointsY[Lines->LinesData[i].PointNum2/6],dividedPointsZ[Lines->LinesData[i].PointNum2/6]);
+//		glEnd();
+//	}
+//
+//	// MODEL SPHERES ----
+//	for(int i=0;i<Spheres->NumberOfSpheres;i++)
+//	{
+//		unsigned char* ptr;
+//		ptr=(unsigned char*)m_paletteRGB+(((Spheres->SpheresData[i].Color)&0xFF00)>>8)*3;
+//		glColor4ub(*ptr,*(ptr+1),*(ptr+2), alphac);
+//
+//		GLUquadric* quadric=gluNewQuadric();
+//		glPushMatrix();
+//		glTranslatef(dividedPointsX[Spheres->SpheresData[i].Center/6],dividedPointsY[Spheres->SpheresData[i].Center/6],dividedPointsZ[Spheres->SpheresData[i].Center/6]);
+//		gluSphere(quadric,((float)Spheres->SpheresData[i].Size)/16384,10,10);
+//		glPopMatrix();
+//		gluDeleteQuadric(quadric);
+//	}
+//
+//    // RECODE THIS -------------------------------
+//    // -------------------------------------------
+//
+//    // WIREFRAME
+//    if(m_wireFrame==1 || m_wireFrame==3)
+//    {
+//        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+//
+//        TPolygon* PolyPtr;
+//	    TVertex* VertexPtr;
+//
+//	    PolyPtr = Polygons->PolygonsData;
+//
+//        // POLY WIREFRAME
+//        float x,y,z;
+//        for(int i=0; i < Polygons->NumberOfPolygons;i++)
+//	    {
+//		    glBegin(GL_POLYGON);
+// 		    VertexPtr=PolyPtr->VertexsData;
+//
+//		    for(int j=0;j<PolyPtr->NumberOfVertexs;j++)
+//		    {
+//		   	    glColor4ub(255,255,255, alphac);
+//
+//                x = dividedPointsX[VertexPtr->PointNum];
+//                y = dividedPointsY[VertexPtr->PointNum];
+//                z = dividedPointsZ[VertexPtr->PointNum];
+//
+//			    glVertex3f(x,y,z);
+//			    VertexPtr++;
+//		    }
+//		    glEnd();
+//		    PolyPtr++;
+//	    }
+//
+//        // SPHERE WIREFRAME
+//        for(int i=0; i < Spheres->NumberOfSpheres;i++)
+//	    {
+//		    glColor4ub(255,255,255, alphac);
+//		    GLUquadric* quadric=gluNewQuadric();
+//		    glPushMatrix();
+//		    glTranslatef(dividedPointsX[Spheres->SpheresData[i].Center/6],dividedPointsY[Spheres->SpheresData[i].Center/6],dividedPointsZ[Spheres->SpheresData[i].Center/6]);
+//		    gluSphere(quadric,((float)Spheres->SpheresData[i].Size)/16384,10,10);
+//		    glPopMatrix();
+//		    gluDeleteQuadric(quadric);
+//	    }
+//
+//        // DRAW LINES
+//	    for(int i=0; i < Lines->NumberOfLines;i++)
+//	    {
+//		    glColor4ub(255,255,255, alphac);
+//		    glBegin(GL_LINES);
+//		    glVertex3f(dividedPointsX[Lines->LinesData[i].PointNum1/6],dividedPointsY[Lines->LinesData[i].PointNum1/6],dividedPointsZ[Lines->LinesData[i].PointNum1/6]);
+//		    glVertex3f(dividedPointsX[Lines->LinesData[i].PointNum2/6],dividedPointsY[Lines->LinesData[i].PointNum2/6],dividedPointsZ[Lines->LinesData[i].PointNum2/6]);
+//		    glEnd();
+//	    }
+//
+//		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+//    }
+//
+//    //---------------------------------------------------------
+//    //---------------------------------------------------------
+//
+//    glDisable(GL_DEPTH_TEST);
+//
+//    if(m_showSelectedPolygon)
+//    {
+//        DrawSelectedPolygon(polyIdx, alphac);
+//    }
+//
+//   	if(m_showBones)
+//	{
+//        DrawBones(boneIdx, alphac);
+//	}
+//
+//    if(m_showPoint)
+//    {
+//        DrawPoints(pointIdx, alphac);
+//    }
+//
+//    if(m_showLine)
+//    {
+//        DrawLines(lineIdx, alphac);
+//    }
+//
+//    if(m_showSphere)
+//    {
+//        DrawSpheres(sphereIdx, alphac);
+//    }
+//
+//	glEnable(GL_DEPTH_TEST);
+//
+//
+//    if(m_showCollisionBox)
+//	{
+//	    DrawColisionBox(alphac);
+//    }
+//}
+//
+////---------------------------------------------------------------------------
+//
+//// RECODE THIS
+//void LBA1ModelClass::DrawSelectedPolygon(int index, unsigned char alphac)
+//{
+//    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+//    // POLY WIREFRAME
+//    float x,y,z;
+//    TVertex *VertexPtr;
+//
+//    glBegin(GL_POLYGON);
+//    VertexPtr=Polygons->PolygonsData[index].VertexsData;
+//    for(int j=0;j<Polygons->PolygonsData[index].NumberOfVertexs;j++)
+//    {
+//        //glColor3ub(255,0,0);
+//        glColor4ub(255,255,255, alphac);
+//
+//        x = dividedPointsX[VertexPtr->PointNum];
+//        y = dividedPointsY[VertexPtr->PointNum];
+//        z = dividedPointsZ[VertexPtr->PointNum];
+//
+//        glVertex3f(x,y,z);
+//        VertexPtr++;
+//    }
+//    glEnd();
+//
+//    VertexPtr=Polygons->PolygonsData[index].VertexsData;
+//    glPointSize(3);
+//    for(int j=0; j < Polygons->PolygonsData[index].NumberOfVertexs;j++)
+//    {
+//        //glColor3ub(255,255,255);
+//        glColor4ub(255,0,0, alphac);
+//        glBegin(GL_POINTS);
+//            glVertex3f(dividedPointsX[VertexPtr->PointNum],dividedPointsY[VertexPtr->PointNum],dividedPointsZ[VertexPtr->PointNum]);
+//        glEnd();
+//        VertexPtr++;
+//    }
+//
+//    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+//}
+//
+////---------------------------------------------------------------------------
+//
+//void LBA1ModelClass::DrawBones(int index, unsigned char alphac)
+//{
+//    int start = Elements->ElementsData[index].FirstPoint/6;
+//    int points = Elements->ElementsData[index].NumberOfPoints;
+//	for(int i = start; i < points+start; i++)
+//	{
+//		glPointSize(3);
+//        if(m_wireFrame==3)
+//		    glColor4ub(0,0,0, alphac);
+//        else if (m_wireFrame==1)
+//            glColor4ub(255,0,0, alphac);
+//        else
+//            glColor4ub(255,255,255, alphac);
+//		glBegin(GL_POINTS);
+//            glVertex3f(dividedPointsX[i],dividedPointsY[i],dividedPointsZ[i]);
+//		glEnd();
+//	}
+//}
+//
+////---------------------------------------------------------------------------
+//
+//void LBA1ModelClass::DrawPoints(int index, unsigned char alphac)
+//{
+//    glPointSize(4);
+//    if(m_wireFrame==3)
+//	    glColor4ub(0,0,0, alphac);
+//    else if (m_wireFrame==1)
+//        glColor4ub(255,0,0, alphac);
+//    else
+//        glColor4ub(255,255,255, alphac);
+//	glBegin(GL_POINTS);
+//        glVertex3f(dividedPointsX[index],dividedPointsY[index],dividedPointsZ[index]);
+//	glEnd();
+//}
+//
+////---------------------------------------------------------------------------
+//
+//void LBA1ModelClass::DrawLines(int index, unsigned char alphac)
+//{
+//    glPointSize(4);
+//    if(m_wireFrame==3)
+//	    glColor4ub(0,0,0, alphac);
+//    else if (m_wireFrame==1)
+//        glColor4ub(255,0,0, alphac);
+//    else
+//        glColor4ub(255,255,255, alphac);
+//
+//    int p1 = Lines->LinesData[index].PointNum1/6;
+//    int p2 = Lines->LinesData[index].PointNum2/6;
+//	glBegin(GL_POINTS);
+//        glVertex3f(dividedPointsX[p1],dividedPointsY[p1],dividedPointsZ[p1]);
+//        glVertex3f(dividedPointsX[p2],dividedPointsY[p2],dividedPointsZ[p2]);
+//	glEnd();
+//}
+//
+////---------------------------------------------------------------------------
+//
+//void LBA1ModelClass::DrawSpheres(int index, unsigned char alphac)
+//{
+//    glPointSize(4);
+//    if(m_wireFrame==3)
+//	    glColor4ub(0,0,0, alphac);
+//    else if (m_wireFrame==1)
+//        glColor4ub(255,0,0, alphac);
+//    else
+//        glColor4ub(255,255,255, alphac);
+//
+//    int p1 = Spheres->SpheresData[index].Center/6;
+//	glBegin(GL_POINTS);
+//        glVertex3f(dividedPointsX[p1],dividedPointsY[p1],dividedPointsZ[p1]);
+//	glEnd();
+//}
+//
+////---------------------------------------------------------------------------
+//
+//void LBA1ModelClass::DrawColisionBox(unsigned char alphac)
+//{
+//	glPushMatrix();
+//	glRotatef(((float)(angle-256)/1024)*360,0,1,0);
+//
+//	glBegin(GL_LINES);
+//	glColor4ub(255,255,255, alphac);
+//
+//	// vertical lines
+//
+//	glVertex3f(((float)X1)/16384,((float)Z1)/16384,((float)Y1)/16384);
+//	glVertex3f(((float)X1)/16384,((float)Z2)/16384,((float)Y1)/16384);
+//
+//	glVertex3f(((float)X1)/16384,((float)Z1)/16384,((float)Y2)/16384);
+//	glVertex3f(((float)X1)/16384,((float)Z2)/16384,((float)Y2)/16384);
+//
+//	glVertex3f(((float)X2)/16384,((float)Z1)/16384,((float)Y1)/16384);
+//	glVertex3f(((float)X2)/16384,((float)Z2)/16384,((float)Y1)/16384);
+//
+//	glVertex3f(((float)X2)/16384,((float)Z1)/16384,((float)Y2)/16384);
+//	glVertex3f(((float)X2)/16384,((float)Z2)/16384,((float)Y2)/16384);
+//
+//	// h lines
+//
+//	glVertex3f(((float)X1)/16384,((float)Z1)/16384,((float)Y1)/16384);
+//	glVertex3f(((float)X1)/16384,((float)Z1)/16384,((float)Y2)/16384);
+//
+//	glVertex3f(((float)X1)/16384,((float)Z2)/16384,((float)Y1)/16384);
+//	glVertex3f(((float)X1)/16384,((float)Z2)/16384,((float)Y2)/16384);
+//
+//	glVertex3f(((float)X2)/16384,((float)Z1)/16384,((float)Y1)/16384);
+//	glVertex3f(((float)X2)/16384,((float)Z1)/16384,((float)Y2)/16384);
+//
+//	glVertex3f(((float)X2)/16384,((float)Z2)/16384,((float)Y1)/16384);
+//	glVertex3f(((float)X2)/16384,((float)Z2)/16384,((float)Y2)/16384);
+//
+//	// h lines 2
+//
+//	glVertex3f(((float)X1)/16384,((float)Z1)/16384,((float)Y1)/16384);
+//	glVertex3f(((float)X2)/16384,((float)Z1)/16384,((float)Y1)/16384);
+//
+//	glVertex3f(((float)X1)/16384,((float)Z2)/16384,((float)Y1)/16384);
+//	glVertex3f(((float)X2)/16384,((float)Z2)/16384,((float)Y1)/16384);
+//
+//	glVertex3f(((float)X1)/16384,((float)Z1)/16384,((float)Y2)/16384);
+//	glVertex3f(((float)X2)/16384,((float)Z1)/16384,((float)Y2)/16384);
+//
+//	glVertex3f(((float)X1)/16384,((float)Z2)/16384,((float)Y2)/16384);
+//	glVertex3f(((float)X2)/16384,((float)Z2)/16384,((float)Y2)/16384);
+//
+//	glEnd();
+//	glPopMatrix();
+//}
+//
+////---------------------------------------------------------------------------
+//
+//void LBA1ModelClass::DXFExport(char *fileName)
+//{
+//	FILE* hFile;
+//    TPolygon* PolyPtr;
+//	TVertex* VertexPtr;
+//
+//	hFile=fopen(fileName,"wt+");
+//
+//	fprintf(hFile,"0\n");
+//	fprintf(hFile,"SECTION\n");
+//	fprintf(hFile,"2\n");
+//	fprintf(hFile,"ENTITIES\n");
+//
+//	PolyPtr=Polygons->PolygonsData;
+//
+//	for(int i=0;i<Polygons->NumberOfPolygons;i++)
+//	{
+//		VertexPtr=Polygons->PolygonsData[i].VertexsData;
+//
+//		if( PolyPtr->NumberOfVertexs == 3)
+//		{
+//			fprintf(hFile,"0\n");
+//			fprintf(hFile,"3DFACE\n");
+//			fprintf(hFile,"8\n");
+//			fprintf(hFile,"1\n");
+//			fprintf(hFile,"62\n");
+//			fprintf(hFile,"1\n");
+//			int vertexIndex=0;
+//
+//			for(int j=0;j<3;j++)
+//			{
+//				fprintf(hFile,"1%d\n",vertexIndex);
+//				fprintf(hFile,"%f\n",dividedPointsX[VertexPtr->PointNum]*500);
+//				fprintf(hFile,"2%d\n",vertexIndex);
+//				fprintf(hFile,"%f\n",dividedPointsY[VertexPtr->PointNum]*500);
+//				fprintf(hFile,"3%d\n",vertexIndex);
+//				fprintf(hFile,"%f\n",dividedPointsZ[VertexPtr->PointNum]*500);
+//
+//				vertexIndex++;
+//				VertexPtr++;
+//			}
+//
+//			VertexPtr--;
+//
+//			fprintf(hFile,"1%d\n",vertexIndex);
+//			fprintf(hFile,"%f\n",dividedPointsX[VertexPtr->PointNum]*500);
+//			fprintf(hFile,"2%d\n",vertexIndex);
+//			fprintf(hFile,"%f\n",dividedPointsY[VertexPtr->PointNum]*500);
+//			fprintf(hFile,"3%d\n",vertexIndex);
+//			fprintf(hFile,"%f\n",dividedPointsZ[VertexPtr->PointNum]*500);
+//		}
+//
+//		if( PolyPtr->NumberOfVertexs == 4)
+//		{
+//			fprintf(hFile,"0\n");
+//			fprintf(hFile,"3DFACE\n");
+//			fprintf(hFile,"8\n");
+//			fprintf(hFile,"1\n");
+//			fprintf(hFile,"62\n");
+//			fprintf(hFile,"1\n");
+//			int vertexIndex=0;
+//
+//			for(int j=0;j<4;j++)
+//			{
+//				fprintf(hFile,"1%d\n",vertexIndex);
+//				fprintf(hFile,"%f\n",dividedPointsX[VertexPtr->PointNum]*500);
+//				fprintf(hFile,"2%d\n",vertexIndex);
+//				fprintf(hFile,"%f\n",dividedPointsY[VertexPtr->PointNum]*500);
+//				fprintf(hFile,"3%d\n",vertexIndex);
+//				fprintf(hFile,"%f\n",dividedPointsZ[VertexPtr->PointNum]*500);
+//
+//				vertexIndex++;
+//				VertexPtr++;
+//			}
+//		}
+//
+//		if( PolyPtr->NumberOfVertexs >= 5)
+//		{
+//			for(int j=0;j<PolyPtr->NumberOfVertexs-1;j++)
+//			{
+//				fprintf(hFile,"0\n");
+//				fprintf(hFile,"3DFACE\n");
+//				fprintf(hFile,"8\n");
+//				fprintf(hFile,"1\n");
+//				fprintf(hFile,"62\n");
+//				fprintf(hFile,"1\n");
+//
+//				fprintf(hFile,"10\n");
+//				fprintf(hFile,"%f\n",dividedPointsX[VertexPtr[0].PointNum]*500);
+//				fprintf(hFile,"20\n");
+//				fprintf(hFile,"%f\n",dividedPointsY[VertexPtr[0].PointNum]*500);
+//				fprintf(hFile,"30\n");
+//				fprintf(hFile,"%f\n",dividedPointsZ[VertexPtr[0].PointNum]*500);
+//
+//				fprintf(hFile,"11\n");
+//				fprintf(hFile,"%f\n",dividedPointsX[VertexPtr[j].PointNum]*500);
+//				fprintf(hFile,"21\n");
+//				fprintf(hFile,"%f\n",dividedPointsY[VertexPtr[j].PointNum]*500);
+//				fprintf(hFile,"31\n");
+//				fprintf(hFile,"%f\n",dividedPointsZ[VertexPtr[j].PointNum]*500);
+//
+//				fprintf(hFile,"12\n");
+//				fprintf(hFile,"%f\n",dividedPointsX[VertexPtr[j+1].PointNum]*500);
+//				fprintf(hFile,"22\n");
+//				fprintf(hFile,"%f\n",dividedPointsY[VertexPtr[j+1].PointNum]*500);
+//				fprintf(hFile,"32\n");
+//				fprintf(hFile,"%f\n",dividedPointsZ[VertexPtr[j+1].PointNum]*500);
+//
+//				fprintf(hFile,"13\n");
+//				fprintf(hFile,"%f\n",dividedPointsX[VertexPtr[j+1].PointNum]*500);
+//				fprintf(hFile,"23\n");
+//				fprintf(hFile,"%f\n",dividedPointsY[VertexPtr[j+1].PointNum]*500);
+//				fprintf(hFile,"33\n");
+//				fprintf(hFile,"%f\n",dividedPointsZ[VertexPtr[j+1].PointNum]*500);
+//			}
+//		}
+//
+//		PolyPtr++;
+//	}
+//
+//	fprintf(hFile,"0\n");
+//	fprintf(hFile,"ENDSEC\n");
+//	fprintf(hFile,"0\n");
+//	fprintf(hFile,"EOF\n");
+//
+//	fclose(hFile);
+//}
 
 //---------------------------------------------------------------------------
 
@@ -2565,6 +2631,10 @@ void LBA1ModelClass::setLoopKeyframe(short int value)
 osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow, bool addtransparent)
 {
 	m_usesoftshadow = usesoftshadow;
+
+	float Aoffset = 0;
+	if(_fixcoloridx)
+		Aoffset = 25.6;
 	
 
 	memset(matrixList,0,sizeof(TMatrix)*100);
@@ -2689,7 +2759,7 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow, bool 
 	osg::Vec3Array* myVerticesPoly = new osg::Vec3Array;
 	for(int i=0; i<Points->NumberOfPoints; ++i)
 	{
-		myVerticesPoly->push_back(osg::Vec3(dividedPointsX[i],dividedPointsY[i],dividedPointsZ[i]));		
+		myVerticesPoly->push_back(osg::Vec3(dividedPointsX[i]+Aoffset,dividedPointsY[i]+Aoffset,dividedPointsZ[i]+Aoffset));		
 	}
 
 	osg::Vec3Array* myVerticesPoints = new osg::Vec3Array;
@@ -2698,8 +2768,8 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow, bool 
 		int p1 = Lines->LinesData[i].PointNum1/6;
 		int p2 = Lines->LinesData[i].PointNum2/6;
 
-		myVerticesPoints->push_back(osg::Vec3(dividedPointsX[p1],dividedPointsY[p1],dividedPointsZ[p1]));
-		myVerticesPoints->push_back(osg::Vec3(dividedPointsX[p2],dividedPointsY[p2],dividedPointsZ[p2]));
+		myVerticesPoints->push_back(osg::Vec3(dividedPointsX[p1]+Aoffset,dividedPointsY[p1]+Aoffset,dividedPointsZ[p1]+Aoffset));
+		myVerticesPoints->push_back(osg::Vec3(dividedPointsX[p2]+Aoffset,dividedPointsY[p2]+Aoffset,dividedPointsZ[p2]+Aoffset));
 	}
 
 
@@ -2740,6 +2810,7 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow, bool 
 			vertexPtr=polyPtr->VertexsData;
 			int coloridx = ((polyPtr->ColorIdx)&0xFF);
 
+
 			//if(shade)
 			//{
 			//	if(m_softShade && usesoftshadow && vertexPtr->Shade > 0)
@@ -2749,11 +2820,11 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow, bool 
 			//{
 				if(polyPtr->Shade!=-1)
 				{
+					
 					if(m_softShade && usesoftshadow)
 						coloridx = ((polyPtr->ColorIdx)&0xFF)+shadeTable[polyPtr->Shade];
 				}
 			//}
-
 
 			std::pair<std::vector<int>, std::vector<int> >& tmp = primitives[coloridx];
 			if(polyPtr->NumberOfVertexs == 4)
@@ -2900,7 +2971,6 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow, bool 
 
 	{
 		m_myGeometrylines = new osg::Geometry();
-		myGeode->addDrawable(m_myGeometrylines.get());
 
 		osg::Vec4Array* colorslines = new osg::Vec4Array;
 
@@ -2911,7 +2981,9 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow, bool 
 			int p1 = i*2;
 			int p2 = (i*2)+1;
 
-			std::vector<int> & vectmp = lines[Lines->LinesData[i].Color];
+			int color = ((Lines->LinesData[i].Color)&0xFF00)>>8;
+
+			std::vector<int> & vectmp = lines[color];
 			vectmp.push_back(p1);
 			vectmp.push_back(p2);
 		}
@@ -2925,7 +2997,7 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow, bool 
 			{
 				osg::DrawElementsUInt* myprimitive = new osg::DrawElementsUInt(osg::PrimitiveSet::LINES, 0);
 				unsigned char* ptr;
-				ptr=(unsigned char*)m_paletteRGB+(((itli->first)&0xFF00)>>8)*3;
+				ptr=(unsigned char*)m_paletteRGB+(itli->first)*3;
 				colorslines->push_back(osg::Vec4((*ptr)/255.0f,(*(ptr+1))/255.0f,(*(ptr+2))/255.0f, 1.0f));
 
 				std::vector<int> & tmp = itli->second;
@@ -2954,6 +3026,9 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow, bool 
 
 		if(addtransparent)
 			stateset->setRenderBinDetails( 22, "RenderBin");
+
+		if(myVerticesPoints->size() > 0)
+			myGeode->addDrawable(m_myGeometrylines.get());
 	}
 
 
@@ -2967,15 +3042,21 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow, bool 
 		osg::ref_ptr<osg::PositionAttitudeTransform> PAT = new osg::PositionAttitudeTransform();
 		osg::ref_ptr<osg::Geode> Geodesphere = new osg::Geode();
 		PAT->addChild(Geodesphere);
-		PAT->setPosition (osg::Vec3(dividedPointsX[Spheres->SpheresData[i].Center/6],
-									dividedPointsY[Spheres->SpheresData[i].Center/6],
-									dividedPointsZ[Spheres->SpheresData[i].Center/6]));
+		PAT->setPosition (osg::Vec3(dividedPointsX[Spheres->SpheresData[i].Center/6]+Aoffset,
+									dividedPointsY[Spheres->SpheresData[i].Center/6]+Aoffset,
+									dividedPointsZ[Spheres->SpheresData[i].Center/6]+Aoffset));
+
+		int color = (((Spheres->SpheresData[i].Color)&0xFF00)>>8);
+
 
 		unsigned char* ptr;
-		ptr=(unsigned char*)m_paletteRGB+(((Spheres->SpheresData[i].Color)&0xFF00)>>8)*3;
+		ptr=(unsigned char*)m_paletteRGB+color*3;
 
 		osg::ref_ptr<osg::Sphere> unitSphere = new osg::Sphere(osg::Vec3(0,0,0), ((float)Spheres->SpheresData[i].Size)*factormul_lba1_toosg/16384.0f);
 		osg::ShapeDrawable* unitSphereDrawable = new osg::ShapeDrawable(unitSphere, hints_low.get());
+
+
+
 		unitSphereDrawable->setColor(osg::Vec4((*ptr)/255.0f,(*(ptr+1))/255.0f,(*(ptr+2))/255.0f, 1.0f));
 		Geodesphere->addDrawable(unitSphereDrawable);
 
@@ -3006,6 +3087,7 @@ osg::ref_ptr<osg::Node> LBA1ModelClass::ExportOSGModel(bool usesoftshadow, bool 
     stateset->setTextureMode(0,GL_TEXTURE_1D,osg::StateAttribute::OFF);
     stateset->setTextureMode(0,GL_TEXTURE_2D,osg::StateAttribute::ON);
     stateset->setTextureMode(0,GL_TEXTURE_3D,osg::StateAttribute::OFF);
+
 
 	return root;
 }

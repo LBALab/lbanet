@@ -28,47 +28,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 -----------------------------------------------------------------------------
 */
 
-#ifndef EntitiesH
-#define EntitiesH
+#ifndef _Lba1ModelPath_
+#define _Lba1ModelPath_
 
-#include "HQRlib.h"
-
-struct bodyDataStruct
-{
-	char body;
-	short int index;
-
-	char useColBox;
-
-	int X1;
-	int X2;
-	int Z1;
-	int Z2;
-	int Y1;
-	int Y2;
-};
-
-struct animDataStruct
-{
-	int anim;
-	int index;
-};
-
-struct entitiesTableEntry
-{
-	int numOfBody;
-	int numOfAnims;
-	bodyDataStruct bodyList[40];
-	animDataStruct animList[40];
-};
-
-struct entitiesTableStruct
-{
-	int numOfEntities;
-	entitiesTableEntry* entitiesTable;
-};
-
-entitiesTableStruct* parseEntities(std::string entitiesPath);
-void parseEntity(entitiesTableEntry* entity, unsigned char* currentEntity);
+static std::string Lba1ModelDataPath = "Data/Worlds/Lba1Original/Models/";
 
 #endif

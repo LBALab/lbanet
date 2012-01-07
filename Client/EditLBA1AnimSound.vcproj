@@ -537,6 +537,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Holomap.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\HolomapHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\shared\HQRHandler.cpp"
 				>
 			</File>

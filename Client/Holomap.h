@@ -33,8 +33,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <LbaTypes.h>
 
 //! HoloCoordinate
-struct HoloCoordinate
+class HoloCoordinate
 {
+public:
+	//! constructor
 	HoloCoordinate()
 		: polarcoords(true), posX(0), posY(0), posZ(0)
 		, dir_cen_X(0), dir_cen_Y(0), dir_cen_Z(0)
@@ -80,8 +82,9 @@ class HolomapLocation
 public:
 	//! constructor
 	HolomapLocation(long id)
-		: _Id(id), _childholomapid(-1), 
-			_parentholomaplocid(-1)
+		: _Id(id), _textid(-1), _childholomapid(-1), 
+			_parentholomaplocid(-1),
+			_parentholomapid(-1)
 	{}
 
 	//! destructor
@@ -92,11 +95,11 @@ public:
 	{return _Id;}
 
 	//! set location coordinate
-	void SetCoordinate(const HoloCoordinate & coord)
+	void SetCoordinate(HoloCoordinate coord)
 	{_coordinate = coord;}
 
 	//! get location coordinate
-	const HoloCoordinate & GetCoordinate()
+	HoloCoordinate GetCoordinate()
 	{return _coordinate;}
 
 
@@ -116,6 +119,14 @@ public:
 	//! get text id
 	void SetParentLocId(long id)
 	{_parentholomaplocid = id;}
+
+	//! get parent holo id
+	long GetParentHoloId()
+	{return _parentholomapid;}
+
+	//! get parent holo id
+	void SetParentHoloId(long id)
+	{_parentholomapid = id;}
 
 	//! get text id
 	long GetChildHoloId()
@@ -145,6 +156,7 @@ private:
 
 	long							_textid;
 	long							_parentholomaplocid;
+	long							_parentholomapid;
 	long							_childholomapid;
 };
 
@@ -167,7 +179,7 @@ public:
 	{return _Id;}
 
 	//! add location coordinate
-	void AddCoordinate(const HoloCoordinate & coord)
+	void AddCoordinate(HoloCoordinate coord)
 	{_coordinates.push_back(coord);}
 
 	//! get path coordinates
@@ -190,11 +202,11 @@ public:
 	{_Name = name;}
 
 
-	//! get text id
+	//! get parent holo id
 	long GetParentHoloId()
 	{return _parentholomapid;}
 
-	//! get text id
+	//! get parent holo id
 	void SetParentHoloId(long id)
 	{_parentholomapid = id;}
 
@@ -203,12 +215,12 @@ public:
 	virtual void SaveToLuaFile(std::ostream & file);
 
 private:
-	long							_Id;
-	std::vector<HoloCoordinate>		_coordinates;
-	std::string						_Name;
+	long									_Id;
+	std::vector<HoloCoordinate >			_coordinates;
+	std::string								_Name;
 
-	long							_parentholomapid;
-	DisplayInfoHandler				_vehiclemodel;
+	long									_parentholomapid;
+	DisplayInfoHandler						_vehiclemodel;
 };
 
 

@@ -98,6 +98,14 @@ public:
 	std::map<long, HolomapTravelPathPtr> &GetHolomapPaths()
 	{ return _holomappaths;}
 
+	//! generate id
+	long GenerateHolomapId();
+
+	//! generate id
+	long GenerateHolomapLocId();
+
+	//! generate id
+	long GenerateHolomapPathId();
 
 protected:
 	//! constructor

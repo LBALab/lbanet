@@ -96,6 +96,9 @@ public:
 	//! release stuff
 	void Release();
 
+	//! start holomap
+	void StartStopHolomap(bool start);
+
 protected:
 
 	void write_text(double x, double y) const;
@@ -141,7 +144,7 @@ private:
 	boost::shared_ptr<GuiHandler>		_GuiH;
 
 	bool								_drawXtraGL;
-
+	bool								_holomapon;
 
 
 	float			_bgR;

@@ -186,7 +186,7 @@ CEGUIDrawable::CEGUIDrawable()
 	_loadedfont(NULL), _fontloaded(false), _imageloaded(false),
 	_currentstate(XtGLw_Off), _textfinishdisplaytime(-1), 
 	_currentfadestate(XtGLw_FDOff), _bgR(0), _bgG(0), _bgB(0), _bgA(1),
-	_fontsize(10)
+	_fontsize(10), _holomapon(false)
 {
 	setSupportsDisplayList(false);
 	_keepcallbakc = new CEGUIEventCallback(boost::shared_ptr<GuiHandler>());
@@ -202,7 +202,7 @@ CEGUIDrawable::CEGUIDrawable(int resX, int resY, boost::shared_ptr<GuiHandler> G
 : _GuiH(GuiH), _drawXtraGL(false), _scrolling(false), _scrollingtimediff(0),
 	_loadedfont(NULL), _fontloaded(false), _imageloaded(false),
 	_currentstate(XtGLw_Off), _textfinishdisplaytime(-1), 
-	_currentfadestate(XtGLw_FDOff), _bgR(0), _bgG(0), _bgB(0), _bgA(1)
+	_currentfadestate(XtGLw_FDOff), _bgR(0), _bgG(0), _bgB(0), _bgA(1), _holomapon(false)
 {
 	try
 	{
@@ -256,58 +256,60 @@ void CEGUIDrawable::drawImplementation(osg::RenderInfo& renderInfo) const
     if (state->getContextID()!=_activeContextID) 
 		return;
 
-	// draw cegui stuff
-    glPushAttrib(GL_ALL_ATTRIB_BITS);
-    state->disableAllVertexArrays();
-
-    CEGUI::System::getSingleton().renderGUI();
-    glPopAttrib();
-
-
-
 	int sX, sY;
 	_GuiH->GetScreenSize(sX, sY);
 
-	//draw overlay
-	if(_GuiH && _GuiH->ShouldDrawOverlay())
+	// draw cegui stuff
+	if(!_holomapon)
 	{
-		float life, mana;
-		_GuiH->GetLifeManaInfo(life, mana);
-		
-		glMatrixMode(GL_PROJECTION);
-		glPushMatrix();
-		glLoadIdentity();
-		glOrtho(0, sX, sY, 0, -1, 1);
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
+		glPushAttrib(GL_ALL_ATTRIB_BITS);
+		state->disableAllVertexArrays();
 
-		glDisable(GL_DEPTH_TEST);
-		glEnable(GL_BLEND);
-		glEnable(GL_TEXTURE_2D);
-
-		int offsetx = 67;
-		int sizex = 79;
-		glDisable(GL_TEXTURE_2D);
-		glBegin(GL_QUADS);
-			glColor3f(115/255.f, 0.f, 2/255.f);
-			glVertex2f(offsetx,11);					
-			glVertex2f(offsetx+(sizex*life),11);	
-			glColor3f(254/255.f, 0.f, 3/255.f);
-			glVertex2f(offsetx+(sizex*life),7);					
-			glVertex2f(offsetx,7);	
-
-			glColor3f(11/255.f, 11/255.f, 71/255.f);
-			glVertex2f(offsetx,20);					
-			glVertex2f(offsetx+(sizex*mana),20);	
-			glColor3f(13/255.f, 12/255.f, 150/255.f);
-			glVertex2f(offsetx+(sizex*mana),16);					
-			glVertex2f(offsetx,16);	
-		glEnd();
+		CEGUI::System::getSingleton().renderGUI();
+		glPopAttrib();
 
 
-		glMatrixMode(GL_PROJECTION);
-		glPopMatrix();
-		glMatrixMode(GL_MODELVIEW); 
+		//draw overlay
+		if(_GuiH && _GuiH->ShouldDrawOverlay())
+		{
+			float life, mana;
+			_GuiH->GetLifeManaInfo(life, mana);
+			
+			glMatrixMode(GL_PROJECTION);
+			glPushMatrix();
+			glLoadIdentity();
+			glOrtho(0, sX, sY, 0, -1, 1);
+			glMatrixMode(GL_MODELVIEW);
+			glLoadIdentity();
+
+			glDisable(GL_DEPTH_TEST);
+			glEnable(GL_BLEND);
+			glEnable(GL_TEXTURE_2D);
+
+			int offsetx = 67;
+			int sizex = 79;
+			glDisable(GL_TEXTURE_2D);
+			glBegin(GL_QUADS);
+				glColor3f(115/255.f, 0.f, 2/255.f);
+				glVertex2f(offsetx,11);					
+				glVertex2f(offsetx+(sizex*life),11);	
+				glColor3f(254/255.f, 0.f, 3/255.f);
+				glVertex2f(offsetx+(sizex*life),7);					
+				glVertex2f(offsetx,7);	
+
+				glColor3f(11/255.f, 11/255.f, 71/255.f);
+				glVertex2f(offsetx,20);					
+				glVertex2f(offsetx+(sizex*mana),20);	
+				glColor3f(13/255.f, 12/255.f, 150/255.f);
+				glVertex2f(offsetx+(sizex*mana),16);					
+				glVertex2f(offsetx,16);	
+			glEnd();
+
+
+			glMatrixMode(GL_PROJECTION);
+			glPopMatrix();
+			glMatrixMode(GL_MODELVIEW); 
+		}
 	}
 
 	if(_drawXtraGL)
@@ -338,7 +340,10 @@ void CEGUIDrawable::drawImplementation(osg::RenderInfo& renderInfo) const
 }
 
 
-		
+
+/***********************************************************
+write_line
+***********************************************************/		
 void CEGUIDrawable::write_line(const std::vector<unsigned int> &text, bool black,
 									double x, double y, double space_size, int nbchar) const
 {
@@ -378,6 +383,9 @@ void CEGUIDrawable::write_line(const std::vector<unsigned int> &text, bool black
 }
 
 
+/***********************************************************
+CreateLBAFont
+***********************************************************/
 void CEGUIDrawable::CreateLBAFont(int size)
 {
 	DeleteFont();
@@ -409,6 +417,9 @@ void CEGUIDrawable::CreateLBAFont(int size)
 }
 
 
+/***********************************************************
+DeleteFont
+***********************************************************/
 void CEGUIDrawable::DeleteFont()
 {
 	if(_loadedfont)
@@ -426,6 +437,9 @@ void CEGUIDrawable::DeleteFont()
 
 
 
+/***********************************************************
+LoadGLTextures
+***********************************************************/
  void CEGUIDrawable::LoadGLTextures( const std::string& name )
 {
 	CleanImageTexture();
@@ -448,6 +462,9 @@ void CEGUIDrawable::DeleteFont()
 }
 
 
+/***********************************************************
+CleanImageTexture
+***********************************************************/
 void CEGUIDrawable::CleanImageTexture()
 {
 	if(_imageloaded)
@@ -459,6 +476,9 @@ void CEGUIDrawable::CleanImageTexture()
 
 
 
+/***********************************************************
+Process
+***********************************************************/
 void CEGUIDrawable::Process(double tnow, float tdiff)
 {
 	if(_currentstate == XtGLw_Text)
@@ -525,6 +545,9 @@ void CEGUIDrawable::Process(double tnow, float tdiff)
 }
 
 
+/***********************************************************
+CleanUp
+***********************************************************/
 // clean up display
 void CEGUIDrawable::CleanUp()
 {
@@ -538,7 +561,9 @@ void CEGUIDrawable::CleanUp()
 	CleanImageTexture();
 }
 
-// clean up display and report termination
+/***********************************************************
+clean up display and report termination
+***********************************************************/
 void CEGUIDrawable::CleanAndReport()
 {
 	CleanUp();
@@ -546,6 +571,9 @@ void CEGUIDrawable::CleanAndReport()
 }
 
 
+/***********************************************************
+PressedSpace
+***********************************************************/
 void CEGUIDrawable::PressedSpace()
 {
 	if(_currentstate == XtGLw_Text)
@@ -571,6 +599,9 @@ void CEGUIDrawable::PressedSpace()
 	}
 }
 
+/***********************************************************
+StartScrollingText
+***********************************************************/
 void CEGUIDrawable::StartScrollingText(const std::string & imagepath, 
 									   std::vector<std::vector<unsigned int> > &textIds) 
 {
@@ -593,6 +624,9 @@ void CEGUIDrawable::StartScrollingText(const std::string & imagepath,
 }
 
 
+/***********************************************************
+StartFixedImage
+***********************************************************/
 void CEGUIDrawable::StartFixedImage(const std::string & imagepath, long NbSecondDisplay, 
 							bool FadeIn, float FadeInColorR, float FadeInColorG, float FadeInColorB,
 							bool FadeOut, float FadeOutColorR, float FadeOutColorG, float FadeOutColorB)
@@ -631,12 +665,18 @@ void CEGUIDrawable::StartFixedImage(const std::string & imagepath, long NbSecond
 }
 
 
+/***********************************************************
+EndDrawExtraGL
+***********************************************************/
 void CEGUIDrawable::EndDrawExtraGL()
 {
 	_drawXtraGL = false;
 }
 
 
+/***********************************************************
+paintXtraGL
+***********************************************************/
  void CEGUIDrawable::paintXtraGL() const
  {
 	glColor4f(_bgR, _bgG, _bgB, _bgA);
@@ -687,7 +727,9 @@ void CEGUIDrawable::EndDrawExtraGL()
  }
 
 
-//! display image if exist
+/***********************************************************
+display image if exist
+***********************************************************/
 void CEGUIDrawable::DrawBGImage(float alpha) const
 {
 	if(_imageloaded)
@@ -712,6 +754,9 @@ void CEGUIDrawable::DrawBGImage(float alpha) const
 }
 
 
+/***********************************************************
+resizedGL
+***********************************************************/
  void CEGUIDrawable::resizedGL(int w, int h)
  {
 	_windowW = w;
@@ -727,7 +772,9 @@ void CEGUIDrawable::DrawBGImage(float alpha) const
  }
 
 
-//! prepare text to be drawn
+/***********************************************************
+prepare text to be drawn
+***********************************************************/
 void CEGUIDrawable::prepare_text(const std::vector<linetodraw> &texttoprep, int maxchar)
 {
 	_textstodraw.clear();
@@ -753,7 +800,9 @@ void CEGUIDrawable::prepare_text(const std::vector<linetodraw> &texttoprep, int 
 	}
 }
 
-//! draw text on screen
+/***********************************************************
+draw text on screen
+***********************************************************/
 void CEGUIDrawable::write_text(double x, double y) const
 {
 	std::vector<linetodraw>::const_iterator it = _textstodraw.begin();
@@ -767,7 +816,9 @@ void CEGUIDrawable::write_text(double x, double y) const
 }
 
 
-//! precalculate text to display to screen
+/***********************************************************
+precalculate text to display to screen
+***********************************************************/
 void CEGUIDrawable::precalculate_text(double sizeX, double sizeY)
 {
 	_precalculated_text.clear();
@@ -872,4 +923,14 @@ void CEGUIDrawable::precalculate_text(double sizeX, double sizeY)
 		if(textpage.size() > 0)
 			_precalculated_text.push_back(textpage);
 	}
+}
+
+
+
+/***********************************************************
+start holomap
+***********************************************************/
+void CEGUIDrawable::StartStopHolomap(bool start)
+{
+	_holomapon = start;
 }

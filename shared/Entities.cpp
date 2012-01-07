@@ -41,103 +41,99 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 
 
+void parseEntity(entitiesTableEntry& entity, unsigned char* currentEntity)
+{
+	unsigned char* currentPtr=currentEntity;
+	unsigned char* backupPtr=NULL;
 
+	entity.numOfBody=0;
+	entity.numOfAnims=0;
+
+
+	while(*currentPtr!=255)
+	{
+		backupPtr=currentPtr+2;
+
+		switch(*currentPtr)
+		{
+		case 1: // body
+			{
+				char body;
+				short int realIndex;
+
+				body=*(currentPtr+1);
+				realIndex=*(short int*)(currentPtr+3);
+
+				if(realIndex & 0x8000)
+				{
+					printf("Error while parsing entities: realIndex | 0x8000 !\n");
+					exit(1);
+				}
+
+				entity.bodyList[entity.numOfBody].body=body;
+				entity.bodyList[entity.numOfBody].index=realIndex;
+
+				if((*(currentPtr+5)) && *(currentPtr+6)==14)
+				{
+					short int* ptr=(short int*)(currentPtr+7);
+
+					entity.bodyList[entity.numOfBody].useColBox=1;
+					
+					entity.bodyList[entity.numOfBody].X1 = *(ptr++); //X1
+					entity.bodyList[entity.numOfBody].Z1 = *(ptr++); //Z1
+					entity.bodyList[entity.numOfBody].Y1 = *(ptr++); //Y1
+					entity.bodyList[entity.numOfBody].X2 = *(ptr++); //X2
+					entity.bodyList[entity.numOfBody].Z2 = *(ptr++); //Z2
+					entity.bodyList[entity.numOfBody].Y2 = *(ptr++); //Y2					
+				}
+				else
+				{
+					entity.bodyList[entity.numOfBody].useColBox=0;
+				}
+
+				entity.numOfBody++;
+
+				break;
+			}
+		case 3: // anim
+			{
+				int anim;
+				int realIndex;
+
+				anim=*(currentPtr+1);
+				realIndex=*(short int*)(currentPtr+3);
+
+				entity.animList[entity.numOfAnims].anim=anim;
+				entity.animList[entity.numOfAnims].index=realIndex;
+
+				entity.numOfAnims++;
+
+				break;
+			}
+		default:
+			{
+				printf("Unsupported entry %d in parseEntities!\n",*currentPtr);
+				exit(1);
+				break;
+			}
+		}
+
+		currentPtr=*(unsigned char*)backupPtr+backupPtr;		
+	}
+}
 
 entitiesTableStruct* parseEntities(std::string entitiesPath)
 {
-	int numOfEntities;
-	int i;
-	entitiesTableStruct* entitiesData;
-	unsigned char* currentEntity;
-	unsigned char* currentPtr;
-	unsigned char* backupPtr;
-
-	numOfEntities=getNumEntries(entitiesPath.c_str());
-
-	entitiesData=(entitiesTableStruct*)malloc((sizeof(entitiesTableStruct)));
-
+	int numOfEntities=getNumEntries(entitiesPath.c_str());
+	entitiesTableStruct* entitiesData=(entitiesTableStruct*)malloc((sizeof(entitiesTableStruct)));
 	entitiesData->numOfEntities=numOfEntities;
 	entitiesData->entitiesTable=(entitiesTableEntry*)malloc(sizeof(entitiesTableEntry)*numOfEntities);
 
-	for(i=0;i<numOfEntities;i++)
+	for(int i=0;i<numOfEntities;i++)
 	{
-		entitiesData->entitiesTable[i].numOfBody=0;
-		entitiesData->entitiesTable[i].numOfAnims=0;
-
+		unsigned char* currentEntity;
 		loadResource(entitiesPath.c_str(), i, &currentEntity);
-
-		currentPtr=currentEntity;
-
-		while(*currentPtr!=255)
-		{
-			backupPtr=currentPtr+2;
-
-			switch(*currentPtr)
-			{
-			case 1: // body
-				{
-					char body;
-					short int realIndex;
-
-					body=*(currentPtr+1);
-					realIndex=*(short int*)(currentPtr+3);
-
-					if(realIndex & 0x8000)
-					{
-						printf("Error while parsing entities: realIndex | 0x8000 !\n");
-						exit(1);
-					}
-
-					entitiesData->entitiesTable[i].bodyList[entitiesData->entitiesTable[i].numOfBody].body=body;
-					entitiesData->entitiesTable[i].bodyList[entitiesData->entitiesTable[i].numOfBody].index=realIndex;
-
-					if((*(currentPtr+5)) && *(currentPtr+6)==14)
-					{
-						short int* ptr=(short int*)(currentPtr+7);
-
-						entitiesData->entitiesTable[i].bodyList[entitiesData->entitiesTable[i].numOfBody].useColBox=1;
-						
-						entitiesData->entitiesTable[i].bodyList[entitiesData->entitiesTable[i].numOfBody].X1 = *(ptr++); //X1
-						entitiesData->entitiesTable[i].bodyList[entitiesData->entitiesTable[i].numOfBody].Z1 = *(ptr++); //Z1
-						entitiesData->entitiesTable[i].bodyList[entitiesData->entitiesTable[i].numOfBody].Y1 = *(ptr++); //Y1
-						entitiesData->entitiesTable[i].bodyList[entitiesData->entitiesTable[i].numOfBody].X2 = *(ptr++); //X2
-						entitiesData->entitiesTable[i].bodyList[entitiesData->entitiesTable[i].numOfBody].Z2 = *(ptr++); //Z2
-						entitiesData->entitiesTable[i].bodyList[entitiesData->entitiesTable[i].numOfBody].Y2 = *(ptr++); //Y2					
-					}
-					else
-					{
-						entitiesData->entitiesTable[i].bodyList[entitiesData->entitiesTable[i].numOfBody].useColBox=0;
-					}
-
-					entitiesData->entitiesTable[i].numOfBody++;
-
-					break;
-				}
-			case 3: // anim
-				{
-					int anim;
-					int realIndex;
-
-					anim=*(currentPtr+1);
-					realIndex=*(short int*)(currentPtr+3);
-
-					entitiesData->entitiesTable[i].animList[entitiesData->entitiesTable[i].numOfAnims].anim=anim;
-					entitiesData->entitiesTable[i].animList[entitiesData->entitiesTable[i].numOfAnims].index=realIndex;
-
-					entitiesData->entitiesTable[i].numOfAnims++;
-
-					break;
-				}
-			default:
-				{
-					printf("Unsupported entry %d in parseEntities!\n",*currentPtr);
-					exit(1);
-					break;
-				}
-			}
-
-			currentPtr=*(unsigned char*)backupPtr+backupPtr;		
-		}
+		parseEntity(entitiesData->entitiesTable[i], currentEntity);
 		free(currentEntity);
 	}
 

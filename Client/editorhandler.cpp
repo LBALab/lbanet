@@ -1283,6 +1283,37 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	}
 	
 
+	// set model for holomap
+	{
+		 QStringList header;
+		 header << "Name";
+		_holomaplistmodel = new StringTableModel(header);
+		_uieditor.tableView_HolomapList->setModel(_holomaplistmodel);
+		QHeaderView * mpheaders = _uieditor.tableView_HolomapList->horizontalHeader();
+		mpheaders->setResizeMode(QHeaderView::Stretch);
+	}
+
+	// set model for holomap
+	{
+		 QStringList header;
+		 header << "Name";
+		_holomaploclistmodel = new StringTableModel(header);
+		_uieditor.tableView_HolomapList_2->setModel(_holomaploclistmodel);
+		QHeaderView * mpheaders = _uieditor.tableView_HolomapList_2->horizontalHeader();
+		mpheaders->setResizeMode(QHeaderView::Stretch);
+	}
+
+	// set model for holomap
+	{
+		 QStringList header;
+		 header << "Name";
+		_holomappathlistmodel = new StringTableModel(header);
+		_uieditor.tableView_HolomapList_3->setModel(_holomappathlistmodel);
+		QHeaderView * mpheaders = _uieditor.tableView_HolomapList_3->horizontalHeader();
+		mpheaders->setResizeMode(QHeaderView::Stretch);
+	}
+
+
 
 
 	// reset world info
@@ -1367,13 +1398,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.pushButton_removeholo, SIGNAL(clicked()) , this, SLOT(HoloRemove_button()));	
 	connect(_uieditor.pushButton_goto_holo, SIGNAL(clicked()) , this, SLOT(HoloSelect_button()));
 
-	connect(_uieditor.pushButton_addhololoc, SIGNAL(clicked()) , this, SLOT(HoloLocAdd_button()));
-	connect(_uieditor.pushButton_removehololoc, SIGNAL(clicked()) , this, SLOT(HoloLocRemove_button()));	
-	connect(_uieditor.pushButton_goto_hololoc, SIGNAL(clicked()) , this, SLOT(HoloLocSelect_button()));
 
-	connect(_uieditor.pushButton_addholopath, SIGNAL(clicked()) , this, SLOT(HoloPathAdd_button()));
-	connect(_uieditor.pushButton_removeholopath, SIGNAL(clicked()) , this, SLOT(HoloPathRemove_button()));	
-	connect(_uieditor.pushButton_goto_holopath, SIGNAL(clicked()) , this, SLOT(HoloPathSelect_button()));
 
 	
 	connect(_uieditor.textEdit_worlddescription, SIGNAL(textChanged()) , this, SLOT(WorldDescriptionChanged()));	
@@ -1393,6 +1418,9 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.tableView_ItemList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectitem_double_clicked(const QModelIndex&)));
 	connect(_uieditor.tableView_QuestList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectquest_double_clicked(const QModelIndex&)));
 
+	connect(_uieditor.tableView_HolomapList, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectholomap_double_clicked(const QModelIndex&)));
+	connect(_uieditor.tableView_HolomapList_2, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectholomaploc_double_clicked(const QModelIndex&)));
+	connect(_uieditor.tableView_HolomapList_3, SIGNAL(doubleClicked(const QModelIndex&)) , this, SLOT(selectholomappath_double_clicked(const QModelIndex&)));
 
 	connect(_objectmodel, SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)) , 
 								this, SLOT(objectdatachanged(const QModelIndex &, const QModelIndex &)));
@@ -2139,6 +2167,8 @@ void EditorHandler::SetMapInfo(const std::string & mapname)
 
 	_uieditor.checkBox_map_instancied->setChecked(mapinfo.IsInstance);
 
+	_uieditor.spinBox_lhololocid->setValue((int)mapinfo.LinkedHoloLocation);
+
 	//music part
 	_uieditor.lineEdit_mapmusic->setText(mapinfo.Music.c_str());
 	_uieditor.comboBox_mapmusicrepeat->setCurrentIndex((mapinfo.Repeat == 0)?1:0);
@@ -2215,6 +2245,50 @@ void EditorHandler::SetMapInfo(const std::string & mapname)
 				QStringList data;
 				data << txttmp.str().c_str() << txttmp2.str().c_str();
 				_questlistmodel->AddOrUpdateRow(ittp->first, data);
+			}
+		}
+
+
+		// add holomap
+		{
+			_holomaplistmodel->Clear();
+			_holomaploclistmodel->Clear();
+			_holomappathlistmodel->Clear();
+
+			{
+				std::map<long, HolomapPtr> &tpseq = HolomapHandler::getInstance()->GetHolomaps();
+				std::map<long, HolomapPtr>::const_iterator ittp = tpseq.begin();
+				std::map<long, HolomapPtr>::const_iterator endtp = tpseq.end();
+				for(; ittp != endtp; ++ittp)
+				{
+					QStringList data;
+					data << ittp->second->GetName().c_str();
+					_holomaplistmodel->AddOrUpdateRow(ittp->first, data);
+				}
+			}
+
+			{
+				std::map<long, HolomapLocationPtr> &tpseq = HolomapHandler::getInstance()->GetHolomapLocs();
+				std::map<long, HolomapLocationPtr>::const_iterator ittp = tpseq.begin();
+				std::map<long, HolomapLocationPtr>::const_iterator endtp = tpseq.end();
+				for(; ittp != endtp; ++ittp)
+				{
+					QStringList data;
+					data << ittp->second->GetName().c_str();
+					_holomaploclistmodel->AddOrUpdateRow(ittp->first, data);
+				}
+			}
+
+			{
+				std::map<long, HolomapTravelPathPtr> &tpseq = HolomapHandler::getInstance()->GetHolomapPaths();
+				std::map<long, HolomapTravelPathPtr>::const_iterator ittp = tpseq.begin();
+				std::map<long, HolomapTravelPathPtr>::const_iterator endtp = tpseq.end();
+				for(; ittp != endtp; ++ittp)
+				{
+					QStringList data;
+					data << ittp->second->GetName().c_str();
+					_holomappathlistmodel->AddOrUpdateRow(ittp->first, data);
+				}
 			}
 		}
 
@@ -2714,6 +2788,25 @@ void EditorHandler::objectdatachanged(const QModelIndex &index1, const QModelInd
 		if(type == "Projectile")
 		{
 			ProjectileChanged(parentIdx);
+			return;
+		}
+
+		if(type == "Holomap")
+		{
+			long objid = _objectmodel->data(_objectmodel->GetIndex(1, 1, parentIdx)).toString().toLong();
+			HolomapChanged(objid, parentIdx);
+			return;
+		}	
+		if(type == "HolomapLoc")
+		{
+			long objid = _objectmodel->data(_objectmodel->GetIndex(1, 1, parentIdx)).toString().toLong();
+			HolomapLocChanged(objid, parentIdx);
+			return;
+		}	
+		if(type == "HolomapPath")
+		{
+			long objid = _objectmodel->data(_objectmodel->GetIndex(1, 1, parentIdx)).toString().toLong();
+			HolomapPathChanged(objid, parentIdx);
 			return;
 		}
 	}
@@ -5813,6 +5906,41 @@ void EditorHandler::UpdateModelMode(const std::string & modelname,
 }
 
 
+/***********************************************************
+refresh Actor Model Name
+***********************************************************/
+void EditorHandler::RefreshSimpleActorModelName(LbaNet::ModelInfo & dinfo)
+{
+	UpdateModelName(_actorModelNameList);
+	if(!_actorModelNameList->DataExist(dinfo.ModelName.c_str()))
+		dinfo.ModelName = _actorModelNameList->GetFirstdata().toAscii().data();
+
+	RefreshSimpleActorModelOutfit(dinfo);
+}
+void EditorHandler::RefreshSimpleActorModelOutfit(LbaNet::ModelInfo & dinfo)
+{
+	UpdateModelOutfit(dinfo.ModelName, _actorModelOutfitList);
+	if(!_actorModelOutfitList->DataExist(dinfo.Outfit.c_str()))
+		dinfo.Outfit = _actorModelOutfitList->GetFirstdata().toAscii().data();
+
+	RefreshSimpleActorModelWeapon(dinfo);
+}
+void EditorHandler::RefreshSimpleActorModelWeapon(LbaNet::ModelInfo & dinfo)
+{
+	UpdateModelWeapon(dinfo.ModelName, dinfo.Outfit, _actorModelWeaponList);
+	if(!_actorModelWeaponList->DataExist(dinfo.Weapon.c_str()))
+		dinfo.Weapon = _actorModelWeaponList->GetFirstdata().toAscii().data();
+
+	RefreshSimpleActorModelMode(dinfo);
+}
+void EditorHandler::RefreshSimpleActorModelMode(LbaNet::ModelInfo & dinfo)
+{
+	UpdateModelMode(dinfo.ModelName, dinfo.Outfit, dinfo.Weapon, _actorModelModeList);
+	if(!_actorModelModeList->DataExist(dinfo.Mode.c_str()))
+		dinfo.Mode = _actorModelModeList->GetFirstdata().toAscii().data();
+}
+
+
 
 /***********************************************************
 refresh Actor Model Name
@@ -5910,40 +6038,43 @@ void EditorHandler::RefreshActorModelMode(int index, QModelIndex parentIdx,
 		}
 
 
-		std::string ptype = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toString().toAscii().data();
-		if(ptype == "Box")
+		if(actor)
 		{
-			int resWeaponType;
-			ModelSize size;
-			int res = Lba1ModelMapHandler::getInstance()-> GetModelExtraInfo(modelname,
-									outfit,	weapon,	mode, resWeaponType, size);
-
-			if(res >= 0)
+			std::string ptype = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toString().toAscii().data();
+			if(ptype == "Box")
 			{
-				float csx = _objectmodel->data(_objectmodel->GetIndex(1, 14, parentIdx)).toFloat();
-				float csy = _objectmodel->data(_objectmodel->GetIndex(1, 15, parentIdx)).toFloat();
-				float csz = _objectmodel->data(_objectmodel->GetIndex(1, 16, parentIdx)).toFloat();
+				int resWeaponType;
+				ModelSize size;
+				int res = Lba1ModelMapHandler::getInstance()-> GetModelExtraInfo(modelname,
+										outfit,	weapon,	mode, resWeaponType, size);
 
-				if(csx != size.X)
-					_objectmodel->setData(_objectmodel->GetIndex(1, 14, parentIdx), size.X);
-				
-				if(csy != size.Y)
-					_objectmodel->setData(_objectmodel->GetIndex(1, 15, parentIdx), size.Y);
+				if(res >= 0)
+				{
+					float csx = _objectmodel->data(_objectmodel->GetIndex(1, 14, parentIdx)).toFloat();
+					float csy = _objectmodel->data(_objectmodel->GetIndex(1, 15, parentIdx)).toFloat();
+					float csz = _objectmodel->data(_objectmodel->GetIndex(1, 16, parentIdx)).toFloat();
 
-				if(csz != size.Z)
-					_objectmodel->setData(_objectmodel->GetIndex(1, 16, parentIdx), size.Z);
+					if(csx != size.X)
+						_objectmodel->setData(_objectmodel->GetIndex(1, 14, parentIdx), size.X);
+					
+					if(csy != size.Y)
+						_objectmodel->setData(_objectmodel->GetIndex(1, 15, parentIdx), size.Y);
+
+					if(csz != size.Z)
+						_objectmodel->setData(_objectmodel->GetIndex(1, 16, parentIdx), size.Z);
+				}
 			}
+
+			//update color
+			Lba1ModelMapHandler::getInstance()->GetModelColor(modelname, outfit, weapon, mode, 
+											actor->initpolycolors, actor->initspherecolors, actor->initlinecolors);
+
+			actor->currentpolycolors = actor->initpolycolors;
+			actor->currentspherecolors = actor->initspherecolors;
+			actor->currentlinecolors = actor->initlinecolors;
+
+			actor->ClearColorSwap();
 		}
-
-		//update color
-		Lba1ModelMapHandler::getInstance()->GetModelColor(modelname, outfit, weapon, mode, 
-										actor->initpolycolors, actor->initspherecolors, actor->initlinecolors);
-
-		actor->currentpolycolors = actor->initpolycolors;
-		actor->currentspherecolors = actor->initspherecolors;
-		actor->currentlinecolors = actor->initlinecolors;
-
-		actor->ClearColorSwap();
 	}
 }
 
@@ -15290,12 +15421,39 @@ void EditorHandler::ShowHideMapInfo(bool Show)
 	//	_uieditor.widget_map->hide();
 }
 
+
+
+
 /***********************************************************
 HoloAdd_button
 ***********************************************************/
 void EditorHandler::HoloAdd_button()
 {
-	//todo
+	switch(_uieditor.tabWidget_holo->currentIndex())
+	{
+		case 0:
+		{
+			long id = HolomapHandler::getInstance()->GenerateHolomapId();
+			HolomapPtr newHolo(new Holomap(id));
+			HolomapHandler::getInstance()->AddHolomap(newHolo);
+
+			QStringList data;
+			data << "";
+			_holomaplistmodel->AddOrUpdateRow(id, data);
+
+			SetModified();
+			SelectHolomap(id);
+		}
+		break;
+		case 1:
+			HoloLocAdd_button();
+		break;
+		case 2:
+			HoloPathAdd_button();
+		break;
+	}
+
+
 }
 
 /***********************************************************
@@ -15303,7 +15461,31 @@ HoloRemove_button
 ***********************************************************/
 void EditorHandler::HoloRemove_button()
 {
-	//todo
+	switch(_uieditor.tabWidget_holo->currentIndex())
+	{
+		case 0:
+		{
+			QItemSelectionModel *selectionModel = _uieditor.tableView_HolomapList->selectionModel();
+			QModelIndexList indexes = selectionModel->selectedIndexes();
+
+			if(indexes.size() > 0)
+			{
+				long id = _holomaplistmodel->GetId(indexes[0]);
+				HolomapHandler::getInstance()->RemoveHolomap(id);
+
+				_holomaplistmodel->removeRows(indexes[0].row(), 1);
+
+				SetModified();
+			}
+		}
+		break;
+		case 1:
+			HoloLocRemove_button();
+		break;
+		case 2:
+			HoloPathRemove_button();
+		break;
+	}
 }
 
 /***********************************************************
@@ -15311,8 +15493,29 @@ HoloSelect_button
 ***********************************************************/
 void EditorHandler::HoloSelect_button()
 {
-	//todo
-	ShowHideMapInfo(false);
+	switch(_uieditor.tabWidget_holo->currentIndex())
+	{
+		case 0:
+		{
+			QItemSelectionModel *selectionModel = _uieditor.tableView_HolomapList->selectionModel();
+			QModelIndexList indexes = selectionModel->selectedIndexes();
+
+			if(indexes.size() > 0)
+			{
+				long id = _holomaplistmodel->GetId(indexes[0]);
+				SelectHolomap(id);
+			}
+
+			ShowHideMapInfo(false);
+		}
+		break;
+		case 1:
+			HoloLocSelect_button();
+		break;
+		case 2:
+			HoloPathSelect_button();
+		break;
+	}
 }
 
 
@@ -15321,7 +15524,16 @@ HoloAdd_button
 ***********************************************************/
 void EditorHandler::HoloLocAdd_button()
 {
-	//todo
+	long id = HolomapHandler::getInstance()->GenerateHolomapLocId();
+	HolomapLocationPtr newHolo(new HolomapLocation(id));
+	HolomapHandler::getInstance()->AddHolomapLoc(newHolo);
+
+	QStringList data;
+	data << "";
+	_holomaploclistmodel->AddOrUpdateRow(id, data);
+
+	SetModified();
+	SelectHolomapLoc(id);
 }
 
 /***********************************************************
@@ -15329,7 +15541,18 @@ HoloRemove_button
 ***********************************************************/
 void EditorHandler::HoloLocRemove_button()
 {
-	//todo
+	QItemSelectionModel *selectionModel = _uieditor.tableView_HolomapList_2->selectionModel();
+	QModelIndexList indexes = selectionModel->selectedIndexes();
+
+	if(indexes.size() > 0)
+	{
+		long id = _holomaploclistmodel->GetId(indexes[0]);
+		HolomapHandler::getInstance()->RemoveHolomapLoc(id);
+
+		_holomaploclistmodel->removeRows(indexes[0].row(), 1);
+
+		SetModified();
+	}
 }
 
 /***********************************************************
@@ -15337,7 +15560,15 @@ HoloSelect_button
 ***********************************************************/
 void EditorHandler::HoloLocSelect_button()
 {
-	//todo
+	QItemSelectionModel *selectionModel = _uieditor.tableView_HolomapList_2->selectionModel();
+	QModelIndexList indexes = selectionModel->selectedIndexes();
+
+	if(indexes.size() > 0)
+	{
+		long id = _holomaploclistmodel->GetId(indexes[0]);
+		SelectHolomapLoc(id);
+	}
+
 	ShowHideMapInfo(false);
 }
 
@@ -15347,7 +15578,16 @@ HoloAdd_button
 ***********************************************************/
 void EditorHandler::HoloPathAdd_button()
 {
-	//todo
+	long id = HolomapHandler::getInstance()->GenerateHolomapPathId();
+	HolomapTravelPathPtr newHolo(new HolomapTravelPath(id));
+	HolomapHandler::getInstance()->AddHolomapPath(newHolo);
+
+	QStringList data;
+	data << "";
+	_holomappathlistmodel->AddOrUpdateRow(id, data);
+
+	SetModified();
+	SelectHolomapPath(id);
 }
 
 /***********************************************************
@@ -15355,7 +15595,18 @@ HoloRemove_button
 ***********************************************************/
 void EditorHandler::HoloPathRemove_button()
 {
-	//todo
+	QItemSelectionModel *selectionModel = _uieditor.tableView_HolomapList_3->selectionModel();
+	QModelIndexList indexes = selectionModel->selectedIndexes();
+
+	if(indexes.size() > 0)
+	{
+		long id = _holomappathlistmodel->GetId(indexes[0]);
+		HolomapHandler::getInstance()->RemoveHolomapPath(id);
+
+		_holomappathlistmodel->removeRows(indexes[0].row(), 1);
+
+		SetModified();
+	}
 }
 
 /***********************************************************
@@ -15363,6 +15614,1129 @@ HoloSelect_button
 ***********************************************************/
 void EditorHandler::HoloPathSelect_button()
 {
-	//todo
+	QItemSelectionModel *selectionModel = _uieditor.tableView_HolomapList_3->selectionModel();
+	QModelIndexList indexes = selectionModel->selectedIndexes();
+
+	if(indexes.size() > 0)
+	{
+		long id = _holomappathlistmodel->GetId(indexes[0]);
+		SelectHolomapPath(id);	
+	}
+
 	ShowHideMapInfo(false);
+}
+
+/***********************************************************
+on selectholomap_double_clicked
+***********************************************************/
+void EditorHandler::selectholomap_double_clicked(const QModelIndex & itm)
+{
+	HoloSelect_button();		
+}
+/***********************************************************
+on selectholomap_double_clicked
+***********************************************************/
+void EditorHandler::selectholomaploc_double_clicked(const QModelIndex & itm)
+{
+	HoloLocSelect_button();		
+}
+/***********************************************************
+on selectholomap_double_clicked
+***********************************************************/
+void EditorHandler::selectholomappath_double_clicked(const QModelIndex & itm)
+{
+	HoloPathSelect_button();		
+}
+
+
+
+
+/***********************************************************
+set Holomap in the object
+***********************************************************/
+void EditorHandler::SelectDisplayInfo(const LbaNet::ModelInfo &mdisinfo, const QModelIndex &parent)
+{
+	int index = 0;
+
+	std::string dtype = "No";
+	switch(mdisinfo.TypeRenderer)
+	{
+		case LbaNet::RenderOsgModel:
+			dtype = "Osg Model";
+		break;
+
+		case RenderSprite:
+			dtype = "Sprite";
+		break;
+
+		case RenderLba1M:
+			dtype = "Lba1 Model";
+		break;
+
+		case RenderLba2M:
+			dtype = "Lba2 Model";
+		break;
+
+		case RenderCross:
+			dtype = "Cross";
+		break;
+
+		case RenderBox:
+			dtype = "Box";
+		break;
+
+		case RenderCapsule:
+			dtype = "Capsule";
+		break;
+
+		case RenderSphere:
+			dtype = "Sphere";
+		break;
+	}
+	{
+		QVector<QVariant> data;
+		data<<"Display Type"<<dtype.c_str();
+		_objectmodel->AppendRow(data, parent);
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _actordtypeList);
+		++index;
+	}
+	
+
+	if(dtype != "No")
+	{
+		{
+			QVector<QVariant> data;
+			data<<"Use Light"<<mdisinfo.UseLight;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Cast shadow"<<mdisinfo.CastShadow;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+
+		{
+			QVector<QVariant> data;
+			data<<"Display translation X"<<(double)mdisinfo.TransX;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Display translation Y"<<(double)mdisinfo.TransY;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Display translation Z"<<(double)mdisinfo.TransZ;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Display rotation X"<<(double)mdisinfo.RotX;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Display rotation Y"<<(double)mdisinfo.RotY;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Display rotation Z"<<(double)mdisinfo.RotZ;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Display scale X"<<(double)mdisinfo.ScaleX;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Display scale Y"<<(double)mdisinfo.ScaleY;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Display scale Z"<<(double)mdisinfo.ScaleZ;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+
+
+		if(mdisinfo.TypeRenderer == RenderOsgModel )
+		{
+			QVector<QVariant> data;
+			data<<"Display model file"<<mdisinfo.ModelName.c_str();
+			_objectmodel->AppendRow(data, parent);
+
+			_objectmodel->SetCustomFileDialog(_objectmodel->GetIndex(1, index, parent), "Select a model file", "Models", "Model Files (*.osg *.osgb *.osgt)");
+			++index;
+		}
+
+		if(mdisinfo.TypeRenderer == RenderSprite )
+		{
+			QVector<QVariant> data;
+			data<<"Display sprite file"<<mdisinfo.ModelName.c_str();
+			_objectmodel->AppendRow(data, parent);
+
+			_objectmodel->SetCustomFileDialog(_objectmodel->GetIndex(1, index, parent), "Select an image", "Sprites", "Image Files (*.png *.bmp *.jpg *.gif)");
+			++index;
+
+			{
+				QVector<QVariant> data1;
+				data1<<"Color R"<<(double)mdisinfo.ColorR;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data1;
+				data1<<"Color G"<<(double)mdisinfo.ColorG;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data1;
+				data1<<"Color B"<<(double)mdisinfo.ColorB;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data1;
+				data1<<"Color A"<<(double)mdisinfo.ColorA;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data1;
+				data1<<"Use Billboard"<<mdisinfo.UseBillboard;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+		}
+
+
+		if(mdisinfo.TypeRenderer == RenderLba1M ||
+				mdisinfo.TypeRenderer == RenderLba2M)
+		{
+			int modelaidx = index;
+
+			QVector<QVariant> data;
+			data<<"Display model name"<<mdisinfo.ModelName.c_str();
+			_objectmodel->AppendRow(data, parent);
+
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _actorModelNameList);
+			++index;
+
+			QVector<QVariant> data2;
+			data2<<"Display model outfit"<<mdisinfo.Outfit.c_str();
+			_objectmodel->AppendRow(data2, parent);
+			
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _actorModelOutfitList);
+			++index;
+
+			QVector<QVariant> data3;
+			data3<<"Display model weapon"<<mdisinfo.Weapon.c_str();
+			_objectmodel->AppendRow(data3, parent);
+			
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _actorModelWeaponList);
+			++index;
+
+			QVector<QVariant> data4;
+			data4<<"Display model mode"<<mdisinfo.Mode.c_str();
+			_objectmodel->AppendRow(data4, parent);
+			
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _actorModelModeList);
+			++index;
+
+
+			RefreshActorModelName(modelaidx, parent, false, boost::shared_ptr<ActorHandler>());
+		}
+
+		if(mdisinfo.TypeRenderer == RenderSphere ||
+				mdisinfo.TypeRenderer == RenderCapsule ||
+				mdisinfo.TypeRenderer == RenderBox)
+		{
+
+			{
+				QVector<QVariant> data1;
+				data1<<"Color R"<<(double)mdisinfo.ColorR;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data1;
+				data1<<"Color G"<<(double)mdisinfo.ColorG;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data1;
+				data1<<"Color B"<<(double)mdisinfo.ColorB;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data1;
+				data1<<"Color A"<<(double)mdisinfo.ColorA;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+		}
+ 
+
+
+		// add materials
+		{
+			QVector<QVariant> data;
+			data<<"Use alpha material"<<mdisinfo.UseTransparentMaterial;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+		{
+			QVector<QVariant> data;
+			data<<"Alpha"<<(double)mdisinfo.MatAlpha;
+			_objectmodel->AppendRow(data, parent);
+			++index;
+		}
+
+		int matcolortype = mdisinfo.ColorMaterialType;
+		{
+			std::string mattypestring = "Off";
+			switch(matcolortype)
+			{
+				case 1:
+					mattypestring = "Ambient";
+				break;
+				case 2:
+					mattypestring = "Diffuse";
+				break;
+				case 3:
+					mattypestring = "Specular";
+				break;
+				case 4:
+					mattypestring = "Emission";
+				break;
+				case 5:
+					mattypestring = "Ambient_And_Diffuse";
+				break;
+			}
+			QVector<QVariant> data;
+			data<<"Color material type"<<mattypestring.c_str();
+			_objectmodel->AppendRow(data, parent);
+				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), _materialtypeList);
+			++index;	
+		}
+
+		if(matcolortype > 0)
+		{
+			{
+			QVector<QVariant> data;
+			data<<"Mat Ambient ColorR"<<(double)mdisinfo.MatAmbientColorR;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Ambient ColorG"<<(double)mdisinfo.MatAmbientColorG;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Ambient ColorB"<<(double)mdisinfo.MatAmbientColorB;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Ambient ColorA"<<(double)mdisinfo.MatAmbientColorA;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+
+			{
+			QVector<QVariant> data;
+			data<<"Mat Diffuse ColorR"<<(double)mdisinfo.MatDiffuseColorR;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Diffuse ColorG"<<(double)mdisinfo.MatDiffuseColorG;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Diffuse ColorB"<<(double)mdisinfo.MatDiffuseColorB;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Diffuse ColorA"<<(double)mdisinfo.MatDiffuseColorA;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+
+			{
+			QVector<QVariant> data;
+			data<<"Mat Specular ColorR"<<(double)mdisinfo.MatSpecularColorR;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Specular ColorG"<<(double)mdisinfo.MatSpecularColorG;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Specular ColorB"<<(double)mdisinfo.MatSpecularColorB;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Specular ColorA"<<(double)mdisinfo.MatSpecularColorA;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+
+			{
+			QVector<QVariant> data;
+			data<<"Mat Emission ColorR"<<(double)mdisinfo.MatEmissionColorR;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Emission ColorG"<<(double)mdisinfo.MatEmissionColorG;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Emission ColorB"<<(double)mdisinfo.MatEmissionColorB;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Emission ColorA"<<(double)mdisinfo.MatEmissionColorA;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+			{
+			QVector<QVariant> data;
+			data<<"Mat Shininess"<<(double)mdisinfo.MatShininess;
+			_objectmodel->AppendRow(data, parent);
+			++index;	
+			}
+		}	
+	}
+}
+
+/***********************************************************
+select coordinate info
+***********************************************************/
+void EditorHandler::SelectHoloCoordinate(const HoloCoordinate &coordinate, const QModelIndex &parent)
+{
+	{
+		QVector<QVariant> data;
+		data<<"polar coordinate"<<coordinate.polarcoords;
+		_objectmodel->AppendRow(data, parent);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"X"<<(double)coordinate.posX;
+		_objectmodel->AppendRow(data, parent);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Y"<<(double)coordinate.posY;
+		_objectmodel->AppendRow(data, parent);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Z"<<(double)coordinate.posZ;
+		_objectmodel->AppendRow(data, parent);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<(coordinate.polarcoords?"CenterX":"DirectionX")<<(double)coordinate.dir_cen_X;
+		_objectmodel->AppendRow(data, parent);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<(coordinate.polarcoords?"CenterY":"DirectionY")<<(double)coordinate.dir_cen_Y;
+		_objectmodel->AppendRow(data, parent);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<(coordinate.polarcoords?"CenterZ":"DirectionZ")<<(double)coordinate.dir_cen_Z;
+		_objectmodel->AppendRow(data, parent);
+	}
+}
+
+/***********************************************************
+set Holomap in the object
+***********************************************************/
+void EditorHandler::SelectHolomap(long id, const QModelIndex &parent)
+{
+	HolomapPtr ho = HolomapHandler::getInstance()->GetHolomap(id);
+	if(!ho)
+		return;
+
+	if(parent == QModelIndex())
+		ResetObject();
+
+	{
+		QVector<QVariant> data;
+		data<<"Type"<<"Holomap";
+		_objectmodel->AppendRow(data, parent, true);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Id"<<ho->GetId();
+		_objectmodel->AppendRow(data, parent, true);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Name"<<ho->GetName().c_str();
+		_objectmodel->AppendRow(data, parent);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Use Map coordinate"<<ho->GetUsePCoordinates();
+		_objectmodel->AppendRow(data, parent);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"3D view"<<ho->Get3DMap();
+		_objectmodel->AppendRow(data, parent);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Map model"<<"";
+		QModelIndex p = _objectmodel->AppendRow(data, parent, true);
+		SelectDisplayInfo(ho->GetMapModel(), p);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Arrow model"<<"";
+		QModelIndex p = _objectmodel->AppendRow(data, parent, true);
+		SelectDisplayInfo(ho->GetArrowModel(), p);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Player model"<<"";
+		QModelIndex p = _objectmodel->AppendRow(data, parent, true);
+		SelectDisplayInfo(ho->GetPlayerModel(), p);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"ArrowPlayer model"<<"";
+		QModelIndex p = _objectmodel->AppendRow(data, parent, true);
+		SelectDisplayInfo(ho->GetArrowPlayerModel(), p);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Path Dot model"<<"";
+		QModelIndex p = _objectmodel->AppendRow(data, parent, true);
+		SelectDisplayInfo(ho->GetTravelDotModel(), p);
+	}
+
+
+	// display holomap on screen
+	EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::DisplayHolomapEvent(
+						SynchronizedTimeHandler::GetCurrentTimeDouble(),     
+						0, id, LbaNet::HoloIdSeq()));
+}
+
+/***********************************************************
+set Holomap in the object
+***********************************************************/
+void EditorHandler::SelectHolomapLoc(long id, const QModelIndex &parent)
+{
+	HolomapLocationPtr ho = HolomapHandler::getInstance()->GetHolomapLoc(id);
+	if(!ho)
+		return;
+
+	if(parent == QModelIndex())
+		ResetObject();
+
+	{
+		QVector<QVariant> data;
+		data<<"Type"<<"HolomapLoc";
+		_objectmodel->AppendRow(data, parent, true);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Id"<<ho->GetId();
+		_objectmodel->AppendRow(data, parent, true);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Name"<<ho->GetName().c_str();
+		_objectmodel->AppendRow(data, parent);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Coordinate"<<"";
+		QModelIndex p = _objectmodel->AppendRow(data, parent, true);
+		SelectHoloCoordinate(ho->GetCoordinate(), p);
+	}
+
+
+	// text id
+	{
+		long tid = ho->GetTextId();
+		std::string txt = Localizer::getInstance()->GetText(Localizer::Map, tid);
+		std::stringstream txttmp;
+		txttmp<<tid<<": "<<txt;
+
+		QVector<QVariant> data;
+		data<<"Associated Text"<<QString::fromUtf8(txttmp.str().c_str());
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), _text_mapNameList);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Linked holomap"<<(int)ho->GetParentHoloId();
+		_objectmodel->AppendRow(data, parent);
+	}
+	{
+		QVector<QVariant> data;
+		data<<"Parent location"<<(int)ho->GetParentLocId();
+		_objectmodel->AppendRow(data, parent);
+	}
+	{
+		QVector<QVariant> data;
+		data<<"Child holomap"<<(int)ho->GetChildHoloId();
+		_objectmodel->AppendRow(data, parent);
+	}
+
+	// display holomap on screen
+	EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::DisplayHolomapEvent(
+						SynchronizedTimeHandler::GetCurrentTimeDouble(),     
+						3, id, LbaNet::HoloIdSeq()));
+}
+
+/***********************************************************
+set Holomap in the object
+***********************************************************/
+void EditorHandler::SelectHolomapPath(long id, const QModelIndex &parent)
+{
+	HolomapTravelPathPtr ho = HolomapHandler::getInstance()->GetHolomapPath(id);
+	if(!ho)
+		return;
+
+	if(parent == QModelIndex())
+		ResetObject();
+
+	{
+		QVector<QVariant> data;
+		data<<"Type"<<"HolomapPath";
+		_objectmodel->AppendRow(data, parent, true);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Id"<<ho->GetId();
+		_objectmodel->AppendRow(data, parent, true);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Name"<<ho->GetName().c_str();
+		_objectmodel->AppendRow(data, parent);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Linked holomap"<<(int)ho->GetParentHoloId();
+		_objectmodel->AppendRow(data, parent);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"Vehicle model"<<"";
+		QModelIndex p = _objectmodel->AppendRow(data, parent, true);
+		SelectDisplayInfo(ho->GetVehicleModel(), p);
+	}
+
+	const std::vector<HoloCoordinate> & _coordinates = ho->GetCoordinates();
+	QVector<QVariant> data;
+	data<<"Path coordinates"<<"";
+	QModelIndex coordparent = _objectmodel->AppendRow(data, parent, true);
+	for(size_t i=0; i< _coordinates.size(); ++i)
+	{
+		QVector<QVariant> data;
+		data<<"Coordinate"<<i;
+		QModelIndex p = _objectmodel->AppendRow(data, parent);
+		SelectHoloCoordinate(_coordinates[i], p);
+	}
+
+	// add new item
+	QVector<QVariant> datait;
+	datait << "Coordinate" << "Add new...";
+	QModelIndex idxit = _objectmodel->AppendRow(datait, coordparent);	
+
+
+	// display holomap on screen
+	EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::DisplayHolomapEvent(
+						SynchronizedTimeHandler::GetCurrentTimeDouble(),     
+						4, id, LbaNet::HoloIdSeq()));
+}
+
+
+
+/***********************************************************
+called when DisplayInfoChanged
+***********************************************************/
+void EditorHandler::DisplayInfoChanged(const QModelIndex &parentIdx, LbaNet::ModelInfo & dmodel)
+{
+	int index = 0;
+	bool refresh = false;
+
+	LbaNet::ModelInfo olddisinfo = dmodel; // copy
+	LbaNet::ModelInfo & newdisinfo(dmodel);
+
+	std::string dtype = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+	++index;
+	if(dtype == "Osg Model") 
+		newdisinfo.TypeRenderer = LbaNet::RenderOsgModel;
+	if(dtype == "Sprite") 
+		newdisinfo.TypeRenderer = LbaNet::RenderSprite;
+	if(dtype == "Lba1 Model") 
+		newdisinfo.TypeRenderer = LbaNet::RenderLba1M;
+	if(dtype == "Lba2 Model") 
+		newdisinfo.TypeRenderer = LbaNet::RenderLba2M;
+	if(dtype == "Box") 
+		newdisinfo.TypeRenderer = LbaNet::RenderBox;
+	if(dtype == "Sphere") 
+		newdisinfo.TypeRenderer = LbaNet::RenderSphere;
+	if(dtype == "Capsule") 
+		newdisinfo.TypeRenderer = LbaNet::RenderCapsule;
+	if(dtype == "Cross") 
+		newdisinfo.TypeRenderer = LbaNet::RenderCross;
+	if(dtype == "No") 
+		newdisinfo.TypeRenderer = LbaNet::NoRender;
+
+	if(olddisinfo.TypeRenderer != newdisinfo.TypeRenderer)
+	{
+		refresh = true;
+
+		if(newdisinfo.TypeRenderer == LbaNet::RenderLba1M)
+		{
+			newdisinfo.ModelName = "Ameba";
+			newdisinfo.Weapon = "No";
+			newdisinfo.Mode = "Normal";
+			newdisinfo.Outfit = "No";
+			newdisinfo.ColorMaterialType = 4;
+			newdisinfo.MatAmbientColorR = -0.2;
+			newdisinfo.MatAmbientColorG = -0.2;
+			newdisinfo.MatAmbientColorB = -0.2;
+			newdisinfo.MatDiffuseColorR = 0.4;
+			newdisinfo.MatDiffuseColorG = 0.4;
+			newdisinfo.MatDiffuseColorB = 0.4;
+		}
+	}
+
+	if(!refresh)	
+	{
+		if(olddisinfo.TypeRenderer != LbaNet::NoRender)
+		{
+			newdisinfo.UseLight = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
+			++index;
+			newdisinfo.CastShadow = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
+			++index;
+
+			newdisinfo.TransX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+			newdisinfo.TransY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+			newdisinfo.TransZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+
+			newdisinfo.RotX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+			newdisinfo.RotY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+			newdisinfo.RotZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+
+			newdisinfo.ScaleX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+			newdisinfo.ScaleY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+			newdisinfo.ScaleZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toFloat();
+			++index;
+
+
+			if(olddisinfo.TypeRenderer == RenderOsgModel )
+			{
+				newdisinfo.ModelName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+				++index;
+			}
+
+			if(olddisinfo.TypeRenderer == RenderSprite )
+			{
+				newdisinfo.ModelName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+				++index;	
+
+				newdisinfo.ColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;	
+
+				newdisinfo.ColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;		
+
+				newdisinfo.ColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;		
+
+				newdisinfo.ColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;	
+
+				newdisinfo.UseBillboard = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
+				++index;	
+			}
+
+			if(olddisinfo.TypeRenderer == RenderSphere ||
+					olddisinfo.TypeRenderer == RenderCapsule ||
+					olddisinfo.TypeRenderer == RenderBox)
+			{
+				newdisinfo.ColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;	
+
+				newdisinfo.ColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;		
+
+				newdisinfo.ColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;		
+
+				newdisinfo.ColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;	
+			}
+
+			if(newdisinfo.TypeRenderer == RenderLba1M ||
+					newdisinfo.TypeRenderer == RenderLba2M)
+			{
+				std::string oldmodelname = newdisinfo.ModelName;
+				std::string oldmodelOutfit = newdisinfo.Outfit;
+				std::string oldmodelWeapon = newdisinfo.Weapon;
+
+				newdisinfo.ModelName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+				++index;		
+
+				newdisinfo.Outfit = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();		
+				++index;	
+
+				newdisinfo.Weapon = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();		
+				++index;	
+
+				newdisinfo.Mode = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();		
+				++index;
+
+				if(newdisinfo.ModelName != oldmodelname)
+				{
+					RefreshSimpleActorModelName(newdisinfo);
+					refresh = true;
+				}
+				else if(newdisinfo.Outfit != oldmodelOutfit)
+				{
+					RefreshSimpleActorModelWeapon(newdisinfo);
+					refresh = true;
+				}	
+				else if(newdisinfo.Weapon != oldmodelWeapon)
+				{
+					RefreshSimpleActorModelMode(newdisinfo);
+					refresh = true;
+				}	
+			}
+
+
+			// check materials
+			newdisinfo.UseTransparentMaterial = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();		
+			++index;
+			newdisinfo.MatAlpha = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		
+			++index;
+
+			int oldmatcolortype = olddisinfo.ColorMaterialType;
+
+			std::string matstringtype = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();	
+			++index;
+
+			newdisinfo.ColorMaterialType = 0;
+			if(matstringtype == "Ambient")
+				newdisinfo.ColorMaterialType = 1;
+			if(matstringtype == "Diffuse")
+				newdisinfo.ColorMaterialType = 2;
+			if(matstringtype == "Specular")
+				newdisinfo.ColorMaterialType = 3;
+			if(matstringtype == "Emission")
+				newdisinfo.ColorMaterialType = 4;
+			if(matstringtype == "Ambient_And_Diffuse")
+				newdisinfo.ColorMaterialType = 5;
+
+			if(newdisinfo.ColorMaterialType != oldmatcolortype)
+				refresh = true;
+
+
+			if(oldmatcolortype > 0)
+			{
+				newdisinfo.MatAmbientColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatAmbientColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatAmbientColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatAmbientColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatDiffuseColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatDiffuseColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatDiffuseColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatDiffuseColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatSpecularColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatSpecularColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatSpecularColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatSpecularColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;	
+				newdisinfo.MatEmissionColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatEmissionColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatEmissionColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;			
+				newdisinfo.MatEmissionColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;	
+				newdisinfo.MatShininess = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();		 
+				++index;				
+			}	
+		}
+	}
+
+	if(refresh)
+	{
+		_objectmodel->Clear(parentIdx);
+		SelectDisplayInfo(newdisinfo, parentIdx);
+	}
+}
+
+/***********************************************************
+select coordinate info
+***********************************************************/
+void EditorHandler::HoloCoordinateChanged(HoloCoordinate &coordinate, const QModelIndex &parentIdx)
+{
+	int index = 0;
+
+	coordinate.polarcoords = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
+	++index;
+
+	coordinate.posX = (float)_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();
+	++index;
+
+	coordinate.posY = (float)_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();
+	++index;
+
+	coordinate.posZ = (float)_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();
+	++index;
+
+	coordinate.dir_cen_X = (float)_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();
+	++index;
+
+	coordinate.dir_cen_Y = (float)_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();
+	++index;
+
+	coordinate.dir_cen_Z = (float)_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();
+	++index;
+}
+
+/***********************************************************
+called when Holomap object changed
+***********************************************************/
+void EditorHandler::HolomapChanged(long id, const QModelIndex &parentIdx)
+{
+	SetModified();
+	int index = 2;
+
+	HolomapPtr holo = HolomapHandler::getInstance()->GetHolomap(id);
+
+	{
+	std::string name = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+	holo->SetName(name);
+	++index;
+	}
+
+	{
+		bool mapcood = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
+		holo->SetUsePCoordinates(mapcood);
+		++index;
+	}
+
+	{
+		bool d3vie = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
+		holo->Set3DMap(d3vie);
+		++index;
+	}
+
+	{
+		QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
+		DisplayInfoHandler newmodel;
+		newmodel.Dinfo = holo->GetMapModel();
+		DisplayInfoChanged(itemparent, newmodel.Dinfo);
+
+		holo->SetMapModel(newmodel);
+		++index;
+	}
+
+	{
+		QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
+		DisplayInfoHandler newmodel;
+		newmodel.Dinfo = holo->GetArrowModel();
+		DisplayInfoChanged(itemparent, newmodel.Dinfo);
+		holo->SetArrowModel(newmodel);
+		++index;
+	}
+
+	{
+		QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
+		DisplayInfoHandler newmodel;
+		newmodel.Dinfo = holo->GetPlayerModel();
+		DisplayInfoChanged(itemparent, newmodel.Dinfo);
+		holo->SetPlayerModel(newmodel);
+		++index;
+	}
+
+	{
+		QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
+		DisplayInfoHandler newmodel;
+		newmodel.Dinfo = holo->GetArrowPlayerModel();
+		DisplayInfoChanged(itemparent, newmodel.Dinfo);
+		holo->SetArrowPlayerModel(newmodel);
+		++index;
+	}
+
+	{
+		QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
+		DisplayInfoHandler newmodel;
+		newmodel.Dinfo = holo->GetTravelDotModel();
+		DisplayInfoChanged(itemparent, newmodel.Dinfo);
+		holo->SetTravelDotModel(newmodel);
+		++index;
+	}
+
+	LbaNet::HoloIdSeq secloc;
+	for(int i=1; i<=6; ++i)
+		secloc.push_back(i);
+
+	// display holomap on screen
+	EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::DisplayHolomapEvent(
+						SynchronizedTimeHandler::GetCurrentTimeDouble(),     
+						1/*0*/, id, secloc/*LbaNet::HoloIdSeq()*/));
+}
+
+/***********************************************************
+called when Holomap object changed
+***********************************************************/
+void EditorHandler::HolomapLocChanged(long id, const QModelIndex &parentIdx)
+{
+	SetModified();
+	int index = 2;
+
+	HolomapLocationPtr holo = HolomapHandler::getInstance()->GetHolomapLoc(id);
+
+	{
+	std::string name = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+	holo->SetName(name);
+	++index;
+	}
+
+	{
+		QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
+		HoloCoordinate newcoord;
+		HoloCoordinateChanged(newcoord, itemparent);
+		holo->SetCoordinate(newcoord);
+		++index;
+	}
+
+
+	// text id
+	{
+		std::string text = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+		text = text.substr(0, text.find(":"));
+		long textid = atol(text.c_str());
+		holo->SetTextId(textid);
+		++index;
+	}
+
+	{
+		long id = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
+		holo->SetParentHoloId(id);
+		++index;
+	}
+
+	{
+		long id = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
+		holo->SetParentLocId(id);
+		++index;
+	}
+
+	{
+		long id = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
+		holo->SetChildHoloId(id);
+		++index;
+	}
+
+
+	// display holomap on screen
+	EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::DisplayHolomapEvent(
+						SynchronizedTimeHandler::GetCurrentTimeDouble(),     
+						3, id, LbaNet::HoloIdSeq()));
+}
+
+/***********************************************************
+called when Holomap object changed
+***********************************************************/
+void EditorHandler::HolomapPathChanged(long id, const QModelIndex &parentIdx)
+{
+
 }

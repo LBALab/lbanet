@@ -791,8 +791,8 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("SetVisible", &Quest::SetVisible)
 		.def("GetLinkedHoloId", &Quest::GetVisible)
 		.def("SetLinkedHoloId", &Quest::SetVisible)	
-		.def("GetLinkedHoloLocId", &Quest::GetVisible)
-		.def("SetLinkedHoloLocId", &Quest::SetVisible),
+		.def("GetLinkedHoloLocId", &Quest::GetLinkedHoloLocId)
+		.def("SetLinkedHoloLocId", &Quest::SetLinkedHoloLocId),
 
 		luabind::class_<TeleportDef, boost::shared_ptr<TeleportDef> >("TeleportDef")
 		.def(luabind::constructor<long>())

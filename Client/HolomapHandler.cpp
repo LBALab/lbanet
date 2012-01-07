@@ -128,3 +128,40 @@ HolomapTravelPathPtr HolomapHandler::GetHolomapPath(long id)
 
 	return HolomapTravelPathPtr();
 }
+
+
+
+/***********************************************************
+generate quest id
+***********************************************************/
+long HolomapHandler::GenerateHolomapId()
+{
+	if(_holomaps.size() == 0)
+		return 1;
+
+	return (_holomaps.rbegin()->second->GetId() + 1);
+}
+
+/***********************************************************
+generate quest id
+***********************************************************/
+long HolomapHandler::GenerateHolomapLocId()
+{
+	if(_holomaplocs.size() == 0)
+		return 1;
+
+	return (_holomaplocs.rbegin()->second->GetId() + 1);
+}
+
+
+/***********************************************************
+generate quest id
+***********************************************************/
+long HolomapHandler::GenerateHolomapPathId()
+{
+	if(_holomappaths.size() == 0)
+		return 1;
+
+	return (_holomappaths.rbegin()->second->GetId() + 1);
+}
+

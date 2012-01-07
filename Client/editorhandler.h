@@ -71,6 +71,8 @@ class InventoryItemDef;
 class NaviMeshHandler;
 class QSignalMapper;
 class DisplayObjectHandlerBase;
+class HoloCoordinate;
+class DisplayInfoHandler;
 
 namespace osgManipulator
 {
@@ -913,6 +915,14 @@ public slots:
 	//! on selectitem_double_clicked
 	void selectquest_double_clicked(const QModelIndex & itm);
 
+	//! on selectholomap_double_clicked
+	void selectholomap_double_clicked(const QModelIndex & itm);
+	void selectholomaploc_double_clicked(const QModelIndex & itm);
+	void selectholomappath_double_clicked(const QModelIndex & itm);
+
+
+
+
 	//! map music changed
 	void MapMusicChanged(const QString & text);
 
@@ -1134,6 +1144,15 @@ protected:
 									boost::shared_ptr<ActorHandler> actor);
 
 
+
+
+	// refresh Actor Model Name
+	void RefreshSimpleActorModelName(LbaNet::ModelInfo & dinfo);
+	void RefreshSimpleActorModelOutfit(LbaNet::ModelInfo & dinfo);
+	void RefreshSimpleActorModelWeapon(LbaNet::ModelInfo & dinfo);
+	void RefreshSimpleActorModelMode(LbaNet::ModelInfo & dinfo);
+
+
 	// tp to default spawning of map
 	void CreateDefaultSpawningAndTp(const std::string & mapname);
 
@@ -1286,6 +1305,36 @@ protected:
 	//! show hide map info
 	void ShowHideMapInfo(bool Show);
 
+	//! select display info
+	void SelectDisplayInfo(const LbaNet::ModelInfo &mdisinfo, const QModelIndex &parent = QModelIndex());
+
+	//! select coordinate info
+	void SelectHoloCoordinate(const HoloCoordinate &coordinate, const QModelIndex &parent = QModelIndex());
+
+	//! set Holomap in the object
+	void SelectHolomap(long id, const QModelIndex &parent = QModelIndex());
+
+	//! set Holomap in the object
+	void SelectHolomapLoc(long id, const QModelIndex &parent = QModelIndex());
+
+	//! set Holomap in the object
+	void SelectHolomapPath(long id, const QModelIndex &parent = QModelIndex());
+
+	//! called when Holomap object changed
+	void HolomapChanged(long id, const QModelIndex &parentIdx);
+
+	//! called when Holomap object changed
+	void HolomapLocChanged(long id, const QModelIndex &parentIdx);
+
+	//! called when Holomap object changed
+	void HolomapPathChanged(long id, const QModelIndex &parentIdx);
+
+	//! called when DisplayInfoChanged
+	void DisplayInfoChanged(const QModelIndex &parentIdx, LbaNet::ModelInfo & dmodel);
+
+	//! select coordinate info
+	void HoloCoordinateChanged(HoloCoordinate &coordinate, const QModelIndex &parentIdx);
+
 private:
 	Ui::EditorClass										_uieditor;
 
@@ -1351,6 +1400,10 @@ private:
 
 	StringTableModel *									_questlistmodel;
 	StringTableModel *									_templatelistmodel;
+
+	StringTableModel *									_holomaplistmodel;
+	StringTableModel *									_holomaploclistmodel;
+	StringTableModel *									_holomappathlistmodel;
 
 	TreeModel *											_objectmodel;
 	CustomDelegate *									_objectcustomdelegate;

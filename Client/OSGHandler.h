@@ -155,6 +155,10 @@ public:
 	//! set camera zenit
 	void SetCameraZenit(double zenit, bool forced = false);
 
+	//! get current azimut
+	double GetCameraZenit()
+	{ return _caminfo.zenit;}
+
 	//! delta update camera zenit
 	void DeltaUpdateCameraZenit(double delta);
 
@@ -170,7 +174,7 @@ public:
 
 
 	//! set camera target
-	void SetCameraTarget(double TargetX, double TargetY, double TargetZ);
+	void SetCameraTarget(double TargetX, double TargetY, double TargetZ, bool force=false);
 	void GetCameraTarget(double &TargetX, double &TargetY, double &TargetZ);
 
 	//! clear all nodes of the display tree
@@ -404,6 +408,8 @@ private:
 	osg::ref_ptr<osg::Camera>						_HUDcam;
 
 	osg::ref_ptr<CEGUIDrawable>						_guidraw;
+
+	bool											_fixcamera;
 };
 
 

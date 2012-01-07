@@ -396,7 +396,7 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionWithShape::Build
 /***********************************************************
 Extract display info
 ***********************************************************/
-boost::shared_ptr<DisplayInfo> ObjectInfo::ExtractDisplayInfo(const LbaNet::ModelInfo &DisplayDesc,
+boost::shared_ptr<DisplayInfo> ObjectInfo::ExtractDisplayInfo(int sceneid, const LbaNet::ModelInfo &DisplayDesc,
 																const LbaNet::ObjectExtraInfo &extrainfo,
 																const LbaNet::LifeManaInfo &lifeinfo,
 																bool mainchar, float SizeX)
@@ -412,7 +412,7 @@ boost::shared_ptr<DisplayInfo> ObjectInfo::ExtractDisplayInfo(const LbaNet::Mode
 			if(DisplayDesc.ModelName != "")
 			{
 				boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
-					(new OsgSimpleObjectDescription(0, DisplayDesc.ModelName, 
+					(new OsgSimpleObjectDescription(sceneid, DisplayDesc.ModelName, 
 								DisplayDesc.UseLight, DisplayDesc.CastShadow, extrainfo, lifeinfo));
 
 				boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
@@ -438,7 +438,7 @@ boost::shared_ptr<DisplayInfo> ObjectInfo::ExtractDisplayInfo(const LbaNet::Mode
 			if(DisplayDesc.ModelName != "")
 			{
 				boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
-					(new SpriteDescription(0, DisplayDesc.ModelName, DisplayDesc.UseLight, DisplayDesc.CastShadow, 
+					(new SpriteDescription(sceneid, DisplayDesc.ModelName, DisplayDesc.UseLight, DisplayDesc.CastShadow, 
 								DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA,
 								extrainfo, lifeinfo, DisplayDesc.UseBillboard));
 
@@ -463,7 +463,7 @@ boost::shared_ptr<DisplayInfo> ObjectInfo::ExtractDisplayInfo(const LbaNet::Mode
 		{
 			//TODO animation speed
 			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
-				(new Lba1ModelObjectDescription(0, DisplayDesc, _LBA1_MODEL_ANIMATION_SPEED_,
+				(new Lba1ModelObjectDescription(sceneid, DisplayDesc, _LBA1_MODEL_ANIMATION_SPEED_,
 												DisplayDesc.UseLight, DisplayDesc.CastShadow, extrainfo, 
 												lifeinfo, mainchar));
 
@@ -493,7 +493,7 @@ boost::shared_ptr<DisplayInfo> ObjectInfo::ExtractDisplayInfo(const LbaNet::Mode
 		case LbaNet::RenderCross:
 		{
 			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
-				(new OsgCrossDescription(0, SizeX, 
+				(new OsgCrossDescription(sceneid, SizeX, 
 								DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, 
 								DisplayDesc.ColorA, extrainfo, lifeinfo));
 
@@ -517,7 +517,7 @@ boost::shared_ptr<DisplayInfo> ObjectInfo::ExtractDisplayInfo(const LbaNet::Mode
 		case LbaNet::RenderBox:
 		{
 			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
-				(new OsgBoxDescription(0, DisplayDesc.ScaleX, DisplayDesc.ScaleY, DisplayDesc.ScaleZ, 
+				(new OsgBoxDescription(sceneid, DisplayDesc.ScaleX, DisplayDesc.ScaleY, DisplayDesc.ScaleZ, 
 				DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA, extrainfo, lifeinfo));
 
 
@@ -540,7 +540,7 @@ boost::shared_ptr<DisplayInfo> ObjectInfo::ExtractDisplayInfo(const LbaNet::Mode
 		case LbaNet::RenderCapsule:
 		{
 			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
-				(new OsgOrientedCapsuleDescription(0, DisplayDesc.ScaleY, DisplayDesc.ScaleX, 
+				(new OsgOrientedCapsuleDescription(sceneid, DisplayDesc.ScaleY, DisplayDesc.ScaleX, 
 				DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, DisplayDesc.ColorA, extrainfo, lifeinfo));
 
 			boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
@@ -562,7 +562,7 @@ boost::shared_ptr<DisplayInfo> ObjectInfo::ExtractDisplayInfo(const LbaNet::Mode
 		case LbaNet::RenderSphere:
 		{
 			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
-				(new OsgSphereDescription(0, DisplayDesc.ScaleY, 
+				(new OsgSphereDescription(sceneid, DisplayDesc.ScaleY, 
 						DisplayDesc.ColorR, DisplayDesc.ColorG, DisplayDesc.ColorB, 
 						DisplayDesc.ColorA, extrainfo, lifeinfo));
 

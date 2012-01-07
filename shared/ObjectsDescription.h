@@ -693,7 +693,7 @@ public:
 	long GetId() const {return Id;}
 
 	// Extract display info
-	static boost::shared_ptr<DisplayInfo> ExtractDisplayInfo(const LbaNet::ModelInfo &DisplayDesc,
+	static boost::shared_ptr<DisplayInfo> ExtractDisplayInfo(int sceneid, const LbaNet::ModelInfo &DisplayDesc,
 																const LbaNet::ObjectExtraInfo &extrainfo,
 																const LbaNet::LifeManaInfo &lifeinfo,
 																bool mainchar, float SizeX);

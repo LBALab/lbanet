@@ -29,8 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <map>
 #include <vector>
 #include <LbaTypes.h>
-
-static std::string Lba1ModelDataPath = "Data/Worlds/Lba1Original/Models/";
+#include "Lba1ModelPath.h"
 
 struct ModelSize
 {
