@@ -233,7 +233,8 @@ class Holomap
 public:
 	//! constructor
 	Holomap(long id)
-		: _Id(id), _usePlayerCoordinates(false)
+		: _Id(id), _usePlayerCoordinates(false),
+		_3DCoordinateScaleX(1), _3DCoordinateScaleY(1), _3DCoordinateScaleZ(1)
 	{}
 
 	//! destructor
@@ -282,6 +283,22 @@ public:
 	bool Get3DMap()
 	{ return _3dmap;}
 
+
+	void Set3DCoordinateScaleX(float val)
+	{ _3DCoordinateScaleX = val;}
+	bool Get3DCoordinateScaleX()
+	{ return _3DCoordinateScaleX;}
+
+	void Set3DCoordinateScaleY(float val)
+	{ _3DCoordinateScaleY = val;}
+	bool Get3DCoordinateScaleY()
+	{ return _3DCoordinateScaleY;}
+
+	void Set3DCoordinateScaleZ(float val)
+	{ _3DCoordinateScaleZ = val;}
+	bool Get3DCoordinateScaleZ()
+	{ return _3DCoordinateScaleZ;}
+
 private:
 	long													_Id;
 	std::string												_Name;
@@ -294,6 +311,10 @@ private:
 	DisplayInfoHandler										_playermodel;
 	DisplayInfoHandler										_arrowplayermodel;
 	DisplayInfoHandler										_traveldotmodel;
+
+	float													_3DCoordinateScaleX;
+	float													_3DCoordinateScaleY;
+	float													_3DCoordinateScaleZ;
 };
 
 #endif

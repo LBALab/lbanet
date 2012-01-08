@@ -99,6 +99,11 @@ public:
 															boost::shared_ptr<DisplayTransformation> Tr,
 															const LbaNet::ObjectExtraInfo &extrainfo,
 															const LbaNet::LifeManaInfo &lifeinfo) = 0;
+	
+	//! create bg image object
+	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateBackgroundImageObject(const std::string & filenamefile, 
+															float colorR, float colorG, float colorB, float colorA) = 0;
+
 };
 
 

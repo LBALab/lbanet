@@ -594,7 +594,7 @@ else
 
 	// create the root node used for camera transformation
 	_rootNode3d = new osg::PositionAttitudeTransform();
-	_rootNode3d->setScale(osg::Vec3d(1, 1, 1));
+	_rootNode3d->setScale(osg::Vec3d(1, 0.5, 1));
 	_rootNode3d->setAttitude(osg::Quat(osg::DegreesToRadians(-45.0), osg::Vec3(0,1,0)));
 	_translNode = new osg::PositionAttitudeTransform();
 	_translNode->setName("TranslationNode");
@@ -602,6 +602,7 @@ else
 
 	_rootNode3d->addChild(_translNode);
 	_rootNode3d->setName("Root3D");
+	_rootNode3d->getOrCreateStateSet()->setRenderBinDetails(2,"RenderBin"); 
 
 
 	_root=new osg::Group;
@@ -643,6 +644,38 @@ else
 		guiGeom->addDrawable(_guidraw.get());
 		_rootNodeGui->addChild(guiGeom.get());
 	}
+
+
+	// create background came
+	{
+		_rootNodeBackground=new osg::Group;
+		_rootNodeBackground->getOrCreateStateSet()->setRenderBinDetails(1,"RenderBin"); 
+		//osg::setNotifyLevel(osg::ALWAYS );
+
+		_HUDcamBackground = new osg::Camera;
+
+		_HUDcamBackground->setReferenceFrame(osg::Transform::ABSOLUTE_RF);
+		_HUDcamBackground->setClearMask(0);
+		_HUDcamBackground->setRenderOrder(osg::Camera::NESTED_RENDER);
+
+		_HUDcamBackground->setAllowEventFocus(false);
+		_HUDcamBackground->getOrCreateStateSet()->setMode(GL_DEPTH_TEST,osg::StateAttribute::OVERRIDE | 
+															osg::StateAttribute::OFF);
+		_HUDcamBackground->getOrCreateStateSet()->setMode(GL_LIGHTING,osg::StateAttribute::OVERRIDE |
+															osg::StateAttribute::OFF);
+
+		_HUDcamBackground->getOrCreateStateSet()->setTextureMode(0, GL_TEXTURE_2D, osg::StateAttribute::OVERRIDE|
+																				osg::StateAttribute::ON);
+		_HUDcamBackground->setProjectionMatrix(osg::Matrix::ortho2D(0,_resX,0,_resY));
+
+		osg::CullFace *cull = new osg::CullFace();
+		cull->setMode(osg::CullFace::BACK);
+		_HUDcamBackground->getOrCreateStateSet()->setAttributeAndModes(cull, osg::StateAttribute::ON);
+		_HUDcamBackground->addChild(_rootNodeBackground.get());
+
+		_root->addChild(_HUDcamBackground.get());
+	}
+
 
 	_root->addChild(_rootNode3d.get());
 	_viewer->setSceneData(_root.get());
@@ -754,6 +787,7 @@ void OsgHandler::Finalize()
 	_viewer = NULL;
 	_translNode =NULL;
 	_HUDcam =NULL;
+	_HUDcamBackground =NULL;
 	_rootNodeGui =NULL;
 	_lightNodes[0] =NULL;
 	_lightNodes[1] =NULL;
@@ -832,6 +866,7 @@ void OsgHandler::Resized(int resX, int resY)
 
 	ResetCameraProjectiomMatrix();
 	_HUDcam->setProjectionMatrix(osg::Matrix::ortho2D(0, _viewportX, 0, _viewportY));
+	_HUDcamBackground->setProjectionMatrix(osg::Matrix::ortho2D(0, _viewportX, 0, _viewportY));
 
 }
 
@@ -892,6 +927,8 @@ void OsgHandler::ResetScreen()
 
 	if(_HUDcam)
 		_HUDcam->setProjectionMatrix(osg::Matrix::ortho2D(0,_resX,0,_resY));
+	if(_HUDcamBackground)
+		_HUDcamBackground->setProjectionMatrix(osg::Matrix::ortho2D(0,_resX,0,_resY));
 }
 
 
@@ -1577,14 +1614,29 @@ void OsgHandler::RemoveActorNode(int sceneidx, osg::ref_ptr<osg::Node> node, boo
 		LogHandler::getInstance()->LogToFile("Removed Node from display engine");
 	#endif
 
-	osg::ref_ptr<osg::Group> & scenerootnode = GetSceneRootNode(sceneidx); 
-	osg::ref_ptr<osg::Group> & scenerootnodenolight = GetSceneRootNodeNoLight(sceneidx); 
+	if(node)
+	{
+		osg::Group* parent = NULL;
+		if(node->getNumParents() > 0)
+			parent = node->getParent(0);
+		if(parent)
+		{
+			parent->removeChild(node);
+		}
+		else
+		{
+			// just in case - should not be needed
+			osg::ref_ptr<osg::Group> & scenerootnode = GetSceneRootNode(sceneidx); 
+			osg::ref_ptr<osg::Group> & scenerootnodenolight = GetSceneRootNodeNoLight(sceneidx); 
 
-	if(WithLight && scenerootnode)
-		scenerootnode->removeChild(node);
+			if(WithLight && scenerootnode)
+				scenerootnode->removeChild(node);
 
-	if(!WithLight && scenerootnodenolight)
-		scenerootnodenolight->removeChild(node);
+			if(!WithLight && scenerootnodenolight)
+				scenerootnodenolight->removeChild(node);
+		}
+	}
+
 }
 
 
@@ -1785,6 +1837,85 @@ osg::ref_ptr<osg::MatrixTransform> OsgHandler::CreateSimpleObject(int sceneidx, 
 
 	return mat;
 }
+
+
+
+/***********************************************************
+create background object
+***********************************************************/
+osg::ref_ptr<osg::MatrixTransform> OsgHandler::CreateBackgroundImage(const std::string & imagefile, 
+												float colorR, float colorG, float colorB, float colorA)
+{
+	// create geode
+	osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+	
+	
+	osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
+	geode->addDrawable(geometry); 
+
+	// Specify the vertices:
+	osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array;
+	vertices->push_back( osg::Vec3(0, 0, 0) );
+	vertices->push_back( osg::Vec3(_resX, 0, 0) );
+	vertices->push_back( osg::Vec3(_resX, _resY, 0) ); 
+	vertices->push_back( osg::Vec3(0, _resY, 0) ); 
+	geometry->setVertexArray( vertices );
+
+	// specify the base:
+	osg::ref_ptr<osg::DrawElementsUInt> base = 
+	new osg::DrawElementsUInt(osg::PrimitiveSet::QUADS, 0);
+	base->push_back(0);
+	base->push_back(1);
+	base->push_back(2);
+	base->push_back(3);
+	geometry->addPrimitiveSet(base);
+
+	// specify the color:
+	osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array;
+	colors->push_back(osg::Vec4(colorR, colorG, colorB, colorA) ); 
+	geometry->setColorArray(colors);
+	geometry->setColorBinding(osg::Geometry::BIND_OVERALL);
+
+	// specify thetexture coordinates:
+	osg::ref_ptr<osg::Vec2Array> texcoords = new osg::Vec2Array(5);
+	(*texcoords)[0].set(0, 0); 
+	(*texcoords)[1].set(1, 0); 
+	(*texcoords)[2].set(1, 1); 
+	(*texcoords)[3].set(0, 1); 
+	geometry->setTexCoordArray(0,texcoords);
+
+
+
+	// Declare a group to act as root node of a scene:
+	osg::ref_ptr<osg::Group> resnode = new osg::Group();
+	resnode->addChild(geode);
+
+	osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
+
+
+	// attach texture to geometry:
+	osg::ref_ptr<osg::Image> klnFace = osgDB::readImageFile(imagefile);
+	if (klnFace)
+	{
+		osg::ref_ptr<osg::Texture2D> KLN89FaceTexture = new osg::Texture2D;
+		KLN89FaceTexture->setDataVariance(osg::Object::DYNAMIC); 
+		KLN89FaceTexture->setImage(klnFace);
+
+		KLN89FaceTexture->setFilter(osg::Texture::MIN_FILTER, osg::Texture::LINEAR);
+		KLN89FaceTexture->setFilter(osg::Texture::MAG_FILTER, osg::Texture::LINEAR);
+
+		stateSet->setTextureAttributeAndModes(0, KLN89FaceTexture, osg::StateAttribute::ON);
+	}
+
+	resnode->setNodeMask(ReceivesShadowTraversalMask);
+
+	osg::ref_ptr<osg::MatrixTransform> transform = new osg::MatrixTransform();
+	transform->addChild(resnode);
+	_rootNodeBackground->addChild(transform);
+
+	return transform;
+}
+
 
 
 /***********************************************************
@@ -1990,6 +2121,28 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateCrossObject(int sc
 	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(sceneidx, resnode, false, false);
 	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(sceneidx, mat, false, extrainfo, lifeinfo));
 }
+
+
+
+
+/***********************************************************
+CreateBackgroundImageObject
+***********************************************************/
+boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateBackgroundImageObject(const std::string & filenamefile, 
+															float colorR, float colorG, float colorB, float colorA)
+{
+	osg::ref_ptr<osg::MatrixTransform> resnode = CreateBackgroundImage(filenamefile, colorR, colorG, colorB, colorA);
+
+	LbaNet::ObjectExtraInfo extrainfo;
+	extrainfo.Display = false;
+	LbaNet::LifeManaInfo lifeinfo;
+	lifeinfo.Display = false;
+	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(-1, resnode, false, extrainfo, lifeinfo));
+
+}
+
+
+
 
 /***********************************************************
 create grid object
@@ -2289,8 +2442,9 @@ store camera info
 void OsgHandler::StoreCameraInfo()
 {
 	_savedcaminfo = _caminfo;
-	SetCameraTarget(0, 0, 0);
+	SetCameraTarget(0, 0, 0, true);
 	_fixcamera = true;
+	_rootNode3d->setScale(osg::Vec3d(1, 1, 1));
 }
 
 /***********************************************************
@@ -2302,4 +2456,5 @@ void OsgHandler::ResetCameraInfo()
 	_caminfo = _savedcaminfo;
 	ResetCameraProjectiomMatrix();
 	SetCameraTarget(_caminfo.targetx, _caminfo.targety, _caminfo.targetz);
+	_rootNode3d->setScale(osg::Vec3d(1, 0.5, 1));
 }

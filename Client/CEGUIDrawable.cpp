@@ -186,7 +186,7 @@ CEGUIDrawable::CEGUIDrawable()
 	_loadedfont(NULL), _fontloaded(false), _imageloaded(false),
 	_currentstate(XtGLw_Off), _textfinishdisplaytime(-1), 
 	_currentfadestate(XtGLw_FDOff), _bgR(0), _bgG(0), _bgB(0), _bgA(1),
-	_fontsize(10), _holomapon(false)
+	_fontsize(10), _holomapon(false), _currfontsize(-1)
 {
 	setSupportsDisplayList(false);
 	_keepcallbakc = new CEGUIEventCallback(boost::shared_ptr<GuiHandler>());
@@ -386,8 +386,12 @@ void CEGUIDrawable::write_line(const std::vector<unsigned int> &text, bool black
 /***********************************************************
 CreateLBAFont
 ***********************************************************/
-void CEGUIDrawable::CreateLBAFont(int size)
+void CEGUIDrawable::CreateLBAFont(int size, bool forced)
 {
+	if((_currfontsize == size) && !forced)
+		return;
+
+	_currfontsize = size;
 	DeleteFont();
 
 	if(_loadedfont)
@@ -489,7 +493,7 @@ void CEGUIDrawable::Process(double tnow, float tdiff)
 		if(_textpageidx < _precalculated_text.size())
 			prepare_text(_precalculated_text[_textpageidx], (int)(_scrollingtimediff/60));
 	}
-	else
+	else if(_currentstate == XtGLw_Image)
 	{
 		// do fading/timeout
 		switch(_currentfadestate)
@@ -574,10 +578,12 @@ void CEGUIDrawable::CleanAndReport()
 /***********************************************************
 PressedSpace
 ***********************************************************/
-void CEGUIDrawable::PressedSpace()
+bool CEGUIDrawable::PressedSpace(bool clean)
 {
+	bool res = true;
 	if(_currentstate == XtGLw_Text)
 	{
+		res = false;
 		if(_scrolling)
 		{
 			_scrolling = false;
@@ -588,7 +594,9 @@ void CEGUIDrawable::PressedSpace()
 			++_textpageidx;
 			if(_textpageidx >= _precalculated_text.size())
 			{
-				CleanAndReport();
+				if(clean)
+					CleanAndReport();
+				res = true;
 			}
 			else
 			{
@@ -597,17 +605,27 @@ void CEGUIDrawable::PressedSpace()
 			}
 		}
 	}
+
+	return res;
 }
 
 /***********************************************************
 StartScrollingText
 ***********************************************************/
 void CEGUIDrawable::StartScrollingText(const std::string & imagepath, 
-									   std::vector<std::vector<unsigned int> > &textIds) 
+									   std::vector<std::vector<unsigned int> > &textIds,
+								bool drawborder, DrawRectangle rect,
+								float bgcolorR, float bgcolorG, float bgcolorB, float bgcolorA) 
 {
 	//clean up old stuff
 	CleanUp();
+	_bgR = bgcolorR;
+	_bgG = bgcolorG;
+	_bgB = bgcolorB;
+	_bgA = bgcolorA;
 
+	_drawborder = drawborder; 
+	_drawrect = rect;
 
 
 	_drawXtraGL = true;
@@ -619,8 +637,19 @@ void CEGUIDrawable::StartScrollingText(const std::string & imagepath,
 	_texts.clear();
 	_texts.swap(textIds);
 
-	CreateLBAFont(_fontsize);
-	precalculate_text(_windowW-2*_loadedfont->average_advance, _windowH);
+
+	float topX = _WwindowW*_drawrect.topX;
+	float botX = _WwindowW*_drawrect.bottomX;
+	float topY = _WwindowH*_drawrect.topY;
+	float botY = _WwindowH*_drawrect.bottomY;
+	float sizeX = botX-topX;
+	float sizeY = botY-topY;
+
+
+	int fsize = (sizeX<_WwindowW)?(_fontsize-2):_fontsize;
+	CreateLBAFont(fsize, false);
+
+	precalculate_text(sizeX-2*_loadedfont->average_advance, sizeY);
 }
 
 
@@ -679,12 +708,17 @@ paintXtraGL
 ***********************************************************/
  void CEGUIDrawable::paintXtraGL() const
  {
+	float topX = _WwindowW*_drawrect.topX;
+	float botX = _WwindowW*_drawrect.bottomX;
+	float topY = _WwindowH*_drawrect.topY;
+	float botY = _WwindowH*_drawrect.bottomY;
+
 	glColor4f(_bgR, _bgG, _bgB, _bgA);
 	glBegin(GL_QUADS);
-		glVertex2f(0, _windowH);
-		glVertex2f(_windowW, _windowH);
-		glVertex2f(_windowW, 0);
-		glVertex2f(0, 0);
+		glVertex2f(topX, botY);
+		glVertex2f(botX, botY);
+		glVertex2f(botX, topY);
+		glVertex2f(topX, topY);
 	glEnd();
 
 
@@ -696,15 +730,35 @@ paintXtraGL
 		{
 			DrawBGImage(1);
 
+			if(_drawborder)
+			{
+				glLineWidth(1.5f);
+				glColor3d(0.8,0.8,0.8);
+				glBegin(GL_LINE_LOOP);
+					glVertex2f(topX, botY);
+					glVertex2f(botX, botY);
+					glVertex2f(botX, topY);
+					glVertex2f(topX, topY);
+				glEnd();
+			}
+
 			if(!_scrolling && (_textpageidx < _precalculated_text.size()-1))
 			{
 				glColor3d(0.8,0.8,0.8);
 
 				glDisable(GL_TEXTURE_2D);
+				glColor3d(0,0,0);
 				glBegin(GL_TRIANGLES);
-					glVertex2f(	_windowW-_loadedfont->average_advance-30,_windowH-_loadedfont->average_advance);
-					glVertex2f(	_windowW-_loadedfont->average_advance,_windowH-_loadedfont->average_advance);
-					glVertex2f(	_windowW-_loadedfont->average_advance,_windowH-_loadedfont->average_advance-30);
+					glVertex2f(botX-30-4+2,botY-4+2);
+					glVertex2f(botX-4+2,botY-4+2);
+					glVertex2f(botX-4+2,botY-30-4+2);
+				glEnd();
+
+				glColor3d(0.8,0.8,0.8);
+				glBegin(GL_TRIANGLES);
+					glVertex2f(	botX-4-30,botY-4);
+					glVertex2f(	botX-4,botY-4);
+					glVertex2f(	botX-4,botY-30-4);
 				glEnd();
 			}
 
@@ -714,7 +768,7 @@ paintXtraGL
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 
 			if(_textpageidx < _precalculated_text.size())
-				write_text(_loadedfont->average_advance, _loadedfont->origin+20);
+				write_text(topX+_loadedfont->average_advance, topY+_loadedfont->origin+20);
 		}
 		break;
 
@@ -742,11 +796,11 @@ void CEGUIDrawable::DrawBGImage(float alpha) const
 		glColor4d(1.0,1.0,1.0,alpha);
 		glBegin(GL_QUADS);
 			glTexCoord2d(0, 0);
-			glVertex2f(0, _windowH);
+			glVertex2f(0, _WwindowH);
 			glTexCoord2d(1, 0);
-			glVertex2f(_windowW, _windowH);
+			glVertex2f(_WwindowW, _WwindowH);
 			glTexCoord2d(1, 1);
-			glVertex2f(_windowW, 0);
+			glVertex2f(_WwindowW, 0);
 			glTexCoord2d(0, 1);
 			glVertex2f(0, 0);
 		glEnd();
@@ -759,15 +813,25 @@ resizedGL
 ***********************************************************/
  void CEGUIDrawable::resizedGL(int w, int h)
  {
-	_windowW = w;
-	_windowH = h;
+	_WwindowW = w;
+	_WwindowH = h;
 	_fontsize = min(h/25, 40);
 
 
 	if(_currentstate == XtGLw_Text)
 	{
-		CreateLBAFont(_fontsize);
-		precalculate_text(_windowW-2*_loadedfont->average_advance, _windowH);
+		float topX = _WwindowW*_drawrect.topX;
+		float botX = _WwindowW*_drawrect.bottomX;
+		float topY = _WwindowH*_drawrect.topY;
+		float botY = _WwindowH*_drawrect.bottomY;
+		float sizeX = botX-topX;
+		float sizeY = botY-topY;
+
+		int fsize = (sizeX<_WwindowW)?(_fontsize-2):_fontsize;
+		CreateLBAFont(fsize, true);
+
+
+		precalculate_text(sizeX-2*_loadedfont->average_advance, sizeY);
 	}
  }
 
@@ -933,4 +997,9 @@ start holomap
 void CEGUIDrawable::StartStopHolomap(bool start)
 {
 	_holomapon = start;
+	if(!_holomapon)
+	{
+		_drawXtraGL = false;
+		_currentstate = XtGLw_Off;
+	}
 }

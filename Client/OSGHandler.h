@@ -272,6 +272,11 @@ public:
 															const LbaNet::ObjectExtraInfo &extrainfo,
 															const LbaNet::LifeManaInfo &lifeinfo);
 
+
+	// create sprite object
+	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateBackgroundImageObject(const std::string & filenamefile, 
+															float colorR, float colorG, float colorB, float colorA);
+
 	//! create grid object
 	osg::ref_ptr<osg::MatrixTransform> CreateGridObject(int sceneidx, long sizeX, long sizeY,
 															boost::shared_ptr<DisplayTransformation> Tr);
@@ -295,6 +300,12 @@ public:
 	osg::ref_ptr<osg::MatrixTransform> CreateSimpleObject(int sceneidx, const std::string & filename,
 															boost::shared_ptr<DisplayTransformation> Tr,
 															bool UseLight, bool CastShadow);
+
+
+	// create sprite object
+	osg::ref_ptr<osg::MatrixTransform> CreateBackgroundImage(const std::string & imagefile, 
+												float colorR, float colorG, float colorB, float colorA);
+
 
 
 	//! render object to file
@@ -394,6 +405,7 @@ private:
 	osg::ref_ptr<osg::PositionAttitudeTransform>	_rootNode3d;
 	osg::ref_ptr<osg::Group>						_root;
 	osg::ref_ptr<osg::Group>						_rootNodeGui;
+	osg::ref_ptr<osg::Group>						_rootNodeBackground;
 	osg::ref_ptr<osg::PositionAttitudeTransform>	_translNode;
 
 	osg::ref_ptr<osg::LightSource>									_lightNodes[_NB_OSG_SCENES_];
@@ -406,6 +418,7 @@ private:
 
 	osg::ref_ptr<osg::ClipNode>						_clipNode;
 	osg::ref_ptr<osg::Camera>						_HUDcam;
+	osg::ref_ptr<osg::Camera>						_HUDcamBackground;
 
 	osg::ref_ptr<CEGUIDrawable>						_guidraw;
 

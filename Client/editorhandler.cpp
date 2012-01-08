@@ -1007,7 +1007,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	actlist << "Static" << "Scripted" << "Door" << "Npc" <<"Movable";
 	_actortypeList->setStringList(actlist);
 	QStringList acttypelist;
-	acttypelist << "No" << "Osg Model" << "Sprite" << "Lba1 Model" << "Lba2 Model" << "Sphere" << "Capsule" << "Box";
+	acttypelist << "No" << "Osg Model" << "Sprite" << "Lba1 Model" << "Lba2 Model" << "Sphere" << "Capsule" << "Box" << "BGImage";
 	_actordtypeList->setStringList(acttypelist);
 	QStringList actptypelist;
 	actptypelist << "No Shape" << "Box" << "Capsule" << "Sphere" << "Triangle Mesh";
@@ -15692,6 +15692,10 @@ void EditorHandler::SelectDisplayInfo(const LbaNet::ModelInfo &mdisinfo, const Q
 		case RenderSphere:
 			dtype = "Sphere";
 		break;
+
+		case RenderBGImage:
+			dtype = "BGImage";
+		break;
 	}
 	{
 		QVector<QVariant> data;
@@ -15819,6 +15823,41 @@ void EditorHandler::SelectDisplayInfo(const LbaNet::ModelInfo &mdisinfo, const Q
 			{
 				QVector<QVariant> data1;
 				data1<<"Use Billboard"<<mdisinfo.UseBillboard;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+		}
+
+		if(mdisinfo.TypeRenderer == RenderBGImage )
+		{
+			QVector<QVariant> data;
+			data<<"Image file"<<mdisinfo.ModelName.c_str();
+			_objectmodel->AppendRow(data, parent);
+
+			_objectmodel->SetCustomFileDialog(_objectmodel->GetIndex(1, index, parent), "Select an image", "Sprites", "Image Files (*.png *.bmp *.jpg *.gif)");
+			++index;
+
+			{
+				QVector<QVariant> data1;
+				data1<<"Color R"<<(double)mdisinfo.ColorR;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data1;
+				data1<<"Color G"<<(double)mdisinfo.ColorG;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data1;
+				data1<<"Color B"<<(double)mdisinfo.ColorB;
+				_objectmodel->AppendRow(data1, parent);
+				++index;
+			}
+			{
+				QVector<QVariant> data1;
+				data1<<"Color A"<<(double)mdisinfo.ColorA;
 				_objectmodel->AppendRow(data1, parent);
 				++index;
 			}
@@ -16140,6 +16179,24 @@ void EditorHandler::SelectHolomap(long id, const QModelIndex &parent)
 
 	{
 		QVector<QVariant> data;
+		data<<"3D coordinate scale X"<<(double)ho->Get3DCoordinateScaleX();
+		_objectmodel->AppendRow(data, parent);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"3D coordinate scale Y"<<(double)ho->Get3DCoordinateScaleY();
+		_objectmodel->AppendRow(data, parent);
+	}
+
+	{
+		QVector<QVariant> data;
+		data<<"3D coordinate scale Z"<<(double)ho->Get3DCoordinateScaleZ();
+		_objectmodel->AppendRow(data, parent);
+	}
+
+	{
+		QVector<QVariant> data;
 		data<<"Map model"<<"";
 		QModelIndex p = _objectmodel->AppendRow(data, parent, true);
 		SelectDisplayInfo(ho->GetMapModel(), p);
@@ -16352,6 +16409,9 @@ void EditorHandler::DisplayInfoChanged(const QModelIndex &parentIdx, LbaNet::Mod
 		newdisinfo.TypeRenderer = LbaNet::RenderCapsule;
 	if(dtype == "Cross") 
 		newdisinfo.TypeRenderer = LbaNet::RenderCross;
+	if(dtype == "BGImage") 
+		newdisinfo.TypeRenderer = LbaNet::RenderBGImage;
+
 	if(dtype == "No") 
 		newdisinfo.TypeRenderer = LbaNet::NoRender;
 
@@ -16484,6 +16544,24 @@ void EditorHandler::DisplayInfoChanged(const QModelIndex &parentIdx, LbaNet::Mod
 					RefreshSimpleActorModelMode(newdisinfo);
 					refresh = true;
 				}	
+			}
+
+			if(olddisinfo.TypeRenderer == RenderBGImage )
+			{
+				newdisinfo.ModelName = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+				++index;	
+
+				newdisinfo.ColorR = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;	
+
+				newdisinfo.ColorG = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;		
+
+				newdisinfo.ColorB = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;		
+
+				newdisinfo.ColorA = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;	
 			}
 
 
@@ -16619,6 +16697,24 @@ void EditorHandler::HolomapChanged(long id, const QModelIndex &parentIdx)
 	}
 
 	{
+		float v = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();
+		holo->Set3DCoordinateScaleX(v);
+		++index;
+	}
+
+	{
+		float v = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();
+		holo->Set3DCoordinateScaleY(v);
+		++index;
+	}
+
+	{
+		float v = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();
+		holo->Set3DCoordinateScaleZ(v);
+		++index;
+	}
+
+	{
 		QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
 		DisplayInfoHandler newmodel;
 		newmodel.Dinfo = holo->GetMapModel();
@@ -16664,14 +16760,10 @@ void EditorHandler::HolomapChanged(long id, const QModelIndex &parentIdx)
 		++index;
 	}
 
-	LbaNet::HoloIdSeq secloc;
-	for(int i=1; i<=6; ++i)
-		secloc.push_back(i);
-
 	// display holomap on screen
 	EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::DisplayHolomapEvent(
 						SynchronizedTimeHandler::GetCurrentTimeDouble(),     
-						1/*0*/, id, secloc/*LbaNet::HoloIdSeq()*/));
+						0, id, LbaNet::HoloIdSeq()));
 }
 
 /***********************************************************

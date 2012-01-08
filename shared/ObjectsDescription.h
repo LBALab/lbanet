@@ -391,6 +391,42 @@ private:
 
 
 
+
+/***********************************************************************
+This is the base class describing an Oriented Capsule
+See definition in OsgObjectHandler.cpp
+ ***********************************************************************/
+class ImageBGDescription : public DisplayObjectDescriptionBase
+{
+public:
+	//! constructor
+	ImageBGDescription(const std::string & imagefile,
+							float colorR, float colorG, float colorB, float colorA)
+		: DisplayObjectDescriptionBase(-1), _imagefile(imagefile), 
+				_colorR(colorR), _colorG(colorG), _colorB(colorB), _colorA(colorA)
+	{}
+
+	//! destructor
+	virtual ~ImageBGDescription(){}
+
+#ifndef _LBANET_SERVER_SIDE_
+	//! build description into dynamic object
+	virtual boost::shared_ptr<DisplayObjectHandlerBase> BuildSelf(boost::shared_ptr<DisplayTransformation> Tr, 
+																				DisplayHandlerBase * disH) const;
+#endif
+
+private:
+	std::string					_imagefile;
+	float						_colorR;
+	float						_colorG;
+	float						_colorB;
+	float						_colorA;
+};
+
+
+
+
+
 /***********************************************************************
 This class regroup the object display description and transformation
  ***********************************************************************/

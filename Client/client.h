@@ -44,6 +44,8 @@ typedef boost::shared_ptr<HolomapTravelPath>	HolomapTravelPathPtr;
 class StaticObject;
 class DynamicObject;
 class HoloCoordinate;
+struct DrawRectangle;
+
 
 enum ClientViewType { CLV_Game = 0, CLV_Video, CLV_ExtraGL, CLV_Holomap };
 
@@ -90,7 +92,9 @@ public:
 	void DisplayHolomap(int Mode, long HolomapLocationOrPathId,
 						const std::vector<long> &questholoids, const LbaVec3 &playerpos);
 
-
+	//! Draw text
+	void DrawRectangleText(long textid, bool drawborder, DrawRectangle rect,
+							float bgcolorR=0, float bgcolorG=0, float bgcolorB=0, float bgcolorA=1);
 
 public slots:
 	//! called when a video is finished playing
@@ -144,6 +148,9 @@ protected:
 
 	//! generate a location using player 3D position
 	HolomapLocationPtr Generated3DLoc(HolomapPtr holomap, long parentlocid);
+
+	//! draw holo location text
+	void DrawHoloText(HolomapLocationPtr hololoc);
 
 private:
 	Ui::ClientClass			ui;

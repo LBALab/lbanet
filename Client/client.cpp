@@ -88,6 +88,10 @@ void Client::Process(double tnow, float tdiff)
 		case CLV_Holomap:
 		{
 			UpdateHolomap(tnow, tdiff);
+
+			osg::ref_ptr<CEGUIDrawable> guidraw = OsgHandler::getInstance()->GetGUIDrawable();
+			if(guidraw)
+				guidraw->Process(tnow, tdiff);
 			return;
 		}
 	}
@@ -209,7 +213,13 @@ void Client::keyPressEvent (QKeyEvent * event)
 
 			case CLV_Holomap:
 			{
-				HideHolomap();
+				bool finish = true;
+				osg::ref_ptr<CEGUIDrawable> guidraw = OsgHandler::getInstance()->GetGUIDrawable();
+				if(guidraw)
+					finish = guidraw->PressedSpace(false);
+
+				if(finish)
+					HideHolomap();
 				return;
 			}
 		}
@@ -351,6 +361,26 @@ void Client::SwitchToText(const std::string & imagepath, const std::vector<long>
 }
 
 
+/***********************************************************
+Draw text
+***********************************************************/
+void Client::DrawRectangleText(long textid, bool drawborder, DrawRectangle rect,
+								float bgcolorR, float bgcolorG, float bgcolorB, float bgcolorA)
+{
+	std::vector<std::vector<unsigned int> > _texts;
+	std::string tmp = Localizer::getInstance()->GetText(Localizer::Map, textid);
+	if(tmp != "")
+		_texts.push_back(QString::fromUtf8(tmp.c_str()).toUcs4().toStdVector());
+
+	//if(_texts.size() > 0)
+	{
+		osg::ref_ptr<CEGUIDrawable> guidraw = OsgHandler::getInstance()->GetGUIDrawable();
+		if(guidraw)
+			guidraw->StartScrollingText("", _texts, drawborder, rect,
+											bgcolorR, bgcolorG, bgcolorB, bgcolorA);
+	}
+}
+
 
 /***********************************************************
 init display
@@ -391,6 +421,16 @@ void Client::HideHolomap()
 		if(guidraw)
 			guidraw->StartStopHolomap(false);
 
+		//clean old stuff
+		{
+			_currHolomapPtr = HolomapPtr();
+			_currHoloLocationPtr = HolomapLocationPtr();
+			_currHoloPathPtr = HolomapTravelPathPtr();
+			_drawnlocs.clear();
+			_currPlayer3DLocPtr = HolomapLocationPtr();
+			_holodispobjects.clear();
+		}
+
 		// switch back to game scene
 		OsgHandler::getInstance()->SwitchScene(0);
 		OsgHandler::getInstance()->ResetCameraInfo();
@@ -410,6 +450,7 @@ void Client::DisplayHolomap(int Mode, long HolomapLocationOrPathId,
 	if(guidraw)
 	{
 		_currentview = CLV_Holomap;
+		guidraw->StartStopHolomap(false);
 		guidraw->StartStopHolomap(true);
 
 		// prepare display scene
@@ -423,6 +464,16 @@ void Client::DisplayHolomap(int Mode, long HolomapLocationOrPathId,
 		_currHolomapLocationOrPathId = HolomapLocationOrPathId;
 		_currHolomapquestholoids = questholoids; 
 		_currHolomapplayerpos = playerpos;
+
+		//clean old stuff
+		{
+			_currHolomapPtr = HolomapPtr();
+			_currHoloLocationPtr = HolomapLocationPtr();
+			_currHoloPathPtr = HolomapTravelPathPtr();
+			_drawnlocs.clear();
+			_currPlayer3DLocPtr = HolomapLocationPtr();
+			_holodispobjects.clear();
+		}
 
 
 		switch(_currHolomapMode)
@@ -445,6 +496,8 @@ void Client::DisplayHolomap(int Mode, long HolomapLocationOrPathId,
 				{	
 					_currHolomapPtr = 
 						HolomapHandler::getInstance()->GetHolomap(_currHoloLocationPtr->GetParentHoloId());
+					
+					DrawHoloText(_currHoloLocationPtr);
 				}
 
 				if(_currHolomapPtr)
@@ -479,6 +532,23 @@ void Client::DisplayHolomap(int Mode, long HolomapLocationOrPathId,
 	}
 
 	_camerafollowloc = true;
+}
+
+
+/***********************************************************
+draw holo location text
+***********************************************************/
+void Client::DrawHoloText(HolomapLocationPtr hololoc)
+{
+	if(!hololoc)
+		return;
+
+	DrawRectangle rect;
+	rect.topX = 0.15;
+	rect.topY = 0.65;
+	rect.bottomX = 0.85;
+	rect.bottomY = 0.95;
+	DrawRectangleText(hololoc->GetTextId(), true, rect, 0.1f, 0.1f, 0.1f, 0.3f);
 }
 
 
@@ -885,6 +955,8 @@ void Client::UpdateSelectedLocation(bool up)
 	{
 		_currHoloLocationPtr = *it;
 		_camerafollowloc = true;
+		
+		DrawHoloText(_currHoloLocationPtr);
 	}
 }
 
@@ -906,6 +978,8 @@ void Client::ChangeHolomapUpDown(bool up)
 			{
 				_currHoloLocationPtr = newloc;
 				_camerafollowloc = true;
+				DrawHoloText(_currHoloLocationPtr);	
+		
 
 				_currHolomapPtr = 
 					HolomapHandler::getInstance()->GetHolomap(_currHoloLocationPtr->GetParentHoloId());
@@ -937,12 +1011,14 @@ void Client::ChangeHolomapUpDown(bool up)
 			{
 				_currHoloLocationPtr = loctmp;
 				_camerafollowloc = true;
+				DrawHoloText(_currHoloLocationPtr);	
 			}
 			else if(_currPlayer3DLocPtr) 
 			{
 				// else check player 3D coordinate
 				_currHoloLocationPtr = _currPlayer3DLocPtr;
 				_camerafollowloc = true;
+				DrawHoloText(_currHoloLocationPtr);	
 			}
 			else
 			{
@@ -954,6 +1030,7 @@ void Client::ChangeHolomapUpDown(bool up)
 					{
 						_currHoloLocationPtr = loctmp;
 						_camerafollowloc = true;
+						DrawHoloText(_currHoloLocationPtr);	
 						break;
 					}
 				}
@@ -976,6 +1053,7 @@ void Client::ChangeHolomapUpDown(bool up)
 				{
 					_currHoloLocationPtr = tmploc;
 					_camerafollowloc = true;
+					DrawHoloText(_currHoloLocationPtr);	
 				}
 				else
 					break;
@@ -1010,9 +1088,9 @@ HolomapLocationPtr Client::Generated3DLoc(HolomapPtr holomap, long parentlocid)
 		//TODO
 		HoloCoordinate coord;
 		coord.polarcoords = false;
-		coord.posX = _currHolomapplayerpos.x;
-		coord.posY = _currHolomapplayerpos.y;
-		coord.posZ = _currHolomapplayerpos.z;
+		coord.posX = _currHolomapplayerpos.x*holomap->Get3DCoordinateScaleX();
+		coord.posY = _currHolomapplayerpos.y*holomap->Get3DCoordinateScaleY();
+		coord.posZ = _currHolomapplayerpos.z*holomap->Get3DCoordinateScaleZ();
 		coord.dir_cen_X = -90;
 		res->SetCoordinate(coord);
 	}

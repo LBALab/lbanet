@@ -175,8 +175,13 @@ ClientLuaHandler::ClientLuaHandler()
 		.def("GetUsePCoordinates", &Holomap::GetUsePCoordinates)			
 		.def("SetUsePCoordinates", &Holomap::SetUsePCoordinates)
 		.def("Set3DMap", &Holomap::Set3DMap)			
-		.def("Get3DMap", &Holomap::Get3DMap),
-
+		.def("Get3DMap", &Holomap::Get3DMap)
+		.def("Set3DCoordinateScaleX", &Holomap::Set3DCoordinateScaleX)			
+		.def("Get3DCoordinateScaleX", &Holomap::Get3DCoordinateScaleX)	
+		.def("Set3DCoordinateScaleY", &Holomap::Set3DCoordinateScaleY)			
+		.def("Get3DCoordinateScaleY", &Holomap::Get3DCoordinateScaleY)	
+		.def("Set3DCoordinateScaleZ", &Holomap::Set3DCoordinateScaleZ)			
+		.def("Get3DCoordinateScaleZ", &Holomap::Get3DCoordinateScaleZ),
 
 
 		luabind::class_<ScriptEnvironmentBase>("ScriptEnvironmentBase")

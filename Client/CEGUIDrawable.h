@@ -45,6 +45,20 @@ struct linetodraw
 	std::vector<unsigned int>	text;
 };
 
+// define draw rectangle in % of screen size
+struct DrawRectangle
+{
+	//default constructor
+	DrawRectangle()
+		: topX(0), topY(0), bottomX(1), bottomY(1)
+	{}
+
+	float topX;
+	float topY;
+	float bottomX;
+	float bottomY;
+};
+
 
 //*************************************************************************************************
 //*                               class CEGUIDrawable
@@ -75,12 +89,15 @@ public:
 
 	void paintXtraGL() const;
 
-	void PressedSpace();
+	bool PressedSpace(bool clean = true);
 
 	void Process(double tnow, float tdiff);
 
 
-	void StartScrollingText(const std::string & imagepath, std::vector<std::vector<unsigned int> > &textIds);
+	void StartScrollingText(const std::string & imagepath, 
+								std::vector<std::vector<unsigned int> > &textIds,
+								bool drawborder = false, DrawRectangle rect = DrawRectangle(),
+								float bgcolorR=0, float bgcolorG=0, float bgcolorB=0, float bgcolorA=1);
 
 
 	void StartFixedImage(const std::string & imagepath, long NbSecondDisplay, 
@@ -107,7 +124,7 @@ protected:
 								double x, double y, double space_size, int nbchar) const;
 
 
-	void CreateLBAFont(int size);
+	void CreateLBAFont(int size, bool forced);
 
 	void DeleteFont();
 
@@ -159,8 +176,8 @@ private:
 	bool			_imageloaded;
 	GLuint			_imgtextureid;
 
-	int				_windowW;
-	int				_windowH;
+	int				_WwindowW;
+	int				_WwindowH;
 
 	XtGLw_state			_currentstate;
 	XtGLw_fadingstate	_currentfadestate;
@@ -182,12 +199,18 @@ private:
 	float			_currentalpha;
 	int				_fontsize;
 
+	bool			_drawborder;
+	DrawRectangle	_drawrect;
+
+
 	std::vector<linetodraw>	_textstodraw;
 
 	std::vector<std::vector<linetodraw> >	_precalculated_text;
 	int										_textpageidx;
 
 	CEGUIEventCallback	* _keepcallbakc;
+
+	int				_currfontsize;
 };
 
 

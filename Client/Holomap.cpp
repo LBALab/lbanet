@@ -163,6 +163,9 @@ void DisplayInfoHandler::SetRenderType(int rtype)
 		case 8:
 			Dinfo.TypeRenderer = LbaNet::RenderSphere;
 		break;
+		case 9:
+			Dinfo.TypeRenderer = LbaNet::RenderBGImage;
+		break;
 	}
 }
 
@@ -196,6 +199,9 @@ int DisplayInfoHandler::GetRenderType()
 		break;
 		case LbaNet::RenderSphere:
 			return 8;
+		break;
+		case LbaNet::RenderBGImage:
+			return 9;
 		break;
 	}
 
@@ -288,6 +294,11 @@ void Holomap::SaveToLuaFile(std::ostream & file)
 	file<<"\t"<<names.str()<<":SetUsePCoordinates("<<(_usePlayerCoordinates?"true":"false")<<")"<<std::endl;
 	file<<"\t"<<names.str()<<":Set3DMap("<<(_3dmap?"true":"false")<<")"<<std::endl;
 		
+	file<<"\t"<<names.str()<<":Set3DCoordinateScaleX("<<_3DCoordinateScaleX<<")"<<std::endl;
+	file<<"\t"<<names.str()<<":Set3DCoordinateScaleY("<<_3DCoordinateScaleY<<")"<<std::endl;
+	file<<"\t"<<names.str()<<":Set3DCoordinateScaleZ("<<_3DCoordinateScaleZ<<")"<<std::endl;
+
+
 
 	//save models
 	{

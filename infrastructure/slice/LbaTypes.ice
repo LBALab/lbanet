@@ -15,7 +15,7 @@ module LbaNet
 				
 				
 	
-	enum RenderTypeEnum { RenderOsgModel, RenderSprite, RenderLba1M, RenderLba2M, RenderCross, RenderBox, RenderCapsule, RenderSphere, NoRender };	
+	enum RenderTypeEnum { RenderOsgModel, RenderSprite, RenderLba1M, RenderLba2M, RenderCross, RenderBox, RenderCapsule, RenderSphere, RenderBGImage, NoRender };	
 	
 	enum PhysicalShapeEnum { NoShape, BoxShape, CapsuleShape, SphereShape, TriangleMeshShape };	
 	
