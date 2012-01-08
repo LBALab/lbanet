@@ -506,7 +506,7 @@
                     <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
                 </Area>
                 <Image imageset="TaharezLook" image="NewTitlebarLeft" />
-                <VertFormat type="Stretched" />
+                    <!-- <VertFormat type="Stretched" />  -->
             </ImageryComponent>
             <ImageryComponent>
                 <Area>
@@ -526,7 +526,7 @@
                     <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
                 </Area>
                 <Image imageset="TaharezLook" image="NewTitlebarRight" />
-                <VertFormat type="Stretched" />
+                <!-- <VertFormat type="Stretched" />  -->
                 <HorzFormat type="RightAligned" />
             </ImageryComponent>
             <ImageryComponent>
@@ -543,7 +543,7 @@
                     <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
                 </Area>
                 <Image imageset="TaharezLook" image="SysAreaMiddle" />
-                <VertFormat type="Stretched" />
+                 <!-- <VertFormat type="Stretched" />  -->
                 <HorzFormat type="RightAligned" />
             </ImageryComponent>
             <ImageryComponent>
@@ -554,7 +554,7 @@
                     <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
                 </Area>
                 <Image imageset="TaharezLook" image="SysAreaRight" />
-                <VertFormat type="Stretched" />
+                 <!-- <VertFormat type="Stretched" />  -->
                 <HorzFormat type="RightAligned" />
             </ImageryComponent>
             <ImageryComponent>
@@ -579,7 +579,7 @@
                     <Dim type="Height" ><UnifiedDim scale="1.0" type="Height" /></Dim>
                 </Area>
                 <Image imageset="TaharezLook" image="NewTitlebarMiddle" />
-                <VertFormat type="Stretched" />
+                <!-- <VertFormat type="Stretched" />  -->
                 <HorzFormat type="Stretched" />
             </ImageryComponent>
         </ImagerySection>

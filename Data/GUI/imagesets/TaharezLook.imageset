@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Imageset Name="TaharezLook" Imagefile="TaharezLook.png" NativeHorzRes="800" NativeVertRes="600" >
+<Imageset Name="TaharezLook" Imagefile="TaharezLook.png" NativeHorzRes="256" NativeVertRes="256" >
     <Image Name="MenuTop" XPos="171" YPos="204" Width="1" Height="2" />
     <Image Name="MenuLeft" XPos="166" YPos="209" Width="2" Height="1" />
     <Image Name="MenuRight" XPos="175" YPos="209" Width="3" Height="1" />
@@ -247,9 +247,9 @@
     <Image Name="EditBoxCarat" XPos="60" YPos="112" Width="1" Height="20" />   
     <Image Name="TabHorizontalFiller" XPos="150" YPos="183" Width="7" Height="1" />
     
-    <Image Name="NewTitlebarLeft" XPos="61" YPos="126" Width="13" Height="15" />
-    <Image Name="NewTitlebarMiddle" XPos="77" YPos="126" Width="12" Height="15" />
-    <Image Name="NewTitlebarRight" XPos="92" YPos="126" Width="12" Height="15" />
-    <Image Name="SysAreaMiddle" XPos="107" YPos="126" Width="12" Height="15" />
-    <Image Name="SysAreaRight" XPos="122" YPos="126" Width="13" Height="15" />    
+    <Image Name="NewTitlebarLeft" XPos="61" YPos="192" Width="13" Height="30" />
+    <Image Name="NewTitlebarMiddle" XPos="77" YPos="192" Width="12" Height="30" />
+    <Image Name="NewTitlebarRight" XPos="92" YPos="192" Width="12" Height="30" />
+    <Image Name="SysAreaMiddle" XPos="107" YPos="192" Width="12" Height="30" />
+    <Image Name="SysAreaRight" XPos="122" YPos="192" Width="13" Height="30" />    
 </Imageset>
