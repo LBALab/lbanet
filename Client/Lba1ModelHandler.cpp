@@ -32,6 +32,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DynamicObject.h"
 #include "SoundObjectHandlerBase.h"
 #include "MusicHandler.h"
+#include "StringHelperFuncs.h"
+#include "Randomizer.h"
 
 #include <osg/Node>
 #include <osg/Group>
@@ -677,6 +679,16 @@ void Lba1ModelHandler::PlayKeyFrameSound(int keyframe)
 
 		if(sp != "")
 		{
+			if(sp[0] == '*')
+			{
+				std::vector<std::string> tokens;
+
+				// random sounds
+				sp = sp.substr(1);
+				StringHelper::Tokenize(sp, tokens, "@");
+				sp = tokens[Randomizer::getInstance()->RandInt(tokens.size())];
+			}
+
 			sp="Data/"+sp;
 			PlaySound(sp,( _togglesoundC?2:3), false);
 			_togglesoundC = !_togglesoundC;
