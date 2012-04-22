@@ -8,18 +8,21 @@ IceGrid.InstanceName=LbaNetIceGrid
 #
 Ice.Default.Locator=LbaNetIceGrid/Locator:default -p 4061
 
+
 #
 # IceGrid registry configuration.
 #
 IceGrid.Registry.Client.Endpoints=default -p 4061
 IceGrid.Registry.Server.Endpoints=default
+
+
 IceGrid.Registry.Internal.Endpoints=default
 IceGrid.Registry.Data=db/registry
 IceGrid.Registry.PermissionsVerifier=LbaNetIceGrid/NullPermissionsVerifier
 IceGrid.Registry.AdminPermissionsVerifier=LbaNetIceGrid/NullPermissionsVerifier
 IceGrid.Registry.SSLPermissionsVerifier=LbaNetIceGrid/NullSSLPermissionsVerifier
 IceGrid.Registry.AdminSSLPermissionsVerifier=LbaNetIceGrid/NullSSLPermissionsVerifier
-
+IceGrid.Registry.Data=db/registry
 #
 # IceGrid node configuration.
 #
@@ -35,9 +38,18 @@ Ice.StdOut=Log/Icegrid_out.txt
 #
 # Trace properties.
 #
+IceGrid.Registry.Trace.Adapter=1
+IceGrid.Registry.Trace.Application=1
+IceGrid.Registry.Trace.Locator=1
+IceGrid.Registry.Trace.Node=1
+IceGrid.Registry.Trace.Server=1
+
 IceGrid.Node.Trace.Activator=1
-#IceGrid.Node.Trace.Adapter=2
-#IceGrid.Node.Trace.Server=3
+IceGrid.Node.Trace.Adapter=1
+IceGrid.Node.Trace.Server=1
+
+#Ice.Trace.Network=1
+
 
 #
 # Dummy username and password for icegridadmin.
