@@ -81,7 +81,6 @@ void GuiHandler::Initialize(int screen_size_X, int screen_size_Y)
 
 
 		CEGUI::System::create( *_gui_renderer, 0, 0, 0, 0, "", LogHandler::getInstance()->GetGUIFilename().c_str() );
-		//new CEGUI::System (_gui_renderer);
 
 		// initialise the required dirs for the DefaultResourceProvider
 		CEGUI::DefaultResourceProvider* rp = static_cast<CEGUI::DefaultResourceProvider*>

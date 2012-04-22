@@ -478,7 +478,8 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("ActorStartSound", &ScriptEnvironmentBase::ActorStartSound)
 		.def("ActorStopSound", &ScriptEnvironmentBase::ActorStopSound)
 		.def("ActorPauseSound", &ScriptEnvironmentBase::ActorPauseSound)
-		.def("ActorResumeSound", &ScriptEnvironmentBase::ActorResumeSound),
+		.def("ActorResumeSound", &ScriptEnvironmentBase::ActorResumeSound)
+		.def("DisplayHolomap", &ScriptEnvironmentBase::DisplayHolomap),
 
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),

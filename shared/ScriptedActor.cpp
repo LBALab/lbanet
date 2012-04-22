@@ -426,44 +426,13 @@ FollowWaypointScriptPart::FollowWaypointScriptPart(int scriptid, bool asynchronu
 													boost::shared_ptr<DynamicObject> actor)
 : ScriptPartBase(scriptid, asynchronus), _distance(0), _distancedone(0)
 {
-	std::vector<LbaVec3> waypoints = actor->GetWaypoints(waypointindex1);
-	if(waypoints.size() > 0)
-	{
-		if(waypointindex2 < (int)waypoints.size())
-		{
-			_P2 =  waypoints[waypointindex2];
+	LbaVec3 defaultPos;
+	actor->GetPhysicalObject()->GetPosition(defaultPos.x, defaultPos.y, defaultPos.z);
 
-			if((waypointindex2+1) < (int)waypoints.size())
-				_P3 = waypoints[waypointindex2+1];
-			else
-				_P3 = _P2;
 
-			if((waypointindex2+2) < (int)waypoints.size())
-				_P4 = waypoints[waypointindex2+2];
-			else
-				_P4 = _P2;
-
-			--waypointindex2;
-			if(waypointindex2 >= 0)
-				_P1 =  waypoints[waypointindex2];
-			else
-				actor->GetPhysicalObject()->GetPosition(_P1.x, _P1.y, _P1.z);
-
-			--waypointindex2;
-			if(waypointindex2 >= 0)
-				_P0 =  waypoints[waypointindex2];
-			else
-				_P0 =  _P1;
-
-			--waypointindex2;
-			if(waypointindex2 >= 0)
-				_Pm1 =  waypoints[waypointindex2];
-			else
-				_Pm1 =  _P1;
-
-			_distance = GetArcLength(_P0, _P1, _P2, _P3, 100);
-		}
-	}
+	_catmullH.SetWaypoints(actor->GetWaypoints(waypointindex1));
+	_catmullH.UpdateCurrentPoint(waypointindex2, defaultPos);
+	_distance = _catmullH.GetApproximateDistance();
 }
 
 /***********************************************************
@@ -474,14 +443,15 @@ FollowWaypointScriptPart::FollowWaypointScriptPart(int scriptid, bool asynchronu
 							const LbaVec3 &P2, const LbaVec3 &P3, const LbaVec3 & P4)
 : ScriptPartBase(scriptid, asynchronus), _distance(0), _distancedone(0)
 {
-	_Pm1 = Pm1;
-	_P0 = P0;
-	_P1 = P1;
-	_P2 = P2;
-	_P3 = P3;
-	_P4 = P4;
-
-	_distance = GetArcLength(_P0, _P1, _P2, _P3, 100);
+	std::vector<LbaVec3> waypoints;
+	waypoints.push_back(Pm1);
+	waypoints.push_back(P0);
+	waypoints.push_back(P1);
+	waypoints.push_back(P2);
+	waypoints.push_back(P3);
+	waypoints.push_back(P4);
+	_catmullH.SetWaypoints(waypoints);
+	_distance = _catmullH.GetApproximateDistance();
 }
 
 
@@ -523,105 +493,20 @@ bool FollowWaypointScriptPart::Process(double tnow, float tdiff, boost::shared_p
 
 
 	// calculate move on spline
+	LbaVec3 resPos;
+	float resAngle;
 	float ratio = _distancedone/_distance;
-	LbaVec3 res = CatmullSpline(_P0, _P1, _P2, _P3, ratio);
-	LbaVec3 curr;
-	physo->GetPosition(curr.x, curr.y, curr.z);
-
+	_catmullH.Compute(ratio, animation == "MoveForward", resPos, resAngle);
 
 	// move actor
-	physo->MoveTo(res.x, res.y, res.z);
-
-
-	LbaVec3 tang1;
-	LbaVec3 tang2;
-
-	float r1 = ratio-0.1f;
-	if(r1 < 0)
-	{
-		r1 += 1;
-		tang1 = CatmullSpline(_Pm1, _P0, _P1, _P2, r1);
-	}
-	else
-		tang1 = CatmullSpline(_P0, _P1, _P2, _P3, r1);
-
-	float r2 = ratio+0.1f;
-	if(r2 > 1)
-	{
-		r2 -= 1;
-		tang2 = CatmullSpline(_P1, _P2, _P3, _P4, r2);
-	}
-	else
-		tang2 = CatmullSpline(_P0, _P1, _P2, _P3, r2);
-
-
-	LbaVec3 diff(	tang2.x-tang1.x, 
-					tang2.y-tang1.y, 
-					tang2.z-tang1.z);
-
-	float angle = LbaQuaternion::GetSignedAngleFromVector(diff);
-	if(animation != "MoveForward")
-		angle += 180;
-
+	physo->MoveTo(resPos.x, resPos.y, resPos.z);
 
 	LbaQuaternion Q;
-	Q.AddSingleRotation(angle, LbaVec3(0, 1, 0));
+	Q.AddSingleRotation(resAngle, LbaVec3(0, 1, 0));
 	physo->RotateTo(Q);
 
 	return false;
 }
-
-
-/***********************************************************
-//! calculate spline from to between 0 and 1
-***********************************************************/
-float FollowWaypointScriptPart::CatmullSpline(float P0, float P1, float P2, float P3, float t)
-{
-	float res =	0.5f *( (2 * P1) + (-P0 + P2) * t 
-				+ (2*P0 - 5*P1 + 4*P2 - P3) * t*t 
-				+ (-P0 + 3*P1- 3*P2 + P3) * t*t*t);
-
-	return res;
-}
-
-
-/***********************************************************
-calculate spline of vector from to between 0 and 1
-***********************************************************/
-LbaVec3 FollowWaypointScriptPart::CatmullSpline(const LbaVec3 &P0, const LbaVec3 &P1, 
-												const LbaVec3 &P2, const LbaVec3 &P3, float t)
-{
-	LbaVec3 res;
-	res.x = CatmullSpline(P0.x, P1.x, P2.x, P3.x, t);
-	res.y = CatmullSpline(P0.y, P1.y, P2.y, P3.y, t);
-	res.z = CatmullSpline(P0.z, P1.z, P2.z, P3.z, t);
-
-	return res;
-}
-
-
-/***********************************************************
-calculate arc length
-***********************************************************/
-float FollowWaypointScriptPart::GetArcLength(const LbaVec3 &P0, const LbaVec3 &P1, 
-											 const LbaVec3 &P2, const LbaVec3 &P3, int nbsamples)
-{
-	float res = 0;
-	LbaVec3 currpoint = P1;
-	for(int i=0; i < nbsamples; ++i)
-	{
-		float t = (1.0f / nbsamples) * i;
-		LbaVec3 respoint = CatmullSpline(P0, P1, P2, P3, t);
-		res += respoint.Distance(currpoint);
-		currpoint = respoint;
-	}
-
-	return res;
-}
-
-
-
-
 
 
 

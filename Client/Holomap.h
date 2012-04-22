@@ -168,7 +168,7 @@ class HolomapTravelPath
 public:
 	//! constructor
 	HolomapTravelPath(long id)
-		: _Id(id), _parentholomapid(-1)
+		: _Id(id), _parentholomapid(-1), _movingSpeed(0.1f)
 	{}
 
 	//! destructor
@@ -179,11 +179,14 @@ public:
 	{return _Id;}
 
 	//! add location coordinate
-	void AddCoordinate(HoloCoordinate coord)
+	void AddCoordinate(const HoloCoordinate &coord)
 	{_coordinates.push_back(coord);}
 
+	//! remove location coordinate
+	void RemoveCoordinate(int index);
+
 	//! get path coordinates
-	const std::vector<HoloCoordinate> & GetCoordinates()
+	std::vector<HoloCoordinate> & GetCoordinates()
 	{return _coordinates;}
 
 	// model accessors
@@ -210,6 +213,12 @@ public:
 	void SetParentHoloId(long id)
 	{_parentholomapid = id;}
 
+	float GetMovingSpeed()
+	{return _movingSpeed;}
+
+	void SetMovingSpeed(float s)
+	{_movingSpeed = s;}
+
 
 	// save to lua file
 	virtual void SaveToLuaFile(std::ostream & file);
@@ -221,6 +230,8 @@ private:
 
 	long									_parentholomapid;
 	DisplayInfoHandler						_vehiclemodel;
+
+	float									_movingSpeed;
 };
 
 
@@ -234,7 +245,8 @@ public:
 	//! constructor
 	Holomap(long id)
 		: _Id(id), _usePlayerCoordinates(false),
-		_3DCoordinateScaleX(1), _3DCoordinateScaleY(1), _3DCoordinateScaleZ(1)
+		_3DCoordinateScaleX(1), _3DCoordinateScaleY(1), _3DCoordinateScaleZ(1),
+		_distanceBeetweenPathPoints(1)
 	{}
 
 	//! destructor
@@ -299,6 +311,12 @@ public:
 	bool Get3DCoordinateScaleZ()
 	{ return _3DCoordinateScaleZ;}
 
+	float GetDistanceBetweenPathPoints()
+	{return _distanceBeetweenPathPoints;}
+
+	void SetDistanceBetweenPathPoints(float d)
+	{_distanceBeetweenPathPoints = d;}
+
 private:
 	long													_Id;
 	std::string												_Name;
@@ -315,6 +333,9 @@ private:
 	float													_3DCoordinateScaleX;
 	float													_3DCoordinateScaleY;
 	float													_3DCoordinateScaleZ;
+
+	float													_distanceBeetweenPathPoints;
+
 };
 
 #endif

@@ -4349,7 +4349,7 @@ void MapHandler::ActorResumeSound(int ScriptId, long ActorId, int SoundChannel)
 /***********************************************************
 //! display holomap
 ***********************************************************/
-void MapHandler::DisplayHolomap(long PlayerId, int mode, long holoid)
+void MapHandler::DisplayHolomap(int ScriptId, long PlayerId, int mode, long holoid)
 {
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator ita = _players.find(PlayerId);
 	if(ita != _players.end())

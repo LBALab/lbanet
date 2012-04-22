@@ -5,8 +5,11 @@
 #ifndef VLC_ON_QT_H
 #define VLC_ON_QT_H
 
-#include <vlc/vlc.h>
 #include <QWidget>
+
+struct libvlc_instance_t;
+struct libvlc_media_player_t;
+struct libvlc_media_t;
 
 class VLCPlayer : public QWidget
 {

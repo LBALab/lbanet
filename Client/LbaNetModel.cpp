@@ -2459,7 +2459,20 @@ void LbaNetModel::AddHolomapPath(boost::shared_ptr<HolomapTravelPath> holo)
 	HolomapHandler::getInstance()->AddHolomapPath(holo);
 }
 
-
+/***********************************************************
+//! DisplayHolomap
+***********************************************************/
+void LbaNetModel::DisplayHolomap(int ScriptId, long PlayerId, int mode, long holoid)
+{
+	if(PlayerId == -1)
+	{
+		m_fixedimagescriptid = ScriptId;
+		LbaNet::DisplayHolomapEvent * evt = new LbaNet::DisplayHolomapEvent();
+		evt->HolomapLocationOrPathId = holoid;
+		evt->Mode = mode;
+		EventsQueue::getReceiverQueue()->AddEvent(evt);
+	}
+}
 
 
 

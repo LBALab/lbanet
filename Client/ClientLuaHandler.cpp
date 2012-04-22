@@ -155,7 +155,9 @@ ClientLuaHandler::ClientLuaHandler()
 		.def("AddCoordinate", &HolomapTravelPath::AddCoordinate)
 		.def("SetVehicleModel", &HolomapTravelPath::SetVehicleModel)
 		.def("GetVehicleModel", &HolomapTravelPath::GetVehicleModel)
-		.def("SetParentHoloId", &HolomapTravelPath::SetParentHoloId),
+		.def("SetParentHoloId", &HolomapTravelPath::SetParentHoloId)
+		.def("GetMovingSpeed", &HolomapTravelPath::GetMovingSpeed)
+		.def("SetMovingSpeed", &HolomapTravelPath::SetMovingSpeed),
 
 		luabind::class_<Holomap, boost::shared_ptr<Holomap> >("Holomap")
 		.def(luabind::constructor<long>())
@@ -181,7 +183,9 @@ ClientLuaHandler::ClientLuaHandler()
 		.def("Set3DCoordinateScaleY", &Holomap::Set3DCoordinateScaleY)			
 		.def("Get3DCoordinateScaleY", &Holomap::Get3DCoordinateScaleY)	
 		.def("Set3DCoordinateScaleZ", &Holomap::Set3DCoordinateScaleZ)			
-		.def("Get3DCoordinateScaleZ", &Holomap::Get3DCoordinateScaleZ),
+		.def("Get3DCoordinateScaleZ", &Holomap::Get3DCoordinateScaleZ)
+		.def("GetDistanceBetweenPathPoints", &Holomap::GetDistanceBetweenPathPoints)			
+		.def("SetDistanceBetweenPathPoints", &Holomap::SetDistanceBetweenPathPoints),
 
 
 		luabind::class_<ScriptEnvironmentBase>("ScriptEnvironmentBase")
@@ -233,6 +237,7 @@ ClientLuaHandler::ClientLuaHandler()
 		.def("AddHolomap", &ScriptEnvironmentBase::AddHolomap)
 		.def("AddHolomapLoc", &ScriptEnvironmentBase::AddHolomapLoc)
 		.def("AddHolomapPath", &ScriptEnvironmentBase::AddHolomapPath)
+		.def("DisplayHolomap", &ScriptEnvironmentBase::DisplayHolomap, luabind::yield)
 		];
 	}
 	catch(const std::exception &error)

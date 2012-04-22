@@ -980,7 +980,7 @@ void CustomDelegate::fileobjrejected()
 Constructor
 ***********************************************************/
 EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
- : QMainWindow(parent, flags), _modified(false), 
+ : QMainWindow(parent, flags), _modified(false), _disableModifs(false),
  _mapNameList(new CustomStringListModel()),
  _currspawningidx(0), _currtriggeridx(0),
 	_updatetriggerdialogonnewaction(-1), _triggerNameList(new CustomStringListModel()),
@@ -1852,7 +1852,7 @@ set the work as modified
 ***********************************************************/
 void EditorHandler::SetModified()
 {
-	if(!_modified)
+	if(!_disableModifs && !_modified)
 	{
 		setWindowTitle(windowTitle () + " *");
 		_modified = true;
@@ -2167,7 +2167,10 @@ void EditorHandler::SetMapInfo(const std::string & mapname)
 
 	_uieditor.checkBox_map_instancied->setChecked(mapinfo.IsInstance);
 
-	_uieditor.spinBox_lhololocid->setValue((int)mapinfo.LinkedHoloLocation);
+	int holoID = (int)mapinfo.LinkedHoloLocation;
+	_disableModifs = true;
+	_uieditor.spinBox_lhololocid->setValue(holoID);
+	_disableModifs = false;
 
 	//music part
 	_uieditor.lineEdit_mapmusic->setText(mapinfo.Music.c_str());
@@ -16230,6 +16233,11 @@ void EditorHandler::SelectHolomap(long id, const QModelIndex &parent)
 		SelectDisplayInfo(ho->GetTravelDotModel(), p);
 	}
 
+	{
+		QVector<QVariant> data;
+		data<<"distance btw Path Dots"<<(double)ho->GetDistanceBetweenPathPoints();
+		_objectmodel->AppendRow(data, parent);
+	}
 
 	// display holomap on screen
 	EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::DisplayHolomapEvent(
@@ -16353,6 +16361,11 @@ void EditorHandler::SelectHolomapPath(long id, const QModelIndex &parent)
 		QModelIndex p = _objectmodel->AppendRow(data, parent, true);
 		SelectDisplayInfo(ho->GetVehicleModel(), p);
 	}
+	{
+		QVector<QVariant> data;
+		data<<"Moving speed"<<(double)ho->GetMovingSpeed();
+		_objectmodel->AppendRow(data, parent);
+	}
 
 	const std::vector<HoloCoordinate> & _coordinates = ho->GetCoordinates();
 	QVector<QVariant> data;
@@ -16361,15 +16374,18 @@ void EditorHandler::SelectHolomapPath(long id, const QModelIndex &parent)
 	for(size_t i=0; i< _coordinates.size(); ++i)
 	{
 		QVector<QVariant> data;
-		data<<"Coordinate"<<i;
-		QModelIndex p = _objectmodel->AppendRow(data, parent);
+		data<<"Coordinate"<<"";
+		QModelIndex p = _objectmodel->AppendRow(data, coordparent);
 		SelectHoloCoordinate(_coordinates[i], p);
+
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, p.row(), p.parent()), _removeList);
 	}
 
 	// add new item
 	QVector<QVariant> datait;
 	datait << "Coordinate" << "Add new...";
 	QModelIndex idxit = _objectmodel->AppendRow(datait, coordparent);	
+	_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _addList);	
 
 
 	// display holomap on screen
@@ -16682,7 +16698,17 @@ void EditorHandler::HolomapChanged(long id, const QModelIndex &parentIdx)
 	std::string name = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
 	holo->SetName(name);
 	++index;
+
+		// refresh list
+		{
+		QStringList data;
+		data << name.c_str();
+		_holomaplistmodel->AddOrUpdateRow(id, data);
+		}
 	}
+
+
+
 
 	{
 		bool mapcood = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
@@ -16760,6 +16786,12 @@ void EditorHandler::HolomapChanged(long id, const QModelIndex &parentIdx)
 		++index;
 	}
 
+	{
+		float v = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();
+		holo->SetDistanceBetweenPathPoints(v);
+		++index;
+	}
+
 	// display holomap on screen
 	EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::DisplayHolomapEvent(
 						SynchronizedTimeHandler::GetCurrentTimeDouble(),     
@@ -16780,6 +16812,13 @@ void EditorHandler::HolomapLocChanged(long id, const QModelIndex &parentIdx)
 	std::string name = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
 	holo->SetName(name);
 	++index;
+
+		// refresh list
+		{
+		QStringList data;
+		data << name.c_str();
+		_holomaploclistmodel->AddOrUpdateRow(id, data);
+		}
 	}
 
 	{
@@ -16830,5 +16869,112 @@ called when Holomap object changed
 ***********************************************************/
 void EditorHandler::HolomapPathChanged(long id, const QModelIndex &parentIdx)
 {
+	SetModified();
+	int index = 2;
 
+	HolomapTravelPathPtr holo = HolomapHandler::getInstance()->GetHolomapPath(id);
+
+	{
+	std::string name = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+	holo->SetName(name);
+	++index;
+
+		// refresh list
+		{
+		QStringList data;
+		data << name.c_str();
+		_holomappathlistmodel->AddOrUpdateRow(id, data);
+		}
+	}
+
+	{
+		long id = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toInt();
+		holo->SetParentHoloId(id);
+		++index;
+	}
+
+
+	// get vehicle model
+	{
+		QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
+		DisplayInfoHandler newmodel;
+		newmodel.Dinfo = holo->GetVehicleModel();
+		DisplayInfoChanged(itemparent, newmodel.Dinfo);
+		holo->SetVehicleModel(newmodel);
+		++index;
+	}
+
+	// moving speed
+	{
+		float speed = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toDouble();
+		holo->SetMovingSpeed(speed);
+		++index;
+	}
+
+	// get child coordinates
+	bool updateobj = false;
+	{
+		QModelIndex itemparent = _objectmodel->GetIndex(0, index, parentIdx);
+		int curridx = 0;
+		++index;
+
+		std::vector<HoloCoordinate> &childs = holo->GetCoordinates();
+		for(size_t gg=0; gg< childs.size(); ++gg)
+		{
+			QModelIndex itemparent2 = _objectmodel->GetIndex(0, curridx, itemparent);
+			QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+			std::string check = _objectmodel->data(childidx).toString().toAscii().data();
+			++curridx;
+
+			if(check == "Remove")
+			{
+				holo->RemoveCoordinate(gg);
+				updateobj = true;
+				break;
+			}
+			else
+			{
+				HoloCoordinateChanged(childs[gg], itemparent2);
+			}
+		}
+
+
+		if(!updateobj)
+		{
+			QModelIndex childidx0 = _objectmodel->GetIndex(0, curridx, itemparent);
+			QModelIndex childidx = _objectmodel->GetIndex(1, curridx, itemparent);
+			std::string check = _objectmodel->data(childidx).toString().toAscii().data();
+			if(check == "Add")
+			{
+				HoloCoordinate coord;
+				holo->AddCoordinate(coord);
+
+				{
+				// add new item
+				QVector<QVariant> datait;
+				datait << "Coordinate" << "Add new...";
+				QModelIndex idxit = _objectmodel->AppendRow(datait, itemparent);	
+				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idxit.row(), idxit.parent()), _addList);	
+				}
+
+				{
+				SelectHoloCoordinate(coord, childidx0);
+				_objectmodel->SetCustomIndex(childidx, _removeList);
+				_objectmodel->setData(childidx, "");
+				_uieditor.treeView_object->setExpanded(childidx0, true); // expand 
+				}
+			}
+		}
+	}
+
+	// display holomap on screen
+	EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::DisplayHolomapEvent(
+						SynchronizedTimeHandler::GetCurrentTimeDouble(),     
+						4, id, LbaNet::HoloIdSeq()));
+
+	if(updateobj)
+	{
+		// full redraw on remove
+		SelectHolomapPath(id, parentIdx);
+	}
 }

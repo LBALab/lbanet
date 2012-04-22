@@ -186,6 +186,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\shared\CatmulSplineHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CEGUIDrawable.cpp"
 				>
 			</File>
@@ -391,6 +395,10 @@
 			</File>
 			<File
 				RelativePath=".\Holomap.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\HolomapHandler.cpp"
 				>
 			</File>
 			<File

@@ -37,6 +37,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectsDescription.h"
 #include "StaticObject.h"
 
+#include <boost/foreach.hpp>
+
 #ifndef M_PI
 #define M_PI    3.14159265358979323846f
 #endif
@@ -437,6 +439,8 @@ void Client::HideHolomap()
 
 		_currentview = CLV_Game;
 		_osgwindow->getGraphWidget()->SetHandleKey(true);
+
+		EventsQueue::getReceiverQueue()->AddEvent(new DisplayExtraGLFinishedEvent());
 	}
 }
 
@@ -449,12 +453,17 @@ void Client::DisplayHolomap(int Mode, long HolomapLocationOrPathId,
 	osg::ref_ptr<CEGUIDrawable> guidraw = OsgHandler::getInstance()->GetGUIDrawable();
 	if(guidraw)
 	{
+		if(_currentview != CLV_Holomap)
+		{
+			guidraw->StartStopHolomap(false);
+			guidraw->StartStopHolomap(true);
+			OsgHandler::getInstance()->StoreCameraInfo();
+		}
+
 		_currentview = CLV_Holomap;
-		guidraw->StartStopHolomap(false);
-		guidraw->StartStopHolomap(true);
+
 
 		// prepare display scene
-		OsgHandler::getInstance()->StoreCameraInfo();
 		OsgHandler::getInstance()->SwitchScene(1);
 		_osgwindow->getGraphWidget()->SetHandleKey(false);
 
@@ -521,8 +530,35 @@ void Client::DisplayHolomap(int Mode, long HolomapLocationOrPathId,
 				{	
 					_currHolomapPtr = 
 						HolomapHandler::getInstance()->GetHolomap(_currHoloPathPtr->GetParentHoloId());
+
+
+					// add path coordinates to catmull handler
+					const std::vector<HoloCoordinate> & coords = _currHoloPathPtr->GetCoordinates();
+
+					std::vector<LbaVec3> waypoints;
+					BOOST_FOREACH(const HoloCoordinate & coord, coords)
+					{
+						LbaVec3 pos;
+						pos.x = coord.posX;
+						pos.y = coord.posY;
+						pos.z = coord.posZ;
+						waypoints.push_back(pos);
+					}
+
+					_catmullH.SetWaypoints(waypoints);
+
+					if(coords.size() > 0)
+					{
+						_posLastDot = coords[0];
+						// set camera to path start
+						CameraFollowHoloLocation(1, 1, coords[0], true);
+					}
 				}
 
+				_currWaypoint = 1;
+				_currDistance = 0;
+				_accumulatedPointDistance = 0;
+				_catmullH.UpdateCurrentPoint(_currWaypoint, LbaVec3());
 				break;
 			}
 		}
@@ -630,13 +666,13 @@ void Client::DrawHolomap()
 			std::set<HolomapLocationPtr>::iterator itql = _drawnlocs.begin();
 			std::set<HolomapLocationPtr>::iterator endql = _drawnlocs.end();
 			for(; itql != endql; ++itql)
-				DrawLocation(_currHolomapPtr, *itql, 1);
+				DrawLocation(_currHolomapPtr, (*itql)->GetCoordinate(), 1);
 		}
 
 		// draw player location
 		if(locplayer)
 		{
-			DrawLocation(_currHolomapPtr, locplayer, modeltouse);
+			DrawLocation(_currHolomapPtr, locplayer->GetCoordinate(), modeltouse);
 			_drawnlocs.insert(locplayer);
 		}
 		else
@@ -644,7 +680,7 @@ void Client::DrawHolomap()
 			// else draw player position location
 			if(_currPlayer3DLocPtr)
 			{
-				DrawLocation(_currHolomapPtr, _currPlayer3DLocPtr, 2);
+				DrawLocation(_currHolomapPtr, _currPlayer3DLocPtr->GetCoordinate(), 2);
 				_drawnlocs.insert(_currPlayer3DLocPtr);
 			}
 		}
@@ -652,18 +688,27 @@ void Client::DrawHolomap()
 
 
 	// add path
-	if(_currHolomapMode == 2 || _currHolomapMode == 4)
+	if(_currHolomapMode == 4 && _currHoloPathPtr)
 	{
-		//TODO
+		// draw the existing path
+		int sizeWP = _catmullH.NbWayPoints();
+		DrawPath(sizeWP);
 	}
 
 	if(_currHolomapMode == 0)
 	{
 		//also draw example of location models
-		boost::shared_ptr<DynamicObject> do1 = DrawLocationModel(_currHolomapPtr, 1, 10 , 15, 10, 0, 0, 0);
-		boost::shared_ptr<DynamicObject> do2 = DrawLocationModel(_currHolomapPtr, 2, 10 , 5, 10, 0, 0, 0);
-		boost::shared_ptr<DynamicObject> do3 = DrawLocationModel(_currHolomapPtr, 3, 10 , -5, 10, 0, 0, 0);
-		boost::shared_ptr<DynamicObject> do4 = DrawLocationModel(_currHolomapPtr, 4, 10 , -15, 10, 0, 0, 0);
+		DrawLocationModel(_currHolomapPtr, 1, 10 , 15, 10, 0, 0, 0);
+		DrawLocationModel(_currHolomapPtr, 2, 10 , 5, 10, 0, 0, 0);
+		DrawLocationModel(_currHolomapPtr, 3, 10 , -5, 10, 0, 0, 0);
+		DrawLocationModel(_currHolomapPtr, 4, 10 , -15, 10, 0, 0, 0);
+	}
+
+
+	if((_currHolomapMode == 2 || _currHolomapMode == 4) && _currHoloPathPtr)
+	{
+		//also draw example of location models
+		_drawnVehicle = DrawLocationModel(_currHolomapPtr, _currHoloPathPtr->GetVehicleModel(), 10 , 5, 10, 0, 0, 0);
 	}
 }
 
@@ -701,45 +746,27 @@ HolomapLocationPtr  Client::FindLocationOnHolo(long HolomapId, HolomapLocationPt
 /***********************************************************
 draw location
 ***********************************************************/
-void Client::DrawLocation(HolomapPtr holomap, HolomapLocationPtr location, int arrowtype)
+void Client::DrawLocation(HolomapPtr holomap, HoloCoordinate location, int arrowtype)
 {
-	if(!holomap ||!location)
+	if(!holomap)
 		return;
 
-	HoloCoordinate holoc = location->GetCoordinate();
 	float posX=0, posY=0, posZ=0, rotX=0, rotY=0, rotZ=0;
-	TransformHoloCoordinate(holoc, posX, posY, posZ, rotX, rotY, rotZ);
+	TransformHoloCoordinate(location, posX, posY, posZ, rotX, rotY, rotZ);
 	DrawLocationModel(holomap, arrowtype, posX, posY, posZ, rotX, rotY, rotZ);
 }
 
 /***********************************************************
 draw location
 ***********************************************************/
-boost::shared_ptr<DynamicObject> Client::DrawLocationModel(HolomapPtr holomap, int modeltype, 
+boost::shared_ptr<DynamicObject> Client::DrawLocationModel(HolomapPtr holomap, 
+														   LbaNet::ModelInfo modelinfo, 
 														   float posX, float posY, float posZ, 
 															float rotX, float rotY, float rotZ)
 {
 	if(!holomap)
 		return boost::shared_ptr<StaticObject>();
 
-	// retrieve model info
-	LbaNet::ModelInfo modelinfo;
-	modelinfo.TypeRenderer = LbaNet::NoRender;
-	switch(modeltype)
-	{
-		case 1:
-			modelinfo = holomap->GetArrowModel();
-		break;
-		case 2:
-			modelinfo = holomap->GetPlayerModel();
-		break;
-		case 3:
-			modelinfo = holomap->GetArrowPlayerModel();
-		break;
-		case 4:
-			modelinfo = holomap->GetTravelDotModel();
-		break;
-	}
 	modelinfo.RotX += rotX;
 	modelinfo.RotY += rotY;
 	modelinfo.RotZ += rotZ;
@@ -772,6 +799,38 @@ boost::shared_ptr<DynamicObject> Client::DrawLocationModel(HolomapPtr holomap, i
 	return boost::shared_ptr<StaticObject>();
 }
 
+
+/***********************************************************
+draw location
+***********************************************************/
+boost::shared_ptr<DynamicObject> Client::DrawLocationModel(HolomapPtr holomap, int modeltype, 
+														   float posX, float posY, float posZ, 
+															float rotX, float rotY, float rotZ)
+{
+
+
+	// retrieve model info
+	LbaNet::ModelInfo modelinfo;
+	modelinfo.TypeRenderer = LbaNet::NoRender;
+	switch(modeltype)
+	{
+		case 1:
+			modelinfo = holomap->GetArrowModel();
+		break;
+		case 2:
+			modelinfo = holomap->GetPlayerModel();
+		break;
+		case 3:
+			modelinfo = holomap->GetArrowPlayerModel();
+		break;
+		case 4:
+			modelinfo = holomap->GetTravelDotModel();
+		break;
+	}
+
+	return DrawLocationModel(holomap, modelinfo, posX, posY, posZ, rotX, rotY, rotZ);
+}
+
 /***********************************************************
 TransformHoloCoordinate
 ***********************************************************/
@@ -781,15 +840,12 @@ void Client::TransformHoloCoordinate(const HoloCoordinate &holoc,
 {
 	if(holoc.polarcoords)
 	{
-		float x = holoc.posZ*cos(holoc.posX*M_PI/180.0f);
-		float y = holoc.posZ*sin(holoc.posX*M_PI/180.0f);
+		float radX = holoc.posX*M_PI/180.0f;
+		float radY = holoc.posY*M_PI/180.0f;
 
-		float x2 = x*cos(holoc.posY*M_PI/180.0f);
-		float z = x*sin(holoc.posY*M_PI/180.0f);
-
-		posX = z;
-		posY = y;
-		posZ = x2;
+		posX = holoc.posZ*cos(radX)*sin(radY) + holoc.dir_cen_X;
+		posY = holoc.posZ*sin(radX) + holoc.dir_cen_Y;
+		posZ = holoc.posZ*cos(radX)*cos(radY) + holoc.dir_cen_Z;
 
 		rotX = -holoc.posX;
 		rotY = holoc.posY;
@@ -814,22 +870,169 @@ void Client::UpdateHolomap(double tnow, float tdiff)
 	for(size_t i=0; i< _holodispobjects.size(); ++i)
 		_holodispobjects[i]->Process(tnow, tdiff);
 
-	if(_currHolomapMode == 1 || _currHolomapMode == 3)
-		CameraFollowHoloLocation(tnow, tdiff);
+	if((_currHolomapMode == 1 || _currHolomapMode == 3) && _currHoloLocationPtr)
+		CameraFollowHoloLocation(tnow, tdiff, _currHoloLocationPtr->GetCoordinate());
+
+	// move along the path 
+	if((_currHolomapMode == 2 || _currHolomapMode == 4) && _currHoloPathPtr)
+	{
+		const std::vector<HoloCoordinate> &pathCoor = _currHoloPathPtr->GetCoordinates();
+		HoloCoordinate defaultC;
+		if(pathCoor.size() > 0)
+		{
+			defaultC = pathCoor[0];	
+
+			float dist = _catmullH.GetApproximateDistance();
+			float addDist = _currHolomapPtr->GetDistanceBetweenPathPoints();
+
+			// update current point
+			_currDistance += _currHoloPathPtr->GetMovingSpeed();
+			if(_currDistance >= dist)
+			{
+				_currDistance -= dist;
+				++_currWaypoint;
+			}
+
+			if(_currWaypoint >= _catmullH.NbWayPoints())
+			{
+				// we are done - return
+				if(_currHolomapMode == 2)
+				{
+					HideHolomap();
+				}
+				else
+				{
+					_currDistance = 0;
+					_currWaypoint = 1;
+				}
+
+				return;
+			}
+
+			_catmullH.UpdateCurrentPoint(_currWaypoint, _catmullH.GetWaypoint(0));	
+
+			// draw the current move point
+			if(_currHolomapMode == 2)
+			{
+				_accumulatedPointDistance += _currHoloPathPtr->GetMovingSpeed();
+				if(_accumulatedPointDistance >= addDist)
+				{
+					_accumulatedPointDistance -= addDist;
+
+					LbaVec3 resPos;
+					float resAngle;
+					_catmullH.Compute((_currDistance-_accumulatedPointDistance)/dist, true, resPos, resAngle);
+					defaultC.posX = resPos.x;
+					defaultC.posY = resPos.y;
+					defaultC.posZ = resPos.z;
+
+					HoloCoordinate todraw = _posLastDot;
+					todraw.posX += defaultC.posX;
+					todraw.posX /= 2;
+					todraw.posY += defaultC.posY;
+					todraw.posY /= 2;
+					todraw.posZ += defaultC.posZ;
+					todraw.posZ /= 2;
+					DrawLocation(_currHolomapPtr, todraw, 4);
+					_posLastDot = defaultC;
+				}
+			}
+
+			// draw the vehicle
+			if(_drawnVehicle)
+			{
+				LbaVec3 resPos, tangent1, tangent2;
+				float resAngle;
+				_catmullH.Compute(_currDistance/dist,
+									resPos, tangent1, tangent2);
+
+				defaultC.posX = resPos.x;
+				defaultC.posY = resPos.y;
+				defaultC.posZ = resPos.z;
+
+				float posX=0, posY=0, posZ=0, rotX=0, rotY=0, rotZ=0;
+				TransformHoloCoordinate(defaultC, posX, posY, posZ, rotX, rotY, rotZ);
+
+
+				// calculate angle
+				if(defaultC.polarcoords)
+				{
+					LbaVec3 diff(	tangent2.y-tangent1.y, 
+									0, 
+									tangent2.x-tangent1.x);
+
+					resAngle = LbaQuaternion::GetSignedAngleFromVector(diff);
+					resAngle = 180 - resAngle;
+				}
+				else
+				{
+					LbaVec3 diff(	tangent2.x-tangent1.x, 
+									tangent2.y-tangent1.y, 
+									tangent2.z-tangent1.z);
+
+					resAngle = LbaQuaternion::GetSignedAngleFromVector(diff);
+				}
+
+				// update vehicle display
+				boost::shared_ptr<DisplayObjectHandlerBase> disO = _drawnVehicle->GetDisplayObject();
+				if(disO)
+				{
+					disO->SetPosition(posX, posY, posZ);
+
+					LbaQuaternion Q(rotX, rotY, rotZ+resAngle);
+					disO->SetRotation(Q);
+				}
+
+				// make the camera follow
+				_camerafollowloc = true;
+				CameraFollowHoloLocation(tnow, tdiff, defaultC);
+			}
+		}
+	}
+}
+
+/***********************************************************
+draw the path points
+***********************************************************/
+float Client::DrawPath(int NbWayPoints)
+{
+	const std::vector<HoloCoordinate> &pathCoor = _currHoloPathPtr->GetCoordinates();
+	HoloCoordinate defaultC;
+	if(pathCoor.size() > 0)
+		defaultC = pathCoor[0];
+
+	float addDist = _currHolomapPtr->GetDistanceBetweenPathPoints();
+	float currDist = 0;
+	LbaVec3 resPos;
+	float resAngle;
+	for(int i=1; i<NbWayPoints; ++i)
+	{
+		_catmullH.UpdateCurrentPoint(i, _catmullH.GetWaypoint(0));
+		float dist = _catmullH.GetApproximateDistance();
+		for(; currDist<dist; currDist+= addDist)
+		{
+			_catmullH.Compute(currDist/dist, true, resPos, resAngle);
+			defaultC.posX = resPos.x;
+			defaultC.posY = resPos.y;
+			defaultC.posZ = resPos.z;
+			DrawLocation(_currHolomapPtr, defaultC, 4);
+		}
+
+		currDist -= dist;
+	}
+
+	return currDist;
 }
 
 /***********************************************************
 CameraFollowHoloLocation
 ***********************************************************/
-void Client::CameraFollowHoloLocation(double tnow, float tdiff)
+void Client::CameraFollowHoloLocation(double tnow, float tdiff, const HoloCoordinate  &coords,
+										bool force)
 {
-	if(!_currHoloLocationPtr)
+	if(!force && !_camerafollowloc)
 		return;
 
-	if(!_camerafollowloc)
-		return;
-
-	HoloCoordinate  coords = _currHoloLocationPtr->GetCoordinate();
 	if(coords.polarcoords)
 	{
 		double currzenit = OsgHandler::getInstance()->GetCameraZenit();
@@ -856,14 +1059,14 @@ void Client::CameraFollowHoloLocation(double tnow, float tdiff)
 
 		bool finishedx=false, finishedy=false;
 		double moveazi = ((diffazi > 0) ? 0.2 : -0.2) * tdiff * fabs(diffazi)/norm;
-		if(fabs(moveazi) >= fabs(diffazi))
+		if(force || fabs(moveazi) >= fabs(diffazi))
 		{
 			moveazi = diffazi;
 			finishedx = true;
 		}
 
 		double movezenit = ((diffzenit > 0) ? 0.2 : -0.2) * tdiff * fabs(diffzenit)/norm;
-		if(fabs(movezenit) >= fabs(diffzenit))
+		if(force || fabs(movezenit) >= fabs(diffzenit))
 		{
 			movezenit = diffzenit;
 			finishedy = true;

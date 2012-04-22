@@ -199,13 +199,17 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectE
 		}
 	}
 
+	long SpawnId = -1;
+
 	// check if first time arrival in world
 	if(savedinfo.ppos.MapName == "")
 	{
+		SpawnId = (long)_worldinfo.StartingInfo.SpawningId;
+
 		//in this case set the default information
 		bool forcerotation;
 		savedinfo.ppos = GetSpawningInfo(	_worldinfo.StartingInfo.StartingMap, 
-											(long)_worldinfo.StartingInfo.SpawningId,
+											SpawnId,
 											forcerotation);
 
 		savedinfo.lifemana.CurrentLife = _worldinfo.StartingInfo.StartingLife;
@@ -288,7 +292,7 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectE
 #endif
 
 	// teleport player to correct map
-	TeleportPlayerInternal((long)clientid, player, savedinfo.ppos, -1);
+	TeleportPlayerInternal((long)clientid, player, savedinfo.ppos, SpawnId);
 
 
 

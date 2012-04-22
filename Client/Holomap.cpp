@@ -259,6 +259,8 @@ void HolomapTravelPath::SaveToLuaFile(std::ostream & file)
 		file<<"\t\t"<<names.str()<<":SetVehicleModel("<<m1name.str()<<")"<<std::endl;
 	}
 
+	file<<"\t"<<names.str()<<":SetMovingSpeed("<<_movingSpeed<<")"<<std::endl;
+
 	// save coordinates
 	for(size_t i=0; i<_coordinates.size(); ++i)
 	{
@@ -298,7 +300,7 @@ void Holomap::SaveToLuaFile(std::ostream & file)
 	file<<"\t"<<names.str()<<":Set3DCoordinateScaleY("<<_3DCoordinateScaleY<<")"<<std::endl;
 	file<<"\t"<<names.str()<<":Set3DCoordinateScaleZ("<<_3DCoordinateScaleZ<<")"<<std::endl;
 
-
+	file<<"\t"<<names.str()<<":SetDistanceBetweenPathPoints("<<_distanceBeetweenPathPoints<<")"<<std::endl;
 
 	//save models
 	{
@@ -334,4 +336,13 @@ void Holomap::SaveToLuaFile(std::ostream & file)
 
 	file<<"\tenvironment:AddHolomap("<<names.str()<<")"<<std::endl<<std::endl;
 
+}
+
+/***********************************************************
+remove location coordinate
+***********************************************************/
+void HolomapTravelPath::RemoveCoordinate(int index)
+{
+	if(index < _coordinates.size())
+		_coordinates.erase(_coordinates.begin()+index);
 }

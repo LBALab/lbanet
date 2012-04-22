@@ -465,11 +465,11 @@ void MusicHandler::PlayMusic(const std::string & musicPath, bool loop)
 	}
 	catch(osgAudio::Error& ex) 
 	{
-		LogHandler::getInstance()->LogToFile(std::string("Exception playing music:") + ex.what());
+		LogHandler::getInstance()->LogToFile(std::string("Exception playing music: ") + musicPath + std::string(": ") + ex.what());
 	}
 	catch(std::exception& ex) 
 	{
-		LogHandler::getInstance()->LogToFile(std::string("Exception playing music:") + ex.what());
+		LogHandler::getInstance()->LogToFile(std::string("Exception playing music:") + musicPath + std::string(": ") +ex.what());
 	}
 }
 

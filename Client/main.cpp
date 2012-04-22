@@ -108,6 +108,11 @@ int main( int argc, char **argv )
 {
 #endif
 
+	std::ofstream filecout("cout.log");
+	std::cout.rdbuf(filecout.rdbuf());
+	std::ofstream filecerr("cerr.log");
+	std::cerr.rdbuf(filecerr.rdbuf());
+
 	QApplication a(argc, argv);
 
 #ifdef WIN32
@@ -131,7 +136,10 @@ int main( int argc, char **argv )
 #else
 		LogHandler::getInstance()->LogToFile("Entering main program...");
 		IceClient app;
-		return app.main(argc, argv, "config.client");
+		int ret = app.main(argc, argv, "config.client");
+		filecout.close();
+		filecerr.close();
+		return ret;
 #endif
 	}
 	catch(std::exception & ex)
@@ -143,7 +151,8 @@ int main( int argc, char **argv )
 		LogHandler::getInstance()->LogToFile(std::string("Unknown exception catched"));
 	}
 
-
+	filecout.close();
+	filecerr.close();
 	return -1;
 }
 

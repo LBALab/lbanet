@@ -536,7 +536,7 @@ public:
 	virtual void AddHolomapPath(boost::shared_ptr<HolomapTravelPath> holo);
 
 	//! display holomap
-	virtual void DisplayHolomap(long PlayerId, int mode, long holoid){}
+	virtual void DisplayHolomap(int ScriptId, long PlayerId, int mode, long holoid);
 
 protected:
 

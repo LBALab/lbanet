@@ -637,7 +637,7 @@ public:
 	virtual void AddHolomapPath(boost::shared_ptr<HolomapTravelPath> holo){}
 
 	//! display holomap
-	virtual void DisplayHolomap(long PlayerId, int mode, long holoid){}
+	virtual void DisplayHolomap(int ScriptId, long PlayerId, int mode, long holoid){}
 
 private:
 	enum ObjectEditType {EditObjCopy, EditObjCut, EditObjDelete};
@@ -1457,6 +1457,7 @@ private:
 	bool												_mapmodified;
 	LbaNet::WorldInformation							_winfo;
 	bool												_firstmapofworld;
+	bool												_disableModifs;
 
 
 	boost::shared_ptr<ServerLuaHandler>					_luaH;

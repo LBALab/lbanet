@@ -1434,7 +1434,7 @@ void DisplayHolomapAction::Execute(ScriptEnvironmentBase * owner, int ObjectType
 		return;
 
 	if(owner)
-		owner->DisplayHolomap(clientid, _Mode, _HolomapId);
+		owner->DisplayHolomap(-1, clientid, _Mode, _HolomapId);
 }
 
 

@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <boost/shared_ptr.hpp>
 #include <list>
 #include "CommonTypes.h"
+#include "CatmulSplineHandler.h"
 
 class DynamicObject;
 class ScriptEnvironmentBase;
@@ -297,24 +298,11 @@ public:
 
 
 protected:
-	//! calculate spline from to between 0 and 1
-	float CatmullSpline(float P0, float P1, float P2, float P3, float t);
-
-	//! calculate spline of vector from to between 0 and 1
-	LbaVec3 CatmullSpline(const LbaVec3 &P0, const LbaVec3 &P1, const LbaVec3 &P2, const LbaVec3 &P3, float t);
-
-	//! calculate arc length
-	float GetArcLength(const LbaVec3 &P0, const LbaVec3 &P1, const LbaVec3 &P2, const LbaVec3 &P3, int nbsamples);
 
 private:
-	float			_distance;
-	float			_distancedone;
-	LbaVec3			_Pm1;
-	LbaVec3			_P0;
-	LbaVec3			_P1;
-	LbaVec3			_P2;
-	LbaVec3			_P3;
-	LbaVec3			_P4;
+	float					_distance;
+	float					_distancedone;
+	CatmullSplineHandler	_catmullH;
 };
 
 

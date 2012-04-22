@@ -117,6 +117,7 @@ void OptionsGUI::Initialize()
 			cbatype->addItem(new MyOptListItem("de"));
 			cbatype->addItem(new MyOptListItem("sp"));
 			cbatype->addItem(new MyOptListItem("it"));
+			cbatype->addItem(new MyOptListItem("ru"));
 
 			_lang = Localizer::getInstance()->GetLanguage();
 			cbatype->setText(_lang);

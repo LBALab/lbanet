@@ -32,6 +32,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "QT_WindowsBase.h"
 #include <boost/shared_ptr.hpp>
 #include "CommonTypes.h"
+#include "CatmulSplineHandler.h"
+#include "Holomap.h"
 #include <set>
 
 class VLCPlayer;
@@ -43,8 +45,12 @@ class HolomapTravelPath;
 typedef boost::shared_ptr<HolomapTravelPath>	HolomapTravelPathPtr;
 class StaticObject;
 class DynamicObject;
-class HoloCoordinate;
 struct DrawRectangle;
+
+namespace LbaNet
+{
+	struct ModelInfo;
+}
 
 
 enum ClientViewType { CLV_Game = 0, CLV_Video, CLV_ExtraGL, CLV_Holomap };
@@ -89,6 +95,12 @@ public:
 	void InitDisplay(bool fullscreen, bool maximized);
 
 	//! display holomap
+	//! mode:
+	//! 0 -> edit holomap model
+	//! 1 -> display holomap with player location and quests locations
+	//! 2 -> display holomap with path and moving vehicle
+	//! 3 -> edit mode of 1 holomap location
+	//! 4 -> edit mode of 1 holomap path
 	void DisplayHolomap(int Mode, long HolomapLocationOrPathId,
 						const std::vector<long> &questholoids, const LbaVec3 &playerpos);
 
@@ -119,10 +131,16 @@ protected:
 
 
 	//! draw location
-	void DrawLocation(HolomapPtr holomap, HolomapLocationPtr location, int arrowtype);
+	void DrawLocation(HolomapPtr holomap, HoloCoordinate location, int arrowtype);
 
 	//! HideHolomap
 	void HideHolomap();
+
+	//! draw location
+	boost::shared_ptr<DynamicObject> DrawLocationModel(HolomapPtr holomap, 
+												LbaNet::ModelInfo modelinfo, 
+												float posX, float posY, float posZ, 
+												float rotX, float rotY, float rotZ);
 
 	//! draw location
 	boost::shared_ptr<DynamicObject> DrawLocationModel(HolomapPtr holomap, int modeltype, 
@@ -138,7 +156,8 @@ protected:
 	void UpdateHolomap(double tnow, float tdiff);
 
 	//! CameraFollowHoloLocation
-	void CameraFollowHoloLocation(double tnow, float tdiff);
+	void CameraFollowHoloLocation(double tnow, float tdiff, const HoloCoordinate  &coords,
+									bool force = false);
 
 	//! update selected location
 	void UpdateSelectedLocation(bool up);
@@ -151,6 +170,9 @@ protected:
 
 	//! draw holo location text
 	void DrawHoloText(HolomapLocationPtr hololoc);
+
+	//! draw the path points
+	float DrawPath(int NbWayPoints);
 
 private:
 	Ui::ClientClass			ui;
@@ -172,6 +194,13 @@ private:
 	std::set<HolomapLocationPtr>	_drawnlocs;
 
 	HolomapLocationPtr				_currPlayer3DLocPtr;
+
+	CatmullSplineHandler			_catmullH;
+	int								_currWaypoint;
+	float							_currDistance;
+	float							_accumulatedPointDistance;
+	boost::shared_ptr<DynamicObject>	_drawnVehicle;
+	HoloCoordinate						_posLastDot;
 
 	std::vector<boost::shared_ptr<StaticObject> >	_holodispobjects;
 	bool							_camerafollowloc;

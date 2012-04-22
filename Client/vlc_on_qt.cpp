@@ -3,6 +3,7 @@
  * simplified version
  */
 #include "vlc_on_qt.h"
+#include <vlc/vlc.h>
 
 
 
@@ -15,7 +16,6 @@ static void callbackfinished(const struct libvlc_event_t * evt, void * userd)
 			vlcP->PlayFinished();
 	}
 }
-
 
 
 //constructor
