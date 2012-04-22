@@ -1,26 +1,32 @@
 #!/bin/sh
 
+echo Updating Data directory...
+svn update Data
 svn export --force Data/ Patch/Lbanet/Data/
-mv -f Data Servers/IceGridServer
+cp -rf Data Servers/IceGridServer
 cp *.HQR Servers/IceGridServer/Data/Worlds/Lba1Original/Models 
 
-cd tmpsvn
 
-svn update Colozen
-svn export --force Colozen ../Patch/Lbanet/Data/Worlds/Colozen
-cp -rf Colozen ../Servers/IceGridServer/Data/Worlds/Colozen
+echo Updating Colozen directory...
+svn update tmpsvn/Colozen
+svn export --force tmpsvn/Colozen Patch/Lbanet/Data/Worlds/Colozen
+cp -rf tmpsvn/Colozen Servers/IceGridServer/Data/Worlds
 
 
-svn update Lba1Expanded
-svn export --force Lba1Expanded ../Patch/Lbanet/Data/Worlds/Lba1Expanded
-cp -rf Lba1Expanded ../Servers/IceGridServer/Data/Worlds/Lba1Expanded
+echo Updating Lba1Expanded directory...
+svn update tmpsvn/Lba1Expanded
+svn export --force tmpsvn/Lba1Expanded Patch/Lbanet/Data/Worlds/Lba1Expanded
+cp -rf tmpsvn/Lba1Expanded Servers/IceGridServer/Data/Worlds
 
-svn update Lba1Original
-svn export --force Lba1Original ../Patch/Lbanet/Data/Worlds/Lba1Original
-cp -rf Lba1Original ../Servers/IceGridServer/Data/Worlds/Lba1Original
 
-svn update Lba2Original
-svn export --force Lba2Original ../Patch/Lbanet/Data/Worlds/Lba2Original
-cp -rf Lba1ExpLba2Originalnded ../Servers/IceGridServer/Data/Worlds/Lba2Original
+echo Updating Lba1Original directory...
+svn update tmpsvn/Lba1Original
+svn export --force tmpsvn/Lba1Original Patch/Lbanet/Data/Worlds/Lba1Original
+cp -rf tmpsvn/Lba1Original Servers/IceGridServer/Data/Worlds
 
-cd ..
+
+echo Updating Lba2Original directory...
+svn update tmpsvn/Lba2Original
+svn export --force tmpsvn/Lba2Original Patch/Lbanet/Data/Worlds/Lba2Original
+cp -rf tmpsvn/Lba1ExpLba2Original Servers/IceGridServer/Data/Worlds
+
