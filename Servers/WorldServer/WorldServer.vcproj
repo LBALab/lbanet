@@ -197,6 +197,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\shared\CatmulSplineHandler.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\shared\CharacterModes.cpp"
 				>
 			</File>

@@ -4360,7 +4360,7 @@ void MapHandler::DisplayHolomap(int ScriptId, long PlayerId, int mode, long holo
 		if(mode == 1)
 		{
 			// get map location info
-			holoid = _mapinfo.LinkedHoloLocation;
+			holoid = (long)_mapinfo.LinkedHoloLocation;
 
 			// get quest info
 			std::vector<long> questshl = ita->second->GetActiveQuestsHoloLocation();
