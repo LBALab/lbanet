@@ -14,7 +14,7 @@ clear: clean depend
 
 $(TARGET): $(OBJ)
 	@echo "\n         **********creation de l'exe************\n"
-	$(CC) $(INCDIR) *.o -o $(TARGET) $(LIBDIR) $(LIBS) 
+	$(CC)  -R /usr/local/lib $(INCDIR) *.o -o $(TARGET) $(LIBDIR) $(LIBS) 
 	@echo "\n"		
 
 .cpp.o:
