@@ -2,9 +2,9 @@ TARGET=worldserver
 OBJ=Actions.o ActorHandler.o  ActorScriptPart.o CommunityBoxHandler.o Conditions.o ContainerBoxHandler.o DatabaseHandler.o DialogBoxHandler.o DialogPart.o DoorHandler.o InventoryBoxHandler.o InventoryItemHandler.o MailBoxHandler.o main.o MaintenanceInterfaceServant.o MapHandler.o NpcHandler.o ObjectsDescription.o PlayerHandler.o Quest.o QuestHandler.o ServerGUIBase.o ServerLBA1ModelClass.o ServerLba1ModelHandler.o ServerLuaHandler.o SharedDataHandler.o ShopBoxHandler.o ShortcutBoxHandler.o Spawn.o Teleport.o TextBoxHandler.o Triggers.o WorldChatHandler.o WorldServerInterfaceServant.o LuaHandlerBase.o LuaThreadHandler.o ProjectileObjectDef.o NavMeshObjectHandlers.o SoundObjectHandlerServer.o
 
 CC=g++
-INCDIR=-I. -I../../infrastructure/include -I/usr/include -I../../shared -I. -I/usr/include/mysql++ -I/usr/include/mysql -I../../dependencies/LUA/include -I../../dependencies/luabind/include
-LIBDIR=-L/usr/lib -L../../infrastructure/lib -L../../shared/lib -L../../dependencies/LUA/lib -L../../dependencies/luabind/lib
-LIBS=-lIce -lIceStorm -lIceUtil -lGlacier2 -lgenerated -llua -lluabind -lshared -lmysqlpp -lmysqlclient
+INCDIR=-I. -I../../infrastructure/include -I/usr/include -I../../shared -I. -I/usr/include/mysql++ -I/usr/include/mysql -I/usr/include/lua5.1 -I/usr/local/include/luabind
+LIBDIR=-L/usr/lib -L../../infrastructure/lib -L../../shared/lib -L/usr/local/lib
+LIBS=-lIce -lIceStorm -lIceUtil -lGlacier2 -lgenerated -llua5.1 -lluabind -lshared -lmysqlpp -lmysqlclient
 
 
 all: $(TARGET) install
