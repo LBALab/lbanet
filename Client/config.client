@@ -16,5 +16,5 @@ Ice.RetryIntervals=-1
 #
 # Version
 #
-LbanetClientVersion=ver. 1.18
-LbanetServerVersion=ver. 1.18
+LbanetClientVersion=ver. 1.18r
+LbanetServerVersion=ver. 1.18r
