@@ -34,9 +34,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 constructor
 ***********************************************************/
 SessionServant::SessionServant(const std::string& userId, const RoomManagerPrx& manager,
-					const ConnectedTrackerPrx& ctracker, std::string version)
+					const ConnectedTrackerPrx& ctracker, std::string version,
+					const Ice::CommunicatorPtr& communicator)
 : _userName(userId), _manager(manager), _ctracker(ctracker),
-	_userNumber(-1), _version(version), _currColor("FFFFFFFF"), _currentWorld(NULL)
+	_userNumber(-1), _version(version), _currColor("FFFFFFFF"), _currentWorld(NULL),
+	_communicator(communicator)
 {
 	try
 	{
@@ -588,4 +590,26 @@ void SessionServant::GetWorldList(const ::Ice::Current&)
     {
 		std::cout<<"SessionServant - Unknown exception during GetWorldList"<<std::endl;
     }
+}
+
+	
+/***********************************************************
+return the patcher for a given world
+***********************************************************/
+IcePatch2::FileServerPrx SessionServant::GetPatcher(const std::string & worldName, const Ice::Current &)
+{
+	try
+	{
+		return IcePatch2::FileServerPrx::checkedCast(_communicator->stringToProxy(worldName+"Patch/server"));
+	}
+    catch(const IceUtil::Exception& ex)
+    {
+		std::cout<<"SessionServant - Exception during GetPatcher: "<< ex.what()<<std::endl;
+    }
+    catch(...)
+    {
+		std::cout<<"SessionServant - Unknown exception during GetPatcher"<<std::endl;
+    }
+
+	return IcePatch2::FileServerPrx();
 }

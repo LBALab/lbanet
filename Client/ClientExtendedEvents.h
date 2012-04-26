@@ -151,12 +151,13 @@ class ChangeWorldEvent : public LbaNet::ClientServerEventBase
 {
 public:
 	//! constructor
-	ChangeWorldEvent(const std::string & NewWorldName)
-		: _NewWorldName(NewWorldName)
+	ChangeWorldEvent(const std::string & NewWorldName, bool patch)
+		: _NewWorldName(NewWorldName), _patch(patch)
 	{
 	}
 
 	std::string _NewWorldName;
+	bool _patch;
 };
 
 

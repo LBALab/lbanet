@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <RoomManager.h>
 #include <ConnectedTracker.h>
 #include <WorldServerInterface.h>
+#include <IcePatch2/FileServer.h>
 
 #include <map>
 
@@ -44,7 +45,8 @@ class SessionServant : public ClientSession, public IceUtil::Mutex
 public:
 	//! constructor
 	SessionServant(const std::string& userId, const RoomManagerPrx& manager,
-					const ConnectedTrackerPrx& ctracker, std::string version);
+					const ConnectedTrackerPrx& ctracker, std::string version,
+					const Ice::CommunicatorPtr& communicator);
 
 	//! destroy the session
 	virtual void destroy(const Ice::Current&);
@@ -100,7 +102,9 @@ public:
 	// change player Location
 	virtual void ChangeLocation(const std::string& Location, const Ice::Current&);
 	
-
+	// return the patcher for a given world
+	virtual IcePatch2::FileServerPrx LbaNet::ClientSession::GetPatcher(const std::string & worldName, 
+																		const Ice::Current &);
 protected:
 	// infrom connected world that player left
 	void QuitCurrentWorld();
@@ -121,6 +125,8 @@ private:
 	RoomManagerPrx						_manager;
 	ConnectedTrackerPrx					_ctracker;
 	WorldServerInterfacePrx				_currentWorld;
+
+	Ice::CommunicatorPtr				_communicator;
 
 
 	std::string							_version;

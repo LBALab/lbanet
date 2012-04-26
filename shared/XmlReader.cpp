@@ -56,7 +56,7 @@ bool XmlReader::LoadWorldInfo(const std::string &Filename, WorldInformation &res
     res.Description.WorldName = pt.get<std::string>("World.name");
     res.Description.Description = pt.get<std::string>("World.description");
     res.Description.News = pt.get<std::string>("World.news");
-
+    res.Description.Version = pt.get<long>("World.version", 1);
 
 
 
@@ -153,7 +153,7 @@ bool XmlReader::SaveWorldInfo(const std::string &Filename, const WorldInformatio
     pt.put("World.name", res.Description.WorldName);
     pt.put("World.description", res.Description.Description);
     pt.put("World.news", res.Description.News);
-
+    pt.put("World.version", res.Description.Version);
 
 	//// get the starting info
 	pt.put("World.PlayerStartingInfo.InventorySize", res.StartingInfo.InventorySize);
@@ -251,6 +251,7 @@ load a world description into memory
     res.WorldName = pt.get<std::string>("World.name");
     res.Description = pt.get<std::string>("World.description");
     res.News = pt.get<std::string>("World.news");
+    res.Version = pt.get<long>("World.version", 1);
 
 	return true;
 }

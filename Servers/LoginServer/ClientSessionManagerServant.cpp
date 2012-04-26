@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 ClientSessionManagerServant::ClientSessionManagerServant(const Ice::CommunicatorPtr& communicator)
+: _communicator(communicator)
 {
 	try
 	{
@@ -75,7 +76,7 @@ Glacier2::SessionPrx ClientSessionManagerServant::create(	const std::string & us
     id.category = "_" + userId;
     id.name = IceUtil::generateUUID();
 
-	SessionServant * sservant = new SessionServant(userId, _manager, _ctracker, _version);
+	SessionServant * sservant = new SessionServant(userId, _manager, _ctracker, _version, _communicator);
 	Ice::ObjectPrx prx = current.adapter->add(sservant, id);
     return Glacier2::SessionPrx::uncheckedCast(prx);
 }

@@ -63,6 +63,9 @@ public:
 	//! get the list of world to connect to
 	virtual void RefreshWorldList();
 
+	//! patch a world
+	virtual void PatchWorld(const std::string & WorldName){}
+
 private:
 	std::string												_username;
 

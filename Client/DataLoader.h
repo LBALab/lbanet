@@ -73,6 +73,8 @@ public:
 	//! saved information about a specific world
 	void SaveWorldInformation(const std::string &Filename, const LbaNet::WorldInformation &res);
 
+	//! get information about a specific world
+	void GetWorldDescription(const std::string &Filename, LbaNet::WorldDesc &res);
 
 protected:
 	//! constructor

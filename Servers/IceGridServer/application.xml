@@ -3,6 +3,31 @@
 	
 		<!--
 		**********************************************************************
+		Definition of the icepatch server
+		
+		-->		
+		<server-template id="IcePatch2">
+
+		<parameter name="instance-name" default="${application}.IcePatch2"/>
+		<parameter name="endpoints" default="default"/>
+		<parameter name="directory"/>
+
+		<server id="${instance-name}" exe="icepatch2server" application-distrib="false" activation="manual">
+
+		 <adapter name="IcePatch2" endpoints="${endpoints}">
+		   <object identity="${instance-name}/server" type="::IcePatch2::FileServer"/>
+		 </adapter>
+
+		 <properties>
+		    <property name="IcePatch2.InstanceName" value="${instance-name}"/>
+		    <property name="IcePatch2.Directory" value="${directory}"/>
+		 </properties>
+		</server>
+
+		</server-template>	
+	
+		<!--
+		**********************************************************************
 		Definition of the icestorm server
 		
 		-->	
@@ -278,13 +303,16 @@
 			<server-instance template="RoomManager" index="1" IceStorm="IceStormLbaNet" />	
 			<server-instance template="ConnectedTracker" index="1" />			
 			<server-instance template="PollingChatServer" index="1" RoomManager="LBANetServer1-RoomManager" ConnectedTracker="LBANetServer1-ConnectedTracker" ReaperTimeout="10"/>
-			<server-instance template="LoginServer" index="1" ServVersion="ver. 1.18" RoomManager="LBANetServer1-RoomManager" ConnectedTracker="LBANetServer1-ConnectedTracker"/>
+			<server-instance template="LoginServer" index="1" ServVersion="ver. 1.18r" RoomManager="LBANetServer1-RoomManager" ConnectedTracker="LBANetServer1-ConnectedTracker"/>
 			<server-instance template="WorldServer" WorldName="Lba1Original" IceStorm="IceStormLbaNet" LoginServer="LoginServer1-WorldRegister"/>	
 			<server-instance template="WorldServer" WorldName="Lba2Original" IceStorm="IceStormLbaNet" LoginServer="LoginServer1-WorldRegister"/>	
 			<server-instance template="WorldServer" WorldName="Lba1Expanded" IceStorm="IceStormLbaNet" LoginServer="LoginServer1-WorldRegister"/>	
 			<server-instance template="WorldServer" WorldName="Colozen" IceStorm="IceStormLbaNet" LoginServer="LoginServer1-WorldRegister"/>	
+			
+			<server-instance template="IcePatch2" instance-name="Lba1OriginalPatch" directory="Data/Worlds/Lba1Original"/>	
+			<server-instance template="IcePatch2" instance-name="Lba2OriginalPatch" directory="Data/Worlds/Lba2Original"/>	
+			<server-instance template="IcePatch2" instance-name="Lba1ExpandedPatch" directory="Data/Worlds/Lba1Expanded"/>	
+			<server-instance template="IcePatch2" instance-name="ColozenPatch" directory="Data/Worlds/Colozen"/>				
 		</node>	
 	</application>
-</icegrid>	
-
-
+</icegrid>

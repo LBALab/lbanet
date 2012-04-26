@@ -32,6 +32,7 @@ module LbaNet
 		string 			WorldName;
 		string 			Description;
 		string 			News;
+		long			Version;
 	};
 	
 	sequence<WorldDesc>		WorldsSeq;

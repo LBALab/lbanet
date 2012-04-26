@@ -71,6 +71,9 @@ public:
 	//! get the list of world to connect to
 	virtual void RefreshWorldList();
 
+	//! patch a world
+	virtual void PatchWorld(const std::string & WorldName);
+
 private:
 	// threading and mutex stuff
 	IceUtil::Monitor<IceUtil::Mutex>						_monitor;

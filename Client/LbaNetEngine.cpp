@@ -389,7 +389,7 @@ void LbaNetEngine::HandleGameEvents()
 				dynamic_cast<ChangeWorldEvent *>(&obj);
 
 			// update 
-			ChangeWorld(castedptr->_NewWorldName);
+			ChangeWorld(castedptr->_NewWorldName, castedptr->_patch);
 			continue;
 		}
 
@@ -1321,10 +1321,17 @@ void LbaNetEngine::ExitGui()
 /***********************************************************
 change the world
 ***********************************************************/
-void LbaNetEngine::ChangeWorld(const std::string & NewWorld)
+void LbaNetEngine::ChangeWorld(const std::string & NewWorld, bool patch)
 {
 	if(m_currentworld == NewWorld)
 		return;
+
+	// show loading screen
+	m_lbaNetModel->ShowHideLoadingScreen(true);
+
+	// first check if we need to patch the world
+	if(patch)
+		m_serverConH->PatchWorld(NewWorld);
 
 	m_currentworld = NewWorld;
 

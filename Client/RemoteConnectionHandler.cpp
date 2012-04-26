@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "InfosReceiverServant.h"
 #include "ChatServerHandler.h"
 #include "EventsQueue.h"
+#include "WorldPatcher.h"
 
 #define _REMOTE_THREAD_WAIT_TIME_	10
 
@@ -338,3 +339,27 @@ void RemoteConnectionHandler::run()
 		_monitor.timedWait(t);
 	}
 }	
+
+//! patch a world
+void RemoteConnectionHandler::PatchWorld(const std::string & WorldName)
+{
+	try
+	{
+		if(_session)
+		{
+			IcePatch2::FileServerPrx patcher = _session->GetPatcher(WorldName);
+			if(patcher)
+			{
+				WorldPatcher::PatchWorld(WorldName, "Data/Worlds/"+WorldName, patcher);
+			}
+		}
+	}
+    catch(const IceUtil::Exception& ex)
+    {
+		LogHandler::getInstance()->LogToFile(std::string("Exception on PatchWorld: ") + ex.what());
+    }
+    catch(...)
+    {
+		LogHandler::getInstance()->LogToFile(std::string("Unknown exception on PatchWorld"));
+    }
+}

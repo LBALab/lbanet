@@ -196,7 +196,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="qtmain.lib QtCore4.lib QtGui4.lib QtOpenGL4.lib opengl32.lib glu32.lib CEGUIBase.lib CEGUIOpenGLRenderer.lib osg.lib osgutil.lib osgGA.lib osgViewer.lib osgDB.lib osgText.lib osgShadow.lib osgParticle.lib osgManipulator.lib osgAudio.lib libconfig++.lib PhysXLoader.lib PhysXCooking.lib NxCharacter.lib ice.lib iceutil.lib glacier2.lib fmodex_vc.lib lua51.lib luabind.lib freetype244.lib libvlc.lib"
+				AdditionalDependencies="qtmain.lib QtCore4.lib QtGui4.lib QtOpenGL4.lib opengl32.lib glu32.lib CEGUIBase.lib CEGUIOpenGLRenderer.lib osg.lib osgutil.lib osgGA.lib osgViewer.lib osgDB.lib osgText.lib osgShadow.lib osgParticle.lib osgManipulator.lib osgAudio.lib libconfig++.lib PhysXLoader.lib PhysXCooking.lib NxCharacter.lib ice.lib iceutil.lib glacier2.lib icepatch2.lib fmodex_vc.lib lua51.lib luabind.lib freetype244.lib libvlc.lib"
 				OutputFile="$(OutDir)\LBANetEditor.exe"
 				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;..\dependencies\OSG\lib;..\dependencies\CEGUI\lib;..\dependencies\3rdParty\lib;..\dependencies\libconfig\lib;&quot;$(PHYSX_HOME)\SDKs\lib\Win32&quot;;&quot;$(ICE_HOME)\lib&quot;;..\dependencies\fmod\lib;..\dependencies\CrashReport\crashrpt\lib;..\dependencies\LUA\lib;..\dependencies\luabind\lib;..\dependencies\VLC\lib"
 				GenerateDebugInformation="false"
@@ -266,7 +266,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="qtmaind.lib QtCored4.lib QtGuid4.lib QtOpenGLd4.lib opengl32.lib glu32.lib CEGUIBase_d.lib CEGUIOpenGLRenderer_d.lib osgd.lib osgutild.lib osgGAd.lib osgViewerd.lib osgDBd.lib osgTextd.lib osgShadowd.lib osgParticled.lib osgManipulatord.lib osgAudiod.lib libconfig++d.lib PhysXLoader.lib PhysXCooking.lib NxCharacter.lib iced.lib iceutild.lib glacier2d.lib fmodex_vc.lib lua51d.lib luabindd.lib freetype244D.lib libvlc.lib"
+				AdditionalDependencies="qtmaind.lib QtCored4.lib QtGuid4.lib QtOpenGLd4.lib opengl32.lib glu32.lib CEGUIBase_d.lib CEGUIOpenGLRenderer_d.lib osgd.lib osgutild.lib osgGAd.lib osgViewerd.lib osgDBd.lib osgTextd.lib osgShadowd.lib osgParticled.lib osgManipulatord.lib osgAudiod.lib libconfig++d.lib PhysXLoader.lib PhysXCooking.lib NxCharacter.lib iced.lib iceutild.lib glacier2d.lib icepatch2d.lib fmodex_vc.lib lua51d.lib luabindd.lib freetype244D.lib libvlc.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;..\dependencies\OSG\lib;..\dependencies\CEGUI\lib;..\dependencies\3rdParty\lib;..\dependencies\libconfig\lib;&quot;$(PHYSX_HOME)\SDKs\lib\Win32&quot;;&quot;$(ICE_HOME)\lib&quot;;..\dependencies\fmod\lib;..\dependencies\CrashReport\crashrpt\lib;..\dependencies\LUA\lib;..\dependencies\luabind\lib;..\dependencies\VLC\lib"
 				GenerateDebugInformation="true"
@@ -905,6 +905,10 @@
 			</File>
 			<File
 				RelativePath=".\vlc_on_qt.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\WorldPatcher.cpp"
 				>
 			</File>
 			<File
@@ -1664,6 +1668,54 @@
 			<File
 				RelativePath="..\Servers\WorldServer\WorldChatHandler.h"
 				>
+			</File>
+			<File
+				RelativePath=".\WorldPatcher.h"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseEditor|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="DebugEditor|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description=""
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Servers\WorldServer\WorldServerInterfaceServant.h"

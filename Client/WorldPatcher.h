@@ -22,32 +22,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------------------------------------------------------------------
 */
 
+#ifndef LBANET_WORLD_PATCHER_H
+#define LBANET_WORLD_PATCHER_H
 
-#ifndef _CLIENT_SESSION_MANAGER_SERVANT_H
-#define _CLIENT_SESSION_MANAGER_SERVANT_H
+#include <IcePatch2/FileServer.h>
 
-#include <Ice/Ice.h>
-#include <Glacier2/Session.h>
-#include <RoomManager.h>
-#include <ConnectedTracker.h>
-
-
-class ClientSessionManagerServant : public Glacier2::SessionManager
+//! used to patch world data using patch2server
+class WorldPatcher
 {
 public:
-
-    ClientSessionManagerServant(const Ice::CommunicatorPtr& communicator);
-    ~ClientSessionManagerServant();
-
-    virtual Glacier2::SessionPrx create(const std::string & userId,const Glacier2::SessionControlPrx &,
-											const Ice::Current &current);
-
-private:
-	LbaNet::RoomManagerPrx			_manager;
-	LbaNet::ConnectedTrackerPrx		_ctracker;
-	Ice::CommunicatorPtr			_communicator;
-
-	std::string						_version;
+	static bool PatchWorld(const std::string & worldname, const std::string & directory, 
+							IcePatch2::FileServerPrx patcherserver);
 };
 
-#endif
+#endif // CLIENT_H

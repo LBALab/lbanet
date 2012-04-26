@@ -60,6 +60,9 @@ public:
 	//! get the list of world to connect to
 	virtual void RefreshWorldList() = 0;
 
+	//! patch a world
+	virtual void PatchWorld(const std::string & WorldName) = 0;
+
 protected:
 	
 	//! start running the thread

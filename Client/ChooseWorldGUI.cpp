@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "GUILocalizationCallback.h"
 #include "Localizer.h"
 #include "SynchronizedTimeHandler.h"
+#include "DataLoader.h"
 #include <QMessageBox>
 
 class MyListItemCW : public CEGUI::ListboxTextItem
@@ -47,6 +48,7 @@ public:
 	Constructor
 ***********************************************************/
 ChooseWorldGUI::ChooseWorldGUI()
+: _selectedworld(-1)
 {
 }
 
@@ -119,11 +121,18 @@ handle connect button event
 ***********************************************************/
 bool ChooseWorldGUI::HandleConnect(const CEGUI::EventArgs& e)
 {
-	if(_selectedworld != "")
+	if(_selectedworld >= 0 && _selectedworld < _wlist.size())
 	{
+		const LbaNet::WorldDesc& worldinfo = _wlist[_selectedworld];
+		bool patch = false;
+		// check version mismatch
+		LbaNet::WorldDesc mydesc;
+		DataLoader::getInstance()->GetWorldDescription(worldinfo.WorldName, mydesc);
+		patch = (mydesc.Version < worldinfo.Version);
+
 		std::string samples = "Data/GUI/lba2launcherblob.wav";
 		MusicHandler::getInstance()->PlaySample2D(samples, false, true);
-		EventsQueue::getReceiverQueue()->AddEvent(new ChangeWorldEvent(_selectedworld));
+		EventsQueue::getReceiverQueue()->AddEvent(new ChangeWorldEvent(worldinfo.WorldName, patch));
 
 		CEGUI::WindowManager::getSingleton().getWindow("CWResetB")->hide();
 	}
@@ -268,7 +277,7 @@ bool ChooseWorldGUI::HandleWorldSelected (const CEGUI::EventArgs& e)
 						eb->appendText((const unsigned char *)str.c_str());
 				}
 
-				_selectedworld = _wlist[idx].WorldName;
+				_selectedworld = idx;
 			}
 		}
 	}
@@ -320,16 +329,13 @@ bool ChooseWorldGUI::HandleReset (const CEGUI::EventArgs& e)
 									QMessageBox::Ok | QMessageBox::Cancel,
 									QMessageBox::Ok);
 
-
-	//QMessageBox msgBox;
-	//msgBox.setText(QString::fromUtf8(Localizer::getInstance()->GetText(Localizer::GUI, 108).c_str()));
-	//msgBox.setInformativeText(QString::fromUtf8(Localizer::getInstance()->GetText(Localizer::GUI, 109).c_str()));
-	//msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-	//int ret = msgBox.exec();
-
 	if(ret == QMessageBox::Ok)
-	{
-		EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ResetWorldEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), _selectedworld));
+	{	
+		if(_selectedworld >= 0 && _selectedworld < _wlist.size())
+		{
+			const LbaNet::WorldDesc& worldinfo = _wlist[_selectedworld];
+			EventsQueue::getSenderQueue()->AddEvent(new LbaNet::ResetWorldEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), worldinfo.WorldName));
+		}
 	}
 
 	return true;

@@ -1743,6 +1743,9 @@ void EditorHandler::SaveWorldAction(std::string mapname)
 
 	if(_modified)
 	{
+		// increment version
+		++_winfo.Description.Version;
+
 		// save xml file
 		DataLoader::getInstance()->SaveWorldInformation(_winfo.Description.WorldName, _winfo);
 
@@ -1764,8 +1767,6 @@ void EditorHandler::SaveWorldAction(std::string mapname)
 
 		// save holomap
 		SaveHoloMap("./Data/Worlds/" + _winfo.Description.WorldName + "/Lua/Holomap.lua");
-
-
 
 		SetSaved();
 	}

@@ -2,6 +2,7 @@
 #define CLIENT_SESSION_ICE
 
 #include <Glacier2/Session.ice>
+#include <IcePatch2/FileServer.ice>
 #include <ClientServerEvents.ice>
 #include <ChatInfo.ice>
 #include <ClientInterface.ice>
@@ -40,7 +41,10 @@ module LbaNet
 		// set status
 		void ChangeStatus(string Status);
 		void ChangeNameColor(string Color);  
-		void ChangeLocation(string Location);  		
+		void ChangeLocation(string Location);
+		
+		//get the patcher for a specific world
+		IcePatch2::FileServer* GetPatcher(string WorldName);
 	};
 
 };

@@ -130,6 +130,13 @@ void DataLoader::GetWorldInformation(const std::string &Filename, LbaNet::WorldI
 	XmlReader::LoadWorldInfo( "./Data/Worlds/" + Filename + "/WorldDescription.xml", res);
 }
 
+/***********************************************************
+get information about a specific world
+***********************************************************/
+void DataLoader::GetWorldDescription(const std::string &Filename, LbaNet::WorldDesc &res)
+{
+	XmlReader::LoadWorldDesc( "./Data/Worlds/" + Filename + "/WorldDescription.xml", res);
+}
 
 /***********************************************************
 saved information about a specific world
