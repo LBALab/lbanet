@@ -4,7 +4,7 @@ OBJ=AvailableWorldsHandler.o ChatParticipantServant.o ClientSessionManagerServan
 CC=g++
 INCDIR=-I. -I../../infrastructure/include -I/usr/include -I/usr/include/mysql++ -I/usr/include/mysql -I../../shared
 LIBDIR=-L/usr/lib -L../../infrastructure/lib
-LIBS=-lIce -lIceStorm -lIceUtil -lGlacier2 -lgenerated -lmysqlpp -lmysqlclient
+LIBS=-lIce -lIceStorm -lIceUtil -lGlacier2 -lIcePatch2 -lgenerated -lmysqlpp -lmysqlclient
 
 
 all: clean depend $(TARGET) install
