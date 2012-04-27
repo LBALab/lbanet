@@ -103,8 +103,7 @@ public:
 	virtual void ChangeLocation(const std::string& Location, const Ice::Current&);
 	
 	// return the patcher for a given world
-	virtual IcePatch2::FileServerPrx LbaNet::ClientSession::GetPatcher(const std::string & worldName, 
-																		const Ice::Current &);
+	virtual IcePatch2::FileServerPrx GetPatcher(const std::string & worldName, const Ice::Current &);
 protected:
 	// infrom connected world that player left
 	void QuitCurrentWorld();
