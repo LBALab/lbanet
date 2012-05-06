@@ -59,6 +59,9 @@ public:
 	//! reformat stored letters
 	void ReformatLetters();
 
+	//! check if player is an admin for the given world
+    bool IsWorldAdmin(long PlayerId, const std::string& Worldname);
+
 protected:
 	DatabaseHandler(const DatabaseHandler &);
 	const DatabaseHandler & operator=(const DatabaseHandler &);

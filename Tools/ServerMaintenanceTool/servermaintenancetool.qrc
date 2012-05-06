@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/ServerMaintenanceTool">
+        <file>Resources/LBA-net.ico</file>
+    </qresource>
+</RCC>

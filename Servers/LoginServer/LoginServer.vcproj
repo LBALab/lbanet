@@ -221,6 +221,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\infrastructure\cpp\MaintenanceInterface.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\infrastructure\cpp\RoomManager.cpp"
 				>
 			</File>

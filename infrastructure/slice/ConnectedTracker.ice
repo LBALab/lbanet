@@ -24,6 +24,8 @@ module LbaNet
 		
 		void SetWhisperInterface(string Nickname, ChatRoomObserver * winterface);
 		bool Whisper(string From, string To, string Message);
+		
+		bool IsWorldAdmin(long PlayerId, string Worldname);
 	};
 
 };

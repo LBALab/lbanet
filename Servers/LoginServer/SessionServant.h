@@ -104,6 +104,19 @@ public:
 	
 	// return the patcher for a given world
 	virtual IcePatch2::FileServerPrx GetPatcher(const std::string & worldName, const Ice::Current &);
+
+	// called in order to shutdown the world server, update the world data, then restart the server
+	virtual std::string UpdateWorld(const std::string & WorldName, const Ice::Current &);
+		
+	// start server for world if not yet started
+	virtual std::string StartWorld(const std::string & WorldName, const Ice::Current &);
+		
+	// stop server for world if started
+	virtual std::string ShutdownWorld(const std::string & WorldName, const Ice::Current &);
+		
+	// check if server is started or not
+	virtual bool GetWorldStatus(const std::string & WorldName, const Ice::Current &);	
+
 protected:
 	// infrom connected world that player left
 	void QuitCurrentWorld();

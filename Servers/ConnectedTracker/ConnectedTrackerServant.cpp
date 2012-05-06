@@ -140,3 +140,13 @@ bool ConnectedTrackerServant::Whisper(const std::string& From, const std::string
 {
 	return _shd->Whisper(From, To, Message);
 }
+
+
+/***********************************************************
+check if player is an admin for the given world
+***********************************************************/	
+bool ConnectedTrackerServant::IsWorldAdmin(Ice::Long PlayerId, const std::string& Worldname, 
+										   const ::Ice::Current&)
+{
+	return _dbh.IsWorldAdmin((long)PlayerId, Worldname);
+}

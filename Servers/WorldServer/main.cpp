@@ -62,7 +62,7 @@ public:
 		Ice::ObjectPrx worldi = _adapter->add(new WorldServerInterfaceServant(),
 						communicator()->stringToIdentity(prop->getProperty("WorldIServantName")));
 
-		_adapter->add(new MaintenanceInterfaceServant(communicator(), wname, &wch),
+		Ice::ObjectPrx worldmi = _adapter->add(new MaintenanceInterfaceServant(communicator(), wname, &wch),
 						communicator()->stringToIdentity(prop->getProperty("MaintenanceIServantName")));
 		_adapter->activate();
 
@@ -74,7 +74,9 @@ public:
 																			communicator()->getProperties()->getProperty("LoginServer")));
 
 			if(loginserv)
-				loginserv->RegisterWorld(worldinfo.Description, WorldServerInterfacePrx::uncheckedCast(worldi));
+				loginserv->RegisterWorld(worldinfo.Description, 
+									WorldServerInterfacePrx::uncheckedCast(worldi),
+									MaintenanceInterfacePrx::uncheckedCast(worldmi));
 		}
 		catch(const IceUtil::Exception& ex)
 		{

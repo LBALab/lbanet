@@ -45,6 +45,19 @@ module LbaNet
 		
 		//get the patcher for a specific world
 		IcePatch2::FileServer* GetPatcher(string WorldName);
+		
+		// called in order to shutdown the world server, update the world data, then restart the server
+		string UpdateWorld(string WorldName);
+		
+		// start server for world if not yet started
+		string StartWorld(string WorldName);
+		
+		// stop server for world if started
+		string ShutdownWorld(string WorldName);
+		
+		// check if server is started or not
+		bool GetWorldStatus(string WorldName);		
+		
 	};
 
 };

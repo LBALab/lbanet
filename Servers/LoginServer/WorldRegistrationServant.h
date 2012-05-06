@@ -42,7 +42,7 @@ public:
 
 	// register world
     void RegisterWorld(const WorldDesc& winfo, const LbaNet::WorldServerInterfacePrx& proxy,
-								const Ice::Current &current);
+								const LbaNet::MaintenanceInterfacePrx& mproxy, const Ice::Current &current);
 	
 	// unregister world
     void UnregisterWorld(const std::string& Worldname, const Ice::Current &current);

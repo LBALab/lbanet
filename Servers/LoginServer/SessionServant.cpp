@@ -613,3 +613,118 @@ IcePatch2::FileServerPrx SessionServant::GetPatcher(const std::string & worldNam
 
 	return IcePatch2::FileServerPrx();
 }
+
+/***********************************************************
+called in order to shutdown the world server, update the world data, then restart the server
+***********************************************************/
+std::string SessionServant::UpdateWorld(const std::string & WorldName, const Ice::Current &)
+{
+	try
+	{
+		if(_ctracker && _ctracker->IsWorldAdmin(_userNumber, WorldName))
+		{
+			if(AvailableWorldsHandler::getInstance()->ShutdownWorldServer(WorldName))
+			{
+				//TODO
+				return "OK";
+			}
+			else
+			{
+				return "Error: not able to contact server for world: " + WorldName;
+			}
+		}
+		else
+		{
+			return "Error: you are not authorized to update the world: " + WorldName;
+		}
+	}
+    catch(const IceUtil::Exception& ex)
+    {
+		std::cout<<"SessionServant - Exception during UpdateWorld: "<< ex.what()<<std::endl;
+    }
+    catch(...)
+    {
+		std::cout<<"SessionServant - Unknown exception during UpdateWorld"<<std::endl;
+    }
+
+	return "Error: exception when updating world: " + WorldName;	
+}
+
+	
+/***********************************************************
+start server for world if not yet started
+***********************************************************/
+std::string SessionServant::StartWorld(const std::string & WorldName, const Ice::Current &)
+{
+	try
+	{
+		if(_ctracker && _ctracker->IsWorldAdmin(_userNumber, WorldName))
+		{
+			if(AvailableWorldsHandler::getInstance()->ServerStarted(WorldName))
+			{
+				return "Error: server already started for world: " + WorldName;
+			}
+			else
+			{
+				//TODO
+			}
+		}
+		else
+		{
+			return "Error: you are not authorized to update the world: " + WorldName;
+		}
+	}
+    catch(const IceUtil::Exception& ex)
+    {
+		std::cout<<"SessionServant - Exception during UpdateWorld: "<< ex.what()<<std::endl;
+    }
+    catch(...)
+    {
+		std::cout<<"SessionServant - Unknown exception during UpdateWorld"<<std::endl;
+    }
+
+	return "Error: exception when updating world: " + WorldName;
+}
+
+/***********************************************************
+stop server for world if started
+***********************************************************/
+std::string SessionServant::ShutdownWorld(const std::string & WorldName, const Ice::Current &)
+{
+	try
+	{
+		if(_ctracker && _ctracker->IsWorldAdmin(_userNumber, WorldName))
+		{
+			if(AvailableWorldsHandler::getInstance()->ShutdownWorldServer(WorldName))
+			{
+				return "OK";
+			}
+			else
+			{
+				return "Error: not able to contact server for world: " + WorldName;
+			}
+		}
+		else
+		{
+			return "Error: you are not authorized to update the world: " + WorldName;
+		}
+	}
+    catch(const IceUtil::Exception& ex)
+    {
+		std::cout<<"SessionServant - Exception during UpdateWorld: "<< ex.what()<<std::endl;
+    }
+    catch(...)
+    {
+		std::cout<<"SessionServant - Unknown exception during UpdateWorld"<<std::endl;
+    }
+
+	return "Error: exception when updating world: " + WorldName;
+}
+	
+/***********************************************************
+check if server is started or not
+***********************************************************/
+bool SessionServant::GetWorldStatus(const std::string & WorldName, const Ice::Current &)
+{
+	return AvailableWorldsHandler::getInstance()->ServerStarted(WorldName);
+}	

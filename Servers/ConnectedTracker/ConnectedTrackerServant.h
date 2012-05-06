@@ -82,6 +82,9 @@ public:
 	//! a player wisper to another
     virtual bool Whisper(const std::string& From, const std::string& To, const std::string& Message, 
 								const ::Ice::Current&);
+		
+	//! check if player is an admin for the given world
+    virtual bool IsWorldAdmin(Ice::Long PlayerId, const std::string& Worldname, const ::Ice::Current&);
 
 private:
 	const Ice::CommunicatorPtr& _communicator;

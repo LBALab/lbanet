@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <LbaTypes.h>
 #include <WorldServerInterface.h>
+#include <MaintenanceInterface.h>
 
 using namespace LbaNet;
 
@@ -41,7 +42,8 @@ public:
 	~AvailableWorldsHandler(void);
 
 	// add a world to the list
-	void AddWorld(const WorldDesc &desc, const WorldServerInterfacePrx & proxy);
+	void AddWorld(const WorldDesc &desc, const WorldServerInterfacePrx & proxy,
+					const MaintenanceInterfacePrx& mproxy);
 
 	// remove a world from list
 	void RemoveWorld(const std::string worldname);
@@ -50,8 +52,13 @@ public:
 	WorldsSeq GetWorldList();
 
 	// get proxy to a specific world - NULL if not existing
-	WorldServerInterfacePrx GetWorldProxy(const std::string worldname);
+	WorldServerInterfacePrx GetWorldProxy(const std::string &worldname);
 
+	// shutdown server
+	bool ShutdownWorldServer(const std::string &worldname);
+
+	// check if server is started
+	bool ServerStarted(const std::string &worldname);
 
 protected:
 	//! constructor
@@ -63,7 +70,15 @@ private:
 
 	IceUtil::Mutex										_mutex;
 	std::map<std::string, WorldDesc>					_worldsinfo;
-	std::map<std::string, WorldServerInterfacePrx>		_worldsproxy;
+
+
+	struct WorldProxies
+	{
+		WorldServerInterfacePrx proxy;
+		MaintenanceInterfacePrx maintenance;
+	};
+
+	std::map<std::string, WorldProxies>		_worldsproxy;
 
 };
 

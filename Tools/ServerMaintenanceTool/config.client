@@ -1,0 +1,13 @@
+#
+# Please replace the ip address by the one of the server 
+#
+Ice.Default.Router=LBANetGlacier2/router:tcp -p 4063 -h 88.191.144.87
+LbaNetClient.Router=LBANetGlacier2/router:tcp -p 4063 -h 88.191.144.87
+
+
+#
+# Internal option
+#
+LbaNetClient.Endpoints=
+Ice.ACM.Client=0
+Ice.RetryIntervals=-1

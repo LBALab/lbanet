@@ -32,9 +32,10 @@ register world
 ***********************************************************/
 void WorldRegistrationServant::RegisterWorld(const WorldDesc& winfo, 
 											 const LbaNet::WorldServerInterfacePrx& proxy,
+											const LbaNet::MaintenanceInterfacePrx& mproxy, 
 											const Ice::Current &current)
 {
-	AvailableWorldsHandler::getInstance()->AddWorld(winfo, proxy);
+	AvailableWorldsHandler::getInstance()->AddWorld(winfo, proxy, mproxy);
 }
 
 

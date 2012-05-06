@@ -1505,6 +1505,9 @@ void LbaNetEngine::SwitchToFixedImage(SwitchToFixedImageEvent * evtptr)
 											evtptr->_FadeOutColorR,
 											evtptr->_FadeOutColorG,
 											evtptr->_FadeOutColorB);
+
+	// update display directly in case of fixed image since the next call might be blocking
+	OsgHandler::getInstance()->Update();
 }
 
 

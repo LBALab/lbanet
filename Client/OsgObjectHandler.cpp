@@ -486,6 +486,7 @@ void OsgObjectHandler::RefreshText()
 
 			_textgroup->addChild(_textgeode);
 			root->addChild(_textgroup);
+			root->dirtyBound();
 		}
 	}
 }
@@ -693,6 +694,7 @@ void OsgObjectHandler::RefreshLifeManaBars()
 
 		_barsgroup->addChild(barsgeode);
 		root->addChild(_barsgroup);
+		root->dirtyBound();
 	}
 }
 

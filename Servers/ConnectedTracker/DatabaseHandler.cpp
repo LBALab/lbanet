@@ -313,3 +313,49 @@ void DatabaseHandler::Clear()
 		_mysqlH = NULL;
 	}
 }
+
+
+/***********************************************************
+check if player is an admin for the given world
+***********************************************************/
+bool DatabaseHandler::IsWorldAdmin(long PlayerId, const std::string& Worldname)
+{
+	Lock sync(*this);
+	if(!_mysqlH || !_mysqlH->connected())
+	{
+		Connect();
+		if(!_mysqlH->connected())
+		{
+			std::cerr<<IceUtil::Time::now()<<": Connected tracker - IsWorldAdmin failed for user "<<PlayerId<<std::endl;
+			Clear();
+			return false;
+		}
+	}
+
+	mysqlpp::Query query(_mysqlH, false);
+	query << "SELECT id FROM lba_worlds WHERE name = '"<<Worldname <<"'";
+	if (mysqlpp::StoreQueryResult res = query.store())
+	{
+		if(res.size() > 0)
+		{
+			long worldId = res[0][0];
+
+			// check if user is already in the lbanet table
+			query.clear();
+			query << "SELECT AuthorId FROM worldauthors WHERE WorldId = '"<<worldId
+				<<"' AND AuthorId = '"<<PlayerId <<"'";
+			if ((res = query.store()) && (res.size() > 0))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+	}
+
+	std::cerr<<IceUtil::Time::now()<<": Connected tracker - IsWorldAdmin failed for user "<<PlayerId<<" : "<<query.error()<<std::endl;
+	Clear();
+	return false;
+}
