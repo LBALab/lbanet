@@ -90,27 +90,6 @@ public:
 		communicator()->waitForShutdown();
 
 
-		// inform login server that we go down
-		try
-		{
-
-			WorldRegisterInterfacePrx loginserv = WorldRegisterInterfacePrx::checkedCast(communicator()->stringToProxy(
-																			communicator()->getProperties()->getProperty("LoginServer")));
-
-			if(loginserv)
-				loginserv->UnregisterWorld(wname);
-		}
-		catch(const IceUtil::Exception& ex)
-		{
-			std::cout<<"Exception getting the login server. "<<ex.what()<<std::endl;
-		}
-		catch(...)
-		{
-			std::cout<<"Unknown exception getting the login server . "<<std::endl;
-		}
-
-
-
 		// clean up
 		SharedDataHandler::getInstance()->CleanUp();
 

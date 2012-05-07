@@ -238,7 +238,7 @@
 			<server id="WorldServer-${WorldName}" 
 			exe="${exepath}"
 	
-			activation="on-demand">
+			activation="manual">
 				<adapter name="WorldServer${WorldName}-Adapter" register-process="true"
 				endpoints="tcp">
 					<object identity="WorldServer${WorldName}-ServerInterface" type="LbaNet::WorldServerInterface"/>

@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "MaintenanceInterfaceServant.h"
+#include <WorldRegistration.h>
 
 
 //! thread taking care of shutting down the server
@@ -62,6 +63,28 @@ public:
 			IceUtil::ThreadControl::sleep(IceUtil::Time::seconds(10));
 
 		}
+
+
+
+		// inform login server that we go down
+		try
+		{
+
+			WorldRegisterInterfacePrx loginserv = WorldRegisterInterfacePrx::checkedCast(_communicator->stringToProxy(
+																			_communicator->getProperties()->getProperty("LoginServer")));
+
+			if(loginserv)
+				loginserv->UnregisterWorld(_worldname);
+		}
+		catch(const IceUtil::Exception& ex)
+		{
+			std::cout<<"Exception getting the login server. "<<ex.what()<<std::endl;
+		}
+		catch(...)
+		{
+			std::cout<<"Unknown exception getting the login server . "<<std::endl;
+		}
+
 
 		// then shutdown
 		_communicator->shutdown();

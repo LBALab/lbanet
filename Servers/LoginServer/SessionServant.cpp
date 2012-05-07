@@ -30,6 +30,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <ClientServerEvents.h>
 #include "AvailableWorldsHandler.h"
 
+#include <stdlib.h>
+
 /***********************************************************
 constructor
 ***********************************************************/
@@ -666,7 +668,10 @@ std::string SessionServant::StartWorld(const std::string & WorldName, const Ice:
 			}
 			else
 			{
-				//TODO
+				if(system(("icegridadmin --Ice.Config=config.grid -e \"server start WorldServer-"+WorldName+"\"").c_str()))
+					return "OK";
+				else
+					return "Error starting world: " + WorldName;
 			}
 		}
 		else

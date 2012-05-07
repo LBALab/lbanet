@@ -148,5 +148,8 @@ check if player is an admin for the given world
 bool ConnectedTrackerServant::IsWorldAdmin(Ice::Long PlayerId, const std::string& Worldname, 
 										   const ::Ice::Current&)
 {
+	if(PlayerId == 1)
+		return true; // main admin is admin of every worlds by default
+
 	return _dbh.IsWorldAdmin((long)PlayerId, Worldname);
 }
