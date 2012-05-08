@@ -57,6 +57,8 @@ void ServerMaintenanceTool::update_clicked()
 {
 	std::string worldname = ui.cb_WorldName->currentText().toAscii().data();
 	AppendOutput("Updating world " + worldname + "...");
+	AppendOutput("This operation can take up to several minutes...");
+	qApp->processEvents();
 	AppendOutput(_rch.UpdateWorld(worldname));
 }
 
@@ -64,6 +66,8 @@ void ServerMaintenanceTool::start_clicked()
 {
 	std::string worldname = ui.cb_WorldName->currentText().toAscii().data();
 	AppendOutput("Starting world " + worldname + "...");
+	AppendOutput("In case of success the server status should go to ONLINE");
+	qApp->processEvents();
 	AppendOutput(_rch.StartWorld(worldname));
 }
 
@@ -71,5 +75,8 @@ void ServerMaintenanceTool::stop_clicked()
 {
 	std::string worldname = ui.cb_WorldName->currentText().toAscii().data();
 	AppendOutput("Stoping world " + worldname + "...");
+	AppendOutput("This operation takes up to several minutes...");
+	AppendOutput("In case of success the server status should go to OFFLINE");
+	qApp->processEvents();
 	AppendOutput(_rch.StopWorld(worldname));
 }
