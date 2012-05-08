@@ -631,7 +631,7 @@ std::string SessionServant::UpdateWorld(const std::string & WorldName, const Ice
 			}
 			else
 			{
-				system(("./UpdateWorld.sh "+WorldName).c_str());
+				system(("../bin/UpdateWorld.sh "+WorldName).c_str());
 				return "OK";
 			}
 		}
