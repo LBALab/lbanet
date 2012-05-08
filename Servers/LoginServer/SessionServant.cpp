@@ -625,14 +625,14 @@ std::string SessionServant::UpdateWorld(const std::string & WorldName, const Ice
 	{
 		if(_ctracker && _ctracker->IsWorldAdmin(_userNumber, WorldName))
 		{
-			if(AvailableWorldsHandler::getInstance()->ShutdownWorldServer(WorldName))
+			if(AvailableWorldsHandler::getInstance()->ServerStarted(WorldName))
 			{
-				//TODO
-				return "OK";
+				return "Error: server should be shutdown before updating for world: " + WorldName;
 			}
 			else
 			{
-				return "Error: not able to contact server for world: " + WorldName;
+				system((".:UpdateWorld.sh "+WorldName).c_str());
+				return "OK";
 			}
 		}
 		else
@@ -668,10 +668,9 @@ std::string SessionServant::StartWorld(const std::string & WorldName, const Ice:
 			}
 			else
 			{
-				if(system(("icegridadmin --Ice.Config=config.grid -e \"server start WorldServer-"+WorldName+"\"").c_str()))
-					return "OK";
-				else
-					return "Error starting world: " + WorldName;
+				system(("icegridadmin --Ice.Config=config.grid -e \"server start WorldServer-"+WorldName+"\"").c_str());
+				system(("icegridadmin --Ice.Config=config.grid -e \"server start "+WorldName+"Patch\"").c_str());				
+				return "OK";
 			}
 		}
 		else
@@ -702,6 +701,7 @@ std::string SessionServant::ShutdownWorld(const std::string & WorldName, const I
 		{
 			if(AvailableWorldsHandler::getInstance()->ShutdownWorldServer(WorldName))
 			{
+				system(("icegridadmin --Ice.Config=config.grid -e \"server stop "+WorldName+"Patch\"").c_str());	
 				return "OK";
 			}
 			else
