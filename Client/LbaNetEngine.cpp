@@ -113,10 +113,7 @@ initialize the class
 void LbaNetEngine::Initialize(void)
 {
 	// first get the language to use
-	std::string language;
-	ConfigurationManager::GetInstance()->GetString("Options.General.Language", language);
-	if(language == "")
-		language = "en";
+	std::string language = ConfigurationManager::GetInstance()->GetValue("Options.General.Language", std::string("en"));
 	Localizer::getInstance()->SetLanguage(language);
 
 
@@ -125,11 +122,10 @@ void LbaNetEngine::Initialize(void)
 #ifdef _USE_QT_EDITOR_
 	m_editor_handler->SetOsgWindow(m_client_window.get());
 #else
-	int resX, resY;
-	bool isFullscreen;
-	ConfigurationManager::GetInstance()->GetInt("Display.Screen.ScreenResolutionX", resX);
-	ConfigurationManager::GetInstance()->GetInt("Display.Screen.ScreenResolutionY", resY);
-	ConfigurationManager::GetInstance()->GetBool("Display.Screen.Fullscreen", isFullscreen);
+
+	int resX = ConfigurationManager::GetInstance()->GetValue("Display.Screen.ScreenResolutionX", 800);
+	int resY = ConfigurationManager::GetInstance()->GetValue("Display.Screen.ScreenResolutionY", 600);
+	bool isFullscreen = ConfigurationManager::GetInstance()->GetValue("Display.Screen.Fullscreen", false);
 	ResizeClientWindow(resX, resY, isFullscreen);
 #endif
 
@@ -155,8 +151,7 @@ void LbaNetEngine::Initialize(void)
 
 	//init physic engine
 	LogHandler::getInstance()->LogToFile("Initialize physic engine...");
-	float gravity = -1.0;
-	ConfigurationManager::GetInstance()->GetFloat("Physic.GlobalGravity", gravity);
+	float gravity = ConfigurationManager::GetInstance()->GetValue("Physic.GlobalGravity", -1.0f);
 	PhysXEngine::getInstance()->Init(gravity);
 
 

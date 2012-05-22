@@ -34,7 +34,7 @@ enum XtGLw_fadingstate {XtGLw_FDOff, XtGLw_FDIn, XtGLw_FDOut};
 
 class FONT_FONT;
 
-class CEGUIEventCallback;
+struct CEGUIEventCallback;
 
 
 // linetodraw

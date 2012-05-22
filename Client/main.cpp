@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "resource.h"
 #include "OSGHandler.h"
 #include "LogHandler.h"
-
+#include "ConfigurationManager.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -139,6 +139,9 @@ int main( int argc, char **argv )
 		int ret = app.main(argc, argv, "config.client");
 		filecout.close();
 		filecerr.close();
+
+		// save config file
+		ConfigurationManager::GetInstance()->SaveConfigFile();
 		return ret;
 #endif
 	}

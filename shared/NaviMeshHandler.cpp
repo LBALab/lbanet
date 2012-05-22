@@ -27,7 +27,7 @@
 #include <osg/ShapeDrawable>
 #include <osg/LineWidth>
 #include <osgUtil/SmoothingVisitor>
-#include "OSGHandler.h"
+#include "../Client/OSGHandler.h"
 #include <osg/LineStipple>
 #endif
 

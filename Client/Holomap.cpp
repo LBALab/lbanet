@@ -343,6 +343,6 @@ remove location coordinate
 ***********************************************************/
 void HolomapTravelPath::RemoveCoordinate(int index)
 {
-	if(index < _coordinates.size())
+	if(index < (int)_coordinates.size())
 		_coordinates.erase(_coordinates.begin()+index);
 }

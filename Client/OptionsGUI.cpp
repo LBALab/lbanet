@@ -240,7 +240,7 @@ void OptionsGUI::Apply()
 				{
 					_lang = sp;
 					Localizer::getInstance()->SetLanguage(_lang);
-					ConfigurationManager::GetInstance()->SetString("Options.General.Language", _lang);
+					ConfigurationManager::GetInstance()->SetValue("Options.General.Language", _lang);
 				}
 			}
 
@@ -306,7 +306,7 @@ void OptionsGUI::Apply()
 					{
 						nchanged = true;
 						_nameR = sp;
-						ConfigurationManager::GetInstance()->SetInt("Options.General.NameR", _nameR);
+						ConfigurationManager::GetInstance()->SetValue("Options.General.NameR", _nameR);
 					}
 				}
 
@@ -320,7 +320,7 @@ void OptionsGUI::Apply()
 					{
 						nchanged = true;
 						_nameG = sp;
-						ConfigurationManager::GetInstance()->SetInt("Options.General.NameG", _nameG);
+						ConfigurationManager::GetInstance()->SetValue("Options.General.NameG", _nameG);
 					}
 				}
 
@@ -334,7 +334,7 @@ void OptionsGUI::Apply()
 					{
 						nchanged = true;
 						_nameB = sp;
-						ConfigurationManager::GetInstance()->SetInt("Options.General.NameB", _nameB);
+						ConfigurationManager::GetInstance()->SetValue("Options.General.NameB", _nameB);
 					}
 				}
 
@@ -445,7 +445,7 @@ void OptionsGUI::Apply()
 				{
 					_currGenVolume = sp;
 					MusicHandler::getInstance()->SetGeneralVolume(_currGenVolume);
-					ConfigurationManager::GetInstance()->SetInt("Options.Sound.GeneralVolume", _currGenVolume);
+					ConfigurationManager::GetInstance()->SetValue("Options.Sound.GeneralVolume", _currGenVolume);
 				}
 			}
 
@@ -461,7 +461,7 @@ void OptionsGUI::Apply()
 				{
 					_currMusicVolume = sp;
 					MusicHandler::getInstance()->SetMusicVolume(_currMusicVolume);
-					ConfigurationManager::GetInstance()->SetInt("Options.Sound.MusicVolume", _currMusicVolume);
+					ConfigurationManager::GetInstance()->SetValue("Options.Sound.MusicVolume", _currMusicVolume);
 				}
 			}
 
@@ -475,7 +475,7 @@ void OptionsGUI::Apply()
 				{
 					_currSampleVolume = sp;
 					MusicHandler::getInstance()->SetSampleVolume(_currSampleVolume);
-					ConfigurationManager::GetInstance()->SetInt("Options.Sound.SampleVolume", _currSampleVolume);
+					ConfigurationManager::GetInstance()->SetValue("Options.Sound.SampleVolume", _currSampleVolume);
 				}
 			}
 		}
@@ -492,7 +492,7 @@ void OptionsGUI::Apply()
 				if(_fontSize != sp)
 				{
 					_fontSize = sp;
-					ConfigurationManager::GetInstance()->SetInt("Options.Gui.FontSize", _fontSize);
+					ConfigurationManager::GetInstance()->SetValue("Options.Gui.FontSize", _fontSize);
 					EventsQueue::getReceiverQueue()->AddEvent(new NewFontSizeEvent());
 				}
 			}
@@ -690,27 +690,27 @@ void OptionsGUI::Quit()
 void OptionsGUI::Displayed()
 {
 	//init the values from file
-	ConfigurationManager::GetInstance()->GetInt("Options.General.NameR", _nameR);
-	ConfigurationManager::GetInstance()->GetInt("Options.General.NameG", _nameG);
-	ConfigurationManager::GetInstance()->GetInt("Options.General.NameB", _nameB);
+	_nameR = ConfigurationManager::GetInstance()->GetValue("Options.General.NameR", 200);
+	_nameG = ConfigurationManager::GetInstance()->GetValue("Options.General.NameG", 200);
+	_nameB = ConfigurationManager::GetInstance()->GetValue("Options.General.NameB", 200);
 
 	_skinC = _savedskinC;
 	_eyesC = _savedeyesC;
 	_hairC = _savedhairC;
 
-	ConfigurationManager::GetInstance()->GetInt("Display.Screen.ScreenResolutionX", _currScreenX);
-	ConfigurationManager::GetInstance()->GetInt("Display.Screen.ScreenResolutionY", _currScreenY);
-	ConfigurationManager::GetInstance()->GetBool("Display.Screen.Fullscreen", _currFullscreen);
-	ConfigurationManager::GetInstance()->GetInt("Display.Camera.CameraType", _currCamType);
-	ConfigurationManager::GetInstance()->GetInt("Display.ShadowType", _currShadowType);
+	_currScreenX = ConfigurationManager::GetInstance()->GetValue("Display.Screen.ScreenResolutionX", 800);
+	_currScreenY = ConfigurationManager::GetInstance()->GetValue("Display.Screen.ScreenResolutionY", 600);
+	_currFullscreen = ConfigurationManager::GetInstance()->GetValue("Display.Screen.Fullscreen", false);
+	_currCamType = ConfigurationManager::GetInstance()->GetValue("Display.Camera.CameraType", 0);
+	_currShadowType = ConfigurationManager::GetInstance()->GetValue("Display.ShadowType", 1);
 	
 
-	ConfigurationManager::GetInstance()->GetInt("Options.Sound.GeneralVolume", _currGenVolume);
-	ConfigurationManager::GetInstance()->GetInt("Options.Sound.MusicVolume", _currMusicVolume);
-	ConfigurationManager::GetInstance()->GetInt("Options.Sound.SampleVolume", _currSampleVolume);
+	_currGenVolume = ConfigurationManager::GetInstance()->GetValue("Options.Sound.GeneralVolume", 100);
+	_currMusicVolume = ConfigurationManager::GetInstance()->GetValue("Options.Sound.MusicVolume", 20);
+	_currSampleVolume = ConfigurationManager::GetInstance()->GetValue("Options.Sound.SampleVolume", 100);
 	
 
-	ConfigurationManager::GetInstance()->GetInt("Options.Gui.FontSize", _fontSize);
+	_fontSize = ConfigurationManager::GetInstance()->GetValue("Options.Gui.FontSize", 10);
 
 	Cancel();
 }

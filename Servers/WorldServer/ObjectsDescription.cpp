@@ -27,8 +27,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "StaticObject.h"
 
 #ifndef _LBANET_SERVER_SIDE_
-#include "Lba1ModelHandler.h"
-#include "SoundObjectHandlerClient.h"
+#include "../../Client/Lba1ModelHandler.h"
+#include "../../Client/SoundObjectHandlerClient.h"
 #endif
 #include "ServerLba1ModelHandler.h"
 #include "NavMeshObjectHandlers.h"

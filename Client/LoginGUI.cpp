@@ -82,8 +82,7 @@ void LoginGUI::Initialize()
 		if(pt)
 			pt->setTextMasked(true);
 
-		std::string name;
-		ConfigurationManager::GetInstance()->GetString("Player.Name", name);
+		std::string name = ConfigurationManager::GetInstance()->GetValue<std::string>("Player.Name", "");
 		CEGUI::Editbox * lt = static_cast<CEGUI::Editbox *> (
 				CEGUI::WindowManager::getSingleton().getWindow("LoginText"));
 		lt->setText(name);
@@ -148,7 +147,7 @@ bool LoginGUI::HandleConnect(const CEGUI::EventArgs& e)
 			{
 				std::string samples = "Data/GUI/lba2launcherblob.wav";
 				MusicHandler::getInstance()->PlaySample2D(samples, false, true);
-				ConfigurationManager::GetInstance()->SetString("Player.Name", txtl);
+				ConfigurationManager::GetInstance()->SetValue("Player.Name", txtl);
 				pt->setText("");
 
 				EventsQueue::getReceiverQueue()->AddEvent(new LoginEvent(txtl, txtt, seleplaylo));

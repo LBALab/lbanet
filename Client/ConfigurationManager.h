@@ -27,14 +27,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define _LBANET_CONFIGURATION_MANAGER_H_
 
 
-namespace libconfig
-{
-	class Config;
-}
-
-#include <string>
 #include <boost/thread/locks.hpp>
 #include <boost/thread/mutex.hpp>
+#include <boost/property_tree/ptree.hpp>
+
+#include <string>
+
 
 //*************************************************************************************************
 //*                               class ConfigurationManager
@@ -53,24 +51,19 @@ public:
 	static ConfigurationManager *	GetInstance();
 
 	// get functions
-	bool GetBool(const std::string & path, bool &res);
-	bool GetInt(const std::string & path, int &res);
-	bool GetLong(const std::string & path, long &res);
-	bool GetFloat(const std::string & path, float &res);
-	bool GetDouble(const std::string & path, double &res);
-	bool GetString(const std::string & path, std::string &res);
+	template <typename T>
+	T GetValue(const std::string & path, const T &defaultV);
 
 	// set functions
-	bool SetBool(const std::string & path, const bool &res);
-	bool SetInt(const std::string & path, const int &res);
-	bool SetLong(const std::string & path, const long &res);
-	bool SetFloat(const std::string & path, const float &res);
-	bool SetDouble(const std::string & path, const double &res);
-	bool SetString(const std::string & path, const std::string &res);
+	template <typename T>
+	void SetValue(const std::string & path, const T &V);
 
 
 	void SetSmallFontName(const std::string & fontname);
 	std::string GetSmallFontName();
+
+	// save config file
+	void SaveConfigFile();
 
 protected:
 	// constructor
@@ -79,13 +72,30 @@ protected:
 private:
 
 	static ConfigurationManager *	_singletonInstance;
-	libconfig::Config *				_configH;
+
 	bool							_opened;
+	boost::property_tree::ptree		_pt;
 
 	std::string						_smallfontname;
 
 	boost::mutex					m_mutex;
 };
+
+
+template <typename T>
+T ConfigurationManager::GetValue(const std::string & path, const T &defaultV)
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+	return _pt.get<T>(path, defaultV);
+}
+
+// set functions
+template <typename T>
+void ConfigurationManager::SetValue(const std::string & path, const T &V)
+{
+	boost::mutex::scoped_lock lock(m_mutex);
+	_pt.put(path, V);
+}
 
 
 #endif

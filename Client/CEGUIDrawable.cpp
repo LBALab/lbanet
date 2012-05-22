@@ -34,7 +34,6 @@ static bool load_ttf(FONT_FONT	&font, string fontfilename,int average_advance)
 	FT_Library    library;
 	FT_Face       face;
 	FT_GlyphSlot  slot;
-	FT_Error      error;
 
 	FT_Init_FreeType( &library );              /* initialize library */
 	FT_New_Face( library, fontfilename.c_str(), 0, &face ); /* create face object */

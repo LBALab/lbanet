@@ -441,8 +441,7 @@ called when font size changed
 void GuiHandler::ReloadFontSize()
 {
 	// load in a font.  The first font loaded automatically becomes the default font.
-	int fontsize;
-	ConfigurationManager::GetInstance()->GetInt("Options.Gui.FontSize", fontsize);
+	int fontsize = ConfigurationManager::GetInstance()->GetValue("Options.Gui.FontSize", 10);
 	std::stringstream strs;
 	strs<<"DejaVuSans-"<<fontsize;
 	std::string fontfile = strs.str() + ".font";

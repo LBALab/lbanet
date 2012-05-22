@@ -63,10 +63,10 @@ LetterViewerBox::~LetterViewerBox()
 		OsgHandler::getInstance()->GetScreenAttributes(resX, resY, fullscreen);
 
 		CEGUI::UVector2 vec = frw->getPosition();
-		ConfigurationManager::GetInstance()->SetFloat("Gui.LetterViewerFrame.PosX", vec.d_x.asRelative((float)resX));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.LetterViewerFrame.PosY", vec.d_y.asRelative((float)resY));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.LetterViewerFrame.SizeX", frw->getWidth().asRelative((float)resX));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.LetterViewerFrame.SizeY", frw->getHeight().asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetValue("Gui.LetterViewerFrame.PosX", vec.d_x.asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetValue("Gui.LetterViewerFrame.PosY", vec.d_y.asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetValue("Gui.LetterViewerFrame.SizeX", frw->getWidth().asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetValue("Gui.LetterViewerFrame.SizeY", frw->getHeight().asRelative((float)resY));
 	}
 }
 
@@ -101,11 +101,10 @@ void LetterViewerBox::Initialize(CEGUI::Window* Root)
 		_myBox->hide();
 
 
-		float PosX, PosY, SizeX, SizeY;
-		ConfigurationManager::GetInstance()->GetFloat("Gui.LetterViewerFrame.PosX", PosX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.LetterViewerFrame.PosY", PosY);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.LetterViewerFrame.SizeX", SizeX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.LetterViewerFrame.SizeY", SizeY);
+		float PosX = ConfigurationManager::GetInstance()->GetValue("Gui.LetterViewerFrame.PosX", 0.26f);
+		float PosY = ConfigurationManager::GetInstance()->GetValue("Gui.LetterViewerFrame.PosY", 0.26f);
+		float SizeX = ConfigurationManager::GetInstance()->GetValue("Gui.LetterViewerFrame.SizeX", 0.21f);
+		float SizeY = ConfigurationManager::GetInstance()->GetValue("Gui.LetterViewerFrame.SizeY", 0.7f);
 		frw->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));
 		frw->setWidth(CEGUI::UDim(SizeX, 0));
 		frw->setHeight(CEGUI::UDim(SizeY, 0));

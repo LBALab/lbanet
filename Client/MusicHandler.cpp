@@ -285,11 +285,10 @@ MusicHandler * MusicHandler::getInstance()
 MusicHandler::MusicHandler()
 : _soundEnabled(true), _counter(1)
 {
-	int volG, volM, volS;
-	ConfigurationManager::GetInstance()->GetInt("Options.Sound.GeneralVolume", volG);
-	ConfigurationManager::GetInstance()->GetInt("Options.Sound.MusicVolume", volM);
-	ConfigurationManager::GetInstance()->GetInt("Options.Sound.SampleVolume", volS);
-	ConfigurationManager::GetInstance()->GetBool("Options.Sound.SoundEnabled", _soundEnabled);
+	int volG = ConfigurationManager::GetInstance()->GetValue("Options.Sound.GeneralVolume", 100);
+	int volM = ConfigurationManager::GetInstance()->GetValue("Options.Sound.MusicVolume", 20);
+	int volS = ConfigurationManager::GetInstance()->GetValue("Options.Sound.SampleVolume", 100);
+	_soundEnabled = ConfigurationManager::GetInstance()->GetValue("Options.Sound.SoundEnabled", true);
 	_generalvolume = volG/ 100.0f;
 	_musicvolume = volM / 100.0f;
 	_samplevolume = volS / 100.0f;
@@ -378,7 +377,7 @@ call to enable or disable sound
 void MusicHandler::EnableDisableSound()
 {
 	EnableDisableSound(!_soundEnabled);
-	ConfigurationManager::GetInstance()->SetBool("Options.Sound.SoundEnabled", _soundEnabled);
+	ConfigurationManager::GetInstance()->SetValue("Options.Sound.SoundEnabled", _soundEnabled);
 }
 
 

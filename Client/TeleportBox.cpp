@@ -74,11 +74,11 @@ TeleportBox::~TeleportBox()
 		OsgHandler::getInstance()->GetScreenAttributes(resX, resY, fullscreen);
 
 		CEGUI::UVector2 vec = frw->getPosition();
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Teleportbox.PosX", vec.d_x.asRelative((float)resX));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Teleportbox.PosY", vec.d_y.asRelative((float)resY));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Teleportbox.SizeX", frw->getWidth().asRelative((float)resX));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Teleportbox.SizeY", frw->getHeight().asRelative((float)resY));
-		ConfigurationManager::GetInstance()->SetBool("Gui.Teleportbox.Visible", frw->isVisible());
+		ConfigurationManager::GetInstance()->SetValue("Gui.Teleportbox.PosX", vec.d_x.asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetValue("Gui.Teleportbox.PosY", vec.d_y.asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetValue("Gui.Teleportbox.SizeX", frw->getWidth().asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetValue("Gui.Teleportbox.SizeY", frw->getHeight().asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetValue("Gui.Teleportbox.Visible", frw->isVisible());
 	}
 	catch(CEGUI::Exception &ex)
 	{
@@ -116,13 +116,11 @@ void TeleportBox::Initialize(CEGUI::Window* Root)
 			CEGUI::FrameWindow::EventCloseClicked,
 			CEGUI::Event::Subscriber (&TeleportBox::HandleClose, this));
 
-		float PosX, PosY, SizeX, SizeY;
-		bool Visible;
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Teleportbox.PosX", PosX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Teleportbox.PosY", PosY);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Teleportbox.SizeX", SizeX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Teleportbox.SizeY", SizeY);
-		ConfigurationManager::GetInstance()->GetBool("Gui.Teleportbox.Visible", Visible);
+		float PosX = ConfigurationManager::GetInstance()->GetValue("Gui.Teleportbox.PosX", 0.08f);
+		float PosY = ConfigurationManager::GetInstance()->GetValue("Gui.Teleportbox.PosY", 0.12f);
+		float SizeX = ConfigurationManager::GetInstance()->GetValue("Gui.Teleportbox.SizeX", 0.26f);
+		float SizeY = ConfigurationManager::GetInstance()->GetValue("Gui.Teleportbox.SizeY", 0.42f);
+		bool Visible = ConfigurationManager::GetInstance()->GetValue("Gui.Teleportbox.Visible", false);
 		frw->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));
 		frw->setWidth(CEGUI::UDim(SizeX, 0));
 		frw->setHeight(CEGUI::UDim(SizeY, 0));

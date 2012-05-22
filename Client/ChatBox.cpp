@@ -187,11 +187,11 @@ ChatBox::~ChatBox()
 		OsgHandler::getInstance()->GetScreenAttributes(resX, resY, fullscreen);
 
 		CEGUI::UVector2 vec = frw->getPosition();
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Chatbox.PosX", vec.d_x.asRelative((float)resX));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Chatbox.PosY", vec.d_y.asRelative((float)resY));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Chatbox.SizeX", frw->getWidth().asRelative((float)resX));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Chatbox.SizeY", frw->getHeight().asRelative((float)resY));
-		ConfigurationManager::GetInstance()->SetBool("Gui.Chatbox.Visible", frw->isVisible());
+		ConfigurationManager::GetInstance()->SetValue("Gui.Chatbox.PosX", vec.d_x.asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetValue("Gui.Chatbox.PosY", vec.d_y.asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetValue("Gui.Chatbox.SizeX", frw->getWidth().asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetValue("Gui.Chatbox.SizeY", frw->getHeight().asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetValue("Gui.Chatbox.Visible", frw->isVisible());
 	}
 	catch(CEGUI::Exception &ex)
 	{
@@ -305,13 +305,11 @@ void ChatBox::Initialize(CEGUI::Window* Root)
 		frw->subscribeEvent (CEGUI::FrameWindow::EventCloseClicked,
 			CEGUI::Event::Subscriber (&ChatBox::HandleCloseChatbox, this));
 
-		float PosX, PosY, SizeX, SizeY;
-		bool Visible;
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Chatbox.PosX", PosX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Chatbox.PosY", PosY);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Chatbox.SizeX", SizeX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Chatbox.SizeY", SizeY);
-		ConfigurationManager::GetInstance()->GetBool("Gui.Chatbox.Visible", Visible);
+		float PosX = ConfigurationManager::GetInstance()->GetValue("Gui.Chatbox.PosX", 0.01f);
+		float PosY = ConfigurationManager::GetInstance()->GetValue("Gui.Chatbox.PosY", 0.63f);
+		float SizeX = ConfigurationManager::GetInstance()->GetValue("Gui.Chatbox.SizeX", 0.45f);
+		float SizeY = ConfigurationManager::GetInstance()->GetValue("Gui.Chatbox.SizeY", 0.36f);
+		bool Visible = ConfigurationManager::GetInstance()->GetValue("Gui.Chatbox.Visible", true);
 		frw->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));
 		frw->setWidth(CEGUI::UDim(SizeX, 0));
 		frw->setHeight(CEGUI::UDim(SizeY, 0));

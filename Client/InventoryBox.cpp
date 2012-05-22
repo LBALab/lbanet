@@ -67,20 +67,20 @@ InventoryBox::~InventoryBox()
 		OsgHandler::getInstance()->GetScreenAttributes(resX, resY, fullscreen);
 
 		CEGUI::UVector2 vec = frw->getPosition();
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Inventorybox.PosX", vec.d_x.asRelative((float)resX));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Inventorybox.PosY", vec.d_y.asRelative((float)resY));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Inventorybox.SizeX", frw->getWidth().asRelative((float)resX));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Inventorybox.SizeY", frw->getHeight().asRelative((float)resY));
-		ConfigurationManager::GetInstance()->SetBool("Gui.Inventorybox.Visible", frw->isVisible());
+		ConfigurationManager::GetInstance()->SetValue("Gui.Inventorybox.PosX", vec.d_x.asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetValue("Gui.Inventorybox.PosY", vec.d_y.asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetValue("Gui.Inventorybox.SizeX", frw->getWidth().asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetValue("Gui.Inventorybox.SizeY", frw->getHeight().asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetValue("Gui.Inventorybox.Visible", frw->isVisible());
 	
 		CEGUI::FrameWindow * frw2 = static_cast<CEGUI::FrameWindow *> (
 			CEGUI::WindowManager::getSingleton().getWindow("InventoryInformHappyFrame"));
 
 		CEGUI::UVector2 vec2 = frw2->getPosition();
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Inventoryboxhappy.PosX", vec2.d_x.asRelative((float)resX));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Inventoryboxhappy.PosY", vec2.d_y.asRelative((float)resY));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Inventoryboxhappy.SizeX", frw2->getWidth().asRelative((float)resX));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Inventoryboxhappy.SizeY", frw2->getHeight().asRelative((float)resY));	
+		ConfigurationManager::GetInstance()->SetValue("Gui.Inventoryboxhappy.PosX", vec2.d_x.asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetValue("Gui.Inventoryboxhappy.PosY", vec2.d_y.asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetValue("Gui.Inventoryboxhappy.SizeX", frw2->getWidth().asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetValue("Gui.Inventoryboxhappy.SizeY", frw2->getHeight().asRelative((float)resY));	
 	}
 	catch(CEGUI::Exception &ex)
 	{
@@ -112,13 +112,11 @@ void InventoryBox::Initialize(CEGUI::Window* Root)
 			CEGUI::Event::Subscriber (&InventoryBox::HandleResize, this));
 
 		{
-		float PosX, PosY, SizeX, SizeY;
-		bool Visible;
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Inventorybox.PosX", PosX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Inventorybox.PosY", PosY);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Inventorybox.SizeX", SizeX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Inventorybox.SizeY", SizeY);
-		ConfigurationManager::GetInstance()->GetBool("Gui.Inventorybox.Visible", Visible);
+		float PosX = ConfigurationManager::GetInstance()->GetValue("Gui.Inventorybox.PosX", 0.11f);
+		float PosY = ConfigurationManager::GetInstance()->GetValue("Gui.Inventorybox.PosY", 0.12f);
+		float SizeX = ConfigurationManager::GetInstance()->GetValue("Gui.Inventorybox.SizeX", 0.29f);
+		float SizeY = ConfigurationManager::GetInstance()->GetValue("Gui.Inventorybox.SizeY", 0.44f);
+		bool Visible = ConfigurationManager::GetInstance()->GetValue("Gui.Inventorybox.Visible", false);
 		frw->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));
 		frw->setWidth(CEGUI::UDim(SizeX, 0));
 		frw->setHeight(CEGUI::UDim(SizeY, 0));
@@ -147,12 +145,11 @@ void InventoryBox::Initialize(CEGUI::Window* Root)
 		CEGUI::FrameWindow * frw2 = static_cast<CEGUI::FrameWindow *> (
 			CEGUI::WindowManager::getSingleton().getWindow("InventoryInformHappyFrame"));
 
-		float PosX, PosY, SizeX, SizeY;
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Inventoryboxhappy.PosX", PosX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Inventoryboxhappy.PosY", PosY);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Inventoryboxhappy.SizeX", SizeX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Inventoryboxhappy.SizeY", SizeY);
-		frw2->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));
+		float PosX = ConfigurationManager::GetInstance()->GetValue("Gui.Inventoryboxhappy.PosX", 0.37f);
+		float PosY = ConfigurationManager::GetInstance()->GetValue("Gui.Inventoryboxhappy.PosY", 0.12f);
+		float SizeX = ConfigurationManager::GetInstance()->GetValue("Gui.Inventoryboxhappy.SizeX", 0.49f);
+		float SizeY = ConfigurationManager::GetInstance()->GetValue("Gui.Inventoryboxhappy.SizeY", 0.51f);
+		frw2->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));			 
 		frw2->setWidth(CEGUI::UDim(SizeX, 0));
 		frw2->setHeight(CEGUI::UDim(SizeY, 0));
 	

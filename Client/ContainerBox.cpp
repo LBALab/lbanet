@@ -67,10 +67,10 @@ ContainerBox::~ContainerBox()
 		OsgHandler::getInstance()->GetScreenAttributes(resX, resY, fullscreen);
 
 		CEGUI::UVector2 vec = frw->getPosition();
-		ConfigurationManager::GetInstance()->SetFloat("Gui.ContainerBox.PosX", vec.d_x.asRelative((float)resX));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.ContainerBox.PosY", vec.d_y.asRelative((float)resY));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.ContainerBox.SizeX", frw->getWidth().asRelative((float)resX));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.ContainerBox.SizeY", frw->getHeight().asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetValue("Gui.ContainerBox.PosX", vec.d_x.asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetValue("Gui.ContainerBox.PosY", vec.d_y.asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetValue("Gui.ContainerBox.SizeX", frw->getWidth().asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetValue("Gui.ContainerBox.SizeY", frw->getHeight().asRelative((float)resY));
 	}
 	catch(CEGUI::Exception &ex)
 	{
@@ -140,11 +140,10 @@ void ContainerBox::Initialize(CEGUI::Window* Root)
 		}
 
 		{
-			float PosX, PosY, SizeX, SizeY;
-			ConfigurationManager::GetInstance()->GetFloat("Gui.ContainerBox.PosX", PosX);
-			ConfigurationManager::GetInstance()->GetFloat("Gui.ContainerBox.PosY", PosY);
-			ConfigurationManager::GetInstance()->GetFloat("Gui.ContainerBox.SizeX", SizeX);
-			ConfigurationManager::GetInstance()->GetFloat("Gui.ContainerBox.SizeY", SizeY);
+			float PosX = ConfigurationManager::GetInstance()->GetValue("Gui.ContainerBox.PosX", 0.08f);
+			float PosY = ConfigurationManager::GetInstance()->GetValue("Gui.ContainerBox.PosY", 0.15f);
+			float SizeX = ConfigurationManager::GetInstance()->GetValue("Gui.ContainerBox.SizeX", 0.70f);
+			float SizeY = ConfigurationManager::GetInstance()->GetValue("Gui.ContainerBox.SizeY", 0.44f);
 			frw->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));
 			frw->setWidth(CEGUI::UDim(SizeX, 0));
 			frw->setHeight(CEGUI::UDim(SizeY, 0));

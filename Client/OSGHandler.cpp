@@ -510,24 +510,23 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 	// get data from configuration file
 	{
 		LogHandler::getInstance()->LogToFile("Initializing camera...");
-		int ctype;
-		double camdistance, camzenit, camazimut;
-		ConfigurationManager::GetInstance()->GetDouble("Display.Camera.Distance", camdistance);
-		ConfigurationManager::GetInstance()->GetDouble("Display.Camera.Zenit", camzenit);
-		ConfigurationManager::GetInstance()->GetDouble("Display.Camera.Azimut", camazimut);
-		ConfigurationManager::GetInstance()->GetInt("Display.Camera.CameraType", ctype);
+
+		double camdistance = ConfigurationManager::GetInstance()->GetValue("Display.Camera.Distance", 155.0);
+		double camzenit = ConfigurationManager::GetInstance()->GetValue("Display.Camera.Zenit", 23.0);
+		double camazimut = ConfigurationManager::GetInstance()->GetValue("Display.Camera.Azimut", 304.23);
+		int ctype = ConfigurationManager::GetInstance()->GetValue("Display.Camera.CameraType", 0);
 		ToggleCameraType(ctype);
 		SetCameraDistance(camdistance);
 		SetCameraZenit(camzenit);
 		SetCameraAzimut(camazimut);
 
-		ConfigurationManager::GetInstance()->GetInt("Display.Screen.PositionX", _posX);
-		ConfigurationManager::GetInstance()->GetInt("Display.Screen.PositionY", _posY);
-		ConfigurationManager::GetInstance()->GetInt("Display.Screen.ScreenResolutionX", _resX);
-		ConfigurationManager::GetInstance()->GetInt("Display.Screen.ScreenResolutionY", _resY);
-		ConfigurationManager::GetInstance()->GetBool("Display.Screen.Fullscreen", _isFullscreen);
+		_posX = ConfigurationManager::GetInstance()->GetValue("Display.Screen.PositionX", 0);
+		_posY = ConfigurationManager::GetInstance()->GetValue("Display.Screen.PositionY", 0);
+		_resX = ConfigurationManager::GetInstance()->GetValue("Display.Screen.ScreenResolutionX", 800);
+		_resY = ConfigurationManager::GetInstance()->GetValue("Display.Screen.ScreenResolutionY", 600);
+		_isFullscreen = ConfigurationManager::GetInstance()->GetValue("Display.Screen.Fullscreen", false);
 
-		ConfigurationManager::GetInstance()->GetInt("Display.ShadowType", _ShadowType);
+		_ShadowType = ConfigurationManager::GetInstance()->GetValue("Display.ShadowType", 1);
 
 
 		#ifdef _USE_QT_EDITOR_
@@ -758,22 +757,22 @@ void OsgHandler::Finalize()
 	// write data to configuration file
 	{
 #ifndef _USE_SOUND_EDITOR
-		ConfigurationManager::GetInstance()->SetDouble("Display.Camera.Distance", _caminfo.distance);
-		ConfigurationManager::GetInstance()->SetDouble("Display.Camera.Zenit", _caminfo.zenit);
-		ConfigurationManager::GetInstance()->SetDouble("Display.Camera.Azimut", _caminfo.azimut);
-		ConfigurationManager::GetInstance()->SetInt("Display.Camera.CameraType", _caminfo.cameraType);
+		ConfigurationManager::GetInstance()->SetValue("Display.Camera.Distance", _caminfo.distance);
+		ConfigurationManager::GetInstance()->SetValue("Display.Camera.Zenit", _caminfo.zenit);
+		ConfigurationManager::GetInstance()->SetValue("Display.Camera.Azimut", _caminfo.azimut);
+		ConfigurationManager::GetInstance()->SetValue("Display.Camera.CameraType", _caminfo.cameraType);
 #endif
 
 
 #ifndef _USE_QT_EDITOR_
-		ConfigurationManager::GetInstance()->SetInt("Display.Screen.PositionX", _posX);
-		ConfigurationManager::GetInstance()->SetInt("Display.Screen.PositionY", _posY);
-		ConfigurationManager::GetInstance()->SetInt("Display.Screen.ScreenResolutionX", _resX);
-		ConfigurationManager::GetInstance()->SetInt("Display.Screen.ScreenResolutionY", _resY);
-		ConfigurationManager::GetInstance()->SetBool("Display.Screen.Fullscreen", _isFullscreen);
+		ConfigurationManager::GetInstance()->SetValue("Display.Screen.PositionX", _posX);
+		ConfigurationManager::GetInstance()->SetValue("Display.Screen.PositionY", _posY);
+		ConfigurationManager::GetInstance()->SetValue("Display.Screen.ScreenResolutionX", _resX);
+		ConfigurationManager::GetInstance()->SetValue("Display.Screen.ScreenResolutionY", _resY);
+		ConfigurationManager::GetInstance()->SetValue("Display.Screen.Fullscreen", _isFullscreen);
 #endif
 
-		ConfigurationManager::GetInstance()->SetInt("Display.ShadowType", _ShadowType);
+		ConfigurationManager::GetInstance()->SetValue("Display.ShadowType", _ShadowType);
 	}
 
 	// clean up everything
@@ -829,10 +828,10 @@ void OsgHandler::Resize(int resX, int resY, bool fullscreen)
 		#ifndef _USE_QT_EDITOR_
 		if(!_isFullscreen)
 		{
-			ConfigurationManager::GetInstance()->SetInt("Display.Screen.ScreenResolutionX", _resX);
-			ConfigurationManager::GetInstance()->SetInt("Display.Screen.ScreenResolutionY", _resY);
+			ConfigurationManager::GetInstance()->SetValue("Display.Screen.ScreenResolutionX", _resX);
+			ConfigurationManager::GetInstance()->SetValue("Display.Screen.ScreenResolutionY", _resY);
 		}
-		ConfigurationManager::GetInstance()->SetBool("Display.Screen.Fullscreen", _isFullscreen);
+		ConfigurationManager::GetInstance()->SetValue("Display.Screen.Fullscreen", _isFullscreen);
 		#endif
 	}
 
@@ -849,7 +848,7 @@ void OsgHandler::ToggleFullScreen()
 	_isFullscreen = !_isFullscreen;
 	ResetScreen();
 
-	ConfigurationManager::GetInstance()->SetBool("Display.Screen.Fullscreen", _isFullscreen);
+	ConfigurationManager::GetInstance()->SetValue("Display.Screen.Fullscreen", _isFullscreen);
 }
 
 
@@ -1038,7 +1037,7 @@ void OsgHandler::ToggleCameraType(int cameraType)
 		ResetCameraDistances(distance);
 
 #ifndef _USE_SOUND_EDITOR
-		ConfigurationManager::GetInstance()->SetInt("Display.Camera.CameraType", _caminfo.cameraType);
+		ConfigurationManager::GetInstance()->SetValue("Display.Camera.CameraType", _caminfo.cameraType);
 #endif
 	}
 }
@@ -1306,7 +1305,7 @@ void OsgHandler::ToggleShadow(int ShadowType)
 			scenerootnode = newnode;
 		}
 
-		ConfigurationManager::GetInstance()->SetInt("Display.ShadowType", _ShadowType);
+		ConfigurationManager::GetInstance()->SetValue("Display.ShadowType", _ShadowType);
 	}
 }
 

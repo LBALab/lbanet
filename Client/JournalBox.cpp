@@ -86,11 +86,11 @@ JournalBox::~JournalBox()
 		OsgHandler::getInstance()->GetScreenAttributes(resX, resY, fullscreen);
 
 		CEGUI::UVector2 vec = frw->getPosition();
-		ConfigurationManager::GetInstance()->SetFloat("Gui.JournalBox.PosX", vec.d_x.asRelative((float)resX));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.JournalBox.PosY", vec.d_y.asRelative((float)resY));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.JournalBox.SizeX", frw->getWidth().asRelative((float)resX));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.JournalBox.SizeY", frw->getHeight().asRelative((float)resY));
-		ConfigurationManager::GetInstance()->SetBool("Gui.JournalBox.Visible", frw->isVisible());
+		ConfigurationManager::GetInstance()->SetValue("Gui.JournalBox.PosX", vec.d_x.asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetValue("Gui.JournalBox.PosY", vec.d_y.asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetValue("Gui.JournalBox.SizeX", frw->getWidth().asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetValue("Gui.JournalBox.SizeY", frw->getHeight().asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetValue("Gui.JournalBox.Visible", frw->isVisible());
 
 		{
 			std::string qtreedown;
@@ -112,8 +112,8 @@ JournalBox::~JournalBox()
 				}
 			}
 
-			ConfigurationManager::GetInstance()->SetString("Gui.JournalBox.QuestTreeOpen", qtreedown);
-			ConfigurationManager::GetInstance()->SetString("Gui.JournalBox.QuestTreeSelected", selected);
+			ConfigurationManager::GetInstance()->SetValue("Gui.JournalBox.QuestTreeOpen", qtreedown);
+			ConfigurationManager::GetInstance()->SetValue("Gui.JournalBox.QuestTreeSelected", selected);
 		}
 
 		{
@@ -136,8 +136,8 @@ JournalBox::~JournalBox()
 				}
 			}
 
-			ConfigurationManager::GetInstance()->SetString("Gui.JournalBox.QuestDoneTreeOpen", qtreedown);
-			ConfigurationManager::GetInstance()->SetString("Gui.JournalBox.QuestDoneTreeSelected", selected);
+			ConfigurationManager::GetInstance()->SetValue("Gui.JournalBox.QuestDoneTreeOpen", qtreedown);
+			ConfigurationManager::GetInstance()->SetValue("Gui.JournalBox.QuestDoneTreeSelected", selected);
 		}
 
 
@@ -181,13 +181,11 @@ void JournalBox::Initialize(CEGUI::Window* Root)
 							CEGUI::Event::Subscriber (&JournalBox::HandleQuestDoneTreeSelected, this));
 
 
-		float PosX, PosY, SizeX, SizeY;
-		bool Visible;
-		ConfigurationManager::GetInstance()->GetFloat("Gui.JournalBox.PosX", PosX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.JournalBox.PosY", PosY);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.JournalBox.SizeX", SizeX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.JournalBox.SizeY", SizeY);
-		ConfigurationManager::GetInstance()->GetBool("Gui.JournalBox.Visible", Visible);
+		float PosX = ConfigurationManager::GetInstance()->GetValue("Gui.JournalBox.PosX", 0.65f);
+		float PosY = ConfigurationManager::GetInstance()->GetValue("Gui.JournalBox.PosY", 0.56f);
+		float SizeX = ConfigurationManager::GetInstance()->GetValue("Gui.JournalBox.SizeX", 0.35f);
+		float SizeY = ConfigurationManager::GetInstance()->GetValue("Gui.JournalBox.SizeY", 0.34f);
+		bool Visible = ConfigurationManager::GetInstance()->GetValue("Gui.JournalBox.Visible", false);
 		frw->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));
 		frw->setWidth(CEGUI::UDim(SizeX, 0));
 		frw->setHeight(CEGUI::UDim(SizeY, 0));
@@ -199,12 +197,11 @@ void JournalBox::Initialize(CEGUI::Window* Root)
 
 
 		// get quest topic tree which should be opened
-		std::string treeqopen, treedqopen;
-		ConfigurationManager::GetInstance()->GetString("Gui.JournalBox.QuestTreeOpen", treeqopen);
-		ConfigurationManager::GetInstance()->GetString("Gui.JournalBox.QuestDoneTreeOpen", treedqopen);
+		std::string treeqopen = ConfigurationManager::GetInstance()->GetValue<std::string>("Gui.JournalBox.QuestTreeOpen", "");
+		std::string treedqopen = ConfigurationManager::GetInstance()->GetValue<std::string>("Gui.JournalBox.QuestDoneTreeOpen", "");
 
-		ConfigurationManager::GetInstance()->GetString("Gui.JournalBox.QuestTreeSelected", _selected_tree_quests);
-		ConfigurationManager::GetInstance()->GetString("Gui.JournalBox.QuestDoneTreeSelected", _selected_tree_done_quests);
+		_selected_tree_quests = ConfigurationManager::GetInstance()->GetValue<std::string>("Gui.JournalBox.QuestTreeSelected", "");
+		_selected_tree_done_quests = ConfigurationManager::GetInstance()->GetValue<std::string>("Gui.JournalBox.QuestDoneTreeSelected", "");
 
 		StringHelper::Tokenize(treeqopen, _open_tree_quests, "##");
 		StringHelper::Tokenize(treedqopen, _open_tree_done_quests, "##");

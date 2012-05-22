@@ -69,10 +69,10 @@ NPCShopBox::~NPCShopBox()
 		OsgHandler::getInstance()->GetScreenAttributes(resX, resY, fullscreen);
 
 		CEGUI::UVector2 vec = frw->getPosition();
-		ConfigurationManager::GetInstance()->SetFloat("Gui.ShopBox.PosX", vec.d_x.asRelative((float)resX));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.ShopBox.PosY", vec.d_y.asRelative((float)resY));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.ShopBox.SizeX", frw->getWidth().asRelative((float)resX));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.ShopBox.SizeY", frw->getHeight().asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetValue("Gui.ShopBox.PosX", vec.d_x.asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetValue("Gui.ShopBox.PosY", vec.d_y.asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetValue("Gui.ShopBox.SizeX", frw->getWidth().asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetValue("Gui.ShopBox.SizeY", frw->getHeight().asRelative((float)resY));
 	}
 	catch(CEGUI::Exception &ex)
 	{
@@ -105,11 +105,10 @@ void NPCShopBox::Initialize(CEGUI::Window* Root)
 
 
 		{
-			float PosX, PosY, SizeX, SizeY;
-			ConfigurationManager::GetInstance()->GetFloat("Gui.ShopBox.PosX", PosX);
-			ConfigurationManager::GetInstance()->GetFloat("Gui.ShopBox.PosY", PosY);
-			ConfigurationManager::GetInstance()->GetFloat("Gui.ShopBox.SizeX", SizeX);
-			ConfigurationManager::GetInstance()->GetFloat("Gui.ShopBox.SizeY", SizeY);
+			float PosX = ConfigurationManager::GetInstance()->GetValue("Gui.ShopBox.PosX", 0.59f);
+			float PosY = ConfigurationManager::GetInstance()->GetValue("Gui.ShopBox.PosY", 0.37f);
+			float SizeX = ConfigurationManager::GetInstance()->GetValue("Gui.ShopBox.SizeX", 0.29f);
+			float SizeY = ConfigurationManager::GetInstance()->GetValue("Gui.ShopBox.SizeY", 0.37f);
 			frw2->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));
 			frw2->setWidth(CEGUI::UDim(SizeX, 0));
 			frw2->setHeight(CEGUI::UDim(SizeY, 0));

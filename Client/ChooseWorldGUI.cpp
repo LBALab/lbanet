@@ -32,6 +32,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Localizer.h"
 #include "SynchronizedTimeHandler.h"
 #include "DataLoader.h"
+#include "ConfigurationManager.h"
+
 #include <QMessageBox>
 
 class MyListItemCW : public CEGUI::ListboxTextItem
@@ -48,8 +50,8 @@ public:
 	Constructor
 ***********************************************************/
 ChooseWorldGUI::ChooseWorldGUI()
-: _selectedworld(-1)
 {
+	_selectedworld = ConfigurationManager::GetInstance()->GetValue("Options.General.SelectedWorld", 0);
 }
 
 
@@ -172,7 +174,7 @@ void ChooseWorldGUI::SetWorldList(const std::vector<LbaNet::WorldDesc> &list)
 			{
 				MyListItemCW * item = new MyListItemCW(it->WorldName);
 				lb->addItem(item);
-				if(cc == 1)
+				if(cc == _selectedworld)
 					lb->setItemSelectState(item, true);
 			}
 		}
@@ -278,6 +280,7 @@ bool ChooseWorldGUI::HandleWorldSelected (const CEGUI::EventArgs& e)
 				}
 
 				_selectedworld = idx;
+				ConfigurationManager::GetInstance()->SetValue("Options.General.SelectedWorld", _selectedworld);
 			}
 		}
 	}

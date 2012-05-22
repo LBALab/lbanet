@@ -212,10 +212,10 @@ NPCDialogBox::~NPCDialogBox()
 		OsgHandler::getInstance()->GetScreenAttributes(resX, resY, fullscreen);
 
 		CEGUI::UVector2 vec = frw->getPosition();
-		ConfigurationManager::GetInstance()->SetFloat("Gui.DialogBox.PosX", vec.d_x.asRelative((float)resX));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.DialogBox.PosY", vec.d_y.asRelative((float)resY));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.DialogBox.SizeX", frw->getWidth().asRelative((float)resX));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.DialogBox.SizeY", frw->getHeight().asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetValue("Gui.DialogBox.PosX", vec.d_x.asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetValue("Gui.DialogBox.PosY", vec.d_y.asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetValue("Gui.DialogBox.SizeX", frw->getWidth().asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetValue("Gui.DialogBox.SizeY", frw->getHeight().asRelative((float)resY));
 	}
 	catch(CEGUI::Exception &ex)
 	{
@@ -255,11 +255,10 @@ void NPCDialogBox::Initialize(CEGUI::Window* Root)
 
 
 		{
-			float PosX, PosY, SizeX, SizeY;
-			ConfigurationManager::GetInstance()->GetFloat("Gui.DialogBox.PosX", PosX);
-			ConfigurationManager::GetInstance()->GetFloat("Gui.DialogBox.PosY", PosY);
-			ConfigurationManager::GetInstance()->GetFloat("Gui.DialogBox.SizeX", SizeX);
-			ConfigurationManager::GetInstance()->GetFloat("Gui.DialogBox.SizeY", SizeY);
+			float PosX = ConfigurationManager::GetInstance()->GetValue("Gui.DialogBox.PosX", 0.14f);
+			float PosY = ConfigurationManager::GetInstance()->GetValue("Gui.DialogBox.PosY", 0.14f);
+			float SizeX = ConfigurationManager::GetInstance()->GetValue("Gui.DialogBox.SizeX", 0.46f);
+			float SizeY = ConfigurationManager::GetInstance()->GetValue("Gui.DialogBox.SizeY", 0.37f);
 			frw->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));
 			frw->setWidth(CEGUI::UDim(SizeX, 0));
 			frw->setHeight(CEGUI::UDim(SizeY, 0));
@@ -608,7 +607,7 @@ void NPCDialogBox::ShowHidePlayerList(bool Show)
 
 		_plist_shown = true;
 
-		CEGUI::WindowManager::getSingleton().getWindow ("DialogFrame/multiline")->setHeight(CEGUI::UDim(0.6, 0));
+		CEGUI::WindowManager::getSingleton().getWindow ("DialogFrame/multiline")->setHeight(CEGUI::UDim(0.6f, 0));
 		CEGUI::WindowManager::getSingleton().getWindow ("DialogFrame/listbox")->show();	
 	}
 	else

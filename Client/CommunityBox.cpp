@@ -74,11 +74,11 @@ CommunityBox::~CommunityBox()
 		OsgHandler::getInstance()->GetScreenAttributes(resX, resY, fullscreen);
 
 		CEGUI::UVector2 vec = frw->getPosition();
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Communitybox.PosX", vec.d_x.asRelative((float)resX));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Communitybox.PosY", vec.d_y.asRelative((float)resY));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Communitybox.SizeX", frw->getWidth().asRelative((float)resX));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Communitybox.SizeY", frw->getHeight().asRelative((float)resY));
-		ConfigurationManager::GetInstance()->SetBool("Gui.Communitybox.Visible", frw->isVisible());
+		ConfigurationManager::GetInstance()->SetValue("Gui.Communitybox.PosX", vec.d_x.asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetValue("Gui.Communitybox.PosY", vec.d_y.asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetValue("Gui.Communitybox.SizeX", frw->getWidth().asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetValue("Gui.Communitybox.SizeY", frw->getHeight().asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetValue("Gui.Communitybox.Visible", frw->isVisible());
 	}
 	catch(CEGUI::Exception &ex)
 	{
@@ -104,13 +104,11 @@ void CommunityBox::Initialize(CEGUI::Window* Root)
 			CEGUI::FrameWindow::EventCloseClicked,
 			CEGUI::Event::Subscriber (&CommunityBox::HandleClose, this));
 
-		float PosX, PosY, SizeX, SizeY;
-		bool Visible;
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Communitybox.PosX", PosX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Communitybox.PosY", PosY);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Communitybox.SizeX", SizeX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Communitybox.SizeY", SizeY);
-		ConfigurationManager::GetInstance()->GetBool("Gui.Communitybox.Visible", Visible);
+		float PosX = ConfigurationManager::GetInstance()->GetValue("Gui.Communitybox.PosX", 0.71f);
+		float PosY = ConfigurationManager::GetInstance()->GetValue("Gui.Communitybox.PosY", 0.11f);
+		float SizeX = ConfigurationManager::GetInstance()->GetValue("Gui.Communitybox.SizeX", 0.24f);
+		float SizeY = ConfigurationManager::GetInstance()->GetValue("Gui.Communitybox.SizeY", 0.32f);
+		bool Visible = ConfigurationManager::GetInstance()->GetValue("Gui.Communitybox.Visible", false);
 		frw->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));
 		frw->setWidth(CEGUI::UDim(SizeX, 0));
 		frw->setHeight(CEGUI::UDim(SizeY, 0));

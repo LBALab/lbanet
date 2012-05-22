@@ -63,19 +63,19 @@ ShortcutBox::~ShortcutBox()
 
 	try
 	{
-		ConfigurationManager::GetInstance()->SetInt("Gui.Shortcutbox.Visible", _currentvisibility);
+		ConfigurationManager::GetInstance()->SetValue("Gui.Shortcutbox.Visible", _currentvisibility);
 
 		int resX, resY; 
 		bool fullscreen;
 		OsgHandler::getInstance()->GetScreenAttributes(resX, resY, fullscreen);
 
 		CEGUI::UVector2 vec = _myBox->getPosition();
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Shortcutbox.PosX", vec.d_x.asRelative((float)resX));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Shortcutbox.PosY", vec.d_y.asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetValue("Gui.Shortcutbox.PosX", vec.d_x.asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetValue("Gui.Shortcutbox.PosY", vec.d_y.asRelative((float)resY));
 
 		vec = _myStances->getPosition();
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Stancesbox.PosX", vec.d_x.asRelative((float)resX));
-		ConfigurationManager::GetInstance()->SetFloat("Gui.Stancesbox.PosY", vec.d_y.asRelative((float)resY));
+		ConfigurationManager::GetInstance()->SetValue("Gui.Stancesbox.PosX", vec.d_x.asRelative((float)resX));
+		ConfigurationManager::GetInstance()->SetValue("Gui.Stancesbox.PosY", vec.d_y.asRelative((float)resY));
 	}
 	catch(CEGUI::Exception &ex)
 	{
@@ -207,17 +207,16 @@ void ShortcutBox::Initialize(CEGUI::Window* Root)
 		}
 
 
-		float PosX, PosY;
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Shortcutbox.PosX", PosX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Shortcutbox.PosY", PosY);
+		float PosX = ConfigurationManager::GetInstance()->GetValue("Gui.Shortcutbox.PosX", 0.45f);
+		float PosY = ConfigurationManager::GetInstance()->GetValue("Gui.Shortcutbox.PosY", 0.91f);
 		_myBox->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));
 
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Stancesbox.PosX", PosX);
-		ConfigurationManager::GetInstance()->GetFloat("Gui.Stancesbox.PosY", PosY);
+		PosX = ConfigurationManager::GetInstance()->GetValue("Gui.Stancesbox.PosX", 0.45f);
+		PosY = ConfigurationManager::GetInstance()->GetValue("Gui.Stancesbox.PosY", 0.83f);
 		_myStances->setPosition(CEGUI::UVector2(CEGUI::UDim(PosX, 0), CEGUI::UDim(PosY, 0)));
 
 
-		ConfigurationManager::GetInstance()->GetInt("Gui.Shortcutbox.Visible", _currentvisibility);
+		_currentvisibility = ConfigurationManager::GetInstance()->GetValue("Gui.Shortcutbox.Visible", 0);
 		RefreshVivsibleStuff();
 
 		Root->subscribeEvent(CEGUI::Window::EventMouseMove, 
