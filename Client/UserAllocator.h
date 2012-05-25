@@ -1,7 +1,7 @@
 #ifndef USERALLOCATOR_H
 #define USERALLOCATOR_H
 
-#include "SampleMutex_WIN.h"
+#include <boost/thread/mutex.hpp>
 
 class UserAllocator : public NxUserAllocator
 	{
@@ -29,7 +29,7 @@ class UserAllocator : public NxUserAllocator
 				NxI32		mNbAllocs;
 				NxI32		mNbReallocs;
 				
-				SampleMutex mAllocatorLock;
+				boost::mutex mAllocatorLock;
 
 	};
 
