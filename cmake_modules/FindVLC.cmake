@@ -1,15 +1,35 @@
-FIND_PATH(VLC_INCLUDE_DIR vlc/vlc.h
-    ${VLC_DIR}/include
-    $ENV{VLC_DIR}/include
-    /usr/include
-    /usr/local/include
-    NO_DEFAULT_PATH
-)
+find_package(PkgConfig)
+pkg_check_modules(VLC QUIET vlc)
+set(VLC_DEFINITIONS ${VLC_CFLAGS_OTHER})
+             
+             
+find_path(VLC_INCLUDE_DIR vlc/vlc.h
+          HINTS ${VLC_INCLUDEDIR} ${VLC_INCLUDE_DIRS}
+          PATHS $ENV{VLC_HOME}/include
+          	../dependencies/VLC/include
+		    /usr/include
+		    /usr/local/include)
 
-FIND_PATH(VLC_LIB_DIR vlc
-    ${VLC_DIR}/lib
-    $ENV{VLC_DIR}/lib
-    /usr/lib
-    /usr/local/lib
-    NO_DEFAULT_PATH
-)
+find_library(VLC_CORE_LIBRARY_RELEASE NAMES vlc libvlc
+             HINTS ${VLC_LIBDIR} ${VLC_LIBRARY_DIRS}
+             PATHS $ENV{VLC_HOME}/lib
+		../dependencies/VLC/lib
+		/usr/lib
+		/usr/local/lib)      
+                            
+            
+set(VLC_LIBRARIES ${VLC_CORE_LIBRARY_RELEASE})
+
+set(VLC_INCLUDE_DIRS ${VLC_INCLUDE_DIR})
+		
+		
+include(FindPackageHandleStandardArgs)
+# handle the QUIETLY and REQUIRED arguments and set VLC_FOUND to TRUE
+# if all listed variables are TRUE
+find_package_handle_standard_args(VLC DEFAULT_MSG
+				VLC_CORE_LIBRARY_RELEASE
+                                  VLC_INCLUDE_DIR)
+
+mark_as_advanced(VLC DEFAULT_MSG
+			VLC_CORE_LIBRARY_RELEASE
+			VLC_INCLUDE_DIR )

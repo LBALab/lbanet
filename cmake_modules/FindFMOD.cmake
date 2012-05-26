@@ -1,15 +1,36 @@
-FIND_PATH(FMOD_INCLUDE_DIR fmod.h
-    ${FMOD_DIR}/include
-    $ENV{FMOD_DIR}/include
-    /usr/include
-    /usr/local/include
-    NO_DEFAULT_PATH
-)
+find_package(PkgConfig)
+pkg_check_modules(FMOD QUIET luabind)
+set(LUABIND_DEFINITIONS ${FMOD_CFLAGS_OTHER})
+             
+             
+find_path(FMOD_INCLUDE_DIR fmod.h
+          HINTS ${FMOD_INCLUDEDIR} ${FMOD_INCLUDE_DIRS}
+          PATHS $ENV{LUABIND_HOME}/include
+          	../dependencies/fmod/include
+		    /usr/include
+		    /usr/local/include)
 
-FIND_PATH(FMOD_LIB_DIR fmodex
-    ${FMOD_DIR}/lib
-    $ENV{FMOD_DIR}/lib
-    /usr/lib
-    /usr/local/lib
-    NO_DEFAULT_PATH
-)
+find_library(FMOD_CORE_LIBRARY_RELEASE NAMES fmodex_vc
+             HINTS ${FMOD_LIBDIR} ${FMOD_LIBRARY_DIRS}
+             PATHS $ENV{FMOD_HOME}/lib
+		../dependencies/fmod/lib
+		/usr/lib
+		/usr/local/lib)
+                    
+                            
+            
+set(FMOD_LIBRARIES ${FMOD_CORE_LIBRARY_RELEASE})
+
+set(FMOD_INCLUDE_DIRS ${FMOD_INCLUDE_DIR})
+		
+		
+include(FindPackageHandleStandardArgs)
+# handle the QUIETLY and REQUIRED arguments and set FMOD_FOUND to TRUE
+# if all listed variables are TRUE
+find_package_handle_standard_args(FMOD DEFAULT_MSG
+				FMOD_CORE_LIBRARY_RELEASE
+                                  FMOD_INCLUDE_DIR)
+
+mark_as_advanced(FMOD DEFAULT_MSG
+			FMOD_CORE_LIBRARY_RELEASE
+                        FMOD_INCLUDE_DIR )
