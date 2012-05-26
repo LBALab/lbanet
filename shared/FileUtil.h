@@ -39,7 +39,7 @@ public:
 	// check if file/directory exits
 	static  bool FileExist(const std::string &Filename, bool Directory);
 
-#ifdef WIN32
+#ifndef _LBANET_SERVER_SIDE_
 	// list files in directory
 	static  bool ListFilesInDir(const std::string &Path, std::vector<std::string> &filelist,
 									std::string filename = "");

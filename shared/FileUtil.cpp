@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 //work around different boost version
-#ifndef WIN32
+#ifndef _LBANET_SERVER_SIDE_
 
 #include <sys/stat.h>
 
