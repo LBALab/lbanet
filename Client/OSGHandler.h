@@ -31,8 +31,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <osg/ref_ptr>
 #include <boost/shared_ptr.hpp>
 
-#include "CommonTypes.h"
-#include "DisplayHandlerBase.h"
+#include "../shared/CommonTypes.h"
+#include "../shared/DisplayHandlerBase.h"
 
 namespace osg
 {

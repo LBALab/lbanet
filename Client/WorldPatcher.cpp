@@ -38,19 +38,10 @@ public:
 	TextPatcherFeedback(const std::string & logpath) :
 	  _pressAnyKeyMessage(false), logfile(logpath.c_str())
     {
-#ifndef _WIN32
-        tcgetattr(0, &_savedTerm);
-        _savedFlags = fcntl(0, F_GETFL);
-        _block = true;
-#endif
     }
 
     virtual ~TextPatcherFeedback()
     {
-#ifndef _WIN32
-        tcsetattr(0, TCSANOW, &_savedTerm);
-        fcntl(0, F_SETFL, _savedFlags);
-#endif
     }
 
 	virtual bool noFileSummary(const std::string& reason)

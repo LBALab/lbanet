@@ -65,7 +65,7 @@ void VLCPlayer::playFile(QString file)
     libvlc_media_player_set_media (_mp, _m);
     
     /* Get our media instance to use our window */
-    libvlc_media_player_set_hwnd(_mp, this->winId());
+    libvlc_media_player_set_hwnd(_mp, (void*)this->winId());
 
     /* Play */
     libvlc_media_player_play (_mp);

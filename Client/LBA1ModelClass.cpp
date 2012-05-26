@@ -39,8 +39,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //#include "LogHandler.h"
 #include "Lba1ModelPath.h"
 
-
+#ifdef WIN32
 #include <windows.h>    // Header File For Windows
+#endif
+
 #include <GL/gl.h>      // Header File For The OpenGL32 Library
 #include <GL/glu.h>     // Header File For The GLu32 Library
 #include <stdlib.h>

@@ -36,7 +36,9 @@ bool MyPropertyCallback(CEGUI::Window* window, CEGUI::String& propname, CEGUI::S
 		if(propvalue.size() > 1)
 			if(propvalue[0] == '#')
 			{
-				long id = atol(propvalue.substr(1).c_str());
+				std::istringstream iss(propvalue.substr(1).c_str());
+				long id;
+				iss >> id;
 				propvalue = CEGUI::String((const unsigned char *)Localizer::getInstance()->GetText(Localizer::GUI, id).c_str());
 			}
 	}

@@ -53,7 +53,7 @@ class FONT_FONT
 {
 public:
 	//! constructor
-	FONT_FONT::FONT_FONT()
+	FONT_FONT()
 	{
 		name="";
 		char_height=0;

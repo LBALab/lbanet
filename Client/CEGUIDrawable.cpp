@@ -126,14 +126,14 @@ struct CEGUIEventCallback : public osgGA::GUIEventHandler
 	int lastheight;
 	boost::shared_ptr<GuiHandler>	_GuiH;
 
-    CEGUIEventCallback(boost::shared_ptr<GuiHandler> GuiH) 
+	CEGUIEventCallback(boost::shared_ptr<GuiHandler> GuiH) 
 	{
 		lastwidth = -1;
 		lastheight = -1;
 		_GuiH = GuiH;
 	}
     
-	bool CEGUIEventCallback::handle(const osgGA::GUIEventAdapter& ea,osgGA::GUIActionAdapter& aa, osg::Object* obj, osg::NodeVisitor* nv)
+	bool handle(const osgGA::GUIEventAdapter& ea,osgGA::GUIActionAdapter& aa, osg::Object* obj, osg::NodeVisitor* nv)
 	{
 		float x = ea.getX();
 		float y = ea.getY();

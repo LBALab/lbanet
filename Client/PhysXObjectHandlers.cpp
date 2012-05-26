@@ -155,7 +155,8 @@ float PhysXActorsHandler::GetRotationYAxis()
 {
 	NxQuat quat = _Actor->getGlobalOrientationQuat();
 	float Yangle;
-	quat.getAngleAxis(Yangle, NxVec3(0, 1, 0));
+	NxVec3 axis(0, 1, 0);
+	quat.getAngleAxis(Yangle, axis);
 	return Yangle;
 }
 
@@ -231,13 +232,14 @@ void PhysXActorsHandler::RotateTo(const LbaQuaternion& Q)
 	float Yangle;
 	NxF32 tabq[4];
 	NxQuat quat = _Actor->getGlobalOrientationQuat();
-	quat.getAngleAxis(Yangle, NxVec3(0, 1, 0));
+	NxVec3 axis(0, 1, 0);
+	quat.getAngleAxis(Yangle, axis);
 	quat.getXYZW(tabq);
 
 	NxQuat res(NxVec3(Q.X, Q.Y, Q.Z), Q.W);
 	float wanted;
 	NxF32 tabq2[4];
-	res.getAngleAxis(wanted, NxVec3(0, 1, 0));
+	res.getAngleAxis(wanted, axis);
 	res.getXYZW(tabq2);
 
 

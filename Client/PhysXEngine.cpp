@@ -37,7 +37,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <limits>
 #include <fstream>
 
+#ifdef WIN32
 #include <windows.h>    // Header File For Windows
+#endif
+
 #include <GL/gl.h>      // Header File For The OpenGL32 Library
 #include <GL/glu.h>     // Header File For The GLu32 Library
 

@@ -847,8 +847,8 @@ void OsgEventHandler::pick(osgViewer::View* view, const osgGA::GUIEventAdapter& 
         for(osgUtil::PolytopeIntersector::Intersections::iterator hitr = intersections.begin();
 				hitr != intersections.end();  ++hitr)
         {
-			osg::NodePath::reverse_iterator it = hitr->nodePath.rbegin();
-			osg::NodePath::reverse_iterator end = hitr->nodePath.rend();
+			osg::NodePath::const_reverse_iterator it = hitr->nodePath.rbegin();
+			osg::NodePath::const_reverse_iterator end = hitr->nodePath.rend();
 			for(; it != end; ++it)
 			{
 				std::string name = (*it)->getName();

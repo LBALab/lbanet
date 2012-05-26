@@ -236,7 +236,7 @@ void LbaNetModel::Process(double tnow, float tdiff)
 			}
 
 			itproj->second->Clear();
-			itproj = _projectileObjects.erase(itproj);
+			_projectileObjects.erase(itproj++);
 		}
 		else
 			++itproj;

@@ -335,7 +335,7 @@ void JournalBox::RebuildBook(bool reset)
 			if(remove)
 			{
 				tree->removeItem(itmap->second);
-				itmap = _mapquestarea.erase(itmap);
+				_mapquestarea.erase(itmap++);
 			}
 			else
 				++itmap;
@@ -434,7 +434,7 @@ void JournalBox::RebuildBook(bool reset)
 			if(remove)
 			{
 				tree->removeItem(itmap->second);
-				itmap = _mapquestdonearea.erase(itmap);
+				_mapquestdonearea.erase(itmap++);
 			}
 			else
 				++itmap;
