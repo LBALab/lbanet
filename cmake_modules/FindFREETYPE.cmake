@@ -10,7 +10,7 @@ find_path(FREETYPE_INCLUDE_DIR freetype/freetype.h
 		    /usr/include/freetype2
 		    /usr/local/include/freetype2)
 
-find_library(FREETYPE_CORE_LIBRARY_RELEASE NAMES freetype244
+find_library(FREETYPE_CORE_LIBRARY_RELEASE NAMES freetype244 freetype
              HINTS ${FREETYPE_LIBDIR} ${FREETYPE_LIBRARY_DIRS}
              PATHS $ENV{FREETYPE_HOME}/lib
 		../dependencies/3rdParty/lib
@@ -19,7 +19,7 @@ find_library(FREETYPE_CORE_LIBRARY_RELEASE NAMES freetype244
 		/usr/lib/i386-linux-gnu)
               
              
-find_library(FREETYPE_CORE_LIBRARY_DEBUG NAMES freetype244d
+find_library(FREETYPE_CORE_LIBRARY_DEBUG NAMES freetype244d freetyped
              HINTS ${FREETYPE_LIBDIR} ${FREETYPE_LIBRARY_DIRS}
              PATHS $ENV{FREETYPE_HOME}/include
 		../dependencies/3rdParty/lib
