@@ -25,7 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "FileUtil.h"
 
-
 #ifdef WIN32
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
@@ -128,13 +127,15 @@ bool FileUtil::ListDirsInDir(const std::string &Path, std::vector<std::string> &
 	{
 		while ((ent = readdir (dir)) != NULL) 
 		{
-			if (ent->d_type == DT_DIR && ent->d_name != ".svn")
-				filelist.push_back(Path + "/" + ent->d_name);
+		  
+			if (ent->d_type == DT_DIR && ent->d_name[0] != '.')
+			{
+				filelist.push_back(Path + "/" + ent->d_name  + addfilename);
+			}
 		}
 		closedir (dir);
 		return true;
 	} 
-	
 	return false;
 #endif	
 }
@@ -173,7 +174,7 @@ bool FileUtil::ListDirsNoPathInDir(const std::string &Path, std::vector<std::str
 	{
 		while ((ent = readdir (dir)) != NULL) 
 		{
-			if (ent->d_type == DT_DIR && ent->d_name != ".svn")
+			if (ent->d_type == DT_DIR && ent->d_name[0] != '.')
 				filelist.push_back(ent->d_name);
 		}
 		closedir (dir);
