@@ -7,8 +7,8 @@ find_path(CEGUI_INCLUDE_DIR CEGUIBase.h
           HINTS ${CEGUI_INCLUDEDIR} ${CEGUI_INCLUDE_DIRS}
           PATHS $ENV{CEGUI_HOME}/include
           	../dependencies/CEGUI/cegui/include
-		    /usr/include
-		    /usr/local/include)
+		    /usr/include/CEGUI
+		    /usr/local/include/CEGUI)
 
 find_library(CEGUI_CORE_LIBRARY_RELEASE NAMES CEGUIBase
              HINTS ${CEGUI_LIBDIR} ${CEGUI_LIBRARY_DIRS}
@@ -38,6 +38,14 @@ find_library(CEGUI_OPENGL_LIBRARY_DEBUG NAMES CEGUIOpenGLRenderer_d
 		../dependencies/CEGUI/lib
 		/usr/lib
 		/usr/local/lib)                   
+
+             
+# set debug libs to release if no debug libs found    
+IF (CEGUI_CORE_LIBRARY_RELEASE AND NOT CEGUI_CORE_LIBRARY_DEBUG)
+  SET(CEGUI_CORE_LIBRARY_DEBUG ${CEGUI_CORE_LIBRARY_RELEASE})
+  SET(CEGUI_OPENGL_LIBRARY_DEBUG ${CEGUI_OPENGL_LIBRARY_RELEASE})
+ENDIF (CEGUI_CORE_LIBRARY_RELEASE AND NOT CEGUI_CORE_LIBRARY_DEBUG)   
+
             
 set(CEGUI_LIBRARIES debug ${CEGUI_CORE_LIBRARY_DEBUG} debug ${CEGUI_OPENGL_LIBRARY_DEBUG}
 		optimized ${CEGUI_CORE_LIBRARY_RELEASE} optimized ${CEGUI_OPENGL_LIBRARY_RELEASE})
