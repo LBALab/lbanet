@@ -6,16 +6,16 @@ set(LUABIND_DEFINITIONS ${FMOD_CFLAGS_OTHER})
 find_path(FMOD_INCLUDE_DIR fmod.h
           HINTS ${FMOD_INCLUDEDIR} ${FMOD_INCLUDE_DIRS}
           PATHS $ENV{LUABIND_HOME}/include
-          	../dependencies/fmod/include
-		    /usr/include
-		    /usr/local/include)
+		    /usr/include/fmodex
+		    /usr/local/include/fmodex
+		    ../dependencies/fmod/include)
 
-find_library(FMOD_CORE_LIBRARY_RELEASE NAMES fmodex_vc
+find_library(FMOD_CORE_LIBRARY_RELEASE NAMES fmodex_vc fmodex fmodex-4.40.06
              HINTS ${FMOD_LIBDIR} ${FMOD_LIBRARY_DIRS}
              PATHS $ENV{FMOD_HOME}/lib
-		../dependencies/fmod/lib
-		/usr/lib
-		/usr/local/lib)
+             	/usr/lib
+		/usr/local/lib
+		../dependencies/fmod/lib)
                     
                             
             
