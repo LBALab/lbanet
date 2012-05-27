@@ -7,15 +7,16 @@ find_path(FREETYPE_INCLUDE_DIR freetype/freetype.h
           HINTS ${FREETYPE_INCLUDEDIR} ${FREETYPE_INCLUDE_DIRS}
           PATHS $ENV{FREETYPE_HOME}/include
           	../dependencies/3rdParty/include
-		    /usr/include
-		    /usr/local/include)
+		    /usr/include/freetype2
+		    /usr/local/include/freetype2)
 
 find_library(FREETYPE_CORE_LIBRARY_RELEASE NAMES freetype244
              HINTS ${FREETYPE_LIBDIR} ${FREETYPE_LIBRARY_DIRS}
              PATHS $ENV{FREETYPE_HOME}/lib
 		../dependencies/3rdParty/lib
 		/usr/lib
-		/usr/local/lib)
+		/usr/local/lib
+		/usr/lib/i386-linux-gnu)
               
              
 find_library(FREETYPE_CORE_LIBRARY_DEBUG NAMES freetype244d
@@ -23,9 +24,16 @@ find_library(FREETYPE_CORE_LIBRARY_DEBUG NAMES freetype244d
              PATHS $ENV{FREETYPE_HOME}/include
 		../dependencies/3rdParty/lib
 		/usr/lib
-		/usr/local/lib)         
+		/usr/local/lib
+		/usr/lib/i386-linux-gnu)         
                             
-            
+             
+# set debug libs to release if no debug libs found    
+IF (FREETYPE_CORE_LIBRARY_RELEASE AND NOT FREETYPE_CORE_LIBRARY_DEBUG)
+  SET(FREETYPE_CORE_LIBRARY_DEBUG ${FREETYPE_CORE_LIBRARY_RELEASE})
+ENDIF (FREETYPE_CORE_LIBRARY_RELEASE AND NOT FREETYPE_CORE_LIBRARY_DEBUG)     
+  
+  
 set(FREETYPE_LIBRARIES debug ${FREETYPE_CORE_LIBRARY_DEBUG}
 		optimized ${FREETYPE_CORE_LIBRARY_RELEASE})
 
