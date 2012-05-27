@@ -48,8 +48,7 @@ find_package_handle_standard_args(FREETYPE DEFAULT_MSG
                                   FREETYPE_CORE_LIBRARY_RELEASE
                                   FREETYPE_INCLUDE_DIR)
 
-mark_as_advanced(FREETYPE DEFAULT_MSG
-			FREETYPE_CORE_LIBRARY_DEBUG
+mark_as_advanced(FREETYPE_CORE_LIBRARY_DEBUG
 			FREETYPE_CORE_LIBRARY_RELEASE
 			FREETYPE_INCLUDE_DIR )
 

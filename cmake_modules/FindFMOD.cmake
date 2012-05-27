@@ -31,6 +31,5 @@ find_package_handle_standard_args(FMOD DEFAULT_MSG
 				FMOD_CORE_LIBRARY_RELEASE
                                   FMOD_INCLUDE_DIR)
 
-mark_as_advanced(FMOD DEFAULT_MSG
-			FMOD_CORE_LIBRARY_RELEASE
+mark_as_advanced(FMOD_CORE_LIBRARY_RELEASE
                         FMOD_INCLUDE_DIR )

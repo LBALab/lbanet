@@ -49,7 +49,6 @@ find_package_handle_standard_args(LUA DEFAULT_MSG
                                   LUA_CORE_LIBRARY_RELEASE
                                   LUA_INCLUDE_DIR)
 
-mark_as_advanced(LUA DEFAULT_MSG
-			LUA_CORE_LIBRARY_DEBUG
+mark_as_advanced(LUA_CORE_LIBRARY_DEBUG
 			LUA_CORE_LIBRARY_RELEASE
 			LUA_INCLUDE_DIR )

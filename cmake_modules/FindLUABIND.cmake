@@ -47,7 +47,6 @@ find_package_handle_standard_args(LUABIND DEFAULT_MSG
                                   LUABIND_CORE_LIBRARY_RELEASE
                                   LUABIND_INCLUDE_DIR)
 
-mark_as_advanced(LUABIND DEFAULT_MSG
-			LUABIND_CORE_LIBRARY_DEBUG
+mark_as_advanced(LUABIND_CORE_LIBRARY_DEBUG
 			LUABIND_CORE_LIBRARY_RELEASE
 			LUABIND_INCLUDE_DIR )
