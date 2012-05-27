@@ -24,7 +24,14 @@ find_library(LUABIND_CORE_LIBRARY_DEBUG NAMES luabindd
 		../dependencies/luabind/lib
 		/usr/lib
 		/usr/local/lib)         
-                            
+          
+             
+# set debug libs to release if no debug libs found    
+IF (LUABIND_CORE_LIBRARY_RELEASE AND NOT LUABIND_CORE_LIBRARY_DEBUG)
+  SET(LUABIND_CORE_LIBRARY_DEBUG ${LUABIND_CORE_LIBRARY_RELEASE})
+ENDIF (LUABIND_CORE_LIBRARY_RELEASE AND NOT LUABIND_CORE_LIBRARY_DEBUG)               
+          
+          
             
 set(LUABIND_LIBRARIES debug ${LUABIND_CORE_LIBRARY_DEBUG}
 		optimized ${LUABIND_CORE_LIBRARY_RELEASE})
