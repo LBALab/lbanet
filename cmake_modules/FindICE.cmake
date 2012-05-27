@@ -9,35 +9,51 @@ find_path(ICE_INCLUDE_DIR Ice/Ice.h
 
 find_library(ICE_CORE_LIBRARY_RELEASE NAMES ice
              HINTS ${ICE_LIBDIR} ${ICE_LIBRARY_DIRS}
-             PATHS $ENV{ICE_HOME}/lib )
+             PATHS $ENV{ICE_HOME}/lib
+		/usr/lib
+		/usr/local/lib)
               
 find_library(ICE_UTIL_LIBRARY_RELEASE NAMES iceutil
              HINTS ${ICE_LIBDIR} ${ICE_LIBRARY_DIRS}
-             PATHS $ENV{ICE_HOME}/lib )               
+             PATHS $ENV{ICE_HOME}/lib
+		/usr/lib
+		/usr/local/lib)               
                
 find_library(ICE_GLACIER_LIBRARY_RELEASE NAMES glacier2
              HINTS ${ICE_LIBDIR} ${ICE_LIBRARY_DIRS}
-             PATHS $ENV{ICE_HOME}/lib )   
+             PATHS $ENV{ICE_HOME}/lib
+		/usr/lib
+		/usr/local/lib)   
                
 find_library(ICE_PATCH_LIBRARY_RELEASE NAMES icepatch2
              HINTS ${ICE_LIBDIR} ${ICE_LIBRARY_DIRS}
-             PATHS $ENV{ICE_HOME}/lib )   
+             PATHS $ENV{ICE_HOME}/lib
+		/usr/lib
+		/usr/local/lib)   
              
 find_library(ICE_CORE_LIBRARY_DEBUG NAMES iced
              HINTS ${ICE_LIBDIR} ${ICE_LIBRARY_DIRS}
-             PATHS $ENV{ICE_HOME}/lib )
+             PATHS $ENV{ICE_HOME}/lib
+		/usr/lib
+		/usr/local/lib)
               
 find_library(ICE_UTIL_LIBRARY_DEBUG NAMES iceutild
              HINTS ${ICE_LIBDIR} ${ICE_LIBRARY_DIRS}
-             PATHS $ENV{ICE_HOME}/lib )               
+             PATHS $ENV{ICE_HOME}/lib
+		/usr/lib
+		/usr/local/lib)               
                
 find_library(ICE_GLACIER_LIBRARY_DEBUG NAMES glacier2d
              HINTS ${ICE_LIBDIR} ${ICE_LIBRARY_DIRS}
-             PATHS $ENV{ICE_HOME}/lib )   
+             PATHS $ENV{ICE_HOME}/lib
+		/usr/lib
+		/usr/local/lib)   
                
 find_library(ICE_PATCH_LIBRARY_DEBUG NAMES icepatch2d
              HINTS ${ICE_LIBDIR} ${ICE_LIBRARY_DIRS}
-             PATHS $ENV{ICE_HOME}/lib )        
+             PATHS $ENV{ICE_HOME}/lib
+		/usr/lib
+		/usr/local/lib)        
      
              
 # set debug libs to release if no debug libs found    
