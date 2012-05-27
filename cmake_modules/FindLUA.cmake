@@ -10,21 +10,30 @@ find_path(LUA_INCLUDE_DIR lua.h
 		    /usr/include
 		    /usr/local/include)
 
-find_library(LUA_CORE_LIBRARY_RELEASE NAMES lua51
+find_library(LUA_CORE_LIBRARY_RELEASE NAMES lua51 lua5.1
              HINTS ${LUA_LIBDIR} ${LUA_LIBRARY_DIRS}
              PATHS $ENV{LUA_HOME}/lib
 		../dependencies/LUA/lib
 		/usr/lib
-		/usr/local/lib)
+		/usr/local/lib
+		/usr/lib/i386-linux-gnu)
               
              
-find_library(LUA_CORE_LIBRARY_DEBUG NAMES lua51d
+find_library(LUA_CORE_LIBRARY_DEBUG NAMES lua51d lua5.1d
              HINTS ${LUA_LIBDIR} ${LUA_LIBRARY_DIRS}
              PATHS $ENV{LUA_HOME}/include
 		../dependencies/LUA/lib
 		/usr/lib
-		/usr/local/lib)         
-                            
+		/usr/local/lib
+		/usr/lib/i386-linux-gnu)         
+          
+             
+# set debug libs to release if no debug libs found    
+IF (LUA_CORE_LIBRARY_RELEASE AND NOT LUA_CORE_LIBRARY_DEBUG)
+  SET(LUA_CORE_LIBRARY_DEBUG ${LUA_CORE_LIBRARY_RELEASE})
+ENDIF (LUA_CORE_LIBRARY_RELEASE AND NOT LUA_CORE_LIBRARY_DEBUG)             
+          
+          
             
 set(LUA_LIBRARIES debug ${LUA_CORE_LIBRARY_DEBUG}
 		optimized ${LUA_CORE_LIBRARY_RELEASE})
