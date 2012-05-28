@@ -1311,6 +1311,9 @@ void LbaNetEngine::TryLogin(const std::string &Name, const std::string &Password
 	{
 		QProgressDialog* progress = new QProgressDialog(QString::fromUtf8(Localizer::getInstance()->GetText(Localizer::GUI, 114).c_str()), 
 															QString::fromUtf8(Localizer::getInstance()->GetText(Localizer::GUI, 1).c_str()), 0, 100);
+		
+		progress->setAutoClose(false);
+		progress->setAutoReset(false);
 		progress->setModal(true);
 		progress->show();
 		progress->setValue(1);
