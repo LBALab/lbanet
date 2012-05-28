@@ -59,6 +59,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define TIME_PER_FRAME 17
 
+
+struct ProgressUpdater
+{
+	void UpdateProgress(int prog)
+	{
+		progress->setValue(prog);
+		QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+	}
+
+	QProgressDialog* progress;
+};
+
 /***********************************************************
 	Constructor
 ***********************************************************/
@@ -1292,6 +1304,25 @@ void LbaNetEngine::TryLogin(const std::string &Name, const std::string &Password
 
 	// change gui to change world
 	DisplayGUI(1);
+
+
+	// check on first time login
+	if(!QFileInfo("Data/Worlds/Lba1Original/WorldDescription.xml").exists())
+	{
+		QProgressDialog* progress = new QProgressDialog(QString::fromUtf8(Localizer::getInstance()->GetText(Localizer::GUI, 114).c_str()), 
+															QString::fromUtf8(Localizer::getInstance()->GetText(Localizer::GUI, 1).c_str()), 0, 100);
+		progress->setModal(true);
+		progress->show();
+		progress->setValue(1);
+		QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+
+		ProgressUpdater pUpdater;
+		pUpdater.progress = progress;
+
+		m_serverConH->PatchWorld("Lba1Original", boost::bind(&ProgressUpdater::UpdateProgress, boost::ref(pUpdater), _1));
+		progress->hide();
+		delete progress;
+	}
 }
 
 
@@ -1575,15 +1606,5 @@ void LbaNetEngine::CheckLBA1Files()
 					QFile::copy(dir+"/RESS.HQR", "Data/Worlds/Lba1Original/Models/RESS.HQR");
 			}
 		}
-	}
-
-	if(!QFileInfo("Data/Worlds/Lba1Original/WorldDescription.xml").exists())
-	{
-		QProgressDialog* progress = new QProgressDialog(QString::fromUtf8(Localizer::getInstance()->GetText(Localizer::GUI, 114).c_str()), 
-															QString::fromUtf8(Localizer::getInstance()->GetText(Localizer::GUI, 1).c_str()), 0, 100);
-		progress->setModal(true);
-		progress->show();
-
-		m_serverConH->PatchWorld("Lba1Original", boost::bind(&QProgressDialog::setValue, progress, _1));
 	}
 }

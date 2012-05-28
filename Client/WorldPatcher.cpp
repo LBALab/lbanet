@@ -37,7 +37,7 @@ class TextPatcherFeedback : public IcePatch2::PatcherFeedback
 public:
 
 	TextPatcherFeedback(const std::string & logpath, boost::function1<void, int> updatefct) :
-	  _pressAnyKeyMessage(false), logfile(logpath.c_str())
+	  _pressAnyKeyMessage(false), logfile(logpath.c_str()), _updatefct(updatefct)
     {
     }
 
@@ -65,6 +65,11 @@ public:
 
     virtual bool checksumEnd()
     {
+		if (_updatefct)
+		{
+			_updatefct(25);
+		}
+
         return true;
     }
 
@@ -77,6 +82,12 @@ public:
 
 	virtual bool fileListProgress(Ice::Int percent)
     {
+		if (_updatefct)
+		{
+			_updatefct(25 + static_cast<int>(percent*25/100));
+		}
+
+
         for(unsigned int i = 0; i < _lastProgress.size(); ++i)
         {
             logfile << '\b';
@@ -90,6 +101,11 @@ public:
 
     virtual bool fileListEnd()
     {
+		if (_updatefct)
+		{
+			_updatefct(50);
+		}
+
         logfile << std::endl;
         return true;
     }
@@ -107,7 +123,7 @@ public:
     {
 		if (_updatefct)
 		{
-			_updatefct(static_cast<int>(progress*100/totalProgress));
+			_updatefct(50 + static_cast<int>(progress*50/totalProgress));
 		}
 
         for(unsigned int i = 0; i < _lastProgress.size(); ++i)
@@ -123,6 +139,12 @@ public:
 
     virtual bool patchEnd()
     {
+		if (_updatefct)
+		{
+			_updatefct(100);
+		}
+
+
         logfile << std::endl;
         return true;
     }
