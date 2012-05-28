@@ -44,7 +44,7 @@ SET(CPACK_PACKAGE_VERSION_MAJOR "1")
 SET(CPACK_PACKAGE_VERSION_MINOR "18")
 SET(CPACK_GENERATOR "DEB")
 SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "Vivien Delage") #required
-SET(CPACK_DEBIAN_PACKAGE_DEPENDS "libboost-all-dev (>= 1.48.0.2), libcegui-mk2-0.7.5 (>= 0.7.5-8), libfreetype6 (>= 2.4.8-1), libzeroc-ice34 (>= 3.4.2-4), liblua5.1-0 (>= 5.1.4-12), libluabind0.9.1 (>= 0.9.1), libopenscenegraph80 (>= 3.0.1-2), libqt4-opengl (>=4:4.8.1), libvlc5 (>= 2.0.1-4), ice34-services (>= 3.4.2-4)")
+SET(CPACK_DEBIAN_PACKAGE_DEPENDS "libboost-all-dev (>= 1.48.0.2), libcegui-mk2-0.7.5 (>= 0.7.5-8), libfreetype6 (>= 2.4.8-1), libzeroc-ice34 (>= 3.4.2-4), liblua5.1-0 (>= 5.1.4-12), libluabind0.9.1 (>= 0.9.1), libopenscenegraph80 (>= 3.0.1-2), libqt4-opengl (>=4:4.8.1), libvlc5 (>= 2.0.1-4), ice34-services (>= 3.4.2-4), vlc (>= 2.0.1-4)")
 INCLUDE(CPack)
 ENDIF (UNIX)
 	
