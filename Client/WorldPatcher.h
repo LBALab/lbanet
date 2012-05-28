@@ -27,12 +27,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <IcePatch2/FileServer.h>
 
+#include <boost/function.hpp>
+
 //! used to patch world data using patch2server
 class WorldPatcher
 {
 public:
 	static bool PatchWorld(const std::string & worldname, const std::string & directory, 
-							IcePatch2::FileServerPrx patcherserver);
+							IcePatch2::FileServerPrx patcherserver, boost::function1<void, int> updatefct);
 };
 
 #endif // CLIENT_H

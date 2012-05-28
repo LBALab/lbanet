@@ -53,6 +53,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QFileInfo>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QProgressDialog>
+
+#include <boost/bind.hpp>
 
 #define TIME_PER_FRAME 17
 
@@ -1326,7 +1329,7 @@ void LbaNetEngine::ChangeWorld(const std::string & NewWorld, bool patch)
 
 	// first check if we need to patch the world
 	if(patch)
-		m_serverConH->PatchWorld(NewWorld);
+		m_serverConH->PatchWorld(NewWorld, 0);
 
 	m_currentworld = NewWorld;
 
@@ -1572,5 +1575,15 @@ void LbaNetEngine::CheckLBA1Files()
 					QFile::copy(dir+"/RESS.HQR", "Data/Worlds/Lba1Original/Models/RESS.HQR");
 			}
 		}
+	}
+
+	if(!QFileInfo("Data/Worlds/Lba1Original/WorldDescription.xml").exists())
+	{
+		QProgressDialog* progress = new QProgressDialog(QString::fromUtf8(Localizer::getInstance()->GetText(Localizer::GUI, 114).c_str()), 
+															QString::fromUtf8(Localizer::getInstance()->GetText(Localizer::GUI, 1).c_str()), 0, 100);
+		progress->setModal(true);
+		progress->show();
+
+		m_serverConH->PatchWorld("Lba1Original", boost::bind(&QProgressDialog::setValue, progress, _1));
 	}
 }

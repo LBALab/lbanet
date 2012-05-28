@@ -341,7 +341,7 @@ void RemoteConnectionHandler::run()
 }	
 
 //! patch a world
-void RemoteConnectionHandler::PatchWorld(const std::string & WorldName)
+void RemoteConnectionHandler::PatchWorld(const std::string & WorldName, boost::function1<void, int> updatefct)
 {
 	try
 	{
@@ -350,7 +350,7 @@ void RemoteConnectionHandler::PatchWorld(const std::string & WorldName)
 			IcePatch2::FileServerPrx patcher = _session->GetPatcher(WorldName);
 			if(patcher)
 			{
-				WorldPatcher::PatchWorld(WorldName, "Data/Worlds/"+WorldName, patcher);
+				WorldPatcher::PatchWorld(WorldName, "Data/Worlds/"+WorldName, patcher, updatefct);
 			}
 		}
 	}

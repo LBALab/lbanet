@@ -29,13 +29,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <IcePatch2/ClientUtil.h>
 
+
 #include <fstream>
 
 class TextPatcherFeedback : public IcePatch2::PatcherFeedback
 {
 public:
 
-	TextPatcherFeedback(const std::string & logpath) :
+	TextPatcherFeedback(const std::string & logpath, boost::function1<void, int> updatefct) :
 	  _pressAnyKeyMessage(false), logfile(logpath.c_str())
     {
     }
@@ -104,6 +105,11 @@ public:
 
     virtual bool patchProgress(Ice::Long progress, Ice::Long size, Ice::Long totalProgress, Ice::Long totalSize)
     {
+		if (_updatefct)
+		{
+			_updatefct(static_cast<int>(progress*100/totalProgress));
+		}
+
         for(unsigned int i = 0; i < _lastProgress.size(); ++i)
         {
             logfile << '\b';
@@ -126,16 +132,18 @@ private:
 	std::string _lastProgress;
     bool _pressAnyKeyMessage;
 	std::ofstream logfile;
+
+	boost::function1<void, int> _updatefct;
 };
 
 
 bool WorldPatcher::PatchWorld(const std::string & worldname, const std::string & directory, 
-							IcePatch2::FileServerPrx patcherserver)
+							IcePatch2::FileServerPrx patcherserver, boost::function1<void, int> updatefct)
 {
 	// first make sure that the directory exist
 	FileUtil::CreateNewDirectory(directory);
 
-	IcePatch2::PatcherFeedbackPtr feedback = new TextPatcherFeedback(worldname+"_patch.log");
+	IcePatch2::PatcherFeedbackPtr feedback = new TextPatcherFeedback(worldname+"_patch.log", updatefct);
 	IcePatch2::PatcherPtr patcher = 
 		new IcePatch2::Patcher(patcherserver, feedback, directory, false, 100, 0);
 

@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include "RunnableThread.h"
 
+#include <boost/function.hpp>
 
 /***********************************************************************
  * Module:  ConnectionHandlerBase.h
@@ -61,7 +62,7 @@ public:
 	virtual void RefreshWorldList() = 0;
 
 	//! patch a world
-	virtual void PatchWorld(const std::string & WorldName) = 0;
+	virtual void PatchWorld(const std::string & WorldName, boost::function1<void, int> updatefct) = 0;
 
 protected:
 	

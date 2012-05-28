@@ -72,7 +72,7 @@ public:
 	virtual void RefreshWorldList();
 
 	//! patch a world
-	virtual void PatchWorld(const std::string & WorldName);
+	virtual void PatchWorld(const std::string & WorldName, boost::function1<void, int> updatefct);
 
 private:
 	// threading and mutex stuff
