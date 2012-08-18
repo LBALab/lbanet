@@ -114,5 +114,5 @@
 <text id="111">Missing files</text>
 <text id="112">LBANet can not find the original HQR files of the LBA1 game, please browse to the directory containing these files:</text>
 <text id="113">Select LBA1 HQR directory</text>
-<text id="114">First time running LBANet, the worlds data needs to be updated from the server, this can take several minutes...</text>
+<text id="114">Updating world data from the server, this can take several minutes...</text>
 </texts>
