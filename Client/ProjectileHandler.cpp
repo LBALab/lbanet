@@ -32,6 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "MusicHandler.h"
 #include "LbaNetModel.h"
 #include "MusicHandler.h"
+#include "DataDirHandler.h"
 
 #include <math.h>
 
@@ -273,7 +274,7 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 								physobj->GetPosition(lpx, lpy, lpz);
 								physobj->GetRotation(lQ);
 								LbaVec3 ldX(lQ.GetDirection(LbaVec3(0, 0, 1)));
-								MusicHandler::getInstance()->PlaySample3D("Data/"+_SoundOnBounce, false, true,
+								MusicHandler::getInstance()->PlaySample3D(DataDirHandler::getInstance()->GetDataDirPath() + "/"+_SoundOnBounce, false, true,
 																			lpx, lpy, lpz, ldX.x, ldX.y, ldX.z);
 							}
 
@@ -441,7 +442,7 @@ void ProjectileHandler::Launch()
 			physobj->GetPosition(lpx, lpy, lpz);
 			physobj->GetRotation(lQ);
 			LbaVec3 ldX(lQ.GetDirection(LbaVec3(0, 0, 1)));
-			MusicHandler::getInstance()->PlaySample3D("Data/"+_SoundAtStart, false, true,
+			MusicHandler::getInstance()->PlaySample3D(DataDirHandler::getInstance()->GetDataDirPath() + "/"+_SoundAtStart, false, true,
 														lpx, lpy, lpz, ldX.x, ldX.y, ldX.z);
 		}
 	}

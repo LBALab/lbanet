@@ -72,9 +72,7 @@ public:
 	//! get voices dir path
 	std::string GetVoiceDirPath(const std::string &lang);
 
-
-#ifdef _USE_QT_EDITOR_
-
+	//!***************************
 	//! editor functions
 	std::map<long, std::string> GetMap(LocalizeType texttype, const std::string &lang);
 
@@ -89,9 +87,8 @@ public:
 
 	void RemoveFromMapVoice(LocalizeType texttype, long id, const std::string &lang);
 
-
 	void SaveTexts();
-#endif
+	//!***************************
 
 
 protected:
@@ -104,11 +101,12 @@ protected:
 	//! refresh text files
 	void RefreshGuiTexts();
 
-#ifdef _USE_QT_EDITOR_
+	//!***************************
+	//! editor functions
 	//! check map loaded, if not load it
 	void CheckMapPresent(const std::string & lang);
 	void CheckVoiceMapPresent(const std::string & lang);
-#endif
+	//!***************************
 
 private:
 	static Localizer *		_singletonInstance;
@@ -131,7 +129,8 @@ private:
 	std::map<long, std::vector<std::string> >		_inventory_voices;
 
 
-#ifdef _USE_QT_EDITOR_
+	//!***************************
+	//! editor stuff
 
 	// contain preloaded text
 	std::map<std::string, std::map<long, std::string> >		_map_texts_ed;
@@ -142,7 +141,7 @@ private:
 	// contains preloaded voices
 	std::map<std::string, std::map<long, std::vector<std::string> > >		_map_voices_ed;
 	std::map<std::string, std::map<long, std::vector<std::string> > >		_inventory_voices_ed;
-#endif
+	//!***************************
 
 };
 

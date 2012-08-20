@@ -5,24 +5,21 @@ set(FREETYPE_DEFINITIONS ${FREETYPE_CFLAGS_OTHER})
              
 find_path(FREETYPE_INCLUDE_DIR freetype/freetype.h
           HINTS ${FREETYPE_INCLUDEDIR} ${FREETYPE_INCLUDE_DIRS}
-          PATHS $ENV{FREETYPE_HOME}/include
-          	../dependencies/3rdParty/include
+          PATHS ${3RD_PARTY_PATH}/freetype/include
 		    /usr/include/freetype2
 		    /usr/local/include/freetype2)
 
-find_library(FREETYPE_CORE_LIBRARY_RELEASE NAMES freetype244 freetype
+find_library(FREETYPE_CORE_LIBRARY_RELEASE NAMES freetype244 freetype freetype2311MT
              HINTS ${FREETYPE_LIBDIR} ${FREETYPE_LIBRARY_DIRS}
-             PATHS $ENV{FREETYPE_HOME}/lib
-		../dependencies/3rdParty/lib
+             PATHS ${3RD_PARTY_PATH}/freetype/lib
 		/usr/lib
 		/usr/local/lib
 		/usr/lib/i386-linux-gnu)
               
              
-find_library(FREETYPE_CORE_LIBRARY_DEBUG NAMES freetype244d freetyped
+find_library(FREETYPE_CORE_LIBRARY_DEBUG NAMES freetype244d freetyped freetype2311MT_D
              HINTS ${FREETYPE_LIBDIR} ${FREETYPE_LIBRARY_DIRS}
-             PATHS $ENV{FREETYPE_HOME}/include
-		../dependencies/3rdParty/lib
+             PATHS ${3RD_PARTY_PATH}/freetype/lib
 		/usr/lib
 		/usr/local/lib
 		/usr/lib/i386-linux-gnu)         

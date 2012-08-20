@@ -110,7 +110,7 @@ LBA1ModelClass::LBA1ModelClass(const std::string & lm1filepath, int palettenumbe
 	m_animationspeed(1), cumutime(0), rotTablePtr(rotTable), _fixcoloridx(fixcoloridx)
 {
 
-	HQRHandler HQH(Lba1ModelDataPath+"RESS.HQR");
+	HQRHandler HQH(Lba1ModelDataPath()+"RESS.HQR");
 	unsigned int paletteSize;
 	m_paletteRGB = HQH.Load_HQR(palettenumber, paletteSize);
 
@@ -177,7 +177,7 @@ LBA1ModelClass::LBA1ModelClass(entitiesTableStruct* entitiesData, const std::str
 	m_animationspeed(1), cumutime(0), rotTablePtr(rotTable), _fixcoloridx(false)
 {
 
-	HQRHandler HQH(Lba1ModelDataPath+"RESS.HQR");
+	HQRHandler HQH(Lba1ModelDataPath()+"RESS.HQR");
 	unsigned int paletteSize;
 	m_paletteRGB = HQH.Load_HQR(0, paletteSize);
 

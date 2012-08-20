@@ -32,7 +32,6 @@ class TriggerBase;
 class ActionBase;
 class ClientScriptBase;
 class ActionArgumentBase;
-struct ContainerSharedInfo;
 class DialogPart;
 class Spawn;
 class DynamicObject;
@@ -124,7 +123,7 @@ public:
 											const std::string &  messagecontent) = 0;
 
 	// open container on client side
-	virtual void OpenContainer(long clientid, boost::shared_ptr<ContainerSharedInfo> sharedinfo) = 0;
+	virtual void OpenContainer(long clientid, boost::shared_ptr<LbaNet::ContainerSharedInfo> sharedinfo) = 0;
 
 
 	//! used by lua to get an actor Position

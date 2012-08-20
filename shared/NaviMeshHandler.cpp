@@ -14,6 +14,7 @@
 #include "DetourCrowd.h"
 #include "DetourObstacleAvoidance.h"
 #include "NavMeshAgent.h"
+#include "DataDirHandler.h"
 
 #include "LogHandler.h"
 
@@ -841,7 +842,7 @@ add trianglemesh
 ***********************************************************/
 void NaviMeshHandler::AddTriangleMesh(const LbaNet::ObjectPhysicDesc & PhysicDesc)
 {
-	TriangleMeshInfo triinfo("Data/"+PhysicDesc.Filename, true);
+	TriangleMeshInfo triinfo(DataDirHandler::getInstance()->GetDataDirPath() + "/"+PhysicDesc.Filename, true);
 	if(triinfo._buffervertex == NULL)
 		return;
 

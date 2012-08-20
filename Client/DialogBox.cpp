@@ -36,6 +36,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ClientExtendedEvents.h"
 #include "ClientExtendedTypes.h"
 
+#include "DataDirHandler.h"
+
+
 #include "MusicHandler.h"
 
 #include <iostream>
@@ -703,7 +706,7 @@ void NPCDialogBox::PlayPChoice()
 				if(voices.size() > 0)
 				{
 					for(size_t vv=0; vv< voices.size(); ++vv)
-						voices[vv] = "Data/" + voices[vv];
+						voices[vv] = DataDirHandler::getInstance()->GetDataDirPath() + "/" + voices[vv];
 
 					MusicHandler::getInstance()->PlayVoice(voices, -1,
 					boost::shared_ptr<NPCDialogActionBase>(new SendChoiceToServerDialogAction(this, tosend)));
@@ -798,7 +801,7 @@ void NPCDialogBox::DisplayScrollingText(long textid, long actorid)
 	if(voices.size() > 0)
 	{
 		for(size_t vv=0; vv< voices.size(); ++vv)
-			voices[vv] = "Data/" + voices[vv];
+			voices[vv] = DataDirHandler::getInstance()->GetDataDirPath() + "/" + voices[vv];
 
 		MusicHandler::getInstance()->PlayVoice(voices, actorid);
 	}

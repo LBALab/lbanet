@@ -1,5 +1,6 @@
 #include "LuaHandlerBase.h"
 
+#pragma warning (disable : 4251) // disable luabind warnings
 extern "C"
 {
     #include "lua.h"
@@ -14,6 +15,7 @@ extern "C"
 #include "ScriptEnvironmentBase.h"
 #include "ActionArguments.h"
 #include "ScriptInitHandler.h"
+#include "DataDirHandler.h"
 
 
 /***********************************************************
@@ -54,7 +56,7 @@ LuaHandlerBase::~LuaHandlerBase(void)
 	// clear running thread before closing main lua state
 	m_RunningThreads.clear();
 
-	lua_close(m_LuaState);
+	//lua_close(m_LuaState); // TODO - this crashes with msvc 2010 ...
 }
 
 
@@ -64,7 +66,7 @@ load a lua file
 void LuaHandlerBase::LoadFile(const std::string & luafile)
 {
 	// read lua file
-	int error = luaL_dofile(m_LuaState, ("Data/"+luafile).c_str());
+	int error = luaL_dofile(m_LuaState, (DataDirHandler::getInstance()->GetDataDirPath() + "/"+luafile).c_str());
 	if(error != 0)
 	{
 		LogHandler::getInstance()->LogToFile(std::string("Error loading lua file: ") + lua_tostring(m_LuaState, -1));

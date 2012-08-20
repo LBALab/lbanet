@@ -34,6 +34,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DataLoader.h"
 #include "ConfigurationManager.h"
 
+#include "DataDirHandler.h"
+
 #include <QMessageBox>
 
 class MyListItemCW : public CEGUI::ListboxTextItem
@@ -132,7 +134,7 @@ bool ChooseWorldGUI::HandleConnect(const CEGUI::EventArgs& e)
 		DataLoader::getInstance()->GetWorldDescription(worldinfo.WorldName, mydesc);
 		patch = (mydesc.Version < worldinfo.Version);
 
-		std::string samples = "Data/GUI/lba2launcherblob.wav";
+		std::string samples = DataDirHandler::getInstance()->GetDataDirPath() + "/GUI/lba2launcherblob.wav";
 		MusicHandler::getInstance()->PlaySample2D(samples, false, true);
 		EventsQueue::getReceiverQueue()->AddEvent(new ChangeWorldEvent(worldinfo.WorldName, patch));
 

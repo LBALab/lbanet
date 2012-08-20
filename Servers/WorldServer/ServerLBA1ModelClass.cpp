@@ -96,7 +96,7 @@ ServerLBA1ModelClass::ServerLBA1ModelClass(entitiesTableStruct* entitiesData, co
 	m_animationspeed(1), cumutime(0), rotTablePtr(rotTable)
 {
 
-	HQRHandler HQH(Lba1ModelDataPath+"RESS.HQR");
+	HQRHandler HQH(Lba1ModelDataPath()+"RESS.HQR");
 	unsigned int paletteSize;
 	m_paletteRGB = HQH.Load_HQR(0, paletteSize);
 
@@ -1172,9 +1172,9 @@ int ServerLBA1ModelClass::ApplyAnim(int animState, char *animPtr, TElements *ele
 
 		keyFramePtrOld = keyFramePtr+2;
 
-		currentX = ((*(short int *) keyFramePtrOld) * cumutime) / keyFrameLength;
-		currentY = ((*(short int *) (keyFramePtrOld + 2)) * cumutime) / keyFrameLength;
-		currentZ = ((*(short int *) (keyFramePtrOld + 4)) * cumutime) / keyFrameLength;
+		currentX = (short)(((*(short int *) keyFramePtrOld) * cumutime) / keyFrameLength);
+		currentY = (short)(((*(short int *) (keyFramePtrOld + 2)) * cumutime) / keyFrameLength);
+		currentZ = (short)(((*(short int *) (keyFramePtrOld + 4)) * cumutime) / keyFrameLength);
 
 		//std::cout<<"curr"<<currentX<<" "<<currentY<<" "<<currentZ<<std::endl;
 		m_currentSpeedX = (*(short int *) (keyFramePtrOld + 4)) / (keyFrameLength*512);
@@ -1295,7 +1295,7 @@ void ServerLBA1ModelClass::ApplyAnimMode0(short int *ptr, float bp, float bx)
 		    angleDif -= 0x400;
 		}
 
-	    computedAngle = lastAngle + (angleDif * bp) / bx;
+	    computedAngle = (short)(lastAngle + (angleDif * bp) / bx);
 	}
     else
 	{
@@ -1324,7 +1324,7 @@ void ServerLBA1ModelClass::ApplyAnimMode1(short int *ptr, float bp, float bx)
 
     if (angleDif)
 	{
-	    computedAngle = lastAngle + (angleDif * bp) / bx;
+	    computedAngle = (short)(lastAngle + (angleDif * bp) / bx);
 	}
     else
 	{

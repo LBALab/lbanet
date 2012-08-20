@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ClientExtendedEvents.h"
 #include "GUILocalizationCallback.h"
 #include "Localizer.h"
+#include "DataDirHandler.h"
 #include <QMessageBox>
 
 
@@ -145,7 +146,7 @@ bool LoginGUI::HandleConnect(const CEGUI::EventArgs& e)
 			std::string txtt = pt->getText().c_str();
 			if((txtl != "") && (txtl.size() <= 20) && (txtt.size() <= 20))
 			{
-				std::string samples = "Data/GUI/lba2launcherblob.wav";
+				std::string samples = DataDirHandler::getInstance()->GetDataDirPath() + "/GUI/lba2launcherblob.wav";
 				MusicHandler::getInstance()->PlaySample2D(samples, false, true);
 				ConfigurationManager::GetInstance()->SetValue("Player.Name", txtl);
 				pt->setText("");

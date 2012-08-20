@@ -6,14 +6,14 @@ set(LUA_DEFINITIONS ${LUA_CFLAGS_OTHER})
 find_path(LUA_INCLUDE_DIR lua.h
           HINTS ${LUA_INCLUDEDIR} ${LUA_INCLUDE_DIRS}
           PATHS $ENV{LUA_HOME}/include
-          	../dependencies/LUA/include
+          	${3RD_PARTY_PATH}/LUA/include
 		    /usr/include
 		    /usr/local/include)
 
 find_library(LUA_CORE_LIBRARY_RELEASE NAMES lua51 lua5.1
              HINTS ${LUA_LIBDIR} ${LUA_LIBRARY_DIRS}
              PATHS $ENV{LUA_HOME}/lib
-		../dependencies/LUA/lib
+		${3RD_PARTY_PATH}/LUA/lib
 		/usr/lib
 		/usr/local/lib
 		/usr/lib/i386-linux-gnu)
@@ -22,7 +22,7 @@ find_library(LUA_CORE_LIBRARY_RELEASE NAMES lua51 lua5.1
 find_library(LUA_CORE_LIBRARY_DEBUG NAMES lua51d lua5.1d
              HINTS ${LUA_LIBDIR} ${LUA_LIBRARY_DIRS}
              PATHS $ENV{LUA_HOME}/include
-		../dependencies/LUA/lib
+		${3RD_PARTY_PATH}/LUA/lib
 		/usr/lib
 		/usr/local/lib
 		/usr/lib/i386-linux-gnu)         

@@ -36,6 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "MusicHandler.h"
 #include "ObjectsDescription.h"
 #include "StaticObject.h"
+#include "DataDirHandler.h"
 
 #include <boost/foreach.hpp>
 
@@ -344,7 +345,7 @@ void Client::SwitchToText(const std::string & imagepath, const std::vector<long>
 
 		std::vector<std::string> vcs = Localizer::getInstance()->GetVoices(Localizer::Map, textIds[i]);
 		for(size_t vv=0; vv<vcs.size(); ++vv)
-			_voices.push_back("Data/" + vcs[vv]);
+			_voices.push_back(DataDirHandler::getInstance()->GetDataDirPath() + "/" + vcs[vv]);
 	}
 
 	if(_texts.size() > 0)

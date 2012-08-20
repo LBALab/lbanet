@@ -340,7 +340,7 @@ constructor
 OpenContainerAction::OpenContainerAction()
 : _lastResetTime(0), _TimeToReset(600000) // set to 10 min
 {
-	_shared = boost::shared_ptr<ContainerSharedInfo>(new ContainerSharedInfo());
+	_shared = boost::shared_ptr<LbaNet::ContainerSharedInfo>(new LbaNet::ContainerSharedInfo());
 	_shared->OpeningClient = -1;
 }
 

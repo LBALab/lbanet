@@ -5,15 +5,13 @@ set(VLC_DEFINITIONS ${VLC_CFLAGS_OTHER})
              
 find_path(VLC_INCLUDE_DIR vlc/vlc.h
           HINTS ${VLC_INCLUDEDIR} ${VLC_INCLUDE_DIRS}
-          PATHS $ENV{VLC_HOME}/include
-          	../dependencies/VLC/include
+          PATHS ${3RD_PARTY_PATH}/VLC/include
 		    /usr/include
 		    /usr/local/include)
 
 find_library(VLC_CORE_LIBRARY_RELEASE NAMES vlc libvlc
              HINTS ${VLC_LIBDIR} ${VLC_LIBRARY_DIRS}
-             PATHS $ENV{VLC_HOME}/lib
-		../dependencies/VLC/lib
+             PATHS ${3RD_PARTY_PATH}/VLC/lib
 		/usr/lib
 		/usr/local/lib)      
                             

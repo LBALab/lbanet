@@ -31,6 +31,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _Lba1ModelPath_
 #define _Lba1ModelPath_
 
-static std::string Lba1ModelDataPath = "Data/Worlds/Lba1Original/Models/";
+#include "DataDirHandler.h"
+
+static std::string Lba1ModelDataPath()
+{
+	return DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/Lba1Original/Models/";
+}
 
 #endif

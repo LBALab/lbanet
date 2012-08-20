@@ -28,6 +28,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "FileUtil.h"
 
+#include "DataDirHandler.h"
+
 #include <LbaTypes.h>
 #include <fstream>
 
@@ -106,7 +108,7 @@ void DataLoader::GetAvailableWorlds(std::vector<LbaNet::WorldDesc> & list)
 {
 	// get all xml file of the directory
 	std::vector<std::string> files;
-	if(!FileUtil::ListDirsInDir("./Data/Worlds", files, "/WorldDescription.xml"))
+	if(!FileUtil::ListDirsInDir(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds", files, "/WorldDescription.xml"))
 	{
 		LogHandler::getInstance()->LogToFile(std::string("\nData/Worlds directory Not found!"));
 		return;
@@ -127,7 +129,7 @@ get information about a specific world
 ***********************************************************/
 void DataLoader::GetWorldInformation(const std::string &Filename, LbaNet::WorldInformation &res)
 {
-	XmlReader::LoadWorldInfo( "./Data/Worlds/" + Filename + "/WorldDescription.xml", res);
+	XmlReader::LoadWorldInfo( DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + Filename + "/WorldDescription.xml", res);
 }
 
 /***********************************************************
@@ -135,15 +137,13 @@ get information about a specific world
 ***********************************************************/
 void DataLoader::GetWorldDescription(const std::string &Filename, LbaNet::WorldDesc &res)
 {
-	XmlReader::LoadWorldDesc( "./Data/Worlds/" + Filename + "/WorldDescription.xml", res);
+	XmlReader::LoadWorldDesc( DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + Filename + "/WorldDescription.xml", res);
 }
 
 /***********************************************************
 saved information about a specific world
 ***********************************************************/
-
 void DataLoader::SaveWorldInformation(const std::string &Filename, const LbaNet::WorldInformation &res)
 {
-	XmlReader::SaveWorldInfo( "./Data/Worlds/" + Filename + "/WorldDescription.xml", res);
+	XmlReader::SaveWorldInfo( DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + Filename + "/WorldDescription.xml", res);
 }
-

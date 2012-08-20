@@ -1,5 +1,6 @@
 #include "ClientLuaHandler.h"
 
+#pragma warning (disable : 4251) // disable luabind warnings
 extern "C"
 {
 	#include "lua.h"
@@ -18,6 +19,7 @@ extern "C"
 
 
 #include <vector>
+
 
 /***********************************************************
 constructor

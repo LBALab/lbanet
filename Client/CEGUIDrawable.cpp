@@ -27,6 +27,7 @@
 #include "ClientExtendedEvents.h"
 #include "SynchronizedTimeHandler.h"
 
+#include "DataDirHandler.h"
 
 // load font from TTF file
 static bool load_ttf(FONT_FONT	&font, string fontfilename,int average_advance)
@@ -348,7 +349,7 @@ void CEGUIDrawable::write_line(const std::vector<unsigned int> &text, bool black
 {
 	glBegin(GL_QUADS);
 
-	for(int i=0;i<nbchar && i<text.size();i++)
+	for(int i=0;i<nbchar && i<(int)text.size();i++)
 	{
 		unsigned int n=text[i];
 		if(n==' ')
@@ -400,7 +401,7 @@ void CEGUIDrawable::CreateLBAFont(int size, bool forced)
 	}
 
 	_loadedfont = new FONT_FONT();
-	load_ttf(*_loadedfont, "Data/GUI/fonts/lubalingraphstd-demi.otf", size);
+	load_ttf(*_loadedfont, DataDirHandler::getInstance()->GetDataDirPath() + "/GUI/fonts/lubalingraphstd-demi.otf", size);
 
 
     glGenTextures( 1, &_textureid);
@@ -408,7 +409,7 @@ void CEGUIDrawable::CreateLBAFont(int size, bool forced)
 
     glBindTexture( GL_TEXTURE_2D, _textureid );
     char *map=new char[1024*1024*4];
-    for(int i=0;i<_loadedfont->map.size();i++)
+    for(int i=0;i<(int)_loadedfont->map.size();i++)
     {
         map[i*4+0]=_loadedfont->map[i];
         map[i*4+1]=_loadedfont->map[i];
@@ -489,7 +490,7 @@ void CEGUIDrawable::Process(double tnow, float tdiff)
 		if(_scrolling)
 			_scrollingtimediff += tdiff;
 
-		if(_textpageidx < _precalculated_text.size())
+		if(_textpageidx < (int)_precalculated_text.size())
 			prepare_text(_precalculated_text[_textpageidx], (int)(_scrollingtimediff/60));
 	}
 	else if(_currentstate == XtGLw_Image)
@@ -591,7 +592,7 @@ bool CEGUIDrawable::PressedSpace(bool clean)
 		else
 		{
 			++_textpageidx;
-			if(_textpageidx >= _precalculated_text.size())
+			if(_textpageidx >= (int)_precalculated_text.size())
 			{
 				if(clean)
 					CleanAndReport();
@@ -741,7 +742,7 @@ paintXtraGL
 				glEnd();
 			}
 
-			if(!_scrolling && (_textpageidx < _precalculated_text.size()-1))
+			if(!_scrolling && (_textpageidx < (int)_precalculated_text.size()-1))
 			{
 				glColor3d(0.8,0.8,0.8);
 
@@ -766,7 +767,7 @@ paintXtraGL
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 
-			if(_textpageidx < _precalculated_text.size())
+			if(_textpageidx < (int)_precalculated_text.size())
 				write_text(topX+_loadedfont->average_advance, topY+_loadedfont->origin+20);
 		}
 		break;
@@ -902,7 +903,7 @@ void CEGUIDrawable::precalculate_text(double sizeX, double sizeY)
 		vector<int> wordslengthpixel;
 		int length=0;
 		std::vector<unsigned int> s;
-		for(int i=0;i<tmpvec.size();i++)
+		for(int i=0;i<(int)tmpvec.size();i++)
 		{
 			unsigned int c=tmpvec[i];
 			if(c==' ')
@@ -932,7 +933,7 @@ void CEGUIDrawable::precalculate_text(double sizeX, double sizeY)
 		nbwords=0;
 		int nbchar=0;
 		bool returnline = false;
-		for(int i=0;i<words.size();i++)
+		for(int i=0;i<(int)words.size();i++)
 		{
 			if(words[i].size() == 1 && 	words[i][0] == '@')
 			{
@@ -942,7 +943,7 @@ void CEGUIDrawable::precalculate_text(double sizeX, double sizeY)
 			{
 				if(!returnline && linelengthpixel+wordslengthpixel[i]+(nbwords)*space_size<=sizeX)
 				{
-					for(int sv=0; sv< words[i].size(); ++sv)
+					for(int sv=0; sv< (int)words[i].size(); ++sv)
 						line.push_back(words[i][sv]);
 					line.push_back(' ');
 					linelengthpixel+=wordslengthpixel[i];
@@ -963,7 +964,7 @@ void CEGUIDrawable::precalculate_text(double sizeX, double sizeY)
 					line.clear();
 					linelengthpixel=0;
 
-					for(int sv=0; sv< words[i].size(); ++sv)
+					for(int sv=0; sv< (int)words[i].size(); ++sv)
 						line.push_back(words[i][sv]);
 					line.push_back(' ');
 					linelengthpixel+=wordslengthpixel[i];

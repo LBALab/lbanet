@@ -35,6 +35,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "SynchronizedTimeHandler.h"
 #include "StringMorphInterpolator.h"
 
+#include "DataDirHandler.h"
+
 #include <CEGUI.h>
 #include <RendererModules/OpenGL/CEGUIOpenGLRenderer.h>
 #include <CEGUIDefaultResourceProvider.h>
@@ -86,12 +88,12 @@ void GuiHandler::Initialize(int screen_size_X, int screen_size_Y)
 		CEGUI::DefaultResourceProvider* rp = static_cast<CEGUI::DefaultResourceProvider*>
 			(CEGUI::System::getSingleton().getResourceProvider());
 
-		rp->setResourceGroupDirectory("schemes", "./Data/GUI/schemes/");
-		rp->setResourceGroupDirectory("imagesets", "./Data/GUI/imagesets/");
-		rp->setResourceGroupDirectory("fonts", "./Data/GUI/fonts/");
-		rp->setResourceGroupDirectory("layouts", "./Data/GUI/layouts/");
-		rp->setResourceGroupDirectory("looknfeels", "./Data/GUI/looknfeel/");
-		rp->setResourceGroupDirectory("lua_scripts", "./Data/GUI/lua_scripts/");
+		rp->setResourceGroupDirectory("schemes", DataDirHandler::getInstance()->GetDataDirPath() + "/GUI/schemes/");
+		rp->setResourceGroupDirectory("imagesets", DataDirHandler::getInstance()->GetDataDirPath() + "/GUI/imagesets/");
+		rp->setResourceGroupDirectory("fonts", DataDirHandler::getInstance()->GetDataDirPath() + "/GUI/fonts/");
+		rp->setResourceGroupDirectory("layouts", DataDirHandler::getInstance()->GetDataDirPath() + "/GUI/layouts/");
+		rp->setResourceGroupDirectory("looknfeels", DataDirHandler::getInstance()->GetDataDirPath() + "/GUI/looknfeel/");
+		rp->setResourceGroupDirectory("lua_scripts", DataDirHandler::getInstance()->GetDataDirPath() + "/GUI/lua_scripts/");
 
 		// set the default resource groups to be used
 		CEGUI::Imageset::setDefaultResourceGroup("imagesets");

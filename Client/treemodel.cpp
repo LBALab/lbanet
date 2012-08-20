@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "treeitem.h"
 #include "treemodel.h"
 #include "FileUtil.h"
+#include "DataDirHandler.h"
 
 
 
@@ -399,7 +400,7 @@ void TreeModel::SetCustomFileDialog(const QModelIndex &index, const std::string 
 {
 	boost::shared_ptr<FileDialogOptionsBase> filefilter(new FileDialogOptionsModel());
 	filefilter->Title = QString::fromUtf8(title.c_str());
-	filefilter->StartingDirectory = ("Data/Worlds/" + _Worldname + "/" + directory).c_str();
+	filefilter->StartingDirectory = (DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + _Worldname + "/" + directory).c_str();
 	filefilter->FileFilter = QString::fromUtf8(ffilter.c_str());
 	SetCustomIndex(index, filefilter);
 }

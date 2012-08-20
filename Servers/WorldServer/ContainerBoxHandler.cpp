@@ -67,7 +67,7 @@ void ContainerBoxHandler::HideGUI(Ice::Long clientid)
 
 	RemoveOpenedGui(clientid);
 
-	std::map<long, boost::shared_ptr<ContainerSharedInfo> >::iterator itm = _openedcontainers.find((long)clientid);
+	std::map<long, boost::shared_ptr<LbaNet::ContainerSharedInfo> >::iterator itm = _openedcontainers.find((long)clientid);
 	if(itm != _openedcontainers.end())
 	{
 		itm->second->OpeningClient = -1;

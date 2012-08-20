@@ -57,13 +57,11 @@ public:
 	// center camera on player
 	void Center();
 
-	#ifdef _USE_QT_EDITOR_
 	//! force the camera in ghost mode or not
 	void ForceGhost(bool force)
 	{
 		_forcedghost = force;
 	}
-	#endif
 
 
 	//! key pressed

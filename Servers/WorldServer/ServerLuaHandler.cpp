@@ -1,5 +1,6 @@
 #include "ServerLuaHandler.h"
 
+#pragma warning (disable : 4251) // disable luabind warnings
 extern "C"
 {
     #include "lua.h"
@@ -29,6 +30,7 @@ extern "C"
 #ifdef _USE_QT_EDITOR_
 #include "editorhandler.h"
 #endif
+
 
 /***********************************************************
 constructor
@@ -573,9 +575,11 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetActionTrue", &ConditionalAction::GetActionTrue)
 		.def("GetActionFalse", &ConditionalAction::GetActionFalse),
 
-		luabind::class_<ContainerSharedInfo, boost::shared_ptr<ContainerSharedInfo> >("ContainerSharedInfo")
-		.def_readwrite("OpeningClient", &ContainerSharedInfo::OpeningClient)
-		.def_readwrite("ContainerItems", &ContainerSharedInfo::ContainerItems),
+
+		luabind::class_<LbaNet::ContainerSharedInfo>("ContainerSharedInfo")
+		.def(luabind::constructor<>())
+		.def_readwrite("OpeningClient", &LbaNet::ContainerSharedInfo::OpeningClient)
+		.def_readwrite("ContainerItems", &LbaNet::ContainerSharedInfo::ContainerItems),
 
 
 		luabind::class_<OpenContainerAction, ActionBase, boost::shared_ptr<ActionBase> >("OpenContainerAction")

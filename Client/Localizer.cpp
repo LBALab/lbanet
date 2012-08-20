@@ -26,6 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "XmlReader.h"
 #include "FileUtil.h"
 
+#include "DataDirHandler.h"
+
 Localizer* Localizer::_singletonInstance = NULL;
 
 
@@ -106,7 +108,7 @@ get languages available
 std::vector<std::string> Localizer::GetLanguages()
 {
 	std::vector<std::string> res;
-	FileUtil::ListDirsNoPathInDir("Data/Worlds/"+_currentworldname+"/Texts/", res);
+	FileUtil::ListDirsNoPathInDir(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Texts/", res);
 	return res;
 }
 
@@ -127,13 +129,13 @@ void Localizer::RefreshTexts()
 	_inventory_voices.clear();
 
 
-	_map_texts = XmlReader::LoadTextFile("Data/Worlds/"+_currentworldname+"/Texts/" + _lang + "/map.xml");
-	_inventory_texts = XmlReader::LoadTextFile("Data/Worlds/"+_currentworldname+"/Texts/" + _lang + "/inventory.xml");
-	_quest_texts = XmlReader::LoadTextFile("Data/Worlds/"+_currentworldname+"/Texts/" + _lang + "/quest.xml");
-	_name_texts = XmlReader::LoadTextFile("Data/Worlds/"+_currentworldname+"/Texts/" + _lang + "/name.xml");
+	_map_texts = XmlReader::LoadTextFile(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Texts/" + _lang + "/map.xml");
+	_inventory_texts = XmlReader::LoadTextFile(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Texts/" + _lang + "/inventory.xml");
+	_quest_texts = XmlReader::LoadTextFile(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Texts/" + _lang + "/quest.xml");
+	_name_texts = XmlReader::LoadTextFile(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Texts/" + _lang + "/name.xml");
 
-	_map_voices = XmlReader::LoadVoiceFile("Data/Worlds/"+_currentworldname+"/Voices/" + _lang + "/map.xml");
-	_inventory_voices = XmlReader::LoadVoiceFile("Data/Worlds/"+_currentworldname+"/Voices/" + _lang + "/inventory.xml");
+	_map_voices = XmlReader::LoadVoiceFile(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Voices/" + _lang + "/map.xml");
+	_inventory_voices = XmlReader::LoadVoiceFile(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Voices/" + _lang + "/inventory.xml");
 
 
 
@@ -154,19 +156,19 @@ void Localizer::RefreshTexts()
 	if(_lang != "en")
 	{
 		{
-		std::map<long, std::string> tmp = XmlReader::LoadTextFile("Data/Worlds/"+_currentworldname+"/Texts/en/map.xml");
+		std::map<long, std::string> tmp = XmlReader::LoadTextFile(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Texts/en/map.xml");
 		_map_texts.insert(tmp.begin(),tmp.end());
 		}
 		{
-		std::map<long, std::string> tmp = XmlReader::LoadTextFile("Data/Worlds/"+_currentworldname+"/Texts/en/inventory.xml");
+		std::map<long, std::string> tmp = XmlReader::LoadTextFile(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Texts/en/inventory.xml");
 		_inventory_texts.insert(tmp.begin(),tmp.end());
 		}
 		{
-		std::map<long, std::string> tmp = XmlReader::LoadTextFile("Data/Worlds/"+_currentworldname+"/Texts/en/quest.xml");
+		std::map<long, std::string> tmp = XmlReader::LoadTextFile(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Texts/en/quest.xml");
 		_quest_texts.insert(tmp.begin(),tmp.end());
 		}
 		{
-		std::map<long, std::string> tmp = XmlReader::LoadTextFile("Data/Worlds/"+_currentworldname+"/Texts/en/name.xml");
+		std::map<long, std::string> tmp = XmlReader::LoadTextFile(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Texts/en/name.xml");
 		_name_texts.insert(tmp.begin(),tmp.end());
 		}
 	}
@@ -181,12 +183,12 @@ void Localizer::RefreshGuiTexts()
 	_gui_texts.clear();
 
 	// first load the choosen language
-	_gui_texts = XmlReader::LoadTextFile("Data/GUI/texts/" + _lang + ".xml");
+	_gui_texts = XmlReader::LoadTextFile(DataDirHandler::getInstance()->GetDataDirPath() + "/GUI/texts/" + _lang + ".xml");
 
 	// then add non translated english text if needed
 	if(_lang != "en")
 	{
-		std::map<long, std::string> tmp = XmlReader::LoadTextFile("Data/GUI/texts/en.xml");
+		std::map<long, std::string> tmp = XmlReader::LoadTextFile(DataDirHandler::getInstance()->GetDataDirPath() + "/GUI/texts/en.xml");
 		_gui_texts.insert(tmp.begin(),tmp.end());
 	}
 }
@@ -308,7 +310,7 @@ get voices dir path
 ***********************************************************/
 std::string Localizer::GetVoiceDirPath(const std::string &lang)
 {
-	return ("Data/Worlds/"+_currentworldname+"/Voices/" + lang);
+	return (DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Voices/" + lang);
 }
 
 #ifdef _USE_QT_EDITOR_
@@ -496,12 +498,12 @@ void Localizer::SaveTexts()
 		for(;itm != endm; ++itm)
 		{
 			// create dir if not exist already
-			FileUtil::CreateNewDirectory("Data/Worlds/"+_currentworldname+"/Texts/" + itm->first);
+			FileUtil::CreateNewDirectory(DataLoader::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Texts/" + itm->first);
 
-			XmlReader::SaveTextFile("Data/Worlds/"+_currentworldname+"/Texts/" + itm->first + "/map.xml", _map_texts_ed[itm->first]);
-			XmlReader::SaveTextFile("Data/Worlds/"+_currentworldname+"/Texts/" + itm->first + "/inventory.xml", _inventory_texts_ed[itm->first]);
-			XmlReader::SaveTextFile("Data/Worlds/"+_currentworldname+"/Texts/" + itm->first + "/quest.xml", _quest_texts_ed[itm->first]);
-			XmlReader::SaveTextFile("Data/Worlds/"+_currentworldname+"/Texts/" + itm->first + "/name.xml", _name_texts_ed[itm->first]);
+			XmlReader::SaveTextFile(DataLoader::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Texts/" + itm->first + "/map.xml", _map_texts_ed[itm->first]);
+			XmlReader::SaveTextFile(DataLoader::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Texts/" + itm->first + "/inventory.xml", _inventory_texts_ed[itm->first]);
+			XmlReader::SaveTextFile(DataLoader::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Texts/" + itm->first + "/quest.xml", _quest_texts_ed[itm->first]);
+			XmlReader::SaveTextFile(DataLoader::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Texts/" + itm->first + "/name.xml", _name_texts_ed[itm->first]);
 		}
 	}
 
@@ -513,10 +515,10 @@ void Localizer::SaveTexts()
 		for(;itm != endm; ++itm)
 		{
 			// create dir if not exist already
-			FileUtil::CreateNewDirectory("Data/Worlds/"+_currentworldname+"/Voices/" + itm->first);
+			FileUtil::CreateNewDirectory(DataLoader::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Voices/" + itm->first);
 
-			XmlReader::SaveVoiceFile("Data/Worlds/"+_currentworldname+"/Voices/" + itm->first + "/map.xml", _map_voices_ed[itm->first]);
-			XmlReader::SaveVoiceFile("Data/Worlds/"+_currentworldname+"/Voices/" + itm->first + "/inventory.xml", _inventory_voices_ed[itm->first]);
+			XmlReader::SaveVoiceFile(DataLoader::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Voices/" + itm->first + "/map.xml", _map_voices_ed[itm->first]);
+			XmlReader::SaveVoiceFile(DataLoader::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Voices/" + itm->first + "/inventory.xml", _inventory_voices_ed[itm->first]);
 		}
 	}
 }
@@ -533,10 +535,10 @@ void Localizer::CheckMapPresent(const std::string & lang)
 
 	if(_map_texts_ed.find(lang) == _map_texts_ed.end())
 	{
-		_map_texts_ed[lang] = XmlReader::LoadTextFile("Data/Worlds/"+_currentworldname+"/Texts/" + lang + "/map.xml");
-		_inventory_texts_ed[lang] = XmlReader::LoadTextFile("Data/Worlds/"+_currentworldname+"/Texts/" + lang + "/inventory.xml");
-		_quest_texts_ed[lang] = XmlReader::LoadTextFile("Data/Worlds/"+_currentworldname+"/Texts/" + lang + "/quest.xml");
-		_name_texts_ed[lang] = XmlReader::LoadTextFile("Data/Worlds/"+_currentworldname+"/Texts/" + lang + "/name.xml");	
+		_map_texts_ed[lang] = XmlReader::LoadTextFile(DataLoader::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Texts/" + lang + "/map.xml");
+		_inventory_texts_ed[lang] = XmlReader::LoadTextFile(DataLoader::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Texts/" + lang + "/inventory.xml");
+		_quest_texts_ed[lang] = XmlReader::LoadTextFile(DataLoader::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Texts/" + lang + "/quest.xml");
+		_name_texts_ed[lang] = XmlReader::LoadTextFile(DataLoader::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Texts/" + lang + "/name.xml");	
 	}
 
 
@@ -552,8 +554,8 @@ void Localizer::CheckVoiceMapPresent(const std::string & lang)
 
 	if(_map_voices_ed.find(lang) == _map_voices_ed.end())
 	{
-		_map_voices_ed[lang] = XmlReader::LoadVoiceFile("Data/Worlds/"+_currentworldname+"/Voices/" + lang + "/map.xml");
-		_inventory_voices_ed[lang] = XmlReader::LoadVoiceFile("Data/Worlds/"+_currentworldname+"/Voices/" + lang + "/inventory.xml");
+		_map_voices_ed[lang] = XmlReader::LoadVoiceFile(DataLoader::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Voices/" + lang + "/map.xml");
+		_inventory_voices_ed[lang] = XmlReader::LoadVoiceFile(DataLoader::getInstance()->GetDataDirPath() + "/Worlds/"+_currentworldname+"/Voices/" + lang + "/inventory.xml");
 	}
 }
 #endif

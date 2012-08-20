@@ -55,7 +55,7 @@ Lba1ModelMapHandler::Lba1ModelMapHandler()
 {
 	// read the file and get data
 	{
-		std::ifstream file((Lba1ModelDataPath+"lba1_model_animation.csv").c_str());
+		std::ifstream file((Lba1ModelDataPath()+"lba1_model_animation.csv").c_str());
 		if(file.is_open())
 		{
 			// read first information line
@@ -101,7 +101,7 @@ Lba1ModelMapHandler::Lba1ModelMapHandler()
 
 	// read color file
 	{
-		std::ifstream file((Lba1ModelDataPath+"lba1_model_color.csv").c_str());
+		std::ifstream file((Lba1ModelDataPath()+"lba1_model_color.csv").c_str());
 		if(file.is_open())
 		{
 			while(!file.eof())
@@ -142,7 +142,7 @@ Lba1ModelMapHandler::Lba1ModelMapHandler()
 
 	// read color alternatives file
 	{
-		std::ifstream file((Lba1ModelDataPath+"lba1_model_color_alternatives.csv").c_str());
+		std::ifstream file((Lba1ModelDataPath()+"lba1_model_color_alternatives.csv").c_str());
 		if(file.is_open())
 		{
 			while(!file.eof())
@@ -205,7 +205,7 @@ Lba1ModelMapHandler::Lba1ModelMapHandler()
 
 	// read the anim properties file and get data
 	{
-		std::ifstream file((Lba1ModelDataPath+"lba1_model_animation_properties.csv").c_str());
+		std::ifstream file((Lba1ModelDataPath()+"lba1_model_animation_properties.csv").c_str());
 		if(file.is_open())
 		{
 			// read first information line
@@ -558,7 +558,7 @@ save animation properties to file
 ***********************************************************/
 void Lba1ModelMapHandler::SaveAnimationData()
 {
-	std::ofstream file((Lba1ModelDataPath+"lba1_model_animation_properties.csv").c_str());
+	std::ofstream file((Lba1ModelDataPath()+"lba1_model_animation_properties.csv").c_str());
 	if(file.is_open())
 	{
 		if(_header_infos.size() > 0)

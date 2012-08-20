@@ -186,17 +186,11 @@ public:
 	void RefreshLua();
 
 
-
-
-	#ifdef _USE_QT_EDITOR_
 	//! editor tp the player
 	void EditorTpPlayer(float posx, float posy, float posz);
 
 	//! force the camera in ghost mode or not
 	void ForceGhost(bool force);
-	#endif
-
-
 
 
 
@@ -258,7 +252,7 @@ public:
 											const std::string &  messagecontent){}
 
 	// open container on client side
-	virtual void OpenContainer(long clientid, boost::shared_ptr<ContainerSharedInfo> sharedinfo){}
+	virtual void OpenContainer(long clientid, boost::shared_ptr<LbaNet::ContainerSharedInfo> sharedinfo){}
 
 
 
@@ -650,10 +644,7 @@ private:
 
 	std::map<long, boost::shared_ptr<ProjectileHandler> >	_projectileObjects;
 	
-
-	#ifdef _USE_QT_EDITOR_
 	std::map<long, boost::shared_ptr<DynamicObject> >	_editorObjects;
-	#endif
 
 	// last cycle time
 	bool												m_paused;

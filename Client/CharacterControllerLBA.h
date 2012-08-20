@@ -83,13 +83,11 @@ public:
 	//! server teleport player
 	void Teleport(const LbaNet::PlayerMoveInfo &info);
 
-	#ifdef _USE_QT_EDITOR_
 	//! force the camera in ghost mode or not
 	void ForceGhost(bool force)
 	{
 		_forcedghost = force;
 	}
-	#endif
 
 	//! get player current position
 	void GetPosition(float & PosX, float & PosY, float & PosZ);

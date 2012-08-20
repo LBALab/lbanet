@@ -30,6 +30,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "OSGHandler.h"
 #include "LogHandler.h"
 #include "ConfigurationManager.h"
+#include "DataLoader.h"
+#include "DataDirHandler.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -40,8 +42,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdlib.h>
 #include <float.h>
 
-#include "crashrpt.h"
-#pragma comment(lib, "crashrpt.lib")
+#include "CrashRpt.h"
+#pragma comment(lib, "CrashRpt1300.lib")
+
 
 
 #ifdef _USE_QT_EDITOR_
@@ -51,8 +54,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 BOOL WINAPI CrashCallback(LPVOID lpvState)
 {
 	LogHandler::getInstance()->CloseFile();
-	AddFile(lpvState, LogHandler::getInstance()->GetFilename().c_str(), "Lbanet general log");
-	//AddFile(lpvState, LogHandler::getInstance()->GetGUIFilename().c_str(), "GUI log");
+
+	// Add our log file to the error report
+	crAddFile2(LogHandler::getInstance()->GetFilename().c_str(), NULL, _T("Lbanet general log"), CR_AF_MAKE_FILE_COPY);    
+
 	return TRUE;
 }
 #endif
@@ -71,6 +76,8 @@ public:
 		Ice::PropertiesPtr prop = communicator()->getProperties();
 		std::string clientV = prop->getPropertyWithDefault("LbanetClientVersion", "v0");
 
+		DataDirHandler::getInstance()->SetDataDirPath(prop->getPropertyWithDefault("DataDirPath", "./Data"));
+		
 		LogHandler::getInstance()->LogToFile("Initializing the game engine...");
 		// create engine
 		LbaNetEngine engine(communicator(), clientV);
@@ -117,8 +124,36 @@ int main( int argc, char **argv )
 
 #ifdef WIN32
 
-	// init crash reporter
-	LPVOID chandler = Install(CrashCallback, NULL, NULL);
+	// Define CrashRpt configuration parameters
+	CR_INSTALL_INFO info;  
+	memset(&info, 0, sizeof(CR_INSTALL_INFO));  
+	info.cb = sizeof(CR_INSTALL_INFO);    
+	info.pszAppName = _T("LBANet");  
+	info.pszAppVersion = _T("1.2.0");  
+	info.pszEmailSubject = _T("LBANet 1.2.0 Error Report");  
+	info.pszEmailTo = _T("vdelage@gmail.com");
+	info.pfnCrashCallback = CrashCallback;   
+	info.uPriorities[CR_SMTP] = 3;  // first try send report over SMTP  
+	info.uPriorities[CR_SMAPI] = 2; // second try send report over Simple MAPI    
+	// Install all available exception handlers, use HTTP binary transfer encoding (recommended).
+	info.dwFlags |= CR_INST_ALL_POSSIBLE_HANDLERS;
+	info.dwFlags |= CR_INST_HTTP_BINARY_ENCODING; 
+	info.dwFlags |= CR_INST_APP_RESTART; 
+	info.dwFlags |= CR_INST_SEND_QUEUED_REPORTS; 
+	info.pszRestartCmdLine = _T("/restart");
+	// Define the Privacy Policy URL 
+	info.pszPrivacyPolicyURL = NULL; 
+
+	// Install exception handlers
+	int nResult = crInstall(&info);    
+	if(nResult!=0)  
+	{    
+		// Something went wrong. Get error message.
+		TCHAR szErrorMsg[512] = _T("");        
+		crGetLastErrorMsg(szErrorMsg, 512);    
+		_tprintf_s(_T("%s\n"), szErrorMsg);    
+		return 1;
+	} 
 #endif
 
 
@@ -158,52 +193,3 @@ int main( int argc, char **argv )
 	filecerr.close();
 	return -1;
 }
-
-
-
-//
-//// crt_fpreset.c
-//// This program uses signal to set up a
-//// routine for handling floating-point errors.
-//
-//#include <stdio.h>
-//#include <signal.h>
-//#include <setjmp.h>
-//#include <stdlib.h>
-//#include <float.h>
-//#include <math.h>
-//#include <string.h>
-//
-
-//
-//void __cdecl fphandler( int sig, int num );   // Prototypes
-//void fpcheck( void );
-//
-//int main( void )
-//{
-//   double n1 = 5.0;
-//   double n2 = 0.0;
-//   double r;
-//   int jmpret;
-//
-
-//
-//   // Save stack environment for return in case of error. First 
-//   // time through, jmpret is 0, so true conditional is executed. 
-//   // If an error occurs, jmpret will be set to -1 and false 
-//   // conditional will be executed.
-//   jmpret = setjmp( mark );
-//   if( jmpret == 0 )
-//   {
-//      printf( "Dividing %4.3g by %4.3g...\n", n1, n2 );
-//      r = n1 / n2;
-//      // This won't be reached if error occurs.
-//      printf( "\n\n%4.3g / %4.3g = %4.3g\n", n1, n2, r );
-//
-//      r = n1 * n2;
-//      // This won't be reached if error occurs.
-//      printf( "\n\n%4.3g * %4.3g = %4.3g\n", n1, n2, r );
-//   }
-//   else
-//      fpcheck();
-//}

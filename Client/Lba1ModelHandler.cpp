@@ -58,7 +58,7 @@ Lba1ModelHandler::Lba1ModelHandler(int sceneidx, boost::shared_ptr<DisplayTransf
 	_UseLight(UseLight), _CastShadow(CastShadow), _mainchar(mainchar)
 {
 	if(_estruct == NULL)
-		_estruct = parseEntities(Lba1ModelDataPath+"FILE3D.HQR");
+		_estruct = parseEntities(Lba1ModelDataPath()+"FILE3D.HQR");
 
 	UpdateModel();
 
@@ -461,8 +461,8 @@ int Lba1ModelHandler::RefreshModel(bool forcecolor)
 		_currAnimation = 0;
 
 		_model = new LBA1ModelClass(	_estruct, 
-										Lba1ModelDataPath+"BODY.HQR", 
-										Lba1ModelDataPath+"ANIM.HQR", 
+										Lba1ModelDataPath()+"BODY.HQR", 
+										Lba1ModelDataPath()+"ANIM.HQR", 
 										_currModel,
 										_estruct->entitiesTable[_currModel].bodyList[_currBody].body);
 
@@ -612,7 +612,7 @@ void Lba1ModelHandler::RefrehAnimRepeatingSound()
 	if(_curraniminfo.repeatedsoundpath == "")
 		PlaySound("", 4, false);
 	else
-		PlaySound("Data/"+_curraniminfo.repeatedsoundpath, 4, true);
+		PlaySound(DataDirHandler::getInstance()->GetDataDirPath() + "/"+_curraniminfo.repeatedsoundpath, 4, true);
 }
 
 /***********************************************************
@@ -689,7 +689,7 @@ void Lba1ModelHandler::PlayKeyFrameSound(int keyframe)
 				sp = tokens[Randomizer::getInstance()->RandInt(tokens.size())];
 			}
 
-			sp="Data/"+sp;
+			sp=DataDirHandler::getInstance()->GetDataDirPath() + "/"+sp;
 			PlaySound(sp,( _togglesoundC?2:3), false);
 			_togglesoundC = !_togglesoundC;
 		}

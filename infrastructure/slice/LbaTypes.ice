@@ -15,7 +15,7 @@ module LbaNet
 				
 				
 	
-	enum RenderTypeEnum { RenderOsgModel, RenderSprite, RenderLba1M, RenderLba2M, RenderCross, RenderBox, RenderCapsule, RenderSphere, RenderBGImage, NoRender };	
+	enum RenderTypeEnum { RenderOsgModel, RenderSprite, RenderLba1M, RenderLba2M, RenderCross, RenderBox, RenderCapsule, RenderSphere, RenderBGImage, RenderParticle, NoRender };	
 	
 	enum PhysicalShapeEnum { NoShape, BoxShape, CapsuleShape, SphereShape, TriangleMeshShape };	
 	
@@ -130,6 +130,21 @@ module LbaNet
 	dictionary<Lba1ColorIndex, int> 		Lba1ColorChangeSeq;
 	
 	
+	
+	
+	// extra info not used by all models
+	class ModelExtraInfoBase
+	{
+	};
+	
+			
+	class ModelExtraInfoParticle extends ModelExtraInfoBase
+	{
+		bool			Lollll;
+	};	
+	
+	
+	
 	struct ModelInfo
 	{
 		RenderTypeEnum		TypeRenderer;
@@ -199,6 +214,7 @@ module LbaNet
 		float			MatEmissionColorA;
 		
 		float			MatShininess;	
+		//ModelExtraInfoBase      ExtraInfo;		
 	};
 
 	struct PlayerStartingInfo
@@ -1007,7 +1023,13 @@ module LbaNet
 		long			ObjectType;
 		long			ObjectId;	
 	};	
-	
+
+
+	struct ContainerSharedInfo
+	{
+		long			OpeningClient;
+		ItemsMap		ContainerItems;
+	};	
 };	
 
 #endif

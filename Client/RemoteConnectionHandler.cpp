@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ChatServerHandler.h"
 #include "EventsQueue.h"
 #include "WorldPatcher.h"
+#include "DataDirHandler.h"
 
 #define _REMOTE_THREAD_WAIT_TIME_	10
 
@@ -350,7 +351,7 @@ void RemoteConnectionHandler::PatchWorld(const std::string & WorldName, boost::f
 			IcePatch2::FileServerPrx patcher = _session->GetPatcher(WorldName);
 			if(patcher)
 			{
-				WorldPatcher::PatchWorld(WorldName, "Data/Worlds/"+WorldName, patcher, updatefct);
+				WorldPatcher::PatchWorld(WorldName, DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/"+WorldName, patcher, updatefct);
 			}
 		}
 	}

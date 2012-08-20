@@ -40,9 +40,8 @@ class ChatServerHandler;
 class Client;
 class SwitchToFixedImageEvent;
 
-#ifdef _USE_QT_EDITOR_
+
 #include "editorhandlerBase.h"
-#endif
 
 
 
@@ -56,13 +55,13 @@ class LbaNetEngine
 {
 public:
 
-#ifdef _USE_QT_EDITOR_
+
 	//!constructor
 	LbaNetEngine(Ice::CommunicatorPtr communicator, const std::string & clientV,
 					boost::shared_ptr<EditorHandlerBase> editH);
-#else
+
 	LbaNetEngine(Ice::CommunicatorPtr communicator, const std::string & clientV);
-#endif
+
 
 	//!destructor
    ~LbaNetEngine();

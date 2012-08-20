@@ -17,6 +17,7 @@
 #include "Randomizer.h"
 #include "NaviMeshHandler.h"
 #include "FileUtil.h"
+#include "DataDirHandler.h"
 
 
 #include <math.h>
@@ -1862,7 +1863,7 @@ void MapHandler::SendErrorMessage(long clientid, const std::string & messagetitl
 /***********************************************************
 open container on client side
 ***********************************************************/
-void MapHandler::OpenContainer(long clientid, boost::shared_ptr<ContainerSharedInfo> sharedinfo)
+void MapHandler::OpenContainer(long clientid, boost::shared_ptr<LbaNet::ContainerSharedInfo> sharedinfo)
 {
 	if(clientid >= 0)
 	{
@@ -3962,7 +3963,7 @@ void MapHandler::PlayerKilledNpc(long PlayerId, long NpcId, const LbaNet::ItemsM
 					modelinfo.ScaleX = 0.2f;
 					modelinfo.ScaleY = 0.2f;
 					modelinfo.ScaleZ = 0.2f;
-					modelinfo.ModelName = "Data/" + itptr->GetIconName();
+					modelinfo.ModelName = DataDirHandler::getInstance()->GetDataDirPath() + "/" + itptr->GetIconName();
 					modelinfo.UseBillboard = true;
 					modelinfo.UseTransparentMaterial = false;
 					modelinfo.ColorMaterialType = 0;
@@ -4069,7 +4070,7 @@ refresh navimesh
 void MapHandler::RefreshNaviMesh()
 {
 	_navimesh->Reset();
-	std::string navimeshfile = "./Data/Worlds/" + _worldname + "/AI/" + _mapinfo.Name + ".nmesh";
+	std::string navimeshfile = DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + _worldname + "/AI/" + _mapinfo.Name + ".nmesh";
 	if(FileUtil::FileExist(navimeshfile, false))
 	{
 		_navimesh->LoadFromFile(navimeshfile);

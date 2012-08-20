@@ -1,6 +1,21 @@
 cmake_minimum_required (VERSION 2.8)
 project (LBANetClient)
 
+IF(MSVC)
+    SET(CMAKE_CXX_FLAGS_DEBUG "/D_DEBUG /MDd /Zi /Ob0 /Od /RTC1 /DLUABIND_DYNAMIC_LINK /D_CRT_SECURE_NO_WARNINGS /MP" CACHE STRING
+        "Flags used by the compiler during debug builds." FORCE)
+
+    SET(CMAKE_CXX_FLAGS_RELEASE "/MD /O2 /Ob2 /D NDEBUG /DLUABIND_DYNAMIC_LINK /D_CRT_SECURE_NO_WARNINGS /MP" CACHE STRING
+        "Flags used by the compiler during release builds." FORCE)
+        
+    SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "/MD /Zi /O2 /Ob1 /D NDEBUG /DLUABIND_DYNAMIC_LINK /D_CRT_SECURE_NO_WARNINGS /MP" CACHE STRING
+        "Flags used by the compiler during Release with Debug Info builds." FORCE)
+        
+    SET(CMAKE_EXE_LINKER_FLAGS_RELEASE "/INCREMENTAL:NO /SUBSYSTEM:WINDOWS" CACHE STRING
+        "Flags for linker in release mode." FORCE)                
+ENDIF(MSVC)
+
+
 # The version number.
 set (Tutorial_VERSION_MAJOR 1)
 set (Tutorial_VERSION_MINOR 18)
@@ -8,13 +23,14 @@ set (Tutorial_VERSION_MINOR 18)
 set(EXECUTABLE_OUTPUT_PATH bin/${CMAKE_BUILD_TYPE})
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake_modules/")
 
+SET(3RD_PARTY_PATH "./3rd_party" CACHE PATH "3rd party directory")
+
 #BOOST stuff
 SET(Boost_USE_STATIC_LIBS ON)
 SET(Boost_USE_MULTITHREADED ON)
-find_path(BOOST_ROOT include/boost/foreach.hpp
-          PATHS dependencies/3rdParty)
+find_path(BOOST_ROOT include/boost/foreach.hpp PATHS ${3RD_PARTY_PATH}/Boost)
 INCLUDE(FindBoost)
-FIND_PACKAGE(Boost 1.43.0 COMPONENTS thread date_time filesystem system REQUIRED)
+FIND_PACKAGE(Boost 1.43.0 COMPONENTS thread date_time filesystem system chrono REQUIRED)
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 
 #OSG stuff
@@ -25,11 +41,13 @@ INCLUDE_DIRECTORIES(${OSG_INCLUDE_DIRS})
 FIND_PACKAGE(ICE REQUIRED)
 INCLUDE_DIRECTORIES(${ICE_INCLUDE_DIRS})
 
+#opengl stuff
+FIND_PACKAGE(OpenGL REQUIRED)
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/infrastructure/include)
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/dependencies/recast/Recast/Include)
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/dependencies/recast/Detour/Include)
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/dependencies/recast/DetourCrowd/Include)
+INCLUDE_DIRECTORIES(${3RD_PARTY_PATH}/recast/Recast/Include)
+INCLUDE_DIRECTORIES(${3RD_PARTY_PATH}/recast/Detour/Include)
+INCLUDE_DIRECTORIES(${3RD_PARTY_PATH}/recast/DetourCrowd/Include)
 
 ADD_SUBDIRECTORY(infrastructure)
 ADD_SUBDIRECTORY(shared)

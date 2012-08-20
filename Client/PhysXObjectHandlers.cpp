@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "NxVec3.h"
 #include "ObjectsDescription.h"
 #include "LogHandler.h"
+#include "DataDirHandler.h"
 
 
 
@@ -936,7 +937,7 @@ boost::shared_ptr<PhysicalObjectHandlerBase> PhysicalDescriptionTriangleMesh::Bu
 	boost::shared_ptr<ActorUserData> udata = boost::shared_ptr<ActorUserData>(new ActorUserData(ActorType, type, id));
 
 	NxActor* actor = PhysXEngine::getInstance()->LoadTriangleMeshFile(NxVec3(positionX, positionY, positionZ), 
-														"Data/"+MeshInfoDataFileName, udata.get(), 
+														DataDirHandler::getInstance()->GetDataDirPath() + "/"+MeshInfoDataFileName, udata.get(), 
 														rotation, collidable);
 
 	if(actor)

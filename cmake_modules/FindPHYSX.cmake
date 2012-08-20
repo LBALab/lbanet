@@ -4,40 +4,31 @@ set(PHYSX_DEFINITIONS ${PHYSX_CFLAGS_OTHER})
 
 find_path(PHYSX_INCLUDE_DIR Foundation/include/NxFoundation.h
           HINTS ${PHYSX_INCLUDEDIR} ${PHYSX_INCLUDE_DIRS}
-             PATHS "$ENV{PROGRAMFILES}/NVIDIA Corporation/NVIDIA PhysX SDK/v2.8.4/SDKs"
-             "$ENV{PROGRAMFILES}/NVIDIA Corporation/NVIDIA PhysX SDK/v2.8.4_win/SDKs"
+             PATHS ${3RD_PARTY_PATH}/PhysX/include
     		/usr/include/PhysX/v2.8.3/SDKs
     		/usr/local/include/PhysX/v2.8.3/SDKs)
 
 find_library(PHYSX_CORE_LIBRARY NAMES PhysXCore
              HINTS ${PHYSX_LIBDIR} ${PHYSX_LIBRARY_DIRS}
-             PATHS "$ENV{PROGRAMFILES}/NVIDIA Corporation/NVIDIA PhysX SDK/v2.8.4/SDKs/lib/Win32"
-             "$ENV{PROGRAMFILES}/NVIDIA Corporation/NVIDIA PhysX SDK/v2.8.4_win/SDKs/lib/Win32"
-             $ENV{PHYSX_HOME}/lib/Win32
+             ${3RD_PARTY_PATH}/PhysX/lib
 	    /usr/lib/PhysX/v2.8.3
 	    /usr/local/lib/PhysX/v2.8.3)
 
  find_library(PHYSX_COOKING_LIBRARY NAMES PhysXCooking NxCooking
              HINTS ${PHYSX_LIBDIR} ${PHYSX_LIBRARY_DIRS}
-             PATHS "$ENV{PROGRAMFILES}/NVIDIA Corporation/NVIDIA PhysX SDK/v2.8.4/SDKs/lib/Win32"
-             "$ENV{PROGRAMFILES}/NVIDIA Corporation/NVIDIA PhysX SDK/v2.8.4_win/SDKs/lib/Win32"
-             $ENV{PHYSX_HOME}/lib/Win32
+             PATHS ${3RD_PARTY_PATH}/PhysX/lib
 	    /usr/lib/PhysX/v2.8.3
 	    /usr/local/lib/PhysX/v2.8.3)
 
  find_library(PHYSX_LOADER_LIBRARY NAMES PhysXLoader
              HINTS ${PHYSX_LIBDIR} ${PHYSX_LIBRARY_DIRS}
-             PATHS "$ENV{PROGRAMFILES}/NVIDIA Corporation/NVIDIA PhysX SDK/v2.8.4/SDKs/lib/Win32"
-             "$ENV{PROGRAMFILES}/NVIDIA Corporation/NVIDIA PhysX SDK/v2.8.4_win/SDKs/lib/Win32"
-             $ENV{PHYSX_HOME}/lib/Win32
+             PATHS ${3RD_PARTY_PATH}/PhysX/lib
 	    /usr/lib/PhysX/v2.8.3
 	    /usr/local/lib/PhysX/v2.8.3)
 	    
  find_library(PHYSX_CHARACTER_LIBRARY NAMES NxCharacter
              HINTS ${PHYSX_LIBDIR} ${PHYSX_LIBRARY_DIRS}
-             PATHS "$ENV{PROGRAMFILES}/NVIDIA Corporation/NVIDIA PhysX SDK/v2.8.4/SDKs/lib/Win32"
-             "$ENV{PROGRAMFILES}/NVIDIA Corporation/NVIDIA PhysX SDK/v2.8.4_win/SDKs/lib/Win32"
-             $ENV{PHYSX_HOME}/lib/Win32
+             PATHS ${3RD_PARTY_PATH}/PhysX/lib
 	    /usr/lib/PhysX/v2.8.3
 	    /usr/local/lib/PhysX/v2.8.3)
 	    

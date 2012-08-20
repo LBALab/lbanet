@@ -8,6 +8,7 @@
 #include "QuestHandler.h"
 #include "Quest.h"
 #include "Spawn.h"
+#include "DataDirHandler.h"
 
 
 SharedDataHandler* SharedDataHandler::_Instance = NULL;
@@ -833,7 +834,7 @@ save to lua
 ***********************************************************/
 void SharedDataHandler::SaveToLua()
 {
-	std::string luafile = "Data/Worlds/" + _worldinfo.Description.WorldName + "/Lua/";
+	std::string luafile = DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + _worldinfo.Description.WorldName + "/Lua/";
 	luafile += "general.lua";
 
 	std::ofstream file(luafile.c_str());

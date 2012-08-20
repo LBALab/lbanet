@@ -8,14 +8,14 @@ find_path(FMOD_INCLUDE_DIR fmod.h
           PATHS $ENV{LUABIND_HOME}/include
 		    /usr/include/fmodex
 		    /usr/local/include/fmodex
-		    ../dependencies/fmod/include)
+		    ${3RD_PARTY_PATH}/fmod/include)
 
 find_library(FMOD_CORE_LIBRARY_RELEASE NAMES fmodex_vc fmodex fmodex-4.40.06
              HINTS ${FMOD_LIBDIR} ${FMOD_LIBRARY_DIRS}
              PATHS $ENV{FMOD_HOME}/lib
              	/usr/lib
 		/usr/local/lib
-		../dependencies/fmod/lib)
+		${3RD_PARTY_PATH}/fmod/lib)
                     
                             
             

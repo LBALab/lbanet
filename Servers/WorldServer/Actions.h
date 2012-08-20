@@ -304,13 +304,6 @@ private:
 
 
 
-
-struct ContainerSharedInfo
-{
-	long				OpeningClient;
-	LbaNet::ItemsMap	ContainerItems;
-};
-
 // work-around because lua did not work with LbaNet::ItemGroupElement ...
 struct ContainerItemGroupElement
 {
@@ -385,7 +378,7 @@ private:
 	double									_lastResetTime;
 	double									_TimeToReset;
 
-	boost::shared_ptr<ContainerSharedInfo>	_shared;
+	boost::shared_ptr<LbaNet::ContainerSharedInfo>	_shared;
 	std::vector<ContainerItemGroupElement>	_containerstartitems;
 };
 

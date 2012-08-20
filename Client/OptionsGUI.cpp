@@ -35,6 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Localizer.h"
 #include "GUILocalizationCallback.h"
 #include "SynchronizedTimeHandler.h"
+#include "DataDirHandler.h"
 
 
 // Sample sub-class for ListboxTextItem that auto-sets the selection brush
@@ -101,7 +102,7 @@ void OptionsGUI::Initialize()
 		CEGUI::Combobox * cb = static_cast<CEGUI::Combobox *> (
 			CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/Video/ComboRes"));
 
-		std::ifstream filesc("Data/screen_resolutions.txt");
+		std::ifstream filesc(DataDirHandler::getInstance()->GetDataDirPath() + "/screen_resolutions.txt");
 		std::string restmp;
 		while(!filesc.eof())
 		{

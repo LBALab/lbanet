@@ -39,6 +39,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ChatServerHandler.h"
 #include "Localizer.h"
 
+#include "DataDirHandler.h"
+
 
 
 #include <IceUtil/Thread.h>
@@ -74,20 +76,25 @@ struct ProgressUpdater
 /***********************************************************
 	Constructor
 ***********************************************************/
-#ifdef _USE_QT_EDITOR_
 LbaNetEngine::LbaNetEngine(Ice::CommunicatorPtr communicator, const std::string & clientV,
 					boost::shared_ptr<EditorHandlerBase> editH)
-#else
-LbaNetEngine::LbaNetEngine(Ice::CommunicatorPtr communicator, const std::string & clientV)
-#endif
 : m_currentstate(EGaming), m_oldstate(ELogin), m_clientV(clientV),
 	m_communicator(communicator), m_shouldexit(false)
 {
-
-#ifdef _USE_QT_EDITOR_
 	m_editor_handler = editH;
-#endif
 
+
+	//check if LBA1 file exist 
+	CheckLBA1Files();
+
+	Initialize();
+	SwitchGuiToLogin();
+}
+
+LbaNetEngine::LbaNetEngine(Ice::CommunicatorPtr communicator, const std::string & clientV)
+: m_currentstate(EGaming), m_oldstate(ELogin), m_clientV(clientV),
+	m_communicator(communicator), m_shouldexit(false)
+{
 	//check if LBA1 file exist 
 	CheckLBA1Files();
 
@@ -134,15 +141,17 @@ void LbaNetEngine::Initialize(void)
 
 	m_client_window = boost::shared_ptr<Client>(new Client());
 
-#ifdef _USE_QT_EDITOR_
-	m_editor_handler->SetOsgWindow(m_client_window.get());
-#else
-
-	int resX = ConfigurationManager::GetInstance()->GetValue("Display.Screen.ScreenResolutionX", 800);
-	int resY = ConfigurationManager::GetInstance()->GetValue("Display.Screen.ScreenResolutionY", 600);
-	bool isFullscreen = ConfigurationManager::GetInstance()->GetValue("Display.Screen.Fullscreen", false);
-	ResizeClientWindow(resX, resY, isFullscreen);
-#endif
+	if(m_editor_handler)
+	{
+		m_editor_handler->SetOsgWindow(m_client_window.get());
+	}
+	else
+	{
+		int resX = ConfigurationManager::GetInstance()->GetValue("Display.Screen.ScreenResolutionX", 800);
+		int resY = ConfigurationManager::GetInstance()->GetValue("Display.Screen.ScreenResolutionY", 600);
+		bool isFullscreen = ConfigurationManager::GetInstance()->GetValue("Display.Screen.Fullscreen", false);
+		ResizeClientWindow(resX, resY, isFullscreen);
+	}
 
 #ifndef _USE_SOUND_EDITOR
 	// init gui
@@ -157,7 +166,7 @@ void LbaNetEngine::Initialize(void)
 
 	// init OSG
 	LogHandler::getInstance()->LogToFile("Initializing display engine...");
-	OsgHandler::getInstance()->Initialize("LBANet", "./Data", m_gui_handler, m_client_window);
+	OsgHandler::getInstance()->Initialize("LBANet", DataDirHandler::getInstance()->GetDataDirPath(), m_gui_handler, m_client_window);
 
 	// init music handler
 	LogHandler::getInstance()->LogToFile("Initializing sound engine...");
@@ -212,11 +221,12 @@ void LbaNetEngine::run(void)
 	OsgHandler::getInstance()->Resize(resX, resY, fullscreen);
 
 
-#ifdef _USE_QT_EDITOR_
-	m_editor_handler->RefreshDisplay();
-	TryLogin("Editor", "", true);
-	SwitchGuiToGame();
-#endif
+	if(m_editor_handler)
+	{
+		m_editor_handler->RefreshDisplay();
+		TryLogin("Editor", "", true);
+		SwitchGuiToGame();
+	}
 
 
 	try
@@ -517,9 +527,8 @@ void LbaNetEngine::HandleGameEvents()
 			LbaNet::NewMapEvent * castedptr = 
 				dynamic_cast<LbaNet::NewMapEvent *>(&obj);
 
-			#ifdef _USE_QT_EDITOR_
-			m_editor_handler->SetMapInfo(castedptr->MapName);
-			#endif
+			if(m_editor_handler)
+				m_editor_handler->SetMapInfo(castedptr->MapName);
 
 			// update model
 			m_lbaNetModel->NewMap(castedptr->MapName, castedptr->InitializationScript, 
@@ -534,7 +543,7 @@ void LbaNetEngine::HandleGameEvents()
 
 			// update music
 			if(castedptr->MusicPath != "")
-				MusicHandler::getInstance()->PlayMusic("Data/"+castedptr->MusicPath, castedptr->RepeatMusic);
+				MusicHandler::getInstance()->PlayMusic(DataDirHandler::getInstance()->GetDataDirPath() + "/"+castedptr->MusicPath, castedptr->RepeatMusic);
 
 
 			continue;
@@ -658,9 +667,8 @@ void LbaNetEngine::HandleGameEvents()
 		{
 			m_lbaNetModel->RefreshEnd();
 
-			#ifdef _USE_QT_EDITOR_
-			m_editor_handler->MapFinishedLoaded();
-			#endif
+			if(m_editor_handler)
+				m_editor_handler->MapFinishedLoaded();
 
 			continue;
 		}
@@ -699,69 +707,55 @@ void LbaNetEngine::HandleGameEvents()
 
 
 		// EditorPlayerMovedEvent
-		#ifdef _USE_QT_EDITOR_
-		if(info == typeid(EditorPlayerMovedEvent))
+		if(m_editor_handler)
 		{
-			EditorPlayerMovedEvent* castedptr = 
-				dynamic_cast<EditorPlayerMovedEvent *>(&obj);
+			if(info == typeid(EditorPlayerMovedEvent))
+			{
+				EditorPlayerMovedEvent* castedptr = 
+					dynamic_cast<EditorPlayerMovedEvent *>(&obj);
 
-			m_editor_handler->PlayerMoved(castedptr->_posx, castedptr->_posy, castedptr->_posz);
-			continue;
+				m_editor_handler->PlayerMoved(castedptr->_posx, castedptr->_posy, castedptr->_posz);
+				continue;
+			}
+
+			if(info == typeid(EditorTeleportEvent))
+			{
+				EditorTeleportEvent* castedptr = 
+					dynamic_cast<EditorTeleportEvent *>(&obj);
+
+				m_lbaNetModel->EditorTpPlayer(castedptr->_posx, castedptr->_posy, castedptr->_posz);
+				continue;
+			}
+
+			if(info == typeid(EditorCameraChangeEvent))
+			{
+				EditorCameraChangeEvent* castedptr = 
+					dynamic_cast<EditorCameraChangeEvent *>(&obj);
+
+				m_lbaNetModel->ForceGhost(castedptr->_forceghost);
+				continue;
+			}
+
+			// ObjectPickedEvent
+			if(info == typeid(ObjectPickedEvent))
+			{
+				ObjectPickedEvent* castedptr = 
+					dynamic_cast<ObjectPickedEvent *>(&obj);
+
+				m_editor_handler->PickedObject(castedptr->_name, castedptr->_px, castedptr->_py, castedptr->_pz);
+				continue;
+			}
+
+			// PickedArrowMovedEvent
+			if(info == typeid(PickedArrowMovedEvent))
+			{
+				PickedArrowMovedEvent* castedptr = 
+					dynamic_cast<PickedArrowMovedEvent *>(&obj);
+
+				m_editor_handler->PickedArrowMoved(castedptr->_pickedarrow);
+				continue;
+			}
 		}
-		#endif
-
-
-		// EditorPlayerMovedEvent
-		#ifdef _USE_QT_EDITOR_
-		if(info == typeid(EditorTeleportEvent))
-		{
-			EditorTeleportEvent* castedptr = 
-				dynamic_cast<EditorTeleportEvent *>(&obj);
-
-			m_lbaNetModel->EditorTpPlayer(castedptr->_posx, castedptr->_posy, castedptr->_posz);
-			continue;
-		}
-		#endif
-		
-
-		// EditorCameraChangeEvent
-		#ifdef _USE_QT_EDITOR_
-		if(info == typeid(EditorCameraChangeEvent))
-		{
-			EditorCameraChangeEvent* castedptr = 
-				dynamic_cast<EditorCameraChangeEvent *>(&obj);
-
-			m_lbaNetModel->ForceGhost(castedptr->_forceghost);
-			continue;
-		}
-		#endif
-
-
-		// ObjectPickedEvent
-		if(info == typeid(ObjectPickedEvent))
-		{
-			ObjectPickedEvent* castedptr = 
-				dynamic_cast<ObjectPickedEvent *>(&obj);
-
-			#ifdef _USE_QT_EDITOR_
-			m_editor_handler->PickedObject(castedptr->_name, castedptr->_px, castedptr->_py, castedptr->_pz);
-			#endif
-
-			continue;
-		}
-		
-
-		// PickedArrowMovedEvent
-		#ifdef _USE_QT_EDITOR_
-		if(info == typeid(PickedArrowMovedEvent))
-		{
-			PickedArrowMovedEvent* castedptr = 
-				dynamic_cast<PickedArrowMovedEvent *>(&obj);
-
-			m_editor_handler->PickedArrowMoved(castedptr->_pickedarrow);
-			continue;
-		}
-		#endif
 
 		// ClientExecuteScriptStringEvent
 		if(info == typeid(LbaNet::ClientExecuteScriptStringEvent))
@@ -942,7 +936,7 @@ void LbaNetEngine::HandleGameEvents()
 			LbaNet::PlaySoundEvent* castedptr = 
 				dynamic_cast<LbaNet::PlaySoundEvent *>(&obj);
 
-			MusicHandler::getInstance()->PlaySample2D("Data/"+castedptr->Sound.SoundPath, false, true);
+			MusicHandler::getInstance()->PlaySample2D(DataDirHandler::getInstance()->GetDataDirPath() + "/"+castedptr->Sound.SoundPath, false, true);
 
 			continue;
 		}
@@ -998,7 +992,7 @@ void LbaNetEngine::HandleGameEvents()
 			LbaNet::PlayVideoSequenceEvent* castedptr = 
 				dynamic_cast<LbaNet::PlayVideoSequenceEvent *>(&obj);
 
-			PlayVideoSequence("Data/"+castedptr->videopath);
+			PlayVideoSequence(DataDirHandler::getInstance()->GetDataDirPath() + "/"+castedptr->videopath);
 
 			continue;
 		}	
@@ -1056,7 +1050,7 @@ void LbaNetEngine::HandleGameEvents()
 			//release all keys
 			m_lbaNetModel->KeyReleased(LbanetKey_All);
 
-			m_client_window->SwitchToText(((castedptr->_imagepath=="")?"":"Data/"+castedptr->_imagepath), 
+			m_client_window->SwitchToText(((castedptr->_imagepath=="")?"":DataDirHandler::getInstance()->GetDataDirPath() + "/"+castedptr->_imagepath), 
 													castedptr->_textIds);
 			continue;
 		}
@@ -1307,7 +1301,7 @@ void LbaNetEngine::TryLogin(const std::string &Name, const std::string &Password
 
 
 	// check on first time login
-	if(!QFileInfo("Data/Worlds/Lba1Original/WorldDescription.xml").exists())
+	if(!QFileInfo((DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/Lba1Original/WorldDescription.xml").c_str()).exists())
 	{
 		QProgressDialog* progress = new QProgressDialog(QString::fromUtf8(Localizer::getInstance()->GetText(Localizer::GUI, 114).c_str()), 
 															QString::fromUtf8(Localizer::getInstance()->GetText(Localizer::GUI, 1).c_str()), 0, 100);
@@ -1443,8 +1437,7 @@ resize client window
 ***********************************************************/
 void LbaNetEngine::ResizeClientWindow(int sx, int sy, bool fullscreen)
 {
-#ifndef _USE_QT_EDITOR_
-	if(m_client_window)
+	if(!m_editor_handler && m_client_window)
 	{
 		QRect screenR = QApplication::desktop()->screen()->rect();
 
@@ -1469,7 +1462,6 @@ void LbaNetEngine::ResizeClientWindow(int sx, int sy, bool fullscreen)
 			m_client_window->InitDisplay(true, false);
 		}
 	}
-#endif
 }
 
 /***********************************************************
@@ -1505,7 +1497,7 @@ void LbaNetEngine::SwitchMusic(const std::string &musicpath, int nbtime)
 	if(tmp != musicpath)
 	{
 		m_lastmusic = tmp;
-		MusicHandler::getInstance()->PlayMusic("Data/"+musicpath, (nbtime != 0));
+		MusicHandler::getInstance()->PlayMusic(DataDirHandler::getInstance()->GetDataDirPath() + "/"+musicpath, (nbtime != 0));
 	}
 }
 
@@ -1527,7 +1519,7 @@ void LbaNetEngine::SwitchToFixedImage(SwitchToFixedImageEvent * evtptr)
 	//release all keys
 	m_lbaNetModel->KeyReleased(LbanetKey_All);
 
-	m_client_window->SwitchToFixedImage(((evtptr->_imagepath=="")?"":"Data/"+evtptr->_imagepath), 
+	m_client_window->SwitchToFixedImage(((evtptr->_imagepath=="")?"":DataDirHandler::getInstance()->GetDataDirPath() + "/"+evtptr->_imagepath), 
 											evtptr->_NbSecondDisplay,
 											evtptr->_FadeIn,
 											evtptr->_FadeInColorR,
@@ -1549,10 +1541,10 @@ check if LBA1 file exist
 ***********************************************************/
 void LbaNetEngine::CheckLBA1Files()
 {
-	bool existanim = QFileInfo("Data/Worlds/Lba1Original/Models/ANIM.HQR").exists();
-	bool existbody = QFileInfo("Data/Worlds/Lba1Original/Models/BODY.HQR").exists();
-	bool existfile3d = QFileInfo("Data/Worlds/Lba1Original/Models/FILE3D.HQR").exists();
-	bool existress = QFileInfo("Data/Worlds/Lba1Original/Models/RESS.HQR").exists();
+	bool existanim = QFileInfo((DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/Lba1Original/Models/ANIM.HQR").c_str()).exists();
+	bool existbody = QFileInfo((DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/Lba1Original/Models/BODY.HQR").c_str()).exists();
+	bool existfile3d = QFileInfo((DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/Lba1Original/Models/FILE3D.HQR").c_str()).exists();
+	bool existress = QFileInfo((DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/Lba1Original/Models/RESS.HQR").c_str()).exists();
 
 	
 	while(!existanim || !existbody || !existfile3d || !existress)
@@ -1585,28 +1577,28 @@ void LbaNetEngine::CheckLBA1Files()
 			{
 				existanim = QFileInfo(dir+"/ANIM.HQR").exists();
 				if(existanim)
-					QFile::copy(dir+"/ANIM.HQR", "Data/Worlds/Lba1Original/Models/ANIM.HQR");
+					QFile::copy(dir+"/ANIM.HQR", (DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/Lba1Original/Models/ANIM.HQR").c_str());
 			}
 
 			if(!existbody)
 			{
 				existbody = QFileInfo(dir+"/BODY.HQR").exists();
 				if(existbody)
-					QFile::copy(dir+"/BODY.HQR", "Data/Worlds/Lba1Original/Models/BODY.HQR");
+					QFile::copy(dir+"/BODY.HQR", (DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/Lba1Original/Models/BODY.HQR").c_str());
 			}
 
 			if(!existfile3d)
 			{
 				existfile3d = QFileInfo(dir+"/FILE3D.HQR").exists();
 				if(existfile3d)
-					QFile::copy(dir+"/FILE3D.HQR", "Data/Worlds/Lba1Original/Models/FILE3D.HQR");
+					QFile::copy(dir+"/FILE3D.HQR", (DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/Lba1Original/Models/FILE3D.HQR").c_str());
 			}
 
 			if(!existress)
 			{
 				existress = QFileInfo(dir+"/RESS.HQR").exists();
 				if(existress)
-					QFile::copy(dir+"/RESS.HQR", "Data/Worlds/Lba1Original/Models/RESS.HQR");
+					QFile::copy(dir+"/RESS.HQR", (DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/Lba1Original/Models/RESS.HQR").c_str());
 			}
 		}
 	}

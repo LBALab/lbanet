@@ -23,67 +23,42 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#if !defined(__LbaNetModel_1_DataLoader_h)
-#define __LbaNetModel_1_DataLoader_h
+#if !defined(__LbaNetModel_1_DataDirHandler_h)
+#define __LbaNetModel_1_DataDirHandler_h
 
 #include <string>
-#include <vector>
-#include <map>
-
-
-struct entitiesTableStruct;
-
-namespace LbaNet
-{
-	struct WorldInformation;
-	struct WorldDesc;
-};
-
-
-
 
 
 /***********************************************************************
- * Module:  DataLoader.h
+ * Module:  DataDirHandler.h
  * Author:  vivien
  * Modified: lundi 27 juillet 2009 14:56:34
- * Purpose: Declaration of the class DataLoader
+ * Purpose: Declaration of the class DataDirHandler
  ***********************************************************************/
-class DataLoader
+class DataDirHandler
 {
 public:
 
 	//! destructor
-	~DataLoader();
+	~DataDirHandler();
 
 	// singleton pattern
-	static DataLoader * getInstance();
+	static DataDirHandler * getInstance();
 
-
-	//! set current world name
-	void SetWorldName(std::string WorldName);
-
-
-	//! get list of available worlds
-	void GetAvailableWorlds(std::vector<LbaNet::WorldDesc> & list);
-
-	//! get information about a specific world
-	void GetWorldInformation(const std::string &Filename, LbaNet::WorldInformation &res);
-
-	//! saved information about a specific world
-	void SaveWorldInformation(const std::string &Filename, const LbaNet::WorldInformation &res);
-
-	//! get information about a specific world
-	void GetWorldDescription(const std::string &Filename, LbaNet::WorldDesc &res);
+	// set the path to the data dir
+	void SetDataDirPath(const std::string & datapath);
+	
+	// get the path to the data dir
+	const std::string & GetDataDirPath();
 
 protected:
 	//! constructor
-   DataLoader();
+   DataDirHandler();
 
 private:
-	static DataLoader *		_singletonInstance;
+	static DataDirHandler *		_singletonInstance;
 
-	std::string				_currentworldname;
+	std::string				_dataDirPath;
 };
 
 #endif

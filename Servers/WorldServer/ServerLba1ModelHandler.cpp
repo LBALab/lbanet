@@ -43,7 +43,7 @@ ServerLba1ModelHandler::ServerLba1ModelHandler(const LbaNet::ModelInfo & info, f
 	_currentanimationstring("Stand"), _currentmodelinfo(info)
 {
 	if(_estruct == NULL)
-		_estruct = parseEntities(Lba1ModelDataPath+"FILE3D.HQR");
+		_estruct = parseEntities(Lba1ModelDataPath()+"FILE3D.HQR");
 
 	UpdateModel();
 }
@@ -256,8 +256,8 @@ int ServerLba1ModelHandler::RefreshModel(bool forcecolor)
 		_currAnimation = 0;
 
 		_model = new ServerLBA1ModelClass(	_estruct, 
-											Lba1ModelDataPath+"BODY.HQR", 
-											Lba1ModelDataPath+"ANIM.HQR", 
+											Lba1ModelDataPath()+"BODY.HQR", 
+											Lba1ModelDataPath()+"ANIM.HQR", 
 											_currModel,
 											_estruct->entitiesTable[_currModel].bodyList[_currBody].body);
 

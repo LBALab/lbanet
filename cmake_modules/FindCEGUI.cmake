@@ -6,21 +6,21 @@ set(CEGUI_DEFINITIONS ${CEGUI_CFLAGS_OTHER})
 find_path(CEGUI_INCLUDE_DIR CEGUIBase.h
           HINTS ${CEGUI_INCLUDEDIR} ${CEGUI_INCLUDE_DIRS}
           PATHS $ENV{CEGUI_HOME}/include
-          	../dependencies/CEGUI/cegui/include
+          	${3RD_PARTY_PATH}/CEGUI/include
 		    /usr/include/CEGUI
 		    /usr/local/include/CEGUI)
 
 find_library(CEGUI_CORE_LIBRARY_RELEASE NAMES CEGUIBase
              HINTS ${CEGUI_LIBDIR} ${CEGUI_LIBRARY_DIRS}
              PATHS $ENV{CEGUI_HOME}/lib
-		../dependencies/CEGUI/lib
+		${3RD_PARTY_PATH}/CEGUI/lib
 		/usr/lib
 		/usr/local/lib)
               
 find_library(CEGUI_OPENGL_LIBRARY_RELEASE NAMES CEGUIOpenGLRenderer
              HINTS ${CEGUI_LIBDIR} ${CEGUI_LIBRARY_DIRS}
              PATHS $ENV{CEGUI_HOME}/lib
-		../dependencies/CEGUI/lib
+		${3RD_PARTY_PATH}/CEGUI/lib
 		/usr/lib
 		/usr/local/lib)         
 		
@@ -28,14 +28,14 @@ find_library(CEGUI_OPENGL_LIBRARY_RELEASE NAMES CEGUIOpenGLRenderer
 find_library(CEGUI_CORE_LIBRARY_DEBUG NAMES CEGUIBase_d
              HINTS ${CEGUI_LIBDIR} ${CEGUI_LIBRARY_DIRS}
              PATHS $ENV{CEGUI_HOME}/include
-		../dependencies/CEGUI/lib
+		${3RD_PARTY_PATH}/CEGUI/lib
 		/usr/lib
 		/usr/local/lib)         
                 
 find_library(CEGUI_OPENGL_LIBRARY_DEBUG NAMES CEGUIOpenGLRenderer_d
              HINTS ${CEGUI_LIBDIR} ${CEGUI_LIBRARY_DIRS}
              PATHS $ENV{CEGUI_HOME}/lib
-		../dependencies/CEGUI/lib
+		${3RD_PARTY_PATH}/CEGUI/lib
 		/usr/lib
 		/usr/local/lib)                   
 

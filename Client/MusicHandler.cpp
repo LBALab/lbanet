@@ -319,7 +319,7 @@ void MusicHandler::Initialize()
     osgAudio::SoundManager::instance()->init(32, true);
     osgAudio::SoundManager::instance()->getEnvironment()->setDistanceModel(osgAudio::InverseDistance/*Linear*/);
     osgAudio::SoundManager::instance()->getEnvironment()->setDopplerFactor(0);
-    osgAudio::SoundManager::instance()->getEnvironment()->setUnitScale(1);
+    //osgAudio::SoundManager::instance()->getEnvironment()->setUnitScale(1);
 
 	EnableDisableSound(_soundEnabled);
 

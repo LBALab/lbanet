@@ -1,3 +1,37 @@
+
+file(
+	GLOB
+	sharedlib_INCLUDES
+	${3RD_PARTY_PATH}/recast/Recast/include/*.h
+)
+
+SET(recastlib_SOURCES 		
+		${3RD_PARTY_PATH}/recast/Recast/Source/Recast.cpp
+		${3RD_PARTY_PATH}/recast/Recast/Source/RecastAlloc.cpp
+		${3RD_PARTY_PATH}/recast/Recast/Source/RecastArea.cpp
+		${3RD_PARTY_PATH}/recast/Recast/Source/RecastContour.cpp
+		${3RD_PARTY_PATH}/recast/Recast/Source/RecastFilter.cpp
+		${3RD_PARTY_PATH}/recast/Recast/Source/RecastLayers.cpp
+		${3RD_PARTY_PATH}/recast/Recast/Source/RecastMesh.cpp
+		${3RD_PARTY_PATH}/recast/Recast/Source/RecastMeshDetail.cpp
+		${3RD_PARTY_PATH}/recast/Recast/Source/RecastRasterization.cpp
+		${3RD_PARTY_PATH}/recast/Recast/Source/RecastRegion.cpp
+		${3RD_PARTY_PATH}/recast/Detour/Source/DetourAlloc.cpp
+		${3RD_PARTY_PATH}/recast/Detour/Source/DetourCommon.cpp
+		${3RD_PARTY_PATH}/recast/Detour/Source/DetourNavMesh.cpp
+		${3RD_PARTY_PATH}/recast/Detour/Source/DetourNavMeshBuilder.cpp
+		${3RD_PARTY_PATH}/recast/Detour/Source/DetourNavMeshQuery.cpp
+		${3RD_PARTY_PATH}/recast/Detour/Source/DetourNode.cpp
+		${3RD_PARTY_PATH}/recast/DetourCrowd/Source/DetourCrowd.cpp
+		${3RD_PARTY_PATH}/recast/DetourCrowd/Source/DetourLocalBoundary.cpp
+		${3RD_PARTY_PATH}/recast/DetourCrowd/Source/DetourObstacleAvoidance.cpp
+		${3RD_PARTY_PATH}/recast/DetourCrowd/Source/DetourPathCorridor.cpp
+		${3RD_PARTY_PATH}/recast/DetourCrowd/Source/DetourPathQueue.cpp
+		${3RD_PARTY_PATH}/recast/DetourCrowd/Source/DetourProximityGrid.cpp)
+		
+add_library(RecastLib STATIC ${recastlib_INCLUDES} ${recastlib_SOURCES})
+
+
 SET(client_SOURCES ActorUserData.cpp
 		AnimatedObjectHandlerBase.cpp
 		CEGUIDrawable.cpp
@@ -98,46 +132,11 @@ SET(client_SOURCES ActorUserData.cpp
 		../Servers/WorldServer/Teleport.cpp
 		../Servers/WorldServer/TextBoxHandler.cpp
 		../Servers/WorldServer/Triggers.cpp
-		../dependencies/sqlite/sqlite3.c
-		../dependencies/recast/Recast/Source/Recast.cpp
-		../dependencies/recast/Recast/Source/RecastAlloc.cpp
-		../dependencies/recast/Recast/Source/RecastArea.cpp
-		../dependencies/recast/Recast/Source/RecastContour.cpp
-		../dependencies/recast/Recast/Source/RecastFilter.cpp
-		../dependencies/recast/Recast/Source/RecastLayers.cpp
-		../dependencies/recast/Recast/Source/RecastMesh.cpp
-		../dependencies/recast/Recast/Source/RecastMeshDetail.cpp
-		../dependencies/recast/Recast/Source/RecastRasterization.cpp
-		../dependencies/recast/Recast/Source/RecastRegion.cpp
-		../dependencies/recast/Detour/Source/DetourAlloc.cpp
-		../dependencies/recast/Detour/Source/DetourCommon.cpp
-		../dependencies/recast/Detour/Source/DetourNavMesh.cpp
-		../dependencies/recast/Detour/Source/DetourNavMeshBuilder.cpp
-		../dependencies/recast/Detour/Source/DetourNavMeshQuery.cpp
-		../dependencies/recast/Detour/Source/DetourNode.cpp
-		../dependencies/recast/DetourCrowd/Source/DetourCrowd.cpp
-		../dependencies/recast/DetourCrowd/Source/DetourLocalBoundary.cpp
-		../dependencies/recast/DetourCrowd/Source/DetourObstacleAvoidance.cpp
-		../dependencies/recast/DetourCrowd/Source/DetourPathCorridor.cpp
-		../dependencies/recast/DetourCrowd/Source/DetourPathQueue.cpp
-		../dependencies/recast/DetourCrowd/Source/DetourProximityGrid.cpp)
+		${3RD_PARTY_PATH}/sqlite/sqlite3.c)
 		
 
-	
-#QT stuff
-SET(QT_USE_QTOPENGL TRUE)
-FIND_PACKAGE(Qt4 REQUIRED)
 
-INCLUDE( ${QT_USE_FILE} )
-
-SET(client_TOMOC_HEADERS client.h vlc_on_qt.h treemodel.h)
-SET(client_FORMS client.ui)
-SET(client_RESOURCES client.qrc)
-
-QT4_WRAP_CPP(client_HEADERS_MOC ${client_TOMOC_HEADERS})
-QT4_WRAP_UI(client_FORMS_HEADERS ${client_FORMS})
-QT4_ADD_RESOURCES(client_RESOURCES_RCC ${client_RESOURCES})
-
+SET(editor_SOURCES ${client_SOURCES} editorhandler.cpp)
 
 
 file(
@@ -146,6 +145,11 @@ file(
 	*.h
 )
 
+	
+#QT stuff
+SET(QT_USE_QTOPENGL TRUE)
+FIND_PACKAGE(Qt4 REQUIRED)
+INCLUDE( ${QT_USE_FILE} )
 
 
 #PHYSX stuff
@@ -177,21 +181,38 @@ FIND_PACKAGE(FREETYPE REQUIRED)
 INCLUDE_DIRECTORIES(${FREETYPE_INCLUDE_DIRS})
 
 
+LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/shared)
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/Servers/WorldServer)
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/dependencies/sqlite)
+INCLUDE_DIRECTORIES(${3RD_PARTY_PATH}/sqlite)
 
 IF (WIN32)
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/dependencies/CrashReport/crashrpt/include)
-LINK_DIRECTORIES(${CMAKE_SOURCE_DIR}/dependencies/CrashReport/crashrpt/lib)
+INCLUDE_DIRECTORIES(${3RD_PARTY_PATH}/CrashRpt/include)
+LINK_DIRECTORIES(${3RD_PARTY_PATH}/CrashRpt/lib)
 ENDIF (WIN32)
+
+
+#QT moc stuff
+SET(client_TOMOC_HEADERS client.h vlc_on_qt.h treemodel.h)
+SET(client_FORMS client.ui)
+SET(client_RESOURCES client.qrc)
+QT4_WRAP_CPP(client_HEADERS_MOC ${client_TOMOC_HEADERS})
+QT4_WRAP_UI(client_FORMS_HEADERS ${client_FORMS})
+QT4_ADD_RESOURCES(client_RESOURCES_RCC ${client_RESOURCES})
+
 
 ADD_EXECUTABLE(LBANetGame ${client_INCLUDES} 
 			${client_SOURCES} 
 			${client_HEADERS_MOC} 
 			${client_FORMS_HEADERS} 
 			${client_RESOURCES_RCC})
+
+if(WIN32)
+   set_target_properties(LBANetGame PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:windows")
+   set_target_properties(LBANetGame PROPERTIES LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:windows")
+endif(WIN32)
+
 
 ADD_EXECUTABLE(libfmodex-4.40.06.so IMPORTED)
 		    
@@ -209,7 +230,52 @@ TARGET_LINK_LIBRARIES(LBANetGame ${LUABIND_LIBRARIES})
 TARGET_LINK_LIBRARIES(LBANetGame ${FMOD_LIBRARIES})
 TARGET_LINK_LIBRARIES(LBANetGame ${VLC_LIBRARIES})
 TARGET_LINK_LIBRARIES(LBANetGame ${FREETYPE_LIBRARIES})
+TARGET_LINK_LIBRARIES(LBANetGame ${OPENGL_LIBRARY})
 
 TARGET_LINK_LIBRARIES(LBANetGame LBANetShared)
 TARGET_LINK_LIBRARIES(LBANetGame LBANetInfrastructure)
+TARGET_LINK_LIBRARIES(LBANetGame RecastLib)
+
+
+#QT moc stuff
+SET(editor_TOMOC_HEADERS client.h vlc_on_qt.h treemodel.h)
+SET(editor_FORMS addactordialog.ui additemdialog.ui addmapdialog.ui addspawning.ui addstartitemdialog.ui addteleportdialog.ui addtemplate.ui addtextdialog.ui addtriggerdialog.ui addworlddialog.ui client.ui editor.ui edittemplatesdialog.ui ImportantNotice.ui NavMeshOption.ui openworlddialog.ui)
+SET(editor_RESOURCES editor.qrc)
+QT4_WRAP_CPP(editor_HEADERS_MOC ${editor_TOMOC_HEADERS})
+QT4_WRAP_UI(editor_FORMS_HEADERS ${editor_FORMS})
+QT4_ADD_RESOURCES(editor_RESOURCES_RCC ${editor_RESOURCES})
+
+ADD_EXECUTABLE(LBANetEditor ${client_INCLUDES} 
+			${editor_SOURCES} 
+			${editor_HEADERS_MOC} 
+			${editor_FORMS_HEADERS} 
+			${editor_RESOURCES_RCC})
+
+if(WIN32)
+   set_target_properties(LBANetEditor PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:windows")
+   set_target_properties(LBANetEditor PROPERTIES LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:windows")
+endif(WIN32)
+
+
+INCLUDE_DIRECTORIES(LBANetEditor ${CMAKE_CURRENT_BINARY_DIR})
+INCLUDE_DIRECTORIES(LBANetEditor ${PROJECT_SOURCE_DIR}/../shared)
+
+TARGET_LINK_LIBRARIES(LBANetEditor ${QT_LIBRARIES} )
+TARGET_LINK_LIBRARIES(LBANetEditor ${Boost_LIBRARIES})
+TARGET_LINK_LIBRARIES(LBANetEditor ${ICE_LIBRARIES})
+TARGET_LINK_LIBRARIES(LBANetEditor ${OSG_LIBRARIES})
+TARGET_LINK_LIBRARIES(LBANetEditor ${PHYSX_LIBRARIES})
+TARGET_LINK_LIBRARIES(LBANetEditor ${CEGUI_LIBRARIES})
+TARGET_LINK_LIBRARIES(LBANetEditor ${LUA_LIBRARIES})
+TARGET_LINK_LIBRARIES(LBANetEditor ${LUABIND_LIBRARIES})
+TARGET_LINK_LIBRARIES(LBANetEditor ${FMOD_LIBRARIES})
+TARGET_LINK_LIBRARIES(LBANetEditor ${VLC_LIBRARIES})
+TARGET_LINK_LIBRARIES(LBANetEditor ${FREETYPE_LIBRARIES})
+TARGET_LINK_LIBRARIES(LBANetEditor ${OPENGL_LIBRARY})
+
+TARGET_LINK_LIBRARIES(LBANetEditor LBANetShared)
+TARGET_LINK_LIBRARIES(LBANetEditor LBANetInfrastructure)
+TARGET_LINK_LIBRARIES(LBANetEditor RecastLib)
+
+
 

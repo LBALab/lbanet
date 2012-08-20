@@ -78,7 +78,7 @@ bool FileUtil::ListFilesInDir(const std::string &Path, std::vector<std::string> 
 				{
 					if(filename == "" || (dir_itr->path().stem() == filename))
 					{
-						filelist.push_back(dir_itr->path().filename());
+						filelist.push_back(dir_itr->path().filename().string());
 					}
 				}
 			}
@@ -113,7 +113,7 @@ bool FileUtil::ListDirsInDir(const std::string &Path, std::vector<std::string> &
 		{
 			if ( boost::filesystem::is_directory( dir_itr->status() ) )
 			{  
-				if(dir_itr->filename() != ".svn")
+				if(dir_itr->path().filename() != ".svn")
 					filelist.push_back(dir_itr->path().string() + addfilename);
 			}
 		}
@@ -159,8 +159,8 @@ bool FileUtil::ListDirsNoPathInDir(const std::string &Path, std::vector<std::str
 		{
 			if ( boost::filesystem::is_directory( dir_itr->status() ) )
 			{	  
-				if(dir_itr->filename() != ".svn")
-				  filelist.push_back(dir_itr->filename());
+				if(dir_itr->path().filename() != ".svn")
+					filelist.push_back(dir_itr->path().filename().string());
 					
 			}
 		}

@@ -57,7 +57,7 @@ protected:
 	void UpdateContainer(long clientid, LbaNet::ItemList Taken, LbaNet::ItemList Put);
 
 private:
-	std::map<long, boost::shared_ptr<ContainerSharedInfo> >		_openedcontainers;
+	std::map<long, boost::shared_ptr<LbaNet::ContainerSharedInfo> >		_openedcontainers;
 };
 
 #endif

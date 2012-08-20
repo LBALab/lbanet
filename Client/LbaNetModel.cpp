@@ -45,6 +45,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "HolomapHandler.h"
 #include "Holomap.h"
 
+#include "DataDirHandler.h"
+
 
 /***********************************************************
 	Constructor
@@ -244,14 +246,12 @@ void LbaNetModel::Process(double tnow, float tdiff)
 
 
 	// process all editor Objects
-	#ifdef _USE_QT_EDITOR_
 	{
-	std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _editorObjects.begin();
-	std::map<long, boost::shared_ptr<DynamicObject> >::iterator end = _editorObjects.end();
-	for(; it != end; ++it)
-		it->second->Process(tnow, tdiff);
+		std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _editorObjects.begin();
+		std::map<long, boost::shared_ptr<DynamicObject> >::iterator end = _editorObjects.end();
+		for(; it != end; ++it)
+			it->second->Process(tnow, tdiff);
 	}
-	#endif
 
 
 	//process player object
@@ -441,7 +441,6 @@ void LbaNetModel::AddObject(int OType, Ice::Long OwnerId, const ObjectInfo &desc
 
 
 		// editor object
-		#ifdef _USE_QT_EDITOR_
 		case 4:
 			{
 				_editorObjects[desc.Id] = createobj;
@@ -455,7 +454,6 @@ void LbaNetModel::AddObject(int OType, Ice::Long OwnerId, const ObjectInfo &desc
 				}
 			}
 		break;
-		#endif
 
 
 		// 5 -> item object
@@ -527,7 +525,6 @@ void LbaNetModel::RemObject(int OType, long id)
 		break;
 
 		// editor object
-		#ifdef _USE_QT_EDITOR_
 		case 4:
 			{
 			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _editorObjects.find(id);
@@ -535,7 +532,6 @@ void LbaNetModel::RemObject(int OType, long id)
 				_editorObjects.erase(it);
 			}
 		break;
-		#endif
 
 
 		// 5 -> item object
@@ -567,9 +563,7 @@ void LbaNetModel::CleanupMap()
 	m_playingscriptactors.clear();
 	m_controllerChar->SetProjectileLaunched(false);
 
-	#ifdef _USE_QT_EDITOR_
 	_editorObjects.clear();
-	#endif
 }
 
 
@@ -812,7 +806,6 @@ void LbaNetModel::UpdateObjectDisplay(int OType, Ice::Long ObjectId,
 		break;
 
 		// editor object
-		#ifdef _USE_QT_EDITOR_
 		case 4:
 			{
 			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _editorObjects.find((long)ObjectId);
@@ -820,7 +813,6 @@ void LbaNetModel::UpdateObjectDisplay(int OType, Ice::Long ObjectId,
 				it->second->GetDisplayObject()->Update(update, false);
 			}
 		break;
-		#endif
 	}
 }
 
@@ -868,7 +860,6 @@ void LbaNetModel::UpdateObjectPhysic(int OType, Ice::Long ObjectId,
 		break;
 
 		// editor object
-		#ifdef _USE_QT_EDITOR_
 		case 4:
 			{
 			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _editorObjects.find((long)ObjectId);
@@ -876,8 +867,6 @@ void LbaNetModel::UpdateObjectPhysic(int OType, Ice::Long ObjectId,
 				it->second->GetPhysicalObject()->Update(update);
 			}
 		break;
-		#endif
-	
 	}
 }
 
@@ -937,7 +926,6 @@ void LbaNetModel::UpdateObjectSound(int OType, Ice::Long ObjectId,
 		break;
 
 		// editor object
-		#ifdef _USE_QT_EDITOR_
 		case 4:
 		{
 			std::map<long, boost::shared_ptr<DynamicObject> >::iterator it = _editorObjects.find((long)ObjectId);
@@ -948,8 +936,6 @@ void LbaNetModel::UpdateObjectSound(int OType, Ice::Long ObjectId,
 			}
 		}
 		break;
-		#endif
-	
 	}
 }
 
@@ -1941,7 +1927,7 @@ void LbaNetModel::RefreshPlayerPortrait()
 #ifndef _USE_QT_EDITOR_
 	//save player image
 	if(m_controllerChar)
-		m_controllerChar->SavePlayerDisplayToFile("Data/GUI/imagesets/charportrait.png");
+		m_controllerChar->SavePlayerDisplayToFile(DataDirHandler::getInstance()->GetDataDirPath() + "/GUI/imagesets/charportrait.png");
 
 	//refresh GUI
 	LbaNet::GuiUpdatesSeq updseq;
@@ -2475,8 +2461,6 @@ void LbaNetModel::DisplayHolomap(int ScriptId, long PlayerId, int mode, long hol
 }
 
 
-
-#ifdef _USE_QT_EDITOR_
 /***********************************************************
 editor tp the player
 ***********************************************************/
@@ -2499,8 +2483,3 @@ void LbaNetModel::ForceGhost(bool force)
 	m_controllerChar->ForceGhost(force);
 	m_controllerCam->ForceGhost(force);
 }
-
-#endif
-
-
-

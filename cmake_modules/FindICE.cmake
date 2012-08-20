@@ -4,54 +4,54 @@ set(ICE_DEFINITIONS ${ICE_CFLAGS_OTHER})
 
 find_path(ICE_INCLUDE_DIR Ice/Ice.h
           HINTS ${ICE_INCLUDEDIR} ${ICE_INCLUDE_DIRS}
-          PATHS $ENV{ICE_HOME}/include
+          PATHS ${3RD_PARTY_PATH}/Ice/include
           PATH_SUFFIXES Ice )
 
 find_library(ICE_CORE_LIBRARY_RELEASE NAMES Ice
              HINTS ${ICE_LIBDIR} ${ICE_LIBRARY_DIRS}
-             PATHS $ENV{ICE_HOME}/lib
+             PATHS ${3RD_PARTY_PATH}/Ice/lib
 		/usr/lib
 		/usr/local/lib)
               
 find_library(ICE_UTIL_LIBRARY_RELEASE NAMES IceUtil
              HINTS ${ICE_LIBDIR} ${ICE_LIBRARY_DIRS}
-             PATHS $ENV{ICE_HOME}/lib
+             PATHS ${3RD_PARTY_PATH}/Ice/lib
 		/usr/lib
 		/usr/local/lib)               
                
 find_library(ICE_GLACIER_LIBRARY_RELEASE NAMES Glacier2
              HINTS ${ICE_LIBDIR} ${ICE_LIBRARY_DIRS}
-             PATHS $ENV{ICE_HOME}/lib
+             PATHS ${3RD_PARTY_PATH}/Ice/lib
 		/usr/lib
 		/usr/local/lib)   
                
 find_library(ICE_PATCH_LIBRARY_RELEASE NAMES IcePatch2
              HINTS ${ICE_LIBDIR} ${ICE_LIBRARY_DIRS}
-             PATHS $ENV{ICE_HOME}/lib
+             PATHS ${3RD_PARTY_PATH}/Ice/lib
 		/usr/lib
 		/usr/local/lib)   
              
 find_library(ICE_CORE_LIBRARY_DEBUG NAMES Iced
              HINTS ${ICE_LIBDIR} ${ICE_LIBRARY_DIRS}
-             PATHS $ENV{ICE_HOME}/lib
+             PATHS ${3RD_PARTY_PATH}/Ice/lib
 		/usr/lib
 		/usr/local/lib)
               
 find_library(ICE_UTIL_LIBRARY_DEBUG NAMES IceUtild
              HINTS ${ICE_LIBDIR} ${ICE_LIBRARY_DIRS}
-             PATHS $ENV{ICE_HOME}/lib
+             PATHS ${3RD_PARTY_PATH}/Ice/lib
 		/usr/lib
 		/usr/local/lib)               
                
 find_library(ICE_GLACIER_LIBRARY_DEBUG NAMES Glacier2d
              HINTS ${ICE_LIBDIR} ${ICE_LIBRARY_DIRS}
-             PATHS $ENV{ICE_HOME}/lib
+             PATHS ${3RD_PARTY_PATH}/Ice/lib
 		/usr/lib
 		/usr/local/lib)   
                
 find_library(ICE_PATCH_LIBRARY_DEBUG NAMES IcePatch2d
              HINTS ${ICE_LIBDIR} ${ICE_LIBRARY_DIRS}
-             PATHS $ENV{ICE_HOME}/lib
+             PATHS ${3RD_PARTY_PATH}/Ice/lib
 		/usr/lib
 		/usr/local/lib)        
      

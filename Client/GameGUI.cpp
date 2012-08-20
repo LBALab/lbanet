@@ -47,6 +47,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Localizer.h"
 #include "GUILocalizationCallback.h"
 
+#include "DataDirHandler.h"
+
 #include <CEGUIAnimation.h>
 
 /***********************************************************
@@ -562,7 +564,7 @@ bool GameGUI::DisplayGameText(long textid, bool show, bool hide)
 				if(voices.size() > 0)
 				{
 					for(size_t vv=0; vv< voices.size(); ++vv)
-						voices[vv] = "Data/" + voices[vv];
+						voices[vv] = DataDirHandler::getInstance()->GetDataDirPath() + "/" + voices[vv];
 
 					MusicHandler::getInstance()->PlayVoice(voices);
 				}

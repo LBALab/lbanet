@@ -352,7 +352,7 @@ public:
 											const std::string &  messagecontent){}
 
 	// open container on client side
-	virtual void OpenContainer(long clientid, boost::shared_ptr<ContainerSharedInfo> sharedinfo){}
+	virtual void OpenContainer(long clientid, boost::shared_ptr<LbaNet::ContainerSharedInfo> sharedinfo){}
 
 
 

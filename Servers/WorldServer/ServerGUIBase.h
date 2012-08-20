@@ -30,8 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <ClientServerEvents.h>
 #include <boost/shared_ptr.hpp>
 
-
-struct ContainerSharedInfo;
 class DialogPart;
 class MapHandler;
 
@@ -58,7 +56,7 @@ class ContainerParam : public ShowGuiParamBase
 {
 public:
 	//! constructor
-	ContainerParam(boost::shared_ptr<ContainerSharedInfo> sharedinfo,
+	ContainerParam(boost::shared_ptr<LbaNet::ContainerSharedInfo> sharedinfo,
 						const LbaNet::ItemsMap & inventory,
 						int InventorySize)
 		: _sharedinfo(sharedinfo), _inventory(inventory),
@@ -66,7 +64,7 @@ public:
 	{}
 
 	int											_InventorySize;
-	boost::shared_ptr<ContainerSharedInfo>		_sharedinfo;
+	boost::shared_ptr<LbaNet::ContainerSharedInfo>		_sharedinfo;
 	LbaNet::ItemsMap							_inventory;
 };
 
