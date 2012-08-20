@@ -348,50 +348,51 @@ void OptionsGUI::Apply()
 
 		//------------- handle video tab
 		{
-		#ifndef _USE_QT_EDITOR_
-			bool changeRes = false;
-
-			//handle screen resolution
-			CEGUI::Combobox * cb = static_cast<CEGUI::Combobox *> (
-				CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/Video/ComboRes"));
-			if(cb)
+			if(!DataDirHandler::getInstance()->IsInEditorMode())
 			{
-				CEGUI::ListboxItem *itm = cb->getSelectedItem();
-				if(itm)
-				{
-					std::string selectedres = itm->getText().c_str();
-					int posX = selectedres.find("x");
-					int xs =  atoi(selectedres.substr(0, posX).c_str());
-					int ys =  atoi(selectedres.substr(posX+1).c_str());
+				bool changeRes = false;
 
-					if(xs != _currScreenX || ys != _currScreenY)
+				//handle screen resolution
+				CEGUI::Combobox * cb = static_cast<CEGUI::Combobox *> (
+					CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/Video/ComboRes"));
+				if(cb)
+				{
+					CEGUI::ListboxItem *itm = cb->getSelectedItem();
+					if(itm)
 					{
-						changeRes = true;
-						_currScreenX = xs;
-						_currScreenY = ys;
+						std::string selectedres = itm->getText().c_str();
+						int posX = selectedres.find("x");
+						int xs =  atoi(selectedres.substr(0, posX).c_str());
+						int ys =  atoi(selectedres.substr(posX+1).c_str());
+
+						if(xs != _currScreenX || ys != _currScreenY)
+						{
+							changeRes = true;
+							_currScreenX = xs;
+							_currScreenY = ys;
+						}
 					}
 				}
-			}
 
 
-			//handle fullscreen
-			CEGUI::Checkbox * checkbfull = static_cast<CEGUI::Checkbox *> (
-				CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/Video/cbfullscreen"));
-			if(checkbfull)
-			{
-				bool selectedb = checkbfull->isSelected();
-				if(selectedb != _currFullscreen)
+				//handle fullscreen
+				CEGUI::Checkbox * checkbfull = static_cast<CEGUI::Checkbox *> (
+					CEGUI::WindowManager::getSingleton().getWindow("OptionsTab/Video/cbfullscreen"));
+				if(checkbfull)
 				{
-					changeRes = true;
-					_currFullscreen = selectedb;
+					bool selectedb = checkbfull->isSelected();
+					if(selectedb != _currFullscreen)
+					{
+						changeRes = true;
+						_currFullscreen = selectedb;
+					}
+				}
+
+				if(changeRes)
+				{
+					EventsQueue::getReceiverQueue()->AddEvent(new ResizeEvent(_currScreenX, _currScreenY, _currFullscreen));
 				}
 			}
-
-			if(changeRes)
-			{
-				EventsQueue::getReceiverQueue()->AddEvent(new ResizeEvent(_currScreenX, _currScreenY, _currFullscreen));
-			}
-		#endif
 
 			{
 				//handle perpective

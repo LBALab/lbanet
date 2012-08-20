@@ -30,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "CEGUIDrawable.h"
 #include "OsgEventHandler.h"
 #include "GuiHandler.h"
-
+#include "DataDirHandler.h"
 
 #include <osg/PositionAttitudeTransform>
 #include <osg/ClipNode>
@@ -529,9 +529,8 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
 		_ShadowType = ConfigurationManager::GetInstance()->GetValue("Display.ShadowType", 1);
 
 
-		#ifdef _USE_QT_EDITOR_
-		_isFullscreen = false;
-		#endif
+		if(DataDirHandler::getInstance()->IsInEditorMode())
+			_isFullscreen = false;
 	}
 
 
@@ -549,11 +548,7 @@ void OsgHandler::Initialize(const std::string &WindowName, const std::string &Da
     traits->y = _posY;
     traits->width = _resX;
     traits->height = _resY;
-//#ifdef _USE_QT_EDITOR_
     traits->windowDecoration = false;
-//#else
-//    traits->windowDecoration = true;
-//#endif
     traits->doubleBuffer = true;
     traits->sharedContext = 0;
 	traits->windowName = WindowName;
@@ -756,21 +751,19 @@ void OsgHandler::Finalize()
 
 	// write data to configuration file
 	{
-#ifndef _USE_SOUND_EDITOR
-		ConfigurationManager::GetInstance()->SetValue("Display.Camera.Distance", _caminfo.distance);
-		ConfigurationManager::GetInstance()->SetValue("Display.Camera.Zenit", _caminfo.zenit);
-		ConfigurationManager::GetInstance()->SetValue("Display.Camera.Azimut", _caminfo.azimut);
-		ConfigurationManager::GetInstance()->SetValue("Display.Camera.CameraType", _caminfo.cameraType);
-#endif
+		if(!DataDirHandler::getInstance()->IsInEditorMode())
+		{
+			ConfigurationManager::GetInstance()->SetValue("Display.Camera.Distance", _caminfo.distance);
+			ConfigurationManager::GetInstance()->SetValue("Display.Camera.Zenit", _caminfo.zenit);
+			ConfigurationManager::GetInstance()->SetValue("Display.Camera.Azimut", _caminfo.azimut);
+			ConfigurationManager::GetInstance()->SetValue("Display.Camera.CameraType", _caminfo.cameraType);
 
-
-#ifndef _USE_QT_EDITOR_
-		ConfigurationManager::GetInstance()->SetValue("Display.Screen.PositionX", _posX);
-		ConfigurationManager::GetInstance()->SetValue("Display.Screen.PositionY", _posY);
-		ConfigurationManager::GetInstance()->SetValue("Display.Screen.ScreenResolutionX", _resX);
-		ConfigurationManager::GetInstance()->SetValue("Display.Screen.ScreenResolutionY", _resY);
-		ConfigurationManager::GetInstance()->SetValue("Display.Screen.Fullscreen", _isFullscreen);
-#endif
+			ConfigurationManager::GetInstance()->SetValue("Display.Screen.PositionX", _posX);
+			ConfigurationManager::GetInstance()->SetValue("Display.Screen.PositionY", _posY);
+			ConfigurationManager::GetInstance()->SetValue("Display.Screen.ScreenResolutionX", _resX);
+			ConfigurationManager::GetInstance()->SetValue("Display.Screen.ScreenResolutionY", _resY);
+			ConfigurationManager::GetInstance()->SetValue("Display.Screen.Fullscreen", _isFullscreen);
+		}
 
 		ConfigurationManager::GetInstance()->SetValue("Display.ShadowType", _ShadowType);
 	}
@@ -825,14 +818,15 @@ void OsgHandler::Resize(int resX, int resY, bool fullscreen)
 
 		ResetScreen();
 
-		#ifndef _USE_QT_EDITOR_
-		if(!_isFullscreen)
+		if(!DataDirHandler::getInstance()->IsInEditorMode())
 		{
-			ConfigurationManager::GetInstance()->SetValue("Display.Screen.ScreenResolutionX", _resX);
-			ConfigurationManager::GetInstance()->SetValue("Display.Screen.ScreenResolutionY", _resY);
+			if(!_isFullscreen)
+			{
+				ConfigurationManager::GetInstance()->SetValue("Display.Screen.ScreenResolutionX", _resX);
+				ConfigurationManager::GetInstance()->SetValue("Display.Screen.ScreenResolutionY", _resY);
+			}
+			ConfigurationManager::GetInstance()->SetValue("Display.Screen.Fullscreen", _isFullscreen);
 		}
-		ConfigurationManager::GetInstance()->SetValue("Display.Screen.Fullscreen", _isFullscreen);
-		#endif
 	}
 
 	if(_guidraw)
@@ -899,20 +893,12 @@ void OsgHandler::ResetScreen()
 
 		if(_isFullscreen)
 		{
-			//#ifndef _USE_QT_EDITOR_
-			//window->setWindowDecoration(false);
-			//window->setWindowRectangle(0, 0, screenWidth, screenHeight);
-			//#endif
 			_viewportX = screenWidth;
 			_viewportY = screenHeight;
 			
 		}
 		else
 		{
-			//#ifndef _USE_QT_EDITOR_
-			//window->setWindowDecoration(true);
-			//window->setWindowRectangle(_posX, _posY, _resX, _resY);
-			//#endif
 			_viewportX = _resX;
 			_viewportY = _resY;
 		}
@@ -1021,9 +1007,9 @@ set if the view is perspective or ortho
 ***********************************************************/
 void OsgHandler::ToggleCameraType(int cameraType)
 {
-#ifdef _USE_SOUND_EDITOR
-		cameraType = 3;
-#endif
+	if(DataDirHandler::getInstance()->IsInSoundEditorMode())
+		cameraType = 3; // fixed camera for sound editor
+
 
 	if(_caminfo.cameraType != cameraType)
 	{
@@ -1036,9 +1022,8 @@ void OsgHandler::ToggleCameraType(int cameraType)
 			distance = 20;
 		ResetCameraDistances(distance);
 
-#ifndef _USE_SOUND_EDITOR
-		ConfigurationManager::GetInstance()->SetValue("Display.Camera.CameraType", _caminfo.cameraType);
-#endif
+		if(!DataDirHandler::getInstance()->IsInSoundEditorMode())
+			ConfigurationManager::GetInstance()->SetValue("Display.Camera.CameraType", _caminfo.cameraType);
 	}
 }
 
@@ -1488,12 +1473,12 @@ void OsgHandler::ResetDisplayTree(int sceneidx)
 	//_sceneNoLightRootNode-> addChild(scene->getScene());
 
 
-// add grid when editor is up
-#ifdef _USE_QT_EDITOR_
-	boost::shared_ptr<DisplayTransformation> Tr = boost::shared_ptr<DisplayTransformation>(new DisplayTransformation);
-	CreateGridObject(sceneidx, 200, 200, Tr);
-#endif
-
+	// add grid when editor is up
+	if(DataDirHandler::getInstance()->IsInEditorMode())
+	{
+		boost::shared_ptr<DisplayTransformation> Tr = boost::shared_ptr<DisplayTransformation>(new DisplayTransformation);
+		CreateGridObject(sceneidx, 200, 200, Tr);
+	}
 }
 
 

@@ -30,6 +30,7 @@ SET(sharedlib_SOURCES CatmulSplineHandler.cpp
 			WorldToDisplayObjectSynchronizer.cpp
 			XmlReader.cpp
 			md5.cpp
-			DataDirHandler.cpp)
+			DataDirHandler.cpp
+			EditorSharedData.cpp)
 		
 add_library(LBANetShared STATIC ${sharedlib_INCLUDES} ${sharedlib_SOURCES})

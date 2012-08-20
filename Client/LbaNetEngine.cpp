@@ -95,6 +95,7 @@ LbaNetEngine::LbaNetEngine(Ice::CommunicatorPtr communicator, const std::string 
 : m_currentstate(EGaming), m_oldstate(ELogin), m_clientV(clientV),
 	m_communicator(communicator), m_shouldexit(false)
 {
+
 	//check if LBA1 file exist 
 	CheckLBA1Files();
 
@@ -153,10 +154,9 @@ void LbaNetEngine::Initialize(void)
 		ResizeClientWindow(resX, resY, isFullscreen);
 	}
 
-#ifndef _USE_SOUND_EDITOR
 	// init gui
-	m_gui_handler = boost::shared_ptr<GuiHandler>(new GuiHandler());
-#endif
+	if(!DataDirHandler::getInstance()->IsInSoundEditorMode())
+		m_gui_handler = boost::shared_ptr<GuiHandler>(new GuiHandler());
 
 	//int model
 	m_lbaNetModel = boost::shared_ptr<LbaNetModel>(new LbaNetModel(this));

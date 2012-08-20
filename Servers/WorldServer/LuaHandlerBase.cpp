@@ -56,7 +56,9 @@ LuaHandlerBase::~LuaHandlerBase(void)
 	// clear running thread before closing main lua state
 	m_RunningThreads.clear();
 
-	//lua_close(m_LuaState); // TODO - this crashes with msvc 2010 ...
+#ifndef WIN32
+	lua_close(m_LuaState); // TODO - this crashes with msvc 2010 ...
+#endif
 }
 
 

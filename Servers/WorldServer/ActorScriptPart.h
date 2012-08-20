@@ -32,18 +32,19 @@ class ActorScriptPartBase;
 typedef boost::shared_ptr<ActorScriptPartBase> ActorScriptPartBasePtr;
 struct ActorObjectInfo;
 class ActorHandler;
+class TreeModel;
 
 #include <string>
 
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 #include <QAbstractTableModel>
 #include <QObject>
-#include "treemodel.h"
 #include <QtCore/QVariant>
 #include <QModelIndex>
 #include <QVector>
 #endif
+
 
 
 
@@ -69,7 +70,7 @@ public:
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH){}
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx){}
 
@@ -108,7 +109,7 @@ public:
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
@@ -149,7 +150,7 @@ public:
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
@@ -191,7 +192,7 @@ public:
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
@@ -230,7 +231,7 @@ public:
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
@@ -270,7 +271,7 @@ public:
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
@@ -306,7 +307,7 @@ public:
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
@@ -342,7 +343,7 @@ public:
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
@@ -378,7 +379,7 @@ public:
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
@@ -415,7 +416,7 @@ public:
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
@@ -452,7 +453,7 @@ public:
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
@@ -492,7 +493,7 @@ public:
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
@@ -530,7 +531,7 @@ public:
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
@@ -574,7 +575,7 @@ public:
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
@@ -615,7 +616,7 @@ public:
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
@@ -655,7 +656,7 @@ public:
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
@@ -698,7 +699,7 @@ public:
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
@@ -740,7 +741,7 @@ public:
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
@@ -784,7 +785,7 @@ public:
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
@@ -824,7 +825,7 @@ public:
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
@@ -863,7 +864,7 @@ public:
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
@@ -902,7 +903,7 @@ public:
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
@@ -942,7 +943,7 @@ public:
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
@@ -980,7 +981,7 @@ public:
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 
@@ -1019,7 +1020,7 @@ public:
 	// save script to lua file
 	virtual void WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH);
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 	// use by the editor
 	virtual void WriteToQt(TreeModel *	model, const QModelIndex &parentIdx);
 

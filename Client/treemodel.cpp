@@ -423,10 +423,11 @@ QString FileDialogOptionsModel::PostManagement(const QString & selectedfile)
 	QString outfile;
 
 	// check if choosen file is in the directory data
-	if(selectedfile.contains(QDir::currentPath()+"/Data/"))
+	QDir datadir(DataDirHandler::getInstance()->GetDataDirPath().c_str());
+	if(selectedfile.contains(datadir.absolutePath()))
 	{
 		outfile = selectedfile;
-		outfile = outfile.remove(QDir::currentPath()+"/Data/");
+		outfile = outfile.remove(datadir.absolutePath() + "/");
 	}
 	else
 	{
@@ -476,10 +477,11 @@ QString FileDialogOptionsIcon::PostManagement(const QString & selectedfile)
 	QString outfile;
 
 	// check if choosen file is in the directory data
-	if(selectedfile.contains(QDir::currentPath()+"/Data/"))
+	QDir datadir(DataDirHandler::getInstance()->GetDataDirPath().c_str());
+	if(selectedfile.contains(datadir.absolutePath()))
 	{
 		outfile = selectedfile;
-		outfile = outfile.remove(QDir::currentPath()+"/Data/");
+		outfile = outfile.remove(datadir.absolutePath() + "/");
 	}
 	else
 	{
@@ -500,7 +502,7 @@ QString FileDialogOptionsIcon::PostManagement(const QString & selectedfile)
 			QImage smallscaledimg = image.scaled(QSize(25, 25), Qt::KeepAspectRatio, Qt::SmoothTransformation );
 			smallscaledimg.save(QDir::currentPath()+"/"+outfile2);
 
-			outfile = outfile.remove("Data/");
+			outfile = outfile.section('/', 1);
 		}
 		catch(...)
 		{

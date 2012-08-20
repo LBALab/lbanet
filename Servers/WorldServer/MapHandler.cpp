@@ -385,13 +385,12 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 		return;
 
 	//check if player is still present on map
-	#ifndef _USE_QT_EDITOR_
+	if(!DataDirHandler::getInstance()->IsInEditorMode())
 	{
 		boost::shared_ptr<PlayerHandler> pinfo =  GetPlayerInfo((long)id);
 		if(!pinfo)
 			return;
 	}
-	#endif
 
 
 	LbaNet::ClientServerEventBase & obj = *evt;
@@ -512,19 +511,18 @@ void MapHandler::ProcessEvent(Ice::Long id, LbaNet::ClientServerEventBasePtr evt
 
 
 	//editor update event
-	#ifdef _USE_QT_EDITOR_
-	if(info == typeid(EditorEvent))
+	if(DataDirHandler::getInstance()->IsInEditorMode())
 	{
-		EditorEvent* castedptr =
-			static_cast<EditorEvent *>(&obj);
+		if(info == typeid(EditorEvent))
+		{
+			EditorEvent* castedptr =
+				static_cast<EditorEvent *>(&obj);
 
-		ProcessEditorUpdate(castedptr->_update);
+			ProcessEditorUpdate(castedptr->_update);
 
-		return;
+			return;
+		}
 	}
-
-
-	#endif
 
 
 
@@ -906,9 +904,10 @@ void MapHandler::PlayerMoved(Ice::Long id, double time, const LbaNet::PlayerMove
 	if(!IsReady(id))
 		return;
 
-	#ifndef _USE_QT_EDITOR_
+	if(!DataDirHandler::getInstance()->IsInEditorMode())
+	{
 	//TODO first check if the info is correct and no cheating
-	#endif
+	}
 
 
 	//do an sweep test and check for triggers
@@ -1005,14 +1004,15 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 			{
 				LbaNet::ObjectExtraInfo xinfo = actinfo.ExtraInfo;
 
-				#ifdef _USE_QT_EDITOR_
+				if(DataDirHandler::getInstance()->IsInEditorMode())
+				{
 					std::stringstream strs;
 					strs<<"Actor_"<<actinfo.ObjectId<<": "<<xinfo.Name;
 					xinfo.Name = strs.str();
-					xinfo.NameColorR = 0.2;
-					xinfo.NameColorG = 0.2;
-					xinfo.NameColorB = 1.0;
-				#endif
+					xinfo.NameColorR = 0.2f;
+					xinfo.NameColorG = 0.2f;
+					xinfo.NameColorB = 1.0f;
+				}
 
 				toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 					1, itact->first, -1, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo,
@@ -1035,7 +1035,7 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 		}
 	}
 
-	#ifdef _USE_QT_EDITOR_
+	if(DataDirHandler::getInstance()->IsInEditorMode())
 	{
 		std::map<Ice::Long, ActorObjectInfo >::iterator itact = _editorObjects.begin();
 		std::map<Ice::Long, ActorObjectInfo >::iterator endact = _editorObjects.end();
@@ -1049,7 +1049,6 @@ void MapHandler::RefreshPlayerObjects(Ice::Long id)
 				actinfo.ExtraInfo));
 		}
 	}
-	#endif
 
 
 	// current players in map
@@ -1271,11 +1270,12 @@ function used by LUA to add actor
 ***********************************************************/
 void MapHandler::AddActorObject(boost::shared_ptr<ActorHandler> actor)
 {
-#ifndef _USE_QT_EDITOR_
-	actor->SetScriptHandler(this);
-	actor->SetNavMeshHandler(_navimesh);
-	_Actors[actor->GetId()] = actor;
-#endif
+	if(!DataDirHandler::getInstance()->IsInEditorMode())
+	{
+		actor->SetScriptHandler(this);
+		actor->SetNavMeshHandler(_navimesh);
+		_Actors[actor->GetId()] = actor;
+	}
 }
 
 
@@ -1315,37 +1315,38 @@ void MapHandler::AddTrigger(boost::shared_ptr<TriggerBase> trigger)
 		trigger->SetOwner(this);
 		_triggers[trigger->GetId()] = trigger;
 
-		#ifdef _USE_QT_EDITOR_
-		ActorObjectInfo ainfo = trigger->GetDisplayObject();
-		ainfo.LifeInfo.Display = false;
-		long edobjid = ainfo.ObjectId;
-		if(edobjid < 0)
-			return;
-
-		std::map<Ice::Long, ActorObjectInfo >::iterator itm = _editorObjects.find(edobjid);
-		if(itm != _editorObjects.end())
+		if(DataDirHandler::getInstance()->IsInEditorMode())
 		{
-			// object already exist - update position if needed
-			_editorObjects[edobjid] = ainfo;
+			ActorObjectInfo ainfo = trigger->GetDisplayObject();
+			ainfo.LifeInfo.Display = false;
+			long edobjid = ainfo.ObjectId;
+			if(edobjid < 0)
+				return;
 
-			// reset the object display on client
-			_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-																			4, edobjid));
+			std::map<Ice::Long, ActorObjectInfo >::iterator itm = _editorObjects.find(edobjid);
+			if(itm != _editorObjects.end())
+			{
+				// object already exist - update position if needed
+				_editorObjects[edobjid] = ainfo;
 
-			_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-					4, edobjid, -1, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo,
-					ainfo.ExtraInfo));
+				// reset the object display on client
+				_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+																				4, edobjid));
+
+				_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+						4, edobjid, -1, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo,
+						ainfo.ExtraInfo));
+			}
+			else
+			{
+				// object does not exist - add it
+				_editorObjects[edobjid] = ainfo;
+
+				_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+						4, edobjid, -1, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo ,
+						ainfo.ExtraInfo));
+			}
 		}
-		else
-		{
-			// object does not exist - add it
-			_editorObjects[edobjid] = ainfo;
-
-			_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-					4, edobjid, -1, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo ,
-					ainfo.ExtraInfo));
-		}
-		#endif
 	}
 }
 
@@ -1382,7 +1383,6 @@ void MapHandler::ProcessPlayerAction(Ice::Long id, bool ForcedNormalAction)
 /***********************************************************
 process editor events
 ***********************************************************/
-#ifdef _USE_QT_EDITOR_
 void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 {
 	LbaNet::EditorUpdateBase & obj = *update;
@@ -1526,24 +1526,20 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 	
 
 }
-#endif
 
 
 /***********************************************************
 add a spawning to the map
 ***********************************************************/
-#ifdef _USE_QT_EDITOR_
 void MapHandler::Editor_AddOrModSpawning(boost::shared_ptr<Spawn> spawn)
 {
 	AddSpawn(spawn);
 }
-#endif
 
 
 /***********************************************************
 remove a spawning
 ***********************************************************/
-#ifdef _USE_QT_EDITOR_
 void MapHandler::Editor_RemoveSpawning(long SpawningId)
 {
 	long edobjid = SpawningId + 1000000;
@@ -1563,8 +1559,6 @@ void MapHandler::Editor_RemoveSpawning(long SpawningId)
 		}
 	}
 }
-#endif
-
 
 
 
@@ -1572,7 +1566,6 @@ void MapHandler::Editor_RemoveSpawning(long SpawningId)
 /***********************************************************
 remove a trigger
 ***********************************************************/
-#ifdef _USE_QT_EDITOR_
 void MapHandler::Editor_RemoveTrigger(long TriggerId)
 {
 	std::map<long, boost::shared_ptr<TriggerBase> >::iterator it = _triggers.find(TriggerId);
@@ -1592,7 +1585,6 @@ void MapHandler::Editor_RemoveTrigger(long TriggerId)
 		}
 	}
 }
-#endif
 
 
 /***********************************************************
@@ -1632,7 +1624,6 @@ ActorObjectInfo MapHandler::CreateSpawningDisplay(long id, float PosX, float Pos
 /***********************************************************
 add an actor
 ***********************************************************/
-#ifdef _USE_QT_EDITOR_
 void MapHandler::Editor_AddModActor(boost::shared_ptr<ActorHandler> actor)
 {
 	actor->SetScriptHandler(this);
@@ -1650,9 +1641,9 @@ void MapHandler::Editor_AddModActor(boost::shared_ptr<ActorHandler> actor)
 	std::stringstream strs;
 	strs<<"Actor_"<<actor->GetId()<<": "<<xinfo.Name;
 	xinfo.Name = strs.str();
-	xinfo.NameColorR = 0.2;
-	xinfo.NameColorG = 0.2;
-	xinfo.NameColorB = 1.0;
+	xinfo.NameColorR = 0.2f;
+	xinfo.NameColorG = 0.2f;
+	xinfo.NameColorB = 1.0f;
 
 
 	_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
@@ -1663,13 +1654,10 @@ void MapHandler::Editor_AddModActor(boost::shared_ptr<ActorHandler> actor)
 														xinfo));
 
 }
-#endif
-
 
 /***********************************************************
 remove an actor
 ***********************************************************/
-#ifdef _USE_QT_EDITOR_
 void MapHandler::Editor_RemoveActor(long Id)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator it = _Actors.find(Id);
@@ -1683,7 +1671,6 @@ void MapHandler::Editor_RemoveActor(long Id)
 																		1, Id));
 	}
 }
-#endif
 
 
 /***********************************************************
@@ -2511,40 +2498,40 @@ void MapHandler::AddSpawn(boost::shared_ptr<Spawn> spawn)
 	if(spawn)
 		_spawns[spawn->GetId()] = spawn;
 
-#ifdef _USE_QT_EDITOR_
-	long edobjid = spawn->GetId() + 1000000;
-
-	std::map<Ice::Long, ActorObjectInfo >::iterator itm = _editorObjects.find(edobjid);
-	if(itm != _editorObjects.end())
+	if(DataDirHandler::getInstance()->IsInEditorMode())
 	{
-		// object already exist - update position if needed
-		itm->second.PhysicDesc.Pos.X = spawn->GetPosX();
-		itm->second.PhysicDesc.Pos.Y = spawn->GetPosY();
-		itm->second.PhysicDesc.Pos.Z = spawn->GetPosZ();
+		long edobjid = spawn->GetId() + 1000000;
 
-		std::stringstream strs;
-		strs << "Spawn-"<<spawn->GetId()<<": " << spawn->GetName();
-		itm->second.ExtraInfo.Name = strs.str();
+		std::map<Ice::Long, ActorObjectInfo >::iterator itm = _editorObjects.find(edobjid);
+		if(itm != _editorObjects.end())
+		{
+			// object already exist - update position if needed
+			itm->second.PhysicDesc.Pos.X = spawn->GetPosX();
+			itm->second.PhysicDesc.Pos.Y = spawn->GetPosY();
+			itm->second.PhysicDesc.Pos.Z = spawn->GetPosZ();
 
-		_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-				4, edobjid, new ObjectExtraInfoUpdate(itm->second.ExtraInfo)));
+			std::stringstream strs;
+			strs << "Spawn-"<<spawn->GetId()<<": " << spawn->GetName();
+			itm->second.ExtraInfo.Name = strs.str();
 
-		_tosendevts.push_back(new UpdatePhysicObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-				4, edobjid, new PositionUpdate(itm->second.PhysicDesc.Pos)));
+			_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+					4, edobjid, new ObjectExtraInfoUpdate(itm->second.ExtraInfo)));
+
+			_tosendevts.push_back(new UpdatePhysicObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+					4, edobjid, new PositionUpdate(itm->second.PhysicDesc.Pos)));
+		}
+		else
+		{
+			// object does not exist - add it
+			ActorObjectInfo ainfo = CreateSpawningDisplay(edobjid,
+						spawn->GetPosX(), spawn->GetPosY(), spawn->GetPosZ(), spawn->GetName());
+			_editorObjects[edobjid] = ainfo;
+
+			_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+					4, edobjid, -1, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo ,
+					ainfo.ExtraInfo));
+		}
 	}
-	else
-	{
-		// object does not exist - add it
-		ActorObjectInfo ainfo = CreateSpawningDisplay(edobjid,
-					spawn->GetPosX(), spawn->GetPosY(), spawn->GetPosZ(), spawn->GetName());
-		_editorObjects[edobjid] = ainfo;
-
-		_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-				4, edobjid, -1, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo ,
-				ainfo.ExtraInfo));
-	}
-#endif
-
 }
 
 /***********************************************************

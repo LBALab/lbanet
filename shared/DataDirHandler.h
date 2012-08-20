@@ -51,6 +51,25 @@ public:
 	// get the path to the data dir
 	const std::string & GetDataDirPath();
 
+	bool IsInEditorMode()
+	{
+		return _editorMode;
+	}
+
+	void SetEditorMode(bool v)
+	{
+		_editorMode = v;
+	}
+	
+	bool IsInSoundEditorMode()
+	{
+		return _soundeditorMode;
+	}
+
+	void SetSoundEditorMode(bool v)
+	{
+		_soundeditorMode = v;
+	}
 protected:
 	//! constructor
    DataDirHandler();
@@ -59,6 +78,8 @@ private:
 	static DataDirHandler *		_singletonInstance;
 
 	std::string				_dataDirPath;
+	bool					_editorMode;
+	bool					_soundeditorMode;
 };
 
 #endif

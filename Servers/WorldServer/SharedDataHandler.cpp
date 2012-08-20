@@ -56,8 +56,6 @@ void SharedDataHandler::SetWorldDefaultInformation(WorldInformation &worldinfo)
 	Lock sync(*this);
 
 
-//#ifndef _USE_QT_EDITOR_
-
 	// create all maps
 	LbaNet::MapsSeq::const_iterator itm = worldinfo.Maps.begin();
 	LbaNet::MapsSeq::const_iterator endm = worldinfo.Maps.end();
@@ -73,8 +71,6 @@ void SharedDataHandler::SetWorldDefaultInformation(WorldInformation &worldinfo)
 		boost::shared_ptr<MapHandler> mapH(new MapHandler(worldinfo.Description.WorldName, itm->second, luafile, customluafile));
 		_currentmaps[itm->first] = mapH;
 	}
-//#endif
-
 }
 
 
@@ -288,9 +284,8 @@ void SharedDataHandler::RegisterClient(Ice::Long clientid, const LbaNet::ObjectE
 	// create player object
 	boost::shared_ptr<PlayerHandler> player(new PlayerHandler((long)clientid, proxy, 
 											_dbH, _worldinfo.Description.WorldName, savedinfo, extrainfo));
-#ifdef _USE_QT_EDITOR_
-	m_mainplayerH = player;
-#endif
+	if(DataDirHandler::getInstance()->IsInEditorMode())
+		m_mainplayerH = player;
 
 	// teleport player to correct map
 	TeleportPlayerInternal((long)clientid, player, savedinfo.ppos, SpawnId);
@@ -555,48 +550,50 @@ void SharedDataHandler::TeleportPlayerInternal(long playerid, boost::shared_ptr<
 
 
 	//connect player to new map
-#ifndef _USE_QT_EDITOR_
-	//check if map handler for the map is already present
-	std::map<std::string, boost::shared_ptr<MapHandler> >::iterator it = _currentmaps.find(newpos.MapName);
-	if(it != _currentmaps.end())
+	if(!DataDirHandler::getInstance()->IsInEditorMode())
 	{
-		//start run thread if not started already
-		it->second->StartThread();
+		//check if map handler for the map is already present
+		std::map<std::string, boost::shared_ptr<MapHandler> >::iterator it = _currentmaps.find(newpos.MapName);
+		if(it != _currentmaps.end())
+		{
+			//start run thread if not started already
+			it->second->StartThread();
 
-		// add proxies to the map
-		it->second->ExtAddPlayer(playerid, pinfo, spawnid);
+			// add proxies to the map
+			it->second->ExtAddPlayer(playerid, pinfo, spawnid);
+		}
+		else
+		{
+			// log the issue, we have no map of this name
+			std::stringstream strs;
+			strs<<"Player trying to go to a non existing map - player id: "<<playerid;
+			LogHandler::getInstance()->LogToFile(strs.str(), 0);
+			return;
+		}
 	}
 	else
 	{
-		// log the issue, we have no map of this name
-		std::stringstream strs;
-		strs<<"Player trying to go to a non existing map - player id: "<<playerid;
-		LogHandler::getInstance()->LogToFile(strs.str(), 0);
-		return;
+		LbaNet::MapsSeq::const_iterator itm = _worldinfo.Maps.find(newpos.MapName);
+		if(itm != _worldinfo.Maps.end())
+		{
+			std::string luafile = "Worlds/" + _worldinfo.Description.WorldName + "/Lua/";
+
+			// custom server file
+			std::string customluafile = luafile+"CustomServer.lua";
+
+			luafile += newpos.MapName + "_server.lua";
+
+			// create map object
+			boost::shared_ptr<MapHandler> mapH(new MapHandler(_worldinfo.Description.WorldName, itm->second, luafile, customluafile));
+			_currentmaps[itm->first] = mapH;
+
+			//start run thread if not started already
+			mapH->StartThread();
+
+			// add proxies to the map
+			mapH->ExtAddPlayer(playerid, pinfo, spawnid);
+		}
 	}
-#else
-	LbaNet::MapsSeq::const_iterator itm = _worldinfo.Maps.find(newpos.MapName);
-	if(itm != _worldinfo.Maps.end())
-	{
-		std::string luafile = "Worlds/" + _worldinfo.Description.WorldName + "/Lua/";
-
-		// custom server file
-		std::string customluafile = luafile+"CustomServer.lua";
-
-		luafile += newpos.MapName + "_server.lua";
-
-		// create map object
-		boost::shared_ptr<MapHandler> mapH(new MapHandler(_worldinfo.Description.WorldName, itm->second, luafile, customluafile));
-		_currentmaps[itm->first] = mapH;
-
-		//start run thread if not started already
-		mapH->StartThread();
-
-		// add proxies to the map
-		mapH->ExtAddPlayer(playerid, pinfo, spawnid);
-	}
-#endif
-
 }
 
 /***********************************************************
@@ -676,7 +673,6 @@ PlayerPosition SharedDataHandler::GetSpawningInfo(const std::string &MapName,
 /***********************************************************
 called by editor
 ***********************************************************/
-#ifdef _USE_QT_EDITOR_
 void SharedDataHandler::EditorUpdate(const std::string &mapname, 
 										LbaNet::EditorUpdateBasePtr update)
 {
@@ -760,7 +756,6 @@ void SharedDataHandler::EditorUpdate(const std::string &mapname,
 	if(publish)
 		AddEvent(mapname, 1, new EditorEvent(update));
 }
-#endif
 
 
 

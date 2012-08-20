@@ -27,11 +27,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define _LBA_NET_CHARACTER_MODES_
 
 #include <LbaTypes.h>
-
-#ifdef _USE_QT_EDITOR_
 #include "EditorSharedData.h"
-
-#endif
+#include "DataDirHandler.h"
 
 // keep track of the pressed keys
 class CharKeyPressed
@@ -81,29 +78,29 @@ public:
 	CharacterModeBase(void){}
 	virtual ~CharacterModeBase(void){}
 
-
-#ifndef _USE_QT_EDITOR_
 	// tell if in this mode we need to check for gravity
-	virtual bool NeedCheckForGravity(){return true;}
+	virtual bool NeedCheckForGravity()
+	{
+		if(DataDirHandler::getInstance()->IsInEditorMode())
+			return !EditorSharedData::GetInstance()->GetFly();
+		return true;
+	}
 
 	// tell if in this mode we need to check for water/gaz/fire hazard
-	virtual bool NeedCheckForWater(){return true;}
+	virtual bool NeedCheckForWater()
+	{
+		if(DataDirHandler::getInstance()->IsInEditorMode())
+			return !EditorSharedData::GetInstance()->GetFly();	
+		return true;
+	}
 
 	// tell if in this mode the character can fly
-	virtual bool CanFly(){return false;}
-#else
-
-	// tell if in this mode we need to check for gravity
-	virtual bool NeedCheckForGravity(){return !EditorSharedData::GetInstance()->GetFly();}
-
-	// tell if in this mode we need to check for water/gaz/fire hazard
-	virtual bool NeedCheckForWater(){return !EditorSharedData::GetInstance()->GetFly();}
-
-	// tell if in this mode the character can fly
-	virtual bool CanFly(){return EditorSharedData::GetInstance()->GetFly();}
-#endif
-
-
+	virtual bool CanFly()
+	{
+		if(DataDirHandler::getInstance()->IsInEditorMode())
+			return EditorSharedData::GetInstance()->GetFly();
+		return false;
+	}
 
 	// tell if in this mode we should display the player as semi transparent (e.g. hidden)
 	virtual bool IsSemiTransparent(){return false;}

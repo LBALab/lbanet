@@ -232,9 +232,9 @@ check if server is reachable
 ***********************************************************/
 bool RemoteConnectionHandler::IsServerOn(Ice::CommunicatorPtr communicator)
 {
-#ifdef _USE_QT_EDITOR_
-	return false;
-#else
+	if(DataDirHandler::getInstance()->IsInEditorMode())
+		return false;
+
 	LogHandler::getInstance()->LogToFile("Trying to connect to glacier");
 	Ice::RouterPrx defaultRouter = communicator->getDefaultRouter();
 	if(defaultRouter)
@@ -260,7 +260,6 @@ bool RemoteConnectionHandler::IsServerOn(Ice::CommunicatorPtr communicator)
 	}
 
 	return false;
-#endif
 }
 
 /***********************************************************

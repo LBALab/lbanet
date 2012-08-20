@@ -2,7 +2,9 @@
 #include <fstream>
 #include "ActorHandler.h"
 
-
+#ifndef _LBANET_SERVER_SIDE_ 
+#include "../../Client/treemodel.h"
+#endif
 
 ActorScriptPartBasePtr ActorScriptPartBase::BuildScriptPart(const std::string & type, 
 															float sPosX, float sPosY, float sPosZ)
@@ -626,7 +628,7 @@ void ActorScriptPart_ResumeSound::WriteExecutionScript(std::ostream & file, long
 
 
 
-#ifdef _USE_QT_EDITOR_
+#ifndef _LBANET_SERVER_SIDE_ 
 
 
 /***********************************************************

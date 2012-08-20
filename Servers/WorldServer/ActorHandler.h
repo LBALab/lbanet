@@ -461,8 +461,9 @@ public:
 	virtual void TouchedPlayer(long playerid, bool killed){}
 
 
-#ifdef _USE_QT_EDITOR_
 public:
+	//********************
+	//! used by editor only
 	std::vector<int>		initpolycolors;
 	std::vector<int>		initspherecolors;
 	std::vector<int>		initlinecolors;
@@ -479,7 +480,6 @@ public:
 	void Refresh()
 	{ SetActorInfo(m_actorinfo); }
 
-#endif
 
 protected:
 

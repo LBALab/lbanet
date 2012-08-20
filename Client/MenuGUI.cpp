@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "EventsQueue.h"
 #include "ClientExtendedEvents.h"
 #include "GUILocalizationCallback.h"
+#include "DataDirHandler.h"
 
 /***********************************************************
 constructor
@@ -135,9 +136,9 @@ handle connect button event
 ***********************************************************/
 bool MenuGUI::HandleSwitchWorld(const CEGUI::EventArgs& e)
 {
-#ifndef _USE_QT_EDITOR_
-	EventsQueue::getReceiverQueue()->AddEvent(new DisplayGUIEvent(1));
-#endif
+	if(!DataDirHandler::getInstance()->IsInEditorMode())
+		EventsQueue::getReceiverQueue()->AddEvent(new DisplayGUIEvent(1));
+
 	return true;
 }
 
@@ -147,9 +148,9 @@ handle connect button event
 ***********************************************************/
 bool MenuGUI::HandleDisconnect (const CEGUI::EventArgs& e)
 {
-#ifndef _USE_QT_EDITOR_
-	EventsQueue::getReceiverQueue()->AddEvent(new DisplayGUIEvent(0));
-#endif
+	if(!DataDirHandler::getInstance()->IsInEditorMode())
+		EventsQueue::getReceiverQueue()->AddEvent(new DisplayGUIEvent(0));
+
 	return true;
 }
 

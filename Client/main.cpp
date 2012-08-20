@@ -32,6 +32,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ConfigurationManager.h"
 #include "DataLoader.h"
 #include "DataDirHandler.h"
+#include "editorhandler.h"
+#include "editlba1animsound.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -46,11 +48,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma comment(lib, "CrashRpt1300.lib")
 
 
-
-#ifdef _USE_QT_EDITOR_
-#include "editorhandler.h"
-#endif
-
 BOOL WINAPI CrashCallback(LPVOID lpvState)
 {
 	LogHandler::getInstance()->CloseFile();
@@ -63,7 +60,6 @@ BOOL WINAPI CrashCallback(LPVOID lpvState)
 #endif
 
 
-#ifndef _USE_QT_EDITOR_
 class IceClient : public Ice::Application
 {
 public:
@@ -75,8 +71,6 @@ public:
 		LogHandler::getInstance()->LogToFile("Reading properties...");
 		Ice::PropertiesPtr prop = communicator()->getProperties();
 		std::string clientV = prop->getPropertyWithDefault("LbanetClientVersion", "v0");
-
-		DataDirHandler::getInstance()->SetDataDirPath(prop->getPropertyWithDefault("DataDirPath", "./Data"));
 		
 		LogHandler::getInstance()->LogToFile("Initializing the game engine...");
 		// create engine
@@ -91,8 +85,6 @@ public:
 		return EXIT_SUCCESS;
 	}
 };
-#endif
-
 
 
 
@@ -156,29 +148,71 @@ int main( int argc, char **argv )
 	} 
 #endif
 
+	// get data path if exists
+	{
+		std::ifstream datapathf("DataDirPath.txt");
+		if(datapathf.is_open())
+		{
+			std::string datapath;
+			std::getline(datapathf, datapath);
+			if(datapath.size() > 0)
+			{
+				DataDirHandler::getInstance()->SetDataDirPath(datapath);
+			}
+		}
+	}
 
 	try
 	{
-#ifdef _USE_QT_EDITOR_
-		// create engine
-		LogHandler::getInstance()->LogToFile("Initializing the game engine...");
-		boost::shared_ptr<EditorHandlerBase> editH(new EditorHandler);
-		LbaNetEngine engine(NULL, "editor", editH);
+		if (argc > 1)
+		{
+			DataDirHandler::getInstance()->SetEditorMode(true);
+			if (argv[1][0] == '1')
+			{
+				// game editor
+				// create engine
+				LogHandler::getInstance()->LogToFile("Initializing the game engine...");
+				boost::shared_ptr<EditorHandlerBase> editH(new EditorHandler);
+				LbaNetEngine engine(NULL, "editor", editH);
 
-		LogHandler::getInstance()->LogToFile("Running the game engine...");
-		engine.run();
-		return 0;
-#else
-		LogHandler::getInstance()->LogToFile("Entering main program...");
-		IceClient app;
-		int ret = app.main(argc, argv, "config.client");
-		filecout.close();
-		filecerr.close();
+				LogHandler::getInstance()->LogToFile("Running the game engine...");
+				engine.run();
 
-		// save config file
-		ConfigurationManager::GetInstance()->SaveConfigFile();
-		return ret;
-#endif
+				// save config file
+				ConfigurationManager::GetInstance()->SaveConfigFile();
+				return 0;
+			}
+			else
+			{
+				// sound editor
+				DataDirHandler::getInstance()->SetSoundEditorMode(true);
+				// create engine
+				LogHandler::getInstance()->LogToFile("Initializing the game engine...");
+				boost::shared_ptr<EditorHandlerBase> editH(new EditLBA1AnimSound);
+				LbaNetEngine engine(NULL, "editor", editH);
+
+				LogHandler::getInstance()->LogToFile("Running the game engine...");
+				engine.run();
+
+				// save config file
+				ConfigurationManager::GetInstance()->SaveConfigFile();
+				return 0;
+			}
+		}
+		else
+		{
+			// normal client
+			DataDirHandler::getInstance()->SetEditorMode(false);
+			LogHandler::getInstance()->LogToFile("Entering main program...");
+			IceClient app;
+			int ret = app.main(argc, argv, "config.client");
+			filecout.close();
+			filecerr.close();
+
+			// save config file
+			ConfigurationManager::GetInstance()->SaveConfigFile();
+			return ret;
+		}
 	}
 	catch(std::exception & ex)
 	{

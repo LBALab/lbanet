@@ -149,13 +149,8 @@ private:
 	// last music played
 	std::string										m_lastmusic;
 
-#ifdef _USE_QT_EDITOR_
 	boost::shared_ptr<EditorHandlerBase>			m_editor_handler;
-#endif
 	boost::shared_ptr<Client>						m_client_window;
-
-
-
 };
 
 #endif

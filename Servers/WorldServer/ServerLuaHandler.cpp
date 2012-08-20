@@ -25,10 +25,10 @@ extern "C"
 #include "InventoryItemHandler.h"
 #include "Spawn.h"
 #include "ProjectileObjectDef.h"
+#include "DataDirHandler.h"
 
-
-#ifdef _USE_QT_EDITOR_
-#include "editorhandler.h"
+#ifndef _LBANET_SERVER_SIDE_ 
+#include "../../Client/editorhandler.h"
 #endif
 
 
@@ -486,7 +486,7 @@ ServerLuaHandler::ServerLuaHandler()
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),
 
-		#ifdef _USE_QT_EDITOR_
+		#ifndef _LBANET_SERVER_SIDE_
 		luabind::class_<EditorHandler, ScriptEnvironmentBase>("EditorHandler"),
 		#endif
 

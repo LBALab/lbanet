@@ -716,13 +716,10 @@ ObjectInfo LbaNetModel::CreateObject(int OType, Ice::Long ObjectId,
 	}
 
 
-#ifdef _USE_QT_EDITOR_
-	ObjectInfo obj(OType, (long)ObjectId, DInfo, PInfo, false); // make all objects dynamic in editor as we can change them
-#else
-	ObjectInfo obj(OType, (long)ObjectId, DInfo, PInfo, (PhysicDesc.TypePhysO == LbaNet::StaticAType));
-#endif
-	
-	return obj;
+	if(DataDirHandler::getInstance()->IsInEditorMode())
+		return ObjectInfo(OType, (long)ObjectId, DInfo, PInfo, false); // make all objects dynamic in editor as we can change them
+	else
+		return ObjectInfo(OType, (long)ObjectId, DInfo, PInfo, (PhysicDesc.TypePhysO == LbaNet::StaticAType));
 }
 
 
@@ -1924,17 +1921,18 @@ refresh player portrait
 ***********************************************************/
 void LbaNetModel::RefreshPlayerPortrait()
 {
-#ifndef _USE_QT_EDITOR_
-	//save player image
-	if(m_controllerChar)
-		m_controllerChar->SavePlayerDisplayToFile(DataDirHandler::getInstance()->GetDataDirPath() + "/GUI/imagesets/charportrait.png");
+	if(!DataDirHandler::getInstance()->IsInEditorMode())
+	{
+		//save player image
+		if(m_controllerChar)
+			m_controllerChar->SavePlayerDisplayToFile(DataDirHandler::getInstance()->GetDataDirPath() + "/GUI/imagesets/charportrait.png");
 
-	//refresh GUI
-	LbaNet::GuiUpdatesSeq updseq;
-	updseq.push_back(new RefreshCharPortraitUpdate());
-	EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
-		SynchronizedTimeHandler::GetCurrentTimeDouble(), "main", updseq));
-#endif
+		//refresh GUI
+		LbaNet::GuiUpdatesSeq updseq;
+		updseq.push_back(new RefreshCharPortraitUpdate());
+		EventsQueue::getReceiverQueue()->AddEvent(new LbaNet::UpdateGameGUIEvent(
+			SynchronizedTimeHandler::GetCurrentTimeDouble(), "main", updseq));
+	}
 }
 
 

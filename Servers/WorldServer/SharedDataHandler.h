@@ -92,11 +92,8 @@ public:
 	void CleanUp();
 
 
-
-#ifdef _USE_QT_EDITOR_
 	//! called by editor
 	void EditorUpdate(const std::string &mapname, LbaNet::EditorUpdateBasePtr update);
-#endif
 
 
 	//! return position of a tp

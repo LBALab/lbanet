@@ -630,7 +630,6 @@ protected:
 
 
 	//! process editor events
-	#ifdef _USE_QT_EDITOR_
 	void ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update);
 
 
@@ -650,7 +649,7 @@ protected:
 
 	//! remove an actor
 	void Editor_RemoveActor(long Id);
-	#endif
+
 	
 	//! create display object for spawning
 	ActorObjectInfo CreateSpawningDisplay(long id, float PosX, float PosY, float PosZ, 
@@ -838,9 +837,7 @@ private:
 	std::vector<Ice::Long>										_toremove;
 
 
-	#ifdef _USE_QT_EDITOR_
 	std::map<Ice::Long, ActorObjectInfo >						_editorObjects;
-	#endif
 
 
 

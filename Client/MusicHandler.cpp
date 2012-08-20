@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "MusicHandler.h"
 #include "ConfigurationManager.h"
 #include "LogHandler.h"
+#include "DataDirHandler.h"
 
 #include "EventsQueue.h"
 #include "ClientExtendedEvents.h"
@@ -293,11 +294,12 @@ MusicHandler::MusicHandler()
 	_musicvolume = volM / 100.0f;
 	_samplevolume = volS / 100.0f;
 
-#ifdef _USE_SOUND_EDITOR
-	_generalvolume = 1;
-	_musicvolume = 0;
-	_samplevolume = 1;
-#endif
+	if(DataDirHandler::getInstance()->IsInSoundEditorMode())
+	{
+		_generalvolume = 1;
+		_musicvolume = 0;
+		_samplevolume = 1;
+	}
 }
 
 
@@ -360,14 +362,15 @@ call to enable or disable sound
 ***********************************************************/
 void MusicHandler::EnableDisableSound(bool Enable)
 {
-#ifndef _USE_SOUND_EDITOR
-	_soundEnabled = Enable;
+	if(!DataDirHandler::getInstance()->IsInSoundEditorMode())
+	{
+		_soundEnabled = Enable;
 
-	if(_soundEnabled)
-		osgAudio::SoundManager::instance()->getEnvironment()->setGain(_generalvolume);
-	else
-		osgAudio::SoundManager::instance()->getEnvironment()->setGain(0);
-#endif
+		if(_soundEnabled)
+			osgAudio::SoundManager::instance()->getEnvironment()->setGain(_generalvolume);
+		else
+			osgAudio::SoundManager::instance()->getEnvironment()->setGain(0);
+	}
 }
 
 
@@ -386,14 +389,15 @@ set the general sound volume
 ***********************************************************/
 void MusicHandler::SetGeneralVolume(int vol)
 {
-#ifndef _USE_SOUND_EDITOR
-	_generalvolume = vol / 100.0f;
+	if(!DataDirHandler::getInstance()->IsInSoundEditorMode())
+	{
+		_generalvolume = vol / 100.0f;
 
-	if(_soundEnabled)
-		osgAudio::SoundManager::instance()->getEnvironment()->setGain(_generalvolume);
-	else
-		osgAudio::SoundManager::instance()->getEnvironment()->setGain(0);
-#endif
+		if(_soundEnabled)
+			osgAudio::SoundManager::instance()->getEnvironment()->setGain(_generalvolume);
+		else
+			osgAudio::SoundManager::instance()->getEnvironment()->setGain(0);
+	}
 }
 
 
@@ -402,12 +406,13 @@ set the music volume
 ***********************************************************/
 void MusicHandler::SetMusicVolume(int vol)
 {
-#ifndef _USE_SOUND_EDITOR
-	_musicvolume = vol / 100.0f;
+	if(!DataDirHandler::getInstance()->IsInSoundEditorMode())
+	{
+		_musicvolume = vol / 100.0f;
 
-	if(_playing_music)
-		_playing_music->SetGain(_musicvolume);
-#endif
+		if(_playing_music)
+			_playing_music->SetGain(_musicvolume);
+	}
 }
 
 /***********************************************************
@@ -415,9 +420,8 @@ set the sample volume / will not update currently playign samples
 ***********************************************************/
 void MusicHandler::SetSampleVolume(int vol)
 {
-#ifndef _USE_SOUND_EDITOR
-	_samplevolume = vol / 100.0f;
-#endif
+	if(!DataDirHandler::getInstance()->IsInSoundEditorMode())
+		_samplevolume = vol / 100.0f;
 }
 
 

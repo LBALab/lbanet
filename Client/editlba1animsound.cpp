@@ -4,6 +4,7 @@
 
 #include "SynchronizedTimeHandler.h"
 #include "MusicHandler.h"
+#include "DataDirHandler.h"
 
 #include <QFileDialog>
 
@@ -383,9 +384,9 @@ void EditLBA1AnimSound::ShowDirectoryPicker()
 {
 	QString currfile = ui.lineEdit_soundpath->text();
 	if(currfile != "")
-		currfile = "Data/" + currfile;
+		currfile = (DataDirHandler::getInstance()->GetDataDirPath() + "/").c_str() + currfile;
 	else
-		currfile = "Data/Worlds/Lba1Original/Sound/SAMPLES001.wav";
+		currfile = (DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/Lba1Original/Sound/SAMPLES001.wav").c_str();
 
 	QStringList selectedfile =
 		QFileDialog::getOpenFileNames (this, "Select a sound file", currfile,
@@ -397,8 +398,9 @@ void EditLBA1AnimSound::ShowDirectoryPicker()
 		selected.replace("\\", "/");
 
 		// check if choosen file is in the directory data
-		if(selected.contains(QDir::currentPath()+"/Data/"))
-			selected = selected.remove(QDir::currentPath()+"/Data/");
+		QDir datadir(DataDirHandler::getInstance()->GetDataDirPath().c_str());
+		if(selected.contains(datadir.absolutePath()))
+			selected = selected.remove(datadir.absolutePath()+"/");
 		ui.lineEdit_soundpath->setText(selected);
 	}
 }
@@ -416,7 +418,7 @@ void EditLBA1AnimSound::PlaySound()
 		if(sound == "#ground2")
 			sound = "Worlds/Lba1Original/Sound/SAMPLES143.wav";
 
-		MusicHandler::getInstance()->PlaySample2D("Data/"+sound, false, true);
+		MusicHandler::getInstance()->PlaySample2D(DataDirHandler::getInstance()->GetDataDirPath() + "/" + sound, false, true);
 	}
 }
 

@@ -48,7 +48,9 @@ SET(client_SOURCES ActorUserData.cpp
 		ContainerBox.cpp
 		DataLoader.cpp
 		DialogBox.cpp
-		EditorSharedData.cpp
+		editorhandler.cpp
+		editor.cpp		
+		editlba1animsound.cpp
 		ExternalActor.cpp
 		ExternalPlayer.cpp
 		GUI.cpp
@@ -134,16 +136,15 @@ SET(client_SOURCES ActorUserData.cpp
 		../Servers/WorldServer/Triggers.cpp
 		${3RD_PARTY_PATH}/sqlite/sqlite3.c)
 		
-
-
-SET(editor_SOURCES ${client_SOURCES} editorhandler.cpp)
-
-
 file(
 	GLOB
 	client_INCLUDES
 	*.h
 )
+
+IF (WIN32)
+   SET(client_SOURCES ${client_SOURCES} LBANet.rc)
+ENDIF (WIN32)
 
 	
 #QT stuff
@@ -194,9 +195,10 @@ ENDIF (WIN32)
 
 
 #QT moc stuff
-SET(client_TOMOC_HEADERS client.h vlc_on_qt.h treemodel.h)
-SET(client_FORMS client.ui)
-SET(client_RESOURCES client.qrc)
+SET(client_TOMOC_HEADERS client.h vlc_on_qt.h treemodel.h editor.h editorhandler.h editlba1animsound.h)
+SET(client_FORMS addactordialog.ui additemdialog.ui addmapdialog.ui addspawning.ui addstartitemdialog.ui addteleportdialog.ui addtemplate.ui addtextdialog.ui addtriggerdialog.ui addworlddialog.ui client.ui editor.ui editlba1animsound.ui edittemplatesdialog.ui ImportantNotice.ui NavMeshOption.ui openworlddialog.ui)
+SET(client_RESOURCES client.qrc editor.qrc editlba1animsound.qrc)
+
 QT4_WRAP_CPP(client_HEADERS_MOC ${client_TOMOC_HEADERS})
 QT4_WRAP_UI(client_FORMS_HEADERS ${client_FORMS})
 QT4_ADD_RESOURCES(client_RESOURCES_RCC ${client_RESOURCES})
@@ -235,47 +237,3 @@ TARGET_LINK_LIBRARIES(LBANetGame ${OPENGL_LIBRARY})
 TARGET_LINK_LIBRARIES(LBANetGame LBANetShared)
 TARGET_LINK_LIBRARIES(LBANetGame LBANetInfrastructure)
 TARGET_LINK_LIBRARIES(LBANetGame RecastLib)
-
-
-#QT moc stuff
-SET(editor_TOMOC_HEADERS client.h vlc_on_qt.h treemodel.h)
-SET(editor_FORMS addactordialog.ui additemdialog.ui addmapdialog.ui addspawning.ui addstartitemdialog.ui addteleportdialog.ui addtemplate.ui addtextdialog.ui addtriggerdialog.ui addworlddialog.ui client.ui editor.ui edittemplatesdialog.ui ImportantNotice.ui NavMeshOption.ui openworlddialog.ui)
-SET(editor_RESOURCES editor.qrc)
-QT4_WRAP_CPP(editor_HEADERS_MOC ${editor_TOMOC_HEADERS})
-QT4_WRAP_UI(editor_FORMS_HEADERS ${editor_FORMS})
-QT4_ADD_RESOURCES(editor_RESOURCES_RCC ${editor_RESOURCES})
-
-ADD_EXECUTABLE(LBANetEditor ${client_INCLUDES} 
-			${editor_SOURCES} 
-			${editor_HEADERS_MOC} 
-			${editor_FORMS_HEADERS} 
-			${editor_RESOURCES_RCC})
-
-if(WIN32)
-   set_target_properties(LBANetEditor PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:windows")
-   set_target_properties(LBANetEditor PROPERTIES LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:windows")
-endif(WIN32)
-
-
-INCLUDE_DIRECTORIES(LBANetEditor ${CMAKE_CURRENT_BINARY_DIR})
-INCLUDE_DIRECTORIES(LBANetEditor ${PROJECT_SOURCE_DIR}/../shared)
-
-TARGET_LINK_LIBRARIES(LBANetEditor ${QT_LIBRARIES} )
-TARGET_LINK_LIBRARIES(LBANetEditor ${Boost_LIBRARIES})
-TARGET_LINK_LIBRARIES(LBANetEditor ${ICE_LIBRARIES})
-TARGET_LINK_LIBRARIES(LBANetEditor ${OSG_LIBRARIES})
-TARGET_LINK_LIBRARIES(LBANetEditor ${PHYSX_LIBRARIES})
-TARGET_LINK_LIBRARIES(LBANetEditor ${CEGUI_LIBRARIES})
-TARGET_LINK_LIBRARIES(LBANetEditor ${LUA_LIBRARIES})
-TARGET_LINK_LIBRARIES(LBANetEditor ${LUABIND_LIBRARIES})
-TARGET_LINK_LIBRARIES(LBANetEditor ${FMOD_LIBRARIES})
-TARGET_LINK_LIBRARIES(LBANetEditor ${VLC_LIBRARIES})
-TARGET_LINK_LIBRARIES(LBANetEditor ${FREETYPE_LIBRARIES})
-TARGET_LINK_LIBRARIES(LBANetEditor ${OPENGL_LIBRARY})
-
-TARGET_LINK_LIBRARIES(LBANetEditor LBANetShared)
-TARGET_LINK_LIBRARIES(LBANetEditor LBANetInfrastructure)
-TARGET_LINK_LIBRARIES(LBANetEditor RecastLib)
-
-
-

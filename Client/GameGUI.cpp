@@ -239,9 +239,9 @@ handle send button event
 ***********************************************************/
 bool GameGUI::HandleChangeWorldIconClicked (const CEGUI::EventArgs& e)
 {
-#ifndef _USE_QT_EDITOR_
-	EventsQueue::getReceiverQueue()->AddEvent(new DisplayGUIEvent(1));
-#endif
+	if(!DataDirHandler::getInstance()->IsInEditorMode())
+		EventsQueue::getReceiverQueue()->AddEvent(new DisplayGUIEvent(1));
+
 	return true;
 }
 

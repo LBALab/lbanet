@@ -22,55 +22,40 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -----------------------------------------------------------------------------
 */
 
-#include "DataDirHandler.h"
 
 
-DataDirHandler* DataDirHandler::_singletonInstance = NULL;
+#include "EditorSharedData.h"
 
-
-
-/***********************************************************
-	Constructor
-***********************************************************/
-DataDirHandler::DataDirHandler()
-	: _dataDirPath("./Data"), _editorMode(false), _soundeditorMode(false)
-{
-}
-
+EditorSharedData* EditorSharedData::_singletonInstance = NULL;
 
 
 /***********************************************************
-	Destructor
+get singleton instance
 ***********************************************************/
-DataDirHandler::~DataDirHandler()
-{
-
-}
-
-/***********************************************************
-singleton pattern
-***********************************************************/
-DataDirHandler * DataDirHandler::getInstance()
+EditorSharedData *	EditorSharedData::GetInstance()
 {
 	if(!_singletonInstance)
-		_singletonInstance = new DataDirHandler();
+		_singletonInstance = new EditorSharedData();
 
 	return _singletonInstance;
 }
 
 
 /***********************************************************
-set the path to the data dir
+set functions
 ***********************************************************/
-void DataDirHandler::SetDataDirPath(const std::string & datapath)
+bool EditorSharedData::GetFly()
 {
-	_dataDirPath = datapath;
+	boost::mutex::scoped_lock lock(m_mutex);
+	return m_editorfly;
 }
 
+
 /***********************************************************
-get the path to the data dir
-***********************************************************/	
-const std::string & DataDirHandler::GetDataDirPath()
+set functions
+***********************************************************/
+void EditorSharedData::SetFly(bool fly)
 {
-	return _dataDirPath;
+	boost::mutex::scoped_lock lock(m_mutex);
+	m_editorfly = fly;
 }

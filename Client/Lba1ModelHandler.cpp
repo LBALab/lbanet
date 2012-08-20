@@ -665,17 +665,20 @@ void Lba1ModelHandler::PlayKeyFrameSound(int keyframe)
 	{
 		std::string sp = it->second.soundpath;
 
-#ifdef _USE_SOUND_EDITOR
-		if(sp == "#ground1")
-			sp = "Worlds/Lba1Original/Sound/SAMPLES127.wav";
-		if(sp == "#ground2")
-			sp = "Worlds/Lba1Original/Sound/SAMPLES142.wav";
-#else
-		if(sp == "#ground1")
-			sp = GetFloorSoundPath(1);
-		if(sp == "#ground2")
-			sp = GetFloorSoundPath(2);
-#endif
+		if(DataDirHandler::getInstance()->IsInSoundEditorMode())
+		{
+			if(sp == "#ground1")
+				sp = "Worlds/Lba1Original/Sound/SAMPLES127.wav";
+			if(sp == "#ground2")
+				sp = "Worlds/Lba1Original/Sound/SAMPLES142.wav";
+		}
+		else
+		{
+			if(sp == "#ground1")
+				sp = GetFloorSoundPath(1);
+			if(sp == "#ground2")
+				sp = GetFloorSoundPath(2);
+		}
 
 		if(sp != "")
 		{

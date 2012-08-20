@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ClientExtendedEvents.h"
 #include "SharedDataHandler.h"
 #include "ScriptEnvironmentBase.h"
-
+#include "DataDirHandler.h"
 
 #include <iostream>
 #include <math.h>
@@ -91,13 +91,12 @@ void CharacterController::SetPhysicalCharacter(boost::shared_ptr<DynamicObject> 
 													Info.SkinColor, Info.EyesColor, Info.HairColor));
 	}
 
-	#ifdef _USE_QT_EDITOR_
+	if(DataDirHandler::getInstance()->IsInEditorMode())
 	{
 			EventsQueue::getReceiverQueue()->AddEvent(new EditorPlayerMovedEvent(	_lastupdate.CurrentPos.X,
 																					_lastupdate.CurrentPos.Y,
 																					_lastupdate.CurrentPos.Z));
 	}
-	#endif
 }
 
 
@@ -762,7 +761,7 @@ void CharacterController::UpdateServer(double tnow, float tdiff)
 		_lastupdatetime = tnow;
 	}
 
-	#ifdef _USE_QT_EDITOR_
+	if(DataDirHandler::getInstance()->IsInEditorMode())
 	{
 		float diffpos = abs(_lastupdate.CurrentPos.X - _currentupdate.CurrentPos.X)
 						+ abs(_lastupdate.CurrentPos.Y - _currentupdate.CurrentPos.Y)
@@ -772,9 +771,6 @@ void CharacterController::UpdateServer(double tnow, float tdiff)
 																					_currentupdate.CurrentPos.Y,
 																					_currentupdate.CurrentPos.Z));
 	}
-	#endif
-
-
 	_lastupdate = _currentupdate;
 }
 

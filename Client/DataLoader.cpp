@@ -110,7 +110,7 @@ void DataLoader::GetAvailableWorlds(std::vector<LbaNet::WorldDesc> & list)
 	std::vector<std::string> files;
 	if(!FileUtil::ListDirsInDir(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds", files, "/WorldDescription.xml"))
 	{
-		LogHandler::getInstance()->LogToFile(std::string("\nData/Worlds directory Not found!"));
+		LogHandler::getInstance()->LogToFile(std::string("\nWorlds directory Not found!"));
 		return;
 	}
 

@@ -48,6 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "EditorSharedData.h"
 #include "Holomap.h"
 #include "HolomapHandler.h"
+#include "DataDirHandler.h"
 
 #include <qdir.h>
 #include <QErrorMessage>
@@ -205,7 +206,7 @@ QVariant StringTableModel::data(const QModelIndex &index, int role) const
      if (!index.isValid())
          return QVariant();
 
-     if (index.column() >= _stringMatrix.size())
+     if (index.column() >= (int)_stringMatrix.size())
          return QVariant();
 
      if (index.row() >= _stringMatrix[0].size())
@@ -234,7 +235,7 @@ QVariant StringTableModel::headerData(int section, Qt::Orientation orientation,
 	 }
 	 else
 	 {
-		if(section < _ids.size())
+		if(section < (int)_ids.size())
 			return _ids[section];	
 	 }
 
@@ -375,7 +376,7 @@ void StringTableModel::AddOrUpdateRow(long id, const QStringList &data)
 			if(_ids[i] == id)
 			{
 				// object already existing - update it
-				for(size_t j=0; j< data.size(); ++j)
+				for(int j=0; j< data.size(); ++j)
 					_stringMatrix[j].replace(i, data[j]);
 
 				QModelIndex index1 = createIndex(i, 0);
@@ -432,7 +433,7 @@ QVariant MixedTableModel::data(const QModelIndex &index, int role) const
      if (!index.isValid())
          return QVariant();
 
-     if (index.column() >= _objMatrix.size())
+     if (index.column() >= (int)_objMatrix.size())
          return QVariant();
 
      if (index.row() >= _objMatrix[0].size())
@@ -772,7 +773,7 @@ void CustomDelegate::setEditorData(QWidget *editor, const QModelIndex &index) co
 
 		if(value != "")
 		{
-			dialog->setDirectory( QDir::currentPath()+"/Data/"+value.section('/', 0, -2) );
+			dialog->setDirectory( (DataDirHandler::getInstance()->GetDataDirPath() + "/").c_str() +value.section('/', 0, -2) );
 			dialog->selectFile ( value.section('/', -1) );
 		}
 		else
@@ -1480,8 +1481,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 
 
 	// read notice
-	int read = 0;
-	ConfigurationManager::GetInstance()->GetInt("Options.Editor.NoticeAccepted", read);
+	int read = ConfigurationManager::GetInstance()->GetValue("Options.Editor.NoticeAccepted", 0);
 	if(read == 0)
 	{
 		_NoticeDialogdialog = new QDialog(this);
@@ -1754,7 +1754,7 @@ void EditorHandler::SaveWorldAction(std::string mapname)
 			mapname = _uieditor.label_mapname->text().toAscii().data();
 
 		if(mapname != "")
-			SaveMap("./Data/Worlds/" + _winfo.Description.WorldName + "/Lua/" + mapname + "_server.lua");
+			SaveMap(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + _winfo.Description.WorldName + "/Lua/" + mapname + "_server.lua");
 
 		// save text
 		Localizer::getInstance()->SaveTexts();
@@ -1763,10 +1763,10 @@ void EditorHandler::SaveWorldAction(std::string mapname)
 		SharedDataHandler::getInstance()->SaveToLua();
 
 		// save templates
-		XmlReader::SaveObjectTemplateFile("./Data/Worlds/" + _winfo.Description.WorldName + "/Editorconfig.xml", _objecttemplates);
+		XmlReader::SaveObjectTemplateFile(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + _winfo.Description.WorldName + "/Editorconfig.xml", _objecttemplates);
 
 		// save holomap
-		SaveHoloMap("./Data/Worlds/" + _winfo.Description.WorldName + "/Lua/Holomap.lua");
+		SaveHoloMap(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + _winfo.Description.WorldName + "/Lua/Holomap.lua");
 
 		SetSaved();
 	}
@@ -1892,7 +1892,7 @@ on open world
 void EditorHandler::OpenWorld()
 {
 	std::string choosenworld = _uiopenworlddialog.comboBoxWorldToOpen->currentText().toAscii().data();
-	EventsQueue::getReceiverQueue()->AddEvent(new ChangeWorldEvent(choosenworld));
+	EventsQueue::getReceiverQueue()->AddEvent(new ChangeWorldEvent(choosenworld, false));
 
 	ResetWorld();
 	SetWorldInfo(choosenworld);
@@ -1982,7 +1982,7 @@ void EditorHandler::SetWorldInfo(const std::string & worldname)
 
 
 	// add templates
-	std::string templatefile = "Data/Worlds/" + _winfo.Description.WorldName + "/Editorconfig.xml";
+	std::string templatefile = DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + _winfo.Description.WorldName + "/Editorconfig.xml";
 	std::vector<EditorTemplateObject> temps = XmlReader::LoadObjectTemplateFile(templatefile);
 	for(size_t i=0; i< temps.size(); ++i)
 		AddNewTemplate(temps[i]);
@@ -2367,7 +2367,7 @@ void EditorHandler::SetMapInfo(const std::string & mapname)
 		}
 	}
 
-	std::string navimeshfile = "./Data/Worlds/" + _winfo.Description.WorldName + "/AI/" + mapname + ".nmesh";
+	std::string navimeshfile = DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + _winfo.Description.WorldName + "/AI/" + mapname + ".nmesh";
 	if(FileUtil::FileExist(navimeshfile, false))
 	{
 		_navimesh->LoadFromFile(navimeshfile);
@@ -6293,7 +6293,7 @@ void EditorHandler::CreateDefaultSpawningAndTp(const std::string & mapname)
 
 	// save map file with new spawning
 	{
-	std::ofstream file(("./Data/Worlds/" + _winfo.Description.WorldName + "/Lua/" + mapname + "_server.lua").c_str());
+	std::ofstream file((DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + _winfo.Description.WorldName + "/Lua/" + mapname + "_server.lua").c_str());
 	file<<"function InitMap(environment)"<<std::endl;
 	newspawn->SaveToLuaFile(file);
 	file<<"end"<<std::endl;
@@ -6593,25 +6593,25 @@ void EditorHandler::addworld_accepted()
 
 
 	//create directories
-	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname);
-	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Lua");
-	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Models");
-	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Texts");
-	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Voices");
-	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/InventoryImages");
-	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Sprites");
-	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Music");
-	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Grid");
-	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/AI");
-	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Sound");
-	FileUtil::CreateNewDirectory("./Data/Worlds/" + wname + "/Video");
+	FileUtil::CreateNewDirectory(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + wname);
+	FileUtil::CreateNewDirectory(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + wname + "/Lua");
+	FileUtil::CreateNewDirectory(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + wname + "/Models");
+	FileUtil::CreateNewDirectory(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + wname + "/Texts");
+	FileUtil::CreateNewDirectory(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + wname + "/Voices");
+	FileUtil::CreateNewDirectory(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + wname + "/InventoryImages");
+	FileUtil::CreateNewDirectory(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + wname + "/Sprites");
+	FileUtil::CreateNewDirectory(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + wname + "/Music");
+	FileUtil::CreateNewDirectory(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + wname + "/Grid");
+	FileUtil::CreateNewDirectory(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + wname + "/AI");
+	FileUtil::CreateNewDirectory(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + wname + "/Sound");
+	FileUtil::CreateNewDirectory(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + wname + "/Video");
 
 	// save new world
 	DataLoader::getInstance()->SaveWorldInformation(wname, winfo);
 
 	//create custom lua files
 	{
-		std::string path = "Data/Worlds/" + wname + "/Lua/CustomServer.lua";
+		std::string path = DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + wname + "/Lua/CustomServer.lua";
 		std::ofstream filelua(path.c_str());
 		filelua<<"-- In this file you can define custom functions to be used on the server side."<<std::endl<<std::endl;
 		filelua<<"-- Please note that the changes done on this file will"<<std::endl;
@@ -6631,7 +6631,7 @@ void EditorHandler::addworld_accepted()
 	}
 	
 	{
-		std::string path = "Data/Worlds/" + wname + "/Lua/CustomClient.lua";
+		std::string path = DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + wname + "/Lua/CustomClient.lua";
 		std::ofstream filelua(path.c_str());
 		filelua<<"-- In this file you can define custom functions to be used on the client side."<<std::endl;
 		filelua<<"-- It is typically used to define custom client script functions."<<std::endl<<std::endl;
@@ -6655,7 +6655,7 @@ void EditorHandler::addworld_accepted()
 	ResetWorld();
 	SetWorldInfo(wname);
 
-	EventsQueue::getReceiverQueue()->AddEvent(new ChangeWorldEvent(wname));
+	EventsQueue::getReceiverQueue()->AddEvent(new ChangeWorldEvent(wname, false));
 
 	_modified = false;
 	_mapmodified = false;
@@ -9225,7 +9225,7 @@ void EditorHandler::UpdateSelectedActorDisplay(LbaNet::ObjectPhysicDesc desc,
 		break;
 		case TriangleMeshShape:
 		{
-			std::ifstream file(("Data/"+desc.Filename).c_str(), std::ifstream::binary);
+			std::ifstream file((DataDirHandler::getInstance()->GetDataDirPath() + "/" + desc.Filename).c_str(), std::ifstream::binary);
 			if(!file.is_open())
 				return;
 
@@ -10923,9 +10923,10 @@ void EditorHandler::VoicemAdd_button()
 		selected.replace("\\", "/");
 
 		// check if choosen file is in the directory data
-		if(selected.contains(QDir::currentPath()+"/Data/"))
+		QDir datadir(DataDirHandler::getInstance()->GetDataDirPath().c_str());
+		if(selected.contains(datadir.absolutePath()))
 		{
-			selected = selected.remove(QDir::currentPath()+"/Data/");
+			selected = selected.remove(datadir.absolutePath()+"/");
 		}
 		else
 		{
@@ -11115,7 +11116,7 @@ void EditorHandler::TextPlay_button()
 		if(voices.size() > 0)
 		{
 			for(size_t vv=0; vv< voices.size(); ++vv)
-				voices[vv] = "Data/" + voices[vv];
+				voices[vv] = DataDirHandler::getInstance()->GetDataDirPath() + "/" + voices[vv];
 
 			MusicHandler::getInstance()->PlayVoice(voices);
 		}
@@ -11208,7 +11209,7 @@ OpenCustomServerLua
 void EditorHandler::OpenCustomServerLua()
 {
 	std::string path = QDir::currentPath().toAscii().data();
-	path += "/Data/Worlds/" + _winfo.Description.WorldName + "/Lua/CustomServer.lua";
+	path += DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + _winfo.Description.WorldName + "/Lua/CustomServer.lua";
 
 #ifdef WIN32
 	ShellExecuteA(NULL, "open", path.c_str(), NULL, NULL, SW_SHOWNORMAL);
@@ -11223,7 +11224,7 @@ OpenCustomClientLua
 void EditorHandler::OpenCustomClientLua()
 {
 	std::string path = QDir::currentPath().toAscii().data();
-	path += "/Data/Worlds/" + _winfo.Description.WorldName + "/Lua/CustomClient.lua";
+	path += DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + _winfo.Description.WorldName + "/Lua/CustomClient.lua";
 
 #ifdef WIN32
 	ShellExecuteA(NULL, "open", path.c_str(), NULL, NULL, SW_SHOWNORMAL);
@@ -11467,10 +11468,10 @@ void EditorHandler::SelectItem(boost::shared_ptr<InventoryItemDef> item, const Q
 		_objectmodel->AppendRow(data, parent);
 
 		FileDialogOptionsIcon * filterptr = new FileDialogOptionsIcon();
-		filterptr->OutDirectory = ("Data/Worlds/" + _winfo.Description.WorldName + "/InventoryImages").c_str();
+		filterptr->OutDirectory = (DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + _winfo.Description.WorldName + "/InventoryImages").c_str();
 		boost::shared_ptr<FileDialogOptionsBase> filefilter(filterptr);
 		filefilter->Title = "Select an image";
-		filefilter->StartingDirectory = "Data/GUI/imagesets/Inventory";
+		filefilter->StartingDirectory = (DataDirHandler::getInstance()->GetDataDirPath() + "/GUI/imagesets/Inventory").c_str();
 		filefilter->FileFilter = "Images Files (*.png *.bmp *.jpg *.gif)";
 		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, index, parent), filefilter);
 
@@ -13576,7 +13577,7 @@ void EditorHandler::MapMusicChanged(const QString & text)
 			_winfo.Maps[mapname].Music = newv;
 			SetModified();
 
-			MusicHandler::getInstance()->PlayMusic("Data/"+_winfo.Maps[mapname].Music, _winfo.Maps[mapname].Repeat);
+			MusicHandler::getInstance()->PlayMusic(DataDirHandler::getInstance()->GetDataDirPath() + "/"+_winfo.Maps[mapname].Music, _winfo.Maps[mapname].Repeat);
 		}
 	}
 
@@ -13596,7 +13597,7 @@ void EditorHandler::MapMusicRepeatChanged(int newvalue)
 			_winfo.Maps[mapname].Repeat = newv;
 			SetModified();
 
-			MusicHandler::getInstance()->PlayMusic("Data/"+_winfo.Maps[mapname].Music, _winfo.Maps[mapname].Repeat);
+			MusicHandler::getInstance()->PlayMusic(DataDirHandler::getInstance()->GetDataDirPath() + "/"+_winfo.Maps[mapname].Music, _winfo.Maps[mapname].Repeat);
 		}
 	}
 }
@@ -13608,7 +13609,7 @@ void EditorHandler::MapMusicFile_clicked()
 {
 	QString currfile = _uieditor.lineEdit_mapmusic->text();
 	if(currfile != "")
-		currfile = "Data/" + currfile;
+		currfile = (DataDirHandler::getInstance()->GetDataDirPath() + "/").c_str() + currfile;
 
 	QStringList selectedfile = 
 		QFileDialog::getOpenFileNames (this, "Select a music file", currfile, 
@@ -13620,16 +13621,17 @@ void EditorHandler::MapMusicFile_clicked()
 		selected.replace("\\", "/");
 
 		// check if choosen file is in the directory data
-		if(selected.contains(QDir::currentPath()+"/Data/"))
+		QDir datadir(DataDirHandler::getInstance()->GetDataDirPath().c_str());
+		if(selected.contains(datadir.absolutePath()))
 		{
-			selected = selected.remove(QDir::currentPath()+"/Data/");
+			selected = selected.remove(datadir.absolutePath() + "/");
 		}
 		else
 		{
 			//copy the file over
 			try
 			{
-				QString newfilename = "Data/Worlds/";
+				QString newfilename = (DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/").c_str();
 				newfilename += _winfo.Description.WorldName.c_str(); 
 				newfilename	+= "/Music/" + selected.section('/', -1);
 				FileUtil::MakeFileCopy(selected.toAscii().data(), newfilename.toAscii().data());
@@ -13655,8 +13657,8 @@ Notice_accepted
 void EditorHandler::Notice_accepted()
 {
 	_NoticeDialogdialog->hide();
-	int read = 1;
-	ConfigurationManager::GetInstance()->SetInt("Options.Editor.NoticeAccepted", read);
+	int accepted = 1;
+	ConfigurationManager::GetInstance()->SetValue("Options.Editor.NoticeAccepted", accepted);
 }
 
 /***********************************************************
@@ -13699,7 +13701,7 @@ void EditorHandler::GenerateNavimesh()
 	std::string mapname = _uieditor.label_mapname->text().toAscii().data();
 
 	_navimesh->GenerateMesh();
-	_navimesh->SaveToFile("./Data/Worlds/" + _winfo.Description.WorldName + "/AI/" 
+	_navimesh->SaveToFile(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/" + _winfo.Description.WorldName + "/AI/" 
 											+ mapname + ".nmesh");
 
 	RefreshNaviMeshDisplay();
