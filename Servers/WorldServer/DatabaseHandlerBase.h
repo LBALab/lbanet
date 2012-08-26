@@ -140,6 +140,16 @@ public:
 
 	// reset world
 	virtual void ResetWorld(const std::string& WorldName, long playerid) = 0;
+
+	//! check login
+	//! return -1 if login incorrect - else return the user id
+	virtual long CheckLogin(const std::string & PlayerName, const std::string & Password) = 0;
+
+	//! set the user as disconnected in the database
+	virtual void DisconnectUser(long Id) = 0;
+
+	//! check if player is an admin for the given world
+    virtual bool IsWorldAdmin(long PlayerId, const std::string& Worldname) = 0;
 };
 
 #endif

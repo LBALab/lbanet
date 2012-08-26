@@ -1458,3 +1458,168 @@ void DatabaseHandler::ResetWorld(const std::string& WorldName, long playerid)
 		Clear();
 	}
 }
+
+
+
+/***********************************************************
+check login
+return -1 if login incorrect - else return the user id
+***********************************************************/
+long DatabaseHandler::CheckLogin(const std::string & PlayerName, const std::string & Password)
+{
+	Lock sync(*this);
+	if(!_mysqlH || !_mysqlH->connected())
+	{
+		Connect();
+		if(!_mysqlH->connected())
+		{
+			std::cerr<<IceUtil::Time::now()<<": Connected tracker - CheckLoginfailed for user "<<PlayerName<<std::endl;
+			Clear();
+			return -1;
+		}
+	}
+
+	mysqlpp::Query query(_mysqlH, false);
+	query << "SELECT ju.id, ju.password FROM jos_users ju, jos_comprofiler jc WHERE jc.confirmed = '1' AND ju.username COLLATE utf8_bin = '"<<PlayerName;
+	query <<"' AND ju.id = jc.user_id";
+	if (mysqlpp::StoreQueryResult res = query.store())
+	{
+		if(res.size() > 0)
+		{
+			long lbaid = -1;
+			long juid = res[0][0];
+
+			// check if password match
+			std::string dbentry = res[0][1].c_str();
+
+			std::vector<std::string> entries;
+			Tokenize(dbentry, entries, ":");
+			if(entries.size() != 2)
+				return -1;
+
+			std::string md5pass = MD5(Password + entries[1]).hexdigest();
+			if(md5pass != entries[0])
+			{
+				std::cout<<IceUtil::Time::now()<<": Wrong password for user "<<PlayerName<<std::endl;
+				return -1;
+			}
+
+			// check if user is already in the lbanet table
+			query.clear();
+			query << "SELECT id FROM lba_users WHERE josiid = '"<<juid<<"'";
+			if ((res = query.store()) && (res.size() > 0))
+			{
+				lbaid = res[0][0];
+
+				//set the user as connected
+				query.clear();
+				query << "UPDATE lba_users SET lastconnected = UTC_TIMESTAMP(), connected = '1' WHERE id = '"<<lbaid<<"'";
+				if(!query.exec())
+					std::cerr<<IceUtil::Time::now()<<": Connected tracker - Update lastconnected failed for user id "<<lbaid<<" : "<<query.error()<<std::endl;
+			}
+			else
+			{
+				// if not exist then create it
+				query.clear();
+				query << "INSERT  INTO lba_users (josiid, lastconnected, connected) VALUES('"<<juid<<"', UTC_TIMESTAMP(), '1')";
+				if(!query.exec())
+					std::cerr<<IceUtil::Time::now()<<": Connected tracker - Can not create new lba user entry for id "<<juid<<" : "<<query.error()<<std::endl;
+				else
+				{
+					// get the id afterwards
+					lbaid = (long)query.insert_id();
+				}
+
+				//query.clear();
+				//query << "SELECT id FROM lba_users WHERE josiid = '"<<juid<<"';
+				//if (res = query.store())
+				//{
+				//	lbaid = res[0][0];
+				//}
+				//else
+				//{
+				//	std::cerr<<IceUtil::Time::now()<<": Connected tracker - CheckLoginfailed on create for user "<<PlayerName<<" : "<<query.error()<<std::endl;
+				//}
+
+			}
+
+			return lbaid;
+		}
+	}
+
+	std::cerr<<IceUtil::Time::now()<<": Connected tracker - CheckLoginfailed for user "<<PlayerName<<" : "<<query.error()<<std::endl;
+	Clear();
+	return -1;
+}
+
+
+/***********************************************************
+set the user as disconnected in the database
+***********************************************************/
+void DatabaseHandler::DisconnectUser(long Id)
+{
+	Lock sync(*this);
+	if(!_mysqlH || !_mysqlH->connected())
+	{
+		Connect();
+		if(!_mysqlH->connected())
+		{
+			std::cerr<<IceUtil::Time::now()<<": Connected tracker - Update DisconnectUser failed for user id "<<Id<<std::endl;
+			Clear();
+			return;
+		}
+	}
+
+	mysqlpp::Query query(_mysqlH, false);
+	query << "UPDATE lba_users SET playedtimemin = playedtimemin + TIMESTAMPDIFF(MINUTE, lastconnected, UTC_TIMESTAMP()), connected = '0' WHERE id = '"<<Id<<"'";
+	if(!query.exec())
+	{
+		std::cerr<<IceUtil::Time::now()<<": Connected tracker - Update timeplayed failed for user id "<<Id<<" : "<<query.error()<<std::endl;
+		Clear();
+	}
+}
+
+/***********************************************************
+check if player is an admin for the given world
+***********************************************************/
+bool DatabaseHandler::IsWorldAdmin(long PlayerId, const std::string& Worldname)
+{
+	Lock sync(*this);
+	if(!_mysqlH || !_mysqlH->connected())
+	{
+		Connect();
+		if(!_mysqlH->connected())
+		{
+			std::cerr<<IceUtil::Time::now()<<": Connected tracker - IsWorldAdmin failed for user "<<PlayerId<<std::endl;
+			Clear();
+			return false;
+		}
+	}
+
+	mysqlpp::Query query(_mysqlH, false);
+	query << "SELECT id FROM lba_worlds WHERE name = '"<<Worldname <<"'";
+	if (mysqlpp::StoreQueryResult res = query.store())
+	{
+		if(res.size() > 0)
+		{
+			long worldId = res[0][0];
+
+			// check if user is already in the lbanet table
+			query.clear();
+			query << "SELECT AuthorId FROM worldauthors WHERE WorldId = '"<<worldId
+				<<"' AND AuthorId = '"<<PlayerId <<"'";
+			if ((res = query.store()) && (res.size() > 0))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+	}
+
+	std::cerr<<IceUtil::Time::now()<<": Connected tracker - IsWorldAdmin failed for user "<<PlayerId<<" : "<<query.error()<<std::endl;
+	Clear();
+	return false;
+}

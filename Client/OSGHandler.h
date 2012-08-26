@@ -277,6 +277,15 @@ public:
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateBackgroundImageObject(const std::string & filenamefile, 
 															float colorR, float colorG, float colorB, float colorA);
 
+
+	//! create particle object
+	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateParticleObject(int sceneidx, const LbaNet::ParticleType &type,
+															const LbaNet::ParticleExtraInfoBasePtr &info,
+															boost::shared_ptr<DisplayTransformation> Tr,
+															const LbaNet::ObjectExtraInfo &extrainfo,
+															const LbaNet::LifeManaInfo &lifeinfo);
+
+
 	//! create grid object
 	osg::ref_ptr<osg::MatrixTransform> CreateGridObject(int sceneidx, long sizeX, long sizeY,
 															boost::shared_ptr<DisplayTransformation> Tr);
@@ -327,6 +336,9 @@ public:
 
 	//! reset camera info
 	void ResetCameraInfo();
+
+	//! remove particle from root
+	void DestroyParticle(osg::ref_ptr<osg::Node> particle);
 
 
 protected:
@@ -407,6 +419,7 @@ private:
 	osg::ref_ptr<osg::Group>						_rootNodeGui;
 	osg::ref_ptr<osg::Group>						_rootNodeBackground;
 	osg::ref_ptr<osg::PositionAttitudeTransform>	_translNode;
+	osg::ref_ptr<osg::Group>						_rootParticles;
 
 	osg::ref_ptr<osg::LightSource>									_lightNodes[_NB_OSG_SCENES_];
 	std::pair<osg::ref_ptr<osg::Group>, osg::ref_ptr<osg::Group> >	_sceneroots[_NB_OSG_SCENES_];

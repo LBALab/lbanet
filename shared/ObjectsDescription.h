@@ -101,7 +101,7 @@ protected:
 
 
 /***********************************************************************
-This is the base class describing an Oriented Capsule
+This is the base class describing a sprite
 See definition in OsgObjectHandler.cpp
  ***********************************************************************/
 class SpriteDescription : public DisplayObjectDescriptionBase
@@ -181,7 +181,7 @@ private:
 
 
 /***********************************************************************
-This is the base class describing an Oriented Capsule
+This is the base class describing an cross
 See definition in OsgObjectHandler.cpp
  ***********************************************************************/
 class OsgCrossDescription : public DisplayObjectDescriptionBase
@@ -219,7 +219,7 @@ private:
 
 
 /***********************************************************************
-This is the base class describing an Oriented Capsule
+This is the base class describing an box
 See definition in OsgObjectHandler.cpp
  ***********************************************************************/
 class OsgBoxDescription : public DisplayObjectDescriptionBase
@@ -304,7 +304,7 @@ private:
 
 
 /***********************************************************************
-This is the base class describing an Oriented Capsule
+This is the base class describing an sphere
 See definition in OsgObjectHandler.cpp
  ***********************************************************************/
 class OsgSphereDescription : public DisplayObjectDescriptionBase
@@ -421,6 +421,41 @@ private:
 	float						_colorG;
 	float						_colorB;
 	float						_colorA;
+};
+
+
+
+/***********************************************************************
+This is the base class describing an Oriented Capsule
+See definition in OsgObjectHandler.cpp
+ ***********************************************************************/
+class OsgParticleDescription : public DisplayObjectDescriptionBase
+{
+public:
+	//! constructor
+	OsgParticleDescription(int sceneid, const LbaNet::ParticleType &type,
+									const LbaNet::ParticleExtraInfoBasePtr &info,
+									const LbaNet::ObjectExtraInfo &extrainfo,
+									const LbaNet::LifeManaInfo &lifeinfo)
+		: DisplayObjectDescriptionBase(sceneid), _type(type), _info(info), 
+					_extrainfo(extrainfo), _lifeinfo(lifeinfo)
+	{}
+
+	//! destructor
+	virtual ~OsgParticleDescription(){}
+
+#ifndef _LBANET_SERVER_SIDE_
+	//! build description into dynamic object
+	virtual boost::shared_ptr<DisplayObjectHandlerBase> BuildSelf(boost::shared_ptr<DisplayTransformation> Tr, 
+																				DisplayHandlerBase * disH) const;
+#endif
+
+private:
+	LbaNet::ParticleType				_type;
+	LbaNet::ParticleExtraInfoBasePtr	_info;
+
+	LbaNet::ObjectExtraInfo				_extrainfo;
+	LbaNet::LifeManaInfo				_lifeinfo;
 };
 
 

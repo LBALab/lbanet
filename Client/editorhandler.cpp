@@ -1000,7 +1000,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	_dorropeningdirectionList(new CustomStringListModel()), _hurtanimationList(new CustomStringListModel()),
 	_iteminformclientList(new CustomStringListModel()), _addList(new CustomStringListModel()),
 	_removeList(new CustomStringListModel()), _materialtypeList(new CustomStringListModel()),
-	_pickfindpathstarted(false), _selectedid(-1), _weapontypeList(new CustomStringListModel())
+	_pickfindpathstarted(false), _selectedid(-1), _weapontypeList(new CustomStringListModel()), _particletypeList(new CustomStringListModel())
 {	
 	_navimesh = boost::shared_ptr<NaviMeshHandler>(new NaviMeshHandler());
 
@@ -1008,7 +1008,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	actlist << "Static" << "Scripted" << "Door" << "Npc" <<"Movable";
 	_actortypeList->setStringList(actlist);
 	QStringList acttypelist;
-	acttypelist << "No" << "Osg Model" << "Sprite" << "Lba1 Model" << "Lba2 Model" << "Sphere" << "Capsule" << "Box" << "BGImage";
+	acttypelist << "No" << "Osg Model" << "Sprite" << "Lba1 Model" << "Lba2 Model" << "Sphere" << "Capsule" << "Box" << "BGImage" << "Particle";
 	_actordtypeList->setStringList(acttypelist);
 	QStringList actptypelist;
 	actptypelist << "No Shape" << "Box" << "Capsule" << "Sphere" << "Triangle Mesh";
@@ -1024,7 +1024,10 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	QStringList weaponlist;
 	weaponlist << "No" << "Contact" << "Distance";
 	_weapontypeList->setStringList(weaponlist);
-
+	
+	QStringList particlelist;
+	particlelist << "Explosion" << "ExplosionDebris" << "Smoke" << "SmokeTrail" << "Fire" << "Custom";
+	_particletypeList->setStringList(particlelist);
 
 	QStringList addrlist;
 	addrlist << "" << "Add";
@@ -1404,7 +1407,7 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	
 	connect(_uieditor.textEdit_worlddescription, SIGNAL(textChanged()) , this, SLOT(WorldDescriptionChanged()));	
 	connect(_uieditor.textEdit_worldnews, SIGNAL(textChanged()) , this, SLOT(WorldNewsChanged()));	
-	connect(_uieditor.lineEdit_startingscript, SIGNAL(textChanged()) , this, SLOT(WorldStartingScriptChanged()));	
+	connect(_uieditor.lineEdit_startingscript, SIGNAL(textChanged(const QString &)) , this, SLOT(WorldStartingScriptChanged(const QString &)));	
 	
 
 	connect(_uieditor.pushButton_goto_tp, SIGNAL(clicked()) , this, SLOT(goto_tp_button_clicked()));
@@ -2964,6 +2967,10 @@ void EditorHandler::AddActorObject(boost::shared_ptr<ActorHandler> actor)
 
 		case RenderCapsule:
 			dtype = "Capsule";
+		break;
+
+		case RenderParticle:
+			dtype = "Particle";
 		break;
 	}
 
@@ -5640,7 +5647,7 @@ void EditorHandler::WorldNewsChanged()
 /***********************************************************
 WorldStartingScriptChanged
 ***********************************************************/
-void EditorHandler::WorldStartingScriptChanged()
+void EditorHandler::WorldStartingScriptChanged(const QString &)
 {
 	QString descs = _uieditor.lineEdit_startingscript->text();
 	_winfo.StartingInfo.StartingScript = descs.toUtf8().data();
@@ -6732,6 +6739,7 @@ void EditorHandler::ActorAdd_button_accepted()
 	ainfo.ExtraInfo.NameColorR = 1.0;
 	ainfo.ExtraInfo.NameColorG = 1.0;
 	ainfo.ExtraInfo.NameColorB = 1.0;
+	ainfo.AttachToActorId = -1;
 
 	bool door = false;
 	bool npc = false;
@@ -6753,6 +6761,9 @@ void EditorHandler::ActorAdd_button_accepted()
 		break;
 		case 4:
 			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderLba2M;
+		break;
+		case 5:
+			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderParticle;
 		break;
 	}
 
@@ -6854,6 +6865,22 @@ void EditorHandler::ActorAdd_button_accepted()
 	{
 		ainfo.DisplayDesc.UseLight = false;
 		ainfo.DisplayDesc.CastShadow = false;
+	}
+
+	if(ainfo.DisplayDesc.TypeRenderer == LbaNet::RenderParticle)
+	{
+		LbaNet::ModelExtraInfoParticlePtr particleInfo(new LbaNet::ModelExtraInfoParticle());
+		particleInfo->Type = LbaNet::ParticleExplosion;
+		LbaNet::PredefinedParticleInfoPtr extraInfo(new LbaNet::PredefinedParticleInfo());
+		extraInfo->WindX =0;
+		extraInfo->WindY = 0;
+		extraInfo->WindZ = 0;
+		extraInfo->Scale = 1;
+		extraInfo->Intensity = 10;
+		extraInfo->EmitterDuration = 1000000;
+		extraInfo->ParticleDuration = 1;
+		particleInfo->Info = extraInfo;
+		ainfo.DisplayDesc.ExtraInfo = particleInfo;
 	}
 
 
@@ -7007,6 +7034,10 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 			case RenderCapsule:
 				dtype = "Capsule";
 			break;
+
+			case RenderParticle:
+				dtype = "Particle";
+			break;
 		}
 		{
 			QVector<QVariant> data;
@@ -7065,8 +7096,13 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 			data<<"Rotation"<<(double)ainfo.PhysicDesc.Pos.Rotation;
 			_objectmodel->AppendRow(data, parent);
 		}
+		{
+			QVector<QVariant> data;
+			data<<"Attach to actor"<<ainfo.AttachToActorId;
+			_objectmodel->AppendRow(data, parent);
+		}
 
-		int index = 11;
+		int index = 12;
 
 		if(ainfo.PhysicDesc.TypeShape != LbaNet::NoShape)
 		{
@@ -7244,6 +7280,122 @@ void EditorHandler::SelectActor(long id, const QModelIndex &parent)
 					++index;
 				}
 			}
+
+			if(ainfo.DisplayDesc.TypeRenderer == RenderParticle )
+			{
+				LbaNet::ModelExtraInfoParticlePtr particleinfo;
+				if (ainfo.DisplayDesc.ExtraInfo)
+				{
+					particleinfo = LbaNet::ModelExtraInfoParticlePtr::dynamicCast(ainfo.DisplayDesc.ExtraInfo);
+				}
+				if (!particleinfo)
+				{
+					particleinfo = new LbaNet::ModelExtraInfoParticle();
+					particleinfo->Type = LbaNet::ParticleExplosion;
+				}
+			
+				std::string particletypestring = "Custom";
+				switch(particleinfo->Type)
+				{
+					case LbaNet::ParticleExplosion:
+						particletypestring = "Explosion";
+					break;
+					case LbaNet::ParticleExplosionDebris:
+						particletypestring = "ExplosionDebris";
+					break;
+					case LbaNet::ParticleSmoke:
+						particletypestring = "Smoke";
+					break;
+					case LbaNet::ParticleSmokeTrail:
+						particletypestring = "SmokeTrail";
+					break;
+					case LbaNet::ParticleFire:
+						particletypestring = "Fire";
+					break;
+				}
+
+				QVector<QVariant> data;
+				data<<"Particle type"<<particletypestring.c_str();
+				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+				_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), _particletypeList);
+				++index;
+
+				if (particleinfo->Type != LbaNet::ParticleCustom)
+				{
+					LbaNet::PredefinedParticleInfoPtr extrainfo;
+					if (particleinfo->Info)
+						extrainfo = LbaNet::PredefinedParticleInfoPtr::dynamicCast(particleinfo->Info);
+					if (!extrainfo)
+					{
+						// this could happen if we change particle type - in this case we need to reset subclass
+						extrainfo = new LbaNet::PredefinedParticleInfo();
+						extrainfo->WindX =0;
+						extrainfo->WindY = 0;
+						extrainfo->WindZ = 0;
+						extrainfo->Scale = 1;
+						extrainfo->Intensity = 10;
+						extrainfo->EmitterDuration = 1000000;
+						extrainfo->ParticleDuration = 1;
+						particleinfo->Info = extrainfo;
+					}
+
+					{
+						QVector<QVariant> data1;
+						data1<<"Wind X"<<(double)extrainfo->WindX;
+						_objectmodel->AppendRow(data1, parent);
+						++index;
+					}
+					{
+						QVector<QVariant> data1;
+						data1<<"Wind Y"<<(double)extrainfo->WindY;
+						_objectmodel->AppendRow(data1, parent);
+						++index;
+					}
+					{
+						QVector<QVariant> data1;
+						data1<<"Wind Z"<<(double)extrainfo->WindZ;
+						_objectmodel->AppendRow(data1, parent);
+						++index;
+					}
+					{
+						QVector<QVariant> data1;
+						data1<<"Scale"<<(double)extrainfo->Scale;
+						_objectmodel->AppendRow(data1, parent);
+						++index;
+					}
+					{
+						QVector<QVariant> data1;
+						data1<<"Intensity"<<(double)extrainfo->Intensity;
+						_objectmodel->AppendRow(data1, parent);
+						++index;
+					}
+					{
+						QVector<QVariant> data1;
+						data1<<"EmitterDuration"<<(double)extrainfo->EmitterDuration;
+						_objectmodel->AppendRow(data1, parent);
+						++index;
+					}
+					{
+						QVector<QVariant> data1;
+						data1<<"ParticleDuration"<<(double)extrainfo->ParticleDuration;
+						_objectmodel->AppendRow(data1, parent);
+						++index;
+					}
+					{
+						QVector<QVariant> data1;
+						data1<<"CustomTexture"<<extrainfo->CustomTexture.c_str();
+						_objectmodel->AppendRow(data1, parent);
+						_objectmodel->SetCustomFileDialog(_objectmodel->GetIndex(1, index, parent), "Select an image", "Sprites", "Image Files (*.png *.bmp *.jpg *.gif)");
+						++index;
+					}
+				}
+				else
+				{
+					// TODO
+				}
+			}
+
+
 
 			if(ainfo.DisplayDesc.TypeRenderer == RenderLba1M ||
 					ainfo.DisplayDesc.TypeRenderer == RenderLba2M)
@@ -7978,7 +8130,7 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 		ainfo.PhysicDesc.Pos.Y = _objectmodel->data(_objectmodel->GetIndex(1, 8, parentIdx)).toFloat();
 		ainfo.PhysicDesc.Pos.Z = _objectmodel->data(_objectmodel->GetIndex(1, 9, parentIdx)).toFloat();
 		ainfo.PhysicDesc.Pos.Rotation = _objectmodel->data(_objectmodel->GetIndex(1, 10, parentIdx)).toFloat();
-
+		ainfo.AttachToActorId = _objectmodel->data(_objectmodel->GetIndex(1, 11, parentIdx)).toInt();
 
 		//condition
 		{
@@ -8001,7 +8153,7 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 			}
 		}
 
-		int index = 11;
+		int index = 12;
 
 		if(ainfo.PhysicDesc.TypeShape != LbaNet::NoShape)
 		{
@@ -8111,6 +8263,100 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 				if(updatedrow == index)
 					ainfo.DisplayDesc.UseBillboard = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
 				++index;
+			}
+
+			if(ainfo.DisplayDesc.TypeRenderer == RenderParticle )
+			{
+				if(updatedrow == index)
+				{
+					std::string particletypestr = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+					++index;
+					LbaNet::ParticleType particletype;
+					if(particletypestr == "Explosion")
+						particletype = LbaNet::ParticleExplosion;
+					if(particletypestr == "ExplosionDebris")
+						particletype = LbaNet::ParticleExplosionDebris;
+					if(particletypestr == "Smoke")
+						particletype = LbaNet::ParticleSmoke;
+					if(particletypestr == "SmokeTrail")
+						particletype = LbaNet::ParticleSmokeTrail;
+					if(particletypestr == "Fire")
+						particletype = LbaNet::ParticleFire;
+					if(particletypestr == "Custom")
+						particletype = LbaNet::ParticleCustom;
+
+					LbaNet::ModelExtraInfoParticlePtr particleInfo(new LbaNet::ModelExtraInfoParticle());
+					particleInfo->Type = particletype;
+					if (particleInfo->Type != LbaNet::ParticleCustom)
+					{
+						LbaNet::PredefinedParticleInfoPtr extraInfo = new LbaNet::PredefinedParticleInfo();
+						extraInfo->WindX = 0;
+						extraInfo->WindY = 0;
+						extraInfo->WindZ = 0;
+						extraInfo->Scale = 1;
+						extraInfo->Intensity = 10;
+						extraInfo->EmitterDuration = 1000000;
+						extraInfo->ParticleDuration = 1;
+						particleInfo->Info = extraInfo;
+					}
+					else
+					{
+						// TODO
+					}
+					ainfo.DisplayDesc.ExtraInfo = particleInfo;
+					updateobj = true;
+				}
+				else
+				{
+					++index;
+					LbaNet::ModelExtraInfoParticlePtr particleInfo = LbaNet::ModelExtraInfoParticlePtr::dynamicCast(ainfo.DisplayDesc.ExtraInfo);
+					if (particleInfo->Type != LbaNet::ParticleCustom)
+					{
+						LbaNet::PredefinedParticleInfoPtr extraInfo = LbaNet::PredefinedParticleInfoPtr::dynamicCast(particleInfo->Info);
+						if (!extraInfo)
+						{
+							extraInfo = new LbaNet::PredefinedParticleInfo();
+							extraInfo->WindX = 0;
+							extraInfo->WindY = 0;
+							extraInfo->WindZ = 0;
+							extraInfo->Scale = 1;
+							extraInfo->EmitterDuration = 1000000;
+							extraInfo->ParticleDuration = 1;
+							extraInfo->Intensity = 10;
+						}
+
+						if(updatedrow == index)
+							extraInfo->WindX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+						++index;	
+						if(updatedrow == index)
+							extraInfo->WindY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+						++index;	
+						if(updatedrow == index)
+							extraInfo->WindZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+						++index;	
+						if(updatedrow == index)
+							extraInfo->Scale = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+						++index;	
+						if(updatedrow == index)
+							extraInfo->Intensity = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+						++index;	
+						if(updatedrow == index)
+							extraInfo->EmitterDuration = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+						++index;	
+						if(updatedrow == index)
+							extraInfo->ParticleDuration = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+						++index;	
+						if(updatedrow == index)
+							extraInfo->CustomTexture = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+						++index;
+
+						particleInfo->Info = extraInfo;
+					}
+					else
+					{
+						// TODO
+					}
+				}
 			}
 
 			if(ainfo.DisplayDesc.TypeRenderer == RenderLba1M ||
@@ -8985,9 +9231,30 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderSphere;
 		if(dtype == "Capsule") 
 			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderCapsule;
+		if(dtype == "Particle") 
+			ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderParticle;
 
 		if(befored != ainfo.DisplayDesc.TypeRenderer)
+		{
 			updateobj = true;
+
+			if(ainfo.DisplayDesc.TypeRenderer == LbaNet::RenderParticle) 
+			{
+				ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderParticle;
+				LbaNet::ModelExtraInfoParticlePtr particleInfo(new LbaNet::ModelExtraInfoParticle());
+				particleInfo->Type = LbaNet::ParticleExplosion;
+				LbaNet::PredefinedParticleInfoPtr extraInfo(new LbaNet::PredefinedParticleInfo());
+				extraInfo->WindX =0;
+				extraInfo->WindY = 0;
+				extraInfo->WindZ = 0;
+				extraInfo->Scale = 1;
+				extraInfo->Intensity = 10;
+				extraInfo->EmitterDuration = 1000000;
+				extraInfo->ParticleDuration = 1;
+				particleInfo->Info = extraInfo;
+				ainfo.DisplayDesc.ExtraInfo = particleInfo;
+			}
+		}
 
 		LbaNet::PhysicalShapeEnum beforep = ainfo.PhysicDesc.TypeShape;
 		std::string ptype = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toString().toAscii().data();
@@ -9063,6 +9330,10 @@ void EditorHandler::ActorObjectChanged(long id, const QModelIndex &parentIdx, in
 
 				case RenderCapsule:
 					dtype = "Capsule";
+				break;
+
+				case RenderParticle:
+					dtype = "Particle";
 				break;
 			}
 
@@ -11907,6 +12178,10 @@ void EditorHandler::SelectItem(boost::shared_ptr<InventoryItemDef> item, const Q
 		case RenderCapsule:
 			dtype = "Capsule";
 		break;
+
+		case RenderParticle:
+			dtype = "Particle";
+		break;
 	}
 	{
 		QVector<QVariant> data;
@@ -12036,6 +12311,110 @@ void EditorHandler::SelectItem(boost::shared_ptr<InventoryItemDef> item, const Q
 				data1<<"Use Billboard"<<mdisinfo.UseBillboard;
 				_objectmodel->AppendRow(data1, parent);
 				++index;
+			}
+		}
+
+		if(mdisinfo.TypeRenderer == RenderParticle)
+		{
+			LbaNet::ModelExtraInfoParticlePtr particleinfo = LbaNet::ModelExtraInfoParticlePtr::dynamicCast(mdisinfo.ExtraInfo);
+			
+			std::string particletypestring = "Custom";
+			switch(particleinfo->Type)
+			{
+				case LbaNet::ParticleExplosion:
+					particletypestring = "Explosion";
+				break;
+				case LbaNet::ParticleExplosionDebris:
+					particletypestring = "ExplosionDebris";
+				break;
+				case LbaNet::ParticleSmoke:
+					particletypestring = "Smoke";
+				break;
+				case LbaNet::ParticleSmokeTrail:
+					particletypestring = "SmokeTrail";
+				break;
+				case LbaNet::ParticleFire:
+					particletypestring = "Fire";
+				break;
+			}
+
+			QVector<QVariant> data;
+			data<<"Particle type"<<particletypestring.c_str();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), _particletypeList);
+			++index;
+
+			if (particleinfo->Type != LbaNet::ParticleCustom)
+			{
+				LbaNet::PredefinedParticleInfoPtr extrainfo;
+				if (particleinfo->Info)
+					extrainfo = LbaNet::PredefinedParticleInfoPtr::dynamicCast(particleinfo->Info);
+				if (!extrainfo)
+				{
+					// this could happen if we change particle type - in this case we need to reset subclass
+					extrainfo = new LbaNet::PredefinedParticleInfo();
+					extrainfo->WindX =0;
+					extrainfo->WindY = 0;
+					extrainfo->WindZ = 0;
+					extrainfo->Scale = 1;
+					extrainfo->Intensity = 10;
+					extrainfo->EmitterDuration = 1000000;
+					extrainfo->ParticleDuration = 1;
+					particleinfo->Info = extrainfo;
+				}
+
+				{
+					QVector<QVariant> data1;
+					data1<<"Wind X"<<(double)extrainfo->WindX;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data1;
+					data1<<"Wind Y"<<(double)extrainfo->WindY;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data1;
+					data1<<"Wind Z"<<(double)extrainfo->WindZ;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data1;
+					data1<<"Scale"<<(double)extrainfo->Scale;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data1;
+					data1<<"Intensity"<<(double)extrainfo->Intensity;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data1;
+					data1<<"EmitterDuration"<<(double)extrainfo->EmitterDuration;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data1;
+					data1<<"ParticleDuration"<<(double)extrainfo->ParticleDuration;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data1;
+					data1<<"CustomTexture"<<extrainfo->CustomTexture.c_str();
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+			}
+			else
+			{
+				// TODO
 			}
 		}
 
@@ -12502,6 +12881,8 @@ void EditorHandler::ItemChanged(long id, const std::string & category, const QMo
 		newdisinfo.TypeRenderer = LbaNet::RenderLba1M;
 	if(dtype == "Lba2 Model") 
 		newdisinfo.TypeRenderer = LbaNet::RenderLba2M;
+	if(dtype == "Particle") 
+		newdisinfo.TypeRenderer = LbaNet::RenderParticle;
 
 	if(olddisinfo.TypeRenderer != newdisinfo.TypeRenderer)
 		refresh = true;
@@ -12564,6 +12945,57 @@ void EditorHandler::ItemChanged(long id, const std::string & category, const QMo
 				newdisinfo.UseBillboard = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
 				++index;	
 			}
+
+			if(olddisinfo.TypeRenderer == RenderParticle )
+			{
+				std::string particletypestr = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+				++index;
+				LbaNet::ParticleType particletype;
+				if(particletypestr == "Explosion")
+					particletype = LbaNet::ParticleExplosion;
+				if(particletypestr == "ExplosionDebris")
+					particletype = LbaNet::ParticleExplosionDebris;
+				if(particletypestr == "Smoke")
+					particletype = LbaNet::ParticleSmoke;
+				if(particletypestr == "SmokeTrail")
+					particletype = LbaNet::ParticleSmokeTrail;
+				if(particletypestr == "Fire")
+					particletype = LbaNet::ParticleFire;
+				if(particletypestr == "Custom")
+					particletype = LbaNet::ParticleCustom;
+
+				LbaNet::ModelExtraInfoParticlePtr particleInfo(new LbaNet::ModelExtraInfoParticle());
+				particleInfo->Type = particletype;
+
+				if (particleInfo->Type != LbaNet::ParticleCustom)
+				{
+					LbaNet::PredefinedParticleInfoPtr extraInfo(new LbaNet::PredefinedParticleInfo());
+
+					extraInfo->WindX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+					++index;	
+					extraInfo->WindY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+					++index;	
+					extraInfo->WindZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+					++index;	
+					extraInfo->Scale = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+					++index;	
+					extraInfo->Intensity = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+					++index;
+					extraInfo->EmitterDuration = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+					++index;	
+					extraInfo->ParticleDuration = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+					++index;	
+					extraInfo->CustomTexture = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+					++index;
+					particleInfo->Info = extraInfo;
+				}
+				else
+				{
+					// TODO
+				}
+				newdisinfo.ExtraInfo = particleInfo;
+			}
+
 
 			// check materials
 			newdisinfo.UseTransparentMaterial = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();		
@@ -14285,6 +14717,110 @@ void EditorHandler::SelectProjectile(ProjectileObjectDef* cond, const QModelInde
 			}
 		}
 
+		if(cond->DisplayDesc.TypeRenderer == RenderParticle )
+		{
+			LbaNet::ModelExtraInfoParticlePtr particleinfo = LbaNet::ModelExtraInfoParticlePtr::dynamicCast(cond->DisplayDesc.ExtraInfo);
+			
+			std::string particletypestring = "Custom";
+			switch(particleinfo->Type)
+			{
+				case LbaNet::ParticleExplosion:
+					particletypestring = "Explosion";
+				break;
+				case LbaNet::ParticleExplosionDebris:
+					particletypestring = "ExplosionDebris";
+				break;
+				case LbaNet::ParticleSmoke:
+					particletypestring = "Smoke";
+				break;
+				case LbaNet::ParticleSmokeTrail:
+					particletypestring = "SmokeTrail";
+				break;
+				case LbaNet::ParticleFire:
+					particletypestring = "Fire";
+				break;
+			}
+
+			QVector<QVariant> data;
+			data<<"Particle type"<<particletypestring.c_str();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), _particletypeList);
+			++index;
+
+			if (particleinfo->Type != LbaNet::ParticleCustom)
+			{
+				LbaNet::PredefinedParticleInfoPtr extrainfo;
+				if (particleinfo->Info)
+					extrainfo = LbaNet::PredefinedParticleInfoPtr::dynamicCast(particleinfo->Info);
+				if (!extrainfo)
+				{
+					// this could happen if we change particle type - in this case we need to reset subclass
+					extrainfo = new LbaNet::PredefinedParticleInfo();
+					extrainfo->WindX =0;
+					extrainfo->WindY = 0;
+					extrainfo->WindZ = 0;
+					extrainfo->Scale = 1;
+					extrainfo->Intensity = 10;
+					extrainfo->EmitterDuration = 1000000;
+					extrainfo->ParticleDuration = 1;
+					particleinfo->Info = extrainfo;
+				}
+
+				{
+					QVector<QVariant> data1;
+					data1<<"Wind X"<<(double)extrainfo->WindX;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data1;
+					data1<<"Wind Y"<<(double)extrainfo->WindY;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data1;
+					data1<<"Wind Z"<<(double)extrainfo->WindZ;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data1;
+					data1<<"Scale"<<(double)extrainfo->Scale;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data1;
+					data1<<"Intensity"<<(double)extrainfo->Intensity;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data1;
+					data1<<"EmitterDuration"<<(double)extrainfo->EmitterDuration;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data1;
+					data1<<"ParticleDuration"<<(double)extrainfo->ParticleDuration;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data1;
+					data1<<"CustomTexture"<<extrainfo->CustomTexture.c_str();
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+			}
+			else
+			{
+				// TODO
+			}
+		}
+
  
 		if(cond->DisplayDesc.TypeRenderer == RenderBox
 			|| cond->DisplayDesc.TypeRenderer == RenderCapsule
@@ -14717,6 +15253,56 @@ void EditorHandler::ProjectileChanged(const QModelIndex &parentIdx)
 				ptr->DisplayDesc.UseBillboard = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();
 			++index;
 		}
+
+		if(ptr->DisplayDesc.TypeRenderer == RenderParticle )
+		{
+			std::string particletypestr = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+			++index;
+			LbaNet::ParticleType particletype;
+			if(particletypestr == "Explosion")
+				particletype = LbaNet::ParticleExplosion;
+			if(particletypestr == "ExplosionDebris")
+				particletype = LbaNet::ParticleExplosionDebris;
+			if(particletypestr == "Smoke")
+				particletype = LbaNet::ParticleSmoke;
+			if(particletypestr == "SmokeTrail")
+				particletype = LbaNet::ParticleSmokeTrail;
+			if(particletypestr == "Fire")
+				particletype = LbaNet::ParticleFire;
+			if(particletypestr == "Custom")
+				particletype = LbaNet::ParticleCustom;
+
+			LbaNet::ModelExtraInfoParticlePtr particleInfo(new LbaNet::ModelExtraInfoParticle());
+			particleInfo->Type = particletype;
+
+			if (particleInfo->Type != LbaNet::ParticleCustom)
+			{
+				LbaNet::PredefinedParticleInfoPtr extraInfo(new LbaNet::PredefinedParticleInfo());
+
+				extraInfo->WindX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;	
+				extraInfo->WindY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;	
+				extraInfo->WindZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;	
+				extraInfo->Scale = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;	
+				extraInfo->Intensity = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;
+				extraInfo->EmitterDuration = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;	
+				extraInfo->ParticleDuration = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+				++index;	
+				extraInfo->CustomTexture = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+				++index;
+				particleInfo->Info = extraInfo;
+			}
+			else
+			{
+				// TODO
+			}
+			ptr->DisplayDesc.ExtraInfo = particleInfo;
+		}
  
 		if(ptr->DisplayDesc.TypeRenderer == RenderBox
 			|| ptr->DisplayDesc.TypeRenderer == RenderCapsule
@@ -14889,6 +15475,8 @@ void EditorHandler::ProjectileChanged(const QModelIndex &parentIdx)
 			ptr->DisplayDesc.TypeRenderer = LbaNet::RenderCapsule;
 		if(dtype == "Box") 
 			ptr->DisplayDesc.TypeRenderer = LbaNet::RenderBox;
+		if(dtype == "Particle") 
+			ptr->DisplayDesc.TypeRenderer = LbaNet::RenderParticle;
 
 		if(befored != ptr->DisplayDesc.TypeRenderer)
 			updateobj = true;
@@ -15702,6 +16290,11 @@ void EditorHandler::SelectDisplayInfo(const LbaNet::ModelInfo &mdisinfo, const Q
 		case RenderBGImage:
 			dtype = "BGImage";
 		break;
+
+		case RenderParticle:
+			dtype = "Particle";
+		break;
+
 	}
 	{
 		QVector<QVariant> data;
@@ -15866,6 +16459,110 @@ void EditorHandler::SelectDisplayInfo(const LbaNet::ModelInfo &mdisinfo, const Q
 				data1<<"Color A"<<(double)mdisinfo.ColorA;
 				_objectmodel->AppendRow(data1, parent);
 				++index;
+			}
+		}
+
+		if(mdisinfo.TypeRenderer == RenderParticle )
+		{
+			LbaNet::ModelExtraInfoParticlePtr particleinfo = LbaNet::ModelExtraInfoParticlePtr::dynamicCast(mdisinfo.ExtraInfo);
+			
+			std::string particletypestring = "Custom";
+			switch(particleinfo->Type)
+			{
+				case LbaNet::ParticleExplosion:
+					particletypestring = "Explosion";
+				break;
+				case LbaNet::ParticleExplosionDebris:
+					particletypestring = "ExplosionDebris";
+				break;
+				case LbaNet::ParticleSmoke:
+					particletypestring = "Smoke";
+				break;
+				case LbaNet::ParticleSmokeTrail:
+					particletypestring = "SmokeTrail";
+				break;
+				case LbaNet::ParticleFire:
+					particletypestring = "Fire";
+				break;
+			}
+
+			QVector<QVariant> data;
+			data<<"Particle type"<<particletypestring.c_str();
+			QModelIndex idx = _objectmodel->AppendRow(data, parent);
+			_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, idx.row(), parent), _particletypeList);
+			++index;
+
+			if (particleinfo->Type != LbaNet::ParticleCustom)
+			{
+				LbaNet::PredefinedParticleInfoPtr extrainfo;
+				if (particleinfo->Info)
+					extrainfo = LbaNet::PredefinedParticleInfoPtr::dynamicCast(particleinfo->Info);
+				if (!extrainfo)
+				{
+					// this could happen if we change particle type - in this case we need to reset subclass
+					extrainfo = new LbaNet::PredefinedParticleInfo();
+					extrainfo->WindX =0;
+					extrainfo->WindY = 0;
+					extrainfo->WindZ = 0;
+					extrainfo->Scale = 1;
+					extrainfo->Intensity = 10;
+					extrainfo->EmitterDuration = 1000000;
+					extrainfo->ParticleDuration = 1;
+					particleinfo->Info = extrainfo;
+				}
+
+				{
+					QVector<QVariant> data1;
+					data1<<"Wind X"<<(double)extrainfo->WindX;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data1;
+					data1<<"Wind Y"<<(double)extrainfo->WindY;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data1;
+					data1<<"Wind Z"<<(double)extrainfo->WindZ;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data1;
+					data1<<"Scale"<<(double)extrainfo->Scale;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data1;
+					data1<<"Intensity"<<(double)extrainfo->Intensity;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data1;
+					data1<<"EmitterDuration"<<(double)extrainfo->EmitterDuration;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data1;
+					data1<<"ParticleDuration"<<(double)extrainfo->ParticleDuration;
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+				{
+					QVector<QVariant> data1;
+					data1<<"CustomTexture"<<extrainfo->CustomTexture.c_str();
+					_objectmodel->AppendRow(data1, parent);
+					++index;
+				}
+			}
+			else
+			{
+				// TODO
 			}
 		}
 
@@ -16430,6 +17127,8 @@ void EditorHandler::DisplayInfoChanged(const QModelIndex &parentIdx, LbaNet::Mod
 		newdisinfo.TypeRenderer = LbaNet::RenderCross;
 	if(dtype == "BGImage") 
 		newdisinfo.TypeRenderer = LbaNet::RenderBGImage;
+	if(dtype == "Particle") 
+		newdisinfo.TypeRenderer = LbaNet::RenderParticle;
 
 	if(dtype == "No") 
 		newdisinfo.TypeRenderer = LbaNet::NoRender;
@@ -16451,6 +17150,22 @@ void EditorHandler::DisplayInfoChanged(const QModelIndex &parentIdx, LbaNet::Mod
 			newdisinfo.MatDiffuseColorR = 0.4;
 			newdisinfo.MatDiffuseColorG = 0.4;
 			newdisinfo.MatDiffuseColorB = 0.4;
+		}
+
+		if(newdisinfo.TypeRenderer == LbaNet::RenderParticle)
+		{
+			LbaNet::ModelExtraInfoParticlePtr particleInfo(new LbaNet::ModelExtraInfoParticle());
+			particleInfo->Type = LbaNet::ParticleExplosion;
+			LbaNet::PredefinedParticleInfoPtr extraInfo(new LbaNet::PredefinedParticleInfo());
+			extraInfo->WindX =0;
+			extraInfo->WindY = 0;
+			extraInfo->WindZ = 0;
+			extraInfo->Scale = 1;
+			extraInfo->Intensity = 10;
+			extraInfo->EmitterDuration = 1000000;
+			extraInfo->ParticleDuration = 1;
+			particleInfo->Info = extraInfo;
+			newdisinfo.ExtraInfo = particleInfo;
 		}
 	}
 
@@ -16583,6 +17298,54 @@ void EditorHandler::DisplayInfoChanged(const QModelIndex &parentIdx, LbaNet::Mod
 				++index;	
 			}
 
+			if(olddisinfo.TypeRenderer == RenderParticle )
+			{
+				std::string particletypestr = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+				++index;
+				LbaNet::ParticleType particletype;
+				if(particletypestr == "Explosion")
+					particletype = LbaNet::ParticleExplosion;
+				if(particletypestr == "ExplosionDebris")
+					particletype = LbaNet::ParticleExplosionDebris;
+				if(particletypestr == "Smoke")
+					particletype = LbaNet::ParticleSmoke;
+				if(particletypestr == "SmokeTrail")
+					particletype = LbaNet::ParticleSmokeTrail;
+				if(particletypestr == "Fire")
+					particletype = LbaNet::ParticleFire;
+				if(particletypestr == "Custom")
+					particletype = LbaNet::ParticleCustom;
+
+				LbaNet::ModelExtraInfoParticlePtr particleInfo(new LbaNet::ModelExtraInfoParticle());
+				particleInfo->Type = particletype;
+
+				if (particleInfo->Type != LbaNet::ParticleCustom)
+				{
+					LbaNet::PredefinedParticleInfoPtr extraInfo(new LbaNet::PredefinedParticleInfo());
+
+					extraInfo->WindX = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+					++index;	
+					extraInfo->WindY = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+					++index;	
+					extraInfo->WindZ = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+					++index;	
+					extraInfo->Scale = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+					++index;	
+					extraInfo->Intensity = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+					++index;
+					extraInfo->EmitterDuration = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+					++index;	
+					extraInfo->ParticleDuration = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toFloat();
+					++index;	
+					extraInfo->CustomTexture = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
+					++index;
+					particleInfo->Info = extraInfo;
+				}
+				else
+				{
+					// TODO
+				}
+			}
 
 			// check materials
 			newdisinfo.UseTransparentMaterial = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool();		

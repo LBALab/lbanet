@@ -151,6 +151,34 @@ ServerLuaHandler::ServerLuaHandler()
 		.def_readwrite("Group", &ContainerItemGroupElement::Group),
 
 
+		luabind::class_<LbaNet::ModelExtraInfoBase, LbaNet::ModelExtraInfoBasePtr>("ModelExtraInfoBase"),
+		luabind::class_<LbaNet::ParticleExtraInfoBase, LbaNet::ParticleExtraInfoBasePtr>("ParticleExtraInfoBase"),
+
+		luabind::class_<LbaNet::ModelExtraInfoParticle, LbaNet::ModelExtraInfoBase, LbaNet::ModelExtraInfoBasePtr>("ModelExtraInfoParticle")
+		.def(luabind::constructor<>())
+		.enum_("ParticleType")
+		[
+			luabind::value("ParticleExplosion", LbaNet::ParticleExplosion),
+			luabind::value("ParticleExplosionDebris", LbaNet::ParticleExplosionDebris),
+			luabind::value("ParticleSmoke", LbaNet::ParticleSmoke),
+			luabind::value("ParticleSmokeTrail", LbaNet::ParticleSmokeTrail),
+			luabind::value("ParticleFire", LbaNet::ParticleFire),
+			luabind::value("ParticleCustom", LbaNet::ParticleCustom)
+		]
+		.def_readwrite("Type", &LbaNet::ModelExtraInfoParticle::Type)
+		.def_readwrite("Info", &LbaNet::ModelExtraInfoParticle::Info),
+
+		luabind::class_<LbaNet::PredefinedParticleInfo, LbaNet::ParticleExtraInfoBase, LbaNet::ParticleExtraInfoBasePtr>("PredefinedParticleInfo")
+		.def(luabind::constructor<>())
+		.def_readwrite("WindX", &LbaNet::PredefinedParticleInfo::WindX)
+		.def_readwrite("WindY", &LbaNet::PredefinedParticleInfo::WindY)
+		.def_readwrite("WindZ", &LbaNet::PredefinedParticleInfo::WindZ)
+		.def_readwrite("Scale", &LbaNet::PredefinedParticleInfo::Scale)
+		.def_readwrite("Intensity", &LbaNet::PredefinedParticleInfo::Intensity)
+		.def_readwrite("EmitterDuration", &LbaNet::PredefinedParticleInfo::EmitterDuration)		
+		.def_readwrite("ParticleDuration", &LbaNet::PredefinedParticleInfo::ParticleDuration)		
+		.def_readwrite("CustomTexture", &LbaNet::PredefinedParticleInfo::CustomTexture),	
+
 		luabind::class_<LbaNet::ModelInfo>("ModelInfo")
 		.def(luabind::constructor<>())
 		.def_readwrite("ModelId", &LbaNet::ModelInfo::ModelId)
@@ -201,7 +229,8 @@ ServerLuaHandler::ServerLuaHandler()
 		.def_readwrite("MatEmissionColorG", &LbaNet::ModelInfo::MatEmissionColorG)
 		.def_readwrite("MatEmissionColorB", &LbaNet::ModelInfo::MatEmissionColorB)
 		.def_readwrite("MatEmissionColorA", &LbaNet::ModelInfo::MatEmissionColorA)
-		.def_readwrite("MatShininess", &LbaNet::ModelInfo::MatShininess),
+		.def_readwrite("MatShininess", &LbaNet::ModelInfo::MatShininess)
+		.def_readwrite("ExtraInfo", &LbaNet::ModelInfo::ExtraInfo),
 
 
 		luabind::class_<LbaNet::PlayerPosition>("PlayerPosition")
@@ -259,7 +288,8 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("SetPhysicalShape", &ActorObjectInfo::SetPhysicalShape)
 		.def("SetPhysicalActorType", &ActorObjectInfo::SetPhysicalActorType)
 		.def("SetModelState", &ActorObjectInfo::SetModelState)
-		.def("AddColorSwap", &ActorObjectInfo::AddColorSwap),
+		.def("AddColorSwap", &ActorObjectInfo::AddColorSwap)
+		.def_readwrite("AttachToActorId", &ActorObjectInfo::AttachToActorId),
 
 
 		luabind::class_<ActorScriptPartBase, boost::shared_ptr<ActorScriptPartBase> >("ActorScriptPartBase")

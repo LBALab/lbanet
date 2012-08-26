@@ -44,7 +44,7 @@ struct ActorObjectInfo
 {
 	//constructor
 	ActorObjectInfo()
-		: ObjectId(-1)
+		: ObjectId(-1), AttachToActorId(-1)
 	{
 		DisplayDesc.ModelId = 0;
 
@@ -162,6 +162,8 @@ struct ActorObjectInfo
 	float						HitPowerOnTouch;
 
 	bool						ExcludeFromNavMesh;
+
+	long						AttachToActorId;
 };
 
 

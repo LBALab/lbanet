@@ -69,7 +69,7 @@ public:
 	void UnTarget();
 	
 	//! server attach actor
-	void ServerAttachActor(boost::shared_ptr<DynamicObject> actor);
+	void ServerAttachActor(boost::shared_ptr<DynamicObject> actor, float posX, float posY, float posZ, float rotation);
 
 
 protected:

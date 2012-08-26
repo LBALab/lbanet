@@ -28,21 +28,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <Glacier2/PermissionsVerifier.h>
 #include "SharedData.h"
-#include "DatabaseHandler.h"
+#include "DatabaseHandlerBase.h"
 
+#include <boost/shared_ptr.hpp>
 
 class PermissionsVerifierServant : public Glacier2::PermissionsVerifier
 {
 public:
 	//! constructor
-	PermissionsVerifierServant(SharedData * shd, DatabaseHandler &dbh);
+	PermissionsVerifierServant(SharedData * shd, boost::shared_ptr<DatabaseHandlerBase> dbh);
 
 	virtual bool checkPermissions(const std::string& userId, const std::string& passwd, std::string& reason,
 									const Ice::Current&) const;
 
 private:
 	SharedData * _shd;
-	DatabaseHandler &_dbh;
+	boost::shared_ptr<DatabaseHandlerBase> _dbh;
 };
 
 #endif

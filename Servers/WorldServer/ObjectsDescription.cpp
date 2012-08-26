@@ -344,6 +344,21 @@ boost::shared_ptr<DisplayObjectHandlerBase> Lba1ModelObjectDescription::BuildSel
 												_CastShadow, _extrainfo, _lifeinfo, _mainchar));
 }
 
+
+
+/***********************************************************
+build description into dynamic object
+***********************************************************/
+boost::shared_ptr<DisplayObjectHandlerBase> OsgParticleDescription::BuildSelf(
+															boost::shared_ptr<DisplayTransformation> Tr,
+															DisplayHandlerBase * disH) const
+{
+	if(disH)
+		return disH->CreateParticleObject(_sceneid, _type, _info, Tr, _extrainfo, _lifeinfo);
+
+	return boost::shared_ptr<DisplayObjectHandlerBase> ();
+}
+
 #endif
 
 /***********************************************************
@@ -593,7 +608,7 @@ boost::shared_ptr<DisplayInfo> ObjectInfo::ExtractDisplayInfo(int sceneid, const
 		}
 		break;
 
-
+		// background image
 		case LbaNet::RenderBGImage:
 		{
 
@@ -616,6 +631,27 @@ boost::shared_ptr<DisplayInfo> ObjectInfo::ExtractDisplayInfo(int sceneid, const
 
 				DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
 			}
+		}
+		break;
+
+		// particle
+		case LbaNet::RenderParticle:
+		{
+			LbaNet::ModelExtraInfoParticlePtr particleinfo = LbaNet::ModelExtraInfoParticlePtr::dynamicCast(DisplayDesc.ExtraInfo);
+
+			boost::shared_ptr<DisplayObjectDescriptionBase> dispobdesc
+				(new OsgParticleDescription(sceneid, particleinfo->Type, particleinfo->Info, extrainfo, lifeinfo));
+
+			boost::shared_ptr<DisplayTransformation> tr( new DisplayTransformation());
+			tr->translationX = DisplayDesc.TransX;
+			tr->translationY = DisplayDesc.TransY;
+			tr->translationZ = DisplayDesc.TransZ;
+			tr->rotation = LbaQuaternion(DisplayDesc.RotX, DisplayDesc.RotY, DisplayDesc.RotZ);
+			tr->scaleX = DisplayDesc.ScaleX;
+			tr->scaleY = DisplayDesc.ScaleY;
+			tr->scaleZ = DisplayDesc.ScaleZ;
+
+			DInfo = boost::shared_ptr<DisplayInfo>(new DisplayInfo(tr, dispobdesc));
 		}
 		break;
 	}

@@ -719,7 +719,7 @@ public slots:
 	 void WorldNewsChanged();
 
 	 //! WorldStartingScriptChanged
-	 void WorldStartingScriptChanged();
+	 void WorldStartingScriptChanged(const QString &);
 
 	 //! starting map modified
 	 void StartingMapModified(int index);
@@ -1452,6 +1452,7 @@ private:
 
 	boost::shared_ptr<CustomStringListModel>							_weapontypeList;
 
+	boost::shared_ptr<CustomStringListModel>							_particletypeList;
 
 	bool												_modified;
 	bool												_mapmodified;

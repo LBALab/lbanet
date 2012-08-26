@@ -25,6 +25,8 @@ module LbaNet
 	
 	enum ItemClientInformType { DontInform, InformChat, InformHappy };
 	
+	enum ParticleType { ParticleExplosion, ParticleExplosionDebris, ParticleSmoke, ParticleSmokeTrail, ParticleFire, ParticleCustom };	
+	
 	
 	// give information about a world
 	struct WorldDesc
@@ -137,11 +139,31 @@ module LbaNet
 	{
 	};
 	
-			
+		
+	// extra particle info
+	class ParticleExtraInfoBase
+	{
+	};
+
 	class ModelExtraInfoParticle extends ModelExtraInfoBase
 	{
-		bool			Lollll;
+		ParticleType		Type;
+		ParticleExtraInfoBase	Info;
+	};
+	
+		
+	class PredefinedParticleInfo extends ParticleExtraInfoBase
+	{
+		float			WindX;
+		float			WindY;		
+		float			WindZ;
+		float			Scale;
+		float			Intensity;
+		double			EmitterDuration;
+		double			ParticleDuration;
+		string			CustomTexture;
 	};	
+
 	
 	
 	
@@ -214,7 +236,7 @@ module LbaNet
 		float			MatEmissionColorA;
 		
 		float			MatShininess;	
-		//ModelExtraInfoBase      ExtraInfo;		
+		ModelExtraInfoBase      ExtraInfo;		
 	};
 
 	struct PlayerStartingInfo

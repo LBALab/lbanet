@@ -1906,11 +1906,12 @@ void LbaNetModel::DettachActor(long ActorId, long AttachedObjectId)
 /***********************************************************
 attached actor to npc
 ***********************************************************/
-void LbaNetModel::NpcAttachActor(long NpcId, int AttachedObjectType, long AttachedObjectId)
+void LbaNetModel::NpcAttachActor(long NpcId, float posX, float posY, float posZ, float rotation,
+							int AttachedObjectType, long AttachedObjectId)
 {
 	std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find((long)NpcId);
 	if(it != _npcObjects.end())
-		it->second->ServerAttachActor(GetActor(AttachedObjectType, AttachedObjectId));
+		it->second->ServerAttachActor(GetActor(AttachedObjectType, AttachedObjectId), posX, posY, posZ, rotation);
 }
 
 

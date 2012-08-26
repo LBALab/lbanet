@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "DisplayObjectHandlerBase.h"
 #include <osg/ref_ptr>
+#include <osg/Node>
 #include <boost/shared_ptr.hpp>
 
 namespace osg
@@ -53,12 +54,14 @@ public:
 	//! default constructor
 	OsgObjectHandler(int sceneidx, boost::shared_ptr<DisplayTransformation> Tr,
 						const LbaNet::ObjectExtraInfo &extrainfo,
-						const LbaNet::LifeManaInfo &lifeinfo);
+						const LbaNet::LifeManaInfo &lifeinfo,
+						osg::ref_ptr<osg::Node> particle = osg::ref_ptr<osg::Node>());
 
 	//! constructor
 	OsgObjectHandler(int sceneidx, osg::ref_ptr<osg::MatrixTransform> OsgObject, bool uselight,
 						const LbaNet::ObjectExtraInfo &extrainfo,
-						const LbaNet::LifeManaInfo &lifeinfo);
+						const LbaNet::LifeManaInfo &lifeinfo,
+						osg::ref_ptr<osg::Node> particle = osg::ref_ptr<osg::Node>());
 
 	//! destructor
 	virtual ~OsgObjectHandler();
@@ -196,6 +199,7 @@ private:
 	osg::ref_ptr<osg::MatrixTransform>				_ObjectCopy;
 
 	osg::ref_ptr<osg::MatrixTransform>				_OsgVoiceSprite;
+	osg::ref_ptr<osg::Node>							_particle;
 
 
 	bool											_useTransparentMaterial;

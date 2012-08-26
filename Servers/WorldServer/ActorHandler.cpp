@@ -16,7 +16,7 @@
 constructor
 ***********************************************************/
 ActorObjectInfo::ActorObjectInfo(long id)
-: ObjectId(id), ExcludeFromNavMesh(false)
+: ObjectId(id), ExcludeFromNavMesh(false), AttachToActorId(-1)
 {
 	DisplayDesc.RotX = 0;
 	DisplayDesc.RotY = 0;
@@ -125,6 +125,9 @@ void ActorObjectInfo::SetRenderType(int rtype)
 		break;
 		case 8:
 			DisplayDesc.TypeRenderer = LbaNet::RenderSphere;
+		break;
+		case 9:
+			DisplayDesc.TypeRenderer = LbaNet::RenderParticle;
 		break;
 	}
 }
@@ -314,6 +317,9 @@ int ActorObjectInfo::GetRenderType()
 		case LbaNet::RenderSphere:
 			return 8;
 		break;
+		case LbaNet::RenderParticle:
+			return 9;
+		break;
 	}
 
 	return 0;
@@ -495,7 +501,8 @@ constructor
 ***********************************************************/
 ActorHandler::ActorHandler(const ActorObjectInfo & actorinfo)
 : m_launchedscript(-1), m_paused(false), m_scripthandler(NULL),
-	m_resetposition(false), m_resetrotation(false), _freemove(false)
+	m_resetposition(false), m_resetrotation(false), _freemove(false),
+	m_attachedactorid(-1)
 {
 	SetActorInfo(actorinfo);
 	m_lastrecordedpos = LbaVec3(m_actorinfo.PhysicDesc.Pos.X,
@@ -589,6 +596,7 @@ void ActorHandler::SetActorInfo(const ActorObjectInfo & ainfo)
 	m_actorinfo.ExtraInfo.Display = false;
 
 	CreateActor();
+
 }
 
 
@@ -663,6 +671,54 @@ void ActorHandler::SaveToLuaFile(std::ostream & file, std::string forcedid)
 		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatShininess = "<<m_actorinfo.DisplayDesc.MatShininess<<std::endl;
 	}
 
+	if (m_actorinfo.DisplayDesc.TypeRenderer == LbaNet::RenderParticle)
+	{
+		LbaNet::ModelExtraInfoParticlePtr particleinfo = LbaNet::ModelExtraInfoParticlePtr::dynamicCast(m_actorinfo.DisplayDesc.ExtraInfo);
+		file<<"\tActor_"<<objidstr<<"ExtraInfo = ModelExtraInfoParticle()"<<std::endl;
+		file<<"\tActor_"<<objidstr<<"ExtraInfo.Type = ";
+		switch(particleinfo->Type)
+		{
+			case LbaNet::ParticleExplosion:
+				file<<"ModelExtraInfoParticle.ParticleExplosion";
+			break;
+			case LbaNet::ParticleExplosionDebris:
+				file<<"ModelExtraInfoParticle.ParticleExplosionDebris";
+			break;
+			case LbaNet::ParticleSmoke:
+				file<<"ModelExtraInfoParticle.ParticleSmoke";
+			break;
+			case LbaNet::ParticleSmokeTrail:
+				file<<"ModelExtraInfoParticle.ParticleSmokeTrail";
+			break;
+			case LbaNet::ParticleFire:
+				file<<"ModelExtraInfoParticle.ParticleFire";
+			break;
+			case LbaNet::ParticleCustom:
+				file<<"ModelExtraInfoParticle.ParticleCustom";
+			break;
+		}		
+		file<<std::endl;
+		if (particleinfo->Type != LbaNet::ParticleCustom)
+		{
+			LbaNet::PredefinedParticleInfoPtr extrainfo = LbaNet::PredefinedParticleInfoPtr::dynamicCast(particleinfo->Info);
+			file<<"\tActor_"<<objidstr<<"ParticleExtraInfo = PredefinedParticleInfo()"<<std::endl;
+			file<<"\tActor_"<<objidstr<<"ParticleExtraInfo.WindX = "<<extrainfo->WindX<<std::endl;
+			file<<"\tActor_"<<objidstr<<"ParticleExtraInfo.WindY = "<<extrainfo->WindY<<std::endl;
+			file<<"\tActor_"<<objidstr<<"ParticleExtraInfo.WindZ = "<<extrainfo->WindZ<<std::endl;
+			file<<"\tActor_"<<objidstr<<"ParticleExtraInfo.Scale = "<<extrainfo->Scale<<std::endl;
+			file<<"\tActor_"<<objidstr<<"ParticleExtraInfo.Intensity = "<<extrainfo->Intensity<<std::endl;
+			file<<"\tActor_"<<objidstr<<"ParticleExtraInfo.EmitterDuration = "<<extrainfo->EmitterDuration<<std::endl;
+			file<<"\tActor_"<<objidstr<<"ParticleExtraInfo.ParticleDuration = "<<extrainfo->ParticleDuration<<std::endl;
+			file<<"\tActor_"<<objidstr<<"ParticleExtraInfo.CustomTexture = \""<<extrainfo->CustomTexture<<"\""<<std::endl;
+			file<<"\tActor_"<<objidstr<<"ExtraInfo.Info = Actor_"<<objidstr<<"ParticleExtraInfo"<<std::endl;
+		}
+		else
+		{
+			// TODO
+		}
+		file<<"\tActor_"<<objidstr<<".DisplayDesc.ExtraInfo = Actor_"<<objidstr<<"ExtraInfo"<<std::endl;
+	}
+
 
 	// add color swaps
 	{
@@ -721,6 +777,8 @@ void ActorHandler::SaveToLuaFile(std::ostream & file, std::string forcedid)
 
 		file<<"\tActor_"<<objidstr<<".Condition = "<<condname.str()<<std::endl;
 	}
+
+	file<<"\tActor_"<<objidstr<<".AttachToActorId = "<<m_actorinfo.AttachToActorId<<std::endl;
 
 
 	file<<"\tActor_"<<objidstr<<"H = "<<LuaBuildClass(objidstr)<<std::endl;
@@ -1056,6 +1114,13 @@ std::vector<LbaNet::ClientServerEventBasePtr> ActorHandler::Process(double tnow,
 {
 	if(m_scripthandler && !m_paused)
 	{
+		// attach to actor if not yet done
+		if (m_actorinfo.AttachToActorId > 0 && m_attachedactorid < 0)
+		{
+			AttachActor(1, m_actorinfo.AttachToActorId);
+		}
+
+
 		if(m_launchedscript < 0 && m_script.size() > 0)
 		{
 			// start script if needed 
@@ -1081,6 +1146,24 @@ std::vector<LbaNet::ClientServerEventBasePtr> ActorHandler::Process(double tnow,
 						attchedphys->GetLastMove(addspeedX, addspeedY, addspeedZ);
 						physo->Move(addspeedX, addspeedY, addspeedZ);
 					}
+				}
+			}
+		}
+		else
+		{
+			if(_attachedactor)
+			{
+				boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+				boost::shared_ptr<PhysicalObjectHandlerBase> attchedphys = _attachedactor->GetPhysicalObject();
+				if(physo && attchedphys)
+				{
+					physo->RotateYAxis(attchedphys->GetLastRotation());
+					float checkX, checkY, checkZ;
+					attchedphys->GetPosition(checkX, checkY, checkZ);
+
+					float addspeedX=0, addspeedY=0, addspeedZ=0;
+					attchedphys->GetLastMove(addspeedX, addspeedY, addspeedZ);
+					physo->Move(addspeedX, addspeedY, addspeedZ);
 				}
 			}
 		}
@@ -1760,9 +1843,15 @@ void ActorHandler::AttachActor(int AttachedObjectType, long AttachedObjectId)
 		m_attachedactorid = AttachedObjectId;
 		m_attachedactortype = AttachedObjectType;
 
+		boost::shared_ptr<PhysicalObjectHandlerBase> physO = _character->GetPhysicalObject();
+		float posX, posY, posZ;
+		physO->GetPosition(posX, posY, posZ);
+		float rotation = physO->GetRotationYAxis();
+
 		_events.push_back(new LbaNet::NpcAttachActorEvent(
 							SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-							m_actorinfo.ObjectId, m_attachedactortype, m_attachedactorid));
+							m_actorinfo.ObjectId, posX, posY, posZ, rotation,
+							m_attachedactortype, m_attachedactorid));
 	}
 	else
 		m_attachedactorid = -1;
@@ -1776,9 +1865,15 @@ void ActorHandler::DettachActor(long AttachedObjectId)
 	_attachedactor = boost::shared_ptr<DynamicObject>();
 	m_attachedactorid = -1;
 
+	boost::shared_ptr<PhysicalObjectHandlerBase> physO = _character->GetPhysicalObject();
+	float posX, posY, posZ;
+	physO->GetPosition(posX, posY, posZ);
+	float rotation = physO->GetRotationYAxis();
+
 	_events.push_back(new LbaNet::NpcAttachActorEvent(
 						SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-						m_actorinfo.ObjectId, m_attachedactortype, m_attachedactorid));
+						m_actorinfo.ObjectId, posX, posY, posZ, rotation,
+						m_attachedactortype, m_attachedactorid));
 }
 
 
@@ -1788,9 +1883,17 @@ get last actor event
 LbaNet::ClientServerEventBasePtr ActorHandler::AttachActorEvent()
 {
 	if(m_attachedactorid >= 0)
+	{
+		boost::shared_ptr<PhysicalObjectHandlerBase> physO = _character->GetPhysicalObject();
+		float posX, posY, posZ;
+		physO->GetPosition(posX, posY, posZ);
+		float rotation = physO->GetRotationYAxis();
+
 		return new LbaNet::NpcAttachActorEvent(
 							SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-							m_actorinfo.ObjectId, m_attachedactortype, m_attachedactorid);
+							m_actorinfo.ObjectId, posX, posY, posZ, rotation,
+							m_attachedactortype, m_attachedactorid);
+	}
 
 	return LbaNet::ClientServerEventBasePtr();
 }

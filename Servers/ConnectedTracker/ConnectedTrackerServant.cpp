@@ -32,7 +32,7 @@ constructor
 ***********************************************************/
 ConnectedTrackerServant::ConnectedTrackerServant(const Ice::CommunicatorPtr& communicator, 
 													SharedData * shd, 
-													DatabaseHandler &dbh)
+													boost::shared_ptr<DatabaseHandlerBase> dbh)
 : _communicator(communicator), _shd(shd), _dbh(dbh)
 {
 
@@ -52,7 +52,7 @@ remove a disconnected person
 void ConnectedTrackerServant::Disconnect(Ice::Long Id, const Ice::Current&)
 {
 	_shd->Disconnect(Id);
-	_dbh.DisconnectUser((long)Id);
+	_dbh->DisconnectUser((long)Id);
 }
 
 
@@ -151,5 +151,5 @@ bool ConnectedTrackerServant::IsWorldAdmin(Ice::Long PlayerId, const std::string
 	if(PlayerId == 1)
 		return true; // main admin is admin of every worlds by default
 
-	return _dbh.IsWorldAdmin((long)PlayerId, Worldname);
+	return _dbh->IsWorldAdmin((long)PlayerId, Worldname);
 }

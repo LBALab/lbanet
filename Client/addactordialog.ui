@@ -51,6 +51,11 @@
        <string>Lba2 Model</string>
       </property>
      </item>
+     <item>
+      <property name="text">
+       <string>Particle</string>
+      </property>
+     </item>
     </widget>
    </item>
    <item row="2" column="0">

@@ -26,6 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _LBANET_DISPLAY_HANDLER_BASE_H_
 #define _LBANET_DISPLAY_HANDLER_BASE_H_
 
+#include <Ice/Handle.h>
+
 class DisplayObjectHandlerBase;
 class DisplayTransformation;
 
@@ -33,6 +35,10 @@ namespace LbaNet
 {
 	struct ObjectExtraInfo;
 	struct LifeManaInfo;
+	enum ParticleType;
+
+	class ParticleExtraInfoBase;
+	typedef IceInternal::Handle<LbaNet::ParticleExtraInfoBase> ParticleExtraInfoBasePtr;
 }
 
 #include <string>
@@ -103,6 +109,13 @@ public:
 	//! create bg image object
 	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateBackgroundImageObject(const std::string & filenamefile, 
 															float colorR, float colorG, float colorB, float colorA) = 0;
+
+	//! create particle object
+	virtual boost::shared_ptr<DisplayObjectHandlerBase> CreateParticleObject(int sceneidx, const LbaNet::ParticleType &type,
+															const LbaNet::ParticleExtraInfoBasePtr &info,
+															boost::shared_ptr<DisplayTransformation> Tr,
+															const LbaNet::ObjectExtraInfo &extrainfo,
+															const LbaNet::LifeManaInfo &lifeinfo) = 0;
 
 };
 

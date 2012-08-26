@@ -419,7 +419,8 @@ public:
 
 
 	//! attached actor to npc
-	void NpcAttachActor(long NpcId, int AttachedObjectType, long AttachedObjectId);
+	void NpcAttachActor(long NpcId, float posX, float posY, float posZ, float rotation,
+							int AttachedObjectType, long AttachedObjectId);
 
 
 	//! send event to player

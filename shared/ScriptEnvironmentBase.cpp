@@ -26,7 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ScriptEnvironmentBase.h"
 #include "LogHandler.h"
 
-
 /***********************************************************
 start lua script in a separate thread
 ***********************************************************/

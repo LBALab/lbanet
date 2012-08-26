@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{713A566D-9D6D-4DEE-9F41-5B03CB522AFB}</ProjectGuid>
+    <RootNamespace>LBA_Server</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/D _LBANET_SERVER_SIDE_ /D _CRT_SECURE_NO_WARNINGS /D _LOCAL_TEST_ %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\3rd_party\msvc2010\x86\Ice\include;..\..\infrastructure\include;..\..\shared;..\..\3rd_Party\msvc2010\x86\sqlite;..\..\3rd_Party\msvc2010\x86\Boost\include;..\..\3rd_Party\msvc2010\x86\LUA\include;..\..\3rd_Party\msvc2010\x86\luabind\include;..\..\Client;.;..\..\3rd_Party\msvc2010\x86\recast\Detour\Include;..\..\3rd_Party\msvc2010\x86\recast\Recast\Include;..\..\3rd_Party\msvc2010\x86\recast\DetourCrowd\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;TIXML_USE_STL;LUABIND_DYNAMIC_LINK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>iced.lib;iceutild.lib;icestormd.lib;glacier2d.lib;iceboxd.lib;lua5.1d.lib;luabindd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\3rd_party\msvc2010\x86\Ice\lib;..\..\3rd_Party\msvc2010\x86\Boost\lib;..\..\3rd_Party\msvc2010\x86\LUA\lib;..\..\3rd_Party\msvc2010\x86\luabind\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/D _LBANET_SERVER_SIDE_ /D _CRT_SECURE_NO_WARNINGS /D _LOCAL_TEST_ %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\..\3rd_party\msvc2010\x86\Ice\include;..\..\infrastructure\include;..\..\shared;..\..\3rd_Party\msvc2010\x86\sqlite;..\..\3rd_Party\msvc2010\x86\Boost\include;..\..\3rd_Party\msvc2010\x86\LUA\include;..\..\3rd_Party\msvc2010\x86\luabind\include;..\..\Client;.;..\..\3rd_Party\msvc2010\x86\recast\Detour\Include;..\..\3rd_Party\msvc2010\x86\recast\Recast\Include;..\..\3rd_Party\msvc2010\x86\recast\DetourCrowd\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;TIXML_USE_STL;LUABIND_DYNAMIC_LINK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>ice.lib;iceutil.lib;icestorm.lib;glacier2.lib;icebox.lib;lua5.1.lib;luabind.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)worldserver.exe</OutputFile>
+      <AdditionalLibraryDirectories>..\..\3rd_party\msvc2010\x86\Ice\lib;..\..\3rd_Party\msvc2010\x86\MySQL++\lib;..\..\3rd_Party\msvc2010\x86\tinyxml\lib;..\..\3rd_Party\msvc2010\x86\Boost\lib;..\..\3rd_Party\msvc2010\x86\LUA\lib;..\..\3rd_Party\msvc2010\x86\luabind\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy $(TargetPath) $(ProjectDir)..\bin</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\3rd_party\msvc2010\x86\sqlite\sqlite3.c" />
+    <ClCompile Include="..\..\shared\DataDirHandler.cpp" />
+    <ClCompile Include="..\..\shared\EditorSharedData.cpp" />
+    <ClCompile Include="Actions.cpp" />
+    <ClCompile Include="ActorHandler.cpp" />
+    <ClCompile Include="ActorScriptPart.cpp" />
+    <ClCompile Include="..\..\shared\CatmulSplineHandler.cpp" />
+    <ClCompile Include="..\..\shared\CharacterModes.cpp" />
+    <ClCompile Include="..\..\shared\CharacterStates.cpp" />
+    <ClCompile Include="..\..\infrastructure\cpp\ChatInfo.cpp" />
+    <ClCompile Include="..\..\infrastructure\cpp\ClientInterface.cpp" />
+    <ClCompile Include="..\..\shared\ClientScript.cpp" />
+    <ClCompile Include="..\..\infrastructure\cpp\ClientServerEvents.cpp" />
+    <ClCompile Include="..\..\shared\CommonTypes.cpp" />
+    <ClCompile Include="CommunityBoxHandler.cpp" />
+    <ClCompile Include="Conditions.cpp" />
+    <ClCompile Include="ContainerBoxHandler.cpp" />
+    <ClCompile Include="..\..\Client\DataLoader.cpp" />
+    <ClCompile Include="..\..\3rd_Party\msvc2010\x86\recast\Detour\Source\DetourAlloc.cpp" />
+    <ClCompile Include="..\..\3rd_Party\msvc2010\x86\recast\Detour\Source\DetourCommon.cpp" />
+    <ClCompile Include="..\..\3rd_Party\msvc2010\x86\recast\DetourCrowd\Source\DetourCrowd.cpp" />
+    <ClCompile Include="..\..\3rd_Party\msvc2010\x86\recast\DetourCrowd\Source\DetourLocalBoundary.cpp" />
+    <ClCompile Include="..\..\3rd_Party\msvc2010\x86\recast\Detour\Source\DetourNavMesh.cpp" />
+    <ClCompile Include="..\..\3rd_Party\msvc2010\x86\recast\Detour\Source\DetourNavMeshBuilder.cpp" />
+    <ClCompile Include="..\..\3rd_Party\msvc2010\x86\recast\Detour\Source\DetourNavMeshQuery.cpp" />
+    <ClCompile Include="..\..\3rd_Party\msvc2010\x86\recast\Detour\Source\DetourNode.cpp" />
+    <ClCompile Include="..\..\3rd_Party\msvc2010\x86\recast\DetourCrowd\Source\DetourObstacleAvoidance.cpp" />
+    <ClCompile Include="..\..\3rd_Party\msvc2010\x86\recast\DetourCrowd\Source\DetourPathCorridor.cpp" />
+    <ClCompile Include="..\..\3rd_Party\msvc2010\x86\recast\DetourCrowd\Source\DetourPathQueue.cpp" />
+    <ClCompile Include="..\..\3rd_Party\msvc2010\x86\recast\DetourCrowd\Source\DetourProximityGrid.cpp" />
+    <ClCompile Include="DialogBoxHandler.cpp" />
+    <ClCompile Include="DialogPart.cpp" />
+    <ClCompile Include="DoorHandler.cpp" />
+    <ClCompile Include="..\..\shared\DynamicObject.cpp" />
+    <ClCompile Include="..\..\shared\Entities.cpp" />
+    <ClCompile Include="..\..\shared\FileUtil.cpp" />
+    <ClCompile Include="..\..\shared\HQRHandler.cpp" />
+    <ClCompile Include="..\..\shared\HQRlib.cpp" />
+    <ClCompile Include="InventoryBoxHandler.cpp" />
+    <ClCompile Include="InventoryItemHandler.cpp" />
+    <ClCompile Include="..\..\shared\Lba1ModelMapHandler.cpp" />
+    <ClCompile Include="..\..\infrastructure\cpp\LbaTypes.cpp" />
+    <ClCompile Include="..\..\shared\LogHandler.cpp" />
+    <ClCompile Include="LocalDatabaseHandler.cpp" />
+    <ClCompile Include="LuaHandlerBase.cpp" />
+    <ClCompile Include="LuaThreadHandler.cpp" />
+    <ClCompile Include="MailBoxHandler.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="..\..\infrastructure\cpp\MaintenanceInterface.cpp" />
+    <ClCompile Include="MaintenanceInterfaceServant.cpp" />
+    <ClCompile Include="MapHandler.cpp" />
+    <ClCompile Include="..\..\shared\NaviMeshHandler.cpp" />
+    <ClCompile Include="..\..\shared\NavMeshAgent.cpp" />
+    <ClCompile Include="NavMeshObjectHandlers.cpp" />
+    <ClCompile Include="NpcHandler.cpp" />
+    <ClCompile Include="ObjectsDescription.cpp" />
+    <ClCompile Include="PlayerHandler.cpp" />
+    <ClCompile Include="ProjectileObjectDef.cpp" />
+    <ClCompile Include="Quest.cpp" />
+    <ClCompile Include="QuestHandler.cpp" />
+    <ClCompile Include="..\..\shared\Randomizer.cpp" />
+    <ClCompile Include="..\..\3rd_Party\msvc2010\x86\recast\Recast\Source\Recast.cpp" />
+    <ClCompile Include="..\..\3rd_Party\msvc2010\x86\recast\Recast\Source\RecastAlloc.cpp" />
+    <ClCompile Include="..\..\3rd_Party\msvc2010\x86\recast\Recast\Source\RecastArea.cpp" />
+    <ClCompile Include="..\..\3rd_Party\msvc2010\x86\recast\Recast\Source\RecastContour.cpp" />
+    <ClCompile Include="..\..\3rd_Party\msvc2010\x86\recast\Recast\Source\RecastFilter.cpp" />
+    <ClCompile Include="..\..\3rd_Party\msvc2010\x86\recast\Recast\Source\RecastLayers.cpp" />
+    <ClCompile Include="..\..\3rd_Party\msvc2010\x86\recast\Recast\Source\RecastMesh.cpp" />
+    <ClCompile Include="..\..\3rd_Party\msvc2010\x86\recast\Recast\Source\RecastMeshDetail.cpp" />
+    <ClCompile Include="..\..\3rd_Party\msvc2010\x86\recast\Recast\Source\RecastRasterization.cpp" />
+    <ClCompile Include="..\..\3rd_Party\msvc2010\x86\recast\Recast\Source\RecastRegion.cpp" />
+    <ClCompile Include="..\..\shared\ScriptedActor.cpp" />
+    <ClCompile Include="..\..\shared\ScriptEnvironmentBase.cpp" />
+    <ClCompile Include="ServerGUIBase.cpp" />
+    <ClCompile Include="ServerLBA1ModelClass.cpp" />
+    <ClCompile Include="ServerLba1ModelHandler.cpp" />
+    <ClCompile Include="ServerLuaHandler.cpp" />
+    <ClCompile Include="SharedDataHandler.cpp" />
+    <ClCompile Include="ShopBoxHandler.cpp" />
+    <ClCompile Include="ShortcutBoxHandler.cpp" />
+    <ClCompile Include="SoundObjectHandlerServer.cpp" />
+    <ClCompile Include="Spawn.cpp" />
+    <ClCompile Include="..\..\shared\StaticObject.cpp" />
+    <ClCompile Include="..\..\shared\StreamReader.cpp" />
+    <ClCompile Include="..\..\shared\SynchronizedTimeHandler.cpp" />
+    <ClCompile Include="Teleport.cpp" />
+    <ClCompile Include="TextBoxHandler.cpp" />
+    <ClCompile Include="Triggers.cpp" />
+    <ClCompile Include="WorldChatHandler.cpp" />
+    <ClCompile Include="..\..\infrastructure\cpp\WorldRegistration.cpp" />
+    <ClCompile Include="..\..\infrastructure\cpp\WorldServerInterface.cpp" />
+    <ClCompile Include="WorldServerInterfaceServant.cpp" />
+    <ClCompile Include="..\..\shared\XmlReader.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ActorHandler.h" />
+    <ClInclude Include="Actions.h" />
+    <ClInclude Include="ClientProxyHandler.h" />
+    <ClInclude Include="CommunityBoxHandler.h" />
+    <ClInclude Include="Conditions.h" />
+    <ClInclude Include="ContainerBoxHandler.h" />
+    <ClInclude Include="DatabaseHandler.h" />
+    <ClInclude Include="DatabaseHandlerBase.h" />
+    <ClInclude Include="DialogBoxHandler.h" />
+    <ClInclude Include="InventoryBoxHandler.h" />
+    <ClInclude Include="InventoryItemHandler.h" />
+    <ClInclude Include="..\..\shared\LogHandler.h" />
+    <ClInclude Include="MailBoxHandler.h" />
+    <ClInclude Include="MaintenanceInterfaceServant.h" />
+    <ClInclude Include="MapHandler.h" />
+    <ClInclude Include="PlayerHandler.h" />
+    <ClInclude Include="ServerGUIBase.h" />
+    <ClInclude Include="ServerLuaHandler.h" />
+    <ClInclude Include="SharedDataHandler.h" />
+    <ClInclude Include="ShopBoxHandler.h" />
+    <ClInclude Include="ShortcutBoxHandler.h" />
+    <ClInclude Include="..\..\shared\SynchronizedTimeHandler.h" />
+    <ClInclude Include="TextBoxHandler.h" />
+    <ClInclude Include="Triggers.h" />
+    <ClInclude Include="WorldChatHandler.h" />
+    <ClInclude Include="WorldServerInterfaceServant.h" />
+    <ClInclude Include="..\..\shared\XmlReader.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

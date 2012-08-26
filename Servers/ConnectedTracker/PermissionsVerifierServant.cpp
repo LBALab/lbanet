@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /***********************************************************
 constructor
 ***********************************************************/
-PermissionsVerifierServant::PermissionsVerifierServant(SharedData * shd, DatabaseHandler &dbh)
+PermissionsVerifierServant::PermissionsVerifierServant(SharedData * shd, boost::shared_ptr<DatabaseHandlerBase> dbh)
 :_shd(shd), _dbh(dbh)
 {
 
@@ -50,7 +50,7 @@ bool PermissionsVerifierServant::checkPermissions(const std::string& userId, con
 		return false;
 	}
 
-	long id = _dbh.CheckLogin(userId, passwd);
+	long id = _dbh->CheckLogin(userId, passwd);
 	if(id < 0)
 	{
 		reason = "Unknown id/password.";

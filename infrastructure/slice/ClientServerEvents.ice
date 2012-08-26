@@ -245,7 +245,11 @@ module LbaNet
 	// server inform other that a npc moved
 	class NpcAttachActorEvent extends ClientServerEventBase
 	{
-		long			NpcId;	
+		long			NpcId;
+		float			CurrPosX;
+		float			CurrPosY;
+		float			CurrPosZ;
+		float			CurrRotation;		
 	
 		int 			AttachedType;
 		long 			AttachedId;	

@@ -66,6 +66,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <osgAudio/SoundRoot.h>
 
+#include <osgParticle/ParticleEffect>
+#include <osgParticle/ExplosionEffect>
+#include <osgParticle/ExplosionDebrisEffect>
+#include <osgParticle/SmokeEffect>
+#include <osgParticle/SmokeTrailEffect>
+#include <osgParticle/FireEffect>
+
 #include "GraphicsWindowQt"
 #include "QT_WindowsBase.h"
 
@@ -461,7 +468,7 @@ constructor
 ***********************************************************/
 OsgHandler::OsgHandler()
 : _isFullscreen(false), _resX(800), _resY(600),
-	_viewer(NULL), _root(NULL), _rootNode3d(NULL), _translNode(NULL),
+	_viewer(NULL), _root(NULL), _rootParticles(NULL), _rootNode3d(NULL), _translNode(NULL),
 	_viewportX(800), _viewportY(600), _ShadowType(0), 
 	_current_clip_layer(-1), _autoCameraType(1), _currentsceneroot(0),
 	_fixcamera(false)
@@ -600,6 +607,8 @@ else
 
 
 	_root=new osg::Group;
+	_rootParticles=new osg::Group;
+	_root->addChild(_rootParticles);
 
 	if(GuiH)
 	{
@@ -775,6 +784,7 @@ void OsgHandler::Finalize()
 	_sceneroots[1].first = NULL;
 	_sceneroots[1].second = NULL;
 	_rootNode3d = NULL;
+	_rootParticles = NULL;
 	_root = NULL;
 	_viewer = NULL;
 	_translNode =NULL;
@@ -1536,10 +1546,14 @@ osg::ref_ptr<osg::MatrixTransform> OsgHandler::AddActorNode(int sceneidx, osg::r
 	osg::ref_ptr<osg::Group> & scenerootnodenolight = GetSceneRootNodeNoLight(sceneidx); 
 
 	if(UseLight && scenerootnode)
+	{
 		scenerootnode->addChild(transform);
+	}
 
 	if(!UseLight && scenerootnodenolight)
+	{
 		scenerootnodenolight->addChild(transform);
+	}
 
 	return transform;
 }
@@ -2125,6 +2139,87 @@ boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateBackgroundImageObj
 
 }
 
+/***********************************************************
+create particle object
+***********************************************************/
+boost::shared_ptr<DisplayObjectHandlerBase> OsgHandler::CreateParticleObject(int sceneidx, const LbaNet::ParticleType &type,
+																				const LbaNet::ParticleExtraInfoBasePtr &info,
+																				boost::shared_ptr<DisplayTransformation> Tr,
+																				const LbaNet::ObjectExtraInfo &extrainfo,
+																				const LbaNet::LifeManaInfo &lifeinfo)
+{
+	osg::ref_ptr<osg::Group> resnode = new osg::Group();
+	osg::ref_ptr<osg::Node> particle;
+
+	// instantiate particle
+	if (type != LbaNet::ParticleCustom)
+	{
+		osgParticle::ParticleEffect* effect = 0;
+		LbaNet::PredefinedParticleInfoPtr castedInfo = LbaNet::PredefinedParticleInfoPtr::dynamicCast(info);
+
+		switch(type)
+		{
+			case LbaNet::ParticleExplosion:
+				effect = new osgParticle::ExplosionEffect(osg::Vec3(0, 0, 0), castedInfo->Scale, castedInfo->Intensity);
+			break;
+			case LbaNet::ParticleExplosionDebris:
+				effect = new osgParticle::ExplosionDebrisEffect(osg::Vec3(0, 0, 0), castedInfo->Scale, castedInfo->Intensity);
+			break;
+			case LbaNet::ParticleFire:
+				effect = new osgParticle::FireEffect(osg::Vec3(0, 0, 0), castedInfo->Scale, castedInfo->Intensity);
+			break;
+			case LbaNet::ParticleSmoke:
+				effect = new osgParticle::SmokeEffect(osg::Vec3(0, 0, 0), castedInfo->Scale, castedInfo->Intensity);
+			break;
+			case LbaNet::ParticleSmokeTrail:
+				effect = new osgParticle::SmokeTrailEffect(osg::Vec3(0, 0, 0), castedInfo->Scale, castedInfo->Intensity);
+			break;
+		}
+
+		if (effect)
+		{
+			effect->setUseLocalParticleSystem(false);
+
+
+			effect->setWind(osg::Vec3(castedInfo->WindX, castedInfo->WindY, castedInfo->WindZ));
+			effect->setEmitterDuration(castedInfo->EmitterDuration);
+			effect->setParticleDuration(castedInfo->ParticleDuration);
+			if(castedInfo->CustomTexture != "")
+				effect->setTextureFileName(castedInfo->CustomTexture);
+
+            osg::Geode* geode = new osg::Geode;
+			effect->getParticleSystem()->setParticleScaleReferenceFrame(osgParticle::ParticleSystem::WORLD_COORDINATES);
+            geode->addDrawable(effect->getParticleSystem());
+			osg::StateSet* stateset = geode->getOrCreateStateSet();
+			stateset->setMode(GL_BLEND, osg::StateAttribute::ON);
+			stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+			stateset->setRenderBinDetails( 30, "DepthSortedBin");
+            _rootParticles->addChild(geode);
+			particle = geode;
+
+            resnode->addChild(effect);
+		}
+	}
+	else
+	{
+		// TODO
+	}
+
+	if(Tr)
+	{
+		osg::ref_ptr<osg::PositionAttitudeTransform> transform = new osg::PositionAttitudeTransform();
+		transform->setPosition(osg::Vec3d(Tr->translationX, Tr->translationY, Tr->translationZ));
+		transform->setAttitude(osg::Quat(Tr->rotation.X, Tr->rotation.Y, Tr->rotation.Z, Tr->rotation.W));
+		transform->setScale(osg::Vec3d(Tr->scaleX, Tr->scaleY, Tr->scaleZ));
+
+		transform->addChild(resnode);
+		resnode = transform;
+	}
+	
+	osg::ref_ptr<osg::MatrixTransform> mat = AddActorNode(sceneidx, resnode, false, false);
+	return boost::shared_ptr<DisplayObjectHandlerBase>(new OsgObjectHandler(sceneidx, mat, false, extrainfo, lifeinfo, particle));
+}
+
 
 
 
@@ -2441,4 +2536,16 @@ void OsgHandler::ResetCameraInfo()
 	ResetCameraProjectiomMatrix();
 	SetCameraTarget(_caminfo.targetx, _caminfo.targety, _caminfo.targetz);
 	_rootNode3d->setScale(osg::Vec3d(1, 0.5, 1));
+}
+
+
+/***********************************************************
+remove particle from root
+***********************************************************/
+void OsgHandler::DestroyParticle(osg::ref_ptr<osg::Node> particle)
+{
+	if (particle)
+	{
+		_rootParticles->removeChild(particle);
+	}
 }

@@ -28,7 +28,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ConnectedTrackerServant.h"
 #include "PermissionsVerifierServant.h"
 #include "SharedData.h"
-#include "DatabaseHandler.h"
+
+#ifdef _LOCAL_TEST_
+#include "LocalDatabaseHandler.h"
+#else
+#include "DatabaseHandler.h
+#endif
 
 
 class LbaServer : public Ice::Application
@@ -41,12 +46,17 @@ public:
 
 		Ice::PropertiesPtr prop = communicator()->getProperties();
 
-		DatabaseHandler dbh(prop->getProperty("dbname"), prop->getProperty("dbserver"),
-							prop->getProperty("dbuser"), prop->getProperty("dbpassword"));
+		#ifdef _LOCAL_TEST_
+		boost::shared_ptr<DatabaseHandlerBase> dbH(new LocalDatabaseHandler("lbanet.sav"));
+		#else
+		boost::shared_ptr<DatabaseHandlerBase> dbH(new DatabaseHandler(
+							prop->getProperty("dbname"), prop->getProperty("dbserver"),
+							prop->getProperty("dbuser"), prop->getProperty("dbpassword")));
+		#endif
 
 		_adapter = communicator()->createObjectAdapter(prop->getProperty("IdentityAdapter"));
-		_adapter->add(new ConnectedTrackerServant(communicator(), &shd, dbh), communicator()->stringToIdentity(prop->getProperty("ConnectedServantName")));
-		_adapter->add(new PermissionsVerifierServant(&shd, dbh), communicator()->stringToIdentity(prop->getProperty("VerifierServantName")));
+		_adapter->add(new ConnectedTrackerServant(communicator(), &shd, dbH), communicator()->stringToIdentity(prop->getProperty("ConnectedServantName")));
+		_adapter->add(new PermissionsVerifierServant(&shd, dbH), communicator()->stringToIdentity(prop->getProperty("VerifierServantName")));
 		_adapter->activate();
 
 		communicator()->waitForShutdown();

@@ -46,6 +46,17 @@ class HolomapTravelPath;
 #include "CommonTypes.h"
 #include "LuaHandlerBase.h"
 
+
+
+// needed to use ice handles in luabnd
+namespace luabind {
+	template <class T>
+	T* get_pointer(IceInternal::Handle<T> & p)
+	{
+		return p.get();
+	}
+}
+
 //*************************************************************************************************
 //*                               class ScriptEnvironmentBase
 //*************************************************************************************************

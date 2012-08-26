@@ -296,6 +296,8 @@ void ExternalActor::Process(double tnow, float tdiff,
 			if(physo && attchedphys)
 			{
 				physo->RotateYAxis(attchedphys->GetLastRotation());
+				float checkX, checkY, checkZ;
+				attchedphys->GetPosition(checkX, checkY, checkZ);
 
 				float addspeedX=0, addspeedY=0, addspeedZ=0;
 				attchedphys->GetLastMove(addspeedX, addspeedY, addspeedZ);
@@ -361,9 +363,14 @@ void ExternalActor::UnTarget()
 /***********************************************************
 server attach actor
 ***********************************************************/
-void ExternalActor::ServerAttachActor(boost::shared_ptr<DynamicObject> actor)
+void ExternalActor::ServerAttachActor(boost::shared_ptr<DynamicObject> actor, float posX, float posY, float posZ, float rotation)
 {
 	_externalattachedactor = actor;
+
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+	physo->MoveTo(posX, posY, posZ);
+	LbaQuaternion Q(rotation, LbaVec3(0,1,0));
+	physo->RotateTo(Q);
 }
 
 

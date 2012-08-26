@@ -34,14 +34,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using namespace LbaNet;
 
 #include "SharedData.h"
-#include "DatabaseHandler.h"
+#include "DatabaseHandlerBase.h"
+
+#include <boost/shared_ptr.hpp>
 
 class ConnectedTrackerServant : public ConnectedTracker
 {
 public:
 	//! constructor
     ConnectedTrackerServant(const Ice::CommunicatorPtr& communicator, SharedData * shd, 
-								DatabaseHandler &dbh);
+								boost::shared_ptr<DatabaseHandlerBase> dbh);
 
 	//! add a connected person
     virtual Ice::Long Connect(const std::string& Nickname, const Ice::Current&);
@@ -89,8 +91,8 @@ public:
 private:
 	const Ice::CommunicatorPtr& _communicator;
 
-	SharedData *				_shd;
-	DatabaseHandler &			_dbh;
+	SharedData *								_shd;
+	boost::shared_ptr<DatabaseHandlerBase>		_dbh;
 };
 
 #endif

@@ -136,9 +136,11 @@ default constructor
 ***********************************************************/
 OsgObjectHandler::OsgObjectHandler(int sceneidx, boost::shared_ptr<DisplayTransformation> Tr,
 									const LbaNet::ObjectExtraInfo &extrainfo,
-									const LbaNet::LifeManaInfo &lifeinfo)
+									const LbaNet::LifeManaInfo &lifeinfo,
+									osg::ref_ptr<osg::Node> particle)
 :  _posX(0), _posY(0), _posZ(0), _displayed(true), _extrainfo(extrainfo), _uselight(true),
-		_lifeinfo(lifeinfo), _useTransparentMaterial(false), _MaterialType(0), _sceneidx(sceneidx)
+		_lifeinfo(lifeinfo), _useTransparentMaterial(false), _MaterialType(0), _sceneidx(sceneidx),
+		_particle(particle)
 {
 	#ifdef _DEBUG
 		LogHandler::getInstance()->LogToFile("Created empty Osg object.");
@@ -166,9 +168,10 @@ Constructor
 ***********************************************************/
 OsgObjectHandler::OsgObjectHandler(int sceneidx, osg::ref_ptr<osg::MatrixTransform> OsgObject, bool uselight,
 										const LbaNet::ObjectExtraInfo &extrainfo,
-										const LbaNet::LifeManaInfo &lifeinfo)
+										const LbaNet::LifeManaInfo &lifeinfo,
+										osg::ref_ptr<osg::Node> particle)
 : _posX(0), _posY(0), _posZ(0), _displayed(true), _extrainfo(extrainfo), _uselight(uselight),
-		_lifeinfo(lifeinfo), _sceneidx(sceneidx)
+		_lifeinfo(lifeinfo), _sceneidx(sceneidx), _particle(particle)
 {
 	if(uselight)
 	{
@@ -218,9 +221,11 @@ OsgObjectHandler::~OsgObjectHandler()
 		{
 			root->removeChild(_shouttextgroup);
 			_shouttextgroup = NULL;
-		}
-		
+		}	
 	}
+
+	if (_particle)
+		OsgHandler::getInstance()->DestroyParticle(_particle);
 
 }
 

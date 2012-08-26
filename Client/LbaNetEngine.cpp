@@ -904,7 +904,8 @@ void LbaNetEngine::HandleGameEvents()
 				dynamic_cast<LbaNet::NpcAttachActorEvent *>(&obj);
 
 			if(m_lbaNetModel)
-				m_lbaNetModel->NpcAttachActor((long)castedptr->NpcId, castedptr->AttachedType, (long)castedptr->AttachedId);
+				m_lbaNetModel->NpcAttachActor((long)castedptr->NpcId, castedptr->CurrPosX, castedptr->CurrPosY, castedptr->CurrPosZ,
+												castedptr->CurrRotation, castedptr->AttachedType, (long)castedptr->AttachedId);
 
 			continue;
 		}

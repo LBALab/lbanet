@@ -28,8 +28,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "MaintenanceInterfaceServant.h"
 #include "WorldChatHandler.h"
 #include "SharedDataHandler.h"
-#include "DatabaseHandler.h"
 #include "XmlReader.h"
+#include "DataDirHandler.h"
+
+#ifdef _LOCAL_TEST_
+#include "LocalDatabaseHandler.h"
+#else
+#include "DatabaseHandler.h
+#endif
+
+
 
 #include <WorldRegistration.h>
 
@@ -39,21 +47,40 @@ public:
 
     virtual int run(int argc, char* argv[])
     {
+		// get data path if exists
+		{
+			std::ifstream datapathf("DataDirPath.txt");
+			if(datapathf.is_open())
+			{
+				std::string datapath;
+				std::getline(datapathf, datapath);
+				if(datapath.size() > 0)
+				{
+					DataDirHandler::getInstance()->SetDataDirPath(datapath);
+				}
+			}
+		}
+
+
 		Ice::PropertiesPtr prop = communicator()->getProperties();
 		std::string wname = prop->getProperty("WorldName");
 
 		// init classes
 		WorldInformation worldinfo;
-		if(!XmlReader::LoadWorldInfo("Data/Worlds/"+wname+"/WorldDescription.xml", worldinfo))
+		if(!XmlReader::LoadWorldInfo(DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/"+wname+"/WorldDescription.xml", worldinfo))
 		{
-			std::cout<<"Could not read world configuration file "<<"Data/Worlds/"+wname+"/WorldDescription.xml"<<std::endl;
+			std::cout<<"Could not read world configuration file "<<DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/"+wname+"/WorldDescription.xml"<<std::endl;
 			return EXIT_FAILURE;
 		}
 
 		WorldChatHandler wch(communicator());
+		#ifdef _LOCAL_TEST_
+		boost::shared_ptr<DatabaseHandlerBase> dbH(new LocalDatabaseHandler("lbanet.sav"));
+		#else
 		boost::shared_ptr<DatabaseHandlerBase> dbH(new DatabaseHandler(
 							prop->getProperty("dbname"), prop->getProperty("dbserver"),
 							prop->getProperty("dbuser"), prop->getProperty("dbpassword")));
+		#endif
 		SharedDataHandler::getInstance()->SetDbManager(dbH);
 		SharedDataHandler::getInstance()->SetWorldDefaultInformation(worldinfo);
 

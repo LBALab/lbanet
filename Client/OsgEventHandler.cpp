@@ -328,7 +328,8 @@ bool OsgEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
 			if(ea.getButton() == osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON)
 			{	
 				osgViewer::View* view = dynamic_cast<osgViewer::View*>(&aa);
-				pick(view, ea);
+				if (view)
+					pick(view, ea);
 				return false;
 			}
 
@@ -821,25 +822,28 @@ pick object in the scene
 ***********************************************************/
 void OsgEventHandler::pick(osgViewer::View* view, const osgGA::GUIEventAdapter& ea)
 {
-    osg::Viewport* viewport = view->getCamera()->getViewport();
-    double mx = viewport->x() + (int)((double )viewport->width()*(ea.getXnormalized()*0.5+0.5));
-    double my = viewport->y() + (int)((double )viewport->height()*(ea.getYnormalized()*0.5+0.5));
-    double w = 5.0f;
-    double h = 5.0f;
-    osgUtil::PolytopeIntersector* picker = new 
-		osgUtil::PolytopeIntersector( osgUtil::Intersector::WINDOW, mx-w, my-h, mx+w, my+h );
+  //  osg::Viewport* viewport = view->getCamera()->getViewport();
+  //  double mx = viewport->x() + (int)((double )viewport->width()*(ea.getXnormalized()*0.5+0.5));
+  //  double my = viewport->y() + (int)((double )viewport->height()*(ea.getYnormalized()*0.5+0.5));
+  //  double w = 5.0f;
+  //  double h = 5.0f;
+  //  osgUtil::PolytopeIntersector* picker = new 
+		//osgUtil::PolytopeIntersector( osgUtil::Intersector::WINDOW, mx-w, my-h, mx+w, my+h );
 
-    osgUtil::IntersectionVisitor iv(picker);
-    view->getCamera()->accept(iv);
+  //  osgUtil::IntersectionVisitor iv(picker);
+  //  view->getCamera()->accept(iv);
 
 	std::string keepname;
 	float px=0, py=0, pz=0;
 
-    if (picker->containsIntersections())
+    float x = ea.getX();
+    float y = ea.getY();
+	osgUtil::LineSegmentIntersector::Intersections intersections;
+    if (view->computeIntersections(x,y,intersections))
     {
-        osgUtil::PolytopeIntersector::Intersections intersections = picker->getIntersections();
+        //osgUtil::PolytopeIntersector::Intersections intersections = picker->getIntersections();
 
-        for(osgUtil::PolytopeIntersector::Intersections::iterator hitr = intersections.begin();
+        for(osgUtil::LineSegmentIntersector::Intersections::iterator hitr = intersections.begin();
 				hitr != intersections.end();  ++hitr)
         {
 			osg::NodePath::const_reverse_iterator it = hitr->nodePath.rbegin();
@@ -855,6 +859,12 @@ void OsgEventHandler::pick(osgViewer::View* view, const osgGA::GUIEventAdapter& 
 						px = hitr->localIntersectionPoint.x();
 						py = hitr->localIntersectionPoint.y();
 						pz = hitr->localIntersectionPoint.z();
+
+						if(keepname[0] == 'M')
+						{
+							EventsQueue::getReceiverQueue()->AddEvent(new ObjectPickedEvent(name, px, py, pz)); 
+							return;
+						}
 					}
 					else
 					{
@@ -872,9 +882,12 @@ void OsgEventHandler::pick(osgViewer::View* view, const osgGA::GUIEventAdapter& 
 						// always take player stuff before anything
 						if(c2 == 'M' || c1 == 'P')
 						{
-							px = hitr->localIntersectionPoint.x();
-							py = hitr->localIntersectionPoint.y();
-							pz = hitr->localIntersectionPoint.z();
+							if(c2 == 'M')
+							{
+								px = hitr->localIntersectionPoint.x();
+								py = hitr->localIntersectionPoint.y();
+								pz = hitr->localIntersectionPoint.z();
+							}
 							EventsQueue::getReceiverQueue()->AddEvent(new ObjectPickedEvent(name, px, py, pz)); 
 							return;
 						}

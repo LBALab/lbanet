@@ -30,6 +30,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <sqlite3.h>
 
+#include <exception>
+
 
 
 /***********************************************************
@@ -41,9 +43,9 @@ LocalDatabaseHandler::LocalDatabaseHandler(const std::string & filename)
 	int res = sqlite3_open(filename.c_str(), &_db);
 	if( res )
 	{
-		std::cout << "Can't open database file "<<filename<<" : "<<sqlite3_errmsg(_db)<<std::endl;
 		sqlite3_close(_db);
 		_db = NULL;
+		throw(std::exception((std::string("Can't open database file ") + filename + std::string(" : ") + sqlite3_errmsg(_db)).c_str()));
 	}
 }
 
@@ -1124,4 +1126,29 @@ void LocalDatabaseHandler::ResetWorld(const std::string& WorldName, long playeri
 			}
 		}
 	}
+}
+
+
+/***********************************************************
+check login
+return -1 if login incorrect - else return the user id
+***********************************************************/
+long LocalDatabaseHandler::CheckLogin(const std::string & PlayerName, const std::string & Password)
+{
+	return 1;
+}
+
+/***********************************************************
+set the user as disconnected in the database
+***********************************************************/
+void LocalDatabaseHandler::DisconnectUser(long Id)
+{
+}
+
+/***********************************************************
+check if player is an admin for the given world
+***********************************************************/
+bool LocalDatabaseHandler::IsWorldAdmin(long PlayerId, const std::string& Worldname)
+{
+	return false;
 }
