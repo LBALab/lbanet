@@ -502,7 +502,7 @@ constructor
 ActorHandler::ActorHandler(const ActorObjectInfo & actorinfo)
 : m_launchedscript(-1), m_paused(false), m_scripthandler(NULL),
 	m_resetposition(false), m_resetrotation(false), _freemove(false),
-	m_attachedactorid(-1)
+	m_attachedactorid(-1), m_lastupdatetime(0)
 {
 	SetActorInfo(actorinfo);
 	m_lastrecordedpos = LbaVec3(m_actorinfo.PhysicDesc.Pos.X,
@@ -1134,38 +1134,12 @@ std::vector<LbaNet::ClientServerEventBasePtr> ActorHandler::Process(double tnow,
 			if(!ProcessScript(tnow, tdiff, m_scripthandler))
 			{
 				// if not moved check attached
-				if(_attachedactor)
-				{
-					boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
-					boost::shared_ptr<PhysicalObjectHandlerBase> attchedphys = _attachedactor->GetPhysicalObject();
-					if(physo && attchedphys)
-					{
-						physo->RotateYAxis(attchedphys->GetLastRotation());
-
-						float addspeedX=0, addspeedY=0, addspeedZ=0;
-						attchedphys->GetLastMove(addspeedX, addspeedY, addspeedZ);
-						physo->Move(addspeedX, addspeedY, addspeedZ);
-					}
-				}
+				UpdateFromAttached(tnow);
 			}
 		}
 		else
 		{
-			if(_attachedactor)
-			{
-				boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
-				boost::shared_ptr<PhysicalObjectHandlerBase> attchedphys = _attachedactor->GetPhysicalObject();
-				if(physo && attchedphys)
-				{
-					physo->RotateYAxis(attchedphys->GetLastRotation());
-					float checkX, checkY, checkZ;
-					attchedphys->GetPosition(checkX, checkY, checkZ);
-
-					float addspeedX=0, addspeedY=0, addspeedZ=0;
-					attchedphys->GetLastMove(addspeedX, addspeedY, addspeedZ);
-					physo->Move(addspeedX, addspeedY, addspeedZ);
-				}
-			}
+			UpdateFromAttached(tnow);
 		}
 	}
 
@@ -1177,6 +1151,48 @@ std::vector<LbaNet::ClientServerEventBasePtr> ActorHandler::Process(double tnow,
 	std::vector<LbaNet::ClientServerEventBasePtr> res;
 	res.swap(_events);
 	return res;
+}
+
+
+	//! update actor from attached
+
+/***********************************************************
+create actor
+***********************************************************/
+void ActorHandler::UpdateFromAttached(double tnow)
+{
+	if(_attachedactor)
+	{
+		boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+		boost::shared_ptr<PhysicalObjectHandlerBase> attchedphys = _attachedactor->GetPhysicalObject();
+		if(physo && attchedphys)
+		{
+			physo->RotateYAxis(attchedphys->GetLastRotation());
+			float addspeedX=0, addspeedY=0, addspeedZ=0;
+			attchedphys->GetLastMove(addspeedX, addspeedY, addspeedZ);
+			physo->Move(addspeedX, addspeedY, addspeedZ);
+		}
+
+
+		// send an update event every 5 secs to synchronize
+		if ((tnow - m_lastupdatetime) > 5000)
+		{
+			m_lastupdatetime = tnow;
+			boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
+			float checkX, checkY, checkZ;
+			physo->GetPosition(checkX, checkY, checkZ);
+			float rotation = physo->GetRotationYAxis();
+			std::string anim;	
+			if(disO)
+				anim = disO->GetCurrentAnimation();
+
+			LbaNet::NpcChangedEventPtr UpdateEvent = new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+								m_actorinfo.ObjectId, checkX, checkY, checkZ, rotation, anim, 
+								false, false, _character->GetSoundObject()->GetSoundVector(false), NULL);
+
+			_events.push_back(UpdateEvent);
+		}
+	}
 }
 
 

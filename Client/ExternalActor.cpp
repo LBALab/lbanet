@@ -296,8 +296,6 @@ void ExternalActor::Process(double tnow, float tdiff,
 			if(physo && attchedphys)
 			{
 				physo->RotateYAxis(attchedphys->GetLastRotation());
-				float checkX, checkY, checkZ;
-				attchedphys->GetPosition(checkX, checkY, checkZ);
 
 				float addspeedX=0, addspeedY=0, addspeedZ=0;
 				attchedphys->GetLastMove(addspeedX, addspeedY, addspeedZ);

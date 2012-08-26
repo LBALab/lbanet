@@ -354,9 +354,6 @@ protected:
 	//! set or reset camera transform
 	void ResetCameraTransform();
 
-	//! set or reset camera azimut
-	void ResetCameraAzimut();
-
 	//! reset camera distances when changeing cam type
 	void ResetCameraDistances(double distance);
 
@@ -418,16 +415,11 @@ private:
 	osg::ref_ptr<osg::Group>						_root;
 	osg::ref_ptr<osg::Group>						_rootNodeGui;
 	osg::ref_ptr<osg::Group>						_rootNodeBackground;
-	osg::ref_ptr<osg::PositionAttitudeTransform>	_translNode;
 	osg::ref_ptr<osg::Group>						_rootParticles;
 
 	osg::ref_ptr<osg::LightSource>									_lightNodes[_NB_OSG_SCENES_];
 	std::pair<osg::ref_ptr<osg::Group>, osg::ref_ptr<osg::Group> >	_sceneroots[_NB_OSG_SCENES_];
 	int																_currentsceneroot;
-
-	//osg::ref_ptr<osg::LightSource>				_lightNode;
-	//osg::ref_ptr<osg::Group>						_sceneRootNode;
-	//osg::ref_ptr<osg::Group>						_sceneNoLightRootNode;
 
 	osg::ref_ptr<osg::ClipNode>						_clipNode;
 	osg::ref_ptr<osg::Camera>						_HUDcam;

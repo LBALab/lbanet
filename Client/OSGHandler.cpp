@@ -468,7 +468,7 @@ constructor
 ***********************************************************/
 OsgHandler::OsgHandler()
 : _isFullscreen(false), _resX(800), _resY(600),
-	_viewer(NULL), _root(NULL), _rootParticles(NULL), _rootNode3d(NULL), _translNode(NULL),
+	_viewer(NULL), _root(NULL), _rootParticles(NULL), _rootNode3d(NULL),
 	_viewportX(800), _viewportY(600), _ShadowType(0), 
 	_current_clip_layer(-1), _autoCameraType(1), _currentsceneroot(0),
 	_fixcamera(false)
@@ -596,12 +596,6 @@ else
 	// create the root node used for camera transformation
 	_rootNode3d = new osg::PositionAttitudeTransform();
 	_rootNode3d->setScale(osg::Vec3d(1, 0.5, 1));
-	_rootNode3d->setAttitude(osg::Quat(osg::DegreesToRadians(-45.0), osg::Vec3(0,1,0)));
-	_translNode = new osg::PositionAttitudeTransform();
-	_translNode->setName("TranslationNode");
-
-
-	_rootNode3d->addChild(_translNode);
 	_rootNode3d->setName("Root3D");
 	_rootNode3d->getOrCreateStateSet()->setRenderBinDetails(2,"RenderBin"); 
 
@@ -687,8 +681,8 @@ else
 
 
 	_clipNode = new osg::ClipNode();
-	_clipNode->setStateSetModes(*_translNode->getOrCreateStateSet(),osg::StateAttribute::ON|osg::StateAttribute::PROTECTED|osg::StateAttribute::OVERRIDE);
-	_translNode->addChild(_clipNode);
+	_clipNode->setStateSetModes(*_rootNode3d->getOrCreateStateSet(),osg::StateAttribute::ON|osg::StateAttribute::PROTECTED|osg::StateAttribute::OVERRIDE);
+	_rootNode3d->addChild(_clipNode);
 	_clipNode->setName("Clipnode");
 
 	_eventH = new OsgEventHandler();
@@ -787,7 +781,6 @@ void OsgHandler::Finalize()
 	_rootParticles = NULL;
 	_root = NULL;
 	_viewer = NULL;
-	_translNode =NULL;
 	_HUDcam =NULL;
 	_HUDcamBackground =NULL;
 	_rootNodeGui =NULL;
@@ -964,53 +957,33 @@ void OsgHandler::ResetCameraTransform()
 {
 	if(_viewer)
 	{
-		osg::Matrixd viewMatrix;
+		double distance, zenit, azimuth;
 		if(_caminfo.cameraType > 1 || ((_caminfo.cameraType == 0) && (_autoCameraType > 1)))
 		{
-			osg::Matrixd cameraRotation1;
-			osg::Matrixd cameraTrans;
-
-			cameraRotation1.makeRotate(osg::DegreesToRadians(_caminfo.zenit), osg::Vec3(1,0,0));
-			cameraTrans.makeTranslate( 0,0,-_caminfo.distance );
-			viewMatrix = cameraRotation1* cameraTrans;
+			zenit = osg::DegreesToRadians(180-_caminfo.zenit);
+			distance = -_caminfo.distance;
 		}
 		else
 		{
-			osg::Matrixd cameraRotation1;
-			osg::Matrixd cameraTrans;
-
-			cameraRotation1.makeRotate(osg::DegreesToRadians(30.0), osg::Vec3(1,0,0));
-			cameraTrans.makeTranslate( 0,0,-1000 );
-			viewMatrix = cameraRotation1 * cameraTrans;
+			zenit = osg::DegreesToRadians(110.0);
+			distance = -1000;
 		}
-
-
-		_viewer->getCamera()->setViewMatrix(viewMatrix);
-	}
-
-	ResetCameraAzimut();
-}
-
-
-
-/***********************************************************
-set or reset camera Azimut
-***********************************************************/
-void OsgHandler::ResetCameraAzimut()
-{
-	if(_rootNode3d)
-	{
 		if(_caminfo.cameraType == 3 || ((_caminfo.cameraType == 0) && (_autoCameraType == 3)))
 		{
-			_rootNode3d->setAttitude(osg::Quat(osg::DegreesToRadians(180-_caminfo.azimut), osg::Vec3(0,1,0)));
+			azimuth = osg::DegreesToRadians(180-_caminfo.azimut);
 		}
 		else
 		{
-			_rootNode3d->setAttitude(osg::Quat(osg::DegreesToRadians(-45.0), osg::Vec3(0,1,0)));
+			azimuth = osg::DegreesToRadians(-45.0);
 		}
+
+		osg::Vec3d center(_caminfo.targetx, _caminfo.targety/2, _caminfo.targetz);
+		osg::Vec3d up(0, 1, 0);
+		osg::Vec3d right(0, 0, 1);
+		osg::Vec3d dir = osg::Quat(zenit, right ) * osg::Quat(azimuth, up ) * osg::Vec3d( 0., distance, 0. );
+		_viewer->getCamera()->setViewMatrixAsLookAt(center + dir, center, up);
 	}
 }
-
 
 /***********************************************************
 set if the view is perspective or ortho
@@ -1115,11 +1088,11 @@ void OsgHandler::SetCameraZenit(double zenit, bool forced)
 	{
 		_caminfo.zenit = zenit;
 
-		int maxdistance = 70;
+		int maxdistance = 80;
 
 		int mindistance = 10;
 		if(_caminfo.cameraType > 2 || ((_caminfo.cameraType == 0) && (_autoCameraType > 2)))
-			mindistance = -70;
+			maxdistance = 140;
 
 		if(!_fixcamera)
 		{
@@ -1165,7 +1138,7 @@ void OsgHandler::SetCameraAzimut(double azimut, bool forced)
 				_caminfo.azimut -= 360;
 		}
 
-		ResetCameraAzimut();
+		ResetCameraTransform();
 	}
 }
 
@@ -1202,9 +1175,7 @@ void OsgHandler::SetCameraTarget(double TargetX, double TargetY, double TargetZ,
 	_caminfo.targety = TargetY;
 	_caminfo.targetz = TargetZ;
 
-	//ResetCameraTransform();
-	if(_translNode)
-		_translNode->setPosition(osg::Vec3d( -_caminfo.targetx,-_caminfo.targety,-_caminfo.targetz ));
+	ResetCameraTransform();
 }
 
 /***********************************************************
@@ -1262,7 +1233,7 @@ void OsgHandler::SetLight(int sceneidx, const LbaMainLightInfo &LightInfo)
 
 		lightNode->setLight(myLight1);
 		lightNode->setLocalStateSetModes(osg::StateAttribute::ON);
-		lightNode->setStateSetModes(*_translNode->getOrCreateStateSet(),osg::StateAttribute::ON);
+		lightNode->setStateSetModes(*_rootNode3d->getOrCreateStateSet(),osg::StateAttribute::ON);
 	}
 	else
 	{
@@ -1353,15 +1324,15 @@ typically called when changing map
 ***********************************************************/
 void OsgHandler::ResetDisplayTree(int sceneidx)
 {
-	if(!_translNode)
+	if(!_rootNode3d)
 		return;
 
 	osg::ref_ptr<osg::LightSource> &lightNode = GetLigthNode(sceneidx); 
 	if(lightNode)
-		_translNode->removeChild(lightNode);
+		_rootNode3d->removeChild(lightNode);
 
 	lightNode = new osg::LightSource();
-	_translNode->addChild(lightNode);
+	_rootNode3d->addChild(lightNode);
 	lightNode->setName("LightNode");
 
 
@@ -1371,11 +1342,11 @@ void OsgHandler::ResetDisplayTree(int sceneidx)
 
 	osg::ref_ptr<osg::Group> &sceneRootNodeNoLight = GetSceneRootNodeNoLight(sceneidx);
 	if(sceneRootNodeNoLight)
-		_translNode->removeChild(sceneRootNodeNoLight);
+		_rootNode3d->removeChild(sceneRootNodeNoLight);
 
 	sceneRootNodeNoLight = new osg::Group();	
 	sceneRootNodeNoLight->setName("SceneRootNodeNoLight");
-	_translNode->addChild(sceneRootNodeNoLight);
+	_rootNode3d->addChild(sceneRootNodeNoLight);
 
  //   osg::ref_ptr<osgParticle::PrecipitationEffect> precipitationEffect = new osgParticle::PrecipitationEffect;
 
@@ -1650,7 +1621,7 @@ void OsgHandler::SetClipPlane(float layer)
 
 	_current_clip_layer = layer;
 
-	_clipNode->setStateSetModes(*_translNode->getOrCreateStateSet(),osg::StateAttribute::OFF);
+	_clipNode->setStateSetModes(*_rootNode3d->getOrCreateStateSet(),osg::StateAttribute::OFF);
 	_clipNode->removeClipPlane((unsigned int)0);
 
 
@@ -1659,7 +1630,7 @@ void OsgHandler::SetClipPlane(float layer)
 		osg::ref_ptr<osg::ClipPlane> clipplane = new osg::ClipPlane();
 		clipplane->setClipPlane(0, -1, 0, layer+0.01);
 		_clipNode->addClipPlane(clipplane);
-		_clipNode->setStateSetModes(*_translNode->getOrCreateStateSet(),osg::StateAttribute::ON);
+		_clipNode->setStateSetModes(*_rootNode3d->getOrCreateStateSet(),osg::StateAttribute::ON);
 	}
 }
 
@@ -2415,7 +2386,7 @@ send sound root
 void OsgHandler::SetSoundRoot(osg::ref_ptr<osgAudio::SoundRoot> sound_root)
 {
     sound_root->setCamera( NULL );
-    _translNode->addChild(sound_root.get());
+    _rootNode3d->addChild(sound_root.get());
 }
 
 
@@ -2484,7 +2455,7 @@ void OsgHandler::SwitchScene(int newsceneidx)
 	{
 		osg::ref_ptr<osg::LightSource> &lightNode = GetLigthNode(); 
 		if(lightNode)
-			_translNode->removeChild(lightNode);
+			_rootNode3d->removeChild(lightNode);
 
 		osg::ref_ptr<osg::Group> &sceneRootNode = GetSceneRootNode();
 		if(lightNode && sceneRootNode) 
@@ -2492,7 +2463,7 @@ void OsgHandler::SwitchScene(int newsceneidx)
 
 		osg::ref_ptr<osg::Group> &sceneRootNodeNoLight = GetSceneRootNodeNoLight();
 		if(sceneRootNodeNoLight)
-			_translNode->removeChild(sceneRootNodeNoLight);	
+			_rootNode3d->removeChild(sceneRootNodeNoLight);	
 	}
 
 	// set new scene idx
@@ -2502,7 +2473,7 @@ void OsgHandler::SwitchScene(int newsceneidx)
 	{
 		osg::ref_ptr<osg::LightSource> &lightNode = GetLigthNode(); 
 		if(lightNode)
-			_translNode->addChild(lightNode);
+			_rootNode3d->addChild(lightNode);
 
 		osg::ref_ptr<osg::Group> &sceneRootNode = GetSceneRootNode();
 		if(lightNode && sceneRootNode) 
@@ -2510,7 +2481,7 @@ void OsgHandler::SwitchScene(int newsceneidx)
 
 		osg::ref_ptr<osg::Group> &sceneRootNodeNoLight = GetSceneRootNodeNoLight();
 		if(sceneRootNodeNoLight)
-			_translNode->addChild(sceneRootNodeNoLight);
+			_rootNode3d->addChild(sceneRootNodeNoLight);
 	}
 }
 

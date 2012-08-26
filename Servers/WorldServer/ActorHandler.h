@@ -512,6 +512,9 @@ protected:
 	//! process child
 	virtual void ProcessChild(double tnow, float tdiff){}
 
+	//! update actor from attached
+	void UpdateFromAttached(double tnow);
+
 
 protected:
 	ActorObjectInfo										m_actorinfo;
@@ -550,6 +553,8 @@ protected:
 	boost::shared_ptr<NavMeshAgent>						m_NavMAgent;
 
 	LbaVec3												m_lastrecordedpos;
+
+	double												m_lastupdatetime;
 
 		
 };
