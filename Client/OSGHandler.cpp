@@ -965,7 +965,7 @@ void OsgHandler::ResetCameraTransform()
 		}
 		else
 		{
-			zenit = osg::DegreesToRadians(110.0);
+			zenit = osg::DegreesToRadians(120.0);
 			distance = -1000;
 		}
 		if(_caminfo.cameraType == 3 || ((_caminfo.cameraType == 0) && (_autoCameraType == 3)))
