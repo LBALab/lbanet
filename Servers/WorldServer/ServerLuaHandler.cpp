@@ -68,6 +68,13 @@ ServerLuaHandler::ServerLuaHandler()
 			luabind::def("GetAngleFromVector", &LbaQuaternion::GetAngleFromVector)
 		],
 
+		luabind::class_<LbaSphere>("LbaSphere")
+		.def(luabind::constructor<>())
+		.def(luabind::constructor<float, float, float, float>())
+		.def_readwrite("CenterX", &LbaSphere::CenterX)
+		.def_readwrite("CenterY", &LbaSphere::CenterY)
+		.def_readwrite("CenterZ", &LbaSphere::CenterZ)
+		.def_readwrite("Radius", &LbaSphere::Radius),
 
 
 		luabind::class_<ConditionBase, boost::shared_ptr<ConditionBase> >("ConditionBase")
@@ -740,6 +747,12 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetHolomapId", &DisplayHolomapAction::GetHolomapId)
 		.def("SetHolomapId", &DisplayHolomapAction::SetHolomapId),
 
+		luabind::class_<SphereZoneAction, ActionBase, boost::shared_ptr<ActionBase> >("SphereZoneAction")
+		.def(luabind::constructor<>())
+		.def("SetSphereInfo", &SphereZoneAction::SetSphereInfo)
+		.def("GetSphereInfo", &SphereZoneAction::GetSphereInfo)
+		.def("SetAction", &SphereZoneAction::SetAction)
+		.def("GetAction", &SphereZoneAction::GetAction),
 		
 
 

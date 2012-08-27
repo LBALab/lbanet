@@ -90,6 +90,9 @@ public:
 	//! distance between 2 vectors
 	float Distance(const LbaVec3 & v) const;
 
+	//! distance between 2 vectors
+	float FastDistance(const LbaVec3 & v) const;
+
 	//! normalize vector
 	void Normalize();
 
@@ -170,6 +173,24 @@ public:
 	float X, Y, Z, W;
 };
 
+class LbaSphere
+{
+public:
+	float CenterX;
+	float CenterY;
+	float CenterZ;
+	float Radius;
+
+	//! constructor
+	LbaSphere()
+		: CenterX(0), CenterY(0), CenterZ(0), Radius(1)
+	{}
+
+	//! constructor
+	LbaSphere(float cx, float cy, float cz, float r)
+		: CenterX(cx), CenterY(cy), CenterZ(cz), Radius(r)
+	{}
+};
 
 
 /***********************************************************************

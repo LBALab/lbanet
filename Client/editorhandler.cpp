@@ -1055,7 +1055,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 			<< "OpenDoorAction" << "CloseDoorAction" << "AddRemoveItemAction" << "HurtAction"
 			 << "KillAction"  << "MultiAction" << "SwitchAction" << "StartQuestAction" << "FinishQuestAction"
 			 << "OpenShopAction"<< "CutMapAction"<< "OpenLetterWritterAction"<< "OpenMailboxAction"
-			 << "PlaySoundAction" << "SetFlagAction" << "ShoutTextAction" << "RandomAction" << "DisplayHolomapAction";
+			 << "PlaySoundAction" << "SetFlagAction" << "ShoutTextAction" << "RandomAction" << "DisplayHolomapAction"
+			 << "SphereZoneAction";
 
 	_actiontypeList->setStringList(actilist);
 
@@ -3836,7 +3837,51 @@ void EditorHandler::SelectAction(ActionBase* action, const QModelIndex &parent)
 		return;
 	}
 
-	
+
+	if(actiontype == "SphereZoneAction")
+	{
+		SphereZoneAction* ptr = static_cast<SphereZoneAction*>(action);
+		{
+			// add zone
+			LbaSphere sphere = ptr->GetSphereInfo();
+			{
+				QVector<QVariant> data;
+				data << "Zone center X" << (double) sphere.CenterX;
+				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+			}
+			{
+				QVector<QVariant> data;
+				data << "Zone center Y" << (double) sphere.CenterY;
+				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+			}
+			{
+				QVector<QVariant> data;
+				data << "Zone center Z" << (double) sphere.CenterZ;
+				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+			}
+			{
+				QVector<QVariant> data;
+				data << "Zone radius" << (double) sphere.Radius;
+				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+			}
+
+			// add action
+			{
+				ActionBasePtr actptr = ptr->GetAction();
+				std::string acttype = GetActionType(actptr);
+
+				QVector<QVariant> data;
+				data << "Action" << acttype.c_str();
+				QModelIndex idx = _objectmodel->AppendRow(data, parent);
+				
+				if(actptr)
+					SelectAction(actptr.get(), idx);
+			}
+		}
+
+		_objectmodel->SetCustomIndex(_objectmodel->GetIndex(1, 6, parent), _actiontypeList);
+		return;
+	}	
 }
 		
 
@@ -4696,10 +4741,53 @@ void EditorHandler::ActionObjectChanged(const std::string & category, const QMod
 
 				return;
 			}	
-					
+		
+
+			if(category == "SphereZoneAction")
+			{
+				// created modified action and replace old one
+				SphereZoneAction* modifiedact = (SphereZoneAction*)ptr;
+
+				// check sphere part
+				{
+					LbaSphere sphereInfo;
+					sphereInfo.CenterX  = _objectmodel->data(_objectmodel->GetIndex(1, 2, parentIdx)).toFloat();
+					sphereInfo.CenterY  = _objectmodel->data(_objectmodel->GetIndex(1, 3, parentIdx)).toFloat();
+					sphereInfo.CenterZ  = _objectmodel->data(_objectmodel->GetIndex(1, 4, parentIdx)).toFloat();
+					sphereInfo.Radius  = _objectmodel->data(_objectmodel->GetIndex(1, 5, parentIdx)).toFloat();
+					modifiedact->SetSphereInfo(sphereInfo);
+				}
+
+				// get id associated to actions
+				std::string action = _objectmodel->data(_objectmodel->GetIndex(1, 6, parentIdx)).toString().toAscii().data();
+				{
+					std::string curract = GetActionType(modifiedact->GetAction());
+					if(action != curract)
+					{
+						ActionBasePtr ptrtmp = CreateAction(action);
+						modifiedact->SetAction(ptrtmp);
+
+						QModelIndex curidx = _objectmodel->GetIndex(0, 6, parentIdx);
+						_objectmodel->Clear(curidx);
+						if(ptrtmp)
+						{
+							SelectAction(ptrtmp.get(), curidx);
+
+							_uieditor.treeView_object->setExpanded(curidx, true); // expand 
+						}
+
+					}
+				}
+
+
+				// need to save as something changed
+				SetModified();
+
+				return;
+			}
+
 		}
 	}
-
 }
 
 
@@ -11044,6 +11132,9 @@ ActionBasePtr EditorHandler::CreateAction(const std::string & type)
 			
 	if(type == "DisplayHolomapAction")
 		return ActionBasePtr(new DisplayHolomapAction());
+			
+	if(type == "SphereZoneAction")
+		return ActionBasePtr(new SphereZoneAction());
 
 	return ActionBasePtr();
 }

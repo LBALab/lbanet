@@ -533,6 +533,9 @@ public:
 	//! display holomap
 	virtual void DisplayHolomap(int ScriptId, long PlayerId, int mode, long holoid);
 
+	//! execute an action on a given zone
+	virtual void ExecuteActionOnZone(ActionBasePtr action, const LbaSphere & zone, ActionArgumentBase* args) {}
+
 protected:
 
 	//! clean up map

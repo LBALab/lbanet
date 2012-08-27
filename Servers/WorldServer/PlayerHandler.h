@@ -242,6 +242,9 @@ public:
 	float GetHitContactPower(bool withweapon);
 
 
+	//! return current position
+	LbaVec3 GetCurrentPosition();
+
 	//! return current position - centered on Y
 	LbaVec3 GetCurrentPhysPosition();
 

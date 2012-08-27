@@ -32,6 +32,7 @@ class ScriptEnvironmentBase;
 #include "ActionArguments.h"
 #include "Conditions.h"
 #include "ClientScript.h"
+#include "CommonTypes.h"
 
 class ActionBase;
 typedef boost::shared_ptr<ActionBase> ActionBasePtr;
@@ -1390,6 +1391,54 @@ public:
 private:
 	int				_Mode;
 	long			_HolomapId;
+};
+
+
+//! perform action on every actor present on the zone (sphere)
+class SphereZoneAction : public ActionBase
+{
+public:
+
+	//! constructor
+	SphereZoneAction() {}
+	
+	//! destructor
+	virtual ~SphereZoneAction(void) {}
+
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+	virtual void Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+							ActionArgumentBase* args);
+
+
+	//! get type of the action in string form
+	virtual std::string GetTypeName()
+	{return "SphereZoneAction"; }
+
+
+	// save action to lua file
+	virtual void SaveToLuaFile(std::ostream & file, const std::string & name);
+
+	//accessors
+	void SetSphereInfo(const LbaSphere & info)
+	{ _sphereI = info; }
+
+	LbaSphere GetSphereInfo()
+	{ return _sphereI; }
+
+	void SetAction(ActionBasePtr act)
+	{_action = act;}
+
+	ActionBasePtr GetAction()
+	{ return _action; }
+
+private:
+	LbaSphere				_sphereI;
+	ActionBasePtr			_action;
 };
 
 

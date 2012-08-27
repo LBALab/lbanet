@@ -19,6 +19,8 @@
 #include "FileUtil.h"
 #include "DataDirHandler.h"
 
+#include <boost/foreach.hpp>
+
 
 #include <math.h>
 
@@ -26,6 +28,12 @@
 #define	_CUSTOM_OFFSET_	10000000
 
 
+namespace {
+	bool IsInsideZone(const LbaSphere & sphere, const LbaVec3 & position)
+	{
+		return (position.FastDistance(LbaVec3(sphere.CenterX, sphere.CenterY, sphere.CenterZ)) <= (sphere.Radius * sphere.Radius));
+	}
+}
 
 /***********************************************************
 constructor
@@ -4361,5 +4369,28 @@ void MapHandler::DisplayHolomap(int ScriptId, long PlayerId, int mode, long holo
 		toplayer.push_back(new DisplayHolomapEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 													mode, holoid, hlids));	
 		SendEvents(PlayerId, toplayer);
+	}
+}
+
+
+/***********************************************************
+//! execute an action on a given zone
+***********************************************************/
+void MapHandler::ExecuteActionOnZone(ActionBasePtr action, const LbaSphere & zone, ActionArgumentBase* args)
+{
+	BOOST_FOREACH(const PlayerMap_T::value_type &v, _players)
+	{
+		if (IsInsideZone(zone, v.second->GetCurrentPosition()))
+		{
+			action->Execute(this, 2, v.first, args);
+		}
+	}
+	
+	BOOST_FOREACH(const ActorMap_T::value_type &v, _Actors)
+	{
+		if (IsInsideZone(zone, v.second->GetActorPosition(false)))
+		{
+			action->Execute(this, 1, v.first, args);
+		}
 	}
 }

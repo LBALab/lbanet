@@ -978,6 +978,8 @@ public slots:
 	//! TemplateRemove_button
 	void TemplateRemove_button();
 
+	//! execute an action on a given zone
+	virtual void ExecuteActionOnZone(ActionBasePtr action, const LbaSphere & zone, ActionArgumentBase* args) {}
 
 protected:
 	//! override close event

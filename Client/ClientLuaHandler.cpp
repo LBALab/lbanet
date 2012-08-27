@@ -68,6 +68,14 @@ ClientLuaHandler::ClientLuaHandler()
 		],
 
 
+		luabind::class_<LbaSphere>("LbaSphere")
+		.def(luabind::constructor<>())
+		.def(luabind::constructor<float, float, float, float>())
+		.def_readwrite("CenterX", &LbaSphere::CenterX)
+		.def_readwrite("CenterY", &LbaSphere::CenterY)
+		.def_readwrite("CenterZ", &LbaSphere::CenterZ)
+		.def_readwrite("Radius", &LbaSphere::Radius),
+
 		luabind::class_<LbaNet::ModelExtraInfoBase, LbaNet::ModelExtraInfoBasePtr>("ModelExtraInfoBase"),
 		luabind::class_<LbaNet::ParticleExtraInfoBase, LbaNet::ParticleExtraInfoBasePtr>("ParticleExtraInfoBase"),
 

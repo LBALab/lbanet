@@ -1447,3 +1447,40 @@ void DisplayHolomapAction::SaveToLuaFile(std::ostream & file, const std::string 
 	file<<"\t"<<name<<":SetMode("<<_Mode<<")"<<std::endl;
 	file<<"\t"<<name<<":SetHolomapId("<<_HolomapId<<")"<<std::endl;
 }
+
+
+/***********************************************************
+	//! execute the action
+	//! parameter return the object type and number triggering the action
+	// ObjectType ==>
+	//! 1 -> npc object
+	//! 2 -> player object
+	//! 3 -> movable object
+***********************************************************/
+void SphereZoneAction::Execute(ScriptEnvironmentBase * owner, int ObjectType, Ice::Long ObjectId,
+										ActionArgumentBase* args)
+{
+	if(owner)
+		owner->ExecuteActionOnZone(_action, _sphereI, args);
+}
+
+
+/***********************************************************
+save action to lua file
+***********************************************************/
+void SphereZoneAction::SaveToLuaFile(std::ostream & file, const std::string & name)
+{
+	file<<"\t"<<name<<" = SphereZoneAction()"<<std::endl;
+
+	// save action
+	std::stringstream aname;
+	aname<<name<<"_act";
+	_action->SaveToLuaFile(file, aname.str());
+	file<<"\t"<<name<<":SetAction("<<aname.str()<<")"<<std::endl;
+
+	// save sphere
+	std::stringstream sname;
+	sname<<name<<"_sphere";
+	file<<"\t"<<sname.str()<<" = LbaSphere("<<_sphereI.CenterX<<", "<<_sphereI.CenterY<<", "<<_sphereI.CenterZ<<", "<<_sphereI.Radius<<")"<<std::endl;
+	file<<"\t"<<name<<":SetSphereInfo("<<sname.str()<<")"<<std::endl;
+}

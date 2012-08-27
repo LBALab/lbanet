@@ -486,6 +486,8 @@ public:
 	//! display holomap
 	virtual void DisplayHolomap(int ScriptId, long PlayerId, int mode, long holoid);
 
+	//! execute an action on a given zone
+	virtual void ExecuteActionOnZone(ActionBasePtr action, const LbaSphere & zone, ActionArgumentBase* args);
 
 protected:
 
@@ -840,9 +842,11 @@ private:
 	std::map<Ice::Long, ActorObjectInfo >						_editorObjects;
 
 
+	typedef std::map<Ice::Long, boost::shared_ptr<PlayerHandler> > PlayerMap_T;
+	typedef std::map<Ice::Long, boost::shared_ptr<ActorHandler> > ActorMap_T;
 
-	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >		_players;
-	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >		_Actors;
+	PlayerMap_T													_players;
+	ActorMap_T													_Actors;
 	std::map<long, boost::shared_ptr<TriggerBase> >				_triggers;
 	std::map<long, boost::shared_ptr<Spawn> >					_spawns;
 

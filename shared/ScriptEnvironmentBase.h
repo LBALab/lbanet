@@ -39,6 +39,7 @@ class Holomap;
 class HolomapLocation;
 class HolomapTravelPath;
 
+
 #include <boost/shared_ptr.hpp>
 #include <ClientServerEvents.h>
 
@@ -46,6 +47,8 @@ class HolomapTravelPath;
 #include "CommonTypes.h"
 #include "LuaHandlerBase.h"
 
+class ActionBase;
+typedef boost::shared_ptr<ActionBase> ActionBasePtr;
 
 
 // needed to use ice handles in luabnd
@@ -538,6 +541,10 @@ public:
 
 	//! display holomap
 	virtual void DisplayHolomap(int ScriptId, long PlayerId, int mode, long holoid) = 0;
+
+
+	//! execute an action on a given zone
+	virtual void ExecuteActionOnZone(ActionBasePtr action, const LbaSphere & zone, ActionArgumentBase* args) = 0;
 
 protected:
 

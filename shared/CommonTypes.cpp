@@ -47,6 +47,18 @@ float LbaVec3::Distance(const LbaVec3 & v) const
 
 
 /***********************************************************
+distance between 2 vectors
+***********************************************************/
+float LbaVec3::FastDistance(const LbaVec3 & v) const
+{
+	float dx = x - v.x;
+	float dy = y - v.y;
+	float dz = z - v.z;
+	return (dx * dx + dy * dy + dz * dz);
+}
+
+
+/***********************************************************
 vector length
 ***********************************************************/
 float LbaVec3::Length()

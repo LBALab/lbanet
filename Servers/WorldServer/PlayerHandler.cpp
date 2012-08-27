@@ -1690,6 +1690,13 @@ float PlayerHandler::GetHitContactPower(bool withweapon)
 }
 
 
+/***********************************************************
+return current position
+***********************************************************/
+LbaVec3 PlayerHandler::GetCurrentPosition()
+{
+	return LbaVec3(_currentinfo.ppos.X, _currentinfo.ppos.Y, _currentinfo.ppos.Z);
+}
 
 /***********************************************************
 return current position - centered on Y

@@ -1174,8 +1174,8 @@ void ActorHandler::UpdateFromAttached(double tnow)
 		}
 
 
-		// send an update event every 5 secs to synchronize
-		if ((tnow - m_lastupdatetime) > 5000)
+		// send an update event every 3 secs to synchronize
+		if ((tnow - m_lastupdatetime) > 3000)
 		{
 			m_lastupdatetime = tnow;
 			boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
@@ -1188,7 +1188,7 @@ void ActorHandler::UpdateFromAttached(double tnow)
 
 			LbaNet::NpcChangedEventPtr UpdateEvent = new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 								m_actorinfo.ObjectId, checkX, checkY, checkZ, rotation, anim, 
-								false, false, _character->GetSoundObject()->GetSoundVector(false), NULL);
+								true, true, _character->GetSoundObject()->GetSoundVector(false), NULL);
 
 			_events.push_back(UpdateEvent);
 		}
