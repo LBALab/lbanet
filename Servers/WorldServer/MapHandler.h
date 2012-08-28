@@ -41,6 +41,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ScriptEnvironmentBase.h"
 #include "DelayedExecutionHandler.h"
 
+#include <boost/function.hpp>
+
 using namespace LbaNet;
 class PlayerHandler;
 class EditorUpdateBase;
@@ -54,6 +56,8 @@ struct GhostInfo
 	Ice::Long					OwnerPlayerId;
 	Ice::Long					ActorId;
 	LbaNet::PlayerPosition		CurrentPos;
+	bool						NpcCanAttack;
+	boost::function0<void>		CallbackOnDelete;
 };
 
 struct PlayerToAddInfo
@@ -163,7 +167,7 @@ public:
 
 
 	//!  used by lua to get player position
-	virtual PlayerPosition GetPlayerPosition(Ice::Long clientid);
+	virtual LbaNet::PlayerPosition GetPlayerPosition(long clientid);
 
 	//! used by lua to get an actor Position
 	virtual LbaVec3 GetActorPosition(int ScriptId, long ActorId);
@@ -489,6 +493,18 @@ public:
 	//! execute an action on a given zone
 	virtual void ExecuteActionOnZone(ActionBasePtr action, const LbaSphere & zone, ActionArgumentBase* args);
 
+	//! generate an id to be used for a dynamic actor creation
+	virtual long GenerateDynamicActorId();
+
+	//! add a managed ghost to the map
+	virtual long AddManagedGhost(long ManagingPlayerid, const ActorObjectInfo& ainfo, bool UseAsDecoy);
+
+	//! remove managed ghost from the map
+	virtual void RemoveManagedGhost(long id);
+
+	//! send remove actor event to player
+	void RemoveActorForPlayer(long playerId, long actorId);
+
 protected:
 
 	// process events
@@ -650,7 +666,7 @@ protected:
 	void Editor_AddModActor(boost::shared_ptr<ActorHandler> actor);
 
 	//! remove an actor
-	void Editor_RemoveActor(long Id);
+	void RemoveActor(long Id);
 
 	
 	//! create display object for spawning
@@ -803,6 +819,14 @@ protected:
 	//! add a new ghost
 	Ice::Long AddGhost(Ice::Long playerid, Ice::Long actorid, const LbaNet::PlayerPosition &info);
 
+	
+	//! create a new ghost from actor info
+	//! this ghost will be controlled by the player
+	Ice::Long CreateNewGhost(Ice::Long playerid, ActorObjectInfo ainfo, Ice::Long actorid,
+								bool NpcCanAttack, boost::function0<void> CallbackOnDelete);
+
+
+
 	//! remove a  ghost
 	void RemoveGhost(Ice::Long ghostid);
 
@@ -818,6 +842,7 @@ protected:
 
 	//! refresh navimesh
 	void RefreshNaviMesh();
+
 
 private:
 	// threading and mutex stuff
@@ -871,6 +896,8 @@ private:
 	std::string													_customluafilename;
 
 	boost::shared_ptr<NaviMeshHandler>							_navimesh;
+
+	long														_dynamicActorIdCounter;
 
 };
 

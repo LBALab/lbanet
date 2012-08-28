@@ -518,7 +518,12 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("ActorStopSound", &ScriptEnvironmentBase::ActorStopSound)
 		.def("ActorPauseSound", &ScriptEnvironmentBase::ActorPauseSound)
 		.def("ActorResumeSound", &ScriptEnvironmentBase::ActorResumeSound)
-		.def("DisplayHolomap", &ScriptEnvironmentBase::DisplayHolomap),
+		.def("DisplayHolomap", &ScriptEnvironmentBase::DisplayHolomap)
+		.def("GenerateDynamicActorId", &ScriptEnvironmentBase::GenerateDynamicActorId)
+		.def("RemoveActor", &ScriptEnvironmentBase::RemoveActor)
+		.def("AddManagedGhost", &ScriptEnvironmentBase::AddManagedGhost)
+		.def("RemoveManagedGhost", &ScriptEnvironmentBase::RemoveManagedGhost)
+		.def("GetPlayerPosition", &ScriptEnvironmentBase::GetPlayerPosition),
 
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),

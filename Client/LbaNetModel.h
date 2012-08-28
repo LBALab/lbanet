@@ -535,6 +535,22 @@ public:
 
 	//! execute an action on a given zone
 	virtual void ExecuteActionOnZone(ActionBasePtr action, const LbaSphere & zone, ActionArgumentBase* args) {}
+	
+	//! generate an id to be used for a dynamic actor creation
+	virtual long GenerateDynamicActorId() {return -1;}
+
+	//! remove an actor from the map
+	virtual void RemoveActor(long Id) {}
+
+	//! add a managed ghost to the map
+	virtual long AddManagedGhost(long ManagingPlayerid, const ActorObjectInfo& ainfo, bool UseAsDecoy) {return -1;}
+
+	//! remove managed ghost from the map
+	virtual void RemoveManagedGhost(long id) {}
+
+	//!  used by lua to get player position
+	virtual LbaNet::PlayerPosition GetPlayerPosition(long clientid)
+	{return LbaNet::PlayerPosition();}
 
 protected:
 

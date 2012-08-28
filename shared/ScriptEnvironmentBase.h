@@ -38,7 +38,7 @@ class DynamicObject;
 class Holomap;
 class HolomapLocation;
 class HolomapTravelPath;
-
+struct ActorObjectInfo;
 
 #include <boost/shared_ptr.hpp>
 #include <ClientServerEvents.h>
@@ -415,9 +415,7 @@ public:
 	{return LbaVec3(-1, -1, -1);}
 
 	//!  used by lua to get player position
-	virtual LbaNet::PlayerPosition GetPlayerPosition(Ice::Long clientid)
-	{return LbaNet::PlayerPosition();}
-
+	virtual LbaNet::PlayerPosition GetPlayerPosition(long clientid) = 0;
 
 
 	//! npc rotate to player
@@ -542,9 +540,21 @@ public:
 	//! display holomap
 	virtual void DisplayHolomap(int ScriptId, long PlayerId, int mode, long holoid) = 0;
 
-
 	//! execute an action on a given zone
 	virtual void ExecuteActionOnZone(ActionBasePtr action, const LbaSphere & zone, ActionArgumentBase* args) = 0;
+
+
+	//! generate an id to be used for a dynamic actor creation
+	virtual long GenerateDynamicActorId() = 0;
+
+	//! remove an actor from the map
+	virtual void RemoveActor(long Id) = 0;
+
+	//! add a managed ghost to the map
+	virtual long AddManagedGhost(long ManagingPlayerid, const ActorObjectInfo& ainfo, bool UseAsDecoy) = 0;
+
+	//! remove managed ghost from the map
+	virtual void RemoveManagedGhost(long id) = 0;
 
 protected:
 
@@ -597,8 +607,6 @@ protected:
 
 	//! called when a script has finished
 	virtual void ScriptFinished(int scriptid, const std::string & functioname) = 0;
-
-
 
 
 protected:

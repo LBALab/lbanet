@@ -20,7 +20,7 @@
 #include "DataDirHandler.h"
 
 #include <boost/foreach.hpp>
-
+#include <boost/bind.hpp>
 
 #include <math.h>
 
@@ -42,7 +42,7 @@ MapHandler::MapHandler(const std::string & worldname, const MapInfo & mapinfo,
 						const std::string & mapluafilename,
 						const std::string & customluafilename)
 : _Trunning(false), _mapinfo(mapinfo), _worldname(worldname),
-	_customluafilename(customluafilename)
+	_customluafilename(customluafilename), _dynamicActorIdCounter(1000000000)
 {
 	// initialize navigation mesh
 	_navimesh = boost::shared_ptr<NaviMeshHandler>(new NaviMeshHandler());
@@ -1283,6 +1283,41 @@ void MapHandler::AddActorObject(boost::shared_ptr<ActorHandler> actor)
 		actor->SetScriptHandler(this);
 		actor->SetNavMeshHandler(_navimesh);
 		_Actors[actor->GetId()] = actor;
+
+		// update clients
+		if (_players.size() > 0)
+		{
+			const ActorObjectInfo & actinfo = actor->GetActorInfo();
+			LbaNet::ObjectExtraInfo xinfo = actinfo.ExtraInfo;
+
+			if(DataDirHandler::getInstance()->IsInEditorMode())
+			{
+				std::stringstream strs;
+				strs<<"Actor_"<<actinfo.ObjectId<<": "<<xinfo.Name;
+				xinfo.Name = strs.str();
+				xinfo.NameColorR = 0.2f;
+				xinfo.NameColorG = 0.2f;
+				xinfo.NameColorB = 1.0f;
+			}
+
+			_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+				1, actor->GetId(), -1, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo,
+				xinfo));
+
+			LbaNet::ClientServerEventBasePtr lastevent = actor->GetLastEvent();
+			if(lastevent)
+				_tosendevts.push_back(lastevent);
+
+			LbaNet::ClientServerEventBasePtr attachevent = actor->AttachActorEvent();
+			if(attachevent)
+				_tosendevts.push_back(attachevent);
+
+			//hide actor
+			if(actor->IsHidden())
+				_tosendevts.push_back(new LbaNet::ShowHideEvent(
+									SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+									1, actor->GetId(), false));
+		}
 	}
 }
 
@@ -1469,7 +1504,7 @@ void MapHandler::ProcessEditorUpdate(LbaNet::EditorUpdateBasePtr update)
 		UpdateEditor_RemoveActor* castedptr =
 			dynamic_cast<UpdateEditor_RemoveActor *>(&obj);
 
-		Editor_RemoveActor(castedptr->_id);
+		RemoveActor(castedptr->_id);
 		return;
 	}
 
@@ -1662,24 +1697,6 @@ void MapHandler::Editor_AddModActor(boost::shared_ptr<ActorHandler> actor)
 														xinfo));
 
 }
-
-/***********************************************************
-remove an actor
-***********************************************************/
-void MapHandler::Editor_RemoveActor(long Id)
-{
-	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator it = _Actors.find(Id);
-	if(it != _Actors.end())
-	{
-		// erase from data
-		_Actors.erase(it);
-
-		// update client
-		_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-																		1, Id));
-	}
-}
-
 
 /***********************************************************
 PlayClientVideo
@@ -2957,7 +2974,7 @@ ShortcutsSeq MapHandler::GetShorcuts(Ice::Long clientid)
 /***********************************************************
 get player position
 ***********************************************************/
-PlayerPosition MapHandler::GetPlayerPosition(Ice::Long clientid)
+LbaNet::PlayerPosition MapHandler::GetPlayerPosition(long clientid)
 {
 	std::map<Ice::Long, boost::shared_ptr<PlayerHandler> >::iterator it = _players.find(clientid);
 	if(it != _players.end())
@@ -3701,7 +3718,7 @@ boost::shared_ptr<PlayerHandler> MapHandler::GetPlayerInfo(long playerid)
 
 
 /***********************************************************
-called when a player moved
+called when a ghost moved
 ***********************************************************/
 void MapHandler::GhostMoved(Ice::Long id, Ice::Long ghostid, 
 							double time, const LbaNet::PlayerMoveInfo &info)
@@ -3722,6 +3739,9 @@ void MapHandler::GhostMoved(Ice::Long id, Ice::Long ghostid,
 		else
 			gid = (long)itg->second;
 	}
+
+	if (gid < 0)
+		return; //something is wrong - do nothing
 
 	//do a sweep test and check for triggers
 	try
@@ -3746,7 +3766,7 @@ void MapHandler::GhostMoved(Ice::Long id, Ice::Long ghostid,
 		}
 
 
-		// update player position
+		// update ghost position
 		PlayerPosition pos(info.CurrentPos);
 		pos.MapName = _mapinfo.Name;
 
@@ -3773,6 +3793,28 @@ add a new ghost
 ***********************************************************/
 Ice::Long MapHandler::AddGhost(Ice::Long playerid, Ice::Long actorid, const LbaNet::PlayerPosition &info)
 {
+	// check if actor it existing
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(actorid);
+	if(itact == _Actors.end())
+		return -1;
+
+	ActorObjectInfo ainfo = itact->second->GetActorInfo();
+	ainfo.PhysicDesc.Pos = info;
+	ainfo.PhysicDesc.TypePhysO = LbaNet::KynematicAType;
+	ainfo.PhysicDesc.Collidable = false;
+	ainfo.DisplayDesc.UseTransparentMaterial = true;
+	ainfo.DisplayDesc.MatAlpha = 0.6f;
+	return CreateNewGhost(playerid, ainfo, actorid, false, NULL);
+}
+
+	
+/***********************************************************
+//! create a new ghost from a non existing actor
+//! this ghost will be controlled by the player
+***********************************************************/
+Ice::Long MapHandler::CreateNewGhost(Ice::Long playerid, ActorObjectInfo ainfo, Ice::Long actorid,
+										bool NpcCanAttack, boost::function0<void> CallbackOnDelete)
+{
 	// generate uid
 	Ice::Long gid = 0;
 	if(_ghosts.size() > 0)
@@ -3787,7 +3829,9 @@ Ice::Long MapHandler::AddGhost(Ice::Long playerid, Ice::Long actorid, const LbaN
 	ginfo.Id = gid;
 	ginfo.OwnerPlayerId = playerid;
 	ginfo.ActorId = actorid;
-	ginfo.CurrentPos = info;
+	ginfo.CurrentPos = ainfo.PhysicDesc.Pos;
+	ginfo.NpcCanAttack = NpcCanAttack;
+	ginfo.CallbackOnDelete = CallbackOnDelete;
 	_ghosts[ginfo.Id] = ginfo;
 
 
@@ -3800,20 +3844,11 @@ Ice::Long MapHandler::AddGhost(Ice::Long playerid, Ice::Long actorid, const LbaN
 	}
 
 	// inform players
-	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(actorid);
-	if(itact != _Actors.end())
 	{
-		ActorObjectInfo ainfo = itact->second->GetActorInfo();
-		ainfo.PhysicDesc.Pos = info;
-		ainfo.PhysicDesc.TypePhysO = LbaNet::KynematicAType;
-		ainfo.PhysicDesc.Collidable = false;
-		ainfo.DisplayDesc.UseTransparentMaterial = true;
-		ainfo.DisplayDesc.MatAlpha = 0.6f;
 		_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 													3, gid, playerid, ainfo.DisplayDesc, ainfo.PhysicDesc,
 													ainfo.LifeInfo, ainfo.ExtraInfo));
 	}
-
 
 	return gid;
 }
@@ -3827,6 +3862,10 @@ void MapHandler::RemoveGhost(Ice::Long ghostid)
 	std::map<Ice::Long, GhostInfo>::iterator it=_ghosts.find(ghostid);
 	if(it != _ghosts.end())
 	{
+		// callback if exist
+		if (it->second.CallbackOnDelete)
+			it->second.CallbackOnDelete();
+
 		// inform players
 		_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 														3, ghostid));
@@ -4393,4 +4432,82 @@ void MapHandler::ExecuteActionOnZone(ActionBasePtr action, const LbaSphere & zon
 			action->Execute(this, 1, v.first, args);
 		}
 	}
+}
+
+
+/***********************************************************
+//! generate an id to be used for a dynamic actor creation
+***********************************************************/
+long MapHandler::GenerateDynamicActorId()
+{
+	return _dynamicActorIdCounter++;
+}
+
+/***********************************************************
+remove an actor
+***********************************************************/
+void MapHandler::RemoveActor(long Id)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator it = _Actors.find(Id);
+	if(it != _Actors.end())
+	{
+		// erase from data
+		_Actors.erase(it);
+
+		// update clients
+		_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+																		1, Id));
+	}
+}
+
+
+/***********************************************************
+add a managed ghost to the map
+***********************************************************/
+long MapHandler::AddManagedGhost(long ManagingPlayerid, const ActorObjectInfo& ainfo, bool UseAsDecoy)
+{
+	long dynamicActorid = ainfo.ObjectId;
+
+	// add actor on managing client
+	{
+		LbaNet::ObjectExtraInfo xinfo = ainfo.ExtraInfo;
+		if(DataDirHandler::getInstance()->IsInEditorMode())
+		{
+			std::stringstream strs;
+			strs<<"Actor_"<<ainfo.ObjectId<<": "<<xinfo.Name;
+			xinfo.Name = strs.str();
+			xinfo.NameColorR = 0.2f;
+			xinfo.NameColorG = 0.2f;
+			xinfo.NameColorB = 1.0f;
+		}
+
+		EventsSeq toplayer;
+		toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+								1, dynamicActorid, ManagingPlayerid, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo,
+								xinfo));
+		SendEvents(ManagingPlayerid, toplayer);
+	}
+
+	// create ghost on other clients
+	return CreateNewGhost(ManagingPlayerid, ainfo, dynamicActorid, UseAsDecoy, boost::bind(&MapHandler::RemoveActorForPlayer, this, ManagingPlayerid, dynamicActorid));
+}
+
+/***********************************************************
+remove managed ghost from the map
+***********************************************************/
+void MapHandler::RemoveManagedGhost(long id)
+{
+	// remove the ghost
+	RemoveGhost(id);
+}
+
+/***********************************************************
+remove managed ghost from the map
+***********************************************************/
+void MapHandler::RemoveActorForPlayer(long playerId, long actorId)
+{
+	EventsSeq toplayer;
+	toplayer.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+																1, actorId));
+	SendEvents(playerId, toplayer);
 }
