@@ -916,6 +916,7 @@ module LbaNet
 	class AnimateNpcUpd extends NpcUpdateBase
 	{
 		bool AnimationMove;
+		int NbAnimation;
 	};
 	
 	
