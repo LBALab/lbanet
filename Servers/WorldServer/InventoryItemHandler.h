@@ -42,6 +42,7 @@ public:
 
 	//! constructor
 	InventoryItemDef(long id)
+		: _actionDestroy(false)
 	{
 		_info.Id = id;
 		_info.ReplaceItem = -1;
@@ -95,7 +96,7 @@ public:
 
 	//! constructor
 	InventoryItemDef(const LbaNet::ItemInfo &info)
-		: _info(info)
+		: _info(info), _actionDestroy(false)
 	{
 		_displayinfo.TypeRenderer = LbaNet::NoRender;
 		_displayinfo.ModelId = 0;
@@ -148,6 +149,7 @@ public:
     int GetColor2() const{return _info.Color2;}
 	long GetReplacedItem() const{return (long)_info.ReplaceItem;}
 	ActionBasePtr GetAction() const{return _action;}
+	bool ActionDestroy(){return _actionDestroy;}
 
 	//! accessors
 	void SetId(long v){_info.Id = v;}
@@ -170,7 +172,7 @@ public:
     void SetColor2(int v){_info.Color2 = v;}
 	void SetReplacedItem(long v) {_info.ReplaceItem = v;}
 	void SetAction(ActionBasePtr v) {_action = v;}
-
+	void SetActionDestroy(bool v){_actionDestroy = v;}
 
 	void AddContainedItem(long id, int min, int max, float proba, int group);
 
@@ -222,6 +224,7 @@ private:
 	bool					_hasdisplayinfo;
 
 	ActionBasePtr			_action;
+	bool					_actionDestroy;
 	
 	std::vector<ProjectileObjectDefPtr>	_projectiles;
 };
@@ -274,6 +277,8 @@ public:
 
 	//! add item
 	void AddItem(InventoryItemDefPtr item);
+
+	bool ActionDestroyItem(long itemid);
 
 private:
 

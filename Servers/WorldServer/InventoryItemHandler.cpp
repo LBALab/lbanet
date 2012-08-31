@@ -136,6 +136,7 @@ void InventoryItemDef::SaveToLuaFile(std::ostream & file) const
 		_action->SaveToLuaFile(file, aname.str());
 
 		file<<"\t"<<name.str()<<":SetAction("<<aname.str()<<")"<<std::endl;
+		file<<"\t"<<name.str()<<":SetActionDestroy("<<(_actionDestroy?"true":"false")<<")"<<std::endl;
 	}
 
 	for(size_t i=0; i< _info.List.size(); ++i)
@@ -421,4 +422,16 @@ add item
 void InventoryItemHandler::AddItem(InventoryItemDefPtr item)
 {
 	_items[item->GetId()] = item;
+}
+
+/***********************************************************
+add item
+***********************************************************/
+bool InventoryItemHandler::ActionDestroyItem(long itemid)
+{
+	if(_items.find(itemid) != _items.end())
+		return _items[itemid]->ActionDestroy();
+
+	// in case not found
+	return true;
 }

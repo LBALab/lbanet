@@ -497,13 +497,22 @@ public:
 	virtual long GenerateDynamicActorId();
 
 	//! add a managed ghost to the map
-	virtual long AddManagedGhost(long ManagingPlayerid, const ActorObjectInfo& ainfo, bool UseAsDecoy);
+	virtual long AddManagedGhost(long ManagingPlayerid, const ActorObjectInfo& ainfo, bool UseAsDecoy, bool moving);
 
 	//! remove managed ghost from the map
 	virtual void RemoveManagedGhost(long id);
 
 	//! send remove actor event to player
 	void RemoveActorForPlayer(long playerId, long actorId);
+
+	//! execute a custom action script with delay
+	virtual void ExecuteDelayedAction(const std::string & fctname, long ms, int ObjectType, long actorId, ActionArgumentBase* args);
+
+	//! get ghost position
+	LbaNet::PlayerPosition GetGhostPPosition(long ghostid);
+
+	//! play a sound
+	void PlaySound(const std::string & soundpath, bool Use3d, float  PosX, float  PosY, float  PosZ);
 
 protected:
 
@@ -830,9 +839,6 @@ protected:
 	//! remove a  ghost
 	void RemoveGhost(Ice::Long ghostid);
 
-	//! get ghost position
-	LbaNet::PlayerPosition GetGhostPosition(Ice::Long ghostid);
-
 	//! update ghost position
 	bool UpdateGhostPosition(Ice::Long ghostid, const LbaNet::PlayerPosition &info);
 	
@@ -898,6 +904,9 @@ private:
 	boost::shared_ptr<NaviMeshHandler>							_navimesh;
 
 	long														_dynamicActorIdCounter;
+
+	std::vector<std::pair<double, boost::function0<void> > >	_delayedCallbacks;
+	std::vector<std::pair<double, boost::function0<void> > >	_delayedCallbacksToAdd;
 
 };
 

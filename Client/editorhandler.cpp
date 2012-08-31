@@ -11875,6 +11875,17 @@ void EditorHandler::SelectItem(boost::shared_ptr<InventoryItemDef> item, const Q
 	}
 
 	{
+		QVector<QVariant> data;
+		data<<"Destroy on use"<<item->ActionDestroy();
+		QModelIndex idx = _objectmodel->AppendRow(data, parent);
+
+		_objectmodel->setTooltip(idx, "If true the item will disappear when used");
+		QModelIndex idx2 = _objectmodel->GetIndex(1, idx.row(), idx.parent());
+		_objectmodel->setTooltip(idx2, "If true the item will disappear when used");
+		++index;
+	}
+
+	{
 		std::stringstream txtwithid;
 		txtwithid<<item->GetReplacedItem()<<": "<<InventoryItemHandler::getInstance()->GetItemInfo(item->GetReplacedItem()).Name;
 
@@ -11889,6 +11900,7 @@ void EditorHandler::SelectItem(boost::shared_ptr<InventoryItemDef> item, const Q
 		_objectmodel->setTooltip(idx2, "If item is in inventory when new item is given it will be replaced");
 		++index;
 	}
+
 
 	switch(item->GetType())
 	{
@@ -12736,6 +12748,8 @@ void EditorHandler::ItemChanged(long id, const std::string & category, const QMo
 	newiteminfo->SetEphemere(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool());
 	++index;
 
+	newiteminfo->SetActionDestroy(_objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toBool());
+	++index;
 
 	std::string replacedid = _objectmodel->data(_objectmodel->GetIndex(1, index, parentIdx)).toString().toAscii().data();
 	if(replacedid == "No item")

@@ -1151,6 +1151,11 @@ bool PlayerHandler::ConsumeItem(long ItemId)
 				updatelife = true;
 			}
 			break;
+
+			default:
+				used = true;
+				updatelife = false;
+			break;
 		}
 
 		if(used)

@@ -310,6 +310,28 @@ void MapHandler::run()
 		if(_navimesh)
 			_navimesh->Process(timetodiff, tdiff);
 
+
+		// process delay callbacks
+		if (_delayedCallbacksToAdd.size() > 0)
+		{
+			_delayedCallbacks.insert(_delayedCallbacks.end(), _delayedCallbacksToAdd.begin(), _delayedCallbacksToAdd.end());
+			_delayedCallbacksToAdd.clear();
+		}
+
+		std::vector<std::pair<double, boost::function0<void> > >::iterator itdc = _delayedCallbacks.begin();
+		while( itdc != _delayedCallbacks.end())
+		{
+			if (itdc->first <= timetodiff)
+			{
+				itdc->second();
+
+				itdc = _delayedCallbacks.erase(itdc);
+			}
+			else
+				++itdc;
+		}
+
+
 		// refresh lua stuff
 		CheckFinishedAsynScripts();
 
@@ -1288,21 +1310,10 @@ void MapHandler::AddActorObject(boost::shared_ptr<ActorHandler> actor)
 		if (_players.size() > 0)
 		{
 			const ActorObjectInfo & actinfo = actor->GetActorInfo();
-			LbaNet::ObjectExtraInfo xinfo = actinfo.ExtraInfo;
-
-			if(DataDirHandler::getInstance()->IsInEditorMode())
-			{
-				std::stringstream strs;
-				strs<<"Actor_"<<actinfo.ObjectId<<": "<<xinfo.Name;
-				xinfo.Name = strs.str();
-				xinfo.NameColorR = 0.2f;
-				xinfo.NameColorG = 0.2f;
-				xinfo.NameColorB = 1.0f;
-			}
 
 			_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 				1, actor->GetId(), -1, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo,
-				xinfo));
+				actinfo.ExtraInfo));
 
 			LbaNet::ClientServerEventBasePtr lastevent = actor->GetLastEvent();
 			if(lastevent)
@@ -1999,6 +2010,9 @@ void MapHandler::PlayerItemUsed(Ice::Long clientid, long ItemId)
 				ActionBasePtr actptr = InventoryItemHandler::getInstance()->GetItemAction((long)itinfo.Info.Id);
 				if(actptr)
 					actptr->Execute(this, 2, clientid, NULL);
+
+				if (InventoryItemHandler::getInstance()->ActionDestroyItem((long)itinfo.Info.Id))
+					PlayerConsumeItem(clientid, ItemId);
 			}
 			break;
 		case 8: // letters item, open them
@@ -2980,6 +2994,13 @@ LbaNet::PlayerPosition MapHandler::GetPlayerPosition(long clientid)
 	if(it != _players.end())
 		return it->second->GetPlayerPosition();
 
+	if (clientid >= 1000000000)
+	{
+		std::map<Ice::Long, GhostInfo>::iterator itg = _ghosts.find(clientid-1000000000);
+		if(itg != _ghosts.end())
+			return itg->second.CurrentPos;
+	}
+
 	return PlayerPosition();
 }
 
@@ -3743,10 +3764,15 @@ void MapHandler::GhostMoved(Ice::Long id, Ice::Long ghostid,
 	if (gid < 0)
 		return; //something is wrong - do nothing
 
+	std::map<Ice::Long, GhostInfo>::iterator itg =_ghosts.find(gid);
+	if (itg == _ghosts.end())
+		return;
+
+
 	//do a sweep test and check for triggers
 	try
 	{
-		PlayerPosition lastpos = GetGhostPosition(gid);
+		PlayerPosition lastpos = GetGhostPPosition(gid);
 		lastpos.Y += 0.2f; // small offset to make sure object is inside zone and not online a bit lower
 		PlayerPosition currPos = info.CurrentPos;
 		currPos.Y += 0.2f;
@@ -3762,6 +3788,16 @@ void MapHandler::GhostMoved(Ice::Long id, Ice::Long ghostid,
 				//check if player left map
 				if(_players.find((long)id) == _players.end())
 					throw 1;
+			}
+		}
+
+		// inform npcs
+		if (itg->second.NpcCanAttack)
+		{
+			BOOST_FOREACH(ActorMap_T::value_type &a, _Actors)
+			{
+				// fake being a player
+				a.second->PlayerMoved(1000000000 + gid, lastpos, currPos, LbaNet::NoState, "", true);
 			}
 		}
 
@@ -3866,6 +3902,17 @@ void MapHandler::RemoveGhost(Ice::Long ghostid)
 		if (it->second.CallbackOnDelete)
 			it->second.CallbackOnDelete();
 
+
+		// inform npcs
+		if (it->second.NpcCanAttack)
+		{
+			BOOST_FOREACH(ActorMap_T::value_type &a, _Actors)
+			{
+				// fake being a player
+				a.second->PlayerLeaveMap(1000000000 + ghostid);
+			}
+		}
+
 		// inform players
 		_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 														3, ghostid));
@@ -3905,7 +3952,7 @@ void MapHandler::RemoveGhost(Ice::Long ghostid)
 /***********************************************************
 get ghost position
 ***********************************************************/
-LbaNet::PlayerPosition  MapHandler::GetGhostPosition(Ice::Long ghostid)
+LbaNet::PlayerPosition  MapHandler::GetGhostPPosition(long ghostid)
 {
 	std::map<Ice::Long, GhostInfo>::iterator it=_ghosts.find(ghostid);
 	if(it != _ghosts.end())
@@ -4087,7 +4134,7 @@ LbaVec3 MapHandler::GetGhostPosition(long PlayerId, long ActorId)
 
 	if(itg != _revertghosts.end())
 	{
-		LbaNet::PlayerPosition ppos = GetGhostPosition(itg->second);
+		LbaNet::PlayerPosition ppos = GetGhostPPosition(itg->second);
 		if(ppos.MapName != "")
 			return LbaVec3(ppos.X, ppos.Y, ppos.Z);
 	}
@@ -4464,12 +4511,13 @@ void MapHandler::RemoveActor(long Id)
 /***********************************************************
 add a managed ghost to the map
 ***********************************************************/
-long MapHandler::AddManagedGhost(long ManagingPlayerid, const ActorObjectInfo& ainfo, bool UseAsDecoy)
+long MapHandler::AddManagedGhost(long ManagingPlayerid, const ActorObjectInfo& ainfo, bool UseAsDecoy, bool moving)
 {
 	long dynamicActorid = ainfo.ObjectId;
 
 	// add actor on managing client
 	{
+
 		LbaNet::ObjectExtraInfo xinfo = ainfo.ExtraInfo;
 		if(DataDirHandler::getInstance()->IsInEditorMode())
 		{
@@ -4480,11 +4528,22 @@ long MapHandler::AddManagedGhost(long ManagingPlayerid, const ActorObjectInfo& a
 			xinfo.NameColorG = 0.2f;
 			xinfo.NameColorB = 1.0f;
 		}
+		LbaNet::ObjectPhysicDesc copyPhysInfo(ainfo.PhysicDesc);
+		copyPhysInfo.TypePhysO = LbaNet::CharControlAType;
 
 		EventsSeq toplayer;
 		toplayer.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-								1, dynamicActorid, ManagingPlayerid, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo,
+								1, dynamicActorid, ManagingPlayerid, ainfo.DisplayDesc, copyPhysInfo, ainfo.LifeInfo,
 								xinfo));
+
+		if (moving)
+		{
+			// if ghost should move then initiate the move on client
+			toplayer.push_back(new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+								dynamicActorid, copyPhysInfo.Pos.X, copyPhysInfo.Pos.Y, copyPhysInfo.Pos.Z, copyPhysInfo.Pos.Rotation, "MoveForward", 
+								false, false, LbaNet::PlayingSoundSequence(), new LbaNet::AnimateNpcUpd(true, -1)));
+		}
+
 		SendEvents(ManagingPlayerid, toplayer);
 	}
 
@@ -4510,4 +4569,34 @@ void MapHandler::RemoveActorForPlayer(long playerId, long actorId)
 	toplayer.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 																1, actorId));
 	SendEvents(playerId, toplayer);
+}
+
+
+/***********************************************************
+execute a custom action script with delay
+***********************************************************/
+void MapHandler::ExecuteDelayedAction(const std::string & fctname, long ms, int ObjectType, long actorId, ActionArgumentBase* args)
+{
+	_delayedCallbacksToAdd.push_back(std::make_pair<double, boost::function0<void> >(SynchronizedTimeHandler::GetCurrentTimeDouble() + ms,
+		boost::bind(&LuaHandlerBase::ExecuteCustomAction, m_luaHandler, ObjectType, actorId, fctname, args, this)));
+}
+
+
+/***********************************************************
+play a sound to everybody
+***********************************************************/
+void MapHandler::PlaySound(const std::string & soundpath, bool Use3d, float  PosX, float  PosY, float  PosZ)
+{
+	LbaNet::SoundInfo sinfo;
+	sinfo.SoundPath = soundpath;
+	sinfo.Use3d = Use3d;
+	sinfo.PosX = PosX;
+	sinfo.PosY = PosY;
+	sinfo.PosZ = PosZ;
+	sinfo.SpeedX = 0;
+	sinfo.SpeedY = 0;
+	sinfo.SpeedZ = 0;
+
+	_tosendevts.push_back(
+		new PlaySoundEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), sinfo));
 }

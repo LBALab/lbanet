@@ -6,7 +6,8 @@ file(
 )
 
 
-SET(sharedlib_SOURCES CatmulSplineHandler.cpp
+SET(sharedlib_SOURCES 	ActorUserData.cpp
+			CatmulSplineHandler.cpp
 			CharacterModes.cpp
 			CharacterStates.cpp
 			ClientScript.cpp

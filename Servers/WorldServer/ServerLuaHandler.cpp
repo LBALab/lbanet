@@ -498,6 +498,7 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("DettachActor", &ScriptEnvironmentBase::DettachActor)
 		.def("CheckCustomCondition", &ScriptEnvironmentBase::CheckCustomCondition)
 		.def("GetGhostPosition", &ScriptEnvironmentBase::GetGhostPosition)
+		.def("GetGhostPPosition", &ScriptEnvironmentBase::GetGhostPPosition)
 		.def("GetGhostOwnerPlayer", &ScriptEnvironmentBase::GetGhostOwnerPlayer)
 		.def("LogToFile", &ScriptEnvironmentBase::LogToFile)
 		.def("RotateToTargettedPlayer", &ScriptEnvironmentBase::RotateToTargettedPlayer)
@@ -523,7 +524,10 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("RemoveActor", &ScriptEnvironmentBase::RemoveActor)
 		.def("AddManagedGhost", &ScriptEnvironmentBase::AddManagedGhost)
 		.def("RemoveManagedGhost", &ScriptEnvironmentBase::RemoveManagedGhost)
-		.def("GetPlayerPosition", &ScriptEnvironmentBase::GetPlayerPosition),
+		.def("GetPlayerPosition", &ScriptEnvironmentBase::GetPlayerPosition)
+		.def("ExecuteDelayedAction", &ScriptEnvironmentBase::ExecuteDelayedAction)
+		.def("ExecuteActionOnZone", &ScriptEnvironmentBase::ExecuteActionOnZone)
+		.def("PlaySound", &ScriptEnvironmentBase::PlaySound),
 
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),
@@ -917,7 +921,9 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("SetRenderType", &InventoryItemDef::SetRenderType)
 		.def("GetRenderType", &InventoryItemDef::GetRenderType)
 		.def_readwrite("DisplayDesc", &InventoryItemDef::_displayinfo)
-		.def("AddProjectile", &InventoryItemDef::AddProjectile),
+		.def("AddProjectile", &InventoryItemDef::AddProjectile)
+		.def("ActionDestroy", &InventoryItemDef::ActionDestroy)		
+		.def("SetActionDestroy", &InventoryItemDef::SetActionDestroy),
 
 		luabind::class_<Spawn, boost::shared_ptr<Spawn> >("Spawn")
 		.def(luabind::constructor<long>())

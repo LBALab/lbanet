@@ -639,6 +639,12 @@ public:
 	//! display holomap
 	virtual void DisplayHolomap(int ScriptId, long PlayerId, int mode, long holoid){}
 
+	//! add a managed ghost to the map
+	virtual void ExecuteDelayedAction(const std::string & fctname, long ms, int ObjectType, long actorId, ActionArgumentBase* args) {}
+
+	//! play a sound
+	void PlaySound(const std::string & soundpath, bool Use3d, float  PosX, float  PosY, float  PosZ) {}
+
 private:
 	enum ObjectEditType {EditObjCopy, EditObjCut, EditObjDelete};
 
@@ -985,7 +991,7 @@ public slots:
 	virtual long GenerateDynamicActorId() {return -1;}
 
 	//! add a managed ghost to the map
-	virtual long AddManagedGhost(long ManagingPlayerid, const ActorObjectInfo& ainfo, bool UseAsDecoy) {return -1;}
+	virtual long AddManagedGhost(long ManagingPlayerid, const ActorObjectInfo& ainfo, bool UseAsDecoy, bool moving) {return -1;}
 
 	//! remove managed ghost from the map
 	virtual void RemoveManagedGhost(long id) {}

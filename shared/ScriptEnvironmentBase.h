@@ -407,6 +407,9 @@ public:
 	virtual LbaVec3 GetGhostPosition(long PlayerId, long ActorId)
 	{return LbaVec3(-1, -1, -1);}
 
+	virtual LbaNet::PlayerPosition GetGhostPPosition(long ghostid)
+	{return LbaNet::PlayerPosition();}
+
 	//! used by lua to log into file
 	void LogToFile(const std::string &text);
 
@@ -551,10 +554,16 @@ public:
 	virtual void RemoveActor(long Id) = 0;
 
 	//! add a managed ghost to the map
-	virtual long AddManagedGhost(long ManagingPlayerid, const ActorObjectInfo& ainfo, bool UseAsDecoy) = 0;
+	virtual long AddManagedGhost(long ManagingPlayerid, const ActorObjectInfo& ainfo, bool UseAsDecoy, bool moving) = 0;
 
 	//! remove managed ghost from the map
 	virtual void RemoveManagedGhost(long id) = 0;
+
+	//! execute a custom action script with delay
+	virtual void ExecuteDelayedAction(const std::string & fctname, long ms, int ObjectType, long actorId, ActionArgumentBase* args) = 0;
+
+	//! play a sound to everybody
+	virtual void PlaySound(const std::string & soundpath, bool Use3d, float  PosX, float  PosY, float  PosZ) = 0;
 
 protected:
 

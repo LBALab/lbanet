@@ -32,7 +32,7 @@ SET(recastlib_SOURCES
 add_library(RecastLib STATIC ${recastlib_INCLUDES} ${recastlib_SOURCES})
 
 
-SET(client_SOURCES ActorUserData.cpp
+SET(client_SOURCES 
 		AnimatedObjectHandlerBase.cpp
 		CEGUIDrawable.cpp
 		CameraController.cpp

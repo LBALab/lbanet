@@ -203,7 +203,7 @@ void ExternalActor::NpcChangedUpdate(double updatetime,
 
 
 		_currentScripts = boost::shared_ptr<ScriptPartBase>(new 
-			PlayAnimationScriptPart(0, false, castedptr->AnimationMove));
+			PlayAnimationScriptPart(0, false, castedptr->AnimationMove, castedptr->NbAnimation));
 		return;
 	}
 
@@ -278,12 +278,12 @@ void ExternalActor::Process(double tnow, float tdiff,
 	else
 	{
 		_character->Process(tnow, tdiff);
+	}
 
-		if(_movable)
-		{
-			ProcessMovable(tnow, tdiff, scripthandler);
-			moved = true;
-		}
+	if(_movable)
+	{
+		ProcessMovable(tnow, tdiff, scripthandler);
+		moved = true;
 	}
 
 	if(!moved)

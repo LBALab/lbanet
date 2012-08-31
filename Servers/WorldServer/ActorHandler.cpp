@@ -75,8 +75,6 @@ ActorObjectInfo::ActorObjectInfo(long id)
 	PhysicDesc.SizeY = 0;
 	PhysicDesc.SizeZ = 0;
 
-
-
 	ExtraInfo.NameColorR = 0;
 	ExtraInfo.NameColorG = 0;
 	ExtraInfo.NameColorB = 0;
@@ -1587,7 +1585,7 @@ void ActorHandler::ActorAnimate(int ScriptId, bool asynchronus, bool AnimationMo
 	m_lastevent = new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
 						m_actorinfo.ObjectId, posX, posY, posZ, rotation, anim, 
 						m_resetposition, m_resetrotation, _character->GetSoundObject()->GetSoundVector(false), 
-						new LbaNet::AnimateNpcUpd(AnimationMove));
+						new LbaNet::AnimateNpcUpd(AnimationMove, 1));
 
 	_events.push_back(m_lastevent);
 

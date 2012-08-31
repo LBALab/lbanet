@@ -352,3 +352,177 @@ function ActorRotateAttackDistanceAndContactPlayer(ScriptId, ActorId, Environmen
 		end
 	end
 end
+
+
+function SpawnMecaPinguin(ObjectType, ObjectId, Arguments, Environment)
+
+	-- retrieve player position and calculate pinguin starting position
+	pos = Environment:GetPlayerPosition(ObjectId)
+	PlayerPos = LbaVec3(pos.X, pos.Y, pos.Z)
+	Up = LbaVec3(0, 1, 0)	
+	angleQuat = LbaQuaternion(pos.Rotation, Up)
+	Move = LbaVec3(0, 0, 1)	
+	RotatedMove = angleQuat:GetDirection(Move)
+	
+	-- create pinguin actor
+	Actor = ActorObjectInfo(Environment:GenerateDynamicActorId())
+	Actor:SetRenderType(3)
+	Actor.HitPowerOnTouch = 0
+	Actor.ExcludeFromNavMesh = false
+	Actor.DisplayDesc.ModelId = 0
+	Actor.DisplayDesc.ModelName = "Object"
+	Actor.DisplayDesc.Outfit = "MekaPingouin"
+	Actor.DisplayDesc.Weapon = "No"
+	Actor.DisplayDesc.Mode = "Normal"
+	Actor.DisplayDesc.UseLight = true
+	Actor.DisplayDesc.CastShadow = true
+	Actor.DisplayDesc.ColorR = 1
+	Actor.DisplayDesc.ColorG = 1
+	Actor.DisplayDesc.ColorB = 1
+	Actor.DisplayDesc.ColorA = 1
+	Actor.DisplayDesc.TransX = 0
+	Actor.DisplayDesc.TransY = 0
+	Actor.DisplayDesc.TransZ = 0
+	Actor.DisplayDesc.ScaleX = 1
+	Actor.DisplayDesc.ScaleY = 1
+	Actor.DisplayDesc.ScaleZ = 1
+	Actor.DisplayDesc.RotX = 0
+	Actor.DisplayDesc.RotY = 0
+	Actor.DisplayDesc.RotZ = 0
+	Actor:SetModelState(1)
+	Actor.DisplayDesc.UseBillboard = false
+	Actor.DisplayDesc.ColorMaterialType = 4
+	Actor.DisplayDesc.MatAmbientColorR = -0.2
+	Actor.DisplayDesc.MatAmbientColorG = -0.2
+	Actor.DisplayDesc.MatAmbientColorB = -0.2
+	Actor.DisplayDesc.MatAmbientColorA = 1
+	Actor.DisplayDesc.MatDiffuseColorR = 0.4
+	Actor.DisplayDesc.MatDiffuseColorG = 0.4
+	Actor.DisplayDesc.MatDiffuseColorB = 0.4
+	Actor.DisplayDesc.MatDiffuseColorA = 1
+	Actor.DisplayDesc.MatSpecularColorR = 0
+	Actor.DisplayDesc.MatSpecularColorG = 0
+	Actor.DisplayDesc.MatSpecularColorB = 0
+	Actor.DisplayDesc.MatSpecularColorA = 1
+	Actor.DisplayDesc.MatEmissionColorR = 0
+	Actor.DisplayDesc.MatEmissionColorG = 0
+	Actor.DisplayDesc.MatEmissionColorB = 0
+	Actor.DisplayDesc.MatEmissionColorA = 1
+	Actor.DisplayDesc.MatShininess = 0
+	Actor.PhysicDesc.Pos.X = PlayerPos.x + RotatedMove.x
+	Actor.PhysicDesc.Pos.Y = PlayerPos.y + 0.2
+	Actor.PhysicDesc.Pos.Z = PlayerPos.z + RotatedMove.z
+	Actor.PhysicDesc.Pos.Rotation = pos.Rotation
+	Actor.PhysicDesc.Density = 1
+	Actor.PhysicDesc.Collidable = true
+	Actor.PhysicDesc.SizeX = 0.5
+	Actor.PhysicDesc.SizeY = 1.5
+	Actor.PhysicDesc.SizeZ = 0.5
+	Actor.PhysicDesc.AllowFreeMove = true
+	Actor.PhysicDesc.Filename = ""
+	Actor:SetPhysicalActorType(2)
+	Actor:SetPhysicalShape(2)
+	Actor.ExtraInfo.Name = ""
+	Actor.ExtraInfo.NameColorR = 0
+	Actor.ExtraInfo.NameColorG = 0
+	Actor.ExtraInfo.NameColorB = 0
+	Actor.ExtraInfo.Display = false
+	Actor.LifeInfo.Display = false
+	ghostId = Environment:AddManagedGhost(ObjectId, Actor, true, true)
+	
+	Environment:ExecuteDelayedAction("KillMecaPinguin", 6000, 0, ghostId, Arguments)
+end
+
+function KillMecaPinguin(ObjectType, ObjectId, Arguments, Environment)
+
+	-- get pinguin position
+	pos = Environment:GetGhostPPosition(ObjectId)
+	
+	-- delete pinguin actor
+	Environment:RemoveManagedGhost(ObjectId)
+	
+	-- add explosion actor
+	actorID = Environment:GenerateDynamicActorId()
+	Actor = ActorObjectInfo(actorID)
+	Actor:SetRenderType(9)
+	Actor.HitPowerOnTouch = -1
+	Actor.ExcludeFromNavMesh = false
+	Actor.DisplayDesc.ModelId = 0
+	Actor.DisplayDesc.ModelName = ""
+	Actor.DisplayDesc.Outfit = ""
+	Actor.DisplayDesc.Weapon = ""
+	Actor.DisplayDesc.Mode = ""
+	Actor.DisplayDesc.UseLight = true
+	Actor.DisplayDesc.CastShadow = true
+	Actor.DisplayDesc.ColorR = 1
+	Actor.DisplayDesc.ColorG = 1
+	Actor.DisplayDesc.ColorB = 1
+	Actor.DisplayDesc.ColorA = 1
+	Actor.DisplayDesc.TransX = 0
+	Actor.DisplayDesc.TransY = 0
+	Actor.DisplayDesc.TransZ = 0
+	Actor.DisplayDesc.ScaleX = 1
+	Actor.DisplayDesc.ScaleY = 1
+	Actor.DisplayDesc.ScaleZ = 1
+	Actor.DisplayDesc.RotX = 0
+	Actor.DisplayDesc.RotY = 0
+	Actor.DisplayDesc.RotZ = 0
+	Actor:SetModelState(2)
+	Actor.DisplayDesc.UseBillboard = false
+	ActorExtraInfo = ModelExtraInfoParticle()
+	ActorExtraInfo.Type = ModelExtraInfoParticle.ParticleExplosion
+	ActorParticleExtraInfo = PredefinedParticleInfo()
+	ActorParticleExtraInfo.WindX = 0
+	ActorParticleExtraInfo.WindY = 0
+	ActorParticleExtraInfo.WindZ = 0
+	ActorParticleExtraInfo.Scale = 0.8
+	ActorParticleExtraInfo.Intensity = 5
+	ActorParticleExtraInfo.EmitterDuration = 0.6
+	ActorParticleExtraInfo.ParticleDuration = 0.5
+	ActorParticleExtraInfo.CustomTexture = ""
+	ActorExtraInfo.Info = ActorParticleExtraInfo
+	Actor.DisplayDesc.ExtraInfo = ActorExtraInfo
+	Actor.PhysicDesc.Pos.X = pos.X
+	Actor.PhysicDesc.Pos.Y = pos.Y
+	Actor.PhysicDesc.Pos.Z = pos.Z
+	Actor.PhysicDesc.Pos.Rotation = 0
+	Actor.PhysicDesc.Density = 1
+	Actor.PhysicDesc.Collidable = true
+	Actor.PhysicDesc.SizeX = 1
+	Actor.PhysicDesc.SizeY = 1
+	Actor.PhysicDesc.SizeZ = 1
+	Actor.PhysicDesc.AllowFreeMove = true
+	Actor.PhysicDesc.Filename = ""
+	Actor:SetPhysicalActorType(1)
+	Actor:SetPhysicalShape(1)
+	Actor.ExtraInfo.Name = ""
+	Actor.ExtraInfo.NameColorR = 1
+	Actor.ExtraInfo.NameColorG = 1
+	Actor.ExtraInfo.NameColorB = 1
+	Actor.ExtraInfo.Display = false
+	Actor.LifeInfo.Display = false
+	Actor.AttachToActorId = -1
+	ActorH = ActorHandler(Actor)
+	Environment:AddActorObject(ActorH)
+	
+	-- play explosion sound
+	Environment:PlaySound("Worlds/Lba1Original/Sound/SAMPLES038.wav", true, pos.X, pos.Y, pos.Z)
+	
+	-- perform explosion action
+	zone = LbaSphere(pos.X, pos.Y, pos.Z, 2)
+	action = HurtAction()
+	action:SetHurtValue(20)
+	action:HurtLifeOrMana(true)
+	action:SetPlayedAnimation(2)
+	Environment:ExecuteActionOnZone(action, zone, Arguments)
+	
+	-- remove explosion actor
+	Environment:ExecuteDelayedAction("RemoveActor", 5000, 0, actorID, Arguments)	
+end
+
+
+function RemoveActor(ObjectType, ObjectId, Arguments, Environment)
+
+	-- remove actor
+	pos = Environment:RemoveActor(ObjectId)
+end

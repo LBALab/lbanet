@@ -117,6 +117,8 @@ class PlayAnimationScriptPart : public ScriptPartBase
 public:
 
 	//! constructor
+	//! if nbAnimation > 0 then loop for ever
+	PlayAnimationScriptPart(int scriptid, bool asynchronus, bool AnimationMove, int nbAnimation);
 	PlayAnimationScriptPart(int scriptid, bool asynchronus, bool AnimationMove);
 
 	//! destructor
@@ -129,6 +131,7 @@ public:
 
 protected:
 	bool	_AnimationMove;
+	int		_nbAnimation;
 };
 
 

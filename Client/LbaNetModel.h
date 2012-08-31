@@ -543,7 +543,7 @@ public:
 	virtual void RemoveActor(long Id) {}
 
 	//! add a managed ghost to the map
-	virtual long AddManagedGhost(long ManagingPlayerid, const ActorObjectInfo& ainfo, bool UseAsDecoy) {return -1;}
+	virtual long AddManagedGhost(long ManagingPlayerid, const ActorObjectInfo& ainfo, bool UseAsDecoy, bool moving) {return -1;}
 
 	//! remove managed ghost from the map
 	virtual void RemoveManagedGhost(long id) {}
@@ -551,6 +551,12 @@ public:
 	//!  used by lua to get player position
 	virtual LbaNet::PlayerPosition GetPlayerPosition(long clientid)
 	{return LbaNet::PlayerPosition();}
+
+	//! add a managed ghost to the map
+	virtual void ExecuteDelayedAction(const std::string & fctname, long ms, int ObjectType, long actorId, ActionArgumentBase* args) {}
+
+	//! play a sound
+	void PlaySound(const std::string & soundpath, bool Use3d, float  PosX, float  PosY, float  PosZ) {}
 
 protected:
 

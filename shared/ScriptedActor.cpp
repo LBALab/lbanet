@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DynamicObject.h"
 #include "ScriptEnvironmentBase.h"
 #include "LogHandler.h"
-
+#include "ActorUserData.h"
 
 #include <fstream>
 #include <iostream>
@@ -119,8 +119,16 @@ bool StraightWalkToScriptPart::Process(double tnow, float tdiff, boost::shared_p
 /***********************************************************
 	Constructor
 ***********************************************************/
+PlayAnimationScriptPart::PlayAnimationScriptPart(int scriptid, bool asynchronus, bool AnimationMove, int nbAnimation)
+	: ScriptPartBase(scriptid, asynchronus), _AnimationMove(AnimationMove), _nbAnimation(nbAnimation)
+{
+}
+
+/***********************************************************
+	Constructor
+***********************************************************/
 PlayAnimationScriptPart::PlayAnimationScriptPart(int scriptid, bool asynchronus, bool AnimationMove)
-	: ScriptPartBase(scriptid, asynchronus), _AnimationMove(AnimationMove)
+	: ScriptPartBase(scriptid, asynchronus), _AnimationMove(AnimationMove), _nbAnimation(1)
 {
 }
 
@@ -135,7 +143,11 @@ bool PlayAnimationScriptPart::Process(double tnow, float tdiff, boost::shared_pt
 	// proces with animation
 	int res = actor->Process(tnow, tdiff);
 	if(res == 1)
-		return true;
+	{
+		--_nbAnimation;
+		if (_nbAnimation == 0)
+			return true;
+	}
 
 
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo = actor->GetPhysicalObject();
@@ -160,7 +172,13 @@ bool PlayAnimationScriptPart::Process(double tnow, float tdiff, boost::shared_pt
 		actor->GetAdditionalMoves(mx, my, mz, mr);
 
 		if(speedX != 0 || speedY != 0 || speedZ != 0)
-			physo->Move(ajustedspeedx*tdiff+mx, speedY*tdiff+my, ajustedspeedZ*tdiff+mz, false);
+		{
+			if (physo->GetUserData() && physo->GetUserData()->GetActorType() == LbaNet::CharControlAType) // special case for character controller
+				physo->GetUserData()->SetAddedMove(ajustedspeedx*tdiff+mx, speedY*tdiff+my, ajustedspeedZ*tdiff+mz);
+			else
+				physo->Move(ajustedspeedx*tdiff+mx, speedY*tdiff+my, ajustedspeedZ*tdiff+mz, false);
+			
+		}
 
 		// set moved flag
 		moved = true;
