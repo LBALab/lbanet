@@ -1542,10 +1542,18 @@ check if LBA1 file exist
 ***********************************************************/
 void LbaNetEngine::CheckLBA1Files()
 {
-	bool existanim = QFileInfo((DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/Lba1Original/Models/ANIM.HQR").c_str()).exists();
-	bool existbody = QFileInfo((DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/Lba1Original/Models/BODY.HQR").c_str()).exists();
-	bool existfile3d = QFileInfo((DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/Lba1Original/Models/FILE3D.HQR").c_str()).exists();
-	bool existress = QFileInfo((DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/Lba1Original/Models/RESS.HQR").c_str()).exists();
+	// create dir if not existing
+	std::string dirPath = DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/Lba1Original/Models";
+	QDir dir(dirPath.c_str());
+	if (!dir.exists()) 
+	{
+		dir.mkpath(".");
+	}	
+
+	bool existanim = QFileInfo((dirPath + "/ANIM.HQR").c_str()).exists();
+	bool existbody = QFileInfo((dirPath + "/BODY.HQR").c_str()).exists();
+	bool existfile3d = QFileInfo((dirPath + "/FILE3D.HQR").c_str()).exists();
+	bool existress = QFileInfo((dirPath + "/RESS.HQR").c_str()).exists();
 
 	
 	while(!existanim || !existbody || !existfile3d || !existress)
@@ -1578,28 +1586,28 @@ void LbaNetEngine::CheckLBA1Files()
 			{
 				existanim = QFileInfo(dir+"/ANIM.HQR").exists();
 				if(existanim)
-					QFile::copy(dir+"/ANIM.HQR", (DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/Lba1Original/Models/ANIM.HQR").c_str());
+					QFile::copy(dir+"/ANIM.HQR", (dirPath + "/ANIM.HQR").c_str());
 			}
 
 			if(!existbody)
 			{
 				existbody = QFileInfo(dir+"/BODY.HQR").exists();
 				if(existbody)
-					QFile::copy(dir+"/BODY.HQR", (DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/Lba1Original/Models/BODY.HQR").c_str());
+					QFile::copy(dir+"/BODY.HQR", (dirPath + "/BODY.HQR").c_str());
 			}
 
 			if(!existfile3d)
 			{
 				existfile3d = QFileInfo(dir+"/FILE3D.HQR").exists();
 				if(existfile3d)
-					QFile::copy(dir+"/FILE3D.HQR", (DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/Lba1Original/Models/FILE3D.HQR").c_str());
+					QFile::copy(dir+"/FILE3D.HQR", (dirPath + "/FILE3D.HQR").c_str());
 			}
 
 			if(!existress)
 			{
 				existress = QFileInfo(dir+"/RESS.HQR").exists();
 				if(existress)
-					QFile::copy(dir+"/RESS.HQR", (DataDirHandler::getInstance()->GetDataDirPath() + "/Worlds/Lba1Original/Models/RESS.HQR").c_str());
+					QFile::copy(dir+"/RESS.HQR", (dirPath + "/RESS.HQR").c_str());
 			}
 		}
 	}
