@@ -25,7 +25,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #if !defined(__QT_Windows_base_h)
 #define __QT_Windows_base_h
 
+namespace osgQt {
 class GraphicsWindowQt;
+}
 
 /***********************************************************************
  * Module:  QT_Windows_base.h
@@ -42,7 +44,7 @@ public:
 	virtual ~QT_Windows_base(){}
 
 	//! set osg windows
-	virtual void SetOsgWindow(GraphicsWindowQt *wind) = 0;
+	virtual void SetOsgWindow(osgQt::GraphicsWindowQt *wind) = 0;
 };
 
 #endif

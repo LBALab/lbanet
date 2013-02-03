@@ -70,7 +70,7 @@ public:
 	void Process(double tnow, float tdiff);
 
 	//! set osg windows
-	virtual void SetOsgWindow(GraphicsWindowQt *wind);
+	virtual void SetOsgWindow(osgQt::GraphicsWindowQt *wind);
 
 
 	//! play video
@@ -176,7 +176,7 @@ protected:
 
 private:
 	Ui::ClientClass			ui;
-	GraphicsWindowQt *		_osgwindow;
+	osgQt::GraphicsWindowQt *		_osgwindow;
 	ClientViewType			_currentview;
 	VLCPlayer*				_videoplayer;
 

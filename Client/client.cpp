@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "client.h"
-#include "GraphicsWindowQt"
+#include <osgQt/GraphicsWindowQt>
 #include "EventsQueue.h"
 #include "ClientExtendedEvents.h"
 #include "OSGHandler.h"
@@ -37,6 +37,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectsDescription.h"
 #include "StaticObject.h"
 #include "DataDirHandler.h"
+
+#include <QCloseEvent>
+#include <QKeyEvent>
 
 #include <boost/foreach.hpp>
 
@@ -105,7 +108,7 @@ void Client::Process(double tnow, float tdiff)
 /***********************************************************
 set osg windows
 ***********************************************************/
-void Client::SetOsgWindow(GraphicsWindowQt *wind)
+void Client::SetOsgWindow(osgQt::GraphicsWindowQt *wind)
 {
 	_osgwindow = wind;
 	ui.page_Game->layout()->addWidget(_osgwindow->getGraphWidget());
@@ -160,7 +163,7 @@ void Client::ResetToGame()
 		ui.stackedWidget->setCurrentIndex(1);
 		_currentview = CLV_Game;
 
-		_osgwindow->getGraphWidget()->SetHandleKey(true);
+		_osgwindow->getGraphWidget()->setForwardKeyEvents(false);
 	}
 }
 
@@ -324,7 +327,7 @@ void Client::SwitchToFixedImage(const std::string & imagepath, long NbSecondDisp
 		guidraw->StartFixedImage(imagepath, NbSecondDisplay, FadeIn, FadeInColorR, FadeInColorG, FadeInColorB,
 									FadeOut, FadeOutColorR, FadeOutColorG, FadeOutColorB);
 
-	_osgwindow->getGraphWidget()->SetHandleKey(false);
+	_osgwindow->getGraphWidget()->setForwardKeyEvents(true);
 
 }
 
@@ -356,7 +359,7 @@ void Client::SwitchToText(const std::string & imagepath, const std::vector<long>
 		if(guidraw)
 			guidraw->StartScrollingText(imagepath, _texts);
 
-		_osgwindow->getGraphWidget()->SetHandleKey(false);
+		_osgwindow->getGraphWidget()->setForwardKeyEvents(true);
 
 		if(_voices.size() > 0)
 			MusicHandler::getInstance()->PlayVoice(_voices);
@@ -439,7 +442,7 @@ void Client::HideHolomap()
 		OsgHandler::getInstance()->ResetCameraInfo();
 
 		_currentview = CLV_Game;
-		_osgwindow->getGraphWidget()->SetHandleKey(true);
+		_osgwindow->getGraphWidget()->setForwardKeyEvents(false);
 
 		EventsQueue::getReceiverQueue()->AddEvent(new DisplayExtraGLFinishedEvent());
 	}
@@ -466,7 +469,7 @@ void Client::DisplayHolomap(int Mode, long HolomapLocationOrPathId,
 
 		// prepare display scene
 		OsgHandler::getInstance()->SwitchScene(1);
-		_osgwindow->getGraphWidget()->SetHandleKey(false);
+		_osgwindow->getGraphWidget()->setForwardKeyEvents(true);
 
 
 

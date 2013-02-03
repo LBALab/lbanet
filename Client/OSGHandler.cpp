@@ -73,7 +73,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <osgParticle/SmokeTrailEffect>
 #include <osgParticle/FireEffect>
 
-#include "GraphicsWindowQt"
+#include <osgQt/GraphicsWindowQt>
 #include "QT_WindowsBase.h"
 
 
@@ -565,7 +565,7 @@ if(GuiH)
 else
 	traits->useCursor = true;
 
-    GraphicsWindowQt *qtwin = new GraphicsWindowQt(traits.get());
+    osgQt::GraphicsWindowQt *qtwin = new osgQt::GraphicsWindowQt(traits.get());
 	_viewer->getCamera()->setGraphicsContext(qtwin);
 	qtH->SetOsgWindow(qtwin);
 

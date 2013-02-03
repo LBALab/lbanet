@@ -822,17 +822,6 @@ pick object in the scene
 ***********************************************************/
 void OsgEventHandler::pick(osgViewer::View* view, const osgGA::GUIEventAdapter& ea)
 {
-  //  osg::Viewport* viewport = view->getCamera()->getViewport();
-  //  double mx = viewport->x() + (int)((double )viewport->width()*(ea.getXnormalized()*0.5+0.5));
-  //  double my = viewport->y() + (int)((double )viewport->height()*(ea.getYnormalized()*0.5+0.5));
-  //  double w = 5.0f;
-  //  double h = 5.0f;
-  //  osgUtil::PolytopeIntersector* picker = new 
-		//osgUtil::PolytopeIntersector( osgUtil::Intersector::WINDOW, mx-w, my-h, mx+w, my+h );
-
-  //  osgUtil::IntersectionVisitor iv(picker);
-  //  view->getCamera()->accept(iv);
-
 	std::string keepname;
 	float px=0, py=0, pz=0;
 
@@ -841,8 +830,6 @@ void OsgEventHandler::pick(osgViewer::View* view, const osgGA::GUIEventAdapter& 
 	osgUtil::LineSegmentIntersector::Intersections intersections;
     if (view->computeIntersections(x,y,intersections))
     {
-        //osgUtil::PolytopeIntersector::Intersections intersections = picker->getIntersections();
-
         for(osgUtil::LineSegmentIntersector::Intersections::iterator hitr = intersections.begin();
 				hitr != intersections.end();  ++hitr)
         {
@@ -850,6 +837,8 @@ void OsgEventHandler::pick(osgViewer::View* view, const osgGA::GUIEventAdapter& 
 			osg::NodePath::const_reverse_iterator end = hitr->nodePath.rend();
 			for(; it != end; ++it)
 			{
+				//std::cout << "hit: " << hitr->localIntersectionPoint.x() <<", " << hitr->localIntersectionPoint.y() <<", " << hitr->localIntersectionPoint.z() << std::endl;
+
 				std::string name = (*it)->getName();
 				if(name.size() > 2 && name[1] == '_')
 				{

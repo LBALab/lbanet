@@ -56,7 +56,6 @@ SET(client_SOURCES
 		GUI.cpp
 		GUILocalizationCallback.cpp
 		GameGUI.cpp
-		GraphicsWindowQt.cpp
 		GuiHandler.cpp
 		Holomap.cpp
 		HolomapHandler.cpp
