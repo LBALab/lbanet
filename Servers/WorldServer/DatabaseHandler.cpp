@@ -26,12 +26,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DatabaseHandler.h"
 #include "StringHelperFuncs.h"
 
-
 #include <IceUtil/Time.h>
 
 #ifndef WIN32
 #include <unistd.h>
 #endif
+
+#include "md5.h"
+
 
 
 
