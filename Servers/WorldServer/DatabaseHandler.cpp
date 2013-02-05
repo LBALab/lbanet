@@ -1493,7 +1493,7 @@ long DatabaseHandler::CheckLogin(const std::string & PlayerName, const std::stri
 			std::string dbentry = res[0][1].c_str();
 
 			std::vector<std::string> entries;
-			Tokenize(dbentry, entries, ":");
+			StringHelper::Tokenize(dbentry, entries, ":");
 			if(entries.size() != 2)
 				return -1;
 
