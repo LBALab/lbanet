@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef _LOCAL_TEST_
 #include "LocalDatabaseHandler.h"
 #else
-#include "DatabaseHandler.h
+#include "DatabaseHandler.h"
 #endif
 
 

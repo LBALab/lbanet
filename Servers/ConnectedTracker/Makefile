@@ -1,5 +1,5 @@
 TARGET=connectedtraker
-OBJ=ConnectedTrackerServant.o PermissionsVerifierServant.o SharedData.o ../WorldServer/LocalDatabaseHandler.o main.o ../../shared/md5.o
+OBJ=ConnectedTrackerServant.o PermissionsVerifierServant.o SharedData.o ../WorldServer/DatabaseHandler.o main.o ../../shared/md5.o
 
 CC=g++
 INCDIR=-I. -I../../infrastructure/include -I/usr/include  -I/usr/include/mysql++ -I/usr/include/mysql -I../../shared -I../WorldServer
