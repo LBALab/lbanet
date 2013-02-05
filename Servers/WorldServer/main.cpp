@@ -34,7 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef _LOCAL_TEST_
 #include "LocalDatabaseHandler.h"
 #else
-#include "DatabaseHandler.h
+#include "DatabaseHandler.h"
 #endif
 
 
@@ -101,7 +101,7 @@ public:
 																			communicator()->getProperties()->getProperty("LoginServer")));
 
 			if(loginserv)
-				loginserv->RegisterWorld(worldinfo.Description, 
+				loginserv->RegisterWorld(worldinfo.Description,
 									WorldServerInterfacePrx::uncheckedCast(worldi),
 									MaintenanceInterfacePrx::uncheckedCast(worldmi));
 		}
