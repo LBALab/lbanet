@@ -59,6 +59,13 @@ namespace luabind {
 		return p.get();
 	}
 }
+namespace IceInternal {
+	template <class T>
+	T* get_pointer(IceInternal::Handle<T> & p)
+	{
+		return p.get();
+	}
+}
 
 //*************************************************************************************************
 //*                               class ScriptEnvironmentBase
