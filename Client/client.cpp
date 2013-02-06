@@ -114,6 +114,7 @@ void Client::SetOsgWindow(osgQt::GraphicsWindowQt *wind)
 	ui.page_Game->layout()->addWidget(_osgwindow->getGraphWidget());
 
 	ResetToGame();
+	_osgwindow->getGraphWidget()->setForwardKeyEvents(false);
 }
 
 
