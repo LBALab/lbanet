@@ -52,16 +52,9 @@ typedef boost::shared_ptr<ActionBase> ActionBasePtr;
 
 
 // needed to use ice handles in luabnd
-namespace luabind {
-	template <class T>
-	T* get_pointer(IceInternal::Handle<T> & p)
-	{
-		return p.get();
-	}
-}
 namespace IceInternal {
 	template <class T>
-	T* get_pointer(Handle<T> & p)
+	T* get_pointer(const Handle<T> & p)
 	{
 		return p.get();
 	}
