@@ -81,24 +81,30 @@ public:
 	// tell if in this mode we need to check for gravity
 	virtual bool NeedCheckForGravity()
 	{
+#ifndef _LBANET_SERVER_SIDE_
 		if(DataDirHandler::getInstance()->IsInEditorMode())
 			return !EditorSharedData::GetInstance()->GetFly();
+#endif
 		return true;
 	}
 
 	// tell if in this mode we need to check for water/gaz/fire hazard
 	virtual bool NeedCheckForWater()
 	{
+#ifndef _LBANET_SERVER_SIDE_
 		if(DataDirHandler::getInstance()->IsInEditorMode())
-			return !EditorSharedData::GetInstance()->GetFly();	
+			return !EditorSharedData::GetInstance()->GetFly();
+#endif
 		return true;
 	}
 
 	// tell if in this mode the character can fly
 	virtual bool CanFly()
 	{
+#ifndef _LBANET_SERVER_SIDE_
 		if(DataDirHandler::getInstance()->IsInEditorMode())
 			return EditorSharedData::GetInstance()->GetFly();
+#endif
 		return false;
 	}
 
