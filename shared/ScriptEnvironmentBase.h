@@ -61,7 +61,7 @@ namespace luabind {
 }
 namespace IceInternal {
 	template <class T>
-	T* get_pointer(IceInternal::Handle<T> & p)
+	T* get_pointer(Handle<T> & p)
 	{
 		return p.get();
 	}
