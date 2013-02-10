@@ -182,7 +182,7 @@ int main( int argc, char **argv )
 				ConfigurationManager::GetInstance()->SaveConfigFile();
 				return 0;
 			}
-			else
+			else if (argv[1][0] == '2')
 			{
 				// sound editor
 				DataDirHandler::getInstance()->SetSoundEditorMode(true);
@@ -199,7 +199,8 @@ int main( int argc, char **argv )
 				return 0;
 			}
 		}
-		else
+
+		// else
 		{
 			// normal client
 			DataDirHandler::getInstance()->SetEditorMode(false);
