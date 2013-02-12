@@ -378,6 +378,7 @@ check if we need to send update to server
 void ExternalActor::UpdateServer(double tnow, float tdiff)
 {
 	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+	boost::shared_ptr<DisplayObjectHandlerBase> diso = _character->GetDisplayObject();
 
 	// get current position
 	physo->GetPosition(_currentupdate.CurrentPos.X,
@@ -386,7 +387,12 @@ void ExternalActor::UpdateServer(double tnow, float tdiff)
 
 
 	// get current rotation
-	_currentupdate.CurrentPos.Rotation = 0;
+	_currentupdate.CurrentPos.Rotation = physo->GetRotationYAxis();
+
+	if (diso)
+	{
+		_currentupdate.AnimationIdx = diso->GetCurrentAnimation();
+	}
 
 
 	// set speed
