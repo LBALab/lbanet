@@ -112,6 +112,70 @@ bool StraightWalkToScriptPart::Process(double tnow, float tdiff, boost::shared_p
 	return false;
 }
 
+/***********************************************************
+WalkToPointScriptPart
+***********************************************************/
+WalkToPointScriptPart::WalkToPointScriptPart(int scriptid, bool asynchronus, float PosX, float PosY, float PosZ, float RotationSpeedPerSec, bool moveForward)
+	: ScriptPartBase(scriptid, asynchronus), _PosX(PosX), _PosY(PosY), _PosZ(PosZ), _RotationSpeedPerSec(RotationSpeedPerSec), _moveForward(moveForward), _stuck(false)
+{
+}
+
+
+/***********************************************************
+process script part
+return true if finished
+***********************************************************/
+bool WalkToPointScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor, bool & moved)
+{
+	// process with animation
+	actor->Process(tnow, tdiff);
+
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = actor->GetPhysicalObject();
+	boost::shared_ptr<DisplayObjectHandlerBase> disso = actor->GetDisplayObject();
+
+	float curPosX, curPosY, curPosZ;
+	physo->GetPosition(curPosX, curPosY, curPosZ);
+
+	// check if we arrive at destination
+	LbaVec3 diff(_PosX - curPosX, _PosY - curPosY, _PosZ - curPosZ);
+	if(diff.FastLength() < 0.8)
+		return true;
+
+	// nav-mesh is in charge of moving the actor
+
+	// just check if the nav-mesh got stuck
+	LbaVec3 diffBefore(_lastPosX - curPosX, _lastPosY - curPosY, _lastPosZ - curPosZ);
+	if(diffBefore.FastLength() < 0.001)
+	{
+		if (!_stuck)
+		{
+			_stuck = true;
+			_lastime = tnow;
+		}
+		else
+		{
+			if ((tnow-_lastime) > 800)
+			{
+				_stuck = false;
+				return true;
+			}
+		}
+	}
+	else
+	{
+		_lastPosX = curPosX;
+		_lastPosY = curPosY;
+		_lastPosZ = curPosZ;
+		_stuck = false;
+	}
+
+
+	// set moved flag
+	moved = true;
+
+	return false;
+}
+
 
 
 
@@ -173,9 +237,9 @@ bool PlayAnimationScriptPart::Process(double tnow, float tdiff, boost::shared_pt
 
 		if(speedX != 0 || speedY != 0 || speedZ != 0)
 		{
-			if (physo->GetUserData() && physo->GetUserData()->GetActorType() == LbaNet::CharControlAType) // special case for character controller
-				physo->GetUserData()->SetAddedMove(ajustedspeedx*tdiff+mx, speedY*tdiff+my, ajustedspeedZ*tdiff+mz);
-			else
+			//if (physo->GetUserData() && physo->GetUserData()->GetActorType() == LbaNet::CharControlAType) // special case for character controller
+			//	physo->GetUserData()->SetAddedMove(ajustedspeedx*tdiff+mx, speedY*tdiff+my, ajustedspeedZ*tdiff+mz);
+			//else
 				physo->Move(ajustedspeedx*tdiff+mx, speedY*tdiff+my, ajustedspeedZ*tdiff+mz, false);
 			
 		}
@@ -346,10 +410,27 @@ return true if finished
 ***********************************************************/
 bool WaitForSignalScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor, bool & moved)
 {
-	// proces with animation
+	// process with animation
 	actor->Process(tnow, tdiff);
 
 	return actor->ReceivedSignal(_SignalId);
+}
+
+
+SleepScriptPart::SleepScriptPart(int scriptid, bool asynchronus, int nbMilliseconds)
+	: ScriptPartBase(scriptid, asynchronus), _nbMilliseconds(nbMilliseconds), _totalMilliseconds(0)
+{
+
+}
+
+
+bool SleepScriptPart::Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor, bool & moved)
+{
+	// process with animation
+	actor->Process(tnow, tdiff);
+
+	_totalMilliseconds += static_cast<int>(tdiff);
+	return (_totalMilliseconds >= _nbMilliseconds);
 }
 
 
@@ -657,7 +738,11 @@ void ScriptedActor::ActorStraightWalkTo(int ScriptId, bool asynchronus, float Po
 	_currentScripts.push_back(boost::shared_ptr<ScriptPartBase>(
 						new StraightWalkToScriptPart(ScriptId, asynchronus, PosX, PosY, PosZ, _character)));
 }
-
+void ScriptedActor::ActorWalkToPoint(int ScriptId, bool asynchronus, float PosX, float PosY, float PosZ, float RotationSpeedPerSec, bool moveForward)
+{
+	_currentScripts.push_back(boost::shared_ptr<ScriptPartBase>(
+		new WalkToPointScriptPart(ScriptId, asynchronus, PosX, PosY, PosZ, RotationSpeedPerSec, moveForward)));
+}
 
 
 /***********************************************************
@@ -677,10 +762,10 @@ void ScriptedActor::ActorRotate(int ScriptId, bool asynchronus, float Angle, flo
 //! used by lua to wait until an actor animation is finished
 //! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
 ***********************************************************/
-void ScriptedActor::ActorAnimate(int ScriptId, bool asynchronus, bool AnimationMove)
+void ScriptedActor::ActorAnimate(int ScriptId, bool asynchronus, bool AnimationMove, int nbAnimation)
 {
 	_currentScripts.push_back(boost::shared_ptr<ScriptPartBase>(
-						new PlayAnimationScriptPart(ScriptId, asynchronus, AnimationMove)));
+						new PlayAnimationScriptPart(ScriptId, asynchronus, AnimationMove, nbAnimation)));
 }
 
 
@@ -752,8 +837,14 @@ void ScriptedActor::ActorFollowWaypoint(int ScriptId, const LbaVec3 & Pm1, const
 						new FollowWaypointScriptPart(ScriptId, asynchronus, Pm1, P0, P1, P2, P3, P4)));
 }
 
-
-
+/***********************************************************
+//! make an actor sleep for a given amount of time
+***********************************************************/
+void ScriptedActor::ActorSleep(int ScriptId, int nbMilliseconds, bool asynchronus)
+{
+	_currentScripts.push_back(boost::shared_ptr<ScriptPartBase>(
+						new SleepScriptPart(ScriptId, asynchronus, nbMilliseconds)));
+}
 
 /***********************************************************
 //! store current script

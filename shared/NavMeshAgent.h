@@ -36,6 +36,13 @@ class NaviMeshHandler;
 class LbaQuaternion;
 class LbaVec3;
 
+struct ResPos
+{
+	float x;
+	float y;
+	float z;
+};
+
 //! take care of navigation mesh agents
 class NavMeshAgent
 {
@@ -74,7 +81,7 @@ public:
 	void SetResetTarget(bool set);
 
 	//! set target position
-	void SetTargetPosition(bool update, float pX, float pY, float pZ);
+	ResPos SetTargetPosition(bool update, float pX, float pY, float pZ);
 
 	//! is targeting
 	bool IsTargeting()
@@ -83,12 +90,16 @@ public:
 	//! check if target is in line of sight
 	bool RaycastTarget(const LbaVec3 &target);
 
+	//! make the actor move to a given position
+	void GoToPosition(float& pX, float& pY, float& pZ, bool backward);
+
 private:
 	boost::shared_ptr<NaviMeshHandler>		m_navimesh;
 	boost::shared_ptr<dtCrowd>				m_crowdmanager;
 	int										m_crowdagentid;
 	float									m_lastSpeed;
 	bool									m_targeting;
+	bool									m_backward;
 
 	float									m_lasttx;
 	float									m_lastty;

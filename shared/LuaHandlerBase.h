@@ -49,7 +49,7 @@ public:
 	void LoadFile(const std::string & luafile);
 
 	//! call lua function
-	void CallLua(const std::string & functioname, ScriptEnvironmentBase* env = 0);
+	std::string CallLua(const std::string & functioname, ScriptEnvironmentBase* env = 0);
 
 	//! call lua function
 	void CallLua(const std::string & functioname, ScriptInitHandler* env);
@@ -76,7 +76,7 @@ public:
 	bool ThreadRunning(int ThreadIdx);
 
 	//! execute lua script given as a string
-	void ExecuteScriptString( const std::string & ScriptString );
+	std::string ExecuteScriptString( const std::string & ScriptString );
 
 
 	// execute custom lua function
@@ -98,6 +98,9 @@ public:
 	void RunAttackScript(long ActorId,
 									const std::string & FunctionName,
 									ScriptEnvironmentBase* env);
+
+	// setGlobalEnv
+	void setGlobalEnv(const std::string& globalName, ScriptEnvironmentBase* var);
 
 protected:
 	lua_State *													m_LuaState;

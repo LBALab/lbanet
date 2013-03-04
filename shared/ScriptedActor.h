@@ -105,6 +105,39 @@ protected:
 	float	_distanceDone;
 };
 
+/***********************************************************************
+ * Module:  ScriptedActor.h
+ * Author:  vivien
+ * Purpose: Declaration of the class WalkToPointScriptPart
+ ***********************************************************************/
+class WalkToPointScriptPart : public ScriptPartBase
+{
+public:
+
+	//! constructor
+	WalkToPointScriptPart(int scriptid, bool asynchronus, float PosX, float PosY, float PosZ, float RotationSpeedPerSec, bool moveForward);
+
+	//! destructor
+	virtual ~WalkToPointScriptPart(){}
+
+
+	//! process script part
+	//! return true if finished
+	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor, bool & moved);
+
+protected:
+	float	_PosX;
+	float	_PosY;
+	float	_PosZ;
+	float	_RotationSpeedPerSec;
+	bool	_moveForward;
+
+	float	_lastPosX;
+	float	_lastPosY;
+	float	_lastPosZ;
+	bool	_stuck;
+	double	_lastime;
+};
 
 
 /***********************************************************************
@@ -117,7 +150,7 @@ class PlayAnimationScriptPart : public ScriptPartBase
 public:
 
 	//! constructor
-	//! if nbAnimation > 0 then loop for ever
+	//! if nbAnimation < 0 then loop for ever
 	PlayAnimationScriptPart(int scriptid, bool asynchronus, bool AnimationMove, int nbAnimation);
 	PlayAnimationScriptPart(int scriptid, bool asynchronus, bool AnimationMove);
 
@@ -338,6 +371,32 @@ protected:
 
 
 
+/***********************************************************************
+ * Module:  ScriptedActor.h
+ * Author:  vivien
+ * Purpose: Declaration of the class SleepScriptPart
+ ***********************************************************************/
+class SleepScriptPart : public ScriptPartBase
+{
+public:
+
+	//! constructor
+	SleepScriptPart(int scriptid, bool asynchronus, int nbMilliseconds);
+
+	//! destructor
+	virtual ~SleepScriptPart(){}
+
+
+	//! process script part
+	//! return true if finished
+	virtual bool Process(double tnow, float tdiff, boost::shared_ptr<DynamicObject>	actor, bool & moved);
+
+protected:
+	int _nbMilliseconds;
+	int _totalMilliseconds;
+};
+
+
 
 
 
@@ -364,6 +423,7 @@ public:
 	//! used by lua to move an actor
 	//! the actor will move using animation speed
 	virtual void ActorStraightWalkTo(int ScriptId, bool asynchronus, float PosX, float PosY, float PosZ);
+	virtual void ActorWalkToPoint(int ScriptId, bool asynchronus, float PosX, float PosY, float PosZ, float RotationSpeedPerSec, bool moveForward);
 
 	//! used by lua to rotate an actor
 	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
@@ -374,7 +434,7 @@ public:
 
 	//! used by lua to wait until an actor animation is finished
 	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
-	virtual void ActorAnimate(int ScriptId, bool asynchronus, bool AnimationMove);
+	virtual void ActorAnimate(int ScriptId, bool asynchronus, bool AnimationMove, int nbAnimation);
 
 	
 	//! used by lua to move an actor or player
@@ -406,6 +466,8 @@ public:
 											const LbaVec3 & P1, const LbaVec3 & P2, 
 											const LbaVec3 & P3, const LbaVec3 & P4, bool asynchronus);
 
+	//! make an actor sleep for a given amount of time
+	virtual void ActorSleep(int ScriptId, int nbMilliseconds, bool asynchronus);
 
 	//! clear all scripts
 	void ClearScripts()

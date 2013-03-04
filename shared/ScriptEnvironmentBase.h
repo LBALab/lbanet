@@ -34,6 +34,7 @@ class ClientScriptBase;
 class ActionArgumentBase;
 class DialogPart;
 class Spawn;
+class PointFlag;
 class DynamicObject;
 class Holomap;
 class HolomapLocation;
@@ -89,6 +90,10 @@ public:
 					
 	// add spawn
 	virtual void AddSpawn(boost::shared_ptr<Spawn> spawn) = 0;
+
+	// add point
+	virtual void AddPoint(boost::shared_ptr<PointFlag> point) = 0;
+	
 
 
 	// teleport an object
@@ -160,6 +165,11 @@ public:
 	//! the actor will move using animation speed
 	void ActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position);
 
+	//! used by lua to move an actor or player
+	//! the actor will rotate toward and move to given point using animation speed
+	void ActorWalkToPoint(int ScriptId, long ActorId, const LbaVec3 &Position, float RotationSpeedPerSec, bool moveForward);
+
+
 	//! used by lua to rotate an actor
 	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
 	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
@@ -169,7 +179,7 @@ public:
 
 	//! used by lua to wait until an actor animation is finished
 	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
-	void ActorAnimate(int ScriptId, long ActorId, bool AnimationMove);
+	void ActorAnimate(int ScriptId, long ActorId, bool AnimationMove, int nbAnimation);
 
 	//! used by lua to tell that the actor should be reserved for the script
 	virtual void ReserveActor(int ScriptId, long ActorId) = 0;
@@ -236,6 +246,11 @@ public:
 	//! the actor show/hide
 	virtual void ActorShowHide(int ScriptId, long ActorId, bool Show) = 0;
 
+	//! make an actor sleep for a given amount of time
+	void ActorSleep(int ScriptId, long ActorId, int nbMilliseconds);
+
+	//! set the function to use as current movement script for the given actor
+	virtual void ActorSetMovementScript(int ScriptId, long ActorId, const std::string & functionName) = 0;
 
 	//! execute lua script given as a string
 	void ExecuteScriptString( const std::string &ScriptString );
@@ -264,12 +279,16 @@ public:
 	//! asynchronus version of ActorStraightWalkTo
 	int Async_ActorStraightWalkTo(long ActorId, const LbaVec3 &Position);
 
+	//! used by lua to move an actor or player
+	//! the actor will rotate toward and move to given point using animation speed
+	int Async_ActorWalkToPoint(int ScriptId, long ActorId, const LbaVec3 &Position, float RotationSpeedPerSec, bool moveForward);
+
 	//! asynchronus version of ActorRotate
 	int Async_ActorRotate(long ActorId, float Angle, float RotationSpeedPerSec,
 									bool ManageAnimation);
 
 	//! asynchronus version of ActorAnimate
-	int Async_ActorAnimate(long ActorId, bool AnimationMove);
+	int Async_ActorAnimate(long ActorId, bool AnimationMove, int nbAnimation);
 
 	//! asynchronus version of ActorGoTo
 	int Async_ActorGoTo(long ActorId, const LbaVec3 &Position, float Speed);
@@ -512,8 +531,9 @@ public:
 
 	//! used by lua to make an actor play a sound
 	//! there is 5 available channels (0 to 5)
+	// play a cetain number of time (-1 = loop forever)
 	virtual void ActorStartSound(int ScriptId, long ActorId, int SoundChannel, 
-										const std::string & soundpath, bool loop) = 0;
+										const std::string & soundpath, int numberTime, bool randomPitch) = 0;
 
 	//! used by lua to make an actor stop a sound
 	//! there is 5 available channels (0 to 5)
@@ -530,6 +550,11 @@ public:
 	//! TeleportPlayerAtEndScript
 	virtual void TeleportPlayerAtEndScript(int ScriptId, const std::string &newmap, long newspawn) = 0;
 
+	//! make actor appear or disappear in map
+	virtual void ActorAppearDisappear(int ScriptId, long ActorId, bool appear) = 0;
+
+	//! make actor movement script pause until it is resumed by another command 
+	virtual void ActorWaitForResume(int ScriptId, long ActorId) = 0;
 
 	//! AddHolomap
 	virtual void AddHolomap(boost::shared_ptr<Holomap> holo) = 0;
@@ -570,7 +595,12 @@ protected:
 	//! used by lua to move an actor or player
 	//! the actor will move using animation speed
 	virtual void InternalActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position, 
-										bool asynchronus) = 0;
+										bool asynchronus = false) = 0;
+
+	//! used by lua to move an actor or player
+	//! the actor will rotate and move using animation speed
+	virtual void InternalActorWalkToPoint(int ScriptId, long ActorId, const LbaVec3 &Position, float RotationSpeedPerSec, bool moveForward, 
+											bool asynchronus = false) = 0;
 
 	//! used by lua to rotate an actor
 	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
@@ -581,7 +611,7 @@ protected:
 
 	//! used by lua to wait until an actor animation is finished
 	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
-	virtual void InternalActorAnimate(int ScriptId, long ActorId, bool AnimationMove, bool asynchronus = false) = 0;
+	virtual void InternalActorAnimate(int ScriptId, long ActorId, bool AnimationMove, int nbAnimation, bool asynchronus = false) = 0;
 
 
 	//! used by lua to move an actor or player
@@ -613,6 +643,11 @@ protected:
 											const LbaVec3 & P1, const LbaVec3 & P2, 
 											const LbaVec3 & P3, const LbaVec3 & P4, 
 											bool asynchronus = false) = 0;
+
+
+	//! make an actor sleep for a given amount of time
+	virtual void InternalActorSleep(int ScriptId, long ActorId, int nbMilliseconds, bool asynchronus = false) = 0;
+
 
 	//! called when a script has finished
 	virtual void ScriptFinished(int scriptid, const std::string & functioname) = 0;

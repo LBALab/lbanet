@@ -83,7 +83,8 @@ wait until script part is finished
 ***********************************************************/
 void ScriptEnvironmentBase::WaitForAsyncScript(int ScriptId, int ScriptPartId)
 {
-	m_waitingscripts[ScriptPartId] = ScriptId;
+	if (ScriptPartId>= 0)
+		m_waitingscripts[ScriptPartId] = ScriptId;
 }
 
 
@@ -129,8 +130,9 @@ void ScriptEnvironmentBase::CheckFinishedAsynScripts()
 			itmaps->second++;
 			if(itmaps->second > 3)
 			{
-				ResumeThread(itmaps->first);
+				int threadId = itmaps->first;
 				m_sleepingscripts.erase(itmaps++);
+				ResumeThread(threadId);
 			}
 			else
 			{
@@ -156,6 +158,19 @@ int ScriptEnvironmentBase::Async_ActorStraightWalkTo(long ActorId, const LbaVec3
 	return genid;
 }
 
+//! used by lua to move an actor or player
+//! the actor will rotate toward and move to given point using animation speed
+int ScriptEnvironmentBase::Async_ActorWalkToPoint(int ScriptId, long ActorId, const LbaVec3 &Position, float RotationSpeedPerSec, bool moveForward)
+{
+	int genid = m_generatednumber++;
+
+	InternalActorWalkToPoint(genid, ActorId, Position, RotationSpeedPerSec, moveForward, true);
+
+	m_asyncscripts[genid] = false;
+	return genid;
+}
+
+
 /***********************************************************
 asynchronus version of ActorRotate
 ***********************************************************/
@@ -173,11 +188,11 @@ int ScriptEnvironmentBase::Async_ActorRotate(long ActorId, float Angle, float Ro
 /***********************************************************
 asynchronus version of ActorAnimate
 ***********************************************************/
-int ScriptEnvironmentBase::Async_ActorAnimate(long ActorId, bool AnimationMove)
+int ScriptEnvironmentBase::Async_ActorAnimate(long ActorId, bool AnimationMove, int nbAnimation)
 {
 	int genid = m_generatednumber++;
 
-	InternalActorAnimate(genid, ActorId, AnimationMove, true);
+	InternalActorAnimate(genid, ActorId, AnimationMove, nbAnimation, true);
 
 	m_asyncscripts[genid] = false;
 	return genid;
@@ -261,7 +276,7 @@ make a lua script sleep for one cycle
 ***********************************************************/
 void ScriptEnvironmentBase::WaitOneCycle(int scriptid)
 {
-	LogHandler::getInstance()->LogToFile("Wait one cycle.", scriptid);
+	//LogHandler::getInstance()->LogToFile("Wait one cycle.", scriptid);
 	m_sleepingscripts[scriptid] = 0;
 }
 
@@ -308,6 +323,13 @@ void ScriptEnvironmentBase::ActorStraightWalkTo(int ScriptId, long ActorId, cons
 	InternalActorStraightWalkTo(ScriptId, ActorId, Position, false);
 }
 
+//! used by lua to move an actor or player
+//! the actor will move using animation speed
+void ScriptEnvironmentBase::ActorWalkToPoint(int ScriptId, long ActorId, const LbaVec3 &Position, float RotationSpeedPerSec, bool moveForward)
+{
+	InternalActorWalkToPoint(ScriptId, ActorId, Position, RotationSpeedPerSec, moveForward, false);
+}
+
 //! used by lua to rotate an actor
 //! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
 //! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
@@ -320,9 +342,9 @@ void ScriptEnvironmentBase::ActorRotate(int ScriptId, long ActorId, float Angle,
 
 //! used by lua to wait until an actor animation is finished
 //! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
-void ScriptEnvironmentBase::ActorAnimate(int ScriptId, long ActorId, bool AnimationMove)
+void ScriptEnvironmentBase::ActorAnimate(int ScriptId, long ActorId, bool AnimationMove, int nbAnimation)
 {
-	InternalActorAnimate(ScriptId, ActorId, AnimationMove, false);
+	InternalActorAnimate(ScriptId, ActorId, AnimationMove, nbAnimation, false);
 }
 
 
@@ -361,6 +383,11 @@ void ScriptEnvironmentBase::ActorRotateFromPoint(int ScriptId, long ActorId, flo
 void ScriptEnvironmentBase::ActorFollowWaypoint(int ScriptId, long ActorId, int waypointindex1, int waypointindex2)
 {
 	InternalActorFollowWaypoint(ScriptId, ActorId, waypointindex1, waypointindex2, false);
+}
+
+void ScriptEnvironmentBase::ActorSleep(int ScriptId, long ActorId, int nbMilliseconds)
+{
+	InternalActorSleep(ScriptId, ActorId, nbMilliseconds, false);
 }
 
 

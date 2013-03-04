@@ -24,7 +24,7 @@ NavMeshAgent::NavMeshAgent(boost::shared_ptr<dtCrowd> crowdcontroller,
 							int agentid)
 : m_crowdmanager(crowdcontroller), m_navimesh(navimesh),
 	m_crowdagentid(agentid), m_lastSpeed(-1), m_targeting(false),
-	m_lasttx(0), m_lastty(0), m_lasttz(0)
+	m_lasttx(0), m_lastty(0), m_lasttz(0), m_backward(false)
 {
 
 }
@@ -138,10 +138,40 @@ void NavMeshAgent::SetResetTarget(bool set)
 {
 	if(m_crowdmanager)
 	{
-		m_crowdmanager->requestSetResetTarget(m_crowdagentid, set);
 		m_targeting = set;
+		m_crowdmanager->requestSetResetTarget(m_crowdagentid, set);
 
-		SetTargetPosition(false, m_lasttx, m_lastty, m_lasttz);
+		if (set)
+		{
+			SetTargetPosition(false, m_lasttx, m_lastty, m_lasttz);
+		}
+	}
+}
+
+
+/***********************************************************
+make the actor move to a given position
+***********************************************************/
+void NavMeshAgent::GoToPosition(float& pX, float& pY, float& pZ, bool backward)
+{
+	if(m_crowdmanager)
+	{
+		m_lasttx = pX;
+		m_lastty = pY;
+		m_lasttz = pZ;
+
+		if (!m_targeting)
+		{
+			m_targeting = true;
+			m_crowdmanager->requestSetResetTarget(m_crowdagentid, true);
+		}
+		ResPos res = SetTargetPosition(false, m_lasttx, m_lastty, m_lasttz);
+		m_backward = backward;
+
+		// adjust target position
+		pX = res.x;
+		pY = res.y;
+		pZ = res.z;
 	}
 }
 
@@ -149,13 +179,14 @@ void NavMeshAgent::SetResetTarget(bool set)
 /***********************************************************
 set target position
 ***********************************************************/
-void NavMeshAgent::SetTargetPosition(bool update, float pX, float pY, float pZ)
+ResPos NavMeshAgent::SetTargetPosition(bool update, float pX, float pY, float pZ)
 {
 	if(m_crowdmanager)
 	{
 		m_lasttx = pX;
 		m_lastty = pY;
 		m_lasttz = pZ;
+		m_backward = false;
 
 		float pos[3], respos[3];
 		pos[0] = pX;
@@ -176,7 +207,15 @@ void NavMeshAgent::SetTargetPosition(bool update, float pX, float pY, float pZ)
 			else
 				m_crowdmanager->requestMoveTarget(m_crowdagentid, m_targetRef, respos);
 		}
+
+		ResPos res;
+		res.x = respos[0];
+		res.y = respos[1];
+		res.z = respos[2];
+		return res;
 	}
+
+	return ResPos();
 }
 
 
@@ -199,6 +238,8 @@ bool NavMeshAgent::GetAngle(float &angle)
 				float angleInRadians = atan2(velvec.x, velvec.z);
 				float angleInDegrees = angleInRadians * 180 / M_PI;
 				angle = angleInDegrees;
+				if (m_backward)
+					angle -= 180;
 				if(angle < 0)
 					angle += 360;
 			}
