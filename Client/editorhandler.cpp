@@ -1146,6 +1146,9 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	_edittemplatedialog = new QDialog(this);
 	_ui_edittemplateDialog.setupUi(_edittemplatedialog);
 
+	_luaconsoledialog = new QDialog(this);
+	_ui_luaconsoledialog.setupUi(_luaconsoledialog);
+
 
 	_signalMapper = new QSignalMapper(this);
 	 connect(_signalMapper, SIGNAL(mapped(int)), this, SLOT(TemplateMenuClicked(int)));
@@ -1335,7 +1338,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	connect(_uieditor.actionSave, SIGNAL(triggered()), this, SLOT(SaveWorldAction())); 
 	connect(_uieditor.actionCustom_Lua_for_server, SIGNAL(triggered()), this, SLOT(OpenCustomServerLua())); 
 	connect(_uieditor.actionCustom_Lua_for_client, SIGNAL(triggered()), this, SLOT(OpenCustomClientLua())); 
-	connect(_uieditor.actionRefresh_client_script, SIGNAL(triggered()), this, SLOT(RefreshClientScript())); 
+	connect(_uieditor.actionRefresh_client_script, SIGNAL(triggered()), this, SLOT(RefreshClientScript()));  
+	connect(_uieditor.actionLUA_Test_Console, SIGNAL(triggered()), this, SLOT(TestLuaConsole())); 
 	connect(_uieditor.actionGenerate_navimesh, SIGNAL(triggered()), this, SLOT(GenerateNavimesh())); 
 	connect(_uieditor.actionDisplay_Navimesh, SIGNAL(triggered()), this, SLOT(ToggleNavimeshDisplay())); 
 	connect(_uieditor.actionNavimesh_Generation_Options, SIGNAL(triggered()), this, SLOT(OptionNavimesh())); 
@@ -1483,6 +1487,8 @@ EditorHandler::EditorHandler(QWidget *parent, Qt::WindowFlags flags)
 	
 	connect(_ui_edittemplateDialog.pushButton_delete, SIGNAL(clicked()) , this, SLOT(TemplateRemove_button()));
 
+
+	connect(_ui_luaconsoledialog.console_run, SIGNAL(clicked()) , this, SLOT(RunLuaConsole()));
 
 	// read notice
 	int read = ConfigurationManager::GetInstance()->GetValue("Options.Editor.NoticeAccepted", 0);
@@ -1716,7 +1722,6 @@ void EditorHandler::NewWorldAction()
 	}
 }
 
-
 /***********************************************************
 OpenWorldAction
 ***********************************************************/
@@ -1894,7 +1899,7 @@ void EditorHandler::SetMapModified()
 on open world
 ***********************************************************/
 void EditorHandler::OpenWorld()
-{
+ {
 	std::string choosenworld = _uiopenworlddialog.comboBoxWorldToOpen->currentText().toAscii().data();
 	EventsQueue::getReceiverQueue()->AddEvent(new ChangeWorldEvent(choosenworld, false));
 
@@ -2344,8 +2349,16 @@ void EditorHandler::SetMapInfo(const std::string & mapname)
 
 	// add lua stuff
 	std::string luafile = "Worlds/" + _winfo.Description.WorldName + "/Lua/";
+
+	// custom server file
+	std::string customluafile = luafile+"CustomServer.lua";
+	std::string extraluafile =  luafile + mapname + "_server_extra.lua";
 	luafile += mapname + "_server.lua";
+
 	_luaH = boost::shared_ptr<ServerLuaHandler>(new ServerLuaHandler());
+	_luaH->LoadFile("LuaCommon/ClientHelperFunctions.lua");
+	_luaH->LoadFile(customluafile);
+	_luaH->LoadFile(extraluafile);
 	_luaH->LoadFile(luafile);
 	_luaH->CallLua("InitMap", this);
 
@@ -3127,7 +3140,16 @@ void EditorHandler::AddSpawn(boost::shared_ptr<Spawn> spawn)
 		if(mapname != "")
 			AddSpawningName(mapname, spawn->GetName());
 	}
-}	
+}
+
+/***********************************************************
+add point
+***********************************************************/	
+void EditorHandler::AddPoint(boost::shared_ptr<PointFlag> point)
+{
+	// TODO
+}
+
 
 
 /***********************************************************
@@ -5645,6 +5667,7 @@ void EditorHandler::SaveMap(const std::string & filename)
 {
 	std::ofstream file(filename.c_str());
 	file<<"function InitMap(environment)"<<std::endl;
+	file<< "local lmap = {}" << std::endl;
 
 	// save spawns
 	std::map<long, boost::shared_ptr<Spawn> >::iterator its= _spawns.begin();
@@ -11605,6 +11628,14 @@ void EditorHandler::RefreshClientScript()
 }
 
 
+/***********************************************************
+TestLuaConsole
+***********************************************************/
+void EditorHandler::TestLuaConsole()
+{
+	_luaconsoledialog->show();
+}
+
 
 /***********************************************************
 selecttext_double_clicked
@@ -16088,6 +16119,22 @@ void EditorHandler::TemplateRemove_button()
 	}
 }
 
+
+/***********************************************************
+run lua console
+***********************************************************/
+void EditorHandler::RunLuaConsole()
+{
+	std::string toRun = _ui_luaconsoledialog.console_edit->toPlainText().toAscii().data();
+	if (toRun != "")
+	{
+		_ui_luaconsoledialog.console_output->clear();
+		_ui_luaconsoledialog.console_output->append("Running script...");
+		_luaH->setGlobalEnv("debug_env", this);
+		std::string output = _luaH->ExecuteScriptString(toRun);
+		_ui_luaconsoledialog.console_output->append(output.c_str());
+	}
+}
 
 /***********************************************************
 remove template

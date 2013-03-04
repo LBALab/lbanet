@@ -46,9 +46,9 @@ void SoundObjectHandlerClient::Update(float px, float py, float pz, float dx, fl
 /***********************************************************
 make actor play a sound
 ***********************************************************/
-void SoundObjectHandlerClient::APlaySound(int SoundChannel, const std::string & soundpath, bool loop)
+void SoundObjectHandlerClient::APlaySound(int SoundChannel, const std::string & soundpath, int numberTime, bool randomPitch)
 {
-	APlaySound(_sounds, SoundChannel, soundpath, loop);
+	APlaySound(_sounds, SoundChannel, soundpath, numberTime, randomPitch);
 }
 
 /***********************************************************
@@ -84,7 +84,7 @@ void SoundObjectHandlerClient::AResumeSound(int SoundChannel)
 make actor play a sound
 ***********************************************************/
 void SoundObjectHandlerClient::APlaySound(boost::shared_ptr<PlayingSoundHandler> * buffer,
-										  int SoundChannel, const std::string & soundpath, bool loop)
+										  int SoundChannel, const std::string & soundpath, int numberTime, bool randomPitch)
 {
 	if(SoundChannel >= 0 && SoundChannel < 5)
 	{
@@ -99,7 +99,7 @@ void SoundObjectHandlerClient::APlaySound(boost::shared_ptr<PlayingSoundHandler>
 		}
 
 
-		buffer[SoundChannel] = MusicHandler::getInstance()->PlaySample3D(soundpath, loop, false, posX, posY, posZ, 0, 1, 0);
+		buffer[SoundChannel] = MusicHandler::getInstance()->PlaySample3D(soundpath, numberTime, randomPitch, false, posX, posY, posZ, 0, 1, 0);
 	}
 }
 
@@ -241,7 +241,7 @@ void SoundObjectHandlerClient::SetSound(const LbaNet::PlayingSound & vec,
 		{
 			boost::shared_ptr<PlayingSoundHandler> toupdate = ptrsounds[vec.SoundChannel];
 			if(!toupdate || toupdate->GetFilename() != vec.SoundPath)
-				APlaySound(ptrsounds, vec.SoundChannel, vec.SoundPath, vec.Loop);
+				APlaySound(ptrsounds, vec.SoundChannel, vec.SoundPath, vec.NbTime, vec.RandomPitch);
 
 			if(updatestoredstate)
 				APauseSound(ptrsounds, vec.SoundChannel);

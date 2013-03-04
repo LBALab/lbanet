@@ -45,7 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ui_NavMeshOption.h"
 #include "ui_addtemplate.h"
 #include "ui_edittemplatesdialog.h"
-
+#include "ui_LuaConsole.h"
 
 #include "ScriptEnvironmentBase.h"
 #include "treemodel.h"
@@ -304,6 +304,9 @@ public:
 	// add spawn
 	virtual void AddSpawn(boost::shared_ptr<Spawn> spawn);
 
+	// add point
+	virtual void AddPoint(boost::shared_ptr<PointFlag> point);
+
 	// teleport an object
 	// ObjectType ==>
 	//! 1 -> npc object
@@ -354,7 +357,7 @@ public:
 	// open container on client side
 	virtual void OpenContainer(long clientid, boost::shared_ptr<LbaNet::ContainerSharedInfo> sharedinfo){}
 
-
+	void ActorAppearDisappear(int ScriptId, long ActorId, bool appear){}
 
 	//! used by lua to get an actor Position
 	//! if id < 1 then it get player position
@@ -394,8 +397,10 @@ public:
 	//! used by lua to wait until an actor animation is finished
 	//! if id < 1 then it moves players
 	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
-	virtual void InternalActorAnimate(int ScriptId, long ActorId, bool AnimationMove,
+	virtual void InternalActorAnimate(int ScriptId, long ActorId, bool AnimationMove, int nbAnimation, 
 										bool asynchronus = false){}
+
+	virtual void InternalActorWaitForSignal(int ScriptId, long ActorId, int Signalnumber, bool asynchronus = false){}
 
 
 	//! used by lua to tell that the actor should be reserved for the script
@@ -435,9 +440,15 @@ public:
 										float Speed, bool asynchronus = false){}
 
 
+	virtual void InternalActorWalkToPoint(int ScriptId, long ActorId, const LbaVec3 &Position, float RotationSpeedPerSec, bool moveForward, 
+										bool asynchronus = false){}
+
+	//! set the function to use as current movement script for the given actor
+	virtual void ActorSetMovementScript(int ScriptId, long ActorId, const std::string & functionName){}
+
 		//! used by lua to move an actor or player
 	//! the actor will wait for signal
-	virtual void InternalActorWaitForSignal(int ScriptId, long ActorId, int Signalnumber,
+	virtual void InternalActorSleep(int ScriptId, long ActorId, int Signalnumber,
 										bool asynchronus = false){}
 
 	//! used by lua to move an actor or player
@@ -610,7 +621,7 @@ public:
 	//! used by lua to make an actor play a sound
 	//! there is 5 available channels (0 to 5)
 	virtual void ActorStartSound(int ScriptId, long ActorId, int SoundChannel,
-							const std::string & soundpath, bool loop){}
+							const std::string & soundpath, int numberTime, bool randomPitch){}
 
 	//! used by lua to make an actor stop a sound
 	//! there is 5 available channels (0 to 5)
@@ -644,6 +655,9 @@ public:
 
 	//! play a sound
 	void PlaySound(const std::string & soundpath, bool Use3d, float  PosX, float  PosY, float  PosZ) {}
+
+	//! wait movement script
+	void ActorWaitForResume(int ScriptId, long ActorId) {}
 
 private:
 	enum ObjectEditType {EditObjCopy, EditObjCut, EditObjDelete};
@@ -844,6 +858,9 @@ public slots:
 	//! RefreshClientScript
 	void RefreshClientScript();
 
+	//! TestLuaConsole
+	void TestLuaConsole();
+
 	 //! on selectactor_double_clicked
      void selecttext_double_clicked(const QModelIndex & itm);
 
@@ -983,6 +1000,9 @@ public slots:
 
 	//! TemplateRemove_button
 	void TemplateRemove_button();
+
+	//! run lua console
+	void RunLuaConsole();
 
 	//! execute an action on a given zone
 	virtual void ExecuteActionOnZone(ActionBasePtr action, const LbaSphere & zone, ActionArgumentBase* args) {}
@@ -1402,6 +1422,8 @@ private:
 	Ui::EditTemplatesDialog								_ui_edittemplateDialog;
 	QDialog *											_edittemplatedialog;
 
+	Ui::DialogLuaConsole								_ui_luaconsoledialog;
+	QDialog *											_luaconsoledialog;
 
 	StringTableModel *									_maplistmodel;
 	StringTableModel *									_tplistmodel;

@@ -204,7 +204,7 @@ public:
 															bool temporary);
 
 	//play 3D sample
-	boost::shared_ptr<PlayingSoundHandler> PlaySample3D(const std::string & samplepath, bool loop, 
+	boost::shared_ptr<PlayingSoundHandler> PlaySample3D(const std::string & samplepath, int numberTime, bool randomPitch, 
 															bool temporary,
 															float px, float py, float pz, float dx, float dy, float dz);
 

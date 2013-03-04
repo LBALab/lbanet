@@ -204,6 +204,10 @@ public:
 	// add spawn
 	virtual void AddSpawn(boost::shared_ptr<Spawn> spawn){}
 
+	// add point
+	virtual void AddPoint(boost::shared_ptr<PointFlag> point){}
+
+
 	// teleport an object
 	// ObjectType ==>
 	//! 1 -> npc object
@@ -284,6 +288,7 @@ public:
 	//! used by lua to tell that the actor should be reserved for the script
 	virtual void ReserveActor(int ScriptId, long ActorId);
 
+	void ActorAppearDisappear(int ScriptId, long ActorId, bool appear){}
 
 	//! used by lua to move an actor or player
 	//! the actor will change model
@@ -498,7 +503,7 @@ public:
 	//! used by lua to make an actor play a sound
 	//! there is 5 available channels (0 to 5)
 	virtual void ActorStartSound(int ScriptId, long ActorId, int SoundChannel, 
-										const std::string & soundpath, bool loop);
+										const std::string & soundpath, int numberTime, bool randomPitch);
 
 	//! used by lua to make an actor stop a sound
 	//! there is 5 available channels (0 to 5)
@@ -558,6 +563,9 @@ public:
 	//! play a sound
 	void PlaySound(const std::string & soundpath, bool Use3d, float  PosX, float  PosY, float  PosZ) {}
 
+	//! wait movement script
+	void ActorWaitForResume(int ScriptId, long ActorId) {}
+
 protected:
 
 	//! clean up map
@@ -592,6 +600,12 @@ protected:
 	virtual void InternalActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position, 
 										bool asynchronus = false);
 
+	virtual void InternalActorWalkToPoint(int ScriptId, long ActorId, const LbaVec3 &Position, float RotationSpeedPerSec, bool moveForward, 
+		bool asynchronus = false);
+
+	//! set the function to use as current movement script for the given actor
+	virtual void ActorSetMovementScript(int ScriptId, long ActorId, const std::string & functionName){}
+
 	//! used by lua to rotate an actor
 	//! if id < 1 then it moves players
 	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
@@ -603,7 +617,7 @@ protected:
 	//! used by lua to wait until an actor animation is finished
 	//! if id < 1 then it moves players
 	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
-	virtual void InternalActorAnimate(int ScriptId, long ActorId, bool AnimationMove, 
+	virtual void InternalActorAnimate(int ScriptId, long ActorId, bool AnimationMove, int nbAnimation,
 								bool asynchronus = false);
 
 
@@ -618,7 +632,8 @@ protected:
 	virtual void InternalActorWaitForSignal(int ScriptId, long ActorId, int Signalnumber, 
 										bool asynchronus = false);
 
-
+	//! make an actor sleep for a given amount of time
+	virtual void InternalActorSleep(int ScriptId, long ActorId, int nbMilliseconds, bool asynchronus = false);
 
 	//! used by lua to rotate an actor
 	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"

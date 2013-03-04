@@ -2654,6 +2654,7 @@
     <addaction name="actionCustom_Lua_for_server"/>
     <addaction name="actionCustom_Lua_for_client"/>
     <addaction name="actionRefresh_client_script"/>
+    <addaction name="actionLUA_Test_Console"/>
    </widget>
    <widget class="QMenu" name="menuAI">
     <property name="title">
@@ -2914,6 +2915,15 @@
   <action name="actionEdit_existing_templates">
    <property name="text">
     <string>Edit existing templates</string>
+   </property>
+  </action>
+  <action name="actionLUA_Test_Console">
+   <property name="icon">
+    <iconset resource="editor.qrc">
+     <normaloff>:/Editor/Resources/icons/PNG/onebit_16.png</normaloff>:/Editor/Resources/icons/PNG/onebit_16.png</iconset>
+   </property>
+   <property name="text">
+    <string>LUA Test Console</string>
    </property>
   </action>
  </widget>

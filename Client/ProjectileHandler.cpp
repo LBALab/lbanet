@@ -274,7 +274,7 @@ bool ProjectileHandler::Process(double tnow, float tdiff)
 								physobj->GetPosition(lpx, lpy, lpz);
 								physobj->GetRotation(lQ);
 								LbaVec3 ldX(lQ.GetDirection(LbaVec3(0, 0, 1)));
-								MusicHandler::getInstance()->PlaySample3D(DataDirHandler::getInstance()->GetDataDirPath() + "/"+_SoundOnBounce, false, true,
+								MusicHandler::getInstance()->PlaySample3D(DataDirHandler::getInstance()->GetDataDirPath() + "/"+_SoundOnBounce, 1, false, true,
 																			lpx, lpy, lpz, ldX.x, ldX.y, ldX.z);
 							}
 
@@ -442,7 +442,7 @@ void ProjectileHandler::Launch()
 			physobj->GetPosition(lpx, lpy, lpz);
 			physobj->GetRotation(lQ);
 			LbaVec3 ldX(lQ.GetDirection(LbaVec3(0, 0, 1)));
-			MusicHandler::getInstance()->PlaySample3D(DataDirHandler::getInstance()->GetDataDirPath() + "/"+_SoundAtStart, false, true,
+			MusicHandler::getInstance()->PlaySample3D(DataDirHandler::getInstance()->GetDataDirPath() + "/"+_SoundAtStart, 1, false, true,
 														lpx, lpy, lpz, ldX.x, ldX.y, ldX.z);
 		}
 	}

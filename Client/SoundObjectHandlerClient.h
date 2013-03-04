@@ -54,7 +54,7 @@ public:
 
 
 	//! make actor play a sound
-	virtual void APlaySound(int SoundChannel, const std::string & soundpath, bool loop);
+	virtual void APlaySound(int SoundChannel, const std::string & soundpath, int numberTime, bool randomPitch);
 
 	//! make actor stop a sound
 	virtual void AStopSound(int SoundChannel);
@@ -96,7 +96,7 @@ protected:
 	
 	//! make actor play a sound
 	void APlaySound(boost::shared_ptr<PlayingSoundHandler> * buffer, 
-								int SoundChannel, const std::string & soundpath, bool loop);
+								int SoundChannel, const std::string & soundpath, int numberTime, bool randomPitch);
 
 	//! make actor stop a sound
 	void AStopSound(boost::shared_ptr<PlayingSoundHandler> * buffer, 

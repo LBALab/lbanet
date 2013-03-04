@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "EventsQueue.h"
 #include "ClientExtendedEvents.h"
+#include "Randomizer.h"
 
 #include <iostream>
 
@@ -566,7 +567,7 @@ boost::shared_ptr<PlayingSoundHandler> MusicHandler::PlaySample2D(const std::str
 /***********************************************************
 play 3D sample
 ***********************************************************/
-boost::shared_ptr<PlayingSoundHandler> MusicHandler::PlaySample3D(const std::string & samplepath, bool loop,
+boost::shared_ptr<PlayingSoundHandler> MusicHandler::PlaySample3D(const std::string & samplepath, int numberTime, bool randomPitch,
 														bool temporary,
 														float px, float py, float pz, float dx, float dy, float dz)
 {
@@ -589,9 +590,20 @@ boost::shared_ptr<PlayingSoundHandler> MusicHandler::PlaySample3D(const std::str
 			sound_state->setOccluded(false);
 			sound_state->setRelative(false);
 			sound_state->setRolloffFactor(1);
-			sound_state->setPitch(1);
+
 			sound_state->setPlay(true);
-			sound_state->setLooping(!temporary && loop);
+			sound_state->setLooping(!temporary && (numberTime < 0));
+			// TODO - repeat sound
+
+			if (randomPitch)
+			{
+				sound_state->setPitch(Randomizer::getInstance()->Rand());
+			}
+			else
+			{
+				sound_state->setPitch(1);
+			}
+
 			osgAudio::SoundManager::instance()->addSoundState(sound_state);
 
 			//osg::ref_ptr< osgAudio::SoundUpdateCB > soundCB = new osgAudio::SoundUpdateCB();

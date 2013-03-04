@@ -169,6 +169,17 @@ void ExternalActor::NpcChangedUpdate(double updatetime,
 		return;
 	}
 
+	if(info == typeid(LbaNet::WalkToPointNpcUpd))
+	{
+		LbaNet::WalkToPointNpcUpd * castedptr = 
+			dynamic_cast<LbaNet::WalkToPointNpcUpd *>(&obj);
+
+
+		_currentScripts = boost::shared_ptr<ScriptPartBase>(new 
+			WalkToPointScriptPart(0, false, castedptr->PosX, castedptr->PosY, castedptr->PosZ, castedptr->RotationSpeedPerSec, castedptr->moveForward));
+		return;
+	}
+
 	// GoToNpcUpd
 	if(info == typeid(LbaNet::GoToNpcUpd))
 	{

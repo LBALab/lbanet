@@ -118,6 +118,7 @@ SET(client_SOURCES
 		../Servers/WorldServer/NpcHandler.cpp
 		../Servers/WorldServer/ObjectsDescription.cpp
 		../Servers/WorldServer/PlayerHandler.cpp
+		../Servers/WorldServer/PointFlag.cpp
 		../Servers/WorldServer/ProjectileObjectDef.cpp
 		../Servers/WorldServer/Quest.cpp
 		../Servers/WorldServer/QuestHandler.cpp
@@ -195,7 +196,7 @@ ENDIF (WIN32)
 
 #QT moc stuff
 SET(client_TOMOC_HEADERS client.h vlc_on_qt.h treemodel.h editor.h editorhandler.h editlba1animsound.h)
-SET(client_FORMS addactordialog.ui additemdialog.ui addmapdialog.ui addspawning.ui addstartitemdialog.ui addteleportdialog.ui addtemplate.ui addtextdialog.ui addtriggerdialog.ui addworlddialog.ui client.ui editor.ui editlba1animsound.ui edittemplatesdialog.ui ImportantNotice.ui NavMeshOption.ui openworlddialog.ui)
+SET(client_FORMS addactordialog.ui additemdialog.ui addmapdialog.ui addspawning.ui addstartitemdialog.ui addteleportdialog.ui addtemplate.ui addtextdialog.ui addtriggerdialog.ui addworlddialog.ui client.ui editor.ui editlba1animsound.ui edittemplatesdialog.ui ImportantNotice.ui NavMeshOption.ui openworlddialog.ui LuaConsole.ui)
 SET(client_RESOURCES client.qrc editor.qrc editlba1animsound.qrc)
 
 QT4_WRAP_CPP(client_HEADERS_MOC ${client_TOMOC_HEADERS})

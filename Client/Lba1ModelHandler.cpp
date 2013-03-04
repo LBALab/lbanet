@@ -628,8 +628,9 @@ void Lba1ModelHandler::PlaySound(const std::string & path, int channel, bool rep
 			LbaNet::PlayingSound snd;
 			snd.SoundChannel = channel;
 			snd.SoundPath = "";
-			snd.Loop = repeat;
+			snd.NbTime = repeat ? -1 : 1;
 			snd.Paused = false;
+			snd.RandomPitch = false;
 			soundH->SetSound(snd, false); // first reset
 
 			snd.SoundPath = path;

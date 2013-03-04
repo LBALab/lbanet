@@ -1228,6 +1228,26 @@ void LbaNetModel::InternalActorStraightWalkTo(int ScriptId, long ActorId, const 
 	}
 }
 
+void LbaNetModel::InternalActorWalkToPoint(int ScriptId, long ActorId, const LbaVec3 &Position, float RotationSpeedPerSec, bool moveForward, 
+											bool asynchronus)
+{
+	if(ActorId >= 0)
+	{
+		ReserveActor(ScriptId, ActorId);
+
+		// on actor
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+			it->second->ActorWalkToPoint(ScriptId, asynchronus, Position.x, Position.y, Position.z, RotationSpeedPerSec, moveForward);
+	}
+	else
+	{
+		// on player
+		if(m_controllerChar)
+			m_controllerChar->ActorWalkToPoint(ScriptId, asynchronus, Position.x, Position.y, Position.z, RotationSpeedPerSec, moveForward);
+	}
+}
+
 
 
 /***********************************************************
@@ -1260,7 +1280,7 @@ void LbaNetModel::InternalActorRotate(int ScriptId, long ActorId, float Angle, f
 //! used by lua to wait until an actor animation is finished
 //! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
 ***********************************************************/
-void LbaNetModel::InternalActorAnimate(int ScriptId, long ActorId, bool AnimationMove, bool asynchronus)
+void LbaNetModel::InternalActorAnimate(int ScriptId, long ActorId, bool AnimationMove, int nbAnimation, bool asynchronus)
 {
 	if(ActorId >= 0)
 	{
@@ -1269,13 +1289,13 @@ void LbaNetModel::InternalActorAnimate(int ScriptId, long ActorId, bool Animatio
 		// on actor
 		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
 		if(it != _npcObjects.end())
-			it->second->ActorAnimate(ScriptId, asynchronus, AnimationMove);
+			it->second->ActorAnimate(ScriptId, asynchronus, AnimationMove, nbAnimation);
 	}
 	else
 	{
 		// on player
 		if(m_controllerChar)
-			m_controllerChar->ActorAnimate(ScriptId, asynchronus, AnimationMove);
+			m_controllerChar->ActorAnimate(ScriptId, asynchronus, AnimationMove, nbAnimation);
 	}
 }
 
@@ -1604,7 +1624,28 @@ void LbaNetModel::InternalActorWaitForSignal(int ScriptId, long ActorId, int Sig
 	}
 }
 
+/***********************************************************
+	//! used by lua to move an actor or player
+	//! the actor will sleep
+***********************************************************/
+void LbaNetModel::InternalActorSleep(int ScriptId, long ActorId, int nbMilliseconds, bool asynchronus)
+{
+	if(ActorId >= 0)
+	{
+		ReserveActor(ScriptId, ActorId);
 
+		// on actor
+		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find(ActorId);
+		if(it != _npcObjects.end())
+			it->second->ActorSleep(ScriptId, nbMilliseconds, asynchronus);
+	}
+	else
+	{
+		// on player
+		if(m_controllerChar)
+			m_controllerChar->ActorSleep(ScriptId, nbMilliseconds, asynchronus);
+	}
+}
 
 
 /***********************************************************
@@ -2299,12 +2340,12 @@ void LbaNetModel::ShowHideLoadingScreen(bool show)
 //! there is 5 available channels (0 to 5)
 ***********************************************************/
 void LbaNetModel::ActorStartSound(int ScriptId, long ActorId, int SoundChannel, 
-									const std::string & soundpath, bool loop)
+									const std::string & soundpath, int numberTime, bool randomPitch)
 {
 	//special treatment if main player
 	if(ActorId < 0)
 	{
-		m_controllerChar->GetActor()->GetSoundObject()->APlaySound(SoundChannel, soundpath, loop);
+		m_controllerChar->GetActor()->GetSoundObject()->APlaySound(SoundChannel, soundpath, numberTime, randomPitch);
 		m_controllerChar->GetActor()->UpdateSoundPosition();
 	}
 	else
@@ -2312,7 +2353,7 @@ void LbaNetModel::ActorStartSound(int ScriptId, long ActorId, int SoundChannel,
 		std::map<long, boost::shared_ptr<ExternalActor> >::iterator it = _npcObjects.find((long)ActorId);
 		if(it != _npcObjects.end())
 		{
-			it->second->GetActor()->GetSoundObject()->APlaySound(SoundChannel, soundpath, loop);
+			it->second->GetActor()->GetSoundObject()->APlaySound(SoundChannel, soundpath, numberTime, randomPitch);
 			it->second->GetActor()->UpdateSoundPosition();
 		}
 	}
