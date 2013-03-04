@@ -494,7 +494,8 @@ module LbaNet
 	{
 		int			SoundChannel;
 		string 			SoundPath;
-		bool			Loop;
+		int			NbTime;
+		bool			RandomPitch;
 		bool 			Paused;
 	};
 	
@@ -953,6 +954,16 @@ module LbaNet
 		float P3Z;
 		float P4Z;	
 	};
+	
+	class WalkToPointNpcUpd extends NpcUpdateBase
+	{
+		float PosX;
+		float PosY;
+		float PosZ;
+		float RotationSpeedPerSec;
+		bool moveForward;	
+	};
+	
 	
 		
 	// base class for all sound update
