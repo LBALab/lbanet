@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E4E1D9E4-BE2C-4C71-A711-3267E780978E}</ProjectGuid>
+    <RootNamespace>Test</RootNamespace>
+    <ProjectName>ExtractLBA1SceneInfo</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>D:\Programmation\LBAProject\prequengine\src;..\..\shared\;..\..\infrastructure\include;..\..\Servers\WorldServer\;D:/Programmation/LBAProject/LBANet_Project/neolbanet/3rd_party/msvc2010/x86/Boost/include;D:/Programmation/LBAProject/LBANet_Project/neolbanet/3rd_party/msvc2010/x86/Ice/include;D:/Programmation/LBAProject/LBANet_Project/neolbanet/infrastructure/include;D:/Programmation/LBAProject/LBANet_Project/neolbanet/3rd_party/msvc2010/x86/recast/Recast/Include;D:/Programmation/LBAProject/LBANet_Project/neolbanet/3rd_party/msvc2010/x86/recast/Detour/Include;D:/Programmation/LBAProject/LBANet_Project/neolbanet/3rd_party/msvc2010/x86/recast/DetourCrowd/Include;D:/Programmation/LBAProject/LBANet_Project/neolbanet/3rd_party/msvc2010/x86/lua/include;D:/Programmation/LBAProject/LBANet_Project/neolbanet/3rd_party/msvc2010/x86/luabind/include</AdditionalIncludeDirectories>
+      <AdditionalOptions>/D _LBANET_SERVER_SIDE_  /D LUABIND_DYNAMIC_LINK  /D EXTRACT_INFO %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>D:\Programmation\LBAProject\prequengine\src\dists\msvc10\Debug\prequengine_lib.lib;LBANetInfrastructure.lib;..\..\3rd_party\msvc2010\x86\Ice\lib\iced.lib;..\..\3rd_party\msvc2010\x86\Ice\lib\iceutild.lib;RecastLib.lib;..\..\3rd_party\msvc2010\x86\lua\lib\lua5.1d.lib;..\..\3rd_party\msvc2010\x86\luabind\lib\luabindd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\build\infrastructure\Debug;..\..\build\Client\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Servers\WorldServer\Actions.cpp" />
+    <ClCompile Include="..\..\Servers\WorldServer\ActorHandler.cpp" />
+    <ClCompile Include="..\..\Servers\WorldServer\InventoryItemHandler.cpp" />
+    <ClCompile Include="..\..\Servers\WorldServer\LuaHandlerBase.cpp" />
+    <ClCompile Include="..\..\Servers\WorldServer\LuaThreadHandler.cpp" />
+    <ClCompile Include="..\..\Servers\WorldServer\NavMeshObjectHandlers.cpp" />
+    <ClCompile Include="..\..\Servers\WorldServer\ObjectsDescription.cpp" />
+    <ClCompile Include="..\..\Servers\WorldServer\PointFlag.cpp" />
+    <ClCompile Include="..\..\Servers\WorldServer\ProjectileObjectDef.cpp" />
+    <ClCompile Include="..\..\Servers\WorldServer\ServerLBA1ModelClass.cpp" />
+    <ClCompile Include="..\..\Servers\WorldServer\ServerLba1ModelHandler.cpp" />
+    <ClCompile Include="..\..\Servers\WorldServer\SoundObjectHandlerServer.cpp" />
+    <ClCompile Include="..\..\Servers\WorldServer\Spawn.cpp" />
+    <ClCompile Include="..\..\Servers\WorldServer\Triggers.cpp" />
+    <ClCompile Include="..\..\shared\ActorUserData.cpp" />
+    <ClCompile Include="..\..\shared\CatmulSplineHandler.cpp" />
+    <ClCompile Include="..\..\shared\ClientScript.cpp" />
+    <ClCompile Include="..\..\shared\CommonTypes.cpp" />
+    <ClCompile Include="..\..\shared\DataDirHandler.cpp" />
+    <ClCompile Include="..\..\shared\DynamicObject.cpp" />
+    <ClCompile Include="..\..\shared\Entities.cpp" />
+    <ClCompile Include="..\..\shared\HQRHandler.cpp" />
+    <ClCompile Include="..\..\shared\HQRlib.cpp" />
+    <ClCompile Include="..\..\shared\Lba1ModelMapHandler.cpp" />
+    <ClCompile Include="..\..\shared\LogHandler.cpp" />
+    <ClCompile Include="..\..\shared\NaviMeshHandler.cpp" />
+    <ClCompile Include="..\..\shared\NavMeshAgent.cpp" />
+    <ClCompile Include="..\..\shared\Randomizer.cpp" />
+    <ClCompile Include="..\..\shared\ScriptedActor.cpp" />
+    <ClCompile Include="..\..\shared\ScriptEnvironmentBase.cpp" />
+    <ClCompile Include="..\..\shared\StaticObject.cpp" />
+    <ClCompile Include="..\..\shared\StreamReader.cpp" />
+    <ClCompile Include="..\..\shared\SynchronizedTimeHandler.cpp" />
+    <ClCompile Include="extract.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

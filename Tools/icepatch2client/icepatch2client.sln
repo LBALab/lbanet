@@ -1,7 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "icepatch2client", "icepatch2client.vcproj", "{7E050D7D-B482-46EC-9408-CE3AD5059390}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "icepatch2client", "icepatch2client.vcxproj", "{7E050D7D-B482-46EC-9408-CE3AD5059390}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

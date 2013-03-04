@@ -76,6 +76,8 @@ void TransformTextLang(const std::vector<std::string> &files,
 	std::map<long, std::string> fulltxts;
 	long idx=0;
 
+	std::ofstream startIdxF("startindex.txt");
+	long startidx = 0;
 
 	for(size_t i=start; i< end; ++i)
 	{
@@ -83,9 +85,13 @@ void TransformTextLang(const std::vector<std::string> &files,
 		std::map<long, std::string>::iterator itm = txts.begin();
 		std::map<long, std::string>::iterator endm = txts.end();
 
+		startIdxF << files[i] << " " << startidx << std::endl;
+		startidx += txts.size();
+
 		for(; itm != endm; ++itm, ++idx)
 			fulltxts[idx] = itm->second;
 	}
+	startIdxF.close();
 
 	XmlReader::SaveTextFile(outputfile, fulltxts);
 	//MapInfoXmlWriter::SaveTexts(outputfile, fulltxts);
