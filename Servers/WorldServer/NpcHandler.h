@@ -394,7 +394,7 @@ public:
 protected:
 
 	//! return the build class
-	virtual std::string LuaBuildClass(const std::string & actorid);
+	virtual std::string LuaBuildClass();
 
 	//! write extra lua
 	virtual void ExtraLua(std::ostream & file, const std::string & name);
@@ -440,11 +440,6 @@ protected:
 
 	//! agent come back to normal
 	void EndChasing();
-
-	//! check if update client
-	void UpdateClients(double tnow, float tdiff);
-	bool ShouldforceUpdate();
-
 
 	//! start attack script
 	void StartAttackScript();
@@ -509,9 +504,6 @@ protected:
 	Ice::Long									_targetedattackplayer;
 	LbaNet::PlayerPosition						_lasttargetposition;
 
-	LbaNet::PlayerMoveInfo						_lastupdate;
-	LbaNet::PlayerMoveInfo						_currentupdate;
-	float										_oldtdiff;
 
 
 	double										_lastchasingchecktime;

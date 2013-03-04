@@ -75,6 +75,7 @@ public:
 	//! constructor
 	MapHandler(const std::string & worldname, const MapInfo & mapinfo, 
 					const std::string & mapluafilename,
+					const std::string & mapextraluafilename,
 					const std::string & customluafilename);
 
 	//! desructor
@@ -117,6 +118,8 @@ public:
 	// add a trigger of moving type to the map
 	virtual void AddSpawn(boost::shared_ptr<Spawn> spawn);
 
+	// add point
+	virtual void AddPoint(boost::shared_ptr<PointFlag> point);
 
 	// teleport an object
 	// ObjectType ==>
@@ -461,7 +464,7 @@ public:
 	//! used by lua to make an actor play a sound
 	//! there is 5 available channels (0 to 5)
 	virtual void ActorStartSound(int ScriptId, long ActorId, int SoundChannel, 
-										const std::string & soundpath, bool loop);
+										const std::string & soundpath, int numberTime, bool randomPitch);
 
 	//! used by lua to make an actor stop a sound
 	//! there is 5 available channels (0 to 5)
@@ -474,6 +477,10 @@ public:
 	//! used by lua to make an actor stop a sound
 	//! there is 5 available channels (0 to 5)
 	virtual void ActorResumeSound(int ScriptId, long ActorId, int SoundChannel);
+
+	//! set the function to use as current movement script for the given actor
+	virtual void ActorSetMovementScript(int ScriptId, long ActorId, const std::string & functionName);
+
 
 	//! TeleportPlayerAtEndScript
 	virtual void TeleportPlayerAtEndScript(int ScriptId, const std::string &newmap, long newspawn){}
@@ -513,6 +520,12 @@ public:
 
 	//! play a sound
 	void PlaySound(const std::string & soundpath, bool Use3d, float  PosX, float  PosY, float  PosZ);
+
+	//! make actor appear or disappear in map
+	void ActorAppearDisappear(int ScriptId, long ActorId, bool appear);
+
+	//! make actor movement script pause until it is resumed by another command 
+	void ActorWaitForResume(int ScriptId, long ActorId);
 
 protected:
 
@@ -682,6 +695,9 @@ protected:
 	ActorObjectInfo CreateSpawningDisplay(long id, float PosX, float PosY, float PosZ, 
 											const std::string & name);
 
+	ActorObjectInfo CreateFlagDisplay(long id, float PosX, float PosY, float PosZ, 
+											const std::string & name);
+
 	//! called when a script is finished on a client
 	void FinishedScript(long id, const std::string & ScriptName,
 							const std::string & tpnewmap, long tpnewspan);
@@ -741,6 +757,11 @@ protected:
 	virtual void InternalActorStraightWalkTo(int ScriptId, long ActorId, const LbaVec3 &Position, 
 										bool asynchronus = false);
 
+	//! used by lua to move an actor or player
+	//! the actor will rotate and move using animation speed
+	virtual void InternalActorWalkToPoint(int ScriptId, long ActorId, const LbaVec3 &Position, float RotationSpeedPerSec, bool moveForward, 
+											bool asynchronus = false);
+
 	//! used by lua to rotate an actor
 	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
 	//! if RotationSpeedPerSec> 1 it will take the shortest rotation path else the longest
@@ -750,7 +771,7 @@ protected:
 
 	//! used by lua to wait until an actor animation is finished
 	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
-	virtual void InternalActorAnimate(int ScriptId, long ActorId, bool AnimationMove, 
+	virtual void InternalActorAnimate(int ScriptId, long ActorId, bool AnimationMove, int nbAnimation, 
 									bool asynchronus = false);
 
 
@@ -789,6 +810,9 @@ protected:
 											const LbaVec3 & P1, const LbaVec3 & P2, 
 											const LbaVec3 & P3, const LbaVec3 & P4, 
 											bool asynchronus = false){}
+
+	//! make an actor sleep for a given amount of time
+	virtual void InternalActorSleep(int ScriptId, long ActorId, int nbMilliseconds, bool asynchronus = false);
 
 
 	//! player use weapon
@@ -878,8 +902,10 @@ private:
 
 	PlayerMap_T													_players;
 	ActorMap_T													_Actors;
+	ActorMap_T													_HiddenActors;
 	std::map<long, boost::shared_ptr<TriggerBase> >				_triggers;
 	std::map<long, boost::shared_ptr<Spawn> >					_spawns;
+	std::map<long, boost::shared_ptr<PointFlag> >				_points;
 
 	std::map<std::string, boost::shared_ptr<ServerGUIBase> >	_guihandlers;
 

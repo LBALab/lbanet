@@ -51,7 +51,7 @@ public:
 
 
 	//! make actor play a sound
-	virtual void APlaySound(int SoundChannel, const std::string & soundpath, bool loop);
+	virtual void APlaySound(int SoundChannel, const std::string & soundpath, int numberTime, bool randomPitch);
 
 	//! make actor stop a sound
 	virtual void AStopSound(int SoundChannel);

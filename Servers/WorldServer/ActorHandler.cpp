@@ -498,9 +498,9 @@ void ActorObjectInfo::AddColorSwap(int modelpart, int oldcolor, int newcolor)
 constructor
 ***********************************************************/
 ActorHandler::ActorHandler(const ActorObjectInfo & actorinfo)
-: m_launchedscript(-1), m_paused(false), m_scripthandler(NULL),
+: m_launchedscript(-1), m_paused(false), m_scripthandler(NULL), _oldtdiff(1), 
 	m_resetposition(false), m_resetrotation(false), _freemove(false),
-	m_attachedactorid(-1), m_lastupdatetime(0)
+	m_attachedactorid(-1), m_lastupdatetime(0), m_appear(true), m_pausedMoveScript(false)
 {
 	SetActorInfo(actorinfo);
 	m_lastrecordedpos = LbaVec3(m_actorinfo.PhysicDesc.Pos.X,
@@ -526,6 +526,17 @@ void ActorHandler::SetNavMeshHandler(boost::shared_ptr<NaviMeshHandler> navmeshH
 {
 	m_navimesh = navmeshH;
 	CreateActor();
+}
+
+
+void ActorHandler::setAppearDisapear(bool appear)
+{
+	m_appear = appear;
+}
+
+bool ActorHandler::getAppearDisapear()
+{
+	return m_appear;
 }
 
 
@@ -593,7 +604,9 @@ void ActorHandler::SetActorInfo(const ActorObjectInfo & ainfo)
 	m_actorinfo.LifeInfo.Display = false;
 	m_actorinfo.ExtraInfo.Display = false;
 
+#ifndef EXTRACT_INFO
 	CreateActor();
+#endif
 
 }
 
@@ -613,67 +626,70 @@ void ActorHandler::SaveToLuaFile(std::ostream & file, std::string forcedid)
 		objidstr = forcedid;
 
 
-	file<<"\tActor_"<<objidstr<<" = ActorObjectInfo("<<objidstr<<")"<<std::endl;
-	file<<"\tActor_"<<objidstr<<":SetRenderType("<<m_actorinfo.GetRenderType()<<")"<<std::endl;
+	std::string actName = "lmap.Actor";
 
-	file<<"\tActor_"<<objidstr<<".HitPowerOnTouch = "<<m_actorinfo.HitPowerOnTouch<<std::endl;
-	file<<"\tActor_"<<objidstr<<".ExcludeFromNavMesh = "<<(m_actorinfo.ExcludeFromNavMesh?"true":"false")<<std::endl;
-	file<<"\tActor_"<<objidstr<<".DisplayDesc.ModelId = "<<m_actorinfo.DisplayDesc.ModelId<<std::endl;
-	file<<"\tActor_"<<objidstr<<".DisplayDesc.ModelName = \""<<m_actorinfo.DisplayDesc.ModelName<<"\""<<std::endl;
-	file<<"\tActor_"<<objidstr<<".DisplayDesc.Outfit = \""<<m_actorinfo.DisplayDesc.Outfit<<"\""<<std::endl;
-	file<<"\tActor_"<<objidstr<<".DisplayDesc.Weapon = \""<<m_actorinfo.DisplayDesc.Weapon<<"\""<<std::endl;
-	file<<"\tActor_"<<objidstr<<".DisplayDesc.Mode = \""<<m_actorinfo.DisplayDesc.Mode<<"\""<<std::endl;
-	file<<"\tActor_"<<objidstr<<".DisplayDesc.UseLight = "<<(m_actorinfo.DisplayDesc.UseLight?"true":"false")<<std::endl;
-	file<<"\tActor_"<<objidstr<<".DisplayDesc.CastShadow = "<<(m_actorinfo.DisplayDesc.CastShadow?"true":"false")<<std::endl;
-	file<<"\tActor_"<<objidstr<<".DisplayDesc.ColorR = "<<m_actorinfo.DisplayDesc.ColorR<<std::endl;
-	file<<"\tActor_"<<objidstr<<".DisplayDesc.ColorG = "<<m_actorinfo.DisplayDesc.ColorG<<std::endl;
-	file<<"\tActor_"<<objidstr<<".DisplayDesc.ColorB = "<<m_actorinfo.DisplayDesc.ColorB<<std::endl;
-	file<<"\tActor_"<<objidstr<<".DisplayDesc.ColorA = "<<m_actorinfo.DisplayDesc.ColorA<<std::endl;
-	file<<"\tActor_"<<objidstr<<".DisplayDesc.TransX = "<<m_actorinfo.DisplayDesc.TransX<<std::endl;
-	file<<"\tActor_"<<objidstr<<".DisplayDesc.TransY = "<<m_actorinfo.DisplayDesc.TransY<<std::endl;
-	file<<"\tActor_"<<objidstr<<".DisplayDesc.TransZ = "<<m_actorinfo.DisplayDesc.TransZ<<std::endl;
-	file<<"\tActor_"<<objidstr<<".DisplayDesc.ScaleX = "<<m_actorinfo.DisplayDesc.ScaleX<<std::endl;
-	file<<"\tActor_"<<objidstr<<".DisplayDesc.ScaleY = "<<m_actorinfo.DisplayDesc.ScaleY<<std::endl;
-	file<<"\tActor_"<<objidstr<<".DisplayDesc.ScaleZ = "<<m_actorinfo.DisplayDesc.ScaleZ<<std::endl;
-	file<<"\tActor_"<<objidstr<<".DisplayDesc.RotX = "<<m_actorinfo.DisplayDesc.RotX<<std::endl;
-	file<<"\tActor_"<<objidstr<<".DisplayDesc.RotY = "<<m_actorinfo.DisplayDesc.RotY<<std::endl;
-	file<<"\tActor_"<<objidstr<<".DisplayDesc.RotZ = "<<m_actorinfo.DisplayDesc.RotZ<<std::endl;
-	file<<"\tActor_"<<objidstr<<":SetModelState("<<m_actorinfo.GetModelState()<<")"<<std::endl;
-	file<<"\tActor_"<<objidstr<<".DisplayDesc.UseBillboard = "<<(m_actorinfo.DisplayDesc.UseBillboard?"true":"false")<<std::endl;
+
+	file<<"\t" << actName << " = ActorObjectInfo("<<objidstr<<")"<<std::endl;
+	file<<"\t" << actName << ":SetRenderType("<<m_actorinfo.GetRenderType()<<")"<<std::endl;
+
+	file<<"\t" << actName << ".HitPowerOnTouch = "<<m_actorinfo.HitPowerOnTouch<<std::endl;
+	file<<"\t" << actName << ".ExcludeFromNavMesh = "<<(m_actorinfo.ExcludeFromNavMesh?"true":"false")<<std::endl;
+	file<<"\t" << actName << ".DisplayDesc.ModelId = "<<m_actorinfo.DisplayDesc.ModelId<<std::endl;
+	file<<"\t" << actName << ".DisplayDesc.ModelName = \""<<m_actorinfo.DisplayDesc.ModelName<<"\""<<std::endl;
+	file<<"\t" << actName << ".DisplayDesc.Outfit = \""<<m_actorinfo.DisplayDesc.Outfit<<"\""<<std::endl;
+	file<<"\t" << actName << ".DisplayDesc.Weapon = \""<<m_actorinfo.DisplayDesc.Weapon<<"\""<<std::endl;
+	file<<"\t" << actName << ".DisplayDesc.Mode = \""<<m_actorinfo.DisplayDesc.Mode<<"\""<<std::endl;
+	file<<"\t" << actName << ".DisplayDesc.UseLight = "<<(m_actorinfo.DisplayDesc.UseLight?"true":"false")<<std::endl;
+	file<<"\t" << actName << ".DisplayDesc.CastShadow = "<<(m_actorinfo.DisplayDesc.CastShadow?"true":"false")<<std::endl;
+	file<<"\t" << actName << ".DisplayDesc.ColorR = "<<m_actorinfo.DisplayDesc.ColorR<<std::endl;
+	file<<"\t" << actName << ".DisplayDesc.ColorG = "<<m_actorinfo.DisplayDesc.ColorG<<std::endl;
+	file<<"\t" << actName << ".DisplayDesc.ColorB = "<<m_actorinfo.DisplayDesc.ColorB<<std::endl;
+	file<<"\t" << actName << ".DisplayDesc.ColorA = "<<m_actorinfo.DisplayDesc.ColorA<<std::endl;
+	file<<"\t" << actName << ".DisplayDesc.TransX = "<<m_actorinfo.DisplayDesc.TransX<<std::endl;
+	file<<"\t" << actName << ".DisplayDesc.TransY = "<<m_actorinfo.DisplayDesc.TransY<<std::endl;
+	file<<"\t" << actName << ".DisplayDesc.TransZ = "<<m_actorinfo.DisplayDesc.TransZ<<std::endl;
+	file<<"\t" << actName << ".DisplayDesc.ScaleX = "<<m_actorinfo.DisplayDesc.ScaleX<<std::endl;
+	file<<"\t" << actName << ".DisplayDesc.ScaleY = "<<m_actorinfo.DisplayDesc.ScaleY<<std::endl;
+	file<<"\t" << actName << ".DisplayDesc.ScaleZ = "<<m_actorinfo.DisplayDesc.ScaleZ<<std::endl;
+	file<<"\t" << actName << ".DisplayDesc.RotX = "<<m_actorinfo.DisplayDesc.RotX<<std::endl;
+	file<<"\t" << actName << ".DisplayDesc.RotY = "<<m_actorinfo.DisplayDesc.RotY<<std::endl;
+	file<<"\t" << actName << ".DisplayDesc.RotZ = "<<m_actorinfo.DisplayDesc.RotZ<<std::endl;
+	file<<"\t" << actName << ":SetModelState("<<m_actorinfo.GetModelState()<<")"<<std::endl;
+	file<<"\t" << actName << ".DisplayDesc.UseBillboard = "<<(m_actorinfo.DisplayDesc.UseBillboard?"true":"false")<<std::endl;
 	
 	if(m_actorinfo.DisplayDesc.UseTransparentMaterial)
 	{
-		file<<"\tActor_"<<objidstr<<".DisplayDesc.UseTransparentMaterial = true"<<std::endl;
-		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatAlpha = "<<m_actorinfo.DisplayDesc.MatAlpha<<std::endl;
+		file<<"\t" << actName << ".DisplayDesc.UseTransparentMaterial = true"<<std::endl;
+		file<<"\t" << actName << ".DisplayDesc.MatAlpha = "<<m_actorinfo.DisplayDesc.MatAlpha<<std::endl;
 	}
 
 	if(m_actorinfo.DisplayDesc.ColorMaterialType > 0)
 	{
-		file<<"\tActor_"<<objidstr<<".DisplayDesc.ColorMaterialType = "<<m_actorinfo.DisplayDesc.ColorMaterialType<<std::endl;
-		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatAmbientColorR = "<<m_actorinfo.DisplayDesc.MatAmbientColorR<<std::endl;
-		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatAmbientColorG = "<<m_actorinfo.DisplayDesc.MatAmbientColorG<<std::endl;
-		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatAmbientColorB = "<<m_actorinfo.DisplayDesc.MatAmbientColorB<<std::endl;
-		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatAmbientColorA = "<<m_actorinfo.DisplayDesc.MatAmbientColorA<<std::endl;
-		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatDiffuseColorR = "<<m_actorinfo.DisplayDesc.MatDiffuseColorR<<std::endl;
-		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatDiffuseColorG = "<<m_actorinfo.DisplayDesc.MatDiffuseColorG<<std::endl;
-		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatDiffuseColorB = "<<m_actorinfo.DisplayDesc.MatDiffuseColorB<<std::endl;
-		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatDiffuseColorA = "<<m_actorinfo.DisplayDesc.MatDiffuseColorA<<std::endl;
-		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatSpecularColorR = "<<m_actorinfo.DisplayDesc.MatSpecularColorR<<std::endl;
-		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatSpecularColorG = "<<m_actorinfo.DisplayDesc.MatSpecularColorG<<std::endl;
-		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatSpecularColorB = "<<m_actorinfo.DisplayDesc.MatSpecularColorB<<std::endl;
-		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatSpecularColorA = "<<m_actorinfo.DisplayDesc.MatSpecularColorA<<std::endl;
-		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatEmissionColorR = "<<m_actorinfo.DisplayDesc.MatEmissionColorR<<std::endl;
-		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatEmissionColorG = "<<m_actorinfo.DisplayDesc.MatEmissionColorG<<std::endl;
-		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatEmissionColorB = "<<m_actorinfo.DisplayDesc.MatEmissionColorB<<std::endl;
-		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatEmissionColorA = "<<m_actorinfo.DisplayDesc.MatEmissionColorA<<std::endl;
-		file<<"\tActor_"<<objidstr<<".DisplayDesc.MatShininess = "<<m_actorinfo.DisplayDesc.MatShininess<<std::endl;
+		file<<"\t" << actName << ".DisplayDesc.ColorMaterialType = "<<m_actorinfo.DisplayDesc.ColorMaterialType<<std::endl;
+		file<<"\t" << actName << ".DisplayDesc.MatAmbientColorR = "<<m_actorinfo.DisplayDesc.MatAmbientColorR<<std::endl;
+		file<<"\t" << actName << ".DisplayDesc.MatAmbientColorG = "<<m_actorinfo.DisplayDesc.MatAmbientColorG<<std::endl;
+		file<<"\t" << actName << ".DisplayDesc.MatAmbientColorB = "<<m_actorinfo.DisplayDesc.MatAmbientColorB<<std::endl;
+		file<<"\t" << actName << ".DisplayDesc.MatAmbientColorA = "<<m_actorinfo.DisplayDesc.MatAmbientColorA<<std::endl;
+		file<<"\t" << actName << ".DisplayDesc.MatDiffuseColorR = "<<m_actorinfo.DisplayDesc.MatDiffuseColorR<<std::endl;
+		file<<"\t" << actName << ".DisplayDesc.MatDiffuseColorG = "<<m_actorinfo.DisplayDesc.MatDiffuseColorG<<std::endl;
+		file<<"\t" << actName << ".DisplayDesc.MatDiffuseColorB = "<<m_actorinfo.DisplayDesc.MatDiffuseColorB<<std::endl;
+		file<<"\t" << actName << ".DisplayDesc.MatDiffuseColorA = "<<m_actorinfo.DisplayDesc.MatDiffuseColorA<<std::endl;
+		file<<"\t" << actName << ".DisplayDesc.MatSpecularColorR = "<<m_actorinfo.DisplayDesc.MatSpecularColorR<<std::endl;
+		file<<"\t" << actName << ".DisplayDesc.MatSpecularColorG = "<<m_actorinfo.DisplayDesc.MatSpecularColorG<<std::endl;
+		file<<"\t" << actName << ".DisplayDesc.MatSpecularColorB = "<<m_actorinfo.DisplayDesc.MatSpecularColorB<<std::endl;
+		file<<"\t" << actName << ".DisplayDesc.MatSpecularColorA = "<<m_actorinfo.DisplayDesc.MatSpecularColorA<<std::endl;
+		file<<"\t" << actName << ".DisplayDesc.MatEmissionColorR = "<<m_actorinfo.DisplayDesc.MatEmissionColorR<<std::endl;
+		file<<"\t" << actName << ".DisplayDesc.MatEmissionColorG = "<<m_actorinfo.DisplayDesc.MatEmissionColorG<<std::endl;
+		file<<"\t" << actName << ".DisplayDesc.MatEmissionColorB = "<<m_actorinfo.DisplayDesc.MatEmissionColorB<<std::endl;
+		file<<"\t" << actName << ".DisplayDesc.MatEmissionColorA = "<<m_actorinfo.DisplayDesc.MatEmissionColorA<<std::endl;
+		file<<"\t" << actName << ".DisplayDesc.MatShininess = "<<m_actorinfo.DisplayDesc.MatShininess<<std::endl;
 	}
 
 	if (m_actorinfo.DisplayDesc.TypeRenderer == LbaNet::RenderParticle)
 	{
 		LbaNet::ModelExtraInfoParticlePtr particleinfo = LbaNet::ModelExtraInfoParticlePtr::dynamicCast(m_actorinfo.DisplayDesc.ExtraInfo);
-		file<<"\tActor_"<<objidstr<<"ExtraInfo = ModelExtraInfoParticle()"<<std::endl;
-		file<<"\tActor_"<<objidstr<<"ExtraInfo.Type = ";
+		file<<"\t" << actName << "ExtraInfo = ModelExtraInfoParticle()"<<std::endl;
+		file<<"\t" << actName << "ExtraInfo.Type = ";
 		switch(particleinfo->Type)
 		{
 			case LbaNet::ParticleExplosion:
@@ -699,22 +715,22 @@ void ActorHandler::SaveToLuaFile(std::ostream & file, std::string forcedid)
 		if (particleinfo->Type != LbaNet::ParticleCustom)
 		{
 			LbaNet::PredefinedParticleInfoPtr extrainfo = LbaNet::PredefinedParticleInfoPtr::dynamicCast(particleinfo->Info);
-			file<<"\tActor_"<<objidstr<<"ParticleExtraInfo = PredefinedParticleInfo()"<<std::endl;
-			file<<"\tActor_"<<objidstr<<"ParticleExtraInfo.WindX = "<<extrainfo->WindX<<std::endl;
-			file<<"\tActor_"<<objidstr<<"ParticleExtraInfo.WindY = "<<extrainfo->WindY<<std::endl;
-			file<<"\tActor_"<<objidstr<<"ParticleExtraInfo.WindZ = "<<extrainfo->WindZ<<std::endl;
-			file<<"\tActor_"<<objidstr<<"ParticleExtraInfo.Scale = "<<extrainfo->Scale<<std::endl;
-			file<<"\tActor_"<<objidstr<<"ParticleExtraInfo.Intensity = "<<extrainfo->Intensity<<std::endl;
-			file<<"\tActor_"<<objidstr<<"ParticleExtraInfo.EmitterDuration = "<<extrainfo->EmitterDuration<<std::endl;
-			file<<"\tActor_"<<objidstr<<"ParticleExtraInfo.ParticleDuration = "<<extrainfo->ParticleDuration<<std::endl;
-			file<<"\tActor_"<<objidstr<<"ParticleExtraInfo.CustomTexture = \""<<extrainfo->CustomTexture<<"\""<<std::endl;
-			file<<"\tActor_"<<objidstr<<"ExtraInfo.Info = Actor_"<<objidstr<<"ParticleExtraInfo"<<std::endl;
+			file<<"\t" << actName << "ParticleExtraInfo = PredefinedParticleInfo()"<<std::endl;
+			file<<"\t" << actName << "ParticleExtraInfo.WindX = "<<extrainfo->WindX<<std::endl;
+			file<<"\t" << actName << "ParticleExtraInfo.WindY = "<<extrainfo->WindY<<std::endl;
+			file<<"\t" << actName << "ParticleExtraInfo.WindZ = "<<extrainfo->WindZ<<std::endl;
+			file<<"\t" << actName << "ParticleExtraInfo.Scale = "<<extrainfo->Scale<<std::endl;
+			file<<"\t" << actName << "ParticleExtraInfo.Intensity = "<<extrainfo->Intensity<<std::endl;
+			file<<"\t" << actName << "ParticleExtraInfo.EmitterDuration = "<<extrainfo->EmitterDuration<<std::endl;
+			file<<"\t" << actName << "ParticleExtraInfo.ParticleDuration = "<<extrainfo->ParticleDuration<<std::endl;
+			file<<"\t" << actName << "ParticleExtraInfo.CustomTexture = \""<<extrainfo->CustomTexture<<"\""<<std::endl;
+			file<<"\t" << actName << "ExtraInfo.Info = " << actName << "ParticleExtraInfo"<<std::endl;
 		}
 		else
 		{
 			// TODO
 		}
-		file<<"\tActor_"<<objidstr<<".DisplayDesc.ExtraInfo = Actor_"<<objidstr<<"ExtraInfo"<<std::endl;
+		file<<"\t" << actName << ".DisplayDesc.ExtraInfo = " << actName << "ExtraInfo"<<std::endl;
 	}
 
 
@@ -740,73 +756,80 @@ void ActorHandler::SaveToLuaFile(std::ostream & file, std::string forcedid)
 				break;
 			}
 
-			file<<"\tActor_"<<objidstr<<":AddColorSwap("<<swaptype<<","<<itsw->first.Color<<","<<itsw->second<<")"<<std::endl;
+			file<<"\t" << actName << ":AddColorSwap("<<swaptype<<","<<itsw->first.Color<<","<<itsw->second<<")"<<std::endl;
 		}
 	}
 
 
-	file<<"\tActor_"<<objidstr<<".PhysicDesc.Pos.X = "<<m_actorinfo.PhysicDesc.Pos.X<<std::endl;
-	file<<"\tActor_"<<objidstr<<".PhysicDesc.Pos.Y = "<<m_actorinfo.PhysicDesc.Pos.Y<<std::endl;
-	file<<"\tActor_"<<objidstr<<".PhysicDesc.Pos.Z = "<<m_actorinfo.PhysicDesc.Pos.Z<<std::endl;
-	file<<"\tActor_"<<objidstr<<".PhysicDesc.Pos.Rotation = "<<m_actorinfo.PhysicDesc.Pos.Rotation<<std::endl;
-	file<<"\tActor_"<<objidstr<<".PhysicDesc.Density = "<<m_actorinfo.PhysicDesc.Density<<std::endl;
-	file<<"\tActor_"<<objidstr<<".PhysicDesc.Collidable = "<<(m_actorinfo.PhysicDesc.Collidable?"true":"false")<<std::endl;
-	file<<"\tActor_"<<objidstr<<".PhysicDesc.SizeX = "<<m_actorinfo.PhysicDesc.SizeX<<std::endl;
-	file<<"\tActor_"<<objidstr<<".PhysicDesc.SizeY = "<<m_actorinfo.PhysicDesc.SizeY<<std::endl;
-	file<<"\tActor_"<<objidstr<<".PhysicDesc.SizeZ = "<<m_actorinfo.PhysicDesc.SizeZ<<std::endl;
-	file<<"\tActor_"<<objidstr<<".PhysicDesc.AllowFreeMove = "<<(m_actorinfo.PhysicDesc.AllowFreeMove?"true":"false")<<std::endl;
-	file<<"\tActor_"<<objidstr<<".PhysicDesc.Filename = \""<<m_actorinfo.PhysicDesc.Filename<<"\""<<std::endl;
-	file<<"\tActor_"<<objidstr<<":SetPhysicalActorType("<<m_actorinfo.GetPhysicalActorType()<<")"<<std::endl;
-	file<<"\tActor_"<<objidstr<<":SetPhysicalShape("<<m_actorinfo.GetPhysicalShape()<<")"<<std::endl;
+	file<<"\t" << actName << ".PhysicDesc.Pos.X = "<<m_actorinfo.PhysicDesc.Pos.X<<std::endl;
+	file<<"\t" << actName << ".PhysicDesc.Pos.Y = "<<m_actorinfo.PhysicDesc.Pos.Y<<std::endl;
+	file<<"\t" << actName << ".PhysicDesc.Pos.Z = "<<m_actorinfo.PhysicDesc.Pos.Z<<std::endl;
+	file<<"\t" << actName << ".PhysicDesc.Pos.Rotation = "<<m_actorinfo.PhysicDesc.Pos.Rotation<<std::endl;
+	file<<"\t" << actName << ".PhysicDesc.Density = "<<m_actorinfo.PhysicDesc.Density<<std::endl;
+	file<<"\t" << actName << ".PhysicDesc.Collidable = "<<(m_actorinfo.PhysicDesc.Collidable?"true":"false")<<std::endl;
+	file<<"\t" << actName << ".PhysicDesc.SizeX = "<<m_actorinfo.PhysicDesc.SizeX<<std::endl;
+	file<<"\t" << actName << ".PhysicDesc.SizeY = "<<m_actorinfo.PhysicDesc.SizeY<<std::endl;
+	file<<"\t" << actName << ".PhysicDesc.SizeZ = "<<m_actorinfo.PhysicDesc.SizeZ<<std::endl;
+	file<<"\t" << actName << ".PhysicDesc.AllowFreeMove = "<<(m_actorinfo.PhysicDesc.AllowFreeMove?"true":"false")<<std::endl;
+	file<<"\t" << actName << ".PhysicDesc.Filename = \""<<m_actorinfo.PhysicDesc.Filename<<"\""<<std::endl;
+	file<<"\t" << actName << ":SetPhysicalActorType("<<m_actorinfo.GetPhysicalActorType()<<")"<<std::endl;
+	file<<"\t" << actName << ":SetPhysicalShape("<<m_actorinfo.GetPhysicalShape()<<")"<<std::endl;
 
-	file<<"\tActor_"<<objidstr<<".ExtraInfo.Name = \""<<m_actorinfo.ExtraInfo.Name<<"\""<<std::endl;
-	file<<"\tActor_"<<objidstr<<".ExtraInfo.NameColorR = "<<m_actorinfo.ExtraInfo.NameColorR<<std::endl;
-	file<<"\tActor_"<<objidstr<<".ExtraInfo.NameColorG = "<<m_actorinfo.ExtraInfo.NameColorG<<std::endl;
-	file<<"\tActor_"<<objidstr<<".ExtraInfo.NameColorB = "<<m_actorinfo.ExtraInfo.NameColorB<<std::endl;
-	file<<"\tActor_"<<objidstr<<".ExtraInfo.Display = "<<(m_actorinfo.ExtraInfo.Display?"true":"false")<<std::endl;
+	file<<"\t" << actName << ".ExtraInfo.Name = \""<<m_actorinfo.ExtraInfo.Name<<"\""<<std::endl;
+	file<<"\t" << actName << ".ExtraInfo.NameColorR = "<<m_actorinfo.ExtraInfo.NameColorR<<std::endl;
+	file<<"\t" << actName << ".ExtraInfo.NameColorG = "<<m_actorinfo.ExtraInfo.NameColorG<<std::endl;
+	file<<"\t" << actName << ".ExtraInfo.NameColorB = "<<m_actorinfo.ExtraInfo.NameColorB<<std::endl;
+	file<<"\t" << actName << ".ExtraInfo.Display = "<<(m_actorinfo.ExtraInfo.Display?"true":"false")<<std::endl;
 
-	file<<"\tActor_"<<objidstr<<".LifeInfo.Display = "<<(m_actorinfo.LifeInfo.Display?"true":"false")<<std::endl;
+	file<<"\t" << actName << ".LifeInfo.Display = "<<(m_actorinfo.LifeInfo.Display?"true":"false")<<std::endl;
 
 	if(m_actorinfo.Condition)
 	{
 		std::stringstream condname;
-		condname<<"Actor_"<<objidstr<<"_cond";
+		condname << actName << "_cond";
 		m_actorinfo.Condition->SaveToLuaFile(file, condname.str());
 
-		file<<"\tActor_"<<objidstr<<".Condition = "<<condname.str()<<std::endl;
+		file<<"\t" << actName << ".Condition = "<<condname.str()<<std::endl;
 	}
 
-	file<<"\tActor_"<<objidstr<<".AttachToActorId = "<<m_actorinfo.AttachToActorId<<std::endl;
+	file<<"\t" << actName << ".AttachToActorId = "<<m_actorinfo.AttachToActorId<<std::endl;
 
 
-	file<<"\tActor_"<<objidstr<<"H = "<<LuaBuildClass(objidstr)<<std::endl;
+	file<<"\t" << actName << "H = "<<LuaBuildClass()<<std::endl;
 
 
 	// register script
 	for(size_t i=0; i< m_script.size(); ++i)
 	{
 		std::stringstream scname;
-		scname<<"Actor_"<<objidstr<<"_Sc"<<i;
+		scname<<"" << actName << "_Sc"<<i;
 
 		m_script[i]->SaveToLuaFile(file, scname.str());
-		file<<"\tActor_"<<objidstr<<"H:AddScriptPart("<<scname.str()<<")"<<std::endl;
+		file<<"\t" << actName << "H:AddScriptPart("<<scname.str()<<")"<<std::endl;
 	}
 
+	if (m_movementStartScript != "")
+	{
+		file<<"\t" << actName << "H:SetMovementStartScript(\""<<m_movementStartScript<<"\")"<<std::endl;
+	}
+	file<<"\t" << actName << "H:setAppearDisapear("<<(m_appear?"true":"false")<<")"<<std::endl;
+	
+
 	std::stringstream actorname;
-	actorname<<"Actor_"<<objidstr<<"H";
+	actorname << actName << "H";
 	ExtraLua(file, actorname.str());
 
-	file<<"\tenvironment:AddActorObject(Actor_"<<objidstr<<"H)"<<std::endl<<std::endl;
+	file<<"\tenvironment:AddActorObject(" << actName << "H)"<<std::endl<<std::endl;
 }
 
 
 /***********************************************************
 return the build class
 ***********************************************************/
-std::string ActorHandler::LuaBuildClass(const std::string & actorid)
+std::string ActorHandler::LuaBuildClass()
 {
 	std::stringstream res;
-	res<<"ActorHandler(Actor_"<<actorid<<")";
+	res<<"ActorHandler(lmap.Actor)";
 	return res.str();
 }
 
@@ -1119,14 +1142,24 @@ std::vector<LbaNet::ClientServerEventBasePtr> ActorHandler::Process(double tnow,
 		}
 
 
-		if(m_launchedscript < 0 && m_script.size() > 0)
+		if(m_launchedscript < 0)
 		{
 			// start script if needed 
 			StartScript();
 		}
 
+		if(m_replaceMovementScript != "")
+		{
+			// clear old script and start new one
+			ClearRunningScript();
+			std::string tmp = m_replaceMovementScript;
+			m_replaceMovementScript = "";
+			m_pausedMoveScript = false;
+			m_scripthandler->StartScript(tmp, GetId(), false, m_launchedscript);
+		}
+
 		// process script in normal case
-		if(m_launchedscript >= 0)
+		if(m_launchedscript >= 0 && !m_pausedMoveScript)
 		{
 			// process script
 			if(!ProcessScript(tnow, tdiff, m_scripthandler))
@@ -1143,6 +1176,11 @@ std::vector<LbaNet::ClientServerEventBasePtr> ActorHandler::Process(double tnow,
 
 	// process child
 	ProcessChild(tnow, tdiff);
+
+
+	//check if update clients
+	if(_freemove)
+		UpdateClients(tnow, tdiff);
 
 
 	//send events
@@ -1449,7 +1487,14 @@ void ActorHandler::UpdateScriptPosition(ActorScriptPartBasePtr part, int positio
 	}
 }
 
-
+/***********************************************************
+update position of the script
+***********************************************************/
+void ActorHandler::SetMovementStartScript(const std::string& functionName)
+{
+	m_movementStartScript = functionName;
+	m_replaceMovementScript = functionName;
+}
 
 
 
@@ -1458,33 +1503,36 @@ start script
 ***********************************************************/
 void ActorHandler::StartScript()
 {
-	LogHandler::getInstance()->LogToFile("Actor Starting script", GetId());
+	if (m_script.size() > 0)
+	{
+		LogHandler::getInstance()->LogToFile("Actor Starting script", GetId());
 
-	// create lua script
-	std::stringstream fctname;
-	fctname<<"Actor"<<m_actorinfo.ObjectId<<"Script";
+		// create lua script
+		std::stringstream fctname;
+		fctname<<"Actor"<<m_actorinfo.ObjectId<<"Script";
 
-	std::stringstream scripts;
-	scripts<<"function "<<fctname.str()<<"(ScriptId, Environment)"<<std::endl;
-	scripts<<"while Environment:ThreadRunning(ScriptId) do"<<std::endl;
-	for(size_t i=0; i< m_script.size(); ++i)
-		m_script[i]->WriteExecutionScript(scripts, m_actorinfo.ObjectId, this);
+		std::stringstream scripts;
+		scripts<<"function "<<fctname.str()<<"(ScriptId, Environment)"<<std::endl;
+		scripts<<"while Environment:ThreadRunning(ScriptId) do"<<std::endl;
+		for(size_t i=0; i< m_script.size(); ++i)
+			m_script[i]->WriteExecutionScript(scripts, m_actorinfo.ObjectId, this);
 
-	scripts<<"Environment:WaitOneCycle(ScriptId)"<<std::endl; // used to free thread so that we dont loop forever
-	scripts<<"end"<<std::endl;
-	scripts<<"end"<<std::endl;
+		scripts<<"Environment:WaitOneCycle(ScriptId)"<<std::endl; // used to free thread so that we dont loop forever
+		scripts<<"end"<<std::endl;
+		scripts<<"end"<<std::endl;
 
-	//std::ofstream file("ccc.txt");
-	//file<<scripts.str();
-	//file.close();
+		//std::ofstream file("ccc.txt");
+		//file<<scripts.str();
+		//file.close();
 
-	//std::ofstream checkscript("checksc.txt");
-	//checkscript<<scripts.str()<<std::endl;
-	// register it
-	m_scripthandler->ExecuteScriptString(scripts.str());
+		//std::ofstream checkscript("checksc.txt");
+		//checkscript<<scripts.str()<<std::endl;
+		// register it
+		m_scripthandler->ExecuteScriptString(scripts.str());
 
-	// start the script
-	 m_scripthandler->StartScript(fctname.str(), false, m_launchedscript);
+		// start the script
+		m_scripthandler->StartScript(fctname.str(), false, m_launchedscript);
+	}
 }
 
 
@@ -1498,6 +1546,7 @@ the actor will move using animation speed
 void ActorHandler::ActorStraightWalkTo(int ScriptId, bool asynchronus, float PosX, float PosY, float PosZ)
 {
 	ChangeState(1);
+	StopUsingNavMesh();
 	ScriptedActor::ActorStraightWalkTo(ScriptId, asynchronus, PosX, PosY, PosZ);
 
 
@@ -1524,6 +1573,34 @@ void ActorHandler::ActorStraightWalkTo(int ScriptId, bool asynchronus, float Pos
 	m_resetrotation = false;
 }
 
+void ActorHandler::ActorWalkToPoint(int ScriptId, bool asynchronus, float PosX, float PosY, float PosZ, float RotationSpeedPerSec, bool moveForward)
+{
+	ChangeState(1);
+	GoToPosWithNavMesh(PosX, PosY, PosZ, !moveForward);
+	ScriptedActor::ActorWalkToPoint(ScriptId, asynchronus, PosX, PosY, PosZ, RotationSpeedPerSec, moveForward);
+
+	boost::shared_ptr<PhysicalObjectHandlerBase> physO = _character->GetPhysicalObject();
+	boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
+	float posX, posY, posZ;
+	physO->GetPosition(posX, posY, posZ);
+	float rotation = physO->GetRotationYAxis();
+
+	std::string anim;	
+	if(disO)
+		anim = disO->GetCurrentAnimation();
+
+	// inform clients
+	//m_lastevent = new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+	//	m_actorinfo.ObjectId, posX, posY, posZ, rotation, anim, 
+	//	m_resetposition, m_resetrotation, _character->GetSoundObject()->GetSoundVector(false), 
+	//	new LbaNet::WalkToPointNpcUpd(PosX, PosY, PosZ, RotationSpeedPerSec, moveForward));
+
+	//_events.push_back(m_lastevent);
+
+	m_resetposition = false;
+	m_resetrotation = false;
+}
+
 
 
 /***********************************************************
@@ -1535,6 +1612,7 @@ void ActorHandler::ActorRotate(int ScriptId, bool asynchronus, float Angle, floa
 								bool ManageAnimation)
 {
 	ChangeState(1);
+	StopUsingNavMesh();
 	ScriptedActor::ActorRotate(ScriptId, asynchronus, Angle, RotationSpeedPerSec, ManageAnimation);
 
 
@@ -1565,10 +1643,11 @@ void ActorHandler::ActorRotate(int ScriptId, bool asynchronus, float Angle, floa
 //! used by lua to wait until an actor animation is finished
 //! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
 ***********************************************************/
-void ActorHandler::ActorAnimate(int ScriptId, bool asynchronus, bool AnimationMove)
+void ActorHandler::ActorAnimate(int ScriptId, bool asynchronus, bool AnimationMove, int nbAnimation)
 {
 	ChangeState(1);
-	ScriptedActor::ActorAnimate(ScriptId, asynchronus, AnimationMove);
+	StopUsingNavMesh();
+	ScriptedActor::ActorAnimate(ScriptId, asynchronus, AnimationMove, nbAnimation);
 
 
 	boost::shared_ptr<PhysicalObjectHandlerBase> physO = _character->GetPhysicalObject();
@@ -1602,6 +1681,7 @@ void ActorHandler::ActorAnimate(int ScriptId, bool asynchronus, bool AnimationMo
 void ActorHandler::ActorGoTo(int ScriptId, float PosX, float PosY, float PosZ, float Speed, bool asynchronus)
 {
 	ChangeState(1);
+	StopUsingNavMesh();
 	ScriptedActor::ActorGoTo(ScriptId, PosX, PosY, PosZ, Speed, asynchronus);
 
 
@@ -1637,6 +1717,7 @@ void ActorHandler::ActorGoTo(int ScriptId, float PosX, float PosY, float PosZ, f
 void ActorHandler::ActorWaitForSignal(int ScriptId, int Signalnumber, bool asynchronus)
 {
 	ChangeState(1);
+	StopUsingNavMesh();
 	ScriptedActor::ActorWaitForSignal(ScriptId, Signalnumber, asynchronus);
 
 
@@ -1665,7 +1746,6 @@ void ActorHandler::ActorWaitForSignal(int ScriptId, int Signalnumber, bool async
 	m_resetrotation = false;
 }
 
-
 	
 
 /***********************************************************
@@ -1676,6 +1756,7 @@ void ActorHandler::ActorRotateFromPoint(int ScriptId, float Angle, float PosX, f
 													float PosZ, float Speed, bool asynchronus)
 {
 	ChangeState(1);
+	StopUsingNavMesh();
 	ScriptedActor::ActorRotateFromPoint(ScriptId, Angle, PosX, PosY, PosZ, Speed, asynchronus);
 
 
@@ -1711,6 +1792,7 @@ void ActorHandler::ActorRotateFromPoint(int ScriptId, float Angle, float PosX, f
 void ActorHandler::ActorFollowWaypoint(int ScriptId, int waypointindex1, int waypointindex2, bool asynchronus)
 {
 	ChangeState(1);
+	StopUsingNavMesh();
 	ScriptedActor::ActorFollowWaypoint(ScriptId, waypointindex1, waypointindex2, asynchronus);
 
 
@@ -1781,9 +1863,42 @@ void ActorHandler::ActorFollowWaypoint(int ScriptId, int waypointindex1, int way
 		m_resetposition = false;
 		m_resetrotation = false;
 	}
-
 }
 
+/***********************************************************
+//! make an actor sleep for a given amount of time
+***********************************************************/
+void ActorHandler::ActorSleep(int ScriptId, int nbMilliseconds, bool asynchronus)
+{
+	ChangeState(1);
+	StopUsingNavMesh();
+	ScriptedActor::ActorSleep(ScriptId, asynchronus, nbMilliseconds);
+
+
+	boost::shared_ptr<PhysicalObjectHandlerBase> physO = _character->GetPhysicalObject();
+	boost::shared_ptr<DisplayObjectHandlerBase> disO = _character->GetDisplayObject();
+	float posX, posY, posZ;
+	physO->GetPosition(posX, posY, posZ);
+	float rotation = physO->GetRotationYAxis();
+
+	std::string anim;	
+	if(disO)
+		anim = disO->GetCurrentAnimation();
+
+	// inform clients
+	if(m_resetposition || m_resetrotation)
+	{
+		m_lastevent = new LbaNet::NpcChangedEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+			m_actorinfo.ObjectId, posX, posY, posZ, rotation, anim, 
+			m_resetposition, m_resetrotation, 
+			_character->GetSoundObject()->GetSoundVector(false), NULL);
+
+		_events.push_back(m_lastevent);
+	}
+
+	m_resetposition = false;
+	m_resetrotation = false;
+}
 
 
 /***********************************************************
@@ -1989,6 +2104,8 @@ void ActorHandler::ResetActor()
 
 	// reset script
 	ClearRunningScript();
+
+	StopUsingNavMesh();
 }
 
 
@@ -2023,7 +2140,7 @@ float ActorHandler::GetTouchHitPower(bool & IgnoreArmor)
 /***********************************************************
 make actor play a sound
 ***********************************************************/
-void ActorHandler::APlaySound(int SoundChannel, const std::string & soundpath, bool loop, 
+void ActorHandler::APlaySound(int SoundChannel, const std::string & soundpath, int numberTime, bool randomPitch, 
 								bool updatefromlua, bool fromattackscript)
 {
 	if(_character)
@@ -2035,7 +2152,8 @@ void ActorHandler::APlaySound(int SoundChannel, const std::string & soundpath, b
 				soundO->GetSound(SoundChannel, updatefromlua && m_paused && !fromattackscript);
 			sound.SoundPath = soundpath;
 			sound.Paused = false;
-			sound.Loop = loop;
+			sound.NbTime = numberTime;
+			sound.RandomPitch = randomPitch;
 
 			soundO->Update(new LbaNet::PlaySoundUpd(sound), updatefromlua && m_paused && !fromattackscript);
 
@@ -2128,4 +2246,174 @@ void ActorHandler::AResumeSound(int SoundChannel, bool updatefromlua, bool froma
 									new LbaNet::PlaySoundUpd(sound)));
 		}
 	}
+}
+
+/***********************************************************
+set the script to be used as movement script (replacing the current one)
+***********************************************************/
+void ActorHandler::setMovementScript(const std::string& functionName)
+{
+	m_replaceMovementScript = functionName;
+}
+
+
+
+/***********************************************************
+navmesh functions
+***********************************************************/
+void ActorHandler::GoToPosWithNavMesh(float& PosX, float& PosY, float& PosZ, bool backward)
+{
+	_freemove = true;
+	if(m_NavMAgent)
+		m_NavMAgent->GoToPosition(PosX, PosY, PosZ, backward);
+}
+
+/***********************************************************
+navmesh functions
+***********************************************************/
+void ActorHandler::StopUsingNavMesh()
+{
+	_freemove = false;
+	if(m_NavMAgent)
+		m_NavMAgent->SetResetTarget(false);
+}
+
+/***********************************************************
+check if we need to send update to server
+***********************************************************/
+void ActorHandler::UpdateClients(double tnow, float tdiff)
+{
+	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
+	if(!physo)
+		return;
+
+	// get current position
+	physo->GetPosition(_currentupdate.CurrentPos.X,
+		_currentupdate.CurrentPos.Y,
+		_currentupdate.CurrentPos.Z);
+
+
+	// get current rotation
+	_currentupdate.CurrentPos.Rotation = physo->GetRotationYAxis();
+
+
+	// set speed
+	_currentupdate.CurrentSpeedX = (_currentupdate.CurrentPos.X-_lastupdate.CurrentPos.X) / _oldtdiff;
+	_currentupdate.CurrentSpeedY = (_currentupdate.CurrentPos.Y-_lastupdate.CurrentPos.Y) / _oldtdiff;
+	_currentupdate.CurrentSpeedZ = (_currentupdate.CurrentPos.Z-_lastupdate.CurrentPos.Z) / _oldtdiff;
+
+	//calculate angle speed
+	_currentupdate.CurrentSpeedRotation = (_currentupdate.CurrentPos.Rotation-
+		_lastupdate.CurrentPos.Rotation);
+	while(_currentupdate.CurrentSpeedRotation < -180)
+		_currentupdate.CurrentSpeedRotation += 360;
+	while(_currentupdate.CurrentSpeedRotation > 180)
+		_currentupdate.CurrentSpeedRotation -= 360;
+
+
+	_currentupdate.CurrentSpeedRotation /= tdiff;
+
+
+	_oldtdiff = tdiff;
+
+
+	boost::shared_ptr<DisplayObjectHandlerBase> diso = _character->GetDisplayObject();
+
+	// set animation
+	if(diso)
+		_currentupdate.AnimationIdx = diso->GetCurrentAnimation();
+
+
+
+	// check if we should force the update
+	_currentupdate.ForcedChange = ShouldforceUpdate();
+
+
+	//send to server if needed
+	if(_currentupdate.ForcedChange && m_scripthandler)
+	{
+#ifdef _DEBUG_NPC_
+		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"forced update to client"<<std::endl;
+#endif
+
+
+		LbaNet::EventsSeq evseq;
+		evseq.push_back(new LbaNet::NPCMovedEvent(tnow, GetId(), _currentupdate));
+		m_scripthandler->SendEvents(-2, evseq);
+	}
+
+	_lastupdate = _currentupdate;
+}
+
+
+/***********************************************************
+check if we should force the update
+***********************************************************/
+bool ActorHandler::ShouldforceUpdate()
+{
+	if(_lastupdate.AnimationIdx != _currentupdate.AnimationIdx)
+	{
+#ifdef _DEBUG_NPC_
+		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"forced update animation"<<std::endl;
+#endif
+		return true;
+	}
+
+	if(fabs(_lastupdate.CurrentSpeedX - _currentupdate.CurrentSpeedX) > 0.00001f)
+	{
+#ifdef _DEBUG_NPC_
+		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"forced update speedx"<<std::endl;
+#endif
+		return true;
+	}
+
+	if(fabs(_lastupdate.CurrentSpeedY - _currentupdate.CurrentSpeedY) > 0.00001f)
+	{
+#ifdef _DEBUG_NPC_
+		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"forced update speedy"<<std::endl;
+#endif
+		return true;
+	}
+
+	if(fabs(_lastupdate.CurrentSpeedZ - _currentupdate.CurrentSpeedZ) > 0.00001f)
+	{
+#ifdef _DEBUG_NPC_
+		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"forced update speedz"<<std::endl;
+#endif
+		return true;
+	}
+
+	if(fabs(_lastupdate.CurrentSpeedRotation - _currentupdate.CurrentSpeedRotation) > 0.0001f)
+	{
+#ifdef _DEBUG_NPC_
+		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"forced update speed rotation"<<std::endl;
+#endif
+		return true;
+	}
+
+
+
+	float diffpos = fabs(_lastupdate.CurrentPos.X - _currentupdate.CurrentPos.X)
+		+ fabs(_lastupdate.CurrentPos.Y - _currentupdate.CurrentPos.Y)
+		+  fabs(_lastupdate.CurrentPos.Z - _currentupdate.CurrentPos.Z);
+	if(diffpos > 10)
+	{
+#ifdef _DEBUG_NPC_
+		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"forced update position"<<std::endl;
+#endif
+		return true;
+	}
+
+
+	double diffrot = fabs(_lastupdate.CurrentPos.Rotation - _currentupdate.CurrentPos.Rotation);
+	if(diffrot > 10)
+	{
+#ifdef _DEBUG_NPC_
+		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"forced update angle"<<std::endl;
+#endif
+		return true;
+	}
+
+
+	return false;
 }

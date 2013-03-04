@@ -41,14 +41,16 @@ SoundObjectHandlerServer::SoundObjectHandlerServer()
 /***********************************************************
 make actor play a sound
 ***********************************************************/
-void SoundObjectHandlerServer::APlaySound(int SoundChannel, const std::string & soundpath, bool loop)
+void SoundObjectHandlerServer::APlaySound(int SoundChannel, const std::string & soundpath, int numberTime, bool randomPitch)
 {
-	if(loop && SoundChannel >= 0 && SoundChannel < 5)
+	if(numberTime != 1 && SoundChannel >= 0 && SoundChannel < 5)
 	{
 		LbaNet::PlayingSound si;
 		si.SoundChannel = SoundChannel;
 		si.SoundPath = soundpath;
 		si.Paused = false;
+		si.NbTime = numberTime;
+		si.RandomPitch = randomPitch;
 		m_playingsound[SoundChannel] = si;
 	}
 }

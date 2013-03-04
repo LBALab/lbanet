@@ -79,7 +79,7 @@ void LuaHandlerBase::LoadFile(const std::string & luafile)
 /***********************************************************
 call lua function
 ***********************************************************/
-void LuaHandlerBase::CallLua(const std::string & functioname, ScriptEnvironmentBase* env)
+std::string LuaHandlerBase::CallLua(const std::string & functioname, ScriptEnvironmentBase* env)
 {
 	try
 	{
@@ -90,8 +90,12 @@ void LuaHandlerBase::CallLua(const std::string & functioname, ScriptEnvironmentB
 	}
 	catch(const std::exception &error)
 	{
-		LogHandler::getInstance()->LogToFile(std::string("Exception calling lua function ") + functioname + std::string(" : ") + error.what() + std::string(" : ") + lua_tostring(m_LuaState, -1), 0);
+		std::string errorStr("Exception calling lua function ");
+		errorStr += functioname + std::string(" : ") + error.what() + std::string(" : ") + lua_tostring(m_LuaState, -1);
+		LogHandler::getInstance()->LogToFile(errorStr, 0);
+		return errorStr;
 	}
+	return "Success";
 }
 
 
@@ -198,14 +202,16 @@ bool LuaHandlerBase::ResumeThread(int ThreadIdx, std::string & functioname)
 /***********************************************************
 execute lua script given as a string
 ***********************************************************/
-void LuaHandlerBase::ExecuteScriptString( const std::string & ScriptString )
+std::string LuaHandlerBase::ExecuteScriptString( const std::string & ScriptString )
 {
 	int error = luaL_dostring(m_LuaState, ScriptString.c_str());
 	if(error != 0)
 	{
-		LogHandler::getInstance()->LogToFile(std::string("Exception calling executing script string: ") + lua_tostring(m_LuaState, -1));
+		std::string erroStr = std::string("Exception calling executing script string: ") + lua_tostring(m_LuaState, -1);
+		LogHandler::getInstance()->LogToFile(erroStr);
+		return erroStr;
 	}
-
+	return "Success";
 }
 
 
@@ -291,4 +297,12 @@ void LuaHandlerBase::RunAttackScript(long ActorId,
 	{
 		LogHandler::getInstance()->LogToFile(std::string("Exception calling lua attack script ") + FunctionName + std::string(" : ") + error.what() + std::string(" : ") + lua_tostring(m_LuaState, -1), 0);
 	}
+}
+
+/***********************************************************
+setGlobalEnv
+***********************************************************/
+void LuaHandlerBase::setGlobalEnv(const std::string& globalName, ScriptEnvironmentBase* var)
+{
+	luabind::globals(m_LuaState)[globalName.c_str()] = var;
 }

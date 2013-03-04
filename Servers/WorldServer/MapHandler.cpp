@@ -13,6 +13,7 @@
 #include "ActorHandler.h"
 #include "InventoryItemHandler.h"
 #include "Spawn.h"
+#include "PointFlag.h"
 #include "LogHandler.h"
 #include "Randomizer.h"
 #include "NaviMeshHandler.h"
@@ -40,6 +41,7 @@ constructor
 ***********************************************************/
 MapHandler::MapHandler(const std::string & worldname, const MapInfo & mapinfo,
 						const std::string & mapluafilename,
+						const std::string & mapextraluafilename,
 						const std::string & customluafilename)
 : _Trunning(false), _mapinfo(mapinfo), _worldname(worldname),
 	_customluafilename(customluafilename), _dynamicActorIdCounter(1000000000)
@@ -64,6 +66,7 @@ MapHandler::MapHandler(const std::string & worldname, const MapInfo & mapinfo,
 	m_luaHandler = boost::shared_ptr<ServerLuaHandler>(new  ServerLuaHandler());
 	m_luaHandler->LoadFile("LuaCommon/ClientHelperFunctions.lua");
 	m_luaHandler->LoadFile(_customluafilename);
+	m_luaHandler->LoadFile(mapextraluafilename);
 	m_luaHandler->LoadFile(mapluafilename);
 
 	m_luaHandler->CallLua("InitMap", this);
@@ -1304,30 +1307,38 @@ void MapHandler::AddActorObject(boost::shared_ptr<ActorHandler> actor)
 	{
 		actor->SetScriptHandler(this);
 		actor->SetNavMeshHandler(_navimesh);
-		_Actors[actor->GetId()] = actor;
 
-		// update clients
-		if (_players.size() > 0)
+		if (actor->getAppearDisapear())
 		{
-			const ActorObjectInfo & actinfo = actor->GetActorInfo();
+			_Actors[actor->GetId()] = actor;
 
-			_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
-				1, actor->GetId(), -1, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo,
-				actinfo.ExtraInfo));
+			// update clients
+			if (_players.size() > 0)
+			{
+				const ActorObjectInfo & actinfo = actor->GetActorInfo();
 
-			LbaNet::ClientServerEventBasePtr lastevent = actor->GetLastEvent();
-			if(lastevent)
-				_tosendevts.push_back(lastevent);
+				_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+					1, actor->GetId(), -1, actinfo.DisplayDesc, actinfo.PhysicDesc, actinfo.LifeInfo,
+					actinfo.ExtraInfo));
 
-			LbaNet::ClientServerEventBasePtr attachevent = actor->AttachActorEvent();
-			if(attachevent)
-				_tosendevts.push_back(attachevent);
+				LbaNet::ClientServerEventBasePtr lastevent = actor->GetLastEvent();
+				if(lastevent)
+					_tosendevts.push_back(lastevent);
 
-			//hide actor
-			if(actor->IsHidden())
-				_tosendevts.push_back(new LbaNet::ShowHideEvent(
-									SynchronizedTimeHandler::GetCurrentTimeDouble(), 
-									1, actor->GetId(), false));
+				LbaNet::ClientServerEventBasePtr attachevent = actor->AttachActorEvent();
+				if(attachevent)
+					_tosendevts.push_back(attachevent);
+
+				//hide actor
+				if(actor->IsHidden())
+					_tosendevts.push_back(new LbaNet::ShowHideEvent(
+					SynchronizedTimeHandler::GetCurrentTimeDouble(), 
+					1, actor->GetId(), false));
+			}
+		}
+		else
+		{
+			_HiddenActors[actor->GetId()] = actor;
 		}
 	}
 }
@@ -1673,7 +1684,34 @@ ActorObjectInfo MapHandler::CreateSpawningDisplay(long id, float PosX, float Pos
 	return ainfo;
 }
 
+ActorObjectInfo MapHandler::CreateFlagDisplay(long id, float PosX, float PosY, float PosZ, 
+											const std::string & name)
+{
+	ActorObjectInfo ainfo(id);
+	ainfo.DisplayDesc.TypeRenderer = LbaNet::RenderLba1M;
+	ainfo.DisplayDesc.ModelName = "Object";
+	ainfo.DisplayDesc.Outfit = "Flag";
+	ainfo.DisplayDesc.Weapon = "Green";
+	ainfo.DisplayDesc.Mode = "Normal";
+	ainfo.PhysicDesc.TypeShape = LbaNet::NoShape;
+	ainfo.PhysicDesc.TypePhysO = LbaNet::StaticAType;
+	ainfo.PhysicDesc.Pos.X = PosX;
+	ainfo.PhysicDesc.Pos.Y = PosY;
+	ainfo.PhysicDesc.Pos.Z = PosZ;
+	ainfo.PhysicDesc.Pos.Rotation = 0;
+	ainfo.PhysicDesc.SizeX = 3;
+	ainfo.PhysicDesc.SizeY = 0;
+	ainfo.PhysicDesc.SizeZ = 0;
 
+	std::stringstream strs;
+	strs << "Point-"<<id-1000000<<": " << name;
+	ainfo.ExtraInfo.Name = strs.str();
+	ainfo.ExtraInfo.NameColorR = 0.2f;
+	ainfo.ExtraInfo.NameColorG = 1.0f;
+	ainfo.ExtraInfo.NameColorB = 0.2f;
+	ainfo.LifeInfo.Display = false;
+	return ainfo;
+}
 
 /***********************************************************
 add an actor
@@ -2126,6 +2164,14 @@ void MapHandler::InternalActorStraightWalkTo(int ScriptId, long ActorId, const L
 		itact->second->ActorStraightWalkTo(ScriptId, false, Position.x, Position.y, Position.z);
 }
 
+void MapHandler::InternalActorWalkToPoint(int ScriptId, long ActorId, const LbaVec3 &Position, float RotationSpeedPerSec, bool moveForward, 
+											bool asynchronus)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
+		itact->second->ActorWalkToPoint(ScriptId, false, Position.x, Position.y, Position.z, RotationSpeedPerSec, moveForward);
+}
+
 
 
 /***********************************************************
@@ -2147,11 +2193,11 @@ void MapHandler::InternalActorRotate(int ScriptId, long ActorId, float Angle, fl
 //! used by lua to wait until an actor animation is finished
 //! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
 ***********************************************************/
-void MapHandler::InternalActorAnimate(int ScriptId, long ActorId, bool AnimationMove, bool asynchronus)
+void MapHandler::InternalActorAnimate(int ScriptId, long ActorId, bool AnimationMove, int nbAnimation, bool asynchronus)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
-		itact->second->ActorAnimate(ScriptId, false, AnimationMove);
+		itact->second->ActorAnimate(ScriptId, false, AnimationMove, nbAnimation);
 }
 
 
@@ -2331,6 +2377,18 @@ void MapHandler::InternalActorFollowWaypoint(int ScriptId, long ActorId, int way
 	}
 }
 
+/***********************************************************
+ used by lua to make actor sleep
+***********************************************************/
+void MapHandler::InternalActorSleep(int ScriptId, long ActorId, int nbMilliseconds, bool asynchronus)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
+	{
+		itact->second->ActorSleep(ScriptId, nbMilliseconds, asynchronus);
+	}
+}
+
 
 
 /***********************************************************
@@ -2447,6 +2505,55 @@ void MapHandler::KillActor(int ObjectType, long ObjectId)
 	}
 }
 
+/***********************************************************
+make actor appear or disappear in map
+***********************************************************/
+void MapHandler::ActorAppearDisappear(int ScriptId, long ActorId, bool appear)
+{
+	if (appear)
+	{
+		std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ita = _HiddenActors.find(ActorId);
+		if(ita != _HiddenActors.end())
+		{
+			ita->second->setAppearDisapear(true);
+			_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+													1, ita->first, -1, 
+													ita->second->GetActorInfo().DisplayDesc,
+													ita->second->GetActorInfo().PhysicDesc,
+													ita->second->GetActorInfo().LifeInfo,
+													ita->second->GetActorInfo().ExtraInfo));
+
+			_Actors[ita->first] = ita->second;
+			_HiddenActors.erase(ita);
+		}
+	}
+	else
+	{
+		std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ita = _Actors.find(ActorId);
+		if(ita != _Actors.end())
+		{
+			ita->second->setAppearDisapear(false);
+			_tosendevts.push_back(new RemoveObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+														1, ita->first));
+
+			_HiddenActors[ita->first] = ita->second;
+			_Actors.erase(ita);
+		}
+	}
+}
+
+/***********************************************************
+delay action execution
+***********************************************************/
+void MapHandler::ActorWaitForResume(int ScriptId, long ActorId)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator ita = _Actors.find(ActorId);
+	if(ita != _Actors.end())
+	{
+		ita->second->ActorWaitForSignal(ScriptId, -99, false);
+	}
+}
+
 
 
 /***********************************************************
@@ -2539,7 +2646,7 @@ void MapHandler::AddSpawn(boost::shared_ptr<Spawn> spawn)
 
 	if(DataDirHandler::getInstance()->IsInEditorMode())
 	{
-		long edobjid = spawn->GetId() + 1000000;
+		long edobjid = spawn->GetId() + 1100000;
 
 		std::map<Ice::Long, ActorObjectInfo >::iterator itm = _editorObjects.find(edobjid);
 		if(itm != _editorObjects.end())
@@ -2569,6 +2676,50 @@ void MapHandler::AddSpawn(boost::shared_ptr<Spawn> spawn)
 			_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
 					4, edobjid, -1, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo ,
 					ainfo.ExtraInfo));
+		}
+	}
+}
+
+/***********************************************************
+add point
+***********************************************************/
+void MapHandler::AddPoint(boost::shared_ptr<PointFlag> point)
+{
+	if(point)
+		_points[point->GetId()] = point;
+
+	if(DataDirHandler::getInstance()->IsInEditorMode())
+	{
+		long edobjid = point->GetId() + 1000000;
+
+		std::map<Ice::Long, ActorObjectInfo >::iterator itm = _editorObjects.find(edobjid);
+		if(itm != _editorObjects.end())
+		{
+			// object already exist - update position if needed
+			itm->second.PhysicDesc.Pos.X = point->GetPosX();
+			itm->second.PhysicDesc.Pos.Y = point->GetPosY();
+			itm->second.PhysicDesc.Pos.Z = point->GetPosZ();
+
+			std::stringstream strs;
+			strs << "Point-"<<point->GetId()<<": " << point->GetName();
+			itm->second.ExtraInfo.Name = strs.str();
+
+			_tosendevts.push_back(new UpdateDisplayObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+				4, edobjid, new ObjectExtraInfoUpdate(itm->second.ExtraInfo)));
+
+			_tosendevts.push_back(new UpdatePhysicObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+				4, edobjid, new PositionUpdate(itm->second.PhysicDesc.Pos)));
+		}
+		else
+		{
+			// object does not exist - add it
+			ActorObjectInfo ainfo = CreateFlagDisplay(edobjid,
+				point->GetPosX(), point->GetPosY(), point->GetPosZ(), point->GetName());
+			_editorObjects[edobjid] = ainfo;
+
+			_tosendevts.push_back(new AddObjectEvent(SynchronizedTimeHandler::GetCurrentTimeDouble(),
+				4, edobjid, -1, ainfo.DisplayDesc, ainfo.PhysicDesc, ainfo.LifeInfo ,
+				ainfo.ExtraInfo));
 		}
 	}
 }
@@ -4384,11 +4535,11 @@ int MapHandler::GetDBFlag(long PlayerId, const std::string & flagid)
 //! there is 5 available channels (0 to 5)
 ***********************************************************/
 void MapHandler::ActorStartSound(int ScriptId, long ActorId, int SoundChannel, 
-										const std::string & soundpath, bool loop)
+										const std::string & soundpath, int numberTime, bool randomPitch)
 {
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
-		itact->second->APlaySound(SoundChannel, soundpath, loop, 
+		itact->second->APlaySound(SoundChannel, soundpath, numberTime, randomPitch,
 											true, itact->second->IsAttackScript(ScriptId));
 }
 
@@ -4425,6 +4576,13 @@ void MapHandler::ActorResumeSound(int ScriptId, long ActorId, int SoundChannel)
 	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
 	if(itact != _Actors.end())
 		itact->second->AResumeSound(SoundChannel, true, itact->second->IsAttackScript(ScriptId));
+}
+
+void MapHandler::ActorSetMovementScript(int ScriptId, long ActorId, const std::string & functionName)
+{
+	std::map<Ice::Long, boost::shared_ptr<ActorHandler> >::iterator itact =	_Actors.find(ActorId);
+	if(itact != _Actors.end())
+		itact->second->setMovementScript(functionName);
 }
 
 

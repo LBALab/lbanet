@@ -24,6 +24,7 @@ extern "C"
 #include "SharedDataHandler.h"
 #include "InventoryItemHandler.h"
 #include "Spawn.h"
+#include "PointFlag.h"
 #include "ProjectileObjectDef.h"
 #include "DataDirHandler.h"
 
@@ -379,7 +380,10 @@ ServerLuaHandler::ServerLuaHandler()
 		.def(luabind::constructor<const ActorObjectInfo &>())
 		.def("AddScriptPart", &ActorHandler::AddScriptPart)
 		.def("StartWaypoint", &ActorHandler::StartWaypoint)
-		.def("AddWaypoint", &ActorHandler::AddWaypoint),
+		.def("AddWaypoint", &ActorHandler::AddWaypoint)
+		.def("SetMovementStartScript", &ActorHandler::SetMovementStartScript)
+		.def("setAppearDisapear", &ActorHandler::setAppearDisapear)
+		.def("getAppearDisapear", &ActorHandler::getAppearDisapear),
 
 		luabind::class_<DoorHandler, ActorHandler, boost::shared_ptr<ActorHandler> >("DoorHandler")
 		.def(luabind::constructor<const ActorObjectInfo &, int, int, float, float, bool>()),
@@ -455,9 +459,11 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("UpdateActorAnimation", &ScriptEnvironmentBase::UpdateActorAnimation)
 		.def("UpdateActorMode", &ScriptEnvironmentBase::UpdateActorMode)
 		.def("ActorStraightWalkTo", &ScriptEnvironmentBase::ActorStraightWalkTo, luabind::yield)
+		.def("ActorWalkToPoint", &ScriptEnvironmentBase::ActorWalkToPoint, luabind::yield)
 		.def("ActorRotate", &ScriptEnvironmentBase::ActorRotate, luabind::yield)
 		.def("ActorAnimate", &ScriptEnvironmentBase::ActorAnimate, luabind::yield)
 		.def("Async_ActorStraightWalkTo", &ScriptEnvironmentBase::Async_ActorStraightWalkTo)
+		.def("Async_ActorWalkToPoint", &ScriptEnvironmentBase::Async_ActorWalkToPoint)
 		.def("Async_ActorRotate", &ScriptEnvironmentBase::Async_ActorRotate)
 		.def("Async_ActorAnimate", &ScriptEnvironmentBase::Async_ActorAnimate)
 		.def("WaitForAsyncScript", &ScriptEnvironmentBase::WaitForAsyncScript, luabind::yield)
@@ -467,6 +473,7 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("UpdateActorOutfit", &ScriptEnvironmentBase::UpdateActorOutfit)
 		.def("UpdateActorWeapon", &ScriptEnvironmentBase::UpdateActorWeapon)
 		.def("ActorWaitForSignal", &ScriptEnvironmentBase::ActorWaitForSignal, luabind::yield)
+		.def("ActorSleep", &ScriptEnvironmentBase::ActorSleep, luabind::yield)
 		.def("SendSignalToActor", &ScriptEnvironmentBase::SendSignalToActor)
 		.def("TeleportActorTo", &ScriptEnvironmentBase::TeleportActorTo)
 		.def("Async_ActorGoTo", &ScriptEnvironmentBase::Async_ActorGoTo)
@@ -493,6 +500,7 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("ChapterStarted", &ScriptEnvironmentBase::ChapterStarted)
 		.def("OpenShop", &ScriptEnvironmentBase::OpenShop)
 		.def("AddSpawn", &ScriptEnvironmentBase::AddSpawn)
+		.def("AddPoint", &ScriptEnvironmentBase::AddPoint)
 		.def("OpenMailbox", &ScriptEnvironmentBase::OpenMailbox)
 		.def("AttachActor", &ScriptEnvironmentBase::AttachActor)
 		.def("DettachActor", &ScriptEnvironmentBase::DettachActor)
@@ -527,7 +535,10 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetPlayerPosition", &ScriptEnvironmentBase::GetPlayerPosition)
 		.def("ExecuteDelayedAction", &ScriptEnvironmentBase::ExecuteDelayedAction)
 		.def("ExecuteActionOnZone", &ScriptEnvironmentBase::ExecuteActionOnZone)
-		.def("PlaySound", &ScriptEnvironmentBase::PlaySound),
+		.def("PlaySound", &ScriptEnvironmentBase::PlaySound)
+		.def("ActorSetMovementScript", &ScriptEnvironmentBase::ActorSetMovementScript)
+		.def("ActorAppearDisappear", &ScriptEnvironmentBase::ActorAppearDisappear)
+		.def("ActorWaitForResume", &ScriptEnvironmentBase::ActorWaitForResume, luabind::yield),
 
 
 		luabind::class_<MapHandler, ScriptEnvironmentBase>("MapHandler"),
@@ -942,6 +953,18 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("SetName", &Spawn::SetName)
 		.def("SetActionAtArrival", &Spawn::SetActionAtArrival)
 		.def("GetActionAtArrival", &Spawn::GetActionAtArrival),
+
+		luabind::class_<PointFlag, boost::shared_ptr<PointFlag> >("PointFlag")
+		.def(luabind::constructor<long>())
+		.def("GetId", &PointFlag::GetId)
+		.def("GetPosX", &PointFlag::GetPosX)
+		.def("GetPosY", &PointFlag::GetPosY)
+		.def("GetPosZ", &PointFlag::GetPosZ)
+		.def("SetPosX", &PointFlag::SetPosX)
+		.def("SetPosY", &PointFlag::SetPosY)
+		.def("SetPosZ", &PointFlag::SetPosZ)
+		.def("GetName", &PointFlag::GetName)
+		.def("SetName", &PointFlag::SetName),
 
 		luabind::class_<ProjectileObjectDef, boost::shared_ptr<ProjectileObjectDef> >("ProjectileObjectDef")
 		.def(luabind::constructor<>())

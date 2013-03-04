@@ -262,6 +262,9 @@ public:
 	//! update position of the script
 	void UpdateScriptPosition(ActorScriptPartBasePtr part, int position);
 
+	//! set the start script for movement
+	void SetMovementStartScript(const std::string& functionName);
+
 	//! get script
 	std::vector<ActorScriptPartBasePtr> GetScript()
 	{ return m_script; }
@@ -269,8 +272,9 @@ public:
 	//! clear the running script
 	void ClearRunningScript();
 
-
-
+	//! set if the actor is visible on the scene or not
+	void setAppearDisapear(bool appear);
+	bool getAppearDisapear();
 
 	//! waypoint stuff
 	std::pair<int, int> StartWaypoint(const LbaVec3 &point);
@@ -281,6 +285,8 @@ public:
 	//! used by lua to move an actor
 	//! the actor will move using animation speed
 	virtual void ActorStraightWalkTo(int ScriptId, bool asynchronus, float PosX, float PosY, float PosZ);
+	virtual void ActorWalkToPoint(int ScriptId, bool asynchronus, float PosX, float PosY, float PosZ, float RotationSpeedPerSec, bool moveForward);
+
 
 	//! used by lua to rotate an actor
 	//! the actor will rotate until it reach "Angle" with speed "RotationSpeedPerSec"
@@ -291,7 +297,7 @@ public:
 
 	//! used by lua to wait until an actor animation is finished
 	//! if AnimationMove = true then the actor will be moved at the same time using the current animation speed
-	virtual void ActorAnimate(int ScriptId, bool asynchronus, bool AnimationMove);
+	virtual void ActorAnimate(int ScriptId, bool asynchronus, bool AnimationMove, int nbAnimation);
 
 	
 	//! used by lua to move an actor or player
@@ -302,6 +308,7 @@ public:
 	//! used by lua to move an actor or player
 	//! the actor will wait for signal
 	virtual void ActorWaitForSignal(int ScriptId, int Signalnumber, bool asynchronus);
+
 	
 	//! used by lua to move an actor or player
 	//! the actor will rotate
@@ -311,6 +318,9 @@ public:
 	//! used by lua to move an actor or player
 	//! the actor follow waypoint
 	virtual void ActorFollowWaypoint(int ScriptId, int waypointindex1, int waypointindex2, bool asynchronus);
+
+	//! make an actor sleep for a given amount of time
+	virtual void ActorSleep(int ScriptId, int nbMilliseconds, bool asynchronus);
 
 	//! return actor type
 	virtual std::string ActorType();
@@ -444,7 +454,7 @@ public:
 
 
 	//! make actor play a sound
-	void APlaySound(int SoundChannel, const std::string & soundpath, bool loop, 
+	void APlaySound(int SoundChannel, const std::string & soundpath, int numberTime, bool randomPitch, 
 						bool updatefromlua, bool fromattackscript);
 
 	//! make actor stop a sound
@@ -462,6 +472,13 @@ public:
 	//! inform that npc touched player
 	virtual void TouchedPlayer(long playerid, bool killed){}
 
+	//! set the script to be used as movement script (replacing the current one)
+	void setMovementScript(const std::string& functionName);
+
+private:
+	//! check if update client
+	void UpdateClients(double tnow, float tdiff);
+	bool ShouldforceUpdate();
 
 public:
 	//********************
@@ -498,7 +515,7 @@ protected:
 	void StartScript();
 
 	//! return the build class
-	virtual std::string LuaBuildClass(const std::string & actorid);
+	virtual std::string LuaBuildClass();
 
 	//! write extra lua
 	virtual void ExtraLua(std::ostream & file, const std::string & name){}
@@ -515,6 +532,9 @@ protected:
 	//! update actor from attached
 	void UpdateFromAttached(double tnow);
 
+	//! navmesh functions
+	void GoToPosWithNavMesh(float& PosX, float& PosY, float& PosZ, bool backward);
+	void StopUsingNavMesh();
 
 protected:
 	ActorObjectInfo										m_actorinfo;
@@ -530,6 +550,7 @@ protected:
 	float												m_saved_rot;
 	LbaQuaternion										m_saved_Q;
 	bool												m_savedshow;
+	bool												m_appear;
 
 
 
@@ -556,7 +577,13 @@ protected:
 
 	double												m_lastupdatetime;
 
-		
+	std::string											m_movementStartScript;
+	std::string											m_replaceMovementScript;
+	bool												m_pausedMoveScript;
+
+	LbaNet::PlayerMoveInfo								_lastupdate;
+	LbaNet::PlayerMoveInfo								_currentupdate;
+	float												_oldtdiff;
 };
 
 #endif

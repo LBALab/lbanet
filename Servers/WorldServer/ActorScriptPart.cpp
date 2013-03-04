@@ -86,7 +86,7 @@ save action to lua file
 ***********************************************************/	
 void ActorScriptPart_WalkStraightTo::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
-	file << "Position = LbaVec3("<<_PosX<<","<<_PosY<<","<<_PosZ<<")"<<std::endl;
+	file << "local Position = LbaVec3("<<_PosX<<","<<_PosY<<","<<_PosZ<<")"<<std::endl;
 	file<<"Environment:ActorStraightWalkTo(ScriptId,"<<actid<<",Position)"<<std::endl;
 }
 
@@ -114,7 +114,7 @@ save action to lua file
 ***********************************************************/	
 void ActorScriptPart_GoTo::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
-	file << "Position = LbaVec3("<<_PosX<<","<<_PosY<<","<<_PosZ<<")"<<std::endl;
+	file << "local Position = LbaVec3("<<_PosX<<","<<_PosY<<","<<_PosZ<<")"<<std::endl;
 	file<<"Environment:ActorGoTo(ScriptId,"<<actid<<",Position,"<<_Speed<<")"<<std::endl;
 }
 
@@ -141,7 +141,7 @@ save action to lua file
 ***********************************************************/	
 void ActorScriptPart_PlayAnimation::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
-	file<<"Environment:ActorAnimate(ScriptId,"<<actid<<","<<(_AnimationMove?"true":"false")<<")"<<std::endl;
+	file<<"Environment:ActorAnimate(ScriptId,"<<actid<<","<<(_AnimationMove?"true":"false")<<",1"<<")"<<std::endl;
 }
 
 
@@ -410,7 +410,7 @@ save action to lua file
 ***********************************************************/	
 void ActorScriptPart_TeleportTo::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
-	file << "Position = LbaVec3("<<_PosX<<","<<_PosY<<","<<_PosZ<<")"<<std::endl;
+	file << "local Position = LbaVec3("<<_PosX<<","<<_PosY<<","<<_PosZ<<")"<<std::endl;
 	file<<"Environment:TeleportActorTo(ScriptId,"<<actid<<",Position)"<<std::endl;
 }
 
@@ -450,7 +450,7 @@ save action to lua file
 ***********************************************************/	
 void ActorScriptPart_RotateFromPoint::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
-	file << "Position = LbaVec3("<<_PosX<<","<<_PosY<<","<<_PosZ<<")"<<std::endl;
+	file << "local Position = LbaVec3("<<_PosX<<","<<_PosY<<","<<_PosZ<<")"<<std::endl;
 	file<<"Environment:ActorRotateFromPoint(ScriptId,"<<actid<<","<<_Angle<<",Position,"<<_Speed<<")"<<std::endl;
 }
 
@@ -573,7 +573,7 @@ save action to lua file
 void ActorScriptPart_PlaySound::WriteExecutionScript(std::ostream & file, long actid, ActorHandler * AH)
 {	
 	if(_soundpath != "")
-		file<<"Environment:ActorStartSound(ScriptId,"<<actid<<","<<_SoundChannel<<",\""<<_soundpath<<"\","<<(_loop?"true":"false")<<")"<<std::endl;
+		file<<"Environment:ActorStartSound(ScriptId,"<<actid<<","<<_SoundChannel<<",\""<<_soundpath<<"\","<<(_loop?"-1":"1")<<",false)"<<std::endl;
 }
 
 

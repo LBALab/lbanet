@@ -497,7 +497,7 @@ void OpenContainerAction::SaveToLuaFile(std::ostream & file, const std::string &
 	for(size_t i=0; i< _containerstartitems.size(); ++i)
 	{
 		std::stringstream itname;
-		itname<<name<<"ContItem"<<i;
+		itname<<name<<"ContItem";
 		file<<"\t\t"<<itname.str()<<" = ContainerItemGroupElement("
 			<<_containerstartitems[i].Id<<","
 			<<_containerstartitems[i].Min<<","

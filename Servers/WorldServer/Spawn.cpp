@@ -22,7 +22,7 @@ void Spawn::SaveToLuaFile(std::ostream & file, std::string forcedid)
 		spid<<GetId();
 
 	std::stringstream names;
-	names<<"Spawn_"<<spid.str();
+	names<<"lmap.sp";
 
 
 	file<<"\t"<<names.str()<<" = Spawn("<<spid.str()<<")"<<std::endl;

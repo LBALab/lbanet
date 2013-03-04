@@ -127,6 +127,7 @@ void NavMeshObjectHandler::Process(double tnow, float tdiff,
 			}
 		}
 
-		_agent->UpdateMaxSpeed(fabs(animSpeedX+animSpeedY+animSpeedZ));
+		LbaVec3 speed(animSpeedX,animSpeedY,animSpeedZ);
+		_agent->UpdateMaxSpeed(speed.Length());
 	}
 }

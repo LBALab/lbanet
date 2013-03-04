@@ -24,7 +24,7 @@ NPCHandler::NPCHandler(const ActorObjectInfo & actorinfo)
 		_attack_activation_distance_discrete(0), 
 		_attack_activation_distance_hidden(0), _respwantime(-1),
 		_armor(0), _weapon1power(0), _weapon2power(0), _stop_attack_distance(0),
-		_agentstatenum(0), _targetedattackplayer(-1), _oldtdiff(1), 
+		_agentstatenum(0), _targetedattackplayer(-1),
 		m_minimalchasingdistance(1), m_weapon1type(-1), m_weapon2type(-1),
 		_weapon1reachdistance(1), _weapon2reachdistance(1),
 		_fightscriptrunning(false), _fightscriptpartrunning(false),
@@ -41,10 +41,10 @@ NPCHandler::NPCHandler(const ActorObjectInfo & actorinfo)
 /***********************************************************
 return the build class
 ***********************************************************/
-std::string NPCHandler::LuaBuildClass(const std::string & actorid)
+std::string NPCHandler::LuaBuildClass()
 {
 	std::stringstream res;
-	res<<"NPCHandler(Actor_"<<actorid<<")";
+	res<<"NPCHandler(lmap.Actor)";
 
 	return res.str();
 }
@@ -642,11 +642,6 @@ void NPCHandler::ProcessChild(double tnow, float tdiff)
 			}
 		}
 	}
-					
-
-	//check if update clients
-	if(_freemove)
-		UpdateClients(tnow, tdiff);
 }
 
 
@@ -1298,145 +1293,6 @@ void NPCHandler::EndChasing()
 }
 
 
-/***********************************************************
-check if we need to send update to server
-***********************************************************/
-void NPCHandler::UpdateClients(double tnow, float tdiff)
-{
-	boost::shared_ptr<PhysicalObjectHandlerBase> physo = _character->GetPhysicalObject();
-	if(!physo)
-		return;
-
-	// get current position
-	physo->GetPosition(_currentupdate.CurrentPos.X,
-							_currentupdate.CurrentPos.Y,
-							_currentupdate.CurrentPos.Z);
-
-
-	// get current rotation
-	_currentupdate.CurrentPos.Rotation = physo->GetRotationYAxis();
-
-
-	// set speed
-	_currentupdate.CurrentSpeedX = (_currentupdate.CurrentPos.X-_lastupdate.CurrentPos.X) / _oldtdiff;
-	_currentupdate.CurrentSpeedY = (_currentupdate.CurrentPos.Y-_lastupdate.CurrentPos.Y) / _oldtdiff;
-	_currentupdate.CurrentSpeedZ = (_currentupdate.CurrentPos.Z-_lastupdate.CurrentPos.Z) / _oldtdiff;
-
-	//calculate angle speed
-	_currentupdate.CurrentSpeedRotation = (_currentupdate.CurrentPos.Rotation-
-													_lastupdate.CurrentPos.Rotation);
-	while(_currentupdate.CurrentSpeedRotation < -180)
-		_currentupdate.CurrentSpeedRotation += 360;
-	while(_currentupdate.CurrentSpeedRotation > 180)
-		_currentupdate.CurrentSpeedRotation -= 360;
-
-
-	_currentupdate.CurrentSpeedRotation /= tdiff;
-
-
-	_oldtdiff = tdiff;
-
-
-	boost::shared_ptr<DisplayObjectHandlerBase> diso = _character->GetDisplayObject();
-
-	// set animation
-	if(diso)
-		_currentupdate.AnimationIdx = diso->GetCurrentAnimation();
-
-
-
-	// check if we should force the update
-	_currentupdate.ForcedChange = ShouldforceUpdate();
-
-
-	//send to server if needed
-	if(_currentupdate.ForcedChange && m_scripthandler)
-	{
-		#ifdef _DEBUG_NPC_
-		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"forced update to client"<<std::endl;
-		#endif
-
-
-		LbaNet::EventsSeq evseq;
-		evseq.push_back(new LbaNet::NPCMovedEvent(tnow, GetId(), _currentupdate));
-		m_scripthandler->SendEvents(-2, evseq);
-	}
-
-	_lastupdate = _currentupdate;
-}
-
-
-/***********************************************************
-check if we should force the update
-***********************************************************/
-bool NPCHandler::ShouldforceUpdate()
-{
-	if(_lastupdate.AnimationIdx != _currentupdate.AnimationIdx)
-	{
-		#ifdef _DEBUG_NPC_
-		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"forced update animation"<<std::endl;
-		#endif
-		return true;
-	}
-
-	if(fabs(_lastupdate.CurrentSpeedX - _currentupdate.CurrentSpeedX) > 0.00001f)
-	{
-		#ifdef _DEBUG_NPC_
-		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"forced update speedx"<<std::endl;
-		#endif
-		return true;
-	}
-
-	if(fabs(_lastupdate.CurrentSpeedY - _currentupdate.CurrentSpeedY) > 0.00001f)
-	{
-		#ifdef _DEBUG_NPC_
-		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"forced update speedy"<<std::endl;
-		#endif
-		return true;
-	}
-
-	if(fabs(_lastupdate.CurrentSpeedZ - _currentupdate.CurrentSpeedZ) > 0.00001f)
-	{
-		#ifdef _DEBUG_NPC_
-		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"forced update speedz"<<std::endl;
-		#endif
-		return true;
-	}
-
-	if(fabs(_lastupdate.CurrentSpeedRotation - _currentupdate.CurrentSpeedRotation) > 0.0001f)
-	{
-		#ifdef _DEBUG_NPC_
-		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"forced update speed rotation"<<std::endl;
-		#endif
-		return true;
-	}
-
-
-
-	float diffpos = fabs(_lastupdate.CurrentPos.X - _currentupdate.CurrentPos.X)
-					+ fabs(_lastupdate.CurrentPos.Y - _currentupdate.CurrentPos.Y)
-					+  fabs(_lastupdate.CurrentPos.Z - _currentupdate.CurrentPos.Z);
-	if(diffpos > 10)
-	{
-		#ifdef _DEBUG_NPC_
-		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"forced update position"<<std::endl;
-		#endif
-		return true;
-	}
-
-
-	double diffrot = fabs(_lastupdate.CurrentPos.Rotation - _currentupdate.CurrentPos.Rotation);
-	if(diffrot > 10)
-	{
-		#ifdef _DEBUG_NPC_
-		filecheck<<SynchronizedTimeHandler::GetTimeString()<<" "<<"forced update angle"<<std::endl;
-		#endif
-		return true;
-	}
-
-
-	return false;
-}
 
 
 /***********************************************************

@@ -181,10 +181,10 @@ void DoorHandler::RefreshScript()
 /***********************************************************
 return the build class
 ***********************************************************/
-std::string DoorHandler::LuaBuildClass(const std::string & actorid)
+std::string DoorHandler::LuaBuildClass()
 {
 	std::stringstream res;
-	res<<"DoorHandler(Actor_"<<actorid<<","<<_otype
+	res<<"DoorHandler(lmap.Actor,"<<_otype
 		<<","<<_odirection<<","<<_openingvalue<<","<<_openingspeed<<",false)";
 
 	return res.str();
