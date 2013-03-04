@@ -4,13 +4,13 @@ function ActorRotateAndMoveForwardTo(ScriptId, ActorId, ArrivalPosition, Rotatio
 	Environment:ReserveActor(ScriptId, ActorId)
 	
 	-- get current position
-	CurrentPosition = Environment:GetActorPosition(ScriptId, ActorId)	
+	local CurrentPosition = Environment:GetActorPosition(ScriptId, ActorId)	
 	
 	-- calculate rotation angle
-	TDistance = LbaVec3(ArrivalPosition)
+	local TDistance = LbaVec3(ArrivalPosition)
 	TDistance.x = TDistance.x - CurrentPosition.x
 	TDistance.z = TDistance.z - CurrentPosition.z
-	angle = LbaQuaternion.GetAngleFromVector(TDistance)
+	local angle = LbaQuaternion.GetAngleFromVector(TDistance)
 
 	
 	-- add first rotation	
@@ -27,7 +27,7 @@ end
 function ActorGoUpLadder(ScriptId, ActorId, LadderPosition, LadderHeight, LadderDirection, Environment)
 	
 	-- fix fall down when arrive
-	LadderHeight = LadderHeight + 1
+	local LadderHeight = LadderHeight + 0.1
 	
 	-- reserve the actor for the script
 	Environment:ReserveActor(ScriptId, ActorId)
@@ -36,13 +36,13 @@ function ActorGoUpLadder(ScriptId, ActorId, LadderPosition, LadderHeight, Ladder
 	Environment:UpdateActorMode(ScriptId, ActorId, "Normal")
 
 	-- get current position
-	CurrentPosition = Environment:GetActorPosition(ScriptId, ActorId)
+	local CurrentPosition = Environment:GetActorPosition(ScriptId, ActorId)
 	
 	-- calculate offsets depending of ladder direction
-	remX=0
-	remZ=0
-	dX=0
-	dZ=0
+	local remX=0
+	local remZ=0
+	local dX=0
+	local dZ=0
 	
 	if (LadderDirection >= 45) then	
 		if (LadderDirection >= 135) then
@@ -69,7 +69,7 @@ function ActorGoUpLadder(ScriptId, ActorId, LadderPosition, LadderHeight, Ladder
 	
 
 	-- calculate position and rotation actor need to proceed to
-	TranslationPosition = LbaVec3(LadderPosition)
+	local TranslationPosition = LbaVec3(LadderPosition)
 	TranslationPosition.x = TranslationPosition.x + remX
 	TranslationPosition.z = TranslationPosition.z + remZ
 	
@@ -86,7 +86,7 @@ function ActorGoUpLadder(ScriptId, ActorId, LadderPosition, LadderHeight, Ladder
 	-- add translation up the ladder
 	if(LadderHeight > 4.7) then
 		Environment:UpdateActorAnimation(ScriptId, ActorId, "GoUpLadder")
-		TranslationPosition = LbaVec3(LadderPosition)
+		local TranslationPosition = LbaVec3(LadderPosition)
 		TranslationPosition.x = TranslationPosition.x +remX
 		TranslationPosition.y = TranslationPosition.y +LadderHeight - 4.7
 		TranslationPosition.z = TranslationPosition.z +remZ
@@ -96,14 +96,14 @@ function ActorGoUpLadder(ScriptId, ActorId, LadderPosition, LadderHeight, Ladder
 
 	-- add action up the ladder
 	Environment:UpdateActorAnimation(ScriptId, ActorId, "ArriveLadder")
-	Environment:ActorAnimate(ScriptId, ActorId, true)
+	Environment:ActorAnimate(ScriptId, ActorId, true, 1)
 
 
 	-- add translation to exit the ladder
 	Environment:UpdateActorAnimation(ScriptId, ActorId, "MoveForward")
-	TranslationPosition = LbaVec3(LadderPosition)
+	local TranslationPosition = LbaVec3(LadderPosition)
 	TranslationPosition.x = TranslationPosition.x +remX + dX
-	TranslationPosition.y = TranslationPosition.y +LadderHeight + 0.1	
+	TranslationPosition.y = TranslationPosition.y +LadderHeight	
 	TranslationPosition.z = TranslationPosition.z +remZ + dZ	
 	Environment:ActorStraightWalkTo(ScriptId, ActorId, TranslationPosition)	
 
@@ -119,13 +119,13 @@ function TakeExitUp(ScriptId, ActorId, ExitPosition, ExitDirection, Environment)
 	Environment:UpdateActorMode(ScriptId, ActorId, "Normal")
 
 	-- get current position
-	CurrentPosition = Environment:GetActorPosition(ScriptId, ActorId)
+	local CurrentPosition = Environment:GetActorPosition(ScriptId, ActorId)
 	
 	-- calculate offsets depending of ladder direction
-	remX=0
-	remZ=0
-	dX=0
-	dZ=0
+	local remX=0
+	local remZ=0
+	local dX=0
+	local dZ=0
 	
 	if (ExitDirection >= 45) then	
 		if (ExitDirection >= 135) then
@@ -152,7 +152,7 @@ function TakeExitUp(ScriptId, ActorId, ExitPosition, ExitDirection, Environment)
 	
 
 	-- calculate position and rotation actor need to proceed to
-	TranslationPosition = LbaVec3(ExitPosition)
+	local TranslationPosition = LbaVec3(ExitPosition)
 	TranslationPosition.x = TranslationPosition.x + remX
 	TranslationPosition.z = TranslationPosition.z + remZ
 	
@@ -167,10 +167,10 @@ function TakeExitUp(ScriptId, ActorId, ExitPosition, ExitDirection, Environment)
 
 	-- add exit animation
 	Environment:UpdateActorAnimation(ScriptId, ActorId, "Climb")
-	Environment:ActorAnimate(ScriptId, ActorId, true)
+	Environment:ActorAnimate(ScriptId, ActorId, true, 1)
 	
 	-- go up to activate trigger
-	NewPosition = Environment:GetActorPosition(ScriptId, ActorId)
+	local NewPosition = Environment:GetActorPosition(ScriptId, ActorId)
 	NewPosition.x = NewPosition.x - remX
 	NewPosition.y = NewPosition.y + 2.5
 	NewPosition.z = NewPosition.z - remZ
@@ -190,13 +190,13 @@ function TakeExitDown(ScriptId, ActorId, ExitPosition, ExitDirection, Environmen
 	Environment:UpdateActorMode(ScriptId, ActorId, "Normal")
 
 	-- get current position
-	CurrentPosition = Environment:GetActorPosition(ScriptId, ActorId)
+	local CurrentPosition = Environment:GetActorPosition(ScriptId, ActorId)
 	
 	-- calculate offsets depending of ladder direction
-	remX=0
-	remZ=0
-	dX=0
-	dZ=0
+	local remX=0
+	local remZ=0
+	local dX=0
+	local dZ=0
 	
 	if (ExitDirection >= 45) then	
 		if (ExitDirection >= 135) then
@@ -223,7 +223,7 @@ function TakeExitDown(ScriptId, ActorId, ExitPosition, ExitDirection, Environmen
 	
 
 	-- calculate position and rotation actor need to proceed to
-	TranslationPosition = LbaVec3(ExitPosition)
+	local TranslationPosition = LbaVec3(ExitPosition)
 	TranslationPosition.x = TranslationPosition.x + remX
 	TranslationPosition.z = TranslationPosition.z + remZ
 	
@@ -238,27 +238,23 @@ function TakeExitDown(ScriptId, ActorId, ExitPosition, ExitDirection, Environmen
 
 	-- add exit animation
 	Environment:UpdateActorAnimation(ScriptId, ActorId, "Crawl")
-	Environment:ActorAnimate(ScriptId, ActorId, true)
-	Environment:ActorAnimate(ScriptId, ActorId, true)
-	Environment:ActorAnimate(ScriptId, ActorId, true)
-	Environment:ActorAnimate(ScriptId, ActorId, true)	
-	Environment:ActorAnimate(ScriptId, ActorId, true)	
+	Environment:ActorAnimate(ScriptId, ActorId, true, 5)	
 end
 
 
 -- go to player and attack him with contact weapon
 function ActorAttackContactPlayer(ScriptId, ActorId, Environment)
 
-	TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
+	local TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
 	if TargetedPlayer > -1 then
-		weaponrange = Environment:GetNpcWeaponReachDistance(ActorId, 1)
+		local weaponrange = Environment:GetNpcWeaponReachDistance(ActorId, 1)
 	
-		tinrange = Environment:IsTargetInRange(weaponrange, ActorId)
+		local tinrange = Environment:IsTargetInRange(weaponrange, ActorId)
 		if tinrange == false then
 			-- follow player until we reach him
 			Environment:FollowTargettedPlayer(ScriptId, ActorId, weaponrange)
 		else
-			rotationdiff = Environment:GetTargetRotationDiff(ActorId)
+			local rotationdiff = Environment:GetTargetRotationDiff(ActorId)
 			if math.abs(rotationdiff) > 5 then
 				-- rotate to face player
 				Environment:RotateToTargettedPlayer(ScriptId, ActorId, 4.9, 0.2)	
@@ -276,19 +272,19 @@ function ActorFollowAttackDistancePlayer(ScriptId, ActorId, Environment)
 
 	-- if Environment:CanPlayAnimation(1, ActorId, "PrepareWeapon") then
 	--	Environment:UpdateActorAnimation(ActorId, "PrepareWeapon")
-	--	Environment:ActorAnimate(ScriptId, ActorId, true)
+	--	Environment:ActorAnimate(ScriptId, ActorId, true, 1)
 	-- end
 	
-	TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
+	local TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
 	if TargetedPlayer > -1 then
-		weaponrange = Environment:GetNpcWeaponReachDistance(ActorId, 2)
+		local weaponrange = Environment:GetNpcWeaponReachDistance(ActorId, 2)
 	
-		tinrange = Environment:IsTargetInRange(weaponrange, ActorId)
+		local tinrange = Environment:IsTargetInRange(weaponrange, ActorId)
 		if tinrange == false then
 			-- follow player until we reach him
 			Environment:FollowTargettedPlayer(ScriptId, ActorId, weaponrange)
 		else
-			rotationdiff = Environment:GetTargetRotationDiff(ActorId)
+			local rotationdiff = Environment:GetTargetRotationDiff(ActorId)
 			if math.abs(rotationdiff) > 3 then
 				-- rotate to face player
 				Environment:RotateToTargettedPlayer(ScriptId, ActorId, 2.9, 0.2)	
@@ -305,13 +301,13 @@ function ActorRotateAttackDistancePlayer(ScriptId, ActorId, Environment)
 
 	-- if Environment:CanPlayAnimation(1, ActorId, "PrepareWeapon") then
 	--	Environment:UpdateActorAnimation(ScriptId, ActorId, "PrepareWeapon")
-	--	Environment:ActorAnimate(ScriptId, ActorId, true)
+	--	Environment:ActorAnimate(ScriptId, ActorId, true, 1)
 	-- end
 
-	TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
+	local TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
 	if TargetedPlayer > -1 then
 
-		rotationdiff = Environment:GetTargetRotationDiff(ActorId)
+		local rotationdiff = Environment:GetTargetRotationDiff(ActorId)
 		if math.abs(rotationdiff) > 2 then
 			-- rotate to face player
 			Environment:RotateToTargettedPlayer(ScriptId, ActorId, 1.9, 0.2)	
@@ -328,20 +324,20 @@ function ActorRotateAttackDistanceAndContactPlayer(ScriptId, ActorId, Environmen
 
 	-- if Environment:CanPlayAnimation(1, ActorId, "PrepareWeapon") then
 	--	Environment:UpdateActorAnimation(ScriptId, ActorId, "PrepareWeapon")
-	--	Environment:ActorAnimate(ScriptId, ActorId, true)
+	--	Environment:ActorAnimate(ScriptId, ActorId, true, 1)
 	-- end
 
-	TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
+	local TargetedPlayer = Environment:GetTargettedAttackPlayer(ActorId)
 	if TargetedPlayer > -1 then
-		weaponrange1 = Environment:GetNpcWeaponReachDistance(ActorId, 1)
+		local weaponrange1 = Environment:GetNpcWeaponReachDistance(ActorId, 1)
 
-		rotationdiff = Environment:GetTargetRotationDiff(ActorId)
+		local rotationdiff = Environment:GetTargetRotationDiff(ActorId)
 		if math.abs(rotationdiff) > 2 then
 			-- rotate to face player
 			Environment:RotateToTargettedPlayer(ScriptId, ActorId, 1.9, 0.2)	
 		else
 		
-			tinrange = Environment:IsTargetInRange(weaponrange1, ActorId)
+			local tinrange = Environment:IsTargetInRange(weaponrange1, ActorId)
 			if tinrange == true then		
 				-- attack player contact
 				Environment:StartUseWeapon(ScriptId, ActorId, 1)
@@ -357,15 +353,15 @@ end
 function SpawnMecaPinguin(ObjectType, ObjectId, Arguments, Environment)
 
 	-- retrieve player position and calculate pinguin starting position
-	pos = Environment:GetPlayerPosition(ObjectId)
-	PlayerPos = LbaVec3(pos.X, pos.Y, pos.Z)
-	Up = LbaVec3(0, 1, 0)	
-	angleQuat = LbaQuaternion(pos.Rotation, Up)
-	Move = LbaVec3(0, 0, 1)	
-	RotatedMove = angleQuat:GetDirection(Move)
+	local pos = Environment:GetPlayerPosition(ObjectId)
+	local PlayerPos = LbaVec3(pos.X, pos.Y, pos.Z)
+	local Up = LbaVec3(0, 1, 0)	
+	local angleQuat = LbaQuaternion(pos.Rotation, Up)
+	local Move = LbaVec3(0, 0, 1)	
+	local RotatedMove = angleQuat:GetDirection(Move)
 	
 	-- create pinguin actor
-	Actor = ActorObjectInfo(Environment:GenerateDynamicActorId())
+	local Actor = ActorObjectInfo(Environment:GenerateDynamicActorId())
 	Actor:SetRenderType(3)
 	Actor.HitPowerOnTouch = 0
 	Actor.ExcludeFromNavMesh = false
@@ -428,7 +424,7 @@ function SpawnMecaPinguin(ObjectType, ObjectId, Arguments, Environment)
 	Actor.ExtraInfo.NameColorB = 0
 	Actor.ExtraInfo.Display = false
 	Actor.LifeInfo.Display = false
-	ghostId = Environment:AddManagedGhost(ObjectId, Actor, true, true)
+	local ghostId = Environment:AddManagedGhost(ObjectId, Actor, true, true)
 	
 	Environment:ExecuteDelayedAction("KillMecaPinguin", 6000, 0, ghostId, Arguments)
 end
@@ -436,14 +432,14 @@ end
 function KillMecaPinguin(ObjectType, ObjectId, Arguments, Environment)
 
 	-- get pinguin position
-	pos = Environment:GetGhostPPosition(ObjectId)
+	local pos = Environment:GetGhostPPosition(ObjectId)
 	
 	-- delete pinguin actor
 	Environment:RemoveManagedGhost(ObjectId)
 	
 	-- add explosion actor
-	actorID = Environment:GenerateDynamicActorId()
-	Actor = ActorObjectInfo(actorID)
+	local actorID = Environment:GenerateDynamicActorId()
+	local Actor = ActorObjectInfo(actorID)
 	Actor:SetRenderType(9)
 	Actor.HitPowerOnTouch = -1
 	Actor.ExcludeFromNavMesh = false
@@ -502,15 +498,15 @@ function KillMecaPinguin(ObjectType, ObjectId, Arguments, Environment)
 	Actor.ExtraInfo.Display = false
 	Actor.LifeInfo.Display = false
 	Actor.AttachToActorId = -1
-	ActorH = ActorHandler(Actor)
+	local ActorH = ActorHandler(Actor)
 	Environment:AddActorObject(ActorH)
 	
 	-- play explosion sound
 	Environment:PlaySound("Worlds/Lba1Original/Sound/SAMPLES038.wav", true, pos.X, pos.Y, pos.Z)
 	
 	-- perform explosion action
-	zone = LbaSphere(pos.X, pos.Y, pos.Z, 2)
-	action = HurtAction()
+	local zone = LbaSphere(pos.X, pos.Y, pos.Z, 2)
+	local action = HurtAction()
 	action:SetHurtValue(20)
 	action:HurtLifeOrMana(true)
 	action:SetPlayedAnimation(2)
@@ -524,5 +520,5 @@ end
 function RemoveActor(ObjectType, ObjectId, Arguments, Environment)
 
 	-- remove actor
-	pos = Environment:RemoveActor(ObjectId)
+	Environment:RemoveActor(ObjectId)
 end
