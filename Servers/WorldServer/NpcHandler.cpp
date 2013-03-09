@@ -64,14 +64,22 @@ void NPCHandler::ExtraLua(std::ostream & file, const std::string & name)
 	file<<"\t"<<name<<":SetNpcName("<<_npcnametextid<<")"<<std::endl;
 	file<<"\t"<<name<<":SetSimpleDialog("<<(_simpledialog?"true":"false")<<")"<<std::endl;
 
+	file<<"\t"<<name<<":SetLife("<<_lifeinfo.MaxLife<<")"<<std::endl;
+	file<<"\t"<<name<<":SetMana("<<_lifeinfo.MaxMana<<")"<<std::endl;
+	file<<"\t"<<name<<":SetArmor("<<_armor<<")"<<std::endl;
+
+
+	LbaNet::ContainedItemList::iterator iti = _itemsgivenatdeath.begin();
+	LbaNet::ContainedItemList::iterator endi = _itemsgivenatdeath.end();
+	for(; iti != endi; ++iti)
+	{
+		file<<"\t"<<name<<":AddGivenItem("<<iti->Id<<","<<iti->Min<<","<<iti->Max
+			<<","<<iti->Probability<<","<<iti->Group<<")"<<std::endl;
+	}
 
 	if(_aggresive)
 	{
 		file<<"\t"<<name<<":SetAggresive("<<"true"<<")"<<std::endl;
-		file<<"\t"<<name<<":SetLife("<<_lifeinfo.MaxLife<<")"<<std::endl;
-		file<<"\t"<<name<<":SetMana("<<_lifeinfo.MaxMana<<")"<<std::endl;
-		file<<"\t"<<name<<":SetArmor("<<_armor<<")"<<std::endl;
-
 
 		file<<"\t"<<name<<":SetAttackActiDist("<<_attack_activation_distance<<")"<<std::endl;
 		file<<"\t"<<name<<":SetAttackActiDistDiscrete("<<_attack_activation_distance_discrete<<")"<<std::endl;
@@ -148,15 +156,6 @@ void NPCHandler::ExtraLua(std::ostream & file, const std::string & name)
 
 			file<<"\t"<<name<<":SetActionOnAttackActivation("<<aname.str()<<")"<<std::endl;
 		}
-
-		LbaNet::ContainedItemList::iterator iti = _itemsgivenatdeath.begin();
-		LbaNet::ContainedItemList::iterator endi = _itemsgivenatdeath.end();
-		for(; iti != endi; ++iti)
-		{
-			file<<"\t"<<name<<":AddGivenItem("<<iti->Id<<","<<iti->Min<<","<<iti->Max
-				<<","<<iti->Probability<<","<<iti->Group<<")"<<std::endl;
-		}
-
 	}
 }
 
@@ -815,7 +814,7 @@ void NPCHandler::TargetAttackPlayer(Ice::Long PlayerId)
 
 	// get target position
 	if(m_scripthandler)
-		_lasttargetposition = m_scripthandler->GetPlayerPosition(_targetedattackplayer);
+		_lasttargetposition = m_scripthandler->GetPlayerPosition((long)_targetedattackplayer);
 
 
 	// start action before attack

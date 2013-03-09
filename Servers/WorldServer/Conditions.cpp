@@ -357,8 +357,25 @@ bool CheckFlagCondition::Passed(ScriptEnvironmentBase * owner,
 
 
 	if(owner)
-		return (owner->GetDBFlag(clientid, _flagname) == _checkvalue);
-
+	{
+		int flagValue = owner->GetDBFlag(clientid, _flagname);
+		switch(_operator)
+		{
+			case 0:
+				return (flagValue == _checkvalue);
+			case 1:
+				return (flagValue > _checkvalue);
+			case 2:
+				return (flagValue < _checkvalue);
+			case 3:
+				return (flagValue >= _checkvalue);
+			case 4:
+				return (flagValue <= _checkvalue);
+			case 5:
+				return (flagValue != _checkvalue);
+		}
+	}
+		
 	return false;
 }
 	
@@ -372,4 +389,5 @@ void CheckFlagCondition::SaveToLuaFile(std::ostream & file, const std::string & 
 	if(_flagname != "")
 		file<<"\t"<<conditionname<<":SetFlagName(\""<<_flagname <<"\")"<<std::endl;
 	file<<"\t"<<conditionname<<":SetValue("<<_checkvalue <<")"<<std::endl;
+	file<<"\t"<<conditionname<<":SetOperator("<<_operator <<")"<<std::endl;
 }

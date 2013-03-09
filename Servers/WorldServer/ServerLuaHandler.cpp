@@ -147,7 +147,9 @@ ServerLuaHandler::ServerLuaHandler()
 		.def("GetValue", &CheckFlagCondition::GetValue)
 		.def("SetValue", &CheckFlagCondition::SetValue)
 		.def("GetFlagName", &CheckFlagCondition::GetFlagName)
-		.def("SetFlagName", &CheckFlagCondition::SetFlagName),
+		.def("SetFlagName", &CheckFlagCondition::SetFlagName)
+		.def("GetOperator", &CheckFlagCondition::GetOperator)
+		.def("SetOperator", &CheckFlagCondition::SetOperator),
 
 
 		luabind::class_<ContainerItemGroupElement>("ContainerItemGroupElement")

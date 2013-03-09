@@ -213,11 +213,11 @@ public:
 	{_cond2 = cond2;}
 
 	// accessor
-	ConditionBasePtr GetCondition1()
+	ConditionBasePtr& GetCondition1()
 	{ return _cond1;}
 
 	// accessor
-	ConditionBasePtr GetCondition2()
+	ConditionBasePtr& GetCondition2()
 	{ return _cond2;}
 
 	//! get type of the action in string form
@@ -454,7 +454,7 @@ class CheckFlagCondition : public ConditionBase
 public:
 	//! constructor
 	CheckFlagCondition()
-		: _checkvalue(1)
+		: _checkvalue(1), _operator(0)
 	{}
 
 	//! check if the condition is true or not
@@ -484,9 +484,20 @@ public:
 	{ _flagname = v;}
 
 
+	// acessor
+	//== 0, >  1, <  2, >= 3, <= 4, != 5
+	int GetOperator()
+	{ return _operator;}
+
+	// acessor
+	//== 0, >  1, <  2, >= 3, <= 4, != 5
+	void SetOperator(int v)
+	{ _operator = v;}
+
 private:
 	std::string		_flagname;
 	int				_checkvalue;
+	int				_operator;
 };
 
 #endif
