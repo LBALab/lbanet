@@ -1,0 +1,7 @@
+Debug
+Release
+ipch
+*.dll
+*.HQR
+lba1_model_animation.csv
+*.txt

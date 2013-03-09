@@ -1,0 +1,7 @@
+3rd_party
+infrastructure/cpp
+infrastructure/slice/*.php
+build
+*.opensdf
+*.sdf
+*.vcxproj.user

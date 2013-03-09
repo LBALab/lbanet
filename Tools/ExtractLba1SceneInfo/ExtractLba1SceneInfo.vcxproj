@@ -42,7 +42,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>D:\Programmation\LBAProject\prequengine\src;..\..\shared\;..\..\infrastructure\include;..\..\Servers\WorldServer\;D:/Programmation/LBAProject/LBANet_Project/neolbanet/3rd_party/msvc2010/x86/Boost/include;D:/Programmation/LBAProject/LBANet_Project/neolbanet/3rd_party/msvc2010/x86/Ice/include;D:/Programmation/LBAProject/LBANet_Project/neolbanet/infrastructure/include;D:/Programmation/LBAProject/LBANet_Project/neolbanet/3rd_party/msvc2010/x86/recast/Recast/Include;D:/Programmation/LBAProject/LBANet_Project/neolbanet/3rd_party/msvc2010/x86/recast/Detour/Include;D:/Programmation/LBAProject/LBANet_Project/neolbanet/3rd_party/msvc2010/x86/recast/DetourCrowd/Include;D:/Programmation/LBAProject/LBANet_Project/neolbanet/3rd_party/msvc2010/x86/lua/include;D:/Programmation/LBAProject/LBANet_Project/neolbanet/3rd_party/msvc2010/x86/luabind/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Programmation\LBAProject\prequengine\src;..\..\shared\;..\..\infrastructure\include;..\..\Servers\WorldServer\;../../3rd_party/msvc2010/x86/Boost/include;../../3rd_party/msvc2010/x86/Ice/include;../../infrastructure/include;../..//3rd_party/msvc2010/x86/recast/Recast/Include;../..//3rd_party/msvc2010/x86/recast/Detour/Include;../..//3rd_party/msvc2010/x86/recast/DetourCrowd/Include;../..//3rd_party/msvc2010/x86/lua/include;../..//3rd_party/msvc2010/x86/luabind/include</AdditionalIncludeDirectories>
       <AdditionalOptions>/D _LBANET_SERVER_SIDE_  /D LUABIND_DYNAMIC_LINK  /D EXTRACT_INFO %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
