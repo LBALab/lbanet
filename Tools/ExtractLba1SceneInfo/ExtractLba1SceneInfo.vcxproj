@@ -67,10 +67,13 @@
   <ItemGroup>
     <ClCompile Include="..\..\Servers\WorldServer\Actions.cpp" />
     <ClCompile Include="..\..\Servers\WorldServer\ActorHandler.cpp" />
+    <ClCompile Include="..\..\Servers\WorldServer\Conditions.cpp" />
+    <ClCompile Include="..\..\Servers\WorldServer\DialogPart.cpp" />
     <ClCompile Include="..\..\Servers\WorldServer\InventoryItemHandler.cpp" />
     <ClCompile Include="..\..\Servers\WorldServer\LuaHandlerBase.cpp" />
     <ClCompile Include="..\..\Servers\WorldServer\LuaThreadHandler.cpp" />
     <ClCompile Include="..\..\Servers\WorldServer\NavMeshObjectHandlers.cpp" />
+    <ClCompile Include="..\..\Servers\WorldServer\NpcHandler.cpp" />
     <ClCompile Include="..\..\Servers\WorldServer\ObjectsDescription.cpp" />
     <ClCompile Include="..\..\Servers\WorldServer\PointFlag.cpp" />
     <ClCompile Include="..\..\Servers\WorldServer\ProjectileObjectDef.cpp" />
@@ -81,6 +84,7 @@
     <ClCompile Include="..\..\Servers\WorldServer\Triggers.cpp" />
     <ClCompile Include="..\..\shared\ActorUserData.cpp" />
     <ClCompile Include="..\..\shared\CatmulSplineHandler.cpp" />
+    <ClCompile Include="..\..\shared\CharacterStates.cpp" />
     <ClCompile Include="..\..\shared\ClientScript.cpp" />
     <ClCompile Include="..\..\shared\CommonTypes.cpp" />
     <ClCompile Include="..\..\shared\DataDirHandler.cpp" />

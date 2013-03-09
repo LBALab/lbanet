@@ -10,6 +10,7 @@ extern "C" {
 #include "PointFlag.h"
 #include "Triggers.h"
 #include "Actions.h"
+#include "NpcHandler.h"
 
 #include <map>
 #include <string>
@@ -42,6 +43,50 @@ float roundNB5( float f )
 {   
 	return floor((f * 5 ) + 0.5f) / 5;
 }
+
+/** Script condition operators */
+enum LifeScriptOperators {
+	/*==*/ kEqualTo = 0,
+	/*> */ kGreaterThan = 1,
+	/*< */ kLessThan = 2,
+	/*>=*/ kGreaterThanOrEqualTo = 3,
+	/*<=*/ kLessThanOrEqualTo = 4,
+	/*!=*/ kNotEqualTo = 5
+};
+
+/** Script condition command opcodes */
+enum LifeScriptConditions {
+	/*0x00*/ kcCOL = 0,
+	/*0x01*/ kcCOL_OBJ = 1,
+	/*0x02*/ kcDISTANCE = 2,
+	/*0x03*/ kcZONE = 3,
+	/*0x04*/ kcZONE_OBJ = 4,
+	/*0x05*/ kcBODY = 5,
+	/*0x06*/ kcBODY_OBJ = 6,
+	/*0x07*/ kcANIM = 7,
+	/*0x08*/ kcANIM_OBJ = 8,
+	/*0x09*/ kcL_TRACK = 9,
+	/*0x0A*/ kcL_TRACK_OBJ = 10,
+	/*0x0B*/ kcFLAG_CUBE = 11,
+	/*0x0C*/ kcCONE_VIEW = 12,
+	/*0x0D*/ kcHIT_BY = 13,
+	/*0x0E*/ kcACTION = 14,
+	/*0x0F*/ kcFLAG_GAME = 15,
+	/*0x10*/ kcLIFE_POINT = 16,
+	/*0x11*/ kcLIFE_POINT_OBJ = 17,
+	/*0x12*/ kcNUM_LITTLE_KEYS = 18,
+	/*0x13*/ kcNUM_GOLD_PIECES = 19,
+	/*0x14*/ kcBEHAVIOUR = 20,
+	/*0x15*/ kcCHAPTER = 21,
+	/*0x16*/ kcDISTANCE_3D = 22,
+	/*0x17 - 23 unused */
+	/*0x18 - 24 unused */
+	/*0x19*/ kcUSE_INVENTORY = 25,
+	/*0x1A*/ kcCHOICE= 26,
+	/*0x1B*/ kcFUEL = 27,
+	/*0x1C*/ kcCARRIED_BY = 28,
+	/*0x1D*/ kcCDROM = 29
+};
 
 struct ModelInfo
 {
@@ -162,8 +207,25 @@ int findAnimIndex(entitiesTableStruct* entityS, int entity, int anim)
 	return -1;
 }
 
+
+int32 getTextIndex(int32 originalIndex, const std::vector<int>& offsetText, std::map<int, std::vector<int> >& missingTextsIdx)
+{
+	int remOffset = 0;
+	for (size_t ll=0; ll < missingTextsIdx[sceneTextBank].size(); ++ll)
+	{
+		if (originalIndex >= missingTextsIdx[sceneTextBank][ll])
+			++remOffset;
+	}
+	originalIndex -= remOffset;
+
+	return offsetText[sceneTextBank]+originalIndex;
+}
+
+
 void extractInfo()
 {
+	std::ofstream diafile("checkdialog.txt");
+
 	std::vector<int> offsetText;
 	offsetText.push_back(170);
 	offsetText.push_back(361);
@@ -290,6 +352,7 @@ void extractInfo()
 	std::map<int, std::vector<boost::shared_ptr<TriggerBase> > > triggers;
 	for (int j = 0; j < nbScenes; j++)
 	{
+		diafile << std::endl << std::endl;
 		needChangeScene = j;
 		changeScene();
 
@@ -325,7 +388,186 @@ void extractInfo()
 				triggers[j].push_back(tri);
 			}
 		}
+
+		// try to life script for dialog
+		{
+			uint8 *scriptPtr = sceneActors[0].lifeScript;
+			short opCode = (short)*scriptPtr++;
+
+			// try to find SWIF ACTION = 1
+			bool found = false;
+			while(opCode != 0) // until script end
+			{
+				if (opCode == 0x0D)//"SWIF"
+				{
+					int32 conditionOpcode = *(scriptPtr++);
+					if (conditionOpcode == kcACTION)
+					{
+						int32 operatorCode = *(scriptPtr++);
+						if (operatorCode == kEqualTo)
+						{
+							int32 conditionValue = *(scriptPtr++);
+							if (conditionValue == 1)
+							{
+								found = true;
+								break; // yeah we found it!
+							}
+						}
+					}
+				}
+				opCode = (short)*scriptPtr++;
+			}	
+
+			if (found)
+			{
+				// now go over all actors the hero can talk to
+				opCode = (short)*scriptPtr++;
+				while(opCode != 0x10) // ENDIF
+				{
+					if (opCode == 0x0C)//"IF"
+					{
+						int32 conditionOpcode = *(scriptPtr++);
+						if (conditionOpcode == kcDISTANCE)
+						{
+							int32 actorIdx = *(scriptPtr++);
+							int32 operatorCode = *(scriptPtr++);
+							if (operatorCode == kLessThan)
+							{
+								int32 conditionValue = *((int16 *)scriptPtr);
+								scriptPtr += 2;
+								
+								DialogPartPtr dialogRoot = boost::make_shared<DialogPart>();
+								ConditionBasePtr condRoot;
+								ConditionBasePtr* condRef = &condRoot;
+								while(opCode != 0x10) // ENDIF
+								{
+									if (opCode == 0x37) // OR_IF
+									{
+										conditionOpcode = *(scriptPtr++);
+										if (conditionOpcode == kcCHAPTER)
+										{
+											int32 operatorCode = *(scriptPtr++);
+											int32 expectedChapter = *(scriptPtr++);
+
+											OrCondition* orCond = new OrCondition();
+											CheckFlagCondition* flagCond = new CheckFlagCondition();
+											flagCond->SetFlagName("Chapter");
+											flagCond->SetValue(expectedChapter);
+											flagCond->SetOperator(operatorCode);
+											orCond->SetCondition1(ConditionBasePtr(flagCond));
+											*condRef = ConditionBasePtr(orCond);
+											condRef = &(orCond->GetCondition2());
+										}
+										else
+										{
+
+											diafile << "scene " << j << " script line " << (scriptPtr-sceneActors[0].lifeScript) << " - conditionOpcode not expected - should be OR_IF CHAPTER == value: " << conditionOpcode << std::endl;
+										}
+									}
+									else if (opCode == 0x0C)//"IF"
+									{
+										conditionOpcode = *(scriptPtr++);
+										if (conditionOpcode == kcCHAPTER)
+										{
+											int32 operatorCode = *(scriptPtr++);
+											int32 expectedChapter = *(scriptPtr++);
+
+											CheckFlagCondition* flagCond = new CheckFlagCondition();
+											flagCond->SetFlagName("Chapter");
+											flagCond->SetValue(expectedChapter);
+											flagCond->SetOperator(operatorCode);
+											*condRef = ConditionBasePtr(flagCond);
+
+											// get what is inside the if
+											opCode = (short)*scriptPtr++;
+											if (opCode == 0x19)//"MESSAGE"
+											{
+												int32 textIdx = *((int16 *)scriptPtr);
+												scriptPtr += 2;
+												textIdx = getTextIndex(textIdx, offsetText, missingTextsIdx);
+
+												DialogPartPtr startDial = boost::make_shared<DialogPart>();
+												startDial->SetText(textIdx);
+												startDial->Setcondition(condRoot);
+												dialogRoot->AddChild(startDial);
+
+
+												opCode = (short)*scriptPtr++;
+												if(opCode != 0x10) // ENDIF
+												{
+													diafile << "scene " << j << " script line " << (scriptPtr-sceneActors[0].lifeScript) << " - opCode not expected after IF CHAPTER - should be ENDIF: " << opCode << std::endl;
+												}
+											}
+											else
+											{
+												diafile << "scene " << j << " script line " << (scriptPtr-sceneActors[0].lifeScript) << " - opCode not expected after IF CHAPTER - should be MESSAGE value: " << opCode << std::endl;
+											}
+										}
+										else if (conditionOpcode == kcLIFE_POINT_OBJ)
+										{
+											int32 actorIdx = *(scriptPtr++);
+											int32 operatorCode = *(scriptPtr++);
+											int32 expectedValue = *(scriptPtr++);
+
+											opCode = (short)*scriptPtr++;
+											if (opCode == 0x22) // SET_COMPORTEMENT_OBJ
+											{
+												int32 otherActorIdx = *(scriptPtr++);
+												int16 newPosInScript = *((int16 *)scriptPtr);
+												scriptPtr += 2;
+											}
+											else
+											{
+												diafile << "scene " << j << " script line " << (scriptPtr-sceneActors[0].lifeScript) << " - opCode not expected after IF LIFE_POINT_OBJ - should be SET_COMPORTEMENT_OBJ: " << opCode <<std::endl;
+											}
+
+											opCode = (short)*scriptPtr++;
+											if(opCode != 0x10) // ENDIF
+											{
+												diafile << "scene " << j << " script line " << (scriptPtr-sceneActors[0].lifeScript) << " - opCode not expected after IF LIFE_POINT_OBJ - should be ENDIF: " << opCode << std::endl;
+											}
+										}
+										else
+										{
+											diafile << "scene " << j << " script line " << (scriptPtr-sceneActors[0].lifeScript) << " - conditionOpcode not expected - should be IF CHAPTER == value: " << conditionOpcode << std::endl;
+										}
+									}
+									else if (opCode == 0x22) // SET_COMPORTEMENT_OBJ
+									{
+										int32 otherActorIdx = *(scriptPtr++);
+										int16 newPosInScript = *((int16 *)scriptPtr);
+										scriptPtr += 2;
+									}
+									else
+									{
+										diafile << "scene " << j << " script line " << (scriptPtr-sceneActors[0].lifeScript) << " - operatorCode not expected: " << opCode << std::endl;
+									}
+
+									opCode = (short)*scriptPtr++;
+								}
+							}
+							else
+							{
+								diafile << "scene " << j << " script line " << (scriptPtr-sceneActors[0].lifeScript) << " - operatorCode not expected - should be IF DISTANCE ActorID < value" << std::endl;
+							}
+						}
+						else
+						{
+							diafile << "scene " << j << " script line " << (scriptPtr-sceneActors[0].lifeScript) << " - conditionOpcode not expected - should be IF DISTANCE ActorID < value" << std::endl;
+						}
+					}
+					else
+					{
+						diafile << "scene " << j << " script line " << (scriptPtr-sceneActors[0].lifeScript) << " - opCode not expected - should be IF DISTANCE ActorID < value" << std::endl;
+					}
+					opCode = (short)*scriptPtr++;
+				}
+			}
+		}
 	}
+
+
+
 
 	for (int j = 0; j < nbScenes; j++)
 	{
@@ -462,14 +704,8 @@ void extractInfo()
 				case kText:
 				{
 					// move index along missing text entries
-					int txtIdx = zone->infoData.DisplayText.textIdx;
-					int remOffset = 0;
-					for (size_t ll=0; ll < missingTextsIdx[sceneTextBank].size(); ++ll)
-					{
-						if (txtIdx >= missingTextsIdx[sceneTextBank][ll])
-							++remOffset;
-					}
-					txtIdx -= remOffset;
+					int32 txtIdx = zone->infoData.DisplayText.textIdx;
+					txtIdx = getTextIndex(txtIdx, offsetText, missingTextsIdx);
 
 					TriggerInfo tinfo(i, "text" + boost::lexical_cast<std::string>(i), true, false, false);
 					boost::shared_ptr<ActivationTrigger> tri = boost::make_shared<ActivationTrigger>(tinfo, 2.0f, "Normal", "");
@@ -478,7 +714,7 @@ void extractInfo()
 						roundNB((zone->bottomLeft.Z / 512.f) + zoneSZ/2 + 0.5f));	
 					tri->SetPlayAnimation(false);
 					boost::shared_ptr<DisplayTextAction> act = boost::make_shared<DisplayTextAction>();
-					act->SetTextId(offsetText[sceneTextBank]+txtIdx);
+					act->SetTextId(txtIdx);
 					tri->SetAction1(act);
 					triggers[j].push_back(tri);
 				}
@@ -611,6 +847,16 @@ void extractInfo()
 					ai.DisplayDesc.MatEmissionColorA = 1;
 					ai.DisplayDesc.MatShininess = 0;
 					ai.DisplayDesc.CastShadow = true;
+
+					NPCHandler ah(ai);
+					ah.setAppearDisapear(!diseapear);
+					ah.SetAggresive(false);
+					ah.SetLife((float)(sceneActors[i].life));
+					ah.SetArmor((float)(sceneActors[i].armor));
+					ah.SetSimpleDialog(true);
+
+					ah.SetMovementStartScript("RunMovementScript");
+					ah.SaveToLuaFile(fileActor);
 				}
 				else
 				{
@@ -620,13 +866,14 @@ void extractInfo()
 					strname << "Worlds/Lba1Original/Sprites/sprite" << std::setw(3) << std::setfill('0') << sceneActors[i].sprite << ".osgb";
 					ai.DisplayDesc.ModelName = strname.str();
 					ai.DisplayDesc.CastShadow = false;
+
+					ActorHandler ah(ai);
+					ah.setAppearDisapear(!diseapear);
+
+					ah.SetMovementStartScript("RunMovementScript");
+					ah.SaveToLuaFile(fileActor);
 				}
 
-				ActorHandler ah(ai);
-				ah.setAppearDisapear(!diseapear);
-
-				ah.SetMovementStartScript("RunMovementScript");
-				ah.SaveToLuaFile(fileActor);
 			}
 
 			// save script
