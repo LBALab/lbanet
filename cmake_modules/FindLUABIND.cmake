@@ -13,7 +13,7 @@ find_path(LUABIND_INCLUDE_DIR luabind/version.hpp
 find_library(LUABIND_CORE_LIBRARY_RELEASE NAMES luabind
              HINTS ${LUABIND_LIBDIR} ${LUABIND_LIBRARY_DIRS}
              PATHS $ENV{CEGUI_HOME}/lib
-		${3RD_PARTY_PATH}/luabind/lib
+		${3RD_PARTY_PATH}/luabind/lib/${COMPILER_NAME}/${PLATFORM_TYPE}
 		/usr/lib
 		/usr/local/lib)
               
@@ -21,7 +21,7 @@ find_library(LUABIND_CORE_LIBRARY_RELEASE NAMES luabind
 find_library(LUABIND_CORE_LIBRARY_DEBUG NAMES luabindd
              HINTS ${LUABIND_LIBDIR} ${LUABIND_LIBRARY_DIRS}
              PATHS $ENV{LUA_HOME}/include
-		${3RD_PARTY_PATH}/luabind/lib
+		${3RD_PARTY_PATH}/luabind/lib/${COMPILER_NAME}/${PLATFORM_TYPE}
 		/usr/lib
 		/usr/local/lib)         
           

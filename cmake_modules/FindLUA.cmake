@@ -13,7 +13,7 @@ find_path(LUA_INCLUDE_DIR lua.h
 find_library(LUA_CORE_LIBRARY_RELEASE NAMES lua51 lua5.1
              HINTS ${LUA_LIBDIR} ${LUA_LIBRARY_DIRS}
              PATHS $ENV{LUA_HOME}/lib
-		${3RD_PARTY_PATH}/LUA/lib
+		${3RD_PARTY_PATH}/LUA/lib/${COMPILER_NAME}/${PLATFORM_TYPE}
 		/usr/lib
 		/usr/local/lib
 		/usr/lib/i386-linux-gnu)
@@ -22,7 +22,7 @@ find_library(LUA_CORE_LIBRARY_RELEASE NAMES lua51 lua5.1
 find_library(LUA_CORE_LIBRARY_DEBUG NAMES lua51d lua5.1d
              HINTS ${LUA_LIBDIR} ${LUA_LIBRARY_DIRS}
              PATHS $ENV{LUA_HOME}/include
-		${3RD_PARTY_PATH}/LUA/lib
+		${3RD_PARTY_PATH}/LUA/lib/${COMPILER_NAME}/${PLATFORM_TYPE}
 		/usr/lib
 		/usr/local/lib
 		/usr/lib/i386-linux-gnu)         

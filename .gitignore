@@ -1,7 +1,11 @@
 3rd_party
+3rd_party_build
 infrastructure/cpp
 infrastructure/slice/*.php
 build
 *.opensdf
 *.sdf
 *.vcxproj.user
+*suo
+Data/Worlds
+Data/GUI/imagesets/charportrait.png

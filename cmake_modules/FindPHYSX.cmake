@@ -10,25 +10,25 @@ find_path(PHYSX_INCLUDE_DIR Foundation/include/NxFoundation.h
 
 find_library(PHYSX_CORE_LIBRARY NAMES PhysXCore
              HINTS ${PHYSX_LIBDIR} ${PHYSX_LIBRARY_DIRS}
-             ${3RD_PARTY_PATH}/PhysX/lib
+             ${3RD_PARTY_PATH}/PhysX/lib/${COMPILER_NAME}/${PLATFORM_TYPE}
 	    /usr/lib/PhysX/v2.8.3
 	    /usr/local/lib/PhysX/v2.8.3)
 
  find_library(PHYSX_COOKING_LIBRARY NAMES PhysXCooking NxCooking
              HINTS ${PHYSX_LIBDIR} ${PHYSX_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/PhysX/lib
+             PATHS ${3RD_PARTY_PATH}/PhysX/lib/${COMPILER_NAME}/${PLATFORM_TYPE}
 	    /usr/lib/PhysX/v2.8.3
 	    /usr/local/lib/PhysX/v2.8.3)
 
  find_library(PHYSX_LOADER_LIBRARY NAMES PhysXLoader
              HINTS ${PHYSX_LIBDIR} ${PHYSX_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/PhysX/lib
+             PATHS ${3RD_PARTY_PATH}/PhysX/lib/${COMPILER_NAME}/${PLATFORM_TYPE}
 	    /usr/lib/PhysX/v2.8.3
 	    /usr/local/lib/PhysX/v2.8.3)
 	    
  find_library(PHYSX_CHARACTER_LIBRARY NAMES NxCharacter
              HINTS ${PHYSX_LIBDIR} ${PHYSX_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/PhysX/lib
+             PATHS ${3RD_PARTY_PATH}/PhysX/lib/${COMPILER_NAME}/${PLATFORM_TYPE}
 	    /usr/lib/PhysX/v2.8.3
 	    /usr/local/lib/PhysX/v2.8.3)
 	    

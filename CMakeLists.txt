@@ -1,6 +1,34 @@
 cmake_minimum_required (VERSION 2.8)
 project (LBANetClient)
 
+
+# are we in a 64bit system?
+IF(${CMAKE_SIZEOF_VOID_P} EQUAL 4)
+	SET( PLATFORM_TYPE "x86" CACHE STRING "architecture")
+ELSE()
+	SET( PLATFORM_TYPE "x64" CACHE STRING "architecture")
+ENDIF()
+
+# What's our compiler
+IF(MSVC)
+	IF(MSVC80)
+		SET(COMPILER_NAME "vc80" CACHE STRING "Compiler name")
+	ENDIF()
+	IF(MSVC90)
+		SET(COMPILER_NAME "vc90" CACHE STRING "Compiler name")
+	ENDIF()
+	IF(MSVC10)
+		SET(COMPILER_NAME "vc100" CACHE STRING "Compiler name")
+	ENDIF()
+	IF(NOT COMPILER_NAME)
+		MESSAGE(FATAL " TOOLSET NOT SUPPORTED! Please use either vc80 or vc90 or vc10")
+	ENDIF()
+ELSE()
+	SET(COMPILER_NAME "gcc" CACHE STRING "Compiler name")
+ENDIF(MSVC)
+
+
+
 IF(MSVC)
     SET(CMAKE_CXX_FLAGS_DEBUG "/D_DEBUG /MDd /Zi /Ob0 /Od /RTC1 /DLUABIND_DYNAMIC_LINK /D_CRT_SECURE_NO_WARNINGS /MP" CACHE STRING
         "Flags used by the compiler during debug builds." FORCE)
@@ -23,12 +51,14 @@ set (Tutorial_VERSION_MINOR 18)
 set(EXECUTABLE_OUTPUT_PATH bin/${CMAKE_BUILD_TYPE})
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake_modules/")
 
-SET(3RD_PARTY_PATH "./3rd_party" CACHE PATH "3rd party directory")
+SET(3RD_PARTY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/3rd_party" CACHE PATH "3rd party directory")
 
 #BOOST stuff
 SET(Boost_USE_STATIC_LIBS ON)
 SET(Boost_USE_MULTITHREADED ON)
 find_path(BOOST_ROOT include/boost/foreach.hpp PATHS ${3RD_PARTY_PATH}/Boost)
+SET(BOOST_LIBRARYDIR ${BOOST_ROOT}/lib/${COMPILER_NAME}/${PLATFORM_TYPE})
+
 INCLUDE(FindBoost)
 FIND_PACKAGE(Boost 1.43.0 COMPONENTS thread date_time filesystem system chrono REQUIRED)
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})

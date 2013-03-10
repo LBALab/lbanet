@@ -9,100 +9,100 @@ find_path(OSG_INCLUDE_DIR osg/Node
           
 find_library(OSG_CORE_LIBRARY_RELEASE NAMES osg
              HINTS ${OSG_LIBDIR} ${OSG_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/OSG/lib dependencies/OpenSceneGraph/lib )
+             PATHS ${3RD_PARTY_PATH}/OSG/lib/${COMPILER_NAME}/${PLATFORM_TYPE} dependencies/OpenSceneGraph/lib )
  
 find_library(OSG_UTIL_LIBRARY_RELEASE NAMES osgUtil
              HINTS ${OSG_LIBDIR} ${OSG_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/OSG/lib dependencies/OpenSceneGraph/lib ) 
+             PATHS ${3RD_PARTY_PATH}/OSG/lib/${COMPILER_NAME}/${PLATFORM_TYPE} dependencies/OpenSceneGraph/lib ) 
  
 find_library(OSG_GA_LIBRARY_RELEASE NAMES osgGA
              HINTS ${OSG_LIBDIR} ${OSG_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/OSG/lib dependencies/OpenSceneGraph/lib )
+             PATHS ${3RD_PARTY_PATH}/OSG/lib/${COMPILER_NAME}/${PLATFORM_TYPE} dependencies/OpenSceneGraph/lib )
   
 find_library(OSG_VIEWER_LIBRARY_RELEASE NAMES osgViewer
              HINTS ${OSG_LIBDIR} ${OSG_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/OSG/lib dependencies/OpenSceneGraph/lib )      
+             PATHS ${3RD_PARTY_PATH}/OSG/lib/${COMPILER_NAME}/${PLATFORM_TYPE} dependencies/OpenSceneGraph/lib )      
    
 find_library(OSG_DB_LIBRARY_RELEASE NAMES osgDB
              HINTS ${OSG_LIBDIR} ${OSG_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/OSG/lib dependencies/OpenSceneGraph/lib )  
+             PATHS ${3RD_PARTY_PATH}/OSG/lib/${COMPILER_NAME}/${PLATFORM_TYPE} dependencies/OpenSceneGraph/lib )  
    
 find_library(OSG_TEXT_LIBRARY_RELEASE NAMES osgText
              HINTS ${OSG_LIBDIR} ${OSG_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/OSG/lib dependencies/OpenSceneGraph/lib )             
+             PATHS ${3RD_PARTY_PATH}/OSG/lib/${COMPILER_NAME}/${PLATFORM_TYPE} dependencies/OpenSceneGraph/lib )             
    
 find_library(OSG_SHADOW_LIBRARY_RELEASE NAMES osgShadow
              HINTS ${OSG_LIBDIR} ${OSG_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/OSG/lib dependencies/OpenSceneGraph/lib )             
+             PATHS ${3RD_PARTY_PATH}/OSG/lib/${COMPILER_NAME}/${PLATFORM_TYPE} dependencies/OpenSceneGraph/lib )             
    
 find_library(OSG_PARTICLE_LIBRARY_RELEASE NAMES osgParticle
              HINTS ${OSG_LIBDIR} ${OSG_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/OSG/lib dependencies/OpenSceneGraph/lib )             
+             PATHS ${3RD_PARTY_PATH}/OSG/lib/${COMPILER_NAME}/${PLATFORM_TYPE} dependencies/OpenSceneGraph/lib )             
    
 find_library(OSG_MANIPULATOR_LIBRARY_RELEASE NAMES osgManipulator
              HINTS ${OSG_LIBDIR} ${OSG_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/OSG/lib dependencies/OpenSceneGraph/lib )      
+             PATHS ${3RD_PARTY_PATH}/OSG/lib/${COMPILER_NAME}/${PLATFORM_TYPE} dependencies/OpenSceneGraph/lib )      
              
 find_library(OSG_QT_LIBRARY_RELEASE NAMES osgQt
              HINTS ${OSG_LIBDIR} ${OSG_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/OSG/lib dependencies/OpenSceneGraph/lib )                
+             PATHS ${3RD_PARTY_PATH}/OSG/lib/${COMPILER_NAME}/${PLATFORM_TYPE} dependencies/OpenSceneGraph/lib )                
     
 find_library(OSG_AUDIO_LIBRARY_RELEASE NAMES osgAudio
              HINTS ${OSG_LIBDIR} ${OSG_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/OSG/lib dependencies/OpenSceneGraph/lib )             
+             PATHS ${3RD_PARTY_PATH}/OSG/lib/${COMPILER_NAME}/${PLATFORM_TYPE} dependencies/OpenSceneGraph/lib )             
     
 find_library(OSG_OPENTHREAD_LIBRARY_RELEASE NAMES OpenThreads
              HINTS ${OSG_LIBDIR} ${OSG_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/OSG/lib dependencies/OpenSceneGraph/lib )         
+             PATHS ${3RD_PARTY_PATH}/OSG/lib/${COMPILER_NAME}/${PLATFORM_TYPE} dependencies/OpenSceneGraph/lib )         
 
              
 find_library(OSG_CORE_LIBRARY_DEBUG NAMES osgd
              HINTS ${OSG_LIBDIR} ${OSG_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/OSG/lib dependencies/OpenSceneGraph/lib )
+             PATHS ${3RD_PARTY_PATH}/OSG/lib/${COMPILER_NAME}/${PLATFORM_TYPE} dependencies/OpenSceneGraph/lib )
  
 find_library(OSG_UTIL_LIBRARY_DEBUG NAMES osgUtild
              HINTS ${OSG_LIBDIR} ${OSG_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/OSG/lib dependencies/OpenSceneGraph/lib ) 
+             PATHS ${3RD_PARTY_PATH}/OSG/lib/${COMPILER_NAME}/${PLATFORM_TYPE} dependencies/OpenSceneGraph/lib ) 
  
 find_library(OSG_GA_LIBRARY_DEBUG NAMES osgGAd
              HINTS ${OSG_LIBDIR} ${OSG_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/OSG/lib dependencies/OpenSceneGraph/lib )
+             PATHS ${3RD_PARTY_PATH}/OSG/lib/${COMPILER_NAME}/${PLATFORM_TYPE} dependencies/OpenSceneGraph/lib )
   
 find_library(OSG_VIEWER_LIBRARY_DEBUG NAMES osgViewerd
              HINTS ${OSG_LIBDIR} ${OSG_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/OSG/lib dependencies/OpenSceneGraph/lib )      
+             PATHS ${3RD_PARTY_PATH}/OSG/lib/${COMPILER_NAME}/${PLATFORM_TYPE} dependencies/OpenSceneGraph/lib )      
    
 find_library(OSG_DB_LIBRARY_DEBUG NAMES osgDBd
              HINTS ${OSG_LIBDIR} ${OSG_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/OSG/lib dependencies/OpenSceneGraph/lib )  
+             PATHS ${3RD_PARTY_PATH}/OSG/lib/${COMPILER_NAME}/${PLATFORM_TYPE} dependencies/OpenSceneGraph/lib )  
    
 find_library(OSG_TEXT_LIBRARY_DEBUG NAMES osgTextd
              HINTS ${OSG_LIBDIR} ${OSG_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/OSG/lib dependencies/OpenSceneGraph/lib )             
+             PATHS ${3RD_PARTY_PATH}/OSG/lib/${COMPILER_NAME}/${PLATFORM_TYPE} dependencies/OpenSceneGraph/lib )             
    
 find_library(OSG_SHADOW_LIBRARY_DEBUG NAMES osgShadowd
              HINTS ${OSG_LIBDIR} ${OSG_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/OSG/lib dependencies/OpenSceneGraph/lib )             
+             PATHS ${3RD_PARTY_PATH}/OSG/lib/${COMPILER_NAME}/${PLATFORM_TYPE} dependencies/OpenSceneGraph/lib )             
    
 find_library(OSG_PARTICLE_LIBRARY_DEBUG NAMES osgParticled
              HINTS ${OSG_LIBDIR} ${OSG_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/OSG/lib dependencies/OpenSceneGraph/lib )             
+             PATHS ${3RD_PARTY_PATH}/OSG/lib/${COMPILER_NAME}/${PLATFORM_TYPE} dependencies/OpenSceneGraph/lib )             
    
 find_library(OSG_MANIPULATOR_LIBRARY_DEBUG NAMES osgManipulatord
              HINTS ${OSG_LIBDIR} ${OSG_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/OSG/lib dependencies/OpenSceneGraph/lib )              
+             PATHS ${3RD_PARTY_PATH}/OSG/lib/${COMPILER_NAME}/${PLATFORM_TYPE} dependencies/OpenSceneGraph/lib )              
      
 find_library(OSG_QT_LIBRARY_DEBUG NAMES osgQtd
              HINTS ${OSG_LIBDIR} ${OSG_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/OSG/lib dependencies/OpenSceneGraph/lib ) 
+             PATHS ${3RD_PARTY_PATH}/OSG/lib/${COMPILER_NAME}/${PLATFORM_TYPE} dependencies/OpenSceneGraph/lib ) 
          
 find_library(OSG_AUDIO_LIBRARY_DEBUG NAMES osgAudiod
              HINTS ${OSG_LIBDIR} ${OSG_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/OSG/lib dependencies/OpenSceneGraph/lib )             
+             PATHS ${3RD_PARTY_PATH}/OSG/lib/${COMPILER_NAME}/${PLATFORM_TYPE} dependencies/OpenSceneGraph/lib )             
     
 find_library(OSG_OPENTHREAD_LIBRARY_DEBUG NAMES OpenThreadsd
              HINTS ${OSG_LIBDIR} ${OSG_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/OSG/lib dependencies/OpenSceneGraph/lib )    
+             PATHS ${3RD_PARTY_PATH}/OSG/lib/${COMPILER_NAME}/${PLATFORM_TYPE} dependencies/OpenSceneGraph/lib )    
              
 # set debug libs to release if no debug libs found    
 IF (OSG_CORE_LIBRARY_RELEASE AND NOT OSG_CORE_LIBRARY_DEBUG)

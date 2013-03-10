@@ -11,7 +11,7 @@ find_path(FREETYPE_INCLUDE_DIR freetype/freetype.h
 
 find_library(FREETYPE_CORE_LIBRARY_RELEASE NAMES freetype244 freetype freetype2311MT
              HINTS ${FREETYPE_LIBDIR} ${FREETYPE_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/freetype/lib
+             PATHS ${3RD_PARTY_PATH}/freetype/lib/${COMPILER_NAME}/${PLATFORM_TYPE}
 		/usr/lib
 		/usr/local/lib
 		/usr/lib/i386-linux-gnu)
@@ -19,7 +19,7 @@ find_library(FREETYPE_CORE_LIBRARY_RELEASE NAMES freetype244 freetype freetype23
              
 find_library(FREETYPE_CORE_LIBRARY_DEBUG NAMES freetype244d freetyped freetype2311MT_D
              HINTS ${FREETYPE_LIBDIR} ${FREETYPE_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/freetype/lib
+             PATHS ${3RD_PARTY_PATH}/freetype/lib/${COMPILER_NAME}/${PLATFORM_TYPE}
 		/usr/lib
 		/usr/local/lib
 		/usr/lib/i386-linux-gnu)         

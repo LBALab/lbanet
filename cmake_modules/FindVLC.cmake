@@ -11,7 +11,7 @@ find_path(VLC_INCLUDE_DIR vlc/vlc.h
 
 find_library(VLC_CORE_LIBRARY_RELEASE NAMES vlc libvlc
              HINTS ${VLC_LIBDIR} ${VLC_LIBRARY_DIRS}
-             PATHS ${3RD_PARTY_PATH}/VLC/lib
+             PATHS ${3RD_PARTY_PATH}/VLC/lib/${COMPILER_NAME}/${PLATFORM_TYPE}
 		/usr/lib
 		/usr/local/lib)      
                             
